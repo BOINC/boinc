@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2012-11-13 16:40 PST\n"
+"POT-Creation-Date: 2013-10-15 22:23 PDT\n"
 "PO-Revision-Date: 2013-03-16 11:43+0200\n"
 "Last-Translator: Kai <www.carrotsoft@gmail.com>\n"
 "Language-Team: \n"
@@ -73,7 +73,7 @@ msgid ""
 "Font color: [color=red]text[/color]  Tip: you can also use color=#FF0000"
 msgstr ""
 
-#: ../inc/bbcode_html.inc:44 ../inc/bbcode_html.inc:59 ../inc/prefs.inc:624
+#: ../inc/bbcode_html.inc:44 ../inc/bbcode_html.inc:59 ../inc/prefs.inc:638
 msgid "Default"
 msgstr "指定省略時の扱い"
 
@@ -192,21 +192,22 @@ msgstr "高度な検索"
 
 # #######################################
 # Private messages
-#: ../inc/forum.inc:132 ../inc/user.inc:253 ../user/pm.php:69
+#: ../inc/forum.inc:132 ../inc/user.inc:252 ../user/pm.php:69
 #: ../user/pm.php:133
 msgid "Private messages"
 msgstr "非公開メッセージ"
 
 # #######################################
 # Links from the main page
-#: ../inc/forum.inc:151 ../user/forum_forum.php:71
-#: ../user/sample_index.php:119
+#: ../inc/forum.inc:151 ../user/bs_sample_index.php:63
+#: ../user/forum_forum.php:71 ../user/sample_index.php:119
 msgid "Questions and Answers"
 msgstr "質問と答(Q&A)"
 
-#: ../inc/forum.inc:151 ../inc/forum.inc:183 ../inc/user.inc:250
-#: ../inc/user.inc:375 ../user/forum_forum.php:73 ../user/sample_index.php:118
-#: ../project.sample/project.inc:47
+#: ../inc/forum.inc:151 ../inc/forum.inc:183 ../inc/user.inc:249
+#: ../inc/user.inc:374 ../user/bs_sample_index.php:62
+#: ../user/forum_forum.php:73 ../user/sample_index.php:118
+#: ../project.sample/project.inc:43
 msgid "Message boards"
 msgstr "掲示板"
 
@@ -216,15 +217,15 @@ msgstr "掲示板"
 msgid "%1 message board"
 msgstr "%1 掲示板"
 
-#: ../inc/forum.inc:245 ../inc/result.inc:681
+#: ../inc/forum.inc:245 ../inc/result.inc:695
 msgid "Previous"
 msgstr "前へ"
 
-#: ../inc/forum.inc:283 ../inc/result.inc:690
+#: ../inc/forum.inc:283 ../inc/result.inc:704
 msgid "Next"
 msgstr "次へ"
 
-#: ../inc/forum.inc:412 ../inc/forum.inc:1174 ../user/forum_forum.php:137
+#: ../inc/forum.inc:412 ../inc/forum.inc:1175 ../user/forum_forum.php:137
 #: ../user/forum_reply.php:120 ../user/forum_report_post.php:76
 msgid "Author"
 msgstr "投稿者"
@@ -267,128 +268,128 @@ msgstr "功績値"
 msgid "RAC: %1"
 msgstr ""
 
-#: ../inc/forum.inc:619
+#: ../inc/forum.inc:620
 #, fuzzy
 msgid "You haven't read this message yet"
 msgstr "このスレッドをあなたはまだ読んでいません"
 
-#: ../inc/forum.inc:619
+#: ../inc/forum.inc:620
 #, fuzzy
 msgid "Unread"
 msgstr "未読"
 
-#: ../inc/forum.inc:622 ../inc/forum.inc:627 ../inc/forum.inc:726
+#: ../inc/forum.inc:623 ../inc/forum.inc:628 ../inc/forum.inc:727
 #, fuzzy
 msgid "Message %1"
 msgstr "メッセージ"
 
-#: ../inc/forum.inc:623 ../inc/user.inc:329 ../user/forum_forum.php:174
+#: ../inc/forum.inc:624 ../inc/user.inc:330 ../user/forum_forum.php:174
 msgid "hidden"
 msgstr "非公開"
 
 # #######################################
 # Forum
-#: ../inc/forum.inc:624
+#: ../inc/forum.inc:625
 #, fuzzy
 msgid "Posted: %1"
 msgstr "%1 からの投稿"
 
-#: ../inc/forum.inc:627
+#: ../inc/forum.inc:628
 #, fuzzy
 msgid " - in response to "
 msgstr "タイムアウト - 応答なし"
 
-#: ../inc/forum.inc:630 ../inc/prefs.inc:690 ../inc/prefs.inc:692
+#: ../inc/forum.inc:631 ../inc/prefs.inc:705 ../inc/prefs.inc:707
 msgid "Edit"
 msgstr "編集"
 
-#: ../inc/forum.inc:630
+#: ../inc/forum.inc:631
 #, fuzzy
 msgid "Edit this message"
 msgstr "あなたのメッセージを編集する"
 
-#: ../inc/forum.inc:636
+#: ../inc/forum.inc:637
 #, fuzzy
 msgid "Last modified: %1"
 msgstr "最後に更新されたプレファレンス："
 
-#: ../inc/forum.inc:639
+#: ../inc/forum.inc:640
 msgid ""
-"This post is not shown because the sender is on your 'ignore' list.  Click "
-"%1here%2 to view this post"
+"This post is not shown because the sender is on your 'ignore' list.  Click %"
+"1here%2 to view this post"
 msgstr ""
 
-#: ../inc/forum.inc:667 ../inc/forum.inc:678
+#: ../inc/forum.inc:668 ../inc/forum.inc:679
 #, fuzzy
 msgid "Report this post as offensive"
 msgstr "このニュースをお知らせとしてエクスポートする"
 
-#: ../inc/forum.inc:667 ../inc/forum.inc:678
+#: ../inc/forum.inc:668 ../inc/forum.inc:679
 #, fuzzy
 msgid "Report as offensive"
 msgstr "投稿に関する報告を提出する"
 
-#: ../inc/forum.inc:671
+#: ../inc/forum.inc:672
 msgid "Rating: %1"
 msgstr ""
 
-#: ../inc/forum.inc:671
+#: ../inc/forum.inc:672
 msgid "rate: "
 msgstr ""
 
 # 83%
-#: ../inc/forum.inc:674
+#: ../inc/forum.inc:675
 #, fuzzy
 msgid "Click if you like this message"
 msgstr "非公開メッセージを作成できませんでした"
 
-#: ../inc/forum.inc:674
+#: ../inc/forum.inc:675
 msgid "Rate +"
 msgstr ""
 
-#: ../inc/forum.inc:676
+#: ../inc/forum.inc:677
 #, fuzzy
 msgid "Click if you don't like this message"
 msgstr "非公開メッセージを作成できませんでした"
 
-#: ../inc/forum.inc:676
+#: ../inc/forum.inc:677
 msgid "Rate -"
 msgstr ""
 
-#: ../inc/forum.inc:684 ../user/pm.php:106 ../user/pm.php:146
+#: ../inc/forum.inc:685 ../user/pm.php:106 ../user/pm.php:146
 msgid "Reply"
 msgstr "返信"
 
-#: ../inc/forum.inc:684
+#: ../inc/forum.inc:685
 msgid "Post a reply to this message"
 msgstr ""
 
-#: ../inc/forum.inc:686
+#: ../inc/forum.inc:687
 #, fuzzy
 msgid "Quote"
 msgstr "引用テキスト"
 
-#: ../inc/forum.inc:686
+#: ../inc/forum.inc:687
 msgid "Post a reply by quoting this message"
 msgstr ""
 
-#: ../inc/forum.inc:707
+#: ../inc/forum.inc:708
 msgid "Hidden by a moderator"
 msgstr ""
 
 # #######################################
 # Forum
-#: ../inc/forum.inc:728
+#: ../inc/forum.inc:729
 #, fuzzy
 msgid "Posted %1 by %2"
 msgstr "%1 からの投稿"
 
-#: ../inc/forum.inc:746
+#: ../inc/forum.inc:747
 #, fuzzy
 msgid "You may not post or rate messages until %1"
 msgstr "非公開メッセージは届いていません。"
 
-#: ../inc/forum.inc:757
+#: ../inc/forum.inc:758
 msgid ""
 "\n"
 "        <ul>\n"
@@ -406,68 +407,68 @@ msgid ""
 "        "
 msgstr ""
 
-#: ../inc/forum.inc:779
+#: ../inc/forum.inc:780
 msgid "Rules:"
 msgstr ""
 
-#: ../inc/forum.inc:780
+#: ../inc/forum.inc:781
 #, fuzzy
 msgid "More info"
 msgstr "チームの情報"
 
-#: ../inc/forum.inc:1054 ../user/forum_thread.php:187
+#: ../inc/forum.inc:1055 ../user/forum_thread.php:189
 msgid "Unhide"
 msgstr "表示する"
 
-#: ../inc/forum.inc:1054
+#: ../inc/forum.inc:1055
 #, fuzzy
 msgid "Unhide this post"
 msgstr "このスレッドを見えるようにします"
 
-#: ../inc/forum.inc:1056 ../user/forum_thread.php:193
+#: ../inc/forum.inc:1057 ../user/forum_thread.php:195
 msgid "Hide"
 msgstr "隠す"
 
-#: ../inc/forum.inc:1056
+#: ../inc/forum.inc:1057
 #, fuzzy
 msgid "Hide this post"
 msgstr "投稿を隠す"
 
-#: ../inc/forum.inc:1061 ../user/forum_thread.php:226
+#: ../inc/forum.inc:1062 ../user/forum_thread.php:228
 msgid "Move"
 msgstr "移動する"
 
-#: ../inc/forum.inc:1061
+#: ../inc/forum.inc:1062
 #, fuzzy
 msgid "Move post to a different thread"
 msgstr "このスレッドを別の掲示板に移動します"
 
-#: ../inc/forum.inc:1066
+#: ../inc/forum.inc:1067
 #, fuzzy
 msgid "Banish author"
 msgstr "参加者を投稿禁止にする"
 
-#: ../inc/forum.inc:1073
+#: ../inc/forum.inc:1074
 #, fuzzy
 msgid "Vote to banish author"
 msgstr "参加者を投稿禁止にする権限がありません"
 
-#: ../inc/forum.inc:1077
+#: ../inc/forum.inc:1078
 #, fuzzy
 msgid "Vote not to banish author"
 msgstr "参加者を投稿禁止にする権限がありません"
 
-#: ../inc/forum.inc:1082
+#: ../inc/forum.inc:1083
 #, fuzzy
 msgid "Start vote to banish author"
 msgstr "参加者を投稿禁止にする権限がありません"
 
-#: ../inc/forum.inc:1115
+#: ../inc/forum.inc:1116
 #, fuzzy
 msgid "Only team members can post to the team message board"
 msgstr "チームの掲示板を作成・管理する"
 
-#: ../inc/forum.inc:1125
+#: ../inc/forum.inc:1126
 msgid ""
 "In order to create a new thread in %1 you must have a certain amount of "
 "credit. This is to prevent and protect against abuse of the system."
@@ -475,7 +476,7 @@ msgstr ""
 "%1 の中に新しいスレッドを作るには、 "
 "一定の量の功績(credit)を獲得済みでなければなりません。これは、悪用を防いでこの掲示板システムを守るための制約です。"
 
-#: ../inc/forum.inc:1132
+#: ../inc/forum.inc:1133
 msgid ""
 "You cannot create any more threads right now. Please wait a while before "
 "trying again. This delay has been enforced to protect against abuse of the "
@@ -484,57 +485,57 @@ msgstr ""
 "現在、スレッドを新規作成することはできません。 "
 "しばらく待ってからもう一度お試しください。悪用防止のため、この掲示板では時間を置かず続けてスレッドを作成することはできません。"
 
-#: ../inc/forum.inc:1139
+#: ../inc/forum.inc:1140
 msgid ""
 "This thread is locked. Only forum moderators and administrators are allowed "
 "to post there."
 msgstr ""
 
-#: ../inc/forum.inc:1144
+#: ../inc/forum.inc:1145
 msgid "Can't post to a hidden thread."
 msgstr ""
 
-#: ../inc/forum.inc:1172
+#: ../inc/forum.inc:1173
 msgid "Thread"
 msgstr "スレッド"
 
 # #######################################
 # Forum
-#: ../inc/forum.inc:1173 ../inc/team.inc:120 ../user/forum_forum.php:136
+#: ../inc/forum.inc:1174 ../inc/team.inc:127 ../user/forum_forum.php:136
 #: ../user/forum_index.php:94
 msgid "Posts"
 msgstr "投稿"
 
-#: ../inc/forum.inc:1175 ../user/forum_forum.php:138
+#: ../inc/forum.inc:1176 ../user/forum_forum.php:138
 msgid "Views"
 msgstr "閲覧数"
 
-#: ../inc/forum.inc:1176 ../inc/team.inc:120 ../user/forum_forum.php:139
+#: ../inc/forum.inc:1177 ../inc/team.inc:127 ../user/forum_forum.php:139
 #: ../user/forum_help_desk.php:46 ../user/forum_index.php:95
 msgid "Last post"
 msgstr "最新の投稿"
 
-#: ../inc/forum.inc:1234
+#: ../inc/forum.inc:1235
 #, fuzzy
 msgid "New posts in the thread %1"
 msgstr "スレッドに投稿する"
 
 # Better translation welcome.
-#: ../inc/forum.inc:1239
+#: ../inc/forum.inc:1240
 #, fuzzy
 msgid "New posts in subscribed thread"
 msgstr "参加しているスレッド"
 
-#: ../inc/forum.inc:1240
+#: ../inc/forum.inc:1241
 #, fuzzy
 msgid "There are new posts in the thread '%1'"
 msgstr "このスレッドに新しい投稿があったとき、その旨のメイルを受けとりたければここをクリック"
 
-#: ../inc/forum.inc:1250
+#: ../inc/forum.inc:1251
 msgid "Mark all threads as read"
 msgstr "全てのスレッドを既読にする"
 
-#: ../inc/forum.inc:1251
+#: ../inc/forum.inc:1252
 #, fuzzy
 msgid "Mark all threads in all message boards as read."
 msgstr "すべての掲示板のすべてのスレッドを「既読」状態に設定します。"
@@ -547,81 +548,80 @@ msgstr "計算機がありません"
 msgid "Unavailable"
 msgstr "利用不可"
 
-#: ../inc/host.inc:55 ../inc/prefs.inc:625 ../inc/prefs.inc:1030
+#: ../inc/host.inc:56 ../inc/prefs.inc:639 ../inc/prefs.inc:1048
 msgid "Home"
 msgstr "自宅"
 
-#: ../inc/host.inc:56 ../inc/prefs.inc:627 ../inc/prefs.inc:1031
-#: ../user/server_status.php:319
+#: ../inc/host.inc:57 ../inc/prefs.inc:641 ../inc/prefs.inc:1049
+#: ../user/server_status.php:329
 msgid "Work"
 msgstr "勤務場所"
 
-#: ../inc/host.inc:57 ../inc/prefs.inc:626 ../inc/prefs.inc:1032
+#: ../inc/host.inc:58 ../inc/prefs.inc:640 ../inc/prefs.inc:1050
 msgid "School"
 msgstr "学校"
 
-#: ../inc/host.inc:59 ../user/edit_forum_preferences_form.php:172
+#: ../inc/host.inc:59
+msgid "Mobile"
+msgstr ""
+
+#: ../inc/host.inc:61 ../user/edit_forum_preferences_form.php:172
 #: ../user/edit_forum_preferences_form.php:173
 msgid "Update"
 msgstr "更新"
 
-#: ../inc/host.inc:83
+#: ../inc/host.inc:85
 msgid "Computer information"
 msgstr "コンピュータの情報"
 
-#: ../inc/host.inc:87 ../inc/host.inc:92
+#: ../inc/host.inc:89 ../inc/host.inc:94
 msgid "IP address"
 msgstr "IP アドレス"
 
-#: ../inc/host.inc:87
+#: ../inc/host.inc:89
 msgid "(same the last %1 times)"
 msgstr "(最新%1回は同じ値)"
 
-#: ../inc/host.inc:89
+#: ../inc/host.inc:91
 msgid "External IP address"
 msgstr "外部 IP アドレス"
 
-#: ../inc/host.inc:92
+#: ../inc/host.inc:94
 msgid "Show IP address"
 msgstr "IP アドレスを表示"
 
-#: ../inc/host.inc:94
+#: ../inc/host.inc:96
 msgid "Domain name"
 msgstr "ドメイン名"
 
-#: ../inc/host.inc:97
+#: ../inc/host.inc:98
+msgid "Product name"
+msgstr ""
+
+#: ../inc/host.inc:102
 msgid "Local Standard Time"
 msgstr "現地標準時刻"
 
-#: ../inc/host.inc:97
+#: ../inc/host.inc:102
 msgid "UTC %1 hours"
 msgstr "UTC %1 時間"
 
-#: ../inc/host.inc:98 ../inc/host.inc:645 ../inc/result.inc:614
-#: ../inc/team.inc:202 ../inc/team.inc:350 ../inc/user.inc:200
-#: ../user/account_finish.php:41 ../user/create_account_form.php:87
-#: ../user/team_admins.php:62 ../user/team_change_founder_form.php:77
-#: ../user/team_email_list.php:64 ../user/top_users.php:49
-#: ../user/user_search.php:139
-msgid "Name"
-msgstr "名前"
-
-#: ../inc/host.inc:102 ../inc/host.inc:104 ../inc/host.inc:216
+#: ../inc/host.inc:106 ../inc/host.inc:108 ../inc/host.inc:222
 msgid "Owner"
 msgstr "所有者"
 
-#: ../inc/host.inc:104 ../inc/host.inc:333
+#: ../inc/host.inc:108 ../inc/host.inc:355
 msgid "Anonymous"
 msgstr "非公表"
 
-#: ../inc/host.inc:108 ../inc/result.inc:616
+#: ../inc/host.inc:112 ../inc/result.inc:630
 msgid "Created"
 msgstr "作成日時"
 
-#: ../inc/host.inc:109 ../inc/host.inc:220 ../inc/host.inc:225
-#: ../inc/host.inc:654 ../inc/team.inc:94 ../inc/team.inc:207
-#: ../inc/team.inc:212 ../inc/team.inc:214 ../inc/team.inc:356
-#: ../inc/team.inc:361 ../inc/user.inc:122 ../inc/user.inc:136
+#: ../inc/host.inc:113 ../inc/host.inc:226 ../inc/host.inc:231
+#: ../inc/host.inc:681 ../inc/team.inc:101 ../inc/team.inc:214
+#: ../inc/team.inc:219 ../inc/team.inc:221 ../inc/team.inc:363
+#: ../inc/team.inc:368 ../inc/user.inc:125 ../inc/user.inc:138
 #: ../user/profile_search_action.php:43
 #: ../user/team_change_founder_form.php:78 ../user/team_email_list.php:64
 #: ../user/team_remove_inactive_form.php:41 ../user/top_users.php:54
@@ -629,281 +629,289 @@ msgstr "作成日時"
 msgid "Total credit"
 msgstr "総功績"
 
-#: ../inc/host.inc:110 ../inc/user.inc:122 ../user/team_search.php:70
+#: ../inc/host.inc:114 ../inc/user.inc:125 ../user/team_search.php:70
 #: ../user/user_search.php:139
 msgid "Average credit"
 msgstr "功績の平均増加量"
 
-#: ../inc/host.inc:112
+#: ../inc/host.inc:116
 msgid "Cross project credit"
 msgstr "プロジェクト横断の功績値"
 
-#: ../inc/host.inc:114
+#: ../inc/host.inc:118
 msgid "CPU type"
 msgstr "CPUのタイプ"
 
-#: ../inc/host.inc:115
+#: ../inc/host.inc:119
 msgid "Number of processors"
 msgstr "プロセッサ数"
 
-#: ../inc/host.inc:117
+#: ../inc/host.inc:121
 msgid "Coprocessors"
 msgstr "コプロセッサの数"
 
-#: ../inc/host.inc:119 ../inc/host.inc:660
+#: ../inc/host.inc:123 ../inc/host.inc:687
 msgid "Operating System"
 msgstr "オペレーティングシステム"
 
-#: ../inc/host.inc:122 ../inc/host.inc:229
+#: ../inc/host.inc:126 ../inc/host.inc:235
 msgid "BOINC version"
 msgstr "BOINC のバージョン"
 
-#: ../inc/host.inc:126
+#: ../inc/host.inc:130
 msgid "Memory"
 msgstr "メモリ"
 
-#: ../inc/host.inc:126 ../inc/host.inc:134
+#: ../inc/host.inc:130 ../inc/host.inc:140
 msgid "%1 MB"
 msgstr "%1 MB"
 
-#: ../inc/host.inc:129
+#: ../inc/host.inc:134
 msgid "Cache"
 msgstr "キャッシュ"
 
-#: ../inc/host.inc:129
+#: ../inc/host.inc:134
 msgid "%1 KB"
 msgstr "%1 KB"
 
-#: ../inc/host.inc:134
+#: ../inc/host.inc:140
 msgid "Swap space"
 msgstr "スワップ領域"
 
-#: ../inc/host.inc:137
+#: ../inc/host.inc:143
 msgid "Total disk space"
 msgstr "合計ディスク領域"
 
-#: ../inc/host.inc:137 ../inc/host.inc:140
+#: ../inc/host.inc:143 ../inc/host.inc:146
 msgid "%1 GB"
 msgstr "%1 GB"
 
-#: ../inc/host.inc:140
+#: ../inc/host.inc:146
 msgid "Free Disk Space"
 msgstr "空きディスク領域"
 
-#: ../inc/host.inc:144
+#: ../inc/host.inc:150
 msgid "Measured floating point speed"
 msgstr "浮動小数点演算速度の測定値"
 
-#: ../inc/host.inc:144 ../inc/host.inc:147
+#: ../inc/host.inc:150 ../inc/host.inc:153
 msgid "%1 million ops/sec"
 msgstr "%1 メガ 命令/秒"
 
-#: ../inc/host.inc:147
+#: ../inc/host.inc:153
 msgid "Measured integer speed"
 msgstr "整数演算速度の測定値"
 
-#: ../inc/host.inc:151 ../inc/host.inc:153
+#: ../inc/host.inc:157 ../inc/host.inc:159
 msgid "Average upload rate"
 msgstr "平均アップロード速度"
 
-#: ../inc/host.inc:151 ../inc/host.inc:158
+#: ../inc/host.inc:157 ../inc/host.inc:164
 msgid "%1 KB/sec"
 msgstr "%1 KB/秒"
 
-#: ../inc/host.inc:153 ../inc/host.inc:160 ../inc/result.inc:207
-#: ../inc/result.inc:217 ../inc/result.inc:235 ../inc/result.inc:253
-#: ../inc/result.inc:269 ../user/explain_state.php:56
+#: ../inc/host.inc:159 ../inc/host.inc:166 ../inc/result.inc:216
+#: ../inc/result.inc:226 ../inc/result.inc:244 ../inc/result.inc:262
+#: ../inc/result.inc:278 ../user/explain_state.php:56
 #: ../user/host_app_versions.php:29
 msgid "Unknown"
 msgstr "不明"
 
-#: ../inc/host.inc:158 ../inc/host.inc:160
+#: ../inc/host.inc:164 ../inc/host.inc:166
 msgid "Average download rate"
 msgstr "平均ダウンロード速度"
 
-#: ../inc/host.inc:163 ../user/host_app_versions.php:64
+#: ../inc/host.inc:169 ../user/host_app_versions.php:64
 msgid "Average turnaround time"
 msgstr "平均ターンアラウンドタイム"
 
-#: ../inc/host.inc:163 ../user/forum_search.php:46 ../user/forum_search.php:47
+#: ../inc/host.inc:169 ../user/forum_search.php:46 ../user/forum_search.php:47
 #: ../user/forum_search.php:48 ../user/forum_search.php:49
 msgid "%1 days"
 msgstr "%1 日"
 
 # #######################################
 # Apps page (apps.php)
-#: ../inc/host.inc:164
+#: ../inc/host.inc:170
 msgid "Application details"
 msgstr "アプリケーションの詳細"
 
-#: ../inc/host.inc:165
+#: ../inc/host.inc:171
 msgid "Show"
 msgstr "内容を見る"
 
-#: ../inc/host.inc:175 ../inc/host.inc:317 ../inc/user.inc:153
+#: ../inc/host.inc:181 ../inc/host.inc:336 ../inc/user.inc:152
 msgid "Tasks"
 msgstr "タスク"
 
-#: ../inc/host.inc:179 ../inc/host.inc:200
+#: ../inc/host.inc:185 ../inc/host.inc:206
 #, fuzzy
 msgid "Number of times client has contacted server"
 msgstr "BOINC クライアントがサーバーに接続した回数"
 
-#: ../inc/host.inc:180
+#: ../inc/host.inc:186
 msgid "Last time contacted server"
 msgstr "最後にサーバに接続した日時"
 
-#: ../inc/host.inc:181
+#: ../inc/host.inc:187
 #, php-format
 msgid "% of time BOINC is running"
 msgstr "BOINC クライアントが走行している時間の割合(%)"
 
-#: ../inc/host.inc:183
+#: ../inc/host.inc:189
 #, php-format
 msgid "While BOINC running, % of time host has an Internet connection"
 msgstr "BOINC 走行中にインターネットに接続している時間の割合(%)"
 
-#: ../inc/host.inc:185
+#: ../inc/host.inc:191
 #, php-format
 msgid "While BOINC running, % of time work is allowed"
 msgstr "BOINC 走行中に仕事を処理することが許されている時間割合(%)"
 
-#: ../inc/host.inc:187
+#: ../inc/host.inc:193
 msgid "Average CPU efficiency"
 msgstr "平均 CPU 時間獲得率"
 
-#: ../inc/host.inc:190
+#: ../inc/host.inc:196
 msgid "Task duration correction factor"
 msgstr "タスク期間補正因子"
 
-#: ../inc/host.inc:192 ../inc/host.inc:647
+#: ../inc/host.inc:198 ../inc/host.inc:674
 msgid "Location"
 msgstr "設置場所"
 
-#: ../inc/host.inc:194
+#: ../inc/host.inc:200
 msgid "Delete this computer"
 msgstr "このコンピュータを削除"
 
-#: ../inc/host.inc:198
+#: ../inc/host.inc:204
 msgid "Merge duplicate records of this computer"
 msgstr "このコンピュータに関する重複データを合併させる"
 
-#: ../inc/host.inc:198
+#: ../inc/host.inc:204
 msgid "Merge"
 msgstr "合併させる"
 
-#: ../inc/host.inc:201 ../inc/host.inc:662
+#: ../inc/host.inc:207 ../inc/host.inc:689
 msgid "Last contact"
 msgstr "最後の接続日時"
 
-#: ../inc/host.inc:214
+#: ../inc/host.inc:220
 msgid "Computer info"
 msgstr "コンピュータの情報"
 
-#: ../inc/host.inc:215 ../inc/host.inc:649 ../inc/team.inc:349
+#: ../inc/host.inc:221 ../inc/host.inc:676 ../inc/team.inc:356
 #: ../user/top_users.php:48
 msgid "Rank"
 msgstr "順位"
 
-#: ../inc/host.inc:219 ../inc/host.inc:652
+#: ../inc/host.inc:225 ../inc/host.inc:679
 msgid "Avg. credit"
 msgstr "平均功績値"
 
-#: ../inc/host.inc:224 ../inc/team.inc:95 ../inc/team.inc:208
-#: ../inc/team.inc:217 ../inc/team.inc:219 ../inc/team.inc:355
-#: ../inc/team.inc:360 ../inc/user.inc:137
+#: ../inc/host.inc:230 ../inc/team.inc:102 ../inc/team.inc:215
+#: ../inc/team.inc:224 ../inc/team.inc:226 ../inc/team.inc:362
+#: ../inc/team.inc:367 ../inc/user.inc:139
 #: ../user/team_change_founder_form.php:79 ../user/team_email_list.php:64
 #: ../user/team_remove_inactive_form.php:42 ../user/top_users.php:53
 #: ../user/top_users.php:58
 msgid "Recent average credit"
 msgstr "最近の平均功績(credits/day)"
 
-#: ../inc/host.inc:230 ../inc/host.inc:657 ../inc/result.inc:47
+#: ../inc/host.inc:236 ../inc/host.inc:684 ../inc/result.inc:51
 #: ../user/host_app_versions.php:25
 msgid "CPU"
 msgstr "CPU"
 
-#: ../inc/host.inc:231 ../inc/host.inc:658
+#: ../inc/host.inc:237 ../inc/host.inc:685
 msgid "GPU"
 msgstr "GPU"
 
-#: ../inc/host.inc:232
+#: ../inc/host.inc:238
 msgid "Operating system"
 msgstr "オペレーティングシステム"
 
-#: ../inc/host.inc:296
+#: ../inc/host.inc:315
 msgid "(%1 processors)"
 msgstr "(プロセッサ数 %1)"
 
-#: ../inc/host.inc:316
+#: ../inc/host.inc:335
 msgid "Details"
 msgstr "詳細"
 
-#: ../inc/host.inc:321
+#: ../inc/host.inc:340
 msgid "Cross-project stats:"
 msgstr "プロジェクト横断 統計データ:"
 
-#: ../inc/host.inc:493
+#: ../inc/host.inc:515
 msgid "Host %1 has overlapping lifetime:"
 msgstr "計算機 %1 には右の重複生存期間があります:"
 
-#: ../inc/host.inc:500
+#: ../inc/host.inc:522
 msgid "Host %1 has an incompatible OS:"
 msgstr "計算機 %1 の OS とは互換性がありません："
 
-#: ../inc/host.inc:506
+#: ../inc/host.inc:528
 msgid "Host %1 has an incompatible CPU:"
 msgstr "計算機 %1 の CPU とは互換性がありません："
 
-#: ../inc/host.inc:573
+#: ../inc/host.inc:595
 msgid "same host"
 msgstr "同一の計算機です"
 
-#: ../inc/host.inc:576
+#: ../inc/host.inc:598
 msgid "Can't merge host %1 into %2 - they're incompatible"
 msgstr "計算機 %1 を %2 にはマージできません - 両者に互換性がありません"
 
-#: ../inc/host.inc:579
+#: ../inc/host.inc:601
 msgid "Merging host %1 into host %2"
 msgstr "計算機 %1 を %2 にマージしています"
 
-#: ../inc/host.inc:596
+#: ../inc/host.inc:618
 msgid "Couldn't update credit of new computer"
 msgstr "新しいコンピュータの功績値を更新できませんでした"
 
-#: ../inc/host.inc:600
+#: ../inc/host.inc:622
 msgid "Couldn't update results"
 msgstr "リザルトを更新できませんでした"
 
-#: ../inc/host.inc:605
+#: ../inc/host.inc:627
 msgid "Couldn't retire old computer"
 msgstr "古いコンピュータを退役させることができませんでした"
 
-#: ../inc/host.inc:607
+#: ../inc/host.inc:629
 msgid "Retired old computer %1"
 msgstr "古いコンピュータ %1 を引退させました"
 
-#: ../inc/host.inc:630 ../inc/host.inc:633
+#: ../inc/host.inc:652 ../inc/host.inc:655
 msgid "Show:"
 msgstr "表示範囲:"
 
-#: ../inc/host.inc:630 ../inc/host.inc:633
+#: ../inc/host.inc:652 ../inc/host.inc:655
 msgid "All computers"
 msgstr "すべてのコンピュータ"
 
-#: ../inc/host.inc:630 ../inc/host.inc:633
+#: ../inc/host.inc:652 ../inc/host.inc:655
 msgid "Only computers active in past 30 days"
 msgstr "過去30日の間に活動のあったコンピュータのみ"
 
-#: ../inc/host.inc:642 ../inc/result.inc:623
+#: ../inc/host.inc:666 ../inc/result.inc:637
 msgid "Computer ID"
 msgstr "コンピュータ ID "
 
-#: ../inc/host.inc:655
+#: ../inc/host.inc:669 ../inc/result.inc:628 ../inc/team.inc:209
+#: ../inc/team.inc:357 ../inc/user.inc:199 ../user/account_finish.php:41
+#: ../user/create_account_form.php:80 ../user/team_admins.php:62
+#: ../user/team_change_founder_form.php:77 ../user/team_email_list.php:64
+#: ../user/top_users.php:49 ../user/user_search.php:139
+msgid "Name"
+msgstr "名前"
+
+#: ../inc/host.inc:682
 msgid "BOINC<br>version"
 msgstr "BOINC<br>バージョン"
 
-#: ../inc/host.inc:711 ../user/merge_by_name.php:67
+#: ../inc/host.inc:745 ../user/merge_by_name.php:67
 msgid "Merge computers by name"
 msgstr "ドメイン名でコンピュータを合併する"
 
@@ -924,7 +932,7 @@ msgstr "受信箱"
 msgid "Write"
 msgstr "作成"
 
-#: ../inc/pm.inc:33 ../inc/user.inc:378
+#: ../inc/pm.inc:33 ../inc/user.inc:377
 msgid "Send private message"
 msgstr "非公開メッセージを送信する"
 
@@ -993,37 +1001,37 @@ msgstr "Eメイルでの通知を必要とする場合、%1コミュニティの
 msgid "Private message"
 msgstr "非公開メッセージ"
 
-#: ../inc/prefs.inc:76
+#: ../inc/prefs.inc:77
 msgid ""
 "Suspend work while computer is on battery power? %1 Matters only for "
 "portable computers %2"
 msgstr "コンピュータがバッテリーで動作しているときには、計算を一時停止させるか? %1 携帯型のコンピュータの場合だけ有意 %2"
 
-#: ../inc/prefs.inc:84
+#: ../inc/prefs.inc:85
 msgid "Suspend work while computer is in use?"
 msgstr "コンピュータで作業中は、計算を一時停止させますか?"
 
-#: ../inc/prefs.inc:90
+#: ../inc/prefs.inc:91
 msgid ""
 "Suspend GPU work while computer is in use? %1 Enforced by version 6.6.21+ %2"
 msgstr "コンピュータで作業中は、GPU 向けの計算を一時停止させますか? %1 Version 6.6.21以降で有効%2"
 
 # Suspicious of being English-dependent word sequence.
-#: ../inc/prefs.inc:98
+#: ../inc/prefs.inc:99
 msgid "'In use' means mouse/keyboard activity in last"
 msgstr "「作業中」とは、マウスまたはキーボード操作が右の時間内にあった場合のことです："
 
-#: ../inc/prefs.inc:100 ../inc/prefs.inc:109 ../inc/prefs.inc:143
+#: ../inc/prefs.inc:101 ../inc/prefs.inc:110 ../inc/prefs.inc:144
 msgid "minutes"
 msgstr "分"
 
-#: ../inc/prefs.inc:104
+#: ../inc/prefs.inc:105
 msgid ""
 "Suspend work if no mouse/keyboard activity in last %1 Needed to enter low-"
 "power mode on some computers %2"
 msgstr "マウスとキーボとの操作が右の時間内になければ計算を一時停止させる%1 コンピュータによっては低電力モードに入る必要がある%2"
 
-#: ../inc/prefs.inc:113
+#: ../inc/prefs.inc:114
 msgid ""
 "Suspend work when non-BOINC CPU usage is above %1 0 means no "
 "restriction<br>Enforced by version 6.10.30+ %2"
@@ -1031,134 +1039,134 @@ msgstr ""
 "BOINC とは関係のない CPU 使用率が 右の値を超えたら、計算を一時停止する%1 0 を指定すると制約なし<br>Version "
 "6.10.30以降で有効%2"
 
-#: ../inc/prefs.inc:121
+#: ../inc/prefs.inc:122
 msgid "Do work only between the hours of %1 No restriction if equal %2"
 msgstr "右の時間帯内でのみ計算をする %1 2つの時刻が等しければ制約なし %2"
 
-#: ../inc/prefs.inc:129
+#: ../inc/prefs.inc:130
 msgid ""
 "Leave tasks in memory while suspended? %1 Suspended tasks will consume swap "
 "space if 'yes' %2"
 msgstr "一時停止したときタスクをメモリ内に残すか? %1( 'yes/はい' を指定すると、一時停止のためにそのタスクはスワップ領域を使用する)%2"
 
-#: ../inc/prefs.inc:138
+#: ../inc/prefs.inc:139
 msgid "Switch between tasks every %1 Recommended: 60 minutes %2"
 msgstr "タスク間の切り替え時間間隔 %1 推奨値は: 60 分 %2"
 
-#: ../inc/prefs.inc:146
+#: ../inc/prefs.inc:147
 msgid "On multiprocessors, use at most"
 msgstr "マルチプロセッサの場合、全プロセッサのうち使うのは最大で"
 
-#: ../inc/prefs.inc:148
+#: ../inc/prefs.inc:149
 msgid "processors"
 msgstr "プロセッサまで"
 
-#: ../inc/prefs.inc:152
+#: ../inc/prefs.inc:153
 msgid "On multiprocessors, use at most %1 Enforced by version 6.1+ %2"
 msgstr "マルチプロセッサで動作する場合、全プロセッサのうち使うのは最大で %1 Version 6.1以降で有効%2"
 
-#: ../inc/prefs.inc:157
+#: ../inc/prefs.inc:158
 #, php-format
 msgid "% of the processors"
 msgstr "% のプロセッサまで"
 
-#: ../inc/prefs.inc:161
+#: ../inc/prefs.inc:162
 msgid "Use at most %1 Can be used to reduce CPU heat %2"
 msgstr "最大使用時でも %1 (CPU 過熱防止のためにも指定可)%2"
 
-#: ../inc/prefs.inc:166
+#: ../inc/prefs.inc:167
 #, php-format
 msgid "% of CPU time"
 msgstr "% の CPU 時間まで"
 
-#: ../inc/prefs.inc:174 ../inc/prefs.inc:188
+#: ../inc/prefs.inc:175 ../inc/prefs.inc:189
 msgid "Disk: use at most"
 msgstr "ディスク：最大使用時でも"
 
-#: ../inc/prefs.inc:176 ../inc/prefs.inc:185
+#: ../inc/prefs.inc:177 ../inc/prefs.inc:186
 msgid "GB"
 msgstr "GB"
 
-#: ../inc/prefs.inc:179
+#: ../inc/prefs.inc:180
 msgid "Disk: leave free at least %1 Values smaller than %2 are ignored %3"
 msgstr "ディスク：少なくとも %1 は残す。 %2 未満を指定すると無視される %3"
 
-#: ../inc/prefs.inc:190 ../inc/prefs.inc:200 ../inc/prefs.inc:205
-#: ../inc/prefs.inc:210
+#: ../inc/prefs.inc:191 ../inc/prefs.inc:201 ../inc/prefs.inc:206
+#: ../inc/prefs.inc:211
 #, php-format
 msgid "% of total"
 msgstr "% まで(全体比)"
 
-#: ../inc/prefs.inc:193
+#: ../inc/prefs.inc:194
 msgid "Tasks checkpoint to disk at most every"
 msgstr "タスクのチェックポイントをディスクに書く最短時間間隔"
 
-#: ../inc/prefs.inc:195
+#: ../inc/prefs.inc:196
 msgid "seconds"
 msgstr "秒"
 
-#: ../inc/prefs.inc:198
+#: ../inc/prefs.inc:199
 msgid "Swap space: use at most"
 msgstr "スワップ領域：最大でも"
 
-#: ../inc/prefs.inc:203
+#: ../inc/prefs.inc:204
 msgid "Memory: when computer is in use, use at most"
 msgstr "メモリ：そのコンピュータを人が使っているときは、最大でも"
 
-#: ../inc/prefs.inc:208
+#: ../inc/prefs.inc:209
 msgid "Memory: when computer is not in use, use at most"
 msgstr "メモリ：そのコンピュータを人が使っていないときは、最大でも"
 
-#: ../inc/prefs.inc:217
+#: ../inc/prefs.inc:218
 msgid "Maintain enough tasks to keep busy for at least%1(max 10 days).%2"
 msgstr ""
 
-#: ../inc/prefs.inc:222 ../inc/prefs.inc:227 ../inc/prefs.inc:269
-#: ../inc/util.inc:264
+#: ../inc/prefs.inc:223 ../inc/prefs.inc:228 ../inc/prefs.inc:270
+#: ../inc/util.inc:258
 msgid "days"
 msgstr "日"
 
-#: ../inc/prefs.inc:225
+#: ../inc/prefs.inc:226
 msgid "... and up to an additional"
 msgstr ""
 
-#: ../inc/prefs.inc:231
+#: ../inc/prefs.inc:232
 msgid ""
 "Confirm before connecting to Internet? %1 Matters only if you have a modem, "
 "ISDN or VPN connection %2"
 msgstr "インターネットに接続する前に確認を求めるか? %1(モデム、ISDN または VPN 接続を使っているときだけ有意)%2"
 
-#: ../inc/prefs.inc:240
+#: ../inc/prefs.inc:241
 msgid ""
 "Disconnect when done? %1 Matters only if you have a modem, ISDN or VPN "
 "connection %2"
 msgstr "終わったときに接続を切るか? %1(モデム、ISDN または VPN 接続を使っているときだけ有意)%2"
 
-#: ../inc/prefs.inc:248
+#: ../inc/prefs.inc:249
 msgid "Maximum download rate:"
 msgstr "最大ダウンロード速度："
 
-#: ../inc/prefs.inc:250 ../inc/prefs.inc:255
+#: ../inc/prefs.inc:251 ../inc/prefs.inc:256
 msgid "Kbytes/sec"
 msgstr "キロバイト/秒"
 
-#: ../inc/prefs.inc:253
+#: ../inc/prefs.inc:254
 msgid "Maximum upload rate:"
 msgstr "最大アップロード速度："
 
-#: ../inc/prefs.inc:258
+#: ../inc/prefs.inc:259
 msgid "Use network only between the hours of"
 msgstr "ネットワーク使用を許す時間帯"
 
-#: ../inc/prefs.inc:262
+#: ../inc/prefs.inc:263
 msgid "Transfer at most %1 Enforced by version 6.10.46+ %2"
 msgstr "転送量の上限値。最大でも右の値まで %1 Version 6.10.46以降で有効 %2"
 
-#: ../inc/prefs.inc:268
+#: ../inc/prefs.inc:269
 msgid "Mbytes every"
 msgstr "Mバイト/"
 
-#: ../inc/prefs.inc:273
+#: ../inc/prefs.inc:274
 msgid ""
 "Skip image file verification? %1 Check this ONLY if your Internet provider "
 "modifies image files (UMTS does this, for example). %2 Skipping verification "
@@ -1167,7 +1175,7 @@ msgstr ""
 "イメージファイルの検証をスキップしますか？%1 インターネットプロバイダが画像ファイルを変更する場合だけ、チェックを入れてください（たとえば "
 "UMTSの場合）。%2 検証をスキップすると BOINC のセキュリティレベルは低下します。%3"
 
-#: ../inc/prefs.inc:286
+#: ../inc/prefs.inc:287
 msgid ""
 "Resource share %1 Determines the proportion of your computer's resources "
 "allocated to this project. Example: if you participate in two BOINC projects "
@@ -1179,23 +1187,27 @@ msgstr ""
 "割り当てをそれぞれ 100、200 と指定したら、１つ目のプロジェクト\n"
 "に1/3が割り当てられ、2つ目には2/3の資源が割り当てられます。%2"
 
-#: ../inc/prefs.inc:297
+#: ../inc/prefs.inc:298
 msgid "Accelerate GPU tasks by dedicating a CPU to each one?"
 msgstr "GPU タスクを高速化するために、それぞれに CPU を専用に割り当てるか?"
 
-#: ../inc/prefs.inc:307
+#: ../inc/prefs.inc:308
 msgid "Use CPU %1 Enforced by version 6.10+ %2"
 msgstr "CPU を計算に使うか %1 Version 6.10以降で有効 %2"
 
-#: ../inc/prefs.inc:319
+#: ../inc/prefs.inc:320
 msgid "Use ATI GPU %1 Enforced by version 6.10+ %2"
 msgstr "ATI GPU を計算に使うか %1 Version 6.10以降で有効 %2"
 
-#: ../inc/prefs.inc:331
+#: ../inc/prefs.inc:332
 msgid "Use NVIDIA GPU %1 Enforced by version 6.10+ %2"
 msgstr "NVIDIA GPU を計算に使うか %1 Version 6.10以降で有効 %2"
 
-#: ../inc/prefs.inc:345
+#: ../inc/prefs.inc:344
+msgid "Use Intel GPU %1 Enforced by version 7.0+ %2"
+msgstr ""
+
+#: ../inc/prefs.inc:358
 msgid ""
 "Run test applications? %1 This helps us develop applications, but may cause "
 "jobs to fail on your computer %2"
@@ -1203,133 +1215,138 @@ msgstr ""
 "テスト中のアプリケーションでも実行しますか? %1 "
 "指定すればアプリケーション開発者を手助けすることになりますが、そのアプリケーションはあなたのコンピュータ上で異常終了することがあるかもしれません%2"
 
-#: ../inc/prefs.inc:354
+#: ../inc/prefs.inc:367
 msgid ""
 "Emails will be sent from %1; make sure your spam filter accepts this address."
 msgstr "Eメイルが %1 より送付されます。スパムフィルターがこのアドレスをブロックしないようにしてください。"
 
-#: ../inc/prefs.inc:361
+#: ../inc/prefs.inc:374
 msgid "Is it OK for %1 and your team (if any) to email you?"
 msgstr "%1 および（所属している場合）あなたのチームから、Eメイルを送信してもよろしいですか？"
 
-#: ../inc/prefs.inc:367
+#: ../inc/prefs.inc:380
 msgid "Should %1 show your computers on its web site?"
 msgstr "%1 があなたのコンピュータをこのウェブサイト上に表示してかまいませんか?"
 
-#: ../inc/prefs.inc:374
+#: ../inc/prefs.inc:387
 msgid "Disk and memory usage"
 msgstr "ディスクとメモリの使用限度"
 
-#: ../inc/prefs.inc:375
+#: ../inc/prefs.inc:388
 msgid "Processor usage"
 msgstr "プロセッサの使用限度"
 
-#: ../inc/prefs.inc:376
+#: ../inc/prefs.inc:389
 msgid "Network usage"
 msgstr "ネットワークの使用限度"
 
-#: ../inc/prefs.inc:379
+#: ../inc/prefs.inc:392
 msgid ""
 "These preferences apply to all the BOINC projects in which you participate."
 msgstr "これらのプレファレンス（好みの設定）は、あなたが参加するすべての BOINC プロジェクトに適用されます。"
 
-#: ../inc/prefs.inc:382
+#: ../inc/prefs.inc:395
 msgid ""
 "%1Unable to update preferences.%2 The values marked in red below were out of "
 "range or not numeric."
 msgstr "%1プレファレンスを更新することができません。 %2 赤色で強調した値は、指定可能範囲外であるか、数値でありません。"
 
-#: ../inc/prefs.inc:431
+#: ../inc/prefs.inc:445
 msgid "bad venue: %1"
 msgstr "不適切な場所: %1"
 
-#: ../inc/prefs.inc:437
+#: ../inc/prefs.inc:451
 msgid "bad subset: %1"
 msgstr "不適切な適用範囲: %1"
 
-#: ../inc/prefs.inc:656 ../inc/prefs.inc:659 ../inc/prefs.inc:1007
+#: ../inc/prefs.inc:671 ../inc/prefs.inc:674 ../inc/prefs.inc:1025
 #: ../inc/prefs_util.inc:93 ../project.sample/project_specific_prefs.inc:85
 msgid "yes"
 msgstr "はい"
 
-#: ../inc/prefs.inc:656 ../inc/prefs.inc:659 ../inc/prefs.inc:1009
+#: ../inc/prefs.inc:671 ../inc/prefs.inc:674 ../inc/prefs.inc:1027
 #: ../inc/prefs_util.inc:93 ../project.sample/project_specific_prefs.inc:87
 msgid "no"
 msgstr "いいえ"
 
-#: ../inc/prefs.inc:664 ../user/forum_search.php:53
+#: ../inc/prefs.inc:679 ../user/forum_search.php:53
 msgid "no limit"
 msgstr "制限なし"
 
-#: ../inc/prefs.inc:689 ../user/team_admins.php:79
+#: ../inc/prefs.inc:704 ../user/team_admins.php:79
 msgid "Add"
 msgstr "追加"
 
-#: ../inc/prefs.inc:691 ../inc/prefs.inc:819
+#: ../inc/prefs.inc:706 ../inc/prefs.inc:834
 #: ../user/edit_forum_preferences_form.php:160 ../user/team_admins.php:34
 msgid "Remove"
 msgstr "削除"
 
-#: ../inc/prefs.inc:797 ../user/explain_state.php:94
+#: ../inc/prefs.inc:812 ../user/explain_state.php:94
 msgid "Computing"
 msgstr "計算"
 
-#: ../inc/prefs.inc:808
+#: ../inc/prefs.inc:823
 msgid "Separate preferences for %1"
 msgstr "%1用の個別プレファレンス"
 
-#: ../inc/prefs.inc:818 ../inc/prefs.inc:896
+#: ../inc/prefs.inc:833 ../inc/prefs.inc:914
 msgid "Edit preferences"
 msgstr "プレファレンスを編集"
 
-#: ../inc/prefs.inc:824
+#: ../inc/prefs.inc:839
 msgid "Add separate preferences for %1"
 msgstr "%1用に個別プレファレンスを追加する"
 
-#: ../inc/prefs.inc:832 ../inc/prefs.inc:877
+#: ../inc/prefs.inc:847 ../inc/prefs.inc:895
 msgid "(Switch View)"
 msgstr "(表示切り替え)"
 
-#: ../inc/prefs.inc:834 ../inc/prefs.inc:880
+#: ../inc/prefs.inc:849 ../inc/prefs.inc:898
 msgid "Combined preferences"
 msgstr "総合プレファレンス"
 
-#: ../inc/prefs.inc:839
+#: ../inc/prefs.inc:854
 msgid "Project specific settings"
 msgstr "プロジェクトごとの設定"
 
-#: ../inc/prefs.inc:847 ../inc/prefs.inc:889
+#: ../inc/prefs.inc:862 ../inc/prefs.inc:907
 msgid "Primary (default) preferences"
 msgstr "初期（指定省略時）のプレファレンス"
 
-#: ../inc/prefs.inc:856 ../user/add_venue.php:43 ../user/add_venue.php:67
+#: ../inc/prefs.inc:871 ../user/add_venue.php:43 ../user/add_venue.php:67
 #: ../user/prefs_edit.php:40 ../user/prefs_edit.php:64
 #: ../user/prefs_edit.php:92
 msgid "Edit %1 preferences"
 msgstr "%1 プレファレンスを編集する"
 
-#: ../inc/prefs.inc:870
-msgid ""
-"These apply to all BOINC projects in which you participate.<br>\n"
-"             On computers participating in multiple projects, the most "
-"recently modified preferences will be used."
+#: ../inc/prefs.inc:885
+msgid "These apply to all BOINC projects in which you participate."
 msgstr ""
-"これらは、あなたが参加するすべての BOINC プロジェクトに適用されます。<br>\n"
-"複数のプロジェクトに参加しているコンピュータでは、一番最後に更新されたプレファレンスが適用されます。"
 
-#: ../inc/prefs.inc:874
+#: ../inc/prefs.inc:887
+msgid ""
+"On computers participating in multiple projects, the most recently modified "
+"preferences will be used."
+msgstr ""
+
+#: ../inc/prefs.inc:889
+msgid "These preferences do not apply to Android devices."
+msgstr ""
+
+#: ../inc/prefs.inc:892
 msgid "Preferences last modified:"
 msgstr "最後に更新されたプレファレンス："
 
-#: ../inc/prefs.inc:926
+#: ../inc/prefs.inc:944
 msgid "Add preferences"
 msgstr "プレファレンスを追加する"
 
-#: ../inc/prefs.inc:930
+#: ../inc/prefs.inc:948
 msgid "Update preferences"
 msgstr "プレファレンスを更新する"
 
-#: ../inc/prefs.inc:1018 ../inc/prefs.inc:1027
+#: ../inc/prefs.inc:1036 ../inc/prefs.inc:1045
 msgid "Default computer location"
 msgstr "指定省略時のコンピュータ設置場所"
 
@@ -1393,442 +1410,450 @@ msgstr "不快感を与える自己紹介記事(プロファイル)であるこ�
 msgid "I %1do not like%2 this profile"
 msgstr "この自己紹介記事(プロファイル)は%1嫌い%2"
 
-#: ../inc/result.inc:34
+#: ../inc/result.inc:35
 msgid "Anonymous platform"
 msgstr "名前のないプラットフォーム"
 
-#: ../inc/result.inc:48
+#: ../inc/result.inc:53
 msgid "NVIDIA GPU"
 msgstr "NVIDIA GPU"
 
-#: ../inc/result.inc:49 ../user/host_app_versions.php:27
+#: ../inc/result.inc:55 ../user/host_app_versions.php:27
 msgid "ATI GPU"
 msgstr "ATI GPU"
 
-#: ../inc/result.inc:56
+#: ../inc/result.inc:57
+msgid "Intel GPU"
+msgstr ""
+
+#: ../inc/result.inc:65
 msgid "Not in DB"
 msgstr "データベースに未登録"
 
-#: ../inc/result.inc:82
+#: ../inc/result.inc:91
 msgid "pending"
 msgstr "保留中"
 
-#: ../inc/result.inc:105 ../user/forum_search.php:60
+#: ../inc/result.inc:114 ../user/forum_search.php:60
 msgid "All"
 msgstr "すべて"
 
-#: ../inc/result.inc:106 ../inc/result.inc:167 ../inc/result.inc:214
+#: ../inc/result.inc:115 ../inc/result.inc:176 ../inc/result.inc:223
 msgid "In progress"
 msgstr "計算中"
 
-#: ../inc/result.inc:107
+#: ../inc/result.inc:116
 msgid "Validation pending"
 msgstr ""
 
-#: ../inc/result.inc:108
+#: ../inc/result.inc:117
 msgid "Validation inconclusive"
 msgstr ""
 
-#: ../inc/result.inc:109 ../inc/result.inc:259
+#: ../inc/result.inc:118 ../inc/result.inc:268
 msgid "Valid"
 msgstr "検証済"
 
-#: ../inc/result.inc:110 ../inc/result.inc:262
+#: ../inc/result.inc:119 ../inc/result.inc:271
 msgid "Invalid"
 msgstr "無効"
 
-#: ../inc/result.inc:111 ../inc/result.inc:200
+#: ../inc/result.inc:120 ../inc/result.inc:209
 msgid "Error"
 msgstr "異常発生"
 
-#: ../inc/result.inc:165 ../inc/result.inc:212 ../user/explain_state.php:34
+#: ../inc/result.inc:174 ../inc/result.inc:221 ../user/explain_state.php:34
 msgid "Inactive"
 msgstr "非活性"
 
-#: ../inc/result.inc:166 ../inc/result.inc:213 ../user/explain_state.php:37
+#: ../inc/result.inc:175 ../inc/result.inc:222 ../user/explain_state.php:37
 msgid "Unsent"
 msgstr "未送出"
 
-#: ../inc/result.inc:172
+#: ../inc/result.inc:181
 msgid "Completed, waiting for validation"
 msgstr "計算済、検証待ち"
 
-#: ../inc/result.inc:173
+#: ../inc/result.inc:182
 msgid "Completed and validated"
 msgstr "計算済、検証済み"
 
-#: ../inc/result.inc:174
+#: ../inc/result.inc:183
 msgid "Completed, marked as invalid"
 msgstr "計算済、無効と判定"
 
-#: ../inc/result.inc:175
+#: ../inc/result.inc:184
 msgid "Completed, can't validate"
 msgstr "計算済、検証不可"
 
-#: ../inc/result.inc:176
+#: ../inc/result.inc:185
 msgid "Completed, validation inconclusive"
 msgstr "計算済、検証したが未決定"
 
-#: ../inc/result.inc:177
+#: ../inc/result.inc:186
 msgid "Completed, too late to validate"
 msgstr "計算済、検証期限に間に合わず"
 
-#: ../inc/result.inc:179
+#: ../inc/result.inc:188
 msgid "Completed"
 msgstr "計算済"
 
-#: ../inc/result.inc:180 ../inc/result.inc:224 ../user/explain_state.php:62
+#: ../inc/result.inc:189 ../inc/result.inc:233 ../user/explain_state.php:62
 msgid "Couldn't send"
 msgstr "送出できず"
 
-#: ../inc/result.inc:185 ../inc/result.inc:248
+#: ../inc/result.inc:194 ../inc/result.inc:257
 msgid "Cancelled by server"
 msgstr "サーバによりキャンセルされた"
 
-#: ../inc/result.inc:190
+#: ../inc/result.inc:199
 msgid "Not started by deadline - canceled"
 msgstr ""
 
-#: ../inc/result.inc:193
+#: ../inc/result.inc:202
 msgid "Error while downloading"
 msgstr "ダウンロード中に異常発生"
 
-#: ../inc/result.inc:195
+#: ../inc/result.inc:204
 msgid "Error while computing"
 msgstr "計算中に異常発生"
 
-#: ../inc/result.inc:196
+#: ../inc/result.inc:205
 msgid "Error while uploading"
 msgstr "アップロード中に異常発生"
 
-#: ../inc/result.inc:197 ../inc/result.inc:250
+#: ../inc/result.inc:206 ../inc/result.inc:259
 msgid "Aborted by user"
 msgstr "参加者により中止された"
 
-#: ../inc/result.inc:198 ../inc/result.inc:251
+#: ../inc/result.inc:207 ../inc/result.inc:260
 #, fuzzy
 msgid "Upload failed"
 msgstr "更新失敗"
 
-#: ../inc/result.inc:201
+#: ../inc/result.inc:210
 msgid "Timed out - no response"
 msgstr "タイムアウト - 応答なし"
 
-#: ../inc/result.inc:202 ../inc/result.inc:231 ../user/explain_state.php:71
+#: ../inc/result.inc:211 ../inc/result.inc:240 ../user/explain_state.php:71
 msgid "Didn't need"
 msgstr "計算不要となった"
 
-#: ../inc/result.inc:203 ../inc/result.inc:232 ../user/explain_state.php:74
+#: ../inc/result.inc:212 ../inc/result.inc:241 ../user/explain_state.php:74
 msgid "Validate error"
 msgstr "検証で異常発生"
 
-#: ../inc/result.inc:204 ../inc/result.inc:233
+#: ../inc/result.inc:213 ../inc/result.inc:242
 msgid "Abandoned"
 msgstr "中途放棄された"
 
-#: ../inc/result.inc:215 ../user/explain_state.php:43
+#: ../inc/result.inc:224 ../user/explain_state.php:43
 msgid "Over"
 msgstr "終了後"
 
-#: ../inc/result.inc:223 ../user/explain_state.php:59
+#: ../inc/result.inc:232 ../user/explain_state.php:59
 msgid "Success"
 msgstr "成功"
 
-#: ../inc/result.inc:227
+#: ../inc/result.inc:236
 msgid "Computation error"
 msgstr "計算中に異常発生"
 
-#: ../inc/result.inc:229
+#: ../inc/result.inc:238
 msgid "Redundant result"
 msgstr "重複したリザルト"
 
-#: ../inc/result.inc:230 ../user/explain_state.php:68
+#: ../inc/result.inc:239 ../user/explain_state.php:68
 msgid "No reply"
 msgstr "返事なし"
 
-#: ../inc/result.inc:240 ../user/explain_state.php:85
+#: ../inc/result.inc:249 ../user/explain_state.php:85
 msgid "New"
 msgstr "新規"
 
-#: ../inc/result.inc:241 ../user/explain_state.php:91
+#: ../inc/result.inc:250 ../user/explain_state.php:91
 msgid "Downloading"
 msgstr "ダウンロード中"
 
-#: ../inc/result.inc:242
+#: ../inc/result.inc:251
 msgid "Processing"
 msgstr "処理"
 
-#: ../inc/result.inc:243
+#: ../inc/result.inc:252
 msgid "Compute error"
 msgstr "計算中に異常発生"
 
-#: ../inc/result.inc:244 ../user/explain_state.php:97
+#: ../inc/result.inc:253 ../user/explain_state.php:97
 msgid "Uploading"
 msgstr "アップロード中"
 
-#: ../inc/result.inc:245 ../user/explain_state.php:88
+#: ../inc/result.inc:254 ../user/explain_state.php:88
 msgid "Done"
 msgstr "完了"
 
-#: ../inc/result.inc:258
+#: ../inc/result.inc:267
 msgid "Initial"
 msgstr "初期状態"
 
-#: ../inc/result.inc:264
+#: ../inc/result.inc:273
 msgid "Not necessary"
 msgstr "不必要"
 
-#: ../inc/result.inc:265
+#: ../inc/result.inc:274
 msgid "Workunit error - check skipped"
 msgstr "ワークユニットの異常 - 検証省略"
 
-#: ../inc/result.inc:266
+#: ../inc/result.inc:275
 msgid "Checked, but no consensus yet"
 msgstr "検査したが、一致数がまだ基準に至らず"
 
-#: ../inc/result.inc:267
+#: ../inc/result.inc:276
 msgid "Task was reported too late to validate"
 msgstr "検証するには結果の到着が遅すぎた"
 
-#: ../inc/result.inc:293
+#: ../inc/result.inc:302
 msgid "Couldn't send result"
 msgstr "結果を送出できなかった"
 
-#: ../inc/result.inc:297
+#: ../inc/result.inc:306
 msgid "Too many errors (may have bug)"
 msgstr "異常過多（おそらくバグ）"
 
-#: ../inc/result.inc:301
+#: ../inc/result.inc:310
 msgid "Too many results (may be nondeterministic)"
 msgstr "計算結果過多（おそらく非決定的）"
 
-#: ../inc/result.inc:305
+#: ../inc/result.inc:314
 msgid "Too many total results"
 msgstr "結果の総数過多"
 
-#: ../inc/result.inc:309
+#: ../inc/result.inc:318
 msgid "WU cancelled"
 msgstr "ワークユニットがキャンセルされました"
 
-#: ../inc/result.inc:313
+#: ../inc/result.inc:322
 msgid "Unrecognized Error: %1"
 msgstr "未確認の異常： %1"
 
-#: ../inc/result.inc:340
+#: ../inc/result.inc:349
 msgid "Task name"
 msgstr "タスク名"
 
-#: ../inc/result.inc:340 ../inc/result.inc:345 ../inc/result.inc:348
-#: ../inc/result.inc:351
+#: ../inc/result.inc:349 ../inc/result.inc:354 ../inc/result.inc:357
+#: ../inc/result.inc:360
 msgid "click for details"
 msgstr "詳細はここをクリック"
 
-#: ../inc/result.inc:340
+#: ../inc/result.inc:349
 msgid "Show IDs"
 msgstr "IDを表示"
 
-#: ../inc/result.inc:345
+#: ../inc/result.inc:354
 msgid "Show names"
 msgstr "名前を表示"
 
-#: ../inc/result.inc:348
+#: ../inc/result.inc:357
 msgid "Task"
 msgstr "タスク"
 
-#: ../inc/result.inc:351
+#: ../inc/result.inc:360
 msgid "Work unit"
 msgstr "ワークユニット"
 
-#: ../inc/result.inc:354
+#: ../inc/result.inc:369
 msgid "Computer"
 msgstr "コンピュータ"
 
-#: ../inc/result.inc:357 ../inc/result.inc:617
+#: ../inc/result.inc:372 ../inc/result.inc:631
 msgid "Sent"
 msgstr "送出日時"
 
-#: ../inc/result.inc:358
+#: ../inc/result.inc:373
 msgid "Time reported<br />or deadline"
 msgstr "報告日時 <br />または期限"
 
-#: ../inc/result.inc:359
+#: ../inc/result.inc:374
 msgid "explain"
 msgstr "説明"
 
-#: ../inc/result.inc:361 ../user/server_status.php:246
+#: ../inc/result.inc:376 ../user/server_status.php:256
 msgid "Status"
 msgstr "状態"
 
-#: ../inc/result.inc:362
+#: ../inc/result.inc:377
 msgid "Run time<br />(sec)"
 msgstr "経過時間<br />(秒)"
 
-#: ../inc/result.inc:363
+#: ../inc/result.inc:378
 msgid "CPU time<br />(sec)"
 msgstr "CPU 時間<br />(秒)"
 
-#: ../inc/result.inc:364 ../inc/result.inc:628
+#: ../inc/result.inc:379 ../inc/result.inc:642
 msgid "Credit"
 msgstr "功績値"
 
 # #######################################
 # Apps page (apps.php)
-#: ../inc/result.inc:365 ../inc/result.inc:710
+#: ../inc/result.inc:380 ../inc/result.inc:724
 msgid "Application"
 msgstr "アプリケーション"
 
-#: ../inc/result.inc:615
+#: ../inc/result.inc:629
 msgid "Workunit"
 msgstr "ワークユニット"
 
-#: ../inc/result.inc:618
+#: ../inc/result.inc:632
 msgid "Received"
 msgstr "受信日時"
 
-#: ../inc/result.inc:619
+#: ../inc/result.inc:633
 msgid "Server state"
 msgstr "サーバー側の状態"
 
-#: ../inc/result.inc:620
+#: ../inc/result.inc:634
 msgid "Outcome"
 msgstr "結果"
 
-#: ../inc/result.inc:621
+#: ../inc/result.inc:635
 msgid "Client state"
 msgstr "クライアント側の状態"
 
-#: ../inc/result.inc:622
+#: ../inc/result.inc:636
 msgid "Exit status"
 msgstr "終了ステイタス"
 
-#: ../inc/result.inc:624
+#: ../inc/result.inc:638
 msgid "Report deadline"
 msgstr "報告期限"
 
-#: ../inc/result.inc:625
+#: ../inc/result.inc:639
 msgid "Run time"
 msgstr "経過時間"
 
-#: ../inc/result.inc:626
+#: ../inc/result.inc:640
 msgid "CPU time"
 msgstr "CPU 時間"
 
-#: ../inc/result.inc:627
+#: ../inc/result.inc:641
 msgid "Validate state"
 msgstr "検証状態"
 
-#: ../inc/result.inc:629
+#: ../inc/result.inc:643
 msgid "Application version"
 msgstr "アプリケーションの版数"
 
-#: ../inc/result.inc:642
+#: ../inc/result.inc:656
 msgid "Output files"
 msgstr "出力ファイル"
 
-#: ../inc/result.inc:645
+#: ../inc/result.inc:659
 msgid "Stderr output"
 msgstr "標準エラー出力(stderr)"
 
-#: ../inc/result.inc:692
+#: ../inc/result.inc:706
 msgid "State"
 msgstr "状態"
 
-#: ../inc/team.inc:33
+#: ../inc/result.inc:747
+msgid "Task name:"
+msgstr ""
+
+#: ../inc/team.inc:40
 msgid "Search criteria (use one or more)"
 msgstr "検索条件(一つ以上指定要)"
 
-#: ../inc/team.inc:34
+#: ../inc/team.inc:41
 msgid "Key words"
 msgstr "キーワード"
 
-#: ../inc/team.inc:34
+#: ../inc/team.inc:41
 msgid "Find teams with these words in their names or descriptions"
 msgstr "指定する語句がその名称または説明に含まれているチームを探します"
 
-#: ../inc/team.inc:36 ../inc/team.inc:114 ../inc/team.inc:225
-#: ../inc/team.inc:365 ../inc/team.inc:449 ../inc/user.inc:206
-#: ../inc/user.inc:317 ../user/account_finish.php:45
-#: ../user/create_account_form.php:106 ../user/edit_user_info_form.php:40
+#: ../inc/team.inc:43 ../inc/team.inc:121 ../inc/team.inc:232
+#: ../inc/team.inc:372 ../inc/team.inc:456 ../inc/user.inc:205
+#: ../inc/user.inc:316 ../user/account_finish.php:45
+#: ../user/create_account_form.php:99 ../user/edit_user_info_form.php:40
 #: ../user/profile_search_action.php:42 ../user/team_email_list.php:64
 #: ../user/team_search.php:72 ../user/top_users.php:63
 #: ../user/user_search.php:53 ../user/user_search.php:140
 msgid "Country"
 msgstr "国名"
 
-#: ../inc/team.inc:42 ../inc/team.inc:447
+#: ../inc/team.inc:49 ../inc/team.inc:454
 msgid "Type of team"
 msgstr "チームの種類"
 
-#: ../inc/team.inc:44
+#: ../inc/team.inc:51
 msgid "Show only active teams"
 msgstr "活動中のチームだけを表示"
 
-#: ../inc/team.inc:45 ../user/profile_menu.php:77 ../user/user_search.php:70
+#: ../inc/team.inc:52 ../user/profile_menu.php:77 ../user/user_search.php:70
 msgid "Search"
 msgstr "検索する"
 
-#: ../inc/team.inc:54
+#: ../inc/team.inc:61
 msgid "Requested by you, and founder response deadline has passed."
 msgstr "あなたが要求しましたが、創設者は期限までに応答しませんでした。"
 
-#: ../inc/team.inc:56
+#: ../inc/team.inc:63
 msgid "Complete foundership transfer"
 msgstr "創設者権利の移転を完了させるにはここをクリック"
 
-#: ../inc/team.inc:60
+#: ../inc/team.inc:67
 msgid "Requested by you"
 msgstr "あなたが要求中です"
 
-#: ../inc/team.inc:60
+#: ../inc/team.inc:67
 msgid "founder response deadline is %1"
 msgstr "創設者の応答期限は、%1"
 
-#: ../inc/team.inc:65 ../inc/team.inc:549 ../inc/user.inc:281
-#: ../inc/user.inc:371
+#: ../inc/team.inc:72 ../inc/team.inc:556 ../inc/user.inc:280
+#: ../inc/user.inc:370
 msgid "None"
 msgstr "なし"
 
-#: ../inc/team.inc:67
+#: ../inc/team.inc:74
 msgid "Initiate request"
 msgstr "要求を開始する"
 
-#: ../inc/team.inc:70
+#: ../inc/team.inc:77
 msgid "Deferred"
 msgstr "変更手続き中"
 
-#: ../inc/team.inc:80
+#: ../inc/team.inc:87
 msgid "Team info"
 msgstr "チームの情報"
 
-#: ../inc/team.inc:82 ../user/team_forum.php:70 ../user/team_search.php:69
+#: ../inc/team.inc:89 ../user/team_forum.php:70 ../user/team_search.php:69
 msgid "Description"
 msgstr "説明"
 
-#: ../inc/team.inc:90
+#: ../inc/team.inc:97
 msgid "Web site"
 msgstr "ウェブサイト"
 
-#: ../inc/team.inc:112
+#: ../inc/team.inc:119
 msgid "Cross-project stats"
 msgstr "プロジェクト横断の統計"
 
-#: ../inc/team.inc:115 ../inc/team.inc:366 ../user/team_search.php:71
+#: ../inc/team.inc:122 ../inc/team.inc:373 ../user/team_search.php:71
 msgid "Type"
 msgstr "種類"
 
-#: ../inc/team.inc:119 ../user/team_manage.php:63
+#: ../inc/team.inc:126 ../user/team_manage.php:63
 msgid "Message board"
 msgstr "掲示板"
 
-#: ../inc/team.inc:120 ../user/forum_forum.php:135 ../user/forum_index.php:93
+#: ../inc/team.inc:127 ../user/forum_forum.php:135 ../user/forum_index.php:93
 msgid "Threads"
 msgstr "スレッド"
 
-#: ../inc/team.inc:128
+#: ../inc/team.inc:135
 msgid "Join this team"
 msgstr "このチームに参加する"
 
-#: ../inc/team.inc:129
+#: ../inc/team.inc:136
 msgid ""
 "Note: if 'OK to email' is set in your project preferences, joining a team "
 "gives its founder access to your email address."
@@ -1836,83 +1861,83 @@ msgstr ""
 "注意：あなたがプロジェクト・プレファレンスの中で 「Eメイルを送っても良い」という意味の項目を選択した状態でチームへ参加すると、 "
 "そのチームの創設者はあなたのメイルアドレスを知ることになります。"
 
-#: ../inc/team.inc:132
+#: ../inc/team.inc:139
 msgid "Not accepting new members"
 msgstr "新しいメンバーを受け入れていません"
 
-#: ../inc/team.inc:139
+#: ../inc/team.inc:146
 msgid "Foundership change requested"
 msgstr "創設者権限の移譲が要求されています"
 
-#: ../inc/team.inc:140
+#: ../inc/team.inc:147
 msgid "Respond by %1"
 msgstr "%1 までに応答してください"
 
-#: ../inc/team.inc:144
+#: ../inc/team.inc:151
 msgid "Team foundership change"
 msgstr "チーム創設者の変更"
 
-#: ../inc/team.inc:148 ../inc/team.inc:351
+#: ../inc/team.inc:155 ../inc/team.inc:358
 msgid "Members"
 msgstr "メンバー"
 
-#: ../inc/team.inc:149 ../inc/team.inc:246
+#: ../inc/team.inc:156 ../inc/team.inc:253
 msgid "Founder"
 msgstr "創設者"
 
-#: ../inc/team.inc:161
+#: ../inc/team.inc:168
 msgid "Admins"
 msgstr "管理者"
 
-#: ../inc/team.inc:176
+#: ../inc/team.inc:183
 msgid "New members in last day"
 msgstr "チームに昨日参加したメンバー"
 
-#: ../inc/team.inc:177
+#: ../inc/team.inc:184
 msgid "Total members"
 msgstr "メンバーの総数"
 
-#: ../inc/team.inc:177 ../inc/team.inc:178 ../inc/team.inc:179
+#: ../inc/team.inc:184 ../inc/team.inc:185 ../inc/team.inc:186
 msgid "view"
 msgstr "表示する"
 
-#: ../inc/team.inc:178
+#: ../inc/team.inc:185
 msgid "Active members"
 msgstr "活動中のメンバー数"
 
-#: ../inc/team.inc:179
+#: ../inc/team.inc:186
 msgid "Members with credit"
 msgstr "功績(credit)を獲得済みのメンバーの数"
 
-#: ../inc/team.inc:248
+#: ../inc/team.inc:255
 msgid "Admin"
 msgstr "管理者"
 
-#: ../inc/team.inc:269 ../user/forum_user_posts.php:122
+#: ../inc/team.inc:276 ../user/forum_user_posts.php:122
 #: ../user/top_hosts.php:93 ../user/top_teams.php:121
 #: ../user/top_users.php:127
 msgid "Previous %1"
 msgstr "前の%1項目"
 
-#: ../inc/team.inc:273 ../user/forum_user_posts.php:131
+#: ../inc/team.inc:280 ../user/forum_user_posts.php:131
 #: ../user/profile_search_action.php:61 ../user/top_hosts.php:98
 #: ../user/top_teams.php:126 ../user/top_users.php:132
 msgid "Next %1"
 msgstr "次の%1項目"
 
-#: ../inc/team.inc:281
+#: ../inc/team.inc:288
 msgid "No such team."
 msgstr "該当するチームはありません。"
 
-#: ../inc/team.inc:294
+#: ../inc/team.inc:301
 msgid "This operation requires foundership."
 msgstr "この操作には創設者の権限が必要です。"
 
-#: ../inc/team.inc:318
+#: ../inc/team.inc:325
 msgid "This operation requires team admin privileges"
 msgstr "この操作にはチーム管理者の権限が必要です"
 
-#: ../inc/team.inc:415
+#: ../inc/team.inc:422
 msgid ""
 "WARNING: this is a BOINC-wide team. If you make changes here, they will soon "
 "be overwritten. Edit the %1BOINC-wide team%2 instead."
@@ -1920,7 +1945,7 @@ msgstr ""
 "＜警告＞: これは BOINCワイドのチームです。ここで変更を行っても、 そのうち上書きされてしまいます。代わりに %1 BOINC ワイドのチーム %"
 "2を編集してください。"
 
-#: ../inc/team.inc:422
+#: ../inc/team.inc:429
 msgid ""
 "%1Privacy note%2: if you create a team, your project preferences (resource "
 "share, graphics preferences) will be visible to the public."
@@ -1928,43 +1953,43 @@ msgstr ""
 "%1プライバシに関連する注意%2: チームを作成すると、あなたのプロジェクト・プレファレンス（資源割り当て、 "
 "グラフィクスについてのプレファレンス）が、公開されます。"
 
-#: ../inc/team.inc:426
+#: ../inc/team.inc:433
 msgid "Team name, text version"
 msgstr "チーム名称、テキスト版"
 
-#: ../inc/team.inc:427
+#: ../inc/team.inc:434
 msgid "Don't use HTML tags."
 msgstr "HTMLタグを使わないでください。"
 
-#: ../inc/team.inc:430
+#: ../inc/team.inc:437
 msgid "Team name, HTML version"
 msgstr "チーム名称、HTML版"
 
-#: ../inc/team.inc:432 ../inc/team.inc:442
+#: ../inc/team.inc:439 ../inc/team.inc:449
 msgid "You may use %1limited HTML tags%2."
 msgstr "%1一部の HTML タグ%2は使えます。"
 
-#: ../inc/team.inc:433
+#: ../inc/team.inc:440
 msgid "If you don't know HTML, leave this box blank."
 msgstr "HTML の使い方をご存知でなければ、この欄は空白にしてください。"
 
-#: ../inc/team.inc:436
+#: ../inc/team.inc:443
 msgid "URL of team web page, if any"
 msgstr "チームのウェブページのURL（もしあれば)"
 
-#: ../inc/team.inc:436
+#: ../inc/team.inc:443
 msgid "without \"http://\""
 msgstr "\"http://\" は含めないでください。"
 
-#: ../inc/team.inc:437
+#: ../inc/team.inc:444
 msgid "This URL will be linked to from the team's page on this site."
 msgstr "この URLへ は、このサイト内のチームのページからリンクが張られます。"
 
-#: ../inc/team.inc:440
+#: ../inc/team.inc:447
 msgid "Description of team"
 msgstr "チームの説明"
 
-#: ../inc/team.inc:456
+#: ../inc/team.inc:463
 msgid "Accept new members?"
 msgstr "新メンバーを受け入れますか?"
 
@@ -1972,330 +1997,327 @@ msgstr "新メンバーを受け入れますか?"
 msgid "User profile"
 msgstr "参加者の自己紹介"
 
-#: ../inc/user.inc:116
+#: ../inc/user.inc:119
 msgid "Projects in which you are participating"
 msgstr "あなたが参加しているプロジェクト"
 
-#: ../inc/user.inc:118
+#: ../inc/user.inc:121
 msgid "Projects in which %1 is participating"
 msgstr "%1 が参加しているプロジェクト"
 
-#: ../inc/user.inc:122
+#: ../inc/user.inc:125
 msgid "Project"
 msgstr "プロジェクト"
 
-#: ../inc/user.inc:122
+#: ../inc/user.inc:125
 msgid "Click for user page"
 msgstr "クリックすると参加者のページへ"
 
-#: ../inc/user.inc:122
+#: ../inc/user.inc:125
 msgid "Since"
 msgstr "参加開始日"
 
-#: ../inc/user.inc:146
+#: ../inc/user.inc:148
 msgid "Computing and credit"
 msgstr "計算と功績"
 
-#: ../inc/user.inc:150 ../user/pending.php:64
-msgid "Pending credit"
-msgstr "保留中の功績"
-
-#: ../inc/user.inc:150 ../inc/user.inc:152 ../inc/user.inc:153
-#: ../inc/user.inc:218 ../inc/user.inc:243 ../inc/user.inc:327
-#: ../inc/user.inc:402 ../user/view_profile.php:64
-msgid "View"
-msgstr "表示"
-
-#: ../inc/user.inc:152
+#: ../inc/user.inc:151
 msgid "Computers on this account"
 msgstr "このアカウントのコンピュータ"
 
-#: ../inc/user.inc:162
+#: ../inc/user.inc:151 ../inc/user.inc:152 ../inc/user.inc:217
+#: ../inc/user.inc:242 ../inc/user.inc:328 ../inc/user.inc:401
+#: ../user/view_profile.php:64
+msgid "View"
+msgstr "表示"
+
+#: ../inc/user.inc:161
 msgid "Cross-project ID"
 msgstr "プロジェクト横断 ID"
 
-#: ../inc/user.inc:163
+#: ../inc/user.inc:162
 msgid "Cross-project statistics"
 msgstr "プロジェクト横断の統計"
 
-#: ../inc/user.inc:164
+#: ../inc/user.inc:163
 msgid "Account"
 msgstr "アカウント"
 
-#: ../inc/user.inc:166 ../inc/user.inc:281 ../inc/user.inc:369
-#: ../inc/user.inc:371 ../user/user_search.php:139
+#: ../inc/user.inc:165 ../inc/user.inc:280 ../inc/user.inc:368
+#: ../inc/user.inc:370 ../user/user_search.php:139
 msgid "Team"
 msgstr "チーム"
 
-#: ../inc/user.inc:168
+#: ../inc/user.inc:167
 msgid "Cross-project"
 msgstr "プロジェクト横断"
 
-#: ../inc/user.inc:169
+#: ../inc/user.inc:168 ../user/bs_sample_index.php:54
 msgid "Certificate"
 msgstr "証明書"
 
-#: ../inc/user.inc:170
+#: ../inc/user.inc:169
 msgid "Stats on your cell phone"
 msgstr "携帯電話向け統計データ"
 
-#: ../inc/user.inc:184
+#: ../inc/user.inc:183
 msgid "Unknown notification type: %1"
 msgstr "未定義の通知タイプ:%1"
 
-#: ../inc/user.inc:199
+#: ../inc/user.inc:198
 msgid "Account information"
 msgstr "アカウント情報"
 
-#: ../inc/user.inc:201 ../user/edit_passwd_form.php:48
+#: ../inc/user.inc:200 ../user/edit_passwd_form.php:48
 #: ../user/get_passwd.php:40 ../user/team_email_list.php:64
 msgid "Email address"
 msgstr "Eメイルアドレス"
 
-#: ../inc/user.inc:204 ../inc/user.inc:321
+#: ../inc/user.inc:203 ../inc/user.inc:321
 msgid "URL"
 msgstr "URL"
 
-#: ../inc/user.inc:207
+#: ../inc/user.inc:206
 msgid "Postal code"
 msgstr "郵便番号"
 
-#: ../inc/user.inc:208 ../inc/user.inc:316
+#: ../inc/user.inc:207 ../inc/user.inc:315
 msgid "%1 member since"
 msgstr "%1 登録日"
 
-#: ../inc/user.inc:210
+#: ../inc/user.inc:209
 msgid "Change"
 msgstr "変更"
 
-#: ../inc/user.inc:210
+#: ../inc/user.inc:209
 msgid "email address"
 msgstr "Eメイルアドレス"
 
-#: ../inc/user.inc:211
+#: ../inc/user.inc:210
 msgid "password"
 msgstr "パスワード"
 
-#: ../inc/user.inc:212
+#: ../inc/user.inc:211
 msgid "other account info"
 msgstr "その他のアカウント情報"
 
-#: ../inc/user.inc:214 ../inc/user.inc:315
+#: ../inc/user.inc:213 ../inc/user.inc:314
 msgid "User ID"
 msgstr "参加者のID(User ID)"
 
-#: ../inc/user.inc:214
+#: ../inc/user.inc:213
 msgid "Used in community functions"
 msgstr "コミュニティ機能の中で使われる ID です"
 
-#: ../inc/user.inc:217 ../user/weak_auth.php:25
+#: ../inc/user.inc:216 ../user/weak_auth.php:25
 msgid "Account keys"
 msgstr ""
 
-#: ../inc/user.inc:222
+#: ../inc/user.inc:221
 msgid "Preferences"
 msgstr "プレファレンス(好みの設定)"
 
-#: ../inc/user.inc:225
+#: ../inc/user.inc:224
 msgid "When and how BOINC uses your computer"
 msgstr "あなたのコンピュータをいつ・どのようにBOINCに使わせるか。"
 
 # It maybe changed to "processing preferences" later.
-#: ../inc/user.inc:226
+#: ../inc/user.inc:225
 msgid "Computing preferences"
 msgstr "計算についての好みの設定（プレファレンス）"
 
-#: ../inc/user.inc:229
+#: ../inc/user.inc:228
 msgid "Message boards and private messages"
 msgstr "掲示板と非公開メッセージ"
 
-#: ../inc/user.inc:230 ../user/edit_forum_preferences_form.php:31
+#: ../inc/user.inc:229 ../user/edit_forum_preferences_form.php:31
 msgid "Community preferences"
 msgstr "コミュニティについての好みの設定（プレファレンス）"
 
-#: ../inc/user.inc:233
+#: ../inc/user.inc:232
 msgid "Preferences for this project"
 msgstr "このプロジェクト用のプレファレンス"
 
-#: ../inc/user.inc:234 ../user/prefs.php:32
+#: ../inc/user.inc:233 ../user/prefs.php:32
 msgid "%1 preferences"
 msgstr "%1 についての好みの設定（プレファレンス）"
 
-#: ../inc/user.inc:240 ../user/sample_index.php:114
+#: ../inc/user.inc:239 ../user/bs_sample_index.php:59
+#: ../user/sample_index.php:114
 msgid "Community"
 msgstr "コミュニティ"
 
-#: ../inc/user.inc:243 ../user/pm.php:107 ../user/pm.php:147
+#: ../inc/user.inc:242 ../user/pm.php:107 ../user/pm.php:147
 msgid "Delete"
 msgstr "削除"
 
-#: ../inc/user.inc:245
+#: ../inc/user.inc:244
 msgid "Create"
 msgstr "作成"
 
-#: ../inc/user.inc:247 ../inc/user.inc:402 ../inc/util.inc:504
+#: ../inc/user.inc:246 ../inc/user.inc:401 ../inc/util.inc:498
 msgid "Profile"
 msgstr "自己紹介"
 
-#: ../inc/user.inc:250 ../inc/user.inc:375
+#: ../inc/user.inc:249 ../inc/user.inc:374
 msgid "%1 posts"
 msgstr "%1 回投稿"
 
-#: ../inc/user.inc:262 ../user/edit_forum_preferences_form.php:51
+#: ../inc/user.inc:261 ../user/edit_forum_preferences_form.php:51
 msgid "Notifications"
 msgstr "通知"
 
-#: ../inc/user.inc:269
+#: ../inc/user.inc:268
 msgid "Quit team"
 msgstr "チームを離脱する"
 
-#: ../inc/user.inc:271 ../inc/user.inc:288
+#: ../inc/user.inc:270 ../inc/user.inc:287
 msgid "Administer"
 msgstr "管理作業をする"
 
-#: ../inc/user.inc:277 ../inc/user.inc:290
+#: ../inc/user.inc:276 ../inc/user.inc:289
 msgid "(foundership change request pending)"
 msgstr "(創設者を変更する要求は保留中)"
 
-#: ../inc/user.inc:279
+#: ../inc/user.inc:278
 msgid "Member of team"
 msgstr "所属チーム"
 
-#: ../inc/user.inc:281
+#: ../inc/user.inc:280
 msgid "find a team"
 msgstr "チームを探す"
 
-#: ../inc/user.inc:292
+#: ../inc/user.inc:291
 msgid "Founder but not member of"
 msgstr "設立したチーム(メンバーではない)"
 
-#: ../inc/user.inc:298
+#: ../inc/user.inc:297
 msgid "Find friends"
 msgstr "友人を探す"
 
-#: ../inc/user.inc:305 ../inc/user.inc:307 ../inc/user.inc:385
-#: ../inc/user.inc:387 ../inc/user.inc:396
+#: ../inc/user.inc:304 ../inc/user.inc:306 ../inc/user.inc:384
+#: ../inc/user.inc:386 ../inc/user.inc:395
 msgid "Friends"
 msgstr "友人"
 
-#: ../inc/user.inc:327 ../inc/user.inc:329 ../user/server_status.php:396
+#: ../inc/user.inc:328 ../inc/user.inc:330 ../user/server_status.php:408
 msgid "Computers"
 msgstr "コンピュータ"
 
-#: ../inc/user.inc:336
+#: ../inc/user.inc:337
 msgid "Donor"
 msgstr "寄付の実績"
 
-#: ../inc/user.inc:378
+#: ../inc/user.inc:377
 msgid "Contact"
 msgstr "連絡"
 
-#: ../inc/user.inc:381
+#: ../inc/user.inc:380
 msgid "This person is a friend"
 msgstr "この人物は友人です"
 
-#: ../inc/user.inc:382 ../user/friend.php:238
+#: ../inc/user.inc:381 ../user/friend.php:238
 msgid "Cancel friendship"
 msgstr "友人関係を取り消す"
 
-#: ../inc/user.inc:385 ../user/friend.php:37
+#: ../inc/user.inc:384 ../user/friend.php:37
 msgid "Request pending"
 msgstr "要求は保留中"
 
-#: ../inc/user.inc:387
+#: ../inc/user.inc:386
 msgid "Add as friend"
 msgstr "友人として追加"
 
-#: ../inc/user.inc:446
+#: ../inc/user.inc:445
 msgid "user name cannot have leading or trailing white space"
 msgstr ""
 
-#: ../inc/user.inc:450
+#: ../inc/user.inc:449
 msgid "user name must be nonempty"
 msgstr ""
 
-#: ../inc/user.inc:454
+#: ../inc/user.inc:453
 msgid "user name may not contain HTML tags"
 msgstr ""
 
-#: ../inc/util.inc:122
+#: ../inc/util.inc:116
 msgid "log out"
 msgstr "ログアウト"
 
-#: ../inc/util.inc:124
+#: ../inc/util.inc:118
 msgid "log in"
 msgstr "ログイン"
 
-#: ../inc/util.inc:194 ../user/login_form.php:37 ../user/login_form.php:62
+#: ../inc/util.inc:188 ../user/login_form.php:30 ../user/login_form.php:55
 msgid "Log in"
 msgstr "ログインする"
 
 # #######################################
 # Create account form (create_account_form.php)
-#: ../inc/util.inc:195 ../user/create_account_form.php:38
+#: ../inc/util.inc:189 ../user/create_account_form.php:31
 msgid "Create an account"
 msgstr "新しいアカウントを作成"
 
-#: ../inc/util.inc:196
+#: ../inc/util.inc:190
 msgid "Server status page"
 msgstr "サーバー状態のページ"
 
-#: ../inc/util.inc:238
+#: ../inc/util.inc:232
 msgid ""
 "A database error occurred while handling your request; please try again "
 "later."
 msgstr "あなたからの要求を処理中にデータベース・サーバで異常が起こりました。後ほどまた試してくださいませ。"
 
-#: ../inc/util.inc:247
+#: ../inc/util.inc:241
 msgid "Unable to handle request"
 msgstr "要求を処理できませんでした"
 
-#: ../inc/util.inc:267
+#: ../inc/util.inc:261
 msgid "hours"
 msgstr "時間"
 
-#: ../inc/util.inc:270
+#: ../inc/util.inc:264
 msgid "min"
 msgstr "分"
 
-#: ../inc/util.inc:273
+#: ../inc/util.inc:267
 msgid "sec"
 msgstr "秒"
 
-#: ../inc/util.inc:434
+#: ../inc/util.inc:428
 msgid "Link has timed out. Please click Back, refresh the page, and try again."
 msgstr "セッションが時間超過しました。ブラウザの戻るボタンをクリックし、そこでページを再読み出し(リフレッシュ)してから、もう一度試してくださいませ。"
 
 # It seems that this msg has already been removed from the trunc. 20110828.
-#: ../inc/util.inc:503
+#: ../inc/util.inc:497
 msgid "View the profile of %1"
 msgstr "%1 の自己紹介記事(プロファイル）を見る"
 
-#: ../inc/util.inc:559
+#: ../inc/util.inc:553
 msgid "Use BBCode tags to format your text"
 msgstr "テキストに書式を付けたいときは BBCode タグを使ってください"
 
-#: ../inc/util.inc:770
+#: ../inc/util.inc:780
 msgid "Project down for maintenance"
 msgstr "保守作業のためプロジェクト停止中"
 
-#: ../inc/util.inc:773
+#: ../inc/util.inc:783
 msgid "%1 is temporarily shut down for maintenance.  Please try again later."
 msgstr "%1 プロジェクトは保守のため一時的に停止しています。後ほどまた試してくださいませ。"
 
-#: ../inc/util.inc:791
+#: ../inc/util.inc:801
 msgid "Unable to connect to database - please try again later"
 msgstr "データベースに接続できません - 後ほど試してくださいませ"
 
-#: ../inc/util.inc:792
+#: ../inc/util.inc:802
 msgid "Error:"
 msgstr "異常:"
 
-#: ../inc/util.inc:796
+#: ../inc/util.inc:806
 msgid "Unable to select database - please try again later"
 msgstr "データベースの選択ができませんでした(mysql_select_dbに失敗) - 時間を置いてからまた試してください。"
 
-#: ../inc/util_ops.inc:129 ../user/get_passwd.php:72
+#: ../inc/util_ops.inc:136 ../user/get_passwd.php:72
 msgid "Stay logged in on this computer"
 msgstr "現在のコンピュータからログインしたままにする"
 
@@ -2303,21 +2325,21 @@ msgstr "現在のコンピュータからログインしたままにする"
 msgid "Finish account setup"
 msgstr "アカウント設定を完了させる"
 
-#: ../user/account_finish.php:41 ../user/create_account_form.php:87
+#: ../user/account_finish.php:41 ../user/create_account_form.php:80
 msgid "Identifies you on our web site. Use your real name or a nickname."
 msgstr "我々のウェブサイト上であなたを識別する名前です。実名でも、ニックネームでも結構です。"
 
-#: ../user/account_finish.php:45 ../user/create_account_form.php:106
+#: ../user/account_finish.php:45 ../user/create_account_form.php:99
 msgid "Select the country you want to represent, if any."
 msgstr "表示したい国の名前があれば、選択してください。"
 
-#: ../user/account_finish.php:51 ../user/create_account_form.php:112
+#: ../user/account_finish.php:51 ../user/create_account_form.php:105
 msgid "Postal or ZIP Code"
 msgstr "郵便番号／ZIP コード"
 
 # #######################################
 # General stuff (create_account_form.php and others)
-#: ../user/account_finish.php:51 ../user/create_account_form.php:112
+#: ../user/account_finish.php:51 ../user/create_account_form.php:105
 msgid "Optional"
 msgstr "記入は任意"
 
@@ -2335,7 +2357,8 @@ msgstr "%1 プレファレンスを %2　向けに追加"
 
 # #######################################
 # Apps page (apps.php)
-#: ../user/apps.php:32 ../user/sample_index.php:109
+#: ../user/apps.php:32 ../user/bs_sample_index.php:55
+#: ../user/sample_index.php:109
 msgid "Applications"
 msgstr "アプリケーション"
 
@@ -2350,15 +2373,15 @@ msgstr ""
 "1つまたは複数のアプリケーションの仕事があなたのコンピュータに割り当てられます。 これらのアプリケーションの最新版がダウンロードされます。 "
 "これらは自動的に行われるので、ダウンロードについてあなたは何もする必要はありません。 "
 
-#: ../user/apps.php:49
+#: ../user/apps.php:50
 msgid "Platform"
 msgstr "プラットフォーム"
 
-#: ../user/apps.php:50
+#: ../user/apps.php:51
 msgid "Version"
 msgstr "版"
 
-#: ../user/apps.php:51
+#: ../user/apps.php:52
 msgid "Installation time"
 msgstr "登録日"
 
@@ -2471,6 +2494,86 @@ msgstr ""
 "開始タグだけで終了タグなしのまま放置したり、パラメータを正しく\n"
 "指定しないと、書式は機能せずタグがそのまま表示されます。"
 
+#: ../user/bs_sample_index.php:44
+msgid "Participants"
+msgstr ""
+
+#: ../user/bs_sample_index.php:46
+msgid "Do work"
+msgstr ""
+
+# #######################################
+# "Your account" page (home.php)
+#: ../user/bs_sample_index.php:47 ../user/bs_sample_index.php:50
+#: ../user/home.php:49 ../project.sample/project.inc:43
+msgid "Your account"
+msgstr "あなたのアカウント"
+
+#: ../user/bs_sample_index.php:47 ../user/bs_sample_index.php:50
+msgid "view stats, modify preferences"
+msgstr ""
+
+#: ../user/bs_sample_index.php:48 ../user/bs_sample_index.php:53
+#: ../user/team.php:25
+msgid "Teams"
+msgstr "チーム"
+
+#: ../user/bs_sample_index.php:48 ../user/bs_sample_index.php:53
+msgid "create or join a team"
+msgstr ""
+
+#: ../user/bs_sample_index.php:51 ../user/sample_index.php:180
+msgid "User of the day"
+msgstr "毎日の参加者紹介"
+
+#: ../user/bs_sample_index.php:52 ../user/server_status.php:254
+msgid "Server status"
+msgstr "サーバー側の状態"
+
+#: ../user/bs_sample_index.php:60 ../user/profile_menu.php:35
+#: ../user/sample_index.php:116
+msgid "Profiles"
+msgstr "自己紹介記事(プロファイル)"
+
+#: ../user/bs_sample_index.php:61
+msgid "User search"
+msgstr ""
+
+#: ../user/bs_sample_index.php:64
+msgid "Statistics"
+msgstr ""
+
+# #######################################
+# Various top table pages (top users, computers, teams)
+#: ../user/bs_sample_index.php:65 ../user/stats.php:30
+#: ../user/top_users.php:116
+msgid "Top participants"
+msgstr "参加者のランキング"
+
+#: ../user/bs_sample_index.php:66 ../user/stats.php:31
+msgid "Top computers"
+msgstr "コンピュータのランキング"
+
+#: ../user/bs_sample_index.php:67 ../user/stats.php:32 ../user/team.php:46
+msgid "Top teams"
+msgstr "チームのランキング"
+
+#: ../user/bs_sample_index.php:68 ../user/gpu_list.php:182
+#: ../user/stats.php:33
+msgid "Top GPU models"
+msgstr ""
+
+#: ../user/bs_sample_index.php:70
+msgid "Languages"
+msgstr ""
+
+# #######################################
+# Rules and Policies page (info.php)
+#: ../user/bs_sample_index.php:149 ../user/info.php:24
+#: ../user/sample_index.php:74
+msgid "Read our rules and policies"
+msgstr "このプロジェクトの「規則と方針」を読んでください。"
+
 #: ../user/create_account_action.php:26
 msgid "Can't create account"
 msgstr "アカウントを作成できません"
@@ -2480,7 +2583,7 @@ msgid "Click your browser's <b>Back</b> button to try again."
 msgstr "ブラウザの<b>戻る(back)</b>ボタンをクリックし、もう一度試してください。"
 
 #: ../user/create_account_action.php:38 ../user/create_account_action.php:40
-#: ../user/create_account_form.php:43
+#: ../user/create_account_form.php:36
 msgid "Account creation is disabled"
 msgstr "アカウントの作成機能は停止しています。"
 
@@ -2529,17 +2632,17 @@ msgstr "新パスワードが短すぎます：最低でも %1 文字だけの�
 msgid "Couldn't create account"
 msgstr "アカウントを作成できませんでした"
 
-#: ../user/create_account_form.php:44
+#: ../user/create_account_form.php:37
 msgid "Account creation is currently disabled. Please try again later."
 msgstr "アカウントの作成を現在停止しています。 のちほどもう一度お試しください。"
 
-#: ../user/create_account_form.php:53
+#: ../user/create_account_form.php:46
 msgid ""
 "NOTE: If you use the BOINC Manager, don't use this form. Just run BOINC, "
 "select Add Project, and enter an email address and password."
 msgstr ""
 
-#: ../user/create_account_form.php:69
+#: ../user/create_account_form.php:62
 msgid ""
 "This account will belong to the team %1 and will have the project "
 "preferences of its founder."
@@ -2547,39 +2650,39 @@ msgstr ""
 "作成するアカウントは、チーム %1 "
 "に加わります。さらに、そのアカウントの持つプロジェクト・プレファレンス（好みの設定）は、そのチームの創設者のものと同じになります。"
 
-#: ../user/create_account_form.php:81
+#: ../user/create_account_form.php:74
 msgid "Invitation Code"
 msgstr "招待コード"
 
-#: ../user/create_account_form.php:81
+#: ../user/create_account_form.php:74
 msgid "A valid invitation code is required to create an account."
 msgstr "アカウントを作るには、正しい招待コードが必要です。"
 
-#: ../user/create_account_form.php:91
+#: ../user/create_account_form.php:84
 msgid "Email Address"
 msgstr "Eメイルアドレス"
 
-#: ../user/create_account_form.php:91
+#: ../user/create_account_form.php:84
 msgid "Must be a valid address of the form 'name@domain'."
 msgstr "有効なメイルアドレスを、「 name@domain 」の形で記入してください。"
 
-#: ../user/create_account_form.php:100 ../user/edit_email_form.php:48
+#: ../user/create_account_form.php:93 ../user/edit_email_form.php:49
 msgid "Password"
 msgstr "パスワード"
 
-#: ../user/create_account_form.php:101
+#: ../user/create_account_form.php:94
 msgid "Must be at least %1 characters"
 msgstr "少なくとも %s 文字はなければなりません。"
 
-#: ../user/create_account_form.php:104
+#: ../user/create_account_form.php:97
 msgid "Confirm password"
 msgstr "確認のためパスワードをもう一度"
 
-#: ../user/create_account_form.php:121
+#: ../user/create_account_form.php:114
 msgid "Please enter the words shown in the image"
 msgstr "画像の中の文字列を読み取って入力してください。"
 
-#: ../user/create_account_form.php:127
+#: ../user/create_account_form.php:120
 msgid "Create account"
 msgstr "アカウントを作成する"
 
@@ -2968,23 +3071,23 @@ msgid ""
 "again later."
 msgstr "データベースで問題が起こったため、あなたの Eメイルアドレスを更新できませんでした。時間を置いてからまた試してくださいませ。"
 
-#: ../user/edit_email_form.php:28 ../user/edit_email_form.php:52
+#: ../user/edit_email_form.php:29 ../user/edit_email_form.php:53
 msgid "Change email address"
 msgstr "Eメイルアドレスを変更する"
 
-#: ../user/edit_email_form.php:37
+#: ../user/edit_email_form.php:38
 msgid "Change the email address of your account"
 msgstr "あなたのアカウントの Eメイルアドレスを変更します"
 
-#: ../user/edit_email_form.php:38
+#: ../user/edit_email_form.php:39
 msgid "New email address"
 msgstr "新しい Eメイルアドレス"
 
-#: ../user/edit_email_form.php:39
+#: ../user/edit_email_form.php:40
 msgid "Must be a valid address of the form 'name@domain'"
 msgstr "有効な Eメイルアドレスを、name@domain の形で記入してください"
 
-#: ../user/edit_email_form.php:49
+#: ../user/edit_email_form.php:50
 msgid "No password?"
 msgstr "パスワードが見つからない場合はこちら"
 
@@ -3472,8 +3575,8 @@ msgstr "%1 についてお友達にメイルを送っていただき、ありが
 
 #: ../user/ffmail_action.php:94
 msgid ""
-"You forgot to enter your friends' names and/or email addresses; Please "
-"%1return to the form%2 and enter them."
+"You forgot to enter your friends' names and/or email addresses; Please %"
+"1return to the form%2 and enter them."
 msgstr "お友達の名前やEメイルアドレスを入力するのをお忘れです。%1 入力画面に戻って %2 入れなおしてください。"
 
 #: ../user/ffmail_form.php:31
@@ -3722,8 +3825,8 @@ msgstr "質問と答(Q&A)"
 
 #: ../user/forum_help_desk.php:30
 msgid ""
-"Talk live via Skype with a volunteer, in any of several languages. Go to "
-"%1BOINC Online Help%2."
+"Talk live via Skype with a volunteer, in any of several languages. Go to %"
+"1BOINC Online Help%2."
 msgstr "ボランティアとスカイプで直接話しましょう。複数の言語で利用できます。 %1 BOINC オンライン・ヘルプ%2 へどうぞ。"
 
 #: ../user/forum_help_desk.php:44 ../user/forum_index.php:92
@@ -3963,8 +4066,8 @@ msgstr ""
 "あなたの投稿内容は Akismet anti-spam "
 "システムからスパムの疑いがあると判定されました。テキストを編集しなおしてから、もう一度試してみてください。"
 
-#: ../user/forum_reply.php:88 ../user/forum_thread.php:156
-#: ../user/forum_thread.php:272
+#: ../user/forum_reply.php:88 ../user/forum_thread.php:158
+#: ../user/forum_thread.php:274
 msgid "Post to thread"
 msgstr "スレッドに投稿する"
 
@@ -4222,111 +4325,107 @@ msgstr "あなたはこの掲示板を見ることはできません。"
 msgid "This thread has been hidden by moderators."
 msgstr "司会者(モデレータ)によりこのスレッドは隠されています。"
 
-#: ../user/forum_thread.php:127
+#: ../user/forum_thread.php:128
 msgid "My question was answered"
 msgstr "私の質問は回答されました"
 
-#: ../user/forum_thread.php:128
+#: ../user/forum_thread.php:129
 msgid "Click here if your question has been adequately answered"
 msgstr "あなたの質問に適切な回答があったのなら、ここをクリックしてください。"
 
-#: ../user/forum_thread.php:136
+#: ../user/forum_thread.php:137
 msgid "I've also got this question"
 msgstr "私も同じ疑問をもっていた"
 
-#: ../user/forum_thread.php:157 ../user/forum_thread.php:273
+#: ../user/forum_thread.php:159 ../user/forum_thread.php:275
 msgid "Add a new message to this thread"
 msgstr "このスレッドに新しいメッセージを投稿"
 
 # Better translation welcome.
-#: ../user/forum_thread.php:169
+#: ../user/forum_thread.php:171
 msgid "Unsubscribe"
 msgstr "スレッドへの参加をやめる"
 
 # Better translation welcome.
-#: ../user/forum_thread.php:170
+#: ../user/forum_thread.php:172
 msgid "You are subscribed to this thread.  Click here to unsubscribe."
 msgstr "あなたはこのスレッドに参加しています。 抜けるにはここをクリック。"
 
 # Better translation welcome.
-#: ../user/forum_thread.php:176
+#: ../user/forum_thread.php:178
 msgid "Subscribe"
 msgstr "参加する"
 
-#: ../user/forum_thread.php:177
+#: ../user/forum_thread.php:179
 msgid "Click to get email when there are new posts in this thread"
 msgstr "このスレッドに新しい投稿があったとき、その旨のメイルを受けとりたければここをクリック"
 
-#: ../user/forum_thread.php:188
+#: ../user/forum_thread.php:190
 msgid "Unhide this thread"
 msgstr "このスレッドを見えるようにします"
 
-#: ../user/forum_thread.php:194
+#: ../user/forum_thread.php:196
 msgid "Hide this thread"
 msgstr "このスレッドを非表示状態にします"
 
-#: ../user/forum_thread.php:200
+#: ../user/forum_thread.php:202
 msgid "Make unsticky"
 msgstr "表示位置を固定しない"
 
-#: ../user/forum_thread.php:201
+#: ../user/forum_thread.php:203
 msgid "Make this thread not sticky"
 msgstr "このスレッドの表示位置をいつも一覧の先頭に寄せることをやめます"
 
-#: ../user/forum_thread.php:206
+#: ../user/forum_thread.php:208
 msgid "Make sticky"
 msgstr "表示位置を一覧の先頭へ固定"
 
-#: ../user/forum_thread.php:207
+#: ../user/forum_thread.php:209
 msgid "Make this thread sticky"
 msgstr "このスレッドの表示位置をいつも一覧の先頭に寄せます"
 
-#: ../user/forum_thread.php:213
+#: ../user/forum_thread.php:215
 msgid "Unlock"
 msgstr "書込み禁止をはずす"
 
-#: ../user/forum_thread.php:214
+#: ../user/forum_thread.php:216
 msgid "Unlock this thread"
 msgstr "このスレッドの書込み禁止をはずします"
 
-#: ../user/forum_thread.php:219
+#: ../user/forum_thread.php:221
 msgid "Lock"
 msgstr "書込み禁止にする"
 
-#: ../user/forum_thread.php:220
+#: ../user/forum_thread.php:222
 msgid "Lock this thread"
 msgstr "このスレッドを書込み禁止状態にします"
 
-#: ../user/forum_thread.php:227
+#: ../user/forum_thread.php:229
 msgid "Move this thread to a different forum"
 msgstr "このスレッドを別の掲示板に移動します"
 
-#: ../user/forum_thread.php:232
+#: ../user/forum_thread.php:234
 msgid "Edit title"
 msgstr "題名を編集する"
 
-#: ../user/forum_thread.php:233
+#: ../user/forum_thread.php:235
 msgid "Edit thread title"
 msgstr "スレッドの題名を編集します"
 
-#: ../user/forum_thread.php:243
+#: ../user/forum_thread.php:245
 #, fuzzy
 msgid "Export as Notice"
 msgstr "このニュースをお知らせとしてエクスポートする"
 
-#: ../user/forum_thread.php:244
-msgid "Export this news item as a Notice"
-msgstr "このニュースをお知らせとしてエクスポートする"
-
-#: ../user/forum_thread.php:249
+#: ../user/forum_thread.php:251
 msgid "Don't export"
 msgstr "エクスポートしない"
 
-#: ../user/forum_thread.php:250
+#: ../user/forum_thread.php:252
 msgid "Don't export this news item as a Notice"
 msgstr "このニュースをお知らせとしてエクスポートしない"
 
-#: ../user/forum_thread.php:258 ../user/forum_thread.php:260
+#: ../user/forum_thread.php:260 ../user/forum_thread.php:262
 msgid "Sort"
 msgstr "並べ替え"
 
@@ -4499,13 +4598,9 @@ msgstr "このアカウントで BOINC を走らせたことがあるなら、�
 
 #: ../user/get_passwd.php:50
 msgid ""
-"Go to the BOINC data directory on your computer (on Windows this is usually "
-"<b>C:\\Documents and Settings\\All Users\\Application Data\\BOINC</b> or "
-"<b>C:\\Program Files\\BOINC</b>."
+"Go to the BOINC data directory on your computer (its location is written to "
+"the Event Log at startup)."
 msgstr ""
-"BOINC のデータディレクトリをあなたのコンピュータの中から見つけてください。(Windows なら普通、<b>C:\\Documents and "
-"Settings\\All Users\\Application Data\\BOINC</b> あるいは、<b>C:\\Program "
-"Files\\BOINC</b> です。"
 
 #: ../user/get_passwd.php:51
 msgid "Find your account file for this project; it will be named <b>%1</b>."
@@ -4537,10 +4632,6 @@ msgstr "認証子(authenticator)を使いログインする"
 msgid "No GPU tasks reported"
 msgstr ""
 
-#: ../user/gpu_list.php:182 ../user/stats.php:33
-msgid "Top GPU models"
-msgstr ""
-
 #: ../user/gpu_list.php:183
 msgid ""
 "The following lists show the most productive GPU models on different "
@@ -4558,12 +4649,6 @@ msgstr "アカウントのプレファレンス(好みの設定）を確認・�
 #: ../user/home.php:46
 msgid "If you have not already done so, %1download BOINC client software%2."
 msgstr "まだダウンロードしていなければ、%1BOINC クライアント・ソフトウェアをダウンロード%2してください."
-
-# #######################################
-# "Your account" page (home.php)
-#: ../user/home.php:49 ../project.sample/project.inc:47
-msgid "Your account"
-msgstr "あなたのアカウント"
 
 #: ../user/host_app_versions.php:26
 msgid "nvidia GPU"
@@ -4773,12 +4858,6 @@ msgstr "画像。 高さは 450ピクセル以下。画像が置かれている�
 msgid "You can also use ampersand notation for special characters."
 msgstr "さらに、アンパーサンド記法を特殊文字のために使うこともできます。"
 
-# #######################################
-# Rules and Policies page (info.php)
-#: ../user/info.php:24 ../user/sample_index.php:74
-msgid "Read our rules and policies"
-msgstr "このプロジェクトの「規則と方針」を読んでください。"
-
 #: ../user/info.php:35
 msgid "Run %1 only on authorized computers"
 msgstr "%1 を実行するコンピュータは、あなたが権限を持っているものに限定してください。 "
@@ -4844,8 +4923,8 @@ msgstr ""
 #: ../user/info.php:45
 msgid ""
 "To participate in %1, you must give an address where you receive email. This "
-"address will not be shown on the %1 web site or shared with organizations. "
-"%1 may send you periodic newsletters; however, you can opt out at any time."
+"address will not be shown on the %1 web site or shared with organizations. %"
+"1 may send you periodic newsletters; however, you can opt out at any time."
 msgstr ""
 "%1 に参加するには、メイルを受信できるアドレスを提示しなければなりません。 このアドレスは、 %1 "
 "プロジェクトのウェブサイトで表示されることはなく、複数の組織間で共有されることもありません。 %1 "
@@ -4917,8 +4996,8 @@ msgstr "責務"
 #: ../user/info.php:54
 msgid ""
 "%1 and %2 assume no liability for damage to your computer, loss of data, or "
-"any other event or condition that may occur as a result of participating in "
-"%1."
+"any other event or condition that may occur as a result of participating in %"
+"1."
 msgstr ""
 "%1 に参加したことの結果として生じた、あなたのコンピュータの被害、データの消滅、 あるいはどんな事件や状況についても、 %1 と %2 "
 "は、なんら責任を負いません。"
@@ -4946,17 +5025,17 @@ msgstr ""
 "これらの他のプロジェクトは、%1 と共同で運営されているわけではありません。 ですから、それらプロジェクトのセキュリティ管理の実施ぐあいや、 "
 "研究内容の性質については、なんら私たちが保証できるものではありません。 あなた自身のリスクで参加してください。"
 
-#: ../user/language_select.php:44
+#: ../user/language_select.php:47
 msgid "Language selection"
 msgstr "言語の選択"
 
-#: ../user/language_select.php:70
+#: ../user/language_select.php:73
 msgid ""
 "This web site is available in several languages. The currently selected "
 "language is %1."
 msgstr "このウェブサイトは複数の言語で表示できます。現在、選択されている言語は、%1 です。"
 
-#: ../user/language_select.php:75
+#: ../user/language_select.php:78
 msgid ""
 "Normally the choice of language is determined by your browser's language "
 "setting, which is: %1.  You can change this setting using:"
@@ -4964,15 +5043,15 @@ msgstr ""
 "通常、このウェブサイトの表示に使う言語は あなたが使っているブラウザの言語設定から決まるようになっており、 それは現在 %1 です。 "
 "ブラウザの言語設定は、以下のようにして変更できます。"
 
-#: ../user/language_select.php:80
+#: ../user/language_select.php:83
 msgid "Firefox: Tools/Options/General"
 msgstr "Firefox: ツール（T）/オプション(O)/一般"
 
-#: ../user/language_select.php:82
+#: ../user/language_select.php:85
 msgid "Microsoft IE: Tools/Internet Options/Languages"
 msgstr "Microsoft Internet Explorer: ツール(T）/インターネット・オプション(O)/全般/言語(L)"
 
-#: ../user/language_select.php:86
+#: ../user/language_select.php:89
 msgid ""
 "Or you can select a language by clicking on one of the links.  This will "
 "send your browser a cookie; make sure your browser accepts cookies from our "
@@ -4982,41 +5061,41 @@ msgstr ""
 "言語を選択できます。この方法では、あなたのブラウザに「クッキー」が送られますので、 このウェブページのドメインからクッキーを受け入れられるように "
 "ブラウザを設定しておいてください。"
 
-#: ../user/language_select.php:92
+#: ../user/language_select.php:95
 msgid "Language name (click to select)"
 msgstr "言語名 (選択するものをクリックしてください)"
 
-#: ../user/language_select.php:94
+#: ../user/language_select.php:97
 msgid "Use browser language setting"
 msgstr "ブラウザの言語設定に従う"
 
-#: ../user/language_select.php:110
+#: ../user/language_select.php:113
 msgid ""
-"Translations are done by volunteers.  If your native language is not here, "
-"%1you can provide a translation%2."
+"Translations are done by volunteers.  If your native language is not here, %"
+"1you can provide a translation%2."
 msgstr "翻訳はボランティアの方々にしていただいています。 あなたの第一言語がここになければ、%1あなたも翻訳をすることができます%2。"
 
-#: ../user/login_form.php:52
+#: ../user/login_form.php:45
 msgid "Email address:"
 msgstr "Eメイルアドレス"
 
-#: ../user/login_form.php:52
+#: ../user/login_form.php:45
 msgid "forgot email address?"
 msgstr "Eメイルアドレスを忘れたときはこちらへ"
 
-#: ../user/login_form.php:54
+#: ../user/login_form.php:47
 msgid "Password:"
 msgstr "パスワード:"
 
-#: ../user/login_form.php:54
+#: ../user/login_form.php:47
 msgid "forgot password?"
 msgstr "パスワードを忘れたときはこちらへ"
 
-#: ../user/login_form.php:57
+#: ../user/login_form.php:50
 msgid "Stay logged in"
 msgstr "ログインしたままにする"
 
-#: ../user/login_form.php:63
+#: ../user/login_form.php:56
 msgid "or %1create an account%2."
 msgstr "または %1アカウントを作成する%2."
 
@@ -5102,25 +5181,29 @@ msgid ""
 msgstr ""
 
 #: ../user/pending.php:66
+msgid "Pending credit"
+msgstr "保留中の功績"
+
+#: ../user/pending.php:68
 msgid "Result ID"
 msgstr ""
 
-#: ../user/pending.php:66
+#: ../user/pending.php:68
 #, fuzzy
 msgid "Workunit ID"
 msgstr "ワークユニット"
 
-#: ../user/pending.php:66
+#: ../user/pending.php:68
 #, fuzzy
 msgid "Host ID"
 msgstr "計算機"
 
-#: ../user/pending.php:66
+#: ../user/pending.php:68
 #, fuzzy
 msgid "Claimed credit"
 msgstr "認められた功績値"
 
-#: ../user/pending.php:79
+#: ../user/pending.php:81
 #, fuzzy
 msgid "Pending credit: %1"
 msgstr "保留中の功績"
@@ -5234,7 +5317,7 @@ msgstr "この利用者からのメッセージを一旦遮断しても、 掲�
 msgid "No, cancel"
 msgstr "いいえ、やめます。"
 
-#: ../user/pm.php:260 ../user/team_admins.php:97
+#: ../user/pm.php:260 ../user/team_admins.php:98
 msgid "no such user"
 msgstr "該当する参加者はありません"
 
@@ -5297,10 +5380,6 @@ msgstr "プレファレンスを削除"
 msgid "Cancel"
 msgstr "キャンセル"
 
-#: ../user/profile_menu.php:35 ../user/sample_index.php:116
-msgid "Profiles"
-msgstr "自己紹介記事(プロファイル)"
-
 #: ../user/profile_menu.php:38
 msgid ""
 "%1Profiles%2 let individuals share backgrounds and opinions with the %3 "
@@ -5352,11 +5431,11 @@ msgstr "アルファベット順の自己紹介一覧："
 msgid "Search profile text"
 msgstr "自己紹介のテキストを検索"
 
-#: ../user/profile_menu.php:98
+#: ../user/profile_menu.php:99
 msgid "No profiles"
 msgstr "該当する自己紹介なし"
 
-#: ../user/profile_menu.php:99
+#: ../user/profile_menu.php:100
 msgid "No profiles matched your query."
 msgstr "検索条件に該当する自己紹介はありませんでした。"
 
@@ -5405,11 +5484,7 @@ msgstr "最近の平均功績値(クレジット)"
 msgid "No profiles found containing '%1'"
 msgstr "'%1' を含む自己紹介記事(プロファイル)はありません。"
 
-#: ../user/result.php:30
-msgid "No such task"
-msgstr "該当するタスクがありません。"
-
-#: ../user/result.php:32
+#: ../user/result.php:35
 msgid "Task %1"
 msgstr "タスク %1"
 
@@ -5429,161 +5504,153 @@ msgstr "アクセス禁止"
 msgid "Missing user ID or host ID"
 msgstr "参加者のID または計算機のIDが指定されていません"
 
-#: ../user/results.php:102
+#: ../user/results.php:107
 msgid "No tasks to display"
 msgstr "表示すべきタスクがありません"
 
-#: ../user/sample_index.php:180
-msgid "User of the day"
-msgstr "毎日の参加者紹介"
-
-#: ../user/server_status.php:91
+#: ../user/server_status.php:97
 msgid "Running"
 msgstr "実行中"
 
-#: ../user/server_status.php:94
+#: ../user/server_status.php:100
 msgid "Not Running"
 msgstr "停止状態"
 
-#: ../user/server_status.php:97
+#: ../user/server_status.php:103
 msgid "Disabled"
 msgstr "指示により停止"
 
-#: ../user/server_status.php:236
+#: ../user/server_status.php:246
 msgid "Project status"
 msgstr "プロジェクトの状態"
 
-#: ../user/server_status.php:238
+#: ../user/server_status.php:248
 msgid "Server software version: %1"
 msgstr "サーバソフトウェアの版: %1"
 
-#: ../user/server_status.php:244
-msgid "Server status"
-msgstr "サーバー側の状態"
-
-#: ../user/server_status.php:246
+#: ../user/server_status.php:256
 msgid "Program"
 msgstr "プログラム"
 
-#: ../user/server_status.php:246
+#: ../user/server_status.php:256
 msgid "Host"
 msgstr "計算機"
 
-#: ../user/server_status.php:257
+#: ../user/server_status.php:267
 msgid "data-driven web pages"
 msgstr "ウェブページへのデータ自動反映"
 
-#: ../user/server_status.php:263
+#: ../user/server_status.php:273
 msgid "upload/download server"
 msgstr "アップロード/ダウンロード用サーバー"
 
-#: ../user/server_status.php:266
+#: ../user/server_status.php:276
 msgid "scheduler"
 msgstr "スケジューラー"
 
-#: ../user/server_status.php:299
+#: ../user/server_status.php:309
 msgid "Running:"
 msgstr "実行中:"
 
-#: ../user/server_status.php:300
+#: ../user/server_status.php:310
 msgid "Program is operating normally"
 msgstr "プログラムは正常に動作しています"
 
-#: ../user/server_status.php:301
+#: ../user/server_status.php:311
 msgid "Not Running:"
 msgstr "停止状態:"
 
-#: ../user/server_status.php:302
+#: ../user/server_status.php:312
 msgid "Program failed or the project is down"
 msgstr "プログラムが異常終了したか、あるいは、このプロジェクトが止まっています"
 
-#: ../user/server_status.php:303
+#: ../user/server_status.php:313
 msgid "Disabled:"
 msgstr "指示により停止:"
 
-#: ../user/server_status.php:304
+#: ../user/server_status.php:314
 msgid "Program is disabled"
 msgstr "プログラムは停止させられています"
 
-#: ../user/server_status.php:308
+#: ../user/server_status.php:318
 msgid "Computing status"
 msgstr "計算の進捗状況"
 
-#: ../user/server_status.php:314
+#: ../user/server_status.php:324
 msgid "The database server is not accessible"
 msgstr "データベース サーバにアクセスできません"
 
-#: ../user/server_status.php:331
+#: ../user/server_status.php:341
 msgid "Tasks ready to send"
 msgstr "送信可能なタスク"
 
-#: ../user/server_status.php:336 ../user/workunit.php:55
+#: ../user/server_status.php:346 ../user/workunit.php:55
 msgid "Tasks in progress"
 msgstr "タスク 実行中"
 
-#: ../user/server_status.php:341
+#: ../user/server_status.php:351
 msgid "Workunits waiting for validation"
 msgstr "検証待ち状態のワークユニット"
 
-#: ../user/server_status.php:346
+#: ../user/server_status.php:356
 msgid "Workunits waiting for assimilation"
 msgstr "取り込み待ち状態のワークユニット"
 
-#: ../user/server_status.php:351
+#: ../user/server_status.php:361
 msgid "Workunits waiting for file deletion"
 msgstr "削除前のワークユニット"
 
-#: ../user/server_status.php:356
+#: ../user/server_status.php:366
 msgid "Tasks waiting for file deletion"
 msgstr "削除前のタスク"
 
-#: ../user/server_status.php:373
+#: ../user/server_status.php:383
 msgid "Transitioner backlog (hours)"
 msgstr "トランジショナーの残務(時間)"
 
-#: ../user/server_status.php:380
+#: ../user/server_status.php:390
 msgid "Users"
 msgstr "参加者"
 
-#: ../user/server_status.php:382 ../user/server_status.php:398
+#: ../user/server_status.php:393 ../user/server_status.php:411
 msgid "with recent credit"
 msgstr "最近、功績値(クレジット)を獲得した人数"
 
-#: ../user/server_status.php:387 ../user/server_status.php:403
+#: ../user/server_status.php:398 ../user/server_status.php:416
 msgid "with credit"
 msgstr "クレジット得たことのある人数"
 
-#: ../user/server_status.php:392 ../user/server_status.php:408
+#: ../user/server_status.php:403 ../user/server_status.php:421
 msgid "registered in past 24 hours"
 msgstr "24時間内に参加した人数"
 
-#: ../user/server_status.php:414
+#: ../user/server_status.php:427
 msgid "current GigaFLOPs"
 msgstr "現時点の GigaFLOPs"
 
-#: ../user/server_status.php:423
+#: ../user/server_status.php:436
 msgid "Tasks by application"
 msgstr "アプリケーションごとのタスク統計"
 
 # #######################################
 # Apps page (apps.php)
-#: ../user/server_status.php:426 ../user/workunit.php:40
+#: ../user/server_status.php:439 ../user/workunit.php:40
 msgid "application"
 msgstr "アプリケーション"
 
-#: ../user/server_status.php:427
+#: ../user/server_status.php:440
 msgid "unsent"
 msgstr "未送出"
 
-#: ../user/server_status.php:428
+#: ../user/server_status.php:441
 msgid "in progress"
 msgstr "計算中"
 
-#: ../user/server_status.php:429
+#: ../user/server_status.php:442
 msgid "avg runtime of last 100 results in h (min-max)"
 msgstr "最近100リザルトの平均計算所要時間/H、(最小値 - 最大値)"
 
-#: ../user/server_status.php:430
+#: ../user/server_status.php:443
 msgid "users in last 24h"
 msgstr "24時間内に計算結果を返した参加者数"
 
@@ -5598,20 +5665,6 @@ msgstr "統計データとリーダーボード"
 #: ../user/stats.php:28
 msgid "Statistics for %1"
 msgstr "%1 の統計データ"
-
-# #######################################
-# Various top table pages (top users, computers, teams)
-#: ../user/stats.php:30 ../user/top_users.php:116
-msgid "Top participants"
-msgstr "参加者のランキング"
-
-#: ../user/stats.php:31
-msgid "Top computers"
-msgstr "コンピュータのランキング"
-
-#: ../user/stats.php:32 ../user/team.php:46
-msgid "Top teams"
-msgstr "チームのランキング"
 
 #: ../user/stats.php:37
 msgid ""
@@ -5632,10 +5685,6 @@ msgid ""
 msgstr ""
 "さらに、すべての BOINC プロジェクトに渡って集計されたご自分の統計データを得ることが、 いくつかのサイトから可能です。 ご自分の%1ホームページ%"
 "2 をご覧ください。"
-
-#: ../user/team.php:25
-msgid "Teams"
-msgstr "チーム"
 
 #: ../user/team.php:27
 msgid "%1 participants may form %2teams%3."
@@ -5674,7 +5723,7 @@ msgstr "メンバーがいなければチームを解散すること"
 msgid "To join a team, visit its team page and click %1Join this team%2."
 msgstr "チームに参加するには、そのチームのページに行って、%1このチームに参加%2 をクリックします。"
 
-#: ../user/team.php:41 ../user/team_search.php:179
+#: ../user/team.php:41 ../user/team_search.php:180
 msgid "Find a team"
 msgstr "チームを検索"
 
@@ -5767,19 +5816,19 @@ msgstr "チームメンバーの Eメイルアドレス:"
 msgid "failed to remove admin"
 msgstr "チーム管理者の削除に失敗しました"
 
-#: ../user/team_admins.php:98
+#: ../user/team_admins.php:99
 msgid "User is not member of team"
 msgstr "その人はチームのメンバーではありません"
 
-#: ../user/team_admins.php:100
+#: ../user/team_admins.php:101
 msgid "%1 is already an admin of %2"
 msgstr "%1 はすでに %2 のチーム管理者です"
 
-#: ../user/team_admins.php:104
+#: ../user/team_admins.php:105
 msgid "Couldn't add admin"
 msgstr "チーム管理者を追加できませんでした"
 
-#: ../user/team_admins.php:110 ../user/team_manage.php:85
+#: ../user/team_admins.php:111 ../user/team_manage.php:85
 #: ../user/team_quit_form.php:30 ../user/team_remove_inactive_action.php:28
 msgid "No such team"
 msgstr "該当するチームはありません"
@@ -6210,8 +6259,8 @@ msgstr "100件を超える数のチームが見つかりました。最初の100
 
 #: ../user/team_lookup.php:104
 msgid ""
-"End of results. %1 If you cannot find the team you are looking for, you may "
-"%2create a team%3 yourself."
+"End of results. %1 If you cannot find the team you are looking for, you may %"
+"2create a team%3 yourself."
 msgstr "検索結果の末尾。%1 探しているチームを見つけることができなかったなら、 ご自身で %2チームを作る%3 こともできます。"
 
 #: ../user/team_manage.php:26
@@ -6318,11 +6367,11 @@ msgstr "メンバーのいるチームは削除できません"
 msgid "Team %1 deleted"
 msgstr "チーム %1 を削除しました"
 
-#: ../user/team_members.php:35
+#: ../user/team_members.php:36
 msgid "Limit exceeded:  Can only display the first 1000 members."
 msgstr "制限値を超過: 最初の1000メンバーのみ表示可能です。"
 
-#: ../user/team_members.php:47
+#: ../user/team_members.php:49
 msgid "Members of %1"
 msgstr "%1のメンバー一覧"
 
@@ -6420,17 +6469,17 @@ msgstr ""
 msgid "Change your search"
 msgstr "検索条件を変える"
 
-#: ../user/team_search.php:180
+#: ../user/team_search.php:181
 msgid ""
 "You can team up with other people with similar interests, or from the same "
 "country, company, or school."
 msgstr "チームは、似かよった興味を持った人、同じ国・会社・学校の人などと一緒になって結成することができます。"
 
-#: ../user/team_search.php:182
+#: ../user/team_search.php:183
 msgid "Use this form to find teams that might be right for you."
 msgstr "このフォームを使ってあなたに適切なチームを探してください。"
 
-#: ../user/team_search.php:187
+#: ../user/team_search.php:188
 msgid "%1I'm not interested%2 in joining a team right now."
 msgstr "今のところチームへの参加に%1私は興味がありません%2。"
 
@@ -6683,33 +6732,33 @@ msgstr "検証"
 msgid "Pending"
 msgstr "保留中"
 
-#: ../project.sample/project.inc:47
+#: ../project.sample/project.inc:43
 msgid "Main page"
 msgstr "入口のページ"
 
-#: ../project.sample/project.inc:49
+#: ../project.sample/project.inc:45
 msgid "Copyright"
 msgstr "Copyright"
 
-#: ../project.sample/project.inc:52
+#: ../project.sample/project.inc:48
 msgid "Generated"
 msgstr "生成日時"
 
-#: ../project.sample/project.inc:83
+#: ../project.sample/project.inc:79
 msgid "Your personal background."
 msgstr "あなたの経歴"
 
-#: ../project.sample/project.inc:87
+#: ../project.sample/project.inc:83
 msgid ""
 "Tell us about yourself. You could tell us where you're from, your age, "
 "occupation, hobbies, or anything else about yourself."
 msgstr "ご自身について書いてください。どこ出身であるかとか、年齢、職業、趣味ほか、何でもあなたに関することをどうぞ。"
 
-#: ../project.sample/project.inc:91
+#: ../project.sample/project.inc:87
 msgid "Your opinions about %1"
 msgstr "%1 についてのあなたのご意見"
 
-#: ../project.sample/project.inc:95
+#: ../project.sample/project.inc:91
 msgid ""
 "Tell us your thoughts about %1<ol>\n"
 "    <li>Why do you run %1?\n"
@@ -6744,6 +6793,29 @@ msgstr "選択したアプリケーションの仕事がないとき、他のア
 #: ../project.sample/project_specific_prefs.inc:91
 msgid "(all applications)"
 msgstr "(すべてのアプリケーション)"
+
+#~ msgid ""
+#~ "These apply to all BOINC projects in which you participate.<br>\n"
+#~ "             On computers participating in multiple projects, the most "
+#~ "recently modified preferences will be used."
+#~ msgstr ""
+#~ "これらは、あなたが参加するすべての BOINC プロジェクトに適用されます。<br>\n"
+#~ "複数のプロジェクトに参加しているコンピュータでは、一番最後に更新されたプレファレンスが適用されます。"
+
+#~ msgid "Export this news item as a Notice"
+#~ msgstr "このニュースをお知らせとしてエクスポートする"
+
+#~ msgid ""
+#~ "Go to the BOINC data directory on your computer (on Windows this is usually "
+#~ "<b>C:\\Documents and Settings\\All Users\\Application Data\\BOINC</b> or "
+#~ "<b>C:\\Program Files\\BOINC</b>."
+#~ msgstr ""
+#~ "BOINC のデータディレクトリをあなたのコンピュータの中から見つけてください。(Windows なら普通、<b>C:\\Documents and "
+#~ "Settings\\All Users\\Application Data\\BOINC</b> あるいは、<b>C:\\Program "
+#~ "Files\\BOINC</b> です。"
+
+#~ msgid "No such task"
+#~ msgstr "該当するタスクがありません。"
 
 #~ msgid ""
 #~ "Computer is connected to the Internet about every %1 Leave blank or 0 if "
