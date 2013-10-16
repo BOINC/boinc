@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-05 10:24-0700\n"
+"POT-Creation-Date: 2013-10-15 22:25-0700\n"
 "PO-Revision-Date: 2013-09-03 10:00+0000\n"
 "Last-Translator: Alfredo <alfredo.silva@sky.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,15 +18,15 @@ msgstr ""
 "X-Generator: Pootle 2.5.0\n"
 "X-POOTLE-MTIME: 1378202420.0\n"
 
-#: acct_mgr.cpp:448 acct_mgr.cpp:457
+#: acct_mgr.cpp:450 acct_mgr.cpp:459
 msgid "Message from account manager"
 msgstr "Mensagem do Gestor de Conta"
 
-#: client_msgs.cpp:85
+#: client_msgs.cpp:81
 msgid "Message from server"
 msgstr "Mensagem do Servidor "
 
-#: client_state.cpp:246
+#: client_state.cpp:258
 msgid ""
 "Some tasks need more memory than allowed by your preferences.  Please check "
 "the preferences."
@@ -34,17 +34,17 @@ msgstr ""
 "Algumas tarefas precisam de mais memória do que o definido nas suas "
 "preferências. Por favor, altere as suas preferências."
 
-#: client_state.cpp:501
+#: client_state.cpp:520
 msgid "Couldn't write state file; check directory permissions"
 msgstr ""
 "Não foi possível gravar o ficheiro de estado; verifique as permissões da "
 "pasta"
 
-#: cs_cmdline.cpp:299
+#: cs_cmdline.cpp:303
 msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
 msgstr "A variável de ambiente PROXY HTTP tem que especificar um proxy HTTP"
 
-#: cs_scheduler.cpp:575
+#: cs_scheduler.cpp:613
 #, c-format
 msgid ""
 "You used the wrong URL for this project.  When convenient, remove this "
@@ -53,39 +53,39 @@ msgstr ""
 "Usou o URL errado para este projecto. Assim que possível, remova este "
 "projecto e depois adicione %s"
 
-#: cs_statefile.cpp:829 ../sched/sched_types.cpp:259
+#: cs_statefile.cpp:828 ../sched/sched_types.cpp:259
 msgid "Syntax error in app_info.xml"
 msgstr "Erro de sintaxe no app_info.xml"
 
-#: cs_statefile.cpp:869
+#: cs_statefile.cpp:868
 msgid "File referenced in app_info.xml does not exist: "
 msgstr "Não existe o ficheiro referenciado no app_info.xml:"
 
-#: current_version.cpp:90
+#: current_version.cpp:91
 msgid "A new version of BOINC is available."
 msgstr "Está disponível uma versão mais recente do BOINC."
 
-#: current_version.cpp:94
+#: current_version.cpp:94 current_version.cpp:102
 msgid "Download"
 msgstr "Transferir"
 
-#: log_flags.cpp:259 log_flags.cpp:436
+#: log_flags.cpp:269 log_flags.cpp:449
 msgid "Unexpected text in cc_config.xml"
 msgstr "Texto inesperado no cc_config.xml"
 
-#: log_flags.cpp:410 log_flags.cpp:462
+#: log_flags.cpp:423 log_flags.cpp:475
 msgid "Unrecognized tag in cc_config.xml"
 msgstr "Tag não reconhecida no cc_config.xml"
 
-#: log_flags.cpp:427
+#: log_flags.cpp:440
 msgid "Missing start tag in cc_config.xml"
 msgstr "Tag inicial em falta no cc_config.xml"
 
-#: log_flags.cpp:452
+#: log_flags.cpp:465
 msgid "Error in cc_config.xml options"
 msgstr "Erro nas opções do cc_config.xml"
 
-#: log_flags.cpp:470
+#: log_flags.cpp:483
 msgid "Missing end tag in cc_config.xml"
 msgstr "Tag final em falta no cc_config.xml"
 
