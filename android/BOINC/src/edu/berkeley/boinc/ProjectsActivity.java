@@ -358,6 +358,8 @@ public class ProjectsActivity extends FragmentActivity {
 			return lastServerNotice;
 		}
 		
+		// handles onClick on list element, could be either project or account manager
+		// sets up dialog with controls
 		public final OnClickListener projectsListClickListener = new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -376,11 +378,12 @@ public class ProjectsActivity extends FragmentActivity {
 				if(isMgr) {
 					((TextView)dialogControls.findViewById(R.id.title)).setText(R.string.projects_control_dialog_title_acctmgr);
 					
-					controls.add(new ProjectControl(listEntry, ProjectControl.MGR_SYNC));
-					controls.add(new ProjectControl(listEntry, ProjectControl.MGR_DETACH));
+					controls.add(new ProjectControl(listEntry, RpcClient.MGR_SYNC));
+					controls.add(new ProjectControl(listEntry, RpcClient.MGR_DETACH));
 				} else {
 					((TextView)dialogControls.findViewById(R.id.title)).setText(R.string.projects_control_dialog_title);
 					
+					if(projectTransfers != null && !projectTransfers.isEmpty()) controls.add(new ProjectControl(listEntry, RpcClient.TRANSFER_RETRY));
 					controls.add(new ProjectControl(listEntry, RpcClient.PROJECT_UPDATE));
 					if(project.suspended_via_gui) controls.add(new ProjectControl(listEntry, RpcClient.PROJECT_RESUME));
 					else controls.add(new ProjectControl(listEntry, RpcClient.PROJECT_SUSPEND));
@@ -413,14 +416,13 @@ public class ProjectsActivity extends FragmentActivity {
 		public ProjectsListData data;
 		public Integer operation;
 		
-		public static final int MGR_DETACH = -1;
-		public static final int MGR_SYNC = -2;
-		
 		public ProjectControl(ProjectsListData data, Integer operation) {
 			this.operation = operation;
 			this.data = data;
 		}
 
+		// handles onClick on list element in control dialog
+		// might show confirmation dialog depending on operation type
 		public final OnClickListener projectCommandClickListener = new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -428,7 +430,7 @@ public class ProjectsActivity extends FragmentActivity {
 				//check whether command requires confirmation
 				if(operation == RpcClient.PROJECT_DETACH
 						|| operation == RpcClient.PROJECT_RESET
-						|| operation == ProjectControl.MGR_DETACH) {
+						|| operation == RpcClient.MGR_DETACH) {
 					final Dialog dialog = new Dialog(activity);
 					dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 					dialog.setContentView(R.layout.dialog_confirm);
@@ -447,7 +449,7 @@ public class ProjectsActivity extends FragmentActivity {
 						tvMessage.setText(getString(R.string.projects_confirm_reset_message) + " "
 								+ data.project.project_name + getString(R.string.projects_confirm_reset_message2));
 						confirm.setText(R.string.projects_confirm_reset_confirm);
-					} else if(operation == ProjectControl.MGR_DETACH) {
+					} else if(operation == RpcClient.MGR_DETACH) {
 						tvTitle.setText(R.string.projects_confirm_remove_acctmgr_title);
 						tvMessage.setText(getString(R.string.projects_confirm_remove_acctmgr_message) + " "
 								+ data.acctMgrInfo.acct_mgr_name + getString(R.string.projects_confirm_remove_acctmgr_message2));
@@ -478,6 +480,7 @@ public class ProjectsActivity extends FragmentActivity {
 		};
 	}
 	
+	// executes project operations in new thread
 	private final class ProjectOperationAsync extends AsyncTask<Object,Void,Boolean> {
 
 		@Override
@@ -495,16 +498,31 @@ public class ProjectsActivity extends FragmentActivity {
 				if(Logging.DEBUG) Log.d(Logging.TAG,"ProjectOperationAsync isMgr: " + data.isMgr + "url: " + data.id + " operation: " + operation + " monitor bound: " + mIsBound);
 	
 				if(mIsBound) {
-					if(data.isMgr) {
-						switch(operation) {
-						case ProjectControl.MGR_SYNC:
-							return monitor.synchronizeAcctMgr(data.acctMgrInfo.acct_mgr_url);
-						case ProjectControl.MGR_DETACH:
-							return monitor.addAcctMgr("", "", "").error_num == BOINCErrors.ERR_OK;
-						}
-						
-					} else {
+					switch (operation) {
+					// project operations
+					case RpcClient.PROJECT_UPDATE:
+					case RpcClient.PROJECT_SUSPEND:
+					case RpcClient.PROJECT_RESUME:
+					case RpcClient.PROJECT_NNW:
+					case RpcClient.PROJECT_ANW:
+					case RpcClient.PROJECT_DETACH:
+					case RpcClient.PROJECT_RESET:
 						return monitor.projectOperation(operation, data.id);
+						
+					// acct mgr operations
+					case RpcClient.MGR_SYNC:
+						return monitor.synchronizeAcctMgr(data.acctMgrInfo.acct_mgr_url);
+					case RpcClient.MGR_DETACH:
+						return monitor.addAcctMgr("", "", "").error_num == BOINCErrors.ERR_OK;
+						
+					// transfer operations
+					case RpcClient.TRANSFER_RETRY:
+						return monitor.transferOperation(data.projectTransfers, operation);
+					case RpcClient.TRANSFER_ABORT:
+						break;
+						
+					default:
+						if(Logging.ERROR) Log.e(Logging.TAG,"ProjectOperationAsync could not match operation: " + operation);
 					}
 				}
 				else return false;
