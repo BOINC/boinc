@@ -4,8 +4,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2013-10-15 22:21 PDT\n"
-"PO-Revision-Date: 2013-10-12 14:24+0000\n"
-"Last-Translator: Phil <roggstar.pr@googlemail.com>\n"
+"PO-Revision-Date: 2013-10-17 15:28+0000\n"
+"Last-Translator: Christian <djangofett@gmx.net>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-POOTLE-MTIME: 1381587859.0\n"
+"X-POOTLE-MTIME: 1382023711.0\n"
 
 #: projects.inc:14
 msgid "Distributed sensing"
@@ -768,7 +768,7 @@ msgstr "Diese Seite ist %sübersetzbar%s."
 
 #: download.php:44
 msgid "Download BOINC + Virtualbox"
-msgstr ""
+msgstr "BOINC und VirtualBox herunterladen"
 
 #: download.php:46 download.php:56
 #, php-format
@@ -824,9 +824,8 @@ msgid "Version history"
 msgstr "Versionshistorie"
 
 #: download.php:156
-#, fuzzy
 msgid "GPU computing"
-msgstr "helfen mittels Grafikkarten (GPUs)"
+msgstr "Grafikkarten-gestützte Berechnung (GPUs)"
 
 #: download.php:174
 msgid "BOINC: compute for science"
@@ -974,6 +973,7 @@ msgstr "Erweiterungen"
 msgid "Links"
 msgstr "Verweise"
 
+# Übersetzung nicht möglich weil sonst die Anzeige nicht richtig erfolgt!
 #: index.php:94 index2.php:94
 #, php-format
 msgid ""

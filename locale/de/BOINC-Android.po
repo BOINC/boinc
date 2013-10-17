@@ -6,8 +6,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+<<<<<<< HEAD
+"POT-Creation-Date: 2013-08-29 15:37-0700\n"
+"PO-Revision-Date: 2013-10-17 15:29+0000\n"
+=======
 "POT-Creation-Date: 2013-10-15 22:29-0700\n"
 "PO-Revision-Date: 2013-10-12 14:15+0000\n"
+>>>>>>> c80f373fde249b9926583fbb43c19f09e2b3ac1d
 "Last-Translator: Christian <djangofett@gmx.net>\n"
 "Language-Team: de <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=((n == 1) ? 0 : 1)\n"
@@ -15,6 +20,10 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 1.0dev\n"
+<<<<<<< HEAD
+"X-POOTLE-MTIME: 1382023783.0\n"
+=======
+>>>>>>> c80f373fde249b9926583fbb43c19f09e2b3ac1d
 
 #. app global
 msgctxt "app_name"
@@ -142,12 +151,10 @@ msgctxt "attachproject_login_header_creation_disabled"
 msgid "Project does currently now allow creation of new accounts!"
 msgstr "Das Projekt erlaubt zur Zeit keine neuen Konten!"
 
-#, fuzzy
 msgctxt "attachproject_login_button_registration"
 msgid "Register"
 msgstr "Registrieren"
 
-#, fuzzy
 msgctxt "attachproject_login_button_login"
 msgid "Sign in"
 msgstr "Anmelden"
@@ -568,12 +575,10 @@ msgctxt "prefs_cpu_other_load_suspension_header"
 msgid "Pause at CPU usage above"
 msgstr "Anhalten wenn Prozessornutzung über"
 
-#, fuzzy
 msgctxt "prefs_cpu_other_load_suspension_description"
 msgid "Determines when BOINC pauses computation due to other app's CPU usage."
 msgstr ""
-"Bestimmt wann BOINC angehalten wird, anhand der Prozessornutzung anderer "
-"Apps."
+"Bestimmt, wann BOINC aufgrund der CPU-Nutzung anderer Apps pausiert wird."
 
 msgctxt "prefs_cpu_time_max_header"
 msgid "CPU limit"
@@ -595,10 +600,9 @@ msgctxt "prefs_client_log_flags_header"
 msgid "BOINC Client log flags"
 msgstr "BOINC Client Protokolleinstellungen"
 
-#, fuzzy
 msgctxt "prefs_gui_log_level_header"
 msgid "GUI log level"
-msgstr "GUI Protokolllevel"
+msgstr "GUI Protokollierstufe"
 
 #, fuzzy
 msgctxt "prefs_gui_log_level_description"
@@ -623,7 +627,6 @@ msgid "°C"
 msgstr "°C"
 
 #. projects tab strings
-#, fuzzy
 msgctxt "projects_loading"
 msgid "Reading projects…"
 msgstr "Lade Projekte…"
@@ -916,10 +919,9 @@ msgctxt "confirm_abort_trans_title"
 msgid "Abort transfer?"
 msgstr "Übertragung abbrechen?"
 
-#, fuzzy
 msgctxt "confirm_abort_trans_message"
 msgid "Abort File:"
-msgstr "Datei:"
+msgstr "Abbruch-Datei:"
 
 msgctxt "confirm_abort_trans_confirm"
 msgid "Abort"

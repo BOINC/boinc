@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: BOINC Project (Generic) 6.x\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2013-10-15 22:23 PDT\n"
-"PO-Revision-Date: 2013-10-12 13:47+0000\n"
-"Last-Translator: Phil <roggstar.pr@googlemail.com>\n"
+"PO-Revision-Date: 2013-10-17 15:21+0000\n"
+"Last-Translator: Christian <djangofett@gmx.net>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -20,7 +20,7 @@ msgstr ""
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-SearchPath-0: html\\user\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
-"X-POOTLE-MTIME: 1381585654.0\n"
+"X-POOTLE-MTIME: 1382023269.0\n"
 
 # The name of this language in this language
 msgid "LANG_NAME_NATIVE"
@@ -555,7 +555,7 @@ msgstr "in der Schule"
 
 #: ../inc/host.inc:59
 msgid "Mobile"
-msgstr ""
+msgstr "Mobil"
 
 #: ../inc/host.inc:61 ../user/edit_forum_preferences_form.php:172
 #: ../user/edit_forum_preferences_form.php:173
@@ -588,7 +588,7 @@ msgstr "Domäne"
 
 #: ../inc/host.inc:98
 msgid "Product name"
-msgstr ""
+msgstr "Produktname"
 
 #: ../inc/host.inc:102
 msgid "Local Standard Time"
@@ -1216,7 +1216,7 @@ msgstr "Benutze Nvidia GPU %1 Unterstützt ab Version 6.10 %2"
 
 #: ../inc/prefs.inc:344
 msgid "Use Intel GPU %1 Enforced by version 7.0+ %2"
-msgstr ""
+msgstr "Benutze Intel GPU %1 Unterstützt ab Version 7.0 %2"
 
 #: ../inc/prefs.inc:358
 msgid ""
@@ -1341,17 +1341,19 @@ msgstr "%1 Einstellungen bearbeiten"
 
 #: ../inc/prefs.inc:885
 msgid "These apply to all BOINC projects in which you participate."
-msgstr ""
+msgstr "Diese gelten für alle BOINC Projekte an denen Sie teilnehmen."
 
 #: ../inc/prefs.inc:887
 msgid ""
 "On computers participating in multiple projects, the most recently modified "
 "preferences will be used."
 msgstr ""
+"Nimmt ein Rechner an mehreren Projekten teil, werden die neuesten "
+"Einstellungen verwendet."
 
 #: ../inc/prefs.inc:889
 msgid "These preferences do not apply to Android devices."
-msgstr ""
+msgstr "Diese Einstellungen gelten nicht für Android-Geräte."
 
 #: ../inc/prefs.inc:892
 msgid "Preferences last modified:"
@@ -1448,7 +1450,7 @@ msgstr "ATI Grafikkarte"
 
 #: ../inc/result.inc:57
 msgid "Intel GPU"
-msgstr ""
+msgstr "Intel Grafikkarte"
 
 #: ../inc/result.inc:65
 msgid "Not in DB"
@@ -1779,7 +1781,7 @@ msgstr "Status"
 
 #: ../inc/result.inc:747
 msgid "Task name:"
-msgstr ""
+msgstr "Aufgabenname:"
 
 #: ../inc/team.inc:40
 msgid "Search criteria (use one or more)"
@@ -2538,11 +2540,11 @@ msgstr ""
 
 #: ../user/bs_sample_index.php:44
 msgid "Participants"
-msgstr ""
+msgstr "Teilnehmer"
 
 #: ../user/bs_sample_index.php:46
 msgid "Do work"
-msgstr ""
+msgstr "Etwas tun"
 
 # ########################################
 # "Your account" page (home.php)
@@ -2553,7 +2555,7 @@ msgstr "Ihr Konto"
 
 #: ../user/bs_sample_index.php:47 ../user/bs_sample_index.php:50
 msgid "view stats, modify preferences"
-msgstr ""
+msgstr "Statistiken anschauen, Einstellungen verändern"
 
 #: ../user/bs_sample_index.php:48 ../user/bs_sample_index.php:53
 #: ../user/team.php:25
@@ -2562,7 +2564,7 @@ msgstr "Teams"
 
 #: ../user/bs_sample_index.php:48 ../user/bs_sample_index.php:53
 msgid "create or join a team"
-msgstr ""
+msgstr "ein Team erstellen oder beitreten"
 
 #: ../user/bs_sample_index.php:51 ../user/sample_index.php:180
 msgid "User of the day"
@@ -2579,11 +2581,11 @@ msgstr "Profile"
 
 #: ../user/bs_sample_index.php:61
 msgid "User search"
-msgstr ""
+msgstr "Benutzersuche"
 
 #: ../user/bs_sample_index.php:64
 msgid "Statistics"
-msgstr ""
+msgstr "Statistiken"
 
 # ########################################
 # Various top table pages (top users, computers, teams)
@@ -2607,7 +2609,7 @@ msgstr "Beste Grafikkarten"
 
 #: ../user/bs_sample_index.php:70
 msgid "Languages"
-msgstr ""
+msgstr "Sprachen"
 
 # ########################################
 # Rules and Policies page (info.php)
@@ -4763,6 +4765,8 @@ msgid ""
 "Go to the BOINC data directory on your computer (its location is written to "
 "the Event Log at startup)."
 msgstr ""
+"Navigieren Sie in das BOINC Datenverzeichnis auf Ihrem Computer (das "
+"Verzeichnis findet sich im Meldungsfenster nach dem Start)."
 
 #: ../user/get_passwd.php:51
 msgid "Find your account file for this project; it will be named <b>%1</b>."
