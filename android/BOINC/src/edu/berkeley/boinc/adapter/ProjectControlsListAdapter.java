@@ -102,6 +102,9 @@ public class ProjectControlsListAdapter extends ArrayAdapter<ProjectControl> {
     	case RpcClient.TRANSFER_RETRY:
         	text = activity.getResources().getString(R.string.trans_control_retry);
     		break;
+    	case ProjectControl.VISIT_WEBSITE:
+        	text = activity.getResources().getString(R.string.projects_control_visit_website);
+    		break;
     	}
     	
     	//set onclicklistener for expansion
