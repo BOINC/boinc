@@ -589,7 +589,6 @@ int diagnostics_cycle_logs() {
 
 // Diagnostics for POSIX Compatible systems.
 //
-
 #if HAVE_SIGNAL_H
 
 // Set a signal handler only if it is not currently ignored
@@ -600,7 +599,6 @@ extern "C" void boinc_set_signal_handler(int sig, handler_t handler) {
     sigaction(sig, NULL, &temp);
     if (temp.sa_handler != SIG_IGN) {
         temp.sa_handler = (void (*)(int))handler;
-    //        sigemptyset(&temp.sa_mask);
         sigaction(sig, &temp, NULL);
     }
 #else
@@ -620,7 +618,6 @@ void boinc_set_signal_handler_force(int sig, void(*handler)(int)) {
     struct sigaction temp;
     sigaction(sig, NULL, &temp);
     temp.sa_handler = handler;
-    //    sigemptyset(&temp.sa_mask);
     sigaction(sig, &temp, NULL);
 #else
     void (*temp)(int);
@@ -637,8 +634,6 @@ void set_signal_exit_code(int x) {
 }
 
 #ifdef ANDROID
-extern pthread_t timer_thread_handle;
-extern pthread_t worker_thread_handle;
 const char *argv0;
 
 static char *xtoa(size_t x) {
@@ -679,24 +674,6 @@ void boinc_catch_signal(int signal) {
         return;
     default: fprintf(stderr, "unknown signal %d\n", signal); break;
     }
-#ifdef ANDROID
-    // per-thread signal masking doesn't work
-    // on old (pre-4.1) versions of Android.
-    // If we're handling this signal in the timer thread,
-    // send signal explicitly to worker thread.
-    //
-    if (pthread_self() == timer_thread_handle) {
-        fprintf(stderr,"for worker thread sent to timer thread.  Reflecting.\n");
-        pthread_kill(worker_thread_handle, signal);
-#if defined(HAVE_SIGACTION)
-        sigset_t unblock;
-        sigemptyset(&unblock);
-        sigaddset(&unblock,signal);
-        sigprocmask(SIG_UNBLOCK,&unblock,NULL);
-#endif
-        return;
-    }
-#endif
 
 #ifdef __GLIBC__
     void *array[64];
