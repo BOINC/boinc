@@ -304,7 +304,7 @@ static void GetPreferredLanguages(char * pkgPath) {
     }
 
     // Create an array of all our supported languages
-    supportedLanguages = CFArrayCreateMutable(NULL, 100, NULL);
+    supportedLanguages = CFArrayCreateMutable(kCFAllocatorDefault, 100, &kCFTypeArrayCallBacks);
     
     aLanguage = CFStringCreateWithCString(NULL, "en", kCFStringEncodingMacRoman);
     CFArrayAppendValue(supportedLanguages, aLanguage);
@@ -341,6 +341,7 @@ static void GetPreferredLanguages(char * pkgPath) {
             *uscore = '\0';
             aLanguage = CFStringCreateWithCString(NULL, shortLanguage, kCFStringEncodingMacRoman);
             CFArrayAppendValue(supportedLanguages, aLanguage);
+            CFRelease(aLanguage);
             aLanguage = NULL;
         }
     }
