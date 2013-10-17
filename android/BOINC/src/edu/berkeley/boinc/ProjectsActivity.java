@@ -29,6 +29,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -377,12 +378,14 @@ public class ProjectsActivity extends FragmentActivity {
 				ArrayList<ProjectControl> controls = new ArrayList<ProjectControl>();
 				if(isMgr) {
 					((TextView)dialogControls.findViewById(R.id.title)).setText(R.string.projects_control_dialog_title_acctmgr);
-					
+
+					controls.add(new ProjectControl(listEntry, ProjectControl.VISIT_WEBSITE));
 					controls.add(new ProjectControl(listEntry, RpcClient.MGR_SYNC));
 					controls.add(new ProjectControl(listEntry, RpcClient.MGR_DETACH));
 				} else {
 					((TextView)dialogControls.findViewById(R.id.title)).setText(R.string.projects_control_dialog_title);
-					
+
+					controls.add(new ProjectControl(listEntry, ProjectControl.VISIT_WEBSITE));
 					if(projectTransfers != null && !projectTransfers.isEmpty()) controls.add(new ProjectControl(listEntry, RpcClient.TRANSFER_RETRY));
 					controls.add(new ProjectControl(listEntry, RpcClient.PROJECT_UPDATE));
 					if(project.suspended_via_gui) controls.add(new ProjectControl(listEntry, RpcClient.PROJECT_RESUME));
@@ -415,6 +418,9 @@ public class ProjectsActivity extends FragmentActivity {
 	public class ProjectControl {
 		public ProjectsListData data;
 		public Integer operation;
+		
+		// operation that do not imply an RPC are defined here
+		public static final int VISIT_WEBSITE = 100;
 		
 		public ProjectControl(ProjectsListData data, Integer operation) {
 			this.operation = operation;
@@ -472,7 +478,12 @@ public class ProjectsActivity extends FragmentActivity {
 						}
 					});
 					dialog.show();
-				} else { // command does not required confirmation
+				} else if(operation == ProjectControl.VISIT_WEBSITE) { // command does not require confirmation and is not rpc based
+					dialogControls.dismiss();
+		    		Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(data.id));
+		    		startActivity(i);
+				}
+				else { // command does not required confirmation, but is rpc based
 					new ProjectOperationAsync().execute(data, operation);
 					dialogControls.dismiss();
 				}
