@@ -6,7 +6,7 @@
 // if they differ, send email telling us to validate and commit
 // the new versions.
 
-$emails = "davea@ssl.berkeley.edu";
+$emails = "davea@ssl.berkeley.edu rwalton@ssl.berkeley.edu";
 $tdir = "locale/templates";
 
 system("cd doc; build_po.php");
