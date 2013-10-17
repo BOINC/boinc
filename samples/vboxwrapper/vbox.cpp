@@ -1004,7 +1004,7 @@ int VBOX_VM::register_vm() {
     command += "--add \"" + vm_disk_controller_type + "\" ";
     command += "--controller \"" + vm_disk_controller_model + "\" ";
     command += "--hostiocache off ";
-    if ((vm_disk_controller_type == "sata") || (vm_disk_controller_type == "SATA") {
+    if ((vm_disk_controller_type == "sata") || (vm_disk_controller_type == "SATA")) {
         command += "--sataportcount 1 ";
     }
 
