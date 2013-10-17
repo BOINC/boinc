@@ -1395,7 +1395,7 @@ static void GetPreferredLanguages() {
     FILE *f;
 
     // Create an array of all our supported languages
-    supportedLanguages = CFArrayCreateMutable(NULL, 100, NULL);
+    supportedLanguages = CFArrayCreateMutable(kCFAllocatorDefault, 100, &kCFTypeArrayCallBacks);
     
     aLanguage = CFStringCreateWithCString(NULL, "en", kCFStringEncodingMacRoman);
     CFArrayAppendValue(supportedLanguages, aLanguage);
