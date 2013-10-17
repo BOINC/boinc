@@ -63,7 +63,6 @@ generic_sources = \
     shmem.cpp \
     str_util.cpp \
     synch.cpp \
-	thread.cpp \
     unix_util.cpp \
     url.cpp \
     util.cpp
@@ -131,7 +130,6 @@ pkginclude_HEADERS = \
     stackwalker_imports.h \
     stackwalker_win.h \
     str_util.h \
-	thread.h \
     url.h \
     util.h \
     win_util.h \
@@ -158,7 +156,7 @@ libboinc_la_LIBADD =
 libboinc_crypt_la_SOURCES = crypt.cpp
 libboinc_crypt_la_CFLAGS = $(AM_CFLAGS) $(PICFLAGS) $(PTHREAD_CFLAGS) $(SSL_CFLAGS)
 libboinc_crypt_la_CXXFLAGS = $(AM_CXXFLAGS) $(PICFLAGS) $(PTHREAD_CFLAGS) $(SSL_CXXFLAGS)
-libboinc_crypt_la_LDFLAGS = -L$(libdir) -rpath $(libdir) -static -version-number $(LIBBOINC_VERSION) -lpthread
+libboinc_crypt_la_LDFLAGS = -L$(libdir) -rpath $(libdir) -static -version-number $(LIBBOINC_VERSION)
 libboinc_crypt_la_LIBADD =
 
 

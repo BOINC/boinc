@@ -943,10 +943,28 @@ int VBOX_VM::register_vm() {
         bool disable_acceleration = false;
 
         if (!strstr(aid.host_info.p_features, "vmx") && !strstr(aid.host_info.p_features, "svm")) {
+            fprintf(
+                stderr,
+                "%s Hardware acceleration CPU extensions not detected. Disabling VirtualBox hardware acceleration support.\n",
+                boinc_msg_prefix(buf, sizeof(buf))
+            );
+            disable_acceleration = true;
+        }
+        if (strstr(aid.host_info.p_features, "hypervisor")) {
+            fprintf(
+                stderr,
+                "%s Running under Hypervisor. Disabling VirtualBox hardware acceleration support.\n",
+                boinc_msg_prefix(buf, sizeof(buf))
+            );
             disable_acceleration = true;
         }
         if (is_client_version_newer(aid, 7, 2, 16)) {
             if (aid.vm_extensions_disabled) {
+                fprintf(
+                    stderr,
+                    "%s Hardware acceleration failed with previous execution. Disabling VirtualBox hardware acceleration support.\n",
+                    boinc_msg_prefix(buf, sizeof(buf))
+                );
                 disable_acceleration = true;
             }
         } else {
