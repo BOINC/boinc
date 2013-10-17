@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.4x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-10-15 22:26-0700\n"
-"PO-Revision-Date: 2013-09-01 12:52+0000\n"
+"PO-Revision-Date: 2013-10-17 15:14+0000\n"
 "Last-Translator: Christian <djangofett@gmx.net>\n"
 "Language-Team: BOINC.DE Team <webmaster@boinc.de>\n"
 "Language: de\n"
@@ -23,7 +23,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCGIT\\boinc\n"
-"X-POOTLE-MTIME: 1378039925.0\n"
+"X-POOTLE-MTIME: 1382022840.0\n"
 
 # 81%
 #: AccountInfoPage.cpp:387
@@ -144,16 +144,16 @@ msgstr "Kontoverwaltung benutzen"
 
 #: AccountInfoPage.cpp:585
 msgid "Please enter a user name."
-msgstr ""
+msgstr "Geben Sie bitte einen Benutzernamen ein."
 
 #: AccountInfoPage.cpp:587
 msgid "Please enter an email address."
-msgstr ""
+msgstr "Geben Sie bitte eine E-Mail-Adresse ein."
 
 #: AccountInfoPage.cpp:597
 #, c-format
 msgid "Please enter a password of at least %d characters."
-msgstr ""
+msgstr "Geben Sie bitte ein Passwort mit mindestens %d Zeichen ein."
 
 #: AccountInfoPage.cpp:608
 msgid ""
@@ -1025,6 +1025,9 @@ msgid ""
 "\n"
 "Click Finish to close."
 msgstr ""
+"Bitte versuchen Sie es später noch einmal.\n"
+"\n"
+"Klick auf Beenden zum Schließen."
 
 #: CompletionErrorPage.cpp:225 CompletionPage.cpp:222 CompletionPage.cpp:242
 #: CompletionPage.cpp:273
@@ -1378,7 +1381,7 @@ msgstr "Nutze auf Multiprozessorsystemen höchstens"
 #: DlgAdvPreferencesBase.cpp:346
 #, no-c-format
 msgid "% of the processors (0 means ignore this setting)"
-msgstr ""
+msgstr "% der Prozessoren (0 für keine Einschränkung)"
 
 #: DlgAdvPreferencesBase.cpp:349 DlgAdvPreferencesBase.cpp:604
 #: DlgAdvPreferencesBase.cpp:626 DlgAdvPreferencesBase.cpp:647
