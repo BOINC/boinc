@@ -987,32 +987,8 @@ public class Monitor extends Service {
 		rpc.readCcConfig();
 	}
     
-	public Boolean abortTransfer(String url, String name){
-		return rpc.transferOp(RpcClient.TRANSFER_ABORT, url, name);
-	}
-	
-	public void abortTransferAsync(String url, String name){
-		if(Logging.DEBUG) Log.d(Logging.TAG, "abortTransferAsync");
-		String[] param = new String[2];
-		param[0] = url;
-		param[1] = name;
-		(new TransferAbortAsync()).execute(param);
-	}
-    
 	public Boolean projectOperation(int operation, String url){
 		return rpc.projectOp(operation, url);
-	}
-    
-	public Boolean retryTransfer(String url, String name){
-		return rpc.transferOp(RpcClient.TRANSFER_RETRY, url, name);
-	}
-	
-	public void retryTransferAsync(String url, String name){
-		if(Logging.DEBUG) Log.d(Logging.TAG, "retryTransferAsync");
-		String[] param = new String[2];
-		param[0] = url;
-		param[1] = name;
-		(new TransferRetryAsync()).execute(param);
 	}
 
 	// executes specified operation on result
@@ -1021,8 +997,13 @@ public class Monitor extends Service {
 		return rpc.resultOp(operation, url, name);
 	}
 	
-	public Boolean transferOperation(String url, String name, int operation) {
-		return rpc.transferOp(operation, url, name);
+	public Boolean transferOperation(ArrayList<Transfer> transfers, int operation) {
+		Boolean success = true;
+		for (Transfer transfer: transfers) {
+			success = success && rpc.transferOp(operation, transfer.project_url, transfer.name);
+			if(Logging.DEBUG) Log.d(Logging.TAG, "transfer: " + transfer.name + " " + success);
+		}
+		return success;
 	}
 	
 	public AccountOut createAccount(String url, String email, String userName, String pwd, String teamName) {
@@ -1218,7 +1199,6 @@ public class Monitor extends Service {
 		return rpc.getNotices(0);
 	}
 	
-	
 	// returns notices sent by the project server / scheduler
 	// i.e. when scheduler request does not satisfy minimal requirements
 	public ArrayList<Notice> getServerNotices() {
@@ -1238,64 +1218,6 @@ public class Monitor extends Service {
 		@Override
 		public void run() {
 			updateStatus();
-		}
-	}
-
-	private final class TransferAbortAsync extends AsyncTask<String,String,Boolean> {
-		
-		private String url;
-		private String name;
-		
-		@Override
-		protected Boolean doInBackground(String... params) {
-			this.url = params[0];
-			this.name = params[0];
-			publishProgress("doInBackground() - TransferAbortAsync url: " + url + " Name: " + name);
-			
-			Boolean abort = rpc.transferOp(RpcClient.TRANSFER_ABORT, url, name);
-			if(abort) {
-				if(Logging.DEBUG) Log.d(Logging.TAG, "successful.");
-			}
-			return abort;
-		}
-		
-		@Override
-		protected void onPostExecute(Boolean success) {
-			forceRefresh();
-		}
-
-		@Override
-		protected void onProgressUpdate(String... arg0) {
-			if(Logging.DEBUG) Log.d(Logging.TAG, "onProgressUpdate - " + arg0[0]);
-		}
-	}
-
-	private final class TransferRetryAsync extends AsyncTask<String,String,Boolean> {
-		
-		private String url;
-		private String name;
-		
-		@Override
-		protected Boolean doInBackground(String... params) {
-			this.url = params[0];
-			this.name = params[1];
-			publishProgress("doInBackground() - TransferRetryAsync url: " + url + " Name: " + name);
-			
-			Boolean retry = rpc.transferOp(RpcClient.TRANSFER_RETRY, url, name);
-			if(retry) {
-				publishProgress("successful.");
-			}
-			return retry;
-		}
-		
-		@Override
-		protected void onPostExecute(Boolean success) {
-			forceRefresh();
-		}
-
-		@Override
-		protected void onProgressUpdate(String... arg0) {
-			if(Logging.DEBUG) Log.d(Logging.TAG, "onProgressUpdate - " + arg0[0]);
 		}
 	}
 	

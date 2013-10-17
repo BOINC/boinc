@@ -199,6 +199,7 @@
 	<string name="projects_status_backoff">Communication scheduled in:</string>
     	<!-- project controls -->
 	<string name="projects_control_dialog_title">Project commands:</string>
+	<string name="projects_control_visit_website">Visit website</string>
 	<string name="projects_control_update">Update</string>
 	<string name="projects_control_remove">Remove</string>
 	<string name="projects_control_suspend">Suspend</string>
@@ -263,6 +264,7 @@
 	<string name="trans_pending">pending</string>
 	<string name="trans_projectbackoff">project backoff</string>
 	<string name="trans_header_name">File:</string>
+	<string name="trans_control_retry">Retry transfers</string>
 										    
 	<string name="confirm_abort_trans_title">Abort transfer?</string>
 	<string name="confirm_abort_trans_message">Abort File:</string>

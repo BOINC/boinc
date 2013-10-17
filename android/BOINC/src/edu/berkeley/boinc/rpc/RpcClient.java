@@ -65,13 +65,16 @@ public class RpcClient {
 	public static final int PROJECT_DETACH	= 6;
 	public static final int PROJECT_RESET	= 7;
 
-	public static final int RESULT_SUSPEND  = 1;
-	public static final int RESULT_RESUME   = 2;
-	public static final int RESULT_ABORT    = 3;
+	public static final int RESULT_SUSPEND  = 10;
+	public static final int RESULT_RESUME   = 11;
+	public static final int RESULT_ABORT    = 12;
 
-	public static final int TRANSFER_RETRY  = 1;
-	public static final int TRANSFER_ABORT  = 2;
-
+	public static final int TRANSFER_RETRY  = 20;
+	public static final int TRANSFER_ABORT  = 21;
+	
+	public static final int MGR_DETACH = 30;
+	public static final int MGR_SYNC = 31;
+	
 	private Socket mSocket;
 	private OutputStreamWriter mOutput;
 	private InputStream mInput;

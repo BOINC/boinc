@@ -261,9 +261,14 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
 			    	activityStatus += activity.getResources().getString(R.string.trans_pending);
 			    	
 			    	if(nextRetryS > 0) { // next try at defined time
-			    		long retryInMs = nextRetryS * 1000;
-			    		activityExplanation += activity.getResources().getString(R.string.trans_retryin) + " " +
-			    			DateUtils.formatElapsedTime((retryInMs - Calendar.getInstance().getTimeInMillis()) / 1000);
+			    		long retryAtMs = nextRetryS * 1000;
+			    		long retryInMs = retryAtMs - Calendar.getInstance().getTimeInMillis();
+			    		if(retryInMs < 0) {}// timestamp in the past, write nothing
+			    		else {
+			    			activityExplanation += activity.getResources().getString(R.string.trans_retryin) + " " +
+					    			DateUtils.formatElapsedTime(retryInMs / 1000);
+			    		}
+			    		
 			    	}
 			    } else { // transfers active
 			    	activityStatus +=  activity.getResources().getString(R.string.trans_active);
