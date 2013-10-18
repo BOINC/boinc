@@ -25,3 +25,6 @@
 *.in
 /client/Makefile
 /win_build/installerv2/Progress
+/win_build/*.filters
+/win_build/boinc.sdf
+/win_build/boinc.opensdf

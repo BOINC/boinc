@@ -143,7 +143,7 @@ int process_input_files(SUBMIT_REQ& req, string& error_msg) {
     for (i=0; i<req.jobs.size(); i++) {
         JOB& job = req.jobs[i];
         for (j=0; j<job.infiles.size(); j++) {
-            INFILE infile = job.infiles[j];
+            INFILE& infile = job.infiles[j];
             unique_paths.insert(infile.src_path);
         }
     }
@@ -204,9 +204,9 @@ int process_input_files(SUBMIT_REQ& req, string& error_msg) {
     // fill in the physical file names in the submit request
     //
     for (unsigned int i=0; i<req.jobs.size(); i++) {
-        JOB job = req.jobs[i];
+        JOB& job = req.jobs[i];
         for (unsigned int j=0; j<job.infiles.size(); j++) {
-            INFILE infile = job.infiles[j];
+            INFILE& infile = job.infiles[j];
             map<string, LOCAL_FILE>::iterator iter = local_files.find(infile.src_path);
             LOCAL_FILE& lf = iter->second;
             sprintf(infile.physical_name, "jf_%s", lf.md5);
@@ -450,7 +450,7 @@ void handle_fetch_output(COMMAND& c) {
             sprintf(buf, "get_output_file()\\ returned\\ %d\\ ", retval);
             s = string(buf) + escape_str(error_msg);
         } else {
-            sprintf(buf, "cd %s; unzip temp.zip");
+            sprintf(buf, "cd %s; unzip temp.zip", req.dir);
             retval = system(buf);
             if (retval) {
                 s = string("unzip\\ failed");
