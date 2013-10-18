@@ -613,6 +613,7 @@ void add_old_result(RESULT& r) {
     strcpy(ores.result_name, r.name);
     strcpy(ores.app_name, r.app->name);
     ores.elapsed_time = r.final_elapsed_time;
+    ores.cpu_time = r.final_cpu_time;
     ores.completed_time = r.completed_time;
     ores.create_time = gstate.now;
     ores.exit_status = r.exit_status;
@@ -631,6 +632,7 @@ void print_old_results(MIOFILE& mf) {
             "         <app_name>%s</app_name>\n"
             "         <exit_status>%d</exit_status>\n"
             "         <elapsed_time>%f</elapsed_time>\n"
+            "         <cpu_time>%f</cpu_time>\n"
             "         <completed_time>%f</completed_time>\n"
             "         <create_time>%f</create_time>\n"
             "    </old_result>\n",
@@ -639,6 +641,7 @@ void print_old_results(MIOFILE& mf) {
             ores.app_name,
             ores.exit_status,
             ores.elapsed_time,
+            ores.cpu_time,
             ores.completed_time,
             ores.create_time
         );

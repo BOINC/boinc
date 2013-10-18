@@ -204,6 +204,7 @@ struct OLD_RESULT {
     char app_name[256];
     int exit_status;
     double elapsed_time;
+    double cpu_time;
     double completed_time;
     double create_time;     // when this record was created
 };
