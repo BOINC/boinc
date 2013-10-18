@@ -973,7 +973,6 @@ msgstr "Erweiterungen"
 msgid "Links"
 msgstr "Verweise"
 
-# Übersetzung nicht möglich weil sonst die Anzeige nicht richtig erfolgt!
 #: index.php:94 index2.php:94
 #, php-format
 msgid ""
