@@ -90,6 +90,7 @@ int OLD_RESULT::parse(XML_PARSER& xp) {
         if (xp.parse_str("app_name", app_name, sizeof(app_name))) continue;
         if (xp.parse_int("exit_status", exit_status)) continue;
         if (xp.parse_double("elapsed_time", elapsed_time)) continue;
+        if (xp.parse_double("cpu_time", cpu_time)) continue;
         if (xp.parse_double("completed_time", completed_time)) continue;
         if (xp.parse_double("create_time", create_time)) continue;
     }
