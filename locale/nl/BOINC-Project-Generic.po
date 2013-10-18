@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2013-10-15 22:23 PDT\n"
-"PO-Revision-Date: 2013-06-16 13:57+0200\n"
+"PO-Revision-Date: 2013-10-18 16:53+0000\n"
 "Last-Translator: Rene <oskamjr@ziggo.nl>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: nl\n"
@@ -15,11 +15,12 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 2.1.6\n"
+"X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-SearchPath-0: html\\user\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
+"X-POOTLE-MTIME: 1382115223.0\n"
 
 msgid "LANG_NAME_NATIVE"
 msgstr "Nederlands"
@@ -538,7 +539,7 @@ msgstr "School"
 
 #: ../inc/host.inc:59
 msgid "Mobile"
-msgstr ""
+msgstr "Mobiel"
 
 #: ../inc/host.inc:61 ../user/edit_forum_preferences_form.php:172
 #: ../user/edit_forum_preferences_form.php:173
@@ -571,7 +572,7 @@ msgstr "Domein naam"
 
 #: ../inc/host.inc:98
 msgid "Product name"
-msgstr ""
+msgstr "Product naam"
 
 #: ../inc/host.inc:102
 msgid "Local Standard Time"
@@ -1191,7 +1192,7 @@ msgstr "Gebruik NVIDIA GPU %1 Instelbaar vanaf 6.10+ %2"
 
 #: ../inc/prefs.inc:344
 msgid "Use Intel GPU %1 Enforced by version 7.0+ %2"
-msgstr ""
+msgstr "Gebruik Intel GPU %1 Instelbaar vanaf 7.0+ %2"
 
 #: ../inc/prefs.inc:358
 msgid ""
@@ -1313,17 +1314,19 @@ msgstr "Pas voorkeuren voor %1 aan"
 
 #: ../inc/prefs.inc:885
 msgid "These apply to all BOINC projects in which you participate."
-msgstr ""
+msgstr "Dit heeft betrekking op alle projecten waar je aan mee doet."
 
 #: ../inc/prefs.inc:887
 msgid ""
 "On computers participating in multiple projects, the most recently modified "
 "preferences will be used."
 msgstr ""
+"Op computers met meerdere projecten, worden de meest recent aangepaste "
+"voorkeuren gebruikt."
 
 #: ../inc/prefs.inc:889
 msgid "These preferences do not apply to Android devices."
-msgstr ""
+msgstr "Deze instellingen gelden niet voor Android apparaten."
 
 #: ../inc/prefs.inc:892
 msgid "Preferences last modified:"
@@ -1420,7 +1423,7 @@ msgstr "ATI GPU"
 
 #: ../inc/result.inc:57
 msgid "Intel GPU"
-msgstr ""
+msgstr "Intel GPU"
 
 #: ../inc/result.inc:65
 msgid "Not in DB"
@@ -1749,7 +1752,7 @@ msgstr "Status"
 
 #: ../inc/result.inc:747
 msgid "Task name:"
-msgstr ""
+msgstr "Taaknaam:"
 
 #: ../inc/team.inc:40
 msgid "Search criteria (use one or more)"
@@ -2491,11 +2494,11 @@ msgstr ""
 
 #: ../user/bs_sample_index.php:44
 msgid "Participants"
-msgstr ""
+msgstr "Deelnemers"
 
 #: ../user/bs_sample_index.php:46
 msgid "Do work"
-msgstr ""
+msgstr "Werk doen"
 
 #: ../user/bs_sample_index.php:47 ../user/bs_sample_index.php:50
 #: ../user/home.php:49 ../project.sample/project.inc:43
@@ -2504,7 +2507,7 @@ msgstr "Mijn account"
 
 #: ../user/bs_sample_index.php:47 ../user/bs_sample_index.php:50
 msgid "view stats, modify preferences"
-msgstr ""
+msgstr "bekijk statistieken, pas voorkeuren aan"
 
 #: ../user/bs_sample_index.php:48 ../user/bs_sample_index.php:53
 #: ../user/team.php:25
@@ -2513,7 +2516,7 @@ msgstr "Teams"
 
 #: ../user/bs_sample_index.php:48 ../user/bs_sample_index.php:53
 msgid "create or join a team"
-msgstr ""
+msgstr "vorm of neem deel aan een team"
 
 #: ../user/bs_sample_index.php:51 ../user/sample_index.php:180
 msgid "User of the day"
@@ -2530,11 +2533,11 @@ msgstr "Profielen"
 
 #: ../user/bs_sample_index.php:61
 msgid "User search"
-msgstr ""
+msgstr "Zoek gebruiker"
 
 #: ../user/bs_sample_index.php:64
 msgid "Statistics"
-msgstr ""
+msgstr "Statistieken"
 
 #: ../user/bs_sample_index.php:65 ../user/stats.php:30
 #: ../user/top_users.php:116
@@ -2556,7 +2559,7 @@ msgstr "Top GPU modellen"
 
 #: ../user/bs_sample_index.php:70
 msgid "Languages"
-msgstr ""
+msgstr "Talen"
 
 #: ../user/bs_sample_index.php:149 ../user/info.php:24
 #: ../user/sample_index.php:74
@@ -4683,6 +4686,8 @@ msgid ""
 "Go to the BOINC data directory on your computer (its location is written to "
 "the Event Log at startup)."
 msgstr ""
+"Ga naar de data map van BOINC (de locatie staat beschreven in de opstart "
+"berichten)."
 
 #: ../user/get_passwd.php:51
 msgid "Find your account file for this project; it will be named <b>%1</b>."
