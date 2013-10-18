@@ -209,7 +209,7 @@ int PROJECT::parse_state(XML_PARSER& xp) {
         }
         if (xp.parse_int("nrpc_failures", nrpc_failures)) continue;
         if (xp.parse_int("master_fetch_failures", master_fetch_failures)) continue;
-        if (xp.parse_double("min_rpc_time", min_rpc_time)) continue;
+        //if (xp.parse_double("min_rpc_time", min_rpc_time)) continue;
         if (xp.parse_bool("master_url_fetch_pending", master_url_fetch_pending)) continue;
         if (xp.parse_int("sched_rpc_pending", sched_rpc_pending)) continue;
         if (xp.parse_double("next_rpc_time", next_rpc_time)) continue;
