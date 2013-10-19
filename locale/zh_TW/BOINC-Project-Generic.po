@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2013-10-15 22:23 PDT\n"
-"PO-Revision-Date: 2013-08-30 23:53+0000\n"
+"PO-Revision-Date: 2013-10-19 05:51+0000\n"
 "Last-Translator: 宇謙 <df910105@yahoo.com.tw>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: zh_TW\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-POOTLE-MTIME: 1377906805.0\n"
+"X-POOTLE-MTIME: 1382161901.0\n"
 
 msgid "LANG_NAME_NATIVE"
 msgstr "繁體中文（台灣）"
@@ -522,7 +522,7 @@ msgstr "學校"
 
 #: ../inc/host.inc:59
 msgid "Mobile"
-msgstr ""
+msgstr "行動"
 
 #: ../inc/host.inc:61 ../user/edit_forum_preferences_form.php:172
 #: ../user/edit_forum_preferences_form.php:173
@@ -555,7 +555,7 @@ msgstr "網域名稱"
 
 #: ../inc/host.inc:98
 msgid "Product name"
-msgstr ""
+msgstr "產品名稱"
 
 #: ../inc/host.inc:102
 msgid "Local Standard Time"
@@ -1151,7 +1151,7 @@ msgstr "使用 NVIDIA GPU%16.10 之後的版本有了此設定%2"
 
 #: ../inc/prefs.inc:344
 msgid "Use Intel GPU %1 Enforced by version 7.0+ %2"
-msgstr ""
+msgstr "使用 Intel GPU%17.0 之後的版本有了此設定%2"
 
 #: ../inc/prefs.inc:358
 msgid ""
@@ -1266,7 +1266,7 @@ msgstr "編輯 %1 的偏好設定"
 
 #: ../inc/prefs.inc:885
 msgid "These apply to all BOINC projects in which you participate."
-msgstr ""
+msgstr "這適用於所有您參與的 BOINC 專案。"
 
 #: ../inc/prefs.inc:887
 msgid ""
@@ -1276,7 +1276,7 @@ msgstr ""
 
 #: ../inc/prefs.inc:889
 msgid "These preferences do not apply to Android devices."
-msgstr ""
+msgstr "這些偏好設定不適用於 Android 裝置。"
 
 #: ../inc/prefs.inc:892
 msgid "Preferences last modified:"
@@ -1366,7 +1366,7 @@ msgstr "ATI GPU"
 
 #: ../inc/result.inc:57
 msgid "Intel GPU"
-msgstr ""
+msgstr "Intel GPU"
 
 #: ../inc/result.inc:65
 msgid "Not in DB"
@@ -1695,7 +1695,7 @@ msgstr "狀態"
 
 #: ../inc/result.inc:747
 msgid "Task name:"
-msgstr ""
+msgstr "任務名稱:"
 
 #: ../inc/team.inc:40
 msgid "Search criteria (use one or more)"
@@ -2418,7 +2418,7 @@ msgstr ""
 
 #: ../user/bs_sample_index.php:44
 msgid "Participants"
-msgstr ""
+msgstr "參與者"
 
 #: ../user/bs_sample_index.php:46
 msgid "Do work"
@@ -2431,7 +2431,7 @@ msgstr "您的帳號"
 
 #: ../user/bs_sample_index.php:47 ../user/bs_sample_index.php:50
 msgid "view stats, modify preferences"
-msgstr ""
+msgstr "查看統計資料,修改偏好設定"
 
 #: ../user/bs_sample_index.php:48 ../user/bs_sample_index.php:53
 #: ../user/team.php:25
@@ -2440,7 +2440,7 @@ msgstr "團隊"
 
 #: ../user/bs_sample_index.php:48 ../user/bs_sample_index.php:53
 msgid "create or join a team"
-msgstr ""
+msgstr "建立或加入一個團隊"
 
 #: ../user/bs_sample_index.php:51 ../user/sample_index.php:180
 msgid "User of the day"
@@ -2457,11 +2457,11 @@ msgstr "用戶檔案"
 
 #: ../user/bs_sample_index.php:61
 msgid "User search"
-msgstr ""
+msgstr "搜尋使用者"
 
 #: ../user/bs_sample_index.php:64
 msgid "Statistics"
-msgstr ""
+msgstr "統計"
 
 #: ../user/bs_sample_index.php:65 ../user/stats.php:30
 #: ../user/top_users.php:116
@@ -2483,7 +2483,7 @@ msgstr "GPU 型號排名"
 
 #: ../user/bs_sample_index.php:70
 msgid "Languages"
-msgstr ""
+msgstr "語言"
 
 #: ../user/bs_sample_index.php:149 ../user/info.php:24
 #: ../user/sample_index.php:74
