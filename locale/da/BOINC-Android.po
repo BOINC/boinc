@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-08-29 15:37-0700\n"
+"POT-Creation-Date: 2013-10-18 00:00-0700\n"
 "PO-Revision-Date: 2013-10-12 18:57+0000\n"
 "Last-Translator: pryds <thomas@pryds.eu>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -50,6 +50,10 @@ msgstr "Tilføj projekt"
 msgctxt "attachproject_list_manual_no_url"
 msgid "Please enter project URL"
 msgstr "Indtast venligst projekt-URL"
+
+msgctxt "attachproject_list_acctmgr_button"
+msgid "Add account manager"
+msgstr ""
 
 msgctxt "attachproject_list_no_internet"
 msgid "No Internet connection"
@@ -193,6 +197,31 @@ msgctxt "attachproject_registration_button"
 msgid "Create"
 msgstr "Opret"
 
+#. account manager
+msgctxt "attachproject_acctmgr_header"
+msgid "Add account manager"
+msgstr ""
+
+msgctxt "attachproject_acctmgr_header_url"
+msgid "URL"
+msgstr ""
+
+msgctxt "attachproject_acctmgr_header_name"
+msgid "User:"
+msgstr ""
+
+msgctxt "attachproject_acctmgr_header_pwd"
+msgid "Password:"
+msgstr ""
+
+msgctxt "attachproject_acctmgr_header_pwd_confirm"
+msgid "… Retype:"
+msgstr ""
+
+msgctxt "attachproject_acctmgr_button"
+msgid "Add"
+msgstr ""
+
 #. error strings
 msgctxt "attachproject_error_wrong_name"
 msgid "User not found"
@@ -209,6 +238,10 @@ msgstr "Forbindelsesfejl"
 msgctxt "attachproject_error_pwd_no_match"
 msgid "Passwords do not match"
 msgstr "Kodeord passer ikke sammen"
+
+msgctxt "attachproject_error_no_url"
+msgid "Please enter URL"
+msgstr ""
 
 msgctxt "attachproject_error_no_email"
 msgid "Please enter eMail address"
@@ -249,6 +282,10 @@ msgstr "Kodeord afvist"
 msgctxt "attachproject_error_creation_disabled"
 msgid "Account creation is disabled on this project"
 msgstr "Oprettelse af konti er slået fra for dette projekt"
+
+msgctxt "attachproject_error_invalid_url"
+msgid "Invalid URL"
+msgstr ""
 
 #. working activity
 msgctxt "attachproject_working_back_button"
@@ -295,6 +332,14 @@ msgctxt "attachproject_working_login"
 msgid "Log in"
 msgstr "Log ind"
 
+msgctxt "attachproject_working_acctmgr"
+msgid "Add account manager"
+msgstr ""
+
+msgctxt "attachproject_working_acctmgr_sync"
+msgid "Synchronize"
+msgstr ""
+
 #. main activity
 msgctxt "main_noproject_warning"
 msgid "Tab here to choose a project."
@@ -336,6 +381,10 @@ msgstr "Overførsler"
 msgctxt "tab_preferences"
 msgid "Preferences"
 msgstr "Indstillinger"
+
+msgctxt "tab_notices"
+msgid "Notices"
+msgstr ""
 
 msgctxt "tab_desc"
 msgid "Navigation"
@@ -625,6 +674,10 @@ msgctxt "projects_control_dialog_title"
 msgid "Project commands:"
 msgstr "Projektkommandoer:"
 
+msgctxt "projects_control_visit_website"
+msgid "Visit website"
+msgstr ""
+
 msgctxt "projects_control_update"
 msgid "Update"
 msgstr "Opdatér"
@@ -652,6 +705,18 @@ msgstr "Tillad nye opgaver"
 msgctxt "projects_control_reset"
 msgid "Reset"
 msgstr "Nulstil"
+
+msgctxt "projects_control_dialog_title_acctmgr"
+msgid "Account manager commands:"
+msgstr ""
+
+msgctxt "projects_control_sync_acctmgr"
+msgid "Synchronize"
+msgstr ""
+
+msgctxt "projects_control_remove_acctmgr"
+msgid "Disable"
+msgstr ""
 
 #. project confirm dialog
 msgctxt "projects_confirm_detach_title"
@@ -681,6 +746,18 @@ msgstr "Er du sikker på, at du vil nulstille"
 msgctxt "projects_confirm_reset_confirm"
 msgid "Reset"
 msgstr "Nulstil"
+
+msgctxt "projects_confirm_remove_acctmgr_title"
+msgid "Disable account manager"
+msgstr ""
+
+msgctxt "projects_confirm_remove_acctmgr_message"
+msgid "Are you sure you want to stop using"
+msgstr ""
+
+msgctxt "projects_confirm_remove_acctmgr_confirm"
+msgid "Disable"
+msgstr ""
 
 #. tasks tab strings
 msgctxt "tasks_header_name"
@@ -825,6 +902,10 @@ msgctxt "trans_header_name"
 msgid "File:"
 msgstr "Fil:"
 
+msgctxt "trans_control_retry"
+msgid "Retry transfers"
+msgstr ""
+
 msgctxt "confirm_abort_trans_title"
 msgid "Abort transfer?"
 msgstr "Afbryd overførsel?"
@@ -836,6 +917,11 @@ msgstr "Afbryd fil:"
 msgctxt "confirm_abort_trans_confirm"
 msgid "Abort"
 msgstr "Afbryd"
+
+#. notices tab strings
+msgctxt "notices_loading"
+msgid "Reading notices…"
+msgstr ""
 
 #. eventlog tab strings
 msgctxt "eventlog_loading"
