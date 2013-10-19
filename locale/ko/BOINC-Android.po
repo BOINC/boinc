@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC 7.2.x\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-08-29 15:37-0700\n"
+"POT-Creation-Date: 2013-10-18 00:00-0700\n"
 "PO-Revision-Date: 2013-09-01 09:08+0900\n"
 "Last-Translator: Lee Kangsan <treppolse@gmail.com>\n"
 "Language-Team: SETIKAH@HOME\n"
@@ -49,6 +49,10 @@ msgstr "프로젝트 추가"
 msgctxt "attachproject_list_manual_no_url"
 msgid "Please enter project URL"
 msgstr "프로젝트 URL를 입력하세요"
+
+msgctxt "attachproject_list_acctmgr_button"
+msgid "Add account manager"
+msgstr ""
 
 msgctxt "attachproject_list_no_internet"
 msgid "No Internet connection"
@@ -190,6 +194,31 @@ msgctxt "attachproject_registration_button"
 msgid "Create"
 msgstr "생성"
 
+#. account manager
+msgctxt "attachproject_acctmgr_header"
+msgid "Add account manager"
+msgstr ""
+
+msgctxt "attachproject_acctmgr_header_url"
+msgid "URL"
+msgstr ""
+
+msgctxt "attachproject_acctmgr_header_name"
+msgid "User:"
+msgstr ""
+
+msgctxt "attachproject_acctmgr_header_pwd"
+msgid "Password:"
+msgstr ""
+
+msgctxt "attachproject_acctmgr_header_pwd_confirm"
+msgid "… Retype:"
+msgstr ""
+
+msgctxt "attachproject_acctmgr_button"
+msgid "Add"
+msgstr ""
+
 #. error strings
 msgctxt "attachproject_error_wrong_name"
 msgid "User not found"
@@ -206,6 +235,10 @@ msgstr "연결 실패"
 msgctxt "attachproject_error_pwd_no_match"
 msgid "Passwords do not match"
 msgstr "비밀번호가 일치하지 않습니다"
+
+msgctxt "attachproject_error_no_url"
+msgid "Please enter URL"
+msgstr ""
 
 msgctxt "attachproject_error_no_email"
 msgid "Please enter eMail address"
@@ -246,6 +279,10 @@ msgstr "비밀번호가 틀립니다"
 msgctxt "attachproject_error_creation_disabled"
 msgid "Account creation is disabled on this project"
 msgstr "이 프로젝트는 계정 생성을 할 수 없습니다"
+
+msgctxt "attachproject_error_invalid_url"
+msgid "Invalid URL"
+msgstr ""
 
 #. working activity
 msgctxt "attachproject_working_back_button"
@@ -292,6 +329,14 @@ msgctxt "attachproject_working_login"
 msgid "Log in"
 msgstr "로그인"
 
+msgctxt "attachproject_working_acctmgr"
+msgid "Add account manager"
+msgstr ""
+
+msgctxt "attachproject_working_acctmgr_sync"
+msgid "Synchronize"
+msgstr ""
+
 #. main activity
 msgctxt "main_noproject_warning"
 msgid "Tab here to choose a project."
@@ -333,6 +378,10 @@ msgstr "전송"
 msgctxt "tab_preferences"
 msgid "Preferences"
 msgstr "환경 설정"
+
+msgctxt "tab_notices"
+msgid "Notices"
+msgstr ""
 
 msgctxt "tab_desc"
 msgid "Navigation"
@@ -618,6 +667,10 @@ msgctxt "projects_control_dialog_title"
 msgid "Project commands:"
 msgstr "프로젝트 명령:"
 
+msgctxt "projects_control_visit_website"
+msgid "Visit website"
+msgstr ""
+
 msgctxt "projects_control_update"
 msgid "Update"
 msgstr "업데이트"
@@ -645,6 +698,18 @@ msgstr "새 태스크 허용"
 msgctxt "projects_control_reset"
 msgid "Reset"
 msgstr "재설정"
+
+msgctxt "projects_control_dialog_title_acctmgr"
+msgid "Account manager commands:"
+msgstr ""
+
+msgctxt "projects_control_sync_acctmgr"
+msgid "Synchronize"
+msgstr ""
+
+msgctxt "projects_control_remove_acctmgr"
+msgid "Disable"
+msgstr ""
 
 #. project confirm dialog
 msgctxt "projects_confirm_detach_title"
@@ -674,6 +739,18 @@ msgstr "다음 프로젝트가 재설정됩니다 괘찮습니까: "
 msgctxt "projects_confirm_reset_confirm"
 msgid "Reset"
 msgstr "재설정"
+
+msgctxt "projects_confirm_remove_acctmgr_title"
+msgid "Disable account manager"
+msgstr ""
+
+msgctxt "projects_confirm_remove_acctmgr_message"
+msgid "Are you sure you want to stop using"
+msgstr ""
+
+msgctxt "projects_confirm_remove_acctmgr_confirm"
+msgid "Disable"
+msgstr ""
 
 #. tasks tab strings
 msgctxt "tasks_header_name"
@@ -818,6 +895,10 @@ msgctxt "trans_header_name"
 msgid "File:"
 msgstr "파일:"
 
+msgctxt "trans_control_retry"
+msgid "Retry transfers"
+msgstr ""
+
 msgctxt "confirm_abort_trans_title"
 msgid "Abort transfer?"
 msgstr "전송을 중단할까요?"
@@ -829,6 +910,11 @@ msgstr "중단할 파일:"
 msgctxt "confirm_abort_trans_confirm"
 msgid "Abort"
 msgstr "중단"
+
+#. notices tab strings
+msgctxt "notices_loading"
+msgid "Reading notices…"
+msgstr ""
 
 #. eventlog tab strings
 msgctxt "eventlog_loading"
