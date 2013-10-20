@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-08-29 15:37-0700\n"
-"PO-Revision-Date: 2013-10-18 20:23+0000\n"
+"POT-Creation-Date: 2013-10-18 00:00-0700\n"
+"PO-Revision-Date: 2013-10-19 20:47+0000\n"
 "Last-Translator: Олег <pukish_oleg@ukr.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: uk\n"
@@ -18,7 +18,7 @@ msgstr ""
 "10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
-"X-POOTLE-MTIME: 1382127819.0\n"
+"X-POOTLE-MTIME: 1382215665.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -50,6 +50,10 @@ msgstr "Додати проект"
 
 msgctxt "attachproject_list_manual_no_url"
 msgid "Please enter project URL"
+msgstr "Додати менеджер проектів"
+
+msgctxt "attachproject_list_acctmgr_button"
+msgid "Add account manager"
 msgstr "Додати менеджер проектів"
 
 msgctxt "attachproject_list_no_internet"
@@ -194,6 +198,31 @@ msgctxt "attachproject_registration_button"
 msgid "Create"
 msgstr "Створити"
 
+#. account manager
+msgctxt "attachproject_acctmgr_header"
+msgid "Add account manager"
+msgstr ""
+
+msgctxt "attachproject_acctmgr_header_url"
+msgid "URL"
+msgstr "Адреса (URL)"
+
+msgctxt "attachproject_acctmgr_header_name"
+msgid "User:"
+msgstr "Користувач:"
+
+msgctxt "attachproject_acctmgr_header_pwd"
+msgid "Password:"
+msgstr "Пароль:"
+
+msgctxt "attachproject_acctmgr_header_pwd_confirm"
+msgid "… Retype:"
+msgstr "… Повторити:"
+
+msgctxt "attachproject_acctmgr_button"
+msgid "Add"
+msgstr "Додати"
+
 #. error strings
 msgctxt "attachproject_error_wrong_name"
 msgid "User not found"
@@ -210,6 +239,10 @@ msgstr "Невдала спроба зв’язку"
 msgctxt "attachproject_error_pwd_no_match"
 msgid "Passwords do not match"
 msgstr "Паролі не збігаються"
+
+msgctxt "attachproject_error_no_url"
+msgid "Please enter URL"
+msgstr "Будь-ласка, введіть адресу (URL)"
 
 msgctxt "attachproject_error_no_email"
 msgid "Please enter eMail address"
@@ -250,6 +283,10 @@ msgstr "Пароль відхилено"
 msgctxt "attachproject_error_creation_disabled"
 msgid "Account creation is disabled on this project"
 msgstr "Можливість створення облікових записів в даному проекті відключена"
+
+msgctxt "attachproject_error_invalid_url"
+msgid "Invalid URL"
+msgstr "Неправильна адреса (URL)"
 
 #. working activity
 msgctxt "attachproject_working_back_button"
@@ -296,6 +333,14 @@ msgctxt "attachproject_working_login"
 msgid "Log in"
 msgstr "Увійти"
 
+msgctxt "attachproject_working_acctmgr"
+msgid "Add account manager"
+msgstr "Додати менеджер проектів"
+
+msgctxt "attachproject_working_acctmgr_sync"
+msgid "Synchronize"
+msgstr "Синхронізувати"
+
 #. main activity
 msgctxt "main_noproject_warning"
 msgid "Tab here to choose a project."
@@ -337,6 +382,10 @@ msgstr "Передачі"
 msgctxt "tab_preferences"
 msgid "Preferences"
 msgstr "Налаштування"
+
+msgctxt "tab_notices"
+msgid "Notices"
+msgstr "Примітки"
 
 msgctxt "tab_desc"
 msgid "Navigation"
@@ -626,6 +675,10 @@ msgctxt "projects_control_dialog_title"
 msgid "Project commands:"
 msgstr "Команди проекту:"
 
+msgctxt "projects_control_visit_website"
+msgid "Visit website"
+msgstr "Відвідати веб-сайт"
+
 msgctxt "projects_control_update"
 msgid "Update"
 msgstr "Оновити"
@@ -653,6 +706,18 @@ msgstr "Отримувати нові завдання"
 msgctxt "projects_control_reset"
 msgid "Reset"
 msgstr "Скинути"
+
+msgctxt "projects_control_dialog_title_acctmgr"
+msgid "Account manager commands:"
+msgstr "Команди менеджера проектів:"
+
+msgctxt "projects_control_sync_acctmgr"
+msgid "Synchronize"
+msgstr "Синхронізувати"
+
+msgctxt "projects_control_remove_acctmgr"
+msgid "Disable"
+msgstr "Відключити"
 
 #. project confirm dialog
 msgctxt "projects_confirm_detach_title"
@@ -682,6 +747,18 @@ msgstr "Ви справді хочете перезапустити"
 msgctxt "projects_confirm_reset_confirm"
 msgid "Reset"
 msgstr "Скинути"
+
+msgctxt "projects_confirm_remove_acctmgr_title"
+msgid "Disable account manager"
+msgstr "Відключити менеджер проектів"
+
+msgctxt "projects_confirm_remove_acctmgr_message"
+msgid "Are you sure you want to stop using"
+msgstr "Ви впевнені, що бажаєте припинити використання"
+
+msgctxt "projects_confirm_remove_acctmgr_confirm"
+msgid "Disable"
+msgstr "Відключити"
 
 #. tasks tab strings
 msgctxt "tasks_header_name"
@@ -826,6 +903,10 @@ msgctxt "trans_header_name"
 msgid "File:"
 msgstr "Файл:"
 
+msgctxt "trans_control_retry"
+msgid "Retry transfers"
+msgstr "Повторити передачі"
+
 msgctxt "confirm_abort_trans_title"
 msgid "Abort transfer?"
 msgstr "Перервати передачу?"
@@ -837,6 +918,11 @@ msgstr "Перервати файл:"
 msgctxt "confirm_abort_trans_confirm"
 msgid "Abort"
 msgstr "Перервати"
+
+#. notices tab strings
+msgctxt "notices_loading"
+msgid "Reading notices…"
+msgstr "Читальні примітки..."
 
 #. eventlog tab strings
 msgctxt "eventlog_loading"
