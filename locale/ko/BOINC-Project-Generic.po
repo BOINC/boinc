@@ -7,19 +7,20 @@ msgstr ""
 "Project-Id-Version: 2012/11/19\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2013-10-15 22:23 PDT\n"
-"PO-Revision-Date: 2012-11-19 09:42+0900\n"
-"Last-Translator: Lee Kangsan <treppolse@gmail.com>\n"
+"PO-Revision-Date: 2013-09-01 00:11+0000\n"
+"Last-Translator: Kangsan Lee <treppolse@gmail.com>\n"
 "Language-Team: SETIKAH@KOREA\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-SearchPath-0: html\\user\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
 "X-BOINC-UTF8-Marker: ç®ä½ä¸­æ, æ¥æ¬èª\n"
+"X-POOTLE-MTIME: 1377994275.0\n"
 
 # The name of this language in this language
 msgid "LANG_NAME_NATIVE"
@@ -1158,8 +1159,9 @@ msgid "Use NVIDIA GPU %1 Enforced by version 6.10+ %2"
 msgstr "NVIDIA GPU 존재시 사용 %1 6.10 이상 버전이 필요 %2"
 
 #: ../inc/prefs.inc:344
+#, fuzzy
 msgid "Use Intel GPU %1 Enforced by version 7.0+ %2"
-msgstr ""
+msgstr "ATI GPU 존재시 사용 %1 6.10 이상 버전이 필요 %2"
 
 #: ../inc/prefs.inc:358
 msgid ""
@@ -1702,8 +1704,9 @@ msgid "State"
 msgstr "상태"
 
 #: ../inc/result.inc:747
+#, fuzzy
 msgid "Task name:"
-msgstr ""
+msgstr "태스크 이름"
 
 #: ../inc/team.inc:40
 msgid "Search criteria (use one or more)"
@@ -2495,8 +2498,9 @@ msgid "Top GPU models"
 msgstr "최고 GPU 칩셋"
 
 #: ../user/bs_sample_index.php:70
+#, fuzzy
 msgid "Languages"
-msgstr ""
+msgstr "언어"
 
 #: ../user/bs_sample_index.php:149 ../user/info.php:24
 #: ../user/sample_index.php:74

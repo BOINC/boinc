@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 7.2.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-10-15 22:26-0700\n"
-"PO-Revision-Date: 2013-08-31 05:14+0000\n"
+"PO-Revision-Date: 2013-09-01 00:11+0000\n"
 "Last-Translator: Kangsan Lee <treppolse@gmail.com>\n"
 "Language-Team: SETIKAH@KOREA\n"
 "Language: ko\n"
@@ -23,7 +23,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCGIT\\boinc\n"
-"X-POOTLE-MTIME: 1377926098.0\n"
+"X-POOTLE-MTIME: 1377994275.0\n"
 
 #: AccountInfoPage.cpp:387
 #, c-format
@@ -143,8 +143,9 @@ msgid "Please enter a user name."
 msgstr ""
 
 #: AccountInfoPage.cpp:587
+#, fuzzy
 msgid "Please enter an email address."
-msgstr ""
+msgstr "email 주소를 입력해 주세요"
 
 #: AccountInfoPage.cpp:597
 #, c-format
