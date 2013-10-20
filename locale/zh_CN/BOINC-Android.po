@@ -17,7 +17,7 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=(0)\n"
 "X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
-"X-POOTLE-MTIME: 1382127819.0\n"
+"X-POOTLE-MTIME: 1382215665.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -244,11 +244,11 @@ msgstr "На запит менеджера проектів"
 
 msgctxt "attachproject_acctmgr_header_url"
 msgid "URL"
-msgstr ""
+msgstr "Адреса (URL)"
 
 msgctxt "attachproject_acctmgr_header_name"
 msgid "User:"
-msgstr ""
+msgstr "Користувач:"
 
 #, fuzzy
 msgctxt "attachproject_acctmgr_header_pwd"
@@ -262,7 +262,7 @@ msgstr "… Повторити:"
 
 msgctxt "attachproject_acctmgr_button"
 msgid "Add"
-msgstr ""
+msgstr "Додати"
 
 #. error strings
 #, fuzzy
@@ -342,7 +342,7 @@ msgstr "Можливість створення облікових записі�
 
 msgctxt "attachproject_error_invalid_url"
 msgid "Invalid URL"
-msgstr ""
+msgstr "Неправильна адреса (URL)"
 
 #. working activity
 #, fuzzy
@@ -404,7 +404,7 @@ msgstr "На запит менеджера проектів"
 
 msgctxt "attachproject_working_acctmgr_sync"
 msgid "Synchronize"
-msgstr ""
+msgstr "Синхронізувати"
 
 #. main activity
 #, fuzzy
@@ -458,7 +458,7 @@ msgstr "Налаштування"
 
 msgctxt "tab_notices"
 msgid "Notices"
-msgstr ""
+msgstr "Примітки"
 
 #, fuzzy
 msgctxt "tab_desc"
@@ -763,7 +763,7 @@ msgstr "Команди проекту:"
 
 msgctxt "projects_control_visit_website"
 msgid "Visit website"
-msgstr ""
+msgstr "Відвідати веб-сайт"
 
 msgctxt "projects_control_update"
 msgid "Update"
@@ -795,15 +795,15 @@ msgstr "Скинути"
 
 msgctxt "projects_control_dialog_title_acctmgr"
 msgid "Account manager commands:"
-msgstr ""
+msgstr "Команди менеджера проектів:"
 
 msgctxt "projects_control_sync_acctmgr"
 msgid "Synchronize"
-msgstr ""
+msgstr "Синхронізувати"
 
 msgctxt "projects_control_remove_acctmgr"
 msgid "Disable"
-msgstr ""
+msgstr "Відключити"
 
 #. project confirm dialog
 msgctxt "projects_confirm_detach_title"
@@ -846,7 +846,7 @@ msgstr "Ви справді хочете перезапустити"
 
 msgctxt "projects_confirm_remove_acctmgr_confirm"
 msgid "Disable"
-msgstr ""
+msgstr "Відключити"
 
 #. tasks tab strings
 msgctxt "tasks_header_name"
@@ -993,7 +993,7 @@ msgstr "Файл:"
 
 msgctxt "trans_control_retry"
 msgid "Retry transfers"
-msgstr ""
+msgstr "Повторити передачі"
 
 msgctxt "confirm_abort_trans_title"
 msgid "Abort transfer?"
