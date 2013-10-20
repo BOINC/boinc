@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-10-15 22:26-0700\n"
-"PO-Revision-Date: 2013-09-02 19:41+0000\n"
+"PO-Revision-Date: 2013-10-20 18:57+0000\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fi\n"
@@ -23,7 +23,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCGIT\\boinc\n"
-"X-POOTLE-MTIME: 1378150911.0\n"
+"X-POOTLE-MTIME: 1382295424.0\n"
 
 # 81%
 #: AccountInfoPage.cpp:387
@@ -141,11 +141,11 @@ msgstr "Käytä tilihallitsijaa"
 
 #: AccountInfoPage.cpp:585
 msgid "Please enter a user name."
-msgstr ""
+msgstr "Syötä käyttäjänimi."
 
 #: AccountInfoPage.cpp:587
 msgid "Please enter an email address."
-msgstr ""
+msgstr "Anna sähköpostiosoite."
 
 #: AccountInfoPage.cpp:597
 #, c-format
