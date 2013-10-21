@@ -16,17 +16,18 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.5.0\n"
+"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-SearchPath-1: clientgui/msw\n"
 "X-Poedit-SearchPath-2: clientgui/gtk\n"
 "X-Poedit-SearchPath-3: clientgui/mac\n"
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCGIT\\boinc\n"
-"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-POOTLE-MTIME: 1382369003.0\n"
 
 # 81%
 #: AccountInfoPage.cpp:387
+#, c-format
 #, c-format, c-format
 msgid "Identify your account at %s"
 msgstr "Αναγνωρίστε τον λογαριασμό σας στο %s"
@@ -718,6 +719,7 @@ msgstr ""
 
 # daemon??
 #: BOINCBaseFrame.cpp:638
+#, c-format
 #, c-format, fuzzy
 msgid ""
 "%s is not able to start a %s client.\n"
@@ -732,6 +734,7 @@ msgid "%s - Connection Status"
 msgstr "%s - Κατάσταση Σύνδεσης"
 
 #: BOINCBaseFrame.cpp:700
+#, c-format
 #, c-format, fuzzy
 msgid ""
 "%s is not currently connected to a %s client.\n"
@@ -1537,6 +1540,7 @@ msgid "seconds"
 msgstr "δευτερόλεπτα"
 
 #: DlgAdvPreferencesBase.cpp:654
+#, no-c-format
 #, fuzzy, no-c-format
 msgid "% of page file (swap space)"
 msgstr "% του αρχείου σελίδας (swap χώρος)"
