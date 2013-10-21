@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2013-10-18 00:00-0700\n"
-"PO-Revision-Date: 2013-10-17 15:29+0000\n"
+"PO-Revision-Date: 2013-10-21 07:25+0000\n"
 "Last-Translator: Christian <djangofett@gmx.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: de\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
-"X-POOTLE-MTIME: 1382023783.0\n"
+"X-POOTLE-MTIME: 1382340351.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -53,7 +53,7 @@ msgstr "Bitte die Projekt-URL eingeben"
 
 msgctxt "attachproject_list_acctmgr_button"
 msgid "Add account manager"
-msgstr ""
+msgstr "Kontoverwaltung hinzufügen"
 
 msgctxt "attachproject_list_no_internet"
 msgid "No Internet connection"
@@ -201,27 +201,27 @@ msgstr "Erstellen"
 #. account manager
 msgctxt "attachproject_acctmgr_header"
 msgid "Add account manager"
-msgstr ""
+msgstr "Kontoverwaltung hinzufügen"
 
 msgctxt "attachproject_acctmgr_header_url"
 msgid "URL"
-msgstr ""
+msgstr "Adresse"
 
 msgctxt "attachproject_acctmgr_header_name"
 msgid "User:"
-msgstr ""
+msgstr "Benutzer:"
 
 msgctxt "attachproject_acctmgr_header_pwd"
 msgid "Password:"
-msgstr ""
+msgstr "Passwort:"
 
 msgctxt "attachproject_acctmgr_header_pwd_confirm"
 msgid "… Retype:"
-msgstr ""
+msgstr "… Bestätigung:"
 
 msgctxt "attachproject_acctmgr_button"
 msgid "Add"
-msgstr ""
+msgstr "Hinzufügen"
 
 #. error strings
 msgctxt "attachproject_error_wrong_name"
@@ -242,7 +242,7 @@ msgstr "Passwörter stimmen nicht überein"
 
 msgctxt "attachproject_error_no_url"
 msgid "Please enter URL"
-msgstr ""
+msgstr "Bitte geben Sie die Adresse ein"
 
 msgctxt "attachproject_error_no_email"
 msgid "Please enter eMail address"
@@ -287,7 +287,7 @@ msgstr "Die Kontoerstellung ist bei diesem Projekt deaktiviert"
 
 msgctxt "attachproject_error_invalid_url"
 msgid "Invalid URL"
-msgstr ""
+msgstr "Ungültige Adresse"
 
 #. working activity
 msgctxt "attachproject_working_back_button"
@@ -336,11 +336,11 @@ msgstr "Anmelden"
 
 msgctxt "attachproject_working_acctmgr"
 msgid "Add account manager"
-msgstr ""
+msgstr "Kontoverwaltung hinzufügen"
 
 msgctxt "attachproject_working_acctmgr_sync"
 msgid "Synchronize"
-msgstr ""
+msgstr "Synchronisieren"
 
 #. main activity
 msgctxt "main_noproject_warning"
@@ -753,7 +753,7 @@ msgstr "Zurücksetzen"
 
 msgctxt "projects_confirm_remove_acctmgr_title"
 msgid "Disable account manager"
-msgstr ""
+msgstr "Kontoverwaltung deaktivieren"
 
 msgctxt "projects_confirm_remove_acctmgr_message"
 msgid "Are you sure you want to stop using"
@@ -761,7 +761,7 @@ msgstr ""
 
 msgctxt "projects_confirm_remove_acctmgr_confirm"
 msgid "Disable"
-msgstr ""
+msgstr "Deaktivieren"
 
 #. tasks tab strings
 msgctxt "tasks_header_name"
@@ -908,7 +908,7 @@ msgstr "Datei:"
 
 msgctxt "trans_control_retry"
 msgid "Retry transfers"
-msgstr ""
+msgstr "Übertragung wiederholen"
 
 msgctxt "confirm_abort_trans_title"
 msgid "Abort transfer?"
@@ -925,7 +925,7 @@ msgstr "Abbrechen"
 #. notices tab strings
 msgctxt "notices_loading"
 msgid "Reading notices…"
-msgstr ""
+msgstr "Lade Nachrichten..."
 
 #. eventlog tab strings
 msgctxt "eventlog_loading"
