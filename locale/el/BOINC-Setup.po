@@ -7,35 +7,39 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-10-15 22:27-0700\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2013-10-21 15:34+0000\n"
+"Last-Translator: chris g <chr1407@hotmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.5.5\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SearchPath-0: mac_installer\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-Basepath: /Volumes/Cheer/BOINC_GIT/boinc_trunk\n"
 "X-Poedit-KeywordsList: _\n"
+"X-POOTLE-MTIME: 1382369640.0\n"
 
 #: Installer.cpp:132
 #, c-format
 msgid "Sorry, this version of %s requires system 10.4 or higher."
-msgstr ""
+msgstr "Συγγνώμη, αυτή η έκδοση του %s απαιτεί σύστημα 10.4 ή μεγαλύτερο."
 
 #: PostInstall.cpp:131 PostInstall.cpp:1211
 msgid "Yes"
-msgstr ""
+msgstr "Ναι"
 
 #: PostInstall.cpp:132 PostInstall.cpp:1212
 msgid "No"
-msgstr ""
+msgstr "Όχι"
 
 #: PostInstall.cpp:134
 msgid "Should BOINC run even when no user is logged in?"
 msgstr ""
+"Να εκτελείται το BOINC ακόμη και όταν κανένας χρήστης δεν είναι "
+"συνδεδεμένος;"
 
 #: PostInstall.cpp:1491
 #, c-format
@@ -54,17 +58,20 @@ msgstr ""
 
 #: uninstall.cpp:80
 msgid "OK"
-msgstr ""
+msgstr "Εντάξει"
 
 #: uninstall.cpp:130
 msgid "Permission error after relaunch"
-msgstr ""
+msgstr "Σφάλμα άδειας μετά απο επανεκτέλεση"
 
 #: uninstall.cpp:135
+#, fuzzy
 msgid ""
 "Removal may take several minutes.\n"
 "Please be patient."
 msgstr ""
+"Η Αφαίρεση μπορεί να διαρκέσει αρκετά λεπτά.\n"
+"Παρακαλώ να είστε υπομονετικοί."
 
 #: uninstall.cpp:150
 #, c-format
@@ -73,20 +80,25 @@ msgid ""
 "\n"
 "This will remove the executables but will not touch %s data files."
 msgstr ""
+"Είστε σίγουροι οτι θέλετε να αφαιρέσετε τελείως το %s απο τον υπολογιστή "
+"σας;\n"
+"\n"
+"Αυτό θα αφαιρέσει τα εκτελέσιμα αρχεία αλλά τα %s αρχεία δεδομένων θα "
+"μείνουν ανέπαφα."
 
 #: uninstall.cpp:157
 #, c-format
 msgid "Canceled: %s has not been touched."
-msgstr ""
+msgstr "Ακυρώθηκε: %s έμειναν ανέπαφα."
 
 #: uninstall.cpp:168
 #, c-format
 msgid "An error occurred: error code %d"
-msgstr ""
+msgstr "Ένα σφάλμα συνέβει: κωδικός σφάλματος %d"
 
 #: uninstall.cpp:224
 msgid "name  of user"
-msgstr ""
+msgstr "όνομα   του χρήστη"
 
 #: uninstall.cpp:261
 #, c-format
@@ -107,11 +119,14 @@ msgid ""
 "computer.\n"
 "\n"
 msgstr ""
+"Βάλτε τον κωδικό διαχειριστή για να αφαιρέσετε τελείως το %s απο τον "
+"υπολογιστή σας\n"
+"\n"
 
 #: uninstall.cpp:1555
 msgid "Cancel"
-msgstr ""
+msgstr "Ακύρωση"
 
 #: uninstall.cpp:1556
 msgid "Continue..."
-msgstr ""
+msgstr "Συνέχεια..."
