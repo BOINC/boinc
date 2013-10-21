@@ -28,7 +28,11 @@ boinccmd_SOURCES = boinc_cmd.cpp
 boinccmd_DEPENDENCIES = $(LIBBOINC)
 boinccmd_CPPFLAGS = $(AM_CPPFLAGS)
 boinccmd_LDFLAGS = $(AM_LDFLAGS) -L../lib
-boinccmd_LDADD = $(LIBBOINC) $(BOINC_EXTRA_LIBS) $(PTHREAD_LIBS)
+if OS_ANDROID
+   boinccmd_LDADD = $(LIBBOINC) $(BOINC_EXTRA_LIBS)
+else    
+   boinccmd_LDADD = $(LIBBOINC) $(BOINC_EXTRA_LIBS) $(PTHREAD_LIBS)
+endif
 
 boinc_client_SOURCES = \
     acct_mgr.cpp \
@@ -80,7 +84,6 @@ boinc_client_SOURCES = \
     rr_sim.cpp \
     sandbox.cpp \
     scheduler_op.cpp \
-	thread.cpp \
     time_stats.cpp \
     whetstone.cpp \
     work_fetch.cpp
@@ -92,7 +95,11 @@ boinc_client_LDFLAGS = $(AM_LDFLAGS) $(SSL_LDFLAGS) -L../lib
 if OS_DARWIN
 boinc_client_LDFLAGS += -Wl,-flat_namespace,-undefined,dynamic_lookup
 endif
-boinc_client_LDADD = $(LIBBOINC) $(LIBBOINC_CRYPT) $(BOINC_EXTRA_LIBS) $(PTHREAD_LIBS)
+if OS_ANDROID
+   boinc_client_LDADD = $(LIBBOINC) $(LIBBOINC_CRYPT) $(BOINC_EXTRA_LIBS)
+else    
+   boinc_client_LDADD = $(LIBBOINC) $(LIBBOINC_CRYPT) $(BOINC_EXTRA_LIBS) $(PTHREAD_LIBS)
+endif
 
 boinc_clientdir = $(bindir)
 
