@@ -1,2 +1,37 @@
 <?xml version='1.0' encoding='utf-8'?>
-<resources/>
+<resources>
+  <string name="generic_loading">Chargement...</string>
+  <string name="attachproject_list_header">Sélectionner un projet :</string>
+  <string name="attachproject_list_manual_button">Ajouter un projet par URL</string>
+  <string name="attachproject_list_manual_dialog_title">Saisir l\'URL du projet :</string>
+  <string name="attachproject_list_manual_dialog_button">Ajouter le projet</string>
+  <string name="attachproject_list_manual_no_url">Veuillez saisir l\'URL du projet</string>
+  <string name="attachproject_list_no_internet">Pas de connexion internet</string>
+  <string name="attachproject_login_loading">Contact avec le serveur du projet...</string>
+  <string name="attachproject_login_image_description">Logo du projet.</string>
+  <string name="attachproject_login_header_general_area">Zone générale :</string>
+  <string name="attachproject_login_header_specific_area">Zone spécifique :</string>
+  <string name="attachproject_login_header_description">Description :</string>
+  <string name="attachproject_login_header_home">Accueil :</string>
+  <string name="attachproject_login_header_url">Site web :</string>
+  <string name="attachproject_login_header_platform">Android :</string>
+  <string name="attachproject_login_platform_supported">Ce projet supporte les appareils Android</string>
+  <string name="attachproject_login_platform_not_supported">Ce projet ne supporte pas les appareils Android</string>
+  <string name="attachproject_login_category_terms_of_use">"Conditions d\'utilisation pour "</string>
+  <string name="attachproject_login_accept_terms_of_use">En créant un compte avec ce projet, vous en acceptez les conditions d\'utilisation comme indiqué ci-dessus.</string>
+  <string name="attachproject_login_category_login">Se connecter avec un compte existant</string>
+  <string name="attachproject_login_header_id_email">e-mail :</string>
+  <string name="attachproject_login_header_id_name">Nom :</string>
+  <string name="attachproject_login_header_pwd">Mot de passe :</string>
+  <string name="attachproject_login_header_creation_enabled">Créer un compte pour participer :</string>
+  <string name="attachproject_login_header_creation_client_disabled">Visiter le site du projet pour créer un compte :</string>
+  <string name="attachproject_login_header_creation_disabled">Le projet n\'autorise pas la création de nouveaux comptes actuellement !</string>
+  <string name="attachproject_login_button_login">Se connecter</string>
+  <string name="attachproject_login_button_forgotpw">Mot de passe oublié</string>
+  <string name="attachproject_login_error_toast">Impossible de contacter le projet !</string>
+  <string name="attachproject_registration_header_url">Projet :</string>
+  <string name="attachproject_registration_header_email">e-mail :</string>
+  <string name="attachproject_registration_header_username">Nom :</string>
+  <string name="attachproject_registration_header_pwd">Mot de passe :</string>
+  <string name="projects_add">Ajouter le projet</string>
+</resources>

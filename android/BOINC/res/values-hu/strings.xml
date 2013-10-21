@@ -1,2 +1,17 @@
 <?xml version='1.0' encoding='utf-8'?>
-<resources/>
+<resources>
+  <string name="app_name">BOINC</string>
+  <string name="generic_loading">Betöltés! Kérjük, várjon...</string>
+  <string name="attachproject_list_header">Válasszon projektet:</string>
+  <string name="attachproject_list_manual_dialog_button">Projekt hozzáadása</string>
+  <string name="attachproject_list_no_internet">Nincs internetkapcsolat</string>
+  <string name="attachproject_login_image_description">Projekt logó.</string>
+  <string name="attachproject_login_header_description">Leírás:</string>
+  <string name="attachproject_login_header_url">Weboldal:</string>
+  <string name="attachproject_login_header_platform">Android:</string>
+  <string name="attachproject_login_platform_supported">Ez a projekt támogatja az Android eszközöket</string>
+  <string name="attachproject_login_platform_not_supported">Ez a projekt nem támogatja az Android eszközöket</string>
+  <string name="attachproject_login_header_id_email">eMail:</string>
+  <string name="attachproject_login_header_id_name">Név:</string>
+  <string name="attachproject_login_header_pwd">Jelszó:</string>
+</resources>
