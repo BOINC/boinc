@@ -41,6 +41,8 @@
   <string name="attachproject_registration_header_pwd">비밀번호:</string>
   <string name="attachproject_registration_header_pwd_confirm">… 재입력:</string>
   <string name="attachproject_registration_button">생성</string>
+  <string name="attachproject_acctmgr_header_pwd">비밀번호:</string>
+  <string name="attachproject_acctmgr_header_pwd_confirm">… 재입력:</string>
   <string name="attachproject_error_wrong_name">사용자를 찾지 못했습니다</string>
   <string name="attachproject_error_short_pwd">비밀번호가 너무 짧습니다</string>
   <string name="attachproject_error_no_internet">연결 실패</string>
