@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: BOINC Project (Generic) 6.x\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2012-11-13 16:40 PST\n"
-"PO-Revision-Date: 2013-10-07 19:58+0000\n"
-"Last-Translator: Anonymous Pootle User\n"
+"PO-Revision-Date: 2013-10-12 18:56+0000\n"
+"Last-Translator: pryds <thomas@pryds.eu>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: da\n"
 "MIME-Version: 1.0\n"
@@ -20,7 +20,7 @@ msgstr ""
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-SearchPath-0: html\\user\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
-"X-POOTLE-MTIME: 1381175920.0\n"
+"X-POOTLE-MTIME: 1381604174.0\n"
 
 #, fuzzy
 msgid "LANG_NAME_NATIVE"
@@ -242,7 +242,7 @@ msgstr "Send meddelelse"
 #: ../inc/forum.inc:580
 #, fuzzy
 msgid "Send %1 a private message"
-msgstr "Send personlig meddelelse"
+msgstr "Send %1 en personlig meddelelse"
 
 #: ../inc/forum.inc:581
 msgid "Joined: %1"
