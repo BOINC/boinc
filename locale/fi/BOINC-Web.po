@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2013-10-15 22:21 PDT\n"
-"PO-Revision-Date: 2013-08-26 07:46+0200\n"
+"PO-Revision-Date: 2013-10-20 19:13+0000\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fi\n"
@@ -15,8 +15,9 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 2.1.6\n"
+"X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
+"X-POOTLE-MTIME: 1382296416.0\n"
 
 #: projects.inc:14
 msgid "Distributed sensing"
@@ -743,7 +744,7 @@ msgstr "Tämä sivu on %skäännettävissä%s."
 
 #: download.php:44
 msgid "Download BOINC + Virtualbox"
-msgstr ""
+msgstr "Lataa BOINC + Virtualbox"
 
 #: download.php:46 download.php:56
 #, php-format
@@ -947,6 +948,11 @@ msgid ""
 "projects  %sDownload%s and run BOINC software  %sEnter%s an email address "
 "and password. "
 msgstr ""
+" Käytä tietokoneesi joutoaikaa (Windows, Mac, Linux tai Android) tautien "
+"parantamiseen, ilmastonlämpenemisen tutkimiseen, pulsarien löytämiseen ja "
+"moniin muihin tieteellisiin tutkimuksiin.  Se on turvallista, varmaa ja "
+"helppoa:  %sValitse%s projektit  %sLataa%s ja aja BOINC ohjelmisto  %sAnna%s "
+"sähköpostiosoite ja salasana. "
 
 #: index.php:105 index2.php:105
 #, php-format

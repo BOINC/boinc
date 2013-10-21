@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-10-15 22:26-0700\n"
-"PO-Revision-Date: 2013-10-20 18:57+0000\n"
+"PO-Revision-Date: 2013-10-20 19:03+0000\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fi\n"
@@ -23,7 +23,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCGIT\\boinc\n"
-"X-POOTLE-MTIME: 1382295424.0\n"
+"X-POOTLE-MTIME: 1382295809.0\n"
 
 # 81%
 #: AccountInfoPage.cpp:387
@@ -150,7 +150,7 @@ msgstr "Anna sähköpostiosoite."
 #: AccountInfoPage.cpp:597
 #, c-format
 msgid "Please enter a password of at least %d characters."
-msgstr ""
+msgstr "Anna vähintään %d merkin pituinen salasana."
 
 #: AccountInfoPage.cpp:608
 msgid ""
@@ -1001,6 +1001,9 @@ msgid ""
 "\n"
 "Click Finish to close."
 msgstr ""
+"Yritä myöhemmin uudelleen.\n"
+"\n"
+"Napsauta Lopeta sulkeaksesi."
 
 #: CompletionErrorPage.cpp:225 CompletionPage.cpp:222 CompletionPage.cpp:242
 #: CompletionPage.cpp:273
@@ -1353,7 +1356,7 @@ msgstr "Moniprosessorikoneissa käytä enintään"
 #: DlgAdvPreferencesBase.cpp:346
 #, no-c-format
 msgid "% of the processors (0 means ignore this setting)"
-msgstr ""
+msgstr "% prosessoreista (0 tarkoittaa jätä huomiotta)"
 
 #: DlgAdvPreferencesBase.cpp:349 DlgAdvPreferencesBase.cpp:604
 #: DlgAdvPreferencesBase.cpp:626 DlgAdvPreferencesBase.cpp:647
@@ -1397,7 +1400,7 @@ msgstr "joka"
 #: DlgAdvPreferencesBase.cpp:420 DlgAdvPreferencesBase.cpp:443
 #: DlgAdvPreferencesBase.cpp:462
 msgid "days"
-msgstr ""
+msgstr "vrk"
 
 #: DlgAdvPreferencesBase.cpp:428
 msgid "Minimum work buffer"

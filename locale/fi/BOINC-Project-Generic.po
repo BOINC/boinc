@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2013-10-15 22:23 PDT\n"
-"PO-Revision-Date: 2013-08-26 07:53+0000\n"
+"PO-Revision-Date: 2013-10-20 20:46+0000\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fi\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-POOTLE-MTIME: 1377503608.0\n"
+"X-POOTLE-MTIME: 1382301997.0\n"
 
 msgid "LANG_NAME_NATIVE"
 msgstr "English"
@@ -570,7 +570,7 @@ msgstr "Domain-nimi"
 
 #: ../inc/host.inc:98
 msgid "Product name"
-msgstr ""
+msgstr "Tuotenimi"
 
 #: ../inc/host.inc:102
 msgid "Local Standard Time"
@@ -1183,7 +1183,7 @@ msgstr "Käytä NVIDIA-näytönohjainta %1 (versiosta 6.10+) %2"
 
 #: ../inc/prefs.inc:344
 msgid "Use Intel GPU %1 Enforced by version 7.0+ %2"
-msgstr ""
+msgstr "Käytä Intel GPUta %1 (versiosta 7.0+) %2"
 
 #: ../inc/prefs.inc:358
 msgid ""
@@ -1305,17 +1305,19 @@ msgstr "Muokkaa %1 asetuksia"
 
 #: ../inc/prefs.inc:885
 msgid "These apply to all BOINC projects in which you participate."
-msgstr ""
+msgstr "Nämä vaikuttavat kaikkiin BOINC-projekteihin joihin osallistut."
 
 #: ../inc/prefs.inc:887
 msgid ""
 "On computers participating in multiple projects, the most recently modified "
 "preferences will be used."
 msgstr ""
+"Useisiin projekteihin osallistuvissa tietokoneissa käytetään viimeksi "
+"muokattuja asetuksia."
 
 #: ../inc/prefs.inc:889
 msgid "These preferences do not apply to Android devices."
-msgstr ""
+msgstr "Nämä asetukset eivät vaikuta Android-laitteisiin."
 
 #: ../inc/prefs.inc:892
 msgid "Preferences last modified:"
@@ -1412,7 +1414,7 @@ msgstr "ATIn GPU"
 
 #: ../inc/result.inc:57
 msgid "Intel GPU"
-msgstr ""
+msgstr "Intel GPU"
 
 #: ../inc/result.inc:65
 msgid "Not in DB"
@@ -1741,7 +1743,7 @@ msgstr "Tila"
 
 #: ../inc/result.inc:747
 msgid "Task name:"
-msgstr ""
+msgstr "Tehtävän nimi:"
 
 #: ../inc/team.inc:40
 msgid "Search criteria (use one or more)"
@@ -2481,7 +2483,7 @@ msgstr ""
 
 #: ../user/bs_sample_index.php:44
 msgid "Participants"
-msgstr ""
+msgstr "Osanottajat"
 
 #: ../user/bs_sample_index.php:46
 msgid "Do work"
@@ -2503,7 +2505,7 @@ msgstr "Tiimit"
 
 #: ../user/bs_sample_index.php:48 ../user/bs_sample_index.php:53
 msgid "create or join a team"
-msgstr ""
+msgstr "luo tiimi tai liity tiimiin"
 
 #: ../user/bs_sample_index.php:51 ../user/sample_index.php:180
 msgid "User of the day"
@@ -2520,11 +2522,11 @@ msgstr "Profiilit"
 
 #: ../user/bs_sample_index.php:61
 msgid "User search"
-msgstr ""
+msgstr "Käyttäjähaku"
 
 #: ../user/bs_sample_index.php:64
 msgid "Statistics"
-msgstr ""
+msgstr "Tilastot"
 
 #: ../user/bs_sample_index.php:65 ../user/stats.php:30
 #: ../user/top_users.php:116
@@ -2546,7 +2548,7 @@ msgstr "GPU-mallien kärki"
 
 #: ../user/bs_sample_index.php:70
 msgid "Languages"
-msgstr ""
+msgstr "Kielet"
 
 #: ../user/bs_sample_index.php:149 ../user/info.php:24
 #: ../user/sample_index.php:74
@@ -4632,6 +4634,8 @@ msgid ""
 "Go to the BOINC data directory on your computer (its location is written to "
 "the Event Log at startup)."
 msgstr ""
+"Mene tietokoneen BOINC datahakemistoon (sijainti löytyy tapahtumalokin "
+"alusta)."
 
 #: ../user/get_passwd.php:51
 msgid "Find your account file for this project; it will be named <b>%1</b>."
@@ -5362,7 +5366,7 @@ msgid ""
 msgstr ""
 "Viestisi merkittiin spämmiksi\n"
 "                Akismet-spämminestojärjestelmän toimesta.\n"
-"                Muokkaa tekstiäsi ja yritä uudelleen.."
+"                Muokkaa tekstiäsi ja yritä uudelleen."
 
 #: ../user/pm.php:205
 msgid "Could not find user with id %1"

@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2013-10-18 00:00-0700\n"
-"PO-Revision-Date: 2013-08-30 18:28+0000\n"
+"PO-Revision-Date: 2013-10-20 20:52+0000\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fi\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
-"X-POOTLE-MTIME: 1377887293.0\n"
+"X-POOTLE-MTIME: 1382302375.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -53,7 +53,7 @@ msgstr "Anna projektin URL"
 
 msgctxt "attachproject_list_acctmgr_button"
 msgid "Add account manager"
-msgstr ""
+msgstr "Lisää tilihallitsija"
 
 msgctxt "attachproject_list_no_internet"
 msgid "No Internet connection"
@@ -198,27 +198,27 @@ msgstr "Luo"
 #. account manager
 msgctxt "attachproject_acctmgr_header"
 msgid "Add account manager"
-msgstr ""
+msgstr "Lisää tilihallitsija"
 
 msgctxt "attachproject_acctmgr_header_url"
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 msgctxt "attachproject_acctmgr_header_name"
 msgid "User:"
-msgstr ""
+msgstr "Käyttäjä:"
 
 msgctxt "attachproject_acctmgr_header_pwd"
 msgid "Password:"
-msgstr ""
+msgstr "Salasana:"
 
 msgctxt "attachproject_acctmgr_header_pwd_confirm"
 msgid "… Retype:"
-msgstr ""
+msgstr "… Kirjoita uudelleen:"
 
 msgctxt "attachproject_acctmgr_button"
 msgid "Add"
-msgstr ""
+msgstr "Lisää"
 
 #. error strings
 msgctxt "attachproject_error_wrong_name"
@@ -239,7 +239,7 @@ msgstr "Salasanat eivät täsmää"
 
 msgctxt "attachproject_error_no_url"
 msgid "Please enter URL"
-msgstr ""
+msgstr "Anna URL"
 
 msgctxt "attachproject_error_no_email"
 msgid "Please enter eMail address"
@@ -283,7 +283,7 @@ msgstr "Tilin luonti on poistettu käytöstä tässä projektissa"
 
 msgctxt "attachproject_error_invalid_url"
 msgid "Invalid URL"
-msgstr ""
+msgstr "Virheellinen URL"
 
 #. working activity
 msgctxt "attachproject_working_back_button"
@@ -332,11 +332,11 @@ msgstr "Kirjaudu"
 
 msgctxt "attachproject_working_acctmgr"
 msgid "Add account manager"
-msgstr ""
+msgstr "Lisää tilihallitsija"
 
 msgctxt "attachproject_working_acctmgr_sync"
 msgid "Synchronize"
-msgstr ""
+msgstr "Synkronoi"
 
 #. main activity
 msgctxt "main_noproject_warning"
@@ -382,7 +382,7 @@ msgstr "Asetukset"
 
 msgctxt "tab_notices"
 msgid "Notices"
-msgstr ""
+msgstr "Ilmoitukset"
 
 msgctxt "tab_desc"
 msgid "Navigation"
@@ -440,7 +440,7 @@ msgstr "projektin kuva"
 #. preferences tab strings
 msgctxt "prefs_loading"
 msgid "Reading preferences…"
-msgstr "Rajoittaa RAM-muistin määrän, joka tehtäville sallitaan."
+msgstr "Luetaan asetuksia…"
 
 msgctxt "prefs_submit_button"
 msgid "Save"
@@ -673,7 +673,7 @@ msgstr "Projektin komennot:"
 
 msgctxt "projects_control_visit_website"
 msgid "Visit website"
-msgstr ""
+msgstr "Käy sivulla"
 
 msgctxt "projects_control_update"
 msgid "Update"
@@ -705,15 +705,15 @@ msgstr "Nollaa"
 
 msgctxt "projects_control_dialog_title_acctmgr"
 msgid "Account manager commands:"
-msgstr ""
+msgstr "Tilihallitsijan komennot:"
 
 msgctxt "projects_control_sync_acctmgr"
 msgid "Synchronize"
-msgstr ""
+msgstr "Synkronoi"
 
 msgctxt "projects_control_remove_acctmgr"
 msgid "Disable"
-msgstr ""
+msgstr "Poista"
 
 #. project confirm dialog
 msgctxt "projects_confirm_detach_title"
@@ -746,7 +746,7 @@ msgstr "Nollaa"
 
 msgctxt "projects_confirm_remove_acctmgr_title"
 msgid "Disable account manager"
-msgstr ""
+msgstr "Poista tilihallitsija"
 
 msgctxt "projects_confirm_remove_acctmgr_message"
 msgid "Are you sure you want to stop using"
@@ -754,7 +754,7 @@ msgstr ""
 
 msgctxt "projects_confirm_remove_acctmgr_confirm"
 msgid "Disable"
-msgstr ""
+msgstr "Poista käytöstä"
 
 #. tasks tab strings
 msgctxt "tasks_header_name"
@@ -901,7 +901,7 @@ msgstr "Tiedosto:"
 
 msgctxt "trans_control_retry"
 msgid "Retry transfers"
-msgstr ""
+msgstr "Yritä siirtoja"
 
 msgctxt "confirm_abort_trans_title"
 msgid "Abort transfer?"
@@ -918,7 +918,7 @@ msgstr "Hylkää"
 #. notices tab strings
 msgctxt "notices_loading"
 msgid "Reading notices…"
-msgstr ""
+msgstr "Luetaan ilmoituksia…"
 
 #. eventlog tab strings
 msgctxt "eventlog_loading"
@@ -984,7 +984,7 @@ msgstr "Erityissovellus on käynnissä."
 
 msgctxt "suspend_cpu"
 msgid "Your device is busy with other apps."
-msgstr ""
+msgstr "Muut sovellukset käyttävät laitetta."
 
 msgctxt "suspend_network_quota"
 msgid "BOINC reached network transfer limit."
@@ -1004,7 +1004,7 @@ msgstr "Akku tulee ladata ennen kuin laskentaa jatketaan."
 
 msgctxt "suspend_battery_charging_long"
 msgid "Computing will resume when battery charge reaches"
-msgstr ""
+msgstr "Laskenta jatkuu akun varaustilan saavuttaessa"
 
 msgctxt "suspend_battery_charging_current"
 msgid "currently"
