@@ -5,5 +5,4 @@
 --template ../locale/templates/%(domain)s.pot
 --layout %(locale)s/%(domain)s.po
 --ignore-fuzzy
---require-min-complete 0.9
 
