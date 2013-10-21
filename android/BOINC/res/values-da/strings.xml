@@ -18,8 +18,8 @@
   <string name="attachproject_login_header_platform">Android:</string>
   <string name="attachproject_login_platform_supported">Dette projekt understøtter Android-enheder</string>
   <string name="attachproject_login_platform_not_supported">Dette projekt understøtter ikke Android-enheder</string>
-  <string name="attachproject_login_category_terms_of_use">Brugervilkår for</string>
-  <string name="attachproject_login_accept_terms_of_use">Ved at oprette en konto hos dette projekt, accepterer du brugervilkårene, som vises herover.</string>
+  <string name="attachproject_login_category_terms_of_use">Brugsvilkår for</string>
+  <string name="attachproject_login_accept_terms_of_use">Ved at oprette en konto hos dette projekt, accepterer du brugsvilkårene, som vises herover.</string>
   <string name="attachproject_login_category_login">Log ind med eksisterende konto</string>
   <string name="attachproject_login_header_id_email">Email:</string>
   <string name="attachproject_login_header_id_name">Navn:</string>
@@ -68,7 +68,7 @@
   <string name="attachproject_working_login">Log ind</string>
   <string name="main_noproject_warning">Rør her for at vælge et projekt.</string>
   <string name="main_error">Ups</string>
-  <string name="main_error_long">… dette burde ikke ske!\nKlik på ikonet for at prøve igen.</string>
+  <string name="main_error_long">…dette burde ikke ske!\nKlik på ikonet for at prøve igen.</string>
   <string name="main_title_icon_desc">BOINC-ikon</string>
   <string name="tab_status">Status</string>
   <string name="tab_projects">Projekter</string>
@@ -102,7 +102,7 @@
   <string name="prefs_show_advanced_header">Vis avancerede indstillinger…</string>
   <string name="prefs_run_on_battery_header">Beregn i batteritilstand</string>
   <string name="battery_charge_min_pct_header">Min. batteriniveau</string>
-  <string name="battery_charge_min_pct_description">BOINC stopper beregninger under defineret batteriopladningsniveau.</string>
+  <string name="battery_charge_min_pct_description">BOINC stopper beregninger under defineret batteriniveau.</string>
   <string name="battery_temperature_max_header">Max. batteritemperatur</string>
   <string name="battery_temperature_max_description">BOINC stopper beregninger over defineret batteritemperatur. Det anbefales ikke at ændre denne værdi.</string>
   <string name="prefs_disk_max_pct_header">Maks. brugt lagringsplads</string>
@@ -212,7 +212,7 @@
   <string name="suspend_delay">Initialiseringsforsinkelse.</string>
   <string name="suspend_exclusiveapp">En eksklusiv app kører.</string>
   <string name="suspend_cpu">Din enhed er optaget af andre apps.</string>
-  <string name="suspend_network_quota">BOINC har nået begrænsningen for netværksoverførsel-</string>
+  <string name="suspend_network_quota">BOINC har nået begrænsningen for netværksoverførsel.</string>
   <string name="suspend_os">Stoppet af Android.</string>
   <string name="suspend_wifi">Ikke forbundet til WiFi.</string>
   <string name="suspend_battery_charging">Batteri skal være under opladning, før beregning genoptages.</string>

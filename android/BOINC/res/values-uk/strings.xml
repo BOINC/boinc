@@ -6,7 +6,8 @@
   <string name="attachproject_list_manual_button">Додати проект за адресою (URL)</string>
   <string name="attachproject_list_manual_dialog_title">Введіть адресу (URL) проекту:</string>
   <string name="attachproject_list_manual_dialog_button">Додати проект</string>
-  <string name="attachproject_list_manual_no_url">Будь-ласка, введіть адресу (URL) проекту</string>
+  <string name="attachproject_list_manual_no_url">Додати менеджер проектів</string>
+  <string name="attachproject_list_acctmgr_button">Додати менеджер проектів</string>
   <string name="attachproject_list_no_internet">Відсутнє з’єднання з Інтернетом</string>
   <string name="attachproject_login_loading">Встановлення з’єднання із сервером проекту</string>
   <string name="attachproject_login_image_description">Логотип проекту.</string>
@@ -41,10 +42,16 @@
   <string name="attachproject_registration_header_pwd">Пароль:</string>
   <string name="attachproject_registration_header_pwd_confirm">… Повторити:</string>
   <string name="attachproject_registration_button">Створити</string>
+  <string name="attachproject_acctmgr_header_url">Адреса (URL)</string>
+  <string name="attachproject_acctmgr_header_name">Користувач:</string>
+  <string name="attachproject_acctmgr_header_pwd">Пароль:</string>
+  <string name="attachproject_acctmgr_header_pwd_confirm">… Повторити:</string>
+  <string name="attachproject_acctmgr_button">Додати</string>
   <string name="attachproject_error_wrong_name">Користувача не знайдено</string>
   <string name="attachproject_error_short_pwd">Пароль надто короткий</string>
   <string name="attachproject_error_no_internet">Невдала спроба зв’язку</string>
   <string name="attachproject_error_pwd_no_match">Паролі не збігаються</string>
+  <string name="attachproject_error_no_url">Будь-ласка, введіть адресу (URL)</string>
   <string name="attachproject_error_no_email">Будь ласка, вкажіть адресу електронної пошти</string>
   <string name="attachproject_error_no_pwd">Будь-ласка, введіть пароль</string>
   <string name="attachproject_error_no_name">Будь-ласка, введіть ім\'я користувача</string>
@@ -55,6 +62,7 @@
   <string name="attachproject_error_email_bad_syntax">Адресу електронної пошти відхилено</string>
   <string name="attachproject_error_bad_pwd">Пароль відхилено</string>
   <string name="attachproject_error_creation_disabled">Можливість створення облікових записів в даному проекті відключена</string>
+  <string name="attachproject_error_invalid_url">Неправильна адреса (URL)</string>
   <string name="attachproject_working_back_button">Назад</string>
   <string name="attachproject_working_finish_button">Готово</string>
   <string name="attachproject_working_check_desc">Успішно</string>
@@ -66,6 +74,8 @@
   <string name="attachproject_working_verify">Перевірити обліковий запис</string>
   <string name="attachproject_working_register">Зареєструвати обліковий запис</string>
   <string name="attachproject_working_login">Увійти</string>
+  <string name="attachproject_working_acctmgr">Додати менеджер проектів</string>
+  <string name="attachproject_working_acctmgr_sync">Синхронізувати</string>
   <string name="main_noproject_warning">Для обрання проекту натисніть тут.</string>
   <string name="main_error">Ой!</string>
   <string name="main_error_long">…цього не повинно траплятися!\nНатисніть на іконці для повторної спроби.</string>
@@ -75,6 +85,7 @@
   <string name="tab_tasks">Завдання</string>
   <string name="tab_transfers">Передачі</string>
   <string name="tab_preferences">Налаштування</string>
+  <string name="tab_notices">Примітки</string>
   <string name="tab_desc">Навігація</string>
   <string name="status_running">Обчислення</string>
   <string name="status_running_long">Дякуємо за участь.</string>
@@ -144,6 +155,7 @@
   <string name="projects_status_trickleuppending">Очікування проміжного відправлення</string>
   <string name="projects_status_backoff">Зв’язок за розкладом:</string>
   <string name="projects_control_dialog_title">Команди проекту:</string>
+  <string name="projects_control_visit_website">Відвідати веб-сайт</string>
   <string name="projects_control_update">Оновити</string>
   <string name="projects_control_remove">Видалити</string>
   <string name="projects_control_suspend">Призупинено</string>
@@ -151,6 +163,9 @@
   <string name="projects_control_nonewtasks">Не завантажувати нові завдання</string>
   <string name="projects_control_allownewtasks">Отримувати нові завдання</string>
   <string name="projects_control_reset">Скинути</string>
+  <string name="projects_control_dialog_title_acctmgr">Команди менеджера проектів:</string>
+  <string name="projects_control_sync_acctmgr">Синхронізувати</string>
+  <string name="projects_control_remove_acctmgr">Відключити</string>
   <string name="projects_confirm_detach_title">Видалити проект?</string>
   <string name="projects_confirm_detach_message">Ви справді хочете видалити</string>
   <string name="projects_confirm_detach_message2">із BOINC?</string>
@@ -158,6 +173,9 @@
   <string name="projects_confirm_reset_title">Перезапустити проект</string>
   <string name="projects_confirm_reset_message">Ви справді хочете перезапустити</string>
   <string name="projects_confirm_reset_confirm">Скинути</string>
+  <string name="projects_confirm_remove_acctmgr_title">Відключити менеджер проектів</string>
+  <string name="projects_confirm_remove_acctmgr_message">Ви впевнені, що бажаєте припинити використання</string>
+  <string name="projects_confirm_remove_acctmgr_confirm">Відключити</string>
   <string name="tasks_header_name">Назва завдання:</string>
   <string name="tasks_header_elapsed_time">Витрачено часу:</string>
   <string name="tasks_header_project_paused">(призупинено)</string>
@@ -193,9 +211,11 @@
   <string name="trans_pending">в очікуванні</string>
   <string name="trans_projectbackoff">запит до проекту відкладено на</string>
   <string name="trans_header_name">Файл:</string>
+  <string name="trans_control_retry">Повторити передачі</string>
   <string name="confirm_abort_trans_title">Перервати передачу?</string>
   <string name="confirm_abort_trans_message">Перервати файл:</string>
   <string name="confirm_abort_trans_confirm">Перервати</string>
+  <string name="notices_loading">Читальні примітки...</string>
   <string name="eventlog_loading">Завантаження повідомлень журналу...</string>
   <string name="eventlog_client_header">Повідомлення клієнта</string>
   <string name="eventlog_gui_header">Повідомлення GUI</string>

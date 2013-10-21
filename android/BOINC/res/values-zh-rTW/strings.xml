@@ -7,6 +7,7 @@
   <string name="attachproject_list_manual_dialog_title">輸入專案網址:</string>
   <string name="attachproject_list_manual_dialog_button">新增專案</string>
   <string name="attachproject_list_manual_no_url">請輸入專案網址</string>
+  <string name="attachproject_list_acctmgr_button">來自帳號管理員的請求</string>
   <string name="attachproject_list_no_internet">沒有網路連線</string>
   <string name="attachproject_login_loading">正連線到專案伺服器...</string>
   <string name="attachproject_login_image_description">專案標誌。</string>
@@ -41,10 +42,17 @@
   <string name="attachproject_registration_header_pwd">密碼:</string>
   <string name="attachproject_registration_header_pwd_confirm">… 再次輸入:</string>
   <string name="attachproject_registration_button">建立</string>
+  <string name="attachproject_acctmgr_header">來自帳號管理員的請求</string>
+  <string name="attachproject_acctmgr_header_url">網址</string>
+  <string name="attachproject_acctmgr_header_name">使用者:</string>
+  <string name="attachproject_acctmgr_header_pwd">密碼:</string>
+  <string name="attachproject_acctmgr_header_pwd_confirm">… 再次輸入:</string>
+  <string name="attachproject_acctmgr_button">新增</string>
   <string name="attachproject_error_wrong_name">找不到用戶</string>
   <string name="attachproject_error_short_pwd">密碼太短</string>
   <string name="attachproject_error_no_internet">連線失敗</string>
   <string name="attachproject_error_pwd_no_match">與密碼不符</string>
+  <string name="attachproject_error_no_url">請輸入用戶名稱</string>
   <string name="attachproject_error_no_email">請輸入電子郵件</string>
   <string name="attachproject_error_no_pwd">請輸入密碼</string>
   <string name="attachproject_error_no_name">請輸入用戶名稱</string>
@@ -55,6 +63,7 @@
   <string name="attachproject_error_email_bad_syntax">電子郵件無效</string>
   <string name="attachproject_error_bad_pwd">密碼無效</string>
   <string name="attachproject_error_creation_disabled">此專案已停用註冊功能</string>
+  <string name="attachproject_error_invalid_url">網址不正確</string>
   <string name="attachproject_working_back_button">返回</string>
   <string name="attachproject_working_finish_button">完成</string>
   <string name="attachproject_working_check_desc">成功</string>
@@ -66,6 +75,8 @@
   <string name="attachproject_working_verify">驗證帳號</string>
   <string name="attachproject_working_register">註冊帳號</string>
   <string name="attachproject_working_login">登入</string>
+  <string name="attachproject_working_acctmgr">來自帳號管理員的請求</string>
+  <string name="attachproject_working_acctmgr_sync">同步</string>
   <string name="main_noproject_warning">點此選擇一個專案。</string>
   <string name="main_error">哎呀</string>
   <string name="main_error_long">…這應該不會發生!\n點擊圖示再試一次。</string>
@@ -75,6 +86,7 @@
   <string name="tab_tasks">任務</string>
   <string name="tab_transfers">傳輸</string>
   <string name="tab_preferences">偏好設定</string>
+  <string name="tab_notices">通知</string>
   <string name="tab_desc">導航</string>
   <string name="status_running">運算中</string>
   <string name="status_running_long">感謝您的參加。</string>
@@ -144,6 +156,7 @@
   <string name="projects_status_trickleuppending">Trickle up 訊息處理中</string>
   <string name="projects_status_backoff">排定通訊:</string>
   <string name="projects_control_dialog_title">專案指令:</string>
+  <string name="projects_control_visit_website">訪問網站</string>
   <string name="projects_control_update">更新</string>
   <string name="projects_control_remove">移除</string>
   <string name="projects_control_suspend">暫停</string>
@@ -151,6 +164,9 @@
   <string name="projects_control_nonewtasks">沒有新任務</string>
   <string name="projects_control_allownewtasks">允許新任務</string>
   <string name="projects_control_reset">重置</string>
+  <string name="projects_control_dialog_title_acctmgr">帳號管理服務指令:</string>
+  <string name="projects_control_sync_acctmgr">同步</string>
+  <string name="projects_control_remove_acctmgr">停用</string>
   <string name="projects_confirm_detach_title">移除專案?</string>
   <string name="projects_confirm_detach_message">您確定要移除</string>
   <string name="projects_confirm_detach_message2">從BOINC?</string>
@@ -158,6 +174,9 @@
   <string name="projects_confirm_reset_title">重置專案</string>
   <string name="projects_confirm_reset_message">您確定要重置</string>
   <string name="projects_confirm_reset_confirm">重置</string>
+  <string name="projects_confirm_remove_acctmgr_title">來自帳號管理員的請求</string>
+  <string name="projects_confirm_remove_acctmgr_message">您確定要重置</string>
+  <string name="projects_confirm_remove_acctmgr_confirm">停用</string>
   <string name="tasks_header_name">任務名稱:</string>
   <string name="tasks_header_elapsed_time">執行時間:</string>
   <string name="tasks_header_project_paused">(暫停)</string>
@@ -193,9 +212,11 @@
   <string name="trans_pending">等待中</string>
   <string name="trans_projectbackoff">重新連接至專案</string>
   <string name="trans_header_name">檔案:</string>
+  <string name="trans_control_retry">重試傳輸</string>
   <string name="confirm_abort_trans_title">停止傳輸?</string>
   <string name="confirm_abort_trans_message">停止檔案:</string>
   <string name="confirm_abort_trans_confirm">停止</string>
+  <string name="notices_loading">正在讀取專案…</string>
   <string name="eventlog_loading">載入紀錄訊息中...</string>
   <string name="eventlog_client_header">用戶端訊息</string>
   <string name="eventlog_gui_header">GUI 訊息</string>
