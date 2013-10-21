@@ -17,9 +17,9 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
+"X-BOINC-UTF8-Marker: ç®ä½ä¸­æ, æ¥æ¬èª\n"
 "X-Poedit-SearchPath-0: html\\user\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
-"X-BOINC-UTF8-Marker: ç®ä½ä¸­æ, æ¥æ¬èª\n"
 "X-POOTLE-MTIME: 1377994275.0\n"
 
 # The name of this language in this language
