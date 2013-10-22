@@ -4,13 +4,13 @@
 # See: http://boinc.berkeley.edu/trac/wiki/AndroidBuildClient#
 #
 
-# Script to compile Libcurl for Android
+# Script to compile OpenSSL for Android
 
-COMPILECURL="yes"
+COMPILEOPENSSL="yes"
 CONFIGURE="yes"
 MAKECLEAN="yes"
 
-CURL="/home/boincadm/src/curl-7.28.1" #CURL sources, required by BOINC
+OPENSSL="/home/boincadm/src/openssl-1.0.1c" #openSSL sources, requiered by BOINC
 
 export ANDROIDTC="$HOME/android-tc"
 export TCBINARIES="$ANDROIDTC/bin"
@@ -28,18 +28,22 @@ export LDFLAGS="-L$TCSYSROOT/usr/lib -L$TCINCLUDES/lib -llog"
 export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g -I$TCINCLUDES/include"
 
 # Prepare android toolchain and environment
-./build_androidtc.sh
+./build_androidtc_arm.sh
 
-if [ -n "$COMPILECURL" ]; then
-echo "==================building curl from $CURL================================="
-cd $CURL
+if [ -n "$COMPILEOPENSSL" ]; then
+echo "================building openssl from $OPENSSL============================="
+cd $OPENSSL
 if [ -n "$MAKECLEAN" ]; then
 make clean
 fi
 if [ -n "$CONFIGURE" ]; then
-./configure --host=arm-linux --prefix=$TCINCLUDES --libdir="$TCINCLUDES/lib" --disable-shared --enable-static --with-random=/dev/urandom
+./Configure linux-generic32 no-shared no-dso -DL_ENDIAN --openssldir="$TCINCLUDES/ssl"
+#override flags in Makefile
+sed -e "s/^CFLAG=.*$/`grep -e \^CFLAG= Makefile` \$(CFLAGS)/g
+s%^INSTALLTOP=.*%INSTALLTOP=$TCINCLUDES%g" Makefile > Makefile.out
+mv Makefile.out Makefile
 fi
 make
-make install
-echo "========================curl done================================="
+make install_sw
+echo "========================openssl DONE=================================="
 fi

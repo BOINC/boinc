@@ -11,29 +11,25 @@ CONFIGURE="yes"
 MAKECLEAN="yes"
 
 export BOINC=".." #BOINC source code
-export OPENSSL_DIR=$BOINC/../boinc_depends_android_eclipse/openssl
-export CURL_DIR=$BOINC/../boinc_depends_android_eclipse/curl
-export PKG_CONFIG_DEBUG_SPEW=1
 
 export ANDROIDTC="$HOME/android-tc"
 export TCBINARIES="$ANDROIDTC/bin"
-export TCINCLUDES="$ANDROIDTC/arm-linux-androideabi"
+export TCINCLUDES="$ANDROIDTC/mipsel-linux-android"
 export TCSYSROOT="$ANDROIDTC/sysroot"
 export STDCPPTC="$TCINCLUDES/lib/libstdc++.a"
 
 export PATH="$PATH:$TCBINARIES:$TCINCLUDES/bin"
-export CC=arm-linux-androideabi-gcc
-export CXX=arm-linux-androideabi-g++
-export LD=arm-linux-androideabi-ld
+export CC=mipsel-linux-android-gcc
+export CXX=mipsel-linux-android-g++
+export LD=mipsel-linux-android-ld
 export CFLAGS="--sysroot=$TCSYSROOT -DANDROID -DDECLARE_TIMEZONE -Wall -I$TCINCLUDES/include -O3 -fomit-frame-pointer"
 export CXXFLAGS="--sysroot=$TCSYSROOT -DANDROID -Wall -I$TCINCLUDES/include -funroll-loops -fexceptions -O3 -fomit-frame-pointer"
 export LDFLAGS="-L$TCSYSROOT/usr/lib -L$TCINCLUDES/lib -llog"
 export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g -I$TCINCLUDES/include"
 export PKG_CONFIG_SYSROOT_DIR=$TCSYSROOT
-export PKG_CONFIG_PATH=$CURL_DIR/lib/pkgconfig:$OPENSSL_DIR/lib/pkgconfig
 
 # Prepare android toolchain and environment
-./build_androidtc.sh
+./build_androidtc_mips.sh
 
 if [ -n "$COMPILEBOINC" ]; then
 echo "==================building BOINC from $BOINC=========================="
@@ -43,7 +39,7 @@ make clean
 fi
 if [ -n "$CONFIGURE" ]; then
 ./_autosetup
-./configure --host=arm-linux --with-boinc-platform="arm-android-linux-gnu" --with-ssl=$TCINCLUDES --disable-server --disable-manager --disable-shared --enable-static
+./configure --host=arm-linux --with-boinc-platform="mips-android-linux-gnu" --with-ssl=$TCINCLUDES --disable-server --disable-manager --disable-shared --enable-static
 sed -e "s%^CLIENTLIBS *= *.*$%CLIENTLIBS = -lm $STDCPPTC%g" client/Makefile > client/Makefile.out
 mv client/Makefile.out client/Makefile
 fi
@@ -52,14 +48,14 @@ make stage
 
 echo "Stripping Binaries"
 cd stage/usr/local/bin
-arm-linux-androideabi-strip *
+mipsel-linux-android-strip *
 cd ../../../../
 
 echo "Copy Assets"
 cd android
 mkdir "BOINC/assets"
-cp "$BOINC/stage/usr/local/bin/boinc" "BOINC/assets/boinc"
-cp "$BOINC/stage/usr/local/bin/boinccmd" "BOINC/assets/boinccmd"
+cp "$BOINC/stage/usr/local/bin/boinc" "BOINC/assets/mips/boinc"
+cp "$BOINC/stage/usr/local/bin/boinccmd" "BOINC/assets/mips/boinccmd"
 cp "$BOINC/win_build/installerv2/redist/all_projects_list.xml" "BOINC/assets/all_projects_list.xml"
 cp "$CURL_DIR/ca-bundle.crt" "BOINC/assets/ca-bundle.crt"
 
