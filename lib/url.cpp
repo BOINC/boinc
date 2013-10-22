@@ -27,6 +27,9 @@
 #include <ctype.h>
 #include <stdlib.h>
 #endif
+#ifdef _MSC_VER
+#define snprintf _snprintf
+#endif
 
 #include "str_util.h"
 #include "str_replace.h"
@@ -70,10 +73,10 @@ void parse_url(const char* url, PARSED_URL& purl) {
         q = strchr(buf, ':');
         if (q) {
             *q = 0;
-            strcpy(purl.user, buf);
-            strcpy(purl.passwd, q+1);
+            safe_strcpy(purl.user, buf);
+            safe_strcpy(purl.passwd, q+1);
         } else {
-            strcpy(purl.user, buf);
+            safe_strcpy(purl.user, buf);
         }
         buf = p+1;
     }
@@ -82,10 +85,10 @@ void parse_url(const char* url, PARSED_URL& purl) {
     //
     p = strchr(buf, '/');
     if (p) {
-        strcpy(purl.file, p+1);
+        safe_strcpy(purl.file, p+1);
         *p = 0;
     } else {
-        strcpy(purl.file, "");
+        safe_strcpy(purl.file, "");
     }
 
     // parse and strip off port if present
@@ -103,7 +106,7 @@ void parse_url(const char* url, PARSED_URL& purl) {
 
     // what remains is the host
     //
-    strcpy(purl.host, buf);
+    safe_strcpy(purl.host, buf);
 }
 
 static char x2c(char *what) {
@@ -132,19 +135,12 @@ void c2x(char *what) {
     strcpy(what, buf);
 }
 
-void unescape_url(char *url) {
-    int x,y;
+// The following functions do "URL-escaping", i.e. escaping GET arguments
+// to be passed in a URL
 
-    for (x=0,y=0;url[y];++x,++y) {
-        if ((url[x] = url[y]) == '%') {
-            url[x] = x2c(&url[y+1]);
-            y+=2;
-        }
-    }
-    url[x] = '\0';
-}
-
-void unescape_url_safe(char *url, int url_size) {
+// size not really needed since unescaping can only shrink
+//
+void unescape_url(char *url, int url_size) {
     int x,y;
 
     for (x=0,y=0; url[y] && (x<url_size);++x,++y) {
@@ -156,18 +152,18 @@ void unescape_url_safe(char *url, int url_size) {
     url[x] = '\0';
 }
 
-// unescape_url needs to be able to handle potentially hostile
-// urls.
+// unescape_url needs to be able to handle potentially hostile URLs
+//
 void unescape_url(string& url) {
     char buf[1024];
-    strncpy(buf, url.c_str(), sizeof(buf));
-    unescape_url_safe(buf, sizeof(buf));
+    strlcpy(buf, url.c_str(), sizeof(buf));
+    unescape_url(buf, sizeof(buf));
     url = buf;
 }
 
-void escape_url(char *in, char*out) {
+void escape_url(const char *in, char*out, int out_size) {
     int x, y;
-    for (x=0, y=0; in[x]; ++x) {
+    for (x=0, y=0; in[x] && (y<out_size-3); ++x) {
         if (isalnum(in[x])) {
             out[y] = in[x];
             ++y;
@@ -185,31 +181,11 @@ void escape_url(char *in, char*out) {
     out[y] = 0;
 }
 
-void escape_url_safe(const char *in, char*out, int out_size) {
-    int x, y;
-    for (x=0, y=0; in[x] && (y<out_size); ++x) {
-        if (isalnum(in[x])) {
-            out[y] = in[x];
-            ++y;
-        } else {
-            out[y] = '%';
-            ++y;
-            out[y] = 0;
-            char buf[256];
-            sprintf(buf, "%d", (char)in[x]);
-            c2x(buf);
-            strcat(out, buf);
-            y += 2;
-        }
-    }
-    out[y] = 0;
-}
-
-// escape_url needs to be able to handle potentially hostile
-// urls
+// escape_url needs to be able to handle potentially hostile URLs
+//
 void escape_url(string& url) {
     char buf[1024];
-    escape_url_safe(url.c_str(), buf, sizeof(buf));
+    escape_url(url.c_str(), buf, sizeof(buf));
     url = buf;
 }
 
@@ -243,7 +219,7 @@ void escape_url_readable(char *in, char* out) {
 //   - Remove double slashes in the rest
 //   - Add a trailing slash if necessary
 //
-void canonicalize_master_url(char* url) {
+void canonicalize_master_url(char* url, int len) {
     char buf[1024];
     size_t n;
     bool bSSL = false; // keep track if they sent in https://
@@ -251,9 +227,9 @@ void canonicalize_master_url(char* url) {
     char *p = strstr(url, "://");
     if (p) {
         bSSL = (bool) (p == url + 5);
-        strcpy(buf, p+3);
+        strlcpy(buf, p+3, sizeof(buf));
     } else {
-        strcpy(buf, url);
+        strlcpy(buf, url, sizeof(buf));
     }
     while (1) {
         p = strstr(buf, "//");
@@ -261,16 +237,17 @@ void canonicalize_master_url(char* url) {
         strcpy_overlap(p, p+1);
     }
     n = strlen(buf);
-    if (buf[n-1] != '/') {
+    if (buf[n-1] != '/' && (n<sizeof(buf)-2)) {
         strcat(buf, "/");
     }
-    sprintf(url, "http%s://%s", (bSSL ? "s" : ""), buf);
+    snprintf(url, len, "http%s://%s", (bSSL ? "s" : ""), buf);
+    url[len-1] = 0;
 }
 
 void canonicalize_master_url(string& url) {
     char buf[1024];
-    strcpy(buf, url.c_str());
-    canonicalize_master_url(buf);
+    safe_strcpy(buf, url.c_str());
+    canonicalize_master_url(buf, sizeof(buf));
     url = buf;
 }
 

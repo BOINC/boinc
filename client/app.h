@@ -23,10 +23,11 @@
 #include <vector>
 #endif
 
-#include "client_types.h"
-#include "common_defs.h"
 #include "app_ipc.h"
+#include "common_defs.h"
 #include "procinfo.h"
+
+#include "client_types.h"
 
 #define ABORT_TIMEOUT   15
     // if we send app <abort> request, wait this long before killing it.
@@ -69,10 +70,11 @@ struct ACTIVE_TASK {
     WORKUNIT* wup;
     APP_VERSION* app_version;
     PROCESS_ID pid;
-	PROCINFO procinfo;
+    PROCINFO procinfo;
 
     // START OF ITEMS SAVED IN STATE FILE
     int _task_state;
+        // PROCESS_*; see common_defs.h
     int slot;
         // subdirectory of slots/ where this runs
     double checkpoint_cpu_time;
@@ -154,6 +156,9 @@ struct ACTIVE_TASK {
     char web_graphics_url[256];
     char remote_desktop_addr[256];
     ASYNC_COPY* async_copy;
+    double finish_file_time;
+        // time when we saw finish file in slot dir.
+        // Used to kill apps that hang after writing finished file
 
     void set_task_state(int, const char*);
     inline int task_state() {
@@ -176,14 +181,14 @@ struct ACTIVE_TASK {
     }
 
     ACTIVE_TASK();
-	~ACTIVE_TASK();
+    ~ACTIVE_TASK();
     int init(RESULT*);
     void cleanup_task();
 
     int current_disk_usage(double&);
         // disk used by output files and temp files of this task
     void get_free_slot(RESULT*);
-    int start();         // start a process
+    int start(bool test=false);         // start a process
 
     // Termination stuff.
     // Terminology:
@@ -254,7 +259,7 @@ struct ACTIVE_TASK {
     void upload_notify_app(const FILE_INFO*, const FILE_REF*);
     int copy_output_files();
     int setup_file(FILE_INFO*, FILE_REF&, char*, bool, bool);
-	bool must_copy_file(FILE_REF&, bool);
+    bool must_copy_file(FILE_REF&, bool);
     void write_task_state_file();
     void read_task_state_file();
 
@@ -310,5 +315,13 @@ extern double exclusive_app_running;    // last time an exclusive app was runnin
 extern double exclusive_gpu_app_running;
 extern int gpu_suspend_reason;
 extern double non_boinc_cpu_usage;
+
+extern void run_test_app();
+
+#ifdef _WIN32
+extern DWORD WINAPI throttler(void*);
+#else
+extern void* throttler(void*);
+#endif
 
 #endif

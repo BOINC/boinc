@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="boinc_not_available">BOINC not available!</string>
+    <string name="menu_settings">Settings</string>
+    <string name="install_boinc_button">install BOINC</string>
+
+</resources>

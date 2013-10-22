@@ -21,6 +21,30 @@
 
 require_once("../inc/submit_db.inc");
 
+// the physical name of a file is jf_(md5).
+// Prepend the jf_ to make the source of the file clear
+//
+function job_file_name($md5) {
+    return "jf_$md5";
+}
+
+function authenticate_user($r, $app) {
+    $auth = (string)$r->authenticator;
+    if (!$auth) xml_error(-1, "no authenticator");
+    $auth = BoincDb::escape_string($auth);
+    $user = BoincUser::lookup("authenticator='$auth'");
+    if (!$user) xml_error(-1, "bad authenticator");
+    $user_submit = BoincUserSubmit::lookup_userid($user->id);
+    if (!$user_submit) xml_error(-1, "no submit access");
+    if ($app && !$user_submit->submit_all) {
+        $usa = BoincUserSubmitApp::lookup("user_id=$user->id and app_id=$app->id");
+        if (!$usa) {
+            xml_error(-1, "no submit access");
+        }
+    }
+    return array($user, $user_submit);
+}
+
 // given its WUs, compute params of a batch
 // NOTE: eventually this should be done by server components
 // (transitioner, validator etc.) as jobs complete or time out
@@ -47,7 +71,7 @@ function get_batch_params($batch, $wus) {
     if ($fp_total) {
         $batch->fraction_done = $fp_done / $fp_total;
     }
-    if ($completed && $batch->state < BATCH_STATE_COMPLETE) {
+    if ($completed && $batch->state == BATCH_STATE_IN_PROGRESS) {
         $batch->state = BATCH_STATE_COMPLETE;
         $batch->completion_time = time();
     }
@@ -99,13 +123,23 @@ function abort_batch($batch) {
     return 0;
 }
 
+// mark WUs as assimilated; this lets them be purged
+//
 function retire_batch($batch) {
     $wus = BoincWorkunit::enum("batch=$batch->id");
     $now = time();
     foreach ($wus as $wu) {
-        $wu->update("assimilate_state=2, transition_time=$now");
+        $wu->update(
+            "assimilate_state=".ASSIMILATE_DONE.", transition_time=$now"
+        );
     }
     $batch->update("state=".BATCH_STATE_RETIRED);
+}
+
+function expire_batch($batch) {
+    abort_batch($batch);
+    retire_batch($batch);
+    $batch->update("state=".BATCH_STATE_EXPIRED);
 }
 
 function batch_state_string($state) {
@@ -144,18 +178,18 @@ function batch_output_file_size($batchid) {
 function boinc_get_output_file_url($user, $result, $i) {
     $name = $result->name;
     $auth_str = md5($user->authenticator.$name);
-    return "get_output.php?instance_name=$name&file_num=$i&auth_str=$auth_str";
+    return "get_output.php?cmd=result_file&result_name=$name&file_num=$i&auth_str=$auth_str";
 }
 
 function boinc_get_output_files_url($user, $batch_id) {
     $auth_str = md5($user->authenticator.$batch_id);
-    return "get_output.php?batch_id=$batch_id&auth_str=$auth_str";
+    return "get_output.php?cmd=batch_files&batch_id=$batch_id&auth_str=$auth_str";
 }
 
 function boinc_get_wu_output_files_url($user, $wu_id) {
     
     //echo "url: user authenticator= $user->authenticator, wu_id=$wu_id<br/>";
     $auth_str =  md5($user->authenticator.$wu_id);
-    return "get_output.php?wu_id=$wu_id&auth_str=$auth_str";
+    return "get_output.php?cmd=workunit_files&wu_id=$wu_id&auth_str=$auth_str";
 }
 ?>

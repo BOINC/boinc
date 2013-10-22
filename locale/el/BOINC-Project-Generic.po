@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2012-01-16 11:31 PST\n"
-"PO-Revision-Date: 2010-10-11 15:12+0200\n"
+"POT-Creation-Date: 2013-10-15 22:23 PDT\n"
+"PO-Revision-Date: 2010-11-26 20:50+0200\n"
 "Last-Translator: chris g <chr1407@hotmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: el\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 2.1.1\n"
+"X-Generator: Pootle 2.1.6\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
 msgid "LANG_NAME_NATIVE"
@@ -70,7 +70,7 @@ msgid ""
 "Font color: [color=red]text[/color]  Tip: you can also use color=#FF0000"
 msgstr ""
 
-#: ../inc/bbcode_html.inc:44 ../inc/bbcode_html.inc:59 ../inc/prefs.inc:625
+#: ../inc/bbcode_html.inc:44 ../inc/bbcode_html.inc:59 ../inc/prefs.inc:638
 msgid "Default"
 msgstr ""
 
@@ -186,19 +186,20 @@ msgstr "Αναζήτηση στα φόρουμ"
 msgid "Advanced search"
 msgstr "Προηγμένη αναζήτηση"
 
-#: ../inc/forum.inc:132 ../inc/user.inc:250 ../user/pm.php:69
+#: ../inc/forum.inc:132 ../inc/user.inc:252 ../user/pm.php:69
 #: ../user/pm.php:133
 msgid "Private messages"
 msgstr "Προσωπικά μηνύματα"
 
-#: ../inc/forum.inc:151 ../user/forum_forum.php:71
-#: ../user/sample_index.php:119
+#: ../inc/forum.inc:151 ../user/bs_sample_index.php:63
+#: ../user/forum_forum.php:71 ../user/sample_index.php:119
 msgid "Questions and Answers"
 msgstr "Ερωτήσεις και απαντήσεις"
 
-#: ../inc/forum.inc:151 ../inc/forum.inc:183 ../inc/user.inc:247
-#: ../inc/user.inc:370 ../user/forum_forum.php:73 ../user/sample_index.php:118
-#: ../project.sample/project.inc:46
+#: ../inc/forum.inc:151 ../inc/forum.inc:183 ../inc/user.inc:249
+#: ../inc/user.inc:374 ../user/bs_sample_index.php:62
+#: ../user/forum_forum.php:73 ../user/sample_index.php:118
+#: ../project.sample/project.inc:43
 msgid "Message boards"
 msgstr "Πίνακας μηνυμάτων"
 
@@ -206,150 +207,163 @@ msgstr "Πίνακας μηνυμάτων"
 msgid "%1 message board"
 msgstr "%1 πίνακας μηνυμάτων"
 
-#: ../inc/forum.inc:238 ../inc/result.inc:658
+#: ../inc/forum.inc:245 ../inc/result.inc:695
 msgid "Previous"
 msgstr ""
 
-#: ../inc/forum.inc:260 ../inc/result.inc:667
+#: ../inc/forum.inc:283 ../inc/result.inc:704
 msgid "Next"
 msgstr ""
 
-#: ../inc/forum.inc:535
+#: ../inc/forum.inc:412 ../inc/forum.inc:1175 ../user/forum_forum.php:137
+#: ../user/forum_reply.php:120 ../user/forum_report_post.php:76
+msgid "Author"
+msgstr "Συγγραφέας"
+
+#: ../inc/forum.inc:412 ../inc/pm.inc:86 ../user/forum_edit.php:128
+#: ../user/forum_edit.php:133 ../user/forum_post.php:116
+#: ../user/forum_reply.php:120 ../user/forum_report_post.php:76
+#: ../user/pm.php:90 ../user/pm.php:144
+#, fuzzy
+msgid "Message"
+msgstr "Πίνακας μηνυμάτων"
+
+#: ../inc/forum.inc:580
 #, fuzzy
 msgid "Send&nbsp;message"
 msgstr "Προσωπικά μηνύματα"
 
-#: ../inc/forum.inc:535
+#: ../inc/forum.inc:580
 #, fuzzy
 msgid "Send %1 a private message"
 msgstr "Προσωπικά μηνύματα"
 
-#: ../inc/forum.inc:536
+#: ../inc/forum.inc:581
 msgid "Joined: %1"
 msgstr ""
 
-#: ../inc/forum.inc:545
+#: ../inc/forum.inc:590
 #, fuzzy
 msgid "Posts: %1"
 msgstr "Δημοσιεύσεις"
 
-#: ../inc/forum.inc:551
+#: ../inc/forum.inc:596
 msgid "Credit: %1"
 msgstr ""
 
-#: ../inc/forum.inc:552
+#: ../inc/forum.inc:597
 msgid "RAC: %1"
 msgstr ""
 
-#: ../inc/forum.inc:574
+#: ../inc/forum.inc:620
 msgid "You haven't read this message yet"
 msgstr ""
 
-#: ../inc/forum.inc:574
+#: ../inc/forum.inc:620
 #, fuzzy
 msgid "Unread"
 msgstr "Νήμα"
 
-#: ../inc/forum.inc:577 ../inc/forum.inc:582 ../inc/forum.inc:681
+#: ../inc/forum.inc:623 ../inc/forum.inc:628 ../inc/forum.inc:727
 #, fuzzy
 msgid "Message %1"
 msgstr "Πίνακας μηνυμάτων"
 
-#: ../inc/forum.inc:578 ../inc/user.inc:324 ../user/forum_forum.php:172
+#: ../inc/forum.inc:624 ../inc/user.inc:330 ../user/forum_forum.php:174
 msgid "hidden"
 msgstr ""
 
-#: ../inc/forum.inc:579
+#: ../inc/forum.inc:625
 #, fuzzy
 msgid "Posted: %1"
 msgstr "Δημοσιεύσεις"
 
-#: ../inc/forum.inc:582
+#: ../inc/forum.inc:628
 msgid " - in response to "
 msgstr ""
 
-#: ../inc/forum.inc:585 ../inc/prefs.inc:691 ../inc/prefs.inc:693
+#: ../inc/forum.inc:631 ../inc/prefs.inc:705 ../inc/prefs.inc:707
 msgid "Edit"
 msgstr ""
 
-#: ../inc/forum.inc:585
+#: ../inc/forum.inc:631
 #, fuzzy
 msgid "Edit this message"
 msgstr "Προσωπικά μηνύματα"
 
-#: ../inc/forum.inc:591
+#: ../inc/forum.inc:637
 msgid "Last modified: %1"
 msgstr ""
 
-#: ../inc/forum.inc:594
+#: ../inc/forum.inc:640
 msgid ""
-"This post is not shown because the sender is on your 'ignore' list.  Click "
-"%1here%2 to view this post"
+"This post is not shown because the sender is on your 'ignore' list.  Click %"
+"1here%2 to view this post"
 msgstr ""
 
-#: ../inc/forum.inc:622 ../inc/forum.inc:633
+#: ../inc/forum.inc:668 ../inc/forum.inc:679
 msgid "Report this post as offensive"
 msgstr ""
 
-#: ../inc/forum.inc:622 ../inc/forum.inc:633
+#: ../inc/forum.inc:668 ../inc/forum.inc:679
 #, fuzzy
 msgid "Report as offensive"
 msgstr "Τελευταία δημοσίευση"
 
-#: ../inc/forum.inc:626
+#: ../inc/forum.inc:672
 msgid "Rating: %1"
 msgstr ""
 
-#: ../inc/forum.inc:626
+#: ../inc/forum.inc:672
 msgid "rate: "
 msgstr ""
 
-#: ../inc/forum.inc:629
+#: ../inc/forum.inc:675
 msgid "Click if you like this message"
 msgstr ""
 
-#: ../inc/forum.inc:629
+#: ../inc/forum.inc:675
 msgid "Rate +"
 msgstr ""
 
-#: ../inc/forum.inc:631
+#: ../inc/forum.inc:677
 msgid "Click if you don't like this message"
 msgstr ""
 
-#: ../inc/forum.inc:631
+#: ../inc/forum.inc:677
 msgid "Rate -"
 msgstr ""
 
-#: ../inc/forum.inc:639 ../user/pm.php:106 ../user/pm.php:146
+#: ../inc/forum.inc:685 ../user/pm.php:106 ../user/pm.php:146
 msgid "Reply"
 msgstr ""
 
-#: ../inc/forum.inc:639
+#: ../inc/forum.inc:685
 msgid "Post a reply to this message"
 msgstr ""
 
-#: ../inc/forum.inc:641
+#: ../inc/forum.inc:687
 msgid "Quote"
 msgstr ""
 
-#: ../inc/forum.inc:641
+#: ../inc/forum.inc:687
 msgid "Post a reply by quoting this message"
 msgstr ""
 
-#: ../inc/forum.inc:662
+#: ../inc/forum.inc:708
 msgid "Hidden by a moderator"
 msgstr ""
 
-#: ../inc/forum.inc:683
+#: ../inc/forum.inc:729
 #, fuzzy
 msgid "Posted %1 by %2"
 msgstr "Δημοσιεύσεις"
 
-#: ../inc/forum.inc:701
+#: ../inc/forum.inc:747
 msgid "You may not post or rate messages until %1"
 msgstr ""
 
-#: ../inc/forum.inc:712
+#: ../inc/forum.inc:758
 msgid ""
 "\n"
 "        <ul>\n"
@@ -367,122 +381,116 @@ msgid ""
 "        "
 msgstr ""
 
-#: ../inc/forum.inc:734
+#: ../inc/forum.inc:780
 msgid "Rules:"
 msgstr ""
 
-#: ../inc/forum.inc:735
+#: ../inc/forum.inc:781
 msgid "More info"
 msgstr ""
 
-#: ../inc/forum.inc:1008 ../user/forum_thread.php:185
+#: ../inc/forum.inc:1055 ../user/forum_thread.php:189
 msgid "Unhide"
 msgstr ""
 
-#: ../inc/forum.inc:1008
+#: ../inc/forum.inc:1055
 msgid "Unhide this post"
 msgstr ""
 
-#: ../inc/forum.inc:1010 ../user/forum_thread.php:191
+#: ../inc/forum.inc:1057 ../user/forum_thread.php:195
 msgid "Hide"
 msgstr ""
 
-#: ../inc/forum.inc:1010
+#: ../inc/forum.inc:1057
 msgid "Hide this post"
 msgstr ""
 
-#: ../inc/forum.inc:1015 ../user/forum_thread.php:224
+#: ../inc/forum.inc:1062 ../user/forum_thread.php:228
 msgid "Move"
 msgstr ""
 
-#: ../inc/forum.inc:1015
+#: ../inc/forum.inc:1062
 msgid "Move post to a different thread"
 msgstr ""
 
-#: ../inc/forum.inc:1020
+#: ../inc/forum.inc:1067
 msgid "Banish author"
 msgstr ""
 
-#: ../inc/forum.inc:1027
+#: ../inc/forum.inc:1074
 msgid "Vote to banish author"
 msgstr ""
 
-#: ../inc/forum.inc:1031
+#: ../inc/forum.inc:1078
 msgid "Vote not to banish author"
 msgstr ""
 
-#: ../inc/forum.inc:1036
+#: ../inc/forum.inc:1083
 msgid "Start vote to banish author"
 msgstr ""
 
-#: ../inc/forum.inc:1069
+#: ../inc/forum.inc:1116
 msgid "Only team members can post to the team message board"
 msgstr ""
 
-#: ../inc/forum.inc:1079
+#: ../inc/forum.inc:1126
 msgid ""
 "In order to create a new thread in %1 you must have a certain amount of "
 "credit. This is to prevent and protect against abuse of the system."
 msgstr ""
 
-#: ../inc/forum.inc:1086
+#: ../inc/forum.inc:1133
 msgid ""
 "You cannot create any more threads right now. Please wait a while before "
 "trying again. This delay has been enforced to protect against abuse of the "
 "system."
 msgstr ""
 
-#: ../inc/forum.inc:1093
+#: ../inc/forum.inc:1140
 msgid ""
 "This thread is locked. Only forum moderators and administrators are allowed "
 "to post there."
 msgstr ""
 
-#: ../inc/forum.inc:1098
+#: ../inc/forum.inc:1145
 msgid "Can't post to a hidden thread."
 msgstr ""
 
-#: ../inc/forum.inc:1126
+#: ../inc/forum.inc:1173
 msgid "Thread"
 msgstr "Νήμα"
 
-#: ../inc/forum.inc:1127 ../inc/team.inc:120 ../user/forum_forum.php:135
+#: ../inc/forum.inc:1174 ../inc/team.inc:127 ../user/forum_forum.php:136
 #: ../user/forum_index.php:94
 msgid "Posts"
 msgstr "Δημοσιεύσεις"
 
-#: ../inc/forum.inc:1128 ../user/forum_forum.php:136
-#: ../user/forum_reply.php:115 ../user/forum_report_post.php:75
-#: ../user/forum_thread.php:263
-msgid "Author"
-msgstr "Συγγραφέας"
-
-#: ../inc/forum.inc:1129 ../user/forum_forum.php:137
+#: ../inc/forum.inc:1176 ../user/forum_forum.php:138
 msgid "Views"
 msgstr ""
 
-#: ../inc/forum.inc:1130 ../inc/team.inc:120 ../user/forum_forum.php:138
+#: ../inc/forum.inc:1177 ../inc/team.inc:127 ../user/forum_forum.php:139
 #: ../user/forum_help_desk.php:46 ../user/forum_index.php:95
 msgid "Last post"
 msgstr "Τελευταία δημοσίευση"
 
-#: ../inc/forum.inc:1188
+#: ../inc/forum.inc:1235
 msgid "New posts in the thread %1"
 msgstr ""
 
-#: ../inc/forum.inc:1193
+#: ../inc/forum.inc:1240
 msgid "New posts in subscribed thread"
 msgstr ""
 
-#: ../inc/forum.inc:1194
+#: ../inc/forum.inc:1241
 msgid "There are new posts in the thread '%1'"
 msgstr ""
 
-#: ../inc/forum.inc:1204
+#: ../inc/forum.inc:1251
 msgid "Mark all threads as read"
 msgstr "Σημάδεψε όλα τα νήματα ως διαβασμένα"
 
-#: ../inc/forum.inc:1205
+#: ../inc/forum.inc:1252
 #, fuzzy
 msgid "Mark all threads in all message boards as read."
 msgstr "Σημάδεψε όλα τα νήματα σε όλους τους πίνακες μηνυμάτων ως \"διαβασμένα\"."
@@ -495,363 +503,369 @@ msgstr ""
 msgid "Unavailable"
 msgstr "Μη διαθέσιμο"
 
-#: ../inc/host.inc:55 ../inc/prefs.inc:626 ../inc/prefs.inc:1026
+#: ../inc/host.inc:56 ../inc/prefs.inc:639 ../inc/prefs.inc:1048
 msgid "Home"
 msgstr "Σπίτι"
 
-#: ../inc/host.inc:56 ../inc/prefs.inc:628 ../inc/prefs.inc:1027
-#: ../user/server_status.php:319
+#: ../inc/host.inc:57 ../inc/prefs.inc:641 ../inc/prefs.inc:1049
+#: ../user/server_status.php:329
 msgid "Work"
 msgstr "Εργασία"
 
-#: ../inc/host.inc:57 ../inc/prefs.inc:627 ../inc/prefs.inc:1028
+#: ../inc/host.inc:58 ../inc/prefs.inc:640 ../inc/prefs.inc:1050
 msgid "School"
 msgstr "Σχολείο"
 
-#: ../inc/host.inc:59 ../user/edit_forum_preferences_form.php:173
-#: ../user/edit_forum_preferences_form.php:174
+#: ../inc/host.inc:59
+msgid "Mobile"
+msgstr ""
+
+#: ../inc/host.inc:61 ../user/edit_forum_preferences_form.php:172
+#: ../user/edit_forum_preferences_form.php:173
 msgid "Update"
 msgstr "Ανανέωση"
 
-#: ../inc/host.inc:83
+#: ../inc/host.inc:85
 msgid "Computer information"
 msgstr "Πληροφορίες υπολογιστή"
 
-#: ../inc/host.inc:87 ../inc/host.inc:92
+#: ../inc/host.inc:89 ../inc/host.inc:94
 msgid "IP address"
 msgstr "Διεύθυνση IP"
 
-#: ../inc/host.inc:87
+#: ../inc/host.inc:89
 msgid "(same the last %1 times)"
 msgstr ""
 
-#: ../inc/host.inc:89
+#: ../inc/host.inc:91
 msgid "External IP address"
 msgstr "Εξωτερική διεύθυνση IP"
 
-#: ../inc/host.inc:92
+#: ../inc/host.inc:94
 msgid "Show IP address"
 msgstr "Εμφάνιση διεύθυνσης IP"
 
-#: ../inc/host.inc:94
+#: ../inc/host.inc:96
 msgid "Domain name"
 msgstr ""
 
-#: ../inc/host.inc:97
+#: ../inc/host.inc:98
+msgid "Product name"
+msgstr ""
+
+#: ../inc/host.inc:102
 msgid "Local Standard Time"
 msgstr ""
 
-#: ../inc/host.inc:97
+#: ../inc/host.inc:102
 msgid "UTC %1 hours"
 msgstr ""
 
-#: ../inc/host.inc:98 ../inc/host.inc:645 ../inc/result.inc:591
-#: ../inc/team.inc:202 ../inc/team.inc:350 ../inc/user.inc:200
-#: ../user/account_finish.php:41 ../user/create_account_form.php:89
-#: ../user/team_admins.php:62 ../user/team_change_founder_form.php:77
-#: ../user/team_email_list.php:64 ../user/top_users.php:49
-#: ../user/user_search.php:105 ../user/user_search.php:163
-msgid "Name"
-msgstr "Όνομα"
-
-#: ../inc/host.inc:102 ../inc/host.inc:104 ../inc/host.inc:216
+#: ../inc/host.inc:106 ../inc/host.inc:108 ../inc/host.inc:222
 msgid "Owner"
 msgstr "Ιδιοκτήτης"
 
-#: ../inc/host.inc:104 ../inc/host.inc:333
+#: ../inc/host.inc:108 ../inc/host.inc:355
 msgid "Anonymous"
 msgstr "Ανώνυμος"
 
-#: ../inc/host.inc:108 ../inc/result.inc:593
+#: ../inc/host.inc:112 ../inc/result.inc:630
 msgid "Created"
 msgstr ""
 
-#: ../inc/host.inc:109 ../inc/host.inc:220 ../inc/host.inc:225
-#: ../inc/host.inc:654 ../inc/team.inc:94 ../inc/team.inc:207
-#: ../inc/team.inc:212 ../inc/team.inc:214 ../inc/team.inc:356
-#: ../inc/team.inc:361 ../inc/user.inc:122 ../inc/user.inc:136
+#: ../inc/host.inc:113 ../inc/host.inc:226 ../inc/host.inc:231
+#: ../inc/host.inc:681 ../inc/team.inc:101 ../inc/team.inc:214
+#: ../inc/team.inc:219 ../inc/team.inc:221 ../inc/team.inc:363
+#: ../inc/team.inc:368 ../inc/user.inc:125 ../inc/user.inc:138
 #: ../user/profile_search_action.php:43
 #: ../user/team_change_founder_form.php:78 ../user/team_email_list.php:64
 #: ../user/team_remove_inactive_form.php:41 ../user/top_users.php:54
-#: ../user/top_users.php:59 ../user/user_search.php:105
-#: ../user/user_search.php:163
+#: ../user/top_users.php:59 ../user/user_search.php:140
 msgid "Total credit"
 msgstr ""
 
-#: ../inc/host.inc:110 ../inc/user.inc:122 ../user/team_search.php:70
-#: ../user/user_search.php:105 ../user/user_search.php:163
+#: ../inc/host.inc:114 ../inc/user.inc:125 ../user/team_search.php:70
+#: ../user/user_search.php:139
 msgid "Average credit"
 msgstr ""
 
-#: ../inc/host.inc:112
+#: ../inc/host.inc:116
 msgid "Cross project credit"
 msgstr ""
 
-#: ../inc/host.inc:114
+#: ../inc/host.inc:118
 msgid "CPU type"
 msgstr "Τύπος κεντρικής μονάδας επεξεργασίας"
 
-#: ../inc/host.inc:115
+#: ../inc/host.inc:119
 msgid "Number of processors"
 msgstr ""
 
-#: ../inc/host.inc:117
+#: ../inc/host.inc:121
 msgid "Coprocessors"
 msgstr ""
 
-#: ../inc/host.inc:119 ../inc/host.inc:660
+#: ../inc/host.inc:123 ../inc/host.inc:687
 msgid "Operating System"
 msgstr "Λειτουργικό σύστημα"
 
-#: ../inc/host.inc:122 ../inc/host.inc:229
+#: ../inc/host.inc:126 ../inc/host.inc:235
 msgid "BOINC version"
 msgstr "Έκδοση του BOINC"
 
-#: ../inc/host.inc:126
+#: ../inc/host.inc:130
 msgid "Memory"
 msgstr "Μνήμη"
 
-#: ../inc/host.inc:126 ../inc/host.inc:134
+#: ../inc/host.inc:130 ../inc/host.inc:140
 msgid "%1 MB"
 msgstr "%1 MB"
 
-#: ../inc/host.inc:129
+#: ../inc/host.inc:134
 msgid "Cache"
 msgstr ""
 
-#: ../inc/host.inc:129
+#: ../inc/host.inc:134
 msgid "%1 KB"
 msgstr "%1 KB"
 
-#: ../inc/host.inc:134
+#: ../inc/host.inc:140
 msgid "Swap space"
 msgstr ""
 
-#: ../inc/host.inc:137
+#: ../inc/host.inc:143
 msgid "Total disk space"
 msgstr ""
 
-#: ../inc/host.inc:137 ../inc/host.inc:140
+#: ../inc/host.inc:143 ../inc/host.inc:146
 msgid "%1 GB"
 msgstr "%1 GB"
 
-#: ../inc/host.inc:140
+#: ../inc/host.inc:146
 msgid "Free Disk Space"
 msgstr "Ελεύθερος χώρος στο δίσκο"
 
-#: ../inc/host.inc:144
+#: ../inc/host.inc:150
 msgid "Measured floating point speed"
 msgstr ""
 
-#: ../inc/host.inc:144 ../inc/host.inc:147
+#: ../inc/host.inc:150 ../inc/host.inc:153
 msgid "%1 million ops/sec"
 msgstr ""
 
-#: ../inc/host.inc:147
+#: ../inc/host.inc:153
 msgid "Measured integer speed"
 msgstr ""
 
-#: ../inc/host.inc:151 ../inc/host.inc:153
+#: ../inc/host.inc:157 ../inc/host.inc:159
 msgid "Average upload rate"
 msgstr ""
 
-#: ../inc/host.inc:151 ../inc/host.inc:158
+#: ../inc/host.inc:157 ../inc/host.inc:164
 msgid "%1 KB/sec"
 msgstr ""
 
-#: ../inc/host.inc:153 ../inc/host.inc:160 ../inc/result.inc:195
-#: ../inc/result.inc:205 ../inc/result.inc:223 ../inc/result.inc:241
-#: ../inc/result.inc:257 ../user/explain_state.php:56
+#: ../inc/host.inc:159 ../inc/host.inc:166 ../inc/result.inc:216
+#: ../inc/result.inc:226 ../inc/result.inc:244 ../inc/result.inc:262
+#: ../inc/result.inc:278 ../user/explain_state.php:56
 #: ../user/host_app_versions.php:29
 msgid "Unknown"
 msgstr "Άγνωστο"
 
-#: ../inc/host.inc:158 ../inc/host.inc:160
+#: ../inc/host.inc:164 ../inc/host.inc:166
 msgid "Average download rate"
 msgstr ""
 
-#: ../inc/host.inc:163 ../user/host_app_versions.php:65
+#: ../inc/host.inc:169 ../user/host_app_versions.php:64
 msgid "Average turnaround time"
 msgstr ""
 
-#: ../inc/host.inc:163 ../user/forum_search.php:46 ../user/forum_search.php:47
+#: ../inc/host.inc:169 ../user/forum_search.php:46 ../user/forum_search.php:47
 #: ../user/forum_search.php:48 ../user/forum_search.php:49
 msgid "%1 days"
 msgstr ""
 
-#: ../inc/host.inc:164
+#: ../inc/host.inc:170
 msgid "Application details"
 msgstr ""
 
-#: ../inc/host.inc:165
+#: ../inc/host.inc:171
 msgid "Show"
 msgstr ""
 
-#: ../inc/host.inc:175 ../inc/host.inc:317 ../inc/user.inc:153
+#: ../inc/host.inc:181 ../inc/host.inc:336 ../inc/user.inc:152
 msgid "Tasks"
 msgstr ""
 
-#: ../inc/host.inc:179 ../inc/host.inc:200
+#: ../inc/host.inc:185 ../inc/host.inc:206
 msgid "Number of times client has contacted server"
 msgstr ""
 
-#: ../inc/host.inc:180
+#: ../inc/host.inc:186
 msgid "Last time contacted server"
 msgstr ""
 
-#: ../inc/host.inc:181
+#: ../inc/host.inc:187
 #, php-format
 msgid "% of time BOINC is running"
 msgstr ""
 
-#: ../inc/host.inc:183
+#: ../inc/host.inc:189
 #, php-format
 msgid "While BOINC running, % of time host has an Internet connection"
 msgstr ""
 
-#: ../inc/host.inc:185
+#: ../inc/host.inc:191
 #, php-format
 msgid "While BOINC running, % of time work is allowed"
 msgstr ""
 
-#: ../inc/host.inc:187
+#: ../inc/host.inc:193
 msgid "Average CPU efficiency"
 msgstr ""
 
-#: ../inc/host.inc:190
+#: ../inc/host.inc:196
 msgid "Task duration correction factor"
 msgstr ""
 
-#: ../inc/host.inc:192 ../inc/host.inc:647
+#: ../inc/host.inc:198 ../inc/host.inc:674
 msgid "Location"
 msgstr ""
 
-#: ../inc/host.inc:194
+#: ../inc/host.inc:200
 msgid "Delete this computer"
 msgstr ""
 
-#: ../inc/host.inc:198
+#: ../inc/host.inc:204
 msgid "Merge duplicate records of this computer"
 msgstr ""
 
-#: ../inc/host.inc:198
+#: ../inc/host.inc:204
 msgid "Merge"
 msgstr ""
 
-#: ../inc/host.inc:201 ../inc/host.inc:662
+#: ../inc/host.inc:207 ../inc/host.inc:689
 msgid "Last contact"
 msgstr ""
 
-#: ../inc/host.inc:214
+#: ../inc/host.inc:220
 msgid "Computer info"
 msgstr ""
 
-#: ../inc/host.inc:215 ../inc/host.inc:649 ../inc/team.inc:349
+#: ../inc/host.inc:221 ../inc/host.inc:676 ../inc/team.inc:356
 #: ../user/top_users.php:48
 msgid "Rank"
 msgstr ""
 
-#: ../inc/host.inc:219 ../inc/host.inc:652
+#: ../inc/host.inc:225 ../inc/host.inc:679
 msgid "Avg. credit"
 msgstr ""
 
-#: ../inc/host.inc:224 ../inc/team.inc:95 ../inc/team.inc:208
-#: ../inc/team.inc:217 ../inc/team.inc:219 ../inc/team.inc:355
-#: ../inc/team.inc:360 ../inc/user.inc:137
+#: ../inc/host.inc:230 ../inc/team.inc:102 ../inc/team.inc:215
+#: ../inc/team.inc:224 ../inc/team.inc:226 ../inc/team.inc:362
+#: ../inc/team.inc:367 ../inc/user.inc:139
 #: ../user/team_change_founder_form.php:79 ../user/team_email_list.php:64
 #: ../user/team_remove_inactive_form.php:42 ../user/top_users.php:53
 #: ../user/top_users.php:58
 msgid "Recent average credit"
 msgstr ""
 
-#: ../inc/host.inc:230 ../inc/host.inc:657 ../inc/result.inc:47
+#: ../inc/host.inc:236 ../inc/host.inc:684 ../inc/result.inc:51
 #: ../user/host_app_versions.php:25
 msgid "CPU"
 msgstr ""
 
-#: ../inc/host.inc:231 ../inc/host.inc:658
+#: ../inc/host.inc:237 ../inc/host.inc:685
 msgid "GPU"
 msgstr ""
 
-#: ../inc/host.inc:232
+#: ../inc/host.inc:238
 #, fuzzy
 msgid "Operating system"
 msgstr "Λειτουργικό σύστημα"
 
-#: ../inc/host.inc:296
+#: ../inc/host.inc:315
 msgid "(%1 processors)"
 msgstr ""
 
-#: ../inc/host.inc:316
+#: ../inc/host.inc:335
 msgid "Details"
 msgstr ""
 
-#: ../inc/host.inc:321
+#: ../inc/host.inc:340
 msgid "Cross-project stats:"
 msgstr ""
 
-#: ../inc/host.inc:493
+#: ../inc/host.inc:515
 msgid "Host %1 has overlapping lifetime:"
 msgstr ""
 
-#: ../inc/host.inc:500
+#: ../inc/host.inc:522
 msgid "Host %1 has an incompatible OS:"
 msgstr ""
 
-#: ../inc/host.inc:506
+#: ../inc/host.inc:528
 msgid "Host %1 has an incompatible CPU:"
 msgstr ""
 
-#: ../inc/host.inc:573
+#: ../inc/host.inc:595
 msgid "same host"
 msgstr ""
 
-#: ../inc/host.inc:576
+#: ../inc/host.inc:598
 msgid "Can't merge host %1 into %2 - they're incompatible"
 msgstr ""
 
-#: ../inc/host.inc:579
+#: ../inc/host.inc:601
 msgid "Merging host %1 into host %2"
 msgstr ""
 
-#: ../inc/host.inc:596
+#: ../inc/host.inc:618
 msgid "Couldn't update credit of new computer"
 msgstr ""
 
-#: ../inc/host.inc:600
+#: ../inc/host.inc:622
 msgid "Couldn't update results"
 msgstr ""
 
-#: ../inc/host.inc:605
+#: ../inc/host.inc:627
 msgid "Couldn't retire old computer"
 msgstr ""
 
-#: ../inc/host.inc:607
+#: ../inc/host.inc:629
 msgid "Retired old computer %1"
 msgstr ""
 
-#: ../inc/host.inc:630 ../inc/host.inc:633
+#: ../inc/host.inc:652 ../inc/host.inc:655
 msgid "Show:"
 msgstr ""
 
-#: ../inc/host.inc:630 ../inc/host.inc:633
+#: ../inc/host.inc:652 ../inc/host.inc:655
 msgid "All computers"
 msgstr ""
 
-#: ../inc/host.inc:630 ../inc/host.inc:633
+#: ../inc/host.inc:652 ../inc/host.inc:655
 msgid "Only computers active in past 30 days"
 msgstr ""
 
-#: ../inc/host.inc:642 ../inc/result.inc:600
+#: ../inc/host.inc:666 ../inc/result.inc:637
 msgid "Computer ID"
 msgstr ""
 
-#: ../inc/host.inc:655
+#: ../inc/host.inc:669 ../inc/result.inc:628 ../inc/team.inc:209
+#: ../inc/team.inc:357 ../inc/user.inc:199 ../user/account_finish.php:41
+#: ../user/create_account_form.php:80 ../user/team_admins.php:62
+#: ../user/team_change_founder_form.php:77 ../user/team_email_list.php:64
+#: ../user/top_users.php:49 ../user/user_search.php:139
+msgid "Name"
+msgstr "Όνομα"
+
+#: ../inc/host.inc:682
 #, fuzzy
 msgid "BOINC<br>version"
 msgstr "Έκδοση του BOINC"
 
-#: ../inc/host.inc:711 ../user/merge_by_name.php:67
+#: ../inc/host.inc:745 ../user/merge_by_name.php:67
 msgid "Merge computers by name"
 msgstr ""
 
@@ -872,7 +886,7 @@ msgstr ""
 msgid "Write"
 msgstr ""
 
-#: ../inc/pm.inc:33 ../inc/user.inc:373
+#: ../inc/pm.inc:33 ../inc/user.inc:377
 #, fuzzy
 msgid "Send private message"
 msgstr "Προσωπικά μηνύματα"
@@ -882,8 +896,8 @@ msgstr "Προσωπικά μηνύματα"
 #: ../user/forum_edit.php:101 ../user/forum_edit.php:145
 #: ../user/forum_post.php:61 ../user/forum_post.php:87
 #: ../user/forum_post.php:89 ../user/forum_post.php:130
-#: ../user/forum_reply.php:77 ../user/forum_reply.php:106
-#: ../user/forum_reply.php:108 ../user/forum_reply.php:153 ../user/pm.php:181
+#: ../user/forum_reply.php:74 ../user/forum_reply.php:107
+#: ../user/forum_reply.php:109 ../user/forum_reply.php:165 ../user/pm.php:181
 msgid "Preview"
 msgstr ""
 
@@ -903,14 +917,6 @@ msgstr ""
 #: ../inc/pm.inc:85 ../user/pm.php:90 ../user/pm.php:139
 msgid "Subject"
 msgstr ""
-
-#: ../inc/pm.inc:86 ../user/forum_edit.php:128 ../user/forum_edit.php:133
-#: ../user/forum_post.php:116 ../user/forum_reply.php:115
-#: ../user/forum_report_post.php:75 ../user/forum_thread.php:263
-#: ../user/pm.php:90 ../user/pm.php:144
-#, fuzzy
-msgid "Message"
-msgstr "Πίνακας μηνυμάτων"
 
 #: ../inc/pm.inc:89
 msgid "Send message"
@@ -934,9 +940,11 @@ msgid ""
 "time before sending more messages."
 msgstr ""
 
-#: ../inc/pm.inc:176 ../user/forum_forum.php:184
+# 83%
+#: ../inc/pm.inc:176 ../user/forum_forum.php:186
+#, fuzzy
 msgid "unread"
-msgstr ""
+msgstr "Νήμα"
 
 #: ../inc/pm.inc:186
 msgid "For email notification, %1edit community prefs%2"
@@ -947,133 +955,130 @@ msgstr ""
 msgid "Private message"
 msgstr "Προσωπικά μηνύματα"
 
-#: ../inc/prefs.inc:76
+#: ../inc/prefs.inc:77
 msgid ""
 "Suspend work while computer is on battery power? %1 Matters only for "
 "portable computers %2"
 msgstr ""
 
-#: ../inc/prefs.inc:84
+#: ../inc/prefs.inc:85
 msgid "Suspend work while computer is in use?"
 msgstr ""
 
-#: ../inc/prefs.inc:90
+#: ../inc/prefs.inc:91
 msgid ""
 "Suspend GPU work while computer is in use? %1 Enforced by version 6.6.21+ %2"
 msgstr ""
 
-#: ../inc/prefs.inc:98
+#: ../inc/prefs.inc:99
 msgid "'In use' means mouse/keyboard activity in last"
 msgstr ""
 
-#: ../inc/prefs.inc:100 ../inc/prefs.inc:109 ../inc/prefs.inc:143
+#: ../inc/prefs.inc:101 ../inc/prefs.inc:110 ../inc/prefs.inc:144
 msgid "minutes"
 msgstr ""
 
-#: ../inc/prefs.inc:104
+#: ../inc/prefs.inc:105
 msgid ""
 "Suspend work if no mouse/keyboard activity in last %1 Needed to enter low-"
 "power mode on some computers %2"
 msgstr ""
 
-#: ../inc/prefs.inc:113
+#: ../inc/prefs.inc:114
 msgid ""
 "Suspend work when non-BOINC CPU usage is above %1 0 means no "
 "restriction<br>Enforced by version 6.10.30+ %2"
 msgstr ""
 
-#: ../inc/prefs.inc:121
+#: ../inc/prefs.inc:122
 msgid "Do work only between the hours of %1 No restriction if equal %2"
 msgstr ""
 
-#: ../inc/prefs.inc:129
+#: ../inc/prefs.inc:130
 msgid ""
 "Leave tasks in memory while suspended? %1 Suspended tasks will consume swap "
 "space if 'yes' %2"
 msgstr ""
 
-#: ../inc/prefs.inc:138
+#: ../inc/prefs.inc:139
 msgid "Switch between tasks every %1 Recommended: 60 minutes %2"
 msgstr ""
 
-#: ../inc/prefs.inc:146
+#: ../inc/prefs.inc:147
 msgid "On multiprocessors, use at most"
 msgstr ""
 
-#: ../inc/prefs.inc:148
+#: ../inc/prefs.inc:149
 msgid "processors"
 msgstr ""
 
-#: ../inc/prefs.inc:152
+#: ../inc/prefs.inc:153
 msgid "On multiprocessors, use at most %1 Enforced by version 6.1+ %2"
 msgstr ""
 
-#: ../inc/prefs.inc:157
+#: ../inc/prefs.inc:158
 #, php-format
 msgid "% of the processors"
 msgstr ""
 
-#: ../inc/prefs.inc:161
+#: ../inc/prefs.inc:162
 msgid "Use at most %1 Can be used to reduce CPU heat %2"
 msgstr ""
 
-#: ../inc/prefs.inc:166
+#: ../inc/prefs.inc:167
 #, php-format
 msgid "% of CPU time"
 msgstr ""
 
-#: ../inc/prefs.inc:174 ../inc/prefs.inc:188
+#: ../inc/prefs.inc:175 ../inc/prefs.inc:189
 msgid "Disk: use at most"
 msgstr ""
 
-#: ../inc/prefs.inc:176 ../inc/prefs.inc:185
+#: ../inc/prefs.inc:177 ../inc/prefs.inc:186
 msgid "GB"
 msgstr ""
 
-#: ../inc/prefs.inc:179
+#: ../inc/prefs.inc:180
 msgid "Disk: leave free at least %1 Values smaller than %2 are ignored %3"
 msgstr ""
 
-#: ../inc/prefs.inc:190 ../inc/prefs.inc:200 ../inc/prefs.inc:205
-#: ../inc/prefs.inc:210
+#: ../inc/prefs.inc:191 ../inc/prefs.inc:201 ../inc/prefs.inc:206
+#: ../inc/prefs.inc:211
 #, php-format
 msgid "% of total"
 msgstr ""
 
-#: ../inc/prefs.inc:193
+#: ../inc/prefs.inc:194
 msgid "Tasks checkpoint to disk at most every"
 msgstr ""
 
-#: ../inc/prefs.inc:195
+#: ../inc/prefs.inc:196
 msgid "seconds"
 msgstr ""
 
-#: ../inc/prefs.inc:198
+#: ../inc/prefs.inc:199
 msgid "Swap space: use at most"
 msgstr ""
 
-#: ../inc/prefs.inc:203
+#: ../inc/prefs.inc:204
 msgid "Memory: when computer is in use, use at most"
 msgstr ""
 
-#: ../inc/prefs.inc:208
+#: ../inc/prefs.inc:209
 msgid "Memory: when computer is not in use, use at most"
 msgstr ""
 
-#: ../inc/prefs.inc:217
-msgid ""
-"Computer is connected to the Internet about every %1 Leave blank or 0 if "
-"always connected. %2 BOINC will try to maintain at least this much work (max "
-"10 days). %3"
+#: ../inc/prefs.inc:218
+msgid "Maintain enough tasks to keep busy for at least%1(max 10 days).%2"
 msgstr ""
 
 #: ../inc/prefs.inc:223 ../inc/prefs.inc:228 ../inc/prefs.inc:270
-#: ../inc/util.inc:244
+#: ../inc/util.inc:258
 msgid "days"
 msgstr ""
 
 #: ../inc/prefs.inc:226
-msgid "Maintain enough work for an additional"
+msgid "... and up to an additional"
 msgstr ""
 
 #: ../inc/prefs.inc:232
@@ -1143,142 +1148,149 @@ msgstr ""
 msgid "Use NVIDIA GPU %1 Enforced by version 6.10+ %2"
 msgstr ""
 
-#: ../inc/prefs.inc:346
+#: ../inc/prefs.inc:344
+msgid "Use Intel GPU %1 Enforced by version 7.0+ %2"
+msgstr ""
+
+#: ../inc/prefs.inc:358
 msgid ""
 "Run test applications? %1 This helps us develop applications, but may cause "
 "jobs to fail on your computer %2"
 msgstr ""
 
-#: ../inc/prefs.inc:355
+#: ../inc/prefs.inc:367
 msgid ""
 "Emails will be sent from %1; make sure your spam filter accepts this address."
 msgstr ""
 
-#: ../inc/prefs.inc:362
+#: ../inc/prefs.inc:374
 msgid "Is it OK for %1 and your team (if any) to email you?"
 msgstr ""
 
-#: ../inc/prefs.inc:368
+#: ../inc/prefs.inc:380
 msgid "Should %1 show your computers on its web site?"
 msgstr ""
 
-#: ../inc/prefs.inc:375
+#: ../inc/prefs.inc:387
 msgid "Disk and memory usage"
 msgstr ""
 
-#: ../inc/prefs.inc:376
+#: ../inc/prefs.inc:388
 msgid "Processor usage"
 msgstr ""
 
-#: ../inc/prefs.inc:377
+#: ../inc/prefs.inc:389
 msgid "Network usage"
 msgstr ""
 
-#: ../inc/prefs.inc:380
+#: ../inc/prefs.inc:392
 msgid ""
 "These preferences apply to all the BOINC projects in which you participate."
 msgstr ""
 
-#: ../inc/prefs.inc:383
+#: ../inc/prefs.inc:395
 msgid ""
 "%1Unable to update preferences.%2 The values marked in red below were out of "
 "range or not numeric."
 msgstr ""
 
-#: ../inc/prefs.inc:432
+#: ../inc/prefs.inc:445
 msgid "bad venue: %1"
 msgstr ""
 
-#: ../inc/prefs.inc:438
+#: ../inc/prefs.inc:451
 msgid "bad subset: %1"
 msgstr ""
 
-#: ../inc/prefs.inc:657 ../inc/prefs.inc:660 ../inc/prefs.inc:1003
-#: ../inc/prefs_util.inc:93 ../project.sample/project_specific_prefs.inc:75
+#: ../inc/prefs.inc:671 ../inc/prefs.inc:674 ../inc/prefs.inc:1025
+#: ../inc/prefs_util.inc:93 ../project.sample/project_specific_prefs.inc:85
 msgid "yes"
 msgstr ""
 
-#: ../inc/prefs.inc:657 ../inc/prefs.inc:660 ../inc/prefs.inc:1005
-#: ../inc/prefs_util.inc:93 ../project.sample/project_specific_prefs.inc:77
+#: ../inc/prefs.inc:671 ../inc/prefs.inc:674 ../inc/prefs.inc:1027
+#: ../inc/prefs_util.inc:93 ../project.sample/project_specific_prefs.inc:87
 msgid "no"
 msgstr ""
 
-#: ../inc/prefs.inc:665 ../user/forum_search.php:53
+#: ../inc/prefs.inc:679 ../user/forum_search.php:53
 msgid "no limit"
 msgstr ""
 
-#: ../inc/prefs.inc:690 ../user/team_admins.php:79
+#: ../inc/prefs.inc:704 ../user/team_admins.php:79
 msgid "Add"
 msgstr ""
 
-#: ../inc/prefs.inc:692 ../inc/prefs.inc:818
-#: ../user/edit_forum_preferences_form.php:161 ../user/team_admins.php:34
+#: ../inc/prefs.inc:706 ../inc/prefs.inc:834
+#: ../user/edit_forum_preferences_form.php:160 ../user/team_admins.php:34
 msgid "Remove"
 msgstr ""
 
-#: ../inc/prefs.inc:798 ../user/explain_state.php:94
+#: ../inc/prefs.inc:812 ../user/explain_state.php:94
 msgid "Computing"
 msgstr ""
 
-#: ../inc/prefs.inc:809
+#: ../inc/prefs.inc:823
 msgid "Separate preferences for %1"
 msgstr ""
 
-#: ../inc/prefs.inc:818 ../inc/prefs.inc:893
+#: ../inc/prefs.inc:833 ../inc/prefs.inc:914
 msgid "Edit preferences"
 msgstr ""
 
-#: ../inc/prefs.inc:822
+#: ../inc/prefs.inc:839
 msgid "Add separate preferences for %1"
 msgstr ""
 
-#: ../inc/prefs.inc:830 ../inc/prefs.inc:875
+#: ../inc/prefs.inc:847 ../inc/prefs.inc:895
 msgid "(Switch View)"
 msgstr ""
 
-#: ../inc/prefs.inc:832 ../inc/prefs.inc:878
+#: ../inc/prefs.inc:849 ../inc/prefs.inc:898
 msgid "Combined preferences"
 msgstr ""
 
-#: ../inc/prefs.inc:837
+#: ../inc/prefs.inc:854
 msgid "Project specific settings"
 msgstr ""
 
-#: ../inc/prefs.inc:845 ../inc/prefs.inc:887
+#: ../inc/prefs.inc:862 ../inc/prefs.inc:907
 msgid "Primary (default) preferences"
 msgstr ""
 
-#: ../inc/prefs.inc:854 ../user/add_venue.php:43 ../user/add_venue.php:67
+#: ../inc/prefs.inc:871 ../user/add_venue.php:43 ../user/add_venue.php:67
 #: ../user/prefs_edit.php:40 ../user/prefs_edit.php:64
 #: ../user/prefs_edit.php:92
 msgid "Edit %1 preferences"
 msgstr ""
 
-#: ../inc/prefs.inc:868
-msgid ""
-"These apply to all BOINC projects in which you participate.<br>\n"
-"             On computers participating in multiple projects, the most "
-"recently modified preferences will be used."
+#: ../inc/prefs.inc:885
+msgid "These apply to all BOINC projects in which you participate."
 msgstr ""
 
-#: ../inc/prefs.inc:872
+#: ../inc/prefs.inc:887
+msgid ""
+"On computers participating in multiple projects, the most recently modified "
+"preferences will be used."
+msgstr ""
+
+#: ../inc/prefs.inc:889
+msgid "These preferences do not apply to Android devices."
+msgstr ""
+
+#: ../inc/prefs.inc:892
 msgid "Preferences last modified:"
 msgstr ""
 
-#: ../inc/prefs.inc:922
+#: ../inc/prefs.inc:944
 msgid "Add preferences"
 msgstr ""
 
-#: ../inc/prefs.inc:926
+#: ../inc/prefs.inc:948
 msgid "Update preferences"
 msgstr ""
 
-#: ../inc/prefs.inc:1014 ../inc/prefs.inc:1023
+#: ../inc/prefs.inc:1036 ../inc/prefs.inc:1045
 msgid "Default computer location"
-msgstr ""
-
-#: ../inc/prefs.inc:1174
-msgid "Update failed: "
 msgstr ""
 
 #: ../inc/prefs_util.inc:305 ../inc/prefs_util.inc:315
@@ -1339,565 +1351,580 @@ msgstr ""
 msgid "I %1do not like%2 this profile"
 msgstr ""
 
-#: ../inc/result.inc:34
+#: ../inc/result.inc:35
 msgid "Anonymous platform"
 msgstr ""
 
-#: ../inc/result.inc:48
+#: ../inc/result.inc:53
 msgid "NVIDIA GPU"
 msgstr ""
 
-#: ../inc/result.inc:49 ../user/host_app_versions.php:27
+#: ../inc/result.inc:55 ../user/host_app_versions.php:27
 msgid "ATI GPU"
 msgstr ""
 
-#: ../inc/result.inc:56
+#: ../inc/result.inc:57
+msgid "Intel GPU"
+msgstr ""
+
+#: ../inc/result.inc:65
 msgid "Not in DB"
 msgstr ""
 
-#: ../inc/result.inc:82
+#: ../inc/result.inc:91
 msgid "pending"
 msgstr ""
 
-#: ../inc/result.inc:104 ../user/forum_search.php:60
+#: ../inc/result.inc:114 ../user/forum_search.php:60
 msgid "All"
 msgstr ""
 
-#: ../inc/result.inc:105 ../inc/result.inc:162 ../inc/result.inc:202
+#: ../inc/result.inc:115 ../inc/result.inc:176 ../inc/result.inc:223
 msgid "In progress"
 msgstr ""
 
-#: ../inc/result.inc:106 ../user/workunit.php:67
-msgid "Pending"
+#: ../inc/result.inc:116
+msgid "Validation pending"
 msgstr ""
 
-#: ../inc/result.inc:107 ../inc/result.inc:247
+#: ../inc/result.inc:117
+msgid "Validation inconclusive"
+msgstr ""
+
+#: ../inc/result.inc:118 ../inc/result.inc:268
 msgid "Valid"
 msgstr ""
 
-#: ../inc/result.inc:108 ../inc/result.inc:250
+#: ../inc/result.inc:119 ../inc/result.inc:271
 msgid "Invalid"
 msgstr ""
 
-#: ../inc/result.inc:109 ../inc/result.inc:188
+#: ../inc/result.inc:120 ../inc/result.inc:209
 msgid "Error"
 msgstr ""
 
-#: ../inc/result.inc:160 ../inc/result.inc:200 ../user/explain_state.php:34
+#: ../inc/result.inc:174 ../inc/result.inc:221 ../user/explain_state.php:34
 msgid "Inactive"
 msgstr ""
 
-#: ../inc/result.inc:161 ../inc/result.inc:201 ../user/explain_state.php:37
+#: ../inc/result.inc:175 ../inc/result.inc:222 ../user/explain_state.php:37
 msgid "Unsent"
 msgstr ""
 
-#: ../inc/result.inc:167
+#: ../inc/result.inc:181
 msgid "Completed, waiting for validation"
 msgstr ""
 
-#: ../inc/result.inc:168
+#: ../inc/result.inc:182
 msgid "Completed and validated"
 msgstr ""
 
-#: ../inc/result.inc:169
+#: ../inc/result.inc:183
 msgid "Completed, marked as invalid"
 msgstr ""
 
-#: ../inc/result.inc:170
+#: ../inc/result.inc:184
 msgid "Completed, can't validate"
 msgstr ""
 
-#: ../inc/result.inc:171
+#: ../inc/result.inc:185
 msgid "Completed, validation inconclusive"
 msgstr ""
 
-#: ../inc/result.inc:172
+#: ../inc/result.inc:186
 msgid "Completed, too late to validate"
 msgstr ""
 
-#: ../inc/result.inc:174
+#: ../inc/result.inc:188
 msgid "Completed"
 msgstr ""
 
-#: ../inc/result.inc:175 ../inc/result.inc:212 ../user/explain_state.php:62
+#: ../inc/result.inc:189 ../inc/result.inc:233 ../user/explain_state.php:62
 msgid "Couldn't send"
 msgstr ""
 
-#: ../inc/result.inc:178 ../inc/result.inc:236
+#: ../inc/result.inc:194 ../inc/result.inc:257
 msgid "Cancelled by server"
 msgstr ""
 
-#: ../inc/result.inc:181
+#: ../inc/result.inc:199
+msgid "Not started by deadline - canceled"
+msgstr ""
+
+#: ../inc/result.inc:202
 msgid "Error while downloading"
 msgstr ""
 
-#: ../inc/result.inc:183
+#: ../inc/result.inc:204
 msgid "Error while computing"
 msgstr ""
 
-#: ../inc/result.inc:184
+#: ../inc/result.inc:205
 msgid "Error while uploading"
 msgstr ""
 
-#: ../inc/result.inc:185 ../inc/result.inc:238
+#: ../inc/result.inc:206 ../inc/result.inc:259
 msgid "Aborted by user"
 msgstr ""
 
-#: ../inc/result.inc:186 ../inc/result.inc:239
+#: ../inc/result.inc:207 ../inc/result.inc:260
 msgid "Upload failed"
 msgstr ""
 
-#: ../inc/result.inc:189
+#: ../inc/result.inc:210
 msgid "Timed out - no response"
 msgstr ""
 
-#: ../inc/result.inc:190 ../inc/result.inc:219 ../user/explain_state.php:71
+#: ../inc/result.inc:211 ../inc/result.inc:240 ../user/explain_state.php:71
 msgid "Didn't need"
 msgstr ""
 
-#: ../inc/result.inc:191 ../inc/result.inc:220 ../user/explain_state.php:74
+#: ../inc/result.inc:212 ../inc/result.inc:241 ../user/explain_state.php:74
 msgid "Validate error"
 msgstr ""
 
-#: ../inc/result.inc:192 ../inc/result.inc:221
+#: ../inc/result.inc:213 ../inc/result.inc:242
 msgid "Abandoned"
 msgstr ""
 
-#: ../inc/result.inc:203 ../user/explain_state.php:43
+#: ../inc/result.inc:224 ../user/explain_state.php:43
 msgid "Over"
 msgstr ""
 
-#: ../inc/result.inc:211 ../user/explain_state.php:59
+#: ../inc/result.inc:232 ../user/explain_state.php:59
 msgid "Success"
 msgstr ""
 
-#: ../inc/result.inc:215
+#: ../inc/result.inc:236
 msgid "Computation error"
 msgstr ""
 
-#: ../inc/result.inc:217
+#: ../inc/result.inc:238
 msgid "Redundant result"
 msgstr ""
 
-#: ../inc/result.inc:218 ../user/explain_state.php:68
+#: ../inc/result.inc:239 ../user/explain_state.php:68
 msgid "No reply"
 msgstr ""
 
-#: ../inc/result.inc:228 ../user/explain_state.php:85
+#: ../inc/result.inc:249 ../user/explain_state.php:85
 msgid "New"
 msgstr ""
 
-#: ../inc/result.inc:229 ../user/explain_state.php:91
+#: ../inc/result.inc:250 ../user/explain_state.php:91
 msgid "Downloading"
 msgstr ""
 
-#: ../inc/result.inc:230
+#: ../inc/result.inc:251
 msgid "Processing"
 msgstr ""
 
-#: ../inc/result.inc:231
+#: ../inc/result.inc:252
 msgid "Compute error"
 msgstr ""
 
-#: ../inc/result.inc:232 ../user/explain_state.php:97
+#: ../inc/result.inc:253 ../user/explain_state.php:97
 msgid "Uploading"
 msgstr ""
 
-#: ../inc/result.inc:233 ../user/explain_state.php:88
+#: ../inc/result.inc:254 ../user/explain_state.php:88
 msgid "Done"
 msgstr ""
 
-#: ../inc/result.inc:246
+#: ../inc/result.inc:267
 msgid "Initial"
 msgstr ""
 
-#: ../inc/result.inc:252
+#: ../inc/result.inc:273
 msgid "Not necessary"
 msgstr ""
 
-#: ../inc/result.inc:253
+#: ../inc/result.inc:274
 msgid "Workunit error - check skipped"
 msgstr ""
 
-#: ../inc/result.inc:254
+#: ../inc/result.inc:275
 msgid "Checked, but no consensus yet"
 msgstr ""
 
-#: ../inc/result.inc:255
+#: ../inc/result.inc:276
 msgid "Task was reported too late to validate"
 msgstr ""
 
-#: ../inc/result.inc:281
+#: ../inc/result.inc:302
 msgid "Couldn't send result"
 msgstr ""
 
-#: ../inc/result.inc:285
+#: ../inc/result.inc:306
 msgid "Too many errors (may have bug)"
 msgstr ""
 
-#: ../inc/result.inc:289
+#: ../inc/result.inc:310
 msgid "Too many results (may be nondeterministic)"
 msgstr ""
 
-#: ../inc/result.inc:293
+#: ../inc/result.inc:314
 msgid "Too many total results"
 msgstr ""
 
-#: ../inc/result.inc:297
+#: ../inc/result.inc:318
 msgid "WU cancelled"
 msgstr ""
 
-#: ../inc/result.inc:301
+#: ../inc/result.inc:322
 msgid "Unrecognized Error: %1"
 msgstr ""
 
-#: ../inc/result.inc:328
+#: ../inc/result.inc:349
 msgid "Task name"
 msgstr ""
 
-#: ../inc/result.inc:328 ../inc/result.inc:333 ../inc/result.inc:336
-#: ../inc/result.inc:339
+#: ../inc/result.inc:349 ../inc/result.inc:354 ../inc/result.inc:357
+#: ../inc/result.inc:360
 msgid "click for details"
 msgstr ""
 
-#: ../inc/result.inc:328
+#: ../inc/result.inc:349
 msgid "Show IDs"
 msgstr ""
 
-#: ../inc/result.inc:333
+#: ../inc/result.inc:354
 msgid "Show names"
 msgstr ""
 
-#: ../inc/result.inc:336
+#: ../inc/result.inc:357
 msgid "Task"
 msgstr ""
 
-#: ../inc/result.inc:339
+#: ../inc/result.inc:360
 msgid "Work unit"
 msgstr ""
 
-#: ../inc/result.inc:342
+#: ../inc/result.inc:369
 msgid "Computer"
 msgstr ""
 
-#: ../inc/result.inc:345 ../inc/result.inc:594
+#: ../inc/result.inc:372 ../inc/result.inc:631
 msgid "Sent"
 msgstr ""
 
-#: ../inc/result.inc:346
+#: ../inc/result.inc:373
 msgid "Time reported<br />or deadline"
 msgstr ""
 
-#: ../inc/result.inc:347
+#: ../inc/result.inc:374
 msgid "explain"
 msgstr ""
 
-#: ../inc/result.inc:349 ../user/server_status.php:246
+#: ../inc/result.inc:376 ../user/server_status.php:256
 msgid "Status"
 msgstr ""
 
-#: ../inc/result.inc:350
+#: ../inc/result.inc:377
 msgid "Run time<br />(sec)"
 msgstr ""
 
-#: ../inc/result.inc:351
+#: ../inc/result.inc:378
 msgid "CPU time<br />(sec)"
 msgstr ""
 
-#: ../inc/result.inc:352 ../inc/result.inc:605
+#: ../inc/result.inc:379 ../inc/result.inc:642
 msgid "Credit"
 msgstr ""
 
-#: ../inc/result.inc:353 ../inc/result.inc:687
+#: ../inc/result.inc:380 ../inc/result.inc:724
 msgid "Application"
 msgstr ""
 
-#: ../inc/result.inc:592
+#: ../inc/result.inc:629
 msgid "Workunit"
 msgstr ""
 
-#: ../inc/result.inc:595
+#: ../inc/result.inc:632
 msgid "Received"
 msgstr ""
 
-#: ../inc/result.inc:596
+#: ../inc/result.inc:633
 msgid "Server state"
 msgstr ""
 
-#: ../inc/result.inc:597
+#: ../inc/result.inc:634
 msgid "Outcome"
 msgstr ""
 
-#: ../inc/result.inc:598
+#: ../inc/result.inc:635
 msgid "Client state"
 msgstr ""
 
-#: ../inc/result.inc:599
+#: ../inc/result.inc:636
 msgid "Exit status"
 msgstr ""
 
-#: ../inc/result.inc:601
+#: ../inc/result.inc:638
 msgid "Report deadline"
 msgstr ""
 
-#: ../inc/result.inc:602
+#: ../inc/result.inc:639
 msgid "Run time"
 msgstr ""
 
-#: ../inc/result.inc:603
+#: ../inc/result.inc:640
 #, fuzzy
 msgid "CPU time"
 msgstr "Τύπος κεντρικής μονάδας επεξεργασίας"
 
-#: ../inc/result.inc:604
+#: ../inc/result.inc:641
 msgid "Validate state"
 msgstr ""
 
-#: ../inc/result.inc:606
+#: ../inc/result.inc:643
 msgid "Application version"
 msgstr ""
 
-#: ../inc/result.inc:619
+#: ../inc/result.inc:656
 msgid "Output files"
 msgstr ""
 
-#: ../inc/result.inc:622
+#: ../inc/result.inc:659
 msgid "Stderr output"
 msgstr ""
 
-#: ../inc/result.inc:669
+#: ../inc/result.inc:706
 msgid "State"
 msgstr ""
 
-#: ../inc/team.inc:33
+#: ../inc/result.inc:747
+msgid "Task name:"
+msgstr ""
+
+#: ../inc/team.inc:40
 msgid "Search criteria (use one or more)"
 msgstr ""
 
-#: ../inc/team.inc:34
+#: ../inc/team.inc:41
 msgid "Key words"
 msgstr ""
 
-#: ../inc/team.inc:34
+#: ../inc/team.inc:41
 msgid "Find teams with these words in their names or descriptions"
 msgstr ""
 
-#: ../inc/team.inc:36 ../inc/team.inc:114 ../inc/team.inc:225
-#: ../inc/team.inc:365 ../inc/team.inc:449 ../inc/user.inc:206
-#: ../inc/user.inc:314 ../user/account_finish.php:45
-#: ../user/create_account_form.php:108 ../user/edit_user_info_form.php:40
+#: ../inc/team.inc:43 ../inc/team.inc:121 ../inc/team.inc:232
+#: ../inc/team.inc:372 ../inc/team.inc:456 ../inc/user.inc:205
+#: ../inc/user.inc:316 ../user/account_finish.php:45
+#: ../user/create_account_form.php:99 ../user/edit_user_info_form.php:40
 #: ../user/profile_search_action.php:42 ../user/team_email_list.php:64
 #: ../user/team_search.php:72 ../user/top_users.php:63
-#: ../user/user_search.php:105 ../user/user_search.php:123
-#: ../user/user_search.php:163
+#: ../user/user_search.php:53 ../user/user_search.php:140
 msgid "Country"
 msgstr ""
 
-#: ../inc/team.inc:42 ../inc/team.inc:447
+#: ../inc/team.inc:49 ../inc/team.inc:454
 msgid "Type of team"
 msgstr ""
 
-#: ../inc/team.inc:44
+#: ../inc/team.inc:51
 msgid "Show only active teams"
 msgstr ""
 
-#: ../inc/team.inc:45 ../user/profile_menu.php:77 ../user/user_search.php:136
+#: ../inc/team.inc:52 ../user/profile_menu.php:77 ../user/user_search.php:70
 msgid "Search"
 msgstr ""
 
-#: ../inc/team.inc:54
+#: ../inc/team.inc:61
 msgid "Requested by you, and founder response deadline has passed."
 msgstr ""
 
-#: ../inc/team.inc:56
+#: ../inc/team.inc:63
 msgid "Complete foundership transfer"
 msgstr ""
 
-#: ../inc/team.inc:60
+#: ../inc/team.inc:67
 msgid "Requested by you"
 msgstr ""
 
-#: ../inc/team.inc:60
+#: ../inc/team.inc:67
 msgid "founder response deadline is %1"
 msgstr ""
 
-#: ../inc/team.inc:65 ../inc/team.inc:549 ../inc/user.inc:278
-#: ../inc/user.inc:366
+#: ../inc/team.inc:72 ../inc/team.inc:556 ../inc/user.inc:280
+#: ../inc/user.inc:370
 msgid "None"
 msgstr ""
 
-#: ../inc/team.inc:67
+#: ../inc/team.inc:74
 msgid "Initiate request"
 msgstr ""
 
-#: ../inc/team.inc:70
+#: ../inc/team.inc:77
 msgid "Deferred"
 msgstr ""
 
-#: ../inc/team.inc:80
+#: ../inc/team.inc:87
 msgid "Team info"
 msgstr ""
 
-#: ../inc/team.inc:82 ../user/team_forum.php:70 ../user/team_search.php:69
+#: ../inc/team.inc:89 ../user/team_forum.php:70 ../user/team_search.php:69
 msgid "Description"
 msgstr ""
 
-#: ../inc/team.inc:90
+#: ../inc/team.inc:97
 msgid "Web site"
 msgstr ""
 
-#: ../inc/team.inc:112
+#: ../inc/team.inc:119
 msgid "Cross-project stats"
 msgstr ""
 
-#: ../inc/team.inc:115 ../inc/team.inc:366 ../user/team_search.php:71
+#: ../inc/team.inc:122 ../inc/team.inc:373 ../user/team_search.php:71
 msgid "Type"
 msgstr ""
 
-#: ../inc/team.inc:119 ../user/team_manage.php:63
+#: ../inc/team.inc:126 ../user/team_manage.php:63
 #, fuzzy
 msgid "Message board"
 msgstr "Πίνακας μηνυμάτων"
 
-#: ../inc/team.inc:120 ../user/forum_forum.php:134 ../user/forum_index.php:93
+#: ../inc/team.inc:127 ../user/forum_forum.php:135 ../user/forum_index.php:93
 #, fuzzy
 msgid "Threads"
 msgstr "Νήμα"
 
-#: ../inc/team.inc:128
+#: ../inc/team.inc:135
 msgid "Join this team"
 msgstr ""
 
-#: ../inc/team.inc:129
+#: ../inc/team.inc:136
 msgid ""
 "Note: if 'OK to email' is set in your project preferences, joining a team "
 "gives its founder access to your email address."
 msgstr ""
 
-#: ../inc/team.inc:132
+#: ../inc/team.inc:139
 msgid "Not accepting new members"
 msgstr ""
 
-#: ../inc/team.inc:139
+#: ../inc/team.inc:146
 msgid "Foundership change requested"
 msgstr ""
 
-#: ../inc/team.inc:140
+#: ../inc/team.inc:147
 msgid "Respond by %1"
 msgstr ""
 
-#: ../inc/team.inc:144
+#: ../inc/team.inc:151
 msgid "Team foundership change"
 msgstr ""
 
-#: ../inc/team.inc:148 ../inc/team.inc:351
+#: ../inc/team.inc:155 ../inc/team.inc:358
 msgid "Members"
 msgstr ""
 
-#: ../inc/team.inc:149 ../inc/team.inc:246
+#: ../inc/team.inc:156 ../inc/team.inc:253
 msgid "Founder"
 msgstr ""
 
-#: ../inc/team.inc:161
+#: ../inc/team.inc:168
 msgid "Admins"
 msgstr ""
 
-#: ../inc/team.inc:176
+#: ../inc/team.inc:183
 msgid "New members in last day"
 msgstr ""
 
-#: ../inc/team.inc:177
+#: ../inc/team.inc:184
 msgid "Total members"
 msgstr ""
 
-#: ../inc/team.inc:177 ../inc/team.inc:178 ../inc/team.inc:179
+#: ../inc/team.inc:184 ../inc/team.inc:185 ../inc/team.inc:186
 msgid "view"
 msgstr ""
 
-#: ../inc/team.inc:178
+#: ../inc/team.inc:185
 msgid "Active members"
 msgstr ""
 
-#: ../inc/team.inc:179
+#: ../inc/team.inc:186
 msgid "Members with credit"
 msgstr ""
 
-#: ../inc/team.inc:248
+#: ../inc/team.inc:255
 msgid "Admin"
 msgstr ""
 
-#: ../inc/team.inc:269 ../user/forum_user_posts.php:122
+#: ../inc/team.inc:276 ../user/forum_user_posts.php:122
 #: ../user/top_hosts.php:93 ../user/top_teams.php:121
 #: ../user/top_users.php:127
 msgid "Previous %1"
 msgstr ""
 
-#: ../inc/team.inc:273 ../user/forum_user_posts.php:131
+#: ../inc/team.inc:280 ../user/forum_user_posts.php:131
 #: ../user/profile_search_action.php:61 ../user/top_hosts.php:98
 #: ../user/top_teams.php:126 ../user/top_users.php:132
 msgid "Next %1"
 msgstr ""
 
-#: ../inc/team.inc:281
+#: ../inc/team.inc:288
 msgid "No such team."
 msgstr ""
 
-#: ../inc/team.inc:294
+#: ../inc/team.inc:301
 msgid "This operation requires foundership."
 msgstr ""
 
-#: ../inc/team.inc:318
+#: ../inc/team.inc:325
 msgid "This operation requires team admin privileges"
 msgstr ""
 
-#: ../inc/team.inc:415
+#: ../inc/team.inc:422
 msgid ""
 "WARNING: this is a BOINC-wide team. If you make changes here, they will soon "
 "be overwritten. Edit the %1BOINC-wide team%2 instead."
 msgstr ""
 
-#: ../inc/team.inc:422
+#: ../inc/team.inc:429
 msgid ""
 "%1Privacy note%2: if you create a team, your project preferences (resource "
 "share, graphics preferences) will be visible to the public."
 msgstr ""
 
-#: ../inc/team.inc:426
+#: ../inc/team.inc:433
 msgid "Team name, text version"
 msgstr ""
 
-#: ../inc/team.inc:427
+#: ../inc/team.inc:434
 msgid "Don't use HTML tags."
 msgstr ""
 
-#: ../inc/team.inc:430
+#: ../inc/team.inc:437
 msgid "Team name, HTML version"
 msgstr ""
 
-#: ../inc/team.inc:432 ../inc/team.inc:442
+#: ../inc/team.inc:439 ../inc/team.inc:449
 msgid "You may use %1limited HTML tags%2."
 msgstr ""
 
-#: ../inc/team.inc:433
+#: ../inc/team.inc:440
 msgid "If you don't know HTML, leave this box blank."
 msgstr ""
 
-#: ../inc/team.inc:436
+#: ../inc/team.inc:443
 msgid "URL of team web page, if any"
 msgstr ""
 
-#: ../inc/team.inc:436
+#: ../inc/team.inc:443
 msgid "without \"http://\""
 msgstr ""
 
-#: ../inc/team.inc:437
+#: ../inc/team.inc:444
 msgid "This URL will be linked to from the team's page on this site."
 msgstr ""
 
-#: ../inc/team.inc:440
+#: ../inc/team.inc:447
 msgid "Description of team"
 msgstr ""
 
-#: ../inc/team.inc:456
+#: ../inc/team.inc:463
 msgid "Accept new members?"
 msgstr ""
 
@@ -1905,319 +1932,324 @@ msgstr ""
 msgid "User profile"
 msgstr ""
 
-#: ../inc/user.inc:116
+#: ../inc/user.inc:119
 msgid "Projects in which you are participating"
 msgstr ""
 
-#: ../inc/user.inc:118
+#: ../inc/user.inc:121
 msgid "Projects in which %1 is participating"
 msgstr ""
 
-#: ../inc/user.inc:122
+#: ../inc/user.inc:125
 msgid "Project"
 msgstr ""
 
-#: ../inc/user.inc:122
+#: ../inc/user.inc:125
 msgid "Click for user page"
 msgstr ""
 
-#: ../inc/user.inc:122
+#: ../inc/user.inc:125
 msgid "Since"
 msgstr ""
 
-#: ../inc/user.inc:146
+#: ../inc/user.inc:148
 msgid "Computing and credit"
 msgstr ""
 
-#: ../inc/user.inc:150 ../user/pending.php:64
-msgid "Pending credit"
-msgstr ""
-
-#: ../inc/user.inc:150 ../inc/user.inc:152 ../inc/user.inc:153
-#: ../inc/user.inc:240 ../inc/user.inc:322 ../inc/user.inc:397
-#: ../user/view_profile.php:56
-msgid "View"
-msgstr ""
-
-#: ../inc/user.inc:152
+#: ../inc/user.inc:151
 msgid "Computers on this account"
 msgstr ""
 
-#: ../inc/user.inc:162
+#: ../inc/user.inc:151 ../inc/user.inc:152 ../inc/user.inc:217
+#: ../inc/user.inc:242 ../inc/user.inc:328 ../inc/user.inc:401
+#: ../user/view_profile.php:64
+msgid "View"
+msgstr ""
+
+#: ../inc/user.inc:161
 msgid "Cross-project ID"
 msgstr ""
 
-#: ../inc/user.inc:163
+#: ../inc/user.inc:162
 msgid "Cross-project statistics"
 msgstr ""
 
-#: ../inc/user.inc:164
+#: ../inc/user.inc:163
 msgid "Account"
 msgstr ""
 
-#: ../inc/user.inc:166 ../inc/user.inc:278 ../inc/user.inc:364
-#: ../inc/user.inc:366 ../user/user_search.php:105 ../user/user_search.php:163
+#: ../inc/user.inc:165 ../inc/user.inc:280 ../inc/user.inc:368
+#: ../inc/user.inc:370 ../user/user_search.php:139
 #, fuzzy
 msgid "Team"
 msgstr "Νήμα"
 
-#: ../inc/user.inc:168
+#: ../inc/user.inc:167
 msgid "Cross-project"
 msgstr ""
 
-#: ../inc/user.inc:169
+#: ../inc/user.inc:168 ../user/bs_sample_index.php:54
 msgid "Certificate"
 msgstr ""
 
-#: ../inc/user.inc:170
+#: ../inc/user.inc:169
 msgid "Stats on your cell phone"
 msgstr ""
 
-#: ../inc/user.inc:184
+#: ../inc/user.inc:183
 msgid "Unknown notification type: %1"
 msgstr ""
 
-#: ../inc/user.inc:199
+#: ../inc/user.inc:198
 msgid "Account information"
 msgstr ""
 
-#: ../inc/user.inc:201 ../user/edit_passwd_form.php:48
+#: ../inc/user.inc:200 ../user/edit_passwd_form.php:48
 #: ../user/get_passwd.php:40 ../user/team_email_list.php:64
 msgid "Email address"
 msgstr ""
 
-#: ../inc/user.inc:204 ../inc/user.inc:316
+#: ../inc/user.inc:203 ../inc/user.inc:321
 msgid "URL"
 msgstr ""
 
-#: ../inc/user.inc:207
+#: ../inc/user.inc:206
 msgid "Postal code"
 msgstr ""
 
-#: ../inc/user.inc:208 ../inc/user.inc:313
+#: ../inc/user.inc:207 ../inc/user.inc:315
 msgid "%1 member since"
 msgstr ""
 
-#: ../inc/user.inc:210
+#: ../inc/user.inc:209
 msgid "Change"
 msgstr ""
 
-#: ../inc/user.inc:210
+#: ../inc/user.inc:209
 msgid "email address"
 msgstr ""
 
-#: ../inc/user.inc:211
+#: ../inc/user.inc:210
 msgid "password"
 msgstr ""
 
-#: ../inc/user.inc:212
+#: ../inc/user.inc:211
 msgid "other account info"
 msgstr ""
 
-#: ../inc/user.inc:214 ../inc/user.inc:312
+#: ../inc/user.inc:213 ../inc/user.inc:314
 msgid "User ID"
 msgstr ""
 
-#: ../inc/user.inc:214
+#: ../inc/user.inc:213
 msgid "Used in community functions"
 msgstr ""
 
-#: ../inc/user.inc:216 ../user/weak_auth.php:27
-msgid "Weak account key"
+#: ../inc/user.inc:216 ../user/weak_auth.php:25
+msgid "Account keys"
 msgstr ""
 
-#: ../inc/user.inc:216
-msgid "Provides %1limited access%2 to your account"
-msgstr ""
-
-#: ../inc/user.inc:219
+#: ../inc/user.inc:221
 msgid "Preferences"
 msgstr ""
 
-#: ../inc/user.inc:222
+#: ../inc/user.inc:224
 msgid "When and how BOINC uses your computer"
 msgstr ""
 
-#: ../inc/user.inc:223
+#: ../inc/user.inc:225
 msgid "Computing preferences"
 msgstr ""
 
-#: ../inc/user.inc:226
+#: ../inc/user.inc:228
 msgid "Message boards and private messages"
 msgstr ""
 
-#: ../inc/user.inc:227 ../user/edit_forum_preferences_form.php:31
+#: ../inc/user.inc:229 ../user/edit_forum_preferences_form.php:31
 msgid "Community preferences"
 msgstr ""
 
-#: ../inc/user.inc:230
+#: ../inc/user.inc:232
 msgid "Preferences for this project"
 msgstr ""
 
-#: ../inc/user.inc:231 ../user/prefs.php:33
+#: ../inc/user.inc:233 ../user/prefs.php:32
 msgid "%1 preferences"
 msgstr ""
 
-#: ../inc/user.inc:237 ../user/sample_index.php:114
+#: ../inc/user.inc:239 ../user/bs_sample_index.php:59
+#: ../user/sample_index.php:114
 msgid "Community"
 msgstr ""
 
-#: ../inc/user.inc:240 ../user/pm.php:107 ../user/pm.php:147
+#: ../inc/user.inc:242 ../user/pm.php:107 ../user/pm.php:147
 msgid "Delete"
 msgstr ""
 
-#: ../inc/user.inc:242
+#: ../inc/user.inc:244
 msgid "Create"
 msgstr ""
 
-#: ../inc/user.inc:244 ../inc/user.inc:397 ../inc/util.inc:484
+#: ../inc/user.inc:246 ../inc/user.inc:401 ../inc/util.inc:498
 msgid "Profile"
 msgstr ""
 
-#: ../inc/user.inc:247 ../inc/user.inc:370
+#: ../inc/user.inc:249 ../inc/user.inc:374
 msgid "%1 posts"
 msgstr ""
 
-#: ../inc/user.inc:259 ../user/edit_forum_preferences_form.php:51
+#: ../inc/user.inc:261 ../user/edit_forum_preferences_form.php:51
 msgid "Notifications"
 msgstr ""
 
-#: ../inc/user.inc:266
+#: ../inc/user.inc:268
 msgid "Quit team"
 msgstr ""
 
-#: ../inc/user.inc:268 ../inc/user.inc:285
+#: ../inc/user.inc:270 ../inc/user.inc:287
 msgid "Administer"
 msgstr ""
 
-#: ../inc/user.inc:274 ../inc/user.inc:287
+#: ../inc/user.inc:276 ../inc/user.inc:289
 msgid "(foundership change request pending)"
 msgstr ""
 
-#: ../inc/user.inc:276
+#: ../inc/user.inc:278
 msgid "Member of team"
 msgstr ""
 
-#: ../inc/user.inc:278
+#: ../inc/user.inc:280
 msgid "find a team"
 msgstr ""
 
-#: ../inc/user.inc:289
+#: ../inc/user.inc:291
 msgid "Founder but not member of"
 msgstr ""
 
-#: ../inc/user.inc:295
+#: ../inc/user.inc:297
 msgid "Find friends"
 msgstr ""
 
-#: ../inc/user.inc:302 ../inc/user.inc:304 ../inc/user.inc:380
-#: ../inc/user.inc:382 ../inc/user.inc:391
+#: ../inc/user.inc:304 ../inc/user.inc:306 ../inc/user.inc:384
+#: ../inc/user.inc:386 ../inc/user.inc:395
 msgid "Friends"
 msgstr ""
 
-#: ../inc/user.inc:322 ../inc/user.inc:324 ../user/server_status.php:396
+#: ../inc/user.inc:328 ../inc/user.inc:330 ../user/server_status.php:408
 msgid "Computers"
 msgstr ""
 
-#: ../inc/user.inc:331
+#: ../inc/user.inc:337
 msgid "Donor"
 msgstr ""
 
-#: ../inc/user.inc:373
+#: ../inc/user.inc:377
 msgid "Contact"
 msgstr ""
 
-#: ../inc/user.inc:376
+#: ../inc/user.inc:380
 msgid "This person is a friend"
 msgstr ""
 
-#: ../inc/user.inc:377 ../user/friend.php:238
+#: ../inc/user.inc:381 ../user/friend.php:238
 msgid "Cancel friendship"
 msgstr ""
 
-#: ../inc/user.inc:380 ../user/friend.php:37
+#: ../inc/user.inc:384 ../user/friend.php:37
 msgid "Request pending"
 msgstr ""
 
-#: ../inc/user.inc:382
+#: ../inc/user.inc:386
 msgid "Add as friend"
 msgstr ""
 
-#: ../inc/util.inc:113
+#: ../inc/user.inc:445
+msgid "user name cannot have leading or trailing white space"
+msgstr ""
+
+#: ../inc/user.inc:449
+msgid "user name must be nonempty"
+msgstr ""
+
+#: ../inc/user.inc:453
+msgid "user name may not contain HTML tags"
+msgstr ""
+
+#: ../inc/util.inc:116
 msgid "log out"
 msgstr ""
 
-#: ../inc/util.inc:115
+#: ../inc/util.inc:118
 msgid "log in"
 msgstr ""
 
-#: ../inc/util.inc:174 ../user/login_form.php:37 ../user/login_form.php:62
+#: ../inc/util.inc:188 ../user/login_form.php:30 ../user/login_form.php:55
 msgid "Log in"
 msgstr ""
 
-#: ../inc/util.inc:175 ../user/create_account_form.php:38
+#: ../inc/util.inc:189 ../user/create_account_form.php:31
 msgid "Create an account"
 msgstr ""
 
-#: ../inc/util.inc:176
+#: ../inc/util.inc:190
 msgid "Server status page"
 msgstr ""
 
-#: ../inc/util.inc:218
+#: ../inc/util.inc:232
 msgid ""
 "A database error occurred while handling your request; please try again "
 "later."
 msgstr ""
 
-#: ../inc/util.inc:227
+#: ../inc/util.inc:241
 msgid "Unable to handle request"
 msgstr ""
 
-#: ../inc/util.inc:247
+#: ../inc/util.inc:261
 msgid "hours"
 msgstr ""
 
-#: ../inc/util.inc:250
+#: ../inc/util.inc:264
 msgid "min"
 msgstr ""
 
-#: ../inc/util.inc:253
+#: ../inc/util.inc:267
 msgid "sec"
 msgstr ""
 
-#: ../inc/util.inc:414
+#: ../inc/util.inc:428
 msgid "Link has timed out. Please click Back, refresh the page, and try again."
 msgstr ""
 
-#: ../inc/util.inc:483
+#: ../inc/util.inc:497
 msgid "View the profile of %1"
 msgstr ""
 
-#: ../inc/util.inc:539
+#: ../inc/util.inc:553
 msgid "Use BBCode tags to format your text"
 msgstr ""
 
-#: ../inc/util.inc:750
+#: ../inc/util.inc:780
 msgid "Project down for maintenance"
 msgstr ""
 
-#: ../inc/util.inc:753
+#: ../inc/util.inc:783
 msgid "%1 is temporarily shut down for maintenance.  Please try again later."
 msgstr ""
 
-#: ../inc/util.inc:771
+#: ../inc/util.inc:801
 msgid "Unable to connect to database - please try again later"
 msgstr ""
 
-#: ../inc/util.inc:772
+#: ../inc/util.inc:802
 msgid "Error:"
 msgstr ""
 
-#: ../inc/util.inc:776
+#: ../inc/util.inc:806
 msgid "Unable to select database - please try again later"
 msgstr ""
 
-#: ../inc/util_ops.inc:130 ../user/get_passwd.php:72
+#: ../inc/util_ops.inc:136 ../user/get_passwd.php:72
 msgid "Stay logged in on this computer"
 msgstr ""
 
@@ -2225,27 +2257,27 @@ msgstr ""
 msgid "Finish account setup"
 msgstr ""
 
-#: ../user/account_finish.php:41 ../user/create_account_form.php:89
+#: ../user/account_finish.php:41 ../user/create_account_form.php:80
 msgid "Identifies you on our web site. Use your real name or a nickname."
 msgstr ""
 
-#: ../user/account_finish.php:45 ../user/create_account_form.php:108
+#: ../user/account_finish.php:45 ../user/create_account_form.php:99
 msgid "Select the country you want to represent, if any."
 msgstr ""
 
-#: ../user/account_finish.php:51 ../user/create_account_form.php:114
+#: ../user/account_finish.php:51 ../user/create_account_form.php:105
 msgid "Postal or ZIP Code"
 msgstr ""
 
-#: ../user/account_finish.php:51 ../user/create_account_form.php:114
+#: ../user/account_finish.php:51 ../user/create_account_form.php:105
 msgid "Optional"
 msgstr ""
 
-#: ../user/account_finish_action.php:27 ../user/create_account_action.php:86
+#: ../user/account_finish_action.php:27
 msgid "You must supply a name for your account"
 msgstr ""
 
-#: ../user/account_finish_action.php:30 ../user/create_account_action.php:89
+#: ../user/account_finish_action.php:30
 msgid "HTML tags not allowed in name"
 msgstr ""
 
@@ -2253,7 +2285,8 @@ msgstr ""
 msgid "Add %1 preferences for %2"
 msgstr ""
 
-#: ../user/apps.php:32 ../user/sample_index.php:109
+#: ../user/apps.php:32 ../user/bs_sample_index.php:55
+#: ../user/sample_index.php:109
 msgid "Applications"
 msgstr ""
 
@@ -2265,15 +2298,15 @@ msgid ""
 "computer. This happens automatically; you don't have to do anything."
 msgstr ""
 
-#: ../user/apps.php:49
+#: ../user/apps.php:50
 msgid "Platform"
 msgstr ""
 
-#: ../user/apps.php:50
+#: ../user/apps.php:51
 msgid "Version"
 msgstr ""
 
-#: ../user/apps.php:51
+#: ../user/apps.php:52
 msgid "Installation time"
 msgstr ""
 
@@ -2379,6 +2412,81 @@ msgid ""
 "the raw tag itself will display instead of the formatted text."
 msgstr ""
 
+#: ../user/bs_sample_index.php:44
+msgid "Participants"
+msgstr ""
+
+#: ../user/bs_sample_index.php:46
+msgid "Do work"
+msgstr ""
+
+#: ../user/bs_sample_index.php:47 ../user/bs_sample_index.php:50
+#: ../user/home.php:49 ../project.sample/project.inc:43
+msgid "Your account"
+msgstr ""
+
+#: ../user/bs_sample_index.php:47 ../user/bs_sample_index.php:50
+msgid "view stats, modify preferences"
+msgstr ""
+
+#: ../user/bs_sample_index.php:48 ../user/bs_sample_index.php:53
+#: ../user/team.php:25
+#, fuzzy
+msgid "Teams"
+msgstr "Νήμα"
+
+#: ../user/bs_sample_index.php:48 ../user/bs_sample_index.php:53
+msgid "create or join a team"
+msgstr ""
+
+#: ../user/bs_sample_index.php:51 ../user/sample_index.php:180
+msgid "User of the day"
+msgstr ""
+
+#: ../user/bs_sample_index.php:52 ../user/server_status.php:254
+msgid "Server status"
+msgstr ""
+
+#: ../user/bs_sample_index.php:60 ../user/profile_menu.php:35
+#: ../user/sample_index.php:116
+msgid "Profiles"
+msgstr ""
+
+#: ../user/bs_sample_index.php:61
+msgid "User search"
+msgstr ""
+
+#: ../user/bs_sample_index.php:64
+msgid "Statistics"
+msgstr ""
+
+#: ../user/bs_sample_index.php:65 ../user/stats.php:30
+#: ../user/top_users.php:116
+msgid "Top participants"
+msgstr ""
+
+#: ../user/bs_sample_index.php:66 ../user/stats.php:31
+msgid "Top computers"
+msgstr ""
+
+#: ../user/bs_sample_index.php:67 ../user/stats.php:32 ../user/team.php:46
+msgid "Top teams"
+msgstr ""
+
+#: ../user/bs_sample_index.php:68 ../user/gpu_list.php:182
+#: ../user/stats.php:33
+msgid "Top GPU models"
+msgstr ""
+
+#: ../user/bs_sample_index.php:70
+msgid "Languages"
+msgstr ""
+
+#: ../user/bs_sample_index.php:149 ../user/info.php:24
+#: ../user/sample_index.php:74
+msgid "Read our rules and policies"
+msgstr ""
+
 #: ../user/create_account_action.php:26
 msgid "Can't create account"
 msgstr ""
@@ -2388,7 +2496,7 @@ msgid "Click your browser's <b>Back</b> button to try again."
 msgstr ""
 
 #: ../user/create_account_action.php:38 ../user/create_account_action.php:40
-#: ../user/create_account_form.php:43
+#: ../user/create_account_form.php:36
 msgid "Account creation is disabled"
 msgstr ""
 
@@ -2410,80 +2518,80 @@ msgstr ""
 msgid "The invitation code you gave is not valid."
 msgstr ""
 
-#: ../user/create_account_action.php:94
+#: ../user/create_account_action.php:91
 msgid ""
 "Invalid email address: you must enter a valid address of the form name@domain"
 msgstr ""
 
-#: ../user/create_account_action.php:98
+#: ../user/create_account_action.php:95
 msgid "There's already an account with that email address."
 msgstr ""
 
-#: ../user/create_account_action.php:104 ../user/edit_passwd_action.php:33
+#: ../user/create_account_action.php:101 ../user/edit_passwd_action.php:33
 msgid "New passwords are different"
 msgstr ""
 
-#: ../user/create_account_action.php:111 ../user/edit_passwd_action.php:41
+#: ../user/create_account_action.php:108 ../user/edit_passwd_action.php:41
 msgid "Passwords may only include ASCII characters."
 msgstr ""
 
-#: ../user/create_account_action.php:116 ../user/edit_passwd_action.php:45
+#: ../user/create_account_action.php:113 ../user/edit_passwd_action.php:45
 msgid "New password is too short: minimum password length is %1 characters."
 msgstr ""
 
-#: ../user/create_account_action.php:137
+#: ../user/create_account_action.php:134
 msgid "Couldn't create account"
 msgstr ""
 
-#: ../user/create_account_form.php:44
+#: ../user/create_account_form.php:37
 msgid "Account creation is currently disabled. Please try again later."
 msgstr ""
 
-#: ../user/create_account_form.php:53
+#: ../user/create_account_form.php:46
 msgid ""
-"Don't use this form. Just run BOINC, select Add Project, and enter an email "
-"address and password."
+"NOTE: If you use the BOINC Manager, don't use this form. Just run BOINC, "
+"select Add Project, and enter an email address and password."
 msgstr ""
 
-#: ../user/create_account_form.php:71
+#: ../user/create_account_form.php:62
 msgid ""
 "This account will belong to the team %1 and will have the project "
 "preferences of its founder."
 msgstr ""
 
-#: ../user/create_account_form.php:83
+#: ../user/create_account_form.php:74
 msgid "Invitation Code"
 msgstr ""
 
-#: ../user/create_account_form.php:83
+#: ../user/create_account_form.php:74
 msgid "A valid invitation code is required to create an account."
 msgstr ""
 
-#: ../user/create_account_form.php:93
+#: ../user/create_account_form.php:84
 msgid "Email Address"
 msgstr ""
 
-#: ../user/create_account_form.php:93
+#: ../user/create_account_form.php:84
 msgid "Must be a valid address of the form 'name@domain'."
 msgstr ""
 
-#: ../user/create_account_form.php:102 ../user/edit_email_form.php:48
+#: ../user/create_account_form.php:93 ../user/edit_email_form.php:49
 msgid "Password"
 msgstr ""
 
-#: ../user/create_account_form.php:103
+#: ../user/create_account_form.php:94
 msgid "Must be at least %1 characters"
 msgstr ""
 
-#: ../user/create_account_form.php:106
+#: ../user/create_account_form.php:97
 msgid "Confirm password"
 msgstr ""
 
-#: ../user/create_account_form.php:123
+#: ../user/create_account_form.php:114
 msgid "Please enter the words shown in the image"
 msgstr ""
 
-#: ../user/create_account_form.php:129
+#: ../user/create_account_form.php:120
 msgid "Create account"
 msgstr ""
 
@@ -2629,8 +2737,8 @@ msgstr ""
 
 #: ../user/delete_account.php:79 ../user/delete_profile.php:52
 #: ../user/donations.php:322 ../user/donations.php:326 ../user/friend.php:238
-#: ../user/prefs_remove.php:55 ../user/user_search.php:129
-#: ../user/user_search.php:134
+#: ../user/prefs_remove.php:55 ../user/user_search.php:59
+#: ../user/user_search.php:64
 msgid "Yes"
 msgstr ""
 
@@ -2639,8 +2747,8 @@ msgid "Delete this account"
 msgstr ""
 
 #: ../user/delete_account.php:80 ../user/delete_profile.php:53
-#: ../user/friend.php:239 ../user/user_search.php:128
-#: ../user/user_search.php:133
+#: ../user/friend.php:239 ../user/user_search.php:58
+#: ../user/user_search.php:63
 msgid "No"
 msgstr ""
 
@@ -2834,50 +2942,50 @@ msgid ""
 "again later."
 msgstr ""
 
-#: ../user/edit_email_form.php:28 ../user/edit_email_form.php:52
+#: ../user/edit_email_form.php:29 ../user/edit_email_form.php:53
 msgid "Change email address"
 msgstr ""
 
-#: ../user/edit_email_form.php:37
+#: ../user/edit_email_form.php:38
 msgid "Change the email address of your account"
 msgstr ""
 
-#: ../user/edit_email_form.php:38
+#: ../user/edit_email_form.php:39
 msgid "New email address"
 msgstr ""
 
-#: ../user/edit_email_form.php:39
+#: ../user/edit_email_form.php:40
 msgid "Must be a valid address of the form 'name@domain'"
 msgstr ""
 
-#: ../user/edit_email_form.php:49
+#: ../user/edit_email_form.php:50
 msgid "No password?"
 msgstr ""
 
-#: ../user/edit_forum_preferences_action.php:35
+#: ../user/edit_forum_preferences_action.php:33
 msgid "Confirm reset"
 msgstr ""
 
-#: ../user/edit_forum_preferences_action.php:36
+#: ../user/edit_forum_preferences_action.php:34
 msgid ""
 "This action will erase any changes you have made in your community "
 "preferences. To cancel, click your browser's Back button."
 msgstr ""
 
-#: ../user/edit_forum_preferences_action.php:40
+#: ../user/edit_forum_preferences_action.php:38
 msgid "Reset preferences"
 msgstr ""
 
-#: ../user/edit_forum_preferences_action.php:90
+#: ../user/edit_forum_preferences_action.php:88
 msgid "Error: Not the right kind of file, only PNG and JPEG are supported."
 msgstr ""
 
-#: ../user/edit_forum_preferences_action.php:116
+#: ../user/edit_forum_preferences_action.php:114
 msgid "Your signature was too long, please keep it less than 250 characters."
 msgstr ""
 
-#: ../user/edit_forum_preferences_action.php:139
-#: ../user/edit_forum_preferences_action.php:153
+#: ../user/edit_forum_preferences_action.php:132
+#: ../user/edit_forum_preferences_action.php:146
 msgid "No such user: %1"
 msgstr ""
 
@@ -2992,67 +3100,63 @@ msgstr ""
 msgid "Highlight special users"
 msgstr ""
 
-#: ../user/edit_forum_preferences_form.php:138
-msgid "How to sort"
+#: ../user/edit_forum_preferences_form.php:135
+msgid "Display this many messages per page"
 msgstr ""
 
 #: ../user/edit_forum_preferences_form.php:139
+msgid "How to sort"
+msgstr ""
+
+#: ../user/edit_forum_preferences_form.php:140
 #, fuzzy
 msgid "Threads:"
 msgstr "Νήμα"
 
-#: ../user/edit_forum_preferences_form.php:139
+#: ../user/edit_forum_preferences_form.php:140
 #, fuzzy
 msgid "Posts:"
 msgstr "Δημοσιεύσεις"
 
-#: ../user/edit_forum_preferences_form.php:140
+#: ../user/edit_forum_preferences_form.php:141
 msgid "Jump to first new post in thread automatically"
 msgstr ""
 
-#: ../user/edit_forum_preferences_form.php:141
-msgid "Do not reorder sticky posts"
-msgstr ""
-
 #: ../user/edit_forum_preferences_form.php:142
-msgid "If a thread contains more than this number of posts"
+msgid "Don't move sticky posts to top"
 msgstr ""
 
-#: ../user/edit_forum_preferences_form.php:143
-msgid "only display the first one and this many of the last ones"
-msgstr ""
-
-#: ../user/edit_forum_preferences_form.php:149
+#: ../user/edit_forum_preferences_form.php:148
 #, fuzzy
 msgid "Message filtering"
 msgstr "Πίνακας μηνυμάτων"
 
-#: ../user/edit_forum_preferences_form.php:165
+#: ../user/edit_forum_preferences_form.php:164
 msgid "Filtered users"
 msgstr ""
 
-#: ../user/edit_forum_preferences_form.php:166
+#: ../user/edit_forum_preferences_form.php:165
 msgid "Ignore message board posts and private messages from these users."
 msgstr ""
 
-#: ../user/edit_forum_preferences_form.php:168
+#: ../user/edit_forum_preferences_form.php:167
 msgid "User ID (For instance: 123456789)"
 msgstr ""
 
-#: ../user/edit_forum_preferences_form.php:169 ../user/pm.php:251
+#: ../user/edit_forum_preferences_form.php:168 ../user/pm.php:251
 msgid "Add user to filter"
 msgstr ""
 
-#: ../user/edit_forum_preferences_form.php:174
+#: ../user/edit_forum_preferences_form.php:173
 msgid "Click here to update preferences"
 msgstr ""
 
-#: ../user/edit_forum_preferences_form.php:176
-#: ../user/edit_forum_preferences_form.php:178
+#: ../user/edit_forum_preferences_form.php:175
+#: ../user/edit_forum_preferences_form.php:177
 msgid "Reset"
 msgstr ""
 
-#: ../user/edit_forum_preferences_form.php:177
+#: ../user/edit_forum_preferences_form.php:176
 msgid "Or click here to reset preferences to the defaults"
 msgstr ""
 
@@ -3337,8 +3441,8 @@ msgstr ""
 
 #: ../user/ffmail_action.php:94
 msgid ""
-"You forgot to enter your friends' names and/or email addresses; Please "
-"%1return to the form%2 and enter them."
+"You forgot to enter your friends' names and/or email addresses; Please %"
+"1return to the form%2 and enter them."
 msgstr ""
 
 #: ../user/ffmail_form.php:31
@@ -3514,67 +3618,67 @@ msgstr ""
 msgid "This message board is available as an %1RSS feed%2"
 msgstr ""
 
-#: ../user/forum_forum.php:172
+#: ../user/forum_forum.php:174
 msgid "This thread is hidden"
 msgstr ""
 
-#: ../user/forum_forum.php:176
+#: ../user/forum_forum.php:178
 msgid "This thread is sticky and locked, and you haven't read it yet"
 msgstr ""
 
-#: ../user/forum_forum.php:176
+#: ../user/forum_forum.php:178
 msgid "sticky/locked/unread"
 msgstr ""
 
-#: ../user/forum_forum.php:178
+#: ../user/forum_forum.php:180
 msgid "This thread is sticky and you haven't read it yet"
 msgstr ""
 
-#: ../user/forum_forum.php:178
+#: ../user/forum_forum.php:180
 msgid "sticky/unread"
 msgstr ""
 
-#: ../user/forum_forum.php:182
+#: ../user/forum_forum.php:184
 msgid "You haven't read this thread yet, and it's locked"
 msgstr ""
 
-#: ../user/forum_forum.php:182
+#: ../user/forum_forum.php:184
 msgid "unread/locked"
 msgstr ""
 
-#: ../user/forum_forum.php:184
+#: ../user/forum_forum.php:186
 msgid "You haven't read this thread yet"
 msgstr ""
 
-#: ../user/forum_forum.php:190
+#: ../user/forum_forum.php:192
 msgid "This thread is sticky and locked"
 msgstr ""
 
-#: ../user/forum_forum.php:190
+#: ../user/forum_forum.php:192
 msgid "sticky/locked"
 msgstr ""
 
-#: ../user/forum_forum.php:192
+#: ../user/forum_forum.php:194
 msgid "This thread is sticky"
 msgstr ""
 
-#: ../user/forum_forum.php:192
+#: ../user/forum_forum.php:194
 msgid "sticky"
 msgstr ""
 
-#: ../user/forum_forum.php:196
+#: ../user/forum_forum.php:198
 msgid "This thread is locked"
 msgstr ""
 
-#: ../user/forum_forum.php:196
+#: ../user/forum_forum.php:198
 msgid "locked"
 msgstr ""
 
-#: ../user/forum_forum.php:198
+#: ../user/forum_forum.php:200
 msgid "You read this thread"
 msgstr ""
 
-#: ../user/forum_forum.php:198
+#: ../user/forum_forum.php:200
 #, fuzzy
 msgid "read"
 msgstr "Νήμα"
@@ -3586,8 +3690,8 @@ msgstr "Ερωτήσεις και απαντήσεις"
 
 #: ../user/forum_help_desk.php:30
 msgid ""
-"Talk live via Skype with a volunteer, in any of several languages. Go to "
-"%1BOINC Online Help%2."
+"Talk live via Skype with a volunteer, in any of several languages. Go to %"
+"1BOINC Online Help%2."
 msgstr ""
 
 #: ../user/forum_help_desk.php:44 ../user/forum_index.php:92
@@ -3680,7 +3784,7 @@ msgid "Optional explanation %1 This is included in email to user.%2"
 msgstr ""
 
 #: ../user/forum_moderate_post.php:101 ../user/forum_moderate_thread.php:91
-#: ../user/forum_post.php:130 ../user/forum_report_post.php:84
+#: ../user/forum_post.php:130 ../user/forum_report_post.php:85
 #: ../user/forum_rss.php:55 ../user/friend.php:81 ../user/get_passwd.php:41
 #: ../user/get_passwd.php:75
 msgid "OK"
@@ -3789,8 +3893,8 @@ msgid "You have already rated this post."
 msgstr ""
 
 #: ../user/forum_rate.php:62 ../user/forum_rate.php:78
-#: ../user/forum_rate.php:83 ../user/forum_report_post.php:68
-#: ../user/forum_report_post.php:93 ../user/forum_subscribe.php:54
+#: ../user/forum_rate.php:83 ../user/forum_report_post.php:69
+#: ../user/forum_report_post.php:94 ../user/forum_subscribe.php:54
 #: ../user/forum_subscribe.php:69 ../user/forum_thread_status.php:51
 msgid "Return to thread"
 msgstr ""
@@ -3815,31 +3919,31 @@ msgstr ""
 msgid "Vote Submission Problem"
 msgstr ""
 
-#: ../user/forum_reply.php:76
+#: ../user/forum_reply.php:73
 msgid ""
 "Your post has been flagged as spam by the Akismet anti-spam system. Please "
 "modify your text and try again."
 msgstr ""
 
-#: ../user/forum_reply.php:87 ../user/forum_thread.php:154
+#: ../user/forum_reply.php:88 ../user/forum_thread.php:158
 #: ../user/forum_thread.php:274
 msgid "Post to thread"
 msgstr ""
 
-#: ../user/forum_reply.php:127
+#: ../user/forum_reply.php:137
 #, fuzzy
 msgid "Message:"
 msgstr "Πίνακας μηνυμάτων"
 
-#: ../user/forum_reply.php:130
+#: ../user/forum_reply.php:140
 msgid "reply to %1Message ID%2:"
 msgstr ""
 
-#: ../user/forum_reply.php:154
+#: ../user/forum_reply.php:166
 msgid "Post reply"
 msgstr ""
 
-#: ../user/forum_reply.php:157
+#: ../user/forum_reply.php:169
 msgid "Add my signature to this reply"
 msgstr ""
 
@@ -3847,53 +3951,53 @@ msgstr ""
 msgid "You need more average or total credit to report a post."
 msgstr ""
 
-#: ../user/forum_report_post.php:64
+#: ../user/forum_report_post.php:65
 msgid "Report Registered"
 msgstr ""
 
-#: ../user/forum_report_post.php:65
-msgid "Your report has been recorded. Thanks you for your input."
+#: ../user/forum_report_post.php:66
+msgid "Your report has been recorded. Thanks for your input."
 msgstr ""
 
-#: ../user/forum_report_post.php:66
+#: ../user/forum_report_post.php:67
 msgid ""
 "A moderator will now look at your report and decide what will happen - this "
 "may take a little while, so please be patient"
 msgstr ""
 
-#: ../user/forum_report_post.php:70
+#: ../user/forum_report_post.php:71
 #, fuzzy
 msgid "Report a forum post"
 msgstr "Τελευταία δημοσίευση"
 
-#: ../user/forum_report_post.php:72
+#: ../user/forum_report_post.php:73
 msgid ""
 "Before reporting this post, consider using the +/- rating system instead. If "
 "enough users rate a post negatively it will eventually be hidden.<br />You "
 "can find the rating system at the bottom of the post."
 msgstr ""
 
-#: ../user/forum_report_post.php:79
+#: ../user/forum_report_post.php:80
 #, fuzzy
 msgid "Report post"
 msgstr "Τελευταία δημοσίευση"
 
-#: ../user/forum_report_post.php:80
+#: ../user/forum_report_post.php:81
 msgid ""
 "Why do you find the post offensive: %1Please include enough information so "
 "that a person that\n"
 "has not yet read the thread will quickly be able to identify the issue.%2"
 msgstr ""
 
-#: ../user/forum_report_post.php:89
+#: ../user/forum_report_post.php:90
 msgid "Report not registered"
 msgstr ""
 
-#: ../user/forum_report_post.php:90
+#: ../user/forum_report_post.php:91
 msgid "Your report could not be recorded. Please wait a while and try again."
 msgstr ""
 
-#: ../user/forum_report_post.php:91
+#: ../user/forum_report_post.php:92
 msgid ""
 "If this is not a temporary error, please report it to the project developers."
 msgstr ""
@@ -4071,107 +4175,103 @@ msgstr ""
 msgid "This thread has been hidden by moderators."
 msgstr ""
 
-#: ../user/forum_thread.php:125
+#: ../user/forum_thread.php:128
 msgid "My question was answered"
 msgstr ""
 
-#: ../user/forum_thread.php:126
+#: ../user/forum_thread.php:129
 msgid "Click here if your question has been adequately answered"
 msgstr ""
 
-#: ../user/forum_thread.php:134
+#: ../user/forum_thread.php:137
 msgid "I've also got this question"
 msgstr ""
 
-#: ../user/forum_thread.php:155 ../user/forum_thread.php:275
+#: ../user/forum_thread.php:159 ../user/forum_thread.php:275
 msgid "Add a new message to this thread"
 msgstr ""
 
-#: ../user/forum_thread.php:167
+#: ../user/forum_thread.php:171
 msgid "Unsubscribe"
 msgstr ""
 
-#: ../user/forum_thread.php:168
+#: ../user/forum_thread.php:172
 msgid "You are subscribed to this thread.  Click here to unsubscribe."
 msgstr ""
 
-#: ../user/forum_thread.php:174
+#: ../user/forum_thread.php:178
 msgid "Subscribe"
 msgstr ""
 
-#: ../user/forum_thread.php:175
+#: ../user/forum_thread.php:179
 msgid "Click to get email when there are new posts in this thread"
 msgstr ""
 
-#: ../user/forum_thread.php:186
+#: ../user/forum_thread.php:190
 msgid "Unhide this thread"
 msgstr ""
 
-#: ../user/forum_thread.php:192
+#: ../user/forum_thread.php:196
 msgid "Hide this thread"
 msgstr ""
 
-#: ../user/forum_thread.php:198
+#: ../user/forum_thread.php:202
 msgid "Make unsticky"
 msgstr ""
 
-#: ../user/forum_thread.php:199
+#: ../user/forum_thread.php:203
 msgid "Make this thread not sticky"
 msgstr ""
 
-#: ../user/forum_thread.php:204
+#: ../user/forum_thread.php:208
 msgid "Make sticky"
 msgstr ""
 
-#: ../user/forum_thread.php:205
+#: ../user/forum_thread.php:209
 msgid "Make this thread sticky"
 msgstr ""
 
-#: ../user/forum_thread.php:211
+#: ../user/forum_thread.php:215
 msgid "Unlock"
 msgstr ""
 
-#: ../user/forum_thread.php:212
+#: ../user/forum_thread.php:216
 msgid "Unlock this thread"
 msgstr ""
 
-#: ../user/forum_thread.php:217
+#: ../user/forum_thread.php:221
 msgid "Lock"
 msgstr ""
 
-#: ../user/forum_thread.php:218
+#: ../user/forum_thread.php:222
 msgid "Lock this thread"
 msgstr ""
 
-#: ../user/forum_thread.php:225
+#: ../user/forum_thread.php:229
 msgid "Move this thread to a different forum"
 msgstr ""
 
-#: ../user/forum_thread.php:230
+#: ../user/forum_thread.php:234
 msgid "Edit title"
 msgstr ""
 
-#: ../user/forum_thread.php:231
+#: ../user/forum_thread.php:235
 msgid "Edit thread title"
 msgstr ""
 
-#: ../user/forum_thread.php:241
+#: ../user/forum_thread.php:245
 msgid "Export as Notice"
 msgstr ""
 
-#: ../user/forum_thread.php:242
-msgid "Export this news item as a Notice"
-msgstr ""
-
-#: ../user/forum_thread.php:247
+#: ../user/forum_thread.php:251
 msgid "Don't export"
 msgstr ""
 
-#: ../user/forum_thread.php:248
+#: ../user/forum_thread.php:252
 msgid "Don't export this news item as a Notice"
 msgstr ""
 
-#: ../user/forum_thread.php:256 ../user/forum_thread.php:258
+#: ../user/forum_thread.php:260 ../user/forum_thread.php:262
 msgid "Sort"
 msgstr ""
 
@@ -4343,9 +4443,8 @@ msgstr ""
 
 #: ../user/get_passwd.php:50
 msgid ""
-"Go to the BOINC data directory on your computer (on Windows this is usually "
-"<b>C:\\Documents and Settings\\All Users\\Application Data\\BOINC</b> or "
-"<b>C:\\Program Files\\BOINC</b>."
+"Go to the BOINC data directory on your computer (its location is written to "
+"the Event Log at startup)."
 msgstr ""
 
 #: ../user/get_passwd.php:51
@@ -4378,10 +4477,6 @@ msgstr ""
 msgid "No GPU tasks reported"
 msgstr ""
 
-#: ../user/gpu_list.php:182 ../user/stats.php:33
-msgid "Top GPU models"
-msgstr ""
-
 #: ../user/gpu_list.php:183
 msgid ""
 "The following lists show the most productive GPU models on different "
@@ -4400,10 +4495,6 @@ msgstr ""
 msgid "If you have not already done so, %1download BOINC client software%2."
 msgstr ""
 
-#: ../user/home.php:49 ../project.sample/project.inc:46
-msgid "Your account"
-msgstr ""
-
 #: ../user/host_app_versions.php:26
 msgid "nvidia GPU"
 msgstr ""
@@ -4416,39 +4507,39 @@ msgstr ""
 msgid "anonymous platform"
 msgstr ""
 
-#: ../user/host_app_versions.php:43
+#: ../user/host_app_versions.php:42
 msgid "Missing app version"
 msgstr ""
 
-#: ../user/host_app_versions.php:45
+#: ../user/host_app_versions.php:44
 msgid "Missing app"
 msgstr ""
 
-#: ../user/host_app_versions.php:47
+#: ../user/host_app_versions.php:46
 msgid "Missing platform"
 msgstr ""
 
-#: ../user/host_app_versions.php:56
+#: ../user/host_app_versions.php:55
 msgid "Number of tasks completed"
 msgstr ""
 
-#: ../user/host_app_versions.php:57
+#: ../user/host_app_versions.php:56
 msgid "Max tasks per day"
 msgstr ""
 
-#: ../user/host_app_versions.php:58
+#: ../user/host_app_versions.php:57
 msgid "Number of tasks today"
 msgstr ""
 
-#: ../user/host_app_versions.php:59
+#: ../user/host_app_versions.php:58
 msgid "Consecutive valid tasks"
 msgstr ""
 
-#: ../user/host_app_versions.php:63
+#: ../user/host_app_versions.php:62
 msgid "Average processing rate"
 msgstr ""
 
-#: ../user/host_app_versions.php:72
+#: ../user/host_app_versions.php:71
 msgid "Application details for host %1"
 msgstr ""
 
@@ -4609,10 +4700,6 @@ msgstr ""
 msgid "You can also use ampersand notation for special characters."
 msgstr ""
 
-#: ../user/info.php:24 ../user/sample_index.php:74
-msgid "Read our rules and policies"
-msgstr ""
-
 #: ../user/info.php:35
 msgid "Run %1 only on authorized computers"
 msgstr ""
@@ -4665,8 +4752,8 @@ msgstr ""
 #: ../user/info.php:45
 msgid ""
 "To participate in %1, you must give an address where you receive email. This "
-"address will not be shown on the %1 web site or shared with organizations. "
-"%1 may send you periodic newsletters; however, you can opt out at any time."
+"address will not be shown on the %1 web site or shared with organizations. %"
+"1 may send you periodic newsletters; however, you can opt out at any time."
 msgstr ""
 
 #: ../user/info.php:46
@@ -4719,8 +4806,8 @@ msgstr ""
 #: ../user/info.php:54
 msgid ""
 "%1 and %2 assume no liability for damage to your computer, loss of data, or "
-"any other event or condition that may occur as a result of participating in "
-"%1."
+"any other event or condition that may occur as a result of participating in %"
+"1."
 msgstr ""
 
 #: ../user/info.php:56
@@ -4741,72 +4828,72 @@ msgid ""
 "own risk."
 msgstr ""
 
-#: ../user/language_select.php:44
+#: ../user/language_select.php:47
 msgid "Language selection"
 msgstr ""
 
-#: ../user/language_select.php:70
+#: ../user/language_select.php:73
 msgid ""
 "This web site is available in several languages. The currently selected "
 "language is %1."
 msgstr ""
 
-#: ../user/language_select.php:75
+#: ../user/language_select.php:78
 msgid ""
 "Normally the choice of language is determined by your browser's language "
 "setting, which is: %1.  You can change this setting using:"
 msgstr ""
 
-#: ../user/language_select.php:80
+#: ../user/language_select.php:83
 msgid "Firefox: Tools/Options/General"
 msgstr ""
 
-#: ../user/language_select.php:82
+#: ../user/language_select.php:85
 msgid "Microsoft IE: Tools/Internet Options/Languages"
 msgstr ""
 
-#: ../user/language_select.php:86
+#: ../user/language_select.php:89
 msgid ""
 "Or you can select a language by clicking on one of the links.  This will "
 "send your browser a cookie; make sure your browser accepts cookies from our "
 "domain."
 msgstr ""
 
-#: ../user/language_select.php:92
+#: ../user/language_select.php:95
 msgid "Language name (click to select)"
 msgstr ""
 
-#: ../user/language_select.php:94
+#: ../user/language_select.php:97
 msgid "Use browser language setting"
 msgstr ""
 
-#: ../user/language_select.php:110
+#: ../user/language_select.php:113
 msgid ""
-"Translations are done by volunteers.  If your native language is not here, "
-"%1you can provide a translation%2."
+"Translations are done by volunteers.  If your native language is not here, %"
+"1you can provide a translation%2."
 msgstr ""
 
-#: ../user/login_form.php:52
+#: ../user/login_form.php:45
 msgid "Email address:"
 msgstr ""
 
-#: ../user/login_form.php:52
+#: ../user/login_form.php:45
 msgid "forgot email address?"
 msgstr ""
 
-#: ../user/login_form.php:54
+#: ../user/login_form.php:47
 msgid "Password:"
 msgstr ""
 
-#: ../user/login_form.php:54
+#: ../user/login_form.php:47
 msgid "forgot password?"
 msgstr ""
 
-#: ../user/login_form.php:57
+#: ../user/login_form.php:50
 msgid "Stay logged in"
 msgstr ""
 
-#: ../user/login_form.php:63
+#: ../user/login_form.php:56
 msgid "or %1create an account%2."
 msgstr ""
 
@@ -4888,22 +4975,26 @@ msgid ""
 msgstr ""
 
 #: ../user/pending.php:66
+msgid "Pending credit"
+msgstr ""
+
+#: ../user/pending.php:68
 msgid "Result ID"
 msgstr ""
 
-#: ../user/pending.php:66
+#: ../user/pending.php:68
 msgid "Workunit ID"
 msgstr ""
 
-#: ../user/pending.php:66
+#: ../user/pending.php:68
 msgid "Host ID"
 msgstr ""
 
-#: ../user/pending.php:66
+#: ../user/pending.php:68
 msgid "Claimed credit"
 msgstr ""
 
-#: ../user/pending.php:79
+#: ../user/pending.php:81
 msgid "Pending credit: %1"
 msgstr ""
 
@@ -5010,7 +5101,7 @@ msgstr ""
 msgid "No, cancel"
 msgstr ""
 
-#: ../user/pm.php:260 ../user/team_admins.php:97
+#: ../user/pm.php:260 ../user/team_admins.php:98
 msgid "no such user"
 msgstr ""
 
@@ -5031,9 +5122,16 @@ msgstr ""
 msgid "Unknown action"
 msgstr "Άγνωστο"
 
-#: ../user/prefs.php:36
+#: ../user/prefs.php:35
 msgid ""
 "Your preferences have been updated, and\n"
+"          will take effect when your computer communicates with %1\n"
+"          or you issue the %2Update%3 command from the BOINC Manager."
+msgstr ""
+
+#: ../user/prefs.php:44
+msgid ""
+"Your preferences have been reset to the defaults, and\n"
 "          will take effect when your computer communicates with %1\n"
 "          or you issue the %2Update%3 command from the BOINC Manager."
 msgstr ""
@@ -5060,10 +5158,6 @@ msgstr ""
 
 #: ../user/prefs_remove.php:57
 msgid "Cancel"
-msgstr ""
-
-#: ../user/profile_menu.php:35 ../user/sample_index.php:116
-msgid "Profiles"
 msgstr ""
 
 #: ../user/profile_menu.php:38
@@ -5114,11 +5208,11 @@ msgstr ""
 msgid "Search profile text"
 msgstr ""
 
-#: ../user/profile_menu.php:98
+#: ../user/profile_menu.php:99
 msgid "No profiles"
 msgstr ""
 
-#: ../user/profile_menu.php:99
+#: ../user/profile_menu.php:100
 msgid "No profiles matched your query."
 msgstr ""
 
@@ -5167,11 +5261,7 @@ msgstr ""
 msgid "No profiles found containing '%1'"
 msgstr ""
 
-#: ../user/result.php:30
-msgid "No such task"
-msgstr ""
-
-#: ../user/result.php:32
+#: ../user/result.php:35
 msgid "Task %1"
 msgstr ""
 
@@ -5191,159 +5281,151 @@ msgstr ""
 msgid "Missing user ID or host ID"
 msgstr ""
 
-#: ../user/results.php:102
+#: ../user/results.php:107
 msgid "No tasks to display"
 msgstr ""
 
-#: ../user/sample_index.php:180
-msgid "User of the day"
-msgstr ""
-
-#: ../user/server_status.php:91
+#: ../user/server_status.php:97
 msgid "Running"
 msgstr ""
 
-#: ../user/server_status.php:94
+#: ../user/server_status.php:100
 msgid "Not Running"
 msgstr ""
 
-#: ../user/server_status.php:97
+#: ../user/server_status.php:103
 msgid "Disabled"
 msgstr ""
 
-#: ../user/server_status.php:236
+#: ../user/server_status.php:246
 msgid "Project status"
 msgstr ""
 
-#: ../user/server_status.php:238
+#: ../user/server_status.php:248
 msgid "Server software version: %1"
 msgstr ""
 
-#: ../user/server_status.php:244
-msgid "Server status"
-msgstr ""
-
-#: ../user/server_status.php:246
+#: ../user/server_status.php:256
 msgid "Program"
 msgstr ""
 
-#: ../user/server_status.php:246
+#: ../user/server_status.php:256
 msgid "Host"
 msgstr ""
 
-#: ../user/server_status.php:257
+#: ../user/server_status.php:267
 msgid "data-driven web pages"
 msgstr ""
 
-#: ../user/server_status.php:263
+#: ../user/server_status.php:273
 msgid "upload/download server"
 msgstr ""
 
-#: ../user/server_status.php:266
+#: ../user/server_status.php:276
 msgid "scheduler"
 msgstr ""
 
-#: ../user/server_status.php:299
+#: ../user/server_status.php:309
 msgid "Running:"
 msgstr ""
 
-#: ../user/server_status.php:300
+#: ../user/server_status.php:310
 msgid "Program is operating normally"
 msgstr ""
 
-#: ../user/server_status.php:301
+#: ../user/server_status.php:311
 msgid "Not Running:"
 msgstr ""
 
-#: ../user/server_status.php:302
+#: ../user/server_status.php:312
 msgid "Program failed or the project is down"
 msgstr ""
 
-#: ../user/server_status.php:303
+#: ../user/server_status.php:313
 msgid "Disabled:"
 msgstr ""
 
-#: ../user/server_status.php:304
+#: ../user/server_status.php:314
 msgid "Program is disabled"
 msgstr ""
 
-#: ../user/server_status.php:308
+#: ../user/server_status.php:318
 msgid "Computing status"
 msgstr ""
 
-#: ../user/server_status.php:314
+#: ../user/server_status.php:324
 msgid "The database server is not accessible"
 msgstr ""
 
-#: ../user/server_status.php:331
+#: ../user/server_status.php:341
 msgid "Tasks ready to send"
 msgstr ""
 
-#: ../user/server_status.php:336 ../user/workunit.php:55
+#: ../user/server_status.php:346 ../user/workunit.php:55
 msgid "Tasks in progress"
 msgstr ""
 
-#: ../user/server_status.php:341
+#: ../user/server_status.php:351
 msgid "Workunits waiting for validation"
 msgstr ""
 
-#: ../user/server_status.php:346
+#: ../user/server_status.php:356
 msgid "Workunits waiting for assimilation"
 msgstr ""
 
-#: ../user/server_status.php:351
+#: ../user/server_status.php:361
 msgid "Workunits waiting for file deletion"
 msgstr ""
 
-#: ../user/server_status.php:356
+#: ../user/server_status.php:366
 msgid "Tasks waiting for file deletion"
 msgstr ""
 
-#: ../user/server_status.php:373
+#: ../user/server_status.php:383
 msgid "Transitioner backlog (hours)"
 msgstr ""
 
-#: ../user/server_status.php:380
+#: ../user/server_status.php:390
 msgid "Users"
 msgstr ""
 
-#: ../user/server_status.php:382 ../user/server_status.php:398
+#: ../user/server_status.php:393 ../user/server_status.php:411
 msgid "with recent credit"
 msgstr ""
 
-#: ../user/server_status.php:387 ../user/server_status.php:403
+#: ../user/server_status.php:398 ../user/server_status.php:416
 msgid "with credit"
 msgstr ""
 
-#: ../user/server_status.php:392 ../user/server_status.php:408
+#: ../user/server_status.php:403 ../user/server_status.php:421
 msgid "registered in past 24 hours"
 msgstr ""
 
-#: ../user/server_status.php:414
+#: ../user/server_status.php:427
 msgid "current GigaFLOPs"
 msgstr ""
 
-#: ../user/server_status.php:423
+#: ../user/server_status.php:436
 msgid "Tasks by application"
 msgstr ""
 
-#: ../user/server_status.php:426 ../user/workunit.php:40
+#: ../user/server_status.php:439 ../user/workunit.php:40
 msgid "application"
 msgstr ""
 
-#: ../user/server_status.php:427
+#: ../user/server_status.php:440
 msgid "unsent"
 msgstr ""
 
-#: ../user/server_status.php:428
+#: ../user/server_status.php:441
 msgid "in progress"
 msgstr ""
 
-#: ../user/server_status.php:429
+#: ../user/server_status.php:442
 msgid "avg runtime of last 100 results in h (min-max)"
 msgstr ""
 
-#: ../user/server_status.php:430
+#: ../user/server_status.php:443
 msgid "users in last 24h"
 msgstr ""
 
@@ -5357,18 +5439,6 @@ msgstr ""
 
 #: ../user/stats.php:28
 msgid "Statistics for %1"
-msgstr ""
-
-#: ../user/stats.php:30 ../user/top_users.php:116
-msgid "Top participants"
-msgstr ""
-
-#: ../user/stats.php:31
-msgid "Top computers"
-msgstr ""
-
-#: ../user/stats.php:32 ../user/team.php:46
-msgid "Top teams"
 msgstr ""
 
 #: ../user/stats.php:37
@@ -5388,11 +5458,6 @@ msgid ""
 "Additionally you can get your individual statistics summed across all BOINC "
 "projects from several sites; see your %1home page%2."
 msgstr ""
-
-#: ../user/team.php:25
-#, fuzzy
-msgid "Teams"
-msgstr "Νήμα"
 
 #: ../user/team.php:27
 msgid "%1 participants may form %2teams%3."
@@ -5431,7 +5496,7 @@ msgstr ""
 msgid "To join a team, visit its team page and click %1Join this team%2."
 msgstr ""
 
-#: ../user/team.php:41 ../user/team_search.php:179
+#: ../user/team.php:41 ../user/team_search.php:180
 msgid "Find a team"
 msgstr ""
 
@@ -5524,19 +5589,19 @@ msgstr ""
 msgid "failed to remove admin"
 msgstr ""
 
-#: ../user/team_admins.php:98
+#: ../user/team_admins.php:99
 msgid "User is not member of team"
 msgstr ""
 
-#: ../user/team_admins.php:100
+#: ../user/team_admins.php:101
 msgid "%1 is already an admin of %2"
 msgstr ""
 
-#: ../user/team_admins.php:104
+#: ../user/team_admins.php:105
 msgid "Couldn't add admin"
 msgstr ""
 
-#: ../user/team_admins.php:110 ../user/team_manage.php:85
+#: ../user/team_admins.php:111 ../user/team_manage.php:85
 #: ../user/team_quit_form.php:30 ../user/team_remove_inactive_action.php:28
 msgid "No such team"
 msgstr ""
@@ -5952,8 +6017,8 @@ msgstr ""
 
 #: ../user/team_lookup.php:104
 msgid ""
-"End of results. %1 If you cannot find the team you are looking for, you may "
-"%2create a team%3 yourself."
+"End of results. %1 If you cannot find the team you are looking for, you may %"
+"2create a team%3 yourself."
 msgstr ""
 
 #: ../user/team_manage.php:26
@@ -6058,11 +6123,11 @@ msgstr ""
 msgid "Team %1 deleted"
 msgstr ""
 
-#: ../user/team_members.php:35
+#: ../user/team_members.php:36
 msgid "Limit exceeded:  Can only display the first 1000 members."
 msgstr ""
 
-#: ../user/team_members.php:47
+#: ../user/team_members.php:49
 msgid "Members of %1"
 msgstr ""
 
@@ -6152,17 +6217,17 @@ msgstr ""
 msgid "Change your search"
 msgstr ""
 
-#: ../user/team_search.php:180
+#: ../user/team_search.php:181
 msgid ""
 "You can team up with other people with similar interests, or from the same "
 "country, company, or school."
 msgstr ""
 
-#: ../user/team_search.php:182
+#: ../user/team_search.php:183
 msgid "Use this form to find teams that might be right for you."
 msgstr ""
 
-#: ../user/team_search.php:187
+#: ../user/team_search.php:188
 msgid "%1I'm not interested%2 in joining a team right now."
 msgstr ""
 
@@ -6195,88 +6260,84 @@ msgstr ""
 msgid "User of the Day for %1: %2"
 msgstr ""
 
-#: ../user/user_search.php:103 ../user/user_search.php:152
-msgid "User search results"
-msgstr ""
-
-#: ../user/user_search.php:105 ../user/user_search.php:163
-msgid "Joined"
-msgstr ""
-
-#: ../user/user_search.php:117
-msgid "Search type"
-msgstr ""
-
-#: ../user/user_search.php:118
-msgid "User name starts with"
-msgstr ""
-
-#: ../user/user_search.php:119
-msgid "Decreasing sign-up time"
-msgstr ""
-
-#: ../user/user_search.php:120
-msgid "Decreasing average credit"
-msgstr ""
-
-#: ../user/user_search.php:121
-msgid "Decreasing total credit"
-msgstr ""
-
-#: ../user/user_search.php:122
+#: ../user/user_search.php:51
 msgid "Filters"
 msgstr ""
 
-#: ../user/user_search.php:123
+#: ../user/user_search.php:52
+msgid "User name starts with"
+msgstr ""
+
+#: ../user/user_search.php:53
 msgid "Any"
 msgstr ""
 
-#: ../user/user_search.php:126
+#: ../user/user_search.php:56
 msgid "With profile?"
 msgstr ""
 
-#: ../user/user_search.php:127 ../user/user_search.php:132
+#: ../user/user_search.php:57 ../user/user_search.php:62
 msgid "Either"
 msgstr ""
 
-#: ../user/user_search.php:131
+#: ../user/user_search.php:61
 msgid "On a team?"
 msgstr ""
 
-#: ../user/user_search.php:150
+#: ../user/user_search.php:66
+msgid "Ordering"
+msgstr ""
+
+#: ../user/user_search.php:67
+msgid "Decreasing sign-up time"
+msgstr ""
+
+#: ../user/user_search.php:68
+msgid "Decreasing average credit"
+msgstr ""
+
+#: ../user/user_search.php:69
+msgid "Decreasing total credit"
+msgstr ""
+
+#: ../user/user_search.php:100
 msgid "search string must be at least 3 characters"
 msgstr ""
 
-#: ../user/user_search.php:161
-msgid "User names starting with"
+#: ../user/user_search.php:133
+msgid "User search results"
 msgstr ""
 
-#: ../user/user_search.php:171
+#: ../user/user_search.php:140
+msgid "Joined"
+msgstr ""
+
+#: ../user/user_search.php:148
 msgid "No users match your search criteria."
 msgstr ""
 
-#: ../user/userw.php:45
+#: ../user/userw.php:35
 msgid "User not found!"
 msgstr ""
 
-#: ../user/userw.php:51
+#: ../user/userw.php:44
 msgid "Account Data<br/>for %1<br/>Time:"
 msgstr ""
 
-#: ../user/userw.php:54
+#: ../user/userw.php:47
 #, fuzzy
 msgid "Team:"
 msgstr "Νήμα"
 
-#: ../user/userw.php:55
+#: ../user/userw.php:48
 msgid "Team TotCred:"
 msgstr ""
 
-#: ../user/userw.php:56
+#: ../user/userw.php:49
 msgid "Team AvgCred:"
 msgstr ""
 
-#: ../user/userw.php:58
+#: ../user/userw.php:51
 msgid "Team: None"
 msgstr ""
 
@@ -6320,50 +6381,60 @@ msgstr ""
 msgid "The email address of your account has been validated."
 msgstr ""
 
-#: ../user/view_profile.php:29
+#: ../user/view_profile.php:36
 msgid "This user has no profile"
 msgstr ""
 
-#: ../user/view_profile.php:46
+#: ../user/view_profile.php:54
 msgid "Profile: %1"
 msgstr ""
 
-#: ../user/view_profile.php:55
+#: ../user/view_profile.php:63
 msgid "Account data"
-msgstr ""
-
-#: ../user/weak_auth.php:50
-msgid ""
-"Your 'weak account key' lets you link a computer to your account without "
-"giving it the ability to log in to your account or to change it in any way."
 msgstr ""
 
 #: ../user/weak_auth.php:52
 msgid ""
-"This mechanism works only with projects that have upgraded their server "
-"software 7 Dec 2007 or later."
-msgstr ""
-
-#: ../user/weak_auth.php:54
-msgid "Your weak account key for this project is:"
+"You can access your account either by using your email address and "
+"password,\n"
+"    or by using an assigned 'account key'.\n"
+"    Your account key is:"
 msgstr ""
 
 #: ../user/weak_auth.php:57
-msgid ""
-"To use your weak account key on a given host, find or create the 'account "
-"file' for this project. This file has a name of the form "
-"<b>account_PROJECT_URL.xml</b>. The account file for %1 is <b>%2</b>."
+msgid "This key can be used to:"
 msgstr ""
 
 #: ../user/weak_auth.php:59
-msgid "Create this file if needed. Set its contents to:"
+msgid "log in to your account on the web"
 msgstr ""
 
-#: ../user/weak_auth.php:68
+#: ../user/weak_auth.php:61
 msgid ""
-"Your weak account key is a function of your password. If you change your "
-"password, your weak account key changes, and your previous weak account key "
-"becomes invalid."
+"to attach a computer to your account without using the BOINC Manager.\n"
+"       To do so, install BOINC,\n"
+"       create a file named %1 in the BOINC\n"
+"       data directory, and set its contents to:"
+msgstr ""
+
+#: ../user/weak_auth.php:73
+msgid "Weak account key"
+msgstr ""
+
+#: ../user/weak_auth.php:74
+msgid ""
+"Your 'weak account key' can be used to attach computers to your account\n"
+"    as described above, but cannot be used to log in to your account or "
+"change it in any way.\n"
+"    If you want to attach untrusted or insecure computers to your account,\n"
+"    do so using your weak account key.\n"
+"    Your weak account key is:"
+msgstr ""
+
+#: ../user/weak_auth.php:81
+msgid ""
+"If you change your password, your weak account key changes, and your "
+"previous weak account key becomes invalid."
 msgstr ""
 
 #: ../user/workunit.php:32
@@ -6406,33 +6477,37 @@ msgstr ""
 msgid "validation"
 msgstr ""
 
-#: ../project.sample/project.inc:46
+#: ../user/workunit.php:67
+msgid "Pending"
+msgstr ""
+
+#: ../project.sample/project.inc:43
 msgid "Main page"
 msgstr ""
 
-#: ../project.sample/project.inc:48
+#: ../project.sample/project.inc:45
 msgid "Copyright"
 msgstr ""
 
-#: ../project.sample/project.inc:51
+#: ../project.sample/project.inc:48
 msgid "Generated"
 msgstr ""
 
-#: ../project.sample/project.inc:82
+#: ../project.sample/project.inc:79
 msgid "Your personal background."
 msgstr ""
 
-#: ../project.sample/project.inc:86
+#: ../project.sample/project.inc:83
 msgid ""
 "Tell us about yourself. You could tell us where you're from, your age, "
 "occupation, hobbies, or anything else about yourself."
 msgstr ""
 
-#: ../project.sample/project.inc:90
+#: ../project.sample/project.inc:87
 msgid "Your opinions about %1"
 msgstr ""
 
-#: ../project.sample/project.inc:94
+#: ../project.sample/project.inc:91
 msgid ""
 "Tell us your thoughts about %1<ol>\n"
 "    <li>Why do you run %1?\n"
@@ -6459,6 +6534,6 @@ msgid ""
 "applications?"
 msgstr ""
 
-#: ../project.sample/project_specific_prefs.inc:81
+#: ../project.sample/project_specific_prefs.inc:91
 msgid "(all applications)"
 msgstr ""

@@ -20,6 +20,7 @@
 // every so often to see if there's a newer client version
 
 #include "filesys.h"
+#include "str_replace.h"
 
 #include "client_msgs.h"
 #include "client_state.h"
@@ -59,7 +60,7 @@ static bool is_version_newer(const char* p) {
 // If there is a newer version for our primary platform,
 // copy it to new_version and return true.
 //
-static bool parse_version(FILE* f, char* new_version) {
+static bool parse_version(FILE* f, char* new_version, int len) {
     char buf2[256];
     bool same_platform = false, newer_version_exists = false;
 
@@ -76,21 +77,31 @@ static bool parse_version(FILE* f, char* new_version) {
         }
         if (xp.parse_str("version_num", buf2, sizeof(buf2))) {
             newer_version_exists = is_version_newer(buf2);
-            strcpy(new_version, buf2);
+            strlcpy(new_version, buf2, len);
         }
     }
     return false;
 }
 
 static void show_newer_version_msg(const char* new_vers) {
-    msg_printf_notice(0, true,
-        "http://boinc.berkeley.edu/manager_links.php?target=notice&controlid=download",
-        "%s (%s) <a href=%s>%s</a>",
-        _("A new version of BOINC is available."),
-        new_vers,
-        config.client_download_url.c_str(),
-        _("Download")
-    );
+    if (config.client_new_version_text.empty()) {
+        msg_printf_notice(0, true,
+            "http://boinc.berkeley.edu/manager_links.php?target=notice&controlid=download",
+            "%s (%s) <a href=%s>%s</a>",
+            _("A new version of BOINC is available."),
+            new_vers,
+            config.client_download_url.c_str(),
+            _("Download")
+        );
+    } else {
+        msg_printf_notice(0, true, NULL,
+            "%s (%s) <a href=%s>%s</a>",
+            config.client_new_version_text.c_str(),
+            new_vers,
+            config.client_download_url.c_str(),
+            _("Download")
+        );
+    }
 }
 
 void GET_CURRENT_VERSION_OP::handle_reply(int http_op_retval) {
@@ -104,7 +115,7 @@ void GET_CURRENT_VERSION_OP::handle_reply(int http_op_retval) {
     if (!f) return;
     while (fgets(buf, 256, f)) {
         if (match_tag(buf, "<version>")) {
-            if (parse_version(f, new_version)) {
+            if (parse_version(f, new_version, sizeof(new_version))) {
                 show_newer_version_msg(new_version);
                 gstate.newer_version = string(new_version);
                 break;

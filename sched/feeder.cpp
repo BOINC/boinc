@@ -24,6 +24,7 @@
 //  [ --by_batch ]          interleave results from all batches uniformly
 //  [ --random_order ]      order by "random" field of result
 //  [ --priority_order ]    order by decreasing "priority" field of result
+//  [ --priority_asc ]      order by increasing "priority" field of result
 //  [ --priority_order_create_time ]
 //                          order by priority, then by increasing WU create time
 //  [ --mod n i ]           handle only results with (id mod n) == i
@@ -106,14 +107,15 @@
 #include <vector>
 using std::vector;
 
-#include "version.h"
 #include "boinc_db.h"
-#include "shmem.h"
 #include "error_numbers.h"
-#include "synch.h"
-#include "util.h"
+#include "filesys.h"
+#include "shmem.h"
 #include "str_util.h"
 #include "svn_version.h"
+#include "synch.h"
+#include "util.h"
+#include "version.h"
 
 #include "credit.h"
 #include "sched_config.h"
@@ -248,7 +250,7 @@ static bool get_job_from_db(
         );
         enum_size = enum_sizes[app_index];
     } else {
-        strcpy(select_clause, mod_select_clause);
+        safe_strcpy(select_clause, mod_select_clause);
         enum_size = enum_limit;
     }
     int hrt = ssp->apps[app_index].homogeneous_redundancy;
@@ -299,6 +301,24 @@ static bool get_job_from_db(
                 continue;
             }
             
+            // if the WU had an error, mark result as DIDNT_NEED
+            //
+            if (wi.wu.error_mask) {
+                char buf[256];
+                DB_RESULT result;
+                result.id = wi.res_id;
+                sprintf(buf, "server_state=%d, outcome=%d",
+                    RESULT_SERVER_STATE_OVER,
+                    RESULT_OUTCOME_DIDNT_NEED
+                );
+                result.update_field(buf);
+                log_messages.printf(MSG_NORMAL,
+                    "[RESULT#%u] WU had error, marking as DIDNT_NEED\n",
+                    wi.res_id
+                );
+                continue;
+            }
+
             // Check for collision (i.e. this result already is in the array)
             //
             collision = false;
@@ -434,7 +454,7 @@ static bool scan_work_array(vector<DB_WORK_ITEM> &work_items) {
     int app_index;
     int nadditions=0, ncollisions=0;
     
-      for (i=0; i<napps; i++) {
+    for (i=0; i<napps; i++) {
         if (work_items[i].cursor.active) {
             enum_phase[i] = ENUM_FIRST_PASS;
         } else {
@@ -455,7 +475,7 @@ static bool scan_work_array(vector<DB_WORK_ITEM> &work_items) {
         case WR_STATE_PRESENT:
             if (purge_stale_time && wu_result.time_added_to_shared_memory < (time(0) - purge_stale_time)) {
                 log_messages.printf(MSG_NORMAL,
-                    "remove result [RESULT#%d] from slot %d because it is stale\n",
+                    "remove result [RESULT#%u] from slot %d because it is stale\n",
                     wu_result.resultid, i
                 );
                 purge_stale(wu_result);
@@ -683,9 +703,10 @@ void usage(char *name) {
         "including an array of work items (results/workunits to send).\n\n"
         "Usage: %s [OPTION]...\n\n"
         "Options:\n"
-        "  [ -d X | --debug_level X]        Set Debug level to X\n"
+        "  [ -d X | --debug_level X]        Set log verbosity to X (1..4)\n"
         "  [ --allapps ]                    Interleave results from all applications uniformly.\n"
         "  [ --random_order ]               order by \"random\" field of result\n"
+        "  [ --priority_asc ]               order by increasing \"priority\" field of result\n"
         "  [ --priority_order ]             order by decreasing \"priority\" field of result\n"
         "  [ --priority_order_create_time ] order by priority, then by increasing WU create time\n"
         "  [ --purge_stale x ]              remove work items from the shared memory segment after x secs\n"
@@ -720,6 +741,8 @@ int main(int argc, char** argv) {
             order_clause = "order by r1.random ";
         } else if (is_arg(argv[i], "allapps")) {
             all_apps = true;
+        } else if (is_arg(argv[i], "priority_asc")) {
+            order_clause = "order by r1.priority asc ";
         } else if (is_arg(argv[i], "priority_order")) {
             order_clause = "order by r1.priority desc ";
         } else if (is_arg(argv[i], "priority_order_create_time")) {

@@ -1,0 +1,1050 @@
+# Translations template for PROJECT.
+# Copyright (C) 2013 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2013-08-29 15:37-0700\n"
+"PO-Revision-Date: 2013-09-21 13:54+0000\n"
+"Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
+"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Pootle 2.5.0\n"
+"Generated-By: Babel 1.0dev\n"
+"X-POOTLE-MTIME: 1379771666.0\n"
+
+#. app global
+msgctxt "app_name"
+msgid "BOINC"
+msgstr "BOINC"
+
+#. generic. used by multiple Activities/tabs
+msgctxt "generic_loading"
+msgid "Loading! Please wait…"
+msgstr "Выполняется загрузка! Пожалуйста подождите…"
+
+#. attach project
+#. project list
+msgctxt "attachproject_list_header"
+msgid "Choose a project:"
+msgstr "Выберите проект:"
+
+msgctxt "attachproject_list_manual_button"
+msgid "Add project by URL"
+msgstr "Добавить URL-адрес проекта"
+
+msgctxt "attachproject_list_manual_dialog_title"
+msgid "Enter project URL:"
+msgstr "Введите URL проекта:"
+
+msgctxt "attachproject_list_manual_dialog_button"
+msgid "Add project"
+msgstr "Добавить проект"
+
+msgctxt "attachproject_list_manual_no_url"
+msgid "Please enter project URL"
+msgstr "Пожалуйста, введите URL проекта"
+
+msgctxt "attachproject_list_no_internet"
+msgid "No Internet connection"
+msgstr "Нет подключения к Интернету"
+
+#. project login
+msgctxt "attachproject_login_loading"
+msgid "Contacting project server…"
+msgstr "Установка соединения с сервером проекта…"
+
+msgctxt "attachproject_login_image_description"
+msgid "Project logo."
+msgstr "Логотип проекта."
+
+msgctxt "attachproject_login_header_general_area"
+msgid "General area:"
+msgstr "Основная область:"
+
+msgctxt "attachproject_login_header_specific_area"
+msgid "Specific area:"
+msgstr "Специализация:"
+
+msgctxt "attachproject_login_header_description"
+msgid "Description:"
+msgstr "Описание:"
+
+# Это типа институт/университет, который владеет проектом
+msgctxt "attachproject_login_header_home"
+msgid "Home:"
+msgstr "Владелец:"
+
+msgctxt "attachproject_login_header_url"
+msgid "Website:"
+msgstr "Веб-сайт:"
+
+msgctxt "attachproject_login_header_platform"
+msgid "Android:"
+msgstr "Android:"
+
+msgctxt "attachproject_login_platform_supported"
+msgid "This project supports Android devices"
+msgstr "Этот проект поддерживает устройства на базе Android"
+
+msgctxt "attachproject_login_platform_not_supported"
+msgid "This project does not support Android devices"
+msgstr "Этот проект не поддерживает устройства на базе Android"
+
+msgctxt "attachproject_login_category_terms_of_use"
+msgid "Terms of use for"
+msgstr "Условия использования для"
+
+msgctxt "attachproject_login_accept_terms_of_use"
+msgid ""
+"By creating an account with this project, you accept the terms of use as "
+"shown above."
+msgstr ""
+"Создавая учётную запись в этом проекте, вы принимаете условия использования, "
+"которые показаны выше."
+
+msgctxt "attachproject_login_category_login"
+msgid "Sign in with existing account"
+msgstr "Войти с существующей учётной записью"
+
+msgctxt "attachproject_login_header_id_email"
+msgid "eMail:"
+msgstr "Электронная почта:"
+
+msgctxt "attachproject_login_header_id_name"
+msgid "Name:"
+msgstr "Имя:"
+
+msgctxt "attachproject_login_header_pwd"
+msgid "Password:"
+msgstr "Пароль:"
+
+msgctxt "attachproject_login_category_creation"
+msgid "New to"
+msgstr "Впервые в"
+
+msgctxt "attachproject_login_header_creation_enabled"
+msgid "Register an account to participate:"
+msgstr "Зарегистрировать учётную запись для участия:"
+
+msgctxt "attachproject_login_header_creation_client_disabled"
+msgid "Visit project website to create an account:"
+msgstr "Посетить веб-сайт проекта для создания учётной записи:"
+
+msgctxt "attachproject_login_header_creation_disabled"
+msgid "Project does currently now allow creation of new accounts!"
+msgstr "Проект в данный момент не позволяет создавать новые учётные записи!"
+
+msgctxt "attachproject_login_button_registration"
+msgid "Register"
+msgstr "Зарегистрироваться"
+
+msgctxt "attachproject_login_button_login"
+msgid "Sign in"
+msgstr "Войти"
+
+msgctxt "attachproject_login_button_forgotpw"
+msgid "Forgot Password"
+msgstr "Восстановить пароль"
+
+msgctxt "attachproject_login_error_toast"
+msgid "Contacting project failed!"
+msgstr "Сбой при установке связи с проектом!"
+
+msgctxt "attachproject_login_attached"
+msgid "Attached"
+msgstr "Подключен"
+
+#. project registration
+msgctxt "attachproject_registration_header"
+msgid "Account registration for"
+msgstr "Регистрация учётной записи для"
+
+msgctxt "attachproject_registration_header_url"
+msgid "Project:"
+msgstr "Проект:"
+
+msgctxt "attachproject_registration_header_email"
+msgid "eMail:"
+msgstr "Электронная почта:"
+
+msgctxt "attachproject_registration_header_username"
+msgid "Name:"
+msgstr "Имя:"
+
+msgctxt "attachproject_registration_header_teamname"
+msgid "Team:"
+msgstr "Команда:"
+
+msgctxt "attachproject_registration_header_pwd"
+msgid "Password:"
+msgstr "Пароль:"
+
+msgctxt "attachproject_registration_header_pwd_confirm"
+msgid "… Retype:"
+msgstr "… Повторить:"
+
+msgctxt "attachproject_registration_button"
+msgid "Create"
+msgstr "Создать"
+
+#. error strings
+msgctxt "attachproject_error_wrong_name"
+msgid "User not found"
+msgstr "Пользователь не найден"
+
+msgctxt "attachproject_error_short_pwd"
+msgid "Password too short"
+msgstr "Пароль слишком короткий"
+
+msgctxt "attachproject_error_no_internet"
+msgid "Connection failure"
+msgstr "Сбой подключения"
+
+msgctxt "attachproject_error_pwd_no_match"
+msgid "Passwords do not match"
+msgstr "Пароли не совпадают"
+
+msgctxt "attachproject_error_no_email"
+msgid "Please enter eMail address"
+msgstr "Введите адрес электронной почты"
+
+msgctxt "attachproject_error_no_pwd"
+msgid "Please enter a password"
+msgstr "Введите пароль"
+
+msgctxt "attachproject_error_no_name"
+msgid "Please enter user name"
+msgstr "Введите имя пользователя"
+
+msgctxt "attachproject_error_unknown"
+msgid "failed"
+msgstr "неудача"
+
+msgctxt "attachproject_error_bad_username"
+msgid "User name refused"
+msgstr "Имя пользователя не принято"
+
+msgctxt "attachproject_error_email_in_use"
+msgid "eMail is already in use"
+msgstr "Адрес электронной почты уже используется"
+
+msgctxt "attachproject_error_project_down"
+msgid "Project is offline"
+msgstr "Проект выключен"
+
+msgctxt "attachproject_error_email_bad_syntax"
+msgid "eMail refused"
+msgstr "Адрес электронной почты не принят"
+
+msgctxt "attachproject_error_bad_pwd"
+msgid "Password refused"
+msgstr "Пароль не принят"
+
+msgctxt "attachproject_error_creation_disabled"
+msgid "Account creation is disabled on this project"
+msgstr "Создание учётной записи в данном проекте отключено"
+
+#. working activity
+msgctxt "attachproject_working_back_button"
+msgid "Back"
+msgstr "Назад"
+
+msgctxt "attachproject_working_finish_button"
+msgid "Finish"
+msgstr "Готово"
+
+msgctxt "attachproject_working_check_desc"
+msgid "Successful"
+msgstr "Успешно"
+
+msgctxt "attachproject_working_failed_desc"
+msgid "Failed"
+msgstr "Неудачно"
+
+msgctxt "attachproject_working_ongoing"
+msgid "…"
+msgstr "…"
+
+msgctxt "attachproject_working_finished"
+msgid "."
+msgstr "."
+
+msgctxt "attachproject_working_description"
+msgid ":"
+msgstr ":"
+
+msgctxt "attachproject_working_connect"
+msgid "Connect"
+msgstr "Подключиться"
+
+msgctxt "attachproject_working_verify"
+msgid "Verify account"
+msgstr "Проверить учётную запись"
+
+msgctxt "attachproject_working_register"
+msgid "Register account"
+msgstr "Зарегистрировать учётную запись"
+
+msgctxt "attachproject_working_login"
+msgid "Log in"
+msgstr "Войти"
+
+#. main activity
+msgctxt "main_noproject_warning"
+msgid "Tab here to choose a project."
+msgstr "Нажмите здесь для выбора проекта."
+
+msgctxt "main_error"
+msgid "Whooops"
+msgstr "Упс"
+
+msgctxt "main_error_long"
+msgid ""
+"…this should not happen!\n"
+"Click on the icon to try again."
+msgstr ""
+"…этого не должно было произойти!\n"
+"Нажмите на значок BOINC, чтобы попробовать ещё раз."
+
+msgctxt "main_title_icon_desc"
+msgid "BOINC icon"
+msgstr "Значок BOINC"
+
+#. tab names
+msgctxt "tab_status"
+msgid "Status"
+msgstr "Статус"
+
+msgctxt "tab_projects"
+msgid "Projects"
+msgstr "Проекты"
+
+msgctxt "tab_tasks"
+msgid "Tasks"
+msgstr "Задания"
+
+msgctxt "tab_transfers"
+msgid "Transfers"
+msgstr "Передачи"
+
+msgctxt "tab_preferences"
+msgid "Preferences"
+msgstr "Настройки"
+
+msgctxt "tab_desc"
+msgid "Navigation"
+msgstr "Навигация"
+
+#. status strings
+msgctxt "status_running"
+msgid "Computing"
+msgstr "Выполнение расчётов"
+
+msgctxt "status_running_long"
+msgid "Thank you for participating."
+msgstr "Спасибо за участие."
+
+msgctxt "status_paused"
+msgid "Suspended"
+msgstr "Приостановлено"
+
+msgctxt "status_idle"
+msgid "Nothing to do"
+msgstr "Нечего делать"
+
+msgctxt "status_idle_long"
+msgid "Waiting for tasks…"
+msgstr "Ожидание заданий…"
+
+msgctxt "status_computing_disabled"
+msgid "Suspended"
+msgstr "Приостановлено"
+
+msgctxt "status_computing_disabled_long"
+msgid "Press play to resume network and computation."
+msgstr "Нажмите кнопку Play для возобновления расчётов и передачи данных."
+
+msgctxt "status_launching"
+msgid "Starting…"
+msgstr "Запуск…"
+
+msgctxt "status_noproject"
+msgid "Choose a project to participate in."
+msgstr "Выбрать проект для участия."
+
+msgctxt "status_closing"
+msgid "Closing…"
+msgstr "Закрытие…"
+
+msgctxt "status_benchmarking"
+msgid "Benchmarking…"
+msgstr "Тестирование производительности…"
+
+msgctxt "status_image_description"
+msgid "project image"
+msgstr "изображение проекта"
+
+#. preferences tab strings
+msgctxt "prefs_loading"
+msgid "Reading preferences…"
+msgstr "Чтение настроек…"
+
+msgctxt "prefs_submit_button"
+msgid "Save"
+msgstr "Сохранить"
+
+msgctxt "prefs_dialog_title"
+msgid "Enter new value:"
+msgstr "Введите новое значение:"
+
+msgctxt "prefs_dialog_title_selection"
+msgid "Select:"
+msgstr "Выбрать:"
+
+msgctxt "prefs_category_general"
+msgid "General"
+msgstr "Основные"
+
+msgctxt "prefs_category_network"
+msgid "Network"
+msgstr "Сеть"
+
+msgctxt "prefs_category_power"
+msgid "Power"
+msgstr "Питание"
+
+msgctxt "prefs_category_cpu"
+msgid "CPU"
+msgstr "Процессор"
+
+msgctxt "prefs_category_storage"
+msgid "Storage"
+msgstr "Диск"
+
+msgctxt "prefs_category_memory"
+msgid "Memory"
+msgstr "Память"
+
+msgctxt "prefs_category_debug"
+msgid "Debug"
+msgstr "Отладка"
+
+msgctxt "prefs_show_advanced_header"
+msgid "Show advanced preferences and controls…"
+msgstr "Показать дополнительные настройки и элементы управления…"
+
+msgctxt "prefs_run_on_battery_header"
+msgid "Compute on Battery"
+msgstr "Выполнять расчёты при работе от батареи"
+
+msgctxt "battery_charge_min_pct_header"
+msgid "Min. battery level"
+msgstr "Мин. уровень заряда батареи"
+
+msgctxt "battery_charge_min_pct_description"
+msgid "BOINC suspends computation below defined battery charge level."
+msgstr ""
+"BOINC приостановит расчёты, когда заряд батареи будет ниже указанного "
+"уровня."
+
+msgctxt "battery_temperature_max_header"
+msgid "Max. battery temperature"
+msgstr "Макс. температура батареи"
+
+msgctxt "battery_temperature_max_description"
+msgid ""
+"BOINC suspends computation above defined battery temperature. It is not "
+"recommended to change this value."
+msgstr ""
+"BOINC приостановит расчёты, когда температура батареи превысит указанный "
+"уровень. Не рекомендуется менять это значение."
+
+msgctxt "prefs_disk_max_pct_header"
+msgid "Max. used storage space"
+msgstr "Макс. используемое пространство памяти"
+
+msgctxt "prefs_disk_max_pct_description"
+msgid "How many percent of your device's storage space is BOINC allowed to use?"
+msgstr ""
+"Сколько процентов от общего объёма памяти вашего устройства BOINC может "
+"использовать?"
+
+msgctxt "prefs_disk_min_free_gb_header"
+msgid "Min. spare storage"
+msgstr "Мин. свободное пространство"
+
+msgctxt "prefs_disk_min_free_gb_description"
+msgid "How much of your device's storage space shall stay free?"
+msgstr "Какой объём памяти вашего устройства должен оставаться свободным?"
+
+msgctxt "prefs_network_daily_xfer_limit_mb_header"
+msgid "Daily transfer limit"
+msgstr "Ежедневный предел передачи"
+
+msgctxt "prefs_network_daily_xfer_limit_mb_description"
+msgid "Limits the daily data traffic caused by BOINC."
+msgstr "Ограничивает ежедневный трафик данных, вызванный BOINC."
+
+msgctxt "prefs_network_wifi_only_header"
+msgid "Transfer tasks on WiFi only"
+msgstr "Передавать задания только по WiFi"
+
+msgctxt "prefs_autostart_header"
+msgid "Autostart"
+msgstr "Автозапуск"
+
+msgctxt "prefs_show_notification_header"
+msgid "Show notification when suspended"
+msgstr "Показывать уведомление, когда приостановлен"
+
+msgctxt "prefs_cpu_number_cpus_header"
+msgid "Used CPU cores"
+msgstr "Используемые ядра процессора"
+
+msgctxt "prefs_cpu_number_cpus_description"
+msgid "Limits the number of CPU cores BOINC uses for computation."
+msgstr ""
+"Ограничивает количество ядер процессора, которые использует BOINC для "
+"расчётов."
+
+msgctxt "prefs_cpu_other_load_suspension_header"
+msgid "Pause at CPU usage above"
+msgstr "Пауза при использовании процессора выше"
+
+msgctxt "prefs_cpu_other_load_suspension_description"
+msgid "Determines when BOINC pauses computation due to other app's CPU usage."
+msgstr ""
+"Определяет, когда BOINC останавливает расчёты из-за использования процессора "
+"другими приложениями."
+
+msgctxt "prefs_cpu_time_max_header"
+msgid "CPU limit"
+msgstr "Предельное время процессора"
+
+msgctxt "prefs_cpu_time_max_description"
+msgid "Limits the CPU time BOINC uses for computation."
+msgstr "Ограничивает время процессора, которое использует BOINC для расчётов."
+
+msgctxt "prefs_memory_max_idle_header"
+msgid "RAM limit"
+msgstr "Ограничение ОЗУ"
+
+msgctxt "prefs_memory_max_idle_description"
+msgid "Limits the amount of RAM tasks are allowed to occupy."
+msgstr "Ограничивает объём ОЗУ, который задания могут занимать."
+
+msgctxt "prefs_client_log_flags_header"
+msgid "BOINC Client log flags"
+msgstr "Флаги журнала клиента BOINC"
+
+msgctxt "prefs_gui_log_level_header"
+msgid "GUI log level"
+msgstr "Уровень журнала GUI"
+
+msgctxt "prefs_gui_log_level_description"
+msgid "Specifies verbosity of GUI log messages."
+msgstr "Задает уровень детализации сообщений журнала GUI."
+
+msgctxt "prefs_unit_mb"
+msgid "MB"
+msgstr "МБ"
+
+msgctxt "prefs_unit_gb"
+msgid "GB"
+msgstr "ГБ"
+
+#, c-format, c-format
+msgctxt "prefs_unit_pct"
+msgid "%"
+msgstr "%"
+
+msgctxt "prefs_unit_celcius"
+msgid "°C"
+msgstr "°C"
+
+#. projects tab strings
+msgctxt "projects_loading"
+msgid "Reading projects…"
+msgstr "Чтение проектов…"
+
+msgctxt "projects_add"
+msgid "Add project"
+msgstr "Добавить проект"
+
+msgctxt "projects_icon"
+msgid "Project icon"
+msgstr "Значок проекта"
+
+msgctxt "projects_credits_header"
+msgid "Credit:"
+msgstr "Очки:"
+
+msgctxt "projects_credits_host_header"
+msgid "(on this device)"
+msgstr "(на этом устройстве)"
+
+msgctxt "projects_credits_user_header"
+msgid "(total)"
+msgstr "(всего)"
+
+#. project status strings
+msgctxt "projects_status_suspendedviagui"
+msgid "Suspended by user"
+msgstr "Приостановлен пользователем"
+
+msgctxt "projects_status_dontrequestmorework"
+msgid "Won't get new tasks"
+msgstr "Не запрашивать новые задания"
+
+msgctxt "projects_status_ended"
+msgid "Project ended - OK to remove"
+msgstr "Проект завершён - ОК для удаления"
+
+msgctxt "projects_status_detachwhendone"
+msgid "Will remove when tasks done"
+msgstr "Будет удалён после завершения заданий"
+
+msgctxt "projects_status_schedrpcpending"
+msgid "Scheduler request pending"
+msgstr "Запрос информации у планировщика"
+
+msgctxt "projects_status_schedrpcinprogress"
+msgid "Scheduler request in progress"
+msgstr "Производится запрос информации у планировщика"
+
+msgctxt "projects_status_trickleuppending"
+msgid "Trickle up message pending"
+msgstr "Ожидание промежуточной отправки"
+
+msgctxt "projects_status_backoff"
+msgid "Communication scheduled in:"
+msgstr "Связь по расписанию:"
+
+#. project controls
+msgctxt "projects_control_dialog_title"
+msgid "Project commands:"
+msgstr "Команды проекта:"
+
+msgctxt "projects_control_update"
+msgid "Update"
+msgstr "Обновить"
+
+msgctxt "projects_control_remove"
+msgid "Remove"
+msgstr "Удалить"
+
+msgctxt "projects_control_suspend"
+msgid "Suspend"
+msgstr "Приостановить"
+
+msgctxt "projects_control_resume"
+msgid "Resume"
+msgstr "Возобновить"
+
+msgctxt "projects_control_nonewtasks"
+msgid "No new tasks"
+msgstr "Не запрашивать задания"
+
+msgctxt "projects_control_allownewtasks"
+msgid "Allow new tasks"
+msgstr "Получать новые задания"
+
+msgctxt "projects_control_reset"
+msgid "Reset"
+msgstr "Сбросить"
+
+#. project confirm dialog
+msgctxt "projects_confirm_detach_title"
+msgid "Remove project?"
+msgstr "Удалить проект?"
+
+msgctxt "projects_confirm_detach_message"
+msgid "Are you sure you want to remove"
+msgstr "Вы действительно хотите удалить"
+
+msgctxt "projects_confirm_detach_message2"
+msgid "from BOINC?"
+msgstr "из BOINC?"
+
+msgctxt "projects_confirm_detach_confirm"
+msgid "Remove"
+msgstr "Удалить"
+
+msgctxt "projects_confirm_reset_title"
+msgid "Reset project"
+msgstr "Перезапустить проект"
+
+msgctxt "projects_confirm_reset_message"
+msgid "Are you sure you want to reset"
+msgstr "Вы действительно хотите перезапустить"
+
+msgctxt "projects_confirm_reset_confirm"
+msgid "Reset"
+msgstr "Сбросить"
+
+#. tasks tab strings
+msgctxt "tasks_header_name"
+msgid "Task Name:"
+msgstr "Название задания:"
+
+msgctxt "tasks_header_elapsed_time"
+msgid "Elapsed time:"
+msgstr "Затрачено времени:"
+
+msgctxt "tasks_header_project_paused"
+msgid "(suspended)"
+msgstr "(приостановлено)"
+
+msgctxt "tasks_header_deadline"
+msgid "Deadline:"
+msgstr "Крайний срок:"
+
+msgctxt "tasks_result_new"
+msgid "new"
+msgstr "новый"
+
+msgctxt "tasks_result_files_downloading"
+msgid "waiting for download"
+msgstr "ожидание загрузки"
+
+msgctxt "tasks_result_files_downloaded"
+msgid "download complete"
+msgstr "загрузка завершена"
+
+msgctxt "tasks_result_compute_error"
+msgid "computation error"
+msgstr "ошибка расчётов"
+
+msgctxt "tasks_result_files_uploading"
+msgid "uploading"
+msgstr "отправка"
+
+msgctxt "tasks_result_files_uploaded"
+msgid "upload complete"
+msgstr "отправка завершена"
+
+msgctxt "tasks_result_aborted"
+msgid "aborted"
+msgstr "прервано"
+
+msgctxt "tasks_result_upload_failed"
+msgid "upload failed"
+msgstr "сбой при отправке"
+
+msgctxt "tasks_active_uninitialized"
+msgid "ready"
+msgstr "готово"
+
+msgctxt "tasks_active_executing"
+msgid "running"
+msgstr "выполняется"
+
+msgctxt "tasks_active_suspended"
+msgid "suspended"
+msgstr "приостановлено"
+
+msgctxt "tasks_active_abort_pending"
+msgid "suspending"
+msgstr "приостанавливается"
+
+msgctxt "tasks_active_quit_pending"
+msgid "suspending"
+msgstr "приостанавливается"
+
+msgctxt "tasks_custom_suspended_via_gui"
+msgid "suspended"
+msgstr "приостановлено"
+
+msgctxt "tasks_custom_project_suspended_via_gui"
+msgid "project suspended"
+msgstr "проект приостановлен"
+
+msgctxt "tasks_custom_ready_to_report"
+msgid "ready to report"
+msgstr "готово для подтверждения"
+
+#. confirmation dialog
+msgctxt "confirm_abort_task_title"
+msgid "Abort task?"
+msgstr "Прервать задание?"
+
+msgctxt "confirm_abort_task_message"
+msgid "Abort task:"
+msgstr "Прервать задание:"
+
+msgctxt "confirm_abort_task_confirm"
+msgid "Abort"
+msgstr "Прервать"
+
+msgctxt "confirm_cancel"
+msgid "Cancel"
+msgstr "Отмена"
+
+msgctxt "confirm_image_desc"
+msgid "Confirmation dialog"
+msgstr "Диалог подтверждения"
+
+#. transfers tab strings
+msgctxt "trans_loading"
+msgid "Reading transfers…"
+msgstr "Чтение списка передач…"
+
+msgctxt "trans_upload"
+msgid "Upload"
+msgstr "Отправка"
+
+msgctxt "trans_download"
+msgid "Download"
+msgstr "Загрузка"
+
+msgctxt "trans_retryin"
+msgid "retry in"
+msgstr "повтор через"
+
+msgctxt "trans_failed"
+msgid "failed"
+msgstr "неудача"
+
+msgctxt "trans_suspended"
+msgid "suspended"
+msgstr "приостановлено"
+
+msgctxt "trans_active"
+msgid "active"
+msgstr "активна"
+
+msgctxt "trans_pending"
+msgid "pending"
+msgstr "ожидает"
+
+msgctxt "trans_projectbackoff"
+msgid "project backoff"
+msgstr "запрос к проекту отложен на"
+
+msgctxt "trans_header_name"
+msgid "File:"
+msgstr "Файл:"
+
+msgctxt "confirm_abort_trans_title"
+msgid "Abort transfer?"
+msgstr "Прервать передачу?"
+
+msgctxt "confirm_abort_trans_message"
+msgid "Abort File:"
+msgstr "Прервать файл:"
+
+msgctxt "confirm_abort_trans_confirm"
+msgid "Abort"
+msgstr "Прервать"
+
+#. eventlog tab strings
+msgctxt "eventlog_loading"
+msgid "Loading log messages…"
+msgstr "Загрузка сообщений журнала…"
+
+msgctxt "eventlog_client_header"
+msgid "Client Messages"
+msgstr "Сообщения клиента"
+
+msgctxt "eventlog_gui_header"
+msgid "GUI Messages"
+msgstr "Сообщения GUI"
+
+msgctxt "eventlog_copy_toast"
+msgid "Log copied to clipboard."
+msgstr "Журнал скопирован в буфер обмена."
+
+msgctxt "eventlog_email_subject"
+msgid "Event Log for BOINC on Android:"
+msgstr "Журнал событий для BOINC на Android:"
+
+#. suspend reasons
+msgctxt "suspend_unknown"
+msgid "Computation suspended."
+msgstr "Расчёты приостановлены."
+
+msgctxt "suspend_batteries"
+msgid "Connect your device to a charger to continue computing."
+msgstr ""
+"Подключите ваше устройство к зарядному устройству для продолжения расчётов."
+
+msgctxt "suspend_useractive"
+msgid "User is active."
+msgstr "Пользователь работает."
+
+msgctxt "suspend_tod"
+msgid "Out of computation time-frame."
+msgstr "Закончилось выделенное время для расчётов."
+
+msgctxt "suspend_bm"
+msgid "BOINC is benchmarking your device…"
+msgstr "BOINC измеряет производительность вашего устройства…"
+
+msgctxt "suspend_disksize"
+msgid "Out of disk space."
+msgstr "Закончилось свободное место на диске."
+
+msgctxt "suspend_cputhrottle"
+msgid "Scheduled CPU throttle."
+msgstr "Запланированное ограничение нагрузки процессора."
+
+msgctxt "suspend_noinput"
+msgid "No recent user activity."
+msgstr "Нет активности пользователя за последнее время."
+
+msgctxt "suspend_delay"
+msgid "Initialization delay."
+msgstr "Инициализация отложена."
+
+msgctxt "suspend_exclusiveapp"
+msgid "An exclusive app is running."
+msgstr "Выполняется привилегированное приложение."
+
+msgctxt "suspend_cpu"
+msgid "Your device is busy with other apps."
+msgstr "Ваше устройство занято другими приложениями."
+
+msgctxt "suspend_network_quota"
+msgid "BOINC reached network transfer limit."
+msgstr "BOINC достиг ограничения передачи данных по сети."
+
+msgctxt "suspend_os"
+msgid "Stopped by Android."
+msgstr "Android остановил."
+
+msgctxt "suspend_wifi"
+msgid "Not connected to WiFi."
+msgstr "Нет подключения к WiFi."
+
+msgctxt "suspend_battery_charging"
+msgid "Battery needs to charge before resuming computation."
+msgstr "Необходимо подзарядить батарею для продолжения расчётов."
+
+msgctxt "suspend_battery_charging_long"
+msgid "Computing will resume when battery charge reaches"
+msgstr "Расчёты возобновятся, когда заряд батареи достигнет"
+
+msgctxt "suspend_battery_charging_current"
+msgid "currently"
+msgstr "в данный момент"
+
+msgctxt "suspend_battery_overheating"
+msgid "Waiting for battery to cool down"
+msgstr "Ожидание охлаждения батареи"
+
+msgctxt "suspend_user_req"
+msgid "Resuming computation…"
+msgstr "Возобновление расчётов…"
+
+msgctxt "suspend_network_user_req"
+msgid "manually."
+msgstr "вручную."
+
+#. rpc reasons
+msgctxt "rpcreason_userreq"
+msgid "Requested by user"
+msgstr "Запрошено пользователем"
+
+msgctxt "rpcreason_needwork"
+msgid "To fetch work"
+msgstr "Запросить задания"
+
+msgctxt "rpcreason_resultsdue"
+msgid "To report completed tasks"
+msgstr "Сообщить о завершённых заданиях"
+
+msgctxt "rpcreason_trickleup"
+msgid "To send trickle-up message"
+msgstr "Отправить промежуточное сообщение"
+
+msgctxt "rpcreason_acctmgrreq"
+msgid "Requested by account manager"
+msgstr "Запрошено менеджером проектов"
+
+msgctxt "rpcreason_init"
+msgid "Project initialization"
+msgstr "Инициализация проекта"
+
+msgctxt "rpcreason_projectreq"
+msgid "Requested by project"
+msgstr "Запрошено проектом"
+
+msgctxt "rpcreason_unknown"
+msgid "Unknown reason"
+msgstr "Неизвестная причина"
+
+#. menu
+msgctxt "menu_refresh"
+msgid "Refresh"
+msgstr "Обновить"
+
+msgctxt "menu_emailto"
+msgid "Send as Email"
+msgstr "Отправить письмом"
+
+msgctxt "menu_copy"
+msgid "Copy to Clipboard"
+msgstr "Копировать в буфер обмена"
+
+msgctxt "menu_eventlog"
+msgid "Event Log"
+msgstr "Журнал событий"
+
+msgctxt "menu_exit"
+msgid "Exit BOINC"
+msgstr "Выйти из BOINC"
+
+msgctxt "menu_run_mode_disable"
+msgid "Suspend"
+msgstr "Приостановить"
+
+msgctxt "menu_run_mode_enable"
+msgid "Resume"
+msgstr "Возобновить"
+
+msgctxt "menu_about"
+msgid "About"
+msgstr "О"
+
+msgctxt "menu_help"
+msgid "Help"
+msgstr "Справка"
+
+#. about dialog
+msgctxt "about_button"
+msgid "Return"
+msgstr "Вернуться"
+
+msgctxt "about_title"
+msgid "About"
+msgstr "О"
+
+msgctxt "about_name"
+msgid "BOINC"
+msgstr "BOINC"
+
+msgctxt "about_version"
+msgid "Version"
+msgstr "Версия"
+
+msgctxt "about_name_long"
+msgid "Berkeley Open Infrastructure for Network Computing"
+msgstr ""
+"BOINC - Berkeley Open Infrastructure for Network Computing\n"
+"Открытая Инфраструктура для Распределенных Вычислений университета Беркли"
+
+msgctxt "about_copyright"
+msgid ""
+"© 2003–2013 University of California, Berkeley.\n"
+"All Rights Reserved."
+msgstr ""
+"© 2003-2013 Калифорнийский университет, Беркли.\n"
+"Все права защищены."

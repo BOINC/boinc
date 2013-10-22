@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  This file is part of BOINC.
+  http://boinc.berkeley.edu
+  Copyright (C) 2012 University of California
+  
+  BOINC is free software; you can redistribute it and/or modify it
+  under the terms of the GNU Lesser General Public License
+  as published by the Free Software Foundation,
+  either version 3 of the License, or (at your option) any later version.
+  
+  BOINC is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+  See the GNU Lesser General Public License for more details.
+  
+  You should have received a copy of the GNU Lesser General Public License
+  along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+    
+	<LinearLayout 
+	    android:id="@+id/acctmgr_wrapper"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="vertical"
+	    android:paddingBottom="10dp">
+    	
+	    <LinearLayout 
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:background="@drawable/shape_dark_blue_gradient_background"
+	        android:padding="15dp"
+		    android:gravity="center_horizontal"
+		    android:layout_marginBottom="10dp">
+	        <TextView android:textAppearance="?android:attr/textAppearanceLarge"
+		        android:background="@android:color/transparent"
+		        android:textColor="@color/white_smoke"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:singleLine="true"
+		        android:text="@string/attachproject_acctmgr_header"/>
+	    </LinearLayout>
+		
+	    <LinearLayout 
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:orientation="horizontal"
+	        android:padding="10dp" >
+	        
+			<TextView
+		        android:layout_width="100dp"
+		        android:singleLine="true"
+		        android:layout_height="wrap_content"
+		        android:layout_marginRight="10dp"
+		        android:text="@string/attachproject_acctmgr_header_url"
+		        android:textAppearance="?android:attr/textAppearanceSmall" />
+			
+	        <EditText
+	            android:id="@+id/url_input"
+	            android:layout_width="0dip"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="1"
+	            android:inputType="textUri" >
+	            <requestFocus />
+	        </EditText>
+	    </LinearLayout>
+	
+	    <LinearLayout 
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:orientation="horizontal"
+	        android:padding="10dp" >
+	        
+			<TextView
+		        android:layout_width="100dp"
+		        android:singleLine="true"
+		        android:layout_height="wrap_content"
+		        android:layout_marginRight="10dp"
+		        android:text="@string/attachproject_acctmgr_header_name"
+		        android:textAppearance="?android:attr/textAppearanceSmall" />
+			
+	        <EditText
+	            android:id="@+id/name_input"
+	            android:layout_width="0dip"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="1"
+	            android:inputType="textNoSuggestions"/>
+	    </LinearLayout>
+	
+	    <LinearLayout 
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:orientation="horizontal"
+	        android:padding="10dp" >
+	        
+			<TextView
+		        android:layout_width="100dp"
+		        android:singleLine="true"
+		        android:layout_height="wrap_content"
+		        android:layout_marginRight="10dp"
+		        android:text="@string/attachproject_acctmgr_header_pwd"
+		        android:textAppearance="?android:attr/textAppearanceSmall" />
+			
+	        <EditText
+	            android:id="@+id/pwd_input"
+	            android:layout_width="0dip"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="1"
+	            android:inputType="textPassword"/>
+	    </LinearLayout>
+	
+	    <LinearLayout 
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:orientation="horizontal"
+	        android:padding="10dp" >
+	        
+			<TextView
+		        android:layout_width="100dp"
+		        android:singleLine="true"
+		        android:layout_height="wrap_content"
+		        android:layout_marginRight="10dp"
+		        android:text="@string/attachproject_acctmgr_header_pwd_confirm"
+		        android:textAppearance="?android:attr/textAppearanceSmall" />
+			
+	        <EditText
+	            android:id="@+id/pwd_confirm_input"
+	            android:layout_width="0dip"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="1"
+	            android:inputType="textPassword"/>
+	    </LinearLayout>
+		    
+		<TextView
+	        android:id="@+id/warning"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:gravity="center_horizontal"
+	        android:textAppearance="?android:attr/textAppearanceSmall"
+	        android:background="@drawable/shape_light_red_background"
+	        android:paddingTop="10dp"
+	        android:paddingBottom="10dp"
+	        android:layout_marginTop="10dp"
+	        android:visibility="gone" />
+	    
+	    <Button 
+	        android:layout_width="100dp"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="right"
+	        android:paddingLeft="20dp"
+	        android:paddingRight="20dp"
+	        android:layout_marginRight="10dp"
+	        android:layout_marginTop="10dp"
+		    android:background="@drawable/shape_button_blue"
+		    android:textColor="@color/white_smoke"
+	        android:textAppearance="?android:attr/textAppearanceMedium"
+	        android:padding="5dp"
+	        android:onClick="addAcctMgrClick"
+		    android:text="@string/attachproject_acctmgr_button" />		
+	    
+	</LinearLayout>
+</ScrollView>

@@ -58,7 +58,7 @@ void ACTIVE_TASK::request_graphics_mode(GRAPHICS_MSG& m) {
     
     graphics_msg = m;       // save graphics_station, desktop, display
 
-    strcpy(buf, xml_graphics_modes[m.mode]);
+    safe_strcpy(buf, xml_graphics_modes[m.mode]);
     if (strlen(m.window_station)) {
         sprintf(buf2, "<window_station>%s</window_station>", m.window_station);
         strcat(buf, buf2);

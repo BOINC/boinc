@@ -18,9 +18,13 @@
 #ifndef _PROJECT_
 #define _PROJECT_
 
+#include "app_config.h"
 #include "client_types.h"
 
 struct PROJECT : PROJ_AM {
+    char _project_dir[MAXPATHLEN];
+    char _project_dir_absolute[MAXPATHLEN];
+
     // the following items come from the account file
     // They are a function only of the user and the project
     //
@@ -125,8 +129,8 @@ struct PROJECT : PROJ_AM {
     int sched_rpc_pending;
         // we need to do a scheduler RPC, for various possible reasons:
         // user request, propagate host CPID, time-based, etc.
-		// Reasons are enumerated in lib/common_defs.h
-	bool possibly_backed_off;
+        // Reasons are enumerated in lib/common_defs.h
+    bool possibly_backed_off;
         // we need to call request_work_fetch() when a project
         // transitions from being backed off to not.
         // This (slightly misnamed) keeps track of whether this
@@ -222,11 +226,6 @@ struct PROJECT : PROJ_AM {
     bool some_download_stalled();
         // a download is backed off
     bool some_result_suspended();
-    double last_upload_start;
-        // the last time an upload was started.
-        // Used for "work fetch deferral" mechanism:
-        // don't request work from a project if an upload started
-        // in last X minutes and is still active
     bool uploading();
     bool has_results();
 
@@ -246,8 +245,6 @@ struct PROJECT : PROJ_AM {
     //
     double rr_sim_cpu_share;
     bool rr_sim_active;
-    int ncoprocs_excluded[MAX_RSC];
-        // number of excluded instances per processor type
     bool operator<(const PROJECT& p) {
         return sched_priority > p.sched_priority;
     }
@@ -265,6 +262,11 @@ struct PROJECT : PROJ_AM {
         return rsc_pwf[rsc_type].deadlines_missed;
     }
     void get_task_durs(double& not_started_dur, double& in_progress_dur);
+    void check_no_rsc_apps();
+        // if flags are set for all resource types,
+        // something's wrong; clear them.
+    void check_no_apps();
+        // set no_X_apps for anonymous platform projects
 
     int nresults_returned;
         // # of results being returned in current scheduler op
@@ -272,6 +274,10 @@ struct PROJECT : PROJ_AM {
         // get scheduler URL with random offset r
     bool checked;
         // temporary used when scanning projects
+    bool dont_contact;
+        // temp in find_project_with_overdue_results()
+    int n_ready;
+        // temp in find_project_with_overdue_results()
 
     FILE_XFER_BACKOFF download_backoff;
     FILE_XFER_BACKOFF upload_backoff;
@@ -283,6 +289,10 @@ struct PROJECT : PROJ_AM {
     //
     std::vector<TRICKLE_UP_OP*> trickle_up_ops;
 
+    // app config stuff
+    //
+    APP_CONFIGS app_configs;
+
     PROJECT();
     ~PROJECT(){}
     void init();
@@ -293,13 +303,16 @@ struct PROJECT : PROJ_AM {
     int parse_account_file();
     int parse_state(XML_PARSER&);
     int write_state(MIOFILE&, bool gui_rpc=false);
+    const char* project_dir();
+    const char* project_dir_absolute();
 
     // statistic of the last x days
     std::vector<DAILY_STATS> statistics;
     int parse_statistics(MIOFILE&);
     int parse_statistics(FILE*);
-    int write_statistics(MIOFILE&, bool gui_rpc=false);
+    int write_statistics(MIOFILE&);
     int write_statistics_file();
+    void trim_statistics();
 
     void suspend();
     void resume();
@@ -324,6 +337,7 @@ struct PROJECT : PROJ_AM {
     bool idle;
     int max_infeasible_count;
     bool no_apps;
+    bool ignore;
     // for DCF variants:
     int completed_task_count;
     double completions_ratio_mean;

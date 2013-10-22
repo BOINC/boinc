@@ -19,7 +19,7 @@
 
 // Interface for project-wide functions:
 //   - control user quotas and permissions to submit jobs
-//   - create apps
+//   - create apps (not implemented yet)
 
 require_once("../inc/submit_db.inc");
 require_once("../inc/util.inc");
@@ -28,8 +28,9 @@ function user_row($u) {
     $user = BoincUser::lookup_id($u->user_id);
     echo "
         <tr>
-        <td>$user->name (ID: $user->id)
-        <a href=manage_project.php?action=edit_form&user_id=$u->user_id>Edit permissions</a>
+        <td>
+        <a href=manage_project.php?action=edit_form&user_id=$u->user_id>$user->name</a>
+        (ID: $user->id)
         </td>
     ";
     echo "<td>";
@@ -41,32 +42,45 @@ function user_row($u) {
             $app = BoincApp::lookup_id($ua->app_id);
             echo "$app->name ";
         }
+        if (count($uas) == 0) {
+            echo "---";
+        }
     }
     echo "</td>\n";
     echo "<td>$u->quota</td>\n";
-    echo "<td>
+    echo "<td>";
+    if ($u->logical_start_time > time()) {
+        echo local_time_str($u->logical_start_time);
+    } else {
+        echo "---";
+    }
+    echo "
         </td>
         </tr>
     ";
 }
 
 function handle_list() {
-    page_head("Project-wide management functions");
-    echo "<h3>User permissions and quotas</h3>
-        The following users are allowed to submit jobs.
+    page_head("Job submission access control");
+    echo "The following users are allowed to submit jobs.
         <p>
     ";
-    show_button("manage_project.php?action=add_form",
-        "Add user", "Allow a new user to submit jobs"
-    );
 
     $us = BoincUserSubmit::enum("");
     start_table();
-    table_header("User", "Can submit jobs for", "Quota");
+    table_header(
+        "User<br><span class=note>Click to change permissions or quota</span>",
+        "Can submit jobs for",
+        "Quota",
+        "Current priority<br><span class=note>Later time = lower priority</span>"
+    );
     foreach ($us as $u) {
         user_row($u);
     }
     end_table();
+    show_button("manage_project.php?action=add_form",
+        "Add user", "Allow a new user to submit jobs"
+    );
     page_tail();
 }
 
@@ -137,9 +151,7 @@ function handle_edit_action() {
     if ($quota != $us->quota) {
         $us->update("quota=$quota");
     }
-    page_head("Update successful");
-    echo "<a href=manage_project.php>Return to project-wide management functions</a>";
-    page_tail();
+    header('Location: manage_project.php');
 }
 
 function handle_add_form() {
@@ -171,7 +183,7 @@ function handle_add_action() {
 $user = get_logged_in_user();
 $bus = BoincUserSubmit::lookup_userid($user->id);
 if (!$bus) {
-    die("no access");
+    error_page("no access");
 }
 
 $action = get_str('action', true);

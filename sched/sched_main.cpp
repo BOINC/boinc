@@ -43,22 +43,23 @@
 #include <sys/resource.h>
 
 #include "boinc_db.h"
-#include "parse.h"
-#include "filesys.h"
 #include "error_numbers.h"
+#include "filesys.h"
+#include "parse.h"
 #include "shmem.h"
-#include "util.h"
 #include "str_util.h"
-#include "synch.h"
 #include "svn_version.h"
+#include "synch.h"
+#include "util.h"
 
-#include "sched_config.h"
-#include "sched_types.h"
 #include "handle_request.h"
-#include "sched_util.h"
+#include "sched_config.h"
+#include "sched_files.h"
 #include "sched_msgs.h"
-#include "sched_main.h"
+#include "sched_types.h"
+#include "sched_util.h"
 
+#include "sched_main.h"
 
 // Useful for debugging, if your cgi script keeps crashing.  This
 // makes it dump a core file that you can load into a debugger to see
@@ -349,6 +350,20 @@ inline static const char* get_remote_addr() {
     return r ? r : "?.?.?.?";
 }
 
+#if 0       // performance test for XML parsing (use a large request)
+int main(int, char**) {
+    SCHEDULER_REQUEST sreq;
+    FILE* f = fopen("req", "r");
+    MIOFILE mf;
+    XML_PARSER xp(&mf);
+    mf.init_file(f);
+    for (int i=0; i<10; i++) {
+        sreq.parse(xp);
+        fseek(f, 0, SEEK_SET);
+    }
+}
+#else
+
 #if !defined(PLAN_CLASS_TEST)
 
 int main(int argc, char** argv) {
@@ -480,6 +495,7 @@ int main(int argc, char** argv) {
 
     gui_urls.init();
     project_files.init();
+    init_file_delete_regex();
 
     sprintf(path, "%s/code_sign_public", config.key_dir);
     retval = read_file_malloc(path, code_sign_key);
@@ -650,6 +666,7 @@ done:
         boinc_db.close();
     }
 }
+#endif
 #endif
 
 // the following stuff is here because if you put it in sched_limit.cpp

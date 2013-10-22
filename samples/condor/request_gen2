@@ -1,0 +1,25 @@
+#! /usr/bin/env php
+<?php
+
+// Generate GAHP commands for submitting/querying/fetching a batch.
+// Copy and paste these into a running BOINC GAHP
+//
+// Files in0 and in1 must exist already (these are input files)
+//
+// After fetching outputs, the following should exist:
+//    outn_m: output file m of job n
+//    stderr_out1, stderr_out2: stderr output of the 2 jobs
+
+$t = time();
+$batch_name = "batch_$t";
+$job_name_1 = "job1_$t";
+$job_name_2 = "job2_$t";
+echo "
+BOINC_SUBMIT 1 $batch_name uppercase_n 2 $job_name_1 0 2 in0 in0 in1 in1 $job_name_2 0 2 in0 in0 in1 in1
+BOINC_QUERY_BATCHES 2 1 $batch_name
+BOINC_ABORT_JOBS 6 $job_name_1 $job_name_2
+BOINC_FETCH_OUTPUT 3 $job_name_1 . stderr_out1 ALL 1 out0 out1_0 out1 out1_1
+BOINC_FETCH_OUTPUT 4 $job_name_2 . stderr_out2 ALL 1 out0 out2_0 out1 out2_1
+BOINC_RETIRE_BATCH 5 $batch_name
+";
+?>

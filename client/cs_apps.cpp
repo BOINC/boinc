@@ -50,7 +50,7 @@ bool CLIENT_STATE::handle_finished_apps() {
     ACTIVE_TASK* atp;
     bool action = false;
     static double last_time = 0;
-    if (now - last_time < HANDLE_FINISHED_APPS_PERIOD) return false;
+    if (!clock_change && now - last_time < HANDLE_FINISHED_APPS_PERIOD) return false;
     last_time = now;
 
     vector<ACTIVE_TASK*>::iterator iter;
@@ -71,7 +71,7 @@ bool CLIENT_STATE::handle_finished_apps() {
             }
             app_finished(*atp);
             if (!action) {
-                adjust_rec();     // update debts before erasing ACTIVE_TASK
+                adjust_rec();     // update REC before erasing ACTIVE_TASK
             }
             iter = active_tasks.active_tasks.erase(iter);
             delete atp;
@@ -199,11 +199,10 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
         rp->set_state(RESULT_FILES_UPLOADING, "CS::app_finished");
         rp->append_log_record();
 #endif
-        rp->project->last_upload_start = gstate.now;
         rp->project->update_duration_correction_factor(&at);
     }
 
-    double elapsed_time = now - debt_interval_start;
+    double elapsed_time = now - rec_interval_start;
     work_fetch.accumulate_inst_sec(&at, elapsed_time);
 
     return 0;

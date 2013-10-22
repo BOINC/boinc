@@ -813,12 +813,12 @@ void CPaintStatistics::DrawAxis(wxDC &dc, const double max_val_y, const double m
 	dc.DestroyClippingRegion();
 }
 //----Draw graph----
-void CPaintStatistics::DrawGraph(wxDC &dc, std::vector<PROJECT*>::const_iterator &i, const wxColour graphColour, const int typePoint, const int m_SelectedStatistic) {
+void CPaintStatistics::DrawGraph(wxDC &dc, std::vector<PROJECT*>::const_iterator &i, const wxColour graphColour, const int typePoint, const int selectedStatistic) {
     std::vector<DAILY_STATS> stats = (*i)->statistics;
-    DrawGraph2(dc, stats, graphColour, typePoint, m_SelectedStatistic);
+    DrawGraph2(dc, stats, graphColour, typePoint, selectedStatistic);
 }
 
-void CPaintStatistics::DrawGraph2(wxDC &dc, std::vector<DAILY_STATS> stats, const wxColour graphColour, const int typePoint, const int m_SelectedStatistic) {
+void CPaintStatistics::DrawGraph2(wxDC &dc, std::vector<DAILY_STATS> stats, const wxColour graphColour, const int typePoint, const int selectedStatistic) {
 	wxCoord x0 = wxCoord(m_Graph_X_start);
 	wxCoord y0 = wxCoord(m_Graph_Y_start);
 	wxCoord w0 = wxCoord(m_Graph_X_end - m_Graph_X_start);
@@ -870,7 +870,7 @@ void CPaintStatistics::DrawGraph2(wxDC &dc, std::vector<DAILY_STATS> stats, cons
 		b_point2 = false;
 
 		d_xpos = (m_Ax_ValToCoord * j->day + m_Bx_ValToCoord);// добавить округление
-		switch (m_SelectedStatistic){  // добавить округление
+		switch (selectedStatistic){  // добавить округление
 		case show_user_total:	d_ypos = (m_Ay_ValToCoord * j->user_total_credit + m_By_ValToCoord);	break;
 		case show_user_average:	d_ypos = (m_Ay_ValToCoord * j->user_expavg_credit + m_By_ValToCoord);	break;
 		case show_host_total:	d_ypos = (m_Ay_ValToCoord * j->host_total_credit + m_By_ValToCoord);	break;
@@ -1537,38 +1537,41 @@ void CPaintStatistics::DrawAll(wxDC &dc) {
             saved_sum_stat.host_expavg_credit = 0.0;
             saved_sum_stat.day = 0.0;
             prev_proj_stat = saved_sum_stat;
-            std::vector<DAILY_STATS>::iterator sum_iter = sumstats.begin();
-            std::vector<DAILY_STATS>::const_iterator proj_iter = (*i)->statistics.begin();
-            for (;;) {
-                if ((*proj_iter).day >= min_val_x) {
-                    if ((*proj_iter).day < (*sum_iter).day) {
-                        sum_iter = sumstats.insert(sum_iter, stat);
-                        *sum_iter = saved_sum_stat;
-                        (*sum_iter).day = (*proj_iter).day;
-                    } else {
-                        saved_sum_stat = *sum_iter;
-                    }
-                    
-                    if ((*proj_iter).day > (*sum_iter).day) {
-                        AddToStats(prev_proj_stat, *sum_iter);
-                    } else {
-                        AddToStats(*proj_iter, *sum_iter);
-                    }
-                    
-                    ++sum_iter;
-                    if (sum_iter == sumstats.end()) {
-                        break;
-                    }
-                }
-                
-                if ((*proj_iter).day <= (*sum_iter).day) {
-                    prev_proj_stat = *proj_iter;
-                    ++proj_iter;
-                    if (proj_iter == (*i)->statistics.end()) {
-                        for (; sum_iter != sumstats.end(); ++sum_iter) {
-                            AddToStats(prev_proj_stat, *sum_iter);
+
+            if (sumstats.size() && (*i)->statistics.size()) {
+                std::vector<DAILY_STATS>::iterator sum_iter = sumstats.begin();
+                std::vector<DAILY_STATS>::const_iterator proj_iter = (*i)->statistics.begin();
+                for (;;) {
+                    if ((*proj_iter).day >= min_val_x) {
+                        if ((*proj_iter).day < (*sum_iter).day) {
+                            sum_iter = sumstats.insert(sum_iter, stat);
+                            *sum_iter = saved_sum_stat;
+                            (*sum_iter).day = (*proj_iter).day;
+                        } else {
+                            saved_sum_stat = *sum_iter;
                         }
-                        break;
+                        
+                        if ((*proj_iter).day > (*sum_iter).day) {
+                            AddToStats(prev_proj_stat, *sum_iter);
+                        } else {
+                            AddToStats(*proj_iter, *sum_iter);
+                        }
+                        
+                        ++sum_iter;
+                        if (sum_iter == sumstats.end()) {
+                            break;
+                        }
+                    }
+                    
+                    if ((*proj_iter).day <= (*sum_iter).day) {
+                        prev_proj_stat = *proj_iter;
+                        ++proj_iter;
+                        if (proj_iter == (*i)->statistics.end()) {
+                            for (; sum_iter != sumstats.end(); ++sum_iter) {
+                                AddToStats(prev_proj_stat, *sum_iter);
+                            }
+                            break;
+                        }
                     }
                 }
             }
@@ -2075,11 +2078,11 @@ const char** CViewStatistics::GetViewIcon() {
     return stats_xpm;
 }
 
-const int CViewStatistics::GetViewRefreshRate() {
+int CViewStatistics::GetViewRefreshRate() {
     return 60;
 }
 
-const int CViewStatistics::GetViewCurrentViewPage() {
+int CViewStatistics::GetViewCurrentViewPage() {
     return VW_STAT;
 }
 

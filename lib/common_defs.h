@@ -19,6 +19,7 @@
 #define _COMMON_DEFS_
 
 #include "miofile.h"
+#include "parse.h"
 
 // #defines or enums that are shared by more than one BOINC component
 // (e.g. client, server, Manager, etc.)
@@ -105,12 +106,26 @@ enum SUSPEND_REASON {
     SUSPEND_REASON_CPU_USAGE = 1024,
     SUSPEND_REASON_NETWORK_QUOTA_EXCEEDED = 2048,
     SUSPEND_REASON_OS = 4096,
-    SUSPEND_REASON_WIFI_STATE = 8192
+    SUSPEND_REASON_WIFI_STATE = 4097,
+    SUSPEND_REASON_BATTERY_CHARGING = 4098,
+    SUSPEND_REASON_BATTERY_OVERHEATED = 4099,
+    SUSPEND_REASON_NO_GUI_KEEPALIVE = 4100
+};
+
+// battery state (currently used only for Android)
+//
+enum BATTERY_STATE {
+    BATTERY_STATE_UNKNOWN=0,
+    BATTERY_STATE_DISCHARGING,
+    BATTERY_STATE_CHARGING,
+    BATTERY_STATE_FULL,
+    BATTERY_STATE_OVERHEATED
 };
 
 // Values of RESULT::state in client.
 // THESE MUST BE IN NUMERICAL ORDER
 // (because of the > comparison in RESULT::computing_done())
+// see html/inc/common_defs.inc
 //
 #define RESULT_NEW                  0
     // New result
@@ -179,6 +194,36 @@ enum SUSPEND_REASON {
 #define RPC_REASON_INIT             6
 #define RPC_REASON_PROJECT_REQ      7
 
+struct TIME_STATS {
+// we maintain an exponentially weighted average of these quantities:
+    double now;
+        // the client's time of day
+    double on_frac;
+        // the fraction of total time this host runs the client
+    double connected_frac;
+        // of the time this host runs the client,
+        // the fraction it is connected to the Internet,
+        // or -1 if not known
+    double cpu_and_network_available_frac;
+        // of the time this host runs the client,
+        // the fraction it is connected to the Internet
+        // AND network usage is allowed (by prefs and user toggle)
+        // AND CPU usage is allowed
+    double active_frac;
+        // of the time this host runs the client,
+        // the fraction it is enabled to use CPU
+        // (as determined by preferences, manual suspend/resume, etc.)
+    double gpu_active_frac;
+        // same, GPU
+    double client_start_time;
+    double previous_uptime;
+        // duration of previous session
+
+    void write(MIOFILE&);
+    int parse(XML_PARSER&);
+    void print();
+};
+
 struct VERSION_INFO {
     int major;
     int minor;
@@ -187,6 +232,34 @@ struct VERSION_INFO {
     int parse(MIOFILE&); 
     void write(MIOFILE&); 
     bool greater_than(VERSION_INFO&);
+};
+
+// used for Android
+//
+struct DEVICE_STATUS {
+    bool on_ac_power;
+    bool on_usb_power;
+    double battery_charge_pct;
+    int battery_state;      // see above
+    double battery_temperature_celsius;
+    bool wifi_online;
+    bool user_active;
+    char device_name[256];
+        // if present, a user-selected name for the device.
+        // This will be stored by the client as hostinfo.domain_name,
+        // and reported to schedulers.
+
+    int parse(XML_PARSER&);
+    DEVICE_STATUS() {
+        on_ac_power = false;
+        on_usb_power = false;
+        battery_charge_pct = 0;
+        battery_state =  BATTERY_STATE_UNKNOWN;
+        battery_temperature_celsius = 0;
+        wifi_online = false;
+        user_active = false;
+        strcpy(device_name, "");
+    }
 };
 
 #define RUN_MUTEX                   "BoincSingleInstance"
@@ -201,6 +274,5 @@ struct VERSION_INFO {
 #else
 #define DEFAULT_SS_EXECUTABLE       "boincscr"
 #endif
-
 
 #endif

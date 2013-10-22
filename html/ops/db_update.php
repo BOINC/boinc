@@ -1,4 +1,3 @@
-#! /usr/bin/env php
 <?php
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
@@ -829,6 +828,40 @@ function update_8_26_2012() {
     ");
 }
 
+function update_11_25_2012() {
+    do_query("
+        create table job_file (
+            id                      integer         not null auto_increment,
+            md5                     char(64)        not null,
+            create_time             double          not null,
+            delete_time             double          not null,
+            primary key(id)
+        ) engine = InnoDB
+    ");
+    do_query("
+        alter table job_file add index md5 (md5)
+    ");
+}
+
+function update_4_26_2013() {
+    do_query("alter table app add n_size_classes smallint not null default 0");
+    do_query("alter table workunit add size_class smallint not null default -1");
+    do_query("alter table result add size_class smallint not null default -1");
+}
+
+function update_5_23_2013() {
+    do_query("alter table host add product_name varchar(254) not null");
+}
+
+function update_9_10_2013() {
+    do_query("alter table workunit change mod_time mod_time timestamp default current_timestamp on update current_timestamp");
+    do_query("alter table result change mod_time mod_time timestamp default current_timestamp on update current_timestamp");
+}
+
+function update_9_17_2013() {
+    do_query("alter table batch add expire_time double not null");
+}
+
 // Updates are done automatically if you use "upgrade".
 //
 // If you need to do updates manually,
@@ -839,6 +872,10 @@ function update_8_26_2012() {
 
 //update_3_17_2010();
 
+// in the following, the first element is a version number.
+// This used to be the Subversion version#,
+// but with Git we just use sequential integers
+//
 $db_updates = array (
     array(18490, "update_6_16_2009"),
     array(19001, "update_9_3_2009"),
@@ -856,6 +893,11 @@ $db_updates = array (
     array(25734, "update_6_4_2012"),
     array(26060, "update_8_24_2012"),
     array(26062, "update_8_26_2012"),
+    array(27000, "update_11_25_2012"),
+    array(27001, "update_4_26_2013"),
+    array(27002, "update_5_23_2013"),
+    array(27003, "update_9_10_2013"),
+    array(27004, "update_9_17_2013"),
 );
 
 ?>

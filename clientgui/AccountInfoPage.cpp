@@ -382,9 +382,10 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
         m_pAccountManagerLinkLabelStaticCtrl->Hide();
     }
 
-    m_pTitleStaticCtrl->SetLabel(
-        _("Identify your account ")
-    );
+    wxString str;
+    wxString name = wxString(pc.name.c_str(), wxConvUTF8);
+    str.Printf(_("Identify your account at %s"), name.c_str());
+    m_pTitleStaticCtrl->SetLabel(str);
 
     if (!IS_ACCOUNTMANAGERWIZARD() && !IS_ACCOUNTMANAGERUPDATEWIZARD()) {
 		if (pc.client_account_creation_disabled) {
@@ -510,9 +511,9 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     }
 
     if (pc.min_passwd_length) {
-        wxString str;
+        wxString str2;
         str.Printf(_("minimum length %d"), pc.min_passwd_length);
-        m_pAccountPasswordRequirmentsStaticCtrl->SetLabel( str );
+        m_pAccountPasswordRequirmentsStaticCtrl->SetLabel( str2 );
     }
 
 
@@ -566,6 +567,8 @@ void CAccountInfoPage::OnPageChanging( wxWizardExEvent& event ) {
         pConfig->Write(wxT("DefaultEmailAddress"), m_strAccountEmailAddress);
         pConfig->Write(wxT("DefaultUsername"), m_strAccountUsername);
 
+        pConfig->Flush();
+        
         // Construct potiental dialog title
         if (IS_ATTACHTOPROJECTWIZARD()) {
             strTitle = _("Add project");
@@ -575,21 +578,25 @@ void CAccountInfoPage::OnPageChanging( wxWizardExEvent& event ) {
             strTitle = _("Use account manager");
         }
  
+        // Verify minimum username length
+        if (!m_pAccountUseExistingCtrl->GetValue()) {
+            if (!(m_pAccountPasswordCtrl->GetValue().Length() > 0)) {
+                if (pc.uses_username) {
+                    strMessage.Printf(_("Please enter a user name."));
+                } else {
+                    strMessage.Printf(_("Please enter an email address."));
+                }
+            }
+            bDisplayError = true;
+        }
+
         // Verify minimum password length
         if (!m_pAccountUseExistingCtrl->GetValue()) {
             if (m_pAccountPasswordCtrl->GetValue().Length() < (size_t)pc.min_passwd_length) {
-                if (IS_ATTACHTOPROJECTWIZARD()) {
-                    strMessage.Printf(
-                        _("The minimum password length for this project is %d. Please enter a different password."),
-                        pc.min_passwd_length
-                    );
-                }
-                if (IS_ACCOUNTMANAGERWIZARD()) {
-                    strMessage.Printf(
-                        _("The minimum password length for this account manager is %d. Please enter a different password."),
-                        pc.min_passwd_length
-                    );
-                }
+                strMessage.Printf(
+                    _("Please enter a password of at least %d characters."),
+                    pc.min_passwd_length
+                );
 
                 bDisplayError = true;
             }

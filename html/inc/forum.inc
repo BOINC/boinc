@@ -343,6 +343,17 @@ function show_posts(
         }
     }
 
+    if ($sort_style == CREATE_TIME_OLD) {
+        // show the last page
+        //
+        $nposts = sizeof($posts);
+        if ($nposts) $nposts -= 1;
+        $page = (int)($nposts/$num_to_show);
+        $default_start = $page*$num_to_show;
+    } else {
+        $default_start = 0;
+    }
+
     // jump to a specific post if needed
     //
     $jump_to_post = null;
@@ -380,10 +391,10 @@ function show_posts(
             if ($jump_to_post) {
                 $start = $ibest - ($ibest % $num_to_show);
             } else {
-                $start = 0;
+                $start = $default_start;
             }
         } else {
-            $start = 0;
+            $start = $default_start;
         }
     }
 
@@ -585,10 +596,11 @@ function show_post(
             echo tra("Credit: %1", number_format($user->total_credit)) ."<br>";
             echo tra("RAC: %1",    number_format($user->expavg_credit))."<br>";
         }
+
         // to use this feature:
         // - get flags from http://www.famfamfam.com/lab/icons/flags/famfamfam_flag_icons.zip
         // - put the .png's in html/user/flags/
-        // - put define(COUNTRY_FLAGS, 1) in your html/project/project.inc
+        // - put define("COUNTRY_FLAGS", 1); in your html/project/project.inc
         //
         if (defined("COUNTRY_FLAGS")) {
             if (array_key_exists($user->country, $country_to_iso3166_2)) {
@@ -652,12 +664,12 @@ function show_post(
         echo "<p>", $posttext, "</p>";
         echo "</td></tr><tr><td class=\"postfooter\">ID: <i>", $post->id;
         if ($no_forum_rating) {
-            echo " | <a href=\"forum_report_post.php?post=".$post->id."\">";
+            echo " &middot; <a href=\"forum_report_post.php?post=".$post->id."\">";
             show_image(REPORT_POST_IMAGE, tra("Report this post as offensive"), tra("Report as offensive"), REPORT_POST_IMAGE_HEIGHT);
             echo "</a>";
         } else {
             $rating = $post->rating();
-            echo " | ".tra("Rating: %1", $rating)."</i> | ".tra("rate: ")."
+            echo " &middot; ".tra("Rating: %1", $rating)."</i> &middot; ".tra("rate: ")."
                 <a href=\"forum_rate.php?post=".$post->id."&amp;choice=p$tokens\">
             ";
             show_image(RATE_POSITIVE_IMAGE, tra("Click if you like this message"), tra("Rate +"), RATE_POSITIVE_IMAGE_HEIGHT);
@@ -1264,4 +1276,17 @@ function remove_subscriptions_thread($userid, $threadid) {
     BoincNotify::delete_aux("userid=$userid and type=".NOTIFY_SUBSCRIBED_POST." and opaque=$threadid");
 }
 
+function parse_forum_cookie() {
+    $x = array("", "");
+    if (isset($_COOKIE['sorting'])) {
+        $a = explode("|", $_COOKIE['sorting']);
+        if (array_key_exists(0, $a)) {
+            $x[0] = $a[0];
+        }
+        if (array_key_exists(1, $a)) {
+            $x[1] = $a[1];
+        }
+    }
+    return $x;
+}
 ?>

@@ -111,12 +111,15 @@ public:
 
     virtual wxString OnGetItem(size_t i) const;
 
+    void Clear();
     bool UpdateUI();
 
     int GetItemHeight(size_t i) { return (int)OnGetItemHeight(i); }
 
-private:
+    bool    m_bDisplayFetchingNotices;
     bool    m_bDisplayEmptyNotice;
+private:
+    bool    m_bNeedsReloading;
 #ifdef __WXMAC__
     CNoticeListCtrlAccessible*    m_accessible;
 #endif

@@ -48,6 +48,7 @@
 // 2) put this in a differently-named file and change the Makefile.am
 //    (and write-protect that)
 // In either case, put your version under source-code control, e.g. SVN
+#include "config.h" 
 
 #include <string>
 
@@ -56,6 +57,7 @@ using std::string;
 #include "str_util.h"
 #include "util.h"
 
+#include "sched_check.h"
 #include "sched_config.h"
 #include "sched_main.h"
 #include "sched_msgs.h"
@@ -66,42 +68,133 @@ using std::string;
 #include "sched_customize.h"
 #include "plan_class_spec.h"
 
+#ifndef ATI_MIN_RAM
+#define ATI_MIN_RAM 256*MEGA
+#endif
+
+#ifndef OPENCL_ATI_MIN_RAM
+#define OPENCL_ATI_MIN_RAM 256*MEGA
+#endif
+
+#ifndef OPENCL_INTEL_GPU_MIN_RAM
+#define OPENCL_INTEL_GPU_MIN_RAM 256*MEGA
+#endif
+
+#ifndef CUDA_MIN_RAM
+#define CUDA_MIN_RAM 256*MEGA
+#endif
+
+#ifndef CUDAFERMI_MIN_RAM
+#define CUDAFERMI_MIN_RAM 384*MEGA
+#endif
+
+#ifndef CUDA23_MIN_RAM
+#define CUDA23_MIN_RAM  384*MEGA
+#endif
+
+#ifndef OPENCL_NVIDIA_MIN_RAM
+#define OPENCL_NVIDIA_MIN_RAM CUDA_MIN_RAM
+#endif
+
 GPU_REQUIREMENTS gpu_requirements[NPROC_TYPES];
 
 bool wu_is_infeasible_custom(WORKUNIT& wu, APP& app, BEST_APP_VERSION& bav) {
 #if 0
-    // example: if WU name contains "_v1", don't use CUDA app
+    // example: if WU name contains "_v1", don't use GPU apps.
     // Note: this is slightly suboptimal.
     // If the host is able to accept both GPU and CPU jobs,
     // we'll skip this job rather than send it for the CPU.
     // Fixing this would require a big architectural change.
     //
-    if (strstr(wu.name, "_v1") && bav.host_usage.ncudas) {
+    if (strstr(wu.name, "_v1") && bav.host_usage.uses_gpu()) {
         return true;
     }
 #endif
 #if 0
-    // example: for CUDA app, wu.batch is the minimum number of processors.
+    // example: for NVIDIA GPU app,
+    // wu.batch is the minimum number of GPU processors.
     // Don't send if #procs is less than this.
     //
-    if (!strcmp(app.name, "foobar") && bav.host_usage.ncudas) {
-        int n = g_request->coproc_cuda->prop.multiProcessorCount;
+    if (!strcmp(app.name, "foobar") && bav.host_usage.proc_type == PROC_TYPE_NVIDIA_GPU) {
+        int n = g_request->coprocs.nvidia.prop.multiProcessorCount;
         if (n < wu.batch) {
            return true;
         }
     }
 #endif
-#if 0
+#if defined(SETIATHOME)
+    bool infeasible=false;
+    static bool send_vlar_to_gpu=false;
+    static bool sah_config_checked=false;
+    char buff[256];
+
+    // check the projects app config whether to send vlar wus to gpus 
+    if (!sah_config_checked) {
+        MIOFILE mf;
+        XML_PARSER xp(&mf);
+#ifndef _USING_FCGI_
+        FILE *f=fopen(config.project_path("sah_config.xml"),"r");
+#else
+        FCGI_FILE *f=FCGI::fopen(config.project_path("sah_config.xml"),"r");
+#endif
+        if (f) {
+            mf.init_file(f);
+            if (xp.parse_start("sah") && xp.parse_start("config")) {
+                while (!xp.get_tag()) {
+                   if (!xp.is_tag) continue;
+                   if (xp.parse_bool("send_vlar_to_gpu",send_vlar_to_gpu)) continue;
+                   if (xp.match_tag("/config")) break;
+                   xp.skip_unexpected(false, "wu_is_infeasible_custom");
+                }
+            }
+            fclose(f);
+        }
+        sah_config_checked=true;
+    } 
     // example: if CUDA app and WU name contains ".vlar", don't send
+    // to NVIDIA, INTEL or older ATI cards
     //
-    if (bav.host_usage.ncudas) {
-        if (strstr(wu.name, ".vlar")) {
-            return true;
+    if (bav.host_usage.uses_gpu() && strstr(wu.name, ".vlar")) {
+        if (send_vlar_to_gpu) {
+            if (bav.host_usage.proc_type == PROC_TYPE_AMD_GPU) {
+                // ATI GPUs older than HD7870
+                COPROC_ATI &cp = g_request->coprocs.ati;
+                if (cp.count && (cp.attribs.target < 15)) {
+                  infeasible=true;
+                }
+            } else if (bav.host_usage.proc_type == PROC_TYPE_NVIDIA_GPU)  {
+                COPROC_NVIDIA &cp = g_request->coprocs.nvidia;
+                if (cp.count) {
+                    int v = (cp.prop.major)*100 + cp.prop.minor;
+                    if (v < 300) {
+                        infeasible=true;
+                    }
+                }
+            } else {   
+              // all other GPUS
+              infeasible=true;
+            }
+        } else {
+            infeasible=true;
         }
     }
+    if (infeasible && config.debug_version_select) {
+        log_messages.printf(MSG_NORMAL,
+            "[version] [setiathome] VLAR workunit is infeasible on this GPU\n"
+        );
+    }
+    return infeasible;
 #endif
     return false;
 }
+
+#ifndef isnum
+#define isnum(x) (((x)>='0') && ((x)<='9'))
+#endif
+
+#ifndef isnumorx
+#define isnumorx(x) (isnum(x) || ((x=='X') || (x=='x')))
+#endif
 
 // the following is for an app that can use anywhere from 1 to 64 threads
 //
@@ -127,17 +220,55 @@ static inline bool app_plan_mt(SCHEDULER_REQUEST&, HOST_USAGE& hu) {
     return true;
 }
 
+bool app_plan_opencl_cpu_intel(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
+    OPENCL_CPU_PROP ocp;
+    if (!sreq.host.get_cpu_opencl_prop("intel", ocp)) {
+        return false;
+    }
+    return app_plan_mt(sreq, hu);
+}
+
 static bool ati_check(COPROC_ATI& c, HOST_USAGE& hu,
     int min_driver_version,
     bool need_amd_libs,
     double min_ram,
     double ndevs,       // # of GPUs used; can be fractional
     double cpu_frac,    // fraction of FLOPS performed by CPU
-    double flops_scale
+    double flops_scale,
+    int min_hd_model=0
 ) {
     if (c.version_num) {
         gpu_requirements[PROC_TYPE_AMD_GPU].update(min_driver_version, min_ram);
     }
+
+    if (min_hd_model) {
+        char *p=strcasestr(c.name,"hd");
+        if (p) {
+            p+=2;
+            while (p && !isnum(*p)) p++;
+            char modelnum[64];
+            int i=0;
+            while ((i<63) && p[i] && isnumorx(p[i])) {
+                modelnum[i]=p[i];
+                if ((modelnum[i]=='x') || (modelnum[i]=='X')) {
+                    modelnum[i]='0';
+                }
+                i++;
+            }
+            modelnum[i]=0;
+            i=atoi(modelnum);
+            if (i<min_hd_model) {
+                if (config.debug_version_select) {
+                    log_messages.printf(MSG_NORMAL,
+                        "[version] Requires ATI HD%4d+.  Found HD%4d\n",
+                        min_hd_model, i
+                    );
+                }
+                return false;
+            }
+        }
+    }
+
 
     if (need_amd_libs) {
         if (!c.amdrt_detected) {
@@ -199,7 +330,6 @@ static bool ati_check(COPROC_ATI& c, HOST_USAGE& hu,
     return true;
 }
 
-#define ATI_MIN_RAM 250*MEGA
 static inline bool app_plan_ati(
     SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu
 ) {
@@ -260,6 +390,23 @@ static inline bool app_plan_ati(
         }
     }
 
+#ifdef SETIATHOME
+    // ati_opencl_<ver> plan classes are for running
+    // opencl ati apps on pre-v7 boinc core clients
+    if (!strcmp(plan_class, "ati_opencl_100")) {
+        if (!ati_check(c, hu,
+            ati_version_int(1, 4, 1386),
+            false,
+            OPENCL_ATI_MIN_RAM,
+            1, .01,
+            .14,
+            4600
+        )) {
+            return false;
+        }
+    }
+#endif
+
     if (config.debug_version_select) {
         log_messages.printf(MSG_NORMAL,
             "[version] %s ATI app projected %.2fG peak %.2fG %.3f CPUs\n",
@@ -272,13 +419,34 @@ static inline bool app_plan_ati(
     return true;
 }
 
-#define CUDA_MIN_DRIVER_VERSION         17700
-#define CUDA23_MIN_CUDA_VERSION         2030
-#define CUDA23_MIN_DRIVER_VERSION       19038
-#define CUDA3_MIN_CUDA_VERSION          3000
-#define CUDA3_MIN_DRIVER_VERSION        19500
-#define CUDA_OPENCL_MIN_DRIVER_VERSION  19713
+// Change values for these parameters in shed_customize.h!
+#ifndef CUDA_MIN_DRIVER_VERSION
+#define CUDA_MIN_DRIVER_VERSION             17700
+#endif
+
+#ifndef CUDA23_MIN_CUDA_VERSION
+#define CUDA23_MIN_CUDA_VERSION             2030
+#endif
+
+#ifndef CUDA23_MIN_DRIVER_VERSION
+#define CUDA23_MIN_DRIVER_VERSION           19038
+#endif
+
+#ifndef CUDA3_MIN_CUDA_VERSION
+#define CUDA3_MIN_CUDA_VERSION              3000
+#endif
+
+#ifndef CUDA3_MIN_DRIVER_VERSION
+#define CUDA3_MIN_DRIVER_VERSION            19500
+#endif
+
+#ifndef CUDA_OPENCL_MIN_DRIVER_VERSION
+#define CUDA_OPENCL_MIN_DRIVER_VERSION      19713
+#endif
+
+#ifndef CUDA_OPENCL_101_MIN_DRIVER_VERSION
 #define CUDA_OPENCL_101_MIN_DRIVER_VERSION  28013
+#endif
 
 static bool cuda_check(COPROC_NVIDIA& c, HOST_USAGE& hu,
     int min_cc, int max_cc,
@@ -290,20 +458,24 @@ static bool cuda_check(COPROC_NVIDIA& c, HOST_USAGE& hu,
 ) {
     int cc = c.prop.major*100 + c.prop.minor;
     if (min_cc && (cc < min_cc)) {
-        log_messages.printf(MSG_NORMAL,
-            "[version] App requires compute capability > %d.%d (has %d.%d).\n",
-            min_cc/100, min_cc%100,
-            c.prop.major, c.prop.minor
-        );
+        if (config.debug_version_select) {
+            log_messages.printf(MSG_NORMAL,
+                "[version] App requires compute capability > %d.%d (has %d.%d).\n",
+                min_cc/100,min_cc%100,
+                c.prop.major,c.prop.minor
+            );
+        }
         return false;
     }
 
     if (max_cc && cc >= max_cc) { 
-        log_messages.printf(MSG_NORMAL,
-            "[version] App requires compute capability <= %d.%d (has %d.%d).\n",
-            max_cc/100, max_cc%100,
-            c.prop.major, c.prop.minor
-        );
+        if (config.debug_version_select) {
+            log_messages.printf(MSG_NORMAL,
+                "[version] App requires compute capability <= %d.%d (has %d.%d).\n",
+                max_cc/100,max_cc%100,
+                c.prop.major,c.prop.minor
+            );
+        }
         return false;
     }
 
@@ -377,29 +549,64 @@ static bool cuda_check(COPROC_NVIDIA& c, HOST_USAGE& hu,
 
 // the following is for an app that uses an NVIDIA GPU
 //
-static inline bool app_plan_cuda(
+static inline bool app_plan_nvidia(
     SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu
 ) {
     COPROC_NVIDIA& c = sreq.coprocs.nvidia;
     if (!c.count) {
+        if (config.debug_version_select) {
+            log_messages.printf(MSG_NORMAL,
+                "[version] Host has no NVIDIA GPUs.\n");
+        }
         return false;
     }
 
     // Macs require 6.10.28
     //
     if (strstr(sreq.host.os_name, "Darwin") && (sreq.core_client_version < 61028)) {
+        if (config.debug_version_select) {
+            log_messages.printf(MSG_NORMAL,
+                "[version] CUDA on MacOS requires BOINC 6.10.28 or higher.\n");
+        }
         return false;
     }
 
     // for CUDA 2.3, we need to check the CUDA RT version.
     // Old BOINC clients report display driver version;
     // newer ones report CUDA RT version
+#ifdef SETIATHOME
+    // cuda_opencl_<ver> plan classes are for running opencl apps on
+    // pre-boinc-v7 core clients. May be useful for other projects
     //
+    if (!strcmp(plan_class, "cuda_opencl_100")) {
+        if (!cuda_check(c, hu,
+            100, 0,
+            0,CUDA_OPENCL_MIN_DRIVER_VERSION,
+            CUDA_MIN_RAM,
+            1,
+            .01,
+            0.14
+        )) {
+            return false;
+        }
+    } else if (!strcmp(plan_class, "cuda_opencl_101")) {
+        if (!cuda_check(c, hu,
+            200, 0,
+            0,CUDA_OPENCL_101_MIN_DRIVER_VERSION,
+            CUDA_MIN_RAM,
+            1,
+            .01,
+            0.14
+        )) {
+            return false;
+        }
+    } else 
+#endif // SETIATHOME   
     if (!strcmp(plan_class, "cuda_fermi")) {
         if (!cuda_check(c, hu,
             200, 0,
             CUDA3_MIN_CUDA_VERSION, CUDA3_MIN_DRIVER_VERSION,
-            384*MEGA,
+            CUDAFERMI_MIN_RAM,
             1,
             .01,
             .22
@@ -411,7 +618,7 @@ static inline bool app_plan_cuda(
             100,
             200,    // change to zero if app is compiled to byte code
             CUDA23_MIN_CUDA_VERSION, CUDA23_MIN_DRIVER_VERSION,
-            384*MEGA,
+            CUDA23_MIN_RAM,
             1,
             .01,
             .21
@@ -423,7 +630,7 @@ static inline bool app_plan_cuda(
             100,
             200,    // change to zero if app is compiled to byte code
             0, CUDA_MIN_DRIVER_VERSION,
-            254*MEGA,
+            CUDA_MIN_RAM,
             1,
             .01,
             .20
@@ -465,15 +672,16 @@ static inline bool app_plan_nci(SCHEDULER_REQUEST&, HOST_USAGE& hu) {
 
 // the following is for an app version that requires a processor with SSE3,
 // and will run 10% faster than the non-SSE3 version
+// NOTE: clients return "pni" instead of "sse3"
 //
 static inline bool app_plan_sse3(
     SCHEDULER_REQUEST& sreq, HOST_USAGE& hu
 ) {
     downcase_string(sreq.host.p_features);
-    if (!strstr(sreq.host.p_features, "sse3")) {
+    if (!strstr(sreq.host.p_features, "pni")) {
         // Pre-6.x clients report CPU features in p_model
         //
-        if (!strstr(sreq.host.p_model, "sse3")) {
+        if (!strstr(sreq.host.p_model, "pni")) {
             //add_no_work_message("Your CPU lacks SSE3");
             return false;
         }
@@ -494,18 +702,43 @@ static inline bool opencl_check(
     double flops_scale
 ) {
     if (cp.opencl_prop.opencl_device_version_int < min_opencl_device_version) {
+        if (config.debug_version_select) {
+            log_messages.printf(MSG_NORMAL,
+                "[version] [opencl_check] App requires OpenCL verion >= %d (has %d).\n",
+                min_opencl_device_version,
+                cp.opencl_prop.opencl_device_version_int
+            );
+        }
         return false;
     }
-    if (cp.opencl_prop.global_mem_size < min_global_mem_size) {
+
+#ifdef SETIATHOME
+    // fix for ATI drivers that report zero or negative global memory size
+    // on some cards. Probably no longer necessary.
+    if (cp.opencl_prop.global_mem_size < cp.opencl_prop.local_mem_size) {
+        cp.opencl_prop.global_mem_size=cp.opencl_prop.local_mem_size;
+    }
+#endif
+        
+    if (cp.opencl_prop.global_mem_size && (cp.opencl_prop.global_mem_size < min_global_mem_size)) {
+        if (config.debug_version_select) {
+            log_messages.printf(MSG_NORMAL,
+                "[version]  [opencl_check] Insufficient GPU RAM %f>%ld.\n",
+                min_global_mem_size, cp.opencl_prop.global_mem_size
+            );
+        }
         return false;
     }
 
     hu.gpu_ram = min_global_mem_size;
-    if (!strcmp(cp.type, "NVIDIA")) {
+    if (!strcmp(cp.type, proc_type_name_xml(PROC_TYPE_NVIDIA_GPU))) {
         hu.proc_type = PROC_TYPE_NVIDIA_GPU;
         hu.gpu_usage = ndevs;
-    } else if (!strcmp(cp.type, "ATI")) {
+    } else if (!strcmp(cp.type, proc_type_name_xml(PROC_TYPE_AMD_GPU))) {
         hu.proc_type = PROC_TYPE_AMD_GPU;
+        hu.gpu_usage = ndevs;
+    } else if (!strcmp(cp.type, proc_type_name_xml(PROC_TYPE_INTEL_GPU))) {
+        hu.proc_type = PROC_TYPE_INTEL_GPU;
         hu.gpu_usage = ndevs;
     }
 
@@ -521,21 +754,38 @@ static inline bool opencl_check(
     return true;
 }
 
+
 static inline bool app_plan_opencl(
     SCHEDULER_REQUEST& sreq, const char* plan_class, HOST_USAGE& hu
 ) {
+    // opencl_*_<ver> plan classes check for a trailing integer which is
+    // used as the opencl version number.  This is compatible with the old
+    // opencl_nvidia_101 and opencl_ati_101 plan classes, but doens't require
+    // modifications if someone wants a opencl_nvidia_102 plan class.
+    const char *p=plan_class+strlen(plan_class);
+    while (isnum(p[-1])) {
+        p--;
+    }
+    int ver=atoi(p);
+    if (config.debug_version_select) {
+        log_messages.printf(MSG_NORMAL,
+            "[version] plan_class %s uses OpenCl version %d\n",
+            plan_class,
+            ver
+        );
+    }
     if (strstr(plan_class, "nvidia")) {
         COPROC_NVIDIA& c = sreq.coprocs.nvidia;
         if (!c.count) return false;
         if (!c.have_opencl) return false;
-        if (!strcmp(plan_class, "opencl_nvidia_101")) {
+        if (strstr(plan_class,"opencl_nvidia") == plan_class) {
             return opencl_check(
                 c, hu,
-                101,
-                256*MEGA,
+                ver,
+                OPENCL_NVIDIA_MIN_RAM,
                 1,
-                .1,
-                .2
+                .01,
+                .14
             );
         } else {
             log_messages.printf(MSG_CRITICAL,
@@ -545,20 +795,73 @@ static inline bool app_plan_opencl(
         }
     } else if (strstr(plan_class, "ati")) {
         COPROC_ATI& c = sreq.coprocs.ati;
-        if (!c.count) return false;
-        if (!c.have_opencl) return false;
-        if (!strcmp(plan_class, "opencl_ati_101")) {
+        if (!c.count) {
+            if (config.debug_version_select) {
+                log_messages.printf(MSG_NORMAL,
+                    "[version] [opencl] HOST has no ATI/AMD GPUs\n"
+                );
+            }
+            return false;
+        }
+
+        if (!c.have_opencl) {
+            if (config.debug_version_select) {
+                log_messages.printf(MSG_NORMAL,
+                    "[version] [opencl] GPU/Driver/BOINC revision doesn not support OpenCL\n"
+                );
+            }
+            return false;
+        }
+
+        if (strstr(plan_class,"opencl_ati") == plan_class) {
             return opencl_check(
                 c, hu,
-                101,
-                256*MEGA,
+                ver,
+                OPENCL_ATI_MIN_RAM,
+                1,
+                .01,
+                .14
+            );
+        } else {
+            log_messages.printf(MSG_CRITICAL,
+                "[version] [opencl] Unknown plan class: %s\n", plan_class
+            );
+            return false;
+        }
+
+    } else if (strstr(plan_class, "intel_gpu")) {
+        COPROC_INTEL& c = sreq.coprocs.intel_gpu;
+        if (!c.count) {
+            if (config.debug_version_select) {
+                log_messages.printf(MSG_NORMAL,
+                    "[version] [opencl] HOST has no INTEL GPUs\n"
+                );
+            }
+            return false;
+        }
+
+        if (!c.have_opencl) {
+            if (config.debug_version_select) {
+                log_messages.printf(MSG_NORMAL,
+                    "[version] [opencl] GPU/Driver/BOINC revision doesn not support OpenCL\n"
+                );
+            }
+            return false;
+        }
+
+
+        if (strstr(plan_class,"opencl_intel_gpu") == plan_class) {
+            return opencl_check(
+                c, hu,
+                ver,
+                OPENCL_INTEL_GPU_MIN_RAM,
                 1,
                 .1,
                 .2
             );
         } else {
             log_messages.printf(MSG_CRITICAL,
-                "Unknown plan class: %s\n", plan_class
+                "[version] [opencl] Unknown plan class: %s\n", plan_class
             );
             return false;
         }
@@ -567,7 +870,7 @@ static inline bool app_plan_opencl(
 
     } else {
         log_messages.printf(MSG_CRITICAL,
-            "Unknown plan class: %s\n", plan_class
+            "[version] [opencl] Unknown plan class: %s\n", plan_class
         );
         return false;
     }
@@ -671,8 +974,8 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
 
     if (check_plan_class_spec) {
         check_plan_class_spec = false;
-        strcpy(buf, config.project_dir);
-        strcat(buf, "/plan_class_spec.xml");
+        safe_strcpy(buf, config.project_dir);
+        safe_strcat(buf, "/plan_class_spec.xml");
         int retval = plan_class_specs.parse_file(buf);
         if (retval == ERR_FOPEN) {
             if (config.debug_version_select) {
@@ -704,127 +1007,25 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
 
     if (!strcmp(plan_class, "mt")) {
         return app_plan_mt(sreq, hu);
-    } else if (strstr(plan_class, "opencl")) {
+    } else if (strstr(plan_class, "opencl") == plan_class) {
         return app_plan_opencl(sreq, plan_class, hu);
-    } else if (strstr(plan_class, "ati")) {
+    } else if (strstr(plan_class, "ati") == plan_class) {
         return app_plan_ati(sreq, plan_class, hu);
     } else if (strstr(plan_class, "cuda")) {
-        return app_plan_cuda(sreq, plan_class, hu);
+        return app_plan_nvidia(sreq, plan_class, hu);
     } else if (!strcmp(plan_class, "nci")) {
         return app_plan_nci(sreq, hu);
     } else if (!strcmp(plan_class, "sse3")) {
         return app_plan_sse3(sreq, hu);
     } else if (strstr(plan_class, "vbox")) {
         return app_plan_vbox(sreq, plan_class, hu);
+    } else if (strstr(plan_class, "opencl_cpu_intel")) {
+        return app_plan_opencl_cpu_intel(sreq, hu);
     }
     log_messages.printf(MSG_CRITICAL,
         "Unknown plan class: %s\n", plan_class
     );
     return false;
-}
-
-// compute a "score" for sending this job to this host.
-// Return false if the WU is infeasible.
-// Otherwise set est_time and disk_usage.
-//
-bool JOB::get_score() {
-    WORKUNIT wu;
-    int retval;
-
-    WU_RESULT& wu_result = ssp->wu_results[index];
-    wu = wu_result.workunit;
-    app = ssp->lookup_app(wu.appid);
-    if (app->non_cpu_intensive) return false;
-
-    score = 0;
-
-    // Find the best app version to use.
-    //
-    bavp = get_app_version(wu, true, false);
-    if (!bavp) return false;
-
-    retval = wu_is_infeasible_fast(
-        wu, wu_result.res_server_state, wu_result.res_priority,
-        wu_result.res_report_deadline,
-        *app, *bavp
-    );
-    if (retval) {
-        if (config.debug_send) {
-            log_messages.printf(MSG_NORMAL,
-                "[send] [HOST#%d] [WU#%d %s] WU is infeasible: %s\n",
-                g_reply->host.id, wu.id, wu.name, infeasible_string(retval)
-            );
-        }
-        return false;
-    }
-
-    score = 1;
-
-#if 0
-    // example: for CUDA app, wu.batch is the minimum number of processors.
-    // add min/actual to score
-    // (this favors sending jobs that need lots of procs to GPUs that have them)
-    // IF YOU USE THIS, USE THE PART IN wu_is_infeasible_custom() ALSO
-    //
-    if (!strcmp(app->name, "foobar") && bavp->host_usage.ncudas) {
-        int n = g_request->coproc_cuda->prop.multiProcessorCount;
-        score += ((double)wu.batch)/n;
-    }
-#endif
-
-    // check if user has selected apps,
-    // and send beta work to beta users
-    //
-    if (app->beta && !config.distinct_beta_apps) {
-        if (g_wreq->allow_beta_work) {
-            score += 1;
-        } else {
-            return false;
-        }
-    } else {
-        if (app_not_selected(wu)) {
-            if (!g_wreq->allow_non_preferred_apps) {
-                return false;
-            } else {
-            // Allow work to be sent, but it will not get a bump in its score
-            }
-        } else {
-            score += 1;
-        }
-    }
-            
-    // if job needs to get done fast, send to fast/reliable host
-    //
-    if (bavp->reliable && (wu_result.need_reliable)) {
-        score += 1;
-    }
-    
-    // if job already committed to an HR class,
-    // try to send to host in that class
-    //
-    if (wu_result.infeasible_count) {
-        score += 1;
-    }
-
-    // Favor jobs that will run fast
-    //
-    score += bavp->host_usage.projected_flops/1e9;
-
-    // match large jobs to fast hosts
-    //
-    if (config.job_size_matching) {
-        double host_stdev = (capped_host_fpops() - ssp->perf_info.host_fpops_mean)/ ssp->perf_info.host_fpops_stddev;
-        double diff = host_stdev - wu_result.fpops_size;
-        score -= diff*diff;
-    }
-
-    // TODO: If user has selected some apps but will accept jobs from others,
-    // try to send them jobs from the selected apps
-    //
-
-    est_time = estimate_duration(wu, *bavp);
-    disk_usage = wu.rsc_disk_bound;
-    return true;
 }
 
 void handle_file_xfer_results() {

@@ -50,48 +50,30 @@
 #include "parse.h"
 #include "util.h"
 #include "file_names.h"
-#include "client_msgs.h"
 #include "error_numbers.h"
+
+#include "client_msgs.h"
 
 #include "hostinfo.h"
 
-#ifdef ANDROID
-#include "android_log.h"
-
-// Returns TRUE if host is currently using a wifi connection
-// used on Android devices to prevent usage of data plans.
-// if value cant be read, default return false
-//
-bool HOST_INFO::host_wifi_online() {
-    char wifipath[1024];
-    snprintf(wifipath, sizeof(wifipath), "/sys/class/net/eth0/operstate");
-
-    FILE *fsyswifi = fopen(wifipath, "r");
-    char wifi_state[64];
-
-    bool wifi_online = false;
-
-    if (fsyswifi) {
-        (void) fscanf(fsyswifi, "%s", &wifi_state);
-        fclose(fsyswifi);
-    }
-
-    if ((strcmp(wifi_state,"up")) == 0) { //operstate = up
-        LOGD("wifi is online");
-        wifi_online = true;
-    }
-
-    return wifi_online;
-}
-#endif //ANDROID
-
 // get domain name and IP address of this host
+// Android: if domain_name is empty, set it to android_xxxxxxxx
 //
 int HOST_INFO::get_local_network_info() {
+    strcpy(ip_addr, "");
+
+#ifdef ANDROID
+    if (strlen(domain_name) && strcmp(domain_name, "localhost")) return 0;
+    char buf[256];
+    make_random_string("", buf);
+    buf[8] = 0;
+    sprintf(domain_name, "android_%s", buf);
+    return 0;
+#endif
+
     struct sockaddr_storage s;
     
     strcpy(domain_name, "");
-    strcpy(ip_addr, "");
 
     // it seems like we should use getdomainname() instead of gethostname(),
     // but on FC6 it returns "(none)".

@@ -26,14 +26,7 @@ check_get_args(array("next_url", "teamid"));
 
 $next_url = sanitize_local_url(get_str('next_url', true));
 
-if (defined('SECURE_URL_BASE')
-    && strstr(SECURE_URL_BASE, "https://")
-    && !$_SERVER['HTTPS']
-) {
-    Header("Location: ".SECURE_URL_BASE."/create_account_form.php?next_url=$next_url");
-    exit;
-
-}
+redirect_to_secure_url("create_account_form.php?next_url=$next_url");
 
 page_head(tra("Create an account"), null, null, null, IE_COMPAT_MODE);
 

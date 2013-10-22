@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2013 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -16,10 +16,11 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 /*
- *  SetVersion.c
+ *  SetVersion.cpp
  *  boinc
  *
  *  Created by Charlie Fenton on 3/29/05.
+ *  Last updated by Charlie Fenton on 5/8/13.
  *
  */
 
@@ -30,12 +31,16 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <sys/param.h>  // for MAXPATHLEN
+#include <sys/stat.h>
 #include "version.h"
 
 int IsFileCurrent(char* filePath);
-int FixInfoPlistFile(char* myPath);
+int file_exists(const char* path);
+int FixInfoPlistFile(char* name);
 int FixInfoPlist_Strings(char* myPath, char* name);
 int MakeBOINCPackageInfoPlistFile(char* myPath, char* brand);
+int MakeBOINCRestartPackageInfoPlistFile(char* myPath, char* brand);
 int MakeMetaPackageInfoPlistFile(char* myPath, char* brand);
 
 int main(int argc, char** argv) {
@@ -45,48 +50,58 @@ int main(int argc, char** argv) {
     char myPath[1024];
     getcwd(myPath, sizeof(myPath));
     printf("%s\n", myPath);       // For debugging
-    err = chdir("../");
-    getcwd(myPath, sizeof(myPath));
-    printf("%s\n", myPath);       // For debugging
 #endif
 
+    if (!file_exists("./English.lproj")) {
+        retval = mkdir("./English.lproj", 0755);
+        if (retval) {
+            printf("Error %d creating directory English.lproj\n", retval);
+        }
+    }
+    
     // BOINC Manager
     err = FixInfoPlist_Strings("./English.lproj/InfoPlist.strings", "BOINC Manager");
     if (err) retval = err;
-    err = FixInfoPlistFile("./Info.plist");
+    err = FixInfoPlistFile("Info.plist");
     if (err) retval = err;
     
     // BOINC Installer
     err = FixInfoPlist_Strings("./English.lproj/Installer-InfoPlist.strings", "BOINC Installer");
     if (err) retval = err;
-    err = FixInfoPlistFile("./Installer-Info.plist");
+    err = FixInfoPlistFile("Installer-Info.plist");
     if (err) retval = err;
     
     // BOINC PostInstall app
     err = FixInfoPlist_Strings("./English.lproj/PostInstall-InfoPlist.strings", "Install BOINC");
     if (err) retval = err;
-    err = FixInfoPlistFile("./PostInstall-Info.plist");
+    err = FixInfoPlistFile("PostInstall-Info.plist");
     if (err) retval = err;
     
     // BOINC Screen Saver
     err = FixInfoPlist_Strings("./English.lproj/ScreenSaver-InfoPlist.strings", "BOINC Screen Saver");
     if (err) retval = err;
-    err = FixInfoPlistFile("./ScreenSaver-Info.plist");
+    err = FixInfoPlistFile("ScreenSaver-Info.plist");
     if (err) retval = err;
     
     // BOINC Uninstaller
     err = FixInfoPlist_Strings("./English.lproj/Uninstaller-InfoPlist.strings", "Uninstall BOINC");
     if (err) retval = err;
-    err = FixInfoPlistFile("./Uninstaller-Info.plist");
+    err = FixInfoPlistFile("Uninstaller-Info.plist");
     if (err) retval = err;
     
+    err = FixInfoPlistFile("SystemMenu-Info.plist");
+    if (err) retval = err;
+
     // WaitPermissions is not currently used
-    err = FixInfoPlistFile("./WaitPermissions-Info.plist");
+    err = FixInfoPlistFile("WaitPermissions-Info.plist");
     if (err) retval = err;
     
     err = MakeBOINCPackageInfoPlistFile("./Pkg-Info.plist", "BOINC Manager");
     if (err) retval = err;
     
+    err = MakeBOINCRestartPackageInfoPlistFile("./Pkg_Restart-Info.plist", "BOINC Manager");
+    if (err) retval = err;
+        
     err = MakeMetaPackageInfoPlistFile("./Mpkg-Info.plist", "BOINC Manager");
     return retval;
 }
@@ -114,6 +129,15 @@ int IsFileCurrent(char* filePath) {
 }
 
 
+int file_exists(const char* path) {
+    struct stat buf;
+    if (stat(path, &buf)) {
+        return false;     // stat() returns zero on success
+    }
+    return true;
+}
+
+
 int FixInfoPlist_Strings(char* myPath, char* name) {
     int retval = 0;
     FILE *f;
@@ -127,36 +151,43 @@ int FixInfoPlist_Strings(char* myPath, char* name) {
         fprintf(f, "/* Localized versions of Info.plist keys */\n\n");
         fprintf(f, "CFBundleName = \"%s\";\n", name);
         fprintf(f, "CFBundleShortVersionString = \"%s version %s\";\n", name, BOINC_VERSION_STRING);
-        fprintf(f, "CFBundleGetInfoString = \"%s version %s, Copyright 2012 University of California.\";\n", name, BOINC_VERSION_STRING);
+        fprintf(f, "CFBundleGetInfoString = \"%s version %s, Copyright 2013 University of California.\";\n", name, BOINC_VERSION_STRING);
         fflush(f);
         retval = fclose(f);
     }
     else {
-        puts("Error updating version number in file InfoPlist.strings\n");
+        printf("Error creating file %s\n", myPath);
         retval = -1;
     }
         
     return retval;
 }
 
-
-int FixInfoPlistFile(char* myPath) {
+int FixInfoPlistFile(char* name) {
     int retval = 0;
     FILE *fin = NULL, *fout = NULL;
     char *c, a, buf[1024];
+    char srcPath[MAXPATHLEN], dstPath[MAXPATHLEN];
+
+    strcpy(dstPath, "./");
+    strcat(dstPath, name);
     
-    if (IsFileCurrent(myPath))
+    strcpy(srcPath, "../clientgui/mac/templates/");
+    strcat(srcPath, name);
+    
+    if (IsFileCurrent(dstPath))
         return 0;
 
-    rename(myPath, "./temp");
-//    sprintf(buf, "mv -f %s temp", myPath);
-//    retval = system(buf);
+    // Save the old file in case there is an error updating it
+    if (file_exists(dstPath)) {
+        rename(dstPath, "./temp");
+    }
 
-    fin = fopen("temp", "r");
+    fin = fopen(srcPath, "r");
     if (fin == NULL)
         goto bail;
 
-    fout = fopen(myPath, "w");
+    fout = fopen(dstPath, "w");
     if (fout == NULL) {
         goto bail;
     }
@@ -202,7 +233,7 @@ int FixInfoPlistFile(char* myPath) {
     fclose(fin);
     fflush(fout);
     fclose(fout);
-    
+        
     unlink("temp");
     
     return retval;
@@ -213,11 +244,16 @@ bail:
     if (fout)
         fclose(fout);
 
-    rename("./temp", myPath);
+    if (file_exists("./temp")) {
+        rename("./temp", dstPath);
 //    sprintf(buf, "mv -f temp %s", myPath);
 //    retval = system(buf);
+    } else {
+        sprintf(buf, "cp -f %s %s", srcPath, dstPath);
+        retval = system(buf);
+    }
     
-    printf("Error updating version number in file %s\n", myPath);
+    printf("Error updating version number in file %s\n", dstPath);
     return -1;
 }
 
@@ -259,7 +295,7 @@ int MakeBOINCPackageInfoPlistFile(char* myPath, char* brand) {
         retval = fclose(f);
     }
     else {
-        puts("Error creating file Pkg-Info.plist\n");
+        printf("Error creating file %s\n", myPath);
         retval = -1;
     }
         
@@ -267,6 +303,58 @@ int MakeBOINCPackageInfoPlistFile(char* myPath, char* brand) {
 }
 
 
+// Create a MetaPackage whcih runs only BOINC,pkg but specifies Restart Required
+int MakeBOINCRestartPackageInfoPlistFile(char* myPath, char* brand) {
+    int retval = 0;
+    FILE *f;
+    
+    if (IsFileCurrent(myPath))
+        return 0;
+
+    f = fopen(myPath, "w");
+    if (f)
+    {
+        fprintf(f, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
+        fprintf(f, "<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">\n");
+        fprintf(f, "<plist version=\"1.0\">\n<dict>\n");
+        fprintf(f, "\t<key>CFBundleGetInfoString</key>\n");
+        fprintf(f, "\t<string>%s %s</string>\n", brand, BOINC_VERSION_STRING);
+        fprintf(f, "\t<key>CFBundleIdentifier</key>\n\t<string>edu.berkeley.boinc_r</string>\n");
+        fprintf(f, "\t<key>CFBundleShortVersionString</key>\n");
+        fprintf(f, "\t<string>%s</string>\n", BOINC_VERSION_STRING);
+        fprintf(f, "\t<key>IFMajorVersion</key>\n\t<integer>%d</integer>\n", BOINC_MAJOR_VERSION);
+        fprintf(f, "\t<key>IFMinorVersion</key>\n\t<integer>%d</integer>\n", BOINC_MINOR_VERSION);
+        fprintf(f, "\t<key>IFPkgFlagAllowBackRev</key>\n\t<integer>1</integer>\n");
+        fprintf(f, "\t<key>IFPkgFlagAuthorizationAction</key>\n\t<string>AdminAuthorization</string>\n");
+        fprintf(f, "\t<key>IFPkgFlagRestartAction</key>\n\t<string>RequiredRestart</string>\n");
+        fprintf(f, "\t<key>IFPkgFlagRootVolumeOnly</key>\n\t<integer>1</integer>\n");
+        fprintf(f, "\t<key>IFPkgFlagComponentDirectory</key>\n\t<string>../</string>\n");
+
+        fprintf(f, "\t<key>IFPkgFlagPackageList</key>\n");
+        
+        fprintf(f, "\t<array>\n");
+        fprintf(f, "\t\t<dict>\n");
+        fprintf(f, "\t\t\t<key>IFPkgFlagPackageLocation</key>\n\t\t\t<string>BOINC.pkg</string>\n");
+        fprintf(f, "\t\t\t<key>IFPkgFlagPackageSelection</key>\n\t\t\t<string>required</string>\n");
+        fprintf(f, "\t\t</dict>\n");
+        fprintf(f, "\t</array>\n");
+
+        fprintf(f, "\t<key>IFPkgFormatVersion</key>\n\t<real>0.10000000149011612</real>\n");
+        fprintf(f, "</dict>\n</plist>\n");
+
+        fflush(f);
+        retval = fclose(f);
+    }
+    else {
+        printf("Error creating file %s\n", myPath);
+        retval = -1;
+    }
+        
+    return retval;
+}
+
+
+// Make a MetaPackage to install both BOINC and VirtualBox
 int MakeMetaPackageInfoPlistFile(char* myPath, char* brand) {
     int retval = 0;
     FILE *f;
@@ -288,7 +376,9 @@ int MakeMetaPackageInfoPlistFile(char* myPath, char* brand) {
         fprintf(f, "\t<key>IFMajorVersion</key>\n\t<integer>%d</integer>\n", BOINC_MAJOR_VERSION);
         fprintf(f, "\t<key>IFMinorVersion</key>\n\t<integer>%d</integer>\n", BOINC_MINOR_VERSION);
         fprintf(f, "\t<key>IFPkgFlagAllowBackRev</key>\n\t<integer>1</integer>\n");
-        fprintf(f, "\t<key>IFPkgFlagAuthorizationAction</key>\n\t<string>RootAuthorization</string>\n");
+        fprintf(f, "\t<key>IFPkgFlagAuthorizationAction</key>\n\t<string>AdminAuthorization</string>\n");
+        fprintf(f, "\t<key>IFPkgFlagRestartAction</key>\n\t<string>NoRestart</string>\n");
+        fprintf(f, "\t<key>IFPkgFlagRootVolumeOnly</key>\n\t<integer>1</integer>\n");
         fprintf(f, "\t<key>IFPkgFlagComponentDirectory</key>\n\t<string>../</string>\n");
 
         fprintf(f, "\t<key>IFPkgFlagPackageList</key>\n");
@@ -312,7 +402,7 @@ int MakeMetaPackageInfoPlistFile(char* myPath, char* brand) {
         retval = fclose(f);
     }
     else {
-        puts("Error creating file Mpkg-Info.plist\n");
+        printf("Error creating file %s\n", myPath);
         retval = -1;
     }
         

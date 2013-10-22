@@ -30,12 +30,15 @@
 #include <sys/param.h>
 #include <unistd.h>
 
-#include "backend_lib.h"
 #include "boinc_db.h"
 #include "common_defs.h"
 #include "crypt.h"
+#include "filesys.h"
 #include "sched_config.h"
+#include "str_replace.h"
 #include "util.h"
+
+#include "backend_lib.h"
 
 void usage() {
     fprintf(stderr,
@@ -43,30 +46,33 @@ void usage() {
         "\n"
         "Options:\n"
         "   --appname name\n"
-        "   [ --wu_name name ]              default: generate a name based on app name\n"
-        "   [ --wu_template filename ]      default: appname_in\n"
-        "   [ --result_template filename ]  default: appname_out\n"
-        "   [ --config_dir path ]\n"
-        "   [ --command_line \"X\" ]\n"
-        "   [ --batch n ]\n"
-        "   [ --rsc_fpops_est n ]\n"
-        "   [ --rsc_fpops_bound n ]\n"
-        "   [ --rsc_memory_bound n ]\n"
-        "   [ --rsc_disk_bound n ]\n"
-        "   [ --delay_bound x ]\n"
-        "   [ --min_quorum x ]\n"
-        "   [ --target_nresults x ]\n"
-        "   [ --max_error_results x ]\n"
-        "   [ --max_total_results x ]\n"
-        "   [ --max_success_results x ]\n"
         "   [ --additional_xml x ]\n"
+        "   [ --batch n ]\n"
         "   [ --broadcast ]\n"
         "   [ --broadcast_user ID ]\n"
         "   [ --broadcast_team ID ]\n"
+        "   [ --command_line \"X\" ]\n"
+        "   [ --config_dir path ]\n"
+        "   [ -d n ]\n"
+        "   [ --delay_bound x ]\n"
+        "   [ --max_error_results n ]\n"
+        "   [ --max_success_results n ]\n"
+        "   [ --max_total_results n ]\n"
+        "   [ --min_quorum n ]\n"
+        "   [ --priority n ]\n"
+        "   [ --result_template filename ]  default: appname_out\n"
+        "   [ --rsc_disk_bound x ]\n"
+        "   [ --rsc_fpops_est x ]\n"
+        "   [ --rsc_fpops_bound x ]\n"
+        "   [ --rsc_memory_bound x ]\n"
+        "   [ --size_class n ]\n"
         "   [ --target_host ID ]\n"
-        "   [ --target_user ID ]\n"
+        "   [ --target_nresults n ]\n"
         "   [ --target_team ID ]\n"
-        "   [ --wu_id N ]   ID of existing workunit record (used by boinc_submit)\n"
+        "   [ --target_user ID ]\n"
+        "   [ --wu_id ID ]   ID of existing workunit record (used by boinc_submit)\n"
+        "   [ --wu_name name ]              default: generate a name based on app name\n"
+        "   [ --wu_template filename ]      default: appname_in\n"
     );
     exit(1);
 }
@@ -126,20 +132,20 @@ int main(int argc, const char** argv) {
 
     while (i < argc) {
         if (arg(argv, i, "appname")) {
-            strcpy(app.name, argv[++i]);
+            safe_strcpy(app.name, argv[++i]);
+        } else if (arg(argv, i, "batch")) {
+            wu.batch = atoi(argv[++i]);
         } else if (arg(argv, i, "d")) {
             int dl = atoi(argv[++i]);
             log_messages.set_debug_level(dl);
             if (dl ==4) g_print_queries = true;
         } else if (arg(argv, i, "wu_name")) {
             show_wu_name = false;
-            strcpy(wu.name, argv[++i]);
+            safe_strcpy(wu.name, argv[++i]);
         } else if (arg(argv, i, "wu_template")) {
-            strcpy(wu_template_file, argv[++i]);
+            safe_strcpy(wu_template_file, argv[++i]);
         } else if (arg(argv, i, "result_template")) {
-            strcpy(result_template_file, argv[++i]);
-        } else if (arg(argv, i, "batch")) {
-            wu.batch = atoi(argv[++i]);
+            safe_strcpy(result_template_file, argv[++i]);
         } else if (arg(argv, i, "config_dir")) {
             config_dir = argv[++i];
         } else if (arg(argv, i, "batch")) {
@@ -152,6 +158,8 @@ int main(int argc, const char** argv) {
             wu.rsc_fpops_bound = atof(argv[++i]);
         } else if (arg(argv, i, "rsc_memory_bound")) {
             wu.rsc_memory_bound = atof(argv[++i]);
+        } else if (arg(argv, i, "size_class")) {
+            wu.size_class = atoi(argv[++i]);
         } else if (arg(argv, i, "rsc_disk_bound")) {
             wu.rsc_disk_bound = atof(argv[++i]);
         } else if (arg(argv, i, "delay_bound")) {

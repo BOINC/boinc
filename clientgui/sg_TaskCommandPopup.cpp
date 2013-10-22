@@ -24,9 +24,9 @@
 #include "sg_TaskPanel.h"
 #include "sg_TaskCommandPopup.h"
 
-IMPLEMENT_DYNAMIC_CLASS(CSimpleTaskPopupButton, wxButton)
+IMPLEMENT_DYNAMIC_CLASS(CSimpleTaskPopupButton, CTransparentButton)
 
-BEGIN_EVENT_TABLE(CSimpleTaskPopupButton, wxButton)
+BEGIN_EVENT_TABLE(CSimpleTaskPopupButton, CTransparentButton)
     EVT_LEFT_DOWN(CSimpleTaskPopupButton::OnTasksCommandButton)
     EVT_MENU(ID_TASK_WORK_SHOWGRAPHICS, CSimpleTaskPopupButton::OnTaskShowGraphics)
     EVT_MENU(ID_TASK_WORK_SUSPEND, CSimpleTaskPopupButton::OnTaskSuspendResume)
@@ -40,7 +40,7 @@ CSimpleTaskPopupButton::CSimpleTaskPopupButton() {
 CSimpleTaskPopupButton::CSimpleTaskPopupButton(wxWindow* parent, wxWindowID id, 
         const wxString& label, const wxPoint& pos, const wxSize& size, 
         long style, const wxValidator& validator, const wxString& name) :
-        wxButton(parent, id, label, pos, size, style, validator, name)
+        CTransparentButton(parent, id, label, pos, size, style, validator, name)
     {
 
     m_TaskSuspendedViaGUI = false;
@@ -64,13 +64,13 @@ void CSimpleTaskPopupButton::AddMenuItems() {
     m_SuspendResumeMenuItem = m_TaskCommandPopUpMenu->Append(
         ID_TASK_WORK_SUSPEND, 
         _("Suspend"),
-        _("Suspend work for this result.")
+        _("Suspend this task.")
     );
 
     m_AbortMenuItem = m_TaskCommandPopUpMenu->Append(
         ID_TASK_WORK_ABORT,
         _("Abort"),
-        _("Abandon work on the result. You will get no credit for it.")
+        _("Abandon this task. You will get no credit for it.")
     );
 
     m_ShowPropertiesMenuItem = m_TaskCommandPopUpMenu->Append(

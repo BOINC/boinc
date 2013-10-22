@@ -101,6 +101,3 @@ UINT __stdcall CleanupOldBinaries(MSIHANDLE hInstall)
 
     return uiReturnValue;
 }
-
-
-const char *BOINC_RCSID_7bcd879ada="$Id: CAMigrateX86X64.cpp 11773 2007-01-05 08:49:02Z rwalton $";

@@ -611,7 +611,6 @@ def command_show_config():
 local_hostname = socket.gethostname()
 local_hostname = local_hostname.split('.')[0]
 # print 'local hostname: ', local_hostname
-cwd = os.getcwd()
 program_name = os.path.basename(sys.argv[0])
 if program_name == 'start':
     command = command_enable_start
@@ -709,6 +708,18 @@ if not command:
 config = configxml.ConfigFile(config_filename).read()
 run_state = configxml.RunStateFile(run_state_filename).read(failopen_ok = True)
 
+if 'ssh_exec' in config.config.__dict__:
+    ssh = config.config.ssh_exec
+else:
+    ssh = '/usr/bin/ssh'
+
+if 'project_dir' in config.config.__dict__:
+    cwd = config.config.project_dir + '/bin'
+    cmd = './' + program_name
+else:
+    cwd = os.getcwd()
+    cmd = sys.argv[0]
+
 os.chdir(boinc_project_path.project_path())
 bin_dir = get_dir('bin')
 cgi_bin_dir = get_dir('cgi_bin')
@@ -742,10 +753,10 @@ if is_main_host:
     for host in other_hosts:
         if host == local_hostname:
             continue
-        remote_cmd = [ 'ssh', host, 'cd', cwd, ' && ' ] + sys.argv
+        remote_cmd = [ ssh, host, 'cd', cwd, ' && ', cmd ] + sys.argv[1:]
         if verbose:
             remote_cmd += [ '-v' ]
-        print 'running ', ' '.join(remote_cmd)
+            print 'running ', ' '.join(remote_cmd)
         os.spawnvp(wait_mode, remote_cmd[0], remote_cmd)
 
 os.unlink(start_lockfile)

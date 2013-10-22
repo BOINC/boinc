@@ -25,6 +25,7 @@
 #pragma interface "sg_BoincSimpleFrame.cpp"
 #endif
 
+class CTransparentButton;
 class CSimpleTaskPanel;
 class CSimpleProjectPanel;
 class CSimpleTaskPanel;
@@ -79,9 +80,9 @@ protected:
     int         m_iRedRingRadius;
 #endif
     wxBitmap    m_bmpBg;
-    wxButton    *m_NoticesButton;
-    wxButton    *m_SuspendResumeButton;
-    wxButton    *m_HelpButton;
+    CTransparentButton *m_NoticesButton;
+    CTransparentButton *m_SuspendResumeButton;
+    CTransparentButton *m_HelpButton;
     wxString    m_sSuspendString;
     wxString    m_sResumeString;
     int         m_oldWorkCount;
@@ -124,7 +125,8 @@ public:
     void OnReloadSkin( CFrameEvent& event );
     void OnRefreshView( CFrameEvent& event );
     void OnNotification( CFrameEvent& event );
-
+    void OnEventLog(wxCommandEvent& event);
+    
 	void SetMsgsDlgOpen(CDlgMessages* newDlgPtr) { dlgMsgsPtr = newDlgPtr; }
     bool isMessagesDlgOpen() { return (dlgMsgsPtr != NULL); }
 
@@ -136,7 +138,7 @@ protected:
 
 	wxMenuBar*          m_pMenubar;
     wxMenu*             m_pSubmenuSkins;
-    wxAcceleratorEntry  m_Shortcuts[1];
+    wxAcceleratorEntry  m_Shortcuts[2];
     wxAcceleratorTable* m_pAccelTable;
 
 	CSimpleGUIPanel* m_pBackgroundPanel;

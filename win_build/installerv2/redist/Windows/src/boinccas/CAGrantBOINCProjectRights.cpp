@@ -230,5 +230,3 @@ UINT __stdcall GrantBOINCProjectRights(MSIHANDLE hInstall)
 
     return uiReturnValue;
 }
-
-const char *BOINC_RCSID_00ed9696df="$Id: CAGrantBOINCProjectRights.cpp 13804 2007-10-09 11:35:47Z fthomas $";

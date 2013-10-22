@@ -402,11 +402,13 @@ CMainDocument::CMainDocument() : rpc(this) {
 
     m_fProjectTotalResourceShare = 0.0;
 
-    m_iMessageSequenceNumber = 0;
+    m_iLastMessageSequenceNumber = 0;
+    m_iFirstMessageSequenceNumber = -1;
 
     m_iNoticeSequenceNumber = 0;
     m_iLastReadNoticeSequenceNumber = -1;
     m_dLastReadNoticeArrivalTime = 0.0;
+    m_bWaitingForGetNoticesRPC = false;
 
     m_dtCachedStateTimestamp = wxDateTime((time_t)0);
     m_iGet_state_rpc_result = 0;
@@ -445,6 +447,8 @@ CMainDocument::CMainDocument() : rpc(this) {
     
     m_dtLasAsyncRPCDlgTime = wxDateTime((time_t)0);
     m_dtLastFrameViewRefreshRPCTime = wxDateTime((time_t)0);
+    
+    status.max_event_log_lines = 0;
 }
 
 
@@ -796,7 +800,7 @@ int CMainDocument::SetGPURunMode(int iMode, int iTimeout) {
         if (iMode == RUN_MODE_RESTORE) {
             GetCoreClientStatus(ccs, true);
         } else {
-            status.network_mode = iMode;
+            status.gpu_mode = iMode;
         }
     }
     return 0;
@@ -953,9 +957,9 @@ void CMainDocument::RunPeriodicRPCs(int frameRefreshRate) {
     //
     request.clear();
     request.which_rpc = RPC_GET_MESSAGES;
-    // m_iMessageSequenceNumber could change between request and execution
+    // m_iLastMessageSequenceNumber could change between request and execution
     // of RPC, so pass in a pointer rather than its value
-    request.arg1 = &m_iMessageSequenceNumber;
+    request.arg1 = &m_iLastMessageSequenceNumber;
     request.arg2 = &messages;
     static bool _true = true;
     request.arg3 = &_true;
@@ -972,18 +976,23 @@ void CMainDocument::RunPeriodicRPCs(int frameRefreshRate) {
     ts = dtNow - m_dtNoticesTimeStamp;
     if ((currentTabView & VW_NOTIF) || 
         (ts.GetSeconds() >= NOTICESBACKGROUNDRPC_INTERVAL)) {
-    
-        request.clear();
-        request.which_rpc = RPC_GET_NOTICES;
-        // m_iNoticeSequenceNumber could change between request and execution
-        // of RPC, so pass in a pointer rather than its value
-        request.arg1 = &m_iNoticeSequenceNumber;
-        request.arg2 = &notices;
-        request.rpcType = RPC_TYPE_ASYNC_WITH_REFRESH_AFTER;
-        request.completionTime = &m_dtNoticesTimeStamp;
-        request.resultPtr = &m_iGet_notices_rpc_result;
-       
-        RequestRPC(request);
+        // Don't request another get_notices RPC until we have 
+        // updated m_iNoticeSequenceNumber from the previous 
+        // one; otherwise we will get duplicate notices
+        if (!m_bWaitingForGetNoticesRPC) {
+            m_bWaitingForGetNoticesRPC =  true;
+            request.clear();
+            request.which_rpc = RPC_GET_NOTICES;
+            // m_iNoticeSequenceNumber could change between request and execution
+            // of RPC, so pass in a pointer rather than its value
+            request.arg1 = &m_iNoticeSequenceNumber;
+            request.arg2 = &notices;
+            request.rpcType = RPC_TYPE_ASYNC_WITH_REFRESH_AFTER;
+            request.completionTime = &m_dtNoticesTimeStamp;
+            request.resultPtr = &m_iGet_notices_rpc_result;
+           
+            RequestRPC(request);
+        }
     }
     
     ts = dtNow - m_dtCachedStateTimestamp;
@@ -1531,7 +1540,9 @@ int CMainDocument::WorkResume(char* url, char* name) {
 // If the graphics application for the current task is already 
 // running, return a pointer to its RUNNING_GFX_APP struct.
 //
-RUNNING_GFX_APP* CMainDocument::GetRunningGraphicsApp(RESULT* result, int slot) {
+RUNNING_GFX_APP* CMainDocument::GetRunningGraphicsApp(
+    RESULT* rp, int slot
+) {
     bool exited = false;
     std::vector<RUNNING_GFX_APP>::iterator gfx_app_iter;
     
@@ -1539,7 +1550,7 @@ RUNNING_GFX_APP* CMainDocument::GetRunningGraphicsApp(RESULT* result, int slot) 
         gfx_app_iter != m_running_gfx_apps.end(); 
         gfx_app_iter++
     ) {
-         if ( (slot >= 0) && ((*gfx_app_iter).slot != slot) ) continue;
+         if ((slot >= 0) && ((*gfx_app_iter).slot != slot)) continue;
 
 #ifdef _WIN32
         unsigned long exit_code;
@@ -1554,8 +1565,9 @@ RUNNING_GFX_APP* CMainDocument::GetRunningGraphicsApp(RESULT* result, int slot) 
         }
 #endif
         if (! exited) {
-            if ( (result->name == (*gfx_app_iter).name) &&
-                (result->project_url == (*gfx_app_iter).project_url) ) {
+            if ((rp->name == (*gfx_app_iter).name) &&
+                (rp->project_url == (*gfx_app_iter).project_url)
+            ) {
                 return &(*gfx_app_iter);
             }
     
@@ -1636,7 +1648,7 @@ void CMainDocument::KillGraphicsApp(HANDLE pid) {
 void CMainDocument::KillGraphicsApp(int pid) {
     char* argv[6];
     char currentDir[1024];
-    char thePIDbuf[10];
+    char thePIDbuf[20];
     int id, iRetVal;
     
 
@@ -1663,15 +1675,15 @@ void CMainDocument::KillGraphicsApp(int pid) {
 }
 #endif
 
-int CMainDocument::WorkShowGraphics(RESULT* result) {
+int CMainDocument::WorkShowGraphics(RESULT* rp) {
     int iRetVal = 0;
     
-    if (strlen(result->web_graphics_url)) {
-        wxString url(result->web_graphics_url, wxConvUTF8);
+    if (strlen(rp->web_graphics_url)) {
+        wxString url(rp->web_graphics_url, wxConvUTF8);
         wxLaunchDefaultBrowser(url);
         return 0;
     }
-    if (strlen(result->graphics_exec_path)) {
+    if (strlen(rp->graphics_exec_path)) {
         // V6 Graphics
         RUNNING_GFX_APP gfx_app;
         RUNNING_GFX_APP* previous_gfx_app;
@@ -1683,12 +1695,12 @@ int CMainDocument::WorkShowGraphics(RESULT* result) {
         int      id;
 #endif
 
-        p = strrchr((char*)result->slot_path, '/');
+        p = strrchr((char*)rp->slot_path, '/');
         if (!p) return ERR_INVALID_PARAM;
         slot = atoi(p+1);
         
         // See if we are already running the graphics application for this task
-        previous_gfx_app = GetRunningGraphicsApp(result, slot);
+        previous_gfx_app = GetRunningGraphicsApp(rp, slot);
 
 #ifndef __WXMSW__
         char* argv[4];
@@ -1712,13 +1724,13 @@ int CMainDocument::WorkShowGraphics(RESULT* result) {
         // exits with "RegisterProcess failed (error = -50)" unless 
         // we pass its full path twice in the argument list to execv.
         //
-        argv[1] = (char *)result->graphics_exec_path;
-        argv[2] = (char *)result->graphics_exec_path;
+        argv[1] = (char *)rp->graphics_exec_path;
+        argv[2] = (char *)rp->graphics_exec_path;
         argv[3] = 0;
     
          if (g_use_sandbox) {
             iRetVal = run_program(
-                result->slot_path,
+                rp->slot_path,
                "../../switcher/switcher",
                 3,
                 argv,
@@ -1727,8 +1739,8 @@ int CMainDocument::WorkShowGraphics(RESULT* result) {
             );
         } else {        
             iRetVal = run_program(
-                result->slot_path,
-                result->graphics_exec_path,
+                rp->slot_path,
+                rp->graphics_exec_path,
                 1,
                 &argv[2],
                 0,
@@ -1744,8 +1756,8 @@ int CMainDocument::WorkShowGraphics(RESULT* result) {
         argv[0] = 0;
         
         iRetVal = run_program(
-            result->slot_path,
-            result->graphics_exec_path,
+            rp->slot_path,
+            rp->graphics_exec_path,
             0,
             argv,
             0,
@@ -1754,8 +1766,8 @@ int CMainDocument::WorkShowGraphics(RESULT* result) {
 #endif
         if (!iRetVal) {
             gfx_app.slot = slot;
-            gfx_app.project_url = result->project_url;
-            gfx_app.name = result->name;
+            gfx_app.project_url = rp->project_url;
+            gfx_app.name = rp->name;
             gfx_app.pid = id;
             m_running_gfx_apps.push_back(gfx_app);
         }
@@ -1764,11 +1776,11 @@ int CMainDocument::WorkShowGraphics(RESULT* result) {
 }
 
 
-int CMainDocument::WorkShowVMConsole(RESULT* result) {
+int CMainDocument::WorkShowVMConsole(RESULT* res) {
     int iRetVal = 0;
     
-    if (strlen(result->remote_desktop_addr)) {
-        wxString strConnection(result->remote_desktop_addr, wxConvUTF8);
+    if (strlen(res->remote_desktop_addr)) {
+        wxString strConnection(res->remote_desktop_addr, wxConvUTF8);
         wxString strCommand;
 
 #if   defined(__WXMSW__)
@@ -1778,23 +1790,23 @@ int CMainDocument::WorkShowVMConsole(RESULT* result) {
         strCommand = wxT("rdesktop-vrdp ") + strConnection;
         wxExecute(strCommand);
 #elif defined(__WXMAC__)
-    FSRef theFSRef;
-    OSStatus status = noErr;
+        FSRef theFSRef;
+        OSStatus status = noErr;
 
-    // I have found no reliable way to pass the IP address and port to Microsoft's 
-    // Remote Desktop Connection application for the Mac, so I'm using CoRD.  
-    // Unfortunately, CoRD does not seem as reliable as I would like either.
-    //
-    // First try to find the CoRD application by Bundle ID and Creator Code
-    status = LSFindApplicationForInfo('RDC#', CFSTR("net.sf.cord"),   
-                                        NULL, &theFSRef, NULL);
-    if (status != noErr) {
-        CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
-        if (pFrame) {
-            pFrame->ShowAlert(
-                _("Missing application"), 
-                _("Please download and install the CoRD application from http://cord.sourceforge.net"),
-                wxOK | wxICON_INFORMATION,
+        // I have found no reliable way to pass the IP address and port to Microsoft's 
+        // Remote Desktop Connection application for the Mac, so I'm using CoRD.  
+        // Unfortunately, CoRD does not seem as reliable as I would like either.
+        //
+        // First try to find the CoRD application by Bundle ID and Creator Code
+        status = LSFindApplicationForInfo('RDC#', CFSTR("net.sf.cord"),   
+                                            NULL, &theFSRef, NULL);
+        if (status != noErr) {
+            CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
+            if (pFrame) {
+                pFrame->ShowAlert(
+                    _("Missing application"), 
+                    _("Please download and install the CoRD application from http://cord.sourceforge.net"),
+                    wxOK | wxICON_INFORMATION,
                     false
                 );
         } 
@@ -1834,7 +1846,7 @@ int CMainDocument::CachedNoticeUpdate() {
 
     if (in_this_func) return 0;
     in_this_func = true;
-
+    
     if (IsConnected()) {
         // Can't look up previous last read message until we know machine name
         if (!strlen(state.host_info.domain_name)) {
@@ -1929,7 +1941,7 @@ int CMainDocument::GetNoticeCount() {
     // only after a get_notices RPC completes so notices buffer is stable.
     CachedStateUpdate();
 
-    if (!notices.notices.empty()) {
+    if (notices.received) {
         iCount = (int)notices.notices.size();
     }
     
@@ -1968,41 +1980,43 @@ int CMainDocument::ResetNoticeState() {
 }
 
 
-// parse out the _(...)'s, and translate them
+// Replace CRLFs and LFs with HTML breaks.
 //
-bool CMainDocument::LocalizeNoticeText(wxString& strMessage, bool bSanitize, bool bClean) {
+void eol_to_br(wxString& strMessage) {
+    strMessage.Replace(wxT("\r\n"), wxT("<BR>"));
+    strMessage.Replace(wxT("\n"), wxT("<BR>"));
+}
+
+// Remove CRLFs and LFs
+//
+void remove_eols(wxString& strMessage) {
+    strMessage.Replace(wxT("\r\n"), wxT(""));
+    strMessage.Replace(wxT("\n"), wxT(""));
+}
+
+// Replace https:// with http://
+//
+void https_to_http(wxString& strMessage) {
+    strMessage.Replace(wxT("https://"), wxT("http://"));
+}
+
+// replace substrings of the form _("X") with the translation of X
+//
+void localize(wxString& strMessage) {
     wxString strBuffer = wxEmptyString;
     wxString strStart = wxString(wxT("_(\""));
     wxString strEnd = wxString(wxT("\")"));
 
-    if (bSanitize) {
-        // Replace CRLFs with HTML breaks.
-        strMessage.Replace(wxT("\r\n"), wxT("<BR>"));
-        // Replace LFs with HTML breaks.
-        strMessage.Replace(wxT("\n"), wxT("<BR>"));
-    }
-    if (bClean) {
-        // Replace CRLFs with HTML breaks.
-        strMessage.Replace(wxT("\r\n"), wxT(""));
-        // Replace LFs with HTML breaks.
-        strMessage.Replace(wxT("\n"), wxT(""));
-    }
-
-    // Localize translatable text
     while (strMessage.Find(strStart.c_str()) != wxNOT_FOUND) {
-        strBuffer = 
-            strMessage.SubString(
-                strMessage.Find(strStart.c_str()) + strStart.Length(),
-                strMessage.Find(strEnd.c_str()) - (strEnd.Length() - 1)
-            );
-
+        strBuffer = strMessage.SubString(
+            strMessage.Find(strStart.c_str()) + strStart.Length(),
+            strMessage.Find(strEnd.c_str()) - (strEnd.Length() - 1)
+        );
         strMessage.Replace(
             wxString(strStart + strBuffer + strEnd).c_str(),
             wxGetTranslation(strBuffer.c_str())
         );
     }
-
-    return true;
 }
 
 
@@ -2013,21 +2027,36 @@ bool CMainDocument::LocalizeNoticeText(wxString& strMessage, bool bSanitize, boo
 //
 int CMainDocument::CachedMessageUpdate() {
     static bool in_this_func = false;
+    size_t last_ind;
 
     if (in_this_func) return 0;
     in_this_func = true;
 
     if (IsConnected()) {
         // rpc.get_messages is now called from RunPeriodicRPCs()
-        // retval = rpc.get_messages(m_iMessageSequenceNumber, messages);
+        // retval = rpc.get_messages(m_iLastMessageSequenceNumber, messages);
         if (m_iGet_messages_rpc_result) {
             wxLogTrace(wxT("Function Status"), wxT("CMainDocument::CachedMessageUpdate - Get Messages Failed '%d'"), m_iGet_messages_rpc_result);
             m_pNetworkConnection->SetStateDisconnected();
             goto done;
         }
         if (messages.messages.size() != 0) {
-            size_t last_ind = messages.messages.size()-1;
-            m_iMessageSequenceNumber = messages.messages[last_ind]->seqno;
+            last_ind = messages.messages.size()-1;
+            m_iLastMessageSequenceNumber = messages.messages[last_ind]->seqno;
+
+            // status.max_event_log_lines <= 0 means no limit
+            if ((status.max_event_log_lines > 0) &&
+                    (last_ind >= (unsigned)status.max_event_log_lines)
+            ) {
+                // Remove oldest messages if we have too many
+                while (messages.messages.size() > (unsigned)status.max_event_log_lines) {
+                    delete messages.messages.front();
+                    messages.messages.pop_front();
+                }
+                m_iFirstMessageSequenceNumber = messages.messages[0]->seqno;
+            } else if (m_iFirstMessageSequenceNumber < 0) {
+                m_iFirstMessageSequenceNumber = messages.messages[0]->seqno;
+            }
         }
     }
 
@@ -2069,7 +2098,8 @@ int CMainDocument::GetMessageCount() {
 
 int CMainDocument::ResetMessageState() {
     messages.clear();
-    m_iMessageSequenceNumber = 0;
+    m_iLastMessageSequenceNumber = 0;
+    m_iFirstMessageSequenceNumber = -1;
     return 0;
 }
 
@@ -2406,6 +2436,11 @@ wxString suspend_reason_wxstring(int reason) {
     return _("unknown reason");
 }
 
+bool uses_gpu(RESULT* r) {
+	// kludge.  But r->avp isn't populated.
+    return (strstr(r->resources, "GPU") != NULL);
+}
+
 wxString result_description(RESULT* result, bool show_resources) {
     CMainDocument* doc = wxGetApp().GetDocument();
     PROJECT* project;
@@ -2449,6 +2484,12 @@ wxString result_description(RESULT* result, bool show_resources) {
         } else if (status.task_suspend_reason && !throttled) {
             strBuffer += _("Suspended - ");
             strBuffer += suspend_reason_wxstring(status.task_suspend_reason);
+            if (strlen(result->resources) && show_resources) {
+                strBuffer += wxString(wxT(" (")) + wxString(result->resources, wxConvUTF8) + wxString(wxT(")"));
+            }
+        } else if (status.gpu_suspend_reason && uses_gpu(result)) {
+            strBuffer += _("GPU suspended - ");
+            strBuffer += suspend_reason_wxstring(status.gpu_suspend_reason);
             if (strlen(result->resources) && show_resources) {
                 strBuffer += wxString(wxT(" (")) + wxString(result->resources, wxConvUTF8) + wxString(wxT(")"));
             }

@@ -30,7 +30,9 @@
 #include "proxy_info.h"
 #include "coproc.h"
 
-class XML_PARSER;
+#define DEFAULT_MAX_EVENT_LOG_LINES 2000
+
+struct XML_PARSER;
 
 #define MAX_FILE_XFERS_PER_PROJECT      2
 #define MAX_FILE_XFERS                  8
@@ -46,10 +48,12 @@ struct LOG_FLAGS {
     bool sched_ops;
         // interactions with schedulers
     bool task;
-        // task start and finish
+        // task start and finish, and suspend/resume
 
     // off by default; intended for developers and testers
     //
+    bool android_debug;
+        // show Android-specific info (battery etc.)
     bool app_msg_receive;
         // show shared-mem message from apps
     bool app_msg_send;
@@ -137,12 +141,14 @@ struct CONFIG {
     bool allow_multiple_clients;
     bool allow_remote_gui_rpc;
     std::vector<std::string> alt_platforms;
-    std::string client_version_check_url;
     std::string client_download_url;
+    std::string client_new_version_text;
+    std::string client_version_check_url;
     COPROCS config_coprocs;
     char data_dir[256];
     bool disallow_attach;
     bool dont_check_file_sizes;
+    int max_event_log_lines;
     bool dont_contact_ref_site;
     std::vector<EXCLUDE_GPU> exclude_gpus;
     std::vector<std::string> exclusive_apps;
@@ -151,12 +157,12 @@ struct CONFIG {
     bool exit_before_start;
     bool exit_when_idle;
     bool fetch_minimal_work;
+    bool fetch_on_update;
     std::string force_auth;
     bool http_1_0;
     int http_transfer_timeout_bps;
     int http_transfer_timeout;
-    std::vector<int> ignore_ati_dev;
-    std::vector<int> ignore_nvidia_dev;
+    std::vector<int> ignore_gpu_instance[NPROC_TYPES];
     int max_file_xfers;
     int max_file_xfers_per_project;
     int max_stderr_file_size;

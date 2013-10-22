@@ -1,0 +1,1045 @@
+# Translations template for PROJECT.
+# Copyright (C) 2013 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2013-08-29 15:37-0700\n"
+"PO-Revision-Date: 2013-09-09 23:12+0000\n"
+"Last-Translator: Xavier <xavi.mormur@gmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: ca\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Pootle 2.5.0\n"
+"Generated-By: Babel 1.0dev\n"
+"X-POOTLE-MTIME: 1378768352.0\n"
+
+#. app global
+msgctxt "app_name"
+msgid "BOINC"
+msgstr "BOINC"
+
+#. generic. used by multiple Activities/tabs
+msgctxt "generic_loading"
+msgid "Loading! Please wait…"
+msgstr "Carregant! Si us plau, espera..."
+
+#. attach project
+#. project list
+msgctxt "attachproject_list_header"
+msgid "Choose a project:"
+msgstr "Selecciona un projecte:"
+
+msgctxt "attachproject_list_manual_button"
+msgid "Add project by URL"
+msgstr "Afegir projecte mitjançant URL"
+
+msgctxt "attachproject_list_manual_dialog_title"
+msgid "Enter project URL:"
+msgstr "Introdueix la URL del projecte:"
+
+msgctxt "attachproject_list_manual_dialog_button"
+msgid "Add project"
+msgstr "Afegeix el projecte"
+
+msgctxt "attachproject_list_manual_no_url"
+msgid "Please enter project URL"
+msgstr "Si us plau introdueix la URL del projecte"
+
+msgctxt "attachproject_list_no_internet"
+msgid "No Internet connection"
+msgstr "No hi ha connexió a Internet"
+
+#. project login
+msgctxt "attachproject_login_loading"
+msgid "Contacting project server…"
+msgstr "Contactant el servidor del projecte..."
+
+msgctxt "attachproject_login_image_description"
+msgid "Project logo."
+msgstr "Logo del projecte."
+
+msgctxt "attachproject_login_header_general_area"
+msgid "General area:"
+msgstr "Zona general:"
+
+msgctxt "attachproject_login_header_specific_area"
+msgid "Specific area:"
+msgstr "Zona específica:"
+
+msgctxt "attachproject_login_header_description"
+msgid "Description:"
+msgstr "Descripció:"
+
+msgctxt "attachproject_login_header_home"
+msgid "Home:"
+msgstr "Inici:"
+
+msgctxt "attachproject_login_header_url"
+msgid "Website:"
+msgstr "Pàgina web:"
+
+msgctxt "attachproject_login_header_platform"
+msgid "Android:"
+msgstr "Android:"
+
+msgctxt "attachproject_login_platform_supported"
+msgid "This project supports Android devices"
+msgstr "Aquest projecte es compatible amb dispositius Android"
+
+msgctxt "attachproject_login_platform_not_supported"
+msgid "This project does not support Android devices"
+msgstr "Aquest projecte no es compatible amb dispositius Android"
+
+msgctxt "attachproject_login_category_terms_of_use"
+msgid "Terms of use for"
+msgstr "Condicions d'ús de"
+
+msgctxt "attachproject_login_accept_terms_of_use"
+msgid ""
+"By creating an account with this project, you accept the terms of use as "
+"shown above."
+msgstr ""
+"Creant un compte en aquest projecte, acceptes els termes d'ús, que es "
+"mostren a dalt."
+
+msgctxt "attachproject_login_category_login"
+msgid "Sign in with existing account"
+msgstr "Registre't amb un compte existent"
+
+msgctxt "attachproject_login_header_id_email"
+msgid "eMail:"
+msgstr "Correu electrònic:"
+
+msgctxt "attachproject_login_header_id_name"
+msgid "Name:"
+msgstr "Nom:"
+
+msgctxt "attachproject_login_header_pwd"
+msgid "Password:"
+msgstr "Contrasenya:"
+
+msgctxt "attachproject_login_category_creation"
+msgid "New to"
+msgstr "Nou a"
+
+msgctxt "attachproject_login_header_creation_enabled"
+msgid "Register an account to participate:"
+msgstr "Registra un compte per participar:"
+
+msgctxt "attachproject_login_header_creation_client_disabled"
+msgid "Visit project website to create an account:"
+msgstr "Visita la pàgina web del projecte per crear un compte:"
+
+msgctxt "attachproject_login_header_creation_disabled"
+msgid "Project does currently now allow creation of new accounts!"
+msgstr "Actualment el projecte permet la creació de nous comptes!"
+
+msgctxt "attachproject_login_button_registration"
+msgid "Register"
+msgstr "Registre't"
+
+msgctxt "attachproject_login_button_login"
+msgid "Sign in"
+msgstr "Registre't"
+
+msgctxt "attachproject_login_button_forgotpw"
+msgid "Forgot Password"
+msgstr "He oblidat la contrasenya"
+
+msgctxt "attachproject_login_error_toast"
+msgid "Contacting project failed!"
+msgstr "Ha fallat la connexió amb el projecte!"
+
+msgctxt "attachproject_login_attached"
+msgid "Attached"
+msgstr "Adjuntat"
+
+#. project registration
+msgctxt "attachproject_registration_header"
+msgid "Account registration for"
+msgstr "Compte de registre per"
+
+msgctxt "attachproject_registration_header_url"
+msgid "Project:"
+msgstr "Projecte:"
+
+msgctxt "attachproject_registration_header_email"
+msgid "eMail:"
+msgstr "Correu electrònic:"
+
+msgctxt "attachproject_registration_header_username"
+msgid "Name:"
+msgstr "Nom:"
+
+msgctxt "attachproject_registration_header_teamname"
+msgid "Team:"
+msgstr "Equip:"
+
+msgctxt "attachproject_registration_header_pwd"
+msgid "Password:"
+msgstr "Contrasenya:"
+
+msgctxt "attachproject_registration_header_pwd_confirm"
+msgid "… Retype:"
+msgstr "... Torna a entrar-ho:"
+
+msgctxt "attachproject_registration_button"
+msgid "Create"
+msgstr "Crear"
+
+#. error strings
+msgctxt "attachproject_error_wrong_name"
+msgid "User not found"
+msgstr "No s'ha trobat aquest usuari"
+
+msgctxt "attachproject_error_short_pwd"
+msgid "Password too short"
+msgstr "La contrasenya és massa curta"
+
+msgctxt "attachproject_error_no_internet"
+msgid "Connection failure"
+msgstr "Ha fallat la connexió"
+
+msgctxt "attachproject_error_pwd_no_match"
+msgid "Passwords do not match"
+msgstr "Les contrasenyes no coincideixen"
+
+msgctxt "attachproject_error_no_email"
+msgid "Please enter eMail address"
+msgstr "Si us plau introdueix l'adreça de correu electrònic"
+
+msgctxt "attachproject_error_no_pwd"
+msgid "Please enter a password"
+msgstr "Si us plau introdueix una contrasenya"
+
+msgctxt "attachproject_error_no_name"
+msgid "Please enter user name"
+msgstr "Si us plau, introdueïx el nom d'usuari"
+
+msgctxt "attachproject_error_unknown"
+msgid "failed"
+msgstr "ha fallat"
+
+msgctxt "attachproject_error_bad_username"
+msgid "User name refused"
+msgstr "Nom d'usuari rebutjat"
+
+msgctxt "attachproject_error_email_in_use"
+msgid "eMail is already in use"
+msgstr "L'adreça de correu electrònic ja està en ús"
+
+msgctxt "attachproject_error_project_down"
+msgid "Project is offline"
+msgstr "El projecte està desconnectat"
+
+msgctxt "attachproject_error_email_bad_syntax"
+msgid "eMail refused"
+msgstr "Adreça de correu electrònic rebutjada"
+
+msgctxt "attachproject_error_bad_pwd"
+msgid "Password refused"
+msgstr "Contrasenya rebutjada"
+
+msgctxt "attachproject_error_creation_disabled"
+msgid "Account creation is disabled on this project"
+msgstr "La creació de comptes està desactivada en aquest projecte"
+
+#. working activity
+msgctxt "attachproject_working_back_button"
+msgid "Back"
+msgstr "Enrere"
+
+msgctxt "attachproject_working_finish_button"
+msgid "Finish"
+msgstr "Finalitza"
+
+msgctxt "attachproject_working_check_desc"
+msgid "Successful"
+msgstr "Reeixit"
+
+msgctxt "attachproject_working_failed_desc"
+msgid "Failed"
+msgstr "Ha fallat"
+
+msgctxt "attachproject_working_ongoing"
+msgid "…"
+msgstr "…"
+
+msgctxt "attachproject_working_finished"
+msgid "."
+msgstr "."
+
+msgctxt "attachproject_working_description"
+msgid ":"
+msgstr ":"
+
+msgctxt "attachproject_working_connect"
+msgid "Connect"
+msgstr "Connecta"
+
+msgctxt "attachproject_working_verify"
+msgid "Verify account"
+msgstr "Revisa el compte"
+
+msgctxt "attachproject_working_register"
+msgid "Register account"
+msgstr "Registra el compte"
+
+msgctxt "attachproject_working_login"
+msgid "Log in"
+msgstr "Registret"
+
+#. main activity
+msgctxt "main_noproject_warning"
+msgid "Tab here to choose a project."
+msgstr "Prem aquí per escollir un projecte."
+
+msgctxt "main_error"
+msgid "Whooops"
+msgstr "Uppps"
+
+msgctxt "main_error_long"
+msgid ""
+"…this should not happen!\n"
+"Click on the icon to try again."
+msgstr ""
+"...això no ha de succeir!\n"
+" Feu clic a la icona per intentar-ho de nou."
+
+msgctxt "main_title_icon_desc"
+msgid "BOINC icon"
+msgstr "Icona de BOINC"
+
+#. tab names
+msgctxt "tab_status"
+msgid "Status"
+msgstr "Estatus"
+
+msgctxt "tab_projects"
+msgid "Projects"
+msgstr "Projectes"
+
+msgctxt "tab_tasks"
+msgid "Tasks"
+msgstr "Tasques"
+
+msgctxt "tab_transfers"
+msgid "Transfers"
+msgstr "Transferències"
+
+msgctxt "tab_preferences"
+msgid "Preferences"
+msgstr "Preferències"
+
+msgctxt "tab_desc"
+msgid "Navigation"
+msgstr "Navegació"
+
+#. status strings
+msgctxt "status_running"
+msgid "Computing"
+msgstr "Treballant"
+
+msgctxt "status_running_long"
+msgid "Thank you for participating."
+msgstr "Gràcies per participar."
+
+msgctxt "status_paused"
+msgid "Suspended"
+msgstr "Suspès"
+
+msgctxt "status_idle"
+msgid "Nothing to do"
+msgstr "Res a fer"
+
+msgctxt "status_idle_long"
+msgid "Waiting for tasks…"
+msgstr "Esperant feines..."
+
+msgctxt "status_computing_disabled"
+msgid "Suspended"
+msgstr "Suspès"
+
+msgctxt "status_computing_disabled_long"
+msgid "Press play to resume network and computation."
+msgstr "Premeu play per reprendre la connexió per xarxa i la computació."
+
+msgctxt "status_launching"
+msgid "Starting…"
+msgstr "S'està iniciant..."
+
+msgctxt "status_noproject"
+msgid "Choose a project to participate in."
+msgstr "Tria un projecte per participar-hi."
+
+msgctxt "status_closing"
+msgid "Closing…"
+msgstr "Tancant..."
+
+msgctxt "status_benchmarking"
+msgid "Benchmarking…"
+msgstr "Executamt proves..."
+
+msgctxt "status_image_description"
+msgid "project image"
+msgstr "imatge del projecte"
+
+#. preferences tab strings
+msgctxt "prefs_loading"
+msgid "Reading preferences…"
+msgstr "Llegint preferències..."
+
+msgctxt "prefs_submit_button"
+msgid "Save"
+msgstr "Desa"
+
+msgctxt "prefs_dialog_title"
+msgid "Enter new value:"
+msgstr "Introdueix el nou valor:"
+
+msgctxt "prefs_dialog_title_selection"
+msgid "Select:"
+msgstr "Selecciona:"
+
+msgctxt "prefs_category_general"
+msgid "General"
+msgstr "General"
+
+msgctxt "prefs_category_network"
+msgid "Network"
+msgstr "Xarxa"
+
+msgctxt "prefs_category_power"
+msgid "Power"
+msgstr "Potència"
+
+msgctxt "prefs_category_cpu"
+msgid "CPU"
+msgstr "CPU"
+
+msgctxt "prefs_category_storage"
+msgid "Storage"
+msgstr "Emmagatzematge"
+
+msgctxt "prefs_category_memory"
+msgid "Memory"
+msgstr "Memòria"
+
+msgctxt "prefs_category_debug"
+msgid "Debug"
+msgstr "Depura"
+
+msgctxt "prefs_show_advanced_header"
+msgid "Show advanced preferences and controls…"
+msgstr "Mostra les preferències i controls avançats..."
+
+msgctxt "prefs_run_on_battery_header"
+msgid "Compute on Battery"
+msgstr "Processar amb només Bateria"
+
+msgctxt "battery_charge_min_pct_header"
+msgid "Min. battery level"
+msgstr "Nivell mínim de la bateria"
+
+msgctxt "battery_charge_min_pct_description"
+msgid "BOINC suspends computation below defined battery charge level."
+msgstr ""
+"BOINC atura la computació si el nivell de càrrega de la bateria per sota del "
+"definit."
+
+msgctxt "battery_temperature_max_header"
+msgid "Max. battery temperature"
+msgstr "Temperatura màxima de la bateria"
+
+msgctxt "battery_temperature_max_description"
+msgid ""
+"BOINC suspends computation above defined battery temperature. It is not "
+"recommended to change this value."
+msgstr ""
+"BOINC atura la computació si la temperatura de la bateria està per sobre del "
+"valor definit. No es recomanable canviar aquest valor."
+
+msgctxt "prefs_disk_max_pct_header"
+msgid "Max. used storage space"
+msgstr "Màxim espai d'emmagatzematge utilitzat"
+
+msgctxt "prefs_disk_max_pct_description"
+msgid "How many percent of your device's storage space is BOINC allowed to use?"
+msgstr ""
+"Quin percentatge d'espai d'emmagatzematge del seu dispositiu pot utilitzar "
+"BOINC?"
+
+msgctxt "prefs_disk_min_free_gb_header"
+msgid "Min. spare storage"
+msgstr "Espai mínim d'emmagatzematge"
+
+msgctxt "prefs_disk_min_free_gb_description"
+msgid "How much of your device's storage space shall stay free?"
+msgstr ""
+"Quina quantitat d'espai d'emmagatzematge del dispositiu s'ha de mantenir "
+"lliure?"
+
+msgctxt "prefs_network_daily_xfer_limit_mb_header"
+msgid "Daily transfer limit"
+msgstr "Límit de transferència diària"
+
+msgctxt "prefs_network_daily_xfer_limit_mb_description"
+msgid "Limits the daily data traffic caused by BOINC."
+msgstr "Limita el tràfic diàri de dades degut a BOINC"
+
+msgctxt "prefs_network_wifi_only_header"
+msgid "Transfer tasks on WiFi only"
+msgstr "Transferir tasques només amb WiFi"
+
+msgctxt "prefs_autostart_header"
+msgid "Autostart"
+msgstr "Inici automàtic"
+
+msgctxt "prefs_show_notification_header"
+msgid "Show notification when suspended"
+msgstr "Mostra una notificació quan estigui suspés"
+
+msgctxt "prefs_cpu_number_cpus_header"
+msgid "Used CPU cores"
+msgstr "Nuclis de CPU usats"
+
+msgctxt "prefs_cpu_number_cpus_description"
+msgid "Limits the number of CPU cores BOINC uses for computation."
+msgstr "Limita el nombre de nuclis de CPU que BOINC utilitza per la computació."
+
+msgctxt "prefs_cpu_other_load_suspension_header"
+msgid "Pause at CPU usage above"
+msgstr "Pausa en l'ús de la CPU per sobre de"
+
+msgctxt "prefs_cpu_other_load_suspension_description"
+msgid "Determines when BOINC pauses computation due to other app's CPU usage."
+msgstr ""
+"Determina quan BOINC pausa el còmput degut a la utilització de la CPU per un "
+"altra aplicació."
+
+msgctxt "prefs_cpu_time_max_header"
+msgid "CPU limit"
+msgstr "Límit de CPU"
+
+msgctxt "prefs_cpu_time_max_description"
+msgid "Limits the CPU time BOINC uses for computation."
+msgstr "Limita el temps de CPU que BOINC utilitza per la computació."
+
+msgctxt "prefs_memory_max_idle_header"
+msgid "RAM limit"
+msgstr "RAM límit"
+
+msgctxt "prefs_memory_max_idle_description"
+msgid "Limits the amount of RAM tasks are allowed to occupy."
+msgstr "Limita la quantitat de RAM que les tasques poden utilitzar."
+
+msgctxt "prefs_client_log_flags_header"
+msgid "BOINC Client log flags"
+msgstr "Marques de registre del client de BOINC"
+
+msgctxt "prefs_gui_log_level_header"
+msgid "GUI log level"
+msgstr "Nivell de registre GUI"
+
+msgctxt "prefs_gui_log_level_description"
+msgid "Specifies verbosity of GUI log messages."
+msgstr "Especifica el nivell de detall dels missatges de registre GUI."
+
+msgctxt "prefs_unit_mb"
+msgid "MB"
+msgstr "MB"
+
+msgctxt "prefs_unit_gb"
+msgid "GB"
+msgstr "GB"
+
+#, c-format
+msgctxt "prefs_unit_pct"
+msgid "%"
+msgstr "%"
+
+msgctxt "prefs_unit_celcius"
+msgid "°C"
+msgstr "°C"
+
+#. projects tab strings
+msgctxt "projects_loading"
+msgid "Reading projects…"
+msgstr "S'estan carregant els projectes..."
+
+msgctxt "projects_add"
+msgid "Add project"
+msgstr "Afegeix el projecte"
+
+msgctxt "projects_icon"
+msgid "Project icon"
+msgstr "Icona delprojecte"
+
+msgctxt "projects_credits_header"
+msgid "Credit:"
+msgstr "Crèdit:"
+
+msgctxt "projects_credits_host_header"
+msgid "(on this device)"
+msgstr "(en aquest dispositiu)"
+
+msgctxt "projects_credits_user_header"
+msgid "(total)"
+msgstr "(total)"
+
+#. project status strings
+msgctxt "projects_status_suspendedviagui"
+msgid "Suspended by user"
+msgstr "Suspès per l'usuari"
+
+msgctxt "projects_status_dontrequestmorework"
+msgid "Won't get new tasks"
+msgstr "No descarregar tasques noves"
+
+msgctxt "projects_status_ended"
+msgid "Project ended - OK to remove"
+msgstr "Projecte finalitzat - CORRECTE per eliminar-lo"
+
+msgctxt "projects_status_detachwhendone"
+msgid "Will remove when tasks done"
+msgstr "S'eliminarà quan finalitzi la tasca"
+
+msgctxt "projects_status_schedrpcpending"
+msgid "Scheduler request pending"
+msgstr "Petició al gestor pendent"
+
+msgctxt "projects_status_schedrpcinprogress"
+msgid "Scheduler request in progress"
+msgstr "Petició al gestor en curs"
+
+msgctxt "projects_status_trickleuppending"
+msgid "Trickle up message pending"
+msgstr "Missatge de degoteig en espera"
+
+msgctxt "projects_status_backoff"
+msgid "Communication scheduled in:"
+msgstr "Comunicació del gestor a:"
+
+#. project controls
+msgctxt "projects_control_dialog_title"
+msgid "Project commands:"
+msgstr "Ordres del projecte:"
+
+msgctxt "projects_control_update"
+msgid "Update"
+msgstr "Actualitza"
+
+msgctxt "projects_control_remove"
+msgid "Remove"
+msgstr "Elimina"
+
+msgctxt "projects_control_suspend"
+msgid "Suspend"
+msgstr "Suspèn"
+
+msgctxt "projects_control_resume"
+msgid "Resume"
+msgstr "Reprèn"
+
+msgctxt "projects_control_nonewtasks"
+msgid "No new tasks"
+msgstr "No hi han tasques noves"
+
+msgctxt "projects_control_allownewtasks"
+msgid "Allow new tasks"
+msgstr "Permetre noves tasques"
+
+msgctxt "projects_control_reset"
+msgid "Reset"
+msgstr "Reinicia"
+
+#. project confirm dialog
+msgctxt "projects_confirm_detach_title"
+msgid "Remove project?"
+msgstr "Eliminar el projecte?"
+
+msgctxt "projects_confirm_detach_message"
+msgid "Are you sure you want to remove"
+msgstr "Estàs segur que voleu eliminar"
+
+msgctxt "projects_confirm_detach_message2"
+msgid "from BOINC?"
+msgstr "de BOINC?"
+
+msgctxt "projects_confirm_detach_confirm"
+msgid "Remove"
+msgstr "Elimina"
+
+msgctxt "projects_confirm_reset_title"
+msgid "Reset project"
+msgstr "Reinicia el projecte"
+
+msgctxt "projects_confirm_reset_message"
+msgid "Are you sure you want to reset"
+msgstr "Estàs segur que vols reiniciar"
+
+msgctxt "projects_confirm_reset_confirm"
+msgid "Reset"
+msgstr "Reinicia"
+
+#. tasks tab strings
+msgctxt "tasks_header_name"
+msgid "Task Name:"
+msgstr "Nom de la tasca:"
+
+msgctxt "tasks_header_elapsed_time"
+msgid "Elapsed time:"
+msgstr "Temps transcorregut:"
+
+msgctxt "tasks_header_project_paused"
+msgid "(suspended)"
+msgstr "(suspès)"
+
+msgctxt "tasks_header_deadline"
+msgid "Deadline:"
+msgstr "Data límit:"
+
+msgctxt "tasks_result_new"
+msgid "new"
+msgstr "nou"
+
+msgctxt "tasks_result_files_downloading"
+msgid "waiting for download"
+msgstr "esperant per descarregar"
+
+msgctxt "tasks_result_files_downloaded"
+msgid "download complete"
+msgstr "Descàrrega completa"
+
+msgctxt "tasks_result_compute_error"
+msgid "computation error"
+msgstr "error de computació"
+
+msgctxt "tasks_result_files_uploading"
+msgid "uploading"
+msgstr "s'està lliurant"
+
+msgctxt "tasks_result_files_uploaded"
+msgid "upload complete"
+msgstr "lliurament finalitzat"
+
+msgctxt "tasks_result_aborted"
+msgid "aborted"
+msgstr "avortat"
+
+msgctxt "tasks_result_upload_failed"
+msgid "upload failed"
+msgstr "ha fallat el lliurament"
+
+msgctxt "tasks_active_uninitialized"
+msgid "ready"
+msgstr "preparat"
+
+msgctxt "tasks_active_executing"
+msgid "running"
+msgstr "executant"
+
+msgctxt "tasks_active_suspended"
+msgid "suspended"
+msgstr "suspès"
+
+msgctxt "tasks_active_abort_pending"
+msgid "suspending"
+msgstr "s'està suspenent"
+
+msgctxt "tasks_active_quit_pending"
+msgid "suspending"
+msgstr "s'està suspenent"
+
+msgctxt "tasks_custom_suspended_via_gui"
+msgid "suspended"
+msgstr "suspès"
+
+msgctxt "tasks_custom_project_suspended_via_gui"
+msgid "project suspended"
+msgstr "projecte suspès"
+
+msgctxt "tasks_custom_ready_to_report"
+msgid "ready to report"
+msgstr "a punt per informar"
+
+#. confirmation dialog
+msgctxt "confirm_abort_task_title"
+msgid "Abort task?"
+msgstr "Avortar la tasca?"
+
+msgctxt "confirm_abort_task_message"
+msgid "Abort task:"
+msgstr "Avortar la tasca:"
+
+msgctxt "confirm_abort_task_confirm"
+msgid "Abort"
+msgstr "Avorta"
+
+msgctxt "confirm_cancel"
+msgid "Cancel"
+msgstr "Cancel·la"
+
+msgctxt "confirm_image_desc"
+msgid "Confirmation dialog"
+msgstr "Diàleg de confirmació"
+
+#. transfers tab strings
+msgctxt "trans_loading"
+msgid "Reading transfers…"
+msgstr "Llegint transferències..."
+
+msgctxt "trans_upload"
+msgid "Upload"
+msgstr "Puja"
+
+msgctxt "trans_download"
+msgid "Download"
+msgstr "Descarrega"
+
+msgctxt "trans_retryin"
+msgid "retry in"
+msgstr "re intentar en"
+
+msgctxt "trans_failed"
+msgid "failed"
+msgstr "ha fallat"
+
+msgctxt "trans_suspended"
+msgid "suspended"
+msgstr "suspès"
+
+msgctxt "trans_active"
+msgid "active"
+msgstr "activa"
+
+msgctxt "trans_pending"
+msgid "pending"
+msgstr "pendent"
+
+msgctxt "trans_projectbackoff"
+msgid "project backoff"
+msgstr "desentendre's del projecte"
+
+msgctxt "trans_header_name"
+msgid "File:"
+msgstr "Fitxer:"
+
+msgctxt "confirm_abort_trans_title"
+msgid "Abort transfer?"
+msgstr "Avortar la transferència?"
+
+msgctxt "confirm_abort_trans_message"
+msgid "Abort File:"
+msgstr "Avortar arxiu:"
+
+msgctxt "confirm_abort_trans_confirm"
+msgid "Abort"
+msgstr "Avorta"
+
+#. eventlog tab strings
+msgctxt "eventlog_loading"
+msgid "Loading log messages…"
+msgstr "Carregant missatges de registre..."
+
+msgctxt "eventlog_client_header"
+msgid "Client Messages"
+msgstr "Missatges del client"
+
+msgctxt "eventlog_gui_header"
+msgid "GUI Messages"
+msgstr "Missatges GUI"
+
+msgctxt "eventlog_copy_toast"
+msgid "Log copied to clipboard."
+msgstr "Registre copiat al porta-retalls"
+
+msgctxt "eventlog_email_subject"
+msgid "Event Log for BOINC on Android:"
+msgstr "Registre d'esdeveniments de BOINC en Android:"
+
+#. suspend reasons
+msgctxt "suspend_unknown"
+msgid "Computation suspended."
+msgstr "Computació suspesa."
+
+msgctxt "suspend_batteries"
+msgid "Connect your device to a charger to continue computing."
+msgstr "Connecta el dispositiu a un carregador per continuar el còmput."
+
+msgctxt "suspend_useractive"
+msgid "User is active."
+msgstr "L'usuari està actiu."
+
+msgctxt "suspend_tod"
+msgid "Out of computation time-frame."
+msgstr "Fora del termini especificat per el còmput."
+
+msgctxt "suspend_bm"
+msgid "BOINC is benchmarking your device…"
+msgstr "BOINC està avaluant el teu dispositiu..."
+
+msgctxt "suspend_disksize"
+msgid "Out of disk space."
+msgstr "S'ha exhaurit l'espai lliure del disc"
+
+msgctxt "suspend_cputhrottle"
+msgid "Scheduled CPU throttle."
+msgstr "Programada acceleració CPU."
+
+msgctxt "suspend_noinput"
+msgid "No recent user activity."
+msgstr "No hi ha hagut activitat recent de l'usuari."
+
+msgctxt "suspend_delay"
+msgid "Initialization delay."
+msgstr "Temps d'espera per reiniciar."
+
+msgctxt "suspend_exclusiveapp"
+msgid "An exclusive app is running."
+msgstr "S'està executant una aplicació amb ús exclusiu."
+
+msgctxt "suspend_cpu"
+msgid "Your device is busy with other apps."
+msgstr "El teu dispositiu està ocupat per altres aplicacions."
+
+msgctxt "suspend_network_quota"
+msgid "BOINC reached network transfer limit."
+msgstr "BOINC ha assolit el límit de transferència per xarxa."
+
+msgctxt "suspend_os"
+msgid "Stopped by Android."
+msgstr "Suspès per Android."
+
+msgctxt "suspend_wifi"
+msgid "Not connected to WiFi."
+msgstr "No hi ha connexió Wifi."
+
+msgctxt "suspend_battery_charging"
+msgid "Battery needs to charge before resuming computation."
+msgstr "La bateria necessita carregar-se abans de continuar la computació."
+
+msgctxt "suspend_battery_charging_long"
+msgid "Computing will resume when battery charge reaches"
+msgstr "La computació continuarà quan la bateria tingui una carregada del"
+
+msgctxt "suspend_battery_charging_current"
+msgid "currently"
+msgstr "actual"
+
+msgctxt "suspend_battery_overheating"
+msgid "Waiting for battery to cool down"
+msgstr "Esperant que es refredi la bateria"
+
+msgctxt "suspend_user_req"
+msgid "Resuming computation…"
+msgstr "Continuant la computació..."
+
+msgctxt "suspend_network_user_req"
+msgid "manually."
+msgstr "manualment."
+
+#. rpc reasons
+msgctxt "rpcreason_userreq"
+msgid "Requested by user"
+msgstr "Sol·licitat per l'usuari"
+
+msgctxt "rpcreason_needwork"
+msgid "To fetch work"
+msgstr "Per obtenir feina"
+
+msgctxt "rpcreason_resultsdue"
+msgid "To report completed tasks"
+msgstr "Per informar tasques finalitzades"
+
+msgctxt "rpcreason_trickleup"
+msgid "To send trickle-up message"
+msgstr "Per lliurar un missatge de degoteig"
+
+msgctxt "rpcreason_acctmgrreq"
+msgid "Requested by account manager"
+msgstr "Sol·licitat per l'administrador de comptes"
+
+msgctxt "rpcreason_init"
+msgid "Project initialization"
+msgstr "Inicialització del projecte"
+
+msgctxt "rpcreason_projectreq"
+msgid "Requested by project"
+msgstr "Sol·licitat per el projecte"
+
+msgctxt "rpcreason_unknown"
+msgid "Unknown reason"
+msgstr "Motiu desconegut"
+
+#. menu
+msgctxt "menu_refresh"
+msgid "Refresh"
+msgstr "Actualitza"
+
+msgctxt "menu_emailto"
+msgid "Send as Email"
+msgstr "Envia per correu electrònic"
+
+msgctxt "menu_copy"
+msgid "Copy to Clipboard"
+msgstr "Copia al porta-retalls"
+
+msgctxt "menu_eventlog"
+msgid "Event Log"
+msgstr "Registre d'esdeveniments"
+
+msgctxt "menu_exit"
+msgid "Exit BOINC"
+msgstr "Surt de BOINC"
+
+msgctxt "menu_run_mode_disable"
+msgid "Suspend"
+msgstr "Suspèn"
+
+msgctxt "menu_run_mode_enable"
+msgid "Resume"
+msgstr "Reprèn"
+
+msgctxt "menu_about"
+msgid "About"
+msgstr "Sobre"
+
+msgctxt "menu_help"
+msgid "Help"
+msgstr "Ajuda"
+
+#. about dialog
+msgctxt "about_button"
+msgid "Return"
+msgstr "Retorna"
+
+msgctxt "about_title"
+msgid "About"
+msgstr "Sobre"
+
+msgctxt "about_name"
+msgid "BOINC"
+msgstr "BOINC"
+
+msgctxt "about_version"
+msgid "Version"
+msgstr "Versió"
+
+msgctxt "about_name_long"
+msgid "Berkeley Open Infrastructure for Network Computing"
+msgstr "Berkeley Open Infrastructure for Network Computing"
+
+msgctxt "about_copyright"
+msgid ""
+"© 2003–2013 University of California, Berkeley.\n"
+"All Rights Reserved."
+msgstr ""
+"© 2003–2013 Universitat de Califòrnia, Berkeley.\n"
+"Tots els Drets Reservats."

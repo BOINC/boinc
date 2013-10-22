@@ -32,6 +32,7 @@
 #include "filesys.h"
 #include "parse.h"
 #include "util.h"
+#include "str_replace.h"
 #include "str_util.h"
 
 #include "client_msgs.h"
@@ -46,29 +47,28 @@ using std::string;
 // Convert them to XML (for sched request message)
 //
 int CLIENT_STATE::read_trickle_files(PROJECT* project, FILE* f) {
-    char project_dir[256], *p, *q, result_name[256], fname[256];
+    char *p, *q, result_name[256], fname[256];
     char* file_contents, path[MAXPATHLEN], newpath[MAXPATHLEN];
     string fn;
     time_t t;
     int retval;
 
-    get_project_dir(project, project_dir, sizeof(project_dir));
-    DirScanner ds(project_dir);
+    DirScanner ds(project->project_dir());
 
     // trickle-up filenames are of the form trickle_up_RESULTNAME_TIME[.sent]
     //
     while (ds.scan(fn)) {
-        strcpy(fname, fn.c_str());
+        safe_strcpy(fname, fn.c_str());
         if (strstr(fname, "trickle_up_") != fname) continue;
         q = fname + strlen("trickle_up_");
         p = strrchr(fname, '_');
         if (p <= q) continue;
         *p = 0;
-        strcpy(result_name, q);
+        safe_strcpy(result_name, q);
         *p = '_';
         t = atoi(p+1);
 
-        sprintf(path, "%s/%s", project_dir, fname);
+        sprintf(path, "%s/%s", project->project_dir(), fname);
         retval = read_file_malloc(path, file_contents);
         if (retval) continue;
         fprintf(f,
@@ -87,7 +87,7 @@ int CLIENT_STATE::read_trickle_files(PROJECT* project, FILE* f) {
         // append .sent to filename, so we'll know which ones to delete later
         //
         if (!ends_with(fname, ".sent")) {
-            sprintf(newpath, "%s/%s.sent", project_dir, fname);
+            sprintf(newpath, "%s/%s.sent", project->project_dir(), fname);
             boinc_rename(path, newpath);
         }
     }
@@ -99,17 +99,16 @@ int CLIENT_STATE::read_trickle_files(PROJECT* project, FILE* f) {
 // (others arrived from application while RPC was happening)
 //
 int CLIENT_STATE::remove_trickle_files(PROJECT* project) {
-    char project_dir[256], path[MAXPATHLEN], fname[256];
+    char path[MAXPATHLEN], fname[256];
     string fn;
 
-    get_project_dir(project, project_dir, sizeof(project_dir));
-    DirScanner ds(project_dir);
+    DirScanner ds(project->project_dir());
 
     while (ds.scan(fn)) {
-        strcpy(fname, fn.c_str());
+        safe_strcpy(fname, fn.c_str());
         if (!starts_with(fname, "trickle_up")) continue;
         if (!ends_with(fname, ".sent")) continue;
-        sprintf(path, "%s/%s", project_dir, fname);
+        sprintf(path, "%s/%s", project->project_dir(), fname);
         delete_project_owned_file(path, true);
     }
     return 0;
@@ -126,7 +125,7 @@ int CLIENT_STATE::handle_trickle_down(PROJECT* project, FILE* in) {
     string body;
     int send_time=0;
 
-    strcpy(result_name, "");
+    safe_strcpy(result_name, "");
     while (fgets(buf, 256, in)) {
         if (match_tag(buf, "</trickle_down>")) {
             RESULT* rp = lookup_result(project, result_name);

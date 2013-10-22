@@ -29,15 +29,24 @@ struct VBOX_VM {
     VBOX_VM();
     ~VBOX_VM();
 
+    // Virtualbox Version Information
+    std::string virtualbox_version;
+
     // Floppy IO abstraction
     FloppyIO* pFloppy;
 
-    // unique master name for the VM
+    // unique name for the VM
     std::string vm_master_name;
+    // unique description for the VM
+    std::string vm_master_description;
     // unique name for the VM or UUID of a stale VM if deregistering a stale VM
     std::string vm_name;
     // required CPU core count
     std::string vm_cpu_count;
+    // the type of disk controller to emulate
+    std::string vm_disk_controller_type;
+    // the disk controller model to emulate
+    std::string vm_disk_controller_model;
     // name of the OS the VM runs
     std::string os_name;
     // size of the memory allocation for the VM, in megabytes
@@ -49,6 +58,8 @@ struct VBOX_VM {
     // maximum amount of wall-clock time this VM is allowed to run before
     // considering itself done.
     double job_duration;
+    // name of file where app will write its fraction done
+    std::string fraction_done_filename;
     // is the VM suspended?
     bool suspended;
     // is network access temporarily suspended?
@@ -99,17 +110,19 @@ struct VBOX_VM {
     int poweroff();
     int pause();
     int resume();
-    int createsnapshot(double elapsed_time, double checkpoint_cpu_time);
+    int createsnapshot(double elapsed_time);
+    int cleanupsnapshots(bool delete_active);
     int restoresnapshot();
     void cleanup();
     void poll(bool log_state = true);
 
-    bool is_hdd_registered();
+    bool is_system_ready(std::string& message);
     bool is_registered();
+    bool is_hdd_registered();
     bool is_extpack_installed();
 
     int register_vm();
-    int deregister_vm();
+    int deregister_vm(bool delete_media);
     int deregister_stale_vm();
 
     int get_install_directory(std::string& dir);
@@ -124,8 +137,8 @@ struct VBOX_VM {
     int get_remote_desktop_port();
 
     int set_network_access(bool enabled);
-    int set_cpu_usage_fraction(double);
-    int set_network_max_bytes_sec(double);
+    int set_cpu_usage(int percentage);
+    int set_network_usage(int kilobytes);
 
     int read_floppy(std::string& data);
     int write_floppy(std::string& data);
@@ -134,10 +147,10 @@ struct VBOX_VM {
     void reset_vm_process_priority();
 
     int vbm_popen(
-        std::string& command, std::string& output, const char* item, bool log_error = true, bool retry_failures = true
+        std::string& command, std::string& output, const char* item, bool log_error = true, bool retry_failures = true, unsigned int timeout = 45
     );
     int vbm_popen_raw(
-        std::string& command, std::string& output
+        std::string& command, std::string& output, unsigned int timeout
     );
 };
 

@@ -9,6 +9,7 @@ OBJS = \
 	acct_mgr.o \
 	acct_setup.o \
     app.o \
+    app_config.o \
     client_msgs.o \
     client_state.o \
     client_types.o \
@@ -28,6 +29,7 @@ OBJS = \
 	file_xfer.o \
 	gpu_amd.o \
 	gpu_detect.o \
+	gpu_intel.o \
 	gpu_nvidia.o \
 	gpu_opencl.o \
 	gui_http.o \

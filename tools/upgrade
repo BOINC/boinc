@@ -6,6 +6,8 @@
 Usage: upgrade [options] project_root
 Options:
   --srcdir          default: current directory
+  --web_only        copy only web (PHP) files
+  --server_only     copy everything except web files
 
 Copy source/build files to a project tree,
 overwriting what's already there.
@@ -76,13 +78,6 @@ init()
 install_boinc_files(INSTALL_DIR, not options.server_only, not options.web_only)
 
 print "Upgrading files... done"
-print "Finding SVN revision"
-
-svn_version_file = INSTALL_DIR+'/local.revision'
-try:
-    os.system('/bin/sh -c /usr/bin/svnversion > '+svn_version_file)
-except:
-    print '''Couldn't find svnversion'''
 
 print "Updating translations"
 try:
@@ -96,7 +91,7 @@ if options.server_only:
 if options.web_only:
     opt = ' --web'
 
-print "Checking for DB upgrades"
+print "Checking for DB updates"
 os.system('cd '+INSTALL_DIR+'/html/ops; ./upgrade_db.php'+opt)
 
 if os.path.exists(INSTALL_DIR+'/html/project/project_news.inc'):

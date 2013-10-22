@@ -138,7 +138,7 @@ int delete_antiques_from_dir(char*dirpath, time_t mtime, uid_t uid) {
         check_stop_daemons();
 
         // construct absolute path of this entry
-        strcpy(path, dirpath);
+        safe_strcpy(path, dirpath);
         strcat(path, "/");
         strcat(path, entry->d_name);
 

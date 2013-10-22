@@ -46,7 +46,6 @@
 #endif
 #include <signal.h>
 #if HAVE_SYS_SIGNAL_H
-#include <sys/signal.h>
 #endif
 #include <unistd.h>
 
@@ -60,6 +59,7 @@
 #include "filesys.h"
 #include "util.h"
 #include "cpu_benchmark.h"
+
 #include "client_msgs.h"
 #include "log_flags.h"
 #include "client_state.h"
@@ -117,7 +117,6 @@ struct BENCHMARK_DESC {
 };
 
 static BENCHMARK_DESC* benchmark_descs=0;
-static bool benchmarks_running=false;    // at least 1 benchmark thread running
 static double cpu_benchmarks_start;
 static int bm_ncpus;
     // user might change ncpus during benchmarks.
@@ -172,7 +171,24 @@ int cpu_benchmarks(BENCHMARK_DESC* bdp) {
 
     bdp->error_str[0] = '\0';
     host_info.clear_host_info();
+
+#ifdef ANDROID
+    // check for FP accelerator: VFP, Neon, or none;
+    // run the appropriate version of Whetstone
+    // (separated using namespaces)
+    //
+    if (strstr(gstate.host_info.p_features, " neon ")) { 
+        // have ARM neon FP capabilities
+        retval = android_neon::whetstone(host_info.p_fpops, fp_time, MIN_CPU_TIME);
+    } else if (strstr(gstate.host_info.p_features, " vfp ")) { 
+        // have ARM vfp FP capabilities
+        retval = android_vfp::whetstone(host_info.p_fpops, fp_time, MIN_CPU_TIME);
+    } else { // just run normal test
+        retval = whetstone(host_info.p_fpops, fp_time, MIN_CPU_TIME);
+    }
+#else
     retval = whetstone(host_info.p_fpops, fp_time, MIN_CPU_TIME);
+#endif
     if (retval) {
         bdp->error = true;
         sprintf(bdp->error_str, "FP benchmark ran only %f sec; ignoring", fp_time);
@@ -359,14 +375,14 @@ bool CLIENT_STATE::cpu_benchmarks_poll() {
     static double last_time = 0;
     if (!benchmarks_running) return false;
 
-    if (now < last_time + BENCHMARK_POLL_PERIOD) return false;
+    if (!clock_change && now < last_time + BENCHMARK_POLL_PERIOD) return false;
     last_time = now;
 
     active_tasks.send_heartbeats();
 
     // if active tasks don't quit after 10 sec, give up on benchmark
     //
-    if (now >= (cpu_benchmarks_start + 10.0) && active_tasks.is_task_executing()) {
+    if (gstate.clock_change || (now >= (cpu_benchmarks_start + 10.0) && active_tasks.is_task_executing())) {
         msg_printf(NULL, MSG_INTERNAL_ERROR,
             "Failed to stop applications; aborting CPU benchmarks"
         );
@@ -463,7 +479,7 @@ bool CLIENT_STATE::cpu_benchmarks_poll() {
             }
             ndone++;
             if (benchmark_descs[i].error) {
-                msg_printf(0, MSG_INFO, benchmark_descs[i].error_str);
+                msg_printf(0, MSG_INFO, "%s", benchmark_descs[i].error_str);
                 had_error = true;
             }
         }
@@ -560,10 +576,3 @@ void CLIENT_STATE::cpu_benchmarks_set_defaults() {
     if (!host_info.p_membw) host_info.p_membw = DEFAULT_MEMBW;
     if (!host_info.m_cache) host_info.m_cache = DEFAULT_CACHE;
 }
-
-// return true if any CPU benchmark thread/process is running
-//
-bool CLIENT_STATE::are_cpu_benchmarks_running() {
-    return benchmarks_running;
-}
-

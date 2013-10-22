@@ -28,8 +28,6 @@ extern int parse_command_line(char*, char**);
 extern void c2x(char *what);
 extern void strip_whitespace(char *str);
 extern void strip_whitespace(std::string&);
-#define safe_strcpy(x, y) strlcpy(x, y, sizeof(x))
-#define safe_strcat(x, y) if (strlen(x)+strlen(y)<sizeof(x)) strcat(x, y)
 extern char* time_to_string(double);
 extern char* precision_time_to_string(double);
 extern void secs_to_hmsf(double, char*);
@@ -81,6 +79,10 @@ extern const char* network_status_string(int);
 extern const char* rpc_reason_string(int);
 extern const char* suspend_reason_string(int reason);
 extern const char* run_mode_string(int mode);
+extern const char* battery_state_string(int state);
+extern const char* result_client_state_string(int state);
+extern const char* result_scheduler_state_string(int state);
+extern const char* active_task_state_string(int state);
 
 extern void strip_translation(char* p);
 

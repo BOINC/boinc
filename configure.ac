@@ -6,7 +6,7 @@ dnl not sure exactly what the minimum version is (but 2.13 wont work)
 AC_PREREQ(2.58)
 
 dnl Set the BOINC version here.  You can also use the set-version script.
-AC_INIT(BOINC, 7.1.0)
+AC_INIT(BOINC, 7.2.4)
 AC_CONFIG_MACRO_DIR([m4])
 LIBBOINC_VERSION=`echo ${PACKAGE_VERSION} | sed 's/\./:/g'`
 AC_SUBST([LIBBOINC_VERSION])
@@ -16,6 +16,7 @@ AC_CANONICAL_TARGET
 dnl generate .tar.gz, .tar.bz2, .zip
 dnl AM_INIT_AUTOMAKE(dist-bzip2 dist-zip)
 AM_INIT_AUTOMAKE(dist-zip)
+m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
 
 AC_CONFIG_SRCDIR(lib/shmem.cpp)
 
@@ -94,6 +95,12 @@ AC_ARG_ENABLE(install-headers,
                     header files]),
     [enable_install_headers=${enableval}],
     [enable_install_headers=yes])
+
+AC_ARG_ENABLE(xss,
+    AS_HELP_STRING([--disable-xss],
+                   [disable building the boinc client with the Xss library]),
+    [enable_xss=${enableval}],
+    [enable_xss=yes])
 
 AC_ARG_ENABLE(pkg-libs, 
     AS_HELP_STRING([--enable-pkg-libs],
@@ -458,7 +465,7 @@ SAH_CHECK_LIB([cups], [md5_finish],
 LIBS=${SAVELIBS_AAF}
 
 dnl check for pthread
-ACX_PTHREAD(AC_DEFINE(HAVE_PTHREAD,1, [Have pthread]))
+AX_PTHREAD(AC_DEFINE(HAVE_PTHREAD,1, [Have pthread]))
 dnl There are better ways to do this.
 dnl CXXFLAGS="$CXXFLAGS $PTHREAD_CFLAGS"
 dnl CFLAGS="$CFLAGS $PTHREAD_CFLAGS"
@@ -476,6 +483,16 @@ if test "x${bindir}" = "xNONE" -o -z "${bindir}" ; then
 fi
 if test "x${libdir}" = "xNONE" -o -z "${libdir}" ; then
   bindir="${exec_prefix}/lib"
+fi
+
+dnl if --sysconfdir was not specified, default ${sysconfdir} to '/etc/'.
+dnl this is done to preserve the behaviour of previous BOINC versions 
+dnl which always installed to /etc/ in client/scripts/. Now we install
+dnl to ${sysconfdir}/.
+dnl the default value for ${sysconfdir} set by automake is '${prefix}/etc',
+dnl but we also test for an empty string
+if test "${sysconfdir}" = '${prefix}/etc' -o "x${sysconfdir}" = "x"; then
+  sysconfdir=/etc
 fi
 
 AC_DEFINE_UNQUOTED(BOINC_PREFIX,"`eval echo ${prefix}`",[Directory tree where BOINC will be installed])
@@ -527,7 +544,7 @@ else
    echo "DEBUG: GLUT_CFLAGS = $GLUT_CFLAGS" >&5
    echo "DEBUG: GLUT_LIBS = $GLUT_LIBS" >&5
 
-   AC_CHECK_HEADERS([gl.h glu.h glut.h glaux.h GL/gl.h GL/glu.h GL/glut.h GL/glaux.h OpenGL/gl.h OpenGL/glu.h OpenGL/glut.h OpenGL/glaux.h GLUT/glut.h MesaGL/gl.h MesaGL/glu.h MesaGL/glut.h MesaGL/glaux.h libnotify/notify.h] gtk/gtk.h)
+   AC_CHECK_HEADERS([gl.h glu.h glut.h glaux.h GL/gl.h GL/glu.h GL/glut.h GL/glaux.h OpenGL/gl.h OpenGL/glu.h OpenGL/glut.h OpenGL/glaux.h GLUT/glut.h MesaGL/gl.h MesaGL/glu.h MesaGL/glut.h MesaGL/glaux.h libnotify/notify.h gtk/gtk.h xlocale.h])
 
    AC_CHECK_LIB([jpeg], [jpeg_start_compress],[have_jpeg=1],[have_jpeg=0])
    AC_CHECK_HEADER([jpeglib.h],[have_jpeg=1],[have_jpeg=0])
@@ -552,10 +569,12 @@ fi
 AM_CONDITIONAL(BUILD_GRAPHICS_API, [ test "$have_glut" = yes ])
 
 dnl check for X screen saver lib
-AC_CHECK_LIB([Xss], [XScreenSaverAllocInfo], [have_Xss="yes"], [have_Xss="no"])
-AC_CHECK_HEADER([X11/extensions/scrnsaver.h], [have_Xss="yes"], [have_Xss="no"])
-if test "$have_Xss" == no; then
-    AC_MSG_WARN([libxss missing, disabling X ScreenSaver user idle detection])
+if test "$enable_xss" == yes; then
+    AC_CHECK_LIB([Xss], [XScreenSaverAllocInfo], [have_Xss="yes"], [have_Xss="no"])
+    AC_CHECK_HEADER([X11/extensions/scrnsaver.h], [have_Xss="yes"], [have_Xss="no"])
+    if test "$have_Xss" == no; then
+        AC_MSG_WARN([libxss missing, disabling X ScreenSaver user idle detection])
+    fi
 fi
 
 dnl --------------------------------------------------------------------------------
@@ -570,6 +589,10 @@ AH_TOP([
 
 ])
 AH_BOTTOM([
+
+#ifndef HAVE_XLOCALE_H
+#define NO_PER_THREAD_LOCALE 1
+#endif
 
 #ifndef HAVE_RES_INIT
 #define res_init() (0)
@@ -588,7 +611,32 @@ AC_HEADER_STDC
 AC_HEADER_SYS_WAIT
 AC_HEADER_TIME
 AC_TYPE_SIGNAL
-AC_CHECK_HEADERS(windows.h sys/types.h sys/un.h arpa/inet.h dirent.h grp.h fcntl.h inttypes.h stdint.h malloc.h alloca.h memory.h netdb.h netinet/in.h netinet/tcp.h netinet/ether.h net/if.h net/if_arp.h signal.h strings.h sys/auxv.h sys/file.h sys/fcntl.h sys/ipc.h sys/ioctl.h sys/mount.h sys/msg.h sys/param.h sys/resource.h sys/select.h sys/sem.h sys/shm.h sys/sockio.h sys/socket.h sys/stat.h sys/statvfs.h sys/statfs.h sys/swap.h sys/sysctl.h sys/systeminfo.h sys/time.h sys/types.h sys/utsname.h sys/vmmeter.h sys/wait.h unistd.h utmp.h errno.h procfs.h ieeefp.h setjmp.h resolv.h)
+AC_CHECK_HEADERS(windows.h sys/types.h sys/un.h arpa/inet.h dirent.h grp.h fcntl.h inttypes.h stdint.h memory.h netdb.h netinet/in.h netinet/tcp.h netinet/ether.h signal.h strings.h sys/auxv.h sys/file.h sys/fcntl.h sys/ipc.h sys/ioctl.h sys/msg.h sys/param.h sys/resource.h sys/select.h sys/sem.h sys/shm.h sys/sockio.h sys/socket.h sys/stat.h sys/statvfs.h sys/statfs.h sys/systeminfo.h sys/time.h sys/types.h sys/utsname.h sys/vmmeter.h sys/wait.h unistd.h utmp.h errno.h procfs.h ieeefp.h setjmp.h)
+
+AC_CHECK_HEADER(net/if.h, [], [], [[
+#if HAVE_SYS_SOCKET_H
+# include <sys/socket.h>
+#endif
+]])
+
+AC_CHECK_HEADER(net/if_arp.h, [], [], [[
+#if HAVE_SYS_SOCKET_H
+# include <sys/socket.h>
+#endif
+]])
+
+AC_CHECK_HEADERS(sys/sysctl.h sys/mount.h sys/swap.h sys/sensors.h, [], [], [[
+#ifdef HAVE_SYS_PARAM_H
+# include <sys/param.h>
+#endif
+]])
+
+AC_CHECK_HEADER(resolv.h, [], [], [[
+#ifdef HAVE_NETINET_IN_H
+# include <netinet/in.h>
+#endif
+]])
+
 AC_CHECK_HEADERS(netinet/if_ether.h,[],[],[[
 #ifdef HAVE_SYS_TYPES_H
 #include <sys/types.h>
@@ -655,11 +703,7 @@ AC_LANG_POP
 dnl Checks for library functions.
 AC_PROG_GCC_TRADITIONAL
 AC_FUNC_VPRINTF
-AC_FUNC_ALLOCA
-if test "${ac_cv_func_alloca_works}" = "yes" ; then
-  ac_cv_func_alloca="yes"
-fi
-AC_CHECK_FUNCS(alloca _alloca __builtin_alloca ether_ntoa setpriority sched_setscheduler strlcpy strlcat strcasestr strcasecmp sigaction getutent setutent getisax strdup strdupa daemon stat64 putenv setenv unsetenv res_init strtoull)
+AC_CHECK_FUNCS(ether_ntoa setpriority sched_setscheduler strlcpy strlcat strcasestr strcasecmp sigaction getutent setutent getisax strdup strdupa daemon stat64 putenv setenv unsetenv res_init strtoull)
 
 dnl Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST
@@ -716,8 +760,8 @@ fi
 
 dnl ---------- XCB --------------------------------------------------------
 if test "${enable_manager}" = yes; then
-    PKG_CHECK_MODULES(XCB,xcb,have_Xcb="yes",echo "WARNING: Xcb not found, x11_screensaver will not be built")
-    PKG_CHECK_MODULES(XCBATOM,xcb-atom,have_Xcbatom="yes",echo "WARNING: Xcb-atom not found, x11_screensaver will not be built")
+    PKG_CHECK_MODULES(XCB,xcb,have_Xcb="yes",[echo "WARNING: Xcb not found, x11_screensaver will not be built"])
+    PKG_CHECK_MODULES(XCBATOM,xcb-atom,have_Xcbatom="yes",[echo "WARNING: Xcb-atom not found, x11_screensaver will not be built"])
 fi
 AM_CONDITIONAL(BUILD_X11_SCREENSAVER, [ test "$have_Xcb" = yes -a "$have_Xcbatom" = yes ]) 
 dnl -----------------------------------------------------------------------
@@ -735,6 +779,7 @@ dnl In case anyone wants to try building the windows code using mingw!
 AM_CONDITIONAL(OS_WIN32_MINGW, [echo $host_os | grep '^mingw' > /dev/null])
 dnl or OS2
 AM_CONDITIONAL(OS_OS2, [echo $host_os | grep '^os2' > /dev/null])
+AM_CONDITIONAL(OS_ARM_LINUX, [echo $host_alias | grep '^arm-linux' > /dev/null])
 
 dnl Whether to build fcgi components
 AM_CONDITIONAL(ENABLE_FCGI,[test "${enable_fcgi}" = yes])
@@ -802,9 +847,15 @@ if test "${ac_cv_func_res_init}" != "yes" ; then
 fi
 LIBS=$svlibs
 
-if test "$have_Xss" == yes; then
+if (test "$enable_xss" == yes) && (test "$have_Xss" == yes); then
+    SAH_CHECK_LIB([Xext],[DPMSQueryExtension],[
+        AC_DEFINE([HAVE_DPMS],[1],[Define to 1 if you have xcb-dpms library])
+        CLIENTLIBS="${sah_lib_last} ${CLIENTLIBS}"])
     SAH_CHECK_LIB([Xss],[XScreenSaverAllocInfo],[
         AC_DEFINE([HAVE_XSS],[1],[Define to 1 if you have xss library])
+        CLIENTLIBS="${sah_lib_last} ${CLIENTLIBS}"])
+    SAH_CHECK_LIB([X11],[XOpenDisplay],[
+        AC_DEFINE([HAVE_X11],[1],[Define to 1 if you have X11 library])
         CLIENTLIBS="${sah_lib_last} ${CLIENTLIBS}"])
     echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
 fi
@@ -913,6 +964,7 @@ AC_CONFIG_FILES([
                  db/Makefile
                  doc/Makefile
                  doc/manpages/Makefile
+                 html/Makefile
                  lib/Makefile
                  locale/Makefile
                  Makefile

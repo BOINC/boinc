@@ -29,14 +29,26 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include <math.h>
+#include <cmath>
 #include <time.h>
 #endif
 
 #include "util.h"
 #include "cpu_benchmark.h"
 
+#ifndef SPDP
 #define SPDP double
+#endif
+
+#ifdef ANDROID
+#ifdef ANDROID_NEON
+    namespace android_neon {
+#else
+  #ifdef ANDROID_VFP
+    namespace android_vfp {
+  #endif
+#endif
+#endif
 
 // External array; store results here so that optimizing compilers
 // don't do away with their computation.
@@ -278,3 +290,6 @@ int whetstone(double& flops, double& cpu_time, double min_cpu_time) {
     return 0;
 }
 
+#if defined(ANDROID_NEON) || defined(ANDROID_VFP)
+  }
+#endif // namespace closure

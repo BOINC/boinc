@@ -26,7 +26,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <math.h>
+#include <cmath>
 #include <setjmp.h>
 
 #ifdef _WIN32
@@ -328,7 +328,7 @@ void MOVING_TEXT_PANEL::draw() {
 
 void MOVING_TEXT_PANEL::set_text(int lineno, const char* str) {
 	char buf[8192];
-	strcpy(buf, str);
+	strlcpy(buf, str, sizeof(buf));
 	char* p = buf;
     char* q = strchr(p, '\n');
     while (p) {

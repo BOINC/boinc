@@ -19,9 +19,6 @@
 
 #include "boinc_db.h"
 
-#define ERROR_RATE_INIT 0.1
-    // the initial error rate of a host or app version
-
 #define MIN_HOST_SAMPLES  10
     // use host scaling only if have this many samples for host
 #define MIN_VERSION_SAMPLES   100
@@ -38,9 +35,9 @@
 #define AV_AVG_WEIGHT   .001
 #define AV_AVG_LIMIT    10
 
-extern double fpops_to_credit(double fpops, double intops);
+extern double fpops_to_credit(double fpops);
     // credit that should be granted for a given number of
-    // floating-point and integer ops
+    // floating-point ops
 extern double cpu_time_to_credit(double cpu_time, double cpu_flops_sec);
 extern int grant_credit(DB_HOST& host, double start_time, double credit);
 

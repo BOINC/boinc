@@ -39,7 +39,7 @@ def xlistdir(dir):
 
 def get_api_version(exec_file):
     tmpfile = '.uvtemp'
-    cmd = "strings %s | grep API_VERSION > %s"%(exec_file, tmpfile)
+    cmd = "strings %s | egrep '^API_VERSION_[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*$' > %s"%(exec_file, tmpfile)
     os.system(cmd)
     f = open(tmpfile, 'r')
     if (f):

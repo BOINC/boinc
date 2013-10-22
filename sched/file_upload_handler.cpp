@@ -38,17 +38,19 @@
 #endif
 
 #include "crypt.h"
-#include "parse.h"
-#include "util.h"
 #include "error_numbers.h"
-#include "str_util.h"
 #include "filesys.h"
+#include "parse.h"
+#include "str_replace.h"
+#include "str_util.h"
 #include "svn_version.h"
+#include "util.h"
 
 #include "sched_config.h"
+#include "sched_msgs.h"
 #include "sched_util.h"
 
-#include "sched_msgs.h"
+using std::string;
 
 #define LOCK_FILES
     // comment this out to not lock files
@@ -108,6 +110,20 @@ int return_success(const char* text) {
 #define BLOCK_SIZE  (256*1024)
 double bytes_left=-1;
 
+int accept_empty_file(char* path) {
+    int fd = open(path,
+        O_WRONLY|O_CREAT,
+        S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP|S_IROTH
+    );
+    if (fd<0) {
+        return return_error(ERR_TRANSIENT,
+            "can't open file %s: %s\n", path, strerror(errno)
+        );
+    }
+    close(fd);
+    return return_success(0);
+}
+
 // read from socket, write to file
 // ALWAYS returns an HTML reply
 //
@@ -121,7 +137,6 @@ int copy_socket_to_file(FILE* in, char* path, double offset, double nbytes) {
     bytes_left = nbytes - offset;
 
     while (bytes_left > 0) {
-
         int n, m, to_write;
 
         m = bytes_left<(double)BLOCK_SIZE ? (int)bytes_left : BLOCK_SIZE;
@@ -286,7 +301,7 @@ int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
             continue;
         }
         if (parse_str(buf, "<name>", name, sizeof(name))) {
-            strcpy(this_filename, name);
+            safe_strcpy(this_filename, name);
             continue;
         }
         if (parse_double(buf, "<max_nbytes>", max_nbytes)) continue;
@@ -324,12 +339,8 @@ int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
                 signed_xml, xml_signature,
                 retval, is_valid
             );
-            log_messages.printf(MSG_NORMAL,
-                "signed xml: %s\n", signed_xml
-            );
-            log_messages.printf(MSG_NORMAL,
-                "signature: %s\n", xml_signature
-            );
+            log_messages.printf(MSG_NORMAL, "signed xml: %s\n", signed_xml);
+            log_messages.printf(MSG_NORMAL, "signature: %s\n", xml_signature);
             return return_error(ERR_PERMANENT, "invalid signature");
         }
     }
@@ -385,19 +396,26 @@ int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
 #ifndef _USING_FCGI_
     fflush(stderr);
 #endif
-    if (offset >= nbytes) {
-        log_messages.printf(MSG_CRITICAL,
-            "ERROR: offset >= nbytes!!\n"
+    if (nbytes == 0) {
+        retval = accept_empty_file(path);
+        log_messages.printf(MSG_NORMAL,
+            "accepted empty file %s from %s\n", name, get_remote_addr()
         );
-        return return_success(0);
+    } else {
+        if (offset >= nbytes) {
+            log_messages.printf(MSG_CRITICAL,
+                "ERROR: offset >= nbytes!!\n"
+            );
+            return return_success(0);
+        }
+        retval = copy_socket_to_file(in, path, offset, nbytes);
+        log_messages.printf(MSG_NORMAL,
+            "Ended upload of %s from %s; retval %d\n",
+            name,
+            get_remote_addr(),
+            retval
+        );
     }
-    retval = copy_socket_to_file(in, path, offset, nbytes);
-    log_messages.printf(MSG_NORMAL,
-        "Ended upload of %s from %s; retval %d\n",
-        name,
-        get_remote_addr(),
-        retval
-    );
 #ifndef _USING_FCGI_
     fflush(stderr);
 #endif
@@ -463,7 +481,7 @@ int handle_get_file_size(char* file_name) {
         return return_error(ERR_TRANSIENT, "can't open file");
     }
 
-    if ((pid=mylockf(fd))) {
+    if ((pid = mylockf(fd))) {
         // file locked by another file_upload_handler: try again later
         //
         close(fd);
@@ -631,7 +649,7 @@ int main(int argc, char *argv[]) {
 #endif
 
     for(int c = 1; c < argc; c++) {
-        std::string option(argv[c]);
+        string option(argv[c]);
         if(option == "-v" || option == "--version") {
             printf("%s\n", SVN_VERSION);
             exit(0);
@@ -681,10 +699,14 @@ int main(int argc, char *argv[]) {
     log_messages.pid = getpid();
     log_messages.set_debug_level(config.fuh_debug_level);
 
+#ifndef _USING_FCGI_
     if (boinc_file_exists(config.project_path("stop_upload"))) {
-        return_error(ERR_TRANSIENT, "Maintenance underway: file uploads are temporarily disabled.");
+        return_error(ERR_TRANSIENT,
+            "File uploads are temporarily disabled."
+        );
         exit(1);
     }
+#endif
 
     if (!config.ignore_upload_certificates) {
         retval = get_key(key);
@@ -698,6 +720,12 @@ int main(int argc, char *argv[]) {
     while(FCGI_Accept() >= 0) {
         counter++;
         //fprintf(stderr, "file_upload_handler (FCGI): counter: %d\n", counter);
+        if (boinc_file_exists(config.project_path("stop_upload"))) {
+            return_error(ERR_TRANSIENT,
+                "File uploads are temporarily disabled."
+            );
+            continue;
+        }
         log_messages.set_indent_level(0);
 #endif
         handle_request(stdin, key);

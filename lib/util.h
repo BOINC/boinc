@@ -41,11 +41,6 @@ extern double rand_normal();
 
 #ifdef _WIN32
 #include <windows.h>
-
-extern char* windows_error_string(char* pszBuf, int iSize);
-extern char* windows_format_error_string(
-    unsigned long dwError, char* pszBuf, int iSize
-);
 extern int boinc_thread_cpu_time(HANDLE thread_handle, double& cpu);
 extern int boinc_process_cpu_time(HANDLE process_handle, double& cpu);
 #else
@@ -60,6 +55,13 @@ extern double linux_cpu_time(int pid);
 extern void update_average(double, double, double, double, double&, double&);
 
 extern int boinc_calling_thread_cpu_time(double&);
+
+inline bool in_vector(int n, std::vector<int>& v) {
+    for (unsigned int i=0; i<v.size(); i++) {
+        if (n == v[i]) return true;
+    }
+    return false;
+}
 
 // fake a crash
 //

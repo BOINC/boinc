@@ -40,7 +40,7 @@ int PROXY_INFO::parse(XML_PARSER& xp) {
         if (xp.parse_str("socks5_user_passwd", socks5_user_passwd,sizeof(socks5_user_passwd))) continue;
         if (xp.parse_str("http_user_name", http_user_name,sizeof(http_user_name))) continue;
         if (xp.parse_str("http_user_passwd", http_user_passwd,sizeof(http_user_passwd))) continue;
-		if (xp.parse_str("no_proxy", noproxy_hosts, sizeof(noproxy_hosts))) continue;
+        if (xp.parse_str("no_proxy", noproxy_hosts, sizeof(noproxy_hosts))) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -73,7 +73,7 @@ int PROXY_INFO::write(MIOFILE& out) {
         "    <socks5_user_passwd>%s</socks5_user_passwd>\n"
         "    <http_user_name>%s</http_user_name>\n"
         "    <http_user_passwd>%s</http_user_passwd>\n"
-		"    <no_proxy>%s</no_proxy>\n",
+        "    <no_proxy>%s</no_proxy>\n",
         use_http_proxy?"    <use_http_proxy/>\n":"",
         use_socks_proxy?"    <use_socks_proxy/>\n":"",
         use_http_auth?"    <use_http_auth/>\n":"",
@@ -85,7 +85,7 @@ int PROXY_INFO::write(MIOFILE& out) {
         s5up,
         hun,
         hup,
-		noproxy_hosts
+        noproxy_hosts
     );
     if (strlen(autodetect_server_name)) {
         out.printf(
@@ -98,7 +98,7 @@ int PROXY_INFO::write(MIOFILE& out) {
         );
     }
     out.printf(
-		"</proxy_info>\n"
+        "</proxy_info>\n"
     );
     return 0;
 }
@@ -117,8 +117,8 @@ void PROXY_INFO::clear() {
     strcpy(socks5_user_passwd, "");
     strcpy(http_user_name, "");
     strcpy(http_user_passwd, "");
-	strcpy(noproxy_hosts, "");
-	strcpy(autodetect_server_name, "");
+    strcpy(noproxy_hosts, "");
+    strcpy(autodetect_server_name, "");
     autodetect_proxy_supported = false;
     need_autodetect_proxy_settings = false;
     have_autodetect_proxy_settings = false;

@@ -235,6 +235,12 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
         coprocs.ati.req_instances = rsc_work_fetch[j].req_instances;
         coprocs.ati.estimated_delay = rsc_work_fetch[j].req_secs?rsc_work_fetch[j].busy_time_estimator.get_busy_time():0;
     }
+    j = rsc_index(GPU_TYPE_INTEL);
+    if (j > 0) {
+        coprocs.intel_gpu.req_secs = rsc_work_fetch[j].req_secs;
+        coprocs.intel_gpu.req_instances = rsc_work_fetch[j].req_instances;
+        coprocs.intel_gpu.estimated_delay = rsc_work_fetch[j].req_secs?rsc_work_fetch[j].busy_time_estimator.get_busy_time():0;
+    }
 
     if (coprocs.n_rsc > 1) {
         coprocs.write_xml(mf, true);
@@ -342,9 +348,20 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
             int rt = rp->avp->gpu_usage.rsc_type;
             if (rt) {
                 if (rt == rsc_index(GPU_TYPE_NVIDIA)) {
-                    sprintf(buf, "        <ncudas>%f</ncudas>\n", rp->avp->gpu_usage.usage);
+                    sprintf(buf,
+                        "        <ncudas>%f</ncudas>\n",
+                        rp->avp->gpu_usage.usage
+                    );
                 } else if (rt == rsc_index(GPU_TYPE_ATI)) {
-                    sprintf(buf, "        <natis>%f</natis>\n", rp->avp->gpu_usage.usage);
+                    sprintf(buf,
+                        "        <natis>%f</natis>\n",
+                        rp->avp->gpu_usage.usage
+                    );
+                } else if (rt == rsc_index(GPU_TYPE_INTEL)) {
+                    sprintf(buf,
+                        "        <nintel_gpus>%f</nintel_gpus>\n",
+                        rp->avp->gpu_usage.usage
+                    );
                 }
             }
             fprintf(f,
@@ -369,6 +386,7 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
         fprintf(f, "<client_opaque>\n<![CDATA[\n");
         copy_stream(cof, f);
         fprintf(f, "\n]]>\n</client_opaque>\n");
+        fclose(cof);
     }
 
     fprintf(f, "</scheduler_request>\n");
@@ -380,12 +398,36 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
 // the project is uploading, and it started recently
 //
 static inline bool actively_uploading(PROJECT* p) {
-    return p->last_upload_start
-        && (gstate.now - p->last_upload_start < WF_DEFER_INTERVAL);
+    for (unsigned int i=0; i<gstate.file_xfers->file_xfers.size(); i++) {
+        FILE_XFER* fxp = gstate.file_xfers->file_xfers[i];
+        if (fxp->fip->project != p) continue;
+        if (!fxp->is_upload) continue;
+        if (gstate.now - fxp->start_time > WF_DEFER_INTERVAL) continue;
+        //msg_printf(p, MSG_INFO, "actively uploading");
+        return true;
+    }
+    //msg_printf(p, MSG_INFO, "not actively uploading");
+    return false;
 }
 
-// called from the client's polling loop.
-// initiate scheduler RPC activity if needed and possible
+// If there is a request for an idle instance, return true.
+// Clear other requests
+//
+static inline bool idle_request() {
+    bool found = false;
+    for (int i=0; i<coprocs.n_rsc; i++) {
+        RSC_WORK_FETCH &rwf = rsc_work_fetch[i];
+        if (rwf.req_instances) {
+            found = true;
+        } else {
+            rwf.req_secs = 0;
+        }
+    }
+    return found;
+}
+
+// Called once/sec.
+// Initiate scheduler RPC activity if needed and possible
 //
 bool CLIENT_STATE::scheduler_rpc_poll() {
     PROJECT *p;
@@ -393,6 +435,9 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
     static double last_work_fetch_time = 0;
     double elapsed_time;
 
+    // are we currently doing a scheduler RPC?
+    // If so, see if it's finished
+    //
     if (scheduler_op->state != SCHEDULER_OP_STATE_IDLE) {
         last_time = now;
         scheduler_op->poll();
@@ -403,7 +448,7 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
 
     // check only every 5 sec
     //
-    if (now - last_time < SCHEDULER_RPC_POLL_PERIOD) return false;
+    if (!clock_change && now - last_time < SCHEDULER_RPC_POLL_PERIOD) return false;
     last_time = now;
 
     if (scheduler_op->check_master_fetch_start()) {
@@ -421,6 +466,11 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
     //
     p = next_project_sched_rpc_pending();
     if (p) {
+        if (log_flags.sched_op_debug) {
+            msg_printf(p, MSG_INFO, "sched RPC pending: %s",
+                rpc_reason_string(p->sched_rpc_pending)
+            );
+        }
         // if the user requested the RPC,
         // clear backoffs to allow work requests
         //
@@ -429,60 +479,69 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
                 p->rsc_pwf[i].clear_backoff();
             }
         }
-        work_fetch.compute_work_request(p);
+        work_fetch.piggyback_work_request(p);
         scheduler_op->init_op_project(p, p->sched_rpc_pending);
         return true;
     }
     p = next_project_trickle_up_pending();
     if (p) {
-        work_fetch.compute_work_request(p);
+        work_fetch.piggyback_work_request(p);
         scheduler_op->init_op_project(p, RPC_REASON_TRICKLE_UP);
         return true;
     }
 
-    // report overdue results
+    // stuff from here on is checked only once/minute,
+    // or if work fetch was requested.
     //
-    bool suspend_soon = global_prefs.net_times.suspended(now + 1800);
-    suspend_soon |= global_prefs.cpu_times.suspended(now + 1800);
-    p = find_project_with_overdue_results(suspend_soon);
-    if (p && !actively_uploading(p)) {
-        work_fetch.compute_work_request(p);
-        scheduler_op->init_op_project(p, RPC_REASON_RESULTS_DUE);
-        return true;
-    }
-
-    // should we check work fetch?  Do this at most once/minute
-
-    if (tasks_suspended) return false;
-    if (config.fetch_minimal_work && had_or_requested_work) return false;
 
     if (must_check_work_fetch) {
         last_work_fetch_time = 0;
     }
     elapsed_time = now - last_work_fetch_time;
-    if (elapsed_time < WORK_FETCH_PERIOD) return false;
+    if (!clock_change && elapsed_time < WORK_FETCH_PERIOD) return false;
     must_check_work_fetch = false;
     last_work_fetch_time = now;
 
-    p = work_fetch.choose_project(true);
+    // check if we should report finished results
+    //
+    bool suspend_soon = global_prefs.net_times.suspended(now + 1800);
+    suspend_soon |= global_prefs.cpu_times.suspended(now + 1800);
+    p = find_project_with_overdue_results(suspend_soon);
+    if (p) {
+        work_fetch.piggyback_work_request(p);
+        scheduler_op->init_op_project(p, RPC_REASON_RESULTS_DUE);
+        return true;
+    }
+
+    // check if we should fetch work (do this last)
+    //
+
+    switch (suspend_reason) {
+    case 0:
+    case SUSPEND_REASON_CPU_THROTTLE:
+        break;
+    default:
+        return false;
+    }
+    if (config.fetch_minimal_work && had_or_requested_work) {
+        return false;
+    }
+
+    p = work_fetch.choose_project();
     if (p) {
         if (actively_uploading(p)) {
-            if (log_flags.work_fetch_debug) {
-                msg_printf(p, MSG_INFO,
-                    "[work_fetch] deferring work fetch; upload active"
-                );
+            if (!idle_request()) {
+                if (log_flags.work_fetch_debug) {
+                    msg_printf(p, MSG_INFO,
+                        "[work_fetch] deferring work fetch; upload active"
+                    );
+                }
+                p->sched_rpc_pending = 0;
+                return false;
             }
-            return false;
         }
         scheduler_op->init_op_project(p, RPC_REASON_NEED_WORK);
         return true;
-    }
-    return false;
-}
-
-static inline bool requested_work() {
-    for (int i=0; i<coprocs.n_rsc; i++) {
-        if (rsc_work_fetch[i].req_secs) return true;
     }
     return false;
 }
@@ -504,7 +563,7 @@ int CLIENT_STATE::handle_scheduler_reply(
 
     project->last_rpc_time = now;
 
-    if (requested_work()) {
+    if (work_fetch.requested_work()) {
         had_or_requested_work = true;
     }
 
@@ -517,7 +576,7 @@ int CLIENT_STATE::handle_scheduler_reply(
     if (retval) return retval;
 
     if (log_flags.sched_ops) {
-        if (requested_work()) {
+        if (work_fetch.requested_work()) {
             sprintf(buf, ": got %d new tasks", (int)sr.results.size());
         } else {
             strcpy(buf, "");
@@ -536,7 +595,7 @@ int CLIENT_STATE::handle_scheduler_reply(
     // check that master URL is correct
     //
     if (strlen(sr.master_url)) {
-        canonicalize_master_url(sr.master_url);
+        canonicalize_master_url(sr.master_url, sizeof(sr.master_url));
         string url1 = sr.master_url;
         string url2 = project->master_url;
         downcase_string(url1);
@@ -581,11 +640,21 @@ int CLIENT_STATE::handle_scheduler_reply(
 
     // show messages from server
     //
+    bool got_notice = false;
     for (i=0; i<sr.messages.size(); i++) {
         USER_MESSAGE& um = sr.messages[i];
-        int prio = (!strcmp(um.priority.c_str(), "notice"))?MSG_SCHEDULER_ALERT:MSG_INFO;
-        string_substitute(um.message.c_str(), buf, sizeof(buf), "%", "%%");
-        msg_printf(project, prio, "%s", buf);
+        int prio = MSG_INFO;
+        if (!strcmp(um.priority.c_str(), "notice")) {
+            prio = MSG_SCHEDULER_ALERT;
+            got_notice = true;
+        }
+        msg_printf(project, prio, "%s", um.message.c_str());
+    }
+    // if we requested work and didn't get notices,
+    // clear scheduler notices from this project
+    //
+    if (work_fetch.requested_work() && !got_notice) {
+        notices.remove_scheduler_notices(project);
     }
 
     if (log_flags.sched_op_debug && sr.request_delay) {
@@ -629,6 +698,7 @@ int CLIENT_STATE::handle_scheduler_reply(
         }
     }
 
+#ifdef USE_NET_PREFS
     // see if we have a new venue from this project
     // (this must go AFTER the above, since otherwise
     // global_prefs_source_project() is meaningless)
@@ -638,7 +708,7 @@ int CLIENT_STATE::handle_scheduler_reply(
         msg_printf(project, MSG_INFO, "New computer location: %s", sr.host_venue);
         update_project_prefs = true;
         if (project == global_prefs_source_project()) {
-            strcpy(main_host_venue, sr.host_venue);
+            safe_strcpy(main_host_venue, sr.host_venue);
             update_global_prefs = true;
         }
     }
@@ -646,6 +716,7 @@ int CLIENT_STATE::handle_scheduler_reply(
     if (update_global_prefs) {
         read_global_prefs();
     }
+#endif
 
     // deal with project preferences (should always be there)
     // If they've changed, write to account file,
@@ -714,7 +785,7 @@ int CLIENT_STATE::handle_scheduler_reply(
     for (i=0; i<sr.apps.size(); i++) {
         APP* app = lookup_app(project, sr.apps[i].name);
         if (app) {
-            strcpy(app->user_friendly_name, sr.apps[i].user_friendly_name);
+            safe_strcpy(app->user_friendly_name, sr.apps[i].user_friendly_name);
         } else {
             app = new APP;
             *app = sr.apps[i];
@@ -769,7 +840,7 @@ int CLIENT_STATE::handle_scheduler_reply(
         }
         APP_VERSION& avpp = sr.app_versions[i];
         if (strlen(avpp.platform) == 0) {
-            strcpy(avpp.platform, get_primary_platform());
+            safe_strcpy(avpp.platform, get_primary_platform());
         } else {
             if (!is_supported_platform(avpp.platform)) {
                 msg_printf(project, MSG_INTERNAL_ERROR,
@@ -802,7 +873,7 @@ int CLIENT_STATE::handle_scheduler_reply(
             avp->avg_ncpus = avpp.avg_ncpus;
             avp->max_ncpus = avpp.max_ncpus;
             avp->flops = avpp.flops;
-            strcpy(avp->cmdline, avpp.cmdline);
+            safe_strcpy(avp->cmdline, avpp.cmdline);
             avp->gpu_usage = avpp.gpu_usage;
             strlcpy(avp->api_version, avpp.api_version, sizeof(avp->api_version));
             avp->dont_throttle = avpp.dont_throttle;
@@ -811,6 +882,7 @@ int CLIENT_STATE::handle_scheduler_reply(
             // if we had download failures, clear them
             //
             avp->clear_errors();
+
             continue;
         }
         avp = new APP_VERSION;
@@ -860,7 +932,7 @@ int CLIENT_STATE::handle_scheduler_reply(
             continue;
         }
         if (strlen(rp->platform) == 0) {
-            strcpy(rp->platform, get_primary_platform());
+            safe_strcpy(rp->platform, get_primary_platform());
             rp->version_num = latest_version(rp->wup->app, rp->platform);
         }
         rp->avp = lookup_app_version(
@@ -1045,6 +1117,17 @@ int CLIENT_STATE::handle_scheduler_reply(
     //
     gstate.garbage_collect_always();
 
+    // if the user provided app_config.xml for this project,
+    // apply it to any app versions we just got
+    //
+    project->app_configs.config_app_versions(project, false);
+
+    // make sure we don't set no_rsc_apps[] for all processor types
+    //
+    if (!project->anonymous_platform) {
+        project->check_no_rsc_apps();
+    }
+
     return 0;
 }
 
@@ -1111,12 +1194,6 @@ PROJECT* CLIENT_STATE::next_project_sched_rpc_pending() {
             honor_backoff = false;
             honor_suspend = false;
             break;
-        case RPC_REASON_RESULTS_DUE:
-            break;
-        case RPC_REASON_NEED_WORK:
-            break;
-        case RPC_REASON_TRICKLE_UP:
-            break;
         case RPC_REASON_ACCT_MGR_REQ:
             // This is critical for acct mgrs, to propagate new host CPIDs
             honor_suspend = false;
@@ -1125,6 +1202,8 @@ PROJECT* CLIENT_STATE::next_project_sched_rpc_pending() {
             break;
         case RPC_REASON_PROJECT_REQ:
             break;
+        default:
+            continue;
         }
         if (honor_backoff && p->waiting_until_min_rpc_time()) {
             continue;
@@ -1164,6 +1243,7 @@ PROJECT* CLIENT_STATE::next_project_trickle_up_pending() {
 //      or we have a sporadic connection
 //      or the project is in "don't request more work" state
 //      or a network suspend period is coming up soon
+//      or the project has > RESULT_REPORT_IF_AT_LEAST_N results ready to report
 //
 PROJECT* CLIENT_STATE::find_project_with_overdue_results(
     bool network_suspend_soon
@@ -1171,16 +1251,23 @@ PROJECT* CLIENT_STATE::find_project_with_overdue_results(
     unsigned int i;
     RESULT* r;
 
+    for (i=0; i<projects.size(); i++) {
+        PROJECT* p = projects[i];
+        p->n_ready = 0;
+        p->dont_contact = false;
+        if (p->waiting_until_min_rpc_time()) p->dont_contact = true;
+        if (p->suspended_via_gui) p->dont_contact = true;
+#ifndef SIM
+        if (actively_uploading(p)) p->dont_contact = true;
+#endif
+    }
+
     for (i=0; i<results.size(); i++) {
         r = results[i];
         if (!r->ready_to_report) continue;
 
         PROJECT* p = r->project;
-        if (p->waiting_until_min_rpc_time()) continue;
-        if (p->suspended_via_gui) continue;
-#ifndef SIM
-        if (actively_uploading(p)) continue;
-#endif
+        if (p->dont_contact) continue;
 
         if (p->dont_request_more_work) {
             return p;
@@ -1208,6 +1295,11 @@ PROJECT* CLIENT_STATE::find_project_with_overdue_results(
         }
 
         if (gstate.now > r->completed_time + SECONDS_PER_DAY) {
+            return p;
+        }
+
+        p->n_ready++;
+        if (p->n_ready >= RESULT_REPORT_IF_AT_LEAST_N) {
             return p;
         }
     }

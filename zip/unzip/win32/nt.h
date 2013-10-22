@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 1990-2000 Info-ZIP.  All rights reserved.
+  Copyright (c) 1990-2005 Info-ZIP.  All rights reserved.
 
   See the accompanying file LICENSE, version 2000-Apr-09 or later
   (the contents of which are also included in unzip.h) for terms of use.
@@ -18,7 +18,6 @@
 
 typedef struct {
     BOOL bValid;                /* are our contents valid? */
-    BOOL bProcessDefer;         /* process deferred entry yet? */
     BOOL bUsePrivileges;        /* use privilege overrides? */
     DWORD dwFileSystemFlags;    /* describes target file system */
     BOOL bRemote;               /* is volume remote? */
@@ -30,7 +29,5 @@ typedef struct {
 BOOL SecuritySet(char *resource, PVOLUMECAPS VolumeCaps, uch *securitydata);
 BOOL GetVolumeCaps(char *rootpath, char *name, PVOLUMECAPS VolumeCaps);
 BOOL ValidateSecurity(uch *securitydata);
-BOOL ProcessDefer(PDWORD dwDirectoryCount, PDWORD dwBytesProcessed,
-                  PDWORD dwDirectoryFail, PDWORD dwBytesFail);
 
 #endif /* _NT_H */

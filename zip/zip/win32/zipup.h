@@ -1,10 +1,12 @@
 /*
-  Copyright (c) 1990-1999 Info-ZIP.  All rights reserved.
+  win32/zipup.h - Zip 3
 
-  See the accompanying file LICENSE, version 1999-Oct-05 or later
+  Copyright (c) 1990-2007 Info-ZIP.  All rights reserved.
+
+  See the accompanying file LICENSE, version 2007-Mar-4 or later
   (the contents of which are also included in zip.h) for terms of use.
-  If, for some reason, both of these files are missing, the Info-ZIP license
-  also may be found at:  ftp://ftp.cdrom.com/pub/infozip/license.html
+  If, for some reason, all these files are missing, the Info-ZIP license
+  also may be found at:  ftp://ftp.info-zip.org/pub/infozip/license.html
 */
 #ifndef __CYGWIN__
 #  include <share.h>
@@ -24,6 +26,7 @@
 #define fhow         (O_RDONLY|O_BINARY)
 #define fbad         (-1)
 typedef int          ftype;
+
 #if defined(__WATCOMC__) || defined(__BORLANDC__) || defined(__EMX__)
 #  define zopen(n,p) sopen(n,p,SH_DENYNO)
 #elif defined(__CYGWIN__) || defined(__IBMC__)
@@ -31,6 +34,14 @@ typedef int          ftype;
 #else
 #  define zopen(n,p) _sopen(n,p,_SH_DENYNO)
 #endif
+#ifdef UNICODE_SUPPORT
+# if defined(__CYGWIN__) || defined(__IBMC__)
+#  define zwopen(n,p) wopen(n,p)
+# else
+#  define zwopen(n,p) _wsopen(n,p,_SH_DENYNO)
+# endif
+#endif
+
 #define zread(f,b,n) read(f,b,n)
 #define zclose(f)    close(f)
 #define zerr(f)      (k == (extent)(-1L))

@@ -23,8 +23,6 @@
 
 require_once("../inc/util_ops.inc");
 
-echo "Checking for DB updates...\n";
-
 $db_revision = 0;
 if (file_exists("../../db_revision")) {
     $db_revision = (int) file_get_contents("../../db_revision");
@@ -41,7 +39,7 @@ foreach($db_updates as $db_update) {
 }
 
 if (empty($updates)) {
-    echo "\nNo updates needed\n";
+    echo "No updates needed\n";
     exit;
 }
 
@@ -64,6 +62,18 @@ foreach($updates as $update) {
     list($rev, $func) = $update;
     echo "performing update $func\n";
     call_user_func($func);
+    $e = mysql_error();
+    if ($e) {
+        echo "\nWARNING: database upgrade failed.
+MySQL error message: $e
+Please find the update queries in html/ops/db_update.php
+and perform them manually.
+When done, edit PROJECT_DIR/db_revision so that it contains the line
+$rev
+
+";
+        break;
+    }
     file_put_contents("../../db_revision", $rev);
 }
 echo "All done.\n";

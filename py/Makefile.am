@@ -19,7 +19,11 @@ EXTRA_DIST = db_def_to_py \
 	Boinc/tools.py \
 	Boinc/util.py
 
-$(srcdir)/Boinc/boinc_db.py: $(top_srcdir)/db/boinc_db.h $(top_srcdir)/lib/common_defs.h
+pydir=$(prefix)/usr/share/boinc-server-maker/py/Boinc
+py_SCRIPTS=$(EXTRA_DIST)
+
+
+$(srcdir)/Boinc/boinc_db.py: $(top_srcdir)/db/boinc_db.h $(top_srcdir)/db/boinc_db_types.h $(top_srcdir)/lib/common_defs.h
 	cat $^ | $(top_srcdir)/py/db_def_to_py > $@
 
 # all: $(srcdir)/Boinc/boinc_db.py

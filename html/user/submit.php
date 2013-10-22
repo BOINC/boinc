@@ -27,32 +27,55 @@ error_reporting(E_ALL);
 ini_set('display_errors', true);
 ini_set('display_startup_errors', true);
 
-// show a set of batches
-//
-function show_batches($batches) {
-    foreach ($batches as $batch) {
-        if ($batch->state < BATCH_STATE_COMPLETE) {
-            $wus = BoincWorkunit::enum("batch = $batch->id");
-            $batch = get_batch_params($batch, $wus);
-        }
-        $app = BoincApp::lookup_id($batch->app_id);
-        if ($app) {
-            $batch->app_name = $app->name;
-        } else {
-            $batch->app_name = "unknown";
-        }
-        $user = BoincUser::lookup_id($batch->user_id);
-        $batch->user_name = $user->name;
-    }
+define("PAGE_SIZE", 20);
 
+function state_count($batches, $state) {
+    $n = 0;
+    foreach ($batches as $batch) {
+        if ($batch->state == $state) $n++;
+    }
+    return $n;
+}
+
+function show_all_link($batches, $state, $limit, $user, $app) {
+    $n = state_count($batches, $state);
+    if ($n > $limit) {
+        if ($user) $userid = $user->id;
+        else $userid = 0;
+        if ($app) $appid = $app->id;
+        else $appid = 0;
+
+        echo "Showing the most recent $limit of $n batches.
+            <a href=submit.php?action=show_all&state=$state&userid=$userid&appid=$appid>Show all $n</a>
+            <p>
+        ";
+    }
+}
+
+function show_in_progress($batches, $limit, $user, $app) {
     $first = true;
+    $n = 0;
     foreach ($batches as $batch) {
         if ($batch->state != BATCH_STATE_IN_PROGRESS) continue;
+        if ($limit && $n == $limit) break;
+        $n++;
         if ($first) {
             $first = false;
             echo "<h2>Batches in progress</h2>\n";
+            if ($limit) {
+                show_all_link($batches, BATCH_STATE_IN_PROGRESS, $limit, $user, $app);
+            }
             start_table();
-            table_header("name", "ID", "user", "app", "# jobs", "progress", "submitted");
+            table_header(
+                "Name",
+                "ID",
+                "User",
+                "App",
+                "# jobs",
+                "Progress",
+                "Submitted",
+                "Logical end time<br><span class=note>Determines priority</span>"
+            );
         }
         $pct_done = (int)($batch->fraction_done*100);
         table_row(
@@ -62,7 +85,8 @@ function show_batches($batches) {
             $batch->app_name,
             $batch->njobs,
             "$pct_done%",
-            local_time_str($batch->create_time)
+            local_time_str($batch->create_time),
+            local_time_str($batch->logical_end_time)
         );
     }
     if ($first) {
@@ -70,24 +94,30 @@ function show_batches($batches) {
     } else {
         end_table();
     }
+}
 
+function show_complete($batches, $limit, $user, $app) {
     $first = true;
+    $n = 0;
     foreach ($batches as $batch) {
         if ($batch->state != BATCH_STATE_COMPLETE) continue;
+        if ($limit && $n == $limit) break;
+        $n++;
         if ($first) {
             $first = false;
             echo "<h2>Completed batches</h2>\n";
+            if ($limit) {
+                show_all_link($batches, BATCH_STATE_COMPLETE, $limit, $user, $app);
+            }
             start_table();
-            table_header("name", "ID", "user", "app", "# jobs", "fraction done", "submitted");
+            table_header("name", "ID", "user", "app", "# jobs", "submitted");
         }
-        $pct_done = (int)($batch->fraction_done*100);
         table_row(
             "<a href=submit.php?action=query_batch&batch_id=$batch->id>$batch->name</a>",
             "<a href=submit.php?action=query_batch&batch_id=$batch->id>$batch->id</a>",
             $batch->user_name,
             $batch->app_name,
             $batch->njobs,
-            "$pct_done%",
             local_time_str($batch->create_time)
         );
     }
@@ -96,13 +126,21 @@ function show_batches($batches) {
     } else {
         end_table();
     }
+}
 
+function show_aborted($batches, $limit, $user, $app) {
     $first = true;
+    $n = 0;
     foreach ($batches as $batch) {
         if ($batch->state != BATCH_STATE_ABORTED) continue;
+        if ($limit && $n == $limit) break;
+        $n++;
         if ($first) {
             $first = false;
             echo "<h2>Aborted batches</h2>\n";
+            if ($limit) {
+                show_all_link($batches, BATCH_STATE_ABORTED, $limit, $user, $app);
+            }
             start_table();
             table_header("name", "ID", "user", "app", "# jobs", "submitted");
         }
@@ -120,6 +158,38 @@ function show_batches($batches) {
     }
 }
 
+// fill in the app and user names in list of batches
+//
+function fill_in_app_and_user_names(&$batches) {
+    foreach ($batches as $batch) {
+        //if ($batch->state < BATCH_STATE_COMPLETE || $batch->fraction_done < 1) {
+        //    $wus = BoincWorkunit::enum("batch = $batch->id");
+        //    $batch = get_batch_params($batch, $wus);
+        //}
+        $app = BoincApp::lookup_id($batch->app_id);
+        if ($app) {
+            $batch->app_name = $app->name;
+        } else {
+            $batch->app_name = "unknown";
+        }
+        $user = BoincUser::lookup_id($batch->user_id);
+        if ($user) {
+            $batch->user_name = $user->name;
+        } else {
+            $batch->user_name = "missing user $batch->user_id";
+        }
+    }
+}
+
+// show a set of batches
+//
+function show_batches($batches, $limit, $user, $app) {
+    fill_in_app_and_user_names($batches);
+    show_in_progress($batches, $limit, $user, $app);
+    show_complete($batches, $limit, $user, $app);
+    show_aborted($batches, $limit, $user, $app);
+}
+
 // the job submission "home page":
 // show the user's in-progress and completed batches,
 // and a button for creating a new batch
@@ -132,42 +202,69 @@ function handle_main($user) {
     }
 
     page_head("Job submission and control");
+
+    // show links to per-app job submission pages
+    //
     echo "<h2>Submit jobs</h2>
         <ul>
     ";
-    $x = "";
     foreach ($submit_urls as $appname=>$submit_url) {
+        $appname = BoincDb::escape_string($appname);
         $app = BoincApp::lookup("name='$appname'");
         if (!$app) error_page("bad submit_url name: $appname");
         $usa = BoincUserSubmitApp::lookup("user_id=$user->id and app_id=$app->id");
         if ($usa || $user_submit->submit_all) {
             echo "<li> <a href=$submit_url> $app->user_friendly_name </a>";
         }
-        if ($usa && $usa->manage) {
-            $x .= "<li> <a href=submit.php?action=admin&app_id=$app->id>$app->user_friendly_name</a>
-            ";
+    }
+    echo "</ul>\n";
+
+    // show links to admin pages if relevant
+    //
+    $usas = BoincUserSubmitApp::enum("user_id=$user->id");
+    $app_admin = false;
+    foreach ($usas as $usa) {
+        if ($usa->manage) {
+            $app_admin = true;
+            break;
         }
     }
-    echo "</ul>";
-    if ($user_submit->manage_all || $x) {
-        echo "<h2>Administer applications</h2>
-            <ul>
-            $x
-        ";
+    if ($user_submit->manage_all || $app_admin) {
+        echo "<h2>Administrative functions</h2><ul>\n";
         if ($user_submit->manage_all) {
-            echo "<li><a href=submit.php?action=admin&app_id=0>All applications</a>";
+            echo "<li>All applications<br>
+                <a href=submit.php?action=admin&app_id=0>Batches</a>
+                &middot;
+                <a href=manage_project.php>Users</a>
+            ";
+            $apps = BoincApp::enum("deprecated=0");
+            foreach ($apps as $app) {
+                echo "<li>$app->user_friendly_name<br>
+                    <a href=submit.php?action=admin&app_id=$app->id>Batches</a>
+                    &middot;
+                    <a href=manage_app.php?app_id=$app->id&action=app_version_form>Versions</a>
+                ";
+            }
+        } else {
+            foreach ($usas as $usa) {
+                $app = BoincApp::lookup_id($usa->app_id);
+                echo "<li>$app->user_friendly_name<br>
+                    <a href=submit.php?action=admin&app_id=$app->id>Batches</a>
+                    &middot;
+                    <a href=manage_app.php?app_id=$app->id&action=app_version_form>Versions</a>
+                ";
+            }
         }
+        echo "</ul>\n";
     }
-    echo "</ul>";
 
     $batches = BoincBatch::enum("user_id = $user->id order by id desc");
-    show_batches($batches);
+    show_batches($batches, PAGE_SIZE, $user, null);
 
     page_tail();
 }
 
-function handle_admin($user) {
-    $app_id = get_int("app_id");
+function check_admin_access($user, $app_id) {
     $user_submit = BoincUserSubmit::lookup_userid($user->id);
     if (!$user_submit) error_page("no access");
     if ($app_id) {
@@ -175,16 +272,24 @@ function handle_admin($user) {
             $usa = BoincUserSubmitApp::lookup("user_id = $user->id and app_id=$app_id");
             if (!$usa) error_page("no access");
         }
-        $app = BoincApp::lookup_id($app_id);
-        if (!$app) error_page("no such app");
-        page_head("Administer $app->user_friendly_name");
-        $batches = BoincBatch::enum("app_id = $app_id order by id desc");
-        show_batches($batches);
     } else {
         if (!$user_submit->manage_all) error_page("no access");
-        page_head("Administer all apps");
+    }
+}
+
+function handle_admin($user) {
+    $app_id = get_int("app_id");
+    check_admin_access($user, $app_id);
+    if ($app_id) {
+        $app = BoincApp::lookup_id($app_id);
+        if (!$app) error_page("no such app");
+        page_head("Administer batches for $app->user_friendly_name");
+        $batches = BoincBatch::enum("app_id = $app_id order by id desc");
+        show_batches($batches, PAGE_SIZE, null, $app);
+    } else {
+        page_head("Administer batches (all apps)");
         $batches = BoincBatch::enum("true order by id desc");
-        show_batches($batches);
+        show_batches($batches, PAGE_SIZE, null, null);
     }
     page_tail();
 }
@@ -205,6 +310,8 @@ function handle_query_batch($user) {
     row2("state", batch_state_string($batch->state));
     row2("# jobs", $batch->njobs);
     row2("# error jobs", $batch->nerror_jobs);
+    //row2("logical end time", time_str($batch->logical_end_time));
+    row2("expiration time", time_str($batch->expire_time));
     row2("progress", sprintf("%.0f%%", $batch->fraction_done*100));
     if ($batch->completion_time) {
         row2("completed", local_time_str($batch->completion_time));
@@ -278,15 +385,19 @@ function handle_query_batch($user) {
 //
 function handle_query_job($user) {
     $wuid = get_int('wuid');
+    $wu = BoincWorkunit::lookup_id($wuid);
+    if (!$wu) error_page("no such job");
 
     page_head("Job $wuid");
 
-    echo "<a href=workunit.php?wuid=$wuid>View workunit page</a>\n";
+    echo "
+        <a href=workunit.php?wuid=$wuid>Workunit details</a> &middot;
+        <a href=submit.php?action=query_batch&batch_id=$wu->batch>Batch $wu->batch</a>
+    ";
 
     // show input files
     //
     echo "<h2>Input files</h2>\n";
-    $wu = BoincWorkunit::lookup_id($wuid);
     $x = "<in>".$wu->xml_doc."</in>";
     $x = simplexml_load_string($x);
     start_table();
@@ -303,7 +414,7 @@ function handle_query_job($user) {
         $s = stat($path);
         $size = $s['size'];
         table_row(
-            "<a href=/download/$dir/$pname>$lname</a>",
+            "<a href=download/$dir/$pname>$lname</a>",
             $size,
             $md5
         );
@@ -319,7 +430,7 @@ function handle_query_job($user) {
     $results = BoincResult::enum("workunitid=$wuid");
     foreach($results as $result) {
         echo "<tr>
-            <td><a href=result.php?resultid=$result->id>$result->id | $result->name </a></td>
+            <td><a href=result.php?resultid=$result->id>$result->id &middot; $result->name </a></td>
             <td>".state_string($result)."</td>
             <td>
 ";
@@ -408,6 +519,51 @@ function handle_retire_batch($user) {
     page_tail();
 }
 
+function show_batches_in_state($batches, $state) {
+    switch ($state) {
+    case BATCH_STATE_IN_PROGRESS:
+        page_head("Batches in progress");
+        show_in_progress($batches, 0, null, null);
+        break;
+    case BATCH_STATE_COMPLETE:
+        page_head("Completed batches");
+        show_complete($batches, 0, null, null);
+        break;
+    case BATCH_STATE_ABORTED:
+        page_head("Aborted batches");
+        show_aborted($batches, 0, null, null);
+        break;
+    }
+    page_tail();
+}
+
+function handle_show_all($user) {
+    $userid = get_int("userid");
+    $appid = get_int("appid");
+    $state = get_int("state");
+    if ($userid) {
+        // user looking at their own batches
+        //
+        if ($userid != $user->id) error_page("wrong user");
+        $batches = BoincBatch::enum("user_id = $user->id and state=$state order by id desc");
+        fill_in_app_and_user_names($batches);
+        show_batches_in_state($batches, $state);
+    } else {
+        // admin looking at batches
+        //
+        check_admin_access($user, $appid);
+        if ($appid) {
+            $app = BoincApp::lookup_id($appid);
+            if (!$app) error_page("no such app");
+            $batches = BoincBatch::enum("app_id = $appid and state=$state order by id desc");
+        } else {
+            $batches = BoincBatch::enum("state=$state order by id desc");
+        }
+        fill_in_app_and_user_names($batches);
+        show_batches_in_state($batches, $state);
+    }
+}
+
 $user = get_logged_in_user();
 
 $action = get_str('action', true);
@@ -421,8 +577,9 @@ case 'query_batch': handle_query_batch($user); break;
 case 'query_job': handle_query_job($user); break;
 case 'retire_batch': handle_retire_batch($user); break;
 case 'retire_batch_confirm': handle_retire_batch_confirm(); break;
+case 'show_all': handle_show_all($user); break;
 default:
-    error_page('no such action');
+    error_page("no such action $action");
 }
 
 ?>

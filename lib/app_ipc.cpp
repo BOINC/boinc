@@ -41,20 +41,6 @@
 
 using std::string;
 
-const char* xml_graphics_modes[NGRAPHICS_MSGS] = {
-    "<mode_unsupported/>",
-    "<mode_hide_graphics/>",
-    "<mode_window/>",
-    "<mode_fullscreen/>",
-    "<mode_blankscreen/>",
-    "<reread_prefs/>",
-    "<mode_quit/>"
-};
-
-GRAPHICS_MSG::GRAPHICS_MSG() {
-    memset(this, 0, sizeof(GRAPHICS_MSG));
-}
-
 APP_INIT_DATA::APP_INIT_DATA() : project_preferences(NULL) {
 }
 
@@ -77,18 +63,18 @@ APP_INIT_DATA &APP_INIT_DATA::operator=(const APP_INIT_DATA& a) {
 }
 
 void APP_INIT_DATA::copy(const APP_INIT_DATA& a) {
-    strcpy(app_name, a.app_name);
-    strcpy(symstore, a.symstore);
-    strcpy(acct_mgr_url, a.acct_mgr_url);
-    strcpy(user_name, a.user_name);
-    strcpy(team_name, a.team_name);
-    strcpy(project_dir, a.project_dir);
-    strcpy(boinc_dir, a.boinc_dir);
-    strcpy(wu_name, a.wu_name);
-    strcpy(result_name, a.result_name);
-    strcpy(authenticator, a.authenticator);
+    safe_strcpy(app_name, a.app_name);
+    safe_strcpy(symstore, a.symstore);
+    safe_strcpy(acct_mgr_url, a.acct_mgr_url);
+    safe_strcpy(user_name, a.user_name);
+    safe_strcpy(team_name, a.team_name);
+    safe_strcpy(project_dir, a.project_dir);
+    safe_strcpy(boinc_dir, a.boinc_dir);
+    safe_strcpy(wu_name, a.wu_name);
+    safe_strcpy(result_name, a.result_name);
+    safe_strcpy(authenticator, a.authenticator);
     memcpy(&shmem_seg_name, &a.shmem_seg_name, sizeof(SHMEM_SEG_NAME));
-    strcpy(gpu_type, a.gpu_type);
+    safe_strcpy(gpu_type, a.gpu_type);
                 
     // use assignment for the rest, especially the classes
     // (so that the overloaded operators are called!)
@@ -111,6 +97,7 @@ void APP_INIT_DATA::copy(const APP_INIT_DATA& a) {
     global_prefs                  = a.global_prefs;
     starting_elapsed_time         = a.starting_elapsed_time;
     using_sandbox                 = a.using_sandbox;
+    vm_extensions_disabled        = a.vm_extensions_disabled;
     rsc_fpops_est                 = a.rsc_fpops_est;
     rsc_fpops_bound               = a.rsc_fpops_bound;
     rsc_memory_bound              = a.rsc_memory_bound;
@@ -120,6 +107,7 @@ void APP_INIT_DATA::copy(const APP_INIT_DATA& a) {
     fraction_done_end             = a.fraction_done_end;
     gpu_device_num                = a.gpu_device_num;
     gpu_opencl_dev_index          = a.gpu_opencl_dev_index;
+    gpu_usage                     = a.gpu_usage;
     ncpus                         = a.ncpus;
     checkpoint_period             = a.checkpoint_period;
     wu_cpu_time                   = a.wu_cpu_time;
@@ -198,6 +186,7 @@ int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         "<wu_cpu_time>%f</wu_cpu_time>\n"
         "<starting_elapsed_time>%f</starting_elapsed_time>\n"
         "<using_sandbox>%d</using_sandbox>\n"
+        "<vm_extensions_disabled>%d</vm_extensions_disabled>"
         "<user_total_credit>%f</user_total_credit>\n"
         "<user_expavg_credit>%f</user_expavg_credit>\n"
         "<host_total_credit>%f</host_total_credit>\n"
@@ -209,6 +198,7 @@ int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         "<gpu_type>%s</gpu_type>\n"
         "<gpu_device_num>%d</gpu_device_num>\n"
         "<gpu_opencl_dev_index>%d</gpu_opencl_dev_index>\n"
+        "<gpu_usage>%f</gpu_usage>\n"
         "<ncpus>%f</ncpus>\n"
         "<rsc_fpops_est>%f</rsc_fpops_est>\n"
         "<rsc_fpops_bound>%f</rsc_fpops_bound>\n"
@@ -221,6 +211,7 @@ int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         ai.wu_cpu_time,
         ai.starting_elapsed_time,
         ai.using_sandbox?1:0,
+        ai.vm_extensions_disabled?1:0,
         ai.user_total_credit,
         ai.user_expavg_credit,
         ai.host_total_credit,
@@ -232,6 +223,7 @@ int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         ai.gpu_type,
         ai.gpu_device_num,
         ai.gpu_opencl_dev_index,
+        ai.gpu_usage,
         ai.ncpus,
         ai.rsc_fpops_est,
         ai.rsc_fpops_bound,
@@ -280,6 +272,7 @@ void APP_INIT_DATA::clear() {
     global_prefs.defaults();
     starting_elapsed_time = 0;
     using_sandbox = false;
+    vm_extensions_disabled = false;
     rsc_fpops_est = 0;
     rsc_fpops_bound = 0;
     rsc_memory_bound = 0;
@@ -292,6 +285,7 @@ void APP_INIT_DATA::clear() {
     gpu_device_num = -1;
     // -1 means an older version without gpu_opencl_dev_index field
     gpu_opencl_dev_index = -1;
+    gpu_usage = 0;
     ncpus = 0;
     memset(&shmem_seg_name, 0, sizeof(shmem_seg_name));
     wu_cpu_time = 0;
@@ -389,10 +383,12 @@ int parse_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         if (xp.parse_double("wu_cpu_time", ai.wu_cpu_time)) continue;
         if (xp.parse_double("starting_elapsed_time", ai.starting_elapsed_time)) continue;
         if (xp.parse_bool("using_sandbox", ai.using_sandbox)) continue;
+        if (xp.parse_bool("vm_extensions_disabled", ai.vm_extensions_disabled)) continue;
         if (xp.parse_double("checkpoint_period", ai.checkpoint_period)) continue;
         if (xp.parse_str("gpu_type", ai.gpu_type, sizeof(ai.gpu_type))) continue;
         if (xp.parse_int("gpu_device_num", ai.gpu_device_num)) continue;
         if (xp.parse_int("gpu_opencl_dev_index", ai.gpu_opencl_dev_index)) continue;
+        if (xp.parse_double("gpu_usage", ai.gpu_usage)) continue;
         if (xp.parse_double("ncpus", ai.ncpus)) continue;
         if (xp.parse_double("fraction_done_start", ai.fraction_done_start)) continue;
         if (xp.parse_double("fraction_done_end", ai.fraction_done_end)) continue;
@@ -423,22 +419,6 @@ bool MSG_CHANNEL::send_msg(const char *msg) {
 void MSG_CHANNEL::send_msg_overwrite(const char* msg) {
     strlcpy(buf+1, msg, MSG_CHANNEL_SIZE-1);
     buf[0] = 1;
-}
-
-int APP_CLIENT_SHM::decode_graphics_msg(char* msg, GRAPHICS_MSG& m) {
-    int i;
-
-    parse_str(msg, "<window_station>", m.window_station, sizeof(m.window_station));
-    parse_str(msg, "<desktop>", m.desktop, sizeof(m.desktop));
-    parse_str(msg, "<display>", m.display, sizeof(m.display));
-
-    m.mode = 0;
-    for (i=0; i<NGRAPHICS_MSGS; i++) {
-        if (match_tag(msg, xml_graphics_modes[i])) {
-            m.mode = i;
-        }
-    }
-    return 0;
 }
 
 void APP_CLIENT_SHM::reset_msgs() {

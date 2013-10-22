@@ -82,7 +82,7 @@ CViewTabPage::CViewTabPage(
     wxASSERT(parent);
 	m_name = name;
 	isAlive = true;
-    strcpy(project_url, url);
+    safe_strcpy(project_url, url);
     m_hasGraphic = false;
 	resultWU = result;
     //create page

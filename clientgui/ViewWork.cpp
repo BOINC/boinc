@@ -233,7 +233,7 @@ CViewWork::CViewWork(wxNotebook* pNotebook) :
     m_pListPane->InsertColumn(COLUMN_STATUS, _("Status"), wxLIST_FORMAT_LEFT, 135);
     m_pListPane->InsertColumn(COLUMN_CPUTIME, _("Elapsed"), wxLIST_FORMAT_RIGHT, 80);
     m_pListPane->InsertColumn(COLUMN_TOCOMPLETION, _("Remaining (estimated)"), wxLIST_FORMAT_RIGHT, 100);
-    m_pListPane->InsertColumn(COLUMN_REPORTDEADLINE, _("Deadline"), wxLIST_FORMAT_LEFT, 150);
+    m_pListPane->InsertColumn(COLUMN_REPORTDEADLINE, _("Deadline"), wxLIST_FORMAT_RIGHT, 150);
     m_pListPane->InsertColumn(COLUMN_APPLICATION, _("Application"), wxLIST_FORMAT_LEFT, 95);
     m_pListPane->InsertColumn(COLUMN_NAME, _("Name"), wxLIST_FORMAT_LEFT, 285);
 
@@ -270,7 +270,7 @@ const char** CViewWork::GetViewIcon() {
 }
 
 
-const int CViewWork::GetViewCurrentViewPage() {
+int CViewWork::GetViewCurrentViewPage() {
     return VW_TASK;
 }
 
@@ -495,7 +495,7 @@ void CViewWork::OnWorkAbort( wxCommandEvent& WXUNUSED(event) ) {
         return;
     }
 
-    pFrame->UpdateStatusText(_("Aborting result..."));
+    pFrame->UpdateStatusText(_("Aborting task..."));
 
     row = -1;
     while (1) {

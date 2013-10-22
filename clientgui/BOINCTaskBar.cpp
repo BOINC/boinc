@@ -520,7 +520,7 @@ wxMenu *CTaskBarIcon::BuildContextMenu() {
     pMenu->AppendSeparator();
 
     m_SnoozeMenuItem = pMenu->AppendCheckItem(ID_TB_SUSPEND, _("Snooze"), wxEmptyString);
-    if (pDoc->state.have_nvidia || pDoc->state.have_ati) {
+    if (pDoc->state.have_gpu()) {
         m_SnoozeGPUMenuItem = pMenu->AppendCheckItem(ID_TB_SUSPEND_GPU, _("Snooze GPU"), wxEmptyString);
     }
 
@@ -632,7 +632,7 @@ void CTaskBarIcon::AdjustMenuItems(wxMenu* pMenu) {
         }
     }
     
-    if (pDoc->state.have_nvidia || pDoc->state.have_ati) {
+    if (pDoc->state.have_gpu()) {
         switch (status.gpu_mode) {
         case RUN_MODE_NEVER:
             switch (status.gpu_mode_perm) {
@@ -659,11 +659,9 @@ void CTaskBarIcon::AdjustMenuItems(wxMenu* pMenu) {
             }
             break;
         }
-        if (pDoc->state.have_nvidia || pDoc->state.have_ati) {
-            if (status.task_mode == RUN_MODE_NEVER) {
-                m_SnoozeGPUMenuItem->Check(false);
-                m_SnoozeGPUMenuItem->Enable(false);
-            }
+        if (status.task_mode == RUN_MODE_NEVER) {
+            m_SnoozeGPUMenuItem->Check(false);
+            m_SnoozeGPUMenuItem->Enable(false);
         }
     }
 }
@@ -685,10 +683,13 @@ void CTaskBarIcon::UpdateTaskbarStatus() {
     if (!pDoc->IsConnected()) {
         SetIcon(m_iconTaskBarDisconnected);
     } else {
-        if (RUN_MODE_NEVER == status.task_mode) {
-            SetIcon(m_iconTaskBarSnooze);
-        } else {
+        switch(status.task_suspend_reason) {
+        case SUSPEND_REASON_CPU_THROTTLE:
+        case 0:
             SetIcon(m_iconTaskBarNormal);
+            break;
+        default:
+            SetIcon(m_iconTaskBarSnooze);
         }
     }
 #else
@@ -706,9 +707,6 @@ void CTaskBarIcon::UpdateTaskbarStatus() {
 
     if (pDoc->IsConnected()) {
         icnIcon = m_iconTaskBarNormal;
-        if (RUN_MODE_NEVER == status.task_mode) {
-            icnIcon = m_iconTaskBarSnooze;
-        }
         bool comp_suspended = false;
         switch(status.task_suspend_reason) {
         case SUSPEND_REASON_CPU_THROTTLE:
@@ -716,6 +714,7 @@ void CTaskBarIcon::UpdateTaskbarStatus() {
             strMessage += _("Computing is enabled");
             break;
         default:
+            icnIcon = m_iconTaskBarSnooze;
             strMessage += _("Computing is suspended - ");
             strMessage += suspend_reason_wxstring(status.task_suspend_reason);
             comp_suspended = true;
@@ -723,7 +722,7 @@ void CTaskBarIcon::UpdateTaskbarStatus() {
         }
         strMessage += wxT(".\n");
 
-        if (!comp_suspended && (pDoc->state.have_nvidia || pDoc->state.have_ati)) {
+        if (!comp_suspended && pDoc->state.have_gpu()) {
             switch(status.gpu_suspend_reason) {
             case 0:
                 strMessage += _("GPU computing is enabled");

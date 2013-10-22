@@ -38,6 +38,7 @@
 #define EXIT_ABORTED_BY_PROJECT     202
 #define EXIT_ABORTED_VIA_GUI        203
 #define EXIT_UNKNOWN                204
+#define EXIT_OUT_OF_MEMORY          205
 
 // Function return values.
 // NOTE:  add new errors to the end of the list and don't change
@@ -199,6 +200,7 @@
 #define ERR_CRYPTO          -231
 #define ERR_ABORTED_ON_EXIT -232
 #define ERR_PROC_PARSE      -235
+#define ERR_STATFS          -236
 
 // PLEASE: add a text description of your error to 
 // the text description function boincerror() in str_util.cpp.

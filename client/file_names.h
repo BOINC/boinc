@@ -27,7 +27,6 @@ extern int make_soft_link(PROJECT* project, char* link_path, char* rel_file_path
 // get the pathname (relative to client home dir) of a project file
 //
 extern void get_pathname(FILE_INFO* fip, char* path, int len);
-extern void get_project_dir(PROJECT*, char*, int);
 
 // get the pathname (relative to client home dir) of the
 // directory used for a particular application "slot"
@@ -58,12 +57,14 @@ extern void send_log_after(const char* filename, double t, MIOFILE& mf);
 #define ACCT_MGR_URL_FILENAME       "acct_mgr_url.xml"
 #define ALL_PROJECTS_LIST_FILENAME "all_projects_list.xml"
 #define ALL_PROJECTS_LIST_FILENAME_TEMP "all_projects_list_temp.xml"
-#define APP_INFO_FILE_NAME			"app_info.xml"
+#define APP_CONFIG_FILE_NAME        "app_config.xml"
+#define APP_INFO_FILE_NAME          "app_info.xml"
 #define CA_BUNDLE_FILENAME          "ca-bundle.crt"
 #define CERTIFICATE_DIRECTORY       "certificates"
 #define CLIENT_AUTH_FILENAME        "client_auth.xml"
 #define CLIENT_OPAQUE_FILENAME      "client_opaque.txt"
 #define CONFIG_FILE                 "cc_config.xml"
+#define COPROC_INFO_FILENAME        "coproc_info.xml"
 #define CPU_BENCHMARKS_FILE_NAME    "cpu_benchmarks"
 #define CREATE_ACCOUNT_FILENAME     "create_account.xml"
 #define DAILY_XFER_HISTORY_FILENAME "daily_xfer_history.xml"

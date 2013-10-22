@@ -57,16 +57,30 @@ using std::string;
 #include "vboxwrapper.h"
 #include "vbox.h"
 
+static bool is_client_version_newer(APP_INIT_DATA& aid, int maj, int min, int rel) {
+    if (maj > aid.major_version) return true;
+    if (maj < aid.major_version) return false;
+    if (min > aid.minor_version) return true;
+    if (min < aid.minor_version) return false;
+    if (rel > aid.release) return true;
+    return false;
+}
+
 VBOX_VM::VBOX_VM() {
+    virtualbox_version.clear();
     pFloppy = NULL;
     vm_master_name.clear();
+    vm_master_description.clear();
     vm_name.clear();
     vm_cpu_count.clear();
+    vm_disk_controller_type.clear();
+    vm_disk_controller_model.clear();
     os_name.clear();
     memory_size_mb.clear();
     image_filename.clear();
     floppy_image_filename.clear();
     job_duration = 0.0;
+    fraction_done_filename.clear();
     suspended = false;
     network_suspended = false;
     online = false;
@@ -85,6 +99,10 @@ VBOX_VM::VBOX_VM() {
 #else
     vm_pid_handle = 0;
 #endif
+
+    // Initialize default values
+    vm_disk_controller_type = "ide";
+    vm_disk_controller_model = "PIIX4";
 }
 
 VBOX_VM::~VBOX_VM() {
@@ -101,11 +119,15 @@ VBOX_VM::~VBOX_VM() {
 }
 
 int VBOX_VM::initialize() {
+    int rc = 0;
     string virtualbox_install_directory;
     string old_path;
     string new_path;
     string virtualbox_user_home;
+    string command;
+    string output;
     APP_INIT_DATA aid;
+    bool force_sandbox = false;
     char buf[256];
 
     boinc_get_init_data_p(&aid);
@@ -131,10 +153,21 @@ int VBOX_VM::initialize() {
     }
 #endif
 
+    // On *nix style systems, VirtualBox expects that there is a home directory specified
+    // by environment variable.  When it doesn't exist it attempts to store logging information
+    // in root's home directory.  Bad things happen if the process isn't owned by root.
+    //
+    // if the HOME environment variable is missing force VirtualBox to use a directory it
+    // has a reasonable chance of writing log files too.
+#ifndef _WIN32
+    if (NULL == getenv("HOME")) {
+        force_sandbox = true;
+    }
+#endif
+
     // Set the location in which the VirtualBox Configuration files can be
     // stored for this instance.
-    //
-    if (aid.using_sandbox) {
+    if (aid.using_sandbox || force_sandbox) {
         virtualbox_user_home = aid.project_dir;
         virtualbox_user_home += "/../virtualbox";
 
@@ -189,14 +222,27 @@ int VBOX_VM::initialize() {
 #endif
     }
 
-    return 0;
+    // Record the VirtualBox version information for later use.
+    command = "--version ";
+    rc = vbm_popen(command, output, "version check");
+
+    // Remove \r or \n from the output spew
+    string::iterator iter = output.begin();
+    while (iter != output.end()) {
+        if (*iter == '\r' || *iter == '\n') {
+            iter = output.erase(iter);
+        } else {
+            ++iter;
+        }
+    }
+
+    virtualbox_version = "VirtualBox " + output;
+
+    return rc;
 }
 
 int VBOX_VM::run(double elapsed_time) {
     int retval;
-
-    retval = initialize();
-    if (retval) return retval;
 
     if (!is_registered()) {
         if (is_hdd_registered()) {
@@ -385,7 +431,7 @@ int VBOX_VM::resume() {
     return 0;
 }
 
-int VBOX_VM::createsnapshot(double elapsed_time, double checkpoint_cpu_time) {
+int VBOX_VM::createsnapshot(double elapsed_time) {
     string command;
     string output;
     char buf[256];
@@ -406,7 +452,7 @@ int VBOX_VM::createsnapshot(double elapsed_time, double checkpoint_cpu_time) {
     command = "snapshot \"" + vm_name + "\" ";
     command += "take boinc_";
     command += buf;
-    retval = vbm_popen(command, output, "create new snapshot");
+    retval = vbm_popen(command, output, "create new snapshot", true, true, 0);
     if (retval) return retval;
 
     // Resume VM
@@ -416,23 +462,78 @@ int VBOX_VM::createsnapshot(double elapsed_time, double checkpoint_cpu_time) {
     // snapshot
     poll(false);
 
-    // Delete stale snapshot, if one exists
-    if (checkpoint_cpu_time) {
-        sprintf(buf, "%d", (int)checkpoint_cpu_time);
-        command = "snapshot \"" + vm_name + "\" ";
-        command += "delete boinc_";
-        command += buf;
-        retval = vbm_popen(command, output, "delete stale snapshot", true, false);
-        if (retval) {
-            if (retval != ERR_TIMEOUT) return retval;
-        }
-    }
+    // Delete stale snapshot(s), if one exists
+    cleanupsnapshots(false);
 
     fprintf(
         stderr,
         "%s Checkpoint completed.\n",
         vboxwrapper_msg_prefix(buf, sizeof(buf))
     );
+
+    return 0;
+}
+
+int VBOX_VM::cleanupsnapshots(bool delete_active) {
+    string command;
+    string output;
+    string line;
+    string uuid;
+    size_t eol_pos;
+    size_t eol_prev_pos;
+    size_t uuid_start;
+    size_t uuid_end;
+    char buf[256];
+    int retval;
+
+
+    // Enumerate snapshot(s)
+    command = "snapshot \"" + vm_name + "\" ";
+    command += "list ";
+    retval = vbm_popen(command, output, "enumerate snapshot(s)");
+    if (retval) return retval;
+
+    // Output should look a little like this:
+    //   Name: Snapshot 2 (UUID: 1751e9a6-49e7-4dcc-ab23-08428b665ddf)
+    //      Name: Snapshot 3 (UUID: 92fa8b35-873a-4197-9d54-7b6b746b2c58)
+    //         Name: Snapshot 4 (UUID: c049023a-5132-45d5-987d-a9cfadb09664) *
+    //
+    eol_prev_pos = 0;
+    eol_pos = output.find("\n");
+    while (eol_pos != string::npos) {
+        line = output.substr(eol_prev_pos, eol_pos - eol_prev_pos);
+
+        // This VM does not yet have any snapshots
+        if (line.find("does not have any snapshots") != string::npos) break;
+
+        // The * signifies that it is the active snapshot and one we do not want to delete
+        if (!delete_active && (line.find("*") != string::npos)) break;
+
+        uuid_start = line.find("(UUID: ");
+        if (uuid_start != string::npos) {
+            // We can parse the virtual machine ID from the line
+            uuid_start += 7;
+            uuid_end = line.find(")", uuid_start);
+            uuid = line.substr(uuid_start, uuid_end - uuid_start);
+
+            fprintf(
+                stderr,
+                "%s Deleting stale snapshot.\n",
+                vboxwrapper_msg_prefix(buf, sizeof(buf))
+            );
+
+            // Delete stale snapshot, if one exists
+            command = "snapshot \"" + vm_name + "\" ";
+            command += "delete \"";
+            command += uuid;
+            command += "\" ";
+            
+            vbm_popen(command, output, "delete stale snapshot", true, false, 0);
+        }
+
+        eol_prev_pos = eol_pos + 1;
+        eol_pos = output.find("\n", eol_prev_pos);
+    }
 
     return 0;
 }
@@ -465,7 +566,7 @@ int VBOX_VM::restoresnapshot() {
 
 void VBOX_VM::cleanup() {
     poweroff();
-    deregister_vm();
+    deregister_vm(true);
 
     // Give time enough for external processes to finish the cleanup process
     boinc_sleep(5.0);
@@ -501,31 +602,51 @@ void VBOX_VM::poll(bool log_state) {
             if (vmstate == "running") {
                 online = true;
                 suspended = false;
+                crashed = false;
             } else if (vmstate == "paused") {
                 online = true;
                 suspended = true;
+                crashed = false;
             } else if (vmstate == "starting") {
                 online = true;
+                suspended = false;
+                crashed = false;
             } else if (vmstate == "stopping") {
                 online = true;
+                suspended = false;
+                crashed = false;
             } else if (vmstate == "saving") {
                 online = true;
+                suspended = false;
+                crashed = false;
             } else if (vmstate == "restoring") {
                 online = true;
+                suspended = false;
+                crashed = false;
             } else if (vmstate == "livesnapshotting") {
                 online = true;
+                suspended = false;
+                crashed = false;
             } else if (vmstate == "deletingsnapshotlive") {
                 online = true;
+                suspended = false;
+                crashed = false;
             } else if (vmstate == "deletingsnapshotlivepaused") {
                 online = true;
+                suspended = false;
+                crashed = false;
             } else if (vmstate == "aborted") {
                 online = false;
+                suspended = false;
                 crashed = true;
             } else if (vmstate == "gurumeditation") {
                 online = false;
+                suspended = false;
                 crashed = true;
             } else {
                 online = false;
+                suspended = false;
+                crashed = false;
                 if (log_state) {
                     fprintf(
                         stderr,
@@ -539,22 +660,35 @@ void VBOX_VM::poll(bool log_state) {
     }
 }
 
-bool VBOX_VM::is_hdd_registered() {
+// Attempt to detect any condition that would prevent VirtualBox from running a VM properly, like:
+// 1. The DCOM service not being started on Windows
+// 2. Vboxmanage not being able to communicate with vboxsvc for some reason
+// 3. VirtualBox driver not loaded for the current Linux kernel.
+//
+// Luckly both of the above conditions can be detected by attempting to detect the host information
+// via vboxmanage and it is cross platform.
+//
+bool VBOX_VM::is_system_ready(std::string& message) {
     string command;
     string output;
-    string virtual_machine_root_dir;
+    bool rc = true;
 
-    get_slot_directory(virtual_machine_root_dir);
+    command  = "list hostinfo ";
+    if (vbm_popen(command, output, "host info") == 0) {
 
-    command = "showhdinfo \"" + virtual_machine_root_dir + "/" + image_filename + "\" ";
-
-    if (vbm_popen(command, output, "hdd registration", false, false) == 0) {
-        if ((output.find("VBOX_E_FILE_ERROR") == string::npos) && (output.find("VBOX_E_OBJECT_NOT_FOUND") == string::npos)) {
-            // Error message not found in text
-            return true;
+        if (output.find("Processor count:") == string::npos) {
+            message = "Communication with VM Hypervisor failed.";
+            rc = false;
         }
+
+        if (output.find("WARNING: The vboxdrv kernel module is not loaded.") != string::npos) {
+            message = "Please update/recompile VirtualBox kernel drivers.";
+            rc = false;
+        }
+
     }
-    return false;
+
+    return rc;
 }
 
 bool VBOX_VM::is_registered() {
@@ -566,6 +700,27 @@ bool VBOX_VM::is_registered() {
 
     if (vbm_popen(command, output, "registration", false, false) == 0) {
         if (output.find("VBOX_E_OBJECT_NOT_FOUND") == string::npos) {
+            // Error message not found in text
+            return true;
+        }
+    }
+    return false;
+}
+
+bool VBOX_VM::is_hdd_registered() {
+    string command;
+    string output;
+    string virtual_machine_root_dir;
+
+    get_slot_directory(virtual_machine_root_dir);
+
+    command = "showhdinfo \"" + virtual_machine_root_dir + "/" + image_filename + "\" ";
+
+    if (vbm_popen(command, output, "hdd registration", false, false) == 0) {
+        if ((output.find("VBOX_E_FILE_ERROR") == string::npos) && 
+            (output.find("VBOX_E_OBJECT_NOT_FOUND") == string::npos) &&
+            (output.find("does not match the value") == string::npos)
+        ) {
             // Error message not found in text
             return true;
         }
@@ -623,38 +778,204 @@ int VBOX_VM::register_vm() {
     retval = vbm_popen(command, output, "register");
     if (retval) return retval;
 
-    // Tweak the VM from it's default configuration
+    // Tweak the VM's Description
+    //
+    command  = "modifyvm \"" + vm_name + "\" ";
+    command += "--description \"" + vm_master_description + "\" ";
+
+    vbm_popen(command, output, "modifydescription", false, false);
+
+    // Tweak the VM's CPU Count
     //
     fprintf(
         stderr,
-        "%s Modifying VM.\n",
-        vboxwrapper_msg_prefix(buf, sizeof(buf))
+        "%s Setting CPU Count for VM. (%s)\n",
+        vboxwrapper_msg_prefix(buf, sizeof(buf)),
+        vm_cpu_count.c_str()
     );
     command  = "modifyvm \"" + vm_name + "\" ";
     command += "--cpus " + vm_cpu_count + " ";
+
+    retval = vbm_popen(command, output, "modifycpu");
+    if (retval) return retval;
+
+    // Tweak the VM's Memory Size
+    //
+    fprintf(
+        stderr,
+        "%s Setting Memory Size for VM. (%sMB)\n",
+        vboxwrapper_msg_prefix(buf, sizeof(buf)),
+        memory_size_mb.c_str()
+    );
+    command  = "modifyvm \"" + vm_name + "\" ";
     command += "--memory " + memory_size_mb + " ";
+
+    retval = vbm_popen(command, output, "modifymem");
+    if (retval) return retval;
+
+    // Tweak the VM's Chipset Options
+    //
+    fprintf(
+        stderr,
+        "%s Setting Chipset Options for VM.\n",
+        vboxwrapper_msg_prefix(buf, sizeof(buf))
+    );
+    command  = "modifyvm \"" + vm_name + "\" ";
     command += "--acpi on ";
     command += "--ioapic on ";
+
+    retval = vbm_popen(command, output, "modifychipset");
+    if (retval) return retval;
+
+    // Tweak the VM's Boot Options
+    //
+    fprintf(
+        stderr,
+        "%s Setting Boot Options for VM.\n",
+        vboxwrapper_msg_prefix(buf, sizeof(buf))
+    );
+    command  = "modifyvm \"" + vm_name + "\" ";
     command += "--boot1 disk ";
     command += "--boot2 none ";
     command += "--boot3 none ";
     command += "--boot4 none ";
+
+    retval = vbm_popen(command, output, "modifyboot");
+    if (retval) return retval;
+
+    // Tweak the VM's Network Configuration
+    //
+    fprintf(
+        stderr,
+        "%s Setting Network Configuration for VM.\n",
+        vboxwrapper_msg_prefix(buf, sizeof(buf))
+    );
+    command  = "modifyvm \"" + vm_name + "\" ";
     command += "--nic1 nat ";
     command += "--natdnsproxy1 on ";
     command += "--cableconnected1 off ";
 
-    retval = vbm_popen(command, output, "modify");
+    retval = vbm_popen(command, output, "modifynetwork");
     if (retval) return retval;
+
+    // Tweak the VM's USB Configuration
+    //
+    fprintf(
+        stderr,
+        "%s Disabling USB Support for VM.\n",
+        vboxwrapper_msg_prefix(buf, sizeof(buf))
+    );
+    command  = "modifyvm \"" + vm_name + "\" ";
+    command += "--usb off ";
+
+    vbm_popen(command, output, "modifyusb", false, false);
+
+    // Tweak the VM's COM Port Support
+    //
+    fprintf(
+        stderr,
+        "%s Disabling COM Port Support for VM.\n",
+        vboxwrapper_msg_prefix(buf, sizeof(buf))
+    );
+    command  = "modifyvm \"" + vm_name + "\" ";
+    command += "--uart1 off ";
+    command += "--uart2 off ";
+
+    vbm_popen(command, output, "modifycom", false, false);
+
+    // Tweak the VM's LPT Port Support
+    //
+    fprintf(
+        stderr,
+        "%s Disabling LPT Port Support for VM.\n",
+        vboxwrapper_msg_prefix(buf, sizeof(buf))
+    );
+    command  = "modifyvm \"" + vm_name + "\" ";
+    command += "--lpt1 off ";
+    command += "--lpt2 off ";
+
+    vbm_popen(command, output, "modifylpt", false, false);
+
+    // Tweak the VM's Audio Support
+    //
+    fprintf(
+        stderr,
+        "%s Disabling Audio Support for VM.\n",
+        vboxwrapper_msg_prefix(buf, sizeof(buf))
+    );
+    command  = "modifyvm \"" + vm_name + "\" ";
+    command += "--audio none ";
+
+    vbm_popen(command, output, "modifyaudio", false, false);
+
+    // Tweak the VM's Clipboard Support
+    //
+    fprintf(
+        stderr,
+        "%s Disabling Clipboard Support for VM.\n",
+        vboxwrapper_msg_prefix(buf, sizeof(buf))
+    );
+    command  = "modifyvm \"" + vm_name + "\" ";
+    command += "--clipboard disabled ";
+
+    vbm_popen(command, output, "modifyclipboard", false, false);
+
+    // Tweak the VM's Drag & Drop Support
+    //
+    fprintf(
+        stderr,
+        "%s Disabling Drag and Drop Support for VM.\n",
+        vboxwrapper_msg_prefix(buf, sizeof(buf))
+    );
+    command  = "modifyvm \"" + vm_name + "\" ";
+    command += "--draganddrop disabled ";
+
+    vbm_popen(command, output, "modifydragdrop", false, false);
 
     // Only perform hardware acceleration check on 32-bit VM types, 64-bit VM types require it.
     //
     if (os_name.find("_64") == std::string::npos) {
+
         // Check to see if the processor supports hardware acceleration for virtualization
         // If it doesn't, disable the use of it in VirtualBox. Multi-core jobs require hardware
         // acceleration and actually override this setting.
         //
-        if ((vm_cpu_count == "1") ||
-            (!strstr(aid.host_info.p_features, "vmx") && !strstr(aid.host_info.p_features, "svm"))) {
+        bool disable_acceleration = false;
+
+        if (!strstr(aid.host_info.p_features, "vmx") && !strstr(aid.host_info.p_features, "svm")) {
+            fprintf(
+                stderr,
+                "%s Hardware acceleration CPU extensions not detected. Disabling VirtualBox hardware acceleration support.\n",
+                boinc_msg_prefix(buf, sizeof(buf))
+            );
+            disable_acceleration = true;
+        }
+        if (strstr(aid.host_info.p_features, "hypervisor")) {
+            fprintf(
+                stderr,
+                "%s Running under Hypervisor. Disabling VirtualBox hardware acceleration support.\n",
+                boinc_msg_prefix(buf, sizeof(buf))
+            );
+            disable_acceleration = true;
+        }
+        if (is_client_version_newer(aid, 7, 2, 16)) {
+            if (aid.vm_extensions_disabled) {
+                fprintf(
+                    stderr,
+                    "%s Hardware acceleration failed with previous execution. Disabling VirtualBox hardware acceleration support.\n",
+                    boinc_msg_prefix(buf, sizeof(buf))
+                );
+                disable_acceleration = true;
+            }
+        } else {
+            if (vm_cpu_count == "1") {
+                // Keep this around for older clients.  Removing this for older clients might
+                // lead to a machine that will only return crashed VM reports.
+                disable_acceleration = true;
+            }
+        }
+
+        if (disable_acceleration) {
             fprintf(
                 stderr,
                 "%s Disabling hardware acceleration support for virtualization.\n",
@@ -666,9 +987,12 @@ int VBOX_VM::register_vm() {
             retval = vbm_popen(command, output, "VT-x/AMD-V support");
             if (retval) return retval;
         }
+
     }
 
     // Add storage controller to VM
+    // See: http://www.virtualbox.org/manual/ch08.html#vboxmanage-storagectl
+    // See: http://www.virtualbox.org/manual/ch05.html#iocaching
     //
     fprintf(
         stderr,
@@ -676,9 +1000,13 @@ int VBOX_VM::register_vm() {
         vboxwrapper_msg_prefix(buf, sizeof(buf))
     );
     command  = "storagectl \"" + vm_name + "\" ";
-    command += "--name \"IDE Controller\" ";
-    command += "--add ide ";
-    command += "--controller PIIX4 ";
+    command += "--name \"Hard Disk Controller\" ";
+    command += "--add \"" + vm_disk_controller_type + "\" ";
+    command += "--controller \"" + vm_disk_controller_model + "\" ";
+    command += "--hostiocache off ";
+    if ((vm_disk_controller_type == "sata") || (vm_disk_controller_type == "SATA")) {
+        command += "--sataportcount 1 ";
+    }
 
     retval = vbm_popen(command, output, "add storage controller (fixed disk)");
     if (retval) return retval;
@@ -698,11 +1026,12 @@ int VBOX_VM::register_vm() {
     //
     fprintf(
         stderr,
-        "%s Adding virtual disk drive to VM.\n",
-        vboxwrapper_msg_prefix(buf, sizeof(buf))
+        "%s Adding virtual disk drive to VM. (%s)\n",
+        vboxwrapper_msg_prefix(buf, sizeof(buf)),
+		image_filename.c_str()
     );
     command  = "storageattach \"" + vm_name + "\" ";
-    command += "--storagectl \"IDE Controller\" ";
+    command += "--storagectl \"Hard Disk Controller\" ";
     command += "--port 0 ";
     command += "--device 0 ";
     command += "--type hdd ";
@@ -831,7 +1160,7 @@ int VBOX_VM::register_vm() {
     return 0;
 }
 
-int VBOX_VM::deregister_vm() {
+int VBOX_VM::deregister_vm(bool delete_media) {
     string command;
     string output;
     string virtual_machine_slot_directory;
@@ -846,16 +1175,9 @@ int VBOX_VM::deregister_vm() {
     );
 
 
-    // Discard any saved state information
+    // Cleanup any left-over snapshots
     //
-    fprintf(
-        stderr,
-        "%s Discarding saved state of VM.\n",
-        vboxwrapper_msg_prefix(buf, sizeof(buf))
-    );
-    command  = "discardstate \"" + vm_name + "\" ";
-
-    vbm_popen(command, output, "discard state", false);
+    cleanupsnapshots(true);
 
     // Delete its storage controller(s)
     //
@@ -868,14 +1190,14 @@ int VBOX_VM::deregister_vm() {
     command += "--name \"IDE Controller\" ";
     command += "--remove ";
 
-    vbm_popen(command, output, "deregister storage controller (fixed disk)");
+    vbm_popen(command, output, "deregister storage controller (fixed disk)", false, false);
 
     if (enable_floppyio) {
         command  = "storagectl \"" + vm_name + "\" ";
         command += "--name \"Floppy Controller\" ";
         command += "--remove ";
 
-        vbm_popen(command, output, "deregister storage controller (floppy disk)");
+        vbm_popen(command, output, "deregister storage controller (floppy disk)", false, false);
     }
 
     // Next, delete VM
@@ -888,9 +1210,9 @@ int VBOX_VM::deregister_vm() {
     command  = "unregistervm \"" + vm_name + "\" ";
     command += "--delete ";
 
-    vbm_popen(command, output, "delete VM");
+    vbm_popen(command, output, "delete VM", false, false);
 
-    // Lastly delete medium from Virtual Box Media Registry
+    // Lastly delete medium(s) from Virtual Box Media Registry
     //
     fprintf(
         stderr,
@@ -898,8 +1220,26 @@ int VBOX_VM::deregister_vm() {
         vboxwrapper_msg_prefix(buf, sizeof(buf))
     );
     command  = "closemedium disk \"" + virtual_machine_slot_directory + "/" + image_filename + "\" ";
+    if (delete_media) {
+        command += "--delete ";
+    }
 
-    vbm_popen(command, output, "remove virtual disk");
+    vbm_popen(command, output, "remove virtual disk", false, false);
+
+    if (enable_floppyio) {
+        fprintf(
+            stderr,
+            "%s Removing virtual floppy disk from VirtualBox.\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf))
+        );
+        command  = "closemedium floppy \"" + virtual_machine_slot_directory + "/" + floppy_image_filename + "\" ";
+        if (delete_media) {
+            command += "--delete ";
+        }
+
+        vbm_popen(command, output, "remove virtual floppy disk", false, false);
+    }
+
     return 0;
 }
 
@@ -940,12 +1280,16 @@ int VBOX_VM::deregister_stale_vm() {
         vm_name = output.substr(uuid_start, uuid_end - uuid_start);
 
         // Deregister stale VM by UUID
-        return deregister_vm();
+        return deregister_vm(false);
     } else {
         // Did the user delete the VM in VirtualBox and not the medium?  If so,
         // just remove the medium.
         command  = "closemedium disk \"" + virtual_machine_slot_directory + "/" + image_filename + "\" ";
-        vbm_popen(command, output, "remove virtual disk ", false);
+        vbm_popen(command, output, "remove virtual disk", false);
+        if (enable_floppyio) {
+            command  = "closemedium floppy \"" + virtual_machine_slot_directory + "/" + floppy_image_filename + "\" ";
+            vbm_popen(command, output, "remove virtual floppy disk", false);
+        }
     }
     return 0;
 }
@@ -996,15 +1340,19 @@ int VBOX_VM::get_install_directory(string& virtualbox_install_directory ) {
 
     if (hkSetupHive) RegCloseKey(hkSetupHive);
     if (lpszRegistryValue) free(lpszRegistryValue);
+    if (virtualbox_install_directory.empty()) {
+        return 1;
+    }
+    return 0;
 #else
     virtualbox_install_directory = "";
-#endif
     return 0;
+#endif
 }
 
 // Returns the current directory in which the executable resides.
 //
-int VBOX_VM::get_slot_directory( string& dir ) {
+int VBOX_VM::get_slot_directory(string& dir) {
     char slot_dir[256];
 
     getcwd(slot_dir, sizeof(slot_dir));
@@ -1389,7 +1737,7 @@ int VBOX_VM::set_network_access(bool enabled) {
     return 0;
 }
 
-int VBOX_VM::set_cpu_usage_fraction(double x) {
+int VBOX_VM::set_cpu_usage(int percentage) {
     string command;
     string output;
     char buf[256];
@@ -1401,9 +1749,9 @@ int VBOX_VM::set_cpu_usage_fraction(double x) {
         stderr,
         "%s Setting cpu throttle for VM. (%d%%)\n",
         vboxwrapper_msg_prefix(buf, sizeof(buf)),
-        (int)x
+        percentage
     );
-    sprintf(buf, "%d", (int)x);
+    sprintf(buf, "%d", percentage);
     command  = "controlvm \"" + vm_name + "\" ";
     command += "cpuexecutioncap ";
     command += buf;
@@ -1414,7 +1762,7 @@ int VBOX_VM::set_cpu_usage_fraction(double x) {
     return 0;
 }
 
-int VBOX_VM::set_network_max_bytes_sec(double x) {
+int VBOX_VM::set_network_usage(int kilobytes) {
     string command;
     string output;
     char buf[256];
@@ -1428,7 +1776,7 @@ int VBOX_VM::set_network_max_bytes_sec(double x) {
         "%s Setting network throttle for VM.\n",
         vboxwrapper_msg_prefix(buf, sizeof(buf))
     );
-    sprintf(buf, "%d", (int)(x*8./1000.));
+    sprintf(buf, "%d", kilobytes);
     command  = "modifyvm \"" + vm_name + "\" ";
     command += "--nicspeed1 ";
     command += buf;
@@ -1481,7 +1829,7 @@ void VBOX_VM::reset_vm_process_priority() {
 
 // If there are errors we can recover from, process them here.
 //
-int VBOX_VM::vbm_popen(string& arguments, string& output, const char* item, bool log_error, bool retry_failures) {
+int VBOX_VM::vbm_popen(string& arguments, string& output, const char* item, bool log_error, bool retry_failures, unsigned int timeout) {
     int retval = 0;
     int retry_count = 0;
     double sleep_interval = 1.0;
@@ -1489,7 +1837,7 @@ int VBOX_VM::vbm_popen(string& arguments, string& output, const char* item, bool
     string retry_notes;
 
     do {
-        retval = vbm_popen_raw(arguments, output);
+        retval = vbm_popen_raw(arguments, output, timeout);
         if (retval) {
 
             // VirtualBox designed the concept of sessions to prevent multiple applications using
@@ -1571,7 +1919,7 @@ int VBOX_VM::vbm_popen(string& arguments, string& output, const char* item, bool
 
 // Execute the vbox manage application and copy the output to the buffer.
 //
-int VBOX_VM::vbm_popen_raw(string& arguments, string& output) {
+int VBOX_VM::vbm_popen_raw(string& arguments, string& output, unsigned int timeout) {
     char buf[256];
     string command;
     size_t errcode_start;
@@ -1650,6 +1998,10 @@ int VBOX_VM::vbm_popen_raw(string& arguments, string& output) {
 
     // Wait until process has completed
     while(1) {
+        if (timeout == 0) {
+            WaitForSingleObject(pi.hProcess, INFINITE);
+        }
+
         GetExitCodeProcess(pi.hProcess, &ulExitCode);
 
         // Copy stdout/stderr to output buffer, handle in the loop so that we can
@@ -1670,7 +2022,7 @@ int VBOX_VM::vbm_popen_raw(string& arguments, string& output) {
         if (ulExitCode != STILL_ACTIVE) break;
 
         // Timeout?
-        if (ulExitTimeout >= 45000) {
+        if (ulExitTimeout >= (timeout * 1000)) {
             TerminateProcess(pi.hProcess, EXIT_FAILURE);
             ulExitCode = 0;
             retval = ERR_TIMEOUT;

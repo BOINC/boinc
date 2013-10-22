@@ -30,8 +30,15 @@ define("TABLE2", "<table width=\"580\">");
 function admin_page_head($title) {
     $stylesheet = URL_BASE.STYLESHEET;
 
+    echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">";
     echo "<html><head><title>$title</title>
+        <meta http-equiv=\"content-type\" content=\"text/html;charset=utf-8\" />
         <link rel=stylesheet type=\"text/css\" href=\"".URL_BASE."main.css\" media=\"all\" />
+    ";
+    if (defined('ADMIN_STYLESHEET')) {
+        echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".URL_BASE.ADMIN_STYLESHEET."\" media=\"all\" />";
+    }
+    echo "
         </head>
         <body bgcolor=\"#ffffff\">
         <h2>".PROJECT.": $title</h2>
@@ -103,7 +110,7 @@ function db_init_cli() {
         $host = "localhost";
     }
     $in = fopen("php://stdin","r");
-    print "Database username (if not current user): ";
+    print "Database username (default: owner of mysqld process): ";
     $user = rtrim(fgets($in, 80));
     print "Database password (if any): ";
     $pass = rtrim(fgets($in, 80));
@@ -234,19 +241,20 @@ function test_mysql_query($msg) {
     return 1;
 }
 
-// for purposes of testing and seeing queries,
-// replace the two instances of mysql_query() below with test_mysql_query().
+// cancel WUs with IDs in a given range.
+// This means:
 //
-function cancel_wu($wuid1, $wuid2) {
-    $command1="update result set server_state=5, outcome=5 where server_state=2 and $wuid1<=workunitid and workunitid<=$wuid2";
-    $command2="update workunit set error_mask=error_mask|16 where $wuid1<=id and id<=$wuid2";
-
-    if (!mysql_query($command1)) {
-        echo "MySQL command $command1 failed:<br/>unable to cancel unsent results.<br/>";
-        return 1;
-    } else if (!mysql_query($command2)) {
-        echo "MySQL command $command2 failed:<br/>unable to cancel workunits.<br/>";
-        return 2;
+// - for any results w/ server state UNSENT, set server state to OVER
+// - set the CANCELLED bit in workunit.error_mask
+//
+function cancel_wus($wuid1, $wuid2) {
+    $query="update result set server_state=5, outcome=5 where server_state=2 and $wuid1<=workunitid and workunitid<=$wuid2";
+    if (!mysql_query($query)) {
+        error_page("DB query $query failed");
+    }
+    $query="update workunit set error_mask=error_mask|16 where $wuid1<=id and id<=$wuid2";
+    if (!mysql_query($query)) {
+        error_page("DB query $query failed");
     }
 
     // trigger the transitioner (it will set file_delete_state)
@@ -254,8 +262,55 @@ function cancel_wu($wuid1, $wuid2) {
     $now = time();
     $query="update workunit set transition_time=$now where $wuid1<=id and id<=$wuid2";
     mysql_query($query);
-
     return 0;
+}
+
+// like above, but if a workunit has a result that's already sent,
+// don't cancel the workunit
+//
+function cancel_wus_if_unsent($id1, $id2) {
+    $wus = BoincWorkunit::enum("id >= $id1 and id <= $id2");
+    foreach ($wus as $wu) {
+        $results = BoincResult::enum("workunitid=$wu->id and server_state > 2");
+        if (count($results)) continue;
+        $query="update result set server_state=5, outcome=5 where workunitid=$wu->id";
+        if (!mysql_query($query)) {
+            error_page("DB query $query failed");
+        }
+        if (!$wu->update("error_mask=error_mask|16")) {
+            error_page("WU update failed");
+        }
+    }
+    return 0;
+}
+
+function app_version_desc($avid) {
+    switch ($avid) {
+    case ANON_PLATFORM_UNKNOWN:
+        return "Anonymous platform: unknown type";
+    case ANON_PLATFORM_CPU:
+        return "Anonymous platform: CPU";
+    case ANON_PLATFORM_NVIDIA:
+        return "Anonymous platform: NVIDIA GPU";
+    case ANON_PLATFORM_ATI:
+        return "Anonymous platform: AMD GPU";
+    case ANON_PLATFORM_INTEL:
+        return "Anonymous platform: Intel GPU";
+    }
+    if ($avid <= 0) {
+        return "unknown: $avid";
+    }
+    $av = BoincAppVersion::lookup_id($avid);
+    if ($av) {
+        $p = BoincPlatform::lookup_id($av->platformid);
+        if ($p) {
+            return sprintf("%.2f", $av->version_num/100)." $p->name [$av->plan_class]";
+        } else {
+            return sprintf("%.2f", $av->version_num/100)." MISSING PLATFORM $av->platformid [$av->plan_class]";
+        }
+    } else {
+        return "App version missing ($avid)";
+    }
 }
 
 if (isset($cli_only)) {

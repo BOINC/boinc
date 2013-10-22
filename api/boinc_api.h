@@ -155,7 +155,7 @@ extern HANDLE worker_thread_handle;
 #endif
 extern int boinc_init_options_general(BOINC_OPTIONS& opt);
 extern int start_timer_thread();
-extern bool g_sleep;
+extern bool boinc_disable_timer_thread;
 
 inline void boinc_options_defaults(BOINC_OPTIONS& b) {
     b.main_program = 1;

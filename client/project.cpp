@@ -18,6 +18,7 @@
 #include <string.h>
 
 #include "str_replace.h"
+#include "url.h"
 
 #include "client_msgs.h"
 #include "client_state.h"
@@ -34,6 +35,8 @@ PROJECT::PROJECT() {
 void PROJECT::init() {
     strcpy(master_url, "");
     strcpy(authenticator, "");
+    strcpy(_project_dir, "");
+    strcpy(_project_dir_absolute, "");
     project_specific_prefs = "";
     gui_urls = "";
     resource_share = 100;
@@ -96,7 +99,6 @@ void PROJECT::init() {
     project_files_downloaded_time = 0;
     use_symlinks = false;
     possibly_backed_off = false;
-    last_upload_start = 0;
     nuploading_results = 0;
     too_many_uploading_results = false;
 
@@ -109,6 +111,7 @@ void PROJECT::init() {
     completions_ratio_stdev = 0.1;  // for the first couple of completions - guess.
     completions_required_stdevs = 3.0;
     result_index = 0;
+    ignore = false;
 #endif
 }
 
@@ -165,6 +168,9 @@ int PROJECT::parse_state(XML_PARSER& xp) {
             if (cpid_time == 0) {
                 cpid_time = user_create_time;
             }
+            if (dont_use_dcf) {
+                duration_correction_factor = 1;
+            }
             return 0;
         }
         if (xp.parse_string("scheduler_url", sched_url)) {
@@ -203,7 +209,7 @@ int PROJECT::parse_state(XML_PARSER& xp) {
         }
         if (xp.parse_int("nrpc_failures", nrpc_failures)) continue;
         if (xp.parse_int("master_fetch_failures", master_fetch_failures)) continue;
-        if (xp.parse_double("min_rpc_time", min_rpc_time)) continue;
+        //if (xp.parse_double("min_rpc_time", min_rpc_time)) continue;
         if (xp.parse_bool("master_url_fetch_pending", master_url_fetch_pending)) continue;
         if (xp.parse_int("sched_rpc_pending", sched_rpc_pending)) continue;
         if (xp.parse_double("next_rpc_time", next_rpc_time)) continue;
@@ -247,6 +253,8 @@ int PROJECT::parse_state(XML_PARSER& xp) {
             if (btemp) handle_no_rsc_apps(this, "CPU");
             continue;
         }
+
+        // deprecated
         if (xp.parse_bool("no_cuda_apps", btemp)) {
             if (btemp) handle_no_rsc_apps(this, GPU_TYPE_NVIDIA);
             continue;
@@ -255,6 +263,7 @@ int PROJECT::parse_state(XML_PARSER& xp) {
             if (btemp) handle_no_rsc_apps(this, GPU_TYPE_ATI);
             continue;
         }
+
         if (xp.parse_str("no_rsc_apps", buf, sizeof(buf))) {
             handle_no_rsc_apps(this, buf);
             continue;
@@ -269,6 +278,10 @@ int PROJECT::parse_state(XML_PARSER& xp) {
         }
         if (xp.parse_bool("no_ati_ams", btemp)) {
             if (btemp) handle_no_rsc_ams(this, GPU_TYPE_ATI);
+            continue;
+        }
+        if (xp.parse_bool("no_intel_gpu_ams", btemp)) {
+            if (btemp) handle_no_rsc_ams(this, GPU_TYPE_INTEL);
             continue;
         }
         if (xp.parse_str("no_rsc_ams", buf, sizeof(buf))) {
@@ -294,6 +307,12 @@ int PROJECT::parse_state(XML_PARSER& xp) {
             continue;
         }
         if (xp.parse_double("desired_disk_usage", desired_disk_usage)) continue;
+#ifdef SIM
+        if (xp.match_tag("available")) {
+            available.parse(xp, "/available");
+            continue;
+        }
+#endif
         if (log_flags.unparsed_xml) {
             msg_printf(0, MSG_INFO,
                 "[unparsed_xml] PROJECT::parse_state(): unrecognized: %s",
@@ -419,7 +438,7 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         if (no_rsc_pref[j]) {
             out.printf("    <no_rsc_pref>%s</no_rsc_pref>\n", rsc_name(j));
         }
-        if (j>0 && gui_rpc && (ncoprocs_excluded[j] == rsc_work_fetch[j].ninstances)) {
+        if (j>0 && gui_rpc && (rsc_pwf[j].ncoprocs_excluded == rsc_work_fetch[j].ninstances)) {
             out.printf("    <no_rsc_config>%s</no_rsc_config>\n", rsc_name(j));
         }
     }
@@ -454,6 +473,7 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         if (strlen(host_venue)) {
             out.printf("    <venue>%s</venue>\n", host_venue);
         }
+        out.printf("    <project_dir>%s</project_dir>\n", project_dir_absolute());
     } else {
        for (i=0; i<scheduler_urls.size(); i++) {
             out.printf(
@@ -537,9 +557,10 @@ void PROJECT::copy_state_fields(PROJECT& p) {
     use_symlinks = p.use_symlinks;
 }
 
-// Write project statistic to project statistics file
+// Write project statistic to GUI RPC reply
 //
-int PROJECT::write_statistics(MIOFILE& out, bool /*gui_rpc*/) {
+int PROJECT::write_statistics(MIOFILE& out) {
+    trim_statistics();
     out.printf(
         "<project_statistics>\n"
         "    <master_url>%s</master_url>\n",
@@ -621,12 +642,11 @@ const char* PROJECT::get_scheduler_url(int index, double r) {
 //
 void PROJECT::delete_project_file_symlinks() {
     unsigned int i;
-    char project_dir[256], path[MAXPATHLEN];
+    char path[MAXPATHLEN];
 
-    get_project_dir(this, project_dir, sizeof(project_dir));
     for (i=0; i<project_files.size(); i++) {
         FILE_REF& fref = project_files[i];
-        sprintf(path, "%s/%s", project_dir, fref.open_name);
+        sprintf(path, "%s/%s", project_dir(), fref.open_name);
         delete_project_owned_file(path, false);
     }
 }
@@ -680,15 +700,14 @@ void PROJECT::write_project_files(MIOFILE& f) {
 // has several logical names, so try them all
 //
 int PROJECT::write_symlink_for_project_file(FILE_INFO* fip) {
-    char project_dir[256], link_path[MAXPATHLEN], file_path[MAXPATHLEN];
+    char link_path[MAXPATHLEN], file_path[MAXPATHLEN];
     unsigned int i;
 
-    get_project_dir(this, project_dir, sizeof(project_dir));
     for (i=0; i<project_files.size(); i++) {
         FILE_REF& fref = project_files[i];
         if (fref.file_info != fip) continue;
-        sprintf(link_path, "%s/%s", project_dir, fref.open_name);
-        sprintf(file_path, "%s/%s", project_dir, fip->name);
+        sprintf(link_path, "%s/%s", project_dir(), fref.open_name);
+        sprintf(file_path, "%s/%s", project_dir(), fip->name);
         make_soft_link(this, link_path, file_path);
     }
     return 0;
@@ -815,5 +834,75 @@ void PROJECT::set_min_rpc_time(double future_time, const char* reason) {
 //
 bool PROJECT::waiting_until_min_rpc_time() {
     return (min_rpc_time > gstate.now);
+}
+
+void PROJECT::trim_statistics() {
+    double cutoff = dday() - config.save_stats_days*86400;
+    // delete old stats; fill in the gaps if some days missing
+    //
+    while (!statistics.empty()) {
+        DAILY_STATS& ds = statistics[0];
+        if (ds.day >= cutoff) {
+            break;
+        }
+        if (statistics.size() > 1) {
+            DAILY_STATS& ds2 = statistics[1];
+            if (ds2.day <= cutoff) {
+                statistics.erase(statistics.begin());
+            } else {
+                ds.day = cutoff;
+                break;
+            }
+        } else {
+            ds.day = cutoff;
+            break;
+        }
+    }
+}
+
+const char* PROJECT::project_dir() {
+    if (_project_dir[0] == 0) {
+        char buf[1024];
+        escape_project_url(master_url, buf);
+        sprintf(_project_dir, "%s/%s", PROJECTS_DIR, buf);
+    }
+    return _project_dir;
+}
+
+const char* PROJECT::project_dir_absolute() {
+    if (_project_dir_absolute[0] == 0) {
+        relative_to_absolute(project_dir(), _project_dir_absolute);
+    }
+    return _project_dir_absolute;
+}
+
+// If no_rsc_apps flags are set for all resource types, something's wrong;
+// clear them, and fall back to per-resource backoff.
+// Otherwise we might never contact the project again
+//
+void PROJECT::check_no_rsc_apps() {
+    for (int i=0; i<coprocs.n_rsc; i++) {
+        if (!no_rsc_apps[i]) return;
+    }
+    msg_printf(this, MSG_INFO,
+        "Warning: no_rsc_apps flag set for all resources.  Clearing flags."
+    );
+    for (int i=0; i<coprocs.n_rsc; i++) {
+        no_rsc_apps[i] = false;
+    }
+}
+
+// set no_X_apps for anonymous platform project
+//
+void PROJECT::check_no_apps() {
+    for (int i=0; i<coprocs.n_rsc; i++) {
+        no_rsc_apps[i] = true;
+    }
+
+    for (unsigned int i=0; i<gstate.app_versions.size(); i++) {
+        APP_VERSION* avp = gstate.app_versions[i];
+        if (avp->project != this) continue;
+        no_rsc_apps[avp->gpu_usage.rsc_type] = false;
+    }
 }
 

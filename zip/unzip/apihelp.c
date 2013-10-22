@@ -153,5 +153,3 @@ C functions: -- See unzip.h for details\n\
 }
 
 #endif /* API_DOC */
-
-const char *BOINC_RCSID_99b98e9cf9 = "$Id: apihelp.c 4979 2005-01-02 18:29:53Z ballen $";

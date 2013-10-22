@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  This file is part of BOINC.
+  http://boinc.berkeley.edu
+  Copyright (C) 2012 University of California
+  
+  BOINC is free software; you can redistribute it and/or modify it
+  under the terms of the GNU Lesser General Public License
+  as published by the Free Software Foundation,
+  either version 3 of the License, or (at your option) any later version.
+  
+  BOINC is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+  See the GNU Lesser General Public License for more details.
+  
+  You should have received a copy of the GNU Lesser General Public License
+  along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center">
+    
+    <LinearLayout 
+		android:id="@+id/anchor"
+    	android:layout_width="match_parent"
+    	android:layout_height="match_parent"
+    	android:layout_marginBottom="50dp"
+    	android:orientation="vertical"
+    	android:gravity="center"/>
+    
+    <Button
+		android:id="@+id/backButton"
+		android:layout_width="150dp"
+		android:layout_height="wrap_content"
+		android:padding="5dp"
+		android:layout_margin="10dp"
+		android:layout_gravity="center_horizontal"
+		android:layout_alignParentBottom="true"
+		android:layout_alignParentLeft="true"
+		android:clickable="true"
+		android:background="@drawable/shape_button_blue"
+		android:textColor="@color/white_smoke"
+		android:textAppearance="?android:attr/textAppearanceMedium"
+		android:onClick="backButtonClicked"
+		android:text="@string/attachproject_working_back_button"
+		android:visibility="gone" /> 
+    
+    <Button
+		android:id="@+id/finishButton"
+		android:layout_width="150dp"
+		android:layout_height="wrap_content"
+		android:padding="5dp"
+		android:layout_margin="10dp"
+		android:layout_gravity="center_horizontal"
+		android:layout_centerHorizontal="true"
+		android:layout_alignParentBottom="true"
+		android:layout_alignParentRight="true"
+		android:clickable="true"
+		android:background="@drawable/shape_button_blue"
+		android:textColor="@color/white_smoke"
+		android:textAppearance="?android:attr/textAppearanceMedium"
+		android:onClick="finishButtonClicked"
+		android:text="@string/attachproject_working_finish_button"
+		android:visibility="gone" /> 
+
+</RelativeLayout>

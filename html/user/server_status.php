@@ -61,24 +61,30 @@ $xml = get_int("xml", true);
 // daemon status outputs: 1 (running) 0 (not running) or -1 (disabled)
 //
 function daemon_status($host, $pidname, $progname, $disabled) {
-    global $ssh_exe, $ps_exe, $project_host;
-    $path = "../../pid_$host/$pidname";
+    global $ssh_exe, $ps_exe, $project_host, $project_dir;
+    if ($disabled == 1) return -1;
+    $path = "$project_dir/pid_$host/$pidname";
+    if ($host != $project_host) {
+        $command = "$ssh_exe $host $project_dir/bin/pshelper $path";
+        $foo = exec($command);
+        $running = 1;
+        if ($foo) {
+            if (strstr($foo, "false")) $running = 0;
+        } else $running = 0;
+        return $running;
+    }
     $running = 0;
     if (is_file($path)) {
         $pid = file_get_contents($path);
         if ($pid) {
             $pid = trim($pid);
             $command = "$ps_exe ww $pid";
-            if ($host != $project_host) {
-                $command = "$ssh_exe $host " . $command;
-            }
             $foo = exec($command);
             if ($foo) {
                 if (strstr($foo, (string)$pid)) $running = 1;
             }
         }
     }
-    if ($disabled == 1) $running = -1;
     return $running;
 }
 
@@ -206,6 +212,10 @@ if ($uldl_pid == "") {
 $uldl_host = parse_element($config_vars,"<uldl_host>");
 if ($uldl_host == "") {
     $uldl_host = $project_host;
+}
+$project_dir = parse_element($config_vars,"<project_dir>");
+if ($project_dir == "") {
+    $project_dir = "../..";
 }
 $ssh_exe = parse_element($config_vars,"<ssh_exe>");
 if ($ssh_exe == "") {
@@ -376,8 +386,9 @@ if ($retval) {
     );
     if (!$xml) {
         echo "</table></td><td>";
-    echo "<table>";
-    echo "<tr><th>".tra("Users")."</th><th>#</th></tr>";
+        echo "<table>";
+        echo "<tr><th>".tra("Users")."</th><th>#</th></tr>";
+    }
     show_counts(
         tra("with recent credit"),
         "users_with_recent_credit",
@@ -393,7 +404,9 @@ if ($retval) {
         "users_registered_in_past_24_hours",
         get_mysql_count("user where create_time > (unix_timestamp() - (24*3600))")
     );
-    echo "<tr><th>".tra("Computers")."</th><th>#</th></tr>";
+    if (!$xml) {
+        echo "<tr><th>".tra("Computers")."</th><th>#</th></tr>";
+    }
     show_counts(
         tra("with recent credit"),
         "hosts_with_recent_credit",
@@ -415,39 +428,58 @@ if ($retval) {
         "current_floating_point_speed",
         get_mysql_value("SELECT sum(expavg_credit)/200 as value FROM user")
     );
+    if (!$xml) {
+        end_table();
+        echo "</td></tr></table>";
 
-    end_table();
-    echo "</td></tr></table>";
-
-    start_table();
-   echo "<tr><th colspan=5>".tra("Tasks by application")."</th></tr>";
-    row_heading_array(
-        array(
-            tra("application"),
-            tra("unsent"),
-            tra("in progress"),
-            tra("avg runtime of last 100 results in h (min-max)"),
-            tra("users in last 24h")
-        )
-    );
+        start_table();
+        echo "<tr><th colspan=5>".tra("Tasks by application")."</th></tr>";
+        row_heading_array(
+            array(
+                tra("application"),
+                tra("unsent"),
+                tra("in progress"),
+                tra("avg runtime of last 100 results in h (min-max)"),
+                tra("users in last 24h")
+            )
+        );
+    }
     $apps = get_mysql_assoc("SELECT * FROM app WHERE deprecated != 1");
+    if ($xml) {
+        echo "    <tasks_by_app>\n";
+    }
     foreach($apps as $app) {
         $appid = $app["id"];
         $uf_name = $app["user_friendly_name"];
-        echo "<tr><td>$uf_name</td>
-            <td>" . number_format(get_mysql_count("result where server_state = 2 and appid = $appid")) . "</td>
-            <td>" . number_format(get_mysql_count("result where server_state = 4 and appid = $appid")) . "</td>
-            <td>"
-        ;
         $info = get_runtime_info($appid);
-        echo number_format($info->avg,2) . " (" . number_format($info->min,2) . " - " . number_format($info->max,2) . ")";
-        echo "</td>
-            <td>" . number_format(get_mysql_user("and appid = $appid")) . "</td>
-            </tr>"
-        ;
+        if ($xml) {
+             echo "      <app>\n";
+             echo "        <id>".$appid."</id>\n";
+             echo "        <name>".$app["name"]."</name>\n";
+             echo "        <unsent>".get_mysql_count("result where server_state = 2 and appid = $appid")."</unsent>\n";
+             echo "        <in_progress>".get_mysql_count("result where server_state = 4 and appid = $appid")."</in_progress>\n";
+             echo "        <avg_runtime>".round($info->avg, 2)."</avg_runtime>\n";
+             echo "        <min_runtime>".round($info->min, 2)."</min_runtime>\n";
+             echo "        <max_runtime>".round($info->max, 2)."</max_runtime>\n";
+             echo "        <users_24h>".get_mysql_user("and appid = $appid")."</users_24h>\n";
+             echo "      </app>\n";
+        } else {
+            echo "<tr><td>$uf_name</td>
+                <td>" . number_format(get_mysql_count("result where server_state = 2 and appid = $appid")) . "</td>
+                <td>" . number_format(get_mysql_count("result where server_state = 4 and appid = $appid")) . "</td>
+                <td>"
+            ;
+            echo number_format($info->avg,2) . " (" . number_format($info->min,2) . " - " . number_format($info->max,2) . ")";
+            echo "</td>
+                <td>" . number_format(get_mysql_user("and appid = $appid")) . "</td>
+                </tr>"
+            ;
+        }
     }
-    end_table();
-
+    if ($xml) {
+        echo "    </tasks_by_app>\n";
+    } else {
+        end_table();
     }
 }
 

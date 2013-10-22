@@ -55,11 +55,11 @@ static int get_process_information(PVOID* ppBuffer, PULONG pcbBuffer) {
         } else if (!NT_SUCCESS(Status)) {
             HeapFree(hHeap, NULL, *ppBuffer);
             return ERR_GETRUSAGE;
-		} else {
-			return 0;
-		}
+        } else {
+            return 0;
+        }
     }
-    return 0;	// never reached
+    return 0;    // never reached
 }
 
 // Note: the following will work on both NT and XP,
@@ -75,13 +75,13 @@ int get_procinfo_XP(PROC_MAP& pm) {
         pid = GetCurrentProcessId();
     }
 #if 0
-	printf("FILETIME: %d\n", sizeof(FILETIME));
-	printf("LARGE_INTEGER: %d\n", sizeof(LARGE_INTEGER));
-	printf("DWORD: %d\n", sizeof(DWORD));
-	printf("UNICODE_STRING: %d\n", sizeof(UNICODE_STRING));
-	printf("KPRIORITY: %d\n", sizeof(KPRIORITY));
-	printf("ULONG: %d\n", sizeof(ULONG));
-	printf("SIZE_T: %d\n", sizeof(SIZE_T));
+    printf("FILETIME: %d\n", sizeof(FILETIME));
+    printf("LARGE_INTEGER: %d\n", sizeof(LARGE_INTEGER));
+    printf("DWORD: %d\n", sizeof(DWORD));
+    printf("UNICODE_STRING: %d\n", sizeof(UNICODE_STRING));
+    printf("KPRIORITY: %d\n", sizeof(KPRIORITY));
+    printf("ULONG: %d\n", sizeof(ULONG));
+    printf("SIZE_T: %d\n", sizeof(SIZE_T));
 #endif
 
     get_process_information(&pBuffer, &cbBuffer);
@@ -89,15 +89,15 @@ int get_procinfo_XP(PROC_MAP& pm) {
     while (pProcesses) {
         PROCINFO p;
         p.clear();
-		p.id = pProcesses->ProcessId;
-		p.parentid = pProcesses->InheritedFromProcessId;
+        p.id = pProcesses->ProcessId;
+        p.parentid = pProcesses->InheritedFromProcessId;
         p.swap_size = pProcesses->VmCounters.PagefileUsage;
         p.working_set_size = pProcesses->VmCounters.WorkingSetSize;
-		p.page_fault_count = pProcesses->VmCounters.PageFaultCount;
+        p.page_fault_count = pProcesses->VmCounters.PageFaultCount;
         p.user_time = ((double) pProcesses->UserTime.QuadPart)/1e7;
         p.kernel_time = ((double) pProcesses->KernelTime.QuadPart)/1e7;
-		p.id = pProcesses->ProcessId;
-		p.parentid = pProcesses->InheritedFromProcessId;
+        p.id = pProcesses->ProcessId;
+        p.parentid = pProcesses->InheritedFromProcessId;
         p.is_low_priority = (pProcesses->BasePriority <= 4);
         WideCharToMultiByte(CP_ACP, 0,
             pProcesses->ProcessName.Buffer,
@@ -106,7 +106,7 @@ int get_procinfo_XP(PROC_MAP& pm) {
             sizeof(p.command),
             NULL, NULL
         );
-		p.is_boinc_app = (p.id == (int)pid) || (strcasestr(p.command, "boinc") != NULL);
+        p.is_boinc_app = (p.id == (int)pid) || (strcasestr(p.command, "boinc") != NULL);
         
 #ifdef _GRIDREPUBLIC
         if (!strcmp(p.command, "gridrepublic.exe")) {

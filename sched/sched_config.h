@@ -176,17 +176,23 @@ struct SCHED_CONFIG {
         // DEPRECATED: use assignment instead
     bool workload_sim;
         // Do workload simulation in deciding whether to send a result
+    bool estimate_flops_from_hav_pfc;
+        // Use host_app_version peak flop count rather than elapsed time 
+        // to calculate projected_flops when choosing version.
 
     // scheduler log flags
     //
     bool debug_array;               // debug job-cache scheduling
+    bool debug_array_detail;        // show slot-level info
     bool debug_assignment;
     bool debug_credit;
     bool debug_edf_sim_detail;      // show details of EDF sim
     bool debug_edf_sim_workload;    // show workload for EDF sim
     bool debug_fcgi;
+    bool debug_client_files;        // stuff related to sticky files on client
     bool debug_handle_results;
     bool debug_locality;            // locality scheduling
+    bool debug_locality_lite;       // locality scheduling Lite
     bool debug_prefs;
     bool debug_quota;
     bool debug_request_details;

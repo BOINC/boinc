@@ -27,8 +27,11 @@ if (!is_array($languages)) {
     error_page("Language selection not enabled.  Project admins must run the update_translations.php script.");
 }
 
-$prefs = $_SERVER["HTTP_ACCEPT_LANGUAGE"];
-$prefs = sanitize_tags($prefs);
+$prefs = "";
+if (isset($_SERVER["HTTP_ACCEPT_LANGUAGE"])) {
+    $prefs = $_SERVER["HTTP_ACCEPT_LANGUAGE"];
+    $prefs = sanitize_tags($prefs);
+}
 
 $set_lang = get_str("set_lang", true);
 if ($set_lang){

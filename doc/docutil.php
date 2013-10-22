@@ -42,7 +42,7 @@ function html_tag() {
     }
 }
 
-function page_head($title) {
+function page_head($title, $extra="") {
     global $book;
     global $chap_num;
     if ($book) {
@@ -59,6 +59,7 @@ function page_head($title) {
         <link rel=\"stylesheet\" type=\"text/css\" href=\"white.css\">
         <link rel=\"shortcut icon\" href=\"logo/favicon.gif\">
         <title>$title</title>
+        $extra
         </head>
         <body bgcolor='ffffff'>
         <table width='100%'>

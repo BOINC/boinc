@@ -106,13 +106,20 @@ int is_dir(const char* path) {
     return (!retval && (((sbuf.st_mode) & S_IFMT) == S_IFDIR));
 }
 
+#ifndef _WIN32
+
+int is_file_follow_symlinks(const char* path) {
+    struct stat sbuf;
+    int retval = stat(path, &sbuf);
+    return (!retval && (((sbuf.st_mode) & S_IFMT) == S_IFREG));
+}
+
 int is_dir_follow_symlinks(const char* path) {
     struct stat sbuf;
     int retval = stat(path, &sbuf);
     return (!retval && (((sbuf.st_mode) & S_IFMT) == S_IFDIR));
 }
 
-#ifndef _WIN32
 int is_symlink(const char* path) {
     struct stat sbuf;
     int retval = lstat(path, &sbuf);
@@ -587,7 +594,15 @@ static int boinc_rename_aux(const char* old, const char* newf) {
     if (MoveFileExA(old, newf, MOVEFILE_REPLACE_EXISTING|MOVEFILE_WRITE_THROUGH)) return 0;
     return GetLastError();
 #else
+    // rename() doesn't work between filesystems.
+    // So if it fails, try the "mv" command, which does work
+    //
     int retval = rename(old, newf);
+    if (retval) {
+        char buf[MAXPATHLEN+MAXPATHLEN];
+        sprintf(buf, "mv \"%s\" \"%s\"", old, newf);
+        retval = system(buf);
+    }
     if (retval) return ERR_RENAME;
     return 0;
 #endif
@@ -657,8 +672,8 @@ int boinc_make_dirs(const char* dirpath, const char* filepath) {
     char *p, *q;
 
     if (strlen(filepath) + strlen(dirpath) > MAXPATHLEN-1) return ERR_BUFFER_OVERFLOW;
-    strcpy(buf, filepath);
-    strcpy(oldpath, dirpath);
+    safe_strcpy(buf, filepath);
+    safe_strcpy(oldpath, dirpath);
 
     q = buf;
     while(*q) {
@@ -668,7 +683,7 @@ int boinc_make_dirs(const char* dirpath, const char* filepath) {
         sprintf(newpath, "%s/%s", oldpath, q);
         retval = boinc_mkdir(newpath);
         if (retval) return retval;
-        strcpy(oldpath, newpath);
+        safe_strcpy(oldpath, newpath);
         q = p+1;
     }
     return 0;
@@ -750,7 +765,34 @@ void relative_to_absolute(const char* relname, char* path) {
     }
 }
 
-// get total and free space on current filesystem (in bytes)
+#if defined(_WIN32) && !(defined(WXDEBUG) || defined(WXNDEBUG))
+int boinc_allocate_file(const char* path, double size) {
+    int retval = 0;
+    HANDLE h = CreateFile(
+        path,
+        GENERIC_WRITE,
+        0,
+        NULL,
+        OPEN_ALWAYS,
+        FILE_ATTRIBUTE_NORMAL,
+        NULL
+    );
+    if (h == INVALID_HANDLE_VALUE) return ERR_FOPEN;
+    LARGE_INTEGER sz;
+    sz.LowPart = fmod(size, 4294967296.);
+    sz.HighPart = (LONG)(size/4294967296.);
+    if (SetFilePointerEx(h, sz, NULL, FILE_BEGIN) == 0) {
+        retval = ERR_FOPEN;
+    }
+    if (!retval && SetEndOfFile(h) == 0) {
+        retval = ERR_FOPEN;
+    }
+    CloseHandle(h);
+    return retval;
+}
+#endif
+
+// get total and free dpace on current filesystem (in bytes)
 //
 #ifdef _WIN32
 int get_filesystem_info(double &total_space, double &free_space, char*) {
@@ -790,7 +832,15 @@ int get_filesystem_info(double &total_space, double &free_space, char* path) {
 #ifdef STATFS
     struct STATFS fs_info;
 
-    STATFS(path, &fs_info);
+    int retval = STATFS(path, &fs_info);
+    if (retval) {
+#ifndef _USING_FCGI_
+        perror("statvfs");
+#else
+        FCGI::perror("statvfs");
+#endif
+        return ERR_STATFS;
+    }
 #if HAVE_SYS_STATVFS_H
     total_space = (double)fs_info.f_frsize * (double)fs_info.f_blocks;
     free_space = (double)fs_info.f_frsize * (double)fs_info.f_bavail;
@@ -804,31 +854,3 @@ int get_filesystem_info(double &total_space, double &free_space, char* path) {
 #endif
     return 0;
 }
-
-#ifndef _WIN32
-
-int get_file_dir(char* filename, char* dir) {
-    char buf[8192], *p, path[MAXPATHLEN];
-    struct stat sbuf;
-    int retval;
-
-    p = getenv("PATH");
-    if (!p) return ERR_NOT_FOUND;
-    strcpy(buf, p);
-
-    p = strtok(buf, ":");
-    while (p) {
-        sprintf(path, "%s/%s", p, filename);
-        retval = stat(path, &sbuf);
-        if (!retval && (sbuf.st_mode & 0111)) {
-            strcpy(dir, p);
-            return 0;
-        }
-        p = strtok(0, ":");
-    }
-    return ERR_NOT_FOUND;
-}
-
-
-#endif
-

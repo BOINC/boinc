@@ -24,9 +24,9 @@
 #include "sg_ProjectPanel.h"
 #include "sg_ProjectCommandPopup.h"
 
-IMPLEMENT_DYNAMIC_CLASS(CSimpleProjectCommandPopupButton, wxButton)
+IMPLEMENT_DYNAMIC_CLASS(CSimpleProjectCommandPopupButton, CTransparentButton)
 
-BEGIN_EVENT_TABLE(CSimpleProjectCommandPopupButton, wxButton)
+BEGIN_EVENT_TABLE(CSimpleProjectCommandPopupButton, CTransparentButton)
     EVT_LEFT_DOWN(CSimpleProjectCommandPopupButton::OnProjectCommandsButton)
     EVT_MENU(ID_TASK_PROJECT_UPDATE, CSimpleProjectCommandPopupButton::OnProjectUpdate)
     EVT_MENU(ID_TASK_PROJECT_SUSPEND, CSimpleProjectCommandPopupButton::OnProjectSuspendResume)
@@ -42,7 +42,7 @@ CSimpleProjectCommandPopupButton::CSimpleProjectCommandPopupButton() {
 CSimpleProjectCommandPopupButton::CSimpleProjectCommandPopupButton(wxWindow* parent, wxWindowID id, 
         const wxString& label, const wxPoint& pos, const wxSize& size, 
         long style, const wxValidator& validator, const wxString& name) :
-        wxButton(parent, id, label, pos, size, style, validator, name)
+        CTransparentButton(parent, id, label, pos, size, style, validator, name)
     {
 
     m_ProjectCommandsPopUpMenu = new wxMenu();

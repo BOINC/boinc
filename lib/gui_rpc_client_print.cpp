@@ -119,10 +119,10 @@ void APP_VERSION::print() {
 
 void WORKUNIT::print() {
     printf("   name: %s\n", name);
-    printf("   FP estimate: %f\n", rsc_fpops_est);
-    printf("   FP bound: %f\n", rsc_fpops_bound);
-    printf("   memory bound: %f\n", rsc_memory_bound);
-    printf("   disk bound: %f\n", rsc_disk_bound);
+    printf("   FP estimate: %e\n", rsc_fpops_est);
+    printf("   FP bound: %e\n", rsc_fpops_bound);
+    printf("   memory bound: %.2f MB\n", rsc_memory_bound/MEGA);
+    printf("   disk bound: %.2f MB\n", rsc_disk_bound/MEGA);
 }
 
 void RESULT::print() {
@@ -134,12 +134,12 @@ void RESULT::print() {
     printf("   ready to report: %s\n", ready_to_report?"yes":"no");
     printf("   got server ack: %s\n", got_server_ack?"yes":"no");
     printf("   final CPU time: %f\n", final_cpu_time);
-    printf("   state: %d\n", state);
-    printf("   scheduler state: %d\n", scheduler_state);
+    printf("   state: %s\n", result_client_state_string(state));
+    printf("   scheduler state: %s\n", result_scheduler_state_string(scheduler_state));
     printf("   exit_status: %d\n", exit_status);
     printf("   signal: %d\n", signal);
     printf("   suspended via GUI: %s\n", suspended_via_gui?"yes":"no");
-    printf("   active_task_state: %d\n", active_task_state);
+    printf("   active_task_state: %s\n", active_task_state_string(active_task_state));
     //printf("   stderr_out: %s\n", stderr_out.c_str());
     printf("   app version num: %d\n", app_version_num);
     printf("   checkpoint CPU time: %f\n", checkpoint_cpu_time);
@@ -211,6 +211,17 @@ void SIMPLE_GUI_INFO::print() {
     }
 }
 
+void TIME_STATS::print() {
+    printf("  now: %f\n", now);
+    printf("  on_frac: %f\n", on_frac);
+    printf("  connected_frac: %f\n", connected_frac);
+    printf("  cpu_and_network_available_frac: %f\n", cpu_and_network_available_frac);
+    printf("  active_frac: %f\n", active_frac);
+    printf("  gpu_active_frac: %f\n", gpu_active_frac);
+    printf("  client_start_time: %f\n", client_start_time);
+    printf("  previous_uptime: %f\n", previous_uptime);
+}
+
 void CC_STATE::print() {
     unsigned int i;
     printf("======== Projects ========\n");
@@ -238,6 +249,8 @@ void CC_STATE::print() {
         printf("%d) -----------\n", i+1);
         results[i]->print();
     }
+    printf("\n======== Time stats ========\n");
+    time_stats.print();
 }
 
 void print_status(
@@ -349,3 +362,21 @@ void ACCOUNT_OUT::print() {
     }
 }
 
+void OLD_RESULT::print() {
+    printf(
+        "task %s:\n"
+        "   project URL: %s\n"
+        "   app name: %s\n"
+        "   exit status: %d\n"
+        "   elapsed time: %f sec\n"
+        "   completed time: %s\n"
+        "   reported time: %s\n",
+        result_name,
+        project_url,
+        app_name,
+        exit_status,
+        elapsed_time,
+        time_to_string(completed_time),
+        time_to_string(create_time)
+    );
+}

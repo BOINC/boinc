@@ -28,8 +28,9 @@
 #include "x_opengl.h"
 
 #include "app_ipc.h"
-#include "util.h"
 #include "filesys.h"
+#include "str_replace.h"
+#include "util.h"
 
 #include "boinc_gl.h"
 #include "boinc_glut.h"
@@ -154,7 +155,7 @@ static void maybe_render() {
 static void make_window(const char* title) {
     char window_title[256];
     if (title) {
-        strcpy(window_title, title);
+        strlcpy(window_title, title, sizeof(window_title));
     } else {
         get_window_title(window_title, 256);
     }
@@ -190,8 +191,11 @@ static void boinc_glut_init(int *argc, char** argv) {
     FILE *f = boinc_fopen("gfx_info", "r");
     if (f) {
         // ToDo: change this to XML parsing
-        fscanf(f, "%d %d %d %d\n", &xpos, &ypos, &width, &height);
+        int n = fscanf(f, "%d %d %d %d\n", &xpos, &ypos, &width, &height);
         fclose(f);
+        if (n != 4) {
+            fprintf(stderr, "failed to parse gfx_info");
+        }
     }
 
     glutInit (argc, argv);

@@ -39,10 +39,6 @@ using std::deque;
 
 #include "client_msgs.h"
 
-#ifdef ANDROID
-#include "android_log.h"
-#endif
-
 MESSAGE_DESCS message_descs;
 
 #ifdef SIM
@@ -55,7 +51,9 @@ extern void show_message(
 // 2) As a NOTICE, if high priority (for GUI notices)
 // 3) write to log file (stdoutdae.txt)
 //
-void show_message(PROJ_AM *p, char* msg, int priority, bool is_html, const char* link) {
+void show_message(
+    PROJ_AM *p, char* msg, int priority, bool is_html, const char* link
+) {
     const char* x;
     char message[1024], event_msg[1024];
     char* time_string = time_to_string(gstate.now);
@@ -104,13 +102,13 @@ void show_message(PROJ_AM *p, char* msg, int priority, bool is_html, const char*
         NOTICE n;
         n.description = buf;
         if (link) {
-            strcpy(n.link, link);
+            safe_strcpy(n.link, link);
         }
         if (p) {
-            strcpy(n.project_name, p->get_project_name());
+            safe_strcpy(n.project_name, p->get_project_name());
         }
         n.create_time = n.arrival_time = gstate.now;
-        strcpy(n.category, (priority==MSG_USER_ALERT)?"client":"scheduler");
+        safe_strcpy(n.category, (priority==MSG_USER_ALERT)?"client":"scheduler");
         notices.append(n);
     }
 
@@ -121,19 +119,18 @@ void show_message(PROJ_AM *p, char* msg, int priority, bool is_html, const char*
     } else {
         x = "---";
     }
-#ifdef ANDROID // print message to Logcat
-    char amessage[2048];
-    snprintf(amessage, sizeof(amessage), "client_msgs: %s", message);
-    LOGD(amessage);
-#endif //ANDROID
     printf("%s [%s] %s\n", time_string, x, message);
-#ifdef _WIN32
-    if (gstate.executing_as_daemon) {
-        char event_message[2048];
-        sprintf(event_message, "%s [%s] %s\n", time_string,  x, message);
-        ::OutputDebugString(event_message);
-    }
+
+#if defined(_WIN32) || defined(ANDROID)
+    char evt_message[2048];
+    snprintf(evt_message, sizeof(evt_message), "%s [%s] %s\n", time_string,  x, message);
+
+#ifdef _WIN32      // print message to the debugger view port
+    ::OutputDebugString(evt_message);  
 #endif
+
+#endif
+
 }
 #endif
 
@@ -215,7 +212,7 @@ void MESSAGE_DESCS::write(int seqno, MIOFILE& fout, bool translatable) {
     fout.printf("<msgs>\n");
     for (i=j; i>=0; i--) {
         mdp = msgs[i];
-        strcpy(buf, mdp->message.c_str());
+        safe_strcpy(buf, mdp->message.c_str());
         if (!translatable) {
             strip_translation(buf);
         }
@@ -247,4 +244,22 @@ void MESSAGE_DESCS::cleanup() {
         delete msgs[i];
     }
     msgs.clear();
+}
+
+string app_list_string(PROJECT* p) {
+    string app_list;
+    for (unsigned int i=0; i<gstate.apps.size(); i++) {
+        APP* app = gstate.apps[i];
+        if (app->project != p) continue;
+        if (!app_list.empty()) {
+            app_list += ", ";
+        }
+        app_list += "'";
+        app_list += app->name;
+        app_list += "'";
+    }
+    if (app_list.empty()) {
+        app_list = "None";
+    }
+    return app_list;
 }

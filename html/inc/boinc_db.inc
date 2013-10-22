@@ -69,21 +69,30 @@ class BoincDb extends DbConn {
     // 2) check whether the "stop_web" trigger file is present
     //
     static function get($readonly = false) {
+        global $generating_xml;
         if (!isset(self::$instance)) {
             if (web_stopped()) {
-                show_page("Project down for maintenance",
-                    "Please check back in a few hours."
-                );
-                exit;
+                if ($generating_xml) {
+                    xml_error(-183, "project down for maintenance");
+                } else {
+                    show_page("Project down for maintenance",
+                        "Please check back in a few hours."
+                    );
+                    exit;
+                }
             }
             self::get_aux($readonly);
             if (!self::$instance) {
-                show_page(
-                    "Project is down",
-                    "The project's database server is down.
-                    Please check back in a few hours."
-                );
-                exit;
+                if ($generating_xml) {
+                    xml_error(-138, "the project's database server is down");
+                } else {
+                    show_page(
+                        "Project is down",
+                        "The project's database server is down.
+                        Please check back in a few hours."
+                    );
+                    exit;
+                }
             }
         }
         return self::$instance;
@@ -91,7 +100,7 @@ class BoincDb extends DbConn {
 
     static function escape_string($string) {
         $db = self::get();
-        return parent::base_escape_string(trim($string));
+        return $db->base_escape_string(trim($string));
     }
     static function error() {
         $db = self::get();
@@ -149,7 +158,7 @@ class BoincUser {
         $db->delete_aux('profile', "userid=$this->id");
         return $db->delete($this, 'user');
     }
-    function sum($field) {
+    static function sum($field) {
         $db = BoincDb::get();
         return $db->sum('user', $field);
     }
@@ -283,6 +292,10 @@ class BoincWorkunit {
         $db = BoincDb::get();
         return $db->update($this, 'workunit', $clause);
     }
+    static function update_aux($clause) {
+        $db = BoincDb::get();
+        return $db->update_aux('workunit', $clause);
+    }
 }
 
 class BoincApp {
@@ -307,6 +320,10 @@ class BoincApp {
     function update($clause) {
         $db = BoincDb::get();
         return $db->update($this, 'app', $clause);
+    }
+    static function sum($field) {
+        $db = BoincDb::get();
+        return $db->sum('app', $field);
     }
 }
 
@@ -355,6 +372,10 @@ class BoincProfile {
     static function enum($clause, $clause2=null) {
         $db = BoincDb::get();
         return $db->enum('profile', 'BoincProfile', $clause, $clause2);
+    }
+    static function enum_fields($fields, $where_clause=null, $order_clause=null) {
+        $db = BoincDb::get();
+        return $db->enum_fields('profile', 'BoincProfile', $fields, $where_clause, $order_clause);
     }
     function delete_aux($clause) {
         $db = BoincDb::get();

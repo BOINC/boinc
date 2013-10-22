@@ -212,3 +212,16 @@ input.btn {
 }
 
 .dev { color: red; font-weight: bold }
+
+#pup {
+  position:absolute;
+  z-index:200; /* aaaalways on top*/
+  padding: 3px;
+  margin-left: 10px;
+  margin-top: 5px;
+  width: 650px;
+  border: 1px solid black;
+  background-color: #fff;
+  color: black;
+  font-size: 0.95em;
+}

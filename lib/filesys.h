@@ -32,6 +32,10 @@
 
 #endif /* !WIN32 */
 
+#ifndef MAXPATHLEN
+#define MAXPATHLEN 4096
+#endif
+
 #define FILE_RETRY_INTERVAL 5
     // On Windows, retry for this period of time, since some other program
     // (virus scan, defrag, index) may have the file open.
@@ -45,7 +49,9 @@ extern "C" {
   extern int boinc_copy(const char* orig, const char* newf);
   extern int boinc_rename(const char* old, const char* newf);
   extern int boinc_mkdir(const char*);
-#ifndef _WIN32
+#ifdef _WIN32
+  extern int boinc_allocate_file(const char*, double size);
+#else
   extern int boinc_chown(const char*, gid_t);
 #endif
   extern int boinc_rmdir(const char*);
@@ -55,6 +61,7 @@ extern "C" {
   extern char boinc_failed_file[MAXPATHLEN];
   extern int is_file(const char* path);
   extern int is_dir(const char* path);
+  extern int is_file_follow_symlinks(const char* path);
   extern int is_dir_follow_symlinks(const char* path);
   extern int is_symlink(const char* path);
   extern int boinc_truncate(const char*, double);
@@ -121,15 +128,6 @@ struct FILE_LOCK {
     int lock(const char* filename);
     int unlock(const char* filename);
 };
-
-#ifndef _WIN32
-
-// search PATH, find the directory that a program is in, if any
-//
-extern int get_file_dir(char* filename, char* dir);
-
-#endif
-
 
 #endif /* c++ */
 

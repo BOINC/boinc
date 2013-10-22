@@ -73,21 +73,23 @@ Commands:\n\
  --get_simple_gui_info              show status of projects and active tasks\n\
  --get_state                        show entire state\n\
  --get_tasks                        show tasks\n\
+ --get_old_tasks                    show reported tasks from last 24 hours\n\
  --join_acct_mgr URL name passwd    attach account manager\n\
  --lookup_account URL email passwd\n\
  --network_available                retry deferred network communication\n\
  --project URL op                   project operation\n\
-   op = reset | detach | update | suspend | resume | nomorework | allowmorework\n\
+   op = reset | detach | update | suspend | resume | nomorework | allowmorework | detach_when_done | dont_detach_when_done\n\
  --project_attach URL auth          attach to project\n\
  --quit                             tell client to exit\n\
  --quit_acct_mgr                    quit current account manager\n\
  --read_cc_config\n\
  --read_global_prefs_override\n\
  --run_benchmarks\n\
- --set_debts URL1 std1 ltd1 [URL2 std2 ltd2 ...]\n\
  --set_gpu_mode mode duration       set GPU run mode for given duration\n\
    mode = always | auto | never\n\
- --set_network_mode mode duration\n\
+ --set_host_info product_name\n\
+ --set_network_mode mode duration   set network mode for given duration\n\
+   mode = always | auto | never\n\
  --set_proxy_settings\n\
  --set_run_mode mode duration       set run mode for given duration\n\
    mode = always | auto | never\n\
@@ -97,10 +99,6 @@ Commands:\n\
 "
 );
     exit(1);
-}
-
-void show_error(int retval) {
-    fprintf(stderr, "Error %d: %s\n", retval, boincerror(retval));
 }
 
 char* next_arg(int argc, char** argv, int& i) {
@@ -208,6 +206,15 @@ int main(int argc, char** argv) {
         RESULTS results;
         retval = rpc.get_results(results);
         if (!retval) results.print();
+    } else if (!strcmp(cmd, "--get_old_tasks")) {
+        vector<OLD_RESULT> ors;
+        retval = rpc.get_old_results(ors);
+        if (!retval) {
+            for (unsigned int j=0; j<ors.size(); j++) {
+                OLD_RESULT& o = ors[j];
+                o.print();
+            }
+        }
     } else if (!strcmp(cmd, "--get_file_transfers")) {
         FILE_TRANSFERS ft;
         retval = rpc.get_file_transfers(ft);
@@ -231,9 +238,9 @@ int main(int argc, char** argv) {
     } else if (!strcmp(cmd, "--task")) {
         RESULT result;
         char* project_url = next_arg(argc, argv, i);
-        strcpy(result.project_url, project_url);
+        safe_strcpy(result.project_url, project_url);
         char* name = next_arg(argc, argv, i);
-        strcpy(result.name, name);
+        safe_strcpy(result.name, name);
         char* op = next_arg(argc, argv, i);
         if (!strcmp(op, "suspend")) {
             retval = rpc.result_op(result, "suspend");
@@ -246,8 +253,8 @@ int main(int argc, char** argv) {
         }
     } else if (!strcmp(cmd, "--project")) {
         PROJECT project;
-        strcpy(project.master_url, next_arg(argc, argv, i));
-        canonicalize_master_url(project.master_url);
+        safe_strcpy(project.master_url, next_arg(argc, argv, i));
+        canonicalize_master_url(project.master_url, sizeof(project.master_url));
         char* op = next_arg(argc, argv, i);
         if (!strcmp(op, "reset")) {
             retval = rpc.project_op(project, "reset");
@@ -276,8 +283,8 @@ int main(int argc, char** argv) {
         }
     } else if (!strcmp(cmd, "--project_attach")) {
         char url[256];
-        strcpy(url, next_arg(argc, argv, i));
-        canonicalize_master_url(url);
+        safe_strcpy(url, next_arg(argc, argv, i));
+        canonicalize_master_url(url, sizeof(url));
         char* auth = next_arg(argc, argv, i);
         retval = rpc.project_attach(url, auth, "");
     } else if (!strcmp(cmd, "--file_transfer")) {
@@ -327,6 +334,12 @@ int main(int argc, char** argv) {
         } else {
             fprintf(stderr, "Unknown op %s\n", op);
         }
+    } else if (!strcmp(cmd, "--set_host_info")) {
+        HOST_INFO h;
+        memset(&h, 0, sizeof(h));
+        char* pn = next_arg(argc, argv, i);
+        safe_strcpy(h.product_name, pn);
+        retval = rpc.set_host_info(h);
     } else if (!strcmp(cmd, "--set_network_mode")) {
         char* op = next_arg(argc, argv, i);
         double duration;
@@ -539,8 +552,8 @@ int main(int argc, char** argv) {
     } else {
         usage();
     }
-    if (retval < 0) {
-        show_error(retval);
+    if (retval) {
+        fprintf(stderr, "Operation failed: %s\n", boincerror(retval));
     }
 
 #if defined(_WIN32) && defined(USE_WINSOCK)

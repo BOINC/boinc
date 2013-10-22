@@ -88,7 +88,7 @@ function show_list($list) {
     echo "</table>";
 }
 
-function show_teams_html($list) {
+function show_teams_html($list, $params) {
     page_head(tra("Team search results"));
     if (sizeof($list) == 0) {
         echo tra("No teams were found matching your criteria. Try another search.")
@@ -126,11 +126,11 @@ function search($params) {
     if (strlen($params->keywords)) {
         $kw = BoincDb::escape_string($params->keywords);
         $name_lc = strtolower($kw);
-        $name_lc = escape_pattern($name_lc);
 
         $list2 = get_teams("name='$name_lc'", $params->active);
         merge_lists($list2, $list, 20);
 
+        $name_lc = escape_pattern($name_lc);
         $list2 = get_teams("name like '".$name_lc."%'", $params->active);
         merge_lists($list2, $list, 5);
 
@@ -142,7 +142,8 @@ function search($params) {
         $tried = true;
     }
     if (strlen($params->country) && $params->country!='None') {
-        $list2 = get_teams("country = '$params->country'", $params->active);
+        $country = BoincDb::escape_string($params->country);
+        $list2 = get_teams("country = '$country'", $params->active);
         //echo "<br>country matches: ",sizeof($list2);
         merge_lists($list2, $list, 1);
         $tried = true;
@@ -164,16 +165,16 @@ $user = get_logged_in_user(false);
 $submit = get_str("submit", true);
 $xml = get_str("xml", true);
 if ($submit || $xml) {
-    $params = null;
+    $params = new StdClass;
     $params->keywords = get_str('keywords', true);
     $params->country = get_str("country", true);
-    $params->type = get_str("type", true);
+    $params->type = get_int("type", true);
     $params->active = get_str('active', true);
     $list = search($params);
     if ($xml) {
         show_teams_xml($list);
     } else {
-        show_teams_html($list);
+        show_teams_html($list, $params);
     }
 } else {
     page_head(tra("Find a team"), 'document.form.keywords.focus()');
@@ -181,7 +182,7 @@ if ($submit || $xml) {
         ."<p>"
         .tra("Use this form to find teams that might be right for you.")
         ."</p>\n";
-    team_search_form($params);
+    team_search_form(null);
     if (isset($_COOKIE['init'])) {
         echo "<p>
             ".tra("%1I'm not interested%2 in joining a team right now.", "<a href=home.php>", "</a>");

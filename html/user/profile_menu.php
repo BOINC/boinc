@@ -86,11 +86,12 @@ function select_profile($cmd) {
     //
     if ($cmd == "rand") {
         $profiles = array();
-        if ($_GET['pic'] == 0) {
+        $pic = get_int('pic');
+        if ($pic == 0) {
             $profiles = BoincProfile::enum("has_picture=0", "limit 1000");
-        } else if ($_GET['pic'] == 1) {
+        } else if ($pic == 1) {
             $profiles = BoincProfile::enum("has_picture=1", "limit 1000");
-        } else if ($_GET['pic'] == -1) {
+        } else if ($pic == -1) {
             $profiles = BoincProfile::enum(null, "limit 1000");
         }
 

@@ -40,7 +40,7 @@ function add_to_array(&$array, $id, $credit) {
         $array[$id]->nresults++;
         $array[$id]->credit += $credit;
     } else {
-        $x = null;
+        $x = new StdClass;
         $x->nresults = 1;
         $x->credit = $credit;
         $array[$id] = $x;

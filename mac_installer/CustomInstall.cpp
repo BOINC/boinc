@@ -35,8 +35,10 @@ Directions for creating a customized installer for the Macintosh:
 
 #include <curl/curl.h>
 #include <stdlib.h>
-#include "filesys.h"
+
 #include "error_numbers.h"
+#include "filesys.h"
+#include "str_util.h"
 
 #ifdef  __cplusplus
 extern "C" {
@@ -88,7 +90,7 @@ int main(int argc, char *argv[])
         show_message((StringPtr)"\pPath to application is too long.");
         return 0;
     }
-    strcpy(path, argv[0]);   // Path to this application.
+    safe_strcpy(path, argv[0]);   // Path to this application.
     p = strstr(path, "/Contents/MacOS/");
     *p = '\0';
     p = strrchr(path, '/');
@@ -383,7 +385,7 @@ static void print_to_log_file(const char *format, ...) {
     va_list args;
     char buf[256];
     time_t t;
-    strcpy(buf, getenv("HOME"));
+    safe_strcpy(buf, getenv("HOME"));
     strcat(buf, "/Documents/test_log.txt");
     f = fopen(buf, "a");
     if (!f) return;
@@ -392,7 +394,7 @@ static void print_to_log_file(const char *format, ...) {
 //  freopen(buf, "a", stderr);
 
     time(&t);
-    strcpy(buf, asctime(localtime(&t)));
+    safe_strcpy(buf, asctime(localtime(&t)));
     strip_cr(buf);
 
     fputs(buf, f);

@@ -26,14 +26,14 @@
 #include <sys/types.h>
 #include <fcntl.h>
 
+#include "error_numbers.h"
 #include "filesys.h"
 #include "md5_file.h"
-#include "error_numbers.h"
+#include "util.h"
 
+#include "sched_config.h"
 #include "sched_msgs.h"
 #include "sched_util.h"
-#include "sched_config.h"
-#include "util.h"
 
 #ifdef _USING_FCGI_
 #include "boinc_fcgi.h"
@@ -276,11 +276,11 @@ int count_workunits(int& n, const char* query) {
 int count_unsent_results(int& n, int appid) {
     char buf[256];
     if (appid) {
-        sprintf(buf, "where server_state=%d and appid=%d ",
+        sprintf(buf, "where server_state<=%d and appid=%d ",
             RESULT_SERVER_STATE_UNSENT, appid
         );
     } else {
-        sprintf(buf, "where server_state=%d", RESULT_SERVER_STATE_UNSENT);
+        sprintf(buf, "where server_state<=%d", RESULT_SERVER_STATE_UNSENT);
     }
     return count_results(buf, n);
 
@@ -307,6 +307,9 @@ bool app_plan_uses_gpu(const char* plan_class) {
         return true;
     }
     if (strstr(plan_class, "ati")) {
+        return true;
+    }
+    if (strstr(plan_class, "intel_gpu")) {
         return true;
     }
     return false;

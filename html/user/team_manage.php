@@ -31,11 +31,11 @@ function show_admin_page($user, $team) {
         <li>
             ".tra("Member list:")."
         <a href=team_email_list.php?teamid=$team->id>".tra("HTML")."</a>
-        | <a href=team_email_list.php?teamid=$team->id&plain=1>".tra("text")."</a>
+        &middot; <a href=team_email_list.php?teamid=$team->id&plain=1>".tra("text")."</a>
             <br><span class=note>".tra("View member names and email addresses")."</span>
         <li>".tra("View change history:")."
             <a href=team_delta.php?teamid=$team->id>".tra("HTML")."</a>
-            | <a href=team_delta.php?teamid=$team->id&xml=1>".tra("XML")."</a>
+            &middot; <a href=team_delta.php?teamid=$team->id&xml=1>".tra("XML")."</a>
             <br><span class=note>".tra("See when members joined or quit this team")."</span>
     ";
 

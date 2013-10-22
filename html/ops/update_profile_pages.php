@@ -23,11 +23,17 @@ require_once("../inc/uotd.inc");
 require_once("../inc/db.inc");
 require_once("../inc/profile.inc");
 
-// this causes "cannot modify header" errors
-//echo date(DATE_RFC822), ": Starting\n";
+echo date(DATE_RFC822), ": Starting\n";
 
 set_time_limit(0);
 ini_set("memory_limit", "1024M");
+
+$debug = false;
+
+function print_debug_msg($text) {
+    global $debug;
+    if ($debug) print($text."\n");
+}
 
 db_init();
 
@@ -131,27 +137,33 @@ function write_page_links($filename, $currPageNum, $numPages) {
 //   $height: the height of the table of images.
 //
 function build_picture_pages($width, $height) {
+    print_debug_msg("Beginning to build picture pages...");
 
     // TODO: Add support for a computer image gallery.
 
     // TODO: Standardize "Last modified" string to a function call (util.inc).
 
     if (profile_screening()) {
-        $query = "SELECT userid FROM profile WHERE has_picture = 1 AND verification=1 order by userid";
+        $profiles = BoincProfile::enum_fields('userid', 'has_picture = 1 AND verification=1', 'order by userid');
     } else {
-        $query = "SELECT userid FROM profile WHERE has_picture = 1 order by userid";
+        $profiles = BoincProfile::enum_fields('userid', 'has_picture = 1', 'order by userid');
     }
-    $result = mysql_query($query);
-    $numIds = mysql_num_rows($result);
-
-    //echo "Result has $numIds rows.<br>";
 
     // Build an array of IDs of all users with pictures in their profiles.
-    while ($row = mysql_fetch_array($result, MYSQL_NUM)) {
-        $userIds[] = $row[0];
+    $userIds = array();
+    $numIds = 0;
+    foreach($profiles as $profile) {
+        $user = BoincUser::lookup_id($profile->userid);
+        if (!$user) continue; // maybe we should delete the profile if user is non-existent anymore?
+        if ($user->name) {
+            $userIds[] = $profile->userid;
+            $numIds++;
+        }
     }
 
-    mysql_free_result($result);
+    $msg = "$numIds users have profiles AND uploaded a picture";
+    if (profile_screening()) $msg .= " AND were screened by the project";
+    print_debug_msg($msg);
 
 // don't randomize; makes things hard for people who sift profiles
 //
@@ -169,7 +181,7 @@ function build_picture_pages($width, $height) {
         $numPages = 1;
     }
 
-    //echo "Generating $numPages pages.<br>";
+    print_debug_msg("Generating $numPages pages");
 
     $count = 0;
 
@@ -213,7 +225,7 @@ function build_picture_pages($width, $height) {
         close_output_buffer($filename);
     }
 
-    //echo "<br><br><a href=\""  .PROFILE_PATH . "user_gallery_1.html\">Go to the first generated page.</a>";
+    print_debug_msg("done building picture pages");
 }
 
 // Creates pages grouping user profiles by country.  Filenames are of the
@@ -223,18 +235,19 @@ function build_picture_pages($width, $height) {
 // each country.
 
 function build_country_pages() {
-    $query = "select userid from profile";
-    $result = mysql_query($query);
+    print_debug_msg("Beginning to build country pages...");
+    $profiles = BoincProfile::enum_fields('userid');
     $numIds = 0;
+    $countryMembers = array();
 
     // Build a multi-dimensional array of countries,
     // each element of which contains an array
     // of the userids who belong to those countries.
     // Format: array[country][index] = userid.
 
-    while ($profile = mysql_fetch_object($result)) {
-        $user = lookup_user_id($profile->userid);
-        if (!$user) continue;
+    foreach($profiles as $profile) {
+        $user = BoincUser::lookup_id($profile->userid);
+        if (!$user) continue; // maybe we should delete the profile if user is non-existent anymore?
         if ($user->country) {
             $countryMembers[$user->country][] = $user->id;
             $numIds++;
@@ -243,9 +256,7 @@ function build_country_pages() {
         }
     }
 
-    mysql_free_result($result);
-
-    //echo "$numIds users have profiles AND non-null country entries.<br>";
+    print_debug_msg("$numIds users have profiles AND non-null country entries.");
 
     $countries = array_keys($countryMembers);
     sort($countries);
@@ -255,11 +266,10 @@ function build_country_pages() {
 
     foreach ($countries as $country) {
         $baseFileName =  "profile_country_" . get_legal_filename($country);
-        $filePath = PROFILE_PATH;
         build_profile_pages(
             $countryMembers[$country],
             "User Profiles from $country", $country, 5, 2,
-            $filePath, $baseFileName, "../html/"
+            PROFILE_PATH, $baseFileName
         );
     }
 
@@ -267,23 +277,23 @@ function build_country_pages() {
 
     build_country_summary_page($countryMembers);
 
-    //echo "<br><a href=\"" . PROFILE_PATH . "profile_country.html\">View Summary Page</a>";
-    //echo "<br><br>Done";
-
+    print_debug_msg("done building country pages");
 }
 
 // Creates pages grouping users by the first letter of their names.
 
 function build_alpha_pages() {
+    print_debug_msg("Beginning to build alphabetical pages...");
     global $alphabet;
 
-    $query = "select userid from profile";
-    $result = mysql_query($query);
-    $numIds = 0;
+    $profiles = BoincProfile::enum_fields('userid');
 
-    while ($profile = mysql_fetch_object($result)) {
-        $user = lookup_user_id($profile->userid);
-        if (!$user) continue;
+    $numIds = 0;
+    $members = array();
+
+    foreach($profiles as $profile) {
+        $user = BoincUser::lookup_id($profile->userid);
+        if (!$user) continue; // maybe we should delete the profile if user is non-existent anymore?
         if ($user->name) {
             $name = ltrim($user->name);
             $members[strtoupper($name[0])][] = $user->id;
@@ -291,9 +301,7 @@ function build_alpha_pages() {
         }
     }
 
-    mysql_free_result($result);
-
-    //echo "$numIds users have profiles AND non-null country entries.<br>";
+    print_debug_msg("$numIds users have profiles AND names.");
 
     $letters = array_keys($members);
 
@@ -319,17 +327,15 @@ function build_alpha_pages() {
     }
 
     build_alpha_summary_page($letters_used);
+    print_debug_msg("done building alphabetical pages");
 }
 
 // A generalized function to produce some number of pages summarizing a
 // set of user profiles.
 
 function build_profile_pages($members, $pageHead, $pageTitle, $rowsPerPage, $colsPerPage, $filePath, $baseFileName) {
-    $numMembers = count($members);
     $numPerPage = $rowsPerPage * $colsPerPage;
     $numPages = ceil(count($members) / $numPerPage);
-
-    $count = 0;
 
     for ($page = 1; $page <= $numPages; $page++) {
 
@@ -337,7 +343,7 @@ function build_profile_pages($members, $pageHead, $pageTitle, $rowsPerPage, $col
         open_output_buffer();
 
         $head = $pageHead . ": Page $page of $numPages";
-        page_head($pageTitle, null, null, "../");
+        page_head($head, null, $pageTitle, "../");
 
         echo "Last updated ", pretty_time_str(time()), "<p>\n";
 
@@ -355,6 +361,7 @@ function build_profile_pages($members, $pageHead, $pageTitle, $rowsPerPage, $col
 }
 
 function build_country_summary_page($countryMembers) {
+    print_debug_msg("Beginning to build country summary page...");
     $countries = array_keys($countryMembers);
 
     $filename = PROFILE_PATH . "profile_country.html";
@@ -378,9 +385,11 @@ function build_country_summary_page($countryMembers) {
     page_tail(false, "../");
 
     close_output_buffer($filename);
+    print_debug_msg("done building country summary page");
 }
 
 function build_alpha_summary_page($characters_used) {
+    print_debug_msg("Beginning to build alphabetical summary pages...");
     global $alphabet;
 
     $filename = PROFILE_PATH."profile_alpha.html";
@@ -401,6 +410,10 @@ function build_alpha_summary_page($characters_used) {
     }
     close_output_buffer($filename);
 }
+
+$caching = true;
+
+if (@$argv[1]=="-d") $debug=true;
 
 build_country_pages();
 build_alpha_pages();

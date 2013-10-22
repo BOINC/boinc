@@ -479,7 +479,7 @@ bool CAdvancedFrame::CreateMenu() {
         _("Stop work regardless of preferences")
     );
 
-    if (pDoc->state.have_nvidia || pDoc->state.have_ati) {
+    if (pDoc->state.have_gpu()) {
 
 #ifndef __WXGTK__
         menuActivity->AppendSeparator();
@@ -582,8 +582,8 @@ bool CAdvancedFrame::CreateMenu() {
     );
     menuAdvanced->Append(
         ID_READCONFIG, 
-        _("Read config file"),
-        _("Read configuration info from cc_config.xml")
+        _("Read config files"),
+        _("Read configuration info from cc_config.xml and any app_config.xml files")
     );
     menuAdvanced->Append(
         ID_READPREFERENCES, 
@@ -1504,11 +1504,11 @@ void CAdvancedFrame::OnLaunchNewInstance(wxCommandEvent& WXUNUSED(event)) {
 #else
     int prog;
 #endif
-    int argc = 3;
-    char* const argv[3] = { 
+    int argc = 2;
+    char* const argv[3] = {
          const_cast<char *>("boincmgr"), 
          const_cast<char *>("--multiple"), 
-         const_cast<char *>("") 
+         NULL
     }; 
 
     wxString strExecutable = wxGetApp().GetRootDirectory() + wxGetApp().GetExecutableName();
@@ -1824,6 +1824,8 @@ void CAdvancedFrame::OnRefreshState(wxTimerEvent& WXUNUSED(event)) {
     //   we still want the UI state to have been stored
     //   for their next use
     SaveState();
+    
+    wxConfigBase::Get(FALSE)->Flush();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnRefreshState - Function End"));
 }
@@ -1844,7 +1846,7 @@ void CAdvancedFrame::OnFrameRender(wxTimerEvent& WXUNUSED(event)) {
                 CC_STATUS  status;
                 if ((pDoc->IsConnected()) && (0 == pDoc->GetCoreClientStatus(status))) {
                     UpdateActivityModeControls(status);
-                    if (pDoc->state.have_nvidia || pDoc->state.have_ati) {
+                    if (pDoc->state.have_gpu()) {
                         UpdateGPUModeControls(status);
                     }
                     UpdateNetworkModeControls(status);

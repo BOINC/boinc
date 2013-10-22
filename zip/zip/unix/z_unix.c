@@ -1,10 +1,12 @@
 /*
-  Copyright (c) 1990-1999 Info-ZIP.  All rights reserved.
+  unix/unix.c - Zip 3
 
-  See the accompanying file LICENSE, version 1999-Oct-05 or later
+  Copyright (c) 1990-2008 Info-ZIP.  All rights reserved.
+
+  See the accompanying file LICENSE, version 2007-Mar-4 or later
   (the contents of which are also included in zip.h) for terms of use.
-  If, for some reason, both of these files are missing, the Info-ZIP license
-  also may be found at:  ftp://ftp.cdrom.com/pub/infozip/license.html
+  If, for some reason, all these files are missing, the Info-ZIP license
+  also may be found at:  ftp://ftp.info-zip.org/pub/infozip/license.html
 */
 #include "zip.h"
 
@@ -113,7 +115,7 @@ int caseflag;           /* true to force case-sensitive match */
   char *e;              /* pointer to name from readd() */
   int m;                /* matched flag */
   char *p;              /* path for recursion */
-  struct stat s;        /* result of stat() */
+  z_stat s;             /* result of stat() */
   struct zlist far *z;  /* steps through zfiles list */
 
   if (strcmp(n, "-") == 0)   /* if compressing stdin */
@@ -141,8 +143,11 @@ int caseflag;           /* true to force case-sensitive match */
 #ifdef OS390
   if (S_ISREG(s.st_mode) || S_ISLNK(s.st_mode))
 #else
-  if ((s.st_mode & S_IFREG) == S_IFREG ||
-      (s.st_mode & S_IFLNK) == S_IFLNK)
+#  ifdef S_IFLNK
+  if ((s.st_mode & S_IFREG) == S_IFREG || (s.st_mode & S_IFLNK) == S_IFLNK)
+#  else
+  if ((s.st_mode & S_IFREG) == S_IFREG)
+#  endif
 #endif
   {
     /* add or remove name of file */
@@ -197,6 +202,24 @@ int caseflag;           /* true to force case-sensitive match */
     }
     free((zvoid *)p);
   } /* (s.st_mode & S_IFDIR) */
+#ifdef OS390
+  else if (S_ISFIFO(s.st_mode))
+#else
+  else if ((s.st_mode & S_IFIFO) == S_IFIFO)
+#endif
+  {
+    if (allow_fifo) {
+      /* FIFO (Named Pipe) - handle as normal file */
+      /* add or remove name of FIFO */
+      /* zip will stop if FIFO is open and wait for pipe to be fed and closed */
+      if (noisy) zipwarn("Reading FIFO (Named Pipe): ", n);
+      if ((m = newname(n, 0, caseflag)) != ZE_OK)
+        return m;
+    } else {
+      zipwarn("ignoring FIFO (Named Pipe) - use -FI to read: ", n);
+      return ZE_OK;
+    }
+  } /* S_IFIFO */
   else
     zipwarn("ignoring special file: ", n);
   return ZE_OK;
@@ -213,7 +236,7 @@ int *pdosflag;          /* output: force MSDOS file attributes? */
   char *t = NULL;       /* shortened name */
   int dosflag;
 
-  dosflag = dosify;  /* default for non-DOS and non-OS/2 */
+  dosflag = dosify;     /* default for non-DOS and non-OS/2 */
 
   /* Find starting point in name before doing malloc */
   /* Strip "//host/share/" part of a UNC name */
@@ -244,18 +267,18 @@ int *pdosflag;          /* output: force MSDOS file attributes? */
     return NULL;
   strcpy(n, t);
 
-  if (isdir == 42) return n;    /* avoid warning on unused variable */
-
   if (dosify)
     msname(n);
 
 #ifdef EBCDIC
-  strtoasc(n, n);               /* here because msname() needs native coding */
+  strtoasc(n, n);       /* here because msname() needs native coding */
 #endif
 
   /* Returned malloc'ed name */
   if (pdosflag)
     *pdosflag = dosflag;
+
+  if (isdir) return n;  /* avoid warning on unused variable */
   return n;
 }
 
@@ -302,10 +325,10 @@ ulg d;                  /* dos-style time to change it to */
 }
 
 ulg filetime(f, a, n, t)
-char *f;                /* name of file to get info on */
-ulg *a;                 /* return value: file attributes */
-long *n;                /* return value: file size */
-iztimes *t;             /* return value: access, modific. and creation times */
+  char *f;                /* name of file to get info on */
+  ulg *a;                 /* return value: file attributes */
+  zoff_t *n;              /* return value: file size */
+  iztimes *t;             /* return value: access, modific. and creation times */
 /* If file *f does not exist, return 0.  Else, return the file's last
    modified date and time as an MSDOS date and time.  The date and
    time is returned in a long with the date most significant to allow
@@ -318,8 +341,9 @@ iztimes *t;             /* return value: access, modific. and creation times */
    If f is "-", use standard input as the file. If f is a device, return
    a file size of -1 */
 {
-  struct stat s;        /* results of stat() */
-  char name[FNMAX];
+  z_stat s;         /* results of stat() */
+  /* converted to pointer from using FNMAX - 11/8/04 EG */
+  char *name;
   int len = strlen(f);
 
   if (f == label) {
@@ -331,19 +355,27 @@ iztimes *t;             /* return value: access, modific. and creation times */
       t->atime = t->mtime = t->ctime = label_utim;
     return label_time;
   }
+  if ((name = malloc(len + 1)) == NULL) {
+    ZIPERR(ZE_MEM, "filetime");
+  }
   strcpy(name, f);
   if (name[len - 1] == '/')
     name[len - 1] = '\0';
   /* not all systems allow stat'ing a file with / appended */
   if (strcmp(f, "-") == 0) {
-    if (fstat(fileno(stdin), &s) != 0)
+    if (zfstat(fileno(stdin), &s) != 0) {
+      free(name);
       error("fstat(stdin)");
+    }
   }
-  else if (LSSTAT(name, &s) != 0)
+  else if (LSSTAT(name, &s) != 0) {
     /* Accept about any file kind including directories
      * (stored with trailing / with -r option)
      */
+    free(name);
     return 0;
+  }
+  free(name);
 
   if (a != NULL) {
 #ifndef OS390
@@ -367,7 +399,7 @@ iztimes *t;             /* return value: access, modific. and creation times */
     {
     mode_t legacy_modes;
 
-    /* Initialize with permission bits - which are not implementation optional */
+    /* Initialize with permission bits--which are not implementation-optional */
     legacy_modes = s.st_mode & (S_IRWXU | S_IRWXG | S_IRWXO | S_ISUID | S_ISGID | S_ISVTX);
     if (S_ISDIR(s.st_mode))
       legacy_modes |= UNX_IFDIR;
@@ -403,25 +435,188 @@ iztimes *t;             /* return value: access, modific. and creation times */
 
 #ifndef QLZIP /* QLZIP Unix2QDOS cross-Zip supplies an extended variant */
 
+int set_new_unix_extra_field(z, s)
+  struct zlist far *z;
+  z_stat *s;
+  /* New unix extra field.
+     Currently only UIDs and GIDs are stored. */
+{
+  int uid_size;
+  int gid_size;
+  int ef_data_size;
+  char *extra;
+  char *cextra;
+  ulg id;
+  int b;
+
+  uid_size = sizeof(s->st_uid);
+  gid_size = sizeof(s->st_gid);
+
+/* New extra field
+   tag       (2 bytes)
+   size      (2 bytes)
+   version   (1 byte)
+   uid_size  (1 byte - size in bytes)
+   uid       (variable)
+   gid_size  (1 byte - size in bytes)
+   gid       (variable)
+ */
+   
+  ef_data_size = 1 + 1 + uid_size + 1 + gid_size;
+
+  if ((extra = (char *)malloc(z->ext + 4 + ef_data_size)) == NULL)
+    return ZE_MEM;
+  if ((cextra = (char *)malloc(z->ext + 4 + ef_data_size)) == NULL)
+    return ZE_MEM;
+
+  if (z->ext)
+    memcpy(extra, z->extra, z->ext);
+  if (z->cext)
+    memcpy(cextra, z->cextra, z->cext);
+
+  free(z->extra);
+  z->extra = extra;
+  free(z->cextra);
+  z->cextra = cextra;
+
+  z->extra[z->ext + 0] = 'u';
+  z->extra[z->ext + 1] = 'x';
+  z->extra[z->ext + 2] = (char)ef_data_size;     /* length of data part */
+  z->extra[z->ext + 3] = 0;
+  z->extra[z->ext + 4] = 1;                      /* version */
+
+  /* UID */
+  z->extra[z->ext + 5] = (char)(uid_size);       /* uid size in bytes */
+  b = 6;
+  id = (ulg)(s->st_uid);
+  z->extra[z->ext + b] = (char)(id & 0xFF);
+  if (uid_size > 1) {
+    b++;
+    id = id >> 8;
+    z->extra[z->ext + b] = (char)(id & 0xFF);
+    if (uid_size > 2) {
+      b++;
+      id = id >> 8;
+      z->extra[z->ext + b] = (char)(id & 0xFF);
+      b++;
+      id = id >> 8;
+      z->extra[z->ext + b] = (char)(id & 0xFF);
+      if (uid_size == 8) {
+        b++;
+        id = id >> 8;
+        z->extra[z->ext + b] = (char)(id & 0xFF);
+        b++;
+        id = id >> 8;
+        z->extra[z->ext + b] = (char)(id & 0xFF);
+        b++;
+        id = id >> 8;
+        z->extra[z->ext + b] = (char)(id & 0xFF);
+        b++;
+        id = id >> 8;
+        z->extra[z->ext + b] = (char)(id & 0xFF);
+      }
+    }
+  }
+
+  /* GID */
+  b++;
+  z->extra[z->ext + b] = (char)(gid_size);       /* gid size in bytes */
+  b++;
+  id = (ulg)(s->st_gid);
+  z->extra[z->ext + b] = (char)(id & 0xFF);
+  if (gid_size > 1) {
+    b++;
+    id = id >> 8;
+    z->extra[z->ext + b] = (char)(id & 0xFF);
+    if (gid_size > 2) {
+      b++;
+      id = id >> 8;
+      z->extra[z->ext + b] = (char)(id & 0xFF);
+      b++;
+      id = id >> 8;
+      z->extra[z->ext + b] = (char)(id & 0xFF);
+      if (gid_size == 8) {
+        b++;
+        id = id >> 8;
+        z->extra[z->ext + b] = (char)(id & 0xFF);
+        b++;
+        id = id >> 8;
+        z->extra[z->ext + b] = (char)(id & 0xFF);
+        b++;
+        id = id >> 8;
+        z->extra[z->ext + b] = (char)(id & 0xFF);
+        b++;
+        id = id >> 8;
+        z->extra[z->ext + b] = (char)(id & 0xFF);
+      }
+    }
+  }
+
+  /* copy local extra field to central directory extra field */
+  memcpy((z->cextra) + z->cext, (z->extra) + z->ext, 4 + ef_data_size);
+
+  z->ext = z->ext + 4 + ef_data_size;
+  z->cext = z->cext + 4 + ef_data_size;
+
+  return ZE_OK;
+}
+
+
 int set_extra_field(z, z_utim)
   struct zlist far *z;
   iztimes *z_utim;
   /* store full data in local header but just modification time stamp info
      in central header */
 {
-  struct stat s;
+  z_stat s;
+  char *name;
+  int len = strlen(z->name);
 
   /* For the full sized UT local field including the UID/GID fields, we
    * have to stat the file again. */
-  if (LSSTAT(z->name, &s))
+
+  if ((name = malloc(len + 1)) == NULL) {
+    ZIPERR(ZE_MEM, "set_extra_field");
+  }
+  strcpy(name, z->name);
+  if (name[len - 1] == '/')
+    name[len - 1] = '\0';
+  /* not all systems allow stat'ing a file with / appended */
+  if (LSSTAT(name, &s)) {
+    free(name);
     return ZE_OPEN;
+  }
+  free(name);
 
 #define EB_L_UT_SIZE    (EB_HEADSIZE + EB_UT_LEN(2))
 #define EB_C_UT_SIZE    (EB_HEADSIZE + EB_UT_LEN(1))
-#define EB_L_UX2_SIZE   (EB_HEADSIZE + EB_UX2_MINLEN)
-#define EB_C_UX2_SIZE   EB_HEADSIZE
-#define EF_L_UNIX_SIZE  (EB_L_UT_SIZE + EB_L_UX2_SIZE)
-#define EF_C_UNIX_SIZE  (EB_C_UT_SIZE + EB_C_UX2_SIZE)
+
+/* The flag UIDGID_NOT_16BIT should be set by the pre-compile configuration
+   script when it detects st_uid or st_gid sizes differing from 16-bit.
+ */
+#ifndef UIDGID_NOT_16BIT
+  /* The following "second-level" check for st_uid and st_gid members being
+     16-bit wide is only added as a safety precaution in case the "first-level"
+     check failed to define the UIDGID_NOT_16BIT symbol.
+     The first-level check should have been implemented in the automatic
+     compile configuration process.
+   */
+# ifdef UIDGID_ARE_16B
+#  undef UIDGID_ARE_16B
+# endif
+  /* The following expression is a compile-time constant and should (hopefully)
+     get optimized away by any sufficiently intelligent compiler!
+   */
+# define UIDGID_ARE_16B  (sizeof(s.st_uid) == 2 && sizeof(s.st_gid) == 2)
+
+# define EB_L_UX2_SIZE   (EB_HEADSIZE + EB_UX2_MINLEN)
+# define EB_C_UX2_SIZE   EB_HEADSIZE
+# define EF_L_UNIX_SIZE  (EB_L_UT_SIZE + (UIDGID_ARE_16B ? EB_L_UX2_SIZE : 0))
+# define EF_C_UNIX_SIZE  (EB_C_UT_SIZE + (UIDGID_ARE_16B ? EB_C_UX2_SIZE : 0))
+#else
+# define EF_L_UNIX_SIZE EB_L_UT_SIZE
+# define EF_C_UNIX_SIZE EB_C_UT_SIZE
+#endif /* !UIDGID_NOT_16BIT */
 
   if ((z->extra = (char *)malloc(EF_L_UNIX_SIZE)) == NULL)
     return ZE_MEM;
@@ -441,20 +636,33 @@ int set_extra_field(z, z_utim)
   z->extra[10] = (char)(s.st_atime >> 8);
   z->extra[11] = (char)(s.st_atime >> 16);
   z->extra[12] = (char)(s.st_atime >> 24);
-  z->extra[13] = 'U';
-  z->extra[14] = 'x';
-  z->extra[15] = (char)EB_UX2_MINLEN;   /* length of data part of local e.f. */
-  z->extra[16] = 0;
-  z->extra[17] = (char)(s.st_uid);
-  z->extra[18] = (char)(s.st_uid >> 8);
-  z->extra[19] = (char)(s.st_gid);
-  z->extra[20] = (char)(s.st_gid >> 8);
+
+#ifndef UIDGID_NOT_16BIT
+  /* Only store the UID and GID in the old Ux extra field if the runtime
+     system provides them in 16-bit wide variables.  */
+  if (UIDGID_ARE_16B) {
+    z->extra[13] = 'U';
+    z->extra[14] = 'x';
+    z->extra[15] = (char)EB_UX2_MINLEN; /* length of data part of local e.f. */
+    z->extra[16] = 0;
+    z->extra[17] = (char)(s.st_uid);
+    z->extra[18] = (char)(s.st_uid >> 8);
+    z->extra[19] = (char)(s.st_gid);
+    z->extra[20] = (char)(s.st_gid >> 8);
+  }
+#endif /* !UIDGID_NOT_16BIT */
+
   z->ext = EF_L_UNIX_SIZE;
 
   memcpy(z->cextra, z->extra, EB_C_UT_SIZE);
   z->cextra[EB_LEN] = (char)EB_UT_LEN(1);
-  memcpy(z->cextra+EB_C_UT_SIZE, z->extra+EB_L_UT_SIZE, EB_C_UX2_SIZE);
-  z->cextra[EB_LEN+EB_C_UT_SIZE] = 0;
+#ifndef UIDGID_NOT_16BIT
+  if (UIDGID_ARE_16B) {
+    /* Copy header of Ux extra field from local to central */
+    memcpy(z->cextra+EB_C_UT_SIZE, z->extra+EB_L_UT_SIZE, EB_C_UX2_SIZE);
+    z->cextra[EB_LEN+EB_C_UT_SIZE] = 0;
+  }
+#endif
   z->cext = EF_C_UNIX_SIZE;
 
 #if 0  /* UID/GID presence is now signaled by central EF_IZUNIX2 field ! */
@@ -468,6 +676,10 @@ int set_extra_field(z, z_utim)
    */
   z->atx |= 0x4000;
 #endif /* never */
+
+  /* new unix extra field */
+  set_new_unix_extra_field(z, &s);
+
   return ZE_OK;
 }
 
@@ -517,188 +729,268 @@ char *d;                /* directory to delete */
 
 void version_local()
 {
-    static ZCONST char CompiledWith[] = "Compiled with %s%s for %s%s%s%s.\n\n";
-#if defined(CRAY) || defined(NX_CURRENT_COMPILER_RELEASE)
-    char buf1[40];
-    char buf2[40];
+#ifdef __GNUC__
+#  ifdef NX_CURRENT_COMPILER_RELEASE
+    char compiler_name[80];
+#  endif
+#else
+#  if (defined( __SUNPRO_C))
+    char compiler_name[33];
+#  else
+#    if (defined( __HP_cc) || defined( __IBMC__))
+    char compiler_name[33];
+#    else
+#      if (defined( __DECC_VER))
+    char compiler_name[33];
+    int compiler_typ;
+#      else
+#        if ((defined(CRAY) || defined(cray)) && defined(_RELEASE))
+    char compiler_name[40];
+#        endif
+#      endif
+#    endif
+#  endif
 #endif
 
 #ifdef BSD
-    char buf1[40];
-
-#if (BSD <= 199103)
-#ifdef __NetBSD__
-    static ZCONST char *netbsd[] = { "_ALPHA", "", "A", "B" };
-#endif /* __NetBSD__ */
-#else /* BSD > 199103 */
+# if (BSD > 199103)
     struct utsname u;
+    char os_name[40];
+# else
+# if defined(__NETBSD__))
+    static ZCONST char *netbsd[] = { "_ALPHA", "", "A", "B" };
+    char os_name[40];
+# endif /* __NETBSD__ */
+# endif /* BSD > 199103 */
+#else /* !BSD */
+#if ((defined(CRAY) || defined(cray)) && defined(_UNICOS))
+    char os_name[40];
+#endif /* (CRAY && defined(_UNICOS)) */
+#endif /* ?BSD */
 
-    uname(&u);
-#endif /* BSD <= 199103) */
-#endif /* BSD */
-
-    /* Pyramid, NeXT have problems with huge macro expansion, too:  no Info() */
-    printf(CompiledWith,
-
+/* Define the compiler name and version string */
 #ifdef __GNUC__
 #  ifdef NX_CURRENT_COMPILER_RELEASE
-      (sprintf(buf1, "NeXT DevKit %d.%02d ", NX_CURRENT_COMPILER_RELEASE/100,
-        NX_CURRENT_COMPILER_RELEASE%100), buf1),
-      (strlen(__VERSION__) > 8)? "(gcc)" :
-        (sprintf(buf2, "(gcc %s)", __VERSION__), buf2),
+    sprintf(compiler_name, "NeXT DevKit %d.%02d (gcc " __VERSION__ ")",
+     NX_CURRENT_COMPILER_RELEASE/100, NX_CURRENT_COMPILER_RELEASE%100);
+#    define COMPILER_NAME compiler_name
 #  else
-      "gcc ", __VERSION__,
+#    define COMPILER_NAME "gcc " __VERSION__
 #  endif
-#else
-#  if defined(CRAY) && defined(_RELEASE)
-      "cc ", (sprintf(buf1, "version %d", _RELEASE), buf1),
+#else /* !__GNUC__ */
+#  if defined(__SUNPRO_C)
+    sprintf( compiler_name, "Sun C version %x", __SUNPRO_C);
+#    define COMPILER_NAME compiler_name
 #  else
-#  ifdef __VERSION__
-      "cc ", __VERSION__,
-#  else
-      "cc", "",
+#    if (defined( __HP_cc))
+    if ((__HP_cc% 100) == 0)
+    {
+      sprintf( compiler_name, "HP C version A.%02d.%02d",
+       (__HP_cc/ 10000), ((__HP_cc% 10000)/ 100));
+    }
+    else
+    {
+      sprintf( compiler_name, "HP C version A.%02d.%02d.%02d",
+       (__HP_cc/ 10000), ((__HP_cc% 10000)/ 100), (__HP_cc% 100));
+    }
+#      define COMPILER_NAME compiler_name
+#    else
+#      if (defined( __DECC_VER))
+    sprintf( compiler_name, "DEC C version %c%d.%d-%03d",
+     ((compiler_typ = (__DECC_VER / 10000) % 10) == 6 ? 'T' :
+     (compiler_typ == 8 ? 'S' : 'V')),
+     __DECC_VER / 10000000,
+     (__DECC_VER % 10000000) / 100000, __DECC_VER % 1000);
+#        define COMPILER_NAME compiler_name
+#      else
+#        if ((defined(CRAY) || defined(cray)) && defined(_RELEASE))
+    sprintf(compiler_name, "cc version %d", _RELEASE);
+#          define COMPILER_NAME compiler_name
+#        else
+#          ifdef __IBMC__
+    sprintf( compiler_name, "IBM C version %d.%d.%d",
+     (__IBMC__/ 100), ((__IBMC__/ 10)% 10), (__IBMC__% 10));
+#            define COMPILER_NAME compiler_name
+#          else
+#            ifdef __VERSION__
+#              define COMPILER_NAME "cc " __VERSION__
+#            else
+#              define COMPILER_NAME "cc "
+#            endif
+#          endif
+#        endif
+#      endif
+#    endif
 #  endif
-#  endif
-#endif
+#endif /* ?__GNUC__ */
 
-      "Unix",
 
+/* Define the name to use for the OS we're compiling on */
 #if defined(sgi) || defined(__sgi)
-      " (Silicon Graphics IRIX)",
+#  define OS_NAME "Silicon Graphics IRIX"
 #else
 #ifdef sun
 #  ifdef sparc
 #    ifdef __SVR4
-      " (Sun Sparc/Solaris)",
+#      define OS_NAME "Sun SPARC/Solaris"
 #    else /* may or may not be SunOS */
-      " (Sun Sparc)",
+#      define OS_NAME "Sun SPARC"
 #    endif
 #  else
 #  if defined(sun386) || defined(i386)
-      " (Sun 386i)",
+#    define OS_NAME "Sun 386i"
 #  else
 #  if defined(mc68020) || defined(__mc68020__)
-      " (Sun 3)",
+#    define OS_NAME "Sun 3"
 #  else /* mc68010 or mc68000:  Sun 2 or earlier */
-      " (Sun 2)",
+#    define OS_NAME "Sun 2"
 #  endif
 #  endif
 #  endif
 #else
 #ifdef __hpux
-      " (HP/UX)",
+#  define OS_NAME "HP-UX"
 #else
 #ifdef __osf__
-      " (DEC OSF/1)",
+#  define OS_NAME "DEC OSF/1"
 #else
 #ifdef _AIX
-      " (IBM AIX)",
+#  define OS_NAME "IBM AIX"
 #else
 #ifdef aiws
-      " (IBM RT/AIX)",
+#  define OS_NAME "IBM RT/AIX"
 #else
 #if defined(CRAY) || defined(cray)
 #  ifdef _UNICOS
-      (sprintf(buf2, " (Cray UNICOS release %d)", _UNICOS), buf2),
+    sprintf(os_name, "Cray UNICOS release %d", _UNICOS);
+#    define OS_NAME os_name
 #  else
-      " (Cray UNICOS)",
+#    define OS_NAME "Cray UNICOS"
 #  endif
 #else
 #if defined(uts) || defined(UTS)
-      " (Amdahl UTS)",
+#  define OS_NAME "Amdahl UTS"
 #else
 #ifdef NeXT
 #  ifdef mc68000
-      " (NeXTStep/black)",
+#    define OS_NAME "NeXTStep/black"
 #  else
-      " (NeXTStep for Intel)",
+#    define OS_NAME "NeXTStep for Intel"
 #  endif
-#else              /* the next dozen or so are somewhat order-dependent */
+#else
 #if defined(linux) || defined(__linux__)
 #  ifdef __ELF__
-      " (Linux ELF)",
+#    define OS_NAME "Linux ELF"
 #  else
-      " (Linux a.out)",
+#    define OS_NAME "Linux a.out"
 #  endif
 #else
 #ifdef MINIX
-      " (Minix)",
+#  define OS_NAME "Minix"
 #else
 #ifdef M_UNIX
-      " (SCO Unix)",
+#  define OS_NAME "SCO Unix"
 #else
 #ifdef M_XENIX
-      " (SCO Xenix)",
+#  define OS_NAME "SCO Xenix"
 #else
 #ifdef BSD
-#if (BSD > 199103)
-     (sprintf(buf1, " (%s %s)", u.sysname, u.release), buf1),
+# if (BSD > 199103)
+#    define OS_NAME os_name
+    uname(&u);
+    sprintf(os_name, "%s %s", u.sysname, u.release);
+# else
+# ifdef __NetBSD__
+#   define OS_NAME os_name
+#   ifdef NetBSD0_8
+      sprintf(os_name, "NetBSD 0.8%s", netbsd[NetBSD0_8]);
+#   else
+#   ifdef NetBSD0_9
+      sprintf(os_name, "NetBSD 0.9%s", netbsd[NetBSD0_9]);
+#   else
+#   ifdef NetBSD1_0
+      sprintf(os_name, "NetBSD 1.0%s", netbsd[NetBSD1_0]);
+#   endif /* NetBSD1_0 */
+#   endif /* NetBSD0_9 */
+#   endif /* NetBSD0_8 */
+# else
+# ifdef __FreeBSD__
+#    define OS_NAME "FreeBSD 1.x"
+# else
+# ifdef __bsdi__
+#    define OS_NAME "BSD/386 1.0"
+# else
+# ifdef __386BSD__
+#    define OS_NAME "386BSD"
+# else
+#    define OS_NAME "Unknown BSD"
+# endif /* __386BSD__ */
+# endif /* __bsdi__ */
+# endif /* FreeBSD */
+# endif /* NetBSD */
+# endif /* BSD > 199103 */
 #else
-#ifdef __NetBSD__
-#  ifdef NetBSD0_8
-     (sprintf(buf1, " (NetBSD 0.8%s)", netbsd[NetBSD0_8]), buf1),
-#  else
-#  ifdef NetBSD0_9
-     (sprintf(buf1, " (NetBSD 0.9%s)", netbsd[NetBSD0_9]), buf1),
-#  else
-#  ifdef NetBSD1_0
-     (sprintf(buf1, " (NetBSD 1.0%s)", netbsd[NetBSD1_0]), buf1),
-#  endif /* NetBSD1_0 */
-#  endif /* NetBSD0_9 */
-#  endif /* NetBSD0_8 */
+#ifdef __CYGWIN__
+#  define OS_NAME "Cygwin"
 #else
-#ifdef __FreeBSD__
-      " (FreeBSD 1.x)",
+#if defined(i686) || defined(__i686) || defined(__i686__)
+#  define OS_NAME "Intel 686"
 #else
-#ifdef __bsdi__
-      " (BSD/386 1.0)",
-#else
-#ifdef __386BSD__
-      " (386BSD)",
-#else
-      " (Unknown BSD)"
-#endif /* __386BSD__ */
-#endif /* __bsdi__ */
-#endif /* FreeBSD */
-#endif /* NetBSD */
-#endif /* BSD > 199103 */
+#if defined(i586) || defined(__i586) || defined(__i586__)
+#  define OS_NAME "Intel 586"
 #else
 #if defined(i486) || defined(__i486) || defined(__i486__)
-      " (Intel 486)",
+#  define OS_NAME "Intel 486"
 #else
 #if defined(i386) || defined(__i386) || defined(__i386__)
-      " (Intel 386)",
+#  define OS_NAME "Intel 386"
 #else
 #ifdef pyr
-      " (Pyramid)",
+#  define OS_NAME "Pyramid"
 #else
 #if defined(ultrix) || defined(__ultrix)
 #  if defined(mips) || defined(__mips)
-      " (DEC/MIPS)",
+#    define OS_NAME "DEC/MIPS"
 #  else
 #  if defined(vax) || defined(__vax)
-      " (DEC/VAX)",
+#    define OS_NAME "DEC/VAX"
 #  else /* __alpha? */
-      " (DEC/Alpha)",
+#    define OS_NAME "DEC/Alpha"
 #  endif
 #  endif
 #else
 #ifdef gould
-      " (Gould)",
+#  define OS_NAME "Gould"
 #else
 #ifdef MTS
-      " (MTS)",
+#  define OS_NAME "MTS"
 #else
 #ifdef __convexc__
-      " (Convex)",
+#  define OS_NAME "Convex"
 #else
 #ifdef __QNX__
-      " (QNX 4)",
+#  define OS_NAME "QNX 4"
 #else
 #ifdef __QNXNTO__
-      " (QNX Neutrino)",
+#  define OS_NAME "QNX Neutrino"
 #else
-      "",
+#ifdef __APPLE__
+#  ifdef __i386__
+#    define OS_NAME "Mac OS X Intel"
+#  else /* __i386__ */
+#    ifdef __ppc__
+#      define OS_NAME "Mac OS X PowerPC"
+#    else /* __ppc__ */
+#      ifdef __ppc64__
+#        define OS_NAME "Mac OS X PowerPC64"
+#      else /* __ppc64__ */
+#        define OS_NAME "Mac OS X"
+#      endif /* __ppc64__ */
+#    endif /* __ppc__ */
+#  endif /* __i386__ */
+#else
+#  define OS_NAME "Unknown"
+#endif /* Apple */
 #endif /* QNX Neutrino */
 #endif /* QNX 4 */
 #endif /* Convex */
@@ -708,6 +1000,9 @@ void version_local()
 #endif /* Pyramid */
 #endif /* 386 */
 #endif /* 486 */
+#endif /* 586 */
+#endif /* 686 */
+#endif /* Cygwin */
 #endif /* BSD */
 #endif /* SCO Xenix */
 #endif /* SCO Unix */
@@ -719,17 +1014,87 @@ void version_local()
 #endif /* RT/AIX */
 #endif /* AIX */
 #endif /* OSF/1 */
-#endif /* HP/UX */
+#endif /* HP-UX */
 #endif /* Sun */
 #endif /* SGI */
 
+
+/* Define the compile date string */
 #ifdef __DATE__
-      " on ", __DATE__
+#  define COMPILE_DATE " on " __DATE__
 #else
-      "", ""
+#  define COMPILE_DATE ""
 #endif
-    );
+
+    printf("Compiled with %s for Unix (%s)%s.\n\n",
+           COMPILER_NAME, OS_NAME, COMPILE_DATE);
 
 } /* end function version_local() */
 
-const char *BOINC_RCSID_e162ca2fdb = "$Id: z_unix.c 4979 2005-01-02 18:29:53Z ballen $";
+
+/* 2006-03-23 SMS.
+ * Emergency replacement for strerror().  (Useful on SunOS 4.*.)
+ * Enable by specifying "LOCAL_UNZIP=-DNEED_STRERROR=1" on the "make"
+ * command line.
+ */
+
+#ifdef NEED_STRERROR
+
+char *strerror( err)
+  int err;
+{
+    extern char *sys_errlist[];
+    extern int sys_nerr;
+
+    static char no_msg[ 64];
+
+    if ((err >= 0) && (err < sys_nerr))
+    {
+        return sys_errlist[ err];
+    }
+    else
+    {
+        sprintf( no_msg, "(no message, code = %d.)", err);
+        return no_msg;
+    }
+}
+
+#endif /* def NEED_STRERROR */
+
+
+/* 2006-03-23 SMS.
+ * Emergency replacement for memmove().  (Useful on SunOS 4.*.)
+ * Enable by specifying "LOCAL_UNZIP=-DNEED_MEMMOVE=1" on the "make"
+ * command line.
+ */
+
+#ifdef NEED_MEMMOVE
+
+/* memmove.c -- copy memory.
+   Copy LENGTH bytes from SOURCE to DEST.  Does not null-terminate.
+   In the public domain.
+   By David MacKenzie <djm@gnu.ai.mit.edu>.
+   Adjusted by SMS.
+*/
+
+void *memmove(dest0, source0, length)
+  void *dest0;
+  void const *source0;
+  size_t length;
+{
+    char *dest = dest0;
+    char const *source = source0;
+    if (source < dest)
+        /* Moving from low mem to hi mem; start at end.  */
+        for (source += length, dest += length; length; --length)
+            *--dest = *--source;
+    else if (source != dest)
+    {
+        /* Moving from hi mem to low mem; start at beginning.  */
+        for (; length; --length)
+            *dest++ = *source++;
+    }
+    return dest0;
+}
+
+#endif /* def NEED_MEMMOVE */

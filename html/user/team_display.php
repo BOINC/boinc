@@ -35,7 +35,7 @@ $user = get_logged_in_user(false);
 if (is_team_admin($user, $team)) {
     $get_from_db = true;
 }
-if ($user->id == $team->ping_user) {
+if ($user && $user->id == $team->ping_user) {
     $get_from_db = true;
 }
 

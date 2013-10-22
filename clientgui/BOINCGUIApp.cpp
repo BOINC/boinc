@@ -62,6 +62,9 @@ IMPLEMENT_DYNAMIC_CLASS(CBOINCGUIApp, wxApp)
 BEGIN_EVENT_TABLE (CBOINCGUIApp, wxApp)
     EVT_ACTIVATE_APP(CBOINCGUIApp::OnActivateApp)
     EVT_RPC_FINISHED(CBOINCGUIApp::OnRPCFinished)
+#if (defined(__WXMSW__) && !wxCHECK_VERSION(2, 9, 4))
+    EVT_END_SESSION(CBOINCGUIApp::OnEndSession)
+#endif
 END_EVENT_TABLE ()
 
 
@@ -303,7 +306,8 @@ bool CBOINCGUIApp::OnInit() {
 
     // Enable additional file system type handlers
     wxFileSystem::AddHandler(new wxMemoryFSHandler);
-    wxFileSystem::AddHandler(new CBOINCInternetFSHandler);
+    m_pInternetFSHandler = new CBOINCInternetFSHandler;
+    wxFileSystem::AddHandler(m_pInternetFSHandler);
 
     // Initialize the skin manager
     m_pSkinManager = new CSkinManager(m_bDebugSkins);
@@ -324,13 +328,15 @@ bool CBOINCGUIApp::OnInit() {
 #if (defined(__WXMAC__) && defined(_DEBUG))     // TODO: implement this for other platforms
         // GDB can't attach to applications which are running as a different user   
         //  or group, so fix up data with current user and group during debugging
-        if (check_security(g_use_sandbox, true)) {
+        if (check_security(g_use_sandbox, true, NULL, 0)) {
             CreateBOINCUsersAndGroups();
             SetBOINCDataOwnersGroupsAndPermissions();
             SetBOINCAppOwnersGroupsAndPermissions(NULL);
         }
 #endif
-        iErrorCode = check_security(g_use_sandbox, true, path_to_error);
+        iErrorCode = check_security(
+            g_use_sandbox, true, path_to_error, sizeof(path_to_error)
+        );
     }
 
     if (iErrorCode) {
@@ -356,7 +362,11 @@ bool CBOINCGUIApp::OnInit() {
             }
             strDialogMessage += _(")");
             
-            fprintf(stderr, "%s\n", (const char*)strDialogMessage.utf8_str());
+            fprintf(stderr, "%ls ownership or permissions are not set properly; please reinstall %ls.  (Error code %d%s%s)\n", 
+                    m_pSkinManager->GetAdvanced()->GetApplicationShortName().c_str(),
+                    m_pSkinManager->GetAdvanced()->GetApplicationShortName().c_str(),
+                    iErrorCode, (path_to_error[0] ? " at " : ""), path_to_error
+                );
         }
 
         wxMessageDialog* pDlg = new wxMessageDialog(
@@ -498,6 +508,24 @@ bool CBOINCGUIApp::OnInit() {
 }
 
 
+#if (defined(__WXMSW__) && !wxCHECK_VERSION(2, 9, 4))
+// Work around a bug in wxWidgets 2.8.x which fails 
+// to call OnExit() when Windows is shut down. This
+// is supposed to be fixed in wxWidgets 2.9.x.
+//
+void CBOINCGUIApp::OnEndSession(wxCloseEvent& ) {
+    s_bSkipExitConfirmation = true;
+
+    CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
+    wxCommandEvent evt(wxEVT_COMMAND_MENU_SELECTED, wxID_EXIT);
+    // The event loop has already been stopped,
+    // so we must call OnExit directly
+    pFrame->OnExit(evt);
+    OnExit();
+}
+#endif
+
+
 int CBOINCGUIApp::OnExit() {
     // Shutdown the System Idle Detection code
     IdleTrackerDetach();
@@ -508,10 +536,12 @@ int CBOINCGUIApp::OnExit() {
         m_pDocument = NULL;
     }
 
-    m_pConfig->SetPath(wxT("/"));
+    // Save Application State
+    SaveState();
+
     if (m_pSkinManager) {
-        m_pConfig->Write(wxT("Skin"), m_pSkinManager->GetSelectedSkin());
         delete m_pSkinManager;
+        m_pSkinManager = NULL;
     }
 
     if (m_pLocale) {
@@ -524,15 +554,21 @@ int CBOINCGUIApp::OnExit() {
         m_pEventLog = NULL;
     }
 
-
-    // Save Application State
-    m_pConfig->Write(wxT("AutomaticallyShutdownClient"), m_iShutdownCoreClient);
-    m_pConfig->Write(wxT("DisplayShutdownClientDialog"), m_iDisplayExitDialog);
-    m_pConfig->Write(wxT("DisableAutoStart"), m_iBOINCMGRDisableAutoStart);
-
     diagnostics_finish();
 
     return wxApp::OnExit();
+}
+
+
+void CBOINCGUIApp::SaveState() {
+    // Save Application State
+    m_pConfig->SetPath(wxT("/"));
+    if (m_pSkinManager) {
+        m_pConfig->Write(wxT("Skin"), m_pSkinManager->GetSelectedSkin());
+    }
+    m_pConfig->Write(wxT("AutomaticallyShutdownClient"), m_iShutdownCoreClient);
+    m_pConfig->Write(wxT("DisplayShutdownClientDialog"), m_iDisplayExitDialog);
+    m_pConfig->Write(wxT("DisableAutoStart"), m_iBOINCMGRDisableAutoStart);
 }
 
 
@@ -965,12 +1001,19 @@ bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
             m_pConfig->SetPath(wxT("/Simple"));
             m_pConfig->Read(wxT("YPos"), &iTop, 30);
             m_pConfig->Read(wxT("XPos"), &iLeft, 30);
+
+            // We don't save Simple View's width & height since it's 
+            // window is not resizable, so don't try to read them
 #ifdef __WXMAC__
-            m_pConfig->Read(wxT("Width"), &iWidth, 409);
-            m_pConfig->Read(wxT("Height"), &iHeight, 561);
+//            m_pConfig->Read(wxT("Width"), &iWidth, 409);
+//            m_pConfig->Read(wxT("Height"), &iHeight, 561);
+            iWidth = 409;
+            iHeight = 561;
 #else
-            m_pConfig->Read(wxT("Width"), &iWidth, 416);
-            m_pConfig->Read(wxT("Height"), &iHeight, 570);
+//            m_pConfig->Read(wxT("Width"), &iWidth, 416);
+//            m_pConfig->Read(wxT("Height"), &iHeight, 570);
+            iWidth = 416;
+            iHeight = 570;
 #endif
         }
 
@@ -1032,8 +1075,14 @@ bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
             if (pOldFrame) pOldFrame->Hide();
 
             // Delete the old one if it exists
-            // Note: this has the side effect of hiding the Event Log
             if (pOldFrame) pOldFrame->Destroy();
+
+            if (iGUISelection != m_iGUISelected) {
+                m_iGUISelected = iGUISelection;
+                m_pConfig->SetPath(wxT("/"));
+                m_pConfig->Write(wxT("GUISelection"), iGUISelection);
+                m_pConfig->Flush();
+            }
         }
     }
 
@@ -1059,10 +1108,6 @@ bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
         ::SetForegroundWindow((HWND)m_pFrame->GetHWND());
 #endif
     }
-
-    m_iGUISelected = iGUISelection;
-    m_pConfig->SetPath(wxT("/"));
-    m_pConfig->Write(wxT("GUISelection"), iGUISelection);
 
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCGUIApp::SetActiveGUI - Function End"));
     return true;
@@ -1188,9 +1233,9 @@ int CBOINCGUIApp::IsAnotherInstanceRunning() {
     myName[0] = 0;
     PROC_MAP::iterator i;
     for (i=pm.begin(); i!=pm.end(); i++) {
-        PROCINFO& pi = i->second;
-        if (pi.id == myPid) {
-            strncpy(myName, pi.command, sizeof(myName));
+        PROCINFO& procinfo = i->second;
+        if (procinfo.id == myPid) {
+            strncpy(myName, procinfo.command, sizeof(myName));
             break;
         }
     }
@@ -1201,10 +1246,10 @@ int CBOINCGUIApp::IsAnotherInstanceRunning() {
     
     // Search process list for other applications with same name
     for (i=pm.begin(); i!=pm.end(); i++) {
-        PROCINFO& pi = i->second;
-        if (pi.id == myPid) continue;
-        if (!strcmp(pi.command, myName)) {
-            otherInstanceID = pi.id;
+        PROCINFO& procinfo = i->second;
+        if (procinfo.id == myPid) continue;
+        if (!strcmp(procinfo.command, myName)) {
+            otherInstanceID = procinfo.id;
             break;
         }
     }

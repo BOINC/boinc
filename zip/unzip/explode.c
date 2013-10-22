@@ -1,13 +1,13 @@
 /*
-  Copyright (c) 1990-2002 Info-ZIP.  All rights reserved.
+  Copyright (c) 1990-2007 Info-ZIP.  All rights reserved.
 
-  See the accompanying file LICENSE, version 2000-Apr-09 or later
+  See the accompanying file LICENSE, version 2007-Mar-04 or later
   (the contents of which are also included in unzip.h) for terms of use.
   If, for some reason, all these files are missing, the Info-ZIP license
   also may be found at:  ftp://ftp.info-zip.org/pub/infozip/license.html
 */
 /* explode.c -- by Mark Adler
-   version c15, 6 July 1996 */
+   version c17d, 01 December 2007 */
 
 
 /* Copyright history:
@@ -64,6 +64,9 @@
                                     get_tree() failed).
     c17b 16 Feb 02  C. Spieler      changed type of the "extra lengths" array
                                     "extra" from ush into uch (to save space)
+    c17c 10 Aug 04  NN              file sizes use zoff_t.
+    c17d 01 Dec 07  C. Spieler      type for file sizes changed from zoff_t
+                                    into zusz_t.
  */
 
 
@@ -131,10 +134,10 @@
 /* routines here */
 static int get_tree OF((__GPRO__ unsigned *l, unsigned n));
 static int explode_lit OF((__GPRO__ struct huft *tb, struct huft *tl,
-                           struct huft *td, int bb, int bl, int bd,
-                           unsigned bdl));
+                           struct huft *td, unsigned bb, unsigned bl,
+                           unsigned bd, unsigned bdl));
 static int explode_nolit OF((__GPRO__ struct huft *tl, struct huft *td,
-                             int bl, int bd, unsigned bdl));
+                             unsigned bl, unsigned bd, unsigned bdl));
 int explode OF((__GPRO));
 
 
@@ -250,12 +253,12 @@ unsigned n;             /* number expected */
 static int explode_lit(__G__ tb, tl, td, bb, bl, bd, bdl)
      __GDEF
 struct huft *tb, *tl, *td;      /* literal, length, and distance tables */
-int bb, bl, bd;                 /* number of bits decoded by those */
+unsigned bb, bl, bd;            /* number of bits decoded by those */
 unsigned bdl;                   /* number of distance low bits */
 /* Decompress the imploded data using coded literals and a sliding
    window (of size 2^(6+bdl) bytes). */
 {
-  ulg s;                /* bytes to decompress */
+  zusz_t s;             /* bytes to decompress */
   register unsigned e;  /* table entry flag/number of extra bits */
   unsigned n, d;        /* length and index for copy */
   unsigned w;           /* current window position */
@@ -310,7 +313,7 @@ unsigned bdl;                   /* number of distance low bits */
       }
 
       /* do the copy */
-      s = (s > (ulg)n ? s - (ulg)n : 0);
+      s = (s > (zusz_t)n ? s - (zusz_t)n : 0);
       do {
 #if (defined(DLL) && !defined(NO_SLIDE_REDIR))
         if (G.redirect_slide) {
@@ -368,12 +371,12 @@ unsigned bdl;                   /* number of distance low bits */
 static int explode_nolit(__G__ tl, td, bl, bd, bdl)
      __GDEF
 struct huft *tl, *td;   /* length and distance decoder tables */
-int bl, bd;             /* number of bits decoded by tl[] and td[] */
+unsigned bl, bd;        /* number of bits decoded by tl[] and td[] */
 unsigned bdl;           /* number of distance low bits */
 /* Decompress the imploded data using uncoded literals and a sliding
    window (of size 2^(6+bdl) bytes). */
 {
-  ulg s;                /* bytes to decompress */
+  zusz_t s;             /* bytes to decompress */
   register unsigned e;  /* table entry flag/number of extra bits */
   unsigned n, d;        /* length and index for copy */
   unsigned w;           /* current window position */
@@ -428,7 +431,7 @@ unsigned bdl;           /* number of distance low bits */
       }
 
       /* do the copy */
-      s = (s > (ulg)n ? s - (ulg)n : 0);
+      s = (s > (zusz_t)n ? s - (zusz_t)n : 0);
       do {
 #if (defined(DLL) && !defined(NO_SLIDE_REDIR))
         if (G.redirect_slide) {
@@ -498,9 +501,9 @@ int explode(__G)
   struct huft *tb;      /* literal code table */
   struct huft *tl;      /* length code table */
   struct huft *td;      /* distance code table */
-  int bb;               /* bits for tb */
-  int bl;               /* bits for tl */
-  int bd;               /* bits for td */
+  unsigned bb;          /* bits for tb */
+  unsigned bl;          /* bits for tl */
+  unsigned bd;          /* bits for td */
   unsigned bdl;         /* number of uncoded lower distance bits */
   unsigned l[256];      /* bit lengths for codes */
 
@@ -613,5 +616,3 @@ int explode(__G)
 #undef NEEDBITS
 #undef DUMPBITS
 #undef wszimpl
-
-const char *BOINC_RCSID_38cb7b3e92 = "$Id: explode.c 4979 2005-01-02 18:29:53Z ballen $";

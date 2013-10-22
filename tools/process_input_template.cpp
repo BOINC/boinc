@@ -23,6 +23,7 @@
 
 #include "filesys.h"
 #include "md5_file.h"
+#include "str_replace.h"
 
 #include "sched_config.h"
 #include "sched_util.h"
@@ -246,7 +247,7 @@ static int process_file_info(
                 //
                 urlstr = "";
                 for (unsigned int i=0; i<urls.size(); i++) {
-                    urlstr += "    <url>" + urls.at(i) + "</url>\n";
+                    urlstr += "    <url>" + urls.at(i) + string(infiles[file_number]) + "</url>\n";
                 }
                 sprintf(buf,
                     "    <name>%s</name>\n"
@@ -367,6 +368,8 @@ static int process_workunit(
             continue;
         } else if (xp.parse_int("max_success_results", wu.max_success_results)) {
             continue;
+        } else if (xp.parse_int("size_class", wu.size_class)) {
+            continue;
         } else {
             retval = xp.copy_element(tmpstr);
             if (retval) return retval;
@@ -438,6 +441,6 @@ int process_input_template(
         return ERR_BUFFER_OVERFLOW;
     }
     //fprintf(stderr, "copying to xml_doc: %s\n", out.c_str());
-    strcpy(wu.xml_doc, out.c_str());
+    safe_strcpy(wu.xml_doc, out.c_str());
     return 0;
 }

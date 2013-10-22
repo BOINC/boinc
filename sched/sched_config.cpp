@@ -25,11 +25,11 @@
 #include <string>
 #include <unistd.h>
 
-#include "parse.h"
 #include "error_numbers.h"
 #include "filesys.h"
-#include "str_util.h"
+#include "parse.h"
 #include "str_replace.h"
+#include "str_util.h"
 
 #include "sched_msgs.h"
 #include "sched_util.h"
@@ -91,7 +91,7 @@ int SCHED_CONFIG::parse(FILE* f) {
     strcpy(httpd_user, "apache");
     max_ncpus = MAX_NCPUS;
     scheduler_log_buffer = 32768;
-    version_select_random_factor = .1;
+    version_select_random_factor = 1.;
 
     if (!xp.parse_start("boinc")) return ERR_XML_PARSE;
     if (!xp.parse_start("config")) return ERR_XML_PARSE;
@@ -108,16 +108,16 @@ int SCHED_CONFIG::parse(FILE* f) {
             gethostname(hostname, 256);
             if (!strcmp(hostname, db_host)) strcpy(db_host, "localhost");
             if (!strlen(replica_db_host)) {
-                strcpy(replica_db_host, db_host);
+                safe_strcpy(replica_db_host, db_host);
             }
             if (!strlen(replica_db_name)) {
-                strcpy(replica_db_name, db_name);
+                safe_strcpy(replica_db_name, db_name);
             }
             if (!strlen(replica_db_user)) {
-                strcpy(replica_db_user, db_user);
+                safe_strcpy(replica_db_user, db_user);
             }
             if (!strlen(replica_db_passwd)) {
-                strcpy(replica_db_passwd, db_passwd);
+                safe_strcpy(replica_db_passwd, db_passwd);
             }
             return 0;
         }
@@ -171,6 +171,7 @@ int SCHED_CONFIG::parse(FILE* f) {
         if (xp.parse_bool("enable_assignment_multi", enable_assignment_multi)) continue;
         if (xp.parse_bool("job_size_matching", job_size_matching)) continue;
         if (xp.parse_bool("dont_send_jobs", dont_send_jobs)) continue;
+        if (xp.parse_bool("estimate_flops_from_hav_pfc", estimate_flops_from_hav_pfc)) continue;
 
         //////////// STUFF RELEVANT ONLY TO SCHEDULER STARTS HERE ///////
 
@@ -297,13 +298,16 @@ int SCHED_CONFIG::parse(FILE* f) {
         //////////// SCHEDULER LOG FLAGS /////////
 
         if (xp.parse_bool("debug_array", debug_array)) continue;
+        if (xp.parse_bool("debug_array_detail", debug_array_detail)) continue;
         if (xp.parse_bool("debug_assignment", debug_assignment)) continue;
+        if (xp.parse_bool("debug_client_files", debug_client_files)) continue;
         if (xp.parse_bool("debug_credit", debug_credit)) continue;
         if (xp.parse_bool("debug_edf_sim_detail", debug_edf_sim_detail)) continue;
         if (xp.parse_bool("debug_edf_sim_workload", debug_edf_sim_workload)) continue;
         if (xp.parse_bool("debug_fcgi", debug_fcgi)) continue;
         if (xp.parse_bool("debug_handle_results", debug_handle_results)) continue;
         if (xp.parse_bool("debug_locality", debug_locality)) continue;
+        if (xp.parse_bool("debug_locality_lite", debug_locality_lite)) continue;
         if (xp.parse_bool("debug_prefs", debug_prefs)) continue;
         if (xp.parse_bool("debug_quota", debug_quota)) continue;
         if (xp.parse_bool("debug_request_details", debug_request_details)) continue;
@@ -332,8 +336,8 @@ int SCHED_CONFIG::parse_file(const char* dir) {
         snprintf(path, sizeof(path), "%s/%s", dir, CONFIG_FILE);
         snprintf(path_aux, sizeof(path_aux), "%s/%s", dir, CONFIG_FILE_AUX);
     } else {
-        strcpy(path, project_path(CONFIG_FILE));
-        strcpy(path_aux, project_path(CONFIG_FILE_AUX));
+        safe_strcpy(path, project_path(CONFIG_FILE));
+        safe_strcpy(path_aux, project_path(CONFIG_FILE_AUX));
     }
 #ifndef _USING_FCGI_
     FILE* f = fopen(path, "r");
@@ -367,7 +371,7 @@ int SCHED_CONFIG::download_path(const char* filename, char* path) {
 static bool is_project_dir(const char* dir) {
     char buf[1024];
     sprintf(buf, "%s/%s", dir, CONFIG_FILE);
-    if (!is_file(buf)) return false;
+    if (!is_file_follow_symlinks(buf)) return false;
     sprintf(buf, "%s/cgi-bin", dir);
     if (!is_dir_follow_symlinks(buf)) return false;
     return true;

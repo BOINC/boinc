@@ -18,8 +18,9 @@
 #ifndef __sg_ProjectWebsitesPopup__
 #define __sg_ProjectWebsitesPopup__
 
+#include "sg_CustomControls.h"
 
-class CSimpleProjectWebSitesPopupButton : public wxButton 
+class CSimpleProjectWebSitesPopupButton : public CTransparentButton 
 {
     DECLARE_DYNAMIC_CLASS( CSimpleProjectWebSitesPopupButton )
     DECLARE_EVENT_TABLE()

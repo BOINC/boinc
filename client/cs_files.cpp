@@ -131,21 +131,21 @@ bool FILE_INFO::verify_file_certs() {
 //
 // This is called
 // 1) right after a download is finished
-//		(CLIENT_STATE::create_and_delete_pers_file_xfers() in cs_files.cpp)
-//		precondition: status is FILE_NOT_PRESENT
-//		verify_contents: true
+//        (CLIENT_STATE::create_and_delete_pers_file_xfers() in cs_files.cpp)
+//        precondition: status is FILE_NOT_PRESENT
+//        verify_contents: true
 //      show_errors: true
 //      allow_async: true
 // 2) to see if a file marked as NOT_PRESENT is actually on disk
-//		(PERS_FILE_XFER::create_xfer() in pers_file_xfer.cpp)
-//		precondition: status is FILE_NOT_PRESENT
-//		verify_contents: true
+//        (PERS_FILE_XFER::create_xfer() in pers_file_xfer.cpp)
+//        precondition: status is FILE_NOT_PRESENT
+//        verify_contents: true
 //      show_errors: false
 //      allow_async: true
 // 3) when checking whether a result's input files are available
-//		(CLIENT_STATE::input_files_available( in cs_apps.cpp)).
-//		precondition: status is FILE_PRESENT
-//		verify_contents: either true or false
+//        (CLIENT_STATE::input_files_available( in cs_apps.cpp)).
+//        precondition: status is FILE_PRESENT
+//        verify_contents: either true or false
 //      show_errors: true
 //      allow_async: false
 //
@@ -167,7 +167,7 @@ int FILE_INFO::verify_file(
         );
     }
 
-	if (status == FILE_VERIFY_PENDING) return ERR_IN_PROGRESS;
+    if (status == FILE_VERIFY_PENDING) return ERR_IN_PROGRESS;
 
     get_pathname(this, pathname, sizeof(pathname));
 
@@ -179,16 +179,16 @@ int FILE_INFO::verify_file(
         char gzpath[MAXPATHLEN];
         sprintf(gzpath, "%s.gz", pathname);
         if (boinc_file_exists(gzpath) ) {
-			if (allow_async && nbytes > ASYNC_FILE_THRESHOLD) {
-				ASYNC_VERIFY* avp = new ASYNC_VERIFY;
-				retval = avp->init(this);
+            if (allow_async && nbytes > ASYNC_FILE_THRESHOLD) {
+                ASYNC_VERIFY* avp = new ASYNC_VERIFY;
+                retval = avp->init(this);
                 if (retval) {
                     status = retval;
                     return retval;
                 }
-				status = FILE_VERIFY_PENDING;
-				return ERR_IN_PROGRESS;
-			}
+                status = FILE_VERIFY_PENDING;
+                return ERR_IN_PROGRESS;
+            }
             retval = gunzip(cksum);
             if (retval) return retval;
         } else {
@@ -253,16 +253,16 @@ int FILE_INFO::verify_file(
             );
             return ERR_NO_SIGNATURE;
         }
-		if (allow_async && nbytes > ASYNC_FILE_THRESHOLD) {
-			ASYNC_VERIFY* avp = new ASYNC_VERIFY();
-			retval = avp->init(this);
+        if (allow_async && nbytes > ASYNC_FILE_THRESHOLD) {
+            ASYNC_VERIFY* avp = new ASYNC_VERIFY();
+            retval = avp->init(this);
             if (retval) {
                 status = retval;
                 return retval;
             }
-			status = FILE_VERIFY_PENDING;
-			return ERR_IN_PROGRESS;
-		}
+            status = FILE_VERIFY_PENDING;
+            return ERR_IN_PROGRESS;
+        }
         if (!strlen(cksum)) {
             double file_length;
             retval = md5_file(pathname, cksum, file_length);
@@ -298,16 +298,16 @@ int FILE_INFO::verify_file(
         }
     } else if (strlen(md5_cksum)) {
         if (!strlen(cksum)) {
-			if (allow_async && nbytes > ASYNC_FILE_THRESHOLD) {
-				ASYNC_VERIFY* avp = new ASYNC_VERIFY();
-				retval = avp->init(this);
+            if (allow_async && nbytes > ASYNC_FILE_THRESHOLD) {
+                ASYNC_VERIFY* avp = new ASYNC_VERIFY();
+                retval = avp->init(this);
                 if (retval) {
                     status = retval;
                     return retval;
                 }
-				status = FILE_VERIFY_PENDING;
-				return ERR_IN_PROGRESS;
-			}
+                status = FILE_VERIFY_PENDING;
+                return ERR_IN_PROGRESS;
+            }
             retval = md5_file(pathname, cksum, local_nbytes);
             if (retval) {
                 msg_printf(project, MSG_INTERNAL_ERROR,
@@ -348,7 +348,7 @@ bool CLIENT_STATE::create_and_delete_pers_file_xfers() {
     int retval;
     static double last_time;
 
-    if (now - last_time < PERS_FILE_XFER_START_PERIOD) return false;
+    if (!clock_change && now - last_time < PERS_FILE_XFER_START_PERIOD) return false;
     last_time = now;
 
     // Look for FILE_INFOs for which we should start a transfer,
@@ -411,9 +411,9 @@ bool CLIENT_STATE::create_and_delete_pers_file_xfers() {
                 // verify the file with RSA or MD5, and change permissions
                 //
                 retval = fip->verify_file(true, true, true);
-				if (retval == ERR_IN_PROGRESS) {
-					// do nothing
-				} else if (retval) {
+                if (retval == ERR_IN_PROGRESS) {
+                    // do nothing
+                } else if (retval) {
                     msg_printf(fip->project, MSG_INTERNAL_ERROR,
                         "Checksum or signature error for %s", fip->name
                     );
@@ -463,14 +463,30 @@ void CLIENT_STATE::check_file_existence() {
 
     for (i=0; i<file_infos.size(); i++) {
         FILE_INFO* fip = file_infos[i];
+        if (fip->status < 0 && fip->downloadable()) {
+            // file had an error; reset it so that we download again
+            get_pathname(fip, path, sizeof(path));
+            msg_printf(NULL, MSG_INFO, "Resetting file %s: %s", path, boincerror(fip->status));
+            fip->reset();
+            continue;
+        }
+        if (config.dont_check_file_sizes) continue;
         if (fip->status == FILE_PRESENT) {
             get_pathname(fip, path, sizeof(path));
             double size;
             int retval = file_size(path, size);
-            if (retval || (fip->nbytes && (size != fip->nbytes))) {
+            if (retval) {
                 delete_project_owned_file(path, true);
                 fip->status = FILE_NOT_PRESENT;
-                msg_printf(NULL, MSG_INFO, "file %s not found", path);
+                msg_printf(NULL, MSG_INFO, "File %s not found", path);
+            } else if (fip->nbytes && (size != fip->nbytes)) {
+                if (gstate.global_prefs.dont_verify_images && is_image_file(path)) continue;
+                delete_project_owned_file(path, true);
+                fip->status = FILE_NOT_PRESENT;
+                msg_printf(NULL, MSG_INFO,
+                    "File %s has wrong size: expected %.0f, got %.0f",
+                    path, fip->nbytes, size
+                );
             }
         }
     }

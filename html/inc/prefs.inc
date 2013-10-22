@@ -45,6 +45,7 @@
 //    [ <no_cpu>1</no_cpu> ]
 //    [ <no_cuda>1</no_cuda> ]
 //    [ <no_ati>1</no_ati> ]
+//    [ <no_intel_gpu>1</no_intel_gpu> ]
 //    <project-specific>
 //            ... (arbitrary project-specific XML)
 //    </project-specific>
@@ -337,6 +338,18 @@ if ($app_types->count > 1) {
             true
         );
     }
+    if ($app_types->intel_gpu) {
+        $project_pref_descs[] = new PREF_BOOL (
+            tra(
+                "Use Intel GPU %1 Enforced by version 7.0+ %2",
+                "<br><span class=note>",
+                "</span>"
+            ),
+            "no_intel_gpu",
+            false,
+            true
+        );
+    }
 }
 
 if (isset($project_has_beta) && $project_has_beta) {
@@ -404,6 +417,7 @@ global $venue_name;
 function get_disk_space_config() {
     global  $config;
     $config = get_config();
+    $dp = new StdClass;
     $dp->disk_max_used_gb = parse_config($config, "<default_disk_max_used_gb>");
     $dp->disk_max_used_pct = parse_config($config, "<default_disk_max_used_pct>");
     $dp->disk_min_free_gb = parse_config($config, "<default_disk_min_free_gb>");
@@ -567,7 +581,7 @@ function default_prefs_global() {
     global $disk_prefs;
     global $net_prefs;
 
-    $p = null;
+    $p = new StdClass;
     foreach ($cpu_prefs as $pref) {
         $pref->set_default($p);
     }
@@ -583,7 +597,7 @@ function default_prefs_global() {
 function default_prefs_project() {
     global $project_pref_descs;
 
-    $p = null;
+    $p = new StdClass;
     foreach ($project_pref_descs as $pref) {
         $pref->set_default($p);
     }
@@ -624,7 +638,8 @@ function row_top($x, $ncols=6, $class="heading") {
     echo "<td class=$class width=10%><b>".tra("Default")."</b></td>
         <td class=$class width=10%><b>".tra("Home")."</b></td>
         <td class=$class width=10%><b>".tra("School")."</b></td>
-        <td class=$class width=10%><b>".tra("Work")."</b></td>";
+        <td class=$class width=10%><b>".tra("Work")."</b></td>
+    ";
     echo "<td width=15%><br></td></tr>\n";
 }
 
@@ -783,7 +798,7 @@ function prefs_show_privacy($user, $columns) {
 
 function prefs_show_project_specific($prefs, $columns=false) {
     if ($columns) {
-    $project_specific_prefs = project_specific_prefs_parse($prefs->project_specific);
+        $project_specific_prefs = project_specific_prefs_parse($prefs->project_specific);
         $project_specific_prefs->home = isset($prefs->home) ? project_specific_prefs_parse($prefs->home->project_specific) : "";
         $project_specific_prefs->work = isset($prefs->work) ? project_specific_prefs_parse($prefs->work->project_specific) : "";
         $project_specific_prefs->school = isset($prefs->school) ? project_specific_prefs_parse($prefs->school->project_specific) : "";
@@ -866,10 +881,13 @@ function print_prefs_display_project($user, $columns=false) {
 function print_prefs_display_global($user, $columns=false) {
     $global_prefs = prefs_parse_global($user->global_prefs);
 
-    echo "<span class=note>".
-         tra("These apply to all BOINC projects in which you participate.<br>
-             On computers participating in multiple projects, the most recently modified preferences will be used.").
-         "</span><br><br>";
+    echo "<span class=note>"
+         .tra("These apply to all BOINC projects in which you participate.")
+         ."<br>"
+         .tra("On computers participating in multiple projects, the most recently modified preferences will be used.")
+         ."<br>"
+         .tra("These preferences do not apply to Android devices.")
+         ."</span><br><br>";
     if (isset($global_prefs->mod_time)) {
         echo tra("Preferences last modified:")." ".pretty_time_str($global_prefs->mod_time);
     }
@@ -1019,7 +1037,7 @@ function venue_show($user) {
 }
 
 function venue_form($user) {
-    $n=$h=$w=$s='';
+    $n=$h=$w=$s=$m='';
     if ($user->venue == '') $n = 'selected';
     if ($user->venue == 'home') $h = 'selected';
     if ($user->venue == 'work') $w = 'selected';

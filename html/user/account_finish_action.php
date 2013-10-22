@@ -26,7 +26,7 @@ $name = post_str("name");
 if (strlen($name)==0) {
     error_page(tra("You must supply a name for your account"));
 }
-if ($new_name != sanitize_tags($new_name)) {
+if ($name != sanitize_tags($name)) {
     error_page(tra("HTML tags not allowed in name"));
 }
 

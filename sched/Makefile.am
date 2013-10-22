@@ -87,10 +87,12 @@ endif
 
 if ENABLE_SERVER
 
-cgidir = $(libexecdir)/cgi-bin
-scheddir = $(libexecdir)/sched
+schedcgidir = $(prefix)/lib/boinc-server-maker/sched
+schedsharedir = $(prefix)/lib/boinc-server-maker/sched
+schedbindir = $(prefix)/lib/boinc-server-maker/sched
 
-bin_PROGRAMS = \
+schedbin_PROGRAMS = \
+    adjust_user_priority \
     delete_file \
     get_file \
     make_work \
@@ -99,9 +101,9 @@ bin_PROGRAMS = \
     show_shmem \
     wu_check
 
-sched_PROGRAMS = \
+schedshare_PROGRAMS = \
     census \
-	credit_test \
+    credit_test \
     db_dump \
     db_purge \
     feeder \
@@ -114,17 +116,24 @@ sched_PROGRAMS = \
     sample_trivial_validator \
     sample_work_generator \
     single_job_assimilator \
+    size_regulator \
     transitioner \
     trickle_credit \
+    trickle_deadline \
     trickle_echo \
     update_stats
 
-cgi_PROGRAMS= \
+schedcgi_PROGRAMS= \
     cgi \
     file_upload_handler
 
+schedshare_DATA = \
+    db_dump_spec.xml \
+    assimilator.py \
+    pymw_assimilator.py
+
 # scripts that 'make install' should put in bindir
-bin_SCRIPTS = start stop status
+schedshare_SCRIPTS = start stop status transitioner_catchup.php
 
 noinst_HEADERS = \
     assimilate_handler.h \
@@ -148,14 +157,16 @@ cgi_sources = \
     hr.cpp \
     hr_info.cpp \
     plan_class_spec.cpp \
-    sched_main.cpp \
     sched_array.cpp \
     sched_assign.cpp \
+    sched_check.cpp \
     sched_customize.cpp \
+    sched_files.cpp \
     sched_hr.cpp \
-    sched_resend.cpp \
     sched_limit.cpp \
     sched_locality.cpp \
+    sched_main.cpp \
+    sched_resend.cpp \
     sched_result.cpp \
     sched_score.cpp \
     sched_send.cpp \
@@ -239,6 +250,9 @@ db_purge_LDADD = $(SERVERLIBS)
 trickle_credit_SOURCES = trickle_credit.cpp trickle_handler.cpp
 trickle_credit_LDADD = $(SERVERLIBS)
 
+trickle_deadline_SOURCES = trickle_deadline.cpp trickle_handler.cpp
+trickle_deadline_LDADD = $(SERVERLIBS)
+
 trickle_echo_SOURCES = trickle_echo.cpp trickle_handler.cpp
 trickle_echo_LDADD = $(SERVERLIBS)
 
@@ -254,6 +268,9 @@ make_work_LDADD = $(SERVERLIBS)
 transitioner_SOURCES = transitioner.cpp
 transitioner_LDADD = $(SERVERLIBS)
 
+size_regulator_SOURCES = size_regulator.cpp
+size_regulator_LDADD = $(SERVERLIBS)
+
 message_handler_SOURCES = message_handler.cpp
 message_handler_LDADD = $(SERVERLIBS)
 
@@ -266,13 +283,15 @@ put_file_LDADD = $(SERVERLIBS)
 delete_file_SOURCES = delete_file.cpp
 delete_file_LDADD = $(SERVERLIBS)
 
+adjust_user_priority_SOURCES = adjust_user_priority.cpp
+adjust_user_priority_LDADD = $(SERVERLIBS)
+
 sched_driver_SOURCES = sched_driver.cpp
 sched_driver_LDADD = $(SERVERLIBS)
 
 if ENABLE_FCGI
 
-cgi_PROGRAMS += fcgi \
-                fcgi_file_upload_handler
+schedcgi_PROGRAMS += fcgi fcgi_file_upload_handler
 
 fcgi_SOURCES = $(cgi_sources)
 fcgi_CPPFLAGS = -D_USING_FCGI_ $(AM_CPPFLAGS)

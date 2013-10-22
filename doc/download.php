@@ -7,8 +7,6 @@ require_once("docutil.php");
 require_once("versions.inc");
 require_once("../html/inc/translation.inc");
 
-$client_info = $_SERVER['HTTP_USER_AGENT'];
-
 function latest_version($p) {
     foreach ($p['versions'] as $i=>$v) {
         if (!$dev && is_dev($v)) continue;
@@ -27,6 +25,7 @@ function download_link($pname, $button=false) {
     $p = $platforms[$pname];
     $v = latest_version($p);
     $file = $v['file'];
+    $vbox_file = $v['vbox_file'];
     $long_name = $p['name'];
     $num = $v['num'];
     $path = "dl/$file";
@@ -35,13 +34,32 @@ function download_link($pname, $button=false) {
     $s = number_format(filesize($path)/1000000, 2);
 
     if ($button) {
+        if ($vbox_file) {
+            echo "<table><td><td>\n";
+            $vbox_url = $url_base.$vbox_file;
+            $vbox_path = "dl/$vbox_file";
+            $vbox_size = number_format(filesize($vbox_path)/1000000, 2);
+            echo "
+                <table cellpadding=10><tr><td class=heading>
+                <a href=\"$vbox_url\"><font size=4><u>".tra("Download BOINC + Virtualbox")."</u></font></a>
+                <br>".
+                sprintf(tra("%s for %s (%s MB)"), $num, $long_name, $vbox_size )."
+                </td></tr>
+                </table>
+            ";
+            echo "</td><td>\n";
+        }
         echo "
             <table cellpadding=10><tr><td class=heading>
             <a href=\"$url\"><font size=4><u>".tra("Download BOINC")."</u></font></a>
             <br>".
             sprintf(tra("%s for %s (%s MB)"), $num, $long_name, $s )."
-            </td></tr> </table>
+            </td></tr>
+            </table>
         ";
+        if ($vbox_file) {
+            echo "</td></tr></table>\n";
+        }
         if ($pname == 'linux'||$pname == 'linuxx64') {
             echo "<p>", linux_info();
         }
@@ -91,6 +109,14 @@ function show_download($pname) {
         .tra("You may run this software on a computer only if you own the computer or have the permission of its owner.").
         "<p>"
     ;
+    if ($pname == 'android') {
+        echo "<b>
+            We recommend that you download BOINC from
+            the Google Play Store or Amazon appstore,
+            not from here.
+            </b>
+        ";
+    }
     if ($pname) {
         download_link($pname, true);
     } else {
@@ -109,13 +135,17 @@ function show_download($pname) {
         download_link('linuxcompat');
         end_table();
     }
+    if ($pname != 'android') {
+        echo "
+            <p>
+            After downloading BOINC you must <b>install</b> it:
+            <ul>
+            <li> Save the file to disk.
+            <li> Double-click on the file icon.
+            </ul>
+        ";
+    }
     echo "
-        <p>
-        After downloading BOINC you must <b>install</b> it:
-        <ul>
-        <li> Save the file to disk.
-        <li> Double-click on the file icon.
-        </ul>
         <p>
         <center>
         <a href=\"wiki/System_requirements\"><span class=nobr>".tra("System requirements")."</span></a>
@@ -143,6 +173,8 @@ if (get_str2('xml')) {
 
 page_head(tra("BOINC: compute for science"));
 
+$client_info = $_SERVER['HTTP_USER_AGENT'];
+
 if (get_str2('all_platforms')) {
     show_download(null);
 } else if (strstr($client_info, 'Windows')) {
@@ -157,12 +189,17 @@ if (get_str2('all_platforms')) {
 	} else {
 		show_download('mac');
 	}
+} else if (strstr($client_info, 'Linux') && strstr($client_info, 'Android')) {
+	// Check for Android before Linux,
+    // since Android contains the Linux kernel and the
+	// web browser user agent string list Linux too.
+	show_download('android');
 } else if (strstr($client_info, 'Linux')) {
-    if (strstr($client_info, 'x86_64')) {
-        show_download('linuxx64');
-    } else {
-        show_download('linux');
-    }
+	if (strstr($client_info, 'x86_64')) {
+		show_download('linuxx64');
+	} else {
+		show_download('linux');
+	}
 } else {
     show_download(null);
 }

@@ -34,15 +34,15 @@
 
 
 #include "boinc_db.h"
+#include "common_defs.h"
 #include "crypt.h"
 #include "error_numbers.h"
+#include "filesys.h"
 #include "md5_file.h"
 #include "parse.h"
-#include "str_util.h"
-#include "str_replace.h"
-#include "common_defs.h"
-#include "filesys.h"
 #include "sched_util.h"
+#include "str_replace.h"
+#include "str_util.h"
 #include "util.h"
 
 #include "process_input_template.h"
@@ -53,8 +53,8 @@ using std::string;
 
 static struct random_init {
     random_init() {
-    srand48(getpid() + time(0));
-                        }
+        srand48(getpid() + time(0));
+    }
 } random_init;
 
 int read_file(FILE* f, char* buf, int len) {
@@ -82,7 +82,12 @@ static void initialize_result(DB_RESULT& result, WORKUNIT& wu) {
     result.id = 0;
     result.create_time = time(0);
     result.workunitid = wu.id;
-    result.server_state = RESULT_SERVER_STATE_UNSENT;
+    result.size_class = wu.size_class;
+    if (result.size_class < 0) {
+        result.server_state = RESULT_SERVER_STATE_UNSENT;
+    } else {
+        result.server_state = RESULT_SERVER_STATE_INACTIVE;
+    }
     result.hostid = 0;
     result.report_deadline = 0;
     result.sent_time = 0;
@@ -115,11 +120,12 @@ int create_result_ti(
 
     // copy relevant fields from TRANSITIONER_ITEM to WORKUNIT
     //
-    strcpy(wu.name, ti.name);
+    safe_strcpy(wu.name, ti.name);
     wu.id = ti.id;
     wu.appid = ti.appid;
     wu.priority = ti.priority;
     wu.batch = ti.batch;
+    wu.size_class = ti.size_class;
     return create_result(
         wu,
         result_template_filename,
@@ -151,7 +157,6 @@ int create_result(
     char result_template[BLOB_SIZE];
     int retval;
 
-    result.clear();
     initialize_result(result, wu);
     result.priority += priority_increase;
     sprintf(result.name, "%s_%s", wu.name, result_name_suffix);
@@ -240,7 +245,7 @@ int create_work(
     }
 #endif
 
-    strcpy(wu_template, _wu_template);
+    safe_strcpy(wu_template, _wu_template);
     wu.create_time = time(0);
     retval = process_input_template(
         wu, wu_template, infiles, ninfiles, config_loc, command_line, additional_xml
@@ -528,7 +533,7 @@ int cancel_jobs(int min_id, int max_id) {
     sprintf(set_clause, "server_state=%d, outcome=%d",
         RESULT_SERVER_STATE_OVER, RESULT_OUTCOME_DIDNT_NEED
     );
-    sprintf(where_clause, "server_state=%d and workunitid >=%d and workunitid<= %d",
+    sprintf(where_clause, "server_state<=%d and workunitid >=%d and workunitid<= %d",
         RESULT_SERVER_STATE_UNSENT, min_id, max_id
     );
     retval = result.update_fields_noid(set_clause, where_clause);
@@ -555,7 +560,7 @@ int cancel_job(DB_WORKUNIT& wu) {
     sprintf(set_clause, "server_state=%d, outcome=%d",
         RESULT_SERVER_STATE_OVER, RESULT_OUTCOME_DIDNT_NEED
     );
-    sprintf(where_clause, "server_state=%d and workunitid=%d",
+    sprintf(where_clause, "server_state<=%d and workunitid=%d",
         RESULT_SERVER_STATE_UNSENT, wu.id
     );
     retval = result.update_fields_noid(set_clause, where_clause);
@@ -569,6 +574,71 @@ int cancel_job(DB_WORKUNIT& wu) {
     retval = wu.update_field(set_clause);
     if (retval) return retval;
     return 0;
+}
+
+// return the sum of user quotas
+//
+int get_total_quota(double& total) {
+    DB_USER_SUBMIT us;
+
+    total = 0;
+    while (1) {
+        int retval = us.enumerate("");
+        if (retval == ERR_DB_NOT_FOUND) break;
+        if (retval) {
+            return retval;
+        }
+        total += us.quota;
+    }
+    return 0;
+}
+
+// return total project FLOPS (based on recent credit)
+//
+int get_project_flops(double& total) {
+    DB_APP_VERSION av;
+    char buf[256];
+
+    // compute credit per day
+    //
+    sprintf(buf, "where expavg_time > %f", dtime() - 30*86400);
+    total = 0;
+    while (1) {
+        int retval = av.enumerate(buf);
+        if (retval == ERR_DB_NOT_FOUND) break;
+        if (retval) {
+            return retval;
+        }
+        total += av.expavg_credit;
+    }
+    total /= COBBLESTONE_SCALE;     // convert to FLOPs per day
+    total /= 86400;                 // convert to FLOPs per second
+    return 0;
+}
+
+// compute delta to user.logical_start_time given the assumption
+// that user did flop_count FLOPS of computing
+//
+double user_priority_delta(
+    DB_USER_SUBMIT& us,
+    double flop_count,
+        // this should be wu.rsc_fpops_est * app.min_avg_pfc
+        // to account for systematic errors in rsc_fpops_est
+    double total_quota,
+    double project_flops
+) {
+    if (total_quota == 0) return 0;
+    if (project_flops == 0) return 0;
+
+    double runtime = flop_count / project_flops;
+    double share = us.quota / total_quota;
+#if 0
+    printf("  project flops %f\n", project_flops);
+    printf("  quota %f, total %f, share %f\n", us.quota, total_quota, share);
+    printf("  runtime %f\n", runtime);
+    printf("  delta %f\n", runtime/share);
+#endif
+    return runtime/share;
 }
 
 const char *BOINC_RCSID_b5f8b10eb5 = "$Id$";

@@ -84,6 +84,3 @@ UINT __stdcall ShutdownUD(MSIHANDLE hInstall)
 
     return uiReturnValue;
 }
-
-
-const char *BOINC_RCSID_7bcb879acf="$Id: CAShutdownUD.cpp 12091 2007-02-15 07:41:13Z rwalton $";

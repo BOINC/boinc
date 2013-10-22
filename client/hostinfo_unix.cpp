@@ -15,6 +15,12 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// XIdleTime:
+// Copyright (C) 2011 Universidade Federal de Campina Grande
+// Initial version: Magnus Henoch
+// Contributors: Danny Kukawka, Eivind Magnus Hvidevold
+// LGPL Version of xidletime: https://github.com/rodrigods/xidletime
+
 // There is a reason that having a file called "cpp.h" that includes config.h
 // and some of the C++ header files is bad.  That reason is because there are
 // #defines that alter the behiour of the standard C and C++ headers.  In
@@ -89,6 +95,9 @@
 #if HAVE_NETINET_IN_H
 #include <netinet/in.h>
 #endif
+#if HAVE_SYS_SENSORS_H
+#include <sys/sensors.h>
+#endif
 
 #ifdef __EMX__
 #define INCL_DOSMISC
@@ -97,6 +106,7 @@
 #endif
 
 #include "error_numbers.h"
+#include "common_defs.h"
 #include "filesys.h"
 #include "str_util.h"
 #include "str_replace.h"
@@ -150,13 +160,16 @@ mach_port_t gEventHandle = NULL;
 #define _SC_PAGESIZE _SC_PAGE_SIZE
 #endif
 
+#if HAVE_DPMS
+#include <X11/Xlib.h>
+#include <X11/extensions/dpms.h>
+#endif
+
 #if HAVE_XSS
+#include <X11/Xlib.h>
 #include <X11/extensions/scrnsaver.h>
 #endif
 
-#ifdef ANDROID
-#include "android_log.h"
-#endif
 
 // The following is intended to be true both on Linux
 // and Debian GNU/kFreeBSD (see trac #521)
@@ -217,44 +230,7 @@ bool HOST_INFO::host_is_running_on_batteries() {
     return retval;
 
 #elif ANDROID
-    // using /sys/class/power_supply/*/online
-    // power supplies are both ac and usb!
-    //
-    char acpath[1024];
-    snprintf(acpath, sizeof(acpath), "/sys/class/power_supply/ac/online");
-    char usbpath[1024];
-    snprintf(usbpath, sizeof(usbpath), "/sys/class/power_supply/usb/online");
-
-    FILE *fsysac = fopen(acpath, "r");
-    FILE *fsysusb = fopen(usbpath, "r");
-    int aconline = 0;
-    int usbonline = 0;
-    bool power_supply_online = false;
-
-    if(fsysac) {
-        (void) fscanf(fsysac, "%d", &aconline);
-        fclose(fsysac);
-    }
-
-    if(fsysusb) {
-        (void) fscanf(fsysusb, "%d", &usbonline);
-        fclose(fsysusb);
-    }
-
-    if ((aconline == 1) || (usbonline == 1)){
-        power_supply_online = true;
-        char msg[1024];
-        snprintf(msg, sizeof(msg),
-            "power supply online! status for usb: %d and ac: %d",
-            usbonline,
-            aconline
-        );
-        LOGD(msg);
-    } else {
-        LOGD("running on batteries");
-    }
-
-    return !power_supply_online;
+    return !(gstate.device_status.on_ac_power || gstate.device_status.on_usb_power);
 
 #elif LINUX_LIKE_SYSTEM
     static enum {
@@ -398,6 +374,53 @@ bool HOST_INFO::host_is_running_on_batteries() {
          // so we say we aren't
         return false;
     }
+#elif defined(__OpenBSD__)
+    static int mib[] = {CTL_HW, HW_SENSORS, 0, 0, 0};
+    static int devn = -1;
+    struct sensor s;
+    size_t slen = sizeof(struct sensor);
+
+    if (devn == -1) {
+        struct sensordev snsrdev;
+        size_t sdlen = sizeof(struct sensordev);
+        for (devn = 0;; devn++) {
+            mib[2] = devn;
+            if (sysctl(mib, 3, &snsrdev, &sdlen, NULL, 0) == -1) {
+                if (errno == ENXIO)
+                    continue;
+                if (errno == ENOENT)
+                    break;
+            }
+            if (!strcmp("acpiac0", snsrdev.xname)) {
+                break;
+            }
+        }
+        mib[3] = 9;
+        mib[4] = 0;
+    }
+
+    if (sysctl(mib, 5, &s, &slen, NULL, 0) != -1) {
+        if (s.value)
+            // AC present
+            return false;
+        else
+            return true;
+    }
+
+    return false;
+#elif defined(__FreeBSD__)
+    int ac;
+    size_t len = sizeof(ac);
+
+    if (sysctlbyname("hw.acpi.acline", &ac, &len, NULL, 0) != -1) {
+        if (ac)
+            // AC present
+            return false;
+        else
+            return true;
+    }
+
+    return false;
 #else
     return false;
 #endif
@@ -466,6 +489,9 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
 #elif __ia64__
     strcpy(host.p_model, "IA-64 ");
     model_hack = true;
+#elif __arm__
+    strcpy(host.p_vendor, "ARM");
+    vendor_hack = vendor_found = true;
 #endif
 
     host.m_cache=-1;
@@ -504,6 +530,8 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
             strstr(buf, "family     : ") || strstr(buf, "model name : ")
 #elif __powerpc__ || __sparc__
             strstr(buf, "cpu\t\t: ")
+#elif __arm__
+            strstr(buf, "Processor\t: ")
 #else
             strstr(buf, "model name\t: ") || strstr(buf, "cpu model\t\t: ")
 #endif
@@ -589,13 +617,15 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
                 strlcpy(features, strchr(buf, ':') + 2, sizeof(features));
             } else if ((strstr(buf, "features   : ") == buf)) {    /* ia64 */
                 strlcpy(features, strchr(buf, ':') + 2, sizeof(features));
+            } else if ((strstr(buf, "Features\t: ") == buf)) { /* arm */
+               strlcpy(features, strchr(buf, ':') + 2, sizeof(features));
             }
             if (strlen(features)) {
                 features_found = true;
             }
         }
     }
-    strcpy(model_buf, host.p_model);
+    safe_strcpy(model_buf, host.p_model);
     if (family>=0 || model>=0 || stepping>0) {
         strcat(model_buf, " [");
         if (family>=0) {
@@ -613,10 +643,10 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
         strcat(model_buf, "]");
     }
     if (strlen(features)) {
-        strlcpy(host.p_features, features, sizeof(host.p_features));
+        safe_strcpy(host.p_features, features);
     }
 
-    strlcpy(host.p_model, model_buf, sizeof(host.p_model));
+    safe_strcpy(host.p_model, model_buf);
     fclose(f);
 }
 #endif  // LINUX_LIKE_SYSTEM
@@ -628,9 +658,10 @@ static void parse_cpuinfo_linux(HOST_INFO& host) {
 
 void use_cpuid(HOST_INFO& host) {
     u_int p[4];
-    int hasMMX, hasSSE, hasSSE2, hasSSE3, has3DNow, has3DNowExt = 0;
+    int hasMMX, hasSSE, hasSSE2, hasSSE3, has3DNow, has3DNowExt;
     char capabilities[256];
 
+    hasMMX = hasSSE = hasSSE2 = hasSSE3 = has3DNow = has3DNowExt = 0;
     do_cpuid(0x0, p);
 
     if (p[0] >= 0x1) {
@@ -652,12 +683,12 @@ void use_cpuid(HOST_INFO& host) {
     }
 
     capabilities[0] = '\0';
-    if (hasSSE) strncat(capabilities, "sse ", 4);
-    if (hasSSE2) strncat(capabilities, "sse2 ", 5);
-    if (hasSSE3) strncat(capabilities, "sse3 ", 5);
-    if (has3DNow) strncat(capabilities, "3dnow ", 6);
-    if (has3DNowExt) strncat(capabilities, "3dnowext ", 9);
-    if (hasMMX) strncat(capabilities, "mmx ", 4);
+    if (hasSSE) strcat(capabilities, "sse ");
+    if (hasSSE2) strcat(capabilities, "sse2 ");
+    if (hasSSE3) strcat(capabilities, "pni ");
+    if (has3DNow) strcat(capabilities, "3dnow ");
+    if (has3DNowExt) strcat(capabilities, "3dnowext ");
+    if (hasMMX) strcat(capabilities, "mmx ");
     strip_whitespace(capabilities);
     char buf[1024];
     snprintf(buf, sizeof(buf), "%s [] [%s]",
@@ -726,6 +757,12 @@ static void get_cpu_info_maxosx(HOST_INFO& host) {
             *out++ = *in;
         }
     } while (*in++);
+
+    // This returns an Apple hardware model designation such as "MacPro3,1".
+    // One source for converting this to a common model name is:
+    // <http://www.everymac.com/systems/by_capability/mac-specs-by-machine-model-machine-id.html>
+    len = sizeof(host.product_name);
+    sysctlbyname("hw.model", host.product_name, &len, NULL, 0);
 }
 #endif
 
@@ -1175,7 +1212,7 @@ int HOST_INFO::get_virtualbox_version() {
     FILE* fd;
 
 #if LINUX_LIKE_SYSTEM
-    strcpy(path, "/usr/lib/virtualbox/VBoxManage");
+    safe_strcpy(path, "/usr/lib/virtualbox/VBoxManage");
 #elif defined( __APPLE__)
     FSRef theFSRef;
     OSStatus status = noErr;
@@ -1195,6 +1232,9 @@ int HOST_INFO::get_virtualbox_version() {
 
     if (boinc_file_exists(path)) {
 #if LINUX_LIKE_SYSTEM
+        if (access(path, X_OK)) {
+            return 0;
+        }
         safe_strcpy(cmd, path);
         safe_strcat(cmd, " --version");
 #elif defined( __APPLE__)
@@ -1204,11 +1244,12 @@ int HOST_INFO::get_virtualbox_version() {
 #endif
         fd = popen(cmd, "r");
         if (fd) {
-            fgets(virtualbox_version, sizeof(virtualbox_version), fd);
-            newlinePtr = strchr(virtualbox_version, '\n');
-            if (newlinePtr) *newlinePtr = '\0';
-            newlinePtr = strchr(virtualbox_version, '\r');
-            if (newlinePtr) *newlinePtr = '\0';
+            if (fgets(virtualbox_version, sizeof(virtualbox_version), fd)) {
+                newlinePtr = strchr(virtualbox_version, '\n');
+                if (newlinePtr) *newlinePtr = '\0';
+                newlinePtr = strchr(virtualbox_version, '\r');
+                if (newlinePtr) *newlinePtr = '\0';
+            }
             pclose(fd);
         }
     }
@@ -1222,7 +1263,12 @@ int HOST_INFO::get_virtualbox_version() {
 // - only one level of #if
 //
 int HOST_INFO::get_host_info() {
-    get_filesystem_info(d_total, d_free);
+    int retval = get_filesystem_info(d_total, d_free);
+    if (retval) {
+        msg_printf(0, MSG_INTERNAL_ERROR,
+            "get_filesystem_info() failed: %s", boincerror(retval)
+        );
+    }
     get_virtualbox_version();
 
 ///////////// p_vendor, p_model, p_features /////////////////
@@ -1301,7 +1347,33 @@ int HOST_INFO::get_host_info() {
 ///////////// p_ncpus /////////////////
 
 // sysconf not working on OS2
-#if defined(_SC_NPROCESSORS_ONLN) && !defined(__EMX__) && !defined(__APPLE__)
+#if defined(ANDROID)
+    // this should work on most devices
+    p_ncpus = sysconf(_SC_NPROCESSORS_CONF);
+    
+    // work around for bug in Android's bionic
+    // format of /sys/devices/system/cpu/present:
+    // 0 : single core
+    // 0-j: j+1 cores (e.g. 0-3 quadcore)
+    FILE* fp;
+    int res, i=-1, j=-1, cpus_sys_path=0;
+    fp = fopen("/sys/devices/system/cpu/present", "r");
+    if(fp) {
+        res = fscanf(fp, "%d-%d", &i, &j);
+        fclose(fp);
+        if(res == 1 && i == 0) {
+            cpus_sys_path = 1;
+        }
+        if(res == 2 && i == 0) {
+            cpus_sys_path = j + 1;
+        }
+    }
+    
+    // return whatever number is greater
+    if(cpus_sys_path > p_ncpus){
+        p_ncpus = cpus_sys_path;
+    }
+#elif defined(_SC_NPROCESSORS_ONLN) && !defined(__EMX__) && !defined(__APPLE__)
     p_ncpus = sysconf(_SC_NPROCESSORS_ONLN);
 #elif defined(HAVE_SYS_SYSCTL_H) && defined(CTL_HW) && defined(HW_NCPU)
     // Get number of CPUs
@@ -1338,7 +1410,7 @@ int HOST_INFO::get_host_info() {
     m_nbytes = (double)sysconf(_SC_PAGESIZE) * (double)sysconf(_SC_PHYS_PAGES);
     if (m_nbytes < 0) {
         msg_printf(NULL, MSG_INTERNAL_ERROR,
-            "RAM size not measured correctly: page size %d, #pages %d",
+            "RAM size not measured correctly: page size %ld, #pages %ld",
             sysconf(_SC_PAGESIZE), sysconf(_SC_PHYS_PAGES)
         );
     }
@@ -1365,15 +1437,8 @@ int HOST_INFO::get_host_info() {
     getsysinfo( GSI_PHYSMEM, (caddr_t) &mem_size, sizeof( mem_size));
     m_nbytes = 1024.* (double)mem_size;
 #elif defined(HW_PHYSMEM) 
-    // for OpenBSD
-    mib[0] = CTL_HW; 
-    int mem_size; 
-    mib[1] = HW_PHYSMEM; 
-    len = sizeof(mem_size); 
-    sysctl(mib, 2, &mem_size, &len, NULL, 0); 
-    m_nbytes = mem_size; 
-#elif defined(__FreeBSD__)
-    unsigned int mem_size;
+    // for OpenBSD & NetBSD & FreeBSD
+    int mem_size;
     mib[0] = CTL_HW;
     mib[1] = HW_PHYSMEM;
     len = sizeof(mem_size);
@@ -1805,7 +1870,53 @@ bool xss_idle(long idle_treshold) {
     
     if(disp != NULL) {
         XScreenSaverQueryInfo(disp, DefaultRootWindow(disp), xssInfo);
-        idle_time = xssInfo->idle / 1000; // xssInfo->idle is in ms
+
+        idle_time = xssInfo->idle;
+
+#if HAVE_DPMS
+        // XIdleTime Detection
+        // See header for location and copywrites.
+        //
+        int dummy;
+        CARD16 standby, suspend, off;
+        CARD16 state;
+        BOOL onoff;
+
+        if (DPMSQueryExtension(disp, &dummy, &dummy)) {
+            if (DPMSCapable(disp)) {
+                DPMSGetTimeouts(disp, &standby, &suspend, &off);
+                DPMSInfo(disp, &state, &onoff);
+
+                if (onoff) {
+                    switch (state) {
+                      case DPMSModeStandby:
+                          /* this check is a littlebit paranoid, but be sure */
+                          if (idle_time < (unsigned) (standby * 1000)) {
+                              idle_time += (standby * 1000);
+                          }
+                          break;
+                      case DPMSModeSuspend:
+                          if (idle_time < (unsigned) ((suspend + standby) * 1000)) {
+                              idle_time += ((suspend + standby) * 1000);
+                          }
+                          break;
+                      case DPMSModeOff:
+                          if (idle_time < (unsigned) ((off + suspend + standby) * 1000)) {
+                              idle_time += ((off + suspend + standby) * 1000);
+                          }
+                          break;
+                      case DPMSModeOn:
+                        default:
+                          break;
+                    }
+                }
+            } 
+        }
+#endif
+
+        // convert from milliseconds to seconds
+        idle_time = idle_time / 1000;
+
     } else {
         disp = XOpenDisplay(NULL);
         // XOpenDisplay may return NULL if there is no running X

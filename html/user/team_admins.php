@@ -93,6 +93,7 @@ function remove_admin($team) {
 
 function add_admin($team) {
     $email_addr = get_str('email_addr');
+    $email_addr =  BoincDb::escape_string($email_addr);
     $user = BoincUser::lookup("email_addr='$email_addr'");
     if (!$user) error_page(tra("no such user"));
     if ($user->teamid != $team->id) error_page(tra("User is not member of team"));

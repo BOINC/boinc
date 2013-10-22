@@ -80,6 +80,7 @@ public:
     double lambda;
     bool sample(double dt);
     void init(double f, double l);
+    int parse(XML_PARSER&, const char*);
     RANDOM_PROCESS();
 };
 

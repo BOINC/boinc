@@ -32,6 +32,7 @@
 #include "parse.h"
 #include "util.h"
 #include "error_numbers.h"
+#include "str_replace.h"
 #include "str_util.h"
 #include "svn_version.h"
 
@@ -231,7 +232,7 @@ int main(int argc, char** argv) {
             log_messages.set_debug_level(dl);
             if (dl ==4) g_print_queries = true;
         } else if (is_arg(argv[i], "app")) {
-            strcpy(app.name, argv[++i]);
+            safe_strcpy(app.name, argv[++i]);
         } else if (is_arg(argv[i], "dont_update_db")) {
             // This option is for testing your assimilator.  When set,
             // it ensures that the assimilator does not actually modify
@@ -252,9 +253,9 @@ int main(int argc, char** argv) {
         } else if (is_arg(argv[i], "v") || is_arg(argv[i], "version")) {
             printf("%s\n", SVN_VERSION);
             exit(0);
-	} else if (is_arg(argv[i], "results_prefix")) {
-	    results_prefix=argv[++i];
-	} else if (is_arg(argv[i], "transcripts_prefix")) {
+        } else if (is_arg(argv[i], "results_prefix")) {
+            results_prefix=argv[++i];
+        } else if (is_arg(argv[i], "transcripts_prefix")) {
             transcripts_prefix=argv[++i];
         } else {
             log_messages.printf(MSG_CRITICAL, "Unrecognized arg: %s\n", argv[i]);

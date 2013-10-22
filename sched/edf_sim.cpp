@@ -15,11 +15,6 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef SIM
-#include "sched_config.h"
-#include "sched_msgs.h"
-#endif
-
 #ifndef _USING_FCGI_
 #include <cstdio>
 #else
@@ -31,6 +26,13 @@
 #include <cstring>
 #include <cstdarg>
 
+#ifdef SIM
+const int MAX_CPUS=4096;
+#else
+#include "sched_config.h"
+#include "sched_msgs.h"
+#include "sched_send.h"
+#endif
 
 #include "edf_sim.h"
 #ifdef SIM
@@ -84,7 +86,7 @@ bool lessthan_deadline(const IP_RESULT& p1, const IP_RESULT& p2) {
 //
 void mark_edf_misses (int ncpus, vector<IP_RESULT>& ip_results){
     vector<IP_RESULT>::iterator ipp_it;
-    double booked_to[128];
+    double booked_to[MAX_CPUS];
     int j;
 
     log_msg(DETAIL, "[edf_detail] mark_edf_misses\n");
@@ -223,7 +225,7 @@ bool check_candidate (
     int ncpus,
     vector<IP_RESULT> ip_results        // passed by value (copy)
 ) {
-    double booked_to[128];     // keeps track of when each cpu is free
+    double booked_to[MAX_CPUS];     // keeps track of when each cpu is free
     int j;
 
     log_msg(DETAIL, "[edf_detail] check_candidate %s: dl %.2f cpu %.2f\n",

@@ -115,5 +115,3 @@ UINT __stdcall GetUsersGroupName(MSIHANDLE hInstall)
 
     return uiReturnValue;
 }
-
-const char *BOINC_RCSID_75eacc2220="$Id$";

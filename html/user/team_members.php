@@ -24,6 +24,7 @@ check_get_args(array("sort_by", "offset", "teamid"));
 
 if (isset($_GET["sort_by"])) {
     $sort_by = $_GET["sort_by"];
+    $sort_by = strip_tags($sort_by);    // remove XSS nonsense
 } else {
     $sort_by = "expavg_credit";
 }
@@ -41,6 +42,7 @@ $cache_args = "teamid=$teamid";
 $team = unserialize(get_cached_data(TEAM_PAGE_TTL, $cache_args));
 if (!$team) {
     $team = BoincTeam::lookup_id($teamid);
+    if (!$team) error_page("no such team");
     set_cached_data(TEAM_PAGE_TTL, serialize($team), $cache_args);
 }
 

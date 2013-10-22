@@ -322,8 +322,10 @@ void estimate_flops_anon_platform() {
 }
 
 // compute HOST_USAGE::projected_flops as best we can:
-// 1) if we have statistics for (host, app version) elapsed time,
-//    use those.
+// 
+// 1) if we have statistics for (host, app version) and
+//    <estimate_flops_from_hav_pfc> is not set use elapsed time,
+//    otherwise use pfc_avg.
 // 2) if we have statistics for app version elapsed time, use those.
 // 3) else use a conservative estimate (p_fpops*(cpus+gpus))
 //    This prevents jobs from aborting with "time limit exceeded"
@@ -332,7 +334,12 @@ void estimate_flops_anon_platform() {
 void estimate_flops(HOST_USAGE& hu, APP_VERSION& av) {
     DB_HOST_APP_VERSION* havp = gavid_to_havp(av.id);
     if (havp && havp->et.n > MIN_HOST_SAMPLES) {
-        double new_flops = 1./havp->et.get_avg();
+        double new_flops;
+        if (config.estimate_flops_from_hav_pfc) {
+            new_flops = hu.peak_flops / (havp->pfc.get_avg()+1e-18);
+        } else { 
+            new_flops = 1./havp->et.get_avg();
+        }
         // cap this at ET_RATIO_LIMIT*projected,
         // in case we've had a bunch of short jobs recently
         //
@@ -350,9 +357,21 @@ void estimate_flops(HOST_USAGE& hu, APP_VERSION& av) {
         hu.projected_flops = new_flops;
 
         if (config.debug_version_select) {
+            if (config.estimate_flops_from_hav_pfc) {
+                log_messages.printf(MSG_NORMAL,
+                    "[version] [AV#%d] (%s) setting projected flops based on host_app_version pfc: %.2fG\n",
+                    av.id, av.plan_class, hu.projected_flops/1e9
+                );
+            } else {
+                log_messages.printf(MSG_NORMAL,
+                    "[version] [AV#%d] (%s) setting projected flops based on host elapsed time avg: %.2fG\n",
+                    av.id, av.plan_class, hu.projected_flops/1e9
+                );
+            }
             log_messages.printf(MSG_NORMAL,
-                "[version] [AV#%d] (%s) setting projected flops based on host elapsed time avg: %.2fG\n",
-                av.id, av.plan_class, hu.projected_flops/1e9
+                "[version] [AV#%d] (%s) comparison pfc: %.2fG  et: %.2fG\n",
+                av.id, av.plan_class, hu.peak_flops/(havp->pfc.get_avg()+1e-18)/1e+9,
+                1e-9/havp->et.get_avg()
             );
         }
     } else {
@@ -380,7 +399,7 @@ void estimate_flops(HOST_USAGE& hu, APP_VERSION& av) {
 //
 static void app_version_desc(BEST_APP_VERSION& bav, char* buf) {
     if (!bav.present) {
-        strcpy(buf, "none");
+        safe_strcpy(buf, "none");
         return;
     }
     if (bav.cavp) {
@@ -530,11 +549,17 @@ BEST_APP_VERSION* get_app_version(
         return NULL;
     }
 
-    // handle the case where we're using homogeneous app version
-    // and the WU is already committed to an app version
+    // if the app uses homogeneous app version,
+    // don't send to anonymous platform client.
+    // Then check if the WU is already committed to an app version
     //
-    if (app->homogeneous_app_version && wu.app_version_id) {
-        return check_homogeneous_app_version(wu, reliable_only);
+    if (app->homogeneous_app_version) {
+        if (g_wreq->anonymous_platform) {
+            return NULL;
+        }
+        if ( wu.app_version_id) {
+            return check_homogeneous_app_version(wu, reliable_only);
+        }
     }
 
     // see if app is already in memoized array
@@ -771,10 +796,40 @@ BEST_APP_VERSION* get_app_version(
             double r = 1;
             long n=1;
             if (havp) {
+                // slowly move from raw calc to measured performance as number
+                // of results increases
                 n=std::max((long)havp->pfc.n,(long)n);
-            } 
+                double old_projected_flops=host_usage.projected_flops;
+                estimate_flops(host_usage, av);
+                host_usage.projected_flops=(host_usage.projected_flops*(n-1)+old_projected_flops)/n;
+
+                // special case for versions that don't work on a given host.
+                // This is defined as:
+                // 1. pfc.n is 0
+                // 2. The max_jobs_per_day is 1
+                // 3. Consecutive valid is 0.
+                // In that case, heavily penalize this app_version most of the
+                // time.
+                if ((havp->pfc.n==0) && (havp->max_jobs_per_day==1) && (havp->consecutive_valid==0)) {
+                    if (drand()>0.01) {
+                        host_usage.projected_flops*=0.01;
+                        if (config.debug_version_select  && bavp && bavp->avp) {
+                            log_messages.printf(MSG_NORMAL,
+                                "[version] App version AV#%d is failing on HOST#%d\n",
+                                havp->app_version_id,havp->host_id
+                            );
+                        }
+                   }
+                }
+            }
             if (config.version_select_random_factor) {
                 r += config.version_select_random_factor*rand_normal()/n;
+            }
+            if (config.debug_version_select  && bavp && bavp->avp) {
+                log_messages.printf(MSG_NORMAL,
+                    "[version] Comparing AV#%d (%.2f GFLOP) against AV#%d (%.2f GFLOP)\n",
+                    av.id,host_usage.projected_flops/1e+9,bavp->avp->id,bavp->host_usage.projected_flops/1e+9
+                );
             }
             if (r*host_usage.projected_flops > bavp->host_usage.projected_flops) {
                 if (config.debug_version_select && (host_usage.projected_flops <= bavp->host_usage.projected_flops)) {
@@ -788,6 +843,13 @@ BEST_APP_VERSION* get_app_version(
                 bavp->avp = &av;
                 bavp->reliable = app_version_is_reliable(av.id);
                 bavp->trusted = app_version_is_trusted(av.id);
+                if (config.debug_version_select) {
+                      log_messages.printf(MSG_NORMAL,
+                          "[version] Best app version is now AV%d (%.2f GFLOP)\n",
+                          bavp->avp->id, bavp->host_usage.projected_flops/1e+9
+                    );
+                }
+
             }
         }   // loop over app versions
 

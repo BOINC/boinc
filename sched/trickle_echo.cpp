@@ -27,6 +27,7 @@
 // user.lookup_id(host.userid);
 
 #include "error_numbers.h"
+#include "str_replace.h"
 
 #include "trickle_handler.h"
 
@@ -45,7 +46,7 @@ int handle_trickle(MSG_FROM_HOST& mfh) {
     mth.clear();
     mth.create_time = time(0);
     mth.hostid = mfh.hostid;
-    strcpy(mth.variety, mfh.variety);
+    safe_strcpy(mth.variety, mfh.variety);
     mth.handled = false;
     sprintf(mth.xml,
         "<trickle_down>\n"

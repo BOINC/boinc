@@ -20,8 +20,12 @@
 #endif
 
 #include "stdwx.h"
+
 #include "diagnostics.h"
 #include "miofile.h"
+#include "str_replace.h"
+#include "util.h"
+
 #include "LogBOINC.h"
 #include "BOINCGUIApp.h"
 #include "SkinManager.h"
@@ -33,7 +37,6 @@
 #include "procinfo.h"
 #include "filesys.h"
 #include "daemonmgt.h"
-#include "util.h"
 #include "Events.h"
 #include "version.h"
 
@@ -155,7 +158,7 @@ bool CBOINCClientManager::IsBOINCCoreRunning() {
         // Global mutex on Win2k and later
         //
         if (IsWindows2000Compatible()) {
-            strcpy(buf, "Global\\");
+            safe_strcpy(buf, "Global\\");
         }
         strcat( buf, RUN_MUTEX);
 
@@ -445,9 +448,9 @@ void CBOINCClientManager::KillClient() {
     
     PROC_MAP::iterator i;
     for (i=pm.begin(); i!=pm.end(); i++) {
-        PROCINFO& pi = i->second;
-        if (!strcmp(pi.command, "boinc")) {
-            kill_program(pi.id);
+        PROCINFO& procinfo = i->second;
+        if (!strcmp(procinfo.command, "boinc")) {
+            kill_program(procinfo.id);
             break;
         }
     }

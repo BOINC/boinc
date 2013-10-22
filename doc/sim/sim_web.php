@@ -168,9 +168,14 @@ function show_scenarios() {
         </tr>
     ";
     $d = opendir("scenarios");
+    $dirs = array();
     while (false !== ($f = readdir($d))) {
         if ($f === ".") continue;
         if ($f === "..") continue;
+        $dirs[] = $f;
+    }
+    rsort($dirs);
+    foreach ($dirs as $f) {
         show_scenario_summary($f);
     }
     echo "</table>\n";
@@ -310,7 +315,7 @@ function show_scenario() {
     }
     row2("Input files", $x);
     end_table();
-    show_button("sim_web.php?action=simulation_form_short&scen=$name",
+    show_button("sim_web.php?action=simulation_form&scen=$name",
         "Do new simulation",
         "Do new simulation"
     );
@@ -325,9 +330,15 @@ function show_scenario() {
             <th>Comments</th>
         </tr>
     ";
+
+    $dirs = array();
     $s = opendir("$d/simulations");
     while (false !== ($f = readdir($s))) {
         if (!is_numeric($f)) continue;
+        $dirs[] = $f;
+    }
+    rsort($dirs);
+    foreach ($dirs as $f) {
         show_simulation_summary($name, $f);
     }
     end_table();
@@ -339,12 +350,14 @@ function log_flag_boxes() {
     return "
         <input type=checkbox name=cpu_sched_debug> CPU scheduling debug
         <br> <input type=checkbox name=rr_simulation> Round-robin simulation info
+        <br> <input type=checkbox name=rrsim_detail> Round-robin simulation details
         <br> <input type=checkbox name=work_fetch_debug> Work fetch debug
     ";
 }
 
-function simulation_form_short() {
+function simulation_form() {
     $scen = get_str("scen");
+    $detail = get_str("detail", true);
     page_head("Do simulation");
     start_table();
     echo "
@@ -353,57 +366,41 @@ function simulation_form_short() {
         <input type=hidden name=scen value=$scen>
         <input type=hidden name=rec_half_life_days value=10>
         <input type=hidden name=existing_jobs_only value=0>
-        <input type=hidden name=use_hyst_fetch value=1>
         <input type=hidden name=cpu_sched_rr_only value=0>
+        <input type=hidden name=include_empty_projects value=0>
         <input type=hidden name=server_uses_workload value=0>
     ";
     row2("Duration", "<input name=duration value=86400> seconds");
     row2("Time step", "<input name=delta value=60> seconds");
+    if ($detail) {
+        row2("Half life of average-credit decay",
+            "<input name=rec_half_life_days value=10> days"
+        );
+        row2("Existing jobs only?
+            <br><span class=note>If checked, simulate only the
+            jobs in the client state file.
+            Otherwise, simulate an infinite stream of jobs
+            modeled after those in the state file.",
+            "<input type=checkbox name=existing_jobs_only>"
+        );
+        row2("Scheduler does detailed deadline check?
+            <br><span class=note>If checked, the scheduler's deadline
+            decisions will use a detailed EDF simulation
+            rather than an approximation.</span>",
+            "<input type=checkbox name=server_uses_workload>"
+        );
+        row2("Client uses pure Round-robin?
+            <br><span class=note>If checked, job scheduling will
+            use a simple round-robin policy.</span>",
+            "<input type=checkbox name=cpu_sched_rr_only>"
+        );
+        row2("Include projects without apps",
+            "<input type=checkbox name=include_empty_projects>"
+        );
+    } else {
+        row2("", "<a href=sim_web.php?action=simulation_form&detail=yes&scen=$scen>More options</a>");
+    }
     row2("Log flags", log_flag_boxes());
-    row2("", "<input type=submit value=OK>");
-    echo "</form>\n";
-    end_table();
-    page_tail();
-}
-
-function simulation_form() {
-    $scen = get_str("scen");
-    page_head("Do simulation");
-    start_table();
-    echo "
-        <form action=sim_web.php method=post enctype=\"multipart/form-data\">
-        <input type=hidden name=action value=simulation_action>
-        <input type=hidden name=scen value=$scen>
-    ";
-    row2("Duration", "<input name=duration value=86400> seconds");
-    row2("Time step", "<input name=delta value=60> seconds");
-    row2("Half life of average-credit decay", "<input name=rec_half_life_days value=10> days");
-    row2("cc_config.xml", "<input type=file name=cc_config>");
-    row2("Existing jobs only?
-        <br><span class=note>If checked, simulate only the
-        jobs in the client state file.
-        Otherwise, simulate an infinite stream of jobs
-        modeled after those in the state file.",
-        "<input type=checkbox name=existing_jobs_only>"
-    );
-    row2("Use hysteresis work fetch?
-        <br><span class=note>If checked, use 6.14 work fetch policies.
-        Tthe client will wait
-        until the work buffer falls below X, then fill it to X+Y.
-        Otherwise it will keep it filled to X+Y.</span>",
-        "<input type=checkbox name=use_hyst_fetch checked>"
-    );
-    row2("Scheduler does detailed deadline check?
-        <br><span class=note>If checked, the scheduler's deadline
-        decisions will use a detailed EDF simulation
-        rather than an approximation.</span>",
-        "<input type=checkbox name=server_uses_workload>"
-    );
-    row2("Client uses pure Round-robin?
-        <br><span class=note>If checked, CPU scheduling will
-        use a simple round-robin policy.</span>",
-        "<input type=checkbox name=cpu_sched_rr_only>"
-    );
     row2("", "<input type=submit value=OK>");
     echo "</form>\n";
     end_table();
@@ -428,8 +425,8 @@ function simulation_action() {
     $policy->delta = (double)post_str("delta");
     $policy->rec_half_life = (double)post_str("rec_half_life_days")*86400;
     $policy->existing_jobs_only = post_str("existing_jobs_only", true);
-    $policy->use_hyst_fetch = post_str("use_hyst_fetch", true);
     $policy->cpu_sched_rr_only = post_str("cpu_sched_rr_only", true);
+    $policy->include_empty_projects = post_str("include_empty_projects", true);
     $policy->server_uses_workload = post_str("server_uses_workload", true);
     file_put_contents("$sim_path/userid", "$user->id");
 
@@ -439,6 +436,9 @@ function simulation_action() {
     }
     if (post_str("rr_simulation", true)) {
         $x .= "<rr_simulation/>\n";
+    }
+    if (post_str("rrsim_detail", true)) {
+        $x .= "<rrsim_detail/>\n";
     }
     if (post_str("work_fetch_debug", true)) {
         $x .= "<work_fetch_debug/>\n";
@@ -507,7 +507,7 @@ function add_comment() {
     file_put_contents("$p/userid", "$user->id");
     file_put_contents("$p/comment", get_str("comment"));
 
-    header("Location: sim_web.php?action=show_simulation?scen=$scen&sim=$sim");
+    header("Location: sim_web.php?action=show_simulation&scen=$scen&sim=$sim");
 }
 
 $action = get_str("action", true);
@@ -526,9 +526,6 @@ case "show_scenario":
 case "simulation_form":
     simulation_form();
     break;
-case "simulation_form_short":
-    simulation_form_short();
-    break;
 case "simulation_action":
     simulation_action();
     break;
@@ -538,8 +535,11 @@ case "show_simulation":
 case "add_comment":
     add_comment();
     break;
-default:
+case null:
     show_scenarios();
+    break;
+default:
+    die("unknown action $action");
 }
 
 ?>

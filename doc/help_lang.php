@@ -3,6 +3,7 @@
 require_once("docutil.php");
 require_once("help_db.php");
 require_once("help_funcs.php");
+require_once("spoken_languages.php");
 
 $lang = $_GET["lang"];
 
@@ -126,6 +127,9 @@ function show_vols($vols) {
 }
 
 if ($lang) {
+    if (!is_spoken_language($lang)) {
+        boinc_error_page("Not a recognized language");
+    }
     page_head("Online Help in $lang");
 } else {
     page_head("Online Help in all languages");

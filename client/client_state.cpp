@@ -26,7 +26,7 @@
 #include <ctime>
 #include <cstdarg>
 #include <cstring>
-#include <math.h>
+#include <cmath>
 #if HAVE_SYS_SOCKET_H
 #include <sys/socket.h>
 #endif
@@ -48,9 +48,11 @@
 #include "run_app_windows.h"
 #endif
 
+#include "app_config.h"
 #include "async_file.h"
 #include "client_msgs.h"
 #include "cs_notice.h"
+#include "cs_proxy.h"
 #include "cs_trickle.h"
 #include "file_names.h"
 #include "hostinfo.h"
@@ -69,6 +71,11 @@ using std::max;
 CLIENT_STATE gstate;
 COPROCS coprocs;
 
+#ifdef NEW_CPU_THROTTLE
+THREAD_LOCK client_mutex;
+THREAD throttle_thread;
+#endif
+
 CLIENT_STATE::CLIENT_STATE()
     : lookup_website_op(&gui_http),
     get_current_version_op(&gui_http),
@@ -82,12 +89,14 @@ CLIENT_STATE::CLIENT_STATE()
     scheduler_op = new SCHEDULER_OP(http_ops);
 #endif
     client_state_dirty = false;
+    clock_change = false;
     check_all_logins = false;
     cmdline_gui_rpc_port = 0;
     run_cpu_benchmarks = false;
     file_xfer_giveup_period = PERS_GIVEUP;
     had_or_requested_work = false;
     tasks_suspended = false;
+    tasks_throttled = false;
     network_suspended = false;
     suspend_reason = 0;
     network_suspend_reason = 0;
@@ -102,6 +111,7 @@ CLIENT_STATE::CLIENT_STATE()
     exit_after_app_start_secs = 0;
     app_started = 0;
     exit_before_upload = false;
+    run_test_app = false;
     show_projects = false;
     strcpy(detach_project_url, "");
     strcpy(main_host_venue, "");
@@ -129,8 +139,10 @@ CLIENT_STATE::CLIENT_STATE()
     redirect_io = false;
     disable_graphics = false;
     cant_write_state_file = false;
+    benchmarks_running = false;
+    device_status_time = 0;
 
-    debt_interval_start = 0;
+    rec_interval_start = 0;
     retry_shmem_time = 0;
     must_schedule_cpus = true;
     no_gui_rpc = false;
@@ -143,11 +155,19 @@ CLIENT_STATE::CLIENT_STATE()
     launched_by_manager = false;
     initialized = false;
     last_wakeup_time = dtime();
+    device_status_time = 0;
+#ifdef _WIN32
+    have_sysmon_msg = false;
+#endif
 }
 
 void CLIENT_STATE::show_host_info() {
     char buf[256], buf2[256];
 
+    msg_printf(NULL, MSG_INFO,
+        "Host name: %s",
+        host_info.domain_name
+    );
     nbytes_to_string(host_info.m_cache, 0, buf, sizeof(buf));
     msg_printf(NULL, MSG_INFO,
         "Processor: %d %s %s",
@@ -156,12 +176,14 @@ void CLIENT_STATE::show_host_info() {
     if (ncpus != host_info.p_ncpus) {
         msg_printf(NULL, MSG_INFO, "Using %d CPUs", ncpus);
     }
+#if 0
     if (host_info.m_cache > 0) {
         msg_printf(NULL, MSG_INFO,
             "Processor: %s cache",
             buf
         );
     }
+#endif
     msg_printf(NULL, MSG_INFO,
         "Processor features: %s", host_info.p_features
     );
@@ -216,20 +238,6 @@ const char* rsc_name(int i) {
     return coprocs.coprocs[i].type;
 }
 
-// set no_X_apps for anonymous platform project
-//
-static void check_no_apps(PROJECT* p) {
-    for (int i=0; i<coprocs.n_rsc; i++) {
-        p->no_rsc_apps[i] = true;
-    }
-
-    for (unsigned int i=0; i<gstate.app_versions.size(); i++) {
-        APP_VERSION* avp = gstate.app_versions[i];
-        if (avp->project != p) continue;
-        p->no_rsc_apps[avp->gpu_usage.rsc_type] = false;
-    }
-}
-
 // alert user if any jobs need more RAM than available
 //
 static void check_too_large_jobs() {
@@ -271,7 +279,13 @@ void CLIENT_STATE::set_now() {
 
     // if time went backward significantly, clear delays
     //
+    clock_change = false;
     if (x < (now-60)) {
+        clock_change = true;
+        msg_printf(NULL, MSG_INFO,
+            "New system time (%.0f) < old system time (%.0f); clearing timeouts",
+            x, now
+        );
         clear_absolute_times();
     }
 
@@ -300,7 +314,6 @@ int CLIENT_STATE::init() {
 
     srand((unsigned int)time(0));
     now = dtime();
-    client_start_time = now;
     scheduler_op->url_random = drand();
 
     notices.init();
@@ -351,10 +364,6 @@ int CLIENT_STATE::init() {
     parse_account_files();
     parse_statistics_files();
 
-    host_info.get_host_info();
-    set_ncpus();
-    show_host_info();
-
     // check for GPUs.
     //
     for (int j=1; j<coprocs.n_rsc; j++) {
@@ -371,8 +380,7 @@ int CLIENT_STATE::init() {
         vector<string> descs;
         vector<string> warnings;
         coprocs.get(
-            config.use_all_gpus, descs, warnings,
-            config.ignore_nvidia_dev, config.ignore_ati_dev
+            config.use_all_gpus, descs, warnings, config.ignore_gpu_instance
         );
         for (i=0; i<descs.size(); i++) {
             msg_printf(NULL, MSG_INFO, "%s", descs[i].c_str());
@@ -390,6 +398,10 @@ int CLIENT_STATE::init() {
         msg_printf(NULL, MSG_INFO, "Faking an ATI GPU");
         coprocs.ati.fake(512*MEGA, 256*MEGA, 2);
 #endif
+#if 0
+        msg_printf(NULL, MSG_INFO, "Faking an Intel GPU");
+        coprocs.intel_gpu.fake(512*MEGA, 256*MEGA, 2);
+#endif
     }
 
     if (coprocs.have_nvidia()) {
@@ -406,7 +418,14 @@ int CLIENT_STATE::init() {
             coprocs.add(coprocs.ati);
         }
     }
-    host_info._coprocs = coprocs;
+    if (coprocs.have_intel_gpu()) {
+        if (rsc_index(GPU_TYPE_INTEL)>0) {
+            msg_printf(NULL, MSG_INFO, "INTEL GPU info taken from cc_config.xml");
+        } else {
+            coprocs.add(coprocs.intel_gpu);
+        }
+    }
+    host_info.coprocs = coprocs;
     
     if (coprocs.none() ) {
         msg_printf(NULL, MSG_INFO, "No usable GPUs found");
@@ -417,7 +436,7 @@ int CLIENT_STATE::init() {
     // check for app_info.xml file in project dirs.
     // If find, read app info from there, set project.anonymous_platform
     // - this must follow coproc.get() (need to know if GPUs are present)
-    // - this is being done before CPU speed has been read,
+    // - this is being done before CPU speed has been read from state file,
     // so we'll need to patch up avp->flops later;
     //
     check_anonymous();
@@ -432,7 +451,18 @@ int CLIENT_STATE::init() {
     //
     parse_state_file();
 
-    // this needs to go after parse_state_file because
+    // this follows parse_state_file() since we need to have read
+    // domain_name for Android
+    //
+    host_info.get_host_info();
+    set_ncpus();
+    show_host_info();
+
+    // check for app_config.xml files in project dirs
+    //
+    check_app_config();
+
+    // this needs to go after parse_state_file() because
     // GPU exclusions refer to projects
     //
     config.show();
@@ -446,12 +476,15 @@ int CLIENT_STATE::init() {
     //
     parse_account_files_venue();
 
-    // fill in p->no_X_apps for anon platform projects
+    // fill in p->no_X_apps for anon platform projects,
+    // and check no_rsc_apps for others
     //
     for (i=0; i<projects.size(); i++) {
         p = projects[i];
         if (p->anonymous_platform) {
-            check_no_apps(p);
+            p->check_no_apps();
+        } else {
+            p->check_no_rsc_apps();
         }
     }
 
@@ -466,7 +499,7 @@ int CLIENT_STATE::init() {
             avp->flops = avp->avg_ncpus * host_info.p_fpops;
 
             // for GPU apps, use conservative estimate:
-            // assume app will run at peak CPU speed, not peak GPU
+            // assume GPU runs at 10X peak CPU speed
             //
             if (avp->gpu_usage.rsc_type) {
                 avp->flops += avp->gpu_usage.usage * 10 * host_info.p_fpops;
@@ -525,10 +558,12 @@ int CLIENT_STATE::init() {
     }
     // if new version of client,
     // - run CPU benchmarks
+    // - get new project list
     // - contact reference site (or some project) to trigger firewall alert
     //
     if (new_client) {
         run_cpu_benchmarks = true;
+        all_projects_list_check_time = 0;
         if (config.dont_contact_ref_site) {
             if (projects.size() > 0) {
                 projects[0]->master_url_fetch_pending = true;
@@ -547,7 +582,7 @@ int CLIENT_STATE::init() {
     request_schedule_cpus("Startup");
     request_work_fetch("Startup");
     work_fetch.init();
-    debt_interval_start = now;
+    rec_interval_start = now;
 
     // set up the project and slot directories
     //
@@ -603,6 +638,24 @@ int CLIENT_STATE::init() {
 #endif
 
     http_ops->cleanup_temp_files();
+    
+    // must parse env vars after parsing state file
+    // otherwise items will get overwritten with state file info
+    //
+    parse_env_vars();
+
+    // do this after parsing env vars
+    //
+    proxy_info_startup();
+
+    if (gstate.projects.size() == 0) {
+        msg_printf(NULL, MSG_INFO,
+            "This computer is not attached to any projects"
+        );
+        msg_printf(NULL, MSG_INFO,
+            "Visit http://boinc.berkeley.edu for instructions"
+        );
+    }
 
     // get list of BOINC projects occasionally,
     // and initialize notice RSS feeds
@@ -620,6 +673,10 @@ int CLIENT_STATE::init() {
     //
     project_priority_init(false);
 
+#ifdef NEW_CPU_THROTTLE
+    client_mutex.lock();
+    throttle_thread.run(throttler, NULL);
+#endif
     initialized = true;
     return 0;
 }
@@ -651,12 +708,18 @@ void CLIENT_STATE::do_io_or_sleep(double x) {
         all_fds = curl_fds;
         gui_rpcs.get_fdset(gui_rpc_fds, all_fds);
         double_to_timeval(action?0:x, tv);
+#ifdef NEW_CPU_THROTTLE
+        client_mutex.unlock();
+#endif
         n = select(
             all_fds.max_fd+1,
             &all_fds.read_fds, &all_fds.write_fds, &all_fds.exc_fds,
             &tv
         );
         //printf("select in %d out %d\n", all_fds.max_fd, n);
+#ifdef NEW_CPU_THROTTLE
+        client_mutex.lock();
+#endif
 
         // Note: curl apparently likes to have curl_multi_perform()
         // (called from net_xfers->got_select())
@@ -727,18 +790,29 @@ bool CLIENT_STATE::poll_slow_events() {
         last_wakeup_time = now;
     }
 
-    if (should_run_cpu_benchmarks() && !are_cpu_benchmarks_running()) {
+    if (should_run_cpu_benchmarks() && !benchmarks_running) {
         run_cpu_benchmarks = false;
         start_cpu_benchmarks();
     }
 
+#ifdef _WIN32
+    if (have_sysmon_msg) {
+        msg_printf(NULL, MSG_INFO, sysmon_msg);
+        have_sysmon_msg = false;
+    }
+#endif
+
     bool old_user_active = user_active;
+#ifdef ANDROID
+    user_active = device_status.user_active;
+#else
     user_active = !host_info.users_idle(
         check_all_logins, global_prefs.idle_time_to_run
 #ifdef __APPLE__
          , &idletime
 #endif
     );
+#endif
 
     if (user_active != old_user_active) {
         request_schedule_cpus("Idle state change");
@@ -787,11 +861,14 @@ bool CLIENT_STATE::poll_slow_events() {
     if (tasks_restarted) {
         if (suspend_reason) {
             if (!tasks_suspended) {
-                suspend_tasks(suspend_reason);
+                show_suspend_tasks_message(suspend_reason);
+                if (!tasks_throttled) {
+                    active_tasks.suspend_all(suspend_reason);
+                }
             }
             last_suspend_reason = suspend_reason;
         } else {
-            if (tasks_suspended) {
+            if (tasks_suspended && !tasks_throttled) {
                 resume_tasks(last_suspend_reason);
             }
         }
@@ -800,12 +877,12 @@ bool CLIENT_STATE::poll_slow_events() {
         //
         first = false;
         if (suspend_reason) {
-            print_suspend_tasks_message(suspend_reason);
+            show_suspend_tasks_message(suspend_reason);
         }
     }
     tasks_suspended = (suspend_reason != 0);
 
-    if (suspend_reason & SUSPEND_REASON_BENCHMARKS) {
+    if (benchmarks_running) {
         cpu_benchmarks_poll();
     }
 
@@ -1218,7 +1295,7 @@ bool CLIENT_STATE::abort_unstarted_late_jobs() {
 bool CLIENT_STATE::garbage_collect() {
     bool action;
     static double last_time=0;
-    if (gstate.now - last_time < GARBAGE_COLLECT_PERIOD) return false;
+    if (!clock_change && now - last_time < GARBAGE_COLLECT_PERIOD) return false;
     last_time = gstate.now;
 
     action = abort_unstarted_late_jobs();
@@ -1330,6 +1407,7 @@ bool CLIENT_STATE::garbage_collect_always() {
                         rp->name
                     );
                 }
+                add_old_result(*rp);
                 delete rp;
                 result_iter = results.erase(result_iter);
                 action = true;
@@ -1526,8 +1604,8 @@ bool CLIENT_STATE::update_results() {
     static double last_time=0;
     int retval;
 
-    if (gstate.now - last_time < UPDATE_RESULTS_PERIOD) return false;
-    last_time = gstate.now;
+    if (!clock_change && now - last_time < UPDATE_RESULTS_PERIOD) return false;
+    last_time = now;
 
     result_iter = results.begin();
     while (result_iter != results.end()) {
@@ -1561,7 +1639,6 @@ bool CLIENT_STATE::update_results() {
             if (rp->is_upload_done()) {
                 rp->set_ready_to_report();
                 rp->completed_time = gstate.now;
-                rp->project->last_upload_start = 0;
                 rp->set_state(RESULT_FILES_UPLOADED, "CS::update_results");
 
                 // clear backoffs for app's resources;
@@ -1655,9 +1732,9 @@ int CLIENT_STATE::report_result_error(RESULT& res, const char* format, ...) {
     vsnprintf(err_msg, sizeof(err_msg), format, va);
     va_end(va);
 
-    sprintf(buf, "Unrecoverable error for task %s (%s)", res.name, err_msg);
+    sprintf(buf, "Unrecoverable error for task %s", res.name);
 #ifndef SIM
-    scheduler_op->backoff(res.project, buf);
+    scheduler_op->project_rpc_backoff(res.project, buf);
 #endif
 
     sprintf( buf, "<message>\n%s\n</message>\n", err_msg);
@@ -1761,7 +1838,6 @@ int CLIENT_STATE::reset_project(PROJECT* project, bool detaching) {
             i--;
         }
     }
-    project->last_upload_start = 0;
 
     // if we're in the middle of a scheduler op to the project, abort it
     //
@@ -1822,6 +1898,10 @@ int CLIENT_STATE::reset_project(PROJECT* project, bool detaching) {
         }
         garbage_collect_always();
     }
+
+    // force refresh of scheduler URLs
+    //
+    project->scheduler_urls.clear();
 
     project->duration_correction_factor = 1;
     project->ams_resource_share = -1;
@@ -1938,7 +2018,7 @@ int CLIENT_STATE::detach_project(PROJECT* project) {
 // e.g. flush buffers, but why bother)
 //
 int CLIENT_STATE::quit_activities() {
-    // calculate long-term debts (for state file)
+    // calculate REC (for state file)
     //
     adjust_rec();
 
@@ -1957,13 +2037,17 @@ int CLIENT_STATE::quit_activities() {
 
 #endif
 
-// See if a timestamp in the client state file
+// Called at startup to see if a timestamp in the client state file
 // is later than the current time.
 // If so, the user must have decremented the system clock.
 //
 void CLIENT_STATE::check_clock_reset() {
     if (!time_stats.last_update) return;
     if (time_stats.last_update <= now) return;
+    msg_printf(NULL, MSG_INFO,
+        "System clock (%.0f) < state file timestamp (%.0f); clearing timeouts",
+        now, time_stats.last_update
+    );
     clear_absolute_times();
 }
 
@@ -1975,10 +2059,8 @@ void CLIENT_STATE::check_clock_reset() {
 // that we could try to patch up, but it's not clear how.
 //
 void CLIENT_STATE::clear_absolute_times() {
-    msg_printf(NULL, MSG_INFO,
-        "System clock was turned backwards; clearing timeouts"
-    );
-
+    exclusive_app_running = 0;
+    exclusive_gpu_app_running = 0;
     new_version_check_time = now;
     all_projects_list_check_time = now;
     retry_shmem_time = 0;

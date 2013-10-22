@@ -34,6 +34,7 @@
 #include "boinc_db.h"
 #include "util.h"
 #include "error_numbers.h"
+#include "str_replace.h"
 #include "str_util.h"
 #include "svn_version.h"
 
@@ -54,7 +55,7 @@ int handle_message(MSG_FROM_HOST& mfh) {
     mth.create_time = time(0);
     mth.hostid = mfh.hostid;
     mth.handled = false;
-    strcpy(mth.xml, mfh.xml);
+    safe_strcpy(mth.xml, mfh.xml);
     retval = mth.insert();
     if (retval) {
         printf("insert failed %s\n", boincerror(retval));

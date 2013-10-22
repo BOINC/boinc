@@ -32,15 +32,17 @@
 
 #include "error_numbers.h"
 
-#include "sched_main.h"
+#include "sched_check.h"
 #include "sched_config.h"
+#include "sched_customize.h"
 #include "sched_locality.h"
+#include "sched_main.h"
 #include "sched_msgs.h"
 #include "sched_send.h"
 #include "sched_shmem.h"
+#include "sched_types.h"
 #include "sched_util.h"
 #include "sched_version.h"
-#include "sched_types.h"
 
 #include "sched_resend.h"
 
@@ -72,7 +74,7 @@ static int possibly_give_result_new_deadline(
     if (estimate_duration(wu, bav) > result_report_deadline-now) {
         if (config.debug_resend) {
             log_messages.printf(MSG_NORMAL,
-                "[resend] [RESULT#%d] [HOST#%d] not resending lost result: can't complete in time\n",
+                "[resend] [RESULT#%u] [HOST#%d] not resending lost result: can't complete in time\n",
                 result.id, g_reply->host.id
             );
         }
@@ -83,7 +85,7 @@ static int possibly_give_result_new_deadline(
     //
     if (config.debug_resend) {
         log_messages.printf(MSG_NORMAL,
-            "[resend] [RESULT#%d] [HOST#%d] %s report_deadline (resend lost work)\n",
+            "[resend] [RESULT#%u] [HOST#%d] %s report_deadline (resend lost work)\n",
             result.id, g_reply->host.id,
             result_report_deadline==result.report_deadline?"NO update to":"Updated"
         );
@@ -134,56 +136,78 @@ bool resend_lost_work() {
         num_eligible_to_resend++;
         if (config.debug_resend) {
             log_messages.printf(MSG_NORMAL,
-                "[resend] [HOST#%d] found lost [RESULT#%d]: %s\n",
+                "[resend] [HOST#%d] found lost [RESULT#%u]: %s\n",
                 g_reply->host.id, result.id, result.name
             );
         }
 
         DB_WORKUNIT wu;
-        bool cant_resend = false;
+        bool can_resend = true;
         retval = wu.lookup_id(result.workunitid);
         if (retval) {
             log_messages.printf(MSG_CRITICAL,
-                "[HOST#%d] WU not found for [RESULT#%d]\n",
+                "[HOST#%d] can't resend - WU not found for [RESULT#%u]\n",
                 g_reply->host.id, result.id
             );
-            cant_resend = true;
-        } else {
+            can_resend = false;
+        }
+        if (can_resend) {
             app = ssp->lookup_app(wu.appid);
-            bavp = get_app_version(wu, false, false);
+            bavp = get_app_version(wu, true, false);
             if (!bavp) {
-                log_messages.printf(MSG_CRITICAL,
-                    "[HOST#%d] can't resend [RESULT#%d]: no app version for %s\n",
-                    g_reply->host.id, result.id, app->name
-                );
-                cant_resend = true;
+                if (config.debug_resend) {
+                    log_messages.printf(MSG_NORMAL,
+                        "[HOST#%d] can't resend [RESULT#%u]: no app version for %s\n",
+                        g_reply->host.id, result.id, app->name
+                    );
+                }
+                can_resend = false;
             }
         }
-
-        // If error occurred,
-        // or time is too close to the deadline,
-        // or we already have a canonical result,
-        // or WU error flag is set,
-        // then don't resend this result.
-        // Instead make it time out right away
-        // so that the transitioner does 'the right thing'.
-        //
-        if (
-            cant_resend
-            || wu.error_mask
-            || wu.canonical_resultid
-            || wu_is_infeasible_fast(
-                wu, result.server_state, result.priority, result.report_deadline,
-                *app, *bavp
-            )
-            || possibly_give_result_new_deadline(result, wu, *bavp)
-        ) {
+        if (can_resend && wu.error_mask) {
             if (config.debug_resend) {
                 log_messages.printf(MSG_NORMAL,
-                    "[resend] [HOST#%d][RESULT#%d] not needed or too close to deadline, expiring\n",
-                    g_reply->host.id, result.id
+                    "[resend] skipping [RESULT#%u]: WU error mask %d\n",
+                    result.id, wu.error_mask
                 );
             }
+            can_resend = false;
+        }
+        if (can_resend && wu.canonical_resultid) {
+            if (config.debug_resend) {
+                log_messages.printf(MSG_NORMAL,
+                    "[resend] skipping [RESULT#%u]: already have canonical result\n",
+                    result.id
+                );
+            }
+            can_resend = false;
+        }
+        if (can_resend && wu_is_infeasible_fast(
+            wu, result.server_state, result.priority, result.report_deadline,
+            *app, *bavp
+        )) {
+            if (config.debug_resend) {
+                log_messages.printf(MSG_NORMAL,
+                    "[resend] skipping [RESULT#%u]: feasibility check failed\n",
+                    result.id
+                );
+            }
+            can_resend = false;
+        }
+        if (can_resend && possibly_give_result_new_deadline(result, wu, *bavp)) {
+            if (config.debug_resend) {
+                log_messages.printf(MSG_NORMAL,
+                    "[resend] skipping [RESULT#%u]: deadline assignment failed\n",
+                    result.id
+                );
+            }
+            can_resend = false;
+        }
+
+        // If we can't resend this job for any of the above reasons,
+        // make it time out so that the transitioner does the right thing.
+        //
+        if (!can_resend) {
             result.report_deadline = time(0)-1;
             retval = result.mark_as_sent(result.server_state, config.report_grace_period);
             if (retval) {
@@ -213,7 +237,7 @@ bool resend_lost_work() {
             retval = add_result_to_reply(result, wu, bavp, false);
             if (retval) {
                 log_messages.printf(MSG_CRITICAL,
-                    "[HOST#%d] failed to send [RESULT#%d]\n",
+                    "[HOST#%d] failed to send [RESULT#%u]\n",
                     g_reply->host.id, result.id
                 );
                 continue;

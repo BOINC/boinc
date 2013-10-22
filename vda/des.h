@@ -42,6 +42,7 @@ inline bool compare(EVENT* e1, EVENT* e2) {
 struct SIMULATOR {
     vector<EVENT*> events;
     double now;
+    bool done;
 
     // add an event
     //
@@ -70,6 +71,7 @@ struct SIMULATOR {
     // run the simulator for the given time period
     //
     void simulate(double dur) {
+        done = false;
         while (events.size()) {
             EVENT* e = events.front();
             pop_heap(events.begin(), events.end(), compare);
@@ -77,6 +79,7 @@ struct SIMULATOR {
             now = e->t;
             if (now > dur) break;
             e->handle();
+            if (done) break;
         }
     }
 };

@@ -21,7 +21,7 @@ locale_dirs = \
 	gl \
 	hr \
 	hu \
-	it \
+	it_IT \
 	ja \
 	ko \
 	lt \
@@ -42,15 +42,15 @@ locale_dirs = \
 	zh_CN \
 	zh_TW
 
-install-exec-hook:
+install-data-hook:
 	mydir=$(DESTDIR)$(datadir) ;\
 	for ldir in $(locale_dirs) ; do \
 	  $(INSTALL) -d $$mydir/$$ldir ; \
 	  if [ -f $$ldir/BOINC-Manager.mo ] ; then \
-	    $(INSTALL) $$ldir/BOINC-Manager.mo $$mydir/$$ldir/BOINC-Manager.mo ; \
+	    $(INSTALL_DATA) $$ldir/BOINC-Manager.mo $$mydir/$$ldir/BOINC-Manager.mo ; \
 	  fi ;\
 	  if [ -f $$ldir/BOINC-Client.mo ] ; then \
-	    $(INSTALL) $$ldir/BOINC-Client.mo $$mydir/$$ldir/BOINC-Client.mo ; \
+	    $(INSTALL_DATA) $$ldir/BOINC-Client.mo $$mydir/$$ldir/BOINC-Client.mo ; \
 	  fi ;\
 	done
 

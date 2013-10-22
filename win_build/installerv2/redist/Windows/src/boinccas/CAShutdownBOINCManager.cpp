@@ -138,7 +138,3 @@ UINT __stdcall ShutdownBOINCManager(MSIHANDLE hInstall)
 
     return uiReturnValue;
 }
-
-
-
-const char *BOINC_RCSID_7bca879ace="$Id$";

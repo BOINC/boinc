@@ -22,10 +22,6 @@
 #ifndef _BOINC_WIN_
 #define _BOINC_WIN_
 
-#ifndef MAXPATHLEN
-#define MAXPATHLEN 4096
-#endif
-
 #ifndef __CYGWIN32__
 
 // Windows C Runtime Library

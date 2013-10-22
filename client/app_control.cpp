@@ -64,6 +64,7 @@ using std::vector;
 #include "filesys.h"
 #include "parse.h"
 #include "shmem.h"
+#include "str_replace.h"
 #include "str_util.h"
 #include "util.h"
 
@@ -85,7 +86,7 @@ bool ACTIVE_TASK_SET::poll() {
     bool action;
     unsigned int i;
     static double last_time = 0;
-    if (gstate.now - last_time < TASK_POLL_PERIOD) return false;
+    if (!gstate.clock_change && gstate.now - last_time < TASK_POLL_PERIOD) return false;
     last_time = gstate.now;
 
     action = check_app_exited();
@@ -120,6 +121,25 @@ bool ACTIVE_TASK_SET::poll() {
         }
     }
 
+    // Check for finish files every 10 sec.
+    // If we already found a finish file, abort the app;
+    // it must be hung somewhere in boinc_finish();
+    //
+    static double last_finish_check_time = 0;
+    if (gstate.clock_change || gstate.now - last_finish_check_time > 10) {
+        last_finish_check_time = gstate.now;
+        for (i=0; i<active_tasks.size(); i++) {
+            ACTIVE_TASK* atp = active_tasks[i];
+            if (atp->task_state() == PROCESS_UNINITIALIZED) continue;
+            if (atp->finish_file_time) {
+                // process is still there 10 sec after it wrote finish file.
+                // abort the job
+                atp->abort_task(EXIT_ABORTED_BY_CLIENT, "finish file present too long");
+            } else if (atp->finish_file_present()) {
+                atp->finish_file_time = gstate.now;
+            }
+        }
+    }
     if (action) {
         gstate.set_client_state_dirty("ACTIVE_TASK_SET::poll");
     }
@@ -195,14 +215,28 @@ static void kill_app_process(int pid, bool will_restart) {
     if (h == NULL) return;
     TerminateProcess(h, will_restart?0:EXIT_ABORTED_BY_CLIENT);
     CloseHandle(h);
+}
 #else
 static void kill_app_process(int pid, bool) {
+    int retval = 0;
 #ifdef SANDBOX
-    kill_via_switcher(pid);
+    retval = kill_via_switcher(pid);
+    if (retval && log_flags.task_debug) {
+        msg_printf(0, MSG_INFO,
+            "[task] kill_via_switcher() failed: %s",
+            boincerror(retval)
+        );
+    }
 #endif
-    kill(pid, SIGKILL);
-#endif
+    retval = kill(pid, SIGKILL);
+    if (retval && log_flags.task_debug) {
+        msg_printf(0, MSG_INFO,
+            "[task] kill() failed: %s",
+            boincerror(retval)
+        );
+    }
 }
+#endif
 
 static inline void kill_processes(vector<int> pids, bool will_restart) {
     for (unsigned int i=0; i<pids.size(); i++) {
@@ -340,7 +374,7 @@ void ACTIVE_TASK::handle_temporary_exit(
         }
         will_restart = true;
         result->schedule_backoff = gstate.now + backoff;
-        strcpy(result->schedule_backoff_reason, reason);
+        safe_strcpy(result->schedule_backoff_reason, reason);
         set_task_state(PROCESS_UNINITIALIZED, "handle_temporary_exit");
     }
 }
@@ -403,8 +437,9 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
             strcpy(buf, "");
             if (temporary_exit_file_present(x, buf)) {
                 handle_temporary_exit(will_restart, x, buf);
+            } else {
+                handle_premature_exit(will_restart);
             }
-            handle_premature_exit(will_restart);
             break;
         case 0xc000013a:        // control-C??
         case 0x40010004:        // vista shutdown?? can someone explain this?
@@ -454,7 +489,7 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
                 set_task_state(PROCESS_UNINITIALIZED, "temporary exit");
                 will_restart = true;
                 result->schedule_backoff = gstate.now + x;
-                strcpy(result->schedule_backoff_reason, buf);
+                safe_strcpy(result->schedule_backoff_reason, buf);
             } else {
                 if (log_flags.task_debug) {
                     msg_printf(result->project, MSG_INFO,
@@ -520,7 +555,8 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
 
     cleanup_task();
 
-    if (config.exit_after_finish) {
+    if (gstate.run_test_app) {
+        msg_printf(0, MSG_INFO, "test app finished - exiting");
         exit(0);
     }
 
@@ -559,8 +595,8 @@ bool ACTIVE_TASK::temporary_exit_file_present(double& x, char* buf) {
     } else {
         x = y;
     }
-    fgets(buf, 256, f);     // read the \n
-    fgets(buf, 256, f);
+    (void) fgets(buf, 256, f);     // read the \n
+    (void) fgets(buf, 256, f);
     strip_whitespace(buf);
     fclose(f);
     return true;
@@ -621,6 +657,8 @@ void ACTIVE_TASK_SET::send_heartbeats() {
     }
 }
 
+// send queued process-control messages; check for timeout
+//
 void ACTIVE_TASK_SET::process_control_poll() {
     unsigned int i;
     ACTIVE_TASK* atp;
@@ -694,7 +732,7 @@ bool ACTIVE_TASK_SET::check_app_exited() {
             // if we're running benchmarks, exited process
             // is probably a benchmark process; don't show error
             //
-            if (!gstate.are_cpu_benchmarks_running() && log_flags.task_debug) {
+            if (!gstate.benchmarks_running && log_flags.task_debug) {
                 msg_printf(NULL, MSG_INTERNAL_ERROR,
                     "Process %d not found\n", pid
                 );
@@ -752,7 +790,7 @@ bool ACTIVE_TASK_SET::check_rsc_limits_exceeded() {
     //
     double min_interval = gstate.global_prefs.disk_interval;
     if (min_interval < 300) min_interval = 300;
-    if (gstate.now > last_disk_check_time + min_interval) {
+    if (gstate.clock_change || gstate.now > last_disk_check_time + min_interval) {
         do_disk_check = true;
     }
     for (i=0; i<active_tasks.size(); i++) {
@@ -859,6 +897,8 @@ int ACTIVE_TASK::read_stderr_file() {
 // This is called when project prefs change,
 // or when a user file has finished downloading.
 //
+// TODO: get rid of this function
+//
 int ACTIVE_TASK::request_reread_prefs() {
     int retval;
     APP_INIT_DATA aid;
@@ -868,10 +908,12 @@ int ACTIVE_TASK::request_reread_prefs() {
     init_app_init_data(aid);
     retval = write_app_init_file(aid);
     if (retval) return retval;
+#if 0
     graphics_request_queue.msg_queue_send(
         xml_graphics_modes[MODE_REREAD_PREFS],
         app_client_shm.shm->graphics_request
     );
+#endif
     return 0;
 }
 
@@ -1008,22 +1050,39 @@ int ACTIVE_TASK_SET::abort_project(PROJECT* project) {
 }
 
 // suspend all currently running tasks
-// called only from CLIENT_STATE::suspend_tasks(),
 // e.g. because on batteries, time of day, benchmarking, CPU throttle, etc.
 //
 void ACTIVE_TASK_SET::suspend_all(int reason) {
     for (unsigned int i=0; i<active_tasks.size(); i++) {
         ACTIVE_TASK* atp = active_tasks[i];
         if (atp->task_state() != PROCESS_EXECUTING) continue;
-        switch (reason) {
-        case SUSPEND_REASON_CPU_THROTTLE:
-            // if we're doing CPU throttling, don't bother suspending apps
-            // that don't use a full CPU
-            //
+
+        // handle CPU throttling separately
+        //
+        if (reason == SUSPEND_REASON_CPU_THROTTLE) {
             if (atp->result->dont_throttle()) continue;
-            if (atp->app_version->avg_ncpus < 1) continue;
+            // if we're doing CPU throttling,
+            // don't suspend apps that use < .5 CPU (like GPU and NCI apps)
+            //
+            if (atp->app_version->avg_ncpus < .5) continue;
+
             atp->preempt(REMOVE_NEVER);
-            break;
+            continue;;
+        }
+
+#ifdef ANDROID
+        // On Android, remove apps from memory if on batteries
+        // no matter what the reason for suspension.
+        // The message polling in the BOINC runtime system
+        // imposes an overhead which drains the battery
+        //
+        if (gstate.host_info.host_is_running_on_batteries()) {
+            atp->preempt(REMOVE_ALWAYS);
+            continue;
+        }
+#endif
+
+        switch (reason) {
         case SUSPEND_REASON_BENCHMARKS:
             atp->preempt(REMOVE_NEVER);
             break;
@@ -1037,8 +1096,15 @@ void ACTIVE_TASK_SET::suspend_all(int reason) {
             if (atp->result->non_cpu_intensive()) break;
             atp->preempt(REMOVE_NEVER);
             break;
+        case SUSPEND_REASON_BATTERY_OVERHEATED:
+        case SUSPEND_REASON_BATTERY_CHARGING:
+            // these conditions can oscillate, so leave apps in mem
+            //
+            atp->preempt(REMOVE_NEVER);
+            break;
         default:
             atp->preempt(REMOVE_MAYBE_USER);
+            break;
         }
     }
 }
@@ -1295,7 +1361,7 @@ void ACTIVE_TASK_SET::get_msgs() {
     double old_time;
     static double last_time=0;
     double delta_t;
-    if (last_time) {
+    if (!gstate.clock_change && last_time) {
         delta_t = gstate.now - last_time;
 
         // Normally this is called every second.
@@ -1383,7 +1449,7 @@ void ACTIVE_TASK::read_task_state_file() {
     FILE* f = fopen(path, "r");
     if (!f) return;
     buf[0] = 0;
-    fread(buf, 1, 4096, f);
+    (void) fread(buf, 1, 4096, f);
     fclose(f);
     buf[4095] = 0;
     double x;

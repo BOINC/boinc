@@ -24,23 +24,22 @@
 #include <vector>
 #include <deque>
 
-extern bool use_hyst_fetch;
-
 #define RSC_TYPE_ANY    -1
 #define RSC_TYPE_CPU    0
 
-// reasons for not being able to fetch work
+// reasons for not fetching work
 //
-#define CANT_FETCH_WORK_NON_CPU_INTENSIVE   1
-#define CANT_FETCH_WORK_SUSPENDED_VIA_GUI   2
-#define CANT_FETCH_WORK_MASTER_URL_FETCH_PENDING   3
-#define CANT_FETCH_WORK_MIN_RPC_TIME        4
-#define CANT_FETCH_WORK_DONT_REQUEST_MORE_WORK        5
-#define CANT_FETCH_WORK_DOWNLOAD_STALLED    6
-#define CANT_FETCH_WORK_RESULT_SUSPENDED    7
-#define CANT_FETCH_WORK_TOO_MANY_UPLOADS    8
-#define CANT_FETCH_WORK_NOT_HIGHEST_PRIORITY    9
-#define CANT_FETCH_WORK_DONT_NEED           10
+#define CANT_FETCH_WORK_NON_CPU_INTENSIVE           1
+#define CANT_FETCH_WORK_SUSPENDED_VIA_GUI           2
+#define CANT_FETCH_WORK_MASTER_URL_FETCH_PENDING    3
+#define CANT_FETCH_WORK_MIN_RPC_TIME                4
+#define CANT_FETCH_WORK_DONT_REQUEST_MORE_WORK      5
+#define CANT_FETCH_WORK_DOWNLOAD_STALLED            6
+#define CANT_FETCH_WORK_RESULT_SUSPENDED            7
+#define CANT_FETCH_WORK_TOO_MANY_UPLOADS            8
+#define CANT_FETCH_WORK_NOT_HIGHEST_PRIORITY        9
+#define CANT_FETCH_WORK_DONT_NEED                   10
+#define CANT_FETCH_WORK_TOO_MANY_RUNNABLE           11
 
 inline const char* cant_fetch_work_string(int reason) {
     switch (reason) {
@@ -64,6 +63,8 @@ inline const char* cant_fetch_work_string(int reason) {
         return "project is not highest priority";
     case CANT_FETCH_WORK_DONT_NEED:
         return "don't need";
+    case CANT_FETCH_WORK_TOO_MANY_RUNNABLE:
+        return "too many runnable tasks";
     }
     return "";
 }
@@ -82,14 +83,13 @@ struct RSC_PROJECT_WORK_FETCH {
     double backoff_time;
     double backoff_interval;
 
-    // the following used by debt accounting
-    double secs_this_debt_interval;
-    inline void reset_debt_accounting() {
-        secs_this_debt_interval = 0;
+    // the following used by REC accounting
+    double secs_this_rec_interval;
+    inline void reset_rec_accounting() {
+        secs_this_rec_interval = 0;
     }
     double queue_est;
         // an estimate of instance-secs of queued work;
-        // a temp used in computing overall debts
     bool anon_skip;
         // set if this project is anonymous platform
         // and it has no app version that uses this resource
@@ -99,7 +99,13 @@ struct RSC_PROJECT_WORK_FETCH {
         // determines how many instances this project deserves
     int n_runnable_jobs;
     double sim_nused;
+        // # of instances used at this point in the simulation
     double nused_total;     // sum of instances over all runnable jobs
+    int ncoprocs_excluded;
+        // number of excluded instances
+    int non_excluded_instances;
+        // bitmap of non-excluded instances
+        // (i.e. instances this project's jobs can run on)
     int deadlines_missed;
     int deadlines_missed_copy;
         // copy of the above used during schedule_cpus()
@@ -109,13 +115,15 @@ struct RSC_PROJECT_WORK_FETCH {
     RSC_PROJECT_WORK_FETCH() {
         backoff_time = 0;
         backoff_interval = 0;
-        secs_this_debt_interval = 0;
+        secs_this_rec_interval = 0;
         queue_est = 0;
         anon_skip = false;
         fetchable_share = 0;
         n_runnable_jobs = 0;
         sim_nused = 0;
         nused_total = 0;
+        ncoprocs_excluded = 0;
+        non_excluded_instances = 0;
         deadlines_missed = 0;
         deadlines_missed_copy = 0;
     }
@@ -127,7 +135,7 @@ struct RSC_PROJECT_WORK_FETCH {
 
     bool may_have_work;
     bool compute_may_have_work(PROJECT*, int rsc_type);
-    void backoff(PROJECT*, const char*);
+    void resource_backoff(PROJECT*, const char*);
     void rr_init(PROJECT*, int rsc_type);
     void clear_backoff() {
         backoff_time = 0;
@@ -194,6 +202,7 @@ struct RSC_WORK_FETCH {
     int rsc_type;
     int ninstances;
     double relative_speed;   // total FLOPS relative to CPU total FLOPS
+    bool has_exclusions;
 
     // the following used/set by rr_simulation():
     //
@@ -201,6 +210,11 @@ struct RSC_WORK_FETCH {
         // seconds of idle instances between now and now+work_buf_total()
     double nidle_now;
     double sim_nused;
+    int sim_used_instances;
+        // bitmap of instances used in simulation,
+        // taking into account GPU exclusions
+    int sim_excluded_instances;
+        // bitmap of instances not used (i.e. starved because of exclusion)
     double total_fetchable_share;
         // total RS of projects from which we could fetch jobs for this device
     double saturated_time;
@@ -224,24 +238,28 @@ struct RSC_WORK_FETCH {
     double req_secs;
     double req_instances;
 
-    // debt accounting
-    double secs_this_debt_interval;
-    inline void reset_debt_accounting() {
-        this->secs_this_debt_interval = 0;
+    // REC accounting
+    double secs_this_rec_interval;
+    inline void reset_rec_accounting() {
+        this->secs_this_rec_interval = 0;
     }
 
+    // temp in choose_project()
+    PROJECT* found_project;     // a project able to ask for this work
+
     void rr_init();
-    void accumulate_shortfall(double d_time);
-    void update_saturated_time(double dt);
+    void update_stats(double sim_now, double dt, double buf_end);
     void update_busy_time(double dur, double nused);
-    PROJECT* choose_project_hyst(bool strict);
-    PROJECT* choose_project(int);
     void supplement(PROJECT*);
     RSC_PROJECT_WORK_FETCH& project_state(PROJECT*);
     void print_state(const char*);
     void clear_request();
     void set_request(PROJECT*);
+    void set_request_excluded(PROJECT*);
     bool may_have_work(PROJECT*);
+    bool can_fetch(PROJECT*);
+    bool backed_off(PROJECT*);
+    bool uses_starved_excluded_instances(PROJECT*);
     RSC_WORK_FETCH() {
         rsc_type = 0;
         ninstances = 0;
@@ -252,6 +270,7 @@ struct RSC_WORK_FETCH {
         total_fetchable_share = 0;
         saturated_time = 0;
         deadline_missed_instances = 0;
+        has_exclusions = false;
     }
 };
 
@@ -279,15 +298,13 @@ struct PROJECT_WORK_FETCH {
 // global work fetch state
 //
 struct WORK_FETCH {
-    PROJECT* choose_project(bool strict);
+    void setup();
+    PROJECT* choose_project();
         // Find a project to ask for work.
-        // If strict is false consider requesting work
-        // even if buffer is above min level
-        // or project is backed off for a resource type
     PROJECT* non_cpu_intensive_project_needing_work();
-    void compute_work_request(PROJECT*);
+    void piggyback_work_request(PROJECT*);
         // we're going to contact this project anyway;
-        // decide how much work to task for
+        // piggyback a work request if appropriate.
     void accumulate_inst_sec(ACTIVE_TASK*, double dt);
     void write_request(FILE*, PROJECT*);
     void handle_reply(
@@ -298,11 +315,13 @@ struct WORK_FETCH {
     void set_all_requests_hyst(PROJECT*, int rsc_type);
     void print_state();
     void init();
+    void compute_cant_fetch_work_reason();
     void rr_init();
     void clear_request();
     void compute_shares();
     void clear_backoffs(APP_VERSION&);
     void request_string(char*);
+    bool requested_work();
 };
 
 extern RSC_WORK_FETCH rsc_work_fetch[MAX_RSC];

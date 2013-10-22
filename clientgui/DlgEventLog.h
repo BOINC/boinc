@@ -147,7 +147,11 @@ private:
     wxArrayInt              m_iFilteredIndexes;
     wxInt32                 m_iTotalDocCount;
     wxInt32                 m_iFilteredDocCount;
-    wxInt32                 m_iPreviousTotalDocCount;
+    wxInt32                 m_iPreviousFirstMsgSeqNum;
+    wxInt32                 m_iPreviousLastMsgSeqNum;
+    wxInt32                 m_iNumDeletedFilteredRows;
+    wxInt32                 m_iTotalDeletedFilterRows;
+
     wxInt32                 m_iPreviousRowCount;
     wxButton*               m_pFilterButton;
     wxButton*               m_pCopySelectedButton;
@@ -158,7 +162,7 @@ private:
     wxListItemAttr*         m_pMessageErrorGrayAttr;
 
     bool                    m_bProcessingRefreshEvent;
-    
+    bool                    m_bWasConnected;
     bool                    m_bEventLogIsOpen;
 
     bool                    SaveState();

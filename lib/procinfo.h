@@ -22,21 +22,21 @@
 #include <map>
 
 struct PROCINFO {
-	int id;
-	int parentid;
+    int id;
+    int parentid;
     double swap_size;
     double working_set_size;
-	double working_set_size_smoothed;
-	unsigned long page_fault_count;
+    double working_set_size_smoothed;
+    unsigned long page_fault_count;
     double user_time;
     double kernel_time;
-	bool is_boinc_app;
+    bool is_boinc_app;
     bool is_low_priority;
         // running at or below priority of BOINC apps
     char command[256];
     bool scanned;
 
-	double page_fault_rate;		// derived by higher-level code
+    double page_fault_rate;        // derived by higher-level code
     std::vector<int> children;
 
     PROCINFO(){}
@@ -65,16 +65,16 @@ extern void find_children(PROC_MAP&);
     // fill in the children fields
 
 extern int procinfo_setup(PROC_MAP&);
-	// call this first to get data structure
+    // call this first to get data structure
 
 extern void procinfo_app(
     PROCINFO&, std::vector<int>* other_pids, PROC_MAP&, char* graphics_exec_file
 );
-	// get info for a given app, and mark processes as BOINC
+    // get info for a given app, and mark processes as BOINC
 
 extern void procinfo_non_boinc(PROCINFO&, PROC_MAP&);
-	// After getting info for all BOINC apps,
-	// call this to get info for everything else
+    // After getting info for all BOINC apps,
+    // call this to get info for everything else
 
 extern double process_tree_cpu_time(int pid);
     // get the CPU time of the given process and its descendants

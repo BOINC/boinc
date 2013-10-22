@@ -18,18 +18,22 @@
   <!ENTITY % COMMON SYSTEM "common.ent">
   %COMMON;
 
-  <!ENTITY date "<date>11 January 2008</date>">
+  <!ENTITY date "<date>04 March 2013</date>">
 ]>
 
 <refentry>
   <refentryinfo>
     <authorgroup>
       <author>
+        <firstname>Christian</firstname>
+        <lastname>Beer</lastname>
+        <email>djangofett@gmx.net</email>
+      </author>
+      <author>
         <firstname>Frank</firstname>
         <lastname>Thomas</lastname>
         <email>frank@thomas-alfeld.de</email>
       </author>
-
       <author>
         <firstname>Peter</firstname>
         <lastname>Bailis</lastname>
@@ -38,7 +42,7 @@
     </authorgroup>
     <copyright>
       <year>2007</year>
-      <year>2008</year>
+      <year>2013</year>
       <holder>University of California</holder>
     </copyright>
     &date;
@@ -50,8 +54,8 @@
   </refmeta>
 
   <refnamediv>
-    <refname>&boinccmd;</refname> 
-    <refpurpose>command line interface to the BOINC core client</refpurpose>
+    <refname>&boinccmd;</refname>
+    <refpurpose>The command line interface to the BOINC client.</refpurpose>
   </refnamediv>
 
   <refsynopsisdiv>
@@ -76,7 +80,9 @@
   <refsect1>
     <title>DESCRIPTION</title>
     <para>The BOINC command tool (&cmd_boinccmd;) provides a command line
-      interface to a running BOINC core client (&man_boinc;).</para>
+      interface to control a running BOINC client (&man_boinc;). It communicates
+      with a running client using port &rpc_port; over TCP/IP. It can only
+      connect to one client at a time.</para>
   </refsect1>
 
   <refsect1>
@@ -163,7 +169,9 @@
             <replaceable>account_key</replaceable>
           </term>
           <listitem>
-            <para>Attach to an account.</para>
+              <para>Attach to an account using the project URL and authenticator
+                (send via email after <option>--create_account</option> was
+                succesfull).</para>
           </listitem>
         </varlistentry>
 
@@ -175,8 +183,9 @@
             <replaceable>passwd</replaceable>
           </term>
           <listitem>
-            <para>Attach to an account manager (or do RPC if already
-              attached).</para>
+            <para>Attach to an account manager (or do RPC if already attached).
+              The account has to be created via the account manager website.
+            </para>
           </listitem>
         </varlistentry>
 
@@ -201,16 +210,25 @@
         </varlistentry>
 
         <varlistentry>
-          <term><option>--get_results</option></term>
+          <term><option>--get_cc_status</option></term>
+	      <listitem>
+            <para>Show only current CPU, GPU and network modes.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term><option>--get_tasks</option></term>
           <listitem>
-            <para>Show all results.</para>
+            <para>Show all tasks of the client (in progress, waiting and
+              completed only). Tasks that where reported to the project server
+              are not shown here.</para>
           </listitem>
         </varlistentry>
 
         <varlistentry>
           <term><option>--get_simple_gui_info</option></term>
           <listitem>
-            <para>Show status of projects and active results.</para>
+            <para>Show status of projects and active tasks.</para>
           </listitem>
         </varlistentry>
 
@@ -252,11 +270,37 @@
           </listitem>
         </varlistentry>
 
+	<varlistentry>
+          <term>
+            <option>--get_message_count</option>
+          </term>
+          <listitem>
+            <para>Show largest message sequence number.</para>
+          </listitem>
+        </varlistentry>
+
+	<varlistentry>
+          <term>
+            <option>--get_notices</option> <replaceable>seqno</replaceable>
+          </term>
+          <listitem>
+            <para>Show project notices with sequence numbers beyond
+              <replaceable>seqno</replaceable>.</para>
+          </listitem>
+        </varlistentry>
+
         <varlistentry>
           <term><option>--get_host_info</option></term>
           <listitem>
             <para>Show system information about the host where the BOINC
               client is running.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term><option>--get_daily_xfer_history</option></term>
+          <listitem>
+            <para>Show network traffic history of the BOINC client.</para>
           </listitem>
         </varlistentry>
       </variablelist>
@@ -268,54 +312,33 @@
       <variablelist>
         <varlistentry>
           <term>
-            <option>--result</option>
+            <option>--task</option>
             <replaceable>URL</replaceable>
-            <replaceable>result_name</replaceable>
-            {suspend | resume | abort | graphics_window | graphics_fullscreen}
-            <optional>
-              <option>--desktop</option> <replaceable>dt</replaceable> |
-              <option>--window_station</option> <replaceable>ws</replaceable> |
-              <option>--display</option> <replaceable>dp</replaceable>
-            </optional>
+            <replaceable>task_name</replaceable>
+            {suspend | resume | abort}
           </term>
           <listitem>
-            <para>Do operation on a result.</para>
+            <para>Do operation on a task.</para>
 
             <variablelist>
               <varlistentry>
                 <term><option>suspend</option></term>
                 <listitem>
-                  <para>Temporarily stop work on result.</para>
+                  <para>Temporarily stop work on task.</para>
                 </listitem>
               </varlistentry>
 
               <varlistentry>
                 <term><option>resume</option></term>
                 <listitem>
-                  <para>Allow work on result.</para>
+                  <para>Allow work on task.</para>
                 </listitem>
               </varlistentry>
 
               <varlistentry>
                 <term><option>abort</option></term>
                 <listitem>
-                  <para>Permanently stop work on result.</para>
-                </listitem>
-              </varlistentry>
-
-              <varlistentry>
-                <term><option>graphics_window</option></term>
-                <listitem>
-                  <para>Open graphics in a window. The optional desktop /
-                    window_station (Windows) or display (X11) arguments
-                    specify the display.</para>
-                </listitem>
-              </varlistentry>
-
-              <varlistentry>
-                <term><option>graphics_fullscreen</option></term>
-                <listitem>
-                  <para>Open graphics fullscreen.</para>
+                  <para>Permanently stop work on task.</para>
                 </listitem>
               </varlistentry>
             </variablelist>
@@ -326,8 +349,8 @@
           <term>
             <option>--project</option>
             <replaceable>URL</replaceable>
-            {reset | detach | update | suspend | resume | nomorework 
-            | allowmorework | detach_when_done}
+            {reset | detach | update | suspend | resume | nomorework
+            | allowmorework | detach_when_done | dont_detach_when_done}
           </term>
           <listitem>
             <para>Do operation on a project, identified by its master
@@ -337,42 +360,44 @@
               <varlistentry>
                 <term><option>reset</option></term>
                 <listitem>
-                  <para>Delete current work and get more.</para>
+                  <para>Delete current tasks, applications and other files from
+                    this project, request new tasks.</para>
                 </listitem>
               </varlistentry>
 
               <varlistentry>
                 <term><option>detach</option></term>
                 <listitem>
-                  <para>Delete current work and don't get more.</para>
+                  <para>Delete current tasks applications and other files from
+                    this project, don't request any new tasks.</para>
                 </listitem>
               </varlistentry>
 
               <varlistentry>
                 <term><option>update</option></term>
                 <listitem>
-                  <para>Contact scheduling server.</para>
+                  <para>Contact project scheduling server.</para>
                 </listitem>
               </varlistentry>
 
               <varlistentry>
                 <term><option>suspend</option></term>
                 <listitem>
-                  <para>Stop work for project.</para>
+                  <para>Stop all tasks for project.</para>
                 </listitem>
               </varlistentry>
 
               <varlistentry>
                 <term><option>resume</option></term>
                 <listitem>
-                  <para>Resume work for project.</para>
+                  <para>Resume tasks for project.</para>
                 </listitem>
               </varlistentry>
 
               <varlistentry>
                 <term><option>nomorework</option></term>
                 <listitem>
-                  <para>Finish current work but don't get more.</para>
+                  <para>Finish all downloaded tasks but don't get more.</para>
                 </listitem>
               </varlistentry>
 
@@ -386,7 +411,14 @@
               <varlistentry>
                 <term><option>detach_when_done</option></term>
                 <listitem>
-                  <para>Detach project.</para>
+                  <para>Detach project after all tasks are finished.</para>
+                </listitem>
+              </varlistentry>
+
+              <varlistentry>
+                <term><option>dont_detach_when_done</option></term>
+                <listitem>
+                  <para>Undo <option>detach_when_done</option>.</para>
                 </listitem>
               </varlistentry>
             </variablelist>
@@ -402,6 +434,21 @@
           </term>
           <listitem>
             <para>Do operation on a file transfer.</para>
+            <variablelist>
+              <varlistentry>
+                <term><option>retry</option></term>
+                <listitem>
+                  <para>Retry file transfer.</para>
+                </listitem>
+              </varlistentry>
+
+              <varlistentry>
+                <term><option>abort</option></term>
+                <listitem>
+                  <para>Permanently abort file transfer.</para>
+                </listitem>
+              </varlistentry>
+            </variablelist>
           </listitem>
         </varlistentry>
 
@@ -412,13 +459,13 @@
             <optional><replaceable>duration</replaceable></optional>
           </term>
           <listitem>
-            <para>Set run mode.</para>
+            <para>Set run mode (applies to CPU and GPU).</para>
 
             <variablelist>
               <varlistentry>
                 <term><option>always</option></term>
                 <listitem>
-                  <para>Do CPU work always.</para>
+                  <para>Do work always.</para>
                 </listitem>
               </varlistentry>
 
@@ -437,8 +484,8 @@
               </varlistentry>
             </variablelist>
             <para>If <replaceable>duration</replaceable> is zero or absent,
-              this mode is permanent. Otherwise, after <replaceable
-              >duration</replaceable> seconds elapse, revert to last
+              this mode is permanent. Otherwise, after
+              <replaceable>duration</replaceable> seconds elapse, revert to last
               permanent mode.</para>
           </listitem>
         </varlistentry>
@@ -457,6 +504,18 @@
 
         <varlistentry>
           <term>
+            <option>--set_gpu_mode</option>
+            {always | auto | never}
+            <optional><replaceable>duration</replaceable></optional>
+          </term>
+          <listitem>
+            <para>Set GPU mode. Like <option>--set_run_mode</option> but
+              applies to GPU processing only.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>
             <option>--set_proxy_settings</option>
             <replaceable>http_server_name</replaceable>
             <replaceable>http_server_port</replaceable>
@@ -464,12 +523,12 @@
             <replaceable>http_user_passwd</replaceable>
             <replaceable>socks_server_name</replaceable>
             <replaceable>socks_server_port</replaceable>
-            <replaceable>socks_version</replaceable>
             <replaceable>socks5_user_name</replaceable>
             <replaceable>socks5_user_passwd</replaceable>
+            <replaceable>noproxy_hosts</replaceable>
           </term>
           <listitem>
-            <para>Set proxy settings. All fields are mandantory.</para>
+            <para>Set proxy settings. All fields are mandatory.</para>
           </listitem>
         </varlistentry>
 
@@ -481,29 +540,10 @@
         </varlistentry>
 
         <varlistentry>
-          <term>
-            <option>--set_screensaver_mode</option> {on | off}
-            <replaceable>blank_time</replaceable>
-            <optional>
-              <option>--desktop</option> <replaceable>dt</replaceable> |
-              <option>--window_station</option> <replaceable>ws</replaceable> |
-              <option>--display</option> <replaceable>dp</replaceable>
-            </optional>
-          </term>
-          <listitem>
-            <para>Tell the core client to start or stop doing fullscreen
-              graphics, and going to black after
-              <replaceable>blank_time</replaceable> seconds. The optional
-              arguments specify which desktop / windows_station (Windows)
-              or display (X11) to use.</para>
-          </listitem>
-        </varlistentry>
-
-        <varlistentry>
           <term><option>--read_global_prefs_override</option></term>
           <listitem>
-            <para>Tell the core client to read the <filename
-              >global_prefs_override.xml</filename> file and
+            <para>Tell the client to read the
+              <filename>global_prefs_override.xml</filename> file and
               incorporate any global preferences indicated there.</para>
           </listitem>
         </varlistentry>
@@ -511,34 +551,15 @@
         <varlistentry>
           <term><option>--quit</option></term>
           <listitem>
-            <para>Tell the core client to quit.</para>
+            <para>Tell the client to quit.</para>
           </listitem>
         </varlistentry>
 
         <varlistentry>
           <term><option>--read_cc_config</option></term>
           <listitem>
-            <para>Reread the configuration file
+            <para>Tell the client to reread the configuration file
               (<filename>cc_config.xml</filename>).</para>
-          </listitem>
-        </varlistentry>
-
-        <varlistentry>
-          <term>
-            <option>--set_debts</option>
-            <replaceable>URL1</replaceable>
-            <replaceable>STD1</replaceable>
-            <replaceable>LTD1</replaceable>
-            <optional><replaceable>URL2</replaceable>
-              <replaceable>STD2</replaceable>
-              <replaceable>LTD2</replaceable>
-              ...</optional>
-          </term>
-          <listitem>
-            <para>Set the short- and long-term debts of one or more projects.
-              Note, if you adjust the debts of a single project, the debts of
-              other projects are changed. So if you want to set the debts of
-              multiple projects, do it in a single command.</para>
           </listitem>
         </varlistentry>
 
@@ -548,22 +569,18 @@
             <replaceable>URL</replaceable>
           </term>
           <listitem>
-            <para>Fetch configuration at project located at
+            <para>Fetch configuration of project located at
               <replaceable>URL</replaceable>.</para>
           </listitem>
         </varlistentry>
 
         <varlistentry>
-          <term><option>--get_project_config_poll</option></term>
-        </varlistentry>
-
-        <varlistentry>
           <term><option>--network_available</option></term>
+	      <listitem>
+            <para>Tell the client to retry deferred network communication.</para>
+          </listitem>
         </varlistentry>
 
-        <varlistentry>
-          <term><option>--get_cc_status</option></term>
-        </varlistentry>
       </variablelist>
     </refsect2>
   </refsect1>

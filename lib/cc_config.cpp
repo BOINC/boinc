@@ -63,6 +63,7 @@ int LOG_FLAGS::parse(XML_PARSER& xp) {
         if (xp.parse_bool("sched_ops", sched_ops)) continue;
         if (xp.parse_bool("task", task)) continue;
 
+        if (xp.parse_bool("android_debug", android_debug)) continue;
         if (xp.parse_bool("app_msg_receive", app_msg_receive)) continue;
         if (xp.parse_bool("app_msg_send", app_msg_send)) continue;
         if (xp.parse_bool("async_file_debug", async_file_debug)) continue;
@@ -74,7 +75,6 @@ int LOG_FLAGS::parse(XML_PARSER& xp) {
         if (xp.parse_bool("cpu_sched_status", cpu_sched_status)) continue;
         if (xp.parse_bool("dcf_debug", dcf_debug)) continue;
         if (xp.parse_bool("disk_usage_debug", disk_usage_debug)) continue;
-        if (xp.parse_bool("priority_debug", priority_debug)) continue;
         if (xp.parse_bool("file_xfer_debug", file_xfer_debug)) continue;
         if (xp.parse_bool("gui_rpc_debug", gui_rpc_debug)) continue;
         if (xp.parse_bool("heartbeat_debug", heartbeat_debug)) continue;
@@ -82,7 +82,9 @@ int LOG_FLAGS::parse(XML_PARSER& xp) {
         if (xp.parse_bool("http_xfer_debug", http_xfer_debug)) continue;
         if (xp.parse_bool("mem_usage_debug", mem_usage_debug)) continue;
         if (xp.parse_bool("network_status_debug", network_status_debug)) continue;
+        if (xp.parse_bool("notice_debug", notice_debug)) continue;
         if (xp.parse_bool("poll_debug", poll_debug)) continue;
+        if (xp.parse_bool("priority_debug", priority_debug)) continue;
         if (xp.parse_bool("proxy_debug", proxy_debug)) continue;
         if (xp.parse_bool("rr_simulation", rr_simulation)) continue;
         if (xp.parse_bool("rrsim_detail", rrsim_detail)) continue;
@@ -97,7 +99,6 @@ int LOG_FLAGS::parse(XML_PARSER& xp) {
         if (xp.parse_bool("trickle_debug", trickle_debug)) continue;
         if (xp.parse_bool("unparsed_xml", unparsed_xml)) continue;
         if (xp.parse_bool("work_fetch_debug", work_fetch_debug)) continue;
-        if (xp.parse_bool("notice_debug", notice_debug)) continue;
         xp.skip_unexpected(true, "LOG_FLAGS::parse");
     }
     return ERR_XML_PARSE;
@@ -109,6 +110,7 @@ int LOG_FLAGS::write(MIOFILE& out) {
         "        <file_xfer>%d</file_xfer>\n"
         "        <sched_ops>%d</sched_ops>\n"
         "        <task>%d</task>\n"
+        "        <android_debug>%d</android_debug>\n"
         "        <app_msg_receive>%d</app_msg_receive>\n"
         "        <app_msg_send>%d</app_msg_send>\n"
         "        <async_file_debug>%d</async_file_debug>\n"
@@ -120,7 +122,6 @@ int LOG_FLAGS::write(MIOFILE& out) {
         "        <cpu_sched_status>%d</cpu_sched_status>\n"
         "        <dcf_debug>%d</dcf_debug>\n"
         "        <disk_usage_debug>%d</disk_usage_debug>\n"
-        "        <priority_debug>%d</priority_debug>\n"
         "        <file_xfer_debug>%d</file_xfer_debug>\n"
         "        <gui_rpc_debug>%d</gui_rpc_debug>\n"
         "        <heartbeat_debug>%d</heartbeat_debug>\n"
@@ -128,7 +129,9 @@ int LOG_FLAGS::write(MIOFILE& out) {
         "        <http_xfer_debug>%d</http_xfer_debug>\n"
         "        <mem_usage_debug>%d</mem_usage_debug>\n"
         "        <network_status_debug>%d</network_status_debug>\n"
+        "        <notice_debug>%d</notice_debug>\n"
         "        <poll_debug>%d</poll_debug>\n"
+        "        <priority_debug>%d</priority_debug>\n"
         "        <proxy_debug>%d</proxy_debug>\n"
         "        <rr_simulation>%d</rr_simulation>\n"
         "        <rrsim_detail>%d</rrsim_detail>\n"
@@ -143,11 +146,11 @@ int LOG_FLAGS::write(MIOFILE& out) {
         "        <trickle_debug>%d</trickle_debug>\n"
         "        <unparsed_xml>%d</unparsed_xml>\n"
         "        <work_fetch_debug>%d</work_fetch_debug>\n"
-        "        <notice_debug>%d</notice_debug>\n"
         "    </log_flags>\n",
         file_xfer ? 1 : 0,
         sched_ops ? 1 : 0,
         task ? 1 : 0,
+        android_debug ? 1 : 0,
         app_msg_receive ? 1 : 0,
         app_msg_send ? 1 : 0,
         async_file_debug ? 1 : 0,
@@ -159,7 +162,6 @@ int LOG_FLAGS::write(MIOFILE& out) {
         cpu_sched_status ? 1 : 0,
         dcf_debug ? 1 : 0,
         disk_usage_debug ? 1 : 0,
-        priority_debug ? 1 : 0,
         file_xfer_debug ? 1 : 0,
         gui_rpc_debug ? 1 : 0,
         heartbeat_debug ? 1 : 0,
@@ -167,7 +169,9 @@ int LOG_FLAGS::write(MIOFILE& out) {
         http_xfer_debug ? 1 : 0,
         mem_usage_debug ? 1 : 0,
         network_status_debug ? 1 : 0,
+        notice_debug ? 1 : 0,
         poll_debug ? 1 : 0,
+        priority_debug ? 1 : 0,
         proxy_debug ? 1 : 0,
         rr_simulation ? 1 : 0,
         rrsim_detail ? 1 : 0,
@@ -181,8 +185,7 @@ int LOG_FLAGS::write(MIOFILE& out) {
         time_debug ? 1 : 0,
         trickle_debug ? 1 : 0,
         unparsed_xml ? 1 : 0,
-        work_fetch_debug ? 1 : 0,
-        notice_debug ? 1 : 0
+        work_fetch_debug ? 1 : 0
     );
     
     return 0;
@@ -198,8 +201,9 @@ void CONFIG::defaults() {
     allow_multiple_clients = false;
     allow_remote_gui_rpc = false;
     alt_platforms.clear();
-    client_version_check_url = "http://boinc.berkeley.edu/download.php?xml=1";
     client_download_url = "http://boinc.berkeley.edu/download.php";
+    client_new_version_text = "";
+    client_version_check_url = "http://boinc.berkeley.edu/download.php?xml=1";
     config_coprocs.clear();
     data_dir[0] = 0;
     disallow_attach = false;
@@ -212,12 +216,15 @@ void CONFIG::defaults() {
     exit_before_start = false;
     exit_when_idle = false;
     fetch_minimal_work = false;
+    fetch_on_update = false;
     force_auth = "default";
     http_1_0 = false;
     http_transfer_timeout = 300;
     http_transfer_timeout_bps = 10;
-    ignore_nvidia_dev.clear();
-    ignore_ati_dev.clear();
+    for (int i=1; i<NPROC_TYPES; i++) {
+        ignore_gpu_instance[i].clear();
+    }
+    max_event_log_lines = DEFAULT_MAX_EVENT_LOG_LINES;
     max_file_xfers = 8;
     max_file_xfers_per_project = 2;
     max_stderr_file_size = 0;
@@ -232,7 +239,11 @@ void CONFIG::defaults() {
     os_random_only = false;
     proxy_info.clear();
     rec_half_life = 10*86400;
+#ifdef ANDROID
+    report_results_immediately = true;
+#else
     report_results_immediately = false;
+#endif
     run_apps_manually = false;
     save_stats_days = 30;
     simple_gui_only = false;
@@ -285,8 +296,9 @@ int CONFIG::parse_options(XML_PARSER& xp) {
     alt_platforms.clear();
     exclusive_apps.clear();
     exclusive_gpu_apps.clear();
-    ignore_nvidia_dev.clear();
-    ignore_ati_dev.clear();
+    for (int i=1; i<NPROC_TYPES; i++) {
+        ignore_gpu_instance[i].clear();
+    }
     exclude_gpus.clear();
 
     while (!xp.get_tag()) {
@@ -305,6 +317,9 @@ int CONFIG::parse_options(XML_PARSER& xp) {
         }
         if (xp.parse_string("client_download_url", client_download_url)) {
             downcase_string(client_download_url);
+            continue;
+        }
+        if (xp.parse_string("client_new_version_text", client_new_version_text)) {
             continue;
         }
         if (xp.parse_string("client_version_check_url", client_version_check_url)) {
@@ -354,6 +369,7 @@ int CONFIG::parse_options(XML_PARSER& xp) {
             continue;
         }
         if (xp.parse_bool("fetch_minimal_work", fetch_minimal_work)) continue;
+        if (xp.parse_bool("fetch_on_update", fetch_on_update)) continue;
         if (xp.parse_string("force_auth", force_auth)) {
             downcase_string(force_auth);
             continue;
@@ -362,13 +378,18 @@ int CONFIG::parse_options(XML_PARSER& xp) {
         if (xp.parse_int("http_transfer_timeout", http_transfer_timeout)) continue;
         if (xp.parse_int("http_transfer_timeout_bps", http_transfer_timeout_bps)) continue;
         if (xp.parse_int("ignore_cuda_dev", n) || xp.parse_int("ignore_nvidia_dev", n)) {
-            ignore_nvidia_dev.push_back(n);
+            ignore_gpu_instance[PROC_TYPE_NVIDIA_GPU].push_back(n);
             continue;
         }
         if (xp.parse_int("ignore_ati_dev", n)) {
-            ignore_ati_dev.push_back(n);
+            ignore_gpu_instance[PROC_TYPE_AMD_GPU].push_back(n);
             continue;
         }
+        if (xp.parse_int("ignore_intel_gpu_dev", n)) {
+            ignore_gpu_instance[PROC_TYPE_INTEL_GPU].push_back(n);
+            continue;
+        }
+        if (xp.parse_int("max_event_log_lines", max_event_log_lines)) continue;
         if (xp.parse_int("max_file_xfers", max_file_xfers)) continue;
         if (xp.parse_int("max_file_xfers_per_project", max_file_xfers_per_project)) continue;
         if (xp.parse_int("max_stderr_file_size", max_stderr_file_size)) continue;
@@ -462,8 +483,10 @@ int CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
     
     out.printf(
         "        <client_version_check_url>%s</client_version_check_url>\n"
+        "        <client_new_version_text>%s</client_new_version_text>\n"
         "        <client_download_url>%s</client_download_url>\n",
         client_version_check_url.c_str(),
+        client_new_version_text.c_str(),
         client_download_url.c_str()
     );
     
@@ -524,6 +547,7 @@ int CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
         "        <exit_before_start>%d</exit_before_start>\n"
         "        <exit_when_idle>%d</exit_when_idle>\n"
         "        <fetch_minimal_work>%d</fetch_minimal_work>\n"
+        "        <fetch_on_update>%d</fetch_on_update>\n"
         "        <force_auth>%s</force_auth>\n"
         "        <http_1_0>%d</http_1_0>\n"
         "        <http_transfer_timeout>%d</http_transfer_timeout>\n"
@@ -532,27 +556,36 @@ int CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
         exit_before_start,
         exit_when_idle,
         fetch_minimal_work,
+        fetch_on_update,
         force_auth.c_str(),
         http_1_0,
         http_transfer_timeout,
         http_transfer_timeout_bps
     );
         
-    for (i=0; i<ignore_nvidia_dev.size(); ++i) {
+    for (i=0; i<ignore_gpu_instance[PROC_TYPE_NVIDIA_GPU].size(); ++i) {
         out.printf(
             "        <ignore_nvidia_dev>%d</ignore_nvidia_dev>\n",
-            ignore_nvidia_dev[i]
+            ignore_gpu_instance[PROC_TYPE_NVIDIA_GPU][i]
         );
     }
 
-    for (i=0; i<ignore_ati_dev.size(); ++i) {
+    for (i=0; i<ignore_gpu_instance[PROC_TYPE_AMD_GPU].size(); ++i) {
         out.printf(
             "        <ignore_ati_dev>%d</ignore_ati_dev>\n",
-            ignore_ati_dev[i]
+            ignore_gpu_instance[PROC_TYPE_AMD_GPU][i]
+        );
+    }
+
+    for (i=0; i<ignore_gpu_instance[PROC_TYPE_INTEL_GPU].size(); ++i) {
+        out.printf(
+            "        <ignore_intel_gpu_dev>%d</ignore_intel_gpu_dev>\n",
+            ignore_gpu_instance[PROC_TYPE_INTEL_GPU][i]
         );
     }
         
     out.printf(
+        "        <max_event_log_lines>%d</max_event_log_lines>\n"
         "        <max_file_xfers>%d</max_file_xfers>\n"
         "        <max_file_xfers_per_project>%d</max_file_xfers_per_project>\n"
         "        <max_stderr_file_size>%d</max_stderr_file_size>\n"
@@ -565,6 +598,7 @@ int CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
         "        <no_info_fetch>%d</no_info_fetch>\n"
         "        <no_priority_change>%d</no_priority_change>\n"
         "        <os_random_only>%d</os_random_only>\n",
+        max_event_log_lines,
         max_file_xfers,
         max_file_xfers_per_project,
         max_stderr_file_size,

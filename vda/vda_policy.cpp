@@ -37,6 +37,7 @@ int POLICY::parse(const char* filename) {
         fclose(f);
         return -1;
     }
+    max_ft = replication;
     n = fscanf(f, "%d", &coding_levels);
     if (n != 1) {
         printf("parse error in %s\n", filename);
@@ -55,6 +56,7 @@ int POLICY::parse(const char* filename) {
 
         sprintf(buf, "(%d %d %d) ", c.n, c.k, c.n_upload);
         strcat(description, buf);
+        max_ft *= c.n;
     }
     fclose(f);
     sprintf(buf, "X%d", replication);

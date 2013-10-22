@@ -25,11 +25,12 @@
 #include <cstdio>
 #include <sys/param.h>
 
+#include "filesys.h"
+#include "str_util.h"
 #include "util.h"
+
 #include "sched_config.h"
 #include "sched_util.h"
-#include "str_util.h"
-
 
 const char *usage = 
 "\nUsage: dir_hier_path <filename>\n"
@@ -42,7 +43,7 @@ int main(int argc, char** argv) {
     int retval;
 
     if ( (argc == 1) ||  !strcmp(argv[1], "-h")  || !strcmp(argv[1],"--help") || (argc != 2) ) {
-        fprintf(stderr, usage);
+        fprintf(stderr, "%s", usage);
         exit(1);
     }
 

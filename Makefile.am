@@ -9,11 +9,15 @@ include Makefile.incl
 ACLOCAL_AMFLAGS = -I m4
 
 if ENABLE_LIBRARIES
-   API_SUBDIRS = api lib zip
+    API_SUBDIRS = api lib
+if ENABLE_SERVER
+    API_SUBDIRS += zip
+endif
 endif
 
 if ENABLE_SERVER
-   SERVER_SUBDIRS = db test py sched apps tools samples/example_app vda
+   SERVER_SUBDIRS = db test py sched apps tools vda html
+## once contained samples/example_app which breaks out-of-source-tree builds
 endif
 
 if ENABLE_CLIENT
@@ -35,10 +39,10 @@ SUBDIRS = m4 $(API_SUBDIRS) $(SERVER_SUBDIRS) $(CLIENT_SUBDIRS) $(CLIENTGUI_SUBD
 # dist-hook below gets rid of CVS directories.
 
 EXTRA_DIST =                                    \
-	win_build                                   \
-	doc                                         \
-	stripchart                                  \
-    INSTALL										
+    win_build                                   \
+    doc                                         \
+    stripchart                                  \
+    INSTALL
 
 if INSTALL_HEADERS
 pkginclude_HEADERS = \

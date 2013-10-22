@@ -68,6 +68,7 @@
 #include "procinfo.h"
 #include "result.h"
 #include "sandbox.h"
+#include "diagnostics.h"
 
 #include "app.h"
 
@@ -131,6 +132,7 @@ ACTIVE_TASK::ACTIVE_TASK() {
     strcpy(web_graphics_url, "");
     strcpy(remote_desktop_addr, "");
     async_copy = NULL;
+    finish_file_time = 0;
 }
 
 // preempt this task;
@@ -187,6 +189,8 @@ int ACTIVE_TASK::preempt(int preempt_type) {
     return 0;
 }
 
+#ifndef SIM
+
 // called when a process has exited
 //
 void ACTIVE_TASK::cleanup_task() {
@@ -231,11 +235,11 @@ void ACTIVE_TASK::cleanup_task() {
 #endif
 
     if (config.exit_after_finish) {
+        gstate.write_state_file();
         exit(0);
     }
 }
 
-#ifndef SIM
 int ACTIVE_TASK::init(RESULT* rp) {
     result = rp;
     wup = rp->wup;
@@ -417,14 +421,13 @@ void ACTIVE_TASK_SET::get_memory_usage() {
 // Move it from slot dir to project dir
 //
 int ACTIVE_TASK::move_trickle_file() {
-    char project_dir[MAXPATHLEN], new_path[MAXPATHLEN], old_path[MAXPATHLEN];
+    char new_path[MAXPATHLEN], old_path[MAXPATHLEN];
     int retval;
 
-    get_project_dir(result->project, project_dir, sizeof(project_dir));
     sprintf(old_path, "%s/trickle_up.xml", slot_dir);
     sprintf(new_path,
         "%s/trickle_up_%s_%d.xml",
-        project_dir, result->name, (int)time(0)
+        result->project->project_dir(), result->name, (int)time(0)
     );
     retval = boinc_rename(old_path, new_path);
 
@@ -786,7 +789,7 @@ int ACTIVE_TASK_SET::parse(XML_PARSER& xp) {
 #ifndef SIM
 
 void MSG_QUEUE::init(char* n) {
-    strcpy(name, n);
+    safe_strcpy(name, n);
     last_block = 0;
     msgs.clear();
 }
@@ -895,7 +898,7 @@ int ACTIVE_TASK::handle_upload_files() {
 
     DirScanner dirscan(slot_dir);
     while (dirscan.scan(filename)) {
-        strcpy(buf, filename.c_str());
+        safe_strcpy(buf, filename.c_str());
         if (strstr(buf, UPLOAD_FILE_REQ_PREFIX) == buf) {
             char* p = buf+strlen(UPLOAD_FILE_REQ_PREFIX);
             FILE_INFO* fip = result->lookup_file_logical(p);
@@ -983,30 +986,49 @@ void ACTIVE_TASK_SET::init() {
 
 #endif
 
-static const char* task_state_name(int val) {
-    switch (val) {
-    case PROCESS_UNINITIALIZED: return "UNINITIALIZED";
-    case PROCESS_EXECUTING: return "EXECUTING";
-    case PROCESS_SUSPENDED: return "SUSPENDED";
-    case PROCESS_ABORT_PENDING: return "ABORT_PENDING";
-    case PROCESS_EXITED: return "EXITED";
-    case PROCESS_WAS_SIGNALED: return "WAS_SIGNALED";
-    case PROCESS_EXIT_UNKNOWN: return "EXIT_UNKNOWN";
-    case PROCESS_ABORTED: return "ABORTED";
-    case PROCESS_COULDNT_START: return "COULDNT_START";
-    case PROCESS_QUIT_PENDING: return "QUIT_PENDING";
-    case PROCESS_COPY_PENDING: return "COPY_PENDING";
-    }
-    return "Unknown";
-}
-
 void ACTIVE_TASK::set_task_state(int val, const char* where) {
     _task_state = val;
     if (log_flags.task_debug) {
         msg_printf(result->project, MSG_INFO,
             "[task] task_state=%s for %s from %s",
-            task_state_name(val), result->name, where
+            active_task_state_string(val), result->name, where
         );
     }
 }
 
+#ifdef NEW_CPU_THROTTLE
+#define THROTTLE_PERIOD 1.
+#ifdef _WIN32
+DWORD WINAPI throttler(LPVOID) {
+#else
+void* throttler(void*) {
+#endif
+    
+    // Initialize diagnostics framework for this thread
+    //
+    diagnostics_thread_init(BOINC_DIAG_DEFAULTS);
+
+    while (1) {
+        client_mutex.lock();
+        if (gstate.tasks_suspended || gstate.global_prefs.cpu_usage_limit > 99) {
+            client_mutex.unlock();
+            boinc_sleep(10);
+            continue;
+        }
+        double on = THROTTLE_PERIOD * gstate.global_prefs.cpu_usage_limit / 100;
+        double off = THROTTLE_PERIOD - on;
+        gstate.tasks_throttled = true;
+        gstate.active_tasks.suspend_all(SUSPEND_REASON_CPU_THROTTLE);
+        client_mutex.unlock();
+        boinc_sleep(off);
+        client_mutex.lock();
+        if (!gstate.tasks_suspended) {
+            gstate.resume_tasks(SUSPEND_REASON_CPU_THROTTLE);
+        }
+        gstate.tasks_throttled = false;
+        client_mutex.unlock();
+        boinc_sleep(on);
+    }
+    return 0;
+}
+#endif

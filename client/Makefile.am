@@ -34,6 +34,7 @@ boinc_client_SOURCES = \
     acct_mgr.cpp \
     acct_setup.cpp \
     app.cpp \
+    app_config.cpp \
     app_control.cpp \
     app_start.cpp \
 	async_file.cpp \
@@ -61,6 +62,7 @@ boinc_client_SOURCES = \
     file_xfer.cpp \
 	gpu_amd.cpp \
 	gpu_detect.cpp \
+	gpu_intel.cpp \
 	gpu_nvidia.cpp \
 	gpu_opencl.cpp \
     gui_http.cpp \
@@ -84,13 +86,24 @@ boinc_client_SOURCES = \
 
 boinc_client_DEPENDENCIES = $(LIBBOINC)
 boinc_client_CPPFLAGS = $(AM_CPPFLAGS)
-boinc_client_LDFLAGS = $(AM_LDFLAGS) -L../lib
+boinc_client_CXXFLAGS = $(AM_CXXFLAGS) $(SSL_CXXFLAGS)
+boinc_client_LDFLAGS = $(AM_LDFLAGS) $(SSL_LDFLAGS) -L../lib
 if OS_DARWIN
 boinc_client_LDFLAGS += -Wl,-flat_namespace,-undefined,dynamic_lookup
 endif
 boinc_client_LDADD = $(LIBBOINC) $(LIBBOINC_CRYPT) $(BOINC_EXTRA_LIBS) $(PTHREAD_LIBS)
 
 boinc_clientdir = $(bindir)
+
+if OS_ARM_LINUX
+boinc_client_LDADD += libwhetneon.a libwhetvfp.a
+noinst_LIBRARIES = libwhetneon.a libwhetvfp.a
+libwhetneon_a_SOURCES = whetstone.cpp
+libwhetneon_a_CXXFLAGS = $(boinc_client_CXXFLAGS) -DANDROID_NEON -mfloat-abi=softfp -mfpu=neon
+
+libwhetvfp_a_SOURCES = whetstone.cpp
+libwhetvfp_a_CXXFLAGS = $(boinc_client_CXXFLAGS) -DANDROID_VFP -mfloat-abi=softfp -mfpu=vfp
+endif
 
 switcher_SOURCES = switcher.cpp
 switcher_LDFLAGS = $(AM_LDFLAGS) -L../lib

@@ -54,7 +54,7 @@ int init_result(RESULT& result, void*& data) {
     retval = get_output_file_infos(result, files);
     if (retval) {
         log_messages.printf(MSG_CRITICAL,
-            "[RESULT#%d %s] check_set: can't get output filenames\n",
+            "[RESULT#%u %s] check_set: can't get output filenames\n",
             result.id, result.name
         );
         return retval;
@@ -70,7 +70,7 @@ int init_result(RESULT& result, void*& data) {
                     // indicate file is missing; not the same as md5("")
             } else {
                 log_messages.printf(MSG_CRITICAL,
-                    "[RESULT#%d %s] Couldn't open %s\n",
+                    "[RESULT#%u %s] Couldn't open %s\n",
                     result.id, result.name, fi.path.c_str()
                 );
                 return retval;

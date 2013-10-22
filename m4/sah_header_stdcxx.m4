@@ -24,7 +24,7 @@ AC_DEFUN([SAH_HEADER_STDCXX],[
   save_inc="$ac_includes_default"
   ac_includes_default="
 #define CONFIG_TEST
-#include \"lib/std_fixes.h\"
+#include \"${ac_aux_dir}/lib/std_fixes.h\"
 $ac_includes_default 
 "
 

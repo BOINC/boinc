@@ -123,12 +123,12 @@ const char** CViewResources::GetViewIcon() {
 }
 
 
-const int CViewResources::GetViewRefreshRate() {
+int CViewResources::GetViewRefreshRate() {
     return 10;
 }
 
 
-const int CViewResources::GetViewCurrentViewPage() {
+int CViewResources::GetViewCurrentViewPage() {
     return VW_DISK;
 }
 

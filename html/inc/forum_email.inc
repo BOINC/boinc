@@ -184,7 +184,7 @@ because your postings have not followed our guidelines.
         $body .= "\n\nThe moderator gave the following explanation about your suspension:\n";
         $body .= $reason;
     }
-    $success = mail_report_list($forum, $user->name." has been banished.", $body);
+    $success = mail_report_list($forum, "$user->name (ID $user->id) has been banished.", $body);
     $success &= send_email($user, $subject, $body);
     pm_send($user, $user, $subject, $body, false);
     return $success;

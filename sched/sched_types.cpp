@@ -98,7 +98,7 @@ int CLIENT_APP_VERSION::parse(XML_PARSER& xp) {
                     host_usage.proc_type = PROC_TYPE_NVIDIA_GPU;
                 } else if (!strcmp(coproc_req.type, "ATI")) {
                     host_usage.proc_type = PROC_TYPE_AMD_GPU;
-                } else if (!strcmp(coproc_req.type, "INTEL_GPU")) {
+                } else if (!strcmp(coproc_req.type, "INTEL")) {
                     host_usage.proc_type = PROC_TYPE_INTEL_GPU;
                 }
             }
@@ -208,6 +208,8 @@ const char* SCHEDULER_REQUEST::parse(XML_PARSER& xp) {
     sandbox = -1;
     allow_multiple_clients = -1;
     results_truncated = false;
+    uptime = 0;
+    previous_uptime = 0;
 
     if (xp.get_tag()) {
         return "xp.get_tag() failed";
@@ -228,6 +230,8 @@ const char* SCHEDULER_REQUEST::parse(XML_PARSER& xp) {
         if (xp.parse_str("cross_project_id", cross_project_id, sizeof(cross_project_id))) continue;
         if (xp.parse_int("hostid", hostid)) continue;
         if (xp.parse_int("rpc_seqno", rpc_seqno)) continue;
+        if (xp.parse_double("uptime", uptime)) continue;
+        if (xp.parse_double("previous_uptime", previous_uptime)) continue;
         if (xp.parse_str("platform_name", platform.name, sizeof(platform.name))) continue;
         if (xp.match_tag("alt_platform")) {
             CLIENT_PLATFORM cp;
@@ -283,7 +287,7 @@ const char* SCHEDULER_REQUEST::parse(XML_PARSER& xp) {
         if (xp.parse_double("estimated_delay", cpu_estimated_delay)) continue;
         if (xp.parse_double("duration_correction_factor", host.duration_correction_factor)) continue;
         if (xp.match_tag("global_preferences")) {
-            strcpy(global_prefs_xml, "<global_preferences>\n");
+            safe_strcpy(global_prefs_xml, "<global_preferences>\n");
             char buf[BLOB_SIZE];
             retval = xp.element_contents(
                 "</global_preferences>", buf, sizeof(buf)
@@ -610,6 +614,17 @@ SCHEDULER_REPLY::SCHEDULER_REPLY() {
     strcpy(email_hash, "");
 }
 
+static bool have_apps_for_client() {
+    for (int i=0; i<NPROC_TYPES; i++) {
+        if (ssp->have_apps_for_proc_type[i]) {
+            if (!i) return true;
+            COPROC* cp = g_request->coprocs.type_to_coproc(i);
+            if (cp->count) return true;
+        }
+    }
+    return false;
+}
+
 int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq) {
     unsigned int i;
     char buf[BLOB_SIZE];
@@ -686,7 +701,7 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq) {
         char prio[256];
         for (i=0; i<messages.size(); i++) {
             USER_MESSAGE& um = messages[i];
-            strcpy(prio, um.priority.c_str());
+            safe_strcpy(prio, um.priority.c_str());
             if (!strcmp(prio, "notice")) {
                 strcpy(prio, "high");
             }
@@ -895,16 +910,24 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq) {
         fprintf(fout, "%s", file_transfer_requests[i].c_str());
     }
 
-    if (g_request->core_client_version < 73000) {
-        fprintf(fout,
-            "<no_cpu_apps>%d</no_cpu_apps>\n"
-            "<no_cuda_apps>%d</no_cuda_apps>\n"
-            "<no_ati_apps>%d</no_ati_apps>\n",
-            ssp->have_apps_for_proc_type[PROC_TYPE_CPU]?0:1,
-            ssp->have_apps_for_proc_type[PROC_TYPE_NVIDIA_GPU]?0:1,
-            ssp->have_apps_for_proc_type[PROC_TYPE_AMD_GPU]?0:1
-        );
-    } else {
+    // before writing no_X_apps elements,
+    // make sure that we're not going tell it we have no apps
+    // for any of its resources.
+    // Otherwise (for 7.0.x clients) it will never contact us again
+    //
+    if (have_apps_for_client()) {
+        // write deprecated form for old clients
+        //
+        if (g_request->core_client_version < 70040) {
+            fprintf(fout,
+                "<no_cpu_apps>%d</no_cpu_apps>\n"
+                "<no_cuda_apps>%d</no_cuda_apps>\n"
+                "<no_ati_apps>%d</no_ati_apps>\n",
+                ssp->have_apps_for_proc_type[PROC_TYPE_CPU]?0:1,
+                ssp->have_apps_for_proc_type[PROC_TYPE_NVIDIA_GPU]?0:1,
+                ssp->have_apps_for_proc_type[PROC_TYPE_AMD_GPU]?0:1
+            );
+        }
         for (i=0; i<NPROC_TYPES; i++) {
             if (!ssp->have_apps_for_proc_type[i]) {
                 fprintf(fout,
@@ -913,8 +936,15 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq) {
                 );
             }
         }
+    } else {
+        if (config.debug_send) {
+            log_messages.printf(MSG_NORMAL,
+                "[send] no app versions for client resources; suppressing no_rsc_apps\n"
+            );
+        }
     }
-    gui_urls.get_gui_urls(user, host, team, buf);
+
+    gui_urls.get_gui_urls(user, host, team, buf, sizeof(buf));
     fputs(buf, fout);
     if (project_files.text) {
         fputs(project_files.text, fout);
@@ -980,7 +1010,7 @@ void SCHEDULER_REPLY::insert_message(USER_MESSAGE& um) {
 USER_MESSAGE::USER_MESSAGE(const char* m, const char* p) {
     if (g_request->core_client_version < 61200) {
         char buf[1024];
-        strcpy(buf, m);
+        safe_strcpy(buf, m);
         strip_translation(buf);
         message = buf;
     } else {
@@ -1005,7 +1035,7 @@ int APP::write(FILE* fout) {
 int APP_VERSION::write(FILE* fout) {
     char buf[APP_VERSION_XML_BLOB_SIZE];
 
-    strcpy(buf, xml_doc);
+    safe_strcpy(buf, xml_doc);
     char* p = strstr(buf, "</app_version>");
     if (!p) {
         fprintf(stderr, "ERROR: app version %d XML has no end tag!\n", id);
@@ -1068,7 +1098,7 @@ int APP_VERSION::write(FILE* fout) {
 int SCHED_DB_RESULT::write_to_client(FILE* fout) {
     char buf[BLOB_SIZE];
 
-    strcpy(buf, xml_doc_in);
+    safe_strcpy(buf, xml_doc_in);
     char* p = strstr(buf, "</result>");
     if (!p) {
         fprintf(stderr, "ERROR: result %d XML has no end tag!\n", id);
@@ -1176,6 +1206,7 @@ int HOST::parse(XML_PARSER& xp) {
         if (xp.parse_double("p_membw", p_membw)) continue;
         if (xp.parse_str("os_name", os_name, sizeof(os_name))) continue;
         if (xp.parse_str("os_version", os_version, sizeof(os_version))) continue;
+        if (xp.parse_str("product_name", product_name, sizeof(product_name))) continue;
         if (xp.parse_double("m_nbytes", m_nbytes)) continue;
         if (xp.parse_double("m_cache", m_cache)) continue;
         if (xp.parse_double("m_swap", m_swap)) continue;
@@ -1186,6 +1217,10 @@ int HOST::parse(XML_PARSER& xp) {
         if (xp.parse_str("p_features", p_features, sizeof(p_features))) continue;
         if (xp.parse_str("virtualbox_version", virtualbox_version, sizeof(virtualbox_version))) continue;
         if (xp.parse_bool("p_vm_extensions_disabled", p_vm_extensions_disabled)) continue;
+        if (xp.match_tag("cpu_opencl_prop")) {
+            int retval = cpu_opencl_prop[num_cpu_opencl_platforms].parse(xp);
+            if (!retval) num_cpu_opencl_platforms++;
+        }
 
         // parse deprecated fields to avoid error messages
         //
@@ -1200,7 +1235,7 @@ int HOST::parse(XML_PARSER& xp) {
         if (xp.parse_string("accelerators", stemp)) continue;
 
 #if 1
-        // not sure where these fields belong in the above categories
+        // deprecated items
         //
         if (xp.parse_string("cpu_caps", stemp)) continue;
         if (xp.parse_string("cache_l1", stemp)) continue;
@@ -1222,6 +1257,10 @@ int HOST::parse_time_stats(XML_PARSER& xp) {
         if (xp.parse_double("on_frac", on_frac)) continue;
         if (xp.parse_double("connected_frac", connected_frac)) continue;
         if (xp.parse_double("active_frac", active_frac)) continue;
+        if (xp.parse_double("gpu_active_frac", gpu_active_frac)) continue;
+        if (xp.parse_double("cpu_and_network_available_frac", cpu_and_network_available_frac)) continue;
+        if (xp.parse_double("client_start_time", client_start_time)) continue;
+        if (xp.parse_double("previous_uptime", previous_uptime)) continue;
 #if 0
         if (xp.match_tag("outages")) continue;
         if (xp.match_tag("outage")) continue;
@@ -1282,7 +1321,7 @@ void GLOBAL_PREFS::parse(const char* buf, const char* venue) {
         // mod_time is outside of venue
         if (mod_time > dtime()) mod_time = dtime();
     }
-    extract_venue(buf, venue, buf2);
+    extract_venue(buf, venue, buf2, sizeof(buf2));
     parse_double(buf2, "<disk_max_used_gb>", disk_max_used_gb);
     parse_double(buf2, "<disk_max_used_pct>", disk_max_used_pct);
     parse_double(buf2, "<disk_min_free_gb>", disk_min_free_gb);
@@ -1305,12 +1344,12 @@ void GUI_URLS::init() {
     read_file_malloc(config.project_path("gui_urls.xml"), text);
 }
 
-void GUI_URLS::get_gui_urls(USER& user, HOST& host, TEAM& team, char* buf) {
+void GUI_URLS::get_gui_urls(USER& user, HOST& host, TEAM& team, char* buf, int len) {
     bool found;
     char userid[256], teamid[256], hostid[256], weak_auth[256], rss_auth[256];
     strcpy(buf, "");
     if (!text) return;
-    strcpy(buf, text);
+    strlcpy(buf, text, len);
 
     sprintf(userid, "%d", user.id);
     sprintf(hostid, "%d", host.id);
@@ -1327,14 +1366,16 @@ void GUI_URLS::get_gui_urls(USER& user, HOST& host, TEAM& team, char* buf) {
     get_rss_auth(user, rss_auth);
     while (1) {
         found = false;
-        found |= str_replace(buf, "<userid/>", userid);
-        found |= str_replace(buf, "<user_name/>", user.name);
+        found |= str_replace(buf, "<authenticator/>", user.authenticator);
         found |= str_replace(buf, "<hostid/>", hostid);
+        found |= str_replace(buf, "<master_url/>", config.master_url);
+        found |= str_replace(buf, "<project_name/>", config.long_name);
+        found |= str_replace(buf, "<rss_auth/>", rss_auth);
         found |= str_replace(buf, "<teamid/>", teamid);
         found |= str_replace(buf, "<team_name/>", team.name);
-        found |= str_replace(buf, "<authenticator/>", user.authenticator);
+        found |= str_replace(buf, "<userid/>", userid);
+        found |= str_replace(buf, "<user_name/>", user.name);
         found |= str_replace(buf, "<weak_auth/>", weak_auth);
-        found |= str_replace(buf, "<rss_auth/>", rss_auth);
         if (!found) break;
     }
 }
@@ -1345,7 +1386,7 @@ void PROJECT_FILES::init() {
 }
 
 void get_weak_auth(USER& user, char* buf) {
-    char buf2[256], out[256];
+    char buf2[1024], out[256];
     sprintf(buf2, "%s%s", user.authenticator, user.passwd_hash);
     md5_block((unsigned char*)buf2, strlen(buf2), out);
     sprintf(buf, "%d_%s", user.id, out);
@@ -1421,6 +1462,16 @@ double capped_host_fpops() {
         return ssp->perf_info.host_fpops_95_percentile*1.1;
     }
     return x;
+}
+
+bool HOST::get_cpu_opencl_prop(const char* platform, OPENCL_CPU_PROP& ocp) {
+    for (int i=0; i<num_cpu_opencl_platforms; i++) {
+        OPENCL_CPU_PROP& p = cpu_opencl_prop[i];
+        if (strcmp(p.platform_vendor, platform)) continue;
+        ocp = p;
+        return true;
+    }
+    return false;
 }
 
 const char *BOINC_RCSID_ea659117b3 = "$Id$";

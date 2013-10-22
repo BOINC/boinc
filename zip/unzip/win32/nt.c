@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 1990-2000 Info-ZIP.  All rights reserved.
+  Copyright (c) 1990-2007 Info-ZIP.  All rights reserved.
 
   See the accompanying file LICENSE, version 2000-Apr-09 or later
   (the contents of which are also included in unzip.h) for terms of use.
@@ -52,20 +52,22 @@
 #  define FILE_SHARE_DELETE 0x00000004
 #endif
 
+/* This macro definition is missing in old versions of MS' winbase.h. */
+#ifndef InterlockedExchangePointer
+#  define InterlockedExchangePointer(Target, Value) \
+      (PVOID)InterlockedExchange((PLONG)(Target), (LONG)(Value))
+#endif
+
 
 /* private prototypes */
 
 static BOOL Initialize(VOID);
-#if 0   /* currently unused */
-static BOOL Shutdown(VOID);
-#endif
-static BOOL DeferSet(char *resource, PVOLUMECAPS VolumeCaps, uch *buffer);
 static VOID GetRemotePrivilegesSet(CHAR *FileName, PDWORD dwRemotePrivileges);
 static VOID InitLocalPrivileges(VOID);
 
 
-BOOL bInitialized = FALSE;  /* module level stuff initialized? */
-HANDLE hInitMutex = NULL;   /* prevent multiple initialization */
+volatile BOOL bInitialized = FALSE; /* module level stuff initialized? */
+HANDLE hInitMutex = NULL;           /* prevent multiple initialization */
 
 BOOL g_bRestorePrivilege = FALSE;   /* for local set file security override */
 BOOL g_bSaclPrivilege = FALSE;      /* for local set sacl operations, only when
@@ -88,38 +90,23 @@ VOLUMECAPS g_VolumeCaps;
 CRITICAL_SECTION VolumeCapsLock;
 
 
-/* our deferred set structure linked list element, used for making a copy
-   of input data which is used at a later time to process the original input
-   at a time when it makes more sense. eg, applying security to newly created
-   directories, after all files have been placed in such directories. */
-
-CRITICAL_SECTION SetDeferLock;
-
-typedef struct _DEFERRED_SET {
-    struct _DEFERRED_SET *Next;
-    uch *buffer;                /* must point to DWORD aligned block */
-    PVOLUMECAPS VolumeCaps;
-    char *resource;
-} DEFERRED_SET, *PDEFERRED_SET, *LPDEFERRED_SET;
-
-PDEFERRED_SET pSetHead = NULL;
-PDEFERRED_SET pSetTail;
-
 static BOOL Initialize(VOID)
 {
     HANDLE hMutex;
     HANDLE hOldMutex;
 
-    if(bInitialized) return TRUE;
+    if (bInitialized) return TRUE;
 
     hMutex = CreateMutex(NULL, TRUE, NULL);
     if(hMutex == NULL) return FALSE;
 
-    hOldMutex = (HANDLE)InterlockedExchange((LPLONG)&hInitMutex, (LONG)hMutex);
+    hOldMutex = (HANDLE)InterlockedExchangePointer((void *)&hInitMutex,
+                                                   hMutex);
 
-    if(hOldMutex != NULL) {
+    if (hOldMutex != NULL) {
         /* somebody setup the mutex already */
-        InterlockedExchange((LPLONG)&hInitMutex, (LONG)hOldMutex);
+        InterlockedExchangePointer((void *)&hInitMutex,
+                                   hOldMutex);
 
         CloseHandle(hMutex); /* close new, un-needed mutex */
 
@@ -130,122 +117,27 @@ static BOOL Initialize(VOID)
         return bInitialized;
     }
 
-    /* initialize module level resources */
+    if (!bInitialized) {
+        /* initialize module level resources */
 
-    InitializeCriticalSection( &SetDeferLock );
+        InitializeCriticalSection( &VolumeCapsLock );
+        memset(&g_VolumeCaps, 0, sizeof(VOLUMECAPS));
 
-    InitializeCriticalSection( &VolumeCapsLock );
-    memset(&g_VolumeCaps, 0, sizeof(VOLUMECAPS));
+        InitLocalPrivileges();
 
-    InitLocalPrivileges();
+        bInitialized = TRUE;
+    }
 
-    bInitialized = TRUE;
+    InterlockedExchangePointer((void *)&hInitMutex,
+                               NULL);
 
     ReleaseMutex(hMutex); /* release correct mutex */
 
-    return TRUE;
-}
-
-#if 0   /* currently not used ! */
-static BOOL Shutdown(VOID)
-{
-    /* really need to free critical sections, disable enabled privilges, etc,
-       but doing so brings up possibility of race conditions if those resources
-       are about to be used.  The easiest way to handle this is let these
-       resources be freed when the process terminates... */
-
-    return TRUE;
-}
-#endif /* never */
-
-
-static BOOL DeferSet(char *resource, PVOLUMECAPS VolumeCaps, uch *buffer)
-{
-    PDEFERRED_SET psd;
-    DWORD cbDeferSet;
-    DWORD cbResource;
-    DWORD cbBuffer;
-
-    if(!bInitialized) if(!Initialize()) return FALSE;
-
-    cbResource = lstrlenA(resource) + 1;
-    cbBuffer = GetSecurityDescriptorLength((PSECURITY_DESCRIPTOR)buffer);
-    cbDeferSet = sizeof(DEFERRED_SET) + cbBuffer + sizeof(VOLUMECAPS) +
-      cbResource;
-
-    psd = (PDEFERRED_SET)HeapAlloc(GetProcessHeap(), 0, cbDeferSet);
-    if(psd == NULL) return FALSE;
-
-    psd->Next = NULL;
-    psd->buffer = (uch *)(psd+1);
-    psd->VolumeCaps = (PVOLUMECAPS)((char *)psd->buffer + cbBuffer);
-    psd->resource = (char *)((char *)psd->VolumeCaps + sizeof(VOLUMECAPS));
-
-    memcpy(psd->buffer, buffer, cbBuffer);
-    memcpy(psd->VolumeCaps, VolumeCaps, sizeof(VOLUMECAPS));
-    psd->VolumeCaps->bProcessDefer = TRUE;
-    memcpy(psd->resource, resource, cbResource);
-
-    /* take defer lock */
-    EnterCriticalSection( &SetDeferLock );
-
-    /* add element at tail of list */
-
-    if(pSetHead == NULL) {
-        pSetHead = psd;
-    } else {
-        pSetTail->Next = psd;
-    }
-
-    pSetTail = psd;
-
-    /* release defer lock */
-    LeaveCriticalSection( &SetDeferLock );
+    CloseHandle(hMutex);  /* free the no longer needed handle resource */
 
     return TRUE;
 }
 
-BOOL ProcessDefer(PDWORD dwDirectoryCount, PDWORD dwBytesProcessed,
-                  PDWORD dwDirectoryFail, PDWORD dwBytesFail)
-{
-    PDEFERRED_SET This;
-    PDEFERRED_SET Next;
-
-    *dwDirectoryCount = 0;
-    *dwBytesProcessed = 0;
-
-    *dwDirectoryFail = 0;
-    *dwBytesFail = 0;
-
-    if(!bInitialized) return TRUE; /* nothing to do */
-
-    EnterCriticalSection( &SetDeferLock );
-
-    This = pSetHead;
-
-    while(This) {
-
-        if(SecuritySet(This->resource, This->VolumeCaps, This->buffer)) {
-            (*dwDirectoryCount)++;
-            *dwBytesProcessed +=
-              GetSecurityDescriptorLength((PSECURITY_DESCRIPTOR)This->buffer);
-        } else {
-            (*dwDirectoryFail)++;
-            *dwBytesFail +=
-              GetSecurityDescriptorLength((PSECURITY_DESCRIPTOR)This->buffer);
-        }
-
-        Next = This->Next;
-        HeapFree(GetProcessHeap(), 0, This);
-        This = Next;
-    }
-
-    pSetHead = NULL;
-
-    LeaveCriticalSection( &SetDeferLock );
-
-    return TRUE;
-}
 
 BOOL ValidateSecurity(uch *securitydata)
 {
@@ -264,7 +156,7 @@ BOOL ValidateSecurity(uch *securitydata)
     if(!GetSecurityDescriptorDacl(sd, &bAclPresent, &pAcl, &bDefaulted))
         return FALSE;
 
-    if(bAclPresent) {
+    if(bAclPresent && pAcl!=NULL) {
         if(!IsValidAcl(pAcl)) return FALSE;
     }
 
@@ -273,7 +165,7 @@ BOOL ValidateSecurity(uch *securitydata)
     if(!GetSecurityDescriptorSacl(sd, &bAclPresent, &pAcl, &bDefaulted))
         return FALSE;
 
-    if(bAclPresent) {
+    if(bAclPresent && pAcl!=NULL) {
         if(!IsValidAcl(pAcl)) return FALSE;
     }
 
@@ -380,7 +272,7 @@ BOOL GetVolumeCaps(
     if(rootpath != NULL && rootpath[0] != '\0') {
         DWORD i;
 
-        cchTempRootPath = lstrlen(rootpath);
+        cchTempRootPath = lstrlenA(rootpath);
         if(cchTempRootPath > MAX_PATH) return FALSE;
 
         /* copy input, converting forward slashes to back slashes as we go */
@@ -424,7 +316,7 @@ BOOL GetVolumeCaps(
                end */
 
             if(slash == 1 && TempRootPath[cchTempRootPath] != '\\') {
-                TempRootPath[cchTempRootPath] = TempRootPath[0]; /* '\' */
+                TempRootPath[cchTempRootPath] = TempRootPath[0]; /* '\\' */
                 TempRootPath[cchTempRootPath+1] = '\0';
                 cchTempRootPath++;
             }
@@ -452,7 +344,7 @@ BOOL GetVolumeCaps(
     EnterCriticalSection( &VolumeCapsLock );
 
     if(!g_VolumeCaps.bValid ||
-       lstrcmpi(g_VolumeCaps.RootPath, TempRootPath) != 0)
+       lstrcmpiA(g_VolumeCaps.RootPath, TempRootPath) != 0)
     {
 
         /* no match found, build up new entry */
@@ -464,7 +356,7 @@ BOOL GetVolumeCaps(
         /* release lock during expensive operations */
         LeaveCriticalSection( &VolumeCapsLock );
 
-        bSuccess = GetVolumeInformation(
+        bSuccess = GetVolumeInformationA(
             (TempRootPath[0] == '\0') ? NULL : TempRootPath,
             NULL, 0,
             NULL, NULL,
@@ -478,7 +370,7 @@ BOOL GetVolumeCaps(
         if(bSuccess && (dwFileSystemFlags & FS_PERSISTENT_ACLS) &&
            VolumeCaps->bUsePrivileges)
         {
-            if(GetDriveType( (TempRootPath[0] == '\0') ? NULL : TempRootPath )
+            if(GetDriveTypeA( (TempRootPath[0] == '\0') ? NULL : TempRootPath )
                == DRIVE_REMOTE)
             {
                 bRemote = TRUE;
@@ -496,7 +388,6 @@ BOOL GetVolumeCaps(
         if(bSuccess) {
 
             lstrcpynA(g_VolumeCaps.RootPath, TempRootPath, cchTempRootPath+1);
-            g_VolumeCaps.bProcessDefer = FALSE;
             g_VolumeCaps.dwFileSystemFlags = dwFileSystemFlags;
             g_VolumeCaps.bRemote = bRemote;
             g_VolumeCaps.dwRemotePrivileges = dwRemotePrivileges;
@@ -539,15 +430,11 @@ BOOL SecuritySet(char *resource, PVOLUMECAPS VolumeCaps, uch *securitydata)
     /* defer directory processing */
 
     if(VolumeCaps->dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
-        if(!VolumeCaps->bProcessDefer) {
-            return DeferSet(resource, VolumeCaps, securitydata);
-        } else {
-            /* opening a directory requires FILE_FLAG_BACKUP_SEMANTICS */
-            dwFlags |= FILE_FLAG_BACKUP_SEMANTICS;
-        }
+        /* opening a directory requires FILE_FLAG_BACKUP_SEMANTICS */
+        dwFlags |= FILE_FLAG_BACKUP_SEMANTICS;
     }
 
-    /* evaluate the input security desriptor and act accordingly */
+    /* evaluate the input security descriptor and act accordingly */
 
     if(!IsValidSecurityDescriptor(sd))
         return FALSE;
@@ -665,5 +552,3 @@ static VOID InitLocalPrivileges(VOID)
     CloseHandle(hToken);
 }
 #endif /* NTSD_EAS */
-
-const char *BOINC_RCSID_247c3e8fbe = "$Id: nt.c 4979 2005-01-02 18:29:53Z ballen $";

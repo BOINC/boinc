@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<skin>
+  <completed/>
+  <en>
+		<simple>
+			<background_image>
+				<!-- Background Image for the Simple GUI-->
+				<!--	410x540 -->
+				<image>
+					<imagesrc>graphic/simplegui_bg.png</imagesrc>
+					<background_color>133:181:178</background_color>
+				</image>
+			</background_image>
+			<spacer_image>
+				<image>
+					<imagesrc>graphic/spacer.png</imagesrc>
+				</image>
+			</spacer_image>
+			<static_line_color>204:102:51</static_line_color>
+			<state_indicator_background_image>
+				<image>
+					<imagesrc>graphic/state_ind_bg.png</imagesrc>
+				</image>
+			</state_indicator_background_image>
+			<connecting_indicator_image>
+				<image>
+					<imagesrc>graphic/conn_ind.png</imagesrc>
+				</image>
+			</connecting_indicator_image>
+			<error_indicator_image>
+				<image>
+					<imagesrc>graphic/error_image.png</imagesrc>
+				</image>
+			</error_indicator_image>
+			<workunit_active_tab>
+				<tab>
+					<imagesrc>graphic/ico_workWU.png</imagesrc>
+					<border_color>51:102:102</border_color>
+					<gradient_from_color>51:102:102</gradient_from_color>
+					<gradient_to_color>134:179:176</gradient_to_color>
+				</tab>
+			</workunit_active_tab>
+			<workunit_suspended_tab>
+				<tab>
+					<imagesrc>graphic/ico_workWU.png</imagesrc>
+					<border_color>102:153:153</border_color>
+					<gradient_from_color>84:175:175</gradient_from_color>
+					<gradient_to_color>134:179:176</gradient_to_color>
+				</tab>
+			</workunit_suspended_tab>
+			<workunit_tab_area_background_image>
+				<image>
+					<imagesrc>graphic/tabArea_bg.png</imagesrc>
+				</image>
+			</workunit_tab_area_background_image>
+			<workunit_area_background_image>
+				<image>
+					<imagesrc>graphic/wu_bg.png</imagesrc>
+				</image>
+			</workunit_area_background_image>
+			<workunit_animation_background_image>
+				<image>
+					<imagesrc>graphic/project_image.png</imagesrc>
+				</image>
+			</workunit_animation_background_image>
+			<workunit_gauge_background_image>
+				<image>
+					<imagesrc>graphic/gauge_bg.png</imagesrc>
+				</image>
+			</workunit_gauge_background_image>
+			<workunit_gauge_progress_indicator_image>
+				<image>
+					<imagesrc>graphic/gauge_progress_indicator.png</imagesrc>
+				</image>
+			</workunit_gauge_progress_indicator_image>
+			<project_area_background_image>
+				<image>
+					<imagesrc>graphic/proj_bg.png</imagesrc>
+				</image>
+			</project_area_background_image>
+			<project_image>
+				<image>
+					<imagesrc>graphic/default_stat_icon.png</imagesrc>
+				</image>
+			</project_image>
+			<attach_project_button>
+				<button>
+					<imagesrc>graphic/btnAddProject.png</imagesrc>
+					<imagesrc_clicked>graphic/btnAddProjectClick.png</imagesrc_clicked>
+				</button>
+			</attach_project_button>
+			<right_arrow_button>
+				<button>
+					<imagesrc>graphic/arwRight.png</imagesrc>
+					<imagesrc_clicked>graphic/arwRightClick.png</imagesrc_clicked>
+				</button>
+			</right_arrow_button>
+			<left_arrow_button>
+				<button>
+					<imagesrc>graphic/arwLeft.png</imagesrc>
+					<imagesrc_clicked>graphic/arwLeftClick.png</imagesrc_clicked>
+				</button>
+			</left_arrow_button>
+			<save_button>
+				<button>
+					<imagesrc>graphic/btnSave.png</imagesrc>
+					<imagesrc_clicked>graphic/btnSaveClick.png</imagesrc_clicked>
+				</button>
+			</save_button>
+			<cancel_button>
+				<button>
+					<imagesrc>graphic/btnCancel.png</imagesrc>
+					<imagesrc_clicked>graphic/btnCancelClick.png</imagesrc_clicked>
+				</button>
+			</cancel_button>
+			<change_button>
+				<button>
+					<imagesrc>graphic/btnChange.png</imagesrc>
+					<imagesrc_clicked>graphic/btnChangeClick.png</imagesrc_clicked>
+				</button>
+			</change_button>
+			<close_button>
+				<button>
+					<imagesrc>graphic/btnClose.png</imagesrc>
+					<imagesrc_clicked>graphic/btnCloseClick.png</imagesrc_clicked>
+				</button>
+			</close_button>
+			<help_button>
+				<button>
+					<imagesrc>graphic/btnHelp.png</imagesrc>
+					<imagesrc_clicked>graphic/btnHelpClicked.png</imagesrc_clicked>
+				</button>
+			</help_button>
+			<copy_button>
+				<button>
+					<imagesrc>graphic/btnCopy.png</imagesrc>
+					<imagesrc_clicked>graphic/btnCopyClicked.png</imagesrc_clicked>
+				</button>
+			</copy_button>
+			<copy_all_button>
+				<button>
+					<imagesrc>graphic/btnCopyAll.png</imagesrc>
+					<imagesrc_clicked>graphic/btnCopyAllClicked.png</imagesrc_clicked>
+				</button>
+			</copy_all_button>
+			<clear_button>
+				<button>
+					<imagesrc>graphic/btnClear.png</imagesrc>
+					<imagesrc_clicked>graphic/btnClearClick.png</imagesrc_clicked>
+				</button>
+			</clear_button>
+			<messages_link_image>
+				<image>
+					<imagesrc>graphic/btnMessages.png</imagesrc>
+				</image>
+			</messages_link_image>
+			<messages_alert_link_image>
+				<image>
+					<imagesrc>graphic/btnMessagesRed.png</imagesrc>
+				</image>
+			</messages_alert_link_image>
+			<suspend_link_image>
+				<image>
+					<imagesrc>graphic/btnSnooze.png</imagesrc>
+				</image>
+			</suspend_link_image>
+			<resume_link_image>
+				<image>
+					<imagesrc>graphic/btnResume.png</imagesrc>
+				</image>
+			</resume_link_image>
+			<preferences_link_image>
+				<image>
+					<imagesrc>graphic/btnPreferences.png</imagesrc>
+				</image>
+			</preferences_link_image>
+			<advanced_link_image>
+				<image>
+					<imagesrc>graphic/btnAdvancedView.png</imagesrc>
+				</image>
+			</advanced_link_image>
+			<dialog_background_image>
+				<image>
+					<imagesrc>graphic/dlgBackground.png</imagesrc>
+				</image>
+			</dialog_background_image>
+		</simple>
+		<!-- this section can be omitted in which case it will use the BOINC defaults (shown below) -->
+		<advanced>  
+			<!-- name displayed in application title bar -->
+			<application_name>World Community Grid - BOINC Manager</application_name>  
+			<application_icon>
+				<image>
+					<!-- Taskbar Icon -->
+					<imagesrc>graphic/wcg_play.png</imagesrc> 
+					<transparency_mask>255:0:255</transparency_mask>
+				</image>
+			</application_icon>
+			<application_icon32>
+				<image>
+					<!-- Icon -->
+					<imagesrc>graphic/wcg_about.ico</imagesrc> 
+					<transparency_mask>255:0:255</transparency_mask>
+				</image>
+			</application_icon32>
+			<application_disconnected_icon>
+				<image>
+					<!-- Taskbar Icon when disconnected -->
+					<imagesrc>graphic/wcg_stop.png</imagesrc> 
+					<transparency_mask>255:0:255</transparency_mask>
+				</image>
+			</application_disconnected_icon>
+			<application_snooze_icon>
+				<image>
+					<!-- Taskbar Icon when snoozing -->
+					<imagesrc>graphic/wcg_pause.png</imagesrc> 
+					<transparency_mask>255:0:255</transparency_mask>
+				</image>
+			</application_snooze_icon> 
+			<!-- logo displayed in about box -->
+			<application_logo>graphic/wcg_about.ico</application_logo> 
+			<!-- name displayed in about box -->
+			<organization_name>World Community Grid</organization_name> 
+			<!-- web site displsyed in about box -->
+			<organization_website>http://www.worldcommunitygrid.org</organization_website> 
+			<organization_help_url>http://www.worldcommunitygrid.org/boinc.do</organization_help_url> 
+			<application_short_name>World Community Grid</application_short_name>
+			<!-- this setting makes the BOINC manager automatically open to a particular tab on the -->
+			<!-- advanced view, overriding a users last displayed view.  0 means use users last open tab -->
+			<open_tab>0</open_tab>  
+		</advanced>
+		<!-- this section can be omitted in which case it will use the BOINC defaults (shown below) -->
+		<wizards>  
+			<attach_to_project>
+				<!-- title displayed on the attach to project wizard -->
+				<title></title> 
+				<!-- logo displayed on the attach to project wizard -->
+				<logo>graphic/wcg_wizard_bar.png</logo>  
+			</attach_to_project>
+			<attach_to_account_manager>
+				<!-- title displayed on the attach to account manager wizard -->
+				<title></title>  
+				<!-- logo displayed on the attach to account manager wizard -->
+				<logo>graphic/wcg_wizard_bar.png</logo>  
+				<!-- additional message to user about attaching to an account manager -->
+				<account_info_message></account_info_message>  
+			</attach_to_account_manager>
+		</wizards>
+	</en>
+</skin>

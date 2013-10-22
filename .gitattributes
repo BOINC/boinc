@@ -1,0 +1,24 @@
+# Specify a generic set of rules to help avoid line feed issues across
+# various IDEs.
+#
+
+# Source files
+#
+*.cpp                   text eol=lf
+*.h                     text eol=lf
+*.rc                    text eol=lf
+*.php                   text eol=lf
+
+# Project files
+#
+*.vcproj                text eol=crlf
+*.sln                   text eol=crlf
+*.ac                    text eol=lf
+*.am                    text eol=lf
+*.in                    text eol=lf
+*.m4                    text eol=lf
+
+# Commit Notes
+#
+checkin_notes           text eol=lf
+checkin_notes_2012      text eol=lf

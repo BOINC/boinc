@@ -2,7 +2,7 @@
 
   unzip.h (new)
 
-  Copyright (c) 1990-2002 Info-ZIP.  All rights reserved.
+  Copyright (c) 1990-2009 Info-ZIP.  All rights reserved.
 
   This header file contains the public macros and typedefs required by
   both the UnZip sources and by any application using the UnZip API.  If
@@ -11,23 +11,25 @@
 
   ---------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------
-This is version 2000-Apr-09 of the Info-ZIP copyright and license.
+This is version 2009-Jan-02 of the Info-ZIP license.
 The definitive version of this document should be available at
-ftp://ftp.info-zip.org/pub/infozip/license.html indefinitely.
+ftp://ftp.info-zip.org/pub/infozip/license.html indefinitely and
+a copy at http://www.info-zip.org/pub/infozip/license.html.
 
 
-Copyright (c) 1990-2000 Info-ZIP.  All rights reserved.
+Copyright (c) 1990-2009 Info-ZIP.  All rights reserved.
 
 For the purposes of this copyright and license, "Info-ZIP" is defined as
 the following set of individuals:
 
    Mark Adler, John Bush, Karl Davis, Harald Denker, Jean-Michel Dubois,
-   Jean-loup Gailly, Hunter Goatley, Ian Gorman, Chris Herborth, Dirk Haase,
-   Greg Hartwig, Robert Heath, Jonathan Hudson, Paul Kienitz, David Kirschbaum,
-   Johnny Lee, Onno van der Linden, Igor Mandrichenko, Steve P. Miller,
-   Sergio Monesi, Keith Owens, George Petrov, Greg Roelofs, Kai Uwe Rommel,
-   Steve Salisbury, Dave Smith, Christian Spieler, Antoine Verheijen,
-   Paul von Behren, Rich Wales, Mike White
+   Jean-loup Gailly, Hunter Goatley, Ed Gordon, Ian Gorman, Chris Herborth,
+   Dirk Haase, Greg Hartwig, Robert Heath, Jonathan Hudson, Paul Kienitz,
+   David Kirschbaum, Johnny Lee, Onno van der Linden, Igor Mandrichenko,
+   Steve P. Miller, Sergio Monesi, Keith Owens, George Petrov, Greg Roelofs,
+   Kai Uwe Rommel, Steve Salisbury, Dave Smith, Steven M. Schweda,
+   Christian Spieler, Cosmin Truta, Antoine Verheijen, Paul von Behren,
+   Rich Wales, Mike White.
 
 This software is provided "as is," without warranty of any kind, express
 or implied.  In no event shall Info-ZIP or its contributors be held liable
@@ -36,30 +38,41 @@ arising out of the use of or inability to use this software.
 
 Permission is granted to anyone to use this software for any purpose,
 including commercial applications, and to alter it and redistribute it
-freely, subject to the following restrictions:
+freely, subject to the above disclaimer and the following restrictions:
 
-    1. Redistributions of source code must retain the above copyright notice,
-       definition, disclaimer, and this list of conditions.
+    1. Redistributions of source code (in whole or in part) must retain
+       the above copyright notice, definition, disclaimer, and this list
+       of conditions.
 
-    2. Redistributions in binary form must reproduce the above copyright
-       notice, definition, disclaimer, and this list of conditions in
-       documentation and/or other materials provided with the distribution.
+    2. Redistributions in binary form (compiled executables and libraries)
+       must reproduce the above copyright notice, definition, disclaimer,
+       and this list of conditions in documentation and/or other materials
+       provided with the distribution.  Additional documentation is not needed
+       for executables where a command line license option provides these and
+       a note regarding this option is in the executable's startup banner.  The
+       sole exception to this condition is redistribution of a standard
+       UnZipSFX binary (including SFXWiz) as part of a self-extracting archive;
+       that is permitted without inclusion of this license, as long as the
+       normal SFX banner has not been removed from the binary or disabled.
 
     3. Altered versions--including, but not limited to, ports to new operating
-       systems, existing ports with new graphical interfaces, and dynamic,
-       shared, or static library versions--must be plainly marked as such
-       and must not be misrepresented as being the original source.  Such
-       altered versions also must not be misrepresented as being Info-ZIP
-       releases--including, but not limited to, labeling of the altered
-       versions with the names "Info-ZIP" (or any variation thereof, including,
-       but not limited to, different capitalizations), "Pocket UnZip," "WiZ"
-       or "MacZip" without the explicit permission of Info-ZIP.  Such altered
-       versions are further prohibited from misrepresentative use of the
-       Zip-Bugs or Info-ZIP e-mail addresses or of the Info-ZIP URL(s).
+       systems, existing ports with new graphical interfaces, versions with
+       modified or added functionality, and dynamic, shared, or static library
+       versions not from Info-ZIP--must be plainly marked as such and must not
+       be misrepresented as being the original source or, if binaries,
+       compiled from the original source.  Such altered versions also must not
+       be misrepresented as being Info-ZIP releases--including, but not
+       limited to, labeling of the altered versions with the names "Info-ZIP"
+       (or any variation thereof, including, but not limited to, different
+       capitalizations), "Pocket UnZip," "WiZ" or "MacZip" without the
+       explicit permission of Info-ZIP.  Such altered versions are further
+       prohibited from misrepresentative use of the Zip-Bugs or Info-ZIP
+       e-mail addresses or the Info-ZIP URL(s), such as to imply Info-ZIP
+       will provide support for the altered versions.
 
     4. Info-ZIP retains the right to use the names "Info-ZIP," "Zip," "UnZip,"
-       "WiZ," "Pocket UnZip," "Pocket Zip," and "MacZip" for its own source and
-       binary releases.
+       "UnZipSFX," "WiZ," "Pocket UnZip," "Pocket Zip," and "MacZip" for its
+       own source and binary releases.
   ---------------------------------------------------------------------------*/
 
 #ifndef __unzip_h   /* prevent multiple inclusions */
@@ -98,6 +111,11 @@ freely, subject to the following restrictions:
 #    define UNIX
 #  endif
 #endif /* M_XENIX || COHERENT || __hpux */
+#if (defined(__NetBSD__) || defined(__FreeBSD__))
+#  ifndef UNIX
+#    define UNIX
+#  endif
+#endif /* __NetBSD__ || __FreeBSD__ */
 #if (defined(CONVEX) || defined(MINIX) || defined(_AIX) || defined(__QNX__))
 #  ifndef UNIX
 #    define UNIX
@@ -125,6 +143,15 @@ freely, subject to the following restrictions:
 #endif
 #if ((defined(__WINNT__) || defined(__WINNT)) && !defined(WIN32))
 #  define WIN32
+#endif
+
+#if defined(_WIN32_WCE)
+#  ifndef WIN32         /* WinCE is treated as a variant of the Win32 API */
+#    define WIN32
+#  endif
+#  ifndef UNICODE       /* WinCE requires UNICODE wide character support */
+#    define UNICODE
+#  endif
 #endif
 
 #ifdef __COMPILER_KCC__
@@ -178,13 +205,12 @@ freely, subject to the following restrictions:
 #  define MACOS
 #endif
 
-int unzip_main(int argc, char** argv);
-
-/* use prototypes and ANSI libraries if __STDC__, or Microsoft or Borland C, or
- * Silicon Graphics, or Convex?, or IBM C Set/2, or GNU gcc/emx, or Watcom C,
- * or Macintosh, or Windows NT, or Sequent, or Atari or IBM RS/6000.
+/* use prototypes and ANSI libraries if __STDC__, or MS-DOS, or OS/2, or Win32,
+ * or IBM C Set/2, or Borland C, or Watcom C, or GNU gcc (emx or Cygwin),
+ * or Macintosh, or Sequent, or Atari, or IBM RS/6000, or Silicon Graphics,
+ * or Convex?, or AtheOS, or BeOS.
  */
-#if (defined(__STDC__) || defined(MSDOS) || defined(WIN32) || defined(__EMX__))
+#if (defined(__STDC__) || defined(MSDOS) || defined(OS2) || defined(WIN32))
 #  ifndef PROTO
 #    define PROTO
 #  endif
@@ -193,6 +219,14 @@ int unzip_main(int argc, char** argv);
 #  endif
 #endif
 #if (defined(__IBMC__) || defined(__BORLANDC__) || defined(__WATCOMC__))
+#  ifndef PROTO
+#    define PROTO
+#  endif
+#  ifndef MODERN
+#    define MODERN
+#  endif
+#endif
+#if (defined(__EMX__) || defined(__CYGWIN__))
 #  ifndef PROTO
 #    define PROTO
 #  endif
@@ -217,10 +251,17 @@ int unzip_main(int argc, char** argv);
 #    define MODERN
 #  endif
 #endif
-#if (defined(CMS_MVS) || defined(__BEOS__))  /* || defined(CONVEX) */
+#if (defined(CMS_MVS) || defined(__ATHEOS__) || defined(__BEOS__))
+/* || defined(CONVEX) ? */
 #  ifndef PROTO
 #    define PROTO
 #  endif
+#  ifndef MODERN
+#    define MODERN
+#  endif
+#endif
+/* Bundled C compiler on HP-UX needs this.  Others shouldn't care. */
+#if (defined(__hpux))
 #  ifndef MODERN
 #    define MODERN
 #  endif
@@ -249,6 +290,28 @@ int unzip_main(int argc, char** argv);
 #  define ZCONST
 #endif
 
+/* Tell Microsoft Visual C++ 2005 (and newer) to leave us alone
+ * and let us use standard C functions the way we're supposed to.
+ * (These preprocessor symbols must appear before the first system
+ *  header include. They are located here, because for WINDLL the
+ *  first system header includes follow just below.)
+ */
+#if defined(_MSC_VER) && (_MSC_VER >= 1400)
+#  ifndef _CRT_SECURE_NO_WARNINGS
+#    define _CRT_SECURE_NO_WARNINGS
+#  endif
+#  ifndef _CRT_NONSTDC_NO_WARNINGS
+#    define _CRT_NONSTDC_NO_WARNINGS
+#  endif
+#  if defined(POCKET_UNZIP) && !defined(_CRT_NON_CONFORMING_SWPRINTFS)
+#    define _CRT_NON_CONFORMING_SWPRINTFS
+#  endif
+#endif
+
+/* NO_UNIXBACKUP overrides UNIXBACKUP */
+#if defined(NO_UNIXBACKUP) && defined(UNIXBACKUP)
+#  undef UNIXBACKUP
+#endif
 
 /*---------------------------------------------------------------------------
     Grab system-specific public include headers.
@@ -266,7 +329,7 @@ int unzip_main(int argc, char** argv);
 #  endif
 #  include <windows.h>
 #  include "windll/structs.h"
-#  ifdef IZ_HASDEFINEd_WIN32LEAN
+#  ifdef IZ_HASDEFINED_WIN32LEAN
 #    undef WIN32_LEAN_AND_MEAN
 #    undef IZ_HASDEFINED_WIN32LEAN
 #  endif
@@ -316,6 +379,9 @@ int unzip_main(int argc, char** argv);
 #  define UZ_EXP
 #endif
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /*---------------------------------------------------------------------------
     Public typedefs.
@@ -323,10 +389,7 @@ int unzip_main(int argc, char** argv);
 
 #ifndef _IZ_TYPES_DEFINED
 #ifdef MODERN
-#ifndef ZVOID_DEC
-#define ZVOID_DEC
    typedef void zvoid;
-#endif
 #else /* !MODERN */
 #  ifndef AOS_VS         /* mostly modern? */
 #    ifndef VAXC         /* not fully modern, but has knows 'void' */
@@ -335,13 +398,9 @@ int unzip_main(int argc, char** argv);
 #  endif /* !AOS_VS */
    typedef char zvoid;
 #endif /* ?MODERN */
-#ifndef UCH_TYPE
-#define UCH_TYPE
 typedef unsigned char   uch;    /* code assumes unsigned bytes; these type-  */
 typedef unsigned short  ush;    /*  defs replace byte/UWORD/ULONG (which are */
 typedef unsigned long   ulg;    /*  predefined on some systems) & match zip  */
-#endif
-
 #define _IZ_TYPES_DEFINED
 #endif /* !_IZ_TYPES_DEFINED */
 
@@ -411,11 +470,16 @@ typedef struct _UzpOpts {
 #ifdef TANDEM
     int bflag;          /* -b: create text files in 'C' format (180)*/
 #endif
+#if defined(UNIX) || defined(OS2) || defined(WIN32)
+    int B_flag;         /* -B: back up existing files by renaming to *~##### */
+#else
 #ifdef UNIXBACKUP
-    int B_flag;         /* -B: back up existing files by renaming to *~ first */
+    int B_flag;         /* -B: back up existing files by renaming to *~##### */
+#endif
 #endif
     int cflag;          /* -c: output to stdout */
     int C_flag;         /* -C: match filenames case-insensitively */
+    int D_flag;         /* -D: don't restore directory (-DD: any) timestamps */
 #ifdef MACOS
     int E_flag;         /* -E: [MacOS] show Mac extra field during restoring */
 #endif
@@ -431,8 +495,11 @@ typedef struct _UzpOpts {
     int scanimage;      /* -I: scan image files */
 #endif
     int jflag;          /* -j: junk pathnames (unzip) */
-#if (defined(__BEOS__) || defined(MACOS))
-    int J_flag;         /* -J: ignore BeOS/MacOS extra field info (unzip) */
+#if (defined(__ATHEOS__) || defined(__BEOS__) || defined(MACOS))
+    int J_flag;         /* -J: ignore AtheOS/BeOS/MacOS e. f. info (unzip) */
+#endif
+#if (defined(__ATHEOS__) || defined(__BEOS__) || defined(UNIX))
+    int K_flag;         /* -K: keep setuid/setgid/tacky permissions */
 #endif
     int lflag;          /* -12slmv: listing format (zipinfo) */
     int L_flag;         /* -L: convert filenames from some OSes to lowercase */
@@ -443,6 +510,9 @@ typedef struct _UzpOpts {
     int overwrite_all;  /* -o: OK to overwrite files without prompting */
 #endif /* !FUNZIP */
     int qflag;          /* -q: produce a lot less output */
+#ifdef TANDEM
+    int rflag;          /* -r: remove file extensions */
+#endif
 #ifndef FUNZIP
 #if (defined(MSDOS) || defined(FLEXOS) || defined(OS2) || defined(WIN32))
     int sflag;          /* -s: convert spaces in filenames to underscores */
@@ -450,22 +520,44 @@ typedef struct _UzpOpts {
 #if (defined(NLM))
     int sflag;          /* -s: convert spaces in filenames to underscores */
 #endif
+#ifdef VMS
+    int S_flag;         /* -S: use Stream_LF for text files (-a[a]) */
+#endif
 #if (defined(MSDOS) || defined(__human68k__) || defined(OS2) || defined(WIN32))
     int volflag;        /* -$: extract volume labels */
 #endif
     int tflag;          /* -t: test (unzip) or totals line (zipinfo) */
     int T_flag;         /* -T: timestamps (unzip) or dec. time fmt (zipinfo) */
     int uflag;          /* -u: "update" (extract only newer/brand-new files) */
+#if defined(UNIX) || defined(VMS) || defined(WIN32)
+    int U_flag;         /* -U: escape non-ASCII, -UU No Unicode paths */
+#endif
     int vflag;          /* -v: (verbosely) list directory */
     int V_flag;         /* -V: don't strip VMS version numbers */
-#if (defined(__BEOS__) || defined(TANDEM) || defined(THEOS) || defined(UNIX))
+    int W_flag;         /* -W: wildcard '*' won't match '/' dir separator */
+#if (defined (__ATHEOS__) || defined(__BEOS__) || defined(UNIX))
     int X_flag;         /* -X: restore owner/protection or UID/GID or ACLs */
-#elif (defined(OS2) || defined(VMS) || defined(WIN32))
+#else
+#if (defined(TANDEM) || defined(THEOS))
+    int X_flag;         /* -X: restore owner/protection or UID/GID or ACLs */
+#else
+#if (defined(OS2) || defined(VMS) || defined(WIN32))
     int X_flag;         /* -X: restore owner/protection or UID/GID or ACLs */
 #endif
+#endif
+#endif
+#ifdef VMS
+    int Y_flag;         /* -Y: treat ".nnn" as ";nnn" version */
+#endif
     int zflag;          /* -z: display the zipfile comment (only, for unzip) */
+#ifdef VMS
+    int ods2_flag;      /* -2: force names to conform to ODS2 */
+#endif
 #if (!defined(RISCOS) && !defined(CMS_MVS) && !defined(TANDEM))
     int ddotflag;       /* -:: don't skip over "../" path elements */
+#endif
+#ifdef UNIX
+    int cflxflag;       /* -^: allow control chars in extracted filenames */
 #endif
 #endif /* !FUNZIP */
 } UzpOpts;
@@ -479,52 +571,60 @@ typedef struct _ver {
 } _version_type;
 
 typedef struct _UzpVer {
-    ulg structlen;          /* length of the struct being passed */
-    ulg flag;               /* bit 0: is_beta   bit 1: uses_zlib */
-    char *betalevel;        /* e.g., "g BETA" or "" */
-    char *date;             /* e.g., "4 Sep 95" (beta) or "4 September 1995" */
-    char *zlib_version;     /* e.g., "0.95" or NULL */
-    _version_type unzip;
-    _version_type zipinfo;
-    _version_type os2dll;
-    _version_type windll;
+    ulg structlen;            /* length of the struct being passed */
+    ulg flag;                 /* bit 0: is_beta   bit 1: uses_zlib */
+    ZCONST char *betalevel;   /* e.g. "g BETA" or "" */
+    ZCONST char *date;        /* e.g. "9 Oct 08" (beta) or "9 October 2008" */
+    ZCONST char *zlib_version;/* e.g. "1.2.3" or NULL */
+    _version_type unzip;      /* current UnZip version */
+    _version_type zipinfo;    /* current ZipInfo version */
+    _version_type os2dll;     /* OS2DLL version (retained for compatibility */
+    _version_type windll;     /* WinDLL version (retained for compatibility */
+    _version_type dllapimin;  /* last incompatible change of library API */
 } UzpVer;
 
 /* for Visual BASIC access to Windows DLLs: */
 typedef struct _UzpVer2 {
-    ulg structlen;          /* length of the struct being passed */
-    ulg flag;               /* bit 0: is_beta   bit 1: uses_zlib */
-    char betalevel[10];     /* e.g., "g BETA" or "" */
-    char date[20];          /* e.g., "4 Sep 95" (beta) or "4 September 1995" */
-    char zlib_version[10];  /* e.g., "0.95" or NULL */
-    _version_type unzip;
-    _version_type zipinfo;
-    _version_type os2dll;
-    _version_type windll;
+    ulg structlen;            /* length of the struct being passed */
+    ulg flag;                 /* bit 0: is_beta   bit 1: uses_zlib */
+    char betalevel[10];       /* e.g. "g BETA" or "" */
+    char date[20];            /* e.g. "9 Oct 08" (beta) or "9 October 2008" */
+    char zlib_version[10];    /* e.g. "1.2.3" or NULL */
+    _version_type unzip;      /* current UnZip version */
+    _version_type zipinfo;    /* current ZipInfo version */
+    _version_type os2dll;     /* OS2DLL version (retained for compatibility */
+    _version_type windll;     /* WinDLL version (retained for compatibility */
+    _version_type dllapimin;  /* last incompatible change of library API */
 } UzpVer2;
 
-typedef struct central_directory_file_header { /* CENTRAL */
+
+typedef struct _Uzp_Siz64 {
+    unsigned long lo32;
+    unsigned long hi32;
+} Uzp_Siz64;
+
+typedef struct _Uzp_cdir_Rec {
     uch version_made_by[2];
     uch version_needed_to_extract[2];
     ush general_purpose_bit_flag;
     ush compression_method;
     ulg last_mod_dos_datetime;
     ulg crc32;
-    ulg csize;
-    ulg ucsize;
+    Uzp_Siz64 csize;
+    Uzp_Siz64 ucsize;
     ush filename_length;
     ush extra_field_length;
     ush file_comment_length;
     ush disk_number_start;
     ush internal_file_attributes;
     ulg external_file_attributes;
-    ulg relative_offset_local_header;
-} cdir_file_hdr;
+    Uzp_Siz64 relative_offset_local_header;
+} Uzp_cdir_Rec;
 
 
 #define UZPINIT_LEN   sizeof(UzpInit)
 #define UZPVER_LEN    sizeof(UzpVer)
-#define cbList(func)  int (* UZ_EXP func)(char *filename, cdir_file_hdr *crec)
+#define cbList(func)  int (* UZ_EXP func)(char *filename, Uzp_cdir_Rec *crec)
 
 
 /*---------------------------------------------------------------------------
@@ -551,6 +651,7 @@ typedef struct central_directory_file_header { /* CENTRAL */
 #define IZ_CTRLC          80   /* user hit ^C to terminate */
 #define IZ_UNSUP          81   /* no files found: all unsup. compr/encrypt. */
 #define IZ_BADPWD         82   /* no files found: all had bad password */
+#define IZ_ERRBF          83   /* big-file archive, small-file program */
 
 /* return codes of password fetches (negative = user abort; positive = error) */
 #define IZ_PW_ENTERED      0   /* got some password string; use/try it */
@@ -576,7 +677,7 @@ typedef struct central_directory_file_header { /* CENTRAL */
 
 int      UZ_EXP UzpMain            OF((int argc, char **argv));
 int      UZ_EXP UzpAltMain         OF((int argc, char **argv, UzpInit *init));
-UzpVer * UZ_EXP UzpVersion         OF((void));
+ZCONST UzpVer * UZ_EXP UzpVersion  OF((void));
 void     UZ_EXP UzpFreeMemBuffer   OF((UzpBuffer *retstr));
 #ifndef WINDLL
 int      UZ_EXP UzpUnzipToMemory   OF((char *zip, char *file, UzpOpts *optflgs,
@@ -590,7 +691,7 @@ int      UZ_EXP UzpFileTree        OF((char *name, cbList(callBack),
                                        char *cpInclude[], char *cpExclude[]));
 #endif
 
-void     UZ_EXP UzpVersion2        OF((UzpVer2 *version));
+unsigned UZ_EXP UzpVersion2        OF((UzpVer2 *version));
 int      UZ_EXP UzpValidate        OF((char *archive, int AllCodes));
 
 
@@ -604,6 +705,10 @@ int      UZ_EXP UzpPassword      OF((zvoid *pG, int *rcnt, char *pwbuf,
                                      int size, ZCONST char *zfn,
                                      ZCONST char *efn));
 
+#ifdef __cplusplus
+}
+#endif
+
 
 /*---------------------------------------------------------------------------
     Remaining private stuff for UnZip compilation.
@@ -613,6 +718,5 @@ int      UZ_EXP UzpPassword      OF((zvoid *pG, int *rcnt, char *pwbuf,
 #  include "unzpriv.h"
 #endif
 
-int unzip_exit(int c);
 
 #endif /* !__unzip_h */

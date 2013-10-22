@@ -44,7 +44,8 @@ class CSimpleProjectPanel : public CSimplePanelBase
         
         ProjectSelectionData* GetProjectSelectionData();
         void UpdateInterface();
-
+        void ReskinInterface();
+        
 	private:
         void OnProjectSelection(wxCommandEvent &event);
         void OnProjectCommandButton(wxCommandEvent& /*event*/);
@@ -59,7 +60,7 @@ class CSimpleProjectPanel : public CSimplePanelBase
 	protected:
 		CTransparentStaticText*             m_myProjectsLabel;
 		CBOINCBitmapComboBox*               m_ProjectSelectionCtrl;
-		wxButton*                           m_TaskAddProjectButton;
+		CTransparentButton*                 m_TaskAddProjectButton;
         CTransparentStaticText*             m_TotalCreditValue;
 		CSimpleProjectWebSitesPopupButton*  m_ProjectWebSitesButton;
 		CSimpleProjectCommandPopupButton*   m_ProjectCommandsButton;

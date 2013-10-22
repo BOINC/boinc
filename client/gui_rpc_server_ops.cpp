@@ -54,6 +54,7 @@
 #include "filesys.h"
 #include "network.h"
 #include "parse.h"
+#include "str_replace.h"
 #include "str_util.h"
 #include "url.h"
 #include "util.h"
@@ -80,7 +81,7 @@ void GUI_RPC_CONN::handle_auth1(MIOFILE& fout) {
 }
 
 int GUI_RPC_CONN::handle_auth2(char* buf, MIOFILE& fout) {
-    char nonce_hash[256], nonce_hash_correct[256], buf2[256];
+    char nonce_hash[256], nonce_hash_correct[256], buf2[512];
     if (!parse_str(buf, "<nonce_hash>", nonce_hash, 256)) {
         auth_failure(fout);
         return ERR_AUTHENTICATOR;
@@ -137,7 +138,15 @@ static void handle_get_disk_usage(GUI_RPC_CONN& grc) {
     double size, boinc_non_project, d_allowed, boinc_total;
 
     grc.mfout.printf("<disk_usage_summary>\n");
-    get_filesystem_info(gstate.host_info.d_total, gstate.host_info.d_free);
+    int retval = get_filesystem_info(
+        gstate.host_info.d_total, gstate.host_info.d_free
+    );
+    if (retval) {
+        msg_printf(0, MSG_INTERNAL_ERROR,
+            "get_filesystem_info(): %s", boincerror(retval)
+        );
+    }
+
     dir_size(".", boinc_non_project, false);
     dir_size("locale", size, false);
     boinc_non_project += size;
@@ -278,6 +287,7 @@ static void handle_project_allowmorework(GUI_RPC_CONN& grc) {
     gstate.set_client_state_dirty("Project modified by user");
     msg_printf(p, MSG_INFO, "work fetch resumed by user");
     p->dont_request_more_work = false;
+    gstate.request_work_fetch("project work fetch resumed by user");
     grc.mfout.printf("<success/>\n");
 }
 
@@ -362,6 +372,28 @@ static void handle_set_gpu_mode(GUI_RPC_CONN& grc) {
     gstate.gpu_run_mode.set(mode, duration);
     gstate.request_schedule_cpus("GPU mode changed");
     grc.mfout.printf("<success/>\n");
+}
+
+// used on Android - get product name and MAC addr from GUI,
+//
+static void handle_set_host_info(GUI_RPC_CONN& grc) {
+    while (!grc.xp.get_tag()) {
+        if (grc.xp.match_tag("host_info")) {
+            HOST_INFO hi;
+            int retval = hi.parse(grc.xp);
+            if (retval) {
+                grc.mfout.printf("<error>host_info parse error</error>\n");
+                return;
+            }
+            if (strlen(hi.product_name)) {
+                safe_strcpy(gstate.host_info.product_name, hi.product_name);
+            }
+            grc.mfout.printf("<success/>\n");
+            gstate.set_client_state_dirty("set_host_info RPC");
+            return;
+        }
+    }
+    grc.mfout.printf("<error>Missing host_info</error>\n");
 }
 
 static void handle_set_network_mode(GUI_RPC_CONN& grc) {
@@ -531,12 +563,12 @@ static void handle_result_op(GUI_RPC_CONN& grc, const char* op) {
     } else if (!strcmp(op, "suspend")) {
         msg_printf(p, MSG_INFO, "task %s suspended by user", result_name);
         rp->suspended_via_gui = true;
-        gstate.request_work_fetch("result suspended by user");
+        gstate.request_work_fetch("task suspended by user");
     } else if (!strcmp(op, "resume")) {
         msg_printf(p, MSG_INFO, "task %s resumed by user", result_name);
         rp->suspended_via_gui = false;
     }
-    gstate.request_schedule_cpus("result suspended, resumed or aborted by user");
+    gstate.request_schedule_cpus("task suspended, resumed or aborted by user");
     gstate.set_client_state_dirty("Result RPC");
     grc.mfout.printf("<success/>\n");
 }
@@ -606,10 +638,9 @@ static void handle_acct_mgr_info(GUI_RPC_CONN& grc) {
 
 static void handle_get_statistics(GUI_RPC_CONN& grc) {
     grc.mfout.printf("<statistics>\n");
-    for (std::vector<PROJECT*>::iterator i=gstate.projects.begin();
-        i!=gstate.projects.end();++i
-    ) {
-        (*i)->write_statistics(grc.mfout,true);
+    for (unsigned int i=0; i<gstate.projects.size(); i++) {
+        PROJECT* p = gstate.projects[i];
+        p->write_statistics(grc.mfout);
     }
     grc.mfout.printf("</statistics>\n");
 }
@@ -632,7 +663,8 @@ static void handle_get_cc_status(GUI_RPC_CONN& grc) {
         "   <network_mode_perm>%d</network_mode_perm>\n"
         "   <network_mode_delay>%f</network_mode_delay>\n"
         "   <disallow_attach>%d</disallow_attach>\n"
-        "   <simple_gui_only>%d</simple_gui_only>\n",
+        "   <simple_gui_only>%d</simple_gui_only>\n"
+        "   <max_event_log_lines>%d</max_event_log_lines>\n",
         net_status.network_status(),
         gstate.acct_mgr_info.password_error?1:0,
         gstate.suspend_reason,
@@ -648,7 +680,8 @@ static void handle_get_cc_status(GUI_RPC_CONN& grc) {
         gstate.network_run_mode.get_perm(),
         gstate.network_run_mode.delay(),
         config.disallow_attach?1:0,
-        config.simple_gui_only?1:0
+        config.simple_gui_only?1:0,
+        config.max_event_log_lines
     );
     if (grc.au_mgr_state == AU_MGR_QUIT_REQ) {
         grc.mfout.printf(
@@ -991,12 +1024,11 @@ static void handle_set_global_prefs_override(GUI_RPC_CONN& grc) {
             retval = boinc_delete_file(GLOBAL_PREFS_OVERRIDE_FILE);
         }
     }
-    grc.mfout.printf(
-        "<set_global_prefs_override_reply>\n"
-        "    <status>%d</status>\n"
-        "</set_global_prefs_override_reply>\n",
-        retval
-    );
+    if (retval) {
+        grc.mfout.printf("<status>%d</status>\n", retval);
+    } else {
+        grc.mfout.printf("<success/>\n");
+    }
 }
 
 static void handle_get_cc_config(GUI_RPC_CONN& grc) {
@@ -1041,12 +1073,11 @@ static void handle_set_cc_config(GUI_RPC_CONN& grc) {
             retval = boinc_delete_file(CONFIG_FILE);
         }
     }
-    grc.mfout.printf(
-        "<set_cc_config_reply>\n"
-        "    <status>%d</status>\n"
-        "</set_cc_config_reply>\n",
-        retval
-    );
+    if (retval) {
+        grc.mfout.printf("<status>%d</status>\n", retval);
+    } else {
+        grc.mfout.printf("<success/>\n");
+    }
 }
 
 static void handle_get_notices(GUI_RPC_CONN& grc) {
@@ -1063,6 +1094,10 @@ static void handle_get_notices_public(GUI_RPC_CONN& grc) {
         if (grc.xp.parse_int("seqno", seqno)) continue;
     }
     notices.write(seqno, grc, true);
+}
+
+static void handle_get_old_results(GUI_RPC_CONN& grc) {
+    print_old_results(grc.mfout);
 }
 
 static void handle_get_results(GUI_RPC_CONN& grc) {
@@ -1097,6 +1132,11 @@ static void handle_read_cc_config(GUI_RPC_CONN& grc) {
     log_flags.show();
     gstate.set_ncpus();
     process_gpu_exclusions();
+
+    // also reread app_config.xml files
+    //
+    check_app_config();
+
     gstate.request_schedule_cpus("Core client configuration");
     gstate.request_work_fetch("Core client configuration");
     set_no_rsc_config();
@@ -1117,6 +1157,71 @@ static bool complete_post_request(char* buf) {
     p += 4;
     if ((int)strlen(p) < n) return false;
     return true;
+}
+
+static void handle_report_device_status(GUI_RPC_CONN& grc) {
+    DEVICE_STATUS d;
+    while (!grc.xp.get_tag()) {
+        if (grc.xp.match_tag("device_status")) {
+            int retval = d.parse(grc.xp);
+            if (log_flags.android_debug) {
+                if (retval) {
+                    msg_printf(0, MSG_INFO,
+                        "report_device_status RPC parse failed: %d", retval
+                    );
+                } else {
+                    msg_printf(0, MSG_INFO,
+                        "Android device status:"
+                    );
+                    msg_printf(0, MSG_INFO,
+                        "On AC: %s; on USB: %s; on WiFi: %s; user active: %s",
+                        d.on_ac_power?"yes":"no",
+                        d.on_usb_power?"yes":"no",
+                        d.wifi_online?"yes":"no",
+                        d.user_active?"yes":"no"
+                    );
+                    msg_printf(0, MSG_INFO,
+                        "Battery: charge pct: %f; temp %f state %s",
+                        d.battery_charge_pct,
+                        d.battery_temperature_celsius,
+                        battery_state_string(d.battery_state)
+                    );
+                }
+            }
+            if (!retval) {
+                // if the GUI reported a device name, use it
+                //
+                if (strlen(d.device_name)) {
+                    if (strcmp(d.device_name, gstate.host_info.domain_name)) {
+                        strcpy(gstate.host_info.domain_name, d.device_name);
+                        gstate.set_client_state_dirty("Device name changed");
+                    }
+                }
+                gstate.device_status = d;
+                gstate.device_status_time = gstate.now;
+                grc.mfout.printf("<success/>\n");
+                return;
+            }
+        }
+    }
+    grc.mfout.printf("<error/>\n");
+}
+
+int DEVICE_STATUS::parse(XML_PARSER& xp) {
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/device_status")) {
+            return 0;
+        }
+        if (xp.parse_bool("on_ac_power", on_ac_power)) continue;
+        if (xp.parse_bool("on_usb_power", on_usb_power)) continue;
+        if (xp.parse_double("battery_charge_pct", battery_charge_pct)) continue;
+        if (xp.parse_int("battery_state", battery_state)) continue;
+        if (xp.parse_double("battery_temperature_celsius", battery_temperature_celsius)) continue;
+        if (xp.parse_bool("wifi_online", wifi_online)) continue;
+        if (xp.parse_bool("user_active", user_active)) continue;
+        if (xp.parse_str("device_name", device_name, sizeof(device_name))) continue;
+    }
+    return ERR_XML_PARSE;
 }
 
 // Some of the RPCs have empty-element request messages.
@@ -1143,7 +1248,7 @@ struct GUI_RPC {
 
     GUI_RPC(const char* req, GUI_RPC_HANDLER h, bool ar, bool en, bool ro) {
         req_tag = req;
-        strcpy(alt_req_tag, req);
+        safe_strcpy(alt_req_tag, req);
         strcat(alt_req_tag, "/");
         handler = h;
         auth_required = ar;
@@ -1168,6 +1273,7 @@ GUI_RPC gui_rpcs[] = {
     GUI_RPC("get_message_count", handle_get_message_count,          false,  false,  true),
     GUI_RPC("get_newer_version", handle_get_newer_version,          false,  false,  true),
     GUI_RPC("get_notices_public", handle_get_notices_public,        false,  false,  true),
+    GUI_RPC("get_old_results", handle_get_old_results,              false,  false,  true),
     GUI_RPC("get_project_status", handle_get_project_status,        false,  false,  true),
     GUI_RPC("get_results", handle_get_results,                      false,  false,  true),
     GUI_RPC("get_screensaver_tasks", handle_get_screensaver_tasks,  false,  false,  true),
@@ -1204,12 +1310,14 @@ GUI_RPC gui_rpcs[] = {
     GUI_RPC("read_cc_config", handle_read_cc_config,                true,   false,  false),
     GUI_RPC("read_global_prefs_override", handle_read_global_prefs_override,
                                                                     true,   false,  false),
+    GUI_RPC("report_device_status", handle_report_device_status,    true,   false,  false),
     GUI_RPC("resume_result", handle_resume_result,                  true,   false,  false),
     GUI_RPC("run_benchmarks", handle_run_benchmarks,                true,   false,  false),
     GUI_RPC("set_cc_config", handle_set_cc_config,                  true,   false,  false),
     GUI_RPC("set_global_prefs_override", handle_set_global_prefs_override,
                                                                     true,   false,  false),
     GUI_RPC("set_gpu_mode", handle_set_gpu_mode,                    true,   false,  false),
+    GUI_RPC("set_host_info", handle_set_host_info,                  true,   false,  false),
     GUI_RPC("set_network_mode", handle_set_network_mode,            true,   false,  false),
     GUI_RPC("set_proxy_settings", handle_set_proxy_settings,        true,   false,  false),
     GUI_RPC("set_run_mode", handle_set_run_mode,                    true,   false,  false),

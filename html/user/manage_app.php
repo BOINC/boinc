@@ -107,7 +107,7 @@ function permissions_form($app) {
         $user = BoincUser::lookup_id($busa->user_id);
         echo "
             <tr>
-            <td>$user->name ($user->id)</td>
+            <td>$user->name (ID: $user->id)</td>
             <td><input type=checkbox name=user_$user->id checked></td>
             </tr>
         ";
@@ -211,16 +211,16 @@ if (!$bus->manage_all) {
 
 $action = get_str("action", true);
 switch ($action) {
-case "":
-    main_page($app); break;
+//case "":
+//    main_page($app); break;
 case "app_version_form":
     app_version_form($app); break;
 case "app_version_action":
     app_version_action($app); break;
-case "permissions_form":
-    permissions_form($app); break;
-case "permissions_action":
-    permissions_action($app); break;
+//case "permissions_form":
+//    permissions_form($app); break;
+//case "permissions_action":
+//    permissions_action($app); break;
 case "batches_form":
     batches_form($app); break;
 case "batches_action":

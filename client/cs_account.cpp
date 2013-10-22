@@ -79,7 +79,7 @@ int PROJECT::write_account_file() {
     fprintf(f, "<project_preferences>\n%s</project_preferences>\n",
         project_prefs.c_str()
     );
-    fprintf(f, gui_urls.c_str());
+    fprintf(f, "%s", gui_urls.c_str());
     fprintf(f, "</account>\n");
     fclose(f);
     retval = boinc_rename(TEMP_ACCT_FILE_NAME, path);
@@ -87,7 +87,7 @@ int PROJECT::write_account_file() {
     return 0;
 }
 
-void handle_no_rsc_pref(PROJECT* p, const char* name) {
+static void handle_no_rsc_pref(PROJECT* p, const char* name) {
     int i = rsc_index(name);
     if (i < 0) return;
     p->no_rsc_pref[i] = true;
@@ -127,7 +127,7 @@ int PROJECT::parse_account(FILE* in) {
             if (retval) return retval;
             continue;
         } else if (xp.parse_str("master_url", master_url, sizeof(master_url))) {
-            canonicalize_master_url(master_url);
+            canonicalize_master_url(master_url, sizeof(master_url));
             continue;
         } else if (xp.parse_str("authenticator", authenticator, sizeof(authenticator))) continue;
         else if (xp.parse_double("resource_share", resource_share)) continue;
@@ -135,6 +135,8 @@ int PROJECT::parse_account(FILE* in) {
             if (btemp) handle_no_rsc_pref(this, "CPU");
             continue;
         }
+
+        // deprecated
         else if (xp.parse_bool("no_cuda", btemp)) {
             if (btemp) handle_no_rsc_pref(this, GPU_TYPE_NVIDIA);
             continue;
@@ -143,6 +145,11 @@ int PROJECT::parse_account(FILE* in) {
             if (btemp) handle_no_rsc_pref(this, GPU_TYPE_ATI);
             continue;
         }
+        else if (xp.parse_bool("no_intel_gpu", btemp)) {
+            if (btemp) handle_no_rsc_pref(this, GPU_TYPE_INTEL);
+            continue;
+        }
+
         else if (xp.parse_str("no_rsc", buf2, sizeof(buf2))) {
             handle_no_rsc_pref(this, buf2);
             continue;
@@ -235,6 +242,8 @@ int PROJECT::parse_account_file_venue() {
             if (btemp) handle_no_rsc_pref(this, "CPU");
             continue;
         }
+
+        // deprecated syntax
         else if (xp.parse_bool("no_cuda", btemp)) {
             if (btemp) handle_no_rsc_pref(this, GPU_TYPE_NVIDIA);
             continue;
@@ -243,6 +252,7 @@ int PROJECT::parse_account_file_venue() {
             if (btemp) handle_no_rsc_pref(this, GPU_TYPE_ATI);
             continue;
         }
+
         else if (xp.parse_str("no_rsc", buf2, sizeof(buf2))) {
             handle_no_rsc_pref(this, buf2);
             continue;
@@ -375,7 +385,7 @@ int PROJECT::parse_statistics(FILE* in) {
             continue;
         }
         if (xp.parse_str("master_url", master_url, sizeof(master_url))) {
-            canonicalize_master_url(master_url);
+            canonicalize_master_url(master_url, sizeof(master_url));
             continue;
         }
         if (log_flags.unparsed_xml) {
@@ -473,7 +483,7 @@ int CLIENT_STATE::add_project(
     const char* master_url, const char* _auth, const char* project_name,
     bool attached_via_acct_mgr
 ) {
-    char path[MAXPATHLEN], canonical_master_url[256], auth[256], dir[256];
+    char path[MAXPATHLEN], canonical_master_url[256], auth[256];
     PROJECT* project;
     FILE* f;
     int retval;
@@ -484,7 +494,7 @@ int CLIENT_STATE::add_project(
 
     safe_strcpy(canonical_master_url, master_url);
     strip_whitespace(canonical_master_url);
-    canonicalize_master_url(canonical_master_url);
+    canonicalize_master_url(canonical_master_url, sizeof(canonical_master_url));
     if (!valid_master_url(canonical_master_url)) {
         msg_printf(0, MSG_INFO, "Invalid URL: %s", canonical_master_url);
         return ERR_INVALID_URL;
@@ -507,9 +517,9 @@ int CLIENT_STATE::add_project(
     // create project state
     //
     project = new PROJECT;
-    strcpy(project->master_url, canonical_master_url);
-    strcpy(project->authenticator, auth);
-    strcpy(project->project_name, project_name);
+    safe_strcpy(project->master_url, canonical_master_url);
+    safe_strcpy(project->authenticator, auth);
+    safe_strcpy(project->project_name, project_name);
     project->attached_via_acct_mgr = attached_via_acct_mgr;
 
     retval = project->write_account_file();
@@ -526,8 +536,7 @@ int CLIENT_STATE::add_project(
     // (unless PROJECT/app_info.xml is found, so that
     // people using anonymous platform don't have to get apps again)
     //
-    get_project_dir(project, dir, sizeof(dir));
-    sprintf(path, "%s/%s", dir, APP_INFO_FILE_NAME);
+    sprintf(path, "%s/%s", project->project_dir(), APP_INFO_FILE_NAME);
     if (boinc_file_exists(path)) {
         project->anonymous_platform = true;
         f = fopen(path, "r");

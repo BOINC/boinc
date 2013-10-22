@@ -18,10 +18,16 @@
 
 // Tables related to job submission
 
+require_once("../inc/common_defs.inc");
+
 class BoincBatch {
     static function lookup_id($id) {
         $db = BoincDb::get();
         return $db->lookup_id($id, 'batch', 'BoincBatch');
+    }
+    static function lookup_name($name) {
+        $db = BoincDb::get();
+        return $db->lookup('batch', 'BoincBatch', "name='$name'");
     }
     static function enum($clause) {
         $db = BoincDb::get();
@@ -37,15 +43,11 @@ class BoincBatch {
         $db = BoincDb::get();
         return $db->update($this, 'batch', $clause);
     }
+    static function update_aux($clause) {
+        $db = BoincDb::get();
+        return $db->update_aux('batch', $clause);
+    }
 }
-
-// see db/boinc_db.h
-//
-define('BATCH_STATE_INIT', 0);
-define('BATCH_STATE_IN_PROGRESS', 1);
-define('BATCH_STATE_COMPLETE', 2);
-define('BATCH_STATE_ABORTED', 3);
-define('BATCH_STATE_RETIRED', 4);
 
 class BoincUserSubmit {
     static function enum($clause) {
@@ -65,6 +67,10 @@ class BoincUserSubmit {
     function update($clause) {
         $db = BoincDb::get();
         return $db->update_aux('user_submit', "$clause where user_id=$this->user_id");
+    }
+    static function update_aux($clause) {
+        $db = BoincDb::get();
+        return $db->update_aux('user_submit', $clause);
     }
 }
 
@@ -90,6 +96,52 @@ class BoincUserSubmitApp {
     function update($clause) {
         $db = BoincDb::get();
         $db->update_aux('user_submit_app', "$clause where user_id=$this->user_id and app_id=$this->app_id");
+    }
+}
+
+class BoincJobFile {
+    static function insert($clause) {
+        $db = BoincDb::get();
+        $ret = $db->insert('job_file', $clause);
+        if (!$ret) return false;
+        return true;
+    }
+    static function lookup_md5($md5) {
+        $db = BoincDb::get();
+        return $db->lookup('job_file', 'BoincJobFile', "md5='$md5'");
+    }
+    function delete() {
+        $db = BoincDb::get();
+        $db->delete($this, 'job_file');
+    }
+    function update($clause) {
+        $db = BoincDb::get();
+        return $db->update($this, 'job_file', $clause);
+    }
+}
+
+class BoincBatchFileAssoc {
+    static function insert($clause) {
+        $db = BoincDb::get();
+        $ret = $db->insert('batch_file_assoc', $clause);
+        if (!$ret) return false;
+        return true;
+    }
+    static function lookup($clause) {
+        $db = BoincDb::get();
+        return $db->lookup('batch_file_assoc', 'BoincBatchFileAssoc', $clause);
+    }
+    function delete() {
+        $db = BoincDb::get();
+        $db->delete_aux('batch_file_assoc',
+            "job_file_id=$this->job_file_id and batch_id=$this->batch_id"
+        );
+    }
+    static function delete_batch($batch_id) {
+        $db = BoincDb::get();
+        $db->delete_aux('batch_file_assoc',
+            "batch_id=$batch_id"
+        );
     }
 }
 

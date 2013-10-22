@@ -111,34 +111,19 @@ void add_job_files_to_host(WORKUNIT& wu) {
             if (retval) continue;
             if (!fi.sticky) continue;
             if (!file_present_on_host(fi.name)) {
-                log_messages.printf(MSG_NORMAL,
-                    "Adding file %s to host file list\n", fi.name
-                );
+                if (config.debug_send) {
+                    log_messages.printf(MSG_NORMAL,
+                        "[send] Adding file %s to host file list\n", fi.name
+                    );
+                }
                 g_request->file_infos.push_back(fi);
             }
         }
     }
 }
 
-const char* infeasible_string(int code) {
-    switch (code) {
-    case INFEASIBLE_MEM: return "Not enough memory";
-    case INFEASIBLE_DISK: return "Not enough disk";
-    case INFEASIBLE_CPU: return "CPU too slow";
-    case INFEASIBLE_APP_SETTING: return "App not selected";
-    case INFEASIBLE_WORKLOAD: return "Existing workload";
-    case INFEASIBLE_DUP: return "Already in reply";
-    case INFEASIBLE_HR: return "Homogeneous redundancy";
-    case INFEASIBLE_BANDWIDTH: return "Download bandwidth too low";
-    }
-    return "Unknown";
-}
-
 const double MIN_REQ_SECS = 0;
 const double MAX_REQ_SECS = (28*SECONDS_IN_DAY);
-
-const int MAX_GPUS = 64;
-    // don't believe clients who claim they have more GPUs than this
 
 // get limits on:
 // # jobs per day
@@ -153,9 +138,10 @@ void WORK_REQ::get_job_limits() {
     }
     if (n > config.max_ncpus) n = config.max_ncpus;
     if (n < 1) n = 1;
+    if (n > MAX_CPUS) n = MAX_CPUS;
     effective_ncpus = n;
 
-    n = g_request->coprocs.nvidia.count + g_request->coprocs.ati.count;
+    n = g_request->coprocs.ndevs();
     if (n > MAX_GPUS) n = MAX_GPUS;
     effective_ngpus = n;
 
@@ -181,12 +167,155 @@ void WORK_REQ::get_job_limits() {
     config.max_jobs_in_progress.reset(effective_ncpus, effective_ngpus);
 }
 
-static const char* find_user_friendly_name(int appid) {
+const char* find_user_friendly_name(int appid) {
     APP* app = ssp->lookup_app(appid);
     if (app) return app->user_friendly_name;
     return "deprecated application";
 }
 
+static void update_quota(DB_HOST_APP_VERSION& hav) {
+    if (config.daily_result_quota) {
+        if (hav.max_jobs_per_day == 0) {
+            hav.max_jobs_per_day = config.daily_result_quota;
+            if (config.debug_quota) {
+                log_messages.printf(MSG_NORMAL,
+                    "[quota] [HAV#%d] Initializing max_results_day to %d\n",
+                    hav.app_version_id,
+                    config.daily_result_quota
+                );
+            }
+        }
+    }
+
+    if (g_request->last_rpc_dayofyear != g_request->current_rpc_dayofyear) {
+        if (config.debug_quota) {
+            log_messages.printf(MSG_NORMAL,
+                "[quota] [HOST#%d] [HAV#%d] Resetting n_jobs_today\n",
+                g_reply->host.id, hav.app_version_id
+            );
+        }
+        hav.n_jobs_today = 0;
+    }
+}
+
+// see how much RAM we can use on this machine
+//
+static inline void get_mem_sizes() {
+    g_wreq->ram = g_reply->host.m_nbytes;
+    if (g_wreq->ram <= 0) g_wreq->ram = DEFAULT_RAM_SIZE;
+    g_wreq->usable_ram = g_wreq->ram;
+    double busy_frac = g_request->global_prefs.ram_max_used_busy_frac;
+    double idle_frac = g_request->global_prefs.ram_max_used_idle_frac;
+    double frac = 1;
+    if (busy_frac>0 && idle_frac>0) {
+        frac = std::max(busy_frac, idle_frac);
+        if (frac > 1) frac = 1;
+        g_wreq->usable_ram *= frac;
+    }
+}
+
+// Decide whether or not this app version is 'reliable'
+// An app version is reliable if the following conditions are true
+// (for those that are set in the config file)
+// 1) The host average turnaround is less than a threshold
+// 2) consecutive_valid is above a threshold
+// 3) The host results per day is equal to the max value
+//
+void get_reliability_version(HOST_APP_VERSION& hav, double multiplier) {
+    if (hav.turnaround.n > MIN_HOST_SAMPLES && config.reliable_max_avg_turnaround) {
+
+        if (hav.turnaround.get_avg() > config.reliable_max_avg_turnaround*multiplier) {
+            if (config.debug_send) {
+                log_messages.printf(MSG_NORMAL,
+                    "[send] [AV#%d] not reliable; avg turnaround: %.3f > %.3f hrs\n",
+                    hav.app_version_id,
+                    hav.turnaround.get_avg()/3600,
+                    config.reliable_max_avg_turnaround*multiplier/3600
+                );
+            }
+            hav.reliable = false;
+            return;
+        }
+    }
+    if (hav.consecutive_valid < CONS_VALID_RELIABLE) {
+        if (config.debug_send) {
+            log_messages.printf(MSG_NORMAL,
+                "[send] [AV#%d] not reliable; cons valid %d < %d\n",
+                hav.app_version_id,
+                hav.consecutive_valid, CONS_VALID_RELIABLE
+            );
+        }
+        hav.reliable = false;
+        return;
+    }
+    if (config.daily_result_quota) {
+        if (hav.max_jobs_per_day < config.daily_result_quota) {
+            if (config.debug_send) {
+                log_messages.printf(MSG_NORMAL,
+                    "[send] [AV#%d] not reliable; max_jobs_per_day %d>%d\n",
+                    hav.app_version_id,
+                    hav.max_jobs_per_day,
+                    config.daily_result_quota
+                );
+            }
+            hav.reliable = false;
+            return;
+        }
+    }
+    hav.reliable = true;
+    if (config.debug_send) {
+        log_messages.printf(MSG_NORMAL,
+            "[send] [HOST#%d] app version %d is reliable\n",
+            g_reply->host.id, hav.app_version_id
+        );
+    }
+    g_wreq->has_reliable_version = true;
+}
+
+// decide whether do unreplicated jobs with this app version
+//
+static void set_trust(DB_HOST_APP_VERSION& hav) {
+    hav.trusted = false;
+    if (hav.consecutive_valid < CONS_VALID_UNREPLICATED) {
+        if (config.debug_send) {
+            log_messages.printf(MSG_NORMAL,
+                "[send] set_trust: cons valid %d < %d, don't use single replication\n",
+                hav.consecutive_valid, CONS_VALID_UNREPLICATED
+            );
+        }
+        return;
+    }
+    double x = 1./hav.consecutive_valid;
+    if (drand() > x) hav.trusted = true;
+    if (config.debug_send) {
+        log_messages.printf(MSG_NORMAL,
+            "[send] set_trust: random choice for cons valid %d: %s\n",
+            hav.consecutive_valid, hav.trusted?"yes":"no"
+        );
+    }
+}
+
+static void get_reliability_and_trust() {
+    // Platforms other than Windows, Linux and Intel Macs need a
+    // larger set of computers to be marked reliable
+    //
+    double multiplier = 1.0;
+    if (strstr(g_reply->host.os_name,"Windows")
+        || strstr(g_reply->host.os_name,"Linux")
+        || (strstr(g_reply->host.os_name,"Darwin")
+            && !(strstr(g_reply->host.p_vendor,"Power Macintosh"))
+    )) {
+        multiplier = 1.0;
+    } else {
+        multiplier = 1.8;
+    }
+
+    for (unsigned int i=0; i<g_wreq->host_app_versions.size(); i++) {
+        DB_HOST_APP_VERSION& hav = g_wreq->host_app_versions[i];
+        get_reliability_version(hav, multiplier);
+        set_trust(hav);
+    }
+}
 
 // Compute the max additional disk usage we can impose on the host.
 // Depending on the client version, it can either send us
@@ -321,6 +450,7 @@ double estimate_duration(WORKUNIT& wu, BEST_APP_VERSION& bav) {
     return ed;
 }
 
+// Parse user's project prferences.
 // TODO: use XML_PARSER
 //
 static void get_prefs_info() {
@@ -330,7 +460,7 @@ static void get_prefs_info() {
     int temp_int=0;
     bool flag;
 
-    extract_venue(g_reply->user.project_prefs, g_reply->host.venue, buf);
+    extract_venue(g_reply->user.project_prefs, g_reply->host.venue, buf, sizeof(buf));
     str = buf;
 
     // scan user's project prefs for elements of the form <app_id>N</app_id>,
@@ -368,114 +498,8 @@ static void get_prefs_info() {
     if (parse_bool(buf,"no_ati", flag)) {
         g_wreq->dont_use_proc_type[PROC_TYPE_AMD_GPU] = flag;
     }
-    if (parse_bool(buf,"no_intel", flag)) {
+    if (parse_bool(buf,"no_intel_gpu", flag)) {
         g_wreq->dont_use_proc_type[PROC_TYPE_INTEL_GPU] = flag;
-    }
-}
-
-// Decide whether or not this app version is 'reliable'
-// An app version is reliable if the following conditions are true
-// (for those that are set in the config file)
-// 1) The host average turnaround is less than a threshold
-// 2) consecutive_valid is above a threshold
-// 3) The host results per day is equal to the max value
-//
-void get_reliability_version(HOST_APP_VERSION& hav, double multiplier) {
-    if (hav.turnaround.n > MIN_HOST_SAMPLES && config.reliable_max_avg_turnaround) {
-
-        if (hav.turnaround.get_avg() > config.reliable_max_avg_turnaround*multiplier) {
-            if (config.debug_send) {
-                log_messages.printf(MSG_NORMAL,
-                    "[send] [AV#%d] not reliable; avg turnaround: %.3f > %.3f hrs\n",
-                    hav.app_version_id,
-                    hav.turnaround.get_avg()/3600,
-                    config.reliable_max_avg_turnaround*multiplier/3600
-                );
-            }
-            hav.reliable = false;
-            return;
-        }
-    }
-    if (hav.consecutive_valid < CONS_VALID_RELIABLE) {
-        if (config.debug_send) {
-            log_messages.printf(MSG_NORMAL,
-                "[send] [AV#%d] not reliable; cons valid %d < %d\n",
-                hav.app_version_id,
-                hav.consecutive_valid, CONS_VALID_RELIABLE
-            );
-        }
-        hav.reliable = false;
-        return;
-    }
-    if (config.daily_result_quota) {
-        if (hav.max_jobs_per_day < config.daily_result_quota) {
-            if (config.debug_send) {
-                log_messages.printf(MSG_NORMAL,
-                    "[send] [AV#%d] not reliable; max_jobs_per_day %d>%d\n",
-                    hav.app_version_id,
-                    hav.max_jobs_per_day,
-                    config.daily_result_quota
-                );
-            }
-            hav.reliable = false;
-            return;
-        }
-    }
-    hav.reliable = true;
-    if (config.debug_send) {
-        log_messages.printf(MSG_NORMAL,
-            "[send] [HOST#%d] app version %d is reliable\n",
-            g_reply->host.id, hav.app_version_id
-        );
-    }
-    g_wreq->has_reliable_version = true;
-}
-
-// decide whether do unreplicated jobs with this app version
-//
-static void set_trust(DB_HOST_APP_VERSION& hav) {
-    hav.trusted = false;
-    if (hav.consecutive_valid < CONS_VALID_UNREPLICATED) {
-        if (config.debug_send) {
-            log_messages.printf(MSG_NORMAL,
-                "[send] set_trust: cons valid %d < %d, don't use single replication\n",
-                hav.consecutive_valid, CONS_VALID_UNREPLICATED
-            );
-        }
-        return;
-    }
-    double x = 1./hav.consecutive_valid;
-    if (drand() > x) hav.trusted = true;
-    if (config.debug_send) {
-        log_messages.printf(MSG_NORMAL,
-            "[send] set_trust: random choice for cons valid %d: %s\n",
-            hav.consecutive_valid, hav.trusted?"yes":"no"
-        );
-    }
-}
-
-static void update_quota(DB_HOST_APP_VERSION& hav) {
-    if (config.daily_result_quota) {
-        if (hav.max_jobs_per_day == 0) {
-            hav.max_jobs_per_day = config.daily_result_quota;
-            if (config.debug_quota) {
-                log_messages.printf(MSG_NORMAL,
-                    "[quota] [HAV#%d] Initializing max_results_day to %d\n",
-                    hav.app_version_id,
-                    config.daily_result_quota
-                );
-            }
-        }
-    }
-
-    if (g_request->last_rpc_dayofyear != g_request->current_rpc_dayofyear) {
-        if (config.debug_quota) {
-            log_messages.printf(MSG_NORMAL,
-                "[quota] [HOST#%d] [HAV#%d] Resetting n_jobs_today\n",
-                g_reply->host.id, hav.app_version_id
-            );
-        }
-        hav.n_jobs_today = 0;
     }
 }
 
@@ -486,144 +510,6 @@ void update_n_jobs_today() {
     }
 }
 
-static void get_reliability_and_trust() {
-    // Platforms other than Windows, Linux and Intel Macs need a
-    // larger set of computers to be marked reliable
-    //
-    double multiplier = 1.0;
-    if (strstr(g_reply->host.os_name,"Windows")
-        || strstr(g_reply->host.os_name,"Linux")
-        || (strstr(g_reply->host.os_name,"Darwin")
-            && !(strstr(g_reply->host.p_vendor,"Power Macintosh"))
-    )) {
-        multiplier = 1.0;
-    } else {
-        multiplier = 1.8;
-    }
-
-    for (unsigned int i=0; i<g_wreq->host_app_versions.size(); i++) {
-        DB_HOST_APP_VERSION& hav = g_wreq->host_app_versions[i];
-        get_reliability_version(hav, multiplier);
-        set_trust(hav);
-    }
-}
-
-// Return true if the user has set application preferences,
-// and this job is not for a selected app
-//
-bool app_not_selected(WORKUNIT& wu) {
-    unsigned int i;
-
-    if (g_wreq->preferred_apps.size() == 0) return false;
-    for (i=0; i<g_wreq->preferred_apps.size(); i++) {
-        if (wu.appid == g_wreq->preferred_apps[i].appid) {
-            g_wreq->preferred_apps[i].work_available = true;
-            return false;
-        }
-    }
-    return true;
-}
-
-// see how much RAM we can use on this machine
-//
-static inline void get_mem_sizes() {
-    g_wreq->ram = g_reply->host.m_nbytes;
-    if (g_wreq->ram <= 0) g_wreq->ram = DEFAULT_RAM_SIZE;
-    g_wreq->usable_ram = g_wreq->ram;
-    double busy_frac = g_request->global_prefs.ram_max_used_busy_frac;
-    double idle_frac = g_request->global_prefs.ram_max_used_idle_frac;
-    double frac = 1;
-    if (busy_frac>0 && idle_frac>0) {
-        frac = std::max(busy_frac, idle_frac);
-        if (frac > 1) frac = 1;
-        g_wreq->usable_ram *= frac;
-    }
-}
-
-static inline int check_memory(WORKUNIT& wu) {
-    double diff = wu.rsc_memory_bound - g_wreq->usable_ram;
-    if (diff > 0) {
-        char message[256];
-        sprintf(message,
-            "%s needs %0.2f MB RAM but only %0.2f MB is available for use.",
-            find_user_friendly_name(wu.appid),
-            wu.rsc_memory_bound/MEGA, g_wreq->usable_ram/MEGA
-        );
-        add_no_work_message(message);
-
-        if (config.debug_send) {
-            log_messages.printf(MSG_NORMAL,
-                "[send] [WU#%d %s] needs %0.2fMB RAM; [HOST#%d] has %0.2fMB, %0.2fMB usable\n",
-                wu.id, wu.name, wu.rsc_memory_bound/MEGA,
-                g_reply->host.id, g_wreq->ram/MEGA, g_wreq->usable_ram/MEGA
-            );
-        }
-        g_wreq->mem.set_insufficient(wu.rsc_memory_bound);
-        g_reply->set_delay(DELAY_NO_WORK_TEMP);
-        return INFEASIBLE_MEM;
-    }
-    return 0;
-}
-
-static inline int check_disk(WORKUNIT& wu) {
-    double diff = wu.rsc_disk_bound - g_wreq->disk_available;
-    if (diff > 0) {
-        char message[256];
-        sprintf(message,
-            "%s needs %0.2fMB more disk space.  You currently have %0.2f MB available and it needs %0.2f MB.",
-            find_user_friendly_name(wu.appid),
-            diff/MEGA, g_wreq->disk_available/MEGA, wu.rsc_disk_bound/MEGA
-        );
-        add_no_work_message(message);
-
-        g_wreq->disk.set_insufficient(diff);
-        return INFEASIBLE_DISK;
-    }
-    return 0;
-}
-
-static inline int check_bandwidth(WORKUNIT& wu) {
-    if (wu.rsc_bandwidth_bound == 0) return 0;
-
-    // if n_bwdown is zero, the host has never downloaded anything,
-    // so skip this check
-    //
-    if (g_reply->host.n_bwdown == 0) return 0;
-
-    double diff = wu.rsc_bandwidth_bound - g_reply->host.n_bwdown;
-    if (diff > 0) {
-        char message[256];
-        sprintf(message,
-            "%s requires %0.2f KB/sec download bandwidth.  Your computer has been measured at %0.2f KB/sec.",
-            find_user_friendly_name(wu.appid),
-            wu.rsc_bandwidth_bound/KILO, g_reply->host.n_bwdown/KILO
-        );
-        add_no_work_message(message);
-
-        g_wreq->bandwidth.set_insufficient(diff);
-        return INFEASIBLE_BANDWIDTH;
-    }
-    return 0;
-}
-
-// Determine if the app is "hard",
-// and we should send it only to high-end hosts.
-// Currently this is specified by setting weight=-1;
-// this is a kludge for SETI@home/Astropulse.
-//
-static inline bool hard_app(APP& app) {
-    return (app.weight == -1);
-}
-
-static inline double get_estimated_delay(BEST_APP_VERSION& bav) {
-    int pt = bav.host_usage.proc_type;
-    if (pt == PROC_TYPE_CPU) {
-        return g_request->cpu_estimated_delay;
-    }
-    COPROC* cp = g_request->coprocs.type_to_coproc(pt);
-    return cp->estimated_delay;
-}
-
 static inline void update_estimated_delay(BEST_APP_VERSION& bav, double dt) {
     int pt = bav.host_usage.proc_type;
     if (pt == PROC_TYPE_CPU) {
@@ -632,239 +518,6 @@ static inline void update_estimated_delay(BEST_APP_VERSION& bav, double dt) {
         COPROC* cp = g_request->coprocs.type_to_coproc(pt);
         cp->estimated_delay += dt*bav.host_usage.gpu_usage/cp->count;
     }
-}
-
-// return the delay bound to use for this job/host.
-// Actually, return two: optimistic (lower) and pessimistic (higher).
-// If the deadline check with the optimistic bound fails,
-// try the pessimistic bound.
-// TODO: clean up this mess
-//
-static void get_delay_bound_range(
-    WORKUNIT& wu,
-    int res_server_state, int res_priority, double res_report_deadline,
-    BEST_APP_VERSION& bav,
-    double& opt, double& pess
-) {
-    if (res_server_state == RESULT_SERVER_STATE_IN_PROGRESS) {
-        double now = dtime();
-        if (res_report_deadline < now) {
-            // if original deadline has passed, return zeros
-            // This will skip deadline check.
-            opt = pess = 0;
-            return;
-        }
-        opt = res_report_deadline - now;
-        pess = wu.delay_bound;
-    } else {
-        opt = pess = wu.delay_bound;
-
-        // If the workunit needs reliable and is being sent to a reliable host,
-        // then shorten the delay bound by the percent specified
-        //
-        if (config.reliable_on_priority && res_priority >= config.reliable_on_priority && config.reliable_reduced_delay_bound > 0.01
-        ) {
-            opt = wu.delay_bound*config.reliable_reduced_delay_bound;
-            double est_wallclock_duration = estimate_duration(wu, bav);
-
-            // Check to see how reasonable this reduced time is.
-            // Increase it to twice the estimated delay bound
-            // if all the following apply:
-            //
-            // 1) Twice the estimate is longer then the reduced delay bound
-            // 2) Twice the estimate is less then the original delay bound
-            // 3) Twice the estimate is less then the twice the reduced delay bound
-            if (est_wallclock_duration*2 > opt
-                && est_wallclock_duration*2 < wu.delay_bound
-                && est_wallclock_duration*2 < wu.delay_bound*config.reliable_reduced_delay_bound*2
-            ) {
-                opt = est_wallclock_duration*2;
-            }
-        }
-    }
-}
-
-// return 0 if the job, with the given delay bound,
-// will complete by its deadline, and won't cause other jobs to miss deadlines.
-//
-static inline int check_deadline(
-    WORKUNIT& wu, APP& app, BEST_APP_VERSION& bav
-) {
-    if (config.ignore_delay_bound) return 0;
-
-    // skip delay check if host currently doesn't have any work
-    // and it's not a hard app.
-    // (i.e. everyone gets one result, no matter how slow they are)
-    //
-    if (get_estimated_delay(bav) == 0 && !hard_app(app)) {
-        if (config.debug_send) {
-            log_messages.printf(MSG_NORMAL,
-                "[send] est delay 0, skipping deadline check\n"
-            );
-        }
-        return 0;
-    }
-
-    // if it's a hard app, don't send it to a host with no credit
-    //
-    if (hard_app(app) && g_reply->host.total_credit == 0) {
-        return INFEASIBLE_CPU;
-    }
-
-    // do EDF simulation if possible; else use cruder approximation
-    //
-    if (config.workload_sim && g_request->have_other_results_list) {
-        double est_dur = estimate_duration(wu, bav);
-        if (g_reply->wreq.edf_reject_test(est_dur, wu.delay_bound)) {
-            return INFEASIBLE_WORKLOAD;
-        }
-        IP_RESULT candidate("", wu.delay_bound, est_dur);
-        strcpy(candidate.name, wu.name);
-        if (check_candidate(candidate, g_wreq->effective_ncpus, g_request->ip_results)) {
-            // it passed the feasibility test,
-            // but don't add it to the workload yet;
-            // wait until we commit to sending it
-        } else {
-            g_reply->wreq.edf_reject(est_dur, wu.delay_bound);
-            g_reply->wreq.speed.set_insufficient(0);
-            return INFEASIBLE_WORKLOAD;
-        }
-    } else {
-        double ewd = estimate_duration(wu, bav);
-        if (hard_app(app)) ewd *= 1.3;
-        double est_report_delay = get_estimated_delay(bav) + ewd;
-        double diff = est_report_delay - wu.delay_bound;
-        if (diff > 0) {
-            if (config.debug_send) {
-                log_messages.printf(MSG_NORMAL,
-                    "[send] [WU#%d] deadline miss %d > %d\n",
-                    wu.id, (int)est_report_delay, wu.delay_bound
-                );
-            }
-            g_reply->wreq.speed.set_insufficient(diff);
-            return INFEASIBLE_CPU;
-        } else {
-            if (config.debug_send) {
-                log_messages.printf(MSG_NORMAL,
-                    "[send] [WU#%d] meets deadline: %.2f + %.2f < %d\n",
-                    wu.id, get_estimated_delay(bav), ewd, wu.delay_bound
-                );
-            }
-        }
-    }
-    return 0;
-}
-
-// Fast checks (no DB access) to see if the job can be sent to the host.
-// Reasons why not include:
-// 1) the host doesn't have enough memory;
-// 2) the host doesn't have enough disk space;
-// 3) based on CPU speed, resource share and estimated delay,
-//    the host probably won't get the result done within the delay bound
-// 4) app isn't in user's "approved apps" list
-//
-// If the job is feasible, return 0 and fill in wu.delay_bound
-// with the delay bound we've decided to use.
-//
-int wu_is_infeasible_fast(
-    WORKUNIT& wu,
-    int res_server_state, int res_priority, double res_report_deadline,
-    APP& app, BEST_APP_VERSION& bav
-) {
-    int retval;
-
-    // project-specific check
-    //
-    if (wu_is_infeasible_custom(wu, app, bav)) {
-        return INFEASIBLE_CUSTOM;
-    }
-
-    if (config.user_filter) {
-        if (wu.batch && wu.batch != g_reply->user.id) {
-            return INFEASIBLE_USER_FILTER;
-        }
-    }
-
-    // homogeneous redundancy: can't send if app uses HR and
-    // 1) host is of unknown HR class, or
-    // 2) WU is already committed to different HR class
-    //
-    if (app_hr_type(app)) {
-        if (hr_unknown_class(g_reply->host, app_hr_type(app))) {
-            if (config.debug_send) {
-                log_messages.printf(MSG_NORMAL,
-                    "[send] [HOST#%d] [WU#%d %s] host is of unknown class in HR type %d\n",
-                    g_reply->host.id, wu.id, wu.name, app_hr_type(app)
-                );
-            }
-            return INFEASIBLE_HR;
-        }
-        if (already_sent_to_different_hr_class(wu, app)) {
-            if (config.debug_send) {
-                log_messages.printf(MSG_NORMAL,
-                    "[send] [HOST#%d] [WU#%d %s] failed quick HR check: WU is class %d, host is class %d\n",
-                    g_reply->host.id, wu.id, wu.name, wu.hr_class, hr_class(g_request->host, app_hr_type(app))
-                );
-            }
-            return INFEASIBLE_HR;
-        }
-    }
-
-    // homogeneous app version
-    //
-    if (app.homogeneous_app_version) {
-        int avid = wu.app_version_id;
-        if (avid && bav.avp->id != avid) {
-            if (config.debug_send) {
-                log_messages.printf(MSG_NORMAL,
-                    "[send] [HOST#%d] [WU#%d %s] failed homogeneous app version check: %d %d\n",
-                    g_reply->host.id, wu.id, wu.name, avid, bav.avp->id
-                );
-            }
-            return INFEASIBLE_HAV;
-        }
-    }
-
-    if (config.one_result_per_user_per_wu || config.one_result_per_host_per_wu) {
-        if (wu_already_in_reply(wu)) {
-            return INFEASIBLE_DUP;
-        }
-    }
-
-    retval = check_memory(wu);
-    if (retval) return retval;
-    retval = check_disk(wu);
-    if (retval) return retval;
-    retval = check_bandwidth(wu);
-    if (retval) return retval;
-
-    if (app.non_cpu_intensive) {
-        return 0;
-    }
-
-    // do deadline check last because EDF sim uses some CPU
-    //
-    double opt, pess;
-    get_delay_bound_range(
-        wu, res_server_state, res_priority, res_report_deadline, bav, opt, pess
-    );
-    wu.delay_bound = (int)opt;
-    if (opt == 0) {
-        // this is a resend; skip deadline check
-        return 0;
-    }
-    retval = check_deadline(wu, app, bav);
-    if (retval && (opt != pess)) {
-        wu.delay_bound = (int)pess;
-        retval = check_deadline(wu, app, bav);
-    }
-    return retval;
-}
-
-// return true if the client has a sticky file used by this job
-//
-bool host_has_job_file(WORKUNIT&) {
-    return false;
 }
 
 // insert "text" right after "after" in the given buffer
@@ -1263,7 +916,7 @@ int add_result_to_reply(
 
         if (config.debug_send) {
             log_messages.printf(MSG_NORMAL,
-                "[send] [RESULT#%d] [HOST#%d] (resend lost work)\n",
+                "[send] [RESULT#%u] [HOST#%d] (resend lost work)\n",
                 result.id, g_reply->host.id
             );
         }
@@ -1271,7 +924,7 @@ int add_result_to_reply(
     retval = result.mark_as_sent(old_server_state, config.report_grace_period);
     if (retval == ERR_DB_NOT_FOUND) {
         log_messages.printf(MSG_CRITICAL,
-            "[RESULT#%d] [HOST#%d]: CAN'T SEND, already sent to another host\n",
+            "[RESULT#%u] [HOST#%d]: CAN'T SEND, already sent to another host\n",
             result.id, g_reply->host.id
         );
     } else if (retval) {
@@ -1299,7 +952,7 @@ int add_result_to_reply(
     double est_dur = estimate_duration(wu, *bavp);
     if (config.debug_send) {
         log_messages.printf(MSG_NORMAL,
-            "[HOST#%d] Sending [RESULT#%d %s] (est. dur. %.2f seconds)\n",
+            "[send] [HOST#%d] sending [RESULT#%u %s] (est. dur. %.2f seconds)\n",
             g_reply->host.id, result.id, result.name, est_dur
         );
     }
@@ -1378,7 +1031,7 @@ int add_result_to_reply(
         if (bavp->trusted) {
             if (config.debug_send) {
                 log_messages.printf(MSG_NORMAL,
-                    "[send] [WU#%d] using trusted app version, not replicating\n", wu.id
+                    "[send] [WU#%u] using trusted app version, not replicating\n", wu.id
                 );
             }
         } else {
@@ -1391,7 +1044,7 @@ int add_result_to_reply(
             dbwu.id = wu.id;
             if (config.debug_send) {
                 log_messages.printf(MSG_NORMAL,
-                    "[send] [WU#%d] sending to untrusted host, replicating\n", wu.id
+                    "[send] [WU#%u] sending to untrusted host, replicating\n", wu.id
                 );
             }
             retval = dbwu.update_field(buf);
@@ -1579,7 +1232,7 @@ static void send_user_messages() {
 
     // if client asked for work and we're not sending any, explain why
     //
-    if (g_wreq->njobs_sent == 0) {
+    if (g_wreq->njobs_sent == 0 && g_request->work_req_seconds) {
         g_reply->set_delay(DELAY_NO_WORK_TEMP);
         g_reply->insert_message("No tasks sent", "low");
 
@@ -1920,7 +1573,7 @@ void send_work() {
     }
 
     if (config.enable_assignment) {
-        if (send_assigned_jobs()) {
+        if (send_targeted_jobs()) {
             if (config.debug_assignment) {
                 log_messages.printf(MSG_NORMAL,
                     "[assign] [HOST#%d] sent assigned jobs\n", g_reply->host.id
@@ -1931,7 +1584,7 @@ void send_work() {
     }
 
     if (config.enable_assignment_multi) {
-        if (send_assigned_jobs_multi()) {
+        if (send_broadcast_jobs()) {
             if (config.debug_assignment) {
                 log_messages.printf(MSG_NORMAL,
                     "[assign] [HOST#%d] sent assigned jobs\n", g_reply->host.id
@@ -1990,7 +1643,7 @@ void send_work() {
     } else if (config.locality_scheduling) {
         send_work_locality();
     } else if (config.matchmaker) {
-        send_work_matchmaker();
+        send_work_score();
     } else {
         send_work_old();
     }

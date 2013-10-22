@@ -1,16 +1,23 @@
 # stand-alone makefile for uc2 BOINC example application on Macintosh.
 # Updated 7/11/12 for OS 10.7 and XCode 4.3
 # Updated 8/3/12 for TrueType fonts
+# Updated 11/8/12 to add slide_show
 #
-## First, build the BOINC libraries using boinc/mac_build/BuildMacBOINC.sh
+## First, build the BOINC libraries using boinc/mac_build/BuildMacBOINC.sh 
+## and boinc/zip/boinc_zip.xcodeproj
 ## This file assumes the locations of the needed libraries are those 
 ## resulting from following the instructions found in the file:
 ##     boinc/mac_build/HowToBuildBOINC_XCode.rtf
+## In Terminal, CD to the example_app directory:
+##     cd [path]/example_app/
+## and run this make file:
+##     make -f Makefile_mac2
 #
 
 BOINC_DIR = ../..
 BOINC_API_DIR = $(BOINC_DIR)/api
 BOINC_LIB_DIR = $(BOINC_DIR)/lib
+BOINC_ZIP_DIR = $(BOINC_DIR)/zip
 BOINC_BUILD_DIR = $(BOINC_DIR)/mac_build/build/Deployment
 BOINC_CONFIG_DIR =  $(BOINC_DIR)/clientgui/mac
 FREETYPE_DIR = $(BOINC_DIR)/../freetype-2.4.10
@@ -24,6 +31,7 @@ CXXFLAGS_ALL = \
     -I$(BOINC_DIR) \
     -I$(BOINC_LIB_DIR) \
     -I$(BOINC_API_DIR) \
+    -I$(BOINC_ZIP_DIR) \
     -I$(FREETYPE_DIR)/include \
     -I$(FTGL_DIR)/src
     
@@ -47,11 +55,16 @@ OBJ = \
     uc2_i386.o \
     ttfont_i386.o \
     uc2_graphics_i386.o \
+    slide_show_i386.o \
     uc2_x86_64.o \
     ttfont_x86_64.o \
     uc2_graphics_x86_64.o \
+    slide_show_x86_64.o
 
-PROGS = uc2_i386 uc2_graphics_i386 uc2_x86_64 uc2_graphics_x86_64 
+
+PROGS = \
+    uc2_i386 uc2_graphics_i386 slide_show_i386 \
+    uc2_x86_64 uc2_graphics_x86_64 slide_show_x86_64
 
 all: $(PROGS)
 
@@ -60,10 +73,12 @@ clean:
 
 uc2_i386: export MACOSX_DEPLOYMENT_TARGET=10.4
 uc2_graphics_i386: export MACOSX_DEPLOYMENT_TARGET=10.4
+slide_show_i386: export MACOSX_DEPLOYMENT_TARGET=10.4
 uc2_x86_64: export MACOSX_DEPLOYMENT_TARGET=10.5
 uc2_graphics_x86_64: export MACOSX_DEPLOYMENT_TARGET=10.5
+slide_show_x86_64: export MACOSX_DEPLOYMENT_TARGET=10.5
 
-target uc2_i386.0: MACOSX_DEPLOYMENT_TARGET=10.4
+target uc2_i386: MACOSX_DEPLOYMENT_TARGET=10.4
 uc2_i386.o: uc2.cpp
 	$(CXX) -c $(CXXFLAGS_i386) uc2.cpp -o uc2_i386.o
 
@@ -72,6 +87,9 @@ ttfont_i386.o: $(BOINC_API_DIR)/ttfont.cpp
 
 uc2_graphics_i386.o: uc2_graphics.cpp
 	$(CXX) -c $(CXXFLAGS_i386) uc2_graphics.cpp -o uc2_graphics_i386.o
+
+slide_show_i386.o: slide_show.cpp
+	$(CXX) $(CXXFLAGS_i386) -c slide_show.cpp -o slide_show_i386.o
 
 target uc2_x86_64: MACOSX_DEPLOYMENT_TARGET=10.5
 uc2_x86_64.o: uc2.cpp
@@ -83,6 +101,9 @@ ttfont_x86_64.o: $(BOINC_API_DIR)/ttfont.cpp
 uc2_graphics_x86_64.o: uc2_graphics.cpp
 	$(CXX) -c $(CXXFLAGS_x86_64) uc2_graphics.cpp -o uc2_graphics_x86_64.o
 
+slide_show_x86_64.o: slide_show.cpp
+	$(CXX) $(CXXFLAGS_x86_64) -c slide_show.cpp -o slide_show_x86_64.o
+
 uc2_i386: uc2_i386.o $(BOINC_BUILD_DIR)/libboinc_api.a $(BOINC_BUILD_DIR)/libboinc.a
 	$(CXX) $(CXXFLAGS_i386) $(LDFLAGS_i386) -o uc2_i386 uc2_i386.o -lboinc_api -lboinc
 
@@ -93,6 +114,12 @@ uc2_graphics_i386: uc2_graphics_i386.o ttfont_i386.o $(BOINC_BUILD_DIR)/libboinc
     ttfont_i386.o -lboinc_graphics2 -lboinc_api -lboinc -ljpeg -lfreetype -lftgl -lz\
     -lbz2 -framework AppKit -framework GLUT -framework OpenGL
 
+slide_show_i386: slide_show_i386.o $(BOINC_BUILD_DIR)/libboinc.a\
+    $(BOINC_BUILD_DIR)/libboinc_graphics2.a
+	$(CXX) $(CXXFLAGS_x86_64) $(LDFLAGS_i386) -o slide_show_i386 slide_show_i386.o\
+    -lboinc_graphics2 -lboinc_api -lboinc -ljpeg -lboinc_zip\
+    -framework AppKit -framework GLUT -framework OpenGL
+
 uc2_x86_64: uc2_x86_64.o $(BOINC_BUILD_DIR)/libboinc_api.a $(BOINC_BUILD_DIR)/libboinc.a
 	$(CXX) $(CXXFLAGS_x86_64) $(LDFLAGS_x86_64) -o uc2_x86_64 uc2_x86_64.o -lboinc_api -lboinc
 
@@ -102,3 +129,9 @@ uc2_graphics_x86_64: uc2_graphics_x86_64.o ttfont_x86_64.o $(BOINC_BUILD_DIR)/li
 	$(CXX) $(CXXFLAGS_x86_64) $(LDFLAGS_x86_64) -o uc2_graphics_x86_64\
     uc2_graphics_x86_64.o ttfont_x86_64.o -lboinc_graphics2 -lboinc_api -lboinc -ljpeg\
     -lfreetype -lftgl -lz -lbz2 -framework AppKit -framework GLUT -framework OpenGL
+
+slide_show_x86_64: slide_show_x86_64.o $(BOINC_BUILD_DIR)/libboinc.a\
+    $(BOINC_BUILD_DIR)/libboinc_graphics2.a
+	$(CXX) $(CXXFLAGS_x86_64) $(LDFLAGS_x86_64) -o slide_show_x86_64 slide_show_x86_64.o\
+    -lboinc_graphics2 -lboinc_api -lboinc -ljpeg -lboinc_zip\
+    -framework AppKit -framework GLUT -framework OpenGL

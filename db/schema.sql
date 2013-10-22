@@ -54,6 +54,7 @@ create table app (
     homogeneous_app_version tinyint         not null default 0,
     non_cpu_intensive       tinyint         not null default 0,
     locality_scheduling     integer         not null default 0,
+    n_size_classes          smallint        not null default 0,
     primary key (id)
 ) engine=InnoDB;
 
@@ -184,6 +185,7 @@ create table host (
     external_ip_addr        varchar(254),
     max_results_day         integer         not null,
     error_rate              double          not null default 0,
+    product_name            varchar(254)    not null,
 
     primary key (id)
 ) engine=InnoDB;
@@ -241,11 +243,12 @@ create table workunit (
     max_success_results     integer         not null,
     result_template_file    varchar(63)     not null,
     priority                integer         not null,
-    mod_time                timestamp,
+    mod_time                timestamp default current_timestamp on update current_timestamp,
     rsc_bandwidth_bound     double          not null,
     fileset_id              integer         not null,
     app_version_id          integer         not null,
     transitioner_flags      tinyint         not null,
+    size_class              smallint        not null default -1,
     primary key (id)
 ) engine=InnoDB;
 
@@ -278,15 +281,15 @@ create table result (
     exit_status             integer         not null,
     teamid                  integer         not null,
     priority                integer         not null,
-    mod_time                timestamp,
+    mod_time                timestamp default current_timestamp on update current_timestamp,
     elapsed_time            double          not null,
     flops_estimate          double          not null,
     app_version_id          integer         not null,
     runtime_outlier         tinyint         not null,
+    size_class              smallint        not null default -1,
     primary key (id)
 ) engine=InnoDB;
 
--- see boinc_db.h for doc
 create table batch (
     id                      serial          primary key,
     user_id                 integer         not null,
@@ -305,7 +308,8 @@ create table batch (
     name                    varchar(255)    not null,
     app_id                  integer         not null,
     project_state           integer         not null,
-    description             varchar(255)    not null
+    description             varchar(255)    not null,
+    expire_time             double          not null
 ) engine = InnoDB;
 
 -- permissions for job submission
@@ -333,6 +337,17 @@ create table user_submit_app (
         --   create/deprecated app versions of this app
         --   grant/revoke permissions (except admin) this app
         --   abort their jobs
+) engine = InnoDB;
+
+-- Record files present on server.
+-- Files are named jf_(md5)
+--
+create table job_file (
+    id                      integer         not null auto_increment,
+    md5                     char(64)        not null,
+    create_time             double          not null,
+    delete_time             double          not null,
+    primary key (id)
 ) engine = InnoDB;
 
 -- the following are used to implement trickle messages

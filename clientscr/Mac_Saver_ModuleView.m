@@ -125,7 +125,7 @@ int signof(float x) {
             if (gPathToBundleResources == NULL) {
                 gPathToBundleResources = [ myBundle resourcePath ];
             }
-            
+
             ScreenSaverDefaults *defaults = [ ScreenSaverDefaults defaultsForModuleWithName:mBundleID ];
             
             // try to load the version key, used to see if we have any saved settings
@@ -197,6 +197,11 @@ int signof(float x) {
         }
     }
     
+    // Path to our copy of switcher utility application in this screensaver bundle
+    if (gPathToBundleResources == NULL) {
+        gPathToBundleResources = [ myBundle resourcePath ];
+    }
+
     [ super startAnimation ];
 
     if ( [ self isPreview ] ) {
@@ -228,6 +233,8 @@ int signof(float x) {
     }
     gBOINC_Logo = NULL;
     
+    // gPathToBundleResources has been released by autorelease
+    gPathToBundleResources = NULL;
 }
 
 // If there are multiple displays, this may get called 
@@ -259,7 +266,7 @@ int signof(float x) {
     IOByteCount     rcnt = sizeof(UInt64);
     double          idleTime = 0;
     HIThemeTextInfo textInfo;
-    
+
    if ([ self isPreview ]) {
 #if 1   // Currently drawRect just draws our logo in the preview window
         NSString *fileName = [[ NSBundle bundleForClass:[ self class ]] pathForImageResource:@"boinc" ];
@@ -267,7 +274,7 @@ int signof(float x) {
             NSImage *myImage = [[ NSImage alloc ] initWithContentsOfFile:fileName ];
             [ myImage setScalesWhenResized:YES ];
             [ myImage setSize:theFrame.size ];
-            [ myImage compositeToPoint:NSZeroPoint operation:NSCompositeSourceOver ];
+            [ myImage drawAtPoint:NSZeroPoint fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 ];
             [ myImage release ];
         }
         [ self setAnimationTimeInterval:1/1.0 ];
@@ -442,7 +449,7 @@ int signof(float x) {
         imagePosition.x = (float) ((int)gCurrentPosition.x + gImageXIndent);
         imagePosition.y = (float) (int)gCurrentPosition.y;
 
-        [ gBOINC_Logo compositeToPoint:imagePosition operation:NSCompositeCopy ];
+        [ gBOINC_Logo drawAtPoint:imagePosition fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0 ];
 
         if ( (msg != NULL) && (msg[0] != '\0') ) {
             cf_msg = CFStringCreateWithCString(NULL, msg, kCFStringEncodingMacRoman);

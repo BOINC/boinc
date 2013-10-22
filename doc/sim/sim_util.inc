@@ -5,8 +5,8 @@
 class POLICY {
     public $name;
     public $existing_jobs_only;
-    public $use_hyst_fetch;
     public $cpu_sched_rr_only;
+    public $include_empty_projects;
     public $server_uses_workload;
 
     function __construct($name) {
@@ -15,8 +15,8 @@ class POLICY {
         $this->delta = 60;
         $this->rec_half_life = 10*86400;
         $this->existing_jobs_only = false;
-        $this->use_hyst_fetch = false;
         $this->cpu_sched_rr_only = false;
+        $this->include_empty_projects = false;
         $this->server_uses_workload = false;
     }
 }
@@ -77,8 +77,8 @@ class RESULT {
 function do_sim($in, $out, $policy) {
     $args = "";
     if ($policy->existing_jobs_only) $args .= " --existing_jobs_only";
-    if ($policy->use_hyst_fetch) $args .= " --use_hyst_fetch";
     if ($policy->cpu_sched_rr_only) $args .= " --cpu_sched_rr_only";
+    if ($policy->include_empty_projects) $args .= " --include_empty_projects";
     if ($policy->server_uses_workload) $args .= " --server_uses_workload";
     $args .= " --duration $policy->duration";
     $args .= " --delta $policy->delta";

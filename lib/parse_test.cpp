@@ -1,6 +1,9 @@
 // test program for XML parser
 
 #include <stdio.h>
+#include <string>
+
+using std::string;
 
 #include "parse.h"
 
@@ -12,7 +15,9 @@ void parse(FILE* f) {
     char foo[64];
     int val;
     double x;
+    string s;
 
+    strcpy(name, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
     mf.init_file(f);
     if (!xp.parse_start("blah")) {
         printf("missing start tag\n");
@@ -20,6 +25,7 @@ void parse(FILE* f) {
     }
     strcpy(foo, "xxx");
     while (!xp.get_tag()) {
+        printf("get_tag(): is_tag %d text %s\n", xp.is_tag, xp.parsed_tag);
         if (!xp.is_tag) {
             printf("unexpected text: %s\n", xp.parsed_tag);
             continue;
@@ -27,8 +33,9 @@ void parse(FILE* f) {
         if (xp.match_tag("/blah")) {
             printf("success\n");
             return;
-        } else if (xp.parse_str("str", name, sizeof(name))) {
-            printf("got str: %s\n", name);
+        } else if (xp.parse_str("str", name, 64)) {
+        //} else if (xp.parse_string("str", s)) {
+            printf("got str: [%s]\n", s.c_str());
         } else if (xp.parse_int("int", val)) {
             printf("got int: %d\n", val);
         } else if (xp.parse_double("double", x)) {
@@ -45,6 +52,10 @@ void parse(FILE* f) {
 
 int main() {
     FILE* f = fopen("foo.xml", "r");
+    if (!f) {
+        fprintf(stderr, "no file\n");
+        exit(1);
+    }
     parse(f);
 }
 

@@ -11,7 +11,7 @@ require_once("../inc/translation.inc");
 // 6: master URL (if different from web site)
 
 $sensing = array(
-    tra("Distributed sensing")."<br><span class=note>".tra("To participate in these projects you must buy a sensor and attach it to your computer.")."</class>",
+    tra("Distributed sensing"),
     array(
         array(
             "Quake Catcher Network",
@@ -19,21 +19,31 @@ $sensing = array(
             tra("Stanford University"),
             tra("Seismology"),
             tra("The Quake-Catcher Network is developing the world's largest seismic network using sensors attached to Internet-connected computers.  You must buy a sensor to participate."),
+            ""
         ),
         array(
             "Radioactive@Home",
-            "http://radioactiveathome.org/",
+            "http://radioactiveathome.org/boinc/",
             tra("BOINC Poland Foundation"),
             tra("Environmental research"),
             tra("This project is creating a free and continuously updated map of radiation levels by using sensors connected to volunteers' computers.  You must buy a sensor to participate."),
             "radioactive.jpg",
         ),
     ),
+    "<br><span class=\"note\">".tra("To participate in these projects you must buy a sensor and attach it to your computer.")."</span>",
 );
 
 $cogsci = array(
     tra("Cognitive science and artifical intelligence"),
     array(
+        array(
+            "MindModeling@Home",
+            "http://mindmodeling.org/",
+            "University of Dayton and Wright State University",
+            "Cognitive Science",
+            "MindModeling@Home uses computational cognitive process modeling to better understand the human mind, and specifically to study the mechanisms and processes that enable and moderate human performance and learning.",
+            "mmlogo.gif"
+        ),
         array(
             "FreeHAL",
             "http://www.freehal.net/freehal_at_home/",
@@ -47,6 +57,14 @@ $cogsci = array(
 $biomed = array(
     tra("Biology and Medicine"),
     array(
+        array(
+            "RNA World",
+            "http://www.rnaworld.de/rnaworld/",
+            "Rechenkraft.net e.V.",
+            "Molecular biology",
+            "RNA World seeks to identify, analyze, structurally predict and design RNA molecules on the basis of established bioinformatics software.",
+            "rna4.png"
+        ),
         array(
             "FightMalaria@Home",
             "http://boinc.ucd.ie/fmah/",
@@ -70,6 +88,14 @@ $biomed = array(
             tra("Study of protein - ligand interactions"),
             tra("Docking@Home has both bioscience and computer science goals. The project aims to further knowledge of the atomic details of protein-ligand interactions and, by doing so, will search for insights into the discovery of novel pharmaceuticals."),
             "docking.png"
+        ),
+        array(
+            "Simulation One",
+            "http://mmgboinc.unimi.it/",
+            "Universita degli Studi, Milan, Italy",
+            "Molecular biology",
+            "The project studies osmoprotectants - small molecules that protect proteins, for example by thermal stress. Thanks to these molecules in nature we can find plants able to survive without water, or bacteria able to survive in extreme environmental conditions. And how is this possible? Answering this question could have a major impact in agriculture, e.g. developing plants that require less water intake.",
+            "SimOne_logo.png"
         ),
         array(
             "GPUGrid.net",
@@ -148,13 +174,13 @@ $biomed = array(
 $earth = array(
     tra("Earth Sciences"),
     array(
-        array(
-            "Virtual Prairie",
-            "http://vcsc.cs.uh.edu/virtual-prairie/",
-            tra("University of Houston"),
-            tra("Study of botanical ecosystems"),
-            tra("Provide ecological guidelines on the design of prairies with the best potential for water purification.")
-        ),
+//        array(
+//            "Virtual Prairie",
+//            "http://vcsc.cs.uh.edu/virtual-prairie/",
+//            tra("University of Houston"),
+//            tra("Study of botanical ecosystems"),
+//            tra("Provide ecological guidelines on the design of prairies with the best potential for water purification.")
+//        ),
         array(
             "Climateprediction.net",
             "http://climateprediction.net/",
@@ -167,8 +193,32 @@ $earth = array(
     ),
 );
 $astro_phys_chem = array(
-    tra("Astronomy/Physics/Chemistry"),
+    tra("Astronomy, Physics, and Chemistry"),
     array(
+        array(
+            "theSkyNet POGS",
+            "http://pogs.theskynet.org/pogs/",
+            "The International Centre for Radio Astronomy Research (Perth, Australia)",
+            tra("Astronomy"),
+            tra("We will combine the spectral coverage of GALEX, Pan-STARRS1, and WISE to generate a multi-wavelength UV-optical-NIR galaxy atlas for the nearby Universe. We will measure physical parameters (such as stellar mass surface density, star formation rate surface density, attenuation, and first-order star formation history) on a resolved pixel-by-pixel basis using spectral energy distribution (SED) fitting techniques in a distributed computing mode."),
+            ""
+        ),
+        array(
+            "Asteroids@home",
+            "http://asteroidsathome.net/boinc/",
+            "Charles University in Prague",
+            "Astrophysics",
+            "The aim of the project is to derive shapes and spin for a significant part of the asteroid population. As input data, we use any asteroid photometry that is available. The results are asteroid convex shape models with the direction of the spin axis and the rotation period.",
+            "asteroids_logo.jpg"
+        ),
+        array(
+            "Constellation",
+            "http://aerospaceresearch.net/constellation/",
+            "<a href='http://rechenkraft.net'>Rechenkraft.net</a>, <a href='http://stuttgart.dglr.de'>DGLR</a>, <a href='http://selfnet.de'>Selfnet</a>, and <a href='http://shackspace.de'>shack</a>",
+            "Aerospace-related science and engineering",
+            "Constellation is a platform for aerospace-related simulations, including trajectory optimization of launchers, satellites and probes, simulation of Moon's near-surface exosphere, and analysis of dynamic systems of exploration-rovers",
+            "constellation2.png"
+        ),
         array(
             "eOn",
             "http://eon.ices.utexas.edu/eon2/",
@@ -176,14 +226,14 @@ $astro_phys_chem = array(
             tra("Chemistry"),
             tra("A common problem in theoretical chemistry, condensed matter physics and materials science is the calculation of the time evolution of an atomic scale system where, for example, chemical reactions and/or diffusion occur. Generally the events of interest are quite rare (many orders of magnitude slower than the vibrational movements of the atoms), and therefore direct simulations, tracking every movement of the atoms, would take thousands of years of computer calculations on the fastest present day computer before a single event of interest can be expected to occur.  Our research group is interested in calculating the long time dynamics of systems.")
         ),
-        array(
-            "Orbit@home",
-            "http://orbit.psi.edu/oah/",
-            tra("Planetary Science Institute"),
-            tra("Astronomy"),
-            tra("Monitor and study the hazard posed by near-Earth asteroids"),
-            "http://orbit.psi.edu/"
-        ),
+//        array(
+//            "Orbit@home",
+//            "http://orbit.psi.edu/oah/",
+//            tra("Planetary Science Institute"),
+//            tra("Astronomy"),
+//            tra("Monitor and study the hazard posed by near-Earth asteroids"),
+//            "http://orbit.psi.edu/"
+//        ),
         array(
             "Cosmology@Home",
             "http://www.cosmologyathome.org/",
@@ -208,14 +258,14 @@ $astro_phys_chem = array(
             tra("Surface science calculations using Classical Dynamics.  Leiden Classical allows volunteers, students and other scientist to submit their personal calculations to the grid. Each user has his own personal queue for Classical Dynamics jobs. In this way students have used the grid to simulate liquid argon, or to test the validity of the ideal gas law by actually doing the simulations through the grid."),
             "leiden_classical.png"
         ),
-        array(
-            "uFluids@home",
-            "http://www.ufluids.net/",
-            tra("Purdue University"),
-            tra("Physics/Aeronautics"),
-            tra("The uFluids project simulates two-phase fluid behavior in microgravity and microfluidics problems. Our goal is to design better satellite propellant management devices and address two-phase flow in microchannel and MEMS devices."),
-            "ufluids.gif"
-        ),
+//        array(
+//            "uFluids@home",
+//            "http://www.ufluids.net/",
+//            tra("Purdue University"),
+//            tra("Physics/Aeronautics"),
+//            tra("The uFluids project simulates two-phase fluid behavior in microgravity and microfluidics problems. Our goal is to design better satellite propellant management devices and address two-phase flow in microchannel and MEMS devices."),
+//            "ufluids.gif"
+//        ),
         array(
             "Einstein@home",
             "http://einstein.phys.uwm.edu/",
@@ -224,6 +274,14 @@ $astro_phys_chem = array(
             tra("Search for spinning neutron stars (also called pulsars) using data from the LIGO and GEO gravitational wave detectors, and from the Arecibo radio observatory.  Einstein@Home is a World Year of Physics 2005 project supported by the American Physical Society (APS) and by a number of international organizations."),
             "einstein.jpg"
         ),
+//        array(
+//            "Albert@home",
+//            "http://albert.phys.uwm.edu/",
+//            tra("Univ. of Wisconsin - Milwaukee, Max Planck Institute"),
+//            tra("Astrophysics"),
+//            "Test project for Einstein@home",
+//            ""
+//        ),
         array(
             "LHC@home",
             "http://lhcathomeclassic.cern.ch/sixtrack/",
@@ -248,14 +306,14 @@ $astro_phys_chem = array(
             tra("SETI (Search for Extraterrestrial Intelligence) is a scientific area whose goal is to detect intelligent life outside Earth. One approach, known as radio SETI, uses radio telescopes to listen for narrow-bandwidth radio signals from space. Such signals are not known to occur naturally, so a detection would provide evidence of extraterrestrial technology."),
             "seti_logo.png"
         ),
-        array(
-            "Quantum Monte Carlo at Home",
-            "http://qah.uni-muenster.de/",
-            tra("University of Muenster (Germany)"),
-            tra("Chemistry"),
-            tra("Study the structure and reactivity of molecules using Quantum Chemistry."),
-            "logo_oben.jpg"
-        ),
+//        array(
+//            "Quantum Monte Carlo at Home",
+//            "http://qah.uni-muenster.de/",
+//            tra("University of Muenster (Germany)"),
+//            tra("Chemistry"),
+//            tra("Study the structure and reactivity of molecules using Quantum Chemistry."),
+//            "logo_oben.jpg"
+//        ),
         array(
             "Spinhenge@home",
             "http://spin.fh-bielefeld.de/",
@@ -304,9 +362,9 @@ $mixed = array(
         array(
             "World Community Grid",
             "http://www.worldcommunitygrid.org/",
-            tra("IBM Corporate Community Relations"),
-            tra("Humanitarian research on disease, natural disasters and hunger."),
-            tra("To further critical non-profit research on some of humanity's most pressing problems by creating the world's largest volunteer computing grid.  Research includes HIV/AIDS, cancer, muscular dystrophy, dengue fever, and many more."),
+            tra("IBM Corporate Citizenship"),
+            tra("Medical, environmental and other humanitarian research"),
+            tra("To further critical non-profit research on some of humanity's most pressing problems by creating the world's largest volunteer computing grid.  Research includes HIV-AIDS, cancer, tropical and neglected diseases, solar energy, clean water and many more."),
             "wcg.jpg",
         ),
     ),
@@ -315,8 +373,16 @@ $math = array(
     tra("Mathematics, computing, and games"),
     array(
         array(
+            "SubsetSum@Home",
+            "http://volunteer.cs.und.edu/subset_sum/",
+            "University of North Dakota, Computer Science Department",
+            tra("Computer Science"),
+            "Research in computational complexity",
+            ""
+        ),
+        array(
             "OProject@Home",
-            "http://oproject.goldbach.pl/",
+            "http://oproject.info/",
             tra("Private"),
             tra("Mathematics, Physics, Artificial Intelligence"),
             tra("Simulation of quantum computing; Goldbach's conjecture."),
@@ -324,11 +390,19 @@ $math = array(
         ),
         array(
             "NumberFields@home",
-            "http://stat.la.asu.edu/NumberFields/",
+            "http://numberfields.asu.edu/NumberFields/",
             "Arizona State University, school of Mathematics",
             "Mathematics",
             "NumberFields@home searches for fields with special properties. The primary application of this research is in the realm of algebraic number theory. Number theorists can mine the data for interesting patterns to help them formulate conjectures about number fields. Ultimately, this research will lead to a deeper understanding of the profound properties of numbers, the basic building blocks of all mathematics.",
             "nf_banner_10.jpg"
+        ),
+        array(
+            "VolPEx",
+            "http://volpex.cs.uh.edu/VCP/",
+            "University of Houston",
+            "Computer science",
+            "Creating effective parallel computing on multiple volatile nodes. Apply research on REMD Protein Folding.",
+            ""
         ),
         array(
             "SAT@home",
@@ -338,15 +412,15 @@ $math = array(
             "Solve hard and practically important problems (discrete functions inversion problems, discrete optimization, bioinformatics, etc.) that can be effectively reduced to Boolean satisfiability problem.",
             "sat_logo.png"
         ),
-        array(
-            "Mersenne@home",
-            "http://mersenneathome.net/",
-            tra("Private"),
-            tra("Mathematics"),
-            tra("Mersenne@home searches for 'Mersenne primes' - prime numbers of the form 2<sup>p</sup>-1."),
-
-            "mersenne_logo80.png"
-        ),
+//        array(
+//            "Mersenne@home",
+//            "http://mersenneathome.net/",
+//            tra("Private"),
+//            tra("Mathematics"),
+//            tra("Mersenne@home searches for 'Mersenne primes' - prime numbers of the form 2<sup>p</sup>-1."),
+//
+//            "mersenne_logo80.png"
+//        ),
         array(
             "DistrRTgen",
             "http://boinc.freerainbowtables.com/distrrtgen/",
@@ -407,14 +481,14 @@ $math = array(
             tra("Mathematical Institute of Leiden University / Kennislink"),
             tra("Mathematics"),
             tra("Search for 'abc-triples': positive integers a,b,c such that a+b=c, a &lt; b &lt; c, a,b,c have no common divisors and c > rad(abc), where rad(n) is the product of the distinct prime factors of n. The ABC conjecture says that there are only finitely many a,b,c such that log(c)/log(rad(abc)) > h for any real h > 1. The ABC conjecture is currently one of the greatest open problems in mathematics. If it is proven to be true, a lot of other open problems can be answered directly from it."),
-            ""
+            "abclogo.jpg"
         ),
         array(
             "PrimeGrid",
             "http://www.primegrid.com/",
             tra("Private"),
-            tra("Cryptography"),
-            tra("Primegrid is generating a public sequential prime number database, and is searching for large twin primes of the form k*2<sup>n</sup>+1 and k*2<sup>n</sup>-1"),
+            tra("Mathematics"),
+            tra("Primegrid has multiple projects searching for different forms of very large prime numbers, including searching for the largest known prime number."),
             "primegrid_logo.png"
         ),
         array(
@@ -449,14 +523,14 @@ $math = array(
 //            tra("What is the least number of crossings a straight-edge drawing of the complete graph on top of a set of n points in the plane obtains?  From very recent (not even published yet) mathematical considerations the rectilinear crossing numbers for n=19 and n=21 are also known. So the most tantalizing problem now is to determine the true value for n=18, which is the main focus of this project."),
 //            ""
 //        ),
-        array(
-            "Chess960@home",
-            "http://www.chess960athome.org/alpha/",
-            tra("Chess-960.org"),
-            tra("Game-playing"),
-            tra("This project studies Chess 960, a variant of orthodox chess. In classical chess the starting position of the game never changes.  In Chess 960, just before the start of every game, the initial configuration of the chess pieces is determined randomly."),
-            "chess960athome.jpg"
-        ),
+//        array(
+//            "Chess960@home",
+//            "http://www.chess960athome.org/alpha/",
+//            tra("Chess-960.org"),
+//            tra("Game study"),
+//            tra("This project studies Chess 960, a variant of orthodox chess. In classical chess the starting position of the game never changes.  In Chess 960, just before the start of every game, the initial configuration of the chess pieces is determined randomly."),
+//            "chess960athome.jpg"
+//        ),
 //        array(
 //            "NQueens@home",
 //            "http://nqueens.ing.udec.cl/",
@@ -470,17 +544,17 @@ $math = array(
             "http://sudoku.nctu.edu.tw/",
             "National Chiao Tung University, Taiwan",
             tra("Mathematics"),
-            "Sudoku@vtaiwan seeks to solve the minimum Sudoku problem, which is a well-known problem in mathematics and computer science.",
+            "Sudoku@vtaiwan seeks to solve the minimum Sudoku problem, a well-known problem in mathematics and computer science.",
             "sudoku.png"
         ),
-        array(
-            "Surveill@Home",
-            "http://surveill.dei.uc.pt/surveill",
-            "University of Coimbra, Portugal",
-            "Web performance",
-            tra("Surveill@Home is a research project that conducts end-to-end fine-grained monitoring of web sites.  The project will deploy thousands of probes, each of which repeatedly performs transactions on web sites.  This approach provides end-user failure and performance statistics."),
-            "surveill.png"
-        ),
+//        array(
+//            "Surveill@Home",
+//            "http://surveill.dei.uc.pt/surveill",
+//            "University of Coimbra, Portugal",
+//            "Web performance",
+//            tra("Surveill@Home is a research project that conducts end-to-end fine-grained monitoring of web sites.  The project will deploy thousands of probes, each of which repeatedly performs transactions on web sites.  This approach provides end-user failure and performance statistics."),
+//            "surveill.png"
+//        ),
     ),
 );
 

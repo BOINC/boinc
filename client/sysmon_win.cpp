@@ -18,12 +18,13 @@
 #include "boinc_win.h"
 #include "diagnostics.h"
 #include "error_numbers.h"
+#include "filesys.h"
+#include "network.h"
+#include "prefs.h"
+#include "str_replace.h"
 #include "url.h"
 #include "util.h"
 #include "win_util.h"
-#include "prefs.h"
-#include "filesys.h"
-#include "network.h"
 
 #include "client_state.h"
 #include "log_flags.h"
@@ -94,7 +95,16 @@ static BOOL WINAPI console_control_handler( DWORD dwCtrlType ){
     return bReturnStatus;
 }
 
+static void post_sysmon_msg(const char* msg) {
+    if (gstate.have_sysmon_msg) return;
+    safe_strcpy(gstate.sysmon_msg, msg);
+    gstate.have_sysmon_msg = true;
+}
+
 // Trap events on Windows so we can clean ourselves up.
+// NOTE: this runs in a separate thread.
+// Be careful accessing global data structures.
+//
 static LRESULT CALLBACK WindowsMonitorSystemPowerWndProc(
     HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 ) {
@@ -143,20 +153,20 @@ static LRESULT CALLBACK WindowsMonitorSystemPowerWndProc(
                 // System is critically low on battery power.  This is
                 //   only valid on Windows versions older than Vista
                 case PBT_APMBATTERYLOW:
-                    msg_printf(NULL, MSG_INFO, "Critical battery alarm, Windows is suspending operations");
+                    post_sysmon_msg("Critical battery alarm, Windows is suspending operations");
                     suspend_client();
                     break;
 
                 // System is suspending
                 case PBT_APMSUSPEND:
-                    msg_printf(NULL, MSG_INFO, "Windows is suspending operations");
+                    post_sysmon_msg("Windows is suspending operations");
                     suspend_client();
                     break;
 
                 // System is resuming from a normal power event
                 case PBT_APMRESUMESUSPEND:
                     gstate.set_now();
-                    msg_printf(NULL, MSG_INFO, "Windows is resuming operations");
+                    post_sysmon_msg("Windows is resuming operations");
 
                     // Check for a proxy
                     working_proxy_info.need_autodetect_proxy_settings = true;
@@ -175,6 +185,10 @@ static LRESULT CALLBACK WindowsMonitorSystemPowerWndProc(
 static DWORD WINAPI WindowsMonitorSystemPowerThread( LPVOID  ) {
     WNDCLASS wc;
     MSG msg;
+
+    // Initialize diagnostics framework for this thread
+    //
+    diagnostics_thread_init(BOINC_DIAG_DEFAULTS);
 
     wc.style         = CS_GLOBALCLASS;
     wc.lpfnWndProc   = (WNDPROC)WindowsMonitorSystemPowerWndProc;
@@ -220,7 +234,7 @@ static DWORD WINAPI WindowsMonitorSystemPowerThread( LPVOID  ) {
 // Detect any proxy configuration settings automatically.
 static void windows_detect_autoproxy_settings() {
     if (log_flags.proxy_debug) {
-        msg_printf(NULL, MSG_INFO, "[proxy] automatic proxy check in progress");
+        post_sysmon_msg("[proxy] automatic proxy check in progress");
     }
 
     HMODULE hModWinHttp = LoadLibrary("winhttp.dll");
@@ -270,11 +284,10 @@ static void windows_detect_autoproxy_settings() {
         NULL
     );
 
-    if (pWinHttpGetProxyForUrl(hWinHttp, network_test_url.c_str(), &autoproxy_options, &proxy_info)) {
+    char msg[1024], buf[1024];
+    strcpy(msg, "[proxy] ");
 
-        if (log_flags.proxy_debug) {
-            msg_printf(NULL, MSG_INFO, "[proxy] successfully executed proxy check", hWinHttp);
-        }
+    if (pWinHttpGetProxyForUrl(hWinHttp, network_test_url.c_str(), &autoproxy_options, &proxy_info)) {
 
         // Apparently there are some conditions where WinHttpGetProxyForUrl can return
         //   success but where proxy_info.lpszProxy is null.  Maybe related to UPNP?
@@ -286,7 +299,8 @@ static void windows_detect_autoproxy_settings() {
             std::string new_proxy;
 
             if (log_flags.proxy_debug) {
-                msg_printf(NULL, MSG_INFO, "[proxy] proxy list '%s'", proxy.c_str());
+                strcat(msg, "proxy list: ");
+                strcat(msg, proxy.c_str());
             }
 
             if (!proxy.empty()) {
@@ -317,15 +331,13 @@ static void windows_detect_autoproxy_settings() {
                     net_status.need_physical_connection = false;
 
                     working_proxy_info.autodetect_protocol = purl.protocol;
-                    strcpy(working_proxy_info.autodetect_server_name, purl.host);
+                    safe_strcpy(working_proxy_info.autodetect_server_name, purl.host);
                     working_proxy_info.autodetect_port = purl.port;
                 }
 
                 if (log_flags.proxy_debug) {
-                    msg_printf(NULL, MSG_INFO,
-                        "[proxy] automatic proxy detected %s:%d",
-                        purl.host, purl.port
-                    );
+                    sprintf(buf, "proxy detected %s:%d", purl.host, purl.port);
+                    strcat(msg, buf);
                 }
             }
         }
@@ -340,18 +352,22 @@ static void windows_detect_autoproxy_settings() {
         strcpy(working_proxy_info.autodetect_server_name, "");
         working_proxy_info.autodetect_port = 0;
         if (log_flags.proxy_debug) {
-            msg_printf(NULL, MSG_INFO, "[proxy] no automatic proxy detected");
+            strcat(msg, "no automatic proxy detected");
         }
     }
     if (hWinHttp) pWinHttpCloseHandle(hWinHttp);
     FreeLibrary(hModWinHttp);
     if (log_flags.proxy_debug) {
-        msg_printf(NULL, MSG_INFO, "[proxy] automatic proxy check finished");
+        post_sysmon_msg(msg);
     }
 }
 
 static DWORD WINAPI WindowsMonitorSystemProxyThread( LPVOID  ) {
-    
+
+    // Initialize diagnostics framework for this thread
+    //
+    diagnostics_thread_init(BOINC_DIAG_DEFAULTS);
+
     // notify the main client thread that detecting proxies is
     // supported.
     working_proxy_info.autodetect_proxy_supported = true;

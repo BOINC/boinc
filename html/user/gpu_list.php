@@ -44,7 +44,7 @@ function add_model($model, $r, $wu, &$models) {
         $models[$model]->count++;
         $models[$model]->time += $r->elapsed_time;
     } else {
-        $x = null;
+        $x = new StdClass;
         $x->count = 1;
         $x->time = $r->elapsed_time/$wu->rsc_fpops_est;
         $models[$model] = $x;
@@ -101,7 +101,7 @@ function get_gpu_list($vendor, $alt_vendor=null) {
         }
 
     }
-    $x = null;
+    $x = new StdClass;
     $x->total = $total;
     $x->win = $win;
     $x->linux = $linux;
@@ -110,7 +110,7 @@ function get_gpu_list($vendor, $alt_vendor=null) {
 }
 
 function get_gpu_lists() {
-    $x = null;
+    $x = new StdClass;
     $x->cuda = get_gpu_list("cuda", "nvidia");
     $x->ati = get_gpu_list("ati");
     return $x;

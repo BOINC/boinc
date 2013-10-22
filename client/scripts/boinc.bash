@@ -15,7 +15,7 @@ _boinc()
     # Handle options that require one or more arguments.
     case "$prev" in
         --attach_project|--detach_project|--reset_project|--update_prefs|\
-        --gui_rpc_port)
+        --gui_rpc_port|--start_delay|--dir)
             return 0
         ;;
     esac
@@ -74,7 +74,7 @@ _boinccmd()
 
     # Handle options/commands that require one or more arguments.
     case "$prev" in
-        --get_messages|--passwd)
+        --get_messages|--passwd|--get_notices)
             return 0
         ;;
 
@@ -83,13 +83,8 @@ _boinccmd()
             return 0
         ;;
 
-        --set_run_mode|--set_network_mode)
+        --set_run_mode|--set_network_mode|--set_gpu_mode)
             COMPREPLY=( $(compgen -W "always auto never" -- "$cur") )
-            return 0
-        ;;
-
-        --set_screensaver_mode)
-            COMPREPLY=( $(compgen -W "on off" -- "$cur") )
             return 0
         ;;
     esac

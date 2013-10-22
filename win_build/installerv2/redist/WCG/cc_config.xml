@@ -2,8 +2,8 @@
     <log_flags>
     </log_flags>
     <options>
-        <version_check_server>www.worldcommunitygrid.org</version_check_server>
-        <proxy_test_server>www.ibm.com</proxy_test_server>
-        <start_delay>120</start_delay>
+	<client_download_url>http://www.worldcommunitygrid.org/reg/ms/viewDownloadAgain.do</client_download_url>
+        <client_version_check_url>http://www.worldcommunitygrid.org/download_all.php?xml=1</client_version_check_url>
+	<network_test_url>http://www.ibm.com</network_test_url>
     </options>
 </cc_config>

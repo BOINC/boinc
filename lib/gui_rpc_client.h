@@ -33,13 +33,16 @@
 #include <locale.h>
 #endif
 
-#include "miofile.h"
-#include "prefs.h"
-#include "hostinfo.h"
-#include "common_defs.h"
-#include "notice.h"
-#include "network.h"
+#include <deque>
+
 #include "cc_config.h"
+#include "common_defs.h"
+#include "filesys.h"
+#include "hostinfo.h"
+#include "miofile.h"
+#include "network.h"
+#include "notice.h"
+#include "prefs.h"
 
 struct GUI_URL {
     std::string name;
@@ -102,7 +105,7 @@ struct ALL_PROJECTS_LIST {
     ~ALL_PROJECTS_LIST();
 
     void clear();
-    void shuffle();
+    void alpha_sort();
 };
 
 struct RSC_DESC {
@@ -124,6 +127,7 @@ struct PROJECT {
     std::string team_name;
     int hostid;
     std::vector<GUI_URL> gui_urls;
+    std::string project_dir;
     double user_total_credit;
     double user_expavg_credit;
     double host_total_credit;      // as reported by server
@@ -139,6 +143,7 @@ struct PROJECT {
     RSC_DESC rsc_desc_cpu;
     RSC_DESC rsc_desc_nvidia;
     RSC_DESC rsc_desc_ati;
+    RSC_DESC rsc_desc_intel_gpu;
 
     double sched_priority;
 
@@ -369,6 +374,9 @@ struct GR_PROXY_INFO {
     void clear();
 };
 
+// Represents the entire client state.
+// Call get_state() infrequently.
+//
 struct CC_STATE {
     std::vector<PROJECT*> projects;
     std::vector<APP*> apps;
@@ -378,11 +386,12 @@ struct CC_STATE {
     std::vector<std::string> platforms;
         // platforms supported by client
     GLOBAL_PREFS global_prefs;  // working prefs, i.e. network + override
-    VERSION_INFO version_info;  // populated only if talking to pre-5.6 CC
+    VERSION_INFO version_info;  // populated only if talking to pre-5.6 client
     bool executing_as_daemon;   // true if client is running as a service / daemon
     HOST_INFO host_info;
-    bool have_nvidia;           // redundant; include for compat (set by <have_cuda/>)
-    bool have_ati;              // redundant; include for compat
+    TIME_STATS time_stats;
+    bool have_nvidia;           // deprecated; include for compat (set by <have_cuda/>)
+    bool have_ati;              // deprecated; include for compat
 
     CC_STATE();
     ~CC_STATE();
@@ -398,6 +407,11 @@ struct CC_STATE {
     void print();
     void clear();
     int parse(XML_PARSER&);
+    inline bool have_gpu() {
+        return !host_info.coprocs.none()
+            || have_nvidia || have_ati      // for old clients
+        ;
+    }
 };
 
 struct PROJECTS {
@@ -445,7 +459,7 @@ struct FILE_TRANSFERS {
 };
 
 struct MESSAGES {
-    std::vector<MESSAGE*> messages;
+    std::deque<MESSAGE*> messages;
 
     MESSAGES();
     ~MESSAGES();
@@ -456,6 +470,7 @@ struct MESSAGES {
 
 struct NOTICES {
     bool complete;
+    bool received;
         // whether vector contains all notices, or just new ones
     std::vector<NOTICE*> notices;
 
@@ -588,6 +603,7 @@ struct CC_STATUS {
 	double network_mode_delay;
     bool disallow_attach;
     bool simple_gui_only;
+    int max_event_log_lines;
 
     CC_STATUS();
     ~CC_STATUS();
@@ -613,6 +629,22 @@ struct DAILY_XFER {
 
 struct DAILY_XFER_HISTORY {
     std::vector <DAILY_XFER> daily_xfers;
+    int parse(XML_PARSER&);
+    void print();
+};
+
+// Keep this consistent with client/result.h
+//
+struct OLD_RESULT {
+    char project_url[256];
+    char result_name[256];
+    char app_name[256];
+    int exit_status;
+    double elapsed_time;
+    double cpu_time;
+    double completed_time;
+    double create_time;
+
     int parse(XML_PARSER&);
     void print();
 };
@@ -648,6 +680,7 @@ struct RPC_CLIENT {
     int exchange_versions(VERSION_INFO&);
     int get_state(CC_STATE&);
     int get_results(RESULTS&, bool active_only = false);
+    int get_old_results(std::vector<OLD_RESULT>&);
     int get_file_transfers(FILE_TRANSFERS&);
     int get_simple_gui_info(SIMPLE_GUI_INFO&);
     int get_project_status(PROJECTS&);
@@ -671,12 +704,14 @@ struct RPC_CLIENT {
     int file_transfer_op(FILE_TRANSFER&, const char*);
     int result_op(RESULT&, const char*);
     int get_host_info(HOST_INFO&);
+    int set_host_info(HOST_INFO&);
     int quit();
     int acct_mgr_info(ACCT_MGR_INFO&);
     const char* mode_name(int mode);
     int get_statistics(PROJECTS&);
     int network_available();
     int get_project_init_status(PROJECT_INIT_STATUS& pis);
+    int report_device_status(DEVICE_STATUS&);
 
     // the following are asynch operations.
     // Make the first call to start the op,

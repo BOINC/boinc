@@ -468,9 +468,10 @@ void RESULT::append_log_record() {
     job_log_filename(*project, filename, sizeof(filename));
     FILE* f = fopen(filename, "ab");
     if (!f) return;
-    fprintf(f, "%.0f ue %f ct %f fe %.0f nm %s et %f\n",
+    fprintf(f, "%.0f ue %f ct %f fe %.0f nm %s et %f es %d\n",
         gstate.now, estimated_runtime_uncorrected(), final_cpu_time,
-        wup->rsc_fpops_est, name, final_elapsed_time
+        wup->rsc_fpops_est, name, final_elapsed_time,
+        exit_status
     );
     fclose(f);
 }
@@ -538,12 +539,22 @@ double RESULT::estimated_runtime() {
     if (!project->dont_use_dcf) {
         x *= project->duration_correction_factor;
     }
-	return x;
+    return x;
 }
 
 double RESULT::estimated_runtime_remaining() {
     if (computing_done()) return 0;
     ACTIVE_TASK* atp = gstate.lookup_active_task_by_result(this);
+    if (app->non_cpu_intensive) {
+        if (atp && atp->fraction_done>0) {
+            double est_dur = atp->fraction_done_elapsed_time / atp->fraction_done;
+            double x = est_dur - atp->elapsed_time;
+            if (x <= 0) x = 1;
+            return x;
+        }
+        return 0;
+    }
+
     if (atp) {
 #ifdef SIM
         return sim_flops_left/avp->flops;
@@ -588,3 +599,55 @@ void RESULT::set_state(int val, const char* where) {
     }
 }
 
+void add_old_result(RESULT& r) {
+    while (!old_results.empty()) {
+        OLD_RESULT& ores = *old_results.begin();
+        if (ores.create_time < gstate.now - 3600) {
+            old_results.pop_front();
+        } else {
+            break;
+        }
+    }
+    OLD_RESULT ores;
+    strcpy(ores.project_url, r.project->master_url);
+    strcpy(ores.result_name, r.name);
+    strcpy(ores.app_name, r.app->name);
+    ores.elapsed_time = r.final_elapsed_time;
+    ores.cpu_time = r.final_cpu_time;
+    ores.completed_time = r.completed_time;
+    ores.create_time = gstate.now;
+    ores.exit_status = r.exit_status;
+    old_results.push_back(ores);
+}
+
+void print_old_results(MIOFILE& mf) {
+    mf.printf("<old_results>\n");
+    deque<OLD_RESULT>::iterator i = old_results.begin();
+    while (i != old_results.end()) {
+        OLD_RESULT& ores = *i;
+        mf.printf(
+            "    <old_result>\n"
+            "         <project_url>%s</project_url>\n"
+            "         <result_name>%s</result_name>\n"
+            "         <app_name>%s</app_name>\n"
+            "         <exit_status>%d</exit_status>\n"
+            "         <elapsed_time>%f</elapsed_time>\n"
+            "         <cpu_time>%f</cpu_time>\n"
+            "         <completed_time>%f</completed_time>\n"
+            "         <create_time>%f</create_time>\n"
+            "    </old_result>\n",
+            ores.project_url,
+            ores.result_name,
+            ores.app_name,
+            ores.exit_status,
+            ores.elapsed_time,
+            ores.cpu_time,
+            ores.completed_time,
+            ores.create_time
+        );
+        i++;
+    }
+    mf.printf("</old_results>\n");
+}
+
+std::deque<OLD_RESULT> old_results;

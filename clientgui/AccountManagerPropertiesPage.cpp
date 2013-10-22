@@ -176,7 +176,7 @@ void CAccountManagerPropertiesPage::CreateControls()
  * wxEVT_WIZARD_PAGE_CHANGED event handler for ID_PROJECTPROPERTIESPAGE
  */
 
-void CAccountManagerPropertiesPage::OnPageChanged( wxWizardExEvent& event )
+void CAccountManagerPropertiesPage::OnPageChanged( wxWizardExEvent& /*event*/ )
 {
 //    if (event.GetDirection() == false) return;
  

@@ -28,6 +28,13 @@ require_once("../inc/time.inc");
 require_once("../inc/stats_sites.inc");
 
 function team_search_form($params) {
+    if (!$params) {
+        $params = new StdClass;
+        $params->keywords = "";
+        $params->country = "";
+        $params->type = "";
+        $params->active = false;
+    }
     echo '<form name="form" action="team_search.php">';
     start_table();
     row2('<b>'.tra('Search criteria (use one or more)').'</b>', '');
@@ -154,7 +161,7 @@ function display_team_page($team, $user) {
             if ($first) {
                 $first = false;
             } else {
-                $x .= " | ";
+                $x .= " &middot; ";
             }
             $x .= user_links($a);
         }
@@ -168,7 +175,7 @@ function display_team_page($team, $user) {
             if ($first) {
                 $first = false;
             } else {
-                $x .= " | ";
+                $x .= " &middot; ";
             }
             $x .= user_links($a);
         }
@@ -187,7 +194,7 @@ function display_team_members($team, $offset, $sort_by) {
 
     // there aren't indices to support sorting by credit.
     // set the following variable to disable sorted output.
-    // (though since caching is generally used this shouldn't needed)
+    // (though since caching is generally used this shouldn't be needed)
     //
     $nosort = false;
 
@@ -266,7 +273,7 @@ function display_team_members($team, $offset, $sort_by) {
 
     if ($offset > 0) {
         $new_offset = $offset - $n;
-        echo "<a href=team_members.php?teamid=$team->id&amp;sort_by=$sort_by&amp;offset=$new_offset>".tra('Previous %1', $n)."</a> | ";
+        echo "<a href=team_members.php?teamid=$team->id&amp;sort_by=$sort_by&amp;offset=$new_offset>".tra('Previous %1', $n)."</a> &middot; ";
     }
     if ($j == $offset + $n + 1) {
         $new_offset = $offset + $n;

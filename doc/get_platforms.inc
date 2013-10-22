@@ -174,7 +174,7 @@ function get_platforms_cached($url) {
     $u = urlencode($url);
     $fname = "/home/boincadm/boinc/doc/platforms/$u";
     $t = @filemtime($fname);
-    if ($t && $t > time() - 86400) {
+	if ($t && $t > time() - 604800) {
         $l = json_decode(file_get_contents($fname));
     } else {
         $l = get_platforms($url);

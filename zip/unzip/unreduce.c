@@ -33,5 +33,3 @@
  #error This dummy-module does not support the unreduce method!
 
 #endif /* !COPYRIGHT_CLEAN */
-
-const char *BOINC_RCSID_e98566230a = "$Id: unreduce.c 4979 2005-01-02 18:29:53Z ballen $";

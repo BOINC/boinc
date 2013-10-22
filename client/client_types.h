@@ -31,13 +31,14 @@
 #include <sys/param.h>
 #endif
 
-#include "md5_file.h"
-#include "cert_sig.h"
-#include "hostinfo.h"
-#include "coproc.h"
-#include "miofile.h"
-#include "common_defs.h"
 #include "cc_config.h"
+#include "common_defs.h"
+#include "coproc.h"
+#include "cert_sig.h"
+#include "filesys.h"
+#include "hostinfo.h"
+#include "md5_file.h"
+#include "miofile.h"
 
 #include "cs_notice.h"
 #include "cs_trickle.h"
@@ -94,7 +95,7 @@ struct URL_LIST {
 
 struct FILE_INFO {
     char name[256];
-    char md5_cksum[33];
+    char md5_cksum[MD5_LEN];
     double max_nbytes;
     double nbytes;
     double gzipped_nbytes;  // defined if download_gzipped is true
@@ -106,7 +107,7 @@ struct FILE_INFO {
     bool signature_required;    // true iff associated with app version
     bool is_user_file;
     bool is_project_file;
-	bool is_auto_update_file;
+    bool is_auto_update_file;
     bool anonymous_platform_file;
     bool gzip_when_done;
         // for output files: gzip file when done, and append .gz to its name
@@ -171,9 +172,9 @@ struct FILE_REF {
     FILE_INFO* file_info;
     bool copy_file;
         // if true, core client will copy the file instead of linking
-	bool optional;
-		// for output files: app may not generate file;
-		// don't treat as error if file is missing.
+    bool optional;
+        // for output files: app may not generate file;
+        // don't treat as error if file is missing.
     int parse(XML_PARSER&);
     int write(MIOFILE&);
 };
@@ -243,6 +244,14 @@ struct APP {
     char user_friendly_name[256];
     bool non_cpu_intensive;
     PROJECT* project;
+    int max_concurrent;
+        // Limit on # of concurrent jobs of this app; 0 if none
+        // Specified in app_config.xml
+        // Can also specify in client_state.xml (for client emulator)
+    int n_concurrent;
+        // temp during job scheduling, to enforce max_concurrent
+    int non_excluded_instances[MAX_RSC];
+        // for each resource type, bitmap of the non-excluded instances
 #ifdef SIM
     double latency_bound;
     double fpops_est;
@@ -251,9 +260,9 @@ struct APP {
     double working_set;
     double weight;
     bool ignore;
-    APP() {memset(this, 0, sizeof(APP));}
 #endif
 
+    APP() {memset(this, 0, sizeof(APP));}
     int parse(XML_PARSER&);
     int write(MIOFILE&);
 };
@@ -305,6 +314,7 @@ struct APP_VERSION {
 
     APP_VERSION(){}
     ~APP_VERSION(){}
+    void init();
     int parse(XML_PARSER&);
     int write(MIOFILE&, bool write_file_info = true);
     bool had_download_failure(int& failnum);
@@ -357,7 +367,7 @@ struct RUN_MODE {
     int get_perm();
     int get_prev();
     int get_current();
-	double delay();
+    double delay();
 };
 
 // a platform supported by the client.

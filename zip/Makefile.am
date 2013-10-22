@@ -1,5 +1,4 @@
 ## -*- mode: makefile; tab-width: 4 -*-
-## $Id: Makefile.am 18003 2009-05-05 09:16:57Z davea $
 
 ## note:  -D flags taken from a zip config build under Linux
 
@@ -7,7 +6,8 @@ include ../Makefile.incl
 
 SUBDIRS = zip  unzip
 
-AM_CPPFLAGS +=  -I$(top_srcdir)/zlib -I$(top_srcdir)/lib -I$(top_srcdir)/zip -I$(top_srcdir)/zip/zip -I$(top_srcdir)/zip/unzip -DUNIX -DDLL
+AM_CFLAGS += -I$(top_srcdir)/zip -I$(top_srcdir) -I$(top_srcdir)/zip/zip -I$(top_srcdir)/zip/unzip -I$(top_srcdir)/lib -DUNIX -DDLL -DUSE_ZIPMAIN -DNO_OFF_T -DNO_CRYPT -DNO_LCHOWN -DNO_LCHMOD -DIZ_PWLEN=80 -Dinflate=inflate_boinc -Ddeflate=deflate_boinc -Dget_crc_table=get_crc_table_boinc -Dlongest_match=longest_match_boinc -Dinflate_codes=inflate_codes_boinc -Dcrc32=crc32_boinc
+AM_CXXFLAGS += -I$(top_srcdir)/zip -I$(top_srcdir) -I$(top_srcdir)/zip/zip -I$(top_srcdir)/zip/unzip -I$(top_srcdir)/lib -DUNIX -DDLL -DUSE_ZIPMAIN -DNO_OFF_T -DNO_CRYPT -DNO_LCHOWN -DNO_LCHMOD -DIZ_PWLEN=80 -Dinflate=inflate_boinc -Ddeflate=deflate_boinc -Dget_crc_table=get_crc_table_boinc -Dlongest_match=longest_match_boinc -Dinflate_codes=inflate_codes_boinc -Dcrc32=crc32_boinc
 
 if INSTALL_HEADERS
 pkginclude_HEADERS = boinc_zip.h
@@ -15,10 +15,9 @@ endif
 
 libboinc_zip_sources = \
 boinc_zip.cpp \
+./unzip/api.c \
 ./unzip/apihelp.c \
 ./unzip/crc32.c \
-./unzip/crctab.c \
-./unzip/envargs.c \
 ./unzip/explode.c \
 ./unzip/extract.c \
 ./unzip/fileio.c \
@@ -28,11 +27,11 @@ boinc_zip.cpp \
 ./unzip/match.c \
 ./unzip/process.c \
 ./unzip/ttyio.c \
+./unzip/unix/unix.c \
 ./unzip/unreduce.c \
 ./unzip/unshrink.c \
 ./unzip/unzip.c \
 ./unzip/zipinfo.c \
-./unzip/api.c	\
 ./zip/deflate.c \
 ./zip/trees.c \
 ./zip/util.c \
@@ -41,10 +40,8 @@ boinc_zip.cpp \
 ./zip/zip.c \
 ./zip/zipfile.c \
 ./zip/zipup.c \
-./zip/unix/z_unix.c \
-./unzip/unix/unix.c 
+./zip/unix/z_unix.c
 
-##noinst_PROGRAMS = test
 if ENABLE_LIBRARIES
 
 lib_LTLIBRARIES = libboinc_zip.la
@@ -52,7 +49,7 @@ libboinc_zip_la_SOURCES = $(libboinc_zip_sources)
 libboinc_zip_la_LDFLAGS = -L$(libdir) -rpath $(libdir) -version-number $(LIBBOINC_VERSION)
 libboinc_zip_la_LIBADD =
 
-# Some OSs may not prefix libraries with lib. 
+# Some OSs may not prefix libraries with lib.
 # For example OS2
 if OS_OS2
 LIBBOINC_ZIP_STATIC=boinc_zip.${LIBEXT}

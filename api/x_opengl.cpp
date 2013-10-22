@@ -358,7 +358,7 @@ static void boinc_glut_init() {
     glutInitWindowSize(600, 400); 
     g_bmsp->boinc_get_init_data_hook(aid);
     if (!strlen(aid.app_name))  {
-        strcpy(aid.app_name, "BOINC Application");
+        strlcpy(aid.app_name, "BOINC Application", sizeof(aid.app_name));
     }
 
     glut_is_initialized = true;

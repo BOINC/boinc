@@ -21,12 +21,15 @@
 #include <set>
 #include <sys/stat.h>
 #include <sys/types.h>
+#include <sys/wait.h>
 #include <vector>
 #include <unistd.h>
 
 #include "error_numbers.h"
 #include "filesys.h"
 #include "md5_file.h"
+#include "str_replace.h"
+
 #include "sched_config.h"
 #include "sched_msgs.h"
 #include "sched_util.h"
@@ -69,7 +72,7 @@ void encoder_filename(
 
 int get_chunk_numbers(VDA_CHUNK_HOST& vch, vector<int>& chunk_numbers) {
     char buf[256];
-    strcpy(buf, vch.physical_file_name);   // vda_hostid_chunknums_filename
+    safe_strcpy(buf, vch.physical_file_name);   // vda_hostid_chunknums_filename
     char* p = buf;
     p = strchr(p, '_') + 1;
     p = strchr(p, '_') + 1;
@@ -127,7 +130,7 @@ int META_CHUNK::init(const char* _dir, POLICY& p, int coding_level) {
     double size;
     char child_dir[1024];
 
-    strcpy(dir, _dir);
+    safe_strcpy(dir, _dir);
     coding = p.codings[coding_level];
     int retval = encode(true);
     if (retval) return retval;
@@ -166,7 +169,7 @@ int META_CHUNK::init(const char* _dir, POLICY& p, int coding_level) {
 int META_CHUNK::get_state(const char* _dir, POLICY& p, int coding_level) {
     int retval;
 
-    strcpy(dir, _dir);
+    safe_strcpy(dir, _dir);
     coding = p.codings[coding_level];
     if (coding_level < p.coding_levels - 1) {
         for (int i=0; i<coding.m; i++) {
@@ -252,6 +255,7 @@ int META_CHUNK::encode(bool first) {
 
 int META_CHUNK::decode() {
     char cmd[1024], enc_filename[1024];
+    int retval;
 
     // the Jerasure decoder infinite-loops if all chunks are present.
     // So if this is the case, temporarily rename the first chunk
@@ -271,7 +275,8 @@ int META_CHUNK::decode() {
             sprintf(cmd, "mv %s/Coding/%s %s/Coding/decode_temp",
                 dir, enc_filename, dir
             );
-            system(cmd);
+            retval = system(cmd);
+            if (retval) return retval;
         }
     }
 
@@ -290,7 +295,8 @@ int META_CHUNK::decode() {
         sprintf(cmd, "mv %s/Coding/decode_temp %s/Coding/%s",
             dir, dir, enc_filename
         );
-        system(cmd);
+        retval = system(cmd);
+        if (retval) return retval;
     }
 
     // decoder puts its result in Coding/data_decoded.vda
@@ -305,7 +311,8 @@ int META_CHUNK::decode() {
     }
     filepath[n] = 0;
     sprintf(cmd, "mv %s/Coding/data_decoded.vda %s", dir, filepath);
-    system(cmd);
+    retval = system(cmd);
+    if (retval) return retval;
     return 0;
 }
 

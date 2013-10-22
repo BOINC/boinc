@@ -18,6 +18,7 @@
 
 require_once("../inc/translation.inc");
 require_once("../inc/dir_hier.inc");
+require_once("../inc/common_defs.inc");
 
 // used by app_version_string(), see below
 //
@@ -42,11 +43,19 @@ function app_version_string($result) {
     global $apps, $app_versions;
 
     $id = $result->app_version_id;
-    if ($id == 0) return "";
-    if ($id == -1) return anon_platform_string($result);
-    if ($id == -2) return anon_platform_string($result, tra("CPU"));
-    if ($id == -3) return anon_platform_string($result, tra("NVIDIA GPU"));
-    if ($id == -4) return anon_platform_string($result, tra("ATI GPU"));
+    switch ($id) {
+    case 0: return "";
+    case ANON_PLATFORM_UNKNOWN:
+        return anon_platform_string($result);
+    case ANON_PLATFORM_CPU:
+        return anon_platform_string($result, tra("CPU"));
+    case ANON_PLATFORM_NVIDIA:
+        return anon_platform_string($result, tra("NVIDIA GPU"));
+    case ANON_PLATFORM_ATI:
+        return anon_platform_string($result, tra("ATI GPU"));
+    case ANON_PLATFORM_INTEL:
+        return anon_platform_string($result, tra("Intel GPU"));
+    }
     if (array_key_exists($id, $app_versions)) {
         $av = $app_versions[$id];
         $app = $apps[$av->appid];
@@ -70,15 +79,15 @@ function app_version_string($result) {
 }
 
 function result_granted_credit_string($result, $string_to_show) {
-    if ($result->server_state == 4 && $result->granted_credit > 0) {
+    if ($result->server_state == RESULT_SERVER_STATE_IN_PROGRESS && $result->granted_credit > 0) {
         return $string_to_show;
     }
-    if ($result->server_state <> 5) return "---";
+    if ($result->server_state <> RESULT_SERVER_STATE_OVER) return "---";
     switch($result->outcome) {
-    case 1:              //Success
+    case RESULT_OUTCOME_SUCCESS:
         switch ($result->validate_state) {
-        case 0:
-        case 4:
+        case VALIDATE_STATE_INIT:
+        case VALIDATE_STATE_INCONCLUSIVE:
             return tra("pending");
         }
         return $string_to_show;
@@ -95,15 +104,17 @@ function result_granted_credit_string($result, $string_to_show) {
 define("STATE_ALL", 0);
 define("STATE_IN_PROGRESS", 1);
 define("STATE_PENDING", 2);
-define("STATE_VALID", 3);
-define("STATE_INVALID", 4);
-define("STATE_ERROR", 5);
-define("NSTATES", 6);
+define("STATE_INCONCLUSIVE", 3);
+define("STATE_VALID", 4);
+define("STATE_INVALID", 5);
+define("STATE_ERROR", 6);
+define("NSTATES", 7);
 
 $state_name = array(
     tra("All"),
     tra("In progress"),
-    tra("Pending"),
+    tra("Validation pending"),
+    tra("Validation inconclusive"),
     tra("Valid"),
     tra("Invalid"),
     tra("Error"),
@@ -112,7 +123,8 @@ $state_name = array(
 $state_clause = array(
     "",
     " and server_state=4 ",
-    " and server_state=5 and outcome=1 and (validate_state=0 or validate_state=4) ",
+    " and server_state=5 and outcome=1 and validate_state=0 ",
+    " and server_state=5 and outcome=1 and validate_state=4 ",
     " and server_state=5 and outcome=1 and validate_state=1 ",
     " and server_state=5 and (outcome=6 or (outcome=1 and (validate_state=2 or validate_state=3 or validate_state=5))) ",
     " and server_state=5 and (outcome=3 or outcome=4 or outcome=7) ",
@@ -120,17 +132,19 @@ $state_clause = array(
 
 function state_num($result) {
 	if ($result->server_state == 4) return 1;
-	if ($result->server_state == 5
-		&& $result->outcome == 1
-		&& ($result->validate_state == 0 or $result->validate_state == 4)
-	) {
-		return 2;
+	if ($result->server_state == 5 && $result->outcome == 1) {
+        if ($result->validate_state == 0) {
+            return STATE_PENDING;
+        }
+        if ($result->validate_state == 4) {
+            return STATE_INCONCLUSIVE;
+        }
 	}
 	if ($result->server_state == 5
 		&& $result->outcome == 1
 		&& $result->validate_state == 1
 	) {
-		return 3;
+		return STATE_VALID;
 	}
 	if ($result->server_state == 5
 		&& ($result->outcome == 6
@@ -142,7 +156,7 @@ function state_num($result) {
 			)
 		)
 	) {
-		return 4;
+		return STATE_INVALID;
 	}
 	if ($result->server_state == 5
 		&& ($result->outcome == 3
@@ -150,7 +164,7 @@ function state_num($result) {
 			|| $result->outcome = 7
 		)
 	) {
-		return 5;
+		return STATE_ERROR;
 	}
 	return 0;
 }
@@ -344,6 +358,12 @@ function result_table_start($show_wu_link, $show_host_link, $info) {
     }
     if ($show_wu_link) {
         echo "<th>".tra("Work unit")."<br><span class=\"smalltext\">".tra("click for details")."</span></th>\n";
+        if (function_exists('project_result_info_heading')) {
+            $x = project_result_info_heading();
+            if ($x) {
+                echo "<th>$x</th>\n";
+            }
+        }
     }
     if ($show_host_link) {
         echo "<th>".tra("Computer")."</th>\n";
@@ -402,6 +422,12 @@ function show_result_row(
     echo "<td><a href=\"result.php?resultid=$result->id\">$x</a></td>\n";
     if ($show_wu_link) {
         echo "<td><a href=\"workunit.php?wuid=$result->workunitid\">$result->workunitid</a></td>\n";
+        if (function_exists('project_result_info_link')) {
+            $x = project_result_info_link($result);
+            if ($x) {
+                echo "<td>$x</td>\n";
+            }
+        }
     }
     if ($show_host_link) {
         echo "<td>", host_link($result->hostid), "</td>\n";
@@ -593,14 +619,7 @@ function result_error_mask_str($x){
     }
 }
 
-function exit_status_string($result) {
-    $x = $result->exit_status;
-    if ($x == 0) {
-        $y = parse_element($result->stderr_out, "<exit_status>");
-        if ($y) {
-            $x = (int)$y;
-        }
-    }
+function exit_status_string($x) {
     return sprintf("%d (0x%x)", $x, $x). " ".result_error_mask_str($x);
 }
 
@@ -614,7 +633,7 @@ function show_result($result, $show_outfile_links=false) {
     row2(tra("Server state"), result_server_state_string($result));
     row2(tra("Outcome"), result_outcome_string($result));
     row2(tra("Client state"), result_client_state_string($result));
-    row2(tra("Exit status"), exit_status_string($result));
+    row2(tra("Exit status"), exit_status_string($result->exit_status));
     row2(tra("Computer ID"), host_link($result->hostid));
     row2(tra("Report deadline"), time_str($result->report_deadline));
     row2(tra("Run time"), number_format($result->elapsed_time, 2));
@@ -725,6 +744,7 @@ function result_navigation($info, $where_clause) {
         }
     }
 
+    $x .= "<form action=result.php>".tra("Task name:")."<input size=40 name=result_name><input type=submit value='OK'></form>";
     $x .= "</center><br>";
 	return $x;
 }

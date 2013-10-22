@@ -369,7 +369,7 @@ void DAILY_XFER_HISTORY::poll() {
     static double last_time= 0;
 
     if (!dirty) return;
-    if (gstate.now - last_time < DAILY_XFER_HISTORY_PERIOD) return;
+    if (!gstate.clock_change && gstate.now - last_time < DAILY_XFER_HISTORY_PERIOD) return;
     last_time = gstate.now;
     write_file();
 }

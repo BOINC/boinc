@@ -27,7 +27,7 @@ admin_page_head("Result summary per app version");
 //   2. lists the "fail rates" for individual client states to allow for
 //      distinguishing between download errors, computing errors and aborts
 //   3. optionally list individual "unknown" OS by name
-//   4. optionally list "unofficial" application versions
+//   4. optionally list anonymous-platform versions
 //
 //   3. and 4. are probably rather confusing on open-source projects like SETI,
 //   but I found them helpful e.g. on Einstein
@@ -57,15 +57,21 @@ if ($query_all_versions == "1") {
     $app_versions = latest_avs_app($query_appid);
     $valid_app_versions = "";
 
-    foreach ($app_versions as $av) {
-        if (strlen($valid_app_versions) == 0) {
-            $valid_app_versions = "$av->id";
-        } else {
-            $valid_app_versions .= ", $av->id";
+    if (count($app_versions) > 0) {
+        foreach ($app_versions as $av) {
+            if (strlen($valid_app_versions) == 0) {
+                $valid_app_versions = "$av->id";
+            } else {
+                $valid_app_versions .= ", $av->id";
+            }
         }
+        $limit_app_versions = "app_version_id IN ( $valid_app_versions ) AND";  
+        $query_order = "app_version_id DESC";
+    } else {
+        $limit_app_versions = "";
+        $query_order = "platform";
+        $allversions = "checked";
     }
-    $limit_app_versions = "app_version_id IN ( $valid_app_versions ) AND";    
-    $query_order = "app_version_id DESC";
 }
 
 // Now that we have a valid list of app_version_nums'
@@ -118,10 +124,20 @@ table_header(
 
 while ($res = mysql_fetch_object($result)) {
     $av = BoincAppVersion::lookup_id($res->app_version_id);
-    $p = BoincPlatform::lookup_id($av->platformid);
-    echo "<td align=\"left\" valign=\"top\">";
-    echo sprintf("%.2f", $av->version_num/100)." $p->name [$av->plan_class]";
-    echo "</td>";
+    if ($av) {
+        $p = BoincPlatform::lookup_id($av->platformid);
+        $ver_name = sprintf("%.2f", $av->version_num/100)." $p->name [$av->plan_class]";
+    } else {
+        $ver_name = "Anonymous ".$res->platform." ";
+        switch ($res->app_version_id) {
+        case -2: $ver_name .= " CPU"; break;
+        case -3: $ver_name .= " NVIDIA GPU"; break;
+        case -4: $ver_name .= " AMD GPU"; break;
+        case -5: $ver_name .= " Intel GPU"; break;
+        default: $ver_name .= " (unknown processor type)";
+        }
+    }
+    echo "<td align=\"left\" valign=\"top\">$ver_name</td>";
 
     echo "<td align=\"right\" valign=\"top\">";
     echo $res->total_results;
@@ -172,7 +188,7 @@ echo "<form action=$page>\n";
 echo "<input type=\"hidden\" name=\"appid\" value=\"$query_appid\">\n";
 echo "<input type=\"hidden\" name=\"nsecs\" value=\"$query_nsecs\">\n";
 echo "<input type=\"checkbox\" name=\"allversions\" value=\"1\" $allversions>\n";
-echo "list unofficial App versions&nbsp;&nbsp;\n";
+echo "show anonymous platform versions&nbsp;&nbsp;\n";
 echo "<input type=\"checkbox\" name=\"allplatforms\" value=\"1\" $allplatforms>\n";
 echo "distinguish unknown platforms&nbsp;&nbsp;\n";
 echo "<input type=\"submit\" value=\"show\">\n";

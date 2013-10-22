@@ -118,7 +118,7 @@ if (count($data) == 0) {
     echo "</table>\n<p>";
     if ($offset > 0) {
         $new_offset = $offset - $teams_per_page;
-        echo "<a href=top_teams.php?sort_by=$sort_by&amp;offset=$new_offset".$type_url.">".tra("Previous %1", $teams_per_page)."</a> | ";
+        echo "<a href=top_teams.php?sort_by=$sort_by&amp;offset=$new_offset".$type_url.">".tra("Previous %1", $teams_per_page)."</a> &middot; ";
 
     }
     if ($n==$teams_per_page){ //If we aren't on the last page

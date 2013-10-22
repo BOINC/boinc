@@ -230,7 +230,7 @@ int run_app_windows(
                 sizeof(szWindowStation),
                 NULL)
             ) {
-            windows_error_string(error_msg, sizeof(error_msg));
+            windows_format_error_string(GetLastError(), error_msg, sizeof(error_msg));
             fprintf(stderr, "GetUserObjectInformation failed: %s\n", error_msg);
         }
         if (!GetUserObjectInformationA(
@@ -240,7 +240,7 @@ int run_app_windows(
                 sizeof(szDesktop),
                 NULL)
             ) {
-            windows_error_string(error_msg, sizeof(error_msg));
+            windows_format_error_string(GetLastError(), error_msg, sizeof(error_msg));
             fprintf(stderr, "GetUserObjectInformation failed: %s\n", error_msg);
         }
 
@@ -255,7 +255,7 @@ int run_app_windows(
         // Construct an environment block that contains environment variables that don't
         //   describe the current user.
         if (!pCEB(&environment_block, sandbox_account_interactive_token, FALSE)) {
-            windows_error_string(error_msg, sizeof(error_msg));
+            windows_format_error_string(GetLastError(), error_msg, sizeof(error_msg));
             fprintf(stderr, "CreateEnvironmentBlock failed: %s\n", error_msg);
         }
 
@@ -274,7 +274,7 @@ int run_app_windows(
         );
 
         if (!pDEB(environment_block)) {
-            windows_error_string(error_msg, sizeof(error_msg));
+            windows_format_error_string(GetLastError(), error_msg, sizeof(error_msg));
             fprintf(stderr, "DestroyEnvironmentBlock failed: %s\n", error_msg);
         }
 
@@ -298,7 +298,7 @@ int run_app_windows(
         );
     }
     if (!retval) {
-        windows_error_string(error_msg, sizeof(error_msg));
+        windows_format_error_string(GetLastError(), error_msg, sizeof(error_msg));
         fprintf(stderr, "CreateProcess failed: '%s'\n", error_msg);
         return -1; // CreateProcess returns 1 if successful, false if it failed.
     }

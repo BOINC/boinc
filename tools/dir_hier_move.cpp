@@ -28,8 +28,8 @@
 
 #include "error_numbers.h"
 #include "filesys.h"
-#include "util.h"
 #include "sched_util.h"
+#include "util.h"
 
 const char *usage = 
 "\nUsage: dir_hier_move <src_dir> <dst_dir> <fanout>\n"	
@@ -43,14 +43,14 @@ int main(int argc, char** argv) {
     int retval;
     
     if ( (argc == 1) || !strcmp(argv[1], "-h")  || !strcmp(argv[1],"--help") || (argc != 4) ) {
-        fprintf(stderr, usage);
+        fprintf(stderr, "%s", usage);
         exit(1);
     }
     src_dir = argv[1];
     dst_dir = argv[2];
     fanout = atoi(argv[3]);
     if (!fanout) {
-        fprintf(stderr, usage);
+        fprintf(stderr, "%s", usage);
         exit(1);
     }
 

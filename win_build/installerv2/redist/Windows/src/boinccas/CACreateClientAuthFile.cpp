@@ -75,7 +75,7 @@ UINT CACreateClientAuthFile::OnExecution()
     uiReturnValue = GetProperty( _T("DATADIR"), strDataDirectory );
     if ( uiReturnValue ) return uiReturnValue;
 
-    uiReturnValue = GetProperty( _T("ENABLEPROTECTEDAPPLICATIONEXECUTION2"), strEnableProtectedApplicationExecution );
+    uiReturnValue = GetProperty( _T("ENABLEPROTECTEDAPPLICATIONEXECUTION3"), strEnableProtectedApplicationExecution );
     if ( uiReturnValue ) return uiReturnValue;
 
     uiReturnValue = GetProperty( _T("BOINC_PROJECT_ISUSERNAME"), strBOINCProjectAccountUsername );
@@ -233,5 +233,3 @@ UINT __stdcall CreateClientAuthFile(MSIHANDLE hInstall)
 
     return uiReturnValue;
 }
-
-const char *BOINC_RCSID_01ed9786df="$Id: CACreateClientAuthFile.cpp 11804 2007-01-08 18:42:48Z rwalton $";

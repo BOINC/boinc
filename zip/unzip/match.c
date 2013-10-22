@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 1990-2002 Info-ZIP.  All rights reserved.
+  Copyright (c) 1990-2005 Info-ZIP.  All rights reserved.
 
   See the accompanying file LICENSE, version 2000-Apr-09 or later
   (the contents of which are also included in unzip.h) for terms of use.
@@ -42,7 +42,7 @@
 
   Match the pattern (wildcard) against the string (fixed):
 
-     match(string, pattern, ignore_case);
+     match(string, pattern, ignore_case, sepc);
 
   returns TRUE if string matches pattern, FALSE otherwise.  In the pattern:
 
@@ -105,20 +105,27 @@
 
 #if 0                /* GRR:  add this to unzip.h someday... */
 #if !(defined(MSDOS) && defined(DOSWILD))
-#define match(s,p,ic)   (recmatch((ZCONST uch *)p,(ZCONST uch *)s,ic) == 1)
-int recmatch OF((ZCONST uch *pattern, ZCONST uch *string, int ignore_case));
+#ifdef WILD_STOP_AT_DIR
+#define match(s,p,ic,sc) (recmatch((ZCONST uch *)p,(ZCONST uch *)s,ic,sc) == 1)
+#else
+#define match(s,p,ic)    (recmatch((ZCONST uch *)p,(ZCONST uch *)s,ic) == 1)
+#endif
+int recmatch OF((ZCONST uch *pattern, ZCONST uch *string,
+                 int ignore_case __WDLPRO));
 #endif
 #endif /* 0 */
 static int recmatch OF((ZCONST uch *pattern, ZCONST uch *string,
-                        int ignore_case));
-
+                        int ignore_case __WDLPRO));
+static char *isshexp OF((ZCONST char *p));
+static int namecmp OF((ZCONST char *s1, ZCONST char *s2));
 
 
 /* match() is a shell to recmatch() to return only Boolean values. */
 
-int match(string, pattern, ignore_case)
+int match(string, pattern, ignore_case __WDL)
     ZCONST char *string, *pattern;
     int ignore_case;
+    __WDLDEF
 {
 #if (defined(MSDOS) && defined(DOSWILD))
     char *dospattern;
@@ -147,20 +154,21 @@ int match(string, pattern, ignore_case)
             }
             dospattern[j-1] = '\0';                    /* nuke the end "." */
         }
-        j = recmatch((uch *)dospattern, (uch *)string, ignore_case);
+        j = recmatch((uch *)dospattern, (uch *)string, ignore_case __WDL);
         free(dospattern);
         return j == 1;
     } else
 #endif /* MSDOS && DOSWILD */
-    return recmatch((uch *)pattern, (uch *)string, ignore_case) == 1;
+    return recmatch((uch *)pattern, (uch *)string, ignore_case __WDL) == 1;
 }
 
 
 
-static int recmatch(p, s, ic)
+static int recmatch(p, s, ic __WDL)
     ZCONST uch *p;        /* sh pattern to match */
     ZCONST uch *s;        /* string to which to match it */
     int ic;               /* true for case insensitivity */
+    __WDLDEF              /* directory sepchar for WildStopAtDir mode, or 0 */
 /* Recursively compare the sh pattern p with the string s and return 1 if
  * they match, and 0 or 2 if they don't or if there is a syntax error in the
  * pattern.  This routine recurses on itself no more deeply than the number
@@ -175,11 +183,12 @@ static int recmatch(p, s, ic)
     if (c == 0)
         return *s == 0;
 
-    /* '?' (or '%') matches any character (but not an empty string).
-     * If WILD_STOP_AT_DIR is defined, it won't match '/' */
+    /* '?' (or '%') matches any character (but not an empty string). */
     if (c == WILDCHAR)
 #ifdef WILD_STOP_AT_DIR
-        return (*s && *s != '/') ? recmatch(p, s + CLEN(s), ic) : 0;
+        /* If uO.W_flag is non-zero, it won't match '/' */
+        return (*s && (!sepc || *s != (uch)sepc))
+               ? recmatch(p, s + CLEN(s), ic, sepc) : 0;
 #else
         return *s ? recmatch(p, s + CLEN(s), ic) : 0;
 #endif
@@ -191,34 +200,88 @@ static int recmatch(p, s, ic)
 #endif /* AMIGA */
     if (c == '*') {
 #ifdef WILD_STOP_AT_DIR
+        if (sepc) {
+          /* check for single "*" or double "**" */
 #  ifdef AMIGA
-        if ((c = p[0]) == '#' && p[1] == '?') /* "#?" is Amiga-ese for "*" */
+          if ((c = p[0]) == '#' && p[1] == '?') /* "#?" is Amiga-ese for "*" */
             c = '*', p++;
-        if (c != '*') {
+          if (c != '*') {
 #  else /* !AMIGA */
-        if (*p != '*') {
+          if (*p != '*') {
 #  endif /* ?AMIGA */
-            /* single '*': this doesn't match slashes */
-            for (; *s && *s != '/'; INCSTR(s))
-                if ((c = recmatch(p, s, ic)) != 0)
+            /* single "*": this doesn't match the dirsep character */
+            for (; *s && *s != (uch)sepc; INCSTR(s))
+                if ((c = recmatch(p, s, ic, sepc)) != 0)
                     return (int)c;
             /* end of pattern: matched if at end of string, else continue */
-            if (*p == 0)
+            if (*p == '\0')
                 return (*s == 0);
-            /* continue to match if at '/' in pattern, else give up */
-            return (*p == '/' || (*p == '\\' && p[1] == '/'))
-                   ? recmatch(p, s, ic) : 2;
+            /* continue to match if at sepc in pattern, else give up */
+            return (*p == (uch)sepc || (*p == '\\' && p[1] == (uch)sepc))
+                   ? recmatch(p, s, ic, sepc) : 2;
+          }
+          /* "**": this matches slashes */
+          ++p;        /* move p behind the second '*' */
+          /* and continue with the non-W_flag code variant */
         }
-        /* '**': this matches slashes */
-        ++p;        /* move p behind the second '*' */
-        /* continue with the non-WILD_STOP_AT_DIR code variant */
 #endif /* WILD_STOP_AT_DIR */
         if (*p == 0)
             return 1;
-        for (; *s; INCSTR(s))
-            if ((c = recmatch(p, s, ic)) != 0)
-                return (int)c;
-        return 2;       /* 2 means give up--match will return false */
+        if (isshexp((ZCONST char *)p) == NULL) {
+            /* Optimization for rest of pattern being a literal string:
+             * If there are no other shell expression chars in the rest
+             * of the pattern behind the multi-char wildcard, then just
+             * compare the literal string tail.
+             */
+            ZCONST uch *srest;
+
+            srest = s + (strlen((ZCONST char *)s) - strlen((ZCONST char *)p));
+            if (srest - s < 0)
+                /* remaining literal string from pattern is longer than rest
+                 * of test string, there can't be a match
+                 */
+                return 0;
+            else
+              /* compare the remaining literal pattern string with the last
+               * bytes of the test string to check for a match
+               */
+#ifdef _MBCS
+            {
+                ZCONST uch *q = s;
+
+                /* MBCS-aware code must not scan backwards into a string from
+                 * the end.
+                 * So, we have to move forward by character from our well-known
+                 * character position s in the test string until we have
+                 * advanced to the srest position.
+                 */
+                while (q < srest)
+                  INCSTR(q);
+                /* In case the byte *srest is a trailing byte of a multibyte
+                 * character in the test string s, we have actually advanced
+                 * past the position (srest).
+                 * For this case, the match has failed!
+                 */
+                if (q != srest)
+                    return 0;
+                return ((ic
+                         ? namecmp((ZCONST char *)p, (ZCONST char *)q)
+                         : strcmp((ZCONST char *)p, (ZCONST char *)q)
+                        ) == 0);
+            }
+#else /* !_MBCS */
+                return ((ic
+                         ? namecmp((ZCONST char *)p, (ZCONST char *)srest)
+                         : strcmp((ZCONST char *)p, (ZCONST char *)srest)
+                        ) == 0);
+#endif /* ?_MBCS */
+        } else {
+            /* pattern contains more wildcards, continue with recursion... */
+            for (; *s; INCSTR(s))
+                if ((c = recmatch(p, s, ic __WDL)) != 0)
+                    return (int)c;
+            return 2;  /* 2 means give up--match will return false */
+        }
     }
 
     /* Parse and process the list of characters and ranges in brackets */
@@ -252,26 +315,62 @@ static int recmatch(p, s, ic)
                 if (*(p+1) != '-')
                     for (c = c ? c : *p; c <= *p; c++)  /* compare range */
                         if ((unsigned)Case(c) == cc) /* typecast for MSC bug */
-                            return r ? 0 : recmatch(q + 1, s + 1, ic);
+                            return r ? 0 : recmatch(q + 1, s + 1, ic __WDL);
                 c = e = 0;   /* clear range, escape flags */
             }
         }
-        return r ? recmatch(q + CLEN(q), s + CLEN(s), ic) : 0;
+        return r ? recmatch(q + CLEN(q), s + CLEN(s), ic __WDL) : 0;
                                         /* bracket match failed */
     }
 
-    /* if escape ('\'), just compare next character */
+    /* if escape ('\\'), just compare next character */
     if (c == '\\' && (c = *p++) == 0)     /* if \ at end, then syntax error */
         return 0;
 
     /* just a character--compare it */
 #ifdef QDOS
-    return QMatch(Case((uch)c), Case(*s)) ? recmatch(p, s + CLEN(s), ic) : 0;
+    return QMatch(Case((uch)c), Case(*s)) ?
+           recmatch(p, s + CLEN(s), ic __WDL) : 0;
 #else
-    return Case((uch)c) == Case(*s) ? recmatch(p, s + CLEN(s), ic) : 0;
+    return Case((uch)c) == Case(*s) ?
+           recmatch(p, s + CLEN(s), ic __WDL) : 0;
 #endif
 
 } /* end function recmatch() */
+
+
+
+static char *isshexp(p)
+ZCONST char *p;
+/* If p is a sh expression, a pointer to the first special character is
+   returned.  Otherwise, NULL is returned. */
+{
+    for (; *p; INCSTR(p))
+        if (*p == '\\' && *(p+1))
+            p++;
+        else if (*p == WILDCHAR || *p == '*' || *p == BEG_RANGE)
+            return (char *)p;
+    return NULL;
+} /* end function isshexp() */
+
+
+
+static int namecmp(s1, s2)
+    ZCONST char *s1, *s2;
+{
+    int d;
+
+    for (;;) {
+        d = (int)ToLower((uch)*s1)
+          - (int)ToLower((uch)*s2);
+
+        if (d || *s1 == 0 || *s2 == 0)
+            return d;
+
+        s1++;
+        s2++;
+    }
+} /* end function namecmp() */
 
 #endif /* !THEOS */
 
@@ -341,5 +440,3 @@ int main(int argc, char **argv)
 }
 
 #endif /* TEST_MATCH */
-
-const char *BOINC_RCSID_7b1daf8eb1 = "$Id: match.c 4979 2005-01-02 18:29:53Z ballen $";

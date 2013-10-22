@@ -30,6 +30,14 @@
 //      default: 200000
 //  --file_size x
 //      default: 1e12
+//  --debug_status
+//  --debug_ft
+//      write recovery details to stdout
+//  --log_actions
+//      write actions to stdout
+//  --sim_duration_years;
+//  --random
+//      srand to pid
 //
 // outputs:
 //   stdout: log info
@@ -42,12 +50,19 @@
 #include <set>
 #include <limits.h>
 #include <cmath>
+#include <sys/types.h>
+#include <unistd.h>
 
 #include "des.h"
 #include "stats.h"
 #include "vda_lib.h"
 
 using std::set;
+
+bool log_actions = false;
+
+double min_failures_time[100];
+int min_min_failures = 100;
 
 // We simulate policies based on coding and replication.
 //
@@ -107,9 +122,6 @@ struct PARAMS {
 // These are measured starting from the time when the file's
 // initial downloads have all succeeded or failed
 
-#define EVENT_DEBUG
-//#define RECOVERY_DEBUG
-
 SIMULATOR sim;
 int next_file_id=0;
 int next_host_id=0;
@@ -127,7 +139,9 @@ char* now_str() {
 }
 
 void show_msg(char* msg) {
-    printf("%s: %s", time_str(sim.now), msg);
+    if (log_actions) {
+        printf("%s: %s", time_str(sim.now), msg);
+    }
 }
 
 struct CHUNK;
@@ -214,13 +228,13 @@ struct SIM_FILE : VDA_FILE_AUX, EVENT {
             meta_chunk->data_needed = true;
         } else {
             meta_chunk = new META_CHUNK(this, NULL, size, 0, id);
-#ifdef EVENT_DEBUG
-            printf("created file %d: size %f GB encoded size %f GB\n",
-                id, size/1e9, disk_usage.value/1e9
-            );
+            if (log_actions) {
+                printf("created file %d: size %f GB encoded size %f GB\n",
+                    id, size/1e9, disk_usage.value/1e9
+                );
+            }
             t = sim.now + 500.*86400;
             sim.insert(this);
-#endif
         }
         meta_chunk->recovery_plan();
         meta_chunk->recovery_action(sim.now);
@@ -230,18 +244,39 @@ struct SIM_FILE : VDA_FILE_AUX, EVENT {
     }
 
     void recover() {
-        printf("recovery_plan():\n");
+        if (debug_status) {
+            printf("recovery_plan():\n");
+        }
         meta_chunk->recovery_plan();
-        printf("decide_reconstruct():\n");
+        if (meta_chunk->status == UNRECOVERABLE) {
+            printf("FILE IS LOST!!\n");
+            sim.done = true;
+            min_min_failures = 0;
+            min_failures_time[0] = sim.now;
+            return;
+        }
+        if (debug_status) {
+            printf("decide_reconstruct():\n");
+        }
         meta_chunk->decide_reconstruct();
-        printf("reconstruct_and_cleanup():\n");
+        if (debug_status) {
+            printf("reconstruct_and_cleanup():\n");
+        }
         meta_chunk->reconstruct_and_cleanup();
-        printf("recovery_action():\n");
+        if (debug_status) {
+            printf("recovery_action():\n");
+        }
         meta_chunk->recovery_action(sim.now);
         meta_chunk->compute_min_failures();
+        int mf = meta_chunk->min_failures;
+        printf("   Min failures: %d\n", mf);
         fault_tolerance.sample(
-            meta_chunk->min_failures-1, collecting_stats(), sim.now
+            mf-1, collecting_stats(), sim.now
         );
+        while (mf < min_min_failures) {
+            min_min_failures--;
+            min_failures_time[min_min_failures] = sim.now;
+        }
     }
 
     void print_stats(double now) {
@@ -270,9 +305,9 @@ void CHUNK_ON_HOST::start_upload() {
     transfer_in_progress = true;
     transfer_wait = true;
     t = sim.now + drand()*params.connect_interval;
-#ifdef EVENT_DEBUG
-    //printf("%s: waiting to start upload of %s\n", now_str(), physical_file_name);
-#endif
+    if (log_actions) {
+        printf("%s: waiting to start upload of %s\n", now_str(), physical_file_name);
+    }
     sim.insert(this);
 }
 
@@ -280,9 +315,9 @@ void CHUNK_ON_HOST::start_download() {
     transfer_in_progress = true;
     transfer_wait = true;
     t = sim.now + drand()*params.connect_interval;
-#ifdef EVENT_DEBUG
-    //printf("%s: waiting to start download of %s\n", now_str(), physical_file_name);
-#endif
+    if (log_actions) {
+        printf("%s: waiting to start download of %s\n", now_str(), physical_file_name);
+    }
     sim.insert(this);
 }
 
@@ -293,18 +328,22 @@ void CHUNK_ON_HOST::handle() {
     if (transfer_wait) {
         transfer_wait = false;
         if (present_on_host) {
-#ifdef EVENT_DEBUG
-            printf("%s: starting upload of %s\n", now_str(), physical_file_name);
-#endif
+            if (log_actions) {
+                printf("%s: starting upload of %s\n",
+                    now_str(), physical_file_name
+                );
+            }
             chunk->parent->dfile->upload_rate.sample_inc(
                 host->transfer_rate,
                 chunk->parent->dfile->collecting_stats(),
                 sim.now
             );
         } else {
-#ifdef EVENT_DEBUG
-            printf("%s: starting download of %s\n", now_str(), physical_file_name);
-#endif
+            if (log_actions) {
+                printf("%s: starting download of %s\n",
+                    now_str(), physical_file_name
+                );
+            }
             chunk->parent->dfile->download_rate.sample_inc(
                 host->transfer_rate,
                 chunk->parent->dfile->collecting_stats(),
@@ -318,9 +357,11 @@ void CHUNK_ON_HOST::handle() {
     transfer_in_progress = false;
     if (present_on_host) {
         // it was an upload
-#ifdef EVENT_DEBUG
-        printf("%s: upload of %s completed\n", now_str(), physical_file_name);
-#endif
+        if (log_actions) {
+            printf("%s: upload of %s completed\n",
+                now_str(), physical_file_name
+            );
+        }
         chunk->parent->dfile->upload_rate.sample_inc(
             -host->transfer_rate,
             chunk->parent->dfile->collecting_stats(),
@@ -329,9 +370,11 @@ void CHUNK_ON_HOST::handle() {
         chunk->upload_complete();
     } else {
         present_on_host = true;
-#ifdef EVENT_DEBUG
-        printf("%s: download of %s completed\n", now_str(), physical_file_name);
-#endif
+        if (log_actions) {
+            printf("%s: download of %s completed\n",
+                now_str(), physical_file_name
+            );
+        }
         chunk->parent->dfile->download_rate.sample_inc(
             -host->transfer_rate,
             chunk->parent->dfile->collecting_stats(),
@@ -368,9 +411,9 @@ void SIM_HOST::handle() {
     set<SIM_HOST*>::iterator i = hosts.find(this);
     hosts.erase(i);
 
-#ifdef EVENT_DEBUG
-    printf("%s: host %d failed\n", now_str(), id);
-#endif
+    if (log_actions) {
+        printf("%s: host %d failed\n", now_str(), id);
+    }
     set<CHUNK_ON_HOST*>::iterator p;
     for (p = chunks.begin(); p != chunks.end(); p++) {
         CHUNK_ON_HOST* c = *p;
@@ -387,7 +430,7 @@ CHUNK::CHUNK(META_CHUNK* mc, double s, int index) {
     sprintf(name, "%s.%d", parent->name, index);
     VDA_FILE_AUX* fp = parent->dfile;
     fp->pending_init_downloads += fp->policy.replication;
-    fp->disk_usage.sample_inc(size, false, sim.now);
+    fp->disk_usage.sample_inc(size, false, sim.now, "init");
 }
 
 // if there aren't enough replicas of this chunk,
@@ -410,9 +453,11 @@ int CHUNK::assign() {
 #endif
         CHUNK_ON_HOST *c = new CHUNK_ON_HOST();
         sprintf(c->physical_file_name, "chunk %s on host %d", name, h->id);
-#ifdef EVENT_DEBUG
-        printf("%s: assigning chunk %s to host %d\n", now_str(), name, h->id);
-#endif
+        if (log_actions) {
+            printf("%s: assigning chunk %s to host %d\n",
+                now_str(), name, h->id
+            );
+        }
         c->host = h;
         c->chunk = this;
         h->chunks.insert(c);
@@ -440,9 +485,9 @@ int CHUNK::start_upload() {
 void CHUNK::host_failed(VDA_CHUNK_HOST* p) {
     set<VDA_CHUNK_HOST*>::iterator i = hosts.find(p);
     hosts.erase(i);
-#ifdef EVENT_DEBUG
-    printf("%s: handling loss of %s\n", now_str(), p->physical_file_name);
-#endif
+    if (log_actions) {
+        printf("%s: handling loss of %s\n", now_str(), p->physical_file_name);
+    }
     SIM_FILE* sfp = (SIM_FILE*)parent->dfile;
     sfp->recover();
 }
@@ -453,7 +498,8 @@ void CHUNK::upload_complete() {
         parent->dfile->disk_usage.sample_inc(
             size,
             parent->dfile->collecting_stats(),
-            sim.now
+            sim.now,
+            "upload_complete"
         );
     }
     SIM_FILE* sfp = (SIM_FILE*)parent->dfile;
@@ -477,12 +523,29 @@ int META_CHUNK::upload_all() {
 }
 
 int META_CHUNK::encode(bool) {
-    printf("%s: encoding metachunk %s\n", now_str(), name);
+    if (log_actions) {
+        printf("%s: encoding metachunk %s\n", now_str(), name);
+    }
+
+    // new chunks count toward server disk usage
+    //
+    if (bottom_level) {
+        for (unsigned int i=0; i<children.size(); i++) {
+            CHUNK& c = *(CHUNK*)children[i];
+            if (!c.present_on_server) {
+                dfile->disk_usage.sample_inc(
+                    c.size, dfile->collecting_stats(), sim.now, "encode"
+                );
+            }
+        }
+    }
     return 0;
 }
 
 int META_CHUNK::decode() {
-    printf("%s: decoding metachunk %s\n", now_str(), name);
+    if (log_actions) {
+        printf("%s: decoding metachunk %s\n", now_str(), name);
+    }
     return 0;
 }
 
@@ -494,6 +557,10 @@ set<SIM_FILE*> dfiles;
 
 int main(int argc, char** argv) {
     POLICY policy;
+    bool log_disk_usage = false;
+    bool log_fault_tolerance = false;
+    bool log_download = false;
+    bool log_upload = false;
 
     // default policy
     //
@@ -528,6 +595,24 @@ int main(int argc, char** argv) {
             params.mean_xfer_rate = atof(argv[++i]);
         } else if (!strcmp(argv[i], "--file_size")) {
             params.file_size = atof(argv[++i]);
+        } else if (!strcmp(argv[i], "--debug_status")) {
+            debug_status = true;
+        } else if (!strcmp(argv[i], "--debug_ft")) {
+            debug_ft = true;
+        } else if (!strcmp(argv[i], "--log_actions")) {
+            log_actions = true;
+        } else if (!strcmp(argv[i], "--log_disk_usage")) {
+            log_disk_usage = true;
+        } else if (!strcmp(argv[i], "--log_fault_tolerance")) {
+            log_fault_tolerance = true;
+        } else if (!strcmp(argv[i], "--log_download")) {
+            log_download = true;
+        } else if (!strcmp(argv[i], "--log_upload")) {
+            log_upload = true;
+        } else if (!strcmp(argv[i], "--sim_duration_years")) {
+            params.sim_duration = atof(argv[++i])*86400*365;
+        } else if (!strcmp(argv[i], "--random")) {
+            srand(getpid());
         } else {
             printf("bad arg %s\n", argv[i]);
             exit(1);
@@ -546,10 +631,20 @@ int main(int argc, char** argv) {
 #endif
     SIM_FILE* dfile = new SIM_FILE(params.file_size);
     dfile->policy = policy;
+    if (log_disk_usage) dfile->disk_usage.log_changes = true;
+    if (log_fault_tolerance) dfile->fault_tolerance.log_changes = true;
+    if (log_download) dfile->download_rate.log_changes = true;
+    if (log_upload) dfile->upload_rate.log_changes = true;
     sim.insert(dfile);
 
     sim.simulate(params.sim_duration);
 
     printf("%s: simulation finished\n", now_str());
     dfile->print_stats(sim.now);
+
+    FILE* f = fopen("mft.dat", "w");
+    for (int i=0; i<=policy.max_ft; i++) {
+        fprintf(f, "%d %f\n", i, min_failures_time[i]);
+    }
+    fclose(f);
 }

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  This file is part of BOINC.
+  http://boinc.berkeley.edu
+  Copyright (C) 2012 University of California
+  
+  BOINC is free software; you can redistribute it and/or modify it
+  under the terms of the GNU Lesser General Public License
+  as published by the Free Software Foundation,
+  either version 3 of the License, or (at your option) any later version.
+  
+  BOINC is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+  See the GNU Lesser General Public License for more details.
+  
+  You should have received a copy of the GNU Lesser General Public License
+  along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="edu.berkeley.boinc"
+    
+    android:versionCode="21"
+    android:versionName="7.2.4"
+    
+    android:installLocation="internalOnly" > <!-- installation on SD card would break boot receiver -->
+
+    <!-- Add Google Play store metadata informing the store we can run on tablets and other large screen devices -->
+    <supports-screens
+        android:anyDensity="true"
+        android:smallScreens="true"
+        android:normalScreens="true"
+        android:largeScreens="true"
+        android:xlargeScreens="true" />
+
+    <!-- CAUTION: increasing targetSDK to >9 removes menu button on new devices  -->
+    <uses-sdk
+        android:minSdkVersion="9"
+        android:targetSdkVersion="9" />
+    
+    <!-- Required Permissions -->
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.READ_LOGS"/>
+    <uses-permission android:name="android.permission.RESTART_PACKAGES"/>
+
+    <application
+        android:icon="@drawable/boinc"
+        android:label="@string/app_name"
+        android:theme="@style/Theme"
+        android:allowBackup="true"
+        android:debuggable="true"> <!-- android:largeHeap="true" , possible api level > 10. grants application larger dalvik vm heap. better performance when showing many slideshow pictures. -->
+        
+        <activity
+            android:name="edu.berkeley.boinc.BOINCActivity"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".AttachProjectListActivity"/>
+        <activity android:name=".AttachProjectAcctMgrActivity"/>
+        <activity android:name=".AttachProjectLoginActivity"
+            android:configChanges="orientation"/>
+        <activity android:name=".AttachProjectRegistrationActivity"/>
+        <activity android:name=".AttachProjectWorkingActivity"
+            android:configChanges="orientation"/>
+        <activity android:name=".StatusActivity" />
+        <activity android:name=".TasksActivity" />
+        <activity android:name=".NoticesActivity" />
+        <activity android:name=".PrefsActivity" />
+        <activity android:name=".ProjectsActivity" />
+        <activity android:name=".EventLogActivity" />
+        <service android:name=".client.Monitor"></service>
+        <receiver android:name=".receiver.BootReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
+        <receiver android:name=".receiver.PackageReplacedReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_REPLACED"/>
+                <data android:scheme="package" android:path="edu.berkeley.boinc" />
+            </intent-filter>
+        </receiver>
+
+    </application>
+
+</manifest>

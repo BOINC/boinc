@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="8.00"
-	Name="boincmgr"
+	Name="progressthruprocessors"
 	ProjectGUID="{06113715-AC51-4E91-8B9D-C987CABE0920}"
 	RootNamespace="boincmgr"
 	Keyword="MFCProj"
@@ -45,9 +45,10 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
-				AdditionalIncludeDirectories="..;..\..\boinc_depends_win_vs2005\wxwidgets\include;&quot;..\..\boinc_depends_win_vs2005\wxwidgets\mswin\$(PlatformName)\$(ConfigurationName)\lib\vc_lib\mswu&quot;;..\..\boinc_depends_win_vs2005\sqlite3\include;..\lib;..\api;..\clientgui;..\client\win;$(NOINHERIT)"
-				PreprocessorDefinitions="WIN32;_WIN32;_NDEBUG;_WINDOWS;_MT;__WXNDEBUG__;WXNDEBUG;_UNICODE;UNICODE;_PROGRESSTHRUPROCESSORS;wxUSE_GUI=1;$(NOINHERIT)"
+				AdditionalIncludeDirectories="..;..\..\boinc_depends_win_vs2005\wxwidgets\include;&quot;..\..\boinc_depends_win_vs2005\wxwidgets\mswin\$(PlatformName)\$(ConfigurationName)\lib\vc_lib\mswu&quot;;..\..\boinc_depends_win_vs2005\sqlite3\include;..\lib;..\api;..\clientgui;..\client\win;../coprocs/OpenCL/include;$(NOINHERIT)"
+				PreprocessorDefinitions="WIN32;_WIN32;_NDEBUG;_WINDOWS;_MT;__WXNDEBUG__;WXNDEBUG;_UNICODE;UNICODE;wxUSE_GUI=1;_PROGRESSTHRUPROCESSORS;$(NOINHERIT)"
 				StringPooling="true"
+				ExceptionHandling="2"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="false"
 				FloatingPointModel="2"
@@ -74,13 +75,13 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="MSVCRT.LIB MSVCPRT.LIB kernel32.lib user32.lib gdi32.lib ole32.lib oleaut32.lib oleacc.lib shell32.lib comdlg32.lib advapi32.lib oldnames.lib uuid.lib rpcrt4.lib comctl32.lib wsock32.lib wininet.lib wxbase28u.lib wxbase28u_net.lib wxbase28u_xml.lib wxmsw28u_adv.lib wxmsw28u_core.lib wxmsw28u_html.lib wxregexu.lib wxexpat.lib wxpng.lib wxjpeg.lib wxtiff.lib wxzlib.lib boinc_dll.lib sqlite3.lib $(NOINHERIT)"
-				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\progressthruprocessors.exe"
+				AdditionalDependencies="MSVCRT.LIB MSVCPRT.LIB kernel32.lib user32.lib gdi32.lib ole32.lib oleaut32.lib oleacc.lib shell32.lib comdlg32.lib advapi32.lib oldnames.lib uuid.lib rpcrt4.lib comctl32.lib wsock32.lib wininet.lib userenv.lib wxbase28u.lib wxbase28u_net.lib wxbase28u_xml.lib wxmsw28u_adv.lib wxmsw28u_core.lib wxmsw28u_html.lib wxregexu.lib wxexpat.lib wxpng.lib wxjpeg.lib wxtiff.lib wxzlib.lib sqlite3.lib $(NOINHERIT)"
+				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).exe"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="&quot;$(OutDir)&quot;;&quot;..\..\boinc_depends_win_vs2005\wxwidgets\mswin\$(PlatformName)\$(ConfigurationName)\lib\vc_lib&quot;;&quot;..\..\boinc_depends_win_vs2005\sqlite3\mswin\$(PlatformName)\$(ConfigurationName)\lib&quot;"
 				IgnoreAllDefaultLibraries="true"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile=".\Build\$(PlatformName)\$(ConfigurationName)\progressthruprocessors.pdb"
+				ProgramDatabaseFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).pdb"
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
@@ -112,7 +113,7 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				Description="Checking boincmgr.exe dependencies"
-				CommandLine="boinc_post_bld_rules.cmd &quot;$(SolutionDir)&quot; &quot;$(OutDir)&quot; &quot;$(PlatformName)&quot; &quot;$(ConfigurationName)&quot;"
+				CommandLine="&quot;$(ProjectDir)\buildenv.cmd&quot; devenvdir &quot;$(DevEnvDir)&quot; type &quot;$(ConfigurationName)&quot; platform &quot;$(PlatformName)&quot; exec updatedepends.cmd"
 			/>
 		</Configuration>
 		<Configuration
@@ -143,9 +144,10 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
-				AdditionalIncludeDirectories="..;..\..\boinc_depends_win_vs2005\wxwidgets\include;&quot;..\..\boinc_depends_win_vs2005\wxwidgets\mswin\$(PlatformName)\$(ConfigurationName)\lib\vc_lib\mswu&quot;;..\..\boinc_depends_win_vs2005\sqlite3\include;..\lib;..\api;..\clientgui;..\client\win;$(NOINHERIT)"
-				PreprocessorDefinitions="WIN32;_WIN32;_NDEBUG;_WINDOWS;_MT;__WXNDEBUG__;WXNDEBUG;_UNICODE;UNICODE;_PROGRESSTHRUPROCESSORS;wxUSE_GUI=1;$(NOINHERIT)"
+				AdditionalIncludeDirectories="..;..\..\boinc_depends_win_vs2005\wxwidgets\include;&quot;..\..\boinc_depends_win_vs2005\wxwidgets\mswin\$(PlatformName)\$(ConfigurationName)\lib\vc_lib\mswu&quot;;..\..\boinc_depends_win_vs2005\sqlite3\include;..\lib;..\api;..\clientgui;..\client\win;../coprocs/OpenCL/include;$(NOINHERIT)"
+				PreprocessorDefinitions="WIN32;_WIN32;_NDEBUG;_WINDOWS;_MT;__WXNDEBUG__;WXNDEBUG;_UNICODE;UNICODE;wxUSE_GUI=1;_PROGRESSTHRUPROCESSORS;$(NOINHERIT)"
 				StringPooling="true"
+				ExceptionHandling="2"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="false"
 				FloatingPointModel="2"
@@ -172,13 +174,13 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="MSVCRT.LIB MSVCPRT.LIB kernel32.lib user32.lib gdi32.lib ole32.lib oleacc.lib oleaut32.lib shell32.lib comdlg32.lib advapi32.lib oldnames.lib uuid.lib rpcrt4.lib comctl32.lib wsock32.lib wininet.lib wxbase28u.lib wxbase28u_net.lib wxbase28u_xml.lib wxmsw28u_adv.lib wxmsw28u_core.lib wxmsw28u_html.lib wxregexu.lib wxexpat.lib wxpng.lib wxtiff.lib wxjpeg.lib wxzlib.lib boinc_dll.lib sqlite3.lib $(NOINHERIT)"
-				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\progressthruprocessors.exe"
+				AdditionalDependencies="MSVCRT.LIB MSVCPRT.LIB kernel32.lib user32.lib gdi32.lib ole32.lib oleacc.lib oleaut32.lib shell32.lib comdlg32.lib advapi32.lib oldnames.lib uuid.lib rpcrt4.lib comctl32.lib wsock32.lib wininet.lib userenv.lib wxbase28u.lib wxbase28u_net.lib wxbase28u_xml.lib wxmsw28u_adv.lib wxmsw28u_core.lib wxmsw28u_html.lib wxregexu.lib wxexpat.lib wxpng.lib wxtiff.lib wxjpeg.lib wxzlib.lib sqlite3.lib $(NOINHERIT)"
+				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).exe"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="&quot;$(OutDir)&quot;;&quot;..\..\boinc_depends_win_vs2005\wxwidgets\mswin\$(PlatformName)\$(ConfigurationName)\lib\vc_lib&quot;;&quot;..\..\boinc_depends_win_vs2005\sqlite3\mswin\$(PlatformName)\$(ConfigurationName)\lib&quot;"
 				IgnoreAllDefaultLibraries="true"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile=".\Build\$(PlatformName)\$(ConfigurationName)\progressthruprocessors.pdb"
+				ProgramDatabaseFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).pdb"
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
@@ -210,7 +212,7 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				Description="Checking boincmgr.exe dependencies"
-				CommandLine="boinc_post_bld_rules.cmd &quot;$(SolutionDir)&quot; &quot;$(OutDir)&quot; &quot;$(PlatformName)&quot; &quot;$(ConfigurationName)&quot;"
+				CommandLine="&quot;$(ProjectDir)\buildenv.cmd&quot; devenvdir &quot;$(DevEnvDir)&quot; type &quot;$(ConfigurationName)&quot; platform &quot;$(PlatformName)&quot; exec updatedepends.cmd"
 			/>
 		</Configuration>
 		<Configuration
@@ -240,10 +242,11 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..;..\..\boinc_depends_win_vs2005\wxwidgets\include;&quot;..\..\boinc_depends_win_vs2005\wxwidgets\mswin\$(PlatformName)\$(ConfigurationName)\lib\vc_lib\mswud&quot;;..\..\boinc_depends_win_vs2005\sqlite3\include;..\lib;..\api;..\clientgui;..\client\win;$(NOINHERIT)"
-				PreprocessorDefinitions="WIN32;_WIN32;_DEBUG;_WINDOWS;_MT;__WXDEBUG__;WXDEBUG;_UNICODE;UNICODE;_PROGRESSTHRUPROCESSORS;wxUSE_GUI=1;$(NOINHERIT)"
+				AdditionalIncludeDirectories="..;..\..\boinc_depends_win_vs2005\wxwidgets\include;&quot;..\..\boinc_depends_win_vs2005\wxwidgets\mswin\$(PlatformName)\$(ConfigurationName)\lib\vc_lib\mswud&quot;;..\..\boinc_depends_win_vs2005\sqlite3\include;..\lib;..\api;..\clientgui;..\client\win;../coprocs/OpenCL/include;$(NOINHERIT)"
+				PreprocessorDefinitions="WIN32;_WIN32;_DEBUG;_WINDOWS;_MT;__WXDEBUG__;WXDEBUG;_UNICODE;UNICODE;wxUSE_GUI=1;_PROGRESSTHRUPROCESSORS;$(NOINHERIT)"
 				StringPooling="false"
 				MinimalRebuild="false"
+				ExceptionHandling="2"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				BufferSecurityCheck="true"
@@ -274,13 +277,13 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="MSVCRTD.LIB MSVCPRTD.LIB kernel32.lib user32.lib gdi32.lib ole32.lib oleacc.lib oleaut32.lib shell32.lib comdlg32.lib advapi32.lib oldnames.lib uuid.lib rpcrt4.lib comctl32.lib wsock32.lib wininet.lib wxbase28ud.lib wxbase28ud_net.lib wxbase28ud_xml.lib wxmsw28ud_adv.lib wxmsw28ud_core.lib wxmsw28ud_html.lib wxregexud.lib wxexpatd.lib wxjpegd.lib wxtiffd.lib wxpngd.lib wxzlibd.lib boinc_dll.lib sqlite3.lib $(NOINHERIT)"
-				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\progressthruprocessors.exe"
+				AdditionalDependencies="MSVCRTD.LIB MSVCPRTD.LIB kernel32.lib user32.lib gdi32.lib ole32.lib oleacc.lib oleaut32.lib shell32.lib comdlg32.lib advapi32.lib oldnames.lib uuid.lib rpcrt4.lib comctl32.lib wsock32.lib wininet.lib userenv.lib wxbase28ud.lib wxbase28ud_net.lib wxbase28ud_xml.lib wxmsw28ud_adv.lib wxmsw28ud_core.lib wxmsw28ud_html.lib wxregexud.lib wxexpatd.lib wxjpegd.lib wxtiffd.lib wxpngd.lib wxzlibd.lib sqlite3.lib $(NOINHERIT)"
+				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).exe"
 				LinkIncremental="0"
 				AdditionalLibraryDirectories="&quot;$(OutDir)&quot;;&quot;..\..\boinc_depends_win_vs2005\wxwidgets\mswin\$(PlatformName)\$(ConfigurationName)\lib\vc_lib&quot;;&quot;..\..\boinc_depends_win_vs2005\sqlite3\mswin\$(PlatformName)\$(ConfigurationName)\lib&quot;"
 				IgnoreAllDefaultLibraries="true"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile=".\Build\$(PlatformName)\$(ConfigurationName)\progressthruprocessors.pdb"
+				ProgramDatabaseFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).pdb"
 				SubSystem="2"
 				TargetMachine="1"
 			/>
@@ -309,7 +312,7 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				Description="Checking boincmgr.exe dependencies"
-				CommandLine="boinc_post_bld_rules.cmd &quot;$(SolutionDir)&quot; &quot;$(OutDir)&quot; &quot;$(PlatformName)&quot; &quot;$(ConfigurationName)&quot;"
+				CommandLine="&quot;$(ProjectDir)\buildenv.cmd&quot; devenvdir &quot;$(DevEnvDir)&quot; type &quot;$(ConfigurationName)&quot; platform &quot;$(PlatformName)&quot; exec updatedepends.cmd"
 			/>
 		</Configuration>
 		<Configuration
@@ -340,10 +343,11 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..;..\..\boinc_depends_win_vs2005\wxwidgets\include;&quot;..\..\boinc_depends_win_vs2005\wxwidgets\mswin\$(PlatformName)\$(ConfigurationName)\lib\vc_lib\mswud&quot;;..\..\boinc_depends_win_vs2005\sqlite3\include;..\lib;..\api;..\clientgui;..\client\win;$(NOINHERIT)"
-				PreprocessorDefinitions="WIN32;_WIN32;_DEBUG;_WINDOWS;_MT;__WXDEBUG__;WXDEBUG;_UNICODE;UNICODE;_PROGRESSTHRUPROCESSORS;wxUSE_GUI=1;$(NOINHERIT)"
+				AdditionalIncludeDirectories="..;..\..\boinc_depends_win_vs2005\wxwidgets\include;&quot;..\..\boinc_depends_win_vs2005\wxwidgets\mswin\$(PlatformName)\$(ConfigurationName)\lib\vc_lib\mswud&quot;;..\..\boinc_depends_win_vs2005\sqlite3\include;..\lib;..\api;..\clientgui;..\client\win;../coprocs/OpenCL/include;$(NOINHERIT)"
+				PreprocessorDefinitions="WIN32;_WIN32;_DEBUG;_WINDOWS;_MT;__WXDEBUG__;WXDEBUG;_UNICODE;UNICODE;wxUSE_GUI=1;_PROGRESSTHRUPROCESSORS;$(NOINHERIT)"
 				StringPooling="false"
 				MinimalRebuild="false"
+				ExceptionHandling="2"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				BufferSecurityCheck="true"
@@ -374,13 +378,13 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="MSVCRTD.LIB MSVCPRTD.LIB kernel32.lib user32.lib gdi32.lib ole32.lib oleaut32.lib oleacc.lib shell32.lib comdlg32.lib advapi32.lib oldnames.lib uuid.lib rpcrt4.lib comctl32.lib wsock32.lib wininet.lib wxbase28ud.lib wxbase28ud_net.lib wxbase28ud_xml.lib wxmsw28ud_adv.lib wxmsw28ud_core.lib wxmsw28ud_html.lib wxregexud.lib wxexpatd.lib wxpngd.lib wxtiffd.lib wxjpegd.lib wxzlibd.lib boinc_dll.lib sqlite3.lib $(NOINHERIT)"
-				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\progressthruprocessors.exe"
+				AdditionalDependencies="MSVCRTD.LIB MSVCPRTD.LIB kernel32.lib user32.lib gdi32.lib ole32.lib oleaut32.lib oleacc.lib shell32.lib comdlg32.lib advapi32.lib oldnames.lib uuid.lib rpcrt4.lib comctl32.lib wsock32.lib wininet.lib userenv.lib wxbase28ud.lib wxbase28ud_net.lib wxbase28ud_xml.lib wxmsw28ud_adv.lib wxmsw28ud_core.lib wxmsw28ud_html.lib wxregexud.lib wxexpatd.lib wxpngd.lib wxtiffd.lib wxjpegd.lib wxzlibd.lib sqlite3.lib $(NOINHERIT)"
+				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).exe"
 				LinkIncremental="0"
 				AdditionalLibraryDirectories="&quot;$(OutDir)&quot;;&quot;..\..\boinc_depends_win_vs2005\wxwidgets\mswin\$(PlatformName)\$(ConfigurationName)\lib\vc_lib&quot;;&quot;..\..\boinc_depends_win_vs2005\sqlite3\mswin\$(PlatformName)\$(ConfigurationName)\lib&quot;"
 				IgnoreAllDefaultLibraries="true"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile=".\Build\$(PlatformName)\$(ConfigurationName)\progressthruprocessors.pdb"
+				ProgramDatabaseFile=".\Build\$(PlatformName)\$(ConfigurationName)\$(ProjectName).pdb"
 				SubSystem="2"
 				TargetMachine="17"
 			/>
@@ -409,7 +413,7 @@
 			<Tool
 				Name="VCPostBuildEventTool"
 				Description="Checking boincmgr.exe dependencies"
-				CommandLine="boinc_post_bld_rules.cmd &quot;$(SolutionDir)&quot; &quot;$(OutDir)&quot; &quot;$(PlatformName)&quot; &quot;$(ConfigurationName)&quot;"
+				CommandLine="&quot;$(ProjectDir)\buildenv.cmd&quot; devenvdir &quot;$(DevEnvDir)&quot; type &quot;$(ConfigurationName)&quot; platform &quot;$(PlatformName)&quot; exec updatedepends.cmd"
 			/>
 		</Configuration>
 	</Configurations>
@@ -421,6 +425,10 @@
 			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;xrc"
 			UniqueIdentifier="{08DB1F42-8D4B-491a-870C-2A991D5ED0DB}"
 			>
+			<File
+				RelativePath="..\clientgui\res\atiicon.xpm"
+				>
+			</File>
 			<File
 				RelativePath="..\clientgui\res\boinc.xpm"
 				>
@@ -463,6 +471,14 @@
 			</File>
 			<File
 				RelativePath="..\clientgui\res\mess.xpm"
+				>
+			</File>
+			<File
+				RelativePath="..\clientgui\res\multicore.xpm"
+				>
+			</File>
+			<File
+				RelativePath="..\clientgui\res\nvidiaicon.xpm"
 				>
 			</File>
 			<File
@@ -571,22 +587,6 @@
 							>
 						</File>
 						<File
-							RelativePath="..\clientgui\res\skins\default\graphic\change_button.xpm"
-							>
-						</File>
-						<File
-							RelativePath="..\clientgui\res\skins\default\graphic\change_clicked_button.xpm"
-							>
-						</File>
-						<File
-							RelativePath="..\clientgui\res\skins\default\graphic\clear_button.xpm"
-							>
-						</File>
-						<File
-							RelativePath="..\clientgui\res\skins\default\graphic\clear_clicked_button.xpm"
-							>
-						</File>
-						<File
 							RelativePath="..\clientgui\res\skins\default\graphic\close_button.xpm"
 							>
 						</File>
@@ -599,7 +599,35 @@
 							>
 						</File>
 						<File
+							RelativePath="..\clientgui\res\skins\default\graphic\copy_all_button.xpm"
+							>
+						</File>
+						<File
+							RelativePath="..\clientgui\res\skins\default\graphic\copy_all_clicked_button.xpm"
+							>
+						</File>
+						<File
+							RelativePath="..\clientgui\res\skins\default\graphic\copy_button.xpm"
+							>
+						</File>
+						<File
+							RelativePath="..\clientgui\res\skins\default\graphic\copy_clicked_button.xpm"
+							>
+						</File>
+						<File
+							RelativePath="..\clientgui\res\skins\default\graphic\dialog_background_image.xpm"
+							>
+						</File>
+						<File
 							RelativePath="..\clientgui\res\skins\default\graphic\error_indicator_image.xpm"
+							>
+						</File>
+						<File
+							RelativePath="..\clientgui\res\skins\default\graphic\help_button.xpm"
+							>
+						</File>
+						<File
+							RelativePath="..\clientgui\res\skins\default\graphic\help_clicked_button.xpm"
 							>
 						</File>
 						<File
@@ -615,15 +643,7 @@
 							>
 						</File>
 						<File
-							RelativePath="..\clientgui\res\skins\default\graphic\messages_dialog_background_image.xpm"
-							>
-						</File>
-						<File
 							RelativePath="..\clientgui\res\skins\default\graphic\messages_link_image.xpm"
-							>
-						</File>
-						<File
-							RelativePath="..\clientgui\res\skins\default\graphic\preferences_dialog_background_image.xpm"
 							>
 						</File>
 						<File
@@ -717,102 +737,94 @@
 		<Filter
 			Name="Simple"
 			>
-			<Filter
-				Name="Prototype"
+			<File
+				RelativePath="..\clientgui\BOINCBitmapComboBox.cpp"
 				>
-				<File
-					RelativePath="..\clientgui\sg_BoincSimpleGUI.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\clientgui\sg_BoincSimpleGUI.h"
-					>
-				</File>
-				<File
-					RelativePath="..\clientgui\sg_ClientStateIndicator.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\clientgui\sg_ClientStateIndicator.h"
-					>
-				</File>
-				<File
-					RelativePath="..\clientgui\sg_CustomControls.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\clientgui\sg_DlgMessages.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\clientgui\sg_DlgMessages.h"
-					>
-				</File>
-				<File
-					RelativePath="..\clientgui\sg_DlgPreferences.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\clientgui\sg_DlgPreferences.h"
-					>
-				</File>
-				<File
-					RelativePath="..\clientgui\sg_ImageButton.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\clientgui\sg_ImageButton.h"
-					>
-				</File>
-				<File
-					RelativePath="..\clientgui\sg_ImageLoader.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\clientgui\sg_ImageLoader.h"
-					>
-				</File>
-				<File
-					RelativePath="..\clientgui\sg_ProgressBar.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\clientgui\sg_ProgressBar.h"
-					>
-				</File>
-				<File
-					RelativePath="..\clientgui\sg_ProjectsComponent.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\clientgui\sg_ProjectsComponent.h"
-					>
-				</File>
-				<File
-					RelativePath="..\clientgui\sg_SGUIListControl.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\clientgui\sg_SGUIListControl.h"
-					>
-				</File>
-				<File
-					RelativePath="..\clientgui\sg_StatImageLoader.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\clientgui\sg_StatImageLoader.h"
-					>
-				</File>
-				<File
-					RelativePath="..\clientgui\sg_ViewTabPage.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\clientgui\sg_ViewTabPage.h"
-					>
-				</File>
-			</Filter>
+			</File>
+			<File
+				RelativePath="..\clientgui\BOINCBitmapComboBox.h"
+				>
+			</File>
+			<File
+				RelativePath="..\clientgui\sg_BoincSimpleFrame.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\clientgui\sg_BoincSimpleFrame.h"
+				>
+			</File>
+			<File
+				RelativePath="..\clientgui\sg_CustomControls.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\clientgui\sg_CustomControls.h"
+				>
+			</File>
+			<File
+				RelativePath="..\clientgui\sg_DlgMessages.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\clientgui\sg_DlgMessages.h"
+				>
+			</File>
+			<File
+				RelativePath="..\clientgui\sg_DlgPreferences.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\clientgui\sg_DlgPreferences.h"
+				>
+			</File>
+			<File
+				RelativePath="..\clientgui\sg_PanelBase.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\clientgui\sg_PanelBase.h"
+				>
+			</File>
+			<File
+				RelativePath="..\clientgui\sg_ProjectCommandPopup.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\clientgui\sg_ProjectCommandPopup.h"
+				>
+			</File>
+			<File
+				RelativePath="..\clientgui\sg_ProjectPanel.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\clientgui\sg_ProjectPanel.h"
+				>
+			</File>
+			<File
+				RelativePath="..\clientgui\sg_ProjectWebSitesPopup.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\clientgui\sg_ProjectWebSitesPopup.h"
+				>
+			</File>
+			<File
+				RelativePath="..\clientgui\sg_TaskCommandPopup.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\clientgui\sg_TaskCommandPopup.h"
+				>
+			</File>
+			<File
+				RelativePath="..\clientgui\sg_TaskPanel.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\clientgui\sg_TaskPanel.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="libboinc"
@@ -834,7 +846,27 @@
 				>
 			</File>
 			<File
+				RelativePath="..\lib\cc_config.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\lib\cc_config.h"
+				>
+			</File>
+			<File
 				RelativePath="..\lib\common_defs.h"
+				>
+			</File>
+			<File
+				RelativePath="..\lib\coproc.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\lib\daemonmgt.h"
+				>
+			</File>
+			<File
+				RelativePath="..\lib\daemonmgt_win.cpp"
 				>
 			</File>
 			<File
@@ -867,6 +899,14 @@
 			</File>
 			<File
 				RelativePath="..\lib\hostinfo.h"
+				>
+			</File>
+			<File
+				RelativePath="..\lib\idlemon.h"
+				>
+			</File>
+			<File
+				RelativePath="..\lib\idlemon_win.cpp"
 				>
 			</File>
 			<File
@@ -926,6 +966,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\lib\notice.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\lib\notice.h"
+				>
+			</File>
+			<File
 				RelativePath="..\lib\parse.cpp"
 				>
 			</File>
@@ -947,6 +995,18 @@
 			</File>
 			<File
 				RelativePath="..\lib\proc_control.h"
+				>
+			</File>
+			<File
+				RelativePath="..\lib\procinfo.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\lib\procinfo.h"
+				>
+			</File>
+			<File
+				RelativePath="..\lib\procinfo_win.cpp"
 				>
 			</File>
 			<File
@@ -979,6 +1039,14 @@
 			</File>
 			<File
 				RelativePath="..\lib\str_util.h"
+				>
+			</File>
+			<File
+				RelativePath="..\lib\url.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\lib\url.h"
 				>
 			</File>
 			<File
@@ -1146,25 +1214,13 @@
 				>
 			</File>
 			<File
-				RelativePath="..\clientgui\WizardAttachProject.cpp"
+				RelativePath="..\clientgui\WizardAttach.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\clientgui\WizardAttachProject.h"
+				RelativePath="..\clientgui\WizardAttach.h"
 				>
 			</File>
-			<Filter
-				Name="Support"
-				>
-				<File
-					RelativePath="..\clientgui\ProjectListCtrl.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\clientgui\ProjectListCtrl.h"
-					>
-				</File>
-			</Filter>
 			<Filter
 				Name="Infrastructure"
 				>
@@ -1177,7 +1233,11 @@
 					>
 				</File>
 				<File
-					RelativePath="..\clientgui\BOINCWizards.h"
+					RelativePath="..\clientgui\ProjectListCtrl.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\clientgui\ProjectListCtrl.h"
 					>
 				</File>
 				<File
@@ -1218,27 +1278,19 @@
 				>
 			</File>
 			<File
+				RelativePath="..\clientgui\BOINCInternetFSHandler.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\clientgui\BOINCInternetFSHandler.h"
+				>
+			</File>
+			<File
 				RelativePath="..\clientgui\browser.cpp"
 				>
 			</File>
 			<File
 				RelativePath="..\clientgui\browser.h"
-				>
-			</File>
-			<File
-				RelativePath="..\clientgui\hyperlink.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\clientgui\hyperlink.h"
-				>
-			</File>
-			<File
-				RelativePath="..\clientgui\Localization.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\clientgui\Localization.h"
 				>
 			</File>
 			<File
@@ -1257,26 +1309,6 @@
 				RelativePath="..\clientgui\SkinManager.h"
 				>
 			</File>
-			<Filter
-				Name="FlatNotebook"
-				>
-				<File
-					RelativePath="..\clientgui\common\wxFlatNotebook.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\clientgui\common\wxFlatNotebook.h"
-					>
-				</File>
-				<File
-					RelativePath="..\clientgui\common\wxFlatNotebookImages.h"
-					>
-				</File>
-				<File
-					RelativePath="..\clientgui\common\wxFNBDropTarget.h"
-					>
-				</File>
-			</Filter>
 			<Filter
 				Name="Validators"
 				>
@@ -1308,6 +1340,30 @@
 			<Filter
 				Name="Dialogs"
 				>
+				<File
+					RelativePath="..\clientgui\DlgAbout.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\clientgui\DlgAbout.h"
+					>
+				</File>
+				<File
+					RelativePath="..\clientgui\DlgEventLog.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\clientgui\DlgEventLog.h"
+					>
+				</File>
+				<File
+					RelativePath="..\clientgui\DlgEventLogListCtrl.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\clientgui\DlgEventLogListCtrl.h"
+					>
+				</File>
 				<File
 					RelativePath="..\clientgui\DlgExitMessage.cpp"
 					>
@@ -1341,6 +1397,14 @@
 				Name="Views"
 				>
 				<File
+					RelativePath="..\clientgui\BOINCBaseView.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\clientgui\BOINCBaseView.h"
+					>
+				</File>
+				<File
 					RelativePath="..\clientgui\BOINCListCtrl.cpp"
 					>
 				</File>
@@ -1357,19 +1421,11 @@
 					>
 				</File>
 				<File
-					RelativePath="..\clientgui\ViewMessages.cpp"
+					RelativePath="..\clientgui\ViewNotices.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\clientgui\ViewMessages.h"
-					>
-				</File>
-				<File
-					RelativePath="..\clientgui\ViewNews.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\clientgui\ViewNews.h"
+					RelativePath="..\clientgui\ViewNotices.h"
 					>
 				</File>
 				<File
@@ -1417,19 +1473,11 @@
 				Name="Support"
 				>
 				<File
-					RelativePath="..\clientgui\BOINCBaseView.cpp"
+					RelativePath="..\clientgui\BOINCHtmlLBox.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\clientgui\BOINCBaseView.h"
-					>
-				</File>
-				<File
-					RelativePath="..\clientgui\DlgAbout.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\clientgui\DlgAbout.h"
+					RelativePath="..\clientgui\BOINCHtmlLBox.h"
 					>
 				</File>
 				<File
@@ -1470,6 +1518,14 @@
 				</File>
 				<File
 					RelativePath="..\clientgui\DlgSelectComputer.h"
+					>
+				</File>
+				<File
+					RelativePath="..\clientgui\NoticeListCtrl.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\clientgui\NoticeListCtrl.h"
 					>
 				</File>
 				<File

@@ -28,15 +28,24 @@
 #include "sched_util.h"
 #include "sched_types.h"
 #include "hr_info.h"
+#include "sched_customize.h"
 
 // the following must be at least as large as DB tables
 // (counting only non-deprecated entries for the current major version)
 // Increase as needed
 //
+#ifndef MAX_PLATFORMS
 #define MAX_PLATFORMS       50
+#endif
+#ifndef MAX_APPS
 #define MAX_APPS            10
+#endif
+#ifndef MAX_APP_VERSIONS
 #define MAX_APP_VERSIONS    50
+#endif
+#ifndef MAX_ASSIGNMENTS
 #define MAX_ASSIGNMENTS     10
+#endif
 
 // Default number of work items in shared mem.
 // You can configure this in config.xml (<shmem_work_items>)
@@ -44,7 +53,9 @@
 // you may exceed the max shared-memory segment size
 // on some operating systems.
 //
+#ifndef MAX_WU_RESULTS
 #define MAX_WU_RESULTS      100
+#endif
 
 // values of WU_RESULT.state
 #define WR_STATE_EMPTY   0
@@ -116,6 +127,13 @@ struct SCHED_SHMEM {
     APP_VERSION* lookup_app_version_platform_plan_class(
         int platform, char* plan_class
     );
+    double total_expavg_credit() {
+        double x = 0;
+        for (int i=0; i<napp_versions; i++) {
+            x += app_versions[i].expavg_credit;
+        }
+        return x;
+    }
     PLATFORM* lookup_platform_id(int);
     PLATFORM* lookup_platform(char*);
 };

@@ -28,6 +28,7 @@
 #endif
 
 #include "error_numbers.h"
+#include "common_defs.h"
 #include "filesys.h"
 #include "str_util.h"
 #include "str_replace.h"
@@ -317,6 +318,9 @@
 #define PRODUCT_EMBEDDED_INDUSTRY_A_E               0x0000005C
 #endif
 #ifndef PRODUCT_STORAGE_WORKGROUP_EVALUATION_SERVER
+#define PRODUCT_STORAGE_WORKGROUP_EVALUATION_SERVER 0x0000005F
+#endif
+#ifndef PRODUCT_STORAGE_STANDARD_EVALUATION_SERVER
 #define PRODUCT_STORAGE_STANDARD_EVALUATION_SERVER  0x00000060
 #endif
 #ifndef PRODUCT_CORE_ARM                            
@@ -337,6 +341,30 @@
 #ifndef PRODUCT_PROFESSIONAL_WMC                    
 #define PRODUCT_PROFESSIONAL_WMC                    0x00000067
 #endif
+#ifndef PRODUCT_MOBILE_CORE
+#define PRODUCT_MOBILE_CORE                         0x00000068
+#endif
+// Windows NT 6.3
+#ifndef PRODUCT_EMBEDDED_INDUSTRY_EVAL
+#define PRODUCT_EMBEDDED_INDUSTRY_EVAL              0x00000069
+#endif
+#ifndef PRODUCT_EMBEDDED_INDUSTRY_E_EVAL
+#define PRODUCT_EMBEDDED_INDUSTRY_E_EVAL            0x0000006A
+#endif
+#ifndef PRODUCT_EMBEDDED_EVAL
+#define PRODUCT_EMBEDDED_EVAL                       0x0000006B
+#endif
+#ifndef PRODUCT_EMBEDDED_E_EVAL
+#define PRODUCT_EMBEDDED_E_EVAL                     0x0000006C
+#endif
+#ifndef PRODUCT_CORE_SERVER
+#define PRODUCT_CORE_SERVER                         0x0000006D
+#endif
+#ifndef PRODUCT_CLOUD_STORAGE_SERVER
+#define PRODUCT_CLOUD_STORAGE_SERVER                0x0000006E
+#endif
+
+
 
 // Newer suite types than what is currently defined in
 //   Visual Studio 2005
@@ -382,7 +410,7 @@ typedef void (WINAPI *PGNSI)(LPSYSTEM_INFO);
 typedef BOOL (WINAPI *PGPI)(DWORD, DWORD, DWORD, DWORD, PDWORD);
 
 int get_os_information(
-    char* os_name, int /*os_name_size*/, char* os_version, int os_version_size
+    char* os_name, int os_name_size, char* os_version, int os_version_size
 ) {
     // This code snip-it was copied straight out of the MSDN Platform SDK
     //   Getting the System Version example and modified to dump the output
@@ -426,10 +454,19 @@ int get_os_information(
 
 
     // Windows is a Microsoft OS
-    strcpy(os_name, "Microsoft ");
+    strlcpy(os_name, "Microsoft ", os_name_size);
 
     switch (osvi.dwPlatformId) {
         case VER_PLATFORM_WIN32_NT:
+
+			if ( osvi.dwMajorVersion == 6 && osvi.dwMinorVersion == 3 ) {
+                if( osvi.wProductType == VER_NT_WORKSTATION ) {
+                    strcat(os_name, "Windows 8.1");
+                } else {
+                    strcat(os_name, "Windows Server 2012 R2");
+                }
+                pGPI( 6, 3, 0, 0, &dwType);
+            }
 
             if ( osvi.dwMajorVersion == 6 && osvi.dwMinorVersion == 2 ) {
                 if( osvi.wProductType == VER_NT_WORKSTATION ) {
@@ -584,14 +621,25 @@ int get_os_information(
                             case PRODUCT_PRERELEASE_N:
                                 strcat(szSKU, "Developer Preview N ");
                                 break;
-							// added Embbedded SKUs:
 							case PRODUCT_EMBEDDED:
 								strcat(szSKU, "Embedded Standard ");
 								break;
 							case PRODUCT_THINPC:    
 								strcat(szSKU, "ThinPC ");
 								break;
-
+							case PRODUCT_CORE:
+								strcat(szSKU, "Core ");
+								break;
+							case PRODUCT_CORE_N:
+								strcat(szSKU, "Core N ");
+								break;
+							case PRODUCT_CORE_ARM:
+								strcat(szSKU, "Core "); // just Core because Boinc will add ARM later
+								break;
+							case PRODUCT_PROFESSIONAL_WMC:
+								strcat(szSKU, "Professional with Media Center ");
+								break;
+							
                        }
                     } else if( (osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 2) ) {
                         if( osvi.wSuiteMask & VER_SUITE_PERSONAL ) {
@@ -740,7 +788,11 @@ int get_os_information(
                     case PROCESSOR_ARCHITECTURE_AMD64:
                         strcat(szSKU, "x64 ");
                         break;
-                    case PROCESSOR_ARCHITECTURE_UNKNOWN:
+					// could be needed for Windows RT Boinc ?
+					case PROCESSOR_ARCHITECTURE_ARM:
+						strcat(szSKU, "ARM");
+						break;
+					case PROCESSOR_ARCHITECTURE_UNKNOWN:
                         strcat(szSKU, "Unknown ");
                         break;
                 }
@@ -973,6 +1025,45 @@ int get_processor_cache(int& cache) {
 }
 
 
+// Returns true if the AVX instruction set is supported with the current
+// combination of OS and CPU.
+// see: http://insufficientlycomplicated.wordpress.com/2011/11/07/detecting-intel-advanced-vector-extensions-avx-in-visual-studio/
+bool is_avx_supported() {
+
+    bool supported = false;
+ 
+    // If Visual Studio 2010 SP1 or later
+#if (_MSC_FULL_VER >= 160040219)
+    // Checking for AVX requires 3 things:
+    // 1) CPUID indicates that the OS uses XSAVE and XRSTORE
+    //     instructions (allowing saving YMM registers on context
+    //     switch)
+    // 2) CPUID indicates support for AVX
+    // 3) XGETBV indicates the AVX registers will be saved and
+    //     restored on context switch
+    //
+    // Note that XGETBV is only available on 686 or later CPUs, so
+    // the instruction needs to be conditionally run.
+    int cpuInfo[4];
+    __cpuid(cpuInfo, 1);
+ 
+    bool osUsesXSAVE_XRSTORE = cpuInfo[2] & (1 << 27) || false;
+    bool cpuAVXSuport = cpuInfo[2] & (1 << 28) || false;
+ 
+    if (osUsesXSAVE_XRSTORE && cpuAVXSuport)
+    {
+        // Check if the OS will save the YMM registers
+        unsigned long long xcrFeatureMask = _xgetbv(_XCR_XFEATURE_ENABLED_MASK);
+        supported = (xcrFeatureMask & 0x6) || false;
+    }
+#endif
+ 
+    return supported;
+}
+
+
+
+
 // Returns the features supported by the processor, use the
 // Linux CPU processor feature mnemonics.
 // see: http://msdn.microsoft.com/en-us/library/hskdteyh.aspx
@@ -985,6 +1076,9 @@ int get_processor_features(char* vendor, char* features, int features_size) {
     unsigned int std_eax = 0, std_ebx = 0, std_ecx = 0, std_edx = 0;
     unsigned int ext_eax = 0, ext_ebx = 0, ext_ecx = 0, ext_edx = 0;
     unsigned int std_supported = 0, ext_supported = 0, intel_supported = 0, amd_supported = 0;
+
+	unsigned int struc_ext_supported = 0; // CPUID 0000:0007 ECX=0;
+	unsigned int struc_eax = 0, struc_ebx = 0, struc_ecx = 0, struc_edx = 0;
 
     if (!vendor) return ERR_INVALID_PARAM;
     if (!features) return ERR_INVALID_PARAM;
@@ -1004,6 +1098,17 @@ int get_processor_features(char* vendor, char* features, int features_size) {
         std_supported = 1;
         get_cpuid(0x00000001, std_eax, std_ebx, std_ecx, std_edx);
     }
+
+	// Structured Ext. Feature Flags
+	//
+	// only using eax=7 ecx=0; could need an other option later for ecx=1...n //
+	get_cpuid(0x00000000, std_eax, std_ebx, std_ecx, std_edx);
+	if (std_eax >= 0x00000007) {
+		struc_ext_supported = 1;
+		get_cpuid(0x00000007, struc_eax, struc_ebx, struc_ecx, struc_edx);
+	}
+
+
 
     get_cpuid(0x80000000, ext_eax, ext_ebx, ext_ecx, ext_edx);
     if (ext_eax >= 0x80000001) {
@@ -1042,27 +1147,51 @@ int get_processor_features(char* vendor, char* features, int features_size) {
 
     FEATURE_TEST(std_supported, (std_ecx & (1 << 0)), "pni ");
     FEATURE_TEST(std_supported, (std_ecx & (1 << 9)), "ssse3 ");
-    FEATURE_TEST(std_supported, (std_ecx & (1 << 13)), "cx16 ");
+	FEATURE_TEST(std_supported, (std_ecx & (1 << 12)), "fma ");
+	FEATURE_TEST(std_supported, (std_ecx & (1 << 13)), "cx16 ");
     FEATURE_TEST(std_supported, (std_ecx & (1 << 19)), "sse4_1 ");
     FEATURE_TEST(std_supported, (std_ecx & (1 << 20)), "sse4_2 ");
+    FEATURE_TEST(std_supported, (std_ecx & (1 << 22)), "movebe ");
+    FEATURE_TEST(std_supported, (std_ecx & (1 << 23)), "popcnt ");
+    FEATURE_TEST(std_supported, (std_ecx & (1 << 25)), "aes ");
+	FEATURE_TEST(std_supported, (std_ecx & (1 << 29)), "f16c ");
+	FEATURE_TEST(std_supported, (std_ecx & (1 << 30)), "rdrand");
 
     FEATURE_TEST(ext_supported, (ext_edx & (1 << 11)), "syscall ");
     FEATURE_TEST(ext_supported, (ext_edx & (1 << 20)), "nx ");
     FEATURE_TEST(ext_supported, (ext_edx & (1 << 29)), "lm ");
+
+
+    if (is_avx_supported()) {
+        FEATURE_TEST(std_supported, (std_ecx & (1 << 28)), "avx ");
+    }
+
+    if (is_avx_supported() && struc_ext_supported) {
+		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 5)), "avx2 ");
+    }
+
+
+	if (struc_ext_supported) {
+		// Structured Ext. Feature Flags
+		// used by newer Intel and newer AMD CPUs
+		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 0)), "fsgsbase ");
+		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 3)), "bmi1 ");
+		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 4)), "hle ");
+		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 7)), "smep ");
+		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 8)), "bmi2 ");
+	}
+
 
     if (intel_supported) {
         // Intel only features
         FEATURE_TEST(std_supported, (std_ecx & (1 << 5)), "vmx ");
         FEATURE_TEST(std_supported, (std_ecx & (1 << 6)), "smx ");
         FEATURE_TEST(std_supported, (std_ecx & (1 << 8)), "tm2 ");
-        FEATURE_TEST(std_supported, (std_ecx & (1 << 12)), "fma ");
         FEATURE_TEST(std_supported, (std_ecx & (1 << 18)), "dca ");
-        FEATURE_TEST(std_supported, (std_ecx & (1 << 22)), "movebe ");
-        FEATURE_TEST(std_supported, (std_ecx & (1 << 23)), "popcnt ");
-        FEATURE_TEST(std_supported, (std_ecx & (1 << 25)), "aes ");
 
         FEATURE_TEST(std_supported, (std_edx & (1 << 31)), "pbe ");
     }
+
 
     if (amd_supported) {
         // AMD only features
@@ -1075,7 +1204,11 @@ int get_processor_features(char* vendor, char* features, int features_size) {
         FEATURE_TEST(ext_supported, (ext_ecx & (1 << 13)), "wdt ");
         FEATURE_TEST(ext_supported, (ext_ecx & (1 << 15)), "lwp ");
         FEATURE_TEST(ext_supported, (ext_ecx & (1 << 16)), "fma4 ");
-        FEATURE_TEST(ext_supported, (ext_ecx & (1 << 18)), "cvt16 ");
+		FEATURE_TEST(ext_supported, (ext_ecx & (1 << 17)), "tce ");
+		FEATURE_TEST(ext_supported, (ext_ecx & (1 << 18)), "cvt16 ");
+		FEATURE_TEST(ext_supported, (ext_ecx & (1 << 21)), "tbm ");
+		FEATURE_TEST(ext_supported, (ext_ecx & (1 << 22)), "topx ");
+
 
         FEATURE_TEST(ext_supported, (ext_edx & (1 << 26)), "page1gb ");
         FEATURE_TEST(ext_supported, (ext_edx & (1 << 27)), "rdtscp ");
@@ -1249,7 +1382,12 @@ int HOST_INFO::get_virtualbox_version() {
 //
 int HOST_INFO::get_host_info() {
     get_timezone(timezone);
-    get_filesystem_info(d_total, d_free);
+    int retval = get_filesystem_info(d_total, d_free);
+    if (retval) {
+        msg_printf(0, MSG_INTERNAL_ERROR,
+            "get_filesystem_info(): %s", boincerror(retval)
+        );
+    }
     get_memory_info(m_nbytes, m_swap);
     get_os_information(
         os_name, sizeof(os_name), os_version, sizeof(os_version)
@@ -1270,9 +1408,9 @@ int HOST_INFO::get_host_info() {
 }
 
 bool HOST_INFO::host_is_running_on_batteries() {
-    SYSTEM_POWER_STATUS pStatus;
-    ZeroMemory(&pStatus, sizeof(SYSTEM_POWER_STATUS));
-    if (!GetSystemPowerStatus(&pStatus)) {
+    SYSTEM_POWER_STATUS Status;
+    ZeroMemory(&Status, sizeof(SYSTEM_POWER_STATUS));
+    if (!GetSystemPowerStatus(&Status)) {
         return false;
     }
 
@@ -1280,11 +1418,46 @@ bool HOST_INFO::host_is_running_on_batteries() {
     //   undocumented value, so lets check to see if the
     //   battery is charging or missing and make that part
     //   of the decision.
-    bool bIsOnBatteryPower  = (pStatus.ACLineStatus != 1);
-    bool bIsBatteryCharging = ((pStatus.BatteryFlag & 8) == 8);
-    bool bIsBatteryMissing = ((pStatus.BatteryFlag & 128) == 128);
+    bool bIsOnBatteryPower  = (Status.ACLineStatus != 1);
+    bool bIsBatteryCharging = ((Status.BatteryFlag & 8) == 8);
+    bool bIsBatteryMissing = ((Status.BatteryFlag & 128) == 128);
 
     return (bIsOnBatteryPower && !bIsBatteryCharging && !bIsBatteryMissing);
+}
+
+int HOST_INFO::get_host_battery_charge() {
+    SYSTEM_POWER_STATUS Status;
+    ZeroMemory(&Status, sizeof(SYSTEM_POWER_STATUS));
+    if (!GetSystemPowerStatus(&Status)) {
+        return false;
+    }
+
+    if (((int)Status.BatteryLifePercent) == 255) return 0;
+    return ((int)Status.BatteryLifePercent);
+}
+
+int HOST_INFO::get_host_battery_state() {
+    SYSTEM_POWER_STATUS Status;
+    ZeroMemory(&Status, sizeof(SYSTEM_POWER_STATUS));
+    if (!GetSystemPowerStatus(&Status)) {
+        return false;
+    }
+
+    // Sometimes the system reports the ACLineStatus as an
+    //   undocumented value, so lets check to see if the
+    //   battery is charging or missing and make that part
+    //   of the decision.
+    bool bIsOnBatteryPower  = (Status.ACLineStatus != 1);
+    bool bIsBatteryCharging = ((Status.BatteryFlag & 8) == 8);
+
+    if        (bIsOnBatteryPower && !bIsBatteryCharging) {
+        return BATTERY_STATE_DISCHARGING;
+    } else if (((int)Status.BatteryLifePercent) == 100) {
+        return BATTERY_STATE_FULL;
+    } else if (bIsBatteryCharging) {
+        return BATTERY_STATE_CHARGING;
+    }
+    return BATTERY_STATE_UNKNOWN;
 }
 
 bool HOST_INFO::users_idle(bool /*check_all_logins*/, double idle_time_to_run) {

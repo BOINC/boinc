@@ -89,14 +89,14 @@ public:
 };
 
 // authentication for GUI RPCs:
-// 1) if a IPaddr-list file is found, accept only from those addrs
+// 1) if a host-list file is found, accept only from those hosts
 // 2) if a password file file is found, ALSO demand password auth
 
 class GUI_RPC_CONN_SET {
     std::vector<GUI_RPC_CONN*> gui_rpcs;
     std::vector<sockaddr_storage> allowed_remote_ip_addresses;
     int get_allowed_hosts();
-    int get_password();
+    void get_password();
     int insert(GUI_RPC_CONN*);
     bool check_allowed_list(sockaddr_storage& ip_addr);
     bool remote_hosts_file_exists;

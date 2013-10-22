@@ -60,6 +60,23 @@ inline void rsc_string(RESULT* rp, char* buf) {
     }
 }
 
+// set "nused" bits of the source bitmap in the dest bitmap
+//
+static inline void set_bits(int src, double nused, int& dst) {
+    // if all bits are already set, we're done
+    //
+    if ((src&dst) == src) return;
+    int bit = 1;
+    for (int i=0; i<32; i++) {
+        if (nused <= 0) break;
+        if (bit & src) {
+            dst |= bit;
+            nused -= 1;
+        }
+        bit <<= 1;
+    }
+}
+
 // this is here (rather than rr_sim.h) because its inline functions
 // refer to RESULT
 //
@@ -75,6 +92,20 @@ struct RR_SIM {
         if (rt) {
             rsc_work_fetch[rt].sim_nused += rp->avp->gpu_usage.usage;
             p->rsc_pwf[rt].sim_nused += rp->avp->gpu_usage.usage;
+            if (rsc_work_fetch[rt].has_exclusions) {
+                set_bits(
+                    rp->app->non_excluded_instances[rt],
+                    p->rsc_pwf[rt].nused_total,
+                    rsc_work_fetch[rt].sim_used_instances
+                );
+#if 0
+                msg_printf(p, MSG_INFO, "%d non_excl %d used %d",
+                    rt,
+                    rp->app->non_excluded_instances[rt],
+                    rsc_work_fetch[rt].sim_used_instances
+                );
+#endif
+            }
         }
     }
 
@@ -141,6 +172,7 @@ void RR_SIM::init_pending_lists() {
         PROJECT* p = gstate.projects[i];
         for (int j=0; j<coprocs.n_rsc; j++) {
             p->rsc_pwf[j].pending.clear();
+            p->rsc_pwf[j].queue_est = 0;
         }
     }
     for (unsigned int i=0; i<gstate.results.size(); i++) {
@@ -158,21 +190,26 @@ void RR_SIM::init_pending_lists() {
         PROJECT* p = rp->project;
         p->pwf.n_runnable_jobs++;
         p->rsc_pwf[0].nused_total += rp->avp->avg_ncpus;
+        set_rrsim_flops(rp);
         int rt = rp->avp->gpu_usage.rsc_type;
         if (rt) {
             p->rsc_pwf[rt].nused_total += rp->avp->gpu_usage.usage;
             p->rsc_pwf[rt].n_runnable_jobs++;
+            p->rsc_pwf[rt].queue_est += rp->rrsim_flops_left/rp->rrsim_flops;
         }
         p->rsc_pwf[rt].pending.push_back(rp);
-        set_rrsim_flops(rp);
         rp->rrsim_done = false;
     }
 }
 
-// pick jobs to run; put them in "active" list.
+// Pick jobs to run, putting them in "active" list.
 // Simulate what the job scheduler would do:
 // pick a job from the project P with highest scheduling priority,
-// then adjust P's scheduling priority
+// then adjust P's scheduling priority.
+//
+// This is called at the start of the simulation,
+// and again each time a job finishes.
+// In the latter case, some resources may be saturated.
 //
 void RR_SIM::pick_jobs_to_run(double reltime) {
     active.clear();
@@ -241,7 +278,18 @@ void RR_SIM::pick_jobs_to_run(double reltime) {
                 // check whether resource is saturated
                 //
                 if (rt) {
-                    if (rsc_work_fetch[rt].sim_nused >= coprocs.coprocs[rt].count - p->ncoprocs_excluded[rt]) break;
+                    if (rsc_work_fetch[rt].sim_nused >= coprocs.coprocs[rt].count) {
+                        break;
+                    }
+
+                    // if a GPU isn't saturated but this project is using
+                    // its max given exclusions, remove it from project heap
+                    //
+                    if (rsc_pwf.sim_nused >= coprocs.coprocs[rt].count - p->rsc_pwf[rt].ncoprocs_excluded) {
+                        pop_heap(project_heap.begin(), project_heap.end());
+                        project_heap.pop_back();
+                        continue;
+                    }
                 } else {
                     if (rsc_work_fetch[rt].sim_nused >= gstate.ncpus) break;
                 }
@@ -255,7 +303,7 @@ void RR_SIM::pick_jobs_to_run(double reltime) {
                 pop_heap(project_heap.begin(), project_heap.end());
                 project_heap.pop_back();
             } else if (!rp->rrsim_done) {
-                // Otherwise reshuffle the heap
+                // Otherwise reshuffle the project heap
                 //
                 make_heap(project_heap.begin(), project_heap.end());
             }
@@ -401,7 +449,9 @@ void RR_SIM::simulate() {
                 }
             }
         }
-        // adjust FLOPS left
+
+        // adjust FLOPS left of other active jobs
+        //
         for (unsigned int i=0; i<active.size(); i++) {
             rp = active[i];
             rp->rrsim_flops_left -= rp->rrsim_flops*delta_t;
@@ -420,6 +470,11 @@ void RR_SIM::simulate() {
             }
         }
 
+#if 1
+        for (int i=0; i<coprocs.n_rsc; i++) {
+            rsc_work_fetch[i].update_stats(sim_now, delta_t, buf_end);
+        }
+#else
         // update saturated time
         //
         double end_time = sim_now + delta_t;
@@ -438,6 +493,7 @@ void RR_SIM::simulate() {
                 rsc_work_fetch[i].accumulate_shortfall(d_time);
             }
         }
+#endif
 
         // update project REC
         //
@@ -445,7 +501,7 @@ void RR_SIM::simulate() {
         for (unsigned int i=0; i<gstate.projects.size(); i++) {
             PROJECT* p = gstate.projects[i];
             double dtemp = sim_now;
-            x = 0;
+            double x = 0;
             for (int j=0; j<coprocs.n_rsc; j++) {
                 x += p->rsc_pwf[j].sim_nused * delta_t * f * rsc_work_fetch[j].relative_speed;
             }
@@ -464,12 +520,28 @@ void RR_SIM::simulate() {
         sim_now += delta_t;
     }
 
+    // identify GPU instances starved because of exclusions
+    //
+    for (int i=1; i<coprocs.n_rsc; i++) {
+        RSC_WORK_FETCH& rwf = rsc_work_fetch[i];
+        if (!rwf.has_exclusions) continue;
+        COPROC& cp = coprocs.coprocs[i];
+        int mask = (1<<cp.count)-1;
+        rwf.sim_excluded_instances = ~(rwf.sim_used_instances) & mask;
+        if (log_flags.rrsim_detail) {
+            msg_printf(0, MSG_INFO,
+                "[rrsim_detail] rsc %d: sim_used_inst %d mask %d sim_excluded_instances %d",
+                i, rwf.sim_used_instances, mask, rwf.sim_excluded_instances
+            );
+        }
+    }
+
     // if simulation ends before end of buffer, take the tail into account
     //
     if (sim_now < buf_end) {
         double d_time = buf_end - sim_now;
         for (int i=0; i<coprocs.n_rsc; i++) {
-            rsc_work_fetch[i].accumulate_shortfall(d_time);
+            rsc_work_fetch[i].update_stats(sim_now, d_time, buf_end);
         }
     }
 }

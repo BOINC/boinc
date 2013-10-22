@@ -37,6 +37,28 @@ array(
 
 $win = array(
 array(
+    'http://code.google.com/p/boinc-client-configuration/',
+    'BOINC Client Configuration',
+    '1.2.5',
+    'Windows GUI for editing the client configuration file',
+    'http://code.google.com/p/boinc-client-configuration/',
+    'Windows',
+    'BOINC Client Configuration provides a graphical user interface (GUI) for editing the BOINC client configuration file (cc_config.xml)',
+    1382122439
+),
+array(
+    'http://www.setispirit.de/',
+    'SETISpirit',
+    '1.0.4',
+    'SETIspirit is free add-on tool for SETI@home users which provides information about the tasks, the SETI@home project status, workunits and credits, statistic charts and a detailed sky map.',
+    'http://www.setispirit.de/',
+    'Windows',
+    'SETIspirit presents a complete overview about the BOINC workunits, e. g. the number of workunits available/completed as well as the overall workunit status (downloading, ready to run, running, wu progress, uploading, ready to report). SETIspirit shows the user and host credits and the most recent project server states (download and upload server, scheduler service). The statistic module shows the calculated workunits in week-, month- or year charts.
+
+    The SETIspirit sky map shows the position where the workunit is recorded and much more details (report deadline, recorded on/at, wu type, slot, cpu time, time left) as well as the current results of the workunit analysis (spikes, gaussians, pulses and triplets found). The sky map shows all known 88 constellations with constellations shapes and deep sky photographies. The database (db) offers some interesting facts about the constellations.',
+    1371112500
+),
+array(
     'http://www.myfavoritegadgets.info/monitors/BOINCMonitor/BOINCMonitor.html',
     'BOINC Monitor',
     '',
@@ -46,16 +68,16 @@ array(
     'BOINC Monitor shows BOINC tasks progress. Resizable! Save settings to file.  Color changeable for all gadget\'s elements, include background. You can add new BOINC projects in XML list file.',
     '1305409902'
 ),
-array(
-    'http://boincdotnet.tnmshouse.com/',
-    'Boinc.NET',
-    'beta',
-    'A GUI for managing groups of BOINC clients',
-    'http://boincdotnet.tnmshouse.com/',
-    'Windows, .NET 3.5 required',
-    'A GUI for managing groups of BOINC clients',
-    '1266617628'
-),
+//array(
+//    'http://boincdotnet.tnmshouse.com/',
+//    'Boinc.NET',
+//    'beta',
+//    'A GUI for managing groups of BOINC clients',
+//    'http://boincdotnet.tnmshouse.com/',
+//    'Windows, .NET 3.5 required',
+//    'A GUI for managing groups of BOINC clients',
+//    '1266617628'
+//),
 array(
     'http://www.efmer.eu/boinc/boinc_tasks/download.html',
     'BoincTasks',
@@ -252,6 +274,26 @@ array('http://mion.faireal.net/BES/',
 );
 
 $linux = array(
+array(
+    'http://kde-look.org/content/show.php?content=154630',
+    'BOINC Monitor',
+    '2.3',
+    'Plasmoid to show BOINC status on the KDE desktop',
+    'http://kde-look.org/content/show.php?content=154630',
+    'Linux, KDE',
+    'BOINC Monitor is a plasmoid written in Python that allows you to monitor the activities of BOINC directly on your desktop. The applet shows the progress work of each workunit with reference to the project, to the name, to the percentage of the work done and to the time elapsed and remained. Also shows the number of workunits in pending, in cache and finished, and the last few lines of the BOINC log.',
+    1361569229
+),
+array(
+    'http://code.google.com/p/boinctui/',
+    'boinctui',
+    '',
+    'Fullscreen text mode manager for BOINC',
+    'http://code.google.com/p/boinctui/',
+    'Linux',
+    'boinctui is a full-featured curses-based text user interface for BOINC.  It can manage local and remote clients, and allows you to switch between clients with a hot key.',
+    1355388740
+),
 array(
     'http://www.efmer.eu/boinc/boinc_tasks/download.html',
     'BoincTasks',

@@ -21,6 +21,8 @@
 // and you want to rerun it on some jobs
 // (e.g. to grant credit to instances previously marked as invalid)
 
+ini_set ("memory_limit", "2G");
+
 require_once("../inc/util_ops.inc");
 
 function show_form() {
@@ -56,7 +58,7 @@ function revalidate($clause) {
         foreach ($results as $result) {
             if ($result->server_state != 5) continue;
             if ($result->outcome != 1) continue;
-            if ($result->validate_state < 2) continue;
+            if ($result->validate_state < 1) continue;
             $result->update("validate_state=0");
             echo "<br>updated result $result->id\n";
             $n++;

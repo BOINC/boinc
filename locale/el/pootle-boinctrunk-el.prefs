@@ -1,8 +1,0 @@
-# Pootle preferences for project boinctrunk, language el
-
-rights:
-  default = u'view, suggest, archive, pocompile'
-  nobody = u'view, pocompile'
-  romw = u'view, suggest, translate, overwrite, review, archive, pocompile, assign, admin, commit'
-  davea = u'view, suggest, translate, overwrite, review, archive, pocompile, assign, admin, commit'
-  Anark = u'view, suggest, translate, overwrite, review, archive, pocompile, assign, admin, commit'

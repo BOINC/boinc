@@ -1,16 +1,20 @@
 /*
-  Copyright (c) 1990-1999 Info-ZIP.  All rights reserved.
+  unix/zipup.h - Zip 3
 
-  See the accompanying file LICENSE, version 1999-Oct-05 or later
+  Copyright (c) 1990-2005 Info-ZIP.  All rights reserved.
+
+  See the accompanying file LICENSE, version 2005-Feb-10 or later
   (the contents of which are also included in zip.h) for terms of use.
   If, for some reason, both of these files are missing, the Info-ZIP license
-  also may be found at:  ftp://ftp.cdrom.com/pub/infozip/license.html
+  also may be found at:  ftp://ftp.info-zip.org/pub/infozip/license.html
 */
-#ifndef _WIN32
 #ifndef O_RDONLY
 #  define O_RDONLY 0
 #endif
-#define fhow O_RDONLY
+#ifndef O_BINARY
+#  define O_BINARY 0
+#endif
+#define fhow (O_RDONLY|O_BINARY)
 #define fbad (-1)
 typedef int ftype;
 #define zopen(n,p) open(n,p)
@@ -18,4 +22,3 @@ typedef int ftype;
 #define zclose(f) close(f)
 #define zerr(f) (k == (extent)(-1L))
 #define zstdin 0
-#endif

@@ -41,7 +41,11 @@ struct PLAN_CLASS_SPEC {
     bool have_project_prefs_regex;
     regex_t project_prefs_regex;
     double avg_ncpus;
+    int min_core_client_version;
+    int max_core_client_version;
         // for non-compute-intensive, or override for GPU apps
+    bool have_host_summary_regex;
+    regex_t host_summary_regex;
 
     // GPU apps
     //
@@ -59,9 +63,11 @@ struct PLAN_CLASS_SPEC {
     // AMD/ATI apps
     //
     bool need_ati_libs;
-        // need DLLs w/ ati name (default: amd)
+    bool need_amd_libs;
+        // need DLLs w/ ATI or AMD name (default: neither)
     int min_cal_target;
     int max_cal_target;
+    bool without_opencl; // restrict to CAL only GPUs
 
     // NVIDIA apps
     //
@@ -77,6 +83,8 @@ struct PLAN_CLASS_SPEC {
     //
     int min_opencl_version;
     int max_opencl_version;
+    int min_opencl_driver_revision;
+    int max_opencl_driver_revision;
 
     // VirtualBox apps
     //

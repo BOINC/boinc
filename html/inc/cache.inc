@@ -262,8 +262,8 @@ function end_cache($max_age,$params=""){
             ob_end_flush();
             $cache = BoincMemcache::get()->set($path, $cache, $max_age);
         } else {
-            $fhandle=fopen($path, "w");
-            $page=ob_get_contents();
+            $fhandle = fopen($path, "w");
+            $page = ob_get_contents();
             ob_end_flush();
             fwrite($fhandle, $page);
             fclose($fhandle);

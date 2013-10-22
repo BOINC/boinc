@@ -23,15 +23,17 @@
 
 #include "config.h"
 
-#include "sched_main.h"
-#include "sched_types.h"
-#include "sched_shmem.h"
-#include "sched_hr.h"
+#include "sched_check.h"
 #include "sched_config.h"
-#include "sched_util.h"
+#include "sched_hr.h"
+#include "sched_main.h"
 #include "sched_msgs.h"
 #include "sched_send.h"
+#include "sched_shmem.h"
+#include "sched_types.h"
+#include "sched_util.h"
 #include "sched_version.h"
+
 #ifdef _USING_FCGI_
 #include "boinc_fcgi.h"
 #endif
@@ -44,7 +46,7 @@
 static bool quick_check(
     WU_RESULT& wu_result,
     WORKUNIT& wu,       // a mutable copy of wu_result.workunit.
-        // We may modify its delay_bound and rsc_fpops_est
+        // We may modify its delay_bound, rsc_fpops_est, and rsc_fpops_bound
     BEST_APP_VERSION* &bavp,
     APP* app,
     int& last_retval
@@ -57,21 +59,25 @@ static bool quick_check(
     //
     if (g_wreq->beta_only) {
         if (!app->beta) {
-            if (config.debug_array) {
-                log_messages.printf(MSG_NORMAL, "[array] not beta\n");
+            if (config.debug_array_detail) {
+                log_messages.printf(MSG_NORMAL,
+                    "[array_detail] job is not from beta app; skipping\n"
+                );
             }
             return false;
         }
         if (config.debug_send) {
             log_messages.printf(MSG_NORMAL,
-                "[send] [HOST#%d] beta work found: [RESULT#%d]\n",
+                "[send] [HOST#%d] beta work found: [RESULT#%u]\n",
                 g_reply->host.id, wu_result.resultid
             );
         }
     } else {
         if (app->beta) {
-            if (config.debug_array) {
-                log_messages.printf(MSG_NORMAL, "[array] is beta\n");
+            if (config.debug_array_detail) {
+                log_messages.printf(MSG_NORMAL,
+                    "[array_detail] job is from beta app; skipping\n"
+                );
             }
             return false;
         }
@@ -83,13 +89,17 @@ static bool quick_check(
     //
     if (!app->beta) {
         if (g_wreq->reliable_only && (!wu_result.need_reliable)) {
-            if (config.debug_array) {
-                log_messages.printf(MSG_NORMAL, "[array] don't need reliable\n");
+            if (config.debug_array_detail) {
+                log_messages.printf(MSG_NORMAL,
+                    "[array_detail] job doesn't need reliable host; skipping\n"
+                );
             }
             return false;
         } else if (!g_wreq->reliable_only && wu_result.need_reliable) {
-            if (config.debug_array) {
-                log_messages.printf(MSG_NORMAL, "[array] need reliable\n");
+            if (config.debug_array_detail) {
+                log_messages.printf(MSG_NORMAL,
+                    "[array_detail] job needs reliable host; skipping\n"
+                );
             }
             return false;
         }
@@ -99,8 +109,10 @@ static bool quick_check(
     // and the result is not infeasible
     //
     if (g_wreq->infeasible_only && (wu_result.infeasible_count==0)) {
-        if (config.debug_array) {
-            log_messages.printf(MSG_NORMAL, "[array] not infeasible\n");
+        if (config.debug_array_detail) {
+            log_messages.printf(MSG_NORMAL,
+                "[array_detail] job is not infeasible; skipping\n"
+            );
         }
         return false;
     }
@@ -121,9 +133,9 @@ static bool quick_check(
             && g_request->file_infos.size()
         ) {
             int n = nfiles_on_host(wu_result.workunit);
-            if (config.debug_array) {
+            if (config.debug_locality_lite) {
                 log_messages.printf(MSG_NORMAL,
-                    "[array] job %s: %d files on host\n",
+                    "[loc_lite] job %s has %d files on this host\n",
                     wu_result.workunit.name, n
                 );
             }
@@ -137,9 +149,9 @@ static bool quick_check(
     //
     bavp = get_app_version(wu, true, g_wreq->reliable_only);
     if (!bavp) {
-        if (config.debug_array) {
+        if (config.debug_array_detail) {
             log_messages.printf(MSG_NORMAL,
-                "[array] No app version\n"
+                "[array_detail] No app version for job; skipping\n"
             );
         }
         return false;
@@ -154,14 +166,12 @@ static bool quick_check(
     ) {
         if (app_not_selected(wu)) {
             g_wreq->no_allowed_apps_available = true;
-#if 1
-            if (config.debug_array) {
+            if (config.debug_array_detail) {
                 log_messages.printf(MSG_NORMAL,
-                    "[array] [USER#%d] [WU#%d] user doesn't want work for app %s\n",
+                    "[array_detail] [USER#%d] [WU#%u] user doesn't want work for app %s\n",
                     g_reply->user.id, wu.id, app->name
                 );
             }
-#endif
             return false;
         }
     }
@@ -178,167 +188,16 @@ static bool quick_check(
     if (retval) {
         if (retval != last_retval && config.debug_send) {
             log_messages.printf(MSG_NORMAL,
-                "[send] [HOST#%d] [WU#%d %s] WU is infeasible: %s\n",
+                "[send] [HOST#%d] [WU#%u %s] WU is infeasible: %s\n",
                 g_reply->host.id, wu.id, wu.name, infeasible_string(retval)
             );
         }
         last_retval = retval;
-        if (config.debug_array) {
-            log_messages.printf(MSG_NORMAL, "[array] infeasible\n");
-        }
-        return false;
-    }
-    return true;
-}
-
-// Do checks that require DB access for whether we can send this job,
-// and return:
-// 0 if OK to send
-// 1 if can't send to this host
-// 2 if can't send to ANY host
-//
-static int slow_check(
-    WU_RESULT& wu_result,       // the job cache entry.
-        // We may refresh its hr_class and app_version_id fields.
-    APP* app,
-    BEST_APP_VERSION* bavp      // the app version to be used
-) {
-    int n, retval;
-    DB_RESULT result;
-    char buf[256];
-    WORKUNIT& wu = wu_result.workunit;
-
-    // Don't send if we've already sent a result of this WU to this user.
-    //
-    if (config.one_result_per_user_per_wu) {
-        sprintf(buf,
-            "where workunitid=%d and userid=%d", wu.id, g_reply->user.id
-        );
-        retval = result.count(n, buf);
-        if (retval) {
-            log_messages.printf(MSG_CRITICAL,
-                "send_work: can't get result count (%s)\n", boincerror(retval)
+        if (config.debug_array_detail) {
+            log_messages.printf(MSG_NORMAL,
+                "[array_detail] is_infeasible_fast() failed; skipping\n"
             );
-            return 1;
-        } else {
-            if (n>0) {
-                if (config.debug_send) {
-                    log_messages.printf(MSG_NORMAL,
-                        "[send] [USER#%d] already has %d result(s) for [WU#%d]\n",
-                        g_reply->user.id, n, wu.id
-                    );
-                }
-                return 1;
-            }
         }
-    } else if (config.one_result_per_host_per_wu) {
-        // Don't send if we've already sent a result of this WU to this host.
-        // We only have to check this if we don't send one result per user.
-        //
-        sprintf(buf,
-            "where workunitid=%d and hostid=%d", wu.id, g_reply->host.id
-        );
-        retval = result.count(n, buf);
-        if (retval) {
-            log_messages.printf(MSG_CRITICAL,
-                "send_work: can't get result count (%s)\n", boincerror(retval)
-            );
-            return 1;
-        } else {
-            if (n>0) {
-                if (config.debug_send) {
-                    log_messages.printf(MSG_NORMAL,
-                        "[send] [HOST#%d] already has %d result(s) for [WU#%d]\n",
-                        g_reply->host.id, n, wu.id
-                    );
-                }
-                return 1;
-            }
-        }
-    }
-
-    // Checks that require looking up the WU.
-    // Lump these together so we only do 1 lookup
-    //
-    if (app_hr_type(*app) || app->homogeneous_app_version) {
-        DB_WORKUNIT db_wu;
-        db_wu.id = wu.id;
-        int vals[3];
-        retval = db_wu.get_field_ints(
-            "hr_class, app_version_id, error_mask", 3, vals
-        );
-        if (retval) {
-            log_messages.printf(MSG_CRITICAL,
-                "can't get fields for [WU#%d]: %s\n", db_wu.id, boincerror(retval)
-            );
-            return 1;
-        }
-
-        // check wu.error_mask
-        //
-        if (vals[2] != 0) {
-            return 2;
-        }
-
-        if (app_hr_type(*app)) {
-            wu.hr_class = vals[0];
-            if (already_sent_to_different_hr_class(wu, *app)) {
-                if (config.debug_send) {
-                    log_messages.printf(MSG_NORMAL,
-                        "[send] [HOST#%d] [WU#%d %s] is assigned to different HR class\n",
-                        g_reply->host.id, wu.id, wu.name
-                    );
-                }
-                // Mark the workunit as infeasible.
-                // This ensures that jobs already assigned to an HR class
-                // are processed first.
-                //
-                wu_result.infeasible_count++;
-                return 1;
-            }
-        }
-        if (app->homogeneous_app_version) {
-            int wu_avid = vals[1];
-            wu.app_version_id = wu_avid;
-            if (wu_avid && wu_avid != bavp->avp->id) {
-                if (config.debug_send) {
-                    log_messages.printf(MSG_NORMAL,
-                        "[send] [HOST#%d] [WU#%d %s] is assigned to different app version\n",
-                        g_reply->host.id, wu.id, wu.name
-                    );
-                }
-                wu_result.infeasible_count++;
-                return 1;
-            }
-        }
-    }
-    return 0;
-}
-
-// Check for pathological conditions that mean
-// result is not sendable at all.
-//
-static bool result_still_sendable(DB_RESULT& result, WORKUNIT& wu) {
-    int retval = result.lookup_id(result.id);
-    if (retval) {
-        log_messages.printf(MSG_CRITICAL,
-            "[RESULT#%d] result.lookup_id() failed: %s\n",
-            result.id, boincerror(retval)
-        );
-        return false;
-    }
-    if (result.server_state != RESULT_SERVER_STATE_UNSENT) {
-        log_messages.printf(MSG_NORMAL,
-            "[RESULT#%d] expected to be unsent; instead, state is %d\n",
-            result.id, result.server_state
-        );
-        return false;
-    }
-    if (result.workunitid != wu.id) {
-        log_messages.printf(MSG_CRITICAL,
-            "[RESULT#%d] wrong WU ID: wanted %d, got %d\n",
-            result.id, wu.id, result.workunitid
-        );
         return false;
     }
     return true;
@@ -368,7 +227,12 @@ static bool scan_work_array() {
     bool no_more_needed = false;
     SCHED_DB_RESULT result;
 
-    lock_sema();
+    // To minimize the amount of time we lock the array,
+    // we initially scan without holding the lock.
+    // If we find a job that passes quick_check(),
+    // we acquire the lock and then check the job again.
+    //
+    bool sema_locked = false;
 
     rnd_off = rand() % ssp->max_wu_results;
     for (j=0; j<ssp->max_wu_results; j++) {
@@ -376,14 +240,13 @@ static bool scan_work_array() {
 
         WU_RESULT& wu_result = ssp->wu_results[i];
 
-#if 0
-        if (config.debug_array) {
+        if (config.debug_array_detail) {
             log_messages.printf(MSG_NORMAL,
-                "[array] scanning slot %d\n", i
+                "[array_detail] scanning slot %d\n", i
             );
         }
-#endif
 
+recheck:
         if (wu_result.state != WR_STATE_PRESENT && wu_result.state != g_pid) {
             continue;
         }
@@ -396,7 +259,7 @@ static bool scan_work_array() {
         app = ssp->lookup_app(wu_result.workunit.appid);
         if (app == NULL) {
             log_messages.printf(MSG_CRITICAL,
-                "[WU#%d] no app\n",
+                "[WU#%u] no app\n",
                 wu_result.workunit.id
             );
             continue; // this should never happen
@@ -408,12 +271,18 @@ static bool scan_work_array() {
         // This may modify wu.rsc_fpops_est
         //
         if (!quick_check(wu_result, wu, bavp, app, last_retval)) {
-            if (config.debug_array) {
+            if (config.debug_array_detail) {
                 log_messages.printf(MSG_NORMAL,
-                    "[array] slot %d failed quick check\n", i
+                    "[array_detail] slot %d failed quick check\n", i
                 );
             }
             continue;
+        }
+
+        if (!sema_locked) {
+            lock_sema();
+            sema_locked = true;
+            goto recheck;
         }
 
         // mark wu_result as checked out and release semaphore.
@@ -426,6 +295,7 @@ static bool scan_work_array() {
 
         wu_result.state = g_pid;
         unlock_sema();
+        sema_locked = false;
 
         switch (slow_check(wu_result, app, bavp)) {
         case 1:
@@ -468,19 +338,19 @@ static bool scan_work_array() {
             }
             break;
         }
-        lock_sema();
         if (!work_needed(false)) {
             no_more_needed = true;
             break;
         }
     }
-    unlock_sema();
+    if (sema_locked) {
+        unlock_sema();
+    }
     return no_more_needed;
 }
 
 // Send work by scanning the job array multiple times,
 // with different selection criteria on each scan.
-// This has been superceded by send_work_matchmaker()
 //
 void send_work_old() {
     g_wreq->beta_only = false;
@@ -491,14 +361,20 @@ void send_work_old() {
     //
     if (g_wreq->has_reliable_version) {
         g_wreq->reliable_only = true;
-        if (config.debug_send) {
+        if (config.debug_array) {
             log_messages.printf(MSG_NORMAL,
-                "[send] scanning for jobs that need reliable host\n"
+                "[array] scanning for jobs that need reliable host\n"
             );
         }
         if (scan_work_array()) return;
         g_wreq->reliable_only = false;
         g_wreq->best_app_versions.clear();
+    } else {
+        if (config.debug_array) {
+            log_messages.printf(MSG_NORMAL,
+                "[array] host has no reliable app versions; skipping scan\n"
+            );
+        }
     }
 
     // give 2nd priority to results for a beta app
@@ -507,9 +383,9 @@ void send_work_old() {
     //
     if (g_wreq->allow_beta_work) {
         g_wreq->beta_only = true;
-        if (config.debug_send) {
+        if (config.debug_array) {
             log_messages.printf(MSG_NORMAL,
-                "[send] host will accept beta jobs.  Scanning for them.\n"
+                "[array] host will accept beta jobs.  Scanning for them.\n"
             );
         }
         if (scan_work_array()) return;
@@ -519,9 +395,9 @@ void send_work_old() {
     // give next priority to results that were infeasible for some other host
     //
     g_wreq->infeasible_only = true;
-    if (config.debug_send) {
+    if (config.debug_array) {
         log_messages.printf(MSG_NORMAL,
-            "[send] Scanning for jobs that were infeasible for another host.\n"
+            "[array] Scanning for jobs that were infeasible for another host.\n"
         );
     }
     if (scan_work_array()) return;
@@ -531,9 +407,9 @@ void send_work_old() {
     // make a pass accepting only jobs for which the client has a file
     //
     if (ssp->locality_sched_lite) {
-        if (config.debug_send) {
+        if (config.debug_array) {
             log_messages.printf(MSG_NORMAL,
-                "[send] Scanning for locality sched Lite jobs.\n"
+                "[array] Scanning for locality sched Lite jobs.\n"
             );
         }
         g_wreq->locality_sched_lite = true;
@@ -543,9 +419,9 @@ void send_work_old() {
 
     // end of high-priority cases.  Now do general scan.
     //
-    if (config.debug_send) {
+    if (config.debug_array) {
         log_messages.printf(MSG_NORMAL,
-            "[send] doing general job scan.\n"
+            "[array] Scanning: general case.\n"
         );
     }
     if (scan_work_array()) return;
@@ -556,9 +432,9 @@ void send_work_old() {
     if (!g_wreq->njobs_sent && g_wreq->allow_non_preferred_apps ) {
         g_wreq->user_apps_only = false;
         preferred_app_message_index = g_wreq->no_work_messages.size();
-        if (config.debug_send) {
+        if (config.debug_array) {
             log_messages.printf(MSG_NORMAL,
-                "[send] scanning for jobs from non-preferred applications\n"
+                "[array] scanning for jobs from non-preferred applications\n"
             );
         }
         scan_work_array();

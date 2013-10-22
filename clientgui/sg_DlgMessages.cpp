@@ -35,6 +35,7 @@
 #include "version.h"
 #include "sg_DlgMessages.h"
 #include "NoticeListCtrl.h"
+#include "BOINCInternetFSHandler.h"
 
 
 
@@ -65,6 +66,7 @@ BEGIN_EVENT_TABLE( CPanelMessages, wxPanel )
     EVT_ERASE_BACKGROUND( CPanelMessages::OnEraseBackground )
     EVT_BUTTON( wxID_OK, CPanelMessages::OnOK )
     EVT_BUTTON(ID_SIMPLE_HELP, CPanelMessages::OnButtonHelp)
+    EVT_BUTTON( ID_LIST_RELOADNOTICES, CPanelMessages::OnRetryButton )
 ////@end CPanelMessages event table entries
 END_EVENT_TABLE()
 
@@ -92,6 +94,7 @@ bool CPanelMessages::Create()
 {
 ////@begin CPanelMessages member initialisation
     m_bProcessingRefreshEvent = false;
+    m_bWaitingToClose = false;
 ////@end CPanelMessages member initialisation
 
     CreateControls();
@@ -116,10 +119,36 @@ void CPanelMessages::CreateControls()
 {
     CPanelMessages* itemDialog1 = this;
 
-    wxFlexGridSizer* itemFlexGridSizer2 = new wxFlexGridSizer(2, 1, 0, 0);
-    itemFlexGridSizer2->AddGrowableRow(0);
+    m_ReloadNoticesPanel = new wxPanel(this);
+    m_ReloadNoticesPanel->SetBackgroundColour(*wxWHITE);
+
+    wxFlexGridSizer* itemReloadButtonSizer = new wxFlexGridSizer(1, 2, 0, 0);
+    itemReloadButtonSizer->AddGrowableCol(1);
+   
+    m_ReloadNoticesText = new wxStaticText(m_ReloadNoticesPanel,
+                            wxID_ANY,
+                            _("One or more items failed to load from the Internet."),
+                            wxDefaultPosition, wxDefaultSize, 0
+                            );
+    itemReloadButtonSizer->Add(m_ReloadNoticesText, 1, wxALL, 5);
+    
+    m_ReloadNoticesButton = new wxButton(
+                                    m_ReloadNoticesPanel,
+                                    ID_LIST_RELOADNOTICES,
+                                    _("Retry now"),
+                                    wxDefaultPosition, wxDefaultSize, 0
+                                    );
+    itemReloadButtonSizer->Add(m_ReloadNoticesButton, 1, wxALL, 5);
+    
+    m_ReloadNoticesPanel->SetSizer(itemReloadButtonSizer);
+    m_ReloadNoticesPanel->Layout();
+
+    wxFlexGridSizer* itemFlexGridSizer2 = new wxFlexGridSizer(3, 1, 1, 0);
+    itemFlexGridSizer2->AddGrowableRow(1);
     itemFlexGridSizer2->AddGrowableCol(0);
     itemDialog1->SetSizer(itemFlexGridSizer2);
+
+    itemFlexGridSizer2->Add(m_ReloadNoticesPanel, 1, wxGROW|wxALL, 1);
 
     m_pHtmlListPane = new CNoticeListCtrl(itemDialog1);
     itemFlexGridSizer2->Add(m_pHtmlListPane, 0, wxGROW|wxALL, 5);
@@ -135,6 +164,28 @@ void CPanelMessages::CreateControls()
     wxButton* itemButton44 = new wxButton(itemDialog1, wxID_OK, _("Close"),  wxDefaultPosition, wxDefaultSize);
 
     itemBoxSizer4->Add(itemButton44, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+
+    
+    m_FetchingNoticesText = new wxStaticText(
+                                    this, wxID_ANY, 
+                                    _("Fetching notices; please wait..."), 
+                                    wxPoint(20, 20), wxDefaultSize, 0
+                                    );
+    m_FetchingNoticesText->SetBackgroundColour(*wxWHITE);
+    
+    m_NoNoticesText = new wxStaticText(
+                                    this, wxID_ANY, 
+                                    _("There are no notices at this time."), 
+                                    wxPoint(20, 20), wxDefaultSize, 0
+                                    );
+    m_NoNoticesText->SetBackgroundColour(*wxWHITE);
+
+    m_FetchingNoticesText->Hide();
+    m_NoNoticesText->Hide();
+    m_ReloadNoticesPanel->Hide();
+    Layout();
+    
+    m_bMissingItems =  false;
 }
 
 
@@ -202,13 +253,59 @@ void CPanelMessages::OnEraseBackground(wxEraseEvent& event){
  */
 
 void CPanelMessages::OnRefresh() {
+    if (m_bWaitingToClose) return;
+    
     if (!m_bProcessingRefreshEvent) {
         m_bProcessingRefreshEvent = true;
 
-        m_pHtmlListPane->Freeze();
-        m_pHtmlListPane->UpdateUI();
-        m_pHtmlListPane->Thaw();
+        static wxString strLastMachineName = wxEmptyString;
+        wxString strNewMachineName = wxEmptyString;
+        bool bMissingItems;
+        CC_STATUS status;
+        CMainDocument* pDoc = wxGetApp().GetDocument();
+        wxFileSystemHandler *internetFSHandler = wxGetApp().GetInternetFSHandler();
+        
+        wxASSERT(pDoc);
+        wxASSERT(m_pHtmlListPane);
+        wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+        wxASSERT(internetFSHandler);
 
+        if (pDoc->IsConnected()) {
+            pDoc->GetConnectedComputerName(strNewMachineName);
+            if (strLastMachineName != strNewMachineName) {
+                strLastMachineName = strNewMachineName;
+                m_FetchingNoticesText->Show();
+                m_NoNoticesText->Hide();
+                ((CBOINCInternetFSHandler*)internetFSHandler)->ClearCache();
+                m_pHtmlListPane->Clear();
+                if (m_bMissingItems) {
+                    m_ReloadNoticesPanel->Hide();
+                    m_bMissingItems = false;
+                    Layout();
+                }
+            }
+        } else {
+            m_pHtmlListPane->Clear();
+        }
+
+        // Don't call Freeze() / Thaw() here because it causes an unnecessary redraw
+        m_pHtmlListPane->UpdateUI();
+
+        if (m_bWaitingToClose) {
+            wxCommandEvent evt(wxEVT_COMMAND_BUTTON_CLICKED, wxID_OK);
+            GetEventHandler()->AddPendingEvent(evt);
+        } else {
+            bMissingItems = ((CBOINCInternetFSHandler*)internetFSHandler)->ItemsFailedToLoad();
+            if (bMissingItems != m_bMissingItems) {
+                m_ReloadNoticesPanel->Show(bMissingItems);
+                Layout();
+                m_bMissingItems = bMissingItems;
+            }
+            
+            m_FetchingNoticesText->Show(m_pHtmlListPane->m_bDisplayFetchingNotices);
+            m_NoNoticesText->Show(m_pHtmlListPane->m_bDisplayEmptyNotice);
+        }
+        
         m_bProcessingRefreshEvent = false;
     }
 }
@@ -219,6 +316,21 @@ void CPanelMessages::OnRefresh() {
  */
 
 void CPanelMessages::OnOK( wxCommandEvent& event ) {
+    // Shut down any asynchronous Internet access in progress
+    wxFileSystemHandler *internetFSHandler = wxGetApp().GetInternetFSHandler();
+    if (internetFSHandler) {
+        ((CBOINCInternetFSHandler*)internetFSHandler)->SetAbortInternetIO();
+    }
+    
+    // If we were called during Yield() in async Internet I/O, 
+    // it is not safe to call our destructor until OnRefresh()
+    // has returned from m_pHtmlListPane->UpdateUI(), so just
+    // set a flag to close this dialog at that time.
+    if (m_bProcessingRefreshEvent) {
+        m_bWaitingToClose = true;
+        return;
+    }
+    
     event.Skip();
 }
 
@@ -257,6 +369,24 @@ void CPanelMessages::OnLinkClicked( NoticeListCtrlEvent& event ) {
     }
 }
 
+
+void CPanelMessages::OnRetryButton( wxCommandEvent& ) {
+    m_ReloadNoticesPanel->Hide();
+    m_bMissingItems = false;
+    Layout();
+    ReloadNotices();
+}
+
+
+void CPanelMessages::ReloadNotices() {
+    wxFileSystemHandler *internetFSHandler = wxGetApp().GetInternetFSHandler();
+    if (internetFSHandler) {
+        ((CBOINCInternetFSHandler*)internetFSHandler)->UnchacheMissingItems();
+        m_pHtmlListPane->Clear();
+        m_FetchingNoticesText->Show();
+        m_NoNoticesText->Hide();
+    }
+}
 
 bool CPanelMessages::OnSaveState(wxConfigBase* /* pConfig */) {
     return true;
@@ -307,6 +437,7 @@ CDlgMessages::~CDlgMessages() {
     wxLogTrace(wxT("Function Start/End"), wxT("CDlgMessages::CDlgMessages - Destructor Function Begin"));
 
 	SaveState();    // Save state if close box on window frame clicked
+    wxConfigBase::Get(FALSE)->Flush();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CDlgMessages::CDlgMessages - Destructor Function End"));
 }
@@ -436,7 +567,6 @@ void CDlgMessages::OnHelp(wxHelpEvent& WXUNUSED(event)) {
  */
 
 void CDlgMessages::OnOK( wxCommandEvent& /*event*/ ) {
-    SaveState();
     EndModal(wxID_OK);
 }
 

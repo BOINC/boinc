@@ -120,8 +120,8 @@ public:
     virtual wxString&       GetViewName();
     virtual wxString&       GetViewDisplayName();
     virtual const char**    GetViewIcon();
-    virtual const int       GetViewRefreshRate();
-    virtual const int       GetViewCurrentViewPage();
+    virtual int             GetViewRefreshRate();
+    virtual int             GetViewCurrentViewPage();
 
     virtual wxString        GetKeyValue1(int iRowIndex);
     virtual wxString        GetKeyValue2(int iRowIndex);

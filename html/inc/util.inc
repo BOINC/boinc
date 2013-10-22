@@ -30,12 +30,6 @@ if (array_key_exists("PATH_INFO", $_SERVER)) {
     die("bad URL");
 }
 
-ini_set("memory_limit", "256M");
-
-if (!defined('SECURE_URL_BASE')) {
-    define('SECURE_URL_BASE', URL_BASE);
-}
-
 // define TIMEZONE in project.inc
 //
 if (defined('TIMEZONE')) {
@@ -44,8 +38,8 @@ if (defined('TIMEZONE')) {
     date_default_timezone_set('UTC');
 }
 
-$generating_xml = false;
 $caching = false;
+    // if set, we're writing to a file rather than to client
 $did_page_head = false;
 
 function send_cookie($name, $value, $permanent, $ops=false) {
@@ -119,7 +113,7 @@ function show_login_info($prefix="") {
     ";
     if ($user) {
         $url_tokens = url_tokens($user->authenticator);
-        echo "<nobr>$user->name | <a href=".$prefix."logout.php?$url_tokens>".tra("log out")."</a></nobr>";
+        echo "<nobr>$user->name &middot; <a href=".$prefix."logout.php?$url_tokens>".tra("log out")."</a></nobr>";
     } else {
         echo "<a href=".$prefix."login_form.php>".tra("log in")."</a>";
     }
@@ -153,8 +147,8 @@ function page_head(
     }
 
 
-    header("Content-type: text/html; charset=utf-8");
     if (!$caching) {
+        header("Content-type: text/html; charset=utf-8");
         header ("Expires: Mon, 26 Jul 1997 05:00:00 UTC");    // Date in the past
         header ("Last-Modified: " . gmdate("D, d M Y H:i:s") . " UTC"); // always modified
         header ("Cache-Control: $cache_control_extra no-cache, must-revalidate, post-check=0, pre-check=0");  // HTTP/1.1
@@ -284,7 +278,7 @@ function date_str($x) {
 
 function time_str($x) {
     if ($x == 0) return "---";
-    return gmdate('j M Y | G:i:s', $x) . " UTC";
+    return gmdate('j M Y, G:i:s', $x) . " UTC";
 }
 
 function local_time_str($x) {
@@ -455,7 +449,7 @@ function sub_sentence($sentence, $delimiter, $max_chars, $ellipsis=false) {
     $words = explode($delimiter, $sentence);
     $total_chars = 0;
     $trunc = false;
-    $result = null;
+    $result = "";
 
     foreach ($words as $word) {
         if (strlen($result) + strlen($word) > $max_chars) {
@@ -578,6 +572,8 @@ function check_get_args($args) {
     }
 }
 
+// returns null if the arg is optional and missing
+//
 function get_int($name, $optional=false) {
     $x=null;
     if (isset($_GET[$name])) $x = $_GET[$name];
@@ -596,7 +592,9 @@ function get_int($name, $optional=false) {
     return (int)$x;
 }
 
-function post_int($name, $optional=false) {
+// returns null if the arg is optional and missing
+//
+function post_num($name, $optional=false) {
     $x = null;
     if (isset($_POST[$name])) $x = $_POST[$name];
     if (!is_numeric($x)) {
@@ -606,7 +604,19 @@ function post_int($name, $optional=false) {
             error_page("missing or bad parameter: $name; supplied: ".htmlspecialchars($x));
         }
     }
-    return (int)$x;
+    return (double)$x;
+}
+
+// returns null if the arg is optional and missing
+//
+function post_int($name, $optional=false) {
+    $x = post_num($name, $optional);
+    if (is_null($x)) return null;
+    $y = (int)$x;
+    if ($x != $y) {
+        error_page("param $name must be an integer");
+    }
+    return $y;
 }
 
 function get_str($name, $optional=false) {
@@ -800,14 +810,16 @@ function db_init($try_replica=false) {
     return 0;
 }
 
-// return a structure indicating whether project has non-deprecated apps
-// for various resource types.
+// return a structure indicating whether project has non-deprecated
+// apps versions for various resource types,
+// and with a count of app versions
 //
 function get_app_types() {
-    $t = null;
+    $t = new StdClass;
     $t->cpu = false;
     $t->cuda = false;
     $t->ati = false;
+    $t->intel_gpu = false;
     $t->count = 0;
     $avs = BoincAppVersion::enum("deprecated=0");
     foreach ($avs as $av) {
@@ -819,6 +831,9 @@ function get_app_types() {
             $t->count++;
         } else if (strstr($av->plan_class, "nvidia")) {
             $t->cuda = true;
+            $t->count++;
+        } else if (strstr($av->plan_class, "intel_gpu")) {
+            $t->intel_gpu = true;
             $t->count++;
         } else {
             $t->cpu = true;
@@ -869,6 +884,7 @@ function flops_to_credit($f) {
 function credit_to_gflop_hours($c) {
     return $c/(200/24);
 }
+
 function do_download($path,$name="") {
     if (strcmp($name,"") == 0) {
         $name=basename($path);
@@ -883,6 +899,22 @@ function do_download($path,$name="") {
     header('Content-Length: ' . filesize($path));
     flush();
     readfile($path);
+}
+
+function secure_url_base() {
+    if (defined('SECURE_URL_BASE')) return SECURE_URL_BASE;
+    return URL_BASE;
+}
+
+function redirect_to_secure_url($url) {
+    if (defined('SECURE_URL_BASE')
+        && strstr(SECURE_URL_BASE, "https://")
+        && (!isset($_SERVER['HTTPS']) || !$_SERVER['HTTPS'])
+    ) {
+        Header("Location: ".SECURE_URL_BASE."/$url");
+        exit;
+
+    }
 }
 
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit

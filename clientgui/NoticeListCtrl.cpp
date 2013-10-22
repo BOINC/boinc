@@ -20,10 +20,21 @@
 #endif
 
 #include "stdwx.h"
+#include "diagnostics.h"
+#include "util.h"
+#include "mfile.h"
+#include "miofile.h"
+#include "parse.h"
+#include "error_numbers.h"
+#include "wizardex.h"
+#include "error_numbers.h"
+#include "browser.h"
 #include "Events.h"
 #include "BOINCGUIApp.h"
+#include "SkinManager.h"
 #include "MainDocument.h"
 #include "NoticeListCtrl.h"
+#include "BOINCInternetFSHandler.h"
 
 ////@begin XPM images
 ////@end XPM images
@@ -56,7 +67,8 @@ wxAccStatus CNoticeListCtrlAccessible::GetName(int childId, wxString* name) {
 
         if (pDoc) {
             strBuffer = wxString(pDoc->notice(childId-1)->title, wxConvUTF8);
-            pDoc->LocalizeNoticeText(strBuffer, true);
+            eol_to_br(strBuffer);
+            localize(strBuffer);
             strBuffer = StripHTMLTags(strBuffer);
             *name = strBuffer.c_str();
         }
@@ -137,7 +149,7 @@ wxAccStatus CNoticeListCtrlAccessible::DoDefaultAction(int childId) {
         evt.SetEventObject(this); 
 #endif
 
-        pCtrl->GetParent()->AddPendingEvent( evt );
+        pCtrl->GetParent()->AddPendingEvent( evt ); 
 
         return wxACC_OK;
     }
@@ -163,7 +175,8 @@ wxAccStatus CNoticeListCtrlAccessible::GetDescription(int childId, wxString* des
         strProjectName = wxString(pDoc->notice(childId-1)->project_name, wxConvUTF8);
 
         strDescription = wxString(pDoc->notice(childId-1)->description.c_str(), wxConvUTF8);
-        pDoc->LocalizeNoticeText(strDescription, true);
+        eol_to_br(strDescription);
+        localize(strDescription);
 
         dtBuffer.Set((time_t)pDoc->notice(childId-1)->arrival_time);
         strArrivalTime = dtBuffer.Format();
@@ -376,6 +389,11 @@ CNoticeListCtrl::CNoticeListCtrl( )
 CNoticeListCtrl::CNoticeListCtrl( wxWindow* parent )
 {
     Create( parent );
+    
+    wxFileSystemHandler *internetFSHandler = wxGetApp().GetInternetFSHandler();
+    if (internetFSHandler) {
+        ((CBOINCInternetFSHandler*)internetFSHandler)->SetAbortInternetIO(false);
+    }
 }
  
  
@@ -386,6 +404,11 @@ CNoticeListCtrl::~CNoticeListCtrl( )
         delete m_accessible;
     }
 #endif
+
+    wxFileSystemHandler *internetFSHandler = wxGetApp().GetInternetFSHandler();
+    if (internetFSHandler) {
+        ((CBOINCInternetFSHandler*)internetFSHandler)->SetAbortInternetIO(false);
+    }
 }
 
 
@@ -412,9 +435,11 @@ bool CNoticeListCtrl::Create( wxWindow* parent )
 #endif
 ////@end CNoticeListCtrl creation
 
-    // Display the empty notice notification until we have some
-    // notices to display.
+    // Display the fetching notices message until we have notices
+    // to display or have determined that there are no notices.
+    m_bDisplayFetchingNotices = false;
     m_bDisplayEmptyNotice = true;
+    m_bNeedsReloading = false;
 
     return TRUE;
 }
@@ -456,58 +481,70 @@ void CNoticeListCtrl::OnLinkClicked( wxHtmlLinkEvent& event )
     ); 
     evt.SetEventObject(this); 
 
-    GetParent()->GetEventHandler()->AddPendingEvent( evt ); 
+    GetParent()->AddPendingEvent( evt ); 
 }
 
 
 wxString CNoticeListCtrl::OnGetItem(size_t i) const {
     CMainDocument* pDoc = wxGetApp().GetDocument();
+    CSkinAdvanced* pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
     wxString strTitle = wxEmptyString;
     wxString strDescription = wxEmptyString;
     wxString strProjectName = wxEmptyString;
     wxString strURL = wxEmptyString;
-    wxString create_time = wxEmptyString;
+    wxString strCreateTime = wxEmptyString;
+    wxString strCategory = wxEmptyString;
     wxString strBuffer = wxEmptyString;
     wxString strTemp = wxEmptyString;
     wxDateTime dtBuffer;
-    char buf[1024];
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+    wxASSERT(pSkinAdvanced);
+    wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
 
-
-    if (m_bDisplayEmptyNotice) {
-        strBuffer = wxT("<table border=0 cellpadding=5><tr><td>");
-        strBuffer += _("There are no notices at this time.");
-        strBuffer += wxT("</font></td></tr></table><hr>");
-    } else {
+    if (pDoc->IsConnected()) {
         NOTICE* np = pDoc->notice((unsigned int)i);
+
+        strCategory = wxString(np->category, wxConvUTF8);
+
+        strProjectName = wxString(np->project_name, wxConvUTF8);
 
         strURL = wxString(np->link, wxConvUTF8);
 
-        if (!strcmp(np->category, "client")) {
-            if (strlen(np->project_name)) {
-                sprintf(buf, "%s: %s", np->project_name, "_(\"Notice from BOINC\")");
+        strTitle = wxString(np->title, wxConvUTF8);
+
+        // Fix-up title
+        if (strCategory == wxT("client")) {
+            strBuffer.Printf(
+                wxT("_(\"Notice from %s\")"),
+                pSkinAdvanced->GetApplicationShortName().c_str()
+            );
+            if (strProjectName.size()) {
+                strTemp.Printf(wxT("%s: %s"), strProjectName.c_str(), strBuffer.c_str());
             } else {
-                strcpy(buf, "_(\"Notice from BOINC\")");
+                strTemp.Printf(wxT("%s"), strBuffer.c_str());
             }
-        } else if (!strcmp(np->category, "scheduler")) {
-            sprintf(buf, "%s: %s", np->project_name, "_(\"Notice from server\")");
+        } else if (strCategory == wxT("scheduler")) {
+            strTemp.Printf(wxT("%s: %s"), strProjectName.c_str(), wxT("_(\"Notice from server\")"));
         } else {
-            if (strlen(np->project_name)) {
-                sprintf(buf, "%s: %s", np->project_name, np->title);
+            if (strProjectName.size()) {
+                strTemp.Printf(wxT("%s: %s"), strProjectName.c_str(), strTitle.c_str());
             } else {
-                strcpy(buf, np->title);
+                strTemp = strTitle;
             }
         }
-        strTitle = wxString(buf, wxConvUTF8);
-        pDoc->LocalizeNoticeText(strTitle, true);
+
+        strTitle = strTemp;
+        eol_to_br(strTitle);
+        localize(strTitle);
 
         strDescription = wxString(np->description.c_str(), wxConvUTF8);
-        pDoc->LocalizeNoticeText(strDescription, true);
+        eol_to_br(strDescription);
+        localize(strDescription);
 
         dtBuffer.Set((time_t)np->create_time);
-        create_time = dtBuffer.Format();
+        strCreateTime = dtBuffer.Format();
 
         strBuffer = wxT("<table border=0 cellpadding=5><tr><td>");
 
@@ -523,7 +560,7 @@ wxString CNoticeListCtrl::OnGetItem(size_t i) const {
 
         strBuffer += wxT("<br><font size=-2 color=#8f8f8f>");
 
-        strBuffer += create_time;
+        strBuffer += strCreateTime;
 
         if (!strURL.IsEmpty()) {
             strTemp.Printf(
@@ -541,12 +578,18 @@ wxString CNoticeListCtrl::OnGetItem(size_t i) const {
 }
 
 
+void CNoticeListCtrl::Clear() {
+    m_bNeedsReloading = true;
+    UpdateUI();
+}
+
+
 /*!
  * Update the UI.
  */
- 
 bool CNoticeListCtrl::UpdateUI()
 {
+    static bool bAlreadyRunning = false;
     CMainDocument*  pDoc   = wxGetApp().GetDocument();
 
     wxASSERT(pDoc);
@@ -554,33 +597,57 @@ bool CNoticeListCtrl::UpdateUI()
 
     // Call Freeze() / Thaw() only when actually needed; 
     // otherwise it causes unnecessary redraws
-    if (pDoc->GetNoticeCount() <= 0) {
-        m_bDisplayEmptyNotice = true;
-        Freeze();
-        SetItemCount(1);
-        Thaw();
+    int noticeCount = pDoc->GetNoticeCount();
+    if ((noticeCount < 0) || (!pDoc->IsConnected()) || m_bNeedsReloading) {
+        if (GetItemCount()) {
+            SetItemCount(0);
+            Refresh();
+        }
+        // Display "Fetching Notices" text only when connected
+        m_bDisplayFetchingNotices = pDoc->IsConnected();
+        m_bDisplayEmptyNotice = false;
+        m_bNeedsReloading = false;
         return true;
     }
     
-    if (
-        pDoc->notices.complete ||
-        ((int)GetItemCount() != pDoc->GetNoticeCount()) ||
-        ((pDoc->GetNoticeCount() > 0) && (m_bDisplayEmptyNotice == true))
-    ) {
-        pDoc->notices.complete = false;
-        m_bDisplayEmptyNotice = false;
-        Freeze();
-        SetItemCount(pDoc->GetNoticeCount());
-        Thaw();
+    if (noticeCount == 0) {
+        if (GetItemCount()) {
+            SetItemCount(0);
+            Refresh();
+        }
+        m_bDisplayFetchingNotices = false;
+        m_bDisplayEmptyNotice = true;
+        m_bNeedsReloading = false;
+        return true;
     }
-
-#ifdef __WXMAC__
-    // Enable accessibility only after drawing the page 
-    // to avoid a mysterious crash bug
-    if (m_accessible == NULL) {
-        m_accessible = new CNoticeListCtrlAccessible(this);
-    }
-#endif
     
+    // We must prevent re-entry because our asynchronous 
+    // Internet access on Windows calls Yield() which can 
+    // allow this to be called again.
+    if (!bAlreadyRunning) {
+        bAlreadyRunning = true;
+        if (
+            pDoc->IsConnected() &&
+            (pDoc->notices.complete ||
+            ((int)GetItemCount() != noticeCount))
+        ) {
+            pDoc->notices.complete = false;
+            Freeze();
+            SetItemCount(noticeCount);
+            m_bDisplayFetchingNotices = false;
+            m_bDisplayEmptyNotice = false;
+            Thaw();
+        }
+#ifdef __WXMAC__
+        // Enable accessibility only after drawing the page 
+        // to avoid a mysterious crash bug
+        if (m_accessible == NULL) {
+            m_accessible = new CNoticeListCtrlAccessible(this);
+        }
+#endif
+
+        bAlreadyRunning = false;
+    }
+        
     return true;
 }

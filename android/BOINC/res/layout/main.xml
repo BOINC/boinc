@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  This file is part of BOINC.
+  http://boinc.berkeley.edu
+  Copyright (C) 2012 University of California
+  
+  BOINC is free software; you can redistribute it and/or modify it
+  under the terms of the GNU Lesser General Public License
+  as published by the Free Software Foundation,
+  either version 3 of the License, or (at your option) any later version.
+  
+  BOINC is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+  See the GNU Lesser General Public License for more details.
+  
+  You should have received a copy of the GNU Lesser General Public License
+  along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<!--
+  This layout is split into four different parts, that are logically independent:
+  - tabhost
+  - launching
+  - error
+  Which layout to show depends on ClientStatus.setupStatus.
+  The layouts reside in the same XML file, because MainActivity is a TabActivity, which
+  need to have tabhost, tabs and tabcontent present in their layout.
+  Currently MainActivity decieds which layout to show, and sets the visibility attribute
+  of the other parts to View.GONE.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main_entry"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="horizontal" >
+    
+    <!-- tabbed layout, for normal manager operation -->
+	<TabHost 
+	    android:id="@android:id/tabhost"
+	    android:visibility="gone"
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent" >
+	
+	    <LinearLayout
+	        android:layout_width="fill_parent"
+	        android:layout_height="fill_parent"
+	        android:orientation="vertical" >
+	
+	        <TabWidget
+	            android:id="@android:id/tabs"
+	            android:layout_width="fill_parent"
+	            android:layout_height="wrap_content"  >
+	        </TabWidget>
+	        
+	        <HorizontalScrollView 
+	    	    android:visibility="gone"
+		        android:id="@+id/noproject_warning_wrapper"
+		    	android:layout_width="fill_parent"
+		    	android:layout_height="wrap_content"
+		        android:layout_margin="10dp"
+	        	android:background="@drawable/shape_yellow_background">
+		    	<TextView
+			        android:id="@+id/noproject_warning"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+		        	android:padding="10dp"
+		        	android:singleLine="true"
+			        android:text="@string/main_noproject_warning"
+			        android:textAppearance="?android:attr/textAppearanceSmall"
+			        android:background="@android:color/transparent"
+			        android:textStyle="bold"
+			        android:layout_gravity="center_horizontal"
+		        	android:clickable="true"
+		        	android:onClick="noProjectClicked" />
+	    	</HorizontalScrollView>
+	
+	        <FrameLayout
+	            android:id="@android:id/tabcontent"
+	            android:layout_width="fill_parent"
+	            android:layout_height="fill_parent" >
+	        </FrameLayout>
+	    </LinearLayout>
+	</TabHost>
+	
+	<!-- launching layout, shown during start up -->
+	<LinearLayout 
+    	android:id="@+id/main_loading"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:gravity="center"
+	    android:layout_gravity="center"
+	    android:orientation="horizontal"
+	    android:paddingTop="20dp"
+	    android:paddingBottom="20dp"
+	    android:background="@drawable/shape_light_blue_background"
+	    android:visibility="gone" >
+
+	    <ProgressBar
+	        android:id="@+id/loading_progressBar"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        style="?android:attr/progressBarStyleSmall"
+	        android:layout_marginRight="10dp"
+	        android:background="@android:color/transparent" />
+	
+	    <TextView
+	        android:id="@+id/loading_header"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="@string/generic_loading"
+	        android:textAppearance="?android:attr/textAppearanceMedium"
+	        android:maxWidth="100dp"
+	        android:background="@android:color/transparent" />
+	</LinearLayout>
+	
+	<!-- error layout, in case of an error, i.e. client crash -->
+	<LinearLayout
+    	android:id="@+id/main_error"
+	    android:visibility="gone"
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:gravity="center"
+	    android:orientation="vertical" >
+	
+	    <TextView
+	        android:id="@+id/error_textView1"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="@string/main_error"
+	        android:textAppearance="?android:attr/textAppearanceLarge" />
+	
+	    <ImageView
+	        android:id="@+id/error_imageView1"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_marginBottom="30dip"
+	        android:layout_marginTop="30dip"
+	        android:contentDescription="@string/main_error"
+	        android:src="@drawable/reloadb48" />
+	
+	    <TextView
+	        android:id="@+id/error_textView2"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_marginLeft="20dip"
+	        android:layout_marginRight="20dip"
+	        android:gravity="center"
+	        android:text="@string/main_error_long"
+	        android:textAppearance="?android:attr/textAppearanceMedium"/>
+	
+	</LinearLayout>
+</LinearLayout>

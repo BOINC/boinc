@@ -150,6 +150,7 @@ int CERT_SIGS::parse_file(const char* filename) {
     mf.init_file(f);
     XML_PARSER xp(&mf);
     if (!xp.parse_start("signatures")) {
+        fclose(f);
         return ERR_XML_PARSE;
     }
     retval = this->parse(xp);

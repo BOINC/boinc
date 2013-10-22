@@ -25,6 +25,7 @@
 #include "error_numbers.h"
 #include "filesys.h"
 #include "md5_file.h"
+#include "str_replace.h"
 
 #include "app.h"
 #include "client_msgs.h"
@@ -47,7 +48,7 @@ int ASYNC_COPY::init(
 ) {
     atp = _atp;
     fip = _fip;
-    strcpy(to_path, _to_path);
+    safe_strcpy(to_path, _to_path);
 
     if (log_flags.async_file_debug) {
         msg_printf(atp->wup->project, MSG_INFO,
@@ -56,9 +57,13 @@ int ASYNC_COPY::init(
     }
     in = fopen(from_path, "rb");
     if (!in) return ERR_FOPEN;
-    strcpy(temp_path, to_path);
+    safe_strcpy(temp_path, to_path);
     char* p = strrchr(temp_path, '/');
-    strcpy(p+1, "copy_temp");
+    *(p+1) = 0;
+    strlcat(temp_path, "copy_temp", sizeof(temp_path));
+#ifdef _WIN32
+    boinc_allocate_file(temp_path, fip->nbytes);
+#endif
     out = fopen(temp_path, "wb");
     if (!out) {
         fclose(in);
@@ -90,8 +95,8 @@ int ASYNC_COPY::copy_chunk() {
     unsigned char buf[BUFSIZE];
     int retval;
 
-    int n = fread(buf, 1, BUFSIZE, in);
-    if (n <= 0) {
+    size_t n = fread(buf, 1, BUFSIZE, in);
+    if (n == 0) {
         // copy done.  rename temp file
         //
         fclose(in);
@@ -122,7 +127,7 @@ int ASYNC_COPY::copy_chunk() {
         }
         return 1;       // tell caller we're done
     } else {
-        int m = fwrite(buf, 1, n, out);
+        size_t m = fwrite(buf, 1, n, out);
         if (m != n) {
             error(ERR_FWRITE);
             return 1;
@@ -165,10 +170,14 @@ int ASYNC_VERIFY::init(FILE_INFO* _fip) {
         );
     }
     if (fip->download_gzipped) {
-        strcpy(outpath, inpath);
-        strcpy(temp_path, outpath);
+        safe_strcpy(outpath, inpath);
+        safe_strcpy(temp_path, outpath);
         char* p = strrchr(temp_path, '/');
-        strcpy(p+1, "verify_temp");
+        *(p+1) = 0;
+        strlcat(temp_path, "verify_temp", sizeof(temp_path));
+#ifdef _WIN32
+        boinc_allocate_file(temp_path, fip->nbytes);
+#endif
         out = boinc_fopen(temp_path, "wb");
         if (!out) return ERR_FOPEN;
         strcat(inpath, ".gz");

@@ -74,12 +74,12 @@ $title = cleanup_title($thread->title);
 if ($temp_sort_style) {
     $sort_style = $temp_sort_style;
 } else if ($sort_style) {
+    $forum_style = 0;   // this is deprecated
     if ($logged_in_user){
         $logged_in_user->prefs->thread_sorting = $sort_style;
         $logged_in_user->prefs->update("thread_sorting=$sort_style");
-        $forum_style = 0;   // I guess this is deprecated
-    } else if (array_key_exists('sorting', $_COOKIE)) {
-        list($forum_style, $old_style) = explode("|", $_COOKIE['sorting']);
+    } else {
+        list($forum_style, $old_style) = parse_forum_cookie();
     }
     send_cookie('sorting',
         implode("|", array($forum_style, $sort_style)),
@@ -89,8 +89,8 @@ if ($temp_sort_style) {
     // get the sorting style from the user or a cookie
     if ($logged_in_user){
         $sort_style = $logged_in_user->prefs->thread_sorting;
-    } else if (array_key_exists('sorting', $_COOKIE)) {
-        list($forum_style, $sort_style) = explode("|",$_COOKIE['sorting']);
+    } else {
+        list($forum_style, $sort_style) = parse_forum_cookie();
     }
 }
 
@@ -115,6 +115,7 @@ case 1:
     break;
 }
 
+if (false) {
 if ($forum->parent_type == 0) {
     if ($category->is_helpdesk && !$thread->status){
         if ($logged_in_user){
@@ -138,6 +139,7 @@ if ($forum->parent_type == 0) {
             }
         }
     }
+}
 }
 
 echo "
@@ -241,7 +243,7 @@ if (is_news_forum($forum) && $logged_in_user && ($logged_in_user->id == $thread-
         show_button(
             "forum_thread_status.php?action=clear&amp;id=$thread->id",
             tra("Export as Notice"),
-            tra("Export this news item as a Notice")
+            "Show this message to all volunteers in the desktop GUI.  Use this only for messages of interest or importance to all volunteers."
         );
     } else {
         show_button(

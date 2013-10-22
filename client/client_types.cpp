@@ -127,7 +127,7 @@ int APP::parse(XML_PARSER& xp) {
     while (!xp.get_tag()) {
         if (xp.match_tag("/app")) {
             if (!strlen(user_friendly_name)) {
-                strcpy(user_friendly_name, name);
+                safe_strcpy(user_friendly_name, name);
             }
             return 0;
         }
@@ -141,6 +141,10 @@ int APP::parse(XML_PARSER& xp) {
         if (xp.parse_double("working_set", working_set)) continue;
         if (xp.match_tag("fpops")) {
             fpops.parse(xp, "/fpops");
+            continue;
+        }
+        if (xp.parse_int("max_concurrent", max_concurrent)) {
+            if (max_concurrent) have_max_concurrent = true;
             continue;
         }
         if (xp.match_tag("checkpoint_period")) {
@@ -231,7 +235,7 @@ int FILE_INFO::set_permissions(const char* path) {
     int retval;
     char pathname[1024];
     if (path) {
-        strcpy(pathname, path);
+        safe_strcpy(pathname, path);
     } else {
         get_pathname(this, pathname, sizeof(pathname));
     }
@@ -592,10 +596,10 @@ int FILE_INFO::merge_info(FILE_INFO& new_info) {
     // replace signatures
     //
     if (strlen(new_info.file_signature)) {
-        strcpy(file_signature, new_info.file_signature);
+        safe_strcpy(file_signature, new_info.file_signature);
     }
     if (strlen(new_info.xml_signature)) {
-        strcpy(xml_signature, new_info.xml_signature);
+        safe_strcpy(xml_signature, new_info.xml_signature);
     }
 
     // If the file is supposed to be executable and is PRESENT,
@@ -656,8 +660,8 @@ int FILE_INFO::gzip() {
     char inpath[MAXPATHLEN], outpath[MAXPATHLEN];
 
     get_pathname(this, inpath, sizeof(inpath));
-    strcpy(outpath, inpath);
-    strcat(outpath, ".gz");
+    safe_strcpy(outpath, inpath);
+    safe_strcat(outpath, ".gz");
     FILE* in = boinc_fopen(inpath, "rb");
     if (!in) return ERR_FOPEN;
     gzFile out = gzopen(outpath, "wb");
@@ -687,11 +691,12 @@ int FILE_INFO::gunzip(char* md5_buf) {
 
     md5_init(&md5_state);
     get_pathname(this, outpath, sizeof(outpath));
-    strcpy(inpath, outpath);
-    strcat(inpath, ".gz");
-    strcpy(tmppath, outpath);
+    safe_strcpy(inpath, outpath);
+    safe_strcat(inpath, ".gz");
+    safe_strcpy(tmppath, outpath);
     char* p = strrchr(tmppath, '/');
-    strcpy(p+1, "decompress_temp");
+    *(p+1) = 0;
+    safe_strcat(tmppath, "decompress_temp");
     FILE* out = boinc_fopen(tmppath, "wb");
     if (!out) return ERR_FOPEN;
     gzFile in = gzopen(inpath, "rb");
@@ -720,11 +725,7 @@ int FILE_INFO::gunzip(char* md5_buf) {
     return 0;
 }
 
-int APP_VERSION::parse(XML_PARSER& xp) {
-    FILE_REF file_ref;
-    double dtemp;
-    int rt;
-
+void APP_VERSION::init() {
     strcpy(app_name, "");
     strcpy(api_version, "");
     version_num = 0;
@@ -744,7 +745,14 @@ int APP_VERSION::parse(XML_PARSER& xp) {
     strcpy(missing_coproc_name, "");
     dont_throttle = false;
     needs_network = false;
+}
 
+int APP_VERSION::parse(XML_PARSER& xp) {
+    FILE_REF file_ref;
+    double dtemp;
+    int rt;
+
+    init();
     while (!xp.get_tag()) {
         if (xp.match_tag("/app_version")) {
             rt = gpu_usage.rsc_type;
@@ -756,7 +764,7 @@ int APP_VERSION::parse(XML_PARSER& xp) {
                         );
                         missing_coproc = true;
                         missing_coproc_usage = gpu_usage.usage;
-                        strcpy(missing_coproc_name, coprocs.coprocs[rt].type);
+                        safe_strcpy(missing_coproc_name, coprocs.coprocs[rt].type);
                     }
                 } else if (strstr(plan_class, "cuda")) {
                     if (!coprocs.coprocs[rt].have_cuda) {
@@ -765,7 +773,7 @@ int APP_VERSION::parse(XML_PARSER& xp) {
                         );
                         missing_coproc = true;
                         missing_coproc_usage = gpu_usage.usage;
-                        strcpy(missing_coproc_name, coprocs.coprocs[rt].type);
+                        safe_strcpy(missing_coproc_name, coprocs.coprocs[rt].type);
                     }
                 } else if (strstr(plan_class, "ati")) {
                     if (!coprocs.coprocs[rt].have_cal) {
@@ -774,7 +782,7 @@ int APP_VERSION::parse(XML_PARSER& xp) {
                         );
                         missing_coproc = true;
                         missing_coproc_usage = gpu_usage.usage;
-                        strcpy(missing_coproc_name, coprocs.coprocs[rt].type);
+                        safe_strcpy(missing_coproc_name, coprocs.coprocs[rt].type);
                     }
                 }
             }
@@ -816,7 +824,7 @@ int APP_VERSION::parse(XML_PARSER& xp) {
                     );
                     missing_coproc = true;
                     missing_coproc_usage = cp.count;
-                    strcpy(missing_coproc_name, cp.type);
+                    safe_strcpy(missing_coproc_name, cp.type);
                     continue;
                 }
                 gpu_usage.rsc_type = rt;

@@ -14,9 +14,38 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+#ifndef SCHED_CUSTOMIZE_H
+#define SCHED_CUSTOMIZE_H
 
 #include "boinc_db.h"
 #include "sched_types.h"
+
+// Scheduler parameters that may need to modified by the project
+// and their default values.
+//
+// ------ Shared Memory Parameters -----------
+// #define MAX_PLATFORMS        50
+// #define MAX_APPS             10 
+// #define MAX_APP_VERSIONS     50
+// #define MAX_ASSIGNMENTS      10
+// #define MAX_WU_RESULTS       100
+//
+// ------ Default Plan Class Parameters --------------
+// #define ATI_MIN_RAM                  256*MEGA
+// #define OPENCL_ATI_MIN_RAM           256*MEGA
+// #define CUDA_MIN_RAM                 256*MEGA
+// #define CUDAFERMI_MIN_RAM            384*MEGA
+// #define OPENCL_NVIDIA_MIN_RAM        384*MEGA
+// #define OPENCL_INTEL_GPU_MIN_RAM     256*MEGA
+//
+// #define CUDA_MIN_DRIVER_VERSION              17700
+// #define CUDA23_MIN_CUDA_VERSION              2030
+// #define CUDA23_MIN_DRIVER_VERSION            19038
+// #define CUDA3_MIN_CUDA_VERSION               3000
+// #define CUDA3_MIN_DRIVER_VERSION             19500
+// #define CUDA_OPENCL_MIN_DRIVER_VERSION       19713
+// #define CUDA_OPENCL_101_MIN_DRIVER_VERSION   28013
+//
 
 // this keeps track of the project's lowest and highest requirements
 // for a GPU type, so that we can send users an appropriate message
@@ -78,3 +107,5 @@ static inline void coproc_perf(
         // do the math
     u1 = frac*s2/y;
 }
+
+#endif

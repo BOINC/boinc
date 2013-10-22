@@ -25,11 +25,13 @@
 #include <cstring>
 #include <string>
 #include <vector>
+#include <sys/param.h>
 
 using std::vector;
 
 #include "boinc_db.h"
 #include "error_numbers.h"
+#include "filesys.h"
 
 #ifdef _USING_FCGI_
 #include "boinc_fcgi.h"
@@ -98,8 +100,7 @@ int SCHED_SHMEM::scan_tables() {
     int i, j, n;
 
     n = 0;
-    while (!platform.enumerate()) {
-        if (platform.deprecated) continue;
+    while (!platform.enumerate("where deprecated=0")) {
         platforms[n++] = platform;
         if (n == MAX_PLATFORMS) {
             overflow("platforms", "MAX_PLATFORMS");
@@ -109,9 +110,7 @@ int SCHED_SHMEM::scan_tables() {
 
     n = 0;
     app_weight_sum = 0;
-    while (!app.enumerate()) {
-        if (app.deprecated) continue;
-        apps[n++] = app;
+    while (!app.enumerate("where deprecated=0")) {
         if (n == MAX_APPS) {
             overflow("apps", "MAX_APPS");
         }
@@ -126,6 +125,34 @@ int SCHED_SHMEM::scan_tables() {
             have_nci_app = true;
             app.non_cpu_intensive = true;
         }
+        if (app.n_size_classes > 1) {
+            char path[MAXPATHLEN];
+            sprintf(path, "../size_census_%s", app.name);
+#ifndef _USING_FCGI_
+            FILE* f = fopen(path, "r");
+#else
+            FCGI_FILE* f = FCGI::fopen(path, "r");
+#endif
+            if (!f) {
+                log_messages.printf(MSG_CRITICAL,
+                    "Missing size census file for app %s\n", app.name
+                );
+                return ERR_FOPEN;
+            }
+            for (int i=0; i<app.n_size_classes-1; i++) {
+                char buf[256];
+                char* p = fgets(buf, 256, f);
+                if (!p) {
+                    log_messages.printf(MSG_CRITICAL,
+                        "Size census file for app %s is too short\n", app.name
+                    );
+                    return ERR_XML_PARSE;   // whatever
+                }
+                app.size_class_quantiles[i] = atof(buf);
+            }
+            fclose(f);
+        }
+        apps[n++] = app;
     }
     napps = n;
 
@@ -288,6 +315,14 @@ void SCHED_SHMEM::restore_work(int pid) {
 }
 
 void SCHED_SHMEM::show(FILE* f) {
+    fprintf(f, "apps:\n");
+    for (int i=0; i<napps; i++) {
+        APP& app = apps[i];
+        fprintf(f, "id: %d name: %s hr: %d weight: %.2f beta: %d hav: %d nci: %d\n",
+            app.id, app.name, app.homogeneous_redundancy, app.weight,
+            app.beta, app.homogeneous_app_version, app.non_cpu_intensive
+        );
+    }
     fprintf(f, "app versions:\n");
     for (int i=0; i<napp_versions; i++) {
         APP_VERSION av = app_versions[i];
@@ -322,13 +357,44 @@ void SCHED_SHMEM::show(FILE* f) {
     fprintf(f, "ready: %d\n", ready);
     fprintf(f, "max_wu_results: %d\n", max_wu_results);
     for (int i=0; i<max_wu_results; i++) {
+        if (i%24 == 0) {
+            fprintf(f,
+                "%4s %12s %10s %10s %10s %8s %10s %8s %12s %12s %9s\n",
+                "slot",
+                "app",
+                "WU ID",
+                "result ID",
+                "batch",
+                "HR class",
+                "priority",
+                "in shmem",
+                "size class",
+                "need reliable",
+                "inf count"
+            );
+        }
         WU_RESULT& wu_result = wu_results[i];
+        APP* app;
+        const char* appname;
+        int delta_t;
         switch(wu_result.state) {
         case WR_STATE_PRESENT:
-            fprintf(f, "%4d: ap %d ic %d wu %d rs %u hr %d nr %d\n",
-                i, wu_result.workunit.appid, wu_result.infeasible_count,
-                wu_result.workunit.id, wu_result.resultid,
-                wu_result.workunit.hr_class, wu_result.need_reliable
+            app = lookup_app(wu_result.workunit.appid);
+            appname = app?app->name:"missing";
+            delta_t = dtime() - wu_result.time_added_to_shared_memory;
+            fprintf(f,
+                "%4d %12.12s %10d %10d %10d %8d %10d %7ds %9d %12s %9d\n",
+                i,
+                appname,
+                wu_result.workunit.id,
+                wu_result.resultid,
+                wu_result.workunit.batch,
+                wu_result.workunit.hr_class,
+                wu_result.res_priority,
+                delta_t,
+                wu_result.workunit.size_class,
+                wu_result.need_reliable?"yes":"no",
+                wu_result.infeasible_count
             );
             break;
         case WR_STATE_EMPTY:

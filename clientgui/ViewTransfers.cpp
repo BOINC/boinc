@@ -109,9 +109,9 @@ static bool CompareViewTransferItems(int iRowIndex1, int iRowIndex2) {
         }
         break;
     case COLUMN_SIZE:
-        if (transfer1->m_fBytesXferred < transfer2->m_fBytesXferred) {
+        if (transfer1->m_fTotalBytes < transfer2->m_fTotalBytes) {
             result = -1;
-        } else if (transfer1->m_fBytesXferred > transfer2->m_fBytesXferred) {
+        } else if (transfer1->m_fTotalBytes > transfer2->m_fTotalBytes) {
             result = 1;
         }
         break;
@@ -161,14 +161,14 @@ CViewTransfers::CViewTransfers(wxNotebook* pNotebook) :
 
 	pItem = new CTaskItem(
         _("Retry Now"),
-        _("Click 'Retry now' to transfer the file now"),
+        _("Retry the file transfer now"),
         ID_TASK_TRANSFERS_RETRYNOW 
     );
     pGroup->m_Tasks.push_back( pItem );
 
 	pItem = new CTaskItem(
         _("Abort Transfer"),
-        _("Click 'Abort transfer' to delete the file from the transfer queue. This will prevent you from being granted credit for this result."),
+        _("Abort this file transfer.  You won't get credit for the task."),
         ID_TASK_TRANSFERS_ABORT 
     );
     pGroup->m_Tasks.push_back( pItem );
@@ -219,7 +219,7 @@ const char** CViewTransfers::GetViewIcon() {
 }
 
 
-const int CViewTransfers::GetViewCurrentViewPage() {
+int CViewTransfers::GetViewCurrentViewPage() {
     return VW_XFER;
 }
 

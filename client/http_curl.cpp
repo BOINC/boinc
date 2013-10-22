@@ -31,6 +31,7 @@
 #include <sys/stat.h>
 #include <cerrno>
 #include <unistd.h>
+#include <fcntl.h>
 #if HAVE_SYS_SOCKET_H
 #include <sys/socket.h>
 #endif
@@ -273,7 +274,8 @@ HTTP_OP::~HTTP_OP() {
 // output goes to the given file, starting at given offset
 //
 int HTTP_OP::init_get(
-    PROJECT* p, const char* url, const char* out, bool del_old_file, double off
+    PROJECT* p, const char* url, const char* out, bool del_old_file,
+    double off, double size
 ) {
     if (del_old_file) {
         unlink(out);
@@ -291,7 +293,7 @@ int HTTP_OP::init_get(
     if (log_flags.http_debug) {
         msg_printf(project, MSG_INFO, "[http] HTTP_OP::init_get(): %s", url);
     }
-    return HTTP_OP::libcurl_exec(url, NULL, out, off, false);
+    return HTTP_OP::libcurl_exec(url, NULL, out, off, size, false);
 }
 
 // Initialize HTTP POST operation where
@@ -308,7 +310,7 @@ int HTTP_OP::init_post(
     req1 = NULL;  // not using req1, but init_post2 uses it
 
     if (in) {
-        strcpy(infile, in);
+        safe_strcpy(infile, in);
         retval = file_size(infile, size);
         if (retval) return retval;  // this will return 0 or ERR_NOT_FOUND
         content_length = (int)size;
@@ -319,7 +321,7 @@ int HTTP_OP::init_post(
     if (log_flags.http_debug) {
         msg_printf(project, MSG_INFO, "[http] HTTP_OP::init_post(): %s", url);
     }
-    return HTTP_OP::libcurl_exec(url, in, out, 0.0, true);
+    return HTTP_OP::libcurl_exec(url, in, out, 0, 0, true);
 }
 
 // Initialize an HTTP POST operation,
@@ -351,7 +353,7 @@ int HTTP_OP::init_post2(
     content_length += (int)strlen(req1);
     http_op_type = HTTP_OP_POST2;
     http_op_state = HTTP_STATE_CONNECTING;
-    return HTTP_OP::libcurl_exec(url, in, NULL, offset, true);
+    return HTTP_OP::libcurl_exec(url, in, NULL, offset, 0, true);
 }
 
 // is URL in proxy exception list?
@@ -368,7 +370,7 @@ bool HTTP_OP::no_proxy_for_url(const char* url) {
 
     // tokenize the noproxy-entry and check for identical hosts
     //
-    strcpy(noproxy, working_proxy_info.noproxy_hosts);
+    safe_strcpy(noproxy, working_proxy_info.noproxy_hosts);
     char* token = strtok(noproxy, ",");
     while (token != NULL) {
         // extract the host from the no_proxy url
@@ -387,10 +389,24 @@ bool HTTP_OP::no_proxy_for_url(const char* url) {
     return false;
 }
 
+#ifndef _WIN32
+static int set_cloexec(void*, curl_socket_t fd, curlsocktype purpose) {
+    if (purpose != CURLSOCKTYPE_IPCXN) return 0;
+    fcntl(fd, F_SETFD, FD_CLOEXEC);
+    return 0;
+}
+#endif
+
 // the following will do an HTTP GET or POST using libcurl
 //
 int HTTP_OP::libcurl_exec(
-    const char* url, const char* in, const char* out, double offset, bool bPost
+    const char* url, const char* in, const char* out, double offset,
+#ifdef _WIN32
+    double size,
+#else
+    double,
+#endif
+    bool is_post
 ) {
     CURLMcode curlMErr;
     char strTmp[128];
@@ -403,11 +419,11 @@ int HTTP_OP::libcurl_exec(
     }
 
     if (in) {
-        strcpy(infile, in);
+        safe_strcpy(infile, in);
     }
     if (out) {
         bTempOutfile = false;
-        strcpy(outfile, out);
+        safe_strcpy(outfile, out);
     } else {
         // always want an outfile for the server response, delete when op done
         bTempOutfile = true;
@@ -520,10 +536,17 @@ int HTTP_OP::libcurl_exec(
     // bypass any signal handlers that curl may want to install
     //
     curl_easy_setopt(curlEasy, CURLOPT_NOSIGNAL, 1L);
+
     // bypass progress meter
     //
     curl_easy_setopt(curlEasy, CURLOPT_NOPROGRESS, 1L);
 
+#ifndef _WIN32
+    // arrange for a function to get called between socket() and connect()
+    // so that we can mark the socket as close-on-exec
+    //
+    curl_easy_setopt(curlEasy, CURLOPT_SOCKOPTFUNCTION, set_cloexec);
+#endif
     // setup timeouts
     //
     curl_easy_setopt(curlEasy, CURLOPT_TIMEOUT, 0L);
@@ -570,7 +593,7 @@ int HTTP_OP::libcurl_exec(
 
     // set the file offset for resumable downloads
     //
-    if (!bPost && offset>0.0f) {
+    if (!is_post && offset>0.0f) {
         file_offset = offset;
         sprintf(strTmp, "Range: bytes=%.0f-", offset);
         pcurlList = curl_slist_append(pcurlList, strTmp);
@@ -579,9 +602,16 @@ int HTTP_OP::libcurl_exec(
     // set up an output file for the reply
     //
     if (strlen(outfile)) {
-        if (file_offset>0.0) {
+        if (file_offset > 0) {
             fileOut = boinc_fopen(outfile, "ab+");
         } else {
+#ifdef _WIN32
+            // on Win, pre-allocate big files to avoid fragmentation
+            //
+            if (size > 1e6) {
+                boinc_allocate_file(outfile, size);
+            }
+#endif
             fileOut = boinc_fopen(outfile, "wb+");
         }
         if (!fileOut) {
@@ -602,7 +632,7 @@ int HTTP_OP::libcurl_exec(
         curl_easy_setopt(curlEasy, CURLOPT_WRITEDATA, this);
     }
 
-    if (bPost) {
+    if (is_post) {
         want_upload = true;
         want_download = false;
         if (infile && strlen(infile)>0) {
@@ -973,16 +1003,16 @@ void HTTP_OP::handle_messages(CURLMsg *pcurlMsg) {
             return;
         case HTTP_STATUS_INTERNAL_SERVER_ERROR:
             http_op_retval = ERR_HTTP_TRANSIENT;
-            strcpy(error_msg, boincerror(response));
+            safe_strcpy(error_msg, boincerror(response));
             break;
         default:
             http_op_retval = ERR_HTTP_PERMANENT;
-            strcpy(error_msg, boincerror(response));
+            safe_strcpy(error_msg, boincerror(response));
             break;
         }
         net_status.http_op_succeeded();
     } else {
-        strcpy(error_msg, curl_easy_strerror(CurlResult));
+        safe_strcpy(error_msg, curl_easy_strerror(CurlResult));
         switch(CurlResult) {
         case CURLE_COULDNT_RESOLVE_HOST:
             reset_dns();

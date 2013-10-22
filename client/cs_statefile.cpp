@@ -17,6 +17,7 @@
 
 #ifdef _WIN32
 #include "boinc_win.h"
+#include "win_util.h"
 #else
 #include "config.h"
 #include <cstring>
@@ -27,6 +28,7 @@
 #include "filesys.h"
 #include "md5_file.h"
 #include "parse.h"
+#include "str_replace.h"
 #include "str_util.h"
 #include "util.h"
 
@@ -88,20 +90,18 @@ int CLIENT_STATE::parse_state_file() {
     const char *fname;
 
     // Look for a valid state file:
-    // First the regular one, then the "next" one.
+    // First "next", then regular, then "prev"
     //
     if (valid_state_file(STATE_FILE_NEXT)) {
         fname = STATE_FILE_NEXT;
+        msg_printf(0, MSG_INFO, "Using state file %s", STATE_FILE_NEXT);
     } else if (valid_state_file(STATE_FILE_NAME)) {
         fname = STATE_FILE_NAME;
     } else if (valid_state_file(STATE_FILE_PREV)) {
+        msg_printf(0, MSG_INFO, "Using state file %s", STATE_FILE_PREV);
         fname = STATE_FILE_PREV;
     } else {
-        if (log_flags.statefile_debug) {
-            msg_printf(0, MSG_INFO,
-                "[statefile] CLIENT_STATE::parse_state_file(): No state file; will create one"
-            );
-        }
+        msg_printf(0, MSG_INFO, "Creating new client state file");
 
         // avoid warning messages about version
         //
@@ -272,7 +272,7 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
                 continue;
             } 
             if (strlen(avp->platform) == 0) {
-                strcpy(avp->platform, get_primary_platform());
+                safe_strcpy(avp->platform, get_primary_platform());
             } else {
                 if (!is_supported_platform(avp->platform)) {
                     // if it's a platform we haven't heard of,
@@ -286,7 +286,7 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
                         avp->platform, get_primary_platform()
                     );
 #endif
-                    strcpy(avp->platform, get_primary_platform());
+                    safe_strcpy(avp->platform, get_primary_platform());
                 }
             }
             if (avp->missing_coproc) {
@@ -362,7 +362,7 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
             // skip for anon platform
             if (!project->anonymous_platform) {
                 if (!strlen(rp->platform) || !is_supported_platform(rp->platform)) {
-                    strcpy(rp->platform, get_primary_platform());
+                    safe_strcpy(rp->platform, get_primary_platform());
                     rp->version_num = latest_version(rp->wup->app, rp->platform);
                 }
             }
@@ -402,7 +402,7 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
         if (xp.match_tag("host_info")) {
 #ifdef SIM
             retval = host_info.parse(xp, false);
-            coprocs = host_info._coprocs;
+            coprocs = host_info.coprocs;
 #else
             retval = host_info.parse(xp, true);
 #endif
@@ -631,7 +631,7 @@ int CLIENT_STATE::write_state_file() {
 #ifdef _WIN32
                         msg_printf(0, MSG_INFO,
                             "Can't delete previous state file; %s",
-                            windows_error_string(win_error_msg, sizeof(win_error_msg))
+                            windows_format_error_string(GetLastError(), win_error_msg, sizeof(win_error_msg))
                         );
 #else
                         msg_printf(0, MSG_INFO,
@@ -650,7 +650,7 @@ int CLIENT_STATE::write_state_file() {
 #ifdef _WIN32
                     msg_printf(0, MSG_INFO,
                         "Can't rename current state file to previous state file; %s",
-                        windows_error_string(win_error_msg, sizeof(win_error_msg))
+                        windows_format_error_string(GetLastError(), win_error_msg, sizeof(win_error_msg))
                     );
 #else
                     msg_printf(0, MSG_INFO, 
@@ -675,7 +675,7 @@ int CLIENT_STATE::write_state_file() {
 #ifdef _WIN32
             msg_printf(0, MSG_INFO,
                 "rename error: %s",
-                windows_error_string(win_error_msg, sizeof(win_error_msg))
+                windows_format_error_string(GetLastError(), win_error_msg, sizeof(win_error_msg))
             );
 #elif defined (__APPLE__)
             if (log_flags.statefile_debug) {
@@ -805,14 +805,13 @@ int CLIENT_STATE::write_state_file_if_needed() {
 //
 void CLIENT_STATE::check_anonymous() {
     unsigned int i;
-    char dir[256], path[MAXPATHLEN];
+    char path[MAXPATHLEN];
     FILE* f;
     int retval;
 
     for (i=0; i<projects.size(); i++) {
         PROJECT* p = projects[i];
-        get_project_dir(p, dir, sizeof(dir));
-        sprintf(path, "%s/%s", dir, APP_INFO_FILE_NAME);
+        sprintf(path, "%s/%s", p->project_dir(), APP_INFO_FILE_NAME);
         f = fopen(path, "r");
         if (!f) continue;
         msg_printf(p, MSG_INFO,
@@ -865,7 +864,7 @@ int CLIENT_STATE::parse_app_info(PROJECT* p, FILE* in) {
             //
             get_pathname(fip, path, sizeof(path));
             if (!boinc_file_exists(path)) {
-                strcpy(buf,
+                safe_strcpy(buf,
                     _("File referenced in app_info.xml does not exist: ")
                 );
                 strcat(buf, fip->name);
@@ -899,7 +898,7 @@ int CLIENT_STATE::parse_app_info(PROJECT* p, FILE* in) {
                 continue;
             }
             if (strlen(avp->platform) == 0) {
-                strcpy(avp->platform, get_primary_platform());
+                safe_strcpy(avp->platform, get_primary_platform());
             }
             if (link_app_version(p, avp)) {
                 delete avp;
@@ -926,12 +925,7 @@ int CLIENT_STATE::write_state_gui(MIOFILE& f) {
 
     f.printf("<client_state>\n");
 
-#if 1
-    // NOTE: the following stuff is not in CC_STATE.
-    // However, BoincView (which does its own parsing) expects it
-    // to be in the get_state() reply, so leave it in for now
-    //
-    retval = host_info.write(f, true, false);
+    retval = host_info.write(f, true, true);
     if (retval) return retval;
 
     // the following are for compatibility with old managers
@@ -943,11 +937,17 @@ int CLIENT_STATE::write_state_gui(MIOFILE& f) {
         f.printf("<have_ati/>\n");
     }
 
-    retval = time_stats.write(f, false);
-    if (retval) return retval;
+#if 1
+    // NOTE: the following is not in CC_STATE.
+    // However, BoincView (which does its own parsing) expects it
+    // to be in the get_state() reply, so leave it in for now
+    //
     retval = net_stats.write(f);
     if (retval) return retval;
 #endif
+
+    retval = time_stats.write(f, true);
+    if (retval) return retval;
 
     for (j=0; j<projects.size(); j++) {
         PROJECT* p = projects[j];

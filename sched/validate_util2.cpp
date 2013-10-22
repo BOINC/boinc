@@ -25,6 +25,7 @@
 #include <cstdlib>
 #include <string>
 
+
 #include "boinc_db.h"
 #include "error_numbers.h"
 
@@ -37,15 +38,26 @@
 
 using std::vector;
 
-// Given a set of results, check for a canonical result,
-// i.e. a set of at least min_quorum/2+1 results for which
-// that are equivalent according to check_pair().
+// Given a set of results:
+// 1) call init_result() for each one;
+//    this detects results with bad or missing output files
+// 2) if # of good results is >= wu.min_quorum,
+//    check for a canonical result,
+//    i.e. a set of at least min_quorum/2+1 results for which
+//    that are equivalent according to check_pair().
 //
-// invariants:
-// results.size() >= wu.min_quorum
+// input invariants:
 // for each result:
 //   result.outcome == SUCCESS
 //   result.validate_state == INIT
+//
+// Outputs:
+// canonicalid: the ID of canonical result, if any
+// result.outcome, result.validate_state
+//    modified; caller must update DB
+// retry: set to true if some result had a transient failure
+//    (i.e. there was a broken NFS mount).
+//    Should call this again after a while.
 //
 int check_set(
     vector<RESULT>& results, WORKUNIT& wu,
@@ -72,13 +84,14 @@ int check_set(
         retval = init_result(results[i], data[i]);
         if (retval == ERR_OPENDIR) {
             log_messages.printf(MSG_CRITICAL,
-                "check_set: init_result([RESULT#%d %s]) transient failure\n",
+                "check_set: init_result([RESULT#%u %s]) transient failure\n",
                 results[i].id, results[i].name
             );
+            retry = true;
             had_error[i] = true;
         } else if (retval) {
             log_messages.printf(MSG_CRITICAL,
-                "check_set: init_result([RESULT#%d %s]) failed: %s\n",
+                "check_set: init_result([RESULT#%u %s]) failed: %s\n",
                 results[i].id, results[i].name, boincerror(retval)
             );
             results[i].outcome = RESULT_OUTCOME_VALIDATE_ERROR;
@@ -105,7 +118,7 @@ int check_set(
                 matches[j] = true;
             } else if (compare_results(results[i], data[i], results[j], data[j], match)) {
                 log_messages.printf(MSG_CRITICAL,
-                    "generic_check_set: check_pair_with_data([RESULT#%d %s], [RESULT#%d %s]) failed\n",
+                    "generic_check_set: check_pair_with_data([RESULT#%u %s], [RESULT#%u %s]) failed\n",
                     results[i].id, results[i].name, results[j].id, results[j].name
                 );
             } else if (match) {
@@ -146,14 +159,14 @@ void check_pair(RESULT& r1, RESULT& r2, bool& retry) {
     retval = init_result(r1, data1);
     if (retval == ERR_OPENDIR) {
         log_messages.printf(MSG_CRITICAL,
-            "check_pair: init_result([RESULT#%d %s]) transient failure 1\n",
+            "check_pair: init_result([RESULT#%u %s]) transient failure 1\n",
             r1.id, r1.name
         );
         retry = true;
         return;
     } else if (retval) {
         log_messages.printf(MSG_CRITICAL,
-            "check_pair: init_result([RESULT#%d %s]) perm failure 1\n",
+            "check_pair: init_result([RESULT#%u %s]) perm failure 1\n",
             r1.id, r1.name
         );
         r1.outcome = RESULT_OUTCOME_VALIDATE_ERROR;
@@ -164,7 +177,7 @@ void check_pair(RESULT& r1, RESULT& r2, bool& retry) {
     retval = init_result(r2, data2);
     if (retval == ERR_OPENDIR) {
         log_messages.printf(MSG_CRITICAL,
-            "check_pair: init_result([RESULT#%d %s]) transient failure 2\n",
+            "check_pair: init_result([RESULT#%u %s]) transient failure 2\n",
             r2.id, r2.name
         );
         cleanup_result(r1, data1);
@@ -172,7 +185,7 @@ void check_pair(RESULT& r1, RESULT& r2, bool& retry) {
         return;
     } else if (retval) {
         log_messages.printf(MSG_CRITICAL,
-            "check_pair: init_result([RESULT#%d %s]) perm failure2\n",
+            "check_pair: init_result([RESULT#%u %s]) perm failure2\n",
             r2.id, r2.name
         );
         cleanup_result(r1, data1);

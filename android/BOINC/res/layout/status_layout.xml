@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  This file is part of BOINC.
+  http://boinc.berkeley.edu
+  Copyright (C) 2012 University of California
+  
+  BOINC is free software; you can redistribute it and/or modify it
+  under the terms of the GNU Lesser General Public License
+  as published by the Free Software Foundation,
+  either version 3 of the License, or (at your option) any later version.
+  
+  BOINC is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+  See the GNU Lesser General Public License for more details.
+  
+  You should have received a copy of the GNU Lesser General Public License
+  along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/status_wrapper"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical" >
+
+    <LinearLayout 
+        android:id="@+id/center_wrapper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        android:background="@drawable/shape_light_blue_background"
+        android:visibility="gone">
+        
+        <ImageView
+	        android:id="@+id/status_image"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+        	android:layout_marginRight="10dp"
+        	android:layout_marginLeft="10dp"
+	        android:contentDescription="@string/status_paused"
+	        android:background="@android:color/transparent" />
+ 
+        <LinearLayout
+        	android:id="@+id/text_wrapper"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+        	android:orientation="vertical"
+		    android:background="@android:color/transparent"  >
+            <TextView
+		        android:id="@+id/status_header"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:textAppearance="?android:attr/textAppearanceMedium"
+		        android:background="@android:color/transparent" />
+	        
+		    <TextView
+		        android:id="@+id/status_long"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:textAppearance="?android:attr/textAppearanceSmall"
+		        android:background="@android:color/transparent"  />
+        </LinearLayout>
+    </LinearLayout>
+    
+    <RelativeLayout 
+        android:id="@+id/slideshow_wrapper"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:visibility="gone"
+        android:paddingTop="10dp"
+    	android:orientation="vertical">
+            
+        <ImageView
+	        android:id="@+id/image_view"
+	        android:layout_width="fill_parent"
+	        android:layout_height="fill_parent"
+	        android:contentDescription="@string/status_image_description"
+	        android:scaleType="fitCenter"
+	        android:layout_marginBottom="130dp"
+	        android:layout_alignParentTop="true"
+	        android:adjustViewBounds="true"/>
+        
+        <LinearLayout 
+        	android:id="@+id/gallery_wrapper"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+	        android:background="@drawable/shape_light_blue_background"
+	        android:layout_alignParentBottom="true"
+	        android:orientation="vertical">
+		    <TextView 
+	            android:id="@+id/image_description"
+	            android:layout_width="fill_parent"
+	            android:layout_height="wrap_content"
+	            android:gravity="center_horizontal"
+	            android:background="@android:color/transparent"
+	            android:textStyle="bold"
+		        android:textAppearance="?android:attr/textAppearanceSmall"/>  
+            
+		    <Gallery 
+		        android:id="@+id/gallery"
+	        	android:layout_width="fill_parent"
+	        	android:layout_height="wrap_content"
+	        	android:spacing="5dp"
+	            android:background="@android:color/transparent"/>
+        </LinearLayout>
+    </RelativeLayout>
+    
+    <LinearLayout 
+    	android:id="@+id/restarting_wrapper"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:gravity="center"
+	    android:orientation="horizontal"
+	    android:paddingTop="20dp"
+	    android:paddingBottom="20dp"
+	    android:background="@drawable/shape_light_blue_background"
+	    android:visibility="gone" >
+
+	    <ProgressBar
+	        android:id="@+id/restarting_progressBar"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        style="?android:attr/progressBarStyleSmall"
+	        android:layout_marginRight="10dp"
+	        android:background="@android:color/transparent" />
+	
+	    <TextView
+	        android:id="@+id/restarting_text"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="@string/suspend_user_req"
+	        android:textAppearance="?android:attr/textAppearanceMedium"
+	        android:maxWidth="300dp"
+	        android:background="@android:color/transparent" />
+	</LinearLayout>
+ 
+</LinearLayout>

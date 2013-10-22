@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _SERVER_TYPES_
-#define _SERVER_TYPES_
+#ifndef _SCHED_TYPES_
+#define _SCHED_TYPES_
 
 #include <cstdio>
 #include <vector>
@@ -216,7 +216,7 @@ struct GLOBAL_PREFS {
 struct GUI_URLS {
     char* text;
     void init();
-    void get_gui_urls(USER& user, HOST& host, TEAM& team, char*);
+    void get_gui_urls(USER& user, HOST& host, TEAM& team, char*, int len);
 };
 
 struct PROJECT_FILES {
@@ -281,6 +281,8 @@ struct SCHEDULER_REQUEST {
         // currently queued jobs saturate the CPU for this long;
         // used for crude deadline check
     double duration_correction_factor;
+    double uptime;
+    double previous_uptime;
     char global_prefs_xml[BLOB_SIZE];
     char working_global_prefs_xml[BLOB_SIZE];
     char code_sign_key[4096];

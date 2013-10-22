@@ -31,8 +31,9 @@
 //   you can strip out this stuff if the web site doesn't use BOINC
 
 require_once("../inc/submit.inc");
-require_once("../inc/submit_util.inc");
+require_once("../inc/common_defs.inc");
 require_once("../inc/submit_db.inc");
+    // needed for access control stuff
 require_once("../inc/util.inc");
 require_once("../project/project.inc");
 
@@ -56,7 +57,7 @@ function handle_main() {
     $req->project = $project;
     $req->authenticator = $auth;
     list($batches, $errmsg) = boinc_query_batches($req);
-    if ($errmsg) error_page($errmsg);
+    if ($errmsg) error_page(htmlentities($errmsg));
 
     page_head("Job submission and control");
 
@@ -74,7 +75,6 @@ function handle_main() {
         with permission to submit jobs.
         <p>
     ";
-    show_button("submit_example.php?action=manage_files", "Manage files");
     show_button("submit_example.php?action=create_form", "Create new batch");
 
     $first = true;
@@ -248,9 +248,10 @@ function form_to_request() {
     $req->jobs = Array();
 
     $f->source = $input_url;
+    $f->mode = "semilocal";
 
     for ($x=$param_lo; $x<$param_hi; $x += $param_inc) {
-        $job = null;
+        $job = new StdClass;
         $job->rsc_fpops_est = $x*1e9;
         $job->command_line = "--t $x";
         $job->input_files = array($f);
@@ -269,7 +270,7 @@ function handle_create_action() {
     if ($get_estimate) {
         $req = form_to_request($project, $auth);
         list($e, $errmsg) = boinc_estimate_batch($req);
-        if ($errmsg) error_page($errmsg);
+        if ($errmsg) error_page(htmlentities($errmsg));
         page_head("Batch estimate");
         echo sprintf("Estimate: %.0f seconds", $e);
         echo "<p><a href=submit_example.php>Return to job control page</a>\n";
@@ -277,7 +278,7 @@ function handle_create_action() {
     } else {
         $req = form_to_request($project, $auth);
         list($id, $errmsg) = boinc_submit_batch($req);
-        if ($errmsg) error_page($errmsg);
+        if ($errmsg) error_page(htmlentities($errmsg));
         page_head("Batch submitted");
         echo "Batch created, ID: $id\n";
         echo "<p><a href=submit_example.php>Return to job control page</a>\n";
@@ -293,7 +294,7 @@ function handle_query_batch() {
     $req->authenticator = $auth;
     $req->batch_id = get_int('batch_id');
     list($batch, $errmsg) = boinc_query_batch($req);
-    if ($errmsg) error_page($errmsg);
+    if ($errmsg) error_page(htmlentities($errmsg));
 
     page_head("Batch $req->batch_id");
     start_table();
@@ -367,7 +368,7 @@ function handle_query_job() {
     $req->authenticator = $auth;
     $req->job_id = get_int('job_id');
     list($reply, $errmsg) = boinc_query_job($req);
-    if ($errmsg) error_page($errmsg);
+    if ($errmsg) error_page(htmlentities($errmsg));
 
     page_head("Job $req->job_id");
     echo "<a href=$project/workunit.php?wuid=$req->job_id>View workunit page on BOINC server</a>\n";
@@ -420,7 +421,7 @@ function handle_abort_batch() {
     $req->authenticator = $auth;
     $req->batch_id = get_int('batch_id');
     $errmsg = boinc_abort_batch($req);
-    if ($errmsg) error_page($errmsg);
+    if ($errmsg) error_page(htmlentities($errmsg));
     page_head("Batch aborted");
     echo "<p><a href=submit_example.php>Return to job control page</a>\n";
     page_tail();
@@ -448,25 +449,19 @@ function handle_retire_batch() {
     $req->authenticator = $auth;
     $req->batch_id = get_int('batch_id');
     $errmsg = boinc_retire_batch($req);
-    if ($errmsg) error_page($errmsg);
+    if ($errmsg) error_page(htmlentities($errmsg));
     page_head("Batch retired");
     echo "<p><a href=submit_example.php>Return to job control page</a>\n";
     page_tail();
 }
 
-function manage_files() {
-    $files = submit_get_file_list();
-}
-
 $action = get_str('action', true);
-
 switch ($action) {
 case '': handle_main(); break;
 case 'abort_batch': handle_abort_batch(); break;
 case 'abort_batch_confirm': handle_abort_batch_confirm(); break;
 case 'create_action': handle_create_action(); break;
 case 'create_form': handle_create_form(); break;
-case 'manage_files': manage_files(); break;
 case 'query_batch': handle_query_batch(); break;
 case 'query_job': handle_query_job(); break;
 case 'retire_batch': handle_retire_batch(); break;

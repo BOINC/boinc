@@ -882,10 +882,10 @@ int main(int argc, char** argv) {
         tmp = localtime(&now);
         char base[256];
         if (strlen(spec.archive_dir)) {
-            strcpy(base, spec.archive_dir);
+            safe_strcpy(base, spec.archive_dir);
             strcat(base, "/stats");
         } else {
-            strcpy(base, spec.final_output_dir);
+            safe_strcpy(base, spec.final_output_dir);
         }
         sprintf(buf, "mv %s %s_%d_%d_%d_%d_%d_%d",
             spec.final_output_dir,

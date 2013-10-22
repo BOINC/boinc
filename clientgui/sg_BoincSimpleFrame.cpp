@@ -74,6 +74,7 @@ BEGIN_EVENT_TABLE(CSimpleFrame, CBOINCBaseFrame)
     EVT_MENU(ID_HELPBOINCMANAGER, CSimpleFrame::OnHelpBOINC)
     EVT_MENU(ID_HELPBOINCWEBSITE, CSimpleFrame::OnHelpBOINC)
     EVT_MENU(wxID_ABOUT, CSimpleFrame::OnHelpAbout)
+	EVT_MENU(ID_EVENTLOG, CSimpleFrame::OnEventLog)
 #ifdef __WXMAC__
 	EVT_MENU(wxID_PREFERENCES, CSimpleFrame::OnPreferences)
 #endif
@@ -277,6 +278,11 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon, wxIcon* icon32, wxPoint
 #endif
 
     m_Shortcuts[0].Set(wxACCEL_NORMAL, WXK_HELP, ID_HELPBOINCMANAGER);
+#ifdef __WXMAC__
+    m_Shortcuts[1].Set(wxACCEL_CMD|wxACCEL_SHIFT, (int)'E', ID_EVENTLOG);
+#else
+    m_Shortcuts[1].Set(wxACCEL_CTRL|wxACCEL_SHIFT, (int)'E', ID_EVENTLOG);
+#endif
     m_pAccelTable = new wxAcceleratorTable(2, m_Shortcuts);
 
     SetAcceleratorTable(*m_pAccelTable);
@@ -456,6 +462,9 @@ void CSimpleFrame::OnSelectSkin( wxCommandEvent& event ){
 
     selectedItem->Check(true);
     pSkinManager->ReloadSkin(newSkinName);
+    
+    wxGetApp().SaveState();
+    wxConfigBase::Get(FALSE)->Flush();
 }
 
 
@@ -548,7 +557,12 @@ void CSimpleFrame::OnHelp(wxHelpEvent& event) {
 void CSimpleFrame::OnReloadSkin(CFrameEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnReloadSkin - Function Start"));
     
+    CSkinAdvanced*      pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
+    wxASSERT(pSkinAdvanced);
+
     m_pBackgroundPanel->ReskinInterface();
+    SetTitle(pSkinAdvanced->GetApplicationName());
+    SetIcon(*pSkinAdvanced->GetApplicationIcon());
 
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnReloadSkin - Function End"));
 }
@@ -687,10 +701,18 @@ void CSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
 }
 
 
+void CSimpleFrame::OnEventLog(wxCommandEvent& WXUNUSED(event)) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnEventLog - Function Begin"));
+
+    wxGetApp().DisplayEventLog();
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnEventLog - Function End"));
+}
+
+
 IMPLEMENT_DYNAMIC_CLASS(CSimpleGUIPanel, wxPanel)
 
 BEGIN_EVENT_TABLE(CSimpleGUIPanel, wxPanel)
-//    EVT_SIZE(CSimpleGUIPanel::OnSize)
     EVT_ERASE_BACKGROUND(CSimpleGUIPanel::OnEraseBackground)    
 	EVT_BUTTON(ID_SGNOTICESBUTTON,CSimpleGUIPanel::OnShowNotices)
 	EVT_BUTTON(ID_SGSUSPENDRESUMEBUTTON,CSimpleGUIPanel::OnSuspendResume)
@@ -1043,10 +1065,11 @@ void CSimpleGUIPanel::OnPaint(wxPaintEvent& WXUNUSED(event)) {
     if (m_bNewNoticeAlert) {
         wxRect r = m_NoticesButton->GetRect();
         if (m_bNoticesButtonIsRed) {
+			CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
             wxPen oldPen = myDC.GetPen();
             wxBrush oldBrush = myDC.GetBrush();
             int oldMode = myDC.GetBackgroundMode();
-            wxPen bgPen(*wxRED, 3);
+			wxPen bgPen(pSkinSimple->GetNoticeAlertColor(), 3);
             myDC.SetBackgroundMode(wxSOLID);
             myDC.SetPen(bgPen);
             myDC.SetBrush(*wxTRANSPARENT_BRUSH);

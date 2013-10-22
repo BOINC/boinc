@@ -230,7 +230,7 @@ void CCompletionPage::OnPageChanged( wxWizardExEvent& event ) {
             if (pSkinAdvanced->IsBranded()) {
                 strTitle.Printf(
                     _("Update from %s completed."),
-                    pWAP->project_config.name.c_str() 
+                    pWAP->m_strProjectName.c_str()
                 );
             } else {
                 strTitle = _("Update completed.");

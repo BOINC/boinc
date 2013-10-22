@@ -46,6 +46,10 @@
 #include "boinc_win.h"
 #endif
 
+#ifdef _MSC_VER
+#define snprintf _snprintf
+#endif
+
 #ifdef _WIN32
 #include "../version.h"
 #else
@@ -76,6 +80,38 @@
 using std::string;
 using std::vector;
 using std::sort;
+
+int OLD_RESULT::parse(XML_PARSER& xp) {
+    memset(this, 0, sizeof(OLD_RESULT));
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/old_result")) return 0;
+        if (xp.parse_str("project_url", project_url, sizeof(project_url))) continue;
+        if (xp.parse_str("result_name", result_name, sizeof(result_name))) continue;
+        if (xp.parse_str("app_name", app_name, sizeof(app_name))) continue;
+        if (xp.parse_int("exit_status", exit_status)) continue;
+        if (xp.parse_double("elapsed_time", elapsed_time)) continue;
+        if (xp.parse_double("cpu_time", cpu_time)) continue;
+        if (xp.parse_double("completed_time", completed_time)) continue;
+        if (xp.parse_double("create_time", create_time)) continue;
+    }
+    return ERR_XML_PARSE;
+}
+
+int TIME_STATS::parse(XML_PARSER& xp) {
+    memset(this, 0, sizeof(TIME_STATS));
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/time_stats")) return 0;
+        if (xp.parse_double("now", now)) continue;
+        if (xp.parse_double("on_frac", on_frac)) continue;
+        if (xp.parse_double("connected_frac", connected_frac)) continue;
+        if (xp.parse_double("cpu_and_network_available_frac", cpu_and_network_available_frac)) continue;
+        if (xp.parse_double("active_frac", active_frac)) continue;
+        if (xp.parse_double("gpu_active_frac", gpu_active_frac)) continue;
+        if (xp.parse_double("client_start_time", client_start_time)) continue;
+        if (xp.parse_double("previous_uptime", previous_uptime)) continue;
+    }
+    return ERR_XML_PARSE;
+}
 
 int DAILY_XFER::parse(XML_PARSER& xp) {
     while (!xp.get_tag()) {
@@ -195,8 +231,9 @@ ALL_PROJECTS_LIST::~ALL_PROJECTS_LIST() {
     clear();
 }
 
-bool compare_project_list_entry(const PROJECT_LIST_ENTRY* a, const PROJECT_LIST_ENTRY* b) 
-{
+bool compare_project_list_entry(
+    const PROJECT_LIST_ENTRY* a, const PROJECT_LIST_ENTRY* b
+) {
 #ifdef _WIN32
     return _stricmp(a->name.c_str(), b->name.c_str()) < 0;
 #else
@@ -204,8 +241,7 @@ bool compare_project_list_entry(const PROJECT_LIST_ENTRY* a, const PROJECT_LIST_
 #endif
 }
 
-bool compare_am_list_entry(const AM_LIST_ENTRY* a, const AM_LIST_ENTRY* b) 
-{
+bool compare_am_list_entry(const AM_LIST_ENTRY* a, const AM_LIST_ENTRY* b) {
 #ifdef _WIN32
     return _stricmp(a->name.c_str(), b->name.c_str()) < 0;
 #else
@@ -213,7 +249,7 @@ bool compare_am_list_entry(const AM_LIST_ENTRY* a, const AM_LIST_ENTRY* b)
 #endif
 }
 
-void ALL_PROJECTS_LIST::shuffle() {
+void ALL_PROJECTS_LIST::alpha_sort() {
     sort(projects.begin(), projects.end(), compare_project_list_entry);
     sort(account_managers.begin(), account_managers.end(), compare_am_list_entry);
 }
@@ -251,7 +287,9 @@ int PROJECT::parse(XML_PARSER& xp) {
     char buf[256];
 
     while (!xp.get_tag()) {
-        if (xp.match_tag("/project")) return 0;
+        if (xp.match_tag("/project")) {
+            return 0;
+        }
         if (xp.parse_str("master_url", master_url, sizeof(master_url))) continue;
         if (xp.parse_double("resource_share", resource_share)) continue;
         if (xp.parse_string("project_name", project_name)) continue;
@@ -263,6 +301,7 @@ int PROJECT::parse(XML_PARSER& xp) {
             xml_unescape(team_name);
             continue;
         }
+        if (xp.parse_string("project_dir", project_dir)) continue;
         if (xp.parse_int("hostid", hostid)) continue;
         if (xp.parse_double("user_total_credit", user_total_credit)) continue;
         if (xp.parse_double("user_expavg_credit", user_expavg_credit)) continue;
@@ -284,9 +323,14 @@ int PROJECT::parse(XML_PARSER& xp) {
         if (xp.parse_double("cuda_backoff_interval", rsc_desc_nvidia.backoff_interval)) continue;
         if (xp.parse_double("ati_backoff_time", rsc_desc_ati.backoff_time)) continue;
         if (xp.parse_double("ati_backoff_interval", rsc_desc_ati.backoff_interval)) continue;
+        if (xp.parse_double("intel_gpu_backoff_time", rsc_desc_intel_gpu.backoff_time)) continue;
+        if (xp.parse_double("intel_gpu_backoff_interval", rsc_desc_intel_gpu.backoff_interval)) continue;
         if (xp.parse_double("last_rpc_time", last_rpc_time)) continue;
+
+        // deprecated elements
+        //
         if (xp.parse_bool("no_cpu_pref", rsc_desc_cpu.no_rsc_pref)) continue;
-        if (xp.parse_bool("no_cuda_pref", rsc_desc_cpu.no_rsc_pref)) continue;
+        if (xp.parse_bool("no_cuda_pref", rsc_desc_nvidia.no_rsc_pref)) continue;
 
         // resource-specific stuff, new format
         //
@@ -296,10 +340,12 @@ int PROJECT::parse(XML_PARSER& xp) {
                 if (xp.match_tag("/rsc_backoff_time")) {
                     if (!strcmp(buf, "CPU")) {
                         rsc_desc_cpu.backoff_time = value;
-                    } else if (!strcmp(buf, "NVIDIA")) {
+                    } else if (!strcmp(buf, proc_type_name_xml(PROC_TYPE_NVIDIA_GPU))) {
                         rsc_desc_nvidia.backoff_time = value;
-                    } else if (!strcmp(buf, "ATI")) {
+                    } else if (!strcmp(buf, proc_type_name_xml(PROC_TYPE_AMD_GPU))) {
                         rsc_desc_ati.backoff_time = value;
+                    } else if (!strcmp(buf, proc_type_name_xml(PROC_TYPE_INTEL_GPU))) {
+                        rsc_desc_intel_gpu.backoff_time = value;
                     }
                     break;
                 }
@@ -314,10 +360,12 @@ int PROJECT::parse(XML_PARSER& xp) {
                 if (xp.match_tag("/rsc_backoff_interval")) {
                     if (!strcmp(buf, "CPU")) {
                         rsc_desc_cpu.backoff_interval = value;
-                    } else if (!strcmp(buf, "NVIDIA")) {
+                    } else if (!strcmp(buf, proc_type_name_xml(PROC_TYPE_NVIDIA_GPU))) {
                         rsc_desc_nvidia.backoff_interval = value;
-                    } else if (!strcmp(buf, "ATI")) {
+                    } else if (!strcmp(buf, proc_type_name_xml(PROC_TYPE_AMD_GPU))) {
                         rsc_desc_ati.backoff_interval = value;
+                    } else if (!strcmp(buf, proc_type_name_xml(PROC_TYPE_INTEL_GPU))) {
+                        rsc_desc_intel_gpu.backoff_interval = value;
                     }
                     break;
                 }
@@ -333,6 +381,8 @@ int PROJECT::parse(XML_PARSER& xp) {
                 rsc_desc_nvidia.no_rsc_ams = true;
             } else if (!strcmp(buf, proc_type_name_xml(PROC_TYPE_AMD_GPU))) {
                 rsc_desc_ati.no_rsc_ams = true;
+            } else if (!strcmp(buf, proc_type_name_xml(PROC_TYPE_INTEL_GPU))) {
+                rsc_desc_intel_gpu.no_rsc_ams = true;
             }
             continue;
         }
@@ -343,6 +393,8 @@ int PROJECT::parse(XML_PARSER& xp) {
                 rsc_desc_nvidia.no_rsc_apps = true;
             } else if (!strcmp(buf, proc_type_name_xml(PROC_TYPE_AMD_GPU))) {
                 rsc_desc_ati.no_rsc_apps = true;
+            } else if (!strcmp(buf, proc_type_name_xml(PROC_TYPE_INTEL_GPU))) {
+                rsc_desc_intel_gpu.no_rsc_apps = true;
             }
             continue;
         }
@@ -353,6 +405,8 @@ int PROJECT::parse(XML_PARSER& xp) {
                 rsc_desc_nvidia.no_rsc_pref = true;
             } else if (!strcmp(buf, proc_type_name_xml(PROC_TYPE_AMD_GPU))) {
                 rsc_desc_ati.no_rsc_pref = true;
+            } else if (!strcmp(buf, proc_type_name_xml(PROC_TYPE_INTEL_GPU))) {
+                rsc_desc_intel_gpu.no_rsc_pref = true;
             }
             continue;
         }
@@ -363,6 +417,8 @@ int PROJECT::parse(XML_PARSER& xp) {
                 rsc_desc_nvidia.no_rsc_config = true;
             } else if (!strcmp(buf, proc_type_name_xml(PROC_TYPE_AMD_GPU))) {
                 rsc_desc_ati.no_rsc_config = true;
+            } else if (!strcmp(buf, proc_type_name_xml(PROC_TYPE_INTEL_GPU))) {
+                rsc_desc_intel_gpu.no_rsc_config = true;
             }
             continue;
         }
@@ -412,6 +468,7 @@ void PROJECT::clear() {
     strcpy(master_url, "");
     resource_share = 0;
     project_name.clear();
+    project_dir.clear();
     user_name.clear();
     team_name.clear();
     user_total_credit = 0;
@@ -427,6 +484,7 @@ void PROJECT::clear() {
     rsc_desc_cpu.clear();
     rsc_desc_nvidia.clear();
     rsc_desc_ati.clear();
+    rsc_desc_intel_gpu.clear();
     duration_correction_factor = 0;
     anonymous_platform = false;
     master_url_fetch_pending = false;
@@ -598,7 +656,7 @@ int RESULT::parse(XML_PARSER& xp) {
 #if 0
         if (xp.match_tag("stderr_out")) {
             char buf[65536];
-            xp.element_contents(("</stderr_out>", buf);
+            xp.element_contents("</stderr_out>", buf);
             stderr_out = buf;
             continue;
         }
@@ -942,6 +1000,10 @@ int CC_STATE::parse(XML_PARSER& xp) {
             host_info.parse(xp);
             continue;
         }
+        if (xp.match_tag("time_stats")) {
+            time_stats.parse(xp);
+            continue;
+        }
         if (xp.parse_bool("have_cuda", have_nvidia)) continue;
         if (xp.parse_bool("have_ati", have_ati)) continue;
     }
@@ -1042,7 +1104,7 @@ RESULT* CC_STATE::lookup_result(PROJECT* project, const char* name) {
 RESULT* CC_STATE::lookup_result(const char* url, const char* name) {
     unsigned int i;
     for (i=0; i<results.size(); i++) {
-        if (strcmp(results[i]->project->master_url, url)) continue;
+        if (strcmp(results[i]->project_url, url)) continue;
         if (!strcmp(results[i]->name, name)) return results[i];
     }
     return 0;
@@ -1130,6 +1192,7 @@ NOTICES::~NOTICES() {
 
 void NOTICES::clear() {
     complete = false;
+    received = false;
     unsigned int i;
     for (i=0; i<notices.size(); i++) {
         delete notices[i];
@@ -1353,6 +1416,7 @@ int CC_STATUS::parse(XML_PARSER& xp) {
 		if (xp.parse_double("network_mode_delay", network_mode_delay)) continue;
         if (xp.parse_bool("disallow_attach", disallow_attach)) continue;
         if (xp.parse_bool("simple_gui_only", simple_gui_only)) continue;
+        if (xp.parse_int("max_event_log_lines", max_event_log_lines)) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -1445,6 +1509,30 @@ int RPC_CLIENT::get_results(RESULTS& t, bool active_only) {
         }
     }
     return retval;
+}
+
+int RPC_CLIENT::get_old_results(vector<OLD_RESULT>& r) {
+    int retval;
+    SET_LOCALE sl;
+    char buf[256];
+    RPC rpc(this);
+
+    r.clear();
+
+    retval = rpc.do_rpc("<get_old_results/>\n");
+    if (retval) return retval;
+    while (rpc.fin.fgets(buf, 256)) {
+        if (match_tag(buf, "</old_results>")) break;
+        if (match_tag(buf, "<old_result>")) {
+            OLD_RESULT ores;
+            retval = ores.parse(rpc.xp);
+            if (!retval) {
+                r.push_back(ores);
+            }
+            continue;
+        }
+    }
+    return 0;
 }
 
 int RPC_CLIENT::get_file_transfers(FILE_TRANSFERS& t) {
@@ -1561,7 +1649,7 @@ int RPC_CLIENT::get_all_projects_list(ALL_PROJECTS_LIST& pl) {
         }
     }
 
-    pl.shuffle();
+    pl.alpha_sort();
 
     return 0;
 }
@@ -1699,7 +1787,7 @@ int RPC_CLIENT::project_op(PROJECT& project, const char* op) {
     } else {
         return -1;
     }
-    sprintf(buf,
+    snprintf(buf, sizeof(buf),
         "<%s>\n"
         "  <project_url>%s</project_url>\n"
         "</%s>\n",
@@ -1707,12 +1795,10 @@ int RPC_CLIENT::project_op(PROJECT& project, const char* op) {
         project.master_url,
         tag
     );
+    buf[sizeof(buf)-1] = 0;
     retval = rpc.do_rpc(buf);
-    if (!retval) {
-        retval = rpc.parse_reply();
-    }
-
-    return retval;
+    if (retval) return retval;
+    return rpc.parse_reply();
 }
 
 int RPC_CLIENT::project_attach_from_file() {
@@ -1727,19 +1813,19 @@ int RPC_CLIENT::project_attach_from_file() {
         "</project_attach>\n"
     );
     retval = rpc.do_rpc(buf);
-    if (!retval) {
-        retval = rpc.parse_reply();
-    }
-    return retval;
+    if (retval) return retval;
+    return rpc.parse_reply();
 }
 
-int RPC_CLIENT::project_attach(const char* url, const char* auth, const char* name) {
+int RPC_CLIENT::project_attach(
+    const char* url, const char* auth, const char* name
+) {
     int retval;
     SET_LOCALE sl;
     char buf[768];
     RPC rpc(this);
 
-    sprintf(buf,
+    snprintf(buf, sizeof(buf),
         "<project_attach>\n"
         "  <project_url>%s</project_url>\n"
         "  <authenticator>%s</authenticator>\n"
@@ -1747,12 +1833,11 @@ int RPC_CLIENT::project_attach(const char* url, const char* auth, const char* na
         "</project_attach>\n",
         url, auth, name
     );
+    buf[sizeof(buf)-1] = 0;
 
     retval = rpc.do_rpc(buf);
-    if (!retval) {
-        retval = rpc.parse_reply();
-    }
-    return retval;
+    if (retval) return retval;
+    return rpc.parse_reply();
 }
 
 int RPC_CLIENT::project_attach_poll(PROJECT_ATTACH_REPLY& reply) {
@@ -1793,7 +1878,8 @@ int RPC_CLIENT::set_run_mode(int mode, double duration) {
     );
 
     retval = rpc.do_rpc(buf);
-    return retval;
+    if (retval) return retval;
+    return rpc.parse_reply();
 }
 
 int RPC_CLIENT::set_gpu_mode(int mode, double duration) {
@@ -1811,7 +1897,8 @@ int RPC_CLIENT::set_gpu_mode(int mode, double duration) {
     );
 
     retval = rpc.do_rpc(buf);
-    return retval;
+    if (retval) return retval;
+    return rpc.parse_reply();
 }
 
 int RPC_CLIENT::set_network_mode(int mode, double duration) {
@@ -1828,7 +1915,8 @@ int RPC_CLIENT::set_network_mode(int mode, double duration) {
         mode_name(mode), duration
     );
     retval = rpc.do_rpc(buf);
-    return retval;
+    if (retval) return retval;
+    return rpc.parse_reply();
 }
 
 int RPC_CLIENT::get_screensaver_tasks(int& suspend_reason, RESULTS& t) {
@@ -1861,16 +1949,17 @@ int RPC_CLIENT::run_benchmarks() {
     RPC rpc(this);
 
     retval = rpc.do_rpc("<run_benchmarks/>\n");
-    return retval;
+    if (retval) return retval;
+    return rpc.parse_reply();
 }
 
-int RPC_CLIENT::set_proxy_settings(GR_PROXY_INFO& pi) {
+int RPC_CLIENT::set_proxy_settings(GR_PROXY_INFO& procinfo) {
     int retval;
     SET_LOCALE sl;
     char buf[1792];
     RPC rpc(this);
 
-    sprintf(buf,
+    snprintf(buf, sizeof(buf),
         "<set_proxy_settings>\n"
         "    <proxy_info>\n"
         "%s%s%s"
@@ -1885,21 +1974,23 @@ int RPC_CLIENT::set_proxy_settings(GR_PROXY_INFO& pi) {
 		"        <no_proxy>%s</no_proxy>\n"
         "    </proxy_info>\n"
         "</set_proxy_settings>\n",
-        pi.use_http_proxy?"        <use_http_proxy/>\n":"",
-        pi.use_socks_proxy?"        <use_socks_proxy/>\n":"",
-        pi.use_http_authentication?"        <use_http_auth/>\n":"",
-        pi.http_server_name.c_str(),
-        pi.http_server_port,
-        pi.http_user_name.c_str(),
-        pi.http_user_passwd.c_str(),
-        pi.socks_server_name.c_str(),
-        pi.socks_server_port,
-        pi.socks5_user_name.c_str(),
-        pi.socks5_user_passwd.c_str(),
-		pi.noproxy_hosts.c_str()
+        procinfo.use_http_proxy?"        <use_http_proxy/>\n":"",
+        procinfo.use_socks_proxy?"        <use_socks_proxy/>\n":"",
+        procinfo.use_http_authentication?"        <use_http_auth/>\n":"",
+        procinfo.http_server_name.c_str(),
+        procinfo.http_server_port,
+        procinfo.http_user_name.c_str(),
+        procinfo.http_user_passwd.c_str(),
+        procinfo.socks_server_name.c_str(),
+        procinfo.socks_server_port,
+        procinfo.socks5_user_name.c_str(),
+        procinfo.socks5_user_passwd.c_str(),
+		procinfo.noproxy_hosts.c_str()
     );
+    buf[sizeof(buf)-1] = 0;
     retval = rpc.do_rpc(buf);
-    return retval;
+    if (retval) return retval;
+    return rpc.parse_reply();
 }
 
 int RPC_CLIENT::get_proxy_settings(GR_PROXY_INFO& p) {
@@ -1982,7 +2073,7 @@ int RPC_CLIENT::file_transfer_op(FILE_TRANSFER& ft, const char* op) {
     } else {
         return -1;
     }
-    sprintf(buf,
+    snprintf(buf, sizeof(buf),
         "<%s>\n"
         "   <project_url>%s</project_url>\n"
         "   <filename>%s</filename>\n"
@@ -1992,8 +2083,10 @@ int RPC_CLIENT::file_transfer_op(FILE_TRANSFER& ft, const char* op) {
         ft.name.c_str(),
         tag
     );
+    buf[sizeof(buf)-1] = 0;
     retval = rpc.do_rpc(buf);
-    return retval;
+    if (retval) return retval;
+    return rpc.parse_reply();
 }
 
 int RPC_CLIENT::result_op(RESULT& result, const char* op) {
@@ -2015,7 +2108,7 @@ int RPC_CLIENT::result_op(RESULT& result, const char* op) {
         return -1;
     }
 
-    sprintf(buf,
+    snprintf(buf, sizeof(buf),
         "<%s>\n"
         "   <project_url>%s</project_url>\n"
         "   <name>%s</name>\n"
@@ -2025,8 +2118,10 @@ int RPC_CLIENT::result_op(RESULT& result, const char* op) {
         result.name,
         tag
     );
+    buf[sizeof(buf)-1] = 0;
     retval = rpc.do_rpc(buf);
-    return retval;
+    if (retval) return retval;
+    return rpc.parse_reply();
 }
 
 int RPC_CLIENT::get_host_info(HOST_INFO& h) {
@@ -2048,24 +2143,42 @@ int RPC_CLIENT::get_host_info(HOST_INFO& h) {
     return ERR_XML_PARSE;
 }
 
+// set HOST_INFO fields that are easier to get in the GUI than in the client.
+// Currently this is just the product name on Android,
+// which uses a Java version of this function
+//
+int RPC_CLIENT::set_host_info(HOST_INFO& h) {
+    SET_LOCALE sl;
+    RPC rpc(this);
+    char buf[1024];
+
+    snprintf(buf, sizeof(buf),
+        "<set_host_info>\n"
+        "    <host_info>\n"
+        "        <product_name>%s</product_name>\n"
+        "    </host_info>\n"
+        "</set_host_info>\n",
+        h.product_name
+    );
+    buf[sizeof(buf)-1] = 0;
+    int retval = rpc.do_rpc(buf);
+    if (retval) return retval;
+    return rpc.parse_reply();
+}
 
 int RPC_CLIENT::quit() {
     int retval;
-    char buf[256];
     SET_LOCALE sl;
     RPC rpc(this);
 
     retval = rpc.do_rpc("<quit/>\n");
     if (retval) return retval;
-    while (rpc.fin.fgets(buf, 256)) {
-        if (match_tag(buf, "success")) {
-            return 0;
-        }
-    }
-    return ERR_XML_PARSE;
+    return rpc.parse_reply();
 }
 
-int RPC_CLIENT::acct_mgr_rpc(const char* url, const char* name, const char* password, bool use_config_file) {
+int RPC_CLIENT::acct_mgr_rpc(
+    const char* url, const char* name, const char* password, bool use_config_file
+) {
     int retval;
     SET_LOCALE sl;
     char buf[1024];
@@ -2078,7 +2191,7 @@ int RPC_CLIENT::acct_mgr_rpc(const char* url, const char* name, const char* pass
             "</acct_mgr_rpc>\n"
         );
     } else {
-        sprintf(buf,
+        snprintf(buf, sizeof(buf),
             "<acct_mgr_rpc>\n"
             "  <url>%s</url>\n"
             "  <name>%s</name>\n"
@@ -2086,9 +2199,11 @@ int RPC_CLIENT::acct_mgr_rpc(const char* url, const char* name, const char* pass
             "</acct_mgr_rpc>\n",
             url, name, password
         );
+        buf[sizeof(buf)-1] = 0;
     }
     retval = rpc.do_rpc(buf);
-    return retval;
+    if (retval) return retval;
+    return rpc.parse_reply();
 }
 
 int RPC_CLIENT::acct_mgr_rpc_poll(ACCT_MGR_RPC_REPLY& r) {
@@ -2134,19 +2249,17 @@ int RPC_CLIENT::get_project_config(std::string url) {
     SET_LOCALE sl;
     RPC rpc(this);
 
-    sprintf(buf,
+    snprintf(buf, sizeof(buf),
         "<get_project_config>\n"
         "   <url>%s</url>\n"
         "</get_project_config>\n",
         url.c_str()
     );
+    buf[sizeof(buf)-1] = 0;
 
     retval =  rpc.do_rpc(buf);
-    if (!retval) {
-        retval = rpc.parse_reply();
-    }
-
-    return retval;
+    if (retval) return retval;
+    return rpc.parse_reply();
 }
 
 int RPC_CLIENT::get_project_config_poll(PROJECT_CONFIG& pc) {
@@ -2173,7 +2286,7 @@ int RPC_CLIENT::lookup_account(ACCOUNT_IN& ai) {
 
     downcase_string(ai.email_addr);
     string passwd_hash = get_passwd_hash(ai.passwd, ai.email_addr);
-    sprintf(buf,
+    snprintf(buf, sizeof(buf),
         "<lookup_account>\n"
         "   <url>%s</url>\n"
         "   <email_addr>%s</email_addr>\n"
@@ -2183,12 +2296,11 @@ int RPC_CLIENT::lookup_account(ACCOUNT_IN& ai) {
         ai.email_addr.c_str(),
         passwd_hash.c_str()
     );
+    buf[sizeof(buf)-1] = 0;
 
     retval =  rpc.do_rpc(buf);
-    if (!retval) {
-        retval = rpc.parse_reply();
-    }
-    return retval;
+    if (retval) return retval;
+    return rpc.parse_reply();
 }
 
 int RPC_CLIENT::lookup_account_poll(ACCOUNT_OUT& ao) {
@@ -2211,7 +2323,7 @@ int RPC_CLIENT::create_account(ACCOUNT_IN& ai) {
 
     downcase_string(ai.email_addr);
     string passwd_hash = get_passwd_hash(ai.passwd, ai.email_addr);
-    sprintf(buf,
+    snprintf(buf, sizeof(buf),
         "<create_account>\n"
         "   <url>%s</url>\n"
         "   <email_addr>%s</email_addr>\n"
@@ -2225,12 +2337,11 @@ int RPC_CLIENT::create_account(ACCOUNT_IN& ai) {
         ai.user_name.c_str(),
         ai.team_name.c_str()
     );
+    buf[sizeof(buf)-1] = 0;
 
     retval =  rpc.do_rpc(buf);
-    if (!retval) {
-        retval = rpc.parse_reply();
-    }
-    return retval;
+    if (retval) return retval;
+    return rpc.parse_reply();
 }
 
 int RPC_CLIENT::create_account_poll(ACCOUNT_OUT& ao) {
@@ -2265,7 +2376,9 @@ int RPC_CLIENT::get_newer_version(std::string& version, std::string& version_dow
 int RPC_CLIENT::read_global_prefs_override() {
     SET_LOCALE sl;
     RPC rpc(this);
-    return rpc.do_rpc("<read_global_prefs_override/>");
+    int retval = rpc.do_rpc("<read_global_prefs_override/>");
+    if (retval) return retval;
+    return rpc.parse_reply();
 }
 
 int RPC_CLIENT::get_global_prefs_file(string& s) {
@@ -2380,14 +2493,17 @@ int RPC_CLIENT::set_global_prefs_override(string& s) {
     RPC rpc(this);
     char buf[64000];
 
-    sprintf(buf,
+    snprintf(buf, sizeof(buf),
         "<set_global_prefs_override>\n"
         "%s\n"
         "</set_global_prefs_override>\n",
         s.c_str()
     );
+    buf[sizeof(buf)-1] = 0;
+
     retval = rpc.do_rpc(buf);
-    return retval;
+    if (retval) return retval;
+    return rpc.parse_reply();
 }
 
 int RPC_CLIENT::get_global_prefs_override_struct(GLOBAL_PREFS& prefs, GLOBAL_PREFS_MASK& mask) {
@@ -2427,7 +2543,8 @@ int RPC_CLIENT::read_cc_config() {
     RPC rpc(this);
 
     retval = rpc.do_rpc("<read_cc_config/>");
-    return retval;
+    if (retval) return retval;
+    return rpc.parse_reply();
 }
 
 int RPC_CLIENT::get_cc_config(CONFIG& config, LOG_FLAGS& log_flags) {
@@ -2452,7 +2569,8 @@ int RPC_CLIENT::set_cc_config(CONFIG& config, LOG_FLAGS& log_flags) {
     config.write(mf, log_flags);
 
     retval = rpc.do_rpc(buf);
-    return retval;
+    if (retval) return retval;
+    return rpc.parse_reply();
 }
 
 static int parse_notices(XML_PARSER& xp, NOTICES& notices) {
@@ -2492,6 +2610,7 @@ int RPC_CLIENT::get_notices(int seqno, NOTICES& notices) {
     );
     retval = rpc.do_rpc(buf);
     if (retval) return retval;
+    notices.received = true;
     return parse_notices(rpc.xp, notices);
 }
 
@@ -2509,6 +2628,7 @@ int RPC_CLIENT::get_notices_public(int seqno, NOTICES& notices) {
     );
     retval = rpc.do_rpc(buf);
     if (retval) return retval;
+    notices.received = true;
     return parse_notices(rpc.xp, notices);
 }
 

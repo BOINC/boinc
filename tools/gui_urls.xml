@@ -1,0 +1,30 @@
+<gui_urls>
+    <gui_url>
+        <name>Message boards</name>
+        <description>Correspond with other users on the <project_name/> message boards</description>
+        <url><master_url/>forum_index.php</url>
+    </gui_url>
+    <gui_url>
+        <name>Your account</name>
+        <description>View your account information</description>
+        <url><master_url/>home.php</url>
+    </gui_url>
+    <gui_url>
+        <name>Your tasks</name>
+        <description>View the last week or so of computational work</description>
+        <url><master_url/>results.php?userid=<userid/></url>
+    </gui_url>
+    <ifteam>
+        <gui_url>
+            <name>Your team</name>
+            <description>View information about your team: <team_name/></description>
+            <url><master_url/>team_display.php?teamid=<teamid/></url>
+        </gui_url>
+    </ifteam>
+</gui_urls>
+<rss_feeds>
+    <rss_feed>
+        <url><master_url/>notices.php?userid=<userid/>&auth=<rss_auth/></url>
+        <poll_interval>86400</poll_interval>
+    </rss_feed>
+</rss_feeds>

@@ -1,7 +1,7 @@
 /*
-  Copyright (c) 1990-2001 Info-ZIP.  All rights reserved.
+  Copyright (c) 1990-2009 Info-ZIP.  All rights reserved.
 
-  See the accompanying file LICENSE, version 2000-Apr-09 or later
+  See the accompanying file LICENSE, version 2009-Jan-02 or later
   (the contents of which are also included in unzip.h) for terms of use.
   If, for some reason, all these files are missing, the Info-ZIP license
   also may be found at:  ftp://ftp.info-zip.org/pub/infozip/license.html
@@ -41,42 +41,46 @@
 
 #ifdef OS2_EAS
    static ZCONST char Far HeadersS[]  =
-     "  Length     EAs   ACLs    Date   Time    Name";
+     "  Length     EAs   ACLs     Date    Time    Name";
    static ZCONST char Far HeadersS1[] =
-     " --------    ---   ----    ----   ----    ----";
+     "---------    ---   ----  ---------- -----   ----";
 #else
-   static ZCONST char Far HeadersS[]  = "  Length     Date   Time    Name";
-   static ZCONST char Far HeadersS1[] = " --------    ----   ----    ----";
+   static ZCONST char Far HeadersS[]  =
+     "  Length      Date    Time    Name";
+   static ZCONST char Far HeadersS1[] =
+     "---------  ---------- -----   ----";
 #endif
 
    static ZCONST char Far HeadersL[]  =
-     " Length   Method    Size  Ratio   Date   Time   CRC-32    Name";
+     " Length   Method    Size  Cmpr    Date    Time   CRC-32   Name";
    static ZCONST char Far HeadersL1[] =
-     "--------  ------  ------- -----   ----   ----   ------    ----";
+     "--------  ------  ------- ---- ---------- ----- --------  ----";
    static ZCONST char Far *Headers[][2] =
      { {HeadersS, HeadersS1}, {HeadersL, HeadersL1} };
 
    static ZCONST char Far CaseConversion[] =
      "%s (\"^\" ==> case\n%s   conversion)\n";
    static ZCONST char Far LongHdrStats[] =
-     "%8lu  %-7s%8lu %4s  %02u-%02u-%02u %02u:%02u  %08lx %c";
+     "%s  %-7s%s %4s %02u%c%02u%c%02u %02u:%02u %08lx %c";
    static ZCONST char Far LongFileTrailer[] =
      "--------          -------  ---                       \
-     -------\n%8lu         %8lu %4s                            %lu file%s\n";
+     -------\n%s         %s %4s                            %lu file%s\n";
 #ifdef OS2_EAS
    static ZCONST char Far ShortHdrStats[] =
-     "%9lu %6lu %6lu  %02u-%02u-%02u %02u:%02u  %c";
-   static ZCONST char Far ShortFileTrailer[] = " --------  -----  -----       \
-            -------\n%9lu %6lu %6lu                   %lu file%s\n";
+     "%s %6lu %6lu  %02u%c%02u%c%02u %02u:%02u  %c";
+   static ZCONST char Far ShortFileTrailer[] =
+     "---------  -----  -----                \
+     -------\n%s %6lu %6lu                     %lu file%s\n";
    static ZCONST char Far OS2ExtAttrTrailer[] =
      "%lu file%s %lu bytes of OS/2 extended attributes attached.\n";
    static ZCONST char Far OS2ACLTrailer[] =
      "%lu file%s %lu bytes of access control lists attached.\n";
 #else
    static ZCONST char Far ShortHdrStats[] =
-     "%9lu  %02u-%02u-%02u %02u:%02u  %c";
-   static ZCONST char Far ShortFileTrailer[] = " --------       \
-            -------\n%9lu                   %lu file%s\n";
+     "%s  %02u%c%02u%c%02u %02u:%02u  %c";
+   static ZCONST char Far ShortFileTrailer[] =
+     "---------                     -------\n%s\
+                     %lu file%s\n";
 #endif /* ?OS2_EAS */
 #endif /* !WINDLL */
 
@@ -97,14 +101,16 @@ int list_files(__G)    /* return PK-type error code */
     int longhdr=(uO.vflag>1);
 #endif
     int date_format;
-    ulg j, members=0L;
+    char dt_sepchar;
+    ulg members=0L;
+    zusz_t j;
     unsigned methnum;
 #ifdef USE_EF_UT_TIME
     iztimes z_utime;
     struct tm *t;
 #endif
     unsigned yr, mo, dy, hh, mm;
-    ulg csiz, tot_csize=0L, tot_ucsize=0L;
+    zusz_t csiz, tot_csize=0L, tot_ucsize=0L;
 #ifdef OS2_EAS
     ulg ea_size, tot_easize=0L, tot_eafiles=0L;
     ulg acl_size, tot_aclsize=0L, tot_aclfiles=0L;
@@ -114,7 +120,8 @@ int list_files(__G)    /* return PK-type error code */
     static ZCONST char dtype[]="NXFS";  /* see zi_short() */
     static ZCONST char Far method[NUM_METHODS+1][8] =
         {"Stored", "Shrunk", "Reduce1", "Reduce2", "Reduce3", "Reduce4",
-         "Implode", "Token", "Defl:#", "Def64#", "ImplDCL", "Unk:###"};
+         "Implode", "Token", "Defl:#", "Def64#", "ImplDCL", "BZip2",
+         "LZMA", "Terse", "IBMLZ77", "WavPack", "PPMd", "Unk:###"};
 
 
 
@@ -137,6 +144,7 @@ int list_files(__G)    /* return PK-type error code */
 
     G.pInfo = &info;
     date_format = DATE_FORMAT;
+    dt_sepchar = DATE_SEPCHAR;
 
 #ifndef WINDLL
     if (uO.qflag < 2) {
@@ -155,10 +163,16 @@ int list_files(__G)    /* return PK-type error code */
 
         if (readbuf(__G__ G.sig, 4) == 0)
             return PK_EOF;
-        if (strncmp(G.sig, central_hdr_sig, 4)) {  /* is it a CentDir entry? */
-            if (((unsigned)(j - 1) & (unsigned)0xFFFF) ==
-                (unsigned)G.ecrec.total_entries_central_dir) {
-                /* "j modulus 64k" matches the reported 16-bit-unsigned
+        if (memcmp(G.sig, central_hdr_sig, 4)) {  /* is it a CentDir entry? */
+            /* no new central directory entry
+             * -> is the number of processed entries compatible with the
+             *    number of entries as stored in the end_central record?
+             */
+            if (((j - 1) &
+                 (ulg)(G.ecrec.have_ecr64 ? MASK_ZUCN64 : MASK_ZUCN16))
+                == (ulg)G.ecrec.total_entries_central_dir)
+            {
+                /* "j modulus 4T/64k" matches the reported 64/16-bit-unsigned
                  * number of directory entries -> probably, the regular
                  * end of the central directory has been reached
                  */
@@ -207,15 +221,19 @@ int list_files(__G)    /* return PK-type error code */
         if (!G.process_all_files) {   /* check if specified on command line */
             unsigned i;
 
-            do_this_file = FALSE;
-            for (i = 0; i < G.filespecs; i++)
-                if (match(G.filename, G.pfnames[i], uO.C_flag)) {
-                    do_this_file = TRUE;
-                    break;       /* found match, so stop looping */
-                }
+            if (G.filespecs == 0)
+                do_this_file = TRUE;
+            else {  /* check if this entry matches an `include' argument */
+                do_this_file = FALSE;
+                for (i = 0; i < G.filespecs; i++)
+                    if (match(G.filename, G.pfnames[i], uO.C_flag WISEP)) {
+                        do_this_file = TRUE;
+                        break;       /* found match, so stop looping */
+                    }
+            }
             if (do_this_file) {  /* check if this is an excluded file */
                 for (i = 0; i < G.xfilespecs; i++)
-                    if (match(G.filename, G.pxnames[i], uO.C_flag)) {
+                    if (match(G.filename, G.pxnames[i], uO.C_flag WISEP)) {
                         do_this_file = FALSE;  /* ^-- ignore case in match */
                         break;
                     }
@@ -275,14 +293,14 @@ int list_files(__G)    /* return PK-type error code */
             if (t != (struct tm *)NULL) {
                 mo = (unsigned)(t->tm_mon + 1);
                 dy = (unsigned)(t->tm_mday);
-                yr = (unsigned)(t->tm_year % 100);
+                yr = (unsigned)(t->tm_year + 1900);
                 hh = (unsigned)(t->tm_hour);
                 mm = (unsigned)(t->tm_min);
             } else
 #endif /* USE_EF_UT_TIME */
             {
                 yr = ((((unsigned)(G.crec.last_mod_dos_datetime >> 25) & 0x7f)
-                       + 80) % (unsigned)100);
+                       + 1980));
                 mo = ((unsigned)(G.crec.last_mod_dos_datetime >> 21) & 0x0f);
                 dy = ((unsigned)(G.crec.last_mod_dos_datetime >> 16) & 0x1f);
                 hh = (((unsigned)G.crec.last_mod_dos_datetime >> 11) & 0x1f);
@@ -315,9 +333,10 @@ int list_files(__G)    /* return PK-type error code */
                 cfactor = (cfactor + 5) / 10;
             }
 
-            methnum = MIN(G.crec.compression_method, NUM_METHODS);
+            methnum = find_compr_idx(G.crec.compression_method);
             zfstrcpy(methbuf, method[methnum]);
-            if (methnum == DEFLATED || methnum == ENHDEFLATED) {
+            if (G.crec.compression_method == DEFLATED ||
+                G.crec.compression_method == ENHDEFLATED) {
                 methbuf[5] = dtype[(G.crec.general_purpose_bit_flag>>1) & 3];
             } else if (methnum >= NUM_METHODS) {
                 sprintf(&methbuf[4], "%03u", G.crec.compression_method);
@@ -333,11 +352,30 @@ int list_files(__G)    /* return PK-type error code */
 
 #ifdef WINDLL
             /* send data to application for formatting and printing */
-            (*G.lpUserFunctions->SendApplicationMessage)(G.crec.ucsize, csiz,
-              (unsigned)cfactor, mo, dy, yr, hh, mm,
-              (char)(G.pInfo->lcflag ? '^' : ' '),
-              (LPSTR)fnfilter(G.filename, slide), (LPSTR)methbuf, G.crec.crc32,
-              (char)((G.crec.general_purpose_bit_flag & 1) ? 'E' : ' '));
+            if (G.lpUserFunctions->SendApplicationMessage != NULL)
+                (*G.lpUserFunctions->SendApplicationMessage)(G.crec.ucsize,
+                  csiz, (unsigned)cfactor, mo, dy, yr, hh, mm,
+                  (char)(G.pInfo->lcflag ? '^' : ' '),
+                  (LPCSTR)fnfilter(G.filename, slide, (WSIZE>>1)),
+                  (LPCSTR)methbuf, G.crec.crc32,
+                  (char)((G.crec.general_purpose_bit_flag & 1) ? 'E' : ' '));
+            else if (G.lpUserFunctions->SendApplicationMessage_i32 != NULL) {
+                unsigned long ucsize_lo, csiz_lo;
+                unsigned long ucsize_hi=0L, csiz_hi=0L;
+                ucsize_lo = (unsigned long)(G.crec.ucsize);
+                csiz_lo = (unsigned long)(csiz);
+#ifdef ZIP64_SUPPORT
+                ucsize_hi = (unsigned long)(G.crec.ucsize >> 32);
+                csiz_hi = (unsigned long)(csiz >> 32);
+#endif /* ZIP64_SUPPORT */
+                (*G.lpUserFunctions->SendApplicationMessage_i32)(ucsize_lo,
+                    ucsize_hi, csiz_lo, csiz_hi, (unsigned)cfactor,
+                    mo, dy, yr, hh, mm,
+                    (char)(G.pInfo->lcflag ? '^' : ' '),
+                    (LPCSTR)fnfilter(G.filename, slide, (WSIZE>>1)),
+                    (LPCSTR)methbuf, G.crec.crc32,
+                    (char)((G.crec.general_purpose_bit_flag & 1) ? 'E' : ' '));
+            }
 #else /* !WINDLL */
             if (cfactor == 100)
                 sprintf(cfactorstr, LoadFarString(CompFactor100));
@@ -345,17 +383,21 @@ int list_files(__G)    /* return PK-type error code */
                 sprintf(cfactorstr, LoadFarString(CompFactorStr), sgn, cfactor);
             if (longhdr)
                 Info(slide, 0, ((char *)slide, LoadFarString(LongHdrStats),
-                  G.crec.ucsize, methbuf, csiz, cfactorstr, mo, dy,
-                  yr, hh, mm, G.crec.crc32, (G.pInfo->lcflag? '^':' ')));
+                  FmZofft(G.crec.ucsize, "8", "u"), methbuf,
+                  FmZofft(csiz, "8", "u"), cfactorstr,
+                  mo, dt_sepchar, dy, dt_sepchar, yr, hh, mm,
+                  G.crec.crc32, (G.pInfo->lcflag? '^':' ')));
             else
 #ifdef OS2_EAS
                 Info(slide, 0, ((char *)slide, LoadFarString(ShortHdrStats),
-                  G.crec.ucsize, ea_size, acl_size,
-                  mo, dy, yr, hh, mm, (G.pInfo->lcflag? '^':' ')));
+                  FmZofft(G.crec.ucsize, "9", "u"), ea_size, acl_size,
+                  mo, dt_sepchar, dy, dt_sepchar, yr, hh, mm,
+                  (G.pInfo->lcflag? '^':' ')));
 #else
                 Info(slide, 0, ((char *)slide, LoadFarString(ShortHdrStats),
-                  G.crec.ucsize,
-                  mo, dy, yr, hh, mm, (G.pInfo->lcflag? '^':' ')));
+                  FmZofft(G.crec.ucsize, "9", "u"),
+                  mo, dt_sepchar, dy, dt_sepchar, yr, hh, mm,
+                  (G.pInfo->lcflag? '^':' ')));
 #endif
             fnprint(__G);
 #endif /* ?WINDLL */
@@ -423,7 +465,8 @@ int list_files(__G)    /* return PK-type error code */
             sprintf(cfactorstr, LoadFarString(CompFactorStr), sgn, cfactor);
         if (longhdr) {
             Info(slide, 0, ((char *)slide, LoadFarString(LongFileTrailer),
-              tot_ucsize, tot_csize, cfactorstr, members, members==1? "":"s"));
+              FmZofft(tot_ucsize, "8", "u"), FmZofft(tot_csize, "8", "u"),
+              cfactorstr, members, members==1? "":"s"));
 #ifdef OS2_EAS
             if (tot_easize || tot_aclsize)
                 Info(slide, 0, ((char *)slide, "\n"));
@@ -433,31 +476,46 @@ int list_files(__G)    /* return PK-type error code */
                   tot_easize));
             if (tot_aclfiles && tot_aclsize)
                 Info(slide, 0, ((char *)slide, LoadFarString(OS2ACLTrailer),
-                  tot_aclfiles, tot_aclfiles == 1? " has" : "s have a total of",
+                  tot_aclfiles,
+                  tot_aclfiles == 1 ? " has" : "s have a total of",
                   tot_aclsize));
 #endif /* OS2_EAS */
         } else
 #ifdef OS2_EAS
             Info(slide, 0, ((char *)slide, LoadFarString(ShortFileTrailer),
-              tot_ucsize, tot_easize, tot_aclsize, members, members == 1?
-              "" : "s"));
+              FmZofft(tot_ucsize, "9", "u"), tot_easize, tot_aclsize,
+              members, members == 1 ? "" : "s"));
 #else
             Info(slide, 0, ((char *)slide, LoadFarString(ShortFileTrailer),
-              tot_ucsize, members, members == 1? "" : "s"));
+              FmZofft(tot_ucsize, "9", "u"),
+              members, members == 1 ? "" : "s"));
 #endif /* OS2_EAS */
 #endif /* ?WINDLL */
     }
+
+    /* Skip the following checks in case of a premature listing break. */
+    if (error_in_archive <= PK_WARN) {
 
 /*---------------------------------------------------------------------------
     Double check that we're back at the end-of-central-directory record.
   ---------------------------------------------------------------------------*/
 
-    if (strncmp(G.sig, end_central_sig, 4)) {   /* just to make sure again */
-        Info(slide, 0x401, ((char *)slide, LoadFarString(EndSigMsg)));
-        error_in_archive = PK_WARN;   /* didn't find sig */
+        if ( (memcmp(G.sig,
+                     (G.ecrec.have_ecr64 ?
+                      end_central64_sig : end_central_sig),
+                     4) != 0)
+            && (!G.ecrec.is_zip64_archive)
+            && (memcmp(G.sig, end_central_sig, 4) != 0)
+           ) {          /* just to make sure again */
+            Info(slide, 0x401, ((char *)slide, LoadFarString(EndSigMsg)));
+            error_in_archive = PK_WARN;   /* didn't find sig */
+        }
+
+        /* Set specific return code when no files have been found. */
+        if (members == 0L && error_in_archive <= PK_WARN)
+            error_in_archive = PK_FIND;
+
     }
-    if (members == 0L && error_in_archive <= PK_WARN)
-        error_in_archive = PK_FIND;
 
     return error_in_archive;
 
@@ -521,7 +579,7 @@ int get_time_stamp(__G__ last_modtime, nmember)  /* return PK-type error code */
 
         if (readbuf(__G__ G.sig, 4) == 0)
             return PK_EOF;
-        if (strncmp(G.sig, central_hdr_sig, 4)) {  /* is it a CentDir entry? */
+        if (memcmp(G.sig, central_hdr_sig, 4)) {  /* is it a CentDir entry? */
             if (((unsigned)(j - 1) & (unsigned)0xFFFF) ==
                 (unsigned)G.ecrec.total_entries_central_dir) {
                 /* "j modulus 64k" matches the reported 16-bit-unsigned
@@ -560,15 +618,19 @@ int get_time_stamp(__G__ last_modtime, nmember)  /* return PK-type error code */
         if (!G.process_all_files) {   /* check if specified on command line */
             unsigned i;
 
-            do_this_file = FALSE;
-            for (i = 0; i < G.filespecs; i++)
-                if (match(G.filename, G.pfnames[i], uO.C_flag)) {
-                    do_this_file = TRUE;
-                    break;       /* found match, so stop looping */
-                }
+            if (G.filespecs == 0)
+                do_this_file = TRUE;
+            else {  /* check if this entry matches an `include' argument */
+                do_this_file = FALSE;
+                for (i = 0; i < G.filespecs; i++)
+                    if (match(G.filename, G.pfnames[i], uO.C_flag WISEP)) {
+                        do_this_file = TRUE;
+                        break;       /* found match, so stop looping */
+                    }
+            }
             if (do_this_file) {  /* check if this is an excluded file */
                 for (i = 0; i < G.xfilespecs; i++)
-                    if (match(G.filename, G.pxnames[i], uO.C_flag)) {
+                    if (match(G.filename, G.pxnames[i], uO.C_flag WISEP)) {
                         do_this_file = FALSE;  /* ^-- ignore case in match */
                         break;
                     }
@@ -611,7 +673,7 @@ int get_time_stamp(__G__ last_modtime, nmember)  /* return PK-type error code */
     Double check that we're back at the end-of-central-directory record.
   ---------------------------------------------------------------------------*/
 
-    if (strncmp(G.sig, end_central_sig, 4)) {   /* just to make sure again */
+    if (memcmp(G.sig, end_central_sig, 4)) {    /* just to make sure again */
         Info(slide, 0x401, ((char *)slide, LoadFarString(EndSigMsg)));
         error_in_archive = PK_WARN;
     }
@@ -633,9 +695,9 @@ int get_time_stamp(__G__ last_modtime, nmember)  /* return PK-type error code */
 /********************/
 
 int ratio(uc, c)
-    ulg uc, c;
+    zusz_t uc, c;
 {
-    ulg denom;
+    zusz_t denom;
 
     if (uc == 0)
         return 0;
@@ -663,11 +725,9 @@ int ratio(uc, c)
 void fnprint(__G)    /* print filename (after filtering) and newline */
     __GDEF
 {
-    char *name = fnfilter(G.filename, slide);
+    char *name = fnfilter(G.filename, slide, (extent)(WSIZE>>1));
 
     (*G.message)((zvoid *)&G, (uch *)name, (ulg)strlen(name), 0);
     (*G.message)((zvoid *)&G, (uch *)"\n", 1L, 0);
 
 } /* end function fnprint() */
-
-const char *BOINC_RCSID_670c4eb825 = "$Id: list.c 4979 2005-01-02 18:29:53Z ballen $";

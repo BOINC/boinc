@@ -29,10 +29,11 @@
 #include <sys/param.h>
 #include <unistd.h>
 
+#include "backend_lib.h"
 #include "boinc_db.h"
 #include "crypt.h"
-#include "backend_lib.h"
 #include "error_numbers.h"
+#include "filesys.h"
 
 #include "sched_main.h"
 #include "sched_msgs.h"
@@ -72,6 +73,13 @@ static int send_assigned_job(ASSIGNMENT& asg) {
         return retval;
     }
 
+    if (app_not_selected(wu)) {
+        log_messages.printf(MSG_CRITICAL,
+            "Assigned WU %s is for app not selected by user\n", wu.name
+        );
+        return -1;
+    }
+
     bavp = get_app_version(wu, false, false);
     if (!bavp) {
         log_messages.printf(MSG_CRITICAL,
@@ -83,11 +91,11 @@ static int send_assigned_job(ASSIGNMENT& asg) {
     rtfpath = config.project_path("%s", wu.result_template_file);
     sprintf(suffix, "%d_%d_%d", getpid(), (int)time(0), seqno++);
     retval = create_result(
-		wu, const_cast<char*>(rtfpath), suffix, key, config, 0, 0
-	);
+        wu, const_cast<char*>(rtfpath), suffix, key, config, 0, 0
+    );
     if (retval) {
         log_messages.printf(MSG_CRITICAL,
-            "[WU#%d %s] create_result(): %s\n", wu.id, wu.name, boincerror(retval)
+            "[WU#%u %s] create_result(): %s\n", wu.id, wu.name, boincerror(retval)
         );
         return retval;
     }
@@ -98,7 +106,7 @@ static int send_assigned_job(ASSIGNMENT& asg) {
 
     if (config.debug_assignment) {
         log_messages.printf(MSG_NORMAL,
-            "[assign] [WU#%d] [RESULT#%d] [HOST#%d] send assignment %d\n",
+            "[assign] [WU#%u] [RESULT#%u] [HOST#%d] send assignment %d\n",
             wu.id, result_id, g_reply->host.id, asg.id
         );
     }
@@ -108,7 +116,7 @@ static int send_assigned_job(ASSIGNMENT& asg) {
 // Send this host any "multi" assigned jobs.
 // Return true iff we sent anything
 //
-bool send_assigned_jobs_multi() {
+bool send_broadcast_jobs() {
     DB_RESULT result;
     int retval;
     char buf[256];
@@ -161,9 +169,9 @@ bool send_assigned_jobs_multi() {
     return sent_something;
 }
 
-// send non-multi assigned jobs
+// send targeted jobs
 //
-bool send_assigned_jobs() {
+bool send_targeted_jobs() {
     DB_ASSIGNMENT asg;
     DB_RESULT result;
     DB_WORKUNIT wu;

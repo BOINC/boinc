@@ -36,6 +36,7 @@
 #include "Events.h"
 #include "DlgEventLog.h"
 #include "DlgSelectComputer.h"
+#include "BOINCInternetFSHandler.h"
 
 
 DEFINE_EVENT_TYPE(wxEVT_FRAME_ALERT)
@@ -362,6 +363,11 @@ void CBOINCBaseFrame::OnExit(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnExit - Function Begin"));
 
     if (wxGetApp().ConfirmExit()) {
+
+    wxFileSystemHandler *internetFSHandler = wxGetApp().GetInternetFSHandler();
+    if (internetFSHandler) {
+        ((CBOINCInternetFSHandler*)internetFSHandler)->SetAbortInternetIO();
+    }
 
         // Save state before exiting
         SaveState();

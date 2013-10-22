@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 1990-2001 Info-ZIP.  All rights reserved.
+  Copyright (c) 1990-2008 Info-ZIP.  All rights reserved.
 
   See the accompanying file LICENSE, version 2000-Apr-09 or later
   (the contents of which are also included in zip.h) for terms of use.
@@ -27,7 +27,7 @@
 #define __TTYIO_C       /* identifies this source module */
 
 #include "zip.h"
-//#include "crypt.h"
+#include "crypt.h"
 
 #if (CRYPT || (defined(UNZIP) && !defined(FUNZIP)))
 /* Non-echo console/keyboard input is needed for (en/de)cryption's password
@@ -50,7 +50,7 @@
 #  define GLOBAL(g) G.g
 #endif
 
-#ifdef __BEOS__                /* why yes, we do */
+#if (defined(__ATHEOS__) || defined(__BEOS__))  /* why yes, we do */
 #  define HAVE_TERMIOS_H
 #endif
 
@@ -117,6 +117,11 @@
 #    include <descrip.h>
 #    include <iodef.h>
 #    include <ttdef.h>
+     /* Workaround for broken header files of older DECC distributions
+      * that are incompatible with the /NAMES=AS_IS qualifier. */
+#    define sys$assign SYS$ASSIGN
+#    define sys$dassgn SYS$DASSGN
+#    define sys$qiow SYS$QIOW
 #    include <starlet.h>
 #    include <ssdef.h>
 #  else /* !VMS */
@@ -332,7 +337,7 @@ void Echon(__G)
 
 #if (defined(UNZIP) && !defined(FUNZIP))
 
-#if (defined(UNIX) || defined(__BEOS__))
+#ifdef ATH_BEO_UNX
 #ifdef MORE
 
 /*
@@ -472,7 +477,7 @@ int zgetch(__G__ f)
 }
 
 
-#else /* !UNIX && !__BEOS__ */
+#else /* !ATH_BEO_UNX */
 #ifndef VMS     /* VMS supplies its own variant of getch() */
 
 
@@ -499,7 +504,7 @@ int zgetch(__G__ f)
 }
 
 #endif /* !VMS */
-#endif /* ?(UNIX || __BEOS__) */
+#endif /* ?ATH_BEO_UNX */
 
 #endif /* UNZIP && !FUNZIP */
 #endif /* !HAVE_WORKING_GETCH */
@@ -584,7 +589,7 @@ char *getp(__G__ m, p, n)
 #else /* !HAVE_WORKING_GETCH */
 
 
-#if (defined(UNIX) || defined(__MINT__) || defined(__BEOS__))
+#if (defined(ATH_BEO_UNX) || defined(__MINT__))
 
 #ifndef _PATH_TTY
 #  ifdef __MINT__
@@ -641,7 +646,7 @@ char *getp(__G__ m, p, n)
 
 } /* end function getp() */
 
-#endif /* UNIX || __MINT__ || __BEOS__ */
+#endif /* ATH_BEO_UNX || __MINT__ */
 
 
 
@@ -698,5 +703,3 @@ char *getp(__G__ m, p, n)
 #endif /* ?HAVE_WORKING_GETCH */
 #endif /* CRYPT */
 #endif /* CRYPT || (UNZIP && !FUNZIP) */
-
-const char *BOINC_RCSID_5c8ee27dba = "$Id: ttyio.c 4979 2005-01-02 18:29:53Z ballen $";

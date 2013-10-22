@@ -84,7 +84,7 @@ export VARIANTFLAGS="-isysroot ${SDKPATH} -arch i386 -DMAC_OS_X_VERSION_MAX_ALLO
 export SDKROOT="${SDKPATH}"
 export MACOSX_DEPLOYMENT_TARGET=10.4
 
-rm -f wrapper.o
+rm -f *.o
 rm -f wrapper
 make -f Makefile_mac all
 
@@ -106,7 +106,7 @@ export SDKROOT="${SDKPATH}"
 export MACOSX_DEPLOYMENT_TARGET=10.5
 
 
-rm -f wrapper.o
+rm -f *.o
 rm -f wrapper
 make -f Makefile_mac all
 
@@ -115,7 +115,7 @@ make -f Makefile_mac all
 mkdir x86_64
 mv wrapper x86_64/
 
-rm -f wrapper.o
+rm -f *.o
 
 echo
 echo "***************************************************"

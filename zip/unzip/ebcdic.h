@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 1990-2000 Info-ZIP.  All rights reserved.
+  Copyright (c) 1990-2008 Info-ZIP.  All rights reserved.
 
   See the accompanying file LICENSE, version 2000-Apr-09 or later
   (the contents of which are also included in zip.h) for terms of use.
@@ -236,7 +236,7 @@ ZCONST uch ascii[] = {
   ---------------------------------------------------------------------------*/
 
 #ifdef IZ_ISO2OEM_ARRAY
-ZCONST uch Far iso2oem[] = {
+ZCONST uch Far iso2oem_850[] = {
     0x3F, 0x3F, 0x27, 0x9F, 0x22, 0x2E, 0xC5, 0xCE,  /* 80 - 87 */
     0x5E, 0x25, 0x53, 0x3C, 0x4F, 0x3F, 0x3F, 0x3F,  /* 88 - 8F */
     0x3F, 0x27, 0x27, 0x22, 0x22, 0x07, 0x2D, 0x2D,  /* 90 - 97 */
@@ -257,7 +257,7 @@ ZCONST uch Far iso2oem[] = {
 #endif /* IZ_ISO2OEM_ARRAY */
 
 #ifdef IZ_OEM2ISO_ARRAY
-ZCONST uch Far oem2iso[] = {
+ZCONST uch Far oem2iso_850[] = {
     0xC7, 0xFC, 0xE9, 0xE2, 0xE4, 0xE0, 0xE5, 0xE7,  /* 80 - 87 */
     0xEA, 0xEB, 0xE8, 0xEF, 0xEE, 0xEC, 0xC4, 0xC5,  /* 88 - 8F */
     0xC9, 0xE6, 0xC6, 0xF4, 0xF6, 0xF2, 0xFB, 0xF9,  /* 90 - 97 */
@@ -275,6 +275,23 @@ ZCONST uch Far oem2iso[] = {
     0xAD, 0xB1, 0x3D, 0xBE, 0xB6, 0xA7, 0xF7, 0xB8,  /* F0 - F7 */
     0xB0, 0xA8, 0xB7, 0xB9, 0xB3, 0xB2, 0xA6, 0xA0   /* F8 - FF */
 };
+#endif /* IZ_OEM2ISO_ARRAY */
+
+/* The following pointers to the OEM<-->ISO translation tables are used
+   by the translation code portions.  They may get initialized at program
+   startup to point to the matching static translation tables, or to NULL
+   to disable OEM-ISO translation.
+   The compile-time initialization used here provides the backward compatible
+   setting, as can be found in UnZip 5.52 and earlier.
+   In case this mechanism will ever get used on a multithreading system that
+   allows different codepage setups for concurrently running threads, these
+   pointers should get moved into UnZip's thread-safe global data structure.
+ */
+#ifdef IZ_ISO2OEM_ARRAY
+ZCONST uch Far *iso2oem = iso2oem_850;  /* backward compatibility default */
+#endif /* IZ_ISO2OEM_ARRAY */
+#ifdef IZ_OEM2ISO_ARRAY
+ZCONST uch Far *oem2iso = oem2iso_850;  /* backward compatibility default */
 #endif /* IZ_OEM2ISO_ARRAY */
 
 #if defined(THEOS) || defined(THEOS_SUPPORT)

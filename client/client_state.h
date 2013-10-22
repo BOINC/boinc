@@ -18,6 +18,8 @@
 #ifndef _CLIENT_STATE_
 #define _CLIENT_STATE_
 
+#define NEW_CPU_THROTTLE
+
 #ifndef _WIN32
 #include <string>
 #include <vector>
@@ -29,6 +31,9 @@ using std::vector;
 
 #include "coproc.h"
 #include "util.h"
+#ifdef NEW_CPU_THROTTLE
+#include "thread.h"
+#endif
 
 #include "acct_mgr.h"
 #include "acct_setup.h"
@@ -92,11 +97,15 @@ struct CLIENT_STATE {
     GET_PROJECT_LIST_OP get_project_list_op;
     ACCT_MGR_OP acct_mgr_op;
 
-    TIME_STATS time_stats;
+    CLIENT_TIME_STATS time_stats;
     GLOBAL_PREFS global_prefs;
     NET_STATS net_stats;
     ACTIVE_TASK_SET active_tasks;
     HOST_INFO host_info;
+
+    // the following used only on Android
+    DEVICE_STATUS device_status;
+    double device_status_time;
 
     VERSION_INFO core_client_version;
     string statefile_platform_name;
@@ -137,8 +146,16 @@ struct CLIENT_STATE {
     char attach_project_auth[256];
     bool exit_before_upload;
         // exit when about to upload a file
+    bool run_test_app;
+        // API test mode
 #ifndef _WIN32
     gid_t boinc_project_gid;
+#endif
+#ifdef _WIN32
+    // vars so that the sysmon thread can write messages
+    //
+    bool have_sysmon_msg;
+    char sysmon_msg[256];
 #endif
 
     // backoff-related variables
@@ -162,8 +179,10 @@ struct CLIENT_STATE {
     int pers_giveup;
 
     bool tasks_suspended;
-        // Don't run apps.
+        // Computing suspended for reason other than throttling
     int suspend_reason;
+    bool tasks_throttled;
+        // Computing suspended because of throttling
 
     bool network_suspended;
         // Don't use network.
@@ -182,10 +201,9 @@ struct CLIENT_STATE {
         // not be displayable, so GUIs shouldn't offer graphics.
     bool detach_console;
     bool launched_by_manager;
-        // this affects auto-update
     bool run_by_updater;
     double now;
-    double client_start_time;
+    bool clock_change;      // system clock was recently decreased
     double last_wakeup_time;
     bool initialized;
     bool cant_write_state_file;
@@ -270,14 +288,14 @@ struct CLIENT_STATE {
     double potentially_runnable_resource_share();
     double nearly_runnable_resource_share();
     double fetchable_resource_share();
-    double debt_interval_start;
-    double total_cpu_time_this_debt_interval;
+    double rec_interval_start;
+    double total_cpu_time_this_rec_interval;
     bool must_enforce_cpu_schedule;
     bool must_schedule_cpus;
     bool must_check_work_fetch;
     void assign_results_to_projects();
-    RESULT* largest_debt_project_best_result();
-    void reset_debt_accounting();
+    RESULT* highest_prio_project_best_result();
+    void reset_rec_accounting();
     bool schedule_cpus();
     void make_run_list(vector<RESULT*>&);
     bool enforce_run_list(vector<RESULT*>&);
@@ -346,11 +364,12 @@ struct CLIENT_STATE {
     ACTIVE_TASK* get_task(RESULT*);
 
 // --------------- cs_benchmark.cpp:
+    bool benchmarks_running;
+
     bool should_run_cpu_benchmarks();
     void start_cpu_benchmarks();
     bool cpu_benchmarks_poll();
     void abort_cpu_benchmarks();
-    bool are_cpu_benchmarks_running();
     bool cpu_benchmarks_done();
     void cpu_benchmarks_set_defaults();
     void print_benchmark_results();
@@ -384,7 +403,7 @@ struct CLIENT_STATE {
     void get_disk_shares();
     double allowed_disk_usage(double boinc_total);
     int allowed_project_disk_usage(double&);
-    int suspend_tasks(int reason);
+    void show_suspend_tasks_message(int reason);
     int resume_tasks(int reason=0);
     void read_global_prefs(
         const char* fname = GLOBAL_PREFS_FILE_NAME,
@@ -496,8 +515,10 @@ extern double calculate_exponential_backoff(
     int n, double MIN, double MAX
 );
 
-extern void print_suspend_tasks_message(int);
-
+#ifdef NEW_CPU_THROTTLE
+extern THREAD_LOCK client_mutex;
+extern THREAD throttle_thread;
+#endif
 
 //////// TIME-RELATED CONSTANTS ////////////
 
@@ -544,19 +565,23 @@ extern void print_suspend_tasks_message(int);
     // we'll find out about it within a day.
 
 #define WF_DEFER_INTERVAL   300
-    // if a project is uploading, and the last upload started within this interval,
+    // if a project is uploading,
+    // and the last upload started within this interval,
     // don't fetch work from it.
     // This allows the work fetch to be merged with the reporting of the
     // jobs that are currently uploading.
+
+#define RESULT_REPORT_IF_AT_LEAST_N 64
+    // If a project has at least this many ready-to-report tasks, report them.
 
 //////// CPU SCHEDULING
 
 #define CPU_SCHED_PERIOD    60
     // do CPU schedule at least this often
 
-#define DEBT_ADJUST_PERIOD CPU_SCHED_PERIOD
-    // debt is adjusted at least this often,
-    // since adjust_debts() is called from enforce_schedule()
+#define REC_ADJUST_PERIOD CPU_SCHED_PERIOD
+    // REC is adjusted at least this often,
+    // since adjust_rec() is called from enforce_schedule()
 
 #define DEADLINE_CUSHION    0
     // try to finish jobs this much in advance of their deadline
@@ -584,11 +609,20 @@ extern void print_suspend_tasks_message(int);
 
 #define DAILY_XFER_HISTORY_PERIOD   60
 
-#define MAX_STD   (86400)
-    // maximum short-term debt
-
 #define ACCT_MGR_MIN_BACKOFF    600
 #define ACCT_MGR_MAX_BACKOFF    86400
     // min/max account manager RPC backoff
+
+#define ANDROID_KEEPALIVE_TIMEOUT   30
+    // Android: if don't get a report_device_status() RPC from the GUI
+    // in this interval, exit.
+    // We rely on the GUI to report battery status.
+
+#ifndef ANDROID
+#define USE_NET_PREFS
+    // use preferences obtained over the network
+    // (i.e. through scheduler replies)
+    // Don't do this on Android
+#endif
 
 #endif

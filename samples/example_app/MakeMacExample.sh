@@ -24,6 +24,7 @@
 # Updated 10/11/10 for XCode 3.2 and OS 10.6 
 # Updated 7/12/12 for Xcode 4.3 and later which are not at a fixed address
 # Updated 8/3/12 for TrueType fonts
+# Updated 11/8/12 to add slide_show
 #
 ## This script requires OS 10.6 or later
 #
@@ -32,6 +33,7 @@
 ## complete the Xcode installation before running this script.
 #
 ## First, build the BOINC libraries using boinc/mac_build/BuildMacBOINC.sh
+## and boinc/zip/boinc_zip.xcodeproj 
 ## This file assumes the locations of the needed libraries are those 
 ## resulting from following the instructions found in the file:
 ##     boinc/mac_build/HowToBuildBOINC_XCode.rtf
@@ -96,6 +98,7 @@ if [  $? -ne 0 ]; then exit 1; fi
 mkdir i386
 mv uc2 i386/
 mv uc2_graphics i386/
+mv slide_show i386/
 
 echo
 echo "***************************************************"
@@ -117,10 +120,12 @@ if [  $? -ne 0 ]; then exit 1; fi
 mkdir x86_64
 mv uc2 x86_64/
 mv uc2_graphics x86_64/
+mv slide_show x86_64/
 
 rm -f uc2.o
 rm -f ttfont.o
 rm -f uc2_graphics.o
+rm -f slide_show.o
 
 echo
 echo "***************************************************"

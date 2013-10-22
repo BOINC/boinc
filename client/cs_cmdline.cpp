@@ -70,7 +70,9 @@ static void print_options(char* prog) {
 #ifdef SANDBOX
         "    --insecure                     disable app sandboxing (Unix)\n"
 #endif
+#ifdef __APPLE__
         "    --launched_by_manager          client was launched by Manager\n"
+#endif
         "    --master_fetch_interval N      limiting period of master retry\n"
         "    --master_fetch_period N        reload master URL after N RPC failures\n"
         "    --master_fetch_retry_cap N     exponential backoff limit\n"
@@ -86,12 +88,15 @@ static void print_options(char* prog) {
         "    --retry_cap N                  exponential backoff limit\n"
         "    --run_cpu_benchmarks           run the CPU benchmarks\n"
         "    --run_by_updater               set by updater\n"
+#ifdef __APPLE__
         "    --saver                        client was launched by screensaver\n"
+#endif
         "    --sched_retry_delay_max N      max for RPC exponential backoff\n"
         "    --sched_retry_delay_min N      min for RPC exponential backoff\n"
         "    --show_projects                show attached projects\n"
         "    --skip_cpu_benchmarks          don't run CPU benchmarks\n"
         "    --start_delay X                delay starting apps for X secs\n"
+        "    --suppress_net_info            don't send network addrs to server\n"
         "    --unsigned_apps_ok             allow unsigned apps (for testing)\n"
         "    --update_prefs <URL>           contact a project to update preferences\n"
         "    --version                      show version info\n"
@@ -115,7 +120,7 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
     int i;
     bool show_options = false;
 
-    // NOTE: if you change or add anything, make the same chane
+    // NOTE: if you change or add anything, make the same change
     // in show_options() (above) and in doc/client.php
 
     for (i=1; i<argc; i++) {
@@ -137,10 +142,7 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
             check_all_logins = true;
         } else if (ARG(daemon)) {
             executing_as_daemon = true;
-        } else if (ARG(detach)) {
-#ifdef _WIN32
-            FreeConsole();
-#endif
+        } else if (ARG(detach_phase_two) || ARG(detach) || ARG(detach_console)) {
             detach_console = true;
         } else if (ARG(detach_project)) {
             if (i == argc-1) show_options = true;
@@ -238,6 +240,8 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
         } else if (ARG(start_delay)) {
             if (i == argc-1) show_options = true;
             else config.start_delay = atof(argv[++i]);
+        } else if (ARG(suppress_net_info)) {
+            config.suppress_net_info = true;
         } else if (ARG(unsigned_apps_ok)) {
             config.unsigned_apps_ok = true;
         } else if (ARG(update_prefs)) {
@@ -258,6 +262,10 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
         } else if (ARG(NSDocumentRevisionsDebugMode)) {
             ++i; 
 #endif
+        // detect_gpus is for internal use only - do not
+        // add it to show_options() or doc/client.php
+        // This statement just avoids Unknown option warning
+        } else if (ARG(detect_gpus)) {
         } else {
             printf("Unknown option: %s\n", argv[i]);
             show_options = true;
@@ -284,9 +292,9 @@ void CLIENT_STATE::parse_env_vars() {
         case URL_PROTOCOL_HTTPS:
             env_var_proxy_info.present = true;
             env_var_proxy_info.use_http_proxy = true;
-            strcpy(env_var_proxy_info.http_user_name, purl.user);
-            strcpy(env_var_proxy_info.http_user_passwd, purl.passwd);
-            strcpy(env_var_proxy_info.http_server_name, purl.host);
+            safe_strcpy(env_var_proxy_info.http_user_name, purl.user);
+            safe_strcpy(env_var_proxy_info.http_user_passwd, purl.passwd);
+            safe_strcpy(env_var_proxy_info.http_server_name, purl.host);
             env_var_proxy_info.http_server_port = purl.port;
             break;
         default:
@@ -299,10 +307,10 @@ void CLIENT_STATE::parse_env_vars() {
     p = getenv("HTTP_USER_NAME");
     if (p) {
         env_var_proxy_info.use_http_auth = true;
-        strcpy(env_var_proxy_info.http_user_name, p);
+        safe_strcpy(env_var_proxy_info.http_user_name, p);
         p = getenv("HTTP_USER_PASSWD");
         if (p) {
-            strcpy(env_var_proxy_info.http_user_passwd, p);
+            safe_strcpy(env_var_proxy_info.http_user_passwd, p);
         }
     }
 
@@ -312,21 +320,21 @@ void CLIENT_STATE::parse_env_vars() {
         parse_url(p, purl);
         env_var_proxy_info.present = true;
         env_var_proxy_info.use_socks_proxy = true;
-        strcpy(env_var_proxy_info.socks5_user_name, purl.user);
-        strcpy(env_var_proxy_info.socks5_user_passwd, purl.passwd);
-        strcpy(env_var_proxy_info.socks_server_name, purl.host);
+        safe_strcpy(env_var_proxy_info.socks5_user_name, purl.user);
+        safe_strcpy(env_var_proxy_info.socks5_user_passwd, purl.passwd);
+        safe_strcpy(env_var_proxy_info.socks_server_name, purl.host);
         env_var_proxy_info.socks_server_port = purl.port;
     }
 
     p = getenv("SOCKS5_USER");
     if (!p) p = getenv("SOCKS_USER");
     if (p) {
-        strcpy(env_var_proxy_info.socks5_user_name, p);
+        safe_strcpy(env_var_proxy_info.socks5_user_name, p);
     }
 
     p = getenv("SOCKS5_PASSWD");
     if (p) {
-        strcpy(env_var_proxy_info.socks5_user_passwd, p);
+        safe_strcpy(env_var_proxy_info.socks5_user_passwd, p);
     }
 }
 
@@ -344,7 +352,7 @@ void CLIENT_STATE::do_cmdline_actions() {
     }
 
     if (strlen(detach_project_url)) {
-        canonicalize_master_url(detach_project_url);
+        canonicalize_master_url(detach_project_url, sizeof(detach_project_url));
         PROJECT* project = lookup_project(detach_project_url);
         if (project) {
             // do this before detaching - it frees the project
@@ -358,7 +366,7 @@ void CLIENT_STATE::do_cmdline_actions() {
     }
 
     if (strlen(reset_project_url)) {
-        canonicalize_master_url(reset_project_url);
+        canonicalize_master_url(reset_project_url, sizeof(reset_project_url));
         PROJECT* project = lookup_project(reset_project_url);
         if (project) {
             reset_project(project, false);
@@ -370,7 +378,7 @@ void CLIENT_STATE::do_cmdline_actions() {
     }
 
     if (strlen(update_prefs_url)) {
-        canonicalize_master_url(update_prefs_url);
+        canonicalize_master_url(update_prefs_url, sizeof(update_prefs_url));
         PROJECT* project = lookup_project(update_prefs_url);
         if (project) {
             project->sched_rpc_pending = RPC_REASON_USER_REQ;
@@ -380,7 +388,7 @@ void CLIENT_STATE::do_cmdline_actions() {
     }
 
     if (strlen(attach_project_url)) {
-        canonicalize_master_url(attach_project_url);
+        canonicalize_master_url(attach_project_url, sizeof(attach_project_url));
         add_project(attach_project_url, attach_project_auth, "", false);
     }
 }

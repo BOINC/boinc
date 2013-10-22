@@ -142,7 +142,7 @@ void CLIENT_STATE::detect_platforms() {
         strlcat(cmdline," -m",256);
         if ((f=popen(cmdline,"r"))) {
             while (!std::feof(f)) {
-                fgets(cmdline,256,f);
+                if (!fgets(cmdline,256,f)) break;
                 if (strstr(cmdline,"x86_64")) support64=1;
             }
             pclose(f);
@@ -179,7 +179,7 @@ void CLIENT_STATE::detect_platforms() {
                 for (i=0; i < nlibdirs; i++) {
                     struct dirent *entry;
                     DIR *a = opendir(libdir[i]);
-                    // if dir doesn't exist, do to the next one
+                    // if dir doesn't exist, do the next one
                     if (a == 0) continue;
                     // dir exists. read each entry until you find a 32bit lib
                     while ((support32 == 0) && ((entry=readdir(a)) != 0)) {
@@ -191,7 +191,7 @@ void CLIENT_STATE::detect_platforms() {
                         f = popen(cmdline, "r");
                         if (f) {
                             while (!std::feof(f)) {
-                                fgets(cmdline,256,f);
+                                if (!fgets(cmdline,256,f)) break;
                                 // If the library is 32-bit ELF, then we're
                                 // golden.
                                 if (strstr(cmdline, "ELF") && strstr(cmdline, "32-bit")) support32=1;
@@ -316,20 +316,21 @@ void CLIENT_STATE::detect_platforms() {
 // write XML list of supported platforms
 //
 void CLIENT_STATE::write_platforms(PROJECT* p, MIOFILE& mf) {
-
-    mf.printf(
-        "    <platform_name>%s</platform_name>\n",
-        p->anonymous_platform ? "anonymous" : get_primary_platform()
-    );
-
-    for (unsigned int i=1; i<platforms.size(); i++) {
-        PLATFORM& platform = platforms[i];
+    if (p->anonymous_platform) {
+        mf.printf("    <platform_name>anonymous</platform_name>\n");
+    } else {
         mf.printf(
-            "    <alt_platform>\n"
-            "        <name>%s</name>\n"
-            "    </alt_platform>\n",
-            platform.name.c_str()
+            "    <platform_name>%s</platform_name>\n", get_primary_platform()
         );
+        for (unsigned int i=1; i<platforms.size(); i++) {
+            PLATFORM& platform = platforms[i];
+            mf.printf(
+                "    <alt_platform>\n"
+                "        <name>%s</name>\n"
+                "    </alt_platform>\n",
+                platform.name.c_str()
+            );
+        }
     }
 }
 

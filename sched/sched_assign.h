@@ -15,5 +15,5 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-extern bool send_assigned_jobs();
-extern bool send_assigned_jobs_multi();
+extern bool send_targeted_jobs();
+extern bool send_broadcast_jobs();

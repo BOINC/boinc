@@ -90,7 +90,7 @@ foreach($data as $host) {
 echo "</table>\n<p>";
 if ($offset > 0) {
     $new_offset = $offset - $hosts_per_page;
-    echo "<a href=top_hosts.php?sort_by=$sort_by&amp;offset=$new_offset>".tra("Previous %1", $hosts_per_page)."</a> | ";
+    echo "<a href=top_hosts.php?sort_by=$sort_by&amp;offset=$new_offset>".tra("Previous %1", $hosts_per_page)."</a> &middot; ";
 
 }
 if ($n==$hosts_per_page){ //If we aren't on the last page

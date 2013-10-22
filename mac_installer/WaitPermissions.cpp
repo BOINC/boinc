@@ -24,6 +24,8 @@
 #include <sys/stat.h>   // for stat
 #include <unistd.h>	// getuid
 #include <dirent.h>
+#include "str_util.h"
+#include "str_replace.h"
 
 void print_to_log_file(const char *format, ...);
 void strip_cr(char *buf);
@@ -96,7 +98,7 @@ void print_to_log_file(const char *format, ...) {
     va_list args;
     char path[256], buf[256];
     time_t t;
-    strcpy(path, "/Users/Shared/test_log.txt");
+    safe_strcpy(path, "/Users/Shared/test_log.txt");
     //    strcpy(path, "/Users/");
     //    strcat(path, getlogin());
     //    strcat(path, "/Documents/test_log.txt");
@@ -107,7 +109,7 @@ void print_to_log_file(const char *format, ...) {
     //  freopen(buf, "a", stderr);
     
     time(&t);
-    strcpy(buf, asctime(localtime(&t)));
+    safe_strcpy(buf, asctime(localtime(&t)));
     strip_cr(buf);
     
     fputs(buf, f);

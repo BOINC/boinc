@@ -1,0 +1,8 @@
+--android BOINC/res
+--gettext ../locale
+--groups strings
+--domain BOINC-Android
+--template ./%(domain)s.pot
+--layout %(locale)s/%(domain)s.po
+--ignore-fuzzy
+

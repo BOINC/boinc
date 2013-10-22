@@ -109,6 +109,9 @@ bool CDlgItemProperties::SaveState() {
     pConfig->Write(wxT("XPos"), GetPosition().x);
     pConfig->Write(wxT("YPos"), GetPosition().y);
 #endif
+
+    pConfig->Flush();
+    
     return true;
 }
 
@@ -268,19 +271,33 @@ void CDlgItemProperties::renderInfos(PROJECT* project_in) {
         addSection(_("Scheduling"));
         addProperty(_("Scheduling priority"), wxString::Format(wxT("%0.2f"), project->sched_priority));
         show_rsc(_("CPU"), project->rsc_desc_cpu);
-        if (pDoc->state.have_nvidia) {
+        if (pDoc->state.host_info.coprocs.have_nvidia()) {
             show_rsc(
                 wxString(proc_type_name(PROC_TYPE_NVIDIA_GPU), wxConvUTF8),
                 project->rsc_desc_nvidia
             );
         }
-        if (pDoc->state.have_ati) {
+        if (pDoc->state.host_info.coprocs.have_ati()) {
             show_rsc(
                 wxString(proc_type_name(PROC_TYPE_AMD_GPU), wxConvUTF8),
                 project->rsc_desc_ati
             );
         }
-        addProperty(_("Duration correction factor"), wxString::Format(wxT("%0.4f"), project->duration_correction_factor));
+        if (pDoc->state.host_info.coprocs.have_intel_gpu()) {
+            show_rsc(
+                wxString(proc_type_name(PROC_TYPE_INTEL_GPU), wxConvUTF8),
+                project->rsc_desc_intel_gpu
+            );
+        }
+        double dcf = project->duration_correction_factor;
+        // if it's exactly 1, it's not being used
+        //
+        if (dcf != 1) {
+            addProperty(
+                _("Duration correction factor"),
+                wxString::Format(wxT("%0.4f"), dcf)
+            );
+        }
     }
     m_gbSizer->Layout();
     m_scrolledWindow->FitInside();

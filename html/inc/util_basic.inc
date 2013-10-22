@@ -19,6 +19,8 @@
 // minimal set of util functions;
 // doesn't pull in translation.inc etc.
 
+$generating_xml = false;
+
 function web_stopped() {
     $d = dirname(__FILE__);
     return file_exists("$d/../../stop_web");
@@ -51,7 +53,7 @@ function xml_error($num, $msg=null) {
         case -208: $msg = "Account creation is disabled"; break;
         case -209: $msg = "Invalid invitation code"; break;
         case -210: $msg = "Invalid request method"; break;
-        default: "Unknown error"; break;
+        default: $msg = "Unknown error"; break;
         }
     }
     echo "<error>

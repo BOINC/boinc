@@ -1,7 +1,7 @@
 <?php
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2011 University of California
+// Copyright (C) 2013 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -16,16 +16,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// BOINC's remote job submission system allows users to:
-// 1) manage a set of files on the server,
-//    with physical names that are isolated from other users
-// 2) submit batches of jobs
-//
-// These features can be provided by a "portal" web site
-// that is distinct from the BOINC server.
-//
-// This file contains library functions that can be used by portals.
-// It communicates (using HTTP/XML) with the BOINC server.
+// This file contains a PHP binding of a web-service interface
+// for submitting jobs to a BOINC server.
 //
 // Functions:
 //      boinc_abort_batch(): abort a batch
@@ -55,17 +47,7 @@ function req_to_xml($req, $op) {
         foreach ($job->input_files as $file) {
             $x .= "        <input_file>\n";
             $x .= "            <mode>$file->mode</mode>\n";
-            switch ($file->mode) {
-            case "remote":
-            case "local":
-                $x .= "             <path>$file->path</path>\n";
-                break;
-            case "inline":
-                break;
-            case "semilocal":
-                $x .= "             <url>$file->url</url>\n";
-                break;
-            <source>$file->source</source>
+            $x .= "            <source>$file->source</source>\n";
             $x .= "        </input_file>\n";
         }
         $x .= "    </job>
@@ -101,7 +83,7 @@ function do_http_op($req, $xml, $op) {
     $post = array();
     $post["request"] = $xml;
     $cwd = getcwd();
-    if ($op == "submit_batch) {
+    if ($op == "submit_batch") {
         foreach ($req->jobs as $job) {
             foreach ($job->input_files as $file) {
                 if ($file->mode == "inline") {
@@ -112,13 +94,20 @@ function do_http_op($req, $xml, $op) {
             }
         }
     }
-    //curl_setopt($ch, CURLOPT_POSTFIELDS, "request=$xml");
     curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
     $reply = curl_exec($ch);
+    curl_close($ch);
     if (!$reply) return array(null, "HTTP error");
-    $r = simplexml_load_string($reply);
-    if (!$r) return array(null, "Can't parse reply XML: <pre>".htmlentities($reply)."</pre>");
-    return array($r, null);
+    $r = @simplexml_load_string($reply);
+    if (!$r) {
+        return array(null, "Can't parse reply XML:\n$reply");
+    }
+    $e = (string)$r->error_msg;
+    if ($e) {
+        return array(null, $e);
+    } else {
+        return array($r, null);
+    }
 }
 
 function do_batch_op($req, $op) {
@@ -129,7 +118,7 @@ function do_batch_op($req, $op) {
 }
 
 function batch_xml_to_object($batch) {
-    $b = null;
+    $b = new StdClass;
     $b->id = (int)($batch->id);
     $b->create_time = (double)($batch->create_time);
     $b->est_completion_time = (double)($batch->est_completion_time);
@@ -167,7 +156,7 @@ function boinc_submit_batch($req) {
     if ($name == 'batch_id') {
         return array((int)$reply, null);
     }  else if ($name == 'error') {
-        return array(null, (string)$reply->message);
+        return array(null, (string)$reply->err_message);
     } else {
         return array(null, "Bad reply message");
     }
@@ -178,7 +167,7 @@ function boinc_query_batches($req) {
     <authenticator>$req->authenticator</authenticator>
 </query_batches>
 ";
-    list($reply, $errmsg) = do_http_op($req, $req_xml);
+    list($reply, $errmsg) = do_http_op($req, $req_xml, "");
     if ($errmsg) return array(null, $errmsg);
     $batches = array();
     foreach ($reply->batch as $batch) {
@@ -198,7 +187,7 @@ function boinc_query_batch($req) {
     if ($errmsg) return array(null, $errmsg);
     $jobs = array();
     foreach ($reply->job as $job) {
-        $j = null;
+        $j = new StdClass;
         $j->id = (int)($job->id);
         $j->canonical_instance_id = (int)($job->canonical_instance_id);
         $jobs[] = $j;
@@ -218,19 +207,19 @@ function boinc_query_job($req) {
     if ($errmsg) return array(null, $errmsg);
     $instances = array();
     foreach ($reply->instance as $instance) {
-        $i = null;
+        $i = new StdClass;
         $i->name = (string)($instance->name);
         $i->id = (int)($instance->id);
         $i->state = (string)($instance->state);
         $i->outfiles = array();
         foreach ($instance->outfile as $outfile) {
-            $f = null;
+            $f = new StdClass;
             $f->size = (double)$outfile->size;
             $i->outfiles[] = $f;
         }
         $instances[] = $i;
     }
-    $r = null;
+    $r = new StdClass;
     $r->instances = $instances;
     return array($r, null);
 }
@@ -254,13 +243,13 @@ function boinc_get_output_file($req) {
     $auth_str = md5($req->authenticator.$req->instance_name);
     $name = $req->instance_name;
     $file_num = $req->file_num;
-    return $req->project."/get_output.php?instance_name=$name&file_num=$file_num&auth_str=$auth_str";
+    return $req->project."/get_output.php?cmd=result_file&result_name=$name&file_num=$file_num&auth_str=$auth_str";
 }
 
 function boinc_get_output_files($req) {
     $auth_str = md5($req->authenticator.$req->batch_id);
     $batch_id = $req->batch_id;
-    return $req->project."/get_output.php?batch_id=$batch_id&auth_str=$auth_str";
+    return $req->project."/get_output.php?cmd=batch_files&batch_id=$batch_id&auth_str=$auth_str";
 }
 
 function boinc_retire_batch($req) {
@@ -284,12 +273,21 @@ $req->project = "http://isaac.ssl.berkeley.edu/test/";
 $req->authenticator = "x";
 if (0) {
     $req->app_name = "uppercase";
+    $req->batch_name = "batch_name3";
     $req->jobs = array();
 
-    $f->source = "http://isaac.ssl.berkeley.edu/index.php";
-    $job->input_files = array($f);
+    $job->input_files = array();
+    $f->source = "http://isaac.ssl.berkeley.edu/validate_logic.txt";
+    $f->mode = "remote";
+    $f->md5 = "eec5a142cea5202c9ab2e4575a8aaaa7";
+    $f->size = 4250;
+    $job->input_files[] = $f;
+    $f = new StdClass;
+    $f->mode = "local";
+    $f->source = "foobar";
+    //$job->input_files[] = $f;
 
-    for ($i=10; $i<20; $i++) {
+    for ($i=10; $i<11; $i++) {
         $job->rsc_fpops_est = $i*1e9;
         $job->command_line = "--t $i";
         $req->jobs[] = $job;

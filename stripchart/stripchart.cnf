@@ -1,13 +1,9 @@
-#! /usr/bin/env perl
-
 use Time::Local;
 
 # What version is this?
 $majorversion = 2; $minorversion = 1;
 
 # Directory where gnuplot is
-# $gnuplot = "/usr/local/gnuplot-3.7";
-#$gnuplot = "/disks/asimov/a/users/hiramc/local/src/gnuplot-3.7";
 $gnuplot = "/usr/local/bin"
  
 # Temporary files

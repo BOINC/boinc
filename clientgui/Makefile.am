@@ -56,7 +56,6 @@ boincmgr_SOURCES = \
     BOINCListCtrl.cpp \
     BOINCTaskBar.cpp \
     BOINCTaskCtrl.cpp \
-    BOINCVListBox.cpp \
     browser.cpp \
     CompletionErrorPage.cpp \
     CompletionPage.cpp \

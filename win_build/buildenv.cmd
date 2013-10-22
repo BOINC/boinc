@@ -151,7 +151,7 @@ FOR /F "usebackq tokens=3,* delims=_" %%I IN ('%BUILDBRANCHNAME%') DO (
 )
 SET BUILDTOOLSROOT=%BUILDROOT%\..\%BUILDTOOLSNAME%
 
-IF NOT EXIST %BUILDTOOLSROOT%\win_build\subversion (
+IF NOT EXIST %BUILDTOOLSROOT%\win_build\build.cmd (
     ECHO Software NOT Detected: Build Tools...
     EXIT /B 2
 )

@@ -25,7 +25,7 @@
 // identity matrix and the product A * incerse(A). For debugging...
 //#define VERIFY 1
 #include <stdio.h>
-#include <math.h>
+#include <cmath>
 #include <time.h>
 #include "cuda_config.h"
 

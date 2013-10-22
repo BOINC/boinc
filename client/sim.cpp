@@ -52,12 +52,10 @@
 //      simulate use of EDF sim by scheduler
 //  [--cpu_sched_rr_only]
 //      use only RR scheduling
-//  [--use_hyst_fetch]
-//      client work fetch uses hysteresis
 //  [--rec_half_life X]
 //      half-life of recent est credit
 
-#include <math.h>
+#include <cmath>
 
 #include "error_numbers.h"
 #include "str_util.h"
@@ -70,6 +68,7 @@
 #include "client_state.h"
 #include "project.h"
 #include "result.h"
+#include "scheduler_op.h"
 
 #include "sim.h"
 
@@ -85,13 +84,13 @@ const char* outfile_prefix = "./";
 #define RESULTS_DAT_FNAME "results.dat"
 #define RESULTS_TXT_FNAME "results.txt"
 #define SUMMARY_FNAME "summary.txt"
-#define DEBT_FNAME "debt.dat"
+#define REC_FNAME "rec.dat"
 
 bool user_active;
 double duration = 86400, delta = 60;
 FILE* logfile;
 FILE* html_out;
-FILE* debt_file;
+FILE* rec_file;
 FILE* index_file;
 FILE* summary_file;
 char log_filename[256];
@@ -102,6 +101,7 @@ double gpu_active_time = 0;
 bool server_uses_workload = false;
 bool cpu_sched_rr_only = false;
 bool existing_jobs_only = false;
+bool include_empty_projects;
 
 RANDOM_PROCESS on_proc;
 RANDOM_PROCESS active_proc;
@@ -112,7 +112,7 @@ bool active;
 bool gpu_active;
 bool connected;
 
-extern double debt_adjust_period;
+extern double rec_adjust_period;
 
 SIM_RESULTS sim_results;
 int njobs;
@@ -126,7 +126,6 @@ void usage(char* prog) {
         "[--delta X]\n"
         "[--server_uses_workload]\n"
         "[--cpu_sched_rr_only]\n"
-        "[--use_hyst_fetch]\n"
         "[--rec_half_life X]\n",
         prog
     );
@@ -238,8 +237,8 @@ void make_job(
     wup->project = p;
     wup->rsc_fpops_est = app->fpops_est;
     rp->sim_flops_left = rp->wup->rsc_fpops_est;
-    strcpy(wup->name, rp->name);
-    strcpy(wup->app_name, app->name);
+    safe_strcpy(wup->name, rp->name);
+    safe_strcpy(wup->app_name, app->name);
     wup->app = app;
     double ops = app->fpops.sample();
     if (ops < 0) ops = 0;
@@ -346,6 +345,23 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* p) {
     int infeasible_count = 0;
     vector<RESULT*> new_results;
 
+    bool avail;
+    if (p->last_rpc_time) {
+        double delta = now - p->last_rpc_time;
+        avail = p->available.sample(delta);
+    } else {
+        avail = p->available.sample(0);
+    }
+    p->last_rpc_time = now;
+    if (!avail) {
+        sprintf(buf, "RPC to %s skipped - project down<br>", p->project_name);
+        html_msg += buf;
+        msg_printf(p, MSG_INFO, "RPC skipped: project down");
+        gstate.scheduler_op->project_rpc_backoff(p, "project down");
+        p->master_url_fetch_pending = false;
+        return false;
+    }
+
     // save request params for WORK_FETCH::handle_reply
     //
     double save_cpu_req_secs = rsc_work_fetch[0].req_secs;
@@ -437,31 +453,12 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* p) {
     sprintf(buf, "got %d tasks<br>", new_results.size());
     html_msg += buf;
 
-    if (new_results.size() == 0) {
-        for (int i=0; i<coprocs.n_rsc; i++) {
-            if (rsc_work_fetch[i].req_secs) {
-                p->rsc_pwf[i].backoff(p, rsc_name(i));
-            }
-        }
-    } else {
-        bool got_rsc[MAX_RSC];
-        for (int i=0; i<coprocs.n_rsc; i++) {
-            got_rsc[i] = false;
-        }
-        for (unsigned int i=0; i<new_results.size(); i++) {
-            RESULT* rp = new_results[i];
-            got_rsc[rp->avp->gpu_usage.rsc_type] = true;
-        }
-        for (int i=0; i<coprocs.n_rsc; i++) {
-            if (got_rsc[i]) p->rsc_pwf[i].clear_backoff();
-        }
-    }
-
     SCHEDULER_REPLY sr;
     rsc_work_fetch[0].req_secs = save_cpu_req_secs;
     work_fetch.handle_reply(p, &sr, new_results);
     p->nrpc_failures = 0;
-    p->sched_rpc_pending = false;
+    p->sched_rpc_pending = 0;
+    p->min_rpc_time = now + 900;
     if (sent_something) {
         request_schedule_cpus("simulate_rpc");
         request_work_fetch("simulate_rpc");
@@ -502,7 +499,7 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
 #if 0
         p = next_project_sched_rpc_pending();
         if (p) {
-            work_fetch.compute_work_request(p);
+            work_fetch.piggyback_work_request(p);
             action = simulate_rpc(p);
             break;
         }
@@ -510,8 +507,9 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
     
         p = find_project_with_overdue_results(false);
         if (p) {
-            //printf("doing RPC to %s to report results\n", p->project_name);
-            work_fetch.compute_work_request(p);
+            msg_printf(p, MSG_INFO, "doing RPC to report results");
+            p->sched_rpc_pending = RPC_REASON_RESULTS_DUE;
+            work_fetch.piggyback_work_request(p);
             action = simulate_rpc(p);
             break;
         }
@@ -528,9 +526,10 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
         must_check_work_fetch = false;
         last_work_fetch_time = now;
 
-        p = work_fetch.choose_project(true);
+        p = work_fetch.choose_project();
 
         if (p) {
+            msg_printf(p, MSG_INFO, "doing RPC to get work");
             action = simulate_rpc(p);
             break;
         }
@@ -855,7 +854,7 @@ void show_resource(int rsc_type) {
             found = true;
             fprintf(html_out,
                 "<table>\n"
-                "<tr><th>#devs</th><th>Job name</th><th>GFLOPs left</th>%s</tr>\n",
+                "<tr><th>#devs</th><th>Job name (* = high priority)</th><th>GFLOPs left</th>%s</tr>\n",
                 rsc_type?"<th>GPU</th>":""
             );
         }
@@ -867,7 +866,7 @@ void show_resource(int rsc_type) {
         fprintf(html_out, "<tr><td>%.2f</td><td bgcolor=%s><font color=#ffffff>%s%s</font></td><td>%.0f</td>%s</tr>\n",
             ninst,
             colors[p->index%NCOLORS],
-            rp->rr_sim_misses_deadline?"*":"",
+            rp->edf_scheduled?"*":"",
             rp->name,
             rp->sim_flops_left/1e9,
             buf
@@ -991,13 +990,22 @@ void set_initial_rec() {
     }
 }
 
+static bool compare_names(PROJECT* p1, PROJECT* p2) {
+    return (strcmp(p1->project_name, p2->project_name) < 0);
+}
+
 void write_recs() {
-    fprintf(debt_file, "%f ", gstate.now);
+    fprintf(rec_file, "%f ", gstate.now);
+    std::sort(
+        gstate.projects.begin(),
+        gstate.projects.end(),
+        compare_names
+    );
     for (unsigned int i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
-        fprintf(debt_file, "%f ", p->pwf.rec);
+        fprintf(rec_file, "%f ", p->pwf.rec);
     }
-    fprintf(debt_file, "\n");
+    fprintf(rec_file, "\n");
 }
 
 void make_graph(const char* title, const char* fname, int field) {
@@ -1014,7 +1022,7 @@ void make_graph(const char* title, const char* fname, int field) {
     );
     for (unsigned int i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
-        fprintf(f, "\"%sdebt.dat\" using 1:%d title \"%s\" with lines%s",
+        fprintf(f, "\"%srec.dat\" using 1:%d title \"%s\" with lines%s",
             outfile_prefix, 2+i+field, p->project_name,
             (i==gstate.projects.size()-1)?"\n":", \\\n"
         );
@@ -1034,11 +1042,11 @@ static void write_inputs() {
         "Existing jobs only: %s\n"
         "Round-robin only: %s\n"
         "scheduler EDF sim: %s\n"
-        "hysteresis work fetch: %s\n",
+        "Include empty projects: %s\n",
         existing_jobs_only?"yes":"no",
         cpu_sched_rr_only?"yes":"no",
         server_uses_workload?"yes":"no",
-        use_hyst_fetch?"yes":"no"
+        include_empty_projects?"yes":"no"
     );
     fprintf(f,
         "REC half-life: %f\n", config.rec_half_life
@@ -1074,16 +1082,23 @@ void simulate() {
         "Scheduling policies\n"
         "   Round-robin only: %s\n"
         "   Scheduler EDF simulation: %s\n"
-        "   Hysteresis work fetch: %s\n",
+        "   REC half-life: %f\n",
         gstate.work_buf_min(), gstate.work_buf_total(),
         gstate.global_prefs.cpu_scheduling_period(),
         cpu_sched_rr_only?"yes":"no",
         server_uses_workload?"yes":"no",
-        use_hyst_fetch?"yes":"no"
+        config.rec_half_life
     );
-    fprintf(summary_file,
-        "   REC half-life: %f\n", config.rec_half_life
-    );
+    fprintf(summary_file, "Jobs\n");
+    for (int i=0; i<gstate.results.size(); i++) {
+        RESULT* rp = gstate.results[i];
+        fprintf(summary_file,
+            "   %s time left %s deadline %s\n",
+            rp->name,
+            timediff_format(rp->sim_flops_left/rp->avp->flops).c_str(),
+            timediff_format(rp->report_deadline - START_TIME).c_str()
+        );
+    }
     fprintf(summary_file,
         "Simulation parameters\n"
         "   time step %f, duration %f\n"
@@ -1147,12 +1162,17 @@ void show_app(APP* app) {
     fprintf(summary_file,
         "   app %s\n"
         "      job params: fpops_est %.0fG fpops mean %.0fG std_dev %.0fG\n"
-        "         latency %.2f weight %.2f\n",
+        "         latency %.2f weight %.2f",
         app->name, app->fpops_est/1e9,
         app->fpops.mean/1e9, app->fpops.std_dev/1e9,
         app->latency_bound,
         app->weight
     );
+    if (app->max_concurrent) {
+        fprintf(summary_file, " max_concurrent %d\n", app->max_concurrent);
+    } else {
+        fprintf(summary_file, "\n");
+    }
     for (unsigned int i=0; i<gstate.app_versions.size(); i++) {
         APP_VERSION* avp = gstate.app_versions[i];
         if (avp->app != app) continue;
@@ -1232,13 +1252,22 @@ void get_app_params() {
                 continue;
             }
 
+            if (app->non_cpu_intensive) {
+                fprintf(summary_file,
+                    "   app %s: ignoring - non CPU intensive\n",
+                    app->name
+                );
+                app->ignore = true;
+                continue;
+            }
+
             // if missing app params, fill in defaults
             //
             if (!app->fpops_est) {
-                app->fpops_est = 3600e9;
+                app->fpops_est = 3600e11;
             }
             if (!app->latency_bound) {
-                app->latency_bound = 86400;
+                app->latency_bound = 864000;
             }
 
             if (!app->fpops_est || !app->latency_bound) {
@@ -1272,7 +1301,7 @@ void get_app_params() {
     );
 }
 
-// zero backoffs and debts.
+// zero backoffs and REC
 //
 void clear_backoff() {
     unsigned int i;
@@ -1295,15 +1324,11 @@ void cull_projects() {
     for (i=0; i<gstate.projects.size(); i++) {
         p = gstate.projects[i];
         p->no_apps = true;
-        for (int j=0; j<coprocs.n_rsc; j++) {
-            p->no_rsc_apps[j] = true;
-        }
     }
     for (i=0; i<gstate.app_versions.size(); i++) {
         APP_VERSION* avp = gstate.app_versions[i];
         if (avp->app->ignore) continue;
         int rt = avp->gpu_usage.rsc_type;
-        avp->project->no_rsc_apps[rt] = false;
     }
     for (i=0; i<gstate.apps.size(); i++) {
         APP* app = gstate.apps[i];
@@ -1311,21 +1336,48 @@ void cull_projects() {
             app->project->no_apps = false;
         }
     }
-    vector<PROJECT*>::iterator iter;
-    iter = gstate.projects.begin();
-    while (iter != gstate.projects.end()) {
-        p = *iter;
+    for (i=0; i<gstate.projects.size(); i++) {
+        p = gstate.projects[i];
         if (p->no_apps) {
             fprintf(summary_file,
                 "%s: Removing from simulation - no apps\n",
                 p->project_name
             );
-            iter = gstate.projects.erase(iter);
+            p->ignore = true;
         } else if (p->non_cpu_intensive) {
             fprintf(summary_file,
                 "%s: Removing from simulation - non CPU intensive\n",
                 p->project_name
             );
+            p->ignore = true;
+        }
+    }
+
+    // remove results and active tasks of projects we're culling
+    //
+    vector<ACTIVE_TASK*>::iterator ati = gstate.active_tasks.active_tasks.begin();
+    while (ati != gstate.active_tasks.active_tasks.end()) {
+        ACTIVE_TASK* atp = *ati;
+        if (atp->wup->project->ignore) {
+            ati = gstate.active_tasks.active_tasks.erase(ati);
+        } else {
+            ati++;
+        }
+    }
+    vector<RESULT*>::iterator ri = gstate.results.begin();
+    while (ri != gstate.results.end()) {
+        RESULT* rp = *ri;
+        if (rp->project->ignore) {
+            ri = gstate.results.erase(ri);
+        } else {
+            ri++;
+        }
+    }
+
+    vector<PROJECT*>::iterator iter = gstate.projects.begin();
+    while (iter != gstate.projects.end()) {
+        p = *iter;
+        if (p->ignore) {
             iter = gstate.projects.erase(iter);
         } else {
             iter++;
@@ -1366,6 +1418,8 @@ void do_client_simulation() {
         exit(1);
     }
 
+    // if tasks have pending transfers, mark as completed
+    //
     for (unsigned int i=0; i<gstate.results.size(); i++) {
         RESULT* rp = gstate.results[i];
         if (rp->state() < RESULT_FILES_DOWNLOADED) {
@@ -1399,7 +1453,9 @@ void do_client_simulation() {
     process_gpu_exclusions();
 
     get_app_params();
-    cull_projects();
+    if (!include_empty_projects) {
+        cull_projects();
+    }
     fprintf(summary_file, "--------------------------\n");
 
     int j=0;
@@ -1415,7 +1471,7 @@ void do_client_simulation() {
 
     //set_initial_rec();
 
-    debt_adjust_period = delta;
+    rec_adjust_period = delta;
 
     gstate.request_work_fetch("init");
     simulate();
@@ -1452,7 +1508,7 @@ void do_client_simulation() {
     );
     print_project_results(summary_file);
 
-    fclose(debt_file);
+    fclose(rec_file);
     make_graph("REC", "rec", 0);
 }
 
@@ -1485,8 +1541,8 @@ int main(int argc, char** argv) {
             server_uses_workload = true;
         } else if (!strcmp(opt, "--cpu_sched_rr_only")) {
             cpu_sched_rr_only = true;
-        } else if (!strcmp(opt, "--use_hyst_fetch")) {
-            use_hyst_fetch = true;
+        } else if (!strcmp(opt, "--include_empty_projects")) {
+            include_empty_projects = true;
         } else if (!strcmp(opt, "--rec_half_life")) {
             config.rec_half_life = atof(argv[i++]);
         } else {
@@ -1514,8 +1570,8 @@ int main(int argc, char** argv) {
     }
     setbuf(logfile, 0);
 
-    sprintf(buf, "%s%s", outfile_prefix, DEBT_FNAME);
-    debt_file = fopen(buf, "w");
+    sprintf(buf, "%s%s", outfile_prefix, REC_FNAME);
+    rec_file = fopen(buf, "w");
 
     sprintf(buf, "%s%s", outfile_prefix, SUMMARY_FNAME);
     summary_file = fopen(buf, "w");

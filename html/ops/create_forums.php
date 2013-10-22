@@ -24,13 +24,15 @@
 die("edit script to use your forum names, and remove the die()\n");
 
 $cli_only = true;
-require_once("../inc/db.inc");
+require_once("../inc/forum_db.inc");
 require_once("../inc/util_ops.inc");
 
 function create_category($orderID, $name, $is_helpdesk) {
     $q = "insert into category (orderID, lang, name, is_helpdesk) values ($orderID, 1, '$name', $is_helpdesk)";
     $result = mysql_query($q);
     if (!$result) {
+        $cat = BoincCategory::lookup("name='$name' and is_helpdesk=$is_helpdesk");
+        if ($cat) return $cat->id;
         echo "can't create category\n";
         echo mysql_error();
         exit();
@@ -42,6 +44,8 @@ function create_forum($category, $orderID, $title, $description, $is_dev_blog=0)
     $q = "insert into forum (category, orderID, title, description, is_dev_blog) values ($category, $orderID, '$title', '$description', $is_dev_blog)";
     $result = mysql_query($q);
     if (!$result) {
+        $forum = BoincForum::lookup("category=$category and title='$title'");
+        if ($forum) return $forum->id;
         echo "can't create forum\n";
         echo mysql_error();
         exit();
@@ -64,7 +68,6 @@ create_forum($catid, 2, "Macintosh", "Installing and running BOINC on Mac OS/X")
 $catid = create_category(1, "General issues", 1);
 create_forum($catid, 3, "Getting started", "Creating your account");
 create_forum($catid, 4, "Preferences", "Using preferences");
-create_forum($catid, 5, "Wish list", "What new features would you like to see?");
 create_forum($catid, 6, "Web site", "Issues involving this web site");
 
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit

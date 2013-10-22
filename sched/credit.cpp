@@ -311,20 +311,87 @@ int update_av_scales(SCHED_SHMEM *ssp) {
 }
 
 // look up HOST_APP_VERSION record; called from validator and transitioner.
-// Normally the record will exist; if not create it (transitional case)
+// Normally the record will exist; if not:
+// look for another HOST_APP_VERSION for the same
+// (host, app, platform, plan class).
+// If find one, used it and update its app_version_id.
+// Otherwise create a new one.
 //
-int hav_lookup(DB_HOST_APP_VERSION &hav, int hostid, int avid) {
+// This means that when a new app version is released,
+// it inherits the runtime and reliability statistics of the old version.
+// This is not always ideal (the new version may be faster/slower)
+// but it's better than starting the statistics from scratch.
+//
+// (if anonymous platform, skip the above)
+//
+int hav_lookup(DB_HOST_APP_VERSION &hav, int hostid, int gen_avid) {
     int retval;
     char buf[256];
-    sprintf(buf, "where host_id=%d and app_version_id=%d", hostid, avid);
+    sprintf(buf, "where host_id=%d and app_version_id=%d", hostid, gen_avid);
     retval = hav.lookup(buf);
-    if (retval == ERR_DB_NOT_FOUND) {
+    if (retval != ERR_DB_NOT_FOUND) return retval;
+
+    // Here no HOST_APP_VERSION currently exists.
+    // If gen_avid is negative (anonymous platform) just make one
+    //
+    if (gen_avid < 0) {
         hav.clear();
         hav.host_id = hostid;
-        hav.app_version_id = avid;
-        retval = hav.insert();
+        hav.app_version_id = gen_avid;
+        return hav.insert();
     }
-    return retval;
+
+    // otherwise try to appropriate an existing one as described above
+    //
+    DB_HOST_APP_VERSION hav2, best_hav;
+    DB_APP_VERSION av, av2, best_av;
+
+    retval = av.lookup_id(gen_avid);
+    if (retval) return retval;
+
+    // find the HOST_APP_VERSION w/ latest version num
+    // for this (app/platform/plan class) and appropriate it
+    //
+    bool found = false;
+    sprintf(buf, "where host_id=%d", hostid);
+    while (1) {
+        retval = hav2.enumerate(buf);
+        if (retval == ERR_DB_NOT_FOUND) break;
+        if (retval) return retval;
+        retval = av2.lookup_id(hav2.app_version_id);
+        if (retval) continue;
+        if (av2.appid != av.appid) continue;
+        if (av2.platformid != av.platformid) continue;
+        if (strcmp(av2.plan_class, av.plan_class)) continue;
+        if (found) {
+            if (av2.version_num > best_av.version_num) {
+                best_av = av2;
+                best_hav = hav2;
+            }
+        } else {
+            found = true;
+            best_av = av2;
+            best_hav = hav2;
+        }
+    }
+    if (found) {
+        hav = best_hav;
+        char query[256], where_clause[256];
+        sprintf(query, "app_version_id=%d", gen_avid);
+        sprintf(where_clause,
+            "host_id=%d and app_version_id=%d",
+            hostid, best_av.id
+        );
+        retval = hav.update_fields_noid(query, where_clause);
+        if (retval) return retval;
+    } else {
+        hav.clear();
+        hav.host_id = hostid;
+        hav.app_version_id = gen_avid;
+        retval = hav.insert();
+        if (retval) return retval;
+    }
+    return 0;
 }
 
 DB_APP_VERSION *av_lookup(int id, vector<DB_APP_VERSION>& app_versions) {
@@ -379,14 +446,13 @@ int get_pfc(
     int &mode                                   // out
 ){
     DB_APP_VERSION *avp=0;
-    int retval;
 
     mode = PFC_MODE_APPROX;
 
     if (r.runtime_outlier) {
         if (config.debug_credit) {
             log_messages.printf(MSG_NORMAL,
-                "[credit] [RESULT#%d] runtime outlier, not updating stats\n",
+                "[credit] [RESULT#%u] runtime outlier, not updating stats\n",
                 r.id
             );
         }
@@ -398,7 +464,7 @@ int get_pfc(
     if (r.app_version_id == 0 || r.app_version_id == 1) {
         if (config.debug_credit) {
             log_messages.printf(MSG_NORMAL,
-                "[credit] [RESULT#%d] missing app_version_id (%d): returning WU default %.2f\n",
+                "[credit] [RESULT#%u] missing app_version_id (%d): returning WU default %.2f\n",
                 r.id, r.app_version_id, wu_estimated_credit(wu, app)
             );
         }
@@ -413,7 +479,7 @@ int get_pfc(
     if (strstr(r.stderr_out, "Device Emulation (CPU)")) {
         if (config.debug_credit) {
             log_messages.printf(MSG_NORMAL,
-                "[credit] [RESULT#%d][AV#%d] CUDA app fell back to CPU; returning WU default %.2f\n",
+                "[credit] [RESULT#%u][AV#%d] CUDA app fell back to CPU; returning WU default %.2f\n",
                 r.id, r.app_version_id, wu.rsc_fpops_est*COBBLESTONE_SCALE
             );
         }
@@ -422,7 +488,7 @@ int get_pfc(
         return 0;
     }
 
-    int gavid = generalized_app_version_id(r.app_version_id, r.appid);
+    //int gavid = generalized_app_version_id(r.app_version_id, r.appid);
 
     // transition case: there's no host_app_version record
     //
@@ -440,7 +506,7 @@ int get_pfc(
 
         if (config.debug_credit) {
             log_messages.printf(MSG_NORMAL,
-                "[credit] [RESULT#%d] old client (elapsed time not reported)\n",
+                "[credit] [RESULT#%u] old client (elapsed time not reported)\n",
                 r.id
             );
         }
@@ -457,7 +523,7 @@ int get_pfc(
         pfc = wu_estimated_pfc(wu, app);
         if (config.debug_credit) {
             log_messages.printf(MSG_NORMAL,
-                "[credit] [RESULT#%d] old client: raw credit %.2f\n",
+                "[credit] [RESULT#%u] old client: raw credit %.2f\n",
                 r.id, pfc*COBBLESTONE_SCALE
             );
         }
@@ -466,7 +532,7 @@ int get_pfc(
             do_scale = false;
             if (config.debug_credit) {
                 log_messages.printf(MSG_NORMAL,
-                    "[credit] [RESULT#%d] old client: no host scaling - zero or too few samples %f\n",
+                    "[credit] [RESULT#%u] old client: no host scaling - zero or too few samples %f\n",
                     r.id, hav.et.n
                 );
             }
@@ -478,7 +544,7 @@ int get_pfc(
             do_scale = false;
             if (config.debug_credit) {
                 log_messages.printf(MSG_NORMAL,
-                    "[credit] [RESULT#%d] old client: no host scaling - cons valid %d\n",
+                    "[credit] [RESULT#%u] old client: no host scaling - cons valid %d\n",
                     r.id, hav.consecutive_valid
                 );
             }
@@ -488,14 +554,14 @@ int get_pfc(
             pfc *= s;
             if (config.debug_credit) {
                 log_messages.printf(MSG_NORMAL,
-                    "[credit] [RESULT#%d] old client: scaling (based on CPU time) by %g, return %.2f\n",
+                    "[credit] [RESULT#%u] old client: scaling (based on CPU time) by %g, return %.2f\n",
                     r.id, s, pfc*COBBLESTONE_SCALE
                 );
             }
         }
         if (config.debug_credit) {
             log_messages.printf(MSG_NORMAL,
-                "[credit] [RESULT#%d] old client: returning PFC %.2f\n",
+                "[credit] [RESULT#%u] old client: returning PFC %.2f\n",
                 r.id, pfc*COBBLESTONE_SCALE
             );
         }
@@ -513,7 +579,7 @@ int get_pfc(
     double raw_pfc = (r.elapsed_time * r.flops_estimate);
     if (config.debug_credit) {
         log_messages.printf(MSG_NORMAL,
-            "[credit] [RESULT#%d] raw credit: %.2f (%.2f sec, %.2f est GFLOPS)\n",
+            "[credit] [RESULT#%u] raw credit: %.2f (%.2f sec, %.2f est GFLOPS)\n",
             r.id, raw_pfc*COBBLESTONE_SCALE, r.elapsed_time,
             r.flops_estimate/1e9
         );
@@ -526,19 +592,25 @@ int get_pfc(
     double tmp_scale = (avp && (r.app_version_id>1) && avp->pfc_scale) ? (avp->pfc_scale) : 1.0;
 
     if (raw_pfc*tmp_scale > wu.rsc_fpops_bound) {
-        char query[256], clause[256];
+        // This sanity check should be unnecessary becuase we have a maximum
+        // credit grant limit.  With anonymous GPU apps the sanity check often fails
+        // because anonymous GPU scales are often of order 0.01.  That prevents
+        // PFC averages from being updated.  So I've removed the return
+        // statement.
+        //char query[256], clause[256];
         pfc = wu_estimated_pfc(wu, app);
         if (config.debug_credit) {
             log_messages.printf(MSG_NORMAL,
-                "[credit] [RESULT#%d] sanity check failed: %.2f>%.2f, return %.2f\n",
+                "[credit] [RESULT#%u] WARNING: sanity check failed: %.2f>%.2f, return %.2f\n",
                 r.id, raw_pfc*tmp_scale*COBBLESTONE_SCALE,
                 wu.rsc_fpops_bound*COBBLESTONE_SCALE, pfc*COBBLESTONE_SCALE
             );
         }
-        sprintf(query, "consecutive_valid=0");
-        sprintf(clause, "host_id=%d and app_version_id=%d", r.hostid, gavid);
-        retval = hav.update_fields_noid(query, clause);
-        return retval;
+//        This was a bad idea because it prevents HAV.pfc from being updated.
+//        sprintf(query, "consecutive_valid=0");
+//        sprintf(clause, "host_id=%d and app_version_id=%d", r.hostid, gavid);
+//        retval = hav.update_fields_noid(query, clause);
+//        return retval;
     }
 
     if (r.app_version_id < 0) {
@@ -549,7 +621,7 @@ int get_pfc(
             do_scale = false;
             if (config.debug_credit) {
                 log_messages.printf(MSG_NORMAL,
-                    "[credit] [RESULT#%d] anon platform, not scaling, PFC avg zero or too few samples %.0f\n",
+                    "[credit] [RESULT#%u] anon platform, not scaling, PFC avg zero or too few samples %.0f\n",
                     r.id, hav.pfc.n
                 );
             }
@@ -561,7 +633,7 @@ int get_pfc(
             do_scale = false;
             if (config.debug_credit) {
                 log_messages.printf(MSG_NORMAL,
-                    "[credit] [RESULT#%d] anon platform, not scaling, cons valid %d\n",
+                    "[credit] [RESULT#%u] anon platform, not scaling, cons valid %d\n",
                     r.id, hav.consecutive_valid
                 );
             }
@@ -571,7 +643,7 @@ int get_pfc(
             pfc = raw_pfc * scale;
             if (config.debug_credit) {
                 log_messages.printf(MSG_NORMAL,
-                    "[credit] [RESULT#%d] anon platform, scaling by %g (%.2f/%.2f)\n",
+                    "[credit] [RESULT#%u] anon platform, scaling by %g (%.2f/%.2f)\n",
                     r.id, scale, app.min_avg_pfc, hav.pfc.get_avg()
                 );
             }
@@ -579,14 +651,14 @@ int get_pfc(
             pfc = wu_estimated_pfc(wu, app);
             if (config.debug_credit) {
                 log_messages.printf(MSG_NORMAL,
-                    "[credit] [RESULT#%d] not scaling, using app avg %.2f\n",
+                    "[credit] [RESULT#%u] not scaling, using app avg %.2f\n",
                     r.id, pfc*COBBLESTONE_SCALE
                 );
             }
         }
         if (config.debug_credit) {
             log_messages.printf(MSG_NORMAL,
-                "[credit] [RESULT#%d] anon platform, returning %.2f\n",
+                "[credit] [RESULT#%u] anon platform, returning %.2f\n",
                 r.id, pfc*COBBLESTONE_SCALE
             );
         }
@@ -594,13 +666,13 @@ int get_pfc(
         avp = av_lookup(r.app_version_id, app_versions);
         if (!avp) {
             log_messages.printf(MSG_CRITICAL,
-                "get_pfc() [RESULT#%d]: No AVP %d!!\n", r.id, r.app_version_id
+                "get_pfc() [RESULT#%u]: No AVP %d!!\n", r.id, r.app_version_id
             );
             return ERR_NOT_FOUND;
         }
         if (config.debug_credit) {
             log_messages.printf(MSG_NORMAL,
-                "[credit] [RESULT#%d] [AV#%d] normal case. %.0f sec, %.1f GFLOPS.  raw credit: %.2f\n",
+                "[credit] [RESULT#%u] [AV#%d] normal case. %.0f sec, %.1f GFLOPS.  raw credit: %.2f\n",
                 r.id, avp->id, r.elapsed_time, r.flops_estimate/1e9,
                 raw_pfc*COBBLESTONE_SCALE
             );
@@ -614,7 +686,7 @@ int get_pfc(
             do_scale = false;
             if (config.debug_credit) {
                 log_messages.printf(MSG_NORMAL,
-                    "[credit] [RESULT#%d] not host scaling - cons valid %d\n",
+                    "[credit] [RESULT#%u] not host scaling - cons valid %d\n",
                     r.id, hav.consecutive_valid
                 );
             }
@@ -623,7 +695,7 @@ int get_pfc(
             do_scale = false;
             if (config.debug_credit) {
                 log_messages.printf(MSG_NORMAL,
-                    "[credit] [RESULT#%d] not host scaling - HAV PFC zero or too few samples %.0f\n",
+                    "[credit] [RESULT#%u] not host scaling - HAV PFC zero or too few samples %.0f\n",
                     r.id, hav.pfc.n
                 );
             }
@@ -632,7 +704,7 @@ int get_pfc(
             do_scale = false;
             if (config.debug_credit) {
                 log_messages.printf(MSG_NORMAL,
-                    "[credit] [RESULT#%d] not host scaling - app_version PFC too few samples%.0f\n",
+                    "[credit] [RESULT#%u] not host scaling - app_version PFC too few samples%.0f\n",
                     r.id, avp->pfc.n
                 );
             }
@@ -641,7 +713,7 @@ int get_pfc(
             do_scale = false;
             if (config.debug_credit) {
                 log_messages.printf(MSG_NORMAL,
-                    "[credit] [RESULT#%d] not host scaling - HAV PFC is zero\n",
+                    "[credit] [RESULT#%u] not host scaling - HAV PFC is zero\n",
                     r.id
                 );
             }
@@ -653,7 +725,7 @@ int get_pfc(
             }
             if (config.debug_credit) {
                 log_messages.printf(MSG_NORMAL,
-                    "[credit] [RESULT#%d] host scale: %.2f (%f/%f)\n",
+                    "[credit] [RESULT#%u] host scale: %.2f (%f/%f)\n",
                     r.id, host_scale, avp->pfc.get_avg(), hav.pfc.get_avg()
                 );
             }
@@ -668,7 +740,7 @@ int get_pfc(
             }
             if (config.debug_credit) {
                 log_messages.printf(MSG_NORMAL,
-                    "[credit] [RESULT#%d] applying app version scale %.3f\n",
+                    "[credit] [RESULT#%u] applying app version scale %.3f\n",
                     r.id, avp->pfc_scale
                 );
             }
@@ -678,14 +750,14 @@ int get_pfc(
             }
             if (config.debug_credit) {
                 log_messages.printf(MSG_NORMAL,
-                    "[credit] [RESULT#%d] no app version scale\n",
+                    "[credit] [RESULT#%u] no app version scale\n",
                     r.id
                 );
             }
         }
         if (config.debug_credit) {
             log_messages.printf(MSG_NORMAL,
-                "[credit] [RESULT#%d] [AV#%d] PFC avgs with %g (%g/%g)\n",
+                "[credit] [RESULT#%u] [AV#%d] PFC avgs with %g (%g/%g)\n",
                 r.id, avp->id,
                 raw_pfc/wu.rsc_fpops_est,
                 raw_pfc, wu.rsc_fpops_est
@@ -699,7 +771,7 @@ int get_pfc(
 
     if (config.debug_credit) {
         log_messages.printf(MSG_NORMAL,
-            "[credit] [RESULT#%d] updating HAV PFC %.2f et %g turnaround %d\n",
+            "[credit] [RESULT#%u] updating HAV PFC %.2f et %g turnaround %d\n",
             r.id, raw_pfc / wu.rsc_fpops_est,
             r.elapsed_time / wu.rsc_fpops_est,
             (r.received_time - r.sent_time)
@@ -711,14 +783,14 @@ int get_pfc(
         if (is_pfc_sane(x, wu, app)) {
             if (config.debug_credit) {
                 log_messages.printf(MSG_NORMAL,
-                    "[credit] [RESULT#%d] [HOST#%d] before updating HAV PFC pfc.n=%f pfc.avg=%f\n",
+                    "[credit] [RESULT#%u] [HOST#%d] before updating HAV PFC pfc.n=%f pfc.avg=%f\n",
                     r.id,hav.host_id,hav.pfc.n,hav.pfc.avg
                 );
             }
             hav.pfc.update(x, HAV_AVG_THRESH, HAV_AVG_WEIGHT, HAV_AVG_LIMIT);
             if (config.debug_credit) {
                 log_messages.printf(MSG_NORMAL,
-                    "[credit] [RESULT#%d] [HOST#%d] after updating HAV PFC pfc.n=%f pfc.avg=%f\n",
+                    "[credit] [RESULT#%u] [HOST#%d] after updating HAV PFC pfc.n=%f pfc.avg=%f\n",
                     r.id,hav.host_id,hav.pfc.n,hav.pfc.avg
                 );
             }
@@ -792,11 +864,19 @@ double vec_min(vector<double>& v) {
 }
 
 // Called by validator when canonical result has been selected.
-// Compute credit for valid instances.
-// This is called exactly once for each valid result.
+// For each valid result in the list:
+// - calculate a peak FLOP count (PFC) and a "mode" that indicates
+//   our confidence in the PFC
+// - upate the statistics of PFC in host_app_version and app_version
+// - Compute a credit value based on a weighted average of
+//   the PFCs of valid results
+//   (this value can be used or ignored by the caller)
+//
+// This must be called exactly once for each valid result.
 //
 int assign_credit_set(
-    WORKUNIT &wu, vector<RESULT>& results,
+    WORKUNIT &wu,
+    vector<RESULT>& results,
     DB_APP &app,
     vector<DB_APP_VERSION>& app_versions,
     vector<DB_HOST_APP_VERSION>& host_app_versions,
@@ -824,7 +904,7 @@ int assign_credit_set(
         } else {
             if (config.debug_credit) {
                 log_messages.printf(MSG_NORMAL,
-                    "[credit] [RESULT#%d] get_pfc() returns credit %g mode %s\n",
+                    "[credit] [RESULT#%u] get_pfc() returns credit %g mode %s\n",
                     r.id, pfc *COBBLESTONE_SCALE, (mode==PFC_MODE_NORMAL)?"normal":"approx"
                 );
             }
@@ -873,43 +953,26 @@ int assign_credit_set(
         // fall through
     case 0:
         if (approx.size()) {
-            x = pegged_average(approx,wu_estimated_pfc(wu, app));
+            x = pegged_average(approx, wu_estimated_pfc(wu, app));
         } else {
-            // there were only PFC_MODE_INVALID results, so
-            // we guess
+            // there were only PFC_MODE_INVALID results, so we guess
             x = wu_estimated_pfc(wu, app);
         }
         break;
     default:
-        x = pegged_average(normal,wu_estimated_pfc(wu, app));
+        x = pegged_average(normal, wu_estimated_pfc(wu, app));
         break;
     }
 
     x *= COBBLESTONE_SCALE;
     if (config.debug_credit) {
         log_messages.printf(MSG_NORMAL,
-            "[credit] [WU#%d] assign_credit_set: credit %g\n",
+            "[credit] [WU#%u] assign_credit_set: credit %g\n",
             wu.id, x
         );
     }
     credit = x;
     return 0;
-}
-
-// A job has:
-// - errored out (scheduler)
-// - timed out (transitioner)
-// - failed validation (validator).
-// Put (host/app_version) on "host scale probation",
-// so that we won't use host scaling for a while.
-//
-void got_error(DB_HOST_APP_VERSION &hav) {
-    if (config.debug_credit) {
-        log_messages.printf(MSG_NORMAL,
-            "[credit] [HAV#%d] got error, setting error rate to %f\n",
-            hav.app_version_id, ERROR_RATE_INIT
-        );
-    }
 }
 
 // carefully write any app_version records that have changed;

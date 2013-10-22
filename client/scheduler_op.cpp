@@ -67,7 +67,7 @@ bool SCHEDULER_OP::check_master_fetch_start() {
             "Couldn't start download of scheduler list: %s", boincerror(retval)
         );
         p->master_fetch_failures++;
-        backoff(p, "scheduler list fetch failed\n");
+        project_rpc_backoff(p, "scheduler list fetch failed\n");
         return false;
     }
     msg_printf(p, MSG_INFO, "Fetching scheduler list");
@@ -78,7 +78,7 @@ bool SCHEDULER_OP::check_master_fetch_start() {
 
 // try to initiate an RPC to the given project.
 // If there are multiple schedulers, start with a random one.
-// User messages and backoff() is done at this level.
+// User messages and project RPC backoff is done at this level.
 //
 int SCHEDULER_OP::init_op_project(PROJECT* p, int r) {
     int retval;
@@ -100,7 +100,7 @@ int SCHEDULER_OP::init_op_project(PROJECT* p, int r) {
             sprintf(err_msg,
                 "Scheduler list fetch initialization failed: %d\n", retval
             );
-            backoff(p, err_msg);
+            project_rpc_backoff(p, err_msg);
         }
         return retval;
     }
@@ -122,7 +122,7 @@ int SCHEDULER_OP::init_op_project(PROJECT* p, int r) {
             "scheduler request to %s failed: %s\n",
             p->get_scheduler_url(url_index, url_random), boincerror(retval)
         );
-        backoff(p, err_msg);
+        project_rpc_backoff(p, err_msg);
     } else {
         // RPC started OK, so we must have network connectivity.
         // Now's a good time to check for new BOINC versions
@@ -148,7 +148,7 @@ int SCHEDULER_OP::init_op_project(PROJECT* p, int r) {
 // Back off contacting this project's schedulers,
 // and output an error msg if needed
 //
-void SCHEDULER_OP::backoff(PROJECT* p, const char *reason_msg) {
+void SCHEDULER_OP::project_rpc_backoff(PROJECT* p, const char *reason_msg) {
     char buf[1024];
 
     if (gstate.in_abort_sequence) {
@@ -199,7 +199,7 @@ void SCHEDULER_OP::backoff(PROJECT* p, const char *reason_msg) {
 // will be retriggered automatically
 //
 void SCHEDULER_OP::rpc_failed(const char* msg) {
-    backoff(cur_proj, msg);
+    project_rpc_backoff(cur_proj, msg);
     switch (cur_proj->sched_rpc_pending) {
     case RPC_REASON_INIT:
     case RPC_REASON_ACCT_MGR_REQ:
@@ -300,7 +300,7 @@ int SCHEDULER_OP::init_master_fetch(PROJECT* p) {
         msg_printf(p, MSG_INFO, "[sched_op] Fetching master file");
     }
     cur_proj = p;
-    retval = http_op.init_get(p, p->master_url, master_filename, true);
+    retval = http_op.init_get(p, p->master_url, master_filename, true, 0, 0);
     if (retval) {
         if (log_flags.sched_ops) {
             msg_printf(p, MSG_INFO,
@@ -500,10 +500,10 @@ bool SCHEDULER_OP::poll() {
                 case 0:
                     break;
                 case ERR_PROJECT_DOWN:
-                    backoff(cur_proj, "project is down");
+                    project_rpc_backoff(cur_proj, "project is down");
                     break;
                 default:
-                    backoff(cur_proj, "can't parse scheduler reply");
+                    project_rpc_backoff(cur_proj, "can't parse scheduler reply");
                     break;
                 }
                 cur_proj->sched_rpc_pending = 0;
@@ -585,7 +585,7 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
     double cpid_time = 0;
 
     clear();
-    strcpy(host_venue, project->host_venue);
+    safe_strcpy(host_venue, project->host_venue);
         // the project won't send us a venue if it's doing maintenance
         // or doesn't check the DB because no work.
         // Don't overwrite the host venue in that case.
@@ -608,28 +608,7 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
             // add new record if vector is empty or we have a new day
             //
             if (project->statistics.empty() || project->statistics.back().day!=dday()) {
-                double cutoff = dday() - config.save_stats_days*86400;
-                // delete old stats; fill in the gaps if some days missing
-                //
-                while (!project->statistics.empty()) {
-                    DAILY_STATS& ds = project->statistics[0];
-                    if (ds.day >= cutoff) {
-                        break;
-                    }
-                    if (project->statistics.size() > 1) {
-                        DAILY_STATS& ds2 = project->statistics[1];
-                        if (ds2.day <= cutoff) {
-                            project->statistics.erase(project->statistics.begin());
-                        } else {
-                            ds.day = cutoff;
-                            break;
-                        }
-                    } else {
-                        ds.day = cutoff;
-                        break;
-                    }
-                }
-
+                project->trim_statistics();
                 DAILY_STATS nds;
                 project->statistics.push_back(nds);
             }
@@ -646,6 +625,9 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
                 project->cpid_time = cpid_time;
             } else {
                 project->cpid_time = project->user_create_time;
+            }
+            if (project->dont_use_dcf) {
+                project->duration_correction_factor = 1;
             }
             return 0;
         }
@@ -854,6 +836,8 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
                 handle_no_rsc_apps("CPU", project, btemp);
             }
             continue;
+
+        // deprecated syntax
         } else if (xp.parse_bool("no_cuda_apps", btemp)) {
             if (!project->anonymous_platform) {
                 handle_no_rsc_apps(GPU_TYPE_NVIDIA, project, btemp);
@@ -864,6 +848,7 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
                 handle_no_rsc_apps(GPU_TYPE_ATI, project, btemp);
             }
             continue;
+
         } else if (xp.parse_str("no_rsc_apps", buf, sizeof(buf))) {
             if (!project->anonymous_platform) {
                 handle_no_rsc_apps(buf, project, true);

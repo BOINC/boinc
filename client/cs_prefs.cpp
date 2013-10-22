@@ -33,6 +33,7 @@
 #endif
 #endif
 
+#include "common_defs.h"
 #include "filesys.h"
 #include "parse.h"
 #include "str_util.h"
@@ -44,10 +45,6 @@
 #include "cpu_benchmark.h"
 #include "file_names.h"
 #include "project.h"
-
-#ifdef ANDROID
-#include "android_log.h"
-#endif
 
 using std::min;
 using std::string;
@@ -64,9 +61,12 @@ double CLIENT_STATE::allowed_disk_usage(double boinc_total) {
 
     limit_pct = host_info.d_total*global_prefs.disk_max_used_pct/100.0;
     limit_min_free = boinc_total + host_info.d_free - global_prefs.disk_min_free_gb*GIGA;
-    limit_abs = global_prefs.disk_max_used_gb*(GIGA);
 
-    double size = min(min(limit_abs, limit_pct), limit_min_free);
+    double size = min(limit_pct, limit_min_free);
+    if (global_prefs.disk_max_used_gb) {
+        limit_abs = global_prefs.disk_max_used_gb*(GIGA);
+        size = min(size, limit_abs);
+    }
     if (size < 0) size = 0;
     return size;
 }
@@ -79,19 +79,18 @@ double CLIENT_STATE::allowed_disk_usage(double boinc_total) {
 // GLOBAL_STATE::total_disk_usage
 //
 int CLIENT_STATE::get_disk_usages() {
-    char buf[256];
     unsigned int i;
     double size;
     PROJECT* p;
     int retval;
+    char buf[MAXPATHLEN];
 
     client_disk_usage = 0;
     total_disk_usage = 0;
     for (i=0; i<projects.size(); i++) {
         p = projects[i];
         p->disk_usage = 0;
-        get_project_dir(p, buf, sizeof(buf));
-        retval = dir_size(buf, size);
+        retval = dir_size(p->project_dir(), size);
         if (!retval) p->disk_usage = size;
     }
 
@@ -199,14 +198,16 @@ void CLIENT_STATE::get_disk_shares() {
     }
 }
 
-// See if we should suspend processing
+// See if we should suspend CPU and/or GPU processing;
+// return the CPU suspend_reason,
+// and if it's zero set gpu_suspend_reason
 //
 int CLIENT_STATE::check_suspend_processing() {
-    if (are_cpu_benchmarks_running()) {
+    if (benchmarks_running) {
         return SUSPEND_REASON_BENCHMARKS;
     }
 
-    if (config.start_delay && now < client_start_time + config.start_delay) {
+    if (config.start_delay && now < time_stats.client_start_time + config.start_delay) {
         return SUSPEND_REASON_INITIAL_DELAY;
     }
 
@@ -248,6 +249,37 @@ int CLIENT_STATE::check_suspend_processing() {
         }
     }
 
+#ifdef ANDROID
+    if (now > device_status_time + ANDROID_KEEPALIVE_TIMEOUT) {
+        return SUSPEND_REASON_NO_GUI_KEEPALIVE;
+    }
+
+    // check for hot battery
+    //
+    if (device_status.battery_state == BATTERY_STATE_OVERHEATED) {
+        return SUSPEND_REASON_BATTERY_OVERHEATED;
+    }
+    if (device_status.battery_temperature_celsius > global_prefs.battery_max_temperature) {
+        return SUSPEND_REASON_BATTERY_OVERHEATED;
+    }
+
+    // on some devices, running jobs can drain the battery even
+    // while it's recharging.
+    // So compute only if 95% charged or more.
+    //
+    int cp = device_status.battery_charge_pct;
+    if (cp >= 0) {
+        if (cp < global_prefs.battery_charge_min_pct) {
+            return SUSPEND_REASON_BATTERY_CHARGING;
+        }
+    }
+#endif
+
+#ifndef NEW_CPU_THROTTLE
+    // CPU throttling.
+    // Do this check last; that way if suspend_reason is CPU_THROTTLE,
+    // the GUI knows there's no other source of suspension
+    //
     if (global_prefs.cpu_usage_limit < 99) {        // round-off?
         static double last_time=0, debt=0;
         double diff = now - last_time;
@@ -261,7 +293,10 @@ int CLIENT_STATE::check_suspend_processing() {
             }
         }
     }
+#endif
 
+    // CPU is not suspended.  See if GPUs are
+    //
     if (!coprocs.none()) {
         int old_gpu_suspend_reason = gpu_suspend_reason;
         gpu_suspend_reason = 0;
@@ -282,36 +317,57 @@ int CLIENT_STATE::check_suspend_processing() {
             }
         }
 
-        if (log_flags.cpu_sched) {
-            if (old_gpu_suspend_reason && !gpu_suspend_reason) {
-                msg_printf(NULL, MSG_INFO, "[cpu_sched] resuming GPU activity");
-                request_schedule_cpus("GPU resumption");
-            } else if (!old_gpu_suspend_reason && gpu_suspend_reason) {
-                msg_printf(NULL, MSG_INFO, "[cpu_sched] suspending GPU activity");
-                request_schedule_cpus("GPU suspension");
+        if (old_gpu_suspend_reason && !gpu_suspend_reason) {
+            if (log_flags.task) {
+                msg_printf(NULL, MSG_INFO, "Resuming GPU computation");
             }
+            request_schedule_cpus("GPU resumption");
+        } else if (!old_gpu_suspend_reason && gpu_suspend_reason) {
+            if (log_flags.task) {
+                msg_printf(NULL, MSG_INFO, "Suspending GPU computation - %s",
+                    suspend_reason_string(gpu_suspend_reason)
+                );
+            }
+            request_schedule_cpus("GPU suspension");
         }
     }
 
     return 0;
 }
 
-
-void print_suspend_tasks_message(int reason) {
-    msg_printf(NULL, MSG_INFO, "Suspending computation - %s", suspend_reason_string(reason));
-}
-
-
-int CLIENT_STATE::suspend_tasks(int reason) {
+void CLIENT_STATE::show_suspend_tasks_message(int reason) {
     if (reason == SUSPEND_REASON_CPU_THROTTLE) {
         if (log_flags.cpu_sched) {
             msg_printf(NULL, MSG_INFO, "[cpu_sched] Suspending - CPU throttle");
         }
     } else {
-        print_suspend_tasks_message(reason);
+        if (log_flags.task) {
+            msg_printf(NULL, MSG_INFO,
+                "Suspending computation - %s",
+                suspend_reason_string(reason)
+            );
+        }
+        switch (reason) {
+        case SUSPEND_REASON_BATTERY_OVERHEATED:
+            if (log_flags.task) {
+                msg_printf(NULL, MSG_INFO,
+                    "(battery temperature %.1f > limit %.1f Celsius)",
+                    device_status.battery_temperature_celsius,
+                    global_prefs.battery_max_temperature
+                );
+            }
+            break;
+        case SUSPEND_REASON_BATTERY_CHARGING:
+            if (log_flags.task) {
+                msg_printf(NULL, MSG_INFO,
+                    "(battery charge level %.1f%% < threshold %.1f%%",
+                    device_status.battery_charge_pct,
+                    global_prefs.battery_charge_min_pct
+                );
+            }
+            break;
+        }
     }
-    active_tasks.suspend_all(reason);
-    return 0;
 }
 
 int CLIENT_STATE::resume_tasks(int reason) {
@@ -321,7 +377,9 @@ int CLIENT_STATE::resume_tasks(int reason) {
         }
         active_tasks.unsuspend_all();
     } else {
-        msg_printf(NULL, MSG_INFO, "Resuming computation");
+        if (log_flags.task) {
+            msg_printf(NULL, MSG_INFO, "Resuming computation");
+        }
         active_tasks.unsuspend_all();
         request_schedule_cpus("Resuming computation");
     }
@@ -370,13 +428,17 @@ void CLIENT_STATE::check_suspend_network() {
     }
 
 #ifdef ANDROID
-    //verify that device is on wifi before making project transfers.
+    if (now > device_status_time + ANDROID_KEEPALIVE_TIMEOUT) {
+        file_xfers_suspended = true;
+        if (!recent_rpc) network_suspended = true;
+        network_suspend_reason = SUSPEND_REASON_NO_GUI_KEEPALIVE;
+    }
+    // use only WiFi
     //
-    if (global_prefs.network_wifi_only && !host_info.host_wifi_online()) {
+    if (global_prefs.network_wifi_only && !device_status.wifi_online) {
         file_xfers_suspended = true;
         if (!recent_rpc) network_suspended = true;
         network_suspend_reason = SUSPEND_REASON_WIFI_STATE;
-        LOGD("supended due to wifi state");
     }
 #endif
 
@@ -487,13 +549,13 @@ int PROJECT::parse_preferences_for_user_files() {
             fip = new FILE_INFO;
             fip->project = this;
             fip->download_urls.add(url);
-            strcpy(fip->name, filename.c_str());
+            safe_strcpy(fip->name, filename.c_str());
             fip->is_user_file = true;
             gstate.file_infos.push_back(fip);
         }
 
         fr.file_info = fip;
-        strcpy(fr.open_name, open_name.c_str());
+        safe_strcpy(fr.open_name, open_name.c_str());
         user_files.push_back(fr);
     }
     return 0;
@@ -518,6 +580,7 @@ void CLIENT_STATE::read_global_prefs(
     FILE* f;
     string foo;
 
+#ifdef USE_NET_PREFS
     if (override_fname) {
         retval = read_file_string(override_fname, foo);
         if (!retval) {
@@ -551,12 +614,13 @@ void CLIENT_STATE::read_global_prefs(
             //
             PROJECT* p = global_prefs_source_project();
             if (p && strcmp(main_host_venue, p->host_venue)) {
-                strcpy(main_host_venue, p->host_venue);
+                safe_strcpy(main_host_venue, p->host_venue);
                 global_prefs.parse_file(fname, main_host_venue, found_venue);
             }
         }
         show_global_prefs_source(found_venue);
     }
+#endif
 
     // read the override file
     //
@@ -601,13 +665,18 @@ void CLIENT_STATE::read_global_prefs(
     }
     if (!global_prefs.run_if_user_active) {
         msg_printf(NULL, MSG_INFO, "   don't compute while active");
+#ifdef ANDROID
+    } else {
+        msg_printf(NULL, MSG_INFO, "   Android: don't compute while active");
+        global_prefs.run_if_user_active = false;
+#endif
     }
     if (!global_prefs.run_gpu_if_user_active) {
         msg_printf(NULL, MSG_INFO, "   don't use GPU while active");
     }
     if (global_prefs.suspend_cpu_usage) {
         msg_printf(NULL, MSG_INFO,
-            "   suspend work if non-BOINC CPU load exceeds %.0f %%",
+            "   suspend work if non-BOINC CPU load exceeds %.0f%%",
             global_prefs.suspend_cpu_usage
         );
     }
@@ -628,7 +697,7 @@ void CLIENT_STATE::read_global_prefs(
     file_xfers->set_bandwidth_limits(false);
 #endif
     msg_printf(NULL, MSG_INFO,
-        "   (to change preferences, visit the web site of an attached project, or select Preferences in the Manager)"
+        "   (to change preferences, visit a project web site or select Preferences in the Manager)"
     );
     request_schedule_cpus("Prefs update");
     request_work_fetch("Prefs update");

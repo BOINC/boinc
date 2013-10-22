@@ -23,7 +23,7 @@ require_once("../inc/user.inc");
 
 check_get_args(array("id", "t", "h", "key"));
 
-$next_url = $_POST["next_url"];
+$next_url = post_str("next_url", true);
 $next_url = sanitize_local_url($next_url);
 if (strlen($next_url) == 0) $next_url = "home.php";
 
@@ -55,7 +55,10 @@ if ($email_addr && $passwd) {
     }
     $authenticator = $user->authenticator;
     Header("Location: ".URL_BASE."$next_url");
-    $perm = $_POST['stay_logged_in'];
+    $perm = false;
+    if (isset($_POST['stay_logged_in'])) {
+        $perm = $_POST['stay_logged_in'];
+    }
     send_cookie('auth', $authenticator, $perm);
     exit();
 }

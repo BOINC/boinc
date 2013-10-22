@@ -27,13 +27,10 @@
 #ifndef _WIN32
 #include "config.h"
 #include <string>
-#include <math.h>
+#include <cmath>
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
-#if HAVE_ALLOCA_H
-#include "alloca.h"
-#endif
 #endif
 
 #ifdef _USING_FCGI_
@@ -44,7 +41,6 @@
 #include "common_defs.h"
 #include "filesys.h"
 #include "str_replace.h"
-
 #include "str_util.h"
 
 using std::string;
@@ -83,56 +79,29 @@ size_t strlcat(char *dst, const char *src, size_t size) {
 #endif // !HAVE_STRLCAT
 
 #if !HAVE_STRCASESTR
+// BOINC only uses strcasestr() for short strings,
+// so the following till suffice
+//
 const char *strcasestr(const char *s1, const char *s2) {
-    char *needle=NULL, *haystack=NULL, *p=NULL;
-    bool need_free = false;
-    // Is alloca() really less likely to fail with out of memory error
-    // than strdup?
-#if HAVE_STRDUPA
-    haystack=strdupa(s1);
-    needle=strdupa(s2);
-#elif HAVE_ALLOCA_H || HAVE_ALLOCA
-    haystack=(char *)alloca(strlen(s1)+1);
-    needle=(char *)alloca(strlen(s2)+1);
-    if (needle && haystack) {
-        strlcpy(haystack,s1,strlen(s1)+1);
-        strlcpy(needle,s2,strlen(s2)+1);
+    char needle[1024], haystack[1024], *p=NULL;
+    strlcpy(haystack, s1, sizeof(haystack));
+    strlcpy(needle, s2, sizeof(needle));
+    // convert both strings to lower case
+    p = haystack;
+    while (*p) {
+        *p = tolower(*p);
+        p++;
     }
-#elif HAVE_STRDUP
-    haystack=strdup(s1);
-    needle=strdup(s1)
-    need_free = true;
-#else
-    haystack=(char *)malloc(strlen(s1)+1);
-    needle=(char *)malloc(strlen(s2)+1);
-    if (needle && haystack) {
-        strlcpy(haystack,s1,strlen(s1)+1);
-        strlcpy(needle,s2,strlen(s2)+1);
+    p = needle;
+    while (*p) {
+        *p = tolower(*p);
+        p++;
     }
-    need_free = true;
-#endif
-    if (needle && haystack) {
-        // convert both strings to lower case
-        p = haystack;
-        while (*p) {
-            *p = tolower(*p);
-            p++;
-        }
-        p = needle;
-        while (*p) {
-            *p = tolower(*p);
-            p++;
-        }
-        // find the substring
-        p = strstr(haystack, needle);
-        // correct the pointer to point to the substring within s1
-        if (p) {
-            p = const_cast<char *>(s1)+(p-haystack);
-        }
-    }
-    if (need_free) {
-        if (needle) free(needle);
-        if (haystack) free(haystack);
+    // find the substring
+    p = strstr(haystack, needle);
+    // correct the pointer to point to the substring within s1
+    if (p) {
+        p = const_cast<char *>(s1)+(p-haystack);
     }
     return p;
 }
@@ -393,33 +362,27 @@ string timediff_format(double diff) {
     int sex = tdiff % 60;
     tdiff /= 60;
     if (!tdiff) {
-        sprintf(buf, "%d sec", sex);
+        sprintf(buf, "00:00:%02d", sex);
         return buf;
     }
 
     int min = tdiff % 60;
     tdiff /= 60;
     if (!tdiff) {
-        sprintf(buf, "%d min %d sec", min, sex);
+        sprintf(buf, "00:%02d:%02d", min, sex);
         return buf;
     }
 
     int hours = tdiff % 24;
     tdiff /= 24;
     if (!tdiff) {
-        sprintf(buf, "%d hr %d min %d sec", hours, min, sex);
+        sprintf(buf, "%02d:%02d:%02d", hours, min, sex);
         return buf;
     }
 
-    int days = tdiff % 7;
-    tdiff /= 7;
-    if (!tdiff) {
-        sprintf(buf, "%d days %d hr %d min %d sec", days, hours, min, sex);
-        return buf;
-    }
-
-    sprintf(buf, "%d weeks %d days %d hrs %d min %d sec", (int)tdiff, days, hours, min, sex);
+    sprintf(buf, "%d days %02d:%02d:%02d", tdiff, hours, min, sex);
     return buf;
+
 }
 
 void mysql_timestamp(double dt, char* p) {
@@ -573,13 +536,13 @@ const char* boincerror(int which_error) {
 }
 
 const char* network_status_string(int n) {
-	switch (n) {
-	case NETWORK_STATUS_ONLINE: return "online";
-	case NETWORK_STATUS_WANT_CONNECTION: return "need connection";
-	case NETWORK_STATUS_WANT_DISCONNECT: return "don't need connection";
-	case NETWORK_STATUS_LOOKUP_PENDING: return "reference site lookup pending";
-	default: return "unknown";
-	}
+    switch (n) {
+    case NETWORK_STATUS_ONLINE: return "online";
+    case NETWORK_STATUS_WANT_CONNECTION: return "need connection";
+    case NETWORK_STATUS_WANT_DISCONNECT: return "don't need connection";
+    case NETWORK_STATUS_LOOKUP_PENDING: return "reference site lookup pending";
+    default: return "unknown";
+    }
 }
 
 const char* rpc_reason_string(int reason) {
@@ -609,7 +572,10 @@ const char* suspend_reason_string(int reason) {
     case SUSPEND_REASON_CPU_USAGE: return "CPU is busy";
     case SUSPEND_REASON_NETWORK_QUOTA_EXCEEDED: return "network transfer limit exceeded";
     case SUSPEND_REASON_OS: return "requested by operating system";
-    case SUSPEND_REASON_WIFI_STATE: return "device is not on wifi";
+    case SUSPEND_REASON_WIFI_STATE: return "not connected to WiFi network";
+    case SUSPEND_REASON_BATTERY_CHARGING: return "battery low";
+    case SUSPEND_REASON_BATTERY_OVERHEATED: return "battery thermal protection";
+    case SUSPEND_REASON_NO_GUI_KEEPALIVE: return "GUI not active";
     }
     return "unknown reason";
 }
@@ -623,78 +589,55 @@ const char* run_mode_string(int mode) {
     return "unknown";
 }
 
-#ifdef WIN32
-
-// get message for last error
-//
-char* windows_error_string(char* pszBuf, int iSize) {
-    DWORD dwRet;
-    LPSTR lpszTemp = NULL;
-
-    dwRet = FormatMessageA(
-        FORMAT_MESSAGE_ALLOCATE_BUFFER |
-        FORMAT_MESSAGE_FROM_SYSTEM |
-        FORMAT_MESSAGE_ARGUMENT_ARRAY,
-        NULL,
-        GetLastError(),
-        LANG_NEUTRAL,
-        (LPSTR)&lpszTemp,
-        0,
-        NULL
-    );
-
-    // is supplied buffer long enough?
-    //
-    if (!dwRet || ((long)iSize < (long)dwRet+14)) {
-        pszBuf[0] = '\0';
-    } else {
-        lpszTemp[lstrlenA(lpszTemp)-2] = '\0';  // remove CRLF
-        sprintf(pszBuf, "%s (0x%x)", lpszTemp, GetLastError());
+const char* battery_state_string(int state) {
+    switch (state) {
+    case BATTERY_STATE_DISCHARGING: return "discharging";
+    case BATTERY_STATE_CHARGING: return "charging";
+    case BATTERY_STATE_FULL: return "full";
+    case BATTERY_STATE_OVERHEATED: return "overheated";
     }
-
-    if (lpszTemp) {
-        LocalFree((HLOCAL) lpszTemp);
-    }
-
-    return pszBuf;
+    return "unknown";
 }
 
-// get message for given error
-//
-char* windows_format_error_string(
-    unsigned long dwError, char* pszBuf, int iSize
-) {
-    DWORD dwRet;
-    LPSTR lpszTemp = NULL;
-
-    dwRet = FormatMessageA(
-        FORMAT_MESSAGE_ALLOCATE_BUFFER |
-        FORMAT_MESSAGE_FROM_SYSTEM |
-        FORMAT_MESSAGE_ARGUMENT_ARRAY,
-        NULL,
-        dwError,
-        LANG_NEUTRAL,
-        (LPSTR)&lpszTemp,
-        0,
-        NULL
-    );
-
-    // is supplied buffer long enough?
-    //
-    if (!dwRet || ( (long)iSize < (long)dwRet+14)) {
-        pszBuf[0] = '\0';
-    } else {
-        lpszTemp[lstrlenA(lpszTemp)-2] = '\0';  // remove CRLF
-        sprintf(pszBuf, "%s (0x%x)", lpszTemp, dwError);
+const char* result_client_state_string(int state) {
+    switch (state) {
+    case RESULT_NEW: return "new";
+    case RESULT_FILES_DOWNLOADING: return "downloading";
+    case RESULT_FILES_DOWNLOADED: return "downloaded";
+    case RESULT_COMPUTE_ERROR: return "compute error";
+    case RESULT_FILES_UPLOADING: return "uploading";
+    case RESULT_FILES_UPLOADED: return "uploaded";
+    case RESULT_ABORTED: return "aborted";
+    case RESULT_UPLOAD_FAILED: return "upload failed";
     }
-
-    if (lpszTemp) {
-        LocalFree((HLOCAL) lpszTemp);
-    }
-
-    return pszBuf;
+    return "unknown";
 }
-#endif
+
+const char* result_scheduler_state_string(int state) {
+    switch (state) {
+    case CPU_SCHED_UNINITIALIZED: return "uninitialized";
+    case CPU_SCHED_PREEMPTED: return "preempted";
+    case CPU_SCHED_SCHEDULED: return "scheduled";
+    }
+    return "unknown";
+}
+
+const char* active_task_state_string(int state) {
+    switch (state) {
+    case PROCESS_UNINITIALIZED: return "UNINITIALIZED";
+    case PROCESS_EXECUTING: return "EXECUTING";
+    case PROCESS_SUSPENDED: return "SUSPENDED";
+    case PROCESS_ABORT_PENDING: return "ABORT_PENDING";
+    case PROCESS_EXITED: return "EXITED";
+    case PROCESS_WAS_SIGNALED: return "WAS_SIGNALED";
+    case PROCESS_EXIT_UNKNOWN: return "EXIT_UNKNOWN";
+    case PROCESS_ABORTED: return "ABORTED";
+    case PROCESS_COULDNT_START: return "COULDNT_START";
+    case PROCESS_QUIT_PENDING: return "QUIT_PENDING";
+    case PROCESS_COPY_PENDING: return "COPY_PENDING";
+    }
+    return "Unknown";
+}
 
 // string substitution:
 // haystack is the input string
@@ -738,7 +681,7 @@ inline void remove_str(char* p, const char* str) {
     }
 }
 
-// remove _( and ") from string
+// remove _(" and ") from string
 //
 void strip_translation(char* p) {
     remove_str(p, "_(\"");
