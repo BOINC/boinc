@@ -1,23 +1,20 @@
-# Translations template for PROJECT.
+# Greek translations for PACKAGE.
 # Copyright (C) 2013 ORGANIZATION
-# This file is distributed under the same license as the PROJECT project.
+# This file is distributed under the same license as the PACKAGE project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-10-18 00:00-0700\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"POT-Creation-Date: 2013-10-22 15:28-0700\n"
+"PO-Revision-Date: 2013-10-22 15:28-0700\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: el\n"
+"Language-Team: el <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
-"X-POOTLE-MTIME: 1378350803.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -128,7 +125,6 @@ msgctxt "attachproject_login_header_pwd"
 msgid "Password:"
 msgstr "Passwort:"
 
-# Kompletter Satz: "Neu bei {Projekt}?"
 msgctxt "attachproject_login_category_creation"
 msgid "New to"
 msgstr "Neu bei"
@@ -520,8 +516,8 @@ msgid ""
 "BOINC suspends computation above defined battery temperature. It is not "
 "recommended to change this value."
 msgstr ""
-"BOINC hält die Berechnung an, sobald diese Temperatur überschritten wird. Es "
-"wird nicht empfohlen diesen Wert zu ändern."
+"BOINC hält die Berechnung an, sobald diese Temperatur überschritten wird."
+" Es wird nicht empfohlen diesen Wert zu ändern."
 
 #, fuzzy
 msgctxt "prefs_disk_max_pct_header"
@@ -1027,8 +1023,7 @@ msgstr "Nicht per WLAN verbunden."
 
 msgctxt "suspend_battery_charging"
 msgid "Battery needs to charge before resuming computation."
-msgstr ""
-"Der Akku muss geladen werden bevor die Berechnung fortgesetzt werden kann."
+msgstr "Der Akku muss geladen werden bevor die Berechnung fortgesetzt werden kann."
 
 msgctxt "suspend_battery_charging_long"
 msgid "Computing will resume when battery charge reaches"
@@ -1148,3 +1143,4 @@ msgid ""
 msgstr ""
 "© 2003–2013 Universität von Kalifornien, Berkeley.\n"
 "Alle Rechte vorbehalten."
+
