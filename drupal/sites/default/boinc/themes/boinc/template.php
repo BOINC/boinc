@@ -239,6 +239,9 @@ function boinc_preprocess_node_forum(&$vars, $hook) {
     // Hide these links for any other than moderators
     //$vars['node']->links = array();
   }
+  // Move the new comment link to the end
+  $vars['node']->links['reply'] = $vars['node']->links['comment_add'];
+  unset($vars['node']->links['comment_add']);
   $vars['links'] = theme_links($vars['node']->links, array('class' => 'links inline'));
   $vars['moderator_links'] = theme_links($vars['moderator_links']);
 }
@@ -268,6 +271,13 @@ function boinc_preprocess_comment(&$vars, $hook) {
         'href' => "comment/reply/{$nid}/{$cid}",
         'attributes' => array(
           'title' => t('Reply to this comment')
+        )
+      );
+      $links['quote'] = array(
+        'title' => t('Quote'),
+        'href' => "comment/reply/{$nid}/{$cid}?quote=1#comment-form",
+        'attributes' => array(
+          'title' => t('Reply to this comment with quote')
         )
       );
       // Move edit and delete controls into moderator links
@@ -320,9 +330,22 @@ function boinc_preprocess_comment(&$vars, $hook) {
           ) 
         );
       }
-      $vars['links'] = theme_links($links);
       $vars['moderator_links'] = theme_links($moderator_links);
     }
+    else {
+      $links = comment_links($vars['comment'], FALSE);
+      $links['comment_quote'] = array(
+        'title' => t('Quote'),
+        'href' => "comment/reply/{$nid}/{$cid}",
+        'attributes' => array(
+          'title' => t('Reply to this comment with quote'),
+        ),
+        'fragment' => 'comment-form',
+        'query' => 'quote=1',
+      );
+    }
+    ksort($links);
+    $vars['links'] = theme_links($links);
   }
 }
 // */

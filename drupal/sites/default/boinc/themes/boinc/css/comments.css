@@ -167,7 +167,8 @@ div.node-type-forum.not-first-page {
   padding-bottom: 0;
   overflow: hidden;
 }
-#comment-form .form-control {
+#comment-form .form-control,
+#comment-form .bbcode_help {
   margin-right: 150px;
   margin-bottom: 0;
 }

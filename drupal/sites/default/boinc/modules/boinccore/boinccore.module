@@ -106,6 +106,20 @@ function boinccore_form_alter(&$form, $form_state, $form_id) {
       '#value' => '</div>',
     );
     
+    module_load_include('inc', 'bbcode', 'bbcode-help');
+    $form['bbcode_help'] = array(
+      '#title' => t('BBcode help'),
+      '#type' => 'fieldset',
+      '#attributes' => array(
+        'class' => 'bbcode_help',
+      ),
+      '#collapsible' => TRUE,
+      '#collapsed' => TRUE,
+      'content' => array(
+        '#value' => _bbcode_filter_tip(),
+      ),
+    );
+    
     // Wrap action buttons for styling consistency
     $form['form control tabs prefix'] = array(
       '#value' => '<ul class="form-control tab-list">',
