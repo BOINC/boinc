@@ -13,7 +13,7 @@ MAKECLEAN="yes"
 
 export BOINC=".." #BOINC source code
 
-export ANDROIDTC="$HOME/android-tc"
+export ANDROIDTC="$HOME/androidx86-tc"
 export TCBINARIES="$ANDROIDTC/bin"
 export TCINCLUDES="$ANDROIDTC/i686-android-linux"
 export TCSYSROOT="$ANDROIDTC/sysroot"
