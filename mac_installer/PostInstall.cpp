@@ -878,6 +878,8 @@ Boolean SetLoginItemOSAScript(long brandID, Boolean deleteLogInItem, char *userN
     if (i >= 50) {
         fprintf(stdout, "Failed to launch System Events for user %s\n", userName);
         fflush(stdout);
+        err = noErr;
+        goto cleanupSystemEvents;
     }
     sleep(2);
     
