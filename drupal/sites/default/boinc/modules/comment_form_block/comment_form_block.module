@@ -76,11 +76,6 @@ function comment_form_block_block_view($delta = '') {
  * Implements hook_preprocess_HOOK() for nodes.
  */
 function comment_form_block_preprocess_node(&$variables) {
-  $node = $variables['node'];
-  // HACK: Only hide standard comments for forum content
-  if ($variables['type'] == 'forum') {
-    $variables['node']->comment = 1;
-  }
 }
 
 /**

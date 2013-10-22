@@ -32,6 +32,10 @@ function discussion_forums_default_fe_block_settings() {
     $node = node_load(array(\'nid\' => $nid));
     $type = $node->type; 
     $match |= in_array($type, $types);
+    // Don\'t show if comments aren\'t enabled...
+    if ($node->comment != 2) {
+      $match = FALSE;
+    }
   }
 
   return $match;
@@ -68,6 +72,10 @@ function discussion_forums_default_fe_block_settings() {
     $node = node_load(array(\'nid\' => $nid));
     $type = $node->type; 
     $match |= in_array($type, $types);
+    // Don\'t show if comments aren\'t enabled...
+    if ($node->comment != 2) {
+      $match = FALSE;
+    }
   }
 
   return $match;
@@ -104,6 +112,10 @@ function discussion_forums_default_fe_block_settings() {
     $node = node_load(array(\'nid\' => $nid));
     $type = $node->type; 
     $match |= in_array($type, $types);
+    // Don\'t show if comments aren\'t enabled...
+    if ($node->comment != 2) {
+      $match = FALSE;
+    }
   }
 
   return $match;
