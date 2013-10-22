@@ -40,7 +40,7 @@ make clean
 fi
 if [ -n "$CONFIGURE" ]; then
 ./_autosetup
-./configure --host=mips-linux --with-boinc-platform="mips-android-linux-gnu" --with-ssl=$TCINCLUDES --disable-server --disable-manager --disable-client --disable-shared --enable-static
+./configure --host=mipsel-linux --with-boinc-platform="mipsel-android-linux-gnu" --with-ssl=$TCINCLUDES --disable-server --disable-manager --disable-client --disable-shared --enable-static
 fi
 make
 make stage
