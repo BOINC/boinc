@@ -305,10 +305,10 @@ int COMMAND::parse_query_batches(char* p) {
 }
 
 void handle_query_batches(COMMAND&c) {
-    QUERY_BATCH_REPLY reply;
+    QUERY_BATCH_SET_REPLY reply;
     char buf[256];
     string error_msg, s;
-    int retval = query_batches(
+    int retval = query_batch_set(
         project_url, authenticator, c.batch_names, reply, error_msg
     );
     if (retval) {
@@ -322,7 +322,7 @@ void handle_query_batches(COMMAND&c) {
             sprintf(buf, " %d", n);
             s += string(buf);
             for (int k=0; k<n; k++) {
-                QUERY_BATCH_JOB &j = reply.jobs[i++];
+                JOB_STATUS &j = reply.jobs[i++];
                 sprintf(buf, " %s %s", j.job_name.c_str(), j.status.c_str());
                 s += string(buf);
             }

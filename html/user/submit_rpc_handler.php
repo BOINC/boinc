@@ -350,6 +350,7 @@ function query_batch($r) {
     foreach ($wus as $wu) {
         echo "    <job>
         <id>$wu->id</id>
+        <name>$wu->name</name>
         <canonical_instance_id>$wu->canonical_resultid</canonical_instance_id>
         <n_outfiles>$n_outfiles</n_outfiles>
         </job>

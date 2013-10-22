@@ -83,6 +83,7 @@ extern const char* battery_state_string(int state);
 extern const char* result_client_state_string(int state);
 extern const char* result_scheduler_state_string(int state);
 extern const char* active_task_state_string(int state);
+extern const char* batch_state_string(int state);
 
 extern void strip_translation(char* p);
 

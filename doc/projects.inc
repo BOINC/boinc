@@ -407,7 +407,7 @@ $math = array(
         array(
             "SAT@home",
             "http://sat.isa.ru/pdsat/",
-            "Institute for Systems Analysis and Institute for System Dynamics and Control Theory, Russian Academy of Science",
+            "Institute for System Dynamics and Control Theory and Institute for Information Transmission Problems, Russian Academy of Science",
             "Computer Science",
             "Solve hard and practically important problems (discrete functions inversion problems, discrete optimization, bioinformatics, etc.) that can be effectively reduced to Boolean satisfiability problem.",
             "sat_logo.png"

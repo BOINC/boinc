@@ -18,10 +18,15 @@
 // C++ interfaces to remote job submission and file management RPCs
 // See http://boinc.berkeley.edu/trac/wiki/RemoteJobs#Cinterface
 
+#ifndef REMOTE_SUBMIT_H
+#define REMOTE_SUBMIT_H
+
 #include <stdio.h>
 #include <string>
 #include <vector>
 #include <map>
+
+#include "parse.h"
 
 using std::string;
 using std::vector;
@@ -46,15 +51,15 @@ struct LOCAL_FILE {
     double nbytes;
 };
 
-struct QUERY_BATCH_JOB {
+struct JOB_STATUS {
     string job_name;
     string status;
-    QUERY_BATCH_JOB(){}
+    JOB_STATUS(){}
 };
 
-struct QUERY_BATCH_REPLY {
+struct QUERY_BATCH_SET_REPLY {
     vector<int> batch_sizes;    // how many jobs in each of the queried batches
-    vector<QUERY_BATCH_JOB> jobs;   // the jobs, sequentially
+    vector<JOB_STATUS> jobs;   // the jobs, sequentially
 };
 
 struct OUTFILE {
@@ -142,11 +147,64 @@ extern int estimate_batch(
     string& error_msg
 );
 
-extern int query_batches(
+// Return the short status of the jobs in a given set of batches
+// Used by the Condor interface
+//
+extern int query_batch_set(
     const char* project_url,
     const char* authenticator,
     vector<string> &batch_names,
-    QUERY_BATCH_REPLY& reply,
+    QUERY_BATCH_SET_REPLY& reply,
+    string& error_msg
+);
+
+struct BATCH_STATUS {
+    int id;
+    char name[256];
+    char app_name[256];
+    int state;
+    int njobs;
+    int nerror_jobs;
+    double fraction_done;
+    double create_time;
+    double expire_time;
+    double est_completion_time;
+    double completion_time;
+    double credit_estimate;
+    double credit_canonical;
+
+    int parse(XML_PARSER&);
+    void print();
+};
+
+// Return a list of this user's batches
+//
+extern int query_batches(
+    const char* project_url,
+    const char* authenticator,
+    vector<BATCH_STATUS>& batches,
+    string& error_msg
+);
+
+struct JOB_STATE {
+    int id;
+    char name[256];
+    int canonical_instance_id;
+    int n_outfiles;
+
+    int parse(XML_PARSER&);
+    void print();
+};
+
+// Return the detail status of jobs in a given batch
+// (can specify by either ID or name)
+//
+extern int query_batch(
+    const char* project_url,
+    const char* authenticator,
+    int batch_id,
+    const char batch_name[256],
+    vector<JOB_STATE>& jobs,
     string& error_msg
 );
 
@@ -202,3 +260,5 @@ extern int ping_server(
     const char* project_url,
     string& error_msg
 );
+
+#endif
