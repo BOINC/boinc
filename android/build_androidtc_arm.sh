@@ -6,8 +6,8 @@
 
 # Script to setup Android toolchain
 
-export ANDROIDTC="$HOME/android-tc"
+export ANDROIDTC="$HOME/androidarm-tc"
 
-if [ ! -d $ANDROIDTC ]; then
+if [ ! -d $ANDROIDTC/arm-linux-androideabi ]; then
     $NDKROOT/build/tools/make-standalone-toolchain.sh --platform=android-9 --install-dir=$ANDROIDTC
 fi

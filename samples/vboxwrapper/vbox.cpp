@@ -1810,7 +1810,7 @@ void VBOX_VM::lower_vm_process_priority() {
     }
 #else
     if (vm_pid_handle) {
-        SetPriorityClass(vm_pid_handle, BELOW_NORMAL_PRIORITY_CLASS);
+        SetPriorityClass(vm_pid_handle, IDLE_PRIORITY_CLASS);
     }
 #endif
 }
