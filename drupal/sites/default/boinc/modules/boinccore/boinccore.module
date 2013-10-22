@@ -120,6 +120,14 @@ function boinccore_form_alter(&$form, $form_state, $form_id) {
       ),
     );
     
+    // If a specific comment is being referenced, go back to it on cancel
+    if ($comment_ref = $form['pid']['#value']) {
+      $cancel_url = "goto/comment/{$comment_ref}";
+    }
+    else {
+      $cancel_url = "node/{$form['nid']['#value']}";
+    }
+    
     // Wrap action buttons for styling consistency
     $form['form control tabs prefix'] = array(
       '#value' => '<ul class="form-control tab-list">',
@@ -133,7 +141,7 @@ function boinccore_form_alter(&$form, $form_state, $form_id) {
     $form['preview']['#suffix'] = '</li>';
     $form['preview']['#weight'] = 1003;
     $form['cancel'] = array(
-      '#value' => '<li class="tab">' . l(t('Cancel'), "node/{$form['nid']['#value']}") . '</li>',
+      '#value' => '<li class="tab">' . l(t('Cancel'), $cancel_url) . '</li>',
       '#weight' => 1004,
     );
     $form['form control tabs suffix'] = array(
