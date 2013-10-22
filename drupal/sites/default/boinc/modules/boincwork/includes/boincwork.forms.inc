@@ -708,6 +708,7 @@ function boincwork_projectprefs_form(&$form_state, $venue) {
     'no_cpu' => 0,
     'no_cuda' => 0,
     'no_ati' => 0,
+    'no_intel_gpu' => 0,
     'default_venue' => $venue_is_default,
   );
   foreach ($default as $name => $value) {
@@ -787,6 +788,16 @@ function boincwork_projectprefs_form(&$form_state, $venue) {
         '#attributes' => array('class' => 'fancy'),
         '#default_value' => $default['no_ati'] ? 0 : 1,
         '#description' => t('Enforced by version @number', array('@number' => '6.10+'))
+      );
+    }
+    if ($app_types->intel_gpu) {
+      $form['resource']['no_intel_gpu'] = array(
+        '#title' => t('Use INTEL GPU'),
+        '#type' => 'radios',
+        '#options' => $form['boolean_options']['#value'],
+        '#attributes' => array('class' => 'fancy'),
+        '#default_value' => $default['no_intel_gpu'] ? 0 : 1,
+        '#description' => t('Enforced by version @number', array('@number' => '7.0.27+'))
       );
     }
   }
@@ -974,6 +985,7 @@ function boincwork_projectprefs_form_submit($form, &$form_state) {
     if ($app_types->cpu) $prefs['no_cpu'] = ($form_state['values']['no_cpu']) ? 0 : 1;
     if ($app_types->cuda) $prefs['no_cuda'] = ($form_state['values']['no_cuda']) ? 0 : 1;
     if ($app_types->ati) $prefs['no_ati'] = ($form_state['values']['no_ati']) ? 0 : 1;
+    if ($app_types->intel_gpu) $prefs['no_intel_gpu'] = ($form_state['values']['no_intel_gpu']) ? 0 : 1;
   }
   
   // Beta preferences
