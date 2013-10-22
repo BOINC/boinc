@@ -1,7 +1,10 @@
 #!/bin/sh
 
-# Automate the compilation of the various locale PO files by automatically
-# generating them at night.
+# Look for .po files modified later than .mo, and regenerate .mo file
+# Then commit and push changes.
+
+# This is run in the Pootle copy of the source tree (~/pootle/repos/boinctrunk)
+# It's run from pootle/update.sh, which is run from cron every 12 hours.
 #
 projname=boinctrunk
 projdir=/home/boincadm/pootle/repos/$projname
@@ -9,8 +12,6 @@ projdir=/home/boincadm/pootle/repos/$projname
 cd $projdir
 
 
-# Iterrate through the various PO files looking for those that need to be compiled.
-#
 for file in `find -name 'BOINC-Manager.po'` ; do
   dir=`dirname $file`
   locale=`basename $dir`
@@ -30,8 +31,6 @@ for file in `find -name 'BOINC-Manager.po'` ; do
 done
 
 
-# Iterrate through the various PO files looking for those that need to be compiled.
-#
 for file in `find -name 'BOINC-Client.po'` ; do
   dir=`dirname $file`
   locale=`basename $dir`
@@ -51,8 +50,6 @@ for file in `find -name 'BOINC-Client.po'` ; do
 done
 
 
-# Iterrate through the various PO files looking for those that need to be compiled.
-#
 for file in `find -name 'BOINC-Web.po'` ; do
   dir=`dirname $file`
   locale=`basename $dir`
@@ -72,8 +69,6 @@ for file in `find -name 'BOINC-Web.po'` ; do
 done
 
 
-# Iterrate through the various PO files looking for those that need to be compiled.
-#
 for file in `find -name 'BOINC-Setup.po'` ; do
   dir=`dirname $file`
   locale=`basename $dir`

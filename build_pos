@@ -27,6 +27,11 @@ system("tools/compare_pot mac_installer/BOINC-Setup.pot $tdir/BOINC-Setup.pot $e
 system("cd android; a2po export -v");
 system("tools/compare_pot android/BOINC-Android.pot $tdir/BOINC-Android.pot $emails");
 
-// as long as we're at it, generate translations for BOINC web site
+// generate translations for BOINC web site
+//
 system("cd doc; update_translations.php");
+
+// copy generic web files to html/translations
+//
+system("cd locale; copy_files.php");
 ?>

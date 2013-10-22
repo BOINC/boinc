@@ -37,6 +37,16 @@ array(
 
 $win = array(
 array(
+    'http://code.google.com/p/boinc-client-configuration/',
+    'BOINC Client Configuration',
+    '1.2.5',
+    'Windows GUI for editing the client configuration file',
+    'http://code.google.com/p/boinc-client-configuration/',
+    'Windows',
+    'BOINC Client Configuration provides a graphical user interface (GUI) for editing the BOINC client configuration file (cc_config.xml)',
+    1382122439
+),
+array(
     'http://www.setispirit.de/',
     'SETISpirit',
     '1.0.4',
