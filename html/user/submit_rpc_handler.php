@@ -44,10 +44,20 @@ function get_app($name) {
     return $app;
 }
 
-function batch_flop_count($r) {
+// estimate FLOP count for a batch.
+// If estimates aren't included in the job descriptions,
+// use what's in the input template
+//
+function batch_flop_count($r, $template) {
     $x = 0;
+    $t = (double)$template->workunit->rsc_fpops_est;
     foreach($r->batch->job as $job) {
-        $x += (double)$job->rsc_fpops_est;
+        $y = (double)$job->rsc_fpops_est;
+        if ($y) {
+            $x += $y;
+        } else {
+            $x += $t;
+        }
     }
     return $x;
 }
@@ -61,23 +71,24 @@ function project_flops() {
     return $y;
 }
 
-function est_elapsed_time($r) {
+function est_elapsed_time($r, $template) {
     // crude estimate: batch FLOPs / project FLOPS
     //
-    return batch_flop_count($r) / project_flops();
+    return batch_flop_count($r, $template) / project_flops();
+}
+
+function read_input_template($app) {
+    $path = "../../templates/$app->name"."_in";
+    return simplexml_load_file($path);
 }
 
 function estimate_batch($r) {
     $app = get_app((string)($r->batch->app_name));
     list($user, $user_submit) = authenticate_user($r, $app);
 
-    $e = est_elapsed_time($r);
+    $template = read_input_template($app);
+    $e = est_elapsed_time($r, $template);
     echo "<estimate>\n<seconds>$e</seconds>\n</estimate>\n";
-}
-
-function read_input_template($app) {
-    $path = "../../templates/$app->name"."_in";
-    return simplexml_load_file($path);
 }
 
 function validate_batch($jobs, $template) {
@@ -579,7 +590,7 @@ exit;
 
 if (0) {
 $r = simplexml_load_string("
-<submit_batch>
+<estimate_batch>
     <authenticator>x</authenticator>
     <batch>
     <app_name>remote_test</app_name>
@@ -593,9 +604,9 @@ $r = simplexml_load_string("
         </input_file>
     </job>
     </batch>
-</submit_batch>
+</estimate_batch>
 ");
-submit_batch($r);
+estimate_batch($r);
 exit;
 }
 

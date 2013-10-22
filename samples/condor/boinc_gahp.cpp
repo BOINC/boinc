@@ -281,6 +281,7 @@ void handle_submit(COMMAND& c) {
         c.out = strdup(s.c_str());
         return;
     }
+
     retval = submit_jobs(
         project_url, authenticator,
         req.app_name, req.batch_id, req.jobs, error_msg

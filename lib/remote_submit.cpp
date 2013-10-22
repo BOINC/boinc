@@ -272,6 +272,60 @@ int create_batch(
     return error_num;
 }
 
+int estimate_batch(
+    const char* project_url,
+    const char* authenticator,
+    char app_name[256],
+    vector<JOB> jobs,
+    double& est_makespan,
+    string& error_msg
+) {
+    char buf[1024], url[1024];
+    sprintf(buf,
+        "<estimate_batch>\n"
+        "<authenticator>%s</authenticator>\n"
+        "<batch>\n"
+        "   <app_name>%s</app_name>\n",
+        authenticator,
+        app_name
+    );
+    string request = buf;
+    for (unsigned int i=0; i<jobs.size(); i++) {
+        JOB job = jobs[i];
+        request += "<job>\n";
+        if (!job.cmdline_args.empty()) {
+            request += "<command_line>" + job.cmdline_args + "</command_line>\n";
+        }
+        request += "</job>\n";
+    }
+    request += "</batch>\n</estimate_batch>\n";
+    sprintf(url, "%ssubmit_rpc_handler.php", project_url);
+    FILE* reply = tmpfile();
+    vector<string> x;
+    int retval = do_http_post(url, request.c_str(), reply, x);
+    if (retval) {
+        fclose(reply);
+        return retval;
+    }
+    fseek(reply, 0, SEEK_SET);
+    retval = -1;
+    error_msg = "";
+    int temp;
+    while (fgets(buf, 256, reply)) {
+#ifdef SHOW_REPLY
+        printf("submit_batch reply: %s", buf);
+#endif
+        if (parse_double(buf, "<seconds>", est_makespan)) {
+            retval = 0;
+            continue;
+        }
+        if (parse_int(buf, "<error_num>", retval)) continue;
+        if (parse_str(buf, "<error_msg>", error_msg)) continue;
+    }
+    fclose(reply);
+    return retval;
+}
+
 int submit_jobs(
     const char* project_url,
     const char* authenticator,

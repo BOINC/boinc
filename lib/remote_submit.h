@@ -16,6 +16,7 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // C++ interfaces to remote job submission and file management RPCs
+// See http://boinc.berkeley.edu/trac/wiki/RemoteJobs#Cinterface
 
 #include <stdio.h>
 #include <string>
@@ -129,6 +130,15 @@ extern int submit_jobs(
     char app_name[256],
     int batch_id,
     vector<JOB> jobs,
+    string& error_msg
+);
+
+extern int estimate_batch(
+    const char* project_url,
+    const char* authenticator,
+    char app_name[256],
+    vector<JOB> jobs,
+    double& est_makespan,
     string& error_msg
 );
 
