@@ -8,6 +8,6 @@
 
 export ANDROIDTC="$HOME/android-tc"
 
-if [ ! -d $ANDROIDTC ]; then
+if [ ! -d $ANDROIDTC/mipsel-linux-android ]; then
     $NDKROOT/build/tools/make-standalone-toolchain.sh --platform=android-9 --arch=mips --install-dir=$ANDROIDTC
 fi

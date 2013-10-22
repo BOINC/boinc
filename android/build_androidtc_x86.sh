@@ -8,6 +8,6 @@
 
 export ANDROIDTC="$HOME/android-tc"
 
-if [ ! -d $ANDROIDTC ]; then
+if [ ! -d $ANDROIDTC/i686-android-linux ]; then
     $NDKROOT/build/tools/make-standalone-toolchain.sh --platform=android-9 --arch=x86 --install-dir=$ANDROIDTC
 fi
