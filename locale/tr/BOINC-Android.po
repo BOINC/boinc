@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: OINC Android 7.2\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2013-10-18 00:00-0700\n"
-"PO-Revision-Date: 2013-09-07 15:47+0200\n"
+"PO-Revision-Date: 2013-10-22 12:02+0200\n"
 "Last-Translator: Aycan Demirel <aycandemirel@hotmail.com>\n"
 "Language-Team: Türkçe <LL@li.org>\n"
 "Language: tr\n"
@@ -53,7 +53,7 @@ msgstr "Lütfen proje adresini girin"
 
 msgctxt "attachproject_list_acctmgr_button"
 msgid "Add account manager"
-msgstr ""
+msgstr "Hesap Yöneticisi ekle"
 
 msgctxt "attachproject_list_no_internet"
 msgid "No Internet connection"
@@ -200,27 +200,27 @@ msgstr "Oluştur"
 #. account manager
 msgctxt "attachproject_acctmgr_header"
 msgid "Add account manager"
-msgstr ""
+msgstr "Hesap Yöneticisi ekle"
 
 msgctxt "attachproject_acctmgr_header_url"
 msgid "URL"
-msgstr ""
+msgstr "Adres"
 
 msgctxt "attachproject_acctmgr_header_name"
 msgid "User:"
-msgstr ""
+msgstr "Kullanıcı:"
 
 msgctxt "attachproject_acctmgr_header_pwd"
 msgid "Password:"
-msgstr ""
+msgstr "Parola:"
 
 msgctxt "attachproject_acctmgr_header_pwd_confirm"
 msgid "… Retype:"
-msgstr ""
+msgstr "Yeniden yazın:"
 
 msgctxt "attachproject_acctmgr_button"
 msgid "Add"
-msgstr ""
+msgstr "Ekle"
 
 #. error strings
 msgctxt "attachproject_error_wrong_name"
@@ -241,7 +241,7 @@ msgstr "Yazdığınız parolalar aynı değil"
 
 msgctxt "attachproject_error_no_url"
 msgid "Please enter URL"
-msgstr ""
+msgstr "Lütfen adresi yazın"
 
 msgctxt "attachproject_error_no_email"
 msgid "Please enter eMail address"
@@ -285,7 +285,7 @@ msgstr "Hesap oluşturma bu projede devre dışı"
 
 msgctxt "attachproject_error_invalid_url"
 msgid "Invalid URL"
-msgstr ""
+msgstr "Geçersiz adres"
 
 #. working activity
 msgctxt "attachproject_working_back_button"
@@ -334,11 +334,11 @@ msgstr "Giriş yap"
 
 msgctxt "attachproject_working_acctmgr"
 msgid "Add account manager"
-msgstr ""
+msgstr "Hesap yöneticisi ekle"
 
 msgctxt "attachproject_working_acctmgr_sync"
 msgid "Synchronize"
-msgstr ""
+msgstr "Eşitle"
 
 #. main activity
 msgctxt "main_noproject_warning"
@@ -384,7 +384,7 @@ msgstr "Tercihler"
 
 msgctxt "tab_notices"
 msgid "Notices"
-msgstr ""
+msgstr "Bildirimler"
 
 msgctxt "tab_desc"
 msgid "Navigation"
@@ -517,7 +517,8 @@ msgid "Max. used storage space"
 msgstr "En çok depolama alanı kullanımı"
 
 msgctxt "prefs_disk_max_pct_description"
-msgid "How many percent of your device's storage space is BOINC allowed to use?"
+msgid ""
+"How many percent of your device's storage space is BOINC allowed to use?"
 msgstr ""
 "BOINC, cihazınızın yüzde olarak en fazla ne kadar depolama alanını "
 "kullanabilecek?"
@@ -556,7 +557,8 @@ msgstr "Kullanılacak CPU çekirdekleri"
 
 msgctxt "prefs_cpu_number_cpus_description"
 msgid "Limits the number of CPU cores BOINC uses for computation."
-msgstr "BOINC'in hesaplama için kullanabileceği işlemci (CPU) çekirdeği sayısı."
+msgstr ""
+"BOINC'in hesaplama için kullanabileceği işlemci (CPU) çekirdeği sayısı."
 
 msgctxt "prefs_cpu_other_load_suspension_header"
 msgid "Pause at CPU usage above"
@@ -678,7 +680,7 @@ msgstr "Proje komutları:"
 
 msgctxt "projects_control_visit_website"
 msgid "Visit website"
-msgstr ""
+msgstr "Sitesine git"
 
 msgctxt "projects_control_update"
 msgid "Update"
@@ -710,15 +712,15 @@ msgstr "Sıfırla"
 
 msgctxt "projects_control_dialog_title_acctmgr"
 msgid "Account manager commands:"
-msgstr ""
+msgstr "Hesap Yöneticisi komutları:"
 
 msgctxt "projects_control_sync_acctmgr"
 msgid "Synchronize"
-msgstr ""
+msgstr "Eşitle"
 
 msgctxt "projects_control_remove_acctmgr"
 msgid "Disable"
-msgstr ""
+msgstr "Devredışı bırak"
 
 #. project confirm dialog
 msgctxt "projects_confirm_detach_title"
@@ -751,15 +753,15 @@ msgstr "Sıfırla"
 
 msgctxt "projects_confirm_remove_acctmgr_title"
 msgid "Disable account manager"
-msgstr ""
+msgstr "Hesap Yöneticisini devredışı bırak"
 
 msgctxt "projects_confirm_remove_acctmgr_message"
 msgid "Are you sure you want to stop using"
-msgstr ""
+msgstr "Bu hesap yöneticisini kullanmayı bırakmak istiyor musunuz:"
 
 msgctxt "projects_confirm_remove_acctmgr_confirm"
 msgid "Disable"
-msgstr ""
+msgstr "Devredışı bırak"
 
 #. tasks tab strings
 msgctxt "tasks_header_name"
@@ -906,7 +908,7 @@ msgstr "Dosya:"
 
 msgctxt "trans_control_retry"
 msgid "Retry transfers"
-msgstr ""
+msgstr "Aktarımları yeniden dene"
 
 msgctxt "confirm_abort_trans_title"
 msgid "Abort transfer?"
@@ -923,7 +925,7 @@ msgstr "Evet"
 #. notices tab strings
 msgctxt "notices_loading"
 msgid "Reading notices…"
-msgstr ""
+msgstr "Bildirimler alınıyor..."
 
 #. eventlog tab strings
 msgctxt "eventlog_loading"
