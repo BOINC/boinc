@@ -133,7 +133,7 @@ function boinccore_form_alter(&$form, $form_state, $form_id) {
     $form['preview']['#suffix'] = '</li>';
     $form['preview']['#weight'] = 1003;
     $form['cancel'] = array(
-      '#value' => '<li class="tab">' . l(t('Cancel'), $_GET['q']) . '</li>',
+      '#value' => '<li class="tab">' . l(t('Cancel'), "node/{$form['nid']['#value']}") . '</li>',
       '#weight' => 1004,
     );
     $form['form control tabs suffix'] = array(

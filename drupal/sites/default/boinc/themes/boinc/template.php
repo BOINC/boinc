@@ -275,10 +275,12 @@ function boinc_preprocess_comment(&$vars, $hook) {
       );
       $links['quote'] = array(
         'title' => t('Quote'),
-        'href' => "comment/reply/{$nid}/{$cid}?quote=1#comment-form",
+        'href' => "comment/reply/{$nid}/{$cid}",
         'attributes' => array(
           'title' => t('Reply to this comment with quote')
-        )
+        ),
+        'fragment' => 'comment-form',
+        'query' => 'quote=1',
       );
       // Move edit and delete controls into moderator links
       $moderator_links['edit'] = array(
