@@ -340,6 +340,39 @@ function boinc_standard_default_page_manager_pages() {
     $pane = new stdClass;
     $pane->pid = 'new-3';
     $pane->panel = 'sidebar_first';
+    $pane->type = 'custom';
+    $pane->subtype = 'custom';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'admin_title' => 'User activity summary',
+      'title' => '',
+      'body' => '<?php
+
+$uid = arg(1);
+$account = user_load($uid);
+echo \'<h2 class="pane-title">\' . l(t(\'Posts contributed\'), "account/{$uid}/posts") . \'</h2>\';
+echo \'<div class="comment-count">\' . $account->post_count . \'</div>\';
+
+?>',
+      'format' => '3',
+      'substitute' => 0,
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array(
+      'css_id' => '',
+      'css_class' => 'panel-secondary container shadow',
+    );
+    $pane->extras = array();
+    $pane->position = 1;
+    $display->content['new-3'] = $pane;
+    $display->panels['sidebar_first'][1] = 'new-3';
+    $pane = new stdClass;
+    $pane->pid = 'new-4';
+    $pane->panel = 'sidebar_first';
     $pane->type = 'views';
     $pane->subtype = 'boinc_friends';
     $pane->shown = TRUE;
@@ -372,9 +405,9 @@ function boinc_standard_default_page_manager_pages() {
       'css_class' => 'panel-secondary container shadow',
     );
     $pane->extras = array();
-    $pane->position = 1;
-    $display->content['new-3'] = $pane;
-    $display->panels['sidebar_first'][1] = 'new-3';
+    $pane->position = 2;
+    $display->content['new-4'] = $pane;
+    $display->panels['sidebar_first'][2] = 'new-4';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
