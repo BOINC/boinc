@@ -351,8 +351,8 @@ function boinc_standard_default_page_manager_pages() {
 
 $uid = arg(1);
 $account = user_load($uid);
-echo \'<h2 class="pane-title">\' . l(t(\'Posts contributed\'), "account/{$uid}/posts") . \'</h2>\';
-echo \'<div class="comment-count">\' . $account->post_count . \'</div>\';
+echo \'<h2 class="pane-title compound-heading">\' . l(t(\'Posts contributed\'), "account/{$uid}/posts") . \'</h2>\';
+echo \'<div class="item-count-wrapper"><div class="item-count">\' . $account->post_count . \'</div></div>\';
 
 ?>',
       'format' => '3',
