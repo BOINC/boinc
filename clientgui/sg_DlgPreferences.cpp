@@ -89,20 +89,6 @@ wxString astrTimeOfDayStrings[] = {
 };
 
 
-int iDiskUsageArraySize = 10;
-wxString astrDiskUsageStrings[] = {
-    _("100 MB"),
-    _("200 MB"),
-    _("500 MB"),
-    _("1 GB"),
-    _("2 GB"),
-    _("5 GB"),
-    _("10 GB"),
-    _("20 GB"),
-    _("50 GB"),
-    _("100 GB")
-};
-
 // Used for sorting disk usage values
 static int CompareDiskUsage(const wxString& strFirst, const wxString& strSecond) {
     long lFirstValue;
@@ -131,16 +117,16 @@ static int CompareDiskUsage(const wxString& strFirst, const wxString& strSecond)
 
 int iCPUUsageArraySize = 10;
 wxString astrCPUUsageStrings[] = {
-    _("10%"),
-    _("20%"),
-    _("30%"),
-    _("40%"),
-    _("50%"),
-    _("60%"),
-    _("70%"),
-    _("80%"),
-    _("90%"),
-    _("100%")
+    wxT("10%"),
+    wxT("20%"),
+    wxT("30%"),
+    wxT("40%"),
+    wxT("50%"),
+    wxT("60%"),
+    wxT("70%"),
+    wxT("80%"),
+    wxT("90%"),
+    wxT("100%")
 };
 
 // Used for sorting cpu usage values
@@ -165,13 +151,13 @@ static int CompareCPUUsage(const wxString& strFirst, const wxString& strSecond) 
 
 int iWorkWhenIdleArraySize = 7;
 wxString astrWorkWhenIdleStrings[] = {
-    _("1"),
-    _("3"),
-    _("5"),
-    _("10"),
-    _("15"),
-    _("30"),
-    _("60")
+    wxT("1"),
+    wxT("3"),
+    wxT("5"),
+    wxT("10"),
+    wxT("15"),
+    wxT("30"),
+    wxT("60")
 };
 
 // Used for sorting work when idle values
@@ -649,6 +635,23 @@ bool CPanelPreferences::ReadPreferenceSettings() {
     double         dTempValue2 = 0.0;
     int            retval;
     unsigned int   i;
+
+    // We localize these because some languages (e.g., French) use
+    // different abbreviations for MB and GB.
+    // Note: _() cannot be used for static or global strings.
+    wxString astrDiskUsageStrings[] = {
+        _("100 MB"),
+        _("200 MB"),
+        _("500 MB"),
+        _("1 GB"),
+        _("2 GB"),
+        _("5 GB"),
+        _("10 GB"),
+        _("20 GB"),
+        _("50 GB"),
+        _("100 GB")
+    };
+    int iDiskUsageArraySize = 10;
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));

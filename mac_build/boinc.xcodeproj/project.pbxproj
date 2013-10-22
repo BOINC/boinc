@@ -1134,7 +1134,7 @@
 		DDE1374710DC613600161D6B /* DlgEventLogListCtrl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DlgEventLogListCtrl.cpp; path = ../clientgui/DlgEventLogListCtrl.cpp; sourceTree = SOURCE_ROOT; };
 		DDE1374810DC613600161D6B /* DlgEventLogListCtrl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DlgEventLogListCtrl.h; path = ../clientgui/DlgEventLogListCtrl.h; sourceTree = SOURCE_ROOT; };
 		DDE2552B07C62F3E008E7D6E /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = /System/Library/Frameworks/IOKit.framework; sourceTree = "<absolute>"; };
-		DDE36DF517C3896A000E78D6 /* libwx_osx_cocoa_static.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libwx_osx_cocoa_static.a; path = "../../wxWidgets-2.9.5/build/osx/build/Release/libwx_osx_cocoa_static.a"; sourceTree = "<group>"; };
+		DDE36DF517C3896A000E78D6 /* libwx_osx_cocoa_static.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libwx_osx_cocoa_static.a; path = "../../wxWidgets-3.0.0-rc1/build/osx/build/Release/libwx_osx_cocoa_static.a"; sourceTree = "<group>"; };
 		DDE3A87F0E90D1BF00A363A7 /* client_state.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = client_state.cpp; sourceTree = "<group>"; };
 		DDE3A8840E90D23400A363A7 /* scheduler_op.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = scheduler_op.cpp; sourceTree = "<group>"; };
 		DDE41C250C1FCA8F00CA1F86 /* graphics2_util.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = graphics2_util.cpp; sourceTree = "<group>"; };
@@ -3509,15 +3509,15 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../clientgui/mac/MacGUI.pch;
 				HEADER_SEARCH_PATHS = (
-					"../../wxWidgets-2.9.5/include",
-					"../../wxWidgets-2.9.5/build/osx/setup/carbon/include",
+					"../../wxWidgets-3.0.0-rc1/include",
+					"../../wxWidgets-3.0.0-rc1/build/osx/setup/cocoa/include",
 					../clientgui,
 				);
 				INFOPLIST_FILE = Info.plist;
 				LIBRARY_SEARCH_PATHS = (
-					"../../wxWidgets-2.9.5/build/osx/build/Debug",
-					"\"$(SRCROOT)/../../wxWidgets-2.9.5/build/osx/build/Debug\"",
-					"\"$(SRCROOT)/../../wxWidgets-2.9.5/build/osx/build/Release\"",
+					"../../wxWidgets-3.0.0-rc1/build/osx/build/Debug",
+					"\"$(SRCROOT)/../../wxWidgets-3.0.0-rc1/build/osx/build/Debug\"",
+					"\"$(SRCROOT)/../../wxWidgets-3.0.0-rc1/build/osx/build/Release\"",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				OTHER_CFLAGS = (
@@ -3559,14 +3559,14 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../clientgui/mac/MacGUI.pch;
 				HEADER_SEARCH_PATHS = (
-					"../../wxWidgets-2.9.5/include",
-					"../../wxWidgets-2.9.5/build/osx/setup/carbon/include",
+					"../../wxWidgets-3.0.0-rc1/include",
+					"../../wxWidgets-3.0.0-rc1/build/osx/setup/cocoa/include",
 					../clientgui,
 				);
 				INFOPLIST_FILE = Info.plist;
 				LIBRARY_SEARCH_PATHS = (
-					"../../wxWidgets-2.9.5/build/osx/build/Release",
-					"\"$(SRCROOT)/../../wxWidgets-2.9.5/build/osx/build/Release\"",
+					"../../wxWidgets-3.0.0-rc1/build/osx/build/Release",
+					"\"$(SRCROOT)/../../wxWidgets-3.0.0-rc1/build/osx/build/Release\"",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				OTHER_CFLAGS = (

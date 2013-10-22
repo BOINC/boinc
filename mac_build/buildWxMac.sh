@@ -25,11 +25,12 @@
 # Updated for OS 10.7 and XCode 4.1 with OS 10.4 compatibility 9/26/11
 # Updated for partial OS 10.8 and XCode 4.5 compatibility 7/27/12
 # Updated for wxCocoa 2.9.5 8/20/13
+# Updated for wxCocoa 3.0.0-rc1 10/17/13
 #
 ## This script requires OS 10.6 or later
 ##
-## In Terminal, CD to the wxMac-2.9.5 directory.
-##    cd [path]/wxMac-2.9.5/
+## In Terminal, CD to the wxWidgets-3.0.0 directory.
+##    cd [path]/wxWidgets-3.0.0/
 ## then run this script:
 ##    source [ path_to_this_script ] [ -clean ]
 ##
