@@ -57,7 +57,7 @@ mkdir "BOINC/assets"
 cp "$BOINC/stage/usr/local/bin/boinc" "BOINC/assets/armeabi-v7a/boinc"
 cp "$BOINC/stage/usr/local/bin/boinccmd" "BOINC/assets/armeabi-v7a/boinccmd"
 cp "$BOINC/win_build/installerv2/redist/all_projects_list.xml" "BOINC/assets/all_projects_list.xml"
-cp "$CURL_DIR/ca-bundle.crt" "BOINC/assets/ca-bundle.crt"
+cp "$BOINC/curl/ca-bundle.crt" "BOINC/assets/ca-bundle.crt"
 
 echo "=============================BOINC done============================="
 
