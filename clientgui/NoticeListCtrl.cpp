@@ -149,7 +149,7 @@ wxAccStatus CNoticeListCtrlAccessible::DoDefaultAction(int childId) {
         evt.SetEventObject(this); 
 #endif
 
-        pCtrl->GetParent()->AddPendingEvent( evt ); 
+        pCtrl->GetParent()->GetEventHandler()->AddPendingEvent( evt );
 
         return wxACC_OK;
     }
@@ -481,7 +481,7 @@ void CNoticeListCtrl::OnLinkClicked( wxHtmlLinkEvent& event )
     ); 
     evt.SetEventObject(this); 
 
-    GetParent()->AddPendingEvent( evt ); 
+    GetParent()->GetEventHandler()->AddPendingEvent( evt );
 }
 
 
