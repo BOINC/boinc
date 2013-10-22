@@ -80,6 +80,7 @@ boinc_client_SOURCES = \
     rr_sim.cpp \
     sandbox.cpp \
     scheduler_op.cpp \
+	thread.cpp \
     time_stats.cpp \
     whetstone.cpp \
     work_fetch.cpp
