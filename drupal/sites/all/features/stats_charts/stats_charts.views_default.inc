@@ -281,7 +281,7 @@ function stats_charts_views_default_views() {
       'breadcrumb' => '',
       'default_argument_type' => 'current_user',
       'default_argument' => '',
-      'validate_type' => 'none',
+      'validate_type' => 'numeric',
       'validate_fail' => 'not found',
       'break_phrase' => 0,
       'not' => 0,
@@ -291,7 +291,11 @@ function stats_charts_views_default_views() {
       'validate_user_argument_type' => 'uid',
       'validate_user_roles' => array(
         2 => 0,
+        4 => 0,
+        7 => 0,
+        5 => 0,
         3 => 0,
+        6 => 0,
       ),
       'relationship' => 'none',
       'default_options_div_prefix' => '',
@@ -299,18 +303,18 @@ function stats_charts_views_default_views() {
       'default_argument_user' => 0,
       'default_argument_php' => '',
       'validate_argument_node_type' => array(
-        'forum' => 0,
-        'job_post' => 0,
-        'news' => 0,
         'page' => 0,
+        'news' => 0,
         'profile' => 0,
+        'forum' => 0,
+        'panel' => 0,
         'story' => 0,
-        'team' => 0,
       ),
       'validate_argument_node_access' => 0,
       'validate_argument_nid_type' => 'nid',
       'validate_argument_vocabulary' => array(
         1 => 0,
+        2 => 0,
       ),
       'validate_argument_type' => 'tid',
       'validate_argument_transform' => 0,
@@ -319,6 +323,30 @@ function stats_charts_views_default_views() {
       'override' => array(
         'button' => 'Override',
       ),
+      'me_redirect' => 0,
+      'me_validate_user_argument_type' => 'uid',
+      'me_validate_user_roles' => array(
+        2 => 0,
+        4 => 0,
+        7 => 0,
+        5 => 0,
+        3 => 0,
+        6 => 0,
+      ),
+      'default_taxonomy_tid_term_page' => 0,
+      'default_taxonomy_tid_node' => 0,
+      'default_taxonomy_tid_limit' => 0,
+      'default_taxonomy_tid_vids' => array(
+        1 => 0,
+        2 => 0,
+      ),
+      'validate_argument_node_flag_name' => '*relationship*',
+      'validate_argument_node_flag_test' => 'flaggable',
+      'validate_argument_node_flag_id_type' => 'id',
+      'validate_argument_user_flag_name' => '*relationship*',
+      'validate_argument_user_flag_test' => 'flaggable',
+      'validate_argument_user_flag_id_type' => 'id',
+      'me_validate_user_restrict_roles' => 0,
     ),
   ));
   $handler->override_option('access', array(
@@ -334,67 +362,6 @@ function stats_charts_views_default_views() {
     'grouping' => '',
   ));
   $handler = $view->new_display('page', 'Page', 'page_1');
-  $handler->override_option('arguments', array(
-    'id' => array(
-      'default_action' => 'default',
-      'style_plugin' => 'default_summary',
-      'style_options' => array(),
-      'wildcard' => 'all',
-      'wildcard_substitution' => 'All',
-      'title' => '',
-      'breadcrumb' => '',
-      'default_argument_type' => 'php',
-      'default_argument' => '',
-      'validate_type' => 'php',
-      'validate_fail' => 'empty',
-      'break_phrase' => 0,
-      'not' => 0,
-      'id' => 'id',
-      'table' => 'user',
-      'field' => 'id',
-      'validate_user_argument_type' => 'uid',
-      'validate_user_roles' => array(
-        2 => 0,
-        3 => 0,
-      ),
-      'relationship' => 'none',
-      'default_options_div_prefix' => '',
-      'default_argument_fixed' => '',
-      'default_argument_user' => 0,
-      'default_argument_php' => '// Determine BOINC ID of logged in user
-global $user;
-return $user->uid;',
-      'validate_argument_node_type' => array(
-        'forum' => 0,
-        'job_post' => 0,
-        'news' => 0,
-        'page' => 0,
-        'profile' => 0,
-        'story' => 0,
-        'team' => 0,
-      ),
-      'validate_argument_node_access' => 0,
-      'validate_argument_nid_type' => 'nid',
-      'validate_argument_vocabulary' => array(
-        1 => 0,
-      ),
-      'validate_argument_type' => 'tid',
-      'validate_argument_transform' => 0,
-      'validate_user_restrict_roles' => 0,
-      'validate_argument_php' => '// If this isn\'t your account, forget it!
-global $user;
-$id = $user->uid;
-$boinc_id = null;
-if ($id > 0) {
-  $boinc_id = db_result(db_query("SELECT boinc_id FROM {boincuser} WHERE uid = %d", $id));
-}
-if ($argument == $boinc_id) return TRUE;
-else return FALSE;',
-      'override' => array(
-        'button' => 'Use default',
-      ),
-    ),
-  ));
   $handler->override_option('path', 'account/obsolete');
   $handler->override_option('menu', array(
     'type' => 'tab',
@@ -839,6 +806,46 @@ else return FALSE;',
         'button' => 'Use default',
       ),
     ),
+    'phpcode_1' => array(
+      'label' => '',
+      'alter' => array(
+        'alter_text' => 0,
+        'text' => '',
+        'make_link' => 0,
+        'path' => '',
+        'absolute' => 0,
+        'link_class' => '',
+        'alt' => '',
+        'rel' => '',
+        'prefix' => '',
+        'suffix' => '',
+        'target' => '',
+        'help' => '',
+        'trim' => 0,
+        'max_length' => '',
+        'word_boundary' => 1,
+        'ellipsis' => 1,
+        'html' => 0,
+        'strip_tags' => 0,
+      ),
+      'empty' => '',
+      'hide_empty' => 0,
+      'empty_zero' => 0,
+      'hide_alter_empty' => 1,
+      'value' => '<?php
+
+echo l(t(\'Show computers\'), \'account/\' . get_drupal_id($data->id) . \'/computers\');
+
+?>',
+      'exclude' => 0,
+      'id' => 'phpcode_1',
+      'table' => 'customfield',
+      'field' => 'phpcode',
+      'override' => array(
+        'button' => 'Use default',
+      ),
+      'relationship' => 'none',
+    ),
     'cross_project_id' => array(
       'label' => 'Cross-project statistics',
       'alter' => array(
@@ -910,97 +917,13 @@ else return FALSE;',
       'relationship' => 'none',
     ),
   ));
-  $handler->override_option('arguments', array(
-    'id' => array(
-      'default_action' => 'default',
-      'style_plugin' => 'default_summary',
-      'style_options' => array(),
-      'wildcard' => 'all',
-      'wildcard_substitution' => 'All',
-      'title' => '',
-      'breadcrumb' => '',
-      'default_argument_type' => 'current_user',
-      'default_argument' => '',
-      'validate_type' => 'user',
-      'validate_fail' => 'not found',
-      'break_phrase' => 0,
-      'not' => 0,
-      'id' => 'id',
-      'table' => 'user',
-      'field' => 'id',
-      'validate_user_argument_type' => 'either',
-      'validate_user_roles' => array(
-        2 => 0,
-        4 => 0,
-        5 => 0,
-        3 => 0,
-        6 => 0,
-      ),
-      'relationship' => 'none',
-      'default_options_div_prefix' => '',
-      'default_argument_fixed' => '',
-      'default_argument_user' => 0,
-      'default_argument_php' => '',
-      'validate_argument_node_type' => array(
-        'page' => 0,
-        'profile' => 0,
-        'forum' => 0,
-        'panel' => 0,
-        'story' => 0,
-      ),
-      'validate_argument_node_access' => 0,
-      'validate_argument_nid_type' => 'nid',
-      'validate_argument_vocabulary' => array(
-        1 => 0,
-        2 => 0,
-      ),
-      'validate_argument_type' => 'tid',
-      'validate_argument_transform' => 0,
-      'validate_user_restrict_roles' => 0,
-      'validate_argument_php' => '',
-      'override' => array(
-        'button' => 'Use default',
-      ),
-      'me_redirect' => 0,
-      'me_validate_user_argument_type' => 'uid',
-      'me_validate_user_roles' => array(
-        2 => 0,
-        4 => 0,
-        5 => 0,
-        3 => 0,
-        6 => 0,
-      ),
-      'default_taxonomy_tid_term_page' => 0,
-      'default_taxonomy_tid_node' => 0,
-      'default_taxonomy_tid_limit' => 0,
-      'default_taxonomy_tid_vids' => array(
-        1 => 0,
-        2 => 0,
-      ),
-      'validate_argument_node_flag_name' => '*relationship*',
-      'validate_argument_node_flag_test' => 'flaggable',
-      'validate_argument_node_flag_id_type' => 'id',
-      'validate_argument_user_flag_name' => '*relationship*',
-      'validate_argument_user_flag_test' => 'flaggable',
-      'validate_argument_user_flag_id_type' => 'id',
-      'me_validate_user_restrict_roles' => 0,
-    ),
-  ));
-  $handler->override_option('title', 'User\'s stats');
-  $handler->override_option('row_plugin', 'panels_fields');
+  $handler->override_option('title', 'Statistics');
+  $handler->override_option('empty', 'empty...');
+  $handler->override_option('empty_format', '4');
   $handler->override_option('row_options', array(
     'inline' => array(),
     'separator' => '',
     'hide_empty' => 0,
-    'layout' => 'onecol',
-    'change' => 'Change',
-    'regions' => array(
-      'id' => 'middle',
-      'total_credit' => 'middle',
-      'expavg_credit' => 'middle',
-      'cross_project_id' => 'middle',
-      'phpcode' => 'middle',
-    ),
   ));
   $handler->override_option('pane_title', 'BOINC account stats overview');
   $handler->override_option('pane_description', '');

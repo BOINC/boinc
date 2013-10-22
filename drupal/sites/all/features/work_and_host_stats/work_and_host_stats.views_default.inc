@@ -4528,7 +4528,7 @@ Cross-project stats:
   echo boincwork_views_host_list_empty_text(\'active\');
   
 ?>');
-  $handler->override_option('path', 'user/%/computers/active');
+  $handler->override_option('path', 'account/%/computers/active');
   $handler->override_option('menu', array(
     'type' => 'default tab',
     'title' => 'Active in past 30 days',
@@ -4544,7 +4544,7 @@ Cross-project stats:
     'name' => 'secondary-links',
   ));
   $handler = $view->new_display('page', 'User all hosts', 'page_2');
-  $handler->override_option('path', 'user/%/computers/all');
+  $handler->override_option('path', 'account/%/computers/all');
   $handler->override_option('menu', array(
     'type' => 'tab',
     'title' => 'All computers',
