@@ -37,7 +37,7 @@ if [ -n "$MAKECLEAN" ]; then
 make clean
 fi
 if [ -n "$CONFIGURE" ]; then
-./configure --host=arm-linux --prefix=$TCINCLUDES --libdir="$TCINCLUDES/lib" --disable-shared --enable-static --with-random=/dev/urandom
+./configure --host=i686-linux --prefix=$TCINCLUDES --libdir="$TCINCLUDES/lib" --disable-shared --enable-static --with-random=/dev/urandom
 fi
 make
 make install
