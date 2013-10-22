@@ -37,7 +37,7 @@ if [ -n "$MAKECLEAN" ]; then
 make clean
 fi
 if [ -n "$CONFIGURE" ]; then
-./Configure linux-generic32 no-shared no-dso -DL_ENDIAN --openssldir="$TCINCLUDES/ssl"
+./Configure android-x86 no-shared no-dso --openssldir="$TCINCLUDES/ssl"
 #override flags in Makefile
 sed -e "s/^CFLAG=.*$/`grep -e \^CFLAG= Makefile` \$(CFLAGS)/g
 s%^INSTALLTOP=.*%INSTALLTOP=$TCINCLUDES%g" Makefile > Makefile.out
