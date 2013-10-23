@@ -28,6 +28,7 @@
 #include <string.h>
 
 #include "parse.h"
+#include "str_util.h"
 #include "url.h"
 
 #include "remote_submit.h"
@@ -203,7 +204,6 @@ int upload_files (
         return retval;
     }
     fseek(reply, 0, SEEK_SET);
-    bool success = false;
     retval = -1;
     error_msg = "";
     while (fgets(buf, 256, reply)) {
@@ -310,7 +310,6 @@ int estimate_batch(
     fseek(reply, 0, SEEK_SET);
     retval = -1;
     error_msg = "";
-    int temp;
     while (fgets(buf, 256, reply)) {
 #ifdef SHOW_REPLY
         printf("submit_batch reply: %s", buf);
@@ -395,11 +394,11 @@ int submit_jobs(
     return retval;
 }
 
-int query_batches(
+int query_batch_set(
     const char* project_url,
     const char* authenticator,
     vector<string> &batch_names,
-    QUERY_BATCH_REPLY& qb_reply,
+    QUERY_BATCH_SET_REPLY& qb_reply,
     string& error_msg
 ) {
     string request;
@@ -440,20 +439,201 @@ int query_batches(
             continue;
         }
         if (strstr(buf, "<job>")) {
-            QUERY_BATCH_JOB qbj;
+            JOB_STATUS js;
             while (fgets(buf, 256, reply)) {
 #ifdef SHOW_REPLY
                 printf("query_batches reply: %s", buf);
 #endif
                 if (strstr(buf, "</job>")) {
-                    qb_reply.jobs.push_back(qbj);
+                    qb_reply.jobs.push_back(js);
                     break;
                 }
-                if (parse_str(buf, "job_name", qbj.job_name)) continue;
-                if (parse_str(buf, "status", qbj.status)) continue;
+                if (parse_str(buf, "job_name", js.job_name)) continue;
+                if (parse_str(buf, "status", js.status)) continue;
             }
             continue;
         }
+    }
+    fclose(reply);
+    return retval;
+}
+
+int BATCH_STATUS::parse(XML_PARSER& xp) {
+    memset(this, 0, sizeof(BATCH_STATUS));
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/batch")) {
+            return 0;
+        }
+        if (xp.parse_int("id", id)) continue;
+        if (xp.parse_str("name", name, sizeof(name))) continue;
+        if (xp.parse_int("state", state)) continue;
+        if (xp.parse_int("njobs", njobs)) continue;
+        if (xp.parse_int("nerror_jobs", nerror_jobs)) continue;
+        if (xp.parse_double("fraction_done", fraction_done)) continue;
+        if (xp.parse_double("create_time", create_time)) continue;
+        if (xp.parse_double("expire_time", expire_time)) continue;
+        if (xp.parse_double("est_completion_time", est_completion_time)) continue;
+        if (xp.parse_double("completion_time", completion_time)) continue;
+        if (xp.parse_double("credit_estimate", credit_estimate)) continue;
+        if (xp.parse_double("credit_canonical", credit_canonical)) continue;
+    }
+    return ERR_XML_PARSE;
+}
+
+void BATCH_STATUS::print() {
+    printf("Batch %d (%s)\n"
+        "   state: %s\n"
+        "   njobs: %d\n"
+        "   nerror_jobs: %d\n"
+        "   fraction_done: %f\n",
+        id, name,
+        batch_state_string(state),
+        njobs,
+        nerror_jobs,
+        fraction_done
+    );
+    printf(
+        "   create_time: %s\n",
+        time_to_string(create_time)
+    );
+    printf(
+        "   expire_time: %s\n",
+        time_to_string(expire_time)
+    );
+    printf(
+        "   est_completion_time: %s\n",
+        time_to_string(est_completion_time)
+    );
+    printf(
+        "   completion_time: %s\n",
+        time_to_string(completion_time)
+    );
+    printf(
+        "   credit_estimate: %f\n"
+        "   credit_canonical: %f\n",
+        credit_estimate,
+        credit_canonical
+    );
+}
+
+int query_batches(
+    const char* project_url,
+    const char* authenticator,
+    vector<BATCH_STATUS>& batches,
+    string &error_msg
+) {
+    string request;
+    char url[1024], buf[256];
+    request = "<query_batches>\n";
+    sprintf(buf, "<authenticator>%s</authenticator>\n", authenticator);
+    request += string(buf);
+    request += "</query_batches>\n";
+    sprintf(url, "%ssubmit_rpc_handler.php", project_url);
+    FILE* reply = tmpfile();
+    vector<string> x;
+    int retval = do_http_post(url, request.c_str(), reply, x);
+    if (retval) {
+        fclose(reply);
+        return retval;
+    }
+    fseek(reply, 0, SEEK_SET);
+    retval = -1;
+    error_msg = "failed to parse Web RPC reply";
+    MIOFILE mf;
+    XML_PARSER xp(&mf);
+    mf.init_file(reply);
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/batches")) {
+            retval = 0;
+            error_msg = "";
+            break;
+        }
+        if (xp.match_tag("batch")) {
+            BATCH_STATUS bs;
+            if (!bs.parse(xp)) {
+                batches.push_back(bs);
+            }
+            continue;
+        }
+        if (xp.parse_string("error_msg", error_msg)) continue;
+        if (xp.parse_int("error_num", retval)) continue;
+    }
+    fclose(reply);
+    return retval;
+}
+
+int JOB_STATE::parse(XML_PARSER& xp) {
+    memset(this, 0, sizeof(JOB_STATE));
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/job")) {
+            return 0;
+        }
+        if (xp.parse_int("id", id)) continue;
+        if (xp.parse_str("name", name, sizeof(name))) continue;
+        if (xp.parse_int("canonical_instance_id", canonical_instance_id)) continue;
+        if (xp.parse_int("n_outfiles", n_outfiles)) continue;
+    }
+    return ERR_XML_PARSE;
+}
+
+void JOB_STATE::print() {
+    printf(
+        "job %d (%s)\n"
+        "   canonical_instance_id %d\n"
+        "   n_outfiles %d\n",
+        id, name,
+        canonical_instance_id,
+        n_outfiles
+    );
+}
+
+int query_batch(
+    const char* project_url,
+    const char* authenticator,
+    int batch_id,
+    const char* batch_name,
+    vector<JOB_STATE>& jobs,
+    string &error_msg
+) {
+    string request;
+    char url[1024], buf[256];
+    request = "<query_batch>\n";
+    sprintf(buf, "<authenticator>%s</authenticator>\n", authenticator);
+    request += string(buf);
+    if (batch_id) {
+        sprintf(buf, "<batch_id>%d</batch_id>\n", batch_id);
+    } else {
+        sprintf(buf, "<batch_name>%s</batch_name>\n", batch_name);
+    }
+    request += string(buf);
+    request += "</query_batch>\n";
+    sprintf(url, "%ssubmit_rpc_handler.php", project_url);
+    FILE* reply = tmpfile();
+    vector<string> x;
+    int retval = do_http_post(url, request.c_str(), reply, x);
+    if (retval) {
+        fclose(reply);
+        return retval;
+    }
+    fseek(reply, 0, SEEK_SET);
+    retval = -1;
+    error_msg = "";
+    MIOFILE mf;
+    XML_PARSER xp(&mf);
+    mf.init_file(reply);
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/jobs")) {
+            retval = 0;
+            break;
+        }
+        if (xp.match_tag("job")) {
+            JOB_STATE js;
+            if (!js.parse(xp)) {
+                jobs.push_back(js);
+            }
+            continue;
+        }
+
     }
     fclose(reply);
     return retval;
@@ -551,7 +731,6 @@ int get_templates(
 }
 
 int TEMPLATE_DESC::parse(XML_PARSER& xp) {
-    int retval;
     string s;
     while (!xp.get_tag()) {
         if (xp.match_tag("input_template")) {

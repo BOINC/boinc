@@ -330,9 +330,13 @@ void strip_whitespace(string& str) {
 
 char* time_to_string(double t) {
     static char buf[100];
-    time_t x = (time_t)t;
-    struct tm* tm = localtime(&x);
-    strftime(buf, sizeof(buf)-1, "%d-%b-%Y %H:%M:%S", tm);
+    if (!t) {
+        strcpy(buf, "---");
+    } else {
+        time_t x = (time_t)t;
+        struct tm* tm = localtime(&x);
+        strftime(buf, sizeof(buf)-1, "%d-%b-%Y %H:%M:%S", tm);
+    }
     return buf;
 }
 
@@ -637,6 +641,17 @@ const char* active_task_state_string(int state) {
     case PROCESS_COPY_PENDING: return "COPY_PENDING";
     }
     return "Unknown";
+}
+
+const char* batch_state_string(int state) {
+    switch (state) {
+    case BATCH_STATE_INIT: return "uninitialized";
+    case BATCH_STATE_IN_PROGRESS: return "in progress";
+    case BATCH_STATE_COMPLETE: return "completed";
+    case BATCH_STATE_ABORTED: return "aborted";
+    case BATCH_STATE_RETIRED: return "retired";
+    }
+    return "unknown";
 }
 
 // string substitution:
