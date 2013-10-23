@@ -65,7 +65,6 @@
 		DD1CB232154F5BF700BFF282 /* project.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD1CB22E154F5BF700BFF282 /* project.cpp */; };
 		DD1CB233154F5BF700BFF282 /* result.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD1CB230154F5BF700BFF282 /* result.cpp */; };
 		DD1E4B7B14DCA83F0093C711 /* async_file.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD1E4B7914DCA83F0093C711 /* async_file.cpp */; };
-		DD205A1A0BAF596E0008D473 /* ProjectListCtrl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD205A180BAF596E0008D473 /* ProjectListCtrl.cpp */; };
 		DD21B49D0D750FC600AFFEE5 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDFE854A0B60CFD0009B43D9 /* AppKit.framework */; };
 		DD2370E113F49DF3003149F9 /* LoginItemAPI.c in Sources */ = {isa = PBXBuildFile; fileRef = DD2370DF13F49DF3003149F9 /* LoginItemAPI.c */; };
 		DD247AF90AEA308A0034104A /* SkinManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD247AF70AEA308A0034104A /* SkinManager.cpp */; };
@@ -457,8 +456,8 @@
 		DDE1373D10DC60BB00161D6B /* ViewNotices.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE1373B10DC60BB00161D6B /* ViewNotices.cpp */; };
 		DDE1374210DC60E200161D6B /* DlgEventLog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE1374010DC60E200161D6B /* DlgEventLog.cpp */; };
 		DDE1374910DC613600161D6B /* DlgEventLogListCtrl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE1374710DC613600161D6B /* DlgEventLogListCtrl.cpp */; };
-		DDE36DF617C3896A000E78D6 /* libwx_osx_cocoa_static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DDE36DF517C3896A000E78D6 /* libwx_osx_cocoa_static.a */; };
 		DDE17420166746F70059083A /* app_config.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE1741E166746F70059083A /* app_config.cpp */; };
+		DDE36DF617C3896A000E78D6 /* libwx_osx_cocoa_static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DDE36DF517C3896A000E78D6 /* libwx_osx_cocoa_static.a */; };
 		DDE3A8800E90D1BF00A363A7 /* client_state.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE3A87F0E90D1BF00A363A7 /* client_state.cpp */; };
 		DDE3A8810E90D21A00A363A7 /* sandbox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD80C83D0CBAEB4F00F1121D /* sandbox.cpp */; };
 		DDE3A8850E90D23400A363A7 /* scheduler_op.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE3A8840E90D23400A363A7 /* scheduler_op.cpp */; };
@@ -769,8 +768,6 @@
 		DD1E4B7A14DCA83F0093C711 /* async_file.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = async_file.h; sourceTree = "<group>"; };
 		DD1F0ACD0822069E00AFC5FA /* MacGUI.pch */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MacGUI.pch; path = ../clientgui/mac/MacGUI.pch; sourceTree = SOURCE_ROOT; };
 		DD2049DC0D862516009EEE7A /* coproc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = coproc.h; path = ../lib/coproc.h; sourceTree = SOURCE_ROOT; };
-		DD205A180BAF596E0008D473 /* ProjectListCtrl.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ProjectListCtrl.cpp; path = ../clientgui/ProjectListCtrl.cpp; sourceTree = SOURCE_ROOT; };
-		DD205A190BAF596E0008D473 /* ProjectListCtrl.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ProjectListCtrl.h; path = ../clientgui/ProjectListCtrl.h; sourceTree = SOURCE_ROOT; };
 		DD2370DF13F49DF3003149F9 /* LoginItemAPI.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = LoginItemAPI.c; path = ../mac_installer/LoginItemAPI.c; sourceTree = "<group>"; };
 		DD2370E013F49DF3003149F9 /* LoginItemAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoginItemAPI.h; path = ../mac_installer/LoginItemAPI.h; sourceTree = "<group>"; };
 		DD247AF70AEA308A0034104A /* SkinManager.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = SkinManager.cpp; path = ../clientgui/SkinManager.cpp; sourceTree = SOURCE_ROOT; };
@@ -1590,8 +1587,6 @@
 				DDBB7E7711D2BCF100598DC1 /* NoticeListCtrl.h */,
 				DD58C44C08F334B500C1DF66 /* ProjectInfoPage.cpp */,
 				DD58C44D08F334B500C1DF66 /* ProjectInfoPage.h */,
-				DD205A180BAF596E0008D473 /* ProjectListCtrl.cpp */,
-				DD205A190BAF596E0008D473 /* ProjectListCtrl.h */,
 				DD58C44E08F334B500C1DF66 /* ProjectProcessingPage.cpp */,
 				DD58C44F08F334B500C1DF66 /* ProjectProcessingPage.h */,
 				DD58C45008F334B500C1DF66 /* ProjectPropertiesPage.cpp */,
@@ -2877,7 +2872,6 @@
 				DDFE84E70B60CD66009B43D9 /* DlgAdvPreferencesBase.cpp in Sources */,
 				DD7DD79B0B8BFA4000B11279 /* ViewResources.cpp in Sources */,
 				DD7BF7E60B8E7B6C00A009F7 /* str_util.cpp in Sources */,
-				DD205A1A0BAF596E0008D473 /* ProjectListCtrl.cpp in Sources */,
 				DD4E704C0BCDAC360010A522 /* browser.cpp in Sources */,
 				DDA6BD210BD4551F008F7921 /* mac_backtrace.cpp in Sources */,
 				DDA6BD230BD4551F008F7921 /* QBacktrace.c in Sources */,

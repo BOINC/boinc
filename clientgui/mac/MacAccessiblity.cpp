@@ -28,7 +28,6 @@
 #include "AdvancedFrame.h"
 #include "BOINCListCtrl.h"
 #include "DlgEventLogListCtrl.h"
-#include "ProjectListCtrl.h"
 #include "NoticeListCtrl.h"
 #include "ViewStatistics.h"
 #include "wxPieCtrl.h"
@@ -68,6 +67,7 @@ void AccessibilityIgnoreAllChildren(HIViewRef parent, int recursionLevel) {
 }
 
 
+#if 0  // Removed for wxCocoa 9.5
 pascal OSStatus HTMLListAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRef,
                                     EventRef inEvent, void* pData);
 
@@ -83,6 +83,7 @@ pascal OSStatus HTMLListAccessibilityEventHandler( EventHandlerCallRef inHandler
                                     { kEventClassAccessibility, kEventAccessibleGetNamedActionDescription },
                                     { kEventClassAccessibility, kEventAccessiblePerformNamedAction }			
                                 };
+#endif  // Removed for wxCocoa 9.5
 
 
     static EventTypeSpec Simple_AccessibilityEvents[] = {
@@ -203,7 +204,6 @@ void CDlgEventLogListCtrl::RemoveMacAccessibilitySupport() {
 #endif  // !USE_NATIVE_LISTCONTROL
 }
 
-#endif  // Removed for wxCocoa 9.5
 
 typedef struct {
     CProjectListCtrlAccessible* pProjectListCtrlAccessible;
@@ -240,6 +240,7 @@ void CProjectListCtrlAccessible::RemoveMacAccessibilitySupport() {
         m_plistAccessibilityEventHandlerRef = NULL;
    }
 }
+#endif  // Removed for wxCocoa 9.5
 
 
 void CNoticeListCtrlAccessible::SetupMacAccessibilitySupport() {
@@ -1323,8 +1324,6 @@ pascal OSStatus BOINCListAccessibilityEventHandler( EventHandlerCallRef inHandle
 
 #endif  // !USE_NATIVE_LISTCONTROL
 
-#endif  // Removed for wxCocoa 9.5
-
 
 
 pascal OSStatus HTMLListAccessibilityEventHandler( EventHandlerCallRef inHandlerCallRef,
@@ -1849,6 +1848,8 @@ pascal OSStatus HTMLListAccessibilityEventHandler( EventHandlerCallRef inHandler
     
     return eventNotHandledErr;
 }
+
+#endif  // Removed for wxCocoa 9.5
 
 
 

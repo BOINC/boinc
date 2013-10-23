@@ -34,7 +34,6 @@
 #include "MainDocument.h"
 #include "BOINCBaseWizard.h"
 #include "BOINCBaseFrame.h"
-#include "ProjectListCtrl.h"
 #include "WizardAttach.h"
 #include "WelcomePage.h"
 #include "ProjectInfoPage.h"
