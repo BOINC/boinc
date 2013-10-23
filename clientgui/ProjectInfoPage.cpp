@@ -494,6 +494,7 @@ void CProjectInfoPage::OnProjectSelected( wxCommandEvent& WXUNUSED(event) ) {
         // Change all occurrences of "<sup>n</sup>" to "^n"
         desc.Replace(wxT("<sup>"), wxT("^"), true);
         desc.Replace(wxT("</sup>"), wxT(""), true);
+        desc.Replace(wxT("&lt;"), wxT("<"), true);
 
         m_pProjectDetailsDescriptionCtrl->SetValue(desc);
         m_pProjectDetailsURLCtrl->SetLabel(strURL);
