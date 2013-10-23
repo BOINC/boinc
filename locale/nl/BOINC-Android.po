@@ -1,23 +1,20 @@
-# Translations template for PROJECT.
+# Dutch translations for PACKAGE.
 # Copyright (C) 2013 ORGANIZATION
-# This file is distributed under the same license as the PROJECT project.
+# This file is distributed under the same license as the PACKAGE project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-08-29 15:37-0700\n"
-"PO-Revision-Date: 2013-10-14 18:34+0000\n"
+"POT-Creation-Date: 2013-10-22 15:28-0700\n"
+"PO-Revision-Date: 2013-10-18 17:19+0000\n"
 "Last-Translator: Rene <oskamjr@ziggo.nl>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: nl\n"
+"Language-Team: nl <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
-"X-POOTLE-MTIME: 1381775663.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -50,6 +47,10 @@ msgstr "Project toevoegen"
 msgctxt "attachproject_list_manual_no_url"
 msgid "Please enter project URL"
 msgstr "Projectspecifieke URL invoeren"
+
+msgctxt "attachproject_list_acctmgr_button"
+msgid "Add account manager"
+msgstr ""
 
 msgctxt "attachproject_list_no_internet"
 msgid "No Internet connection"
@@ -105,8 +106,8 @@ msgid ""
 "By creating an account with this project, you accept the terms of use as "
 "shown above."
 msgstr ""
-"Het aanmaken van een account bij dit project impliceert acceptatie van de "
-"gebruiksvoorwaarden zoals hierboven beschreven."
+"Het aanmaken van een account bij dit project impliceert acceptatie van de"
+" gebruiksvoorwaarden zoals hierboven beschreven."
 
 msgctxt "attachproject_login_category_login"
 msgid "Sign in with existing account"
@@ -193,6 +194,33 @@ msgctxt "attachproject_registration_button"
 msgid "Create"
 msgstr "Aanmaken"
 
+#. account manager
+msgctxt "attachproject_acctmgr_header"
+msgid "Add account manager"
+msgstr ""
+
+msgctxt "attachproject_acctmgr_header_url"
+msgid "URL"
+msgstr ""
+
+msgctxt "attachproject_acctmgr_header_name"
+msgid "User:"
+msgstr ""
+
+#, fuzzy
+msgctxt "attachproject_acctmgr_header_pwd"
+msgid "Password:"
+msgstr "Wachtwoord:"
+
+#, fuzzy
+msgctxt "attachproject_acctmgr_header_pwd_confirm"
+msgid "… Retype:"
+msgstr "... Herhalen:"
+
+msgctxt "attachproject_acctmgr_button"
+msgid "Add"
+msgstr ""
+
 #. error strings
 msgctxt "attachproject_error_wrong_name"
 msgid "User not found"
@@ -209,6 +237,11 @@ msgstr "Verbinding mislukt"
 msgctxt "attachproject_error_pwd_no_match"
 msgid "Passwords do not match"
 msgstr "Wachtwoorden zijn niet identiek"
+
+#, fuzzy
+msgctxt "attachproject_error_no_url"
+msgid "Please enter URL"
+msgstr "Voer gebruikersnaam in"
 
 msgctxt "attachproject_error_no_email"
 msgid "Please enter eMail address"
@@ -249,6 +282,10 @@ msgstr "Wachtwoord geweigerd"
 msgctxt "attachproject_error_creation_disabled"
 msgid "Account creation is disabled on this project"
 msgstr "Aanmaken van een account is voor dit project niet mogelijk"
+
+msgctxt "attachproject_error_invalid_url"
+msgid "Invalid URL"
+msgstr ""
 
 #. working activity
 msgctxt "attachproject_working_back_button"
@@ -295,6 +332,14 @@ msgctxt "attachproject_working_login"
 msgid "Log in"
 msgstr "Aanmelden"
 
+msgctxt "attachproject_working_acctmgr"
+msgid "Add account manager"
+msgstr ""
+
+msgctxt "attachproject_working_acctmgr_sync"
+msgid "Synchronize"
+msgstr ""
+
 #. main activity
 msgctxt "main_noproject_warning"
 msgid "Tab here to choose a project."
@@ -336,6 +381,10 @@ msgstr "Overdrachten"
 msgctxt "tab_preferences"
 msgid "Preferences"
 msgstr "Voorkeursinstellingen"
+
+msgctxt "tab_notices"
+msgid "Notices"
+msgstr ""
 
 msgctxt "tab_desc"
 msgid "Navigation"
@@ -515,7 +564,7 @@ msgstr ""
 
 msgctxt "prefs_cpu_time_max_header"
 msgid "CPU limit"
-msgstr ""
+msgstr "CPU limiet"
 
 msgctxt "prefs_cpu_time_max_description"
 msgid "Limits the CPU time BOINC uses for computation."
@@ -621,6 +670,10 @@ msgctxt "projects_control_dialog_title"
 msgid "Project commands:"
 msgstr ""
 
+msgctxt "projects_control_visit_website"
+msgid "Visit website"
+msgstr ""
+
 msgctxt "projects_control_update"
 msgid "Update"
 msgstr "Bijwerken"
@@ -647,6 +700,18 @@ msgstr "Nieuwe taken toestaan"
 
 msgctxt "projects_control_reset"
 msgid "Reset"
+msgstr ""
+
+msgctxt "projects_control_dialog_title_acctmgr"
+msgid "Account manager commands:"
+msgstr ""
+
+msgctxt "projects_control_sync_acctmgr"
+msgid "Synchronize"
+msgstr ""
+
+msgctxt "projects_control_remove_acctmgr"
+msgid "Disable"
 msgstr ""
 
 #. project confirm dialog
@@ -678,6 +743,18 @@ msgctxt "projects_confirm_reset_confirm"
 msgid "Reset"
 msgstr ""
 
+msgctxt "projects_confirm_remove_acctmgr_title"
+msgid "Disable account manager"
+msgstr ""
+
+msgctxt "projects_confirm_remove_acctmgr_message"
+msgid "Are you sure you want to stop using"
+msgstr ""
+
+msgctxt "projects_confirm_remove_acctmgr_confirm"
+msgid "Disable"
+msgstr ""
+
 #. tasks tab strings
 msgctxt "tasks_header_name"
 msgid "Task Name:"
@@ -701,23 +778,23 @@ msgstr "nieuw"
 
 msgctxt "tasks_result_files_downloading"
 msgid "waiting for download"
-msgstr ""
+msgstr "wacht op downloaden"
 
 msgctxt "tasks_result_files_downloaded"
 msgid "download complete"
-msgstr ""
+msgstr "downloaden voltooid"
 
 msgctxt "tasks_result_compute_error"
 msgid "computation error"
-msgstr ""
+msgstr "verwerkingsfout"
 
 msgctxt "tasks_result_files_uploading"
 msgid "uploading"
-msgstr ""
+msgstr "uploaden..."
 
 msgctxt "tasks_result_files_uploaded"
 msgid "upload complete"
-msgstr ""
+msgstr "uploaden voltooid"
 
 msgctxt "tasks_result_aborted"
 msgid "aborted"
@@ -725,7 +802,7 @@ msgstr "afgebroken"
 
 msgctxt "tasks_result_upload_failed"
 msgid "upload failed"
-msgstr ""
+msgstr "uploaden mislukt"
 
 msgctxt "tasks_active_uninitialized"
 msgid "ready"
@@ -766,7 +843,7 @@ msgstr "Taak afbreken?"
 
 msgctxt "confirm_abort_task_message"
 msgid "Abort task:"
-msgstr ""
+msgstr "Taak afbreken:"
 
 msgctxt "confirm_abort_task_confirm"
 msgid "Abort"
@@ -783,19 +860,19 @@ msgstr "Bevestigingsdialoog"
 #. transfers tab strings
 msgctxt "trans_loading"
 msgid "Reading transfers…"
-msgstr ""
+msgstr "Overdracht inlezen..."
 
 msgctxt "trans_upload"
 msgid "Upload"
-msgstr ""
+msgstr "Upload"
 
 msgctxt "trans_download"
 msgid "Download"
-msgstr ""
+msgstr "Download"
 
 msgctxt "trans_retryin"
 msgid "retry in"
-msgstr ""
+msgstr "opnieuw over"
 
 msgctxt "trans_failed"
 msgid "failed"
@@ -815,57 +892,68 @@ msgstr "in behandeling"
 
 msgctxt "trans_projectbackoff"
 msgid "project backoff"
-msgstr ""
+msgstr "project wachttijd"
 
 msgctxt "trans_header_name"
 msgid "File:"
 msgstr "Bestand:"
 
+#, fuzzy
+msgctxt "trans_control_retry"
+msgid "Retry transfers"
+msgstr "Overdracht afbreken?"
+
 msgctxt "confirm_abort_trans_title"
 msgid "Abort transfer?"
-msgstr ""
+msgstr "Overdracht afbreken?"
 
 msgctxt "confirm_abort_trans_message"
 msgid "Abort File:"
-msgstr ""
+msgstr "Bestand afbreken:"
 
 msgctxt "confirm_abort_trans_confirm"
 msgid "Abort"
 msgstr "Afbreken"
 
+#. notices tab strings
+#, fuzzy
+msgctxt "notices_loading"
+msgid "Reading notices…"
+msgstr "Projecten inlezen..."
+
 #. eventlog tab strings
 msgctxt "eventlog_loading"
 msgid "Loading log messages…"
-msgstr ""
+msgstr "Log berichten laden..."
 
 msgctxt "eventlog_client_header"
 msgid "Client Messages"
-msgstr ""
+msgstr "Berichten van Cliënt"
 
 msgctxt "eventlog_gui_header"
 msgid "GUI Messages"
-msgstr ""
+msgstr "GUI berichten"
 
 msgctxt "eventlog_copy_toast"
 msgid "Log copied to clipboard."
-msgstr ""
+msgstr "Log naar klembord gekopieerd."
 
 msgctxt "eventlog_email_subject"
 msgid "Event Log for BOINC on Android:"
-msgstr ""
+msgstr "Logberichten voor BOINC op Android:"
 
 #. suspend reasons
 msgctxt "suspend_unknown"
 msgid "Computation suspended."
-msgstr ""
+msgstr "Bewerking onderbroken."
 
 msgctxt "suspend_batteries"
 msgid "Connect your device to a charger to continue computing."
-msgstr ""
+msgstr "Verbind het apparaat met een oplader om verder te gaan."
 
 msgctxt "suspend_useractive"
 msgid "User is active."
-msgstr ""
+msgstr "Gebruiker is actief."
 
 msgctxt "suspend_tod"
 msgid "Out of computation time-frame."
@@ -987,35 +1075,32 @@ msgstr ""
 
 msgctxt "menu_exit"
 msgid "Exit BOINC"
-msgstr ""
+msgstr "BOINC afsluiten"
 
-#, fuzzy
 msgctxt "menu_run_mode_disable"
 msgid "Suspend"
-msgstr "Onderbroken"
+msgstr "Onderbreek"
 
 msgctxt "menu_run_mode_enable"
 msgid "Resume"
 msgstr "Hervatten"
 
-#, fuzzy
 msgctxt "menu_about"
 msgid "About"
-msgstr "Afbreken"
+msgstr "Over"
 
 msgctxt "menu_help"
 msgid "Help"
-msgstr ""
+msgstr "Help"
 
 #. about dialog
 msgctxt "about_button"
 msgid "Return"
 msgstr ""
 
-#, fuzzy
 msgctxt "about_title"
 msgid "About"
-msgstr "Afbreken"
+msgstr "Over"
 
 msgctxt "about_name"
 msgid "BOINC"
@@ -1023,14 +1108,17 @@ msgstr "BOINC"
 
 msgctxt "about_version"
 msgid "Version"
-msgstr ""
+msgstr "Versie"
 
 msgctxt "about_name_long"
 msgid "Berkeley Open Infrastructure for Network Computing"
-msgstr ""
+msgstr "Berkeley Open Infrastructure for Network Computing"
 
 msgctxt "about_copyright"
 msgid ""
 "© 2003–2013 University of California, Berkeley.\n"
 "All Rights Reserved."
 msgstr ""
+"© 2003–2013 University of California, Berkeley.\n"
+"All Rights Reserved."
+
