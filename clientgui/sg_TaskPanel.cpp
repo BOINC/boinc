@@ -425,8 +425,10 @@ IMPLEMENT_DYNAMIC_CLASS(CSimpleTaskPanel, CSimplePanelBase)
 
 BEGIN_EVENT_TABLE(CSimpleTaskPanel, CSimplePanelBase)
     EVT_BOINCBITMAPCOMBOBOX(ID_SGTASKSELECTOR, CSimpleTaskPanel::OnTaskSelection)
+#if 0   // This is apparently no longer needed with wxCocoa 3.0 
 #ifdef __WXMAC__
     EVT_ERASE_BACKGROUND(CSimpleTaskPanel::OnEraseBackground)    
+#endif
 #endif
 END_EVENT_TABLE()
 
@@ -1255,10 +1257,10 @@ void CSimpleTaskPanel::OnEraseBackground(wxEraseEvent& event) {
     wxDC *dc = event.GetDC();
     
     if (m_ProgressBar->IsShown()) {
-        if (m_progressBarRect == NULL) {
+//        if (m_progressBarRect == NULL) {
             m_progressBarRect = new wxRect(m_ProgressBar->GetRect());
             m_progressBarRect->Inflate(1, 0);
-        }
+//        }
         dc->GetClippingBox(&clipRect.x, &clipRect.y, &clipRect.width, &clipRect.height);
         if (clipRect.IsEmpty() || m_progressBarRect->Contains(clipRect)) {
             return;
