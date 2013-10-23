@@ -1,21 +1,24 @@
-# Russian translations for PACKAGE.
+# Translations template for PROJECT.
 # Copyright (C) 2013 ORGANIZATION
-# This file is distributed under the same license as the PACKAGE project.
+# This file is distributed under the same license as the PROJECT project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-10-22 15:28-0700\n"
+"POT-Creation-Date: 2013-08-29 15:37-0700\n"
 "PO-Revision-Date: 2013-09-21 13:54+0000\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
-"Language-Team: ru <LL@li.org>\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: ru\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
+"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
+"X-POOTLE-MTIME: 1379771666.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -49,11 +52,6 @@ msgctxt "attachproject_list_manual_no_url"
 msgid "Please enter project URL"
 msgstr "Пожалуйста, введите URL проекта"
 
-#, fuzzy
-msgctxt "attachproject_list_acctmgr_button"
-msgid "Add account manager"
-msgstr "Запрошено менеджером проектов"
-
 msgctxt "attachproject_list_no_internet"
 msgid "No Internet connection"
 msgstr "Нет подключения к Интернету"
@@ -79,6 +77,7 @@ msgctxt "attachproject_login_header_description"
 msgid "Description:"
 msgstr "Описание:"
 
+# Это типа институт/университет, который владеет проектом
 msgctxt "attachproject_login_header_home"
 msgid "Home:"
 msgstr "Владелец:"
@@ -108,8 +107,8 @@ msgid ""
 "By creating an account with this project, you accept the terms of use as "
 "shown above."
 msgstr ""
-"Создавая учётную запись в этом проекте, вы принимаете условия "
-"использования, которые показаны выше."
+"Создавая учётную запись в этом проекте, вы принимаете условия использования, "
+"которые показаны выше."
 
 msgctxt "attachproject_login_category_login"
 msgid "Sign in with existing account"
@@ -196,34 +195,6 @@ msgctxt "attachproject_registration_button"
 msgid "Create"
 msgstr "Создать"
 
-#. account manager
-#, fuzzy
-msgctxt "attachproject_acctmgr_header"
-msgid "Add account manager"
-msgstr "Запрошено менеджером проектов"
-
-msgctxt "attachproject_acctmgr_header_url"
-msgid "URL"
-msgstr ""
-
-msgctxt "attachproject_acctmgr_header_name"
-msgid "User:"
-msgstr ""
-
-#, fuzzy
-msgctxt "attachproject_acctmgr_header_pwd"
-msgid "Password:"
-msgstr "Пароль:"
-
-#, fuzzy
-msgctxt "attachproject_acctmgr_header_pwd_confirm"
-msgid "… Retype:"
-msgstr "… Повторить:"
-
-msgctxt "attachproject_acctmgr_button"
-msgid "Add"
-msgstr ""
-
 #. error strings
 msgctxt "attachproject_error_wrong_name"
 msgid "User not found"
@@ -240,11 +211,6 @@ msgstr "Сбой подключения"
 msgctxt "attachproject_error_pwd_no_match"
 msgid "Passwords do not match"
 msgstr "Пароли не совпадают"
-
-#, fuzzy
-msgctxt "attachproject_error_no_url"
-msgid "Please enter URL"
-msgstr "Введите имя пользователя"
 
 msgctxt "attachproject_error_no_email"
 msgid "Please enter eMail address"
@@ -285,10 +251,6 @@ msgstr "Пароль не принят"
 msgctxt "attachproject_error_creation_disabled"
 msgid "Account creation is disabled on this project"
 msgstr "Создание учётной записи в данном проекте отключено"
-
-msgctxt "attachproject_error_invalid_url"
-msgid "Invalid URL"
-msgstr ""
 
 #. working activity
 msgctxt "attachproject_working_back_button"
@@ -335,15 +297,6 @@ msgctxt "attachproject_working_login"
 msgid "Log in"
 msgstr "Войти"
 
-#, fuzzy
-msgctxt "attachproject_working_acctmgr"
-msgid "Add account manager"
-msgstr "Запрошено менеджером проектов"
-
-msgctxt "attachproject_working_acctmgr_sync"
-msgid "Synchronize"
-msgstr ""
-
 #. main activity
 msgctxt "main_noproject_warning"
 msgid "Tab here to choose a project."
@@ -385,10 +338,6 @@ msgstr "Передачи"
 msgctxt "tab_preferences"
 msgid "Preferences"
 msgstr "Настройки"
-
-msgctxt "tab_notices"
-msgid "Notices"
-msgstr ""
 
 msgctxt "tab_desc"
 msgid "Navigation"
@@ -573,8 +522,8 @@ msgstr "Пауза при использовании процессора выш
 msgctxt "prefs_cpu_other_load_suspension_description"
 msgid "Determines when BOINC pauses computation due to other app's CPU usage."
 msgstr ""
-"Определяет, когда BOINC останавливает расчёты из-за использования "
-"процессора другими приложениями."
+"Определяет, когда BOINC останавливает расчёты из-за использования процессора "
+"другими приложениями."
 
 msgctxt "prefs_cpu_time_max_header"
 msgid "CPU limit"
@@ -612,7 +561,7 @@ msgctxt "prefs_unit_gb"
 msgid "GB"
 msgstr "ГБ"
 
-#, c-format
+#, c-format, c-format
 msgctxt "prefs_unit_pct"
 msgid "%"
 msgstr "%"
@@ -684,10 +633,6 @@ msgctxt "projects_control_dialog_title"
 msgid "Project commands:"
 msgstr "Команды проекта:"
 
-msgctxt "projects_control_visit_website"
-msgid "Visit website"
-msgstr ""
-
 msgctxt "projects_control_update"
 msgid "Update"
 msgstr "Обновить"
@@ -715,18 +660,6 @@ msgstr "Получать новые задания"
 msgctxt "projects_control_reset"
 msgid "Reset"
 msgstr "Сбросить"
-
-msgctxt "projects_control_dialog_title_acctmgr"
-msgid "Account manager commands:"
-msgstr ""
-
-msgctxt "projects_control_sync_acctmgr"
-msgid "Synchronize"
-msgstr ""
-
-msgctxt "projects_control_remove_acctmgr"
-msgid "Disable"
-msgstr ""
 
 #. project confirm dialog
 msgctxt "projects_confirm_detach_title"
@@ -756,20 +689,6 @@ msgstr "Вы действительно хотите перезапустить"
 msgctxt "projects_confirm_reset_confirm"
 msgid "Reset"
 msgstr "Сбросить"
-
-#, fuzzy
-msgctxt "projects_confirm_remove_acctmgr_title"
-msgid "Disable account manager"
-msgstr "Запрошено менеджером проектов"
-
-#, fuzzy
-msgctxt "projects_confirm_remove_acctmgr_message"
-msgid "Are you sure you want to stop using"
-msgstr "Вы действительно хотите перезапустить"
-
-msgctxt "projects_confirm_remove_acctmgr_confirm"
-msgid "Disable"
-msgstr ""
 
 #. tasks tab strings
 msgctxt "tasks_header_name"
@@ -914,11 +833,6 @@ msgctxt "trans_header_name"
 msgid "File:"
 msgstr "Файл:"
 
-#, fuzzy
-msgctxt "trans_control_retry"
-msgid "Retry transfers"
-msgstr "Прервать передачу?"
-
 msgctxt "confirm_abort_trans_title"
 msgid "Abort transfer?"
 msgstr "Прервать передачу?"
@@ -930,12 +844,6 @@ msgstr "Прервать файл:"
 msgctxt "confirm_abort_trans_confirm"
 msgid "Abort"
 msgstr "Прервать"
-
-#. notices tab strings
-#, fuzzy
-msgctxt "notices_loading"
-msgid "Reading notices…"
-msgstr "Чтение проектов…"
 
 #. eventlog tab strings
 msgctxt "eventlog_loading"
@@ -966,8 +874,7 @@ msgstr "Расчёты приостановлены."
 msgctxt "suspend_batteries"
 msgid "Connect your device to a charger to continue computing."
 msgstr ""
-"Подключите ваше устройство к зарядному устройству для продолжения "
-"расчётов."
+"Подключите ваше устройство к зарядному устройству для продолжения расчётов."
 
 msgctxt "suspend_useractive"
 msgid "User is active."
@@ -1141,4 +1048,3 @@ msgid ""
 msgstr ""
 "© 2003-2013 Калифорнийский университет, Беркли.\n"
 "Все права защищены."
-
