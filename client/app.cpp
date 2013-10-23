@@ -298,6 +298,11 @@ void procinfo_show(PROCINFO& pi, PROC_MAP& pm) {
 }
 #endif
 
+// scan the set of all processes to
+// 1) get the working-set size of active tasks
+// 2) see if exclusive apps are running
+// 3) get CPU time of non-BOINC processes
+//
 void ACTIVE_TASK_SET::get_memory_usage() {
     static double last_mem_time=0;
     unsigned int i;
@@ -350,7 +355,14 @@ void ACTIVE_TASK_SET::get_memory_usage() {
             v = &(atp->other_pids);
         }
         procinfo_app(pi, v, pm, atp->app_version->graphics_exec_file);
-        pi.working_set_size_smoothed = .5*(pi.working_set_size_smoothed + pi.working_set_size);
+        if (atp->app_version->is_vm_app) {
+            // the memory of virtual machine apps is not reported correctly,
+            // at least on Windows.  Use the VM size instead.
+            //
+            pi.working_set_size_smoothed = atp->wup->rsc_memory_bound;
+        } else {
+            pi.working_set_size_smoothed = .5*(pi.working_set_size_smoothed + pi.working_set_size);
+        }
 
         if (!first) {
             int pf = pi.page_fault_count - last_page_fault_count;

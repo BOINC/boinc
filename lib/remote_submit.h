@@ -160,18 +160,18 @@ extern int query_batch_set(
 
 struct BATCH_STATUS {
     int id;
-    char name[256];
+    char name[256];             // name of batch
     char app_name[256];
-    int state;
-    int njobs;
-    int nerror_jobs;
-    double fraction_done;
-    double create_time;
-    double expire_time;
-    double est_completion_time;
-    double completion_time;
-    double credit_estimate;
-    double credit_canonical;
+    int state;                  // see lib/common_defs.h
+    int njobs;                  // how many jobs in batch
+    int nerror_jobs;            // how many jobs errored out
+    double fraction_done;       // how much of batch is done (0..1)
+    double create_time;         // when batch was created
+    double expire_time;         // when it will expire
+    double est_completion_time;     // estimated completion time
+    double completion_time;     // if completed, actual completion time
+    double credit_estimate;     // original estimate for credit
+    double credit_canonical;    // if completed, granted credit
 
     int parse(XML_PARSER&);
     void print();
@@ -189,14 +189,15 @@ extern int query_batches(
 struct JOB_STATE {
     int id;
     char name[256];
-    int canonical_instance_id;
-    int n_outfiles;
+    int canonical_instance_id;      // it job completed successfully,
+                                    // the ID of the canonical instance
+    int n_outfiles;                 // number of output files
 
     int parse(XML_PARSER&);
     void print();
 };
 
-// Return the detail status of jobs in a given batch
+// Return the state of jobs in a given batch
 // (can specify by either ID or name)
 //
 extern int query_batch(

@@ -745,6 +745,7 @@ void APP_VERSION::init() {
     strcpy(missing_coproc_name, "");
     dont_throttle = false;
     needs_network = false;
+    is_vm_app = false;
 }
 
 int APP_VERSION::parse(XML_PARSER& xp) {
@@ -785,6 +786,9 @@ int APP_VERSION::parse(XML_PARSER& xp) {
                         safe_strcpy(missing_coproc_name, coprocs.coprocs[rt].type);
                     }
                 }
+            }
+            if (strstr(plan_class, "vbox")) {
+                is_vm_app = true;
             }
             return 0;
         }

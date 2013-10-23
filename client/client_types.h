@@ -306,6 +306,7 @@ struct APP_VERSION {
     double missing_coproc_usage;
     char missing_coproc_name[256];
     bool dont_throttle;
+    bool is_vm_app;
 
     int index;  // temp var for make_scheduler_request()
 #ifdef SIM
