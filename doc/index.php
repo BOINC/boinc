@@ -200,6 +200,23 @@ function show_nsf() {
     ";
 }
 
+require_once("../html/inc/language_names.inc");
+
+function language_select() {
+    global $language_names;
+    $supported_languages = getSupportedLanguages();
+    $bd = tra("Browser default");
+    echo "
+        <option value=auto selected=\"selected\">-- language --
+        <option value=auto>$bd
+    ";
+    if ($bd != "Browser default") echo " (Browser default)";
+    foreach ($language_names as $lang) {
+        if (!in_array($lang[0], $supported_languages)) continue;
+        echo "<option value=".$lang[0].">".$lang[1]." (".$lang[2].")";
+    }
+}
+
 // how to add language names:
 // paste into notepad++, select ANSI format,
 // then copy/paste into here
@@ -208,35 +225,9 @@ function language_form() {
         <table><tr><td>
         <form name=language method=get action=set_language.php>
         <select class=selectbox name=lang onchange=\"javascript: submit()\">
-        <option value=auto selected=\"selected\">-- language --
-        <option value=auto>".tra("Browser default")
-        //."<option value=ar>العربية (Arabic)"
-        //."<option value=be>Беларускі (Belarusian)"
-        //."<option value=bg>Българск� (Bulgarian)"
-        ."<option value=ca>Català(Catalan)"
-        ."<option value=cs>Čeština (Czech)"
-        ."<option value=de>Deutsch (German)"
-        ."<option value=en>English"
-        ."<option value=es>Espa&ntilde;ol (Spanish)"
-        ."<option value=fi>Suomi (Finnish)"
-        ."<option value=fr>Fran&ccedil;ais (French)"
-        ."<option value=el>﻿Ελληνικά (Greek)"
-        ."<option value=he>Hebrew (עִבְרִית)"
-        ."<option value=hu>Magyar (Hungarian)"
-        ."<option value=it>Italiano (Italian)"
-        ."<option value=ja>日本語 (Japanese)"
-        ."<option value=ko>한국어 (Korean)"
-        ."<option value=lt>Lietuvių (Lithuanian)"
-        ."<option value=nl>Nederlands (Dutch)"
-        //."<option value=pl>Polski (Polish)"
-        ."<option value=pt_PT>Portugu&ecirc;s (Portuguese)"
-        //."<option value=pt_BR>Portugu&ecirc;s - Brasil (Portuguese - Brazil)"
-        ."<option value=ru>Русский (Russian)"
-        //."<option value=sk>Slovenčina (Slovakian)"
-        ."<option value=sl> Slovenščina (Slovenian)"
-        ."<option value=tr>Türkçe (Turkish)"
-        ."<option value=zh_CN>简体中文 (Chinese)"
-        ."</select>
+    ";
+    language_select();
+    echo "</select>
         </form>
         <script type=\"text/javascript\">
         document.language.lang.selectedIndex=0;
