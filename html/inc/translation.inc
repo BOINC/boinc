@@ -22,24 +22,23 @@ $lang_prj_translations_dir = "project_specific_translations/";
 $lang_compiled_dir = "compiled/";
 $lang_log_level = 1;
 
-// Fetches a list of compiled languages from the directory
-// set to contain such files.
+// Get a list of compiled languages by scanning the compiled/ dir
 // @returns A list of languages that have been compiled
 //
 function getSupportedLanguages(){
     global $lang_language_dir, $lang_compiled_dir;
     $list = array();
-    if (is_dir($lang_language_dir.$lang_compiled_dir)) {
-        if ($dh = opendir($lang_language_dir.$lang_compiled_dir)) {
-            while ($file = readdir($dh)) {
-                if (substr($file, -7) != ".po.inc") continue;
-                if (is_numeric(substr($file, 0, 5))) continue;
-                $list[] = substr($file,0,-7);
-            }
-        }
-    } else {
+    if (!is_dir($lang_language_dir.$lang_compiled_dir)) {
         echo "\"".$lang_language_dir.$lang_compiled_dir."\" is not a directory. Please consult the documentation for correctly setting up the translation system.";
         exit;
+    }
+    $dh = opendir($lang_language_dir.$lang_compiled_dir);
+    if (!$dh) die("can't open language dir");
+
+    while ($file = readdir($dh)) {
+        if (substr($file, -7) != ".po.inc") continue;
+        if (is_numeric(substr($file, 0, 5))) continue;
+        $list[] = substr($file, 0, -7);
     }
     return $list;
 }
@@ -49,62 +48,58 @@ function getSupportedLanguages(){
 // @param langdir The language base directory
 // @param transdir The location of the .po files to compile relative to langdir
 // @param compdir The output location relative to langdir
-// @param append If true the function will only append to rather than replace the compiled files
 //
-function buildLanguages($langdir,$transdir,$compdir){
-    global $lang_project_default;
+function buildLanguages($langdir, $transdir, $compdir){
 
     // Run through each language and compile their lookup arrays.
-    if (is_dir($langdir.$transdir)) {
-        if ($dh = opendir($langdir.$transdir)) {
-            while (($file = readdir($dh)) !== false) {
-                if ($file==".." or $file=="."){
-                    // Skip parent and current dir
-                } else if (substr($file,-3)==".po"){
-                    // and only do files ending in .po
-                    language_log(
-                        "-------------Compiling $transdir$file------------", 0
-                    );
-                    $language = parseLanguage($langdir.$transdir.$file);
-                    if (!$language){
-                        language_log(
-                            "WARNING: Could not parse language ".$file
-                        );
-                        continue;
-                    }
-                    $path = $langdir.$compdir.$file.".inc";
-                    if (file_exists($path)) {
-                        $fh = fopen($path, "a");
-                    } else {
-                        $fh = fopen($path, "w");
-                        fwrite($fh, "<?php\n");                    
-                    }
-                    if (!$fh) {
-                        language_log(
-                            "ERROR: could not access $langdir $compdir - please check permissions", 2
-                        );
-                        exit;
-                    }
-                    foreach ($language as $key => $value){
-                        if ($value !== "") {
-                            //Skip if the msgstr is empty
-                            fwrite($fh, "\$language_lookup_array[\"".str_replace("\"", "\\\"", substr($file,0,-3))."\"][\"".$key."\"] = \"".$value."\";\n");
-                        }
-                    }
-                    // don't write \?\> - may append
-
-                    fclose($fh);
-                } else {
-                    //debug("File $file with unknown extension found in $info_dir");
-                }
-            }
-            closedir($dh);
-        } else {
-            //debug("$info_dir could not be opened - check permissions?");
-        }
-    } else {
+    if (!is_dir($langdir.$transdir)) {
         //debug("$info_dir not found or is not a directory");
     }
+    $dh = opendir($langdir.$transdir);
+    if (!$dh) die("can't open translation dir");
+    while (($file = readdir($dh)) !== false) {
+        if ($file==".." || $file==".") {
+            continue;
+        }
+        // and only do files ending in .po
+        if (substr($file,-3) != ".po"){
+            //debug("File $file with unknown extension found in $info_dir");
+            continue;
+        }
+        language_log(
+            "-------------Compiling $transdir$file------------", 0
+        );
+        $language = parseLanguage($langdir.$transdir.$file);
+        if (!$language){
+            language_log(
+                "WARNING: Could not parse language ".$file
+            );
+            continue;
+        }
+        $path = $langdir.$compdir.$file.".inc";
+        if (file_exists($path)) {
+            $fh = fopen($path, "a");
+        } else {
+            $fh = fopen($path, "w");
+            fwrite($fh, "<?php\n");                    
+        }
+        if (!$fh) {
+            language_log(
+                "ERROR: could not access $langdir $compdir - please check permissions", 2
+            );
+            exit;
+        }
+        foreach ($language as $key => $value){
+            if ($value !== "") {
+                // Skip if the msgstr is empty
+                fwrite($fh, "\$language_lookup_array[\"".str_replace("\"", "\\\"", substr($file,0,-3))."\"][\"".$key."\"] = \"".$value."\";\n");
+            }
+        }
+        // don't write \?\> - may append
+
+        fclose($fh);
+    }
+    closedir($dh);
 }
 
 // Parses a gettext .po-file into an associative PHP array.
@@ -119,10 +114,10 @@ function parseLanguage($file){
     $parsing_token = false;
     $parsing_text = false;
     $output = array();
-    for ($i = 0;$i<sizeof($translation_file);$i++){
+    for ($i=0; $i<sizeof($translation_file); $i++){
         $entry = trim($translation_file[$i]);
         //echo "line $i: $entry\n";
-        if (substr($entry,0,1)=="#") {
+        if (substr($entry, 0, 1)=="#") {
             continue;
         } elseif (strpos($entry, "msgid") !== false) {
             if (!$first_entry){
@@ -187,7 +182,7 @@ function tra($text /* ...arglist... */){
     // Replace relevant substrings with given arguments.
     // Use strtr to avoid problems if an argument contains %n.
     $replacements = array();
-    for ($i = 1; $i<func_num_args(); $i++){
+    for ($i=1; $i<func_num_args(); $i++){
         $replacements["%".$i] = func_get_arg($i);
     }
     $text = strtr($text, $replacements);
@@ -249,6 +244,7 @@ $client_languages=explode(",",$language_string);
 $languages_in_use = array();
 
 // Loop over languages that the client requests
+//
 for ($i=0; $i<sizeof($client_languages); $i++) {
     if ((strlen($client_languages[$i])>2)
         && (substr($client_languages[$i],2,1)=="_" || substr($client_languages[$i],2,1)=="-"))
