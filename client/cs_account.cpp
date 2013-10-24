@@ -252,6 +252,10 @@ int PROJECT::parse_account_file_venue() {
             if (btemp) handle_no_rsc_pref(this, GPU_TYPE_ATI);
             continue;
         }
+        else if (xp.parse_bool("no_intel_gpu", btemp)) {
+            if (btemp) handle_no_rsc_pref(this, GPU_TYPE_INTEL);
+            continue;
+        }
 
         else if (xp.parse_str("no_rsc", buf2, sizeof(buf2))) {
             handle_no_rsc_pref(this, buf2);

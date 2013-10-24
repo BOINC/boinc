@@ -6,7 +6,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+<<<<<<< HEAD
 "POT-Creation-Date: 2013-10-18 00:00-0700\n"
+=======
+"POT-Creation-Date: 2013-10-23 00:00-0700\n"
+>>>>>>> 1f66a554f6d807593304986267225610b901163f
 "PO-Revision-Date: 2013-10-22 15:28-0700\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: es <LL@li.org>\n"
