@@ -1566,6 +1566,12 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
         RESULT* rp = results[i];
         if (rp->non_cpu_intensive() && rp->runnable()) {
             atp = get_task(rp);
+            if (!atp) {
+                msg_printf(rp->project, MSG_INTERNAL_ERROR,
+                    "Can't create task for %s", rp->name
+                );
+                continue;
+            }
             atp->next_scheduler_state = CPU_SCHED_SCHEDULED;
 
             // don't count RAM usage because it's used sporadically,
@@ -1684,6 +1690,12 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
         //
         if (!atp) {
             atp = get_task(rp);
+        }
+        if (!atp) {
+            msg_printf(rp->project, MSG_INTERNAL_ERROR,
+                "Can't create task for %s", rp->name
+            );
+            continue;
         }
 
         if (rp->avp->avg_ncpus > 1) {
@@ -1954,7 +1966,11 @@ ACTIVE_TASK* CLIENT_STATE::get_task(RESULT* rp) {
     ACTIVE_TASK *atp = lookup_active_task_by_result(rp);
     if (!atp) {
         atp = new ACTIVE_TASK;
-        atp->get_free_slot(rp);
+        int retval = atp->get_free_slot(rp);
+        if (retval) {
+            delete atp;
+            return NULL;
+        }
         atp->init(rp);
         active_tasks.active_tasks.push_back(atp);
     }

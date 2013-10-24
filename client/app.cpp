@@ -495,7 +495,7 @@ bool ACTIVE_TASK_SET::is_slot_dir_in_use(char* dir) {
 // Get a free slot,
 // and make a slot dir if needed
 //
-void ACTIVE_TASK::get_free_slot(RESULT* rp) {
+int ACTIVE_TASK::get_free_slot(RESULT* rp) {
 #ifndef SIM
     int j, retval;
     char path[MAXPATHLEN];
@@ -515,12 +515,22 @@ void ACTIVE_TASK::get_free_slot(RESULT* rp) {
             retval = make_slot_dir(j);
             if (!retval) break;
         }
+
+        // paranoia - don't allow unbounded slots
+        //
+        if (j > 1000) {
+            msg_printf(rp->project, MSG_INTERNAL_ERROR,
+                "exceeded limit of 1000 slot directories"
+            );
+            return ERR_NULL;
+        }
     }
     slot = j;
     if (log_flags.slot_debug) {
         msg_printf(rp->project, MSG_INFO, "[slot] assigning slot %d to %s", j, rp->name);
     }
 #endif
+    return 0;
 }
 
 bool ACTIVE_TASK_SET::slot_taken(int slot) {
