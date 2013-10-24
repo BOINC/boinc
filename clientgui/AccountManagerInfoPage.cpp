@@ -60,6 +60,7 @@ BEGIN_EVENT_TABLE( CAccountManagerInfoPage, wxWizardPageEx )
     EVT_WIZARDEX_PAGE_CHANGING( -1, CAccountManagerInfoPage::OnPageChanging )
     EVT_LISTBOX( ID_PROJECTS, CAccountManagerInfoPage::OnProjectSelected )
 	EVT_BUTTON( ID_PROJECTWEBPAGECTRL, CAccountManagerInfoPage::OnProjectItemDisplay )
+    EVT_TEXT( ID_PROJECTURLCTRL, CAccountManagerInfoPage::OnURLChanged )
     EVT_WIZARDEX_CANCEL( -1, CAccountManagerInfoPage::OnCancel )
 ////@end CAccountManagerInfoPage event table entries
 
@@ -310,7 +311,7 @@ void CAccountManagerInfoPage::OnPageChanged( wxWizardExEvent& event ) {
 
             
             m_pProjectListCtrl->Append(
-                wxString(pl.account_managers[i]->url.c_str(), wxConvUTF8),
+                wxString(pl.account_managers[i]->name.c_str(), wxConvUTF8),
                 pItem
             );
         }
@@ -318,8 +319,8 @@ void CAccountManagerInfoPage::OnPageChanged( wxWizardExEvent& event ) {
         // Pre select the first element
         if (m_pProjectListCtrl->GetCount()) {
             m_pProjectListCtrl->SetSelection(0);
-            SetProjectURL(m_pProjectListCtrl->GetString(0));
             CAcctMgrListItem* pItem = (CAcctMgrListItem*)(m_pProjectListCtrl->GetClientData(0));
+            SetProjectURL(pItem->GetURL());
             m_pProjectDetailsDescriptionCtrl->SetValue(pItem->GetDescription());
         }
 
@@ -344,30 +345,38 @@ void CAccountManagerInfoPage::OnPageChanging( wxWizardExEvent& event ) {
 }
 
 /*!
- * wxEVT_PROJECTLIST_ITEM_CHANGE event handler for ID_PROJECTSELECTIONCTRL
+ * wxEVT_LISTBOX event handler for ID_PROJECTS
  */
 
 void CAccountManagerInfoPage::OnProjectSelected( wxCommandEvent& /*event*/ ) {
     int sel = m_pProjectListCtrl->GetSelection();
     if (sel == wxNOT_FOUND) {
-        m_pOpenWebSiteButton->Disable();
+        SetProjectURL(wxEmptyString);
+        m_pProjectDetailsDescriptionCtrl->SetValue(wxEmptyString);
     } else {
-        SetProjectURL(m_pProjectListCtrl->GetString(sel));
         CAcctMgrListItem* pItem = (CAcctMgrListItem*)(m_pProjectListCtrl->GetClientData(sel));
+        SetProjectURL(pItem->GetURL());
         m_pProjectDetailsDescriptionCtrl->SetValue(pItem->GetDescription());
-        m_pOpenWebSiteButton->Enable();
-        TransferDataToWindow();
     }
+    TransferDataToWindow();
 }
 
 /*!
- * wxEVT_PROJECTLIST_ITEM_DISPLAY event handler for ID_PROJECTWEBPAGECTRL
+ * wxEVT_TEXT event handler for ID_PROJECTURLCTRL
+ */
+
+void CAccountManagerInfoPage::OnURLChanged( wxCommandEvent& /*event*/ ) {
+    m_pOpenWebSiteButton->Enable(!m_pProjectUrlCtrl->GetValue().IsEmpty());
+}
+
+/*!
+ * wxEVT_BUTTON event handler for ID_PROJECTWEBPAGECTRL
  */
 
 void CAccountManagerInfoPage::OnProjectItemDisplay( wxCommandEvent& /*event*/ ) {
-    int sel = m_pProjectListCtrl->GetSelection();
-    if (sel != wxNOT_FOUND) {
-        wxLaunchDefaultBrowser(m_pProjectListCtrl->GetString(sel));
+    wxString url = m_pProjectUrlCtrl->GetValue();
+    if (!url.IsEmpty()) {
+        wxLaunchDefaultBrowser(url);
     }
 }
 

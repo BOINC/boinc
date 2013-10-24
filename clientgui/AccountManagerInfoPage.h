@@ -80,10 +80,13 @@ public:
     /// wxEVT_WIZARD_PAGE_CHANGING event handler for ID_ACCOUNTMANAGERINFOPAGE
     void OnPageChanging( wxWizardExEvent& event );
 
-    /// wxEVT_PROJECTLIST_ITEM_CHANGE event handler for ID_PROJECTSELECTIONCTRL
+    /// wxEVT_LISTBOX event handler for ID_PROJECTS
     void OnProjectSelected( wxCommandEvent& event );
 
-    /// wxEVT_PROJECTLIST_ITEM_DISPLAY event handler for ID_PROJECTSELECTIONCTRL
+    /// wxEVT_TEXT event handler for ID_PROJECTURLCTRL
+    void OnURLChanged( wxCommandEvent& event );
+    
+    /// wxEVT_BUTTON event handler for ID_PROJECTWEBPAGECTRL
     void OnProjectItemDisplay( wxCommandEvent& event );
 
     /// wxEVT_WIZARD_CANCEL event handler for ID_ACCOUNTMANAGERINFOPAGE
