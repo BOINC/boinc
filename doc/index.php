@@ -200,6 +200,14 @@ function show_nsf() {
     ";
 }
 
+require_once("../html/inc/language_names.inc");
+
+function language_select() {
+    global $language_names;
+    foreach ($language_names as $lang) {
+        echo "<option value=".$lang[0].">".$lang[1]." (".$lang[2].")";
+    }
+}
 // how to add language names:
 // paste into notepad++, select ANSI format,
 // then copy/paste into here
@@ -210,11 +218,16 @@ function language_form() {
         <select class=selectbox name=lang onchange=\"javascript: submit()\">
         <option value=auto selected=\"selected\">-- language --
         <option value=auto>".tra("Browser default")
+    ;
+    language_select();
+    $x = ""
         //."<option value=ar>العربية (Arabic)"
         //."<option value=be>Беларускі (Belarusian)"
         //."<option value=bg>Българск� (Bulgarian)"
+        ."<option value=ca>�.�.лга�.ски(foobar)"
         ."<option value=ca>Català(Catalan)"
         ."<option value=cs>Čeština (Czech)"
+        ."<option value=da>Danish"
         ."<option value=de>Deutsch (German)"
         ."<option value=en>English"
         ."<option value=es>Espa&ntilde;ol (Spanish)"
@@ -236,6 +249,8 @@ function language_form() {
         ."<option value=sl> Slovenščina (Slovenian)"
         ."<option value=tr>Türkçe (Turkish)"
         ."<option value=zh_CN>简体中文 (Chinese)"
+    ;
+    echo ""
         ."</select>
         </form>
         <script type=\"text/javascript\">
