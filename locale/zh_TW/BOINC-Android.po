@@ -6,14 +6,20 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+<<<<<<< HEAD
+"POT-Creation-Date: 2013-10-18 00:00-0700\n"
+=======
 "POT-Creation-Date: 2013-10-23 00:00-0700\n"
+>>>>>>> 1f66a554f6d807593304986267225610b901163f
 "PO-Revision-Date: 2013-10-19 05:39+0000\n"
 "Last-Translator: 宇謙 <df910105@yahoo.com.tw>\n"
 "Language-Team: zh_TW <LL@li.org>\n"
-"Plural-Forms: nplurals=1; plural=0\n"
+"Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"X-Generator: Translate Toolkit 1.10.0\n"
 "Generated-By: Babel 1.0dev\n"
 
 #. app global
@@ -1114,4 +1120,3 @@ msgid ""
 msgstr ""
 "© 2003–2013 University of California, Berkeley.\n"
 "All Rights Reserved."
-
