@@ -518,9 +518,9 @@ int ACTIVE_TASK::get_free_slot(RESULT* rp) {
 
         // paranoia - don't allow unbounded slots
         //
-        if (j > 1000) {
+        if (j > gstate.ncpus*100) {
             msg_printf(rp->project, MSG_INTERNAL_ERROR,
-                "exceeded limit of 1000 slot directories"
+                "exceeded limit of %d slot directories", gstate.ncpus*100
             );
             return ERR_NULL;
         }
