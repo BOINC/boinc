@@ -176,9 +176,6 @@ wxInt32 CBOINCTaskCtrl::UpdateControls() {
             pGroup->m_pStaticBox = new wxStaticBox(this, wxID_ANY, pGroup->m_strName);
             pGroup->m_pStaticBoxSizer = new wxStaticBoxSizer(pGroup->m_pStaticBox, wxVERTICAL);
             m_pSizer->Add(pGroup->m_pStaticBoxSizer, 0, wxEXPAND|wxALL, 5);
-#ifdef __WXMAC__
-            pGroup->SetupMacAccessibilitySupport();
-#endif
             layoutChanged = 1;
         }
     }

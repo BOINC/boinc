@@ -69,13 +69,8 @@ public:
 #endif
 
 #ifdef __WXMAC__
-    wxWindow                *mp_win;
-    HIViewRef               m_listView;
-    EventHandlerRef         m_plistAccessibilityEventHandlerRef;
-    
+    wxWindow                *mp_win;    
     wxWindow *GetWindow() { return mp_win; }
-    void SetupMacAccessibilitySupport();
-    void RemoveMacAccessibilitySupport();
 #endif
 };
 

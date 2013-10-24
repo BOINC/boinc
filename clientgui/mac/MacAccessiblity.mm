@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2013 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -20,9 +20,12 @@
 #include "MacGUI.pch"
 #include <Cocoa/Cocoa.h>
 
+#include "BOINCBaseFrame.h"
+#include "MainDocument.h"
 #include "BOINCListCtrl.h"
-
-#import "DlgEventLogListCtrl.h"
+#include "DlgEventLogListCtrl.h"
+#include "ViewStatistics.h"
+#include "wxPieCtrl.h"
 
 #import <AppKit/NSAccessibility.h>
 
@@ -32,6 +35,8 @@
 #if !wxOSX_USE_NATIVE_FLIPPED
 #error: must convert to Quartz coordinates in accessibilityHitTest and NSAccessibilityPositionAttribute
 #endif
+
+#pragma mark === CBOINCListCtrl & CDlgEventLogListCtrl Accessibility Support ===
 
 #if USE_NATIVE_LISTCONTROL
 #error: This code assumes wxGenericListCtrl
@@ -1192,7 +1197,6 @@ void CDlgEventLogListCtrl::SetupMacAccessibilitySupport() {
     NSRect rh = r;
     rh.size.height = ((wxWindow *)m_headerWin)->GetSize().y;
 
-//TODO: combine next 2 lines
     [fauxHeaderView initWithFrame:rh listCtrl:this listFlags:(isHeaderFlag | isEventLogFlag) parent:listControlView BOINCView:nil];
     [listControlView addSubview:fauxHeaderView ];
 
@@ -1249,7 +1253,6 @@ void CBOINCListCtrl::SetupMacAccessibilitySupport() {
     NSRect rh = r;
     rh.size.height = ((wxWindow *)m_headerWin)->GetSize().y;
 
-//TODO: combine next 2 lines
     [fauxHeaderView initWithFrame:rh listCtrl:this listFlags:isHeaderFlag parent:listControlView BOINCView:m_pParentView ];
     [listControlView addSubview:fauxHeaderView ];
 
@@ -1293,4 +1296,207 @@ void CBOINCListCtrl::RemoveMacAccessibilitySupport() {
     m_fauxHeaderView = nil;
     [(FauxListBodyView *)m_fauxBodyView release];
     m_fauxBodyView = nil;
+}
+
+#pragma mark === CViewStatistics Accessibility Support ===
+
+#define statisticsPage 1
+#define resourcesPage 2
+
+@interface FauxGeneralView : NSView {
+    id parent;
+    NSInteger viewPage;
+    void* theClass;
+}
+
+- (id)initWithFrame:(NSRect)frame whichViewPage:(NSInteger)aViewPage callingClass:(void*)aClass parent:aParent;
+- (NSString*) getValue;
+@end
+
+
+@implementation FauxGeneralView
+
+- (id)initWithFrame:(NSRect)frame whichViewPage:(NSInteger)aViewPage callingClass:(void*)aClass parent:aParent
+{
+	[super initWithFrame:frame];
+    parent = aParent;
+    viewPage = aViewPage;
+    theClass = aClass;
+    return self;
+}
+
+- (BOOL)isFlipped {
+    return YES;
+}
+
+- (BOOL)accessibilityIsIgnored {
+    return NO;
+}
+
+- (NSString*) getValue {
+    wxString s;
+    
+    switch (viewPage) {
+    case statisticsPage:
+        s = _("This panel contains graphs showing user totals for projects");
+        break;
+    case resourcesPage:
+        {
+            wxPieCtrl* pPieCtrl = (wxPieCtrl*)theClass;
+            s = pPieCtrl->GetLabel();
+            unsigned int i;
+            
+            for(i=0; i<pPieCtrl->m_Series.Count(); i++) {
+                s += wxT("; ");
+                s += pPieCtrl->m_Series[i].GetLabel();
+            }
+        }
+        break;
+    default:
+        s = wxEmptyString;
+        break;
+    }
+    NSString *desc = [NSString stringWithUTF8String:(char *)(s.utf8_str().data())];
+    return desc;
+}
+
+
+- (NSArray *)accessibilityAttributeNames {
+    static NSArray *attributes = nil;
+    if (attributes == nil) {
+        attributes = [[NSArray alloc] initWithObjects:
+                    NSAccessibilityEnabledAttribute,
+                    NSAccessibilityFocusedAttribute,
+                    NSAccessibilityNumberOfCharactersAttribute,
+                    NSAccessibilityParentAttribute,
+                    NSAccessibilityPositionAttribute,
+                    NSAccessibilityRoleAttribute,
+                    NSAccessibilityRoleDescriptionAttribute,
+                    NSAccessibilitySelectedTextAttribute,
+                    NSAccessibilitySelectedTextRangeAttribute,
+                    NSAccessibilityValueAttribute,
+                    NSAccessibilityVisibleCharacterRangeAttribute,
+                    NSAccessibilitySizeAttribute,
+                    NSAccessibilityTopLevelUIElementAttribute,
+                    NSAccessibilityWindowAttribute,
+                    nil];
+    }
+    return attributes;
+}
+
+- (id)accessibilityAttributeValue:(NSString *)attribute {
+    if ([attribute isEqualToString:NSAccessibilityEnabledAttribute]) {
+        return [NSNumber numberWithBool:YES];
+
+    } else if ([attribute isEqualToString:NSAccessibilityFocusedAttribute]) {
+        return NO;
+
+    } else if ([attribute isEqualToString:NSAccessibilityNumberOfCharactersAttribute]) {
+        NSString *s = [self getValue];
+        NSUInteger n = [s lengthOfBytesUsingEncoding:NSUTF8StringEncoding];
+        return [NSNumber numberWithUnsignedInt:n];
+
+    } else if ([attribute isEqualToString:NSAccessibilityParentAttribute]) {
+        return NSAccessibilityUnignoredAncestor(parent);
+
+    } else if ([attribute isEqualToString:NSAccessibilityPositionAttribute]) {
+        NSPoint pt = [self bounds].origin;
+        pt.y += [self bounds].size.height;    // We need the bottom left corner
+		//Convert the point to global (screen) coordinates
+//		NSPoint windowPoint = [self convertPoint:pt toView: nil];
+		NSPoint windowPoint = [parent convertPoint:pt toView: nil];
+		pt = [[parent window] convertBaseToScreen:windowPoint];
+        
+        return [NSValue valueWithPoint:pt];
+
+    } else if ([attribute isEqualToString:NSAccessibilityRoleAttribute]) {
+        return NSAccessibilityStaticTextRole;
+    
+    } else if ([attribute isEqualToString:NSAccessibilityRoleDescriptionAttribute]) {
+        return NSAccessibilityRoleDescription(NSAccessibilityStaticTextRole, nil);
+
+    } else if ([attribute isEqualToString:NSAccessibilitySelectedTextAttribute]) {
+        NSString *s = [NSString init];
+        return s;
+
+    } else if ([attribute isEqualToString:NSAccessibilitySelectedTextRangeAttribute]) {
+        NSRange range = NSMakeRange(0, 0);
+        return [NSValue valueWithRange:range];
+
+    } else if ([attribute isEqualToString:NSAccessibilityValueAttribute]) {
+        return [self getValue];
+
+    } else if ([attribute isEqualToString:NSAccessibilityVisibleCharacterRangeAttribute]) {
+        NSString *s = [self getValue];
+        NSRange range = NSMakeRange(0, [s length]);
+        return [NSValue valueWithRange:range];
+
+    } else if ([attribute isEqualToString:NSAccessibilitySizeAttribute]) {
+        return [NSValue valueWithSize:[self frame].size];
+        
+    } else if ([attribute isEqualToString:NSAccessibilityTopLevelUIElementAttribute]) {
+        return [parent window];
+    
+    } else if ([attribute isEqualToString:NSAccessibilityWindowAttribute]) {
+	// We're in the same window as our parent.
+        return [parent window];
+    
+    } else {
+        return [super accessibilityAttributeValue:attribute];
+    }
+}
+
+- (void)dealloc {
+    [super dealloc];
+}
+
+@end
+
+
+void CPaintStatistics::SetupMacAccessibilitySupport() {
+    NSView *statisticsView = GetHandle();
+    NSRect r = [ statisticsView bounds ];
+    FauxGeneralView *fauxStatisticsView = [FauxGeneralView alloc ];
+    [fauxStatisticsView initWithFrame:r whichViewPage:statisticsPage callingClass:this parent:statisticsView];
+    [ statisticsView addSubview:fauxStatisticsView ];
+    m_fauxStatisticsView = fauxStatisticsView;
+}
+
+
+void CPaintStatistics::ResizeMacAccessibilitySupport() {
+    NSView *statisticsView = GetHandle();
+    NSRect r = [ statisticsView bounds ];
+    FauxGeneralView *fauxStatisticsView = (FauxGeneralView *)m_fauxStatisticsView;
+    if (fauxStatisticsView) {
+        [ fauxStatisticsView setFrame:r ];
+    }
+}
+
+void CPaintStatistics::RemoveMacAccessibilitySupport() {
+    [(FauxGeneralView *)m_fauxStatisticsView release];
+    m_fauxStatisticsView = nil;
+}
+
+void wxPieCtrl::SetupMacAccessibilitySupport() {
+    NSView *resourcesView = GetHandle();
+    NSRect r = [ resourcesView bounds ];
+    FauxGeneralView *fauxResourcesView = [FauxGeneralView alloc ];
+    [fauxResourcesView initWithFrame:r whichViewPage:resourcesPage callingClass:this parent:resourcesView];
+    [ resourcesView addSubview:fauxResourcesView ];
+    m_fauxResourcesView = fauxResourcesView;
+}
+
+
+void wxPieCtrl::ResizeMacAccessibilitySupport() {
+    NSView *resourcesView = GetHandle();
+    NSRect r = [ resourcesView bounds ];
+    FauxGeneralView *fauxResourcesView = (FauxGeneralView *)m_fauxResourcesView;
+    if (fauxResourcesView) {
+        [ fauxResourcesView setFrame:r ];
+    }
+}
+
+void wxPieCtrl::RemoveMacAccessibilitySupport() {
+    [(FauxGeneralView *)m_fauxResourcesView release];
+    m_fauxResourcesView = nil;
 }

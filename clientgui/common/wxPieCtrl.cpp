@@ -74,6 +74,7 @@ wxPieCtrl::wxPieCtrl(wxWindow * parent, wxWindowID id, wxPoint pos,
 
 wxPieCtrl::~wxPieCtrl() {
 #ifdef __WXMAC__
+    m_fauxResourcesView = NULL;
     RemoveMacAccessibilitySupport();
 #endif
 }
@@ -136,6 +137,9 @@ void wxPieCtrl::OnSize(wxSizeEvent & /*event*/)
 {
 	RecreateCanvas();
 	Refresh();
+#ifdef __WXMAC__
+	ResizeMacAccessibilitySupport();
+#endif
 }
 
 void wxPieCtrl::OnEraseBackground(wxEraseEvent & /*event*/)

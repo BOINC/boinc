@@ -199,12 +199,20 @@ CPaintStatistics::CPaintStatistics(wxWindow* parent, wxWindowID id, const wxPoin
 	m_dc_bmp.Create(1, 1);
 	m_full_repaint = true;
 	m_bmp_OK = false;
+    
+#ifdef __WXMAC__
+    m_fauxStatisticsView = NULL;
+    SetupMacAccessibilitySupport();
+#endif
 }
 
 CPaintStatistics::~CPaintStatistics() {
     if (m_scrollBar) {
         delete m_scrollBar;
     }
+#ifdef __WXMAC__
+    RemoveMacAccessibilitySupport();
+#endif
 }
 
 
@@ -1910,6 +1918,9 @@ void CPaintStatistics::OnLegendScroll(wxScrollEvent& event) {
 void CPaintStatistics::OnSize(wxSizeEvent& event) {
 	m_full_repaint = true;
     Refresh(false);
+#ifdef __WXMAC__
+	ResizeMacAccessibilitySupport();
+#endif
     event.Skip();
 }
 
@@ -2051,17 +2062,10 @@ CViewStatistics::CViewStatistics(wxNotebook* pNotebook) :
     m_pTaskPane->UpdateControls();
 
     UpdateSelection();
-
-#ifdef __WXMAC__
-    SetupMacAccessibilitySupport();
-#endif
 }
 
 CViewStatistics::~CViewStatistics() {
     EmptyTasks();
-#ifdef __WXMAC__
-    RemoveMacAccessibilitySupport();
-#endif
 }
 
 wxString& CViewStatistics::GetViewName() {

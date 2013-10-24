@@ -23,7 +23,6 @@
 #endif
 
 #ifdef __WXMAC__
-#include "macAccessiblity.h"
 #define DLG_LISTCTRL_BASE wxGenericListCtrl
 #else
 #define DLG_LISTCTRL_BASE wxListView
@@ -62,16 +61,10 @@ private:
 #ifdef __WXMAC__
     void                    SetupMacAccessibilitySupport();
     void                    RemoveMacAccessibilitySupport();
-
-    void OnSize( wxSizeEvent &event );
+    void                    OnSize( wxSizeEvent &event );
 
     void*                   m_fauxHeaderView;
     void*                   m_fauxBodyView;
-
-    ListAccessData   accessibilityHandlerData;
-    
-    EventHandlerRef         m_pHeaderAccessibilityEventHandlerRef;
-    EventHandlerRef         m_pBodyAccessibilityEventHandlerRef;
 #endif
 };
 

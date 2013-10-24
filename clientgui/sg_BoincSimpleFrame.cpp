@@ -21,9 +21,6 @@
 #endif
 
 #include "stdwx.h"
-#ifdef __WXMAC__
-#include "MacAccessiblity.h"
-#endif
 #include "diagnostics.h"
 #include "str_util.h"
 #include "mfile.h"

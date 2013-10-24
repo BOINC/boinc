@@ -42,10 +42,6 @@
 #include "wx/generic/listctrl.h"
 #endif
 
-#ifdef __WXMAC__
-#include "macAccessiblity.h"
-#endif
-
 #include "BOINCBaseView.h"
 
 
@@ -103,13 +99,7 @@ private:
 #ifdef __WXMAC__
     void                    SetupMacAccessibilitySupport();
     void                    RemoveMacAccessibilitySupport();
-
-    ListAccessData          accessibilityHandlerData;
-    
-    EventHandlerRef         m_pHeaderAccessibilityEventHandlerRef;
-    EventHandlerRef         m_pBodyAccessibilityEventHandlerRef;
-
-    void OnSize( wxSizeEvent &event );
+    void                    OnSize( wxSizeEvent &event );
 
     void*                   m_fauxHeaderView;
     void*                   m_fauxBodyView;

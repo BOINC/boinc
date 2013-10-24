@@ -45,12 +45,12 @@
 
 CNoticeListCtrlAccessible::CNoticeListCtrlAccessible(wxWindow* win) {
     mp_win = win;
-    SetupMacAccessibilitySupport();
+//    SetupMacAccessibilitySupport();
 }
 
 
 CNoticeListCtrlAccessible::~CNoticeListCtrlAccessible() {
-    RemoveMacAccessibilitySupport();
+//    RemoveMacAccessibilitySupport();
 }
 
 #endif
