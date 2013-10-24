@@ -78,6 +78,7 @@ void CScrolledTextBox::SetValue(const wxString& s) {
     // Change all occurrences of "<sup>n</sup>" to "^n"
     t.Replace(wxT("<sup>"), wxT("^"), true);
     t.Replace(wxT("</sup>"), wxT(""), true);
+    t.Replace(wxT("&lt;"), wxT("<"), true);
 
     wxSize taskPanelSize = GetGrandParent()->GetSize();
     availableWidth = taskPanelSize.GetWidth() - (2*SIDEMARGINS);
