@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2013-08-22 16:22 PDT\n"
-"PO-Revision-Date: 2013-09-19 08:30+0000\n"
+"PO-Revision-Date: 2013-10-24 11:25+0000\n"
 "Last-Translator: 宇謙 <df910105@yahoo.com.tw>\n"
 "Language-Team: \n"
 "Language: zh_TW\n"
@@ -20,7 +20,7 @@ msgstr ""
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-SearchPath-0: doc\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
-"X-POOTLE-MTIME: 1379579457.0\n"
+"X-POOTLE-MTIME: 1382613939.0\n"
 "X-Poedit-KeywordsList: tra\n"
 
 #: projects.inc:14
@@ -426,7 +426,7 @@ msgstr "比勒費爾德應用科技大學"
 
 #: projects.inc:321
 msgid "Chemical engineering and nanotechnology"
-msgstr "化學工程與納米技術"
+msgstr "化學工程與奈米技術"
 
 #: projects.inc:322
 msgid ""
@@ -453,7 +453,7 @@ msgid ""
 "The objective of CAS@home is to encourage and assist scientists in China to "
 "adopt the technologies of volunteer computing and volunteer thinking for "
 "their research."
-msgstr "CAS@home 的目標是鼓勵和幫忙中國的科研人員採用志願計算這種計算技術以及相應的科研思維方式"
+msgstr "CAS@home 的目標是鼓勵和幫忙中國的科研人員採用志願運算技術以及相應的科研思維方式"
 
 #: projects.inc:343
 msgid "Mathematics, physics, evolution"
@@ -483,7 +483,7 @@ msgid ""
 "by the project include math, physics, biology, etc."
 msgstr ""
 "EDGes@Home Beta "
-"專案將志願計算融入到歐洲計算服務網格的網絡，允許服務網格將計算任務分發給專案的志願者們來處理。專案所涉及的科研領域包括數學、物理、生物等等。"
+"專案將志願計算融入到歐洲運算服務網格的網路，允許服務網格將運算任務分發給專案的志願者們來處理。專案所涉及的科研領域包括數學、物理、生物等等。"
 
 #: projects.inc:357
 msgid "Spanish universities and research centers"
@@ -603,7 +603,11 @@ msgid ""
 "any real h > 1. The ABC conjecture is currently one of the greatest open "
 "problems in mathematics. If it is proven to be true, a lot of other open "
 "problems can be answered directly from it."
-msgstr "Primegrid 有許多子專案，這些用來尋找非常大且不同型態的質數，包括尋找已知的最大質數。"
+msgstr ""
+"尋找滿足ABC 猜想條件的abc 三元組，條件是：c=a+b, a<b, b<c, rad(ABC)<C，其中rad(n) 稱為n "
+"的根積，意即n的所有質因數的乘積，若有重複的質因數則只取一個。 ABC 猜想的具體內容是：對於所有e>0，存在與e "
+"有關的常數C(e)，對於所有滿足a+b=c,a 與b 互質的三元整數組(a,b,c) ，均成立c<=C(e)((rad(abc))^(1+e))。 "
+"ABC 猜想是當前數論中最重要的未解決問題之一，如果它能夠被證明，其它不少未解決問題也能得到直接的證明。"
 
 #: projects.inc:491
 msgid ""
@@ -638,7 +642,7 @@ msgstr "回到 BOINC 首頁"
 #: docutil.php:114
 #, php-format
 msgid "This page is %stranslatable%s."
-msgstr "這個網頁％s可翻譯％s"
+msgstr "這個網頁%s可翻譯%s"
 
 #: download.php:38
 msgid "Download BOINC"
@@ -647,7 +651,7 @@ msgstr "下載 BOINC"
 #: download.php:40
 #, php-format
 msgid "%s for %s (%s MB)"
-msgstr "% 版 %(%s MB)"
+msgstr "%s版%s(%s MB)"
 
 #: download.php:87
 msgid ""
@@ -730,7 +734,7 @@ msgstr ""
 msgid ""
 "Volunteers speaking several languages are available. Please select a "
 "language:"
-msgstr "志願幫助者提供數種語言，請選擇語言："
+msgstr "志願幫助者提供數種語言。請選擇語言："
 
 #: help.php:47
 msgid "Be a Help Volunteer"
@@ -758,7 +762,7 @@ msgstr "BOINC 幫助人員都是不收取任何費用的志願者。他們的建
 
 #: help_funcs.php:110
 msgid "%1Never%2 give email address or password information to BOINC helpers."
-msgstr "%1請千萬不要%將你的電子郵件地址或者密碼提供給 BOINC 幫助人員。"
+msgstr "%1請千萬不要%2將你的電子郵件地址或者密碼提供給 BOINC 幫助人員。"
 
 #: index.php:23
 msgid "Computing power"
@@ -900,7 +904,7 @@ msgstr "和"
 
 #: index.php:169
 msgid "Help wanted"
-msgstr "需要幫助!"
+msgstr "我們需要幫助!"
 
 #: index.php:171
 msgid "Programming"
@@ -938,7 +942,7 @@ msgstr "用於%s志願計算%s 和%s網格計算%s 的開放軟體"
 
 #: index.php:278
 msgid "BOINC is based at The University of California, Berkeley"
-msgstr "Boinc發起於加州大學柏克萊分校"
+msgstr "BOINC 發起於加州大學柏克萊分校"
 
 #: ../html/inc/news.inc:40
 msgid "Comment"

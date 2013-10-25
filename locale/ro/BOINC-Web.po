@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2013-10-15 22:21 PDT\n"
-"PO-Revision-Date: 2013-09-04 16:08+0000\n"
+"PO-Revision-Date: 2013-10-25 04:29+0000\n"
 "Last-Translator: Marius <marius.sirbu@outlook.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: ro\n"
@@ -21,7 +21,7 @@ msgstr ""
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-SearchPath-0: doc\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
-"X-POOTLE-MTIME: 1378310916.0\n"
+"X-POOTLE-MTIME: 1382675360.0\n"
 "X-Poedit-KeywordsList: tra\n"
 
 #: projects.inc:14
@@ -765,7 +765,7 @@ msgstr "Această pagină este %stranslatable%s."
 
 #: download.php:44
 msgid "Download BOINC + Virtualbox"
-msgstr ""
+msgstr "Descărcaţi BOINC + Virtualbox"
 
 #: download.php:46 download.php:56
 #, php-format
@@ -787,7 +787,7 @@ msgstr ""
 "calculatorului dumneavoastră unor proiecte ştiinţifice cum ar fi SETI@home, "
 "Climateprediction.net, Rosetta@home, World Community Grid şi multe altele. "
 "<p> După ce instalaţi BOINC pe calculatorul dumneavoastră, puteţi să vă "
-"conectatţi la câte proiecte doriţi."
+"conectaţi la câte proiecte doriţi."
 
 #: download.php:109
 msgid ""
@@ -848,7 +848,7 @@ msgid ""
 msgstr ""
 "Ajutorul Online BOINC este bazat pe %sSkype%s, un sistem telefonic bazat pe "
 "Internet. Skype este gratuit (atât programul cât şi apelurile).  Dacă nu "
-"aveţi dkja Skype, vă rugăm %ssă-l descărcaţi şi instalaţi acum%s.  Când aţi "
+"aveţi deja Skype, vă rugăm %ssă-l descărcaţi şi instalaţi acum%s.  Când aţi "
 "finalizat, întoarceţi-vă la această pagină."
 
 #: help.php:28
@@ -974,6 +974,11 @@ msgid ""
 "projects  %sDownload%s and run BOINC software  %sEnter%s an email address "
 "and password. "
 msgstr ""
+" Folosiţi timpii neutilizaţi ai calculatorului dumneavoastră Windows, Mac, "
+"Linux sau Android) pentru a trata boli, studia încălzirea globală "
+"descoperiţi pulsari şi multe alte tipuri de cercetări ştiinţifice  Este "
+"sigur şi uşor:  %sAlegeţi%s proiecte  %sDescărcaţi%s şi rulaţi BOINC   %"
+"sIntroduceţi%s o adresă de email şi o parolă. "
 
 #: index.php:105 index2.php:105
 #, php-format
@@ -1050,7 +1055,7 @@ msgstr "şi"
 
 #: index.php:169 index2.php:169
 msgid "Help wanted"
-msgstr "Căutăam ajutor"
+msgstr "Căutăm ajutor"
 
 #: index.php:171 index2.php:171
 msgid "Programming"
@@ -1085,7 +1090,7 @@ msgstr "Setări implicite browser"
 msgid ""
 "Open-source software for %svolunteer computing%s and %sgrid computing%s."
 msgstr ""
-"Programe open-source pentru %scalcule voluntare%s şi %calcule în reţea%s."
+"Programe open-source pentru %scalcule voluntare%s şi %scalcule în reţea%s."
 
 #: index.php:278 index2.php:279
 msgid "BOINC is based at The University of California, Berkeley"

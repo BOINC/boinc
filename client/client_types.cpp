@@ -794,8 +794,13 @@ int APP_VERSION::parse(XML_PARSER& xp) {
         }
         if (xp.parse_str("app_name", app_name, sizeof(app_name))) continue;
         if (xp.match_tag("file_ref")) {
-            file_ref.parse(xp);
-            app_files.push_back(file_ref);
+            int retval = file_ref.parse(xp);
+            if (!retval) {
+                if (strstr(file_ref.file_name, "vboxwrapper")) {
+                    is_vm_app = true;
+                }
+                app_files.push_back(file_ref);
+            }
             continue;
         }
         if (xp.parse_int("version_num", version_num)) continue;

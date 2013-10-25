@@ -342,6 +342,10 @@ void COPROC_ATI::get(
 	    break;
         case 32:
             gpu_name="AMD Radeon R9 290 (Hawaii)";
+            break;
+        case 33:
+            gpu_name="AMD Radeon R2/R3 (Skunk)"; // Mullins/new FT3 APU
+            break;
         default:
             gpu_name="AMD Radeon HD (unknown)";
             break;

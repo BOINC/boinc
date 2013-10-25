@@ -6,11 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-<<<<<<< HEAD
 "POT-Creation-Date: 2013-10-18 00:00-0700\n"
-=======
-"POT-Creation-Date: 2013-10-23 00:00-0700\n"
->>>>>>> 1f66a554f6d807593304986267225610b901163f
 "PO-Revision-Date: 2013-10-11 22:33+0000\n"
 "Last-Translator: aceman <acelists@atlas.sk>\n"
 "Language-Team: sk <LL@li.org>\n"
@@ -21,7 +17,7 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2\n"
 "X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
-"X-POOTLE-MTIME: 1379771666.0\n"
+"X-POOTLE-MTIME: 1382621114.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -63,7 +59,7 @@ msgstr "Пожалуйста, введите URL проекта"
 
 msgctxt "attachproject_list_acctmgr_button"
 msgid "Add account manager"
-msgstr ""
+msgstr "Adaugă manager de cont"
 
 #, fuzzy
 msgctxt "attachproject_list_no_internet"
@@ -244,27 +240,27 @@ msgstr "Создать"
 #. account manager
 msgctxt "attachproject_acctmgr_header"
 msgid "Add account manager"
-msgstr ""
+msgstr "Adaugă manager de cont"
 
 msgctxt "attachproject_acctmgr_header_url"
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 msgctxt "attachproject_acctmgr_header_name"
 msgid "User:"
-msgstr ""
+msgstr "Utilizator:"
 
 msgctxt "attachproject_acctmgr_header_pwd"
 msgid "Password:"
-msgstr ""
+msgstr "Parolă:"
 
 msgctxt "attachproject_acctmgr_header_pwd_confirm"
 msgid "… Retype:"
-msgstr ""
+msgstr "... Reintroduceţi:"
 
 msgctxt "attachproject_acctmgr_button"
 msgid "Add"
-msgstr ""
+msgstr "Adaugă"
 
 #. error strings
 #, fuzzy
@@ -289,7 +285,7 @@ msgstr "Пароли не совпадают"
 
 msgctxt "attachproject_error_no_url"
 msgid "Please enter URL"
-msgstr ""
+msgstr "Introduceți URL"
 
 #, fuzzy
 msgctxt "attachproject_error_no_email"
@@ -337,7 +333,7 @@ msgstr "Создание учётной записи в данном проек�
 
 msgctxt "attachproject_error_invalid_url"
 msgid "Invalid URL"
-msgstr ""
+msgstr "URL invalid"
 
 #. working activity
 msgctxt "attachproject_working_back_button"
@@ -386,11 +382,11 @@ msgstr "Войти"
 
 msgctxt "attachproject_working_acctmgr"
 msgid "Add account manager"
-msgstr ""
+msgstr "Adaugă manager de cont"
 
 msgctxt "attachproject_working_acctmgr_sync"
 msgid "Synchronize"
-msgstr ""
+msgstr "Sincronizează"
 
 #. main activity
 msgctxt "main_noproject_warning"
@@ -442,7 +438,7 @@ msgstr "Настройки"
 
 msgctxt "tab_notices"
 msgid "Notices"
-msgstr ""
+msgstr "Atenționări"
 
 msgctxt "tab_desc"
 msgid "Navigation"
@@ -744,7 +740,7 @@ msgstr "Команды проекта:"
 
 msgctxt "projects_control_visit_website"
 msgid "Visit website"
-msgstr ""
+msgstr "Vizitați pagina web"
 
 msgctxt "projects_control_update"
 msgid "Update"
@@ -776,15 +772,15 @@ msgstr "Сбросить"
 
 msgctxt "projects_control_dialog_title_acctmgr"
 msgid "Account manager commands:"
-msgstr ""
+msgstr "Comenzi manager de cont:"
 
 msgctxt "projects_control_sync_acctmgr"
 msgid "Synchronize"
-msgstr ""
+msgstr "Sincronizează"
 
 msgctxt "projects_control_remove_acctmgr"
 msgid "Disable"
-msgstr ""
+msgstr "Dezactivează"
 
 #. project confirm dialog
 msgctxt "projects_confirm_detach_title"
@@ -817,15 +813,15 @@ msgstr "Сбросить"
 
 msgctxt "projects_confirm_remove_acctmgr_title"
 msgid "Disable account manager"
-msgstr ""
+msgstr "Dezactivează manager de cont"
 
 msgctxt "projects_confirm_remove_acctmgr_message"
 msgid "Are you sure you want to stop using"
-msgstr ""
+msgstr "Sunteţi sigur că doriţi să nu mai folosiţi"
 
 msgctxt "projects_confirm_remove_acctmgr_confirm"
 msgid "Disable"
-msgstr ""
+msgstr "Dezactivează"
 
 #. tasks tab strings
 msgctxt "tasks_header_name"
@@ -972,7 +968,7 @@ msgstr "Файл:"
 
 msgctxt "trans_control_retry"
 msgid "Retry transfers"
-msgstr ""
+msgstr "Reîncearcă transferuri"
 
 msgctxt "confirm_abort_trans_title"
 msgid "Abort transfer?"
@@ -989,7 +985,7 @@ msgstr "Прервать"
 #. notices tab strings
 msgctxt "notices_loading"
 msgid "Reading notices…"
-msgstr ""
+msgstr "Se citesc atenţionările..."
 
 #. eventlog tab strings
 msgctxt "eventlog_loading"
