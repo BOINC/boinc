@@ -36,7 +36,7 @@
 #error: must convert to Quartz coordinates in accessibilityHitTest and NSAccessibilityPositionAttribute
 #endif
 
-#pragma mark === CBOINCListCtrl & CDlgEventLogListCtrl Accessibility Support ===
+#pragma mark === CBOINCListCtrl & CDlgEventLogListCtrl Accessibility Shared Code ===
 
 #if USE_NATIVE_LISTCONTROL
 #error: This code assumes wxGenericListCtrl
@@ -1187,6 +1187,7 @@ static void wxRectToNSRect(wxRect &wxr, NSRect &nsr) {
 
 @end
 
+#pragma mark === CDlgEventLogListCtrl Accessibility Support ===
 
 void CDlgEventLogListCtrl::SetupMacAccessibilitySupport() {
     NSView *listControlView = GetHandle();
@@ -1242,7 +1243,7 @@ void CDlgEventLogListCtrl::RemoveMacAccessibilitySupport() {
     m_fauxBodyView = nil;
 }
 
-
+#pragma mark === CBOINCListCtrl Accessibility Support ===
 
 void CBOINCListCtrl::SetupMacAccessibilitySupport() {
     NSView *listControlView = GetHandle();
@@ -1298,7 +1299,7 @@ void CBOINCListCtrl::RemoveMacAccessibilitySupport() {
     m_fauxBodyView = nil;
 }
 
-#pragma mark === CViewStatistics Accessibility Support ===
+#pragma mark === CPaintStatistics & wxPieCtrl Accessibility Shared Code ===
 
 #define statisticsPage 1
 #define resourcesPage 2
@@ -1452,6 +1453,7 @@ void CBOINCListCtrl::RemoveMacAccessibilitySupport() {
 
 @end
 
+#pragma mark === CPaintStatistics Accessibility Support ===
 
 void CPaintStatistics::SetupMacAccessibilitySupport() {
     NSView *statisticsView = GetHandle();
@@ -1476,6 +1478,8 @@ void CPaintStatistics::RemoveMacAccessibilitySupport() {
     [(FauxGeneralView *)m_fauxStatisticsView release];
     m_fauxStatisticsView = nil;
 }
+
+#pragma mark === wxPieCtrl Accessibility Support ===
 
 void wxPieCtrl::SetupMacAccessibilitySupport() {
     NSView *resourcesView = GetHandle();
