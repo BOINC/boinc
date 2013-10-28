@@ -68,7 +68,6 @@ bool MIOFILE::eof() {
     return true;
 }
 
-#ifndef _USING_FCGI_
 
 int MIOFILE::printf(const char* format, ...) {
     int retval;
@@ -87,8 +86,6 @@ int MIOFILE::printf(const char* format, ...) {
     va_end(ap);
     return retval;
 }
-
-#endif
 
 char* MIOFILE::fgets(char* dst, int dst_len) {
     if (f) {
