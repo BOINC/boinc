@@ -1055,7 +1055,8 @@ function communityprefs_form(&$form_state) {
   $default = array(
     'pm_send_notification' => '', // This is set already in pm_email_notify_user
     'friend_notification' => isset($account->friend_notification) ? $account->friend_notification : 0,
-    'comments_per_page' => (isset($account->comments_per_page) AND $account->comments_per_page) ? $account->comments_per_page : variable_get('comment_default_per_page_forum', 50)
+    'comments_per_page' => (isset($account->comments_per_page) AND $account->comments_per_page) ? $account->comments_per_page : variable_get('comment_default_per_page_forum', 50),
+    'comments_order' => (isset($account->sort) AND $account->sort) ? $account->sort : variable_get('comment_default_order_forum', COMMENT_ORDER_OLDEST_FIRST),
   );
   
   // General options
@@ -1134,6 +1135,12 @@ function communityprefs_form(&$form_state) {
   // Can't have a typical Drupal form suffix on a select box?
   $form['forums']['comments_per_page_suffix'] = array(
     '#value' => '<span>' . t('comments per page') . '</span>'
+  );
+  $form['forums']['comments_order'] = array(
+    '#type' => 'select',
+    '#title' => t('Sort comments in discussions'),
+    '#options' => array(1 => t('Newest post first'), 2 => t('Oldest post first')),
+    '#default_value' => $default['comments_order']
   ); 
   // Signature (pulled from user_edit_form):
   if (variable_get('user_signatures', 0) && module_exists('comment')) {
@@ -1205,7 +1212,8 @@ function communityprefs_form_submit($form, &$form_state) {
     'signature_format' => $edit['signature_format'],
     'timezone' => $edit['timezone'],
     'friend_notification' => $edit['friend_notification'],
-    'comments_per_page' => $edit['comments_per_page']
+    'comments_per_page' => $edit['comments_per_page'],
+    'sort' => $edit['comments_order'],
   ));
 }
 

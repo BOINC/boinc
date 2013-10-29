@@ -340,11 +340,17 @@ function boinccore_url_pagination_handler($type, $object_id) {
     $object = _comment_load($object_id);
     if ($object) {
       $path = "node/{$object->nid}";
-      // See how many comments there are before this comment...
+      // Get the sort order
+      $gt_lt = '<';
+      $comment_order = (isset($user->sort)) ? $user->sort : variable_get('comment_default_order_forum', 2);
+      if ($comment_order == COMMENT_ORDER_NEWEST_FIRST) {
+        $gt_lt = '>';
+      }
+      // See how many comments there are before (or after) this comment...
       $comment_offset = db_result(db_query('
         SELECT COUNT(*) FROM {comments}
-        WHERE nid = %d AND status = 0 AND timestamp < %d',
-        $object->nid, $object->timestamp));
+        WHERE nid = %d AND status = 0 AND timestamp %s %d',
+        $object->nid, $gt_lt, $object->timestamp));
       if ($comment_offset) {
         // Get the number of comments per page
         if ($user->comments_per_page) {
