@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-08-29 15:37-0700\n"
-"PO-Revision-Date: 2013-10-18 17:19+0000\n"
+"POT-Creation-Date: 2013-10-18 00:00-0700\n"
+"PO-Revision-Date: 2013-10-27 13:29+0000\n"
 "Last-Translator: Rene <oskamjr@ziggo.nl>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: nl\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
-"X-POOTLE-MTIME: 1382116788.0\n"
+"X-POOTLE-MTIME: 1382880588.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -50,6 +50,10 @@ msgstr "Project toevoegen"
 msgctxt "attachproject_list_manual_no_url"
 msgid "Please enter project URL"
 msgstr "Projectspecifieke URL invoeren"
+
+msgctxt "attachproject_list_acctmgr_button"
+msgid "Add account manager"
+msgstr ""
 
 msgctxt "attachproject_list_no_internet"
 msgid "No Internet connection"
@@ -193,6 +197,31 @@ msgctxt "attachproject_registration_button"
 msgid "Create"
 msgstr "Aanmaken"
 
+#. account manager
+msgctxt "attachproject_acctmgr_header"
+msgid "Add account manager"
+msgstr ""
+
+msgctxt "attachproject_acctmgr_header_url"
+msgid "URL"
+msgstr ""
+
+msgctxt "attachproject_acctmgr_header_name"
+msgid "User:"
+msgstr ""
+
+msgctxt "attachproject_acctmgr_header_pwd"
+msgid "Password:"
+msgstr ""
+
+msgctxt "attachproject_acctmgr_header_pwd_confirm"
+msgid "… Retype:"
+msgstr ""
+
+msgctxt "attachproject_acctmgr_button"
+msgid "Add"
+msgstr ""
+
 #. error strings
 msgctxt "attachproject_error_wrong_name"
 msgid "User not found"
@@ -209,6 +238,10 @@ msgstr "Verbinding mislukt"
 msgctxt "attachproject_error_pwd_no_match"
 msgid "Passwords do not match"
 msgstr "Wachtwoorden zijn niet identiek"
+
+msgctxt "attachproject_error_no_url"
+msgid "Please enter URL"
+msgstr ""
 
 msgctxt "attachproject_error_no_email"
 msgid "Please enter eMail address"
@@ -249,6 +282,10 @@ msgstr "Wachtwoord geweigerd"
 msgctxt "attachproject_error_creation_disabled"
 msgid "Account creation is disabled on this project"
 msgstr "Aanmaken van een account is voor dit project niet mogelijk"
+
+msgctxt "attachproject_error_invalid_url"
+msgid "Invalid URL"
+msgstr ""
 
 #. working activity
 msgctxt "attachproject_working_back_button"
@@ -295,6 +332,14 @@ msgctxt "attachproject_working_login"
 msgid "Log in"
 msgstr "Aanmelden"
 
+msgctxt "attachproject_working_acctmgr"
+msgid "Add account manager"
+msgstr ""
+
+msgctxt "attachproject_working_acctmgr_sync"
+msgid "Synchronize"
+msgstr ""
+
 #. main activity
 msgctxt "main_noproject_warning"
 msgid "Tab here to choose a project."
@@ -337,6 +382,10 @@ msgctxt "tab_preferences"
 msgid "Preferences"
 msgstr "Voorkeursinstellingen"
 
+msgctxt "tab_notices"
+msgid "Notices"
+msgstr ""
+
 msgctxt "tab_desc"
 msgid "Navigation"
 msgstr "Navigatie"
@@ -372,11 +421,11 @@ msgstr ""
 
 msgctxt "status_launching"
 msgid "Starting…"
-msgstr "Startend..."
+msgstr "Opstarten..."
 
 msgctxt "status_noproject"
 msgid "Choose a project to participate in."
-msgstr ""
+msgstr "Kies een project om aan deel te nemen."
 
 msgctxt "status_closing"
 msgid "Closing…"
@@ -463,15 +512,15 @@ msgstr ""
 
 msgctxt "prefs_disk_max_pct_header"
 msgid "Max. used storage space"
-msgstr ""
+msgstr "Max. gebruikte opslagruimte"
 
 msgctxt "prefs_disk_max_pct_description"
 msgid "How many percent of your device's storage space is BOINC allowed to use?"
-msgstr ""
+msgstr "Welk percentage opslagruimte mag BOINC gebruiken op dit apparaat?"
 
 msgctxt "prefs_disk_min_free_gb_header"
 msgid "Min. spare storage"
-msgstr ""
+msgstr "Min. reserve opslagruimte"
 
 msgctxt "prefs_disk_min_free_gb_description"
 msgid "How much of your device's storage space shall stay free?"
@@ -621,6 +670,10 @@ msgctxt "projects_control_dialog_title"
 msgid "Project commands:"
 msgstr ""
 
+msgctxt "projects_control_visit_website"
+msgid "Visit website"
+msgstr ""
+
 msgctxt "projects_control_update"
 msgid "Update"
 msgstr "Bijwerken"
@@ -647,6 +700,18 @@ msgstr "Nieuwe taken toestaan"
 
 msgctxt "projects_control_reset"
 msgid "Reset"
+msgstr ""
+
+msgctxt "projects_control_dialog_title_acctmgr"
+msgid "Account manager commands:"
+msgstr ""
+
+msgctxt "projects_control_sync_acctmgr"
+msgid "Synchronize"
+msgstr ""
+
+msgctxt "projects_control_remove_acctmgr"
+msgid "Disable"
 msgstr ""
 
 #. project confirm dialog
@@ -676,6 +741,18 @@ msgstr ""
 
 msgctxt "projects_confirm_reset_confirm"
 msgid "Reset"
+msgstr ""
+
+msgctxt "projects_confirm_remove_acctmgr_title"
+msgid "Disable account manager"
+msgstr ""
+
+msgctxt "projects_confirm_remove_acctmgr_message"
+msgid "Are you sure you want to stop using"
+msgstr ""
+
+msgctxt "projects_confirm_remove_acctmgr_confirm"
+msgid "Disable"
 msgstr ""
 
 #. tasks tab strings
@@ -821,6 +898,10 @@ msgctxt "trans_header_name"
 msgid "File:"
 msgstr "Bestand:"
 
+msgctxt "trans_control_retry"
+msgid "Retry transfers"
+msgstr ""
+
 msgctxt "confirm_abort_trans_title"
 msgid "Abort transfer?"
 msgstr "Overdracht afbreken?"
@@ -832,6 +913,11 @@ msgstr "Bestand afbreken:"
 msgctxt "confirm_abort_trans_confirm"
 msgid "Abort"
 msgstr "Afbreken"
+
+#. notices tab strings
+msgctxt "notices_loading"
+msgid "Reading notices…"
+msgstr ""
 
 #. eventlog tab strings
 msgctxt "eventlog_loading"

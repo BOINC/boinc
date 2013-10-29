@@ -7,16 +7,17 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2013-10-18 00:00-0700\n"
-"PO-Revision-Date: 2013-10-12 18:57+0000\n"
+"PO-Revision-Date: 2013-10-26 22:27+0000\n"
 "Last-Translator: pryds <thomas@pryds.eu>\n"
 "Language-Team: da <LL@li.org>\n"
 "Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"X-Generator: Translate Toolkit 1.10.0\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
+"X-POOTLE-MTIME: 1382826431.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -52,7 +53,7 @@ msgstr "Indtast venligst projekt-URL"
 
 msgctxt "attachproject_list_acctmgr_button"
 msgid "Add account manager"
-msgstr ""
+msgstr "Tilføj kontohåndtering"
 
 msgctxt "attachproject_list_no_internet"
 msgid "No Internet connection"
@@ -199,27 +200,27 @@ msgstr "Opret"
 #. account manager
 msgctxt "attachproject_acctmgr_header"
 msgid "Add account manager"
-msgstr ""
+msgstr "Tilføj kontohåndtering"
 
 msgctxt "attachproject_acctmgr_header_url"
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 msgctxt "attachproject_acctmgr_header_name"
 msgid "User:"
-msgstr ""
+msgstr "Bruger:"
 
 msgctxt "attachproject_acctmgr_header_pwd"
 msgid "Password:"
-msgstr ""
+msgstr "Kodeord:"
 
 msgctxt "attachproject_acctmgr_header_pwd_confirm"
 msgid "… Retype:"
-msgstr ""
+msgstr "… Tast igen:"
 
 msgctxt "attachproject_acctmgr_button"
 msgid "Add"
-msgstr ""
+msgstr "Tilføj"
 
 #. error strings
 msgctxt "attachproject_error_wrong_name"
@@ -240,7 +241,7 @@ msgstr "Kodeord passer ikke sammen"
 
 msgctxt "attachproject_error_no_url"
 msgid "Please enter URL"
-msgstr ""
+msgstr "Indtast venligst URL"
 
 msgctxt "attachproject_error_no_email"
 msgid "Please enter eMail address"
@@ -284,7 +285,7 @@ msgstr "Oprettelse af konti er slået fra for dette projekt"
 
 msgctxt "attachproject_error_invalid_url"
 msgid "Invalid URL"
-msgstr ""
+msgstr "Ugyldig URL"
 
 #. working activity
 msgctxt "attachproject_working_back_button"
@@ -333,11 +334,11 @@ msgstr "Log ind"
 
 msgctxt "attachproject_working_acctmgr"
 msgid "Add account manager"
-msgstr ""
+msgstr "Tilføj kontohåndtering"
 
 msgctxt "attachproject_working_acctmgr_sync"
 msgid "Synchronize"
-msgstr ""
+msgstr "Synkronisér"
 
 #. main activity
 msgctxt "main_noproject_warning"
@@ -383,7 +384,7 @@ msgstr "Indstillinger"
 
 msgctxt "tab_notices"
 msgid "Notices"
-msgstr ""
+msgstr "Meddelelser"
 
 msgctxt "tab_desc"
 msgid "Navigation"
@@ -675,7 +676,7 @@ msgstr "Projektkommandoer:"
 
 msgctxt "projects_control_visit_website"
 msgid "Visit website"
-msgstr ""
+msgstr "Besøg hjemmeside"
 
 msgctxt "projects_control_update"
 msgid "Update"
@@ -707,15 +708,15 @@ msgstr "Nulstil"
 
 msgctxt "projects_control_dialog_title_acctmgr"
 msgid "Account manager commands:"
-msgstr ""
+msgstr "Kommandoer for kontohåndtering:"
 
 msgctxt "projects_control_sync_acctmgr"
 msgid "Synchronize"
-msgstr ""
+msgstr "Synkronisér"
 
 msgctxt "projects_control_remove_acctmgr"
 msgid "Disable"
-msgstr ""
+msgstr "Deaktivér"
 
 #. project confirm dialog
 msgctxt "projects_confirm_detach_title"
@@ -748,15 +749,15 @@ msgstr "Nulstil"
 
 msgctxt "projects_confirm_remove_acctmgr_title"
 msgid "Disable account manager"
-msgstr ""
+msgstr "Deaktivér kontohåndtering"
 
 msgctxt "projects_confirm_remove_acctmgr_message"
 msgid "Are you sure you want to stop using"
-msgstr ""
+msgstr "Er du sikker på, du vil stoppe med at bruge"
 
 msgctxt "projects_confirm_remove_acctmgr_confirm"
 msgid "Disable"
-msgstr ""
+msgstr "Deaktivér"
 
 #. tasks tab strings
 msgctxt "tasks_header_name"
@@ -903,7 +904,7 @@ msgstr "Fil:"
 
 msgctxt "trans_control_retry"
 msgid "Retry transfers"
-msgstr ""
+msgstr "Prøv filoverførsler igen"
 
 msgctxt "confirm_abort_trans_title"
 msgid "Abort transfer?"
@@ -920,7 +921,7 @@ msgstr "Afbryd"
 #. notices tab strings
 msgctxt "notices_loading"
 msgid "Reading notices…"
-msgstr ""
+msgstr "Indlæser meddelelser"
 
 #. eventlog tab strings
 msgctxt "eventlog_loading"

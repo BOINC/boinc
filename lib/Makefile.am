@@ -24,9 +24,10 @@ libfcgi_sources = \
     hostinfo.cpp \
     md5.c \
     md5_file.cpp \
+    mfile.cpp \
     miofile.cpp \
     msg_log.cpp \
-	opencl_boinc.cpp \
+    opencl_boinc.cpp \
     parse.cpp \
     shmem.cpp \
     str_util.cpp \
@@ -54,7 +55,7 @@ generic_sources = \
     msg_log.cpp \
     network.cpp \
     notice.cpp \
-	opencl_boinc.cpp \
+    opencl_boinc.cpp \
     parse.cpp \
     prefs.cpp \
     procinfo.cpp \
@@ -122,7 +123,7 @@ pkginclude_HEADERS = \
     msg_log.h \
     network.h \
     notice.h \
-	opencl_boinc.h \
+    opencl_boinc.h \
     parse.h \
     prefs.h \
     procinfo.h \

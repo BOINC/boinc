@@ -44,11 +44,11 @@ function linux_info() {
 }
 
 $w72dev = array(
-	"num"=>"7.2.23",
+	"num"=>"7.2.26",
 	"status"=>"Development version",
-	"file"=>"boinc_7.2.23_windows_intelx86.exe",
-	"vbox_file"=>"boinc_7.2.23_windows_intelx86_vbox.exe",
-	"date"=>"17 Oct 2013",
+	"file"=>"boinc_7.2.26_windows_intelx86.exe",
+	"vbox_file"=>"boinc_7.2.26_windows_intelx86_vbox.exe",
+	"date"=>"25 Oct 2013",
 	"type"=>"win_new",
 );
 
@@ -85,11 +85,11 @@ $w5816 = array(
 );
 
 $w72x64dev = array(
-	"num"=>"7.2.23",
+	"num"=>"7.2.26",
 	"status"=>"Development version",
-	"file"=>"boinc_7.2.23_windows_x86_64.exe",
-	"vbox_file"=>"boinc_7.2.23_windows_x86_64_vbox.exe",
-	"date"=>"17 Oct 2013",
+	"file"=>"boinc_7.2.26_windows_x86_64.exe",
+	"vbox_file"=>"boinc_7.2.26_windows_x86_64_vbox.exe",
+	"date"=>"25 Oct 2013",
 	"type"=>"win_new",
 );
 
@@ -206,10 +206,10 @@ $l66 = array(
 	);
 
 $l72ubuntudev = array(
-	"num"=>"7.2.23",
+	"num"=>"7.2.26",
 	"status"=>"Development version",
-	"file"=>"boinc_7.2.23_i686-pc-linux-gnu.sh",
-	"date"=>"17 Oct 2013",
+	"file"=>"boinc_7.2.26_i686-pc-linux-gnu.sh",
+	"date"=>"25 Oct 2013",
 	"type"=>"sea",
 );
 
@@ -230,10 +230,10 @@ $l70ubuntuold = array(
 );
 
 $l72ubuntux64dev = array(
-	"num"=>"7.2.23",
+	"num"=>"7.2.26",
 	"status"=>"Development version",
-	"file"=>"boinc_7.2.23_x86_64-pc-linux-gnu.sh",
-	"date"=>"17 Oct 2013",
+	"file"=>"boinc_7.2.26_x86_64-pc-linux-gnu.sh",
+	"date"=>"25 Oct 2013",
 	"type"=>"sea",
 );
 
