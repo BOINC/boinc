@@ -13,6 +13,7 @@ if ($host == "bolt.berkeley.edu") {
 
 require_once("docutil.php");
 require_once("../html/inc/translation.inc");
+require_once("../html/inc/language_names.inc");
 
 function show_participant() {
     $i = rand(0, 99);
@@ -90,15 +91,11 @@ function show_participate() {
         </td></tr>
         <tr><td>
         <p>
-        ".sprintf(
-            tra(" Use the idle time on your computer (Windows, Mac, Linux, or Android) to cure diseases, study global warming, discover pulsars, and do many other types of scientific research.  It's safe, secure, and easy:  %sChoose%s projects  %sDownload%s and run BOINC software  %sEnter%s an email address and password. "),
-            "<ol> <li> <a href=projects.php><b>",
-            "</b></a>",
-            "<li> <a href=download.php><b>",
-            "</b></a>",
-            "<li> <b>",
-            "</b>"
-        )."
+        ".tra("Use the idle time on your computer (Windows, Mac, Linux, or Android) to cure diseases, study global warming, discover pulsars, and do many other types of scientific research.  It's safe, secure, and easy:")."
+        <ol>
+        <li> <a href=projects.php>".tra("Choose projects")."</a>
+        <li> <a href=download.php>".tra("Download BOINC software")."</a>
+        <li> ".tra("Enter an email address and password.")."
         </ol>
         <p>
         ".sprintf(
@@ -197,42 +194,6 @@ function show_nsf() {
         and do not necessarily reflect the views of the National Science Foundation.
         </span>
         </td></tr>
-    ";
-}
-
-require_once("../html/inc/language_names.inc");
-
-function language_select() {
-    global $language_names;
-    $supported_languages = getSupportedLanguages();
-    $bd = tra("Browser default");
-    echo "
-        <option value=auto selected=\"selected\">-- language --
-        <option value=auto>$bd
-    ";
-    if ($bd != "Browser default") echo " (Browser default)";
-    foreach ($language_names as $lang) {
-        if (!in_array($lang[0], $supported_languages)) continue;
-        echo "<option value=".$lang[0].">".$lang[1]." (".$lang[2].")";
-    }
-}
-
-// how to add language names:
-// paste into notepad++, select ANSI format,
-// then copy/paste into here
-function language_form() {
-    echo "
-        <table><tr><td>
-        <form name=language method=get action=set_language.php>
-        <select class=selectbox name=lang onchange=\"javascript: submit()\">
-    ";
-    language_select();
-    echo "</select>
-        </form>
-        <script type=\"text/javascript\">
-        document.language.lang.selectedIndex=0;
-        </script>
-            </td></tr></table>
     ";
 }
 
