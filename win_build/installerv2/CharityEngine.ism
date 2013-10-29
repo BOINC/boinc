@@ -787,8 +787,8 @@
 		<row><td>PatchWelcome</td><td>Next</td><td>EndDialog</td><td>Return</td><td>1</td><td>3</td></row>
 		<row><td>PatchWelcome</td><td>Next</td><td>Reinstall</td><td>ALL</td><td>PATCH And REINSTALL=""</td><td>1</td></row>
 		<row><td>PatchWelcome</td><td>Next</td><td>ReinstallMode</td><td>omus</td><td>PATCH And REINSTALLMODE=""</td><td>2</td></row>
+		<row><td>ReadyToInstall</td><td>Back</td><td>NewDialog</td><td>LicenseAgreement</td><td>NOT Installed</td><td>1</td></row>
 		<row><td>ReadyToInstall</td><td>Back</td><td>NewDialog</td><td>MaintenanceType</td><td>Installed AND _IsMaintenance = "Reinstall"</td><td>2</td></row>
-		<row><td>ReadyToInstall</td><td>Back</td><td>NewDialog</td><td>NoDialog</td><td>NOT Installed</td><td>1</td></row>
 		<row><td>ReadyToInstall</td><td>Cancel</td><td>SpawnDialog</td><td>CancelSetup</td><td>1</td><td>1</td></row>
 		<row><td>ReadyToInstall</td><td>InstallNow</td><td>EndDialog</td><td>Return</td><td>OutOfNoRbDiskSpace &lt;&gt; 1</td><td>1</td></row>
 		<row><td>ReadyToInstall</td><td>InstallNow</td><td>NewDialog</td><td>OutOfSpace</td><td>OutOfNoRbDiskSpace = 1</td><td>2</td></row>
@@ -3456,7 +3456,7 @@ http://www.charityengine.com/</td><td>0</td><td/><td>-484347571</td></row>
 		<row><td>IDS_ERROR_98</td><td>1033</td><td>Could not unregister font [2]. Verify that you have sufficient permissions to remove fonts.</td><td>0</td><td/><td>-2087162399</td></row>
 		<row><td>IDS_ERROR_99</td><td>1033</td><td>Could not create shortcut [2]. Verify that the destination folder exists and that you can access it.</td><td>0</td><td/><td>-2087162399</td></row>
 		<row><td>IDS_FEATURE_BOINC_DESCRIPTION</td><td>1033</td><td>Downloads, executes, and uploads tasks</td><td>0</td><td/><td>-484361939</td></row>
-		<row><td>IDS_FEATURE_BOINC_MANAGER_DESCRIPTION</td><td>1033</td><td>Lets you monitor and control BOINC</td><td>0</td><td/><td>-2086887957</td></row>
+		<row><td>IDS_FEATURE_BOINC_MANAGER_DESCRIPTION</td><td>1033</td><td>Lets you monitor and control Charity Engine</td><td>0</td><td/><td>-316601663</td></row>
 		<row><td>IDS_FEATURE_BOINC_MANAGER_GLOBALIZATION_DESCRIPTION</td><td>1033</td><td>Localized content for the BOINC Manager</td><td>0</td><td/><td>1570293525</td></row>
 		<row><td>IDS_FEATURE_BOINC_MANAGER_GLOBALIZATION_NAME</td><td>1033</td><td>BOINC Manager globalization files</td><td>0</td><td/><td>-2086894133</td></row>
 		<row><td>IDS_FEATURE_BOINC_MANAGER_NAME</td><td>1033</td><td>CHARIT~1|Charity Engine</td><td>0</td><td/><td>-484361715</td></row>
