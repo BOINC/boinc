@@ -21,4 +21,7 @@ function r4032login_uninstall() {
   variable_del('r4032login_display_denied_message');
   variable_del('r4032login_user_register_message');
   variable_del('r4032login_redirect_authenticated_users_to');
+  variable_del('r4032login_user_login_path');
+  variable_del('r4032login_default_redirect_code');
+  variable_del('r4032login_match_noredirect_pages');
 }
