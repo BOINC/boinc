@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-10-15 22:26-0700\n"
-"PO-Revision-Date: 2013-09-23 17:59+0000\n"
+"PO-Revision-Date: 2013-10-28 19:50+0000\n"
 "Last-Translator: Олег <pukish_oleg@ukr.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: uk\n"
@@ -24,7 +24,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCGIT\\boinc\n"
-"X-POOTLE-MTIME: 1379959161.0\n"
+"X-POOTLE-MTIME: 1382989834.0\n"
 
 # 81%
 #: AccountInfoPage.cpp:387
@@ -143,11 +143,11 @@ msgstr "Використати менеджер проектів"
 
 #: AccountInfoPage.cpp:585
 msgid "Please enter a user name."
-msgstr ""
+msgstr "Будь-ласка, введіть ім’я користувача."
 
 #: AccountInfoPage.cpp:587
 msgid "Please enter an email address."
-msgstr ""
+msgstr "Будь-ласка, вкажіть адресу електронної пошти."
 
 #: AccountInfoPage.cpp:597
 #, c-format
