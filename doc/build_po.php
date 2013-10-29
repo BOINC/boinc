@@ -34,7 +34,9 @@ HDR;
 
 $out = fopen("BOINC-Web.pot", "w");
 fwrite($out, $header);
-$pipe = popen("xgettext --omit-header -o - --keyword=tra -L PHP *.inc *.php ../html/inc/news.inc", "r");
+
+$files = "docutil.php download.php help.php help_funcs.php index.php projects.inc ../html/inc/news.inc";
+$pipe = popen("xgettext --omit-header -o - --keyword=tra -L PHP $files", "r");
 stream_copy_to_stream($pipe, $out);
 fclose($pipe);
 fclose($out);
