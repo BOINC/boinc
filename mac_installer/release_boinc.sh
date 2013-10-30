@@ -34,6 +34,7 @@
 ## updated 6/11/13 by Charlie Fenton for BOINC.mpkg, "BOINC + VirtualBox.mpkg"
 ## updated 6/18/13 by Charlie Fenton for localizable uninstaller
 ## updated 8/15/13 by Charlie Fenton to fix bug in localizable uninstaller
+## updated 10/30/13 by Charlie Fenton to build a flat package
 ##
 ## NOTE: This script requires Mac OS 10.6 or later, and uses XCode developer
 ##   tools.  So you must have installed XCode Developer Tools on the Mac 
@@ -124,24 +125,27 @@ sudo rm -dfR ../BOINC_Installer/Installer\ Resources/
 sudo rm -dfR ../BOINC_Installer/Installer\ Scripts/
 sudo rm -dfR ../BOINC_Installer/Pkg_Root
 sudo rm -dfR ../BOINC_Installer/locale
+sudo rm -dfR ../BOINC_Installer/Installer\ templates
 
 mkdir -p ../BOINC_Installer/Installer\ Resources/
 mkdir -p ../BOINC_Installer/Installer\ Scripts/
+mkdir -p ../BOINC_Installer/Installer\ templates
 
 cp -fp mac_installer/License.rtf ../BOINC_Installer/Installer\ Resources/
 cp -fp mac_installer/ReadMe.rtf ../BOINC_Installer/Installer\ Resources/
-cp -fp win_build/installerv2/redist/all_projects_list.xml ../BOINC_Installer/Installer\ Resources/
+
+cp -fp mac_installer/complist.plist ../BOINC_Installer/Installer\ templates
+cp -fp mac_installer/myDistribution ../BOINC_Installer/Installer\ templates
 
 # Update version number
 sed -i "" s/"<VER_NUM>"/"$1.$2.$3"/g ../BOINC_Installer/Installer\ Resources/ReadMe.rtf
+sed -i "" s/"x.y.z"/"$1.$2.$3"/g ../BOINC_Installer/Installer\ templates/myDistribution
 
 #### We don't customize BOINC Data directory name for branding
 cp -fp mac_installer/preinstall ../BOINC_Installer/Installer\ Scripts/
 cp -fp mac_installer/preinstall ../BOINC_Installer/Installer\ Scripts/preupgrade
 cp -fp mac_installer/postinstall ../BOINC_Installer/Installer\ Scripts/
 cp -fp mac_installer/postupgrade ../BOINC_Installer/Installer\ Scripts/
-
-cp -fpR $BUILDPATH/PostInstall.app ../BOINC_Installer/Installer\ Resources/
 
 mkdir -p ../BOINC_Installer/Pkg_Root
 mkdir -p ../BOINC_Installer/Pkg_Root/Applications
@@ -152,7 +156,9 @@ mkdir -p ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data
 mkdir -p ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/locale
 mkdir -p ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/switcher
 mkdir -p ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/skins
-# We must create virtualbox directory so installer will set up its 
+mkdir -p ../BOINC_Installer/Pkg_Root/tmp
+
+# We must create virtualbox directory so installer will set up its
 # ownership and permissions correctly, because vboxwrapper won't 
 # have permission to set owner to boinc_master.
 mkdir -p ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/projects/virtualbox
@@ -167,15 +173,9 @@ cd "${BOINCPath}/clientgui/skins"
 cp -fpR Default ../../../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/skins/
 cd "${BOINCPath}"
 
-## FOR NOW - Don't install WCG Skins.  If you reinstate this, also reinstate preinstall & preupgrade above
-## Copy the World Community Grid skins into the installer tree, minus the CVS files
-## cd "${BOINCPath}/clientgui/skins"
-## cp -fpR World\ Community\ Grid ../../../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/skins/
-## cd "${BOINCPath}"
-## sudo rm -dfR ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/skins/World\ Community\ Grid/CVS
-## sudo rm -dfR ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/skins/World\ Community\ Grid/graphic/CVS
-
 cp -fp curl/ca-bundle.crt ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/
+
+cp -fp win_build/installerv2/redist/all_projects_list.xml ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/installer_projects_list.xml
 
 cp -fp doc/logo/boinc_logo_black.jpg ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/
 cp -fp api/ttf/liberation-fonts-ttf-2.00.0/LiberationSans-Regular.ttf ../BOINC_Installer/Pkg_Root/Library/Application\ Support/BOINC\ Data/LiberationSans-Regular.ttf
@@ -185,6 +185,8 @@ cp -fpR $BUILDPATH/boincscr ../BOINC_Installer/Pkg_Root/Library/Application\ Sup
 cp -fpR $BUILDPATH/BOINCManager.app ../BOINC_Installer/Pkg_Root/Applications/
 
 cp -fpR $BUILDPATH/BOINCSaver.saver ../BOINC_Installer/Pkg_Root/Library/Screen\ Savers/
+
+cp -fpR $BUILDPATH/PostInstall.app ../BOINC_Installer/Pkg_Root/tmp/
 
 ## Copy the localization files into the installer tree
 ## Old way copies CVS and *.po files which are not needed
@@ -246,79 +248,21 @@ sudo chmod -R u+r-w,g+r-w,o+r-w ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1
 cp -fpR $BUILDPATH/BOINC\ Installer.app ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/
 
 # Build the installer package inside the wrapper application's bundle
-# Because PackageMaker is now distributed separately from Xcode, we 
-# emulate the following PackageMaker command:
-###/Developer/usr/bin/packagemaker -r ../BOINC_Installer/Pkg_Root -e ../BOINC_Installer/Installer\ Resources/ -s ../BOINC_Installer/Installer\ Scripts/ -f mac_build/Pkg-Info.plist -t "BOINC Manager" -n "$1.$2.$3" -b -o ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC\ Installer.app/Contents/Resources/BOINC.pkg
 
-# Our PackageMaker emulation starts here
-mkdir -p ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC\ Installer.app/Contents/Resources/BOINC.pkg/Contents/Resources
+cd "../BOINC_Installer/Installer templates"
 
-cd ../BOINC_Installer/Pkg_Root
+pkgbuild --quiet --scripts "../Installer Scripts" --ownership recommended --identifier edu.berkeley.boinc --root "../Pkg_Root" --component-plist "./complist.plist" "./BOINC.pkg"
 
-mkbom ./ ../New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC\ Installer.app/Contents/Resources/BOINC.pkg/Contents/Archive.bom
-
-pax -wz -x cpio -f ../New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC\ Installer.app/Contents/Resources/BOINC.pkg/Contents/Archive.pax.gz ./
+productbuild --quiet --resources "../Installer Resources/" --version "BOINC Manager $1.$2.$3" --distribution "./myDistribution" "../New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC Installer.app/Contents/Resources/BOINC.pkg"
 
 cd "${BOINCPath}"
-
-echo "pmkrpkg1" >> ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC\ Installer.app/Contents/Resources/BOINC.pkg/Contents/PkgInfo
-
-cat >> ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC\ Installer.app/Contents/Resources/BOINC.pkg/Contents/Resources/package_version << ENDOFFILE
-major: $1
-minor: $2
-ENDOFFILE
-
-cp -fp mac_build/Pkg-Info.plist ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC\ Installer.app/Contents/Resources/BOINC.pkg/Contents/Info.plist
-
-cp -fpR ../BOINC_Installer/Installer\ Resources/ ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC\ Installer.app/Contents/Resources/BOINC.pkg/Contents/Resources
-
-sudo chmod a+x ../BOINC_Installer/Installer\ Scripts/*
-cp -fpR ../BOINC_Installer/Installer\ Scripts/ ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC\ Installer.app/Contents/Resources/BOINC.pkg/Contents/Resources
-
-# End of our PackageMaker emulation
-
-# add a more complete Description.plist file to display in Installer's Customize pane
-if [ ! -d ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC\ Installer.app/Contents/Resources/BOINC.pkg/Contents/Resources/en.lproj/ ]; then
-    mkdir -p ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC\ Installer.app/Contents/Resources/BOINC.pkg/Contents/Resources/en.lproj
-fi
-cp -fp mac_installer/Description.plist ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC\ Installer.app/Contents/Resources/BOINC.pkg/Contents/Resources/en.lproj/
-
-# Build the "BOINC.mpkg" metapackage (used if installer.app determines
-# that we need user to restart OS X after installation)
-mkdir -p "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC Installer.app/Contents/Resources/BOINC.mpkg/Contents/Resources"
-cp -fp mac_build/Pkg_Restart-Info.plist ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC\ Installer.app/Contents/Resources/BOINC.mpkg/Contents/Info.plist
-cp -fp mac_installer/License.rtf ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC\ Installer.app/Contents/Resources/BOINC.mpkg/Contents/Resources/
-cp -fp ../BOINC_Installer/Installer\ Resources/ReadMe.rtf ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC\ Installer.app/Contents/Resources/BOINC.mpkg/Contents/Resources/
-cat >> ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC\ Installer.app/Contents/Resources/BOINC.mpkg/Contents/Resources/package_version << ENDOFFILE
-major: $1
-minor: $2
-ENDOFFILE
-echo "pmkrpkg1" > ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC\ Installer.app/Contents/Resources/BOINC.mpkg/Contents/PkgInfo
-
 
 # Build the BOINC+VirtualBox.mpkg metapackage if VirtualBox.pkg exists
 
 VirtualBoxPackageName="VirtualBox.pkg"
-if [ -d mac_installer/${VirtualBoxPackageName}/ ]; then
-    mkdir -p "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC Installer.app/Contents/Resources/BOINC+VirtualBox.mpkg/Contents/Resources"
-    cp -fp mac_build/Mpkg-Info.plist ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC\ Installer.app/Contents/Resources/BOINC+VirtualBox.mpkg/Contents/Info.plist
-    cp -fp mac_installer/License.rtf ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC\ Installer.app/Contents/Resources/BOINC+VirtualBox.mpkg/Contents/Resources/
-    cp -fp ../BOINC_Installer/Installer\ Resources/ReadMe.rtf ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC\ Installer.app/Contents/Resources/BOINC+VirtualBox.mpkg/Contents/Resources/
-    cat >> ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC\ Installer.app/Contents/Resources/BOINC+VirtualBox.mpkg/Contents/Resources/package_version << ENDOFFILE
-major: $1
-minor: $2
-ENDOFFILE
-    echo "pmkrpkg1" > ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC\ Installer.app/Contents/Resources/BOINC+VirtualBox.mpkg/Contents/PkgInfo
-    
-    cp -fpR mac_installer/${VirtualBoxPackageName} ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC\ Installer.app/Contents/Resources/
-
-    # Now create the "BOINC + VirtualBox.mpkg" metapackage (used if installer.app
-    # determines that we need user to restart OS X after installation)
-    # Note the name of this version has spaces around the "+"
-    cp -fpR "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC Installer.app/Contents/Resources/BOINC+VirtualBox.mpkg" "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC Installer.app/Contents/Resources/BOINC + VirtualBox.mpkg"
-    # Change "NoRestart" to "RequiredRestart" in BOINC + VirtualBox.mpkg
-    sed -i "" s/"NoRestart"/"RequiredRestart"/g "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC Installer.app/Contents/Resources/BOINC + VirtualBox.mpkg/Contents/Info.plist"
-fi
+###### if [ -d mac_installer/${VirtualBoxPackageName}/ ]; then
+###### To be filled in later
+###### fi
 
 # Build the stand-alone client distribution
 cp -fpR mac_build/Mac_SA_Insecure.sh ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_$arch-apple-darwin/
@@ -338,7 +282,6 @@ cp -fpR curl/ca-bundle.crt ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$
 mkdir -p ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_$arch-apple-darwin/move_to_boinc_dir/switcher
 cp -fpR $BUILDPATH/switcher ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_$arch-apple-darwin/move_to_boinc_dir/switcher/
 cp -fpR $BUILDPATH/setprojectgrp ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_$arch-apple-darwin/move_to_boinc_dir/switcher/
-## cp -fpR $BUILDPATH/AppStats ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_$arch-apple-darwin/move_to_boinc_dir/switcher/
 
 sudo chown -R root:admin ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_$arch-apple-darwin/move_to_boinc_dir/*
 sudo chmod -R u+rw-s,g+r-ws,o+r-w ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_$arch-apple-darwin/move_to_boinc_dir/*

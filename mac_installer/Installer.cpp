@@ -42,7 +42,7 @@
 void Initialize(void);	/* function prototypes */
 Boolean IsUserMemberOfGroup(const char *userName, const char *groupName);
 Boolean IsRestartNeeded();
-static void GetPreferredLanguages(char * pkgPath);
+static void GetPreferredLanguages();
 static void LoadPreferredLanguages();
 static void ShowMessage(const char *format, ...);
 static OSErr QuitAppleEventHandler(const AppleEvent *appleEvt, AppleEvent* reply, UInt32 refcon);
@@ -54,7 +54,7 @@ void strip_cr(char *buf);
 #define MAX_LANGUAGES_TO_TRY 5
 
 static char * Catalog_Name = (char *)"BOINC-Setup";
-static char * Catalogs_Dir = (char *)"/tmp/BOINC_PAX/Library/Application Support/BOINC Data/locale/";
+static char * Catalogs_Dir = (char *)"/tmp/BOINC_payload/Library/Application Support/BOINC Data/locale/";
 
 Boolean			gQuitFlag = false;	/* global */
 
@@ -67,8 +67,7 @@ CFStringRef     valueNoRestart = CFSTR("NoRestart");
 int main(int argc, char *argv[])
 {
     char                    pkgPath[MAXPATHLEN], pkgRestartPath[MAXPATHLEN];
-    char                    infoPlistPath[MAXPATHLEN];
-    char                    MetaPkgPath[MAXPATHLEN], MetaPkgRestartPath[MAXPATHLEN];
+    char                    temp[MAXPATHLEN];
     char                    brand[64], s[256];
     char                    *p;
     ProcessSerialNumber     ourPSN;
@@ -89,14 +88,14 @@ int main(int argc, char *argv[])
     if (err == noErr)
         err = FSRefMakePath (&ourFSRef, (UInt8*)pkgPath, sizeof(pkgPath));
 
-    strlcpy(infoPlistPath, pkgPath, sizeof(infoPlistPath));
+    strlcpy(temp, pkgPath, sizeof(temp));
 
     strlcat(pkgPath, "/Contents/Resources/", sizeof(pkgPath));
 
    // To allow for branding, assume name of installer package inside bundle corresponds to name of this application
-    p = strrchr(infoPlistPath, '/');         // Point to name of this application (e.g., "BOINC Installer.app")
+    p = strrchr(temp, '/');         // Point to name of this application (e.g., "BOINC Installer.app")
     if (p == NULL)
-        p = infoPlistPath - 1;
+        p = temp - 1;
     strlcpy(brand, p+1, sizeof(brand));
     strlcat(pkgPath, p+1, sizeof(pkgPath));
     p = strrchr(pkgPath, ' ');         // Strip off last space character and everything following
@@ -106,24 +105,22 @@ int main(int argc, char *argv[])
     p = strstr(brand, " Installer.app");  // Strip off trailing " Installer.app"
     if (p)
         *p = '\0'; 
-
-    strlcpy(MetaPkgPath, pkgPath, sizeof(MetaPkgPath));
-    strlcat(MetaPkgPath, "+VirtualBox.mpkg", sizeof(MetaPkgPath));
-    
-    strlcpy(MetaPkgRestartPath, pkgPath, sizeof(MetaPkgRestartPath));
-    strlcat(MetaPkgRestartPath, " + VirtualBox.mpkg", sizeof(MetaPkgRestartPath));
-    
-    strlcpy(pkgRestartPath, pkgPath, sizeof(MetaPkgPath));
-    strlcat(pkgRestartPath, ".mpkg", sizeof(pkgPath));
     
     strlcat(pkgPath, ".pkg", sizeof(pkgPath));
     err = Gestalt(gestaltSystemVersion, &response);
     if (err != noErr)
         return err;
 
-    GetPreferredLanguages(pkgPath);
+    // Expand the installer package
+    system("rm -dfR /tmp/BOINC.pkg");
+    system("rm -dfR /tmp/expanded_BOINC.pkg");
+    sprintf(temp, "pkgutil --expand \"%s\" /tmp/expanded_BOINC.pkg", pkgPath);
+    err = system(temp);
 
-    if (response < 0x1040) {
+    if (err == noErr) {
+        GetPreferredLanguages();
+    }
+    if (response < 0x1050) {
         LoadPreferredLanguages();
         ::SetFrontProcess(&ourPSN);
         p = strrchr(brand, ' ');         // Strip off last space character and everything following
@@ -131,38 +128,49 @@ int main(int argc, char *argv[])
             *p = '\0'; 
         ShowMessage((char *)_("Sorry, this version of %s requires system 10.4 or higher."), brand);
 
-    } else {
+        system("rm -dfR /tmp/BOINC_payload");
+        return -1;
+    }
 
-        // Remove previous installer package receipt so we can run installer again
-        // (affects only older versions of OS X and fixes a bug in those versions)
-        // "rm -rf /Library/Receipts/GridRepublic.pkg"
-        sprintf(s, "rm -rf \"/Library/Receipts/%s.pkg\"", brand);
-        system (s);
+    system("rm -dfR /tmp/BOINC_payload");
 
-        restartNeeded = IsRestartNeeded();
-        
-        // Write a temp file to tell our PostInstall.app whether restart is needed
-        restartNeededFile = fopen("/tmp/BOINC_restart_flag", "w");
-        if (restartNeededFile) {
-            fputs(restartNeeded ? "1\n" : "0\n", restartNeededFile);
-            fclose(restartNeededFile);
-        }
-        
-        err = Gestalt(gestaltSystemVersion, &response);
-        if (err != noErr)
-            return err;
-        
+    // Remove previous installer package receipt so we can run installer again
+    // (affects only older versions of OS X and fixes a bug in those versions)
+    // "rm -rf /Library/Receipts/GridRepublic.pkg"
+    sprintf(s, "rm -rf \"/Library/Receipts/%s.pkg\"", brand);
+    system (s);
+
+    restartNeeded = IsRestartNeeded();
+    
+    // Write a temp file to tell our PostInstall.app whether restart is needed
+    restartNeededFile = fopen("/tmp/BOINC_restart_flag", "w");
+    if (restartNeededFile) {
+        fputs(restartNeeded ? "1\n" : "0\n", restartNeededFile);
+        fclose(restartNeededFile);
+    }
+    
+    if (restartNeeded) {
         if (err == noErr) {
-            if ((response < 0x1050) || stat(MetaPkgPath, &stat_buf)) {  // stat() returns zero on success
-                sprintf(infoPlistPath, "open \"%s\" &", restartNeeded ? pkgRestartPath : pkgPath);
-            } else {
-                sprintf(infoPlistPath, "open \"%s\" &", restartNeeded ? MetaPkgRestartPath : MetaPkgPath);
-            }
-            system(infoPlistPath);
+            // Change onConclusion="none" to onConclusion="RequireRestart"
+            err = system("sed -i \"\" s/\"onConclusion=\\\"none\\\"\"/\"onConclusion=\\\"RequireRestart\\\"\"/g /tmp/expanded_BOINC.pkg/Distribution");
+        }
+        if (err == noErr) {
+            // Flatten the installer package
+            sprintf(temp, "pkgutil --flatten /tmp/expanded_BOINC.pkg /tmp/%s.pkg", brand);
+            err = system(temp);
+            
+            system("rm -fR /tmp/expanded_BOINC.pkg");
+        }
+
+        if (err == noErr) {
+            sprintf(temp, "open \"/tmp/%s.pkg\" &", brand);
+            system(temp);
+            return 0;
         }
     }
 
-    system("rm -dfR /tmp/BOINC_PAX");
+    sprintf(temp, "open \"%s\" &", pkgPath);
+    system(temp);
     
     return err;
 }
@@ -272,36 +280,30 @@ void Initialize()	/* Initialize some managers */
 // user, before the Apple Installer switches us to root.
 // So we get the preferred languages here and write them to a
 // temporary file to be retrieved by our PostInstall app.
-static void GetPreferredLanguages(char * pkgPath) {
+static void GetPreferredLanguages() {
     DIR *dirp;
     struct dirent *dp;
     char searchPath[MAXPATHLEN];
     char savedWD[MAXPATHLEN];
-    char cmd[MAXPATHLEN+64];
+    char cmd[1024];
     struct stat sbuf;
     CFMutableArrayRef supportedLanguages;
     CFStringRef aLanguage;
     char shortLanguage[32];
     CFArrayRef preferredLanguages;
     int i, j, k;
-    int retval;
     char * language;
     char *uscore;
     FILE *f;
+    OSStatus err = noErr;
+
 
     getcwd(savedWD, sizeof(savedWD));
-    system("rm -dfR /tmp/BOINC_PAX");
-    mkdir("/tmp/BOINC_PAX", 0777);
-    chdir("/tmp/BOINC_PAX");
-    strlcpy(searchPath, pkgPath, sizeof(searchPath));
-    strlcat(searchPath, "/Contents/Archive.pax.gz", sizeof(searchPath));
-    snprintf(cmd, sizeof(cmd), "pax -r -z -f \"%s\"", searchPath);
-    retval = system(cmd);
+    system("rm -dfR /tmp/BOINC_payload");
+    mkdir("/tmp/BOINC_payload", 0777);
+    chdir("/tmp/BOINC_payload");
+    system("cpio -i < /tmp/expanded_BOINC.pkg/BOINC.pkg/Payload");
     chdir(savedWD);
-    if (retval) {
-        system("rm -dfR /tmp/BOINC_PAX");
-        return;
-    }
 
     // Create an array of all our supported languages
     supportedLanguages = CFArrayCreateMutable(kCFAllocatorDefault, 100, &kCFTypeArrayCallBacks);
