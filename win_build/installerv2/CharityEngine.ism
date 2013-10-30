@@ -913,7 +913,7 @@
 		<row><td>ISSetupFilesCleanup</td><td>257</td><td>ISSetupFilesHelper</td><td>SFCleanupEx</td><td/><td/></row>
 		<row><td>ISSetupFilesExtract</td><td>257</td><td>ISSetupFilesHelper</td><td>SFStartupEx</td><td/><td/></row>
 		<row><td>ISUnSelfRegisterFiles</td><td>3073</td><td>ISSELFREG.DLL</td><td>ISUnSelfRegisterFiles</td><td/><td/></row>
-		<row><td>LaunchBOINCManagerXP</td><td>210</td><td>boincmgr.exe</td><td/><td/><td/></row>
+		<row><td>LaunchBOINCManagerXP</td><td>210</td><td>charityengine.exe</td><td/><td/><td/></row>
 		<row><td>LaunchBOINCTrayXP</td><td>210</td><td>boinctray.exe</td><td/><td/><td/></row>
 		<row><td>SetARPINSTALLLOCATION</td><td>51</td><td>ARPINSTALLLOCATION</td><td>[INSTALLDIR]</td><td/><td/></row>
 		<row><td>SetARPReadme</td><td>51</td><td>ARPREADME</td><td>[#readme.txt]</td><td/><td/></row>
