@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2013-10-15 22:23 PDT\n"
+"POT-Creation-Date: 2013-10-29 10:57 PDT\n"
 "PO-Revision-Date: 2013-06-08 15:00+0200\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -895,6 +895,10 @@ msgstr "Версия<br>BOINC"
 #: ../inc/host.inc:745 ../user/merge_by_name.php:67
 msgid "Merge computers by name"
 msgstr "Объединить компьютеры по имени"
+
+#: ../inc/language_names.inc:61
+msgid "Browser default"
+msgstr ""
 
 #: ../inc/news.inc:40
 msgid "Comment"
