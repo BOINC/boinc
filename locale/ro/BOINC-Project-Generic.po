@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2013-10-15 22:23 PDT\n"
-"PO-Revision-Date: 2013-10-14 11:41+0000\n"
+"POT-Creation-Date: 2013-10-29 10:57 PDT\n"
+"PO-Revision-Date: 2013-10-30 15:17+0000\n"
 "Last-Translator: Marius <marius.sirbu@outlook.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: ro\n"
@@ -18,7 +18,7 @@ msgstr ""
 "20)) ? 1 : 2);;\n"
 "X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-POOTLE-MTIME: 1381750912.0\n"
+"X-POOTLE-MTIME: 1383146273.0\n"
 
 msgid "LANG_NAME_NATIVE"
 msgstr "Română"
@@ -517,7 +517,7 @@ msgstr "Şcoală"
 
 #: ../inc/host.inc:59
 msgid "Mobile"
-msgstr ""
+msgstr "Telefon mobil"
 
 #: ../inc/host.inc:61 ../user/edit_forum_preferences_form.php:172
 #: ../user/edit_forum_preferences_form.php:173
@@ -550,7 +550,7 @@ msgstr "Nume domeniu"
 
 #: ../inc/host.inc:98
 msgid "Product name"
-msgstr ""
+msgstr "Nume produs"
 
 #: ../inc/host.inc:102
 msgid "Local Standard Time"
@@ -866,6 +866,10 @@ msgstr "Versiune<br>BOINC"
 msgid "Merge computers by name"
 msgstr "Unifică după nume calculatoarele"
 
+#: ../inc/language_names.inc:61
+msgid "Browser default"
+msgstr "Setări implicite navigator"
+
 #: ../inc/news.inc:40
 msgid "Comment"
 msgstr "Comentariu"
@@ -877,7 +881,7 @@ msgstr "Ştirile sunt disponibile ca %sfeed RSS%s"
 
 #: ../inc/pm.inc:25 ../inc/pm.inc:174 ../user/pm.php:69 ../user/pm.php:148
 msgid "Inbox"
-msgstr ""
+msgstr "Primite"
 
 #: ../inc/pm.inc:26 ../inc/pm.inc:178
 msgid "Write"
@@ -1165,7 +1169,7 @@ msgstr "Foloseşte GPU NVIDIA %1 Impus de versiunea 6.10+ %2"
 
 #: ../inc/prefs.inc:344
 msgid "Use Intel GPU %1 Enforced by version 7.0+ %2"
-msgstr ""
+msgstr "Foloseşte GPU Intel %1 Impus de versiunea 7.0+ %2"
 
 #: ../inc/prefs.inc:358
 msgid ""
@@ -1724,7 +1728,7 @@ msgstr "Stare"
 
 #: ../inc/result.inc:747
 msgid "Task name:"
-msgstr ""
+msgstr "Nume task:"
 
 #: ../inc/team.inc:40
 msgid "Search criteria (use one or more)"
@@ -2508,7 +2512,7 @@ msgstr "Top modele GPU"
 
 #: ../user/bs_sample_index.php:70
 msgid "Languages"
-msgstr ""
+msgstr "Limbă"
 
 #: ../user/bs_sample_index.php:149 ../user/info.php:24
 #: ../user/sample_index.php:74
@@ -3032,7 +3036,7 @@ msgstr "Şterge preferinţe"
 
 #: ../user/edit_forum_preferences_action.php:88
 msgid "Error: Not the right kind of file, only PNG and JPEG are supported."
-msgstr "Eroare: Tip de fişier nepotrivit, sunt suportate doar doar PNG şi JPEG."
+msgstr "Eroare: Tip de fişier nepotrivit, sunt suportate doar PNG şi JPEG."
 
 #: ../user/edit_forum_preferences_action.php:114
 msgid "Your signature was too long, please keep it less than 250 characters."
@@ -3455,7 +3459,7 @@ msgstr "Nu s-a raportat încă, termenul limită în trecut"
 
 #: ../user/explain_state.php:115
 msgid "Deadline, shown in red."
-msgstr ""
+msgstr "Termenul limită, arătat în roşu."
 
 #: ../user/explain_state.php:120
 msgid "Unknown field"
@@ -4908,7 +4912,7 @@ msgstr ""
 
 #: ../user/language_select.php:95
 msgid "Language name (click to select)"
-msgstr ""
+msgstr "Nume limbă (apăsaţi pentru a selecta)"
 
 #: ../user/language_select.php:97
 msgid "Use browser language setting"
@@ -5049,7 +5053,7 @@ msgstr "Credit în aşteptare: %1"
 
 #: ../user/pm.php:32
 msgid "Block messages from this user"
-msgstr ""
+msgstr "Blochează mesajele de la acest utilizator"
 
 #: ../user/pm.php:32
 msgid "Block user"
@@ -5057,7 +5061,7 @@ msgstr "Blochează utilizator"
 
 #: ../user/pm.php:73
 msgid "Your message has been sent."
-msgstr ""
+msgstr "Mesajul dumneavoastră a fost trimis."
 
 #: ../user/pm.php:83
 msgid "You have no private messages."
@@ -5311,7 +5315,7 @@ msgstr ""
 
 #: ../user/result.php:35
 msgid "Task %1"
-msgstr ""
+msgstr "Task %1"
 
 #: ../user/results.php:29
 msgid "This feature is turned off temporarily"
@@ -5331,7 +5335,7 @@ msgstr ""
 
 #: ../user/results.php:107
 msgid "No tasks to display"
-msgstr ""
+msgstr "Nu sunt task-uri de afişat"
 
 #: ../user/server_status.php:97
 msgid "Running"
@@ -5798,7 +5802,7 @@ msgstr "Actualizează informaţii echipă"
 
 #: ../user/team_email_list.php:61
 msgid "%1 Email List"
-msgstr "Listă Email %1"
+msgstr "%1 Listă Email"
 
 #: ../user/team_email_list.php:63
 msgid "Member list of %1"
@@ -5846,7 +5850,7 @@ msgstr ""
 
 #: ../user/team_forum.php:74
 msgid "Minimum total credit to post"
-msgstr ""
+msgstr "Credit total minim pentru a posta"
 
 #: ../user/team_forum.php:77
 msgid "Minimum average credit to post"
@@ -5950,7 +5954,7 @@ msgstr "acţiune nedefinită %1"
 #: ../user/team_founder_transfer_action.php:137
 #: ../user/team_founder_transfer_form.php:83
 msgid "Return to team page"
-msgstr ""
+msgstr "Înapoi la pagina echipei"
 
 #: ../user/team_founder_transfer_form.php:28
 msgid "You need to be a member of a team to access this page."
@@ -6015,7 +6019,7 @@ msgstr ""
 
 #: ../user/team_join.php:35 ../user/team_join_action.php:35
 msgid "Already a member"
-msgstr ""
+msgstr "Deja membru"
 
 #: ../user/team_join.php:36 ../user/team_join_action.php:36
 msgid "You are already a member of %1."
@@ -6113,7 +6117,7 @@ msgstr "XML"
 
 #: ../user/team_manage.php:39
 msgid "See when members joined or quit this team"
-msgstr ""
+msgstr "Vizualizaţi când membri s-au alăturat sau au părăsit echipa"
 
 #: ../user/team_manage.php:50
 msgid "Respond to foundership request."
@@ -6179,7 +6183,7 @@ msgstr "Echipa %1 ştearsă"
 
 #: ../user/team_members.php:36
 msgid "Limit exceeded:  Can only display the first 1000 members."
-msgstr ""
+msgstr "Limită depăşită:  Se pot afişa doar primii 1000 de membri."
 
 #: ../user/team_members.php:49
 msgid "Members of %1"
@@ -6195,7 +6199,7 @@ msgstr "Echipa nu există sau nu faceţi parte din ea."
 
 #: ../user/team_quit_form.php:33
 msgid "Quit %1"
-msgstr ""
+msgstr "Închide %1"
 
 #: ../user/team_quit_form.php:34
 msgid ""
@@ -6302,11 +6306,11 @@ msgstr "Top %1 echipe"
 
 #: ../user/top_teams.php:108
 msgid "There are no %1 teams"
-msgstr ""
+msgstr "Nu există echipe %1"
 
 #: ../user/top_users.php:64
 msgid "Participant since"
-msgstr ""
+msgstr "Participant de la"
 
 #: ../user/uotd.php:29
 msgid "No user of the day has been chosen."
@@ -6314,7 +6318,7 @@ msgstr ""
 
 #: ../user/uotd.php:33
 msgid "User of the Day for %1: %2"
-msgstr ""
+msgstr "Utilizatorul Zilei pentru %1: %2"
 
 #: ../user/user_search.php:51
 msgid "Filters"
@@ -6322,7 +6326,7 @@ msgstr "Filtre"
 
 #: ../user/user_search.php:52
 msgid "User name starts with"
-msgstr ""
+msgstr "Nume utilizator începe cu"
 
 #: ../user/user_search.php:53
 msgid "Any"
@@ -6338,7 +6342,7 @@ msgstr ""
 
 #: ../user/user_search.php:61
 msgid "On a team?"
-msgstr ""
+msgstr "Intr-o echipă?"
 
 #: ../user/user_search.php:66
 msgid "Ordering"
@@ -6564,7 +6568,7 @@ msgstr ""
 
 #: ../project.sample/project.inc:87
 msgid "Your opinions about %1"
-msgstr ""
+msgstr "Opiniile dumneavoastră despre %1"
 
 #: ../project.sample/project.inc:91
 msgid ""
