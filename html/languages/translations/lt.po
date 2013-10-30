@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2013-10-15 22:23 PDT\n"
+"POT-Creation-Date: 2013-10-29 10:57 PDT\n"
 "PO-Revision-Date: 2012-03-10 18:30+0200\n"
 "Last-Translator: Rytis Slatkevičius <rytis.s@gmail.com>\n"
 "Language-Team: \n"
@@ -882,6 +882,10 @@ msgstr "BOINC<br />versija"
 
 #: ../inc/host.inc:745 ../user/merge_by_name.php:67
 msgid "Merge computers by name"
+msgstr ""
+
+#: ../inc/language_names.inc:61
+msgid "Browser default"
 msgstr ""
 
 #: ../inc/news.inc:40
