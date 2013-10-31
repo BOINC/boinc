@@ -13,7 +13,7 @@ function spam_controls_captcha_default_points() {
     'user_register' => array(
       'form_id' => 'user_register',
       'module' => NULL,
-      'captcha_type' => 'default',
+      'captcha_type' => NULL,
     ),
   );
 }

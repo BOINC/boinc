@@ -425,7 +425,6 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
     break;
   
   case 'node_delete_confirm':
-    drupal_set_message('<pre>'. print_r($form, true). '</pre>');
     $form['separator_bottom'] = array(
       '#value' => '<div class="separator buttons"></div>',
       '#weight' => 999,
@@ -700,6 +699,16 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
       '#type' => 'hidden',
       '#value' => rand() . '.' . time()
     );
+    
+    if (module_exists('captcha')) {
+      // Add an optional captcha
+      $form['register_captcha'] = array(
+        '#type' => 'captcha',
+        '#weight' => 1000,
+      );
+    }
+    
+    $form['submit']['#weight'] = 1001;
     break;
     
   // Request new password form
