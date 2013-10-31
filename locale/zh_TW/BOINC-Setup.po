@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-06 16:50-0800\n"
-"PO-Revision-Date: 2013-08-18 06:57+0200\n"
+"POT-Creation-Date: 2013-10-15 22:27-0700\n"
+"PO-Revision-Date: 2013-10-12 05:49+0000\n"
 "Last-Translator: 宇謙 <df910105@yahoo.com.tw>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: zh_TW\n"
@@ -15,30 +15,31 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 1.5.5\n"
-"X-Poedit-SourceCharset: UTF-8\n"
-"X-Poedit-KeywordsList: _\n"
-"X-Poedit-Basepath: /Volumes/Cheer/BOINC_GIT/boinc_trunk\n"
+"X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SearchPath-0: mac_installer\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-Basepath: /Volumes/Cheer/BOINC_GIT/boinc_trunk\n"
+"X-POOTLE-MTIME: 1381556956.0\n"
+"X-Poedit-KeywordsList: _\n"
 
-#: mac_installer/Installer.cpp:132
+#: Installer.cpp:132
 #, c-format
 msgid "Sorry, this version of %s requires system 10.4 or higher."
-msgstr "抱歉，這個版本的 %s 需要10.4或更高的系統。"
+msgstr "抱歉， %s 需要 10.4 或更高的系統版本。"
 
-#: mac_installer/PostInstall.cpp:131 mac_installer/PostInstall.cpp:1211
+#: PostInstall.cpp:131 PostInstall.cpp:1211
 msgid "Yes"
 msgstr "是"
 
-#: mac_installer/PostInstall.cpp:132 mac_installer/PostInstall.cpp:1212
+#: PostInstall.cpp:132 PostInstall.cpp:1212
 msgid "No"
 msgstr "否"
 
-#: mac_installer/PostInstall.cpp:134
+#: PostInstall.cpp:134
 msgid "Should BOINC run even when no user is logged in?"
-msgstr "讓BOINC在無使用者登入時持續運行?"
+msgstr "允許 BOINC 在無使用者登入時持續執行?"
 
-#: mac_installer/PostInstall.cpp:1491
+#: PostInstall.cpp:1491
 #, c-format
 msgid ""
 "Users who are permitted to administer this computer will automatically be "
@@ -47,24 +48,25 @@ msgid ""
 "Do you also want non-administrative users to be able to run and control %s "
 "on this Mac?"
 msgstr ""
-"有管理員權限的使用者可以直接運行和控制 %s。 \n"
+"有管理員權限的使用者可以直接運行和控制 %s。\n"
+"\n"
 "\n"
 "你希望這台 Mac 上的非管理員也能運行和控制 %s 嗎？"
 
-#: mac_installer/PostInstall.cpp:1519
+#: PostInstall.cpp:1519
 #, c-format
 msgid "Do you want to set %s as the screensaver for all %s users on this Mac?"
 msgstr "是否將 %s 設定為這台 Mac 上所有 %s 用戶的螢幕保護程式？"
 
-#: mac_installer/uninstall.cpp:80
+#: uninstall.cpp:80
 msgid "OK"
 msgstr "確定"
 
-#: mac_installer/uninstall.cpp:130
+#: uninstall.cpp:130
 msgid "Permission error after relaunch"
 msgstr "重新啟動後權限錯誤"
 
-#: mac_installer/uninstall.cpp:135
+#: uninstall.cpp:135
 msgid ""
 "Removal may take several minutes.\n"
 "Please be patient."
@@ -72,32 +74,32 @@ msgstr ""
 "移除可能需要幾分鐘。\n"
 "請耐心等候。"
 
-#: mac_installer/uninstall.cpp:150
+#: uninstall.cpp:150
 #, c-format
 msgid ""
 "Are you sure you want to completely remove %s from your computer?\n"
 "\n"
 "This will remove the executables but will not touch %s data files."
 msgstr ""
-"你確定要完全從您的電腦中移除 %s？\n"
+"您確定要完全從您的電腦中移除 %s？\n"
 "\n"
 "這將移除執行檔案，但不會影響 %s 的數據文件。"
 
-#: mac_installer/uninstall.cpp:157
+#: uninstall.cpp:157
 #, c-format
 msgid "Canceled: %s has not been touched."
 msgstr "已取消：未對 %s 進行任何操作。"
 
-#: mac_installer/uninstall.cpp:168
+#: uninstall.cpp:168
 #, c-format
 msgid "An error occurred: error code %d"
 msgstr "發生錯誤：錯誤代碼 %d"
 
-#: mac_installer/uninstall.cpp:224
+#: uninstall.cpp:224
 msgid "name  of user"
 msgstr "使用者名稱"
 
-#: mac_installer/uninstall.cpp:261
+#: uninstall.cpp:261
 #, c-format
 msgid ""
 "Removal completed.\n"
@@ -116,21 +118,21 @@ msgstr ""
 "每個用戶的文件\n"
 "\"%s\"。"
 
-#: mac_installer/uninstall.cpp:796
+#: uninstall.cpp:796
 #, c-format
 msgid ""
 "Enter your administrator password to completely remove %s from you "
 "computer.\n"
 "\n"
 msgstr ""
-"輸入您的管理員密碼來從您的電腦中移除%s。\n"
+"為了從您的電腦中完全移除 %s ，請輸入您的管理員密碼。\n"
 "\n"
 
-#: mac_installer/uninstall.cpp:1543
+#: uninstall.cpp:1555
 msgid "Cancel"
 msgstr "取消"
 
-#: mac_installer/uninstall.cpp:1544
+#: uninstall.cpp:1556
 msgid "Continue..."
 msgstr "繼續..."
 
