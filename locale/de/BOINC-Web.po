@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2013-10-29 11:10 PDT\n"
-"PO-Revision-Date: 2013-10-17 15:28+0000\n"
+"PO-Revision-Date: 2013-10-30 20:07+0000\n"
 "Last-Translator: Christian <djangofett@gmx.net>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: de\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-POOTLE-MTIME: 1382023711.0\n"
+"X-POOTLE-MTIME: 1383163665.0\n"
 
 #: docutil.php:21
 msgid "Search"
@@ -241,14 +241,18 @@ msgid ""
 "diseases, study global warming, discover pulsars, and do many other types of "
 "scientific research.  It's safe, secure, and easy:"
 msgstr ""
+"Nutzen Sie die Leerlaufzeit Ihres Rechners (Windows, Mac, Linux oder "
+"Android) um Krankheiten zu heilen, die globale Klimaerwärmung zu studieren, "
+"Pulsare zu entdecken oder viele andere Arten von wissenschaftlicher "
+"Forschung zu unterstützen. Es ist ungefährlich, verlässlich und einfach:"
 
 #: index.php:96
 msgid "Choose projects"
-msgstr ""
+msgstr "Projekte auswählen"
 
 #: index.php:97
 msgid "Download BOINC software"
-msgstr ""
+msgstr "BOINC Software herunterladen"
 
 #: index.php:98
 msgid "Enter an email address and password."
