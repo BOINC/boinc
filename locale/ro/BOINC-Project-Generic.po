@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2013-10-29 10:57 PDT\n"
-"PO-Revision-Date: 2013-10-30 15:17+0000\n"
+"PO-Revision-Date: 2013-10-31 05:21+0000\n"
 "Last-Translator: Marius <marius.sirbu@outlook.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: ro\n"
@@ -18,7 +18,7 @@ msgstr ""
 "20)) ? 1 : 2);;\n"
 "X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-POOTLE-MTIME: 1383146273.0\n"
+"X-POOTLE-MTIME: 1383196890.0\n"
 
 msgid "LANG_NAME_NATIVE"
 msgstr "Română"
@@ -4682,7 +4682,7 @@ msgstr ""
 
 #: ../user/host_venue_action.php:50
 msgid "Return to host page"
-msgstr ""
+msgstr "Înapoi la pagina gazdei"
 
 #: ../user/hosts_user.php:53
 msgid "Computers belonging to %1"
