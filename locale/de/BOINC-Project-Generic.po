@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Project (Generic) 6.x\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2013-10-29 10:57 PDT\n"
-"PO-Revision-Date: 2013-10-17 15:21+0000\n"
+"PO-Revision-Date: 2013-10-30 20:04+0000\n"
 "Last-Translator: Christian <djangofett@gmx.net>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: de\n"
@@ -20,7 +20,7 @@ msgstr ""
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-SearchPath-0: html\\user\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
-"X-POOTLE-MTIME: 1382023269.0\n"
+"X-POOTLE-MTIME: 1383163461.0\n"
 
 # The name of this language in this language
 msgid "LANG_NAME_NATIVE"
@@ -910,7 +910,7 @@ msgstr "Computer nach Namen zusammen führen"
 
 #: ../inc/language_names.inc:61
 msgid "Browser default"
-msgstr ""
+msgstr "Browsereinstellung"
 
 #: ../inc/news.inc:40
 msgid "Comment"
