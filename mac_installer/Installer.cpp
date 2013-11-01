@@ -66,7 +66,7 @@ CFStringRef     valueNoRestart = CFSTR("NoRestart");
 
 int main(int argc, char *argv[])
 {
-    char                    pkgPath[MAXPATHLEN], pkgRestartPath[MAXPATHLEN];
+    char                    pkgPath[MAXPATHLEN];
     char                    temp[MAXPATHLEN];
     char                    brand[64], s[256];
     char                    *p;
@@ -74,7 +74,6 @@ int main(int argc, char *argv[])
     FSRef                   ourFSRef;
     long                    response;
     OSStatus                err = noErr;
-    struct stat             stat_buf;
     Boolean                 restartNeeded = true;
     FILE                    *restartNeededFile;
 
@@ -126,7 +125,7 @@ int main(int argc, char *argv[])
         p = strrchr(brand, ' ');         // Strip off last space character and everything following
         if (p)
             *p = '\0'; 
-        ShowMessage((char *)_("Sorry, this version of %s requires system 10.4 or higher."), brand);
+        ShowMessage((char *)_("Sorry, this version of %s requires system 10.5 or higher."), brand);
 
         system("rm -dfR /tmp/BOINC_payload");
         return -1;
@@ -285,7 +284,6 @@ static void GetPreferredLanguages() {
     struct dirent *dp;
     char searchPath[MAXPATHLEN];
     char savedWD[MAXPATHLEN];
-    char cmd[1024];
     struct stat sbuf;
     CFMutableArrayRef supportedLanguages;
     CFStringRef aLanguage;
@@ -295,7 +293,6 @@ static void GetPreferredLanguages() {
     char * language;
     char *uscore;
     FILE *f;
-    OSStatus err = noErr;
 
 
     getcwd(savedWD, sizeof(savedWD));
