@@ -35,6 +35,7 @@
 ## updated 6/18/13 by Charlie Fenton for localizable uninstaller
 ## updated 8/15/13 by Charlie Fenton to fix bug in localizable uninstaller
 ## updated 10/30/13 by Charlie Fenton to build a flat package
+## updated 11/1/13 by Charlie Fenton build installers both with and without VBox
 ##
 ## NOTE: This script requires Mac OS 10.6 or later, and uses XCode developer
 ##   tools.  So you must have installed XCode Developer Tools on the Mac 
@@ -43,6 +44,15 @@
 
 ## NOTE: To build the executables under Lion and XCode 4, select from XCode's
 ## menu: "Product/Buildfor/Build for Archiving", NOT "Product/Archive"
+
+## To have this script build the combined BOINC+VirtualBox installer:
+## * Create a directory named "VirtualBox Installer" in the same
+##   directory which contains he root directory of the boinc tree.
+## * Copy VirtualBox.pkg from the VirtualBox installer disk image (.dmg)
+##   into this "VirtualBox Installer" directory.
+## * Copy VirtualBox_Uninstall.tool from the VirtualBox installer disk
+##   image (.dmg) into this "VirtualBox Installer" directory.
+##
 
 ## Usage:
 ##
@@ -126,6 +136,7 @@ sudo rm -dfR ../BOINC_Installer/Installer\ Scripts/
 sudo rm -dfR ../BOINC_Installer/Pkg_Root
 sudo rm -dfR ../BOINC_Installer/locale
 sudo rm -dfR ../BOINC_Installer/Installer\ templates
+sudo rm -dfR ../BOINC_Installer/expandedVBox
 
 mkdir -p ../BOINC_Installer/Installer\ Resources/
 mkdir -p ../BOINC_Installer/Installer\ Scripts/
@@ -247,6 +258,19 @@ sudo chmod -R u+r-w,g+r-w,o+r-w ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1
 # Copy the installer wrapper application "BOINC Installer.app"
 cp -fpR $BUILDPATH/BOINC\ Installer.app ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/
 
+# Prepare to build the BOINC+VirtualBox installer if VirtualBox.pkg exists
+VirtualBoxPackageName="VirtualBox.pkg"
+if [ -f "../VirtualBox Installer/${VirtualBoxPackageName}" ]; then
+    # Make a copy of the  BOINC installer app without the installer package
+    sudo cp -pfR "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch" "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_${arch}_vbox"
+
+    # Copy the VirtualBox uninstall tool into the extras directory
+    sudo cp -pfR "../VirtualBox Installer/VirtualBox_Uninstall.tool" "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_${arch}_vbox/extras/"
+
+    sudo chown -R root:admin "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_${arch}_vbox/extras/VirtualBox_Uninstall.tool"
+    sudo chmod -R u+r-w,g+r-w,o+r-w "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_${arch}_vbox/extras/VirtualBox_Uninstall.tool"
+fi
+
 # Build the installer package inside the wrapper application's bundle
 
 cd "../BOINC_Installer/Installer templates"
@@ -257,12 +281,37 @@ productbuild --quiet --resources "../Installer Resources/" --version "BOINC Mana
 
 cd "${BOINCPath}"
 
-# Build the BOINC+VirtualBox.mpkg metapackage if VirtualBox.pkg exists
+# Build the BOINC+VirtualBox installer if VirtualBox.pkg exists
+if [ -f "../VirtualBox Installer/${VirtualBoxPackageName}" ]; then
+    cp -fpR "mac_installer/V+BDistribution" "../BOINC_Installer/Installer templates/V+BDistribution"
 
-VirtualBoxPackageName="VirtualBox.pkg"
-###### if [ -d mac_installer/${VirtualBoxPackageName}/ ]; then
-###### To be filled in later
-###### fi
+    mkdir -p "../BOINC_Installer/expandedVBox/"
+
+    pkgutil --expand "../VirtualBox Installer/${VirtualBoxPackageName}" "../BOINC_Installer/expandedVBox/VBox.pkg"
+
+    pkgutil --flatten "../BOINC_Installer/expandedVBox/VBox.pkg/VBoxKEXTs.pkg" "../BOINC_Installer/Installer templates/VBoxKEXTs.pkg"
+
+    pkgutil --flatten "../BOINC_Installer/expandedVBox/VBox.pkg/VBoxStartupItems.pkg" "../BOINC_Installer/Installer templates/VBoxStartupItems.pkg"
+
+    pkgutil --flatten "../BOINC_Installer/expandedVBox/VBox.pkg/VirtualBox.pkg" "../BOINC_Installer/Installer templates/VirtualBox.pkg"
+
+    pkgutil --flatten "../BOINC_Installer/expandedVBox/VBox.pkg/VirtualBoxCLI.pkg" "../BOINC_Installer/Installer templates/VirtualBoxCLI.pkg"
+
+    cp -fpR "../BOINC_Installer/expandedVBox/VBox.pkg/Resources/en.lproj" "../BOINC_Installer/Installer Resources"
+
+    sudo rm -dfR "../BOINC_Installer/expandedVBox"
+
+    cp -fp mac_installer/V+BDistribution "../BOINC_Installer/Installer templates"
+
+    # Update version number
+    sed -i "" s/"x.y.z"/"$1.$2.$3"/g "../BOINC_Installer/Installer templates/V+BDistribution"
+
+    cd "../BOINC_Installer/Installer templates"
+
+    productbuild --quiet --resources "../Installer Resources" --version "BOINC Manager 7.3.0 + VirtualBox 4.2.16" --distribution "./V+BDistribution" "../New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_${arch}_vbox/BOINC Installer.app/Contents/Resources/BOINC.pkg"
+
+    cd "${BOINCPath}"
+fi
 
 # Build the stand-alone client distribution
 cp -fpR mac_build/Mac_SA_Insecure.sh ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_$arch-apple-darwin/
@@ -309,8 +358,19 @@ cd ../BOINC_Installer/New_Release_$1_$2_$3
 ditto -ck --sequesterRsrc --keepParent boinc_$1.$2.$3_macOSX_$arch boinc_$1.$2.$3_macOSX_$arch.zip
 ditto -ck --sequesterRsrc --keepParent boinc_$1.$2.$3_$arch-apple-darwin boinc_$1.$2.$3_$arch-apple-darwin.zip
 ditto -ck --sequesterRsrc --keepParent boinc_$1.$2.$3_macOSX_SymbolTables boinc_$1.$2.$3_macOSX_SymbolTables.zip
+if [ -d boinc_$1.$2.$3_macOSX_${arch}_vbox ]; then
+    ditto -ck --sequesterRsrc --keepParent boinc_$1.$2.$3_macOSX_${arch}_vbox boinc_$1.$2.$3_macOSX_${arch}_vbox.zip
+fi
 
 #popd
 cd "${BOINCPath}"
 
+if [ 1 -ne 1 ]; then
+sudo rm -dfR ../BOINC_Installer/Installer\ Resources/
+sudo rm -dfR ../BOINC_Installer/Installer\ Scripts/
+sudo rm -dfR ../BOINC_Installer/Pkg_Root
+sudo rm -dfR ../BOINC_Installer/locale
+sudo rm -dfR ../BOINC_Installer/Installer\ templates
+sudo rm -dfR ../BOINC_Installer/expandedVBox
+fi
 return 0
