@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2013-10-29 10:57 PDT\n"
-"PO-Revision-Date: 2013-10-28 00:55+0000\n"
+"PO-Revision-Date: 2013-11-02 09:54+0000\n"
 "Last-Translator: 宇謙 <df910105@yahoo.com.tw>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: zh_TW\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-POOTLE-MTIME: 1382921746.0\n"
+"X-POOTLE-MTIME: 1383386050.0\n"
 
 msgid "LANG_NAME_NATIVE"
 msgstr "繁體中文 ( 台灣 )"
@@ -873,7 +873,7 @@ msgstr "透過名稱合併電腦"
 
 #: ../inc/language_names.inc:61
 msgid "Browser default"
-msgstr ""
+msgstr "瀏覽器預設值"
 
 #: ../inc/news.inc:40
 msgid "Comment"
