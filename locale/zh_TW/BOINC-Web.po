@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2013-10-29 11:10 PDT\n"
-"PO-Revision-Date: 2013-10-24 11:25+0000\n"
+"PO-Revision-Date: 2013-11-02 10:03+0000\n"
 "Last-Translator: 宇謙 <df910105@yahoo.com.tw>\n"
 "Language-Team: \n"
 "Language: zh_TW\n"
@@ -20,7 +20,7 @@ msgstr ""
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-SearchPath-0: doc\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
-"X-POOTLE-MTIME: 1382613939.0\n"
+"X-POOTLE-MTIME: 1383386636.0\n"
 "X-Poedit-KeywordsList: tra\n"
 
 #: docutil.php:21
@@ -38,7 +38,7 @@ msgstr "這個網頁%s可翻譯%s"
 
 #: download.php:44
 msgid "Download BOINC + Virtualbox"
-msgstr ""
+msgstr "下載BOINC + Virtualbox"
 
 #: download.php:46 download.php:56
 #, php-format
@@ -223,18 +223,20 @@ msgid ""
 "diseases, study global warming, discover pulsars, and do many other types of "
 "scientific research.  It's safe, secure, and easy:"
 msgstr ""
+"使用您電腦的閒置時間(Windows, Mac, "
+"Linux或Android)來治療疾病、研究全球暖化、發現脈衝星，以及許多類型的科學研究。這既安全可靠且容易:"
 
 #: index.php:96
 msgid "Choose projects"
-msgstr ""
+msgstr "選擇專案"
 
 #: index.php:97
 msgid "Download BOINC software"
-msgstr ""
+msgstr "下載 BOINC 軟體"
 
 #: index.php:98
 msgid "Enter an email address and password."
-msgstr ""
+msgstr "輸入電子郵件和密碼。"
 
 #: index.php:102
 #, php-format
