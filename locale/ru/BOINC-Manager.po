@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-10-15 22:26-0700\n"
-"PO-Revision-Date: 2013-06-25 15:01+0200\n"
+"PO-Revision-Date: 2013-09-21 13:54+0000\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: Russia\n"
 "Language: ru\n"
@@ -16,13 +16,14 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
 "10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Pootle 2.1.6\n"
+"X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SearchPath-1: clientgui/msw\n"
 "X-Poedit-SearchPath-2: clientgui/gtk\n"
 "X-Poedit-SearchPath-3: clientgui/mac\n"
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCGIT\\boinc\n"
+"X-POOTLE-MTIME: 1379771666.0\n"
 
 # 81%
 #: AccountInfoPage.cpp:387
@@ -144,9 +145,11 @@ msgstr "Использовать менеджер проектов"
 msgid "Please enter a user name."
 msgstr ""
 
+# ???
 #: AccountInfoPage.cpp:587
+#, fuzzy
 msgid "Please enter an email address."
-msgstr ""
+msgstr "Укажите адрес электронной почты"
 
 #: AccountInfoPage.cpp:597
 #, c-format
