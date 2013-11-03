@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2013-10-29 10:57 PDT\n"
-"PO-Revision-Date: 2013-09-21 07:56+0000\n"
+"PO-Revision-Date: 2013-09-21 09:50+0000\n"
 "Last-Translator: Gang <zenith.yin@gmail.com>\n"
 "Language-Team: Team China <zenith.yin@gmail.com>\n"
 "Language: zh_CN\n"
@@ -21,7 +21,7 @@ msgstr ""
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-SearchPath-0: html\\user\n"
 "X-Poedit-Basepath: D:\\Work\\boinc_src\\html\\user\n"
-"X-POOTLE-MTIME: 1379750206.0\n"
+"X-POOTLE-MTIME: 1379757051.0\n"
 
 msgid "LANG_NAME_NATIVE"
 msgstr "简体中文"
@@ -1152,8 +1152,9 @@ msgid "Use NVIDIA GPU %1 Enforced by version 6.10+ %2"
 msgstr "使用 NVIDIA GPU%16.10 之后的版本实现了该设置%2"
 
 #: ../inc/prefs.inc:344
+#, fuzzy
 msgid "Use Intel GPU %1 Enforced by version 7.0+ %2"
-msgstr ""
+msgstr "使用 ATI GPU%16.10 之后的版本实现了该设置%2"
 
 #: ../inc/prefs.inc:358
 msgid ""
@@ -1696,8 +1697,9 @@ msgid "State"
 msgstr "状态"
 
 #: ../inc/result.inc:747
+#, fuzzy
 msgid "Task name:"
-msgstr ""
+msgstr "任务名称"
 
 #: ../inc/team.inc:40
 msgid "Search criteria (use one or more)"
@@ -2485,8 +2487,9 @@ msgid "Top GPU models"
 msgstr "GPU 型号排名"
 
 #: ../user/bs_sample_index.php:70
+#, fuzzy
 msgid "Languages"
-msgstr ""
+msgstr "语言"
 
 #: ../user/bs_sample_index.php:149 ../user/info.php:24
 #: ../user/sample_index.php:74
