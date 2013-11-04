@@ -138,7 +138,7 @@ BOOL TerminateProcessById( DWORD dwProcessID ) {
 }
 
 
-BOOL TerminateProcessEx( tstring& strProcessName ) {
+BOOL TerminateProcessEx( tstring& strProcessName, bool bRecursive ) {
 	unsigned int i,j;
     std::vector<BOINC_PROCESS> ps;
     std::vector<BOINC_PROCESS> tps;
@@ -158,19 +158,20 @@ BOOL TerminateProcessEx( tstring& strProcessName ) {
         }
 	}
 
-
-    // Terminate all child processes
-	for (i=0; i < tps.size(); i++) {
-		BOINC_PROCESS tp = tps[i];
-	    for (j=0; j < ps.size(); j++) {
-		    BOINC_PROCESS p = ps[j];
-            if (tp.dwProcessId == p.dwParentProcessId) {
-                if (TerminateProcessById(p.dwProcessId)) {
-                    tps.push_back(p);
+    if (bRecursive) {
+        // Terminate all child processes
+	    for (i=0; i < tps.size(); i++) {
+		    BOINC_PROCESS tp = tps[i];
+	        for (j=0; j < ps.size(); j++) {
+		        BOINC_PROCESS p = ps[j];
+                if (tp.dwProcessId == p.dwParentProcessId) {
+                    if (TerminateProcessById(p.dwProcessId)) {
+                        tps.push_back(p);
+                    }
                 }
-            }
+	        }
 	    }
-	}
+    }
 
     return TRUE;
 }
