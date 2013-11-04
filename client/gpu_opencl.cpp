@@ -107,8 +107,6 @@ static bool is_NVIDIA(char* vendor) {
 
 static bool is_intel(char* vendor) {
     if (strcasestr(vendor, "intel")) return true;
-    if (strcasestr(vendor, "GenuineIntel")) return true;
-    if (strcasestr(vendor, "Intel(R) Corporation")) return true;
     return false;
 }
 
