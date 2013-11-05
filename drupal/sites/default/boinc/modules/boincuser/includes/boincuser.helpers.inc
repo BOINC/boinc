@@ -44,6 +44,43 @@ function get_cck_image_object($image_path, $field_name, $content_type, $ignore_r
  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
 
 /**
+ * 
+ */
+function boincuser_check_credit_requirements() {
+  global $user;
+  if (!$user->uid) {
+    return FALSE;
+  }
+  $account = user_load($user->uid);
+  $min_credit_to_post = variable_get('boinc_comment_min_credit', 0);
+  $community_role = array_search('community member', user_roles(true));
+  $unrestricted_role = array_search('unrestricted user', user_roles(true));
+  if ($account->boincuser_total_credit >= $min_credit_to_post) {
+    if (!isset($account->roles[$community_role]) AND
+        isset($account->roles[$unrestricted_role])) {
+      // This user is now above the credit threshold and is allowed to
+      // participate in the community
+      $account->roles[$community_role] = 'community member';
+      user_save($account, array('roles' => $account->roles));
+    }
+  }
+  else {
+    drupal_set_message(t('You must earn @more_credit to be abe to post comments
+      on this site.', array('@more_credit' => format_plural(
+        $min_credit_to_post - $account->boincuser_total_credit,
+        '1 more credit', '@count more credits'
+      ))
+    ), 'warning', FALSE);
+    if (isset($account->roles[$community_role])) {
+      // Either the threshold has been raised or credits have been revoked;
+      // this user no longer qualifies for community participation
+      unset($account->roles[$community_role]);
+      user_save($account, array('roles' => $account->roles));
+    }
+  }
+}
+
+/**
  * Determine the first unique name from a given base
  */
 function find_unique_name($requested_name) {

@@ -113,6 +113,22 @@ function boincuser_menu() {
 }
 
 /**
+ *
+ */
+function boincuser_init() {
+  // If admin user, do some basic site functionality checks
+  if (user_access('administer site configuration')) {
+    // Ensure we have a configured BOINC environment
+    boinc_get_path();
+    boinc_get_scheduler_tags();
+  }
+  // Otherwise, check credits for community role membership
+  else {
+    boincuser_check_credit_requirements();
+  }
+}
+
+/**
  * Implementation of hook_user(); add custom actions to standard
  * Drupal user operations
  */
@@ -154,12 +170,6 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
       FROM {comments}
       WHERE uid = '%d'", $account->uid, $account->uid
     ));
-    // If admin user, do some basic site functionality checks
-    if (user_access('administer site configuration')) {
-      // Ensure we have a configured BOINC environment
-      boinc_get_path();
-      boinc_get_scheduler_tags();
-    }
     break;
     
   case 'view':
@@ -238,10 +248,10 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
         form_set_error('email', t('Error creating BOINC account.'));
         return;
       }
-      // Add user to community member role
-      $community_role = array_search('community member', user_roles(true)); 
+      // Add user to unrestricted role by default (not banned)
+      $unrestricted_role = array_search('unrestricted user', user_roles(true)); 
       $edit['roles'] = array(
-        $community_role => ''
+        $unrestricted_role => ''
       );
       // Set profile data in BOINC db
       db_set_active('boinc');

@@ -47,6 +47,15 @@ function boinccore_menu() {
     'access arguments' => array('access content'),
     'type' => MENU_CALLBACK
   );
+  $items['admin/boinc/community'] = array(
+    'title' => 'Community',
+    'description' => 'Global settings for community interaction.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('boinccore_admin_community'),
+    'access arguments' => array('administer site configuration'),
+    'type' => MENU_NORMAL_ITEM,
+    'file' => 'boinccore.admin.inc'
+  );
   return $items;
 }
 
@@ -307,16 +316,16 @@ function boinccore_user_control($uid = NULL, $action = NULL) {
   }
   switch ($action) {
   case 'ban':
-    $community_role = array_search('community member', user_roles(true));
-    if (isset($account->roles[$community_role])) {
-      unset($account->roles[$community_role]);
+    $unrestricted_role = array_search('unrestricted user', user_roles(true));
+    if (isset($account->roles[$unrestricted_role])) {
+      unset($account->roles[$unrestricted_role]);
       user_save($account, array('roles' => $account->roles));
     }
     break;
   case 'lift-ban':
-    $community_role = array_search('community member', user_roles(true));
-    if (!isset($account->roles[$community_role])) {
-      $account->roles[$community_role] = 'community member';
+    $unrestricted_role = array_search('unrestricted user', user_roles(true));
+    if (!isset($account->roles[$unrestricted_role])) {
+      $account->roles[$unrestricted_role] = 'unrestricted user';
       user_save($account, array('roles' => $account->roles));
     }
     break;
