@@ -586,19 +586,18 @@ void CTaskBarIcon::AdjustMenuItems(wxMenu* pMenu) {
     //   a bit. It shouldn't hurt other platforms.
     for (loc = 0; loc < pMenu->GetMenuItemCount(); loc++) {
         pMenuItem = pMenu->FindItemByPosition(loc);
-        if (!pMenuItem->IsSeparator() && pMenuItem->IsEnabled()) {
-            pMenu->Remove(pMenuItem);
+        pMenu->Remove(pMenuItem);
 
-            font = pMenuItem->GetFont();
-            if (pMenuItem->GetId() != ID_OPENBOINCMANAGER) {
-                font.SetWeight(wxFONTWEIGHT_NORMAL);
-            } else {
-                font.SetWeight(wxFONTWEIGHT_BOLD);
-            }
-            pMenuItem->SetFont(font);
-
-            pMenu->Insert(loc, pMenuItem);
+        font = pMenuItem->GetFont();
+        font.SetPointSize(8);
+        if (pMenuItem->GetId() != ID_OPENBOINCMANAGER) {
+            font.SetWeight(wxFONTWEIGHT_NORMAL);
+        } else {
+            font.SetWeight(wxFONTWEIGHT_BOLD);
         }
+        pMenuItem->SetFont(font);
+
+        pMenu->Insert(loc, pMenuItem);
     }
 #endif
 
