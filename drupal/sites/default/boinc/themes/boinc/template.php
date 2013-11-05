@@ -240,8 +240,13 @@ function boinc_preprocess_node_forum(&$vars, $hook) {
     //$vars['node']->links = array();
   }
   // Move the new comment link to the end
-  $vars['node']->links['reply'] = $vars['node']->links['comment_add'];
-  unset($vars['node']->links['comment_add']);
+  if (user_access('post comments')) {
+    $vars['node']->links['reply'] = $vars['node']->links['comment_add'];
+    unset($vars['node']->links['comment_add']);
+  }
+  else {
+    unset($vars['node']->links['comment_forbidden']);
+  }
   $vars['links'] = theme_links($vars['node']->links, array('class' => 'links inline'));
   $vars['moderator_links'] = theme_links($vars['moderator_links']);
 }
@@ -336,15 +341,17 @@ function boinc_preprocess_comment(&$vars, $hook) {
     }
     else {
       $links = comment_links($vars['comment'], FALSE);
-      $links['comment_quote'] = array(
-        'title' => t('Quote'),
-        'href' => "comment/reply/{$nid}/{$cid}",
-        'attributes' => array(
-          'title' => t('Reply to this comment with quote'),
-        ),
-        'fragment' => 'comment-form',
-        'query' => 'quote=1',
-      );
+      if (user_access('post comments')) {
+        $links['comment_quote'] = array(
+          'title' => t('Quote'),
+          'href' => "comment/reply/{$nid}/{$cid}",
+          'attributes' => array(
+            'title' => t('Reply to this comment with quote'),
+          ),
+          'fragment' => 'comment-form',
+          'query' => 'quote=1',
+        );
+      }
     }
     ksort($links);
     $vars['links'] = theme_links($links);
