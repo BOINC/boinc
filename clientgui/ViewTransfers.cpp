@@ -365,13 +365,13 @@ void CViewTransfers::OnTransfersAbort( wxCommandEvent& WXUNUSED(event) ) {
 }
 
 
-bool CViewTransfers::OnColResize( wxCommandEvent& ) {
+void CViewTransfers::OnColResize( wxListEvent& ) {
     // Register the new column widths immediately
     CAdvancedFrame* pFrame = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
 
     wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pFrame, CAdvancedFrame));
-    return pFrame->SaveState();
+    pFrame->SaveState();
 }
 
 
