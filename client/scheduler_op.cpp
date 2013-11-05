@@ -592,8 +592,10 @@ int SCHEDULER_REPLY::parse(FILE* in, PROJECT* project) {
     sr_feeds.clear();
     trickle_up_urls.clear();
 
-    for (int i=0; i<MAX_RSC; i++) {
-        project->no_rsc_apps[i] = false;
+    if (!project->anonymous_platform) {
+        for (int i=0; i<MAX_RSC; i++) {
+            project->no_rsc_apps[i] = false;
+        }
     }
 
     // First line should either be tag (HTTP 1.0) or
