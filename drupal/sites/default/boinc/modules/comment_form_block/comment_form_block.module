@@ -15,13 +15,12 @@ function comment_form_block_block($op = 'list', $delta = 0, $edit = array()) {
     $block = array();
     if ($delta == 'comment_form') {
       if (arg(0) == 'node' && is_numeric($nid = arg(1)) && !arg(2)) {
+        global $user;
         $node = node_load($nid);
-        if ($node->comment !== 0) {
+        if ($node->comment !== 0 AND user_access('post comments', $user)) {
           $block['subject'] = NULL; // This should be NULL otherwise there will be duplicate h2 elements.
           $block['content'] = '<h2>' . t('Post new comment') . '</h2>';
-          if ($node->comment) {
-            $block['content'] .= drupal_get_form('comment_form', array('nid' => $nid)); 
-          }
+          $block['content'] .= drupal_get_form('comment_form', array('nid' => $nid)); 
         }
       }
     }
