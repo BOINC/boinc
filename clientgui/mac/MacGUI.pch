@@ -33,6 +33,10 @@
 
 #define USE_DEBUG_WXMAC 0
 
+#if USE_DEBUG_WXMAC
+#define wxUSE_LOG_TRACE 1
+#endif
+
 #define wxDEBUG_LEVEL 0
 #define __WXOSX_COCOA__
 #define __WX__
