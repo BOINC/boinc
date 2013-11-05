@@ -555,13 +555,13 @@ void CViewProjects::OnProjectWebsiteClicked( wxEvent& event ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CViewProjects::OnProjectWebsiteClicked - Function End"));
 }
 
-bool CViewProjects::OnColResize( wxCommandEvent& ) {
+void CViewProjects::OnColResize( wxListEvent& ) {
     // Register the new column widths immediately
     CAdvancedFrame* pFrame = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
 
     wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pFrame, CAdvancedFrame));
-    return pFrame->SaveState();
+    pFrame->SaveState();
 }
 
 

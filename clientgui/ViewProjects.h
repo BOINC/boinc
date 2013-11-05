@@ -73,7 +73,7 @@ public:
     void                    OnShowItemProperties( wxCommandEvent& event );
 
     void                    OnProjectWebsiteClicked( wxEvent& event );
-    bool                    OnColResize( wxCommandEvent& event);
+    void                    OnColResize( wxListEvent& event);
 
     std::vector<CProject*>  m_ProjectCache;
 

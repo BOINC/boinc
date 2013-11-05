@@ -887,7 +887,7 @@ void CDlgEventLog::OnButtonHelp( wxCommandEvent& event ) {
 }
 
 
-void CDlgEventLog::OnColResize( wxCommandEvent& ) {
+void CDlgEventLog::OnColResize( wxListEvent& ) {
     // Register the new column widths immediately
     SaveState();
 }

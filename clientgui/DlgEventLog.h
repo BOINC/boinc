@@ -119,7 +119,7 @@ public:
     void OnButtonHelp( wxCommandEvent& event );
 
     /// EVT_LIST_COL_END_DRAG event handler for ID_SIMPLE_MESSAGESVIEW
-    void OnColResize( wxCommandEvent& event );
+    void OnColResize( wxListEvent& event );
     
     /// called from CMainDocument::HandleCompletedRPC() after wxEVT_RPC_FINISHED event
     void OnRefresh();
