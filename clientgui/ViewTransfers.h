@@ -67,6 +67,7 @@ public:
 
     void                    OnTransfersRetryNow( wxCommandEvent& event );
     void                    OnTransfersAbort( wxCommandEvent& event );
+    bool                    OnColResize( wxCommandEvent& event);
 
     std::vector<CTransfer*> m_TransferCache;
 

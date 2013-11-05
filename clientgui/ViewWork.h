@@ -75,6 +75,7 @@ public:
     void                    OnActiveTasksOnly( wxCommandEvent& event );
 
     void                    OnProjectWebsiteClicked( wxEvent& event );
+    bool                    OnColResize( wxCommandEvent& event);
     
     std::vector<CWork*>     m_WorkCache;
 
