@@ -612,13 +612,13 @@ void CViewWork::OnProjectWebsiteClicked( wxEvent& event ) {
 }
 
 
-bool CViewWork::OnColResize( wxCommandEvent& ) {
+void CViewWork::OnColResize( wxListEvent& ) {
     // Register the new column widths immediately
     CAdvancedFrame* pFrame = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
 
     wxASSERT(pFrame);
     wxASSERT(wxDynamicCast(pFrame, CAdvancedFrame));
-    return pFrame->SaveState();
+    pFrame->SaveState();
 }
 
 
