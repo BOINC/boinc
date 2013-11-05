@@ -62,7 +62,6 @@ CBOINCListCtrl::CBOINCListCtrl(
     
 #if USE_NATIVE_LISTCONTROL
     m_bProgressBarEventPending = false;
-    SetDoubleBuffered(true);
 #else
 #ifdef __WXMAC__
     SetupMacAccessibilitySupport();
