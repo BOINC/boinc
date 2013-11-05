@@ -905,4 +905,3 @@ void PROJECT::check_no_apps() {
         no_rsc_apps[avp->gpu_usage.rsc_type] = false;
     }
 }
-
