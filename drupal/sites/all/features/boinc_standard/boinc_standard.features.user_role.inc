@@ -16,5 +16,10 @@ function boinc_standard_user_default_roles() {
     'name' => 'content editor',
   );
 
+  // Exported role: unrestricted user
+  $roles['unrestricted user'] = array(
+    'name' => 'unrestricted user',
+  );
+
   return $roles;
 }
