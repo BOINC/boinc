@@ -892,7 +892,7 @@ void PROJECT::check_no_rsc_apps() {
     }
 }
 
-// set no_X_apps for anonymous platform project
+// set no_rsc_apps[] for anonymous platform project
 //
 void PROJECT::check_no_apps() {
     for (int i=0; i<coprocs.n_rsc; i++) {

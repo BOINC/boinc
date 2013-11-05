@@ -41,6 +41,7 @@
 #include <cstdarg>
 #include <cstdlib>
 #include <unistd.h>
+#include <time.h>
 #endif
 
 #ifdef _USING_FCGI_

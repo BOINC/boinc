@@ -31,6 +31,7 @@
 #include <sys/un.h>
 #include <cstdio>
 #include <unistd.h>
+#include <time.h>
 #include <cstdlib>
 #include <cstring>
 #endif
