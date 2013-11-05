@@ -86,6 +86,7 @@ BEGIN_EVENT_TABLE (CViewProjects, CBOINCBaseView)
     EVT_LIST_ITEM_DESELECTED(ID_LIST_PROJECTSVIEW, CViewProjects::OnListDeselected)
     EVT_LIST_COL_CLICK(ID_LIST_PROJECTSVIEW, CViewProjects::OnColClick)
     EVT_LIST_CACHE_HINT(ID_LIST_PROJECTSVIEW, CViewProjects::OnCacheHint)
+    EVT_LIST_COL_END_DRAG(ID_LIST_PROJECTSVIEW, CViewProjects::OnColResize)
 END_EVENT_TABLE ()
 
 
@@ -552,6 +553,15 @@ void CViewProjects::OnProjectWebsiteClicked( wxEvent& event ) {
     pFrame->FireRefreshView();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CViewProjects::OnProjectWebsiteClicked - Function End"));
+}
+
+void CViewProjects::OnColResize( wxListEvent& ) {
+    // Register the new column widths immediately
+    CAdvancedFrame* pFrame = wxDynamicCast(GetParent()->GetParent()->GetParent(), CAdvancedFrame);
+
+    wxASSERT(pFrame);
+    wxASSERT(wxDynamicCast(pFrame, CAdvancedFrame));
+    pFrame->SaveState();
 }
 
 

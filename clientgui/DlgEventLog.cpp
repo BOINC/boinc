@@ -75,6 +75,7 @@ BEGIN_EVENT_TABLE( CDlgEventLog, wxDialog )
 	EVT_SIZE(CDlgEventLog::OnSize)
     EVT_MOVE(CDlgEventLog::OnMove)
     EVT_CLOSE(CDlgEventLog::OnClose)
+    EVT_LIST_COL_END_DRAG(ID_SIMPLE_MESSAGESVIEW, CDlgEventLog::OnColResize)
 ////@end CDlgEventLog event table entries
 END_EVENT_TABLE()
 
@@ -256,7 +257,8 @@ bool CDlgEventLog::Create( wxWindow* parent, wxWindowID id, const wxString& capt
     SetTextColor();
     RestoreState();
     OnRefresh();
-
+    // Register that we had the Event Log open immediately
+    SaveState();
     return true;
 }
 
@@ -884,6 +886,11 @@ void CDlgEventLog::OnButtonHelp( wxCommandEvent& event ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CDlgEventLog::OnHelp - Function End"));
 }
 
+
+void CDlgEventLog::OnColResize( wxListEvent& ) {
+    // Register the new column widths immediately
+    SaveState();
+}
 
 void CDlgEventLog::ResetMessageFiltering() {
     s_bIsFiltered = false;
