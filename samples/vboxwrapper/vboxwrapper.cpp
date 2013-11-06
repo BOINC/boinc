@@ -367,10 +367,10 @@ int main(int argc, char** argv) {
     APP_INIT_DATA aid;
     double elapsed_time = 0;
     double trickle_period = 0;
-    double trickle_cpu_time = 0;
     double fraction_done = 0;
     double checkpoint_cpu_time = 0;
     double last_status_report_time = 0;
+    double last_trickle_report_time = 0;
     double stopwatch_time = 0;
     double stopwatch_endtime = 0;
     double sleep_time = 0;
@@ -883,16 +883,15 @@ int main(int argc, char** argv) {
             }
 
             if (trickle_period) {
-                trickle_cpu_time += POLL_PERIOD;
-                if (trickle_cpu_time >= trickle_period) {
+                if ((elapsed_time - last_trickle_report_time) >= trickle_period) {
                     fprintf(
                         stderr,
                         "%s Status Report: Send Trickle-Up Event.\n",
                         vboxwrapper_msg_prefix(buf, sizeof(buf))
                     );
-                    sprintf(buf, "<cpu_time>%f</cpu_time>", trickle_cpu_time);
+                    last_trickle_report_time = elapsed_time;
+                    sprintf(buf, "<cpu_time>%f</cpu_time>", last_trickle_report_time);
                     boinc_send_trickle_up(const_cast<char*>("cpu_time"), buf);
-                    trickle_cpu_time = 0;
                 }
             }
 
