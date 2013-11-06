@@ -305,7 +305,7 @@ void COPROC_ATI::get(
             gpu_name="AMD Radeon HD 6350/6450/7450/7470 series (Caicos)";
             break;
         case 20:
-            gpu_name="AMD Radeon HD 7870/7950/7970 series (Tahiti)";
+            gpu_name="AMD Radeon HD 7870/7950/7970/R9 280X series (Tahiti)";
             break;
         case 21:
             gpu_name="AMD Radeon HD 7850/7870 series (Pitcairn)";
@@ -320,7 +320,7 @@ void COPROC_ATI::get(
             gpu_name="AMD Radeon HD 7400/7500/8300/8400 series (Scrapper)";
             break;
         case 25:
-            gpu_name="AMD Radeon HD 8600/8790M/R7 250 (Oland)";
+            gpu_name="AMD Radeon HD 8600/8790M/R7 240/R7 250 (Oland)";
             break;
         case 26:
             gpu_name="AMD Radeon HD 7790/R7 260X (Bonaire)";
