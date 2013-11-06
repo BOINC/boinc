@@ -885,6 +885,11 @@ int main(int argc, char** argv) {
             if (trickle_period) {
                 trickle_cpu_time += POLL_PERIOD;
                 if (trickle_cpu_time >= trickle_period) {
+                    fprintf(
+                        stderr,
+                        "%s Status Report: Send Trickle-Up Event.\n",
+                        vboxwrapper_msg_prefix(buf, sizeof(buf))
+                    );
                     sprintf(buf, "<cpu_time>%f</cpu_time>", trickle_cpu_time);
                     boinc_send_trickle_up(const_cast<char*>("cpu_time"), buf);
                     trickle_cpu_time = 0;
