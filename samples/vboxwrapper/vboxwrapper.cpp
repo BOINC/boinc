@@ -488,7 +488,8 @@ int main(int argc, char** argv) {
     //       and 4.2.18 fails to restore from snapshots properly.
     //
     if ((vm.virtualbox_version.find("4.2.6") != std::string::npos) || 
-        (vm.virtualbox_version.find("4.2.18") != std::string::npos)) {
+        (vm.virtualbox_version.find("4.2.18") != std::string::npos) || 
+        (vm.virtualbox_version.find("4.3.0") != std::string::npos) ) {
         fprintf(
             stderr,
             "%s Incompatible version of VirtualBox detected. Please upgrade to a later version.\n",
