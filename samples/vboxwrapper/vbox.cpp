@@ -1533,19 +1533,6 @@ int VBOX_VM::get_vm_log(string& log) {
     size_t size = output.size();
     if (size > 16384) {
         log = output.substr(size - 16384, size);
-
-#ifdef _WIN32
-        // Remove \r from the log spew
-        iter = log.begin();
-        while (iter != log.end()) {
-            if (*iter == '\r') {
-                iter = log.erase(iter);
-            } else {
-                ++iter;
-            }
-        }
-#endif
-
         if (log.size() >= 16384) {
             // Look for the next whole line of text.
             iter = log.begin();
