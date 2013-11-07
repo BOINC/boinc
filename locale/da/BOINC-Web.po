@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Web 6.x\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2013-10-29 11:10 PDT\n"
-"PO-Revision-Date: 2013-10-20 20:13+0000\n"
+"PO-Revision-Date: 2013-11-07 18:18+0000\n"
 "Last-Translator: pryds <thomas@pryds.eu>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: da\n"
@@ -20,7 +20,7 @@ msgstr ""
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-SearchPath-0: doc\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
-"X-POOTLE-MTIME: 1382300037.0\n"
+"X-POOTLE-MTIME: 1383848313.0\n"
 "X-Poedit-KeywordsList: tra\n"
 
 #: docutil.php:21
@@ -38,7 +38,7 @@ msgstr "Denne side kan %soversættes%s."
 
 #: download.php:44
 msgid "Download BOINC + Virtualbox"
-msgstr ""
+msgstr "Download BOINC + Virtualbox"
 
 #: download.php:46 download.php:56
 #, php-format
@@ -244,18 +244,21 @@ msgid ""
 "diseases, study global warming, discover pulsars, and do many other types of "
 "scientific research.  It's safe, secure, and easy:"
 msgstr ""
+"Brug den ledige tid på din computer (Windows, Mac, Linux eller Android) til "
+"at helbrede sygdomme, studere global opvarmning, opdage pulsarer og foretage "
+"mange andre typer videnskabelig forskning. Det er sikkert og nemt:"
 
 #: index.php:96
 msgid "Choose projects"
-msgstr ""
+msgstr "Vælg projekter"
 
 #: index.php:97
 msgid "Download BOINC software"
-msgstr ""
+msgstr "Download BOINC-software"
 
 #: index.php:98
 msgid "Enter an email address and password."
-msgstr ""
+msgstr "Angiv en emailadresse og kodeord."
 
 #: index.php:102
 #, php-format
