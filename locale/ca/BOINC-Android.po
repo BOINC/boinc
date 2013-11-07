@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2013-10-18 00:00-0700\n"
-"PO-Revision-Date: 2013-09-09 23:12+0000\n"
+"PO-Revision-Date: 2013-11-07 00:36+0000\n"
 "Last-Translator: Xavier <xavi.mormur@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: ca\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
-"X-POOTLE-MTIME: 1378768352.0\n"
+"X-POOTLE-MTIME: 1383784588.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -53,7 +53,7 @@ msgstr "Si us plau introdueix la URL del projecte"
 
 msgctxt "attachproject_list_acctmgr_button"
 msgid "Add account manager"
-msgstr ""
+msgstr "Afegir gestor de comptes"
 
 msgctxt "attachproject_list_no_internet"
 msgid "No Internet connection"
@@ -200,27 +200,27 @@ msgstr "Crear"
 #. account manager
 msgctxt "attachproject_acctmgr_header"
 msgid "Add account manager"
-msgstr ""
+msgstr "Afegir gestor de comptes"
 
 msgctxt "attachproject_acctmgr_header_url"
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 msgctxt "attachproject_acctmgr_header_name"
 msgid "User:"
-msgstr ""
+msgstr "Usuari:"
 
 msgctxt "attachproject_acctmgr_header_pwd"
 msgid "Password:"
-msgstr ""
+msgstr "Contrasenya:"
 
 msgctxt "attachproject_acctmgr_header_pwd_confirm"
 msgid "… Retype:"
-msgstr ""
+msgstr "... Torna a entrar-ho:"
 
 msgctxt "attachproject_acctmgr_button"
 msgid "Add"
-msgstr ""
+msgstr "Afegeix"
 
 #. error strings
 msgctxt "attachproject_error_wrong_name"
@@ -241,7 +241,7 @@ msgstr "Les contrasenyes no coincideixen"
 
 msgctxt "attachproject_error_no_url"
 msgid "Please enter URL"
-msgstr ""
+msgstr "Si us plau introdueix una URL"
 
 msgctxt "attachproject_error_no_email"
 msgid "Please enter eMail address"
@@ -285,7 +285,7 @@ msgstr "La creació de comptes està desactivada en aquest projecte"
 
 msgctxt "attachproject_error_invalid_url"
 msgid "Invalid URL"
-msgstr ""
+msgstr "URL incorrecte"
 
 #. working activity
 msgctxt "attachproject_working_back_button"
@@ -334,11 +334,11 @@ msgstr "Registret"
 
 msgctxt "attachproject_working_acctmgr"
 msgid "Add account manager"
-msgstr ""
+msgstr "Afegir gestor de comptes"
 
 msgctxt "attachproject_working_acctmgr_sync"
 msgid "Synchronize"
-msgstr ""
+msgstr "Sincronitzar"
 
 #. main activity
 msgctxt "main_noproject_warning"
@@ -384,7 +384,7 @@ msgstr "Preferències"
 
 msgctxt "tab_notices"
 msgid "Notices"
-msgstr ""
+msgstr "Notícies"
 
 msgctxt "tab_desc"
 msgid "Navigation"
@@ -682,7 +682,7 @@ msgstr "Ordres del projecte:"
 
 msgctxt "projects_control_visit_website"
 msgid "Visit website"
-msgstr ""
+msgstr "Visita el lloc web"
 
 msgctxt "projects_control_update"
 msgid "Update"
@@ -714,15 +714,15 @@ msgstr "Reinicia"
 
 msgctxt "projects_control_dialog_title_acctmgr"
 msgid "Account manager commands:"
-msgstr ""
+msgstr "Ordres del gestor de comptes:"
 
 msgctxt "projects_control_sync_acctmgr"
 msgid "Synchronize"
-msgstr ""
+msgstr "Sincronitzar"
 
 msgctxt "projects_control_remove_acctmgr"
 msgid "Disable"
-msgstr ""
+msgstr "Desactivar"
 
 #. project confirm dialog
 msgctxt "projects_confirm_detach_title"
@@ -755,15 +755,15 @@ msgstr "Reinicia"
 
 msgctxt "projects_confirm_remove_acctmgr_title"
 msgid "Disable account manager"
-msgstr ""
+msgstr "Desactivar el gestor de comptes"
 
 msgctxt "projects_confirm_remove_acctmgr_message"
 msgid "Are you sure you want to stop using"
-msgstr ""
+msgstr "Està segur de voler finalitzar la utilització de "
 
 msgctxt "projects_confirm_remove_acctmgr_confirm"
 msgid "Disable"
-msgstr ""
+msgstr "Desactivar"
 
 #. tasks tab strings
 msgctxt "tasks_header_name"
@@ -910,7 +910,7 @@ msgstr "Fitxer:"
 
 msgctxt "trans_control_retry"
 msgid "Retry transfers"
-msgstr ""
+msgstr "Re-intenta transferències"
 
 msgctxt "confirm_abort_trans_title"
 msgid "Abort transfer?"
@@ -927,7 +927,7 @@ msgstr "Avorta"
 #. notices tab strings
 msgctxt "notices_loading"
 msgid "Reading notices…"
-msgstr ""
+msgstr "Llegint notícies..."
 
 #. eventlog tab strings
 msgctxt "eventlog_loading"

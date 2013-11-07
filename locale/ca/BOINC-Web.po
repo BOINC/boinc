@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2013-10-29 11:10 PDT\n"
-"PO-Revision-Date: 2013-08-30 20:20+0000\n"
+"PO-Revision-Date: 2013-11-07 01:02+0000\n"
 "Last-Translator: Xavier <xavi.mormur@gmail.com>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: ca\n"
@@ -20,7 +20,7 @@ msgstr ""
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-SearchPath-0: doc\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
-"X-POOTLE-MTIME: 1377894017.0\n"
+"X-POOTLE-MTIME: 1383786161.0\n"
 "X-Poedit-KeywordsList: tra\n"
 
 #: docutil.php:21
@@ -38,7 +38,7 @@ msgstr "Aquesta pàgina és %straduïble%s."
 
 #: download.php:44
 msgid "Download BOINC + Virtualbox"
-msgstr ""
+msgstr "Baixa BOINC + Virtualbox"
 
 #: download.php:46 download.php:56
 #, php-format
@@ -255,18 +255,22 @@ msgid ""
 "diseases, study global warming, discover pulsars, and do many other types of "
 "scientific research.  It's safe, secure, and easy:"
 msgstr ""
+"Utilitza el temps d'inactivitat de l'ordinador (Windows, Mac, Linux o "
+"Android) per curar malalties, estudiar l'escalfament global, descobrir "
+"púlsars, i molts altres tipus de recerca científica.  És segur, garantit i "
+"fàcil:"
 
 #: index.php:96
 msgid "Choose projects"
-msgstr ""
+msgstr "Escull projectes"
 
 #: index.php:97
 msgid "Download BOINC software"
-msgstr ""
+msgstr "Baixar el programari BOINC"
 
 #: index.php:98
 msgid "Enter an email address and password."
-msgstr ""
+msgstr "Entra un correu electrònic i una contrasenya."
 
 #: index.php:102
 #, php-format
