@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-10-15 22:26-0700\n"
-"PO-Revision-Date: 2013-08-08 23:28+0200\n"
+"PO-Revision-Date: 2013-11-07 00:41+0000\n"
 "Last-Translator: Xavier <xavi.mormur@gmail.com>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: ca\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 2.1.6\n"
+"X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SearchPath-1: clientgui/msw\n"
 "X-Poedit-SearchPath-2: clientgui/gtk\n"
 "X-Poedit-SearchPath-3: clientgui/mac\n"
@@ -23,6 +23,7 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCGIT\\boinc\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
+"X-POOTLE-MTIME: 1383784881.0\n"
 
 # 81%
 #: AccountInfoPage.cpp:387
@@ -140,16 +141,16 @@ msgstr "Utilitzar l'administrador de comptes"
 
 #: AccountInfoPage.cpp:585
 msgid "Please enter a user name."
-msgstr ""
+msgstr "Si us plau introdueix un nom."
 
 #: AccountInfoPage.cpp:587
 msgid "Please enter an email address."
-msgstr ""
+msgstr "Si us plau entra un compte de correu."
 
 #: AccountInfoPage.cpp:597
 #, c-format
 msgid "Please enter a password of at least %d characters."
-msgstr ""
+msgstr "Si us plau introdueix una contrasenya d'almenys %d caràcters."
 
 #: AccountInfoPage.cpp:608
 msgid ""
@@ -1011,6 +1012,9 @@ msgid ""
 "\n"
 "Click Finish to close."
 msgstr ""
+"Si us plau prova-ho més tard.\n"
+"\n"
+"Prem per tancar."
 
 #: CompletionErrorPage.cpp:225 CompletionPage.cpp:222 CompletionPage.cpp:242
 #: CompletionPage.cpp:273
@@ -1366,7 +1370,7 @@ msgstr "En equips multi-processador, utilitzar com a màxim"
 #: DlgAdvPreferencesBase.cpp:346
 #, no-c-format
 msgid "% of the processors (0 means ignore this setting)"
-msgstr ""
+msgstr "% dels processadors (0 significa ignorar aquesta opció)"
 
 #: DlgAdvPreferencesBase.cpp:349 DlgAdvPreferencesBase.cpp:604
 #: DlgAdvPreferencesBase.cpp:626 DlgAdvPreferencesBase.cpp:647
