@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2013-10-29 11:10 PDT\n"
-"PO-Revision-Date: 2013-08-26 18:45+0200\n"
+"PO-Revision-Date: 2013-11-07 08:15+0000\n"
 "Last-Translator: Gianfranco <costamagnagianfranco@yahoo.it>\n"
 "Language-Team: \n"
 "Language: it_IT\n"
@@ -15,12 +15,13 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 2.1.6\n"
+"X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-SearchPath-0: doc\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-KeywordsList: tra\n"
+"X-POOTLE-MTIME: 1383812111.0\n"
 
 #: docutil.php:21
 msgid "Search"
@@ -37,7 +38,7 @@ msgstr "Questa pagina %spuò essere tradotta%s."
 
 #: download.php:44
 msgid "Download BOINC + Virtualbox"
-msgstr ""
+msgstr "Scarica BOINC + Virtualbox"
 
 #: download.php:46 download.php:56
 #, php-format
@@ -247,18 +248,21 @@ msgid ""
 "diseases, study global warming, discover pulsars, and do many other types of "
 "scientific research.  It's safe, secure, and easy:"
 msgstr ""
+"Usa il tempo libero del tuo computer( Windows, Mac, Linux, o Android) per "
+"curare malattie, studiare il riscaldamento globale, scoprire pulsar, e per "
+"molti altri tipi di ricerca scientifica.  È innocuo, sicuro, e facile:"
 
 #: index.php:96
 msgid "Choose projects"
-msgstr ""
+msgstr "Scegli i progetti"
 
 #: index.php:97
 msgid "Download BOINC software"
-msgstr ""
+msgstr "Scarica il software BOINC"
 
 #: index.php:98
 msgid "Enter an email address and password."
-msgstr ""
+msgstr "Inserisci un indirizzo email e una password."
 
 #: index.php:102
 #, php-format

@@ -7,16 +7,17 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2013-10-18 00:00-0700\n"
-"PO-Revision-Date: 2013-08-30 10:54+0000\n"
+"PO-Revision-Date: 2013-11-07 08:17+0000\n"
 "Last-Translator: Gianfranco <costamagnagianfranco@yahoo.it>\n"
 "Language-Team: it_IT <LL@li.org>\n"
 "Language: it_IT\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"X-Generator: Translate Toolkit 1.10.0\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
+"X-POOTLE-MTIME: 1383812267.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -52,7 +53,7 @@ msgstr "Aggiungi l'URL del progetto"
 
 msgctxt "attachproject_list_acctmgr_button"
 msgid "Add account manager"
-msgstr ""
+msgstr "Aggiungi un account manager"
 
 msgctxt "attachproject_list_no_internet"
 msgid "No Internet connection"
@@ -199,27 +200,27 @@ msgstr "Crea"
 #. account manager
 msgctxt "attachproject_acctmgr_header"
 msgid "Add account manager"
-msgstr ""
+msgstr "Aggiungi un account manager"
 
 msgctxt "attachproject_acctmgr_header_url"
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 msgctxt "attachproject_acctmgr_header_name"
 msgid "User:"
-msgstr ""
+msgstr "Utente:"
 
 msgctxt "attachproject_acctmgr_header_pwd"
 msgid "Password:"
-msgstr ""
+msgstr "Password:"
 
 msgctxt "attachproject_acctmgr_header_pwd_confirm"
 msgid "… Retype:"
-msgstr ""
+msgstr "… Ripeti:"
 
 msgctxt "attachproject_acctmgr_button"
 msgid "Add"
-msgstr ""
+msgstr "Aggiungi"
 
 #. error strings
 msgctxt "attachproject_error_wrong_name"
@@ -240,7 +241,7 @@ msgstr "Password non corrispondenti"
 
 msgctxt "attachproject_error_no_url"
 msgid "Please enter URL"
-msgstr ""
+msgstr "Inserire un URL"
 
 msgctxt "attachproject_error_no_email"
 msgid "Please enter eMail address"
@@ -284,7 +285,7 @@ msgstr "La creazione account è disabilitata su questo progetto"
 
 msgctxt "attachproject_error_invalid_url"
 msgid "Invalid URL"
-msgstr ""
+msgstr "URL invalido"
 
 #. working activity
 msgctxt "attachproject_working_back_button"
@@ -333,11 +334,11 @@ msgstr "Log in"
 
 msgctxt "attachproject_working_acctmgr"
 msgid "Add account manager"
-msgstr ""
+msgstr "Aggiungi un account manager"
 
 msgctxt "attachproject_working_acctmgr_sync"
 msgid "Synchronize"
-msgstr ""
+msgstr "Sincronizza"
 
 #. main activity
 msgctxt "main_noproject_warning"
@@ -383,7 +384,7 @@ msgstr "Preferenze"
 
 msgctxt "tab_notices"
 msgid "Notices"
-msgstr ""
+msgstr "Avvisi"
 
 msgctxt "tab_desc"
 msgid "Navigation"
@@ -678,7 +679,7 @@ msgstr "Comandi progetto:"
 
 msgctxt "projects_control_visit_website"
 msgid "Visit website"
-msgstr ""
+msgstr "Visita il sito web"
 
 msgctxt "projects_control_update"
 msgid "Update"
@@ -710,15 +711,15 @@ msgstr "Reset"
 
 msgctxt "projects_control_dialog_title_acctmgr"
 msgid "Account manager commands:"
-msgstr ""
+msgstr "Comandi dell'account manager:"
 
 msgctxt "projects_control_sync_acctmgr"
 msgid "Synchronize"
-msgstr ""
+msgstr "Sincronizza"
 
 msgctxt "projects_control_remove_acctmgr"
 msgid "Disable"
-msgstr ""
+msgstr "Disabilita"
 
 #. project confirm dialog
 msgctxt "projects_confirm_detach_title"
@@ -751,15 +752,15 @@ msgstr "Reset"
 
 msgctxt "projects_confirm_remove_acctmgr_title"
 msgid "Disable account manager"
-msgstr ""
+msgstr "Disabilita l'account manager"
 
 msgctxt "projects_confirm_remove_acctmgr_message"
 msgid "Are you sure you want to stop using"
-msgstr ""
+msgstr "Sei sicuro di voler terminare l'utilizzo"
 
 msgctxt "projects_confirm_remove_acctmgr_confirm"
 msgid "Disable"
-msgstr ""
+msgstr "Disabilita"
 
 #. tasks tab strings
 msgctxt "tasks_header_name"
@@ -906,7 +907,7 @@ msgstr "File:"
 
 msgctxt "trans_control_retry"
 msgid "Retry transfers"
-msgstr ""
+msgstr "Ritenta i trasferimenti"
 
 msgctxt "confirm_abort_trans_title"
 msgid "Abort transfer?"
@@ -923,7 +924,7 @@ msgstr "Annulla"
 #. notices tab strings
 msgctxt "notices_loading"
 msgid "Reading notices…"
-msgstr ""
+msgstr "Lettura notizie..."
 
 #. eventlog tab strings
 msgctxt "eventlog_loading"
