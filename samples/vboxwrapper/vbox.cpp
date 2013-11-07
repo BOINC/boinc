@@ -412,6 +412,12 @@ int VBOX_VM::pause() {
     string output;
     int retval;
 
+    // Restore the process priority back to the default process priority
+    // to speed up the last minute maintenance tasks before the VirtualBox
+    // VM goes to sleep
+    //
+    reset_vm_process_priority();
+
     command = "controlvm \"" + vm_name + "\" pause";
     retval = vbm_popen(command, output, "pause VM");
     if (retval) return retval;
@@ -423,6 +429,11 @@ int VBOX_VM::resume() {
     string command;
     string output;
     int retval;
+
+    // Set the process priority back to the lowest level before resuming
+    // execution
+    //
+    lower_vm_process_priority();
 
     command = "controlvm \"" + vm_name + "\" resume";
     retval = vbm_popen(command, output, "resume VM");
