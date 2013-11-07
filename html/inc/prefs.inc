@@ -341,7 +341,7 @@ if ($app_types->count > 1) {
     if ($app_types->intel_gpu) {
         $project_pref_descs[] = new PREF_BOOL (
             tra(
-                "Use Intel GPU %1 Enforced by version 7.0+ %2",
+                "Use Intel GPU %1 Enforced by version 7.2+ %2",
                 "<br><span class=note>",
                 "</span>"
             ),

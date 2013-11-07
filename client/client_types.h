@@ -307,6 +307,9 @@ struct APP_VERSION {
     char missing_coproc_name[256];
     bool dont_throttle;
     bool is_vm_app;
+        // currently this set if plan class includes "vbox" (kludge)
+    bool is_wrapper;
+        // the main program is a wrapper; run it above idle priority
 
     int index;  // temp var for make_scheduler_request()
 #ifdef SIM

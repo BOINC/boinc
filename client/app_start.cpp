@@ -514,9 +514,12 @@ int ACTIVE_TASK::start(bool test) {
         return 0;
     }
 
-    // if this job uses less than one CPU, run it at above idle priority
+    // run it at above idle priority if it uses less than one CPU
+    // or is a wrapper
     //
-    bool high_priority = (app_version->avg_ncpus < 1);
+    bool high_priority = false;
+    if (app_version->avg_ncpus < 1) high_priority = true;
+    if (app_version->is_wrapper) high_priority = true;
 
     if (wup->project->verify_files_on_app_start) {
         fip=0;

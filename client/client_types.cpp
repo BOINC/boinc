@@ -744,6 +744,7 @@ void APP_VERSION::init() {
     missing_coproc = false;
     strcpy(missing_coproc_name, "");
     dont_throttle = false;
+    is_wrapper = false;
     needs_network = false;
     is_vm_app = false;
 }
@@ -844,6 +845,7 @@ int APP_VERSION::parse(XML_PARSER& xp) {
             continue;
         }
         if (xp.parse_bool("dont_throttle", dont_throttle)) continue;
+        if (xp.parse_bool("is_wrapper", is_wrapper)) continue;
         if (xp.parse_bool("needs_network", needs_network)) continue;
         if (log_flags.unparsed_xml) {
             msg_printf(0, MSG_INFO,
@@ -922,6 +924,11 @@ int APP_VERSION::write(MIOFILE& out, bool write_file_info) {
     if (dont_throttle) {
         out.printf(
             "    <dont_throttle/>\n"
+        );
+    }
+    if (is_wrapper) {
+        out.printf(
+            "    <is_wrapper/>\n"
         );
     }
     if (needs_network) {
