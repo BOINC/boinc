@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2013-10-29 11:10 PDT\n"
-"PO-Revision-Date: 2013-11-07 04:11+0000\n"
+"PO-Revision-Date: 2013-11-08 17:00+0000\n"
 "Last-Translator: akuloboy <oleg_kras@rambler.ru>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: ru\n"
@@ -18,7 +18,7 @@ msgstr ""
 "10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-POOTLE-MTIME: 1383797504.0\n"
+"X-POOTLE-MTIME: 1383930059.0\n"
 
 #: docutil.php:21
 msgid "Search"
@@ -249,15 +249,15 @@ msgstr ""
 
 #: index.php:96
 msgid "Choose projects"
-msgstr ""
+msgstr "Выберите проекты"
 
 #: index.php:97
 msgid "Download BOINC software"
-msgstr ""
+msgstr "Загрузите программное обеспечение BOINC"
 
 #: index.php:98
 msgid "Enter an email address and password."
-msgstr ""
+msgstr "Введите адрес электронной почты и пароль."
 
 #: index.php:102
 #, php-format
