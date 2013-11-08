@@ -87,7 +87,7 @@ $w72x64 = array(
 
 $w70x64 = array(
 	"num"=>"7.0.64",
-	"status"=>"Recommended version",
+	"status"=>"Older version",
 	"file"=>"boinc_7.0.64_windows_x86_64.exe",
 	"date"=>"17 Apr 2013",
 	"type"=>"win_new",
@@ -103,7 +103,7 @@ $m72 = array(
 
 $m70 = array(
 	"num"=>"7.0.65",
-	"status"=>"Recommended version (standard GUI)",
+	"status"=>"Older version (standard GUI)",
 	"file"=>"boinc_7.0.65_macOSX_i686.zip",
 	"date"=>"17 Apr 2013",
 	"type"=>"mac_advanced",
@@ -135,7 +135,7 @@ $m72c = array(
 
 $m70c = array(
 	"num"=>"7.0.65",
-	"status"=>"Recommended version (Unix command-line version)",
+	"status"=>"Older version (Unix command-line version)",
 	"file"=>"boinc_7.0.65_i686-apple-darwin.zip",
 	"date"=>"17 Apr 2013",
 	"type"=>"bare_core",
@@ -183,7 +183,7 @@ $l72ubuntu = array(
 
 $l70ubuntu = array(
 	"num"=>"7.0.65",
-	"status"=>"Recommended version",
+	"status"=>"Older version",
 	"file"=>"boinc_7.0.65_i686-pc-linux-gnu.sh",
 	"date"=>"17 Apr 2013",
 	"type"=>"sea",
@@ -199,7 +199,7 @@ $l72ubuntux64 = array(
 
 $l70ubuntux64 = array(
 	"num"=>"7.0.65",
-	"status"=>"Recommended version",
+	"status"=>"Older version",
 	"file"=>"boinc_7.0.65_x86_64-pc-linux-gnu.sh",
 	"date"=>"17 Apr 2013",
 	"type"=>"sea",
