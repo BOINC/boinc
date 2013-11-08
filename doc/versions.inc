@@ -227,7 +227,7 @@ $a72 = array(
 
 $windows = array(
     "name"=>"Windows",
-    "description"=>"2000/XP/Vista/7/8",
+    "description"=>"XP/Vista/7/8/8.1",
     "dbname" => "windows_intelx86",
     "versions"=>array(
 		  $w72,
@@ -239,7 +239,7 @@ $windows = array(
 
 $windowsx64 = array(
     "name"=>"Windows 64-bit",
-    "description"=>"XP/Vista/7/8",
+    "description"=>"XP/Vista/7/8/8.1",
     "dbname" => "windows_x86_64",
     "versions"=>array(
 		  $w72x64,
