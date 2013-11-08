@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2013-10-29 10:57 PDT\n"
-"PO-Revision-Date: 2013-09-21 13:54+0000\n"
-"Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
+"PO-Revision-Date: 2013-11-08 19:12+0000\n"
+"Last-Translator: akuloboy <oleg_kras@rambler.ru>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
@@ -18,7 +18,7 @@ msgstr ""
 "10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-POOTLE-MTIME: 1379771666.0\n"
+"X-POOTLE-MTIME: 1383937974.0\n"
 
 # The name of this language in this language
 # Имя языка в этом файле
@@ -581,7 +581,7 @@ msgstr "Доменное имя"
 
 #: ../inc/host.inc:98
 msgid "Product name"
-msgstr ""
+msgstr "Название продукта"
 
 #: ../inc/host.inc:102
 msgid "Local Standard Time"
@@ -1215,9 +1215,8 @@ msgid "Use NVIDIA GPU %1 Enforced by version 6.10+ %2"
 msgstr "Использовать ГП NVIDIA %1 начиная с версии 6.10+ %2"
 
 #: ../inc/prefs.inc:344
-#, fuzzy
 msgid "Use Intel GPU %1 Enforced by version 7.0+ %2"
-msgstr "Использовать ГП ATI %1 начиная с версии 6.10+ %2"
+msgstr "Использовать ГП Intel %1 начиная с версии 7.0+ %2"
 
 #: ../inc/prefs.inc:358
 msgid ""
@@ -1340,6 +1339,8 @@ msgstr "Редактировать настройки %1"
 #: ../inc/prefs.inc:885
 msgid "These apply to all BOINC projects in which you participate."
 msgstr ""
+"Эти настройки распространяются на все проекты BOINC, в которых Вы "
+"участвуете."
 
 #: ../inc/prefs.inc:887
 msgid ""
@@ -1349,7 +1350,7 @@ msgstr ""
 
 #: ../inc/prefs.inc:889
 msgid "These preferences do not apply to Android devices."
-msgstr ""
+msgstr "Эти настройки не относятся к Android-устройствам."
 
 #: ../inc/prefs.inc:892
 msgid "Preferences last modified:"
@@ -1446,7 +1447,7 @@ msgstr "ГП ATI"
 
 #: ../inc/result.inc:57
 msgid "Intel GPU"
-msgstr ""
+msgstr "ГП Intel"
 
 #: ../inc/result.inc:65
 msgid "Not in DB"
@@ -1775,9 +1776,8 @@ msgid "State"
 msgstr "Состояние"
 
 #: ../inc/result.inc:747
-#, fuzzy
 msgid "Task name:"
-msgstr "Имя задания"
+msgstr "Имя задания:"
 
 #: ../inc/team.inc:40
 msgid "Search criteria (use one or more)"
@@ -2522,7 +2522,7 @@ msgstr ""
 
 #: ../user/bs_sample_index.php:44
 msgid "Participants"
-msgstr ""
+msgstr "Участники"
 
 #: ../user/bs_sample_index.php:46
 msgid "Do work"
@@ -2543,8 +2543,9 @@ msgid "Teams"
 msgstr "Команды"
 
 #: ../user/bs_sample_index.php:48 ../user/bs_sample_index.php:53
+#, fuzzy
 msgid "create or join a team"
-msgstr ""
+msgstr "создать свою или присоединиться к другой команде"
 
 #: ../user/bs_sample_index.php:51 ../user/sample_index.php:180
 msgid "User of the day"
@@ -2561,11 +2562,11 @@ msgstr "Профили"
 
 #: ../user/bs_sample_index.php:61
 msgid "User search"
-msgstr ""
+msgstr "Поиск участников"
 
 #: ../user/bs_sample_index.php:64
 msgid "Statistics"
-msgstr ""
+msgstr "Статистика"
 
 #: ../user/bs_sample_index.php:65 ../user/stats.php:30
 #: ../user/top_users.php:116
