@@ -67,6 +67,8 @@ static bool is_client_version_newer(APP_INIT_DATA& aid, int maj, int min, int re
 }
 
 VBOX_VM::VBOX_VM() {
+    virtualbox_home_directory.clear();
+    virtualbox_install_directory.clear();
     virtualbox_version.clear();
     pFloppy = NULL;
     vm_master_name.clear();
@@ -120,10 +122,8 @@ VBOX_VM::~VBOX_VM() {
 
 int VBOX_VM::initialize() {
     int rc = 0;
-    string virtualbox_install_directory;
     string old_path;
     string new_path;
-    string virtualbox_user_home;
     string command;
     string output;
     APP_INIT_DATA aid;
@@ -153,6 +153,21 @@ int VBOX_VM::initialize() {
     }
 #endif
 
+    // Determine the VirtualBox home directory.  Overwrite as needed.
+    //
+    if (getenv("VBOX_USER_HOME")) {
+        virtualbox_home_directory = getenv("VBOX_USER_HOME");
+    } else {
+        // If the override environment variable isn't specified then
+        // it is based of the current users HOME directory.
+#ifdef _WIN32
+        virtualbox_home_directory = getenv("USERPROFILE");
+#else
+        virtualbox_home_directory = getenv("HOME");
+#endif
+        virtualbox_home_directory += "/.VirtualBox";
+    }
+
     // On *nix style systems, VirtualBox expects that there is a home directory specified
     // by environment variable.  When it doesn't exist it attempts to store logging information
     // in root's home directory.  Bad things happen if the process isn't owned by root.
@@ -168,13 +183,13 @@ int VBOX_VM::initialize() {
     // Set the location in which the VirtualBox Configuration files can be
     // stored for this instance.
     if (aid.using_sandbox || force_sandbox) {
-        virtualbox_user_home = aid.project_dir;
-        virtualbox_user_home += "/../virtualbox";
+        virtualbox_home_directory = aid.project_dir;
+        virtualbox_home_directory += "/../virtualbox";
 
-        if (!boinc_file_exists(virtualbox_user_home.c_str())) boinc_mkdir(virtualbox_user_home.c_str());
+        if (!boinc_file_exists(virtualbox_home_directory.c_str())) boinc_mkdir(virtualbox_home_directory.c_str());
 
 #ifdef _WIN32
-        if (!SetEnvironmentVariable("VBOX_USER_HOME", const_cast<char*>(virtualbox_user_home.c_str()))) {
+        if (!SetEnvironmentVariable("VBOX_USER_HOME", const_cast<char*>(virtualbox_home_directory.c_str()))) {
             fprintf(
                 stderr,
                 "%s Failed to modify the search path.\n",
@@ -212,7 +227,7 @@ int VBOX_VM::initialize() {
         if (pi.hProcess) CloseHandle(pi.hProcess);
 #else
         // putenv does not copy its input buffer, so we must use setenv
-        if (setenv("VBOX_USER_HOME", const_cast<char*>(virtualbox_user_home.c_str()), 1)) {
+        if (setenv("VBOX_USER_HOME", const_cast<char*>(virtualbox_home_directory.c_str()), 1)) {
             fprintf(
                 stderr,
                 "%s Failed to modify the VBOX_USER_HOME path.\n",
@@ -1305,7 +1320,7 @@ int VBOX_VM::deregister_stale_vm() {
     return 0;
 }
 
-int VBOX_VM::get_install_directory(string& virtualbox_install_directory ) {
+int VBOX_VM::get_install_directory(string& install_directory ) {
 #ifdef _WIN32
     LONG    lReturnValue;
     HKEY    hkSetupHive;
@@ -1345,18 +1360,18 @@ int VBOX_VM::get_install_directory(string& virtualbox_install_directory ) {
                 &dwSize
             );
 
-            virtualbox_install_directory = lpszRegistryValue;
+            install_directory = lpszRegistryValue;
         }
     }
 
     if (hkSetupHive) RegCloseKey(hkSetupHive);
     if (lpszRegistryValue) free(lpszRegistryValue);
-    if (virtualbox_install_directory.empty()) {
+    if (install_directory.empty()) {
         return 1;
     }
     return 0;
 #else
-    virtualbox_install_directory = "";
+    install_directory = "";
     return 0;
 #endif
 }
@@ -1447,7 +1462,6 @@ int VBOX_VM::get_network_bytes_received(double& received) {
 }
 
 int VBOX_VM::get_system_log(string& log) {
-    string virtualbox_user_home;
     string slot_directory;
     string virtualbox_system_log_src;
     string virtualbox_system_log_dst;
@@ -1455,25 +1469,11 @@ int VBOX_VM::get_system_log(string& log) {
     char buf[256];
     int retval = 0;
 
-    // Where is VirtualBox storing its configuration files?
-    if (getenv("VBOX_USER_HOME")) {
-        virtualbox_user_home = getenv("VBOX_USER_HOME");
-    } else {
-        // If the override environment variable isn't specified then
-        // it is based of the current users HOME directory.
-#ifdef _WIN32
-        virtualbox_user_home = getenv("USERPROFILE");
-#else
-        virtualbox_user_home = getenv("HOME");
-#endif
-        virtualbox_user_home += "/.VirtualBox";
-    }
-
     // Where should we copy temp files to?
     get_slot_directory(slot_directory);
 
     // Locate and read log file
-    virtualbox_system_log_src = virtualbox_user_home + "/VBoxSVC.log";
+    virtualbox_system_log_src = virtualbox_home_directory + "/VBoxSVC.log";
     virtualbox_system_log_dst = slot_directory + "/VBoxSVC.log";
 
     if (boinc_file_exists(virtualbox_system_log_src.c_str())) {
