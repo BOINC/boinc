@@ -58,11 +58,11 @@ using std::string;
 #include "vbox.h"
 
 static bool is_client_version_newer(APP_INIT_DATA& aid, int maj, int min, int rel) {
-    if (maj > aid.major_version) return true;
-    if (maj < aid.major_version) return false;
-    if (min > aid.minor_version) return true;
-    if (min < aid.minor_version) return false;
-    if (rel > aid.release) return true;
+    if (maj < aid.major_version) return true;
+    if (maj > aid.major_version) return false;
+    if (min < aid.minor_version) return true;
+    if (min > aid.minor_version) return false;
+    if (rel < aid.release) return true;
     return false;
 }
 
