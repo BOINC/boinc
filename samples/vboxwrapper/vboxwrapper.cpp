@@ -886,12 +886,20 @@ int main(int argc, char** argv) {
                 if ((elapsed_time - last_trickle_report_time) >= trickle_period) {
                     fprintf(
                         stderr,
-                        "%s Status Report: Send Trickle-Up Event.\n",
+                        "%s Status Report: Trickle-Up Event.\n",
                         vboxwrapper_msg_prefix(buf, sizeof(buf))
                     );
                     last_trickle_report_time = elapsed_time;
                     sprintf(buf, "<cpu_time>%f</cpu_time>", last_trickle_report_time);
-                    boinc_send_trickle_up(const_cast<char*>("cpu_time"), buf);
+                    retval = boinc_send_trickle_up(const_cast<char*>("cpu_time"), buf);
+                    if (retval) {
+                        fprintf(
+                            stderr,
+                            "%s Sending Trickle-Up Event failed (%d).\n",
+                            vboxwrapper_msg_prefix(buf, sizeof(buf)),
+                            retval
+                        );
+                    }
                 }
             }
 
