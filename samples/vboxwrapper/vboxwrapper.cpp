@@ -408,6 +408,9 @@ int main(int argc, char** argv) {
     boinc_options.main_program = true;
     boinc_options.check_heartbeat = true;
     boinc_options.handle_process_control = true;
+    if (trickle_period > 0.0) {
+        boinc_options.handle_trickle_ups = true;
+    }
     boinc_init_options(&boinc_options);
 
     // Prepare environment for detecting system conditions
@@ -444,7 +447,6 @@ int main(int argc, char** argv) {
             "%s Feature: Enabling trickle-ups (Interval: %f)\n",
             vboxwrapper_msg_prefix(buf, sizeof(buf)), trickle_period
         );
-        boinc_options.handle_trickle_ups = true;
     }
 
     // Check for architecture incompatibilities
