@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2013-10-29 10:57 PDT\n"
+"POT-Creation-Date: 2013-11-08 00:00 PST\n"
 "PO-Revision-Date: 2013-10-28 19:50+0000\n"
 "Last-Translator: Олег <pukish_oleg@ukr.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1216,9 +1216,8 @@ msgstr ""
 "Використовувати графічний процесор NVIDIA %1 починаючи з версії 6.10+ %2"
 
 #: ../inc/prefs.inc:344
-#, fuzzy
-msgid "Use Intel GPU %1 Enforced by version 7.0+ %2"
-msgstr "Використовувати графічний процесор ATI %1 починаючи з версії 6.10+ %2"
+msgid "Use Intel GPU %1 Enforced by version 7.2+ %2"
+msgstr ""
 
 #: ../inc/prefs.inc:358
 msgid ""
@@ -7097,6 +7096,10 @@ msgstr ""
 #: ../project.sample/project_specific_prefs.inc:91
 msgid "(all applications)"
 msgstr "(все додатки)"
+
+#, fuzzy
+#~ msgid "Use Intel GPU %1 Enforced by version 7.0+ %2"
+#~ msgstr "Використовувати графічний процесор ATI %1 починаючи з версії 6.10+ %2"
 
 #~ msgid ""
 #~ "These apply to all BOINC projects in which you participate.<br>\n"
