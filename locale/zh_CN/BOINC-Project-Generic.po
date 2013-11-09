@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2013-10-29 10:57 PDT\n"
+"POT-Creation-Date: 2013-11-08 00:00 PST\n"
 "PO-Revision-Date: 2013-09-21 09:50+0000\n"
 "Last-Translator: Gang <zenith.yin@gmail.com>\n"
 "Language-Team: Team China <zenith.yin@gmail.com>\n"
@@ -1152,9 +1152,8 @@ msgid "Use NVIDIA GPU %1 Enforced by version 6.10+ %2"
 msgstr "使用 NVIDIA GPU%16.10 之后的版本实现了该设置%2"
 
 #: ../inc/prefs.inc:344
-#, fuzzy
-msgid "Use Intel GPU %1 Enforced by version 7.0+ %2"
-msgstr "使用 ATI GPU%16.10 之后的版本实现了该设置%2"
+msgid "Use Intel GPU %1 Enforced by version 7.2+ %2"
+msgstr ""
 
 #: ../inc/prefs.inc:358
 msgid ""
@@ -6627,6 +6626,10 @@ msgstr "如果选中的计算程序暂时没有计算任务，是否从其它计
 #: ../project.sample/project_specific_prefs.inc:91
 msgid "(all applications)"
 msgstr "（所有计算程序）"
+
+#, fuzzy
+#~ msgid "Use Intel GPU %1 Enforced by version 7.0+ %2"
+#~ msgstr "使用 ATI GPU%16.10 之后的版本实现了该设置%2"
 
 #~ msgid ""
 #~ "These apply to all BOINC projects in which you participate.<br>\n"
