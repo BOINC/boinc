@@ -29,6 +29,10 @@ struct VBOX_VM {
     VBOX_VM();
     ~VBOX_VM();
 
+    // Virtualbox Home Directory
+    std::string virtualbox_home_directory;
+    // Virtualbox Install Directory
+    std::string virtualbox_install_directory;
     // Virtualbox Version Information
     std::string virtualbox_version;
 
