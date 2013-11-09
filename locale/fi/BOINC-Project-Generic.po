@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2013-10-29 10:57 PDT\n"
+"POT-Creation-Date: 2013-11-08 00:00 PST\n"
 "PO-Revision-Date: 2013-11-07 07:18+0000\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1186,8 +1186,8 @@ msgid "Use NVIDIA GPU %1 Enforced by version 6.10+ %2"
 msgstr "Käytä NVIDIA-näytönohjainta %1 (versiosta 6.10+) %2"
 
 #: ../inc/prefs.inc:344
-msgid "Use Intel GPU %1 Enforced by version 7.0+ %2"
-msgstr "Käytä Intel GPUta %1 (versiosta 7.0+) %2"
+msgid "Use Intel GPU %1 Enforced by version 7.2+ %2"
+msgstr ""
 
 #: ../inc/prefs.inc:358
 msgid ""
@@ -6954,6 +6954,9 @@ msgstr ""
 #: ../project.sample/project_specific_prefs.inc:91
 msgid "(all applications)"
 msgstr "(kaikki sovellukset)"
+
+#~ msgid "Use Intel GPU %1 Enforced by version 7.0+ %2"
+#~ msgstr "Käytä Intel GPUta %1 (versiosta 7.0+) %2"
 
 #~ msgid ""
 #~ "These apply to all BOINC projects in which you participate.<br>\n"
