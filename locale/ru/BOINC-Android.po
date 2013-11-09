@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2013-10-18 00:00-0700\n"
-"PO-Revision-Date: 2013-11-08 19:59+0000\n"
+"PO-Revision-Date: 2013-11-09 08:40+0000\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: ru\n"
@@ -18,7 +18,7 @@ msgstr ""
 "10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
-"X-POOTLE-MTIME: 1383940787.0\n"
+"X-POOTLE-MTIME: 1383986440.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -762,11 +762,11 @@ msgstr "Отключить менеджер проектов"
 
 msgctxt "projects_confirm_remove_acctmgr_message"
 msgid "Are you sure you want to stop using"
-msgstr "Sunteţi sigur că doriţi să nu mai folosiţi"
+msgstr "Вы уверены, что хотите прекратить использование"
 
 msgctxt "projects_confirm_remove_acctmgr_confirm"
 msgid "Disable"
-msgstr "Dezactivează"
+msgstr "Отключить"
 
 #. tasks tab strings
 msgctxt "tasks_header_name"
@@ -913,7 +913,7 @@ msgstr "Файл:"
 
 msgctxt "trans_control_retry"
 msgid "Retry transfers"
-msgstr "Reîncearcă transferuri"
+msgstr "Повторить передачи"
 
 msgctxt "confirm_abort_trans_title"
 msgid "Abort transfer?"
