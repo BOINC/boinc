@@ -96,10 +96,11 @@ VBOX_VM::VBOX_VM() {
     pf_guest_port = 0;
     pf_host_port = 0;
     headless = true;
-#ifndef _WIN32
-    vm_pid = 0;
-#else
+#ifdef _WIN32
     vm_pid_handle = 0;
+    vboxsvc_handle = 0;
+#else
+    vm_pid = 0;
 #endif
 
     // Initialize default values
@@ -116,6 +117,10 @@ VBOX_VM::~VBOX_VM() {
     if (vm_pid_handle) {
         CloseHandle(vm_pid_handle);
         vm_pid_handle = NULL;
+    }
+    if (vboxsvc_handle) {
+        CloseHandle(vboxsvc_handle);
+        vboxsvc_handle = NULL;
     }
 #endif
 }
@@ -197,34 +202,9 @@ int VBOX_VM::initialize() {
             );
         }
 
-        // Launch VboxSVC.exe before going any further. if we don't, it'll be launched by
-        // svchost.exe with its environment block which will not contain the reference
-        // to VBOX_USER_HOME which is required for running in the BOINC account-based
-        // sandbox.
-        STARTUPINFO si;
-        PROCESS_INFORMATION pi;
-        string command;
+        // Launch vboxsvc before any vboxmanage command can be executed.
+        launch_vboxsvc();
 
-        memset(&si, 0, sizeof(si));
-        memset(&pi, 0, sizeof(pi));
-
-        si.cb = sizeof(STARTUPINFO);
-        si.dwFlags |= STARTF_FORCEOFFFEEDBACK | STARTF_USESHOWWINDOW;
-        si.wShowWindow = SW_HIDE;
-
-        command = "\"" + virtualbox_install_directory + "\\VBoxSVC.exe\" --logrotate 1 --logsize 1024000";
-
-        if (!CreateProcess(NULL, (LPTSTR)command.c_str(), NULL, NULL, TRUE, CREATE_NO_WINDOW, NULL, NULL, &si, &pi)) {
-            fprintf(
-                stderr,
-                "%s Creating VBoxSVC.exe failed! (%d).\n",
-                vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                GetLastError()
-            );
-        }
-
-        if (pi.hThread) CloseHandle(pi.hThread);
-        if (pi.hProcess) CloseHandle(pi.hProcess);
 #else
         // putenv does not copy its input buffer, so we must use setenv
         if (setenv("VBOX_USER_HOME", const_cast<char*>(virtualbox_home_directory.c_str()), 1)) {
@@ -1833,6 +1813,53 @@ void VBOX_VM::reset_vm_process_priority() {
 #endif
 }
 
+// Launch VboxSVC.exe before going any further. if we don't, it'll be launched by
+// svchost.exe with its environment block which will not contain the reference
+// to VBOX_USER_HOME which is required for running in the BOINC account-based
+// sandbox on Windows.
+int VBOX_VM::launch_vboxsvc() {
+
+#ifdef _WIN32
+    STARTUPINFO si;
+    PROCESS_INFORMATION pi;
+    APP_INIT_DATA aid;
+    char buf[256];
+    string command;
+
+    boinc_get_init_data_p(&aid);
+
+    if (aid.using_sandbox) {
+
+        if ((vboxsvc_handle == NULL) || !process_exists(vboxsvc_handle)) {
+
+            memset(&si, 0, sizeof(si));
+            memset(&pi, 0, sizeof(pi));
+
+            si.cb = sizeof(STARTUPINFO);
+            si.dwFlags |= STARTF_FORCEOFFFEEDBACK | STARTF_USESHOWWINDOW;
+            si.wShowWindow = SW_HIDE;
+
+            command = "\"" + virtualbox_install_directory + "\\VBoxSVC.exe\" --logrotate 1 --logsize 1024000";
+
+            if (!CreateProcess(NULL, (LPTSTR)command.c_str(), NULL, NULL, TRUE, CREATE_NO_WINDOW, NULL, NULL, &si, &pi)) {
+                fprintf(
+                    stderr,
+                    "%s Creating VBoxSVC.exe failed! (%d).\n",
+                    vboxwrapper_msg_prefix(buf, sizeof(buf)),
+                    GetLastError()
+                );
+            }
+
+            vboxsvc_handle = pi.hProcess;
+
+            if (pi.hThread) CloseHandle(pi.hThread);
+        }
+    }
+#endif
+
+    return 0;
+}
+
 // If there are errors we can recover from, process them here.
 //
 int VBOX_VM::vbm_popen(string& arguments, string& output, const char* item, bool log_error, bool retry_failures, unsigned int timeout) {
@@ -1932,6 +1959,9 @@ int VBOX_VM::vbm_popen_raw(string& arguments, string& output, unsigned int timeo
     size_t errcode_end;
     string errcode;
     int retval = 0;
+
+    // Launch vboxsvc in case it was shutdown for being idle
+    launch_vboxsvc();
 
     // Initialize command line
     command = "VBoxManage -q " + arguments;
