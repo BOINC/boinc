@@ -212,7 +212,7 @@ int VBOX_VM::initialize() {
         si.dwFlags |= STARTF_FORCEOFFFEEDBACK | STARTF_USESHOWWINDOW;
         si.wShowWindow = SW_HIDE;
 
-        command = "\"" + virtualbox_install_directory + "\\VBoxSVC.exe\" -Embedding";
+        command = "\"" + virtualbox_install_directory + "\\VBoxSVC.exe\" --logrotate 1 --logsize 1024000";
 
         if (!CreateProcess(NULL, (LPTSTR)command.c_str(), NULL, NULL, TRUE, CREATE_NO_WINDOW, NULL, NULL, &si, &pi)) {
             fprintf(
