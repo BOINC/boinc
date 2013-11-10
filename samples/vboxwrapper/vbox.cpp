@@ -1832,6 +1832,8 @@ int VBOX_VM::launch_vboxsvc() {
 
         if ((vboxsvc_handle == NULL) || !process_exists(vboxsvc_handle)) {
 
+            if (vboxsvc_handle) CloseHandle(vboxsvc_handle);
+
             memset(&si, 0, sizeof(si));
             memset(&pi, 0, sizeof(pi));
 
