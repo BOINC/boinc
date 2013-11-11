@@ -46,7 +46,6 @@
 		DD01B6790C16723C0023A806 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
 		DD01B7120C16723D0023A806 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD1929D80918A2F100C31BCF /* Security.framework */; };
 		DD0A06F50869A2D2007CD86E /* prefs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BE407C5B1670043025C /* prefs.cpp */; };
-		DD0A87FF11D950E00067C1F2 /* BOINCInternetFSHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD0A87FD11D950E00067C1F2 /* BOINCInternetFSHandler.cpp */; };
 		DD0C5A8B0816711400CEC5D7 /* boinc.jpg in Resources */ = {isa = PBXBuildFile; fileRef = DD0C5A8A0816711400CEC5D7 /* boinc.jpg */; };
 		DD11E5B617D1A89700947975 /* MacAccessiblity.mm in Sources */ = {isa = PBXBuildFile; fileRef = DD1907FA17D1A2F100596F03 /* MacAccessiblity.mm */; };
 		DD1277C4081F3E73007B5DE1 /* PostInstall.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD1277C0081F3E73007B5DE1 /* PostInstall.cpp */; };
@@ -178,7 +177,6 @@
 		DD4E704C0BCDAC360010A522 /* browser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD4E70490BCDAC360010A522 /* browser.cpp */; };
 		DD4EC65A08A0A7AF009AA08F /* gui_rpc_client_ops.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD73E34E08A0694000656EB1 /* gui_rpc_client_ops.cpp */; };
 		DD4EC65B08A0A83F009AA08F /* gui_rpc_client_print.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD73E34F08A0694100656EB1 /* gui_rpc_client_print.cpp */; };
-		DD4FA25D121828E400154856 /* BOINCHtmlLBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD4FA25B121828E400154856 /* BOINCHtmlLBox.cpp */; };
 		DD51DC8F0A4943A300BD24E6 /* check_security.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD6617870A3FFD8C00FFEBEB /* check_security.cpp */; };
 		DD52C81108B5D44D008D9AA4 /* gui_rpc_client.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD81C5CC07C5D7D90098A04D /* gui_rpc_client.cpp */; };
 		DD52C81208B5D44E008D9AA4 /* gui_rpc_client_ops.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD73E34E08A0694000656EB1 /* gui_rpc_client_ops.cpp */; };
@@ -324,6 +322,8 @@
 		DD957E5B181B908800ECA34E /* thumbnail.png in Resources */ = {isa = PBXBuildFile; fileRef = DD957E59181B908800ECA34E /* thumbnail.png */; };
 		DD957E5C181B908800ECA34E /* thumbnail@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DD957E5A181B908800ECA34E /* thumbnail@2x.png */; };
 		DD9AB0340EB7D5DE00AF1616 /* rr_sim.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD9AB0320EB7D5DE00AF1616 /* rr_sim.cpp */; };
+		DD9E560A182D06A6002AF0F8 /* libwx_osx_cocoa_static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DDE36DF517C3896A000E78D6 /* libwx_osx_cocoa_static.a */; };
+		DD9E560F182D0D40002AF0F8 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD9E560E182D0D40002AF0F8 /* WebKit.framework */; };
 		DDA0C8350FE1D704001E02E6 /* procinfo_mac.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB6934F0ABFE9C600689FD8 /* procinfo_mac.cpp */; };
 		DDA12A6D0A36974600FBDD12 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD1929D80918A2F100C31BCF /* Security.framework */; };
 		DDA12AA20A369B5500FBDD12 /* SetupSecurity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7748B40A356D6C0025D05E /* SetupSecurity.cpp */; };
@@ -458,7 +458,6 @@
 		DDE1374210DC60E200161D6B /* DlgEventLog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE1374010DC60E200161D6B /* DlgEventLog.cpp */; };
 		DDE1374910DC613600161D6B /* DlgEventLogListCtrl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE1374710DC613600161D6B /* DlgEventLogListCtrl.cpp */; };
 		DDE17420166746F70059083A /* app_config.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE1741E166746F70059083A /* app_config.cpp */; };
-		DDE36DF617C3896A000E78D6 /* libwx_osx_cocoa_static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DDE36DF517C3896A000E78D6 /* libwx_osx_cocoa_static.a */; };
 		DDE3A8800E90D1BF00A363A7 /* client_state.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE3A87F0E90D1BF00A363A7 /* client_state.cpp */; };
 		DDE3A8810E90D21A00A363A7 /* sandbox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD80C83D0CBAEB4F00F1121D /* sandbox.cpp */; };
 		DDE3A8850E90D23400A363A7 /* scheduler_op.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE3A8840E90D23400A363A7 /* scheduler_op.cpp */; };
@@ -744,8 +743,6 @@
 		DD0052F710CA6F1D0067570C /* cs_proxy.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = cs_proxy.cpp; path = ../client/cs_proxy.cpp; sourceTree = SOURCE_ROOT; };
 		DD0052F810CA6F1D0067570C /* cs_proxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cs_proxy.h; path = ../client/cs_proxy.h; sourceTree = SOURCE_ROOT; };
 		DD04BE1A0EDD836A006D5603 /* TermsOfUsePage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TermsOfUsePage.h; path = ../clientgui/TermsOfUsePage.h; sourceTree = SOURCE_ROOT; };
-		DD0A87FD11D950E00067C1F2 /* BOINCInternetFSHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BOINCInternetFSHandler.cpp; path = ../clientgui/BOINCInternetFSHandler.cpp; sourceTree = SOURCE_ROOT; };
-		DD0A87FE11D950E00067C1F2 /* BOINCInternetFSHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BOINCInternetFSHandler.h; path = ../clientgui/BOINCInternetFSHandler.h; sourceTree = SOURCE_ROOT; };
 		DD0C5A8A0816711400CEC5D7 /* boinc.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = boinc.jpg; path = ../clientscr/res/boinc.jpg; sourceTree = SOURCE_ROOT; };
 		DD1277B3081F3D67007B5DE1 /* PostInstall.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PostInstall.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD1277B5081F3D67007B5DE1 /* PostInstall-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PostInstall-Info.plist"; sourceTree = "<group>"; };
@@ -854,8 +851,6 @@
 		DD4C560D0AD389A2009E23C6 /* sg_DlgMessages.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = sg_DlgMessages.h; path = ../clientgui/sg_DlgMessages.h; sourceTree = SOURCE_ROOT; };
 		DD4E70490BCDAC360010A522 /* browser.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = browser.cpp; sourceTree = "<group>"; };
 		DD4E704A0BCDAC360010A522 /* browser.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = browser.h; path = ../clientgui/browser.h; sourceTree = SOURCE_ROOT; };
-		DD4FA25B121828E400154856 /* BOINCHtmlLBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BOINCHtmlLBox.cpp; path = ../clientgui/BOINCHtmlLBox.cpp; sourceTree = SOURCE_ROOT; };
-		DD4FA25C121828E400154856 /* BOINCHtmlLBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BOINCHtmlLBox.h; path = ../clientgui/BOINCHtmlLBox.h; sourceTree = SOURCE_ROOT; };
 		DD531BC50C193D3800742E50 /* MacInstaller.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = MacInstaller.icns; path = ../clientgui/res/MacInstaller.icns; sourceTree = SOURCE_ROOT; };
 		DD531BC70C193D5200742E50 /* MacUninstaller.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = MacUninstaller.icns; path = ../clientgui/res/MacUninstaller.icns; sourceTree = SOURCE_ROOT; };
 		DD58C41808F3343F00C1DF66 /* AccountInfoPage.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = AccountInfoPage.cpp; path = ../clientgui/AccountInfoPage.cpp; sourceTree = SOURCE_ROOT; };
@@ -1056,6 +1051,7 @@
 		DD9C94A10A5A3A4100AB0D10 /* AdvancedFrame.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AdvancedFrame.h; path = ../clientgui/AdvancedFrame.h; sourceTree = SOURCE_ROOT; };
 		DD9C94A20A5A3A4100AB0D10 /* BOINCBaseFrame.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = BOINCBaseFrame.cpp; path = ../clientgui/BOINCBaseFrame.cpp; sourceTree = SOURCE_ROOT; };
 		DD9C94A30A5A3A4100AB0D10 /* BOINCBaseFrame.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = BOINCBaseFrame.h; path = ../clientgui/BOINCBaseFrame.h; sourceTree = SOURCE_ROOT; };
+		DD9E560E182D0D40002AF0F8 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = /System/Library/Frameworks/WebKit.framework; sourceTree = "<absolute>"; };
 		DDA12A910A369AB500FBDD12 /* SetupSecurity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SetupSecurity.h; path = ../clientgui/mac/SetupSecurity.h; sourceTree = SOURCE_ROOT; };
 		DDA12AAD0A369C5800FBDD12 /* SecurityUtility.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SecurityUtility.cpp; path = ../clientgui/mac/SecurityUtility.cpp; sourceTree = SOURCE_ROOT; };
 		DDA1F1EC126D105B005EFFEB /* current_version.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = current_version.cpp; path = ../client/current_version.cpp; sourceTree = SOURCE_ROOT; };
@@ -1151,7 +1147,7 @@
 		DDE1741E166746F70059083A /* app_config.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = app_config.cpp; sourceTree = "<group>"; };
 		DDE1741F166746F70059083A /* app_config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = app_config.h; sourceTree = "<group>"; };
 		DDE2552B07C62F3E008E7D6E /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = /System/Library/Frameworks/IOKit.framework; sourceTree = "<absolute>"; };
-		DDE36DF517C3896A000E78D6 /* libwx_osx_cocoa_static.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libwx_osx_cocoa_static.a; path = "../../wxWidgets-3.0.0-rc1/build/osx/build/Release/libwx_osx_cocoa_static.a"; sourceTree = "<group>"; };
+		DDE36DF517C3896A000E78D6 /* libwx_osx_cocoa_static.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libwx_osx_cocoa_static.a; path = "../../wxWidgets-3.0.0-rc1/build/osx/build/Debug/libwx_osx_cocoa_static.a"; sourceTree = "<group>"; };
 		DDE3A87F0E90D1BF00A363A7 /* client_state.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = client_state.cpp; sourceTree = "<group>"; };
 		DDE3A8840E90D23400A363A7 /* scheduler_op.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = scheduler_op.cpp; sourceTree = "<group>"; };
 		DDE41C250C1FCA8F00CA1F86 /* graphics2_util.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = graphics2_util.cpp; sourceTree = "<group>"; };
@@ -1257,8 +1253,9 @@
 				DD21B49D0D750FC600AFFEE5 /* AppKit.framework in Frameworks */,
 				DD1682B10F8DC6D90096D714 /* OpenGL.framework in Frameworks */,
 				DD17FFDE15F60AFD0002CD9F /* AudioToolbox.framework in Frameworks */,
-				DDE36DF617C3896A000E78D6 /* libwx_osx_cocoa_static.a in Frameworks */,
 				DD6FCB68167745E700C740DB /* libsqlite3.a in Frameworks */,
+				DD9E560A182D06A6002AF0F8 /* libwx_osx_cocoa_static.a in Frameworks */,
+				DD9E560F182D0D40002AF0F8 /* WebKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1482,6 +1479,7 @@
 				DDA546600D16964E008CC69A /* QuickTime.framework */,
 				DD7C5E7508110AE3002FCE1E /* ScreenSaver.framework */,
 				DD1929D80918A2F100C31BCF /* Security.framework */,
+				DD9E560E182D0D40002AF0F8 /* WebKit.framework */,
 				DD6FCB67167745E700C740DB /* libsqlite3.a */,
 				DD89165D0F3B1BC200DE5B1C /* GLUT.framework */,
 				DD89165E0F3B1BC200DE5B1C /* OpenGL.framework */,
@@ -1537,10 +1535,6 @@
 				DD8DD4A609D9432F0043019E /* BOINCDialupManager.h */,
 				DD81C40507C5D1020098A04D /* BOINCGUIApp.cpp */,
 				DD81C43B07C5D2240098A04D /* BOINCGUIApp.h */,
-				DD4FA25B121828E400154856 /* BOINCHtmlLBox.cpp */,
-				DD4FA25C121828E400154856 /* BOINCHtmlLBox.h */,
-				DD0A87FD11D950E00067C1F2 /* BOINCInternetFSHandler.cpp */,
-				DD0A87FE11D950E00067C1F2 /* BOINCInternetFSHandler.h */,
 				DD81C40407C5D1020098A04D /* BOINCListCtrl.cpp */,
 				DD81C43A07C5D2240098A04D /* BOINCListCtrl.h */,
 				DD81C40307C5D1020098A04D /* BOINCTaskBar.cpp */,
@@ -2900,9 +2894,7 @@
 				DDE1374910DC613600161D6B /* DlgEventLogListCtrl.cpp in Sources */,
 				DD867B7510DCE77700128AB4 /* notice.cpp in Sources */,
 				DDBB7E7611D2BCD400598DC1 /* NoticeListCtrl.cpp in Sources */,
-				DD0A87FF11D950E00067C1F2 /* BOINCInternetFSHandler.cpp in Sources */,
 				DDA850A41207EED900B473A6 /* WizardAttach.cpp in Sources */,
-				DD4FA25D121828E400154856 /* BOINCHtmlLBox.cpp in Sources */,
 				DDD0697312D70C9400120920 /* sg_TaskPanel.cpp in Sources */,
 				DDC321AE12E45162006CB55F /* sg_PanelBase.cpp in Sources */,
 				DDDD6D8012E4611300C258A0 /* sg_ProjectPanel.cpp in Sources */,
@@ -3555,7 +3547,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"../../wxWidgets-3.0.0-rc1/build/osx/build/Debug",
 					"\"$(SRCROOT)/../../wxWidgets-3.0.0-rc1/build/osx/build/Debug\"",
-					"\"$(SRCROOT)/../../wxWidgets-3.0.0-rc1/build/osx/build/Release\"",
 					"../../sqlite-autoconf-3071401/.libs/",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.4;

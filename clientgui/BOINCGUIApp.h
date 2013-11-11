@@ -79,8 +79,6 @@ protected:
 #ifdef __WXMAC__
     CTaskBarIcon*       m_pMacDockIcon;
 #endif
-    wxFileSystemHandler* m_pInternetFSHandler;
-    
     wxString            m_strBOINCMGRExecutableName;
     wxString            m_strBOINCMGRRootDirectory;
     wxString            m_strBOINCMGRDataDirectory;
@@ -159,8 +157,6 @@ public:
 
     wxArrayString&      GetSupportedLanguages()     { return m_astrLanguages; }
     
-    wxFileSystemHandler*   GetInternetFSHandler()  { return m_pInternetFSHandler; }
-
     void                DisplayEventLog(bool bShowWindow = true);
     void                OnEventLogClose();
 

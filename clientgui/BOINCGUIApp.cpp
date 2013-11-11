@@ -39,7 +39,6 @@
 #include "idlemon.h"
 #include "Events.h"
 #include "common/wxFlatNotebook.h"
-#include "BOINCInternetFSHandler.h"
 #include "LogBOINC.h"
 #include "BOINCGUIApp.h"
 #include "SkinManager.h"
@@ -303,11 +302,6 @@ bool CBOINCGUIApp::OnInit() {
  
     // Enable known image types
     wxInitAllImageHandlers();
-
-    // Enable additional file system type handlers
-    wxFileSystem::AddHandler(new wxMemoryFSHandler);
-    m_pInternetFSHandler = new CBOINCInternetFSHandler;
-    wxFileSystem::AddHandler(m_pInternetFSHandler);
 
     // Initialize the skin manager
     m_pSkinManager = new CSkinManager(m_bDebugSkins);
