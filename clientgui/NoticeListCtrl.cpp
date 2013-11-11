@@ -196,7 +196,7 @@ void CNoticeListCtrl::SetItemCount(int newCount) {
 
             if (!strURL.IsEmpty()) {
                 strTemp.Printf(
-                    wxT(" &middot; <a target=_new href=%s>%s</a> "),
+                    wxT(" &middot; <a href=%s>%s</a> "),
                     strURL.c_str(),
                     _("more...")
                 );
