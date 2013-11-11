@@ -434,7 +434,6 @@
     <ClCompile Include="..\clientgui\BOINCBaseFrame.cpp" />
     <ClCompile Include="..\clientgui\BOINCClientManager.cpp" />
     <ClCompile Include="..\clientgui\BOINCDialupManager.cpp" />
-    <ClCompile Include="..\clientgui\BOINCInternetFSHandler.cpp" />
     <ClCompile Include="..\clientgui\browser.cpp" />
     <ClCompile Include="..\clientgui\LogBOINC.cpp" />
     <ClCompile Include="..\clientgui\SkinManager.cpp" />
@@ -456,7 +455,6 @@
     <ClCompile Include="..\clientgui\ViewStatistics.cpp" />
     <ClCompile Include="..\clientgui\ViewTransfers.cpp" />
     <ClCompile Include="..\clientgui\ViewWork.cpp" />
-    <ClCompile Include="..\clientgui\BOINCHtmlLBox.cpp" />
     <ClCompile Include="..\clientgui\DlgAdvPreferences.cpp" />
     <ClCompile Include="..\clientgui\DlgAdvPreferencesBase.cpp" />
     <ClCompile Include="..\clientgui\DlgItemProperties.cpp" />
@@ -542,7 +540,6 @@
     <ClInclude Include="..\clientgui\BOINCBaseFrame.h" />
     <ClInclude Include="..\clientgui\BOINCClientManager.h" />
     <ClInclude Include="..\clientgui\BOINCDialupManager.h" />
-    <ClInclude Include="..\clientgui\BOINCInternetFSHandler.h" />
     <ClInclude Include="..\clientgui\browser.h" />
     <ClInclude Include="..\clientgui\LogBOINC.h" />
     <ClInclude Include="..\clientgui\SkinManager.h" />
@@ -564,7 +561,6 @@
     <ClInclude Include="..\clientgui\ViewStatistics.h" />
     <ClInclude Include="..\clientgui\ViewTransfers.h" />
     <ClInclude Include="..\clientgui\ViewWork.h" />
-    <ClInclude Include="..\clientgui\BOINCHtmlLBox.h" />
     <ClInclude Include="..\clientgui\DlgAdvPreferences.h" />
     <ClInclude Include="..\clientgui\DlgAdvPreferencesBase.h" />
     <ClInclude Include="..\clientgui\DlgItemProperties.h" />
