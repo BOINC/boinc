@@ -366,7 +366,7 @@ static DWORD WINAPI WindowsMonitorSystemProxyThread( LPVOID  ) {
 
     // Initialize diagnostics framework for this thread
     //
-    diagnostics_thread_init(BOINC_DIAG_DEFAULTS);
+    diagnostics_thread_init();
 
     // notify the main client thread that detecting proxies is
     // supported.
