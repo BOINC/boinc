@@ -1028,7 +1028,7 @@ void* throttler(void*) {
     
     // Initialize diagnostics framework for this thread
     //
-    diagnostics_thread_init(BOINC_DIAG_DEFAULTS);
+    diagnostics_thread_init();
 
     while (1) {
         client_mutex.lock();
