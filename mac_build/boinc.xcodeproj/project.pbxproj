@@ -3539,14 +3539,14 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../clientgui/mac/MacGUI.pch;
 				HEADER_SEARCH_PATHS = (
-					"../../wxWidgets-3.0.0-rc1/include",
-					"../../wxWidgets-3.0.0-rc1/build/osx/setup/cocoa/include",
+					"../../wxWidgets-3.0.0/include",
+					"../../wxWidgets-3.0.0/build/osx/setup/cocoa/include",
 					../clientgui,
 				);
 				INFOPLIST_FILE = Info.plist;
 				LIBRARY_SEARCH_PATHS = (
-					"../../wxWidgets-3.0.0-rc1/build/osx/build/Debug",
-					"\"$(SRCROOT)/../../wxWidgets-3.0.0-rc1/build/osx/build/Debug\"",
+					"../../wxWidgets-3.0.0/build/osx/build/Debug",
+					"\"$(SRCROOT)/../../wxWidgets-3.0.0/build/osx/build/Debug\"",
 					"../../sqlite-autoconf-3071401/.libs/",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
@@ -3588,14 +3588,14 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ../clientgui/mac/MacGUI.pch;
 				HEADER_SEARCH_PATHS = (
-					"../../wxWidgets-3.0.0-rc1/include",
-					"../../wxWidgets-3.0.0-rc1/build/osx/setup/cocoa/include",
+					"../../wxWidgets-3.0.0/include",
+					"../../wxWidgets-3.0.0/build/osx/setup/cocoa/include",
 					../clientgui,
 				);
 				INFOPLIST_FILE = Info.plist;
 				LIBRARY_SEARCH_PATHS = (
-					"../../wxWidgets-3.0.0-rc1/build/osx/build/Release",
-					"\"$(SRCROOT)/../../wxWidgets-3.0.0-rc1/build/osx/build/Release\"",
+					"../../wxWidgets-3.0.0/build/osx/build/Release",
+					"\"$(SRCROOT)/../../wxWidgets-3.0.0/build/osx/build/Release\"",
 					"../../sqlite-autoconf-3071401/.libs/",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.4;

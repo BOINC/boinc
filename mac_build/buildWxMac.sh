@@ -18,14 +18,14 @@
 # along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
-# Script to build the wxMac-2.9.5 wxCocoa library for BOINC
+# Script to build the wxMac-3.0.0 wxCocoa library for BOINC
 #
 # by Charlie Fenton    7/21/06
 # Updated for wx-Mac 2.8.10 and Unicode 4/17/09
 # Updated for OS 10.7 and XCode 4.1 with OS 10.4 compatibility 9/26/11
 # Updated for partial OS 10.8 and XCode 4.5 compatibility 7/27/12
 # Updated for wxCocoa 2.9.5 8/20/13
-# Updated for wxCocoa 3.0.0-rc1 10/17/13
+# Updated for wxCocoa 3.0.0 11/12/13
 #
 ## This script requires OS 10.6 or later
 ##
