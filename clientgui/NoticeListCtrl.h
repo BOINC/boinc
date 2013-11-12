@@ -46,6 +46,7 @@ public:
 ////@begin CNoticeListCtrl event handler declarations
 
     void OnLinkClicked( wxWebViewEvent& event );
+    void OnWebViewError( wxWebViewEvent& event );
 
 ////@end CNoticeListCtrl event handler declarations
 

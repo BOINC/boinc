@@ -51,6 +51,7 @@ BEGIN_EVENT_TABLE( CNoticeListCtrl, wxWindow )
 
 ////@begin CNoticeListCtrl event table entries
     EVT_WEBVIEW_NAVIGATING(ID_LIST_NOTIFICATIONSVIEW, CNoticeListCtrl::OnLinkClicked)
+    EVT_WEBVIEW_ERROR(ID_LIST_NOTIFICATIONSVIEW, CNoticeListCtrl::OnWebViewError)
 ////@end CNoticeListCtrl event table entries
  
 END_EVENT_TABLE()
@@ -175,10 +176,29 @@ void CNoticeListCtrl::SetItemCount(int newCount) {
             eol_to_br(strDescription);
             localize(strDescription);
 
+            // RSS feeds and web pages may use protocol-relative (scheme-relative) 
+            // URLs, such as <img src="//sample.com/test.jpg"/>
+            // Since the html comes from a web server via http, the scheme is
+            // assumed to also be http.  But we have cached the html in a local 
+            // file, so it is no longer associated with the http protocol / scheme.
+            // Therefore all our URLs must explicity specify the http protocol.
+            //
+            // The second argument to wxWebView::SetPage is supposed to take care 
+            // of this automatically, but fails to do so under Windows, so we do 
+            // it here explicitly.
+            strDescription.Replace(wxT("\"//"), wxT("\"http://"));
+
             dtBuffer.Set((time_t)np->create_time);
             strCreateTime = dtBuffer.Format();
 
-            strBuffer = wxT("<table border=0 cellpadding=5><tr><td>");
+            // Put dividers between notices, but not before first or after last
+            if (i == 0) {
+                strBuffer = wxEmptyString;
+            } else {
+                strBuffer = wxT("<hr>");
+            }
+
+            strBuffer += wxT("<table border=0 cellpadding=5><tr><td>");
 
             if (!strTitle.IsEmpty()) {
                 strTemp.Printf(
@@ -203,7 +223,7 @@ void CNoticeListCtrl::SetItemCount(int newCount) {
                 strBuffer += strTemp;
             }
 
-            strBuffer += wxT("</font></td></tr></table><hr>");
+            strBuffer += wxT("</font></td></tr></table>");
         }
         m_noticesBody += strBuffer;
     }
@@ -223,6 +243,14 @@ void CNoticeListCtrl::OnLinkClicked( wxWebViewEvent& event ) {
         event.Veto();   // Tell wxWebView not to follow link
 		wxLaunchDefaultBrowser(event.GetURL());
     }
+
+    event.Skip();
+}
+
+
+void CNoticeListCtrl::OnWebViewError( wxWebViewEvent& event ) {
+   fprintf(stderr, "wxWebView error: target=%s, URL=%s\n", 
+            event.GetTarget().c_str(), event.GetURL().c_str());
 
     event.Skip();
 }
