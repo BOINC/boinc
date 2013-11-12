@@ -449,7 +449,7 @@ void CDlgMessages::OnShow(wxShowEvent& event) {
         bAlreadyRunning = true;
 
         wxLogTrace(wxT("Function Status"), wxT("CDlgMessages::OnShow - Show/Hide Event for CAdvancedFrame detected"));
-        if (event.GetShow()) {
+        if (event.IsShown()) {
             RestoreWindowDimensions();
         } else {
             SaveWindowDimensions();
