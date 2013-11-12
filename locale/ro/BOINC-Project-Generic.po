@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2013-11-08 00:00 PST\n"
-"PO-Revision-Date: 2013-10-31 05:21+0000\n"
+"PO-Revision-Date: 2013-11-12 12:10+0000\n"
 "Last-Translator: Marius <marius.sirbu@outlook.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: ro\n"
@@ -18,7 +18,7 @@ msgstr ""
 "20)) ? 1 : 2);;\n"
 "X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-POOTLE-MTIME: 1383196890.0\n"
+"X-POOTLE-MTIME: 1384258259.0\n"
 
 msgid "LANG_NAME_NATIVE"
 msgstr "Română"
@@ -1169,7 +1169,7 @@ msgstr "Foloseşte GPU NVIDIA %1 Impus de versiunea 6.10+ %2"
 
 #: ../inc/prefs.inc:344
 msgid "Use Intel GPU %1 Enforced by version 7.2+ %2"
-msgstr ""
+msgstr "Foloseşte GPU Intel %1 Impus de versiunea 7.2+ %2"
 
 #: ../inc/prefs.inc:358
 msgid ""
@@ -1291,17 +1291,19 @@ msgstr "Editează preferinţele %1"
 
 #: ../inc/prefs.inc:885
 msgid "These apply to all BOINC projects in which you participate."
-msgstr ""
+msgstr "Acestea se aplică tuturor proiectelor BOINC în care participaţi."
 
 #: ../inc/prefs.inc:887
 msgid ""
 "On computers participating in multiple projects, the most recently modified "
 "preferences will be used."
 msgstr ""
+"Pe calculatoarele care participă în mai multe proiecte, vor fi folosite "
+"preferinţele cele mai recent modificate."
 
 #: ../inc/prefs.inc:889
 msgid "These preferences do not apply to Android devices."
-msgstr ""
+msgstr "Aceste preferinţe nu se aplică dispozitivelor Android."
 
 #: ../inc/prefs.inc:892
 msgid "Preferences last modified:"
@@ -1398,7 +1400,7 @@ msgstr "GPU ATI"
 
 #: ../inc/result.inc:57
 msgid "Intel GPU"
-msgstr ""
+msgstr "GPU Intel"
 
 #: ../inc/result.inc:65
 msgid "Not in DB"
@@ -2447,7 +2449,7 @@ msgstr ""
 
 #: ../user/bs_sample_index.php:44
 msgid "Participants"
-msgstr ""
+msgstr "Participanţi"
 
 #: ../user/bs_sample_index.php:46
 msgid "Do work"
@@ -2456,7 +2458,7 @@ msgstr ""
 #: ../user/bs_sample_index.php:47 ../user/bs_sample_index.php:50
 #: ../user/home.php:49 ../project.sample/project.inc:43
 msgid "Your account"
-msgstr ""
+msgstr "Contul dumneavoastră"
 
 #: ../user/bs_sample_index.php:47 ../user/bs_sample_index.php:50
 msgid "view stats, modify preferences"
@@ -2486,11 +2488,11 @@ msgstr "Profile"
 
 #: ../user/bs_sample_index.php:61
 msgid "User search"
-msgstr ""
+msgstr "Căutare utilizator"
 
 #: ../user/bs_sample_index.php:64
 msgid "Statistics"
-msgstr ""
+msgstr "Statistici"
 
 #: ../user/bs_sample_index.php:65 ../user/stats.php:30
 #: ../user/top_users.php:116
@@ -2954,7 +2956,7 @@ msgstr ""
 
 #: ../user/download_network.php:36
 msgid "Instructions for installing and running BOINC are %1here%2."
-msgstr ""
+msgstr "Instrucţiuni pentru instalarea şi rularea BOINC sunt %1aici%2."
 
 #: ../user/download_network.php:38
 msgid "This list is managed centrally at %1the BOINC website%2."
@@ -3248,7 +3250,7 @@ msgstr ""
 
 #: ../user/edit_passwd_form.php:44
 msgid "your email address and old password"
-msgstr ""
+msgstr "adresa dumneavoastră de email şi vechea parolă"
 
 #: ../user/edit_passwd_form.php:45
 msgid "your account key"
@@ -3467,7 +3469,7 @@ msgstr "Câmp necunscout"
 
 #: ../user/ffmail_action.php:47
 msgid "Email preview"
-msgstr ""
+msgstr "Previzualizare email"
 
 #: ../user/ffmail_action.php:48
 msgid "Your email will appear as follows:"
@@ -6109,7 +6111,7 @@ msgstr "Vizualizare nume membri şi adrese de email"
 
 #: ../user/team_manage.php:36
 msgid "View change history:"
-msgstr ""
+msgstr "Vizualizaţi istoric modificări:"
 
 #: ../user/team_manage.php:38
 msgid "XML"
@@ -6239,7 +6241,7 @@ msgstr "Şterge?"
 
 #: ../user/team_remove_inactive_form.php:40
 msgid "Name (ID)"
-msgstr ""
+msgstr "Nume (ID)"
 
 #: ../user/team_remove_inactive_form.php:65
 msgid "No members are eligible for removal."
@@ -6274,7 +6276,7 @@ msgstr ""
 
 #: ../user/team_search.php:107
 msgid "Change your search"
-msgstr ""
+msgstr "Modificaţi căutarea"
 
 #: ../user/team_search.php:181
 msgid ""
@@ -6314,7 +6316,7 @@ msgstr "Participant de la"
 
 #: ../user/uotd.php:29
 msgid "No user of the day has been chosen."
-msgstr ""
+msgstr "Nu a fost ales nici un utilizator al zilei."
 
 #: ../user/uotd.php:33
 msgid "User of the Day for %1: %2"
@@ -6330,11 +6332,11 @@ msgstr "Nume utilizator începe cu"
 
 #: ../user/user_search.php:53
 msgid "Any"
-msgstr ""
+msgstr "Oricare"
 
 #: ../user/user_search.php:56
 msgid "With profile?"
-msgstr ""
+msgstr "Cu profil?"
 
 #: ../user/user_search.php:57 ../user/user_search.php:62
 msgid "Either"
