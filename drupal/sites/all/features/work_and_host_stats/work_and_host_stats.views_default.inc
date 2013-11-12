@@ -823,6 +823,7 @@ function work_and_host_stats_views_default_views() {
     'columns' => array(
       'id' => 'id',
       'workunitid' => 'workunitid',
+      'hostid' => 'hostid',
       'sent_time' => 'sent_time',
       'received_time' => 'received_time',
       'report_deadline' => 'report_deadline',
@@ -847,6 +848,10 @@ function work_and_host_stats_views_default_views() {
         'separator' => '',
       ),
       'workunitid' => array(
+        'sortable' => 1,
+        'separator' => '',
+      ),
+      'hostid' => array(
         'sortable' => 1,
         'separator' => '',
       ),
