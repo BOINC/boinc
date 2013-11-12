@@ -48,6 +48,7 @@ $w72 = array(
 	"status"=>"Recommended version",
 	"file"=>"boinc_7.2.28_windows_intelx86.exe",
 	"vbox_file"=>"boinc_7.2.28_windows_intelx86_vbox.exe",
+    "vbox_version"=>"4.2.16",
 	"date"=>"8 Nov 2013",
 	"type"=>"win_new",
 );
@@ -81,6 +82,7 @@ $w72x64 = array(
 	"status"=>"Recommended version",
 	"file"=>"boinc_7.2.28_windows_x86_64.exe",
 	"vbox_file"=>"boinc_7.2.28_windows_x86_64_vbox.exe",
+    "vbox_version"=>"4.2.16",
 	"date"=>"8 Nov 2013",
 	"type"=>"win_new",
 );
@@ -226,7 +228,7 @@ $a72 = array(
 // i.e. the first non-dev version is the current one
 
 $windows = array(
-    "name"=>"Windows",
+    "name"=>"Windows 32-bit",
     "description"=>"XP/Vista/7/8/8.1",
     "dbname" => "windows_intelx86",
     "versions"=>array(
