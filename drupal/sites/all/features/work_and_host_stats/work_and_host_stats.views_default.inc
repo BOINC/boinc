@@ -16,16 +16,6 @@ function work_and_host_stats_views_default_views() {
   $view->api_version = '2';
   $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
   $handler = $view->new_display('default', 'Defaults', 'default');
-  $handler->override_option('relationships', array(
-    'userid' => array(
-      'label' => 'User',
-      'required' => 0,
-      'id' => 'userid',
-      'table' => 'result',
-      'field' => 'userid',
-      'relationship' => 'none',
-    ),
-  ));
   $handler->override_option('fields', array(
     'id' => array(
       'label' => 'Task ID',
@@ -95,6 +85,47 @@ function work_and_host_stats_views_default_views() {
       'id' => 'workunitid',
       'table' => 'result',
       'field' => 'workunitid',
+      'relationship' => 'none',
+    ),
+    'hostid' => array(
+      'label' => 'Computer',
+      'alter' => array(
+        'alter_text' => 0,
+        'text' => '',
+        'make_link' => 1,
+        'path' => 'host/[hostid]',
+        'absolute' => 0,
+        'link_class' => '',
+        'alt' => '',
+        'rel' => '',
+        'prefix' => '',
+        'suffix' => '',
+        'target' => '',
+        'help' => '',
+        'trim' => 0,
+        'max_length' => '',
+        'word_boundary' => 1,
+        'ellipsis' => 1,
+        'html' => 0,
+        'strip_tags' => 0,
+      ),
+      'empty' => '',
+      'hide_empty' => 0,
+      'empty_zero' => 0,
+      'hide_alter_empty' => 1,
+      'set_precision' => FALSE,
+      'precision' => 0,
+      'decimal' => '.',
+      'separator' => '',
+      'format_plural' => 0,
+      'format_plural_singular' => '1',
+      'format_plural_plural' => '@count',
+      'prefix' => '',
+      'suffix' => '',
+      'exclude' => 0,
+      'id' => 'hostid',
+      'table' => 'result',
+      'field' => 'hostid',
       'relationship' => 'none',
     ),
     'sent_time' => array(
