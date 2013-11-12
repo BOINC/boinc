@@ -250,7 +250,7 @@ void CNoticeListCtrl::OnLinkClicked( wxWebViewEvent& event ) {
 
 void CNoticeListCtrl::OnWebViewError( wxWebViewEvent& event ) {
    fprintf(stderr, "wxWebView error: target=%s, URL=%s\n", 
-            event.GetTarget().c_str(), event.GetURL().c_str());
+            (event.GetTarget().ToStdString()).c_str(), (event.GetURL().ToStdString()).c_str());
 
     event.Skip();
 }
