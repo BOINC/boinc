@@ -228,7 +228,7 @@ $a72 = array(
 // i.e. the first non-dev version is the current one
 
 $windows = array(
-    "name"=>"Windows",
+    "name"=>"Windows 32-bit",
     "description"=>"XP/Vista/7/8/8.1",
     "dbname" => "windows_intelx86",
     "versions"=>array(
