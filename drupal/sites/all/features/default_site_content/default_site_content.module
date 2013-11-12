@@ -1,0 +1,57 @@
+<?php
+
+include_once('default_site_content.features.inc');
+
+/**
+ * Make some changes to configurations after the feature has been enabled
+ */
+function default_site_content_enable() {
+  $initialized = variable_get('boinc_default_site_content_init', 0);
+  
+  if (!$initialized) {
+    // Construct the Help page
+    $node = array(
+      'type' => 'page',
+      'title' => t('Help'),
+      'uid' => 1,
+      'status' => 1,  // published
+      'promote' => 0, // not promoted to front page
+      'path' => 'help',
+      'pathauto_perform_alias' => FALSE,
+      'created' => time(),
+      'changed' => time(),
+      'comment' => 0, // disable comments
+      'moderate' => 0,
+      'body' => preg_replace('/>\s+</', '><',
+        '<p>Use this page to provide help and support for your site\'s
+        visitors:</p>
+        <ul>
+          <li>Add a link to your primary forum for getting help</li>
+          <li>Add a link to a page describing your screensaver</li>
+          <li>Add links to your social media outlets like Facebook or Twitter</li>
+          <li>Get help regarding <a href="http://boinc.berkeley.edu/help.php" target="_blank">BOINC in general</a></li>
+        </ul>'),
+      'sticky' => 0,
+      'format' => 4,
+      //'teaser' => $teaser,
+    );
+    $node = (object) $node; // node_save requires an object
+    node_save($node);
+    
+    $item = array(
+      'link_path' => drupal_get_normal_path('help'),
+      'link_title' => t('Help'),
+      'menu_name' => 'primary-links',
+      'weight' => 50,
+    );
+    menu_link_save($item);
+    menu_cache_clear_all();
+    
+    variable_set('boinc_default_site_content_init', 1);
+  }
+}
+
+function default_site_content_disable() {
+  //menu_link_delete(NULL, drupal_get_normal_path('help'));
+  //menu_cache_clear_all();
+}
