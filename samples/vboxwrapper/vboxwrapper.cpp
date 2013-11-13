@@ -485,6 +485,26 @@ int main(int argc, char** argv) {
         );
     }
 
+    // Record if anonymous platform was used.
+    // 
+    if (boinc_file_exists((std::string(aid.project_dir) + std::string("/app_info.xml")).c_str())) {
+        fprintf(
+            stderr,
+            "%s Detected: Anonymous Platform Enabled\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf))
+        );
+    }
+
+    // Record if the sandboxed configuration is going to be used.
+    //
+    if (aid.using_sandbox) {
+        fprintf(
+            stderr,
+            "%s Detected: Sandbox Configuration Enabled\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf))
+        );
+    }
+
     // Check against known incompatible versions of VirtualBox.  
     // NOTE: Incompatible in this case means that VirtualBox 4.2.6 crashes during snapshot operations
     //       and 4.2.18 fails to restore from snapshots properly.
@@ -511,16 +531,6 @@ int main(int argc, char** argv) {
             vboxwrapper_msg_prefix(buf, sizeof(buf))
         );
         boinc_temporary_exit(300, message.c_str());
-    }
-
-    // Record if anonymous platform was used.
-    // 
-    if (boinc_file_exists((std::string(aid.project_dir) + std::string("/app_info.xml")).c_str())) {
-        fprintf(
-            stderr,
-            "%s Detected: Anonymous Platform Enabled\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf))
-        );
     }
 
     // Parse Job File
