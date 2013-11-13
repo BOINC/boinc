@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2013-10-29 10:57 PDT\n"
-"PO-Revision-Date: 2013-11-08 21:47+0000\n"
+"PO-Revision-Date: 2013-11-12 20:51+0000\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: ru\n"
@@ -18,7 +18,7 @@ msgstr ""
 "10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-POOTLE-MTIME: 1383947273.0\n"
+"X-POOTLE-MTIME: 1384289484.0\n"
 
 # The name of this language in this language
 # Имя языка в этом файле
@@ -1204,15 +1204,15 @@ msgstr ""
 
 #: ../inc/prefs.inc:308
 msgid "Use CPU %1 Enforced by version 6.10+ %2"
-msgstr "Использовать ЦП %1 начиная с версии 6.10+ %2"
+msgstr "Использовать ЦП %1 Начиная с версии 6.10+ %2"
 
 #: ../inc/prefs.inc:320
 msgid "Use ATI GPU %1 Enforced by version 6.10+ %2"
-msgstr "Использовать ГП ATI %1 начиная с версии 6.10+ %2"
+msgstr "Использовать ГП ATI %1 Начиная с версии 6.10+ %2"
 
 #: ../inc/prefs.inc:332
 msgid "Use NVIDIA GPU %1 Enforced by version 6.10+ %2"
-msgstr "Использовать ГП NVIDIA %1 начиная с версии 6.10+ %2"
+msgstr "Использовать ГП NVIDIA %1 Начиная с версии 6.10+ %2"
 
 #: ../inc/prefs.inc:344
 msgid "Use Intel GPU %1 Enforced by version 7.0+ %2"
