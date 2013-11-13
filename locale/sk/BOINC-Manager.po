@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-10-15 22:26-0700\n"
-"PO-Revision-Date: 2013-10-11 21:59+0000\n"
+"PO-Revision-Date: 2013-11-12 23:08+0000\n"
 "Last-Translator: aceman <acelists@atlas.sk>\n"
 "Language-Team: BOINC SK\n"
 "Language: sk\n"
@@ -23,7 +23,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCGIT\\boinc\n"
-"X-POOTLE-MTIME: 1381528764.0\n"
+"X-POOTLE-MTIME: 1384297687.0\n"
 
 #: AccountInfoPage.cpp:387
 #, c-format
@@ -139,16 +139,16 @@ msgstr "Použiť Správcu konta"
 
 #: AccountInfoPage.cpp:585
 msgid "Please enter a user name."
-msgstr ""
+msgstr "Prosím zadajte používateľské meno."
 
 #: AccountInfoPage.cpp:587
 msgid "Please enter an email address."
-msgstr ""
+msgstr "Prosím zadajte emailovú adresu."
 
 #: AccountInfoPage.cpp:597
 #, c-format
 msgid "Please enter a password of at least %d characters."
-msgstr ""
+msgstr "Prosím zadajte heslo s aspoň %d znakmi."
 
 #: AccountInfoPage.cpp:608
 msgid ""
@@ -1000,6 +1000,9 @@ msgid ""
 "\n"
 "Click Finish to close."
 msgstr ""
+"Prosím skúste znovu neskôr.\n"
+"\n"
+"Kliknite Dokončiť pre zatvorenie."
 
 #: CompletionErrorPage.cpp:225 CompletionPage.cpp:222 CompletionPage.cpp:242
 #: CompletionPage.cpp:273
@@ -1351,7 +1354,7 @@ msgstr "Na viacprocesorových systémoch použiť najviac"
 #: DlgAdvPreferencesBase.cpp:346
 #, no-c-format
 msgid "% of the processors (0 means ignore this setting)"
-msgstr ""
+msgstr "% procesorov (0 znamená ignorovať toto nastavenie)"
 
 #: DlgAdvPreferencesBase.cpp:349 DlgAdvPreferencesBase.cpp:604
 #: DlgAdvPreferencesBase.cpp:626 DlgAdvPreferencesBase.cpp:647
@@ -3585,7 +3588,7 @@ msgstr "Otázka"
 
 #: sg_BoincSimpleFrame.cpp:136 sg_BoincSimpleGUI.cpp:119
 msgid "Advanced View...\tCtrl+Shift+A"
-msgstr "Pokročilé zobrazenie...\t Ctrl+Shift+A"
+msgstr "Pokročilé zobrazenie...\tCtrl+Shift+A"
 
 #: sg_BoincSimpleFrame.cpp:137
 msgid "Display the advanced graphical interface."
@@ -3638,7 +3641,7 @@ msgstr "Sťahovanie práce zo servera."
 
 #: sg_ClientStateIndicator.cpp:299 sg_TaskPanel.cpp:1218
 msgid "Processing Suspended:  Running On Batteries."
-msgstr "Spracovanie pozastavené:  Beh z batérií."
+msgstr "Spracovanie pozastavené:  Beh na batérie."
 
 #: sg_ClientStateIndicator.cpp:301 sg_TaskPanel.cpp:1220
 msgid "Processing Suspended:  User Active."
