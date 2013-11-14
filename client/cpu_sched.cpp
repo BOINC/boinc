@@ -269,7 +269,7 @@ bool check_coprocs_usable() {
                 }
             }
             msg_printf(NULL, MSG_INFO,
-                "GPUs have become unusable; disabling tasks"
+                "Remote desktop in use; disabling GPU tasks"
             );
             return true;
         }
@@ -283,7 +283,7 @@ bool check_coprocs_usable() {
                 }
             }
             msg_printf(NULL, MSG_INFO,
-                "GPUs have become usable; enabling tasks"
+                "Remote desktop not in use; enabling GPU tasks"
             );
             return true;
         }
