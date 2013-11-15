@@ -586,8 +586,8 @@ void CAccountInfoPage::OnPageChanging( wxWizardExEvent& event ) {
                 } else {
                     strMessage.Printf(_("Please enter an email address."));
                 }
+                bDisplayError = true;
             }
-            bDisplayError = true;
         }
 
         // Verify minimum password length
@@ -597,7 +597,6 @@ void CAccountInfoPage::OnPageChanging( wxWizardExEvent& event ) {
                     _("Please enter a password of at least %d characters."),
                     pc.min_passwd_length
                 );
-
                 bDisplayError = true;
             }
         }
