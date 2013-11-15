@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2013-11-12 00:00 PST\n"
-"PO-Revision-Date: 2013-11-02 10:03+0000\n"
+"PO-Revision-Date: 2013-11-15 15:59+0000\n"
 "Last-Translator: 宇謙 <df910105@yahoo.com.tw>\n"
 "Language-Team: \n"
 "Language: zh_TW\n"
@@ -20,7 +20,7 @@ msgstr ""
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-SearchPath-0: doc\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
-"X-POOTLE-MTIME: 1383386636.0\n"
+"X-POOTLE-MTIME: 1384531151.0\n"
 "X-Poedit-KeywordsList: tra\n"
 
 #: docutil.php:21
@@ -29,7 +29,7 @@ msgstr "搜尋"
 
 #: docutil.php:103
 msgid "Return to BOINC main page"
-msgstr "回到 BOINC 首頁"
+msgstr "回到BOINC首頁"
 
 #: docutil.php:114
 #, php-format
@@ -40,30 +40,30 @@ msgstr "這個網頁%s可翻譯%s"
 msgid ""
 "We recommend that you also install VirtualBox, so your computer can work on "
 "science projects that require it."
-msgstr ""
+msgstr "我們建議您安裝VirtualBox，這樣您的電腦就可以在需要它的科學專案上多盡一份力。"
 
 #: download.php:41
 msgid "Learn more about VirtualBox."
-msgstr ""
+msgstr "了解更多關於VirtualBox。"
 
 #: download.php:51
 msgid "Download BOINC + VirtualBox"
-msgstr ""
+msgstr "下載 BOINC + Virtualbox"
 
 #: download.php:54 download.php:69
 #, php-format
 msgid "for %s"
-msgstr ""
+msgstr "適用於 %s"
 
 #: download.php:57 download.php:72
 #, php-format
 msgid "BOINC version %s"
-msgstr ""
+msgstr "BOINC 版本 %s"
 
 #: download.php:59
 #, php-format
 msgid "VirtualBox version %s"
-msgstr ""
+msgstr "VirtualBox 版本 %s"
 
 #: download.php:67
 msgid "Download BOINC"
@@ -75,12 +75,14 @@ msgid ""
 "projects like SETI@home, Climateprediction.net, Rosetta@home, World "
 "Community Grid, and many others."
 msgstr ""
+"BOINC是個軟體可以將您電腦的閒置時間貢獻給科學專案，例如SETI@home、Climateprediction.net、Rosetta@home、W"
+"orld Community Grid以及其他專案。"
 
 #: download.php:125
 msgid ""
 "After installing BOINC on your computer, you can connect it to as many of "
 "these projects as you like."
-msgstr ""
+msgstr "將電腦安裝BOINC後，您可以連結到您喜歡的專案。"
 
 #: download.php:127
 msgid ""
@@ -92,7 +94,7 @@ msgstr "你應該在自己擁有的電腦或得到使用許可的電腦上執行
 msgid ""
 "We recommend that you download BOINC from the Google Play Store or Amazon "
 "Appstore, not from here."
-msgstr ""
+msgstr "我們建議您使用Google Play Store或Amazon Appstore來下載BOINC，而不是從這裡。"
 
 #: download.php:167
 msgid "System requirements"
@@ -170,7 +172,7 @@ msgid ""
 "If you're an experienced BOINC user, we encourage you to %sbecome a Help "
 "Volunteer%s.  It's a great way to help the cause of scientific research and "
 "volunteer computing - and it's fun!"
-msgstr "如果您是一位有經驗的 BOINC 用戶，我們鼓勵您%s成為一位志願幫助者%s。這對於科學研究和志願計算都大有益處－ 而且還很有趣！"
+msgstr "如果您是一位有經驗的BOINC用戶，我們鼓勵您%s成為一位志願幫助者%s。這對於科學研究和志願計算都大有益處－ 而且還很有趣！"
 
 #: help.php:56
 #, php-format
@@ -260,7 +262,7 @@ msgstr "選擇專案"
 
 #: index.php:97
 msgid "Download BOINC software"
-msgstr "下載 BOINC 軟體"
+msgstr "下載BOINC軟體"
 
 #: index.php:98
 msgid "Enter an email address and password."
