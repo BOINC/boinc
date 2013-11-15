@@ -59,7 +59,7 @@ BEGIN_EVENT_TABLE(CTaskBarIcon, wxTaskBarIconEx)
     EVT_TASKBAR_RIGHT_DOWN(CTaskBarIcon::OnRButtonDown)
     EVT_TASKBAR_RIGHT_UP(CTaskBarIcon::OnRButtonUp)
     EVT_TASKBAR_CONTEXT_USERCLICK(CTaskBarIcon::OnNotificationClick)
-    EVT_TASKBAR_BALLOON_TIMEOUT(CTaskBarIcon::OnNotificationTimeout)
+    EVT_TASKBAR_BALLOON_USERTIMEOUT(CTaskBarIcon::OnNotificationTimeout)
 #endif
     EVT_MENU(ID_OPENBOINCMANAGER, CTaskBarIcon::OnOpen)
     EVT_MENU(ID_OPENWEBSITE, CTaskBarIcon::OnOpenWebsite)
@@ -73,18 +73,16 @@ BEGIN_EVENT_TABLE(CTaskBarIcon, wxTaskBarIconEx)
     EVT_TASKBAR_APPRESTORE(CTaskBarIcon::OnAppRestore)
 #endif
 
-#ifdef __WXMAC__
-    // wxMac-2.6.3 "helpfully" converts wxID_ABOUT to kHICommandAbout, wxID_EXIT to kHICommandQuit, 
-    //  wxID_PREFERENCES to kHICommandPreferences
-    EVT_MENU(kHICommandAbout, CTaskBarIcon::OnAbout)
-#endif
-
 END_EVENT_TABLE()
 
 
-CTaskBarIcon::CTaskBarIcon(wxString title, wxIcon* icon, wxIcon* iconDisconnected, wxIcon* iconSnooze) : 
+CTaskBarIcon::CTaskBarIcon(wxString title, wxIcon* icon, wxIcon* iconDisconnected, wxIcon* iconSnooze
 #ifdef __WXMAC__
-    wxTaskBarIcon(DOCK)
+, wxTaskBarIconType iconType
+#endif
+) :
+#ifdef __WXMAC__
+    wxTaskBarIcon(iconType)
 #else 
     wxTaskBarIconEx(wxT("BOINCManagerSystray"), 1)
 #endif
@@ -101,6 +99,7 @@ CTaskBarIcon::CTaskBarIcon(wxString title, wxIcon* icon, wxIcon* iconDisconnecte
     m_dtLastNotificationAlertExecuted = wxDateTime((time_t)0);
     m_iLastNotificationUnreadMessageCount = 0;
 #ifdef __WXMAC__
+    m_iconType = iconType;
     m_pNotificationRequest = NULL;
 #endif
 }
@@ -257,6 +256,21 @@ void CTaskBarIcon::OnAbout(wxCommandEvent& WXUNUSED(event)) {
         bEventLogWasShown = eventLog->IsShown();
         if (bEventLogWasShown && !bWasVisible) eventLog->Show(false);
     }
+    
+    // We don't call Hide() or Show(false) for the main frame
+    // under wxCocoa 2.9.5 because it bounces the Dock icon
+    // (as in notification.)  We work around this by moving
+    // the main window/frame off screen when displaying the
+    // CDlgAbout modal dialog while the main window is hidden.
+    // The position will be restored in one of these methods:
+    // CBOINCGUIApp::OnActivateApp(), CSimpleFrame::SaveState()
+    // or CAdvancedFrame::SaveWindowDimensions().
+    CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
+    if (pFrame) {
+        if (!bWasVisible) {
+            pFrame->MoveFrameOffScreen();
+        }
+    }
 #endif
     
     wxGetApp().ShowApplication(true);
@@ -264,15 +278,13 @@ void CTaskBarIcon::OnAbout(wxCommandEvent& WXUNUSED(event)) {
     ResetTaskBar();
 
     CDlgAbout dlg(NULL);
+    wxGetApp().SetAboutDialogIsOpen(true);
     dlg.ShowModal();
+    wxGetApp().SetAboutDialogIsOpen(false);
 
     if (!bWasVisible) {
         wxGetApp().ShowApplication(false);
     }
-    
-#ifdef __WXMAC__
-    if (bEventLogWasShown) eventLog->Show(true);
-#endif
 }
 
 
@@ -340,11 +352,6 @@ void CTaskBarIcon::OnReloadSkin(CTaskbarEvent& WXUNUSED(event)) {
     m_iconTaskBarNormal = *pSkinAdvanced->GetApplicationIcon();
     m_iconTaskBarDisconnected = *pSkinAdvanced->GetApplicationDisconnectedIcon();
     m_iconTaskBarSnooze = *pSkinAdvanced->GetApplicationSnoozeIcon();
-
-#ifdef __WXMAC__
-    // For unknown reasons, menus won't work if we call BuildMenu() here 
-    wxGetApp().GetMacSystemMenu()->SetNeedToRebuildMenu();
-#endif
 }
 
 
@@ -372,36 +379,26 @@ wxMenu *CTaskBarIcon::CreatePopupMenu() {
     return menu;
 }
 
-
 // Override the standard wxTaskBarIcon::SetIcon() because we are only providing a 
 // 16x16 icon for the menubar, while the Dock needs a 128x128 icon.
 // Rather than using an entire separate icon, overlay the Dock icon with a badge 
 // so we don't need additional Snooze and Disconnected icons for branding.
 bool CTaskBarIcon::SetIcon(const wxIcon& icon, const wxString& ) {
-    CTaskBarIcon* pTaskbar = wxGetApp().GetTaskBarIcon();
-    if (pTaskbar) {
-        return pTaskbar->SetMacTaskBarIcon(icon);
-    }
-    return false;
-}
-
-
-bool CTaskBarIcon::SetMacTaskBarIcon(const wxIcon& icon) {
     wxIcon macIcon;
     bool result;
     OSStatus err = noErr ;
     int w, h, x, y;
+
+    if (m_iconType != wxTBI_DOCK) {
+        result = wxGetApp().GetMacDockIcon()->SetIcon(icon);
+        return (result && wxTaskBarIcon::SetIcon(icon));
+    }
 
     if (icon.IsSameAs(m_iconCurrentIcon))
         return true;
     
     m_iconCurrentIcon = icon;
     
-    CMacSystemMenu* sysMenu = wxGetApp().GetMacSystemMenu();
-    if (sysMenu == NULL) return 0;
-    
-    result = sysMenu->SetMacMenuIcon(icon);
-
     RestoreApplicationDockTileImage();      // Remove any previous badge
 
     if (m_iconTaskBarDisconnected.IsSameAs(icon))
@@ -409,7 +406,7 @@ bool CTaskBarIcon::SetMacTaskBarIcon(const wxIcon& icon) {
     else if (m_iconTaskBarSnooze.IsSameAs(icon))
         macIcon = macsnoozebadge;
     else
-        return result;
+        return true;
     
     // Convert the wxIcon into a wxBitmap so we can perform some
     // wxBitmap operations with it
@@ -438,7 +435,7 @@ bool CTaskBarIcon::SetMacTaskBarIcon(const wxIcon& icon) {
         }
     }
 
-    CGImageRef pImage = (CGImageRef) bmp.CGImageCreate(); 
+    CGImageRef pImage = (CGImageRef) bmp.CreateCGImage(); 
     
     // Actually set the dock image    
     err = OverlayApplicationDockTileImage(pImage);
@@ -449,7 +446,7 @@ bool CTaskBarIcon::SetMacTaskBarIcon(const wxIcon& icon) {
     if (pImage != NULL)
         CGImageRelease(pImage);
 
-    return result;
+    return true;
 }
 
 
@@ -536,12 +533,14 @@ wxMenu *CTaskBarIcon::BuildContextMenu() {
 
     pMenu->Append(wxID_ABOUT, menuName, wxEmptyString);
 
-#ifndef __WXMAC__
+#ifdef __WXMAC__
     // These should be in Windows Task Bar Menu but not in Mac's Dock menu
-    pMenu->AppendSeparator();
-
-    pMenu->Append(wxID_EXIT, _("E&xit"), wxEmptyString);
+    if (m_iconType != wxTBI_DOCK)
 #endif
+    {
+        pMenu->AppendSeparator();
+        pMenu->Append(wxID_EXIT, _("E&xit"), wxEmptyString);
+    }
 
     AdjustMenuItems(pMenu);
 
@@ -587,19 +586,18 @@ void CTaskBarIcon::AdjustMenuItems(wxMenu* pMenu) {
     //   a bit. It shouldn't hurt other platforms.
     for (loc = 0; loc < pMenu->GetMenuItemCount(); loc++) {
         pMenuItem = pMenu->FindItemByPosition(loc);
-        if (!pMenuItem->IsSeparator() && pMenuItem->IsEnabled()) {
-            pMenu->Remove(pMenuItem);
+        pMenu->Remove(pMenuItem);
 
-            font = pMenuItem->GetFont();
-            if (pMenuItem->GetId() != ID_OPENBOINCMANAGER) {
-                font.SetWeight(wxFONTWEIGHT_NORMAL);
-            } else {
-                font.SetWeight(wxFONTWEIGHT_BOLD);
-            }
-            pMenuItem->SetFont(font);
-
-            pMenu->Insert(loc, pMenuItem);
+        font = pMenuItem->GetFont();
+        font.SetPointSize(8);
+        if (pMenuItem->GetId() != ID_OPENBOINCMANAGER) {
+            font.SetWeight(wxFONTWEIGHT_NORMAL);
+        } else {
+            font.SetWeight(wxFONTWEIGHT_BOLD);
         }
+        pMenuItem->SetFont(font);
+
+        pMenu->Insert(loc, pMenuItem);
     }
 #endif
 

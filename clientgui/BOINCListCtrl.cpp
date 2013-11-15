@@ -31,6 +31,13 @@ DEFINE_EVENT_TYPE(wxEVT_DRAW_PROGRESSBAR)
 BEGIN_EVENT_TABLE(CBOINCListCtrl, LISTCTRL_BASE)
     EVT_DRAW_PROGRESSBAR(CBOINCListCtrl::OnDrawProgressBar)
 END_EVENT_TABLE()
+#else
+#ifdef __WXMAC__
+BEGIN_EVENT_TABLE(CBOINCListCtrl, LISTCTRL_BASE)
+	EVT_SIZE(CBOINCListCtrl::OnSize)
+END_EVENT_TABLE()
+#endif
+
 #endif
 
 BEGIN_EVENT_TABLE(MyEvtHandler, wxEvtHandler)
@@ -308,7 +315,7 @@ void CBOINCListCtrl::DrawProgressBars()
 #if USE_NATIVE_LISTCONTROL
         x -= GetScrollPos(wxHORIZONTAL);
 #else
-        GetMainWin()->CalcScrolledPosition(x, 0, &x, &yy);
+        CalcScrolledPosition(x, 0, &x, &yy);
 #endif
         wxFont theFont = GetFont();
         dc.SetFont(theFont);
@@ -413,7 +420,7 @@ void CBOINCListCtrl::OnDrawProgressBar(CDrawProgressBarEvent& event) {
 void MyEvtHandler::OnPaint(wxPaintEvent & event)
 {
     if (m_listCtrl) {
-        (m_listCtrl->GetMainWin())->ProcessEvent(event);
+        m_listCtrl->savedHandler->ProcessEvent(event);
         m_listCtrl->DrawProgressBars();
     } else {
         event.Skip();

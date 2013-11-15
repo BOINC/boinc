@@ -155,6 +155,7 @@ wxInt32 CBOINCTaskCtrl::UpdateControls() {
     unsigned int        i;
     unsigned int        j;
     bool                bCreateMainSizer = false;
+    int                 layoutChanged = 0;
     CTaskItemGroup*     pGroup = NULL;
     CTaskItem*          pItem = NULL;
 
@@ -164,6 +165,7 @@ wxInt32 CBOINCTaskCtrl::UpdateControls() {
         SetAutoLayout(TRUE);
         m_pSizer = new wxBoxSizer( wxVERTICAL  );
         m_pSizer->Add(5, 5, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+        layoutChanged = 1;
     }
 
 
@@ -174,9 +176,7 @@ wxInt32 CBOINCTaskCtrl::UpdateControls() {
             pGroup->m_pStaticBox = new wxStaticBox(this, wxID_ANY, pGroup->m_strName);
             pGroup->m_pStaticBoxSizer = new wxStaticBoxSizer(pGroup->m_pStaticBox, wxVERTICAL);
             m_pSizer->Add(pGroup->m_pStaticBoxSizer, 0, wxEXPAND|wxALL, 5);
-#ifdef __WXMAC__
-            pGroup->SetupMacAccessibilitySupport();
-#endif
+            layoutChanged = 1;
         }
     }
 
@@ -189,12 +189,21 @@ wxInt32 CBOINCTaskCtrl::UpdateControls() {
                 pItem->m_pButton = new wxButton;
                 pItem->m_strNameEllipsed = pItem->m_strName;
                 EllipseStringIfNeeded(pItem->m_strNameEllipsed);
+#ifdef __WXMSW__
+                // On Windows with wxWidgets 2.9.4, buttons don't refresh properly unless
+                // they are children of the wxStaticBox, but on Mac the layout is wrong
+                // unless the buttons are children of the parent of the wxStaticBox.
+                // ToDo: merge these cases when these bugs are fixed in wxWidgets.
+                pItem->m_pButton->Create(pGroup->m_pStaticBox, pItem->m_iEventID, pItem->m_strNameEllipsed, wxDefaultPosition, wxSize(TASKBUTTONWIDTH, -1), 0);
+#else
                 pItem->m_pButton->Create(this, pItem->m_iEventID, pItem->m_strNameEllipsed, wxDefaultPosition, wxSize(TASKBUTTONWIDTH, -1), 0);
+#endif
                 pItem->m_pButton->SetHelpText(pItem->m_strDescription);
 #if wxUSE_TOOLTIPS
                 pItem->m_pButton->SetToolTip(pItem->m_strDescription);
 #endif
                 pGroup->m_pStaticBoxSizer->Add(pItem->m_pButton, 0, wxEXPAND|wxALL, 5);
+                layoutChanged = 1;
             }
         }
     }
@@ -207,7 +216,7 @@ wxInt32 CBOINCTaskCtrl::UpdateControls() {
     // necessarily generates a size event which would do it for us.
     FitInside();
     
-    return 0;
+    return layoutChanged;
 }
 
 

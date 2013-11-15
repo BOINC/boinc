@@ -150,9 +150,10 @@ public:
 #ifdef __WXMAC__
 private:
     void                    SetupMacAccessibilitySupport();
+    void                    ResizeMacAccessibilitySupport();
     void                    RemoveMacAccessibilitySupport();
     
-    EventHandlerRef         m_pPieCtrlAccessibilityEventHandlerRef;
+    void*                   m_fauxResourcesView;
 #endif
 
 };

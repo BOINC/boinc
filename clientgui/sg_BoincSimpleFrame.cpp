@@ -21,9 +21,6 @@
 #endif
 
 #include "stdwx.h"
-#ifdef __WXMAC__
-#include "MacAccessiblity.h"
-#endif
 #include "diagnostics.h"
 #include "str_util.h"
 #include "mfile.h"
@@ -42,7 +39,6 @@
 #include "version.h"
 
 #include "sg_BoincSimpleFrame.h"
-#include "sg_CustomControls.h"
 #include "sg_TaskPanel.h"
 #include "sg_ProjectPanel.h"
 #include "sg_DlgMessages.h"
@@ -76,6 +72,9 @@ BEGIN_EVENT_TABLE(CSimpleFrame, CBOINCBaseFrame)
     EVT_MENU(ID_HELPBOINCWEBSITE, CSimpleFrame::OnHelpBOINC)
     EVT_MENU(wxID_ABOUT, CSimpleFrame::OnHelpAbout)
 	EVT_MENU(ID_EVENTLOG, CSimpleFrame::OnEventLog)
+#ifdef __WXMAC__
+	EVT_MENU(wxID_PREFERENCES, CSimpleFrame::OnPreferences)
+#endif
 END_EVENT_TABLE()
 
 
@@ -119,6 +118,12 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon, wxIcon* icon32, wxPoint
         strMenuName,
         strMenuDescription
     );
+
+#ifdef __WXMAC__
+    menuFile->Append(
+        wxID_PREFERENCES
+    );
+#endif
 
     // Skins submenu
     m_pSubmenuSkins = new wxMenu;
@@ -267,9 +272,6 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon, wxIcon* icon32, wxPoint
 #ifdef __WXMAC__
     m_pMenubar->MacInstallMenuBar();
     MacLocalizeBOINCMenu();
-
-    // Enable Mac OS X's standard Preferences menu item (handled in MacSysMenu.cpp)
-    EnableMenuCommand(NULL, kHICommandPreferences);
 #endif
 
     m_Shortcuts[0].Set(wxACCEL_NORMAL, WXK_HELP, ID_HELPBOINCMANAGER);
@@ -305,6 +307,7 @@ bool CSimpleFrame::SaveState() {
 	CBOINCBaseFrame::SaveState();
     wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
 	wxString        strBaseConfigLocation = wxString(wxT("/Simple"));
+    wxPoint         pos = GetPosition();
 
     wxASSERT(pConfig);
 
@@ -314,13 +317,23 @@ bool CSimpleFrame::SaveState() {
     //   pointer, return false.
     if (!pConfig) return false;
 
+#ifdef __WXMAC__
+    // We don't call Hide() or Show(false) for the main frame
+    // under wxCocoa 2.9.5 because it bounces the Dock icon
+    // (as in notification.)  We work around this by moving
+    // the main window/frame off screen when displaying the
+    // CDlgAbout modal dialog while the main window is hidden
+    // by CTaskBarIcon::OnAbout().
+    pos = GetOnScreenFramePosition();
+#endif
+
     //
     // Save Frame State
     //
     pConfig->SetPath(strBaseConfigLocation);
 
-    pConfig->Write(wxT("XPos"), GetPosition().x);
-    pConfig->Write(wxT("YPos"), GetPosition().y);
+    pConfig->Write(wxT("XPos"), pos.x);
+    pConfig->Write(wxT("YPos"), pos.y);
 
     return true;
 }
@@ -508,7 +521,9 @@ void CSimpleFrame::OnHelpAbout(wxCommandEvent& /*event*/) {
 	m_pBackgroundPanel->SetDlgOpen(true);
 
     CDlgAbout dlg(this);
+    wxGetApp().SetAboutDialogIsOpen(true);
     dlg.ShowModal();
+    wxGetApp().SetAboutDialogIsOpen(false);
 
     m_pBackgroundPanel->SetDlgOpen(false);
 
@@ -637,10 +652,6 @@ void CSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     pDoc->ForceCacheUpdate();
     pDoc->GetCoreClientStatus(status, true);
 
-#ifdef __WXMAC__
-    wxGetApp().GetMacSystemMenu()->BuildMenu();
-#endif
-
 	// If we are connected to the localhost, run a really quick screensaver
     //   test to trigger a firewall popup.
     pDoc->GetConnectedComputerName(strComputer);
@@ -653,19 +664,21 @@ void CSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     pDoc->rpc.get_project_init_status(pis);
     pDoc->rpc.acct_mgr_info(ami);
     if (ami.acct_mgr_url.size() && !ami.have_credentials) {
-        if (!IsShown()) {
-            Show();
-        }
+        Show();
+        MoveFrameOnScreen();
+        wxGetApp().ShowApplication(true);
 
         pWizard = new CWizardAttach(this);
         if (pWizard->SyncToAccountManager()) {
             // If successful, hide the main window
+            wxGetApp().ShowApplication(false);
+            MoveFrameOffScreen();
             Hide();
         }
     } else if ((pis.url.size() || (0 >= pDoc->GetSimpleProjectCount())) && !status.disallow_attach) {
-        if (!IsShown()) {
-            Show();
-        }
+        Show();
+        MoveFrameOnScreen();
+        wxGetApp().ShowApplication(true);
 
         strName = wxString(pis.name.c_str(), wxConvUTF8);
         strURL = wxString(pis.url.c_str(), wxConvUTF8);
@@ -697,7 +710,6 @@ void CSimpleFrame::OnEventLog(wxCommandEvent& WXUNUSED(event)) {
 IMPLEMENT_DYNAMIC_CLASS(CSimpleGUIPanel, wxPanel)
 
 BEGIN_EVENT_TABLE(CSimpleGUIPanel, wxPanel)
-    EVT_SIZE(CSimpleGUIPanel::OnSize)
     EVT_ERASE_BACKGROUND(CSimpleGUIPanel::OnEraseBackground)    
 	EVT_BUTTON(ID_SGNOTICESBUTTON,CSimpleGUIPanel::OnShowNotices)
 	EVT_BUTTON(ID_SGSUSPENDRESUMEBUTTON,CSimpleGUIPanel::OnSuspendResume)
@@ -753,7 +765,7 @@ CSimpleGUIPanel::CSimpleGUIPanel(wxWindow* parent) :
 	wxBoxSizer* buttonsSizer;
 	buttonsSizer = new wxBoxSizer( wxHORIZONTAL );
 
-	m_NoticesButton = new CTransparentButton( this, ID_SGNOTICESBUTTON, _("Notices"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_NoticesButton = new wxButton( this, ID_SGNOTICESBUTTON, _("Notices"), wxDefaultPosition, wxDefaultSize, 0 );
     m_NoticesButton->SetToolTip( _("Open a window to view notices from projects or BOINC"));
 	buttonsSizer->Add( m_NoticesButton, 0, wxEXPAND | wxALIGN_LEFT, 0 );
     buttonsSizer->AddStretchSpacer();
@@ -763,7 +775,7 @@ CSimpleGUIPanel::CSimpleGUIPanel(wxWindow* parent) :
     GetTextExtent(m_sResumeString, &resumeWidth, &y);
     
     m_bIsSuspended = suspendWidth > resumeWidth;
-    m_SuspendResumeButton = new CTransparentButton( this, ID_SGSUSPENDRESUMEBUTTON, 
+    m_SuspendResumeButton = new wxButton( this, ID_SGSUSPENDRESUMEBUTTON, 
                             m_bIsSuspended ? m_sSuspendString : m_sResumeString,
                             wxDefaultPosition, wxDefaultSize, 0 );
     m_SuspendResumeButton->SetToolTip(wxEmptyString);
@@ -771,7 +783,7 @@ CSimpleGUIPanel::CSimpleGUIPanel(wxWindow* parent) :
 	buttonsSizer->Add( m_SuspendResumeButton, 0, wxEXPAND | wxALIGN_RIGHT, 0 );
     buttonsSizer->AddStretchSpacer();
 
-    m_HelpButton = new CTransparentButton( this, ID_SIMPLE_HELP, _("Help"), wxDefaultPosition, wxDefaultSize, 0 );
+    m_HelpButton = new wxButton( this, ID_SIMPLE_HELP, _("Help"), wxDefaultPosition, wxDefaultSize, 0 );
 	buttonsSizer->Add( m_HelpButton, 0, wxEXPAND | wxALIGN_RIGHT, 0 );
 
     wxString helpTip;
@@ -837,6 +849,14 @@ void CSimpleGUIPanel::SetBackgroundBitmap() {
     wxBrush bgBrush(bgColor);
     dc.SetBackground(bgBrush);
     dc.Clear();
+#ifdef __WXMAC__
+    // Work around an apparent bug in wxMemoryDC::Clear() in wxCarbon 2.9.4
+    // TODO: remove this when the wxCarbon bug is fixed
+    dc.SetBrush(bgBrush);
+    wxPen bgPen(bgColor);
+    dc.SetPen(bgPen);
+    dc.DrawRectangle(panelRect);
+#endif
     dc.DrawBitmap(*pSkinSimple->GetBackgroundImage()->GetBitmap(), 0, 0, false);
 
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleGUIPanel::SetBackgroundBitmap - Function End"));

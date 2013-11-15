@@ -28,10 +28,6 @@
 #pragma interface "BOINCGUIApp.cpp"
 #endif
 
-#ifdef __WXMAC__
-#include "mac/MacSysMenu.h"     // Must be included before MainDocument.h
-#endif
-
 ///
 /// Which view is on display
 ///
@@ -81,10 +77,8 @@ protected:
     CTaskBarIcon*       m_pTaskBarIcon;
     CDlgEventLog*       m_pEventLog;
 #ifdef __WXMAC__
-    CMacSystemMenu*     m_pMacSystemMenu;
+    CTaskBarIcon*       m_pMacDockIcon;
 #endif
-    wxFileSystemHandler* m_pInternetFSHandler;
-    
     wxString            m_strBOINCMGRExecutableName;
     wxString            m_strBOINCMGRRootDirectory;
     wxString            m_strBOINCMGRDataDirectory;
@@ -104,6 +98,7 @@ protected:
     bool                m_bDebugSkins;
     bool                m_bMultipleInstancesOK;
     bool                m_bFilterEvents;
+    bool                m_bAboutDialogIsOpen;
 
 #ifdef __WXMSW__
     HINSTANCE           m_hClientLibraryDll;
@@ -142,8 +137,8 @@ public:
     bool                IsMgrMultipleInstance()     { return m_bMultipleInstancesOK; }
 
 #ifdef __WXMAC__
-    CMacSystemMenu*     GetMacSystemMenu()          { return m_pMacSystemMenu; }
-    void                DeleteMacSystemMenu();
+    CTaskBarIcon*       GetMacDockIcon()            { return m_pMacDockIcon; }
+    void                DeleteMacDockIcon();
     int                 ShouldShutdownCoreClient()  { return true; }
 #else
     int                 ShouldShutdownCoreClient()  { return m_iShutdownCoreClient; }
@@ -162,8 +157,6 @@ public:
 
     wxArrayString&      GetSupportedLanguages()     { return m_astrLanguages; }
     
-    wxFileSystemHandler*   GetInternetFSHandler()  { return m_pInternetFSHandler; }
-
     void                DisplayEventLog(bool bShowWindow = true);
     void                OnEventLogClose();
 
@@ -204,6 +197,9 @@ public:
     int                 UpdateSystemIdleDetection();
     
     void                SetEventFiltering(bool set) { m_bFilterEvents = set; }
+    
+    void                SetAboutDialogIsOpen(bool set) { m_bAboutDialogIsOpen = set; }
+    bool                GetAboutDialogIsOpen() { return m_bAboutDialogIsOpen; }
 
 DECLARE_EVENT_TABLE()
 };

@@ -29,13 +29,13 @@ wxLogBOINC::wxLogBOINC() {
     m_fp = stdout;
 }
 
-void wxLogBOINC::DoLogString(const wxChar *szString, time_t t) {
+void wxLogBOINC::DoLogText(const wxString& msg) {
     diagnostics_cycle_logs();
 #ifdef __WXMSW__
-    wxString strDebug = szString;
+    wxString strDebug = msg;
     strDebug += wxT("\r\n");
     ::OutputDebugString(strDebug.c_str());
 #endif
-    wxLogStderr::DoLogString(szString, t);
+    wxLogStderr::DoLogText(msg);
 }
 

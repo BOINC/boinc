@@ -39,7 +39,6 @@
 #include "idlemon.h"
 #include "Events.h"
 #include "common/wxFlatNotebook.h"
-#include "BOINCInternetFSHandler.h"
 #include "LogBOINC.h"
 #include "BOINCGUIApp.h"
 #include "SkinManager.h"
@@ -74,38 +73,40 @@ bool s_bSkipExitConfirmation = false;
 
 // Set s_bSkipExitConfirmation to true if cancelled because of logging out or shutting down
 OSErr QuitAppleEventHandler( const AppleEvent *appleEvt, AppleEvent* reply, UInt32 refcon ) {
-        DescType            senderType;
-        Size                actualSize;
-        ProcessSerialNumber SenderPSN;
-        ProcessInfoRec      pInfo;
-        FSSpec              fileSpec;
-        OSStatus            anErr;
+    DescType            senderType;
+    Size                actualSize;
+    ProcessSerialNumber SenderPSN;
+    ProcessInfoRec      pInfo;
+    FSSpec              fileSpec;
+    OSStatus            anErr;
 
-        // Refuse to quit if a modal dialog is open.  
-        // Unfortunately, I know of no way to disable the Quit item in our Dock menu
-        if (wxGetApp().IsModalDialogDisplayed()) {
-            SysBeep(4);
-            return userCanceledErr;
+    // Refuse to quit if a modal dialog is open.  
+    // Unfortunately, I know of no way to disable the Quit item in our Dock menu
+    if (wxGetApp().IsModalDialogDisplayed()) {
+        SysBeep(4);
+        return userCanceledErr;
+    }
+            
+    anErr = AEGetAttributePtr(appleEvt, keyAddressAttr, typeProcessSerialNumber,
+                                &senderType, &SenderPSN, sizeof(SenderPSN), &actualSize);
+
+    if (anErr == noErr) {
+        pInfo.processInfoLength = sizeof( ProcessInfoRec );
+        pInfo.processName = NULL;
+        pInfo.processAppSpec = &fileSpec;
+
+        anErr = GetProcessInformation(&SenderPSN, &pInfo);
+
+        // Consider a Quit command from our Dock menu as coming from this application
+        if ( (pInfo.processSignature != 'dock') && (pInfo.processSignature != 'BNC!') ) {
+            s_bSkipExitConfirmation = true; // Not from our app, our dock icon or our taskbar icon
+            wxGetApp().ExitMainLoop();  // Prevents wxMac from issuing events to closed frames
         }
-                
-        anErr = AEGetAttributePtr(appleEvt, keyAddressAttr, typeProcessSerialNumber,
-                                    &senderType, &SenderPSN, sizeof(SenderPSN), &actualSize);
-
-        if (anErr == noErr) {
-            pInfo.processInfoLength = sizeof( ProcessInfoRec );
-            pInfo.processName = NULL;
-            pInfo.processAppSpec = &fileSpec;
-
-            anErr = GetProcessInformation(&SenderPSN, &pInfo);
-
-            // Consider a Quit command from our Dock menu as coming from this application
-            if ( (pInfo.processSignature != 'dock') && (pInfo.processSignature != 'BNC!') ) {
-                s_bSkipExitConfirmation = true; // Not from our app, our dock icon or our taskbar icon
-                wxGetApp().ExitMainLoop();  // Prevents wxMac from issuing events to closed frames
-            }
-        }
+    }
     
-    return wxGetApp().MacHandleAEQuit((AppleEvent*)appleEvt, reply);
+    wxCommandEvent evt(wxEVT_COMMAND_MENU_SELECTED, wxID_EXIT);
+    wxGetApp().GetFrame()->GetEventHandler()->AddPendingEvent(evt);
+    return noErr;
 }
 
 #endif
@@ -121,6 +122,7 @@ bool CBOINCGUIApp::OnInit() {
 
     s_bSkipExitConfirmation = false;
     m_bFilterEvents = false;
+    m_bAboutDialogIsOpen = false;
 
     // Initialize class variables
     m_pLocale = NULL;
@@ -130,7 +132,7 @@ bool CBOINCGUIApp::OnInit() {
     m_pTaskBarIcon = NULL;
     m_pEventLog = NULL;
 #ifdef __WXMAC__
-    m_pMacSystemMenu = NULL;
+    m_pMacDockIcon = NULL;
 #endif
     m_strBOINCMGRExecutableName = wxEmptyString;
     m_strBOINCMGRRootDirectory = wxEmptyString;
@@ -301,11 +303,6 @@ bool CBOINCGUIApp::OnInit() {
     // Enable known image types
     wxInitAllImageHandlers();
 
-    // Enable additional file system type handlers
-    wxFileSystem::AddHandler(new wxMemoryFSHandler);
-    m_pInternetFSHandler = new CBOINCInternetFSHandler;
-    wxFileSystem::AddHandler(m_pInternetFSHandler);
-
     // Initialize the skin manager
     m_pSkinManager = new CSkinManager(m_bDebugSkins);
     wxASSERT(m_pSkinManager);
@@ -359,12 +356,9 @@ bool CBOINCGUIApp::OnInit() {
             }
             strDialogMessage += _(")");
             
-            fprintf(stderr, "%ls ownership or permissions are not set properly; please reinstall %ls.  (Error code %d%s%s)\n", 
-                    m_pSkinManager->GetAdvanced()->GetApplicationShortName().c_str(),
-                    m_pSkinManager->GetAdvanced()->GetApplicationShortName().c_str(),
-                    iErrorCode, (path_to_error[0] ? " at " : ""), path_to_error
-                );
+            fprintf(stderr, "%s\n", (const char*)strDialogMessage.utf8_str());
         }
+
         wxMessageDialog* pDlg = new wxMessageDialog(
                                     NULL, 
                                     strDialogMessage, 
@@ -430,22 +424,25 @@ bool CBOINCGUIApp::OnInit() {
         m_pSkinManager->GetAdvanced()->GetApplicationIcon(),
         m_pSkinManager->GetAdvanced()->GetApplicationDisconnectedIcon(),
         m_pSkinManager->GetAdvanced()->GetApplicationSnoozeIcon()
-    );
-    wxASSERT(m_pTaskBarIcon);
 #ifdef __WXMAC__
-    m_pMacSystemMenu = new CMacSystemMenu(
+        , wxTBI_CUSTOM_STATUSITEM
+#endif
+    );
+#ifdef __WXMAC__
+    m_pMacDockIcon = new CTaskBarIcon(
         m_pSkinManager->GetAdvanced()->GetApplicationName(), 
         m_pSkinManager->GetAdvanced()->GetApplicationIcon(),
         m_pSkinManager->GetAdvanced()->GetApplicationDisconnectedIcon(),
         m_pSkinManager->GetAdvanced()->GetApplicationSnoozeIcon()
+        , wxTBI_DOCK
     );
-    wxASSERT(m_pMacSystemMenu);
+    wxASSERT(m_pMacDockIcon);
 #endif
-
+    wxASSERT(m_pTaskBarIcon);
 
     // Startup the System Idle Detection code
     IdleTrackerAttach();
-
+    
 #ifdef __WXMAC__
     ProcessSerialNumber psn;
     ProcessInfoRec pInfo;
@@ -470,18 +467,31 @@ bool CBOINCGUIApp::OnInit() {
     }
 #endif
 
-
     // Show the UI
-    SetActiveGUI(m_iGUISelected, false);
-    if (m_bGUIVisible) {
-        SetActiveGUI(m_iGUISelected);
-    } else {
+    SetActiveGUI(m_iGUISelected, m_bGUIVisible);
+
+    if (!m_bGUIVisible) {
+#ifdef __WXMAC__
+        // We don't call Hide() or Show(false) for the main frame
+        // under wxCocoa 2.9.5 because it bounces the Dock icon
+        // (as in notification.)  We work around this by moving
+        // the main window/frame off screen here.
+        // The position will be restored in one of these methods:
+        // CBOINCGUIApp::OnActivateApp(), CSimpleFrame::SaveState()
+        // or CAdvancedFrame::SaveWindowDimensions().
+        if (m_pFrame) {
+            m_pFrame->MoveFrameOffScreen();
+            m_pFrame->Show();
+        }
+#endif
         ShowApplication(false);
 	}
-    
-    if(bOpenEventLog) {
+
+    if (bOpenEventLog) {
         DisplayEventLog(m_bGUIVisible);
-        m_pFrame->Raise();
+        if (m_bGUIVisible && m_pFrame) {
+            m_pFrame->Raise();
+        }
     }
     
     return true;
@@ -558,22 +568,22 @@ void CBOINCGUIApp::SaveState() {
 void CBOINCGUIApp::OnInitCmdLine(wxCmdLineParser &parser) {
     wxApp::OnInitCmdLine(parser);
     static const wxCmdLineEntryDesc cmdLineDesc[] = {
-        { wxCMD_LINE_SWITCH, wxT("a"), wxT("autostart"), _("BOINC Manager was started by the operating system automatically")},
+        { wxCMD_LINE_SWITCH, "a", "autostart", _("BOINC Manager was started by the operating system automatically")},
 #if defined(__WXMSW__) || defined(__WXMAC__)
-        { wxCMD_LINE_SWITCH, wxT("s"), wxT("systray"), _("Startup BOINC so only the system tray icon is visible")},
+        { wxCMD_LINE_SWITCH, "s", "systray", _("Startup BOINC so only the system tray icon is visible")},
 #else
-        { wxCMD_LINE_OPTION, wxT("e"), wxT("clientdir"), _("Directory containing the BOINC Client executable")},
-        { wxCMD_LINE_OPTION, wxT("d"), wxT("datadir"), _("BOINC data directory")},
+        { wxCMD_LINE_OPTION, "e", "clientdir", _("Directory containing the BOINC Client executable")},
+        { wxCMD_LINE_OPTION, "d", "datadir", _("BOINC data directory")},
 #endif
-        { wxCMD_LINE_OPTION, wxT("n"), wxT("namehost"), _("Host name or IP address")},
-        { wxCMD_LINE_OPTION, wxT("g"), wxT("gui_rpc_port"), _("GUI RPC port number")},
-        { wxCMD_LINE_OPTION, wxT("p"), wxT("password"), _("Password")},
-        { wxCMD_LINE_OPTION, wxT("b"), wxT("boincargs"), _("Startup BOINC with these optional arguments")},
-        { wxCMD_LINE_SWITCH, wxT("i"), wxT("insecure"), _("disable BOINC security users and permissions")},
-        { wxCMD_LINE_SWITCH, wxT("c"), wxT("checkskins"), _("set skin debugging mode to enable skin manager error messages")},
-        { wxCMD_LINE_SWITCH, wxT("m"), wxT("multiple"), _("multiple instances of BOINC Manager allowed")},
+        { wxCMD_LINE_OPTION, "n", "namehost", _("Host name or IP address")},
+        { wxCMD_LINE_OPTION, "g", "gui_rpc_port", _("GUI RPC port number")},
+        { wxCMD_LINE_OPTION, "p", "password", _("Password")},
+        { wxCMD_LINE_OPTION, "b", "boincargs", _("Startup BOINC with these optional arguments")},
+        { wxCMD_LINE_SWITCH, "i","insecure", _("disable BOINC security users and permissions")},
+        { wxCMD_LINE_SWITCH, "c", "checkskins", _("set skin debugging mode to enable skin manager error messages")},
+        { wxCMD_LINE_SWITCH, "m", "multiple", _("multiple instances of BOINC Manager allowed")},
 #if (defined(__WXMAC__) && defined(_DEBUG))
-        { wxCMD_LINE_OPTION, wxT("NSDocumentRevisionsDebugMode"), NULL, _("Not used: workaround for bug in XCode 4.2")},
+        { wxCMD_LINE_OPTION, "NSDocumentRevisionsDebugMode", NULL, _("Not used: workaround for bug in XCode 4.2")},
 #endif
         { wxCMD_LINE_NONE}  //DON'T forget this line!!
     };
@@ -822,6 +832,22 @@ int CBOINCGUIApp::IdleTrackerDetach() {
 
 void CBOINCGUIApp::OnActivateApp(wxActivateEvent& event) {
 #ifdef __WXMAC__
+    // We don't call Hide() or Show(false) for the main frame
+    // under wxCocoa 2.9.5 because it bounces the Dock icon
+    // (as in notification.)  We work around this by moving
+    // the main window/frame off screen when displaying the
+    // CDlgAbout modal dialog while the main window is hidden
+    // by CTaskBarIcon::OnAbout().
+    if (m_pFrame) {
+        if (event.GetActive()) {
+            if (!m_bAboutDialogIsOpen) {
+                m_pFrame->MoveFrameOnScreen();
+            }
+        } else {
+            m_pFrame->SaveFramePosition();
+        }
+    }
+
     // Make sure any modal dialog (such as Attach Wizard) ends up in front.
     if (IsModalDialogDisplayed()) {
         event.Skip();
@@ -833,7 +859,12 @@ void CBOINCGUIApp::OnActivateApp(wxActivateEvent& event) {
         if (m_pEventLog && !m_pEventLog->IsIconized()) {
             m_pEventLog->Raise();
         }
-        if (m_pFrame) m_pFrame->Raise();
+        if (m_pFrame) {
+            m_pFrame->Raise();
+        }
+#ifdef __WXMAC__
+        ShowInterface();
+#endif
     }
     event.Skip();
 }
@@ -948,7 +979,7 @@ bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
     // Create the new window
     if ((iGUISelection != m_iGUISelected) || !m_pFrame) {
 
-        // Reterieve the desired window state before creating the
+        // Retrieve the desired window state before creating the
         //   desired frames
         if (BOINC_ADVANCEDGUI == iGUISelection) {
             m_pConfig->SetPath(wxT("/"));
@@ -1253,6 +1284,7 @@ void CBOINCGUIApp::ShowApplication(bool) {
 
 
 bool CBOINCGUIApp::ShowInterface() {
+    ShowApplication(true);
     return SetActiveGUI(m_iGUISelected, true);
 }
 
@@ -1295,11 +1327,11 @@ void CBOINCGUIApp::DeleteTaskBarIcon() {
 }
 
 #ifdef __WXMAC__
-void CBOINCGUIApp::DeleteMacSystemMenu() {
-    if (m_pMacSystemMenu) {
-        delete m_pMacSystemMenu;
+void CBOINCGUIApp::DeleteMacDockIcon() {
+    if (m_pMacDockIcon) {
+        delete m_pMacDockIcon;
     }
-    m_pMacSystemMenu = NULL;
+    m_pMacDockIcon = NULL;
 }
 #endif
 

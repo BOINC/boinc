@@ -106,6 +106,7 @@ CBOINCBaseView::CBOINCBaseView(wxNotebook* pNotebook, wxWindowID iTaskWindowID, 
 #if USE_NATIVE_LISTCONTROL
     m_pListPane->PushEventHandler(new MyEvtHandler(m_pListPane));
 #else
+    m_pListPane->SaveEventHandler((m_pListPane->GetMainWin())->GetEventHandler());
     (m_pListPane->GetMainWin())->PushEventHandler(new MyEvtHandler(m_pListPane));
 #endif
 
@@ -315,6 +316,7 @@ void CBOINCBaseView::OnListRender(wxTimerEvent& event) {
                         wxASSERT(!iReturnValue);
                     }
                     wxASSERT(GetDocCount() == GetCacheCount());
+//fprintf(stderr, "CBOINCBaseView::OnListRender(): m_pListPane->RefreshItems(0, %d)\n", iDocCount - 1);
                     m_pListPane->RefreshItems(0, iDocCount - 1);
                     m_bNeedSort = true;
                 }
@@ -732,8 +734,11 @@ void CBOINCBaseView::UpdateSelection(){
 
 void CBOINCBaseView::PostUpdateSelection(){
     wxASSERT(m_pTaskPane);
-    m_pTaskPane->UpdateControls();
-    Layout();
+    if (m_pTaskPane->UpdateControls()) {
+        // Under wxWidgets 2.9.4, Layout() causes ListCtrl 
+        // to repaint, so call only when actually needed.
+        Layout();
+    }
 }
 
 

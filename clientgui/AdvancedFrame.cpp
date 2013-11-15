@@ -194,6 +194,9 @@ BEGIN_EVENT_TABLE (CAdvancedFrame, CBOINCBaseFrame)
     EVT_NOTEBOOK_PAGE_CHANGED(ID_FRAMENOTEBOOK, CAdvancedFrame::OnNotebookSelectionChanged)
     EVT_SIZE(CAdvancedFrame::OnSize)
     EVT_MOVE(CAdvancedFrame::OnMove)
+#ifdef __WXMAC__
+	EVT_MENU(wxID_PREFERENCES, CAdvancedFrame::OnPreferences)
+#endif
 END_EVENT_TABLE ()
 
 
@@ -349,6 +352,12 @@ bool CAdvancedFrame::CreateMenu() {
         strMenuName,
         strMenuDescription
     );
+
+#ifdef __WXMAC__
+    menuFile->Append(
+        wxID_PREFERENCES
+    );
+#endif
 
     // View menu
     wxMenu *menuView = new wxMenu;
@@ -714,9 +723,6 @@ bool CAdvancedFrame::CreateMenu() {
     }
     
 #ifdef __WXMAC__
-    // Enable Mac OS X's standard Preferences menu item (handled in MacSysMenu.cpp)
-    EnableMenuCommand(NULL, kHICommandPreferences);
-    
     // Set HELP key as keyboard shortcut
     m_Shortcuts[0].Set(wxACCEL_NORMAL, WXK_HELP, ID_HELPBOINCMANAGER);
     m_pAccelTable = new wxAcceleratorTable(1, m_Shortcuts);
@@ -1004,8 +1010,19 @@ void CAdvancedFrame::SaveWindowDimensions() {
 
     wxString        strBaseConfigLocation = wxString(wxT("/"));
     wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
+    wxPoint         pos = GetPosition();
 
     wxASSERT(pConfig);
+
+#ifdef __WXMAC__
+    // We don't call Hide() or Show(false) for the main frame
+    // under wxCocoa 2.9.5 because it bounces the Dock icon
+    // (as in notification.)  We work around this by moving
+    // the main window/frame off screen when displaying the
+    // CDlgAbout modal dialog while the main window is hidden
+    // by CTaskBarIcon::OnAbout().
+    pos = GetOnScreenFramePosition();
+#endif
 
     pConfig->SetPath(strBaseConfigLocation);
 
@@ -1015,8 +1032,8 @@ void CAdvancedFrame::SaveWindowDimensions() {
     if (!iconized) {
         pConfig->Write(wxT("Width"), GetSize().GetWidth());
         pConfig->Write(wxT("Height"), GetSize().GetHeight());
-        pConfig->Write(wxT("XPos"), GetPosition().x);
-        pConfig->Write(wxT("YPos"), GetPosition().y);
+        pConfig->Write(wxT("XPos"), pos.x);
+        pConfig->Write(wxT("YPos"), pos.y);
     }
     
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::SaveWindowDimensions - Function End"));
@@ -1370,7 +1387,6 @@ void CAdvancedFrame::OnClientShutdown(wxCommandEvent& WXUNUSED(event)) {
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
     wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
 
-
     // Stop all timers
     StopTimers();
 
@@ -1572,7 +1588,9 @@ void CAdvancedFrame::OnHelpAbout(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnHelpAbout - Function Begin"));
 
     CDlgAbout dlg(this);
+    wxGetApp().SetAboutDialogIsOpen(true);
     dlg.ShowModal();
+    wxGetApp().SetAboutDialogIsOpen(false);
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnHelpAbout - Function End"));
 }
@@ -1639,6 +1657,7 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     CBOINCBaseView* pView = NULL;
     int iItemCount = 0, iIndex;
     int wasShown = 0;
+    int wasVisible = 0;
 
     wxASSERT(m_pNotebook);
     wxASSERT(pDoc);
@@ -1687,17 +1706,23 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     pDoc->rpc.get_project_init_status(pis);
     pDoc->rpc.acct_mgr_info(ami);
     if (ami.acct_mgr_url.size() && !ami.have_credentials) {
-        if (IsShown()) {
-            wasShown = 1;
-        } else {
-            Show();
+        wasShown = IsShown();
+        Show();
+        wasVisible = wxGetApp().IsApplicationVisible();
+        if (!wasVisible) {
+            MoveFrameOnScreen();
+            wxGetApp().ShowApplication(true);
         }
-
+        
         pWizard = new CWizardAttach(this);
         if (pWizard->SyncToAccountManager()) {
 
 #if defined(__WXMSW__) || defined(__WXMAC__)
             // If successful, hide the main window if we showed it
+            if (!wasVisible) {
+                wxGetApp().ShowApplication(false);
+                MoveFrameOffScreen();
+            }
             if (!wasShown) {
                 Hide();
             }
@@ -1731,10 +1756,10 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
             m_pNotebook->SetSelection(ID_ADVNOTICESVIEW - ID_ADVVIEWBASE);
         }
     } else if ((pis.url.size() || (0 >= pDoc->GetProjectCount())) && !status.disallow_attach) {
-        if (!IsShown()) {
-            Show();
-        }
-
+        Show();
+        MoveFrameOnScreen();
+        wxGetApp().ShowApplication(true);
+        
         pWizard = new CWizardAttach(this);
         strName = wxString(pis.name.c_str(), wxConvUTF8);
         strURL = wxString(pis.url.c_str(), wxConvUTF8);
@@ -1753,9 +1778,6 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     // Update the menus
     DeleteMenu();
     CreateMenu();
-#ifdef __WXMAC__
-    wxGetApp().GetMacSystemMenu()->BuildMenu();
-#endif
 
     // Restart timers to continue normal operations.
     StartTimers();

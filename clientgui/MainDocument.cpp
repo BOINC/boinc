@@ -907,11 +907,11 @@ void CMainDocument::RunPeriodicRPCs(int frameRefreshRate) {
 
     if (!IsConnected()) {
         CFrameEvent event(wxEVT_FRAME_REFRESHVIEW, pFrame);
-        pFrame->AddPendingEvent(event);
+        pFrame->GetEventHandler()->AddPendingEvent(event);
         CTaskBarIcon* pTaskbar = wxGetApp().GetTaskBarIcon();
         if (pTaskbar) {
-            CTaskbarEvent tbevent(wxEVT_TASKBAR_REFRESH, pTaskbar);
-            pTaskbar->AddPendingEvent(tbevent);
+            CTaskbarEvent event(wxEVT_TASKBAR_REFRESH, pTaskbar);
+            pTaskbar->AddPendingEvent(event);
         }
         CDlgEventLog* eventLog = wxGetApp().GetEventLog();
         if (eventLog) {
@@ -1025,7 +1025,10 @@ void CMainDocument::RunPeriodicRPCs(int frameRefreshRate) {
     
     // Don't do periodic RPC calls when hidden / minimized
     if (!pFrame->IsShown()) return;
-   
+#ifdef __WXMAC__
+    if (!wxGetApp().IsApplicationVisible()) return;
+#endif
+
     m_dtLastFrameViewRefreshRPCTime = dtNow;
    
     // *********** RPC_GET_PROJECT_STATUS1 **************
@@ -1312,10 +1315,10 @@ PROJECT* CMainDocument::project(unsigned int i) {
 
 
 PROJECT* CMainDocument::project(char* url) {
-    for (unsigned int i=0; i< state.projects.size(); i++) {
-        PROJECT* tp = state.projects[i];
-        if (!strcmp(url, tp->master_url)) return tp;
-    }
+	for (unsigned int i=0; i< state.projects.size(); i++) {
+		PROJECT* tp = state.projects[i];
+		if (!strcmp(url, tp->master_url)) return tp;
+	}
     return NULL;
 }
 
@@ -1788,16 +1791,16 @@ int CMainDocument::WorkShowVMConsole(RESULT* res) {
         wxExecute(strCommand);
 #elif defined(__WXMAC__)
         FSRef theFSRef;
-        OSStatus err = noErr;
+        OSStatus status = noErr;
 
         // I have found no reliable way to pass the IP address and port to Microsoft's 
         // Remote Desktop Connection application for the Mac, so I'm using CoRD.  
         // Unfortunately, CoRD does not seem as reliable as I would like either.
         //
         // First try to find the CoRD application by Bundle ID and Creator Code
-        err = LSFindApplicationForInfo('RDC#', CFSTR("net.sf.cord"),
-                                        NULL, &theFSRef, NULL);
-        if (err != noErr) {
+        status = LSFindApplicationForInfo('RDC#', CFSTR("net.sf.cord"),   
+                                            NULL, &theFSRef, NULL);
+        if (status != noErr) {
             CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
             if (pFrame) {
                 pFrame->ShowAlert(
@@ -1806,13 +1809,13 @@ int CMainDocument::WorkShowVMConsole(RESULT* res) {
                     wxOK | wxICON_INFORMATION,
                     false
                 );
-            } 
-            return ERR_FILE_MISSING;
-        }
+        } 
+        return ERR_FILE_MISSING;
+    }
 
-        strCommand = wxT("osascript -e 'tell application \"CoRD\"' -e 'activate' -e 'open location \"rdp://") + strConnection + wxT("\"' -e 'end tell'");
-        strCommand.Replace(wxT("localhost"), wxT("127.0.0.1"));
-        system(strCommand.char_str());
+    strCommand = wxT("osascript -e 'tell application \"CoRD\"' -e 'activate' -e 'open location \"rdp://") + strConnection + wxT("\"' -e 'end tell'");
+    strCommand.Replace(wxT("localhost"), wxT("127.0.0.1"));
+    system(strCommand.char_str());
 #endif
     }
 
@@ -2407,11 +2410,11 @@ int CMainDocument::GetSimpleGUIWorkCount() {
     CachedSimpleGUIUpdate();
     CachedStateUpdate();
 
-    for(i=0; i<results.results.size(); i++) {
-        if (results.results[i]->active_task) {
-            iCount++;
-        }
-    }
+	for(i=0; i<results.results.size(); i++) {
+		if (results.results[i]->active_task) {
+			iCount++;
+		}
+	}
     return iCount;
 }
 
@@ -2443,7 +2446,7 @@ wxString result_description(RESULT* result, bool show_resources) {
     PROJECT* project;
     CC_STATUS       status;
     int             retval;
-    wxString strBuffer= wxEmptyString;
+	wxString strBuffer= wxEmptyString;
 
     strBuffer.Clear();
     retval = doc->GetCoreClientStatus(status);
@@ -2456,7 +2459,7 @@ wxString result_description(RESULT* result, bool show_resources) {
     }
 
     project = doc->state.lookup_project(result->project_url);
-    int throttled = status.task_suspend_reason & SUSPEND_REASON_CPU_THROTTLE;
+	int throttled = status.task_suspend_reason & SUSPEND_REASON_CPU_THROTTLE;
     switch(result->state) {
     case RESULT_NEW:
         strBuffer += _("New"); 

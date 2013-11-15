@@ -33,7 +33,6 @@
 #include "SkinManager.h"
 #include "MainDocument.h"
 #include "BOINCBaseWizard.h"
-#include "ProjectListCtrl.h"
 #include "WizardAttach.h"
 #include "AccountManagerPropertiesPage.h"
 #include "AccountManagerInfoPage.h"

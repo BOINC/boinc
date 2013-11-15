@@ -92,7 +92,6 @@ using std::string;
 void Initialize(void);	/* function prototypes */
 Boolean myFilterProc(DialogRef theDialog, EventRecord *theEvent, DialogItemIndex *itemHit);
 int DeleteReceipt(void);
-OSStatus CheckLogoutRequirement(int *finalAction);
 Boolean IsRestartNeeded();
 void CheckUserAndGroupConflicts();
 Boolean SetLoginItemOSAScript(long brandID, Boolean deleteLogInItem, char *userName);
@@ -114,7 +113,6 @@ static OSStatus ResynchSystem(void);
 OSErr FindProcess (OSType typeToFind, OSType creatorToFind, ProcessSerialNumberPtr processSN);
 pid_t FindProcessPID(char* name, pid_t thePID);
 static void SleepTicks(UInt32 ticksToSleep);
-//int FindSkinName(char *name, size_t len);
 static OSErr QuitOneProcess(OSType signature);
 static OSErr QuitAppleEventHandler(const AppleEvent *appleEvt, AppleEvent* reply, UInt32 refcon);
 void print_to_log_file(const char *format, ...);
@@ -274,11 +272,11 @@ int main(int argc, char *argv[])
     
     LoadPreferredLanguages();
 
-    if (OSVersion < 0x1040) {
+    if (OSVersion < 0x1050) {
         ::SetFrontProcess(&ourProcess);
         // Remove everything we've installed
-        // "\pSorry, this version of GridRepublic requires system 10.4.0 or higher."
-        s[0] = sprintf(s+1, "Sorry, this version of %s requires system 10.4.0 or higher.", brandName[brandID]);
+        // "\pSorry, this version of GridRepublic requires system 10.5 or higher."
+        s[0] = sprintf(s+1, "Sorry, this version of %s requires system 10.5 or higher.", brandName[brandID]);
         StandardAlert (kAlertStopAlert, (StringPtr)s, NULL, NULL, &itemHit);
 
         // "rm -rf /Applications/GridRepublic\\ Desktop.app"
@@ -308,9 +306,11 @@ int main(int argc, char *argv[])
     f = fopen("/Library/Application Support/BOINC Data/all_projects_list.xml", "r");
     if (f) {
         fclose(f);      // Already exists
+        unlink("/Library/Application Support/BOINC Data/installer_projects_list.xml");
     } else {
-        system ("cp -fp Contents/Resources/all_projects_list.xml /Library/Application\\ Support/BOINC\\ Data/");
-        system ("chmod a-x /Library/Application\\ Support/BOINC\\ Data/all_projects_list.xml");
+        unlink("/Library/Application Support/BOINC Data/all_projects_list.xml");
+        rename("/Library/Application Support/BOINC Data/installer_projects_list.xml",
+                "/Library/Application Support/BOINC Data/all_projects_list.xml");
     }
     
     Success = false;
@@ -613,82 +613,6 @@ Boolean IsRestartNeeded() {
     return true;
 }
 
-OSStatus CheckLogoutRequirement(int *finalAction)
-{    
-    *finalAction = restartRequired;
-
-    if (OSVersion < 0x1040) {
-        return noErr;   // Always require restart on OS 10.3.9
-    }
-    
-#ifdef SANDBOX
-    if (loginName[0]) {
-        if (!IsUserMemberOfGroup(loginName, boinc_master_group_name)) {
-            *finalAction = nothingrequired;
-            return noErr;   // Logged in user is not a member of group boinc_master
-        }
-    }
-#endif  // SANDBOX
-
-    char                    path[MAXPATHLEN];
-    FSRef                   infoPlistFileRef;
-    Boolean                 isDirectory, result;
-    CFURLRef                xmlURL = NULL;
-    CFDataRef               xmlDataIn = NULL;
-    CFPropertyListRef       propertyListRef = NULL;
-    CFStringRef             restartKey = CFSTR("IFPkgFlagRestartAction");
-    CFStringRef             currentValue = NULL;
-//    CFStringRef             valueRestartRequired = CFSTR("RequiredRestart");
-    CFStringRef             valueLogoutRequired = CFSTR("RequiredLogout");
-    CFStringRef             valueNoRestart = CFSTR("NoRestart");
-    CFStringRef             errorString = NULL;
-    OSStatus                err = noErr;
-
-    getcwd(path, sizeof(path));
-    strlcat(path, "/Contents/Info.plist", sizeof(path));
-
-    err = FSPathMakeRef((UInt8*)path, &infoPlistFileRef, &isDirectory);
-    if (err)
-        return err;
-        
-    xmlURL = CFURLCreateFromFSRef(NULL, &infoPlistFileRef);
-    if (xmlURL == NULL)
-        return -1;
-
-    // Read XML Data from file
-    result = CFURLCreateDataAndPropertiesFromResource(NULL, xmlURL, &xmlDataIn, NULL, NULL, &err);
-    if (err == noErr)
-        if (!result)
-            err = coreFoundationUnknownErr;
-	
-    if (err == noErr) { // Convert XML Data to internal CFPropertyListRef / CFDictionaryRef format
-        propertyListRef = CFPropertyListCreateFromXMLData(NULL, xmlDataIn, kCFPropertyListMutableContainersAndLeaves, &errorString);
-        if (propertyListRef == NULL)
-            err = coreFoundationUnknownErr;
-    }
-    
-    if (err == noErr) { // Get current value for our key
-        currentValue = (CFStringRef)CFDictionaryGetValue((CFDictionaryRef)propertyListRef, restartKey);
-        if (currentValue == NULL)
-            err = coreFoundationUnknownErr;
-    }    
-    
-    if (err == noErr) {
-        if (CFStringCompare(currentValue, valueLogoutRequired, 0) == kCFCompareEqualTo)
-            *finalAction = logoutRequired;
-        else if (CFStringCompare(currentValue, valueNoRestart, 0) == kCFCompareEqualTo)
-            *finalAction = launchWhenDone;
-    }
-   
-    if (xmlURL)
-        CFRelease(xmlURL);
-    if (xmlDataIn)
-        CFRelease(xmlDataIn);
-    if (propertyListRef)
-        CFRelease(propertyListRef);
-    return err;
-}
-
 
 // Some newer versions of the OS define users and groups which may conflict with 
 // our previously created boinc_master or boinc_project user or group.  This could 
@@ -947,7 +871,10 @@ Boolean SetLoginItemOSAScript(long brandID, Boolean deleteLogInItem, char *userN
     
     fprintf(stdout, "Making new login item %s for user %s\n", appName[brandID], userName);
     fflush(stdout);
-    sprintf(cmd, "sudo -u \"%s\" osascript -e 'tell application \"System Events\"' -e 'make new login item at end with properties {path:\"%s\", hidden:true, name:\"%s\"}' -e 'end tell'", userName, appPath[brandID], appName[brandID]);
+    // With wxCocoa 3.0, setting login item with hidden=true seems to prevent BOINC Manager
+    // from fully starting at login until it is brought to the front, so set hidden=false.
+    // The logic inside BOINC Manager keeps it hidden anyway (unless not attached to any projects.)
+    sprintf(cmd, "sudo -u \"%s\" osascript -e 'tell application \"System Events\"' -e 'make new login item at end with properties {path:\"%s\", hidden:false, name:\"%s\"}' -e 'end tell'", userName, appPath[brandID], appName[brandID]);
     err = system(cmd);
     if (err) {
         fprintf(stdout, "[2] Command: %s\n", cmd);
@@ -1017,7 +944,10 @@ Boolean SetLoginItemAPI(long brandID, Boolean deleteLogInItem)
     if (deleteLogInItem)
         return false;
         
-    Success = AddLoginItemWithPropertiesToUser(kCurrentUser, appPath[brandID], kHideOnLaunch);
+    // With wxCocoa 3.0, setting login item with hidden=true seems to prevent BOINC Manager
+    // from fully starting at login until it is brought to the front, so set hidden=false.
+    // The logic inside BOINC Manager keeps it hidden anyway (unless not attached to any projects.)
+    Success = AddLoginItemWithPropertiesToUser(kCurrentUser, appPath[brandID], kDoNotHideOnLaunch);
 
     return Success;
 }
@@ -1895,42 +1825,6 @@ static void SleepTicks(UInt32 ticksToSleep) {
         ticksRemaining = endSleep - timeNow;
     } 
 }
-
-
-#if 0
-int FindSkinName(char *name, size_t len)
-{
-    FILE *f;
-    char buf[MAXPATHLEN];
-    char *pattern = "/BOINC Data/skins/";
-    char *p, *q;
-
-    name[0] = '\0';
-    
-    f = popen("lsbom -d -s ./Contents/Archive.bom", "r");
-    if (f == NULL)
-        return 0;
-    
-    while (PersistentFGets(buf, sizeof(buf), f)) {
-        p = strstr(buf, pattern);
-        if (p) {
-            p += strlen(pattern);
-            q = strchr(p, '/');
-            if (q) *q = 0;
-            q = strchr(p, '\n');
-            if (q) *q = 0;
-
-            if (strlen(p) > (len-1))
-                return 0;
-            strlcpy(name, p, len);
-            pclose(f);
-            return 1;
-        }
-    }
-    pclose(f);
-    return 0;
-}
-#endif
 
 
 pid_t FindProcessPID(char* name, pid_t thePID)

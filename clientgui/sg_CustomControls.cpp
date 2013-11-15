@@ -43,13 +43,14 @@ bool CTransparentStaticLine::Create(wxWindow* parent, wxWindowID id, const wxPoi
     SetBackgroundColour(parent->GetBackgroundColour());
     SetBackgroundStyle(wxBG_STYLE_COLOUR);
     SetForegroundColour(parent->GetForegroundColour());
+    SetLineColor(GetForegroundColour());
 
     return bRetVal;
 }
 
 
 void CTransparentStaticLine::OnPaint(wxPaintEvent& /*event*/) {
-    wxPaintDC dc(this); 
+    wxPaintDC dc(this);
     wxPen pen = wxPen(GetLineColor(), 1);
     dc.SetPen(pen);
     dc.DrawLine(0, 0, GetSize().GetWidth(), 0); 
@@ -59,10 +60,10 @@ void CTransparentStaticLine::OnPaint(wxPaintEvent& /*event*/) {
 IMPLEMENT_DYNAMIC_CLASS (CTransparentStaticText, wxStaticText)
 
 BEGIN_EVENT_TABLE(CTransparentStaticText, wxStaticText)
-#ifdef __WXMAC__
     EVT_ERASE_BACKGROUND(CTransparentStaticText::OnEraseBackground)
-#endif
+#ifndef __WXMAC__
     EVT_PAINT(CTransparentStaticText::OnPaint)
+#endif
 END_EVENT_TABLE()
 
 
@@ -78,7 +79,7 @@ bool CTransparentStaticText::Create(wxWindow* parent, wxWindowID id, const wxStr
     bool bRetVal = wxStaticText::Create(parent, id, label, pos, size, style|wxTRANSPARENT_WINDOW, name);
 
     SetBackgroundColour(parent->GetBackgroundColour());
-    SetBackgroundStyle(wxBG_STYLE_COLOUR);
+//    SetBackgroundStyle(wxBG_STYLE_COLOUR);
     SetForegroundColour(parent->GetForegroundColour());
 
     return bRetVal;
@@ -86,19 +87,12 @@ bool CTransparentStaticText::Create(wxWindow* parent, wxWindowID id, const wxStr
 
 
 #ifndef __WXMAC__
-void CTransparentStaticText::SetLabel(const wxString& label) {
-    wxStaticText::SetLabel(label);
-	GetParent()->RefreshRect(GetRect());
-}
-#endif
-
-
 void CTransparentStaticText::OnPaint(wxPaintEvent& /*event*/) {
     wxPaintDC dc(this);
     dc.SetFont(GetFont());
     dc.DrawText(GetLabel(), 0, 0);
 }
-
+#endif
 
 IMPLEMENT_DYNAMIC_CLASS (CTransparentButton, wxButton)
 
@@ -205,7 +199,7 @@ void CTransparentStaticTextAssociate::OnMouse(wxMouseEvent& event) {
     if (m_pWnd) {
         wxMouseEvent evtAssociate(event);
         evtAssociate.SetId(m_pWnd->GetId());
-        m_pWnd->ProcessEvent(event);
+        m_pWnd->GetEventHandler()->ProcessEvent(event);
     }
 
     // If we get the left button up event and we already had focus, that must
