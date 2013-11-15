@@ -738,7 +738,7 @@ fi
 
 dnl ---------- wxWidgets --------------------------------------------------
 if test "${enable_manager}" = yes ; then
-  BOINC_OPTIONS_WXWIDGETS([2.8.0])
+  BOINC_OPTIONS_WXWIDGETS([3.0.0])
 fi
 
 dnl ---------- libNotify --------------------------------------------------
