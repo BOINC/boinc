@@ -668,7 +668,7 @@ int main(int argc, char** argv) {
                 "%s NOTE: BOINC has detected that your computer's processor supports hardware acceleration for\n"
                 "    virtual machines but the hypervisor failed to successfully launch with this feature enabled.\n"
                 "    This means that the hardware acceleration feature has been disabled in the computers BIOS.\n"
-                "    Please enable this feature in your BIOS.\n"
+                "    Please enable this feature in your computer's BIOS.\n"
                 "    Intel calls it 'VT-x'\n"
                 "    AMD calls it 'AMD-V'\n"
                 "    More information can be found here: http://en.wikipedia.org/wiki/X86_virtualization\n"
