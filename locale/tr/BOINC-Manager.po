@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.8x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-10-15 22:26-0700\n"
-"PO-Revision-Date: 2013-09-07 18:50+0200\n"
+"PO-Revision-Date: 2013-10-22 12:46+0200\n"
 "Last-Translator: Aycan Demirel <aycandemirel@hotmail.com>\n"
 "Language-Team: Donanım Haber <bilgi@donanimhaber.com>\n"
 "Language: tr\n"
@@ -140,16 +140,16 @@ msgstr "Hesap yöneticisi kullan"
 
 #: AccountInfoPage.cpp:585
 msgid "Please enter a user name."
-msgstr ""
+msgstr "Lütfen bir kullanıcı adı yazın."
 
 #: AccountInfoPage.cpp:587
 msgid "Please enter an email address."
-msgstr ""
+msgstr "Lütfen bir e-posta adresi yazın."
 
 #: AccountInfoPage.cpp:597
 #, c-format
 msgid "Please enter a password of at least %d characters."
-msgstr ""
+msgstr "Lütfen en az %d karakterden oluşan bir parola yazın."
 
 #: AccountInfoPage.cpp:608
 msgid ""
@@ -1008,11 +1008,14 @@ msgid ""
 "\n"
 "Click Finish to close."
 msgstr ""
+"Lütfen daha sonra tekrar deneyin.\n"
+"\n"
+"Kapatmak için Son'u tıklayın."
 
 #: CompletionErrorPage.cpp:225 CompletionPage.cpp:222 CompletionPage.cpp:242
 #: CompletionPage.cpp:273
 msgid "Click Finish to close."
-msgstr "Kapatmak için Son'u tıklayın"
+msgstr "Kapatmak için Son'u tıklayın."
 
 #: CompletionErrorPage.cpp:234
 msgid "Messages from server:"
@@ -1370,7 +1373,7 @@ msgstr "Çok çekirdekli sistemlerde çekirdeklerin en çok"
 #: DlgAdvPreferencesBase.cpp:346
 #, no-c-format
 msgid "% of the processors (0 means ignore this setting)"
-msgstr ""
+msgstr "% kadarı kullanılsın (ayarlamayı iptal etmek için 0 yazın)"
 
 #: DlgAdvPreferencesBase.cpp:349 DlgAdvPreferencesBase.cpp:604
 #: DlgAdvPreferencesBase.cpp:626 DlgAdvPreferencesBase.cpp:647
@@ -4256,34 +4259,44 @@ msgstr "Tümünü Göster"
 msgid "Quit %s"
 msgstr "%s'den ayrıl"
 
-#~ msgid "The minimum username length for this project is 1. Please enter a different username."
+#~ msgid ""
+#~ "The minimum username length for this project is 1. Please enter a "
+#~ "different username."
 #~ msgstr ""
-#~ "Bu proje için kullanıcı adı uzunluğu en az 1 karakter olmalı. Lütfen uygun "
-#~ "bir kullanıcı adı girin."
+#~ "Bu proje için kullanıcı adı uzunluğu en az 1 karakter olmalı. Lütfen "
+#~ "uygun bir kullanıcı adı girin."
 
-#~ msgid "The minimum username length for this account manager is 1. Please enter a different username."
+#~ msgid ""
+#~ "The minimum username length for this account manager is 1. Please enter a "
+#~ "different username."
 #~ msgstr ""
 #~ "Bu hesap yöneticisi için kullanıcı adı uzunluğu en az 1 karakter olmalı. "
 #~ "Lütfen uygun bir kullanıcı adı girin."
 
-#~ msgid "The minimum email address length for this project is 1. Please enter a different email address."
+#~ msgid ""
+#~ "The minimum email address length for this project is 1. Please enter a "
+#~ "different email address."
 #~ msgstr ""
-#~ "Bu proje için e-posta adresi uzunluğu en az 1 karakter olmalı. Lütfen uygun "
-#~ "bir e-posta adresi girin."
+#~ "Bu proje için e-posta adresi uzunluğu en az 1 karakter olmalı. Lütfen "
+#~ "uygun bir e-posta adresi girin."
 
-#~ msgid "The minimum email address length for this account manager is 1. Please enter a different email address."
+#~ msgid ""
+#~ "The minimum email address length for this account manager is 1. Please "
+#~ "enter a different email address."
 #~ msgstr ""
 #~ "Bu hesap yöneticisi için e-posta adresi uzunluğu en az 1 karakter olmalı. "
 #~ "Lütfen uygun bir e-posta adresi girin."
 
-#, c-format
-#~ msgid "The minimum password length for this project is %d. Please enter a different password."
+#~ msgid ""
+#~ "The minimum password length for this project is %d. Please enter a "
+#~ "different password."
 #~ msgstr ""
 #~ "Bu proje için parola uzunluğu en az %d karakter olmalı. Lütfen uygun bir "
 #~ "parola girin."
 
-#, c-format
-#~ msgid "The minimum password length for this account manager is %d. Please enter a different password."
+#~ msgid ""
+#~ "The minimum password length for this account manager is %d. Please enter "
+#~ "a different password."
 #~ msgstr ""
 #~ "Bu hesap yöneticisi için parola uzunluğu en az %d karakter olmalı. Lütfen "
 #~ "uygun bir parola girin."
@@ -4299,23 +4312,18 @@ msgstr "%s'den ayrıl"
 #~ "\n"
 #~ "Kapatmak için Son'u tıklayın."
 
-#, no-c-format
 #~ msgid "% of the processors"
 #~ msgstr "% kadarı kullanılsın"
 
-#, c-format
 #~ msgid "New page inserted. Index = %i"
 #~ msgstr "Yeni sayfa girildi. İndex = %i"
 
-#, c-format
 #~ msgid "New page appended. Index = %i"
 #~ msgstr "New page eklendi. İndex = %i"
 
-#, c-format
 #~ msgid "Old Page Index = %i"
 #~ msgstr "Eski Sayfa İndex'i= %i"
 
-#, c-format
 #~ msgid "OnDropTarget: index by HitTest = %i"
 #~ msgstr "OnDropTarget: HitTest tarafından index = %i"
 

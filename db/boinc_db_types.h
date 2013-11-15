@@ -638,19 +638,6 @@ struct BATCH {
         // Condor calls this the batch's "lease".
 };
 
-// values of batch.state
-// see html/inc/common_defs.inc
-//
-#define BATCH_STATE_INIT            0
-#define BATCH_STATE_IN_PROGRESS     1
-#define BATCH_STATE_COMPLETE        2
-    // "complete" means all workunits have either
-    // a canonical result or an error
-#define BATCH_STATE_ABORTED         3
-#define BATCH_STATE_RETIRED         4
-    // input/output files can be deleted,
-    // result and workunit records can be purged.
-
 // info for users who can submit jobs
 //
 struct USER_SUBMIT {

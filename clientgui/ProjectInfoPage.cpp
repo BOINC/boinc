@@ -45,6 +45,7 @@
 #include "res/freebsdicon.xpm"
 #include "res/atiicon.xpm"
 #include "res/nvidiaicon.xpm"
+#include "res/androidicon.xpm"
 #include "res/blankicon.xpm"
 
 
@@ -63,6 +64,7 @@ class CProjectInfo : public wxObject
         m_bProjectSupportsFreeBSD = false;
         m_bProjectSupportsCUDA = false;
         m_bProjectSupportsCAL = false;
+        m_bProjectSupportsAndroid = false;
     }
 
 public:
@@ -79,6 +81,7 @@ public:
     bool m_bProjectSupportsFreeBSD;
     bool m_bProjectSupportsCUDA;
     bool m_bProjectSupportsCAL;
+    bool m_bProjectSupportsAndroid;
 };
 
 IMPLEMENT_DYNAMIC_CLASS( CProjectInfo, wxObject )
@@ -164,6 +167,7 @@ bool CProjectInfoPage::Create( CBOINCBaseWizard* parent )
     m_pProjectDetailsSupportedPlatformFreeBSDCtrl = NULL;
     m_pProjectDetailsSupportedPlatformATICtrl = NULL;
     m_pProjectDetailsSupportedPlatformNvidiaCtrl = NULL;
+    m_pProjectDetailsSupportedPlatformAndroidCtrl = NULL;
     m_pProjectDetailsSupportedPlatformBlankCtrl = NULL;
     m_pProjectURLStaticCtrl = NULL;
     m_pProjectURLCtrl = NULL;
@@ -317,6 +321,9 @@ void CProjectInfoPage::CreateControls()
     m_pProjectDetailsSupportedPlatformNvidiaCtrl = new wxStaticBitmap( itemWizardPage23, wxID_STATIC, GetBitmapResource(wxT("nvidiaicon.xpm")), wxDefaultPosition, wxSize(16,16), 0 );
     itemBoxSizer26->Add(m_pProjectDetailsSupportedPlatformNvidiaCtrl, 0, wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT|wxTOP, 5);
 
+    m_pProjectDetailsSupportedPlatformAndroidCtrl = new wxStaticBitmap( itemWizardPage23, wxID_STATIC, GetBitmapResource(wxT("androidicon.xpm")), wxDefaultPosition, wxSize(16,16), 0 );
+    itemBoxSizer26->Add(m_pProjectDetailsSupportedPlatformAndroidCtrl, 0, wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT|wxTOP, 5);
+
     m_pProjectDetailsSupportedPlatformBlankCtrl = new wxStaticBitmap( itemWizardPage23, wxID_STATIC, GetBitmapResource(wxT("blankicon.xpm")), wxDefaultPosition, wxSize(16,16), 0 );
     itemBoxSizer26->Add(m_pProjectDetailsSupportedPlatformBlankCtrl, 0, wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT|wxTOP, 5);
 
@@ -415,6 +422,11 @@ wxBitmap CProjectInfoPage::GetBitmapResource( const wxString& name )
         wxBitmap bitmap(nvidiaicon_xpm);
         return bitmap;
     }
+    else if (name == wxT("androidicon.xpm"))
+    {
+        wxBitmap bitmap(androidicon_xpm);
+        return bitmap;
+    }
     else if (name == wxT("blankicon.xpm"))
     {
         wxBitmap bitmap(blankicon_xpm);
@@ -508,12 +520,14 @@ void CProjectInfoPage::OnProjectSelected( wxCommandEvent& WXUNUSED(event) ) {
         m_pProjectDetailsSupportedPlatformFreeBSDCtrl->Hide();
         m_pProjectDetailsSupportedPlatformATICtrl->Hide();
         m_pProjectDetailsSupportedPlatformNvidiaCtrl->Hide();
+        m_pProjectDetailsSupportedPlatformAndroidCtrl->Hide();
         if (pProjectInfo->m_bProjectSupportsWindows) m_pProjectDetailsSupportedPlatformWindowsCtrl->Show();
         if (pProjectInfo->m_bProjectSupportsMac) m_pProjectDetailsSupportedPlatformMacCtrl->Show();
         if (pProjectInfo->m_bProjectSupportsLinux) m_pProjectDetailsSupportedPlatformLinuxCtrl->Show();
         if (pProjectInfo->m_bProjectSupportsFreeBSD) m_pProjectDetailsSupportedPlatformFreeBSDCtrl->Show();
         if (pProjectInfo->m_bProjectSupportsCAL) m_pProjectDetailsSupportedPlatformATICtrl->Show();
         if (pProjectInfo->m_bProjectSupportsCUDA) m_pProjectDetailsSupportedPlatformNvidiaCtrl->Show();
+        if (pProjectInfo->m_bProjectSupportsAndroid) m_pProjectDetailsSupportedPlatformAndroidCtrl->Show();
 
         // Populate non-control data for use in other places of the wizard
         SetProjectURL( pProjectInfo->m_strURL );
@@ -580,6 +594,7 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     wxASSERT(m_pProjectDetailsSupportedPlatformFreeBSDCtrl);
     wxASSERT(m_pProjectDetailsSupportedPlatformATICtrl);
     wxASSERT(m_pProjectDetailsSupportedPlatformNvidiaCtrl);
+    wxASSERT(m_pProjectDetailsSupportedPlatformAndroidCtrl);
     wxASSERT(m_pProjectURLStaticCtrl);
     wxASSERT(m_pProjectURLCtrl);
 
@@ -703,6 +718,10 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
                         pProjectInfo->m_bProjectSupportsFreeBSD = true;
                     }
                     
+                    if (strProjectPlatform.Find(_T("android")) != wxNOT_FOUND) {
+                        pProjectInfo->m_bProjectSupportsAndroid = true;
+                    }
+
                     if (strProjectPlatform.Find(_T("[cuda")) != wxNOT_FOUND) {
                         pProjectInfo->m_bProjectSupportsCUDA = true;
 						if (!pDoc->state.host_info.coprocs.have_nvidia()) continue;
@@ -727,13 +746,14 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
 
             wxLogTrace(
                 wxT("Function Status"),
-                wxT("CProjectInfoPage::OnPageChanged - Windows: '%d', Mac: '%d', Linux: '%d', FreeBSD: '%d', Nvidia: '%d', ATI: '%d', Platform: '%d'"),
+                wxT("CProjectInfoPage::OnPageChanged - Windows: '%d', Mac: '%d', Linux: '%d', FreeBSD: '%d', Nvidia: '%d', ATI: '%d', Android: '%d', Platform: '%d'"),
                 pProjectInfo->m_bProjectSupportsWindows,
                 pProjectInfo->m_bProjectSupportsMac,
                 pProjectInfo->m_bProjectSupportsLinux,
                 pProjectInfo->m_bProjectSupportsFreeBSD,
                 pProjectInfo->m_bProjectSupportsCUDA,
                 pProjectInfo->m_bProjectSupportsCAL,
+                pProjectInfo->m_bProjectSupportsAndroid,
                 pProjectInfo->m_bSupportedPlatformFound
             );
         }

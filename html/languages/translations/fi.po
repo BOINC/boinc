@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2013-10-15 22:23 PDT\n"
-"PO-Revision-Date: 2013-10-20 20:46+0000\n"
+"POT-Creation-Date: 2013-11-08 00:00 PST\n"
+"PO-Revision-Date: 2013-11-07 07:18+0000\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fi\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-POOTLE-MTIME: 1382301997.0\n"
+"X-POOTLE-MTIME: 1383808707.0\n"
 
 msgid "LANG_NAME_NATIVE"
 msgstr "English"
@@ -887,6 +887,10 @@ msgstr "BOINC<br>versio"
 msgid "Merge computers by name"
 msgstr "Sulauta koneet nimien mukaan"
 
+#: ../inc/language_names.inc:61
+msgid "Browser default"
+msgstr "Selaimen oletus"
+
 #: ../inc/news.inc:40
 msgid "Comment"
 msgstr "Kommentti"
@@ -1182,8 +1186,8 @@ msgid "Use NVIDIA GPU %1 Enforced by version 6.10+ %2"
 msgstr "Käytä NVIDIA-näytönohjainta %1 (versiosta 6.10+) %2"
 
 #: ../inc/prefs.inc:344
-msgid "Use Intel GPU %1 Enforced by version 7.0+ %2"
-msgstr "Käytä Intel GPUta %1 (versiosta 7.0+) %2"
+msgid "Use Intel GPU %1 Enforced by version 7.2+ %2"
+msgstr ""
 
 #: ../inc/prefs.inc:358
 msgid ""
@@ -2496,7 +2500,7 @@ msgstr "Tilisi"
 
 #: ../user/bs_sample_index.php:47 ../user/bs_sample_index.php:50
 msgid "view stats, modify preferences"
-msgstr ""
+msgstr "katso tilastoja, muokkaa asetuksia"
 
 #: ../user/bs_sample_index.php:48 ../user/bs_sample_index.php:53
 #: ../user/team.php:25
@@ -6950,6 +6954,9 @@ msgstr ""
 #: ../project.sample/project_specific_prefs.inc:91
 msgid "(all applications)"
 msgstr "(kaikki sovellukset)"
+
+#~ msgid "Use Intel GPU %1 Enforced by version 7.0+ %2"
+#~ msgstr "Käytä Intel GPUta %1 (versiosta 7.0+) %2"
 
 #~ msgid ""
 #~ "These apply to all BOINC projects in which you participate.<br>\n"

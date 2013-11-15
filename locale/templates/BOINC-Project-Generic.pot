@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC $Id$\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2013-10-15 22:23 PDT\n"
+"POT-Creation-Date: 2013-11-08 00:00 PST\n"
 "Last-Translator: Generated automatically from source files\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -854,6 +854,10 @@ msgstr ""
 msgid "Merge computers by name"
 msgstr ""
 
+#: ../inc/language_names.inc:61
+msgid "Browser default"
+msgstr ""
+
 #: ../inc/news.inc:40
 msgid "Comment"
 msgstr ""
@@ -1129,7 +1133,7 @@ msgid "Use NVIDIA GPU %1 Enforced by version 6.10+ %2"
 msgstr ""
 
 #: ../inc/prefs.inc:344
-msgid "Use Intel GPU %1 Enforced by version 7.0+ %2"
+msgid "Use Intel GPU %1 Enforced by version 7.2+ %2"
 msgstr ""
 
 #: ../inc/prefs.inc:358

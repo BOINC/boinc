@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2013-10-15 22:23 PDT\n"
+"POT-Creation-Date: 2013-11-08 00:00 PST\n"
 "PO-Revision-Date: 2013-06-05 20:02+0200\n"
 "Last-Translator: Anonymous Pootle User\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -893,6 +893,10 @@ msgstr "BOINC<br>različica"
 msgid "Merge computers by name"
 msgstr "Združi računalnike po imenu"
 
+#: ../inc/language_names.inc:61
+msgid "Browser default"
+msgstr ""
+
 #: ../inc/news.inc:40
 msgid "Comment"
 msgstr "Komentar"
@@ -1196,7 +1200,7 @@ msgid "Use NVIDIA GPU %1 Enforced by version 6.10+ %2"
 msgstr "Uporabi NVIDIA grafični procesor %1 Velja za različice od 6.10 dalje %2"
 
 #: ../inc/prefs.inc:344
-msgid "Use Intel GPU %1 Enforced by version 7.0+ %2"
+msgid "Use Intel GPU %1 Enforced by version 7.2+ %2"
 msgstr ""
 
 #: ../inc/prefs.inc:358

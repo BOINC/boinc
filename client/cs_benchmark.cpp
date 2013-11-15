@@ -172,7 +172,7 @@ int cpu_benchmarks(BENCHMARK_DESC* bdp) {
     bdp->error_str[0] = '\0';
     host_info.clear_host_info();
 
-#ifdef ANDROID
+#if defined(ANDROID) && defined(__arm__)
     // check for FP accelerator: VFP, Neon, or none;
     // run the appropriate version of Whetstone
     // (separated using namespaces)

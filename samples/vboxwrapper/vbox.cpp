@@ -58,15 +58,17 @@ using std::string;
 #include "vbox.h"
 
 static bool is_client_version_newer(APP_INIT_DATA& aid, int maj, int min, int rel) {
-    if (maj > aid.major_version) return true;
-    if (maj < aid.major_version) return false;
-    if (min > aid.minor_version) return true;
-    if (min < aid.minor_version) return false;
-    if (rel > aid.release) return true;
+    if (maj < aid.major_version) return true;
+    if (maj > aid.major_version) return false;
+    if (min < aid.minor_version) return true;
+    if (min > aid.minor_version) return false;
+    if (rel < aid.release) return true;
     return false;
 }
 
 VBOX_VM::VBOX_VM() {
+    virtualbox_home_directory.clear();
+    virtualbox_install_directory.clear();
     virtualbox_version.clear();
     pFloppy = NULL;
     vm_master_name.clear();
@@ -94,10 +96,11 @@ VBOX_VM::VBOX_VM() {
     pf_guest_port = 0;
     pf_host_port = 0;
     headless = true;
-#ifndef _WIN32
-    vm_pid = 0;
-#else
+#ifdef _WIN32
     vm_pid_handle = 0;
+    vboxsvc_handle = 0;
+#else
+    vm_pid = 0;
 #endif
 
     // Initialize default values
@@ -115,15 +118,17 @@ VBOX_VM::~VBOX_VM() {
         CloseHandle(vm_pid_handle);
         vm_pid_handle = NULL;
     }
+    if (vboxsvc_handle) {
+        CloseHandle(vboxsvc_handle);
+        vboxsvc_handle = NULL;
+    }
 #endif
 }
 
 int VBOX_VM::initialize() {
     int rc = 0;
-    string virtualbox_install_directory;
     string old_path;
     string new_path;
-    string virtualbox_user_home;
     string command;
     string output;
     APP_INIT_DATA aid;
@@ -153,6 +158,21 @@ int VBOX_VM::initialize() {
     }
 #endif
 
+    // Determine the VirtualBox home directory.  Overwrite as needed.
+    //
+    if (getenv("VBOX_USER_HOME")) {
+        virtualbox_home_directory = getenv("VBOX_USER_HOME");
+    } else {
+        // If the override environment variable isn't specified then
+        // it is based of the current users HOME directory.
+#ifdef _WIN32
+        virtualbox_home_directory = getenv("USERPROFILE");
+#else
+        virtualbox_home_directory = getenv("HOME");
+#endif
+        virtualbox_home_directory += "/.VirtualBox";
+    }
+
     // On *nix style systems, VirtualBox expects that there is a home directory specified
     // by environment variable.  When it doesn't exist it attempts to store logging information
     // in root's home directory.  Bad things happen if the process isn't owned by root.
@@ -168,13 +188,13 @@ int VBOX_VM::initialize() {
     // Set the location in which the VirtualBox Configuration files can be
     // stored for this instance.
     if (aid.using_sandbox || force_sandbox) {
-        virtualbox_user_home = aid.project_dir;
-        virtualbox_user_home += "/../virtualbox";
+        virtualbox_home_directory = aid.project_dir;
+        virtualbox_home_directory += "/../virtualbox";
 
-        if (!boinc_file_exists(virtualbox_user_home.c_str())) boinc_mkdir(virtualbox_user_home.c_str());
+        if (!boinc_file_exists(virtualbox_home_directory.c_str())) boinc_mkdir(virtualbox_home_directory.c_str());
 
 #ifdef _WIN32
-        if (!SetEnvironmentVariable("VBOX_USER_HOME", const_cast<char*>(virtualbox_user_home.c_str()))) {
+        if (!SetEnvironmentVariable("VBOX_USER_HOME", const_cast<char*>(virtualbox_home_directory.c_str()))) {
             fprintf(
                 stderr,
                 "%s Failed to modify the search path.\n",
@@ -182,37 +202,12 @@ int VBOX_VM::initialize() {
             );
         }
 
-        // Launch VboxSVC.exe before going any further. if we don't, it'll be launched by
-        // svchost.exe with its environment block which will not contain the reference
-        // to VBOX_USER_HOME which is required for running in the BOINC account-based
-        // sandbox.
-        STARTUPINFO si;
-        PROCESS_INFORMATION pi;
-        string command;
+        // Launch vboxsvc before any vboxmanage command can be executed.
+        launch_vboxsvc();
 
-        memset(&si, 0, sizeof(si));
-        memset(&pi, 0, sizeof(pi));
-
-        si.cb = sizeof(STARTUPINFO);
-        si.dwFlags |= STARTF_FORCEOFFFEEDBACK | STARTF_USESHOWWINDOW;
-        si.wShowWindow = SW_HIDE;
-
-        command = "\"" + virtualbox_install_directory + "\\VBoxSVC.exe\" -Embedding";
-
-        if (!CreateProcess(NULL, (LPTSTR)command.c_str(), NULL, NULL, TRUE, CREATE_NO_WINDOW, NULL, NULL, &si, &pi)) {
-            fprintf(
-                stderr,
-                "%s Creating VBoxSVC.exe failed! (%d).\n",
-                vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                GetLastError()
-            );
-        }
-
-        if (pi.hThread) CloseHandle(pi.hThread);
-        if (pi.hProcess) CloseHandle(pi.hProcess);
 #else
         // putenv does not copy its input buffer, so we must use setenv
-        if (setenv("VBOX_USER_HOME", const_cast<char*>(virtualbox_user_home.c_str()), 1)) {
+        if (setenv("VBOX_USER_HOME", const_cast<char*>(virtualbox_home_directory.c_str()), 1)) {
             fprintf(
                 stderr,
                 "%s Failed to modify the VBOX_USER_HOME path.\n",
@@ -412,6 +407,12 @@ int VBOX_VM::pause() {
     string output;
     int retval;
 
+    // Restore the process priority back to the default process priority
+    // to speed up the last minute maintenance tasks before the VirtualBox
+    // VM goes to sleep
+    //
+    reset_vm_process_priority();
+
     command = "controlvm \"" + vm_name + "\" pause";
     retval = vbm_popen(command, output, "pause VM");
     if (retval) return retval;
@@ -423,6 +424,11 @@ int VBOX_VM::resume() {
     string command;
     string output;
     int retval;
+
+    // Set the process priority back to the lowest level before resuming
+    // execution
+    //
+    lower_vm_process_priority();
 
     command = "controlvm \"" + vm_name + "\" resume";
     retval = vbm_popen(command, output, "resume VM");
@@ -1294,7 +1300,7 @@ int VBOX_VM::deregister_stale_vm() {
     return 0;
 }
 
-int VBOX_VM::get_install_directory(string& virtualbox_install_directory ) {
+int VBOX_VM::get_install_directory(string& install_directory ) {
 #ifdef _WIN32
     LONG    lReturnValue;
     HKEY    hkSetupHive;
@@ -1334,18 +1340,18 @@ int VBOX_VM::get_install_directory(string& virtualbox_install_directory ) {
                 &dwSize
             );
 
-            virtualbox_install_directory = lpszRegistryValue;
+            install_directory = lpszRegistryValue;
         }
     }
 
     if (hkSetupHive) RegCloseKey(hkSetupHive);
     if (lpszRegistryValue) free(lpszRegistryValue);
-    if (virtualbox_install_directory.empty()) {
+    if (install_directory.empty()) {
         return 1;
     }
     return 0;
 #else
-    virtualbox_install_directory = "";
+    install_directory = "";
     return 0;
 #endif
 }
@@ -1436,7 +1442,6 @@ int VBOX_VM::get_network_bytes_received(double& received) {
 }
 
 int VBOX_VM::get_system_log(string& log) {
-    string virtualbox_user_home;
     string slot_directory;
     string virtualbox_system_log_src;
     string virtualbox_system_log_dst;
@@ -1444,25 +1449,11 @@ int VBOX_VM::get_system_log(string& log) {
     char buf[256];
     int retval = 0;
 
-    // Where is VirtualBox storing its configuration files?
-    if (getenv("VBOX_USER_HOME")) {
-        virtualbox_user_home = getenv("VBOX_USER_HOME");
-    } else {
-        // If the override environment variable isn't specified then
-        // it is based of the current users HOME directory.
-#ifdef _WIN32
-        virtualbox_user_home = getenv("USERPROFILE");
-#else
-        virtualbox_user_home = getenv("HOME");
-#endif
-        virtualbox_user_home += "/.VirtualBox";
-    }
-
     // Where should we copy temp files to?
     get_slot_directory(slot_directory);
 
     // Locate and read log file
-    virtualbox_system_log_src = virtualbox_user_home + "/VBoxSVC.log";
+    virtualbox_system_log_src = virtualbox_home_directory + "/VBoxSVC.log";
     virtualbox_system_log_dst = slot_directory + "/VBoxSVC.log";
 
     if (boinc_file_exists(virtualbox_system_log_src.c_str())) {
@@ -1518,26 +1509,21 @@ int VBOX_VM::get_vm_log(string& log) {
     command  = "showvminfo \"" + vm_name + "\" ";
     command += "--log 0 ";
 
-    retval = vbm_popen(command, output, "get vm log");
-    if (retval) return retval;
+    retval = vbm_popen(command, output, "get vm log", false, false);
+    if (retval) {
+        // Check to see if this error code is really an error.  Every once and awhile
+        // vboxmanage will return a non-zero exit code even though it properly
+        // dumps the vm log to stdout
+        //
+        if (output.find("Process ID: ") == string::npos) {
+            return retval;
+        }
+    }
 
     // Keep only the last 16k if it is larger than that.
     size_t size = output.size();
     if (size > 16384) {
         log = output.substr(size - 16384, size);
-
-#ifdef _WIN32
-        // Remove \r from the log spew
-        iter = log.begin();
-        while (iter != log.end()) {
-            if (*iter == '\r') {
-                iter = log.erase(iter);
-            } else {
-                ++iter;
-            }
-        }
-#endif
-
         if (log.size() >= 16384) {
             // Look for the next whole line of text.
             iter = log.begin();
@@ -1810,7 +1796,7 @@ void VBOX_VM::lower_vm_process_priority() {
     }
 #else
     if (vm_pid_handle) {
-        SetPriorityClass(vm_pid_handle, BELOW_NORMAL_PRIORITY_CLASS);
+        SetPriorityClass(vm_pid_handle, IDLE_PRIORITY_CLASS);
     }
 #endif
 }
@@ -1825,6 +1811,55 @@ void VBOX_VM::reset_vm_process_priority() {
         SetPriorityClass(vm_pid_handle, NORMAL_PRIORITY_CLASS);
     }
 #endif
+}
+
+// Launch VboxSVC.exe before going any further. if we don't, it'll be launched by
+// svchost.exe with its environment block which will not contain the reference
+// to VBOX_USER_HOME which is required for running in the BOINC account-based
+// sandbox on Windows.
+int VBOX_VM::launch_vboxsvc() {
+
+#ifdef _WIN32
+    STARTUPINFO si;
+    PROCESS_INFORMATION pi;
+    APP_INIT_DATA aid;
+    char buf[256];
+    string command;
+
+    boinc_get_init_data_p(&aid);
+
+    if (aid.using_sandbox) {
+
+        if ((vboxsvc_handle == NULL) || !process_exists(vboxsvc_handle)) {
+
+            if (vboxsvc_handle) CloseHandle(vboxsvc_handle);
+
+            memset(&si, 0, sizeof(si));
+            memset(&pi, 0, sizeof(pi));
+
+            si.cb = sizeof(STARTUPINFO);
+            si.dwFlags |= STARTF_FORCEOFFFEEDBACK | STARTF_USESHOWWINDOW;
+            si.wShowWindow = SW_HIDE;
+
+            command = "\"" + virtualbox_install_directory + "\\VBoxSVC.exe\" --logrotate 1 --logsize 1024000";
+
+            if (!CreateProcess(NULL, (LPTSTR)command.c_str(), NULL, NULL, TRUE, CREATE_NO_WINDOW, NULL, NULL, &si, &pi)) {
+                fprintf(
+                    stderr,
+                    "%s Creating VBoxSVC.exe failed! (%d).\n",
+                    vboxwrapper_msg_prefix(buf, sizeof(buf)),
+                    GetLastError()
+                );
+            }
+
+            vboxsvc_handle = pi.hProcess;
+
+            if (pi.hThread) CloseHandle(pi.hThread);
+        }
+    }
+#endif
+
+    return 0;
 }
 
 // If there are errors we can recover from, process them here.
@@ -1926,6 +1961,9 @@ int VBOX_VM::vbm_popen_raw(string& arguments, string& output, unsigned int timeo
     size_t errcode_end;
     string errcode;
     int retval = 0;
+
+    // Launch vboxsvc in case it was shutdown for being idle
+    launch_vboxsvc();
 
     // Initialize command line
     command = "VBoxManage -q " + arguments;

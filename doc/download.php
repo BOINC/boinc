@@ -26,6 +26,7 @@ function download_link($pname, $button=false) {
     $v = latest_version($p);
     $file = $v['file'];
     $vbox_file = $v['vbox_file'];
+    $vbox_version = $v['vbox_version'];
     $long_name = $p['name'];
     $num = $v['num'];
     $path = "dl/$file";
@@ -35,26 +36,41 @@ function download_link($pname, $button=false) {
 
     if ($button) {
         if ($vbox_file) {
-            echo "<table><td><td>\n";
+            echo tra("We recommend that you also install VirtualBox, so your computer can work on science projects that require it.");
+            echo " <a href=https://www.virtualbox.org/>";
+            echo tra("Learn more about VirtualBox.");
+            echo "</a>";
+
+            echo "<table><tr valign=top><td>\n";
             $vbox_url = $url_base.$vbox_file;
             $vbox_path = "dl/$vbox_file";
             $vbox_size = number_format(filesize($vbox_path)/1000000, 2);
             echo "
-                <table cellpadding=10><tr><td class=heading>
-                <a href=\"$vbox_url\"><font size=4><u>".tra("Download BOINC + Virtualbox")."</u></font></a>
-                <br>".
-                sprintf(tra("%s for %s (%s MB)"), $num, $long_name, $vbox_size )."
-                </td></tr>
+                <table cellpadding=10><tr valign=top><td class=heading>
+                <a href=\"$vbox_url\"><font size=4><u>"
+                .tra("Download BOINC + VirtualBox")
+                ."</u></font></a>
+                <br>"
+                .sprintf(tra("for %s"), $long_name)
+                ." ($vbox_size MB)"
+                ."<br>"
+                .sprintf(tra("BOINC version %s"), $num)
+                ."<br>"
+                .sprintf(tra("VirtualBox version %s"), $vbox_version)
+                ."</td></tr>
                 </table>
             ";
             echo "</td><td>\n";
         }
         echo "
-            <table cellpadding=10><tr><td class=heading>
+            <table cellpadding=10><tr valign=top><td class=heading>
             <a href=\"$url\"><font size=4><u>".tra("Download BOINC")."</u></font></a>
-            <br>".
-            sprintf(tra("%s for %s (%s MB)"), $num, $long_name, $s )."
-            </td></tr>
+            <br>"
+            .sprintf(tra("for %s"), $long_name)
+            ." ($s MB)"
+            ."<br>"
+            .sprintf(tra("BOINC version %s"), $num)
+            ."</td></tr>
             </table>
         ";
         if ($vbox_file) {
@@ -104,17 +120,17 @@ function show_pictures() {
 function show_download($pname) {
     echo "
         <table cellpadding=10><tr><td valign=top>
-        ".tra("BOINC is a program that lets you donate your idle computer time to science projects like SETI@home, Climateprediction.net, Rosetta@home, World Community Grid, and many others. <p> After installing BOINC on your computer, you can connect it to as many of these projects as you like.")
+        ".tra("BOINC is a program that lets you donate your idle computer time to science projects like SETI@home, Climateprediction.net, Rosetta@home, World Community Grid, and many others.")
+        ."  "
+        .tra("After installing BOINC on your computer, you can connect it to as many of these projects as you like.")
         ."<p>"
         .tra("You may run this software on a computer only if you own the computer or have the permission of its owner.").
         "<p>"
     ;
     if ($pname == 'android') {
-        echo "<b>
-            We recommend that you download BOINC from
-            the Google Play Store or Amazon appstore,
-            not from here.
-            </b>
+        echo "<b>"
+            .tra("We recommend that you download BOINC from the Google Play Store or Amazon Appstore, not from here.")
+            ." </b>
         ";
     }
     if ($pname) {

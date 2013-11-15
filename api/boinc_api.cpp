@@ -120,7 +120,7 @@ using std::vector;
     // CPPFLAGS=-DGETRUSAGE_IN_TIMER_THREAD
 #endif
 
-const char* api_version="API_VERSION_"PACKAGE_VERSION;
+const char* api_version = "API_VERSION_" PACKAGE_VERSION;
 static APP_INIT_DATA aid;
 static FILE_LOCK file_lock;
 APP_CLIENT_SHM* app_client_shm = 0;
@@ -417,6 +417,7 @@ static void handle_heartbeat_msg() {
 }
 
 static bool client_dead() {
+    char buf[256];
     bool dead;
     if (aid.client_pid) {
         // check every 10 sec
@@ -424,10 +425,13 @@ static bool client_dead() {
         if (interrupt_count%(TIMERS_PER_SEC*10)) return false;
 #ifdef _WIN32
         HANDLE h = OpenProcess(PROCESS_QUERY_INFORMATION, FALSE, aid.client_pid);
-        if (h == NULL) {
+        // If the process exists but is running under a different user account (boinc_master)
+        // then the handle returned is NULL and GetLastError() returns ERROR_ACCESS_DENIED.
+        //
+        if ((h == NULL) && (GetLastError() != ERROR_ACCESS_DENIED)) {
             dead = true;
         } else {
-            CloseHandle(h);
+            if (h) CloseHandle(h);
             dead = false;
         }
 #else
@@ -438,7 +442,6 @@ static bool client_dead() {
         dead = (interrupt_count > heartbeat_giveup_count);
     }
     if (dead) {
-        char buf[256];
         boinc_msg_prefix(buf, sizeof(buf));
         fputs(buf, stderr);     // don't use fprintf() here
         if (aid.client_pid) {

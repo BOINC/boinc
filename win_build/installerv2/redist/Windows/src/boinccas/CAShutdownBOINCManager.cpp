@@ -72,9 +72,10 @@ UINT CAShutdownBOINCManager::OnExecution()
     const UINT WM_TASKBARSHUTDOWN = ::RegisterWindowMessage(_T("TaskbarShutdown"));
 
 #ifdef _UNICODE
-    TerminateProcessEx( tstring(_T("boincmgr.exe")) );
-    TerminateProcessEx( tstring(_T("gridrepublic.exe")) );
-    TerminateProcessEx( tstring(_T("progressthruprocessors.exe")) );
+    TerminateProcessEx( tstring(_T("boincmgr.exe")), false );
+    TerminateProcessEx( tstring(_T("charityengine.exe")), false );
+    TerminateProcessEx( tstring(_T("gridrepublic.exe")), false );
+    TerminateProcessEx( tstring(_T("progressthruprocessors.exe")), false );
 #endif
 
     do

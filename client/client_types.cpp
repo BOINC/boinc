@@ -744,7 +744,9 @@ void APP_VERSION::init() {
     missing_coproc = false;
     strcpy(missing_coproc_name, "");
     dont_throttle = false;
+    is_wrapper = false;
     needs_network = false;
+    is_vm_app = false;
 }
 
 int APP_VERSION::parse(XML_PARSER& xp) {
@@ -786,12 +788,20 @@ int APP_VERSION::parse(XML_PARSER& xp) {
                     }
                 }
             }
+            if (strstr(plan_class, "vbox")) {
+                is_vm_app = true;
+            }
             return 0;
         }
         if (xp.parse_str("app_name", app_name, sizeof(app_name))) continue;
         if (xp.match_tag("file_ref")) {
-            file_ref.parse(xp);
-            app_files.push_back(file_ref);
+            int retval = file_ref.parse(xp);
+            if (!retval) {
+                if (strstr(file_ref.file_name, "vboxwrapper")) {
+                    is_vm_app = true;
+                }
+                app_files.push_back(file_ref);
+            }
             continue;
         }
         if (xp.parse_int("version_num", version_num)) continue;
@@ -835,6 +845,7 @@ int APP_VERSION::parse(XML_PARSER& xp) {
             continue;
         }
         if (xp.parse_bool("dont_throttle", dont_throttle)) continue;
+        if (xp.parse_bool("is_wrapper", is_wrapper)) continue;
         if (xp.parse_bool("needs_network", needs_network)) continue;
         if (log_flags.unparsed_xml) {
             msg_printf(0, MSG_INFO,
@@ -913,6 +924,11 @@ int APP_VERSION::write(MIOFILE& out, bool write_file_info) {
     if (dont_throttle) {
         out.printf(
             "    <dont_throttle/>\n"
+        );
+    }
+    if (is_wrapper) {
+        out.printf(
+            "    <is_wrapper/>\n"
         );
     }
     if (needs_network) {

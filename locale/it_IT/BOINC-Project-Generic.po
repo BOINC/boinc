@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2013-10-15 22:23 PDT\n"
-"PO-Revision-Date: 2013-08-29 12:01+0000\n"
+"POT-Creation-Date: 2013-10-29 10:57 PDT\n"
+"PO-Revision-Date: 2013-11-07 08:22+0000\n"
 "Last-Translator: Gianfranco <costamagnagianfranco@yahoo.it>\n"
 "Language-Team: \n"
 "Language: it_IT\n"
@@ -20,7 +20,7 @@ msgstr ""
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-SearchPath-0: html\\user\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
-"X-POOTLE-MTIME: 1377777679.0\n"
+"X-POOTLE-MTIME: 1383812552.0\n"
 
 msgid "LANG_NAME_NATIVE"
 msgstr "Italiano"
@@ -557,7 +557,7 @@ msgstr "Scuola"
 
 #: ../inc/host.inc:59
 msgid "Mobile"
-msgstr ""
+msgstr "Cellulare"
 
 #: ../inc/host.inc:61 ../user/edit_forum_preferences_form.php:172
 #: ../user/edit_forum_preferences_form.php:173
@@ -590,7 +590,7 @@ msgstr "Nome dominio"
 
 #: ../inc/host.inc:98
 msgid "Product name"
-msgstr ""
+msgstr "Nome prodotto"
 
 #: ../inc/host.inc:102
 msgid "Local Standard Time"
@@ -909,6 +909,10 @@ msgstr "versione <br>BOINC"
 msgid "Merge computers by name"
 msgstr "Unisci i computer dal nome"
 
+#: ../inc/language_names.inc:61
+msgid "Browser default"
+msgstr "Browser predefinito"
+
 #: ../inc/news.inc:40
 msgid "Comment"
 msgstr "Commenta"
@@ -1221,7 +1225,7 @@ msgstr "Usa la GPU NVIDIA %1 Si applica dalla versione 6.10+ %2"
 
 #: ../inc/prefs.inc:344
 msgid "Use Intel GPU %1 Enforced by version 7.0+ %2"
-msgstr ""
+msgstr "Usa la GPU Intel %1 Si applica dalla versione 7.0+ %2"
 
 #: ../inc/prefs.inc:358
 msgid ""
@@ -1344,17 +1348,19 @@ msgstr "Modifica le preferenze per %1"
 
 #: ../inc/prefs.inc:885
 msgid "These apply to all BOINC projects in which you participate."
-msgstr ""
+msgstr "Queste si applicano a tutti i progetti BOINC nei quali partecipi."
 
 #: ../inc/prefs.inc:887
 msgid ""
 "On computers participating in multiple projects, the most recently modified "
 "preferences will be used."
 msgstr ""
+"Su computer che partecipano a progetti multipli, le preferenze modificate "
+"più recentemente verranno utilizzate."
 
 #: ../inc/prefs.inc:889
 msgid "These preferences do not apply to Android devices."
-msgstr ""
+msgstr "Queste preferenze non si applicano ai dispositivi Android."
 
 #: ../inc/prefs.inc:892
 msgid "Preferences last modified:"
@@ -1451,7 +1457,7 @@ msgstr "GPU ATI"
 
 #: ../inc/result.inc:57
 msgid "Intel GPU"
-msgstr ""
+msgstr "GPU Intel"
 
 #: ../inc/result.inc:65
 msgid "Not in DB"
@@ -1782,7 +1788,7 @@ msgstr "Stato"
 
 #: ../inc/result.inc:747
 msgid "Task name:"
-msgstr ""
+msgstr "Nome del lavoro:"
 
 #: ../inc/team.inc:40
 msgid "Search criteria (use one or more)"
@@ -2540,11 +2546,11 @@ msgstr ""
 
 #: ../user/bs_sample_index.php:44
 msgid "Participants"
-msgstr ""
+msgstr "Partecipanti"
 
 #: ../user/bs_sample_index.php:46
 msgid "Do work"
-msgstr ""
+msgstr "Lavora"
 
 # ########################################
 # "Your account" page (home.php)
@@ -2555,7 +2561,7 @@ msgstr "Il tuo account"
 
 #: ../user/bs_sample_index.php:47 ../user/bs_sample_index.php:50
 msgid "view stats, modify preferences"
-msgstr ""
+msgstr "visualizza le statistiche, modifica le preferenze"
 
 #: ../user/bs_sample_index.php:48 ../user/bs_sample_index.php:53
 #: ../user/team.php:25
@@ -2564,7 +2570,7 @@ msgstr "Team"
 
 #: ../user/bs_sample_index.php:48 ../user/bs_sample_index.php:53
 msgid "create or join a team"
-msgstr ""
+msgstr "crea o unisciti ad un team"
 
 #: ../user/bs_sample_index.php:51 ../user/sample_index.php:180
 msgid "User of the day"
@@ -2581,11 +2587,11 @@ msgstr "Profili"
 
 #: ../user/bs_sample_index.php:61
 msgid "User search"
-msgstr ""
+msgstr "Cerca utente"
 
 #: ../user/bs_sample_index.php:64
 msgid "Statistics"
-msgstr ""
+msgstr "Statistiche"
 
 # ########################################&lt;br /&gt;<br />
 # Various top table pages (top users, computers, teams)
@@ -2609,7 +2615,7 @@ msgstr "Top modelli GPU"
 
 #: ../user/bs_sample_index.php:70
 msgid "Languages"
-msgstr ""
+msgstr "Lingue"
 
 # ########################################<br />
 # Rules and Policies page (info.php)
@@ -4755,6 +4761,8 @@ msgid ""
 "Go to the BOINC data directory on your computer (its location is written to "
 "the Event Log at startup)."
 msgstr ""
+"Vai nella directory dati di BOINC sul tuo computer (la sua locazione è "
+"scritta nel Log Eventi all'avvio)."
 
 #: ../user/get_passwd.php:51
 msgid "Find your account file for this project; it will be named <b>%1</b>."

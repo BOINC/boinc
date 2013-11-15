@@ -276,42 +276,36 @@ void COPROC_ATI::get(
             break;
         case 10:
             gpu_name="ATI Radeon HD 5500/5600 series (Redwood)";
-			// AMD Radeon HD 6390/7510 (OEM rebranded)
-			break;
+	    break;
         case 11:
             gpu_name="ATI Radeon HD 5400 series (Cedar)";
-			// real names would be AMD Radeon HD 6290/6350/7350/8350 (OEM rebranded)
-			break;
-// AMD CAL Chaos - see http://developer.amd.com/download/AMD_Accelerated_Parallel_Processing_OpenCL_Programming_Guide.pdf @page 230
-		case 12:
-            gpu_name="AMD Radeon HD 6370D/6380G/6410D/6480G (Sumo)"; // OpenCL-Name = WinterPark
-			break;
+	    break;
+        case 12:
+            gpu_name="AMD Radeon HD 6370D/6380G/6410D/6480G (Sumo)";
+	    break;
         case 13:
-            gpu_name="AMD Radeon HD 6520G/6530D/6550D/6620G (SuperSumo)"; // OpenCL-Name = BeaverCreek
-			break;
+            gpu_name="AMD Radeon HD 6520G/6530D/6550D/6620G (SuperSumo)";
+	    break;
         case 14:
-            gpu_name="AMD Radeon HD 6200/6300/7300 series (Wrestler)"; // OpenCL-Name = Loveland
-			// real names would be AMD Radeon HD 6250/6290/6310/6320/7310/7340 series (Wrestler)
+            gpu_name="AMD Radeon HD 6200/6300/7200/7300 series (Wrestler)";
             break;
         case 15:
             gpu_name="AMD Radeon HD 6900 series (Cayman)";
             break;
         case 16:
             gpu_name="AMD Radeon HD (Kauai)";
-			break;
+	    break;
         case 17:
             gpu_name="AMD Radeon HD 6790/6850/6870 series (Barts)";
-			// AMD Radeon 7720 (OEM rebranded)
             break;
         case 18:
             gpu_name="AMD Radeon HD 6570/6670/7570/7670 series (Turks)";
             break;
         case 19:
             gpu_name="AMD Radeon HD 6350/6450/7450/7470 series (Caicos)";
-			// AMD Radeon HD 7450/7470/8450/8470/8490 (OEM rebranded)
             break;
         case 20:
-            gpu_name="AMD Radeon HD 7870/7950/7970 series (Tahiti)";
+            gpu_name="AMD Radeon HD 7870/7950/7970/R9 280X series (Tahiti)";
             break;
         case 21:
             gpu_name="AMD Radeon HD 7850/7870 series (Pitcairn)";
@@ -321,36 +315,37 @@ void COPROC_ATI::get(
             break;
         case 23:
             gpu_name="AMD Radeon HD 7500/7600/8500/8600 series (Devastator)";
-			// higher GPUs inside Trinity/Richland APUs
-			// PCI Device IDs 9900h to 991Fh 
             break;
-		case 24:
+        case 24:
             gpu_name="AMD Radeon HD 7400/7500/8300/8400 series (Scrapper)";
-			// (s)lower GPUs of Trinity/Richland APUs
-			// PCI Device IDs 9990h to 99AFh
             break;
         case 25:
-            gpu_name="AMD Radeon HD 8600/8790M (Oland)";
+            gpu_name="AMD Radeon HD 8600/8790M/R7 240/R7 250 (Oland)";
             break;
-		case 26:
-            gpu_name="AMD Radeon HD 7790 series (Bonaire)"; 
+        case 26:
+            gpu_name="AMD Radeon HD 7790/R7 260X (Bonaire)";
             break;
-		case 27:
-			gpu_name="AMD Radeon HD (Casper)";
-			break;
-		case 28:
-			gpu_name="AMD Radeon HD (Slimer)";
-			break;
-		case 29:
-			gpu_name="AMD Radeon HD 8200/8300/8400 series (Kalindi)";
-			// GPUs inside AMD Family 16h aka Kabini/Temash
-			break;
-		case 30:
-			gpu_name="AMD Radeon HD 8600M (Hainan)";
-			break;
-		case 31:
-			gpu_name="AMD Radeon HD (Curacao)";
-			break;
+	case 27:
+	    gpu_name="AMD Radeon HD (Spectre)"; // Kaveri
+	    break;
+        case 28:
+	    gpu_name="AMD Radeon HD (Spooky)";  // Kaveri
+	    break;
+        case 29:
+	    gpu_name="AMD Radeon HD 8200/8300/8400 series (Kalindi)"; // Kabini
+	    break;
+        case 30:
+	    gpu_name="AMD Radeon HD 8600M (Hainan)";
+	    break;
+        case 31:
+	    gpu_name="AMD Radeon R9 270X (Curacao)";
+	    break;
+        case 32:
+            gpu_name="AMD Radeon R9 290 (Hawaii)";
+            break;
+        case 33:
+            gpu_name="AMD Radeon R2/R3 (Skunk)"; // Mullins/new FT3 APU
+            break;
         default:
             gpu_name="AMD Radeon HD (unknown)";
             break;

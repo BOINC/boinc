@@ -194,6 +194,19 @@ enum BATTERY_STATE {
 #define RPC_REASON_INIT             6
 #define RPC_REASON_PROJECT_REQ      7
 
+// values of batch.state
+// see html/inc/common_defs.inc
+//
+#define BATCH_STATE_INIT            0
+#define BATCH_STATE_IN_PROGRESS     1
+#define BATCH_STATE_COMPLETE        2
+    // "complete" means all workunits have either
+    // a canonical result or an error
+#define BATCH_STATE_ABORTED         3
+#define BATCH_STATE_RETIRED         4
+    // input/output files can be deleted,
+    // result and workunit records can be purged.
+
 struct TIME_STATS {
 // we maintain an exponentially weighted average of these quantities:
     double now;

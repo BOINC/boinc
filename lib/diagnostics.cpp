@@ -41,6 +41,7 @@
 #include <cstdarg>
 #include <cstdlib>
 #include <unistd.h>
+#include <time.h>
 #endif
 
 #ifdef _USING_FCGI_
@@ -419,7 +420,7 @@ int diagnostics_init(
     return BOINC_SUCCESS;
 }
 
-int diagnostics_thread_init( int _flags ) {
+int diagnostics_thread_init() {
     // Install unhandled exception filters and signal traps.
     if (BOINC_SUCCESS != boinc_install_signal_handlers()) {
         return ERR_SIGNAL_OP;

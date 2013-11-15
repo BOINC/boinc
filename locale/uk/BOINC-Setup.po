@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-06 16:50-0800\n"
+"POT-Creation-Date: 2013-10-15 22:27-0700\n"
 "PO-Revision-Date: 2013-09-23 16:40+0000\n"
 "Last-Translator: Dead J. Dona <deadjdona@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,31 +17,31 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
 "10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Pootle 2.5.0\n"
-"X-Poedit-SourceCharset: UTF-8\n"
-"X-Poedit-KeywordsList: _\n"
-"X-Poedit-Basepath: /Volumes/Cheer/BOINC_GIT/boinc_trunk\n"
 "X-Poedit-SearchPath-0: mac_installer\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-Basepath: /Volumes/Cheer/BOINC_GIT/boinc_trunk\n"
 "X-POOTLE-MTIME: 1379954457.0\n"
+"X-Poedit-KeywordsList: _\n"
 
-#: mac_installer/Installer.cpp:132
+#: Installer.cpp:132
 #, c-format
 msgid "Sorry, this version of %s requires system 10.4 or higher."
 msgstr "Вибачте, дана версія %s потребує систему 10.4 або вищу."
 
-#: mac_installer/PostInstall.cpp:131 mac_installer/PostInstall.cpp:1211
+#: PostInstall.cpp:131 PostInstall.cpp:1211
 msgid "Yes"
 msgstr "Так"
 
-#: mac_installer/PostInstall.cpp:132 mac_installer/PostInstall.cpp:1212
+#: PostInstall.cpp:132 PostInstall.cpp:1212
 msgid "No"
 msgstr "Ні"
 
-#: mac_installer/PostInstall.cpp:134
+#: PostInstall.cpp:134
 msgid "Should BOINC run even when no user is logged in?"
 msgstr ""
 "Чи повинен BOINC працювати, навіть якщо користувач не увійшов у систему?"
 
-#: mac_installer/PostInstall.cpp:1491
+#: PostInstall.cpp:1491
 #, c-format
 msgid ""
 "Users who are permitted to administer this computer will automatically be "
@@ -56,21 +56,21 @@ msgstr ""
 "Бажаєте щоб прості користувачі без адміністраторських прав також могли "
 "запускати і керувати %s на цьому комп’ютері Mac?"
 
-#: mac_installer/PostInstall.cpp:1519
+#: PostInstall.cpp:1519
 #, c-format
 msgid "Do you want to set %s as the screensaver for all %s users on this Mac?"
 msgstr ""
 "Бажаєте встановити %s як скрінсейвер для всіх користувачів %s на цьому Mac?"
 
-#: mac_installer/uninstall.cpp:80
+#: uninstall.cpp:80
 msgid "OK"
 msgstr "Гаразд"
 
-#: mac_installer/uninstall.cpp:130
+#: uninstall.cpp:130
 msgid "Permission error after relaunch"
 msgstr "Помилка доступу після перезапуску"
 
-#: mac_installer/uninstall.cpp:135
+#: uninstall.cpp:135
 msgid ""
 "Removal may take several minutes.\n"
 "Please be patient."
@@ -78,7 +78,7 @@ msgstr ""
 "Видалення може зайняти декілька хвилин.\n"
 "Будь-ласка, зачекайте."
 
-#: mac_installer/uninstall.cpp:150
+#: uninstall.cpp:150
 #, c-format
 msgid ""
 "Are you sure you want to completely remove %s from your computer?\n"
@@ -89,21 +89,21 @@ msgstr ""
 "\n"
 "Будуть видалені виконавчі файли, а файли даних %s залишаться."
 
-#: mac_installer/uninstall.cpp:157
+#: uninstall.cpp:157
 #, c-format
 msgid "Canceled: %s has not been touched."
 msgstr "Скасовано: %s не було змінено."
 
-#: mac_installer/uninstall.cpp:168
+#: uninstall.cpp:168
 #, c-format
 msgid "An error occurred: error code %d"
 msgstr "Сталася помилка: код помилки %d"
 
-#: mac_installer/uninstall.cpp:224
+#: uninstall.cpp:224
 msgid "name  of user"
 msgstr "ім’я  користувача"
 
-#: mac_installer/uninstall.cpp:261
+#: uninstall.cpp:261
 #, c-format
 msgid ""
 "Removal completed.\n"
@@ -123,7 +123,7 @@ msgstr ""
 "для кожного користувача, файл\n"
 "\"%s\"."
 
-#: mac_installer/uninstall.cpp:796
+#: uninstall.cpp:796
 #, c-format
 msgid ""
 "Enter your administrator password to completely remove %s from you "
@@ -133,11 +133,11 @@ msgstr ""
 "Для повного видалення %s з Вашого комп’ютера введіть пароль адміністратора.\n"
 "\n"
 
-#: mac_installer/uninstall.cpp:1543
+#: uninstall.cpp:1555
 msgid "Cancel"
 msgstr "Скасувати"
 
-#: mac_installer/uninstall.cpp:1544
+#: uninstall.cpp:1556
 msgid "Continue..."
 msgstr "Продовжити..."
 

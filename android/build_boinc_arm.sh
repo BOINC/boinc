@@ -11,11 +11,8 @@ CONFIGURE="yes"
 MAKECLEAN="yes"
 
 export BOINC=".." #BOINC source code
-export OPENSSL_DIR=$BOINC/../boinc_depends_android_eclipse/openssl
-export CURL_DIR=$BOINC/../boinc_depends_android_eclipse/curl
-export PKG_CONFIG_DEBUG_SPEW=1
 
-export ANDROIDTC="$HOME/android-tc"
+export ANDROIDTC="$HOME/androidarm-tc"
 export TCBINARIES="$ANDROIDTC/bin"
 export TCINCLUDES="$ANDROIDTC/arm-linux-androideabi"
 export TCSYSROOT="$ANDROIDTC/sysroot"
@@ -30,10 +27,9 @@ export CXXFLAGS="--sysroot=$TCSYSROOT -DANDROID -Wall -I$TCINCLUDES/include -fun
 export LDFLAGS="-L$TCSYSROOT/usr/lib -L$TCINCLUDES/lib -llog"
 export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g -I$TCINCLUDES/include"
 export PKG_CONFIG_SYSROOT_DIR=$TCSYSROOT
-export PKG_CONFIG_PATH=$CURL_DIR/lib/pkgconfig:$OPENSSL_DIR/lib/pkgconfig
 
 # Prepare android toolchain and environment
-./build_androidtc.sh
+./build_androidtc_arm.sh
 
 if [ -n "$COMPILEBOINC" ]; then
 echo "==================building BOINC from $BOINC=========================="
@@ -58,10 +54,10 @@ cd ../../../../
 echo "Copy Assets"
 cd android
 mkdir "BOINC/assets"
-cp "$BOINC/stage/usr/local/bin/boinc" "BOINC/assets/boinc"
-cp "$BOINC/stage/usr/local/bin/boinccmd" "BOINC/assets/boinccmd"
+cp "$BOINC/stage/usr/local/bin/boinc" "BOINC/assets/armeabi-v7a/boinc"
+cp "$BOINC/stage/usr/local/bin/boinccmd" "BOINC/assets/armeabi-v7a/boinccmd"
 cp "$BOINC/win_build/installerv2/redist/all_projects_list.xml" "BOINC/assets/all_projects_list.xml"
-cp "$CURL_DIR/ca-bundle.crt" "BOINC/assets/ca-bundle.crt"
+cp "$BOINC/curl/ca-bundle.crt" "BOINC/assets/ca-bundle.crt"
 
 echo "=============================BOINC done============================="
 

@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2013-10-15 22:23 PDT\n"
-"PO-Revision-Date: 2013-10-19 05:51+0000\n"
+"POT-Creation-Date: 2013-11-08 00:00 PST\n"
+"PO-Revision-Date: 2013-11-08 23:57+0000\n"
 "Last-Translator: 宇謙 <df910105@yahoo.com.tw>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: zh_TW\n"
@@ -17,10 +17,10 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-POOTLE-MTIME: 1382161901.0\n"
+"X-POOTLE-MTIME: 1383955035.0\n"
 
 msgid "LANG_NAME_NATIVE"
-msgstr "繁體中文（台灣）"
+msgstr "繁體中文 ( 台灣 )"
 
 msgid "LANG_NAME_INTERNATIONAL"
 msgstr "Traditional Chinese ( Taiwan )"
@@ -871,6 +871,10 @@ msgstr "BOINC<br>版本"
 msgid "Merge computers by name"
 msgstr "透過名稱合併電腦"
 
+#: ../inc/language_names.inc:61
+msgid "Browser default"
+msgstr "瀏覽器預設值"
+
 #: ../inc/news.inc:40
 msgid "Comment"
 msgstr "意見"
@@ -1150,8 +1154,8 @@ msgid "Use NVIDIA GPU %1 Enforced by version 6.10+ %2"
 msgstr "使用 NVIDIA GPU%16.10 之後的版本有了此設定%2"
 
 #: ../inc/prefs.inc:344
-msgid "Use Intel GPU %1 Enforced by version 7.0+ %2"
-msgstr "使用 Intel GPU%17.0 之後的版本有了此設定%2"
+msgid "Use Intel GPU %1 Enforced by version 7.2+ %2"
+msgstr "使用 Intel GPU%17.2 之後的版本有了此設定%2"
 
 #: ../inc/prefs.inc:358
 msgid ""
@@ -1272,7 +1276,7 @@ msgstr "這適用於所有您參與的 BOINC 專案。"
 msgid ""
 "On computers participating in multiple projects, the most recently modified "
 "preferences will be used."
-msgstr ""
+msgstr "一台加入多個專案的電腦，將使用最近修改的偏好設定。"
 
 #: ../inc/prefs.inc:889
 msgid "These preferences do not apply to Android devices."
@@ -6620,6 +6624,9 @@ msgstr "如果選中的應用程式暫時沒有運算任務，是否從其它應
 #: ../project.sample/project_specific_prefs.inc:91
 msgid "(all applications)"
 msgstr "(所有應用程式)"
+
+#~ msgid "Use Intel GPU %1 Enforced by version 7.0+ %2"
+#~ msgstr "使用 Intel GPU%17.0 之後的版本有了此設定%2"
 
 #~ msgid ""
 #~ "These apply to all BOINC projects in which you participate.<br>\n"

@@ -5,18 +5,18 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Project Generic\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2013-10-15 22:23 PDT\n"
-"PO-Revision-Date: 2013-09-05 02:34+0200\n"
-"Last-Translator: Aycan Demirel <aycandemirel@hotmail.com>\n"
+"POT-Creation-Date: 2013-11-08 00:00 PST\n"
+"PO-Revision-Date: 2013-10-30 11:16+0000\n"
+"Last-Translator: Aycan <aycandemirel@hotmail.com>\n"
 "Language-Team: Donanım Haber\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 1.5.7\n"
+"X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-POOTLE-MTIME: 1377812478.0\n"
+"X-POOTLE-MTIME: 1383131774.0\n"
 
 msgid "LANG_NAME_NATIVE"
 msgstr "Türkçe"
@@ -539,7 +539,7 @@ msgstr "Okul"
 
 #: ../inc/host.inc:59
 msgid "Mobile"
-msgstr ""
+msgstr "Mobil"
 
 #: ../inc/host.inc:61 ../user/edit_forum_preferences_form.php:172
 #: ../user/edit_forum_preferences_form.php:173
@@ -572,7 +572,7 @@ msgstr "Etki alanı adı"
 
 #: ../inc/host.inc:98
 msgid "Product name"
-msgstr ""
+msgstr "Ürün adı"
 
 #: ../inc/host.inc:102
 msgid "Local Standard Time"
@@ -890,6 +890,10 @@ msgstr "BOINC<br>sürümü"
 msgid "Merge computers by name"
 msgstr "Bilgisayarları isme göre birleştir"
 
+#: ../inc/language_names.inc:61
+msgid "Browser default"
+msgstr "Tarayıcı varsayılanı"
+
 #: ../inc/news.inc:40
 msgid "Comment"
 msgstr "Yorumlar"
@@ -1198,7 +1202,7 @@ msgid "Use NVIDIA GPU %1 Enforced by version 6.10+ %2"
 msgstr "NVIDIA GPU kullanılsın %1 Sürüm 6.10 ve üzeri için. %2"
 
 #: ../inc/prefs.inc:344
-msgid "Use Intel GPU %1 Enforced by version 7.0+ %2"
+msgid "Use Intel GPU %1 Enforced by version 7.2+ %2"
 msgstr ""
 
 #: ../inc/prefs.inc:358
@@ -1325,17 +1329,19 @@ msgstr "%1 tercihlerini düzenle"
 
 #: ../inc/prefs.inc:885
 msgid "These apply to all BOINC projects in which you participate."
-msgstr ""
+msgstr "Bu tercihler, katıldığınız tüm BOINC projelerine uygulanacak."
 
 #: ../inc/prefs.inc:887
 msgid ""
 "On computers participating in multiple projects, the most recently modified "
 "preferences will be used."
 msgstr ""
+"Çok sayıda projeye katıldığınız bilgisayarlarda, değiştirilme tarihi en "
+"yakın olan tercihler kullanılacak."
 
 #: ../inc/prefs.inc:889
 msgid "These preferences do not apply to Android devices."
-msgstr ""
+msgstr "Bu tercihler Android cihazlara uygulanmaz."
 
 #: ../inc/prefs.inc:892
 msgid "Preferences last modified:"
@@ -1433,7 +1439,7 @@ msgstr "ATI GPU"
 
 #: ../inc/result.inc:57
 msgid "Intel GPU"
-msgstr ""
+msgstr "Intel GPU"
 
 #: ../inc/result.inc:65
 msgid "Not in DB"
@@ -1762,7 +1768,7 @@ msgstr "Durum"
 
 #: ../inc/result.inc:747
 msgid "Task name:"
-msgstr ""
+msgstr "İş adı:"
 
 #: ../inc/team.inc:40
 msgid "Search criteria (use one or more)"
@@ -2505,11 +2511,12 @@ msgstr ""
 
 #: ../user/bs_sample_index.php:44
 msgid "Participants"
-msgstr ""
+msgstr "Katılımcılar"
 
 #: ../user/bs_sample_index.php:46
+#, fuzzy
 msgid "Do work"
-msgstr ""
+msgstr "İş"
 
 #: ../user/bs_sample_index.php:47 ../user/bs_sample_index.php:50
 #: ../user/home.php:49 ../project.sample/project.inc:43
@@ -2518,7 +2525,7 @@ msgstr "Hesabınız"
 
 #: ../user/bs_sample_index.php:47 ../user/bs_sample_index.php:50
 msgid "view stats, modify preferences"
-msgstr ""
+msgstr "istatistikleri gör, tercihleri değiştir"
 
 #: ../user/bs_sample_index.php:48 ../user/bs_sample_index.php:53
 #: ../user/team.php:25
@@ -2527,7 +2534,7 @@ msgstr "Takımlar"
 
 #: ../user/bs_sample_index.php:48 ../user/bs_sample_index.php:53
 msgid "create or join a team"
-msgstr ""
+msgstr "takım oluştur ya da katıl"
 
 #: ../user/bs_sample_index.php:51 ../user/sample_index.php:180
 msgid "User of the day"
@@ -2544,11 +2551,11 @@ msgstr "Profiller"
 
 #: ../user/bs_sample_index.php:61
 msgid "User search"
-msgstr ""
+msgstr "Kullanıcı arama"
 
 #: ../user/bs_sample_index.php:64
 msgid "Statistics"
-msgstr ""
+msgstr "İstatistikler"
 
 #: ../user/bs_sample_index.php:65 ../user/stats.php:30
 #: ../user/top_users.php:116
@@ -2570,7 +2577,7 @@ msgstr "En iyi GPU modelleri"
 
 #: ../user/bs_sample_index.php:70
 msgid "Languages"
-msgstr ""
+msgstr "Diller"
 
 #: ../user/bs_sample_index.php:149 ../user/info.php:24
 #: ../user/sample_index.php:74
@@ -4657,6 +4664,8 @@ msgid ""
 "Go to the BOINC data directory on your computer (its location is written to "
 "the Event Log at startup)."
 msgstr ""
+"Bilgisayarınızdaki BOINC veri klasörüne gidin (bu klasörün konumu, "
+"başlangıçta Olay Günlüğü'ne yazılır)."
 
 #: ../user/get_passwd.php:51
 msgid "Find your account file for this project; it will be named <b>%1</b>."
@@ -7006,6 +7015,9 @@ msgstr ""
 msgid "(all applications)"
 msgstr "(tüm uygulamalar)"
 
+#~ msgid "Use Intel GPU %1 Enforced by version 7.0+ %2"
+#~ msgstr "Intel GPU kullanılsın %1 Sürüm 7.0 ve üzeri için. %2"
+
 #~ msgid ""
 #~ "These apply to all BOINC projects in which you participate.<br>\n"
 #~ "             On computers participating in multiple projects, the most "
@@ -7019,13 +7031,13 @@ msgstr "(tüm uygulamalar)"
 #~ msgstr "Bu haber öğesini bir Bildirim olarak dışa aktar"
 
 #~ msgid ""
-#~ "Go to the BOINC data directory on your computer (on Windows this is usually "
-#~ "<b>C:\\Documents and Settings\\All Users\\Application Data\\BOINC</b> or "
-#~ "<b>C:\\Program Files\\BOINC</b>."
+#~ "Go to the BOINC data directory on your computer (on Windows this is "
+#~ "usually <b>C:\\Documents and Settings\\All Users\\Application Data"
+#~ "\\BOINC</b> or <b>C:\\Program Files\\BOINC</b>."
 #~ msgstr ""
 #~ "Bilgisayarınızdaki BOINC veri klasörüne gidin (bu Windows'ta genellikle "
-#~ "<b>C:\\Documents and Settings\\All Users\\Application Data\\BOINC</b> ya da "
-#~ "<b>C:\\Program Files\\BOINC</b> klasörüdür."
+#~ "<b>C:\\Documents and Settings\\All Users\\Application Data\\BOINC</b> ya "
+#~ "da <b>C:\\Program Files\\BOINC</b> klasörüdür."
 
 #~ msgid "No such task"
 #~ msgstr "Eşleşen iş yok"

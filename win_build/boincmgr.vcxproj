@@ -290,6 +290,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <None Include="..\clientgui\res\androidicon.xpm" />
     <None Include="..\clientgui\res\atiicon.xpm" />
     <None Include="..\clientgui\res\boinc.xpm" />
     <None Include="..\clientgui\res\boinc32.xpm" />

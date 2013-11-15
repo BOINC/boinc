@@ -12,29 +12,25 @@ CONFIGURE="yes"
 MAKECLEAN="yes"
 
 export BOINC=".." #BOINC source code
-export OPENSSL_DIR=$BOINC/../boinc_depends_android_eclipse/openssl
-export CURL_DIR=$BOINC/../boinc_depends_android_eclipse/curl
-export PKG_CONFIG_DEBUG_SPEW=1
 
-export ANDROIDTC="$HOME/android-tc"
+export ANDROIDTC="$HOME/androidx86-tc"
 export TCBINARIES="$ANDROIDTC/bin"
-export TCINCLUDES="$ANDROIDTC/arm-linux-androideabi"
+export TCINCLUDES="$ANDROIDTC/i686-android-linux"
 export TCSYSROOT="$ANDROIDTC/sysroot"
 export STDCPPTC="$TCINCLUDES/lib/libstdc++.a"
 
 export PATH="$PATH:$TCBINARIES:$TCINCLUDES/bin"
-export CC=arm-linux-androideabi-gcc
-export CXX=arm-linux-androideabi-g++
-export LD=arm-linux-androideabi-ld
+export CC=i686-android-linux-gcc
+export CXX=i686-android-linux-g++
+export LD=i686-android-linux-ld
 export CFLAGS="--sysroot=$TCSYSROOT -DANDROID -DDECLARE_TIMEZONE -Wall -I$TCINCLUDES/include -O3 -fomit-frame-pointer"
 export CXXFLAGS="--sysroot=$TCSYSROOT -DANDROID -Wall -I$TCINCLUDES/include -funroll-loops -fexceptions -O3 -fomit-frame-pointer"
 export LDFLAGS="-L$TCSYSROOT/usr/lib -L$TCINCLUDES/lib -llog"
 export GDB_CFLAGS="--sysroot=$TCSYSROOT -Wall -g -I$TCINCLUDES/include"
 export PKG_CONFIG_SYSROOT_DIR=$TCSYSROOT
-export PKG_CONFIG_PATH=$CURL_DIR/lib/pkgconfig:$OPENSSL_DIR/lib/pkgconfig
 
 # Prepare android toolchain and environment
-./build_androidtc.sh
+./build_androidtc_x86.sh
 
 if [ -n "$COMPILEBOINC" ]; then
 echo "==================building Libraries from $BOINC=========================="
@@ -44,7 +40,7 @@ make clean
 fi
 if [ -n "$CONFIGURE" ]; then
 ./_autosetup
-./configure --host=arm-linux --with-boinc-platform="arm-android-linux-gnu" --with-ssl=$TCINCLUDES --disable-server --disable-manager --disable-client --disable-shared --enable-static
+./configure --host=i686-linux --with-boinc-platform="x86-android-linux-gnu" --with-ssl=$TCINCLUDES --disable-server --disable-manager --disable-client --disable-shared --enable-static
 fi
 make
 make stage

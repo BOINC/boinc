@@ -94,6 +94,8 @@ int suspend_or_resume_threads(
 ) { 
     HANDLE threads, thread;
     THREADENTRY32 te = {0}; 
+    int retval = 0;
+    DWORD n;
 
 #ifdef DEBUG
     fprintf(stderr, "start: check_exempt %d %s\n", check_exempt, precision_time_to_string(dtime()));
@@ -129,16 +131,17 @@ int suspend_or_resume_threads(
         if (!in_vector(te.th32OwnerProcessID, pids)) continue;
         thread = OpenThread(THREAD_SUSPEND_RESUME, FALSE, te.th32ThreadID);
         if (resume) {
-            DWORD n = ResumeThread(thread);
+            n = ResumeThread(thread);
 #ifdef DEBUG
             fprintf(stderr, "ResumeThread returns %d\n", n);
 #endif
         } else {
-            DWORD n = SuspendThread(thread);
+            n = SuspendThread(thread);
 #ifdef DEBUG
             fprintf(stderr, "SuspendThread returns %d\n", n);
 #endif
         }
+        if (n == -1) retval = -1;
         CloseHandle(thread);
     } while (Thread32Next(threads, &te)); 
 
@@ -146,7 +149,7 @@ int suspend_or_resume_threads(
 #ifdef DEBUG
     fprintf(stderr, "end: %s\n", precision_time_to_string(dtime()));
 #endif
-    return 0;
+    return retval;
 } 
 
 #else

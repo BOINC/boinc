@@ -367,10 +367,10 @@ int main(int argc, char** argv) {
     APP_INIT_DATA aid;
     double elapsed_time = 0;
     double trickle_period = 0;
-    double trickle_cpu_time = 0;
     double fraction_done = 0;
     double checkpoint_cpu_time = 0;
     double last_status_report_time = 0;
+    double last_trickle_report_time = 0;
     double stopwatch_time = 0;
     double stopwatch_endtime = 0;
     double sleep_time = 0;
@@ -408,6 +408,9 @@ int main(int argc, char** argv) {
     boinc_options.main_program = true;
     boinc_options.check_heartbeat = true;
     boinc_options.handle_process_control = true;
+    if (trickle_period > 0.0) {
+        boinc_options.handle_trickle_ups = true;
+    }
     boinc_init_options(&boinc_options);
 
     // Prepare environment for detecting system conditions
@@ -444,7 +447,6 @@ int main(int argc, char** argv) {
             "%s Feature: Enabling trickle-ups (Interval: %f)\n",
             vboxwrapper_msg_prefix(buf, sizeof(buf)), trickle_period
         );
-        boinc_options.handle_trickle_ups = true;
     }
 
     // Check for architecture incompatibilities
@@ -483,12 +485,33 @@ int main(int argc, char** argv) {
         );
     }
 
+    // Record if anonymous platform was used.
+    // 
+    if (boinc_file_exists((std::string(aid.project_dir) + std::string("/app_info.xml")).c_str())) {
+        fprintf(
+            stderr,
+            "%s Detected: Anonymous Platform Enabled\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf))
+        );
+    }
+
+    // Record if the sandboxed configuration is going to be used.
+    //
+    if (aid.using_sandbox) {
+        fprintf(
+            stderr,
+            "%s Detected: Sandbox Configuration Enabled\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf))
+        );
+    }
+
     // Check against known incompatible versions of VirtualBox.  
     // NOTE: Incompatible in this case means that VirtualBox 4.2.6 crashes during snapshot operations
     //       and 4.2.18 fails to restore from snapshots properly.
     //
     if ((vm.virtualbox_version.find("4.2.6") != std::string::npos) || 
-        (vm.virtualbox_version.find("4.2.18") != std::string::npos)) {
+        (vm.virtualbox_version.find("4.2.18") != std::string::npos) || 
+        (vm.virtualbox_version.find("4.3.0") != std::string::npos) ) {
         fprintf(
             stderr,
             "%s Incompatible version of VirtualBox detected. Please upgrade to a later version.\n",
@@ -508,16 +531,6 @@ int main(int argc, char** argv) {
             vboxwrapper_msg_prefix(buf, sizeof(buf))
         );
         boinc_temporary_exit(300, message.c_str());
-    }
-
-    // Record if anonymous platform was used.
-    // 
-    if (boinc_file_exists((std::string(aid.project_dir) + std::string("/app_info.xml")).c_str())) {
-        fprintf(
-            stderr,
-            "%s Detected: Anonymous Platform Enabled\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf))
-        );
     }
 
     // Parse Job File
@@ -652,12 +665,12 @@ int main(int argc, char** argv) {
         if ((vm_log.find("VERR_VMX_MSR_LOCKED_OR_DISABLED") != string::npos) || (vm_log.find("VERR_SVM_DISABLED") != string::npos)) {
             fprintf(
                 stderr,
-                "%s NOTE: BOINC has detected that your processor supports hardware acceleration for virtual machines\n"
-                "    but the hypervisor failed to successfully launch with this feature enabled. This means that the\n"
-                "    hardware acceleration feature has been disabled in the computers BIOS. Please enable this\n"
-                "    feature in your BIOS.\n"
-                "    Intel Processors call it 'VT-x'\n"
-                "    AMD Processors call it 'AMD-V'\n"
+                "%s NOTE: BOINC has detected that your computer's processor supports hardware acceleration for\n"
+                "    virtual machines but the hypervisor failed to successfully launch with this feature enabled.\n"
+                "    This means that the hardware acceleration feature has been disabled in the computer's BIOS.\n"
+                "    Please enable this feature in your computer's BIOS.\n"
+                "    Intel calls it 'VT-x'\n"
+                "    AMD calls it 'AMD-V'\n"
                 "    More information can be found here: http://en.wikipedia.org/wiki/X86_virtualization\n"
                 "    Error Code: ERR_CPU_VM_EXTENSIONS_DISABLED\n",
                 vboxwrapper_msg_prefix(buf, sizeof(buf))
@@ -882,11 +895,23 @@ int main(int argc, char** argv) {
             }
 
             if (trickle_period) {
-                trickle_cpu_time += POLL_PERIOD;
-                if (trickle_cpu_time >= trickle_period) {
-                    sprintf(buf, "<cpu_time>%f</cpu_time>", trickle_cpu_time);
-                    boinc_send_trickle_up(const_cast<char*>("cpu_time"), buf);
-                    trickle_cpu_time = 0;
+                if ((elapsed_time - last_trickle_report_time) >= trickle_period) {
+                    fprintf(
+                        stderr,
+                        "%s Status Report: Trickle-Up Event.\n",
+                        vboxwrapper_msg_prefix(buf, sizeof(buf))
+                    );
+                    last_trickle_report_time = elapsed_time;
+                    sprintf(buf, "<cpu_time>%f</cpu_time>", last_trickle_report_time);
+                    retval = boinc_send_trickle_up(const_cast<char*>("cpu_time"), buf);
+                    if (retval) {
+                        fprintf(
+                            stderr,
+                            "%s Sending Trickle-Up Event failed (%d).\n",
+                            vboxwrapper_msg_prefix(buf, sizeof(buf)),
+                            retval
+                        );
+                    }
                 }
             }
 

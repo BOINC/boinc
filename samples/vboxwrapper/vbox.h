@@ -29,6 +29,10 @@ struct VBOX_VM {
     VBOX_VM();
     ~VBOX_VM();
 
+    // Virtualbox Home Directory
+    std::string virtualbox_home_directory;
+    // Virtualbox Install Directory
+    std::string virtualbox_install_directory;
     // Virtualbox Version Information
     std::string virtualbox_version;
 
@@ -98,6 +102,9 @@ struct VBOX_VM {
     //   handle to the process, the OS is free to reuse the pid for some other
     //   executable.
     HANDLE vm_pid_handle;
+
+    // the handle to the vboxsvc process created by us in the sandbox'ed environment
+    HANDLE vboxsvc_handle;
 #else
     // the pid to the VM process
     int vm_pid;
@@ -145,6 +152,8 @@ struct VBOX_VM {
 
     void lower_vm_process_priority();
     void reset_vm_process_priority();
+
+    int launch_vboxsvc();
 
     int vbm_popen(
         std::string& command, std::string& output, const char* item, bool log_error = true, bool retry_failures = true, unsigned int timeout = 45

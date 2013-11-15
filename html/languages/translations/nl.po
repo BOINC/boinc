@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2013-10-15 22:23 PDT\n"
-"PO-Revision-Date: 2013-10-18 16:53+0000\n"
+"POT-Creation-Date: 2013-11-08 00:00 PST\n"
+"PO-Revision-Date: 2013-11-09 15:13+0000\n"
 "Last-Translator: Rene <oskamjr@ziggo.nl>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: nl\n"
@@ -17,10 +17,10 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
+"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-SearchPath-0: html\\user\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
-"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
-"X-POOTLE-MTIME: 1382115223.0\n"
+"X-POOTLE-MTIME: 1384010011.0\n"
 
 msgid "LANG_NAME_NATIVE"
 msgstr "Nederlands"
@@ -890,6 +890,10 @@ msgstr "BOINC<br>versie"
 msgid "Merge computers by name"
 msgstr "Computers samenvoegen op naam"
 
+#: ../inc/language_names.inc:61
+msgid "Browser default"
+msgstr "Browser standaard"
+
 #: ../inc/news.inc:40
 msgid "Comment"
 msgstr "Opmerkingen"
@@ -1191,8 +1195,8 @@ msgid "Use NVIDIA GPU %1 Enforced by version 6.10+ %2"
 msgstr "Gebruik NVIDIA GPU %1 Instelbaar vanaf 6.10+ %2"
 
 #: ../inc/prefs.inc:344
-msgid "Use Intel GPU %1 Enforced by version 7.0+ %2"
-msgstr "Gebruik Intel GPU %1 Instelbaar vanaf 7.0+ %2"
+msgid "Use Intel GPU %1 Enforced by version 7.2+ %2"
+msgstr "Gebruik Intel GPU %1 Instelbaar vanaf 7.2+ %2"
 
 #: ../inc/prefs.inc:358
 msgid ""
@@ -7040,6 +7044,9 @@ msgstr ""
 #: ../project.sample/project_specific_prefs.inc:91
 msgid "(all applications)"
 msgstr "(alle applicaties)"
+
+#~ msgid "Use Intel GPU %1 Enforced by version 7.0+ %2"
+#~ msgstr "Gebruik Intel GPU %1 Instelbaar vanaf 7.0+ %2"
 
 #~ msgid ""
 #~ "These apply to all BOINC projects in which you participate.<br>\n"

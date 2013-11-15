@@ -57,11 +57,6 @@ $info_sites = array(
         "(English, German, Dutch, Spanish and French)"
     ),
     array(
-        "http://www.boinc-wiki.info/",
-        "The Unofficial BOINC Wiki",
-        "(in English)",
-    ),
-    array(
         "http://www.seti-argentina.com.ar/instrucciones-boinc-manager",
         "BOINC Argentina",
         "(in Spanish)",

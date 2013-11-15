@@ -108,6 +108,11 @@ int get_procinfo_XP(PROC_MAP& pm) {
         );
         p.is_boinc_app = (p.id == (int)pid) || (strcasestr(p.command, "boinc") != NULL);
         
+#ifdef _CHARITYENGINE
+        if (!strcmp(p.command, "charityengine.exe")) {
+            p.is_boinc_app = true;
+        }
+#endif        
 #ifdef _GRIDREPUBLIC
         if (!strcmp(p.command, "gridrepublic.exe")) {
             p.is_boinc_app = true;
