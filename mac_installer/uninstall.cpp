@@ -67,6 +67,7 @@ static Boolean ShowMessage(Boolean allowCancel, Boolean continueButton, const ch
 #if SEARCHFORALLBOINCMANAGERS
 static OSStatus GetpathToBOINCManagerApp(char* path, int maxLen, FSRef *theFSRef);
 #endif
+static int compareOSVersionTo(int toMajor, int toMinor);
 
 static char gAppName[256];
 static char gBrandName[256];
@@ -496,7 +497,6 @@ enum {
 // For now, don't delete user's BOINC Preferences file.
 static OSStatus CleanupAllVisibleUsers(void)
 {
-    long                OSVersion = 0;
     passwd              *pw;
     vector<string>      human_user_names;
     vector<uid_t>       human_user_IDs;
@@ -516,11 +516,6 @@ static OSStatus CleanupAllVisibleUsers(void)
     int                 id;
     OSStatus            err;
     Boolean             changeSaver;
-
-    err = Gestalt(gestaltSystemVersion, &OSVersion);
-    if (err != noErr) {
-        OSVersion = 0;
-    }
 
     saved_uid = getuid();
     saved_euid = geteuid();
@@ -613,16 +608,15 @@ static OSStatus CleanupAllVisibleUsers(void)
 #if TESTING
 //    ShowMessage(false, false, "Before seteuid(%d) for user %s, euid = %d", pw->pw_uid, human_user_name, geteuid());
 #endif
-        
-        if (OSVersion >= 0x1060) {
+        if (compareOSVersionTo(10, 6) >= 0) {
             setuid(0);
         }
         // Delete our login item(s) for this user
-        if (OSVersion < 0x1070) {
+        if (compareOSVersionTo(10, 7) < 0) {
             seteuid(pw->pw_uid);    // Temporarily set effective uid to this user
             DeleteLoginItemAPI();
             seteuid(saved_euid);    // Set effective uid back to privileged user
-        } else if (OSVersion >= 0x1080) {
+        } else if (compareOSVersionTo(10, 8) >= 0) {
             seteuid(pw->pw_uid);    // Temporarily set effective uid to this user
             DeleteLoginItemFromPListFile();
             seteuid(saved_euid);    // Set effective uid back to privileged user
@@ -704,7 +698,7 @@ static OSStatus CleanupAllVisibleUsers(void)
         //  if it was BOINC, GridRepublic, Progress Thru Processors or Charity Engine.
         changeSaver = false;
         seteuid(pw->pw_uid);    // Temporarily set effective uid to this user
-        if (OSVersion < 0x1060) {
+        if (compareOSVersionTo(10, 6) < 0) {
             f = popen("defaults -currentHost read com.apple.screensaver moduleName", "r");
             if (f) {
                 while (PersistentFGets(s, sizeof(s), f)) {
@@ -746,7 +740,7 @@ static OSStatus CleanupAllVisibleUsers(void)
         }
         
         if (changeSaver) {
-            if (OSVersion < 0x1060) {
+            if (compareOSVersionTo(10, 6) < 0) {
                 system ("defaults -currentHost write com.apple.screensaver moduleName \"Computer Name\"");
                 system ("defaults -currentHost write com.apple.screensaver modulePath \"/System/Library/Frameworks/ScreenSaver.framework/Versions/A/Resources/Computer Name.saver\"");
             } else {
@@ -764,7 +758,7 @@ static OSStatus CleanupAllVisibleUsers(void)
     
     sleep(1);
     
-    if (OSVersion >= 0x1070) {
+    if (compareOSVersionTo(10, 7) >= 0) {
 #if TESTING
         ShowMessage(false, false, "Telling System Events to quit (at end)");
 #endif
@@ -1599,3 +1593,27 @@ static OSStatus GetpathToBOINCManagerApp(char* path, int maxLen, FSRef *theFSRef
     return status;
 }
 #endif  // SEARCHFORALLBOINCMANAGERS
+
+
+static int compareOSVersionTo(int toMajor, int toMinor) {
+    SInt32 major, minor;
+    OSStatus err = noErr;
+    
+    err = Gestalt(gestaltSystemVersionMajor, &major);
+    if (err != noErr) {
+        fprintf(stderr, "Gestalt(gestaltSystemVersionMajor) returned error %ld\n", err);
+        fflush(stderr);
+        return 0;
+    }
+    if (major < toMajor) return -1;
+    if (major > toMajor) return 1;
+    err = Gestalt(gestaltSystemVersionMinor, &minor);
+    if (err != noErr) {
+        fprintf(stderr, "Gestalt(gestaltSystemVersionMinor) returned error %ld\n", err);
+        fflush(stderr);
+        return 0;
+    }
+    if (minor < toMinor) return -1;
+    if (minor > toMinor) return 1;
+    return 0;
+}

@@ -47,6 +47,10 @@
 #include "DlgAbout.h"
 #include "DlgOptions.h"
 
+#ifdef __WXMAC__
+static int compareOSVersionTo(int toMajor, int toMinor);
+#endif
+
 // Workaround for Linux refresh problem
 #if (defined(__WXMSW__) || defined(__WXMAC__))
 #define REFRESH_WAIT 0
@@ -804,9 +808,7 @@ CSimpleGUIPanel::CSimpleGUIPanel(wxWindow* parent) :
     // Tell accessibility aids to ignore this panel (but not its contents)
     HIObjectSetAccessibilityIgnored((HIObjectRef)GetHandle(), true);
     
-    SInt32 response;
-    OSStatus err = Gestalt(gestaltSystemVersion, &response);
-    if ((err == noErr) && (response >= 0x1070)) {
+    if (compareOSVersionTo(10, 7) >= 0) {
         m_iRedRingRadius = 4;
     } else {
         m_iRedRingRadius = 12;
@@ -1105,3 +1107,29 @@ void CSimpleGUIPanel::OnEraseBackground(wxEraseEvent& event) {
 #endif
     dc->DrawBitmap(m_bmpBg, 0, 0);
 }
+
+
+#ifdef __WXMAC__
+static int compareOSVersionTo(int toMajor, int toMinor) {
+    SInt32 major, minor;
+    OSStatus err = noErr;
+    
+    err = Gestalt(gestaltSystemVersionMajor, &major);
+    if (err != noErr) {
+        fprintf(stderr, "Gestalt(gestaltSystemVersionMajor) returned error %ld\n", err);
+        fflush(stderr);
+        return 0;
+    }
+    if (major < toMajor) return -1;
+    if (major > toMajor) return 1;
+    err = Gestalt(gestaltSystemVersionMinor, &minor);
+    if (err != noErr) {
+        fprintf(stderr, "Gestalt(gestaltSystemVersionMinor) returned error %ld\n", err);
+        fflush(stderr);
+        return 0;
+    }
+    if (minor < toMinor) return -1;
+    if (minor > toMinor) return 1;
+    return 0;
+}
+#endif

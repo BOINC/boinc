@@ -45,6 +45,7 @@ Boolean IsRestartNeeded();
 static void GetPreferredLanguages();
 static void LoadPreferredLanguages();
 static void ShowMessage(const char *format, ...);
+static int compareOSVersionTo(int toMajor, int toMinor);
 static OSErr QuitAppleEventHandler(const AppleEvent *appleEvt, AppleEvent* reply, UInt32 refcon);
 void print_to_log_file(const char *format, ...);
 void strip_cr(char *buf);
@@ -72,7 +73,6 @@ int main(int argc, char *argv[])
     char                    *p;
     ProcessSerialNumber     ourPSN;
     FSRef                   ourFSRef;
-    long                    response;
     OSStatus                err = noErr;
     Boolean                 restartNeeded = true;
     FILE                    *restartNeededFile;
@@ -106,10 +106,6 @@ int main(int argc, char *argv[])
         *p = '\0'; 
     
     strlcat(pkgPath, ".pkg", sizeof(pkgPath));
-    err = Gestalt(gestaltSystemVersion, &response);
-    if (err != noErr)
-        return err;
-
     // Expand the installer package
     system("rm -dfR /tmp/BOINC.pkg");
     system("rm -dfR /tmp/expanded_BOINC.pkg");
@@ -119,7 +115,7 @@ int main(int argc, char *argv[])
     if (err == noErr) {
         GetPreferredLanguages();
     }
-    if (response < 0x1050) {
+    if (compareOSVersionTo(10, 5) < 0) {
         LoadPreferredLanguages();
         ::SetFrontProcess(&ourPSN);
         p = strrchr(brand, ' ');         // Strip off last space character and everything following
@@ -203,8 +199,6 @@ Boolean IsRestartNeeded()
     group           *grp = NULL;
     gid_t           boinc_master_gid = 0, boinc_project_gid = 0;
     uid_t           boinc_master_uid = 0, boinc_project_uid = 0;
-    OSStatus        err = noErr;
-    long            response;
     char            loginName[256];
     
     grp = getgrnam(boinc_master_group_name);
@@ -237,8 +231,7 @@ Boolean IsRestartNeeded()
     if (pw->pw_gid != boinc_project_gid)
         return true;       // User boinc_project does not have group boinc_project as its primary group
 
-    err = Gestalt(gestaltSystemVersion, &response);
-    if ((err == noErr) && (response >= 0x1050)) {
+    if (compareOSVersionTo(10, 5) >= 0) {
         if (boinc_master_gid < 501)
             return true;       // We will change boinc_master_gid to a value > 501
         if (boinc_project_gid < 501)
@@ -461,6 +454,30 @@ static void ShowMessage(const char *format, ...) {
                 &responseFlags);
     
     if (myString) CFRelease(myString);
+}
+
+
+static int compareOSVersionTo(int toMajor, int toMinor) {
+    SInt32 major, minor;
+    OSStatus err = noErr;
+    
+    err = Gestalt(gestaltSystemVersionMajor, &major);
+    if (err != noErr) {
+        fprintf(stderr, "Gestalt(gestaltSystemVersionMajor) returned error %ld\n", err);
+        fflush(stderr);
+        return 0;
+    }
+    if (major < toMajor) return -1;
+    if (major > toMajor) return 1;
+    err = Gestalt(gestaltSystemVersionMinor, &minor);
+    if (err != noErr) {
+        fprintf(stderr, "Gestalt(gestaltSystemVersionMinor) returned error %ld\n", err);
+        fflush(stderr);
+        return 0;
+    }
+    if (minor < toMinor) return -1;
+    if (minor > toMinor) return 1;
+    return 0;
 }
 
 

@@ -41,7 +41,6 @@ LPFN_ISWOW64PROCESS fnIsWow64Process;
 #endif
 
 #if defined(__APPLE__) && (defined(__i386__) || defined(__x86_64__))
-#include <CoreServices/CoreServices.h>
 #include <sys/sysctl.h>
 #endif
 
@@ -100,15 +99,12 @@ void CLIENT_STATE::detect_platforms() {
 #elif defined(__APPLE__)
 
 #if defined(__i386__) || defined(__x86_64__)
-    OSStatus err = noErr;
-    SInt32 version = 0;
     int response = 0;
     int retval = 0;
     size_t len = sizeof(response);
 
-    err = Gestalt(gestaltSystemVersion, &version);
     retval = sysctlbyname("hw.optional.x86_64", &response, &len, NULL, 0);
-    if ((err == noErr) && (version >= 0x1050) && response && (!retval)) {
+    if (!retval) {
         add_platform("x86_64-apple-darwin");
     }
 

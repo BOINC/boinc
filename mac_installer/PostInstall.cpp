@@ -109,6 +109,7 @@ int CountGroupMembershipEntries(const char *userName, const char *groupName);
 OSErr UpdateAllVisibleUsers(long brandID);
 long GetBrandID(void);
 int TestRPCBind(void);
+static int compareOSVersionTo(int toMajor, int toMinor);
 static OSStatus ResynchSystem(void);
 OSErr FindProcess (OSType typeToFind, OSType creatorToFind, ProcessSerialNumberPtr processSN);
 pid_t FindProcessPID(char* name, pid_t thePID);
@@ -144,7 +145,6 @@ static Boolean                  gCommandLineInstall = false;
 static Boolean                  gQuitFlag = false;
 static Boolean                  currentUserCanRunBOINC = false;
 static char                     loginName[256];
-static long                     OSVersion = 0;
 static time_t                   waitPermissionsStartTime;
 
 static char *saverName[NUMBRANDS];
@@ -238,13 +238,6 @@ int main(int argc, char *argv[])
         fflush(stdout);
     }
 
-    err = Gestalt(gestaltSystemVersion, &OSVersion);
-    if (err != noErr) {
-        printf("Gestalt(gestaltSystemVersion) returned error %ld\n", err);
-        fflush(stdout);
-        return err;
-    }
-    
     for (i=0; i<argc; i++) {
         if (strcmp(argv[i], "-part2") == 0)
             return DeleteReceipt();
@@ -272,7 +265,7 @@ int main(int argc, char *argv[])
     
     LoadPreferredLanguages();
 
-    if (OSVersion < 0x1050) {
+    if (compareOSVersionTo(10, 5) < 0) {
         ::SetFrontProcess(&ourProcess);
         // Remove everything we've installed
         // "\pSorry, this version of GridRepublic requires system 10.5 or higher."
@@ -638,7 +631,7 @@ void CheckUserAndGroupConflicts()
     int             entryCount;
     OSErr           err = noErr;
 
-    if (OSVersion < 0x1050) {
+    if (compareOSVersionTo(10, 5) < 0) {
         // This fails under OS 10.4, but should not be needed under OS 10.4
         return;     
     }
@@ -1373,7 +1366,7 @@ OSErr UpdateAllVisibleUsers(long brandID)
             saved_uid = geteuid();
             seteuid(pw->pw_uid);                        // Temporarily set effective uid to this user
             
-            if (OSVersion < 0x1060) {
+            if (compareOSVersionTo(10, 6) < 0) {
                 f = popen("defaults -currentHost read com.apple.screensaver moduleName", "r");
             
                 if (f) {
@@ -1547,7 +1540,7 @@ OSErr UpdateAllVisibleUsers(long brandID)
         }
 
         // Set login item for this user
-        if (OSVersion >= 0x1070) {
+        if (compareOSVersionTo(10, 7) >= 0) {
             // LoginItemAPI.c does not set hidden property for login items
             // under OS 10.7.0, so use AppleScript instead to prevent Lion 
             // from opening BOINC windows at system startup.  This was 
@@ -1581,7 +1574,7 @@ OSErr UpdateAllVisibleUsers(long brandID)
         
             if (setSaverForAllUsers) {
                 seteuid(pw->pw_uid);    // Temporarily set effective uid to this user
-                if (OSVersion < 0x1060) {
+                if (compareOSVersionTo(10, 6) < 0) {
                      sprintf(s, "defaults -currentHost write com.apple.screensaver moduleName %s", saverNameEscaped[brandID]);
                     system (s);
                     sprintf(s, "defaults -currentHost write com.apple.screensaver modulePath /Library/Screen\\ Savers/%s.saver", 
@@ -1764,20 +1757,34 @@ int TestRPCBind()
 
 static OSStatus ResynchSystem() {
     OSStatus        err = noErr;
-    
-    if (OSVersion >= 0x1050) {
-        // OS 10.5
-        err = system("dscacheutil -flushcache");
-        err = system("dsmemberutil flushcache");
-        return noErr;
-    }
-    
-    err = system("lookupd -flushcache");
-    
-    if (OSVersion >= 0x1040)
-        err = system("memberd -r");           // Available only in OS 10.4
-    
+
+    err = system("dscacheutil -flushcache");
+    err = system("dsmemberutil flushcache");
     return noErr;
+}
+
+
+static int compareOSVersionTo(int toMajor, int toMinor) {
+    SInt32 major, minor;
+    OSStatus err = noErr;
+    
+    err = Gestalt(gestaltSystemVersionMajor, &major);
+    if (err != noErr) {
+        fprintf(stdout, "Gestalt(gestaltSystemVersionMajor) returned error %ld\n", err);
+        fflush(stdout);
+        exit(-1);
+    }
+    if (major < toMajor) return -1;
+    if (major > toMajor) return 1;
+    err = Gestalt(gestaltSystemVersionMinor, &minor);
+    if (err != noErr) {
+        fprintf(stdout, "Gestalt(gestaltSystemVersionMinor) returned error %ld\n", err);
+        fflush(stdout);
+        exit(-1);
+    }
+    if (minor < toMinor) return -1;
+    if (minor > toMinor) return 1;
+    return 0;
 }
 
 
