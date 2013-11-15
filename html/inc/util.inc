@@ -42,6 +42,21 @@ $caching = false;
     // if set, we're writing to a file rather than to client
 $did_page_head = false;
 
+// return true if this page is HTTPS
+//
+function is_https() {
+    return isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'];
+}
+
+function secure_url_base() {
+    if (defined('SECURE_URL_BASE')) return SECURE_URL_BASE;
+    return URL_BASE;
+}
+
+function url_base() {
+    return is_https()?secure_url_base():URL_BASE;
+}
+
 function send_cookie($name, $value, $permanent, $ops=false) {
     // the following allows independent login for projects on the same server
     //
@@ -137,11 +152,12 @@ function page_head(
     global $caching, $cache_control_extra, $did_page_head;
 
     $did_page_head = true;
-    $stylesheet = URL_BASE.STYLESHEET;
+    $url_base = url_base();
+    $stylesheet = $url_base.STYLESHEET;
     $rssname = PROJECT . " RSS 2.0";
-    $rsslink = URL_BASE."rss_main.php";
+    $rsslink = $url_base."rss_main.php";
     if (defined('STYLESHEET2')) {
-        $stylesheet2 = URL_BASE.STYLESHEET2;
+        $stylesheet2 = $url_base.STYLESHEET2;
     } else {
         $stylesheet2 = null;
     }
@@ -166,7 +182,7 @@ function page_head(
     } else {
         echo "<title>".sanitize_tags($title_plain)."</title>\n";
     }
-    echo "<link rel=stylesheet type=\"text/css\" href=\"".URL_BASE."main.css\" media=\"all\">
+    echo "<link rel=stylesheet type=\"text/css\" href=\"".$url_base."main.css\" media=\"all\">
         <link rel=stylesheet type=\"text/css\" href=\"$stylesheet\">
     ";
     if ($stylesheet2) {
@@ -899,11 +915,6 @@ function do_download($path,$name="") {
     header('Content-Length: ' . filesize($path));
     flush();
     readfile($path);
-}
-
-function secure_url_base() {
-    if (defined('SECURE_URL_BASE')) return SECURE_URL_BASE;
-    return URL_BASE;
 }
 
 function redirect_to_secure_url($url) {

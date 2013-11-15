@@ -25,7 +25,6 @@
 #pragma interface "sg_BoincSimpleFrame.cpp"
 #endif
 
-class CTransparentButton;
 class CSimpleTaskPanel;
 class CSimpleProjectPanel;
 class CSimpleTaskPanel;
@@ -72,17 +71,12 @@ protected:
     void OnPaint(wxPaintEvent& event);
     void OnEraseBackground(wxEraseEvent& event);
 #ifdef __WXMAC__
-//    void SetupMacAccessibilitySupport();
-//    void RemoveMacAccessibilitySupport();
-    
-//    EventHandlerRef m_pSGAccessibilityEventHandlerRef;
-
     int         m_iRedRingRadius;
 #endif
     wxBitmap    m_bmpBg;
-    CTransparentButton *m_NoticesButton;
-    CTransparentButton *m_SuspendResumeButton;
-    CTransparentButton *m_HelpButton;
+    wxButton    *m_NoticesButton;
+    wxButton    *m_SuspendResumeButton;
+    wxButton    *m_HelpButton;
     wxString    m_sSuspendString;
     wxString    m_sResumeString;
     int         m_oldWorkCount;

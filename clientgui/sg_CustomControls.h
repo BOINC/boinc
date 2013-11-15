@@ -48,7 +48,7 @@ public:
     );
 
     wxColour GetLineColor() const { return m_LineColor ; }
-    void     SetLineColor(wxColour value) { m_LineColor = value ; }
+    void     SetLineColor(wxColour value) { if (value != wxNullColour) m_LineColor = value ; }
 
     virtual bool HasTransparentBackground() { return true; };
 
@@ -89,12 +89,10 @@ public:
 
     virtual bool HasTransparentBackground() { return true; };
 
-#ifdef __WXMAC__
     virtual void OnEraseBackground(wxEraseEvent& /*event*/) {};
-#else
-    virtual void SetLabel(const wxString& label);
-#endif
+#ifndef __WXMAC__
     virtual void OnPaint(wxPaintEvent& event);
+#endif
 
     DECLARE_EVENT_TABLE()
 }; 

@@ -86,7 +86,7 @@ enum {
 
 #define SKIPFRAME 4 /* Number frames overhead for signal handler and backtrace */
 
-static void PrintOSVersion(char *minorVersion);
+static void PrintOSVersion(int *majorVersion, int *minorVersion);
 
 void PrintBacktrace(void) {
     int                         err;
@@ -94,7 +94,8 @@ void PrintBacktrace(void) {
 
     char                        nameBuf[256], pathToThisProcess[1024];
     const NXArchInfo            *localArch;
-    char                        OSMinorVersion = '?';
+    int                         OSMajorVersion = 0;
+    int                         OSMinorVersion = 0;
     time_t                      t;
     char                        atosPipeBuf[1024], cppfiltPipeBuf[1024];
     char                        outBuf[1024], offsetBuf[32];
@@ -148,7 +149,7 @@ void PrintBacktrace(void) {
     fprintf(stderr, " (32-bit executable)\n");
 #endif
 
-    PrintOSVersion(&OSMinorVersion);
+    PrintOSVersion(&OSMajorVersion, &OSMinorVersion);
 
     time(&t);
     fputs(asctime(localtime(&t)), stderr);
@@ -156,7 +157,7 @@ void PrintBacktrace(void) {
     
     err = QCRCreateFromSelf(&crRef);
 
-    if (OSMinorVersion == '5') {
+    if ((OSMajorVersion == 10) && (OSMinorVersion == 5)) {
 #ifdef __ppc__
         fputs("BOINC backtrace under OS 10.5.x only shows exported (global) symbols\n", stderr);
         fputs("and may work poorly on a PowerPC Mac after a crash.  For a better\n", stderr);
@@ -164,134 +165,129 @@ void PrintBacktrace(void) {
 #else
         fputs("BOINC backtrace under OS 10.5.x only shows exported (global) symbols\n", stderr);
         fputs("and may not show the final location which caused a crash.  For a better\n", stderr);
-        fputs("backtrace, either run under OS 10.4.x or run under OS 10.6.x or later.\n\n", stderr);
+        fputs("backtrace, run under OS 10.6.x or later.\n\n", stderr);
 #endif
     }
     
-    if (OSMinorVersion >= '5') {
-        // Use new backtrace functions if available (only in OS 10.5 and later)
-        systemlib = dlopen ("/usr/lib/libSystem.dylib", RTLD_NOW );
-        if (systemlib) {
-            myBacktraceProc = (backtraceProc)dlsym(systemlib, "backtrace");
-         }
-        if (! myBacktraceProc) {
-            goto skipBackTrace;     // Should never happen
+    // Use new backtrace functions (available only in OS 10.5 and later)
+    systemlib = dlopen ("/usr/lib/libSystem.dylib", RTLD_NOW );
+    if (systemlib) {
+        myBacktraceProc = (backtraceProc)dlsym(systemlib, "backtrace");
+     }
+    if (! myBacktraceProc) {
+        goto skipBackTrace;     // Should never happen
+    }
+    frames = myBacktraceProc(callstack, CALL_STACK_SIZE);
+    myBacktrace_symbolsProc = (backtrace_symbolsProc)dlsym(systemlib, "backtrace_symbols");
+    if (myBacktrace_symbolsProc) {
+        symbols = myBacktrace_symbolsProc(callstack, frames);
+    } else {
+        goto skipBackTrace;     // Should never happen
+    }
+    
+    atosExists = boinc_file_exists("/usr/bin/atos");
+    cppfiltExists = boinc_file_exists("/usr/bin/atos");
+    if (atosExists || cppfiltExists) {
+        // The bidirectional popen only works if the NSUnbufferedIO environment 
+        // variable is set, so we save and restore its current value.
+        env = getenv("NSUnbufferedIO");
+        if (env) {
+            strlcpy(saved_env, env, sizeof(saved_env));
         }
-        frames = myBacktraceProc(callstack, CALL_STACK_SIZE);
-        myBacktrace_symbolsProc = (backtrace_symbolsProc)dlsym(systemlib, "backtrace_symbols");
-        if (myBacktrace_symbolsProc) {
-            symbols = myBacktrace_symbolsProc(callstack, frames);
-        } else {
-            goto skipBackTrace;     // Should never happen
-        }
-        
-        atosExists = boinc_file_exists("/usr/bin/atos");
-        cppfiltExists = boinc_file_exists("/usr/bin/atos");
-        if (atosExists || cppfiltExists) {
-            // The bidirectional popen only works if the NSUnbufferedIO environment 
-            // variable is set, so we save and restore its current value.
-            env = getenv("NSUnbufferedIO");
-            if (env) {
-                strlcpy(saved_env, env, sizeof(saved_env));
-            }
-            setenv("NSUnbufferedIO", "YES", 1);
-        }
-        
-        if (atosExists) {
-            // The backtrace_symbols() and backtrace_symbols() APIs are limited to 
-            // external symbols only, so we also use the atos command-line utility  
-            // which gives us debugging symbols when available.
-            //
-            // For some reason, using the -p option with the value from getpid() 
-            // fails here but the -o option with a path does work.
+        setenv("NSUnbufferedIO", "YES", 1);
+    }
+    
+    if (atosExists) {
+        // The backtrace_symbols() and backtrace_symbols() APIs are limited to 
+        // external symbols only, so we also use the atos command-line utility  
+        // which gives us debugging symbols when available.
+        //
+        // For some reason, using the -p option with the value from getpid() 
+        // fails here but the -o option with a path does work.
 #ifdef __x86_64__
-            snprintf(atosPipeBuf, sizeof(atosPipeBuf), "/usr/bin/atos -o \"%s\" -arch x86_64", pathToThisProcess);
+        snprintf(atosPipeBuf, sizeof(atosPipeBuf), "/usr/bin/atos -o \"%s\" -arch x86_64", pathToThisProcess);
 #elif defined (__i386__)
-            snprintf(atosPipeBuf, sizeof(atosPipeBuf), "/usr/bin/atos -o \"%s\" -arch i386", pathToThisProcess);
+        snprintf(atosPipeBuf, sizeof(atosPipeBuf), "/usr/bin/atos -o \"%s\" -arch i386", pathToThisProcess);
 #else
-            snprintf(atosPipeBuf, sizeof(atosPipeBuf), "/usr/bin/atos -o \"%s\" -arch ppc", pathToThisProcess);
+        snprintf(atosPipeBuf, sizeof(atosPipeBuf), "/usr/bin/atos -o \"%s\" -arch ppc", pathToThisProcess);
 #endif
 
-            atosPipe = popen(atosPipeBuf, "r+");
-            if (atosPipe) {
-                setbuf(atosPipe, 0);
-            }
+        atosPipe = popen(atosPipeBuf, "r+");
+        if (atosPipe) {
+            setbuf(atosPipe, 0);
         }
+    }
 
-        if (cppfiltExists) {
-            cppfiltPipe = popen("/usr/bin/c++filt -s gnu-v3 -n", "r+");
-            if (cppfiltPipe) {
-                setbuf(cppfiltPipe, 0);
-            }
+    if (cppfiltExists) {
+        cppfiltPipe = popen("/usr/bin/c++filt -s gnu-v3 -n", "r+");
+        if (cppfiltPipe) {
+            setbuf(cppfiltPipe, 0);
         }
-        
-        for (i=0; i<frames; i++) {
-            strlcpy(outBuf, symbols[i], sizeof(outBuf));
-            if (cppfiltPipe) {
-                sourceSymbol = strstr(outBuf, "0x");
+    }
+    
+    for (i=0; i<frames; i++) {
+        strlcpy(outBuf, symbols[i], sizeof(outBuf));
+        if (cppfiltPipe) {
+            sourceSymbol = strstr(outBuf, "0x");
+            if (sourceSymbol) {
+                sourceSymbol = strchr(sourceSymbol, (int)'_');
                 if (sourceSymbol) {
-                    sourceSymbol = strchr(sourceSymbol, (int)'_');
-                    if (sourceSymbol) {
-                        strlcpy(cppfiltPipeBuf, sourceSymbol, sizeof(cppfiltPipeBuf)-1);
-                        *sourceSymbol = '\0';
-                        symbolEnd = strchr(cppfiltPipeBuf, (int)' ');
-                        if (symbolEnd) {
-                            strlcpy(offsetBuf, symbolEnd, sizeof(offsetBuf));
-                            *symbolEnd = '\0';
-                        }
-                        fprintf(cppfiltPipe, "%s\n", cppfiltPipeBuf);
-                        BT_PersistentFGets(cppfiltPipeBuf, sizeof(cppfiltPipeBuf), cppfiltPipe);
-                        symbolEnd = strchr(cppfiltPipeBuf, (int)'\n');
-                        if (symbolEnd) {
-                            *symbolEnd = '\0';
-                        }
-                        strlcat(outBuf, cppfiltPipeBuf, sizeof(outBuf));
-                        strlcat(outBuf, offsetBuf, sizeof(outBuf));
+                    strlcpy(cppfiltPipeBuf, sourceSymbol, sizeof(cppfiltPipeBuf)-1);
+                    *sourceSymbol = '\0';
+                    symbolEnd = strchr(cppfiltPipeBuf, (int)' ');
+                    if (symbolEnd) {
+                        strlcpy(offsetBuf, symbolEnd, sizeof(offsetBuf));
+                        *symbolEnd = '\0';
                     }
-                }
-            }
-            
-            if (atosPipe) {
-                fprintf(atosPipe, "%#llx\n", (QTMAddr)callstack[i]);
-                BT_PersistentFGets(atosPipeBuf, sizeof(atosPipeBuf), atosPipe);
-                sourceSymbol = strstr(atosPipeBuf, "0x");
-                if (!sourceSymbol) {        // If atos returned a symbol (not just a hex value)
-                    sourceSymbol = strstr(outBuf, "0x");
-                    if (sourceSymbol) sourceSymbol = strstr(sourceSymbol, " ");
-                    if (sourceSymbol) *++sourceSymbol = '\0'; // Remove questionable symbol from backtrace_symbols()
-                    strlcat(outBuf, " ", sizeof(outBuf));
-                    strlcat(outBuf, atosPipeBuf, sizeof(outBuf));
-                    symbolEnd = strchr(outBuf, (int)'\n');
+                    fprintf(cppfiltPipe, "%s\n", cppfiltPipeBuf);
+                    BT_PersistentFGets(cppfiltPipeBuf, sizeof(cppfiltPipeBuf), cppfiltPipe);
+                    symbolEnd = strchr(cppfiltPipeBuf, (int)'\n');
                     if (symbolEnd) {
                         *symbolEnd = '\0';
                     }
+                    strlcat(outBuf, cppfiltPipeBuf, sizeof(outBuf));
+                    strlcat(outBuf, offsetBuf, sizeof(outBuf));
                 }
             }
-            fprintf(stderr, "%s\n", outBuf);
-        }
-
-        if (atosPipe) {
-            pclose(atosPipe);
         }
         
-        if (cppfiltPipe) {
-            pclose(cppfiltPipe);
-        }
-
-        if (atosExists || cppfiltExists) {
-            if (env) {
-                setenv("NSUnbufferedIO", saved_env, 1);
-            } else {
-                unsetenv("NSUnbufferedIO");
+        if (atosPipe) {
+            fprintf(atosPipe, "%#llx\n", (QTMAddr)callstack[i]);
+            BT_PersistentFGets(atosPipeBuf, sizeof(atosPipeBuf), atosPipe);
+            sourceSymbol = strstr(atosPipeBuf, "0x");
+            if (!sourceSymbol) {        // If atos returned a symbol (not just a hex value)
+                sourceSymbol = strstr(outBuf, "0x");
+                if (sourceSymbol) sourceSymbol = strstr(sourceSymbol, " ");
+                if (sourceSymbol) *++sourceSymbol = '\0'; // Remove questionable symbol from backtrace_symbols()
+                strlcat(outBuf, " ", sizeof(outBuf));
+                strlcat(outBuf, atosPipeBuf, sizeof(outBuf));
+                symbolEnd = strchr(outBuf, (int)'\n');
+                if (symbolEnd) {
+                    *symbolEnd = '\0';
+                }
             }
         }
-        
-skipBackTrace:
-        fprintf(stderr, "\n");
-    } else {
-    // Not OS 10.5.x
-        QCRPrintBacktraces(crRef, stderr);
+        fprintf(stderr, "%s\n", outBuf);
     }
+
+    if (atosPipe) {
+        pclose(atosPipe);
+    }
+    
+    if (cppfiltPipe) {
+        pclose(cppfiltPipe);
+    }
+
+    if (atosExists || cppfiltExists) {
+        if (env) {
+            setenv("NSUnbufferedIO", saved_env, 1);
+        } else {
+            unsetenv("NSUnbufferedIO");
+        }
+    }
+    
+skipBackTrace:
+    fprintf(stderr, "\n");
 
     // make sure this much gets written to file in case future 
     // versions of OS break our crash dump code beyond this point.
@@ -371,11 +367,15 @@ void GetNameOfAndPathToThisProcess(char *nameBuf, size_t nameBufLen, char* outbu
 
 // This is an alternative to using Gestalt(gestaltSystemVersion,..) so 
 // we don't need the Carbon Framework
-static void PrintOSVersion(char *OSMinorVersion) {
+static void PrintOSVersion(int *majorVersion, int *minorVersion) {
     char buf[1024], *p1 = NULL, *p2 = NULL, *p3;
     FILE *f;
     int n;
     
+//ToDo: f = popen("/usr/libexec/PlistBuddy -c \"Print :ProductUserVisibleVersion\" /System/Library/CoreServices/SystemVersion.plist");
+//      fgets(buf, f);
+//      flcose(f);
+
     f = fopen("/System/Library/CoreServices/SystemVersion.plist", "r");
     if (!f)
         return;
@@ -387,9 +387,11 @@ static void PrintOSVersion(char *OSMinorVersion) {
         p1 = strstr(p1, "<string>") + 8;
         p2 = strstr(p1, "</string>");
         if (p2) {
-            // Extract the minor system version number character
+            // Extract the major system version number
+            *majorVersion = atoi(p1);
+            // Extract the minor system version number
             p3 = strchr(p2, '.');
-            *OSMinorVersion = *(p3+1);    // Pass minor version number back to caller
+            *minorVersion = atoi(p3+1);    // Pass minor version number back to caller
             // Now print the full OS version string
             fputs("System version: Macintosh OS ", stderr);
             while (p1 < p2) {

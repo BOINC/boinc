@@ -1733,8 +1733,6 @@ bool HOST_INFO::users_idle(
     bool check_all_logins, double idle_time_to_run, double *actual_idle_time
 ) {
     static bool     error_posted = false;
-    static long     OSVersionInfo = 0;
-    OSStatus        err = noErr;
     double          idleTime = 0;
     double          idleTimeFromCG = 0;
     io_service_t    service;
@@ -1749,9 +1747,7 @@ bool HOST_INFO::users_idle(
     
     if (!triedToLoadNXIdleTime) {
         triedToLoadNXIdleTime = true;
-        err = Gestalt(gestaltSystemVersion, &OSVersionInfo);
-        if (err) OSVersionInfo = 0;
-        
+
         IOKitlib = dlopen ("/System/Library/Frameworks/IOKit.framework/IOKit", RTLD_NOW );
         if (IOKitlib) {
             myNxIdleTimeProc = (nxIdleTimeProc)dlsym(IOKitlib, "NXIdleTime");

@@ -40,22 +40,11 @@ typedef int NSInteger;
 typedef float CGFloat;
 #endif
 
-#ifndef GrafPtr
-// OS 10.7 SDK and later do not have QuickDraw headers
-// Although the run-time libraries are still available, 
-// we use weak linking in case they are removed in 
-// future versions of OS X. 
-typedef struct OpaqueGrafPtr* GrafPtr;
-void GetPort(GrafPtr * port) __attribute__((weak_import));
-void SetPortTextFont(GrafPtr port,short txFont) __attribute__((weak_import));
-void SetPortTextSize(CGrafPtr port, short txSize) __attribute__((weak_import));
-#endif
-#define kHelveticaFontID 21
+static int compareOSVersionTo(int toMajor, int toMinor);
 
 void print_to_log_file(const char *format, ...);
 void strip_cr(char *buf);
 
-static SInt32 gSystemVersion = 0;
 static double gSS_StartTime = 0.0;
 mach_port_t gEventHandle = 0;
 
@@ -106,12 +95,7 @@ int signof(float x) {
 
     gEventHandle = NXOpenEventStatus();
 
-    OSStatus err = Gestalt(gestaltSystemVersion, &gSystemVersion);
-    if (err != noErr) {
-        gSystemVersion = 0;
-    }
-    
-    initBOINCSaver();  
+    initBOINCSaver();
 
     if (gBOINC_Logo == NULL) {
         if (self) {
@@ -288,7 +272,7 @@ int signof(float x) {
 
     // For unkown reasons, OS 10.7 Lion screensaver delays several seconds after 
     // user activity before calling stopAnimation, so we check user activity here
-    if ((gSystemVersion >= 0x1070) && ((getDTime() - gSS_StartTime) > 2.0)) {
+    if ((compareOSVersionTo(10, 7) >= 0) && ((getDTime() - gSS_StartTime) > 2.0)) {
         kernResult = IOHIDGetParameter( gEventHandle, CFSTR(EVSIOIDLE), sizeof(UInt64), &params, &rcnt );
         if ( kernResult == kIOReturnSuccess ) {
             idleTime = ((double)params) / 1000.0 / 1000.0 / 1000.0;
@@ -464,29 +448,14 @@ int signof(float x) {
             CGContextTranslateCTM (myContext, 0, viewBounds.origin.y + viewBounds.size.height);
             CGContextScaleCTM (myContext, 1.0f, -1.0f);
 
-            if (gSystemVersion >= 0x1050) {
-                CTFontRef myFont = CTFontCreateWithName(CFSTR("Helvetica"), 20, NULL);
+            CTFontRef myFont = CTFontCreateWithName(CFSTR("Helvetica"), 20, NULL);
 
-                HIThemeTextInfo theTextInfo = {kHIThemeTextInfoVersionOne, kThemeStateActive, kThemeSpecifiedFont, 
-                            kHIThemeTextHorizontalFlushLeft, kHIThemeTextVerticalFlushTop, 
-                            kHIThemeTextBoxOptionNone, kHIThemeTextTruncationNone, 0, false,
-                            0, myFont
-                            };
-                textInfo = theTextInfo;
-            } else {
-#ifndef __x86_64__
-                GrafPtr port;
-                GetPort(&port);
-                SetPortTextFont(port, kHelveticaFontID);
-                SetPortTextSize(port, 20);
-                
-                HIThemeTextInfo theTextInfo = {0, kThemeStateActive, kThemeCurrentPortFont, //kThemeMenuItemCmdKeyFont, //kThemePushButtonFont, 
-                            kHIThemeTextHorizontalFlushLeft, kHIThemeTextVerticalFlushTop, 
-                            kHIThemeTextBoxOptionNone, kHIThemeTextTruncationNone, 0, false 
-                            };
-                textInfo = theTextInfo;
-#endif
-            }
+            HIThemeTextInfo theTextInfo = {kHIThemeTextInfoVersionOne, kThemeStateActive, kThemeSpecifiedFont, 
+                        kHIThemeTextHorizontalFlushLeft, kHIThemeTextVerticalFlushTop, 
+                        kHIThemeTextBoxOptionNone, kHIThemeTextTruncationNone, 0, false,
+                        0, myFont
+                        };
+            textInfo = theTextInfo;
 
             HIThemeGetTextDimensions(cf_msg, (float)gMovingRect.size.width, &textInfo, NULL, &gActualTextBoxHeight, NULL);
             gActualTextBoxHeight += TEXTBOXTOPBORDER;
@@ -632,3 +601,27 @@ Bad:
 }
 
 @end
+
+
+static int compareOSVersionTo(int toMajor, int toMinor) {
+    SInt32 major, minor;
+    OSStatus err = noErr;
+    
+    err = Gestalt(gestaltSystemVersionMajor, &major);
+    if (err != noErr) {
+        fprintf(stderr, "Gestalt(gestaltSystemVersionMajor) returned error %d\n", err);
+        fflush(stderr);
+        return 0;
+    }
+    if (major < toMajor) return -1;
+    if (major > toMajor) return 1;
+    err = Gestalt(gestaltSystemVersionMinor, &minor);
+    if (err != noErr) {
+        fprintf(stderr, "Gestalt(gestaltSystemVersionMinor) returned error %d\n", err);
+        fflush(stderr);
+        return 0;
+    }
+    if (minor < toMinor) return -1;
+    if (minor > toMinor) return 1;
+    return 0;
+}

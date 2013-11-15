@@ -29,6 +29,7 @@
 void printUsage(void);
 void SetLoginItem(Boolean addLogInItem);
 static char * PersistentFGets(char *buf, size_t buflen, FILE *f);
+static int compareOSVersionTo(int toMajor, int toMinor);
 
 
 int main(int argc, char *argv[])
@@ -39,7 +40,6 @@ int main(int argc, char *argv[])
     Boolean             saverIsSet = false;
     passwd              *pw;
     uid_t               saved_uid;
-    long                OSVersion;
     group               grpBOINC_master, *grpBOINC_masterPtr;
     group               grpBOINC_project, *grpBOINC_projectPtr;
     char                bmBuf[32768];
@@ -73,10 +73,6 @@ int main(int argc, char *argv[])
         return 0;
     }
     
-    err = Gestalt(gestaltSystemVersion, &OSVersion);
-    if (err != noErr)
-        return err;
-
     err = getgrnam_r("boinc_master", &grpBOINC_master, bmBuf, sizeof(bmBuf), &grpBOINC_masterPtr);
     if (err) {          // Should never happen unless buffer too small
         puts("getgrnam(\"boinc_master\") failed\n");
@@ -145,7 +141,7 @@ int main(int argc, char *argv[])
 
         SetLoginItem(AddUsers);                     // Set or remove login item for this user
 
-        if (OSVersion < 0x1060) {
+        if (compareOSVersionTo(10, 6) < 0) {
             sprintf(s, "sudo -u %s defaults -currentHost read com.apple.screensaver moduleName", 
                     pw->pw_name); 
         } else {
@@ -166,8 +162,8 @@ int main(int argc, char *argv[])
         }
 
         if ((!saverIsSet) && SetSavers) {
-            if (OSVersion < 0x1060) {
-                sprintf(s, "sudo -u %s defaults -currentHost write com.apple.screensaver moduleName BOINCSaver", 
+            if (compareOSVersionTo(10, 6) < 0) {
+                sprintf(s, "sudo -u %s defaults -currentHost write com.apple.screensaver moduleName BOINCSaver",
                     pw->pw_name); 
                 system(s);
                 sprintf(s, "sudo -u %s defaults -currentHost write com.apple.screensaver modulePath \"/Library/Screen Savers/BOINCSaver.saver\"", 
@@ -181,8 +177,8 @@ int main(int argc, char *argv[])
         }
         
         if (saverIsSet && (!AddUsers)) {
-            if (OSVersion < 0x1060) {
-                sprintf(s, "sudo -u %s defaults -currentHost write com.apple.screensaver moduleName Flurry", 
+            if (compareOSVersionTo(10, 6) < 0) {
+                sprintf(s, "sudo -u %s defaults -currentHost write com.apple.screensaver moduleName Flurry",
                     pw->pw_name); 
                 system(s);
                 sprintf(s, "sudo -u %s defaults -currentHost write com.apple.screensaver modulePath \"/System/Library/Screen Savers/Flurry.saver\"", 
@@ -261,3 +257,29 @@ static char * PersistentFGets(char *buf, size_t buflen, FILE *f) {
     }
     return (buf[0] ? buf : NULL);
 }
+
+
+static int compareOSVersionTo(int toMajor, int toMinor) {
+    SInt32 major, minor;
+    OSStatus err = noErr;
+    
+    err = Gestalt(gestaltSystemVersionMajor, &major);
+    if (err != noErr) {
+        fprintf(stderr, "Gestalt(gestaltSystemVersionMajor) returned error %ld\n", err);
+        fflush(stderr);
+        return 0;
+    }
+    if (major < toMajor) return -1;
+    if (major > toMajor) return 1;
+    err = Gestalt(gestaltSystemVersionMinor, &minor);
+    if (err != noErr) {
+        fprintf(stderr, "Gestalt(gestaltSystemVersionMinor) returned error %ld\n", err);
+        fflush(stderr);
+        return 0;
+    }
+    if (minor < toMinor) return -1;
+    if (minor > toMinor) return 1;
+    return 0;
+}
+
+

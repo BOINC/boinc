@@ -98,7 +98,12 @@ public:
                         );
 
     bool                Show( bool bShow = true );
-
+    
+    void                SaveFramePosition();
+    void                MoveFrameOffScreen();
+    void                MoveFrameOnScreen();
+    wxPoint             GetOnScreenFramePosition();
+    
     virtual bool        RestoreState();
     virtual bool        SaveState();
 
@@ -121,6 +126,8 @@ protected:
     bool                m_bShowConnectionFailedAlert;
 
     virtual int         _GetCurrentViewPage();
+
+    wxPoint             m_ptFramePos;
 
 
     DECLARE_EVENT_TABLE()

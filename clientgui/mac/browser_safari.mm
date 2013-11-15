@@ -15,10 +15,10 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+#include <Cocoa/Cocoa.h>
+
 #include "str_util.h"
 #include "browser.h"
-
-#include <Cocoa/Cocoa.h>
 
 bool detect_cookie_safari(std::string& project_url, std::string& name, std::string& value)
 {    

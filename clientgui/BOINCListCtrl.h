@@ -42,10 +42,6 @@
 #include "wx/generic/listctrl.h"
 #endif
 
-#ifdef __WXMAC__
-#include "macAccessiblity.h"
-#endif
-
 #include "BOINCBaseView.h"
 
 
@@ -93,23 +89,24 @@ private:
     void                    DrawProgressBars(void);
     
     bool                    m_bProgressBarEventPending;
-
-    DECLARE_EVENT_TABLE()
 #else
  public:
+    void                    SaveEventHandler(wxEvtHandler *stdHandler) { savedHandler = stdHandler; }
     void                    DrawProgressBars(void);
     wxScrolledWindow*       GetMainWin(void) { return (wxScrolledWindow*) m_mainWin; }
-    wxCoord                 GetHeaderHeight(void) { return m_headerHeight; }
+    wxCoord                 GetHeaderHeight(void) { return ((wxWindow *)m_headerWin)->GetSize().y; }
+    wxEvtHandler*           savedHandler;
 #ifdef __WXMAC__
     void                    SetupMacAccessibilitySupport();
     void                    RemoveMacAccessibilitySupport();
+    void                    OnSize( wxSizeEvent &event );
 
-    ListAccessData          accessibilityHandlerData;
-    
-    EventHandlerRef         m_pHeaderAccessibilityEventHandlerRef;
-    EventHandlerRef         m_pBodyAccessibilityEventHandlerRef;
+    void*                   m_fauxHeaderView;
+    void*                   m_fauxBodyView;
 #endif
 #endif
+
+    DECLARE_EVENT_TABLE()
 };
 
 class CDrawProgressBarEvent : public wxEvent

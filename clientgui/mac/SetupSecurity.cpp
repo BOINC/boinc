@@ -722,16 +722,8 @@ static OSStatus CreateUserAndGroup(char * user_name, char * group_name) {
     char            buf2[80];
     char            buf3[80];
     char            buf4[80];
-    SInt32          response;
    
-    err = Gestalt(gestaltSystemVersion, &response);
-    if (err) return err;
-    
     // OS 10.4 has problems with Accounts pane if we create uid or gid > 501
-    if (response < 0x1050) {
-        start_id = 25;
-    }
-    
     pw = getpwnam(user_name);
     if (pw) {
         userid = pw->pw_uid;
@@ -899,25 +891,10 @@ int AddAdminUserToGroups(char *user_name, bool add_to_boinc_project) {
 
 
 static OSStatus ResynchSystem() {
-    SInt32          response;
     OSStatus        err = noErr;
    
-    err = Gestalt(gestaltSystemVersion, &response);
-    if (err) return err;
-    
-    if (response >= 0x1050) {
-        // OS 10.5
-        err = system("dscacheutil -flushcache");
-        err = system("dsmemberutil flushcache");
-        return noErr;
-    }
-    
-    err = system("lookupd -flushcache");
-
-    err = Gestalt(gestaltSystemVersion, &response);
-    if ((err == noErr) && (response >= 0x1040))
-        err = system("memberd -r");           // Available only in OS 10.4
-
+    err = system("dscacheutil -flushcache");
+    err = system("dsmemberutil flushcache");
     return noErr;
 }
 
@@ -931,8 +908,6 @@ static OSStatus SetFakeMasterNames() {
     group               *grp;
     gid_t               boinc_master_gid;
     uid_t               boinc_master_uid;
-    long                response;
-    OSStatus            err = noErr;
 
     boinc_master_uid = geteuid();
     pw = getpwuid(boinc_master_uid);
@@ -946,19 +921,15 @@ static OSStatus SetFakeMasterNames() {
         return -1;
     strlcpy(boinc_master_group_name, grp->gr_name, sizeof(boinc_master_group_name));
     
-    err = Gestalt(gestaltSystemVersion, (SInt32*)&response);
 #ifndef DEBUG_WITH_FAKE_PROJECT_USER_AND_GROUP
-    if ((err == noErr) && (response >= 0x1040)) {
-        // For better debugging of SANDBOX permissions logic
-        strlcpy(boinc_project_user_name, REAL_BOINC_PROJECT_NAME, sizeof(boinc_project_user_name));
-        strlcpy(boinc_project_group_name, REAL_BOINC_PROJECT_NAME, sizeof(boinc_project_group_name));
-    } else 
+    // For better debugging of SANDBOX permissions logic
+    strlcpy(boinc_project_user_name, REAL_BOINC_PROJECT_NAME, sizeof(boinc_project_user_name));
+    strlcpy(boinc_project_group_name, REAL_BOINC_PROJECT_NAME, sizeof(boinc_project_group_name));
+#else
+    // For easier debugging of project applications
+    strlcpy(boinc_project_user_name, pw->pw_name, sizeof(boinc_project_user_name));
+    strlcpy(boinc_project_group_name, grp->gr_name, sizeof(boinc_project_group_name));
 #endif
-    {
-        // For easier debugging of project applications; required under OS 10.3.x
-        strlcpy(boinc_project_user_name, pw->pw_name, sizeof(boinc_project_user_name));
-        strlcpy(boinc_project_group_name, grp->gr_name, sizeof(boinc_project_group_name));
-     }
      
     return noErr;
 }
