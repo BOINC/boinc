@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2013-11-08 00:00 PST\n"
-"PO-Revision-Date: 2013-11-07 07:18+0000\n"
+"PO-Revision-Date: 2013-11-15 18:06+0000\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fi\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-POOTLE-MTIME: 1383808707.0\n"
+"X-POOTLE-MTIME: 1384538817.0\n"
 
 msgid "LANG_NAME_NATIVE"
 msgstr "English"
@@ -1187,7 +1187,7 @@ msgstr "Käytä NVIDIA-näytönohjainta %1 (versiosta 6.10+) %2"
 
 #: ../inc/prefs.inc:344
 msgid "Use Intel GPU %1 Enforced by version 7.2+ %2"
-msgstr ""
+msgstr "Käytä Intel GPUta %1 (versiosta 7.2+) %2"
 
 #: ../inc/prefs.inc:358
 msgid ""
