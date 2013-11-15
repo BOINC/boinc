@@ -86,6 +86,9 @@
 #ifndef _WIN32_IE
 #define _WIN32_IE 0x0501
 #endif
+#ifndef SECURITY_WIN32
+#define SECURITY_WIN32
+#endif
 
 #include <windows.h>
 #include <share.h>
@@ -94,6 +97,7 @@
 #include <aclapi.h>
 #include <psapi.h>
 #include <iphlpapi.h>
+#include <security.h>
 
 #if !defined(__CYGWIN32__) || defined(USE_WINSOCK)
 

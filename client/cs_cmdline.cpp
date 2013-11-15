@@ -244,6 +244,7 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
             config.suppress_net_info = true;
         } else if (ARG(unsigned_apps_ok)) {
             config.unsigned_apps_ok = true;
+            config.dont_check_file_sizes = true;
         } else if (ARG(update_prefs)) {
             if (i == argc-1) show_options = true;
             else safe_strcpy(update_prefs_url, argv[++i]);
