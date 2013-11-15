@@ -21,13 +21,6 @@
 extern BOOL IsWindows2000Compatible();extern BOOL IsTerminalServicesEnabled();
 extern BOOL ValidateProductSuite(LPSTR SuiteName);
 extern BOOL TerminateProcessById(DWORD dwProcessId);
-extern BOOL AddAceToWindowStation(HWINSTA hwinsta, PSID psid);
-extern BOOL AddAceToDesktop(HDESK hdesk, PSID psid);
-extern BOOL GetAccountSid(
-    LPCSTR SystemName,          // where to lookup account
-    LPCSTR AccountName,         // account of interest
-    PSID *Sid                   // resultant buffer containing SID
-);
 extern void chdir_to_data_dir();
 extern bool is_remote_desktop();
 

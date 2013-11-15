@@ -665,12 +665,12 @@ int main(int argc, char** argv) {
         if ((vm_log.find("VERR_VMX_MSR_LOCKED_OR_DISABLED") != string::npos) || (vm_log.find("VERR_SVM_DISABLED") != string::npos)) {
             fprintf(
                 stderr,
-                "%s NOTE: BOINC has detected that your processor supports hardware acceleration for virtual machines\n"
-                "    but the hypervisor failed to successfully launch with this feature enabled. This means that the\n"
-                "    hardware acceleration feature has been disabled in the computers BIOS. Please enable this\n"
-                "    feature in your BIOS.\n"
-                "    Intel Processors call it 'VT-x'\n"
-                "    AMD Processors call it 'AMD-V'\n"
+                "%s NOTE: BOINC has detected that your computer's processor supports hardware acceleration for\n"
+                "    virtual machines but the hypervisor failed to successfully launch with this feature enabled.\n"
+                "    This means that the hardware acceleration feature has been disabled in the computer's BIOS.\n"
+                "    Please enable this feature in your computer's BIOS.\n"
+                "    Intel calls it 'VT-x'\n"
+                "    AMD calls it 'AMD-V'\n"
                 "    More information can be found here: http://en.wikipedia.org/wiki/X86_virtualization\n"
                 "    Error Code: ERR_CPU_VM_EXTENSIONS_DISABLED\n",
                 vboxwrapper_msg_prefix(buf, sizeof(buf))
