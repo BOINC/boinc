@@ -14,10 +14,10 @@
 \b0\fs24 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc
 \cf0 Written by Charlie Fenton\
-Last updated 7/31/13\
+Last updated 11/15/13\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
 \cf0 \
-This document applies to BOINC version 7.2.8 and later.  It has instructions for building the BOINC Client and Manager for Macintosh OSX.  Information for building science project applications to run under BOINC on Macintosh OSX can be found {\field{\*\fldinst{HYPERLINK "http://boinc.berkeley.edu/trac/wiki/BuildMacApp"}}{\fldrslt here}}.  \
+This document applies to BOINC version 7.3.0 and later.  It has instructions for building the BOINC Client and Manager for Macintosh OSX.  Information for building science project applications to run under BOINC on Macintosh OSX can be found {\field{\*\fldinst{HYPERLINK "http://boinc.berkeley.edu/trac/wiki/BuildMacApp"}}{\fldrslt here}}.  \
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
 
@@ -69,7 +69,7 @@ You need to take certain steps to ensure that you use only APIs that are availab
 \cf0 Be sure to follow the directions in this document to ensure that these requirements are met.\
 \
 \pard\pardeftab720\sa260
-\cf0 Starting with version 6.10.58, the BOINC Client supports only Mac OS X 10.4.0 and later. This allows it to be built with XCode 3.2 and later, which do not support the Mac OS 10.3.9 SDK.\
+\cf0 Starting with version 7.3.0, the BOINC Client supports only Mac OS X 10.5.0 and later. \
 \pard\pardeftab720\sa260\qc
 
 \b\fs28 \cf0 Cross-Platform Development
@@ -80,12 +80,12 @@ You need to take certain steps to ensure that you use only APIs that are availab
 You get these tools, including the GCC compilers and system library header files, by installing the Xcode Tools package. \
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
 
-\b \cf0 Building BOINC now requires Xcode Tools version 3.2 or later but Xcode 4.3 or later is recommended. 
+\b \cf0 Building BOINC now requires Xcode Tools version 4.6 or later. 
 \b0  \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
 \cf0 \
 \pard\pardeftab720\sa260
-\cf0 You can download Xcode 4.3 or Xcode 4.4 from Apple's App Store (it is large: about 2 GB).  If you are a member of Apple's Mac Developer Program, you can also download it from Apple's web site: {\field{\*\fldinst{HYPERLINK "http://developer.apple.com"}}{\fldrslt 
+\cf0 You can download Xcode 4.6 or later from Apple's App Store (it is large: about 2 GB).  If you are a member of Apple's Mac Developer Program, you can also download it from Apple's web site: {\field{\*\fldinst{HYPERLINK "http://developer.apple.com"}}{\fldrslt 
 \f1\fs26 http://developer.apple.com}}\cf2 .\cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
 \cf0 Source files are now archived using git.  For details, see:\
@@ -99,15 +99,15 @@ You get these tools, including the GCC compilers and system library header files
 
 \b0\fs24 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
-\cf0 BOINC depends on six third-party libraries: wxMac-2.8.10, c-ares-1.9.1, curl-7.26.0, openssl-1.0.1e,  freetype-2.4.10, ftgl-2.1.3~rc5 and sqlite3.7.14.1.  You can obtain the source files from the following URLs:\
+\cf0 BOINC depends on six third-party libraries: wxWidgets-3.0, c-ares-1.9.1, curl-7.26.0, openssl-1.0.1e,  freetype-2.4.10, ftgl-2.1.3~rc5 and sqlite3.7.14.1.  You can obtain the source files from the following URLs:\
 \
-wxMac-2.8.10 (needed  only if you are building the BOINC Manager):\
+wxWidgets-3.0 (needed  only if you are building the BOINC Manager):\
 	{\field{\*\fldinst{HYPERLINK "http://www.wxwidgets.org"}}{\fldrslt 
 \f1\fs26 http://www.wxwidgets.org}}
 \f1\fs26 \
 
-\f0\fs24 	{\field{\*\fldinst{HYPERLINK "http://prdownloads.sourceforge.net/wxwindows/wxMac-2.8.10.tar.gz"}}{\fldrslt 
-\f1\fs26 http://prdownloads.sourceforge.net/wxwindows/wxMac-2.8.10.tar.gz}}
+\f0\fs24 	{\field{\*\fldinst{HYPERLINK "http://sourceforge.net/projects/wxwindows/files/3.0.0/wxWidgets-3.0.0.tar.bz2/"}}{\fldrslt 
+\f1\fs26 http://sourceforge.net/projects/wxwindows/files/3.0.0/wxWidgets-3.0.0.tar.bz2/}}
 \f1\fs26 \
 
 \f0\fs24 \
@@ -171,16 +171,16 @@ ftgl-2.1.3~rc5 (needed  only if you are building the BOINC default screensaver o
 \pard\pardeftab720\sa260
 
 \f0\fs24 \cf0 (Don't forget to expand the tar files by double-clicking on them.)\
-XCode will automatically check compatibility back to OS 10.4 if the following are defined during compilation:\
+XCode will automatically check compatibility back to OS 10.5 if the following are defined during compilation:\
 \pard\pardeftab720
 
-\f1\fs26 \cf0 MAC_OS_X_VERSION_MAX_ALLOWED=1040\
-MAC_OS_X_VERSION_MIN_REQUIRED=1040\
+\f1\fs26 \cf0 MAC_OS_X_VERSION_MAX_ALLOWED=1050\
+MAC_OS_X_VERSION_MIN_REQUIRED=1050\
 \pard\pardeftab720
 
 \f0\fs24 \cf0 \
 \pard\pardeftab720\sa260
-\cf0 These are not done automatically by either the Xcode projects which come with wxMac-2.8.10, nor  the AutoMake scripts supplied with wxMac-2.8.10, c-ares-1.9.1, curl-7.26.0, openssl-1.0.1e, freetype-2.4.10, ftgl-2.1.3~rc5 and sqlite3.7.14.1.  So be sure to use our special scripts to build these packages.\
+\cf0 These are not done automatically by either the Xcode projects which come with wxWidgets-3.0, nor  the AutoMake scripts supplied with wxWidgets-3.0, c-ares-1.9.1, curl-7.26.0, openssl-1.0.1e, freetype-2.4.10, ftgl-2.1.3~rc5 and sqlite3.7.14.1.  So be sure to use our special scripts to build these packages.\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
 \cf0 [1] Create a parent directory within which to work.  In this description , we will call it BOINC_dev, but you can name it anything you wish.\
 \
@@ -194,7 +194,7 @@ MAC_OS_X_VERSION_MIN_REQUIRED=1040\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
 \cf0     openssl-1.0.1e\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
-\cf0     wxMac-2.8.10\
+\cf0     wxWidgets-3.0\
     freetype-2.4.10\
     ftgl-2.1.3~rc5\
     
@@ -204,13 +204,6 @@ MAC_OS_X_VERSION_MIN_REQUIRED=1040\
 
 \f0\fs24 \cf0 \
 Important: do not change the names of any of these 6 directories.\
-\
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
-
-\b \cf0 Note:
-\b0  Building wxMac-2.8.10 requires the MacOSX10.6.sdk, which is not included in Xcode 4.5.  If you are building wxMac-2.8.10 with Xcode 4.5, see the section 
-\i\b Installing and setting up Xcode
-\i0\b0  for further information.\
 \
 [3] Get the BOINC source tree from Subversion, and put it in the same BOINC_dev folder.  To do this, type the following in Terminal:\
 \
@@ -232,7 +225,7 @@ The command above retrieves the source code from the HEAD (TRUNK) or development
 	{\field{\*\fldinst{HYPERLINK "http://boinc.berkeley.edu/trac/wiki/SourceCodeGit"}}{\fldrslt 
 \f1\fs26 http://boinc.berkeley.edu/trac/wiki/SourceCodeGit}}\
 \
-[4] Run the script to build the c-ares, curl, openssl, wxMac, freetype, ftgl and sqlite3 libraries as follows:\
+[4] Run the script to build the c-ares, curl, openssl, wxWidgets, freetype, ftgl and sqlite3 libraries as follows:\
 \
 \pard\pardeftab720
 
@@ -253,7 +246,7 @@ If you don't wish to force a full rebuild of everything, omit the -clean argumen
 \f0\fs24  command to run them.\
 
 \b Note 2:
-\b0  this script tries to build all six third-party libraries: wxMac-2.8.10, c-ares-1.9.1, curl-7.26.0, openssl-1.0.1e,  freetype-2.4.10, ftgl-2.1.3~rc5 and sqlite3.7.14.1.  when the script finishes, it will display a warning about any libraries was unable to build (for example, if you have not downloaded them.)\
+\b0  this script tries to build all six third-party libraries: wxWidgets-3.0, c-ares-1.9.1, curl-7.26.0, openssl-1.0.1e,  freetype-2.4.10, ftgl-2.1.3~rc5 and sqlite3.7.14.1.  when the script finishes, it will display a warning about any libraries was unable to build (for example, if you have not downloaded them.)\
 \
 [5] Build BOINC as follows:\
 \
@@ -299,13 +292,9 @@ The options for BuildMacBOINC.sh are:\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
 
 \b \cf0 Note 1:
-\b0  You may find two Xcode projects in the BOINC_dev/boinc/mac_build/ directory: \
-  \'95 
-\b wxMac-BOINC.xcodeproj
-\b0  was needed for building older versions of the wxMac library in conjunction with the older versions of the setupForBoinc.sh or buildWxMac.sh scripts.  It is not used for BOINC 5.9.2 or later.  \
-  \'95 
+\b0  
 \b boinc.xcodeproj
-\b0  builds BOINC.  It can be used either with the BuildMacBOINC.sh script or as a stand-alone project.  The 
+\b0  in the BOINC_dev/boinc/mac_build/ directory builds BOINC.  It can be used either with the BuildMacBOINC.sh script or as a stand-alone project.  The 
 \i Development
 \i0  build configuration builds only the native architecture and is used for debugging.  The 
 \i Deployment
@@ -313,7 +302,7 @@ The options for BuildMacBOINC.sh are:\
 \
 
 \b Note 2: 
-\b0 To perform a release build under Xcode 4.3 when not using the BuildMacBOINC.sh script, select "Build for archiving" from Xcode's Product menu.  Do 
+\b0 To perform a release build under Xcode 4.6 when not using the BuildMacBOINC.sh script, select "Build for archiving" from Xcode's Product menu.  Do 
 \b not
 \b0  select "Archive."\
 \
@@ -414,7 +403,7 @@ The
 \i Development
 \i0  build 
 \i only
-\i0  of the BOINC Manager allows you to change the ownership and permission settings of the BOINC Data and executables by entering an administrator user name and password.  This also streamlines the development cycle by avoiding the need to run the installer for every change.  (To generate the development build under Xcode 4.3, choose "Build" from the product menu, or enter command-B on the keyboard.)\
+\i0  of the BOINC Manager allows you to change the ownership and permission settings of the BOINC Data and executables by entering an administrator user name and password.  This also streamlines the development cycle by avoiding the need to run the installer for every change.  (To generate the development build under Xcode 4.6, choose "Build" from the product menu, or enter command-B on the keyboard.)\
 \
 To restore the standard ownerships and permissions, run the installer.\
 \
@@ -444,38 +433,4 @@ Versions of Xcode prior to Xcode 4.3 have an installer package. After downloadin
 Starting with Xcode 4.3, the disk image contains a copy of Xcode itself.  After mounting the disk image, drag the Xcode icon to the folder where you wish it to reside.  In most cases, this will be the 
 \f1\fs26 /Applications/
 \f0\fs24  folder.  Unmount the disk image by dragging it to the trash.  Finally, double-click on the installed Xcode icon to run Xcode.  Xcode will display a dialog allowing you to finish the installation; you must do this before running BOINC's build scripts.  (Some versions of Xcode may not display this dialog until you open a file with Xcode.)\
-\
-Building wxMac-2.8.10 requires the MacOSX10.6.sdk, which is not included in Xcode 4.5.  If you are building wxMac-2.8.10 with Xcode 4.5, you must install the OS 10.6 SDK as follows:\
-[1] Download a version of Xcode for OS 10.7 Lion (such as Xcode 4.3.3.)\
-[2] Mount the disk image file by double-clicking on it.  Do 
-\b not
-\b0  drag-install this older version of Xcode.\
-[3] On the disk image, control-click on the Xcode icon and select 
-\f1\fs26 Show Package Contents
-\f0\fs24 .\
-[4] On the older Xcode disk image, browse to the directory:\
-    
-\f1\fs26  /Volumes/Xcode/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/
-\f0\fs24 \
-You should see a folder named 
-\f1\fs26 MacOSX10.6.sdk
-\f0\fs24 .\
-[5] Control-click on your newer Xcode icon (which you previously installed on your hard drive) and select 
-\f1\fs26 Show Package Contents
-\f0\fs24 .\
-[6] In your newer Xcode Browse to the directory:\
-    
-\f1\fs26  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/\
-
-\f0\fs24 (or the equivalent if you installed it somewhere other than your 
-\f1\fs26 /Applications/
-\f0\fs24  folder.)\
-[7] Copy the 
-\f1\fs26 MacOSX10.6.sdk
-\f0\fs24  folder from the 
-\f1\fs26 SDKs
-\f0\fs24  folder on the older disk image to the 
-\f1\fs26 SDKs
-\f0\fs24  folder in the newer Xcode.\
-[8] Unmount the disk image by dragging it to the trash.\
 }
