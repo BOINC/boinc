@@ -609,7 +609,7 @@ static int compareOSVersionTo(int toMajor, int toMinor) {
     
     err = Gestalt(gestaltSystemVersionMajor, &major);
     if (err != noErr) {
-        fprintf(stderr, "Gestalt(gestaltSystemVersionMajor) returned error %d\n", err);
+        fprintf(stderr, "Gestalt(gestaltSystemVersionMajor) returned error %ld\n", (long)err);
         fflush(stderr);
         return 0;
     }
@@ -617,7 +617,7 @@ static int compareOSVersionTo(int toMajor, int toMinor) {
     if (major > toMajor) return 1;
     err = Gestalt(gestaltSystemVersionMinor, &minor);
     if (err != noErr) {
-        fprintf(stderr, "Gestalt(gestaltSystemVersionMinor) returned error %d\n", err);
+        fprintf(stderr, "Gestalt(gestaltSystemVersionMinor) returned error %ld\n", (long)err);
         fflush(stderr);
         return 0;
     }
