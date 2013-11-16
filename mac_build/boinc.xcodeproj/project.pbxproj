@@ -184,6 +184,7 @@
 		DD52C81408B5D484008D9AA4 /* network.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD6D0A8507E9A61B007F882B /* network.cpp */; };
 		DD531BC60C193D3800742E50 /* MacInstaller.icns in Resources */ = {isa = PBXBuildFile; fileRef = DD531BC50C193D3800742E50 /* MacInstaller.icns */; };
 		DD531BC80C193D5200742E50 /* MacUninstaller.icns in Resources */ = {isa = PBXBuildFile; fileRef = DD531BC70C193D5200742E50 /* MacUninstaller.icns */; };
+		DD5A6C0E18371AD400C45322 /* mac_address.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD5A6C0C18371A8600C45322 /* mac_address.cpp */; };
 		DD5BF77D0D4F3D0C00EDF980 /* mac_icon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD6381450870DB78007A2F8E /* mac_icon.cpp */; };
 		DD5FE1B517828887003339DF /* translate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDF9350F176B0D0C00A2793C /* translate.cpp */; };
 		DD6381F90870DD83007A2F8E /* make_app_icon_h.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD6381F80870DD83007A2F8E /* make_app_icon_h.cpp */; };
@@ -890,6 +891,8 @@
 		DD58C46408F334EA00C1DF66 /* WelcomePage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = WelcomePage.h; path = ../clientgui/WelcomePage.h; sourceTree = SOURCE_ROOT; };
 		DD58C46908F334EA00C1DF66 /* wizardex.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = wizardex.cpp; path = ../clientgui/wizardex.cpp; sourceTree = SOURCE_ROOT; };
 		DD58C46A08F334EA00C1DF66 /* wizardex.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = wizardex.h; path = ../clientgui/wizardex.h; sourceTree = SOURCE_ROOT; };
+		DD5A6C0C18371A8600C45322 /* mac_address.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mac_address.cpp; sourceTree = "<group>"; };
+		DD5A6C0D18371A8600C45322 /* mac_address.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mac_address.h; sourceTree = "<group>"; };
 		DD5EF07007C5B329007CCE8D /* whetstone.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = whetstone.cpp; sourceTree = "<group>"; };
 		DD5EF08807C5B7C7007CCE8D /* version.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = version.h; path = ../version.h; sourceTree = SOURCE_ROOT; };
 		DD6381450870DB78007A2F8E /* mac_icon.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = mac_icon.cpp; sourceTree = "<group>"; };
@@ -1813,6 +1816,8 @@
 				DD344BB607C5AEEE0043025C /* hostinfo.cpp */,
 				DD344BB707C5AEEE0043025C /* hostinfo.h */,
 				DDA6BCED0BD4546D008F7921 /* mac */,
+				DD5A6C0C18371A8600C45322 /* mac_address.cpp */,
+				DD5A6C0D18371A8600C45322 /* mac_address.h */,
 				F5159562029EB02001F5651B /* md5.c */,
 				F5159563029EB02001F5651B /* md5.h */,
 				F5159564029EB02001F5651B /* md5_file.cpp */,
@@ -2954,6 +2959,7 @@
 				DDA6BD1F0BD4551F008F7921 /* QTaskMemory.c in Sources */,
 				DDB4A91F1411840800032E5D /* proc_control.cpp in Sources */,
 				DD76BF9317CB45A20075936D /* opencl_boinc.cpp in Sources */,
+				DD5A6C0E18371AD400C45322 /* mac_address.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
