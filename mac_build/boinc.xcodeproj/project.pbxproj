@@ -1150,7 +1150,7 @@
 		DDE1741E166746F70059083A /* app_config.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = app_config.cpp; sourceTree = "<group>"; };
 		DDE1741F166746F70059083A /* app_config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = app_config.h; sourceTree = "<group>"; };
 		DDE2552B07C62F3E008E7D6E /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = /System/Library/Frameworks/IOKit.framework; sourceTree = "<absolute>"; };
-		DDE36DF517C3896A000E78D6 /* libwx_osx_cocoa_static.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libwx_osx_cocoa_static.a; path = "../../wxWidgets-3.0.0-rc1/build/osx/build/Debug/libwx_osx_cocoa_static.a"; sourceTree = "<group>"; };
+		DDE36DF517C3896A000E78D6 /* libwx_osx_cocoa_static.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libwx_osx_cocoa_static.a; path = "../../wxWidgets-3.0.0/build/osx/build/Debug/libwx_osx_cocoa_static.a"; sourceTree = SOURCE_ROOT; };
 		DDE3A87F0E90D1BF00A363A7 /* client_state.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = client_state.cpp; sourceTree = "<group>"; };
 		DDE3A8840E90D23400A363A7 /* scheduler_op.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = scheduler_op.cpp; sourceTree = "<group>"; };
 		DDE41C250C1FCA8F00CA1F86 /* graphics2_util.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = graphics2_util.cpp; sourceTree = "<group>"; };
