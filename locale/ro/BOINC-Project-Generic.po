@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2013-11-08 00:00 PST\n"
-"PO-Revision-Date: 2013-11-12 12:10+0000\n"
+"PO-Revision-Date: 2013-11-16 18:01+0000\n"
 "Last-Translator: Marius <marius.sirbu@outlook.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: ro\n"
@@ -18,7 +18,7 @@ msgstr ""
 "20)) ? 1 : 2);;\n"
 "X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-POOTLE-MTIME: 1384258259.0\n"
+"X-POOTLE-MTIME: 1384624877.0\n"
 
 msgid "LANG_NAME_NATIVE"
 msgstr "Română"
@@ -3676,7 +3676,7 @@ msgstr ""
 
 #: ../user/forum_forum.php:174
 msgid "This thread is hidden"
-msgstr ""
+msgstr "Acest fir este ascuns"
 
 #: ../user/forum_forum.php:178
 msgid "This thread is sticky and locked, and you haven't read it yet"
@@ -3725,19 +3725,19 @@ msgstr ""
 
 #: ../user/forum_forum.php:198
 msgid "This thread is locked"
-msgstr ""
+msgstr "Acest fir este blocat"
 
 #: ../user/forum_forum.php:198
 msgid "locked"
-msgstr ""
+msgstr "blocat"
 
 #: ../user/forum_forum.php:200
 msgid "You read this thread"
-msgstr ""
+msgstr "Aţi citit acest fir"
 
 #: ../user/forum_forum.php:200
 msgid "read"
-msgstr ""
+msgstr "citit"
 
 #: ../user/forum_help_desk.php:27
 msgid "Questions and answers"
@@ -3751,7 +3751,7 @@ msgstr ""
 
 #: ../user/forum_help_desk.php:44 ../user/forum_index.php:92
 msgid "Topic"
-msgstr ""
+msgstr "Subiect"
 
 #: ../user/forum_help_desk.php:45
 msgid "Questions"
@@ -3886,15 +3886,15 @@ msgstr ""
 
 #: ../user/forum_moderate_thread.php:72
 msgid "Current forum"
-msgstr ""
+msgstr "Forum curent"
 
 #: ../user/forum_moderate_thread.php:73
 msgid "Destination forum"
-msgstr ""
+msgstr "Forum destinaţie"
 
 #: ../user/forum_moderate_thread.php:77
 msgid "New title:"
-msgstr ""
+msgstr "Titlu nou:"
 
 #: ../user/forum_post.php:40
 msgid ""
@@ -3924,7 +3924,7 @@ msgstr ""
 
 #: ../user/forum_post.php:127
 msgid "Show this item as a Notice in the BOINC Manager"
-msgstr ""
+msgstr "Arată acest element ca Anunţ în BOINC Manager"
 
 #: ../user/forum_post.php:127
 msgid "Do so only for items likely to be of interest to all volunteers."
@@ -3936,7 +3936,7 @@ msgstr ""
 
 #: ../user/forum_rate.php:27
 msgid "This function is turned off by the project"
-msgstr ""
+msgstr "Această funcţie este dezactivată de proiect"
 
 #: ../user/forum_rate.php:58
 msgid "You need more average or total credit to rate a post."
@@ -3951,7 +3951,7 @@ msgstr ""
 #: ../user/forum_report_post.php:94 ../user/forum_subscribe.php:54
 #: ../user/forum_subscribe.php:69 ../user/forum_thread_status.php:51
 msgid "Return to thread"
-msgstr ""
+msgstr "Înapoi la fir"
 
 #: ../user/forum_rate.php:72
 msgid "Input Recorded"
