@@ -1018,7 +1018,13 @@ function show_result_ops($result) {
     row("claimed credit", $result->claimed_credit);
     row("Granted credit", $result->granted_credit);
     row("Application", "<a href=\"db_action.php?table=app&id=$result->appid\">".app_name_by_id($result->appid)."</a>");
-    row("App version", "<a href=\"db_action.php?table=app_version&appid=$result->appid&clauses=version_num%3D$result->app_version_num\">".app_version_string($result)."</a>");
+    if ($result->app_version_id > 0) {
+        $x1 = "<a href=\"db_action.php?table=app_version&amp;id=$result->app_version_id\">";
+        $x2 = "</a>";
+    } else {
+        $x1 = $x2 = "";
+    }
+    row("App version", $x1.app_version_string($result).$x2);
     row("App version ID", $result->app_version_id);
     row("Estimated GFLOPS", number_format($result->flops_estimate/1e9, 2));
     row("Random",$result->random);
