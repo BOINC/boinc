@@ -529,7 +529,7 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
             _("If you have not yet registered with this account manager,\nplease do so before proceeding.  Click on the link below\nto register or to retrieve a forgotten password." )
         );
         m_pAccountForgotPasswordCtrl->SetLabel(
-            _("Account manager website")
+            _("Account manager web site")
         );
         m_pAccountForgotPasswordCtrl->SetURL(
             wxString(pWA->m_AccountManagerInfoPage->GetProjectURL())

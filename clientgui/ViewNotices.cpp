@@ -54,17 +54,17 @@ CViewNotices::CViewNotices(wxNotebook* pNotebook) :
     itemFlexGridSizer->AddGrowableCol(0);
 
     m_FetchingNoticesText = new wxStaticText(
-                                    this, wxID_ANY, 
-                                    _("Fetching notices; please wait..."), 
-                                    wxPoint(20, 20), wxDefaultSize, 0
-                                    );
+        this, wxID_ANY, 
+        _("Fetching notices; please wait..."), 
+        wxPoint(20, 20), wxDefaultSize, 0
+    );
     itemFlexGridSizer->Add(m_FetchingNoticesText, 0, wxALL, 1);
 
     m_NoNoticesText = new wxStaticText(
-                                    this, wxID_ANY, 
-                                    _("There are no notices at this time."), 
-                                    wxPoint(20, 20), wxDefaultSize, 0
-                                    );
+        this, wxID_ANY, 
+        _("There are no notices at this time."), 
+        wxPoint(20, 20), wxDefaultSize, 0
+    );
     itemFlexGridSizer->Add(m_NoNoticesText, 0, wxALL, 1);
 
 	m_pHtmlListPane = new CNoticeListCtrl(this);

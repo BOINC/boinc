@@ -287,7 +287,7 @@ void CAccountManagerInfoPage::OnPageChanged( wxWizardExEvent& event ) {
         _("Open web page")
     );
 
-    m_pOpenWebSiteButton->SetToolTip( _("Visit this account manager's website"));
+    m_pOpenWebSiteButton->SetToolTip( _("Visit this account manager's web site"));
 
     // Populate the list box with project information
     //

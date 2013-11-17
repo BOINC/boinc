@@ -264,7 +264,7 @@ void CSimpleProjectPanel::UpdateInterface() {
             m_TotalCreditValue->SetName(str);   // For accessibility on Windows
         }
         projName = m_ProjectSelectionCtrl->GetStringSelection();
-        str.Printf(_("Pop up a menu of websites for project %s"), projName.c_str());
+        str.Printf(_("Pop up a menu of web sites for project %s"), projName.c_str());
         m_ProjectWebSitesButton->SetToolTip(str);
         str.Printf(_("Pop up a menu of commands to apply to project %s"), projName.c_str());
         m_ProjectCommandsButton->SetToolTip(str);

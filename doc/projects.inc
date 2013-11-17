@@ -44,15 +44,26 @@ $cogsci = array(
             "MindModeling@Home uses computational cognitive process modeling to better understand the human mind, and specifically to study the mechanisms and processes that enable and moderate human performance and learning.",
             "mmlogo.gif"
         ),
-//        array(
-//            "FreeHAL",
-//            "http://www.freehal.net/freehal_at_home/",
-//            tra("Private"),
-//            tra("Artificial intelligence"),
-//            tra("Parse and convert semantic nets for use in FreeHAL, an artificial intelligence that uses semantic networks, stemmers, part of speech databases, and part of speech taggers in order to imitate human behavior in conversations.")
-//        ),
     ),
 );
+
+// put projects here if
+// - you don't want to show them in project list, but
+// - you might want to show them in the future.
+// That way their strings will still appear in the translation file
+//
+$dormant_projects = array(
+    array(
+        array(
+            "FreeHAL",
+            "http://www.freehal.net/freehal_at_home/",
+            tra("Private"),
+            tra("Artificial intelligence"),
+            tra("Parse and convert semantic nets for use in FreeHAL, an artificial intelligence that uses semantic networks, stemmers, part of speech databases, and part of speech taggers in order to imitate human behavior in conversations.")
+        ),
+    ),
+);
+
 
 $biomed = array(
     tra("Biology and Medicine"),

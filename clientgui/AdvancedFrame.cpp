@@ -654,7 +654,7 @@ bool CAdvancedFrame::CreateMenu() {
     // %s is the project name
     //    i.e. 'BOINC', 'GridRepublic'
     strMenuName.Printf(
-        _("%s &website"), 
+        _("%s &web site"), 
         pSkinAdvanced->GetApplicationShortName().c_str()
     );
     // %s is the application name

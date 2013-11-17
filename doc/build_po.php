@@ -41,5 +41,5 @@ stream_copy_to_stream($pipe, $out);
 fclose($pipe);
 fclose($out);
 
-echo "Created BOINC-Web.pot.  Move it to ../locale/templates\n";
+echo "Created BOINC-Web.pot.  If it's OK, move it to ../locale/templates and commit\n";
 ?>
