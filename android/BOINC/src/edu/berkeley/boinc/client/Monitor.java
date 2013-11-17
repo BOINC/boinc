@@ -34,16 +34,15 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
-
 import android.app.NotificationManager;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.AsyncTask;
 import android.os.Binder;
 import android.os.Build;
 import android.os.IBinder;
@@ -82,7 +81,6 @@ public class Monitor extends Service {
 	private String clientConfig; 
 	private String authFileName; 
 	private String allProjectsList; 
-	private String globalOverridePreferences;
 	private String clientPath; 
 	private Integer clientStatusInterval;
 	private Integer deviceStatusIntervalScreenOff;
@@ -120,10 +118,10 @@ public class Monitor extends Service {
 		status.setSetupStatus(ClientStatus.SETUP_STATUS_LAUNCHING,true);
 		String clientProcessName = clientPath + clientName;
 
-		String md5AssetClient = ComputeMD5Asset(clientName);
+		String md5AssetClient = computeMd5(clientName, true);
 		//if(Logging.DEBUG) Log.d(Logging.TAG, "Hash of client (Asset): '" + md5AssetClient + "'");
 
-		String md5InstalledClient = ComputeMD5File(clientProcessName);
+		String md5InstalledClient = computeMd5(clientProcessName, false);
 		//if(Logging.DEBUG) Log.d(Logging.TAG, "Hash of client (File): '" + md5InstalledClient + "'");
 
 		// If client hashes do not match, we need to install the one that is a part
@@ -264,13 +262,20 @@ public class Monitor extends Service {
     	return true; 
     }
     
+    // Copies file from APK's assets directory to internal storage
 	private Boolean installFile(String file, Boolean override, Boolean executable) {
     	Boolean success = false;
     	byte[] b = new byte [1024];
 		int count; 
 		
+		// If file is executable, cpu architecture has to be evaluated
+		// and assets directory select accordingly
+		String source = "";
+		if(executable) source = getAssestsDirForCpuArchitecture() + file;
+		else source = file;
+		
 		try {
-			if(Logging.DEBUG) Log.d(Logging.TAG, "installing: " + file);
+			if(Logging.DEBUG) Log.d(Logging.TAG, "installing: " + source);
 			
     		File target = new File(clientPath + file);
     		
@@ -290,7 +295,7 @@ public class Monitor extends Service {
     		}
     		
     		// Copy file from the asset manager to clientPath
-    		InputStream asset = getApplicationContext().getAssets().open(file); 
+    		InputStream asset = getApplicationContext().getAssets().open(source); 
     		OutputStream targetData = new FileOutputStream(target); 
     		while((count = asset.read(b)) != -1){ 
     			targetData.write(b, 0, count);
@@ -309,14 +314,54 @@ public class Monitor extends Service {
     			success = isExecutable; // return false, if not executable
     		}
 
-    		if(Logging.DEBUG) Log.d(Logging.TAG, "install of " + file + " successfull. executable: " + executable + "/" + isExecutable);
+    		if(Logging.DEBUG) Log.d(Logging.TAG, "install of " + source + " successfull. executable: " + executable + "/" + isExecutable);
     		
     	} catch (IOException e) {  
     		if(Logging.ERROR) Log.e(Logging.TAG, "IOException: " + e.getMessage());
-    		if(Logging.DEBUG) Log.d(Logging.TAG, "install of " + file + " failed.");
+    		if(Logging.DEBUG) Log.d(Logging.TAG, "install of " + source + " failed.");
     	}
 		
 		return success;
+	}
+	
+	// correct directory of binaries in assets directory depends on
+	// the cpu architecture of the device: arm, x86 or mips
+	// this function returns the directory to the right assets directory
+	// defaults to ARM
+	private String getAssestsDirForCpuArchitecture() {
+		String archAssetsDirectory="";
+		switch(getBoincPlatform()) {
+		case R.string.boinc_platform_name_arm:
+			archAssetsDirectory = getString(R.string.assets_dir_arm);
+			break;
+		case R.string.boinc_platform_name_x86:
+			archAssetsDirectory = getString(R.string.assets_dir_x86);
+			break;
+		case R.string.boinc_platform_name_mips:
+			archAssetsDirectory = getString(R.string.assets_dir_mips);
+			break;
+		}
+	    return archAssetsDirectory;
+	}
+	
+	// returns the id of the BOINC platform string, depending on the device's
+	// cpu architecture.
+	// i.e. arm, x86 or mips
+	// defaults to ARM
+	public int getBoincPlatform() {
+		int platformId = 0;
+		String arch = System.getProperty("os.arch");    
+		String normalizedArch = arch.substring(0, 4).toUpperCase(Locale.US);
+		if(normalizedArch.contains("ARM")) platformId = R.string.boinc_platform_name_arm;
+		else if (normalizedArch.contains("MIPS")) platformId = R.string.boinc_platform_name_mips;
+	    else if (normalizedArch.contains("86")) platformId= R.string.boinc_platform_name_x86;
+	    else {
+	    	if(Logging.WARNING) Log.w(Logging.TAG,"could not map os.arch (" + arch + ") to platform, default to arm.");
+	    	platformId = R.string.boinc_platform_name_arm;
+	    }
+	    
+	    if(Logging.DEBUG) Log.d(Logging.TAG,"BOINC platform: " + getString(platformId) + " for os.arch: " + arch);
+		return platformId;
 	}
 
     // Connects to running BOINC client.
@@ -339,16 +384,20 @@ public class Monitor extends Service {
     private void updateStatus(){
 		// check whether RPC client connection is alive
 		if(!rpc.connectionAlive()) {
-			clientSetup(); // start setup routine
-			reportDeviceStatus();
-			readClientStatus(true); // read initial data
+			if(clientSetup()) { // start setup routine
+				// interact with client only if connection established successfully
+				reportDeviceStatus();
+				readClientStatus(true); // read initial data
+			}
 		}
 		
     	if(!screenOn && screenOffStatusOmitCounter < deviceStatusIntervalScreenOff) screenOffStatusOmitCounter++; // omit status reporting according to configuration
     	else {
     		// screen is on, or omit counter reached limit
-    		reportDeviceStatus();
-    		readClientStatus(false); // readClientStatus is also required when screen is off, otherwise no wakeLock acquisition.
+    		if(rpc.connectionAlive()) {
+    			reportDeviceStatus();
+    			readClientStatus(false); // readClientStatus is also required when screen is off, otherwise no wakeLock acquisition.
+    		}
     	}
     }
     
@@ -425,53 +474,25 @@ public class Monitor extends Service {
 			if(Logging.ERROR) Log.e(Logging.TAG, "Monitor.reportDeviceStatus excpetion: " + e.getMessage());
 		}
     }
-    
-    // Compute MD5 of the requested asset
-    //
-    private String ComputeMD5Asset(String file) {
-    	byte[] b = new byte [1024];
-		int count; 
-		
-		try {
-			MessageDigest md5 = MessageDigest.getInstance("MD5");
-
-			InputStream asset = getApplicationContext().getAssets().open(file); 
-    		while((count = asset.read(b)) != -1){ 
-    			md5.update(b, 0, count);
-    		}
-    		asset.close();
-    		
-			byte[] md5hash = md5.digest();
-			StringBuilder sb = new StringBuilder();
-			for (int i = 0; i < md5hash.length; ++i) {
-				sb.append(String.format("%02x", md5hash[i]));
-			}
-    		
-    		return sb.toString();
-    	} catch (IOException e) {  
-    		if(Logging.ERROR) Log.e(Logging.TAG, "IOException: " + e.getMessage());
-    	} catch (NoSuchAlgorithmException e) {
-    		if(Logging.ERROR) Log.e(Logging.TAG, "NoSuchAlgorithmException: " + e.getMessage());
-		}
-		
-		return "";
-    }
 
     // Compute MD5 of the requested file
-    //
-    private String ComputeMD5File(String file) {
+    // if inAssets is true, tries to locate file in assets directory,
+    // if not, it tries to locate in internal storage of application
+    private String computeMd5(String fileName, Boolean inAssets) {
     	byte[] b = new byte [1024];
 		int count; 
 		
 		try {
 			MessageDigest md5 = MessageDigest.getInstance("MD5");
 
-    		File target = new File(file);
-    		InputStream asset = new FileInputStream(target); 
-    		while((count = asset.read(b)) != -1){ 
+			InputStream fs = null;
+			if(inAssets) fs = getApplicationContext().getAssets().open(getAssestsDirForCpuArchitecture() + fileName); 
+			else fs = new FileInputStream(new File(fileName)); 
+			
+    		while((count = fs.read(b)) != -1){ 
     			md5.update(b, 0, count);
     		}
-    		asset.close();
+    		fs.close();
 
 			byte[] md5hash = md5.digest();
 			StringBuilder sb = new StringBuilder();
@@ -617,10 +638,12 @@ public class Monitor extends Service {
 		
 		if(allProjects == null) return;
 		
+		String platform = getString(getBoincPlatform());
+		if(Logging.DEBUG) Log.d(Logging.TAG, "readAndroidProjectsList for platform: " + platform);
+		
 		//filter projects that do not support Android
 		for (ProjectInfo project: allProjects) {
-			if(project.platforms.contains(getString(R.string.boinc_platform_name))) {
-				if(Logging.DEBUG) Log.d(Logging.TAG, project.name + " supports " + getString(R.string.boinc_platform_name));
+			if(project.platforms.contains(platform)) {
 				androidProjects.add(project);
 			} 
 		}
@@ -680,7 +703,6 @@ public class Monitor extends Service {
 		clientConfig = getString(R.string.client_config); 
 		authFileName = getString(R.string.auth_file_name); 
 		allProjectsList = getString(R.string.all_projects_list); 
-		globalOverridePreferences = getString(R.string.global_prefs_override);
 		clientStatusInterval = getResources().getInteger(R.integer.status_update_interval_ms);
 		deviceStatusIntervalScreenOff = getResources().getInteger(R.integer.device_status_update_screen_off_every_X_loop);
 		
