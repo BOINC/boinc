@@ -947,7 +947,7 @@ function show_workunit_short($wu) {
 }
 
 function host_user_link($hostid) {
-    if (!$hostid) return '----';
+    if (!$hostid) return '---';
 
     $h = "<a href=\"db_action.php?table=host&id=$hostid\">$hostid</a>";
     $result = mysql_query("select userid from host where id='$hostid' limit 1");
@@ -1018,7 +1018,7 @@ function show_result_ops($result) {
     row("claimed credit", $result->claimed_credit);
     row("Granted credit", $result->granted_credit);
     row("Application", "<a href=\"db_action.php?table=app&id=$result->appid\">".app_name_by_id($result->appid)."</a>");
-    row("App version", "<a href=\"db_action.php?table=app_version&appid=$result->appid&clauses=version_num%3D$result->app_version_num\">".$result->app_version_num."</a>");
+    row("App version", "<a href=\"db_action.php?table=app_version&appid=$result->appid&clauses=version_num%3D$result->app_version_num\">".app_version_string($result)."</a>");
     row("App version ID", $result->app_version_id);
     row("Estimated GFLOPS", number_format($result->flops_estimate/1e9, 2));
     row("Random",$result->random);
@@ -1084,11 +1084,7 @@ function show_result_short($result) {
             $received = "<font color=\"#ff3333\">". time_str($result->report_deadline) . "</font>";
         }
     }
-    $version = sprintf("%.2f", $result->app_version_num/100);
-    $av = BoincAppVersion::lookup_id($result->app_version_id);
-    if ($av) {
-        $version .= " [$av->plan_class]";
-    }
+    $version = app_version_string($result);
     $outcome_color = outcome_color($result->outcome);
     $validate_color = validate_color($result->validate_state);
     $host_user = host_user_link($result->hostid);

@@ -44,7 +44,7 @@ function app_version_string($result) {
 
     $id = $result->app_version_id;
     switch ($id) {
-    case 0: return "";
+    case 0: return "---";
     case ANON_PLATFORM_UNKNOWN:
         return anon_platform_string($result);
     case ANON_PLATFORM_CPU:

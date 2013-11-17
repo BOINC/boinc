@@ -35,13 +35,17 @@ function friendly_name($p) {
     case 'x86_64-pc-solaris': $q = 'Solaris/x64'; break;
     case 'windows_intelx86_64': $q = 'Windows/x64'; break;
     case 'arm-android-linux-gnu': $q = 'Android/ARM'; break;
+    case 'arm-android': $q = 'Android/ARM'; break;
     case 'arm-unknown-linux-gnu': $q = 'Linux/ARM'; break;
     case 'x86_64-pc-freebsd': $q = 'FreeBSD/x86'; break;
     }
     if (strlen($pc)) {
         if (strstr($pc, 'cuda')) $q .= " (NVIDIA GPU)";
         else if (strstr($pc, 'ati')) $q .= " (AMD/ATI GPU)";
+        else if (strstr($pc, 'intel_gpu')) $q .= " (Intel GPU)";
         else if (strstr($pc, 'mt')) $q .= " (multicore)";
+        else if (strstr($pc, 'vbox32')) $q .= " (VirtualBox 32-bit)";
+        else if (strstr($pc, 'vbox64')) $q .= " (VirtualBox 64-bit)";
     }
     return $q;
 }
@@ -53,6 +57,8 @@ function canonical_plan_class($pc) {
 	if (strstr($pc, "intelOpenCL")) return "opencl_intel";
 	if (strstr($pc, "cuda")) return "cuda";
 	if (strstr($pc, "ati")) return "ati";
+    if (strstr($pc, 'vbox64')) return "vbox64";
+    if (strstr($pc, 'vbox32')) return "vbox32";
     return null;
 }
 
@@ -76,13 +82,20 @@ function canonical_plan_class($pc) {
 //   </platform>
 //   ...
 //
-function get_platforms(&$url) {
+function get_platforms($url) {
     $url .= 'get_project_config.php';
     $x = @file_get_contents($url);
-    if (!$x) return null;
+    if (!$x) {
+        //echo "no file $url";
+        return null;
+    }
     libxml_use_internal_errors(true);
+    $x = trim($x);
     $s = simplexml_load_string($x);
-    if (!$s) return null;
+    if (!$s) {
+        //echo "XML parse error";
+        return null;
+    }
     if (array_key_exists('rpc_prefix', $s)) {
         $url = $s->rpc_prefix;
     }
@@ -126,7 +139,10 @@ function get_platforms(&$url) {
 function get_platforms2($url) {
     $url .= 'apps.php?xml=1';
     $x = @file_get_contents($url);
-    if (!$x) return null;
+    if (!$x) {
+        //echo "no file $url\n";
+        return null;
+    }
     libxml_use_internal_errors(true);
     $s = simplexml_load_string($x);
     $list = null;
@@ -206,9 +222,11 @@ function get_platforms_string($url) {
 //$u = "http://setiathome.berkeley.edu/";
 //$u = "http://aqua.dwavesys.com/";
 //$u = "http://lhcathome2.cern.ch/test4theory";
+//$u = "http://www.rnaworld.de/rnaworld/";
+//$u = "http://boinc.gorlaeus.net/";
 //$x = get_platforms($u);
 //print_r($x);
-//echo get_platforms_string("http://setiathome.berkeley.edu/");
+//echo get_platforms_string($u);
 //$x = "http://sat.isa.ru/pdsat/";
 //print_r( get_platforms($x));
 

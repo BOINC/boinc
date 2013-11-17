@@ -44,13 +44,13 @@ $cogsci = array(
             "MindModeling@Home uses computational cognitive process modeling to better understand the human mind, and specifically to study the mechanisms and processes that enable and moderate human performance and learning.",
             "mmlogo.gif"
         ),
-        array(
-            "FreeHAL",
-            "http://www.freehal.net/freehal_at_home/",
-            tra("Private"),
-            tra("Artificial intelligence"),
-            tra("Parse and convert semantic nets for use in FreeHAL, an artificial intelligence that uses semantic networks, stemmers, part of speech databases, and part of speech taggers in order to imitate human behavior in conversations.")
-        ),
+//        array(
+//            "FreeHAL",
+//            "http://www.freehal.net/freehal_at_home/",
+//            tra("Private"),
+//            tra("Artificial intelligence"),
+//            tra("Parse and convert semantic nets for use in FreeHAL, an artificial intelligence that uses semantic networks, stemmers, part of speech databases, and part of speech taggers in order to imitate human behavior in conversations.")
+//        ),
     ),
 );
 
