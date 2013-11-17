@@ -371,7 +371,8 @@ public class AttachProjectLoginActivity extends Activity{
 	
 	private Boolean platformSupported() {
 		if(projectConfig == null) return false;
-		String platformName = getString(R.string.boinc_platform_name);
+		if(!mIsBound) return false;
+		String platformName = getString(monitor.getBoincPlatform());
 		Boolean supported = false;
 		for(PlatformInfo platform: projectConfig.platforms) {
 			if(platform.name.equals(platformName)) {

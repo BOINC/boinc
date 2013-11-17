@@ -27,8 +27,13 @@
         <string name="auth_file_name" translatable="false">gui_rpc_auth.cfg</string>
         <string name="all_projects_list" translatable="false">all_projects_list.xml</string>
         <string name="global_prefs_override" translatable="false">global_prefs_override.xml</string>
+        <string name="assets_dir_arm" translatable="false">armeabi-v7a/</string>
+        <string name="assets_dir_x86" translatable="false">x86/</string>
+        <string name="assets_dir_mips" translatable="false">mips/</string>
     <!-- BOINC platform -->
-    	<string name="boinc_platform_name" translatable="false">arm-android-linux-gnu</string>
+    	<string name="boinc_platform_name_arm" translatable="false">arm-android-linux-gnu</string>
+    	<string name="boinc_platform_name_x86" translatable="false">x86-android-linux-gnu</string>
+    	<string name="boinc_platform_name_mips" translatable="false">mipsel-android-linux-gnu</string>
     <!-- Default preferences of Android app, for BOINC client see assets/global_prefs_override.xml -->
     	<bool name="prefs_default_autostart">true</bool>
         <bool name="prefs_default_notifications">true</bool>
