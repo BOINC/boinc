@@ -1,8 +1,9 @@
-*/assets/boinc
-*/assets/boinccmd
+boinc
+boinccmd
 */bin
 */gen
-*/libs/android-*
+*/libs/
+*/obj/
 .DS_Store
 ._.DS_Store
 *.apk
