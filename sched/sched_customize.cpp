@@ -876,7 +876,7 @@ static inline bool app_plan_opencl(
     }
 }
 
-// handles vbox_[32|64][_mt]
+// handles vbox[32|64][_[mt]|[hwaccel]]
 // "mt" is tailored to the needs of CERN:
 // use 1 or 2 CPUs
 
@@ -903,6 +903,20 @@ static inline bool app_plan_vbox(
     if ((n != 3) || (maj < 3) || (maj == 3 and min < 2)) {
         add_no_work_message("VirtualBox version 3.2 or later is required");
         return false;
+    }
+
+    // host must have VM acceleration in order to run hwaccel jobs
+    //
+    if (strstr(plan_class, "hwaccel")) {
+        if ((!strstr(sreq.host.p_features, "vmx") && !strstr(sreq.host.p_features, "svm"))
+            || sreq.host.p_vm_extensions_disabled
+        ) {
+            add_no_work_message(
+                "VirtualBox jobs require hardware acceleration support. Your "
+                "processor does not support the required instruction set."
+            );
+            return false;
+        }
     }
 
     // host must have VM acceleration in order to run multi-core jobs
