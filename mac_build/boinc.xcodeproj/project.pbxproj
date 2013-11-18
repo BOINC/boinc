@@ -3577,7 +3577,7 @@
 					"-lm",
 				);
 				PRODUCT_NAME = BOINCManager;
-				SKIP_INSTALL = NO;
+				SKIP_INSTALL = YES;
 				STRIP_INSTALLED_PRODUCT = NO;
 			};
 			name = Development;
@@ -3627,7 +3627,7 @@
 					"-lm",
 				);
 				PRODUCT_NAME = BOINCManager;
-				SKIP_INSTALL = NO;
+				SKIP_INSTALL = YES;
 				STRIP_INSTALLED_PRODUCT = NO;
 			};
 			name = Deployment;
@@ -3899,7 +3899,6 @@
 					"-lz",
 				);
 				PRODUCT_NAME = boinc;
-				SKIP_INSTALL = NO;
 				STRIP_INSTALLED_PRODUCT = NO;
 				USER_HEADER_SEARCH_PATHS = "../../curl-7.26.0/include";
 			};
@@ -3986,6 +3985,7 @@
 				);
 				PREBINDING = NO;
 				SDKROOT = "";
+				SKIP_INSTALL = YES;
 				STRINGS_FILE_OUTPUT_ENCODING = "UTF-8";
 				STRIP_INSTALLED_PRODUCT = YES;
 				WARNING_CFLAGS = (
@@ -4067,7 +4067,6 @@
 					"-lz",
 				);
 				PRODUCT_NAME = boinc;
-				SKIP_INSTALL = NO;
 				STRIP_INSTALLED_PRODUCT = NO;
 				USER_HEADER_SEARCH_PATHS = "../../curl-7.26.0/include";
 			};
@@ -4156,6 +4155,7 @@
 				);
 				PREBINDING = NO;
 				SDKROOT = "";
+				SKIP_INSTALL = YES;
 				STRINGS_FILE_OUTPUT_ENCODING = "UTF-8";
 				STRIP_INSTALLED_PRODUCT = NO;
 				WARNING_CFLAGS = (
