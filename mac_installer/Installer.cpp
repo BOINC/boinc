@@ -115,7 +115,7 @@ int main(int argc, char *argv[])
     if (err == noErr) {
         GetPreferredLanguages();
     }
-    if (compareOSVersionTo(10, 5) < 0) {
+    if (compareOSVersionTo(10, 4) <= 0) {
         LoadPreferredLanguages();
         ::SetFrontProcess(&ourPSN);
         p = strrchr(brand, ' ');         // Strip off last space character and everything following
