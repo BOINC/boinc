@@ -6,9 +6,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-15 22:27-0700\n"
-"PO-Revision-Date: 2013-08-21 07:19+0200\n"
-"Last-Translator: mcsjohn <marius.sirbu@outlook.com>\n"
+"POT-Creation-Date: 2013-11-17 00:00-0800\n"
+"PO-Revision-Date: 2013-11-18 18:37+0000\n"
+"Last-Translator: Marius <marius.sirbu@outlook.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: ro\n"
 "MIME-Version: 1.0\n"
@@ -16,32 +16,33 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
 "20)) ? 1 : 2);;\n"
-"X-Generator: Poedit 1.5.5\n"
+"X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SearchPath-0: mac_installer\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-Basepath: /Volumes/Cheer/BOINC_GIT/boinc_trunk\n"
 "X-Poedit-KeywordsList: _\n"
+"X-POOTLE-MTIME: 1384799834.0\n"
 
-#: Installer.cpp:132
+#: Installer.cpp:124
 #, c-format
-msgid "Sorry, this version of %s requires system 10.4 or higher."
+msgid "Sorry, this version of %s requires system 10.5 or higher."
 msgstr ""
-"Ne pare rău, această versiune de %s necesită versiune de sistem 10.4 sau mai "
+"Ne pare rău, această versiune de %s necesită versiune de sistem 10.5 sau mai "
 "mare."
 
-#: PostInstall.cpp:131 PostInstall.cpp:1211
+#: PostInstall.cpp:130 PostInstall.cpp:1136
 msgid "Yes"
 msgstr "Da"
 
-#: PostInstall.cpp:132 PostInstall.cpp:1212
+#: PostInstall.cpp:131 PostInstall.cpp:1137
 msgid "No"
 msgstr "Nu"
 
-#: PostInstall.cpp:134
+#: PostInstall.cpp:133
 msgid "Should BOINC run even when no user is logged in?"
 msgstr "BOINC trebuie să ruleze chiar dacă nu este nici un utilizator logat?"
 
-#: PostInstall.cpp:1491
+#: PostInstall.cpp:1416
 #, c-format
 msgid ""
 "Users who are permitted to administer this computer will automatically be "
@@ -56,22 +57,22 @@ msgstr ""
 "Doriţi să permiteţi şi utilizatorilor fără drepturi de administrare să "
 "ruleze şi să controleze %s pe acest Mac?"
 
-#: PostInstall.cpp:1519
+#: PostInstall.cpp:1444
 #, c-format
 msgid "Do you want to set %s as the screensaver for all %s users on this Mac?"
 msgstr ""
 "Doriţi să setaţi %s ca screensaver pentru toţi %s utilizatorii de pe acest "
 "Mac?"
 
-#: uninstall.cpp:80
+#: uninstall.cpp:81
 msgid "OK"
 msgstr "OK"
 
-#: uninstall.cpp:130
+#: uninstall.cpp:131
 msgid "Permission error after relaunch"
 msgstr "Eroare permisiuni după relansare"
 
-#: uninstall.cpp:135
+#: uninstall.cpp:136
 msgid ""
 "Removal may take several minutes.\n"
 "Please be patient."
@@ -79,7 +80,7 @@ msgstr ""
 "Ştergerea poate dura câteva minute.\n"
 "Vă rugăm aşteptaţi."
 
-#: uninstall.cpp:150
+#: uninstall.cpp:151
 #, c-format
 msgid ""
 "Are you sure you want to completely remove %s from your computer?\n"
@@ -91,21 +92,21 @@ msgstr ""
 "\n"
 "Vor fi şterse executabilele dar nu vor fi atinse fişierele de date %s."
 
-#: uninstall.cpp:157
+#: uninstall.cpp:158
 #, c-format
 msgid "Canceled: %s has not been touched."
 msgstr "Anulat: %s nu a fost atins."
 
-#: uninstall.cpp:168
+#: uninstall.cpp:169
 #, c-format
 msgid "An error occurred: error code %d"
 msgstr "A apărut o eroare: cod eroare %d"
 
-#: uninstall.cpp:224
+#: uninstall.cpp:225
 msgid "name  of user"
 msgstr "nume  al utilizatorului"
 
-#: uninstall.cpp:261
+#: uninstall.cpp:262
 #, c-format
 msgid ""
 "Removal completed.\n"
@@ -124,7 +125,7 @@ msgstr ""
 "pentru fiecare utilizator, fişierul\n"
 "\"%s\"."
 
-#: uninstall.cpp:796
+#: uninstall.cpp:790
 #, c-format
 msgid ""
 "Enter your administrator password to completely remove %s from you "
@@ -135,10 +136,16 @@ msgstr ""
 "calculatorul dumneavoastră.\n"
 "\n"
 
-#: uninstall.cpp:1555
+#: uninstall.cpp:1549
 msgid "Cancel"
 msgstr "Anulează"
 
-#: uninstall.cpp:1556
+#: uninstall.cpp:1550
 msgid "Continue..."
 msgstr "Continuă..."
+
+#, c-format
+#~ msgid "Sorry, this version of %s requires system 10.4 or higher."
+#~ msgstr ""
+#~ "Ne pare rău, această versiune de %s necesită versiune de sistem 10.4 sau mai "
+#~ "mare."
