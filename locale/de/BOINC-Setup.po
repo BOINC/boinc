@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-15 22:27-0700\n"
+"POT-Creation-Date: 2013-11-17 00:00-0800\n"
 "PO-Revision-Date: 2013-08-09 09:18+0200\n"
 "Last-Translator: Christian <djangofett@gmx.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,27 +21,24 @@ msgstr ""
 "X-Poedit-Basepath: /Volumes/Cheer/BOINC_GIT/boinc_trunk\n"
 "X-Poedit-KeywordsList: _\n"
 
-#: Installer.cpp:132
+#: Installer.cpp:124
 #, c-format
-#, c-format, c-format
-msgid "Sorry, this version of %s requires system 10.4 or higher."
+msgid "Sorry, this version of %s requires system 10.5 or higher."
 msgstr ""
-"Entschuldigung, diese Version von %s benötigt die Systemversion 10.4 oder "
-"höher."
 
-#: PostInstall.cpp:131 PostInstall.cpp:1211
+#: PostInstall.cpp:130 PostInstall.cpp:1136
 msgid "Yes"
 msgstr "Ja"
 
-#: PostInstall.cpp:132 PostInstall.cpp:1212
+#: PostInstall.cpp:131 PostInstall.cpp:1137
 msgid "No"
 msgstr "Nein"
 
-#: PostInstall.cpp:134
+#: PostInstall.cpp:133
 msgid "Should BOINC run even when no user is logged in?"
 msgstr "Soll BOINC auch gestarten werden, wenn kein Benutzer angemeldet ist?"
 
-#: PostInstall.cpp:1491
+#: PostInstall.cpp:1416
 #, c-format
 #, c-format, c-format
 msgid ""
@@ -57,22 +54,22 @@ msgstr ""
 "Möchten Sie es auch nicht-administrativen Benutzern gestatten %s auf diesem "
 "Computer zu starten und zu kontrollieren?"
 
-#: PostInstall.cpp:1519
+#: PostInstall.cpp:1444
 #, c-format
 msgid "Do you want to set %s as the screensaver for all %s users on this Mac?"
 msgstr ""
 "Möchten Sie %s als Bildschirmschoner für alle %s Benutzer dieses Mac "
 "festlegen?"
 
-#: uninstall.cpp:80
+#: uninstall.cpp:81
 msgid "OK"
 msgstr "Bestätigen"
 
-#: uninstall.cpp:130
+#: uninstall.cpp:131
 msgid "Permission error after relaunch"
 msgstr "Berechtigungsfehler nach Neustart"
 
-#: uninstall.cpp:135
+#: uninstall.cpp:136
 msgid ""
 "Removal may take several minutes.\n"
 "Please be patient."
@@ -80,7 +77,7 @@ msgstr ""
 "Das Entfernen dauert eventuell ein paar Minuten.\n"
 "Bitte warten Sie."
 
-#: uninstall.cpp:150
+#: uninstall.cpp:151
 #, c-format
 msgid ""
 "Are you sure you want to completely remove %s from your computer?\n"
@@ -92,21 +89,21 @@ msgstr ""
 "Diese Aktion wird alle ausführbaren Dateien aber keine Datendateien von %s "
 "entfernen."
 
-#: uninstall.cpp:157
+#: uninstall.cpp:158
 #, c-format
 msgid "Canceled: %s has not been touched."
 msgstr "Abgebrochen: %s wurde nicht verändert."
 
-#: uninstall.cpp:168
+#: uninstall.cpp:169
 #, c-format
 msgid "An error occurred: error code %d"
 msgstr "Ein Fehler ist aufgetreten: Fehlercode %d"
 
-#: uninstall.cpp:224
+#: uninstall.cpp:225
 msgid "name  of user"
 msgstr "Benutzername"
 
-#: uninstall.cpp:261
+#: uninstall.cpp:262
 #, c-format
 msgid ""
 "Removal completed.\n"
@@ -125,7 +122,7 @@ msgstr ""
 "und für jeden Benutzer die Datei\n"
 "\"%s\"."
 
-#: uninstall.cpp:796
+#: uninstall.cpp:790
 #, c-format
 msgid ""
 "Enter your administrator password to completely remove %s from you "
@@ -136,13 +133,20 @@ msgstr ""
 "zu entfernen.\n"
 "\n"
 
-#: uninstall.cpp:1555
+#: uninstall.cpp:1549
 msgid "Cancel"
 msgstr "Abbrechen"
 
-#: uninstall.cpp:1556
+#: uninstall.cpp:1550
 msgid "Continue..."
 msgstr "Weiter..."
+
+#, c-format
+#, c-format, c-format
+#~ msgid "Sorry, this version of %s requires system 10.4 or higher."
+#~ msgstr ""
+#~ "Entschuldigung, diese Version von %s benötigt die Systemversion 10.4 oder "
+#~ "höher."
 
 # Die Übersetzung der Dateipfade fehlt (ich habe keinen Mac).
 #, fuzzy
