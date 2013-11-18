@@ -1772,7 +1772,7 @@ static int compareOSVersionTo(int toMajor, int toMinor) {
     if (err != noErr) {
         fprintf(stdout, "Gestalt(gestaltSystemVersionMajor) returned error %ld\n", err);
         fflush(stdout);
-        exit(-1);
+        return -1;  // gestaltSystemVersionMajor selector was not available before OS 10.4
     }
     if (major < toMajor) return -1;
     if (major > toMajor) return 1;
@@ -1780,7 +1780,7 @@ static int compareOSVersionTo(int toMajor, int toMinor) {
     if (err != noErr) {
         fprintf(stdout, "Gestalt(gestaltSystemVersionMinor) returned error %ld\n", err);
         fflush(stdout);
-        exit(-1);
+        return -1;  // gestaltSystemVersionMajor selector was not available before OS 10.4
     }
     if (minor < toMinor) return -1;
     if (minor > toMinor) return 1;
