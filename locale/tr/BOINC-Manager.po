@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 6.8x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-15 22:26-0700\n"
+"POT-Creation-Date: 2013-11-17 12:25-0800\n"
 "PO-Revision-Date: 2013-10-22 12:46+0200\n"
 "Last-Translator: Aycan Demirel <aycandemirel@hotmail.com>\n"
 "Language-Team: Donanım Haber <bilgi@donanimhaber.com>\n"
@@ -78,11 +78,11 @@ msgstr ""
 msgid "Find login information"
 msgstr "Giriş bilgilerini bul"
 
-#: AccountInfoPage.cpp:436 AccountInfoPage.cpp:642
+#: AccountInfoPage.cpp:436 AccountInfoPage.cpp:641
 msgid "&Password:"
 msgstr "&Parola:"
 
-#: AccountInfoPage.cpp:443 AccountInfoPage.cpp:666
+#: AccountInfoPage.cpp:443 AccountInfoPage.cpp:665
 msgid "Choose a &password:"
 msgstr "Bir &parola yazın:"
 
@@ -123,8 +123,8 @@ msgstr ""
 "parolayı bulmak için aşağıdaki bağlantıya tıklayın."
 
 #: AccountInfoPage.cpp:532
-msgid "Account manager website"
-msgstr "Hesap yöneticisi sitesi"
+msgid "Account manager web site"
+msgstr ""
 
 #: AccountInfoPage.cpp:574 WelcomePage.cpp:348
 msgid "Add project"
@@ -151,16 +151,16 @@ msgstr "Lütfen bir e-posta adresi yazın."
 msgid "Please enter a password of at least %d characters."
 msgstr "Lütfen en az %d karakterden oluşan bir parola yazın."
 
-#: AccountInfoPage.cpp:608
+#: AccountInfoPage.cpp:607
 msgid ""
 "The password and confirmation password do not match. Please type them again."
 msgstr "Parola ve parola doğrulaması birbirini tutmuyor. Lütfen tekrar yazın."
 
-#: AccountManagerInfoPage.cpp:248
+#: AccountManagerInfoPage.cpp:272
 msgid "Choose an account manager"
 msgstr "Bir hesap yöneticisi seçin"
 
-#: AccountManagerInfoPage.cpp:251
+#: AccountManagerInfoPage.cpp:275
 msgid ""
 "To choose an account manager, click its name or \n"
 "type its URL below."
@@ -168,24 +168,36 @@ msgstr ""
 "Bir hesap yöneticisi seçmek için ismine tıklayın ya da \n"
 "aşağıya internet adresini girin."
 
-#: AccountManagerInfoPage.cpp:254
-msgid "Account Manager &URL:"
-msgstr "Hesap Yöneticisi &internet adresi:"
+#: AccountManagerInfoPage.cpp:279
+msgid "Account manager details:"
+msgstr ""
 
-#: AccountManagerProcessingPage.cpp:188 AccountManagerPropertiesPage.cpp:194
+#: AccountManagerInfoPage.cpp:283
+msgid "Account manager &URL:"
+msgstr ""
+
+#: AccountManagerInfoPage.cpp:287
+msgid "Open web page"
+msgstr ""
+
+#: AccountManagerInfoPage.cpp:290
+msgid "Visit this account manager's web site"
+msgstr ""
+
+#: AccountManagerProcessingPage.cpp:187 AccountManagerPropertiesPage.cpp:193
 #, c-format
 msgid "Communicating with %s."
 msgstr "%s ile bağlantı kuruluyor."
 
-#: AccountManagerProcessingPage.cpp:195 AccountManagerPropertiesPage.cpp:201
+#: AccountManagerProcessingPage.cpp:194 AccountManagerPropertiesPage.cpp:200
 msgid "Communicating with server."
 msgstr "Sunucu ile bağlantı kuruluyor."
 
-#: AccountManagerProcessingPage.cpp:200 AccountManagerPropertiesPage.cpp:206
+#: AccountManagerProcessingPage.cpp:199 AccountManagerPropertiesPage.cpp:205
 msgid "Please wait..."
 msgstr "Lütfen bekleyin..."
 
-#: AccountManagerProcessingPage.cpp:327
+#: AccountManagerProcessingPage.cpp:326
 msgid "An internal server error has occurred.\n"
 msgstr "Sunucuda dahili bir hata meydana geldi.\n"
 
@@ -197,345 +209,345 @@ msgstr "Bağlandı"
 msgid "Disconnected"
 msgstr "Bağlantı kesildi"
 
-#: AdvancedFrame.cpp:315 sg_BoincSimpleFrame.cpp:112 sg_BoincSimpleGUI.cpp:103
+#: AdvancedFrame.cpp:318 sg_BoincSimpleFrame.cpp:115 sg_BoincSimpleGUI.cpp:103
 #, c-format
 msgid "Close the %s window"
 msgstr "%s penceresini kapatır."
 
-#: AdvancedFrame.cpp:318 sg_BoincSimpleFrame.cpp:115 sg_BoincSimpleGUI.cpp:106
+#: AdvancedFrame.cpp:321 sg_BoincSimpleFrame.cpp:118 sg_BoincSimpleGUI.cpp:106
 msgid "&Close Window"
 msgstr "&Pencereyi kapat"
 
-#: AdvancedFrame.cpp:329 AdvancedFrame.cpp:336 AdvancedFrame.cpp:343
+#: AdvancedFrame.cpp:332 AdvancedFrame.cpp:339 AdvancedFrame.cpp:346
 #, c-format
 msgid "Exit %s"
 msgstr "%s'dan çık"
 
-#: AdvancedFrame.cpp:358
+#: AdvancedFrame.cpp:367
 msgid "&Notices\tCtrl+Shift+N"
 msgstr "&Bildirimler\tCtrl+Shift+N"
 
-#: AdvancedFrame.cpp:359
+#: AdvancedFrame.cpp:368
 msgid "Display notices"
 msgstr "Bildirimleri görüntüler."
 
-#: AdvancedFrame.cpp:364
+#: AdvancedFrame.cpp:373
 msgid "&Projects\tCtrl+Shift+P"
 msgstr "&Projeler\tCtrl+Shift+P"
 
-#: AdvancedFrame.cpp:365
+#: AdvancedFrame.cpp:374
 msgid "Display projects"
 msgstr "Projeleri görüntüler."
 
-#: AdvancedFrame.cpp:370
+#: AdvancedFrame.cpp:379
 msgid "&Tasks\tCtrl+Shift+T"
 msgstr "İ&şler\tCtrl+Shift+T"
 
-#: AdvancedFrame.cpp:371
+#: AdvancedFrame.cpp:380
 msgid "Display tasks"
 msgstr "İşleri görüntüler."
 
-#: AdvancedFrame.cpp:376
+#: AdvancedFrame.cpp:385
 msgid "Trans&fers\tCtrl+Shift+X"
 msgstr "&Aktarımlar\tCtrl+Shift+X"
 
-#: AdvancedFrame.cpp:377
+#: AdvancedFrame.cpp:386
 msgid "Display transfers"
 msgstr "Aktarımları görüntüler."
 
-#: AdvancedFrame.cpp:382
+#: AdvancedFrame.cpp:391
 msgid "&Statistics\tCtrl+Shift+S"
 msgstr "İ&statistikler\tCtrl+Shift+S"
 
-#: AdvancedFrame.cpp:383
+#: AdvancedFrame.cpp:392
 msgid "Display statistics"
 msgstr "İstatistikleri görüntüler."
 
-#: AdvancedFrame.cpp:388
+#: AdvancedFrame.cpp:397
 msgid "&Disk usage\tCtrl+Shift+D"
 msgstr "&Disk kullanımı\tCtrl+Shift+D"
 
-#: AdvancedFrame.cpp:389
+#: AdvancedFrame.cpp:398
 msgid "Display disk usage"
 msgstr "Disk kullanımını görüntüler."
 
-#: AdvancedFrame.cpp:396
+#: AdvancedFrame.cpp:405
 msgid "Simple &View...\tCtrl+Shift+V"
 msgstr "&Basit görünüm...\tCtrl+Shift+V"
 
-#: AdvancedFrame.cpp:397
+#: AdvancedFrame.cpp:406
 msgid "Display the simple graphical interface."
 msgstr "Basit grafiksel arayüzü görüntüler."
 
-#: AdvancedFrame.cpp:411
+#: AdvancedFrame.cpp:420
 msgid "&Add project or account manager..."
 msgstr "&Proje ya da hesap yöneticisi ekle..."
 
-#: AdvancedFrame.cpp:412 sg_ProjectPanel.cpp:76 sg_ProjectsComponent.cpp:106
+#: AdvancedFrame.cpp:421 sg_ProjectPanel.cpp:76 sg_ProjectsComponent.cpp:106
 msgid "Volunteer for any or all of 30+ projects in many areas of science"
 msgstr ""
 "Bilimin pek çok alanından 30'dan fazla projeden birisi için gönüllü olun"
 
-#: AdvancedFrame.cpp:416
+#: AdvancedFrame.cpp:425
 #, c-format
 msgid "&Synchronize with %s"
 msgstr "%s ile &eşitle"
 
-#: AdvancedFrame.cpp:420
+#: AdvancedFrame.cpp:429
 #, c-format
 msgid "Get current settings from %s"
 msgstr "Güncel ayarları %s hesap yöneticisinden alır."
 
-#: AdvancedFrame.cpp:430
+#: AdvancedFrame.cpp:439
 msgid "&Add project..."
 msgstr "&Proje ekle..."
 
-#: AdvancedFrame.cpp:431
+#: AdvancedFrame.cpp:440
 msgid "Add a project"
 msgstr "Bir proje eklemenizi sağlar."
 
-#: AdvancedFrame.cpp:434
+#: AdvancedFrame.cpp:443
 #, c-format
 msgid "S&top using %s..."
 msgstr "%s kullanmayı durdur..."
 
-#: AdvancedFrame.cpp:440
+#: AdvancedFrame.cpp:449
 msgid "Remove this computer from account manager control."
 msgstr "Bu bilgisayarı hesap yöneticisi kontrolünden çıkarır."
 
-#: AdvancedFrame.cpp:445 sg_BoincSimpleFrame.cpp:165
+#: AdvancedFrame.cpp:454 sg_BoincSimpleFrame.cpp:174
 msgid "&Options..."
 msgstr "&Seçenekler..."
 
-#: AdvancedFrame.cpp:446 sg_BoincSimpleFrame.cpp:166
+#: AdvancedFrame.cpp:455 sg_BoincSimpleFrame.cpp:175
 msgid "Configure display options and proxy settings"
 msgstr ""
 "Arayüz seçeneklerini ve vekil sunucu ayarlarını yapılandırabileceğiniz "
 "pencereyi açar."
 
-#: AdvancedFrame.cpp:450 sg_BoincSimpleFrame.cpp:159
+#: AdvancedFrame.cpp:459 sg_BoincSimpleFrame.cpp:168
 msgid "Computing &preferences..."
 msgstr "&Hesaplama tercihleri..."
 
-#: AdvancedFrame.cpp:451 sg_BoincSimpleFrame.cpp:160
+#: AdvancedFrame.cpp:460 sg_BoincSimpleFrame.cpp:169
 msgid "Configure computing preferences"
 msgstr ""
 "İşlerin çalışmasıyla ilgili bu bilgisayara ait tercihleri "
 "ayarlayabileceğiniz pencereyi açar."
 
-#: AdvancedFrame.cpp:459
+#: AdvancedFrame.cpp:468
 msgid "&Run always"
 msgstr "&Daima çalış"
 
-#: AdvancedFrame.cpp:460
+#: AdvancedFrame.cpp:469
 msgid "Allow work regardless of preferences"
 msgstr "Ayarları göz önüne almadan işleri sürekli çalıştırır."
 
-#: AdvancedFrame.cpp:464
+#: AdvancedFrame.cpp:473
 msgid "Run based on &preferences"
 msgstr "&Tercihlere göre çalış"
 
-#: AdvancedFrame.cpp:465
+#: AdvancedFrame.cpp:474
 msgid "Allow work according to preferences"
 msgstr "İşleri tercihlerdeki ayarlarınıza göre çalıştırır."
 
-#: AdvancedFrame.cpp:469
+#: AdvancedFrame.cpp:478
 msgid "&Suspend"
 msgstr "&Durdur"
 
-#: AdvancedFrame.cpp:470
+#: AdvancedFrame.cpp:479
 msgid "Stop work regardless of preferences"
 msgstr "Ayarları göz önüne almadan işlerin çalışmasını durdurur."
 
-#: AdvancedFrame.cpp:495
+#: AdvancedFrame.cpp:504
 msgid "Use GPU always"
 msgstr "GPU'yu &daima kullan"
 
-#: AdvancedFrame.cpp:496
+#: AdvancedFrame.cpp:505
 msgid "Allow GPU work regardless of preferences"
 msgstr "Ayarları göz önüne almadan GPU'yu sürekli kullanır."
 
-#: AdvancedFrame.cpp:500
+#: AdvancedFrame.cpp:509
 msgid "Use GPU based on preferences"
 msgstr "GPU'yu tercihlere göre kullan"
 
-#: AdvancedFrame.cpp:501
+#: AdvancedFrame.cpp:510
 msgid "Allow GPU work according to preferences"
 msgstr "GPU'yu tercihlerdeki ayarlarınıza göre kullanır."
 
-#: AdvancedFrame.cpp:505
+#: AdvancedFrame.cpp:514
 msgid "Suspend GPU"
 msgstr "GPU kullanımını durdur"
 
-#: AdvancedFrame.cpp:506
+#: AdvancedFrame.cpp:515
 msgid "Stop GPU work regardless of preferences"
 msgstr "Ayarları göz önüne almadan GPU'nun kullanımını durdurur."
 
-#: AdvancedFrame.cpp:530
+#: AdvancedFrame.cpp:539
 msgid "Network activity always available"
 msgstr "Ağ iletişimi daima mümkün"
 
-#: AdvancedFrame.cpp:531
+#: AdvancedFrame.cpp:540
 msgid "Allow network activity regardless of preferences"
 msgstr "Ayarları göz önüne almadan ağ iletişimine izin verir."
 
-#: AdvancedFrame.cpp:535
+#: AdvancedFrame.cpp:544
 msgid "Network activity based on preferences"
 msgstr "Tercihlere göre ağ iletişimi"
 
-#: AdvancedFrame.cpp:536
+#: AdvancedFrame.cpp:545
 msgid "Allow network activity according to preferences"
 msgstr "Tercihlerdeki ayarlara göre ağ iletişimi yapar."
 
-#: AdvancedFrame.cpp:540
+#: AdvancedFrame.cpp:549
 msgid "Network activity suspended"
 msgstr "Ağ iletişimini durdur"
 
-#: AdvancedFrame.cpp:541
+#: AdvancedFrame.cpp:550
 msgid "Stop BOINC network activity"
 msgstr "BOINC'in tüm ağ iletişimini durdurur."
 
-#: AdvancedFrame.cpp:551
+#: AdvancedFrame.cpp:560
 #, c-format
 msgid "Connect to another computer running %s"
 msgstr "%s çalıştıran başka bir bilgisayarı seçip bağlanmayı sağlar."
 
-#: AdvancedFrame.cpp:556
+#: AdvancedFrame.cpp:565
 msgid "Select computer..."
 msgstr "Bilgisayar seç ve bağlan..."
 
-#: AdvancedFrame.cpp:561
+#: AdvancedFrame.cpp:570
 msgid "Shut down connected client..."
 msgstr "Bağlı olan istemciyi kapat..."
 
-#: AdvancedFrame.cpp:562
+#: AdvancedFrame.cpp:571
 msgid "Shut down the currently connected client"
 msgstr "Şu anda bağlı olan istemciyi kapatır."
 
-#: AdvancedFrame.cpp:566
+#: AdvancedFrame.cpp:575
 msgid "Run CPU &benchmarks"
 msgstr "&İşlemci testlerini çalıştır"
 
-#: AdvancedFrame.cpp:567
+#: AdvancedFrame.cpp:576
 msgid "Runs BOINC CPU benchmarks"
 msgstr ""
 "BOINC'in işlemci (CPU) testlerini çalıştırır. Sonuçları Olay Günlüğü'nde "
 "görebilirsiniz."
 
-#: AdvancedFrame.cpp:571
+#: AdvancedFrame.cpp:580
 msgid "Do network communication"
 msgstr "Ağ iletişimini gerçekleştir"
 
-#: AdvancedFrame.cpp:572
+#: AdvancedFrame.cpp:581
 msgid "Do all pending network communication"
 msgstr "Beklemedeki tüm ağ iletişimini hemen gerçekleştirir."
 
 # 94%
-#: AdvancedFrame.cpp:576
+#: AdvancedFrame.cpp:585
 msgid "Read config files"
 msgstr "Yapılandırma dosyalarını oku"
 
-#: AdvancedFrame.cpp:577
+#: AdvancedFrame.cpp:586
 msgid "Read configuration info from cc_config.xml and any app_config.xml files"
 msgstr ""
 "Yapılandırma bilgisini cc_config.xml ve any app_config.xml dosyalarından oku"
 
-#: AdvancedFrame.cpp:581
+#: AdvancedFrame.cpp:590
 msgid "Read local prefs file"
 msgstr "Yerel tercih dosyasını oku"
 
-#: AdvancedFrame.cpp:582
+#: AdvancedFrame.cpp:591
 msgid "Read preferences from global_prefs_override.xml."
 msgstr "Yerel tercihleri global_prefs_override.xml dosyasından okur."
 
-#: AdvancedFrame.cpp:587
+#: AdvancedFrame.cpp:596
 #, c-format
 msgid "Launch another instance of %s..."
 msgstr "Bu bilgisayarda %s'ın başka bir kopyasını çalıştırır."
 
-#: AdvancedFrame.cpp:591
+#: AdvancedFrame.cpp:600
 #, c-format
 msgid "Launch another %s"
 msgstr "Başka bir %s çalıştır"
 
-#: AdvancedFrame.cpp:601
+#: AdvancedFrame.cpp:610
 msgid "Event Log...\tCtrl+Shift+E"
 msgstr "Olay günlüğü...\tCtrl+Shift+E"
 
-#: AdvancedFrame.cpp:602
+#: AdvancedFrame.cpp:611
 msgid "Display diagnostic messages."
 msgstr "Tanılama mesajlarını görüntüler."
 
-#: AdvancedFrame.cpp:612 sg_BoincSimpleFrame.cpp:175 sg_BoincSimpleGUI.cpp:129
+#: AdvancedFrame.cpp:621 sg_BoincSimpleFrame.cpp:184 sg_BoincSimpleGUI.cpp:129
 #, c-format
 msgid "%s &help"
 msgstr "%s &yardım"
 
-#: AdvancedFrame.cpp:618 sg_BoincSimpleFrame.cpp:181 sg_BoincSimpleGUI.cpp:135
+#: AdvancedFrame.cpp:627 sg_BoincSimpleFrame.cpp:190 sg_BoincSimpleGUI.cpp:135
 #, c-format
 msgid "Show information about %s"
 msgstr "Gönüllü kullanıcılardan %s hakkında yardım almanızı sağlar."
 
-#: AdvancedFrame.cpp:630
+#: AdvancedFrame.cpp:639
 #, c-format
 msgid "&%s help"
 msgstr "&%s yardım"
 
-#: AdvancedFrame.cpp:636 sg_BoincSimpleFrame.cpp:199 sg_BoincSimpleGUI.cpp:153
+#: AdvancedFrame.cpp:645 sg_BoincSimpleFrame.cpp:208 sg_BoincSimpleGUI.cpp:153
 #, c-format
 msgid "Show information about the %s"
 msgstr "%s yardım sitesini açar."
 
-#: AdvancedFrame.cpp:648 sg_BoincSimpleFrame.cpp:211 sg_BoincSimpleGUI.cpp:165
+#: AdvancedFrame.cpp:657 sg_BoincSimpleFrame.cpp:220 sg_BoincSimpleGUI.cpp:165
 #, c-format
-msgid "%s &website"
-msgstr "%s internet sitesi"
+msgid "%s &web site"
+msgstr ""
 
-#: AdvancedFrame.cpp:654 sg_BoincSimpleFrame.cpp:217 sg_BoincSimpleGUI.cpp:171
+#: AdvancedFrame.cpp:663 sg_BoincSimpleFrame.cpp:226 sg_BoincSimpleGUI.cpp:171
 #, c-format
 msgid "Show information about BOINC and %s"
 msgstr "BOINC ve %s resmi internet sitesini açar."
 
-#: AdvancedFrame.cpp:666 BOINCTaskBar.cpp:533 sg_BoincSimpleFrame.cpp:229
+#: AdvancedFrame.cpp:675 BOINCTaskBar.cpp:530 sg_BoincSimpleFrame.cpp:238
 #, c-format
 msgid "&About %s..."
 msgstr "&%s hakkında..."
 
-#: AdvancedFrame.cpp:672 sg_BoincSimpleFrame.cpp:235
+#: AdvancedFrame.cpp:681 sg_BoincSimpleFrame.cpp:244
 msgid "Licensing and copyright information."
 msgstr "Sürüm, lisans, telif hakkı ve çeviri bilgisini görüntüler."
 
-#: AdvancedFrame.cpp:679 sg_BoincSimpleFrame.cpp:242 sg_BoincSimpleGUI.cpp:194
+#: AdvancedFrame.cpp:688 sg_BoincSimpleFrame.cpp:251 sg_BoincSimpleGUI.cpp:194
 msgid "&File"
 msgstr "&Dosya"
 
-#: AdvancedFrame.cpp:683 sg_BoincSimpleFrame.cpp:246 sg_BoincSimpleGUI.cpp:199
+#: AdvancedFrame.cpp:692 sg_BoincSimpleFrame.cpp:255 sg_BoincSimpleGUI.cpp:199
 msgid "&View"
 msgstr "&Görünüm"
 
-#: AdvancedFrame.cpp:687 sg_BoincSimpleFrame.cpp:250
+#: AdvancedFrame.cpp:696 sg_BoincSimpleFrame.cpp:259
 msgid "&Tools"
 msgstr "&Araçlar"
 
-#: AdvancedFrame.cpp:691
+#: AdvancedFrame.cpp:700
 msgid "&Activity"
 msgstr "&Çalışma"
 
-#: AdvancedFrame.cpp:695
+#: AdvancedFrame.cpp:704
 msgid "A&dvanced"
 msgstr "&Gelişmiş"
 
-#: AdvancedFrame.cpp:699 DlgEventLog.cpp:329 sg_BoincSimpleFrame.cpp:254
+#: AdvancedFrame.cpp:708 DlgEventLog.cpp:331 sg_BoincSimpleFrame.cpp:263
 #: sg_BoincSimpleGUI.cpp:184 wizardex.cpp:374 wizardex.cpp:381
 msgid "&Help"
 msgstr "&Yardım"
 
-#: AdvancedFrame.cpp:1178
+#: AdvancedFrame.cpp:1195
 #, c-format
 msgid "%s - Stop using %s"
 msgstr "%s - %s kullanmayı durdur"
 
-#: AdvancedFrame.cpp:1183
+#: AdvancedFrame.cpp:1200
 #, c-format
 msgid ""
 "If you stop using %s,\n"
@@ -550,12 +562,12 @@ msgstr ""
 "\n"
 "%s kullanmayı durdurmak istiyor musunuz?"
 
-#: AdvancedFrame.cpp:1381
+#: AdvancedFrame.cpp:1397
 #, c-format
 msgid "%s - Shut down the current client..."
 msgstr "%s - Bağlı istemciyi kapat..."
 
-#: AdvancedFrame.cpp:1390
+#: AdvancedFrame.cpp:1406
 #, c-format
 msgid ""
 "%s will shut down the current client\n"
@@ -564,27 +576,27 @@ msgstr ""
 "%s şu anda bağlı olan istemciyi kapatacak ve\n"
 "sizi başka birine bağlanmanız için uyaracak."
 
-#: AdvancedFrame.cpp:1709 DlgAbout.cpp:119
+#: AdvancedFrame.cpp:1734 DlgAbout.cpp:119
 #, c-format
 msgid "%s"
 msgstr "%s"
 
-#: AdvancedFrame.cpp:1718
+#: AdvancedFrame.cpp:1743
 #, c-format
 msgid "%s has successfully added %s"
 msgstr "%s başarıyla %s'e eklendi."
 
-#: AdvancedFrame.cpp:1860
+#: AdvancedFrame.cpp:1882
 #, c-format
 msgid "%s - (%s)"
 msgstr "%s - (%s)"
 
-#: AdvancedFrame.cpp:1864
+#: AdvancedFrame.cpp:1886
 #, c-format
 msgid "Connecting to %s"
 msgstr "%s istemcisine bağlanıyor"
 
-#: AdvancedFrame.cpp:1867
+#: AdvancedFrame.cpp:1889
 #, c-format
 msgid "Connected to %s (%s)"
 msgstr "%s istemcisine bağlı (%s)"
@@ -621,26 +633,26 @@ msgstr ""
 "\n"
 "Lütfen projenin sitesini ziyaret edip, yönergeleri izleyin."
 
-#: AsyncRPC.cpp:1238
+#: AsyncRPC.cpp:1026
 msgid "Communicating with BOINC client.  Please wait ..."
 msgstr "BOINC istemcisine bağlanılıyor.  Lütfen bekleyin..."
 
-#: AsyncRPC.cpp:1241
+#: AsyncRPC.cpp:1029
 #, c-format
 msgid "&Quit %s"
 msgstr "%s'den &ayrıl"
 
-#: AsyncRPC.cpp:1243
+#: AsyncRPC.cpp:1031
 #, c-format
 msgid "E&xit %s"
 msgstr "%s'den &çık"
 
-#: AsyncRPC.cpp:1247
+#: AsyncRPC.cpp:1035
 #, c-format
 msgid "%s - Communication"
 msgstr "%s - İletişim"
 
-#: AsyncRPC.cpp:1263 DlgAdvPreferencesBase.cpp:107 sg_DlgPreferences.cpp:452
+#: AsyncRPC.cpp:1051 DlgAdvPreferencesBase.cpp:107 sg_DlgPreferences.cpp:438
 msgid "Cancel"
 msgstr "İptal"
 
@@ -733,16 +745,16 @@ msgstr ""
 "Kendi bilgisayarınıza bağlanmak için lütfen bigisayar adı olarak 'localhost' "
 "yazın."
 
-#: BOINCBaseView.cpp:774
+#: BOINCBaseView.cpp:779
 msgid "Project web pages"
 msgstr "Proje internet sayfaları"
 
-#: BOINCClientManager.cpp:573
+#: BOINCClientManager.cpp:575
 #, c-format
 msgid "%s - Unexpected Exit"
 msgstr "%s - Beklenmedik Kapanma"
 
-#: BOINCClientManager.cpp:583
+#: BOINCClientManager.cpp:585
 #, c-format
 msgid ""
 "The %s client has exited unexpectedly 3 times within the last %d minutes.\n"
@@ -799,7 +811,7 @@ msgstr "%s başarıyla internet bağlantısını kesti."
 msgid "%s failed to disconnected from the Internet."
 msgstr "%s internet bağlantısını keserken başarısız oldu."
 
-#: BOINCGUIApp.cpp:345
+#: BOINCGUIApp.cpp:342
 #, c-format
 msgid ""
 "You currently are not authorized to manage the client.\n"
@@ -821,7 +833,7 @@ msgstr ""
 "- sizi 'boinc_master' kullanıcı grubuna dahil etmesi için\n"
 "yöneticinizle temasa geçin."
 
-#: BOINCGUIApp.cpp:351
+#: BOINCGUIApp.cpp:348
 #, c-format
 msgid ""
 "%s ownership or permissions are not set properly; please reinstall %s.\n"
@@ -831,16 +843,16 @@ msgstr ""
 "kurun.\n"
 "(Hata kodu %d"
 
-#: BOINCGUIApp.cpp:357
+#: BOINCGUIApp.cpp:354
 msgid " at "
 msgstr " at "
 
-#: BOINCGUIApp.cpp:360 MainDocument.cpp:2472 MainDocument.cpp:2522
-#: MainDocument.cpp:2542 ViewTransfers.cpp:792
+#: BOINCGUIApp.cpp:357 MainDocument.cpp:2475 MainDocument.cpp:2525
+#: MainDocument.cpp:2545 ViewTransfers.cpp:803
 msgid ")"
 msgstr ")"
 
-#: BOINCGUIApp.cpp:393
+#: BOINCGUIApp.cpp:387
 msgid ""
 "A reboot is required in order for BOINC to run properly.\n"
 "Please reboot your computer and try again."
@@ -848,141 +860,141 @@ msgstr ""
 "BOINC'in doğru çalışması için yeniden başlatma gerekiyor.\n"
 "Bilgisayarınızı yeniden başlatın ve yeniden deneyin."
 
-#: BOINCGUIApp.cpp:394 DlgAbout.cpp:153
+#: BOINCGUIApp.cpp:388 DlgAbout.cpp:153
 msgid "BOINC Manager"
 msgstr "BOINC Manager"
 
-#: BOINCGUIApp.cpp:561
+#: BOINCGUIApp.cpp:571
 msgid "BOINC Manager was started by the operating system automatically"
 msgstr "BOINC Manager, işletim sistemi tarafından otomatik başlatılacak"
 
-#: BOINCGUIApp.cpp:563
+#: BOINCGUIApp.cpp:573
 msgid "Startup BOINC so only the system tray icon is visible"
 msgstr "BOINC'i sadece sistem tepsisi simgesi görünecek şekilde başlat"
 
-#: BOINCGUIApp.cpp:565
+#: BOINCGUIApp.cpp:575
 msgid "Directory containing the BOINC Client executable"
 msgstr "Klasör, BOINC İstemcisi çalıştırılabilir dosyalarını içerir"
 
-#: BOINCGUIApp.cpp:566
+#: BOINCGUIApp.cpp:576
 msgid "BOINC data directory"
 msgstr "BOINC veri klasörü"
 
-#: BOINCGUIApp.cpp:568
+#: BOINCGUIApp.cpp:578
 msgid "Host name or IP address"
 msgstr "Sunucu adı ya da IP adresi"
 
-#: BOINCGUIApp.cpp:569
+#: BOINCGUIApp.cpp:579
 msgid "GUI RPC port number"
 msgstr "GUI RPC bağlantı noktası numarası"
 
-#: BOINCGUIApp.cpp:570
+#: BOINCGUIApp.cpp:580
 msgid "Password"
 msgstr "Parola"
 
-#: BOINCGUIApp.cpp:571
+#: BOINCGUIApp.cpp:581
 msgid "Startup BOINC with these optional arguments"
 msgstr "BOINC'i bu isteğe bağlı parametrelerle çalıştır"
 
-#: BOINCGUIApp.cpp:572
+#: BOINCGUIApp.cpp:582
 msgid "disable BOINC security users and permissions"
 msgstr "BOINC güvenlik kullanıcılarını ve izinlerini devre dışı bırak"
 
-#: BOINCGUIApp.cpp:573
+#: BOINCGUIApp.cpp:583
 msgid "set skin debugging mode to enable skin manager error messages"
 msgstr ""
 "görünüm yöneticisi hata mesajları için, görünüm hata ayıklama moduna geçin"
 
-#: BOINCGUIApp.cpp:574
+#: BOINCGUIApp.cpp:584
 msgid "multiple instances of BOINC Manager allowed"
 msgstr "BOINC Manager'ın birden çok kopyasına izin verildi"
 
-#: BOINCGUIApp.cpp:576
+#: BOINCGUIApp.cpp:586
 msgid "Not used: workaround for bug in XCode 4.2"
 msgstr "Kullanılmadı: XCode 4.2'deki hata için geçici çözüm"
 
-#: BOINCGUIApp.cpp:794
+#: BOINCGUIApp.cpp:804
 msgid "(Automatic Detection)"
 msgstr "(Otomatik Belirleme)"
 
-#: BOINCGUIApp.cpp:795
+#: BOINCGUIApp.cpp:805
 msgid "(Unknown)"
 msgstr "(Bilinmiyor)"
 
-#: BOINCGUIApp.cpp:796
+#: BOINCGUIApp.cpp:806
 msgid "(User Defined)"
 msgstr "(Kullanıcı Tanımlı)"
 
-#: BOINCTaskBar.cpp:511
+#: BOINCTaskBar.cpp:508
 #, c-format
 msgid "Open %s Web..."
 msgstr "%s Sitesini Aç..."
 
-#: BOINCTaskBar.cpp:518
+#: BOINCTaskBar.cpp:515
 #, c-format
 msgid "Open %s..."
 msgstr "%s'ı Aç..."
 
-#: BOINCTaskBar.cpp:525 BOINCTaskBar.cpp:621 BOINCTaskBar.cpp:629
+#: BOINCTaskBar.cpp:522 BOINCTaskBar.cpp:619 BOINCTaskBar.cpp:627
 msgid "Snooze"
 msgstr "Hesaplamayı bir süre ertele"
 
-#: BOINCTaskBar.cpp:527 BOINCTaskBar.cpp:648 BOINCTaskBar.cpp:656
+#: BOINCTaskBar.cpp:524 BOINCTaskBar.cpp:646 BOINCTaskBar.cpp:654
 msgid "Snooze GPU"
 msgstr "GPU ile hesaplamayı bir süre ertele"
 
-#: BOINCTaskBar.cpp:543 mac/MacSysMenu.cpp:225
+#: BOINCTaskBar.cpp:542
 msgid "E&xit"
 msgstr "&Çık"
 
-#: BOINCTaskBar.cpp:614 ViewProjects.cpp:708 ViewWork.cpp:784
-#: sg_BoincSimpleFrame.cpp:738 sg_ProjectCommandPopup.cpp:110
+#: BOINCTaskBar.cpp:612 ViewProjects.cpp:718 ViewWork.cpp:795
+#: sg_BoincSimpleFrame.cpp:754 sg_ProjectCommandPopup.cpp:110
 #: sg_TaskCommandPopup.cpp:102
 msgid "Resume"
 msgstr "Sürdür"
 
-#: BOINCTaskBar.cpp:641
+#: BOINCTaskBar.cpp:639
 msgid "Resume GPU"
 msgstr "GPU ile hesaplamayı sürdür"
 
-#: BOINCTaskBar.cpp:715
+#: BOINCTaskBar.cpp:713
 msgid "Computing is enabled"
 msgstr "Hesaplama devrede"
 
-#: BOINCTaskBar.cpp:719
+#: BOINCTaskBar.cpp:717
 msgid "Computing is suspended - "
 msgstr "Hesaplama durakladı - "
 
-#: BOINCTaskBar.cpp:729
+#: BOINCTaskBar.cpp:727
 msgid "GPU computing is enabled"
 msgstr "GPU ile hesaplama devrede"
 
-#: BOINCTaskBar.cpp:732
+#: BOINCTaskBar.cpp:730
 msgid "GPU computing is suspended - "
 msgstr "GPU ile hesaplama durakladı - "
 
-#: BOINCTaskBar.cpp:741
+#: BOINCTaskBar.cpp:739
 msgid "Network is enabled"
 msgstr "Ağ iletişimi devrede"
 
-#: BOINCTaskBar.cpp:744
+#: BOINCTaskBar.cpp:742
 msgid "Network is suspended - "
 msgstr "Ağ iletişimi durakladı - "
 
-#: BOINCTaskBar.cpp:752
+#: BOINCTaskBar.cpp:750
 msgid "Reconnecting to client."
 msgstr "İstemciye yeniden bağlanılıyor."
 
-#: BOINCTaskBar.cpp:754
+#: BOINCTaskBar.cpp:752
 msgid "Not connected to a client."
 msgstr "Bir istemciye bağlanmadı."
 
-#: BOINCTaskBar.cpp:807
+#: BOINCTaskBar.cpp:805
 #, c-format
 msgid "%s Notices"
 msgstr "%s Bildirimleri"
 
-#: BOINCTaskBar.cpp:813
+#: BOINCTaskBar.cpp:811
 msgid "There are new notices - click to view."
 msgstr "Yeni bildirimler var. Görmek için tıklayın."
 
@@ -1064,7 +1076,7 @@ msgstr "Şu anda hesapları yönetmek için %s kullanıyorsunuz."
 msgid "You are now using this account manager."
 msgstr "Şu anda bu hesap yöneticisini kullanıyorsunuz."
 
-#: DlgAbout.cpp:113 mac/Mac_GUI.cpp:95
+#: DlgAbout.cpp:113 mac/Mac_GUI.cpp:96
 #, c-format
 msgid "About %s"
 msgstr "%s Hakkında"
@@ -1164,11 +1176,11 @@ msgstr ""
 "Tüm yerel tercihleri kaldırmak istediğinize emin misiniz?\n"
 "(Bu, ayrıcalıklı uygulama listesini silmeyecektir.)"
 
-#: DlgAdvPreferences.cpp:990 sg_DlgPreferences.cpp:1032
+#: DlgAdvPreferences.cpp:990 sg_DlgPreferences.cpp:1035
 msgid "Confirmation"
 msgstr "Onaylama"
 
-#: DlgAdvPreferencesBase.cpp:46 sg_DlgPreferences.cpp:948
+#: DlgAdvPreferencesBase.cpp:46 sg_DlgPreferences.cpp:951
 #, c-format
 msgid "%s - Preferences"
 msgstr "%s - Tercihler"
@@ -1184,11 +1196,11 @@ msgstr ""
 "İnternet tabanlı ayarlarınıza dönmek için 'Temizle'yi tıklayın (ayrıcalıklı "
 "uygulama listesi silinmez)."
 
-#: DlgAdvPreferencesBase.cpp:65 sg_DlgPreferences.cpp:447
+#: DlgAdvPreferencesBase.cpp:65 sg_DlgPreferences.cpp:433
 msgid "Clear"
 msgstr "Temizle"
 
-#: DlgAdvPreferencesBase.cpp:66 sg_DlgPreferences.cpp:448
+#: DlgAdvPreferencesBase.cpp:66 sg_DlgPreferences.cpp:434
 msgid "clear all local preferences and close the dialog"
 msgstr "tüm yerel tercihleri temizler ve pencereyi kapatır"
 
@@ -1208,7 +1220,7 @@ msgstr "disk ve bellek kullanımı"
 msgid "exclusive applications"
 msgstr "ayrıcalıklı uygulamalar"
 
-#: DlgAdvPreferencesBase.cpp:102 sg_DlgPreferences.cpp:443
+#: DlgAdvPreferencesBase.cpp:102 sg_DlgPreferences.cpp:429
 msgid "OK"
 msgstr "Tamam"
 
@@ -1221,7 +1233,7 @@ msgid "close the dialog without saving"
 msgstr "değişiklikleri kaydetmeden pencereyi kapatır"
 
 #: DlgAdvPreferencesBase.cpp:112 Localization.cpp:35 Localization.cpp:121
-#: Localization.cpp:139 sg_BoincSimpleFrame.cpp:774 sg_DlgPreferences.cpp:458
+#: Localization.cpp:139 sg_BoincSimpleFrame.cpp:790 sg_DlgPreferences.cpp:444
 msgid "Help"
 msgstr "Yardım"
 
@@ -1281,7 +1293,7 @@ msgstr ""
 "olmadığında) hesaplamanın başlamasını istediğinizi belirleyin"
 
 #: DlgAdvPreferencesBase.cpp:187 DlgAdvPreferencesBase.cpp:336
-#: sg_DlgPreferences.cpp:436
+#: sg_DlgPreferences.cpp:422
 msgid "minutes"
 msgstr "dakika"
 
@@ -1308,7 +1320,7 @@ msgid "start work at this time"
 msgstr "bu saatte hesaplamayı başlat"
 
 #: DlgAdvPreferencesBase.cpp:243 DlgAdvPreferencesBase.cpp:503
-#: sg_DlgPreferences.cpp:345 sg_DlgPreferences.cpp:367
+#: sg_DlgPreferences.cpp:331 sg_DlgPreferences.cpp:353
 msgid "and"
 msgstr "ve"
 
@@ -1567,7 +1579,7 @@ msgstr "Ekle..."
 msgid "Add an application to this list"
 msgstr "Bu listeye bir uygulama ekle"
 
-#: DlgAdvPreferencesBase.cpp:727 ViewProjects.cpp:201
+#: DlgAdvPreferencesBase.cpp:727 ViewProjects.cpp:202
 #: sg_ProjectCommandPopup.cpp:85
 msgid "Remove"
 msgstr "Kaldır"
@@ -1580,42 +1592,42 @@ msgstr "Bu listeden bir uygulama kaldır"
 msgid "For advanced options, refer to "
 msgstr "Gelişmiş seçenekler için, lütfen ziyaret edin:  "
 
-#: DlgEventLog.cpp:217
+#: DlgEventLog.cpp:218
 #, c-format
 msgid "%s - Event Log"
 msgstr "%s - Olay Günlüğü"
 
-#: DlgEventLog.cpp:230 ViewMessages.cpp:117 ViewProjects.cpp:218
-#: ViewStatistics.cpp:427 ViewStatistics.cpp:1996 ViewTransfers.cpp:181
-#: ViewWork.cpp:231
+#: DlgEventLog.cpp:231 ViewMessages.cpp:117 ViewProjects.cpp:219
+#: ViewStatistics.cpp:435 ViewStatistics.cpp:2007 ViewTransfers.cpp:182
+#: ViewWork.cpp:232
 msgid "Project"
 msgstr "Proje"
 
-#: DlgEventLog.cpp:231 ViewMessages.cpp:118
+#: DlgEventLog.cpp:232 ViewMessages.cpp:118
 msgid "Time"
 msgstr "Zaman"
 
-#: DlgEventLog.cpp:232 ViewMessages.cpp:119
+#: DlgEventLog.cpp:233 ViewMessages.cpp:119
 msgid "Message"
 msgstr "Mesaj"
 
-#: DlgEventLog.cpp:287 DlgEventLog.cpp:351
+#: DlgEventLog.cpp:289 DlgEventLog.cpp:353
 msgid "&Show only this project"
 msgstr "&Yalnızca bu projeyi göster"
 
-#: DlgEventLog.cpp:291
+#: DlgEventLog.cpp:293
 msgid "Copy &All"
 msgstr "&Tümünü kopyala"
 
-#: DlgEventLog.cpp:293 DlgEventLog.cpp:297 ViewMessages.cpp:89
+#: DlgEventLog.cpp:295 DlgEventLog.cpp:299 ViewMessages.cpp:89
 msgid "Copy all the messages to the clipboard."
 msgstr "Tüm mesajları panoya kopyalar."
 
-#: DlgEventLog.cpp:302
+#: DlgEventLog.cpp:304
 msgid "Copy &Selected"
 msgstr "&Seçili mesajları kopyala"
 
-#: DlgEventLog.cpp:305 DlgEventLog.cpp:313 ViewMessages.cpp:97
+#: DlgEventLog.cpp:307 DlgEventLog.cpp:315 ViewMessages.cpp:97
 msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
 "messages by holding down the shift or command key while clicking on messages."
@@ -1623,7 +1635,7 @@ msgstr ""
 "Seçili mesajları panoya kopyalar. Shift ya da komut düğmelerine basıp\n"
 "mesajların üzerine tıklayarak, çok sayıda mesajı seçebilirsiniz."
 
-#: DlgEventLog.cpp:307 DlgEventLog.cpp:315 ViewMessages.cpp:99
+#: DlgEventLog.cpp:309 DlgEventLog.cpp:317 ViewMessages.cpp:99
 msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
 "messages by holding down the shift or control key while clicking on messages."
@@ -1631,25 +1643,25 @@ msgstr ""
 "Seçili mesajları panoya kopyalar. Shift ya da Ctrl düğmelerine basıp\n"
 "mesajların üzerine tıklayarak, çok sayıda mesajı seçebilirsiniz."
 
-#: DlgEventLog.cpp:322 DlgItemProperties.cpp:66
+#: DlgEventLog.cpp:324 DlgItemProperties.cpp:66
 msgid "&Close"
 msgstr "&Kapat"
 
-#: DlgEventLog.cpp:331 sg_BoincSimpleFrame.cpp:778 sg_DlgPreferences.cpp:461
+#: DlgEventLog.cpp:333 sg_BoincSimpleFrame.cpp:794 sg_DlgPreferences.cpp:447
 #: sg_ProjectsComponent.cpp:142
 #, c-format
 msgid "Get help with %s"
 msgstr "%s ile yardım alın"
 
-#: DlgEventLog.cpp:345
+#: DlgEventLog.cpp:347
 msgid "Show all &messages"
 msgstr "&Tüm mesajları göster"
 
-#: DlgEventLog.cpp:346 DlgEventLog.cpp:348
+#: DlgEventLog.cpp:348 DlgEventLog.cpp:350
 msgid "Show messages for all projects"
 msgstr "Tüm projelere ait mesajları gösterir."
 
-#: DlgEventLog.cpp:352 DlgEventLog.cpp:354
+#: DlgEventLog.cpp:354 DlgEventLog.cpp:356
 msgid "Show only the messages for the selected project"
 msgstr ""
 "Yalnızca şu anda seçili projeye ait mesajları ve BOINC'in genel mesajlarını "
@@ -1762,7 +1774,7 @@ msgstr "Kullanıcı adı"
 msgid "Team name"
 msgstr "Takım adı"
 
-#: DlgItemProperties.cpp:216 ViewProjects.cpp:223
+#: DlgItemProperties.cpp:216 ViewProjects.cpp:224
 msgid "Resource share"
 msgstr "Kaynak paylaşımı"
 
@@ -1865,7 +1877,7 @@ msgstr "Süre düzeltme faktörü"
 msgid "Properties of task "
 msgstr "İşin özellikleri: "
 
-#: DlgItemProperties.cpp:323 ViewWork.cpp:237
+#: DlgItemProperties.cpp:323 ViewWork.cpp:238
 msgid "Application"
 msgstr "Uygulama"
 
@@ -1929,7 +1941,7 @@ msgstr "Bulunduğu klasör"
 msgid "Process ID"
 msgstr "İşlem ID"
 
-#: DlgItemProperties.cpp:426 ViewWork.cpp:1021 sg_TaskPanel.cpp:807
+#: DlgItemProperties.cpp:426 ViewWork.cpp:1032 sg_TaskPanel.cpp:810
 msgid "Local: "
 msgstr "Yerel:"
 
@@ -2227,8 +2239,8 @@ msgstr "GEO-600 projesi"
 msgid "The home page of the GEO-600 project"
 msgstr "GEO-600 projesinin ana sayfası"
 
-#: Localization.cpp:115 Localization.cpp:133 ViewProjects.cpp:220
-#: ViewStatistics.cpp:457
+#: Localization.cpp:115 Localization.cpp:133 ViewProjects.cpp:221
+#: ViewStatistics.cpp:465
 msgid "Team"
 msgstr "Takım"
 
@@ -2301,15 +2313,15 @@ msgstr "İstemci başlıyor"
 msgid "Connecting to client"
 msgstr "İstemciye bağlanılıyor"
 
-#: MainDocument.cpp:1183
+#: MainDocument.cpp:1186
 msgid "Retrieving system state; please wait..."
 msgstr "Sistem durum bilgisi alınıyor; lütfen bekleyin..."
 
-#: MainDocument.cpp:1804
+#: MainDocument.cpp:1807
 msgid "Missing application"
 msgstr "Uygulama bulunamadı"
 
-#: MainDocument.cpp:1805
+#: MainDocument.cpp:1808
 msgid ""
 "Please download and install the CoRD application from http://cord."
 "sourceforge.net"
@@ -2317,184 +2329,184 @@ msgstr ""
 "Lütfen CoRD uygulamasını buradan indirin ve kurun: "
 "http://cord.sourceforge.net"
 
-#: MainDocument.cpp:2420
+#: MainDocument.cpp:2423
 msgid "on batteries"
 msgstr "pil gücünde"
 
-#: MainDocument.cpp:2421
+#: MainDocument.cpp:2424
 msgid "computer is in use"
 msgstr "bilgisayar kullanımda"
 
-#: MainDocument.cpp:2422
+#: MainDocument.cpp:2425
 msgid "user request"
 msgstr "kullanıcı talebi"
 
-#: MainDocument.cpp:2423
+#: MainDocument.cpp:2426
 msgid "time of day"
 msgstr "günlük zamanlama"
 
-#: MainDocument.cpp:2424
+#: MainDocument.cpp:2427
 msgid "CPU benchmarks in progress"
 msgstr "İşlemci testleri sürüyor"
 
-#: MainDocument.cpp:2425
+#: MainDocument.cpp:2428
 msgid "need disk space - check preferences"
 msgstr "disk alanı gerekiyor - tercihleri kontrol edin"
 
-#: MainDocument.cpp:2426
+#: MainDocument.cpp:2429
 msgid "computer is not in use"
 msgstr "bilgisayar kullanımda değil"
 
-#: MainDocument.cpp:2427
+#: MainDocument.cpp:2430
 msgid "starting up"
 msgstr "başlıyor"
 
-#: MainDocument.cpp:2428
+#: MainDocument.cpp:2431
 msgid "an exclusive app is running"
 msgstr "ayrıcalıklı bir uygulama çalışıyor"
 
-#: MainDocument.cpp:2429
+#: MainDocument.cpp:2432
 msgid "CPU is busy"
 msgstr "İşlemci meşgul"
 
-#: MainDocument.cpp:2430
+#: MainDocument.cpp:2433
 msgid "network bandwidth limit exceeded"
 msgstr "ağ kullanım kotası doldu"
 
-#: MainDocument.cpp:2431
+#: MainDocument.cpp:2434
 msgid "requested by operating system"
 msgstr "işletim sistemi tarafından istendi"
 
-#: MainDocument.cpp:2433
+#: MainDocument.cpp:2436
 msgid "unknown reason"
 msgstr "bilinmeyen sebep"
 
-#: MainDocument.cpp:2455
+#: MainDocument.cpp:2458
 msgid "GPU missing, "
 msgstr "GPU mevcut değil, "
 
-#: MainDocument.cpp:2462
+#: MainDocument.cpp:2465
 msgid "New"
 msgstr "Yeni"
 
-#: MainDocument.cpp:2466
+#: MainDocument.cpp:2469
 msgid "Download failed"
 msgstr "İndirme başarısız"
 
-#: MainDocument.cpp:2468
+#: MainDocument.cpp:2471
 msgid "Downloading"
 msgstr "İndiriliyor"
 
-#: MainDocument.cpp:2470 MainDocument.cpp:2540
+#: MainDocument.cpp:2473 MainDocument.cpp:2543
 msgid " (suspended - "
 msgstr " (durakladı - "
 
-#: MainDocument.cpp:2478
+#: MainDocument.cpp:2481
 msgid "Project suspended by user"
 msgstr "Kullanıcı projeyi durdurdu"
 
-#: MainDocument.cpp:2480
+#: MainDocument.cpp:2483
 msgid "Task suspended by user"
 msgstr "Kullanıcı işi durdurdu"
 
-#: MainDocument.cpp:2482
+#: MainDocument.cpp:2485
 msgid "Suspended - "
 msgstr "Durakladı - "
 
 # 75%
-#: MainDocument.cpp:2488
+#: MainDocument.cpp:2491
 msgid "GPU suspended - "
 msgstr "GPU durakladı - "
 
-#: MainDocument.cpp:2495
+#: MainDocument.cpp:2498
 msgid "Waiting for memory"
 msgstr "Bellek için bekleniyor"
 
-#: MainDocument.cpp:2497
+#: MainDocument.cpp:2500
 msgid "Waiting for shared memory"
 msgstr "Paylaşılan bellek için bekleniyor"
 
-#: MainDocument.cpp:2500
+#: MainDocument.cpp:2503
 msgid "Running, high priority"
 msgstr "Çalışıyor, yüksek öncelikli"
 
-#: MainDocument.cpp:2502 sg_ImageButton.cpp:88
+#: MainDocument.cpp:2505 sg_ImageButton.cpp:88
 msgid "Running"
 msgstr "Çalışıyor"
 
-#: MainDocument.cpp:2505
+#: MainDocument.cpp:2508
 msgid " (non-CPU-intensive)"
 msgstr " (CPU-yoğun-değil)"
 
-#: MainDocument.cpp:2508
+#: MainDocument.cpp:2511
 msgid "Waiting to run"
 msgstr "Çalışmayı bekliyor"
 
-#: MainDocument.cpp:2510 MainDocument.cpp:2516
+#: MainDocument.cpp:2513 MainDocument.cpp:2519
 msgid "Ready to start"
 msgstr "Başlamaya hazır"
 
-#: MainDocument.cpp:2520
+#: MainDocument.cpp:2523
 msgid " (Scheduler wait: "
 msgstr " (Zamanlanmış bekleme: "
 
-#: MainDocument.cpp:2524
+#: MainDocument.cpp:2527
 msgid " (Scheduler wait)"
 msgstr " (Zamanlanmış bekleme)"
 
-#: MainDocument.cpp:2528
+#: MainDocument.cpp:2531
 msgid " (Waiting for network access)"
 msgstr " (Ağ erişimi için bekleniyor)"
 
-#: MainDocument.cpp:2532
+#: MainDocument.cpp:2535
 msgid "Computation error"
 msgstr "Hesaplama hatası"
 
-#: MainDocument.cpp:2536
+#: MainDocument.cpp:2539
 msgid "Upload failed"
 msgstr "Gönderme başarısız"
 
-#: MainDocument.cpp:2538
+#: MainDocument.cpp:2541
 msgid "Uploading"
 msgstr "Gönderiliyor"
 
-#: MainDocument.cpp:2549
+#: MainDocument.cpp:2552
 msgid "Aborted by user"
 msgstr "Kullanıcı tarafından iptal edildi"
 
-#: MainDocument.cpp:2552
+#: MainDocument.cpp:2555
 msgid "Aborted by project"
 msgstr "Proje tarafından iptal edildi"
 
-#: MainDocument.cpp:2555
+#: MainDocument.cpp:2558
 msgid "Aborted: not started by deadline"
 msgstr "İptal edildi: Son teslim zamanı nedeniyle başlamadı"
 
-#: MainDocument.cpp:2558
+#: MainDocument.cpp:2561
 msgid "Aborted: disk limit exceeded"
 msgstr "İptal edildi: Disk limitine ulaşıldı"
 
-#: MainDocument.cpp:2561
+#: MainDocument.cpp:2564
 msgid "Aborted: run time limit exceeded"
 msgstr "İptal edildi: Zaman limitine ulaşıldı"
 
-#: MainDocument.cpp:2564
+#: MainDocument.cpp:2567
 msgid "Aborted: memory limit exceeded"
 msgstr "İptal edildi: Bellek limitine ulaşıldı"
 
-#: MainDocument.cpp:2567
+#: MainDocument.cpp:2570
 msgid "Aborted"
 msgstr "İptal edildi"
 
-#: MainDocument.cpp:2572
+#: MainDocument.cpp:2575
 msgid "Acknowledged"
 msgstr "Kabul edildi"
 
-#: MainDocument.cpp:2574
+#: MainDocument.cpp:2577
 msgid "Ready to report"
 msgstr "Raporlanmaya hazır"
 
-#: MainDocument.cpp:2576
+#: MainDocument.cpp:2579
 #, c-format
 msgid "Error: invalid state '%d'"
 msgstr "Hata: Geçersiz durum '%d'"
@@ -2548,73 +2560,55 @@ msgstr "Kullanıcı adı ve parolayı kontrol edip, tekrar deneyin."
 msgid "Check the email address and password, and try again."
 msgstr "E-posta, kullanıcı adı ve parolayı kontrol edip, tekrar deneyin."
 
-#: NoticeListCtrl.cpp:63
-msgid "Notice List"
-msgstr "Bildirim Listesi"
-
-#: NoticeListCtrl.cpp:185
-#, c-format
-msgid "%s; received on %s"
-msgstr "%s; alınma %s"
-
-#: NoticeListCtrl.cpp:187
-#, c-format
-msgid "%s; received from %s; on %s"
-msgstr "%s; %s kaynağından; alınma %s"
-
-#: NoticeListCtrl.cpp:284 ProjectListCtrl.cpp:282
-msgid "Click"
-msgstr "Tıkla"
-
-#: NoticeListCtrl.cpp:569
+#: NoticeListCtrl.cpp:221
 msgid "more..."
 msgstr "devamı..."
 
-#: ProjectInfoPage.cpp:451 ProjectInfoPage.cpp:739 ProjectInfoPage.cpp:743
+#: ProjectInfoPage.cpp:467 ProjectInfoPage.cpp:766 ProjectInfoPage.cpp:770
 msgid "All"
 msgstr "Tümü"
 
-#: ProjectInfoPage.cpp:582
+#: ProjectInfoPage.cpp:602
 msgid "Choose a project"
 msgstr "Bir proje seçin"
 
-#: ProjectInfoPage.cpp:586
+#: ProjectInfoPage.cpp:606
 msgid "To choose a project, click its name or type its URL below."
 msgstr "Bir proje seçmek için, ismine tıklayın ya da aşağıya adresini girin."
 
-#: ProjectInfoPage.cpp:590
+#: ProjectInfoPage.cpp:610
 msgid "Categories:"
 msgstr "Kategoriler:"
 
-#: ProjectInfoPage.cpp:594 sg_ProjectPanel.cpp:89
+#: ProjectInfoPage.cpp:614 sg_ProjectPanel.cpp:89
 msgid "Projects:"
 msgstr "Projeler:"
 
-#: ProjectInfoPage.cpp:598
+#: ProjectInfoPage.cpp:618
 msgid "Project details"
 msgstr "Proje detayları"
 
-#: ProjectInfoPage.cpp:602
+#: ProjectInfoPage.cpp:622
 msgid "Research area:"
 msgstr "Araştırma alanı:"
 
-#: ProjectInfoPage.cpp:606
+#: ProjectInfoPage.cpp:626
 msgid "Organization:"
 msgstr "Organizasyon:"
 
-#: ProjectInfoPage.cpp:610
+#: ProjectInfoPage.cpp:630
 msgid "Web site:"
 msgstr "İnternet sitesi:"
 
-#: ProjectInfoPage.cpp:614
+#: ProjectInfoPage.cpp:634
 msgid "Supported systems:"
 msgstr "Desteklenen sistemler:"
 
-#: ProjectInfoPage.cpp:618
+#: ProjectInfoPage.cpp:638
 msgid "Project URL:"
 msgstr "Proje adresi:"
 
-#: ProjectInfoPage.cpp:787
+#: ProjectInfoPage.cpp:814
 msgid ""
 "This project may not have work for your type of computer.  Do you want to "
 "add it anyway?"
@@ -2622,25 +2616,9 @@ msgstr ""
 "Bu proje bilgisayarınızın özelliklerine uygun işe sahip olmayabilir.  Yine "
 "de eklemek istediğinize emin misiniz?"
 
-#: ProjectInfoPage.cpp:811
+#: ProjectInfoPage.cpp:838
 msgid "You already added this project. Please choose a different project."
 msgstr "Bu projeyi zaten eklemiş durumdasınız. Lütfen farklı bir proje seçin."
-
-#: ProjectListCtrl.cpp:66
-msgid "Project List"
-msgstr "Proje Listesi"
-
-#: ProjectListCtrl.cpp:507
-msgid "Nvidia GPU Supported"
-msgstr "NVIDIA GPU destekleniyor"
-
-#: ProjectListCtrl.cpp:509
-msgid "ATI GPU Supported"
-msgstr "ATI GPU destekleniyor"
-
-#: ProjectListCtrl.cpp:511
-msgid "Project Website"
-msgstr "Proje internet sitesi"
 
 #: ProjectProcessingPage.cpp:321
 msgid "Communicating with project."
@@ -2849,8 +2827,8 @@ msgstr "'%s' geçerli bir bilgisayar adı içermiyor."
 msgid "'%s' does not contain a valid path."
 msgstr "'%s' geçerli bir yol içermiyor."
 
-#: ViewMessages.cpp:84 ViewProjects.cpp:169 ViewStatistics.cpp:1965
-#: ViewTransfers.cpp:159 ViewWork.cpp:182
+#: ViewMessages.cpp:84 ViewProjects.cpp:170 ViewStatistics.cpp:1976
+#: ViewTransfers.cpp:160 ViewWork.cpp:183
 msgid "Commands"
 msgstr "Komutlar"
 
@@ -2896,32 +2874,23 @@ msgstr "Tüm mesajları göster"
 msgid "Show messages for all projects."
 msgstr "Tüm projeler için mesajları gösterir."
 
-#: ViewNotices.cpp:60 sg_DlgMessages.cpp:130
-msgid "One or more items failed to load from the Internet."
-msgstr "Bir ya da daha fazla öğe internetten yüklenirken başarısız olundu."
-
-# 88%
-#: ViewNotices.cpp:68 sg_DlgMessages.cpp:138
-msgid "Retry now"
-msgstr "Şimdi yeniden dene"
-
-#: ViewNotices.cpp:91 sg_DlgMessages.cpp:171
+#: ViewNotices.cpp:58 sg_DlgMessages.cpp:124
 msgid "Fetching notices; please wait..."
 msgstr "Bildirimler alınıyor; lütfen bekleyin..."
 
-#: ViewNotices.cpp:97 sg_DlgMessages.cpp:178
+#: ViewNotices.cpp:65 sg_DlgMessages.cpp:132
 msgid "There are no notices at this time."
 msgstr "Şu anda görüntülenecek bildirim yok."
 
-#: ViewNotices.cpp:120 sg_BoincSimpleFrame.cpp:756
+#: ViewNotices.cpp:99 sg_BoincSimpleFrame.cpp:772
 msgid "Notices"
 msgstr "Bildirimler"
 
-#: ViewProjects.cpp:173 sg_ProjectCommandPopup.cpp:61
+#: ViewProjects.cpp:174 sg_ProjectCommandPopup.cpp:61
 msgid "Update"
 msgstr "Güncelle"
 
-#: ViewProjects.cpp:174 sg_ProjectCommandPopup.cpp:62
+#: ViewProjects.cpp:175 sg_ProjectCommandPopup.cpp:62
 msgid ""
 "Report all completed tasks, get latest credit, get latest preferences, and "
 "possibly get more tasks."
@@ -2929,32 +2898,32 @@ msgstr ""
 "Tamamlanan işleri raporlar, güncel kredi bigilerini ve tercih ayarlarını "
 "alır ve gerekiyorsa daha fazla iş indirir."
 
-#: ViewProjects.cpp:180 ViewProjects.cpp:712 ViewWork.cpp:207 ViewWork.cpp:790
-#: sg_BoincSimpleFrame.cpp:737 sg_ProjectCommandPopup.cpp:67
+#: ViewProjects.cpp:181 ViewProjects.cpp:722 ViewWork.cpp:208 ViewWork.cpp:801
+#: sg_BoincSimpleFrame.cpp:753 sg_ProjectCommandPopup.cpp:67
 #: sg_ProjectCommandPopup.cpp:113 sg_TaskCommandPopup.cpp:66
 #: sg_TaskCommandPopup.cpp:106
 msgid "Suspend"
 msgstr "Duraklat"
 
-#: ViewProjects.cpp:181 ViewProjects.cpp:712 sg_ProjectCommandPopup.cpp:68
+#: ViewProjects.cpp:182 ViewProjects.cpp:722 sg_ProjectCommandPopup.cpp:68
 #: sg_ProjectCommandPopup.cpp:114
 msgid "Suspend tasks for this project."
 msgstr "Bu projenin işlerini durdurur."
 
-#: ViewProjects.cpp:187 ViewProjects.cpp:731 sg_ProjectCommandPopup.cpp:73
+#: ViewProjects.cpp:188 ViewProjects.cpp:741 sg_ProjectCommandPopup.cpp:73
 #: sg_ProjectCommandPopup.cpp:121
 msgid "No new tasks"
 msgstr "Yeni işler indirme"
 
-#: ViewProjects.cpp:188 sg_ProjectCommandPopup.cpp:74
+#: ViewProjects.cpp:189 sg_ProjectCommandPopup.cpp:74
 msgid "Don't get new tasks for this project."
 msgstr "Bu proje artık yeni işler indirmez."
 
-#: ViewProjects.cpp:194 sg_ProjectCommandPopup.cpp:79
+#: ViewProjects.cpp:195 sg_ProjectCommandPopup.cpp:79
 msgid "Reset project"
 msgstr "Projeyi sıfırla"
 
-#: ViewProjects.cpp:195 sg_ProjectCommandPopup.cpp:80
+#: ViewProjects.cpp:196 sg_ProjectCommandPopup.cpp:80
 msgid ""
 "Delete all files and tasks associated with this project, and get new tasks.  "
 "You can update the project first to report any completed tasks."
@@ -2963,7 +2932,7 @@ msgstr ""
 "Tamamlanmış işler varsa sonuçları raporlamak için önce projeyi "
 "güncelleyebilirsiniz."
 
-#: ViewProjects.cpp:202 sg_ProjectCommandPopup.cpp:86
+#: ViewProjects.cpp:203 sg_ProjectCommandPopup.cpp:86
 msgid ""
 "Remove this project.  Tasks in progress will be lost (use 'Update' first to "
 "report any completed tasks)."
@@ -2972,164 +2941,164 @@ msgstr ""
 "(tamamlanmış işlerin sonuçlarını göndermek için önce 'Güncelle' komutunu "
 "kullanın)."
 
-#: ViewProjects.cpp:208 ViewWork.cpp:221 sg_ProjectCommandPopup.cpp:91
+#: ViewProjects.cpp:209 ViewWork.cpp:222 sg_ProjectCommandPopup.cpp:91
 #: sg_TaskCommandPopup.cpp:78
 msgid "Properties"
 msgstr "Özellikler"
 
-#: ViewProjects.cpp:209 sg_ProjectCommandPopup.cpp:92
+#: ViewProjects.cpp:210 sg_ProjectCommandPopup.cpp:92
 msgid "Show project details."
 msgstr "Proje detaylarını görüntüler."
 
-#: ViewProjects.cpp:219 ViewStatistics.cpp:442
+#: ViewProjects.cpp:220 ViewStatistics.cpp:450
 msgid "Account"
 msgstr "Hesap"
 
-#: ViewProjects.cpp:221
+#: ViewProjects.cpp:222
 msgid "Work done"
 msgstr "Kredi"
 
-#: ViewProjects.cpp:222
+#: ViewProjects.cpp:223
 msgid "Avg. work done"
 msgstr "Günlük ortalama kredi"
 
-#: ViewProjects.cpp:224 ViewTransfers.cpp:187 ViewWork.cpp:233
+#: ViewProjects.cpp:225 ViewTransfers.cpp:188 ViewWork.cpp:234
 msgid "Status"
 msgstr "Durum"
 
-#: ViewProjects.cpp:249
+#: ViewProjects.cpp:250
 msgid "Projects"
 msgstr "Projeler"
 
-#: ViewProjects.cpp:301
+#: ViewProjects.cpp:302
 msgid "Updating project..."
 msgstr "Proje güncelleniyor..."
 
-#: ViewProjects.cpp:343
+#: ViewProjects.cpp:344
 msgid "Resuming project..."
 msgstr "Proje sürdürülüyor..."
 
-#: ViewProjects.cpp:347
+#: ViewProjects.cpp:348
 msgid "Suspending project..."
 msgstr "Proje durduruluyor..."
 
-#: ViewProjects.cpp:384
+#: ViewProjects.cpp:385
 msgid "Telling project to allow additional task downloads..."
 msgstr "Projeye yeni iş indirmeleri yapılabileceği bildiriliyor..."
 
-#: ViewProjects.cpp:388
+#: ViewProjects.cpp:389
 msgid "Telling project to not fetch any additional tasks..."
 msgstr "Projeye yeni iş indirmeleri yapılmayacağı bildiriliyor..."
 
-#: ViewProjects.cpp:424
+#: ViewProjects.cpp:425
 msgid "Resetting project..."
 msgstr "Proje sıfırlanıyor..."
 
-#: ViewProjects.cpp:437 sg_ProjectCommandPopup.cpp:214
+#: ViewProjects.cpp:438 sg_ProjectCommandPopup.cpp:214
 #, c-format
 msgid "Are you sure you want to reset project '%s'?"
 msgstr "'%s' projesini sıfırlamak istediğinize emin misiniz?"
 
-#: ViewProjects.cpp:443 sg_ProjectCommandPopup.cpp:220
+#: ViewProjects.cpp:444 sg_ProjectCommandPopup.cpp:220
 msgid "Reset Project"
 msgstr "Projeyi sıfırla"
 
-#: ViewProjects.cpp:482
+#: ViewProjects.cpp:483
 msgid "Removing project..."
 msgstr "Proje kaldırılıyor..."
 
-#: ViewProjects.cpp:495 sg_ProjectCommandPopup.cpp:251
+#: ViewProjects.cpp:496 sg_ProjectCommandPopup.cpp:251
 #: sg_StatImageLoader.cpp:192
 #, c-format
 msgid "Are you sure you want to remove project '%s'?"
 msgstr "'%s' projesini kaldırmak istediğinize emin misiniz?"
 
-#: ViewProjects.cpp:501 sg_ProjectCommandPopup.cpp:257
+#: ViewProjects.cpp:502 sg_ProjectCommandPopup.cpp:257
 #: sg_StatImageLoader.cpp:138 sg_StatImageLoader.cpp:198
 msgid "Remove Project"
 msgstr "Projeyi kaldır"
 
-#: ViewProjects.cpp:542 ViewWork.cpp:598
+#: ViewProjects.cpp:543 ViewWork.cpp:599
 msgid "Launching browser..."
 msgstr "Tarayıcı çalıştırılıyor..."
 
-#: ViewProjects.cpp:708 sg_ProjectCommandPopup.cpp:111
+#: ViewProjects.cpp:718 sg_ProjectCommandPopup.cpp:111
 msgid "Resume tasks for this project."
 msgstr "Bu projenin işleri yeniden çalıştırılır."
 
-#: ViewProjects.cpp:727 sg_ProjectCommandPopup.cpp:118
+#: ViewProjects.cpp:737 sg_ProjectCommandPopup.cpp:118
 msgid "Allow new tasks"
 msgstr "Yeni işler indir"
 
-#: ViewProjects.cpp:727 sg_ProjectCommandPopup.cpp:119
+#: ViewProjects.cpp:737 sg_ProjectCommandPopup.cpp:119
 msgid "Allow fetching new tasks for this project."
 msgstr "Bu projenin yeni işler indirmesine izin verir."
 
-#: ViewProjects.cpp:731 sg_ProjectCommandPopup.cpp:122
+#: ViewProjects.cpp:741 sg_ProjectCommandPopup.cpp:122
 msgid "Don't fetch new tasks for this project."
 msgstr "Bu projeye artık yeni işler alınmaz."
 
-#: ViewProjects.cpp:1048
+#: ViewProjects.cpp:1058
 msgid "Requested by user"
 msgstr "Kullanıcı tarafından istendi"
 
-#: ViewProjects.cpp:1049
+#: ViewProjects.cpp:1059
 msgid "To fetch work"
 msgstr "İş indiriliyor"
 
-#: ViewProjects.cpp:1050
+#: ViewProjects.cpp:1060
 msgid "To report completed tasks"
 msgstr "Tamamlanan işler raporlanıyor"
 
-#: ViewProjects.cpp:1051
+#: ViewProjects.cpp:1061
 msgid "To send trickle-up message"
 msgstr "İş ilerleme mesajı gönderimi"
 
-#: ViewProjects.cpp:1052
+#: ViewProjects.cpp:1062
 msgid "Requested by account manager"
 msgstr "Hesap yöneticisi tarafından istendi"
 
-#: ViewProjects.cpp:1053
+#: ViewProjects.cpp:1063
 msgid "Project initialization"
 msgstr "Proje başlatılıyor"
 
-#: ViewProjects.cpp:1054
+#: ViewProjects.cpp:1064
 msgid "Requested by project"
 msgstr "Proje tarafından istendi"
 
-#: ViewProjects.cpp:1055
+#: ViewProjects.cpp:1065
 msgid "Unknown reason"
 msgstr "Bilinmeyen sebep"
 
-#: ViewProjects.cpp:1069
+#: ViewProjects.cpp:1079
 msgid "Suspended by user"
 msgstr "Kullanıcı tarafından durduruldu"
 
-#: ViewProjects.cpp:1072
+#: ViewProjects.cpp:1082
 msgid "Won't get new tasks"
 msgstr "Yeni işler alınmayacak"
 
-#: ViewProjects.cpp:1075
+#: ViewProjects.cpp:1085
 msgid "Project ended - OK to remove"
 msgstr "Proje sona erdi - Kaldırmak için Tamam'a tıklayın"
 
-#: ViewProjects.cpp:1078
+#: ViewProjects.cpp:1088
 msgid "Will remove when tasks done"
 msgstr "İşler tamamlandığında kaldırılacak"
 
-#: ViewProjects.cpp:1081
+#: ViewProjects.cpp:1091
 msgid "Scheduler request pending"
 msgstr "Zamanlanmış istek kuyrukta"
 
-#: ViewProjects.cpp:1087
+#: ViewProjects.cpp:1097
 msgid "Scheduler request in progress"
 msgstr "Zamanlanmış istek gerçekleştiriliyor"
 
-#: ViewProjects.cpp:1090
+#: ViewProjects.cpp:1100
 msgid "Trickle up message pending"
 msgstr "İş ilerleme mesajı kuyrukta"
 
-#: ViewProjects.cpp:1096
+#: ViewProjects.cpp:1106
 msgid "Communication deferred "
 msgstr "Haberleşme ertelendi "
 
@@ -3169,183 +3138,183 @@ msgstr "boş: "
 msgid "used by other programs: "
 msgstr "başka programlarca kullanılan: "
 
-#: ViewStatistics.cpp:1195
+#: ViewStatistics.cpp:1203
 msgid "User Total"
 msgstr "Toplam Krediniz"
 
-#: ViewStatistics.cpp:1196
+#: ViewStatistics.cpp:1204
 msgid "User Average"
 msgstr "Günlük Ortalama Krediniz"
 
-#: ViewStatistics.cpp:1197
+#: ViewStatistics.cpp:1205
 msgid "Host Total"
 msgstr "Bilgisayarınızın Toplam Kredisi"
 
-#: ViewStatistics.cpp:1198
+#: ViewStatistics.cpp:1206
 msgid "Host Average"
 msgstr "Bilgisayarınızın Günlük Ortalama Kredisi"
 
-#: ViewStatistics.cpp:1345
+#: ViewStatistics.cpp:1353
 #, c-format
 msgid "Last update: %.0f days ago"
 msgstr "Son güncelleme: %.0f gün önce"
 
-#: ViewStatistics.cpp:1969
+#: ViewStatistics.cpp:1980
 msgid "Show user total"
 msgstr "Toplam kredim"
 
-#: ViewStatistics.cpp:1970
+#: ViewStatistics.cpp:1981
 msgid "Show total credit for user"
 msgstr "Toplam kredinizi görüntüler"
 
-#: ViewStatistics.cpp:1976
+#: ViewStatistics.cpp:1987
 msgid "Show user average"
 msgstr "Günlük ortalama kredim"
 
-#: ViewStatistics.cpp:1977
+#: ViewStatistics.cpp:1988
 msgid "Show average credit for user"
 msgstr "Günlük üretilen ortalama kredinizi görüntüler"
 
-#: ViewStatistics.cpp:1983
+#: ViewStatistics.cpp:1994
 msgid "Show host total"
 msgstr "Bilgisayarımın toplam kredisi"
 
-#: ViewStatistics.cpp:1984
+#: ViewStatistics.cpp:1995
 msgid "Show total credit for host"
 msgstr "Bu bilgisayarınızın toplam kredisini görüntüler"
 
-#: ViewStatistics.cpp:1990
+#: ViewStatistics.cpp:2001
 msgid "Show host average"
 msgstr "Bilgisayarımın ortalama kredisi"
 
-#: ViewStatistics.cpp:1991
+#: ViewStatistics.cpp:2002
 msgid "Show average credit for host"
 msgstr "Bu bilgisayarınızın ortalama kredisini görüntüler"
 
-#: ViewStatistics.cpp:2000
+#: ViewStatistics.cpp:2011
 msgid "< &Previous project"
 msgstr "< &Önceki proje"
 
-#: ViewStatistics.cpp:2001
+#: ViewStatistics.cpp:2012
 msgid "Show chart for previous project"
 msgstr "Önceki proje için çizelge"
 
-#: ViewStatistics.cpp:2006
+#: ViewStatistics.cpp:2017
 msgid "&Next project >"
 msgstr "&Sonraki proje >"
 
-#: ViewStatistics.cpp:2007
+#: ViewStatistics.cpp:2018
 msgid "Show chart for next project"
 msgstr "Sonraki proje için çizelge"
 
-#: ViewStatistics.cpp:2013 ViewStatistics.cpp:2410
+#: ViewStatistics.cpp:2024 ViewStatistics.cpp:2414
 msgid "Hide project list"
 msgstr "Proje listesini gizle"
 
-#: ViewStatistics.cpp:2014 ViewStatistics.cpp:2410
+#: ViewStatistics.cpp:2025 ViewStatistics.cpp:2414
 msgid "Use entire area for graphs"
 msgstr "Tüm alan grafikler için kullanılır"
 
-#: ViewStatistics.cpp:2019
+#: ViewStatistics.cpp:2030
 msgid "Mode view"
 msgstr "Görünüm kipi"
 
-#: ViewStatistics.cpp:2023
+#: ViewStatistics.cpp:2034
 msgid "One project"
 msgstr "Tek proje"
 
-#: ViewStatistics.cpp:2024
+#: ViewStatistics.cpp:2035
 msgid "Show one chart with selected project"
 msgstr "Seçilen projeyi tek çizelgede göster"
 
-#: ViewStatistics.cpp:2030
+#: ViewStatistics.cpp:2041
 msgid "All projects (separate)"
 msgstr "Tüm projeler (ayrı)"
 
-#: ViewStatistics.cpp:2031
+#: ViewStatistics.cpp:2042
 msgid "Show all projects, one chart per project"
 msgstr "Tüm projeleri göster, her biri için ayrı çizelge"
 
-#: ViewStatistics.cpp:2037
+#: ViewStatistics.cpp:2048
 msgid "All projects (together)"
 msgstr "Tüm projeler (birlikte)"
 
-#: ViewStatistics.cpp:2038
+#: ViewStatistics.cpp:2049
 msgid "Show one chart with all projects"
 msgstr "Tüm projelerin bulunduğu tek çizelge göster"
 
-#: ViewStatistics.cpp:2044
+#: ViewStatistics.cpp:2055
 msgid "All projects (sum)"
 msgstr "Tüm projeler (özet)"
 
-#: ViewStatistics.cpp:2045
+#: ViewStatistics.cpp:2056
 msgid "Show one chart with sum of projects"
 msgstr "Tüm projelerin özetinin bulunduğu tek çizelge göster"
 
-#: ViewStatistics.cpp:2073
+#: ViewStatistics.cpp:2077
 msgid "Statistics"
 msgstr "İstatistikler"
 
-#: ViewStatistics.cpp:2097 ViewStatistics.cpp:2118 ViewStatistics.cpp:2139
-#: ViewStatistics.cpp:2161 ViewStatistics.cpp:2182 ViewStatistics.cpp:2203
-#: ViewStatistics.cpp:2224 ViewStatistics.cpp:2245 ViewStatistics.cpp:2266
-#: ViewStatistics.cpp:2290
+#: ViewStatistics.cpp:2101 ViewStatistics.cpp:2122 ViewStatistics.cpp:2143
+#: ViewStatistics.cpp:2165 ViewStatistics.cpp:2186 ViewStatistics.cpp:2207
+#: ViewStatistics.cpp:2228 ViewStatistics.cpp:2249 ViewStatistics.cpp:2270
+#: ViewStatistics.cpp:2294
 msgid "Updating charts..."
 msgstr "Çizelgeler güncelleniyor..."
 
-#: ViewStatistics.cpp:2414
+#: ViewStatistics.cpp:2418
 msgid "Show project list"
 msgstr "Proje listesini göster"
 
-#: ViewStatistics.cpp:2414
+#: ViewStatistics.cpp:2418
 msgid "Uses smaller area for graphs"
 msgstr "Grafikler için daha küçük bir alan kullanılır"
 
-#: ViewTransfers.cpp:163
+#: ViewTransfers.cpp:164
 msgid "Retry Now"
 msgstr "Şimdi dene"
 
-#: ViewTransfers.cpp:164
+#: ViewTransfers.cpp:165
 msgid "Retry the file transfer now"
 msgstr "Dosya transferini şimdi yeniden dener"
 
-#: ViewTransfers.cpp:170
+#: ViewTransfers.cpp:171
 msgid "Abort Transfer"
 msgstr "Aktarımı iptal et"
 
-#: ViewTransfers.cpp:171
+#: ViewTransfers.cpp:172
 msgid "Abort this file transfer.  You won't get credit for the task."
 msgstr "Bu dosya aktarımını iptal eder. Bu iş için kredi alamazsınız."
 
-#: ViewTransfers.cpp:182
+#: ViewTransfers.cpp:183
 msgid "File"
 msgstr "Dosya"
 
-#: ViewTransfers.cpp:183 ViewWork.cpp:232
+#: ViewTransfers.cpp:184 ViewWork.cpp:233
 msgid "Progress"
 msgstr "İlerleme"
 
-#: ViewTransfers.cpp:184
+#: ViewTransfers.cpp:185
 msgid "Size"
 msgstr "Boyut"
 
-#: ViewTransfers.cpp:185
+#: ViewTransfers.cpp:186
 msgid "Elapsed Time"
 msgstr "Geçen süre"
 
-#: ViewTransfers.cpp:186
+#: ViewTransfers.cpp:187
 msgid "Speed"
 msgstr "Hız"
 
-#: ViewTransfers.cpp:212
+#: ViewTransfers.cpp:213
 msgid "Transfers"
 msgstr "Aktarımlar"
 
-#: ViewTransfers.cpp:279
+#: ViewTransfers.cpp:280
 msgid "Network activity is suspended - "
 msgstr "Ağ faaliyeti durakladı - "
 
-#: ViewTransfers.cpp:281
+#: ViewTransfers.cpp:282
 msgid ""
 ".\n"
 "You can enable it using the Activity menu."
@@ -3353,19 +3322,19 @@ msgstr ""
 ".\n"
 "Çalışma menüsünü kullanarak yeniden sürdürebilirsiniz."
 
-#: ViewTransfers.cpp:284
+#: ViewTransfers.cpp:285
 msgid "BOINC"
 msgstr "BOINC"
 
-#: ViewTransfers.cpp:291
+#: ViewTransfers.cpp:292
 msgid "Retrying transfer now..."
 msgstr "Aktarım yeniden deneniyor..."
 
-#: ViewTransfers.cpp:329
+#: ViewTransfers.cpp:330
 msgid "Aborting transfer..."
 msgstr "Aktarım iptal ediliyor..."
 
-#: ViewTransfers.cpp:342
+#: ViewTransfers.cpp:343
 #, c-format
 msgid ""
 "Are you sure you want to abort this file transfer '%s'?\n"
@@ -3376,119 +3345,119 @@ msgstr ""
 "adlı dosyayı aktarımı iptal etmek istediğinize emin misiniz?\n"
 "NOT: Bir aktarımı durdurmak, işi geçersiz kılar ve kredi alamazsınız."
 
-#: ViewTransfers.cpp:348
+#: ViewTransfers.cpp:349
 msgid "Abort File Transfer"
 msgstr "Dosya Aktarımını İptal Et"
 
-#: ViewTransfers.cpp:769
+#: ViewTransfers.cpp:780
 msgid "Upload"
 msgstr "Gönderme"
 
-#: ViewTransfers.cpp:769
+#: ViewTransfers.cpp:780
 msgid "Download"
 msgstr "İndirme"
 
-#: ViewTransfers.cpp:773
+#: ViewTransfers.cpp:784
 msgid "retry in "
 msgstr "yeniden denenecek "
 
-#: ViewTransfers.cpp:775
+#: ViewTransfers.cpp:786
 msgid "failed"
 msgstr "başarısız"
 
-#: ViewTransfers.cpp:778
+#: ViewTransfers.cpp:789
 msgid "suspended"
 msgstr "durakladı"
 
-#: ViewTransfers.cpp:783
+#: ViewTransfers.cpp:794
 msgid "active"
 msgstr "sürüyor"
 
-#: ViewTransfers.cpp:785
+#: ViewTransfers.cpp:796
 msgid "pending"
 msgstr "kuyrukta"
 
-#: ViewTransfers.cpp:792
+#: ViewTransfers.cpp:803
 msgid " (project backoff: "
 msgstr " (proje ertelendi: "
 
-#: ViewWork.cpp:186 ViewWork.cpp:766
+#: ViewWork.cpp:187 ViewWork.cpp:777
 msgid "Show active tasks"
 msgstr "Süren işleri göster"
 
-#: ViewWork.cpp:187 ViewWork.cpp:767
+#: ViewWork.cpp:188 ViewWork.cpp:778
 msgid "Show only active tasks."
 msgstr "Yalnızca çalışmakta olan işleri gösterir."
 
-#: ViewWork.cpp:193 sg_TaskCommandPopup.cpp:60 sg_ViewTabPage.cpp:424
+#: ViewWork.cpp:194 sg_TaskCommandPopup.cpp:60 sg_ViewTabPage.cpp:424
 msgid "Show graphics"
 msgstr "Grafikleri göster"
 
-#: ViewWork.cpp:194 sg_TaskCommandPopup.cpp:61
+#: ViewWork.cpp:195 sg_TaskCommandPopup.cpp:61
 msgid "Show application graphics in a window."
 msgstr "Uygulama grafiklerini bir pencerede gösterir."
 
-#: ViewWork.cpp:200
+#: ViewWork.cpp:201
 msgid "Show VM Console"
 msgstr "VM Konsolu'nu görüntüle"
 
-#: ViewWork.cpp:201
+#: ViewWork.cpp:202
 msgid "Show VM Console in a window."
 msgstr "VM Konsolu'nu bir pencerede gösterir."
 
-#: ViewWork.cpp:208
+#: ViewWork.cpp:209
 msgid "Suspend work for this result."
 msgstr "Seçili işlerin çalışmasını durdurur."
 
-#: ViewWork.cpp:214 sg_TaskCommandPopup.cpp:72
+#: ViewWork.cpp:215 sg_TaskCommandPopup.cpp:72
 msgid "Abort"
 msgstr "İptal"
 
-#: ViewWork.cpp:215
+#: ViewWork.cpp:216
 msgid "Abandon work on the result. You will get no credit for it."
 msgstr "Seçili işleri iptal eder (işten kredi alamazsınız)."
 
-#: ViewWork.cpp:222 sg_TaskCommandPopup.cpp:79
+#: ViewWork.cpp:223 sg_TaskCommandPopup.cpp:79
 msgid "Show task details."
 msgstr "Seçili işin detaylı bilgilerini gösterir."
 
-#: ViewWork.cpp:234
+#: ViewWork.cpp:235
 msgid "Elapsed"
 msgstr "Geçen"
 
-#: ViewWork.cpp:235
+#: ViewWork.cpp:236
 msgid "Remaining (estimated)"
 msgstr "Kalan (tahmini)"
 
-#: ViewWork.cpp:236
+#: ViewWork.cpp:237
 msgid "Deadline"
 msgstr "Son teslim zamanı"
 
-#: ViewWork.cpp:238
+#: ViewWork.cpp:239
 msgid "Name"
 msgstr "İsim"
 
-#: ViewWork.cpp:263
+#: ViewWork.cpp:264
 msgid "Tasks"
 msgstr "İşler"
 
-#: ViewWork.cpp:356
+#: ViewWork.cpp:357
 msgid "Resuming task..."
 msgstr "İş sürdürülüyor..."
 
-#: ViewWork.cpp:359
+#: ViewWork.cpp:360
 msgid "Suspending task..."
 msgstr "İş durduruluyor..."
 
-#: ViewWork.cpp:388
+#: ViewWork.cpp:389
 msgid "Showing graphics for task..."
 msgstr "İşin grafikleri gösteriliyor..."
 
-#: ViewWork.cpp:425
+#: ViewWork.cpp:426
 msgid "Showing VM console for task..."
 msgstr "İşin VM Konsolu gösteriliyor..."
 
-#: ViewWork.cpp:478
+#: ViewWork.cpp:479
 #, c-format
 msgid ""
 "Are you sure you want to abort this task '%s'?\n"
@@ -3498,33 +3467,33 @@ msgstr ""
 "adlı işi iptal etmek istediğinize emin misiniz?\n"
 "(İlerleme: %s, Durum: %s)"
 
-#: ViewWork.cpp:484
+#: ViewWork.cpp:485
 #, c-format
 msgid "Are you sure you want to abort these %d tasks?"
 msgstr "Bu %d işi iptal etmek istediğinize emin miziniz?"
 
-#: ViewWork.cpp:489 sg_TaskCommandPopup.cpp:256
+#: ViewWork.cpp:490 sg_TaskCommandPopup.cpp:256
 msgid "Abort task"
 msgstr "İşi iptal et"
 
 # 75%
-#: ViewWork.cpp:498
+#: ViewWork.cpp:499
 msgid "Aborting task..."
 msgstr "İş iptal ediliyor..."
 
-#: ViewWork.cpp:760
+#: ViewWork.cpp:771
 msgid "Show all tasks"
 msgstr "Tüm işleri göster"
 
-#: ViewWork.cpp:761
+#: ViewWork.cpp:772
 msgid "Show all tasks."
 msgstr "Çalışan, bekleyen ve durdurulmuş tüm işleri gösterir."
 
-#: ViewWork.cpp:785 sg_TaskCommandPopup.cpp:103
+#: ViewWork.cpp:796 sg_TaskCommandPopup.cpp:103
 msgid "Resume work for this task."
 msgstr "Seçili işlerin çalışmasını sürdürür."
 
-#: ViewWork.cpp:791 sg_TaskCommandPopup.cpp:107
+#: ViewWork.cpp:802 sg_TaskCommandPopup.cpp:107
 msgid "Suspend work for this task."
 msgstr "Seçili işlerin çalışmasını durdurur."
 
@@ -3618,48 +3587,48 @@ msgstr "World Community Grid projeleri ekle ya da değiştir"
 msgid "Add projects run by other researchers or organizations"
 msgstr "Başka araştırmacı ya da organizasyonların projelerini ekle"
 
-#: WizardAttach.cpp:635
+#: WizardAttach.cpp:634
 msgid "Do you really want to cancel?"
 msgstr "İptal etmek istediğinize emin misiniz?"
 
-#: WizardAttach.cpp:636
+#: WizardAttach.cpp:635
 msgid "Question"
 msgstr "Soru"
 
-#: sg_BoincSimpleFrame.cpp:136 sg_BoincSimpleGUI.cpp:119
+#: sg_BoincSimpleFrame.cpp:145 sg_BoincSimpleGUI.cpp:119
 msgid "Advanced View...\tCtrl+Shift+A"
 msgstr "Gelişmiş görünüm...\tCtrl+Shift+A"
 
-#: sg_BoincSimpleFrame.cpp:137
+#: sg_BoincSimpleFrame.cpp:146
 msgid "Display the advanced graphical interface."
 msgstr "Gelişmiş grafiksel arayüzü görüntüler."
 
-#: sg_BoincSimpleFrame.cpp:144
+#: sg_BoincSimpleFrame.cpp:153
 msgid "Skin"
 msgstr "Kaplama"
 
-#: sg_BoincSimpleFrame.cpp:146
+#: sg_BoincSimpleFrame.cpp:155
 msgid "Select the appearance of the user interface."
 msgstr "Kullanıcı arayüzünün görünümünü seçin."
 
-#: sg_BoincSimpleFrame.cpp:193 sg_BoincSimpleGUI.cpp:147
+#: sg_BoincSimpleFrame.cpp:202 sg_BoincSimpleGUI.cpp:147
 #, c-format
 msgid "&%s"
 msgstr "&%s"
 
-#: sg_BoincSimpleFrame.cpp:369
+#: sg_BoincSimpleFrame.cpp:386
 msgid "Default"
 msgstr "Varsayılan"
 
-#: sg_BoincSimpleFrame.cpp:739
+#: sg_BoincSimpleFrame.cpp:755
 msgid "Suspend Computing"
 msgstr "Hesaplamayı duraklatır"
 
-#: sg_BoincSimpleFrame.cpp:740
+#: sg_BoincSimpleFrame.cpp:756
 msgid "Resume Computing"
 msgstr "Hesaplamayı sürdürür"
 
-#: sg_BoincSimpleFrame.cpp:757
+#: sg_BoincSimpleFrame.cpp:773
 msgid "Open a window to view notices from projects or BOINC"
 msgstr "Projelerden ya da BOINC'ten gelen bildirimleri gösterir"
 
@@ -3667,256 +3636,188 @@ msgstr "Projelerden ya da BOINC'ten gelen bildirimleri gösterir"
 msgid "Display the advanced (accessible) graphical interface."
 msgstr "Gelişmiş (erişilebilir) grafiksel arayüzü görüntüler."
 
-#: sg_ClientStateIndicator.cpp:288 sg_TaskPanel.cpp:1207
+#: sg_ClientStateIndicator.cpp:288 sg_TaskPanel.cpp:1210
 msgid "Retrieving current status."
 msgstr "Mevcut durum bilgisi alınıyor..."
 
-#: sg_ClientStateIndicator.cpp:291 sg_TaskPanel.cpp:448
+#: sg_ClientStateIndicator.cpp:291 sg_TaskPanel.cpp:451
 msgid "You don't have any projects.  Please Add a Project."
 msgstr "Katıldığınız bir proje bulunmuyor.  Lütfen bir proje ekleyin."
 
-#: sg_ClientStateIndicator.cpp:294 sg_TaskPanel.cpp:1213
+#: sg_ClientStateIndicator.cpp:294 sg_TaskPanel.cpp:1216
 msgid "Downloading work from the server."
 msgstr "İş sunucudan indiriliyor"
 
-#: sg_ClientStateIndicator.cpp:299 sg_TaskPanel.cpp:1218
+#: sg_ClientStateIndicator.cpp:299 sg_TaskPanel.cpp:1221
 msgid "Processing Suspended:  Running On Batteries."
 msgstr "Çalışma Durdu:  Pil Gücünde Çalışıyor."
 
-#: sg_ClientStateIndicator.cpp:301 sg_TaskPanel.cpp:1220
+#: sg_ClientStateIndicator.cpp:301 sg_TaskPanel.cpp:1223
 msgid "Processing Suspended:  User Active."
 msgstr "Çalışma Durdu:  Kullanıcı Faal."
 
-#: sg_ClientStateIndicator.cpp:303 sg_TaskPanel.cpp:1222
+#: sg_ClientStateIndicator.cpp:303 sg_TaskPanel.cpp:1225
 msgid "Processing Suspended:  User paused processing."
 msgstr "Çalışma Durdu:  Kullanıcı Çalışmayı Duraklattı."
 
-#: sg_ClientStateIndicator.cpp:305 sg_TaskPanel.cpp:1224
+#: sg_ClientStateIndicator.cpp:305 sg_TaskPanel.cpp:1227
 msgid "Processing Suspended:  Time of Day."
 msgstr "Çalışma Durdu:  Günlük Zamanlama"
 
-#: sg_ClientStateIndicator.cpp:307 sg_TaskPanel.cpp:1226
+#: sg_ClientStateIndicator.cpp:307 sg_TaskPanel.cpp:1229
 msgid "Processing Suspended:  Benchmarks Running."
 msgstr "Çalışma Durdu:  Testler Çalışıyor."
 
-#: sg_ClientStateIndicator.cpp:309 sg_TaskPanel.cpp:1228
+#: sg_ClientStateIndicator.cpp:309 sg_TaskPanel.cpp:1231
 msgid "Processing Suspended."
 msgstr "Çalışma Durdu."
 
-#: sg_ClientStateIndicator.cpp:313 sg_TaskPanel.cpp:1232
+#: sg_ClientStateIndicator.cpp:313 sg_TaskPanel.cpp:1235
 msgid "Waiting to contact project servers."
 msgstr "Proje sunucularına bağlanılması için bekleniyor."
 
 #: sg_ClientStateIndicator.cpp:317 sg_ClientStateIndicator.cpp:325
-#: sg_TaskPanel.cpp:1236 sg_TaskPanel.cpp:1245
+#: sg_TaskPanel.cpp:1239 sg_TaskPanel.cpp:1248
 msgid "Retrieving current status"
 msgstr "Mevcut durum bilgisi alınıyor"
 
-#: sg_ClientStateIndicator.cpp:320 sg_TaskPanel.cpp:1240
+#: sg_ClientStateIndicator.cpp:320 sg_TaskPanel.cpp:1243
 msgid "No work available to process"
 msgstr "Çalıştırılacak iş bulunmuyor"
 
-#: sg_ClientStateIndicator.cpp:322 sg_TaskPanel.cpp:1242
+#: sg_ClientStateIndicator.cpp:322 sg_TaskPanel.cpp:1245
 msgid "Unable to connect to the core client"
 msgstr "Çekirdek istemciyle bağlantı kurulamadı"
 
-#: sg_DlgMessages.cpp:164
+#: sg_DlgMessages.cpp:146
 msgid "Close"
 msgstr "Kapat"
 
-#: sg_DlgMessages.cpp:463
+#: sg_DlgMessages.cpp:389
 #, c-format
 msgid "%s - Notices"
 msgstr "%s  - Bildirimler"
 
-#: sg_DlgPreferences.cpp:94
-msgid "100 MB"
-msgstr "100 MB"
-
-#: sg_DlgPreferences.cpp:95
-msgid "200 MB"
-msgstr "200 MB"
-
-#: sg_DlgPreferences.cpp:96
-msgid "500 MB"
-msgstr "500 MB"
-
-#: sg_DlgPreferences.cpp:97
-msgid "1 GB"
-msgstr "1 GB"
-
-#: sg_DlgPreferences.cpp:98
-msgid "2 GB"
-msgstr "2 GB"
-
-#: sg_DlgPreferences.cpp:99
-msgid "5 GB"
-msgstr "5 GB"
-
-#: sg_DlgPreferences.cpp:100
-msgid "10 GB"
-msgstr "10 GB"
-
-#: sg_DlgPreferences.cpp:101
-msgid "20 GB"
-msgstr "20 GB"
-
-#: sg_DlgPreferences.cpp:102
-msgid "50 GB"
-msgstr "50 GB"
-
-#: sg_DlgPreferences.cpp:103
-msgid "100 GB"
-msgstr "100 GB"
-
-#: sg_DlgPreferences.cpp:134
-msgid "10%"
-msgstr "%10"
-
-#: sg_DlgPreferences.cpp:135
-msgid "20%"
-msgstr "%20"
-
-#: sg_DlgPreferences.cpp:136
-msgid "30%"
-msgstr "%30"
-
-#: sg_DlgPreferences.cpp:137
-msgid "40%"
-msgstr "%40"
-
-#: sg_DlgPreferences.cpp:138
-msgid "50%"
-msgstr "%50"
-
-#: sg_DlgPreferences.cpp:139
-msgid "60%"
-msgstr "% 60"
-
-#: sg_DlgPreferences.cpp:140
-msgid "70%"
-msgstr "%70"
-
-#: sg_DlgPreferences.cpp:141
-msgid "80%"
-msgstr "%80"
-
-#: sg_DlgPreferences.cpp:142
-msgid "90%"
-msgstr "%90"
-
-#: sg_DlgPreferences.cpp:143
-msgid "100%"
-msgstr "%100"
-
-#: sg_DlgPreferences.cpp:168
-msgid "1"
-msgstr "1"
-
-#: sg_DlgPreferences.cpp:169
-msgid "3"
-msgstr "3"
-
-#: sg_DlgPreferences.cpp:170
-msgid "5"
-msgstr "5"
-
-#: sg_DlgPreferences.cpp:171
-msgid "10"
-msgstr "10"
-
-#: sg_DlgPreferences.cpp:172
-msgid "15"
-msgstr "15"
-
-#: sg_DlgPreferences.cpp:173
-msgid "30"
-msgstr "30"
-
-#: sg_DlgPreferences.cpp:174
-msgid "60"
-msgstr "60"
-
-#: sg_DlgPreferences.cpp:282
+#: sg_DlgPreferences.cpp:268
 msgid "This dialog controls preferences for this computer only."
 msgstr "Bu pencere, tercihleri yalnızca bu bilgisayarınız için özelleştirir."
 
-#: sg_DlgPreferences.cpp:287
+#: sg_DlgPreferences.cpp:273
 msgid "Click OK to set preferences."
 msgstr "Tercihlerinizi kaydetmek için 'Tamam'ı tıklayın."
 
-#: sg_DlgPreferences.cpp:292
+#: sg_DlgPreferences.cpp:278
 msgid "Click Clear to restore web-based settings."
 msgstr "İnternet tabanlı ayarlarınıza dönmek için 'Temizle'yi tıklayın."
 
-#: sg_DlgPreferences.cpp:299
+#: sg_DlgPreferences.cpp:285
 msgid "For additional settings, select Computing Preferences in "
 msgstr "Detaylı tercih seçenekleri için, 'Gelişmiş görünüm'e geçiş yapın ve "
 
-#: sg_DlgPreferences.cpp:304
+#: sg_DlgPreferences.cpp:290
 msgid "the Advanced View."
 msgstr "menüden 'Hesaplama tercihleri'ni seçin."
 
-#: sg_DlgPreferences.cpp:332
+#: sg_DlgPreferences.cpp:318
 msgid "Do work only between:"
 msgstr "Yalnızca bu saatler arasında çalıştır:"
 
-#: sg_DlgPreferences.cpp:354
+#: sg_DlgPreferences.cpp:340
 msgid "Connect to internet only between:"
 msgstr "Bu saatler arasında internete bağlan:"
 
-#: sg_DlgPreferences.cpp:376 sg_DlgPreferences.cpp:393
+#: sg_DlgPreferences.cpp:362 sg_DlgPreferences.cpp:379
 msgid "Use no more than:"
 msgstr "En çok bu kadar kullan:"
 
-#: sg_DlgPreferences.cpp:389
+#: sg_DlgPreferences.cpp:375
 msgid "of disk space"
 msgstr "disk alanı"
 
-#: sg_DlgPreferences.cpp:406
+#: sg_DlgPreferences.cpp:392
 msgid "of the processor"
 msgstr "işlemci (CPU) gücü"
 
-#: sg_DlgPreferences.cpp:410
+#: sg_DlgPreferences.cpp:396
 msgid "Do work while on battery?"
 msgstr "Pil gücündeyken işleri çalıştır?"
 
-#: sg_DlgPreferences.cpp:423
+#: sg_DlgPreferences.cpp:409
 msgid "Do work after idle for:"
 msgstr "Bu kadar süre boşta kaldığında çalıştır:"
 
-#: sg_DlgPreferences.cpp:621 sg_DlgPreferences.cpp:624
-#: sg_DlgPreferences.cpp:683 sg_DlgPreferences.cpp:687
-#: sg_DlgPreferences.cpp:699 sg_DlgPreferences.cpp:703
-#: sg_DlgPreferences.cpp:846 sg_DlgPreferences.cpp:857
+#: sg_DlgPreferences.cpp:607 sg_DlgPreferences.cpp:610
+#: sg_DlgPreferences.cpp:686 sg_DlgPreferences.cpp:690
+#: sg_DlgPreferences.cpp:702 sg_DlgPreferences.cpp:706
+#: sg_DlgPreferences.cpp:849 sg_DlgPreferences.cpp:860
 msgid "Anytime"
 msgstr "Herhangi"
 
-#: sg_DlgPreferences.cpp:719
+#: sg_DlgPreferences.cpp:643
+msgid "100 MB"
+msgstr "100 MB"
+
+#: sg_DlgPreferences.cpp:644
+msgid "200 MB"
+msgstr "200 MB"
+
+#: sg_DlgPreferences.cpp:645
+msgid "500 MB"
+msgstr "500 MB"
+
+#: sg_DlgPreferences.cpp:646
+msgid "1 GB"
+msgstr "1 GB"
+
+#: sg_DlgPreferences.cpp:647
+msgid "2 GB"
+msgstr "2 GB"
+
+#: sg_DlgPreferences.cpp:648
+msgid "5 GB"
+msgstr "5 GB"
+
+#: sg_DlgPreferences.cpp:649
+msgid "10 GB"
+msgstr "10 GB"
+
+#: sg_DlgPreferences.cpp:650
+msgid "20 GB"
+msgstr "20 GB"
+
+#: sg_DlgPreferences.cpp:651
+msgid "50 GB"
+msgstr "50 GB"
+
+#: sg_DlgPreferences.cpp:652
+msgid "100 GB"
+msgstr "100 GB"
+
+#: sg_DlgPreferences.cpp:722
 #, c-format
 msgid "%d MB"
 msgstr "%d MB"
 
-#: sg_DlgPreferences.cpp:721
+#: sg_DlgPreferences.cpp:724
 #, c-format
 msgid "%4.2f GB"
 msgstr "%4.2f GB"
 
-#: sg_DlgPreferences.cpp:762
+#: sg_DlgPreferences.cpp:765
 #, c-format
 msgid "%d%%"
 msgstr "%%%d"
 
-#: sg_DlgPreferences.cpp:798
+#: sg_DlgPreferences.cpp:801
 msgid "0 (Run Always)"
 msgstr "0 (Daima çalış)"
 
-#: sg_DlgPreferences.cpp:801
+#: sg_DlgPreferences.cpp:804
 #, c-format
 msgid "%d"
 msgstr "%d"
 
-#: sg_DlgPreferences.cpp:1031
+#: sg_DlgPreferences.cpp:1034
 msgid "Do you really want to clear all local preferences?\n"
 msgstr "Tüm yerel tercihlerinizi kaldırmak istediğinize emin misiniz?\n"
 
@@ -3986,8 +3887,8 @@ msgstr "Proje komutları"
 
 #: sg_ProjectPanel.cpp:267
 #, c-format
-msgid "Pop up a menu of websites for project %s"
-msgstr "%s projesinin internet sayfalarını açar"
+msgid "Pop up a menu of web sites for project %s"
+msgstr ""
 
 #: sg_ProjectPanel.cpp:269
 #, c-format
@@ -4041,63 +3942,63 @@ msgstr ""
 "adlı işi iptal etmek istediğinize emin misiniz?\n"
 "(İlerleme: %%%.1lf, Durum: %s)"
 
-#: sg_TaskPanel.cpp:449
+#: sg_TaskPanel.cpp:452
 msgid "Not available"
 msgstr "Mevcut değil"
 
-#: sg_TaskPanel.cpp:460
+#: sg_TaskPanel.cpp:463
 msgid "Tasks:"
 msgstr "İşler:"
 
-#: sg_TaskPanel.cpp:466
+#: sg_TaskPanel.cpp:469
 msgid "Select a task to access"
 msgstr "Erişim için bir iş seçin"
 
-#: sg_TaskPanel.cpp:477
+#: sg_TaskPanel.cpp:480
 msgid "From:"
 msgstr "Sahibi:"
 
-#: sg_TaskPanel.cpp:531
+#: sg_TaskPanel.cpp:534
 msgid "This task's progress"
 msgstr "Bu işin ilerleme oranı"
 
-#: sg_TaskPanel.cpp:549
+#: sg_TaskPanel.cpp:552
 msgid "Task Commands"
 msgstr "İş komutları"
 
-#: sg_TaskPanel.cpp:550
+#: sg_TaskPanel.cpp:553
 msgid "Pop up a menu of commands to apply to this task"
 msgstr "Bu işe verilebilecek komutları gösterir"
 
-#: sg_TaskPanel.cpp:685
+#: sg_TaskPanel.cpp:688
 #, c-format
 msgid "Application: %s"
 msgstr "Uygulama: %s"
 
-#: sg_TaskPanel.cpp:708
+#: sg_TaskPanel.cpp:711
 #, c-format
 msgid "%.3f%%"
 msgstr "%%%.3f"
 
-#: sg_TaskPanel.cpp:716
+#: sg_TaskPanel.cpp:719
 msgid "Application: Not available"
 msgstr "Uygulama: Mevcut değil"
 
-#: sg_TaskPanel.cpp:816
+#: sg_TaskPanel.cpp:819
 msgid "Not Available"
 msgstr "Mevcut değil"
 
-#: sg_TaskPanel.cpp:831
+#: sg_TaskPanel.cpp:834
 #, c-format
 msgid "Elapsed: %s"
 msgstr "Geçen süre: %s"
 
-#: sg_TaskPanel.cpp:845
+#: sg_TaskPanel.cpp:848
 #, c-format
 msgid "Remaining (estimated): %s"
 msgstr "Kalan süre (tahmini): %s"
 
-#: sg_TaskPanel.cpp:860
+#: sg_TaskPanel.cpp:863
 #, c-format
 msgid "Status: %s"
 msgstr "Durum: %s"
@@ -4140,124 +4041,203 @@ msgstr "< &Geri"
 msgid "&Finish"
 msgstr "&Son"
 
-#: mac/MacAccessiblity.cpp:257
-msgid ""
-"for accessibility support, please select advanced from the view menu or type "
-"command shift a"
-msgstr ""
-"erişilebilirlik desteği için, lütfen \"görünüm\" menüsünden \"gelişmiş\"i seçin "
-"ya da klavyeden komut+shift+a tuşlarına basın"
-
-#: mac/MacAccessiblity.cpp:302
-msgid "This panel contains graphs showing user totals for projects"
-msgstr ""
-"Bu panel, kullanıcının projelerdeki toplamı ya da ortalamasıyla ilgili "
-"grafikleri içerir"
-
-#: mac/MacAccessiblity.cpp:726
-msgid "list headers"
-msgstr "liste başlıkları"
-
-#: mac/MacAccessiblity.cpp:732
-msgid "list of events"
-msgstr "olay listesi"
-
-#: mac/MacAccessiblity.cpp:734
-msgid "list of events is empty"
-msgstr "olay listesi boş"
-
-#: mac/MacAccessiblity.cpp:739
-#, c-format
-msgid "list of %s"
-msgstr "%s listesi"
-
-#: mac/MacAccessiblity.cpp:741
-#, c-format
-msgid "list of %s is empty"
-msgstr "%s listesi boş"
-
-#: mac/MacAccessiblity.cpp:843
-#, c-format
-msgid "; current sort column %d of %d; descending order; "
-msgstr "; mevcut sıralama sütunu %d/%d; azalarak; "
-
-#: mac/MacAccessiblity.cpp:845
-#, c-format
-msgid "; current sort column %d of %d; ascending order; "
-msgstr "; mevcut sıralama sütunu %d/%d; artarak; "
-
-#: mac/MacAccessiblity.cpp:848
-#, c-format
-msgid "; column %d of %d; "
-msgstr "; sütun %d/%d; "
-
-#: mac/MacAccessiblity.cpp:855
-msgid "list is empty"
-msgstr "liste boş"
-
-#: mac/MacAccessiblity.cpp:858 mac/MacAccessiblity.cpp:870
-#, c-format
-msgid "; row %d; "
-msgstr "; sıra %d; "
-
-#: mac/MacAccessiblity.cpp:862
-#, c-format
-msgid "; selected row %d of %d; "
-msgstr "; seçili sıra %d/%d; "
-
-#: mac/MacAccessiblity.cpp:864
-#, c-format
-msgid "; selected row %d ; "
-msgstr "; seçili sıra %d ; "
-
-#: mac/MacAccessiblity.cpp:868
-#, c-format
-msgid "; row %d of %d; "
-msgstr "; sıra %d/%d; "
-
-#: mac/MacAccessiblity.cpp:881
-msgid "blank"
-msgstr "boş"
-
-#: mac/MacAccessiblity.cpp:1523
-msgid "list of projects or account managers"
-msgstr "projeler veya hesap yöneticilerinin listesi"
-
-#: mac/MacAccessiblity.cpp:1575
-#, c-format
-msgid "selected row %d of %d; "
-msgstr "seçili sıra %d/%d; "
-
-#: mac/MacAccessiblity.cpp:1577
-#, c-format
-msgid "row %d of %d; "
-msgstr "sıra %d/%d; "
-
-#: mac/Mac_GUI.cpp:109
+#: mac/Mac_GUI.cpp:110
 msgid "Preferences…"
 msgstr "Tercihler..."
 
-#: mac/Mac_GUI.cpp:121
+#: mac/Mac_GUI.cpp:122
 msgid "Services"
 msgstr "Servisler"
 
-#: mac/Mac_GUI.cpp:143
+#: mac/Mac_GUI.cpp:144
 #, c-format
 msgid "Hide %s"
 msgstr "%s gizle"
 
-#: mac/Mac_GUI.cpp:157
+#: mac/Mac_GUI.cpp:158
 msgid "Hide Others"
 msgstr "Diğerlerini gizle"
 
-#: mac/Mac_GUI.cpp:171
+#: mac/Mac_GUI.cpp:172
 msgid "Show All"
 msgstr "Tümünü Göster"
 
-#: mac/Mac_GUI.cpp:185
+#: mac/Mac_GUI.cpp:186
 #, c-format
 msgid "Quit %s"
 msgstr "%s'den ayrıl"
+
+#~ msgid "Account manager website"
+#~ msgstr "Hesap yöneticisi sitesi"
+
+#~ msgid "Account Manager &URL:"
+#~ msgstr "Hesap Yöneticisi &internet adresi:"
+
+#, c-format
+#~ msgid "%s &website"
+#~ msgstr "%s internet sitesi"
+
+#~ msgid "Notice List"
+#~ msgstr "Bildirim Listesi"
+
+#, c-format
+#~ msgid "%s; received on %s"
+#~ msgstr "%s; alınma %s"
+
+#, c-format
+#~ msgid "%s; received from %s; on %s"
+#~ msgstr "%s; %s kaynağından; alınma %s"
+
+#~ msgid "Click"
+#~ msgstr "Tıkla"
+
+#~ msgid "Project List"
+#~ msgstr "Proje Listesi"
+
+#~ msgid "Nvidia GPU Supported"
+#~ msgstr "NVIDIA GPU destekleniyor"
+
+#~ msgid "ATI GPU Supported"
+#~ msgstr "ATI GPU destekleniyor"
+
+#~ msgid "Project Website"
+#~ msgstr "Proje internet sitesi"
+
+#~ msgid "One or more items failed to load from the Internet."
+#~ msgstr "Bir ya da daha fazla öğe internetten yüklenirken başarısız olundu."
+
+# 88%
+#~ msgid "Retry now"
+#~ msgstr "Şimdi yeniden dene"
+
+#~ msgid "10%"
+#~ msgstr "%10"
+
+#~ msgid "20%"
+#~ msgstr "%20"
+
+#~ msgid "30%"
+#~ msgstr "%30"
+
+#~ msgid "40%"
+#~ msgstr "%40"
+
+#~ msgid "50%"
+#~ msgstr "%50"
+
+#~ msgid "60%"
+#~ msgstr "% 60"
+
+#~ msgid "70%"
+#~ msgstr "%70"
+
+#~ msgid "80%"
+#~ msgstr "%80"
+
+#~ msgid "90%"
+#~ msgstr "%90"
+
+#~ msgid "100%"
+#~ msgstr "%100"
+
+#~ msgid "1"
+#~ msgstr "1"
+
+#~ msgid "3"
+#~ msgstr "3"
+
+#~ msgid "5"
+#~ msgstr "5"
+
+#~ msgid "10"
+#~ msgstr "10"
+
+#~ msgid "15"
+#~ msgstr "15"
+
+#~ msgid "30"
+#~ msgstr "30"
+
+#~ msgid "60"
+#~ msgstr "60"
+
+#, c-format
+#~ msgid "Pop up a menu of websites for project %s"
+#~ msgstr "%s projesinin internet sayfalarını açar"
+
+#~ msgid ""
+#~ "for accessibility support, please select advanced from the view menu or type "
+#~ "command shift a"
+#~ msgstr ""
+#~ "erişilebilirlik desteği için, lütfen \"görünüm\" menüsünden \"gelişmiş\"i seçin "
+#~ "ya da klavyeden komut+shift+a tuşlarına basın"
+
+#~ msgid "This panel contains graphs showing user totals for projects"
+#~ msgstr ""
+#~ "Bu panel, kullanıcının projelerdeki toplamı ya da ortalamasıyla ilgili "
+#~ "grafikleri içerir"
+
+#~ msgid "list headers"
+#~ msgstr "liste başlıkları"
+
+#~ msgid "list of events"
+#~ msgstr "olay listesi"
+
+#~ msgid "list of events is empty"
+#~ msgstr "olay listesi boş"
+
+#, c-format
+#~ msgid "list of %s"
+#~ msgstr "%s listesi"
+
+#, c-format
+#~ msgid "list of %s is empty"
+#~ msgstr "%s listesi boş"
+
+#, c-format
+#~ msgid "; current sort column %d of %d; descending order; "
+#~ msgstr "; mevcut sıralama sütunu %d/%d; azalarak; "
+
+#, c-format
+#~ msgid "; current sort column %d of %d; ascending order; "
+#~ msgstr "; mevcut sıralama sütunu %d/%d; artarak; "
+
+#, c-format
+#~ msgid "; column %d of %d; "
+#~ msgstr "; sütun %d/%d; "
+
+#~ msgid "list is empty"
+#~ msgstr "liste boş"
+
+#, c-format
+#~ msgid "; row %d; "
+#~ msgstr "; sıra %d; "
+
+#, c-format
+#~ msgid "; selected row %d of %d; "
+#~ msgstr "; seçili sıra %d/%d; "
+
+#, c-format
+#~ msgid "; selected row %d ; "
+#~ msgstr "; seçili sıra %d ; "
+
+#, c-format
+#~ msgid "; row %d of %d; "
+#~ msgstr "; sıra %d/%d; "
+
+#~ msgid "blank"
+#~ msgstr "boş"
+
+#~ msgid "list of projects or account managers"
+#~ msgstr "projeler veya hesap yöneticilerinin listesi"
+
+#, c-format
+#~ msgid "selected row %d of %d; "
+#~ msgstr "seçili sıra %d/%d; "
+
+#, c-format
+#~ msgid "row %d of %d; "
+#~ msgstr "sıra %d/%d; "
 
 #~ msgid ""
 #~ "The minimum username length for this project is 1. Please enter a "
