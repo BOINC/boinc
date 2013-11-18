@@ -115,7 +115,7 @@ int main(int argc, char *argv[])
     if (err == noErr) {
         GetPreferredLanguages();
     }
-    if (compareOSVersionTo(10, 4) <= 0) {
+    if (compareOSVersionTo(10, 5) < 0) {
         LoadPreferredLanguages();
         ::SetFrontProcess(&ourPSN);
         p = strrchr(brand, ' ');         // Strip off last space character and everything following
@@ -465,7 +465,7 @@ static int compareOSVersionTo(int toMajor, int toMinor) {
     if (err != noErr) {
         fprintf(stderr, "Gestalt(gestaltSystemVersionMajor) returned error %ld\n", err);
         fflush(stderr);
-        return 0;
+        return -1;  // gestaltSystemVersionMajor selector was not available before OS 10.4
     }
     if (major < toMajor) return -1;
     if (major > toMajor) return 1;
@@ -473,7 +473,7 @@ static int compareOSVersionTo(int toMajor, int toMinor) {
     if (err != noErr) {
         fprintf(stderr, "Gestalt(gestaltSystemVersionMinor) returned error %ld\n", err);
         fflush(stderr);
-        return 0;
+        return -1;  // gestaltSystemVersionMinor selector was not available before OS 10.4
     }
     if (minor < toMinor) return -1;
     if (minor > toMinor) return 1;
