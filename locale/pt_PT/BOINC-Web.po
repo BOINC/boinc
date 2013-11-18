@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: 1.05\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2013-11-12 00:00 PST\n"
-"PO-Revision-Date: 2013-09-03 13:51+0000\n"
+"PO-Revision-Date: 2013-11-18 17:05+0000\n"
 "Last-Translator: Miguel Filipe Paulino de Sousa <Miguel.veig@gmail.com>\n"
 "Language-Team: \n"
 "Language: pt_PT\n"
@@ -20,7 +20,7 @@ msgstr ""
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-SearchPath-0: doc\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
-"X-POOTLE-MTIME: 1378216269.0\n"
+"X-POOTLE-MTIME: 1384794337.0\n"
 "X-Poedit-KeywordsList: tra\n"
 
 #: docutil.php:21
@@ -41,29 +41,31 @@ msgid ""
 "We recommend that you also install VirtualBox, so your computer can work on "
 "science projects that require it."
 msgstr ""
+"Recomendamos que também instale a VirtualBox, para que o seu computador "
+"possa realizar trabalhos em projectos onde o mesmo é exigido."
 
 #: download.php:41
 msgid "Learn more about VirtualBox."
-msgstr ""
+msgstr "Aprender mais sobre o VirtualBox."
 
 #: download.php:51
 msgid "Download BOINC + VirtualBox"
-msgstr ""
+msgstr "Fazer o Download do BOINC + VirtualBox"
 
 #: download.php:54 download.php:69
 #, php-format
 msgid "for %s"
-msgstr ""
+msgstr "para %s"
 
 #: download.php:57 download.php:72
 #, php-format
 msgid "BOINC version %s"
-msgstr ""
+msgstr "Versão do BOINC %s"
 
 #: download.php:59
 #, php-format
 msgid "VirtualBox version %s"
-msgstr ""
+msgstr "Versão do VirtualBox %s"
 
 #: download.php:67
 msgid "Download BOINC"
@@ -75,12 +77,17 @@ msgid ""
 "projects like SETI@home, Climateprediction.net, Rosetta@home, World "
 "Community Grid, and many others."
 msgstr ""
+"O BOINC é um programa que lhe permite que doe tempo inactivo do seu "
+"computador, para projectos de científicos como o SETI@home, "
+"Climateprediction.net, Rosetta@home, World Community Grid, e muitos outros."
 
 #: download.php:125
 msgid ""
 "After installing BOINC on your computer, you can connect it to as many of "
 "these projects as you like."
 msgstr ""
+"Depois de instalar o BOINC no seu computador, pode se conectar a tantos "
+"projectos quantos desejar."
 
 #: download.php:127
 msgid ""
@@ -95,6 +102,8 @@ msgid ""
 "We recommend that you download BOINC from the Google Play Store or Amazon "
 "Appstore, not from here."
 msgstr ""
+"Recomendamos que faça o download do BOINC da Google Play Store ou da Amazon "
+"Appstore, não daqui."
 
 #: download.php:167
 msgid "System requirements"
@@ -269,18 +278,22 @@ msgid ""
 "diseases, study global warming, discover pulsars, and do many other types of "
 "scientific research.  It's safe, secure, and easy:"
 msgstr ""
+"Use o tempo inactivo do seu computador (Windows, Mac, Linux, ou Android) "
+"para curar doenças, estudar o aquecimento globar, descobrir pulsares, e "
+"realizar várias outros tipos de pesquisa científica. É seguro, protegido e "
+"fácil:"
 
 #: index.php:96
 msgid "Choose projects"
-msgstr ""
+msgstr "Escolher projectos"
 
 #: index.php:97
 msgid "Download BOINC software"
-msgstr ""
+msgstr "Fazer o Download do software BOINC"
 
 #: index.php:98
 msgid "Enter an email address and password."
-msgstr ""
+msgstr "Insira um endereço de email e palavra-passe."
 
 #: index.php:102
 #, php-format
@@ -713,6 +726,12 @@ msgid ""
 "star formation history) on a resolved pixel-by-pixel basis using spectral "
 "energy distribution (SED) fitting techniques in a distributed computing mode."
 msgstr ""
+"Vamos combinar a cobertura espectral do GALEX, Pan-STARRS1 e WISE para gerar "
+"um comprimento múltiplo de onda UV-óptico-NIR para criar o atlas da galáxia "
+"no Universo. Iremos medir parâmetros físicos (tais como a densidade de de "
+"massa estelar, a taxa de superfície da formação estelar, e a história da "
+"formação das estrelas) numa base de pixel a pixel, usando técnicas de "
+"montagem de computação distribuida em energia espectral (SED)."
 
 #: projects.inc:225
 msgid "University of Texas at Austin"
