@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2013-11-08 00:00 PST\n"
-"PO-Revision-Date: 2013-11-16 18:01+0000\n"
+"PO-Revision-Date: 2013-11-18 18:45+0000\n"
 "Last-Translator: Marius <marius.sirbu@outlook.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: ro\n"
@@ -18,7 +18,7 @@ msgstr ""
 "20)) ? 1 : 2);;\n"
 "X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-POOTLE-MTIME: 1384624877.0\n"
+"X-POOTLE-MTIME: 1384800344.0\n"
 
 msgid "LANG_NAME_NATIVE"
 msgstr "Română"
@@ -3717,7 +3717,7 @@ msgstr ""
 
 #: ../user/forum_forum.php:194
 msgid "This thread is sticky"
-msgstr ""
+msgstr "Acest fir este blocat"
 
 #: ../user/forum_forum.php:194
 msgid "sticky"
