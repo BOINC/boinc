@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-15 22:26-0700\n"
+"POT-Creation-Date: 2013-11-17 12:25-0800\n"
 "PO-Revision-Date: 2013-10-20 19:03+0000\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -79,11 +79,11 @@ msgstr ""
 msgid "Find login information"
 msgstr "Hae kirjautumistiedot"
 
-#: AccountInfoPage.cpp:436 AccountInfoPage.cpp:642
+#: AccountInfoPage.cpp:436 AccountInfoPage.cpp:641
 msgid "&Password:"
 msgstr "&Salasana:"
 
-#: AccountInfoPage.cpp:443 AccountInfoPage.cpp:666
+#: AccountInfoPage.cpp:443 AccountInfoPage.cpp:665
 msgid "Choose a &password:"
 msgstr "Valitse &salasana:"
 
@@ -124,8 +124,8 @@ msgstr ""
 "rekisteröityäksesi tai saadaksesi unohtuneen salasanan."
 
 #: AccountInfoPage.cpp:532
-msgid "Account manager website"
-msgstr "Tilihallitsijan nettisivu"
+msgid "Account manager web site"
+msgstr ""
 
 #: AccountInfoPage.cpp:574 WelcomePage.cpp:348
 msgid "Add project"
@@ -152,16 +152,16 @@ msgstr "Anna sähköpostiosoite."
 msgid "Please enter a password of at least %d characters."
 msgstr "Anna vähintään %d merkin pituinen salasana."
 
-#: AccountInfoPage.cpp:608
+#: AccountInfoPage.cpp:607
 msgid ""
 "The password and confirmation password do not match. Please type them again."
 msgstr "Salasana ja salasanan vahvistus eivät täsmää. Kirjoita ne uudelleen."
 
-#: AccountManagerInfoPage.cpp:248
+#: AccountManagerInfoPage.cpp:272
 msgid "Choose an account manager"
 msgstr "Valitse tilihallitsija"
 
-#: AccountManagerInfoPage.cpp:251
+#: AccountManagerInfoPage.cpp:275
 msgid ""
 "To choose an account manager, click its name or \n"
 "type its URL below."
@@ -169,24 +169,36 @@ msgstr ""
 "Valitse tilihallitsija napsauttamalla sen nimeä tai \n"
 "kirjoita sen URL-osoite."
 
-#: AccountManagerInfoPage.cpp:254
-msgid "Account Manager &URL:"
-msgstr "Tilihallitsijan &URL:"
+#: AccountManagerInfoPage.cpp:279
+msgid "Account manager details:"
+msgstr ""
 
-#: AccountManagerProcessingPage.cpp:188 AccountManagerPropertiesPage.cpp:194
+#: AccountManagerInfoPage.cpp:283
+msgid "Account manager &URL:"
+msgstr ""
+
+#: AccountManagerInfoPage.cpp:287
+msgid "Open web page"
+msgstr ""
+
+#: AccountManagerInfoPage.cpp:290
+msgid "Visit this account manager's web site"
+msgstr ""
+
+#: AccountManagerProcessingPage.cpp:187 AccountManagerPropertiesPage.cpp:193
 #, c-format
 msgid "Communicating with %s."
 msgstr "Ollaan yhteydessä %s:n kanssa."
 
-#: AccountManagerProcessingPage.cpp:195 AccountManagerPropertiesPage.cpp:201
+#: AccountManagerProcessingPage.cpp:194 AccountManagerPropertiesPage.cpp:200
 msgid "Communicating with server."
 msgstr "Ollaan yhteydessä palvelimeen."
 
-#: AccountManagerProcessingPage.cpp:200 AccountManagerPropertiesPage.cpp:206
+#: AccountManagerProcessingPage.cpp:199 AccountManagerPropertiesPage.cpp:205
 msgid "Please wait..."
 msgstr "Odota..."
 
-#: AccountManagerProcessingPage.cpp:327
+#: AccountManagerProcessingPage.cpp:326
 msgid "An internal server error has occurred.\n"
 msgstr "Palvelimella tapahtui virhe.\n"
 
@@ -198,341 +210,341 @@ msgstr "Yhdistetty"
 msgid "Disconnected"
 msgstr "Yhteys katkaistu"
 
-#: AdvancedFrame.cpp:315 sg_BoincSimpleFrame.cpp:112 sg_BoincSimpleGUI.cpp:103
+#: AdvancedFrame.cpp:318 sg_BoincSimpleFrame.cpp:115 sg_BoincSimpleGUI.cpp:103
 #, c-format
 msgid "Close the %s window"
 msgstr "Sulje %s ikkuna"
 
-#: AdvancedFrame.cpp:318 sg_BoincSimpleFrame.cpp:115 sg_BoincSimpleGUI.cpp:106
+#: AdvancedFrame.cpp:321 sg_BoincSimpleFrame.cpp:118 sg_BoincSimpleGUI.cpp:106
 msgid "&Close Window"
 msgstr "&Sulje ikkuna"
 
-#: AdvancedFrame.cpp:329 AdvancedFrame.cpp:336 AdvancedFrame.cpp:343
+#: AdvancedFrame.cpp:332 AdvancedFrame.cpp:339 AdvancedFrame.cpp:346
 #, c-format
 msgid "Exit %s"
 msgstr "Lopeta %s"
 
-#: AdvancedFrame.cpp:358
+#: AdvancedFrame.cpp:367
 msgid "&Notices\tCtrl+Shift+N"
 msgstr "&Ilmoitukset\t Ctrl+Shift+N"
 
-#: AdvancedFrame.cpp:359
+#: AdvancedFrame.cpp:368
 msgid "Display notices"
 msgstr "Näytä ilmoitukset"
 
-#: AdvancedFrame.cpp:364
+#: AdvancedFrame.cpp:373
 msgid "&Projects\tCtrl+Shift+P"
 msgstr "&Projektit\t Ctrl+Shift+P"
 
-#: AdvancedFrame.cpp:365
+#: AdvancedFrame.cpp:374
 msgid "Display projects"
 msgstr "Näytä projektit"
 
-#: AdvancedFrame.cpp:370
+#: AdvancedFrame.cpp:379
 msgid "&Tasks\tCtrl+Shift+T"
 msgstr "&Työpaketit\t Ctrl+Shift+T"
 
-#: AdvancedFrame.cpp:371
+#: AdvancedFrame.cpp:380
 msgid "Display tasks"
 msgstr "Näytä työpaketit"
 
-#: AdvancedFrame.cpp:376
+#: AdvancedFrame.cpp:385
 msgid "Trans&fers\tCtrl+Shift+X"
 msgstr "Sii&rrot\t Ctrl+Shift+X"
 
-#: AdvancedFrame.cpp:377
+#: AdvancedFrame.cpp:386
 msgid "Display transfers"
 msgstr "Näytä siirrot"
 
-#: AdvancedFrame.cpp:382
+#: AdvancedFrame.cpp:391
 msgid "&Statistics\tCtrl+Shift+S"
 msgstr "&Tilastot\t Ctrl+Shift+S"
 
-#: AdvancedFrame.cpp:383
+#: AdvancedFrame.cpp:392
 msgid "Display statistics"
 msgstr "Näytä tilastot"
 
-#: AdvancedFrame.cpp:388
+#: AdvancedFrame.cpp:397
 msgid "&Disk usage\tCtrl+Shift+D"
 msgstr "&Levynkäyttö\t Ctrl+Shift+D"
 
-#: AdvancedFrame.cpp:389
+#: AdvancedFrame.cpp:398
 msgid "Display disk usage"
 msgstr "Näytä levynkäyttö"
 
-#: AdvancedFrame.cpp:396
+#: AdvancedFrame.cpp:405
 msgid "Simple &View...\tCtrl+Shift+V"
 msgstr "Yksinkertainen &näkymä...\t Ctrl+Shift+V"
 
-#: AdvancedFrame.cpp:397
+#: AdvancedFrame.cpp:406
 msgid "Display the simple graphical interface."
 msgstr "Näytä yksinkertainen näkymä."
 
-#: AdvancedFrame.cpp:411
+#: AdvancedFrame.cpp:420
 msgid "&Add project or account manager..."
 msgstr "&Lisää projekti tai tilihallitsija..."
 
-#: AdvancedFrame.cpp:412 sg_ProjectPanel.cpp:76 sg_ProjectsComponent.cpp:106
+#: AdvancedFrame.cpp:421 sg_ProjectPanel.cpp:76 sg_ProjectsComponent.cpp:106
 msgid "Volunteer for any or all of 30+ projects in many areas of science"
 msgstr ""
 "Osallistu yhteen tai useampaan yli 30:sta projektista tieteen monilla "
 "alueilla"
 
-#: AdvancedFrame.cpp:416
+#: AdvancedFrame.cpp:425
 #, c-format
 msgid "&Synchronize with %s"
 msgstr "&Synkronisoi %s kanssa"
 
-#: AdvancedFrame.cpp:420
+#: AdvancedFrame.cpp:429
 #, c-format
 msgid "Get current settings from %s"
 msgstr "Hae nykyiset asetukset %s:sta"
 
-#: AdvancedFrame.cpp:430
+#: AdvancedFrame.cpp:439
 msgid "&Add project..."
 msgstr "&Liity projektiin..."
 
-#: AdvancedFrame.cpp:431
+#: AdvancedFrame.cpp:440
 msgid "Add a project"
 msgstr "Lisää projekti"
 
-#: AdvancedFrame.cpp:434
+#: AdvancedFrame.cpp:443
 #, c-format
 msgid "S&top using %s..."
 msgstr "L&opeta %s:n käyttö..."
 
-#: AdvancedFrame.cpp:440
+#: AdvancedFrame.cpp:449
 msgid "Remove this computer from account manager control."
 msgstr "Poista tämä tietokone tilihallitsijasta."
 
-#: AdvancedFrame.cpp:445 sg_BoincSimpleFrame.cpp:165
+#: AdvancedFrame.cpp:454 sg_BoincSimpleFrame.cpp:174
 msgid "&Options..."
 msgstr "&Asetukset..."
 
-#: AdvancedFrame.cpp:446 sg_BoincSimpleFrame.cpp:166
+#: AdvancedFrame.cpp:455 sg_BoincSimpleFrame.cpp:175
 msgid "Configure display options and proxy settings"
 msgstr "Muuta näytön ja proxyn asetuksia"
 
-#: AdvancedFrame.cpp:450 sg_BoincSimpleFrame.cpp:159
+#: AdvancedFrame.cpp:459 sg_BoincSimpleFrame.cpp:168
 msgid "Computing &preferences..."
 msgstr "Laskenta &asetukset..."
 
-#: AdvancedFrame.cpp:451 sg_BoincSimpleFrame.cpp:160
+#: AdvancedFrame.cpp:460 sg_BoincSimpleFrame.cpp:169
 msgid "Configure computing preferences"
 msgstr "Muuta laskennan asetuksia"
 
-#: AdvancedFrame.cpp:459
+#: AdvancedFrame.cpp:468
 msgid "&Run always"
 msgstr "&Suorita aina"
 
-#: AdvancedFrame.cpp:460
+#: AdvancedFrame.cpp:469
 msgid "Allow work regardless of preferences"
 msgstr "Salli työ riippumatta asetuksista"
 
-#: AdvancedFrame.cpp:464
+#: AdvancedFrame.cpp:473
 msgid "Run based on &preferences"
 msgstr "Suorita &asetusten perusteella"
 
-#: AdvancedFrame.cpp:465
+#: AdvancedFrame.cpp:474
 msgid "Allow work according to preferences"
 msgstr "Salli työ asetusten mukaisesti"
 
-#: AdvancedFrame.cpp:469
+#: AdvancedFrame.cpp:478
 msgid "&Suspend"
 msgstr "&Hyllytä"
 
-#: AdvancedFrame.cpp:470
+#: AdvancedFrame.cpp:479
 msgid "Stop work regardless of preferences"
 msgstr "Keskeytä työ riippumatta asetuksista"
 
-#: AdvancedFrame.cpp:495
+#: AdvancedFrame.cpp:504
 msgid "Use GPU always"
 msgstr "Käytä näytönohjainta aina"
 
-#: AdvancedFrame.cpp:496
+#: AdvancedFrame.cpp:505
 msgid "Allow GPU work regardless of preferences"
 msgstr "Salli näytönohjaimen työ riippumatta asetuksista"
 
-#: AdvancedFrame.cpp:500
+#: AdvancedFrame.cpp:509
 msgid "Use GPU based on preferences"
 msgstr "Käytä näytönohjainta asetusten mukaan"
 
-#: AdvancedFrame.cpp:501
+#: AdvancedFrame.cpp:510
 msgid "Allow GPU work according to preferences"
 msgstr "Salli näytönohjaimen työ asetusten mukaan"
 
-#: AdvancedFrame.cpp:505
+#: AdvancedFrame.cpp:514
 msgid "Suspend GPU"
 msgstr "Hyllytä näytönohjain"
 
-#: AdvancedFrame.cpp:506
+#: AdvancedFrame.cpp:515
 msgid "Stop GPU work regardless of preferences"
 msgstr "Pysäytä näytönohjaimen työ riippumatta asetuksista"
 
-#: AdvancedFrame.cpp:530
+#: AdvancedFrame.cpp:539
 msgid "Network activity always available"
 msgstr "Verkkoyhteys aina saatavilla"
 
-#: AdvancedFrame.cpp:531
+#: AdvancedFrame.cpp:540
 msgid "Allow network activity regardless of preferences"
 msgstr "Salli verkon käyttö asetuksista riippumatta"
 
-#: AdvancedFrame.cpp:535
+#: AdvancedFrame.cpp:544
 msgid "Network activity based on preferences"
 msgstr "Verkon käyttö asetusten mukaan"
 
-#: AdvancedFrame.cpp:536
+#: AdvancedFrame.cpp:545
 msgid "Allow network activity according to preferences"
 msgstr "Salli verkon käyttö asetusten mukaan"
 
-#: AdvancedFrame.cpp:540
+#: AdvancedFrame.cpp:549
 msgid "Network activity suspended"
 msgstr "Verkkoyhteys hyllytetty"
 
-#: AdvancedFrame.cpp:541
+#: AdvancedFrame.cpp:550
 msgid "Stop BOINC network activity"
 msgstr "Pysäytä BOINCin verkkoyhteys"
 
-#: AdvancedFrame.cpp:551
+#: AdvancedFrame.cpp:560
 #, c-format
 msgid "Connect to another computer running %s"
 msgstr "Ota yhteys toiseen tietokoneeseen, jossa %s on käytössä"
 
-#: AdvancedFrame.cpp:556
+#: AdvancedFrame.cpp:565
 msgid "Select computer..."
 msgstr "Valitse tietokone..."
 
-#: AdvancedFrame.cpp:561
+#: AdvancedFrame.cpp:570
 msgid "Shut down connected client..."
 msgstr "Sulje yhdistetty ydinohjelma..."
 
-#: AdvancedFrame.cpp:562
+#: AdvancedFrame.cpp:571
 msgid "Shut down the currently connected client"
 msgstr "Sulje tällä hetkellä yhdistetty ydinohjelma"
 
-#: AdvancedFrame.cpp:566
+#: AdvancedFrame.cpp:575
 msgid "Run CPU &benchmarks"
 msgstr "Aja keskusyksikön &suorituskykytestit"
 
-#: AdvancedFrame.cpp:567
+#: AdvancedFrame.cpp:576
 msgid "Runs BOINC CPU benchmarks"
 msgstr "Ajaa BOINC CPU -suorituskykytestit"
 
-#: AdvancedFrame.cpp:571
+#: AdvancedFrame.cpp:580
 msgid "Do network communication"
 msgstr "Suorita verkkotoiminnot"
 
-#: AdvancedFrame.cpp:572
+#: AdvancedFrame.cpp:581
 msgid "Do all pending network communication"
 msgstr "Suorittaa kaikki odottavat verkkoyhteystoiminnot"
 
 # 94%
-#: AdvancedFrame.cpp:576
+#: AdvancedFrame.cpp:585
 msgid "Read config files"
 msgstr "Lue kokoonpanotiedosto"
 
-#: AdvancedFrame.cpp:577
+#: AdvancedFrame.cpp:586
 msgid "Read configuration info from cc_config.xml and any app_config.xml files"
 msgstr ""
 "Lue kokoonpanotiedot cc_config.xml -tiedostosta ja kaikista app_config.xml "
 "-tiedostoista"
 
-#: AdvancedFrame.cpp:581
+#: AdvancedFrame.cpp:590
 msgid "Read local prefs file"
 msgstr "Lue paikallinen asetustiedosto"
 
-#: AdvancedFrame.cpp:582
+#: AdvancedFrame.cpp:591
 msgid "Read preferences from global_prefs_override.xml."
 msgstr "Lue asetukset global_prefs_override.xml -tiedostosta."
 
-#: AdvancedFrame.cpp:587
+#: AdvancedFrame.cpp:596
 #, c-format
 msgid "Launch another instance of %s..."
 msgstr "Käynnistä toinen %s -instanssi..."
 
-#: AdvancedFrame.cpp:591
+#: AdvancedFrame.cpp:600
 #, c-format
 msgid "Launch another %s"
 msgstr "Käynnistä uusi %s"
 
-#: AdvancedFrame.cpp:601
+#: AdvancedFrame.cpp:610
 msgid "Event Log...\tCtrl+Shift+E"
 msgstr "Tapahtumaloki...\t Ctrl+Shift+E"
 
-#: AdvancedFrame.cpp:602
+#: AdvancedFrame.cpp:611
 msgid "Display diagnostic messages."
 msgstr "Näytä diagnostiikkaviestit."
 
-#: AdvancedFrame.cpp:612 sg_BoincSimpleFrame.cpp:175 sg_BoincSimpleGUI.cpp:129
+#: AdvancedFrame.cpp:621 sg_BoincSimpleFrame.cpp:184 sg_BoincSimpleGUI.cpp:129
 #, c-format
 msgid "%s &help"
 msgstr "%s &ohje"
 
-#: AdvancedFrame.cpp:618 sg_BoincSimpleFrame.cpp:181 sg_BoincSimpleGUI.cpp:135
+#: AdvancedFrame.cpp:627 sg_BoincSimpleFrame.cpp:190 sg_BoincSimpleGUI.cpp:135
 #, c-format
 msgid "Show information about %s"
 msgstr "Näytä tietoja %s:sta"
 
-#: AdvancedFrame.cpp:630
+#: AdvancedFrame.cpp:639
 #, c-format
 msgid "&%s help"
 msgstr "&%s apua"
 
-#: AdvancedFrame.cpp:636 sg_BoincSimpleFrame.cpp:199 sg_BoincSimpleGUI.cpp:153
+#: AdvancedFrame.cpp:645 sg_BoincSimpleFrame.cpp:208 sg_BoincSimpleGUI.cpp:153
 #, c-format
 msgid "Show information about the %s"
 msgstr "Näytä tietoja %s:sta"
 
-#: AdvancedFrame.cpp:648 sg_BoincSimpleFrame.cpp:211 sg_BoincSimpleGUI.cpp:165
+#: AdvancedFrame.cpp:657 sg_BoincSimpleFrame.cpp:220 sg_BoincSimpleGUI.cpp:165
 #, c-format
-msgid "%s &website"
-msgstr "%s &nettisivu"
+msgid "%s &web site"
+msgstr ""
 
-#: AdvancedFrame.cpp:654 sg_BoincSimpleFrame.cpp:217 sg_BoincSimpleGUI.cpp:171
+#: AdvancedFrame.cpp:663 sg_BoincSimpleFrame.cpp:226 sg_BoincSimpleGUI.cpp:171
 #, c-format
 msgid "Show information about BOINC and %s"
 msgstr "Näytä tietoja BOINCista ja %s:sta"
 
-#: AdvancedFrame.cpp:666 BOINCTaskBar.cpp:533 sg_BoincSimpleFrame.cpp:229
+#: AdvancedFrame.cpp:675 BOINCTaskBar.cpp:530 sg_BoincSimpleFrame.cpp:238
 #, c-format
 msgid "&About %s..."
 msgstr "&Tietoja %s:sta..."
 
-#: AdvancedFrame.cpp:672 sg_BoincSimpleFrame.cpp:235
+#: AdvancedFrame.cpp:681 sg_BoincSimpleFrame.cpp:244
 msgid "Licensing and copyright information."
 msgstr "Lisenssi- ja tekijänoikeustiedot."
 
-#: AdvancedFrame.cpp:679 sg_BoincSimpleFrame.cpp:242 sg_BoincSimpleGUI.cpp:194
+#: AdvancedFrame.cpp:688 sg_BoincSimpleFrame.cpp:251 sg_BoincSimpleGUI.cpp:194
 msgid "&File"
 msgstr "&Tiedosto"
 
-#: AdvancedFrame.cpp:683 sg_BoincSimpleFrame.cpp:246 sg_BoincSimpleGUI.cpp:199
+#: AdvancedFrame.cpp:692 sg_BoincSimpleFrame.cpp:255 sg_BoincSimpleGUI.cpp:199
 msgid "&View"
 msgstr "&Näytä"
 
-#: AdvancedFrame.cpp:687 sg_BoincSimpleFrame.cpp:250
+#: AdvancedFrame.cpp:696 sg_BoincSimpleFrame.cpp:259
 msgid "&Tools"
 msgstr "&Työkalut"
 
-#: AdvancedFrame.cpp:691
+#: AdvancedFrame.cpp:700
 msgid "&Activity"
 msgstr "&Toiminta"
 
-#: AdvancedFrame.cpp:695
+#: AdvancedFrame.cpp:704
 msgid "A&dvanced"
 msgstr "L&isäasetukset"
 
-#: AdvancedFrame.cpp:699 DlgEventLog.cpp:329 sg_BoincSimpleFrame.cpp:254
+#: AdvancedFrame.cpp:708 DlgEventLog.cpp:331 sg_BoincSimpleFrame.cpp:263
 #: sg_BoincSimpleGUI.cpp:184 wizardex.cpp:374 wizardex.cpp:381
 msgid "&Help"
 msgstr "&Apua"
 
-#: AdvancedFrame.cpp:1178
+#: AdvancedFrame.cpp:1195
 #, c-format
 msgid "%s - Stop using %s"
 msgstr "%s - Lopeta %s:n käyttö"
 
-#: AdvancedFrame.cpp:1183
+#: AdvancedFrame.cpp:1200
 #, c-format
 msgid ""
 "If you stop using %s,\n"
@@ -547,12 +559,12 @@ msgstr ""
 "\n"
 "Haluatko lopettaa %s:n käytön?"
 
-#: AdvancedFrame.cpp:1381
+#: AdvancedFrame.cpp:1397
 #, c-format
 msgid "%s - Shut down the current client..."
 msgstr "%s - Sulje nykyinen ohjelma..."
 
-#: AdvancedFrame.cpp:1390
+#: AdvancedFrame.cpp:1406
 #, c-format
 msgid ""
 "%s will shut down the current client\n"
@@ -561,27 +573,27 @@ msgstr ""
 "%s sulkee nykyisen ohjelman ja\n"
 "pyytää toista konetta, johon yhteys otetaan."
 
-#: AdvancedFrame.cpp:1709 DlgAbout.cpp:119
+#: AdvancedFrame.cpp:1734 DlgAbout.cpp:119
 #, c-format
 msgid "%s"
 msgstr "%s"
 
-#: AdvancedFrame.cpp:1718
+#: AdvancedFrame.cpp:1743
 #, c-format
 msgid "%s has successfully added %s"
 msgstr "%s on onnistuneesti lisätty %s"
 
-#: AdvancedFrame.cpp:1860
+#: AdvancedFrame.cpp:1882
 #, c-format
 msgid "%s - (%s)"
 msgstr "%s - (%s)"
 
-#: AdvancedFrame.cpp:1864
+#: AdvancedFrame.cpp:1886
 #, c-format
 msgid "Connecting to %s"
 msgstr "Otetaan yhteyttä %s"
 
-#: AdvancedFrame.cpp:1867
+#: AdvancedFrame.cpp:1889
 #, c-format
 msgid "Connected to %s (%s)"
 msgstr "Yhteydessä %s:iin (%s)"
@@ -618,26 +630,26 @@ msgstr ""
 "\n"
 "Käy projektin nettisivuilla ja seuraa siellä olevia ohjeita."
 
-#: AsyncRPC.cpp:1238
+#: AsyncRPC.cpp:1026
 msgid "Communicating with BOINC client.  Please wait ..."
 msgstr "Ollaan yhteydessä BOINC-ohjelmaan.  Odota..."
 
-#: AsyncRPC.cpp:1241
+#: AsyncRPC.cpp:1029
 #, c-format
 msgid "&Quit %s"
 msgstr "&Sulje %s"
 
-#: AsyncRPC.cpp:1243
+#: AsyncRPC.cpp:1031
 #, c-format
 msgid "E&xit %s"
 msgstr "Lopeta %s"
 
-#: AsyncRPC.cpp:1247
+#: AsyncRPC.cpp:1035
 #, c-format
 msgid "%s - Communication"
 msgstr "%s - Verkkoyhteys"
 
-#: AsyncRPC.cpp:1263 DlgAdvPreferencesBase.cpp:107 sg_DlgPreferences.cpp:452
+#: AsyncRPC.cpp:1051 DlgAdvPreferencesBase.cpp:107 sg_DlgPreferences.cpp:438
 msgid "Cancel"
 msgstr "Peruuta"
 
@@ -728,16 +740,16 @@ msgstr ""
 "s -ohjelmaan.\n"
 "Jos otat yhteyttä paikalliseen koneeseen, käytä konenimenä \"localhost\"."
 
-#: BOINCBaseView.cpp:774
+#: BOINCBaseView.cpp:779
 msgid "Project web pages"
 msgstr "Projektin nettisivut"
 
-#: BOINCClientManager.cpp:573
+#: BOINCClientManager.cpp:575
 #, c-format
 msgid "%s - Unexpected Exit"
 msgstr "%s - Odottamaton lopetus"
 
-#: BOINCClientManager.cpp:583
+#: BOINCClientManager.cpp:585
 #, c-format
 msgid ""
 "The %s client has exited unexpectedly 3 times within the last %d minutes.\n"
@@ -795,7 +807,7 @@ msgstr "%s yhteys internetiin on katkaistu."
 msgid "%s failed to disconnected from the Internet."
 msgstr "%s yhteyden katkaisu internetiin epäonnistui."
 
-#: BOINCGUIApp.cpp:345
+#: BOINCGUIApp.cpp:342
 #, c-format
 msgid ""
 "You currently are not authorized to manage the client.\n"
@@ -816,7 +828,7 @@ msgstr ""
 "  - ota yhteyttä ylläpitoon joka lisää sinut 'boinc_master-'\n"
 "     käyttäjäryhmään."
 
-#: BOINCGUIApp.cpp:351
+#: BOINCGUIApp.cpp:348
 #, c-format
 msgid ""
 "%s ownership or permissions are not set properly; please reinstall %s.\n"
@@ -825,16 +837,16 @@ msgstr ""
 "%s -käyttöoikeuksia ei ole asetettu oikein; asenna %s uudelleen.\n"
 "(Virhekoodi %d"
 
-#: BOINCGUIApp.cpp:357
+#: BOINCGUIApp.cpp:354
 msgid " at "
 msgstr ""
 
-#: BOINCGUIApp.cpp:360 MainDocument.cpp:2472 MainDocument.cpp:2522
-#: MainDocument.cpp:2542 ViewTransfers.cpp:792
+#: BOINCGUIApp.cpp:357 MainDocument.cpp:2475 MainDocument.cpp:2525
+#: MainDocument.cpp:2545 ViewTransfers.cpp:803
 msgid ")"
 msgstr ")"
 
-#: BOINCGUIApp.cpp:393
+#: BOINCGUIApp.cpp:387
 msgid ""
 "A reboot is required in order for BOINC to run properly.\n"
 "Please reboot your computer and try again."
@@ -842,140 +854,140 @@ msgstr ""
 "Tarvitaan uudelleenkäynnistys, jotta BOINC voisi toimia kunnolla.\n"
 "Uudelleenkäynnistä tietokoneesi ja yritä uudelleen."
 
-#: BOINCGUIApp.cpp:394 DlgAbout.cpp:153
+#: BOINCGUIApp.cpp:388 DlgAbout.cpp:153
 msgid "BOINC Manager"
 msgstr "BOINC Manager"
 
-#: BOINCGUIApp.cpp:561
+#: BOINCGUIApp.cpp:571
 msgid "BOINC Manager was started by the operating system automatically"
 msgstr "Käyttöjärjestelmä käynnisti BOINC Managerin automaattisesti"
 
-#: BOINCGUIApp.cpp:563
+#: BOINCGUIApp.cpp:573
 msgid "Startup BOINC so only the system tray icon is visible"
 msgstr "Käynnistä BOINC niin, että vain tehtäväpalkin kuvake on näkyvissä"
 
-#: BOINCGUIApp.cpp:565
+#: BOINCGUIApp.cpp:575
 msgid "Directory containing the BOINC Client executable"
 msgstr "Hakemisto, joka sisältää BOINCin ohjelmatiedoston"
 
-#: BOINCGUIApp.cpp:566
+#: BOINCGUIApp.cpp:576
 msgid "BOINC data directory"
 msgstr "BOINCin datahakemisto"
 
-#: BOINCGUIApp.cpp:568
+#: BOINCGUIApp.cpp:578
 msgid "Host name or IP address"
 msgstr "Konenimi tai IP-osoite"
 
-#: BOINCGUIApp.cpp:569
+#: BOINCGUIApp.cpp:579
 msgid "GUI RPC port number"
 msgstr "GUI RPC porttinumero"
 
-#: BOINCGUIApp.cpp:570
+#: BOINCGUIApp.cpp:580
 msgid "Password"
 msgstr "Salasana"
 
-#: BOINCGUIApp.cpp:571
+#: BOINCGUIApp.cpp:581
 msgid "Startup BOINC with these optional arguments"
 msgstr "Käynnistä BOINC näillä lisäoptioilla"
 
-#: BOINCGUIApp.cpp:572
+#: BOINCGUIApp.cpp:582
 msgid "disable BOINC security users and permissions"
 msgstr "poista käytöstä BOINCin turvakäyttäjät ja käyttöoikeudet"
 
-#: BOINCGUIApp.cpp:573
+#: BOINCGUIApp.cpp:583
 msgid "set skin debugging mode to enable skin manager error messages"
 msgstr "laita ulkoasun virheenkorjaus päälle nähdäksesi virheviestit"
 
-#: BOINCGUIApp.cpp:574
+#: BOINCGUIApp.cpp:584
 msgid "multiple instances of BOINC Manager allowed"
 msgstr "useita BOINC Manager -instansseja sallittu"
 
-#: BOINCGUIApp.cpp:576
+#: BOINCGUIApp.cpp:586
 msgid "Not used: workaround for bug in XCode 4.2"
 msgstr "Ei käytetä: tilapäinen korjaus bugiin XCode 4.2:ssa"
 
-#: BOINCGUIApp.cpp:794
+#: BOINCGUIApp.cpp:804
 msgid "(Automatic Detection)"
 msgstr "(Automaattinen tunnistus)"
 
-#: BOINCGUIApp.cpp:795
+#: BOINCGUIApp.cpp:805
 msgid "(Unknown)"
 msgstr "(Tuntematon)"
 
-#: BOINCGUIApp.cpp:796
+#: BOINCGUIApp.cpp:806
 msgid "(User Defined)"
 msgstr "(Käyttäjän määrittelemä)"
 
-#: BOINCTaskBar.cpp:511
+#: BOINCTaskBar.cpp:508
 #, c-format
 msgid "Open %s Web..."
 msgstr "Avaa %s netti..."
 
-#: BOINCTaskBar.cpp:518
+#: BOINCTaskBar.cpp:515
 #, c-format
 msgid "Open %s..."
 msgstr "Avaa %s..."
 
-#: BOINCTaskBar.cpp:525 BOINCTaskBar.cpp:621 BOINCTaskBar.cpp:629
+#: BOINCTaskBar.cpp:522 BOINCTaskBar.cpp:619 BOINCTaskBar.cpp:627
 msgid "Snooze"
 msgstr "Nukuta"
 
-#: BOINCTaskBar.cpp:527 BOINCTaskBar.cpp:648 BOINCTaskBar.cpp:656
+#: BOINCTaskBar.cpp:524 BOINCTaskBar.cpp:646 BOINCTaskBar.cpp:654
 msgid "Snooze GPU"
 msgstr "Nukuta näytönohjain"
 
-#: BOINCTaskBar.cpp:543 mac/MacSysMenu.cpp:225
+#: BOINCTaskBar.cpp:542
 msgid "E&xit"
 msgstr "L&opeta"
 
-#: BOINCTaskBar.cpp:614 ViewProjects.cpp:708 ViewWork.cpp:784
-#: sg_BoincSimpleFrame.cpp:738 sg_ProjectCommandPopup.cpp:110
+#: BOINCTaskBar.cpp:612 ViewProjects.cpp:718 ViewWork.cpp:795
+#: sg_BoincSimpleFrame.cpp:754 sg_ProjectCommandPopup.cpp:110
 #: sg_TaskCommandPopup.cpp:102
 msgid "Resume"
 msgstr "Jatka"
 
-#: BOINCTaskBar.cpp:641
+#: BOINCTaskBar.cpp:639
 msgid "Resume GPU"
 msgstr "Jatka GPU"
 
-#: BOINCTaskBar.cpp:715
+#: BOINCTaskBar.cpp:713
 msgid "Computing is enabled"
 msgstr "Laskenta sallittu"
 
-#: BOINCTaskBar.cpp:719
+#: BOINCTaskBar.cpp:717
 msgid "Computing is suspended - "
 msgstr "Laskenta hyllytetty - "
 
-#: BOINCTaskBar.cpp:729
+#: BOINCTaskBar.cpp:727
 msgid "GPU computing is enabled"
 msgstr "Näytönohjaimen laskenta sallittu"
 
-#: BOINCTaskBar.cpp:732
+#: BOINCTaskBar.cpp:730
 msgid "GPU computing is suspended - "
 msgstr "Näytönohjaimen laskenta hyllytetty - "
 
-#: BOINCTaskBar.cpp:741
+#: BOINCTaskBar.cpp:739
 msgid "Network is enabled"
 msgstr "Verkkoyhteys käytössä"
 
-#: BOINCTaskBar.cpp:744
+#: BOINCTaskBar.cpp:742
 msgid "Network is suspended - "
 msgstr "Verkkoyhteys hyllytetty - "
 
-#: BOINCTaskBar.cpp:752
+#: BOINCTaskBar.cpp:750
 msgid "Reconnecting to client."
 msgstr "Yhdistetään uudelleen ohjelmaan."
 
-#: BOINCTaskBar.cpp:754
+#: BOINCTaskBar.cpp:752
 msgid "Not connected to a client."
 msgstr "Ei yhteyttä ohjelmaan."
 
-#: BOINCTaskBar.cpp:807
+#: BOINCTaskBar.cpp:805
 #, c-format
 msgid "%s Notices"
 msgstr "%s Ilmoitukset"
 
-#: BOINCTaskBar.cpp:813
+#: BOINCTaskBar.cpp:811
 msgid "There are new notices - click to view."
 msgstr "Uusia ilmoituksia - napsauta katsoaksesi."
 
@@ -1057,7 +1069,7 @@ msgstr "Käytät nyt %s -hallitsijaa tilien hallitsemiseen."
 msgid "You are now using this account manager."
 msgstr "Käytät nyt tätä tilihallitsijaa."
 
-#: DlgAbout.cpp:113 mac/Mac_GUI.cpp:95
+#: DlgAbout.cpp:113 mac/Mac_GUI.cpp:96
 #, c-format
 msgid "About %s"
 msgstr "Tietoja %s"
@@ -1153,11 +1165,11 @@ msgstr ""
 "Haluatko tyhjentää kaikki paikalliset asetukset?\n"
 "(Tämä ei vaikuta erityissovelluksiin.)"
 
-#: DlgAdvPreferences.cpp:990 sg_DlgPreferences.cpp:1032
+#: DlgAdvPreferences.cpp:990 sg_DlgPreferences.cpp:1035
 msgid "Confirmation"
 msgstr "Vahvistus"
 
-#: DlgAdvPreferencesBase.cpp:46 sg_DlgPreferences.cpp:948
+#: DlgAdvPreferencesBase.cpp:46 sg_DlgPreferences.cpp:951
 #, c-format
 msgid "%s - Preferences"
 msgstr "%s - Asetukset"
@@ -1173,11 +1185,11 @@ msgstr ""
 "Napsauta Tyhjennä palauttaaksesi web-pohjaiset asetukset (poislukien "
 "erityissovellukset)."
 
-#: DlgAdvPreferencesBase.cpp:65 sg_DlgPreferences.cpp:447
+#: DlgAdvPreferencesBase.cpp:65 sg_DlgPreferences.cpp:433
 msgid "Clear"
 msgstr "Tyhjennä"
 
-#: DlgAdvPreferencesBase.cpp:66 sg_DlgPreferences.cpp:448
+#: DlgAdvPreferencesBase.cpp:66 sg_DlgPreferences.cpp:434
 msgid "clear all local preferences and close the dialog"
 msgstr "tyhjennä kaikki paikalliset asetukset ja sulje ikkuna"
 
@@ -1197,7 +1209,7 @@ msgstr "levyn ja muistin käyttö"
 msgid "exclusive applications"
 msgstr "erityissovellukset"
 
-#: DlgAdvPreferencesBase.cpp:102 sg_DlgPreferences.cpp:443
+#: DlgAdvPreferencesBase.cpp:102 sg_DlgPreferences.cpp:429
 msgid "OK"
 msgstr "OK"
 
@@ -1210,7 +1222,7 @@ msgid "close the dialog without saving"
 msgstr "sulje tallentamatta"
 
 #: DlgAdvPreferencesBase.cpp:112 Localization.cpp:35 Localization.cpp:121
-#: Localization.cpp:139 sg_BoincSimpleFrame.cpp:774 sg_DlgPreferences.cpp:458
+#: Localization.cpp:139 sg_BoincSimpleFrame.cpp:790 sg_DlgPreferences.cpp:444
 msgid "Help"
 msgstr "Apua"
 
@@ -1268,7 +1280,7 @@ msgstr ""
 "minuuttiin"
 
 #: DlgAdvPreferencesBase.cpp:187 DlgAdvPreferencesBase.cpp:336
-#: sg_DlgPreferences.cpp:436
+#: sg_DlgPreferences.cpp:422
 msgid "minutes"
 msgstr "minuuttia"
 
@@ -1293,7 +1305,7 @@ msgid "start work at this time"
 msgstr "aloita työ tähän aikaan"
 
 #: DlgAdvPreferencesBase.cpp:243 DlgAdvPreferencesBase.cpp:503
-#: sg_DlgPreferences.cpp:345 sg_DlgPreferences.cpp:367
+#: sg_DlgPreferences.cpp:331 sg_DlgPreferences.cpp:353
 msgid "and"
 msgstr "ja"
 
@@ -1548,7 +1560,7 @@ msgstr "Lisää..."
 msgid "Add an application to this list"
 msgstr "Lisää sovellus tähän listaan"
 
-#: DlgAdvPreferencesBase.cpp:727 ViewProjects.cpp:201
+#: DlgAdvPreferencesBase.cpp:727 ViewProjects.cpp:202
 #: sg_ProjectCommandPopup.cpp:85
 msgid "Remove"
 msgstr "Poista"
@@ -1561,42 +1573,42 @@ msgstr "Poista sovellus tästä listasta"
 msgid "For advanced options, refer to "
 msgstr "Lisäasetukset, katso "
 
-#: DlgEventLog.cpp:217
+#: DlgEventLog.cpp:218
 #, c-format
 msgid "%s - Event Log"
 msgstr "%s - Tapahtumaloki"
 
-#: DlgEventLog.cpp:230 ViewMessages.cpp:117 ViewProjects.cpp:218
-#: ViewStatistics.cpp:427 ViewStatistics.cpp:1996 ViewTransfers.cpp:181
-#: ViewWork.cpp:231
+#: DlgEventLog.cpp:231 ViewMessages.cpp:117 ViewProjects.cpp:219
+#: ViewStatistics.cpp:435 ViewStatistics.cpp:2007 ViewTransfers.cpp:182
+#: ViewWork.cpp:232
 msgid "Project"
 msgstr "Projekti"
 
-#: DlgEventLog.cpp:231 ViewMessages.cpp:118
+#: DlgEventLog.cpp:232 ViewMessages.cpp:118
 msgid "Time"
 msgstr "Aika"
 
-#: DlgEventLog.cpp:232 ViewMessages.cpp:119
+#: DlgEventLog.cpp:233 ViewMessages.cpp:119
 msgid "Message"
 msgstr "Viesti"
 
-#: DlgEventLog.cpp:287 DlgEventLog.cpp:351
+#: DlgEventLog.cpp:289 DlgEventLog.cpp:353
 msgid "&Show only this project"
 msgstr "&Näytä vain tämä projekti"
 
-#: DlgEventLog.cpp:291
+#: DlgEventLog.cpp:293
 msgid "Copy &All"
 msgstr "Kopioi &kaikki"
 
-#: DlgEventLog.cpp:293 DlgEventLog.cpp:297 ViewMessages.cpp:89
+#: DlgEventLog.cpp:295 DlgEventLog.cpp:299 ViewMessages.cpp:89
 msgid "Copy all the messages to the clipboard."
 msgstr "Kopioi kaikki viestit leikepöydälle."
 
-#: DlgEventLog.cpp:302
+#: DlgEventLog.cpp:304
 msgid "Copy &Selected"
 msgstr "Kopioi &valitut"
 
-#: DlgEventLog.cpp:305 DlgEventLog.cpp:313 ViewMessages.cpp:97
+#: DlgEventLog.cpp:307 DlgEventLog.cpp:315 ViewMessages.cpp:97
 msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
 "messages by holding down the shift or command key while clicking on messages."
@@ -1605,7 +1617,7 @@ msgstr ""
 "pitämällä shift- tai command-näppäintä pohjassa samalla kun napsautat "
 "viestiä."
 
-#: DlgEventLog.cpp:307 DlgEventLog.cpp:315 ViewMessages.cpp:99
+#: DlgEventLog.cpp:309 DlgEventLog.cpp:317 ViewMessages.cpp:99
 msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
 "messages by holding down the shift or control key while clicking on messages."
@@ -1614,25 +1626,25 @@ msgstr ""
 "pitämällä shift- tai control-näppäintä pohjassa samalla kun napsautat "
 "viestiä."
 
-#: DlgEventLog.cpp:322 DlgItemProperties.cpp:66
+#: DlgEventLog.cpp:324 DlgItemProperties.cpp:66
 msgid "&Close"
 msgstr "&Sulje"
 
-#: DlgEventLog.cpp:331 sg_BoincSimpleFrame.cpp:778 sg_DlgPreferences.cpp:461
+#: DlgEventLog.cpp:333 sg_BoincSimpleFrame.cpp:794 sg_DlgPreferences.cpp:447
 #: sg_ProjectsComponent.cpp:142
 #, c-format
 msgid "Get help with %s"
 msgstr "Hae apua %s:iin"
 
-#: DlgEventLog.cpp:345
+#: DlgEventLog.cpp:347
 msgid "Show all &messages"
 msgstr "Näytä kaikki &viestit"
 
-#: DlgEventLog.cpp:346 DlgEventLog.cpp:348
+#: DlgEventLog.cpp:348 DlgEventLog.cpp:350
 msgid "Show messages for all projects"
 msgstr "Näytä kaikkien projektien viestit"
 
-#: DlgEventLog.cpp:352 DlgEventLog.cpp:354
+#: DlgEventLog.cpp:354 DlgEventLog.cpp:356
 msgid "Show only the messages for the selected project"
 msgstr "Näytä vain valitun projektin viestit"
 
@@ -1742,7 +1754,7 @@ msgstr "Käyttäjänimi"
 msgid "Team name"
 msgstr "Tiiminimi"
 
-#: DlgItemProperties.cpp:216 ViewProjects.cpp:223
+#: DlgItemProperties.cpp:216 ViewProjects.cpp:224
 msgid "Resource share"
 msgstr "Resurssien jako"
 
@@ -1845,7 +1857,7 @@ msgstr "Korjauskerroin"
 msgid "Properties of task "
 msgstr "Tiedot työpaketista "
 
-#: DlgItemProperties.cpp:323 ViewWork.cpp:237
+#: DlgItemProperties.cpp:323 ViewWork.cpp:238
 msgid "Application"
 msgstr "Sovellus"
 
@@ -1909,7 +1921,7 @@ msgstr "Hakemisto"
 msgid "Process ID"
 msgstr "Prosessin tunniste"
 
-#: DlgItemProperties.cpp:426 ViewWork.cpp:1021 sg_TaskPanel.cpp:807
+#: DlgItemProperties.cpp:426 ViewWork.cpp:1032 sg_TaskPanel.cpp:810
 msgid "Local: "
 msgstr "Paikallinen: "
 
@@ -2202,8 +2214,8 @@ msgstr "GEO-600 projekti"
 msgid "The home page of the GEO-600 project"
 msgstr "GEO-600 -projektin kotisivu"
 
-#: Localization.cpp:115 Localization.cpp:133 ViewProjects.cpp:220
-#: ViewStatistics.cpp:457
+#: Localization.cpp:115 Localization.cpp:133 ViewProjects.cpp:221
+#: ViewStatistics.cpp:465
 msgid "Team"
 msgstr "Tiimi"
 
@@ -2275,199 +2287,199 @@ msgstr "Käynnistetään ohjelma"
 msgid "Connecting to client"
 msgstr "Otetaan yhteys ohjelmaan"
 
-#: MainDocument.cpp:1183
+#: MainDocument.cpp:1186
 msgid "Retrieving system state; please wait..."
 msgstr "Noudetaan järjestelmätila, odota..."
 
-#: MainDocument.cpp:1804
+#: MainDocument.cpp:1807
 msgid "Missing application"
 msgstr "Puuttuva sovellus"
 
-#: MainDocument.cpp:1805
+#: MainDocument.cpp:1808
 msgid ""
 "Please download and install the CoRD application from http://cord."
 "sourceforge.net"
 msgstr "Lataa ja asenna CoRD-sovellus osoitteesta http://cord.sourceforge.net"
 
-#: MainDocument.cpp:2420
+#: MainDocument.cpp:2423
 msgid "on batteries"
 msgstr "akkukäytöllä"
 
-#: MainDocument.cpp:2421
+#: MainDocument.cpp:2424
 msgid "computer is in use"
 msgstr "tietokone on käytössä"
 
-#: MainDocument.cpp:2422
+#: MainDocument.cpp:2425
 msgid "user request"
 msgstr "käyttäjän pyytämä"
 
-#: MainDocument.cpp:2423
+#: MainDocument.cpp:2426
 msgid "time of day"
 msgstr "aika päivästä"
 
-#: MainDocument.cpp:2424
+#: MainDocument.cpp:2427
 msgid "CPU benchmarks in progress"
 msgstr "suorituskykytestit käynnissä"
 
-#: MainDocument.cpp:2425
+#: MainDocument.cpp:2428
 msgid "need disk space - check preferences"
 msgstr "tarvitaan levytilaa - tarkista asetukset"
 
-#: MainDocument.cpp:2426
+#: MainDocument.cpp:2429
 msgid "computer is not in use"
 msgstr "tietokone ei ole käytössä"
 
-#: MainDocument.cpp:2427
+#: MainDocument.cpp:2430
 msgid "starting up"
 msgstr "käynnistetään"
 
-#: MainDocument.cpp:2428
+#: MainDocument.cpp:2431
 msgid "an exclusive app is running"
 msgstr "erityisohjelma käynnissä"
 
-#: MainDocument.cpp:2429
+#: MainDocument.cpp:2432
 msgid "CPU is busy"
 msgstr "CPU varattu"
 
-#: MainDocument.cpp:2430
+#: MainDocument.cpp:2433
 msgid "network bandwidth limit exceeded"
 msgstr "verkon latausraja ylitetty"
 
-#: MainDocument.cpp:2431
+#: MainDocument.cpp:2434
 msgid "requested by operating system"
 msgstr "käyttöjärjestelmän pyytämä"
 
-#: MainDocument.cpp:2433
+#: MainDocument.cpp:2436
 msgid "unknown reason"
 msgstr "tuntematon syy"
 
-#: MainDocument.cpp:2455
+#: MainDocument.cpp:2458
 msgid "GPU missing, "
 msgstr "Näytönohjain puuttuu, "
 
-#: MainDocument.cpp:2462
+#: MainDocument.cpp:2465
 msgid "New"
 msgstr "Uusi"
 
-#: MainDocument.cpp:2466
+#: MainDocument.cpp:2469
 msgid "Download failed"
 msgstr "Lataus epäonnistui"
 
-#: MainDocument.cpp:2468
+#: MainDocument.cpp:2471
 msgid "Downloading"
 msgstr "Ladataan"
 
-#: MainDocument.cpp:2470 MainDocument.cpp:2540
+#: MainDocument.cpp:2473 MainDocument.cpp:2543
 msgid " (suspended - "
 msgstr " (hyllytetty - "
 
-#: MainDocument.cpp:2478
+#: MainDocument.cpp:2481
 msgid "Project suspended by user"
 msgstr "Projekti on käyttäjän hyllyttämä"
 
-#: MainDocument.cpp:2480
+#: MainDocument.cpp:2483
 msgid "Task suspended by user"
 msgstr "Tehtävä on käyttäjän hyllyttämä"
 
-#: MainDocument.cpp:2482
+#: MainDocument.cpp:2485
 msgid "Suspended - "
 msgstr "Hyllytetty - "
 
 # 75%
-#: MainDocument.cpp:2488
+#: MainDocument.cpp:2491
 msgid "GPU suspended - "
 msgstr "GPU hyllytetty - "
 
-#: MainDocument.cpp:2495
+#: MainDocument.cpp:2498
 msgid "Waiting for memory"
 msgstr "Odottaa muistia"
 
-#: MainDocument.cpp:2497
+#: MainDocument.cpp:2500
 msgid "Waiting for shared memory"
 msgstr "Odottaa jaettua muistia"
 
-#: MainDocument.cpp:2500
+#: MainDocument.cpp:2503
 msgid "Running, high priority"
 msgstr "Suoritetaan, korkea prioriteetti"
 
-#: MainDocument.cpp:2502 sg_ImageButton.cpp:88
+#: MainDocument.cpp:2505 sg_ImageButton.cpp:88
 msgid "Running"
 msgstr "Suoritetaan"
 
-#: MainDocument.cpp:2505
+#: MainDocument.cpp:2508
 msgid " (non-CPU-intensive)"
 msgstr " (ei prosessorikuormittava)"
 
-#: MainDocument.cpp:2508
+#: MainDocument.cpp:2511
 msgid "Waiting to run"
 msgstr "Odottaa suorittamista"
 
-#: MainDocument.cpp:2510 MainDocument.cpp:2516
+#: MainDocument.cpp:2513 MainDocument.cpp:2519
 msgid "Ready to start"
 msgstr "Valmiina aloitettavaksi"
 
-#: MainDocument.cpp:2520
+#: MainDocument.cpp:2523
 msgid " (Scheduler wait: "
 msgstr " (Odottaa ajoittamista: "
 
-#: MainDocument.cpp:2524
+#: MainDocument.cpp:2527
 msgid " (Scheduler wait)"
 msgstr " (Odottaa ajoittamista)"
 
-#: MainDocument.cpp:2528
+#: MainDocument.cpp:2531
 msgid " (Waiting for network access)"
 msgstr " (Odottaa pääsyä verkkoon)"
 
-#: MainDocument.cpp:2532
+#: MainDocument.cpp:2535
 msgid "Computation error"
 msgstr "Laskentavirhe"
 
-#: MainDocument.cpp:2536
+#: MainDocument.cpp:2539
 msgid "Upload failed"
 msgstr "Lähetys epäonnistui"
 
-#: MainDocument.cpp:2538
+#: MainDocument.cpp:2541
 msgid "Uploading"
 msgstr "Lähetetään"
 
-#: MainDocument.cpp:2549
+#: MainDocument.cpp:2552
 msgid "Aborted by user"
 msgstr "Käyttäjän hylkäämä"
 
-#: MainDocument.cpp:2552
+#: MainDocument.cpp:2555
 msgid "Aborted by project"
 msgstr "Projektin hylkäämä"
 
-#: MainDocument.cpp:2555
+#: MainDocument.cpp:2558
 msgid "Aborted: not started by deadline"
 msgstr "Hylätty: ei ehditty aloittaa ennen takarajaa"
 
-#: MainDocument.cpp:2558
+#: MainDocument.cpp:2561
 msgid "Aborted: disk limit exceeded"
 msgstr "Hylätty: levyraja saavutettu"
 
 # 78%
-#: MainDocument.cpp:2561
+#: MainDocument.cpp:2564
 msgid "Aborted: run time limit exceeded"
 msgstr "Hylätty: suoritusajan raja saavutettu"
 
-#: MainDocument.cpp:2564
+#: MainDocument.cpp:2567
 msgid "Aborted: memory limit exceeded"
 msgstr "Hylätty: muistiraja saavutettu"
 
-#: MainDocument.cpp:2567
+#: MainDocument.cpp:2570
 msgid "Aborted"
 msgstr "Hylätty"
 
-#: MainDocument.cpp:2572
+#: MainDocument.cpp:2575
 msgid "Acknowledged"
 msgstr "Hyväksytty"
 
-#: MainDocument.cpp:2574
+#: MainDocument.cpp:2577
 msgid "Ready to report"
 msgstr "Valmiina raportoitavaksi"
 
-#: MainDocument.cpp:2576
+#: MainDocument.cpp:2579
 #, c-format
 msgid "Error: invalid state '%d'"
 msgstr "Virhe: virheellinen tila \"%d\""
@@ -2522,74 +2534,56 @@ msgstr "Tarkista käyttäjänimi ja salasana."
 msgid "Check the email address and password, and try again."
 msgstr "Tarkista sähköpostiosoite ja salasana."
 
-#: NoticeListCtrl.cpp:63
-msgid "Notice List"
-msgstr "Ilmoituslista"
-
-#: NoticeListCtrl.cpp:185
-#, c-format
-msgid "%s; received on %s"
-msgstr "%s; vastaanotettu %s"
-
-#: NoticeListCtrl.cpp:187
-#, c-format
-msgid "%s; received from %s; on %s"
-msgstr "%s; vastaanotettu %s; aika %s"
-
-#: NoticeListCtrl.cpp:284 ProjectListCtrl.cpp:282
-msgid "Click"
-msgstr "Napsauta"
-
-#: NoticeListCtrl.cpp:569
+#: NoticeListCtrl.cpp:221
 msgid "more..."
 msgstr "lisää..."
 
-#: ProjectInfoPage.cpp:451 ProjectInfoPage.cpp:739 ProjectInfoPage.cpp:743
+#: ProjectInfoPage.cpp:467 ProjectInfoPage.cpp:766 ProjectInfoPage.cpp:770
 msgid "All"
 msgstr "Kaikki"
 
-#: ProjectInfoPage.cpp:582
+#: ProjectInfoPage.cpp:602
 msgid "Choose a project"
 msgstr "Valitse projekti"
 
-#: ProjectInfoPage.cpp:586
+#: ProjectInfoPage.cpp:606
 msgid "To choose a project, click its name or type its URL below."
 msgstr ""
 "Valitse projekti listasta napsauttamalla nimeä tai kirjoita sen URL-osoite."
 
-#: ProjectInfoPage.cpp:590
+#: ProjectInfoPage.cpp:610
 msgid "Categories:"
 msgstr "Kategoriat:"
 
-#: ProjectInfoPage.cpp:594 sg_ProjectPanel.cpp:89
+#: ProjectInfoPage.cpp:614 sg_ProjectPanel.cpp:89
 msgid "Projects:"
 msgstr "Projektit:"
 
-#: ProjectInfoPage.cpp:598
+#: ProjectInfoPage.cpp:618
 msgid "Project details"
 msgstr "Projektitiedot"
 
-#: ProjectInfoPage.cpp:602
+#: ProjectInfoPage.cpp:622
 msgid "Research area:"
 msgstr "Tutkimusala:"
 
-#: ProjectInfoPage.cpp:606
+#: ProjectInfoPage.cpp:626
 msgid "Organization:"
 msgstr "Organisaatio:"
 
-#: ProjectInfoPage.cpp:610
+#: ProjectInfoPage.cpp:630
 msgid "Web site:"
 msgstr "Nettisivu:"
 
-#: ProjectInfoPage.cpp:614
+#: ProjectInfoPage.cpp:634
 msgid "Supported systems:"
 msgstr "Tuetut järjestelmät:"
 
-#: ProjectInfoPage.cpp:618
+#: ProjectInfoPage.cpp:638
 msgid "Project URL:"
 msgstr "Projektin URL-osoite:"
 
-#: ProjectInfoPage.cpp:787
+#: ProjectInfoPage.cpp:814
 msgid ""
 "This project may not have work for your type of computer.  Do you want to "
 "add it anyway?"
@@ -2597,25 +2591,9 @@ msgstr ""
 "Tällä projektilla ei ehkä ole työtä tietokoneesi tyypille.  Lisätäänkö se "
 "kuitenkin?"
 
-#: ProjectInfoPage.cpp:811
+#: ProjectInfoPage.cpp:838
 msgid "You already added this project. Please choose a different project."
 msgstr "Olet jo liittynyt tähän projektiin. Valitse toinen projekti."
-
-#: ProjectListCtrl.cpp:66
-msgid "Project List"
-msgstr "Projektiluettelo"
-
-#: ProjectListCtrl.cpp:507
-msgid "Nvidia GPU Supported"
-msgstr "Tukee Nvidian näytönohjainta"
-
-#: ProjectListCtrl.cpp:509
-msgid "ATI GPU Supported"
-msgstr "Tukee ATIn näytönohjainta"
-
-#: ProjectListCtrl.cpp:511
-msgid "Project Website"
-msgstr "Projektin nettisivu"
 
 #: ProjectProcessingPage.cpp:321
 msgid "Communicating with project."
@@ -2824,8 +2802,8 @@ msgstr "\"%s\" ei sisällä kunnollista konenimeä."
 msgid "'%s' does not contain a valid path."
 msgstr "\"%s\" ei sisällä kunnollista polkua."
 
-#: ViewMessages.cpp:84 ViewProjects.cpp:169 ViewStatistics.cpp:1965
-#: ViewTransfers.cpp:159 ViewWork.cpp:182
+#: ViewMessages.cpp:84 ViewProjects.cpp:170 ViewStatistics.cpp:1976
+#: ViewTransfers.cpp:160 ViewWork.cpp:183
 msgid "Commands"
 msgstr "Komennot"
 
@@ -2869,32 +2847,23 @@ msgstr "Näytä kaikki viestit"
 msgid "Show messages for all projects."
 msgstr "Näytä kaikkien projektien viestit."
 
-#: ViewNotices.cpp:60 sg_DlgMessages.cpp:130
-msgid "One or more items failed to load from the Internet."
-msgstr "Yhden tai useamman tiedon lataus internetistä epäonnistui."
-
-# 88%
-#: ViewNotices.cpp:68 sg_DlgMessages.cpp:138
-msgid "Retry now"
-msgstr "Yritä uudelleen nyt"
-
-#: ViewNotices.cpp:91 sg_DlgMessages.cpp:171
+#: ViewNotices.cpp:58 sg_DlgMessages.cpp:124
 msgid "Fetching notices; please wait..."
 msgstr "Noudetaan ilmoituksia, odota..."
 
-#: ViewNotices.cpp:97 sg_DlgMessages.cpp:178
+#: ViewNotices.cpp:65 sg_DlgMessages.cpp:132
 msgid "There are no notices at this time."
 msgstr "Tällä hetkellä ei ole ilmoituksia."
 
-#: ViewNotices.cpp:120 sg_BoincSimpleFrame.cpp:756
+#: ViewNotices.cpp:99 sg_BoincSimpleFrame.cpp:772
 msgid "Notices"
 msgstr "Ilmoitukset"
 
-#: ViewProjects.cpp:173 sg_ProjectCommandPopup.cpp:61
+#: ViewProjects.cpp:174 sg_ProjectCommandPopup.cpp:61
 msgid "Update"
 msgstr "Päivitä"
 
-#: ViewProjects.cpp:174 sg_ProjectCommandPopup.cpp:62
+#: ViewProjects.cpp:175 sg_ProjectCommandPopup.cpp:62
 msgid ""
 "Report all completed tasks, get latest credit, get latest preferences, and "
 "possibly get more tasks."
@@ -2902,32 +2871,32 @@ msgstr ""
 "Raportoi kaikki valmiit työpaketit, hae viimeisimmät pisteet ja asetukset "
 "sekä mahdollisesti lisää paketteja."
 
-#: ViewProjects.cpp:180 ViewProjects.cpp:712 ViewWork.cpp:207 ViewWork.cpp:790
-#: sg_BoincSimpleFrame.cpp:737 sg_ProjectCommandPopup.cpp:67
+#: ViewProjects.cpp:181 ViewProjects.cpp:722 ViewWork.cpp:208 ViewWork.cpp:801
+#: sg_BoincSimpleFrame.cpp:753 sg_ProjectCommandPopup.cpp:67
 #: sg_ProjectCommandPopup.cpp:113 sg_TaskCommandPopup.cpp:66
 #: sg_TaskCommandPopup.cpp:106
 msgid "Suspend"
 msgstr "Hyllytä"
 
-#: ViewProjects.cpp:181 ViewProjects.cpp:712 sg_ProjectCommandPopup.cpp:68
+#: ViewProjects.cpp:182 ViewProjects.cpp:722 sg_ProjectCommandPopup.cpp:68
 #: sg_ProjectCommandPopup.cpp:114
 msgid "Suspend tasks for this project."
 msgstr "Hyllytä tämän projektin tehtävät."
 
-#: ViewProjects.cpp:187 ViewProjects.cpp:731 sg_ProjectCommandPopup.cpp:73
+#: ViewProjects.cpp:188 ViewProjects.cpp:741 sg_ProjectCommandPopup.cpp:73
 #: sg_ProjectCommandPopup.cpp:121
 msgid "No new tasks"
 msgstr "Ei uusia töitä"
 
-#: ViewProjects.cpp:188 sg_ProjectCommandPopup.cpp:74
+#: ViewProjects.cpp:189 sg_ProjectCommandPopup.cpp:74
 msgid "Don't get new tasks for this project."
 msgstr "Älä lataa uusia töitä tälle projektille."
 
-#: ViewProjects.cpp:194 sg_ProjectCommandPopup.cpp:79
+#: ViewProjects.cpp:195 sg_ProjectCommandPopup.cpp:79
 msgid "Reset project"
 msgstr "Nollaa projekti"
 
-#: ViewProjects.cpp:195 sg_ProjectCommandPopup.cpp:80
+#: ViewProjects.cpp:196 sg_ProjectCommandPopup.cpp:80
 msgid ""
 "Delete all files and tasks associated with this project, and get new tasks.  "
 "You can update the project first to report any completed tasks."
@@ -2935,7 +2904,7 @@ msgstr ""
 "Poista kaikki tämän projektit tiedostot ja työpaketit sekä lataa uusia "
 "paketteja.  Voit ensin päivittää projektin raportoidaksesi valmiit paketit."
 
-#: ViewProjects.cpp:202 sg_ProjectCommandPopup.cpp:86
+#: ViewProjects.cpp:203 sg_ProjectCommandPopup.cpp:86
 msgid ""
 "Remove this project.  Tasks in progress will be lost (use 'Update' first to "
 "report any completed tasks)."
@@ -2943,164 +2912,164 @@ msgstr ""
 "Poista tämä projekti.  Laskennassa olevat paketit menetetään (käytä "
 "Päivitä-nappia ensin raportoidaksesi valmiit paketit)."
 
-#: ViewProjects.cpp:208 ViewWork.cpp:221 sg_ProjectCommandPopup.cpp:91
+#: ViewProjects.cpp:209 ViewWork.cpp:222 sg_ProjectCommandPopup.cpp:91
 #: sg_TaskCommandPopup.cpp:78
 msgid "Properties"
 msgstr "Tiedot"
 
-#: ViewProjects.cpp:209 sg_ProjectCommandPopup.cpp:92
+#: ViewProjects.cpp:210 sg_ProjectCommandPopup.cpp:92
 msgid "Show project details."
 msgstr "Näytä projektin tiedot."
 
-#: ViewProjects.cpp:219 ViewStatistics.cpp:442
+#: ViewProjects.cpp:220 ViewStatistics.cpp:450
 msgid "Account"
 msgstr "Tili"
 
-#: ViewProjects.cpp:221
+#: ViewProjects.cpp:222
 msgid "Work done"
 msgstr "Pisteet"
 
-#: ViewProjects.cpp:222
+#: ViewProjects.cpp:223
 msgid "Avg. work done"
 msgstr "Keskim. pisteet"
 
-#: ViewProjects.cpp:224 ViewTransfers.cpp:187 ViewWork.cpp:233
+#: ViewProjects.cpp:225 ViewTransfers.cpp:188 ViewWork.cpp:234
 msgid "Status"
 msgstr "Tila"
 
-#: ViewProjects.cpp:249
+#: ViewProjects.cpp:250
 msgid "Projects"
 msgstr "Projektit"
 
-#: ViewProjects.cpp:301
+#: ViewProjects.cpp:302
 msgid "Updating project..."
 msgstr "Päivitetään projektia..."
 
-#: ViewProjects.cpp:343
+#: ViewProjects.cpp:344
 msgid "Resuming project..."
 msgstr "Jatketaan projektia..."
 
-#: ViewProjects.cpp:347
+#: ViewProjects.cpp:348
 msgid "Suspending project..."
 msgstr "Hyllytetään projektia..."
 
-#: ViewProjects.cpp:384
+#: ViewProjects.cpp:385
 msgid "Telling project to allow additional task downloads..."
 msgstr "Kerrotaan projektille, että uusien pakettien lataus on sallittu..."
 
-#: ViewProjects.cpp:388
+#: ViewProjects.cpp:389
 msgid "Telling project to not fetch any additional tasks..."
 msgstr "Kerrotaan projektille, ettei uusia paketteja ladata..."
 
-#: ViewProjects.cpp:424
+#: ViewProjects.cpp:425
 msgid "Resetting project..."
 msgstr "Nollataan projektia..."
 
-#: ViewProjects.cpp:437 sg_ProjectCommandPopup.cpp:214
+#: ViewProjects.cpp:438 sg_ProjectCommandPopup.cpp:214
 #, c-format
 msgid "Are you sure you want to reset project '%s'?"
 msgstr "Haluatko nollata \"%s\" projektin?"
 
-#: ViewProjects.cpp:443 sg_ProjectCommandPopup.cpp:220
+#: ViewProjects.cpp:444 sg_ProjectCommandPopup.cpp:220
 msgid "Reset Project"
 msgstr "Nollaa projekti"
 
-#: ViewProjects.cpp:482
+#: ViewProjects.cpp:483
 msgid "Removing project..."
 msgstr "Poistetaan projekti..."
 
-#: ViewProjects.cpp:495 sg_ProjectCommandPopup.cpp:251
+#: ViewProjects.cpp:496 sg_ProjectCommandPopup.cpp:251
 #: sg_StatImageLoader.cpp:192
 #, c-format
 msgid "Are you sure you want to remove project '%s'?"
 msgstr "Haluatko poistaa projektin \"%s\"?"
 
-#: ViewProjects.cpp:501 sg_ProjectCommandPopup.cpp:257
+#: ViewProjects.cpp:502 sg_ProjectCommandPopup.cpp:257
 #: sg_StatImageLoader.cpp:138 sg_StatImageLoader.cpp:198
 msgid "Remove Project"
 msgstr "Poista projekti"
 
-#: ViewProjects.cpp:542 ViewWork.cpp:598
+#: ViewProjects.cpp:543 ViewWork.cpp:599
 msgid "Launching browser..."
 msgstr "Käynnistetään selain..."
 
-#: ViewProjects.cpp:708 sg_ProjectCommandPopup.cpp:111
+#: ViewProjects.cpp:718 sg_ProjectCommandPopup.cpp:111
 msgid "Resume tasks for this project."
 msgstr "Jatka tämän projektin suorittamista."
 
-#: ViewProjects.cpp:727 sg_ProjectCommandPopup.cpp:118
+#: ViewProjects.cpp:737 sg_ProjectCommandPopup.cpp:118
 msgid "Allow new tasks"
 msgstr "Salli uusi työ"
 
-#: ViewProjects.cpp:727 sg_ProjectCommandPopup.cpp:119
+#: ViewProjects.cpp:737 sg_ProjectCommandPopup.cpp:119
 msgid "Allow fetching new tasks for this project."
 msgstr "Salli tämän projektin ladata uusia työpaketteja."
 
-#: ViewProjects.cpp:731 sg_ProjectCommandPopup.cpp:122
+#: ViewProjects.cpp:741 sg_ProjectCommandPopup.cpp:122
 msgid "Don't fetch new tasks for this project."
 msgstr "Älä salli tämän projektin ladata uusia työpaketteja."
 
-#: ViewProjects.cpp:1048
+#: ViewProjects.cpp:1058
 msgid "Requested by user"
 msgstr "Käyttäjän pyytämä"
 
-#: ViewProjects.cpp:1049
+#: ViewProjects.cpp:1059
 msgid "To fetch work"
 msgstr "Noudetaan työtä"
 
-#: ViewProjects.cpp:1050
+#: ViewProjects.cpp:1060
 msgid "To report completed tasks"
 msgstr "Raportoidaan valmiit paketit"
 
-#: ViewProjects.cpp:1051
+#: ViewProjects.cpp:1061
 msgid "To send trickle-up message"
 msgstr "Lähetetään väliaikaviestiä"
 
-#: ViewProjects.cpp:1052
+#: ViewProjects.cpp:1062
 msgid "Requested by account manager"
 msgstr "Tilihallitsijan pyytämä"
 
-#: ViewProjects.cpp:1053
+#: ViewProjects.cpp:1063
 msgid "Project initialization"
 msgstr "Projektin alustus"
 
-#: ViewProjects.cpp:1054
+#: ViewProjects.cpp:1064
 msgid "Requested by project"
 msgstr "Projektin pyytämä"
 
-#: ViewProjects.cpp:1055
+#: ViewProjects.cpp:1065
 msgid "Unknown reason"
 msgstr "Tuntematon syy"
 
-#: ViewProjects.cpp:1069
+#: ViewProjects.cpp:1079
 msgid "Suspended by user"
 msgstr "Käyttäjän hyllyttämä"
 
-#: ViewProjects.cpp:1072
+#: ViewProjects.cpp:1082
 msgid "Won't get new tasks"
 msgstr "Älä lataa uutta työtä"
 
-#: ViewProjects.cpp:1075
+#: ViewProjects.cpp:1085
 msgid "Project ended - OK to remove"
 msgstr "Projekti päättynyt - voi poistaa"
 
-#: ViewProjects.cpp:1078
+#: ViewProjects.cpp:1088
 msgid "Will remove when tasks done"
 msgstr "Poistuu paketin valmistuttua"
 
-#: ViewProjects.cpp:1081
+#: ViewProjects.cpp:1091
 msgid "Scheduler request pending"
 msgstr "Odotetaan pyyntöä aikatauluttajalle"
 
-#: ViewProjects.cpp:1087
+#: ViewProjects.cpp:1097
 msgid "Scheduler request in progress"
 msgstr "Suoritetaan pyyntöä aikatauluttajalle"
 
-#: ViewProjects.cpp:1090
+#: ViewProjects.cpp:1100
 msgid "Trickle up message pending"
 msgstr "Väliaikaviesti odottaa"
 
-#: ViewProjects.cpp:1096
+#: ViewProjects.cpp:1106
 msgid "Communication deferred "
 msgstr "Yhteyttä lykätty "
 
@@ -3140,183 +3109,183 @@ msgstr "vapaana: "
 msgid "used by other programs: "
 msgstr "muiden ohjelmien käytössä: "
 
-#: ViewStatistics.cpp:1195
+#: ViewStatistics.cpp:1203
 msgid "User Total"
 msgstr "Käyttäjän kokonaispisteet"
 
-#: ViewStatistics.cpp:1196
+#: ViewStatistics.cpp:1204
 msgid "User Average"
 msgstr "Käyttäjän keskiarvo"
 
-#: ViewStatistics.cpp:1197
+#: ViewStatistics.cpp:1205
 msgid "Host Total"
 msgstr "Koneen kokonaispisteet"
 
-#: ViewStatistics.cpp:1198
+#: ViewStatistics.cpp:1206
 msgid "Host Average"
 msgstr "Koneen keskiarvo"
 
-#: ViewStatistics.cpp:1345
+#: ViewStatistics.cpp:1353
 #, c-format
 msgid "Last update: %.0f days ago"
 msgstr "Viimeisin päivitys: %.0f päivää sitten"
 
-#: ViewStatistics.cpp:1969
+#: ViewStatistics.cpp:1980
 msgid "Show user total"
 msgstr "Näytä käyttäjän kokonaispisteet"
 
-#: ViewStatistics.cpp:1970
+#: ViewStatistics.cpp:1981
 msgid "Show total credit for user"
 msgstr "Näytä käyttäjän kokonaispisteet"
 
-#: ViewStatistics.cpp:1976
+#: ViewStatistics.cpp:1987
 msgid "Show user average"
 msgstr "Näytä käyttäjän keskiarvo"
 
-#: ViewStatistics.cpp:1977
+#: ViewStatistics.cpp:1988
 msgid "Show average credit for user"
 msgstr "Näytä käyttäjän keskimääräiset pisteet"
 
-#: ViewStatistics.cpp:1983
+#: ViewStatistics.cpp:1994
 msgid "Show host total"
 msgstr "Näytä koneen kokonaispisteet"
 
-#: ViewStatistics.cpp:1984
+#: ViewStatistics.cpp:1995
 msgid "Show total credit for host"
 msgstr "Näytä koneen kokonaispisteet"
 
-#: ViewStatistics.cpp:1990
+#: ViewStatistics.cpp:2001
 msgid "Show host average"
 msgstr "Näytä koneen keskiarvo"
 
-#: ViewStatistics.cpp:1991
+#: ViewStatistics.cpp:2002
 msgid "Show average credit for host"
 msgstr "Näytä koneen keskimääräiset pisteet"
 
-#: ViewStatistics.cpp:2000
+#: ViewStatistics.cpp:2011
 msgid "< &Previous project"
 msgstr "< &Edellinen projekti"
 
-#: ViewStatistics.cpp:2001
+#: ViewStatistics.cpp:2012
 msgid "Show chart for previous project"
 msgstr "Näytä edellisen projektin taulukko"
 
-#: ViewStatistics.cpp:2006
+#: ViewStatistics.cpp:2017
 msgid "&Next project >"
 msgstr "&Seuraava projekti >"
 
-#: ViewStatistics.cpp:2007
+#: ViewStatistics.cpp:2018
 msgid "Show chart for next project"
 msgstr "Näytä seuraavan projektin taulukko"
 
-#: ViewStatistics.cpp:2013 ViewStatistics.cpp:2410
+#: ViewStatistics.cpp:2024 ViewStatistics.cpp:2414
 msgid "Hide project list"
 msgstr "Piilota projektilista"
 
-#: ViewStatistics.cpp:2014 ViewStatistics.cpp:2410
+#: ViewStatistics.cpp:2025 ViewStatistics.cpp:2414
 msgid "Use entire area for graphs"
 msgstr "Käytä koko alue grafiikalle"
 
-#: ViewStatistics.cpp:2019
+#: ViewStatistics.cpp:2030
 msgid "Mode view"
 msgstr "Näkymä"
 
-#: ViewStatistics.cpp:2023
+#: ViewStatistics.cpp:2034
 msgid "One project"
 msgstr "Yksi projekti"
 
-#: ViewStatistics.cpp:2024
+#: ViewStatistics.cpp:2035
 msgid "Show one chart with selected project"
 msgstr "Näytä yksi kaavio valitulle projektille"
 
-#: ViewStatistics.cpp:2030
+#: ViewStatistics.cpp:2041
 msgid "All projects (separate)"
 msgstr "Kaikki projektit (erikseen)"
 
-#: ViewStatistics.cpp:2031
+#: ViewStatistics.cpp:2042
 msgid "Show all projects, one chart per project"
 msgstr "Näytä kaikki projektit, yksi kaavio jokaiselle"
 
-#: ViewStatistics.cpp:2037
+#: ViewStatistics.cpp:2048
 msgid "All projects (together)"
 msgstr "Kaikki projektit (yhdessä)"
 
-#: ViewStatistics.cpp:2038
+#: ViewStatistics.cpp:2049
 msgid "Show one chart with all projects"
 msgstr "Näytä kaikki projektit yhdellä kaaviolla"
 
-#: ViewStatistics.cpp:2044
+#: ViewStatistics.cpp:2055
 msgid "All projects (sum)"
 msgstr "Kaikki projektit (summattu)"
 
-#: ViewStatistics.cpp:2045
+#: ViewStatistics.cpp:2056
 msgid "Show one chart with sum of projects"
 msgstr "Näytä kaikki projektit summattuna yhdellä kaaviolla"
 
-#: ViewStatistics.cpp:2073
+#: ViewStatistics.cpp:2077
 msgid "Statistics"
 msgstr "Tilastot"
 
-#: ViewStatistics.cpp:2097 ViewStatistics.cpp:2118 ViewStatistics.cpp:2139
-#: ViewStatistics.cpp:2161 ViewStatistics.cpp:2182 ViewStatistics.cpp:2203
-#: ViewStatistics.cpp:2224 ViewStatistics.cpp:2245 ViewStatistics.cpp:2266
-#: ViewStatistics.cpp:2290
+#: ViewStatistics.cpp:2101 ViewStatistics.cpp:2122 ViewStatistics.cpp:2143
+#: ViewStatistics.cpp:2165 ViewStatistics.cpp:2186 ViewStatistics.cpp:2207
+#: ViewStatistics.cpp:2228 ViewStatistics.cpp:2249 ViewStatistics.cpp:2270
+#: ViewStatistics.cpp:2294
 msgid "Updating charts..."
 msgstr "Päivitetään taulukkoja..."
 
-#: ViewStatistics.cpp:2414
+#: ViewStatistics.cpp:2418
 msgid "Show project list"
 msgstr "Näytä projektilistaus"
 
-#: ViewStatistics.cpp:2414
+#: ViewStatistics.cpp:2418
 msgid "Uses smaller area for graphs"
 msgstr "Käyttää pienempää aluetta grafiikalle"
 
-#: ViewTransfers.cpp:163
+#: ViewTransfers.cpp:164
 msgid "Retry Now"
 msgstr "Yritä uudelleen"
 
-#: ViewTransfers.cpp:164
+#: ViewTransfers.cpp:165
 msgid "Retry the file transfer now"
 msgstr "Yritä tiedostonsiirtoa nyt"
 
-#: ViewTransfers.cpp:170
+#: ViewTransfers.cpp:171
 msgid "Abort Transfer"
 msgstr "Keskeytä siirto"
 
-#: ViewTransfers.cpp:171
+#: ViewTransfers.cpp:172
 msgid "Abort this file transfer.  You won't get credit for the task."
 msgstr "Keskeytä tämä tiedostosiirto.  Et saa paketista pisteitä."
 
-#: ViewTransfers.cpp:182
+#: ViewTransfers.cpp:183
 msgid "File"
 msgstr "Tiedosto"
 
-#: ViewTransfers.cpp:183 ViewWork.cpp:232
+#: ViewTransfers.cpp:184 ViewWork.cpp:233
 msgid "Progress"
 msgstr "Edistyminen"
 
-#: ViewTransfers.cpp:184
+#: ViewTransfers.cpp:185
 msgid "Size"
 msgstr "Koko"
 
-#: ViewTransfers.cpp:185
+#: ViewTransfers.cpp:186
 msgid "Elapsed Time"
 msgstr "Kulunut aika"
 
-#: ViewTransfers.cpp:186
+#: ViewTransfers.cpp:187
 msgid "Speed"
 msgstr "Nopeus"
 
-#: ViewTransfers.cpp:212
+#: ViewTransfers.cpp:213
 msgid "Transfers"
 msgstr "Siirrot"
 
-#: ViewTransfers.cpp:279
+#: ViewTransfers.cpp:280
 msgid "Network activity is suspended - "
 msgstr "Verkon toiminta hyllytetty - "
 
-#: ViewTransfers.cpp:281
+#: ViewTransfers.cpp:282
 msgid ""
 ".\n"
 "You can enable it using the Activity menu."
@@ -3324,19 +3293,19 @@ msgstr ""
 ".\n"
 "Voit sallia sen Toiminta-valikosta."
 
-#: ViewTransfers.cpp:284
+#: ViewTransfers.cpp:285
 msgid "BOINC"
 msgstr "BOINC"
 
-#: ViewTransfers.cpp:291
+#: ViewTransfers.cpp:292
 msgid "Retrying transfer now..."
 msgstr "Yritetään nyt siirtoa..."
 
-#: ViewTransfers.cpp:329
+#: ViewTransfers.cpp:330
 msgid "Aborting transfer..."
 msgstr "Keskeytetään siirtoa..."
 
-#: ViewTransfers.cpp:342
+#: ViewTransfers.cpp:343
 #, c-format
 msgid ""
 "Are you sure you want to abort this file transfer '%s'?\n"
@@ -3347,119 +3316,119 @@ msgstr ""
 "HUOMAA: Siirron keskeyttäminen ei vahvista pakettia\n"
 "etkä siis saa siitä pisteitä."
 
-#: ViewTransfers.cpp:348
+#: ViewTransfers.cpp:349
 msgid "Abort File Transfer"
 msgstr "Keskeytä tiedoston siirto"
 
-#: ViewTransfers.cpp:769
+#: ViewTransfers.cpp:780
 msgid "Upload"
 msgstr "Lähetys"
 
-#: ViewTransfers.cpp:769
+#: ViewTransfers.cpp:780
 msgid "Download"
 msgstr "Lataus"
 
-#: ViewTransfers.cpp:773
+#: ViewTransfers.cpp:784
 msgid "retry in "
 msgstr "uudelleenyritys "
 
-#: ViewTransfers.cpp:775
+#: ViewTransfers.cpp:786
 msgid "failed"
 msgstr "epäonnistui"
 
-#: ViewTransfers.cpp:778
+#: ViewTransfers.cpp:789
 msgid "suspended"
 msgstr "hyllytetty"
 
-#: ViewTransfers.cpp:783
+#: ViewTransfers.cpp:794
 msgid "active"
 msgstr "aktiivinen"
 
-#: ViewTransfers.cpp:785
+#: ViewTransfers.cpp:796
 msgid "pending"
 msgstr "odottaa"
 
-#: ViewTransfers.cpp:792
+#: ViewTransfers.cpp:803
 msgid " (project backoff: "
 msgstr " (projektin viivyttämä: "
 
-#: ViewWork.cpp:186 ViewWork.cpp:766
+#: ViewWork.cpp:187 ViewWork.cpp:777
 msgid "Show active tasks"
 msgstr "Näytä suoritettavat paketit"
 
-#: ViewWork.cpp:187 ViewWork.cpp:767
+#: ViewWork.cpp:188 ViewWork.cpp:778
 msgid "Show only active tasks."
 msgstr "Näytä vain suorituksessa olevat paketit."
 
-#: ViewWork.cpp:193 sg_TaskCommandPopup.cpp:60 sg_ViewTabPage.cpp:424
+#: ViewWork.cpp:194 sg_TaskCommandPopup.cpp:60 sg_ViewTabPage.cpp:424
 msgid "Show graphics"
 msgstr "Näytä grafiikat"
 
-#: ViewWork.cpp:194 sg_TaskCommandPopup.cpp:61
+#: ViewWork.cpp:195 sg_TaskCommandPopup.cpp:61
 msgid "Show application graphics in a window."
 msgstr "Näytä sovelluksen grafiikat ikkunassa."
 
-#: ViewWork.cpp:200
+#: ViewWork.cpp:201
 msgid "Show VM Console"
 msgstr "Näytä VM Console"
 
-#: ViewWork.cpp:201
+#: ViewWork.cpp:202
 msgid "Show VM Console in a window."
 msgstr "Näytä VM Console ikkunassa."
 
-#: ViewWork.cpp:208
+#: ViewWork.cpp:209
 msgid "Suspend work for this result."
 msgstr "Hyllytä tämä paketti."
 
-#: ViewWork.cpp:214 sg_TaskCommandPopup.cpp:72
+#: ViewWork.cpp:215 sg_TaskCommandPopup.cpp:72
 msgid "Abort"
 msgstr "Hylkää"
 
-#: ViewWork.cpp:215
+#: ViewWork.cpp:216
 msgid "Abandon work on the result. You will get no credit for it."
 msgstr "Hylkää työpaketti. Et saa siitä pisteitä."
 
-#: ViewWork.cpp:222 sg_TaskCommandPopup.cpp:79
+#: ViewWork.cpp:223 sg_TaskCommandPopup.cpp:79
 msgid "Show task details."
 msgstr "Näytä paketin tiedot."
 
-#: ViewWork.cpp:234
+#: ViewWork.cpp:235
 msgid "Elapsed"
 msgstr "Kulunut"
 
-#: ViewWork.cpp:235
+#: ViewWork.cpp:236
 msgid "Remaining (estimated)"
 msgstr "Jäljellä (arvio)"
 
-#: ViewWork.cpp:236
+#: ViewWork.cpp:237
 msgid "Deadline"
 msgstr "Takaraja"
 
-#: ViewWork.cpp:238
+#: ViewWork.cpp:239
 msgid "Name"
 msgstr "Nimi"
 
-#: ViewWork.cpp:263
+#: ViewWork.cpp:264
 msgid "Tasks"
 msgstr "Paketit"
 
-#: ViewWork.cpp:356
+#: ViewWork.cpp:357
 msgid "Resuming task..."
 msgstr "Jatketaan pakettia..."
 
-#: ViewWork.cpp:359
+#: ViewWork.cpp:360
 msgid "Suspending task..."
 msgstr "Hyllytetään pakettia..."
 
-#: ViewWork.cpp:388
+#: ViewWork.cpp:389
 msgid "Showing graphics for task..."
 msgstr "Näytetään paketin grafiikat..."
 
-#: ViewWork.cpp:425
+#: ViewWork.cpp:426
 msgid "Showing VM console for task..."
 msgstr "Näytetään VM konsoli tehtävälle..."
 
-#: ViewWork.cpp:478
+#: ViewWork.cpp:479
 #, c-format
 msgid ""
 "Are you sure you want to abort this task '%s'?\n"
@@ -3468,33 +3437,33 @@ msgstr ""
 "Haluatko varmasti hylätä paketin \"%s\"?\n"
 "(Suoritettu: %s, Tila: %s)"
 
-#: ViewWork.cpp:484
+#: ViewWork.cpp:485
 #, c-format
 msgid "Are you sure you want to abort these %d tasks?"
 msgstr "Haluatko varmasti hylätä nämä %d paketit?"
 
-#: ViewWork.cpp:489 sg_TaskCommandPopup.cpp:256
+#: ViewWork.cpp:490 sg_TaskCommandPopup.cpp:256
 msgid "Abort task"
 msgstr "Hylkää paketti"
 
 # 75%
-#: ViewWork.cpp:498
+#: ViewWork.cpp:499
 msgid "Aborting task..."
 msgstr "Hylätään pakettia..."
 
-#: ViewWork.cpp:760
+#: ViewWork.cpp:771
 msgid "Show all tasks"
 msgstr "Näytä kaikki paketit"
 
-#: ViewWork.cpp:761
+#: ViewWork.cpp:772
 msgid "Show all tasks."
 msgstr "Näytä kaikki paketit."
 
-#: ViewWork.cpp:785 sg_TaskCommandPopup.cpp:103
+#: ViewWork.cpp:796 sg_TaskCommandPopup.cpp:103
 msgid "Resume work for this task."
 msgstr "Jatka tämän paketin laskentaa."
 
-#: ViewWork.cpp:791 sg_TaskCommandPopup.cpp:107
+#: ViewWork.cpp:802 sg_TaskCommandPopup.cpp:107
 msgid "Suspend work for this task."
 msgstr "Hyllytä tämä paketti."
 
@@ -3581,48 +3550,48 @@ msgstr "Lisää tai muuta World Community Grid -projektejasi"
 msgid "Add projects run by other researchers or organizations"
 msgstr "Lisää muiden tutkijoiden tai organisaatioiden projekteja"
 
-#: WizardAttach.cpp:635
+#: WizardAttach.cpp:634
 msgid "Do you really want to cancel?"
 msgstr "Haluatko todella peruuttaa?"
 
-#: WizardAttach.cpp:636
+#: WizardAttach.cpp:635
 msgid "Question"
 msgstr "Kysymys"
 
-#: sg_BoincSimpleFrame.cpp:136 sg_BoincSimpleGUI.cpp:119
+#: sg_BoincSimpleFrame.cpp:145 sg_BoincSimpleGUI.cpp:119
 msgid "Advanced View...\tCtrl+Shift+A"
 msgstr "Laajennettu näkymä...\tCtrl+Shift+A"
 
-#: sg_BoincSimpleFrame.cpp:137
+#: sg_BoincSimpleFrame.cpp:146
 msgid "Display the advanced graphical interface."
 msgstr "Näytä laajennettu graafinen käyttöliittymä."
 
-#: sg_BoincSimpleFrame.cpp:144
+#: sg_BoincSimpleFrame.cpp:153
 msgid "Skin"
 msgstr "Ulkoasu"
 
-#: sg_BoincSimpleFrame.cpp:146
+#: sg_BoincSimpleFrame.cpp:155
 msgid "Select the appearance of the user interface."
 msgstr "Valitse käyttöliittymän ulkomuoto."
 
-#: sg_BoincSimpleFrame.cpp:193 sg_BoincSimpleGUI.cpp:147
+#: sg_BoincSimpleFrame.cpp:202 sg_BoincSimpleGUI.cpp:147
 #, c-format
 msgid "&%s"
 msgstr "&%s"
 
-#: sg_BoincSimpleFrame.cpp:369
+#: sg_BoincSimpleFrame.cpp:386
 msgid "Default"
 msgstr "Oletus"
 
-#: sg_BoincSimpleFrame.cpp:739
+#: sg_BoincSimpleFrame.cpp:755
 msgid "Suspend Computing"
 msgstr "Hyllytä laskenta"
 
-#: sg_BoincSimpleFrame.cpp:740
+#: sg_BoincSimpleFrame.cpp:756
 msgid "Resume Computing"
 msgstr "Jatka laskentaa"
 
-#: sg_BoincSimpleFrame.cpp:757
+#: sg_BoincSimpleFrame.cpp:773
 msgid "Open a window to view notices from projects or BOINC"
 msgstr "Avaa ikkuna katsoaksesi ilmoituksia projektilta tai BOINCilta"
 
@@ -3630,256 +3599,188 @@ msgstr "Avaa ikkuna katsoaksesi ilmoituksia projektilta tai BOINCilta"
 msgid "Display the advanced (accessible) graphical interface."
 msgstr "Näytä laajennettu graafinen käyttöliittymä."
 
-#: sg_ClientStateIndicator.cpp:288 sg_TaskPanel.cpp:1207
+#: sg_ClientStateIndicator.cpp:288 sg_TaskPanel.cpp:1210
 msgid "Retrieving current status."
 msgstr "Noudetaan nykyinen tila."
 
-#: sg_ClientStateIndicator.cpp:291 sg_TaskPanel.cpp:448
+#: sg_ClientStateIndicator.cpp:291 sg_TaskPanel.cpp:451
 msgid "You don't have any projects.  Please Add a Project."
 msgstr "Sinulla ei ole yhtään projektia.  Lisää projekti."
 
-#: sg_ClientStateIndicator.cpp:294 sg_TaskPanel.cpp:1213
+#: sg_ClientStateIndicator.cpp:294 sg_TaskPanel.cpp:1216
 msgid "Downloading work from the server."
 msgstr "Ladataan työtä palvelimelta."
 
-#: sg_ClientStateIndicator.cpp:299 sg_TaskPanel.cpp:1218
+#: sg_ClientStateIndicator.cpp:299 sg_TaskPanel.cpp:1221
 msgid "Processing Suspended:  Running On Batteries."
 msgstr "Laskenta hyllytetty:  kone akkukäytöllä."
 
-#: sg_ClientStateIndicator.cpp:301 sg_TaskPanel.cpp:1220
+#: sg_ClientStateIndicator.cpp:301 sg_TaskPanel.cpp:1223
 msgid "Processing Suspended:  User Active."
 msgstr "Laskenta hyllytetty:  käyttäjä aktiivinen."
 
-#: sg_ClientStateIndicator.cpp:303 sg_TaskPanel.cpp:1222
+#: sg_ClientStateIndicator.cpp:303 sg_TaskPanel.cpp:1225
 msgid "Processing Suspended:  User paused processing."
 msgstr "Laskenta hyllytetty:  käyttäjä tauotti laskennan."
 
-#: sg_ClientStateIndicator.cpp:305 sg_TaskPanel.cpp:1224
+#: sg_ClientStateIndicator.cpp:305 sg_TaskPanel.cpp:1227
 msgid "Processing Suspended:  Time of Day."
 msgstr "Laskenta hyllytetty:  aika päivästä."
 
-#: sg_ClientStateIndicator.cpp:307 sg_TaskPanel.cpp:1226
+#: sg_ClientStateIndicator.cpp:307 sg_TaskPanel.cpp:1229
 msgid "Processing Suspended:  Benchmarks Running."
 msgstr "Laskenta hyllytetty:  suorituskykytestit."
 
-#: sg_ClientStateIndicator.cpp:309 sg_TaskPanel.cpp:1228
+#: sg_ClientStateIndicator.cpp:309 sg_TaskPanel.cpp:1231
 msgid "Processing Suspended."
 msgstr "Laskenta hyllytetty."
 
-#: sg_ClientStateIndicator.cpp:313 sg_TaskPanel.cpp:1232
+#: sg_ClientStateIndicator.cpp:313 sg_TaskPanel.cpp:1235
 msgid "Waiting to contact project servers."
 msgstr "Odotetaan yhteydenottoa projektin palvelimeen."
 
 #: sg_ClientStateIndicator.cpp:317 sg_ClientStateIndicator.cpp:325
-#: sg_TaskPanel.cpp:1236 sg_TaskPanel.cpp:1245
+#: sg_TaskPanel.cpp:1239 sg_TaskPanel.cpp:1248
 msgid "Retrieving current status"
 msgstr "Haetaan nykyinen tila"
 
-#: sg_ClientStateIndicator.cpp:320 sg_TaskPanel.cpp:1240
+#: sg_ClientStateIndicator.cpp:320 sg_TaskPanel.cpp:1243
 msgid "No work available to process"
 msgstr "Suoritettavaa työtä ei ole"
 
-#: sg_ClientStateIndicator.cpp:322 sg_TaskPanel.cpp:1242
+#: sg_ClientStateIndicator.cpp:322 sg_TaskPanel.cpp:1245
 msgid "Unable to connect to the core client"
 msgstr "Yhteyttä ydinohjelmaan ei saada"
 
-#: sg_DlgMessages.cpp:164
+#: sg_DlgMessages.cpp:146
 msgid "Close"
 msgstr "Sulje"
 
-#: sg_DlgMessages.cpp:463
+#: sg_DlgMessages.cpp:389
 #, c-format
 msgid "%s - Notices"
 msgstr "%s - Ilmoitukset"
 
-#: sg_DlgPreferences.cpp:94
-msgid "100 MB"
-msgstr "100 Mt"
-
-#: sg_DlgPreferences.cpp:95
-msgid "200 MB"
-msgstr "200 Mt"
-
-#: sg_DlgPreferences.cpp:96
-msgid "500 MB"
-msgstr "500 Mt"
-
-#: sg_DlgPreferences.cpp:97
-msgid "1 GB"
-msgstr "1 Gt"
-
-#: sg_DlgPreferences.cpp:98
-msgid "2 GB"
-msgstr "2 Gt"
-
-#: sg_DlgPreferences.cpp:99
-msgid "5 GB"
-msgstr "5 Gt"
-
-#: sg_DlgPreferences.cpp:100
-msgid "10 GB"
-msgstr "10 Gt"
-
-#: sg_DlgPreferences.cpp:101
-msgid "20 GB"
-msgstr "20 Gt"
-
-#: sg_DlgPreferences.cpp:102
-msgid "50 GB"
-msgstr "50 Gt"
-
-#: sg_DlgPreferences.cpp:103
-msgid "100 GB"
-msgstr "100 Gt"
-
-#: sg_DlgPreferences.cpp:134
-msgid "10%"
-msgstr "10 %"
-
-#: sg_DlgPreferences.cpp:135
-msgid "20%"
-msgstr "20 %"
-
-#: sg_DlgPreferences.cpp:136
-msgid "30%"
-msgstr "30 %"
-
-#: sg_DlgPreferences.cpp:137
-msgid "40%"
-msgstr "40 %"
-
-#: sg_DlgPreferences.cpp:138
-msgid "50%"
-msgstr "50 %"
-
-#: sg_DlgPreferences.cpp:139
-msgid "60%"
-msgstr "60 %"
-
-#: sg_DlgPreferences.cpp:140
-msgid "70%"
-msgstr "70 %"
-
-#: sg_DlgPreferences.cpp:141
-msgid "80%"
-msgstr "80 %"
-
-#: sg_DlgPreferences.cpp:142
-msgid "90%"
-msgstr "90 %"
-
-#: sg_DlgPreferences.cpp:143
-msgid "100%"
-msgstr "100 %"
-
-#: sg_DlgPreferences.cpp:168
-msgid "1"
-msgstr "1"
-
-#: sg_DlgPreferences.cpp:169
-msgid "3"
-msgstr "3"
-
-#: sg_DlgPreferences.cpp:170
-msgid "5"
-msgstr "5"
-
-#: sg_DlgPreferences.cpp:171
-msgid "10"
-msgstr "10"
-
-#: sg_DlgPreferences.cpp:172
-msgid "15"
-msgstr "15"
-
-#: sg_DlgPreferences.cpp:173
-msgid "30"
-msgstr "30"
-
-#: sg_DlgPreferences.cpp:174
-msgid "60"
-msgstr "60"
-
-#: sg_DlgPreferences.cpp:282
+#: sg_DlgPreferences.cpp:268
 msgid "This dialog controls preferences for this computer only."
 msgstr "Nämä asetukset vaikuttavat vain tähän tietokoneeseen."
 
-#: sg_DlgPreferences.cpp:287
+#: sg_DlgPreferences.cpp:273
 msgid "Click OK to set preferences."
 msgstr "Napsauta OK muuttaaksesi asetuksia."
 
-#: sg_DlgPreferences.cpp:292
+#: sg_DlgPreferences.cpp:278
 msgid "Click Clear to restore web-based settings."
 msgstr "Napsauta Tyhjennä palauttaaksesi web-pohjaiset asetukset."
 
-#: sg_DlgPreferences.cpp:299
+#: sg_DlgPreferences.cpp:285
 msgid "For additional settings, select Computing Preferences in "
 msgstr "Lisää asetuksia kohdassa Laskenta-asetukset "
 
-#: sg_DlgPreferences.cpp:304
+#: sg_DlgPreferences.cpp:290
 msgid "the Advanced View."
 msgstr "laajennetussa näkymässä."
 
-#: sg_DlgPreferences.cpp:332
+#: sg_DlgPreferences.cpp:318
 msgid "Do work only between:"
 msgstr "Salli työ vain välillä:"
 
-#: sg_DlgPreferences.cpp:354
+#: sg_DlgPreferences.cpp:340
 msgid "Connect to internet only between:"
 msgstr "Ota internetyhteys vain välillä:"
 
-#: sg_DlgPreferences.cpp:376 sg_DlgPreferences.cpp:393
+#: sg_DlgPreferences.cpp:362 sg_DlgPreferences.cpp:379
 msgid "Use no more than:"
 msgstr "Älä käytä enempää kuin:"
 
-#: sg_DlgPreferences.cpp:389
+#: sg_DlgPreferences.cpp:375
 msgid "of disk space"
 msgstr "levytilasta"
 
-#: sg_DlgPreferences.cpp:406
+#: sg_DlgPreferences.cpp:392
 msgid "of the processor"
 msgstr "prosessoreista"
 
-#: sg_DlgPreferences.cpp:410
+#: sg_DlgPreferences.cpp:396
 msgid "Do work while on battery?"
 msgstr "Suorita oltaessa akkukäytöllä?"
 
-#: sg_DlgPreferences.cpp:423
+#: sg_DlgPreferences.cpp:409
 msgid "Do work after idle for:"
 msgstr "Suorita, kun on ollut jouten:"
 
-#: sg_DlgPreferences.cpp:621 sg_DlgPreferences.cpp:624
-#: sg_DlgPreferences.cpp:683 sg_DlgPreferences.cpp:687
-#: sg_DlgPreferences.cpp:699 sg_DlgPreferences.cpp:703
-#: sg_DlgPreferences.cpp:846 sg_DlgPreferences.cpp:857
+#: sg_DlgPreferences.cpp:607 sg_DlgPreferences.cpp:610
+#: sg_DlgPreferences.cpp:686 sg_DlgPreferences.cpp:690
+#: sg_DlgPreferences.cpp:702 sg_DlgPreferences.cpp:706
+#: sg_DlgPreferences.cpp:849 sg_DlgPreferences.cpp:860
 msgid "Anytime"
 msgstr "Milloin vain"
 
-#: sg_DlgPreferences.cpp:719
+#: sg_DlgPreferences.cpp:643
+msgid "100 MB"
+msgstr "100 Mt"
+
+#: sg_DlgPreferences.cpp:644
+msgid "200 MB"
+msgstr "200 Mt"
+
+#: sg_DlgPreferences.cpp:645
+msgid "500 MB"
+msgstr "500 Mt"
+
+#: sg_DlgPreferences.cpp:646
+msgid "1 GB"
+msgstr "1 Gt"
+
+#: sg_DlgPreferences.cpp:647
+msgid "2 GB"
+msgstr "2 Gt"
+
+#: sg_DlgPreferences.cpp:648
+msgid "5 GB"
+msgstr "5 Gt"
+
+#: sg_DlgPreferences.cpp:649
+msgid "10 GB"
+msgstr "10 Gt"
+
+#: sg_DlgPreferences.cpp:650
+msgid "20 GB"
+msgstr "20 Gt"
+
+#: sg_DlgPreferences.cpp:651
+msgid "50 GB"
+msgstr "50 Gt"
+
+#: sg_DlgPreferences.cpp:652
+msgid "100 GB"
+msgstr "100 Gt"
+
+#: sg_DlgPreferences.cpp:722
 #, c-format
 msgid "%d MB"
 msgstr "%d Mt"
 
-#: sg_DlgPreferences.cpp:721
+#: sg_DlgPreferences.cpp:724
 #, c-format
 msgid "%4.2f GB"
 msgstr "%4.2f Gt"
 
-#: sg_DlgPreferences.cpp:762
+#: sg_DlgPreferences.cpp:765
 #, c-format
 msgid "%d%%"
 msgstr "%d%%"
 
-#: sg_DlgPreferences.cpp:798
+#: sg_DlgPreferences.cpp:801
 msgid "0 (Run Always)"
 msgstr "0 (Suorita aina)"
 
-#: sg_DlgPreferences.cpp:801
+#: sg_DlgPreferences.cpp:804
 #, c-format
 msgid "%d"
 msgstr "%d"
 
-#: sg_DlgPreferences.cpp:1031
+#: sg_DlgPreferences.cpp:1034
 msgid "Do you really want to clear all local preferences?\n"
 msgstr "Haluatko tyhjentää kaikki paikalliset asetukset?\n"
 
@@ -3949,8 +3850,8 @@ msgstr "Projektin komennot"
 
 #: sg_ProjectPanel.cpp:267
 #, c-format
-msgid "Pop up a menu of websites for project %s"
-msgstr "Ponnahdusvalikko projektin %s nettisivuista"
+msgid "Pop up a menu of web sites for project %s"
+msgstr ""
 
 #: sg_ProjectPanel.cpp:269
 #, c-format
@@ -4003,63 +3904,63 @@ msgstr ""
 "Haluatko varmasti hylätä paketin \"%s\"?\n"
 "(Suoritettu: %.1lf%%, Tila: %s)"
 
-#: sg_TaskPanel.cpp:449
+#: sg_TaskPanel.cpp:452
 msgid "Not available"
 msgstr "Ei saatavissa"
 
-#: sg_TaskPanel.cpp:460
+#: sg_TaskPanel.cpp:463
 msgid "Tasks:"
 msgstr "Paketit:"
 
-#: sg_TaskPanel.cpp:466
+#: sg_TaskPanel.cpp:469
 msgid "Select a task to access"
 msgstr "Valitse käsiteltävä paketti"
 
-#: sg_TaskPanel.cpp:477
+#: sg_TaskPanel.cpp:480
 msgid "From:"
 msgstr ""
 
-#: sg_TaskPanel.cpp:531
+#: sg_TaskPanel.cpp:534
 msgid "This task's progress"
 msgstr "Tämän paketin edistyminen"
 
-#: sg_TaskPanel.cpp:549
+#: sg_TaskPanel.cpp:552
 msgid "Task Commands"
 msgstr "Paketin komennot"
 
-#: sg_TaskPanel.cpp:550
+#: sg_TaskPanel.cpp:553
 msgid "Pop up a menu of commands to apply to this task"
 msgstr "Ponnahdusvalikko tähän pakettiin liittyvistä komennoista"
 
-#: sg_TaskPanel.cpp:685
+#: sg_TaskPanel.cpp:688
 #, c-format
 msgid "Application: %s"
 msgstr "Sovellus: %s"
 
-#: sg_TaskPanel.cpp:708
+#: sg_TaskPanel.cpp:711
 #, c-format
 msgid "%.3f%%"
 msgstr "%.3f%%"
 
-#: sg_TaskPanel.cpp:716
+#: sg_TaskPanel.cpp:719
 msgid "Application: Not available"
 msgstr "Sovellus: Ei saatavilla"
 
-#: sg_TaskPanel.cpp:816
+#: sg_TaskPanel.cpp:819
 msgid "Not Available"
 msgstr "Ei saatavilla"
 
-#: sg_TaskPanel.cpp:831
+#: sg_TaskPanel.cpp:834
 #, c-format
 msgid "Elapsed: %s"
 msgstr "Kulunut: %s"
 
-#: sg_TaskPanel.cpp:845
+#: sg_TaskPanel.cpp:848
 #, c-format
 msgid "Remaining (estimated): %s"
 msgstr "Jäljellä (arvio): %s"
 
-#: sg_TaskPanel.cpp:860
+#: sg_TaskPanel.cpp:863
 #, c-format
 msgid "Status: %s"
 msgstr "Tila: %s"
@@ -4102,122 +4003,201 @@ msgstr "< &Takaisin"
 msgid "&Finish"
 msgstr "&Valmis"
 
-#: mac/MacAccessiblity.cpp:257
-msgid ""
-"for accessibility support, please select advanced from the view menu or type "
-"command shift a"
-msgstr ""
-"paremman tuen saamiseksi valitse laajennettu näkymä näytä-valikosta tai "
-"käytä näppäinyhdistelmää command shift a"
-
-#: mac/MacAccessiblity.cpp:302
-msgid "This panel contains graphs showing user totals for projects"
-msgstr "Tässä paneelissa näkyvät käyttäjän kokonaispisteet projektille"
-
-#: mac/MacAccessiblity.cpp:726
-msgid "list headers"
-msgstr "listan otsikkotiedot"
-
-#: mac/MacAccessiblity.cpp:732
-msgid "list of events"
-msgstr "tapahtumien lista"
-
-#: mac/MacAccessiblity.cpp:734
-msgid "list of events is empty"
-msgstr "tapahtumien lista on tyhjä"
-
-#: mac/MacAccessiblity.cpp:739
-#, c-format
-msgid "list of %s"
-msgstr "%s-lista"
-
-#: mac/MacAccessiblity.cpp:741
-#, c-format
-msgid "list of %s is empty"
-msgstr "%s-lista on tyhjä"
-
-#: mac/MacAccessiblity.cpp:843
-#, c-format
-msgid "; current sort column %d of %d; descending order; "
-msgstr "; nykyinen lajittelusarake %d %d:sta; laskeva järjestys; "
-
-#: mac/MacAccessiblity.cpp:845
-#, c-format
-msgid "; current sort column %d of %d; ascending order; "
-msgstr "; nykyinen lajittelusarake %d %d:sta; nouseva järjestys; "
-
-#: mac/MacAccessiblity.cpp:848
-#, c-format
-msgid "; column %d of %d; "
-msgstr "; sarake %d %d:sta; "
-
-#: mac/MacAccessiblity.cpp:855
-msgid "list is empty"
-msgstr "lista on tyhjä"
-
-#: mac/MacAccessiblity.cpp:858 mac/MacAccessiblity.cpp:870
-#, c-format
-msgid "; row %d; "
-msgstr "; rivi %d; "
-
-#: mac/MacAccessiblity.cpp:862
-#, c-format
-msgid "; selected row %d of %d; "
-msgstr "; valittu rivi %d %d:sta; "
-
-#: mac/MacAccessiblity.cpp:864
-#, c-format
-msgid "; selected row %d ; "
-msgstr "; valittu rivi %d; "
-
-#: mac/MacAccessiblity.cpp:868
-#, c-format
-msgid "; row %d of %d; "
-msgstr "; rivi %d %d:sta; "
-
-#: mac/MacAccessiblity.cpp:881
-msgid "blank"
-msgstr "tyhjä"
-
-#: mac/MacAccessiblity.cpp:1523
-msgid "list of projects or account managers"
-msgstr "luettelo projekteista tai tilihallitsijoista"
-
-#: mac/MacAccessiblity.cpp:1575
-#, c-format
-msgid "selected row %d of %d; "
-msgstr "valittu rivi %d %d:sta; "
-
-#: mac/MacAccessiblity.cpp:1577
-#, c-format
-msgid "row %d of %d; "
-msgstr "rivi %d %d:sta; "
-
-#: mac/Mac_GUI.cpp:109
+#: mac/Mac_GUI.cpp:110
 msgid "Preferences…"
 msgstr "Asetukset…"
 
-#: mac/Mac_GUI.cpp:121
+#: mac/Mac_GUI.cpp:122
 msgid "Services"
 msgstr "Palvelut"
 
-#: mac/Mac_GUI.cpp:143
+#: mac/Mac_GUI.cpp:144
 #, c-format
 msgid "Hide %s"
 msgstr "Piilota %s"
 
-#: mac/Mac_GUI.cpp:157
+#: mac/Mac_GUI.cpp:158
 msgid "Hide Others"
 msgstr "Piilota muut"
 
-#: mac/Mac_GUI.cpp:171
+#: mac/Mac_GUI.cpp:172
 msgid "Show All"
 msgstr "Näytä kaikki"
 
-#: mac/Mac_GUI.cpp:185
+#: mac/Mac_GUI.cpp:186
 #, c-format
 msgid "Quit %s"
 msgstr "Sulje %s"
+
+#~ msgid "Account manager website"
+#~ msgstr "Tilihallitsijan nettisivu"
+
+#~ msgid "Account Manager &URL:"
+#~ msgstr "Tilihallitsijan &URL:"
+
+#, c-format
+#~ msgid "%s &website"
+#~ msgstr "%s &nettisivu"
+
+#~ msgid "Notice List"
+#~ msgstr "Ilmoituslista"
+
+#, c-format
+#~ msgid "%s; received on %s"
+#~ msgstr "%s; vastaanotettu %s"
+
+#, c-format
+#~ msgid "%s; received from %s; on %s"
+#~ msgstr "%s; vastaanotettu %s; aika %s"
+
+#~ msgid "Click"
+#~ msgstr "Napsauta"
+
+#~ msgid "Project List"
+#~ msgstr "Projektiluettelo"
+
+#~ msgid "Nvidia GPU Supported"
+#~ msgstr "Tukee Nvidian näytönohjainta"
+
+#~ msgid "ATI GPU Supported"
+#~ msgstr "Tukee ATIn näytönohjainta"
+
+#~ msgid "Project Website"
+#~ msgstr "Projektin nettisivu"
+
+#~ msgid "One or more items failed to load from the Internet."
+#~ msgstr "Yhden tai useamman tiedon lataus internetistä epäonnistui."
+
+# 88%
+#~ msgid "Retry now"
+#~ msgstr "Yritä uudelleen nyt"
+
+#~ msgid "10%"
+#~ msgstr "10 %"
+
+#~ msgid "20%"
+#~ msgstr "20 %"
+
+#~ msgid "30%"
+#~ msgstr "30 %"
+
+#~ msgid "40%"
+#~ msgstr "40 %"
+
+#~ msgid "50%"
+#~ msgstr "50 %"
+
+#~ msgid "60%"
+#~ msgstr "60 %"
+
+#~ msgid "70%"
+#~ msgstr "70 %"
+
+#~ msgid "80%"
+#~ msgstr "80 %"
+
+#~ msgid "90%"
+#~ msgstr "90 %"
+
+#~ msgid "100%"
+#~ msgstr "100 %"
+
+#~ msgid "1"
+#~ msgstr "1"
+
+#~ msgid "3"
+#~ msgstr "3"
+
+#~ msgid "5"
+#~ msgstr "5"
+
+#~ msgid "10"
+#~ msgstr "10"
+
+#~ msgid "15"
+#~ msgstr "15"
+
+#~ msgid "30"
+#~ msgstr "30"
+
+#~ msgid "60"
+#~ msgstr "60"
+
+#, c-format
+#~ msgid "Pop up a menu of websites for project %s"
+#~ msgstr "Ponnahdusvalikko projektin %s nettisivuista"
+
+#~ msgid ""
+#~ "for accessibility support, please select advanced from the view menu or type "
+#~ "command shift a"
+#~ msgstr ""
+#~ "paremman tuen saamiseksi valitse laajennettu näkymä näytä-valikosta tai "
+#~ "käytä näppäinyhdistelmää command shift a"
+
+#~ msgid "This panel contains graphs showing user totals for projects"
+#~ msgstr "Tässä paneelissa näkyvät käyttäjän kokonaispisteet projektille"
+
+#~ msgid "list headers"
+#~ msgstr "listan otsikkotiedot"
+
+#~ msgid "list of events"
+#~ msgstr "tapahtumien lista"
+
+#~ msgid "list of events is empty"
+#~ msgstr "tapahtumien lista on tyhjä"
+
+#, c-format
+#~ msgid "list of %s"
+#~ msgstr "%s-lista"
+
+#, c-format
+#~ msgid "list of %s is empty"
+#~ msgstr "%s-lista on tyhjä"
+
+#, c-format
+#~ msgid "; current sort column %d of %d; descending order; "
+#~ msgstr "; nykyinen lajittelusarake %d %d:sta; laskeva järjestys; "
+
+#, c-format
+#~ msgid "; current sort column %d of %d; ascending order; "
+#~ msgstr "; nykyinen lajittelusarake %d %d:sta; nouseva järjestys; "
+
+#, c-format
+#~ msgid "; column %d of %d; "
+#~ msgstr "; sarake %d %d:sta; "
+
+#~ msgid "list is empty"
+#~ msgstr "lista on tyhjä"
+
+#, c-format
+#~ msgid "; row %d; "
+#~ msgstr "; rivi %d; "
+
+#, c-format
+#~ msgid "; selected row %d of %d; "
+#~ msgstr "; valittu rivi %d %d:sta; "
+
+#, c-format
+#~ msgid "; selected row %d ; "
+#~ msgstr "; valittu rivi %d; "
+
+#, c-format
+#~ msgid "; row %d of %d; "
+#~ msgstr "; rivi %d %d:sta; "
+
+#~ msgid "blank"
+#~ msgstr "tyhjä"
+
+#~ msgid "list of projects or account managers"
+#~ msgstr "luettelo projekteista tai tilihallitsijoista"
+
+#, c-format
+#~ msgid "selected row %d of %d; "
+#~ msgstr "valittu rivi %d %d:sta; "
+
+#, c-format
+#~ msgid "row %d of %d; "
+#~ msgstr "rivi %d %d:sta; "
 
 #~ msgid "The minimum username length for this project is 1. Please enter a different username."
 #~ msgstr ""
