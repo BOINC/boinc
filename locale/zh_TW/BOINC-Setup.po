@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-15 22:27-0700\n"
+"POT-Creation-Date: 2013-11-17 00:00-0800\n"
 "PO-Revision-Date: 2013-10-12 05:49+0000\n"
 "Last-Translator: 宇謙 <df910105@yahoo.com.tw>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,24 +22,24 @@ msgstr ""
 "X-POOTLE-MTIME: 1381556956.0\n"
 "X-Poedit-KeywordsList: _\n"
 
-#: Installer.cpp:132
+#: Installer.cpp:124
 #, c-format
-msgid "Sorry, this version of %s requires system 10.4 or higher."
-msgstr "抱歉， %s 需要 10.4 或更高的系統版本。"
+msgid "Sorry, this version of %s requires system 10.5 or higher."
+msgstr ""
 
-#: PostInstall.cpp:131 PostInstall.cpp:1211
+#: PostInstall.cpp:130 PostInstall.cpp:1136
 msgid "Yes"
 msgstr "是"
 
-#: PostInstall.cpp:132 PostInstall.cpp:1212
+#: PostInstall.cpp:131 PostInstall.cpp:1137
 msgid "No"
 msgstr "否"
 
-#: PostInstall.cpp:134
+#: PostInstall.cpp:133
 msgid "Should BOINC run even when no user is logged in?"
 msgstr "允許 BOINC 在無使用者登入時持續執行?"
 
-#: PostInstall.cpp:1491
+#: PostInstall.cpp:1416
 #, c-format
 msgid ""
 "Users who are permitted to administer this computer will automatically be "
@@ -53,20 +53,20 @@ msgstr ""
 "\n"
 "你希望這台 Mac 上的非管理員也能運行和控制 %s 嗎？"
 
-#: PostInstall.cpp:1519
+#: PostInstall.cpp:1444
 #, c-format
 msgid "Do you want to set %s as the screensaver for all %s users on this Mac?"
 msgstr "是否將 %s 設定為這台 Mac 上所有 %s 用戶的螢幕保護程式？"
 
-#: uninstall.cpp:80
+#: uninstall.cpp:81
 msgid "OK"
 msgstr "確定"
 
-#: uninstall.cpp:130
+#: uninstall.cpp:131
 msgid "Permission error after relaunch"
 msgstr "重新啟動後權限錯誤"
 
-#: uninstall.cpp:135
+#: uninstall.cpp:136
 msgid ""
 "Removal may take several minutes.\n"
 "Please be patient."
@@ -74,7 +74,7 @@ msgstr ""
 "移除可能需要幾分鐘。\n"
 "請耐心等候。"
 
-#: uninstall.cpp:150
+#: uninstall.cpp:151
 #, c-format
 msgid ""
 "Are you sure you want to completely remove %s from your computer?\n"
@@ -85,21 +85,21 @@ msgstr ""
 "\n"
 "這將移除執行檔案，但不會影響 %s 的數據文件。"
 
-#: uninstall.cpp:157
+#: uninstall.cpp:158
 #, c-format
 msgid "Canceled: %s has not been touched."
 msgstr "已取消：未對 %s 進行任何操作。"
 
-#: uninstall.cpp:168
+#: uninstall.cpp:169
 #, c-format
 msgid "An error occurred: error code %d"
 msgstr "發生錯誤：錯誤代碼 %d"
 
-#: uninstall.cpp:224
+#: uninstall.cpp:225
 msgid "name  of user"
 msgstr "使用者名稱"
 
-#: uninstall.cpp:261
+#: uninstall.cpp:262
 #, c-format
 msgid ""
 "Removal completed.\n"
@@ -118,7 +118,7 @@ msgstr ""
 "每個用戶的文件\n"
 "\"%s\"。"
 
-#: uninstall.cpp:796
+#: uninstall.cpp:790
 #, c-format
 msgid ""
 "Enter your administrator password to completely remove %s from you "
@@ -128,13 +128,17 @@ msgstr ""
 "為了從您的電腦中完全移除 %s ，請輸入您的管理員密碼。\n"
 "\n"
 
-#: uninstall.cpp:1555
+#: uninstall.cpp:1549
 msgid "Cancel"
 msgstr "取消"
 
-#: uninstall.cpp:1556
+#: uninstall.cpp:1550
 msgid "Continue..."
 msgstr "繼續..."
+
+#, c-format
+#~ msgid "Sorry, this version of %s requires system 10.4 or higher."
+#~ msgstr "抱歉， %s 需要 10.4 或更高的系統版本。"
 
 #~ msgid ""
 #~ "Removal completed.\n"
