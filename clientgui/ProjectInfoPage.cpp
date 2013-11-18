@@ -46,6 +46,7 @@
 #include "res/atiicon.xpm"
 #include "res/nvidiaicon.xpm"
 #include "res/androidicon.xpm"
+#include "res/virtualboxicon.xpm"
 #include "res/blankicon.xpm"
 
 
@@ -65,6 +66,7 @@ class CProjectInfo : public wxObject
         m_bProjectSupportsCUDA = false;
         m_bProjectSupportsCAL = false;
         m_bProjectSupportsAndroid = false;
+        m_bProjectSupportsVirtualBox = false;
     }
 
 public:
@@ -82,6 +84,7 @@ public:
     bool m_bProjectSupportsCUDA;
     bool m_bProjectSupportsCAL;
     bool m_bProjectSupportsAndroid;
+    bool m_bProjectSupportsVirtualBox;
 };
 
 IMPLEMENT_DYNAMIC_CLASS( CProjectInfo, wxObject )
@@ -168,6 +171,7 @@ bool CProjectInfoPage::Create( CBOINCBaseWizard* parent )
     m_pProjectDetailsSupportedPlatformATICtrl = NULL;
     m_pProjectDetailsSupportedPlatformNvidiaCtrl = NULL;
     m_pProjectDetailsSupportedPlatformAndroidCtrl = NULL;
+    m_pProjectDetailsSupportedPlatformVirtualBoxCtrl = NULL;
     m_pProjectDetailsSupportedPlatformBlankCtrl = NULL;
     m_pProjectURLStaticCtrl = NULL;
     m_pProjectURLCtrl = NULL;
@@ -320,6 +324,9 @@ void CProjectInfoPage::CreateControls()
     m_pProjectDetailsSupportedPlatformAndroidCtrl = new wxStaticBitmap( itemWizardPage23, wxID_STATIC, GetBitmapResource(wxT("androidicon.xpm")), wxDefaultPosition, wxSize(16,16), 0 );
     itemBoxSizer26->Add(m_pProjectDetailsSupportedPlatformAndroidCtrl, 0, wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT|wxTOP, 5);
 
+    m_pProjectDetailsSupportedPlatformVirtualBoxCtrl = new wxStaticBitmap( itemWizardPage23, wxID_STATIC, GetBitmapResource(wxT("virtualboxicon.xpm")), wxDefaultPosition, wxSize(16,16), 0 );
+    itemBoxSizer26->Add(m_pProjectDetailsSupportedPlatformVirtualBoxCtrl, 0, wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT|wxTOP, 5);
+
     m_pProjectDetailsSupportedPlatformBlankCtrl = new wxStaticBitmap( itemWizardPage23, wxID_STATIC, GetBitmapResource(wxT("blankicon.xpm")), wxDefaultPosition, wxSize(16,16), 0 );
     itemBoxSizer26->Add(m_pProjectDetailsSupportedPlatformBlankCtrl, 0, wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT|wxTOP, 5);
 
@@ -423,6 +430,11 @@ wxBitmap CProjectInfoPage::GetBitmapResource( const wxString& name )
         wxBitmap bitmap(androidicon_xpm);
         return bitmap;
     }
+    else if (name == wxT("virtualboxicon.xpm"))
+    {
+        wxBitmap bitmap(virtualboxicon_xpm);
+        return bitmap;
+    }
     else if (name == wxT("blankicon.xpm"))
     {
         wxBitmap bitmap(blankicon_xpm);
@@ -517,6 +529,7 @@ void CProjectInfoPage::OnProjectSelected( wxCommandEvent& WXUNUSED(event) ) {
         m_pProjectDetailsSupportedPlatformATICtrl->Hide();
         m_pProjectDetailsSupportedPlatformNvidiaCtrl->Hide();
         m_pProjectDetailsSupportedPlatformAndroidCtrl->Hide();
+        m_pProjectDetailsSupportedPlatformVirtualBoxCtrl->Hide();
         if (pProjectInfo->m_bProjectSupportsWindows) m_pProjectDetailsSupportedPlatformWindowsCtrl->Show();
         if (pProjectInfo->m_bProjectSupportsMac) m_pProjectDetailsSupportedPlatformMacCtrl->Show();
         if (pProjectInfo->m_bProjectSupportsLinux) m_pProjectDetailsSupportedPlatformLinuxCtrl->Show();
@@ -524,6 +537,7 @@ void CProjectInfoPage::OnProjectSelected( wxCommandEvent& WXUNUSED(event) ) {
         if (pProjectInfo->m_bProjectSupportsCAL) m_pProjectDetailsSupportedPlatformATICtrl->Show();
         if (pProjectInfo->m_bProjectSupportsCUDA) m_pProjectDetailsSupportedPlatformNvidiaCtrl->Show();
         if (pProjectInfo->m_bProjectSupportsAndroid) m_pProjectDetailsSupportedPlatformAndroidCtrl->Show();
+        if (pProjectInfo->m_bProjectSupportsVirtualBox) m_pProjectDetailsSupportedPlatformVirtualBoxCtrl->Show();
 
         // Populate non-control data for use in other places of the wizard
         SetProjectURL( pProjectInfo->m_strURL );
@@ -591,6 +605,7 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     wxASSERT(m_pProjectDetailsSupportedPlatformATICtrl);
     wxASSERT(m_pProjectDetailsSupportedPlatformNvidiaCtrl);
     wxASSERT(m_pProjectDetailsSupportedPlatformAndroidCtrl);
+    wxASSERT(m_pProjectDetailsSupportedPlatformVirtualBoxCtrl);
     wxASSERT(m_pProjectURLStaticCtrl);
     wxASSERT(m_pProjectURLCtrl);
 
@@ -728,6 +743,10 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
 						if (!pDoc->state.host_info.coprocs.have_ati()) continue;
                     }
 
+                    if (strProjectPlatform.Find(_T("[vbox")) != wxNOT_FOUND) {
+                        pProjectInfo->m_bProjectSupportsVirtualBox = true;
+                    }
+
                     if (strClientPlatform == strRootProjectPlatform) {
                         pProjectInfo->m_bSupportedPlatformFound = true;
                     }
@@ -742,7 +761,7 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
 
             wxLogTrace(
                 wxT("Function Status"),
-                wxT("CProjectInfoPage::OnPageChanged - Windows: '%d', Mac: '%d', Linux: '%d', FreeBSD: '%d', Nvidia: '%d', ATI: '%d', Android: '%d', Platform: '%d'"),
+                wxT("CProjectInfoPage::OnPageChanged - Windows: '%d', Mac: '%d', Linux: '%d', FreeBSD: '%d', Nvidia: '%d', ATI: '%d', Android: '%d',  VirtualBox: '%d', Platform: '%d'"),
                 pProjectInfo->m_bProjectSupportsWindows,
                 pProjectInfo->m_bProjectSupportsMac,
                 pProjectInfo->m_bProjectSupportsLinux,
@@ -750,6 +769,7 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
                 pProjectInfo->m_bProjectSupportsCUDA,
                 pProjectInfo->m_bProjectSupportsCAL,
                 pProjectInfo->m_bProjectSupportsAndroid,
+                pProjectInfo->m_bProjectSupportsVirtualBox,
                 pProjectInfo->m_bSupportedPlatformFound
             );
         }
