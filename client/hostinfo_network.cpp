@@ -45,12 +45,13 @@
 #include <Carbon/Carbon.h>
 #endif
 
-#include "str_util.h"
-#include "str_replace.h"
-#include "parse.h"
-#include "util.h"
-#include "file_names.h"
 #include "error_numbers.h"
+#include "file_names.h"
+#include "mac_address.h"
+#include "parse.h"
+#include "str_replace.h"
+#include "str_util.h"
+#include "util.h"
 
 #include "client_msgs.h"
 
@@ -121,6 +122,17 @@ void HOST_INFO::make_random_string(const char* salt, char* out) {
 // Should be unique across hosts with very high probability
 //
 void HOST_INFO::generate_host_cpid() {
-    make_random_string("", host_cpid);
-}
+    int retval;
+    char buf[256];
 
+    // if a MAC address is available, compute an ID based on it;
+    // this has the advantage of stability
+    // (a given host will get the same ID each time BOINC is reinstalled)
+    //
+    retval = get_mac_address(buf);
+    if (retval) {
+        make_random_string("", host_cpid);
+        return;
+    }
+    md5_block((const unsigned char*) buf, (int)strlen(buf), host_cpid);
+}

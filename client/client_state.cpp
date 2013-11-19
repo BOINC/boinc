@@ -56,7 +56,6 @@
 #include "cs_trickle.h"
 #include "file_names.h"
 #include "hostinfo.h"
-#include "hostinfo_network.h"
 #include "http_curl.h"
 #include "network.h"
 #include "project.h"
