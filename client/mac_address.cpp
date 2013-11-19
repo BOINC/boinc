@@ -112,9 +112,7 @@ GetMACAddress(io_iterator_t intfIterator, char* buffer)
     io_object_t     intfService;
     io_object_t     controllerService;
     kern_return_t   kernResult = KERN_FAILURE;
-    char            delimiter[2] = "\0";
 
-    *buffer = '\0';
     while ((intfService = IOIteratorNext(intfIterator)))
     {
         CFTypeRef   MACAddressAsCFData;
@@ -133,12 +131,9 @@ GetMACAddress(io_iterator_t intfIterator, char* buffer)
                 UInt8 MACAddress[ kIOEthernetAddressSize ];
 
                 CFDataGetBytes(refData, CFRangeMake(0,CFDataGetLength(refData)), MACAddress);
-                sprintf(buffer, "%s%s%02x:%02x:%02x:%02x:%02x:%02x",
-                        buffer, delimiter,
+                sprintf(buffer, "%02x:%02x:%02x:%02x:%02x:%02x",
                         MACAddress[0], MACAddress[1], MACAddress[2], MACAddress[3], MACAddress[4], MACAddress[5]);
                 CFRelease(MACAddressAsCFData);
-                delimiter[0] = ':';
-                delimiter[1] = '\0';
             }
             (void) IOObjectRelease(controllerService);
         }
