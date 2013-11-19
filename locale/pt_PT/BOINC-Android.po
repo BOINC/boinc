@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2013-10-18 00:00-0700\n"
-"PO-Revision-Date: 2013-11-18 17:01+0000\n"
+"PO-Revision-Date: 2013-11-19 12:57+0000\n"
 "Last-Translator: Miguel Filipe Paulino de Sousa <Miguel.veig@gmail.com>\n"
 "Language-Team: pt_PT <LL@li.org>\n"
 "Language: pt_PT\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
-"X-POOTLE-MTIME: 1384794116.0\n"
+"X-POOTLE-MTIME: 1384865841.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -57,12 +57,12 @@ msgstr "Adicionar gestor de conta"
 
 msgctxt "attachproject_list_no_internet"
 msgid "No Internet connection"
-msgstr "Sem conexão de internet"
+msgstr "Sem conexão de Internet"
 
 #. project login
 msgctxt "attachproject_login_loading"
 msgid "Contacting project server…"
-msgstr "Contactando o servidor do projecto..."
+msgstr "A contactar o servidor do projecto..."
 
 msgctxt "attachproject_login_image_description"
 msgid "Project logo."
@@ -74,7 +74,7 @@ msgstr "Área geral:"
 
 msgctxt "attachproject_login_header_specific_area"
 msgid "Specific area:"
-msgstr "Área especifica:"
+msgstr "Área específica:"
 
 msgctxt "attachproject_login_header_description"
 msgid "Description:"
@@ -109,8 +109,7 @@ msgid ""
 "By creating an account with this project, you accept the terms of use as "
 "shown above."
 msgstr ""
-"Ao criar uma conta neste projecto, aceita os termos de uso como acima "
-"descritos."
+"Ao criar uma conta neste projecto, aceita os termos de uso acima descritos."
 
 msgctxt "attachproject_login_category_login"
 msgid "Sign in with existing account"
@@ -118,7 +117,7 @@ msgstr "Entrar com uma conta já existente"
 
 msgctxt "attachproject_login_header_id_email"
 msgid "eMail:"
-msgstr "eMail:"
+msgstr "e-Mail:"
 
 msgctxt "attachproject_login_header_id_name"
 msgid "Name:"
@@ -134,15 +133,15 @@ msgstr "Novo a"
 
 msgctxt "attachproject_login_header_creation_enabled"
 msgid "Register an account to participate:"
-msgstr "Registrar uma conta para participar:"
+msgstr "Registar uma conta para participar:"
 
 msgctxt "attachproject_login_header_creation_client_disabled"
 msgid "Visit project website to create an account:"
-msgstr ""
+msgstr "Visite o website do projecto para criar uma conta:"
 
 msgctxt "attachproject_login_header_creation_disabled"
 msgid "Project does currently now allow creation of new accounts!"
-msgstr ""
+msgstr "O projecto não permite de momento a criação de novas contas!"
 
 msgctxt "attachproject_login_button_registration"
 msgid "Register"
@@ -154,7 +153,7 @@ msgstr "Entrar"
 
 msgctxt "attachproject_login_button_forgotpw"
 msgid "Forgot Password"
-msgstr "Esqueceu a palavra-passe"
+msgstr "Esqueceu a Palavra-passe"
 
 msgctxt "attachproject_login_error_toast"
 msgid "Contacting project failed!"
@@ -175,7 +174,7 @@ msgstr "Projecto:"
 
 msgctxt "attachproject_registration_header_email"
 msgid "eMail:"
-msgstr "eMail:"
+msgstr "e-Mail:"
 
 msgctxt "attachproject_registration_header_username"
 msgid "Name:"
@@ -187,11 +186,11 @@ msgstr "Equipa:"
 
 msgctxt "attachproject_registration_header_pwd"
 msgid "Password:"
-msgstr "Palavra-passe"
+msgstr "Palavra-passe:"
 
 msgctxt "attachproject_registration_header_pwd_confirm"
 msgid "… Retype:"
-msgstr ""
+msgstr "... Escreva novamente:"
 
 msgctxt "attachproject_registration_button"
 msgid "Create"
@@ -216,7 +215,7 @@ msgstr "Palavra-passe:"
 
 msgctxt "attachproject_acctmgr_header_pwd_confirm"
 msgid "… Retype:"
-msgstr ""
+msgstr "... Escreva novamente:"
 
 msgctxt "attachproject_acctmgr_button"
 msgid "Add"
@@ -245,7 +244,7 @@ msgstr "Por favor insira o URL"
 
 msgctxt "attachproject_error_no_email"
 msgid "Please enter eMail address"
-msgstr "Por favor insira o endereço de eMail"
+msgstr "Por favor insira o endereço de e-Mail"
 
 msgctxt "attachproject_error_no_pwd"
 msgid "Please enter a password"
@@ -265,7 +264,7 @@ msgstr "Nome de utilizador não aceite"
 
 msgctxt "attachproject_error_email_in_use"
 msgid "eMail is already in use"
-msgstr "Endereço de eMail já em uso"
+msgstr "Endereço de e-Mail já em uso"
 
 msgctxt "attachproject_error_project_down"
 msgid "Project is offline"
@@ -273,7 +272,7 @@ msgstr "O projecto está offline"
 
 msgctxt "attachproject_error_email_bad_syntax"
 msgid "eMail refused"
-msgstr "Endereço de eMail não aceite"
+msgstr "Endereço de e-Mail não aceite"
 
 msgctxt "attachproject_error_bad_pwd"
 msgid "Password refused"
@@ -281,7 +280,7 @@ msgstr "Palavra-passe não aceite"
 
 msgctxt "attachproject_error_creation_disabled"
 msgid "Account creation is disabled on this project"
-msgstr "A criação de conta está desabilitada para este projecto"
+msgstr "A criação de contas está desabilitada para este projecto"
 
 msgctxt "attachproject_error_invalid_url"
 msgid "Invalid URL"
@@ -330,7 +329,7 @@ msgstr "Registar conta"
 
 msgctxt "attachproject_working_login"
 msgid "Log in"
-msgstr "Log in"
+msgstr "Entrar"
 
 msgctxt "attachproject_working_acctmgr"
 msgid "Add account manager"
@@ -343,7 +342,7 @@ msgstr "Sincronizar"
 #. main activity
 msgctxt "main_noproject_warning"
 msgid "Tab here to choose a project."
-msgstr ""
+msgstr "Carregue aqui para escolher um projecto."
 
 msgctxt "main_error"
 msgid "Whooops"
@@ -354,10 +353,12 @@ msgid ""
 "…this should not happen!\n"
 "Click on the icon to try again."
 msgstr ""
+"...isto não deveria acontecer!\n"
+"Carregue no ícone para tentar novamente."
 
 msgctxt "main_title_icon_desc"
 msgid "BOINC icon"
-msgstr "Icone do BOINC"
+msgstr "Ícone do BOINC"
 
 #. tab names
 msgctxt "tab_status"
@@ -423,7 +424,7 @@ msgstr "A começar..."
 
 msgctxt "status_noproject"
 msgid "Choose a project to participate in."
-msgstr "Escolha um projecto em que participar."
+msgstr "Escolha um projecto para participar."
 
 msgctxt "status_closing"
 msgid "Closing…"
@@ -431,7 +432,7 @@ msgstr "A fechar..."
 
 msgctxt "status_benchmarking"
 msgid "Benchmarking…"
-msgstr "Executando testes de performance..."
+msgstr "A executar testes de performance..."
 
 msgctxt "status_image_description"
 msgid "project image"
@@ -440,7 +441,7 @@ msgstr "imagem do projecto"
 #. preferences tab strings
 msgctxt "prefs_loading"
 msgid "Reading preferences…"
-msgstr "Lendo preferências..."
+msgstr "A ler preferências..."
 
 msgctxt "prefs_submit_button"
 msgid "Save"
@@ -488,15 +489,15 @@ msgstr "Mostrar preferências avançadas e controlos..."
 
 msgctxt "prefs_run_on_battery_header"
 msgid "Compute on Battery"
-msgstr "Realizazar computação quando estiver a Bateria em uso"
+msgstr "Realizar computação quando estiver só em Bateria"
 
 msgctxt "battery_charge_min_pct_header"
 msgid "Min. battery level"
-msgstr "Nível de baterial minímo"
+msgstr "Nível de bateria minímo"
 
 msgctxt "battery_charge_min_pct_description"
 msgid "BOINC suspends computation below defined battery charge level."
-msgstr ""
+msgstr "O BOINC suspende a computação abaixo do nível de bateria definido."
 
 msgctxt "battery_temperature_max_header"
 msgid "Max. battery temperature"
@@ -507,6 +508,8 @@ msgid ""
 "BOINC suspends computation above defined battery temperature. It is not "
 "recommended to change this value."
 msgstr ""
+"O BOINC suspende a computação abaixo da temperatura da bateria definida. Não "
+"é recomendada a alteração deste valor."
 
 msgctxt "prefs_disk_max_pct_header"
 msgid "Max. used storage space"
@@ -515,18 +518,22 @@ msgstr "Espaço de armazenamento máximo"
 msgctxt "prefs_disk_max_pct_description"
 msgid "How many percent of your device's storage space is BOINC allowed to use?"
 msgstr ""
+"Qual a percentagem de espaço de armazenamento no seu dispositivo que é "
+"permitida que o BOINC use?"
 
 msgctxt "prefs_disk_min_free_gb_header"
 msgid "Min. spare storage"
-msgstr ""
+msgstr "Espaço de armazenamento minímo"
 
 msgctxt "prefs_disk_min_free_gb_description"
 msgid "How much of your device's storage space shall stay free?"
 msgstr ""
+"Qual a capacidade de espaço de armazenamento no seu dispositivo que deve "
+"ficar livre?"
 
 msgctxt "prefs_network_daily_xfer_limit_mb_header"
 msgid "Daily transfer limit"
-msgstr "Transferência limite diária"
+msgstr "Transferência diária limite"
 
 msgctxt "prefs_network_daily_xfer_limit_mb_description"
 msgid "Limits the daily data traffic caused by BOINC."
@@ -559,6 +566,8 @@ msgstr "Pausa no CPU quando a utilização for acima de"
 msgctxt "prefs_cpu_other_load_suspension_description"
 msgid "Determines when BOINC pauses computation due to other app's CPU usage."
 msgstr ""
+"Determina quando o BOINC pausa a computação, devido ao uso de outras "
+"aplicações no CPU."
 
 msgctxt "prefs_cpu_time_max_header"
 msgid "CPU limit"
@@ -566,7 +575,7 @@ msgstr "Limite do CPU"
 
 msgctxt "prefs_cpu_time_max_description"
 msgid "Limits the CPU time BOINC uses for computation."
-msgstr ""
+msgstr "Limita o tempo de CPU que o BOINC usa para computação."
 
 msgctxt "prefs_memory_max_idle_header"
 msgid "RAM limit"
@@ -574,19 +583,19 @@ msgstr "Limite de RAM"
 
 msgctxt "prefs_memory_max_idle_description"
 msgid "Limits the amount of RAM tasks are allowed to occupy."
-msgstr ""
+msgstr "Limita a quantidade de RAM que é permitida que as tarefas ocupem."
 
 msgctxt "prefs_client_log_flags_header"
 msgid "BOINC Client log flags"
-msgstr ""
+msgstr "Bandeiras de log do cliente BOINC"
 
 msgctxt "prefs_gui_log_level_header"
 msgid "GUI log level"
-msgstr ""
+msgstr "Nível de log da GUI"
 
 msgctxt "prefs_gui_log_level_description"
 msgid "Specifies verbosity of GUI log messages."
-msgstr ""
+msgstr "Especifica a verbosidade das mensagens de log da GUI."
 
 msgctxt "prefs_unit_mb"
 msgid "MB"
@@ -608,7 +617,7 @@ msgstr "ºC"
 #. projects tab strings
 msgctxt "projects_loading"
 msgid "Reading projects…"
-msgstr "Lendo projectos..."
+msgstr "A ler projectos..."
 
 msgctxt "projects_add"
 msgid "Add project"
@@ -616,7 +625,7 @@ msgstr "Adicionar projecto"
 
 msgctxt "projects_icon"
 msgid "Project icon"
-msgstr "Icone do projecto"
+msgstr "Ícone do projecto"
 
 msgctxt "projects_credits_header"
 msgid "Credit:"
@@ -637,7 +646,7 @@ msgstr "Supenso pelo utilizador"
 
 msgctxt "projects_status_dontrequestmorework"
 msgid "Won't get new tasks"
-msgstr "Não irá buscar novas tarefas"
+msgstr "Não ir buscar novas tarefas"
 
 msgctxt "projects_status_ended"
 msgid "Project ended - OK to remove"
@@ -645,23 +654,23 @@ msgstr "Projecto terminado - OK para remover"
 
 msgctxt "projects_status_detachwhendone"
 msgid "Will remove when tasks done"
-msgstr "Será removido quando as tarefas terminarem"
+msgstr "Irá remover quando as tarefas terminarem"
 
 msgctxt "projects_status_schedrpcpending"
 msgid "Scheduler request pending"
-msgstr ""
+msgstr "Solicitação agendada pendente"
 
 msgctxt "projects_status_schedrpcinprogress"
 msgid "Scheduler request in progress"
-msgstr ""
+msgstr "Solicitação agendada em progresso"
 
 msgctxt "projects_status_trickleuppending"
 msgid "Trickle up message pending"
-msgstr ""
+msgstr "Mensagem de aviso pendente"
 
 msgctxt "projects_status_backoff"
 msgid "Communication scheduled in:"
-msgstr ""
+msgstr "Comunicação agendada em:"
 
 #. project controls
 msgctxt "projects_control_dialog_title"
@@ -776,11 +785,11 @@ msgstr "novo"
 
 msgctxt "tasks_result_files_downloading"
 msgid "waiting for download"
-msgstr "à espera do download"
+msgstr "à espera de transferir"
 
 msgctxt "tasks_result_files_downloaded"
 msgid "download complete"
-msgstr "download completo"
+msgstr "transferência completa"
 
 msgctxt "tasks_result_compute_error"
 msgid "computation error"
@@ -866,7 +875,7 @@ msgstr "Upload"
 
 msgctxt "trans_download"
 msgid "Download"
-msgstr "Download"
+msgstr "Transferir"
 
 msgctxt "trans_retryin"
 msgid "retry in"
@@ -890,7 +899,7 @@ msgstr "pendente"
 
 msgctxt "trans_projectbackoff"
 msgid "project backoff"
-msgstr ""
+msgstr "projecto em backoff"
 
 msgctxt "trans_header_name"
 msgid "File:"
@@ -928,15 +937,15 @@ msgstr "Mensagens do Cliente"
 
 msgctxt "eventlog_gui_header"
 msgid "GUI Messages"
-msgstr "Mensagens do GUI"
+msgstr "Mensagens da GUI"
 
 msgctxt "eventlog_copy_toast"
 msgid "Log copied to clipboard."
-msgstr ""
+msgstr "Log copiado para a área de transferência."
 
 msgctxt "eventlog_email_subject"
 msgid "Event Log for BOINC on Android:"
-msgstr ""
+msgstr "Log de Eventos para o BOINC no Android:"
 
 #. suspend reasons
 msgctxt "suspend_unknown"
@@ -965,7 +974,7 @@ msgstr "Sem espaço em disco."
 
 msgctxt "suspend_cputhrottle"
 msgid "Scheduled CPU throttle."
-msgstr ""
+msgstr "Estrangulamento de CPU agendado."
 
 msgctxt "suspend_noinput"
 msgid "No recent user activity."
@@ -973,7 +982,7 @@ msgstr "Sem actividade recente do utilizador."
 
 msgctxt "suspend_delay"
 msgid "Initialization delay."
-msgstr ""
+msgstr "Atraso de inicialização."
 
 msgctxt "suspend_exclusiveapp"
 msgid "An exclusive app is running."
@@ -985,7 +994,7 @@ msgstr "O seu dispositivo está ocupado com outras aplicações"
 
 msgctxt "suspend_network_quota"
 msgid "BOINC reached network transfer limit."
-msgstr "O BOINC atingiu a transferência de rede limite diária."
+msgstr "O BOINC atingiu a transferência de rede diária limite."
 
 msgctxt "suspend_os"
 msgid "Stopped by Android."
@@ -998,7 +1007,7 @@ msgstr "Não conectado a um WiFi."
 msgctxt "suspend_battery_charging"
 msgid "Battery needs to charge before resuming computation."
 msgstr ""
-"A Bateria precisa de ser carregada antes que a computação seja resumida."
+"A bateria precisa de ser carregada antes que a computação seja resumida."
 
 msgctxt "suspend_battery_charging_long"
 msgid "Computing will resume when battery charge reaches"
@@ -1014,7 +1023,7 @@ msgstr "À espera que a bateria arrefeça"
 
 msgctxt "suspend_user_req"
 msgid "Resuming computation…"
-msgstr "Resumindo a computação..."
+msgstr "A resumir a computação..."
 
 msgctxt "suspend_network_user_req"
 msgid "manually."
@@ -1027,7 +1036,7 @@ msgstr "Requisitado pelo utilizador"
 
 msgctxt "rpcreason_needwork"
 msgid "To fetch work"
-msgstr ""
+msgstr "Ir buscar trabalho"
 
 msgctxt "rpcreason_resultsdue"
 msgid "To report completed tasks"
@@ -1035,7 +1044,7 @@ msgstr "Reportar tarefas completas"
 
 msgctxt "rpcreason_trickleup"
 msgid "To send trickle-up message"
-msgstr ""
+msgstr "Enviar mensagem de aviso"
 
 msgctxt "rpcreason_acctmgrreq"
 msgid "Requested by account manager"
@@ -1064,7 +1073,7 @@ msgstr "Enviar como e-mail"
 
 msgctxt "menu_copy"
 msgid "Copy to Clipboard"
-msgstr "Copiar para o Clipboard"
+msgstr "Copiar para a Àrea de Transferência"
 
 msgctxt "menu_eventlog"
 msgid "Event Log"
@@ -1109,12 +1118,12 @@ msgstr "Versão"
 
 msgctxt "about_name_long"
 msgid "Berkeley Open Infrastructure for Network Computing"
-msgstr ""
+msgstr "Infraestrutura Aberta Berkeley para a Rede de Computação"
 
 msgctxt "about_copyright"
 msgid ""
 "© 2003–2013 University of California, Berkeley.\n"
 "All Rights Reserved."
 msgstr ""
-"© 2003-2013 Universidade da Califórnia, Berkeley. \n"
+"© 2003-2013 Universidade da Califórnia, Berkeley.\n"
 "Todos os Direitos Reservados."

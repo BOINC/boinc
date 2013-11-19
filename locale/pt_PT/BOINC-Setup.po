@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC 7.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-11-17 00:00-0800\n"
-"PO-Revision-Date: 2013-11-18 16:55+0000\n"
+"PO-Revision-Date: 2013-11-19 12:01+0000\n"
 "Last-Translator: Miguel Filipe Paulino de Sousa <Miguel.veig@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: pt_PT\n"
@@ -19,14 +19,14 @@ msgstr ""
 "X-Poedit-SearchPath-0: mac_installer\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-Basepath: /Volumes/Cheer/BOINC_GIT/boinc_trunk\n"
-"X-POOTLE-MTIME: 1384793732.0\n"
+"X-POOTLE-MTIME: 1384862491.0\n"
 "X-Poedit-KeywordsList: _\n"
 
 #: Installer.cpp:124
 #, c-format
 msgid "Sorry, this version of %s requires system 10.5 or higher."
 msgstr ""
-"Pedimos desculpa, mas esta versão do %s requer o sistema 10.5 ou superior"
+"Pedimos desculpa, mas esta versão do %s requer o sistema 10.5 ou superior."
 
 #: PostInstall.cpp:130 PostInstall.cpp:1136
 msgid "Yes"
@@ -38,7 +38,7 @@ msgstr "Não"
 
 #: PostInstall.cpp:133
 msgid "Should BOINC run even when no user is logged in?"
-msgstr "Deve o BOINC correr se nenhum utilizador estiver logado?"
+msgstr "Deve o BOINC ser executado se nenhum utilizador estiver logado?"
 
 #: PostInstall.cpp:1416
 #, c-format
@@ -68,14 +68,14 @@ msgstr "OK"
 
 #: uninstall.cpp:131
 msgid "Permission error after relaunch"
-msgstr "Erro de permissão depois do relançamento"
+msgstr "Erro de permissão depois do re-lançamento"
 
 #: uninstall.cpp:136
 msgid ""
 "Removal may take several minutes.\n"
 "Please be patient."
 msgstr ""
-"A remoção pode levar vários minutos.\n"
+"A eliminação pode levar vários minutos.\n"
 "Por favor aguarde."
 
 #: uninstall.cpp:151
@@ -85,9 +85,9 @@ msgid ""
 "\n"
 "This will remove the executables but will not touch %s data files."
 msgstr ""
-"Tem a certeza que quer remover completamente o %s do seu computador?\n"
+"Tem a certeza que quer eliminar completamente o %s do seu computador?\n"
 "\n"
-"Isto irá remover os ficheiros executáveis mas não os %s ficheiros de dados."
+"Serão eliminados os ficheiros executáveis mas não os %s ficheiros de dados."
 
 #: uninstall.cpp:158
 #, c-format
@@ -97,7 +97,7 @@ msgstr "Cancelado: %s não foi alterado. "
 #: uninstall.cpp:169
 #, c-format
 msgid "An error occurred: error code %d"
-msgstr "Ocorreu um erro: código do erro %d"
+msgstr "Ocorreu um erro: código de erro %d"
 
 #: uninstall.cpp:225
 msgid "name  of user"
@@ -114,10 +114,10 @@ msgid ""
 "for each user, the file\n"
 "\"%s\"."
 msgstr ""
-"Remoção completa.\n"
+"Eliminação completa.\n"
 "\n"
-" Pode ainda querer remover os restantes items usando a pesquisa: \n"
-"a directoria\"%s\"\n"
+" Pode ainda eliminar os restantes items usando o Localizador: \n"
+"a directoria \"%s\"\n"
 "\n"
 "para cada utilizador, o ficheiro\n"
 "\"%s\"."
@@ -129,8 +129,8 @@ msgid ""
 "computer.\n"
 "\n"
 msgstr ""
-"Insira a sua palavra-passe de  administrador para remover o %s por completo "
-"do seu computador.\n"
+"Insira a sua palavra-passe de  administrador para eliminar o %s na "
+"totalidade do seu computador.\n"
 "\n"
 
 #: uninstall.cpp:1549

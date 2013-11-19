@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: 1.05\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2013-11-12 00:00 PST\n"
-"PO-Revision-Date: 2013-11-18 17:05+0000\n"
+"PO-Revision-Date: 2013-11-19 11:56+0000\n"
 "Last-Translator: Miguel Filipe Paulino de Sousa <Miguel.veig@gmail.com>\n"
 "Language-Team: \n"
 "Language: pt_PT\n"
@@ -20,7 +20,7 @@ msgstr ""
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-SearchPath-0: doc\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
-"X-POOTLE-MTIME: 1384794337.0\n"
+"X-POOTLE-MTIME: 1384862176.0\n"
 "X-Poedit-KeywordsList: tra\n"
 
 #: docutil.php:21
@@ -42,7 +42,7 @@ msgid ""
 "science projects that require it."
 msgstr ""
 "Recomendamos que também instale a VirtualBox, para que o seu computador "
-"possa realizar trabalhos em projectos onde o mesmo é exigido."
+"possa realizar trabalhos em projectos onde ele seja exigido."
 
 #: download.php:41
 msgid "Learn more about VirtualBox."
@@ -50,7 +50,7 @@ msgstr "Aprender mais sobre o VirtualBox."
 
 #: download.php:51
 msgid "Download BOINC + VirtualBox"
-msgstr "Fazer o Download do BOINC + VirtualBox"
+msgstr "Transferir o BOINC + VirtualBox"
 
 #: download.php:54 download.php:69
 #, php-format
@@ -65,11 +65,11 @@ msgstr "Versão do BOINC %s"
 #: download.php:59
 #, php-format
 msgid "VirtualBox version %s"
-msgstr "Versão do VirtualBox %s"
+msgstr "Versão da VirtualBox %s"
 
 #: download.php:67
 msgid "Download BOINC"
-msgstr "Fazer Download do BOINC"
+msgstr "Transferir o BOINC"
 
 #: download.php:123
 msgid ""
@@ -77,16 +77,16 @@ msgid ""
 "projects like SETI@home, Climateprediction.net, Rosetta@home, World "
 "Community Grid, and many others."
 msgstr ""
-"O BOINC é um programa que lhe permite que doe tempo inactivo do seu "
-"computador, para projectos de científicos como o SETI@home, "
-"Climateprediction.net, Rosetta@home, World Community Grid, e muitos outros."
+"O BOINC é um programa que lhe permite doar tempo inactivo do seu computador, "
+"para projectos científicos como o SETI@home, Climateprediction.net, "
+"Rosetta@home, World Community Grid e muitos outros."
 
 #: download.php:125
 msgid ""
 "After installing BOINC on your computer, you can connect it to as many of "
 "these projects as you like."
 msgstr ""
-"Depois de instalar o BOINC no seu computador, pode se conectar a tantos "
+"Depois de instalar o BOINC no seu computador, pode-se conectar a tantos "
 "projectos quantos desejar."
 
 #: download.php:127
@@ -94,7 +94,7 @@ msgid ""
 "You may run this software on a computer only if you own the computer or have "
 "the permission of its owner."
 msgstr ""
-"Pode correr este software num computador, apenas se for o proprietário ou "
+"Pode executar este software num computador apenas se for o proprietário, ou "
 "tiver permissão do mesmo."
 
 #: download.php:132
@@ -102,16 +102,16 @@ msgid ""
 "We recommend that you download BOINC from the Google Play Store or Amazon "
 "Appstore, not from here."
 msgstr ""
-"Recomendamos que faça o download do BOINC da Google Play Store ou da Amazon "
+"Recomendamos que transfira o BOINC da Google Play Store ou da Amazon "
 "Appstore, não daqui."
 
 #: download.php:167
 msgid "System requirements"
-msgstr "Requisitos de Sistema"
+msgstr "Requisitos de sistema"
 
 #: download.php:168
 msgid "Release notes"
-msgstr "Notas de Lançamento"
+msgstr "Notas de lançamento"
 
 #: download.php:169 index.php:86
 msgid "Help"
@@ -119,11 +119,11 @@ msgstr "Ajuda"
 
 #: download.php:170
 msgid "All versions"
-msgstr "Todas as Versões"
+msgstr "Todas as versões"
 
 #: download.php:171
 msgid "Version history"
-msgstr "Histórico da Versão"
+msgstr "Histórico de Versões"
 
 #: download.php:172
 msgid "GPU computing"
@@ -141,10 +141,10 @@ msgid ""
 "through the process of installing and using BOINC; %s troubleshoot any "
 "problems you might have."
 msgstr ""
-"A ajuda online do BOINC permite-lhe falar cara-a-cara com utilizadores "
-"experientes do BOINC, que podem: %s responder às suas perguntas sobre o "
-"BOINC e computação voluntária; %s  ajudá-lo através do processo de "
-"instalação e utilização do BOINC; %s e resolver quaisquer problemas."
+"A ajuda online do BOINC permite-lhe conversar com utilizadores experientes "
+"do BOINC, que podem: %s responder às suas perguntas sobre o BOINC e "
+"computação voluntária; %s  ajudá-lo através do processo de instalação e "
+"utilização do BOINC; %s e resolver quaisquer problemas."
 
 #: help.php:21
 #, php-format
@@ -154,10 +154,10 @@ msgid ""
 "Skype, please %sdownload and install it now%s.  When you're finished, return "
 "to this page."
 msgstr ""
-"A ajuda na Internet do BOINC é baseada no %sSkype%s, um sistema de "
-"comunicação que usa a Internet. O Skype é gratuito (programa e chamadas). Se "
-"ainda não tem o Skype, %stransfira-o agora e instale-o. Quando terminar, "
-"volte a esta página."
+"A ajuda Online do BOINC baseia-se no %sSkype%s, um sistema de comunicação "
+"que usa a Internet. O Skype é gratuito (tanto o programa como as chamadas). "
+"Se ainda não tem o Skype, %stransfira-o agora e instale-o%s. Quando "
+"terminar, regresse a esta página."
 
 #: help.php:28
 msgid ""
@@ -168,20 +168,20 @@ msgid ""
 msgstr ""
 "A melhor maneira de obter ajuda é por voz, pelo que precisa de um microfone "
 "e colunas ou auscultadores para o seu computador. Também pode usar o sistema "
-"de conversa do Skype, ou o e-mail (se não tiver o Skype) para comunicar com "
-"os Voluntários de Ajuda."
+"de conversação do Skype, ou o e-mail (se não tiver o Skype) para comunicar "
+"com os Voluntários de Ajuda."
 
 #: help.php:31
 msgid ""
 "Volunteers speaking several languages are available. Please select a "
 "language:"
 msgstr ""
-"Estão disponíveis voluntários que falam várias idiomas. Por favor, escolha o "
-"seu Idioma:"
+"Estão disponíveis voluntários que falam várias idiomas. Por favor, escolha "
+"um idioma:"
 
 #: help.php:47
 msgid "Be a Help Volunteer"
-msgstr "Torne-se um Voluntário de Ajuda"
+msgstr "Seja um Voluntário de Ajuda"
 
 #: help.php:50
 #, php-format
@@ -190,9 +190,9 @@ msgid ""
 "Volunteer%s.  It's a great way to help the cause of scientific research and "
 "volunteer computing - and it's fun!"
 msgstr ""
-"Se é um utilizador experiente do BOINC, nós encorajamo-lo a se %stornar um "
-"Voluntário de Ajuda%s. É uma maneira ótima de ajudar a causa da investigação "
-"científica e computação voluntária - e é divertido!"
+"Se é um utilizador experiente do BOINC, encorajamo-lo a se %stornar um "
+"Voluntário de Ajuda%s. É uma maneira óptima de ajudar a causa de "
+"investigação científica e computação voluntária - e é divertido!"
 
 #: help.php:56
 #, php-format
@@ -207,14 +207,14 @@ msgid ""
 "BOINC helpers are unpaid volunteers.  Their advice is not endorsed by BOINC "
 "or the University of California."
 msgstr ""
-"Os ajudantes do BOINC, são voluntários não pagos. Os seus conselhos não são "
-"aprovados pelo BOINC ou pela Universidade da Califórnia."
+"Os ajudantes do BOINC são voluntários não remunerados. Os seus conselhos não "
+"são aprovados pelo BOINC ou pela Universidade da Califórnia."
 
 #: help_funcs.php:110
 msgid "%1Never%2 give email address or password information to BOINC helpers."
 msgstr ""
-"%1Nunca%2 forneça informações sobre endereço de e-mail ou palavra-passe aos "
-"ajudantes do BOINC."
+"%1Nunca%2 forneça informações sobre o endereço de e-mail ou a palavra-passe "
+"aos ajudantes do BOINC."
 
 #: index.php:24
 msgid "Computing power"
@@ -222,7 +222,7 @@ msgstr "Poder de computação"
 
 #: index.php:26
 msgid "Top 100 volunteers"
-msgstr "Voluntários - os 100 melhores"
+msgstr "Top 100 Voluntários "
 
 #: index.php:27
 msgid "Statistics"
@@ -230,7 +230,7 @@ msgstr "Estatísticas"
 
 #: index.php:55
 msgid "Active:"
-msgstr "Activo:"
+msgstr "Activos:"
 
 #: index.php:55
 msgid "volunteers,"
@@ -242,7 +242,7 @@ msgstr "computadores.\n"
 
 #: index.php:56
 msgid "24-hour average:"
-msgstr "Média das 24 horas:"
+msgstr "Média das últimas 24 horas:"
 
 #: index.php:56
 msgid "PetaFLOPS."
@@ -279,7 +279,7 @@ msgid ""
 "scientific research.  It's safe, secure, and easy:"
 msgstr ""
 "Use o tempo inactivo do seu computador (Windows, Mac, Linux, ou Android) "
-"para curar doenças, estudar o aquecimento globar, descobrir pulsares, e "
+"para curar doenças, estudar o aquecimento global, descobrir pulsares e "
 "realizar várias outros tipos de pesquisa científica. É seguro, protegido e "
 "fácil:"
 
@@ -289,11 +289,11 @@ msgstr "Escolher projectos"
 
 #: index.php:97
 msgid "Download BOINC software"
-msgstr "Fazer o Download do software BOINC"
+msgstr "Transferir o software BOINC"
 
 #: index.php:98
 msgid "Enter an email address and password."
-msgstr "Insira um endereço de email e palavra-passe."
+msgstr "Insira um endereço de e-mail e palavra-passe."
 
 #: index.php:102
 #, php-format
@@ -301,36 +301,36 @@ msgid ""
 "Or, if you run several projects, try an %saccount manager%s such as %"
 "sGridRepublic%s or %sBAM!%s. "
 msgstr ""
-"Ou, se executa vários projectos, experimente um %sGestor de Conta%s, tal "
-"como o %sGridRepublic%s ou o %sBAM!%s. "
+"Ou se executa vários projectos, experimente um %sGestor de Conta%s, como o %"
+"sGridRepublic%s ou o %sBAM!%s. "
 
 #: index.php:118
 msgid "Compute with BOINC"
-msgstr "Computar com o BOINC"
+msgstr "Computação com o BOINC"
 
 #: index.php:121
 msgid "Software updates"
-msgstr "Atualizações do Programa"
+msgstr "Actualizações do Programa"
 
 #: index.php:128
 msgid ""
 "%1Scientists%2: use BOINC to create a %3volunteer computing project%4 giving "
 "you the computing power of thousands of CPUs."
 msgstr ""
-"%1Cientistas%2 : utilizam o BOINC para criar um %3projecto de computação "
-"voluntário%4, dando-lhe a si o poder de computação de milhares de CPU's."
+"%1Cientistas%2 : utilizam o BOINC para criar um %3Projecto de Computação "
+"Voluntário%4, dando-lhe a o poder de computação de milhares de CPUs."
 
 #: index.php:132
 msgid ""
 "%1Universities%2: use BOINC to create a %3Virtual Campus Supercomputing "
 "Center%4."
 msgstr ""
-"%1Universidades%2: utilizam o BOINC para criar um %3Centro de "
-"Supercomputação de Campus Virtual%4."
+"%1Universidades%2: utilizam o BOINC para criar um %3Campus de "
+"Supercomputação Virtual%4."
 
 #: index.php:137
 msgid "%1Companies%2: use BOINC for %3desktop Grid computing%4."
-msgstr "%1Empresas%2: utilizam o BOINC para a %3grelha de computação%4."
+msgstr "%1Empresas%2: utilizam o BOINC para a %3Computação em GRID%4."
 
 #: index.php:149
 msgid "The BOINC project"
@@ -346,7 +346,7 @@ msgstr "Listas de e-mail"
 
 #: index.php:157
 msgid "Personnel and contributors"
-msgstr "Pessoal e Colaboradores"
+msgstr "Pessoal e colaboradores"
 
 #: index.php:158
 msgid "Events"
@@ -354,15 +354,15 @@ msgstr "Eventos"
 
 #: index.php:159
 msgid "Papers and talks"
-msgstr "Papéis e Conversas"
+msgstr "Discussões e conferências"
 
 #: index.php:160
 msgid "Research projects"
-msgstr "Projectos de Investigação"
+msgstr "Projectos de investigação"
 
 #: index.php:161
 msgid "Logos and graphics"
-msgstr "Logótipos e Gráficos"
+msgstr "Logótipos e gráficos"
 
 #: index.php:162
 msgid "and"
@@ -370,7 +370,7 @@ msgstr "e"
 
 #: index.php:166
 msgid "Help wanted"
-msgstr "Precisa-se de Ajuda"
+msgstr " Ajuda precisa-se"
 
 #: index.php:168
 msgid "Programming"
@@ -382,7 +382,7 @@ msgstr "Tradução"
 
 #: index.php:170
 msgid "Testing"
-msgstr "A testar"
+msgstr "Testar"
 
 #: index.php:172
 msgid "Publicity"
@@ -390,18 +390,18 @@ msgstr "Publicidade"
 
 #: index.php:174
 msgid "Software development"
-msgstr "Desenvolvimento do Programa"
+msgstr "Desenvolvimento do programa"
 
 #: index.php:175
 msgid "APIs for add-on software"
-msgstr "API's para programa de add-on (Interface de Programação de Aplicações)"
+msgstr "API's para programas add-on"
 
 #: index.php:217
 #, php-format
 msgid ""
 "Open-source software for %svolunteer computing%s and %sgrid computing%s."
 msgstr ""
-"Programa de código aberto para a %scomputação voluntária%s e %scomputação de "
+"Programa de código aberto para %scomputação voluntária%s e %scomputação de "
 "rede%s."
 
 #: index.php:230
@@ -410,7 +410,7 @@ msgstr "O BOINC está sedeado na Universidade da Califórnia, Berkeley"
 
 #: projects.inc:14
 msgid "Distributed sensing"
-msgstr "Sensoriamento Distribuído"
+msgstr "Sensoriamento distribuídos"
 
 #: projects.inc:19
 msgid "Stanford University"
@@ -503,9 +503,10 @@ msgid ""
 "targets."
 msgstr ""
 "O parasita que causa a malária continua a desenvolver resistência à "
-"medicação disponível. Portanto precisamos urgentemente de descobrir novos "
+"medicação disponível. Precisamos portanto urgentemente de descobrir novos "
 "medicamentos para substituir os medicamentos actuais. Mais importante, estes "
-"novos medicamentos precisam de focar novas proteínas no parasita."
+"novos medicamentos precisam de se focar nas NOVAS proteínas no parasita. O "
+"objectivo do projecto FightMalaria@Home é encontrar estes novos alvos."
 
 #: projects.inc:79
 msgid "University of Karlsruhe (Germany)"
@@ -524,10 +525,10 @@ msgid ""
 "the three-dimensions structure of biologically important proteins."
 msgstr ""
 "POEM@HOME utiliza uma abordagem computacional para prever a estrutura "
-"biologicamente ativa das proteínas, para compreender os mecanismos de "
+"biologicamente activa das proteínas, para compreender os mecanismos de "
 "processamento de sinal quando as proteínas interagem entre si, para "
 "compreender doenças relacionadas com o mau funcionamento ou agregação de "
-"proteínas, e para desenvolver novos medicamentos com base na estrutura tri-"
+"proteínas e, para desenvolver novos medicamentos com base na estrutura tri-"
 "dimencional de proteínas biologicamente importantes."
 
 #: projects.inc:87
@@ -545,9 +546,10 @@ msgid ""
 "interactions and, by doing so, will search for insights into the discovery "
 "of novel pharmaceuticals."
 msgstr ""
-"Docking@Home tem metas tanto na área da biociência bem como na ciência dos "
-"computadores. O projecto visa obter conhecimento mais detalhado sobre as "
-"interacções ligando-proteicos procurando descobrir novos medicamentos."
+"A Docking@Home tem objectivos tanto na área da biociência bem como na "
+"ciência dos computadores. O projecto visa obter conhecimento mais detalhado "
+"sobre as interacções ligando-proteicos procurando descobrir novos "
+"medicamentos."
 
 #: projects.inc:103
 msgid "Barcelona Biomedical Research Park (PRBB)"
@@ -592,7 +594,7 @@ msgstr ""
 msgid ""
 "University of Maryland Center for Bioinformatics and Computational Biology"
 msgstr ""
-"Centro para BioInformáticas e Biologia Computacional na Universidade de "
+"Centro de BioInformáticas e Biologia Computacional na Universidade de "
 "Maryland"
 
 #: projects.inc:128
@@ -774,9 +776,9 @@ msgid ""
 "our Universe and to find the range of models that agree with the available "
 "astronomical particle physics data."
 msgstr ""
-"O Cosmology@Home tem como objetivo, a procura de um modelo que melhor "
-"descreva o nosso Universo e para encontrar uma série de modelos que "
-"correspondam aos dados físicos disponíveis das partículas astronómicas."
+"O Cosmology@Home tem como objetivo a procura de um modelo, que melhor "
+"descreva o nosso Universo e encontrar uma série de modelos que correspondam "
+"aos dados físicos disponíveis das partículas astronómicas."
 
 #: projects.inc:248
 msgid "Rensselaer Polytechnic Institute"
@@ -789,7 +791,7 @@ msgid ""
 "Survey."
 msgstr ""
 "O objectivo do Milkyway@Home é criar um modelo tridimensional altamente "
-"preciso da galáxia Via Láctea usando dados recolhidos pela Sonda Sloan "
+"preciso da galáxia Via Láctea, usando dados recolhidos pela Sonda Sloan "
 "Digital Sky."
 
 #: projects.inc:256
@@ -864,7 +866,7 @@ msgid ""
 msgstr ""
 "Este projecto usa a tecnologia de máquinas virtuais, desenvolvida pelo CERN "
 "para as simulações da LHC de eventos fisícos que atingiram um estado de "
-"maturação. Requer que instale o VirtualBox no seu computador."
+"maturação. Requer que instale a VirtualBox no seu computador."
 
 #: projects.inc:304
 msgid "University of California, Berkeley"
@@ -883,10 +885,10 @@ msgid ""
 "detection would provide evidence of extraterrestrial technology."
 msgstr ""
 "SETI (Procura de Vida Inteligente Extraterrestre) é uma área científica cujo "
-"objetivo é detectar vida inteligente fora da Terra. Um método, conhecido "
+"objectivo é detectar vida inteligente fora da Terra. Um método, conhecido "
 "como radio SETI, usa rádio-telescópios para ouvir sinais de rádio de banda "
-"estreita do espaço. Estes sinais não sao conhecidos como ocorrendo "
-"naturalmente e, como tal, a sua detecção providenciaria evidências de "
+"estreita do espaço. Estes sinais não são conhecidos como ocorrendo "
+"naturalmente e, como tal a sua detecção providenciaria evidências de "
 "tecnologia extraterrestre."
 
 #: projects.inc:320
@@ -928,7 +930,7 @@ msgid ""
 "their research."
 msgstr ""
 "O objetivo do CAS@home é encorajar e assistir os cientistas na China para "
-"adotarem as tecnologias de computação voluntária e pensamento voluntário "
+"adoptarem as tecnologias de computação voluntária e pensamento voluntário "
 "para as pesquisas dos mesmos."
 
 #: projects.inc:343
@@ -960,9 +962,9 @@ msgid ""
 msgstr ""
 "O projecto EDGeS@Home Beta integra a computação voluntária num serviço de "
 "rede da Internet da Europa, que permitem às redes de serviços enviar "
-"unidades de trabalho para serem processadas pelos voluntários deste projeto. "
-"Os projetos científicos cobertos pelo   projeto, incluem matemática, "
-"física, biologia, etc."
+"unidades de trabalho para serem processadas pelos voluntários deste "
+"projecto. Os projectos científicos cobertos, incluem matemática, física, "
+"biologia, etc."
 
 #: projects.inc:357
 msgid "Spanish universities and research centers"
@@ -982,7 +984,7 @@ msgstr "Cidadania Corporativa IBM"
 
 #: projects.inc:366
 msgid "Medical, environmental and other humanitarian research"
-msgstr "Pesquisa médica, ambiental e outras humanitárias"
+msgstr "Pesquisa médica, ambiental e outras pesquisas humanitárias"
 
 #: projects.inc:367
 msgid ""
@@ -1033,7 +1035,7 @@ msgstr "Matemáticas"
 #: projects.inc:444
 msgid "Study the Collatz Conjecture, an unsolved conjecture in mathematics"
 msgstr ""
-"Estudo da Conjetura \"Collatz\", uma conjetura não resolvida nas matemáticas"
+"Estudo da Conjectura Collatz, uma conjectura não resolvida nas matemáticas"
 
 #: projects.inc:449
 msgid "California State University Fullerton"
@@ -1069,7 +1071,7 @@ msgstr ""
 
 #: projects.inc:458
 msgid "Software testing"
-msgstr "a testar o programa ..."
+msgstr "Testes do programa"
 
 #: projects.inc:459
 msgid ""
@@ -1078,10 +1080,10 @@ msgid ""
 "well as others Lithuanian academic institutions.  Current applications "
 "involve the study of Monte-Carlo based software testing."
 msgstr ""
-"O objectivo específico deste projeto é providenciar uma plataforma poderosa "
+"O objectivo específico deste projecto é providenciar uma poderosa plataforma "
 "de computação distribuída para os cientistas da Universidade Técnica de "
 "Vilnius Gediminas (VGTU), bem como outras instituições académicas Lituanas. "
-"As aplicações atuais envolvem o estudo de Monte-Carlo baseado no teste de "
+"As aplicações actuais envolvem o estudo de Monte-Carlo baseado no teste de "
 "programa."
 
 #: projects.inc:481
@@ -1125,7 +1127,7 @@ msgid ""
 "of prime numbers"
 msgstr ""
 "Procura de contra-exemplos para duas conjecturas relacionadas com a "
-"identificação de númerps primos"
+"identificação de números primos"
 
 #: projects.inc:507
 msgid ""
@@ -1137,12 +1139,12 @@ msgstr ""
 
 #: ../html/inc/news.inc:40
 msgid "Comment"
-msgstr "Comentário"
+msgstr "Comentar"
 
 #: ../html/inc/news.inc:111
 #, php-format
 msgid "News is available as an %sRSS feed%s"
-msgstr "Notícias disponíveis como um %feed RSS%s"
+msgstr "Notícias disponíveis como um %sFeed RSS%s"
 
 #, php-format
 #~ msgid "%s for %s (%s MB)"
