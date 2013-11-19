@@ -1,5 +1,22 @@
-#include "config.h"
-#include "mac_address.h"
+// This file is part of BOINC.
+// http://boinc.berkeley.edu
+// Copyright (C) 2013 University of California
+//
+// BOINC is free software; you can redistribute it and/or modify it
+// under the terms of the GNU Lesser General Public License
+// as published by the Free Software Foundation,
+// either version 3 of the License, or (at your option) any later version.
+//
+// BOINC is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public License
+// along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+
+
+// find a MAC address for this host
 
 #include <string.h>
 
@@ -15,6 +32,7 @@
 #include <sysexits.h>
 #include <sys/param.h>
 #else  // used to be if defined(__linux__)
+#include "config.h"
 #include <cstdio>
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
@@ -50,7 +68,7 @@
 #include <netinet/ether.h>
 #endif
 
-#include "unix_util.h"
+#include "mac_address.h"
 
 #endif
 
