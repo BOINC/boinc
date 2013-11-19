@@ -126,8 +126,9 @@ msgstr ""
 "щоб зареєструватися чи відновити забутий пароль."
 
 #: AccountInfoPage.cpp:532
+#, fuzzy
 msgid "Account manager web site"
-msgstr ""
+msgstr "Веб-сайт менеджера проектів"
 
 #: AccountInfoPage.cpp:574 WelcomePage.cpp:348
 msgid "Add project"
@@ -172,12 +173,14 @@ msgstr ""
 "введіть його URL в полі нижче."
 
 #: AccountManagerInfoPage.cpp:279
+#, fuzzy
 msgid "Account manager details:"
-msgstr ""
+msgstr "Веб-сайт менеджера проектів"
 
 #: AccountManagerInfoPage.cpp:283
+#, fuzzy
 msgid "Account manager &URL:"
-msgstr ""
+msgstr "&URL-адреса менеджера проектів:"
 
 #: AccountManagerInfoPage.cpp:287
 msgid "Open web page"
@@ -499,9 +502,9 @@ msgid "Show information about the %s"
 msgstr "Показати інформацію про %s"
 
 #: AdvancedFrame.cpp:657 sg_BoincSimpleFrame.cpp:220 sg_BoincSimpleGUI.cpp:165
-#, c-format
+#, c-format, fuzzy
 msgid "%s &web site"
-msgstr ""
+msgstr "%s &веб-сайт"
 
 #: AdvancedFrame.cpp:663 sg_BoincSimpleFrame.cpp:226 sg_BoincSimpleGUI.cpp:171
 #, c-format
@@ -3880,9 +3883,9 @@ msgid "Project Commands"
 msgstr "Команди проекту"
 
 #: sg_ProjectPanel.cpp:267
-#, c-format
+#, c-format, fuzzy
 msgid "Pop up a menu of web sites for project %s"
-msgstr ""
+msgstr "Показати меню веб-сайтів для проекту %s"
 
 #: sg_ProjectPanel.cpp:269
 #, c-format
