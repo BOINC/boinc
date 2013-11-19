@@ -96,7 +96,7 @@ GetMACAddress(io_iterator_t intfIterator, char* buffer)
     kern_return_t   kernResult = KERN_FAILURE;
     char            delimiter[2] = "\0";
 
-    while (intfService = IOIteratorNext(intfIterator))
+    while ((intfService = IOIteratorNext(intfIterator)))
     {
         CFTypeRef   MACAddressAsCFData;
         // IONetworkControllers can't be found directly by the IOServiceGetMatchingServices call,
