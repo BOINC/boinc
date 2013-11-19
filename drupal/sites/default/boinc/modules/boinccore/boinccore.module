@@ -56,6 +56,16 @@ function boinccore_menu() {
     'type' => MENU_NORMAL_ITEM,
     'file' => 'boinccore.admin.inc'
   );
+  $items['admin/boinc/standard-content-generator'] = array(
+    'title' => 'Standard page generator',
+    'description' => 'Regenerate standard site content (e.g. Help and About Us
+      pages).',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('boinccore_admin_default_content'),
+    'access arguments' => array('administer site configuration'),
+    'type' => MENU_NORMAL_ITEM,
+    'file' => 'boinccore.admin.inc'
+  );
   return $items;
 }
 
@@ -77,6 +87,15 @@ function boinccore_menu_alter(&$items) {
       }
     }
   }
+}
+
+/**
+ * Implementation of hook_enable()
+ */
+function boinccore_enable() {
+  // Automatically try to establish standard site content when this module is
+  // enabled (e.g. Help and About Us pages)
+  boinccore_admin_default_content_generate();
 }
 
 /**
