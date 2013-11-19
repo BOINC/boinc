@@ -139,7 +139,13 @@ function ordered_display($areas, $sort) {
         if (array_key_exists(6, $p)) {
             $master_url = $p[6];
         }
-        $p = get_platforms_string($master_url);
+        $p = get_platform_icons($master_url);
+        if (!$p) {
+            $p = tra("Unknown");
+        } else {
+            $pd = get_platforms_string($master_url, false);
+            $p .= "<br><a href=projects.php onmouseover=\"popup('Supported platforms:<br>$pd', 240)\">Details</a>";
+        }
         echo "<tr class=row$n>
             <td valign=top>$x</td>
             <td valign=top>$area</td>

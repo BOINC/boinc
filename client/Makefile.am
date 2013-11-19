@@ -72,6 +72,7 @@ boinc_client_SOURCES = \
     hostinfo_unix.cpp \
     http_curl.cpp \
     log_flags.cpp \
+	mac_address.cpp \
     main.cpp \
     net_stats.cpp \
     pers_file_xfer.cpp \

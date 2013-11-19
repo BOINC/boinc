@@ -1,5 +1,22 @@
-#include "config.h"
-#include "mac_address.h"
+// This file is part of BOINC.
+// http://boinc.berkeley.edu
+// Copyright (C) 2013 University of California
+//
+// BOINC is free software; you can redistribute it and/or modify it
+// under the terms of the GNU Lesser General Public License
+// as published by the Free Software Foundation,
+// either version 3 of the License, or (at your option) any later version.
+//
+// BOINC is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public License
+// along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
+
+
+// find a MAC address for this host
 
 #include <string.h>
 
@@ -15,6 +32,7 @@
 #include <sysexits.h>
 #include <sys/param.h>
 #else  // used to be if defined(__linux__)
+#include "config.h"
 #include <cstdio>
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
@@ -50,7 +68,7 @@
 #include <netinet/ether.h>
 #endif
 
-#include "unix_util.h"
+#include "mac_address.h"
 
 #endif
 
@@ -96,7 +114,7 @@ GetMACAddress(io_iterator_t intfIterator, char* buffer)
     kern_return_t   kernResult = KERN_FAILURE;
     char            delimiter[2] = "\0";
 
-    while (intfService = IOIteratorNext(intfIterator))
+    while ((intfService = IOIteratorNext(intfIterator)))
     {
         CFTypeRef   MACAddressAsCFData;
         // IONetworkControllers can't be found directly by the IOServiceGetMatchingServices call,
@@ -193,27 +211,25 @@ int get_mac_address(char* address) {
     int           i;
     /* Get a socket handle. */
     sck = socket(AF_INET, SOCK_DGRAM, 0);
-    if(sck < 0)
-    {
+    if (sck < 0) {
         perror("socket");
-
         return false;
     }
     /* Query available interfaces. */
 #ifdef HAVE_STRUCT_LIFCONF
     ifc.lifc_len = sizeof(buf);
     ifc.lifc_buf = buf;
-    if(ioctl(sck, SIOCGLIFCONF, &ifc) < 0)
-    {
+    if (ioctl(sck, SIOCGLIFCONF, &ifc) < 0) {
         perror("ioctl(SIOCGLIFCONF)");
+        close(sck);
         return false;
     }
 #else
     ifc.ifc_len = sizeof(buf);
     ifc.ifc_buf = buf;
-    if(ioctl(sck, SIOCGIFCONF, &ifc) < 0)
-    {
+    if (ioctl(sck, SIOCGIFCONF, &ifc) < 0) {
         perror("ioctl(SIOCGIFCONF)");
+        close(sck);
         return false;
     }
 #endif
@@ -226,12 +242,9 @@ int get_mac_address(char* address) {
     ifr		= ifc.ifc_req;
     nInterfaces = ifc.ifc_len / sizeof(struct ifreq);
 #endif
-    strcpy(addresses, "");
-    char delimiter[2] = "\0";
+    strcpy(address, "");
 
-    for(i = 0; i < nInterfaces; i++)
-    {
-
+    for (i = 0; i < nInterfaces; i++) {
 #ifdef HAVE_STRUCT_LIFCONF
         struct lifreq *item = &ifr[i];
 #else
@@ -240,30 +253,30 @@ int get_mac_address(char* address) {
         struct ether_addr *hw_addr; 
         /* Get the MAC address */
 #ifdef SIOCGIFHWADDR
-        if(ioctl(sck, SIOCGIFHWADDR, item) < 0)
-        {
+        if(ioctl(sck, SIOCGIFHWADDR, item) < 0) {
             perror("ioctl(SIOCGIFHWADDR)");
+            close(sck);
             return false;
         }
         hw_addr=(struct ether_addr *)(item->ifr_hwaddr.sa_data);
 #elif  defined(SIOCGIFARP)
-        if(ioctl(sck, SIOCGIFARP, item) < 0)
-        {
+        if(ioctl(sck, SIOCGIFARP, item) < 0) {
             perror("ioctl(SIOCGIFARP)");
+            close(sck);
             return false;
         }
         hw_addr=(struct ether_addr *)&(item->lifr_lifru.lifru_enaddr);  
 #endif
-        strcat(addresses, delimiter);
-        delimiter[0] = ':';
-        delimiter[1] = '\0';
-        strcat(addresses, ether_ntoa(hw_addr));
+        strcpy(address, ether_ntoa(hw_addr));
+        if (strstr(item->ifr_ifrn.ifrn_name, "eth")) break;
     }
+    close(sck);
+    if (!strcmp(address, "")) return -1;
+    if (!strcmp(address, "0:0:0:0:0:0")) return -1;
 
-    return true;
+    return 0;
 #else
-#warning Don`t know how to obtain mac address.  get_mac_addresses() will return false.
-    return false;
+#warning Don`t know how to obtain MAC address.  get_mac_address() will fail.
+    return -1;
 #endif
 }
-

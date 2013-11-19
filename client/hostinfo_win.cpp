@@ -36,7 +36,6 @@
 
 #include "client_msgs.h"
 #include "client_types.h"
-#include "hostinfo_network.h"
 #include "hostinfo.h"
 #include "idlemon.h"
 
