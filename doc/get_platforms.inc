@@ -55,6 +55,8 @@ function get_platform_icon_flags($l) {
     $x->mac = false;
     $x->linux = false;
     $x->android = false;
+    $x->freebsd = false;
+    $x->rasp_pi = false;
     $x->nvidia_gpu = false;
     $x->amd_gpu = false;
     $x->intel_gpu = false;
@@ -70,6 +72,10 @@ function get_platform_icon_flags($l) {
         if (strstr($p, "darwin")) $x->mac = true;
         if (strstr($p, "linux")) $x->linux = true;
         if (strstr($p, "android")) $x->android = true;
+        if (strstr($p, "freebsd")) $x->freebsd = true;
+        if (strstr($p, "arm-unknown-linux-gnueabihf")) $x->rasp_pi = true;
+        if (strstr($p, "armv5")) $x->rasp_pi = true;
+        if (strstr($p, "armv6")) $x->rasp_pi = true;
         if (strstr($pc, "ati")) $x->amd_gpu = true;
         if (strstr($pc, "cuda")) $x->nvidia_gpu = true;
         if (strstr($pc, "intel_gpu")) $x->intel_gpu = true;
@@ -93,6 +99,12 @@ function platform_icons($f) {
     }
     if ($f->android) {
         $x .= "<img hspace=$hs height=$ht src=images/android.png title=\"Supports Android\">";
+    }
+    if ($f->freebsd) {
+        $x .= "<img hspace=$hs height=$ht src=images/freebsd.png title=\"Supports FreeBSD\">";
+    }
+    if ($f->rasp_pi) {
+        $x .= "<img hspace=$hs height=$ht src=images/raspberry-pi.jpg title=\"Supports Raspberry Pi\">";
     }
     if ($f->nvidia_gpu) {
         $x .= "<img hspace=$hs height=$ht src=images/nvidia.jpg title=\"Supports NVIDIA GPUs\">";
@@ -137,6 +149,7 @@ function canonical_plan_class($pc) {
 //   ...
 //
 function get_platforms($url) {
+    if (strstr($url, "radioactive")) return null;
     $url .= 'get_project_config.php';
     $x = @file_get_contents($url);
     if (!$x) {
@@ -288,6 +301,7 @@ function get_platform_icons($url) {
 }
 
 //$u = "http://www.worldcommunitygrid.org/";
+//$u = "http://asteroidsathome.net/boinc/";
 //$u = "http://setiathome.berkeley.edu/";
 //$u = "http://aqua.dwavesys.com/";
 //$u = "http://lhcathome2.cern.ch/test4theory";

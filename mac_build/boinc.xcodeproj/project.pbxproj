@@ -184,7 +184,6 @@
 		DD52C81408B5D484008D9AA4 /* network.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD6D0A8507E9A61B007F882B /* network.cpp */; };
 		DD531BC60C193D3800742E50 /* MacInstaller.icns in Resources */ = {isa = PBXBuildFile; fileRef = DD531BC50C193D3800742E50 /* MacInstaller.icns */; };
 		DD531BC80C193D5200742E50 /* MacUninstaller.icns in Resources */ = {isa = PBXBuildFile; fileRef = DD531BC70C193D5200742E50 /* MacUninstaller.icns */; };
-		DD5A6C0E18371AD400C45322 /* mac_address.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD5A6C0C18371A8600C45322 /* mac_address.cpp */; };
 		DD5BF77D0D4F3D0C00EDF980 /* mac_icon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD6381450870DB78007A2F8E /* mac_icon.cpp */; };
 		DD5FE1B517828887003339DF /* translate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDF9350F176B0D0C00A2793C /* translate.cpp */; };
 		DD6381F90870DD83007A2F8E /* make_app_icon_h.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD6381F80870DD83007A2F8E /* make_app_icon_h.cpp */; };
@@ -450,6 +449,7 @@
 		DDD9C5AA10CCF6A000A1E4CD /* coproc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7475500D86273300860636 /* coproc.cpp */; };
 		DDD9C5AB10CCF6A300A1E4CD /* coproc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7475500D86273300860636 /* coproc.cpp */; };
 		DDD9C5AC10CCF6AB00A1E4CD /* coproc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7475500D86273300860636 /* coproc.cpp */; };
+		DDDC2055183B560B00CB5845 /* mac_address.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDDC2053183B560B00CB5845 /* mac_address.cpp */; };
 		DDDD6D8012E4611300C258A0 /* sg_ProjectPanel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDDD6D7E12E4611300C258A0 /* sg_ProjectPanel.cpp */; };
 		DDDE43B10EC04C1800083520 /* DlgExitMessage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDDE43B00EC04C1800083520 /* DlgExitMessage.cpp */; };
 		DDE1372A10DC5E5300161D6B /* cs_notice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE1372810DC5E5300161D6B /* cs_notice.cpp */; };
@@ -813,7 +813,6 @@
 		DD344BB607C5AEEE0043025C /* hostinfo.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = hostinfo.cpp; sourceTree = "<group>"; };
 		DD344BB707C5AEEE0043025C /* hostinfo.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = hostinfo.h; path = ../lib/hostinfo.h; sourceTree = SOURCE_ROOT; };
 		DD344BC007C5AF280043025C /* hostinfo_network.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = hostinfo_network.cpp; sourceTree = "<group>"; };
-		DD344BC107C5AF280043025C /* hostinfo_network.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = hostinfo_network.h; path = ../client/hostinfo_network.h; sourceTree = SOURCE_ROOT; };
 		DD344BCE07C5B0B80043025C /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		DD344BCF07C5B0B80043025C /* main.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = main.h; path = ../client/main.h; sourceTree = SOURCE_ROOT; };
 		DD344BD207C5B1150043025C /* mfile.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = mfile.cpp; sourceTree = "<group>"; };
@@ -891,8 +890,6 @@
 		DD58C46408F334EA00C1DF66 /* WelcomePage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = WelcomePage.h; path = ../clientgui/WelcomePage.h; sourceTree = SOURCE_ROOT; };
 		DD58C46908F334EA00C1DF66 /* wizardex.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = wizardex.cpp; path = ../clientgui/wizardex.cpp; sourceTree = SOURCE_ROOT; };
 		DD58C46A08F334EA00C1DF66 /* wizardex.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = wizardex.h; path = ../clientgui/wizardex.h; sourceTree = SOURCE_ROOT; };
-		DD5A6C0C18371A8600C45322 /* mac_address.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mac_address.cpp; sourceTree = "<group>"; };
-		DD5A6C0D18371A8600C45322 /* mac_address.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mac_address.h; sourceTree = "<group>"; };
 		DD5EF07007C5B329007CCE8D /* whetstone.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = whetstone.cpp; sourceTree = "<group>"; };
 		DD5EF08807C5B7C7007CCE8D /* version.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = version.h; path = ../version.h; sourceTree = SOURCE_ROOT; };
 		DD6381450870DB78007A2F8E /* mac_icon.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = mac_icon.cpp; sourceTree = "<group>"; };
@@ -1133,6 +1130,8 @@
 		DDD52DC80C03CAE6009B5FC0 /* ViewWork.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ViewWork.cpp; path = ../clientgui/ViewWork.cpp; sourceTree = SOURCE_ROOT; };
 		DDD52DC90C03CAE6009B5FC0 /* ViewWork.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ViewWork.h; path = ../clientgui/ViewWork.h; sourceTree = SOURCE_ROOT; };
 		DDD74D8707CF482E0065AC9D /* boinc */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = boinc; sourceTree = BUILT_PRODUCTS_DIR; };
+		DDDC2053183B560B00CB5845 /* mac_address.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mac_address.cpp; sourceTree = "<group>"; };
+		DDDC2054183B560B00CB5845 /* mac_address.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mac_address.h; sourceTree = "<group>"; };
 		DDDD6D7E12E4611300C258A0 /* sg_ProjectPanel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sg_ProjectPanel.cpp; path = ../clientgui/sg_ProjectPanel.cpp; sourceTree = SOURCE_ROOT; };
 		DDDD6D7F12E4611300C258A0 /* sg_ProjectPanel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sg_ProjectPanel.h; path = ../clientgui/sg_ProjectPanel.h; sourceTree = SOURCE_ROOT; };
 		DDDE43B00EC04C1800083520 /* DlgExitMessage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DlgExitMessage.cpp; path = ../clientgui/DlgExitMessage.cpp; sourceTree = SOURCE_ROOT; };
@@ -1816,8 +1815,6 @@
 				DD344BB607C5AEEE0043025C /* hostinfo.cpp */,
 				DD344BB707C5AEEE0043025C /* hostinfo.h */,
 				DDA6BCED0BD4546D008F7921 /* mac */,
-				DD5A6C0C18371A8600C45322 /* mac_address.cpp */,
-				DD5A6C0D18371A8600C45322 /* mac_address.h */,
 				F5159562029EB02001F5651B /* md5.c */,
 				F5159563029EB02001F5651B /* md5.h */,
 				F5159564029EB02001F5651B /* md5_file.cpp */,
@@ -1926,13 +1923,14 @@
 				DD73E36208A06ED400656EB1 /* gui_rpc_server_ops.cpp */,
 				DD344BAE07C5AEB70043025C /* gui_rpc_server.h */,
 				DD344BC007C5AF280043025C /* hostinfo_network.cpp */,
-				DD344BC107C5AF280043025C /* hostinfo_network.h */,
 				F54B8FD302AC0A0C01FB7237 /* hostinfo_unix.cpp */,
 				DD33C70208B5BEDE00768630 /* http_curl.cpp */,
 				DD33C70308B5BEDE00768630 /* http_curl.h */,
 				F54B8FD602AC0A0C01FB7237 /* log_flags.cpp */,
 				F54B8FD702AC0A0C01FB7237 /* log_flags.h */,
 				DD344BCE07C5B0B80043025C /* main.cpp */,
+				DDDC2053183B560B00CB5845 /* mac_address.cpp */,
+				DDDC2054183B560B00CB5845 /* mac_address.h */,
 				DD344BCF07C5B0B80043025C /* main.h */,
 				F54B8FDA02AC0A0C01FB7237 /* net_stats.cpp */,
 				F54B8FDB02AC0A0C01FB7237 /* net_stats.h */,
@@ -2959,7 +2957,6 @@
 				DDA6BD1F0BD4551F008F7921 /* QTaskMemory.c in Sources */,
 				DDB4A91F1411840800032E5D /* proc_control.cpp in Sources */,
 				DD76BF9317CB45A20075936D /* opencl_boinc.cpp in Sources */,
-				DD5A6C0E18371AD400C45322 /* mac_address.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3297,6 +3294,7 @@
 				DD3157C316740D5300B6C909 /* gpu_intel.cpp in Sources */,
 				DD76BF9517CB45D20075936D /* opencl_boinc.cpp in Sources */,
 				DD6A829C181103990037172D /* thread.cpp in Sources */,
+				DDDC2055183B560B00CB5845 /* mac_address.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

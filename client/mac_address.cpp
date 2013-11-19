@@ -112,7 +112,6 @@ GetMACAddress(io_iterator_t intfIterator, char* buffer)
     io_object_t     intfService;
     io_object_t     controllerService;
     kern_return_t   kernResult = KERN_FAILURE;
-    char            delimiter[2] = "\0";
 
     while ((intfService = IOIteratorNext(intfIterator)))
     {
@@ -132,19 +131,16 @@ GetMACAddress(io_iterator_t intfIterator, char* buffer)
                 UInt8 MACAddress[ kIOEthernetAddressSize ];
 
                 CFDataGetBytes(refData, CFRangeMake(0,CFDataGetLength(refData)), MACAddress);
-                sprintf(buffer, "%s%s%02x:%02x:%02x:%02x:%02x:%02x",
-                        buffer, delimiter,
+                sprintf(buffer, "%02x:%02x:%02x:%02x:%02x:%02x",
                         MACAddress[0], MACAddress[1], MACAddress[2], MACAddress[3], MACAddress[4], MACAddress[5]);
                 CFRelease(MACAddressAsCFData);
-                delimiter[0] = ':';
-                delimiter[1] = '\0';
             }
             (void) IOObjectRelease(controllerService);
         }
         // We have sucked this service dry of information so release it now.
         (void) IOObjectRelease(intfService);
         // We're just interested in the first interface so exit the loop.
-        //break;
+        break;
     }
     return kernResult;
 }
@@ -213,7 +209,7 @@ int get_mac_address(char* address) {
     sck = socket(AF_INET, SOCK_DGRAM, 0);
     if (sck < 0) {
         perror("socket");
-        return false;
+        return -1;
     }
     /* Query available interfaces. */
 #ifdef HAVE_STRUCT_LIFCONF
@@ -222,7 +218,7 @@ int get_mac_address(char* address) {
     if (ioctl(sck, SIOCGLIFCONF, &ifc) < 0) {
         perror("ioctl(SIOCGLIFCONF)");
         close(sck);
-        return false;
+        return -1;
     }
 #else
     ifc.ifc_len = sizeof(buf);
@@ -230,7 +226,7 @@ int get_mac_address(char* address) {
     if (ioctl(sck, SIOCGIFCONF, &ifc) < 0) {
         perror("ioctl(SIOCGIFCONF)");
         close(sck);
-        return false;
+        return -1;
     }
 #endif
 
@@ -256,14 +252,14 @@ int get_mac_address(char* address) {
         if(ioctl(sck, SIOCGIFHWADDR, item) < 0) {
             perror("ioctl(SIOCGIFHWADDR)");
             close(sck);
-            return false;
+            return -1;
         }
         hw_addr=(struct ether_addr *)(item->ifr_hwaddr.sa_data);
 #elif  defined(SIOCGIFARP)
         if(ioctl(sck, SIOCGIFARP, item) < 0) {
             perror("ioctl(SIOCGIFARP)");
             close(sck);
-            return false;
+            return -1;
         }
         hw_addr=(struct ether_addr *)&(item->lifr_lifru.lifru_enaddr);  
 #endif
