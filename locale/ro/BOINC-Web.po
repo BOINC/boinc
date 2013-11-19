@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2013-10-29 11:10 PDT\n"
-"PO-Revision-Date: 2013-10-30 14:56+0000\n"
+"PO-Revision-Date: 2013-11-19 06:46+0000\n"
 "Last-Translator: Marius <marius.sirbu@outlook.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: ro\n"
@@ -21,7 +21,7 @@ msgstr ""
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-SearchPath-0: doc\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
-"X-POOTLE-MTIME: 1383144975.0\n"
+"X-POOTLE-MTIME: 1384843586.0\n"
 "X-Poedit-KeywordsList: tra\n"
 
 #: docutil.php:21
@@ -35,7 +35,7 @@ msgstr "Înapoi la pagina principală BOINC"
 #: docutil.php:114
 #, php-format
 msgid "This page is %stranslatable%s."
-msgstr "Această pagină este %stranslatable%s."
+msgstr "Această pagină poate fi %stradusă%s."
 
 #: download.php:44
 msgid "Download BOINC + Virtualbox"

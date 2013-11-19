@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2013-11-08 00:00 PST\n"
-"PO-Revision-Date: 2013-11-18 18:45+0000\n"
+"PO-Revision-Date: 2013-11-19 06:55+0000\n"
 "Last-Translator: Marius <marius.sirbu@outlook.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: ro\n"
@@ -18,7 +18,7 @@ msgstr ""
 "20)) ? 1 : 2);;\n"
 "X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-POOTLE-MTIME: 1384800344.0\n"
+"X-POOTLE-MTIME: 1384844158.0\n"
 
 msgid "LANG_NAME_NATIVE"
 msgstr "Română"
@@ -3059,7 +3059,7 @@ msgstr ""
 
 #: ../user/edit_forum_preferences_form.php:57
 msgid "On my Account page (no email)"
-msgstr ""
+msgstr "Pe pagina Contului meu (fără email)"
 
 #: ../user/edit_forum_preferences_form.php:58
 msgid "Immediately, by email"
@@ -3848,11 +3848,11 @@ msgstr ""
 
 #: ../user/forum_moderate_post_action.php:85
 msgid "Can't move to different category type"
-msgstr ""
+msgstr "Nu se poate muta într-un alt tip de categorie"
 
 #: ../user/forum_moderate_post_action.php:89
 msgid "Can't move to different category"
-msgstr ""
+msgstr "Nu se poate muta într-o altă categorie"
 
 #: ../user/forum_moderate_post_action.php:110
 msgid "Not authorized to banish users"
@@ -3868,7 +3868,7 @@ msgstr ""
 
 #: ../user/forum_moderate_post_action.php:131
 msgid "Action failed: possible database problem"
-msgstr ""
+msgstr "Acţiune nereuşită: posibil problemă cu baza de date"
 
 #: ../user/forum_moderate_thread.php:33
 msgid "not authorized"
@@ -4335,7 +4335,7 @@ msgstr ""
 
 #: ../user/friend.php:33
 msgid "Already friends"
-msgstr ""
+msgstr "Deja prieteni"
 
 #: ../user/friend.php:39
 msgid "You requested friendship with %1 on %2."
@@ -4343,7 +4343,7 @@ msgstr ""
 
 #: ../user/friend.php:41
 msgid "This request is still pending confirmation."
-msgstr ""
+msgstr "Această cerere încă aşteaptă confirmarea."
 
 #: ../user/friend.php:52
 msgid "%1 is not accepting friendship requests from you"
@@ -4365,11 +4365,11 @@ msgstr ""
 
 #: ../user/friend.php:77
 msgid "Add an optional message here:"
-msgstr ""
+msgstr "Adăugaţi un mesaj opţional aici:"
 
 #: ../user/friend.php:115
 msgid "Friend request sent"
-msgstr ""
+msgstr "Cerere prietenie trimisă"
 
 #: ../user/friend.php:116
 msgid "We have notified %1 of your request."
@@ -4890,12 +4890,16 @@ msgid ""
 "This web site is available in several languages. The currently selected "
 "language is %1."
 msgstr ""
+"Acest site web este disponibil în mai multe limbi. Limba selectată acum este "
+"%1."
 
 #: ../user/language_select.php:78
 msgid ""
 "Normally the choice of language is determined by your browser's language "
 "setting, which is: %1.  You can change this setting using:"
 msgstr ""
+"În mod normal limba este determinată de setările de limbă ale navigatorului, "
+"care sunt: %1.  Puteţi schimba aceste setări folosind:"
 
 #: ../user/language_select.php:83
 msgid "Firefox: Tools/Options/General"
