@@ -33,6 +33,8 @@ class CDlgEventLog;
 
 class CDlgEventLogListCtrl : public DLG_LISTCTRL_BASE
 {
+using DLG_LISTCTRL_BASE::GetBackgroundColour;
+
     DECLARE_DYNAMIC_CLASS(CDlgEventLogListCtrl)
     DECLARE_EVENT_TABLE()
 

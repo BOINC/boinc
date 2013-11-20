@@ -49,7 +49,7 @@ public:
                  const wxChar* resource = NULL
     );
 
-    virtual bool Create(
+    bool Create(
                 wxWizardEx *parent,
                 int id = wxID_ANY,
                 const wxChar* resource = NULL

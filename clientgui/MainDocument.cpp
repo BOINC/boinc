@@ -31,7 +31,6 @@
 #include "MainDocument.h"
 #include "BOINCBaseFrame.h"
 #include "AdvancedFrame.h"
-#include "sg_BoincSimpleGUI.h"
 #include "BOINCClientManager.h"
 #include "BOINCTaskBar.h"
 #include "DlgEventLog.h"

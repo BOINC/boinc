@@ -1606,10 +1606,10 @@
 				DDCAD7D40A6C603A0086C7EE /* sg_DlgPreferences.h */,
 				DDC321AC12E45162006CB55F /* sg_PanelBase.cpp */,
 				DDC321AD12E45162006CB55F /* sg_PanelBase.h */,
-				DDDD6D7E12E4611300C258A0 /* sg_ProjectPanel.cpp */,
-				DDDD6D7F12E4611300C258A0 /* sg_ProjectPanel.h */,
 				DD7A5DAA12EEC37B0006268E /* sg_ProjectCommandPopup.cpp */,
 				DD7A5DA712EEC33F0006268E /* sg_ProjectCommandPopup.h */,
+				DDDD6D7E12E4611300C258A0 /* sg_ProjectPanel.cpp */,
+				DDDD6D7F12E4611300C258A0 /* sg_ProjectPanel.h */,
 				DD7A5D9E12EEBFC20006268E /* sg_ProjectWebSitesPopup.cpp */,
 				DD7A5D9D12EEBFC20006268E /* sg_ProjectWebSitesPopup.h */,
 				DD7A5D8212EEBE5E0006268E /* sg_TaskCommandPopup.cpp */,
@@ -3582,7 +3582,6 @@
 					"-Wno-four-char-constants",
 					"-Wno-unknown-pragmas",
 					"-Wno-write-strings",
-					"-Wno-overloaded-virtual",
 				);
 			};
 			name = Development;
@@ -3639,7 +3638,6 @@
 					"-Wno-four-char-constants",
 					"-Wno-unknown-pragmas",
 					"-Wno-write-strings",
-					"-Wno-overloaded-virtual",
 				);
 			};
 			name = Deployment;
