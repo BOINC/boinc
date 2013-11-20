@@ -736,6 +736,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\client\mac_address.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\client\main.cpp"
 				>
 			</File>
@@ -918,6 +922,10 @@
 			</File>
 			<File
 				RelativePath="..\client\log_flags.h"
+				>
+			</File>
+			<File
+				RelativePath="..\client\mac_address.h"
 				>
 			</File>
 			<File
