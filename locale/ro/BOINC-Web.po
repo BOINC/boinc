@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2013-11-12 00:00 PST\n"
-"PO-Revision-Date: 2013-11-19 06:46+0000\n"
+"PO-Revision-Date: 2013-11-20 08:58+0000\n"
 "Last-Translator: Marius <marius.sirbu@outlook.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: ro\n"
@@ -21,7 +21,7 @@ msgstr ""
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-SearchPath-0: doc\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
-"X-POOTLE-MTIME: 1384843586.0\n"
+"X-POOTLE-MTIME: 1384937910.0\n"
 "X-Poedit-KeywordsList: tra\n"
 
 #: docutil.php:21
@@ -42,29 +42,32 @@ msgid ""
 "We recommend that you also install VirtualBox, so your computer can work on "
 "science projects that require it."
 msgstr ""
+"Vă recomandăm să instalaţi şi VirtualBox, astfel încât calculatorul "
+"dumneavoastră să poată lucra la proiectele ştiinţifice cărora le este "
+"necesar."
 
 #: download.php:41
 msgid "Learn more about VirtualBox."
-msgstr ""
+msgstr "Aflaţi mai multe despre VirtualBox."
 
 #: download.php:51
 msgid "Download BOINC + VirtualBox"
-msgstr ""
+msgstr "Descărcaţi BOINC + Virtualbox"
 
 #: download.php:54 download.php:69
 #, php-format
 msgid "for %s"
-msgstr ""
+msgstr "pentru %s"
 
 #: download.php:57 download.php:72
 #, php-format
 msgid "BOINC version %s"
-msgstr ""
+msgstr "BOINC versiunea %s"
 
 #: download.php:59
 #, php-format
 msgid "VirtualBox version %s"
-msgstr ""
+msgstr "VirtualBox versiunea %s"
 
 #: download.php:67
 msgid "Download BOINC"
