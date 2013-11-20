@@ -39,6 +39,8 @@ struct VBOX_VM {
     // Floppy IO abstraction
     FloppyIO* pFloppy;
 
+    // last polled copy of the log file
+    std::string vm_log;
     // unique name for the VM
     std::string vm_master_name;
     // unique description for the VM
@@ -122,11 +124,17 @@ struct VBOX_VM {
     int restoresnapshot();
     void cleanup();
     void poll(bool log_state = true);
+    void dumphypervisorlogs();
 
     bool is_system_ready(std::string& message);
     bool is_registered();
     bool is_hdd_registered();
     bool is_extpack_installed();
+    bool is_logged_failure_vm_extensions_disabled();
+    bool is_logged_failure_vm_extensions_in_use();
+    bool is_logged_failure_vm_extensions_not_supported();
+    bool is_logged_failure_host_out_of_memory();
+    bool is_logged_failure_guest_job_out_of_memory();
 
     int register_vm();
     int deregister_vm(bool delete_media);
@@ -137,7 +145,6 @@ struct VBOX_VM {
     int get_network_bytes_sent(double& sent);
     int get_network_bytes_received(double& received);
     int get_system_log(std::string& log);
-    int get_vm_log(std::string& log);
     int get_vm_exit_code(unsigned long& exit_code);
     int get_vm_process_id(int& process_id);
     int get_port_forwarding_port();

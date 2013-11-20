@@ -64,6 +64,8 @@ WX_DECLARE_OBJARRAY(wxPiePart, wxPieSeries);
 ///	The component for drawing pie diagrams
 class wxPieCtrl : public wxWindow
 {
+using wxWindow::SetTransparent;
+
 protected:
 	int m_padding;
 	wxBitmap m_CanvasBitmap;

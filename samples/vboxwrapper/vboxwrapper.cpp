@@ -382,8 +382,6 @@ int main(int argc, char** argv) {
     int vm_pid = 0;
 	int vm_image = 0;
     unsigned long vm_exit_code = 0;
-    string vm_log;
-    string system_log;
     string message;
     vector<string> copy_to_shared;
     char buf[256];
@@ -649,10 +647,6 @@ int main(int argc, char** argv) {
         char* temp_reason = (char*)"";
         int   temp_delay = 300;
 
-        // Get logs before cleanup
-        vm.get_system_log(system_log);
-        vm.get_vm_log(vm_log);
-
         // Attempt to cleanup the VM
         vm.cleanup();
         write_checkpoint(elapsed_time, vm);
@@ -662,7 +656,7 @@ int main(int argc, char** argv) {
             "%s VM failed to start.\n",
             vboxwrapper_msg_prefix(buf, sizeof(buf))
         );
-        if ((vm_log.find("VERR_VMX_MSR_LOCKED_OR_DISABLED") != string::npos) || (vm_log.find("VERR_SVM_DISABLED") != string::npos)) {
+        if (vm.is_logged_failure_vm_extensions_disabled()) {
             fprintf(
                 stderr,
                 "%s NOTE: BOINC has detected that your computer's processor supports hardware acceleration for\n"
@@ -675,7 +669,7 @@ int main(int argc, char** argv) {
                 "    Error Code: ERR_CPU_VM_EXTENSIONS_DISABLED\n",
                 vboxwrapper_msg_prefix(buf, sizeof(buf))
             );
-        } else if ((vm_log.find("VERR_VMX_IN_VMX_ROOT_MODE") != string::npos) || (vm_log.find("VERR_SVM_IN_USE") != string::npos)) {
+        } else if (vm.is_logged_failure_vm_extensions_in_use()) {
             fprintf(
                 stderr,
                 "%s NOTE: VirtualBox hypervisor reports that another hypervisor has locked the hardware acceleration\n"
@@ -684,7 +678,7 @@ int main(int argc, char** argv) {
                 "    Error Code: ERR_CPU_VM_EXTENSIONS_DISABLED\n",
                 vboxwrapper_msg_prefix(buf, sizeof(buf))
             );
-        } else if ((vm_log.find("VERR_VMX_NO_VMX") != string::npos) || (vm_log.find("VERR_SVM_NO_SVM") != string::npos)) {
+        } else if (vm.is_logged_failure_vm_extensions_not_supported()) {
             fprintf(
                 stderr,
                 "%s NOTE: VirtualBox has reported an improperly configured virtual machine. It was configured to require\n"
@@ -692,7 +686,7 @@ int main(int argc, char** argv) {
                 "    Please report this issue to the project so that it can be addresssed.\n",
                 vboxwrapper_msg_prefix(buf, sizeof(buf))
             );
-        } else if ((vm_log.find("VERR_EM_NO_MEMORY") != string::npos) || (vm_log.find("VERR_NO_MEMORY") != string::npos)) {
+        } else if (vm.is_logged_failure_host_out_of_memory()) {
             fprintf(
                 stderr,
                 "%s NOTE: VirtualBox has failed to allocate enough memory to start the configured virtual machine.\n"
@@ -702,17 +696,7 @@ int main(int argc, char** argv) {
             unrecoverable_error = false;
             temp_reason = (char*)"VM Hypervisor was unable to allocate enough memory to start VM.";
         } else {
-            fprintf(
-                stderr,
-                "%s Hypervisor System Log:\n\n"
-                "%s\n"
-                "%s VM Execution Log:\n\n"
-                "%s\n",
-                vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                system_log.c_str(),
-                vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                vm_log.c_str()
-            );
+            vm.dumphypervisorlogs();
         }
 
         if (unrecoverable_error) {
@@ -734,7 +718,6 @@ int main(int argc, char** argv) {
 
         // Discover the VM's current state
         vm.poll();
-        vm.get_vm_log(vm_log);
 
         if (boinc_status.no_heartbeat || boinc_status.quit_request) {
             vm.reset_vm_process_priority();
@@ -747,13 +730,8 @@ int main(int argc, char** argv) {
             boinc_finish(EXIT_ABORTED_BY_CLIENT);
         }
         if (!vm.online) {
-            if (vm.crashed || (elapsed_time < vm.job_duration)) {
-                vm.get_system_log(system_log);
-                vm.get_vm_exit_code(vm_exit_code);
-            }
-
             // Is this a type of event we can recover from?
-            if ((vm_log.find("VERR_EM_NO_MEMORY") != std::string::npos) || (vm_log.find("VERR_NO_MEMORY") != std::string::npos)) {
+            if (vm.is_logged_failure_host_out_of_memory()) {
                 fprintf(
                     stderr,
                     "%s NOTE: VirtualBox has failed to allocate enough memory to continue.\n"
@@ -768,18 +746,11 @@ int main(int argc, char** argv) {
                 if (vm.crashed || (elapsed_time < vm.job_duration)) {
                     fprintf(
                         stderr,
-                        "%s VM Premature Shutdown Detected.\n"
-                        "    Hypervisor System Log:\n\n"
-                        "%s\n"
-                        "    VM Execution Log:\n\n"
-                        "%s\n"
-                        "    VM Exit Code: %d (0x%x)\n\n",
-                        vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                        system_log.c_str(),
-                        vm_log.c_str(),
-                        (unsigned int)vm_exit_code,
-                        (unsigned int)vm_exit_code
+                        "%s VM Premature Shutdown Detected.\n",
+                        vboxwrapper_msg_prefix(buf, sizeof(buf))
                     );
+                    vm.dumphypervisorlogs();
+                    vm.get_vm_exit_code(vm_exit_code);
                     if (vm_exit_code) {
                         boinc_finish(vm_exit_code);
                     } else {
@@ -797,16 +768,14 @@ int main(int argc, char** argv) {
         } else {
             // Check to see if the guest VM has any log messages that indicate that we need need
             // to take action.
-            if (vm_log.find("EXIT_OUT_OF_MEMORY") != std::string::npos) {
+            if (vm.is_logged_failure_guest_job_out_of_memory()) {
                 fprintf(
                     stderr,
-                    "%s ERROR: VM reports there is not enough memory to finish the task.\n\n",
-                    "    VM Execution Log:\n\n"
-                    "%s\n",
-                    vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                    vm_log.c_str()
+                    "%s ERROR: VM reports there is not enough memory to finish the task.\n",
+                    vboxwrapper_msg_prefix(buf, sizeof(buf))
                 );
                 vm.reset_vm_process_priority();
+                vm.dumphypervisorlogs();
                 vm.poweroff();
                 boinc_finish(EXIT_OUT_OF_MEMORY);
             }
@@ -823,6 +792,12 @@ int main(int argc, char** argv) {
             if (!vm_pid) {
                 vm.get_vm_process_id(vm_pid);
                 if (vm_pid) {
+                    fprintf(
+                        stderr,
+                        "%s Status Report: Detected VM Process ID: '%d' \n",
+                        vboxwrapper_msg_prefix(buf, sizeof(buf)),
+                        vm_pid
+                    );
                     vm.lower_vm_process_priority();
                     report_vm_pid = true;
                 }
@@ -876,21 +851,6 @@ int main(int argc, char** argv) {
                         );
                         boinc_checkpoint_completed();
                     }
-                }
-            }
-
-            if (report_vm_pid || report_net_usage) {
-                retval = boinc_report_app_status_aux(
-                    elapsed_time,
-                    checkpoint_cpu_time,
-                    fraction_done,
-                    vm_pid,
-                    bytes_sent,
-                    bytes_received
-                );
-                if (!retval) {
-                    report_vm_pid = false;
-                    report_net_usage = false;
                 }
             }
 
@@ -949,6 +909,7 @@ int main(int argc, char** argv) {
                 boinc_finish(0);
             }
         }
+
         if (vm.enable_network) {
             if (boinc_status.network_suspended) {
                 if (!vm.network_suspended) {
@@ -982,6 +943,21 @@ int main(int argc, char** argv) {
                     bytes_received = received;
                     report_net_usage = true;
                 }
+            }
+        }
+
+        if (report_vm_pid || report_net_usage) {
+            retval = boinc_report_app_status_aux(
+                elapsed_time,
+                checkpoint_cpu_time,
+                fraction_done,
+                vm_pid,
+                bytes_sent,
+                bytes_received
+            );
+            if (!retval) {
+                report_vm_pid = false;
+                report_net_usage = false;
             }
         }
 

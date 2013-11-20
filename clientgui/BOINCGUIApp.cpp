@@ -38,7 +38,6 @@
 #include "parse.h"
 #include "idlemon.h"
 #include "Events.h"
-#include "common/wxFlatNotebook.h"
 #include "LogBOINC.h"
 #include "BOINCGUIApp.h"
 #include "SkinManager.h"
