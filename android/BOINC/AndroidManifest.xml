@@ -21,7 +21,7 @@
     package="edu.berkeley.boinc"
     
     android:versionCode="42"
-    android:versionName="7.2.28"
+    android:versionName="7.2.29"
     
     android:installLocation="internalOnly" > <!-- installation on SD card would break boot receiver -->
 
