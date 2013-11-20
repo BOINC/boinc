@@ -114,7 +114,8 @@ GetMACAddress(io_iterator_t intfIterator, char* buffer)
     kern_return_t   kernResult = KERN_FAILURE;
     char            delimiter[2] = "\0";
 
-    while (intfService = IOIteratorNext(intfIterator))
+    *buffer = '\0';
+    while ((intfService = IOIteratorNext(intfIterator)))
     {
         CFTypeRef   MACAddressAsCFData;
         // IONetworkControllers can't be found directly by the IOServiceGetMatchingServices call,
@@ -144,7 +145,7 @@ GetMACAddress(io_iterator_t intfIterator, char* buffer)
         // We have sucked this service dry of information so release it now.
         (void) IOObjectRelease(intfService);
         // We're just interested in the first interface so exit the loop.
-        //break;
+        break;
     }
     return kernResult;
 }
