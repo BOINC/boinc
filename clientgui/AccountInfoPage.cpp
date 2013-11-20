@@ -597,7 +597,6 @@ void CAccountInfoPage::OnPageChanging( wxWizardExEvent& event ) {
                     _("Please enter a password of at least %d characters."),
                     pc.min_passwd_length
                 );
-
                 bDisplayError = true;
             }
         }
