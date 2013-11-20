@@ -71,6 +71,7 @@ VBOX_VM::VBOX_VM() {
     virtualbox_install_directory.clear();
     virtualbox_version.clear();
     pFloppy = NULL;
+    vm_log.clear();
     vm_master_name.clear();
     vm_master_description.clear();
     vm_name.clear();
@@ -582,9 +583,14 @@ void VBOX_VM::poll(bool log_state) {
     char buf[256];
     string command;
     string output;
+    string::iterator iter;
     string vmstate;
     size_t vmstate_start;
     size_t vmstate_end;
+
+    //
+    // What state is the VM in?
+    //
 
     command  = "showvminfo \"" + vm_name + "\" ";
     command += "--machinereadable ";
@@ -663,6 +669,68 @@ void VBOX_VM::poll(bool log_state) {
                 }
             }
         }
+    }
+
+    //
+    // Grab a snapshot of the latest log file.  Avoids multiple queries across several
+    // functions.
+    //
+
+    command  = "showvminfo \"" + vm_name + "\" ";
+    command += "--log 0 ";
+
+    if (vbm_popen(command, output, "get vm log", false, false) == 0) {
+        // Keep only the last 16k if it is larger than that.
+        size_t size = output.size();
+        if (size > 16384) {
+            vm_log = output.substr(size - 16384, size);
+            if (vm_log.size() >= 16384) {
+                // Look for the next whole line of text.
+                iter = vm_log.begin();
+                while (iter != vm_log.end()) {
+                    if (*iter == '\n') {
+                        vm_log.erase(iter);
+                        break;
+                    }
+                    iter = vm_log.erase(iter);
+                }
+            }
+        } else {
+            vm_log = output;
+        }
+    }
+}
+
+void VBOX_VM::dumphypervisorlogs() {
+    string system_log;
+    unsigned long vm_exit_code = 0;
+
+    get_system_log(system_log);
+    get_vm_exit_code(vm_exit_code);
+
+    if (vm_exit_code) {
+        fprintf(
+            stderr,
+            "    Hypervisor System Log:\n\n"
+            "%s\n"
+            "    VM Execution Log:\n\n"
+            "%s\n"
+            "    VM Exit Code: %d (0x%x)\n\n",
+            system_log.c_str(),
+            vm_log.c_str(),
+            (unsigned int)vm_exit_code,
+            (unsigned int)vm_exit_code
+        );
+    } else {
+        fprintf(
+            stderr,
+            "    Hypervisor System Log:\n\n"
+            "%s\n"
+            "    VM Execution Log:\n\n"
+            "%s\n",
+            system_log.c_str(),
+            vm_log.c_str()
+        );
     }
 }
 
@@ -745,6 +813,35 @@ bool VBOX_VM::is_extpack_installed() {
             return true;
         }
     }
+    return false;
+}
+
+bool VBOX_VM::is_logged_failure_vm_extensions_disabled() {
+    if (vm_log.find("VERR_VMX_MSR_LOCKED_OR_DISABLED") != string::npos) return true;
+    if (vm_log.find("VERR_SVM_DISABLED") != string::npos) return true;
+    return false;
+}
+
+bool VBOX_VM::is_logged_failure_vm_extensions_in_use() {
+    if (vm_log.find("VERR_VMX_IN_VMX_ROOT_MODE") != string::npos) return true;
+    if (vm_log.find("VERR_SVM_IN_USE") != string::npos) return true;
+    return false;
+}
+
+bool VBOX_VM::is_logged_failure_vm_extensions_not_supported() {
+    if (vm_log.find("VERR_VMX_NO_VMX") != string::npos) return true;
+    if (vm_log.find("VERR_SVM_NO_SVM") != string::npos) return true;
+    return false;
+}
+
+bool VBOX_VM::is_logged_failure_host_out_of_memory() {
+    if (vm_log.find("VERR_EM_NO_MEMORY") != string::npos) return true;
+    if (vm_log.find("VERR_NO_MEMORY") != string::npos) return true;
+    return false;
+}
+
+bool VBOX_VM::is_logged_failure_guest_job_out_of_memory() {
+    if (vm_log.find("EXIT_OUT_OF_MEMORY") != string::npos) return true;
     return false;
 }
 
@@ -1500,48 +1597,6 @@ int VBOX_VM::get_system_log(string& log) {
     return retval;
 }
 
-int VBOX_VM::get_vm_log(string& log) {
-    string command;
-    string output;
-    string::iterator iter;
-    int retval;
-
-    command  = "showvminfo \"" + vm_name + "\" ";
-    command += "--log 0 ";
-
-    retval = vbm_popen(command, output, "get vm log", false, false);
-    if (retval) {
-        // Check to see if this error code is really an error.  Every once and awhile
-        // vboxmanage will return a non-zero exit code even though it properly
-        // dumps the vm log to stdout
-        //
-        if (output.find("Process ID: ") == string::npos) {
-            return retval;
-        }
-    }
-
-    // Keep only the last 16k if it is larger than that.
-    size_t size = output.size();
-    if (size > 16384) {
-        log = output.substr(size - 16384, size);
-        if (log.size() >= 16384) {
-            // Look for the next whole line of text.
-            iter = log.begin();
-            while (iter != log.end()) {
-                if (*iter == '\n') {
-                    log.erase(iter);
-                    break;
-                }
-                iter = log.erase(iter);
-            }
-        }
-    } else {
-        log = output;
-    }
-
-    return 0;
-}
-
 int VBOX_VM::get_vm_exit_code(unsigned long& exit_code) {
 #ifndef _WIN32
     int ec = 0;
@@ -1554,18 +1609,9 @@ int VBOX_VM::get_vm_exit_code(unsigned long& exit_code) {
 }
 
 int VBOX_VM::get_vm_process_id(int& process_id) {
-    string command;
-    string output;
     string pid;
     size_t pid_start;
     size_t pid_end;
-    int retval;
-
-    command  = "showvminfo \"" + vm_name + "\" ";
-    command += "--log 0 ";
-
-    retval = vbm_popen(command, output, "get process ID");
-    if (retval) return retval;
 
     // Output should look like this:
     // VirtualBox 4.1.0 r73009 win.amd64 (Jul 19 2011 13:05:53) release log
@@ -1580,13 +1626,13 @@ int VBOX_VM::get_vm_process_id(int& process_id) {
     // 00:00:06.015 Installed Extension Packs:
     // 00:00:06.015   None installed!
     //
-    pid_start = output.find("Process ID: ");
+    pid_start = vm_log.find("Process ID: ");
     if (pid_start == string::npos) {
         return ERR_NOT_FOUND;
     }
     pid_start += 12;
-    pid_end = output.find("\n", pid_start);
-    pid = output.substr(pid_start, pid_end - pid_start);
+    pid_end = vm_log.find("\n", pid_start);
+    pid = vm_log.substr(pid_start, pid_end - pid_start);
     if (pid.size() <= 0) {
         return ERR_NOT_FOUND;
     }
