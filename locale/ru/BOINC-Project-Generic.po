@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2013-10-29 10:57 PDT\n"
-"PO-Revision-Date: 2013-11-12 20:51+0000\n"
-"Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
+"PO-Revision-Date: 2013-11-20 16:46+0000\n"
+"Last-Translator: akuloboy <oleg_kras@rambler.ru>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
@@ -18,7 +18,7 @@ msgstr ""
 "10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-POOTLE-MTIME: 1384289484.0\n"
+"X-POOTLE-MTIME: 1384965965.0\n"
 
 # The name of this language in this language
 # Имя языка в этом файле
@@ -3656,7 +3656,7 @@ msgid ""
 "This project hasn\\'t created an email message - please notify its "
 "administrators"
 msgstr ""
-"Этот проект не создал электронное письмо - пожалуйста сообщите об этом "
+"Этот проект не создал электронное письмо - пожалуйста, сообщите об этом "
 "администраторам"
 
 #: ../user/ffmail_form.php:34

@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-11-17 12:25-0800\n"
-"PO-Revision-Date: 2013-11-08 17:58+0000\n"
+"PO-Revision-Date: 2013-11-20 17:57+0000\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: Russia\n"
 "Language: ru\n"
@@ -23,7 +23,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCGIT\\boinc\n"
-"X-POOTLE-MTIME: 1383933539.0\n"
+"X-POOTLE-MTIME: 1384970232.0\n"
 
 # 81%
 #: AccountInfoPage.cpp:387
@@ -127,7 +127,7 @@ msgstr ""
 
 #: AccountInfoPage.cpp:532
 msgid "Account manager web site"
-msgstr ""
+msgstr "Веб-сайт менеджера проектов"
 
 #: AccountInfoPage.cpp:574 WelcomePage.cpp:348
 msgid "Add project"
@@ -174,19 +174,19 @@ msgstr ""
 
 #: AccountManagerInfoPage.cpp:279
 msgid "Account manager details:"
-msgstr ""
+msgstr "Описание менеджера проектов:"
 
 #: AccountManagerInfoPage.cpp:283
 msgid "Account manager &URL:"
-msgstr ""
+msgstr "&URL-адрес менеджера проектов:"
 
 #: AccountManagerInfoPage.cpp:287
 msgid "Open web page"
-msgstr ""
+msgstr "Открыть веб-страницу"
 
 #: AccountManagerInfoPage.cpp:290
 msgid "Visit this account manager's web site"
-msgstr ""
+msgstr "Посетить сайт менеджера проектов"
 
 # ???
 #: AccountManagerProcessingPage.cpp:187 AccountManagerPropertiesPage.cpp:193
@@ -511,7 +511,7 @@ msgstr "Показать справку по программе %s"
 #: AdvancedFrame.cpp:657 sg_BoincSimpleFrame.cpp:220 sg_BoincSimpleGUI.cpp:165
 #, c-format
 msgid "%s &web site"
-msgstr ""
+msgstr "&Веб-сайт %s"
 
 #: AdvancedFrame.cpp:663 sg_BoincSimpleFrame.cpp:226 sg_BoincSimpleGUI.cpp:171
 #, c-format
@@ -1029,9 +1029,7 @@ msgstr "Не удалось добавить проект"
 # ???
 #: CompletionErrorPage.cpp:204
 msgid "Failed to update account manager"
-msgstr ""
-"Не удалось обновить данные\n"
-"с менеджера проектов"
+msgstr "Не удалось обновить менеджер проектов"
 
 # ???
 #: CompletionErrorPage.cpp:208
@@ -1797,7 +1795,7 @@ msgstr "Конфигурация клиента исключает"
 
 #: DlgItemProperties.cpp:176
 msgid " work fetch deferred for"
-msgstr "  запрос заданий отложен на"
+msgstr " запрос заданий отложен на"
 
 #: DlgItemProperties.cpp:177
 msgid " work fetch deferral interval"
@@ -4034,7 +4032,7 @@ msgstr "Команды проекта"
 #: sg_ProjectPanel.cpp:267
 #, c-format
 msgid "Pop up a menu of web sites for project %s"
-msgstr ""
+msgstr "Показать меню веб-сайтов для проекта %s"
 
 #: sg_ProjectPanel.cpp:269
 #, c-format
