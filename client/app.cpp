@@ -1045,7 +1045,7 @@ void* throttler(void*) {
         boinc_sleep(off);
         client_mutex.lock();
         if (!gstate.tasks_suspended) {
-            gstate.resume_tasks(SUSPEND_REASON_CPU_THROTTLE);
+            gstate.active_tasks.unsuspend_all();
         }
         gstate.tasks_throttled = false;
         client_mutex.unlock();
