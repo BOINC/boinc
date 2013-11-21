@@ -32,6 +32,7 @@ define('ANON_PLATFORM_NVIDIA',  -3);
 define('ANON_PLATFORM_ATI',     -4);
 define('ANON_PLATFORM_INTEL',   -5);
 
+define('RESULT_SERVER_STATE_INACTIVE',       1);
 define('RESULT_SERVER_STATE_UNSENT',         2);
 define('RESULT_SERVER_STATE_IN_PROGRESS',    4);
 define('RESULT_SERVER_STATE_OVER',           5);
