@@ -129,7 +129,7 @@ public class BOINCActivity extends TabActivity {
     	if(Logging.VERBOSE) Log.v(Logging.TAG, "BOINCActivity onResume()");
 	    super.onResume();
 	    registerReceiver(mClientStatusChangeRec, ifcsc);
-	    layout();
+	    determineStatus();
 	}
 
 	@Override
