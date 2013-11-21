@@ -38,6 +38,9 @@
 #include "AdvancedFrame.h"
 #include <wx/display.h>
 
+#ifdef __WXMAC__
+#include <time.h>
+#endif
 
 ////@begin includes
 ////@end includes
@@ -994,12 +997,20 @@ wxInt32 CDlgEventLog::FormatProjectName(wxInt32 item, wxString& strBuffer) const
 
 
 wxInt32 CDlgEventLog::FormatTime(wxInt32 item, wxString& strBuffer) const {
-    wxDateTime dtBuffer;
     MESSAGE*   message = wxGetApp().GetDocument()->message(item);
 
     if (message) {
+#ifdef __WXMAC__
+        // Work around a wxCocoa bug(?) in wxDateTime::Format()
+        char buf[80];
+        struct tm * timeinfo = localtime((time_t*)&message->timestamp);
+        strftime(buf, sizeof(buf), "%c", timeinfo);
+        strBuffer = buf;
+#else
+        wxDateTime dtBuffer;
         dtBuffer.Set((time_t)message->timestamp);
         strBuffer = dtBuffer.Format();
+#endif
     }
 
     return 0;
