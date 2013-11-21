@@ -643,17 +643,6 @@ const char* active_task_state_string(int state) {
     return "Unknown";
 }
 
-const char* batch_state_string(int state) {
-    switch (state) {
-    case BATCH_STATE_INIT: return "uninitialized";
-    case BATCH_STATE_IN_PROGRESS: return "in progress";
-    case BATCH_STATE_COMPLETE: return "completed";
-    case BATCH_STATE_ABORTED: return "aborted";
-    case BATCH_STATE_RETIRED: return "retired";
-    }
-    return "unknown";
-}
-
 // string substitution:
 // haystack is the input string
 // out is the output buffer
