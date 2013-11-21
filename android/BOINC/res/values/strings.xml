@@ -108,7 +108,7 @@
     <string name="attachproject_working_acctmgr_sync">Synchronize</string>
     
     <!-- main activity -->
-    <string name="main_noproject_warning">Tab here to choose a project.</string>
+    <string name="main_noproject_warning">Tap here to choose a project.</string>
     <string name="main_error">Whooops</string>
     <string name="main_error_long">&#8230;this should not happen!\nClick on the icon to try again.</string>
     <string name="main_title_icon_desc">BOINC icon</string>
