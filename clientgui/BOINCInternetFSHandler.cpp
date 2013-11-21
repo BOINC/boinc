@@ -524,7 +524,6 @@ bool CBOINCInternetFSHandler::CanOpen(const wxString& location)
 {
     if (b_ShuttingDown) return false;
 
-#if 0
     // Check to see if we support the download of the specified file type
     // TODO: We'll need to revisit this policy after the next public release.
     //   Either wait for the wxWidgets 3.0 migration, or fix the async file
@@ -539,7 +538,6 @@ bool CBOINCInternetFSHandler::CanOpen(const wxString& location)
     if (file.GetExt() == wxT("png")) return false;
     if (file.GetExt() == wxT("tiff")) return false;
     if (file.GetExt() == wxT("jpeg")) return false;
-#endif
 
     // Regular check based on protocols
     //
