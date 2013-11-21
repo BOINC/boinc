@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2013-11-08 00:00 PST\n"
-"PO-Revision-Date: 2013-11-19 06:55+0000\n"
+"PO-Revision-Date: 2013-11-21 05:20+0000\n"
 "Last-Translator: Marius <marius.sirbu@outlook.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: ro\n"
@@ -18,7 +18,7 @@ msgstr ""
 "20)) ? 1 : 2);;\n"
 "X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-POOTLE-MTIME: 1384844158.0\n"
+"X-POOTLE-MTIME: 1385011203.0\n"
 
 msgid "LANG_NAME_NATIVE"
 msgstr "Română"
@@ -2462,7 +2462,7 @@ msgstr "Contul dumneavoastră"
 
 #: ../user/bs_sample_index.php:47 ../user/bs_sample_index.php:50
 msgid "view stats, modify preferences"
-msgstr ""
+msgstr "vizualizaţi statistici, modificaţi preferinţe"
 
 #: ../user/bs_sample_index.php:48 ../user/bs_sample_index.php:53
 #: ../user/team.php:25
@@ -2471,7 +2471,7 @@ msgstr "Echipe"
 
 #: ../user/bs_sample_index.php:48 ../user/bs_sample_index.php:53
 msgid "create or join a team"
-msgstr ""
+msgstr "creaţi sau intraţi într-o echipă"
 
 #: ../user/bs_sample_index.php:51 ../user/sample_index.php:180
 msgid "User of the day"
@@ -2675,7 +2675,7 @@ msgstr "Selectaţi limba în care este scris profilul dumneavoastră:"
 
 #: ../user/create_profile.php:104
 msgid "Submit profile"
-msgstr ""
+msgstr "Trimite profil"
 
 #: ../user/create_profile.php:110
 msgid "Please enter the words shown in the image."
@@ -2808,7 +2808,7 @@ msgstr "Nu ştergeţi acest cont"
 
 #: ../user/delete_profile.php:30
 msgid "couldn't delete profile - please try again later"
-msgstr ""
+msgstr "nu s-a putut şterge profilul - vă rugăm încercaţi mai târziu"
 
 #: ../user/delete_profile.php:33
 msgid "Delete Confirmation"
@@ -3103,7 +3103,7 @@ msgstr "Vizualizare avatar"
 
 #: ../user/edit_forum_preferences_form.php:87
 msgid "This is how your avatar will look"
-msgstr ""
+msgstr "Aşa va arăta avatarul dumneavoastră"
 
 #: ../user/edit_forum_preferences_form.php:96
 msgid "Signature for message board posts"
