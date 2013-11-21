@@ -38,6 +38,7 @@
 #endif
 
 #include "cpp.h"
+#include "version.h"         // version numbers from autoconf
 #include "error_numbers.h"
 #include "filesys.h"
 #include "parse.h"
@@ -318,10 +319,8 @@ int CLIENT_STATE::init() {
     time_stats.start();
 
     msg_printf(
-        NULL, MSG_INFO, "Starting BOINC client version %d.%d.%d for %s%s",
-        core_client_version.major,
-        core_client_version.minor,
-        core_client_version.release,
+        NULL, MSG_INFO, "Starting BOINC client version %s for %s%s",
+        BOINC_VERSION_STRING,
         get_primary_platform(),
 #ifdef _DEBUG
         " (DEBUG)"
