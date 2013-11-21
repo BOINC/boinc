@@ -1163,10 +1163,18 @@ void CViewWork::GetDocReportDeadline(wxInt32 item, time_t& time) const {
 
 
 wxInt32 CViewWork::FormatReportDeadline(time_t deadline, wxString& strBuffer) const {
+#ifdef __WXMAC__
+    // Work around a wxCocoa bug(?) in wxDateTime::Format()
+    char buf[80];
+    struct tm * timeinfo = localtime(&deadline);
+    strftime(buf, sizeof(buf), "%c", timeinfo);
+    strBuffer = buf;
+#else
     wxDateTime     dtTemp;
 
     dtTemp.Set(deadline);
     strBuffer = dtTemp.Format();
+#endif
 
     return 0;
 }

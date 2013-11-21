@@ -52,6 +52,7 @@ CDlgItemProperties::CDlgItemProperties(wxWindow* parent) :
     m_bSizer2 = new wxBoxSizer( wxVERTICAL );
     
     m_gbSizer = new wxGridBagSizer( 0, 0 );
+    m_gbSizer->SetCols(2);
     m_gbSizer->AddGrowableCol( 1 );
     m_gbSizer->SetFlexibleDirection( wxBOTH );
     m_gbSizer->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
