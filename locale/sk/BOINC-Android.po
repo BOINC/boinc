@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2013-10-18 00:00-0700\n"
-"PO-Revision-Date: 2013-11-12 22:57+0000\n"
+"PO-Revision-Date: 2013-11-21 22:31+0000\n"
 "Last-Translator: aceman <acelists@atlas.sk>\n"
 "Language-Team: sk <LL@li.org>\n"
 "Language: sk\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
-"X-POOTLE-MTIME: 1384297060.0\n"
+"X-POOTLE-MTIME: 1385073060.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -25,32 +25,27 @@ msgid "BOINC"
 msgstr "BOINC"
 
 #. generic. used by multiple Activities/tabs
-#, fuzzy
 msgctxt "generic_loading"
 msgid "Loading! Please wait…"
-msgstr "Выполняется загрузка! Пожалуйста подождите…"
+msgstr "Nahrávanie! Prosím, čakajte..."
 
 #. attach project
 #. project list
-#, fuzzy
 msgctxt "attachproject_list_header"
 msgid "Choose a project:"
-msgstr "Выберите проект:"
+msgstr "Vyberte si projekt:"
 
-#, fuzzy
 msgctxt "attachproject_list_manual_button"
 msgid "Add project by URL"
-msgstr "Добавить URL-адрес проекта"
+msgstr "Pridajte projekt podľa URL"
 
-#, fuzzy
 msgctxt "attachproject_list_manual_dialog_title"
 msgid "Enter project URL:"
-msgstr "Введите URL проекта:"
+msgstr "Vložte URL projektu:"
 
-#, fuzzy
 msgctxt "attachproject_list_manual_dialog_button"
 msgid "Add project"
-msgstr "Добавить проект"
+msgstr "Pridať projekt"
 
 #, fuzzy
 msgctxt "attachproject_list_manual_no_url"
