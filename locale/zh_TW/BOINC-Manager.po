@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-11-17 12:25-0800\n"
-"PO-Revision-Date: 2013-10-19 05:44+0000\n"
+"PO-Revision-Date: 2013-11-21 22:52+0000\n"
 "Last-Translator: 宇謙 <df910105@yahoo.com.tw>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: zh_TW\n"
@@ -23,7 +23,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCGIT\\boinc\n"
-"X-POOTLE-MTIME: 1382161471.0\n"
+"X-POOTLE-MTIME: 1385074362.0\n"
 
 # 81%
 #: AccountInfoPage.cpp:387
@@ -122,7 +122,7 @@ msgstr ""
 
 #: AccountInfoPage.cpp:532
 msgid "Account manager web site"
-msgstr ""
+msgstr "帳號管理服務網站"
 
 #: AccountInfoPage.cpp:574 WelcomePage.cpp:348
 msgid "Add project"
@@ -166,19 +166,19 @@ msgstr "要選擇一個帳號管理服務，請點選名稱或在下方輸入網
 
 #: AccountManagerInfoPage.cpp:279
 msgid "Account manager details:"
-msgstr ""
+msgstr "帳號管理服務細節:"
 
 #: AccountManagerInfoPage.cpp:283
 msgid "Account manager &URL:"
-msgstr ""
+msgstr "帳號管理服務 &URL:"
 
 #: AccountManagerInfoPage.cpp:287
 msgid "Open web page"
-msgstr ""
+msgstr "開啟網頁"
 
 #: AccountManagerInfoPage.cpp:290
 msgid "Visit this account manager's web site"
-msgstr ""
+msgstr "訪問帳號管理服務網站"
 
 #: AccountManagerProcessingPage.cpp:187 AccountManagerPropertiesPage.cpp:193
 #, c-format
@@ -489,7 +489,7 @@ msgstr "顯示關於 %s 的資訊"
 #: AdvancedFrame.cpp:657 sg_BoincSimpleFrame.cpp:220 sg_BoincSimpleGUI.cpp:165
 #, c-format
 msgid "%s &web site"
-msgstr ""
+msgstr "%s &網站"
 
 #: AdvancedFrame.cpp:663 sg_BoincSimpleFrame.cpp:226 sg_BoincSimpleGUI.cpp:171
 #, c-format
@@ -3780,7 +3780,7 @@ msgstr "專案指令"
 #: sg_ProjectPanel.cpp:267
 #, c-format
 msgid "Pop up a menu of web sites for project %s"
-msgstr ""
+msgstr "跳出一個%s專案的網頁選單"
 
 #: sg_ProjectPanel.cpp:269
 #, c-format
