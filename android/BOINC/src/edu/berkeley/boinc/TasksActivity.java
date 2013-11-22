@@ -317,7 +317,7 @@ public class TasksActivity extends FragmentActivity {
 				Integer operation = Integer.parseInt(params[2]);
 				if(Logging.DEBUG) Log.d(Logging.TAG,"url: " + url + " Name: " + name + " operation: " + operation);
 	
-				if(mIsBound) return monitor.resultOperation(url, name, operation);
+				if(mIsBound) return monitor.clientInterface.resultOp(operation, url, name);
 				else return false;
 			} catch(Exception e) {if(Logging.WARNING) Log.w(Logging.TAG,"SuspendResultAsync error in do in background",e);}
 			return false;

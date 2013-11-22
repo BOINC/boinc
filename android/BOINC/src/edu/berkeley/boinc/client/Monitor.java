@@ -19,13 +19,9 @@
 package edu.berkeley.boinc.client;
 
 import edu.berkeley.boinc.utils.*;
-
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -33,7 +29,6 @@ import java.io.OutputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -50,38 +45,38 @@ import android.os.PowerManager;
 import android.util.Log;
 import edu.berkeley.boinc.AppPreferences;
 import edu.berkeley.boinc.R;
-import edu.berkeley.boinc.rpc.AccountIn;
-import edu.berkeley.boinc.rpc.AccountOut;
 import edu.berkeley.boinc.rpc.CcState;
 import edu.berkeley.boinc.rpc.CcStatus;
 import edu.berkeley.boinc.rpc.DeviceStatus;
 import edu.berkeley.boinc.rpc.GlobalPreferences;
-import edu.berkeley.boinc.rpc.Message;
-import edu.berkeley.boinc.rpc.Notice;
-import edu.berkeley.boinc.rpc.Project;
-import edu.berkeley.boinc.rpc.ProjectAttachReply;
 import edu.berkeley.boinc.rpc.ProjectInfo;
-import edu.berkeley.boinc.rpc.ProjectConfig;
-import edu.berkeley.boinc.rpc.RpcClient;
 import edu.berkeley.boinc.rpc.Transfer;
-import edu.berkeley.boinc.rpc.AcctMgrRPCReply;
 import edu.berkeley.boinc.rpc.AcctMgrInfo;
 
+/**
+ * Main Service of BOINC on Android
+ * - manages life-cycle of the BOINC Client.
+ * - frequently polls the latest status of the client (e.g. running tasks, attached projects etc)
+ * - reports device status (e.g. battery level, connected to charger etc) to the client
+ * - holds singleton of client status data model and applications persistent preferences
+ */
 public class Monitor extends Service {
 	
 	private static ClientStatus clientStatus; //holds the status of the client as determined by the Monitor
 	private static AppPreferences appPrefs; //hold the status of the app, controlled by AppPreferences
 	
+	public ClientInterfaceImplementation clientInterface = new ClientInterfaceImplementation(); //provides functions for interaction with client via rpc
+	
 	public static Boolean monitorActive = false;
 	
 	// XML defined variables, populated in onCreate
-	private String clientName; 
-	private String clientCLI; 
-	private String clientCABundle; 
-	private String clientConfig; 
-	private String authFileName; 
-	private String allProjectsList; 
-	private String clientPath; 
+	private String fileNameClient; 
+	private String fileNameCLI; 
+	private String fileNameCABundle; 
+	private String fileNameClientConfig; 
+	private String fileNameGuiAuthentication; 
+	private String fileNameAllProjectsList; 
+	private String boincWorkingDir; 
 	private Integer clientStatusInterval;
 	private Integer deviceStatusIntervalScreenOff;
 	
@@ -94,15 +89,277 @@ public class Monitor extends Service {
 	// screen on/off updated by screenOnOffBroadcastReceiver
 	private boolean screenOn = false;
 	
-	//private Process clientProcess;
-	private RpcClient rpc = new RpcClient();
+// attributes and methods related to Android Service life-cycle
+	/**
+	 * Extension of Android's Binder class to return instance of this service
+	 * allows components bound to this service, to access its functions and attributes
+	 */
+	public class LocalBinder extends Binder {
+        public Monitor getService() {
+            return Monitor.this;
+        }
+    }
+    private final IBinder mBinder = new LocalBinder();
 
-	private final Integer maxDuration = 3000; //maximum polling duration
+    @Override
+    public IBinder onBind(Intent intent) {
+    	if(Logging.DEBUG) Log.d(Logging.TAG,"Monitor onBind");
+        return mBinder;
+    }
+	
+	@Override
+    public void onCreate() {
+		if(Logging.ERROR) Log.d(Logging.TAG,"Monitor onCreate()");
+		
+		// populate attributes with XML resource values
+		boincWorkingDir = getString(R.string.client_path); 
+		fileNameClient = getString(R.string.client_name); 
+		fileNameCLI = getString(R.string.client_cli); 
+		fileNameCABundle = getString(R.string.client_cabundle); 
+		fileNameClientConfig = getString(R.string.client_config); 
+		fileNameGuiAuthentication = getString(R.string.auth_file_name); 
+		fileNameAllProjectsList = getString(R.string.all_projects_list); 
+		clientStatusInterval = getResources().getInteger(R.integer.status_update_interval_ms);
+		deviceStatusIntervalScreenOff = getResources().getInteger(R.integer.device_status_update_screen_off_every_X_loop);
+		
+		// initialize singleton helper classes and provide application context
+		clientStatus = new ClientStatus(this);
+		getAppPrefs().readPrefs(this);
+		
+		// set current screen on/off status
+		PowerManager pm = (PowerManager)
+		getSystemService(Context.POWER_SERVICE);
+		screenOn = pm.isScreenOn();
+		
+		// initialize DeviceStatus wrapper
+		deviceStatus = new DeviceStatus(getApplicationContext());
+		
+		// register screen on/off receiver
+        IntentFilter onFilter = new IntentFilter (Intent.ACTION_SCREEN_ON); 
+        IntentFilter offFilter = new IntentFilter (Intent.ACTION_SCREEN_OFF); 
+        registerReceiver(screenOnOffReceiver, onFilter);
+        registerReceiver(screenOnOffReceiver, offFilter);
+		
+        // register and start update task
+        // using .scheduleAtFixedRate() can cause a series of bunched-up runs
+        // when previous executions are delayed (e.g. during clientSetup() )
+        updateTimer.schedule(statusUpdateTask, 0, clientStatusInterval);
+	}
+	
+    @Override
+    public void onDestroy() {
+    	if(Logging.ERROR) Log.d(Logging.TAG,"Monitor onDestroy()");
+    	
+    	// remove screen on/off receiver
+    	unregisterReceiver(screenOnOffReceiver);
+    	
+        // Cancel the persistent notification.
+    	((NotificationManager)getSystemService(Service.NOTIFICATION_SERVICE)).cancel(getResources().getInteger(R.integer.autostart_notification_id));
+        
+    	updateBroadcastEnabled = false; // prevent broadcast from currently running update task
+		updateTimer.cancel(); // cancel task
+		
+		 // release locks, if held.
+		clientStatus.setWakeLock(false);
+		clientStatus.setWifiLock(false);
+    }
 
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {	
+    	//this gets called after startService(intent) (either by BootReceiver or AndroidBOINCActivity, depending on the user's autostart configuration)
+    	if(Logging.ERROR) Log.d(Logging.TAG, "Monitor onStartCommand()");
+		/*
+		 * START_STICKY causes service to stay in memory until stopSelf() is called, even if all
+		 * Activities get destroyed by the system. Important for GUI keep-alive
+		 * For detailed service documentation see
+		 * http://android-developers.blogspot.com.au/2010/02/service-api-changes-starting-with.html
+		 */
+		return START_STICKY;
+    }
+// --end-- attributes and methods related to Android Service life-cycle
+	
+// singleton getter
+	/**
+	 * Retrieve singleton of ClientStatus.
+	 * @return ClientStatus, represents the data model of the BOINC client's status
+	 * @throws Exception if client status has not been initialized
+	 */
+	public static ClientStatus getClientStatus() throws Exception{ //singleton pattern
+		if (clientStatus == null) {
+			// client status needs application context, but context might not be available
+			// in static code. functions have to deal with Exception!
+			if(Logging.WARNING) Log.w(Logging.TAG,"getClientStatus: clientStatus not yet initialized");
+			throw new Exception("clientStatus not initialized");
+		}
+		return clientStatus;
+	}
+	
+	/**
+	 * Retrieve singleton of AppPreferences.
+	 * @return AppPreferences, interface to Android applications persistent key-value store
+	 */
+	public static AppPreferences getAppPrefs() { //singleton pattern
+		if (appPrefs == null) {
+			appPrefs = new AppPreferences();
+		}
+		return appPrefs;
+	}
+// --end-- singleton getter
+	
+// public methods for Activities
+    /**
+     * read BOINC's all_project_list.xml and filters output for device's BOINC platform
+     * stores list of projects in ClienStatus class.
+     * Content does not change during runtime, call only upon start.
+     */
+	public void readAndroidProjectsList() {
+		// try to get current client status from monitor
+		ClientStatus status;
+		try{
+			status  = Monitor.getClientStatus();
+		} catch (Exception e){
+			if(Logging.WARNING) Log.w(Logging.TAG,"Monitor.readAndroidProjectList: Could not load data, clientStatus not initialized.");
+			return;
+		}
+		
+		ArrayList<ProjectInfo> allProjects = clientInterface.getAllProjectsList();
+		ArrayList<ProjectInfo> androidProjects = new ArrayList<ProjectInfo>();
+		
+		if(allProjects == null) return;
+		
+		String platform = getString(getBoincPlatform());
+		if(Logging.DEBUG) Log.d(Logging.TAG, "readAndroidProjectsList for platform: " + platform);
+		
+		//filter projects that do not support Android
+		for (ProjectInfo project: allProjects) {
+			if(project.platforms.contains(platform)) {
+				androidProjects.add(project);
+			} 
+		}
+		
+		// set list in ClientStatus
+		status.setSupportedProjects(androidProjects);
+	}
 
-	// installs client and required files, executes client and reads initial preferences
-	// used by ClientMonitorAsync if no connection is available
-	// includes network communication => don't call from UI thread!
+    /**
+     * Force refresh of client status data model, will fire Broadcast upon success.
+     */
+    public void forceRefresh() {
+    	if(Logging.DEBUG) Log.d(Logging.TAG,"forceRefresh()");
+    	try{
+    		updateTimer.schedule(new StatusUpdateTimerTask(), 0);
+    	} catch (Exception e){} // throws IllegalStateException if called after timer got cancelled, i.e. after manual shutdown
+    }
+    
+    /**
+     * Quit BOINC client.
+     * Tries to quit BOINC client process gracefully, kills the process if no reaction within defined time frame 
+     */
+    public void quitClient() {
+		// try to get current client status from monitor
+		ClientStatus status = null;
+		try{
+			status  = Monitor.getClientStatus();
+		} catch (Exception e){
+			if(Logging.WARNING) Log.w(Logging.TAG,"Monitor.quitClient: Could not load data, clientStatus not initialized.");
+			// do not return here, try to shut down without publishing status
+		}
+    	String processName = boincWorkingDir + fileNameClient;
+    	
+    	updateBroadcastEnabled = false; // prevent broadcast from currently running update task
+		updateTimer.cancel(); // cancel task
+    	// no scheduled RPCs anymore
+    	
+    	// set client status to SETUP_STATUS_CLOSING to adapt layout accordingly
+		if(status!=null)status.setSetupStatus(ClientStatus.SETUP_STATUS_CLOSING,true);
+    	
+    	// try graceful shutdown via RPC
+		clientInterface.quit();
+    	
+    	// there might be still other AsyncTasks executing RPCs
+    	// close sockets in a synchronized way
+		clientInterface.close();
+    	// there are now no more RPCs...
+    	
+    	// graceful RPC shutdown waiting period...
+    	Boolean success = false;
+    	Integer attempts = getApplicationContext().getResources().getInteger(R.integer.shutdown_graceful_rpc_check_attempts);
+    	Integer sleepPeriod = getApplicationContext().getResources().getInteger(R.integer.shutdown_graceful_rpc_check_rate_ms);
+    	for(int x = 0; x < attempts; x++) {
+    		try {
+    			Thread.sleep(sleepPeriod);
+    		} catch (Exception e) {}
+    		if(getPidForProcessName(processName) == null) { //client is now closed
+        		if(Logging.DEBUG) Log.d(Logging.TAG,"quitClient: gracefull RPC shutdown successful after " + x + " seconds");
+    			success = true;
+    			x = attempts;
+    		}
+    	}
+    	
+    	if(!success) {
+    		// graceful RPC shutdown was not successful, try OS signals
+        	quitProcessOsLevel(processName);
+    	}
+    	
+    	// cancel notification
+		ClientNotification.getInstance(getApplicationContext()).cancel();
+    	
+    	// set client status to SETUP_STATUS_CLOSED to adapt layout accordingly
+		if(status!=null)status.setSetupStatus(ClientStatus.SETUP_STATUS_CLOSED,true);
+		
+		//stop service, triggers onDestroy
+		stopSelf();
+    }
+	
+	/**
+	 * Determines BOINC platform name corresponding to device's cpu architecture (ARM, x86 or MIPS).
+	 * Defaults to ARM
+	 * @return ID of BOINC platform name string in resources
+	 */
+	public int getBoincPlatform() {
+		int platformId = 0;
+		String arch = System.getProperty("os.arch");    
+		String normalizedArch = arch.substring(0, 4).toUpperCase(Locale.US);
+		if(normalizedArch.contains("ARM")) platformId = R.string.boinc_platform_name_arm;
+		else if (normalizedArch.contains("MIPS")) platformId = R.string.boinc_platform_name_mips;
+	    else if (normalizedArch.contains("86")) platformId= R.string.boinc_platform_name_x86;
+	    else {
+	    	if(Logging.WARNING) Log.w(Logging.TAG,"could not map os.arch (" + arch + ") to platform, default to arm.");
+	    	platformId = R.string.boinc_platform_name_arm;
+	    }
+	    
+	    if(Logging.DEBUG) Log.d(Logging.TAG,"BOINC platform: " + getString(platformId) + " for os.arch: " + arch);
+		return platformId;
+	}
+	
+	/**
+	 * Returns path to file in BOINC's working directory that contains GUI authentication key
+	 * @return absolute path to file holding GUI authentication key
+	 */
+	public String getAuthFilePath(){
+		return boincWorkingDir + fileNameGuiAuthentication;
+	}
+// --end-- public methods for Activities
+    
+// multi-threaded frequent information polling
+	/**
+	 * Task to frequently and asynchronously poll the client's status. Executed in different thread.
+	 */
+	private final class StatusUpdateTimerTask extends TimerTask {
+		@Override
+		public void run() {
+			updateStatus();
+		}
+	}
+// --end-- multi-threaded frequent information polling
+	
+// BOINC client installation and run-time management
+    /**
+     * installs client binaries(if changed) and other required files
+     * executes client process
+     * triggers initial reads (e.g. preferences, project list etc)
+     * @return Boolean whether connection established successfully
+     */
 	private Boolean clientSetup() {
 		if(Logging.DEBUG) Log.d(Logging.TAG,"Monitor.clientSetup()");
 		
@@ -116,9 +373,9 @@ public class Monitor extends Service {
 		}
 		
 		status.setSetupStatus(ClientStatus.SETUP_STATUS_LAUNCHING,true);
-		String clientProcessName = clientPath + clientName;
+		String clientProcessName = boincWorkingDir + fileNameClient;
 
-		String md5AssetClient = computeMd5(clientName, true);
+		String md5AssetClient = computeMd5(fileNameClient, true);
 		//if(Logging.DEBUG) Log.d(Logging.TAG, "Hash of client (Asset): '" + md5AssetClient + "'");
 
 		String md5InstalledClient = computeMd5(clientProcessName, false);
@@ -134,7 +391,7 @@ public class Monitor extends Service {
 			// try graceful shutdown using RPC (faster)
 	    	Boolean success = false;
 			if(connectClient()) {
-				rpc.quit();
+				clientInterface.quit();
 		    	Integer attempts = getApplicationContext().getResources().getInteger(R.integer.shutdown_graceful_rpc_check_attempts);
 		    	Integer sleepPeriod = getApplicationContext().getResources().getInteger(R.integer.shutdown_graceful_rpc_check_rate_ms);
 		    	for(int x = 0; x < attempts; x++) {
@@ -188,9 +445,9 @@ public class Monitor extends Service {
 		
 		if(connected) { // connection established
 			// make client read override settings from file
-			rpc.readGlobalPrefsOverride();
+			clientInterface.readGlobalPrefsOverride();
 			// read preferences for GUI to be able to display data
-			GlobalPreferences clientPrefs = rpc.getGlobalPrefsWorkingStruct();
+			GlobalPreferences clientPrefs = clientInterface.getGlobalPrefsWorkingStruct();
 			status.setPrefs(clientPrefs);
 			// read supported projects
 			readAndroidProjectsList();
@@ -198,7 +455,7 @@ public class Monitor extends Service {
 			// should output something like "Samsung Galaxy SII - SDK:15 ABI:armeabi-v7a"
 			String model = Build.MANUFACTURER + " " + Build.MODEL + " - SDK:" + Build.VERSION.SDK_INT + " ABI: " + Build.CPU_ABI;
 			if(Logging.DEBUG) Log.d(Logging.TAG,"reporting hostinfo model name: " + model);
-			rpc.setHostInfo(model);
+			clientInterface.setHostInfo(model);
 		}
 		
 		if(connected) {
@@ -212,17 +469,20 @@ public class Monitor extends Service {
 		return connected;
 	}
 	
-    // Executes the BOINC client using the Java Runtime exec method.
-	//
+	/**
+	 * Executes BOINC client.
+	 * Using Java Runtime exec method
+	 * @return Boolean success
+	 */
     private Boolean runClient() {
     	Boolean success = false;
     	try { 
     		String[] cmd = new String[2];
     		
-    		cmd[0] = clientPath + clientName;
+    		cmd[0] = boincWorkingDir + fileNameClient;
     		cmd[1] = "--daemon";
     		
-        	Runtime.getRuntime().exec(cmd, null, new File(clientPath));
+        	Runtime.getRuntime().exec(cmd, null, new File(boincWorkingDir));
         	success = true;
     	} catch (IOException e) {
     		if(Logging.DEBUG) Log.d(Logging.TAG, "Starting BOINC client failed with exception: " + e.getMessage());
@@ -231,38 +491,50 @@ public class Monitor extends Service {
     	return success;
     }
 
+    /**
+     * Establishes connection to client and handles initial authentication
+     * @return Boolean success
+     */
 	private Boolean connectClient() {
 		Boolean success = false;
 		
-        success = connect();
+        success = clientInterface.connect();
         if(!success) {
         	if(Logging.DEBUG) Log.d(Logging.TAG, "connection failed!");
         	return success;
         }
         
         //authorize
-        success = authorize();
+        success = clientInterface.authorizeGuiFromFile(boincWorkingDir + fileNameGuiAuthentication);
         if(!success) {
         	if(Logging.DEBUG) Log.d(Logging.TAG, "authorization failed!");
         }
         return success;
 	}
 	
-	// Copies the binaries of BOINC client from assets directory into 
-	// storage space of this application
-	//
+	/**
+	 * Installs required files from APK's asset directory to the applications' internal storage.
+	 * File attributes override and executable are defined here
+	 * @return Boolean success
+	 */
     private Boolean installClient(){
 
-		installFile(clientName, true, true);
-		installFile(clientCLI, true, true);
-		installFile(clientCABundle, true, false);
-		installFile(clientConfig, true, false);
-		installFile(allProjectsList, true, false);
+		installFile(fileNameClient, true, true);
+		installFile(fileNameCLI, true, true);
+		installFile(fileNameCABundle, true, false);
+		installFile(fileNameClientConfig, true, false);
+		installFile(fileNameAllProjectsList, true, false);
     	
     	return true; 
     }
     
-    // Copies file from APK's assets directory to internal storage
+    /**
+     * Copies given file from APK assets to internal storage.
+     * @param file name of file as it appears in assets directory
+     * @param override define override, if already present in internal storage
+     * @param executable set executable flag of file in internal storage
+     * @return Boolean success
+     */
 	private Boolean installFile(String file, Boolean override, Boolean executable) {
     	Boolean success = false;
     	byte[] b = new byte [1024];
@@ -277,10 +549,10 @@ public class Monitor extends Service {
 		try {
 			if(Logging.DEBUG) Log.d(Logging.TAG, "installing: " + source);
 			
-    		File target = new File(clientPath + file);
+    		File target = new File(boincWorkingDir + file);
     		
     		// Check path and create it
-    		File installDir = new File(clientPath);
+    		File installDir = new File(boincWorkingDir);
     		if(!installDir.exists()) {
     			installDir.mkdir();
     			installDir.setWritable(true); 
@@ -324,10 +596,10 @@ public class Monitor extends Service {
 		return success;
 	}
 	
-	// correct directory of binaries in assets directory depends on
-	// the cpu architecture of the device: arm, x86 or mips
-	// this function returns the directory to the right assets directory
-	// defaults to ARM
+	/**
+	 * Determines assets directory (contains BOINC client binaries) corresponding to device's cpu architecture (ARM, x86 or MIPS)
+	 * @return name of assets directory for given platform, not an absolute path.
+	 */
 	private String getAssestsDirForCpuArchitecture() {
 		String archAssetsDirectory="";
 		switch(getBoincPlatform()) {
@@ -344,46 +616,14 @@ public class Monitor extends Service {
 	    return archAssetsDirectory;
 	}
 	
-	// returns the id of the BOINC platform string, depending on the device's
-	// cpu architecture.
-	// i.e. arm, x86 or mips
-	// defaults to ARM
-	public int getBoincPlatform() {
-		int platformId = 0;
-		String arch = System.getProperty("os.arch");    
-		String normalizedArch = arch.substring(0, 4).toUpperCase(Locale.US);
-		if(normalizedArch.contains("ARM")) platformId = R.string.boinc_platform_name_arm;
-		else if (normalizedArch.contains("MIPS")) platformId = R.string.boinc_platform_name_mips;
-	    else if (normalizedArch.contains("86")) platformId= R.string.boinc_platform_name_x86;
-	    else {
-	    	if(Logging.WARNING) Log.w(Logging.TAG,"could not map os.arch (" + arch + ") to platform, default to arm.");
-	    	platformId = R.string.boinc_platform_name_arm;
-	    }
-	    
-	    if(Logging.DEBUG) Log.d(Logging.TAG,"BOINC platform: " + getString(platformId) + " for os.arch: " + arch);
-		return platformId;
-	}
-
-    // Connects to running BOINC client.
-    //
-    private Boolean connect() {
-    	return rpc.open("127.0.0.1", 31416);
-    }
-    
-    // Authorizes this application as valid RPC Manager by reading auth token from file 
-    // and making RPC call.
-    //
-    private Boolean authorize() {
-    	String authKey = readAuthToken();
-		
-		//trigger client rpc
-		return rpc.authorize(authKey); 
-    }
-	
-    // updates ClientStatus data structure with values received from client via rpc calls.
+	/**
+	 * Reports current device status to client and reads current client status.
+	 * Updates ClientStatus and fires Broadcast.
+	 * Called frequently to poll current status.
+	 */
     private void updateStatus(){
 		// check whether RPC client connection is alive
-		if(!rpc.connectionAlive()) {
+		if(!clientInterface.connectionAlive()) {
 			if(clientSetup()) { // start setup routine
 				// interact with client only if connection established successfully
 				reportDeviceStatus();
@@ -394,21 +634,24 @@ public class Monitor extends Service {
     	if(!screenOn && screenOffStatusOmitCounter < deviceStatusIntervalScreenOff) screenOffStatusOmitCounter++; // omit status reporting according to configuration
     	else {
     		// screen is on, or omit counter reached limit
-    		if(rpc.connectionAlive()) {
+    		if(clientInterface.connectionAlive()) {
     			reportDeviceStatus();
     			readClientStatus(false); // readClientStatus is also required when screen is off, otherwise no wakeLock acquisition.
     		}
     	}
     }
     
-    // reads client status via rpc calls
-    // if screen off, only computing status to adjust wakelocks
+    /**
+     * Reads client status via RPCs
+     * Optimized to retrieve only subset of information (required to determine wakelock state) if screen is turned off
+     * @param forceCompleteUpdate forces update of entire status information, regardless of screen status
+     */
     private void readClientStatus(Boolean forceCompleteUpdate) {
     	try{
     		// read ccStatus and adjust wakelocks and service state independently of screen status
     		// wake locks and foreground enabled when Client is not suspended, therefore also during
     		// idle.
-    		CcStatus status = rpc.getCcStatus();
+    		CcStatus status = clientInterface.getCcStatus();
     		// treat cpu throttling as if it was computing
     		Boolean computing = (status.task_suspend_reason == BOINCDefs.SUSPEND_NOT_SUSPENDED) || (status.task_suspend_reason == BOINCDefs.SUSPEND_REASON_CPU_THROTTLE);
     		if(Logging.VERBOSE) Log.d(Logging.TAG,"readClientStatus(): computation enabled: " + computing);
@@ -423,9 +666,9 @@ public class Monitor extends Service {
 	    	if(screenOn || forceCompleteUpdate) {
 	    		// complete status read, with broadcast
 				if(Logging.VERBOSE) Log.d(Logging.TAG, "readClientStatus(): screen on, get complete status");
-				CcState state = rpc.getState();
-				ArrayList<Transfer>  transfers = rpc.getFileTransfers();
-				AcctMgrInfo acctMgrInfo = rpc.getAcctMgrInfo();
+				CcState state = clientInterface.getState();
+				ArrayList<Transfer>  transfers = clientInterface.getFileTransfers();
+				AcctMgrInfo acctMgrInfo = clientInterface.getAcctMgrInfo();
 				
 				if( (status != null) && (state != null) && (state.results != null) && (state.projects != null) && (transfers != null) && (state.host_info != null) && (acctMgrInfo != null)) {
 					Monitor.getClientStatus().setClientStatus(status, state.results, state.projects, transfers, state.host_info, acctMgrInfo);
@@ -434,7 +677,6 @@ public class Monitor extends Service {
 				} else {
 					String nullValues = "";
 					try{
-						if(status == null) nullValues += "status,";
 						if(state == null) nullValues += "state,";
 						if(state.results == null) nullValues += "state.results,";
 						if(state.projects == null) nullValues += "state.projects,";
@@ -460,13 +702,17 @@ public class Monitor extends Service {
     
     // reports current device status to the client via rpc
     // client uses data to enforce preferences, e.g. suspend on battery
+    /**
+     * Reports current device status to the client via RPC
+     * BOINC client uses this data to enforce preferences, e.g. suspend battery but requires information only/best available through Java API calls.
+     */
     private void reportDeviceStatus() {
 		if(Logging.VERBOSE) Log.d(Logging.TAG, "reportDeviceStatus()");
     	try{
 	    	// set devices status
 			if(deviceStatus != null) { // make sure deviceStatus is initialized
 				deviceStatus.update(); // poll device status
-				Boolean reportStatusSuccess = rpc.reportDeviceStatus(deviceStatus); // transmit device status via rpc
+				Boolean reportStatusSuccess = clientInterface.reportDeviceStatus(deviceStatus); // transmit device status via rpc
 				if(reportStatusSuccess) screenOffStatusOmitCounter = 0;
 				else if(Logging.DEBUG) Log.d(Logging.TAG,"reporting device status returned false.");
 			} else if(Logging.WARNING) Log.w(Logging.TAG,"reporting device status failed, wrapper not initialized.");
@@ -475,9 +721,12 @@ public class Monitor extends Service {
 		}
     }
 
-    // Compute MD5 of the requested file
-    // if inAssets is true, tries to locate file in assets directory,
-    // if not, it tries to locate in internal storage of application
+    /**
+     * Computes MD5 hash of requested file
+     * @param fileName absolute path or name of file in assets directory, see inAssets parameter
+     * @param inAssets if true, fileName is file name in assets directory, if not, absolute path
+     * @return md5 hash of file
+     */
     private String computeMd5(String fileName, Boolean inAssets) {
     	byte[] b = new byte [1024];
 		int count; 
@@ -510,8 +759,11 @@ public class Monitor extends Service {
 		return "";
     }
     
-	// Get PID for process name using native 'ps' console command
-    //
+	/**
+	 * Determines ProcessID corresponding to given process name
+	 * @param processName name of process, according to output of "ps"
+	 * @return process id, according to output of "ps"
+	 */
     private Integer getPidForProcessName(String processName) {
     	int count;
     	char[] buf = new char[1024];
@@ -573,8 +825,10 @@ public class Monitor extends Service {
     	return pid;
     }
     
-    // Exit a process with OS signals SIGQUIT and SIGKILL
-    //
+    /**
+     * Exits a process by sending it Linux SIGQUIT and SIGKILL signals
+     * @param processName name of process to be killed, according to output of "ps"
+     */
     private void quitProcessOsLevel(String processName) {
     	Integer clientPid = getPidForProcessName(processName);
     	
@@ -618,635 +872,13 @@ public class Monitor extends Service {
     		if(Logging.WARNING) Log.w(Logging.TAG, "SIGKILL failed. still living pid: " + clientPid);
     	}
     }
+// --end-- BOINC client installation and run-time management
 	
-    // reads all_project_list.xml from Client and filters
- 	// projects not supporting Android. List does not change
-    // during run-time. Called once during setup.
-    // Stored in ClientStatus.
-	public void readAndroidProjectsList() {
-		// try to get current client status from monitor
-		ClientStatus status;
-		try{
-			status  = Monitor.getClientStatus();
-		} catch (Exception e){
-			if(Logging.WARNING) Log.w(Logging.TAG,"Monitor.readAndroidProjectList: Could not load data, clientStatus not initialized.");
-			return;
-		}
-		
-		ArrayList<ProjectInfo> allProjects = rpc.getAllProjectsList();
-		ArrayList<ProjectInfo> androidProjects = new ArrayList<ProjectInfo>();
-		
-		if(allProjects == null) return;
-		
-		String platform = getString(getBoincPlatform());
-		if(Logging.DEBUG) Log.d(Logging.TAG, "readAndroidProjectsList for platform: " + platform);
-		
-		//filter projects that do not support Android
-		for (ProjectInfo project: allProjects) {
-			if(project.platforms.contains(platform)) {
-				androidProjects.add(project);
-			} 
-		}
-		
-		// set list in ClientStatus
-		status.setSupportedProjects(androidProjects);
-	}
-	
-	public static ClientStatus getClientStatus() throws Exception{ //singleton pattern
-		if (clientStatus == null) {
-			// client status needs application context, but context might not be available
-			// in static code. functions have to deal with Exception!
-			if(Logging.WARNING) Log.w(Logging.TAG,"getClientStatus: clientStatus not yet initialized");
-			throw new Exception("clientStatus not initialized");
-		}
-		return clientStatus;
-	}
-	
-	public static AppPreferences getAppPrefs() { //singleton pattern
-		if (appPrefs == null) {
-			appPrefs = new AppPreferences();
-		}
-		return appPrefs;
-	}
-
-	/*
-	 * returns this class, allows clients to access this service's functions and attributes.
+// screen on/off receiver
+	/**
+	 * broadcast receiver to detect changes to screen on or off, used to adapt scheduling of StatusUpdateTimerTask
+	 * e.g. avoid polling GUI status RPCs while screen is off in order to save battery
 	 */
-	public class LocalBinder extends Binder {
-        public Monitor getService() {
-            return Monitor.this;
-        }
-    }
-    private final IBinder mBinder = new LocalBinder();
-
-    /*
-     * gets called every-time an activity binds to this service, but not the initial start (onCreate and onStartCommand are called there)
-     */
-    @Override
-    public IBinder onBind(Intent intent) {
-    	if(Logging.DEBUG) Log.d(Logging.TAG,"Monitor onBind");
-        return mBinder;
-    }
-	
-    /*
-     * onCreate is life-cycle method of service. regardless of bound or started service, this method gets called once upon first creation.
-     */
-	@Override
-    public void onCreate() {
-		if(Logging.ERROR) Log.d(Logging.TAG,"Monitor onCreate()");
-		
-		// populate attributes with XML resource values
-		clientPath = getString(R.string.client_path); 
-		clientName = getString(R.string.client_name); 
-		clientCLI = getString(R.string.client_cli); 
-		clientCABundle = getString(R.string.client_cabundle); 
-		clientConfig = getString(R.string.client_config); 
-		authFileName = getString(R.string.auth_file_name); 
-		allProjectsList = getString(R.string.all_projects_list); 
-		clientStatusInterval = getResources().getInteger(R.integer.status_update_interval_ms);
-		deviceStatusIntervalScreenOff = getResources().getInteger(R.integer.device_status_update_screen_off_every_X_loop);
-		
-		// initialize singleton helper classes and provide application context
-		clientStatus = new ClientStatus(this);
-		getAppPrefs().readPrefs(this);
-		
-		// set current screen on/off status
-		PowerManager pm = (PowerManager)
-		getSystemService(Context.POWER_SERVICE);
-		screenOn = pm.isScreenOn();
-		
-		// initialize DeviceStatus wrapper
-		deviceStatus = new DeviceStatus(getApplicationContext());
-		
-		// register screen on/off receiver
-        IntentFilter onFilter = new IntentFilter (Intent.ACTION_SCREEN_ON); 
-        IntentFilter offFilter = new IntentFilter (Intent.ACTION_SCREEN_OFF); 
-        registerReceiver(screenOnOffReceiver, onFilter);
-        registerReceiver(screenOnOffReceiver, offFilter);
-		
-        // register and start update task
-        // using .scheduleAtFixedRate() can cause a series of bunched-up runs
-        // when previous executions are delayed (e.g. during clientSetup() )
-        updateTimer.schedule(statusUpdateTask, 0, clientStatusInterval);
-	}
-	
-    @Override
-    public void onDestroy() {
-    	if(Logging.ERROR) Log.d(Logging.TAG,"Monitor onDestroy()");
-    	
-    	// remove screen on/off receiver
-    	unregisterReceiver(screenOnOffReceiver);
-    	
-        // Cancel the persistent notification.
-    	((NotificationManager)getSystemService(Service.NOTIFICATION_SERVICE)).cancel(getResources().getInteger(R.integer.autostart_notification_id));
-        
-    	updateBroadcastEnabled = false; // prevent broadcast from currently running update task
-		updateTimer.cancel(); // cancel task
-		
-		 // release locks, if held.
-		clientStatus.setWakeLock(false);
-		clientStatus.setWifiLock(false);
-    }
-
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {	
-    	//this gets called after startService(intent) (either by BootReceiver or AndroidBOINCActivity, depending on the user's autostart configuration)
-    	if(Logging.ERROR) Log.d(Logging.TAG, "Monitor onStartCommand()");
-		/*
-		 * START_STICKY causes service to stay in memory until stopSelf() is called, even if all
-		 * Activities get destroyed by the system. Important for GUI keep-alive
-		 * For detailed service documentation see
-		 * http://android-developers.blogspot.com.au/2010/02/service-api-changes-starting-with.html
-		 */
-		return START_STICKY;
-    }
-    
-    // schedule manual status update, without any delay
-    // will fire clientstatuschange Broadcast updon completion
-    public void forceRefresh() {
-    	if(Logging.DEBUG) Log.d(Logging.TAG,"forceRefresh()");
-    	try{
-    		updateTimer.schedule(new StatusUpdateTimerTask(), 0);
-    	} catch (Exception e){} // throws IllegalStateException if called after timer got cancelled, i.e. after manual shutdown
-    }
-    
-    // exits both, UI and BOINC client. 
-    // BLOCKING! call from AsyncTask!
-    public void quitClient() {
-		// try to get current client status from monitor
-		ClientStatus status = null;
-		try{
-			status  = Monitor.getClientStatus();
-		} catch (Exception e){
-			if(Logging.WARNING) Log.w(Logging.TAG,"Monitor.quitClient: Could not load data, clientStatus not initialized.");
-			// do not return here, try to shut down without publishing status
-		}
-    	String processName = clientPath + clientName;
-    	
-    	updateBroadcastEnabled = false; // prevent broadcast from currently running update task
-		updateTimer.cancel(); // cancel task
-    	// no scheduled RPCs anymore
-    	
-    	// set client status to SETUP_STATUS_CLOSING to adapt layout accordingly
-		if(status!=null)status.setSetupStatus(ClientStatus.SETUP_STATUS_CLOSING,true);
-    	
-    	// try graceful shutdown via RPC
-    	rpc.quit();
-    	
-    	// there might be still other AsyncTasks executing RPCs
-    	// close sockets in a synchronized way
-    	rpc.close();
-    	// there are now no more RPCs...
-    	
-    	// graceful RPC shutdown waiting period...
-    	Boolean success = false;
-    	Integer attempts = getApplicationContext().getResources().getInteger(R.integer.shutdown_graceful_rpc_check_attempts);
-    	Integer sleepPeriod = getApplicationContext().getResources().getInteger(R.integer.shutdown_graceful_rpc_check_rate_ms);
-    	for(int x = 0; x < attempts; x++) {
-    		try {
-    			Thread.sleep(sleepPeriod);
-    		} catch (Exception e) {}
-    		if(getPidForProcessName(processName) == null) { //client is now closed
-        		if(Logging.DEBUG) Log.d(Logging.TAG,"quitClient: gracefull RPC shutdown successful after " + x + " seconds");
-    			success = true;
-    			x = attempts;
-    		}
-    	}
-    	
-    	if(!success) {
-    		// graceful RPC shutdown was not successful, try OS signals
-        	quitProcessOsLevel(processName);
-    	}
-    	
-    	// cancel notification
-		ClientNotification.getInstance(getApplicationContext()).cancel();
-    	
-    	// set client status to SETUP_STATUS_CLOSED to adapt layout accordingly
-		if(status!=null)status.setSetupStatus(ClientStatus.SETUP_STATUS_CLOSED,true);
-		
-		//stop service, triggers onDestroy
-		stopSelf();
-    }
-       
-	public Boolean setRunMode(Integer mode) {
-		return rpc.setRunMode(mode, 0);
-	}
-	
-	public Boolean setNetworkMode(Integer mode) {
-		return rpc.setNetworkMode(mode, 0);
-	}
-	
-	// writes the given GlobalPreferences via RPC to the client
-	// after writing, the active preferences are read back and
-	// written to ClientStatus.
-	public Boolean setGlobalPreferences(GlobalPreferences prefs) {
-
-		// try to get current client status from monitor
-		ClientStatus status = null;
-		try{
-			status  = Monitor.getClientStatus();
-		} catch (Exception e){
-			if(Logging.WARNING) Log.w(Logging.TAG,"Monitor.setGlobalPreferences: Could not load data, clientStatus not initialized.");
-			return false;
-		}
-
-		Boolean retval1 = rpc.setGlobalPrefsOverrideStruct(prefs); //set new override settings
-		Boolean retval2 = rpc.readGlobalPrefsOverride(); //trigger reload of override settings
-		if(!retval1 || !retval2) {
-			return false;
-		}
-		GlobalPreferences workingPrefs = rpc.getGlobalPrefsWorkingStruct();
-		if(workingPrefs != null){
-			status.setPrefs(workingPrefs);
-			return true;
-		}
-		return false;
-	}
-	
-	public String readAuthToken() {
-		File authFile = new File(clientPath+authFileName);
-    	StringBuffer fileData = new StringBuffer(100);
-    	char[] buf = new char[1024];
-    	int read = 0;
-    	try{
-    		BufferedReader br = new BufferedReader(new FileReader(authFile));
-    		while((read=br.read(buf)) != -1){
-    	    	String readData = String.valueOf(buf, 0, read);
-    	    	fileData.append(readData);
-    	    	buf = new char[1024];
-    	    }
-    		br.close();
-    	}
-    	catch (FileNotFoundException fnfe) {
-    		if(Logging.ERROR) Log.e(Logging.TAG, "auth file not found",fnfe);
-    	}
-    	catch (IOException ioe) {
-    		if(Logging.ERROR) Log.e(Logging.TAG, "ioexception",ioe);
-    	}
-
-		String authKey = fileData.toString();
-		if(Logging.DEBUG) Log.d(Logging.TAG, "authentication key acquired. length: " + authKey.length());
-		return authKey;
-	}
-	
-	public ProjectConfig getProjectConfig(String url) {
-		ProjectConfig config = null;
-		
-    	Boolean success = rpc.getProjectConfig(url); //asynchronous call
-    	if(success) { //only continue if attach command did not fail
-    		// verify success of getProjectConfig with poll function
-    		Integer counter = 0;
-    		Integer sleepDuration = 500; //in milliseconds
-    		Integer maxLoops = maxDuration / sleepDuration;
-    		Boolean loop = true;
-    		while(loop && (counter < maxLoops)) {
-    			loop = false;
-    			try {
-    				Thread.sleep(sleepDuration);
-    			} catch (Exception e) {}
-    			counter ++;
-    			config = rpc.getProjectConfigPoll();
-    			if(config==null) {
-    				return null;
-    			}
-    			if (config.error_num == -204) {
-    				loop = true; //no result yet, keep looping
-    			} else {
-    				//final result ready
-    				if(config.error_num == 0) { 
-        				if(Logging.DEBUG) Log.d(Logging.TAG, "ProjectConfig retrieved: " + config.name);
-    				} else {
-    					if(Logging.DEBUG) Log.d(Logging.TAG, "final result with error_num: " + config.error_num);
-    				}
-    			}
-    		}
-    	}
-		return config;
-	}
-	
-	public Boolean attachProject(String url, String projectName, String authenticator) {
-    	Boolean success = false;
-    	success = rpc.projectAttach(url, authenticator, projectName); //asynchronous call to attach project
-    	if(success) { //only continue if attach command did not fail
-    		// verify success of projectAttach with poll function
-    		success = false;
-    		Integer counter = 0;
-    		Integer sleepDuration = 500; //in milliseconds
-    		Integer maxLoops = maxDuration / sleepDuration;
-    		while(!success && (counter < maxLoops)) {
-    			try {
-    				Thread.sleep(sleepDuration);
-    			} catch (Exception e) {}
-    			counter ++;
-    			ProjectAttachReply reply = rpc.projectAttachPoll();
-    			if(reply != null) {
-    				if(Logging.DEBUG) Log.d(Logging.TAG, "rpc.projectAttachPoll reply error_num: " + reply.error_num);
-    				if(reply.error_num == 0) success = true;
-    			}
-    		}
-    	} else if(Logging.DEBUG) Log.d(Logging.TAG, "rpc.projectAttach failed.");
-    	return success;
-    }
-	
-	public Boolean checkProjectAttached(String url) {
-		Boolean match = false;
-		try{
-			ArrayList<Project> attachedProjects = rpc.getProjectStatus();
-			for (Project project: attachedProjects) {
-				if(Logging.DEBUG) Log.d(Logging.TAG, project.master_url + " vs " + url);
-				if(project.master_url.equals(url)) {
-					match = true;
-					continue;
-				}
-			}
-		} catch(Exception e){}
-		return match;
-	}
-	
-	public AccountOut lookupCredentials(String url, String id, String pwd, Boolean usesName) {
-    	AccountOut auth = null;
-    	AccountIn credentials = new AccountIn();
-    	if(usesName) credentials.user_name = id;
-    	else credentials.email_addr = id;
-    	credentials.passwd = pwd;
-    	credentials.url = url;
-    	Boolean success = rpc.lookupAccount(credentials); //asynch
-    	if(success) { //only continue if lookupAccount command did not fail
-    		//get authentication token from lookupAccountPoll
-    		Integer counter = 0;
-    		Integer sleepDuration = 500; //in milliseconds
-    		Integer maxLoops = maxDuration / sleepDuration;
-    		Boolean loop = true;
-    		while(loop && (counter < maxLoops)) {
-    			loop = false;
-    			try {
-    				Thread.sleep(sleepDuration);
-    			} catch (Exception e) {}
-    			counter ++;
-    			auth = rpc.lookupAccountPoll();
-    			if(auth==null) {
-    				if(Logging.DEBUG) Log.d(Logging.TAG,"error in rpc.lookupAccountPoll.");
-    				return null;
-    			}
-    			if (auth.error_num == -204) {
-    				loop = true; //no result yet, keep looping
-    			}
-    			else {
-    				//final result ready
-    				if(auth.error_num == 0) if(Logging.DEBUG) Log.d(Logging.TAG, "credentials verification result, retrieved authenticator.");
-    				else Log.d(Logging.TAG, "credentials verification result, error: " + auth.error_num);
-    			}
-    		}
-    	} else if(Logging.DEBUG) Log.d(Logging.TAG, "rpc.lookupAccount failed.");
-    	return auth;
-    }
-	
-	// sets cc_config.xml for client and trigger is to re-read.
-	public void setCcConfig(String ccConfig) {
-		if(Logging.DEBUG) Log.d(Logging.TAG, "Monitor.setCcConfig: current cc_config: " + rpc.getCcConfig());
-		if(Logging.DEBUG) Log.d(Logging.TAG, "Monitor.setCcConfig: setting new cc_config: " + ccConfig);
-		rpc.setCcConfig(ccConfig);
-		rpc.readCcConfig();
-	}
-    
-	public Boolean projectOperation(int operation, String url){
-		return rpc.projectOp(operation, url);
-	}
-
-	// executes specified operation on result
-	// e.g. RpcClient.RESULT_SUSPEND, RpcClient.RESULT_RESUME, RpcClient.RESULT_ABORT
-	public Boolean resultOperation(String url, String name, int operation) {
-		return rpc.resultOp(operation, url, name);
-	}
-	
-	public Boolean transferOperation(ArrayList<Transfer> transfers, int operation) {
-		Boolean success = true;
-		for (Transfer transfer: transfers) {
-			success = success && rpc.transferOp(operation, transfer.project_url, transfer.name);
-			if(Logging.DEBUG) Log.d(Logging.TAG, "transfer: " + transfer.name + " " + success);
-		}
-		return success;
-	}
-	
-	public AccountOut createAccount(String url, String email, String userName, String pwd, String teamName) {
-		AccountIn information = new AccountIn();
-		information.url = url;
-		information.email_addr = email;
-		information.user_name = userName;
-		information.passwd = pwd;
-		information.team_name = teamName;
-		
-		AccountOut auth = null;
-		
-    	Boolean success = rpc.createAccount(information); //asynchronous call to attach project
-    	if(success) { //only continue if attach command did not fail
-    		// verify success of projectAttach with poll function
-    		Integer counter = 0;
-    		Integer sleepDuration = 500; //in milliseconds
-    		Integer maxLoops = maxDuration / sleepDuration;
-    		Boolean loop = true;
-    		while(loop && (counter < maxLoops)) {
-    			loop = false;
-    			try {
-    				Thread.sleep(sleepDuration);
-    			} catch (Exception e) {}
-    			counter ++;
-    			auth = rpc.createAccountPoll();
-    			if(auth==null) {
-    				if(Logging.DEBUG) Log.d(Logging.TAG,"error in rpc.createAccountPoll.");
-    				return null;
-    			}
-    			if (auth.error_num == -204) {
-    				loop = true; //no result yet, keep looping
-    			}
-    			else {
-    				//final result ready
-    				if(auth.error_num == 0) if(Logging.DEBUG) Log.d(Logging.TAG, "account creation result, retrieved authenticator.");
-    				else if(Logging.DEBUG) Log.d(Logging.TAG, "account creation result, error: " + auth.error_num);
-    			}
-    		}
-    	} else {if(Logging.DEBUG) Log.d(Logging.TAG,"rpc.createAccount returned false.");}
-    	return auth;
-	}
-	
-	public AcctMgrRPCReply addAcctMgr(String url, String userName, String pwd) {
-		AcctMgrRPCReply reply = null;
-    	Boolean success = rpc.acctMgrRPC(url, userName, pwd); //asynchronous call to attach account manager
-    	if(success) { //only continue if rpc command did not fail
-    		// verify success of acctMgrRPC with poll function
-    		Integer counter = 0;
-    		Integer sleepDuration = 500; //in milliseconds
-    		Integer maxLoops = maxDuration / sleepDuration;
-    		Boolean loop = true;
-    		while(loop && (counter < maxLoops)) {
-    			loop = false;
-    			try {
-    				Thread.sleep(sleepDuration);
-    			} catch (Exception e) {}
-    			counter ++;
-    			reply = rpc.acctMgrRPCPoll();
-    			if(reply == null) {
-    				if(Logging.DEBUG) Log.d(Logging.TAG,"error in rpc.addAcctMgr.");
-    				return null;
-    			}
-    			if (reply.error_num == -204) {
-    				loop = true; //no result yet, keep looping
-    			}
-    			else {
-    				//final result ready
-    				if(reply.error_num == 0) if(Logging.DEBUG) Log.d(Logging.TAG, "account manager attach successful.");
-    				else if(Logging.DEBUG) Log.d(Logging.TAG, "account manager attach failed, error: " + reply.error_num);
-    			}
-    		}
-    	} else {if(Logging.DEBUG) Log.d(Logging.TAG,"rpc.acctMgrRPC returned false.");}
-    	return reply;
-	}
-	
-	// RPC sequence copied by implementation of MAC manager
-	public Boolean synchronizeAcctMgr(String url) {
-
-	// 1st get_project_config for account manager url
-		Boolean success = false;
-		ProjectConfig reply = null;
-		success = rpc.getProjectConfig(url);
-    	if(success) { //only continue if rpc command did not fail
-    		// verify success of getProjectConfig with poll function
-    		Integer counter = 0;
-    		Integer sleepDuration = 500; //in milliseconds
-    		Integer maxLoops = maxDuration / sleepDuration;
-    		Boolean loop = true;
-    		while(loop && (counter < maxLoops)) {
-    			loop = false;
-    			try {
-    				Thread.sleep(sleepDuration);
-    			} catch (Exception e) {}
-    			counter ++;
-    			reply = rpc.getProjectConfigPoll();
-    			if(reply == null) {
-    				if(Logging.DEBUG) Log.d(Logging.TAG,"error in rpc.getProjectConfig.");
-    				return false;
-    			}
-    			if (reply.error_num == -204) {
-    				loop = true; //no result yet, keep looping
-    			}
-    			else {
-    				//final result ready
-    				if(reply.error_num == 0) if(Logging.DEBUG) Log.d(Logging.TAG, "getting project config for account manager synchronization successful.");
-    				else  {
-    					if(Logging.DEBUG) Log.d(Logging.TAG, "getting project config for account manager synchronization failed, error: " + reply.error_num);
-    					return false;
-    				}
-    			}
-    		}
-    	} else {if(Logging.DEBUG) Log.d(Logging.TAG,"rpc.getProjectConfig returned false.");}
-		
-    // 2nd acct_mgr_rpc with <use_config_file/>
-		success = false;
-		AcctMgrRPCReply reply2 = null;
-    	success = rpc.acctMgrRPC(); //asynchronous call to synchronize account manager
-    	if(success) { //only continue if rpc command did not fail
-    		// verify success of acctMgrRPC with poll function
-    		Integer counter = 0;
-    		Integer sleepDuration = 500; //in milliseconds
-    		Integer maxLoops = maxDuration / sleepDuration;
-    		Boolean loop = true;
-    		while(loop && (counter < maxLoops)) {
-    			loop = false;
-    			try {
-    				Thread.sleep(sleepDuration);
-    			} catch (Exception e) {}
-    			counter ++;
-    			reply2 = rpc.acctMgrRPCPoll();
-    			if(reply2 == null) {
-    				if(Logging.DEBUG) Log.d(Logging.TAG,"error in rpc.addAcctMgr.");
-    				return false;
-    			}
-    			if (reply2.error_num == -204) {
-    				loop = true; //no result yet, keep looping
-    			}
-    			else {
-    				//final result ready
-    				if(reply2.error_num == 0) if(Logging.DEBUG) Log.d(Logging.TAG, "account manager synchronization successful.");
-    				else {
-    					if(Logging.DEBUG) Log.d(Logging.TAG, "account manager synchronization failed, error: " + reply2.error_num);
-    					return false;
-    				}
-    			}
-    		}
-    	} else {if(Logging.DEBUG) Log.d(Logging.TAG,"rpc.acctMgrRPC returned false.");}
-		
-		return false;
-	}
-	
-	public AcctMgrInfo getAcctMgrInfo() {
-		return rpc.getAcctMgrInfo();
-	}
-	
-	// returns given number of client messages, older than provided seqNo
-	// if seqNo <= 0 initial data retrieval
-	public ArrayList<Message> getEventLogMessages(int seqNo, int number) {
-		// determine oldest message seqNo for data retrieval
-		int lowerBound = 0;
-		if(seqNo > 0) lowerBound = seqNo - number - 2;
-		else lowerBound = rpc.getMessageCount() - number - 1; // can result in >number results, if client writes message btwn. here and rpc.getMessages!
-		
-		// less than desired number of messsages available, adapt lower bound
-		if(lowerBound < 0) lowerBound = 0;
-		ArrayList<Message> msgs= rpc.getMessages(lowerBound); // returns ever messages with seqNo > lowerBound
-		
-		if(seqNo > 0) {
-			// remove messages that are >= seqNo
-			Iterator<Message> it = msgs.iterator();
-			while(it.hasNext()) {
-				Message tmp = it.next();
-				if (tmp.seqno >= seqNo) it.remove();
-			}
-		}
-		
-		if(!msgs.isEmpty()) 
-			if(Logging.DEBUG) Log.d(Logging.TAG,"getEventLogMessages: returning array with " + msgs.size() + " entries. for lowerBound: " + lowerBound + " at 0: " + msgs.get(0).seqno + " at " + (msgs.size()-1) + ": " + msgs.get(msgs.size()-1).seqno);
-		else 
-			if(Logging.DEBUG) Log.d(Logging.TAG,"getEventLogMessages: returning empty array for lowerBound: " + lowerBound);
-		return msgs;
-	}
-	
-	// returns client messages that are more recent than given seqNo
-	public ArrayList<Message> getEventLogMessages(int seqNo) {
-		//if(Logging.DEBUG) Log.d(Logging.TAG, "getEventLogMessage more recent than seqNo: " + seqNo);
-		return rpc.getMessages(seqNo);
-	}
-	
-	// returns notices
-	public ArrayList<Notice> getNotices() {
-		return rpc.getNotices(0);
-	}
-	
-	// returns notices sent by the project server / scheduler
-	// i.e. when scheduler request does not satisfy minimal requirements
-	public ArrayList<Notice> getServerNotices() {
-		ArrayList<Notice> allNotices = rpc.getNotices(0);
-		ArrayList<Notice> serverNotices = new ArrayList<Notice>();
-		for(Notice notice: allNotices) {
-			if(notice.isServerNotice) serverNotices.add(notice);
-		}
-		return serverNotices;
-	}
-	
-	// updates the client status via rpc
-	// reports current device status to the client via rpc
-	//
-	// get executed in seperate thread
-	private final class StatusUpdateTimerTask extends TimerTask {
-		@Override
-		public void run() {
-			updateStatus();
-		}
-	}
-	
-	// broadcast receiver to detect changes to screen on or off
-	// used to adapt ClientMonitorAsync bahavior
-	// e.g. avoid polling GUI status rpcs while screen is off to
-	// save battery
 	BroadcastReceiver screenOnOffReceiver = new BroadcastReceiver() { 
 		@Override 
         public void onReceive(Context context, Intent intent) { 
@@ -1261,6 +893,6 @@ public class Monitor extends Service {
 				forceRefresh();
 			}
         } 
- }; 
-
+	}; 
+// --end-- screen on/off receiver
 }

@@ -306,7 +306,7 @@ public class AttachProjectWorkingActivity extends Activity{
 				// retry a defined number of times, if non deterministic failure occurs.
 				// makes login more robust on bad network connections
 				while(!success && attemptCounter < maxAttempts) {
-					reply = monitor.addAcctMgr(url, userName, pwd);
+					reply = monitor.clientInterface.addAcctMgr(url, userName, pwd);
 					
 					if(reply == null || reply.error_num != BOINCErrors.ERR_OK) {
 						// failed
@@ -340,7 +340,7 @@ public class AttachProjectWorkingActivity extends Activity{
 				// retry a defined number of times, if non deterministic failure occurs.
 				// makes login more robust on bad network connections
 				while(!success && attemptCounter < maxAttempts) {
-					AcctMgrInfo info = monitor.getAcctMgrInfo();
+					AcctMgrInfo info = monitor.clientInterface.getAcctMgrInfo();
 					if(Logging.DEBUG) Log.d(Logging.TAG,"acctMgrInfo: " + info.acct_mgr_url + info.acct_mgr_name + info.have_credentials);
 					
 
@@ -377,7 +377,7 @@ public class AttachProjectWorkingActivity extends Activity{
 					// retry a defined number of times, if non deterministic failure occurs.
 					// makes login more robust on bad network connections
 					while(!success && attemptCounter < maxAttempts) {
-						account = monitor.createAccount(url, email, userName, pwd, teamName);
+						account = monitor.clientInterface.createAccountPolling(url, email, userName, pwd, teamName);
 						
 						if(account == null || account.error_num != BOINCErrors.ERR_OK) {
 							// failed
@@ -411,7 +411,7 @@ public class AttachProjectWorkingActivity extends Activity{
 					// retry a defined number of times, if non deterministic failure occurs.
 					// makes login more robust on bad network connections
 					while(!success && attemptCounter < maxAttempts) {
-						account = monitor.lookupCredentials(url, id, pwd, usesName);
+						account = monitor.clientInterface.lookupCredentials(url, id, pwd, usesName);
 						
 						if(account == null || account.error_num != BOINCErrors.ERR_OK) {
 							// failed
@@ -445,7 +445,7 @@ public class AttachProjectWorkingActivity extends Activity{
 				maxAttempts = getResources().getInteger(R.integer.attach_attach_retries);
 				publishProgress(new Update(false, false, R.string.attachproject_working_login,"",0));
 				while(!success && attemptCounter < maxAttempts) {
-					Boolean attach = monitor.attachProject(url, projectName, account.authenticator);
+					Boolean attach = monitor.clientInterface.attachProject(url, projectName, account.authenticator);
 					if(attach) {
 						// successful
 						success = true;
