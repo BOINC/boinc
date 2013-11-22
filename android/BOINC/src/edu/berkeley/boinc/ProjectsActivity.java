@@ -161,7 +161,7 @@ public class ProjectsActivity extends FragmentActivity {
 			// get server / scheduler notices to display if device does not meet
 			// resource requirements
 			ArrayList<Notice> serverNotices = null;
-			if(mIsBound) serverNotices = monitor.getServerNotices();
+			if(mIsBound) serverNotices = monitor.clientInterface.getServerNotices();
 			
 			// reading data successful. switch to standard layout, if first time.
 			if (initialSetupRequired) {
@@ -518,17 +518,17 @@ public class ProjectsActivity extends FragmentActivity {
 					case RpcClient.PROJECT_ANW:
 					case RpcClient.PROJECT_DETACH:
 					case RpcClient.PROJECT_RESET:
-						return monitor.projectOperation(operation, data.id);
+						return monitor.clientInterface.projectOp(operation, data.id);
 						
 					// acct mgr operations
 					case RpcClient.MGR_SYNC:
-						return monitor.synchronizeAcctMgr(data.acctMgrInfo.acct_mgr_url);
+						return monitor.clientInterface.synchronizeAcctMgr(data.acctMgrInfo.acct_mgr_url);
 					case RpcClient.MGR_DETACH:
-						return monitor.addAcctMgr("", "", "").error_num == BOINCErrors.ERR_OK;
+						return monitor.clientInterface.addAcctMgr("", "", "").error_num == BOINCErrors.ERR_OK;
 						
 					// transfer operations
 					case RpcClient.TRANSFER_RETRY:
-						return monitor.transferOperation(data.projectTransfers, operation);
+						return monitor.clientInterface.transferOperation(data.projectTransfers, operation);
 					case RpcClient.TRANSFER_ABORT:
 						break;
 						

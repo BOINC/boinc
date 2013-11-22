@@ -58,21 +58,21 @@ public class ClientRemoteService extends Service {
 		public boolean attachProject(String packageName, String url, String id, String pwd) throws RemoteException {
 			// TODO store packageName in AppPreferences
 			if(mIsMonitorBound) {
-				return monitor.attachProject(url, id, pwd);
+				return monitor.clientInterface.attachProject(url, id, pwd);
 			} else {if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 4) Log.e(Logging.TAG, "ClientRemoteService could not attach project, service not bound!"); return false;}
 		}
 
 		@Override
 		public boolean checkProjectAttached(String url) throws RemoteException {
 			if(mIsMonitorBound) {
-				return monitor.checkProjectAttached(url);
+				return monitor.clientInterface.checkProjectAttached(url);
 			} else {if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 4) Log.e(Logging.TAG, "ClientRemoteService could not attach project, service not bound!"); return false;}
 		}
 
 		@Override
 		public AccountOut verifyCredentials(String url, String id, String pwd, boolean usesName) throws RemoteException {
 			if(mIsMonitorBound) {
-				return monitor.lookupCredentials(url, id, pwd, usesName);
+				return monitor.clientInterface.lookupCredentials(url, id, pwd, usesName);
 			} else {if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 4) Log.e(Logging.TAG, "ClientRemoteService could not verify credentials, service not bound!"); return null;}
 		}
 
@@ -80,21 +80,21 @@ public class ClientRemoteService extends Service {
 		public boolean detachProject(String packageName, String url) throws RemoteException {
 			// TODO remove packageName in AppPreferences
 			if(mIsMonitorBound) {
-				return monitor.projectOperation(RpcClient.PROJECT_DETACH,url);
+				return monitor.clientInterface.projectOp(RpcClient.PROJECT_DETACH,url);
 			} else {if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 4) Log.e(Logging.TAG, "ClientRemoteService could not detach project, service not bound!"); return false;}
 		}
 
 		@Override
 		public AccountOut createAccount(String url, String email, String userName, String pwd, String teamName) throws RemoteException {
 			if(mIsMonitorBound) {
-				return monitor.createAccount(url, email, userName, pwd, teamName);
+				return monitor.clientInterface.createAccountPolling(url, email, userName, pwd, teamName);
 			} else {if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 4) Log.e(Logging.TAG, "ClientRemoteService could not create account, service not bound!"); return null;}
 		}
 
 		@Override
 		public String getRpcAuthToken() throws RemoteException {
 			if(mIsMonitorBound) {
-				return monitor.readAuthToken();
+				return monitor.clientInterface.readAuthToken(monitor.getAuthFilePath());
 			} else {if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 4) Log.e(Logging.TAG, "ClientRemoteService could not read auth token, service not bound!"); return null;}
 		}
     };

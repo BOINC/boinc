@@ -360,7 +360,7 @@ public class EventLogActivity extends FragmentActivity {
 		
 		@Override
 		protected ArrayList<Message> doInBackground(Void... params) {
-			return monitor.getEventLogMessages(mostRecentSeqNo); 
+			return monitor.clientInterface.getMessages(mostRecentSeqNo); 
 		}
 
 		@Override
@@ -391,7 +391,7 @@ public class EventLogActivity extends FragmentActivity {
 		@Override
 		protected List<Message> doInBackground(Void... params) {
 			if(Logging.DEBUG) Log.d("RetrievePastMsgs", "calling monitor with: " + pastSeqNo + " / " + pastMsgsLoadingRange);
-			return monitor.getEventLogMessages(pastSeqNo, pastMsgsLoadingRange); 
+			return monitor.clientInterface.getEventLogMessages(pastSeqNo, pastMsgsLoadingRange); 
 		}
 
 		@Override

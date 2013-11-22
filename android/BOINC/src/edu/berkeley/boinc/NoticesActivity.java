@@ -132,6 +132,10 @@ public class NoticesActivity extends FragmentActivity {
 		}
 	}
 	
+	/**
+	 * retrieves all notices from the client
+	 * starting with seq number 0
+	 */
 	private final class NoticesRetrievalAsync extends AsyncTask<Void,Void,Boolean> {
 
 		@Override
@@ -145,7 +149,7 @@ public class NoticesActivity extends FragmentActivity {
 		protected Boolean doInBackground(Void... params) {
 			if(Logging.DEBUG) Log.d(Logging.TAG,"NoticesRetrievalAsync doInBackground");
 			try{
-				ArrayList<Notice> monitorList = monitor.getNotices();
+				ArrayList<Notice> monitorList = monitor.clientInterface.getNotices(0);
 				// remove client and scheduler notices
 				ArrayList<Notice> rssNotices = new ArrayList<Notice>();
 				for(Notice notice: monitorList) {

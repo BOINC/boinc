@@ -334,8 +334,8 @@ public class StatusActivity extends Activity{
 		@Override
 		protected Boolean doInBackground(Integer... params) {
 			// setting provided mode for both, CPU computation and network.
-			Boolean runMode = monitor.setRunMode(params[0]);
-			Boolean networkMode = monitor.setNetworkMode(params[0]);
+			Boolean runMode = monitor.clientInterface.setRunMode(params[0]);
+			Boolean networkMode = monitor.clientInterface.setNetworkMode(params[0]);
 			return runMode && networkMode;
 		}
 		
