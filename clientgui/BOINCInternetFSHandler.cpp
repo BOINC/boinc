@@ -524,20 +524,12 @@ bool CBOINCInternetFSHandler::CanOpen(const wxString& location)
 {
     if (b_ShuttingDown) return false;
 
-    // Check to see if we support the download of the specified file type
+    // Disable downloading all embedded file types within a notice
     // TODO: We'll need to revisit this policy after the next public release.
     //   Either wait for the wxWidgets 3.0 migration, or fix the async file
-    //   download issue.  Until then disable image file downloads.
+    //   download issue.
     //
-    wxURI uri = wxURI(location);
-    wxFileName file = wxFileName(uri.GetPath());
-
-    if (file.GetExt() == wxT("gif")) return false;
-    if (file.GetExt() == wxT("tif")) return false;
-    if (file.GetExt() == wxT("jpg")) return false;
-    if (file.GetExt() == wxT("png")) return false;
-    if (file.GetExt() == wxT("tiff")) return false;
-    if (file.GetExt() == wxT("jpeg")) return false;
+    return false;
 
     // Regular check based on protocols
     //
