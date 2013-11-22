@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2013-11-08 00:00 PST\n"
-"PO-Revision-Date: 2013-11-21 05:20+0000\n"
+"PO-Revision-Date: 2013-11-22 14:02+0000\n"
 "Last-Translator: Marius <marius.sirbu@outlook.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: ro\n"
@@ -18,7 +18,7 @@ msgstr ""
 "20)) ? 1 : 2);;\n"
 "X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-POOTLE-MTIME: 1385011203.0\n"
+"X-POOTLE-MTIME: 1385128966.0\n"
 
 msgid "LANG_NAME_NATIVE"
 msgstr "Română"
@@ -3219,7 +3219,7 @@ msgstr "Sau apăsaţi aici pentru a reseta preferinţele la implicit"
 
 #: ../user/edit_passwd_action.php:50
 msgid "Invalid account key"
-msgstr ""
+msgstr "Cheie cont invalidă"
 
 #: ../user/edit_passwd_action.php:55
 msgid "No account with that email address was found"
@@ -3246,7 +3246,7 @@ msgstr ""
 
 #: ../user/edit_passwd_form.php:42
 msgid "You can identify yourself using either"
-msgstr ""
+msgstr "Puteţi să vă identificaţi folosind fie"
 
 #: ../user/edit_passwd_form.php:44
 msgid "your email address and old password"
@@ -3262,11 +3262,11 @@ msgstr "Parola curentă"
 
 #: ../user/edit_passwd_form.php:51
 msgid "<b>OR</b>: Account key"
-msgstr ""
+msgstr "<b>FIE</b>: Cheia contului"
 
 #: ../user/edit_passwd_form.php:52
 msgid "Get account key by email"
-msgstr ""
+msgstr "Obţineţi cheia contului prin email"
 
 #: ../user/edit_passwd_form.php:56
 msgid "New password"
@@ -3302,7 +3302,7 @@ msgstr ""
 
 #: ../user/edit_user_info_form.php:45
 msgid "Postal (ZIP) code %1 Optional%2"
-msgstr ""
+msgstr "Cod poştal %1 Opţional%2"
 
 #: ../user/edit_user_info_form.php:49
 msgid "Update info"
