@@ -53,6 +53,8 @@ struct VBOX_VM {
     std::string image_filename;
     // name of the virtual machine floppy disk image file
     std::string floppy_image_filename;
+    // name of the virtual machine cache disk image file
+    std::string cache_disk_filename;
     // name of the virtual machine iso9660 disk image file
     std::string iso_image_filename;
     // maximum amount of wall-clock time this VM is allowed to run before
@@ -76,6 +78,8 @@ struct VBOX_VM {
     bool enable_floppyio;
     // whether to use an iso9660 image to implement VM contextualization (e.g. uCernVM)
     bool enable_isocontextualization;
+    // whether to add an extra cache disk for systems like uCernVM
+    bool enable_cache_disk;
     // whether to enable remote desktop functionality
     bool enable_remotedesktop;
     // whether to allow network access at all
