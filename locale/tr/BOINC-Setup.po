@@ -7,18 +7,20 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-11-17 00:00-0800\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2013-11-22 15:36+0000\n"
+"Last-Translator: canberkunver <canberkunver@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.5.5\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SearchPath-0: mac_installer\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-Basepath: /Volumes/Cheer/BOINC_GIT/boinc_trunk\n"
 "X-Poedit-KeywordsList: _\n"
+"X-POOTLE-MTIME: 1385134598.0\n"
 
 #: Installer.cpp:124
 #, c-format
@@ -77,7 +79,7 @@ msgstr ""
 #: uninstall.cpp:158
 #, c-format
 msgid "Canceled: %s has not been touched."
-msgstr ""
+msgstr "Durduruldu: %s etkilenmedi."
 
 #: uninstall.cpp:169
 #, c-format
