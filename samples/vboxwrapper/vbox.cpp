@@ -69,6 +69,7 @@ VBOX_VM::VBOX_VM() {
     memory_size_mb.clear();
     image_filename.clear();
     floppy_image_filename.clear();
+    iso_image_filename.clear();
     job_duration = 0.0;
     fraction_done_filename.clear();
     suspended = false;
@@ -78,6 +79,7 @@ VBOX_VM::VBOX_VM() {
     enable_cern_dataformat = false;
     enable_shared_directory = false;
     enable_floppyio = false;
+    enable_isocontextualization = false;
     enable_remotedesktop = false;
     register_only = false;
     enable_network = false;
@@ -717,6 +719,7 @@ int VBOX_VM::register_vm() {
     APP_INIT_DATA aid;
     char buf[256];
     int retval;
+    int portcount = 1;
 
     boinc_get_init_data_p(&aid);
     get_slot_directory(virtual_machine_slot_directory);
@@ -933,6 +936,17 @@ int VBOX_VM::register_vm() {
     command += "--name \"Hard Disk Controller\" ";
     command += "--add \"" + vm_disk_controller_type + "\" ";
     command += "--controller \"" + vm_disk_controller_model + "\" ";
+    command += "--hostiocache off ";
+    if ((vm_disk_controller_type == "sata") || (vm_disk_controller_type == "SATA")) {
+        if (enable_cache_disk) {
+            portcount++;
+	}
+        if (enable_isocontextualization) {
+            portcount++;
+	}
+	sprintf(buf, "%d", portcount);
+        command += "--portcount " + string(buf) + " ";
+    }
 
     retval = vbm_popen(command, output, "add storage controller (fixed disk)");
     if (retval) return retval;
@@ -1002,6 +1016,25 @@ int VBOX_VM::register_vm() {
         retval = vbm_popen(command, output, "storage attach (floppy disk)");
         if (retval) return retval;
 
+    }
+
+    // Add virtual ISO9660 disk drive to VM
+    //
+    if (enable_isocontextualization) {
+        fprintf(
+            stderr,
+            "%s Adding virtual iso9660 disk drive to VM.\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf))
+        );
+        command  = "storageattach \"" + vm_name + "\" ";
+        command += "--storagectl \"Hard Disk Controller\" ";
+        command += "--port 1 ";
+        command += "--device 0 ";
+	command += "--type dvddrive ";
+        command += "--medium \"" + virtual_machine_slot_directory + "/" + iso_image_filename + "\" ";
+
+        retval = vbm_popen(command, output, "storage attach (iso9660 image)");
+        if (retval) return retval;
     }
 
     // Enable the network adapter if a network connection is required.
@@ -1112,7 +1145,7 @@ int VBOX_VM::deregister_vm(bool delete_media) {
         vboxwrapper_msg_prefix(buf, sizeof(buf))
     );
     command  = "storagectl \"" + vm_name + "\" ";
-    command += "--name \"IDE Controller\" ";
+    command += "--name \"Hard Disk Controller\" ";
     command += "--remove ";
 
     vbm_popen(command, output, "deregister storage controller (fixed disk)", false, false);
@@ -1165,6 +1198,20 @@ int VBOX_VM::deregister_vm(bool delete_media) {
         vbm_popen(command, output, "remove virtual floppy disk", false, false);
     }
 
+    if (enable_isocontextualization) {
+        fprintf(
+            stderr,
+            "%s Removing virtual iso9660 disk from VirtualBox.\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf))
+        );
+        command  = "closemedium dvd \"" + virtual_machine_slot_directory + "/" + iso_image_filename + "\" ";
+        if (delete_media) {
+            command += "--delete ";
+        }
+
+        vbm_popen(command, output, "remove virtual ido9660 disk", false, false);
+    }
+
     return 0;
 }
 
@@ -1214,6 +1261,10 @@ int VBOX_VM::deregister_stale_vm() {
         if (enable_floppyio) {
             command  = "closemedium floppy \"" + virtual_machine_slot_directory + "/" + floppy_image_filename + "\" ";
             vbm_popen(command, output, "remove virtual floppy disk", false);
+        }
+        if (enable_isocontextualization) {
+            command  = "closemedium dvd \"" + virtual_machine_slot_directory + "/" + iso_image_filename + "\" ";
+            vbm_popen(command, output, "remove virtual iso9660 disk", false);
         }
     }
     return 0;

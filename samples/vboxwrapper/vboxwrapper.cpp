@@ -154,6 +154,7 @@ int parse_job_file(VBOX_VM& vm, vector<string>& copy_to_shared) {
         else if (xp.parse_bool("enable_network", vm.enable_network)) continue;
         else if (xp.parse_bool("enable_shared_directory", vm.enable_shared_directory)) continue;
         else if (xp.parse_bool("enable_floppyio", vm.enable_floppyio)) continue;
+        else if (xp.parse_bool("enable_isocontextualization", vm.enable_isocontextualization)) continue;
         else if (xp.parse_bool("enable_remotedesktop", vm.enable_remotedesktop)) continue;
         else if (xp.parse_int("pf_guest_port", vm.pf_guest_port)) continue;
         else if (xp.parse_int("pf_host_port", vm.pf_host_port)) continue;
@@ -555,11 +556,19 @@ int main(int argc, char** argv) {
             sprintf(buf, "%s.%s", FLOPPY_IMAGE_FILENAME, FLOPPY_IMAGE_FILENAME_EXTENSION);
             vm.floppy_image_filename = buf;
         }
+	if (vm.enable_isocontextualization) {
+            sprintf(buf, "%s.%s", ISO_IMAGE_FILENAME, ISO_IMAGE_FILENAME_EXTENSION);
+            vm.iso_image_filename = buf;
+	}
     } else {
         vm.vm_master_name += aid.result_name;
         if (vm.enable_floppyio) {
             sprintf(buf, "%s_%d.%s", FLOPPY_IMAGE_FILENAME, aid.slot, FLOPPY_IMAGE_FILENAME_EXTENSION);
             vm.floppy_image_filename = buf;
+        }
+        if (vm.enable_isocontextualization) {
+            sprintf(buf, "%s_%d.%s", ISO_IMAGE_FILENAME, aid.slot, ISO_IMAGE_FILENAME_EXTENSION);
+            vm.iso_image_filename = buf;
         }
     }
     if (aid.ncpus > 1.0 || ncpus > 1.0) {
