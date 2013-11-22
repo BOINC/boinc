@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.4x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-11-17 12:25-0800\n"
-"PO-Revision-Date: 2013-10-17 15:14+0000\n"
+"PO-Revision-Date: 2013-11-16 14:35+0000\n"
 "Last-Translator: Christian <djangofett@gmx.net>\n"
 "Language-Team: BOINC.DE Team <webmaster@boinc.de>\n"
 "Language: de\n"
@@ -23,7 +23,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCGIT\\boinc\n"
-"X-POOTLE-MTIME: 1382022840.0\n"
+"X-POOTLE-MTIME: 1384612558.0\n"
 
 # 81%
 #: AccountInfoPage.cpp:387
@@ -127,8 +127,9 @@ msgstr ""
 "neues Passwort anzufordern."
 
 #: AccountInfoPage.cpp:532
+#, fuzzy
 msgid "Account manager web site"
-msgstr ""
+msgstr "Webseite der Kontoverwaltung"
 
 #: AccountInfoPage.cpp:574 WelcomePage.cpp:348
 msgid "Add project"
@@ -175,12 +176,14 @@ msgstr ""
 "oder geben Sie die Kontoverwaltungsadresse ein."
 
 #: AccountManagerInfoPage.cpp:279
+#, fuzzy
 msgid "Account manager details:"
-msgstr ""
+msgstr "Webseite der Kontoverwaltung"
 
 #: AccountManagerInfoPage.cpp:283
+#, fuzzy
 msgid "Account manager &URL:"
-msgstr ""
+msgstr "Kontoverwaltung &URL:"
 
 #: AccountManagerInfoPage.cpp:287
 msgid "Open web page"
@@ -506,9 +509,9 @@ msgid "Show information about the %s"
 msgstr "Zeige Informationen über %s"
 
 #: AdvancedFrame.cpp:657 sg_BoincSimpleFrame.cpp:220 sg_BoincSimpleGUI.cpp:165
-#, c-format
+#, c-format, fuzzy
 msgid "%s &web site"
-msgstr ""
+msgstr "%s &Webseite"
 
 #: AdvancedFrame.cpp:663 sg_BoincSimpleFrame.cpp:226 sg_BoincSimpleGUI.cpp:171
 #, c-format
@@ -3929,9 +3932,9 @@ msgid "Project Commands"
 msgstr "Projekt-Befehle"
 
 #: sg_ProjectPanel.cpp:267
-#, c-format
+#, c-format, fuzzy
 msgid "Pop up a menu of web sites for project %s"
-msgstr ""
+msgstr "Öffne Menü für die Webseiten von %s"
 
 #: sg_ProjectPanel.cpp:269
 #, c-format
