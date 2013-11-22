@@ -93,14 +93,15 @@ int CLIENT_APP_VERSION::parse(XML_PARSER& xp) {
             COPROC_REQ coproc_req;
             int retval = coproc_req.parse(xp);
             if (!retval) {
-                host_usage.gpu_usage = coproc_req.count;
-                if (!strcmp(coproc_req.type, "CUDA") || !strcmp(coproc_req.type, "NVIDIA")) {
-                    host_usage.proc_type = PROC_TYPE_NVIDIA_GPU;
-                } else if (!strcmp(coproc_req.type, "ATI")) {
-                    host_usage.proc_type = PROC_TYPE_AMD_GPU;
-                } else if (!strcmp(coproc_req.type, "INTEL")) {
-                    host_usage.proc_type = PROC_TYPE_INTEL_GPU;
+                int rt = coproc_type_name_to_num(coproc_req.type);
+                if (!rt) {
+                    log_messages.printf(MSG_NORMAL,
+                        "UNKNOWN COPROC TYPE %s\n", coproc_req.type
+                    );
+                    continue;
                 }
+                host_usage.proc_type = rt;
+                host_usage.gpu_usage = coproc_req.count;
             }
             continue;
         }

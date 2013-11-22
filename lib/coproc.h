@@ -98,6 +98,7 @@ extern const char* proc_type_name(int);
     // user-readable name
 extern const char* proc_type_name_xml(int);
     // name used in XML and COPROC::type
+extern int coproc_type_name_to_num(const char* name);
 
 // deprecated, but keep for simplicity
 #define GPU_TYPE_NVIDIA proc_type_name_xml(PROC_TYPE_NVIDIA_GPU)
