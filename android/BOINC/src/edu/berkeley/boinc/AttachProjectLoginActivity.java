@@ -398,12 +398,12 @@ public class AttachProjectLoginActivity extends Activity{
 						if(Logging.DEBUG) Log.d(Logging.TAG, "doInBackground() - GetProjectConfig for manual input url: " + url);
 						
 						//fetch ProjectConfig
-						projectConfig = monitor.getProjectConfig(url);
+						projectConfig = monitor.clientInterface.getProjectConfigPolling(url);
 					} else {
 						if(Logging.DEBUG) Log.d(Logging.TAG, "doInBackground() - GetProjectConfig for list selection url: " + projectInfo.url);
 						
 						//fetch ProjectConfig
-						projectConfig = monitor.getProjectConfig(projectInfo.url);
+						projectConfig = monitor.clientInterface.getProjectConfigPolling(projectInfo.url);
 						
 						// fetch project logo	
 						loadBitmap();
@@ -450,7 +450,7 @@ public class AttachProjectLoginActivity extends Activity{
 		
 		private Boolean checkProjectAlreadyAttached(String url) {
 			if(Logging.DEBUG) Log.d(Logging.TAG, "check whether project with url is already attached: " + url);
-			return monitor.checkProjectAttached(url);
+			return monitor.clientInterface.checkProjectAttached(url);
 		}
 	}
 }

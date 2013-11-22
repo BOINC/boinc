@@ -542,7 +542,7 @@ public class PrefsActivity extends FragmentActivity {
 	private final class WriteClientPrefsAsync extends AsyncTask<GlobalPreferences,Void,Boolean> {
 		@Override
 		protected Boolean doInBackground(GlobalPreferences... params) {
-			if(mIsBound) return monitor.setGlobalPreferences(params[0]);
+			if(mIsBound) return monitor.clientInterface.setGlobalPreferences(params[0]);
 			else return false;
 		}
 		
@@ -557,7 +557,7 @@ public class PrefsActivity extends FragmentActivity {
 		@Override
 		protected Boolean doInBackground(String... params) {
 			if(Logging.DEBUG) Log.d(Logging.TAG,"SetCcConfigAsync");
-			if(mIsBound) monitor.setCcConfig(params[0]);
+			if(mIsBound) monitor.clientInterface.setCcConfig(params[0]);
 			else if(Logging.WARNING) Log.w(Logging.TAG,"SetCcConfigAsync monitor not bound!");
 			return true;
 		}
