@@ -23,8 +23,9 @@ check_get_args(array("hostid"));
 function rsc_name($t) {
     switch ($t) {
     case 2: return tra("CPU");
-    case 3: return tra("nvidia GPU");
+    case 3: return tra("NVIDIA GPU");
     case 4: return tra("ATI GPU");
+    case 5: return tra("Intel GPU");
     }
     return tra("Unknown");
 }
