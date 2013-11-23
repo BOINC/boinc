@@ -1056,10 +1056,6 @@ function venue_parse_form(&$user) {
     $user->venue = $_GET['default_venue'];
 }
 
-function venue_update($user) {
-    mysql_query("update user set venue='$user->venue' where id=$user->id");
-}
-
 ////////////////////////////////////////////
 //
 // Functions to parse form elements, modifying a preferences structure
@@ -1189,9 +1185,8 @@ function project_prefs_make_xml($prefs, $primary=true) {
 // Update user's prefs in database, from a given structure
 //
 function global_prefs_update(&$user, $prefs) {
-    $prefs_xml = mysql_real_escape_string(global_prefs_make_xml($prefs));
-    $query = "update user set global_prefs='$prefs_xml' where id=$user->id";
-    $retval = mysql_query($query);
+    $prefs_xml = BoincDb::escape_string(global_prefs_make_xml($prefs));
+    $retval = $user->update("global_prefs='$prefs_xml'");
     if (!$retval) {
         return 1;
     }
@@ -1200,11 +1195,10 @@ function global_prefs_update(&$user, $prefs) {
 }
 
 function project_prefs_update(&$user, $prefs) {
-    $prefs_xml = mysql_real_escape_string(project_prefs_make_xml($prefs));
+    $prefs_xml = BoincDb::escape_string(project_prefs_make_xml($prefs));
     $send_email = $user->send_email?1:0;
     $show_hosts = $user->show_hosts?1:0;
-    $query = "update user set project_prefs='$prefs_xml', send_email=$send_email, show_hosts=$show_hosts where id=$user->id";
-    $retval = mysql_query($query);
+    $retval = $user->update("project_prefs='$prefs_xml', send_email=$send_email, show_hosts=$show_hosts");
     if (!$retval) {
         return 1;
     }

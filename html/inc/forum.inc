@@ -800,7 +800,7 @@ function notify_subscriber($thread, $user) {
 //
 function create_post($content, $parent_id, $user, $forum, $thread, $signature) {
     $content = substr($content, 0, 64000);
-    $content = mysql_real_escape_string($content);
+    $content = BoincDb::escape_string($content);
     $now = time();
     $sig = $signature?1:0;
     $id = BoincPost::insert("(thread, user, timestamp, content, parent_post, signature) values ($thread->id, $user->id, $now, '$content', $parent_id, $sig)");
@@ -844,7 +844,7 @@ function update_forum_timestamp($forum) {
 function create_thread($title, $content, $user, $forum, $signature, $export) {
     $title = trim($title);
     $title = sanitize_tags($title);
-    $title = mysql_real_escape_string($title);
+    $title = BoincDb::escape_string($title);
     $now = time();
     $status = 0;
     if (is_news_forum($forum) && !$export) {

@@ -24,11 +24,10 @@ require_once("../inc/util.inc");
 
 check_get_args(array());
 
-db_init();
 $user = get_logged_in_user();
 
 if (!@file_get_contents('../ops/ffmail/subject')) {
-    error_page(tra("This project hasn\'t created an email message - please notify its administrators"));
+    error_page(tra("This project hasn't created an email message - please notify its administrators"));
 }
 
 page_head(tra("Tell your friends about %1", PROJECT));

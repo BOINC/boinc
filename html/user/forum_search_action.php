@@ -34,7 +34,7 @@ function search_thread_titles(
 ){
     $search_string="%";
     foreach ($keyword_list as $key => $word) {
-        $search_string.=mysql_escape_string($word)."%";
+        $search_string .= BoincDb::escape_string($word)."%";
     }        
     $query = "title like '".$search_string."'";
     if ($forum && $forum != "all") {
