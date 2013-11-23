@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-17 12:25-0800\n"
+"POT-Creation-Date: 2013-11-22 00:00-0800\n"
 "PO-Revision-Date: 2013-10-21 15:23+0000\n"
 "Last-Translator: chris g <chr1407@hotmail.com>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
@@ -217,12 +217,12 @@ msgstr "Συνδεδεμένος"
 msgid "Disconnected"
 msgstr "Αποσυνδεδεμένος"
 
-#: AdvancedFrame.cpp:318 sg_BoincSimpleFrame.cpp:115 sg_BoincSimpleGUI.cpp:103
+#: AdvancedFrame.cpp:318 sg_BoincSimpleFrame.cpp:115
 #, c-format
 msgid "Close the %s window"
 msgstr "Κλείσιμο του παραθύρου %s"
 
-#: AdvancedFrame.cpp:321 sg_BoincSimpleFrame.cpp:118 sg_BoincSimpleGUI.cpp:106
+#: AdvancedFrame.cpp:321 sg_BoincSimpleFrame.cpp:118
 msgid "&Close Window"
 msgstr "&Κλείσιμο Παράθυρου"
 
@@ -291,7 +291,7 @@ msgstr "Εμφάνιση απλού γραφικού περιβάλλοντος.
 msgid "&Add project or account manager..."
 msgstr "&Προσθήκη έργου ή διαχειριστή λογαριασμού..."
 
-#: AdvancedFrame.cpp:421 sg_ProjectPanel.cpp:76 sg_ProjectsComponent.cpp:106
+#: AdvancedFrame.cpp:421 sg_ProjectPanel.cpp:76
 msgid "Volunteer for any or all of 30+ projects in many areas of science"
 msgstr ""
 "Προσφέρετε εθελοντικό έργο για οποιοδήποτε απο τα 30+ ή και για όλα τα έργα "
@@ -488,12 +488,12 @@ msgstr "Ημερολόγιο γεγονότων...\t Ctrl+Shift+E"
 msgid "Display diagnostic messages."
 msgstr "Εμφάνιση διαγνωστικών μηνυμάτων."
 
-#: AdvancedFrame.cpp:621 sg_BoincSimpleFrame.cpp:184 sg_BoincSimpleGUI.cpp:129
+#: AdvancedFrame.cpp:621 sg_BoincSimpleFrame.cpp:184
 #, c-format
 msgid "%s &help"
 msgstr "%s& βοήθεια"
 
-#: AdvancedFrame.cpp:627 sg_BoincSimpleFrame.cpp:190 sg_BoincSimpleGUI.cpp:135
+#: AdvancedFrame.cpp:627 sg_BoincSimpleFrame.cpp:190
 #, c-format
 msgid "Show information about %s"
 msgstr "Έμφάνιση πληροφοριών για%s"
@@ -503,17 +503,17 @@ msgstr "Έμφάνιση πληροφοριών για%s"
 msgid "&%s help"
 msgstr "&Βοήθεια για το %s "
 
-#: AdvancedFrame.cpp:645 sg_BoincSimpleFrame.cpp:208 sg_BoincSimpleGUI.cpp:153
+#: AdvancedFrame.cpp:645 sg_BoincSimpleFrame.cpp:208
 #, c-format
 msgid "Show information about the %s"
 msgstr "Προβολή πληροφοριών σχετικά με το %s"
 
-#: AdvancedFrame.cpp:657 sg_BoincSimpleFrame.cpp:220 sg_BoincSimpleGUI.cpp:165
+#: AdvancedFrame.cpp:657 sg_BoincSimpleFrame.cpp:220
 #, c-format
 msgid "%s &web site"
 msgstr ""
 
-#: AdvancedFrame.cpp:663 sg_BoincSimpleFrame.cpp:226 sg_BoincSimpleGUI.cpp:171
+#: AdvancedFrame.cpp:663 sg_BoincSimpleFrame.cpp:226
 #, c-format
 msgid "Show information about BOINC and %s"
 msgstr "Προβολή πληροφοριών για το BOINC και το %s"
@@ -527,11 +527,11 @@ msgstr "&Σχετικά με το %s..."
 msgid "Licensing and copyright information."
 msgstr "Πληροφορίες άδειας χρήσης και copyright."
 
-#: AdvancedFrame.cpp:688 sg_BoincSimpleFrame.cpp:251 sg_BoincSimpleGUI.cpp:194
+#: AdvancedFrame.cpp:688 sg_BoincSimpleFrame.cpp:251
 msgid "&File"
 msgstr "&Αρχείο"
 
-#: AdvancedFrame.cpp:692 sg_BoincSimpleFrame.cpp:255 sg_BoincSimpleGUI.cpp:199
+#: AdvancedFrame.cpp:692 sg_BoincSimpleFrame.cpp:255
 msgid "&View"
 msgstr "&Προβολή"
 
@@ -547,8 +547,8 @@ msgstr "&Δραστηριότητα"
 msgid "A&dvanced"
 msgstr "&Για προχωρημένους"
 
-#: AdvancedFrame.cpp:708 DlgEventLog.cpp:331 sg_BoincSimpleFrame.cpp:263
-#: sg_BoincSimpleGUI.cpp:184 wizardex.cpp:374 wizardex.cpp:381
+#: AdvancedFrame.cpp:708 DlgEventLog.cpp:334 sg_BoincSimpleFrame.cpp:263
+#: wizardex.cpp:374 wizardex.cpp:381
 msgid "&Help"
 msgstr "&Βοήθεια"
 
@@ -828,7 +828,7 @@ msgstr "%s αποσυνδέθηκε επιτυχώς από το διαδίκτ�
 msgid "%s failed to disconnected from the Internet."
 msgstr "%s απέτυχε να αποσυνδεθεί από το διαδίκτυο."
 
-#: BOINCGUIApp.cpp:342
+#: BOINCGUIApp.cpp:341
 #, c-format
 #, fuzzy, c-format
 msgid ""
@@ -851,7 +851,7 @@ msgstr ""
 "boinc\"\n"
 "λίστα χρηστών."
 
-#: BOINCGUIApp.cpp:348
+#: BOINCGUIApp.cpp:347
 #, c-format
 msgid ""
 "%s ownership or permissions are not set properly; please reinstall %s.\n"
@@ -861,16 +861,16 @@ msgstr ""
 "παρακαλώ επαναγκαταστείστε το %s.\n"
 "(Κωδικός σφάλματος %d"
 
-#: BOINCGUIApp.cpp:354
+#: BOINCGUIApp.cpp:353
 msgid " at "
 msgstr "στο"
 
-#: BOINCGUIApp.cpp:357 MainDocument.cpp:2475 MainDocument.cpp:2525
-#: MainDocument.cpp:2545 ViewTransfers.cpp:803
+#: BOINCGUIApp.cpp:356 MainDocument.cpp:2474 MainDocument.cpp:2524
+#: MainDocument.cpp:2544 ViewTransfers.cpp:803
 msgid ")"
 msgstr ")"
 
-#: BOINCGUIApp.cpp:387
+#: BOINCGUIApp.cpp:386
 msgid ""
 "A reboot is required in order for BOINC to run properly.\n"
 "Please reboot your computer and try again."
@@ -878,68 +878,68 @@ msgstr ""
 "Χρειάζεται να γίνει επανεκκίνηση ώστε το BOINC να τρέξει σωστά.\n"
 "Παρακαλώ επανακκινείστε τον υπολογιστή σας και δοκιμάστε ξανά."
 
-#: BOINCGUIApp.cpp:388 DlgAbout.cpp:153
+#: BOINCGUIApp.cpp:387 DlgAbout.cpp:153
 msgid "BOINC Manager"
 msgstr "Διαχειριστής του BOINC"
 
-#: BOINCGUIApp.cpp:571
+#: BOINCGUIApp.cpp:570
 msgid "BOINC Manager was started by the operating system automatically"
 msgstr "Ο διαχειριστής του BOINC ξεκίνησε αυτόματα με το λειτουργικό σύστημα"
 
-#: BOINCGUIApp.cpp:573
+#: BOINCGUIApp.cpp:572
 msgid "Startup BOINC so only the system tray icon is visible"
 msgstr ""
 "Εκίννηση του BOINC ούτως ώστε μόνο το εικονίδιο στη μπάρα να είναι ορατό"
 
-#: BOINCGUIApp.cpp:575
+#: BOINCGUIApp.cpp:574
 msgid "Directory containing the BOINC Client executable"
 msgstr "Διεύθυνση που περιέχει το εκτελέσιμο πρόγραμμα του BOINC"
 
-#: BOINCGUIApp.cpp:576
+#: BOINCGUIApp.cpp:575
 msgid "BOINC data directory"
 msgstr "διεύθυνση δεδομένων του BOINC"
 
-#: BOINCGUIApp.cpp:578
+#: BOINCGUIApp.cpp:577
 msgid "Host name or IP address"
 msgstr "Όνομα παρόχου ή διεύθυνση IP"
 
-#: BOINCGUIApp.cpp:579
+#: BOINCGUIApp.cpp:578
 msgid "GUI RPC port number"
 msgstr "Αριθμός θύρας GUI RPC"
 
-#: BOINCGUIApp.cpp:580
+#: BOINCGUIApp.cpp:579
 msgid "Password"
 msgstr "Κωδικός"
 
-#: BOINCGUIApp.cpp:581
+#: BOINCGUIApp.cpp:580
 msgid "Startup BOINC with these optional arguments"
 msgstr "Εκκίνηση του Boinc με αυτές τις προαιρετικές ρυθμίσεις"
 
-#: BOINCGUIApp.cpp:582
+#: BOINCGUIApp.cpp:581
 msgid "disable BOINC security users and permissions"
 msgstr "Απενεργοποιήστε τις ασφάλειες και τα δικαιώματα του χρήστη"
 
-#: BOINCGUIApp.cpp:583
+#: BOINCGUIApp.cpp:582
 msgid "set skin debugging mode to enable skin manager error messages"
 msgstr ""
 
-#: BOINCGUIApp.cpp:584
+#: BOINCGUIApp.cpp:583
 msgid "multiple instances of BOINC Manager allowed"
 msgstr ""
 
-#: BOINCGUIApp.cpp:586
+#: BOINCGUIApp.cpp:585
 msgid "Not used: workaround for bug in XCode 4.2"
 msgstr ""
 
-#: BOINCGUIApp.cpp:804
+#: BOINCGUIApp.cpp:803
 msgid "(Automatic Detection)"
 msgstr "(Αυτόματη Αναγνώριση)"
 
-#: BOINCGUIApp.cpp:805
+#: BOINCGUIApp.cpp:804
 msgid "(Unknown)"
 msgstr "(Άγνωστο)"
 
-#: BOINCGUIApp.cpp:806
+#: BOINCGUIApp.cpp:805
 msgid "(User Defined)"
 msgstr "(Καθορισμός από το Χρήστη)"
 
@@ -1509,7 +1509,7 @@ msgstr "Ώρα εκκίνησης χρήσης δικτύου"
 msgid "network usage stop hour"
 msgstr "Ώρα σταματήματος χρήσης δικτύου"
 
-#: DlgAdvPreferencesBase.cpp:597 DlgItemProperties.cpp:226
+#: DlgAdvPreferencesBase.cpp:597 DlgItemProperties.cpp:227
 msgid "Disk usage"
 msgstr "Χρήση δίσκου"
 
@@ -1606,45 +1606,45 @@ msgstr "Αφαίρεση μιας εφαρμογής απο τη λίστα"
 msgid "For advanced options, refer to "
 msgstr "Για προχωρημένες επιλογές, ανατρέξτε στο"
 
-#: DlgEventLog.cpp:218
+#: DlgEventLog.cpp:221
 #, c-format
 msgid "%s - Event Log"
 msgstr "%s - Καταγραφέας Συμβάντων"
 
-#: DlgEventLog.cpp:231 ViewMessages.cpp:117 ViewProjects.cpp:219
+#: DlgEventLog.cpp:234 ViewMessages.cpp:117 ViewProjects.cpp:219
 #: ViewStatistics.cpp:435 ViewStatistics.cpp:2007 ViewTransfers.cpp:182
 #: ViewWork.cpp:232
 msgid "Project"
 msgstr "Πρόγραμμα"
 
-#: DlgEventLog.cpp:232 ViewMessages.cpp:118
+#: DlgEventLog.cpp:235 ViewMessages.cpp:118
 msgid "Time"
 msgstr "Χρόνος"
 
-#: DlgEventLog.cpp:233 ViewMessages.cpp:119
+#: DlgEventLog.cpp:236 ViewMessages.cpp:119
 msgid "Message"
 msgstr "Μήνυμα"
 
-#: DlgEventLog.cpp:289 DlgEventLog.cpp:353
+#: DlgEventLog.cpp:292 DlgEventLog.cpp:356
 #, fuzzy
 msgid "&Show only this project"
 msgstr "&Εμφάνιση μόνο αυτού του προγράμματος"
 
-#: DlgEventLog.cpp:293
+#: DlgEventLog.cpp:296
 #, fuzzy
 msgid "Copy &All"
 msgstr "Αντιγραφή &Όλων"
 
-#: DlgEventLog.cpp:295 DlgEventLog.cpp:299 ViewMessages.cpp:89
+#: DlgEventLog.cpp:298 DlgEventLog.cpp:302 ViewMessages.cpp:89
 msgid "Copy all the messages to the clipboard."
 msgstr "Αντιγραφή όλων των μηνυμάτων στο πρόχειρο"
 
-#: DlgEventLog.cpp:304
+#: DlgEventLog.cpp:307
 #, fuzzy
 msgid "Copy &Selected"
 msgstr "Αντιγραφή Επιλεγμένων"
 
-#: DlgEventLog.cpp:307 DlgEventLog.cpp:315 ViewMessages.cpp:97
+#: DlgEventLog.cpp:310 DlgEventLog.cpp:318 ViewMessages.cpp:97
 msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
 "messages by holding down the shift or command key while clicking on messages."
@@ -1653,7 +1653,7 @@ msgstr ""
 "πολλαπλά μηνύματα κρατώντας πατημένο το κουμπί shift ή control ενώ πατάτε "
 "στα μηνύματα."
 
-#: DlgEventLog.cpp:309 DlgEventLog.cpp:317 ViewMessages.cpp:99
+#: DlgEventLog.cpp:312 DlgEventLog.cpp:320 ViewMessages.cpp:99
 msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
 "messages by holding down the shift or control key while clicking on messages."
@@ -1662,26 +1662,25 @@ msgstr ""
 "πολλαπλά μηνύματα κρατώντας πατημένο το κουμπί shift ή control όταν κάνετε "
 "κλίκ στα μηνύματα."
 
-#: DlgEventLog.cpp:324 DlgItemProperties.cpp:66
+#: DlgEventLog.cpp:327 DlgItemProperties.cpp:67
 msgid "&Close"
 msgstr "&Έξοδος"
 
-#: DlgEventLog.cpp:333 sg_BoincSimpleFrame.cpp:794 sg_DlgPreferences.cpp:447
-#: sg_ProjectsComponent.cpp:142
+#: DlgEventLog.cpp:336 sg_BoincSimpleFrame.cpp:794 sg_DlgPreferences.cpp:447
 #, c-format
 msgid "Get help with %s"
 msgstr ""
 
-#: DlgEventLog.cpp:347
+#: DlgEventLog.cpp:350
 #, fuzzy
 msgid "Show all &messages"
 msgstr "Εμφάνιση όλων των μηνυμάτων"
 
-#: DlgEventLog.cpp:348 DlgEventLog.cpp:350
+#: DlgEventLog.cpp:351 DlgEventLog.cpp:353
 msgid "Show messages for all projects"
 msgstr "Εμφάνιση μηνυμάτων για όλα τα έργα."
 
-#: DlgEventLog.cpp:354 DlgEventLog.cpp:356
+#: DlgEventLog.cpp:357 DlgEventLog.cpp:359
 msgid "Show only the messages for the selected project"
 msgstr "Εμφάνιση μόνο των μηνυμάτων για το επιλεγμένο έργο"
 
@@ -1740,231 +1739,231 @@ msgstr "Ακύρωση"
 msgid "Don't show this dialog again."
 msgstr "Μην ξαναεμφανίσεις αυτό το μήνυμα."
 
-#: DlgItemProperties.cpp:163 DlgItemProperties.cpp:166
-#: DlgItemProperties.cpp:169 DlgItemProperties.cpp:172
+#: DlgItemProperties.cpp:164 DlgItemProperties.cpp:167
+#: DlgItemProperties.cpp:170 DlgItemProperties.cpp:173
 #, fuzzy
 msgid "Don't fetch tasks for "
 msgstr "Δεν δέχεται νέες εργασίες"
 
-#: DlgItemProperties.cpp:163
+#: DlgItemProperties.cpp:164
 msgid "Project preference"
 msgstr "Προτιμήσεις έργου"
 
-#: DlgItemProperties.cpp:166
+#: DlgItemProperties.cpp:167
 #, fuzzy
 msgid "Account manager preference"
 msgstr "Ιστοσελίδα του προγράμματος διαχείρισης λογαριασμού"
 
-#: DlgItemProperties.cpp:169
+#: DlgItemProperties.cpp:170
 #, fuzzy
 msgid "Project has no apps for "
 msgstr "Το πρόγραμμα δεν έχει εφαρμογές για"
 
-#: DlgItemProperties.cpp:172
+#: DlgItemProperties.cpp:173
 #, fuzzy
 msgid "Client configuration excludes "
 msgstr "Η παραμετροποίηση του προγράμματος αποκλείει"
 
-#: DlgItemProperties.cpp:176
+#: DlgItemProperties.cpp:177
 #, fuzzy
 msgid " work fetch deferred for"
 msgstr "η λήψη εργασιών αναβλήθηκε για "
 
-#: DlgItemProperties.cpp:177
+#: DlgItemProperties.cpp:178
 msgid " work fetch deferral interval"
 msgstr ""
 
-#: DlgItemProperties.cpp:208
+#: DlgItemProperties.cpp:209
 msgid "Properties of project "
 msgstr "Ρυθμίσεις του προγράμματος"
 
-#: DlgItemProperties.cpp:212 DlgOptions.cpp:218
+#: DlgItemProperties.cpp:213 DlgOptions.cpp:218
 msgid "General"
 msgstr "Γενικά"
 
-#: DlgItemProperties.cpp:213
+#: DlgItemProperties.cpp:214
 msgid "Master URL"
 msgstr "Κεντρική ηλεκρονική διεύθυνση"
 
-#: DlgItemProperties.cpp:214
+#: DlgItemProperties.cpp:215
 msgid "User name"
 msgstr "Όνομα Χρήστη"
 
-#: DlgItemProperties.cpp:215
+#: DlgItemProperties.cpp:216
 msgid "Team name"
 msgstr "Όνομα ομάδας"
 
-#: DlgItemProperties.cpp:216 ViewProjects.cpp:224
+#: DlgItemProperties.cpp:217 ViewProjects.cpp:224
 msgid "Resource share"
 msgstr "Μερίδα πόρων"
 
-#: DlgItemProperties.cpp:218
+#: DlgItemProperties.cpp:219
 msgid "Scheduler RPC deferred for"
 msgstr "Το χρονοδιάγραμμα RPC αναβλήθηκε για"
 
-#: DlgItemProperties.cpp:221
+#: DlgItemProperties.cpp:222
 msgid "File downloads deferred for"
 msgstr "Η λήψη του αρχείου αναβλήθηκε για"
 
-#: DlgItemProperties.cpp:224
+#: DlgItemProperties.cpp:225
 msgid "File uploads deferred for"
 msgstr "Η αποστολή του αρχείου αναβλήθηκε για"
 
-#: DlgItemProperties.cpp:227
+#: DlgItemProperties.cpp:228
 msgid "Computer ID"
 msgstr "Ταυτότητα υπολογιστή"
 
-#: DlgItemProperties.cpp:229
+#: DlgItemProperties.cpp:230
 msgid "Non CPU intensive"
 msgstr ""
 
-#: DlgItemProperties.cpp:229 DlgItemProperties.cpp:231
-#: DlgItemProperties.cpp:232 DlgItemProperties.cpp:234
-#: DlgItemProperties.cpp:237 DlgItemProperties.cpp:246
-#: DlgItemProperties.cpp:249 DlgItemProperties.cpp:252
+#: DlgItemProperties.cpp:230 DlgItemProperties.cpp:232
+#: DlgItemProperties.cpp:233 DlgItemProperties.cpp:235
+#: DlgItemProperties.cpp:238 DlgItemProperties.cpp:247
+#: DlgItemProperties.cpp:250 DlgItemProperties.cpp:253
 msgid "yes"
 msgstr "ναί"
 
-#: DlgItemProperties.cpp:231
+#: DlgItemProperties.cpp:232
 msgid "Suspended via GUI"
 msgstr "Παύθηκε μέσω GUI"
 
-#: DlgItemProperties.cpp:231 DlgItemProperties.cpp:232
+#: DlgItemProperties.cpp:232 DlgItemProperties.cpp:233
 msgid "no"
 msgstr "όχι"
 
-#: DlgItemProperties.cpp:232
+#: DlgItemProperties.cpp:233
 msgid "Don't request more work"
 msgstr "Μη ζητήσετε επιπλέον εργασίες"
 
-#: DlgItemProperties.cpp:234
+#: DlgItemProperties.cpp:235
 msgid "Scheduler call in progress"
 msgstr "Κλήση χρονοδιαγράμματος σε εξέλιξη"
 
-#: DlgItemProperties.cpp:237
+#: DlgItemProperties.cpp:238
 msgid "Trickle-up pending"
 msgstr ""
 
-#: DlgItemProperties.cpp:240 DlgItemProperties.cpp:242
+#: DlgItemProperties.cpp:241 DlgItemProperties.cpp:243
 #, fuzzy
 msgid "Host location"
 msgstr "Τοποθεσία Φιλοξενητή"
 
-#: DlgItemProperties.cpp:242
+#: DlgItemProperties.cpp:243
 #, fuzzy
 msgid "default"
 msgstr "Εξ'ορισμού"
 
-#: DlgItemProperties.cpp:246
+#: DlgItemProperties.cpp:247
 msgid "Added via account manager"
 msgstr "Προστέθηκε μέσω του διαχειριστή λογαριασμού"
 
-#: DlgItemProperties.cpp:249
+#: DlgItemProperties.cpp:250
 msgid "Remove when tasks done"
 msgstr "Αφαίρεση όταν οι εργασίες ολοκληρωθούν"
 
-#: DlgItemProperties.cpp:252
+#: DlgItemProperties.cpp:253
 msgid "Ended"
 msgstr "Τελειωμένο"
 
-#: DlgItemProperties.cpp:254
+#: DlgItemProperties.cpp:255
 msgid "Credit"
 msgstr "Πόντοι"
 
-#: DlgItemProperties.cpp:255
+#: DlgItemProperties.cpp:256
 msgid "User"
 msgstr "Χρήστης"
 
-#: DlgItemProperties.cpp:262
+#: DlgItemProperties.cpp:263
 msgid "Host"
 msgstr "Πάροχος"
 
-#: DlgItemProperties.cpp:271
+#: DlgItemProperties.cpp:272
 msgid "Scheduling"
 msgstr "Χρήση χρονοδιαγράμματος"
 
-#: DlgItemProperties.cpp:272
+#: DlgItemProperties.cpp:273
 msgid "Scheduling priority"
 msgstr "Προγραμματισμός προτεραιότητας"
 
-#: DlgItemProperties.cpp:273
+#: DlgItemProperties.cpp:274
 msgid "CPU"
 msgstr "Επεξεργαστής"
 
-#: DlgItemProperties.cpp:297
+#: DlgItemProperties.cpp:298
 msgid "Duration correction factor"
 msgstr "Παράγοντας διόρθωσης διάρκειας"
 
-#: DlgItemProperties.cpp:311
+#: DlgItemProperties.cpp:312
 msgid "Properties of task "
 msgstr "Ιδιότητες εργασίας"
 
-#: DlgItemProperties.cpp:323 ViewWork.cpp:238
+#: DlgItemProperties.cpp:324 ViewWork.cpp:238
 msgid "Application"
 msgstr "Εφαρμογή"
 
-#: DlgItemProperties.cpp:324
+#: DlgItemProperties.cpp:325
 msgid "Workunit name"
 msgstr "Όνομα εργασίας"
 
-#: DlgItemProperties.cpp:325
+#: DlgItemProperties.cpp:326
 msgid "State"
 msgstr "Κατάσταση"
 
-#: DlgItemProperties.cpp:328
+#: DlgItemProperties.cpp:329
 msgid "Received"
 msgstr "Ληφθέντα"
 
-#: DlgItemProperties.cpp:331
+#: DlgItemProperties.cpp:332
 msgid "Report deadline"
 msgstr "Προθεσμία αναφοράς"
 
-#: DlgItemProperties.cpp:333
+#: DlgItemProperties.cpp:334
 msgid "Resources"
 msgstr "Πόροι"
 
-#: DlgItemProperties.cpp:336
+#: DlgItemProperties.cpp:337
 msgid "Estimated computation size"
 msgstr ""
 
-#: DlgItemProperties.cpp:339
+#: DlgItemProperties.cpp:340
 msgid "CPU time at last checkpoint"
 msgstr ""
 "Χρόνος χρήσης κεντρικής μονάδας επεξεργασίας στο τελευταίο σημείο ελέγχου"
 
-#: DlgItemProperties.cpp:340 DlgItemProperties.cpp:355
+#: DlgItemProperties.cpp:341 DlgItemProperties.cpp:356
 msgid "CPU time"
 msgstr "Χρόνος Επεξεργαστή"
 
-#: DlgItemProperties.cpp:342 DlgItemProperties.cpp:356
+#: DlgItemProperties.cpp:343 DlgItemProperties.cpp:357
 msgid "Elapsed time"
 msgstr "Χρόνος που έχει περάσει"
 
-#: DlgItemProperties.cpp:344
+#: DlgItemProperties.cpp:345
 msgid "Estimated time remaining"
 msgstr "Εκτιμώμενος χρόνος που απομένει"
 
-#: DlgItemProperties.cpp:345
+#: DlgItemProperties.cpp:346
 msgid "Fraction done"
 msgstr "Ολοκλήρωση κλάσματος"
 
-#: DlgItemProperties.cpp:346
+#: DlgItemProperties.cpp:347
 msgid "Virtual memory size"
 msgstr "Μέγεθος εικονικής μνήμης"
 
-#: DlgItemProperties.cpp:347
+#: DlgItemProperties.cpp:348
 msgid "Working set size"
 msgstr ""
 
-#: DlgItemProperties.cpp:349
+#: DlgItemProperties.cpp:350
 msgid "Directory"
 msgstr "Διεύθυνση"
 
-#: DlgItemProperties.cpp:352
+#: DlgItemProperties.cpp:353
 msgid "Process ID"
 msgstr "Ταυτότητα διαδικασίας"
 
-#: DlgItemProperties.cpp:426 ViewWork.cpp:1032 sg_TaskPanel.cpp:810
+#: DlgItemProperties.cpp:427 ViewWork.cpp:1032 sg_TaskPanel.cpp:810
 msgid "Local: "
 msgstr "Τοπικό:"
 
@@ -2341,210 +2340,210 @@ msgstr "Έρευνα"
 msgid "Learn about the projects hosted at World Community Grid"
 msgstr "Μάθετε για τα προγράμματα που φιλοξενούνται στο World Community Grid"
 
-#: MainDocument.cpp:586
+#: MainDocument.cpp:585
 msgid "Starting client"
 msgstr "Εκκίνηση προγράμματος"
 
-#: MainDocument.cpp:594
+#: MainDocument.cpp:593
 msgid "Connecting to client"
 msgstr "Σύνδεση με το πρόγραμμα"
 
-#: MainDocument.cpp:1186
+#: MainDocument.cpp:1185
 msgid "Retrieving system state; please wait..."
 msgstr "Ανάκτηση κατάστασης συστήματος, παρακαλώ περιμένετε..."
 
-#: MainDocument.cpp:1807
+#: MainDocument.cpp:1806
 #, fuzzy
 msgid "Missing application"
 msgstr "Λείπει η εφαρμογή"
 
-#: MainDocument.cpp:1808
+#: MainDocument.cpp:1807
 msgid ""
 "Please download and install the CoRD application from http://cord."
 "sourceforge.net"
 msgstr ""
 
-#: MainDocument.cpp:2423
+#: MainDocument.cpp:2422
 msgid "on batteries"
 msgstr ""
 
-#: MainDocument.cpp:2424
+#: MainDocument.cpp:2423
 msgid "computer is in use"
 msgstr "ο υπολογιστης είναι σε χρήση"
 
-#: MainDocument.cpp:2425
+#: MainDocument.cpp:2424
 msgid "user request"
 msgstr "αίτημα του χρήστη"
 
-#: MainDocument.cpp:2426
+#: MainDocument.cpp:2425
 msgid "time of day"
 msgstr "ώρα της ημέρας"
 
-#: MainDocument.cpp:2427
+#: MainDocument.cpp:2426
 msgid "CPU benchmarks in progress"
 msgstr "Εκτέλεση μετρήσεων επεξεργαστή σε πρόοδο"
 
-#: MainDocument.cpp:2428
+#: MainDocument.cpp:2427
 msgid "need disk space - check preferences"
 msgstr "χρειάζεται επιπλέον χώρος στο δίσκο - ελέγξτε προτιμήσεις"
 
-#: MainDocument.cpp:2429
+#: MainDocument.cpp:2428
 msgid "computer is not in use"
 msgstr "ο υπολογιστής δε χρησιμοποιείται"
 
-#: MainDocument.cpp:2430
+#: MainDocument.cpp:2429
 msgid "starting up"
 msgstr "γίνεται εκκίνηση"
 
-#: MainDocument.cpp:2431
+#: MainDocument.cpp:2430
 msgid "an exclusive app is running"
 msgstr "μια αποκλειστική εφαρμογή εκτελείται"
 
-#: MainDocument.cpp:2432
+#: MainDocument.cpp:2431
 msgid "CPU is busy"
 msgstr "η κεντρική μονάδα επεξεργασίας είναι απασχολημένη"
 
-#: MainDocument.cpp:2433
+#: MainDocument.cpp:2432
 msgid "network bandwidth limit exceeded"
 msgstr "ξεπεράστηκε το όριο εύρους ζώνης του δικτύου"
 
-#: MainDocument.cpp:2434
+#: MainDocument.cpp:2433
 msgid "requested by operating system"
 msgstr "ζητήθηκε απο το λειτουργικό σύστημα"
 
-#: MainDocument.cpp:2436
+#: MainDocument.cpp:2435
 msgid "unknown reason"
 msgstr "άγνωστος λόγος"
 
-#: MainDocument.cpp:2458
+#: MainDocument.cpp:2457
 msgid "GPU missing, "
 msgstr "η μονάδα επεξεργασίας γραφικών απουσιάζει,"
 
-#: MainDocument.cpp:2465
+#: MainDocument.cpp:2464
 msgid "New"
 msgstr "Νέο"
 
-#: MainDocument.cpp:2469
+#: MainDocument.cpp:2468
 msgid "Download failed"
 msgstr "Αποτυχία λήψης"
 
-#: MainDocument.cpp:2471
+#: MainDocument.cpp:2470
 msgid "Downloading"
 msgstr "Λήψη"
 
-#: MainDocument.cpp:2473 MainDocument.cpp:2543
+#: MainDocument.cpp:2472 MainDocument.cpp:2542
 msgid " (suspended - "
 msgstr "(παύθηκε -"
 
-#: MainDocument.cpp:2481
+#: MainDocument.cpp:2480
 msgid "Project suspended by user"
 msgstr "Το πρόγραμμα παύθηκε απο τον χρήστη"
 
-#: MainDocument.cpp:2483
+#: MainDocument.cpp:2482
 msgid "Task suspended by user"
 msgstr "Η εγασία παύθηκε απο τον χρήστη"
 
-#: MainDocument.cpp:2485
+#: MainDocument.cpp:2484
 msgid "Suspended - "
 msgstr "Παύθηκε -"
 
 # 75%
-#: MainDocument.cpp:2491
+#: MainDocument.cpp:2490
 #, fuzzy
 msgid "GPU suspended - "
 msgstr "Παύθηκε η χρήση της GPU -"
 
-#: MainDocument.cpp:2498
+#: MainDocument.cpp:2497
 msgid "Waiting for memory"
 msgstr "Αναμονή της μνήμης"
 
-#: MainDocument.cpp:2500
+#: MainDocument.cpp:2499
 msgid "Waiting for shared memory"
 msgstr "Αναμονή της μοιραζόμενης μνήμης"
 
-#: MainDocument.cpp:2503
+#: MainDocument.cpp:2502
 msgid "Running, high priority"
 msgstr "Εκτελείται, υψηλή προτεραιότητα"
 
-#: MainDocument.cpp:2505 sg_ImageButton.cpp:88
+#: MainDocument.cpp:2504
 msgid "Running"
 msgstr "Εκτελείται"
 
-#: MainDocument.cpp:2508
+#: MainDocument.cpp:2507
 msgid " (non-CPU-intensive)"
 msgstr ""
 
-#: MainDocument.cpp:2511
+#: MainDocument.cpp:2510
 msgid "Waiting to run"
 msgstr "Αναμένοντας για εκτέλεση"
 
-#: MainDocument.cpp:2513 MainDocument.cpp:2519
+#: MainDocument.cpp:2512 MainDocument.cpp:2518
 msgid "Ready to start"
 msgstr "Έτοιμο για εκκίνηση"
 
-#: MainDocument.cpp:2523
+#: MainDocument.cpp:2522
 msgid " (Scheduler wait: "
 msgstr "(Προγραμματιστής περιμένει:"
 
-#: MainDocument.cpp:2527
+#: MainDocument.cpp:2526
 msgid " (Scheduler wait)"
 msgstr "(Προγραμματιστής περιμένει)"
 
-#: MainDocument.cpp:2531
+#: MainDocument.cpp:2530
 #, fuzzy
 msgid " (Waiting for network access)"
 msgstr "(Αναμονή για πρόσβαση στο δίκτυο)"
 
-#: MainDocument.cpp:2535
+#: MainDocument.cpp:2534
 msgid "Computation error"
 msgstr "Λάθος Υπολογισμών"
 
-#: MainDocument.cpp:2539
+#: MainDocument.cpp:2538
 msgid "Upload failed"
 msgstr "Αποτυχία ανεβάσματος"
 
-#: MainDocument.cpp:2541
+#: MainDocument.cpp:2540
 msgid "Uploading"
 msgstr "Ανέβασμα"
 
-#: MainDocument.cpp:2552
+#: MainDocument.cpp:2551
 msgid "Aborted by user"
 msgstr "Εγκαταλείφθηκε από το χρήστη"
 
-#: MainDocument.cpp:2555
+#: MainDocument.cpp:2554
 msgid "Aborted by project"
 msgstr "Εγκαταλείφθηκε απο το πρόγραμμα"
 
-#: MainDocument.cpp:2558
+#: MainDocument.cpp:2557
 #, fuzzy
 msgid "Aborted: not started by deadline"
 msgstr "Απορριφθηκε: δεν ξεκίνησε μέσα στη διορία"
 
-#: MainDocument.cpp:2561
+#: MainDocument.cpp:2560
 msgid "Aborted: disk limit exceeded"
 msgstr "Απορρίφθηκε: το όριο του δίσκου ξεπεράστηκε"
 
-#: MainDocument.cpp:2564
+#: MainDocument.cpp:2563
 msgid "Aborted: run time limit exceeded"
 msgstr "Απορρίφθηκε: ξεπεράστηκε ο χρόνος εκτέλεσης"
 
-#: MainDocument.cpp:2567
+#: MainDocument.cpp:2566
 msgid "Aborted: memory limit exceeded"
 msgstr "Απορρίφθηκε: ξεπεράστηκε το όριο μνήμης"
 
-#: MainDocument.cpp:2570
+#: MainDocument.cpp:2569
 msgid "Aborted"
 msgstr "Εγκαταλείφθηκε"
 
-#: MainDocument.cpp:2575
+#: MainDocument.cpp:2574
 msgid "Acknowledged"
 msgstr "Αναγνωρίστηκε"
 
-#: MainDocument.cpp:2577
+#: MainDocument.cpp:2576
 msgid "Ready to report"
 msgstr "Έτοιμο για αναφορά"
 
-#: MainDocument.cpp:2579
+#: MainDocument.cpp:2578
 #, c-format
 msgid "Error: invalid state '%d'"
 msgstr "Σφάλμα: μη έγκυρη κατάσταση '%d'"
@@ -2596,56 +2595,56 @@ msgstr "Ελέγξτε τη διεύθυνση ηλεκτρονικού ταχυ
 msgid "more..."
 msgstr "περισσότερα..."
 
-#: ProjectInfoPage.cpp:467 ProjectInfoPage.cpp:766 ProjectInfoPage.cpp:770
+#: ProjectInfoPage.cpp:479 ProjectInfoPage.cpp:786 ProjectInfoPage.cpp:790
 msgid "All"
 msgstr ""
 
-#: ProjectInfoPage.cpp:602
+#: ProjectInfoPage.cpp:617
 msgid "Choose a project"
 msgstr "Επιλέξτε ένα πρόγραμμα"
 
-#: ProjectInfoPage.cpp:606
+#: ProjectInfoPage.cpp:621
 msgid "To choose a project, click its name or type its URL below."
 msgstr ""
 "Για να επιλέξετε ένα έργο, πατήστε το όνομά του ή πληκτρολογήστε τη "
 "διεύθυνσή του παρακάτω."
 
-#: ProjectInfoPage.cpp:610
+#: ProjectInfoPage.cpp:625
 msgid "Categories:"
 msgstr ""
 
-#: ProjectInfoPage.cpp:614 sg_ProjectPanel.cpp:89
+#: ProjectInfoPage.cpp:629 sg_ProjectPanel.cpp:89
 #, fuzzy
 msgid "Projects:"
 msgstr "Προγράμματα"
 
-#: ProjectInfoPage.cpp:618
+#: ProjectInfoPage.cpp:633
 msgid "Project details"
 msgstr "Λεπτομέρειες προγράμματος"
 
-#: ProjectInfoPage.cpp:622
+#: ProjectInfoPage.cpp:637
 msgid "Research area:"
 msgstr "Χώρος έρευνας:"
 
-#: ProjectInfoPage.cpp:626
+#: ProjectInfoPage.cpp:641
 msgid "Organization:"
 msgstr "Οργανισμός:"
 
-#: ProjectInfoPage.cpp:630
+#: ProjectInfoPage.cpp:645
 #, fuzzy
 msgid "Web site:"
 msgstr "Ιστοσελίδα:"
 
-#: ProjectInfoPage.cpp:634
+#: ProjectInfoPage.cpp:649
 msgid "Supported systems:"
 msgstr "Υποστηριζόμενα συστήματα:"
 
-#: ProjectInfoPage.cpp:638
+#: ProjectInfoPage.cpp:653
 #, fuzzy
 msgid "Project URL:"
 msgstr "Ηλεκτοκτρονική διεύθυνση προγράμματος"
 
-#: ProjectInfoPage.cpp:814
+#: ProjectInfoPage.cpp:834
 msgid ""
 "This project may not have work for your type of computer.  Do you want to "
 "add it anyway?"
@@ -2653,7 +2652,7 @@ msgstr ""
 "Αυτό το έργο πιθανόν να μην έχει εργασίες για τον τύπο του υπολογιστή σας. "
 "Θέλετε να το προσθέσετε οπωσδήποτε;"
 
-#: ProjectInfoPage.cpp:838
+#: ProjectInfoPage.cpp:858
 msgid "You already added this project. Please choose a different project."
 msgstr ""
 "Έχετε ήδη προσθέσει αυτό το έργο. Παρακαλώ επιλέξτε ένα διαφορετικό έργο."
@@ -3050,13 +3049,11 @@ msgid "Removing project..."
 msgstr "Γίνεται αφαίρεση έργου..."
 
 #: ViewProjects.cpp:496 sg_ProjectCommandPopup.cpp:251
-#: sg_StatImageLoader.cpp:192
 #, c-format
 msgid "Are you sure you want to remove project '%s'?"
 msgstr "Είστε σίγουρος ότι θέλετε να αφαιρέσετε το έργο '%s';"
 
 #: ViewProjects.cpp:502 sg_ProjectCommandPopup.cpp:257
-#: sg_StatImageLoader.cpp:138 sg_StatImageLoader.cpp:198
 msgid "Remove Project"
 msgstr "Αφαίρεση προγράμματος"
 
@@ -3440,7 +3437,7 @@ msgstr "Εμφάνιση ενεργών εργασίων"
 msgid "Show only active tasks."
 msgstr "Εμφάνιση μόνο ενεργών εργασιών."
 
-#: ViewWork.cpp:194 sg_TaskCommandPopup.cpp:60 sg_ViewTabPage.cpp:424
+#: ViewWork.cpp:194 sg_TaskCommandPopup.cpp:60
 msgid "Show graphics"
 msgstr "Εμφάνιση γραφικών"
 
@@ -3623,7 +3620,7 @@ msgstr "Είστε σίγουρος ότι θέλετε να ακυρώστε;"
 msgid "Question"
 msgstr "Ερώτηση"
 
-#: sg_BoincSimpleFrame.cpp:145 sg_BoincSimpleGUI.cpp:119
+#: sg_BoincSimpleFrame.cpp:145
 msgid "Advanced View...\tCtrl+Shift+A"
 msgstr "Προηγμένη προβολή...\t Ctrl+Shift+A"
 
@@ -3640,7 +3637,7 @@ msgstr "Εμφάνιση"
 msgid "Select the appearance of the user interface."
 msgstr ""
 
-#: sg_BoincSimpleFrame.cpp:202 sg_BoincSimpleGUI.cpp:147
+#: sg_BoincSimpleFrame.cpp:202
 #, c-format
 msgid "&%s"
 msgstr "&%s"
@@ -3661,64 +3658,6 @@ msgstr ""
 #: sg_BoincSimpleFrame.cpp:773
 msgid "Open a window to view notices from projects or BOINC"
 msgstr ""
-
-#: sg_BoincSimpleGUI.cpp:120
-#, fuzzy
-msgid "Display the advanced (accessible) graphical interface."
-msgstr "Εμφάνιση της απλής γραφικής διεπιφάνειας."
-
-#: sg_ClientStateIndicator.cpp:288 sg_TaskPanel.cpp:1210
-msgid "Retrieving current status."
-msgstr "Ανάκτηση τρέχουσας κατάστασης."
-
-#: sg_ClientStateIndicator.cpp:291 sg_TaskPanel.cpp:451
-msgid "You don't have any projects.  Please Add a Project."
-msgstr "Δεν έχετε άλλα προγράμματα. Παρακαλώ προσθέστε ένα πρόγραμμα."
-
-#: sg_ClientStateIndicator.cpp:294 sg_TaskPanel.cpp:1216
-msgid "Downloading work from the server."
-msgstr "Λήψη εργασιών απο τον διακομιστή."
-
-#: sg_ClientStateIndicator.cpp:299 sg_TaskPanel.cpp:1221
-msgid "Processing Suspended:  Running On Batteries."
-msgstr "Επεξεργασία παύθηκε:Λειτουργία απο μπαταρίες."
-
-#: sg_ClientStateIndicator.cpp:301 sg_TaskPanel.cpp:1223
-msgid "Processing Suspended:  User Active."
-msgstr "Επεξεργασία παύθηκε:Χρήστης ενεργός."
-
-#: sg_ClientStateIndicator.cpp:303 sg_TaskPanel.cpp:1225
-msgid "Processing Suspended:  User paused processing."
-msgstr "Επεξεργασία παύθηκε: Η επεξεργασία παύθηκε απο τον χρήστη."
-
-#: sg_ClientStateIndicator.cpp:305 sg_TaskPanel.cpp:1227
-msgid "Processing Suspended:  Time of Day."
-msgstr "Επεξεργασία παύθηκε: Ώρα της ημέρας."
-
-#: sg_ClientStateIndicator.cpp:307 sg_TaskPanel.cpp:1229
-msgid "Processing Suspended:  Benchmarks Running."
-msgstr ""
-
-#: sg_ClientStateIndicator.cpp:309 sg_TaskPanel.cpp:1231
-msgid "Processing Suspended."
-msgstr "Επεξεργασία παύθηκε."
-
-#: sg_ClientStateIndicator.cpp:313 sg_TaskPanel.cpp:1235
-msgid "Waiting to contact project servers."
-msgstr "Αναμονή για επικοινωνία με τους διακομιστές του έργου."
-
-#: sg_ClientStateIndicator.cpp:317 sg_ClientStateIndicator.cpp:325
-#: sg_TaskPanel.cpp:1239 sg_TaskPanel.cpp:1248
-msgid "Retrieving current status"
-msgstr "Ανακτώντας την τρέχουσα κατάσταση"
-
-#: sg_ClientStateIndicator.cpp:320 sg_TaskPanel.cpp:1243
-msgid "No work available to process"
-msgstr "Καμία εργασία διαθέσιμη για επεξεργασία"
-
-#: sg_ClientStateIndicator.cpp:322 sg_TaskPanel.cpp:1245
-msgid "Unable to connect to the core client"
-msgstr "Αδύνατη η σύνδεση με τον πυρήνα του προγράμματος"
 
 #: sg_DlgMessages.cpp:146
 msgid "Close"
@@ -3854,42 +3793,6 @@ msgstr "%d"
 msgid "Do you really want to clear all local preferences?\n"
 msgstr "Θέλετε όντως να αφαιρέσετε όλες τις τοπικές προτιμήσεις;"
 
-#: sg_ImageButton.cpp:90
-msgid "Paused: Other work running"
-msgstr "Παύθηκε: Άλλες εργασίες εκτελούνται"
-
-#: sg_ImageButton.cpp:92
-msgid "Paused: User initiated.  Click 'Resume' to continue"
-msgstr ""
-
-#: sg_ImageButton.cpp:94
-msgid "Paused: User active"
-msgstr "Παύθηκε: Χρήστης ενεργός"
-
-#: sg_ImageButton.cpp:96
-msgid "Paused: Computer on battery"
-msgstr "Παύθηκε: Ο υπολογιστής τροφοδοτείται απο μπαταρίες"
-
-#: sg_ImageButton.cpp:98
-msgid "Paused: Time of Day"
-msgstr "Παύθηκε: Ώρα ημέρας"
-
-#: sg_ImageButton.cpp:100
-msgid "Paused: Benchmarks running"
-msgstr "Παύθηκε: Εκτελούνται μετρήσεις"
-
-#: sg_ImageButton.cpp:102
-msgid "Paused"
-msgstr "Παύθηκε"
-
-#: sg_ImageButton.cpp:104
-msgid "Paused: Application start delayed"
-msgstr ""
-
-#: sg_ImageButton.cpp:132
-msgid "Click to show project graphics"
-msgstr "Κλικάρετε για να εμφανιστούν τα γραφικά του προγράμματος"
-
 #: sg_ProjectPanel.cpp:72
 #, fuzzy
 msgid "Add Project"
@@ -3903,7 +3806,7 @@ msgstr ""
 msgid "Work done for this project"
 msgstr ""
 
-#: sg_ProjectPanel.cpp:77 sg_ProjectsComponent.cpp:123
+#: sg_ProjectPanel.cpp:77
 msgid "Synchronize projects with account manager system"
 msgstr ""
 
@@ -3930,35 +3833,6 @@ msgstr ""
 msgid "Pop up a menu of commands to apply to project %s"
 msgstr ""
 
-#: sg_ProjectsComponent.cpp:196 sg_ProjectsComponent.cpp:207
-msgid "Open a window to view messages"
-msgstr "Ανοίξτε ένα παράθυρο για να δείτε τα μηνύματα"
-
-#: sg_ProjectsComponent.cpp:225
-msgid "Stop all activity"
-msgstr "Σταμάτημα όλων των ενεργειών"
-
-#: sg_ProjectsComponent.cpp:237
-msgid "Resume activity"
-msgstr "Συνέχιση ενεργειών"
-
-#: sg_ProjectsComponent.cpp:254
-msgid "Open a window to set your preferences"
-msgstr "Ανοίξτε ένα παράθυρο για να ορίσετε της προτιμήσεις σας"
-
-#: sg_ProjectsComponent.cpp:271
-msgid "Switch to the BOINC advanced view"
-msgstr "Μεταβείτε στη προχωρημένη μορφή του BOINC"
-
-#: sg_ProjectsComponent.cpp:298
-msgid "My Projects:"
-msgstr "Τα προγράμματά μου:"
-
-#: sg_StatImageLoader.cpp:101
-#, c-format
-msgid "%s. Work done by %s: %0.2f"
-msgstr "%s. Εργασίες που έχουν γίνει απο %s: %0.2f"
-
 #: sg_TaskCommandPopup.cpp:67
 msgid "Suspend this task."
 msgstr ""
@@ -3973,6 +3847,10 @@ msgid ""
 "Are you sure you want to abort this task '%s'?\n"
 "(Progress: %.1lf%%, Status: %s)"
 msgstr ""
+
+#: sg_TaskPanel.cpp:451
+msgid "You don't have any projects.  Please Add a Project."
+msgstr "Δεν έχετε άλλα προγράμματα. Παρακαλώ προσθέστε ένα πρόγραμμα."
 
 #: sg_TaskPanel.cpp:452
 msgid "Not available"
@@ -4039,33 +3917,53 @@ msgstr "Απομένει"
 msgid "Status: %s"
 msgstr ""
 
-#: sg_ViewTabPage.cpp:140 sg_ViewTabPage.cpp:280
-#, c-format
-msgid "%.1lf"
-msgstr "%.1lf"
+#: sg_TaskPanel.cpp:1210
+msgid "Retrieving current status."
+msgstr "Ανάκτηση τρέχουσας κατάστασης."
 
-#: sg_ViewTabPage.cpp:409
-#, c-format
-msgid "%d hr %d min %d sec"
-msgstr "%d ώρα %d λεπτά %d δευτερόλεπτα"
+#: sg_TaskPanel.cpp:1216
+msgid "Downloading work from the server."
+msgstr "Λήψη εργασιών απο τον διακομιστή."
 
-#: sg_ViewTabPage.cpp:423
-msgid "Are you sure you want to display graphics on a remote machine?"
+#: sg_TaskPanel.cpp:1221
+msgid "Processing Suspended:  Running On Batteries."
+msgstr "Επεξεργασία παύθηκε:Λειτουργία απο μπαταρίες."
+
+#: sg_TaskPanel.cpp:1223
+msgid "Processing Suspended:  User Active."
+msgstr "Επεξεργασία παύθηκε:Χρήστης ενεργός."
+
+#: sg_TaskPanel.cpp:1225
+msgid "Processing Suspended:  User paused processing."
+msgstr "Επεξεργασία παύθηκε: Η επεξεργασία παύθηκε απο τον χρήστη."
+
+#: sg_TaskPanel.cpp:1227
+msgid "Processing Suspended:  Time of Day."
+msgstr "Επεξεργασία παύθηκε: Ώρα της ημέρας."
+
+#: sg_TaskPanel.cpp:1229
+msgid "Processing Suspended:  Benchmarks Running."
 msgstr ""
-"Είστε σίγουροι ότι επιθυμείτε να εμφανιστούν γραφικά σε ένα απομακρυσμένο "
-"υπολογιστή;"
 
-#: sg_ViewTabPage.cpp:446
-msgid "Application: "
-msgstr "Εφαρμογή:"
+#: sg_TaskPanel.cpp:1231
+msgid "Processing Suspended."
+msgstr "Επεξεργασία παύθηκε."
 
-#: sg_ViewTabPage.cpp:449 sg_ViewTabPage.cpp:453
-msgid "Time Remaining: "
-msgstr "Χρόνος που απομένει:"
+#: sg_TaskPanel.cpp:1235
+msgid "Waiting to contact project servers."
+msgstr "Αναμονή για επικοινωνία με τους διακομιστές του έργου."
 
-#: sg_ViewTabPage.cpp:452
-msgid "Elapsed Time: "
-msgstr "Χρόνος που έχει περάσει:"
+#: sg_TaskPanel.cpp:1239 sg_TaskPanel.cpp:1248
+msgid "Retrieving current status"
+msgstr "Ανακτώντας την τρέχουσα κατάσταση"
+
+#: sg_TaskPanel.cpp:1243
+msgid "No work available to process"
+msgstr "Καμία εργασία διαθέσιμη για επεξεργασία"
+
+#: sg_TaskPanel.cpp:1245
+msgid "Unable to connect to the core client"
+msgstr "Αδύνατη η σύνδεση με τον πυρήνα του προγράμματος"
 
 #: wizardex.cpp:377 wizardex.cpp:553
 msgid "&Next >"
@@ -4106,6 +4004,75 @@ msgstr ""
 #, fuzzy, c-format
 msgid "Quit %s"
 msgstr "&Έξοδος %s"
+
+#, fuzzy
+#~ msgid "Display the advanced (accessible) graphical interface."
+#~ msgstr "Εμφάνιση της απλής γραφικής διεπιφάνειας."
+
+#~ msgid "Paused: Other work running"
+#~ msgstr "Παύθηκε: Άλλες εργασίες εκτελούνται"
+
+#~ msgid "Paused: User active"
+#~ msgstr "Παύθηκε: Χρήστης ενεργός"
+
+#~ msgid "Paused: Computer on battery"
+#~ msgstr "Παύθηκε: Ο υπολογιστής τροφοδοτείται απο μπαταρίες"
+
+#~ msgid "Paused: Time of Day"
+#~ msgstr "Παύθηκε: Ώρα ημέρας"
+
+#~ msgid "Paused: Benchmarks running"
+#~ msgstr "Παύθηκε: Εκτελούνται μετρήσεις"
+
+#~ msgid "Paused"
+#~ msgstr "Παύθηκε"
+
+#~ msgid "Click to show project graphics"
+#~ msgstr "Κλικάρετε για να εμφανιστούν τα γραφικά του προγράμματος"
+
+#~ msgid "Open a window to view messages"
+#~ msgstr "Ανοίξτε ένα παράθυρο για να δείτε τα μηνύματα"
+
+#~ msgid "Stop all activity"
+#~ msgstr "Σταμάτημα όλων των ενεργειών"
+
+#~ msgid "Resume activity"
+#~ msgstr "Συνέχιση ενεργειών"
+
+#~ msgid "Open a window to set your preferences"
+#~ msgstr "Ανοίξτε ένα παράθυρο για να ορίσετε της προτιμήσεις σας"
+
+#~ msgid "Switch to the BOINC advanced view"
+#~ msgstr "Μεταβείτε στη προχωρημένη μορφή του BOINC"
+
+#~ msgid "My Projects:"
+#~ msgstr "Τα προγράμματά μου:"
+
+#, c-format
+#~ msgid "%s. Work done by %s: %0.2f"
+#~ msgstr "%s. Εργασίες που έχουν γίνει απο %s: %0.2f"
+
+#, c-format
+#~ msgid "%.1lf"
+#~ msgstr "%.1lf"
+
+#, c-format
+#~ msgid "%d hr %d min %d sec"
+#~ msgstr "%d ώρα %d λεπτά %d δευτερόλεπτα"
+
+#~ msgid "Are you sure you want to display graphics on a remote machine?"
+#~ msgstr ""
+#~ "Είστε σίγουροι ότι επιθυμείτε να εμφανιστούν γραφικά σε ένα απομακρυσμένο "
+#~ "υπολογιστή;"
+
+#~ msgid "Application: "
+#~ msgstr "Εφαρμογή:"
+
+#~ msgid "Time Remaining: "
+#~ msgstr "Χρόνος που απομένει:"
+
+#~ msgid "Elapsed Time: "
+#~ msgstr "Χρόνος που έχει περάσει:"
 
 #~ msgid "Account manager website"
 #~ msgstr "Ιστοσελίδα του διαχειριστή λογαριασμών"
