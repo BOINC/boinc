@@ -83,7 +83,7 @@ if ($action) {
 
             if (!$venue) {
                 venue_parse_form($user);
-                venue_update($user);
+                $user->update("venue='$user->venue'");
             }
             Header("Location: prefs.php?subset=$subset&updated=1$c");
         }

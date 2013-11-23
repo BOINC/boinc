@@ -16,8 +16,11 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+require_once('../inc/db.inc');
 require_once('../inc/email.inc');
 require_once('../inc/profile.inc');
+
+db_init();
 
 define('UOTD_THRESHOLD', 7);
     // email sysadmin if # of UOTD candidates falls below this
