@@ -1131,13 +1131,14 @@ kern_return_t SMCReadKey(UInt32 key, SMCBytes_t val) {
 }
 
 
-// Check up to 10 die temperatures (TC0D, TC1D, etc.) and 
-// 10 heatsink temperatures (TCAH, TCBH, etc.)
+// Check die temperatures (TC0D, TC1D, etc.) and 
+// heatsink temperatures (TCAH, TCBH, etc.)
 // Returns the highest current CPU temperature as degrees Celsius.
 // Returns zero if it fails (or on a PowerPC Mac).
-int get_max_cpu_temperature() {
+double get_max_cpu_temperature() {
     kern_return_t       result;
-    int                 maxTemp = 0, thisTemp, i;
+    double              maxTemp = 0, thisTemp;
+    int                 i;
     union tempKey {
         UInt32          word;
         char            bytes[4];
@@ -1154,33 +1155,44 @@ int get_max_cpu_temperature() {
         }
     }
 
-    for (i=0; i<20; ++i) {
+    for (i=0; i<36; ++i) {
         if (skip[i]) continue;
         if (i < 10) {
-            key.word = 'TC0D';
-            key.bytes[1] += i;          // TC0D, TC1D, TC2D, etc.
+            key.word = 'TC0D';          // Standard sensors
+            key.bytes[1] += i;          // TC0D, TC1D ... TC9D
+        } else if (i < 20){
+            key.word = 'TC0H';          // iMac and perhaps others
+            key.bytes[1] += (i - 10);   // TC0H, TC1H ... TC9H
+        } else if (i < 26){
+            key.word = 'TCAH';          // MacPro
+            key.bytes[1] += (i - 20);   // TCAH, TCBH ... TCFH
         } else {
-            key.word = 'TCAH';
-            key.bytes[1] += (i - 10);   // TCAH, TCBH, TCCH, etc.
+            key.word = 'TC0F';          // MacBookPro
+            key.bytes[1] += (i - 26);   // TC0F, TC1F ... TC9F
         }
+        
         result = SMCReadKey(key.word, val);
         if (result != kIOReturnSuccess) {
+        //printf("%c%c%c%c returned result %d\n", key.bytes[3], key.bytes[2], key.bytes[1], key.bytes[0], result);
             skip[i] = true;
             continue;
         }
         
         if (val[0] < 1) {
+        //printf("%c%c%c%c returned val[0] = %d\n", key.bytes[3], key.bytes[2], key.bytes[1], key.bytes[0], (int)val[0]);
             skip[i] = true;
             continue;
         }
         
-        thisTemp = val[0];
-        if (val[1] & 0x80) ++thisTemp;
+        thisTemp = (double)val[0];
+        thisTemp += ((double)val[1]) / 256;
+        //printf("%c%c%c%c returned temperature = %f\n", key.bytes[3], key.bytes[2], key.bytes[1], key.bytes[0], thisTemp);
         if (thisTemp > maxTemp) {
             maxTemp = thisTemp;
         }
     }
-    
+
+    //printf("max temperature = %f\n", maxTemp);
     return maxTemp;
 }
 
