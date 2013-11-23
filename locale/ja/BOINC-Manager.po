@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 5.10 Japanese\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-17 12:25-0800\n"
+"POT-Creation-Date: 2013-11-22 00:00-0800\n"
 "PO-Revision-Date: 2013-03-16 11:43+0200\n"
 "Last-Translator: Kai <www.carrotsoft@gmail.com>\n"
 "Language-Team: \n"
@@ -208,12 +208,12 @@ msgstr "接続しました"
 msgid "Disconnected"
 msgstr "接続を切りました"
 
-#: AdvancedFrame.cpp:318 sg_BoincSimpleFrame.cpp:115 sg_BoincSimpleGUI.cpp:103
+#: AdvancedFrame.cpp:318 sg_BoincSimpleFrame.cpp:115
 #, c-format
 msgid "Close the %s window"
 msgstr "この %s ウィンドーを閉じる"
 
-#: AdvancedFrame.cpp:321 sg_BoincSimpleFrame.cpp:118 sg_BoincSimpleGUI.cpp:106
+#: AdvancedFrame.cpp:321 sg_BoincSimpleFrame.cpp:118
 msgid "&Close Window"
 msgstr "ウィンドーを閉じる(&C)"
 
@@ -282,7 +282,7 @@ msgstr "簡易グラフィックインタフェースで表示します"
 msgid "&Add project or account manager..."
 msgstr "プロジェクトまたはアカウント・マネージャを追加(&A)..."
 
-#: AdvancedFrame.cpp:421 sg_ProjectPanel.cpp:76 sg_ProjectsComponent.cpp:106
+#: AdvancedFrame.cpp:421 sg_ProjectPanel.cpp:76
 msgid "Volunteer for any or all of 30+ projects in many areas of science"
 msgstr "ボランティアで参加しましょう。科学の多分野に渡る30以上のプロジェクトにどれにでもいくつでも参加できます。"
 
@@ -470,12 +470,12 @@ msgstr "イベント・ログ...\tCtrl+Shift+E"
 msgid "Display diagnostic messages."
 msgstr "診断メッセージを表示する"
 
-#: AdvancedFrame.cpp:621 sg_BoincSimpleFrame.cpp:184 sg_BoincSimpleGUI.cpp:129
+#: AdvancedFrame.cpp:621 sg_BoincSimpleFrame.cpp:184
 #, c-format
 msgid "%s &help"
 msgstr "%s のヘルプ(&H)"
 
-#: AdvancedFrame.cpp:627 sg_BoincSimpleFrame.cpp:190 sg_BoincSimpleGUI.cpp:135
+#: AdvancedFrame.cpp:627 sg_BoincSimpleFrame.cpp:190
 #, c-format
 msgid "Show information about %s"
 msgstr "%s の情報を表示します"
@@ -485,17 +485,17 @@ msgstr "%s の情報を表示します"
 msgid "&%s help"
 msgstr "&%s のヘルプ"
 
-#: AdvancedFrame.cpp:645 sg_BoincSimpleFrame.cpp:208 sg_BoincSimpleGUI.cpp:153
+#: AdvancedFrame.cpp:645 sg_BoincSimpleFrame.cpp:208
 #, c-format
 msgid "Show information about the %s"
 msgstr "%s の情報を表示します"
 
-#: AdvancedFrame.cpp:657 sg_BoincSimpleFrame.cpp:220 sg_BoincSimpleGUI.cpp:165
+#: AdvancedFrame.cpp:657 sg_BoincSimpleFrame.cpp:220
 #, c-format
 msgid "%s &web site"
 msgstr ""
 
-#: AdvancedFrame.cpp:663 sg_BoincSimpleFrame.cpp:226 sg_BoincSimpleGUI.cpp:171
+#: AdvancedFrame.cpp:663 sg_BoincSimpleFrame.cpp:226
 #, c-format
 msgid "Show information about BOINC and %s"
 msgstr "BOINC および %s の情報を表示します"
@@ -509,11 +509,11 @@ msgstr "%s について(&A)..."
 msgid "Licensing and copyright information."
 msgstr "ライセンスと著作権情報"
 
-#: AdvancedFrame.cpp:688 sg_BoincSimpleFrame.cpp:251 sg_BoincSimpleGUI.cpp:194
+#: AdvancedFrame.cpp:688 sg_BoincSimpleFrame.cpp:251
 msgid "&File"
 msgstr "ファイル(&F)"
 
-#: AdvancedFrame.cpp:692 sg_BoincSimpleFrame.cpp:255 sg_BoincSimpleGUI.cpp:199
+#: AdvancedFrame.cpp:692 sg_BoincSimpleFrame.cpp:255
 msgid "&View"
 msgstr "表示(&V)"
 
@@ -529,8 +529,8 @@ msgstr "アクティビティ(&A)"
 msgid "A&dvanced"
 msgstr "高度な操作(&D)"
 
-#: AdvancedFrame.cpp:708 DlgEventLog.cpp:331 sg_BoincSimpleFrame.cpp:263
-#: sg_BoincSimpleGUI.cpp:184 wizardex.cpp:374 wizardex.cpp:381
+#: AdvancedFrame.cpp:708 DlgEventLog.cpp:334 sg_BoincSimpleFrame.cpp:263
+#: wizardex.cpp:374 wizardex.cpp:381
 msgid "&Help"
 msgstr "ヘルプ(&H)"
 
@@ -804,7 +804,7 @@ msgstr "%s はインターネットとの接続を切ることに成功しまし
 msgid "%s failed to disconnected from the Internet."
 msgstr "%s はインターネットとの接続を切ることにに失敗しました。"
 
-#: BOINCGUIApp.cpp:342
+#: BOINCGUIApp.cpp:341
 #, c-format
 #, fuzzy, c-format
 msgid ""
@@ -826,7 +826,7 @@ msgstr ""
 "  - 管理者に依頼してあなたを ユーザグループ　'boinc_master' に加えて\n"
 "    もらいます。"
 
-#: BOINCGUIApp.cpp:348
+#: BOINCGUIApp.cpp:347
 #, c-format
 #, fuzzy, c-format
 msgid ""
@@ -836,16 +836,16 @@ msgstr ""
 "BOINC 関連ファイルの所有権あるいはパーミッションの設定が不適切です。 BOINC を\n"
 "再インストールしてください。 (エラーコード %d)"
 
-#: BOINCGUIApp.cpp:354
+#: BOINCGUIApp.cpp:353
 msgid " at "
 msgstr ""
 
-#: BOINCGUIApp.cpp:357 MainDocument.cpp:2475 MainDocument.cpp:2525
-#: MainDocument.cpp:2545 ViewTransfers.cpp:803
+#: BOINCGUIApp.cpp:356 MainDocument.cpp:2474 MainDocument.cpp:2524
+#: MainDocument.cpp:2544 ViewTransfers.cpp:803
 msgid ")"
 msgstr ")"
 
-#: BOINCGUIApp.cpp:387
+#: BOINCGUIApp.cpp:386
 msgid ""
 "A reboot is required in order for BOINC to run properly.\n"
 "Please reboot your computer and try again."
@@ -853,67 +853,67 @@ msgstr ""
 "BOINC を正常に実行するためには再起動が必要です。\n"
 "あなたのコンピュータを再起動してから、もう一度試してください。"
 
-#: BOINCGUIApp.cpp:388 DlgAbout.cpp:153
+#: BOINCGUIApp.cpp:387 DlgAbout.cpp:153
 msgid "BOINC Manager"
 msgstr "BOINC マネージャ"
 
-#: BOINCGUIApp.cpp:571
+#: BOINCGUIApp.cpp:570
 msgid "BOINC Manager was started by the operating system automatically"
 msgstr "BOINC マネージャはオペレーティング・システムにより自動的に起動されました。"
 
-#: BOINCGUIApp.cpp:573
+#: BOINCGUIApp.cpp:572
 msgid "Startup BOINC so only the system tray icon is visible"
 msgstr "BOINC 起動時に、システムトレイのアイコンだけを表示します"
 
-#: BOINCGUIApp.cpp:575
+#: BOINCGUIApp.cpp:574
 msgid "Directory containing the BOINC Client executable"
 msgstr "BOINC クライアントの実行可能ファイルがあるディレクトリ"
 
-#: BOINCGUIApp.cpp:576
+#: BOINCGUIApp.cpp:575
 msgid "BOINC data directory"
 msgstr "BOINC 用データディレクトリ"
 
-#: BOINCGUIApp.cpp:578
+#: BOINCGUIApp.cpp:577
 msgid "Host name or IP address"
 msgstr "ホスト名 または IPアドレス"
 
-#: BOINCGUIApp.cpp:579
+#: BOINCGUIApp.cpp:578
 msgid "GUI RPC port number"
 msgstr "GUI用 RPC のポート番号"
 
-#: BOINCGUIApp.cpp:580
+#: BOINCGUIApp.cpp:579
 msgid "Password"
 msgstr "パスワード："
 
-#: BOINCGUIApp.cpp:581
+#: BOINCGUIApp.cpp:580
 msgid "Startup BOINC with these optional arguments"
 msgstr "これらのオプション引数を付けて BOINC を起動します"
 
-#: BOINCGUIApp.cpp:582
+#: BOINCGUIApp.cpp:581
 msgid "disable BOINC security users and permissions"
 msgstr "BOINC のユーザとアクセス許可についてのセキュリティを無効にします"
 
-#: BOINCGUIApp.cpp:583
+#: BOINCGUIApp.cpp:582
 msgid "set skin debugging mode to enable skin manager error messages"
 msgstr "skin マネージャのエラーメッセージを有効にするために、skin debugging モードにします"
 
-#: BOINCGUIApp.cpp:584
+#: BOINCGUIApp.cpp:583
 msgid "multiple instances of BOINC Manager allowed"
 msgstr "BOINC Manager の複数インスタンス起動を許す"
 
-#: BOINCGUIApp.cpp:586
+#: BOINCGUIApp.cpp:585
 msgid "Not used: workaround for bug in XCode 4.2"
 msgstr ""
 
-#: BOINCGUIApp.cpp:804
+#: BOINCGUIApp.cpp:803
 msgid "(Automatic Detection)"
 msgstr "(言語の自動判別)"
 
-#: BOINCGUIApp.cpp:805
+#: BOINCGUIApp.cpp:804
 msgid "(Unknown)"
 msgstr "(実装上のダミーエントリ1)"
 
-#: BOINCGUIApp.cpp:806
+#: BOINCGUIApp.cpp:805
 msgid "(User Defined)"
 msgstr "(実装上のダミーエントリ2)"
 
@@ -1472,7 +1472,7 @@ msgstr "ネットワーク使用開始時刻"
 msgid "network usage stop hour"
 msgstr "ネットワーク使用終了時刻"
 
-#: DlgAdvPreferencesBase.cpp:597 DlgItemProperties.cpp:226
+#: DlgAdvPreferencesBase.cpp:597 DlgItemProperties.cpp:227
 msgid "Disk usage"
 msgstr "ディスク領域"
 
@@ -1566,51 +1566,51 @@ msgstr ""
 msgid "For advanced options, refer to "
 msgstr ""
 
-#: DlgEventLog.cpp:218
+#: DlgEventLog.cpp:221
 #, c-format
 msgid "%s - Event Log"
 msgstr "%s - イベント・ログ"
 
-#: DlgEventLog.cpp:231 ViewMessages.cpp:117 ViewProjects.cpp:219
+#: DlgEventLog.cpp:234 ViewMessages.cpp:117 ViewProjects.cpp:219
 #: ViewStatistics.cpp:435 ViewStatistics.cpp:2007 ViewTransfers.cpp:182
 #: ViewWork.cpp:232
 msgid "Project"
 msgstr "プロジェクト"
 
-#: DlgEventLog.cpp:232 ViewMessages.cpp:118
+#: DlgEventLog.cpp:235 ViewMessages.cpp:118
 msgid "Time"
 msgstr "日時"
 
-#: DlgEventLog.cpp:233 ViewMessages.cpp:119
+#: DlgEventLog.cpp:236 ViewMessages.cpp:119
 msgid "Message"
 msgstr "メッセージ"
 
-#: DlgEventLog.cpp:289 DlgEventLog.cpp:353
+#: DlgEventLog.cpp:292 DlgEventLog.cpp:356
 #, fuzzy
 msgid "&Show only this project"
 msgstr "このプロジェクトだけを表示"
 
-#: DlgEventLog.cpp:293
+#: DlgEventLog.cpp:296
 #, fuzzy
 msgid "Copy &All"
 msgstr "すべてコピー"
 
-#: DlgEventLog.cpp:295 DlgEventLog.cpp:299 ViewMessages.cpp:89
+#: DlgEventLog.cpp:298 DlgEventLog.cpp:302 ViewMessages.cpp:89
 msgid "Copy all the messages to the clipboard."
 msgstr "全メッセージをクリップボードにコピーします"
 
-#: DlgEventLog.cpp:304
+#: DlgEventLog.cpp:307
 #, fuzzy
 msgid "Copy &Selected"
 msgstr "選択部分をコピー"
 
-#: DlgEventLog.cpp:307 DlgEventLog.cpp:315 ViewMessages.cpp:97
+#: DlgEventLog.cpp:310 DlgEventLog.cpp:318 ViewMessages.cpp:97
 msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
 "messages by holding down the shift or command key while clicking on messages."
 msgstr "選択したメッセージをクリップボードにコピーします。シフトまたはコマンドキーを押しながらクリックすることで複数のメッセージを選択できます。"
 
-#: DlgEventLog.cpp:309 DlgEventLog.cpp:317 ViewMessages.cpp:99
+#: DlgEventLog.cpp:312 DlgEventLog.cpp:320 ViewMessages.cpp:99
 msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
 "messages by holding down the shift or control key while clicking on messages."
@@ -1618,26 +1618,25 @@ msgstr ""
 "選択したメッセージをクリップボードにコピーします。シフトまたはコントロールキーを押しながら、メッセージをクリックすれば複数のメッセージを選択状態にできま"
 "す。 "
 
-#: DlgEventLog.cpp:324 DlgItemProperties.cpp:66
+#: DlgEventLog.cpp:327 DlgItemProperties.cpp:67
 msgid "&Close"
 msgstr "閉じる(&C)"
 
-#: DlgEventLog.cpp:333 sg_BoincSimpleFrame.cpp:794 sg_DlgPreferences.cpp:447
-#: sg_ProjectsComponent.cpp:142
+#: DlgEventLog.cpp:336 sg_BoincSimpleFrame.cpp:794 sg_DlgPreferences.cpp:447
 #, c-format
 msgid "Get help with %s"
 msgstr "%s について助けを求める"
 
-#: DlgEventLog.cpp:347
+#: DlgEventLog.cpp:350
 #, fuzzy
 msgid "Show all &messages"
 msgstr "全メッセージを表示"
 
-#: DlgEventLog.cpp:348 DlgEventLog.cpp:350
+#: DlgEventLog.cpp:351 DlgEventLog.cpp:353
 msgid "Show messages for all projects"
 msgstr "すべてのプロジェクトのメッセージを表示"
 
-#: DlgEventLog.cpp:354 DlgEventLog.cpp:356
+#: DlgEventLog.cpp:357 DlgEventLog.cpp:359
 msgid "Show only the messages for the selected project"
 msgstr "選択したプロジェクトのメッセージだけを表示"
 
@@ -1693,230 +1692,230 @@ msgstr "キャンセル(&C)"
 msgid "Don't show this dialog again."
 msgstr "再びこのダイアログを表示しない"
 
-#: DlgItemProperties.cpp:163 DlgItemProperties.cpp:166
-#: DlgItemProperties.cpp:169 DlgItemProperties.cpp:172
+#: DlgItemProperties.cpp:164 DlgItemProperties.cpp:167
+#: DlgItemProperties.cpp:170 DlgItemProperties.cpp:173
 #, fuzzy
 msgid "Don't fetch tasks for "
 msgstr "CPU向けタスクを新たに取得しない"
 
-#: DlgItemProperties.cpp:163
+#: DlgItemProperties.cpp:164
 msgid "Project preference"
 msgstr "プロジェクトごとのプレファレンス"
 
-#: DlgItemProperties.cpp:166
+#: DlgItemProperties.cpp:167
 #, fuzzy
 msgid "Account manager preference"
 msgstr "アカウント・マネージャのウェブサイト"
 
-#: DlgItemProperties.cpp:169
+#: DlgItemProperties.cpp:170
 #, fuzzy
 msgid "Project has no apps for "
 msgstr "プロジェクトのウェブサイト"
 
-#: DlgItemProperties.cpp:172
+#: DlgItemProperties.cpp:173
 msgid "Client configuration excludes "
 msgstr ""
 
-#: DlgItemProperties.cpp:176
+#: DlgItemProperties.cpp:177
 #, fuzzy
 msgid " work fetch deferred for"
 msgstr "CPU 向けの仕事を獲得する処理の保留時間"
 
-#: DlgItemProperties.cpp:177
+#: DlgItemProperties.cpp:178
 #, fuzzy
 msgid " work fetch deferral interval"
 msgstr "CPU 向けの仕事を獲得する処理の保留間隔"
 
-#: DlgItemProperties.cpp:208
+#: DlgItemProperties.cpp:209
 msgid "Properties of project "
 msgstr "プロジェクトのプロパティ 　"
 
-#: DlgItemProperties.cpp:212 DlgOptions.cpp:218
+#: DlgItemProperties.cpp:213 DlgOptions.cpp:218
 msgid "General"
 msgstr "一般"
 
-#: DlgItemProperties.cpp:213
+#: DlgItemProperties.cpp:214
 msgid "Master URL"
 msgstr "マスター URL"
 
-#: DlgItemProperties.cpp:214
+#: DlgItemProperties.cpp:215
 msgid "User name"
 msgstr "参加者名（User name)　"
 
-#: DlgItemProperties.cpp:215
+#: DlgItemProperties.cpp:216
 msgid "Team name"
 msgstr "チームの名称"
 
-#: DlgItemProperties.cpp:216 ViewProjects.cpp:224
+#: DlgItemProperties.cpp:217 ViewProjects.cpp:224
 msgid "Resource share"
 msgstr "リソース割り当て"
 
-#: DlgItemProperties.cpp:218
+#: DlgItemProperties.cpp:219
 msgid "Scheduler RPC deferred for"
 msgstr "スケジューラ RPC の保留時間"
 
-#: DlgItemProperties.cpp:221
+#: DlgItemProperties.cpp:222
 msgid "File downloads deferred for"
 msgstr "ファイルダウンロード 待機"
 
-#: DlgItemProperties.cpp:224
+#: DlgItemProperties.cpp:225
 msgid "File uploads deferred for"
 msgstr "ファイルアップロード 待機"
 
-#: DlgItemProperties.cpp:227
+#: DlgItemProperties.cpp:228
 msgid "Computer ID"
 msgstr "コンピュータ ID"
 
-#: DlgItemProperties.cpp:229
+#: DlgItemProperties.cpp:230
 msgid "Non CPU intensive"
 msgstr "CPU を集中的に使わない"
 
-#: DlgItemProperties.cpp:229 DlgItemProperties.cpp:231
-#: DlgItemProperties.cpp:232 DlgItemProperties.cpp:234
-#: DlgItemProperties.cpp:237 DlgItemProperties.cpp:246
-#: DlgItemProperties.cpp:249 DlgItemProperties.cpp:252
+#: DlgItemProperties.cpp:230 DlgItemProperties.cpp:232
+#: DlgItemProperties.cpp:233 DlgItemProperties.cpp:235
+#: DlgItemProperties.cpp:238 DlgItemProperties.cpp:247
+#: DlgItemProperties.cpp:250 DlgItemProperties.cpp:253
 msgid "yes"
 msgstr "はい"
 
-#: DlgItemProperties.cpp:231
+#: DlgItemProperties.cpp:232
 msgid "Suspended via GUI"
 msgstr "GUI 経由で保留状態にされている"
 
-#: DlgItemProperties.cpp:231 DlgItemProperties.cpp:232
+#: DlgItemProperties.cpp:232 DlgItemProperties.cpp:233
 msgid "no"
 msgstr "いいえ"
 
-#: DlgItemProperties.cpp:232
+#: DlgItemProperties.cpp:233
 msgid "Don't request more work"
 msgstr "新しい仕事を取りに行かない"
 
-#: DlgItemProperties.cpp:234
+#: DlgItemProperties.cpp:235
 msgid "Scheduler call in progress"
 msgstr "スケジューラへ要求中"
 
-#: DlgItemProperties.cpp:237
+#: DlgItemProperties.cpp:238
 msgid "Trickle-up pending"
 msgstr ""
 
-#: DlgItemProperties.cpp:240 DlgItemProperties.cpp:242
+#: DlgItemProperties.cpp:241 DlgItemProperties.cpp:243
 msgid "Host location"
 msgstr "計算機の所在"
 
-#: DlgItemProperties.cpp:242
+#: DlgItemProperties.cpp:243
 msgid "default"
 msgstr "デフォルト"
 
-#: DlgItemProperties.cpp:246
+#: DlgItemProperties.cpp:247
 msgid "Added via account manager"
 msgstr "アカウント･マネージャ経由での追加"
 
-#: DlgItemProperties.cpp:249
+#: DlgItemProperties.cpp:250
 msgid "Remove when tasks done"
 msgstr "タスクが完了したら削除する"
 
-#: DlgItemProperties.cpp:252
+#: DlgItemProperties.cpp:253
 msgid "Ended"
 msgstr "終了した"
 
-#: DlgItemProperties.cpp:254
+#: DlgItemProperties.cpp:255
 msgid "Credit"
 msgstr "功績(credit)の値"
 
-#: DlgItemProperties.cpp:255
+#: DlgItemProperties.cpp:256
 msgid "User"
 msgstr "参加者"
 
-#: DlgItemProperties.cpp:262
+#: DlgItemProperties.cpp:263
 msgid "Host"
 msgstr "計算機"
 
-#: DlgItemProperties.cpp:271
+#: DlgItemProperties.cpp:272
 msgid "Scheduling"
 msgstr "スケジューリング"
 
-#: DlgItemProperties.cpp:272
+#: DlgItemProperties.cpp:273
 #, fuzzy
 msgid "Scheduling priority"
 msgstr "CPU 向けスケジューリングの優先度"
 
-#: DlgItemProperties.cpp:273
+#: DlgItemProperties.cpp:274
 msgid "CPU"
 msgstr ""
 
 # good translation not found
-#: DlgItemProperties.cpp:297
+#: DlgItemProperties.cpp:298
 msgid "Duration correction factor"
 msgstr "Duration correction factor"
 
-#: DlgItemProperties.cpp:311
+#: DlgItemProperties.cpp:312
 msgid "Properties of task "
 msgstr "タスクのプロパティ ： "
 
-#: DlgItemProperties.cpp:323 ViewWork.cpp:238
+#: DlgItemProperties.cpp:324 ViewWork.cpp:238
 msgid "Application"
 msgstr "アプリケーション"
 
-#: DlgItemProperties.cpp:324
+#: DlgItemProperties.cpp:325
 msgid "Workunit name"
 msgstr "ワークユニットの名前"
 
-#: DlgItemProperties.cpp:325
+#: DlgItemProperties.cpp:326
 msgid "State"
 msgstr "状態"
 
-#: DlgItemProperties.cpp:328
+#: DlgItemProperties.cpp:329
 msgid "Received"
 msgstr "受信時刻 "
 
-#: DlgItemProperties.cpp:331
+#: DlgItemProperties.cpp:332
 msgid "Report deadline"
 msgstr "報告期限"
 
-#: DlgItemProperties.cpp:333
+#: DlgItemProperties.cpp:334
 msgid "Resources"
 msgstr "リソース"
 
-#: DlgItemProperties.cpp:336
+#: DlgItemProperties.cpp:337
 msgid "Estimated computation size"
 msgstr ""
 
-#: DlgItemProperties.cpp:339
+#: DlgItemProperties.cpp:340
 msgid "CPU time at last checkpoint"
 msgstr "最新のチェックポイントでの CPU 時間"
 
-#: DlgItemProperties.cpp:340 DlgItemProperties.cpp:355
+#: DlgItemProperties.cpp:341 DlgItemProperties.cpp:356
 msgid "CPU time"
 msgstr "CPU時間"
 
-#: DlgItemProperties.cpp:342 DlgItemProperties.cpp:356
+#: DlgItemProperties.cpp:343 DlgItemProperties.cpp:357
 msgid "Elapsed time"
 msgstr "経過時間"
 
-#: DlgItemProperties.cpp:344
+#: DlgItemProperties.cpp:345
 msgid "Estimated time remaining"
 msgstr "処理完了までの想定時間"
 
-#: DlgItemProperties.cpp:345
+#: DlgItemProperties.cpp:346
 msgid "Fraction done"
 msgstr "仕事の計算完了率"
 
-#: DlgItemProperties.cpp:346
+#: DlgItemProperties.cpp:347
 msgid "Virtual memory size"
 msgstr "仮想メモリの大きさ"
 
-#: DlgItemProperties.cpp:347
+#: DlgItemProperties.cpp:348
 msgid "Working set size"
 msgstr "ワーキング・セットの大きさ"
 
-#: DlgItemProperties.cpp:349
+#: DlgItemProperties.cpp:350
 msgid "Directory"
 msgstr "ディレクトリ"
 
-#: DlgItemProperties.cpp:352
+#: DlgItemProperties.cpp:353
 msgid "Process ID"
 msgstr "プロセスID"
 
-#: DlgItemProperties.cpp:426 ViewWork.cpp:1032 sg_TaskPanel.cpp:810
+#: DlgItemProperties.cpp:427 ViewWork.cpp:1032 sg_TaskPanel.cpp:810
 msgid "Local: "
 msgstr "Local:"
 
@@ -2268,209 +2267,209 @@ msgstr "研究"
 msgid "Learn about the projects hosted at World Community Grid"
 msgstr "World Community Grid で動作しているプロジェクトについての手引き"
 
-#: MainDocument.cpp:586
+#: MainDocument.cpp:585
 msgid "Starting client"
 msgstr "クライアント起動中"
 
-#: MainDocument.cpp:594
+#: MainDocument.cpp:593
 msgid "Connecting to client"
 msgstr "クライアントに接続処理中。"
 
-#: MainDocument.cpp:1186
+#: MainDocument.cpp:1185
 msgid "Retrieving system state; please wait..."
 msgstr "システムの状態を読み出しています。お待ちください..."
 
-#: MainDocument.cpp:1807
+#: MainDocument.cpp:1806
 #, fuzzy
 msgid "Missing application"
 msgstr "アプリケーション"
 
-#: MainDocument.cpp:1808
+#: MainDocument.cpp:1807
 msgid ""
 "Please download and install the CoRD application from http://cord."
 "sourceforge.net"
 msgstr ""
 
-#: MainDocument.cpp:2423
+#: MainDocument.cpp:2422
 msgid "on batteries"
 msgstr "バッテリで駆動中"
 
-#: MainDocument.cpp:2424
+#: MainDocument.cpp:2423
 msgid "computer is in use"
 msgstr "コンピュータを別途利用中"
 
-#: MainDocument.cpp:2425
+#: MainDocument.cpp:2424
 msgid "user request"
 msgstr "参加者の要求"
 
-#: MainDocument.cpp:2426
+#: MainDocument.cpp:2425
 msgid "time of day"
 msgstr "実行時間帯制約"
 
-#: MainDocument.cpp:2427
+#: MainDocument.cpp:2426
 msgid "CPU benchmarks in progress"
 msgstr "CPU ベンチマーク実行中"
 
-#: MainDocument.cpp:2428
+#: MainDocument.cpp:2427
 msgid "need disk space - check preferences"
 msgstr "ディスク容量の不足 - 好みの設定(プレファレンス)を確認してください"
 
-#: MainDocument.cpp:2429
+#: MainDocument.cpp:2428
 msgid "computer is not in use"
 msgstr "コンピュータの利用者なし"
 
-#: MainDocument.cpp:2430
+#: MainDocument.cpp:2429
 msgid "starting up"
 msgstr "起動の途中"
 
-#: MainDocument.cpp:2431
+#: MainDocument.cpp:2430
 msgid "an exclusive app is running"
 msgstr "排他的なアプリケーションを実行中"
 
-#: MainDocument.cpp:2432
+#: MainDocument.cpp:2431
 msgid "CPU is busy"
 msgstr "CPU が別途利用中"
 
-#: MainDocument.cpp:2433
+#: MainDocument.cpp:2432
 msgid "network bandwidth limit exceeded"
 msgstr "ネットワーク帯域幅の制約超過"
 
-#: MainDocument.cpp:2434
+#: MainDocument.cpp:2433
 msgid "requested by operating system"
 msgstr ""
 
-#: MainDocument.cpp:2436
+#: MainDocument.cpp:2435
 msgid "unknown reason"
 msgstr "理由不明"
 
-#: MainDocument.cpp:2458
+#: MainDocument.cpp:2457
 msgid "GPU missing, "
 msgstr "GPU がありません、"
 
-#: MainDocument.cpp:2465
+#: MainDocument.cpp:2464
 msgid "New"
 msgstr "新規"
 
-#: MainDocument.cpp:2469
+#: MainDocument.cpp:2468
 msgid "Download failed"
 msgstr "ダウンロード失敗"
 
-#: MainDocument.cpp:2471
+#: MainDocument.cpp:2470
 msgid "Downloading"
 msgstr "ダウンロード処理中"
 
-#: MainDocument.cpp:2473 MainDocument.cpp:2543
+#: MainDocument.cpp:2472 MainDocument.cpp:2542
 msgid " (suspended - "
 msgstr "(一時停止中 - "
 
-#: MainDocument.cpp:2481
+#: MainDocument.cpp:2480
 msgid "Project suspended by user"
 msgstr "参加者によってプロジェクト一時停止"
 
-#: MainDocument.cpp:2483
+#: MainDocument.cpp:2482
 msgid "Task suspended by user"
 msgstr "参加者によってタスク一時停止"
 
-#: MainDocument.cpp:2485
+#: MainDocument.cpp:2484
 msgid "Suspended - "
 msgstr "一時停止中 - "
 
 # 75%
-#: MainDocument.cpp:2491
+#: MainDocument.cpp:2490
 #, fuzzy
 msgid "GPU suspended - "
 msgstr "(一時停止中 - "
 
-#: MainDocument.cpp:2498
+#: MainDocument.cpp:2497
 msgid "Waiting for memory"
 msgstr "メモリ不足のため待機"
 
-#: MainDocument.cpp:2500
+#: MainDocument.cpp:2499
 msgid "Waiting for shared memory"
 msgstr "共有メモリが空くまで待機中"
 
-#: MainDocument.cpp:2503
+#: MainDocument.cpp:2502
 msgid "Running, high priority"
 msgstr "優先度高で処理中"
 
-#: MainDocument.cpp:2505 sg_ImageButton.cpp:88
+#: MainDocument.cpp:2504
 msgid "Running"
 msgstr "実行中"
 
-#: MainDocument.cpp:2508
+#: MainDocument.cpp:2507
 msgid " (non-CPU-intensive)"
 msgstr "（常時 CPU を使用するわけではありません）"
 
-#: MainDocument.cpp:2511
+#: MainDocument.cpp:2510
 msgid "Waiting to run"
 msgstr "実行待機"
 
-#: MainDocument.cpp:2513 MainDocument.cpp:2519
+#: MainDocument.cpp:2512 MainDocument.cpp:2518
 msgid "Ready to start"
 msgstr "開始まで待機"
 
-#: MainDocument.cpp:2523
+#: MainDocument.cpp:2522
 msgid " (Scheduler wait: "
 msgstr ""
 
-#: MainDocument.cpp:2527
+#: MainDocument.cpp:2526
 msgid " (Scheduler wait)"
 msgstr ""
 
-#: MainDocument.cpp:2531
+#: MainDocument.cpp:2530
 #, fuzzy
 msgid " (Waiting for network access)"
 msgstr "メモリ不足のため待機"
 
-#: MainDocument.cpp:2535
+#: MainDocument.cpp:2534
 msgid "Computation error"
 msgstr "計算エラー"
 
-#: MainDocument.cpp:2539
+#: MainDocument.cpp:2538
 msgid "Upload failed"
 msgstr "アップロード失敗"
 
-#: MainDocument.cpp:2541
+#: MainDocument.cpp:2540
 msgid "Uploading"
 msgstr "アップロード処理中"
 
-#: MainDocument.cpp:2552
+#: MainDocument.cpp:2551
 msgid "Aborted by user"
 msgstr "参加者によって中止"
 
-#: MainDocument.cpp:2555
+#: MainDocument.cpp:2554
 msgid "Aborted by project"
 msgstr "プロジェクトによって中止"
 
-#: MainDocument.cpp:2558
+#: MainDocument.cpp:2557
 msgid "Aborted: not started by deadline"
 msgstr "中止されました： 期限までに開始されませんでした"
 
-#: MainDocument.cpp:2561
+#: MainDocument.cpp:2560
 msgid "Aborted: disk limit exceeded"
 msgstr ""
 
-#: MainDocument.cpp:2564
+#: MainDocument.cpp:2563
 msgid "Aborted: run time limit exceeded"
 msgstr ""
 
-#: MainDocument.cpp:2567
+#: MainDocument.cpp:2566
 msgid "Aborted: memory limit exceeded"
 msgstr ""
 
-#: MainDocument.cpp:2570
+#: MainDocument.cpp:2569
 msgid "Aborted"
 msgstr "中止"
 
-#: MainDocument.cpp:2575
+#: MainDocument.cpp:2574
 msgid "Acknowledged"
 msgstr "サーバ確認済み"
 
-#: MainDocument.cpp:2577
+#: MainDocument.cpp:2576
 msgid "Ready to report"
 msgstr "報告待機"
 
-#: MainDocument.cpp:2579
+#: MainDocument.cpp:2578
 #, c-format
 msgid "Error: invalid state '%d'"
 msgstr "エラー： 無効状態 '%d'"
@@ -2529,60 +2528,60 @@ msgstr "電子メールアドレスとパスワードを確認の上、もう一
 msgid "more..."
 msgstr "つづく..."
 
-#: ProjectInfoPage.cpp:467 ProjectInfoPage.cpp:766 ProjectInfoPage.cpp:770
+#: ProjectInfoPage.cpp:479 ProjectInfoPage.cpp:786 ProjectInfoPage.cpp:790
 msgid "All"
 msgstr ""
 
-#: ProjectInfoPage.cpp:602
+#: ProjectInfoPage.cpp:617
 msgid "Choose a project"
 msgstr "プロジェクトを選んでください"
 
-#: ProjectInfoPage.cpp:606
+#: ProjectInfoPage.cpp:621
 msgid "To choose a project, click its name or type its URL below."
 msgstr "プロジェクトを選択するには、その名前をクリックするか、あるいは下の欄に URL を入力してください。"
 
-#: ProjectInfoPage.cpp:610
+#: ProjectInfoPage.cpp:625
 msgid "Categories:"
 msgstr ""
 
-#: ProjectInfoPage.cpp:614 sg_ProjectPanel.cpp:89
+#: ProjectInfoPage.cpp:629 sg_ProjectPanel.cpp:89
 #, fuzzy
 msgid "Projects:"
 msgstr "プロジェクト"
 
-#: ProjectInfoPage.cpp:618
+#: ProjectInfoPage.cpp:633
 msgid "Project details"
 msgstr ""
 
-#: ProjectInfoPage.cpp:622
+#: ProjectInfoPage.cpp:637
 msgid "Research area:"
 msgstr ""
 
-#: ProjectInfoPage.cpp:626
+#: ProjectInfoPage.cpp:641
 msgid "Organization:"
 msgstr ""
 
-#: ProjectInfoPage.cpp:630
+#: ProjectInfoPage.cpp:645
 #, fuzzy
 msgid "Web site:"
 msgstr "ウェブサイト"
 
-#: ProjectInfoPage.cpp:634
+#: ProjectInfoPage.cpp:649
 msgid "Supported systems:"
 msgstr ""
 
-#: ProjectInfoPage.cpp:638
+#: ProjectInfoPage.cpp:653
 #, fuzzy
 msgid "Project URL:"
 msgstr "プロジェクトの &URL："
 
-#: ProjectInfoPage.cpp:814
+#: ProjectInfoPage.cpp:834
 msgid ""
 "This project may not have work for your type of computer.  Do you want to "
 "add it anyway?"
 msgstr "このプロジェクトにはあなたのコンピュータに適合する仕事がないかもしれません。 それでも追加しますか？"
 
-#: ProjectInfoPage.cpp:838
+#: ProjectInfoPage.cpp:858
 msgid "You already added this project. Please choose a different project."
 msgstr "すでに指定したプロジェクトは追加済みです。別のプロジェクトを選んでください。"
 
@@ -2967,13 +2966,11 @@ msgid "Removing project..."
 msgstr "プロジェクトを削除しています..."
 
 #: ViewProjects.cpp:496 sg_ProjectCommandPopup.cpp:251
-#: sg_StatImageLoader.cpp:192
 #, c-format
 msgid "Are you sure you want to remove project '%s'?"
 msgstr "プロジェクト '%s' を削除してよろしいですか？"
 
 #: ViewProjects.cpp:502 sg_ProjectCommandPopup.cpp:257
-#: sg_StatImageLoader.cpp:138 sg_StatImageLoader.cpp:198
 msgid "Remove Project"
 msgstr "プロジェクト削除"
 
@@ -3349,7 +3346,7 @@ msgstr "活動中のタスクを表示する"
 msgid "Show only active tasks."
 msgstr "活動中のタスクだけを表示する。"
 
-#: ViewWork.cpp:194 sg_TaskCommandPopup.cpp:60 sg_ViewTabPage.cpp:424
+#: ViewWork.cpp:194 sg_TaskCommandPopup.cpp:60
 msgid "Show graphics"
 msgstr "グラフィクスを表示"
 
@@ -3541,7 +3538,7 @@ msgstr "本当にキャンセルしますか？"
 msgid "Question"
 msgstr "お答えください"
 
-#: sg_BoincSimpleFrame.cpp:145 sg_BoincSimpleGUI.cpp:119
+#: sg_BoincSimpleFrame.cpp:145
 msgid "Advanced View...\tCtrl+Shift+A"
 msgstr "詳細表示... \tCTRL+SHIFT+A"
 
@@ -3557,7 +3554,7 @@ msgstr "スキン"
 msgid "Select the appearance of the user interface."
 msgstr ""
 
-#: sg_BoincSimpleFrame.cpp:202 sg_BoincSimpleGUI.cpp:147
+#: sg_BoincSimpleFrame.cpp:202
 #, c-format
 msgid "&%s"
 msgstr "&%s"
@@ -3578,63 +3575,6 @@ msgstr ""
 #: sg_BoincSimpleFrame.cpp:773
 msgid "Open a window to view notices from projects or BOINC"
 msgstr "プロジェクトまたは BOINC からのお知らせを見るためのウィンドーを開く"
-
-#: sg_BoincSimpleGUI.cpp:120
-msgid "Display the advanced (accessible) graphical interface."
-msgstr "より使いやすい詳細グラフィカルインタフェースを表示する。"
-
-#: sg_ClientStateIndicator.cpp:288 sg_TaskPanel.cpp:1210
-msgid "Retrieving current status."
-msgstr "現在の状態を読み出し中"
-
-#: sg_ClientStateIndicator.cpp:291 sg_TaskPanel.cpp:451
-msgid "You don't have any projects.  Please Add a Project."
-msgstr "どこのプロジェクトにも参加していません。プロジェクトを追加してください。"
-
-#: sg_ClientStateIndicator.cpp:294 sg_TaskPanel.cpp:1216
-msgid "Downloading work from the server."
-msgstr "仕事をサーバからダウンロード中"
-
-#: sg_ClientStateIndicator.cpp:299 sg_TaskPanel.cpp:1221
-msgid "Processing Suspended:  Running On Batteries."
-msgstr "処理を一時停止：　バッテリー動作中"
-
-#: sg_ClientStateIndicator.cpp:301 sg_TaskPanel.cpp:1223
-msgid "Processing Suspended:  User Active."
-msgstr "処理を一時停止：　人がコンピュータを利用中"
-
-#: sg_ClientStateIndicator.cpp:303 sg_TaskPanel.cpp:1225
-msgid "Processing Suspended:  User paused processing."
-msgstr "処理を一時停止：　参加者の指示による一時停止"
-
-#: sg_ClientStateIndicator.cpp:305 sg_TaskPanel.cpp:1227
-msgid "Processing Suspended:  Time of Day."
-msgstr "処理を一時停止：　動作制限時間帯"
-
-#: sg_ClientStateIndicator.cpp:307 sg_TaskPanel.cpp:1229
-msgid "Processing Suspended:  Benchmarks Running."
-msgstr "処理を一時停止：　ベンチマーク走行中"
-
-#: sg_ClientStateIndicator.cpp:309 sg_TaskPanel.cpp:1231
-msgid "Processing Suspended."
-msgstr "処理を一時停止"
-
-#: sg_ClientStateIndicator.cpp:313 sg_TaskPanel.cpp:1235
-msgid "Waiting to contact project servers."
-msgstr "プロジェクトのサーバに接続待機中"
-
-#: sg_ClientStateIndicator.cpp:317 sg_ClientStateIndicator.cpp:325
-#: sg_TaskPanel.cpp:1239 sg_TaskPanel.cpp:1248
-msgid "Retrieving current status"
-msgstr "現在の状態を読み出し中"
-
-#: sg_ClientStateIndicator.cpp:320 sg_TaskPanel.cpp:1243
-msgid "No work available to process"
-msgstr "処理する仕事が不足"
-
-#: sg_ClientStateIndicator.cpp:322 sg_TaskPanel.cpp:1245
-msgid "Unable to connect to the core client"
-msgstr "コア・クライアントに接続不可"
 
 #: sg_DlgMessages.cpp:146
 msgid "Close"
@@ -3770,42 +3710,6 @@ msgstr "%d"
 msgid "Do you really want to clear all local preferences?\n"
 msgstr "本当にローカルなプレファレンス (好みの設定) を全てクリアしてもよいですか？"
 
-#: sg_ImageButton.cpp:90
-msgid "Paused: Other work running"
-msgstr "一時停止状態： 他の仕事の計算を実行中"
-
-#: sg_ImageButton.cpp:92
-msgid "Paused: User initiated.  Click 'Resume' to continue"
-msgstr "一時停止状態： 参加者にの指示による。 継続するには、「再開(Resume)」をクリック"
-
-#: sg_ImageButton.cpp:94
-msgid "Paused: User active"
-msgstr "一時停止状態： 人がコンピュータを利用中"
-
-#: sg_ImageButton.cpp:96
-msgid "Paused: Computer on battery"
-msgstr "一時停止状態： バッテリー駆動中"
-
-#: sg_ImageButton.cpp:98
-msgid "Paused: Time of Day"
-msgstr "一時停止状態： 時間帯による制約"
-
-#: sg_ImageButton.cpp:100
-msgid "Paused: Benchmarks running"
-msgstr "一時停止状態： ベンチマークプログラムを実行中"
-
-#: sg_ImageButton.cpp:102
-msgid "Paused"
-msgstr "一時停止状態"
-
-#: sg_ImageButton.cpp:104
-msgid "Paused: Application start delayed"
-msgstr "一時停止状態： アプリケーション開始が遅延"
-
-#: sg_ImageButton.cpp:132
-msgid "Click to show project graphics"
-msgstr "プロジェクトのグラフィクス表示はここをクリック"
-
 #: sg_ProjectPanel.cpp:72
 msgid "Add Project"
 msgstr "プロジェクトを追加"
@@ -3818,7 +3722,7 @@ msgstr "同期"
 msgid "Work done for this project"
 msgstr ""
 
-#: sg_ProjectPanel.cpp:77 sg_ProjectsComponent.cpp:123
+#: sg_ProjectPanel.cpp:77
 msgid "Synchronize projects with account manager system"
 msgstr "アカウント・マネージャでプロジェクトに同期"
 
@@ -3845,35 +3749,6 @@ msgstr ""
 msgid "Pop up a menu of commands to apply to project %s"
 msgstr "プロジェクト %s を操作するポップアップ・メニューを開く"
 
-#: sg_ProjectsComponent.cpp:196 sg_ProjectsComponent.cpp:207
-msgid "Open a window to view messages"
-msgstr "メッセージ・ウィンドウを開く"
-
-#: sg_ProjectsComponent.cpp:225
-msgid "Stop all activity"
-msgstr "全ての活動を停止する"
-
-#: sg_ProjectsComponent.cpp:237
-msgid "Resume activity"
-msgstr "活動を再開する"
-
-#: sg_ProjectsComponent.cpp:254
-msgid "Open a window to set your preferences"
-msgstr "プレファレンスの設定ウィンドウを開く"
-
-#: sg_ProjectsComponent.cpp:271
-msgid "Switch to the BOINC advanced view"
-msgstr "BOINC 詳細表示に切り替える"
-
-#: sg_ProjectsComponent.cpp:298
-msgid "My Projects:"
-msgstr "あなたのプロジェクト:"
-
-#: sg_StatImageLoader.cpp:101
-#, c-format
-msgid "%s. Work done by %s: %0.2f"
-msgstr "%s - %s さんは 功績値 %0.2f の仕事をしました"
-
 #: sg_TaskCommandPopup.cpp:67
 msgid "Suspend this task."
 msgstr ""
@@ -3890,6 +3765,10 @@ msgid ""
 msgstr ""
 "このタスク '%s' を中止してよろしいですか？\n"
 "(進捗： %.1lf%%, 状態： %s)"
+
+#: sg_TaskPanel.cpp:451
+msgid "You don't have any projects.  Please Add a Project."
+msgstr "どこのプロジェクトにも参加していません。プロジェクトを追加してください。"
 
 #: sg_TaskPanel.cpp:452
 msgid "Not available"
@@ -3954,31 +3833,53 @@ msgstr "残り時間: %s"
 msgid "Status: %s"
 msgstr "状態: %s"
 
-#: sg_ViewTabPage.cpp:140 sg_ViewTabPage.cpp:280
-#, c-format
-msgid "%.1lf"
-msgstr "%.1lf"
+#: sg_TaskPanel.cpp:1210
+msgid "Retrieving current status."
+msgstr "現在の状態を読み出し中"
 
-#: sg_ViewTabPage.cpp:409
-#, c-format
-msgid "%d hr %d min %d sec"
-msgstr "%d 時間 %d 分 %d 秒"
+#: sg_TaskPanel.cpp:1216
+msgid "Downloading work from the server."
+msgstr "仕事をサーバからダウンロード中"
 
-#: sg_ViewTabPage.cpp:423
-msgid "Are you sure you want to display graphics on a remote machine?"
-msgstr "グラフィクスを別の計算機に表示してよろしいですか？"
+#: sg_TaskPanel.cpp:1221
+msgid "Processing Suspended:  Running On Batteries."
+msgstr "処理を一時停止：　バッテリー動作中"
 
-#: sg_ViewTabPage.cpp:446
-msgid "Application: "
-msgstr "アプリケーション: "
+#: sg_TaskPanel.cpp:1223
+msgid "Processing Suspended:  User Active."
+msgstr "処理を一時停止：　人がコンピュータを利用中"
 
-#: sg_ViewTabPage.cpp:449 sg_ViewTabPage.cpp:453
-msgid "Time Remaining: "
-msgstr "残り時間: "
+#: sg_TaskPanel.cpp:1225
+msgid "Processing Suspended:  User paused processing."
+msgstr "処理を一時停止：　参加者の指示による一時停止"
 
-#: sg_ViewTabPage.cpp:452
-msgid "Elapsed Time: "
-msgstr "経過時間："
+#: sg_TaskPanel.cpp:1227
+msgid "Processing Suspended:  Time of Day."
+msgstr "処理を一時停止：　動作制限時間帯"
+
+#: sg_TaskPanel.cpp:1229
+msgid "Processing Suspended:  Benchmarks Running."
+msgstr "処理を一時停止：　ベンチマーク走行中"
+
+#: sg_TaskPanel.cpp:1231
+msgid "Processing Suspended."
+msgstr "処理を一時停止"
+
+#: sg_TaskPanel.cpp:1235
+msgid "Waiting to contact project servers."
+msgstr "プロジェクトのサーバに接続待機中"
+
+#: sg_TaskPanel.cpp:1239 sg_TaskPanel.cpp:1248
+msgid "Retrieving current status"
+msgstr "現在の状態を読み出し中"
+
+#: sg_TaskPanel.cpp:1243
+msgid "No work available to process"
+msgstr "処理する仕事が不足"
+
+#: sg_TaskPanel.cpp:1245
+msgid "Unable to connect to the core client"
+msgstr "コア・クライアントに接続不可"
 
 #: wizardex.cpp:377 wizardex.cpp:553
 msgid "&Next >"
@@ -4017,6 +3918,78 @@ msgstr "全てを表示する"
 #, c-format
 msgid "Quit %s"
 msgstr "%s を終了する"
+
+#~ msgid "Display the advanced (accessible) graphical interface."
+#~ msgstr "より使いやすい詳細グラフィカルインタフェースを表示する。"
+
+#~ msgid "Paused: Other work running"
+#~ msgstr "一時停止状態： 他の仕事の計算を実行中"
+
+#~ msgid "Paused: User initiated.  Click 'Resume' to continue"
+#~ msgstr "一時停止状態： 参加者にの指示による。 継続するには、「再開(Resume)」をクリック"
+
+#~ msgid "Paused: User active"
+#~ msgstr "一時停止状態： 人がコンピュータを利用中"
+
+#~ msgid "Paused: Computer on battery"
+#~ msgstr "一時停止状態： バッテリー駆動中"
+
+#~ msgid "Paused: Time of Day"
+#~ msgstr "一時停止状態： 時間帯による制約"
+
+#~ msgid "Paused: Benchmarks running"
+#~ msgstr "一時停止状態： ベンチマークプログラムを実行中"
+
+#~ msgid "Paused"
+#~ msgstr "一時停止状態"
+
+#~ msgid "Paused: Application start delayed"
+#~ msgstr "一時停止状態： アプリケーション開始が遅延"
+
+#~ msgid "Click to show project graphics"
+#~ msgstr "プロジェクトのグラフィクス表示はここをクリック"
+
+#~ msgid "Open a window to view messages"
+#~ msgstr "メッセージ・ウィンドウを開く"
+
+#~ msgid "Stop all activity"
+#~ msgstr "全ての活動を停止する"
+
+#~ msgid "Resume activity"
+#~ msgstr "活動を再開する"
+
+#~ msgid "Open a window to set your preferences"
+#~ msgstr "プレファレンスの設定ウィンドウを開く"
+
+#~ msgid "Switch to the BOINC advanced view"
+#~ msgstr "BOINC 詳細表示に切り替える"
+
+#~ msgid "My Projects:"
+#~ msgstr "あなたのプロジェクト:"
+
+#, c-format
+#~ msgid "%s. Work done by %s: %0.2f"
+#~ msgstr "%s - %s さんは 功績値 %0.2f の仕事をしました"
+
+#, c-format
+#~ msgid "%.1lf"
+#~ msgstr "%.1lf"
+
+#, c-format
+#~ msgid "%d hr %d min %d sec"
+#~ msgstr "%d 時間 %d 分 %d 秒"
+
+#~ msgid "Are you sure you want to display graphics on a remote machine?"
+#~ msgstr "グラフィクスを別の計算機に表示してよろしいですか？"
+
+#~ msgid "Application: "
+#~ msgstr "アプリケーション: "
+
+#~ msgid "Time Remaining: "
+#~ msgstr "残り時間: "
+
+#~ msgid "Elapsed Time: "
+#~ msgstr "経過時間："
 
 #~ msgid "Account manager website"
 #~ msgstr "アカウント・マネージャのウェブサイト"
