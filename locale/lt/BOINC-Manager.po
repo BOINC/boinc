@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-17 12:25-0800\n"
+"POT-Creation-Date: 2013-11-22 00:00-0800\n"
 "PO-Revision-Date: 2013-09-20 10:48+0000\n"
 "Last-Translator: Anonymous Pootle User\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
@@ -204,12 +204,12 @@ msgstr "Prisijungta"
 msgid "Disconnected"
 msgstr "Atsijungta"
 
-#: AdvancedFrame.cpp:318 sg_BoincSimpleFrame.cpp:115 sg_BoincSimpleGUI.cpp:103
+#: AdvancedFrame.cpp:318 sg_BoincSimpleFrame.cpp:115
 #, c-format
 msgid "Close the %s window"
 msgstr "Uždaryti %s langą"
 
-#: AdvancedFrame.cpp:321 sg_BoincSimpleFrame.cpp:118 sg_BoincSimpleGUI.cpp:106
+#: AdvancedFrame.cpp:321 sg_BoincSimpleFrame.cpp:118
 msgid "&Close Window"
 msgstr "&Uždaryti langą"
 
@@ -278,7 +278,7 @@ msgstr "Rodyti supaprastintą vartotojo sąsają."
 msgid "&Add project or account manager..."
 msgstr "&Prisijungti prie projekto ar paskyros valdytojo..."
 
-#: AdvancedFrame.cpp:421 sg_ProjectPanel.cpp:76 sg_ProjectsComponent.cpp:106
+#: AdvancedFrame.cpp:421 sg_ProjectPanel.cpp:76
 msgid "Volunteer for any or all of 30+ projects in many areas of science"
 msgstr ""
 "Būkite savanoriu viename ar keliuose iš daugiau kaip 30 projektų įvairiose "
@@ -468,12 +468,12 @@ msgstr "Įvykių žurnalas...\tCtrl+Shift+E"
 msgid "Display diagnostic messages."
 msgstr "Rodyti diagnostikos žinutes."
 
-#: AdvancedFrame.cpp:621 sg_BoincSimpleFrame.cpp:184 sg_BoincSimpleGUI.cpp:129
+#: AdvancedFrame.cpp:621 sg_BoincSimpleFrame.cpp:184
 #, c-format
 msgid "%s &help"
 msgstr "%s &pagalba"
 
-#: AdvancedFrame.cpp:627 sg_BoincSimpleFrame.cpp:190 sg_BoincSimpleGUI.cpp:135
+#: AdvancedFrame.cpp:627 sg_BoincSimpleFrame.cpp:190
 #, c-format
 msgid "Show information about %s"
 msgstr "Rodyti informaciją apie %s"
@@ -483,17 +483,17 @@ msgstr "Rodyti informaciją apie %s"
 msgid "&%s help"
 msgstr "&%s pagalba"
 
-#: AdvancedFrame.cpp:645 sg_BoincSimpleFrame.cpp:208 sg_BoincSimpleGUI.cpp:153
+#: AdvancedFrame.cpp:645 sg_BoincSimpleFrame.cpp:208
 #, c-format
 msgid "Show information about the %s"
 msgstr "Rodyti informaciją apie %s"
 
-#: AdvancedFrame.cpp:657 sg_BoincSimpleFrame.cpp:220 sg_BoincSimpleGUI.cpp:165
+#: AdvancedFrame.cpp:657 sg_BoincSimpleFrame.cpp:220
 #, c-format
 msgid "%s &web site"
 msgstr ""
 
-#: AdvancedFrame.cpp:663 sg_BoincSimpleFrame.cpp:226 sg_BoincSimpleGUI.cpp:171
+#: AdvancedFrame.cpp:663 sg_BoincSimpleFrame.cpp:226
 #, c-format
 msgid "Show information about BOINC and %s"
 msgstr "Rodyti informaciją apie BOINC ir %s"
@@ -507,11 +507,11 @@ msgstr "&Apie %s..."
 msgid "Licensing and copyright information."
 msgstr "Licensijų ir autorinių teisių informacija."
 
-#: AdvancedFrame.cpp:688 sg_BoincSimpleFrame.cpp:251 sg_BoincSimpleGUI.cpp:194
+#: AdvancedFrame.cpp:688 sg_BoincSimpleFrame.cpp:251
 msgid "&File"
 msgstr "&Byla"
 
-#: AdvancedFrame.cpp:692 sg_BoincSimpleFrame.cpp:255 sg_BoincSimpleGUI.cpp:199
+#: AdvancedFrame.cpp:692 sg_BoincSimpleFrame.cpp:255
 msgid "&View"
 msgstr "&Peržiūra"
 
@@ -527,8 +527,8 @@ msgstr "&Veikimas"
 msgid "A&dvanced"
 msgstr "&Papildomi"
 
-#: AdvancedFrame.cpp:708 DlgEventLog.cpp:331 sg_BoincSimpleFrame.cpp:263
-#: sg_BoincSimpleGUI.cpp:184 wizardex.cpp:374 wizardex.cpp:381
+#: AdvancedFrame.cpp:708 DlgEventLog.cpp:334 sg_BoincSimpleFrame.cpp:263
+#: wizardex.cpp:374 wizardex.cpp:381
 msgid "&Help"
 msgstr "&Pagalba"
 
@@ -803,7 +803,7 @@ msgstr "%s sėkmingai atsijungė nuo interneto."
 msgid "%s failed to disconnected from the Internet."
 msgstr "%s nepavyko atsijungti nuo interneto."
 
-#: BOINCGUIApp.cpp:342
+#: BOINCGUIApp.cpp:341
 #, c-format
 #, fuzzy, c-format
 msgid ""
@@ -820,23 +820,23 @@ msgstr ""
 "Susisiekite su savo administratoriumi, kad jis pridėtų jus į \"boinc_users\" "
 "vartotojų grupę."
 
-#: BOINCGUIApp.cpp:348
+#: BOINCGUIApp.cpp:347
 #, c-format
 msgid ""
 "%s ownership or permissions are not set properly; please reinstall %s.\n"
 "(Error code %d"
 msgstr ""
 
-#: BOINCGUIApp.cpp:354
+#: BOINCGUIApp.cpp:353
 msgid " at "
 msgstr ""
 
-#: BOINCGUIApp.cpp:357 MainDocument.cpp:2475 MainDocument.cpp:2525
-#: MainDocument.cpp:2545 ViewTransfers.cpp:803
+#: BOINCGUIApp.cpp:356 MainDocument.cpp:2474 MainDocument.cpp:2524
+#: MainDocument.cpp:2544 ViewTransfers.cpp:803
 msgid ")"
 msgstr ""
 
-#: BOINCGUIApp.cpp:387
+#: BOINCGUIApp.cpp:386
 msgid ""
 "A reboot is required in order for BOINC to run properly.\n"
 "Please reboot your computer and try again."
@@ -844,70 +844,70 @@ msgstr ""
 "Kad BOINC veiktų teisingai, būtina perkrauti sistemą.\n"
 "Perkraukite kompiuterį ir pamėginkite dar kartą."
 
-#: BOINCGUIApp.cpp:388 DlgAbout.cpp:153
+#: BOINCGUIApp.cpp:387 DlgAbout.cpp:153
 msgid "BOINC Manager"
 msgstr "BOINC valdiklis"
 
-#: BOINCGUIApp.cpp:571
+#: BOINCGUIApp.cpp:570
 msgid "BOINC Manager was started by the operating system automatically"
 msgstr "BOINC valdiklis buvo automatiškai paleistas operacinės sistemos"
 
-#: BOINCGUIApp.cpp:573
+#: BOINCGUIApp.cpp:572
 msgid "Startup BOINC so only the system tray icon is visible"
 msgstr "Paleisti BOINC tik su matoma piktograma sistemos dėkle"
 
-#: BOINCGUIApp.cpp:575
+#: BOINCGUIApp.cpp:574
 msgid "Directory containing the BOINC Client executable"
 msgstr ""
 
-#: BOINCGUIApp.cpp:576
+#: BOINCGUIApp.cpp:575
 msgid "BOINC data directory"
 msgstr ""
 
-#: BOINCGUIApp.cpp:578
+#: BOINCGUIApp.cpp:577
 msgid "Host name or IP address"
 msgstr ""
 
-#: BOINCGUIApp.cpp:579
+#: BOINCGUIApp.cpp:578
 msgid "GUI RPC port number"
 msgstr ""
 
-#: BOINCGUIApp.cpp:580
+#: BOINCGUIApp.cpp:579
 #, fuzzy
 msgid "Password"
 msgstr "Slaptažodis:"
 
-#: BOINCGUIApp.cpp:581
+#: BOINCGUIApp.cpp:580
 msgid "Startup BOINC with these optional arguments"
 msgstr "Paleisti BOINC su šiais parametrais"
 
-#: BOINCGUIApp.cpp:582
+#: BOINCGUIApp.cpp:581
 msgid "disable BOINC security users and permissions"
 msgstr "atjungti BOINC saugumo vartotojus ir įgaliojimus"
 
-#: BOINCGUIApp.cpp:583
+#: BOINCGUIApp.cpp:582
 msgid "set skin debugging mode to enable skin manager error messages"
 msgstr ""
 "įjungti apvalkalų derinimo režimą, kad būtų įjungti apvalkalų valdiklio "
 "klaidų pranešimai"
 
-#: BOINCGUIApp.cpp:584
+#: BOINCGUIApp.cpp:583
 msgid "multiple instances of BOINC Manager allowed"
 msgstr ""
 
-#: BOINCGUIApp.cpp:586
+#: BOINCGUIApp.cpp:585
 msgid "Not used: workaround for bug in XCode 4.2"
 msgstr ""
 
-#: BOINCGUIApp.cpp:804
+#: BOINCGUIApp.cpp:803
 msgid "(Automatic Detection)"
 msgstr "(Automatinis aptikimas)"
 
-#: BOINCGUIApp.cpp:805
+#: BOINCGUIApp.cpp:804
 msgid "(Unknown)"
 msgstr "(Nežinoma)"
 
-#: BOINCGUIApp.cpp:806
+#: BOINCGUIApp.cpp:805
 msgid "(User Defined)"
 msgstr "(Vartotojo nustatyta)"
 
@@ -1464,7 +1464,7 @@ msgstr ""
 msgid "network usage stop hour"
 msgstr ""
 
-#: DlgAdvPreferencesBase.cpp:597 DlgItemProperties.cpp:226
+#: DlgAdvPreferencesBase.cpp:597 DlgItemProperties.cpp:227
 msgid "Disk usage"
 msgstr "Disko naudojimas"
 
@@ -1558,43 +1558,43 @@ msgstr ""
 msgid "For advanced options, refer to "
 msgstr ""
 
-#: DlgEventLog.cpp:218
+#: DlgEventLog.cpp:221
 #, c-format
 msgid "%s - Event Log"
 msgstr ""
 
-#: DlgEventLog.cpp:231 ViewMessages.cpp:117 ViewProjects.cpp:219
+#: DlgEventLog.cpp:234 ViewMessages.cpp:117 ViewProjects.cpp:219
 #: ViewStatistics.cpp:435 ViewStatistics.cpp:2007 ViewTransfers.cpp:182
 #: ViewWork.cpp:232
 msgid "Project"
 msgstr "Projektas"
 
-#: DlgEventLog.cpp:232 ViewMessages.cpp:118
+#: DlgEventLog.cpp:235 ViewMessages.cpp:118
 msgid "Time"
 msgstr "Laikas"
 
-#: DlgEventLog.cpp:233 ViewMessages.cpp:119
+#: DlgEventLog.cpp:236 ViewMessages.cpp:119
 msgid "Message"
 msgstr "Pranešimas"
 
-#: DlgEventLog.cpp:289 DlgEventLog.cpp:353
+#: DlgEventLog.cpp:292 DlgEventLog.cpp:356
 msgid "&Show only this project"
 msgstr ""
 
-#: DlgEventLog.cpp:293
+#: DlgEventLog.cpp:296
 msgid "Copy &All"
 msgstr ""
 
-#: DlgEventLog.cpp:295 DlgEventLog.cpp:299 ViewMessages.cpp:89
+#: DlgEventLog.cpp:298 DlgEventLog.cpp:302 ViewMessages.cpp:89
 msgid "Copy all the messages to the clipboard."
 msgstr "Kopijuoti visas žinutes į laikinąją saugyklą."
 
-#: DlgEventLog.cpp:304
+#: DlgEventLog.cpp:307
 #, fuzzy
 msgid "Copy &Selected"
 msgstr "Kopijuoti pasirinktas"
 
-#: DlgEventLog.cpp:307 DlgEventLog.cpp:315 ViewMessages.cpp:97
+#: DlgEventLog.cpp:310 DlgEventLog.cpp:318 ViewMessages.cpp:97
 msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
 "messages by holding down the shift or command key while clicking on messages."
@@ -1602,7 +1602,7 @@ msgstr ""
 "Kopijuoti pasirinktas žinutes į laikinąją saugyklą. Keletą žinučių galite "
 "pažymėti spausdami Shift arba Command klavišus žymėjimo metu."
 
-#: DlgEventLog.cpp:309 DlgEventLog.cpp:317 ViewMessages.cpp:99
+#: DlgEventLog.cpp:312 DlgEventLog.cpp:320 ViewMessages.cpp:99
 msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
 "messages by holding down the shift or control key while clicking on messages."
@@ -1610,26 +1610,25 @@ msgstr ""
 "Kopijuoti pasirinktas žinutes į laikinąją saugyklą. Keletą žinučių galite "
 "pažymėti spausdami Shift arba Control klavišus žymėjimo metu."
 
-#: DlgEventLog.cpp:324 DlgItemProperties.cpp:66
+#: DlgEventLog.cpp:327 DlgItemProperties.cpp:67
 msgid "&Close"
 msgstr "Uždaryti"
 
-#: DlgEventLog.cpp:333 sg_BoincSimpleFrame.cpp:794 sg_DlgPreferences.cpp:447
-#: sg_ProjectsComponent.cpp:142
+#: DlgEventLog.cpp:336 sg_BoincSimpleFrame.cpp:794 sg_DlgPreferences.cpp:447
 #, c-format
 msgid "Get help with %s"
 msgstr ""
 
-#: DlgEventLog.cpp:347
+#: DlgEventLog.cpp:350
 #, fuzzy
 msgid "Show all &messages"
 msgstr "Rodyti visus pranešimus"
 
-#: DlgEventLog.cpp:348 DlgEventLog.cpp:350
+#: DlgEventLog.cpp:351 DlgEventLog.cpp:353
 msgid "Show messages for all projects"
 msgstr "Rodyti visų projektų žinutes"
 
-#: DlgEventLog.cpp:354 DlgEventLog.cpp:356
+#: DlgEventLog.cpp:357 DlgEventLog.cpp:359
 msgid "Show only the messages for the selected project"
 msgstr "Rodyti tik pasirinkto projekto žinutes"
 
@@ -1678,229 +1677,229 @@ msgstr "&Atšaukti"
 msgid "Don't show this dialog again."
 msgstr ""
 
-#: DlgItemProperties.cpp:163 DlgItemProperties.cpp:166
-#: DlgItemProperties.cpp:169 DlgItemProperties.cpp:172
+#: DlgItemProperties.cpp:164 DlgItemProperties.cpp:167
+#: DlgItemProperties.cpp:170 DlgItemProperties.cpp:173
 #, fuzzy
 msgid "Don't fetch tasks for "
 msgstr "Negauti užduočių procesoriui"
 
-#: DlgItemProperties.cpp:163
+#: DlgItemProperties.cpp:164
 msgid "Project preference"
 msgstr "Projekto nustatymai"
 
-#: DlgItemProperties.cpp:166
+#: DlgItemProperties.cpp:167
 #, fuzzy
 msgid "Account manager preference"
 msgstr "Abonento valdiklio tinklapis"
 
-#: DlgItemProperties.cpp:169
+#: DlgItemProperties.cpp:170
 #, fuzzy
 msgid "Project has no apps for "
 msgstr "Projektas nerastas"
 
-#: DlgItemProperties.cpp:172
+#: DlgItemProperties.cpp:173
 #, fuzzy
 msgid "Client configuration excludes "
 msgstr "Vartotojo abonementų kūrimas yra išjungtas"
 
-#: DlgItemProperties.cpp:176
+#: DlgItemProperties.cpp:177
 msgid " work fetch deferred for"
 msgstr ""
 
-#: DlgItemProperties.cpp:177
+#: DlgItemProperties.cpp:178
 msgid " work fetch deferral interval"
 msgstr ""
 
-#: DlgItemProperties.cpp:208
+#: DlgItemProperties.cpp:209
 msgid "Properties of project "
 msgstr ""
 
-#: DlgItemProperties.cpp:212 DlgOptions.cpp:218
+#: DlgItemProperties.cpp:213 DlgOptions.cpp:218
 msgid "General"
 msgstr "Bendri"
 
-#: DlgItemProperties.cpp:213
+#: DlgItemProperties.cpp:214
 msgid "Master URL"
 msgstr ""
 
-#: DlgItemProperties.cpp:214
+#: DlgItemProperties.cpp:215
 msgid "User name"
 msgstr "Vartotojo vardas"
 
-#: DlgItemProperties.cpp:215
+#: DlgItemProperties.cpp:216
 msgid "Team name"
 msgstr "Komanda"
 
-#: DlgItemProperties.cpp:216 ViewProjects.cpp:224
+#: DlgItemProperties.cpp:217 ViewProjects.cpp:224
 msgid "Resource share"
 msgstr "Resursų padalijimas"
 
-#: DlgItemProperties.cpp:218
+#: DlgItemProperties.cpp:219
 msgid "Scheduler RPC deferred for"
 msgstr ""
 
-#: DlgItemProperties.cpp:221
+#: DlgItemProperties.cpp:222
 msgid "File downloads deferred for"
 msgstr ""
 
-#: DlgItemProperties.cpp:224
+#: DlgItemProperties.cpp:225
 msgid "File uploads deferred for"
 msgstr ""
 
-#: DlgItemProperties.cpp:227
+#: DlgItemProperties.cpp:228
 msgid "Computer ID"
 msgstr ""
 
-#: DlgItemProperties.cpp:229
+#: DlgItemProperties.cpp:230
 msgid "Non CPU intensive"
 msgstr ""
 
-#: DlgItemProperties.cpp:229 DlgItemProperties.cpp:231
-#: DlgItemProperties.cpp:232 DlgItemProperties.cpp:234
-#: DlgItemProperties.cpp:237 DlgItemProperties.cpp:246
-#: DlgItemProperties.cpp:249 DlgItemProperties.cpp:252
+#: DlgItemProperties.cpp:230 DlgItemProperties.cpp:232
+#: DlgItemProperties.cpp:233 DlgItemProperties.cpp:235
+#: DlgItemProperties.cpp:238 DlgItemProperties.cpp:247
+#: DlgItemProperties.cpp:250 DlgItemProperties.cpp:253
 msgid "yes"
 msgstr "taip"
 
-#: DlgItemProperties.cpp:231
+#: DlgItemProperties.cpp:232
 msgid "Suspended via GUI"
 msgstr ""
 
-#: DlgItemProperties.cpp:231 DlgItemProperties.cpp:232
+#: DlgItemProperties.cpp:232 DlgItemProperties.cpp:233
 msgid "no"
 msgstr "ne"
 
-#: DlgItemProperties.cpp:232
+#: DlgItemProperties.cpp:233
 msgid "Don't request more work"
 msgstr ""
 
-#: DlgItemProperties.cpp:234
+#: DlgItemProperties.cpp:235
 msgid "Scheduler call in progress"
 msgstr "Jungiamasi prie projekto serverio"
 
-#: DlgItemProperties.cpp:237
+#: DlgItemProperties.cpp:238
 msgid "Trickle-up pending"
 msgstr ""
 
-#: DlgItemProperties.cpp:240 DlgItemProperties.cpp:242
+#: DlgItemProperties.cpp:241 DlgItemProperties.cpp:243
 #, fuzzy
 msgid "Host location"
 msgstr "Kompiuterio suminiai rodikliai"
 
-#: DlgItemProperties.cpp:242
+#: DlgItemProperties.cpp:243
 #, fuzzy
 msgid "default"
 msgstr "&Nustatyti numatytus nustatymus"
 
-#: DlgItemProperties.cpp:246
+#: DlgItemProperties.cpp:247
 msgid "Added via account manager"
 msgstr "Prisijungta naudojant abonemento valdiklį"
 
-#: DlgItemProperties.cpp:249
+#: DlgItemProperties.cpp:250
 msgid "Remove when tasks done"
 msgstr ""
 
-#: DlgItemProperties.cpp:252
+#: DlgItemProperties.cpp:253
 msgid "Ended"
 msgstr "Užbaigtas"
 
-#: DlgItemProperties.cpp:254
+#: DlgItemProperties.cpp:255
 msgid "Credit"
 msgstr ""
 
-#: DlgItemProperties.cpp:255
+#: DlgItemProperties.cpp:256
 msgid "User"
 msgstr ""
 
-#: DlgItemProperties.cpp:262
+#: DlgItemProperties.cpp:263
 msgid "Host"
 msgstr ""
 
-#: DlgItemProperties.cpp:271
+#: DlgItemProperties.cpp:272
 msgid "Scheduling"
 msgstr ""
 
-#: DlgItemProperties.cpp:272
+#: DlgItemProperties.cpp:273
 msgid "Scheduling priority"
 msgstr ""
 
-#: DlgItemProperties.cpp:273
+#: DlgItemProperties.cpp:274
 msgid "CPU"
 msgstr ""
 
-#: DlgItemProperties.cpp:297
+#: DlgItemProperties.cpp:298
 msgid "Duration correction factor"
 msgstr ""
 
-#: DlgItemProperties.cpp:311
+#: DlgItemProperties.cpp:312
 msgid "Properties of task "
 msgstr ""
 
-#: DlgItemProperties.cpp:323 ViewWork.cpp:238
+#: DlgItemProperties.cpp:324 ViewWork.cpp:238
 msgid "Application"
 msgstr "Programa"
 
-#: DlgItemProperties.cpp:324
+#: DlgItemProperties.cpp:325
 msgid "Workunit name"
 msgstr ""
 
-#: DlgItemProperties.cpp:325
+#: DlgItemProperties.cpp:326
 msgid "State"
 msgstr "Būsena"
 
-#: DlgItemProperties.cpp:328
+#: DlgItemProperties.cpp:329
 msgid "Received"
 msgstr "Gauta"
 
-#: DlgItemProperties.cpp:331
+#: DlgItemProperties.cpp:332
 msgid "Report deadline"
 msgstr "Atlikti iki"
 
-#: DlgItemProperties.cpp:333
+#: DlgItemProperties.cpp:334
 msgid "Resources"
 msgstr ""
 
-#: DlgItemProperties.cpp:336
+#: DlgItemProperties.cpp:337
 msgid "Estimated computation size"
 msgstr ""
 
-#: DlgItemProperties.cpp:339
+#: DlgItemProperties.cpp:340
 msgid "CPU time at last checkpoint"
 msgstr ""
 
-#: DlgItemProperties.cpp:340 DlgItemProperties.cpp:355
+#: DlgItemProperties.cpp:341 DlgItemProperties.cpp:356
 msgid "CPU time"
 msgstr "Procesoriaus laikas"
 
-#: DlgItemProperties.cpp:342 DlgItemProperties.cpp:356
+#: DlgItemProperties.cpp:343 DlgItemProperties.cpp:357
 msgid "Elapsed time"
 msgstr "Praėjęs laikas"
 
-#: DlgItemProperties.cpp:344
+#: DlgItemProperties.cpp:345
 msgid "Estimated time remaining"
 msgstr "Numanomas likęs laikas"
 
-#: DlgItemProperties.cpp:345
+#: DlgItemProperties.cpp:346
 msgid "Fraction done"
 msgstr "Atlikta dalis"
 
-#: DlgItemProperties.cpp:346
+#: DlgItemProperties.cpp:347
 msgid "Virtual memory size"
 msgstr ""
 
-#: DlgItemProperties.cpp:347
+#: DlgItemProperties.cpp:348
 msgid "Working set size"
 msgstr ""
 
-#: DlgItemProperties.cpp:349
+#: DlgItemProperties.cpp:350
 msgid "Directory"
 msgstr ""
 
-#: DlgItemProperties.cpp:352
+#: DlgItemProperties.cpp:353
 msgid "Process ID"
 msgstr ""
 
-#: DlgItemProperties.cpp:426 ViewWork.cpp:1032 sg_TaskPanel.cpp:810
+#: DlgItemProperties.cpp:427 ViewWork.cpp:1032 sg_TaskPanel.cpp:810
 msgid "Local: "
 msgstr ""
 
@@ -2260,211 +2259,211 @@ msgstr "Tyrimai"
 msgid "Learn about the projects hosted at World Community Grid"
 msgstr "Sužinokite daugiau apie World Community Grid projektus"
 
-#: MainDocument.cpp:586
+#: MainDocument.cpp:585
 msgid "Starting client"
 msgstr ""
 
-#: MainDocument.cpp:594
+#: MainDocument.cpp:593
 #, fuzzy
 msgid "Connecting to client"
 msgstr "Iš naujo prisijungiama prie kliento."
 
-#: MainDocument.cpp:1186
+#: MainDocument.cpp:1185
 msgid "Retrieving system state; please wait..."
 msgstr "Gaunama sistemos būklė; prašome palaukti..."
 
-#: MainDocument.cpp:1807
+#: MainDocument.cpp:1806
 #, fuzzy
 msgid "Missing application"
 msgstr "Programa"
 
-#: MainDocument.cpp:1808
+#: MainDocument.cpp:1807
 msgid ""
 "Please download and install the CoRD application from http://cord."
 "sourceforge.net"
 msgstr ""
 
-#: MainDocument.cpp:2423
+#: MainDocument.cpp:2422
 msgid "on batteries"
 msgstr "veikia iš baterijų"
 
-#: MainDocument.cpp:2424
+#: MainDocument.cpp:2423
 msgid "computer is in use"
 msgstr "kompiuteris naudojamas"
 
-#: MainDocument.cpp:2425
+#: MainDocument.cpp:2424
 msgid "user request"
 msgstr ""
 
-#: MainDocument.cpp:2426
+#: MainDocument.cpp:2425
 msgid "time of day"
 msgstr "paros metas"
 
-#: MainDocument.cpp:2427
+#: MainDocument.cpp:2426
 msgid "CPU benchmarks in progress"
 msgstr "Matuojamas procesoriaus greitis"
 
-#: MainDocument.cpp:2428
+#: MainDocument.cpp:2427
 msgid "need disk space - check preferences"
 msgstr "reikalinga vieta diske - patikrinkite nustatymus"
 
-#: MainDocument.cpp:2429
+#: MainDocument.cpp:2428
 msgid "computer is not in use"
 msgstr "kompiuteris nėra naudojamas"
 
-#: MainDocument.cpp:2430
+#: MainDocument.cpp:2429
 msgid "starting up"
 msgstr ""
 
-#: MainDocument.cpp:2431
+#: MainDocument.cpp:2430
 msgid "an exclusive app is running"
 msgstr ""
 
-#: MainDocument.cpp:2432
+#: MainDocument.cpp:2431
 msgid "CPU is busy"
 msgstr ""
 
-#: MainDocument.cpp:2433
+#: MainDocument.cpp:2432
 msgid "network bandwidth limit exceeded"
 msgstr ""
 
-#: MainDocument.cpp:2434
+#: MainDocument.cpp:2433
 msgid "requested by operating system"
 msgstr ""
 
-#: MainDocument.cpp:2436
+#: MainDocument.cpp:2435
 #, fuzzy
 msgid "unknown reason"
 msgstr "(Nežinoma)"
 
-#: MainDocument.cpp:2458
+#: MainDocument.cpp:2457
 msgid "GPU missing, "
 msgstr ""
 
-#: MainDocument.cpp:2465
+#: MainDocument.cpp:2464
 msgid "New"
 msgstr "Nauja"
 
-#: MainDocument.cpp:2469
+#: MainDocument.cpp:2468
 msgid "Download failed"
 msgstr "Parsiuntimas nepavyko"
 
-#: MainDocument.cpp:2471
+#: MainDocument.cpp:2470
 msgid "Downloading"
 msgstr "Parsiunčiama"
 
-#: MainDocument.cpp:2473 MainDocument.cpp:2543
+#: MainDocument.cpp:2472 MainDocument.cpp:2542
 msgid " (suspended - "
 msgstr " (sustabdyta - "
 
-#: MainDocument.cpp:2481
+#: MainDocument.cpp:2480
 msgid "Project suspended by user"
 msgstr "Projektą sustabdė vartotojas"
 
-#: MainDocument.cpp:2483
+#: MainDocument.cpp:2482
 msgid "Task suspended by user"
 msgstr "Sustabdė vartotojas"
 
-#: MainDocument.cpp:2485
+#: MainDocument.cpp:2484
 msgid "Suspended - "
 msgstr "Sustabdyta - "
 
 # 75%
-#: MainDocument.cpp:2491
+#: MainDocument.cpp:2490
 #, fuzzy
 msgid "GPU suspended - "
 msgstr " (sustabdyta - "
 
-#: MainDocument.cpp:2498
+#: MainDocument.cpp:2497
 msgid "Waiting for memory"
 msgstr "Laukiama atminties"
 
-#: MainDocument.cpp:2500
+#: MainDocument.cpp:2499
 msgid "Waiting for shared memory"
 msgstr ""
 
-#: MainDocument.cpp:2503
+#: MainDocument.cpp:2502
 msgid "Running, high priority"
 msgstr ""
 
-#: MainDocument.cpp:2505 sg_ImageButton.cpp:88
+#: MainDocument.cpp:2504
 msgid "Running"
 msgstr "Vykdoma"
 
-#: MainDocument.cpp:2508
+#: MainDocument.cpp:2507
 msgid " (non-CPU-intensive)"
 msgstr ""
 
-#: MainDocument.cpp:2511
+#: MainDocument.cpp:2510
 msgid "Waiting to run"
 msgstr "Paruoštas vykdymui"
 
-#: MainDocument.cpp:2513 MainDocument.cpp:2519
+#: MainDocument.cpp:2512 MainDocument.cpp:2518
 msgid "Ready to start"
 msgstr "Paruoštas vykdymui"
 
-#: MainDocument.cpp:2523
+#: MainDocument.cpp:2522
 msgid " (Scheduler wait: "
 msgstr ""
 
-#: MainDocument.cpp:2527
+#: MainDocument.cpp:2526
 msgid " (Scheduler wait)"
 msgstr ""
 
-#: MainDocument.cpp:2531
+#: MainDocument.cpp:2530
 #, fuzzy
 msgid " (Waiting for network access)"
 msgstr "Laukiama atminties"
 
-#: MainDocument.cpp:2535
+#: MainDocument.cpp:2534
 msgid "Computation error"
 msgstr "Skaičiavimo klaida"
 
-#: MainDocument.cpp:2539
+#: MainDocument.cpp:2538
 msgid "Upload failed"
 msgstr "Išsiuntimas nepavyko"
 
-#: MainDocument.cpp:2541
+#: MainDocument.cpp:2540
 msgid "Uploading"
 msgstr "Išsiunčiama"
 
-#: MainDocument.cpp:2552
+#: MainDocument.cpp:2551
 msgid "Aborted by user"
 msgstr "Atšaukė vartotojas"
 
-#: MainDocument.cpp:2555
+#: MainDocument.cpp:2554
 msgid "Aborted by project"
 msgstr "Atšaukė projektas"
 
-#: MainDocument.cpp:2558
+#: MainDocument.cpp:2557
 msgid "Aborted: not started by deadline"
 msgstr ""
 
-#: MainDocument.cpp:2561
+#: MainDocument.cpp:2560
 msgid "Aborted: disk limit exceeded"
 msgstr ""
 
-#: MainDocument.cpp:2564
+#: MainDocument.cpp:2563
 msgid "Aborted: run time limit exceeded"
 msgstr ""
 
-#: MainDocument.cpp:2567
+#: MainDocument.cpp:2566
 msgid "Aborted: memory limit exceeded"
 msgstr ""
 
-#: MainDocument.cpp:2570
+#: MainDocument.cpp:2569
 msgid "Aborted"
 msgstr "Nutrauktas"
 
-#: MainDocument.cpp:2575
+#: MainDocument.cpp:2574
 msgid "Acknowledged"
 msgstr "Patvirtinta"
 
-#: MainDocument.cpp:2577
+#: MainDocument.cpp:2576
 msgid "Ready to report"
 msgstr "Paruoštas perdavimui"
 
-#: MainDocument.cpp:2579
+#: MainDocument.cpp:2578
 #, c-format
 msgid "Error: invalid state '%d'"
 msgstr "Klaida: neteisinga būsena \"%d\""
@@ -2523,62 +2522,62 @@ msgstr "Patikrinkite el. pašto adresą ir slaptažodį ir pabandykite dar kart�
 msgid "more..."
 msgstr ""
 
-#: ProjectInfoPage.cpp:467 ProjectInfoPage.cpp:766 ProjectInfoPage.cpp:770
+#: ProjectInfoPage.cpp:479 ProjectInfoPage.cpp:786 ProjectInfoPage.cpp:790
 msgid "All"
 msgstr ""
 
-#: ProjectInfoPage.cpp:602
+#: ProjectInfoPage.cpp:617
 msgid "Choose a project"
 msgstr ""
 
-#: ProjectInfoPage.cpp:606
+#: ProjectInfoPage.cpp:621
 msgid "To choose a project, click its name or type its URL below."
 msgstr ""
 "Kad pasirinktumėte projektą, spragtelėkite jo vardą arba žemiau įveskite jo "
 "tinklapio adresą."
 
-#: ProjectInfoPage.cpp:610
+#: ProjectInfoPage.cpp:625
 msgid "Categories:"
 msgstr ""
 
-#: ProjectInfoPage.cpp:614 sg_ProjectPanel.cpp:89
+#: ProjectInfoPage.cpp:629 sg_ProjectPanel.cpp:89
 #, fuzzy
 msgid "Projects:"
 msgstr "Projektai"
 
-#: ProjectInfoPage.cpp:618
+#: ProjectInfoPage.cpp:633
 msgid "Project details"
 msgstr ""
 
-#: ProjectInfoPage.cpp:622
+#: ProjectInfoPage.cpp:637
 msgid "Research area:"
 msgstr ""
 
-#: ProjectInfoPage.cpp:626
+#: ProjectInfoPage.cpp:641
 msgid "Organization:"
 msgstr ""
 
-#: ProjectInfoPage.cpp:630
+#: ProjectInfoPage.cpp:645
 #, fuzzy
 msgid "Web site:"
 msgstr "Tinklapiai"
 
-#: ProjectInfoPage.cpp:634
+#: ProjectInfoPage.cpp:649
 msgid "Supported systems:"
 msgstr ""
 
-#: ProjectInfoPage.cpp:638
+#: ProjectInfoPage.cpp:653
 #, fuzzy
 msgid "Project URL:"
 msgstr "Projekto tinklapis:"
 
-#: ProjectInfoPage.cpp:814
+#: ProjectInfoPage.cpp:834
 msgid ""
 "This project may not have work for your type of computer.  Do you want to "
 "add it anyway?"
 msgstr ""
 
-#: ProjectInfoPage.cpp:838
+#: ProjectInfoPage.cpp:858
 msgid "You already added this project. Please choose a different project."
 msgstr ""
 
@@ -2964,13 +2963,11 @@ msgid "Removing project..."
 msgstr "Šalinamas projektas..."
 
 #: ViewProjects.cpp:496 sg_ProjectCommandPopup.cpp:251
-#: sg_StatImageLoader.cpp:192
 #, c-format
 msgid "Are you sure you want to remove project '%s'?"
 msgstr "Ar tikrai norite pašalinti projektą \"%s\"?"
 
 #: ViewProjects.cpp:502 sg_ProjectCommandPopup.cpp:257
-#: sg_StatImageLoader.cpp:138 sg_StatImageLoader.cpp:198
 msgid "Remove Project"
 msgstr ""
 
@@ -3351,7 +3348,7 @@ msgstr ""
 msgid "Show only active tasks."
 msgstr ""
 
-#: ViewWork.cpp:194 sg_TaskCommandPopup.cpp:60 sg_ViewTabPage.cpp:424
+#: ViewWork.cpp:194 sg_TaskCommandPopup.cpp:60
 msgid "Show graphics"
 msgstr "Rodyti grafiką"
 
@@ -3534,7 +3531,7 @@ msgstr "Ar norite atšaukti?"
 msgid "Question"
 msgstr "Klausimas"
 
-#: sg_BoincSimpleFrame.cpp:145 sg_BoincSimpleGUI.cpp:119
+#: sg_BoincSimpleFrame.cpp:145
 msgid "Advanced View...\tCtrl+Shift+A"
 msgstr ""
 
@@ -3551,7 +3548,7 @@ msgstr ""
 msgid "Select the appearance of the user interface."
 msgstr ""
 
-#: sg_BoincSimpleFrame.cpp:202 sg_BoincSimpleGUI.cpp:147
+#: sg_BoincSimpleFrame.cpp:202
 #, c-format
 msgid "&%s"
 msgstr "%s"
@@ -3572,64 +3569,6 @@ msgstr ""
 #: sg_BoincSimpleFrame.cpp:773
 msgid "Open a window to view notices from projects or BOINC"
 msgstr ""
-
-#: sg_BoincSimpleGUI.cpp:120
-#, fuzzy
-msgid "Display the advanced (accessible) graphical interface."
-msgstr "Rodyti supaprastintą vartotojo sąsają."
-
-#: sg_ClientStateIndicator.cpp:288 sg_TaskPanel.cpp:1210
-msgid "Retrieving current status."
-msgstr "Gaunama dabartinė būsena."
-
-#: sg_ClientStateIndicator.cpp:291 sg_TaskPanel.cpp:451
-msgid "You don't have any projects.  Please Add a Project."
-msgstr "Jūs neprisijungęs prie nė vieno projekto. Prisijunkite."
-
-#: sg_ClientStateIndicator.cpp:294 sg_TaskPanel.cpp:1216
-msgid "Downloading work from the server."
-msgstr "Gaunamos užduotys iš serverio."
-
-#: sg_ClientStateIndicator.cpp:299 sg_TaskPanel.cpp:1221
-msgid "Processing Suspended:  Running On Batteries."
-msgstr "Skaičiavimai sustabdyti: veikiama iš baterijų."
-
-#: sg_ClientStateIndicator.cpp:301 sg_TaskPanel.cpp:1223
-msgid "Processing Suspended:  User Active."
-msgstr "Skaičiavimai sustabdyti: vartotojas aktyvus."
-
-#: sg_ClientStateIndicator.cpp:303 sg_TaskPanel.cpp:1225
-msgid "Processing Suspended:  User paused processing."
-msgstr "Skaičiavimai sustabdyti: sustabdė vartotojas."
-
-#: sg_ClientStateIndicator.cpp:305 sg_TaskPanel.cpp:1227
-msgid "Processing Suspended:  Time of Day."
-msgstr "Skaičiavimai sustabdyti: dienos laikas."
-
-#: sg_ClientStateIndicator.cpp:307 sg_TaskPanel.cpp:1229
-msgid "Processing Suspended:  Benchmarks Running."
-msgstr "Skaičiavimai sustabdyti: matuojamas greitis."
-
-#: sg_ClientStateIndicator.cpp:309 sg_TaskPanel.cpp:1231
-msgid "Processing Suspended."
-msgstr "Skaičiavimai sustabdyti."
-
-#: sg_ClientStateIndicator.cpp:313 sg_TaskPanel.cpp:1235
-msgid "Waiting to contact project servers."
-msgstr "Laukiama susijungimo su projekto serveriais."
-
-#: sg_ClientStateIndicator.cpp:317 sg_ClientStateIndicator.cpp:325
-#: sg_TaskPanel.cpp:1239 sg_TaskPanel.cpp:1248
-msgid "Retrieving current status"
-msgstr "Gaunama dabartinė būsena"
-
-#: sg_ClientStateIndicator.cpp:320 sg_TaskPanel.cpp:1243
-msgid "No work available to process"
-msgstr "Nėra vykdymui paruoštų užduočių"
-
-#: sg_ClientStateIndicator.cpp:322 sg_TaskPanel.cpp:1245
-msgid "Unable to connect to the core client"
-msgstr "Nepavyksta prisijungti prie kliento"
 
 #: sg_DlgMessages.cpp:146
 msgid "Close"
@@ -3764,43 +3703,6 @@ msgstr ""
 msgid "Do you really want to clear all local preferences?\n"
 msgstr "Ar norite pašalinti visus vietinius nustatymus?"
 
-#: sg_ImageButton.cpp:90
-msgid "Paused: Other work running"
-msgstr "Skaičiavimai sustabdyti: veikia kitos užduotys"
-
-#: sg_ImageButton.cpp:92
-msgid "Paused: User initiated.  Click 'Resume' to continue"
-msgstr ""
-"Skaičiavimai sustabdyti: vartotojo prašymas. Spauskite \"Tęsti\" pratęsimui"
-
-#: sg_ImageButton.cpp:94
-msgid "Paused: User active"
-msgstr "Skaičiavimai sustabdyti: vartotojas aktyvus"
-
-#: sg_ImageButton.cpp:96
-msgid "Paused: Computer on battery"
-msgstr "Skaičiavimai sustabdyti: kompiuteris veikia iš baterijų"
-
-#: sg_ImageButton.cpp:98
-msgid "Paused: Time of Day"
-msgstr "Skaičiavimai sustabdyti: paros metas"
-
-#: sg_ImageButton.cpp:100
-msgid "Paused: Benchmarks running"
-msgstr ""
-
-#: sg_ImageButton.cpp:102
-msgid "Paused"
-msgstr "Skaičiavimai sustabdyti"
-
-#: sg_ImageButton.cpp:104
-msgid "Paused: Application start delayed"
-msgstr ""
-
-#: sg_ImageButton.cpp:132
-msgid "Click to show project graphics"
-msgstr ""
-
 #: sg_ProjectPanel.cpp:72
 #, fuzzy
 msgid "Add Project"
@@ -3814,7 +3716,7 @@ msgstr ""
 msgid "Work done for this project"
 msgstr ""
 
-#: sg_ProjectPanel.cpp:77 sg_ProjectsComponent.cpp:123
+#: sg_ProjectPanel.cpp:77
 msgid "Synchronize projects with account manager system"
 msgstr "Sinchronizuoti projektus su abonento valdiklio sistema"
 
@@ -3842,35 +3744,6 @@ msgstr ""
 msgid "Pop up a menu of commands to apply to project %s"
 msgstr ""
 
-#: sg_ProjectsComponent.cpp:196 sg_ProjectsComponent.cpp:207
-msgid "Open a window to view messages"
-msgstr "Atverti langą žinučių peržiūrai"
-
-#: sg_ProjectsComponent.cpp:225
-msgid "Stop all activity"
-msgstr "Sustabdyti visus veiksmus"
-
-#: sg_ProjectsComponent.cpp:237
-msgid "Resume activity"
-msgstr ""
-
-#: sg_ProjectsComponent.cpp:254
-msgid "Open a window to set your preferences"
-msgstr "Atverti langą nustatymų keitimui"
-
-#: sg_ProjectsComponent.cpp:271
-msgid "Switch to the BOINC advanced view"
-msgstr ""
-
-#: sg_ProjectsComponent.cpp:298
-msgid "My Projects:"
-msgstr "Mano projektai:"
-
-#: sg_StatImageLoader.cpp:101
-#, c-format
-msgid "%s. Work done by %s: %0.2f"
-msgstr "%s. %s atliktas darbas: %0.2f"
-
 #: sg_TaskCommandPopup.cpp:67
 msgid "Suspend this task."
 msgstr ""
@@ -3888,6 +3761,10 @@ msgid ""
 msgstr ""
 "Ar tikrai norite nutraukti šią užduotį '%s'?\n"
 "(Pažanga: %s, Būklė: %s)"
+
+#: sg_TaskPanel.cpp:451
+msgid "You don't have any projects.  Please Add a Project."
+msgstr "Jūs neprisijungęs prie nė vieno projekto. Prisijunkite."
 
 #: sg_TaskPanel.cpp:452
 msgid "Not available"
@@ -3954,31 +3831,53 @@ msgstr "Likęs laikas"
 msgid "Status: %s"
 msgstr ""
 
-#: sg_ViewTabPage.cpp:140 sg_ViewTabPage.cpp:280
-#, c-format
-msgid "%.1lf"
-msgstr ""
+#: sg_TaskPanel.cpp:1210
+msgid "Retrieving current status."
+msgstr "Gaunama dabartinė būsena."
 
-#: sg_ViewTabPage.cpp:409
-#, c-format
-msgid "%d hr %d min %d sec"
-msgstr ""
+#: sg_TaskPanel.cpp:1216
+msgid "Downloading work from the server."
+msgstr "Gaunamos užduotys iš serverio."
 
-#: sg_ViewTabPage.cpp:423
-msgid "Are you sure you want to display graphics on a remote machine?"
-msgstr "Ar tikrai norite rodyti grafiką nutolusiame kompiuteryje?"
+#: sg_TaskPanel.cpp:1221
+msgid "Processing Suspended:  Running On Batteries."
+msgstr "Skaičiavimai sustabdyti: veikiama iš baterijų."
 
-#: sg_ViewTabPage.cpp:446
-msgid "Application: "
-msgstr "Programa:"
+#: sg_TaskPanel.cpp:1223
+msgid "Processing Suspended:  User Active."
+msgstr "Skaičiavimai sustabdyti: vartotojas aktyvus."
 
-#: sg_ViewTabPage.cpp:449 sg_ViewTabPage.cpp:453
-msgid "Time Remaining: "
-msgstr "Likęs laikas:"
+#: sg_TaskPanel.cpp:1225
+msgid "Processing Suspended:  User paused processing."
+msgstr "Skaičiavimai sustabdyti: sustabdė vartotojas."
 
-#: sg_ViewTabPage.cpp:452
-msgid "Elapsed Time: "
-msgstr "Praėjęs laikas:"
+#: sg_TaskPanel.cpp:1227
+msgid "Processing Suspended:  Time of Day."
+msgstr "Skaičiavimai sustabdyti: dienos laikas."
+
+#: sg_TaskPanel.cpp:1229
+msgid "Processing Suspended:  Benchmarks Running."
+msgstr "Skaičiavimai sustabdyti: matuojamas greitis."
+
+#: sg_TaskPanel.cpp:1231
+msgid "Processing Suspended."
+msgstr "Skaičiavimai sustabdyti."
+
+#: sg_TaskPanel.cpp:1235
+msgid "Waiting to contact project servers."
+msgstr "Laukiama susijungimo su projekto serveriais."
+
+#: sg_TaskPanel.cpp:1239 sg_TaskPanel.cpp:1248
+msgid "Retrieving current status"
+msgstr "Gaunama dabartinė būsena"
+
+#: sg_TaskPanel.cpp:1243
+msgid "No work available to process"
+msgstr "Nėra vykdymui paruoštų užduočių"
+
+#: sg_TaskPanel.cpp:1245
+msgid "Unable to connect to the core client"
+msgstr "Nepavyksta prisijungti prie kliento"
 
 #: wizardex.cpp:377 wizardex.cpp:553
 msgid "&Next >"
@@ -4018,6 +3917,57 @@ msgstr ""
 #, c-format
 msgid "Quit %s"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Display the advanced (accessible) graphical interface."
+#~ msgstr "Rodyti supaprastintą vartotojo sąsają."
+
+#~ msgid "Paused: Other work running"
+#~ msgstr "Skaičiavimai sustabdyti: veikia kitos užduotys"
+
+#~ msgid "Paused: User initiated.  Click 'Resume' to continue"
+#~ msgstr ""
+#~ "Skaičiavimai sustabdyti: vartotojo prašymas. Spauskite \"Tęsti\" pratęsimui"
+
+#~ msgid "Paused: User active"
+#~ msgstr "Skaičiavimai sustabdyti: vartotojas aktyvus"
+
+#~ msgid "Paused: Computer on battery"
+#~ msgstr "Skaičiavimai sustabdyti: kompiuteris veikia iš baterijų"
+
+#~ msgid "Paused: Time of Day"
+#~ msgstr "Skaičiavimai sustabdyti: paros metas"
+
+#~ msgid "Paused"
+#~ msgstr "Skaičiavimai sustabdyti"
+
+#~ msgid "Open a window to view messages"
+#~ msgstr "Atverti langą žinučių peržiūrai"
+
+#~ msgid "Stop all activity"
+#~ msgstr "Sustabdyti visus veiksmus"
+
+#~ msgid "Open a window to set your preferences"
+#~ msgstr "Atverti langą nustatymų keitimui"
+
+#~ msgid "My Projects:"
+#~ msgstr "Mano projektai:"
+
+#, c-format
+#~ msgid "%s. Work done by %s: %0.2f"
+#~ msgstr "%s. %s atliktas darbas: %0.2f"
+
+#~ msgid "Are you sure you want to display graphics on a remote machine?"
+#~ msgstr "Ar tikrai norite rodyti grafiką nutolusiame kompiuteryje?"
+
+#~ msgid "Application: "
+#~ msgstr "Programa:"
+
+#~ msgid "Time Remaining: "
+#~ msgstr "Likęs laikas:"
+
+#~ msgid "Elapsed Time: "
+#~ msgstr "Praėjęs laikas:"
 
 #~ msgid "Account manager website"
 #~ msgstr "Abonento valdiklio tinklapis"
