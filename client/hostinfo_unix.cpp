@@ -1080,7 +1080,7 @@ kern_return_t SMCReadKey(UInt32 key, SMCBytes_t val) {
     inputStructure.key = key;
     inputStructure.data8 = SMC_CMD_READ_KEYINFO;
 
-#if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_5
+#if 1   // Requires OS 10.5
     result = IOConnectCallStructMethod(conn,
         KERNEL_INDEX_SMC,
         &inputStructure,
@@ -1088,7 +1088,7 @@ kern_return_t SMCReadKey(UInt32 key, SMCBytes_t val) {
         &outputStructure,
         &structureOutputSize
     );
-#else
+#else   // Deprecated in OS 10.5
     result = IOConnectMethodStructureIStructureO(conn,
         KERNEL_INDEX_SMC,
         sizeof(inputStructure),
@@ -1104,7 +1104,7 @@ kern_return_t SMCReadKey(UInt32 key, SMCBytes_t val) {
     inputStructure.keyInfo.dataSize = outputStructure.keyInfo.dataSize;
     inputStructure.data8 = SMC_CMD_READ_BYTES;
 
-#if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_5
+#if 1   // Requires OS 10.5
     result = IOConnectCallStructMethod(conn,
         KERNEL_INDEX_SMC,
         &inputStructure,
@@ -1112,7 +1112,7 @@ kern_return_t SMCReadKey(UInt32 key, SMCBytes_t val) {
         &outputStructure,
         &structureOutputSize
     );
-#else
+#else   // Deprecated in OS 10.5
     result = IOConnectMethodStructureIStructureO(conn,
         KERNEL_INDEX_SMC,
         sizeof(inputStructure),
