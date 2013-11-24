@@ -39,7 +39,9 @@ function show_uotd($profile) {
     $user = lookup_user_id($profile->userid);
     echo uotd_thumbnail($profile, $user);
     echo user_links($user, true)."<br>";
-    echo sub_sentence(output_transform(sanitize_tags($profile->response1)), ' ', 150, true);
+    $x = output_transform($profile->response1);
+    $x = sanitize_tags($x);
+    echo sub_sentence($x, ' ', 150, true);
 }
 
 // return the last UOTD profile, or null
@@ -174,9 +176,8 @@ function generate_uotd_gadget($profile, $user) {
         if($age <= 86400+3600) { // allow for slop
             $x .= uotd_thumbnail($profile, $user);
             $x .= user_links($user);
-            $x .= "&nbsp;&nbsp;".
-                sub_sentence(sanitize_tags(output_transform($profile->response1)), ' ',
-                             250, true);
+            $resp = sanitize_tags(output_transform($profile->response1));
+            $x .= "&nbsp;&nbsp;". sub_sentence($resp, ' ', 250, true);
         }
         else {
             $x .= "<font color='fuscia'>
