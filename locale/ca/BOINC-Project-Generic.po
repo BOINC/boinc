@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2013-11-23 00:00 PST\n"
+"POT-Creation-Date: 2013-11-24 00:00 PST\n"
 "PO-Revision-Date: 2013-11-09 22:00+0000\n"
 "Last-Translator: Xavier <xavi.mormur@gmail.com>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
@@ -692,7 +692,7 @@ msgstr "%1 KB/sec"
 #: ../inc/host.inc:159 ../inc/host.inc:166 ../inc/result.inc:216
 #: ../inc/result.inc:226 ../inc/result.inc:244 ../inc/result.inc:262
 #: ../inc/result.inc:278 ../user/explain_state.php:56
-#: ../user/host_app_versions.php:29
+#: ../user/host_app_versions.php:30
 msgid "Unknown"
 msgstr "Desconegut"
 
@@ -700,7 +700,7 @@ msgstr "Desconegut"
 msgid "Average download rate"
 msgstr "Velocitat mitja de descàrrega"
 
-#: ../inc/host.inc:169 ../user/host_app_versions.php:64
+#: ../inc/host.inc:169 ../user/host_app_versions.php:65
 msgid "Average turnaround time"
 msgstr "Temps de resposta mitjà"
 
@@ -1424,7 +1424,7 @@ msgstr "No %1m\\'agrada%2 aquest perfil"
 msgid "Anonymous platform"
 msgstr "Plataforma anònima"
 
-#: ../inc/result.inc:53
+#: ../inc/result.inc:53 ../user/host_app_versions.php:26
 msgid "NVIDIA GPU"
 msgstr "GPU NVIDIA"
 
@@ -1432,7 +1432,7 @@ msgstr "GPU NVIDIA"
 msgid "ATI GPU"
 msgstr "GPU ATI"
 
-#: ../inc/result.inc:57
+#: ../inc/result.inc:57 ../user/host_app_versions.php:28
 msgid "Intel GPU"
 msgstr "GPU Intel"
 
@@ -4743,51 +4743,47 @@ msgstr ""
 msgid "If you have not already done so, %1download BOINC client software%2."
 msgstr "Si encara no ho ha fet, %1descarregui el programari client de BOINC %2."
 
-#: ../user/host_app_versions.php:26
-msgid "nvidia GPU"
-msgstr "GPU nvidia"
-
-#: ../user/host_app_versions.php:36
+#: ../user/host_app_versions.php:37
 msgid "Anonymous platform, missing app"
 msgstr "Plataforma anònima, falta l'aplicació"
 
-#: ../user/host_app_versions.php:39
+#: ../user/host_app_versions.php:40
 msgid "anonymous platform"
 msgstr "plataforma anònima"
 
-#: ../user/host_app_versions.php:42
+#: ../user/host_app_versions.php:43
 msgid "Missing app version"
 msgstr "Manca la versió de l'aplicació"
 
-#: ../user/host_app_versions.php:44
+#: ../user/host_app_versions.php:45
 msgid "Missing app"
 msgstr "Manca l'aplicació"
 
-#: ../user/host_app_versions.php:46
+#: ../user/host_app_versions.php:47
 msgid "Missing platform"
 msgstr "Falta la plataforma"
 
-#: ../user/host_app_versions.php:55
+#: ../user/host_app_versions.php:56
 msgid "Number of tasks completed"
 msgstr "Nombre de tasques completades"
 
-#: ../user/host_app_versions.php:56
+#: ../user/host_app_versions.php:57
 msgid "Max tasks per day"
 msgstr "Nombre màxim de tasques per dia"
 
-#: ../user/host_app_versions.php:57
+#: ../user/host_app_versions.php:58
 msgid "Number of tasks today"
 msgstr "Nombre de tasques d'avui"
 
-#: ../user/host_app_versions.php:58
+#: ../user/host_app_versions.php:59
 msgid "Consecutive valid tasks"
 msgstr "Tasques vàlides consecutives"
 
-#: ../user/host_app_versions.php:62
+#: ../user/host_app_versions.php:63
 msgid "Average processing rate"
 msgstr "Taxa mitjana de processament"
 
-#: ../user/host_app_versions.php:71
+#: ../user/host_app_versions.php:72
 msgid "Application details for host %1"
 msgstr "Característiques de l'aplicació del host %1"
 
@@ -7047,6 +7043,9 @@ msgstr ""
 #: ../project.sample/project_specific_prefs.inc:91
 msgid "(all applications)"
 msgstr "(totes les aplicacions)"
+
+#~ msgid "nvidia GPU"
+#~ msgstr "GPU nvidia"
 
 #~ msgid ""
 #~ "This project hasn\\'t created an email message - please notify its "
