@@ -1061,11 +1061,6 @@ void ACTIVE_TASK_SET::suspend_all(int reason) {
         //
         if (reason == SUSPEND_REASON_CPU_THROTTLE) {
             if (atp->result->dont_throttle()) continue;
-            // if we're doing CPU throttling,
-            // don't suspend apps that use < .5 CPU (like GPU and NCI apps)
-            //
-            if (atp->app_version->avg_ncpus < .5) continue;
-
             atp->preempt(REMOVE_NEVER);
             continue;;
         }
