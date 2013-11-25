@@ -26,7 +26,7 @@
     
     <!-- attach project -->
     	<!-- project list -->
-    <string name="attachproject_list_header">Choose a project:</string>
+    <string name="attachproject_list_header">Choose a project</string>
     <string name="attachproject_list_manual_button">Add project by URL</string>
     <string name="attachproject_list_manual_dialog_title">Enter project URL:</string>
     <string name="attachproject_list_manual_dialog_button">Add project</string>

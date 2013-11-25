@@ -17,27 +17,38 @@
   You should have received a copy of the GNU Lesser General Public License
   along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:yourapp="http://schemas.android.com/apk/res-auto" >
+    <item android:id="@+id/run_mode"
+         android:enabled="true"
+         android:visible="true"
+         android:title="@string/menu_run_mode_disable"
+         yourapp:showAsAction="ifRoom|withText" ></item>
+    <item android:id="@+id/prefs"
+         android:enabled="true"
+         android:visible="true"
+         android:title="@string/tab_preferences"
+         android:icon="@drawable/cogw"
+         yourapp:showAsAction="ifRoom|withText" ></item>
+    <item android:id="@+id/projects_add"
+         android:enabled="true"
+         android:visible="true"
+         android:title="@string/projects_add"
+         android:icon="@drawable/plusw"></item>
     <item android:id="@+id/help"
          android:enabled="true"
          android:visible="true"
-         android:title="@string/menu_help"
-         android:icon="@drawable/helpw"></item>
+         android:title="@string/menu_help"></item>
     <item android:id="@+id/about"
          android:enabled="true"
          android:visible="true"
-         android:title="@string/menu_about"
-         android:icon="@drawable/infow"></item>
+         android:title="@string/menu_about" ></item>
     <item android:id="@+id/event_log"
          android:enabled="true"
-         android:title="@string/menu_eventlog"
-         android:icon="@drawable/bugw"></item>
-    <item android:id="@+id/run_mode"
-         android:enabled="true"
-         android:visible="true"></item>
+         android:title="@string/menu_eventlog"></item>
     <item android:id="@+id/exit_boinc"
          android:enabled="true"
          android:visible="true"
          android:title="@string/menu_exit"
-         android:icon="@drawable/offw"></item>
+         android:icon="@drawable/offw" ></item>
 </menu>

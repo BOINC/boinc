@@ -24,7 +24,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 
 import edu.berkeley.boinc.R;
-import edu.berkeley.boinc.TasksActivity.TaskData;
+import edu.berkeley.boinc.TasksFragment.TaskData;
 import edu.berkeley.boinc.client.ClientStatus;
 import edu.berkeley.boinc.client.Monitor;
 import edu.berkeley.boinc.rpc.RpcClient;

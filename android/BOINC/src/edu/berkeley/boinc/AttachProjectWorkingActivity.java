@@ -38,7 +38,6 @@ import android.os.IBinder;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -91,7 +90,6 @@ public class AttachProjectWorkingActivity extends Activity{
     @Override
     public void onCreate(Bundle savedInstanceState) {  
         super.onCreate(savedInstanceState);  
-        requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
         
         // bind monitor service
         doBindService();
@@ -120,9 +118,6 @@ public class AttachProjectWorkingActivity extends Activity{
         // set layout
 		setContentView(R.layout.attach_project_working_layout);
 		anchor = (ViewGroup) findViewById(R.id.anchor);
-        
-        // set title bar
-        getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title_bar);
     }
     
 	@Override

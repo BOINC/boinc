@@ -20,10 +20,8 @@
 package edu.berkeley.boinc;
 
 import edu.berkeley.boinc.utils.*;
-
 import java.net.URL;
 import edu.berkeley.boinc.client.Monitor;
-import android.app.Activity;
 import android.app.Service;
 import android.content.ComponentName;
 import android.content.Intent;
@@ -34,12 +32,13 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.text.InputType;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -50,7 +49,7 @@ import edu.berkeley.boinc.rpc.PlatformInfo;
 import edu.berkeley.boinc.rpc.ProjectConfig;
 import edu.berkeley.boinc.rpc.ProjectInfo;
 
-public class AttachProjectLoginActivity extends Activity{
+public class AttachProjectLoginActivity extends ActionBarActivity{
 	
 	private Monitor monitor;
 	private Boolean mIsBound = false;
@@ -60,6 +59,7 @@ public class AttachProjectLoginActivity extends Activity{
 	private Boolean projectInfoPresent = false; // complete ProjectInfo available, if selection from list
 	private ProjectConfig projectConfig;
 	private Bitmap projectLogo;
+	private ActionBar actionBar;
 	
 	private ServiceConnection mConnection = new ServiceConnection() {
 	    public void onServiceConnected(ComponentName className, IBinder service) {
@@ -79,7 +79,6 @@ public class AttachProjectLoginActivity extends Activity{
     @Override
     public void onCreate(Bundle savedInstanceState) {  
         super.onCreate(savedInstanceState);  
-        requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 
     	//parse master url from intent extras
         Boolean urlPresent = false;
@@ -120,8 +119,9 @@ public class AttachProjectLoginActivity extends Activity{
         subHeader.setVisibility(View.VISIBLE);
         subHeader.setText(url);
         
-        // set title bar
-        getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title_bar);
+		// set up action bar
+        actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
         
         // bind monitor service
         doBindService();
@@ -171,8 +171,7 @@ public class AttachProjectLoginActivity extends Activity{
 		setContentView(R.layout.attach_project_login_layout);
 		
 		// set name
-		TextView name = (TextView) findViewById(R.id.project_name);
-		name.setText(projectConfig.name);
+        actionBar.setTitle(projectConfig.name);
 		
 		// set website
 		TextView website = (TextView) findViewById(R.id.project_url);

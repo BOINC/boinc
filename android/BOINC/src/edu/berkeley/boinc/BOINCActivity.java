@@ -19,12 +19,11 @@
 package edu.berkeley.boinc;
 
 import edu.berkeley.boinc.utils.*;
-import edu.berkeley.boinc.client.ClientStatus;
-import edu.berkeley.boinc.client.Monitor;
+import edu.berkeley.boinc.client.*;
 import edu.berkeley.boinc.utils.BOINCDefs;
+import android.annotation.TargetApi;
 import android.app.Dialog;
 import android.app.Service;
-import android.app.TabActivity;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -35,10 +34,10 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle; 
 import android.os.IBinder;
 import android.util.Log;  
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -46,22 +45,24 @@ import android.view.View;
 import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TabHost;
-import android.widget.TabHost.TabSpec;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.support.v7.app.*;
+import android.support.v7.app.ActionBar.Tab;
 
-public class BOINCActivity extends TabActivity {
+public class BOINCActivity extends ActionBarActivity {
 	
 	private Monitor monitor;
 	private Integer clientSetupStatus = ClientStatus.SETUP_STATUS_LAUNCHING;
+	private Integer clientComputingStatus = -1;
 	private Boolean intialStart = true;
+	private Boolean actionBarSetupCompleted = false;
 	
 	private Boolean mIsBound = false;
-	
-	private TabHost tabHost;
+
+	private ActionBar actionBar;
 	private Resources res;
 
 	private ServiceConnection mConnection = new ServiceConnection() {
@@ -92,22 +93,21 @@ public class BOINCActivity extends TabActivity {
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {  
+<<<<<<< HEAD
         if(Logging.DEBUG) Log.d(Logging.TAG, "BOINCActivity onCreate()"); 
 
+=======
+        if(Logging.DEBUG) Log.d(Logging.TAG, "BOINCActivity onCreate(), dummy jni: " + getDummyString()); 
+>>>>>>> android: new layout, initial commit.
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
-        setContentView(R.layout.main);  
+
+        // setup layout, loading without action bar
+        actionBar = getSupportActionBar();
+        actionBar.hide();
+        setContentView(R.layout.main); 
          
         //bind monitor service
         doBindService();
-        
-        // adapt to custom title bar
-        getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title_bar);
-        
-        // get tab host and setup layout
-    	res = getResources();
-    	tabHost = getTabHost();
-        setupTabLayout();
     }
     
 	@Override
@@ -146,9 +146,20 @@ public class BOINCActivity extends TabActivity {
 	        mIsBound = false;
 	    }
 	}
+	
+	public Monitor getMonitorService() {
+		if(!mIsBound) if(Logging.WARNING) Log.w(Logging.TAG, "Fragment trying to obtain serive reference, but Monitor not bound in BOINCActivity");
+		return monitor;
+	}
+	
+	public void startAttachProjectListActivity() {
+		if(Logging.DEBUG) Log.d(Logging.TAG, "BOINCActivity attempt to start ");
+		startActivity(new Intent(this,AttachProjectListActivity.class));
+	}
     
     // tests whether status is available and whether it changed since the last event.
-    private void determineStatus() {
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+	private void determineStatus() {
     	Integer newStatus = -1;
     	try {
 			if(mIsBound) { 
@@ -162,32 +173,41 @@ public class BOINCActivity extends TabActivity {
 					startActivity(new Intent(this,AttachProjectListActivity.class));
 					intialStart = false;
 				}
-				setAppTitle();
+				Integer newComputingStatus = Monitor.getClientStatus().computingStatus;
+				if(newComputingStatus != clientComputingStatus) {
+					// computing status has changed, update and invalidate to force adaption of action items
+					clientComputingStatus = newComputingStatus;
+					if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+						invalidateOptionsMenu();
+					}
+					// if below honeycomb, onprepareoptionsmenu will be called.
+				}
+				//setAppTitle();
 			} 
     	} catch (Exception e) {}
     }
     
     private void layout() {
-    	TabHost tabLayout = (TabHost) findViewById(android.R.id.tabhost);
     	LinearLayout loadingLayout = (LinearLayout) findViewById(R.id.main_loading);
     	LinearLayout errorLayout = (LinearLayout) findViewById(R.id.main_error);
-    	//TextView noProjectWarning = (TextView) findViewById(R.id.noproject_warning);
-    	HorizontalScrollView noProjectWarning = (HorizontalScrollView) findViewById(R.id.noproject_warning_wrapper);
+    	RelativeLayout okLayout = (RelativeLayout) findViewById(R.id.main_ok);
     	TextView launchingHeader = (TextView) findViewById(R.id.loading_header);
     	switch (clientSetupStatus) {
     	case ClientStatus.SETUP_STATUS_AVAILABLE:
-    		noProjectWarning.setVisibility(View.GONE);
     		loadingLayout.setVisibility(View.GONE);
         	errorLayout.setVisibility(View.GONE);
-    		tabLayout.setVisibility(View.VISIBLE);
+    		setupActionBar();
+        	okLayout.setVisibility(View.VISIBLE);
     		break;
     	case ClientStatus.SETUP_STATUS_ERROR:
-    		tabLayout.setVisibility(View.GONE); 
+    		actionBar.hide();
+    		okLayout.setVisibility(View.GONE); 
     		loadingLayout.setVisibility(View.GONE);
         	errorLayout.setVisibility(View.VISIBLE);
     		break;
     	case ClientStatus.SETUP_STATUS_LAUNCHING:
-    		tabLayout.setVisibility(View.GONE); 
+    		actionBar.hide();
+    		okLayout.setVisibility(View.GONE); 
         	errorLayout.setVisibility(View.GONE);
         	loadingLayout.setVisibility(View.VISIBLE);
         	launchingHeader.setText(R.string.status_launching);
@@ -195,12 +215,13 @@ public class BOINCActivity extends TabActivity {
     	case ClientStatus.SETUP_STATUS_NOPROJECT:
     		loadingLayout.setVisibility(View.GONE);
         	errorLayout.setVisibility(View.GONE);
-    		tabLayout.setVisibility(View.VISIBLE);
-    		noProjectWarning.setVisibility(View.VISIBLE);
+    		setupActionBar();
+        	okLayout.setVisibility(View.VISIBLE);
     		break;
     	case ClientStatus.SETUP_STATUS_CLOSING:
-    		tabLayout.setVisibility(View.GONE); 
+    		okLayout.setVisibility(View.GONE); 
         	errorLayout.setVisibility(View.GONE);
+    		actionBar.hide();
         	loadingLayout.setVisibility(View.VISIBLE);
         	launchingHeader.setText(R.string.status_closing);
     		break;
@@ -214,43 +235,40 @@ public class BOINCActivity extends TabActivity {
     	
     }
     
+    private void setupActionBar() {
+    	actionBar.show();
+    	if(!actionBarSetupCompleted) {
+	    	// setup action bar
+    		if(Logging.DEBUG) Log.d(Logging.TAG, "setupActionBar()");
+    		
+	        actionBar.setDisplayShowTitleEnabled(false);
+	        
+	        actionBar.addTab(createTab(new BOINCActivityTabListener<TasksFragment>(this, getString(R.string.tab_tasks), TasksFragment.class), R.string.tab_tasks, R.drawable.tabtask));
+	        actionBar.addTab(createTab(new BOINCActivityTabListener<ProjectsFragment>(this, getString(R.string.tab_projects), ProjectsFragment.class), R.string.tab_projects, R.drawable.projects));
+	        actionBar.addTab(createTab(new BOINCActivityTabListener<NoticesFragment>(this, getString(R.string.tab_notices), NoticesFragment.class), R.string.tab_notices, R.drawable.mailw));
+	        
+	        // set navigation mode AFTER adding tabs to prevent list view
+	        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+	        
+	        actionBarSetupCompleted = true;
+    	}
+    }
+    
+    private Tab createTab(BOINCActivityTabListener<?> listener, int titleStringId, int iconDrawableId) {
+        Tab tab = actionBar.newTab()
+                .setTabListener(listener)
+                .setCustomView(R.layout.main_tab_layout);
+        
+        TextView title = (TextView)tab.getCustomView().findViewById(R.id.tabsText);
+        title.setText(titleStringId);
+        ImageView icon = (ImageView)tab.getCustomView().findViewById(R.id.tabsIcon);
+        icon.setImageDrawable(getResources().getDrawable(iconDrawableId));
+        
+        return tab;
+    	
+    }
+    
     /*
-     * setup tab layout.
-     * which tabs should be set up is defined in resources file: /res/values/configuration.xml
-     */
-    private void setupTabLayout() {
-    	// set tabs
-    	if(res.getBoolean(R.bool.tab_status))
-    		setupTab(new TextView(this), getResources().getString(R.string.tab_status), R.drawable.icon_status_tab, StatusActivity.class);
-    	if(res.getBoolean(R.bool.tab_notices))
-    		setupTab(new TextView(this), getResources().getString(R.string.tab_notices), R.drawable.icon_notices_tab, NoticesActivity.class);
-    	if(res.getBoolean(R.bool.tab_projects))
-    		setupTab(new TextView(this), getResources().getString(R.string.tab_projects), R.drawable.icon_projects_tab, ProjectsActivity.class);
-    	if(res.getBoolean(R.bool.tab_tasks))
-    		setupTab(new TextView(this), getResources().getString(R.string.tab_tasks), R.drawable.icon_tasks_tab, TasksActivity.class);
-    	if(res.getBoolean(R.bool.tab_preferences))
-    		setupTab(new TextView(this), getResources().getString(R.string.tab_preferences), R.drawable.icon_prefs_tab, PrefsActivity.class);
-
-        if(Logging.VERBOSE) Log.v(Logging.TAG, "BOINCActivity tab layout setup done");
-    }
-    
-    private void setupTab(final View view, final String tag, int icon, Class<?> target) {
-    	View tabview = createTabView(tabHost.getContext(), tag, icon);
-        TabSpec tabSpec = tabHost.newTabSpec(tag);
-        tabSpec.setIndicator(tabview);
-        tabSpec.setContent(new Intent(this, target));
-    	tabHost.addTab(tabSpec);
-    }
-
-    private static View createTabView(final Context context, final String text, int icon) {
-    	View view = LayoutInflater.from(context).inflate(R.layout.main_tab_layout, null);
-    	TextView tv = (TextView) view.findViewById(R.id.tabsText);
-    	tv.setText(text);
-    	ImageView iv = (ImageView) view.findViewById(R.id.tabsIcon);
-    	iv.setImageResource(icon);
-    	return view;
-    }
-    
     // set app title to status string of ClientStatus
     private void setAppTitle() {
 		// try to get current client status from monitor
@@ -263,13 +281,8 @@ public class BOINCActivity extends TabActivity {
 		}
 		TextView statusTV = (TextView) findViewById(R.id.titleStatus);
 		statusTV.setText(status.getCurrentStatusString());
-    }
+    }*/
 
-	// triggered by click on noproject_warning, starts login activity
-	public void noProjectClicked(View view) {
-		if(Logging.DEBUG) Log.d(Logging.TAG, "noProjectClicked()");
-		startActivity(new Intent(this, AttachProjectListActivity.class));
-	}
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -277,23 +290,15 @@ public class BOINCActivity extends TabActivity {
 
 	    MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.main_menu, menu);
-
 		return true;
 	}
 
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
-		// try to get current client status from monitor
-		ClientStatus status;
-		try{
-			status  = Monitor.getClientStatus();
-		} catch (Exception e){
-			if(Logging.WARNING) Log.w(Logging.TAG,"TasksActivity: Could not load data, clientStatus not initialized.");
-			return false;
-		}
+	    if(Logging.VERBOSE) Log.v(Logging.TAG, "BOINCActivity onCreateOptionsMenu()");
 		// run mode, set title and icon based on status
 		MenuItem runMode = menu.findItem(R.id.run_mode);
-		if(status.computingStatus == ClientStatus.COMPUTING_STATUS_NEVER) {
+		if(clientComputingStatus == ClientStatus.COMPUTING_STATUS_NEVER) {
 			// display play button
 			runMode.setTitle(R.string.menu_run_mode_enable);
 			runMode.setIcon(R.drawable.playw);
@@ -349,6 +354,12 @@ public class BOINCActivity extends TabActivity {
 				return true;
 			case R.id.event_log:
 				startActivity(new Intent(this,EventLogActivity.class));
+				return true;
+			case R.id.projects_add:
+				startActivity(new Intent(this, AttachProjectListActivity.class));
+				return true;
+			case R.id.prefs:
+				startActivity(new Intent(this, PrefsActivity.class));
 				return true;
 			default:
 				return super.onOptionsItemSelected(item);

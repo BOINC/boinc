@@ -343,14 +343,14 @@ public class Monitor extends Service {
 	}
 	
 	/**
-	 * Returns DeviceStatus class. Initializes it, if necessary.
-	 * @return device status class. containing the current status data
+
+	 * Returns class that holds the current device status as reported to the client.
+	 * Contains e.g. battery level.
+	 * @return Device Status instance, with the data latest reported to the BOINC client.
 	 */
 	public DeviceStatus getDeviceStatus() {
-		if(deviceStatus == null) {
-			deviceStatus = new DeviceStatus(getApplicationContext(), getAppPrefs());
-		}
-		return deviceStatus;
+		if (deviceStatus == null) return new DeviceStatus(getApplicationContext());
+		else return deviceStatus;
 	}
 // --end-- public methods for Activities
     

@@ -36,7 +36,7 @@
     <!-- CAUTION: increasing targetSDK to >9 removes menu button on new devices  -->
     <uses-sdk
         android:minSdkVersion="9"
-        android:targetSdkVersion="9" />
+        android:targetSdkVersion="19" />
     
     <!-- Required Permissions -->
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -49,7 +49,7 @@
     <application
         android:icon="@drawable/boinc"
         android:label="@string/app_name"
-        android:theme="@style/Theme"
+    	android:theme="@style/Theme.Styled"
         android:allowBackup="true"
         android:debuggable="true"> <!-- android:largeHeap="true" , possible api level > 10. grants application larger dalvik vm heap. better performance when showing many slideshow pictures. -->
         
@@ -62,19 +62,43 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AttachProjectListActivity"/>
-        <activity android:name=".AttachProjectAcctMgrActivity"/>
+        <activity android:name=".AttachProjectListActivity">
+        	<meta-data
+            	android:name="android.support.PARENT_ACTIVITY"
+            	android:value=".BOINCActivity" />
+        </activity>
+        <activity android:name=".AttachProjectAcctMgrActivity">
+        	<meta-data
+            	android:name="android.support.PARENT_ACTIVITY"
+            	android:value=".AttachProjectListActivity" />
+        </activity>
         <activity android:name=".AttachProjectLoginActivity"
-            android:configChanges="orientation"/>
-        <activity android:name=".AttachProjectRegistrationActivity"/>
+            android:configChanges="orientation">
+        	<meta-data
+            	android:name="android.support.PARENT_ACTIVITY"
+            	android:value=".AttachProjectListActivity" />
+        </activity>
+        <activity android:name=".AttachProjectRegistrationActivity">
+        	<meta-data
+            	android:name="android.support.PARENT_ACTIVITY"
+            	android:value=".AttachProjectListActivity" />
+        </activity>
         <activity android:name=".AttachProjectWorkingActivity"
             android:configChanges="orientation"/>
-        <activity android:name=".StatusActivity" />
-        <activity android:name=".TasksActivity" />
-        <activity android:name=".NoticesActivity" />
-        <activity android:name=".PrefsActivity" />
-        <activity android:name=".ProjectsActivity" />
-        <activity android:name=".EventLogActivity" />
+        <activity android:name=".StatusFragment" />
+        <activity android:name=".TasksFragment" />
+        <activity android:name=".NoticesFragment" />
+        <activity android:name=".PrefsActivity" >
+        	<meta-data
+            	android:name="android.support.PARENT_ACTIVITY"
+            	android:value=".BOINCActivity" />
+        </activity>
+        <activity android:name=".ProjectsFragment" />
+        <activity android:name="edu.berkeley.boinc.EventLogActivity" >
+        	<meta-data
+            	android:name="android.support.PARENT_ACTIVITY"
+            	android:value="edu.berkeley.boinc.BOINCActivity" />
+        </activity>
         <service android:name=".client.Monitor"></service>
         <receiver android:name=".receiver.BootReceiver">
             <intent-filter>

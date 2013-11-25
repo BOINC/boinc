@@ -33,7 +33,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import edu.berkeley.boinc.ProjectsActivity.ProjectsListData;
+import edu.berkeley.boinc.ProjectsFragment.ProjectsListData;
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.client.ClientStatus;
 import edu.berkeley.boinc.client.Monitor;

@@ -20,17 +20,16 @@
 package edu.berkeley.boinc;
 
 import edu.berkeley.boinc.utils.*;
-
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class AttachProjectRegistrationActivity extends Activity{
+public class AttachProjectRegistrationActivity extends ActionBarActivity{
 	
 	private String projectUrl;
 	private String projectName;
@@ -41,7 +40,6 @@ public class AttachProjectRegistrationActivity extends Activity{
     public void onCreate(Bundle savedInstanceState) {  
         super.onCreate(savedInstanceState);  
         if(Logging.DEBUG) Log.d(Logging.TAG, "AttachProjectRegistrationActivity onCreate"); 
-        requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 
     	//parse master url from intent extras
         try {
@@ -58,11 +56,11 @@ public class AttachProjectRegistrationActivity extends Activity{
 		// setup layout
 		setContentView(R.layout.attach_project_registration_layout);
         
-        // set title bar
-        getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title_bar);
-		
-		TextView headerName = (TextView) findViewById(R.id.registration_header);
-		headerName.setText(getString(R.string.attachproject_registration_header) + " " + projectName);
+        // setup action bar
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle(getString(R.string.attachproject_registration_header) + " " + projectName);
+        
 		TextView urlTv = (TextView) findViewById(R.id.url);
 		urlTv.setText(projectUrl);
     }
