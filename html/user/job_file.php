@@ -104,7 +104,7 @@ function query_files($r) {
         if ($job_file && $job_file->delete_time < $delete_time) {
             $retval = $job_file->update("delete_time=$delete_time");
             if ($retval) {
-                xml_error(-1, "job_file->update() failed: ".mysql_error());
+                xml_error(-1, "job_file->update() failed: ".BoincDb::error());
             }
         }
         if (file_exists($path)) {
@@ -125,7 +125,7 @@ function query_files($r) {
                 );
                 if (!$ret) {
                     xml_error(-1,
-                        "BoincBatchFileAssoc::insert() failed: ".mysql_error()
+                        "BoincBatchFileAssoc::insert() failed: ".BoincDb::error()
                     );
                 }
             }
@@ -166,7 +166,7 @@ function upload_files($r) {
             "(md5, create_time, delete_time) values ('$md5', $now, $delete_time)"
         );
         if (!$jf_id) {
-            xml_error(-1, "BoincJobFile::insert($md5) failed: ".mysql_error());
+            xml_error(-1, "BoincJobFile::insert($md5) failed: ".BoincDb::error());
         }
         if ($batch_id) {
             BoincBatchFileAssoc::insert(

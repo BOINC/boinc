@@ -243,7 +243,7 @@ function submit_batch($r) {
             "(user_id, create_time, njobs, name, app_id, logical_end_time, state) values ($user->id, $now, $njobs, '$batch_name', $app->id, $let, ".BATCH_STATE_IN_INIT.")"
         );
         if (!$batch_id) {
-            xml_error(-1, "BOINC server: Can't create batch: ".mysql_error());
+            xml_error(-1, "BOINC server: Can't create batch: ".BoincDb::error());
         }
         $batch = BoincBatch::lookup_id($batch_id);
     }
@@ -271,7 +271,7 @@ function create_batch($r) {
         "(user_id, create_time, name, app_id, state, expire_time) values ($user->id, $now, '$batch_name', $app->id, ".BATCH_STATE_INIT.", $expire_time)"
     );
     if (!$batch_id) {
-        xml_error(-1, "BOINC server: Can't create batch: ".mysql_error());
+        xml_error(-1, "BOINC server: Can't create batch: ".BoincDb::error());
     }
     echo "<batch_id>$batch_id</batch_id>\n";
 }

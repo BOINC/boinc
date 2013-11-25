@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Project Generic\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2013-11-08 00:00 PST\n"
-"PO-Revision-Date: 2013-10-30 11:16+0000\n"
+"POT-Creation-Date: 2013-11-24 00:00 PST\n"
+"PO-Revision-Date: 2013-11-24 20:31+0000\n"
 "Last-Translator: Aycan <aycandemirel@hotmail.com>\n"
 "Language-Team: Donanım Haber\n"
 "Language: tr\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-POOTLE-MTIME: 1383131774.0\n"
+"X-POOTLE-MTIME: 1385325085.0\n"
 
 msgid "LANG_NAME_NATIVE"
 msgstr "Türkçe"
@@ -689,7 +689,7 @@ msgstr "%1 KB/sn"
 #: ../inc/host.inc:159 ../inc/host.inc:166 ../inc/result.inc:216
 #: ../inc/result.inc:226 ../inc/result.inc:244 ../inc/result.inc:262
 #: ../inc/result.inc:278 ../user/explain_state.php:56
-#: ../user/host_app_versions.php:29
+#: ../user/host_app_versions.php:30
 msgid "Unknown"
 msgstr "Bilinmiyor"
 
@@ -697,7 +697,7 @@ msgstr "Bilinmiyor"
 msgid "Average download rate"
 msgstr "Ortalama indirme hızı"
 
-#: ../inc/host.inc:169 ../user/host_app_versions.php:64
+#: ../inc/host.inc:169 ../user/host_app_versions.php:65
 msgid "Average turnaround time"
 msgstr "Ortalama geri dönüş zamanı"
 
@@ -886,7 +886,7 @@ msgstr "İsim"
 msgid "BOINC<br>version"
 msgstr "BOINC<br>sürümü"
 
-#: ../inc/host.inc:745 ../user/merge_by_name.php:67
+#: ../inc/host.inc:745 ../user/merge_by_name.php:65
 msgid "Merge computers by name"
 msgstr "Bilgisayarları isme göre birleştir"
 
@@ -916,7 +916,7 @@ msgid "Send private message"
 msgstr "Özel mesaj gönder"
 
 #: ../inc/pm.inc:35 ../inc/pm.inc:37 ../inc/pm.inc:89
-#: ../user/ffmail_form.php:59 ../user/forum_edit.php:99
+#: ../user/ffmail_form.php:58 ../user/forum_edit.php:99
 #: ../user/forum_edit.php:101 ../user/forum_edit.php:145
 #: ../user/forum_post.php:61 ../user/forum_post.php:87
 #: ../user/forum_post.php:89 ../user/forum_post.php:130
@@ -1115,7 +1115,7 @@ msgstr ""
 "2"
 
 #: ../inc/prefs.inc:223 ../inc/prefs.inc:228 ../inc/prefs.inc:270
-#: ../inc/util.inc:258
+#: ../inc/util.inc:274
 msgid "days"
 msgstr "gün"
 
@@ -1203,7 +1203,7 @@ msgstr "NVIDIA GPU kullanılsın %1 Sürüm 6.10 ve üzeri için. %2"
 
 #: ../inc/prefs.inc:344
 msgid "Use Intel GPU %1 Enforced by version 7.2+ %2"
-msgstr ""
+msgstr "Intel GPU kullanılsın %1 Sürüm 7.2 ve üzeri için. %2"
 
 #: ../inc/prefs.inc:358
 msgid ""
@@ -1321,7 +1321,7 @@ msgstr "Projeye özel ayarlar"
 msgid "Primary (default) preferences"
 msgstr "Birincil (varsayılan) tercihler"
 
-#: ../inc/prefs.inc:871 ../user/add_venue.php:43 ../user/add_venue.php:67
+#: ../inc/prefs.inc:871 ../user/add_venue.php:39 ../user/add_venue.php:63
 #: ../user/prefs_edit.php:40 ../user/prefs_edit.php:64
 #: ../user/prefs_edit.php:92
 msgid "Edit %1 preferences"
@@ -1429,7 +1429,7 @@ msgstr "Bu profilden %1hiç hoşlanmadım%2"
 msgid "Anonymous platform"
 msgstr "Anonim platform"
 
-#: ../inc/result.inc:53
+#: ../inc/result.inc:53 ../user/host_app_versions.php:26
 msgid "NVIDIA GPU"
 msgstr "NVIDIA GPU"
 
@@ -1437,7 +1437,7 @@ msgstr "NVIDIA GPU"
 msgid "ATI GPU"
 msgstr "ATI GPU"
 
-#: ../inc/result.inc:57
+#: ../inc/result.inc:57 ../user/host_app_versions.php:28
 msgid "Intel GPU"
 msgstr "Intel GPU"
 
@@ -1785,7 +1785,7 @@ msgstr "Takımları, isimleri ya da tanıtımlarındaki bu kelimelere göre bul"
 #: ../inc/team.inc:43 ../inc/team.inc:121 ../inc/team.inc:232
 #: ../inc/team.inc:372 ../inc/team.inc:456 ../inc/user.inc:205
 #: ../inc/user.inc:316 ../user/account_finish.php:45
-#: ../user/create_account_form.php:99 ../user/edit_user_info_form.php:40
+#: ../user/create_account_form.php:99 ../user/edit_user_info_form.php:38
 #: ../user/profile_search_action.php:42 ../user/team_email_list.php:64
 #: ../user/team_search.php:72 ../user/top_users.php:63
 #: ../user/user_search.php:53 ../user/user_search.php:140
@@ -1800,7 +1800,7 @@ msgstr "Takımın tipi"
 msgid "Show only active teams"
 msgstr "Yalnızca aktif takımları göster"
 
-#: ../inc/team.inc:52 ../user/profile_menu.php:77 ../user/user_search.php:70
+#: ../inc/team.inc:52 ../user/profile_menu.php:74 ../user/user_search.php:70
 msgid "Search"
 msgstr "Ara"
 
@@ -2006,7 +2006,7 @@ msgstr "Takımın tanıtımı"
 msgid "Accept new members?"
 msgstr "Yeni üyeler kabul edilsin mi?"
 
-#: ../inc/uotd.inc:27
+#: ../inc/uotd.inc:30
 msgid "User profile"
 msgstr "Kullanıcı profili"
 
@@ -2081,7 +2081,7 @@ msgstr "Bilinmeyen bildirim tipi: %1"
 msgid "Account information"
 msgstr "Hesap bilgisi"
 
-#: ../inc/user.inc:200 ../user/edit_passwd_form.php:48
+#: ../inc/user.inc:200 ../user/edit_passwd_form.php:45
 #: ../user/get_passwd.php:40 ../user/team_email_list.php:64
 msgid "Email address"
 msgstr "E-posta adresi"
@@ -2150,7 +2150,7 @@ msgstr "Topluluk tercihleri"
 msgid "Preferences for this project"
 msgstr "Bu proje için tercihler"
 
-#: ../inc/user.inc:233 ../user/prefs.php:32
+#: ../inc/user.inc:233 ../user/prefs.php:29
 msgid "%1 preferences"
 msgstr "%1 tercihleri"
 
@@ -2167,7 +2167,7 @@ msgstr "Sil"
 msgid "Create"
 msgstr "Oluştur"
 
-#: ../inc/user.inc:246 ../inc/user.inc:401 ../inc/util.inc:498
+#: ../inc/user.inc:246 ../inc/user.inc:401 ../inc/util.inc:514
 msgid "Profile"
 msgstr "Profil"
 
@@ -2252,27 +2252,27 @@ msgstr "kullanıcı adı boş olamaz"
 msgid "user name may not contain HTML tags"
 msgstr "kullanıcı adı HTML etiketleri içeremez"
 
-#: ../inc/util.inc:116
+#: ../inc/util.inc:131
 msgid "log out"
 msgstr "çıkış"
 
-#: ../inc/util.inc:118
+#: ../inc/util.inc:133
 msgid "log in"
 msgstr "oturum aç"
 
-#: ../inc/util.inc:188 ../user/login_form.php:30 ../user/login_form.php:55
+#: ../inc/util.inc:204 ../user/login_form.php:30 ../user/login_form.php:55
 msgid "Log in"
 msgstr "Oturum aç"
 
-#: ../inc/util.inc:189 ../user/create_account_form.php:31
+#: ../inc/util.inc:205 ../user/create_account_form.php:31
 msgid "Create an account"
 msgstr "Bir hesap oluştur"
 
-#: ../inc/util.inc:190
+#: ../inc/util.inc:206
 msgid "Server status page"
 msgstr "Sunucu durumu"
 
-#: ../inc/util.inc:232
+#: ../inc/util.inc:248
 msgid ""
 "A database error occurred while handling your request; please try again "
 "later."
@@ -2280,55 +2280,55 @@ msgstr ""
 "İsteğiniz gerçekleştirilirken veritabanı hatası oluştu; lütfen daha sonra "
 "tekrar deneyin."
 
-#: ../inc/util.inc:241
+#: ../inc/util.inc:257
 msgid "Unable to handle request"
 msgstr "Talep gerçekleştirilemedi"
 
-#: ../inc/util.inc:261
+#: ../inc/util.inc:277
 msgid "hours"
 msgstr "saat"
 
-#: ../inc/util.inc:264
+#: ../inc/util.inc:280
 msgid "min"
 msgstr "dak"
 
-#: ../inc/util.inc:267
+#: ../inc/util.inc:283
 msgid "sec"
 msgstr "san"
 
-#: ../inc/util.inc:428
+#: ../inc/util.inc:444
 msgid "Link has timed out. Please click Back, refresh the page, and try again."
 msgstr ""
 "Bağlantı zaman aşımına uğradı. Lütfen Geri'ye tıklayın ve sayfayı yenileyip, "
 "yeniden deneyin."
 
-#: ../inc/util.inc:497
+#: ../inc/util.inc:513
 msgid "View the profile of %1"
 msgstr "%1 kullanıcısının profilini gör"
 
-#: ../inc/util.inc:553
+#: ../inc/util.inc:569
 msgid "Use BBCode tags to format your text"
 msgstr "Yazınızı biçimlendirmek için BBCode etiketleri kullanın"
 
-#: ../inc/util.inc:780
+#: ../inc/util.inc:796
 msgid "Project down for maintenance"
 msgstr "Proje bakım için kapatıldı"
 
-#: ../inc/util.inc:783
+#: ../inc/util.inc:799
 msgid "%1 is temporarily shut down for maintenance.  Please try again later."
 msgstr ""
 "%1 sunucumuz bakım için geçiçi olarak kapalı durumda.  Lütfen taha sonra "
 "tekrar deneyin."
 
-#: ../inc/util.inc:801
+#: ../inc/util.inc:817
 msgid "Unable to connect to database - please try again later"
 msgstr "Veritabanına erişilemedi - lütfen daha sonra tekrar deneyin"
 
-#: ../inc/util.inc:802
+#: ../inc/util.inc:818
 msgid "Error:"
 msgstr "Hata:"
 
-#: ../inc/util.inc:806
+#: ../inc/util.inc:822
 msgid "Unable to select database - please try again later"
 msgstr "Veritabanı seçilemedi - lütfen daha sonra tekrar deneyin"
 
@@ -2366,7 +2366,7 @@ msgstr "Hesabınız için bir isim belirlemelisiniz"
 msgid "HTML tags not allowed in name"
 msgstr "İsminizde HTML etiketleri kullanamazsınız"
 
-#: ../user/add_venue.php:85
+#: ../user/add_venue.php:81
 msgid "Add %1 preferences for %2"
 msgstr "%2 için %1 farklı tercihleri ekle"
 
@@ -2544,7 +2544,7 @@ msgstr "Günün kullanıcısı"
 msgid "Server status"
 msgstr "Sunucu durumu"
 
-#: ../user/bs_sample_index.php:60 ../user/profile_menu.php:35
+#: ../user/bs_sample_index.php:60 ../user/profile_menu.php:32
 #: ../user/sample_index.php:116
 msgid "Profiles"
 msgstr "Profiller"
@@ -2682,7 +2682,7 @@ msgstr "E-posta Adresi"
 msgid "Must be a valid address of the form 'name@domain'."
 msgstr "'isim@site' biçiminde geçerli bir adres olmalı."
 
-#: ../user/create_account_form.php:93 ../user/edit_email_form.php:49
+#: ../user/create_account_form.php:93 ../user/edit_email_form.php:47
 msgid "Password"
 msgstr "Parola"
 
@@ -2865,7 +2865,7 @@ msgstr "Hesabınızı silmek istediğinize emin misiniz?"
 
 #: ../user/delete_account.php:79 ../user/delete_profile.php:52
 #: ../user/donations.php:322 ../user/donations.php:326 ../user/friend.php:238
-#: ../user/prefs_remove.php:55 ../user/user_search.php:59
+#: ../user/prefs_remove.php:52 ../user/user_search.php:59
 #: ../user/user_search.php:64
 msgid "Yes"
 msgstr "Evet"
@@ -3094,23 +3094,23 @@ msgstr ""
 "Veritabanı hatası nedeniyle e-posta adresinizi güncelleyemedik.  Lütfen daha "
 "sonra tekrar deneyin."
 
-#: ../user/edit_email_form.php:29 ../user/edit_email_form.php:53
+#: ../user/edit_email_form.php:27 ../user/edit_email_form.php:51
 msgid "Change email address"
 msgstr "E-posta adresini değiştir"
 
-#: ../user/edit_email_form.php:38
+#: ../user/edit_email_form.php:36
 msgid "Change the email address of your account"
 msgstr "Hesabınızın bağlı olduğu e-posta adresini değiştirin"
 
-#: ../user/edit_email_form.php:39
+#: ../user/edit_email_form.php:37
 msgid "New email address"
 msgstr "Yeni e-posta adresi"
 
-#: ../user/edit_email_form.php:40
+#: ../user/edit_email_form.php:38
 msgid "Must be a valid address of the form 'name@domain'"
 msgstr "'isim@site' biçiminde geçerli bir adres olmalı"
 
-#: ../user/edit_email_form.php:50
+#: ../user/edit_email_form.php:48
 msgid "No password?"
 msgstr "Parolanız yok mu?"
 
@@ -3327,8 +3327,8 @@ msgstr "Bu e-posta adresine ait bir hesap bulunamadı"
 msgid "Invalid password"
 msgstr "Geçersiz parola"
 
-#: ../user/edit_passwd_action.php:63 ../user/edit_passwd_form.php:28
-#: ../user/edit_passwd_form.php:58
+#: ../user/edit_passwd_action.php:63 ../user/edit_passwd_form.php:25
+#: ../user/edit_passwd_form.php:55
 msgid "Change password"
 msgstr "Parolayı değiştir"
 
@@ -3344,35 +3344,35 @@ msgstr ""
 "Parolanızı veritaban problemi nedeniyle güncelleyemedik. Lütfen daha sonra "
 "tekrar deneyin."
 
-#: ../user/edit_passwd_form.php:42
+#: ../user/edit_passwd_form.php:39
 msgid "You can identify yourself using either"
 msgstr "Kendinizi, e-posta adresi ve eski parolanızın"
 
-#: ../user/edit_passwd_form.php:44
+#: ../user/edit_passwd_form.php:41
 msgid "your email address and old password"
 msgstr "her ikisini de girerek tanıtabilirsiniz"
 
-#: ../user/edit_passwd_form.php:45
+#: ../user/edit_passwd_form.php:42
 msgid "your account key"
 msgstr "hesap anahtarınız"
 
-#: ../user/edit_passwd_form.php:49
+#: ../user/edit_passwd_form.php:46
 msgid "Current password"
 msgstr "Mevcut parola"
 
-#: ../user/edit_passwd_form.php:51
+#: ../user/edit_passwd_form.php:48
 msgid "<b>OR</b>: Account key"
 msgstr "<b>YA DA</b>: Hesap anahtarı"
 
-#: ../user/edit_passwd_form.php:52
+#: ../user/edit_passwd_form.php:49
 msgid "Get account key by email"
 msgstr "Hesap anahtarını e-posta ile al"
 
-#: ../user/edit_passwd_form.php:56
+#: ../user/edit_passwd_form.php:53
 msgid "New password"
 msgstr "Yeni parola"
 
-#: ../user/edit_passwd_form.php:57
+#: ../user/edit_passwd_form.php:54
 msgid "New password, again"
 msgstr "Yeni parola, yeniden"
 
@@ -3388,23 +3388,23 @@ msgstr "Hesabınız için bir isim belirlemelisiniz."
 msgid "Couldn't update user info."
 msgstr "Kullanıcı bilgisi güncellenemedi."
 
-#: ../user/edit_user_info_form.php:29
+#: ../user/edit_user_info_form.php:27
 msgid "Edit account information"
 msgstr "Hesap bilgisini düzenle"
 
-#: ../user/edit_user_info_form.php:34
+#: ../user/edit_user_info_form.php:32
 msgid "Name %1 real name or nickname%2"
 msgstr "İsim %1 Gerçek ya da takma isim%2"
 
-#: ../user/edit_user_info_form.php:37
+#: ../user/edit_user_info_form.php:35
 msgid "URL %1 of your web page; optional%2"
 msgstr "URL %1 Kişisel web sitenizin adresi; isteğe bağlı%2"
 
-#: ../user/edit_user_info_form.php:45
+#: ../user/edit_user_info_form.php:43
 msgid "Postal (ZIP) code %1 Optional%2"
 msgstr "Posta (ZIP) kodu %1 İsteğe bağlı%2"
 
-#: ../user/edit_user_info_form.php:49
+#: ../user/edit_user_info_form.php:47
 msgid "Update info"
 msgstr "Bilgileri güncelle"
 
@@ -3625,24 +3625,24 @@ msgstr ""
 "Arkadaşlarınızın e-posta adreslerini ve/veya isimlerini girmeyi unuttunuz. "
 "Lütfen %1forma geri dönün%2 ve yazın."
 
-#: ../user/ffmail_form.php:31
+#: ../user/ffmail_form.php:30
 msgid ""
-"This project hasn\\'t created an email message - please notify its "
+"This project hasn't created an email message - please notify its "
 "administrators"
 msgstr ""
-"Bu proje henüz bir e-posta mesajına sahip değil. Lütfen yöneticileri uyarın"
+"Bu proje bir e-posta mesajı yaratmadı - lütfen yöneticilerini bilgilendirin"
 
-#: ../user/ffmail_form.php:34
+#: ../user/ffmail_form.php:33
 msgid "Tell your friends about %1"
 msgstr "Arkadaşlarınıza %1 projesinden bahsedin"
 
-#: ../user/ffmail_form.php:38
+#: ../user/ffmail_form.php:37
 msgid "Help us by telling your friends, family and coworkers about %1"
 msgstr ""
 "Lütfen, arkadaşlarınıza, ailenize ve çalışma arkadaşlarınıza %1 projesini "
 "duyurmamıza yardımcı olun"
 
-#: ../user/ffmail_form.php:40
+#: ../user/ffmail_form.php:39
 msgid ""
 "Fill in this form with the names and email addresses of people you think "
 "might be interested in %1. We'll send them an email in your name, and you "
@@ -3652,27 +3652,27 @@ msgstr ""
 "adresleriyle doldurun. Bir tanıtım e-postasını sizin isminizle göndereceğiz, "
 "isterseniz siz de özel bir mesaj ekleyebilirsiniz."
 
-#: ../user/ffmail_form.php:43
+#: ../user/ffmail_form.php:42
 msgid "Your name:"
 msgstr "İsminiz:"
 
-#: ../user/ffmail_form.php:43
+#: ../user/ffmail_form.php:42
 msgid "Your email address:"
 msgstr "E-posta adresiniz:"
 
-#: ../user/ffmail_form.php:49
+#: ../user/ffmail_form.php:48
 msgid "Friend's name:"
 msgstr "Arkadaşınızın ismi:"
 
-#: ../user/ffmail_form.php:49
+#: ../user/ffmail_form.php:48
 msgid "Friend's email address:"
 msgstr "Arkadaşınızın e-posta adresi:"
 
-#: ../user/ffmail_form.php:57
+#: ../user/ffmail_form.php:56
 msgid "Additional message (optional)"
 msgstr "Ek mesaj (isteğe bağlı)"
 
-#: ../user/ffmail_form.php:60
+#: ../user/ffmail_form.php:59
 msgid "Send"
 msgstr "Yolla"
 
@@ -4724,51 +4724,47 @@ msgstr ""
 msgid "If you have not already done so, %1download BOINC client software%2."
 msgstr "Şimdiye kadar yapmadıysanız, %1BOINC istemci yazılımını indirin%2."
 
-#: ../user/host_app_versions.php:26
-msgid "nvidia GPU"
-msgstr "nvidia GPU"
-
-#: ../user/host_app_versions.php:36
+#: ../user/host_app_versions.php:37
 msgid "Anonymous platform, missing app"
 msgstr "Anonim platform, uygulama mevcut değil"
 
-#: ../user/host_app_versions.php:39
+#: ../user/host_app_versions.php:40
 msgid "anonymous platform"
 msgstr "anonim platform"
 
-#: ../user/host_app_versions.php:42
+#: ../user/host_app_versions.php:43
 msgid "Missing app version"
 msgstr "Uygulama sürümü meccut değil"
 
-#: ../user/host_app_versions.php:44
+#: ../user/host_app_versions.php:45
 msgid "Missing app"
 msgstr "Uygulama mevcut değil"
 
-#: ../user/host_app_versions.php:46
+#: ../user/host_app_versions.php:47
 msgid "Missing platform"
 msgstr "Platform mevcut değil"
 
-#: ../user/host_app_versions.php:55
+#: ../user/host_app_versions.php:56
 msgid "Number of tasks completed"
 msgstr "Tamamlanan iş sayısı"
 
-#: ../user/host_app_versions.php:56
+#: ../user/host_app_versions.php:57
 msgid "Max tasks per day"
 msgstr "Günlük ortalama en fazla iş"
 
-#: ../user/host_app_versions.php:57
+#: ../user/host_app_versions.php:58
 msgid "Number of tasks today"
 msgstr "Bugünkü iş sayısı"
 
-#: ../user/host_app_versions.php:58
+#: ../user/host_app_versions.php:59
 msgid "Consecutive valid tasks"
 msgstr "Ardarda gelen doğrulanmış işler"
 
-#: ../user/host_app_versions.php:62
+#: ../user/host_app_versions.php:63
 msgid "Average processing rate"
 msgstr "Ortalama hesaplama hızı"
 
-#: ../user/host_app_versions.php:71
+#: ../user/host_app_versions.php:72
 msgid "Application details for host %1"
 msgstr "%1 istemcisi için uygulama detayları"
 
@@ -5200,19 +5196,19 @@ msgstr "Daima bağlı kal"
 msgid "or %1create an account%2."
 msgstr "ya da %1bir hesap oluştur%2."
 
-#: ../user/merge_by_name.php:33
+#: ../user/merge_by_name.php:31
 msgid "Processing %1"
 msgstr "Sürüyor %1"
 
-#: ../user/merge_by_name.php:45
+#: ../user/merge_by_name.php:43
 msgid "Merged %1 into %2"
 msgstr "%1, %2 ile birleştiriliyor"
 
-#: ../user/merge_by_name.php:74
+#: ../user/merge_by_name.php:72
 msgid "Return to the list of your computers"
 msgstr "Bilgisayarlarınız listesine dön"
 
-#: ../user/merge_by_name.php:78
+#: ../user/merge_by_name.php:76
 msgid ""
 "This operation merges computers based on their domain name.\n"
 "        <p>\n"
@@ -5228,11 +5224,11 @@ msgstr ""
 "        Uyumsuz bilgisayar birleştirilmiş olmayacak.\n"
 "        <p>"
 
-#: ../user/merge_by_name.php:84
+#: ../user/merge_by_name.php:82
 msgid "Go ahead and do this"
 msgstr "Devam et ve bunu yap"
 
-#: ../user/merge_by_name.php:85
+#: ../user/merge_by_name.php:83
 msgid "Return to the list of computers"
 msgstr "Bilgisayarlar sayfasına dön"
 
@@ -5477,7 +5473,7 @@ msgstr "Engellemeyi kaldırmak için, %1forum tercihlerini%2 ziyaret edin"
 msgid "Unknown action"
 msgstr "Bilinmeyen eylem"
 
-#: ../user/prefs.php:35
+#: ../user/prefs.php:32
 msgid ""
 "Your preferences have been updated, and\n"
 "          will take effect when your computer communicates with %1\n"
@@ -5488,7 +5484,7 @@ msgstr ""
 "          BOINC Manager'da %2Güncelle%3 komutunu kullandığınızda "
 "kullanılmaya başlanacak."
 
-#: ../user/prefs.php:44
+#: ../user/prefs.php:41
 msgid ""
 "Your preferences have been reset to the defaults, and\n"
 "          will take effect when your computer communicates with %1\n"
@@ -5506,23 +5502,23 @@ msgstr "%1 için %2"
 msgid "Back to preferences"
 msgstr "Tercihlere dön"
 
-#: ../user/prefs_remove.php:48
+#: ../user/prefs_remove.php:45
 msgid "Confirm delete preferences"
 msgstr "Tercihlerin kaldırılmasını onayla"
 
-#: ../user/prefs_remove.php:51
+#: ../user/prefs_remove.php:48
 msgid "Are you sure you want to delete your separate %1 preferences for %2?"
 msgstr "%2 için ayrı %1 tercihlerinizi silmek istediğinize emin misiniz?"
 
-#: ../user/prefs_remove.php:55
+#: ../user/prefs_remove.php:52
 msgid "Remove preferences"
 msgstr "Tercihleri kaldır"
 
-#: ../user/prefs_remove.php:57
+#: ../user/prefs_remove.php:54
 msgid "Cancel"
 msgstr "İptal"
 
-#: ../user/profile_menu.php:38
+#: ../user/profile_menu.php:35
 msgid ""
 "%1Profiles%2 let individuals share backgrounds and opinions with the %3 "
 "community."
@@ -5530,7 +5526,7 @@ msgstr ""
 "%1Profilller%2, fikirlerinizi ve özgeçmişinizi %3 topluluğuyla paylaşmanızı "
 "sağlar."
 
-#: ../user/profile_menu.php:39
+#: ../user/profile_menu.php:36
 msgid ""
 "Explore the diversity of your fellow volunteers, and contribute your own "
 "views for others to enjoy."
@@ -5538,7 +5534,7 @@ msgstr ""
 "Sizin gibi düşünen gönüllüleri arayın ve görüşlerinizle diğerlerine katkıda "
 "bulunun."
 
-#: ../user/profile_menu.php:40
+#: ../user/profile_menu.php:37
 msgid ""
 "If you haven't already, you can %1create your own user profile%2 for others "
 "to see!"
@@ -5546,23 +5542,23 @@ msgstr ""
 "Sahip değilseniz, diğerlerinin görmesi için %1kendi kullanıcı profilinizi "
 "oluşturabilirsiniz%2."
 
-#: ../user/profile_menu.php:45
+#: ../user/profile_menu.php:42
 msgid "User of the Day"
 msgstr "Günün Kullanıcısı"
 
-#: ../user/profile_menu.php:58
+#: ../user/profile_menu.php:55
 msgid "User Profile Explorer"
 msgstr "Kullancı Profili Gezgini"
 
-#: ../user/profile_menu.php:61
+#: ../user/profile_menu.php:58
 msgid "View the %1User Picture Gallery%2."
 msgstr "%1Kullancı Resim Galerisine%2 bak."
 
-#: ../user/profile_menu.php:62
+#: ../user/profile_menu.php:59
 msgid "Browse profiles %1by country%2."
 msgstr "Profillere %1ülkelerine göre%2 gözat."
 
-#: ../user/profile_menu.php:63
+#: ../user/profile_menu.php:60
 msgid ""
 "Browse profiles %1at random%2, %3at random with pictures%2, or %4at random "
 "without pictures%2."
@@ -5570,19 +5566,19 @@ msgstr ""
 "Profillere %1rasgele%2, %3resimlerle rasgele%2 ya da %4resimler olmadan "
 "rasgele%2 gözat."
 
-#: ../user/profile_menu.php:67
+#: ../user/profile_menu.php:64
 msgid "Alphabetical profile listings:"
 msgstr "Alfabetik profil listesi:"
 
-#: ../user/profile_menu.php:73
+#: ../user/profile_menu.php:70
 msgid "Search profile text"
 msgstr "Profil yazısında ara"
 
-#: ../user/profile_menu.php:99
+#: ../user/profile_menu.php:96
 msgid "No profiles"
 msgstr "Profil yok"
 
-#: ../user/profile_menu.php:100
+#: ../user/profile_menu.php:97
 msgid "No profiles matched your query."
 msgstr "Aramanızla eşleşen profil yok."
 
@@ -5987,7 +5983,7 @@ msgid "Couldn't add admin"
 msgstr "Yönetici eklenemedi"
 
 #: ../user/team_admins.php:111 ../user/team_manage.php:85
-#: ../user/team_quit_form.php:30 ../user/team_remove_inactive_action.php:28
+#: ../user/team_quit_form.php:28 ../user/team_remove_inactive_action.php:28
 msgid "No such team"
 msgstr "Eşleşen takım yok"
 
@@ -6375,7 +6371,7 @@ msgstr ""
 "talepler kabul edilmiyor. Lütfen daha sonra tekrar deneyin."
 
 #: ../user/team_join.php:32 ../user/team_join_action.php:32
-#: ../user/team_join_form.php:31
+#: ../user/team_join_form.php:29
 msgid "The team %1 is not joinable."
 msgstr "%1 takımı yeni üye kabul etmiyor."
 
@@ -6399,23 +6395,23 @@ msgstr "Üyelik %1"
 msgid "You have joined %1."
 msgstr "%1 takımına katıldınız."
 
-#: ../user/team_join_form.php:34
+#: ../user/team_join_form.php:32
 msgid "Join %1"
 msgstr "%1 takımına katıl"
 
-#: ../user/team_join_form.php:35
+#: ../user/team_join_form.php:33
 msgid "Please note:"
 msgstr "Lütfen dikkat:"
 
-#: ../user/team_join_form.php:37
+#: ../user/team_join_form.php:35
 msgid "Joining a team gives its founder access to your email address."
 msgstr "Bir takıma katıldığınızda, kurucusu e-posta adresinizi görebilir."
 
-#: ../user/team_join_form.php:38
+#: ../user/team_join_form.php:36
 msgid "Joining a team does not affect your account's credit."
 msgstr "Bir takıma katılmak, hesabınızdaki kredi miktarını etkilemez."
 
-#: ../user/team_join_form.php:45
+#: ../user/team_join_form.php:43
 msgid "Join team"
 msgstr "Takıma katıl"
 
@@ -6562,19 +6558,19 @@ msgstr "Limite ulaşıldı:  Yalnızca ilk 1000 üye görüntülenebilir."
 msgid "Members of %1"
 msgstr "%1 takımının üyeleri"
 
-#: ../user/team_quit_action.php:34
+#: ../user/team_quit_action.php:32
 msgid "Unable to quit team"
 msgstr "Takımdan ayrılamıyorsunuz."
 
-#: ../user/team_quit_action.php:35
+#: ../user/team_quit_action.php:33
 msgid "Team doesn't exist, or you don't belong to it."
 msgstr "Takım mevcut değil ya da takıma ait değilsiniz."
 
-#: ../user/team_quit_form.php:33
+#: ../user/team_quit_form.php:31
 msgid "Quit %1"
 msgstr "%1 takımından ayrıl"
 
-#: ../user/team_quit_form.php:34
+#: ../user/team_quit_form.php:32
 msgid ""
 "<strong>Please note before quitting a team:</strong>\n"
 "         <ul>\n"
@@ -6592,7 +6588,7 @@ msgstr ""
 "bir şekilde etkilemez.\n"
 "         </ul>"
 
-#: ../user/team_quit_form.php:42
+#: ../user/team_quit_form.php:40
 msgid "Quit Team"
 msgstr "Takımdan ayrıl"
 
@@ -7014,6 +7010,15 @@ msgstr ""
 #: ../project.sample/project_specific_prefs.inc:91
 msgid "(all applications)"
 msgstr "(tüm uygulamalar)"
+
+#~ msgid "nvidia GPU"
+#~ msgstr "nvidia GPU"
+
+#~ msgid ""
+#~ "This project hasn\\'t created an email message - please notify its "
+#~ "administrators"
+#~ msgstr ""
+#~ "Bu proje henüz bir e-posta mesajına sahip değil. Lütfen yöneticileri uyarın"
 
 #~ msgid "Use Intel GPU %1 Enforced by version 7.0+ %2"
 #~ msgstr "Intel GPU kullanılsın %1 Sürüm 7.0 ve üzeri için. %2"

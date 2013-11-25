@@ -24,8 +24,6 @@ check_get_args(array("confirmed", "tnow", "ttok"));
 
 $confirmed = get_str("confirmed", true);
 
-db_init();
-
 function merge_name($list) {
     // find the newest one
     //

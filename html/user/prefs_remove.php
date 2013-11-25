@@ -16,13 +16,10 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-include_once("../inc/db.inc");
 include_once("../inc/util.inc");
 include_once("../inc/prefs.inc");
 
 check_get_args(array("subset", "venue", "confirmed", "cols", "tnow", "ttok"));
-
-db_init();
 
 $user = get_logged_in_user();
 check_tokens($user->authenticator);

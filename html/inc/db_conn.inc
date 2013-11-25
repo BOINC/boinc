@@ -36,6 +36,9 @@ class DbConn {
         return true;
     }
 
+    // in keeping with PHP/MySQL convention, return true (nonzero) on success.
+    // (This is the opposite of the BOINC convention)
+    //
     function do_query($q) {
         global $generating_xml;
         //echo "query: $q<br>\n";
