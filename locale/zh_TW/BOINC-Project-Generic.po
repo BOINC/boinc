@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2013-11-23 00:00 PST\n"
+"POT-Creation-Date: 2013-11-24 00:00 PST\n"
 "PO-Revision-Date: 2013-11-08 23:57+0000\n"
 "Last-Translator: 宇謙 <df910105@yahoo.com.tw>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -672,7 +672,7 @@ msgstr "%1 KB/s"
 #: ../inc/host.inc:159 ../inc/host.inc:166 ../inc/result.inc:216
 #: ../inc/result.inc:226 ../inc/result.inc:244 ../inc/result.inc:262
 #: ../inc/result.inc:278 ../user/explain_state.php:56
-#: ../user/host_app_versions.php:29
+#: ../user/host_app_versions.php:30
 msgid "Unknown"
 msgstr "未知"
 
@@ -680,7 +680,7 @@ msgstr "未知"
 msgid "Average download rate"
 msgstr "平均下載速度"
 
-#: ../inc/host.inc:169 ../user/host_app_versions.php:64
+#: ../inc/host.inc:169 ../user/host_app_versions.php:65
 msgid "Average turnaround time"
 msgstr "平均任務周轉時間"
 
@@ -1360,7 +1360,7 @@ msgstr "我%1不喜歡%2這個用戶檔案"
 msgid "Anonymous platform"
 msgstr "匿名平台"
 
-#: ../inc/result.inc:53
+#: ../inc/result.inc:53 ../user/host_app_versions.php:26
 msgid "NVIDIA GPU"
 msgstr "NVIDIA GPU"
 
@@ -1368,7 +1368,7 @@ msgstr "NVIDIA GPU"
 msgid "ATI GPU"
 msgstr "ATI GPU"
 
-#: ../inc/result.inc:57
+#: ../inc/result.inc:57 ../user/host_app_versions.php:28
 msgid "Intel GPU"
 msgstr "Intel GPU"
 
@@ -4507,51 +4507,47 @@ msgstr "使用下面的連結查看及編輯你的帳戶偏好設定"
 msgid "If you have not already done so, %1download BOINC client software%2."
 msgstr "如果還沒有的話，%1下載 BOINC 的客戶端軟體%2。"
 
-#: ../user/host_app_versions.php:26
-msgid "nvidia GPU"
-msgstr "nvidia GPU"
-
-#: ../user/host_app_versions.php:36
+#: ../user/host_app_versions.php:37
 msgid "Anonymous platform, missing app"
 msgstr "匿名平台，未知應用程式"
 
-#: ../user/host_app_versions.php:39
+#: ../user/host_app_versions.php:40
 msgid "anonymous platform"
 msgstr "匿名平台"
 
-#: ../user/host_app_versions.php:42
+#: ../user/host_app_versions.php:43
 msgid "Missing app version"
 msgstr "無法辨識的應用程式版本"
 
-#: ../user/host_app_versions.php:44
+#: ../user/host_app_versions.php:45
 msgid "Missing app"
 msgstr "未知應用程式"
 
-#: ../user/host_app_versions.php:46
+#: ../user/host_app_versions.php:47
 msgid "Missing platform"
 msgstr "無法辨識的平台"
 
-#: ../user/host_app_versions.php:55
+#: ../user/host_app_versions.php:56
 msgid "Number of tasks completed"
 msgstr "完成的運算任務數量"
 
-#: ../user/host_app_versions.php:56
+#: ../user/host_app_versions.php:57
 msgid "Max tasks per day"
 msgstr "每日最大任務數量"
 
-#: ../user/host_app_versions.php:57
+#: ../user/host_app_versions.php:58
 msgid "Number of tasks today"
 msgstr "今天的任務數量"
 
-#: ../user/host_app_versions.php:58
+#: ../user/host_app_versions.php:59
 msgid "Consecutive valid tasks"
 msgstr "連續完成的運算任務數量"
 
-#: ../user/host_app_versions.php:62
+#: ../user/host_app_versions.php:63
 msgid "Average processing rate"
 msgstr "平均處理速度"
 
-#: ../user/host_app_versions.php:71
+#: ../user/host_app_versions.php:72
 msgid "Application details for host %1"
 msgstr "主機 %1 的運算程式細節"
 
@@ -6624,6 +6620,9 @@ msgstr "如果選中的應用程式暫時沒有運算任務，是否從其它應
 #: ../project.sample/project_specific_prefs.inc:91
 msgid "(all applications)"
 msgstr "(所有應用程式)"
+
+#~ msgid "nvidia GPU"
+#~ msgstr "nvidia GPU"
 
 #~ msgid ""
 #~ "This project hasn\\'t created an email message - please notify its "
