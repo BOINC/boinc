@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC-prject-generic\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2013-11-23 00:00 PST\n"
+"POT-Creation-Date: 2013-11-24 00:00 PST\n"
 "PO-Revision-Date: 2012-09-16 13:49+0200\n"
 "Last-Translator: Kenneth <kenneth@skjold.biz>\n"
 "Language-Team: Hjelp andre <kenneth@skjold.biz>\n"
@@ -688,7 +688,7 @@ msgstr "%1 KB/sek"
 #: ../inc/host.inc:159 ../inc/host.inc:166 ../inc/result.inc:216
 #: ../inc/result.inc:226 ../inc/result.inc:244 ../inc/result.inc:262
 #: ../inc/result.inc:278 ../user/explain_state.php:56
-#: ../user/host_app_versions.php:29
+#: ../user/host_app_versions.php:30
 msgid "Unknown"
 msgstr "Ukjent"
 
@@ -696,7 +696,7 @@ msgstr "Ukjent"
 msgid "Average download rate"
 msgstr "Gjennomsnittlig nedlastingshastighet"
 
-#: ../inc/host.inc:169 ../user/host_app_versions.php:64
+#: ../inc/host.inc:169 ../user/host_app_versions.php:65
 msgid "Average turnaround time"
 msgstr ""
 
@@ -1376,7 +1376,7 @@ msgstr "Jeg %1like ikke%2 denne profilen"
 msgid "Anonymous platform"
 msgstr "Anonym plattform"
 
-#: ../inc/result.inc:53
+#: ../inc/result.inc:53 ../user/host_app_versions.php:26
 msgid "NVIDIA GPU"
 msgstr "NVIDIA GPU"
 
@@ -1384,7 +1384,7 @@ msgstr "NVIDIA GPU"
 msgid "ATI GPU"
 msgstr "ATI GPU"
 
-#: ../inc/result.inc:57
+#: ../inc/result.inc:57 ../user/host_app_versions.php:28
 msgid "Intel GPU"
 msgstr ""
 
@@ -4639,54 +4639,50 @@ msgstr ""
 msgid "If you have not already done so, %1download BOINC client software%2."
 msgstr ""
 
-#: ../user/host_app_versions.php:26
-msgid "nvidia GPU"
-msgstr ""
-
-#: ../user/host_app_versions.php:36
+#: ../user/host_app_versions.php:37
 msgid "Anonymous platform, missing app"
 msgstr ""
 
-#: ../user/host_app_versions.php:39
+#: ../user/host_app_versions.php:40
 #, fuzzy
 msgid "anonymous platform"
 msgstr "Anonym plattform"
 
-#: ../user/host_app_versions.php:42
+#: ../user/host_app_versions.php:43
 msgid "Missing app version"
 msgstr ""
 
-#: ../user/host_app_versions.php:44
+#: ../user/host_app_versions.php:45
 msgid "Missing app"
 msgstr ""
 
-#: ../user/host_app_versions.php:46
+#: ../user/host_app_versions.php:47
 msgid "Missing platform"
 msgstr ""
 
-#: ../user/host_app_versions.php:55
+#: ../user/host_app_versions.php:56
 msgid "Number of tasks completed"
 msgstr ""
 
-#: ../user/host_app_versions.php:56
+#: ../user/host_app_versions.php:57
 msgid "Max tasks per day"
 msgstr ""
 
-#: ../user/host_app_versions.php:57
+#: ../user/host_app_versions.php:58
 #, fuzzy
 msgid "Number of tasks today"
 msgstr "Dagens Bruker"
 
-#: ../user/host_app_versions.php:58
+#: ../user/host_app_versions.php:59
 msgid "Consecutive valid tasks"
 msgstr ""
 
-#: ../user/host_app_versions.php:62
+#: ../user/host_app_versions.php:63
 #, fuzzy
 msgid "Average processing rate"
 msgstr "Gjennomsnittlig kreditt"
 
-#: ../user/host_app_versions.php:71
+#: ../user/host_app_versions.php:72
 #, fuzzy
 msgid "Application details for host %1"
 msgstr "Programmer"
