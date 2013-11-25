@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 2012/11/19\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2013-11-23 00:00 PST\n"
+"POT-Creation-Date: 2013-11-24 00:00 PST\n"
 "PO-Revision-Date: 2013-09-01 00:11+0000\n"
 "Last-Translator: Kangsan Lee <treppolse@gmail.com>\n"
 "Language-Team: SETIKAH@KOREA\n"
@@ -681,7 +681,7 @@ msgstr "%1 KB/초"
 #: ../inc/host.inc:159 ../inc/host.inc:166 ../inc/result.inc:216
 #: ../inc/result.inc:226 ../inc/result.inc:244 ../inc/result.inc:262
 #: ../inc/result.inc:278 ../user/explain_state.php:56
-#: ../user/host_app_versions.php:29
+#: ../user/host_app_versions.php:30
 msgid "Unknown"
 msgstr "불명"
 
@@ -689,7 +689,7 @@ msgstr "불명"
 msgid "Average download rate"
 msgstr "평균 다운로드 대역폭"
 
-#: ../inc/host.inc:169 ../user/host_app_versions.php:64
+#: ../inc/host.inc:169 ../user/host_app_versions.php:65
 msgid "Average turnaround time"
 msgstr "평균 반환 시간"
 
@@ -1369,7 +1369,7 @@ msgstr "이 프로필을 %1비추합니다%2"
 msgid "Anonymous platform"
 msgstr "불확실한 플랫폼"
 
-#: ../inc/result.inc:53
+#: ../inc/result.inc:53 ../user/host_app_versions.php:26
 msgid "NVIDIA GPU"
 msgstr "NVIDIA GPU"
 
@@ -1377,7 +1377,7 @@ msgstr "NVIDIA GPU"
 msgid "ATI GPU"
 msgstr "ATI GPU"
 
-#: ../inc/result.inc:57
+#: ../inc/result.inc:57 ../user/host_app_versions.php:28
 msgid "Intel GPU"
 msgstr ""
 
@@ -4543,51 +4543,47 @@ msgstr "하단에 표시된 링크를 사용해서 계정 환경 설정을 보�
 msgid "If you have not already done so, %1download BOINC client software%2."
 msgstr "만약 아직 그렇지 않다면 %1BOINC 클라이언트 소프트웨어를 다운로드하세요%2."
 
-#: ../user/host_app_versions.php:26
-msgid "nvidia GPU"
-msgstr "nvidia GPU"
-
-#: ../user/host_app_versions.php:36
+#: ../user/host_app_versions.php:37
 msgid "Anonymous platform, missing app"
 msgstr "불확실한 플랫폼, 어플이 빠짐"
 
-#: ../user/host_app_versions.php:39
+#: ../user/host_app_versions.php:40
 msgid "anonymous platform"
 msgstr "불확실한 플랫폼"
 
-#: ../user/host_app_versions.php:42
+#: ../user/host_app_versions.php:43
 msgid "Missing app version"
 msgstr "앱 버전 누락"
 
-#: ../user/host_app_versions.php:44
+#: ../user/host_app_versions.php:45
 msgid "Missing app"
 msgstr "어플이 빠짐"
 
-#: ../user/host_app_versions.php:46
+#: ../user/host_app_versions.php:47
 msgid "Missing platform"
 msgstr "플랫폼 누락"
 
-#: ../user/host_app_versions.php:55
+#: ../user/host_app_versions.php:56
 msgid "Number of tasks completed"
 msgstr "태스크가 완료됨"
 
-#: ../user/host_app_versions.php:56
+#: ../user/host_app_versions.php:57
 msgid "Max tasks per day"
 msgstr "하루 태스크 최대량"
 
-#: ../user/host_app_versions.php:57
+#: ../user/host_app_versions.php:58
 msgid "Number of tasks today"
 msgstr "오늘의 태스크 수"
 
-#: ../user/host_app_versions.php:58
+#: ../user/host_app_versions.php:59
 msgid "Consecutive valid tasks"
 msgstr "연속적으로 인정된 태스크"
 
-#: ../user/host_app_versions.php:62
+#: ../user/host_app_versions.php:63
 msgid "Average processing rate"
 msgstr "평균 처리율"
 
-#: ../user/host_app_versions.php:71
+#: ../user/host_app_versions.php:72
 msgid "Application details for host %1"
 msgstr "응용 프로그램 상세 정보: 호스트 %1"
 
@@ -6707,6 +6703,9 @@ msgstr "선택된 응용 프로그램용 작업이 없을 경우에 다른 프�
 #: ../project.sample/project_specific_prefs.inc:91
 msgid "(all applications)"
 msgstr "(모든 응용 프로그램)"
+
+#~ msgid "nvidia GPU"
+#~ msgstr "nvidia GPU"
 
 #~ msgid ""
 #~ "This project hasn\\'t created an email message - please notify its "
