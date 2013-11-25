@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2013-11-24 00:00 PST\n"
-"PO-Revision-Date: 2013-11-15 18:06+0000\n"
+"PO-Revision-Date: 2013-11-25 11:56+0000\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fi\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-POOTLE-MTIME: 1384538817.0\n"
+"X-POOTLE-MTIME: 1385380598.0\n"
 
 msgid "LANG_NAME_NATIVE"
 msgstr "English"
@@ -2491,7 +2491,7 @@ msgstr "Osanottajat"
 
 #: ../user/bs_sample_index.php:46
 msgid "Do work"
-msgstr ""
+msgstr "Suorita työtä"
 
 #: ../user/bs_sample_index.php:47 ../user/bs_sample_index.php:50
 #: ../user/home.php:49 ../project.sample/project.inc:43
@@ -3605,7 +3605,7 @@ msgstr ""
 msgid ""
 "This project hasn't created an email message - please notify its "
 "administrators"
-msgstr ""
+msgstr "Tämä projekti ei luonut sähköpostiviestiä - ilmoita asiasta ylläpidolle"
 
 #: ../user/ffmail_form.php:33
 msgid "Tell your friends about %1"
