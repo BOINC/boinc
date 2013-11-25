@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2013-11-23 00:00 PST\n"
+"POT-Creation-Date: 2013-11-24 00:00 PST\n"
 "PO-Revision-Date: 2013-10-06 20:40+0000\n"
 "Last-Translator: Jerome Cadet <jerome.cadet@pobox.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -688,7 +688,7 @@ msgstr "%1 Ko/s"
 #: ../inc/host.inc:159 ../inc/host.inc:166 ../inc/result.inc:216
 #: ../inc/result.inc:226 ../inc/result.inc:244 ../inc/result.inc:262
 #: ../inc/result.inc:278 ../user/explain_state.php:56
-#: ../user/host_app_versions.php:29
+#: ../user/host_app_versions.php:30
 msgid "Unknown"
 msgstr "Inconnu"
 
@@ -696,7 +696,7 @@ msgstr "Inconnu"
 msgid "Average download rate"
 msgstr "Débit moyen de téléchargement"
 
-#: ../inc/host.inc:169 ../user/host_app_versions.php:64
+#: ../inc/host.inc:169 ../user/host_app_versions.php:65
 msgid "Average turnaround time"
 msgstr "Temps de cycle moyen"
 
@@ -1435,7 +1435,7 @@ msgstr "Je %1n'aime pas%2 ce profil"
 msgid "Anonymous platform"
 msgstr "Plateforme anonyme"
 
-#: ../inc/result.inc:53
+#: ../inc/result.inc:53 ../user/host_app_versions.php:26
 msgid "NVIDIA GPU"
 msgstr "GPU NVIDIA"
 
@@ -1443,7 +1443,7 @@ msgstr "GPU NVIDIA"
 msgid "ATI GPU"
 msgstr "GPU ATI"
 
-#: ../inc/result.inc:57
+#: ../inc/result.inc:57 ../user/host_app_versions.php:28
 msgid "Intel GPU"
 msgstr ""
 
@@ -4778,51 +4778,47 @@ msgid "If you have not already done so, %1download BOINC client software%2."
 msgstr ""
 "Si vous ne l'avez pas déjà fait, %1téléchargez le logiciel client BOINC %2."
 
-#: ../user/host_app_versions.php:26
-msgid "nvidia GPU"
-msgstr "GPU nvidia"
-
-#: ../user/host_app_versions.php:36
+#: ../user/host_app_versions.php:37
 msgid "Anonymous platform, missing app"
 msgstr "Plateforme anonyme, application manquante"
 
-#: ../user/host_app_versions.php:39
+#: ../user/host_app_versions.php:40
 msgid "anonymous platform"
 msgstr "Plateforme anonyme"
 
-#: ../user/host_app_versions.php:42
+#: ../user/host_app_versions.php:43
 msgid "Missing app version"
 msgstr "Version de l'application manquante"
 
-#: ../user/host_app_versions.php:44
+#: ../user/host_app_versions.php:45
 msgid "Missing app"
 msgstr "Application manquante"
 
-#: ../user/host_app_versions.php:46
+#: ../user/host_app_versions.php:47
 msgid "Missing platform"
 msgstr "Plateforme manquante"
 
-#: ../user/host_app_versions.php:55
+#: ../user/host_app_versions.php:56
 msgid "Number of tasks completed"
 msgstr "Nombre de tâches terminées"
 
-#: ../user/host_app_versions.php:56
+#: ../user/host_app_versions.php:57
 msgid "Max tasks per day"
 msgstr "Nombre maximal de tâches par jour"
 
-#: ../user/host_app_versions.php:57
+#: ../user/host_app_versions.php:58
 msgid "Number of tasks today"
 msgstr "Nombre de tâches aujourd'hui"
 
-#: ../user/host_app_versions.php:58
+#: ../user/host_app_versions.php:59
 msgid "Consecutive valid tasks"
 msgstr "Nombre de tâches valides consécutives"
 
-#: ../user/host_app_versions.php:62
+#: ../user/host_app_versions.php:63
 msgid "Average processing rate"
 msgstr "Taux de calcul moyen"
 
-#: ../user/host_app_versions.php:71
+#: ../user/host_app_versions.php:72
 msgid "Application details for host %1"
 msgstr "Détails de l'application pour l'hôte %1"
 
@@ -7116,6 +7112,9 @@ msgstr ""
 #: ../project.sample/project_specific_prefs.inc:91
 msgid "(all applications)"
 msgstr "(toutes les applications)"
+
+#~ msgid "nvidia GPU"
+#~ msgstr "GPU nvidia"
 
 #~ msgid ""
 #~ "This project hasn\\'t created an email message - please notify its "
