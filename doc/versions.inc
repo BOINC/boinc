@@ -44,12 +44,12 @@ function linux_info() {
 }
 
 $w72 = array(
-	"num"=>"7.2.31",
+	"num"=>"7.2.33",
 	"status"=>"Recommended version",
-	"file"=>"boinc_7.2.31_windows_intelx86.exe",
-	"vbox_file"=>"boinc_7.2.31_windows_intelx86_vbox.exe",
+	"file"=>"boinc_7.2.33_windows_intelx86.exe",
+	"vbox_file"=>"boinc_7.2.33_windows_intelx86_vbox.exe",
     "vbox_version"=>"4.2.16",
-	"date"=>"8 Nov 2013",
+	"date"=>"26 Nov 2013",
 	"type"=>"win_new",
 );
 
@@ -78,12 +78,12 @@ $w5816 = array(
 );
 
 $w72x64 = array(
-	"num"=>"7.2.31",
+	"num"=>"7.2.33",
 	"status"=>"Recommended version",
-	"file"=>"boinc_7.2.31_windows_x86_64.exe",
-	"vbox_file"=>"boinc_7.2.31_windows_x86_64_vbox.exe",
+	"file"=>"boinc_7.2.33_windows_x86_64.exe",
+	"vbox_file"=>"boinc_7.2.33_windows_x86_64_vbox.exe",
     "vbox_version"=>"4.2.16",
-	"date"=>"8 Nov 2013",
+	"date"=>"26 Nov 2013",
 	"type"=>"win_new",
 );
 
@@ -96,10 +96,10 @@ $w70x64 = array(
 );
 
 $m72 = array(
-	"num"=>"7.2.28",
+	"num"=>"7.2.33",
 	"status"=>"Recommended version (standard GUI)",
-	"file"=>"boinc_7.2.28_macOSX_i686.zip",
-	"date"=>"8 Nov 2013",
+	"file"=>"boinc_7.2.33_macOSX_i686.zip",
+	"date"=>"26 Nov 2013",
 	"type"=>"mac_advanced",
 );
 
@@ -128,10 +128,10 @@ $m66 = array(
 );
 
 $m72c = array(
-	"num"=>"7.2.28",
+	"num"=>"7.2.33",
 	"status"=>"Recommended version (Unix command-line version)",
 	"file"=>"boinc_7.2.28_i686-apple-darwin.zip",
-	"date"=>"8 Nov 2013",
+	"date"=>"26 Nov 2013",
 	"type"=>"bare_core",
 );
 
@@ -176,10 +176,10 @@ $l66 = array(
 	);
 
 $l72ubuntu = array(
-	"num"=>"7.2.28",
+	"num"=>"7.2.33",
 	"status"=>"Recommended version",
 	"file"=>"boinc_7.2.28_i686-pc-linux-gnu.sh",
-	"date"=>"8 Nov 2013",
+	"date"=>"26 Nov 2013",
 	"type"=>"sea",
 );
 
@@ -192,10 +192,10 @@ $l70ubuntu = array(
 );
 
 $l72ubuntux64 = array(
-	"num"=>"7.2.28",
+	"num"=>"7.2.33",
 	"status"=>"Recommended version",
-	"file"=>"boinc_7.2.28_x86_64-pc-linux-gnu.sh",
-	"date"=>"8 Nov 2013",
+	"file"=>"boinc_7.2.33_x86_64-pc-linux-gnu.sh",
+	"date"=>"26 Nov 2013",
 	"type"=>"sea",
 );
 
