@@ -57,8 +57,8 @@ void DAILY_XFER_HISTORY::print() {
         time_t t = dx.when*86400;
         struct tm* tm = localtime(&t);
         strftime(buf, sizeof(buf)-1, "%d-%b-%Y", tm);
-        printf("%s: %d bytes uploaded, %d bytes downloaded\n",
-            buf, (int)dx.up, (int)dx.down
+        printf("%s: %.0f bytes uploaded, %.0f bytes downloaded\n",
+            buf, dx.up, dx.down
         );
     }
 }
