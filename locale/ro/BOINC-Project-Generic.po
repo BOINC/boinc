@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2013-11-24 00:00 PST\n"
-"PO-Revision-Date: 2013-11-22 14:02+0000\n"
+"PO-Revision-Date: 2013-11-26 07:26+0000\n"
 "Last-Translator: Marius <marius.sirbu@outlook.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: ro\n"
@@ -18,7 +18,7 @@ msgstr ""
 "20)) ? 1 : 2);;\n"
 "X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-POOTLE-MTIME: 1385128966.0\n"
+"X-POOTLE-MTIME: 1385450819.0\n"
 
 msgid "LANG_NAME_NATIVE"
 msgstr "Română"
@@ -3243,6 +3243,8 @@ msgid ""
 "We can't update your password due to a database problem. Please try again "
 "later."
 msgstr ""
+"Nu putem să actualizăm parola dumneavoastră din cauza unei probleme de baze "
+"de date. Vă rugăm încercaţi mai târziu."
 
 #: ../user/edit_passwd_form.php:39
 msgid "You can identify yourself using either"
@@ -3411,7 +3413,7 @@ msgstr ""
 
 #: ../user/explain_state.php:86
 msgid "The computer has not yet completed the task."
-msgstr ""
+msgstr "Calculatorul încă nu a finalizat acest task."
 
 #: ../user/explain_state.php:89
 msgid "The computer completed the task successfully."
@@ -3473,7 +3475,7 @@ msgstr "Previzualizare email"
 
 #: ../user/ffmail_action.php:48
 msgid "Your email will appear as follows:"
-msgstr ""
+msgstr "Email-ul dumneavoastră va apare după cum urmează:"
 
 #: ../user/ffmail_action.php:57
 msgid "Send email"
@@ -3489,15 +3491,15 @@ msgstr "Se trimite email"
 
 #: ../user/ffmail_action.php:84
 msgid "email sent successfully to %1"
-msgstr ""
+msgstr "email trimis cu succes la %1"
 
 #: ../user/ffmail_action.php:86
 msgid "failed to send email to %1: %2"
-msgstr ""
+msgstr "nu s-a reuşit trimiterea email-ului către %1: %2"
 
 #: ../user/ffmail_action.php:92
 msgid "Thanks for telling your friends about %1"
-msgstr ""
+msgstr "Mulţumim că le-aţi spus prietenilor despre %1"
 
 #: ../user/ffmail_action.php:94
 msgid ""
@@ -4223,7 +4225,7 @@ msgstr ""
 
 #: ../user/forum_thread.php:128
 msgid "My question was answered"
-msgstr ""
+msgstr "Întrebarea mea a primit răspuns"
 
 #: ../user/forum_thread.php:129
 msgid "Click here if your question has been adequately answered"
@@ -4231,11 +4233,11 @@ msgstr ""
 
 #: ../user/forum_thread.php:137
 msgid "I've also got this question"
-msgstr ""
+msgstr "Am şi eu aceeaşi întrebare"
 
 #: ../user/forum_thread.php:159 ../user/forum_thread.php:275
 msgid "Add a new message to this thread"
-msgstr ""
+msgstr "Adăugaţi un nou mesaj în acest fir"
 
 #: ../user/forum_thread.php:171
 msgid "Unsubscribe"
@@ -5103,7 +5105,7 @@ msgstr "Data"
 
 #: ../user/pm.php:185
 msgid "You need to fill all fields to send a private message"
-msgstr ""
+msgstr "Trebuie să completaţi toate câmpurile pentru a trimite un mesaj privat"
 
 #: ../user/pm.php:188
 msgid ""
@@ -5127,7 +5129,7 @@ msgstr ""
 
 #: ../user/pm.php:217
 msgid "User %1 (ID: %2) is not accepting private messages from you."
-msgstr ""
+msgstr "Utilizatorul %1 (ID: %2) nu acceptă mesaje private de la dumneavoastră."
 
 #: ../user/pm.php:240 ../user/view_profile.php:26
 msgid "No such user"
@@ -5135,7 +5137,7 @@ msgstr "Nu există utilizatorul"
 
 #: ../user/pm.php:242
 msgid "Really block %1?"
-msgstr ""
+msgstr "Chiar blocaţi %1?"
 
 #: ../user/pm.php:243
 msgid ""
@@ -5146,6 +5148,7 @@ msgstr ""
 #: ../user/pm.php:244
 msgid "Please note that you can only block a limited amount of users."
 msgstr ""
+"Vă rugăm să ţineţi cont că puteţi bloca un număr limitat de utilizatori."
 
 #: ../user/pm.php:245
 msgid ""
@@ -5155,7 +5158,7 @@ msgstr ""
 
 #: ../user/pm.php:252
 msgid "No, cancel"
-msgstr ""
+msgstr "Nu, anulează"
 
 #: ../user/pm.php:260 ../user/team_admins.php:98
 msgid "no such user"
@@ -5523,6 +5526,8 @@ msgstr ""
 msgid ""
 "You may belong to only one team. You can join or quit a team at any time."
 msgstr ""
+"Puteţi fi membru într-o singură echipă. Puteţi să vă alăturaţi sau să "
+"părăsiţi o echipă oricând."
 
 #: ../user/team.php:31
 msgid "Each team has a %1founder%2 who may:"
