@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2013-11-23 00:00 PST\n"
-"PO-Revision-Date: 2013-11-15 18:06+0000\n"
+"POT-Creation-Date: 2013-11-24 00:00 PST\n"
+"PO-Revision-Date: 2013-11-25 11:56+0000\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fi\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-POOTLE-MTIME: 1384538817.0\n"
+"X-POOTLE-MTIME: 1385380598.0\n"
 
 msgid "LANG_NAME_NATIVE"
 msgstr "English"
@@ -687,7 +687,7 @@ msgstr "%1 Kt/s"
 #: ../inc/host.inc:159 ../inc/host.inc:166 ../inc/result.inc:216
 #: ../inc/result.inc:226 ../inc/result.inc:244 ../inc/result.inc:262
 #: ../inc/result.inc:278 ../user/explain_state.php:56
-#: ../user/host_app_versions.php:29
+#: ../user/host_app_versions.php:30
 msgid "Unknown"
 msgstr "Tuntematon"
 
@@ -695,7 +695,7 @@ msgstr "Tuntematon"
 msgid "Average download rate"
 msgstr "Keskimääräinen latausnopeus"
 
-#: ../inc/host.inc:169 ../user/host_app_versions.php:64
+#: ../inc/host.inc:169 ../user/host_app_versions.php:65
 msgid "Average turnaround time"
 msgstr "Keskimääräinen läpimenoaika"
 
@@ -1408,7 +1408,7 @@ msgstr "En %1pidä%2 tästä profiilista"
 msgid "Anonymous platform"
 msgstr "Anonyymi alusta"
 
-#: ../inc/result.inc:53
+#: ../inc/result.inc:53 ../user/host_app_versions.php:26
 msgid "NVIDIA GPU"
 msgstr "NVIDIAn GPU"
 
@@ -1416,7 +1416,7 @@ msgstr "NVIDIAn GPU"
 msgid "ATI GPU"
 msgstr "ATIn GPU"
 
-#: ../inc/result.inc:57
+#: ../inc/result.inc:57 ../user/host_app_versions.php:28
 msgid "Intel GPU"
 msgstr "Intel GPU"
 
@@ -2491,7 +2491,7 @@ msgstr "Osanottajat"
 
 #: ../user/bs_sample_index.php:46
 msgid "Do work"
-msgstr ""
+msgstr "Suorita työtä"
 
 #: ../user/bs_sample_index.php:47 ../user/bs_sample_index.php:50
 #: ../user/home.php:49 ../project.sample/project.inc:43
@@ -3605,7 +3605,7 @@ msgstr ""
 msgid ""
 "This project hasn't created an email message - please notify its "
 "administrators"
-msgstr ""
+msgstr "Tämä projekti ei luonut sähköpostiviestiä - ilmoita asiasta ylläpidolle"
 
 #: ../user/ffmail_form.php:33
 msgid "Tell your friends about %1"
@@ -4692,51 +4692,47 @@ msgstr "Katso ja muokkaa tilisi asetuksia alla olevien linkkien kautta."
 msgid "If you have not already done so, %1download BOINC client software%2."
 msgstr "Jos et ole vielä tehnyt niin, %1lataa BOINC ohjelmisto%2."
 
-#: ../user/host_app_versions.php:26
-msgid "nvidia GPU"
-msgstr "nvidia GPU"
-
-#: ../user/host_app_versions.php:36
+#: ../user/host_app_versions.php:37
 msgid "Anonymous platform, missing app"
 msgstr "Anonyymi alusta, puuttuva sovellus"
 
-#: ../user/host_app_versions.php:39
+#: ../user/host_app_versions.php:40
 msgid "anonymous platform"
 msgstr "anonyymi alusta"
 
-#: ../user/host_app_versions.php:42
+#: ../user/host_app_versions.php:43
 msgid "Missing app version"
 msgstr "Puuttuva sovellusversio"
 
-#: ../user/host_app_versions.php:44
+#: ../user/host_app_versions.php:45
 msgid "Missing app"
 msgstr "Puuttuva sovellus"
 
-#: ../user/host_app_versions.php:46
+#: ../user/host_app_versions.php:47
 msgid "Missing platform"
 msgstr "Puuttuva alusta"
 
-#: ../user/host_app_versions.php:55
+#: ../user/host_app_versions.php:56
 msgid "Number of tasks completed"
 msgstr "Valmiiksi saatujen tehtävien määrä"
 
-#: ../user/host_app_versions.php:56
+#: ../user/host_app_versions.php:57
 msgid "Max tasks per day"
 msgstr "Suurin määrä tehtäviä päivää kohti"
 
-#: ../user/host_app_versions.php:57
+#: ../user/host_app_versions.php:58
 msgid "Number of tasks today"
 msgstr "Tehtävien määrä tänään"
 
-#: ../user/host_app_versions.php:58
+#: ../user/host_app_versions.php:59
 msgid "Consecutive valid tasks"
 msgstr "Peräkkäiset vahvistetut tehtävät"
 
-#: ../user/host_app_versions.php:62
+#: ../user/host_app_versions.php:63
 msgid "Average processing rate"
 msgstr "Keskimääräinen suoritusnopeus"
 
-#: ../user/host_app_versions.php:71
+#: ../user/host_app_versions.php:72
 msgid "Application details for host %1"
 msgstr "Koneen %1 sovellustiedot"
 
@@ -6952,6 +6948,9 @@ msgstr ""
 #: ../project.sample/project_specific_prefs.inc:91
 msgid "(all applications)"
 msgstr "(kaikki sovellukset)"
+
+#~ msgid "nvidia GPU"
+#~ msgstr "nvidia GPU"
 
 #~ msgid ""
 #~ "This project hasn\\'t created an email message - please notify its "

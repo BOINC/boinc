@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-11-17 00:00-0800\n"
-"PO-Revision-Date: 2013-11-22 15:36+0000\n"
-"Last-Translator: canberkunver <canberkunver@gmail.com>\n"
+"PO-Revision-Date: 2013-11-24 20:51+0000\n"
+"Last-Translator: Aycan <aycandemirel@hotmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
@@ -19,25 +19,26 @@ msgstr ""
 "X-Poedit-SearchPath-0: mac_installer\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-Basepath: /Volumes/Cheer/BOINC_GIT/boinc_trunk\n"
-"X-POOTLE-MTIME: 1385134598.0\n"
+"X-POOTLE-MTIME: 1385326295.0\n"
 "X-Poedit-KeywordsList: _\n"
 
 #: Installer.cpp:124
 #, c-format
 msgid "Sorry, this version of %s requires system 10.5 or higher."
 msgstr ""
+"Özür dileriz, %s'in bu versiyonu 10.5 veya daha yüksek sistem gerektiriyor."
 
 #: PostInstall.cpp:130 PostInstall.cpp:1136
 msgid "Yes"
-msgstr ""
+msgstr "Evet"
 
 #: PostInstall.cpp:131 PostInstall.cpp:1137
 msgid "No"
-msgstr ""
+msgstr "Hayır"
 
 #: PostInstall.cpp:133
 msgid "Should BOINC run even when no user is logged in?"
-msgstr ""
+msgstr "BOINC hiçbir kullanıcı oturum açmamışken de çalışsın mı?"
 
 #: PostInstall.cpp:1416
 #, c-format

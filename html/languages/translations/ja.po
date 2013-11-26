@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2013-11-23 00:00 PST\n"
+"POT-Creation-Date: 2013-11-24 00:00 PST\n"
 "PO-Revision-Date: 2013-03-16 11:43+0200\n"
 "Last-Translator: Kai <www.carrotsoft@gmail.com>\n"
 "Language-Team: \n"
@@ -713,7 +713,7 @@ msgstr "%1 KB/秒"
 #: ../inc/host.inc:159 ../inc/host.inc:166 ../inc/result.inc:216
 #: ../inc/result.inc:226 ../inc/result.inc:244 ../inc/result.inc:262
 #: ../inc/result.inc:278 ../user/explain_state.php:56
-#: ../user/host_app_versions.php:29
+#: ../user/host_app_versions.php:30
 msgid "Unknown"
 msgstr "不明"
 
@@ -721,7 +721,7 @@ msgstr "不明"
 msgid "Average download rate"
 msgstr "平均ダウンロード速度"
 
-#: ../inc/host.inc:169 ../user/host_app_versions.php:64
+#: ../inc/host.inc:169 ../user/host_app_versions.php:65
 msgid "Average turnaround time"
 msgstr "平均ターンアラウンドタイム"
 
@@ -1418,7 +1418,7 @@ msgstr "この自己紹介記事(プロファイル)は%1嫌い%2"
 msgid "Anonymous platform"
 msgstr "名前のないプラットフォーム"
 
-#: ../inc/result.inc:53
+#: ../inc/result.inc:53 ../user/host_app_versions.php:26
 msgid "NVIDIA GPU"
 msgstr "NVIDIA GPU"
 
@@ -1426,7 +1426,7 @@ msgstr "NVIDIA GPU"
 msgid "ATI GPU"
 msgstr "ATI GPU"
 
-#: ../inc/result.inc:57
+#: ../inc/result.inc:57 ../user/host_app_versions.php:28
 msgid "Intel GPU"
 msgstr ""
 
@@ -4654,53 +4654,49 @@ msgstr "アカウントのプレファレンス(好みの設定）を確認・�
 msgid "If you have not already done so, %1download BOINC client software%2."
 msgstr "まだダウンロードしていなければ、%1BOINC クライアント・ソフトウェアをダウンロード%2してください."
 
-#: ../user/host_app_versions.php:26
-msgid "nvidia GPU"
-msgstr "nvidia GPU"
-
-#: ../user/host_app_versions.php:36
+#: ../user/host_app_versions.php:37
 msgid "Anonymous platform, missing app"
 msgstr "名前のないプラットフォーム、アプリケーションなし"
 
-#: ../user/host_app_versions.php:39
+#: ../user/host_app_versions.php:40
 msgid "anonymous platform"
 msgstr "名前のないプラットフォーム"
 
-#: ../user/host_app_versions.php:42
+#: ../user/host_app_versions.php:43
 msgid "Missing app version"
 msgstr "アプリケーションの版はなし"
 
-#: ../user/host_app_versions.php:44
+#: ../user/host_app_versions.php:45
 msgid "Missing app"
 msgstr "アプリケーションなし"
 
-#: ../user/host_app_versions.php:46
+#: ../user/host_app_versions.php:47
 msgid "Missing platform"
 msgstr "プラットフォームなし"
 
-#: ../user/host_app_versions.php:55
+#: ../user/host_app_versions.php:56
 msgid "Number of tasks completed"
 msgstr "完了したタスクの数"
 
-#: ../user/host_app_versions.php:56
+#: ../user/host_app_versions.php:57
 msgid "Max tasks per day"
 msgstr "一日あたりの最大タスク数"
 
-#: ../user/host_app_versions.php:57
+#: ../user/host_app_versions.php:58
 msgid "Number of tasks today"
 msgstr "今日のタスク数"
 
-#: ../user/host_app_versions.php:58
+#: ../user/host_app_versions.php:59
 msgid "Consecutive valid tasks"
 msgstr "連続して有効な結果を返したタスク数"
 
-#: ../user/host_app_versions.php:62
+#: ../user/host_app_versions.php:63
 msgid "Average processing rate"
 msgstr "平均処理速度"
 
 # #######################################
 # Apps page (apps.php)
-#: ../user/host_app_versions.php:71
+#: ../user/host_app_versions.php:72
 msgid "Application details for host %1"
 msgstr "計算機 %1 のアプリケーション詳細"
 
@@ -6797,6 +6793,9 @@ msgstr "選択したアプリケーションの仕事がないとき、他のア
 #: ../project.sample/project_specific_prefs.inc:91
 msgid "(all applications)"
 msgstr "(すべてのアプリケーション)"
+
+#~ msgid "nvidia GPU"
+#~ msgstr "nvidia GPU"
 
 #~ msgid ""
 #~ "This project hasn\\'t created an email message - please notify its "

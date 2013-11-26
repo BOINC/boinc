@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2013-11-23 00:00 PST\n"
+"POT-Creation-Date: 2013-11-24 00:00 PST\n"
 "PO-Revision-Date: 2013-06-05 20:02+0200\n"
 "Last-Translator: Anonymous Pootle User\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -693,7 +693,7 @@ msgstr "%1 KB/s"
 #: ../inc/host.inc:159 ../inc/host.inc:166 ../inc/result.inc:216
 #: ../inc/result.inc:226 ../inc/result.inc:244 ../inc/result.inc:262
 #: ../inc/result.inc:278 ../user/explain_state.php:56
-#: ../user/host_app_versions.php:29
+#: ../user/host_app_versions.php:30
 msgid "Unknown"
 msgstr "Neznano"
 
@@ -701,7 +701,7 @@ msgstr "Neznano"
 msgid "Average download rate"
 msgstr "Povprečna hitrost prejemanja"
 
-#: ../inc/host.inc:169 ../user/host_app_versions.php:64
+#: ../inc/host.inc:169 ../user/host_app_versions.php:65
 msgid "Average turnaround time"
 msgstr "Povprečna obračalni čas"
 
@@ -1422,7 +1422,7 @@ msgstr "Ta profil mi %1ni všeč%2"
 msgid "Anonymous platform"
 msgstr "Anonimna platforma"
 
-#: ../inc/result.inc:53
+#: ../inc/result.inc:53 ../user/host_app_versions.php:26
 msgid "NVIDIA GPU"
 msgstr "NVIDIA grafični procesor"
 
@@ -1430,7 +1430,7 @@ msgstr "NVIDIA grafični procesor"
 msgid "ATI GPU"
 msgstr "ATI grafični procesor"
 
-#: ../inc/result.inc:57
+#: ../inc/result.inc:57 ../user/host_app_versions.php:28
 msgid "Intel GPU"
 msgstr ""
 
@@ -4752,57 +4752,53 @@ msgstr "Poglejte in uredite nastavitve vašega računa s spodnjimi povezavami."
 msgid "If you have not already done so, %1download BOINC client software%2."
 msgstr ""
 
-#: ../user/host_app_versions.php:26
-msgid "nvidia GPU"
-msgstr ""
-
-#: ../user/host_app_versions.php:36
+#: ../user/host_app_versions.php:37
 #, fuzzy
 msgid "Anonymous platform, missing app"
 msgstr "Anonimna platforma"
 
-#: ../user/host_app_versions.php:39
+#: ../user/host_app_versions.php:40
 #, fuzzy
 msgid "anonymous platform"
 msgstr "Anonimna platforma"
 
-#: ../user/host_app_versions.php:42
+#: ../user/host_app_versions.php:43
 msgid "Missing app version"
 msgstr ""
 
-#: ../user/host_app_versions.php:44
+#: ../user/host_app_versions.php:45
 #, fuzzy
 msgid "Missing app"
 msgstr "manjka tip iskanja"
 
-#: ../user/host_app_versions.php:46
+#: ../user/host_app_versions.php:47
 msgid "Missing platform"
 msgstr ""
 
-#: ../user/host_app_versions.php:55
+#: ../user/host_app_versions.php:56
 msgid "Number of tasks completed"
 msgstr ""
 
-#: ../user/host_app_versions.php:56
+#: ../user/host_app_versions.php:57
 #, fuzzy
 msgid "Max tasks per day"
 msgstr "Ni opravil za prikaz "
 
-#: ../user/host_app_versions.php:57
+#: ../user/host_app_versions.php:58
 #, fuzzy
 msgid "Number of tasks today"
 msgstr "Ni opravil za prikaz "
 
-#: ../user/host_app_versions.php:58
+#: ../user/host_app_versions.php:59
 msgid "Consecutive valid tasks"
 msgstr ""
 
-#: ../user/host_app_versions.php:62
+#: ../user/host_app_versions.php:63
 #, fuzzy
 msgid "Average processing rate"
 msgstr "Povprečna hitrost pošiljanja"
 
-#: ../user/host_app_versions.php:71
+#: ../user/host_app_versions.php:72
 msgid "Application details for host %1"
 msgstr "Podrobnosti aplikacij za gostitelja %1"
 

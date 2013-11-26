@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2013-11-23 00:00 PST\n"
+"POT-Creation-Date: 2013-11-24 00:00 PST\n"
 "PO-Revision-Date: 2013-01-20 16:11+0200\n"
 "Last-Translator: Pawel <pawel.pbm@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -701,7 +701,7 @@ msgstr "%1 KB/s"
 #: ../inc/host.inc:159 ../inc/host.inc:166 ../inc/result.inc:216
 #: ../inc/result.inc:226 ../inc/result.inc:244 ../inc/result.inc:262
 #: ../inc/result.inc:278 ../user/explain_state.php:56
-#: ../user/host_app_versions.php:29
+#: ../user/host_app_versions.php:30
 msgid "Unknown"
 msgstr "Nieznany"
 
@@ -709,7 +709,7 @@ msgstr "Nieznany"
 msgid "Average download rate"
 msgstr "Średnia prędkość pobierania"
 
-#: ../inc/host.inc:169 ../user/host_app_versions.php:64
+#: ../inc/host.inc:169 ../user/host_app_versions.php:65
 msgid "Average turnaround time"
 msgstr "Średni czas realizacji"
 
@@ -1441,7 +1441,7 @@ msgstr "%1Nie lubię%2 tego profilu"
 msgid "Anonymous platform"
 msgstr "Nieznana platforma"
 
-#: ../inc/result.inc:53
+#: ../inc/result.inc:53 ../user/host_app_versions.php:26
 msgid "NVIDIA GPU"
 msgstr "karta graficzna NVIDIA"
 
@@ -1449,7 +1449,7 @@ msgstr "karta graficzna NVIDIA"
 msgid "ATI GPU"
 msgstr "karta graficzna ATI"
 
-#: ../inc/result.inc:57
+#: ../inc/result.inc:57 ../user/host_app_versions.php:28
 msgid "Intel GPU"
 msgstr ""
 
@@ -4758,57 +4758,53 @@ msgstr "Zobacz lub zmień ustawiania swojego konta używając poniższych linkó
 msgid "If you have not already done so, %1download BOINC client software%2."
 msgstr ""
 
-#: ../user/host_app_versions.php:26
-msgid "nvidia GPU"
-msgstr ""
-
-#: ../user/host_app_versions.php:36
+#: ../user/host_app_versions.php:37
 msgid "Anonymous platform, missing app"
 msgstr ""
 
 # 94%
-#: ../user/host_app_versions.php:39
+#: ../user/host_app_versions.php:40
 #, fuzzy
 msgid "anonymous platform"
 msgstr "Nieznana platforma"
 
-#: ../user/host_app_versions.php:42
+#: ../user/host_app_versions.php:43
 msgid "Missing app version"
 msgstr ""
 
-#: ../user/host_app_versions.php:44
+#: ../user/host_app_versions.php:45
 msgid "Missing app"
 msgstr ""
 
-#: ../user/host_app_versions.php:46
+#: ../user/host_app_versions.php:47
 msgid "Missing platform"
 msgstr ""
 
-#: ../user/host_app_versions.php:55
+#: ../user/host_app_versions.php:56
 msgid "Number of tasks completed"
 msgstr ""
 
-#: ../user/host_app_versions.php:56
+#: ../user/host_app_versions.php:57
 msgid "Max tasks per day"
 msgstr ""
 
-#: ../user/host_app_versions.php:57
+#: ../user/host_app_versions.php:58
 #, fuzzy
 msgid "Number of tasks today"
 msgstr "Liczba procesorów"
 
-#: ../user/host_app_versions.php:58
+#: ../user/host_app_versions.php:59
 msgid "Consecutive valid tasks"
 msgstr ""
 
-#: ../user/host_app_versions.php:62
+#: ../user/host_app_versions.php:63
 #, fuzzy
 msgid "Average processing rate"
 msgstr "Średnia punktów"
 
 # #######################################
 # Apps page (apps.php)
-#: ../user/host_app_versions.php:71
+#: ../user/host_app_versions.php:72
 #, fuzzy
 msgid "Application details for host %1"
 msgstr "Aplikacje"
