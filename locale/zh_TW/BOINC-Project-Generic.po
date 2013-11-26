@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2013-11-24 00:00 PST\n"
-"PO-Revision-Date: 2013-11-08 23:57+0000\n"
-"Last-Translator: 宇謙 <df910105@yahoo.com.tw>\n"
+"PO-Revision-Date: 2013-11-26 12:36+0000\n"
+"Last-Translator: Hank <yihhann@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-POOTLE-MTIME: 1383955035.0\n"
+"X-POOTLE-MTIME: 1385469401.0\n"
 
 msgid "LANG_NAME_NATIVE"
 msgstr "繁體中文 ( 台灣 )"
@@ -2426,7 +2426,7 @@ msgstr "參與者"
 
 #: ../user/bs_sample_index.php:46
 msgid "Do work"
-msgstr ""
+msgstr "執行運算"
 
 #: ../user/bs_sample_index.php:47 ../user/bs_sample_index.php:50
 #: ../user/home.php:49 ../project.sample/project.inc:43
@@ -3472,13 +3472,13 @@ msgstr "感謝您向好友們介紹了 %1"
 msgid ""
 "You forgot to enter your friends' names and/or email addresses; Please %"
 "1return to the form%2 and enter them."
-msgstr "您沒有輸入好友的名稱和/或電子郵件地址，請%1回退到表單頁面%2並重新輸入。"
+msgstr "您沒有輸入好友的名稱和/或電子郵件地址，請%1回到上一頁%2並重新輸入。"
 
 #: ../user/ffmail_form.php:30
 msgid ""
 "This project hasn't created an email message - please notify its "
 "administrators"
-msgstr ""
+msgstr "這個專案尚未建立電子郵件 - 請通知專案管理員"
 
 #: ../user/ffmail_form.php:33
 msgid "Tell your friends about %1"
@@ -4457,7 +4457,7 @@ msgstr "如果你仍有 BOINC 客戶端運行在該帳戶下，請按如下操�
 msgid ""
 "Go to the BOINC data directory on your computer (its location is written to "
 "the Event Log at startup)."
-msgstr ""
+msgstr "切換到你電腦上的 BOINC 資料目錄 (這個目錄在一開始就已經寫到事件記錄裡頭)"
 
 #: ../user/get_passwd.php:51
 msgid "Find your account file for this project; it will be named <b>%1</b>."
