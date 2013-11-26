@@ -122,8 +122,9 @@ msgstr ""
 "就可以进行注册或取回您已忘记的密码。"
 
 #: AccountInfoPage.cpp:532
+#, fuzzy
 msgid "Account manager web site"
-msgstr ""
+msgstr "帐户管理器网站"
 
 #: AccountInfoPage.cpp:574 WelcomePage.cpp:348
 msgid "Add project"
@@ -167,12 +168,14 @@ msgid ""
 msgstr "要选择一个帐户管理器，请点击它的名称或在下方输入它的网址。"
 
 #: AccountManagerInfoPage.cpp:279
+#, fuzzy
 msgid "Account manager details:"
-msgstr ""
+msgstr "帐户管理器网站"
 
 #: AccountManagerInfoPage.cpp:283
+#, fuzzy
 msgid "Account manager &URL:"
-msgstr ""
+msgstr "帐户管理器的网址(&U)："
 
 #: AccountManagerInfoPage.cpp:287
 msgid "Open web page"
@@ -489,9 +492,9 @@ msgid "Show information about the %s"
 msgstr "查看 %s 的信息"
 
 #: AdvancedFrame.cpp:657 sg_BoincSimpleFrame.cpp:220
-#, c-format
+#, c-format, fuzzy
 msgid "%s &web site"
-msgstr ""
+msgstr "%s 网站(&W)"
 
 #: AdvancedFrame.cpp:663 sg_BoincSimpleFrame.cpp:226
 #, c-format
@@ -3680,9 +3683,9 @@ msgid "Project Commands"
 msgstr "项目命令"
 
 #: sg_ProjectPanel.cpp:267
-#, c-format
+#, c-format, fuzzy
 msgid "Pop up a menu of web sites for project %s"
-msgstr ""
+msgstr "弹出一个 %s 项目的网站菜单"
 
 #: sg_ProjectPanel.cpp:269
 #, c-format
