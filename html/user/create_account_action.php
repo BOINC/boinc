@@ -35,25 +35,18 @@ $config = get_config();
 if (parse_bool($config, "disable_account_creation")
     || parse_bool($config, "no_web_account_creation")
 ) {
-    page_head(tra("Account creation is disabled"));
-    echo "
-        <h3>".tra("Account creation is disabled")."</h3>
-        ".tra("Sorry, this project has disabled the creation of new accounts.
-Please try again later.")."
-    ";
-    exit();
+    error_page("Account creation is disabled");
 }
 
 $privatekey = parse_config($config, "<recaptcha_private_key>");
-  if ($privatekey) {
-      $resp = recaptcha_check_answer($privatekey, $_SERVER["REMOTE_ADDR"],
-          $_POST["recaptcha_challenge_field"], $_POST["recaptcha_response_field"]
-      );
-      if (!$resp->is_valid) {
-          echo tra("Your reCAPTCHA response was not correct. Please try again.");
-          return;
-      }
-  }
+if ($privatekey) {
+    $resp = recaptcha_check_answer($privatekey, $_SERVER["REMOTE_ADDR"],
+        $_POST["recaptcha_challenge_field"], $_POST["recaptcha_response_field"]
+    );
+    if (!$resp->is_valid) {
+        show_error(tra("Your reCAPTCHA response was not correct. Please try again."));
+    }
+}
 
 // see whether the new account should be pre-enrolled in a team,
 // and initialized with its founder's project prefs

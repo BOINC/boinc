@@ -38,6 +38,7 @@ function show_nav() {
     $master_url = parse_config($config, "<master_url>");
     $no_computing = parse_config($config, "<no_computing>");
     $no_web_account_creation = parse_bool($config, "no_web_account_creation");
+    $disable_acct = parse_bool($config, "disable_account_creation");
     echo "<div class=\"mainnav\">
         <h2 class=headline>About ".PROJECT."</h2>
     ";
@@ -66,22 +67,32 @@ function show_nav() {
         <ul>
     ";
     if ($no_computing) {
-        echo "
-            <li> <a href=\"create_account_form.php\">Create an account</a>
-        ";
+        if (!$no_web_account_creation && !$disable_acct) {
+            echo "
+                <li> <a href=\"create_account_form.php\">Create an account</a>
+            ";
+        } else {
+            echo "<li> This project is not currently accepting new accounts.";
+        }
     } else {
         echo "
             <li><a href=\"info.php\">".tra("Read our rules and policies")."</a>
-            <li> This project uses BOINC.
-                If you're already running BOINC, select Add Project.
-                If not, <a target=\"_new\" href=\"http://boinc.berkeley.edu/download.php\">download BOINC</a>.
-            <li> When prompted, enter <br><b>".$master_url."</b>
         ";
-        if (!$no_web_account_creation) {
+        if (!$disable_acct) {
             echo "
-                <li> If you're running a command-line version of BOINC,
-                    <a href=\"create_account_form.php\">create an account</a> first.
+                <li> This project uses BOINC.
+                    If you're already running BOINC, select Add Project.
+                    If not, <a target=\"_new\" href=\"http://boinc.berkeley.edu/download.php\">download BOINC</a>.
+                <li> When prompted, enter <br><b>".$master_url."</b>
             ";
+            if (!$no_web_account_creation) {
+                echo "
+                    <li> If you're running a command-line version of BOINC,
+                        <a href=\"create_account_form.php\">create an account</a> first.
+                ";
+            }
+        } else {
+            echo "<li> This project is not currently accepting new accounts.";
         }
         echo "
             <li> If you have any problems,

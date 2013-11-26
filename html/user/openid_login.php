@@ -61,15 +61,12 @@ try {
 
        
         $config = get_config();
-        if (parse_bool($config, "disable_account_creation")) {
-            page_head("Account creation is disabled");
-            echo "
-                <h3>Account creation is disabled</h3>
-                Sorry, this project has disabled the creation of new accounts.
-                Please try again later.
-            ";
-            exit();
+        if (parse_bool($config, "disable_account_creation")
+            || parse_bool($config, "no_web_account_creation")
+        ) {
+            error_page("Account creation is disabled");
         }
+
         
         // see whether the new account should be pre-enrolled in a team,
         // and initialized with its founder's project prefs
