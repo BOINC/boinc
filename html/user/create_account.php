@@ -34,6 +34,9 @@ $config = get_config();
 if (parse_bool($config, "disable_account_creation")) {
     xml_error(-208);
 }
+if (parse_bool($config, "disable_account_creation_rpc")) {
+    xml_error(-208);
+}
 
 if(defined('INVITE_CODES')) {
     $invite_code = get_str("invite_code");
