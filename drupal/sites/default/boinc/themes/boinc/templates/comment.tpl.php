@@ -77,6 +77,7 @@
       print '<div class="ignore-user-content">';
     } 
     ?>
+  
   <div class="user">
     <?php
       $account = user_load(array('uid' => $comment->uid));
@@ -166,3 +167,7 @@
     </div>
   </div> <!-- /.comment-body -->
 </div> <!-- /.comment -->
+
+<?php if ($status == 'comment-preview'): ?>
+  <h2 class="title"><?php print t('Revise or post comment'); ?></h2>
+<?php endif; ?>

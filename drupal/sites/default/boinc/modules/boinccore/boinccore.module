@@ -177,9 +177,6 @@ function boinccore_form_alter(&$form, $form_state, $form_id) {
       '#weight' => 1010,
     );
     
-    // Preview is ugly, unset until it works
-    unset($form['preview']);
-    
     // Remove redundant name field
     unset($form['_author']);
     

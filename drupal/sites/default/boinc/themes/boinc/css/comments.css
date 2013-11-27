@@ -289,6 +289,26 @@ div.node-type-forum.not-first-page {
 
 .preview .comment /* Preview of the comment before submitting new or updated comment */ {
   /* background-color: #ffffea; */ /* Drupal core uses a #ffffea background */
+  border: none;
+  margin-top: 24px;
+  padding-top: 0;
+}
+.preview h2 {
+  border-bottom: 1px dotted #aaa;
+  margin-bottom: 24px;
+  padding-bottom: 12px;
+}
+
+#comment-form .preview + .user {
+  height: auto;
+}
+#comment-form .comment .user {
+  border: none;
+}
+
+div.preview + .comment {
+  padding-top: 24px;
+  margin-top: 24px;
 }
 
 /* Comment form */
