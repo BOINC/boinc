@@ -82,8 +82,8 @@ function boinc_standard_menu_default_menu_links() {
   );
   // Translatables
   // Included for use with string extractors like potx.
-  t('Credentials');
   t('BOINC');
+  t('Credentials');
   t('Dashboard');
   t('Home');
 

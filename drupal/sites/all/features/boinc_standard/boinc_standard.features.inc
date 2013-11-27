@@ -31,10 +31,10 @@ function boinc_standard_flag_default_flags() {
   $flags['abuse_comment'] = array(
     'content_type' => 'comment',
     'title' => 'Comment Abuse',
-    'global' => '0',
+    'global' => FALSE,
     'types' => array(
-      '0' => 'news',
-      '1' => 'forum',
+      '0' => 'forum',
+      '1' => 'news',
     ),
     'flag_short' => 'Report',
     'flag_long' => 'Report this content as offensive.',
@@ -65,7 +65,7 @@ function boinc_standard_flag_default_flags() {
   $flags['abuse_node'] = array(
     'content_type' => 'node',
     'title' => 'Node Abuse',
-    'global' => '0',
+    'global' => FALSE,
     'types' => array(
       '0' => 'profile',
       '1' => 'forum',
@@ -190,4 +190,72 @@ function boinc_standard_node_info() {
     ),
   );
   return $items;
+}
+
+/**
+ * Implementation of hook_rules_defaults().
+ */
+function boinc_standard_rules_defaults() {
+  return array(
+    'rules' => array(
+      'rules_offensive_content_reported' => array(
+        '#type' => 'rule',
+        '#set' => 'event_flag_flagged_abuse_node',
+        '#label' => 'Offensive content reported',
+        '#active' => 1,
+        '#weight' => '0',
+        '#categories' => array(
+          '0' => 'moderator notification',
+          'boinc_standard' => 'boinc_standard',
+        ),
+        '#status' => 'default',
+        '#conditions' => array(),
+        '#actions' => array(
+          '0' => array(
+            '#type' => 'action',
+            '#settings' => array(
+              'recipients' => array(
+                '0' => 6,
+              ),
+              'from' => '',
+              'subject' => 'Report of offensive [node:type] content at [:global:site-name]',
+              'message' => '[flagging_user:display-name] has reported the following [node:type] content as being offensive or inappropriate for the [:global:site-name] site:
+
+[:global:site-url][node:node-path]
+
+Total reports of this content: [node:flag-abuse-node-count]',
+              '#eval input' => array(
+                'token_rules_input_evaluator' => array(
+                  'subject' => array(
+                    '0' => 'node',
+                    '1' => ':global',
+                  ),
+                  'message' => array(
+                    '0' => 'flagging_user',
+                    '1' => 'node',
+                    '2' => ':global',
+                  ),
+                  'from' => array(
+                    '0' => ':global',
+                  ),
+                ),
+              ),
+            ),
+            '#name' => 'rules_action_mail_to_users_of_role',
+            '#info' => array(
+              'label' => 'Send a mail to all users of a role',
+              'module' => 'System',
+              'eval input' => array(
+                '0' => 'subject',
+                '1' => 'message',
+                '2' => 'from',
+              ),
+            ),
+            '#weight' => 0,
+          ),
+        ),
+        '#version' => 6003,
+      ),
+    ),
+  );
 }
