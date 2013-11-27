@@ -240,7 +240,7 @@ function submit_batch($r) {
     } else {
         $batch_name = (string)($r->batch->batch_name);
         $batch_id = BoincBatch::insert(
-            "(user_id, create_time, njobs, name, app_id, logical_end_time, state) values ($user->id, $now, $njobs, '$batch_name', $app->id, $let, ".BATCH_STATE_IN_INIT.")"
+            "(user_id, create_time, njobs, name, app_id, logical_end_time, state) values ($user->id, $now, $njobs, '$batch_name', $app->id, $let, ".BATCH_STATE_INIT.")"
         );
         if (!$batch_id) {
             xml_error(-1, "BOINC server: Can't create batch: ".BoincDb::error());
