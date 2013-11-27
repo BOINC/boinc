@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: 1.03\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2013-11-24 00:00 PST\n"
-"PO-Revision-Date: 2013-11-20 15:59+0000\n"
+"PO-Revision-Date: 2013-11-27 11:23+0000\n"
 "Last-Translator: Miguel Filipe Paulino de Sousa <Miguel.veig@gmail.com>\n"
 "Language-Team: Portuguese <LL@li.org>\n"
 "Language: pt_PT\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-POOTLE-MTIME: 1384963187.0\n"
+"X-POOTLE-MTIME: 1385551424.0\n"
 
 msgid "LANG_NAME_NATIVE"
 msgstr "Português"
@@ -887,7 +887,7 @@ msgstr "Fundir computadores por nome"
 
 #: ../inc/language_names.inc:61
 msgid "Browser default"
-msgstr "Navegador padrão"
+msgstr "Navegador predefinido"
 
 #: ../inc/news.inc:40
 msgid "Comment"
@@ -1323,7 +1323,7 @@ msgid ""
 "preferences will be used."
 msgstr ""
 "Em computadores que participem em múltiplos projectos, as preferências "
-"usadas serão as mais recentes."
+"utilizadas serão as mais recentes."
 
 #: ../inc/prefs.inc:889
 msgid "These preferences do not apply to Android devices."
@@ -3634,6 +3634,8 @@ msgid ""
 "This project hasn't created an email message - please notify its "
 "administrators"
 msgstr ""
+"Este projecto não criou uma mensagem de e-mail - por favor notifique os "
+"administradores"
 
 #: ../user/ffmail_form.php:33
 msgid "Tell your friends about %1"
