@@ -55,10 +55,13 @@ $opinions = $content_profile->field_opinions[0]['value'];
 $user_links = array();
 
 if ($user->uid AND ($user->uid != $account->uid)) {
-  $user_links[] = array(
-    'title' => t('Send message'),
-    'href' => privatemsg_get_link(array($account))
-  );
+  if (module_exists('private_messages')) {
+  // if (function_exists('privatemsg_get_link')) {
+    $user_links[] = array(
+      'title' => t('Send message'),
+      'href' => privatemsg_get_link(array($account))
+    );
+  }
   $user_links[] = array(
     'title' => t('Add as friend'),
     'href' => "flag/confirm/flag/friend/{$account->uid}"
@@ -114,8 +117,12 @@ $link_index = 0;
           <li class="<?php print ($link_index == 0) ? 'first ' : ''; ?>tab<?php print ($link_index == count($user_links)-1) ? ' last' : ''; ?>">
             <?php print l($link['title'], $link['href'], array('query' => drupal_get_destination())); ?>
           </li>
-        <!--<li class="first tab"><?php print l(t('Send message'), privatemsg_get_link(array($account)), array('query' => drupal_get_destination())); ?></li>
-        <li class="last tab"><?php print l(t('Add as friend'), "flag/confirm/flag/friend/{$account->uid}", array('query' => drupal_get_destination())); ?></li>-->
+          <!--
+          <?php if (module_exists('private_messages')): ?>
+            <li class="first tab"><?php print l(t('Send message'), privatemsg_get_link(array($account)), array('query' => drupal_get_destination())); ?></li>
+          <?php endif; ?>
+          <li class="last tab"><?php print l(t('Add as friend'), "flag/confirm/flag/friend/{$account->uid}", array('query' => drupal_get_destination())); ?></li>
+          -->
         <?php endforeach; ?>
       </ul>
     <?php endif; ?>
