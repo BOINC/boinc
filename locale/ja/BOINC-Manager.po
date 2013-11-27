@@ -7,21 +7,22 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.10 Japanese\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-11-22 00:00-0800\n"
-"PO-Revision-Date: 2013-03-16 11:43+0200\n"
-"Last-Translator: Kai <www.carrotsoft@gmail.com>\n"
+"PO-Revision-Date: 2013-10-28 15:20+0000\n"
+"Last-Translator: Anonymous Pootle User\n"
 "Language-Team: \n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Pootle 2.1.6\n"
+"X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SearchPath-1: clientgui/msw\n"
 "X-Poedit-SearchPath-2: clientgui/gtk\n"
 "X-Poedit-SearchPath-3: clientgui/mac\n"
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCGIT\\boinc\n"
+"X-POOTLE-MTIME: 1382973625.0\n"
 
 # 81%
 #: AccountInfoPage.cpp:387
@@ -122,8 +123,9 @@ msgstr ""
 "進んでください。忘れたパスワードを見つけることも可能です。"
 
 #: AccountInfoPage.cpp:532
+#, fuzzy
 msgid "Account manager web site"
-msgstr ""
+msgstr "アカウント・マネージャのウェブサイト"
 
 #: AccountInfoPage.cpp:574 WelcomePage.cpp:348
 msgid "Add project"
@@ -142,8 +144,9 @@ msgid "Please enter a user name."
 msgstr ""
 
 #: AccountInfoPage.cpp:587
+#, fuzzy
 msgid "Please enter an email address."
-msgstr ""
+msgstr "電子メールアドレスを指定してください"
 
 #: AccountInfoPage.cpp:597
 #, c-format
@@ -168,12 +171,14 @@ msgstr ""
 "あるいは下の欄に URL を入力してください。"
 
 #: AccountManagerInfoPage.cpp:279
+#, fuzzy
 msgid "Account manager details:"
-msgstr ""
+msgstr "アカウント・マネージャのウェブサイト"
 
 #: AccountManagerInfoPage.cpp:283
+#, fuzzy
 msgid "Account manager &URL:"
-msgstr ""
+msgstr "アカウント・マネージャー &URL："
 
 #: AccountManagerInfoPage.cpp:287
 msgid "Open web page"
@@ -491,9 +496,9 @@ msgid "Show information about the %s"
 msgstr "%s の情報を表示します"
 
 #: AdvancedFrame.cpp:657 sg_BoincSimpleFrame.cpp:220
-#, c-format
+#, c-format, fuzzy
 msgid "%s &web site"
-msgstr ""
+msgstr "%s ウェブサイト(&W)"
 
 #: AdvancedFrame.cpp:663 sg_BoincSimpleFrame.cpp:226
 #, c-format
@@ -3740,9 +3745,9 @@ msgid "Project Commands"
 msgstr "プロジェクトに関する操作"
 
 #: sg_ProjectPanel.cpp:267
-#, c-format
+#, c-format, fuzzy
 msgid "Pop up a menu of web sites for project %s"
-msgstr ""
+msgstr "プロジェクト %s 用のポップアップ・メニューを開く"
 
 #: sg_ProjectPanel.cpp:269
 #, c-format
