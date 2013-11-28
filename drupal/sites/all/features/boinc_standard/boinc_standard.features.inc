@@ -256,6 +256,63 @@ Total reports of this content: [node:flag-abuse-node-count]',
         ),
         '#version' => 6003,
       ),
+      'rules_offensive_user_reported' => array(
+        '#type' => 'rule',
+        '#set' => 'event_flag_flagged_abuse_user',
+        '#label' => 'Offensive user reported',
+        '#active' => 1,
+        '#weight' => '0',
+        '#categories' => array(
+          '0' => 'moderator notification',
+          'boinc_standard' => 'boinc_standard',
+        ),
+        '#status' => 'default',
+        '#conditions' => array(),
+        '#actions' => array(
+          '0' => array(
+            '#weight' => 0,
+            '#info' => array(
+              'label' => 'Send a mail to all users of a role',
+              'module' => 'System',
+              'eval input' => array(
+                '0' => 'subject',
+                '1' => 'message',
+                '2' => 'from',
+              ),
+            ),
+            '#name' => 'rules_action_mail_to_users_of_role',
+            '#settings' => array(
+              'recipients' => array(
+                '0' => 6,
+              ),
+              'from' => '',
+              'subject' => 'Report of offensive user at [:global:site-name]',
+              'message' => '[flagging_user:display-name] has reported [account:display-name] for inappropriate behavior:
+
+[:global:site-url]account/[account:uid]
+
+Total current reports of this user: [account:flag-abuse-user-count]',
+              '#eval input' => array(
+                'token_rules_input_evaluator' => array(
+                  'subject' => array(
+                    '0' => ':global',
+                  ),
+                  'message' => array(
+                    '0' => 'flagging_user',
+                    '1' => 'account',
+                    '2' => ':global',
+                  ),
+                  'from' => array(
+                    '0' => ':global',
+                  ),
+                ),
+              ),
+            ),
+            '#type' => 'action',
+          ),
+        ),
+        '#version' => 6003,
+      ),
     ),
   );
 }
