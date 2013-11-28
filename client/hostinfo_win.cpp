@@ -1011,6 +1011,7 @@ int get_processor_name(char* name, int name_size) {
 // see: http://msdn.microsoft.com/en-us/library/hskdteyh.aspx
 // see: http://www.intel.com/Assets/PDF/appnote/241618.pdf
 // see: http://www.amd.com/us-en/assets/content_type/white_papers_and_tech_docs/25481.pdf
+//
 int get_processor_cache(int& cache) {
     unsigned int eax = 0, ebx = 0, ecx = 0, edx = 0;
 
@@ -1027,6 +1028,7 @@ int get_processor_cache(int& cache) {
 // Returns true if the AVX instruction set is supported with the current
 // combination of OS and CPU.
 // see: http://insufficientlycomplicated.wordpress.com/2011/11/07/detecting-intel-advanced-vector-extensions-avx-in-visual-studio/
+//
 bool is_avx_supported() {
 
     bool supported = false;
@@ -1059,9 +1061,6 @@ bool is_avx_supported() {
  
     return supported;
 }
-
-
-
 
 // Returns the features supported by the processor, use the
 // Linux CPU processor feature mnemonics.
@@ -1160,7 +1159,6 @@ int get_processor_features(char* vendor, char* features, int features_size) {
     FEATURE_TEST(ext_supported, (ext_edx & (1 << 20)), "nx ");
     FEATURE_TEST(ext_supported, (ext_edx & (1 << 29)), "lm ");
 
-
     if (is_avx_supported()) {
         FEATURE_TEST(std_supported, (std_ecx & (1 << 28)), "avx ");
     }
@@ -1168,7 +1166,6 @@ int get_processor_features(char* vendor, char* features, int features_size) {
     if (is_avx_supported() && struc_ext_supported) {
 		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 5)), "avx2 ");
     }
-
 
 	if (struc_ext_supported) {
 		// Structured Ext. Feature Flags
@@ -1180,7 +1177,6 @@ int get_processor_features(char* vendor, char* features, int features_size) {
 		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 8)), "bmi2 ");
 	}
 
-
     if (intel_supported) {
         // Intel only features
         FEATURE_TEST(std_supported, (std_ecx & (1 << 5)), "vmx ");
@@ -1190,7 +1186,6 @@ int get_processor_features(char* vendor, char* features, int features_size) {
 
         FEATURE_TEST(std_supported, (std_edx & (1 << 31)), "pbe ");
     }
-
 
     if (amd_supported) {
         // AMD only features
@@ -1208,7 +1203,6 @@ int get_processor_features(char* vendor, char* features, int features_size) {
 		FEATURE_TEST(ext_supported, (ext_ecx & (1 << 21)), "tbm ");
 		FEATURE_TEST(ext_supported, (ext_ecx & (1 << 22)), "topx ");
 
-
         FEATURE_TEST(ext_supported, (ext_edx & (1 << 26)), "page1gb ");
         FEATURE_TEST(ext_supported, (ext_edx & (1 << 27)), "rdtscp ");
         FEATURE_TEST(ext_supported, (ext_edx & (1 << 30)), "3dnowext ");
@@ -1216,7 +1210,6 @@ int get_processor_features(char* vendor, char* features, int features_size) {
     }
 
     strip_whitespace(features);
-
     return 0;
 }
 
@@ -1270,10 +1263,7 @@ int get_processor_info(
         processor_name, family, model, stepping
     );
 
-    snprintf(p_features, p_features_size,
-        "%s",
-        features
-    );
+    snprintf(p_features, p_features_size, "%s", features);
 
     p_cache = (double)cache;
 
