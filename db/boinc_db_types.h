@@ -343,8 +343,8 @@ struct HOST {
     char p_features[1024];
     char virtualbox_version[256];
     bool p_vm_extensions_disabled;
-    int num_cpu_opencl_platforms;
-    OPENCL_CPU_PROP cpu_opencl_prop[MAX_OPENCL_CPU_PLATFORMS];
+    int num_opencl_cpu_platforms;
+    OPENCL_CPU_PROP opencl_cpu_prop[MAX_OPENCL_CPU_PLATFORMS];
 
     // stuff from time_stats
     double gpu_active_frac;
@@ -360,7 +360,7 @@ struct HOST {
 
     void fix_nans();
     void clear();
-    bool get_cpu_opencl_prop(const char* platform, OPENCL_CPU_PROP&);
+    bool get_opencl_cpu_prop(const char* platform, OPENCL_CPU_PROP&);
 };
 
 // values for file_delete state

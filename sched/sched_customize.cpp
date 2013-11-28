@@ -222,7 +222,7 @@ static inline bool app_plan_mt(SCHEDULER_REQUEST&, HOST_USAGE& hu) {
 
 bool app_plan_opencl_cpu_intel(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
     OPENCL_CPU_PROP ocp;
-    if (!sreq.host.get_cpu_opencl_prop("intel", ocp)) {
+    if (!sreq.host.get_opencl_cpu_prop("intel", ocp)) {
         return false;
     }
     return app_plan_mt(sreq, hu);

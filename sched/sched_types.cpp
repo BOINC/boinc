@@ -1218,9 +1218,10 @@ int HOST::parse(XML_PARSER& xp) {
         if (xp.parse_str("p_features", p_features, sizeof(p_features))) continue;
         if (xp.parse_str("virtualbox_version", virtualbox_version, sizeof(virtualbox_version))) continue;
         if (xp.parse_bool("p_vm_extensions_disabled", p_vm_extensions_disabled)) continue;
-        if (xp.match_tag("cpu_opencl_prop")) {
-            int retval = cpu_opencl_prop[num_cpu_opencl_platforms].parse(xp);
-            if (!retval) num_cpu_opencl_platforms++;
+        if (xp.match_tag("opencl_cpu_prop")) {
+            int retval = opencl_cpu_prop[num_opencl_cpu_platforms].parse(xp);
+            if (!retval) num_opencl_cpu_platforms++;
+            continue;
         }
 
         // parse deprecated fields to avoid error messages
@@ -1465,9 +1466,9 @@ double capped_host_fpops() {
     return x;
 }
 
-bool HOST::get_cpu_opencl_prop(const char* platform, OPENCL_CPU_PROP& ocp) {
-    for (int i=0; i<num_cpu_opencl_platforms; i++) {
-        OPENCL_CPU_PROP& p = cpu_opencl_prop[i];
+bool HOST::get_opencl_cpu_prop(const char* platform, OPENCL_CPU_PROP& ocp) {
+    for (int i=0; i<num_opencl_cpu_platforms; i++) {
+        OPENCL_CPU_PROP& p = opencl_cpu_prop[i];
         if (strcmp(p.platform_vendor, platform)) continue;
         ocp = p;
         return true;
