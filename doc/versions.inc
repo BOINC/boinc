@@ -130,7 +130,7 @@ $m66 = array(
 $m72c = array(
 	"num"=>"7.2.33",
 	"status"=>"Recommended version (Unix command-line version)",
-	"file"=>"boinc_7.2.28_i686-apple-darwin.zip",
+	"file"=>"boinc_7.2.33_i686-apple-darwin.zip",
 	"date"=>"26 Nov 2013",
 	"type"=>"bare_core",
 );
@@ -178,7 +178,7 @@ $l66 = array(
 $l72ubuntu = array(
 	"num"=>"7.2.33",
 	"status"=>"Recommended version",
-	"file"=>"boinc_7.2.28_i686-pc-linux-gnu.sh",
+	"file"=>"boinc_7.2.33_i686-pc-linux-gnu.sh",
 	"date"=>"26 Nov 2013",
 	"type"=>"sea",
 );
