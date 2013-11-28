@@ -24,6 +24,7 @@ msgstr ""
 "X-Poedit-KeywordsList: _\n"
 
 #: Installer.cpp:124
+#, c-format
 #, c-format, fuzzy
 msgid "Sorry, this version of %s requires system 10.5 or higher."
 msgstr "Вибачте, дана версія %s потребує систему 10.4 або вищу."
