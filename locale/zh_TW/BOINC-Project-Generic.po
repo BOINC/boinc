@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2013-11-24 00:00 PST\n"
+"POT-Creation-Date: 2013-11-28 00:00 PST\n"
 "PO-Revision-Date: 2013-11-26 12:36+0000\n"
 "Last-Translator: Hank <yihhann@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -193,13 +193,13 @@ msgid "Private messages"
 msgstr "私人訊息"
 
 #: ../inc/forum.inc:151 ../user/bs_sample_index.php:63
-#: ../user/forum_forum.php:71 ../user/sample_index.php:119
+#: ../user/forum_forum.php:71 ../user/sample_index.php:130
 msgid "Questions and Answers"
 msgstr "問與答"
 
 #: ../inc/forum.inc:151 ../inc/forum.inc:183 ../inc/user.inc:249
 #: ../inc/user.inc:374 ../user/bs_sample_index.php:62
-#: ../user/forum_forum.php:73 ../user/sample_index.php:118
+#: ../user/forum_forum.php:73 ../user/sample_index.php:129
 #: ../project.sample/project.inc:43
 msgid "Message boards"
 msgstr "留言版"
@@ -857,7 +857,7 @@ msgstr "電腦 ID"
 
 #: ../inc/host.inc:669 ../inc/result.inc:628 ../inc/team.inc:209
 #: ../inc/team.inc:357 ../inc/user.inc:199 ../user/account_finish.php:41
-#: ../user/create_account_form.php:80 ../user/team_admins.php:62
+#: ../user/create_account_form.php:79 ../user/team_admins.php:62
 #: ../user/team_change_founder_form.php:77 ../user/team_email_list.php:64
 #: ../user/top_users.php:49 ../user/user_search.php:139
 msgid "Name"
@@ -1318,41 +1318,41 @@ msgstr "你的用戶檔案已標識為不核准，其他用戶也將無法查看
 msgid "Database error"
 msgstr "資料庫錯誤"
 
-#: ../inc/profile.inc:192
+#: ../inc/profile.inc:193
 msgid ""
 "To prevent spam, profiles of users with an average credit of less than %1 "
 "are displayed only to logged-in users. We apologize for this inconvenience."
 msgstr "為了防止垃圾訊息，平均積分低於 %1 的用戶檔案將只能被已登入的用戶看到，由此帶來的不便之處我們很抱歉。"
 
-#: ../inc/profile.inc:196
+#: ../inc/profile.inc:197
 msgid "User is banished"
 msgstr "用戶已禁言"
 
-#: ../inc/profile.inc:210
+#: ../inc/profile.inc:211
 msgid "No profile exists for that user ID."
 msgstr "沒有和此用戶 ID 對應的用戶檔案訊息。"
 
-#: ../inc/profile.inc:218 ../user/create_profile.php:313
+#: ../inc/profile.inc:219 ../user/create_profile.php:313
 msgid "Edit your profile"
 msgstr "編輯您的用戶檔案"
 
-#: ../inc/profile.inc:261
+#: ../inc/profile.inc:262
 msgid "Your feedback on this profile"
 msgstr "您對此用戶檔案的意見"
 
-#: ../inc/profile.inc:263
+#: ../inc/profile.inc:264
 msgid "Recommend this profile for User of the Day:"
 msgstr "推薦此檔案的主人為今日用戶："
 
-#: ../inc/profile.inc:264
+#: ../inc/profile.inc:265
 msgid "I %1like%2 this profile"
 msgstr "我%1喜歡%2這個用戶檔案"
 
-#: ../inc/profile.inc:267
+#: ../inc/profile.inc:268
 msgid "Alert administrators to an offensive profile:"
 msgstr "向管理員舉報有冒犯性的用戶檔案："
 
-#: ../inc/profile.inc:268
+#: ../inc/profile.inc:269
 msgid "I %1do not like%2 this profile"
 msgstr "我%1不喜歡%2這個用戶檔案"
 
@@ -1716,7 +1716,7 @@ msgstr "尋找名稱或描述中包含這些關鍵字的團隊"
 #: ../inc/team.inc:43 ../inc/team.inc:121 ../inc/team.inc:232
 #: ../inc/team.inc:372 ../inc/team.inc:456 ../inc/user.inc:205
 #: ../inc/user.inc:316 ../user/account_finish.php:45
-#: ../user/create_account_form.php:99 ../user/edit_user_info_form.php:38
+#: ../user/create_account_form.php:98 ../user/edit_user_info_form.php:38
 #: ../user/profile_search_action.php:42 ../user/team_email_list.php:64
 #: ../user/team_search.php:72 ../user/top_users.php:63
 #: ../user/user_search.php:53 ../user/user_search.php:140
@@ -1731,7 +1731,7 @@ msgstr "團隊類型"
 msgid "Show only active teams"
 msgstr "只顯示活躍的團隊"
 
-#: ../inc/team.inc:52 ../user/profile_menu.php:74 ../user/user_search.php:70
+#: ../inc/team.inc:52 ../user/profile_menu.php:76 ../user/user_search.php:70
 msgid "Search"
 msgstr "搜尋"
 
@@ -2079,7 +2079,7 @@ msgid "%1 preferences"
 msgstr "%1 偏好設定"
 
 #: ../inc/user.inc:239 ../user/bs_sample_index.php:59
-#: ../user/sample_index.php:114
+#: ../user/sample_index.php:125
 msgid "Community"
 msgstr "社群"
 
@@ -2184,11 +2184,11 @@ msgstr "登出"
 msgid "log in"
 msgstr "登入"
 
-#: ../inc/util.inc:204 ../user/login_form.php:30 ../user/login_form.php:55
+#: ../inc/util.inc:204 ../user/login_form.php:30 ../user/login_form.php:66
 msgid "Log in"
 msgstr "登入"
 
-#: ../inc/util.inc:205 ../user/create_account_form.php:31
+#: ../inc/util.inc:205 ../user/create_account_form.php:40
 msgid "Create an account"
 msgstr "建立一個帳號"
 
@@ -2258,19 +2258,19 @@ msgstr "保持這台電腦的登入狀態"
 msgid "Finish account setup"
 msgstr "完成帳號設定"
 
-#: ../user/account_finish.php:41 ../user/create_account_form.php:80
+#: ../user/account_finish.php:41 ../user/create_account_form.php:79
 msgid "Identifies you on our web site. Use your real name or a nickname."
 msgstr "您在我們網站上的標識，可以使用您的真實姓名或是暱稱。"
 
-#: ../user/account_finish.php:45 ../user/create_account_form.php:99
+#: ../user/account_finish.php:45 ../user/create_account_form.php:98
 msgid "Select the country you want to represent, if any."
 msgstr "選擇您想代表的國家 (如果有的話)"
 
-#: ../user/account_finish.php:51 ../user/create_account_form.php:105
+#: ../user/account_finish.php:51 ../user/create_account_form.php:104
 msgid "Postal or ZIP Code"
 msgstr "郵遞區號"
 
-#: ../user/account_finish.php:51 ../user/create_account_form.php:105
+#: ../user/account_finish.php:51 ../user/create_account_form.php:104
 msgid "Optional"
 msgstr "可選擇"
 
@@ -2287,7 +2287,7 @@ msgid "Add %1 preferences for %2"
 msgstr "增加 %1 偏好設定（用於 %2）"
 
 #: ../user/apps.php:32 ../user/bs_sample_index.php:55
-#: ../user/sample_index.php:109
+#: ../user/sample_index.php:120
 msgid "Applications"
 msgstr "應用程式"
 
@@ -2446,7 +2446,7 @@ msgstr "團隊"
 msgid "create or join a team"
 msgstr "建立或加入一個團隊"
 
-#: ../user/bs_sample_index.php:51 ../user/sample_index.php:180
+#: ../user/bs_sample_index.php:51 ../user/sample_index.php:191
 msgid "User of the day"
 msgstr "今日用戶"
 
@@ -2455,7 +2455,7 @@ msgid "Server status"
 msgstr "伺服器狀態"
 
 #: ../user/bs_sample_index.php:60 ../user/profile_menu.php:32
-#: ../user/sample_index.php:116
+#: ../user/sample_index.php:127
 msgid "Profiles"
 msgstr "用戶檔案"
 
@@ -2490,7 +2490,7 @@ msgid "Languages"
 msgstr "語言"
 
 #: ../user/bs_sample_index.php:149 ../user/info.php:24
-#: ../user/sample_index.php:74
+#: ../user/sample_index.php:79
 msgid "Read our rules and policies"
 msgstr "閱讀規定和政策"
 
@@ -2502,105 +2502,88 @@ msgstr "無法建立帳號"
 msgid "Click your browser's <b>Back</b> button to try again."
 msgstr "點擊瀏覽器的<b>返回</b>按鈕來重試。"
 
-#: ../user/create_account_action.php:38 ../user/create_account_action.php:40
-#: ../user/create_account_form.php:36
-msgid "Account creation is disabled"
-msgstr "帳號建立功能已停用"
-
-#: ../user/create_account_action.php:41
-msgid ""
-"Sorry, this project has disabled the creation of new accounts.\n"
-"Please try again later."
-msgstr ""
-"對不起，該專案已經禁止建立新帳號。 \n"
-"請稍後重試。"
-
-#: ../user/create_account_action.php:53
+#: ../user/create_account_action.php:47
 msgid "Your reCAPTCHA response was not correct. Please try again."
 msgstr "您輸入的驗證字不符，請重試。"
 
-#: ../user/create_account_action.php:77
+#: ../user/create_account_action.php:70
 msgid "You must supply an invitation code to create an account."
 msgstr "您必須提供一個邀請碼才能建立帳號。"
 
-#: ../user/create_account_action.php:80
+#: ../user/create_account_action.php:73
 msgid "The invitation code you gave is not valid."
 msgstr "您提供的邀請碼是錯誤的。"
 
-#: ../user/create_account_action.php:91
+#: ../user/create_account_action.php:84
 msgid ""
 "Invalid email address: you must enter a valid address of the form name@domain"
 msgstr "電子郵件地址錯誤：您必須輸入一個合法的地址，例如 用戶名@域名"
 
-#: ../user/create_account_action.php:95
+#: ../user/create_account_action.php:88
 msgid "There's already an account with that email address."
 msgstr "已有帳號連結至此電子郵件地址。"
 
-#: ../user/create_account_action.php:101 ../user/edit_passwd_action.php:33
+#: ../user/create_account_action.php:94 ../user/edit_passwd_action.php:33
 msgid "New passwords are different"
 msgstr "新密碼不符"
 
-#: ../user/create_account_action.php:108 ../user/edit_passwd_action.php:41
+#: ../user/create_account_action.php:101 ../user/edit_passwd_action.php:41
 msgid "Passwords may only include ASCII characters."
 msgstr "登入密碼只允許包含 ASCII 字符。"
 
-#: ../user/create_account_action.php:113 ../user/edit_passwd_action.php:45
+#: ../user/create_account_action.php:106 ../user/edit_passwd_action.php:45
 msgid "New password is too short: minimum password length is %1 characters."
 msgstr "新密碼長度過短：最短的密碼長度為 %1 字符。"
 
-#: ../user/create_account_action.php:134
+#: ../user/create_account_action.php:127
 msgid "Couldn't create account"
 msgstr "無法建立帳號"
 
-#: ../user/create_account_form.php:37
-msgid "Account creation is currently disabled. Please try again later."
-msgstr "帳號建立功能目前已暫停，請稍候再試。"
-
-#: ../user/create_account_form.php:46
+#: ../user/create_account_form.php:44
 msgid ""
 "NOTE: If you use the BOINC Manager, don't use this form. Just run BOINC, "
 "select Add Project, and enter an email address and password."
 msgstr "注意：如果您使用BOINC管理服務，不要使用此表格。只要運行BOINC，選擇“新增專案”，然後輸入電子郵件地址和密碼。"
 
-#: ../user/create_account_form.php:62
+#: ../user/create_account_form.php:61
 msgid ""
 "This account will belong to the team %1 and will have the project "
 "preferences of its founder."
 msgstr "此帳號將屬於 %1 團隊並且其專案偏好設定和團隊創始人的專案偏好設定相同。"
 
-#: ../user/create_account_form.php:74
+#: ../user/create_account_form.php:73
 msgid "Invitation Code"
 msgstr "邀請碼"
 
-#: ../user/create_account_form.php:74
+#: ../user/create_account_form.php:73
 msgid "A valid invitation code is required to create an account."
 msgstr "建立帳號時需要一個正確的邀請碼。"
 
-#: ../user/create_account_form.php:84
+#: ../user/create_account_form.php:83
 msgid "Email Address"
 msgstr "電子郵件地址"
 
-#: ../user/create_account_form.php:84
+#: ../user/create_account_form.php:83
 msgid "Must be a valid address of the form 'name@domain'."
 msgstr "必須是有效的電子郵件地址，例如：用戶名@域名。"
 
-#: ../user/create_account_form.php:93 ../user/edit_email_form.php:47
+#: ../user/create_account_form.php:92 ../user/edit_email_form.php:47
 msgid "Password"
 msgstr "密碼"
 
-#: ../user/create_account_form.php:94
+#: ../user/create_account_form.php:93
 msgid "Must be at least %1 characters"
 msgstr "至少必須包含 %1 個字符"
 
-#: ../user/create_account_form.php:97
+#: ../user/create_account_form.php:96
 msgid "Confirm password"
 msgstr "確定密碼"
 
-#: ../user/create_account_form.php:114
+#: ../user/create_account_form.php:113
 msgid "Please enter the words shown in the image"
 msgstr "請輸入圖片中顯示的文字"
 
-#: ../user/create_account_form.php:120
+#: ../user/create_account_form.php:119
 msgid "Create account"
 msgstr "建立帳號"
 
@@ -4903,19 +4886,19 @@ msgstr "電子郵件地址："
 msgid "forgot email address?"
 msgstr "忘記了電子郵件地址?"
 
-#: ../user/login_form.php:47
+#: ../user/login_form.php:48
 msgid "Password:"
 msgstr "密碼："
 
-#: ../user/login_form.php:47
+#: ../user/login_form.php:48
 msgid "forgot password?"
 msgstr "忘記密碼?"
 
-#: ../user/login_form.php:50
+#: ../user/login_form.php:51
 msgid "Stay logged in"
 msgstr "保持登入狀態"
 
-#: ../user/login_form.php:56
+#: ../user/login_form.php:62
 msgid "or %1create an account%2."
 msgstr "或者%1創建一個新帳戶%2。"
 
@@ -5237,37 +5220,37 @@ msgstr "如果你還沒有用戶檔案的話，你現在就可以%1建立屬於�
 msgid "User of the Day"
 msgstr "每日用戶"
 
-#: ../user/profile_menu.php:55
+#: ../user/profile_menu.php:57
 msgid "User Profile Explorer"
 msgstr "使用用戶檔案瀏覽器"
 
-#: ../user/profile_menu.php:58
+#: ../user/profile_menu.php:60
 msgid "View the %1User Picture Gallery%2."
 msgstr "查看%1用戶圖片庫%2。"
 
-#: ../user/profile_menu.php:59
+#: ../user/profile_menu.php:61
 msgid "Browse profiles %1by country%2."
 msgstr "%1按國家或地區%2瀏覽用戶檔案。"
 
-#: ../user/profile_menu.php:60
+#: ../user/profile_menu.php:62
 msgid ""
 "Browse profiles %1at random%2, %3at random with pictures%2, or %4at random "
 "without pictures%2."
 msgstr "%1隨機地瀏覽所有用戶檔案%2，%3隨機地瀏覽帶圖片的用戶檔案%2，或者%4隨機地瀏覽不帶圖片%2的用戶檔案。"
 
-#: ../user/profile_menu.php:64
+#: ../user/profile_menu.php:66
 msgid "Alphabetical profile listings:"
 msgstr "按字母表順序的用戶檔案列表："
 
-#: ../user/profile_menu.php:70
+#: ../user/profile_menu.php:72
 msgid "Search profile text"
 msgstr "搜索用戶檔案文件"
 
-#: ../user/profile_menu.php:96
+#: ../user/profile_menu.php:98
 msgid "No profiles"
 msgstr "沒有用戶檔案"
 
-#: ../user/profile_menu.php:97
+#: ../user/profile_menu.php:99
 msgid "No profiles matched your query."
 msgstr "沒有用戶檔案符合你的查詢條件。"
 
@@ -6620,6 +6603,19 @@ msgstr "如果選中的應用程式暫時沒有運算任務，是否從其它應
 #: ../project.sample/project_specific_prefs.inc:91
 msgid "(all applications)"
 msgstr "(所有應用程式)"
+
+#~ msgid "Account creation is disabled"
+#~ msgstr "帳號建立功能已停用"
+
+#~ msgid ""
+#~ "Sorry, this project has disabled the creation of new accounts.\n"
+#~ "Please try again later."
+#~ msgstr ""
+#~ "對不起，該專案已經禁止建立新帳號。 \n"
+#~ "請稍後重試。"
+
+#~ msgid "Account creation is currently disabled. Please try again later."
+#~ msgstr "帳號建立功能目前已暫停，請稍候再試。"
 
 #~ msgid "nvidia GPU"
 #~ msgstr "nvidia GPU"
