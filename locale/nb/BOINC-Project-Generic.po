@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC-prject-generic\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2013-11-24 00:00 PST\n"
+"POT-Creation-Date: 2013-11-28 00:00 PST\n"
 "PO-Revision-Date: 2012-09-16 13:49+0200\n"
 "Last-Translator: Kenneth <kenneth@skjold.biz>\n"
 "Language-Team: Hjelp andre <kenneth@skjold.biz>\n"
@@ -193,13 +193,13 @@ msgid "Private messages"
 msgstr "Private meldinger"
 
 #: ../inc/forum.inc:151 ../user/bs_sample_index.php:63
-#: ../user/forum_forum.php:71 ../user/sample_index.php:119
+#: ../user/forum_forum.php:71 ../user/sample_index.php:130
 msgid "Questions and Answers"
 msgstr "Spørsmål og svar"
 
 #: ../inc/forum.inc:151 ../inc/forum.inc:183 ../inc/user.inc:249
 #: ../inc/user.inc:374 ../user/bs_sample_index.php:62
-#: ../user/forum_forum.php:73 ../user/sample_index.php:118
+#: ../user/forum_forum.php:73 ../user/sample_index.php:129
 #: ../project.sample/project.inc:43
 msgid "Message boards"
 msgstr "Oppslagstavler"
@@ -874,7 +874,7 @@ msgstr "Datamaskin ID"
 
 #: ../inc/host.inc:669 ../inc/result.inc:628 ../inc/team.inc:209
 #: ../inc/team.inc:357 ../inc/user.inc:199 ../user/account_finish.php:41
-#: ../user/create_account_form.php:80 ../user/team_admins.php:62
+#: ../user/create_account_form.php:79 ../user/team_admins.php:62
 #: ../user/team_change_founder_form.php:77 ../user/team_email_list.php:64
 #: ../user/top_users.php:49 ../user/user_search.php:139
 msgid "Name"
@@ -1334,41 +1334,41 @@ msgstr ""
 msgid "Database error"
 msgstr "Databasefeil"
 
-#: ../inc/profile.inc:192
+#: ../inc/profile.inc:193
 msgid ""
 "To prevent spam, profiles of users with an average credit of less than %1 "
 "are displayed only to logged-in users. We apologize for this inconvenience."
 msgstr ""
 
-#: ../inc/profile.inc:196
+#: ../inc/profile.inc:197
 msgid "User is banished"
 msgstr "Bruker er utestengt"
 
-#: ../inc/profile.inc:210
+#: ../inc/profile.inc:211
 msgid "No profile exists for that user ID."
 msgstr "Ingen profil eksisterer for den bruker ID."
 
-#: ../inc/profile.inc:218 ../user/create_profile.php:313
+#: ../inc/profile.inc:219 ../user/create_profile.php:313
 msgid "Edit your profile"
 msgstr "Rediger din profil"
 
-#: ../inc/profile.inc:261
+#: ../inc/profile.inc:262
 msgid "Your feedback on this profile"
 msgstr "Din tilbakemelding på denne profilen"
 
-#: ../inc/profile.inc:263
+#: ../inc/profile.inc:264
 msgid "Recommend this profile for User of the Day:"
 msgstr "Anbefal denne profilen til Dagens Bruker:"
 
-#: ../inc/profile.inc:264
+#: ../inc/profile.inc:265
 msgid "I %1like%2 this profile"
 msgstr "Jeg %1liker%2 denne profilen"
 
-#: ../inc/profile.inc:267
+#: ../inc/profile.inc:268
 msgid "Alert administrators to an offensive profile:"
 msgstr "Varsle administrator om en støtende profil:"
 
-#: ../inc/profile.inc:268
+#: ../inc/profile.inc:269
 msgid "I %1do not like%2 this profile"
 msgstr "Jeg %1like ikke%2 denne profilen"
 
@@ -1743,7 +1743,7 @@ msgstr "Finn team med disse ordene i navnet eller i beskrivelsen."
 #: ../inc/team.inc:43 ../inc/team.inc:121 ../inc/team.inc:232
 #: ../inc/team.inc:372 ../inc/team.inc:456 ../inc/user.inc:205
 #: ../inc/user.inc:316 ../user/account_finish.php:45
-#: ../user/create_account_form.php:99 ../user/edit_user_info_form.php:38
+#: ../user/create_account_form.php:98 ../user/edit_user_info_form.php:38
 #: ../user/profile_search_action.php:42 ../user/team_email_list.php:64
 #: ../user/team_search.php:72 ../user/top_users.php:63
 #: ../user/user_search.php:53 ../user/user_search.php:140
@@ -1758,7 +1758,7 @@ msgstr "Type team"
 msgid "Show only active teams"
 msgstr "Vis bare aktive team"
 
-#: ../inc/team.inc:52 ../user/profile_menu.php:74 ../user/user_search.php:70
+#: ../inc/team.inc:52 ../user/profile_menu.php:76 ../user/user_search.php:70
 msgid "Search"
 msgstr "Søk"
 
@@ -2112,7 +2112,7 @@ msgid "%1 preferences"
 msgstr "%1 preferanser"
 
 #: ../inc/user.inc:239 ../user/bs_sample_index.php:59
-#: ../user/sample_index.php:114
+#: ../user/sample_index.php:125
 msgid "Community"
 msgstr "Fellesskap"
 
@@ -2218,11 +2218,11 @@ msgstr "Log ut"
 msgid "log in"
 msgstr ""
 
-#: ../inc/util.inc:204 ../user/login_form.php:30 ../user/login_form.php:55
+#: ../inc/util.inc:204 ../user/login_form.php:30 ../user/login_form.php:66
 msgid "Log in"
 msgstr ""
 
-#: ../inc/util.inc:205 ../user/create_account_form.php:31
+#: ../inc/util.inc:205 ../user/create_account_form.php:40
 msgid "Create an account"
 msgstr "Lag en konto"
 
@@ -2294,21 +2294,21 @@ msgstr ""
 msgid "Finish account setup"
 msgstr ""
 
-#: ../user/account_finish.php:41 ../user/create_account_form.php:80
+#: ../user/account_finish.php:41 ../user/create_account_form.php:79
 msgid "Identifies you on our web site. Use your real name or a nickname."
 msgstr ""
 "Identifiserer deg på vår nettside. Bruk ditt virkelige navn, eller et "
 "kallenavn."
 
-#: ../user/account_finish.php:45 ../user/create_account_form.php:99
+#: ../user/account_finish.php:45 ../user/create_account_form.php:98
 msgid "Select the country you want to represent, if any."
 msgstr "Velg det landet du vil representere, hvis noen."
 
-#: ../user/account_finish.php:51 ../user/create_account_form.php:105
+#: ../user/account_finish.php:51 ../user/create_account_form.php:104
 msgid "Postal or ZIP Code"
 msgstr "Postnummer"
 
-#: ../user/account_finish.php:51 ../user/create_account_form.php:105
+#: ../user/account_finish.php:51 ../user/create_account_form.php:104
 msgid "Optional"
 msgstr "Valgfritt"
 
@@ -2326,7 +2326,7 @@ msgid "Add %1 preferences for %2"
 msgstr ""
 
 #: ../user/apps.php:32 ../user/bs_sample_index.php:55
-#: ../user/sample_index.php:109
+#: ../user/sample_index.php:120
 msgid "Applications"
 msgstr "Programmer"
 
@@ -2486,7 +2486,7 @@ msgstr "Team"
 msgid "create or join a team"
 msgstr ""
 
-#: ../user/bs_sample_index.php:51 ../user/sample_index.php:180
+#: ../user/bs_sample_index.php:51 ../user/sample_index.php:191
 msgid "User of the day"
 msgstr "Dagens Bruker"
 
@@ -2495,7 +2495,7 @@ msgid "Server status"
 msgstr ""
 
 #: ../user/bs_sample_index.php:60 ../user/profile_menu.php:32
-#: ../user/sample_index.php:116
+#: ../user/sample_index.php:127
 msgid "Profiles"
 msgstr "Profiler"
 
@@ -2530,7 +2530,7 @@ msgid "Languages"
 msgstr ""
 
 #: ../user/bs_sample_index.php:149 ../user/info.php:24
-#: ../user/sample_index.php:74
+#: ../user/sample_index.php:79
 msgid "Read our rules and policies"
 msgstr ""
 
@@ -2543,68 +2543,52 @@ msgstr "Lag konto"
 msgid "Click your browser's <b>Back</b> button to try again."
 msgstr ""
 
-#: ../user/create_account_action.php:38 ../user/create_account_action.php:40
-#: ../user/create_account_form.php:36
-msgid "Account creation is disabled"
-msgstr "Konto etablering er deaktivert"
-
-#: ../user/create_account_action.php:41
-msgid ""
-"Sorry, this project has disabled the creation of new accounts.\n"
-"Please try again later."
-msgstr ""
-
-#: ../user/create_account_action.php:53
+#: ../user/create_account_action.php:47
 msgid "Your reCAPTCHA response was not correct. Please try again."
 msgstr ""
 
-#: ../user/create_account_action.php:77
+#: ../user/create_account_action.php:70
 msgid "You must supply an invitation code to create an account."
 msgstr "Du må ha en invitasjons kode for å lage en konto."
 
-#: ../user/create_account_action.php:80
+#: ../user/create_account_action.php:73
 msgid "The invitation code you gave is not valid."
 msgstr "Invitasjons koden du skrev er ikke gyldig."
 
-#: ../user/create_account_action.php:91
+#: ../user/create_account_action.php:84
 #, fuzzy
 msgid ""
 "Invalid email address: you must enter a valid address of the form name@domain"
 msgstr "Må være en gyldig adresse i denne formen 'name@domene'."
 
-#: ../user/create_account_action.php:95
+#: ../user/create_account_action.php:88
 msgid "There's already an account with that email address."
 msgstr ""
 
-#: ../user/create_account_action.php:101 ../user/edit_passwd_action.php:33
+#: ../user/create_account_action.php:94 ../user/edit_passwd_action.php:33
 msgid "New passwords are different"
 msgstr ""
 
-#: ../user/create_account_action.php:108 ../user/edit_passwd_action.php:41
+#: ../user/create_account_action.php:101 ../user/edit_passwd_action.php:41
 msgid "Passwords may only include ASCII characters."
 msgstr ""
 
-#: ../user/create_account_action.php:113 ../user/edit_passwd_action.php:45
+#: ../user/create_account_action.php:106 ../user/edit_passwd_action.php:45
 msgid "New password is too short: minimum password length is %1 characters."
 msgstr ""
 
-#: ../user/create_account_action.php:134
+#: ../user/create_account_action.php:127
 #, fuzzy
 msgid "Couldn't create account"
 msgstr "Lag konto"
 
-#: ../user/create_account_form.php:37
-msgid "Account creation is currently disabled. Please try again later."
-msgstr ""
-"Konto etablering er midlertidig deaktivert. Vennligst prøv igjen senere."
-
-#: ../user/create_account_form.php:46
+#: ../user/create_account_form.php:44
 msgid ""
 "NOTE: If you use the BOINC Manager, don't use this form. Just run BOINC, "
 "select Add Project, and enter an email address and password."
 msgstr ""
 
-#: ../user/create_account_form.php:62
+#: ../user/create_account_form.php:61
 msgid ""
 "This account will belong to the team %1 and will have the project "
 "preferences of its founder."
@@ -2612,39 +2596,39 @@ msgstr ""
 "Denne kontoen vil tilhøre team %1 og vil ha samme prosjekt preferanser som "
 "grunnleggeren."
 
-#: ../user/create_account_form.php:74
+#: ../user/create_account_form.php:73
 msgid "Invitation Code"
 msgstr "Invitasjons kode"
 
-#: ../user/create_account_form.php:74
+#: ../user/create_account_form.php:73
 msgid "A valid invitation code is required to create an account."
 msgstr "En gyldig invitasjons kode er nødvendig for å lage en konto."
 
-#: ../user/create_account_form.php:84
+#: ../user/create_account_form.php:83
 msgid "Email Address"
 msgstr "Epost adresse"
 
-#: ../user/create_account_form.php:84
+#: ../user/create_account_form.php:83
 msgid "Must be a valid address of the form 'name@domain'."
 msgstr "Må være en gyldig adresse i denne formen 'name@domene'."
 
-#: ../user/create_account_form.php:93 ../user/edit_email_form.php:47
+#: ../user/create_account_form.php:92 ../user/edit_email_form.php:47
 msgid "Password"
 msgstr "Passord"
 
-#: ../user/create_account_form.php:94
+#: ../user/create_account_form.php:93
 msgid "Must be at least %1 characters"
 msgstr "Må være minst %1 karakterer"
 
-#: ../user/create_account_form.php:97
+#: ../user/create_account_form.php:96
 msgid "Confirm password"
 msgstr "Bekreft passord"
 
-#: ../user/create_account_form.php:114
+#: ../user/create_account_form.php:113
 msgid "Please enter the words shown in the image"
 msgstr ""
 
-#: ../user/create_account_form.php:120
+#: ../user/create_account_form.php:119
 msgid "Create account"
 msgstr "Lag konto"
 
@@ -5040,20 +5024,20 @@ msgstr "Epost adresse"
 msgid "forgot email address?"
 msgstr ""
 
-#: ../user/login_form.php:47
+#: ../user/login_form.php:48
 #, fuzzy
 msgid "Password:"
 msgstr "Passord"
 
-#: ../user/login_form.php:47
+#: ../user/login_form.php:48
 msgid "forgot password?"
 msgstr ""
 
-#: ../user/login_form.php:50
+#: ../user/login_form.php:51
 msgid "Stay logged in"
 msgstr ""
 
-#: ../user/login_form.php:56
+#: ../user/login_form.php:62
 msgid "or %1create an account%2."
 msgstr ""
 
@@ -5353,37 +5337,37 @@ msgstr ""
 msgid "User of the Day"
 msgstr "Dagens Bruker"
 
-#: ../user/profile_menu.php:55
+#: ../user/profile_menu.php:57
 msgid "User Profile Explorer"
 msgstr "Bruker Profil Utforsker"
 
-#: ../user/profile_menu.php:58
+#: ../user/profile_menu.php:60
 msgid "View the %1User Picture Gallery%2."
 msgstr ""
 
-#: ../user/profile_menu.php:59
+#: ../user/profile_menu.php:61
 msgid "Browse profiles %1by country%2."
 msgstr ""
 
-#: ../user/profile_menu.php:60
+#: ../user/profile_menu.php:62
 msgid ""
 "Browse profiles %1at random%2, %3at random with pictures%2, or %4at random "
 "without pictures%2."
 msgstr ""
 
-#: ../user/profile_menu.php:64
+#: ../user/profile_menu.php:66
 msgid "Alphabetical profile listings:"
 msgstr ""
 
-#: ../user/profile_menu.php:70
+#: ../user/profile_menu.php:72
 msgid "Search profile text"
 msgstr "Søk profil tekst"
 
-#: ../user/profile_menu.php:96
+#: ../user/profile_menu.php:98
 msgid "No profiles"
 msgstr "Ingen profiler"
 
-#: ../user/profile_menu.php:97
+#: ../user/profile_menu.php:99
 msgid "No profiles matched your query."
 msgstr "Ingen prifiler passet med din spørring"
 
@@ -6726,6 +6710,13 @@ msgstr ""
 #: ../project.sample/project_specific_prefs.inc:91
 msgid "(all applications)"
 msgstr ""
+
+#~ msgid "Account creation is disabled"
+#~ msgstr "Konto etablering er deaktivert"
+
+#~ msgid "Account creation is currently disabled. Please try again later."
+#~ msgstr ""
+#~ "Konto etablering er midlertidig deaktivert. Vennligst prøv igjen senere."
 
 #, fuzzy
 #~ msgid "No such task"
