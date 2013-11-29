@@ -1386,8 +1386,11 @@ static inline void assign_coprocs(vector<RESULT*>& jobs) {
         }
         ACTIVE_TASK* atp = gstate.lookup_active_task_by_result(rp);
         if (!atp) continue;
-        if (atp->task_state() != PROCESS_EXECUTING) continue;
-        increment_pending_usage(rp, usage, cp);
+        switch (atp->task_state()) {
+		case PROCESS_EXECUTING:
+		case PROCESS_SUSPENDED:		// because of CPU throttling
+			increment_pending_usage(rp, usage, cp);
+		}
     }
 
     vector<RESULT*>::iterator job_iter;
@@ -1759,6 +1762,15 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
                 atp->preempt(preempt_type);
                 break;
             case PROCESS_SUSPENDED:
+				// remove from memory GPU jobs that were suspended by CPU throttling
+				// and are now unscheduled.
+				//
+				if (atp->result->uses_coprocs()) {
+					atp->preempt(REMOVE_ALWAYS);
+					request_schedule_cpus("removed suspended GPU task");
+					break;
+				}
+
                 // Handle the case where user changes prefs from
                 // "leave in memory" to "remove from memory";
                 // need to quit suspended tasks.

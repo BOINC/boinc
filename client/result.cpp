@@ -353,7 +353,7 @@ int RESULT::write_gui(MIOFILE& out) {
     if (strlen(resources)>1) {
         char buf[256];
         strcpy(buf, "");
-        if (atp && atp->task_state() == PROCESS_EXECUTING) {
+        if (atp && atp->scheduler_state == CPU_SCHED_SCHEDULED) {
             if (avp->gpu_usage.rsc_type) {
                 COPROC& cp = coprocs.coprocs[avp->gpu_usage.rsc_type];
                 if (cp.count > 1) {
