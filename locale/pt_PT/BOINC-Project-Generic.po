@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.03\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2013-11-24 00:00 PST\n"
+"POT-Creation-Date: 2013-11-28 00:00 PST\n"
 "PO-Revision-Date: 2013-11-27 11:23+0000\n"
 "Last-Translator: Miguel Filipe Paulino de Sousa <Miguel.veig@gmail.com>\n"
 "Language-Team: Portuguese <LL@li.org>\n"
@@ -195,13 +195,13 @@ msgid "Private messages"
 msgstr "Mensagens privadas"
 
 #: ../inc/forum.inc:151 ../user/bs_sample_index.php:63
-#: ../user/forum_forum.php:71 ../user/sample_index.php:119
+#: ../user/forum_forum.php:71 ../user/sample_index.php:130
 msgid "Questions and Answers"
 msgstr "Perguntas e Respostas"
 
 #: ../inc/forum.inc:151 ../inc/forum.inc:183 ../inc/user.inc:249
 #: ../inc/user.inc:374 ../user/bs_sample_index.php:62
-#: ../user/forum_forum.php:73 ../user/sample_index.php:118
+#: ../user/forum_forum.php:73 ../user/sample_index.php:129
 #: ../project.sample/project.inc:43
 msgid "Message boards"
 msgstr "Mensagens do fórum"
@@ -871,7 +871,7 @@ msgstr "ID do computador"
 
 #: ../inc/host.inc:669 ../inc/result.inc:628 ../inc/team.inc:209
 #: ../inc/team.inc:357 ../inc/user.inc:199 ../user/account_finish.php:41
-#: ../user/create_account_form.php:80 ../user/team_admins.php:62
+#: ../user/create_account_form.php:79 ../user/team_admins.php:62
 #: ../user/team_change_founder_form.php:77 ../user/team_email_list.php:64
 #: ../user/top_users.php:49 ../user/user_search.php:139
 msgid "Name"
@@ -1369,7 +1369,7 @@ msgstr ""
 msgid "Database error"
 msgstr "Erro da base de dados"
 
-#: ../inc/profile.inc:192
+#: ../inc/profile.inc:193
 msgid ""
 "To prevent spam, profiles of users with an average credit of less than %1 "
 "are displayed only to logged-in users. We apologize for this inconvenience."
@@ -1378,35 +1378,35 @@ msgstr ""
 "inferior a %1 são visiveis apenas a utilizadores logados. Pedimos desculpa "
 "pela inconveniência."
 
-#: ../inc/profile.inc:196
+#: ../inc/profile.inc:197
 msgid "User is banished"
 msgstr "O utilizador está banido"
 
-#: ../inc/profile.inc:210
+#: ../inc/profile.inc:211
 msgid "No profile exists for that user ID."
 msgstr "Não existe nenhum perfil para o utilizador com esse ID."
 
-#: ../inc/profile.inc:218 ../user/create_profile.php:313
+#: ../inc/profile.inc:219 ../user/create_profile.php:313
 msgid "Edit your profile"
 msgstr "Editar o seu perfil"
 
-#: ../inc/profile.inc:261
+#: ../inc/profile.inc:262
 msgid "Your feedback on this profile"
 msgstr "O seu feedback neste perfil"
 
-#: ../inc/profile.inc:263
+#: ../inc/profile.inc:264
 msgid "Recommend this profile for User of the Day:"
 msgstr "Recomende este perfil como Utilizador do Dia:"
 
-#: ../inc/profile.inc:264
+#: ../inc/profile.inc:265
 msgid "I %1like%2 this profile"
 msgstr "%1gosto%2 deste perfil"
 
-#: ../inc/profile.inc:267
+#: ../inc/profile.inc:268
 msgid "Alert administrators to an offensive profile:"
 msgstr "Alertar administradores para um perfil ofensivo:"
 
-#: ../inc/profile.inc:268
+#: ../inc/profile.inc:269
 msgid "I %1do not like%2 this profile"
 msgstr "%1não gosto%2 deste perfil"
 
@@ -1770,7 +1770,7 @@ msgstr "Pesquisar por equipas com estas palavras nos seus nomes ou descrições"
 #: ../inc/team.inc:43 ../inc/team.inc:121 ../inc/team.inc:232
 #: ../inc/team.inc:372 ../inc/team.inc:456 ../inc/user.inc:205
 #: ../inc/user.inc:316 ../user/account_finish.php:45
-#: ../user/create_account_form.php:99 ../user/edit_user_info_form.php:38
+#: ../user/create_account_form.php:98 ../user/edit_user_info_form.php:38
 #: ../user/profile_search_action.php:42 ../user/team_email_list.php:64
 #: ../user/team_search.php:72 ../user/top_users.php:63
 #: ../user/user_search.php:53 ../user/user_search.php:140
@@ -1785,7 +1785,7 @@ msgstr "Tipo de equipa"
 msgid "Show only active teams"
 msgstr "Mostrar apenas equipas activas"
 
-#: ../inc/team.inc:52 ../user/profile_menu.php:74 ../user/user_search.php:70
+#: ../inc/team.inc:52 ../user/profile_menu.php:76 ../user/user_search.php:70
 msgid "Search"
 msgstr "Pesquisar"
 
@@ -2141,7 +2141,7 @@ msgid "%1 preferences"
 msgstr "%1 preferências"
 
 #: ../inc/user.inc:239 ../user/bs_sample_index.php:59
-#: ../user/sample_index.php:114
+#: ../user/sample_index.php:125
 msgid "Community"
 msgstr "Comunidade"
 
@@ -2246,11 +2246,11 @@ msgstr "sair"
 msgid "log in"
 msgstr "entrar"
 
-#: ../inc/util.inc:204 ../user/login_form.php:30 ../user/login_form.php:55
+#: ../inc/util.inc:204 ../user/login_form.php:30 ../user/login_form.php:66
 msgid "Log in"
 msgstr "Entrar"
 
-#: ../inc/util.inc:205 ../user/create_account_form.php:31
+#: ../inc/util.inc:205 ../user/create_account_form.php:40
 msgid "Create an account"
 msgstr "Criar uma conta"
 
@@ -2327,20 +2327,20 @@ msgstr "Manter-se logado neste computador"
 msgid "Finish account setup"
 msgstr "Finalizar registo da conta"
 
-#: ../user/account_finish.php:41 ../user/create_account_form.php:80
+#: ../user/account_finish.php:41 ../user/create_account_form.php:79
 msgid "Identifies you on our web site. Use your real name or a nickname."
 msgstr ""
 "indentifica-o no seu website. Use o seu nome real ou um nome de utilizador."
 
-#: ../user/account_finish.php:45 ../user/create_account_form.php:99
+#: ../user/account_finish.php:45 ../user/create_account_form.php:98
 msgid "Select the country you want to represent, if any."
 msgstr "Seleccione o País que represente, se algum."
 
-#: ../user/account_finish.php:51 ../user/create_account_form.php:105
+#: ../user/account_finish.php:51 ../user/create_account_form.php:104
 msgid "Postal or ZIP Code"
 msgstr "Código Postal"
 
-#: ../user/account_finish.php:51 ../user/create_account_form.php:105
+#: ../user/account_finish.php:51 ../user/create_account_form.php:104
 msgid "Optional"
 msgstr "Opcional"
 
@@ -2357,7 +2357,7 @@ msgid "Add %1 preferences for %2"
 msgstr "Adicionar %1 preferências para %2"
 
 #: ../user/apps.php:32 ../user/bs_sample_index.php:55
-#: ../user/sample_index.php:109
+#: ../user/sample_index.php:120
 msgid "Applications"
 msgstr "Aplicações"
 
@@ -2520,7 +2520,7 @@ msgstr "Equipas"
 msgid "create or join a team"
 msgstr "criar ou juntar-se a uma equipa"
 
-#: ../user/bs_sample_index.php:51 ../user/sample_index.php:180
+#: ../user/bs_sample_index.php:51 ../user/sample_index.php:191
 msgid "User of the day"
 msgstr "Utilizador do dia"
 
@@ -2529,7 +2529,7 @@ msgid "Server status"
 msgstr "Estado do servidor"
 
 #: ../user/bs_sample_index.php:60 ../user/profile_menu.php:32
-#: ../user/sample_index.php:116
+#: ../user/sample_index.php:127
 msgid "Profiles"
 msgstr "Perfis"
 
@@ -2564,7 +2564,7 @@ msgid "Languages"
 msgstr "Linguagens"
 
 #: ../user/bs_sample_index.php:149 ../user/info.php:24
-#: ../user/sample_index.php:74
+#: ../user/sample_index.php:79
 msgid "Read our rules and policies"
 msgstr "Leia as nossas regras e politícas"
 
@@ -2578,69 +2578,50 @@ msgstr ""
 "Carregue no botão <b>Voltar atrás</b> do seu navegador para tentar outra "
 "vez."
 
-#: ../user/create_account_action.php:38 ../user/create_account_action.php:40
-#: ../user/create_account_form.php:36
-msgid "Account creation is disabled"
-msgstr "A criação de conta está desabilitada"
-
-#: ../user/create_account_action.php:41
-msgid ""
-"Sorry, this project has disabled the creation of new accounts.\n"
-"Please try again later."
-msgstr ""
-"Pedimos desculpa, mas este projecto desabilitou a criação de novas contas.\n"
-"Por favor, tente mais tarde."
-
-#: ../user/create_account_action.php:53
+#: ../user/create_account_action.php:47
 msgid "Your reCAPTCHA response was not correct. Please try again."
 msgstr ""
 "A resposta reCAPTCHA nA resposta reCAPTCHA não está correcta. Por favor, "
 "tente novamente."
 
-#: ../user/create_account_action.php:77
+#: ../user/create_account_action.php:70
 msgid "You must supply an invitation code to create an account."
 msgstr "Tem que fornecer um código de convite para criar uma conta."
 
-#: ../user/create_account_action.php:80
+#: ../user/create_account_action.php:73
 msgid "The invitation code you gave is not valid."
 msgstr "O código de convite que inseriu não é válido."
 
-#: ../user/create_account_action.php:91
+#: ../user/create_account_action.php:84
 msgid ""
 "Invalid email address: you must enter a valid address of the form name@domain"
 msgstr ""
 "Endereço de email inválido: tem de inserir um endereço válido no formato "
 "nome@dominio"
 
-#: ../user/create_account_action.php:95
+#: ../user/create_account_action.php:88
 msgid "There's already an account with that email address."
 msgstr "Já existe uma conta com esse endereço de email."
 
-#: ../user/create_account_action.php:101 ../user/edit_passwd_action.php:33
+#: ../user/create_account_action.php:94 ../user/edit_passwd_action.php:33
 msgid "New passwords are different"
 msgstr "Novas palavras passe são diferentes"
 
-#: ../user/create_account_action.php:108 ../user/edit_passwd_action.php:41
+#: ../user/create_account_action.php:101 ../user/edit_passwd_action.php:41
 msgid "Passwords may only include ASCII characters."
 msgstr "Palavras passe podem apenas incluir caracteres ASCII."
 
-#: ../user/create_account_action.php:113 ../user/edit_passwd_action.php:45
+#: ../user/create_account_action.php:106 ../user/edit_passwd_action.php:45
 msgid "New password is too short: minimum password length is %1 characters."
 msgstr ""
 "A nova palavra passe é demasiado pequena: o comprimento minimo da palavra "
 "passe é de %1 caracteres."
 
-#: ../user/create_account_action.php:134
+#: ../user/create_account_action.php:127
 msgid "Couldn't create account"
 msgstr "Não foi possivel criar conta"
 
-#: ../user/create_account_form.php:37
-msgid "Account creation is currently disabled. Please try again later."
-msgstr ""
-"A criação de conta está actualmente desabilitada. Por favor, tente mais "
-"tarde."
-
-#: ../user/create_account_form.php:46
+#: ../user/create_account_form.php:44
 msgid ""
 "NOTE: If you use the BOINC Manager, don't use this form. Just run BOINC, "
 "select Add Project, and enter an email address and password."
@@ -2649,7 +2630,7 @@ msgstr ""
 "BOINC, seleccione Adicionar Projecto e insira um endereço de email e "
 "palavra-passe."
 
-#: ../user/create_account_form.php:62
+#: ../user/create_account_form.php:61
 msgid ""
 "This account will belong to the team %1 and will have the project "
 "preferences of its founder."
@@ -2657,39 +2638,39 @@ msgstr ""
 "Esta conta irá pertencer à equipa %1 e terá as preferências do projecto do "
 "seu fundador."
 
-#: ../user/create_account_form.php:74
+#: ../user/create_account_form.php:73
 msgid "Invitation Code"
 msgstr "Código de Convite"
 
-#: ../user/create_account_form.php:74
+#: ../user/create_account_form.php:73
 msgid "A valid invitation code is required to create an account."
 msgstr "Um código de convite válido é necessário para criar uma conta."
 
-#: ../user/create_account_form.php:84
+#: ../user/create_account_form.php:83
 msgid "Email Address"
 msgstr "Endereço de Email"
 
-#: ../user/create_account_form.php:84
+#: ../user/create_account_form.php:83
 msgid "Must be a valid address of the form 'name@domain'."
 msgstr "Tem que ser um endereço válido do form 'name@domain'."
 
-#: ../user/create_account_form.php:93 ../user/edit_email_form.php:47
+#: ../user/create_account_form.php:92 ../user/edit_email_form.php:47
 msgid "Password"
 msgstr "Palavra passe"
 
-#: ../user/create_account_form.php:94
+#: ../user/create_account_form.php:93
 msgid "Must be at least %1 characters"
 msgstr "Tem que ter pelo menos %1 caracteres"
 
-#: ../user/create_account_form.php:97
+#: ../user/create_account_form.php:96
 msgid "Confirm password"
 msgstr "Confirme palavra passe"
 
-#: ../user/create_account_form.php:114
+#: ../user/create_account_form.php:113
 msgid "Please enter the words shown in the image"
 msgstr "Por favor insira as palavras mostradas na imagem"
 
-#: ../user/create_account_form.php:120
+#: ../user/create_account_form.php:119
 msgid "Create account"
 msgstr "Criar conta"
 
@@ -5188,19 +5169,19 @@ msgstr "Endereço de email:"
 msgid "forgot email address?"
 msgstr "esqueceu-se do endereço de email?"
 
-#: ../user/login_form.php:47
+#: ../user/login_form.php:48
 msgid "Password:"
 msgstr "Palavra passe:"
 
-#: ../user/login_form.php:47
+#: ../user/login_form.php:48
 msgid "forgot password?"
 msgstr "esqueceu-se da palavra passe?"
 
-#: ../user/login_form.php:50
+#: ../user/login_form.php:51
 msgid "Stay logged in"
 msgstr "Manter-se logado"
 
-#: ../user/login_form.php:56
+#: ../user/login_form.php:62
 msgid "or %1create an account%2."
 msgstr "ou %1criar uma conta%2."
 
@@ -5557,19 +5538,19 @@ msgstr ""
 msgid "User of the Day"
 msgstr "Utilizador do Dia"
 
-#: ../user/profile_menu.php:55
+#: ../user/profile_menu.php:57
 msgid "User Profile Explorer"
 msgstr "Explorador do Perfil de Utilizador"
 
-#: ../user/profile_menu.php:58
+#: ../user/profile_menu.php:60
 msgid "View the %1User Picture Gallery%2."
 msgstr "Ver a %1Galeria de Imagens do Utilizador%2."
 
-#: ../user/profile_menu.php:59
+#: ../user/profile_menu.php:61
 msgid "Browse profiles %1by country%2."
 msgstr "Pesquisar os perfis %1por país%2."
 
-#: ../user/profile_menu.php:60
+#: ../user/profile_menu.php:62
 msgid ""
 "Browse profiles %1at random%2, %3at random with pictures%2, or %4at random "
 "without pictures%2."
@@ -5577,19 +5558,19 @@ msgstr ""
 "Mostrar perfis %1ao acaso%2, %3ao acaso com imagens%2, ou %4ao acaso sem "
 "imagens%2."
 
-#: ../user/profile_menu.php:64
+#: ../user/profile_menu.php:66
 msgid "Alphabetical profile listings:"
 msgstr "Listagem alfabética de perfis:"
 
-#: ../user/profile_menu.php:70
+#: ../user/profile_menu.php:72
 msgid "Search profile text"
 msgstr "Pesquisar perfil por texto"
 
-#: ../user/profile_menu.php:96
+#: ../user/profile_menu.php:98
 msgid "No profiles"
 msgstr "Sem perfis"
 
-#: ../user/profile_menu.php:97
+#: ../user/profile_menu.php:99
 msgid "No profiles matched your query."
 msgstr "Não existem perfis que correspondam ao seu critério."
 
@@ -7019,6 +7000,21 @@ msgstr ""
 #: ../project.sample/project_specific_prefs.inc:91
 msgid "(all applications)"
 msgstr "(todas as aplicações)"
+
+#~ msgid "Account creation is disabled"
+#~ msgstr "A criação de conta está desabilitada"
+
+#~ msgid ""
+#~ "Sorry, this project has disabled the creation of new accounts.\n"
+#~ "Please try again later."
+#~ msgstr ""
+#~ "Pedimos desculpa, mas este projecto desabilitou a criação de novas contas.\n"
+#~ "Por favor, tente mais tarde."
+
+#~ msgid "Account creation is currently disabled. Please try again later."
+#~ msgstr ""
+#~ "A criação de conta está actualmente desabilitada. Por favor, tente mais "
+#~ "tarde."
 
 #~ msgid "nvidia GPU"
 #~ msgstr "GPU nvidia"
