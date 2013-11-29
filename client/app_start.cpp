@@ -291,6 +291,12 @@ int ACTIVE_TASK::write_app_init_file(APP_INIT_DATA& aid) {
     FILE *f;
     char init_data_path[MAXPATHLEN];
 
+#if 0
+	msg_printf(wup->project, MSG_INFO,
+		"writing app_init.xml for %s; slot %d rt %s gpu_device_num %d", result->name, slot, aid.gpu_type, aid.gpu_device_num
+	);
+#endif
+
     sprintf(init_data_path, "%s/%s", slot_dir, INIT_DATA_FILE);
 
     // delete the file using the switcher (Unix)

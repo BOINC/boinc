@@ -205,6 +205,7 @@ struct COPROC {
         for (int i=0; i<MAX_COPROC_INSTANCES; i++) {
             device_nums[i] = 0;
             opencl_device_ids[i] = 0;
+			opencl_device_indexes[i] = 0;
             running_graphics_app[i] = true;
         }
         memset(&opencl_prop, 0, sizeof(opencl_prop));
