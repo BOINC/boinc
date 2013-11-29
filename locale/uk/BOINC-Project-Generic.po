@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2013-11-24 00:00 PST\n"
+"POT-Creation-Date: 2013-11-28 00:00 PST\n"
 "PO-Revision-Date: 2013-10-28 19:50+0000\n"
 "Last-Translator: Олег <pukish_oleg@ukr.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -198,13 +198,13 @@ msgid "Private messages"
 msgstr "Приватні повідомлення"
 
 #: ../inc/forum.inc:151 ../user/bs_sample_index.php:63
-#: ../user/forum_forum.php:71 ../user/sample_index.php:119
+#: ../user/forum_forum.php:71 ../user/sample_index.php:130
 msgid "Questions and Answers"
 msgstr "Питання та відповіді"
 
 #: ../inc/forum.inc:151 ../inc/forum.inc:183 ../inc/user.inc:249
 #: ../inc/user.inc:374 ../user/bs_sample_index.php:62
-#: ../user/forum_forum.php:73 ../user/sample_index.php:118
+#: ../user/forum_forum.php:73 ../user/sample_index.php:129
 #: ../project.sample/project.inc:43
 msgid "Message boards"
 msgstr "Форум"
@@ -880,7 +880,7 @@ msgstr "ID комп'ютера"
 
 #: ../inc/host.inc:669 ../inc/result.inc:628 ../inc/team.inc:209
 #: ../inc/team.inc:357 ../inc/user.inc:199 ../user/account_finish.php:41
-#: ../user/create_account_form.php:80 ../user/team_admins.php:62
+#: ../user/create_account_form.php:79 ../user/team_admins.php:62
 #: ../user/team_change_founder_form.php:77 ../user/team_email_list.php:64
 #: ../user/top_users.php:49 ../user/user_search.php:139
 msgid "Name"
@@ -1393,7 +1393,7 @@ msgstr ""
 msgid "Database error"
 msgstr "Помилка бази даних"
 
-#: ../inc/profile.inc:192
+#: ../inc/profile.inc:193
 msgid ""
 "To prevent spam, profiles of users with an average credit of less than %1 "
 "are displayed only to logged-in users. We apologize for this inconvenience."
@@ -1402,35 +1402,35 @@ msgstr ""
 "балів менше %1 показуються тільки користувачам, що увійшли. Ми перепрошуємо "
 "за цю незручність."
 
-#: ../inc/profile.inc:196
+#: ../inc/profile.inc:197
 msgid "User is banished"
 msgstr "Користувач заблокований"
 
-#: ../inc/profile.inc:210
+#: ../inc/profile.inc:211
 msgid "No profile exists for that user ID."
 msgstr "Для користувача з цим ID профілю не існує ."
 
-#: ../inc/profile.inc:218 ../user/create_profile.php:313
+#: ../inc/profile.inc:219 ../user/create_profile.php:313
 msgid "Edit your profile"
 msgstr "Редагувати профіль"
 
-#: ../inc/profile.inc:261
+#: ../inc/profile.inc:262
 msgid "Your feedback on this profile"
 msgstr "Ваш відгук на цей профіль"
 
-#: ../inc/profile.inc:263
+#: ../inc/profile.inc:264
 msgid "Recommend this profile for User of the Day:"
 msgstr "Рекомендувати цей профіль в якості Користувача дня :"
 
-#: ../inc/profile.inc:264
+#: ../inc/profile.inc:265
 msgid "I %1like%2 this profile"
 msgstr "Мені %1подобається%2 цей профіль"
 
-#: ../inc/profile.inc:267
+#: ../inc/profile.inc:268
 msgid "Alert administrators to an offensive profile:"
 msgstr "Попередити адміністраторів про образливий профіль:"
 
-#: ../inc/profile.inc:268
+#: ../inc/profile.inc:269
 msgid "I %1do not like%2 this profile"
 msgstr "Мені %1не подобається%2 цей профіль"
 
@@ -1795,7 +1795,7 @@ msgstr "Знайти команди з цими словами в їх назв�
 #: ../inc/team.inc:43 ../inc/team.inc:121 ../inc/team.inc:232
 #: ../inc/team.inc:372 ../inc/team.inc:456 ../inc/user.inc:205
 #: ../inc/user.inc:316 ../user/account_finish.php:45
-#: ../user/create_account_form.php:99 ../user/edit_user_info_form.php:38
+#: ../user/create_account_form.php:98 ../user/edit_user_info_form.php:38
 #: ../user/profile_search_action.php:42 ../user/team_email_list.php:64
 #: ../user/team_search.php:72 ../user/top_users.php:63
 #: ../user/user_search.php:53 ../user/user_search.php:140
@@ -1810,7 +1810,7 @@ msgstr "Тип команди"
 msgid "Show only active teams"
 msgstr "Показати тільки активні команди"
 
-#: ../inc/team.inc:52 ../user/profile_menu.php:74 ../user/user_search.php:70
+#: ../inc/team.inc:52 ../user/profile_menu.php:76 ../user/user_search.php:70
 msgid "Search"
 msgstr "Знайти"
 
@@ -2173,7 +2173,7 @@ msgid "%1 preferences"
 msgstr "Налаштування %1"
 
 #: ../inc/user.inc:239 ../user/bs_sample_index.php:59
-#: ../user/sample_index.php:114
+#: ../user/sample_index.php:125
 msgid "Community"
 msgstr "Спільнота"
 
@@ -2278,11 +2278,11 @@ msgstr "вийти"
 msgid "log in"
 msgstr "увійти"
 
-#: ../inc/util.inc:204 ../user/login_form.php:30 ../user/login_form.php:55
+#: ../inc/util.inc:204 ../user/login_form.php:30 ../user/login_form.php:66
 msgid "Log in"
 msgstr "Увійти"
 
-#: ../inc/util.inc:205 ../user/create_account_form.php:31
+#: ../inc/util.inc:205 ../user/create_account_form.php:40
 msgid "Create an account"
 msgstr "Створення облікового запису"
 
@@ -2359,21 +2359,21 @@ msgstr "Залишатися авторизованим на цьому комп
 msgid "Finish account setup"
 msgstr "Завершення налаштування облікового запису"
 
-#: ../user/account_finish.php:41 ../user/create_account_form.php:80
+#: ../user/account_finish.php:41 ../user/create_account_form.php:79
 msgid "Identifies you on our web site. Use your real name or a nickname."
 msgstr ""
 "Ідентифікує Вас на нашому веб-сайті. Введіть Ваше справжнє ім’я або "
 "псевдонім."
 
-#: ../user/account_finish.php:45 ../user/create_account_form.php:99
+#: ../user/account_finish.php:45 ../user/create_account_form.php:98
 msgid "Select the country you want to represent, if any."
 msgstr "Якщо хочете, виберіть країну, яку представляєте."
 
-#: ../user/account_finish.php:51 ../user/create_account_form.php:105
+#: ../user/account_finish.php:51 ../user/create_account_form.php:104
 msgid "Postal or ZIP Code"
 msgstr "Поштовий індекс або ZIP-код"
 
-#: ../user/account_finish.php:51 ../user/create_account_form.php:105
+#: ../user/account_finish.php:51 ../user/create_account_form.php:104
 msgid "Optional"
 msgstr "Необов’язково"
 
@@ -2390,7 +2390,7 @@ msgid "Add %1 preferences for %2"
 msgstr "Додати налаштування %1 для конфігурації %2"
 
 #: ../user/apps.php:32 ../user/bs_sample_index.php:55
-#: ../user/sample_index.php:109
+#: ../user/sample_index.php:120
 msgid "Applications"
 msgstr "Додатки"
 
@@ -2555,7 +2555,7 @@ msgstr "Команди"
 msgid "create or join a team"
 msgstr ""
 
-#: ../user/bs_sample_index.php:51 ../user/sample_index.php:180
+#: ../user/bs_sample_index.php:51 ../user/sample_index.php:191
 msgid "User of the day"
 msgstr "Користувач дня"
 
@@ -2564,7 +2564,7 @@ msgid "Server status"
 msgstr "Статус сервера"
 
 #: ../user/bs_sample_index.php:60 ../user/profile_menu.php:32
-#: ../user/sample_index.php:116
+#: ../user/sample_index.php:127
 msgid "Profiles"
 msgstr "Профілі"
 
@@ -2600,7 +2600,7 @@ msgid "Languages"
 msgstr "Мова"
 
 #: ../user/bs_sample_index.php:149 ../user/info.php:24
-#: ../user/sample_index.php:74
+#: ../user/sample_index.php:79
 msgid "Read our rules and policies"
 msgstr "Прочитайте наші правила і політику"
 
@@ -2614,66 +2614,47 @@ msgstr ""
 "Натисніть кнопку <b>Назад</b> Вашого браузера для того, щоб спробувати ще "
 "раз."
 
-#: ../user/create_account_action.php:38 ../user/create_account_action.php:40
-#: ../user/create_account_form.php:36
-msgid "Account creation is disabled"
-msgstr "Створення облікового запису заборонене"
-
-#: ../user/create_account_action.php:41
-msgid ""
-"Sorry, this project has disabled the creation of new accounts.\n"
-"Please try again later."
-msgstr ""
-"Вибачте, але цей проект заборонив створення нових облікових записів.\n"
-"Будь-ласка, спробуйте ще раз пізніше."
-
-#: ../user/create_account_action.php:53
+#: ../user/create_account_action.php:47
 msgid "Your reCAPTCHA response was not correct. Please try again."
 msgstr ""
 "Ваша відповідь reCAPTCHA була неправильною. Будь-ласка, спробуйте ще раз."
 
-#: ../user/create_account_action.php:77
+#: ../user/create_account_action.php:70
 msgid "You must supply an invitation code to create an account."
 msgstr "Щоб створити обліковий запис, Ви повинні вказати запрошувальний код."
 
-#: ../user/create_account_action.php:80
+#: ../user/create_account_action.php:73
 msgid "The invitation code you gave is not valid."
 msgstr "Вказаний Вами запрошувальний код не дійсний."
 
-#: ../user/create_account_action.php:91
+#: ../user/create_account_action.php:84
 msgid ""
 "Invalid email address: you must enter a valid address of the form name@domain"
 msgstr ""
 "Неправильна адреса електронної пошти: Ви повинні вказати правильну адресу у "
 "формі name@domain"
 
-#: ../user/create_account_action.php:95
+#: ../user/create_account_action.php:88
 msgid "There's already an account with that email address."
 msgstr "Обліковий запис з такою адресою електронної пошти вже існує."
 
-#: ../user/create_account_action.php:101 ../user/edit_passwd_action.php:33
+#: ../user/create_account_action.php:94 ../user/edit_passwd_action.php:33
 msgid "New passwords are different"
 msgstr "Нові паролі відрізняються"
 
-#: ../user/create_account_action.php:108 ../user/edit_passwd_action.php:41
+#: ../user/create_account_action.php:101 ../user/edit_passwd_action.php:41
 msgid "Passwords may only include ASCII characters."
 msgstr "Паролі можуть містити тільки ASCII-символи."
 
-#: ../user/create_account_action.php:113 ../user/edit_passwd_action.php:45
+#: ../user/create_account_action.php:106 ../user/edit_passwd_action.php:45
 msgid "New password is too short: minimum password length is %1 characters."
 msgstr "Новий пароль надто короткий: мінімальна довжина пароля - %1 символів."
 
-#: ../user/create_account_action.php:134
+#: ../user/create_account_action.php:127
 msgid "Couldn't create account"
 msgstr "Не вдалося створити обліковий запис"
 
-#: ../user/create_account_form.php:37
-msgid "Account creation is currently disabled. Please try again later."
-msgstr ""
-"Створення облікового запису зараз заборонене. Будь-ласка, спробуйте ще раз "
-"пізніше."
-
-#: ../user/create_account_form.php:46
+#: ../user/create_account_form.php:44
 msgid ""
 "NOTE: If you use the BOINC Manager, don't use this form. Just run BOINC, "
 "select Add Project, and enter an email address and password."
@@ -2682,7 +2663,7 @@ msgstr ""
 "запустіть BOINC, виберіть Додати проект, і введіть свою адресу електронної "
 "пошти і пароль."
 
-#: ../user/create_account_form.php:62
+#: ../user/create_account_form.php:61
 msgid ""
 "This account will belong to the team %1 and will have the project "
 "preferences of its founder."
@@ -2690,39 +2671,39 @@ msgstr ""
 "Цей обліковий запис буде відноситися до команди '%1' і буде мати "
 "налаштування проекту як у його засновника."
 
-#: ../user/create_account_form.php:74
+#: ../user/create_account_form.php:73
 msgid "Invitation Code"
 msgstr "Запрошувальний код"
 
-#: ../user/create_account_form.php:74
+#: ../user/create_account_form.php:73
 msgid "A valid invitation code is required to create an account."
 msgstr "Для створення облікового запису необхідний дійсний запрошувальний код."
 
-#: ../user/create_account_form.php:84
+#: ../user/create_account_form.php:83
 msgid "Email Address"
 msgstr "Адреса електронної пошти"
 
-#: ../user/create_account_form.php:84
+#: ../user/create_account_form.php:83
 msgid "Must be a valid address of the form 'name@domain'."
 msgstr "Повинна бути дійсною адресою у формі 'name@domain'."
 
-#: ../user/create_account_form.php:93 ../user/edit_email_form.php:47
+#: ../user/create_account_form.php:92 ../user/edit_email_form.php:47
 msgid "Password"
 msgstr "Пароль"
 
-#: ../user/create_account_form.php:94
+#: ../user/create_account_form.php:93
 msgid "Must be at least %1 characters"
 msgstr "Повинно бути щонайменше %1 символів"
 
-#: ../user/create_account_form.php:97
+#: ../user/create_account_form.php:96
 msgid "Confirm password"
 msgstr "Підтвердьте пароль"
 
-#: ../user/create_account_form.php:114
+#: ../user/create_account_form.php:113
 msgid "Please enter the words shown in the image"
 msgstr "Будь-ласка, введіть слова, показані на картинці"
 
-#: ../user/create_account_form.php:120
+#: ../user/create_account_form.php:119
 msgid "Create account"
 msgstr "Створити обліковий запис"
 
@@ -5236,19 +5217,19 @@ msgstr "Адреса електронної пошти"
 msgid "forgot email address?"
 msgstr "забули адресу електронної пошти?"
 
-#: ../user/login_form.php:47
+#: ../user/login_form.php:48
 msgid "Password:"
 msgstr "Пароль:"
 
-#: ../user/login_form.php:47
+#: ../user/login_form.php:48
 msgid "forgot password?"
 msgstr "забули пароль?"
 
-#: ../user/login_form.php:50
+#: ../user/login_form.php:51
 msgid "Stay logged in"
 msgstr "Залишатися авторизованим"
 
-#: ../user/login_form.php:56
+#: ../user/login_form.php:62
 msgid "or %1create an account%2."
 msgstr "або %1створити обліковий запис%2."
 
@@ -5614,19 +5595,19 @@ msgstr ""
 msgid "User of the Day"
 msgstr "Користувач дня"
 
-#: ../user/profile_menu.php:55
+#: ../user/profile_menu.php:57
 msgid "User Profile Explorer"
 msgstr "Оглядач профілів користувачів"
 
-#: ../user/profile_menu.php:58
+#: ../user/profile_menu.php:60
 msgid "View the %1User Picture Gallery%2."
 msgstr "Переглянути %1Галерею картинок користувачів%2."
 
-#: ../user/profile_menu.php:59
+#: ../user/profile_menu.php:61
 msgid "Browse profiles %1by country%2."
 msgstr "Переглянути профілі %1за країнами%2."
 
-#: ../user/profile_menu.php:60
+#: ../user/profile_menu.php:62
 msgid ""
 "Browse profiles %1at random%2, %3at random with pictures%2, or %4at random "
 "without pictures%2."
@@ -5634,19 +5615,19 @@ msgstr ""
 "Переглянути профілі %1випадковим чином%2, %3випадковим чином з картинками%2 "
 "або %4випадковим чином без картинок%2."
 
-#: ../user/profile_menu.php:64
+#: ../user/profile_menu.php:66
 msgid "Alphabetical profile listings:"
 msgstr "Алфавітні списки профілів:"
 
-#: ../user/profile_menu.php:70
+#: ../user/profile_menu.php:72
 msgid "Search profile text"
 msgstr "Пошук у тексті профілю"
 
-#: ../user/profile_menu.php:96
+#: ../user/profile_menu.php:98
 msgid "No profiles"
 msgstr "Немає профілів"
 
-#: ../user/profile_menu.php:97
+#: ../user/profile_menu.php:99
 msgid "No profiles matched your query."
 msgstr "Немає профілів, які б відповідали Вашому запиту."
 
@@ -7091,6 +7072,21 @@ msgstr ""
 #: ../project.sample/project_specific_prefs.inc:91
 msgid "(all applications)"
 msgstr "(все додатки)"
+
+#~ msgid "Account creation is disabled"
+#~ msgstr "Створення облікового запису заборонене"
+
+#~ msgid ""
+#~ "Sorry, this project has disabled the creation of new accounts.\n"
+#~ "Please try again later."
+#~ msgstr ""
+#~ "Вибачте, але цей проект заборонив створення нових облікових записів.\n"
+#~ "Будь-ласка, спробуйте ще раз пізніше."
+
+#~ msgid "Account creation is currently disabled. Please try again later."
+#~ msgstr ""
+#~ "Створення облікового запису зараз заборонене. Будь-ласка, спробуйте ще раз "
+#~ "пізніше."
 
 #~ msgid "nvidia GPU"
 #~ msgstr "графічний процесор NVIDIA"
