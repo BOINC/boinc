@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2013-11-24 00:00 PST\n"
+"POT-Creation-Date: 2013-11-28 00:00 PST\n"
 "PO-Revision-Date: 2012-04-26 04:05+0200\n"
 "Last-Translator: Ido <dj_legolas1@hotmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -193,13 +193,13 @@ msgid "Private messages"
 msgstr "הודעות פרטיות"
 
 #: ../inc/forum.inc:151 ../user/bs_sample_index.php:63
-#: ../user/forum_forum.php:71 ../user/sample_index.php:119
+#: ../user/forum_forum.php:71 ../user/sample_index.php:130
 msgid "Questions and Answers"
 msgstr "שאלות ותשובות"
 
 #: ../inc/forum.inc:151 ../inc/forum.inc:183 ../inc/user.inc:249
 #: ../inc/user.inc:374 ../user/bs_sample_index.php:62
-#: ../user/forum_forum.php:73 ../user/sample_index.php:118
+#: ../user/forum_forum.php:73 ../user/sample_index.php:129
 #: ../project.sample/project.inc:43
 msgid "Message boards"
 msgstr "לוחות הודעות"
@@ -877,7 +877,7 @@ msgstr "זיהוי מחשב"
 
 #: ../inc/host.inc:669 ../inc/result.inc:628 ../inc/team.inc:209
 #: ../inc/team.inc:357 ../inc/user.inc:199 ../user/account_finish.php:41
-#: ../user/create_account_form.php:80 ../user/team_admins.php:62
+#: ../user/create_account_form.php:79 ../user/team_admins.php:62
 #: ../user/team_change_founder_form.php:77 ../user/team_email_list.php:64
 #: ../user/top_users.php:49 ../user/user_search.php:139
 msgid "Name"
@@ -1360,7 +1360,7 @@ msgstr "הפרופיל שלך סומן כבלתי קביל. הוא אינו גל
 msgid "Database error"
 msgstr "שגיאת בסיס נתונים"
 
-#: ../inc/profile.inc:192
+#: ../inc/profile.inc:193
 #, fuzzy
 msgid ""
 "To prevent spam, profiles of users with an average credit of less than %1 "
@@ -1369,35 +1369,35 @@ msgstr ""
 "בכדי למנוע זיבול, פרופילים של משתמשים עם ממוצע נקודות זכות קטן מ-%1 מוצגים "
 "רק למשתמשים מחוברים. אנו מתנצלים על אי הנוחות."
 
-#: ../inc/profile.inc:196
+#: ../inc/profile.inc:197
 msgid "User is banished"
 msgstr "משתמש מוחרם"
 
-#: ../inc/profile.inc:210
+#: ../inc/profile.inc:211
 msgid "No profile exists for that user ID."
 msgstr "לא קיים פרופיל עבור זיהוי משתמש זה."
 
-#: ../inc/profile.inc:218 ../user/create_profile.php:313
+#: ../inc/profile.inc:219 ../user/create_profile.php:313
 msgid "Edit your profile"
 msgstr "ערוך את הפרופיל שלך"
 
-#: ../inc/profile.inc:261
+#: ../inc/profile.inc:262
 msgid "Your feedback on this profile"
 msgstr "המשוב שלך על פרופיל זה"
 
-#: ../inc/profile.inc:263
+#: ../inc/profile.inc:264
 msgid "Recommend this profile for User of the Day:"
 msgstr "המלץ על פרופיל זה למשתמש היום:"
 
-#: ../inc/profile.inc:264
+#: ../inc/profile.inc:265
 msgid "I %1like%2 this profile"
 msgstr "אני %1אוהב%2 פרופיל זה"
 
-#: ../inc/profile.inc:267
+#: ../inc/profile.inc:268
 msgid "Alert administrators to an offensive profile:"
 msgstr "התרע בפני המנהלים מפני פרופיל פוגעני:"
 
-#: ../inc/profile.inc:268
+#: ../inc/profile.inc:269
 msgid "I %1do not like%2 this profile"
 msgstr "אני %1לא אוהב%2 פרופיל זה"
 
@@ -1764,7 +1764,7 @@ msgstr "מצא קבוצות עם מילים אלו בשמות או בתיאור 
 #: ../inc/team.inc:43 ../inc/team.inc:121 ../inc/team.inc:232
 #: ../inc/team.inc:372 ../inc/team.inc:456 ../inc/user.inc:205
 #: ../inc/user.inc:316 ../user/account_finish.php:45
-#: ../user/create_account_form.php:99 ../user/edit_user_info_form.php:38
+#: ../user/create_account_form.php:98 ../user/edit_user_info_form.php:38
 #: ../user/profile_search_action.php:42 ../user/team_email_list.php:64
 #: ../user/team_search.php:72 ../user/top_users.php:63
 #: ../user/user_search.php:53 ../user/user_search.php:140
@@ -1779,7 +1779,7 @@ msgstr "סוג הקבוצה"
 msgid "Show only active teams"
 msgstr "הצג קבוצות פעילות בלבד"
 
-#: ../inc/team.inc:52 ../user/profile_menu.php:74 ../user/user_search.php:70
+#: ../inc/team.inc:52 ../user/profile_menu.php:76 ../user/user_search.php:70
 msgid "Search"
 msgstr "חיפוש"
 
@@ -2138,7 +2138,7 @@ msgid "%1 preferences"
 msgstr "העדפות %1"
 
 #: ../inc/user.inc:239 ../user/bs_sample_index.php:59
-#: ../user/sample_index.php:114
+#: ../user/sample_index.php:125
 msgid "Community"
 msgstr "קהילה"
 
@@ -2245,11 +2245,11 @@ msgstr "יציאה"
 msgid "log in"
 msgstr "התחבר"
 
-#: ../inc/util.inc:204 ../user/login_form.php:30 ../user/login_form.php:55
+#: ../inc/util.inc:204 ../user/login_form.php:30 ../user/login_form.php:66
 msgid "Log in"
 msgstr "התחבר"
 
-#: ../inc/util.inc:205 ../user/create_account_form.php:31
+#: ../inc/util.inc:205 ../user/create_account_form.php:40
 msgid "Create an account"
 msgstr "צור חשבון"
 
@@ -2324,19 +2324,19 @@ msgstr "הישאר מחובר במחשב זה"
 msgid "Finish account setup"
 msgstr ""
 
-#: ../user/account_finish.php:41 ../user/create_account_form.php:80
+#: ../user/account_finish.php:41 ../user/create_account_form.php:79
 msgid "Identifies you on our web site. Use your real name or a nickname."
 msgstr "מזהה אותך באתר האינטרנט שלנו. השתמש בשמך האמיתי או בכינוי."
 
-#: ../user/account_finish.php:45 ../user/create_account_form.php:99
+#: ../user/account_finish.php:45 ../user/create_account_form.php:98
 msgid "Select the country you want to represent, if any."
 msgstr "בחר את המדינה אותה ברצונך לייצג, אם בכלל."
 
-#: ../user/account_finish.php:51 ../user/create_account_form.php:105
+#: ../user/account_finish.php:51 ../user/create_account_form.php:104
 msgid "Postal or ZIP Code"
 msgstr "מיקוד"
 
-#: ../user/account_finish.php:51 ../user/create_account_form.php:105
+#: ../user/account_finish.php:51 ../user/create_account_form.php:104
 msgid "Optional"
 msgstr "אפשרי"
 
@@ -2355,7 +2355,7 @@ msgid "Add %1 preferences for %2"
 msgstr "הוסף %1 העדפות עבור %2"
 
 #: ../user/apps.php:32 ../user/bs_sample_index.php:55
-#: ../user/sample_index.php:109
+#: ../user/sample_index.php:120
 msgid "Applications"
 msgstr "יישומים"
 
@@ -2517,7 +2517,7 @@ msgstr "קבוצה"
 msgid "create or join a team"
 msgstr ""
 
-#: ../user/bs_sample_index.php:51 ../user/sample_index.php:180
+#: ../user/bs_sample_index.php:51 ../user/sample_index.php:191
 msgid "User of the day"
 msgstr "משתמש היום"
 
@@ -2526,7 +2526,7 @@ msgid "Server status"
 msgstr "מצב השרת"
 
 #: ../user/bs_sample_index.php:60 ../user/profile_menu.php:32
-#: ../user/sample_index.php:116
+#: ../user/sample_index.php:127
 msgid "Profiles"
 msgstr "פרופילים"
 
@@ -2561,7 +2561,7 @@ msgid "Languages"
 msgstr ""
 
 #: ../user/bs_sample_index.php:149 ../user/info.php:24
-#: ../user/sample_index.php:74
+#: ../user/sample_index.php:79
 msgid "Read our rules and policies"
 msgstr "קרא את החוקים והמדיניות שלנו"
 
@@ -2574,108 +2574,93 @@ msgstr "צור חשבון"
 msgid "Click your browser's <b>Back</b> button to try again."
 msgstr ""
 
-#: ../user/create_account_action.php:38 ../user/create_account_action.php:40
-#: ../user/create_account_form.php:36
-msgid "Account creation is disabled"
-msgstr "יצירת חשבון אינה פעילה"
-
-#: ../user/create_account_action.php:41
-msgid ""
-"Sorry, this project has disabled the creation of new accounts.\n"
-"Please try again later."
-msgstr ""
-
-#: ../user/create_account_action.php:53
+#: ../user/create_account_action.php:47
 #, fuzzy
 msgid "Your reCAPTCHA response was not correct. Please try again."
 msgstr "תגובת ה-ReCaptcha שלך שגויה. אנא נסה שנית."
 
-#: ../user/create_account_action.php:77
+#: ../user/create_account_action.php:70
 msgid "You must supply an invitation code to create an account."
 msgstr "עלייך לספק קוד הזמנה בכדי ליצור חשבון."
 
-#: ../user/create_account_action.php:80
+#: ../user/create_account_action.php:73
 msgid "The invitation code you gave is not valid."
 msgstr "קוד ההזמנה אשר סיפקת אינו תקף."
 
-#: ../user/create_account_action.php:91
+#: ../user/create_account_action.php:84
 #, fuzzy
 msgid ""
 "Invalid email address: you must enter a valid address of the form name@domain"
 msgstr "צריכה להיות כתובת תקפה בצורת 'שם@דומיין'"
 
-#: ../user/create_account_action.php:95
+#: ../user/create_account_action.php:88
 msgid "There's already an account with that email address."
 msgstr ""
 
-#: ../user/create_account_action.php:101 ../user/edit_passwd_action.php:33
+#: ../user/create_account_action.php:94 ../user/edit_passwd_action.php:33
 #, fuzzy
 msgid "New passwords are different"
 msgstr "סיסמא חדשה, שוב"
 
-#: ../user/create_account_action.php:108 ../user/edit_passwd_action.php:41
+#: ../user/create_account_action.php:101 ../user/edit_passwd_action.php:41
 msgid "Passwords may only include ASCII characters."
 msgstr ""
 
-#: ../user/create_account_action.php:113 ../user/edit_passwd_action.php:45
+#: ../user/create_account_action.php:106 ../user/edit_passwd_action.php:45
 msgid "New password is too short: minimum password length is %1 characters."
 msgstr ""
 
-#: ../user/create_account_action.php:134
+#: ../user/create_account_action.php:127
 #, fuzzy
 msgid "Couldn't create account"
 msgstr "צור חשבון"
 
-#: ../user/create_account_form.php:37
-msgid "Account creation is currently disabled. Please try again later."
-msgstr "יצירת חשבון אינה פעילה בזמן זה. אנא נסה שנית מאוחר יותר."
-
-#: ../user/create_account_form.php:46
+#: ../user/create_account_form.php:44
 msgid ""
 "NOTE: If you use the BOINC Manager, don't use this form. Just run BOINC, "
 "select Add Project, and enter an email address and password."
 msgstr ""
 
-#: ../user/create_account_form.php:62
+#: ../user/create_account_form.php:61
 msgid ""
 "This account will belong to the team %1 and will have the project "
 "preferences of its founder."
 msgstr "פרוייקט זה ישתייך לקבוצה %1 ויהיה בעל העדפות הפרוייקט של מייסד הקבוצה."
 
-#: ../user/create_account_form.php:74
+#: ../user/create_account_form.php:73
 msgid "Invitation Code"
 msgstr "קוד הזמנה"
 
-#: ../user/create_account_form.php:74
+#: ../user/create_account_form.php:73
 msgid "A valid invitation code is required to create an account."
 msgstr "נדרש קוד הזמנה תקף בכדי ליצור חשבון."
 
-#: ../user/create_account_form.php:84
+#: ../user/create_account_form.php:83
 msgid "Email Address"
 msgstr "כתובת דוא\"ל"
 
-#: ../user/create_account_form.php:84
+#: ../user/create_account_form.php:83
 msgid "Must be a valid address of the form 'name@domain'."
 msgstr "צריכה להיות כתובת תקפה בסגנון 'שם@דומיין'."
 
-#: ../user/create_account_form.php:93 ../user/edit_email_form.php:47
+#: ../user/create_account_form.php:92 ../user/edit_email_form.php:47
 msgid "Password"
 msgstr "סיסמא"
 
-#: ../user/create_account_form.php:94
+#: ../user/create_account_form.php:93
 msgid "Must be at least %1 characters"
 msgstr "נדרשים לפחות %1 תווים"
 
-#: ../user/create_account_form.php:97
+#: ../user/create_account_form.php:96
 msgid "Confirm password"
 msgstr "אימות סיסמא"
 
-#: ../user/create_account_form.php:114
+#: ../user/create_account_form.php:113
 #, fuzzy
 msgid "Please enter the words shown in the image"
 msgstr "אנא הזן את המילים אשר מוצגות בתמונה."
 
-#: ../user/create_account_form.php:120
+#: ../user/create_account_form.php:119
 msgid "Create account"
 msgstr "צור חשבון"
 
@@ -5169,20 +5154,20 @@ msgstr "כתובת דוא\"ל:"
 msgid "forgot email address?"
 msgstr "שכחת את כתובת הדוא\"ל?"
 
-#: ../user/login_form.php:47
+#: ../user/login_form.php:48
 msgid "Password:"
 msgstr "סיסמא:"
 
-#: ../user/login_form.php:47
+#: ../user/login_form.php:48
 msgid "forgot password?"
 msgstr "שכחת את הסיסמא?"
 
-#: ../user/login_form.php:50
+#: ../user/login_form.php:51
 #, fuzzy
 msgid "Stay logged in"
 msgstr "לא מחובר."
 
-#: ../user/login_form.php:56
+#: ../user/login_form.php:62
 msgid "or %1create an account%2."
 msgstr "או %1צור חשבון%2."
 
@@ -5491,19 +5476,19 @@ msgstr "אם טרם עשית זאת, באפשרותך %1ליצור פרופיל 
 msgid "User of the Day"
 msgstr "משתמש היום"
 
-#: ../user/profile_menu.php:55
+#: ../user/profile_menu.php:57
 msgid "User Profile Explorer"
 msgstr "סייר פרופיל משתמש"
 
-#: ../user/profile_menu.php:58
+#: ../user/profile_menu.php:60
 msgid "View the %1User Picture Gallery%2."
 msgstr "צפה ב%1גלריית תמונות משתמש%2."
 
-#: ../user/profile_menu.php:59
+#: ../user/profile_menu.php:61
 msgid "Browse profiles %1by country%2."
 msgstr "דפדף בפרופילים %1לפי מדינה%2."
 
-#: ../user/profile_menu.php:60
+#: ../user/profile_menu.php:62
 msgid ""
 "Browse profiles %1at random%2, %3at random with pictures%2, or %4at random "
 "without pictures%2."
@@ -5511,19 +5496,19 @@ msgstr ""
 "דפדף בפרופילים %1באקראיות%2, %3באקראיות עם תמונות%2 או %4באקראיות ללא תמונות"
 "%2."
 
-#: ../user/profile_menu.php:64
+#: ../user/profile_menu.php:66
 msgid "Alphabetical profile listings:"
 msgstr "רשומות פרופילים לפי א\"ב:"
 
-#: ../user/profile_menu.php:70
+#: ../user/profile_menu.php:72
 msgid "Search profile text"
 msgstr "חיפוש טקסט בפרופיל"
 
-#: ../user/profile_menu.php:96
+#: ../user/profile_menu.php:98
 msgid "No profiles"
 msgstr "אין פרופילים"
 
-#: ../user/profile_menu.php:97
+#: ../user/profile_menu.php:99
 msgid "No profiles matched your query."
 msgstr "לא נמצאו פרופילים המתאימים לחיפושך."
 
@@ -6921,6 +6906,12 @@ msgstr "אם לא קיימת עבודה עבור היישומים הנבחרים
 #: ../project.sample/project_specific_prefs.inc:91
 msgid "(all applications)"
 msgstr "(כל היישומים)"
+
+#~ msgid "Account creation is disabled"
+#~ msgstr "יצירת חשבון אינה פעילה"
+
+#~ msgid "Account creation is currently disabled. Please try again later."
+#~ msgstr "יצירת חשבון אינה פעילה בזמן זה. אנא נסה שנית מאוחר יותר."
 
 #~ msgid ""
 #~ "These apply to all BOINC projects in which you participate.<br>\n"
