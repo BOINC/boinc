@@ -209,9 +209,25 @@ function boinc_standard_user_default_permissions() {
     ),
   );
 
+  // Exported permission: administer rules
+  $permissions['administer rules'] = array(
+    'name' => 'administer rules',
+    'roles' => array(
+      '0' => 'administrator',
+    ),
+  );
+
   // Exported permission: administer site configuration
   $permissions['administer site configuration'] = array(
     'name' => 'administer site configuration',
+    'roles' => array(
+      '0' => 'administrator',
+    ),
+  );
+
+  // Exported permission: administer smtp module
+  $permissions['administer smtp module'] = array(
+    'name' => 'administer smtp module',
     'roles' => array(
       '0' => 'administrator',
     ),

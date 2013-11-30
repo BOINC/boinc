@@ -10,7 +10,8 @@ function news_user_default_permissions() {
   $permissions['create news content'] = array(
     'name' => 'create news content',
     'roles' => array(
-      '0' => 'content editor',
+      '0' => 'administrator',
+      '1' => 'content editor',
     ),
   );
 
@@ -18,7 +19,8 @@ function news_user_default_permissions() {
   $permissions['edit any news content'] = array(
     'name' => 'edit any news content',
     'roles' => array(
-      '0' => 'content editor',
+      '0' => 'administrator',
+      '1' => 'content editor',
     ),
   );
 

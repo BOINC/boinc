@@ -20,7 +20,7 @@ function user_profiles_user_default_permissions() {
     'name' => 'create profile content',
     'roles' => array(
       '0' => 'administrator',
-      '1' => 'authenticated user',
+      '1' => 'community member',
     ),
   );
 
@@ -37,6 +37,7 @@ function user_profiles_user_default_permissions() {
     'name' => 'delete own profile content',
     'roles' => array(
       '0' => 'administrator',
+      '1' => 'community member',
     ),
   );
 
@@ -54,6 +55,7 @@ function user_profiles_user_default_permissions() {
     'roles' => array(
       '0' => 'administrator',
       '1' => 'authenticated user',
+      '2' => 'community member',
     ),
   );
 

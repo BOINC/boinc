@@ -1042,6 +1042,7 @@ function boincimport_forum_categories() {
   
   do {
     $hidden_forum = FALSE;
+    $open_forum = FALSE;
     
     // Manually define the hidden category first, hence the awkward do loop.
     // This is to support empty categories being automatically hidden.
@@ -1090,6 +1091,10 @@ function boincimport_forum_categories() {
         // If this forum is hidden, flag for appropriate access controls
         $hidden_forum = TRUE;
       }
+      if ($name == 'Getting Started') {
+        // Must allow users to post in this forum even if they have no credit!
+        $open_forum = TRUE;
+      }
     }
     
     // Try to detect a BOINC news forum and flag it so that news can be
@@ -1134,25 +1139,31 @@ function boincimport_forum_categories() {
         'view' => (int) !$hidden_forum,
         'update' => 0,
         'delete' => 0,
-        'create' => 0
+        'create' => 0,
       );
       $forum_perms[$role_map['authenticated user']] = array(
         'view' => (int) !$hidden_forum,
         'update' => 0,
         'delete' => 0,
-        'create' => 0
+        'create' => 0,
+      );
+      $forum_perms[$role_map['unrestricted user']] = array(
+        'view' => (int) !$hidden_forum,
+        'update' => 0,
+        'delete' => 0,
+        'create' => (int) $open_forum,
       );
       $forum_perms[$role_map['community member']] = array(
         'view' => (int) !$hidden_forum,
         'update' => 0,
         'delete' => 0,
-        'create' => (int) !$hidden_forum
+        'create' => (int) !$hidden_forum,
       );
       $forum_perms[$role_map['moderator']] = array(
         'view' => 1,
         'update' => 1,
         'delete' => 0,
-        'create' => 1
+        'create' => 1,
       );
       foreach ($forum_perms as $role => $perm) {
         db_query('
