@@ -212,10 +212,20 @@ function boinc_standard_rules_defaults() {
         '#conditions' => array(),
         '#actions' => array(
           '0' => array(
-            '#type' => 'action',
+            '#weight' => 0,
+            '#info' => array(
+              'label' => 'Send a mail to all users of a role',
+              'module' => 'System',
+              'eval input' => array(
+                '0' => 'subject',
+                '1' => 'message',
+                '2' => 'from',
+              ),
+            ),
+            '#name' => 'rules_action_mail_to_users_of_role',
             '#settings' => array(
               'recipients' => array(
-                '0' => 6,
+                '0' => 1271379760,
               ),
               'from' => '',
               'subject' => 'Report of offensive [node:type] content at [:global:site-name]',
@@ -241,17 +251,7 @@ Total reports of this content: [node:flag-abuse-node-count]',
                 ),
               ),
             ),
-            '#name' => 'rules_action_mail_to_users_of_role',
-            '#info' => array(
-              'label' => 'Send a mail to all users of a role',
-              'module' => 'System',
-              'eval input' => array(
-                '0' => 'subject',
-                '1' => 'message',
-                '2' => 'from',
-              ),
-            ),
-            '#weight' => 0,
+            '#type' => 'action',
           ),
         ),
         '#version' => 6003,
@@ -271,19 +271,10 @@ Total reports of this content: [node:flag-abuse-node-count]',
         '#actions' => array(
           '0' => array(
             '#weight' => 0,
-            '#info' => array(
-              'label' => 'Send a mail to all users of a role',
-              'module' => 'System',
-              'eval input' => array(
-                '0' => 'subject',
-                '1' => 'message',
-                '2' => 'from',
-              ),
-            ),
-            '#name' => 'rules_action_mail_to_users_of_role',
+            '#type' => 'action',
             '#settings' => array(
               'recipients' => array(
-                '0' => 6,
+                '0' => 1271379760,
               ),
               'from' => '',
               'subject' => 'Report of offensive user at [:global:site-name]',
@@ -308,7 +299,16 @@ Total current reports of this user: [account:flag-abuse-user-count]',
                 ),
               ),
             ),
-            '#type' => 'action',
+            '#name' => 'rules_action_mail_to_users_of_role',
+            '#info' => array(
+              'label' => 'Send a mail to all users of a role',
+              'module' => 'System',
+              'eval input' => array(
+                '0' => 'subject',
+                '1' => 'message',
+                '2' => 'from',
+              ),
+            ),
           ),
         ),
         '#version' => 6003,
