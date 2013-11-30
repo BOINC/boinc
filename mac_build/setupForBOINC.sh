@@ -19,7 +19,7 @@
 #
 #
 # Master script to build Universal Binary libraries needed by BOINC:
-# curl-7.26.0 with c-ares-1.9.1, openssl-1.0.1c, wxMac-2.8.10,
+# curl-7.26.0 with c-ares-1.9.1, openssl-1.0.1e, wxMac-2.8.10,
 # sqlite3.7.14.1, FreeType-2.4.10 and FTGL-2.1.3
 #
 # by Charlie Fenton 7/21/06
@@ -29,6 +29,7 @@
 # Updated 6/26/12 for openssl-1.0.1c
 # Updated 8/3/12 for FreeType-2.4.10 and FTGL-2.1.3~rc5
 # Updated 12/11/12 for sqlite3.7.14.1 from sqlite-autoconf-3071401
+# Updated 11/30/13 for openssl-1.0.1e
 #
 # Download these seven packages and place them in a common parent 
 # directory with the BOINC source tree.
@@ -92,13 +93,13 @@ fi
 
 echo ""
 echo "----------------------------------"
-echo "----- BUILD OPENSSL-1.0.1c -------"
+echo "----- BUILD OPENSSL-1.0.1e -------"
 echo "----------------------------------"
 echo ""
 
 cd "${SCRIPT_DIR}"
 
-cd ../../openssl-1.0.1c/
+cd ../../openssl-1.0.1e/
 if [  $? -eq 0 ]; then
     source "${SCRIPT_DIR}/buildopenssl.sh" ${doclean}
     if [  $? -eq 0 ]; then
@@ -195,7 +196,7 @@ if [ "${opensslOK}" = "NO" ]; then
     echo "----------------------------------"
     echo "------------ WARNING -------------"
     echo "------------         -------------"
-    echo "- COULD NOT BUILD OPENSSL-1.0.1c -"
+    echo "- COULD NOT BUILD OPENSSL-1.0.1e -"
     echo "----------------------------------"
     echo ""
 fi
