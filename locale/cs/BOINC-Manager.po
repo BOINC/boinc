@@ -7,15 +7,15 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-11-22 00:00-0800\n"
-"PO-Revision-Date: 2013-08-22 21:50+0200\n"
-"Last-Translator: Martin <martin.suchan@email.cz>\n"
+"PO-Revision-Date: 2013-08-30 20:59+0000\n"
+"Last-Translator: Lycan <santdel@gmail.com>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Pootle 2.1.6\n"
+"X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SearchPath-1: clientgui/msw\n"
 "X-Poedit-SearchPath-2: clientgui/gtk\n"
 "X-Poedit-SearchPath-3: clientgui/mac\n"
@@ -23,6 +23,7 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCGIT\\boinc\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
+"X-POOTLE-MTIME: 1377896370.0\n"
 
 # 81%
 #: AccountInfoPage.cpp:387
@@ -122,8 +123,9 @@ msgstr ""
 "získání zapomenutého hesla klikněte na odkaz dole."
 
 #: AccountInfoPage.cpp:532
+#, fuzzy
 msgid "Account manager web site"
-msgstr ""
+msgstr "Webové stránky Správce účtu"
 
 #: AccountInfoPage.cpp:574 WelcomePage.cpp:348
 msgid "Add project"
@@ -142,8 +144,9 @@ msgid "Please enter a user name."
 msgstr ""
 
 #: AccountInfoPage.cpp:587
+#, fuzzy
 msgid "Please enter an email address."
-msgstr ""
+msgstr "Zadejte prosím emailovou adresu"
 
 #: AccountInfoPage.cpp:597
 #, c-format
@@ -168,12 +171,14 @@ msgstr ""
 "nebo napište do kolonky dole jeho URL adresu."
 
 #: AccountManagerInfoPage.cpp:279
+#, fuzzy
 msgid "Account manager details:"
-msgstr ""
+msgstr "Webové stránky Správce účtu"
 
 #: AccountManagerInfoPage.cpp:283
+#, fuzzy
 msgid "Account manager &URL:"
-msgstr ""
+msgstr "&URL adresa Správce účtu:"
 
 #: AccountManagerInfoPage.cpp:287
 msgid "Open web page"
@@ -492,9 +497,9 @@ msgid "Show information about the %s"
 msgstr "Zobrazit webovou stránku s nápovědou k programu %s"
 
 #: AdvancedFrame.cpp:657 sg_BoincSimpleFrame.cpp:220
-#, c-format
+#, c-format, fuzzy
 msgid "%s &web site"
-msgstr ""
+msgstr "&Webové stránky %s"
 
 #: AdvancedFrame.cpp:663 sg_BoincSimpleFrame.cpp:226
 #, c-format
@@ -3760,9 +3765,9 @@ msgid "Project Commands"
 msgstr "Příkazy projektu"
 
 #: sg_ProjectPanel.cpp:267
-#, c-format
+#, c-format, fuzzy
 msgid "Pop up a menu of web sites for project %s"
-msgstr ""
+msgstr "Otevřít menu s webovými stránkami projektu %s"
 
 #: sg_ProjectPanel.cpp:269
 #, c-format
