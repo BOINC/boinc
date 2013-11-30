@@ -248,8 +248,8 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
         form_set_error('email', t('Error creating BOINC account.'));
         return;
       }
-      // Add user to unrestricted role by default (not banned)
-      $unrestricted_role = array_search('unrestricted user', user_roles(true)); 
+      // Add user to community role by default (not banned)
+      $unrestricted_role = array_search('community member', user_roles(true)); 
       $edit['roles'] = array(
         $unrestricted_role => ''
       );

@@ -67,7 +67,7 @@ if ($user->uid AND ($user->uid != $account->uid)) {
     'href' => "flag/confirm/flag/friend/{$account->uid}"
   );
   if (user_access('assign community member role')) {
-    if (array_search('unrestricted user', $account->roles)) {
+    if (array_search('community member', $account->roles)) {
       $user_links[] = array(
         'title' => t('Ban user'),
         'href' => "user_control/{$account->uid}/ban"

@@ -54,13 +54,19 @@ function boincuser_check_credit_requirements() {
   $account = user_load($user->uid);
   $min_credit_to_post = variable_get('boinc_comment_min_credit', 0);
   $community_role = array_search('community member', user_roles(true));
-  $unrestricted_role = array_search('unrestricted user', user_roles(true));
+  $unrestricted_role = array_search('verified contributor', user_roles(true));
   if ($account->boincuser_total_credit >= $min_credit_to_post) {
-    if (!isset($account->roles[$community_role]) AND
+    if (!isset($account->roles[$unrestricted_role]) AND
+        isset($account->roles[$community_role])) {
+      // This user is now above the credit threshold and is allowed full
+      // privileges
+      $account->roles[$unrestricted_role] = 'verified contributor';
+      user_save($account, array('roles' => $account->roles));
+    }
+    elseif (!isset($account->roles[$community_role]) AND
         isset($account->roles[$unrestricted_role])) {
-      // This user is now above the credit threshold and is allowed to
-      // participate in the community
-      $account->roles[$community_role] = 'community member';
+      // This user has been banned, so remove extra privileges
+      unset($account->roles[$unrestricted_role]);
       user_save($account, array('roles' => $account->roles));
     }
   }
@@ -71,10 +77,10 @@ function boincuser_check_credit_requirements() {
         '1 more credit', '@count more credits'
       ))
     ), 'warning', FALSE);
-    if (isset($account->roles[$community_role])) {
+    if (isset($account->roles[$unrestricted_role])) {
       // Either the threshold has been raised or credits have been revoked;
-      // this user no longer qualifies for community participation
-      unset($account->roles[$community_role]);
+      // this user no longer qualifies for full privileges
+      unset($account->roles[$unrestricted_role]);
       user_save($account, array('roles' => $account->roles));
     }
   }
