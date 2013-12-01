@@ -19,10 +19,11 @@ msgstr ""
 "X-Poedit-SearchPath-0: mac_installer\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-Basepath: /Volumes/Cheer/BOINC_GIT/boinc_trunk\n"
-"X-Poedit-KeywordsList: _\n"
 "X-POOTLE-MTIME: 1377896370.0\n"
+"X-Poedit-KeywordsList: _\n"
 
 #: Installer.cpp:124
+#, c-format
 #, c-format, fuzzy
 msgid "Sorry, this version of %s requires system 10.5 or higher."
 msgstr "Promiňte, tato verze %s vyžaduje systém verze 10.4 a novější."
