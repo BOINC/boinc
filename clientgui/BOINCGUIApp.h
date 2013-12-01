@@ -91,6 +91,7 @@ protected:
     wxString            m_strHostNameArg;
     wxString            m_strPasswordArg;
     wxString            m_strBOINCArguments;
+    wxString            m_strISOLanguageID;
     int                 m_iRPCPortArg;
 
     bool                m_bBOINCMGRAutoStarted;
@@ -161,6 +162,7 @@ public:
 
 
     wxArrayString&      GetSupportedLanguages()     { return m_astrLanguages; }
+    wxString            GetISOLanguageID()          { return m_strISOLanguageID; }
     
     wxFileSystemHandler*   GetInternetFSHandler()  { return m_pInternetFSHandler; }
 

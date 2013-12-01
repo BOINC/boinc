@@ -139,6 +139,7 @@ bool CBOINCGUIApp::OnInit() {
     m_strPasswordArg = wxEmptyString;
     m_iRPCPortArg = GUI_RPC_PORT;
     m_strBOINCArguments = wxEmptyString;
+    m_strISOLanguageID = wxEmptyString;
     m_bGUIVisible = true;
     m_bDebugSkins = false;
     m_bMultipleInstancesOK = false;
@@ -276,6 +277,7 @@ bool CBOINCGUIApp::OnInit() {
     m_pLocale = new wxLocale();
     wxASSERT(m_pLocale);
 
+    m_strISOLanguageID = m_pLocale->GetCanonicalName();
 
     // Look for the localization files by absolute and relative locations.
     //   preference given to the absolute location.
