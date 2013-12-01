@@ -16,13 +16,13 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Generator: Pootle 2.5.0\n"
+"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-SearchPath-1: clientgui/msw\n"
 "X-Poedit-SearchPath-2: clientgui/gtk\n"
 "X-Poedit-SearchPath-3: clientgui/mac\n"
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCGIT\\boinc\n"
-"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-POOTLE-MTIME: 1377896370.0\n"
 
 # 81%
@@ -497,6 +497,7 @@ msgid "Show information about the %s"
 msgstr "Zobrazit webovou stránku s nápovědou k programu %s"
 
 #: AdvancedFrame.cpp:657 sg_BoincSimpleFrame.cpp:220
+#, c-format
 #, c-format, fuzzy
 msgid "%s &web site"
 msgstr "&Webové stránky %s"
@@ -3765,6 +3766,7 @@ msgid "Project Commands"
 msgstr "Příkazy projektu"
 
 #: sg_ProjectPanel.cpp:267
+#, c-format
 #, c-format, fuzzy
 msgid "Pop up a menu of web sites for project %s"
 msgstr "Otevřít menu s webovými stránkami projektu %s"
