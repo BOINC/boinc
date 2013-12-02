@@ -1609,9 +1609,18 @@ int VBOX_VM::get_vm_exit_code(unsigned long& exit_code) {
 }
 
 int VBOX_VM::get_vm_process_id(int& process_id) {
+    string command;
+    string output;
     string pid;
     size_t pid_start;
     size_t pid_end;
+    int retval;
+
+    command  = "showvminfo \"" + vm_name + "\" ";
+    command += "--log 0 ";
+
+    retval = vbm_popen(command, output, "get process ID");
+    if (retval) return retval;
 
     // Output should look like this:
     // VirtualBox 4.1.0 r73009 win.amd64 (Jul 19 2011 13:05:53) release log
@@ -1626,13 +1635,13 @@ int VBOX_VM::get_vm_process_id(int& process_id) {
     // 00:00:06.015 Installed Extension Packs:
     // 00:00:06.015   None installed!
     //
-    pid_start = vm_log.find("Process ID: ");
+    pid_start = output.find("Process ID: ");
     if (pid_start == string::npos) {
         return ERR_NOT_FOUND;
     }
     pid_start += 12;
-    pid_end = vm_log.find("\n", pid_start);
-    pid = vm_log.substr(pid_start, pid_end - pid_start);
+    pid_end = output.find("\n", pid_start);
+    pid = output.substr(pid_start, pid_end - pid_start);
     if (pid.size() <= 0) {
         return ERR_NOT_FOUND;
     }
