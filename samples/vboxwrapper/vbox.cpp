@@ -679,7 +679,7 @@ void VBOX_VM::poll(bool log_state) {
     command  = "showvminfo \"" + vm_name + "\" ";
     command += "--log 0 ";
 
-    if (vbm_popen(command, output, "get vm log", false, false) == 0) {
+    if (vbm_popen(command, output, "get vm log", false, false, 10) == 0) {
         // Keep only the last 16k if it is larger than that.
         size_t size = output.size();
         if (size > 16384) {
