@@ -250,7 +250,7 @@ void set_throttles(APP_INIT_DATA& aid, VBOX_VM& vm) {
         }
     }
     if (x) {
-        vm.set_network_usage(((int)x*8/1000));
+        vm.set_network_usage((int)(x/1024));
     }
 
 }
@@ -477,7 +477,7 @@ int main(int argc, char** argv) {
     if (!vm.virtualbox_version.empty()) {
         fprintf(
             stderr,
-            "%s Detected: %s\n",
+            "%s Detected: VirtualBox %s\n",
             vboxwrapper_msg_prefix(buf, sizeof(buf)),
             vm.virtualbox_version.c_str()
         );

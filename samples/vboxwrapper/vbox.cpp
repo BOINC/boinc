@@ -232,7 +232,7 @@ int VBOX_VM::initialize() {
         }
     }
 
-    virtualbox_version = "VirtualBox " + output;
+    virtualbox_version = output;
 
     return rc;
 }
@@ -845,6 +845,18 @@ bool VBOX_VM::is_logged_failure_guest_job_out_of_memory() {
     return false;
 }
 
+bool VBOX_VM::is_virtualbox_version_newer(int maj, int min, int rel) {
+    int vbox_major = 0, vbox_minor = 0, vbox_release = 0;
+    if (3 == sscanf(virtualbox_version.c_str(), "%d.%d.%d", &vbox_major, &vbox_minor, &vbox_release)) {
+        if (maj < vbox_major) return true;
+        if (maj > vbox_major) return false;
+        if (min < vbox_minor) return true;
+        if (min > vbox_minor) return false;
+        if (rel < vbox_release) return true;
+    }
+    return false;
+}
+
 int VBOX_VM::register_vm() {
     string command;
     string output;
@@ -1144,6 +1156,24 @@ int VBOX_VM::register_vm() {
     retval = vbm_popen(command, output, "storage attach (fixed disk)");
     if (retval) return retval;
 
+    // Add network bandwidth throttle group
+    //
+    if (is_virtualbox_version_newer(4, 2, 0)) {
+        fprintf(
+            stderr,
+            "%s Adding network bandwidth throttle group to VM. (Defaulting to 1024GB)\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf))
+        );
+        command  = "bandwidthctl \"" + vm_name + "\" ";
+        command += "add \"" + vm_name + "_net\" ";
+        command += "--type network ";
+        command += "--limit 1024G";
+        command += " ";
+
+        retval = vbm_popen(command, output, "network throttle group (add)");
+        if (retval) return retval;
+    }
+
     // Adding virtual floppy disk drive to VM
     //
     if (enable_floppyio) {
@@ -1281,6 +1311,20 @@ int VBOX_VM::deregister_vm(bool delete_media) {
     // Cleanup any left-over snapshots
     //
     cleanupsnapshots(true);
+
+    // Delete network bandwidth throttle group
+    //
+    if (is_virtualbox_version_newer(4, 2, 0)) {
+        fprintf(
+            stderr,
+            "%s Removing network bandwidth throttle group from VM.\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf))
+        );
+        command  = "bandwidthctl \"" + vm_name + "\" ";
+        command += "remove \"" + vm_name + "_net\" ";
+
+        vbm_popen(command, output, "network throttle group (add)");
+    }
 
     // Delete its storage controller(s)
     //
@@ -1809,22 +1853,42 @@ int VBOX_VM::set_network_usage(int kilobytes) {
     char buf[256];
     int retval;
 
-
-    // the argument to modifyvm is in Kbps
+    // the argument to modifyvm is in KB
     //
     fprintf(
         stderr,
-        "%s Setting network throttle for VM.\n",
-        vboxwrapper_msg_prefix(buf, sizeof(buf))
+        "%s Setting network throttle for VM. (%dKB)\n",
+        vboxwrapper_msg_prefix(buf, sizeof(buf)),
+        kilobytes
     );
-    sprintf(buf, "%d", kilobytes);
-    command  = "modifyvm \"" + vm_name + "\" ";
-    command += "--nicspeed1 ";
-    command += buf;
-    command += " ";
 
-    retval = vbm_popen(command, output, "network throttle");
-    if (retval) return retval;
+    if (is_virtualbox_version_newer(4, 2, 0)) {
+
+        // Add new bandwidth group
+        //
+        sprintf(buf, "%d", kilobytes);
+        command  = "bandwidthctl \"" + vm_name + "\" ";
+        command += "set \"" + vm_name + "_net\" ";
+        command += "--limit ";
+        command += buf;
+        command += "K ";
+
+        retval = vbm_popen(command, output, "network throttle (set)");
+        if (retval) return retval;
+
+    } else {
+
+        sprintf(buf, "%d", kilobytes);
+        command  = "modifyvm \"" + vm_name + "\" ";
+        command += "--nicspeed1 ";
+        command += buf;
+        command += " ";
+
+        retval = vbm_popen(command, output, "network throttle");
+        if (retval) return retval;
+
+    }
+
     return 0;
 }
 
