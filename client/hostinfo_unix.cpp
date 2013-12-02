@@ -704,6 +704,9 @@ static void get_cpu_info_maxosx(HOST_INFO& host) {
     size_t len;
 #if defined(__i386__) || defined(__x86_64__)
     char brand_string[256];
+    char features[sizeof(host.p_features)];
+    char *p;
+    char *sep=" ";
     int family, stepping, model;
 
     len = sizeof(host.p_vendor);
@@ -721,8 +724,29 @@ static void get_cpu_info_maxosx(HOST_INFO& host) {
     len = sizeof(stepping);
     sysctlbyname("machdep.cpu.stepping", &stepping, &len, NULL, 0);
 
-    len = sizeof(host.p_features);
-    sysctlbyname("machdep.cpu.features", host.p_features, &len, NULL, 0);
+    len = sizeof(features);
+    sysctlbyname("machdep.cpu.features", features, &len, NULL, 0);
+    
+    // Convert Mac CPU features string to match that returned by Linux
+    for(p=features; *p; p++) {
+        *p = tolower(*p);
+    }
+
+    host.p_features[0] = 0;
+    for (p = strtok(features, sep); p; p = strtok(NULL, sep)) {
+    if (p != features) safe_strcat(host.p_features, sep);
+        if (!strcmp(p, "avx1.0")) {
+            safe_strcat(host.p_features, "avx");
+        } else if (!strcmp(p, "sse3")) {
+            safe_strcat(host.p_features, "pni");
+        } else if (!strcmp(p, "sse4.1")) {
+            safe_strcat(host.p_features, "sse4_1");
+        } else if (!strcmp(p, "sse4.2")) {
+            safe_strcat(host.p_features, "sse4_2");
+        } else {
+            safe_strcat(host.p_features, p);
+        }
+    }
 
     snprintf(
         host.p_model, sizeof(host.p_model),
@@ -888,9 +912,9 @@ static void get_cpu_info_haiku(HOST_INFO& host) {
     if (maxStandardFunction >= 1) {
         /* Extended features */
         static const char *kFeatures2[32] = {
-            "sse3", NULL, "dtes64", "monitor", "ds-cpl", "vmx", "smx" "est",
+            "pni", NULL, "dtes64", "monitor", "ds-cpl", "vmx", "smx" "est",
             "tm2", "ssse3", "cnxt-id", NULL, NULL, "cx16", "xtpr", "pdcm",
-            NULL, NULL, "dca", "sse4.1", "sse4.2", "x2apic", "movbe", "popcnt",
+            NULL, NULL, "dca", "sse4_1", "sse4_2", "x2apic", "movbe", "popcnt",
             NULL, NULL, "xsave", "osxsave", NULL, NULL, NULL, NULL
         };
 
