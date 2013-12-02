@@ -163,7 +163,7 @@ struct VBOX_VM {
     int launch_vboxsvc();
 
     int vbm_popen(
-        std::string& command, std::string& output, const char* item, bool log_error = true, bool retry_failures = true, unsigned int timeout = 45
+        std::string& command, std::string& output, const char* item, bool log_error = true, bool retry_failures = true, unsigned int timeout = 0
     );
     int vbm_popen_raw(
         std::string& command, std::string& output, unsigned int timeout
