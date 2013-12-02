@@ -788,6 +788,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\client\thread.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\Client\time_stats.cpp"
 				>
 			</File>
@@ -974,6 +978,10 @@
 			</File>
 			<File
 				RelativePath="..\client\sysmon_win.h"
+				>
+			</File>
+			<File
+				RelativePath="..\client\thread.h"
 				>
 			</File>
 			<File
