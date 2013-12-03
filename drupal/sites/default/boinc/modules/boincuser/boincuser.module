@@ -122,10 +122,8 @@ function boincuser_init() {
     boinc_get_path();
     boinc_get_scheduler_tags();
   }
-  // Otherwise, check credits for community role membership
-  else {
-    boincuser_check_credit_requirements();
-  }
+  // Check credits for the verified contributor role
+  boincuser_check_credit_requirements();
 }
 
 /**
