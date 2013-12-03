@@ -475,6 +475,9 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
         if (xp.parse_int("core_client_release", old_release)) {
             continue;
         }
+		if (xp.parse_str("language", language, sizeof(language))) {
+			continue;
+		}
         if (xp.parse_bool("cpu_benchmarks_pending", btemp)) {
             if (btemp) run_cpu_benchmarks = true;
             continue;
@@ -768,6 +771,9 @@ int CLIENT_STATE::write_state(MIOFILE& f) {
         new_version_check_time,
         all_projects_list_check_time
     );
+	if (strlen(language)) {
+		f.printf("<language>%s</language>\n", language);
+	}
     if (newer_version.size()) {
         f.printf("<newer_version>%s</newer_version>\n", newer_version.c_str());
     }

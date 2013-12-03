@@ -107,6 +107,7 @@ CLIENT_STATE::CLIENT_STATE()
 #else
     core_client_version.prerelease = false;
 #endif
+	strcpy(language, "");
     exit_after_app_start_secs = 0;
     app_started = 0;
     exit_before_upload = false;
