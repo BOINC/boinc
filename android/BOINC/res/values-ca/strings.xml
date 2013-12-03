@@ -7,6 +7,7 @@
   <string name="attachproject_list_manual_dialog_title">Introdueix la URL del projecte:</string>
   <string name="attachproject_list_manual_dialog_button">Afegeix el projecte</string>
   <string name="attachproject_list_manual_no_url">Si us plau introdueix la URL del projecte</string>
+  <string name="attachproject_list_acctmgr_button">Afegir gestor de comptes</string>
   <string name="attachproject_list_no_internet">No hi ha connexió a Internet</string>
   <string name="attachproject_login_loading">Contactant el servidor del projecte...</string>
   <string name="attachproject_login_image_description">Logo del projecte.</string>
@@ -41,10 +42,17 @@
   <string name="attachproject_registration_header_pwd">Contrasenya:</string>
   <string name="attachproject_registration_header_pwd_confirm">... Torna a entrar-ho:</string>
   <string name="attachproject_registration_button">Crear</string>
+  <string name="attachproject_acctmgr_header">Afegir gestor de comptes</string>
+  <string name="attachproject_acctmgr_header_url">URL</string>
+  <string name="attachproject_acctmgr_header_name">Usuari:</string>
+  <string name="attachproject_acctmgr_header_pwd">Contrasenya:</string>
+  <string name="attachproject_acctmgr_header_pwd_confirm">... Torna a entrar-ho:</string>
+  <string name="attachproject_acctmgr_button">Afegeix</string>
   <string name="attachproject_error_wrong_name">No s\'ha trobat aquest usuari</string>
   <string name="attachproject_error_short_pwd">La contrasenya és massa curta</string>
   <string name="attachproject_error_no_internet">Ha fallat la connexió</string>
   <string name="attachproject_error_pwd_no_match">Les contrasenyes no coincideixen</string>
+  <string name="attachproject_error_no_url">Si us plau introdueix una URL</string>
   <string name="attachproject_error_no_email">Si us plau introdueix l\'adreça de correu electrònic</string>
   <string name="attachproject_error_no_pwd">Si us plau introdueix una contrasenya</string>
   <string name="attachproject_error_no_name">Si us plau, introdueïx el nom d\'usuari</string>
@@ -55,6 +63,7 @@
   <string name="attachproject_error_email_bad_syntax">Adreça de correu electrònic rebutjada</string>
   <string name="attachproject_error_bad_pwd">Contrasenya rebutjada</string>
   <string name="attachproject_error_creation_disabled">La creació de comptes està desactivada en aquest projecte</string>
+  <string name="attachproject_error_invalid_url">URL incorrecte</string>
   <string name="attachproject_working_back_button">Enrere</string>
   <string name="attachproject_working_finish_button">Finalitza</string>
   <string name="attachproject_working_check_desc">Reeixit</string>
@@ -66,6 +75,8 @@
   <string name="attachproject_working_verify">Revisa el compte</string>
   <string name="attachproject_working_register">Registra el compte</string>
   <string name="attachproject_working_login">Registret</string>
+  <string name="attachproject_working_acctmgr">Afegir gestor de comptes</string>
+  <string name="attachproject_working_acctmgr_sync">Sincronitzar</string>
   <string name="main_noproject_warning">Prem aquí per escollir un projecte.</string>
   <string name="main_error">Uppps</string>
   <string name="main_error_long">...això no ha de succeir!\n Feu clic a la icona per intentar-ho de nou.</string>
@@ -75,6 +86,7 @@
   <string name="tab_tasks">Tasques</string>
   <string name="tab_transfers">Transferències</string>
   <string name="tab_preferences">Preferències</string>
+  <string name="tab_notices">Notícies</string>
   <string name="tab_desc">Navegació</string>
   <string name="status_running">Treballant</string>
   <string name="status_running_long">Gràcies per participar.</string>
@@ -144,6 +156,7 @@
   <string name="projects_status_trickleuppending">Missatge de degoteig en espera</string>
   <string name="projects_status_backoff">Comunicació del gestor a:</string>
   <string name="projects_control_dialog_title">Ordres del projecte:</string>
+  <string name="projects_control_visit_website">Visita el lloc web</string>
   <string name="projects_control_update">Actualitza</string>
   <string name="projects_control_remove">Elimina</string>
   <string name="projects_control_suspend">Suspèn</string>
@@ -151,6 +164,9 @@
   <string name="projects_control_nonewtasks">No hi han tasques noves</string>
   <string name="projects_control_allownewtasks">Permetre noves tasques</string>
   <string name="projects_control_reset">Reinicia</string>
+  <string name="projects_control_dialog_title_acctmgr">Ordres del gestor de comptes:</string>
+  <string name="projects_control_sync_acctmgr">Sincronitzar</string>
+  <string name="projects_control_remove_acctmgr">Desactivar</string>
   <string name="projects_confirm_detach_title">Eliminar el projecte?</string>
   <string name="projects_confirm_detach_message">Estàs segur que voleu eliminar</string>
   <string name="projects_confirm_detach_message2">de BOINC?</string>
@@ -158,6 +174,9 @@
   <string name="projects_confirm_reset_title">Reinicia el projecte</string>
   <string name="projects_confirm_reset_message">Estàs segur que vols reiniciar</string>
   <string name="projects_confirm_reset_confirm">Reinicia</string>
+  <string name="projects_confirm_remove_acctmgr_title">Desactivar el gestor de comptes</string>
+  <string name="projects_confirm_remove_acctmgr_message">"Està segur de voler finalitzar la utilització de "</string>
+  <string name="projects_confirm_remove_acctmgr_confirm">Desactivar</string>
   <string name="tasks_header_name">Nom de la tasca:</string>
   <string name="tasks_header_elapsed_time">Temps transcorregut:</string>
   <string name="tasks_header_project_paused">(suspès)</string>
@@ -193,9 +212,11 @@
   <string name="trans_pending">pendent</string>
   <string name="trans_projectbackoff">desentendre\'s del projecte</string>
   <string name="trans_header_name">Fitxer:</string>
+  <string name="trans_control_retry">Re-intenta transferències</string>
   <string name="confirm_abort_trans_title">Avortar la transferència?</string>
   <string name="confirm_abort_trans_message">Avortar arxiu:</string>
   <string name="confirm_abort_trans_confirm">Avorta</string>
+  <string name="notices_loading">Llegint notícies...</string>
   <string name="eventlog_loading">Carregant missatges de registre...</string>
   <string name="eventlog_client_header">Missatges del client</string>
   <string name="eventlog_gui_header">Missatges GUI</string>

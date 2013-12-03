@@ -7,6 +7,7 @@
   <string name="attachproject_list_manual_dialog_title">Projectspecifieke URL invoeren:</string>
   <string name="attachproject_list_manual_dialog_button">Project toevoegen</string>
   <string name="attachproject_list_manual_no_url">Projectspecifieke URL invoeren</string>
+  <string name="attachproject_list_acctmgr_button">Account manager toevoegen</string>
   <string name="attachproject_list_no_internet">Geen internetverbinding</string>
   <string name="attachproject_login_loading">Verbinding maken met projectspecifieke server...</string>
   <string name="attachproject_login_image_description">Project logo.</string>
@@ -41,10 +42,17 @@
   <string name="attachproject_registration_header_pwd">Wachtwoord:</string>
   <string name="attachproject_registration_header_pwd_confirm">... Herhalen:</string>
   <string name="attachproject_registration_button">Aanmaken</string>
+  <string name="attachproject_acctmgr_header">Account manager toevoegen</string>
+  <string name="attachproject_acctmgr_header_url">URL</string>
+  <string name="attachproject_acctmgr_header_name">Gebruiker:</string>
+  <string name="attachproject_acctmgr_header_pwd">Wachtwoord:</string>
+  <string name="attachproject_acctmgr_header_pwd_confirm">... Herhalen:</string>
+  <string name="attachproject_acctmgr_button">Toevoegen</string>
   <string name="attachproject_error_wrong_name">Gebruiker niet gevonden</string>
   <string name="attachproject_error_short_pwd">Het wachtwoord is te kort</string>
   <string name="attachproject_error_no_internet">Verbinding mislukt</string>
   <string name="attachproject_error_pwd_no_match">Wachtwoorden zijn niet identiek</string>
+  <string name="attachproject_error_no_url">Vul a.u.b. URL in</string>
   <string name="attachproject_error_no_email">Voer uw e-mailadres in</string>
   <string name="attachproject_error_no_pwd">Voer een wachtwoord in</string>
   <string name="attachproject_error_no_name">Voer gebruikersnaam in</string>
@@ -55,6 +63,7 @@
   <string name="attachproject_error_email_bad_syntax">E-mailadres geweigerd</string>
   <string name="attachproject_error_bad_pwd">Wachtwoord geweigerd</string>
   <string name="attachproject_error_creation_disabled">Aanmaken van een account is voor dit project niet mogelijk</string>
+  <string name="attachproject_error_invalid_url">Ongeldig URL</string>
   <string name="attachproject_working_back_button">Vorige</string>
   <string name="attachproject_working_finish_button">Voltooien</string>
   <string name="attachproject_working_check_desc">Geslaagd</string>
@@ -66,6 +75,8 @@
   <string name="attachproject_working_verify">Account verifiëren</string>
   <string name="attachproject_working_register">Account registreren</string>
   <string name="attachproject_working_login">Aanmelden</string>
+  <string name="attachproject_working_acctmgr">Account manager toevoegen</string>
+  <string name="attachproject_working_acctmgr_sync">Bijwerken</string>
   <string name="main_noproject_warning">Tik hier om een project te kiezen.</string>
   <string name="main_error">Oeps</string>
   <string name="main_error_long">...dit hoort niet te gebeuren!\nKlik op het icoontje om het opneuw te proberen.</string>
@@ -75,6 +86,7 @@
   <string name="tab_tasks">Taken</string>
   <string name="tab_transfers">Overdrachten</string>
   <string name="tab_preferences">Voorkeursinstellingen</string>
+  <string name="tab_notices">Berichten</string>
   <string name="tab_desc">Navigatie</string>
   <string name="status_running">Berekenen</string>
   <string name="status_running_long">Dank u voor uw deelname</string>
@@ -82,7 +94,8 @@
   <string name="status_idle">Niets te doen</string>
   <string name="status_idle_long">Wachten op taaktoewijzing...</string>
   <string name="status_computing_disabled">Onderbroken</string>
-  <string name="status_launching">Startend...</string>
+  <string name="status_launching">Opstarten...</string>
+  <string name="status_noproject">Kies een project om aan deel te nemen.</string>
   <string name="status_closing">Bezig met afsluiten…</string>
   <string name="status_benchmarking">Bezig met benchmark...</string>
   <string name="status_image_description">project afbeelding</string>
@@ -98,6 +111,9 @@
   <string name="prefs_category_debug">Foutoplossing</string>
   <string name="battery_charge_min_pct_header">Min. batterijniveau</string>
   <string name="battery_temperature_max_header">Max. batterij temperatuur</string>
+  <string name="prefs_disk_max_pct_header">Max. gebruikte opslagruimte</string>
+  <string name="prefs_disk_max_pct_description">Welk percentage opslagruimte mag BOINC gebruiken op dit apparaat?</string>
+  <string name="prefs_disk_min_free_gb_header">Min. reserve opslagruimte</string>
   <string name="prefs_autostart_header">Autostart</string>
   <string name="prefs_cpu_time_max_header">CPU limiet</string>
   <string name="prefs_memory_max_idle_header">Geheugen limiet</string>
@@ -112,12 +128,14 @@
   <string name="projects_credits_host_header">(op dit apparaat)</string>
   <string name="projects_credits_user_header">(totaal)</string>
   <string name="projects_status_suspendedviagui">Onderbroken door gebruiker</string>
+  <string name="projects_control_visit_website">Bezoek website</string>
   <string name="projects_control_update">Bijwerken</string>
   <string name="projects_control_remove">Verwijderen</string>
   <string name="projects_control_suspend">Pauzeren</string>
   <string name="projects_control_resume">Hervatten</string>
   <string name="projects_control_nonewtasks">Geen nieuwe taken</string>
   <string name="projects_control_allownewtasks">Nieuwe taken toestaan</string>
+  <string name="projects_control_sync_acctmgr">Bijwerken</string>
   <string name="projects_confirm_detach_title">Project verwijderen?</string>
   <string name="projects_confirm_detach_confirm">Verwijderen</string>
   <string name="tasks_header_name">Taaknaam:</string>
@@ -166,6 +184,8 @@
   <string name="suspend_unknown">Bewerking onderbroken.</string>
   <string name="suspend_batteries">Verbind het apparaat met een oplader om verder te gaan.</string>
   <string name="suspend_useractive">Gebruiker is actief.</string>
+  <string name="suspend_os">Gestopt door Android.</string>
+  <string name="suspend_wifi">Niet verbonden met WiFi.</string>
   <string name="menu_exit">BOINC afsluiten</string>
   <string name="menu_run_mode_disable">Onderbreek</string>
   <string name="menu_run_mode_enable">Hervatten</string>

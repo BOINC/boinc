@@ -7,6 +7,7 @@
   <string name="attachproject_list_manual_dialog_title">Proje adresini girin:</string>
   <string name="attachproject_list_manual_dialog_button">Proje ekle</string>
   <string name="attachproject_list_manual_no_url">Lütfen proje adresini girin</string>
+  <string name="attachproject_list_acctmgr_button">Hesap Yöneticisi ekle</string>
   <string name="attachproject_list_no_internet">İnternet bağlantısı yok</string>
   <string name="attachproject_login_loading">Proje sunucusuna bağlanılıyor...</string>
   <string name="attachproject_login_image_description">Proje logosu.</string>
@@ -41,10 +42,17 @@
   <string name="attachproject_registration_header_pwd">Parola:</string>
   <string name="attachproject_registration_header_pwd_confirm">Yeniden yazın:</string>
   <string name="attachproject_registration_button">Oluştur</string>
+  <string name="attachproject_acctmgr_header">Hesap Yöneticisi ekle</string>
+  <string name="attachproject_acctmgr_header_url">Adres</string>
+  <string name="attachproject_acctmgr_header_name">Kullanıcı:</string>
+  <string name="attachproject_acctmgr_header_pwd">Parola:</string>
+  <string name="attachproject_acctmgr_header_pwd_confirm">Yeniden yazın:</string>
+  <string name="attachproject_acctmgr_button">Ekle</string>
   <string name="attachproject_error_wrong_name">Kullanıcı bulunamadı</string>
   <string name="attachproject_error_short_pwd">Parola çok kısa</string>
   <string name="attachproject_error_no_internet">Bağlantı başarısız</string>
   <string name="attachproject_error_pwd_no_match">Yazdığınız parolalar aynı değil</string>
+  <string name="attachproject_error_no_url">Lütfen adresi yazın</string>
   <string name="attachproject_error_no_email">Lütfen ePosta adresinizi yazın</string>
   <string name="attachproject_error_no_pwd">Lütfen bir parola yazın</string>
   <string name="attachproject_error_no_name">Lütfen kullanıcı adınızı yazın</string>
@@ -55,6 +63,7 @@
   <string name="attachproject_error_email_bad_syntax">ePosta kabul edilmedi</string>
   <string name="attachproject_error_bad_pwd">Parola kabul edilmedi</string>
   <string name="attachproject_error_creation_disabled">Hesap oluşturma bu projede devre dışı</string>
+  <string name="attachproject_error_invalid_url">Geçersiz adres</string>
   <string name="attachproject_working_back_button">Geri</string>
   <string name="attachproject_working_finish_button">Tamamla</string>
   <string name="attachproject_working_check_desc">Başarılı</string>
@@ -66,6 +75,8 @@
   <string name="attachproject_working_verify">Hesabı doğrula</string>
   <string name="attachproject_working_register">Hesap oluştur</string>
   <string name="attachproject_working_login">Giriş yap</string>
+  <string name="attachproject_working_acctmgr">Hesap yöneticisi ekle</string>
+  <string name="attachproject_working_acctmgr_sync">Eşitle</string>
   <string name="main_noproject_warning">Proje seçmek için buraya dokunun.</string>
   <string name="main_error">Haydaaa</string>
   <string name="main_error_long">... bu olmamalıydı!\nYeniden denemek için simgeye dokunun.</string>
@@ -75,6 +86,7 @@
   <string name="tab_tasks">İşler</string>
   <string name="tab_transfers">Aktarımlar</string>
   <string name="tab_preferences">Tercihler</string>
+  <string name="tab_notices">Bildirimler</string>
   <string name="tab_desc">Gezinti</string>
   <string name="status_running">Çalışıyor</string>
   <string name="status_running_long">Katıldığınız için teşekkürler.</string>
@@ -144,6 +156,7 @@
   <string name="projects_status_trickleuppending">İş ilerleme mesajı kuyrukta</string>
   <string name="projects_status_backoff">İletişim ertelendi:</string>
   <string name="projects_control_dialog_title">Proje komutları:</string>
+  <string name="projects_control_visit_website">Sitesine git</string>
   <string name="projects_control_update">Güncelle</string>
   <string name="projects_control_remove">Kaldır</string>
   <string name="projects_control_suspend">Duraklat</string>
@@ -151,6 +164,9 @@
   <string name="projects_control_nonewtasks">Yeni işler indirme</string>
   <string name="projects_control_allownewtasks">Yeni işler indir</string>
   <string name="projects_control_reset">Sıfırla</string>
+  <string name="projects_control_dialog_title_acctmgr">Hesap Yöneticisi komutları:</string>
+  <string name="projects_control_sync_acctmgr">Eşitle</string>
+  <string name="projects_control_remove_acctmgr">Devredışı bırak</string>
   <string name="projects_confirm_detach_title">Proje kaldırılsın mı?</string>
   <string name="projects_confirm_detach_message">Bu proje BOINC\'ten kaldırılsın mı:</string>
   <string name="projects_confirm_detach_message2">"? "</string>
@@ -158,6 +174,9 @@
   <string name="projects_confirm_reset_title">Projeyi sıfırla</string>
   <string name="projects_confirm_reset_message">Bu proje sıfırlansın mı:</string>
   <string name="projects_confirm_reset_confirm">Sıfırla</string>
+  <string name="projects_confirm_remove_acctmgr_title">Hesap Yöneticisini devredışı bırak</string>
+  <string name="projects_confirm_remove_acctmgr_message">Bu hesap yöneticisini kullanmayı bırakmak istiyor musunuz:</string>
+  <string name="projects_confirm_remove_acctmgr_confirm">Devredışı bırak</string>
   <string name="tasks_header_name">İş adı:</string>
   <string name="tasks_header_elapsed_time">Geçen süre:</string>
   <string name="tasks_header_project_paused">(beklemede)</string>
@@ -193,9 +212,11 @@
   <string name="trans_pending">kuyrukta</string>
   <string name="trans_projectbackoff">proje ertelendi</string>
   <string name="trans_header_name">Dosya:</string>
+  <string name="trans_control_retry">Aktarımları yeniden dene</string>
   <string name="confirm_abort_trans_title">Aktarım iptal edilsin mi?</string>
   <string name="confirm_abort_trans_message">Bu dosyanın aktarımı iptal edilsin mi:</string>
   <string name="confirm_abort_trans_confirm">Evet</string>
+  <string name="notices_loading">Bildirimler alınıyor...</string>
   <string name="eventlog_loading">Günlük mesajları yükleniyor...</string>
   <string name="eventlog_client_header">İstemci Mesajları</string>
   <string name="eventlog_gui_header">GUI Mesajları</string>

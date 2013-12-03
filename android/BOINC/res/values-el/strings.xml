@@ -39,6 +39,8 @@
   <string name="attachproject_registration_header_pwd">Passwort:</string>
   <string name="attachproject_registration_header_pwd_confirm">… Bestätigung:</string>
   <string name="attachproject_registration_button">Erstellen</string>
+  <string name="attachproject_acctmgr_header_pwd">Passwort:</string>
+  <string name="attachproject_acctmgr_header_pwd_confirm">… Bestätigung:</string>
   <string name="attachproject_error_wrong_name">Benutzer nicht gefunden</string>
   <string name="attachproject_error_short_pwd">Passwort ist zu kurz</string>
   <string name="attachproject_error_no_internet">Verbindungsfehler</string>
