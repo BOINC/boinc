@@ -1855,26 +1855,43 @@ int VBOX_VM::set_network_usage(int kilobytes) {
 
     // the argument to modifyvm is in KB
     //
-    fprintf(
-        stderr,
-        "%s Setting network throttle for VM. (%dKB)\n",
-        vboxwrapper_msg_prefix(buf, sizeof(buf)),
-        kilobytes
-    );
+    if (kilobytes == 0) {
+        fprintf(
+            stderr,
+            "%s Setting network throttle for VM. (1024GB)\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf))
+        );
+    } else {
+        fprintf(
+            stderr,
+            "%s Setting network throttle for VM. (%dKB)\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf)),
+            kilobytes
+        );
+    }
 
     if (is_virtualbox_version_newer(4, 2, 0)) {
 
-        // Add new bandwidth group
+        // Update bandwidth group limits
         //
-        sprintf(buf, "%d", kilobytes);
-        command  = "bandwidthctl \"" + vm_name + "\" ";
-        command += "set \"" + vm_name + "_net\" ";
-        command += "--limit ";
-        command += buf;
-        command += "K ";
+        if (kilobytes == 0) {
+            command  = "bandwidthctl \"" + vm_name + "\" ";
+            command += "set \"" + vm_name + "_net\" ";
+            command += "--limit 1024G ";
 
-        retval = vbm_popen(command, output, "network throttle (set)");
-        if (retval) return retval;
+            retval = vbm_popen(command, output, "network throttle (set default value)");
+            if (retval) return retval;
+        } else {
+            sprintf(buf, "%d", kilobytes);
+            command  = "bandwidthctl \"" + vm_name + "\" ";
+            command += "set \"" + vm_name + "_net\" ";
+            command += "--limit ";
+            command += buf;
+            command += "K ";
+
+            retval = vbm_popen(command, output, "network throttle (set)");
+            if (retval) return retval;
+        }
 
     } else {
 
