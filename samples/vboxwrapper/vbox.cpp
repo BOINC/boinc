@@ -865,6 +865,7 @@ int VBOX_VM::register_vm() {
     string output;
     string virtual_machine_slot_directory;
     APP_INIT_DATA aid;
+    bool disable_acceleration = false;
     char buf[256];
     int retval;
 
@@ -1050,49 +1051,46 @@ int VBOX_VM::register_vm() {
 
     vbm_popen(command, output, "modifydragdrop", false, false);
 
-    // Only perform hardware acceleration check on 32-bit VM types, 64-bit VM types require it.
+    // Check to see if the processor supports hardware acceleration for virtualization
+    // If it doesn't, disable the use of it in VirtualBox. Multi-core jobs require hardware
+    // acceleration and actually override this setting.
+    //
+    if (!strstr(aid.host_info.p_features, "vmx") && !strstr(aid.host_info.p_features, "svm")) {
+        fprintf(
+            stderr,
+            "%s Hardware acceleration CPU extensions not detected. Disabling VirtualBox hardware acceleration support.\n",
+            boinc_msg_prefix(buf, sizeof(buf))
+        );
+        disable_acceleration = true;
+    }
+    if (strstr(aid.host_info.p_features, "hypervisor")) {
+        fprintf(
+            stderr,
+            "%s Running under Hypervisor. Disabling VirtualBox hardware acceleration support.\n",
+            boinc_msg_prefix(buf, sizeof(buf))
+        );
+        disable_acceleration = true;
+    }
+    if (is_boinc_client_version_newer(aid, 7, 2, 16)) {
+        if (aid.vm_extensions_disabled) {
+            fprintf(
+                stderr,
+                "%s Hardware acceleration failed with previous execution. Disabling VirtualBox hardware acceleration support.\n",
+                boinc_msg_prefix(buf, sizeof(buf))
+            );
+            disable_acceleration = true;
+        }
+    } else {
+        if (vm_cpu_count == "1") {
+            // Keep this around for older clients.  Removing this for older clients might
+            // lead to a machine that will only return crashed VM reports.
+            disable_acceleration = true;
+        }
+    }
+
+    // Only allow disabling of hardware acceleration on 32-bit VM types, 64-bit VM types require it.
     //
     if (os_name.find("_64") == std::string::npos) {
-
-        // Check to see if the processor supports hardware acceleration for virtualization
-        // If it doesn't, disable the use of it in VirtualBox. Multi-core jobs require hardware
-        // acceleration and actually override this setting.
-        //
-        bool disable_acceleration = false;
-
-        if (!strstr(aid.host_info.p_features, "vmx") && !strstr(aid.host_info.p_features, "svm")) {
-            fprintf(
-                stderr,
-                "%s Hardware acceleration CPU extensions not detected. Disabling VirtualBox hardware acceleration support.\n",
-                boinc_msg_prefix(buf, sizeof(buf))
-            );
-            disable_acceleration = true;
-        }
-        if (strstr(aid.host_info.p_features, "hypervisor")) {
-            fprintf(
-                stderr,
-                "%s Running under Hypervisor. Disabling VirtualBox hardware acceleration support.\n",
-                boinc_msg_prefix(buf, sizeof(buf))
-            );
-            disable_acceleration = true;
-        }
-        if (is_boinc_client_version_newer(aid, 7, 2, 16)) {
-            if (aid.vm_extensions_disabled) {
-                fprintf(
-                    stderr,
-                    "%s Hardware acceleration failed with previous execution. Disabling VirtualBox hardware acceleration support.\n",
-                    boinc_msg_prefix(buf, sizeof(buf))
-                );
-                disable_acceleration = true;
-            }
-        } else {
-            if (vm_cpu_count == "1") {
-                // Keep this around for older clients.  Removing this for older clients might
-                // lead to a machine that will only return crashed VM reports.
-                disable_acceleration = true;
-            }
-        }
-
         if (disable_acceleration) {
             fprintf(
                 stderr,
@@ -1105,7 +1103,15 @@ int VBOX_VM::register_vm() {
             retval = vbm_popen(command, output, "VT-x/AMD-V support");
             if (retval) return retval;
         }
-
+    } else if (os_name.find("_64") != std::string::npos) {
+        if (disable_acceleration) {
+            fprintf(
+                stderr,
+                "%s ERROR: Invalid project configuration.  VM type requires acceleration but hardware cannot support it.\n",
+                vboxwrapper_msg_prefix(buf, sizeof(buf))
+            );
+            return ERR_INVALID_PARAM;
+        }
     }
 
     // Add storage controller to VM
@@ -1326,7 +1332,7 @@ int VBOX_VM::deregister_vm(bool delete_media) {
         command  = "bandwidthctl \"" + vm_name + "\" ";
         command += "remove \"" + vm_name + "_net\" ";
 
-        vbm_popen(command, output, "network throttle group (add)");
+        vbm_popen(command, output, "network throttle group (remove)", false, false);
     }
 
     // Delete its storage controller(s)

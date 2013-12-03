@@ -792,7 +792,7 @@ int main(int argc, char** argv) {
         if (boinc_status.suspended) {
             if (!vm.suspended) {
                 retval = vm.pause();
-                if (vm.is_virtualbox_error_recoverable(retval)) {
+                if (retval && vm.is_virtualbox_error_recoverable(retval)) {
                     fprintf(
                         stderr,
                         "%s ERROR: VM task failed to pause, rescheduling task for a later time.\n",
@@ -805,7 +805,7 @@ int main(int argc, char** argv) {
         } else {
             if (vm.suspended) {
                 retval = vm.resume();
-                if (vm.is_virtualbox_error_recoverable(retval)) {
+                if (retval && vm.is_virtualbox_error_recoverable(retval)) {
                     fprintf(
                         stderr,
                         "%s ERROR: VM task failed to resume, rescheduling task for a later time.\n",

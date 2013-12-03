@@ -7,7 +7,7 @@
   <string name="attachproject_list_manual_dialog_title">輸入專案網址:</string>
   <string name="attachproject_list_manual_dialog_button">新增專案</string>
   <string name="attachproject_list_manual_no_url">請輸入專案網址</string>
-  <string name="attachproject_list_acctmgr_button">來自帳號管理員的請求</string>
+  <string name="attachproject_list_acctmgr_button">新增帳號管理服務</string>
   <string name="attachproject_list_no_internet">沒有網路連線</string>
   <string name="attachproject_login_loading">正連線到專案伺服器...</string>
   <string name="attachproject_login_image_description">專案標誌。</string>
@@ -25,7 +25,7 @@
   <string name="attachproject_login_header_id_email">電子郵件:</string>
   <string name="attachproject_login_header_id_name">名稱:</string>
   <string name="attachproject_login_header_pwd">密碼:</string>
-  <string name="attachproject_login_category_creation">新來</string>
+  <string name="attachproject_login_category_creation">第一次加入</string>
   <string name="attachproject_login_header_creation_enabled">註冊一個帳號來參加:</string>
   <string name="attachproject_login_header_creation_client_disabled">進入專案官網來建立一個帳號:</string>
   <string name="attachproject_login_header_creation_disabled">專案目前允許建立新帳號!</string>
@@ -42,7 +42,7 @@
   <string name="attachproject_registration_header_pwd">密碼:</string>
   <string name="attachproject_registration_header_pwd_confirm">… 再次輸入:</string>
   <string name="attachproject_registration_button">建立</string>
-  <string name="attachproject_acctmgr_header">來自帳號管理員的請求</string>
+  <string name="attachproject_acctmgr_header">新增帳號管理服務</string>
   <string name="attachproject_acctmgr_header_url">網址</string>
   <string name="attachproject_acctmgr_header_name">使用者:</string>
   <string name="attachproject_acctmgr_header_pwd">密碼:</string>
@@ -75,7 +75,7 @@
   <string name="attachproject_working_verify">驗證帳號</string>
   <string name="attachproject_working_register">註冊帳號</string>
   <string name="attachproject_working_login">登入</string>
-  <string name="attachproject_working_acctmgr">來自帳號管理員的請求</string>
+  <string name="attachproject_working_acctmgr">新增帳號管理服務</string>
   <string name="attachproject_working_acctmgr_sync">同步</string>
   <string name="main_noproject_warning">點此選擇一個專案。</string>
   <string name="main_error">哎呀</string>
@@ -146,9 +146,9 @@
   <string name="projects_icon">專案圖示</string>
   <string name="projects_credits_header">積分:</string>
   <string name="projects_credits_host_header">(在這個裝置上)</string>
-  <string name="projects_credits_user_header">(總和)</string>
+  <string name="projects_credits_user_header">(總共)</string>
   <string name="projects_status_suspendedviagui">用戶已暫停</string>
-  <string name="projects_status_dontrequestmorework">不要新任務</string>
+  <string name="projects_status_dontrequestmorework">拒絕新任務</string>
   <string name="projects_status_ended">專案已停止 - 按 OK 來移除</string>
   <string name="projects_status_detachwhendone">當任務完成將會移除</string>
   <string name="projects_status_schedrpcpending">排程器請求等待中</string>
@@ -161,7 +161,7 @@
   <string name="projects_control_remove">移除</string>
   <string name="projects_control_suspend">暫停</string>
   <string name="projects_control_resume">繼續</string>
-  <string name="projects_control_nonewtasks">沒有新任務</string>
+  <string name="projects_control_nonewtasks">拒絕新任務</string>
   <string name="projects_control_allownewtasks">允許新任務</string>
   <string name="projects_control_reset">重置</string>
   <string name="projects_control_dialog_title_acctmgr">帳號管理服務指令:</string>
@@ -264,5 +264,5 @@
   <string name="about_name">BOINC</string>
   <string name="about_version">版本</string>
   <string name="about_name_long">柏克萊開放式網絡運算平台</string>
-  <string name="about_copyright">© 2003–2013 University of California, Berkeley.\nAll Rights Reserved.</string>
+  <string name="about_copyright">© 2003–2013 美國加州大學柏克萊分校\n保留所有權利。</string>
 </resources>

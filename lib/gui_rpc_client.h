@@ -749,6 +749,7 @@ struct RPC_CLIENT {
     int get_cc_config(CONFIG& config, LOG_FLAGS& log_flags);
     int set_cc_config(CONFIG& config, LOG_FLAGS& log_flags);
     int get_daily_xfer_history(DAILY_XFER_HISTORY&);
+	int set_language(const char*);
 };
 
 struct RPC {

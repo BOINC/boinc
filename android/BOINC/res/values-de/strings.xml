@@ -7,6 +7,7 @@
   <string name="attachproject_list_manual_dialog_title">Projekt-URL eingeben:</string>
   <string name="attachproject_list_manual_dialog_button">Projekt hinzufügen</string>
   <string name="attachproject_list_manual_no_url">Bitte die Projekt-URL eingeben</string>
+  <string name="attachproject_list_acctmgr_button">Kontoverwaltung hinzufügen</string>
   <string name="attachproject_list_no_internet">Keine Internetverbindung</string>
   <string name="attachproject_login_loading">kontaktiere Projektserver…</string>
   <string name="attachproject_login_image_description">Projektlogo.</string>
@@ -41,10 +42,17 @@
   <string name="attachproject_registration_header_pwd">Passwort:</string>
   <string name="attachproject_registration_header_pwd_confirm">… Bestätigung:</string>
   <string name="attachproject_registration_button">Erstellen</string>
+  <string name="attachproject_acctmgr_header">Kontoverwaltung hinzufügen</string>
+  <string name="attachproject_acctmgr_header_url">Adresse</string>
+  <string name="attachproject_acctmgr_header_name">Benutzer:</string>
+  <string name="attachproject_acctmgr_header_pwd">Passwort:</string>
+  <string name="attachproject_acctmgr_header_pwd_confirm">… Bestätigung:</string>
+  <string name="attachproject_acctmgr_button">Hinzufügen</string>
   <string name="attachproject_error_wrong_name">Benutzer nicht gefunden</string>
   <string name="attachproject_error_short_pwd">Passwort ist zu kurz</string>
   <string name="attachproject_error_no_internet">Verbindungsfehler</string>
   <string name="attachproject_error_pwd_no_match">Passwörter stimmen nicht überein</string>
+  <string name="attachproject_error_no_url">Bitte geben Sie die Adresse ein</string>
   <string name="attachproject_error_no_email">Bitte geben Sie Ihre E-Mail-Adresse ein</string>
   <string name="attachproject_error_no_pwd">Bitte Passwort eingeben</string>
   <string name="attachproject_error_no_name">Bitte einen Benutzernamen eingeben</string>
@@ -54,6 +62,7 @@
   <string name="attachproject_error_email_bad_syntax">E-Mail nicht akzeptiert</string>
   <string name="attachproject_error_bad_pwd">Passwort zu kurz</string>
   <string name="attachproject_error_creation_disabled">Die Kontoerstellung ist bei diesem Projekt deaktiviert</string>
+  <string name="attachproject_error_invalid_url">Ungültige Adresse</string>
   <string name="attachproject_working_back_button">Zurück</string>
   <string name="attachproject_working_finish_button">Beenden</string>
   <string name="attachproject_working_check_desc">Erfolgreich</string>
@@ -65,6 +74,8 @@
   <string name="attachproject_working_verify">Konto überprüfen</string>
   <string name="attachproject_working_register">Konto anlegen</string>
   <string name="attachproject_working_login">Anmelden</string>
+  <string name="attachproject_working_acctmgr">Kontoverwaltung hinzufügen</string>
+  <string name="attachproject_working_acctmgr_sync">Synchronisieren</string>
   <string name="main_noproject_warning">Hier tippen um ein Projekt auszuwählen.</string>
   <string name="main_error">Whooops</string>
   <string name="main_error_long">…das sollte eigentlich nicht passieren!\nAuf das Symbol klicken um es erneut zu probieren.</string>
@@ -74,6 +85,7 @@
   <string name="tab_tasks">Aufgaben</string>
   <string name="tab_transfers">Übertragungen</string>
   <string name="tab_preferences">Einstellungen</string>
+  <string name="tab_notices">Nachrichten</string>
   <string name="tab_desc">Navigation</string>
   <string name="status_running">Berechnung läuft</string>
   <string name="status_running_long">Vielen Dank für Ihre Beteiligung.</string>
@@ -123,6 +135,7 @@
   <string name="prefs_memory_max_idle_description">Limitiert den Arbeitsspeicher welcher für Aufgaben zur Verfügung steht.</string>
   <string name="prefs_client_log_flags_header">BOINC Client Protokolleinstellungen</string>
   <string name="prefs_gui_log_level_header">GUI Protokollierstufe</string>
+  <string name="prefs_gui_log_level_description">Einstellung der Detailiertheit der GUI Protokollnachrichten.</string>
   <string name="prefs_unit_mb">MB</string>
   <string name="prefs_unit_gb">GB</string>
   <string name="prefs_unit_pct">%</string>
@@ -142,6 +155,7 @@
   <string name="projects_status_trickleuppending">Trickle-Up Nachricht ausstehend</string>
   <string name="projects_status_backoff">nächste Kommunikation in:</string>
   <string name="projects_control_dialog_title">Projektbefehle:</string>
+  <string name="projects_control_visit_website">Webseite besuchen</string>
   <string name="projects_control_update">Aktualisieren</string>
   <string name="projects_control_remove">Entfernen</string>
   <string name="projects_control_suspend">Anhalten</string>
@@ -149,6 +163,9 @@
   <string name="projects_control_nonewtasks">Keine neuen Aufgaben</string>
   <string name="projects_control_allownewtasks">Neue Aufgaben zulassen</string>
   <string name="projects_control_reset">Zurücksetzen</string>
+  <string name="projects_control_dialog_title_acctmgr">Kontoverwaltungsbefehle:</string>
+  <string name="projects_control_sync_acctmgr">Synchronisieren</string>
+  <string name="projects_control_remove_acctmgr">Deaktivieren</string>
   <string name="projects_confirm_detach_title">Projekt entfernen?</string>
   <string name="projects_confirm_detach_message">Wollen Sie wirklich zurücksetzen</string>
   <string name="projects_confirm_detach_message2">von BOINC?</string>
@@ -156,6 +173,9 @@
   <string name="projects_confirm_reset_title">Projekt zurücksetzen</string>
   <string name="projects_confirm_reset_message">Sind Sie sicher, dass Sie auf Standard zurücksetzen wollen?</string>
   <string name="projects_confirm_reset_confirm">Zurücksetzen</string>
+  <string name="projects_confirm_remove_acctmgr_title">Kontoverwaltung deaktivieren</string>
+  <string name="projects_confirm_remove_acctmgr_message">Sind Sie sicher die Kontoverwaltung zu beenden</string>
+  <string name="projects_confirm_remove_acctmgr_confirm">Deaktivieren</string>
   <string name="tasks_header_name">Aufgabenname:</string>
   <string name="tasks_header_elapsed_time">Abgelaufene Zeit:</string>
   <string name="tasks_header_project_paused">(angehalten)</string>
@@ -191,9 +211,11 @@
   <string name="trans_pending">ausstehend</string>
   <string name="trans_projectbackoff">Projektwartezeit</string>
   <string name="trans_header_name">Datei:</string>
+  <string name="trans_control_retry">Übertragung wiederholen</string>
   <string name="confirm_abort_trans_title">Übertragung abbrechen?</string>
   <string name="confirm_abort_trans_message">Abbruch-Datei:</string>
   <string name="confirm_abort_trans_confirm">Abbrechen</string>
+  <string name="notices_loading">Lade Nachrichten...</string>
   <string name="eventlog_loading">Lade Protokollnachrichten…</string>
   <string name="eventlog_client_header">Client Meldungen</string>
   <string name="eventlog_gui_header">GUI Meldungen</string>

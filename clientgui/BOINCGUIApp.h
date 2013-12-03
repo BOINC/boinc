@@ -85,7 +85,6 @@ protected:
     wxString            m_strHostNameArg;
     wxString            m_strPasswordArg;
     wxString            m_strBOINCArguments;
-    wxString            m_strISOLanguageID;
     int                 m_iRPCPortArg;
 
     bool                m_bBOINCMGRAutoStarted;
@@ -157,7 +156,6 @@ public:
 
 
     wxArrayString&      GetSupportedLanguages()     { return m_astrLanguages; }
-    wxString            GetISOLanguageID()          { return m_strISOLanguageID; }
     
     void                DisplayEventLog(bool bShowWindow = true);
     void                OnEventLogClose();
@@ -206,6 +204,7 @@ public:
 DECLARE_EVENT_TABLE()
 };
 
+extern wxString language;
 
 DECLARE_APP(CBOINCGUIApp)
 

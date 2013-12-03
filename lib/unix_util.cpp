@@ -17,10 +17,6 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// Note.  This already has an ifdef around it. If it is causing problem
-// then HAVE_SETENV should be defined in your configuration files.
-#ifndef HAVE_SETENV
-
 #include <vector>
 #include <cstring>
 #include <cerrno>
@@ -28,6 +24,29 @@
 #include <stdio.h>
 
 #include "unix_util.h"
+
+// Note.  This already has an ifdef around it. If it is causing problem
+// then HAVE_ETHER_NTOA should be defined in your configuration files.
+#ifndef HAVE_ETHER_NTOA
+extern "C" {
+static char ether_ntoa_buffer[18];
+
+char *ether_ntoa(const struct ether_addr *addr) {
+   int i;
+   for (i=0;i<5;i++) {
+       sprintf(ether_ntoa_buffer+i*3,"%02x:",addr->ether_addr_octet[i]);
+   }
+   sprintf(ether_ntoa_buffer+15,"%02x",addr->ether_addr_octet[i]);
+   return ether_ntoa_buffer;
+}
+}
+#endif
+
+// Note.  This already has an ifdef around it. If it is causing problem
+// then HAVE_SETENV should be defined in your configuration files.
+#ifndef HAVE_SETENV
+
+
 
 static std::vector<char *> envstrings;
 

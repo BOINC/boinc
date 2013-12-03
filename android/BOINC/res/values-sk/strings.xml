@@ -1,13 +1,27 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
   <string name="app_name">BOINC</string>
+  <string name="generic_loading">Nahrávanie! Prosím, čakajte...</string>
+  <string name="attachproject_list_header">Vyberte si projekt:</string>
+  <string name="attachproject_list_manual_button">Pridajte projekt podľa URL</string>
+  <string name="attachproject_list_manual_dialog_title">Vložte URL projektu:</string>
+  <string name="attachproject_list_manual_dialog_button">Pridať projekt</string>
+  <string name="attachproject_list_acctmgr_button">Adaugă manager de cont</string>
   <string name="attachproject_login_header_platform">Android:</string>
+  <string name="attachproject_acctmgr_header">Adaugă manager de cont</string>
+  <string name="attachproject_acctmgr_header_url">URL</string>
+  <string name="attachproject_acctmgr_header_name">Utilizator:</string>
+  <string name="attachproject_acctmgr_header_pwd">Parolă:</string>
+  <string name="attachproject_acctmgr_header_pwd_confirm">... Reintroduceţi:</string>
+  <string name="attachproject_acctmgr_button">Adaugă</string>
+  <string name="attachproject_error_no_url">Introduceți URL</string>
   <string name="attachproject_error_bad_username">Имя пользователя не принято</string>
   <string name="attachproject_error_email_in_use">Адрес электронной почты уже используется</string>
   <string name="attachproject_error_project_down">Проект выключен</string>
   <string name="attachproject_error_email_bad_syntax">Адрес электронной почты не принят</string>
   <string name="attachproject_error_bad_pwd">Пароль не принят</string>
   <string name="attachproject_error_creation_disabled">Создание учётной записи в данном проекте отключено</string>
+  <string name="attachproject_error_invalid_url">URL invalid</string>
   <string name="attachproject_working_back_button">Назад</string>
   <string name="attachproject_working_finish_button">Готово</string>
   <string name="attachproject_working_check_desc">Успешно</string>
@@ -19,9 +33,12 @@
   <string name="attachproject_working_verify">Проверить учётную запись</string>
   <string name="attachproject_working_register">Зарегистрировать учётную запись</string>
   <string name="attachproject_working_login">Войти</string>
+  <string name="attachproject_working_acctmgr">Adaugă manager de cont</string>
+  <string name="attachproject_working_acctmgr_sync">Sincronizează</string>
   <string name="main_noproject_warning">Нажмите здесь для выбора проекта.</string>
   <string name="main_error">Упс</string>
   <string name="main_error_long">…этого не должно было произойти!\nНажмите на значок BOINC, чтобы попробовать ещё раз.</string>
+  <string name="tab_notices">Atenționări</string>
   <string name="tab_desc">Навигация</string>
   <string name="status_running">Выполнение расчётов</string>
   <string name="status_running_long">Спасибо за участие.</string>
@@ -88,6 +105,7 @@
   <string name="projects_status_trickleuppending">Ожидание промежуточной отправки</string>
   <string name="projects_status_backoff">Связь по расписанию:</string>
   <string name="projects_control_dialog_title">Команды проекта:</string>
+  <string name="projects_control_visit_website">Vizitați pagina web</string>
   <string name="projects_control_update">Обновить</string>
   <string name="projects_control_remove">Удалить</string>
   <string name="projects_control_suspend">Приостановить</string>
@@ -95,6 +113,9 @@
   <string name="projects_control_nonewtasks">Не запрашивать задания</string>
   <string name="projects_control_allownewtasks">Получать новые задания</string>
   <string name="projects_control_reset">Сбросить</string>
+  <string name="projects_control_dialog_title_acctmgr">Comenzi manager de cont:</string>
+  <string name="projects_control_sync_acctmgr">Sincronizează</string>
+  <string name="projects_control_remove_acctmgr">Dezactivează</string>
   <string name="projects_confirm_detach_title">Удалить проект?</string>
   <string name="projects_confirm_detach_message">Вы действительно хотите удалить</string>
   <string name="projects_confirm_detach_message2">из BOINC?</string>
@@ -102,6 +123,9 @@
   <string name="projects_confirm_reset_title">Перезапустить проект</string>
   <string name="projects_confirm_reset_message">Вы действительно хотите перезапустить</string>
   <string name="projects_confirm_reset_confirm">Сбросить</string>
+  <string name="projects_confirm_remove_acctmgr_title">Dezactivează manager de cont</string>
+  <string name="projects_confirm_remove_acctmgr_message">Sunteţi sigur că doriţi să nu mai folosiţi</string>
+  <string name="projects_confirm_remove_acctmgr_confirm">Dezactivează</string>
   <string name="tasks_header_name">Название задания:</string>
   <string name="tasks_header_elapsed_time">Затрачено времени:</string>
   <string name="tasks_header_project_paused">(приостановлено)</string>
@@ -137,9 +161,11 @@
   <string name="trans_pending">ожидает</string>
   <string name="trans_projectbackoff">запрос к проекту отложен на</string>
   <string name="trans_header_name">Файл:</string>
+  <string name="trans_control_retry">Reîncearcă transferuri</string>
   <string name="confirm_abort_trans_title">Прервать передачу?</string>
   <string name="confirm_abort_trans_message">Прервать файл:</string>
   <string name="confirm_abort_trans_confirm">Прервать</string>
+  <string name="notices_loading">Se citesc atenţionările...</string>
   <string name="eventlog_loading">Загрузка сообщений журнала…</string>
   <string name="eventlog_client_header">Сообщения клиента</string>
   <string name="eventlog_gui_header">Сообщения GUI</string>
@@ -185,6 +211,6 @@
   <string name="about_button">Вернуться</string>
   <string name="about_title">О</string>
   <string name="about_name">BOINC</string>
-  <string name="about_name_long">BOINC - Berkeley Open Infrastructure for Network Computing\nОткрытая Инфраструктура для Распределенных Вычислений университета Беркли</string>
+  <string name="about_name_long">BOINC - Otvorená infraštruktúra pre sieťové výpočty z Berkeley</string>
   <string name="about_copyright">© 2003-2013 Калифорнийский университет, Беркли.\nВсе права защищены.</string>
 </resources>

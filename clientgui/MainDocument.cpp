@@ -933,6 +933,18 @@ void CMainDocument::RunPeriodicRPCs(int frameRefreshRate) {
         return;
     }
 
+	// SET_LANGUAGE 
+
+	static bool first = true;
+	if (first) {
+		first = false;
+		request.clear();
+		request.which_rpc = RPC_SET_LANGUAGE;
+		request.arg1 = (void*)(const char*)language.mb_str();
+		request.rpcType = RPC_TYPE_ASYNC_NO_REFRESH;
+		RequestRPC(request);
+	}
+
     // *********** RPC_GET_CC_STATUS **************
     
     ts = dtNow - m_dtCachedCCStatusTimestamp;

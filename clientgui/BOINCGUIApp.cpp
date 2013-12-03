@@ -65,6 +65,7 @@ BEGIN_EVENT_TABLE (CBOINCGUIApp, wxApp)
 #endif
 END_EVENT_TABLE ()
 
+wxString language = wxEmptyString;
 
 bool s_bSkipExitConfirmation = false;
 
@@ -140,7 +141,6 @@ bool CBOINCGUIApp::OnInit() {
     m_strPasswordArg = wxEmptyString;
     m_iRPCPortArg = GUI_RPC_PORT;
     m_strBOINCArguments = wxEmptyString;
-    m_strISOLanguageID = wxEmptyString;
     m_bGUIVisible = true;
     m_bDebugSkins = false;
     m_bMultipleInstancesOK = false;
@@ -154,7 +154,6 @@ bool CBOINCGUIApp::OnInit() {
     m_hClientLibraryDll = NULL;
 #endif
 
-
     // Initialize local variables
     int      iErrorCode = 0;
     int      iSelectedLanguage = 0;
@@ -162,7 +161,6 @@ bool CBOINCGUIApp::OnInit() {
     wxString strDesiredSkinName = wxEmptyString;
     wxString strDialogMessage = wxEmptyString;
     bool     success = false;
-
 
     // Configure wxWidgets platform specific code
 #ifdef __WXMSW__
@@ -281,8 +279,6 @@ bool CBOINCGUIApp::OnInit() {
     // Look for the localization files by absolute and relative locations.
     //   preference given to the absolute location.
     m_pLocale->Init(iSelectedLanguage);
-    m_strISOLanguageID = m_pLocale->GetCanonicalName();
-
     if (!m_strBOINCMGRRootDirectory.IsEmpty()) {
         m_pLocale->AddCatalogLookupPathPrefix(
             wxString(m_strBOINCMGRRootDirectory + wxT("locale"))
@@ -295,11 +291,12 @@ bool CBOINCGUIApp::OnInit() {
 
     InitSupportedLanguages();
 
+	language = m_pLocale->GetCanonicalName();
+
     // Note: JAWS for Windows will only speak the context-sensitive
     // help if you use this help provider:
     wxHelpProvider::Set(new wxHelpControllerHelpProvider());
 
- 
     // Enable known image types
     wxInitAllImageHandlers();
 
