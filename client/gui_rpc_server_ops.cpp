@@ -1159,6 +1159,17 @@ static bool complete_post_request(char* buf) {
     return true;
 }
 
+static void handle_set_language(GUI_RPC_CONN& grc) {
+	while (!grc.xp.get_tag()) {
+        if (grc.xp.parse_str("language", gstate.language, sizeof(gstate.language))) {
+			gstate.set_client_state_dirty("set_language");
+			grc.mfout.printf("<success/>\n");
+			return;
+		}
+	}
+	grc.mfout.printf("<error>no language found</error>\n");
+}
+
 static void handle_report_device_status(GUI_RPC_CONN& grc) {
     DEVICE_STATUS d;
     while (!grc.xp.get_tag()) {
@@ -1318,6 +1329,7 @@ GUI_RPC gui_rpcs[] = {
                                                                     true,   false,  false),
     GUI_RPC("set_gpu_mode", handle_set_gpu_mode,                    true,   false,  false),
     GUI_RPC("set_host_info", handle_set_host_info,                  true,   false,  false),
+    GUI_RPC("set_language", handle_set_language,                    true,   false,  false),
     GUI_RPC("set_network_mode", handle_set_network_mode,            true,   false,  false),
     GUI_RPC("set_proxy_settings", handle_set_proxy_settings,        true,   false,  false),
     GUI_RPC("set_run_mode", handle_set_run_mode,                    true,   false,  false),

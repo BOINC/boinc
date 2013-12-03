@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2013 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -666,6 +666,11 @@ int RPCThread::ProcessRPCRequest() {
             *(LOG_FLAGS*)(current_request->arg2)
         );
         break;
+	case RPC_SET_LANGUAGE:
+		retval = (m_pDoc->rpcClient).set_language(
+			(const char*)(current_request->arg1)
+		);
+		break;
     default:
         break;
     }

@@ -2641,3 +2641,15 @@ int RPC_CLIENT::get_daily_xfer_history(DAILY_XFER_HISTORY& dxh) {
     if (retval) return retval;
     return dxh.parse(rpc.xp);
 }
+
+int RPC_CLIENT::set_language(const char* language) {
+	SET_LOCALE sl;
+	RPC rpc(this);
+	int retval;
+	char buf[256];
+
+	sprintf(buf, "<set_language>\n   <language>%s</language>\n</set_language>\n", language);
+	retval = rpc.do_rpc(buf);
+	if (retval) return retval;
+	return rpc.parse_reply();
+}
