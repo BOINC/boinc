@@ -34,9 +34,9 @@ static char ether_ntoa_buffer[18];
 char *ether_ntoa(const struct ether_addr *addr) {
    int i;
    for (i=0;i<5;i++) {
-       sprintf(ether_ntoa_buffer+i*3,"%0.2x:",addr->ether_addr_octet[i]);
+       sprintf(ether_ntoa_buffer+i*3,"%02x:",addr->ether_addr_octet[i]);
    }
-   sprintf(ether_ntoa_buffer+15,"%0.2x",addr->ether_addr_octet[i]);
+   sprintf(ether_ntoa_buffer+15,"%02x",addr->ether_addr_octet[i]);
    return ether_ntoa_buffer;
 }
 }
