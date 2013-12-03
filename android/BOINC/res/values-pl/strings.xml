@@ -41,6 +41,8 @@
   <string name="attachproject_registration_header_pwd">Wachtwoord:</string>
   <string name="attachproject_registration_header_pwd_confirm">... Herhalen:</string>
   <string name="attachproject_registration_button">Aanmaken</string>
+  <string name="attachproject_acctmgr_header_pwd">Wachtwoord:</string>
+  <string name="attachproject_acctmgr_header_pwd_confirm">... Herhalen:</string>
   <string name="attachproject_error_wrong_name">Gebruiker niet gevonden</string>
   <string name="attachproject_error_short_pwd">Het wachtwoord is te kort</string>
   <string name="attachproject_error_no_internet">Verbinding mislukt</string>
@@ -82,7 +84,7 @@
   <string name="status_idle">Niets te doen</string>
   <string name="status_idle_long">Wachten op taaktoewijzing...</string>
   <string name="status_computing_disabled">Onderbroken</string>
-  <string name="status_launching">Startend...</string>
+  <string name="status_noproject">Kies een project om aan deel te nemen.</string>
   <string name="status_closing">Bezig met afsluiten…</string>
   <string name="status_benchmarking">Bezig met benchmark...</string>
   <string name="status_image_description">project afbeelding</string>
@@ -98,6 +100,9 @@
   <string name="prefs_category_debug">Foutoplossing</string>
   <string name="battery_charge_min_pct_header">Min. batterijniveau</string>
   <string name="battery_temperature_max_header">Max. batterij temperatuur</string>
+  <string name="prefs_disk_max_pct_header">Max. gebruikte opslagruimte</string>
+  <string name="prefs_disk_max_pct_description">Welk percentage opslagruimte mag BOINC gebruiken op dit apparaat?</string>
+  <string name="prefs_disk_min_free_gb_header">Min. reserve opslagruimte</string>
   <string name="prefs_autostart_header">Autostart</string>
   <string name="prefs_cpu_time_max_header">CPU limiet</string>
   <string name="prefs_memory_max_idle_header">Geheugen limiet</string>
