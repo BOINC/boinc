@@ -1,23 +1,23 @@
-# Slovak translations for PACKAGE.
+# Translations template for PROJECT.
 # Copyright (C) 2013 ORGANIZATION
-# This file is distributed under the same license as the PACKAGE project.
+# This file is distributed under the same license as the PROJECT project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-10-18 00:00-0700\n"
-"PO-Revision-Date: 2013-11-21 22:31+0000\n"
+"POT-Creation-Date: 2013-08-29 15:37-0700\n"
+"PO-Revision-Date: 2013-10-11 22:33+0000\n"
 "Last-Translator: aceman <acelists@atlas.sk>\n"
-"Language-Team: sk <LL@li.org>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: sk\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
-"X-POOTLE-MTIME: 1385073060.0\n"
+"X-POOTLE-MTIME: 1379771666.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -25,36 +25,37 @@ msgid "BOINC"
 msgstr "BOINC"
 
 #. generic. used by multiple Activities/tabs
+#, fuzzy
 msgctxt "generic_loading"
 msgid "Loading! Please wait…"
-msgstr "Nahrávanie! Prosím, čakajte..."
+msgstr "Выполняется загрузка! Пожалуйста подождите…"
 
 #. attach project
 #. project list
+#, fuzzy
 msgctxt "attachproject_list_header"
 msgid "Choose a project:"
-msgstr "Vyberte si projekt:"
+msgstr "Выберите проект:"
 
+#, fuzzy
 msgctxt "attachproject_list_manual_button"
 msgid "Add project by URL"
-msgstr "Pridajte projekt podľa URL"
+msgstr "Добавить URL-адрес проекта"
 
+#, fuzzy
 msgctxt "attachproject_list_manual_dialog_title"
 msgid "Enter project URL:"
-msgstr "Vložte URL projektu:"
+msgstr "Введите URL проекта:"
 
+#, fuzzy
 msgctxt "attachproject_list_manual_dialog_button"
 msgid "Add project"
-msgstr "Pridať projekt"
+msgstr "Добавить проект"
 
 #, fuzzy
 msgctxt "attachproject_list_manual_no_url"
 msgid "Please enter project URL"
 msgstr "Пожалуйста, введите URL проекта"
-
-msgctxt "attachproject_list_acctmgr_button"
-msgid "Add account manager"
-msgstr "Adaugă manager de cont"
 
 #, fuzzy
 msgctxt "attachproject_list_no_internet"
@@ -232,31 +233,6 @@ msgctxt "attachproject_registration_button"
 msgid "Create"
 msgstr "Создать"
 
-#. account manager
-msgctxt "attachproject_acctmgr_header"
-msgid "Add account manager"
-msgstr "Adaugă manager de cont"
-
-msgctxt "attachproject_acctmgr_header_url"
-msgid "URL"
-msgstr "URL"
-
-msgctxt "attachproject_acctmgr_header_name"
-msgid "User:"
-msgstr "Utilizator:"
-
-msgctxt "attachproject_acctmgr_header_pwd"
-msgid "Password:"
-msgstr "Parolă:"
-
-msgctxt "attachproject_acctmgr_header_pwd_confirm"
-msgid "… Retype:"
-msgstr "... Reintroduceţi:"
-
-msgctxt "attachproject_acctmgr_button"
-msgid "Add"
-msgstr "Adaugă"
-
 #. error strings
 #, fuzzy
 msgctxt "attachproject_error_wrong_name"
@@ -277,10 +253,6 @@ msgstr "Сбой подключения"
 msgctxt "attachproject_error_pwd_no_match"
 msgid "Passwords do not match"
 msgstr "Пароли не совпадают"
-
-msgctxt "attachproject_error_no_url"
-msgid "Please enter URL"
-msgstr "Introduceți URL"
 
 #, fuzzy
 msgctxt "attachproject_error_no_email"
@@ -326,10 +298,6 @@ msgctxt "attachproject_error_creation_disabled"
 msgid "Account creation is disabled on this project"
 msgstr "Создание учётной записи в данном проекте отключено"
 
-msgctxt "attachproject_error_invalid_url"
-msgid "Invalid URL"
-msgstr "URL invalid"
-
 #. working activity
 msgctxt "attachproject_working_back_button"
 msgid "Back"
@@ -374,14 +342,6 @@ msgstr "Зарегистрировать учётную запись"
 msgctxt "attachproject_working_login"
 msgid "Log in"
 msgstr "Войти"
-
-msgctxt "attachproject_working_acctmgr"
-msgid "Add account manager"
-msgstr "Adaugă manager de cont"
-
-msgctxt "attachproject_working_acctmgr_sync"
-msgid "Synchronize"
-msgstr "Sincronizează"
 
 #. main activity
 msgctxt "main_noproject_warning"
@@ -430,10 +390,6 @@ msgstr "Передачи"
 msgctxt "tab_preferences"
 msgid "Preferences"
 msgstr "Настройки"
-
-msgctxt "tab_notices"
-msgid "Notices"
-msgstr "Atenționări"
 
 msgctxt "tab_desc"
 msgid "Navigation"
@@ -733,10 +689,6 @@ msgctxt "projects_control_dialog_title"
 msgid "Project commands:"
 msgstr "Команды проекта:"
 
-msgctxt "projects_control_visit_website"
-msgid "Visit website"
-msgstr "Vizitați pagina web"
-
 msgctxt "projects_control_update"
 msgid "Update"
 msgstr "Обновить"
@@ -764,18 +716,6 @@ msgstr "Получать новые задания"
 msgctxt "projects_control_reset"
 msgid "Reset"
 msgstr "Сбросить"
-
-msgctxt "projects_control_dialog_title_acctmgr"
-msgid "Account manager commands:"
-msgstr "Comenzi manager de cont:"
-
-msgctxt "projects_control_sync_acctmgr"
-msgid "Synchronize"
-msgstr "Sincronizează"
-
-msgctxt "projects_control_remove_acctmgr"
-msgid "Disable"
-msgstr "Dezactivează"
 
 #. project confirm dialog
 msgctxt "projects_confirm_detach_title"
@@ -805,18 +745,6 @@ msgstr "Вы действительно хотите перезапустить"
 msgctxt "projects_confirm_reset_confirm"
 msgid "Reset"
 msgstr "Сбросить"
-
-msgctxt "projects_confirm_remove_acctmgr_title"
-msgid "Disable account manager"
-msgstr "Dezactivează manager de cont"
-
-msgctxt "projects_confirm_remove_acctmgr_message"
-msgid "Are you sure you want to stop using"
-msgstr "Sunteţi sigur că doriţi să nu mai folosiţi"
-
-msgctxt "projects_confirm_remove_acctmgr_confirm"
-msgid "Disable"
-msgstr "Dezactivează"
 
 #. tasks tab strings
 msgctxt "tasks_header_name"
@@ -961,10 +889,6 @@ msgctxt "trans_header_name"
 msgid "File:"
 msgstr "Файл:"
 
-msgctxt "trans_control_retry"
-msgid "Retry transfers"
-msgstr "Reîncearcă transferuri"
-
 msgctxt "confirm_abort_trans_title"
 msgid "Abort transfer?"
 msgstr "Прервать передачу?"
@@ -976,11 +900,6 @@ msgstr "Прервать файл:"
 msgctxt "confirm_abort_trans_confirm"
 msgid "Abort"
 msgstr "Прервать"
-
-#. notices tab strings
-msgctxt "notices_loading"
-msgid "Reading notices…"
-msgstr "Se citesc atenţionările..."
 
 #. eventlog tab strings
 msgctxt "eventlog_loading"
@@ -1175,7 +1094,9 @@ msgstr "Версия"
 
 msgctxt "about_name_long"
 msgid "Berkeley Open Infrastructure for Network Computing"
-msgstr "BOINC - Otvorená infraštruktúra pre sieťové výpočty z Berkeley"
+msgstr ""
+"BOINC - Berkeley Open Infrastructure for Network Computing\n"
+"Открытая Инфраструктура для Распределенных Вычислений университета Беркли"
 
 msgctxt "about_copyright"
 msgid ""
