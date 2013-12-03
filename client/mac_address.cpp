@@ -263,16 +263,7 @@ int get_mac_address(char* address) {
         }
         hw_addr = (struct ether_addr *)&(item->lifr_lifru.lifru_enaddr);  
 #endif
-#ifdef _ANDROID
-        snprintf(
-            address, 18, "%02x:%02x:%02x:%02x:%02x:%02x",
-            hw_addr->ether_addr_octet[0], hw_addr->ether_addr_octet[1],
-            hw_addr->ether_addr_octet[2], hw_addr->ether_addr_octet[3],
-            hw_addr->ether_addr_octet[4], hw_addr->ether_addr_octet[5]
-        );
-#else
         strcpy(address, ether_ntoa(hw_addr));
-#endif
         if (strstr(item->ifr_ifrn.ifrn_name, "eth")) break;
     }
     close(sck);
