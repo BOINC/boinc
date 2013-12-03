@@ -1,0 +1,10 @@
+Document: dcapi
+Title: DC-API reference manual
+Author: Gabor Gombas
+Abstract: The Distributed Computing Platform is a development environment
+ for multi-grid applications.
+Section: Programming/C
+
+Format: HTML
+Index: /usr/share/doc/libdcapi-doc/dc-api/index.html
+Files: /usr/share/doc/libdcapi-doc/dc-api/*.html

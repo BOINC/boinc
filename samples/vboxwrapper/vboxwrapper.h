@@ -32,6 +32,7 @@
 #define REMOTEDESKTOP_FILENAME "vbox_remote_desktop.xml"
 #define POLL_PERIOD 1.0
 
+extern bool is_boinc_client_version_newer(APP_INIT_DATA& aid, int maj, int min, int rel);
 extern char* vboxwrapper_msg_prefix(char*, int);
 
 #endif

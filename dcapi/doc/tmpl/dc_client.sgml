@@ -1,0 +1,238 @@
+<!-- ##### SECTION Title ##### -->
+Client
+
+<!-- ##### SECTION Short_Description ##### -->
+functionality specific to the client-side of DC-API.
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+This section describes the functions and definitions available for DC-API
+applications on the client side.
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### SECTION Image ##### -->
+
+
+<!-- ##### ENUM DC_FileType ##### -->
+<para>
+File types for the DC_resolveFileName() function. Some grid infrastructures
+use different locations for storing files of different usage, therefore DC-API
+needs to know the expected usage of logical files to be able to determine the
+correct physical location.
+</para>
+
+@DC_FILE_IN: the file is an input file.
+@DC_FILE_OUT: the file is an output file.
+@DC_FILE_TMP: the file is a temporary file that will not sent back to the master.
+
+<!-- ##### MACRO DC_CHECKPOINT_FILE ##### -->
+<para>
+Logical name of the application-level checkpoint file. See DC_resolveFileName()
+for details about checkpoint file usage.
+</para>
+
+
+
+<!-- ##### ENUM DC_ClientEventType ##### -->
+<para>
+ClientEvent types that can be received.
+</para>
+
+@DC_CLIENT_CHECKPOINT: a checkpoint should be made. The application must call
+	DC_checkpointMade() to acknowledge the request even if it does not
+	support checkpointing (it should pass a %NULL pointer as the file name
+	in this case).
+@DC_CLIENT_FINISH: the computation should be aborted.
+@DC_CLIENT_MESSAGE: a message has arrived.
+
+<!-- ##### STRUCT DC_ClientEvent ##### -->
+<para>
+ClientEvent received from the master.
+</para>
+
+@type: type of the event.
+@message: contents of the message if @type is %DC_CLIENT_MESSAGE.
+
+<!-- ##### FUNCTION DC_initClient ##### -->
+<para>
+Initializes the client API. This function must be called first before calling
+any other DC-API functions.
+</para>
+
+@void: 
+@Returns: 0 if successful or a #DC_ErrorCode.
+
+
+<!-- ##### FUNCTION DC_resolveFileName ##### -->
+<para>
+  Resolves the local name of input/output files. The real name (and path) of an
+  input/output file may be different from what the client expects. This
+  function performs the translation from the logical names used by the client
+  to the real names used by the infrastructure.
+  <note>
+    <para>
+      The client must not assume that it can read/write/create any files other
+      than the names returned by this function.
+    </para>
+  </note>
+</para>
+
+<para>
+The handling of application-level checkpoint files is special. The intention is
+to never modify an already completed checkpoint file, so even if the client
+is interrupted in the middle of writing to the checkpoint file, the previous
+checkpoint is still intact and can be used to resume computation.
+</para>
+
+<para>
+When @logicalFileName is %DC_CHECKPOINT_FILE, @type is interpreted as follows:
+  <itemizedlist>
+    <listitem>
+      <para>
+	If @type is %DC_FILE_IN, then the path name of the last completed
+	checkpoint file (as indicated by the client by calling
+	DC_checkpointMade() previously) is returned. The client must not modify
+	this file in any way. If the client did not create any checkpoints so
+	far but it was resumed from a previous checkpoint, then the path name
+	of the original checkpoint file is returned. If there are no previous
+	checkpoints at all, %NULL is returned.
+      </para>
+    </listitem>
+    <listitem>
+      <para>
+	If @type is %DC_FILE_OUT, then a name for a new non-existant checkpoint
+	file is returned. The client should write the checkpoint information to
+	this file and should call DC_checkpointMade() with this file name to
+	indicate that the checkpoint is complete. After calling
+	DC_checkpointMade(), the client is not allowed to modify the checkpoint
+	file in any way, and must call DC_resolveFileName() again to obtain a
+	new name for a new checkpoint file.
+      </para>
+    </listitem>
+  </itemizedlist>
+</para>
+
+<para>
+When @logicalFileName is not %DC_CHECKPOINT_FILE, the following rules apply:
+<itemizedlist>
+  <listitem>
+    <para>
+      If @type is %DC_FILE_IN, then @logicalFileName must be one of the
+      names the master registered using DC_addWUInput() when the work
+      unit was created.
+    </para>
+  </listitem>
+  <listitem>
+    <para>
+      If @type is %DC_FILE_OUT, then @logicalFileName must be one of
+      the names the master registered using DC_addWUOutput() when the
+      work unit was created.
+    </para>
+  </listitem>
+  <listitem>
+    <para>
+      If @type is %DC_FILE_TMP, then @logicalFileName must not match
+      any registered input or output logical names.
+    </para>
+  </listitem>
+</itemizedlist>
+</para>
+
+@type: the tpe of the file.
+@logicalFileName: the logical name of the file used by the client.
+@Returns: the real path name of the file. The value should be deallocated using
+	free() when it is no longer needed. %NULL is returned if @type is
+	invalid or @logicalFileName is not known to the infrastructure.
+
+
+<!-- ##### FUNCTION DC_sendResult ##### -->
+<para>
+Sends a sub-result file back to the master. The sending of the file may happen
+asynchronously, in this case this function will not wait for the transfer to
+finish (or even to start).
+</para>
+
+@logicalFileName: the logical name of the file to send. This identifier will be
+	received by the master.
+@path: the local path name of the file to send.
+@fileMode: tells how the file should be handled.
+@Returns: 0 if successful or a #DC_ErrorCode.
+
+
+<!-- ##### FUNCTION DC_sendMessage ##### -->
+<para>
+Sends a message to the master. The sending of the message may happen
+asynchronously, in this case this function will not wait for the transfer to
+finish (or even to start). The maximum length of a message that may be sent
+using this function can be determined by calling DC_getMaxMessageSize().
+</para>
+
+@message: the message to send.
+@Returns: 0 if successful or a #DC_ErrorCode.
+
+
+<!-- ##### FUNCTION DC_checkClientEvent ##### -->
+<para>
+Checks for client control events. The returned event should be destroyed using
+DC_destroyClientEvent() when it is no longer needed. If the returned event is
+%DC_CLIENT_CHECKPOINT but the client does not support checkpointing, it should
+still call the DC_checkpointMade() function with a %NULL argument to inform the
+grid infrastructure that no checkpoint will be delivered.
+</para>
+
+@void: 
+@Returns: a #DC_ClientEvent or %NULL if there are no outstanding events.
+
+
+<!-- ##### FUNCTION DC_destroyClientEvent ##### -->
+<para>
+Destroys an event returned by DC_checkClientEvent().
+</para>
+
+@event: the event to destroy.
+
+
+<!-- ##### FUNCTION DC_checkpointMade ##### -->
+<para>
+Informs the DC-API that an application-level checkpoint has been made.
+See the DC_resolveFileName() for a description of checkpoint file handling.
+</para>
+
+@fileName: the name of the checkpoint file. This should be a value
+	returned by DC_resolveFileName(%DC_FILE_OUT, %DC_CHECKPOINT_FILE).
+	The checkpoint file must not be modified after this
+	function has been called. @fileName can also be %NULL meaning that
+	the application does not in fact support checkpointing, but just
+	acknowledges a %DC_CLIENT_CHECKPOINT event.
+
+
+<!-- ##### FUNCTION DC_fractionDone ##### -->
+<para>
+Informs the controlling environment about the fraction of the work already
+done. Ideally this should be the CPU time used so far divided by the total CPU
+time that will be needed for the computation.
+</para>
+
+@fraction: the fraction of the work completed.
+
+
+<!-- ##### FUNCTION DC_finishClient ##### -->
+<para>
+Finishes computation. Tells the DC-API to finish this work unit and start a
+new one. All output files are transferred to the master and the master is
+notified about the completion of the work unit.
+</para>
+
+@exitcode: the return code of the process that will be reported back to the
+	master. 0 means success; any other value tells the grid infrastructure
+	that the work unit has failed.
+
+

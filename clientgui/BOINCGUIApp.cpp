@@ -278,11 +278,11 @@ bool CBOINCGUIApp::OnInit() {
     m_pLocale = new wxLocale();
     wxASSERT(m_pLocale);
 
-    m_strISOLanguageID = m_pLocale->GetCanonicalName();
-
     // Look for the localization files by absolute and relative locations.
     //   preference given to the absolute location.
     m_pLocale->Init(iSelectedLanguage);
+    m_strISOLanguageID = m_pLocale->GetCanonicalName();
+
     if (!m_strBOINCMGRRootDirectory.IsEmpty()) {
         m_pLocale->AddCatalogLookupPathPrefix(
             wxString(m_strBOINCMGRRootDirectory + wxT("locale"))
@@ -294,7 +294,6 @@ bool CBOINCGUIApp::OnInit() {
     m_pLocale->AddCatalog(wxT("BOINC-Web"));
 
     InitSupportedLanguages();
-
 
     // Note: JAWS for Windows will only speak the context-sensitive
     // help if you use this help provider:

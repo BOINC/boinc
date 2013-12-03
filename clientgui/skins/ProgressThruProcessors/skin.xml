@@ -34,21 +34,21 @@
             </image>
          </workunit_suspended_image>
 		 
-		 <dialog_background_image>
+		     <dialog_background_image>
             <image>
                <imagesrc>dialog_background_image.png</imagesrc>
             </image>
          </dialog_background_image>
 		 
-		 <project_image>
+		     <project_image>
             <image>
                <imagesrc>project_image.png</imagesrc>
             </image>
-         </project_background_image>
+         </project_image>
 
       </simple>
 	  <advanced>
-      <application_name>Progress Thru Processors - BOINC Manager</application_name>
+      <application_name>Progress Thru Processors Desktop</application_name>
       <application_short_name>Progress Thru Processors</application_short_name>
       <application_logo>ptp_about.ico</application_logo>
 
@@ -83,8 +83,8 @@
 	  <is_branded>1</is_branded>
 
       <organization_name>Progress Thru Processors</organization_name>
-      <organization_website>http://www.facebook.com/progressthruprocessors</organization_website>
-      <organization_help_url>http://www.facebook.com/progressthruprocessors</organization_help_url> 
+      <organization_website>https://apps.facebook.com/processors</organization_website>
+      <organization_help_url>https://apps.facebook.com/processors/manager_menu.php</organization_help_url> 
 
     </advanced>
 	

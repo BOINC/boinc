@@ -1,0 +1,27 @@
+<?xml version="1.0" standalone="no"?>
+<client>
+	<!-- Application name -->
+	<name>serialize-example</name>
+
+	<!-- User-friendly name for Boinc -->
+	<user_friendly_name>Serialization example</user_friendly_name>
+
+	<!-- Application version. Boinc requirements:
+	     - The version number must contain two components (major.minor)
+	     - Both component may be 1 or 2 digits long
+	     - The major version must be the same as the Boinc server major
+	       version -->
+	<version>@PACKAGE_VERSION@</version>
+
+	<platform>
+		<!-- The name of the platform -->
+		<name>@target@</name>
+
+		<!-- The name of the main client binary. It will be
+		     automatically renamed to the name expected by Boinc -->
+		<binary>serialize-example-client</binary>
+
+		<!-- Additional files can also be installed -->
+		<!-- <lib>winlib.dll</lib> -->
+	</platform>
+</client>

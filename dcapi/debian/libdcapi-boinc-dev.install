@@ -1,0 +1,5 @@
+debian/tmp/usr/lib/libdcapi-boinc.a
+debian/tmp/usr/lib/libdcapi-boinc.so
+debian/tmp/usr/lib/libdcapi-client-boinc.a
+debian/tmp/usr/lib/pkgconfig/dcapi-boinc-client.pc
+debian/tmp/usr/lib/pkgconfig/dcapi-boinc-master.pc

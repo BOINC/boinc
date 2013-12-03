@@ -1,0 +1,2 @@
+This is a test input file for the uppercase-demo application!
+message = Hello master application

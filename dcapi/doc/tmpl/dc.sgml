@@ -1,0 +1,608 @@
+<!-- ##### SECTION Title ##### -->
+Master
+
+<!-- ##### SECTION Short_Description ##### -->
+functionality specific to the master-side of DC-API.
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+  This section describes the functions and definitions available for DC-API
+  master applications.
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### SECTION Image ##### -->
+
+
+<!-- ##### ENUM DC_WUState ##### -->
+<para>
+State of work units.
+</para>
+
+@DC_WU_READY: ready for submission.
+@DC_WU_RUNNING: submitted to the grid infrastructure. Note that this does not
+	mean that the work unit is really running as it might be queued etc.
+@DC_WU_FINISHED: the work unit has completed successfuly.
+@DC_WU_SUSPENDED: the work unit is suspended.
+@DC_WU_ABORTED: the work unit has aborted either due to an error or due to the
+	user calling DC_cancelWU().
+@DC_WU_UNKNOWN: DC-API is not able to determine the state of the work unit.
+
+<!-- ##### ENUM DC_MasterEventType ##### -->
+<para>
+Types of events the master application may receive.
+</para>
+
+@DC_MASTER_RESULT: a new #DC_Result is available.
+@DC_MASTER_SUBRESULT: a subresult has arrived.
+@DC_MASTER_MESSAGE: a message has arrived.
+
+<!-- ##### STRUCT DC_Workunit ##### -->
+<para>
+Opaque type representing a work unit. A work unit consists of an executable
+client application together with its command-line parameters and input
+files.
+</para>
+
+
+<!-- ##### STRUCT DC_Result ##### -->
+<para>
+Opaque type representing the result of a successfully completed work unit.
+The result structure contains the output files the work unit produced as
+well as (optionally, depending on the infrastructure) its exit code, standard
+output and error, and any log file created by the grid infrastructure.
+</para>
+
+
+<!-- ##### STRUCT DC_MasterEvent ##### -->
+<para>
+Describes an event received by the master application.
+</para>
+
+@type: the type of the event.
+@wu: the work unit that generated the event.
+@result: the received #DC_Result if @type is %DC_MASTER_RESULT.
+@subresult: the received subresult if @type is %DC_MASTER_SUBRESULT.
+@message: the received message if @type is %DC_MASTER_MESSAGE.
+
+<!-- ##### USER_FUNCTION DC_ResultCallback ##### -->
+<para>
+Prototype of the callback function used for reporting results.
+</para>
+
+@wu: the work unit this result belongs to.
+@result: the received result.
+
+
+<!-- ##### USER_FUNCTION DC_SubresultCallback ##### -->
+<para>
+Prototype of the callback function used for reporting subresults. Note that
+if the infrastructure supports redundant computation, subresults may arrive
+from all running instances, even if they will be later marked as invalid.
+</para>
+
+@wu: the work unit this subresult belongs to.
+@logicalFileName: logical name of the received file, if specified by the
+	client.
+@path: the real path name of the received file.
+
+
+<!-- ##### USER_FUNCTION DC_MessageCallback ##### -->
+<para>
+Prototype of the callback function used for reporting messages. Note that
+if the infrastructure supports redundant computation, the master will receive
+messages from all running client instances, even if they will be later marked
+as invalid.
+</para>
+
+@wu: the work unit the message is for.
+@message: contents of the message.
+
+
+<!-- ##### FUNCTION DC_initMaster ##### -->
+<para>
+Initializes the master side of the DC-API. This function must be called first
+before calling any other DC-API functions.
+</para>
+
+@configFile: name of the configuration file to use. %NULL means use
+	%DC_CONFIG_FILE.
+@Returns: 0 if successful or a #DC_ErrorCode.
+
+
+<!-- ##### FUNCTION DC_setMasterCb ##### -->
+<para>
+Sets the callback functions to be used for event reporting. One or more of the
+callbacks may be %NULL if the master does not wish to receive the specific
+event.
+</para>
+<para>
+This function is deprecated, use the separate DC_setMessageCb(), DC_setResultCb()
+and DC_setSubresultCb() functions instead.
+</para>
+
+@resultcb: the callback to be used to report results.
+@subresultcb: the callback to be used to report subresults.
+@msgcb: the callback for reporting messages.
+
+
+<!-- ##### FUNCTION DC_setMessageCb ##### -->
+<para>
+Sets the callback function that will be called when the master receives a
+new message from one of the running workunits.
+</para>
+
+@cb: the callback to be used to report messages.
+
+
+<!-- ##### FUNCTION DC_setResultCb ##### -->
+<para>
+Sets the callback function that will be called when a workunit finishes.
+</para>
+
+@cb: the callback to be used to report results.
+
+
+<!-- ##### FUNCTION DC_setSubresultCb ##### -->
+<para>
+Sets the callback function that will be called when a subresult becomes available.
+</para>
+
+@cb: the callback to be used to report subresults.
+
+
+<!-- ##### FUNCTION DC_processMasterEvents ##### -->
+<para>
+Processes work unit events. In case of a work unit completes and its result is
+available, or if a message or a subresult has arrived, the appropriate callback
+functions will be called.
+</para>
+<para>
+The received event will be automatically destroyed when the callback function
+returns (including the deletion of files if the event was a result or
+subresult). If the master application wants to access any information belonging
+to the event (e.g. the output files the client created), then the callback
+function must explicitely make a copy of any data it is interested in. In case
+of physical files (i.e., results and subresults), the callback is allowed to
+simply rename the files therefore preventing DC-API from deleting them.
+</para>
+
+@timeout: time to wait (in seconds) for an event to arrive. 0 means do not wait
+	if there are no events to process.
+@Returns: 0 if successful or a #DC_ErrorCode.
+
+
+<!-- ##### FUNCTION DC_waitMasterEvent ##### -->
+<para>
+  Checks for events and returns them directly. This function does not invoke any
+  event-processing callbacks.
+  <note>
+    <para>
+      Contrary to DC_processMasterEvents(), the application is responsible for
+      destroying the returned event when it is no longer needed.
+    </para>
+  </note>
+</para>
+
+@wuFilter: if not %NULL, only work units having a tag that matches @wuFilter
+	will be checked for events.
+@timeout: time to wait (in seconds) for an event to arrive. 0 means do not wait
+	if there are no events to process.
+@Returns: an event if one is available or %NULL if a timeout has occured. The
+	returned event must be destroyed using DC_destroyMasterEvent() when it is
+	no longer needed.
+
+
+<!-- ##### FUNCTION DC_waitWUEvent ##### -->
+<para>
+  Checks for events for a particular work unit. This function does not invoke any
+  event-processing callbacks.
+  <note>
+    <para>
+      Contrary to DC_processMasterEvents(), the application is responsible for
+      destroying the returned event when it is no longer needed.
+    </para>
+  </note>
+</para>
+
+@wu: the work unit that should be watched for events.
+@timeout: time to wait (in seconds) for an event to arrive. 0 means do not wait
+	if there are no events to process.
+@Returns: an event if one is available or %NULL if a timeout has occured. The
+	returned event must be destroyed using DC_destroyMasterEvent() when it is
+	no longer needed.
+
+
+<!-- ##### FUNCTION DC_destroyMasterEvent ##### -->
+<para>
+Destroys a #DC_MasterEvent obtained by calling DC_waitMasterEvent() or DC_waitWUEvent().
+</para>
+
+@event: the #DC_MasterEvent to destroy.
+
+
+<!-- ##### FUNCTION DC_getWUNumber ##### -->
+<para>
+Returns the number of existing work units having the specified state.
+</para>
+
+@state: the state to query.
+@Returns: the number of work units in state @state or -1 if @state is invalid.
+
+
+<!-- ##### FUNCTION DC_createWU ##### -->
+<para>
+Creates a new work unit. The work unit is not known to the underlying grid
+infrastructure until DC_submitWU() is called. The returned work unit is in
+the %DC_WU_READY state.
+</para>
+
+@clientName: logical name of the client application. Mapping this name to an
+	real binary executable depends on the DC-API backend in use.
+@arguments: %NULL-terminated list of command line arguments.
+@subresults: number of subresults the client will be allowed to generate.
+	Specify 0 if the client will not send back any subresults.
+@tag: arbitrary string to attach to this work unit. The value of this
+	string is not used by the DC-API itself, it is free for the application
+	writer to make use of it.
+@Returns: a #DC_Workunit if successful or %NULL if there was not enough memory
+	to allocate the structure.
+
+
+<!-- ##### FUNCTION DC_addWUInput ##### -->
+<para>
+Adds an input file to a work unit. This function may be called only for work
+units in state %DC_WU_READY (i.e., before the work unit is submitted).
+</para>
+
+@wu: the work unit to add the input file to.
+@logicalFileName: the logical file name the client will use to refer to this
+	input file. The client should call the DC_resolveFileName() function
+	with the %DC_FILE_IN file type and this name to get the real name of
+	the file on the local system.
+@URL: URL of the input file. May also be a local path on the master's
+	file system.
+@fileMode: usage mode of the file. Passing %DC_FILE_PERSISTENT or
+	%DC_FILE_VOLATILE allows DC-API to optimize the disk space
+	requirements of the application.
+@Varargs: in case using %DC_FILE_REMOTE file mode, the MD5 hash string (char *)
+	and file size information (size_t) have to be passed.
+@Returns: 0 if successful or a #DC_ErrorCode.
+
+
+<!-- ##### FUNCTION DC_addWUOutput ##### -->
+<para>
+Adds an output file specification to a work unit. Files registered using this
+function will be transferred back to the master when the client finishes. This
+function may be called only for work units in state %DC_WU_READY (i.e., before
+the work unit is submitted).
+</para>
+
+@wu: the work unit to add the output file definition to.
+@logicalFileName: the logical file name the client will use to refer to this
+	output file. The client should call the DC_resolveFileName() function
+	with the %DC_FILE_OUT file type and this name to get the real name of
+	the file on the local system.
+@Returns: 0 if successful or a #DC_ErrorCode.
+
+
+<!-- ##### FUNCTION DC_setWUPriority ##### -->
+<para>
+Sets the priority of a work unit. Depending on the underlying grid
+infrastructure, this function may be called only for work units in state
+%DC_WU_READY (i.e., before the work unit is submitted). The priority
+value may be in the range 1-100, higher number meaning more important
+work unit. The default priority is 50. Note that not all infrastructures
+support priorities and the number of supported levels may be fewer than 100.
+</para>
+
+@wu: the work unit.
+@priority: the priority of the work unit.
+@Returns: 0 if successful or a #DC_ErrorCode.
+
+
+<!-- ##### FUNCTION DC_setWUBatch ##### -->
+<para>
+Sets the batch identifier of a work unit. Batch identifier reflects the 
+corresponding workunits. Workunits with the same batch identifier belongs
+to the same group of workunits. Depending on the underlying grid
+infrastructure, this function may be called only for work units in state
+%DC_WU_READY (i.e., before the work unit is submitted). The batch value 
+may be in the range of an integer. The default batch is 0. Note that not 
+all infrastructures support batch handling.
+</para>
+
+@wu: the work unit.
+@batch: the batch identifier of the work unit.
+@Returns: 0 if successful or a #DC_ErrorCode.
+
+
+<!-- ##### FUNCTION DC_serializeWU ##### -->
+<para>
+Serializes a #DC_Workunit structure. The returned string may be stored on
+persistent storage and can be used to re-create the work unit description
+in a different process. The format of the returned string is not specified,
+the only guarantee DC-API gives is that it will not contain newline
+characters.
+</para>
+
+@wu: the work unit to serialize.
+@Returns: a string that can be passed to DC_deserializeWU() to restore the
+	work unit. %NULL is returned if the serialization fails. The returned
+	string should be de-allocated using free() when it is no longer needed.
+
+
+<!-- ##### FUNCTION DC_deserializeWU ##### -->
+<para>
+Restores a serialized work unit. May be called from a different process than
+the work unit was serialized in.
+</para>
+
+@buf: a string obtained by calling DC_serializeWU() previously.
+@Returns: a #DC_Workunit or %NULL if the de-serialization has failed.
+
+
+<!-- ##### FUNCTION DC_getWUState ##### -->
+<para>
+Queries the state of a work unit.
+</para>
+
+@wu: the work unit to examine.
+@Returns: the state of the work unit.
+
+
+<!-- ##### FUNCTION DC_submitWU ##### -->
+<para>
+Submits a work unit to the grid infrastructure. It is up to the infrastructure
+when the work unit actually begins execution.
+</para>
+
+@wu: a #DC_Workunit.
+@Returns: 0 if successful or a #DC_ErrorCode.
+
+
+<!-- ##### FUNCTION DC_getWUId ##### -->
+<para>
+Returns the infrastructure-specific low-level ID of the work unit. This
+identifier should appear in infrastructure-level log files and can be
+used to track the job if a problem with the grid infrastructure is suspected.
+</para>
+
+@wu: a #DC_Workunit.
+@Returns: the infrastructure-specific identifier. %NULL is returned if the
+	work unit is not known to the infrastructure (i.e., it has not been
+	submitted yet or it has already completed or aborted). The returned
+	value should be deallocated using free() when it is no longer needed.
+
+
+<!-- ##### FUNCTION DC_getWUTag ##### -->
+<para>
+Returns the user-specified tag of a work unit.
+</para>
+
+@wu: a #DC_Workunit.
+@Returns: the tag that was given to DC_createWU(). The returned value should be
+	deallocated using free() when it is no longer needed.
+
+
+<!-- ##### FUNCTION DC_cancelWU ##### -->
+<para>
+  Cancels all computation for a given work unit.
+  <note>
+    <para>
+      Depending on the infrastructure and the client implementation, it may take
+      a long time till all running clients are really stopped.
+    </para>
+  </note>
+</para>
+
+@wu: a #DC_Workunit to cancel.
+@Returns: 0 if successful or a #DC_ErrorCode.
+
+
+<!-- ##### FUNCTION DC_suspendWU ##### -->
+<para>
+  Suspends the execution of a work unit. If the client is running, it is
+  instructed to perform a checkpoint; the checkpoint image is then transferred
+  back to the master so it can be restarted later using DC_resumeWU().
+  <note>
+    <para>
+      Explicit support is required from both the grid infrastructure and from
+      the client application implementation in order suspend to work.
+    </para>
+  </note>
+  <note>
+    <para>
+      Suspend is not compatible with redundant computing. If the infrastructure
+      supports redundant computing, you must disable it if you want to use
+      suspend. Suspending a work unit when redundant computation is enabled can
+      have undefined effects, including silent corruption of the result.
+    </para>
+  </note>
+</para>
+
+@wu: the #DC_Workunit to suspend.
+@Returns: 0 if successful or a #DC_ErrorCode.
+
+
+<!-- ##### FUNCTION DC_resumeWU ##### -->
+<para>
+Resumes the computation of a work unit that was previously suspended using
+DC_suspendWU().
+</para>
+
+@wu: the #DC_Workunit to resume.
+@Returns: 0 if successful or a #DC_ErrorCode.
+
+
+<!-- ##### FUNCTION DC_destroyWU ##### -->
+<para>
+Destroys a work unit. All input and output files belonging to the work unit
+will be deleted, and any internal resources allocated to the work unit will be
+de-allocated. If the work unit is still running, it will be cancelled.
+</para>
+
+@wu: the #DC_Workunit to destroy.
+
+
+<!-- ##### FUNCTION DC_sendWUMessage ##### -->
+<para>
+  Sends a message to a running work unit. The message is sent asynchronously
+  and this function does not wait for the message to be delivered. Delivery of
+  the message will happen only when the client explicitely checks for it which
+  can take an arbitrary long time, depending on the infrastructure and on the
+  client implementation. The maximum allowed length of messages can be
+  determined with the DC_getMaxMessageSize() function.
+  <note>
+    <para>
+      If redundant computing is in effect, the same message is sent to all
+      currently running client instances.
+    </para>
+  </note>
+  <note>
+    <para>
+      The message may be lost if the client is not running but it queued by the
+      infrastructure's scheduler.
+    </para>
+  </note>
+</para>
+
+@wu: the target #DC_Workunit.
+@message: the message to send.
+@Returns: 0 if successful or a #DC_ErrorCode.
+
+
+<!-- ##### FUNCTION DC_getClientCfgStr ##### -->
+<para>
+Returns the value belonging to the specified key @key for the specific client
+application @clientName in the configuration file.
+</para>
+
+@clientName: the name of the client application.
+@key: the key to look up.
+@fallbackGlobal: if %TRUE and the key is not defined in the client configuration,
+	it will be looked up in the master configuration as well.
+@Returns: the value belonging to the key or %NULL if it is not defined in the
+	config file. The returned value must be deallocated using free() when it is
+	no longer needed.
+
+
+<!-- ##### FUNCTION DC_getClientCfgInt ##### -->
+<para>
+Returns the integer value belonging to the specified key @key for the
+specific client application @clientName in the configuration
+file. Unit suffixes like 'KB', 'GB' or 'hour' are also allowed.
+</para>
+
+@clientName: the name of the client application.
+@key: the key to look up.
+@defaultValue: the default value to return if the key is not defined or its value
+	cannot be interpreted as a number.
+@fallbackGlobal: if %TRUE and the key is not defined in the client configuration,
+	it will be looked up in the master configuration as well.
+@Returns: the value belonging to the key or @defaultValue if it is not defined in the
+	config file.
+
+
+<!-- ##### FUNCTION DC_getClientCfgDouble ##### -->
+<para>
+Returns the double precision floating point value belonging to the specified
+key @key for the specific client application @clientName in the configuration
+file. Unit suffixes like 'KB', 'GB' or 'hour' are also allowed.
+</para>
+
+@clientName: the name of the client application.
+@key: the key to look up.
+@defaultValue: the default value to return if the key is not defined or its value
+	cannot be interpreted as a number.
+@fallbackGlobal: if %TRUE and the key is not defined in the client configuration,
+	it will be looked up in the master configuration as well.
+@Returns: the value belonging to the key or @defaultValue if it is not defined in the
+	config file.
+
+
+<!-- ##### FUNCTION DC_getClientCfgBool ##### -->
+<para>
+Returns the boolean value belonging to the specified key @key for the specific
+client application @clientName in the configuration file.
+</para>
+
+@clientName: the name of the client application.
+@key: the key to look up.
+@defaultValue: the default value to return if the key is not defined or its value
+	cannot be interpreted as a boolean value.
+@fallbackGlobal: if %TRUE and the key is not defined in the client configuration,
+	it will be looked up in the master configuration as well.
+@Returns: the value belonging to the key or @defaultValue if it is not defined in the
+	config file.
+
+
+<!-- ##### FUNCTION DC_getResultCapabilities ##### -->
+<para>
+Determines what kind of information is present in the received result.
+</para>
+
+@result: a #DC_Result.
+@Returns: zero or more of %DC_GC_EXITCODE, %DC_GC_STDOUT, %DC_GC_STDERR and
+	%DC_GC_LOG OR'ed together.
+
+
+<!-- ##### FUNCTION DC_getResultWU ##### -->
+<para>
+Returns the work unit that generated this result.
+</para>
+
+@result: a #DC_Result.
+@Returns: the work unit that generated this result, or %NULL if it cannot be
+	determined.
+
+
+<!-- ##### FUNCTION DC_getResultExit ##### -->
+<para>
+Returns the exit code of the client application.
+</para>
+
+@result: a #DC_Result.
+@Returns: the client's exit code (the value it passed to DC_finishClient()). If
+	the %DC_GC_EXITCODE capability is not set for this result, then 0 is
+	returned.
+
+
+<!-- ##### FUNCTION DC_getResultOutput ##### -->
+<para>
+Returns the real path name for a logical output file name.
+</para>
+
+@result: a #DC_Result.
+@logicalFileName: the logical file name used by the client when creating the
+	output file. The special constants %DC_LABEL_STDOUT, %DC_LABEL_STDERR
+	and %DC_LABEL_CLIENTLOG are also recognized for returning the client's
+	standard output, error and infrastructure-generated log file,
+	repsectively.
+@Returns: the real path name of the logical file or %NULL if the client did
+	not send back a file with the requrested logical name. The returned
+	string should be deallocated using free() when it is no longer needed.
+
+
+<!-- ##### FUNCTION DC_getResultCPUTime ##### -->
+<para>
+  Returns the CPU time used for computing the result, in seconds.
+  <note>
+    <para>
+      If redundant computing is enabled, only the CPU time of the canonical
+      result is returned.
+    </para>
+  </note>
+</para>
+
+@result: a #DC_Result.
+@Returns: the CPU time needed to compute the result.
+
+

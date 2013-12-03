@@ -1,0 +1,94 @@
+Source: dcapi
+Section: devel
+Priority: extra
+Maintainer: Attila Csaba Marosi <atisu@sztaki.hu>
+Standards-Version: 3.8.0
+Build-Depends: boinc-dev (>= 1:6.9.0+r18425), uuid-dev, libglib2.0-dev, debhelper (>= 7),
+ automake, autoconf (>= 2.53), libtool, gtk-doc-tools (>= 1.3), python-dev, python-support
+
+Package: libdcapi-common-dev
+Section: libdevel
+Priority: extra
+Architecture: all
+Recommends: libdcapi-boinc-dev | libdcapi-dev
+Suggests: libdcapi-doc
+Description: Distributed Computing Platform API - Development files
+ This package contains headers and libraries for building applications using
+ the Distributed Computing Platform.
+ .
+ This package contains the header files.
+
+Package: libdcapi-dbg
+Section: debug
+Priority: extra
+Architecture: any
+Depends: libdcapi-boinc1 (= ${binary:Version}), libdcapi-local1 (= ${binary:Version})
+Description: Distributed Computing Platform API - Debugging symbols
+ This package contains debugging symbols needed for properly debugging the
+ library with gdb.
+
+Package: libdcapi-boinc1
+Section: libs
+Architecture: any
+Depends: ${shlibs:Depends}
+Description: Distributed Computing Platform API - BOINC backend
+ This package contains the BOINC backend of the Distributed Computing
+ Platform API.
+
+Package: libdcapi-boinc-dev
+Section: libdevel
+Priority: extra
+Architecture: any
+Provides: libdcapi-dev
+Depends: libdcapi-common-dev (= ${source:Version}), libdcapi-boinc1 (= ${binary:Version}),
+ pkg-config, libglib2.0-dev, boinc-dev (>= 1:6.9.0+r18425), uuid-dev
+Description: Distributed Computing Platform API - Development files
+ This package contains headers and libraries for building applications using
+ the Distributed Computing Platform.
+ .
+ This package contains the BOINC backend.
+
+Package: libdcapi-local1
+Section: libs
+Architecture: any
+Depends: ${shlibs:Depends}
+Description: Distributed Computing Platform API - Local backend
+ This package contains the local backend of the Distributed Computing
+ Platform API.
+
+Package: libdcapi-local-dev
+Section: libdevel
+Priority: extra
+Architecture: any
+Provides: libdcapi-dev
+Depends: libdcapi-common-dev (= ${source:Version}), libdcapi-local1 (= ${binary:Version}),
+ pkg-config, libglib2.0-dev, uuid-dev
+Description: Distributed Computing Platform API - Development files
+ This package contains headers and libraries for building applications using
+ the Distributed Computing Platform.
+ .
+ This package contains the local stand-alone backend.
+
+Package: libdcapi-doc
+Section: doc
+Priority: extra
+Architecture: all
+Description: Distributed Computing Platform API - Documentation
+ This package contains the documentation for the Distributed Computing
+ Platform.
+
+Package: python-dcapi
+Section: python
+Priority: extra
+Architecture: all
+Depends: ${python:Depends}
+Description: Distributed Computing Platform API - Python modules
+ This package contains Python modules for DC-API.
+
+Package: dcapi-tools
+Section: devel
+Priority: extra
+Architecture: all
+Depends: python-dcapi, ${python:Depends}
+Description: Distributed Computing Platform API - Utilities
+ This package contains the DC-API deployment script.

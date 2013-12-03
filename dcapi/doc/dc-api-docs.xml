@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" 
+               "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
+
+<book id="index" xmlns:xi="http://www.w3.org/2003/XInclude">
+  <bookinfo>
+    <title>DC-API Manual</title>
+  </bookinfo>
+
+  <chapter id="general">
+    <title>General information</title>
+    <xi:include href="intro.xml"/>
+    <xi:include href="concepts.xml"/>
+    <xi:include href="config.xml"/>
+    <xi:include href="using.xml"/>
+  </chapter>
+
+  <chapter id="backends">
+    <title>Backend-specific information</title>
+    <xi:include href="boinc.xml"/>
+    <xi:include href="condor.xml"/>
+    <xi:include href="local.xml"/>
+  </chapter>
+
+  <chapter id="reference">
+    <title>Reference</title>
+    <xi:include href="xml/dc_common.xml"/>
+    <xi:include href="xml/dc_client.xml"/>
+    <xi:include href="xml/dc.xml"/>
+  </chapter>
+</book>
+<!-- vim: set ai sw=2 tw=80: -->

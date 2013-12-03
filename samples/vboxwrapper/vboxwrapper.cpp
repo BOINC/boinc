@@ -78,6 +78,15 @@ using std::vector;
 using std::string;
 
 
+bool is_boinc_client_version_newer(APP_INIT_DATA& aid, int maj, int min, int rel) {
+    if (maj < aid.major_version) return true;
+    if (maj > aid.major_version) return false;
+    if (min < aid.minor_version) return true;
+    if (min > aid.minor_version) return false;
+    if (rel < aid.release) return true;
+    return false;
+}
+
 char* vboxwrapper_msg_prefix(char* sbuf, int len) {
     char buf[256];
     struct tm tm;
@@ -250,7 +259,7 @@ void set_throttles(APP_INIT_DATA& aid, VBOX_VM& vm) {
         }
     }
     if (x) {
-        vm.set_network_usage(((int)x*8/1000));
+        vm.set_network_usage((int)(x/1024));
     }
 
 }
@@ -477,7 +486,7 @@ int main(int argc, char** argv) {
     if (!vm.virtualbox_version.empty()) {
         fprintf(
             stderr,
-            "%s Detected: %s\n",
+            "%s Detected: VirtualBox %s\n",
             vboxwrapper_msg_prefix(buf, sizeof(buf)),
             vm.virtualbox_version.c_str()
         );
@@ -782,11 +791,29 @@ int main(int argc, char** argv) {
         }
         if (boinc_status.suspended) {
             if (!vm.suspended) {
-                vm.pause();
+                retval = vm.pause();
+                if (vm.is_virtualbox_error_recoverable(retval)) {
+                    fprintf(
+                        stderr,
+                        "%s ERROR: VM task failed to pause, rescheduling task for a later time.\n",
+                        vboxwrapper_msg_prefix(buf, sizeof(buf))
+                    );
+                    vm.poweroff();
+                    boinc_temporary_exit(300, "VM job unmanageable, restarting later.");
+               }
             }
         } else {
             if (vm.suspended) {
-                vm.resume();
+                retval = vm.resume();
+                if (vm.is_virtualbox_error_recoverable(retval)) {
+                    fprintf(
+                        stderr,
+                        "%s ERROR: VM task failed to resume, rescheduling task for a later time.\n",
+                        vboxwrapper_msg_prefix(buf, sizeof(buf))
+                    );
+                    vm.poweroff();
+                    boinc_temporary_exit(300, "VM job unmanageable, restarting later.");
+               }
             }
 
             if (!vm_pid) {

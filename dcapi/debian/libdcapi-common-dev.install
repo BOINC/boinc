@@ -1,0 +1,2 @@
+debian/tmp/usr/include/*.h
+debian/tmp/usr/share/aclocal/dcapi.m4

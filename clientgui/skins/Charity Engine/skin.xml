@@ -34,17 +34,17 @@
             </image>
          </workunit_suspended_image>
 		 
-		 <dialog_background_image>
+		     <dialog_background_image>
             <image>
                <imagesrc>dialog_background_image.png</imagesrc>
             </image>
          </dialog_background_image>
 		 
-		 <project_image>
+		     <project_image>
             <image>
                <imagesrc>project_image.png</imagesrc>
             </image>
-         </project_background_image>
+         </project_image>
 
       </simple>
 	  <advanced>
