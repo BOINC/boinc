@@ -1326,7 +1326,7 @@ int VBOX_VM::deregister_vm(bool delete_media) {
         command  = "bandwidthctl \"" + vm_name + "\" ";
         command += "remove \"" + vm_name + "_net\" ";
 
-        vbm_popen(command, output, "network throttle group (add)");
+        vbm_popen(command, output, "network throttle group (remove)", false, false);
     }
 
     // Delete its storage controller(s)
