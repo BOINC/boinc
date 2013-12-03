@@ -41,6 +41,8 @@
   <string name="attachproject_registration_header_pwd">Contrasenya:</string>
   <string name="attachproject_registration_header_pwd_confirm">... Torna a entrar-ho:</string>
   <string name="attachproject_registration_button">Crear</string>
+  <string name="attachproject_acctmgr_header_pwd">Contrasenya:</string>
+  <string name="attachproject_acctmgr_header_pwd_confirm">... Torna a entrar-ho:</string>
   <string name="attachproject_error_wrong_name">No s\'ha trobat aquest usuari</string>
   <string name="attachproject_error_short_pwd">La contrasenya és massa curta</string>
   <string name="attachproject_error_no_internet">Ha fallat la connexió</string>

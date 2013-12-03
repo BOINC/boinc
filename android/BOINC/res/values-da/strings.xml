@@ -7,6 +7,7 @@
   <string name="attachproject_list_manual_dialog_title">Indtast projekt-URL:</string>
   <string name="attachproject_list_manual_dialog_button">Tilføj projekt</string>
   <string name="attachproject_list_manual_no_url">Indtast venligst projekt-URL</string>
+  <string name="attachproject_list_acctmgr_button">Tilføj kontohåndtering</string>
   <string name="attachproject_list_no_internet">Ingen Internet-forbindelse</string>
   <string name="attachproject_login_loading">Kontakter projekt-server…</string>
   <string name="attachproject_login_image_description">Projektlogo.</string>
@@ -41,10 +42,17 @@
   <string name="attachproject_registration_header_pwd">Kodeord:</string>
   <string name="attachproject_registration_header_pwd_confirm">… Tast igen:</string>
   <string name="attachproject_registration_button">Opret</string>
+  <string name="attachproject_acctmgr_header">Tilføj kontohåndtering</string>
+  <string name="attachproject_acctmgr_header_url">URL</string>
+  <string name="attachproject_acctmgr_header_name">Bruger:</string>
+  <string name="attachproject_acctmgr_header_pwd">Kodeord:</string>
+  <string name="attachproject_acctmgr_header_pwd_confirm">… Tast igen:</string>
+  <string name="attachproject_acctmgr_button">Tilføj</string>
   <string name="attachproject_error_wrong_name">Bruger ikke fundet</string>
   <string name="attachproject_error_short_pwd">Kodeord for kort</string>
   <string name="attachproject_error_no_internet">Forbindelsesfejl</string>
   <string name="attachproject_error_pwd_no_match">Kodeord passer ikke sammen</string>
+  <string name="attachproject_error_no_url">Indtast venligst URL</string>
   <string name="attachproject_error_no_email">Indtast venligst emailadresse</string>
   <string name="attachproject_error_no_pwd">Indtast venligst et kodeord</string>
   <string name="attachproject_error_no_name">Indtast venligst brugernavn</string>
@@ -55,6 +63,7 @@
   <string name="attachproject_error_email_bad_syntax">Email afvist</string>
   <string name="attachproject_error_bad_pwd">Kodeord afvist</string>
   <string name="attachproject_error_creation_disabled">Oprettelse af konti er slået fra for dette projekt</string>
+  <string name="attachproject_error_invalid_url">Ugyldig URL</string>
   <string name="attachproject_working_back_button">Tilbage</string>
   <string name="attachproject_working_finish_button">Færdig</string>
   <string name="attachproject_working_check_desc">Succesfuldt</string>
@@ -66,6 +75,8 @@
   <string name="attachproject_working_verify">Verificér konto</string>
   <string name="attachproject_working_register">Registrér konto</string>
   <string name="attachproject_working_login">Log ind</string>
+  <string name="attachproject_working_acctmgr">Tilføj kontohåndtering</string>
+  <string name="attachproject_working_acctmgr_sync">Synkronisér</string>
   <string name="main_noproject_warning">Rør her for at vælge et projekt.</string>
   <string name="main_error">Ups</string>
   <string name="main_error_long">…dette burde ikke ske!\nKlik på ikonet for at prøve igen.</string>
@@ -75,6 +86,7 @@
   <string name="tab_tasks">Opgaver</string>
   <string name="tab_transfers">Overførsler</string>
   <string name="tab_preferences">Indstillinger</string>
+  <string name="tab_notices">Meddelelser</string>
   <string name="tab_desc">Navigering</string>
   <string name="status_running">Beregner</string>
   <string name="status_running_long">Tak for din deltagelse.</string>
@@ -144,6 +156,7 @@
   <string name="projects_status_trickleuppending">Trickle-up-besked afventer</string>
   <string name="projects_status_backoff">Kommunikation planlagt om:</string>
   <string name="projects_control_dialog_title">Projektkommandoer:</string>
+  <string name="projects_control_visit_website">Besøg hjemmeside</string>
   <string name="projects_control_update">Opdatér</string>
   <string name="projects_control_remove">Fjern</string>
   <string name="projects_control_suspend">Suspendér</string>
@@ -151,6 +164,9 @@
   <string name="projects_control_nonewtasks">Ingen nye opgaver</string>
   <string name="projects_control_allownewtasks">Tillad nye opgaver</string>
   <string name="projects_control_reset">Nulstil</string>
+  <string name="projects_control_dialog_title_acctmgr">Kommandoer for kontohåndtering:</string>
+  <string name="projects_control_sync_acctmgr">Synkronisér</string>
+  <string name="projects_control_remove_acctmgr">Deaktivér</string>
   <string name="projects_confirm_detach_title">Fjern projekt?</string>
   <string name="projects_confirm_detach_message">Er du sikker på, at du vil fjerne</string>
   <string name="projects_confirm_detach_message2">fra BOINC?</string>
@@ -158,6 +174,9 @@
   <string name="projects_confirm_reset_title">Nulstil projekt</string>
   <string name="projects_confirm_reset_message">Er du sikker på, at du vil nulstille</string>
   <string name="projects_confirm_reset_confirm">Nulstil</string>
+  <string name="projects_confirm_remove_acctmgr_title">Deaktivér kontohåndtering</string>
+  <string name="projects_confirm_remove_acctmgr_message">Er du sikker på, du vil stoppe med at bruge</string>
+  <string name="projects_confirm_remove_acctmgr_confirm">Deaktivér</string>
   <string name="tasks_header_name">Opgavenavn:</string>
   <string name="tasks_header_elapsed_time">Forgangen tid:</string>
   <string name="tasks_header_project_paused">(suspenderet)</string>
@@ -193,9 +212,11 @@
   <string name="trans_pending">afventer</string>
   <string name="trans_projectbackoff">projekt backoff</string>
   <string name="trans_header_name">Fil:</string>
+  <string name="trans_control_retry">Prøv filoverførsler igen</string>
   <string name="confirm_abort_trans_title">Afbryd overførsel?</string>
   <string name="confirm_abort_trans_message">Afbryd fil:</string>
   <string name="confirm_abort_trans_confirm">Afbryd</string>
+  <string name="notices_loading">Indlæser meddelelser</string>
   <string name="eventlog_loading">Indlæser logbeskeder…</string>
   <string name="eventlog_client_header">Klientbeskeder</string>
   <string name="eventlog_gui_header">GUI-beskeder</string>
