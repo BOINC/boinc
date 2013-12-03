@@ -136,6 +136,7 @@ struct VBOX_VM {
     bool is_logged_failure_host_out_of_memory();
     bool is_logged_failure_guest_job_out_of_memory();
     bool is_virtualbox_version_newer(int maj, int min, int rel);
+    bool is_virtualbox_error_recoverable(int retval);
 
     int register_vm();
     int deregister_vm(bool delete_media);

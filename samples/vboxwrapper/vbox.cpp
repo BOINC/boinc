@@ -57,14 +57,11 @@ using std::string;
 #include "vboxwrapper.h"
 #include "vbox.h"
 
-static bool is_client_version_newer(APP_INIT_DATA& aid, int maj, int min, int rel) {
-    if (maj < aid.major_version) return true;
-    if (maj > aid.major_version) return false;
-    if (min < aid.minor_version) return true;
-    if (min > aid.minor_version) return false;
-    if (rel < aid.release) return true;
-    return false;
-}
+
+// Known VirtualBox error codes
+//
+#define VBOX_E_INVALID_OBJECT_STATE     0x80bb0007
+
 
 VBOX_VM::VBOX_VM() {
     virtualbox_home_directory.clear();
@@ -857,6 +854,12 @@ bool VBOX_VM::is_virtualbox_version_newer(int maj, int min, int rel) {
     return false;
 }
 
+bool VBOX_VM::is_virtualbox_error_recoverable(int retval) {
+    // See comments for VBOX_VM::vbm_popen about session lock issues.
+    if (VBOX_E_INVALID_OBJECT_STATE == retval) return true;
+    return false;
+}
+
 int VBOX_VM::register_vm() {
     string command;
     string output;
@@ -1073,7 +1076,7 @@ int VBOX_VM::register_vm() {
             );
             disable_acceleration = true;
         }
-        if (is_client_version_newer(aid, 7, 2, 16)) {
+        if (is_boinc_client_version_newer(aid, 7, 2, 16)) {
             if (aid.vm_extensions_disabled) {
                 fprintf(
                     stderr,
@@ -2032,7 +2035,7 @@ int VBOX_VM::vbm_popen(string& arguments, string& output, const char* item, bool
             //
             // Error Code: VBOX_E_INVALID_OBJECT_STATE (0x80bb0007) 
             //
-            if (0x80bb0007 == retval) {
+            if (VBOX_E_INVALID_OBJECT_STATE == retval) {
                 if (retry_notes.find("Another VirtualBox management") == string::npos) {
                     retry_notes += "Another VirtualBox management application has locked the session for\n";
                     retry_notes += "this VM. BOINC cannot properly monitor this VM\n";
