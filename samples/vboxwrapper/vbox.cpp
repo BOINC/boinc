@@ -1004,7 +1004,8 @@ int VBOX_VM::run(double elapsed_time) {
     // Check to see if the VM is already in a running state, if so, poweroff.
     poll(false);
     if (online) {
-        poweroff();
+        retval = poweroff();
+        if (retval) return ERR_NOT_EXITED;
     }
 
     // If our last checkpoint time is greater than 0, restore from the previously
