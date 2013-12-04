@@ -1438,6 +1438,11 @@ bool VBOX_VM::is_extpack_installed() {
 bool VBOX_VM::is_logged_failure_vm_extensions_disabled() {
     if (vm_log.find("VERR_VMX_MSR_LOCKED_OR_DISABLED") != string::npos) return true;
     if (vm_log.find("VERR_SVM_DISABLED") != string::npos) return true;
+
+    // VirtualBox 4.3.x or better
+    if (vm_log.find("VERR_VMX_MSR_VMXON_DISABLED") != string::npos) return true;
+    if (vm_log.find("VERR_VMX_MSR_SMX_VMXON_DISABLED") != string::npos) return true;
+
     return false;
 }
 
