@@ -96,6 +96,7 @@ struct VBOX_VM {
     int rd_host_port;
         // dynamically assigned
     bool headless;
+
 #ifdef _WIN32
     // the handle to the process for the VM
     // NOTE: we get a handle to the pid right after we parse it from the
@@ -106,14 +107,22 @@ struct VBOX_VM {
     HANDLE vm_pid_handle;
 
     // the handle to the vboxsvc process created by us in the sandbox'ed environment
-    HANDLE vboxsvc_handle;
+    HANDLE vboxsvc_pid_handle;
 #else
     // the pid to the VM process
     int vm_pid;
 #endif
 
     int initialize();
+    void poll(bool log_state = true);
+
+    int register_vm();
+    int deregister_vm(bool delete_media);
+    int deregister_stale_vm();
+
     int run(double elapsed_time);
+    void cleanup();
+
     int start();
     int stop();
     int poweroff();
@@ -122,8 +131,6 @@ struct VBOX_VM {
     int createsnapshot(double elapsed_time);
     int cleanupsnapshots(bool delete_active);
     int restoresnapshot();
-    void cleanup();
-    void poll(bool log_state = true);
     void dumphypervisorlogs();
 
     bool is_system_ready(std::string& message);
@@ -138,17 +145,13 @@ struct VBOX_VM {
     bool is_virtualbox_version_newer(int maj, int min, int rel);
     bool is_virtualbox_error_recoverable(int retval);
 
-    int register_vm();
-    int deregister_vm(bool delete_media);
-    int deregister_stale_vm();
-
     int get_install_directory(std::string& dir);
     int get_slot_directory(std::string& dir);
     int get_network_bytes_sent(double& sent);
     int get_network_bytes_received(double& received);
     int get_system_log(std::string& log);
-    int get_vm_exit_code(unsigned long& exit_code);
     int get_vm_process_id(int& process_id);
+    int get_vm_exit_code(unsigned long& exit_code);
     int get_port_forwarding_port();
     int get_remote_desktop_port();
 

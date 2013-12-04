@@ -214,7 +214,9 @@ wxInt32 CBOINCTaskCtrl::UpdateControls() {
 
     // Force update layout and scrollbars, since nothing we do here
     // necessarily generates a size event which would do it for us.
-    FitInside();
+    if (layoutChanged) {
+        Fit ();
+    }
     
     return layoutChanged;
 }
