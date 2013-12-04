@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-08-29 15:37-0700\n"
+"POT-Creation-Date: 2013-10-18 00:00-0700\n"
 "PO-Revision-Date: 2013-11-21 22:31+0000\n"
 "Last-Translator: aceman <acelists@atlas.sk>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -51,6 +51,10 @@ msgstr "Pridať projekt"
 msgctxt "attachproject_list_manual_no_url"
 msgid "Please enter project URL"
 msgstr "Пожалуйста, введите URL проекта"
+
+msgctxt "attachproject_list_acctmgr_button"
+msgid "Add account manager"
+msgstr ""
 
 #, fuzzy
 msgctxt "attachproject_list_no_internet"
@@ -228,6 +232,31 @@ msgctxt "attachproject_registration_button"
 msgid "Create"
 msgstr "Создать"
 
+#. account manager
+msgctxt "attachproject_acctmgr_header"
+msgid "Add account manager"
+msgstr ""
+
+msgctxt "attachproject_acctmgr_header_url"
+msgid "URL"
+msgstr ""
+
+msgctxt "attachproject_acctmgr_header_name"
+msgid "User:"
+msgstr ""
+
+msgctxt "attachproject_acctmgr_header_pwd"
+msgid "Password:"
+msgstr ""
+
+msgctxt "attachproject_acctmgr_header_pwd_confirm"
+msgid "… Retype:"
+msgstr ""
+
+msgctxt "attachproject_acctmgr_button"
+msgid "Add"
+msgstr ""
+
 #. error strings
 #, fuzzy
 msgctxt "attachproject_error_wrong_name"
@@ -248,6 +277,10 @@ msgstr "Сбой подключения"
 msgctxt "attachproject_error_pwd_no_match"
 msgid "Passwords do not match"
 msgstr "Пароли не совпадают"
+
+msgctxt "attachproject_error_no_url"
+msgid "Please enter URL"
+msgstr ""
 
 #, fuzzy
 msgctxt "attachproject_error_no_email"
@@ -293,6 +326,10 @@ msgctxt "attachproject_error_creation_disabled"
 msgid "Account creation is disabled on this project"
 msgstr "Создание учётной записи в данном проекте отключено"
 
+msgctxt "attachproject_error_invalid_url"
+msgid "Invalid URL"
+msgstr ""
+
 #. working activity
 msgctxt "attachproject_working_back_button"
 msgid "Back"
@@ -337,6 +374,14 @@ msgstr "Зарегистрировать учётную запись"
 msgctxt "attachproject_working_login"
 msgid "Log in"
 msgstr "Войти"
+
+msgctxt "attachproject_working_acctmgr"
+msgid "Add account manager"
+msgstr ""
+
+msgctxt "attachproject_working_acctmgr_sync"
+msgid "Synchronize"
+msgstr ""
 
 #. main activity
 msgctxt "main_noproject_warning"
@@ -385,6 +430,10 @@ msgstr "Передачи"
 msgctxt "tab_preferences"
 msgid "Preferences"
 msgstr "Настройки"
+
+msgctxt "tab_notices"
+msgid "Notices"
+msgstr ""
 
 msgctxt "tab_desc"
 msgid "Navigation"
@@ -684,6 +733,10 @@ msgctxt "projects_control_dialog_title"
 msgid "Project commands:"
 msgstr "Команды проекта:"
 
+msgctxt "projects_control_visit_website"
+msgid "Visit website"
+msgstr ""
+
 msgctxt "projects_control_update"
 msgid "Update"
 msgstr "Обновить"
@@ -711,6 +764,18 @@ msgstr "Получать новые задания"
 msgctxt "projects_control_reset"
 msgid "Reset"
 msgstr "Сбросить"
+
+msgctxt "projects_control_dialog_title_acctmgr"
+msgid "Account manager commands:"
+msgstr ""
+
+msgctxt "projects_control_sync_acctmgr"
+msgid "Synchronize"
+msgstr ""
+
+msgctxt "projects_control_remove_acctmgr"
+msgid "Disable"
+msgstr ""
 
 #. project confirm dialog
 msgctxt "projects_confirm_detach_title"
@@ -740,6 +805,18 @@ msgstr "Вы действительно хотите перезапустить"
 msgctxt "projects_confirm_reset_confirm"
 msgid "Reset"
 msgstr "Сбросить"
+
+msgctxt "projects_confirm_remove_acctmgr_title"
+msgid "Disable account manager"
+msgstr ""
+
+msgctxt "projects_confirm_remove_acctmgr_message"
+msgid "Are you sure you want to stop using"
+msgstr ""
+
+msgctxt "projects_confirm_remove_acctmgr_confirm"
+msgid "Disable"
+msgstr ""
 
 #. tasks tab strings
 msgctxt "tasks_header_name"
@@ -884,6 +961,10 @@ msgctxt "trans_header_name"
 msgid "File:"
 msgstr "Файл:"
 
+msgctxt "trans_control_retry"
+msgid "Retry transfers"
+msgstr ""
+
 msgctxt "confirm_abort_trans_title"
 msgid "Abort transfer?"
 msgstr "Прервать передачу?"
@@ -895,6 +976,11 @@ msgstr "Прервать файл:"
 msgctxt "confirm_abort_trans_confirm"
 msgid "Abort"
 msgstr "Прервать"
+
+#. notices tab strings
+msgctxt "notices_loading"
+msgid "Reading notices…"
+msgstr ""
 
 #. eventlog tab strings
 msgctxt "eventlog_loading"
