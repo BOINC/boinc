@@ -1308,7 +1308,7 @@ int VBOX_VM::restoresnapshot() {
 
     command = "snapshot \"" + vm_name + "\" ";
     command += "restorecurrent ";
-    retval = vbm_popen(command, output, "restore current snapshot");
+    retval = vbm_popen(command, output, "restore current snapshot", true, false, 0);
     if (retval) return retval;
 
     fprintf(
