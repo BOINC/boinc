@@ -744,6 +744,11 @@ int main(int argc, char** argv) {
                     bytes_received
                 );
             }
+ 
+            // Give the BOINC API time to report the pid to BOINC.
+            boinc_sleep(5.0);
+
+            // Exit and let BOINC clean up the rest.
             boinc_temporary_exit(temp_delay, temp_reason);
         }
     }
