@@ -72,8 +72,8 @@ public:
 
     COPROCS coprocs;
 
-    int num_cpu_opencl_platforms;
-    OPENCL_CPU_PROP cpu_opencl_prop[MAX_OPENCL_CPU_PLATFORMS];
+    int num_opencl_cpu_platforms;
+    OPENCL_CPU_PROP opencl_cpu_prop[MAX_OPENCL_CPU_PLATFORMS];
 
     HOST_INFO();
     int parse(XML_PARSER&, bool static_items_only = false);

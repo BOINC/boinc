@@ -170,7 +170,7 @@ void COPROCS::correlate_gpus(
 
     // NOTE: OpenCL can report a max of only 4GB.  
     for (i=0; i<cpu_opencls.size(); i++) {
-        gstate.host_info.cpu_opencl_prop[gstate.host_info.num_cpu_opencl_platforms++] = cpu_opencls[i];
+        gstate.host_info.opencl_cpu_prop[gstate.host_info.num_opencl_cpu_platforms++] = cpu_opencls[i];
     }
 
     for (i=0; i<nvidia_gpus.size(); i++) {

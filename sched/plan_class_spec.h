@@ -90,6 +90,7 @@ struct PLAN_CLASS_SPEC {
     //
     int min_vbox_version;
     int max_vbox_version;
+    bool vm_accel_required;
 
     int parse(XML_PARSER&);
     bool check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu);
