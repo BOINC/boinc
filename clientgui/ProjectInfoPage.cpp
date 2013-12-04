@@ -338,11 +338,9 @@ void CProjectInfoPage::CreateControls()
     itemFlexGridSizer33->Add(m_pProjectURLStaticCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_pProjectURLCtrl = new wxTextCtrl( itemWizardPage23, ID_PROJECTURLCTRL, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-    itemFlexGridSizer33->Add(m_pProjectURLCtrl, 1, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    itemFlexGridSizer33->Add(m_pProjectURLCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-#ifdef __WXMAC__
-    itemFlexGridSizer33->Add(0, 20, 0);
-#endif
+    itemFlexGridSizer33->Add(0, 10, 0);
 
     // Set validators
     m_pProjectURLCtrl->SetValidator( CValidateURL( & m_strProjectURL ) );
