@@ -705,7 +705,35 @@ int main(int argc, char** argv) {
             unrecoverable_error = false;
             temp_reason = (char*)"VM Hypervisor was unable to allocate enough memory to start VM.";
         } else {
-            vm.dumphypervisorlogs();
+            vm.poll();
+
+            // Check to see if the VM is already running.  If so, notify BOINC about the process ID so it can
+            // clean up the environment.  We should be safe to run after that.
+            //
+            if (vm.online) {
+                fprintf(
+                    stderr,
+                    "%s NOTE: VM was already running.  BOINC will be notified that it needs to clean up the environment.\n"
+                    "    This might be a temporary problem and so this job will be rescheduled for another time.\n",
+                    vboxwrapper_msg_prefix(buf, sizeof(buf))
+                );
+                unrecoverable_error = false;
+                temp_reason = (char*)"VM environment needed to be cleaned up.";
+
+                vm.get_vm_process_id(vm_pid);
+                retval = boinc_report_app_status_aux(
+                    elapsed_time,
+                    checkpoint_cpu_time,
+                    fraction_done,
+                    vm_pid,
+                    bytes_sent,
+                    bytes_received
+                );
+            } else {
+
+                vm.dumphypervisorlogs();
+
+            }
         }
 
         if (unrecoverable_error) {
