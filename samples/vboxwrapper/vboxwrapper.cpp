@@ -656,10 +656,6 @@ int main(int argc, char** argv) {
         char* temp_reason = (char*)"";
         int   temp_delay = 300;
 
-        // Attempt to cleanup the VM
-        vm.cleanup();
-        write_checkpoint(elapsed_time, vm);
-
         fprintf(
             stderr,
             "%s VM failed to start.\n",
@@ -704,13 +700,55 @@ int main(int argc, char** argv) {
             );
             unrecoverable_error = false;
             temp_reason = (char*)"VM Hypervisor was unable to allocate enough memory to start VM.";
+        } else if (ERR_NOT_EXITED == retval) {
+            fprintf(
+                stderr,
+                "%s NOTE: VM was already running.\n"
+                "    BOINC will be notified that it needs to clean up the environment.\n"
+                "    This might be a temporary problem and so this job will be rescheduled for another time.\n",
+                vboxwrapper_msg_prefix(buf, sizeof(buf))
+            );
+            unrecoverable_error = false;
+            temp_reason = (char*)"VM environment needed to be cleaned up.";
+        } else if (vm.is_virtualbox_error_recoverable(retval)) {
+            fprintf(
+                stderr,
+                "%s NOTE: VM session lock error encountered.\n"
+                "    BOINC will be notified that it needs to clean up the environment.\n"
+                "    This might be a temporary problem and so this job will be rescheduled for another time.\n",
+                vboxwrapper_msg_prefix(buf, sizeof(buf))
+            );
+            unrecoverable_error = false;
+            temp_reason = (char*)"VM environment needed to be cleaned up.";
         } else {
             vm.dumphypervisorlogs();
         }
 
         if (unrecoverable_error) {
+            // Attempt to cleanup the VM and exit.
+            vm.cleanup();
+            write_checkpoint(elapsed_time, vm);
             boinc_finish(retval);
         } else {
+            // if the VM is already running notify BOINC about the process ID so it can
+            // clean up the environment.  We should be safe to run after that.
+            //
+            vm.get_vm_process_id(vm_pid);
+            if (vm_pid) {
+                retval = boinc_report_app_status_aux(
+                    elapsed_time,
+                    checkpoint_cpu_time,
+                    fraction_done,
+                    vm_pid,
+                    bytes_sent,
+                    bytes_received
+                );
+            }
+ 
+            // Give the BOINC API time to report the pid to BOINC.
+            boinc_sleep(5.0);
+
+            // Exit and let BOINC clean up the rest.
             boinc_temporary_exit(temp_delay, temp_reason);
         }
     }
