@@ -703,7 +703,18 @@ int main(int argc, char** argv) {
         } else if (ERR_NOT_EXITED == retval) {
             fprintf(
                 stderr,
-                "%s NOTE: VM was already running.  BOINC will be notified that it needs to clean up the environment.\n"
+                "%s NOTE: VM was already running.\n"
+                "    BOINC will be notified that it needs to clean up the environment.\n"
+                "    This might be a temporary problem and so this job will be rescheduled for another time.\n",
+                vboxwrapper_msg_prefix(buf, sizeof(buf))
+            );
+            unrecoverable_error = false;
+            temp_reason = (char*)"VM environment needed to be cleaned up.";
+        } else if (vm.is_virtualbox_error_recoverable(retval)) {
+            fprintf(
+                stderr,
+                "%s NOTE: VM session lock error encountered.\n"
+                "    BOINC will be notified that it needs to clean up the environment.\n"
                 "    This might be a temporary problem and so this job will be rescheduled for another time.\n",
                 vboxwrapper_msg_prefix(buf, sizeof(buf))
             );

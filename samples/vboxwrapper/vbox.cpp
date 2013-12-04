@@ -1045,7 +1045,7 @@ int VBOX_VM::start() {
     if (headless) {
         command += " --type headless";
     }
-    retval = vbm_popen(command, output, "start VM");
+    retval = vbm_popen(command, output, "start VM", true, false, 0);
     if (retval) return retval;
 
     // Wait for up to 5 minutes for the VM to switch states.  A system
