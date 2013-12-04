@@ -34,11 +34,15 @@ if ($argc >= 3 && $argv[1] == '-d') {
 
 // process the generic BOINC web site strings
 //
-buildLanguages($lang_language_dir, $lang_translations_dir, $lang_compiled_dir);
+build_translation_array_files(
+    $lang_language_dir, $lang_translations_dir, $lang_compiled_dir
+);
 
 // process the project-specific strings
 //
-buildLanguages($lang_language_dir, $lang_prj_translations_dir, $lang_compiled_dir);
+build_translation_array_files(
+    $lang_language_dir, $lang_prj_translations_dir, $lang_compiled_dir
+);
 
 echo "update_translations finished\n";
 

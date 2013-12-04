@@ -56,7 +56,7 @@ $language_names = array(
 
 function language_select() {
     global $language_names;
-    $supported_languages = getSupportedLanguages();
+    $supported_languages = get_supported_languages();
     $supported_languages[] = "en";
     $bd = tra("Browser default");
     echo "
