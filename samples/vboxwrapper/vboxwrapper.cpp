@@ -428,8 +428,9 @@ int main(int argc, char** argv) {
     //
     fprintf(
         stderr,
-        "%s vboxwrapper: starting\n",
-        vboxwrapper_msg_prefix(buf, sizeof(buf))
+        "%s vboxwrapper(%s): starting\n",
+        vboxwrapper_msg_prefix(buf, sizeof(buf)),
+        argv[0]
     );
 
     // Log important information
