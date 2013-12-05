@@ -396,6 +396,17 @@ function community_links($clo, $logged_in_user){
     }
 }
 
+function show_badges($user) {
+    $bus = BoincBadgeUser::enum("user_id=$user->id");
+    if (!$bus) return;
+    $x = "";
+    foreach ($bus as $bu) {
+        $badge = BoincBadge::lookup_id($bu->badge_id);
+        $x .= "<img title=\"$badge->title\" height=40 src=$badge->image_url> ";
+    }
+    row2("Badges", $x);
+}
+
 function show_profile_link($user) {
     if ($user->has_profile) {
         row2(tra("Profile"), "<a href=\"view_profile.php?userid=$user->id\">".tra("View")."</a>");

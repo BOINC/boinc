@@ -690,3 +690,37 @@ create table notify (
     opaque                  integer         not null
         -- some other ID, e.g. that of the thread, user or PM record
 );
+
+create table badge (
+    id                      serial          primary key,
+    create_time             double          not null,
+    type                    tinyint         not null,
+        -- 0=user, 1=team
+    name                    varchar(255)    not null,
+        -- internal use (not visible to users)
+    title                   varchar(255)    not null,
+        -- user-visible, short
+    description             varchar(255)    not null,
+        -- user-visible, possibly longer
+    image_url               varchar(255)    not null,
+        -- location of image
+    level                   varchar(255)    not null,
+        -- project-defined
+    tags                    varchar(255)    not null,
+        -- project-defined
+    sql_rule                varchar(255)    not null
+);
+
+create table badge_user (
+    badge_id                integer         not null,
+    user_id                 integer         not null,
+    create_time             double          not null,
+    reassign_time           double          not null
+);
+
+create table badge_team (
+    badge_id                integer         not null,
+    team_id                 integer         not null,
+    create_time             double          not null,
+    reassign_time           double          not null
+);

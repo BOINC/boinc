@@ -71,6 +71,9 @@ if ($format=="xml"){
     } else {
         // No data was found, generate new data for the cache and store it
         $user = lookup_user_id($id);
+        if (!$user) {
+            error_page("No such user $id");
+        }
         BoincForumPrefs::lookup($user);
         $user = @get_other_projects($user);
         $community_links =  get_community_links_object($user);
@@ -97,6 +100,7 @@ if ($format=="xml"){
     echo "</td><td valign=top>";
     start_table();
     show_profile_link($user);
+    show_badges($user);
     community_links($community_links, $logged_in_user);
     end_table();
     echo "</td></tr></table>";

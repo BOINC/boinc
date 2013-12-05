@@ -501,4 +501,72 @@ function latest_avs_app($appid) {
     return $r;
 }
 
+class BoincBadge {
+    static function enum($where_clause) {
+        $db = BoincDb::get();
+        return $db->enum('badge', 'BoincBadge', $where_clause);
+    }
+    static function insert($clause) {
+        $db = BoincDb::get();
+        $ret = $db->insert('badge', $clause);
+        if (!$ret) return 0;
+        return $db->insert_id();
+    }
+    function update($clause) {
+        $db = BoincDb::get();
+        return $db->update($this, 'badge', $clause);
+    }
+    static function lookup_id($id) {
+        $db = BoincDb::get();
+        return $db->lookup_id($id, 'badge', 'BoincBadge');
+    }
+    static function lookup($clause) {
+        $db = BoincDb::get();
+        return $db->lookup('badge', 'BoincBadge', $clause);
+    }
+}
+
+class BoincBadgeUser {
+    static function enum($where_clause) {
+        $db = BoincDb::get();
+        return $db->enum('badge_user', 'BoincBadgeUser', $where_clause);
+    }
+    static function insert($clause) {
+        $db = BoincDb::get();
+        $ret = $db->insert('badge_user', $clause);
+        if (!$ret) return false;
+        return true;
+    }
+    static function lookup($clause) {
+        $db = BoincDb::get();
+        return $db->lookup('badge_user', 'BoincBadgeUser', $clause);
+    }
+    static function update($clause) {
+        $db = BoincDb::get();
+        return $db->update_aux('badge_user', $clause);
+    }
+    function delete($clause) {
+        $db = BoincDb::get();
+        $db->delete_aux('badge_user', $clause);
+    }
+}
+
+class BoincBadgeTeam {
+    static function lookup($clause) {
+        $db = BoincDb::get();
+        return $db->lookup('badge_team', 'BoincBadgeTeam', $clause);
+    }
+    static function insert($clause) {
+        $db = BoincDb::get();
+        $ret = $db->insert('badge_team', $clause);
+        if (!$ret) return false;
+        return true;
+    }
+    function delete($clause) {
+        $db = BoincDb::get();
+        $db->delete_aux('badge_team', $clause);
+    }
+}
+
+
 ?>

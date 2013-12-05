@@ -114,6 +114,7 @@ echo "
     <td><b>User management</b>
     <ul>
         <li><a href=\"profile_screen_form.php\">Screen user profiles </a></li>
+        <li><a href=\"badge_admin.php\">Badges</a></li>
         <li><a href=\"manage_special_users.php\">User privileges</a></li>
         <li><a href=".URL_BASE."/manage_project.php>User job submission privileges</a></li>
         <li><a href=\"mass_email.php\">Send mass email to a selected set of users</a></li>

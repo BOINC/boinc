@@ -327,7 +327,7 @@ function table_header() {
             $col = func_get_arg($i);
             echo "<th ".$col[1].">".$col[0]."</th>\n";
         } else {
-            echo "<th>".func_get_arg($i)."</th>\n";
+            echo "<th valign=top>".func_get_arg($i)."</th>\n";
         }
     }
     echo "</tr>\n";
