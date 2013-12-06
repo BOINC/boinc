@@ -608,6 +608,12 @@ int VBOX_VM::register_vm() {
         if (vm_cpu_count == "1") {
             // Keep this around for older clients.  Removing this for older clients might
             // lead to a machine that will only return crashed VM reports.
+            fprintf(
+                stderr,
+                "%s Legacy fallback configuration detected. Disabling VirtualBox hardware acceleration support.\n"
+                "%s NOTE: Upgrading to BOINC 7.2 or better may re-enable hardware acceleration.\n",
+                boinc_msg_prefix(buf, sizeof(buf))
+            );
             disable_acceleration = true;
         }
     }
@@ -631,7 +637,7 @@ int VBOX_VM::register_vm() {
         if (disable_acceleration) {
             fprintf(
                 stderr,
-                "%s ERROR: Invalid project configuration.  VM type requires acceleration but hardware cannot support it.\n",
+                "%s ERROR: Invalid configuration.  VM type requires acceleration but the current configuration cannot support it.\n",
                 vboxwrapper_msg_prefix(buf, sizeof(buf))
             );
             return ERR_INVALID_PARAM;
