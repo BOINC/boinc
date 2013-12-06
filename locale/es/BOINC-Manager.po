@@ -124,8 +124,9 @@ msgstr ""
 "para registrarse o recuperar una contraseña olvidada."
 
 #: AccountInfoPage.cpp:532
+#, fuzzy
 msgid "Account manager web site"
-msgstr ""
+msgstr "Sitio web del administrador de cuentas"
 
 #: AccountInfoPage.cpp:574 WelcomePage.cpp:348
 msgid "Add project"
@@ -173,12 +174,14 @@ msgstr ""
 "introduzca su URL debajo."
 
 #: AccountManagerInfoPage.cpp:279
+#, fuzzy
 msgid "Account manager details:"
-msgstr ""
+msgstr "Sitio web del administrador de cuentas"
 
 #: AccountManagerInfoPage.cpp:283
+#, fuzzy
 msgid "Account manager &URL:"
-msgstr ""
+msgstr "U&RL del Administrador de Cuentas:"
 
 #: AccountManagerInfoPage.cpp:287
 msgid "Open web page"
@@ -500,8 +503,9 @@ msgstr "Muestra información acerca de %s"
 
 #: AdvancedFrame.cpp:657 sg_BoincSimpleFrame.cpp:220
 #, c-format
+#, c-format, fuzzy
 msgid "%s &web site"
-msgstr ""
+msgstr "Página &web de %s"
 
 #: AdvancedFrame.cpp:663 sg_BoincSimpleFrame.cpp:226
 #, c-format
@@ -3782,8 +3786,9 @@ msgstr "Comandos del Proyecto"
 
 #: sg_ProjectPanel.cpp:267
 #, c-format
+#, c-format, fuzzy
 msgid "Pop up a menu of web sites for project %s"
-msgstr ""
+msgstr "Saca un menú de sitios web del proyecto %s"
 
 #: sg_ProjectPanel.cpp:269
 #, c-format
