@@ -64,10 +64,6 @@ public class BOINCActivity extends TabActivity {
 	private TabHost tabHost;
 	private Resources res;
 	
-	// dummy jni to trigger PlayStore filter for CPU architecture
-	static{
-		System.loadLibrary("dummyjni");
-	}
 	private native String getDummyString();
 	// ---
 
