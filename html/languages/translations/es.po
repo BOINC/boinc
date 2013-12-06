@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2013-11-28 00:00 PST\n"
-"PO-Revision-Date: 2013-08-29 18:47+0000\n"
-"Last-Translator: David M <davidcomp2 at telefonica dot net>\n"
+"PO-Revision-Date: 2013-09-22 20:57+0000\n"
+"Last-Translator: Anonymous Pootle User\n"
 "Language-Team: \n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
@@ -20,7 +20,7 @@ msgstr ""
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-SearchPath-0: html\\user\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
-"X-POOTLE-MTIME: 1377802038.0\n"
+"X-POOTLE-MTIME: 1379883430.0\n"
 
 msgid "LANG_NAME_NATIVE"
 msgstr "Español"
@@ -1213,8 +1213,9 @@ msgid "Use NVIDIA GPU %1 Enforced by version 6.10+ %2"
 msgstr "Usar la GPU NVIDIA %1 Obligatorio a partir de la versión 6.10+ %2"
 
 #: ../inc/prefs.inc:344
+#, fuzzy
 msgid "Use Intel GPU %1 Enforced by version 7.2+ %2"
-msgstr ""
+msgstr "Usar la GPU ATI %1 Obligatorio a partir de la versión 6.10+ %2"
 
 #: ../inc/prefs.inc:358
 msgid ""
@@ -1780,8 +1781,9 @@ msgid "State"
 msgstr "Estado"
 
 #: ../inc/result.inc:747
+#, fuzzy
 msgid "Task name:"
-msgstr ""
+msgstr "Nombre de la tarea"
 
 #: ../inc/team.inc:40
 msgid "Search criteria (use one or more)"
@@ -2606,8 +2608,9 @@ msgid "Top GPU models"
 msgstr ""
 
 #: ../user/bs_sample_index.php:70
+#, fuzzy
 msgid "Languages"
-msgstr ""
+msgstr "Idioma"
 
 # ########################################
 # Rules and Policies page (info.php)
