@@ -385,29 +385,30 @@ public class Monitor extends Service {
 		// of the package. Shutdown the currently running client if needed.
 		//
 		if (!md5InstalledClient.equals(md5AssetClient)) {
-		//if (md5InstalledClient.compareToIgnoreCase(md5AssetClient) != 0) {
 			if(Logging.DEBUG) Log.d(Logging.TAG,"Hashes of installed client does not match binary in assets - re-install.");
 			
 			// try graceful shutdown using RPC (faster)
-	    	Boolean success = false;
-			if(connectClient()) {
-				clientInterface.quit();
-		    	Integer attempts = getApplicationContext().getResources().getInteger(R.integer.shutdown_graceful_rpc_check_attempts);
-		    	Integer sleepPeriod = getApplicationContext().getResources().getInteger(R.integer.shutdown_graceful_rpc_check_rate_ms);
-		    	for(int x = 0; x < attempts; x++) {
-		    		try {
-		    			Thread.sleep(sleepPeriod);
-		    		} catch (Exception e) {}
-		    		if(getPidForProcessName(clientProcessName) == null) { //client is now closed
-		        		if(Logging.DEBUG) Log.d(Logging.TAG,"quitClient: gracefull RPC shutdown successful after " + x + " seconds");
-		    			success = true;
-		    			x = attempts;
+			if (getPidForProcessName(clientProcessName) != null) {
+				if(connectClient()) {
+					clientInterface.quit();
+		    		Integer attempts = getApplicationContext().getResources().getInteger(R.integer.shutdown_graceful_rpc_check_attempts);
+		    		Integer sleepPeriod = getApplicationContext().getResources().getInteger(R.integer.shutdown_graceful_rpc_check_rate_ms);
+		    		for(int x = 0; x < attempts; x++) {
+		    			try {
+		    				Thread.sleep(sleepPeriod);
+		    			} catch (Exception e) {}
+		    			if(getPidForProcessName(clientProcessName) == null) { //client is now closed
+		        			if(Logging.DEBUG) Log.d(Logging.TAG,"quitClient: gracefull RPC shutdown successful after " + x + " seconds");
+		    				x = attempts;
+		    			}
 		    		}
-		    	}
+				}
 			}
 			
 			// quit with OS signals
-			if(!success) quitProcessOsLevel(clientProcessName);
+			if (getPidForProcessName(clientProcessName) != null) {
+				quitProcessOsLevel(clientProcessName);
+			}
 
 			// at this point client is definitely not running. install new binary...
 			if(!installClient()) {
