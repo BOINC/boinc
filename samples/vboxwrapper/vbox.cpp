@@ -199,10 +199,6 @@ int VBOX_VM::initialize() {
                 vboxwrapper_msg_prefix(buf, sizeof(buf))
             );
         }
-
-        // Launch vboxsvc before any vboxmanage command can be executed.
-        launch_vboxsvc();
-
 #else
         // putenv does not copy its input buffer, so we must use setenv
         if (setenv("VBOX_USER_HOME", const_cast<char*>(virtualbox_home_directory.c_str()), 1)) {
@@ -407,9 +403,10 @@ int VBOX_VM::register_vm() {
 
     fprintf(
         stderr,
-        "%s Registering VM. (%s) \n",
+        "%s Registering VM. (%s, slot#%d) \n",
         vboxwrapper_msg_prefix(buf, sizeof(buf)),
-        vm_name.c_str()
+        vm_name.c_str(),
+        aid.slot
     );
 
 
@@ -1046,18 +1043,20 @@ int VBOX_VM::start() {
         command += " --type headless";
     }
     retval = vbm_popen(command, output, "start VM", true, false, 0);
-    if (retval) return retval;
 
     // Wait for up to 5 minutes for the VM to switch states.  A system
     // under load can take a while.  Since the poll function can wait for up
     // to 45 seconds to execute a command we need to make this time based instead
     // of interation based.
-    timeout = dtime() + 300;
-    do {
-        poll(false);
-        if (online) break;
-        boinc_sleep(1.0);
-    } while (timeout >= dtime());
+    if (!retval) {
+        timeout = dtime() + 300;
+        do {
+            poll(false);
+            if (online) break;
+            boinc_sleep(1.0);
+        } while (timeout >= dtime());
+        if (timeout <= dtime()) retval = ERR_TIMEOUT;
+    }
 
     if (online) {
         fprintf(
@@ -1066,10 +1065,16 @@ int VBOX_VM::start() {
             vboxwrapper_msg_prefix(buf, sizeof(buf))
         );
         retval = BOINC_SUCCESS;
+    } else if (ERR_TIMEOUT == retval) {
+        fprintf(
+            stderr,
+            "%s VM did not start within 5 minutes.\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf))
+        );
     } else {
         fprintf(
             stderr,
-            "%s VM did not start within 5 minutes, aborting job.\n",
+            "%s VM failed to start.\n",
             vboxwrapper_msg_prefix(buf, sizeof(buf))
         );
         retval = ERR_EXEC;
@@ -1246,7 +1251,10 @@ int VBOX_VM::cleanupsnapshots(bool delete_active) {
     // Enumerate snapshot(s)
     command = "snapshot \"" + vm_name + "\" ";
     command += "list ";
-    retval = vbm_popen(command, output, "enumerate snapshot(s)");
+
+    // Only log the error if we are not attempting to deregister the VM.
+    // delete_active is only set to true when we are deregistering the VM.
+    retval = vbm_popen(command, output, "enumerate snapshot(s)", !delete_active, false, 0);
     if (retval) return retval;
 
     // Output should look a little like this:
@@ -1284,7 +1292,9 @@ int VBOX_VM::cleanupsnapshots(bool delete_active) {
             command += uuid;
             command += "\" ";
             
-            vbm_popen(command, output, "delete stale snapshot", true, false, 0);
+            // Only log the error if we are not attempting to deregister the VM.
+            // delete_active is only set to true when we are deregistering the VM.
+            vbm_popen(command, output, "delete stale snapshot", !delete_active, false, 0);
         }
 
         eol_prev_pos = eol_pos + 1;
@@ -1364,21 +1374,28 @@ void VBOX_VM::dumphypervisorlogs() {
 bool VBOX_VM::is_system_ready(std::string& message) {
     string command;
     string output;
-    bool rc = true;
+    int retval;
+    bool rc = false;
 
     command  = "list hostinfo ";
-    if (vbm_popen(command, output, "host info") == 0) {
+    retval = vbm_popen(command, output, "host info");
+    if (BOINC_SUCCESS == retval) {
+        rc = true;
+    }
 
-        if (output.find("Processor count:") == string::npos) {
-            message = "Communication with VM Hypervisor failed.";
-            rc = false;
-        }
+    if (output.size() == 0) {
+        message = "Communication with VM Hypervisor failed. (Possibly Out of Memory).";
+        rc = false;
+    }
 
-        if (output.find("WARNING: The vboxdrv kernel module is not loaded.") != string::npos) {
-            message = "Please update/recompile VirtualBox kernel drivers.";
-            rc = false;
-        }
+    if (output.find("Processor count:") == string::npos) {
+        message = "Communication with VM Hypervisor failed.";
+        rc = false;
+    }
 
+    if (output.find("WARNING: The vboxdrv kernel module is not loaded.") != string::npos) {
+        message = "Please update/recompile VirtualBox kernel drivers.";
+        rc = false;
     }
 
     return rc;
@@ -1557,7 +1574,7 @@ int VBOX_VM::get_slot_directory(string& dir) {
     return 0;
 }
 
-int VBOX_VM::get_network_bytes_sent(double& sent) {
+int VBOX_VM::get_vm_network_bytes_sent(double& sent) {
     string command;
     string output;
     string counter_value;
@@ -1592,7 +1609,7 @@ int VBOX_VM::get_network_bytes_sent(double& sent) {
     return 0;
 }
 
-int VBOX_VM::get_network_bytes_received(double& received) {
+int VBOX_VM::get_vm_network_bytes_received(double& received) {
     string command;
     string output;
     string counter_value;
@@ -1626,65 +1643,6 @@ int VBOX_VM::get_network_bytes_received(double& received) {
     }
 
     return 0;
-}
-
-int VBOX_VM::get_system_log(string& log) {
-    string slot_directory;
-    string virtualbox_system_log_src;
-    string virtualbox_system_log_dst;
-    string::iterator iter;
-    char buf[256];
-    int retval = 0;
-
-    // Where should we copy temp files to?
-    get_slot_directory(slot_directory);
-
-    // Locate and read log file
-    virtualbox_system_log_src = virtualbox_home_directory + "/VBoxSVC.log";
-    virtualbox_system_log_dst = slot_directory + "/VBoxSVC.log";
-
-    if (boinc_file_exists(virtualbox_system_log_src.c_str())) {
-        // Skip having to deal with various forms of file locks by just making a temp
-        // copy of the log file.
-        boinc_copy(virtualbox_system_log_src.c_str(), virtualbox_system_log_dst.c_str());
-
-        // Keep only the last 16k if it is larger than that.
-        read_file_string(virtualbox_system_log_dst.c_str(), log, 16384, true);
-
-#ifdef _WIN32
-        // Remove \r from the log spew
-        iter = log.begin();
-        while (iter != log.end()) {
-            if (*iter == '\r') {
-                iter = log.erase(iter);
-            } else {
-                ++iter;
-            }
-        }
-#endif
-
-        if (log.size() >= 16384) {
-            // Look for the next whole line of text.
-            iter = log.begin();
-            while (iter != log.end()) {
-                if (*iter == '\n') {
-                    log.erase(iter);
-                    break;
-                }
-                iter = log.erase(iter);
-            }
-        }
-    } else {
-        fprintf(
-            stderr,
-            "%s Could not find the Hypervisor System Log at '%s'.\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf)),
-            virtualbox_system_log_src.c_str()
-        );
-        retval = ERR_NOT_FOUND;
-    }
-
-    return retval;
 }
 
 int VBOX_VM::get_vm_process_id(int& process_id) {
@@ -1820,6 +1778,65 @@ int VBOX_VM::get_remote_desktop_port() {
 
     boinc_close_socket(sock);
     return 0;
+}
+
+int VBOX_VM::get_system_log(string& log) {
+    string slot_directory;
+    string virtualbox_system_log_src;
+    string virtualbox_system_log_dst;
+    string::iterator iter;
+    char buf[256];
+    int retval = 0;
+
+    // Where should we copy temp files to?
+    get_slot_directory(slot_directory);
+
+    // Locate and read log file
+    virtualbox_system_log_src = virtualbox_home_directory + "/VBoxSVC.log";
+    virtualbox_system_log_dst = slot_directory + "/VBoxSVC.log";
+
+    if (boinc_file_exists(virtualbox_system_log_src.c_str())) {
+        // Skip having to deal with various forms of file locks by just making a temp
+        // copy of the log file.
+        boinc_copy(virtualbox_system_log_src.c_str(), virtualbox_system_log_dst.c_str());
+
+        // Keep only the last 16k if it is larger than that.
+        read_file_string(virtualbox_system_log_dst.c_str(), log, 16384, true);
+
+#ifdef _WIN32
+        // Remove \r from the log spew
+        iter = log.begin();
+        while (iter != log.end()) {
+            if (*iter == '\r') {
+                iter = log.erase(iter);
+            } else {
+                ++iter;
+            }
+        }
+#endif
+
+        if (log.size() >= 16384) {
+            // Look for the next whole line of text.
+            iter = log.begin();
+            while (iter != log.end()) {
+                if (*iter == '\n') {
+                    log.erase(iter);
+                    break;
+                }
+                iter = log.erase(iter);
+            }
+        }
+    } else {
+        fprintf(
+            stderr,
+            "%s Could not find the Hypervisor System Log at '%s'.\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf)),
+            virtualbox_system_log_src.c_str()
+        );
+        retval = ERR_NOT_FOUND;
+    }
+
+    return retval;
 }
 
 // Enable the network adapter if a network connection is required.
@@ -2152,7 +2169,7 @@ int VBOX_VM::vbm_popen_raw(string& arguments, string& output, unsigned int timeo
     size_t errcode_start;
     size_t errcode_end;
     string errcode;
-    int retval = 0;
+    int retval = BOINC_SUCCESS;
 
     // Launch vboxsvc in case it was shutdown for being idle
     launch_vboxsvc();
@@ -2321,8 +2338,6 @@ CLEANUP:
 
             sscanf(errcode.c_str(), "%x", &retval);
         }
-
-        retval = 0;
     }
 
 #endif

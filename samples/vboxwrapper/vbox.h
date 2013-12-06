@@ -147,13 +147,14 @@ struct VBOX_VM {
 
     int get_install_directory(std::string& dir);
     int get_slot_directory(std::string& dir);
-    int get_network_bytes_sent(double& sent);
-    int get_network_bytes_received(double& received);
-    int get_system_log(std::string& log);
-    int get_vm_process_id(int& process_id);
-    int get_vm_exit_code(unsigned long& exit_code);
     int get_port_forwarding_port();
     int get_remote_desktop_port();
+    int get_vm_network_bytes_sent(double& sent);
+    int get_vm_network_bytes_received(double& received);
+    int get_vm_process_id(int& process_id);
+    int get_vm_exit_code(unsigned long& exit_code);
+
+    int get_system_log(std::string& log);
 
     int set_network_access(bool enabled);
     int set_cpu_usage(int percentage);

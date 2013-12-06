@@ -428,7 +428,7 @@ int main(int argc, char** argv) {
     //
     fprintf(
         stderr,
-        "%s vboxwrapper(%s): starting\n",
+        "%s %s: starting\n",
         vboxwrapper_msg_prefix(buf, sizeof(buf)),
         argv[0]
     );
@@ -653,82 +653,76 @@ int main(int argc, char** argv) {
     retval = vm.run(elapsed_time);
     if (retval) {
         // All failure to start error are unrecoverable by default
-        bool  unrecoverable_error = true;
-        char* temp_reason = (char*)"";
-        int   temp_delay = 300;
+        bool   unrecoverable_error = true;
+        bool   dump_hypervisor_logs = false;
+        string error_reason;
+        char*  temp_reason = (char*)"";
+        int    temp_delay = 300;
 
-        fprintf(
-            stderr,
-            "%s VM failed to start.\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf))
-        );
         if (vm.is_logged_failure_vm_extensions_disabled()) {
-            fprintf(
-                stderr,
-                "%s NOTE: BOINC has detected that your computer's processor supports hardware acceleration for\n"
+            error_reason =
+                "   NOTE: BOINC has detected that your computer's processor supports hardware acceleration for\n"
                 "    virtual machines but the hypervisor failed to successfully launch with this feature enabled.\n"
                 "    This means that the hardware acceleration feature has been disabled in the computer's BIOS.\n"
                 "    Please enable this feature in your computer's BIOS.\n"
                 "    Intel calls it 'VT-x'\n"
                 "    AMD calls it 'AMD-V'\n"
                 "    More information can be found here: http://en.wikipedia.org/wiki/X86_virtualization\n"
-                "    Error Code: ERR_CPU_VM_EXTENSIONS_DISABLED\n",
-                vboxwrapper_msg_prefix(buf, sizeof(buf))
-            );
+                "    Error Code: ERR_CPU_VM_EXTENSIONS_DISABLED\n";
         } else if (vm.is_logged_failure_vm_extensions_in_use()) {
-            fprintf(
-                stderr,
-                "%s NOTE: VirtualBox hypervisor reports that another hypervisor has locked the hardware acceleration\n"
+            error_reason =
+                "   NOTE: VirtualBox hypervisor reports that another hypervisor has locked the hardware acceleration\n"
                 "    for virtual machines feature in exclusive mode. You'll either need to reconfigure the other hypervisor\n"
                 "    to not use the feature exclusively or just let BOINC run this project in software emulation mode.\n"
-                "    Error Code: ERR_CPU_VM_EXTENSIONS_DISABLED\n",
-                vboxwrapper_msg_prefix(buf, sizeof(buf))
-            );
+                "    Error Code: ERR_CPU_VM_EXTENSIONS_DISABLED\n";
         } else if (vm.is_logged_failure_vm_extensions_not_supported()) {
-            fprintf(
-                stderr,
-                "%s NOTE: VirtualBox has reported an improperly configured virtual machine. It was configured to require\n"
+            error_reason =
+                "   NOTE: VirtualBox has reported an improperly configured virtual machine. It was configured to require\n"
                 "    hardware acceleration for virtual machines, but your processor does not support the required feature.\n"
-                "    Please report this issue to the project so that it can be addresssed.\n",
-                vboxwrapper_msg_prefix(buf, sizeof(buf))
-            );
+                "    Please report this issue to the project so that it can be addresssed.\n";
         } else if (vm.is_logged_failure_host_out_of_memory()) {
-            fprintf(
-                stderr,
-                "%s NOTE: VirtualBox has failed to allocate enough memory to start the configured virtual machine.\n"
-                "    This might be a temporary problem and so this job will be rescheduled for another time.\n",
-                vboxwrapper_msg_prefix(buf, sizeof(buf))
-            );
+            error_reason =
+                "   NOTE: VirtualBox has failed to allocate enough memory to start the configured virtual machine.\n"
+                "    This might be a temporary problem and so this job will be rescheduled for another time.\n";
             unrecoverable_error = false;
             temp_reason = (char*)"VM Hypervisor was unable to allocate enough memory to start VM.";
         } else if (ERR_NOT_EXITED == retval) {
-            fprintf(
-                stderr,
-                "%s NOTE: VM was already running.\n"
+            error_reason =
+                "   NOTE: VM was already running.\n"
                 "    BOINC will be notified that it needs to clean up the environment.\n"
-                "    This might be a temporary problem and so this job will be rescheduled for another time.\n",
-                vboxwrapper_msg_prefix(buf, sizeof(buf))
-            );
+                "    This might be a temporary problem and so this job will be rescheduled for another time.\n";
             unrecoverable_error = false;
             temp_reason = (char*)"VM environment needed to be cleaned up.";
         } else if (vm.is_virtualbox_error_recoverable(retval)) {
-            fprintf(
-                stderr,
-                "%s NOTE: VM session lock error encountered.\n"
+            error_reason =
+                "   NOTE: VM session lock error encountered.\n"
                 "    BOINC will be notified that it needs to clean up the environment.\n"
-                "    This might be a temporary problem and so this job will be rescheduled for another time.\n",
-                vboxwrapper_msg_prefix(buf, sizeof(buf))
-            );
+                "    This might be a temporary problem and so this job will be rescheduled for another time.\n";
             unrecoverable_error = false;
             temp_reason = (char*)"VM environment needed to be cleaned up.";
         } else {
-            vm.dumphypervisorlogs();
+            dump_hypervisor_logs = true;
         }
 
         if (unrecoverable_error) {
             // Attempt to cleanup the VM and exit.
             vm.cleanup();
             write_checkpoint(elapsed_time, vm);
+
+            if (error_reason.size()) {
+                fprintf(
+                    stderr,
+                    "%s\n"
+                    "%s",
+                    vboxwrapper_msg_prefix(buf, sizeof(buf)),
+                    error_reason.c_str()
+                );
+            }
+
+            if (dump_hypervisor_logs) {
+                vm.dumphypervisorlogs();
+            }
+
             boinc_finish(retval);
         } else {
             // if the VM is already running notify BOINC about the process ID so it can
@@ -748,6 +742,16 @@ int main(int argc, char** argv) {
  
             // Give the BOINC API time to report the pid to BOINC.
             boinc_sleep(5.0);
+
+            if (error_reason.size()) {
+                fprintf(
+                    stderr,
+                    "%s\n"
+                    "%s",
+                    vboxwrapper_msg_prefix(buf, sizeof(buf)),
+                    error_reason.c_str()
+                );
+            }
 
             // Exit and let BOINC clean up the rest.
             boinc_temporary_exit(temp_delay, temp_reason);
@@ -885,24 +889,39 @@ int main(int argc, char** argv) {
 
                     if ((elapsed_time - last_status_report_time) >= 6000.0) {
                         last_status_report_time = elapsed_time;
+                        if (vm.job_duration) {
+                            fprintf(
+                                stderr,
+                                "%s Status Report: Job Duration: '%f'\n",
+                                vboxwrapper_msg_prefix(buf, sizeof(buf)),
+                                vm.job_duration
+                            );
+                        }
+                        if (elapsed_time) {
+                            fprintf(
+                                stderr,
+                                "%s Status Report: Elapsed Time: '%f'\n",
+                                vboxwrapper_msg_prefix(buf, sizeof(buf)),
+                                vm.job_duration
+                            );
+                        }
                         if (aid.global_prefs.daily_xfer_limit_mb) {
-                            fprintf(
-                                stderr,
-                                "%s Status Report: Job Duration: '%f', Elapsed Time: '%f', Network Bytes Sent (Total): '%f', Network Bytes Received (Total): '%f'\n",
-                                vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                                vm.job_duration,
-                                elapsed_time,
-                                bytes_sent,
-                                bytes_received
-                            );
-                        } else {
-                            fprintf(
-                                stderr,
-                                "%s Status Report: Job Duration: '%f', Elapsed Time: '%f'\n",
-                                vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                                vm.job_duration,
-                                elapsed_time
-                            );
+                            if (vm.job_duration) {
+                                fprintf(
+                                    stderr,
+                                    "%s Status Report: Network Bytes Sent (Total): '%f'\n",
+                                    vboxwrapper_msg_prefix(buf, sizeof(buf)),
+                                    bytes_sent
+                                );
+                            }
+                            if (elapsed_time) {
+                                fprintf(
+                                    stderr,
+                                    "%s Status Report: Network Bytes Received (Total): '%f'\n",
+                                    vboxwrapper_msg_prefix(buf, sizeof(buf)),
+                                    bytes_received
+                                );
+                            }
                         }
                     }
 
@@ -999,12 +1018,12 @@ int main(int argc, char** argv) {
             if (net_usage_timer <= 0) {
                 net_usage_timer = 600;
                 double sent, received;
-                retval = vm.get_network_bytes_sent(sent);
+                retval = vm.get_vm_network_bytes_sent(sent);
                 if (!retval && (sent != bytes_sent)) {
                     bytes_sent = sent;
                     report_net_usage = true;
                 }
-                retval = vm.get_network_bytes_received(received);
+                retval = vm.get_vm_network_bytes_received(received);
                 if (!retval && (received != bytes_received)) {
                     bytes_received = received;
                     report_net_usage = true;
