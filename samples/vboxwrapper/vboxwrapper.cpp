@@ -700,6 +700,10 @@ int main(int argc, char** argv) {
                 "    This might be a temporary problem and so this job will be rescheduled for another time.\n";
             unrecoverable_error = false;
             temp_reason = (char*)"VM environment needed to be cleaned up.";
+        } else if (ERR_INVALID_PARAM == retval) {
+            unrecoverable_error = false;
+            temp_reason = (char*)"Please upgrade BOINC to the latest version.";
+            temp_delay = 86400;
         } else {
             dump_hypervisor_logs = true;
         }
