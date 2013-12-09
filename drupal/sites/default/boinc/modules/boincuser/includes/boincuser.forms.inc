@@ -133,7 +133,7 @@ function boincuser_register_make_drupal_user($boinc_user) {
 function boincuser_create_drupal_user($boinc_user) {
   require_boinc('forum_db');
   BoincForumPrefs::lookup($boinc_user);
-  $account = null;
+  $account = NULL;
   $module = 'boincuser';
   
   // Verify that this account has not already been imported
@@ -174,11 +174,15 @@ function boincuser_create_drupal_user($boinc_user) {
     'access' => time()
   );
   
-  // Add user to community member role
-  $community_role = array_search('community member', user_roles(true)); 
-  $userinfo['roles'] = array(
-    $community_role => ''
-  );
+  $in_penalty = ($boinc_user->prefs->banished_until > time());
+  
+  // Add user to community member role (if no current penalty)
+  if (!$in_penalty) {
+    $community_role = array_search('community member', user_roles(true)); 
+    $userinfo['roles'] = array(
+      $community_role => ''
+    );
+  }
   
   // Mark account as imported so a BOINC account is not created on Insert (i.e. user_save)
   $_SESSION['importedUser'] = true;
@@ -195,6 +199,15 @@ function boincuser_create_drupal_user($boinc_user) {
   
   // Cross reference the Drupal and BOINC accounts
   boincuser_account_cross_reference($account->uid, $boinc_user->id);
+  
+  if ($in_penalty) {
+    // Import the timestamp of when the penalty period will be over
+    $boincuser_record = array(
+      'uid' => $account->uid,
+      'penalty_expiration' => $boinc_user->prefs->banished_until,
+    );
+    drupal_write_record('boincuser', $boincuser_record, 'uid');
+  }
   
   return $account;
 }

@@ -73,6 +73,11 @@ function boincuser_menu() {
     'type' => MENU_LOCAL_TASK,
     'weight' => 5
   );
+  $items['user_control'] = array(
+    'page callback' => 'boincuser_control',
+    'access arguments' => array('access user profiles'),
+    'type' => MENU_CALLBACK
+  );
   $items['admin/boinc'] = array(
     'title' => 'BOINC configuration',
     'position' => 'right',
@@ -134,7 +139,13 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
   switch($op) {
   case 'load':
     // User loading; insert BOINC data into the user object
-    $account->boincuser_id = db_result(db_query("SELECT boinc_id FROM {boincuser} WHERE uid = %d", $account->uid));
+    $drupal_user = db_fetch_object(db_query("
+      SELECT boinc_id, penalty_expiration
+      FROM {boincuser} WHERE uid = %d",
+      $account->uid
+    ));
+    $account->boincuser_id = $drupal_user->boinc_id;
+    $account->boincuser_penalty_expiration = $drupal_user->penalty_expiration;
     db_set_active('boinc');
     $boinc_user = db_fetch_object(db_query("
       SELECT
@@ -990,6 +1001,47 @@ function boincuser_create_account() {
   echo " <account_out>\n";
   echo "   <authenticator>{$boinc_user->authenticator}</authenticator>\n";
   echo "</account_out>\n";
+}
+
+/**
+ * Controller for handling simple user account status configuration.
+ * Allow community membership status to be set for users by direct link rather
+ * than through the user account info form.
+ */
+function boincuser_control($uid = NULL, $action = NULL) {
+  if (!$uid OR !$account = user_load($uid)) {
+    // What are you even doing here...
+    return FALSE;
+  }
+  switch ($action) {
+  case 'ban':
+    $penalty_period = variable_get('boinc_penalty_period', 7*24*60*60);
+    $boincuser_record = array(
+      'uid' => $uid,
+      'penalty_expiration' => time() + $penalty_period,
+    );
+    drupal_write_record('boincuser', $boincuser_record, 'uid');
+    $community_role = array_search('community member', user_roles(true));
+    if (isset($account->roles[$community_role])) {
+      unset($account->roles[$community_role]);
+      user_save($account, array('roles' => $account->roles));
+    }
+    break;
+  case 'lift-ban':
+    $boincuser_record = array(
+      'uid' => $uid,
+      'penalty_expiration' => 0,
+    );
+    drupal_write_record('boincuser', $boincuser_record, 'uid');
+    $community_role = array_search('community member', user_roles(true));
+    if (!isset($account->roles[$community_role])) {
+      $account->roles[$community_role] = 'community member';
+      user_save($account, array('roles' => $account->roles));
+    }
+    break;
+  default:
+  }
+  drupal_goto("user/{$account->uid}");
 }
 
 

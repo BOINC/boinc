@@ -14,6 +14,7 @@ function boinccore_admin_community(&$form_state) {
   $form = array();
   $default = array(
     'min_credit_to_post' => variable_get('boinc_comment_min_credit', 0),
+    'penalty_period' => variable_get('boinc_penalty_period', 7*24*60*60),
   );
   
   // Define the form
@@ -23,6 +24,13 @@ function boinccore_admin_community(&$form_state) {
     '#default_value' => $default['min_credit_to_post'],
     '#description' => t('Set a minimum threshold of credit a user must have
       earned before being allowed to post comments and participate in forums.'),
+  );
+  $form['boinc_penalty_period'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Penalty period'),
+    '#default_value' => $default['penalty_period'],
+    '#description' => t('The amount of time (in seconds) that user privileges
+      are revoked when a user is banned from community participation.'),
   );
   
   return system_settings_form($form);

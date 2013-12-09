@@ -45,15 +45,23 @@ function boincuser_schema() {
         'type' => 'int',
         'unsigned' => TRUE,
         'not null' => TRUE,
-        'default' => 0
+        'default' => 0,
       ),
       'boinc_id' => array(
         'description' => t('The uid of the user in the BOINC database.'),
         'type' => 'int',      
         'unsigned' => TRUE,
         'not null' => TRUE,       
-        'default' => 0
-      )
+        'default' => 0,
+      ),
+      'penalty_expiration' => array(
+        'description' => t('A timestamp at which point any penalty period will
+          expire (i.e. restrictions on posting or community participation'),
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
     ),
     'primary key' => array(
       'uid', 'boinc_id'
@@ -64,4 +72,21 @@ function boincuser_schema() {
     )
   );
   return $schema;
+}
+
+/**
+ * Add penalty_expiration field to boincuser table
+ */
+function boincuser_update_6100() {
+  $result = array();
+  $spec = array(
+    'description' => 'A timestamp at which point any penalty period will
+          expire (i.e. restrictions on posting or community participation)',
+    'type' => 'int',
+    'unsigned' => TRUE,
+    'not null' => TRUE,
+    'default' => 0,
+  );
+  db_add_field($result, 'boincuser', 'penalty_expiration', $spec);
+  return $result;
 }
