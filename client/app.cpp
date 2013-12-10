@@ -1018,6 +1018,7 @@ void ACTIVE_TASK::set_task_state(int val, const char* where) {
     }
 }
 
+#ifndef SIM
 #ifdef NEW_CPU_THROTTLE
 #define THROTTLE_PERIOD 1.
 #ifdef _WIN32
@@ -1053,4 +1054,5 @@ void* throttler(void*) {
     }
     return 0;
 }
+#endif
 #endif
