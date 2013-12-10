@@ -763,6 +763,9 @@ void CDlgEventLog::GetWindowDimensions( wxPoint& position, wxSize& size ) {
     pConfig->Read(wxT("Width"), &iWidth, 640);
     pConfig->Read(wxT("Height"), &iHeight, 480);
 
+    // Guard against a rare situation where registry values are zero
+    if (iWidth < 50) iWidth = 640;
+    if (iHeight < 50) iHeight = 480;
     position.y = iTop;
     position.x = iLeft;
     size.x = iWidth;
