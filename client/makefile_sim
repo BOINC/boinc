@@ -60,6 +60,7 @@ OBJS = \
     ../lib/msg_log.o \
     ../lib/network.o \
     ../lib/notice.o \
+    ../lib/opencl_boinc.o \
     ../lib/parse.o \
     ../lib/prefs.o \
     ../lib/proxy_info.o \
