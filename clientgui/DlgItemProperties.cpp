@@ -128,6 +128,10 @@ bool CDlgItemProperties::RestoreState() {
     pConfig->Read(wxT("Width"), &iWidth, wxDefaultCoord);
     pConfig->Read(wxT("Height"), &iHeight, wxDefaultCoord);
 
+    // Guard against a rare situation where registry values are zero
+    if ((iWidth < 50) && (iWidth != wxDefaultCoord)) iWidth = wxDefaultCoord;
+    if ((iHeight < 50) && (iHeight != wxDefaultCoord)) iHeight = wxDefaultCoord;
+
 #ifndef __WXMAC__
     // Set size to saved values or defaults if no saved values
     SetSize(iWidth, iHeight);    

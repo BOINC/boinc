@@ -954,6 +954,9 @@ bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
             m_pConfig->Read(wxT("XPos"), &iLeft, 30);
             m_pConfig->Read(wxT("Width"), &iWidth, 800);
             m_pConfig->Read(wxT("Height"), &iHeight, 600);
+            // Guard against a rare situation where registry values are zero
+            if (iWidth < 50) iWidth = 800;
+            if (iHeight < 50) iHeight = 600;
         } else {
             m_pConfig->SetPath(wxT("/Simple"));
             m_pConfig->Read(wxT("YPos"), &iTop, 30);
