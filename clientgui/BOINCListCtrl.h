@@ -22,7 +22,7 @@
 #pragma interface "BOINCListCtrl.cpp"
 #endif
 
-#ifdef __WXMSW__
+#if defined(__WXMSW__) || defined(__WXGTK__)
 #define USE_NATIVE_LISTCONTROL 1
 #else
 #define USE_NATIVE_LISTCONTROL 0
