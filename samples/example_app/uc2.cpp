@@ -155,6 +155,14 @@ int main(int argc, char **argv) {
         if (strstr(argv[i], "trickle_up")) trickle_up = true;
         if (strstr(argv[i], "trickle_down")) trickle_down = true;
     }
+    retval = boinc_init();
+    if (retval) {
+        fprintf(stderr, "%s boinc_init returned %d\n",
+            boinc_msg_prefix(buf, sizeof(buf)), retval
+        );
+        exit(retval);
+    }
+
     fprintf(stderr, "%s app started; CPU time %f, flags:%s%s%s%s%s%s%s\n",
         boinc_msg_prefix(buf, sizeof(buf)),
         cpu_time,
@@ -166,14 +174,6 @@ int main(int argc, char **argv) {
         trickle_up?" trickle_up":"",
         trickle_down?" trickle_down":""
     );
-
-    retval = boinc_init();
-    if (retval) {
-        fprintf(stderr, "%s boinc_init returned %d\n",
-            boinc_msg_prefix(buf, sizeof(buf)), retval
-        );
-        exit(retval);
-    }
 
     // open the input file (resolve logical name first)
     //
