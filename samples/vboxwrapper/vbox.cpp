@@ -1903,7 +1903,7 @@ int VBOX_VM::set_cpu_usage(int percentage) {
     //
     fprintf(
         stderr,
-        "%s Setting cpu throttle for VM. (%d%%)\n",
+        "%s Setting CPU throttle for VM. (%d%%)\n",
         vboxwrapper_msg_prefix(buf, sizeof(buf)),
         percentage
     );
