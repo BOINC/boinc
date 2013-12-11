@@ -906,7 +906,7 @@ int main(int argc, char** argv) {
                                 stderr,
                                 "%s Status Report: Elapsed Time: '%f'\n",
                                 vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                                vm.job_duration
+                                elapsed_time
                             );
                         }
                         if (aid.global_prefs.daily_xfer_limit_mb) {
