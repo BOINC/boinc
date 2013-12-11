@@ -612,7 +612,7 @@ int VBOX_VM::create_vm() {
             fprintf(
                 stderr,
                 "%s Legacy fallback configuration detected. Disabling VirtualBox hardware acceleration support.\n"
-                "%s NOTE: Upgrading to BOINC 7.2 or better may re-enable hardware acceleration.\n",
+                "%s NOTE: Upgrading to BOINC 7.2.16 or better may re-enable hardware acceleration.\n",
                 buf,
                 buf
             );
