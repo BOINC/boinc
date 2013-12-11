@@ -719,14 +719,6 @@ RSS_FEED_OP::RSS_FEED_OP() {
     gui_http = &gstate.gui_http;
 }
 
-static void append_language(char* in, char* out) {
-	if (strstr(in, "?")) {
-		sprintf(out, "%s&amp;lang=%s", in, gstate.language);
-	} else {
-		sprintf(out, "%s?lang=%s", in, gstate.language);
-	}
-}
-
 // see if time to start new fetch
 //
 bool RSS_FEED_OP::poll() {
@@ -746,7 +738,7 @@ bool RSS_FEED_OP::poll() {
                 );
             }
             char url[1024];
-            append_language(rf.url, url);
+            strcpy(url, rf.url);
             gstate.gui_http.do_rpc(this, url, filename, true);
             break;
         }
