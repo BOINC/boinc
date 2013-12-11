@@ -97,6 +97,8 @@ struct VBOX_VM {
         // dynamically assigned
     bool headless;
 
+    int vm_pid;
+    int vboxsvc_pid;
 #ifdef _WIN32
     // the handle to the process for the VM
     // NOTE: we get a handle to the pid right after we parse it from the
@@ -108,9 +110,6 @@ struct VBOX_VM {
 
     // the handle to the vboxsvc process created by us in the sandbox'ed environment
     HANDLE vboxsvc_pid_handle;
-#else
-    // the pid to the VM process
-    int vm_pid;
 #endif
 
     int initialize();
@@ -155,8 +154,9 @@ struct VBOX_VM {
     int get_vm_network_bytes_received(double& received);
     int get_vm_process_id(int& process_id);
     int get_vm_exit_code(unsigned long& exit_code);
+    int get_vboxsvc_process_id(int& process_id);
 
-    int get_system_log(std::string& log);
+    int get_system_log(std::string& log, bool tail_only = true);
 
     int set_network_access(bool enabled);
     int set_cpu_usage(int percentage);

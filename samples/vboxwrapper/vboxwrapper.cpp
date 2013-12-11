@@ -738,7 +738,7 @@ int main(int argc, char** argv) {
                     elapsed_time,
                     checkpoint_cpu_time,
                     fraction_done,
-                    vm_pid,
+                    vm.vm_pid,
                     bytes_sent,
                     bytes_received
                 );
@@ -868,7 +868,7 @@ int main(int argc, char** argv) {
                 if (vm_pid) {
                     fprintf(
                         stderr,
-                        "%s Status Report: Detected VM Process ID: '%d' \n",
+                        "%s Status Report: Detected vboxheadless.exe/virtualbox.exe. (PID = %d)\n",
                         vboxwrapper_msg_prefix(buf, sizeof(buf)),
                         vm_pid
                     );

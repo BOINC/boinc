@@ -94,11 +94,11 @@ VBOX_VM::VBOX_VM() {
     pf_guest_port = 0;
     pf_host_port = 0;
     headless = true;
+    vm_pid = 0;
+    vboxsvc_pid = 0;
 #ifdef _WIN32
     vm_pid_handle = 0;
     vboxsvc_pid_handle = 0;
-#else
-    vm_pid = 0;
 #endif
 
     // Initialize default values
@@ -1471,14 +1471,27 @@ bool VBOX_VM::is_vm_machine_configuration_available() {
     string virtual_machine_slot_directory;
     string vm_machine_configuration_file;
     APP_INIT_DATA aid;
+    char buf[256];
 
     boinc_get_init_data_p(&aid);
     get_slot_directory(virtual_machine_slot_directory);
 
-    vm_machine_configuration_file = virtual_machine_slot_directory + "/" + vm_name + "/" + vm_name + ".vbox";
+    vm_machine_configuration_file = virtual_machine_slot_directory + "/" + vm_master_name + "/" + vm_master_name + ".vbox";
     if (boinc_file_exists(vm_machine_configuration_file.c_str())) {
+        fprintf(
+            stderr,
+            "%s Found VM Machine Settings file.\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf))
+        );
         return true;
     }
+    fprintf(
+        stderr,
+        "%s Failed to find VM Machine Settings file.\n"
+        "   Looking for '%s'\n",
+        vboxwrapper_msg_prefix(buf, sizeof(buf)),
+        vm_machine_configuration_file.c_str()
+    );
     return false;
 }
 
@@ -1747,18 +1760,8 @@ int VBOX_VM::get_vm_process_id(int& process_id) {
     if (pid.size() <= 0) {
         return ERR_NOT_FOUND;
     }
+
     process_id = atol(pid.c_str());
-
-#ifndef _WIN32
-    vm_pid = process_id;
-#else
-    vm_pid_handle = OpenProcess(
-        PROCESS_QUERY_INFORMATION | PROCESS_SET_INFORMATION,
-        FALSE,
-        process_id
-    );
-#endif
-
     return 0;
 }
 
@@ -1770,6 +1773,44 @@ int VBOX_VM::get_vm_exit_code(unsigned long& exit_code) {
 #else
     GetExitCodeProcess(vm_pid_handle, &exit_code);
 #endif
+    return 0;
+}
+
+int VBOX_VM::get_vboxsvc_process_id(int& process_id) {
+    string output;
+    string pid;
+    size_t pid_start;
+    size_t pid_end;
+    int retval;
+
+    retval = get_system_log(output, false);
+    if (retval) return retval;
+
+    // Output should look like this:
+    // VirtualBox COM Server 4.2.16 r86992 win.amd64 (Jul  4 2013 15:51:44) release log
+    // 00:00:00.000000 main     Log opened 2013-12-02T18:21:12.011052800Z
+    // 00:00:00.000000 main     OS Product: Windows 7
+    // 00:00:00.000000 main     OS Release: 6.1.7601
+    // 00:00:00.000000 main     OS Service Pack: 1
+    // 00:00:00.031000 main     DMI Product Name: To Be Filled By O.E.M.
+    // 00:00:00.046000 main     DMI Product Version: To Be Filled By O.E.M.
+    // 00:00:00.046000 main     Host RAM: 16311MB total, 9435MB available
+    // 00:00:00.046000 main     Executable: C:\Program Files\Oracle\VirtualBox\VBoxSVC.exe
+    // 00:00:00.046000 main     Process ID: 8992
+    // 00:00:00.046000 main     Package type: WINDOWS_64BITS_GENERIC
+    //
+    pid_start = output.find("Process ID: ");
+    if (pid_start == string::npos) {
+        return ERR_NOT_FOUND;
+    }
+    pid_start += 12;
+    pid_end = output.find("\n", pid_start);
+    pid = output.substr(pid_start, pid_end - pid_start);
+    if (pid.size() <= 0) {
+        return ERR_NOT_FOUND;
+    }
+
+    process_id = atol(pid.c_str());
     return 0;
 }
 
@@ -1845,13 +1886,13 @@ int VBOX_VM::get_remote_desktop_port() {
     return 0;
 }
 
-int VBOX_VM::get_system_log(string& log) {
+int VBOX_VM::get_system_log(string& log, bool tail_only) {
     string slot_directory;
     string virtualbox_system_log_src;
     string virtualbox_system_log_dst;
     string::iterator iter;
     char buf[256];
-    int retval = 0;
+    int retval = BOINC_SUCCESS;
 
     // Where should we copy temp files to?
     get_slot_directory(slot_directory);
@@ -1880,15 +1921,17 @@ int VBOX_VM::get_system_log(string& log) {
         }
 #endif
 
-        if (log.size() >= 16384) {
-            // Look for the next whole line of text.
-            iter = log.begin();
-            while (iter != log.end()) {
-                if (*iter == '\n') {
-                    log.erase(iter);
-                    break;
+        if (tail_only) {
+            if (log.size() >= 16384) {
+                // Look for the next whole line of text.
+                iter = log.begin();
+                while (iter != log.end()) {
+                    if (*iter == '\n') {
+                        log.erase(iter);
+                        break;
+                    }
+                    iter = log.erase(iter);
                 }
-                iter = log.erase(iter);
             }
         }
     } else {
@@ -2082,14 +2125,16 @@ void VBOX_VM::reset_vm_process_priority() {
 // to VBOX_USER_HOME which is required for running in the BOINC account-based
 // sandbox on Windows.
 int VBOX_VM::launch_vboxsvc() {
-    int retval = BOINC_SUCCESS;
+    int retval = ERR_EXEC;
 
 #ifdef _WIN32
     STARTUPINFO si;
     PROCESS_INFORMATION pi;
     APP_INIT_DATA aid;
-    char buf[256];
     string command;
+    char buf[256];
+    int pid;
+    HANDLE hVboxSvc = NULL;
 
     boinc_get_init_data_p(&aid);
 
@@ -2099,35 +2144,56 @@ int VBOX_VM::launch_vboxsvc() {
 
             if (vboxsvc_pid_handle) CloseHandle(vboxsvc_pid_handle);
 
-            memset(&si, 0, sizeof(si));
-            memset(&pi, 0, sizeof(pi));
+            get_vboxsvc_process_id(pid);
+            if (pid && pid != vboxsvc_pid) {
+                hVboxSvc = OpenProcess(PROCESS_QUERY_INFORMATION, FALSE, pid);
+                if (hVboxSvc) {
 
-            si.cb = sizeof(STARTUPINFO);
-            si.dwFlags |= STARTF_FORCEOFFFEEDBACK | STARTF_USESHOWWINDOW;
-            si.wShowWindow = SW_HIDE;
+                    fprintf(
+                        stderr,
+                        "%s Status Report: Detected vboxsvc.exe. (PID = %d)\n",
+                        vboxwrapper_msg_prefix(buf, sizeof(buf)),
+                        pid
+                    );
+                    vboxsvc_pid = pid;
+                    vboxsvc_pid_handle = hVboxSvc;
+                    retval = BOINC_SUCCESS;
 
-            command = "\"" + virtualbox_install_directory + "\\VBoxSVC.exe\" --logrotate 1 --logsize 1024000";
+                } else {
 
-            CreateProcess(NULL, (LPTSTR)command.c_str(), NULL, NULL, TRUE, CREATE_NO_WINDOW, NULL, NULL, &si, &pi);
+                    memset(&si, 0, sizeof(si));
+                    memset(&pi, 0, sizeof(pi));
 
-            if (pi.hThread) CloseHandle(pi.hThread);
-            if (pi.hProcess) {
-                fprintf(
-                    stderr,
-                    "%s Status Report: Launching vboxsvc.exe.\n",
-                    vboxwrapper_msg_prefix(buf, sizeof(buf))
-                );
-                vboxsvc_pid_handle = pi.hProcess;
-            } else {
-                fprintf(
-                    stderr,
-                    "%s Status Report: Launching vBoxsvc.exe failed! (%d).\n"
-                    "           Error: %s",
-                    vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                    GetLastError(),
-                    windows_format_error_string(GetLastError(), buf, sizeof(buf))
-                );
-                retval = ERR_EXEC;
+                    si.cb = sizeof(STARTUPINFO);
+                    si.dwFlags |= STARTF_FORCEOFFFEEDBACK | STARTF_USESHOWWINDOW;
+                    si.wShowWindow = SW_HIDE;
+
+                    command = "\"" + virtualbox_install_directory + "\\VBoxSVC.exe\" --logrotate 1 --logsize 1024000";
+
+                    CreateProcess(NULL, (LPTSTR)command.c_str(), NULL, NULL, TRUE, CREATE_NO_WINDOW, NULL, NULL, &si, &pi);
+
+                    if (pi.hThread) CloseHandle(pi.hThread);
+                    if (pi.hProcess) {
+                        fprintf(
+                            stderr,
+                            "%s Status Report: Launching vboxsvc.exe. (PID = %d)\n",
+                            vboxwrapper_msg_prefix(buf, sizeof(buf)),
+                            pi.dwProcessId
+                        );
+                        vboxsvc_pid = pi.dwProcessId;
+                        vboxsvc_pid_handle = pi.hProcess;
+                        retval = BOINC_SUCCESS;
+                    } else {
+                        fprintf(
+                            stderr,
+                            "%s Status Report: Launching vBoxsvc.exe failed!.\n"
+                            "           Error: %s",
+                            vboxwrapper_msg_prefix(buf, sizeof(buf)),
+                            windows_format_error_string(GetLastError(), buf, sizeof(buf))
+                        );
+                    }
+
+                }
             }
         }
     }
