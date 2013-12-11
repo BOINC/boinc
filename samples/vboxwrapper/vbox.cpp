@@ -1478,20 +1478,8 @@ bool VBOX_VM::is_vm_machine_configuration_available() {
 
     vm_machine_configuration_file = virtual_machine_slot_directory + "/" + vm_master_name + "/" + vm_master_name + ".vbox";
     if (boinc_file_exists(vm_machine_configuration_file.c_str())) {
-        fprintf(
-            stderr,
-            "%s Found VM Machine Settings file.\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf))
-        );
         return true;
     }
-    fprintf(
-        stderr,
-        "%s Failed to find VM Machine Settings file.\n"
-        "   Looking for '%s'\n",
-        vboxwrapper_msg_prefix(buf, sizeof(buf)),
-        vm_machine_configuration_file.c_str()
-    );
     return false;
 }
 
