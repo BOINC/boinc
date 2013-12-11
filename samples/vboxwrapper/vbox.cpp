@@ -383,7 +383,7 @@ void VBOX_VM::poll(bool log_state) {
     }
 }
 
-int VBOX_VM::register_vm() {
+int VBOX_VM::create_vm() {
     string command;
     string output;
     string virtual_machine_slot_directory;
@@ -403,7 +403,7 @@ int VBOX_VM::register_vm() {
 
     fprintf(
         stderr,
-        "%s Registering VM. (%s, slot#%d) \n",
+        "%s Create VM. (%s, slot#%d) \n",
         vboxwrapper_msg_prefix(buf, sizeof(buf)),
         vm_name.c_str(),
         aid.slot
@@ -418,7 +418,7 @@ int VBOX_VM::register_vm() {
     command += "--ostype \"" + os_name + "\" ";
     command += "--register";
     
-    retval = vbm_popen(command, output, "register");
+    retval = vbm_popen(command, output, "create");
     if (retval) return retval;
 
     // Tweak the VM's Description
@@ -608,11 +608,13 @@ int VBOX_VM::register_vm() {
         if (vm_cpu_count == "1") {
             // Keep this around for older clients.  Removing this for older clients might
             // lead to a machine that will only return crashed VM reports.
+            boinc_msg_prefix(buf, sizeof(buf));
             fprintf(
                 stderr,
                 "%s Legacy fallback configuration detected. Disabling VirtualBox hardware acceleration support.\n"
-                "%s NOTE: Upgrading to BOINC 7.2 or better may re-enable hardware acceleration.\n",
-                boinc_msg_prefix(buf, sizeof(buf))
+                "%s NOTE: Upgrading to BOINC 7.2.16 or better may re-enable hardware acceleration.\n",
+                buf,
+                buf
             );
             disable_acceleration = true;
         }
@@ -832,6 +834,43 @@ int VBOX_VM::register_vm() {
     return 0;
 }
 
+int VBOX_VM::register_vm() {
+    string command;
+    string output;
+    string virtual_machine_slot_directory;
+    APP_INIT_DATA aid;
+    char buf[256];
+    int retval;
+
+    boinc_get_init_data_p(&aid);
+    get_slot_directory(virtual_machine_slot_directory);
+
+
+    // Reset VM name in case it was changed while deregistering a stale VM
+    //
+    vm_name = vm_master_name;
+
+
+    fprintf(
+        stderr,
+        "%s Register VM. (%s, slot#%d) \n",
+        vboxwrapper_msg_prefix(buf, sizeof(buf)),
+        vm_name.c_str(),
+        aid.slot
+    );
+
+
+    // Register the VM
+    //
+    command  = "registervm ";
+    command += "\"" + virtual_machine_slot_directory + "/" + vm_name + "/" + vm_name + ".vbox\" ";
+    
+    retval = vbm_popen(command, output, "register");
+    if (retval) return retval;
+
+    return 0;
+}
+
 int VBOX_VM::deregister_vm(bool delete_media) {
     string command;
     string output;
@@ -984,15 +1023,20 @@ int VBOX_VM::run(double elapsed_time) {
     int retval;
 
     if (!is_registered()) {
-        if (is_hdd_registered()) {
-            // Handle the case where a previous instance of the same projects VM
-            // was already initialized for the current slot directory but aborted
-            // while the task was suspended and unloaded from memory.
-            retval = deregister_stale_vm();
+        if (is_vm_machine_configuration_available()) {
+            retval = register_vm();
+            if (retval) return retval;
+        } else {
+            if (is_hdd_registered()) {
+                // Handle the case where a previous instance of the same projects VM
+                // was already initialized for the current slot directory but aborted
+                // while the task was suspended and unloaded from memory.
+                retval = deregister_stale_vm();
+                if (retval) return retval;
+            }
+            retval = create_vm();
             if (retval) return retval;
         }
-        retval = register_vm();
-        if (retval) return retval;
     }
 
     // The user has requested that we exit after registering the VM, so return an
@@ -1419,6 +1463,21 @@ bool VBOX_VM::is_registered() {
             // Error message not found in text
             return true;
         }
+    }
+    return false;
+}
+
+bool VBOX_VM::is_vm_machine_configuration_available() {
+    string virtual_machine_slot_directory;
+    string vm_machine_configuration_file;
+    APP_INIT_DATA aid;
+
+    boinc_get_init_data_p(&aid);
+    get_slot_directory(virtual_machine_slot_directory);
+
+    vm_machine_configuration_file = virtual_machine_slot_directory + "/" + vm_name + "/" + vm_name + ".vbox";
+    if (boinc_file_exists(vm_machine_configuration_file.c_str())) {
+        return true;
     }
     return false;
 }
@@ -1901,7 +1960,7 @@ int VBOX_VM::set_cpu_usage(int percentage) {
     //
     fprintf(
         stderr,
-        "%s Setting cpu throttle for VM. (%d%%)\n",
+        "%s Setting CPU throttle for VM. (%d%%)\n",
         vboxwrapper_msg_prefix(buf, sizeof(buf)),
         percentage
     );

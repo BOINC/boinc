@@ -45,10 +45,10 @@ function assign_badge($user, $badge) {
     $now = time();
     $bbu = BoincBadgeUser::lookup("user_id=$user->id and badge_id=$badge->id");
     if ($bbu) {
-        echo "reassigning $badge->name to $user->id\n";
+        //echo "reassigning $badge->name to $user->id\n";
         $bbu->update("reassign_time=$now where user_id=$user->id and badge_id=$badge->id");
     } else {
-        echo "assigning $badge->name to $user->id\n";
+        //echo "assigning $badge->name to $user->id\n";
         BoincBadgeUser::insert("(create_time, user_id, badge_id, reassign_time) values ($now, $user->id, $badge->id, $now)");
     }
 }
@@ -56,7 +56,7 @@ function assign_badge($user, $badge) {
 function unassign_badges($user, $badges) {
     $list = null;
     foreach($badges as $badge) {
-        echo "unassigning $badge->name to $user->id\n";
+        //echo "unassigning $badge->name to $user->id\n";
         if ($list) {
             $list .= ",$badge->id";
         } else {

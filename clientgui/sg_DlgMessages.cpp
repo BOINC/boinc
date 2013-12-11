@@ -597,6 +597,10 @@ void CDlgMessages::RestoreWindowDimensions() {
     pConfig->Read(wxT("WindowIconized"), &bWindowIconized, false);
     pConfig->Read(wxT("WindowMaximized"), &bWindowMaximized, false);
 
+    // Guard against a rare situation where registry values are zero
+    if (iWidth < 50) iWidth = 640;
+    if (iHeight < 50) iHeight = 480;
+
 #ifndef __WXMAC__
 
     // If either co-ordinate is less then 0 then set it equal to 0 to ensure

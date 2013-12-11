@@ -7,19 +7,21 @@ msgstr ""
 "Project-Id-Version: BOINC web 2013/08/24\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2013-11-12 00:00 PST\n"
-"PO-Revision-Date: 2013-08-24 13:43+0900\n"
-"Last-Translator: Lee Kangsan <treppolse@gmail.com>\n"
+"PO-Revision-Date: 2013-12-09 03:37+0000\n"
+"Last-Translator: Kangsan Lee <treppolse@gmail.com>\n"
 "Language-Team: SETIKAH@KOREA\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.5.7\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-SearchPath-0: doc\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-KeywordsList: tra\n"
+"X-POOTLE-MTIME: 1386560274.0\n"
 
 #: docutil.php:21
 msgid "Search"
@@ -39,29 +41,31 @@ msgid ""
 "We recommend that you also install VirtualBox, so your computer can work on "
 "science projects that require it."
 msgstr ""
+"저희는 여러분이 VirtualBox도 같이 설치하길 권장합니다. 그렇게 하면 해당 기능을 요구하는 과학 프로젝트 작업도 수행할 수 "
+"있습니다."
 
 #: download.php:41
 msgid "Learn more about VirtualBox."
-msgstr ""
+msgstr "VirtualBox에 대해서 알아봅니다."
 
 #: download.php:51
 msgid "Download BOINC + VirtualBox"
-msgstr ""
+msgstr "BOINC + VirtualBox 다운로드"
 
 #: download.php:54 download.php:69
 #, php-format
 msgid "for %s"
-msgstr ""
+msgstr "%s용"
 
 #: download.php:57 download.php:72
 #, php-format
 msgid "BOINC version %s"
-msgstr ""
+msgstr "BOINC 버전 %s"
 
 #: download.php:59
 #, php-format
 msgid "VirtualBox version %s"
-msgstr ""
+msgstr "VirtualBox 버전 %s"
 
 # #######################################
 # download.php
@@ -75,12 +79,14 @@ msgid ""
 "projects like SETI@home, Climateprediction.net, Rosetta@home, World "
 "Community Grid, and many others."
 msgstr ""
+"BOINC는 SETI@home, Climateprediction.net, Rosetta@home, World Community Grid "
+"그리고 다른 많은 과학 프로젝트들에게 여러분의 컴퓨터 대기 시간을 기여하도록 하는 프로그램입니다."
 
 #: download.php:125
 msgid ""
 "After installing BOINC on your computer, you can connect it to as many of "
 "these projects as you like."
-msgstr ""
+msgstr "컴퓨터에 BOINC를 설치한 후에 여러분이 선호하는 수많은 프로젝트에 연결하실 수 있습니다."
 
 #: download.php:127
 msgid ""
@@ -92,7 +98,7 @@ msgstr "여러분은 이 소프트웨어를 여러분이 소유한 컴퓨터 혹
 msgid ""
 "We recommend that you download BOINC from the Google Play Store or Amazon "
 "Appstore, not from here."
-msgstr ""
+msgstr "이곳보다는 Google Play Store 또는 Amazon Appstore에서 BOINC를 다운로드하시길 권장합니다."
 
 #: download.php:167
 msgid "System requirements"
@@ -255,18 +261,20 @@ msgid ""
 "diseases, study global warming, discover pulsars, and do many other types of "
 "scientific research.  It's safe, secure, and easy:"
 msgstr ""
+"질병 치료, 지구 온난화 연구, 중성자별 발견 그 외에 또 많은 종류의 과학연구를 위해 여러분 컴퓨터(윈도우, 맥, 리눅스, "
+"안드로이드)의 대기 시간을 사용하십시오. 이 것은 안전하고 보안이 철저하며 쉽습니다:"
 
 #: index.php:96
 msgid "Choose projects"
-msgstr ""
+msgstr "프로젝트를 선택하세요"
 
 #: index.php:97
 msgid "Download BOINC software"
-msgstr ""
+msgstr "BOINC 소프트웨어를 다운로드하세요"
 
 #: index.php:98
 msgid "Enter an email address and password."
-msgstr ""
+msgstr "이메일 주소와 비밀번호를 입력하세요."
 
 #: index.php:102
 #, php-format

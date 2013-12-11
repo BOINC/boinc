@@ -70,9 +70,11 @@ using std::max;
 CLIENT_STATE gstate;
 COPROCS coprocs;
 
+#ifndef SIM
 #ifdef NEW_CPU_THROTTLE
 THREAD_LOCK client_mutex;
 THREAD throttle_thread;
+#endif
 #endif
 
 CLIENT_STATE::CLIENT_STATE()

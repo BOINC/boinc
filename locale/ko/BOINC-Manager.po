@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 7.2.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-11-22 00:00-0800\n"
-"PO-Revision-Date: 2013-09-01 00:11+0000\n"
+"PO-Revision-Date: 2013-12-09 05:24+0000\n"
 "Last-Translator: Kangsan Lee <treppolse@gmail.com>\n"
 "Language-Team: SETIKAH@KOREA\n"
 "Language: ko\n"
@@ -23,7 +23,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCGIT\\boinc\n"
-"X-POOTLE-MTIME: 1377994275.0\n"
+"X-POOTLE-MTIME: 1386566695.0\n"
 
 #: AccountInfoPage.cpp:387
 #, c-format
@@ -124,7 +124,7 @@ msgstr ""
 
 #: AccountInfoPage.cpp:532
 msgid "Account manager web site"
-msgstr ""
+msgstr "계정 관리자 웹사이트"
 
 #: AccountInfoPage.cpp:574 WelcomePage.cpp:348
 msgid "Add project"
@@ -140,17 +140,16 @@ msgstr "계정 관리자 사용"
 
 #: AccountInfoPage.cpp:585
 msgid "Please enter a user name."
-msgstr ""
+msgstr "사용자 이름을 입력하십시오."
 
 #: AccountInfoPage.cpp:587
-#, fuzzy
 msgid "Please enter an email address."
-msgstr "email 주소를 입력해 주세요"
+msgstr "이메일 주소를 입력하십시오."
 
 #: AccountInfoPage.cpp:597
 #, c-format
 msgid "Please enter a password of at least %d characters."
-msgstr ""
+msgstr "최소 %d자로 비밀번호를 입력하세요."
 
 #: AccountInfoPage.cpp:607
 msgid ""
@@ -171,19 +170,19 @@ msgstr ""
 
 #: AccountManagerInfoPage.cpp:279
 msgid "Account manager details:"
-msgstr ""
+msgstr "계정 관리자 상세 정보:"
 
 #: AccountManagerInfoPage.cpp:283
 msgid "Account manager &URL:"
-msgstr ""
+msgstr "계정 관리자 &URL:"
 
 #: AccountManagerInfoPage.cpp:287
 msgid "Open web page"
-msgstr ""
+msgstr "웹 페이지 열기"
 
 #: AccountManagerInfoPage.cpp:290
 msgid "Visit this account manager's web site"
-msgstr ""
+msgstr "해당 계정 관리자 웹사이트 방문하기"
 
 #: AccountManagerProcessingPage.cpp:187 AccountManagerPropertiesPage.cpp:193
 #, c-format
@@ -493,7 +492,7 @@ msgstr "%s에 대한 정보 보여주기"
 #: AdvancedFrame.cpp:657 sg_BoincSimpleFrame.cpp:220
 #, c-format
 msgid "%s &web site"
-msgstr ""
+msgstr "%s 웹 사이트(&W)"
 
 #: AdvancedFrame.cpp:663 sg_BoincSimpleFrame.cpp:226
 #, c-format
@@ -1005,6 +1004,9 @@ msgid ""
 "\n"
 "Click Finish to close."
 msgstr ""
+"나중에 다시 시도하세요.\n"
+"\n"
+"닫으려면 완료를 클릭하세요."
 
 #: CompletionErrorPage.cpp:225 CompletionPage.cpp:222 CompletionPage.cpp:242
 #: CompletionPage.cpp:273
@@ -1347,7 +1349,7 @@ msgstr "다중 프로세서 시스템일 때 최대 사용량"
 #: DlgAdvPreferencesBase.cpp:346
 #, no-c-format
 msgid "% of the processors (0 means ignore this setting)"
-msgstr ""
+msgstr "프로세서 사용량 %(0일 경우 이 설정을 무시합니다)"
 
 #: DlgAdvPreferencesBase.cpp:349 DlgAdvPreferencesBase.cpp:604
 #: DlgAdvPreferencesBase.cpp:626 DlgAdvPreferencesBase.cpp:647
@@ -3706,7 +3708,7 @@ msgstr "프로젝트 명령"
 #: sg_ProjectPanel.cpp:267
 #, c-format
 msgid "Pop up a menu of web sites for project %s"
-msgstr ""
+msgstr "메뉴에서 %s 프로젝트 웹 사이트를 띄웁니다"
 
 #: sg_ProjectPanel.cpp:269
 #, c-format

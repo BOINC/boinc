@@ -116,6 +116,7 @@ struct VBOX_VM {
     int initialize();
     void poll(bool log_state = true);
 
+    int create_vm();
     int register_vm();
     int deregister_vm(bool delete_media);
     int deregister_stale_vm();
@@ -135,6 +136,7 @@ struct VBOX_VM {
 
     bool is_system_ready(std::string& message);
     bool is_registered();
+    bool is_vm_machine_configuration_available();
     bool is_hdd_registered();
     bool is_extpack_installed();
     bool is_logged_failure_vm_extensions_disabled();
