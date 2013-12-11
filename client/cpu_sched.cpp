@@ -1102,8 +1102,11 @@ static inline void increment_pending_usage(
     for (int i=0; i<usage; i++) {
         int j = rp->coproc_indices[i];
         cp->pending_usage[j] += x;
-        if (cp->pending_usage[j] > 1) {
-            if (log_flags.coproc_debug) {
+        if (log_flags.coproc_debug) {
+			msg_printf(rp->project, MSG_INFO,
+				"[coproc] %s instance %d; %f pending for %s", cp->type, i, x, rp->name
+			);
+			if (cp->pending_usage[j] > 1) {
                 msg_printf(rp->project, MSG_INFO,
                     "[coproc] huh? %s %d %s pending usage > 1",
                     cp->type, i, rp->name
@@ -1128,8 +1131,8 @@ static inline bool current_assignment_ok(
         if (cp->usage[j] + x > 1) {
             if (log_flags.coproc_debug) {
                 msg_printf(rp->project, MSG_INFO,
-                    "[coproc] %s device %d already assigned: task %s",
-                    cp->type, j, rp->name
+                    "[coproc] %s %f instance of device %d already assigned to task %s",
+                    cp->type, x, j, rp->name
                 );
             }
             return false;
@@ -1148,8 +1151,8 @@ static inline void confirm_current_assignment(
         cp->pending_usage[j] -=x;
         if (log_flags.coproc_debug) {
             msg_printf(rp->project, MSG_INFO,
-                "[coproc] %s instance %d: confirming for %s",
-                cp->type, j, rp->name
+                "[coproc] %s instance %d: confirming %f instance for %s",
+                cp->type, j, x, rp->name
             );
         }
 #if DEFER_ON_GPU_AVAIL_RAM
