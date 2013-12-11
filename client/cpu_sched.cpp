@@ -84,6 +84,13 @@ using std::list;
 
 static double rec_sum;
 
+// is the GPU task running or suspended (due to CPU throttling)
+//
+static inline bool is_gpu_task_running(ACTIVE_TASK* atp) {
+    int s = atp->task_state();
+    return s == PROCESS_EXECUTING || s == PROCESS_SUSPENDED;
+}
+
 // used in make_run_list() to keep track of resources used
 // by jobs tentatively scheduled so far
 //
@@ -181,7 +188,7 @@ struct PROC_RESOURCES {
             bool dont_reserve =
                 rsc_work_fetch[rt].has_exclusions
                 && atp != NULL
-                && atp->task_state() == PROCESS_EXECUTING;
+                && is_gpu_task_running(atp);
             if (!dont_reserve) {
                 reserve_coprocs(*rp);
             }
@@ -1058,13 +1065,15 @@ void CLIENT_STATE::append_unfinished_time_slice(vector<RESULT*> &run_list) {
 
 ////////// Coprocessor scheduling ////////////////
 //
-// theory of operations:
+// theory of operation:
 //
 // Jobs can use one or more integral instances, or a fractional instance
 //
 // RESULT::coproc_indices
 //    for a running job, the coprocessor instances it's using
 // COPROC::pending_usage[]: for each instance, its usage by running jobs
+//    Note: "running" includes jobs suspended due to CPU throttling.
+//    That's the only kind of suspended GPU job.
 // CORPOC::usage[]: for each instance, its usage
 //
 // enforce_schedule() calls assign_coprocs(),
@@ -1074,7 +1083,7 @@ void CLIENT_STATE::append_unfinished_time_slice(vector<RESULT*> &run_list) {
 //
 // assign_coprocs():
 //     clear usage and pending_usage of all instances
-//     for each running job J
+//     for each running/suspended job J
 //         increment pending_usage for the instances assigned to J
 //     for each scheduled job J
 //         if J is running
@@ -1386,9 +1395,7 @@ static inline void assign_coprocs(vector<RESULT*>& jobs) {
         }
         ACTIVE_TASK* atp = gstate.lookup_active_task_by_result(rp);
         if (!atp) continue;
-        switch (atp->task_state()) {
-		case PROCESS_EXECUTING:
-		case PROCESS_SUSPENDED:		// because of CPU throttling
+        if (is_gpu_task_running(atp)) {
 			increment_pending_usage(rp, usage, cp);
 		}
     }
@@ -1409,7 +1416,7 @@ static inline void assign_coprocs(vector<RESULT*>& jobs) {
 
         ACTIVE_TASK* atp = gstate.lookup_active_task_by_result(rp);
         bool defer_sched;
-        if (atp && atp->task_state() == PROCESS_EXECUTING) {
+        if (atp && is_gpu_task_running(atp)) {
             if (current_assignment_ok(rp, usage, cp, defer_sched)) {
                 confirm_current_assignment(rp, usage, cp);
                 job_iter++;
