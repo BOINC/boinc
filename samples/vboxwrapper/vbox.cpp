@@ -1471,7 +1471,6 @@ bool VBOX_VM::is_vm_machine_configuration_available() {
     string virtual_machine_slot_directory;
     string vm_machine_configuration_file;
     APP_INIT_DATA aid;
-    char buf[256];
 
     boinc_get_init_data_p(&aid);
     get_slot_directory(virtual_machine_slot_directory);
@@ -2121,7 +2120,7 @@ int VBOX_VM::launch_vboxsvc() {
     APP_INIT_DATA aid;
     string command;
     char buf[256];
-    int pid;
+    int pid = 0;
     HANDLE hVboxSvc = NULL;
 
     boinc_get_init_data_p(&aid);
@@ -2133,55 +2132,53 @@ int VBOX_VM::launch_vboxsvc() {
             if (vboxsvc_pid_handle) CloseHandle(vboxsvc_pid_handle);
 
             get_vboxsvc_process_id(pid);
-            if (pid && pid != vboxsvc_pid) {
-                hVboxSvc = OpenProcess(PROCESS_QUERY_INFORMATION, FALSE, pid);
-                if (hVboxSvc) {
+            if (pid) hVboxSvc = OpenProcess(PROCESS_QUERY_INFORMATION, FALSE, pid);
+            if (pid && hVboxSvc) {
+                
+                fprintf(
+                    stderr,
+                    "%s Status Report: Detected vboxsvc.exe. (PID = %d)\n",
+                    vboxwrapper_msg_prefix(buf, sizeof(buf)),
+                    pid
+                );
+                vboxsvc_pid = pid;
+                vboxsvc_pid_handle = hVboxSvc;
+                retval = BOINC_SUCCESS;
 
+            } else {
+
+                memset(&si, 0, sizeof(si));
+                memset(&pi, 0, sizeof(pi));
+
+                si.cb = sizeof(STARTUPINFO);
+                si.dwFlags |= STARTF_FORCEOFFFEEDBACK | STARTF_USESHOWWINDOW;
+                si.wShowWindow = SW_HIDE;
+
+                command = "\"" + virtualbox_install_directory + "\\VBoxSVC.exe\" --logrotate 1 --logsize 1024000";
+
+                CreateProcess(NULL, (LPTSTR)command.c_str(), NULL, NULL, TRUE, CREATE_NO_WINDOW, NULL, NULL, &si, &pi);
+
+                if (pi.hThread) CloseHandle(pi.hThread);
+                if (pi.hProcess) {
                     fprintf(
                         stderr,
-                        "%s Status Report: Detected vboxsvc.exe. (PID = %d)\n",
+                        "%s Status Report: Launching vboxsvc.exe. (PID = %d)\n",
                         vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                        pid
+                        pi.dwProcessId
                     );
-                    vboxsvc_pid = pid;
-                    vboxsvc_pid_handle = hVboxSvc;
+                    vboxsvc_pid = pi.dwProcessId;
+                    vboxsvc_pid_handle = pi.hProcess;
                     retval = BOINC_SUCCESS;
-
                 } else {
-
-                    memset(&si, 0, sizeof(si));
-                    memset(&pi, 0, sizeof(pi));
-
-                    si.cb = sizeof(STARTUPINFO);
-                    si.dwFlags |= STARTF_FORCEOFFFEEDBACK | STARTF_USESHOWWINDOW;
-                    si.wShowWindow = SW_HIDE;
-
-                    command = "\"" + virtualbox_install_directory + "\\VBoxSVC.exe\" --logrotate 1 --logsize 1024000";
-
-                    CreateProcess(NULL, (LPTSTR)command.c_str(), NULL, NULL, TRUE, CREATE_NO_WINDOW, NULL, NULL, &si, &pi);
-
-                    if (pi.hThread) CloseHandle(pi.hThread);
-                    if (pi.hProcess) {
-                        fprintf(
-                            stderr,
-                            "%s Status Report: Launching vboxsvc.exe. (PID = %d)\n",
-                            vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                            pi.dwProcessId
-                        );
-                        vboxsvc_pid = pi.dwProcessId;
-                        vboxsvc_pid_handle = pi.hProcess;
-                        retval = BOINC_SUCCESS;
-                    } else {
-                        fprintf(
-                            stderr,
-                            "%s Status Report: Launching vBoxsvc.exe failed!.\n"
-                            "           Error: %s",
-                            vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                            windows_format_error_string(GetLastError(), buf, sizeof(buf))
-                        );
-                    }
-
+                    fprintf(
+                        stderr,
+                        "%s Status Report: Launching vboxsvc.exe failed!.\n"
+                        "           Error: %s",
+                        vboxwrapper_msg_prefix(buf, sizeof(buf)),
+                        windows_format_error_string(GetLastError(), buf, sizeof(buf))
+                    );
                 }
+
             }
         }
     }
