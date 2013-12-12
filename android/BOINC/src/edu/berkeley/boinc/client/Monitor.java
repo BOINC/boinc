@@ -47,7 +47,6 @@ import edu.berkeley.boinc.AppPreferences;
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.rpc.CcState;
 import edu.berkeley.boinc.rpc.CcStatus;
-import edu.berkeley.boinc.rpc.DeviceStatus;
 import edu.berkeley.boinc.rpc.GlobalPreferences;
 import edu.berkeley.boinc.rpc.ProjectInfo;
 import edu.berkeley.boinc.rpc.Transfer;
@@ -234,7 +233,7 @@ public class Monitor extends Service {
 		for (ProjectInfo project: allProjects) {
 			if(project.platforms.contains(platform)) {
 				androidProjects.add(project);
-			} 
+			}
 		}
 		
 		// set list in ClientStatus
@@ -339,6 +338,17 @@ public class Monitor extends Service {
 	public String getAuthFilePath(){
 		return boincWorkingDir + fileNameGuiAuthentication;
 	}
+	
+	/**
+	 * Returns DeviceStatus class. Initializes it, if necessary.
+	 * @return device status class. containing the current status data
+	 */
+	public DeviceStatus getDeviceStatus() {
+		if(deviceStatus == null) {
+			deviceStatus = new DeviceStatus(getApplicationContext());
+		}
+		return deviceStatus;
+	}
 // --end-- public methods for Activities
     
 // multi-threaded frequent information polling
@@ -351,6 +361,110 @@ public class Monitor extends Service {
 			updateStatus();
 		}
 	}
+	
+	/**
+	 * Reports current device status to client and reads current client status.
+	 * Updates ClientStatus and fires Broadcast.
+	 * Called frequently to poll current status.
+	 */
+    private void updateStatus(){
+		// check whether RPC client connection is alive
+		if(!clientInterface.connectionAlive()) {
+			if(clientSetup()) { // start setup routine
+				// interact with client only if connection established successfully
+				reportDeviceStatus();
+				readClientStatus(true); // read initial data
+			}
+		}
+		
+    	if(!screenOn && screenOffStatusOmitCounter < deviceStatusIntervalScreenOff) screenOffStatusOmitCounter++; // omit status reporting according to configuration
+    	else {
+    		// screen is on, or omit counter reached limit
+    		if(clientInterface.connectionAlive()) {
+    			reportDeviceStatus();
+    			readClientStatus(false); // readClientStatus is also required when screen is off, otherwise no wakeLock acquisition.
+    		}
+    	}
+    }
+    
+    /**
+     * Reads client status via RPCs
+     * Optimized to retrieve only subset of information (required to determine wakelock state) if screen is turned off
+     * @param forceCompleteUpdate forces update of entire status information, regardless of screen status
+     */
+    private void readClientStatus(Boolean forceCompleteUpdate) {
+    	try{
+    		// read ccStatus and adjust wakelocks and service state independently of screen status
+    		// wake locks and foreground enabled when Client is not suspended, therefore also during
+    		// idle.
+    		CcStatus status = clientInterface.getCcStatus();
+    		// treat cpu throttling as if it was computing
+    		Boolean computing = (status.task_suspend_reason == BOINCDefs.SUSPEND_NOT_SUSPENDED) || (status.task_suspend_reason == BOINCDefs.SUSPEND_REASON_CPU_THROTTLE);
+    		if(Logging.VERBOSE) Log.d(Logging.TAG,"readClientStatus(): computation enabled: " + computing);
+			Monitor.getClientStatus().setWifiLock(computing);
+			Monitor.getClientStatus().setWakeLock(computing);
+			ClientNotification.getInstance(getApplicationContext()).setForeground(computing, this);
+    		
+			// complete status read, depending on screen status
+    		// screen off: only read computing status to adjust wakelock, do not send broadcast
+    		// screen on: read complete status, set ClientStatus, send broadcast
+			// forceCompleteUpdate: read complete status, independently of screen setting
+	    	if(screenOn || forceCompleteUpdate) {
+	    		// complete status read, with broadcast
+				if(Logging.VERBOSE) Log.d(Logging.TAG, "readClientStatus(): screen on, get complete status");
+				CcState state = clientInterface.getState();
+				ArrayList<Transfer>  transfers = clientInterface.getFileTransfers();
+				AcctMgrInfo acctMgrInfo = clientInterface.getAcctMgrInfo();
+				
+				if( (status != null) && (state != null) && (state.results != null) && (state.projects != null) && (transfers != null) && (state.host_info != null) && (acctMgrInfo != null)) {
+					Monitor.getClientStatus().setClientStatus(status, state.results, state.projects, transfers, state.host_info, acctMgrInfo);
+					// Update status bar notification
+					ClientNotification.getInstance(getApplicationContext()).update();
+				} else {
+					String nullValues = "";
+					try{
+						if(state == null) nullValues += "state,";
+						if(state.results == null) nullValues += "state.results,";
+						if(state.projects == null) nullValues += "state.projects,";
+						if(transfers == null) nullValues += "transfers,";
+						if(state.host_info == null) nullValues += "state.host_info,";
+						if(acctMgrInfo == null) nullValues += "acctMgrInfo,";
+					} catch (NullPointerException e) {};
+					if(Logging.ERROR) Log.e(Logging.TAG, "readClientStatus(): connection problem, null: " + nullValues);
+				}
+				
+				// check whether monitor is still intended to update, if not, skip broadcast and exit...
+				if(updateBroadcastEnabled) {
+			        Intent clientStatus = new Intent();
+			        clientStatus.setAction("edu.berkeley.boinc.clientstatus");
+			        getApplicationContext().sendBroadcast(clientStatus);
+				}
+	    	} 
+			
+		}catch(Exception e) {
+			if(Logging.ERROR) Log.e(Logging.TAG, "Monitor.readClientStatus excpetion: " + e.getMessage(),e);
+		}
+    }
+    
+    // reports current device status to the client via rpc
+    // client uses data to enforce preferences, e.g. suspend on battery
+    /**
+     * Reports current device status to the client via RPC
+     * BOINC client uses this data to enforce preferences, e.g. suspend battery but requires information only/best available through Java API calls.
+     */
+    private void reportDeviceStatus() {
+		if(Logging.VERBOSE) Log.d(Logging.TAG, "reportDeviceStatus()");
+    	try{
+	    	// set devices status
+			if(deviceStatus != null) { // make sure deviceStatus is initialized
+				Boolean reportStatusSuccess = clientInterface.reportDeviceStatus(deviceStatus.update()); // transmit device status via rpc
+				if(reportStatusSuccess) screenOffStatusOmitCounter = 0;
+				else if(Logging.DEBUG) Log.d(Logging.TAG,"reporting device status returned false.");
+			} else if(Logging.WARNING) Log.w(Logging.TAG,"reporting device status failed, wrapper not initialized.");
+		}catch(Exception e) {
+			if(Logging.ERROR) Log.e(Logging.TAG, "Monitor.reportDeviceStatus excpetion: " + e.getMessage());
+		}
+    }
 // --end-- multi-threaded frequent information polling
 	
 // BOINC client installation and run-time management
@@ -616,111 +730,6 @@ public class Monitor extends Service {
 		}
 	    return archAssetsDirectory;
 	}
-	
-	/**
-	 * Reports current device status to client and reads current client status.
-	 * Updates ClientStatus and fires Broadcast.
-	 * Called frequently to poll current status.
-	 */
-    private void updateStatus(){
-		// check whether RPC client connection is alive
-		if(!clientInterface.connectionAlive()) {
-			if(clientSetup()) { // start setup routine
-				// interact with client only if connection established successfully
-				reportDeviceStatus();
-				readClientStatus(true); // read initial data
-			}
-		}
-		
-    	if(!screenOn && screenOffStatusOmitCounter < deviceStatusIntervalScreenOff) screenOffStatusOmitCounter++; // omit status reporting according to configuration
-    	else {
-    		// screen is on, or omit counter reached limit
-    		if(clientInterface.connectionAlive()) {
-    			reportDeviceStatus();
-    			readClientStatus(false); // readClientStatus is also required when screen is off, otherwise no wakeLock acquisition.
-    		}
-    	}
-    }
-    
-    /**
-     * Reads client status via RPCs
-     * Optimized to retrieve only subset of information (required to determine wakelock state) if screen is turned off
-     * @param forceCompleteUpdate forces update of entire status information, regardless of screen status
-     */
-    private void readClientStatus(Boolean forceCompleteUpdate) {
-    	try{
-    		// read ccStatus and adjust wakelocks and service state independently of screen status
-    		// wake locks and foreground enabled when Client is not suspended, therefore also during
-    		// idle.
-    		CcStatus status = clientInterface.getCcStatus();
-    		// treat cpu throttling as if it was computing
-    		Boolean computing = (status.task_suspend_reason == BOINCDefs.SUSPEND_NOT_SUSPENDED) || (status.task_suspend_reason == BOINCDefs.SUSPEND_REASON_CPU_THROTTLE);
-    		if(Logging.VERBOSE) Log.d(Logging.TAG,"readClientStatus(): computation enabled: " + computing);
-			Monitor.getClientStatus().setWifiLock(computing);
-			Monitor.getClientStatus().setWakeLock(computing);
-			ClientNotification.getInstance(getApplicationContext()).setForeground(computing, this);
-    		
-			// complete status read, depending on screen status
-    		// screen off: only read computing status to adjust wakelock, do not send broadcast
-    		// screen on: read complete status, set ClientStatus, send broadcast
-			// forceCompleteUpdate: read complete status, independently of screen setting
-	    	if(screenOn || forceCompleteUpdate) {
-	    		// complete status read, with broadcast
-				if(Logging.VERBOSE) Log.d(Logging.TAG, "readClientStatus(): screen on, get complete status");
-				CcState state = clientInterface.getState();
-				ArrayList<Transfer>  transfers = clientInterface.getFileTransfers();
-				AcctMgrInfo acctMgrInfo = clientInterface.getAcctMgrInfo();
-				
-				if( (status != null) && (state != null) && (state.results != null) && (state.projects != null) && (transfers != null) && (state.host_info != null) && (acctMgrInfo != null)) {
-					Monitor.getClientStatus().setClientStatus(status, state.results, state.projects, transfers, state.host_info, acctMgrInfo);
-					// Update status bar notification
-					ClientNotification.getInstance(getApplicationContext()).update();
-				} else {
-					String nullValues = "";
-					try{
-						if(state == null) nullValues += "state,";
-						if(state.results == null) nullValues += "state.results,";
-						if(state.projects == null) nullValues += "state.projects,";
-						if(transfers == null) nullValues += "transfers,";
-						if(state.host_info == null) nullValues += "state.host_info,";
-						if(acctMgrInfo == null) nullValues += "acctMgrInfo,";
-					} catch (NullPointerException e) {};
-					if(Logging.ERROR) Log.e(Logging.TAG, "readClientStatus(): connection problem, null: " + nullValues);
-				}
-				
-				// check whether monitor is still intended to update, if not, skip broadcast and exit...
-				if(updateBroadcastEnabled) {
-			        Intent clientStatus = new Intent();
-			        clientStatus.setAction("edu.berkeley.boinc.clientstatus");
-			        getApplicationContext().sendBroadcast(clientStatus);
-				}
-	    	} 
-			
-		}catch(Exception e) {
-			if(Logging.ERROR) Log.e(Logging.TAG, "Monitor.readClientStatus excpetion: " + e.getMessage(),e);
-		}
-    }
-    
-    // reports current device status to the client via rpc
-    // client uses data to enforce preferences, e.g. suspend on battery
-    /**
-     * Reports current device status to the client via RPC
-     * BOINC client uses this data to enforce preferences, e.g. suspend battery but requires information only/best available through Java API calls.
-     */
-    private void reportDeviceStatus() {
-		if(Logging.VERBOSE) Log.d(Logging.TAG, "reportDeviceStatus()");
-    	try{
-	    	// set devices status
-			if(deviceStatus != null) { // make sure deviceStatus is initialized
-				deviceStatus.update(); // poll device status
-				Boolean reportStatusSuccess = clientInterface.reportDeviceStatus(deviceStatus); // transmit device status via rpc
-				if(reportStatusSuccess) screenOffStatusOmitCounter = 0;
-				else if(Logging.DEBUG) Log.d(Logging.TAG,"reporting device status returned false.");
-			} else if(Logging.WARNING) Log.w(Logging.TAG,"reporting device status failed, wrapper not initialized.");
-		}catch(Exception e) {
-			if(Logging.ERROR) Log.e(Logging.TAG, "Monitor.reportDeviceStatus excpetion: " + e.getMessage());
-		}
-    }
 
     /**
      * Computes MD5 hash of requested file
