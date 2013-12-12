@@ -84,6 +84,8 @@ VBOX_VM::VBOX_VM() {
     suspended = false;
     network_suspended = false;
     online = false;
+    saving = false;
+    restoring = false;
     crashed = false;
     enable_cern_dataformat = false;
     enable_shared_directory = false;
@@ -295,50 +297,74 @@ void VBOX_VM::poll(bool log_state) {
             //
             if (vmstate == "running") {
                 online = true;
+                saving = false;
+                restoring = false;
                 suspended = false;
                 crashed = false;
             } else if (vmstate == "paused") {
                 online = true;
+                saving = false;
+                restoring = false;
                 suspended = true;
                 crashed = false;
             } else if (vmstate == "starting") {
                 online = true;
+                saving = false;
+                restoring = false;
                 suspended = false;
                 crashed = false;
             } else if (vmstate == "stopping") {
                 online = true;
+                saving = false;
+                restoring = false;
                 suspended = false;
                 crashed = false;
             } else if (vmstate == "saving") {
                 online = true;
+                saving = true;
+                restoring = false;
                 suspended = false;
                 crashed = false;
             } else if (vmstate == "restoring") {
                 online = true;
+                saving = false;
+                restoring = true;
                 suspended = false;
                 crashed = false;
             } else if (vmstate == "livesnapshotting") {
                 online = true;
+                saving = false;
+                restoring = false;
                 suspended = false;
                 crashed = false;
             } else if (vmstate == "deletingsnapshotlive") {
                 online = true;
+                saving = false;
+                restoring = false;
                 suspended = false;
                 crashed = false;
             } else if (vmstate == "deletingsnapshotlivepaused") {
                 online = true;
+                saving = false;
+                restoring = false;
                 suspended = false;
                 crashed = false;
             } else if (vmstate == "aborted") {
                 online = false;
+                saving = false;
+                restoring = false;
                 suspended = false;
                 crashed = true;
             } else if (vmstate == "gurumeditation") {
                 online = false;
+                saving = false;
+                restoring = false;
                 suspended = false;
                 crashed = true;
             } else {
                 online = false;
+                saving = false;
+                restoring = false;
                 suspended = false;
                 crashed = false;
                 if (log_state) {
@@ -1102,7 +1128,7 @@ int VBOX_VM::start() {
         timeout = dtime() + 300;
         do {
             poll(false);
-            if (online) break;
+            if (online && !restoring) break;
             boinc_sleep(1.0);
         } while (timeout >= dtime());
         if (timeout <= dtime()) retval = ERR_TIMEOUT;
@@ -2154,7 +2180,7 @@ int VBOX_VM::launch_vboxsvc() {
                 si.dwFlags |= STARTF_FORCEOFFFEEDBACK | STARTF_USESHOWWINDOW;
                 si.wShowWindow = SW_HIDE;
 
-                command = "\"" + virtualbox_install_directory + "\\VBoxSVC.exe\" --logrotate 1 --logsize 1024000";
+                command = "\"" + virtualbox_install_directory + "\\VBoxSVC.exe\" --logrotate 1";
 
                 CreateProcess(NULL, (LPTSTR)command.c_str(), NULL, NULL, TRUE, CREATE_NO_WINDOW, NULL, NULL, &si, &pi);
 
