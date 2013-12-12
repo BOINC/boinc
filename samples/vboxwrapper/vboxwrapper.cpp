@@ -463,7 +463,7 @@ int main(int argc, char** argv) {
     if (strstr(aid.host_info.os_version, "x64")) {
         fprintf(
             stderr,
-            "%s 64-bit version of BOINC is required, please upgrade, telling BOINC to reschedule execution for a later date.\n",
+            "%s 64-bit version of BOINC is required, please upgrade. Rescheduling execution for a later date.\n",
             vboxwrapper_msg_prefix(buf, sizeof(buf))
         );
         boinc_temporary_exit(86400, "Architecture incompatibility detected.");
@@ -476,7 +476,7 @@ int main(int argc, char** argv) {
     if (retval) {
         fprintf(
             stderr,
-            "%s couldn't detect VM Hypervisor, telling BOINC to reschedule execution for a later date.\n",
+            "%s Could not detect VM Hypervisor. Rescheduling execution for a later date.\n",
             vboxwrapper_msg_prefix(buf, sizeof(buf))
         );
         boinc_temporary_exit(86400, "Detection of VM Hypervisor failed.");
@@ -538,7 +538,7 @@ int main(int argc, char** argv) {
             "%s Could not communicate with VM Hypervisor. Rescheduling execution for a later date.\n",
             vboxwrapper_msg_prefix(buf, sizeof(buf))
         );
-        boinc_temporary_exit(300, message.c_str());
+        boinc_temporary_exit(86400, message.c_str());
     }
 
     // Parse Job File
