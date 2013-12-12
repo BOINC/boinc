@@ -535,7 +535,7 @@ int main(int argc, char** argv) {
     if (!vm.is_system_ready(message)) {
         fprintf(
             stderr,
-            "%s couldn't communicate with VM Hypervisor, telling BOINC to reschedule execution for a later date.\n",
+            "%s Could not communicate with VM Hypervisor. Rescheduling execution for a later date.\n",
             vboxwrapper_msg_prefix(buf, sizeof(buf))
         );
         boinc_temporary_exit(300, message.c_str());

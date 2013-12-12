@@ -72,6 +72,9 @@ struct VBOX_VM {
     bool network_suspended;
     // is VM even online?
     bool online;
+    // Is VM saving/restoring from checkpoint?
+    bool saving;
+    bool restoring;
     // Has the VM crashed?
     bool crashed;
     // whether to use CERN specific data structures
