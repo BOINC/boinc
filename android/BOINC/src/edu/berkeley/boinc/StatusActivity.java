@@ -26,7 +26,6 @@ import edu.berkeley.boinc.adapter.GalleryAdapter;
 import edu.berkeley.boinc.client.ClientStatus;
 import edu.berkeley.boinc.client.ClientStatus.ImageWrapper;
 import edu.berkeley.boinc.client.Monitor;
-import edu.berkeley.boinc.rpc.DeviceStatus;
 import edu.berkeley.boinc.utils.BOINCDefs;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -249,15 +248,15 @@ public class StatusActivity extends Activity{
 						break;
 					case BOINCDefs.SUSPEND_REASON_BATTERY_CHARGING:
 						String text = getString(R.string.suspend_battery_charging);
-						try{
-							Double minCharge = Monitor.getClientStatus().getPrefs().battery_charge_min_pct;
-							DeviceStatus deviceStatus = new DeviceStatus(getApplicationContext());
-							deviceStatus.update();
-							Integer currentCharge = deviceStatus.getBattery_charge_pct();
-							text = getString(R.string.suspend_battery_charging_long) + " " + minCharge.intValue()
-							+ "% (" + getString(R.string.suspend_battery_charging_current) + " " + currentCharge  + "%) "
-							+ getString(R.string.suspend_battery_charging_long2);
-						} catch (Exception e) {}
+						if(mIsBound) {
+							try{
+								Double minCharge = Monitor.getClientStatus().getPrefs().battery_charge_min_pct;
+								Integer currentCharge = monitor.getDeviceStatus().getStatus().battery_charge_pct;
+								text = getString(R.string.suspend_battery_charging_long) + " " + minCharge.intValue()
+								+ "% (" + getString(R.string.suspend_battery_charging_current) + " " + currentCharge  + "%) "
+								+ getString(R.string.suspend_battery_charging_long2);
+							} catch (Exception e) {}
+						}
 						statusDescriptor.setText(text);
 						statusImage.setImageResource(R.drawable.batteryb48);
 						statusHeader.setVisibility(View.GONE);
