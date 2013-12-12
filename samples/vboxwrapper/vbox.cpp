@@ -1123,7 +1123,7 @@ int VBOX_VM::start() {
     // Wait for up to 5 minutes for the VM to switch states.  A system
     // under load can take a while.  Since the poll function can wait for up
     // to 45 seconds to execute a command we need to make this time based instead
-    // of interation based.
+    // of iteration based.
     if (!retval) {
         timeout = dtime() + 300;
         do {
@@ -1178,7 +1178,7 @@ int VBOX_VM::stop() {
         // Wait for up to 5 minutes for the VM to switch states.  A system
         // under load can take a while.  Since the poll function can wait for up
         // to 45 seconds to execute a command we need to make this time based instead
-        // of interation based.
+        // of iteration based.
         if (!retval) {
             timeout = dtime() + 300;
             do {
@@ -1227,7 +1227,7 @@ int VBOX_VM::poweroff() {
         // Wait for up to 5 minutes for the VM to switch states.  A system
         // under load can take a while.  Since the poll function can wait for up
         // to 45 seconds to execute a command we need to make this time based instead
-        // of interation based.
+        // of iteration based.
         if (!retval) {
             timeout = dtime() + 300;
             do {
