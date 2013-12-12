@@ -1463,20 +1463,32 @@ bool VBOX_VM::is_system_ready(std::string& message) {
     if (output.size() == 0) {
         fprintf(
             stderr,
-            "%s Feature: Enabling trickle-ups (Interval: %f)\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf)),
-
+            "%s WARNING: Communication with VM Hypervisor failed. (Possibly Out of Memory).\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf))
         );
         message = "Communication with VM Hypervisor failed. (Possibly Out of Memory).";
         rc = false;
     }
 
     if (output.find("Processor count:") == string::npos) {
+        fprintf(
+            stderr,
+            "%s WARNING: Communication with VM Hypervisor failed.\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf))
+        );
         message = "Communication with VM Hypervisor failed.";
         rc = false;
     }
 
     if (output.find("WARNING: The vboxdrv kernel module is not loaded.") != string::npos) {
+        vboxwrapper_msg_prefix(buf, sizeof(buf));
+        fprintf(
+            stderr,
+            "%s WARNING: The vboxdrv kernel module is not loaded.\n"
+            "%s WARNING: Please update/recompile VirtualBox kernel drivers.\n",
+            buf,
+            buf
+        );
         message = "Please update/recompile VirtualBox kernel drivers.";
         rc = false;
     }
