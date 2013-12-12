@@ -1383,8 +1383,9 @@ int VBOX_VM::cleanupsnapshots(bool delete_active) {
 int VBOX_VM::restoresnapshot() {
     string command;
     string output;
+    double timeout;
     char buf[256];
-    int retval;
+    int retval = BOINC_SUCCESS;
 
     fprintf(
         stderr,
@@ -1397,13 +1398,30 @@ int VBOX_VM::restoresnapshot() {
     retval = vbm_popen(command, output, "restore current snapshot", true, false, 0);
     if (retval) return retval;
 
+    // Wait for up to 5 minutes for the VM to switch states.  A system
+    // under load can take a while.  Since the poll function can wait for up
+    // to 45 seconds to execute a command we need to make this time based instead
+    // of interation based.
+    if (!retval) {
+        timeout = dtime() + 300;
+        do {
+            poll(false);
+            if (online && !restoring) break;
+            boinc_sleep(1.0);
+        } while (timeout >= dtime());
+        if (timeout <= dtime()) {
+            retval = ERR_TIMEOUT;
+        }
+    }
+
     fprintf(
         stderr,
-        "%s Restore completed.\n",
-        vboxwrapper_msg_prefix(buf, sizeof(buf))
+        "%s Restore completed. %s\n",
+        vboxwrapper_msg_prefix(buf, sizeof(buf)),
+        retval ? "(Timeout Exceeded)" : ""
     );
 
-    return 0;
+    return retval;
 }
 
 void VBOX_VM::dumphypervisorlogs() {
@@ -1450,6 +1468,7 @@ void VBOX_VM::dumphypervisorlogs() {
 bool VBOX_VM::is_system_ready(std::string& message) {
     string command;
     string output;
+    char buf[256];
     int retval;
     bool rc = false;
 
@@ -1460,6 +1479,12 @@ bool VBOX_VM::is_system_ready(std::string& message) {
     }
 
     if (output.size() == 0) {
+        fprintf(
+            stderr,
+            "%s Feature: Enabling trickle-ups (Interval: %f)\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf)),
+
+        );
         message = "Communication with VM Hypervisor failed. (Possibly Out of Memory).";
         rc = false;
     }
