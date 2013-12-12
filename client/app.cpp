@@ -184,6 +184,7 @@ int ACTIVE_TASK::preempt(int preempt_type) {
                 result->name
             );
         }
+		if (task_state() != PROCESS_EXECUTING) return 0;
         return suspend();
     }
     return 0;
