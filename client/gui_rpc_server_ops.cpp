@@ -1377,7 +1377,7 @@ static int handle_rpc_aux(GUI_RPC_CONN& grc) {
             gstate.gui_rpcs.time_of_last_rpc_needing_network = gstate.now;
         }
         (*gr.handler)(grc);
-        return 0;;
+        return 0;
     }
     grc.mfout.printf("<error>unrecognized op: %s</error>\n", grc.xp.parsed_tag);
     return 0;
