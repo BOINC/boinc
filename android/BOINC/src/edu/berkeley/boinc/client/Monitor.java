@@ -131,7 +131,7 @@ public class Monitor extends Service {
 		screenOn = pm.isScreenOn();
 		
 		// initialize DeviceStatus wrapper
-		deviceStatus = new DeviceStatus(getApplicationContext());
+		deviceStatus = new DeviceStatus(getApplicationContext(), getAppPrefs());
 		
 		// register screen on/off receiver
         IntentFilter onFilter = new IntentFilter (Intent.ACTION_SCREEN_ON); 
@@ -345,7 +345,7 @@ public class Monitor extends Service {
 	 */
 	public DeviceStatus getDeviceStatus() {
 		if(deviceStatus == null) {
-			deviceStatus = new DeviceStatus(getApplicationContext());
+			deviceStatus = new DeviceStatus(getApplicationContext(), getAppPrefs());
 		}
 		return deviceStatus;
 	}

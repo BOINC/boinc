@@ -26,5 +26,6 @@
         android:layout_height="wrap_content"
         android:id="@+id/checkbox"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@color/black" />
+        android:textColor="@color/black"
+    	android:background="@android:color/transparent"/>
 </LinearLayout>

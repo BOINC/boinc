@@ -18,6 +18,7 @@
  ******************************************************************************/
 package edu.berkeley.boinc.client;
 
+import edu.berkeley.boinc.AppPreferences;
 import edu.berkeley.boinc.rpc.DeviceStatusData;
 import edu.berkeley.boinc.utils.*;
 
@@ -43,16 +44,18 @@ public class DeviceStatus {
 	private ConnectivityManager connManager; // connManager contains current wifi status
 	private TelephonyManager telManager; // telManager to retrieve call state
 	private Intent batteryStatus; // sticky intent, extras of Intent contain status, see BatteryManager.
+	private AppPreferences appPrefs; // manager based preferences
 	
 	/**
 	 * Constructor. Needs to be called before calling update.
 	 * @param ctx Application Context
 	 */
-	public DeviceStatus(Context ctx) {
+	public DeviceStatus(Context ctx, AppPreferences appPrefs) {
 		this.ctx = ctx;
 		this.connManager = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
 		this.telManager = (TelephonyManager) ctx.getSystemService(Context.TELEPHONY_SERVICE);
-		batteryStatus = ctx.registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+		this.batteryStatus = ctx.registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+		this.appPrefs = appPrefs;
 	}
 	
 	/**
@@ -70,7 +73,6 @@ public class DeviceStatus {
 		if(change) if(Logging.DEBUG) Log.i(Logging.TAG, "change: " + change +
 													" - stationary device: " + stationaryDevice + 
 													" ; ac: " + status.on_ac_power + 
-													" ; usb: " + status.on_usb_power + 
 													" ; level: " + status.battery_charge_pct + 
 													" ; temperature: " + status.battery_temperature_celcius + 
 													" ; wifi: " + status.wifi_online + 
@@ -178,27 +180,12 @@ public class DeviceStatus {
 				}
 				
 				// plugged in
+				// treat all charging modes uniformly on client side,
+				// adapt on_ac_power according to power source preferences defined in manager
 				int plugged = batteryStatus.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1);
-				switch (plugged) {
-					case BatteryManager.BATTERY_PLUGGED_AC:
-						if(!status.on_ac_power) change = true; // if different from before, set flag
-						status.on_ac_power = true;
-						break;
-					case 4: // constant BATTERY_PLUGGED_WIRELESS, only defined in API Level 17
-						// treat like AC power
-						if(!status.on_ac_power) change = true; // if different from before, set flag
-						status.on_ac_power = true;
-						break;
-					case BatteryManager.BATTERY_PLUGGED_USB:
-						if(!status.on_usb_power) change = true; // if different from before, set flag
-						status.on_usb_power = true;
-						break;
-					default: 
-						if(status.on_usb_power || status.on_ac_power) change = true;
-						status.on_usb_power = false;
-						status.on_ac_power = false;
-						break;
-				}
+				change = change | setAttributesForChargerType(plugged);
+				
+				
 			} else {
 				// no battery present, stationary device. skip parsing...
 				if(!stationaryDevice) { // should not change during run-time. just triggered on inital read
@@ -222,5 +209,40 @@ public class DeviceStatus {
 		status.on_ac_power = true;
 		status.battery_temperature_celcius = 0;
 		status.battery_charge_pct = 100;
+	}
+	
+	/**
+	 * Sets attributes of DeviceStatusData according to manager based power source preference.
+	 * Client is not aware of power source preference, adapt value of on_ac_power, according
+	 * to the conformance of the actual charger type with the manager based preference.
+	 * This policy might be subject to change.
+	 * @param chargerType
+	 * @return true, if change since last run
+	 */
+	private Boolean setAttributesForChargerType(int chargerType) {
+		Boolean change = false;
+		Boolean enabled = false;
+
+		switch (chargerType) {
+		case BatteryManager.BATTERY_PLUGGED_AC:
+			enabled = appPrefs.getPowerSourceAc();
+			break;
+		case 4: // constant BATTERY_PLUGGED_WIRELESS, only defined in API Level 17
+			enabled = appPrefs.getPowerSourceWireless();
+			break;
+		case BatteryManager.BATTERY_PLUGGED_USB:
+			enabled = appPrefs.getPowerSourceUsb();
+			break;
+		}
+		
+		if(enabled) {
+			if(!status.on_ac_power) change = true; // if different from before, set flag
+			status.on_ac_power = true;
+		} else {
+			if(status.on_ac_power) change = true;
+			status.on_ac_power = false;
+		}
+		
+		return change;
 	}
 }
