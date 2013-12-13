@@ -37,7 +37,7 @@
 // Add a signature at the end of every <file_info> element,
 //
 int add_signatures(char* xml, R_RSA_PRIVATE_KEY& key) {
-    char* p = xml, *q1, *q2, buf[BLOB_SIZE], buf2[BLOB_SIZE];;
+    char* p = xml, *q1, *q2, buf[BLOB_SIZE], buf2[BLOB_SIZE];
     char signature_hex[BLOB_SIZE];
     char signature_xml[BLOB_SIZE];
     char signed_xml[1024];

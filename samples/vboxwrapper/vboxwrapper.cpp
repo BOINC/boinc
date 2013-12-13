@@ -463,7 +463,7 @@ int main(int argc, char** argv) {
     if (strstr(aid.host_info.os_version, "x64")) {
         fprintf(
             stderr,
-            "%s 64-bit version of BOINC is required, please upgrade, telling BOINC to reschedule execution for a later date.\n",
+            "%s 64-bit version of BOINC is required, please upgrade. Rescheduling execution for a later date.\n",
             vboxwrapper_msg_prefix(buf, sizeof(buf))
         );
         boinc_temporary_exit(86400, "Architecture incompatibility detected.");
@@ -476,7 +476,7 @@ int main(int argc, char** argv) {
     if (retval) {
         fprintf(
             stderr,
-            "%s couldn't detect VM Hypervisor, telling BOINC to reschedule execution for a later date.\n",
+            "%s Could not detect VM Hypervisor. Rescheduling execution for a later date.\n",
             vboxwrapper_msg_prefix(buf, sizeof(buf))
         );
         boinc_temporary_exit(86400, "Detection of VM Hypervisor failed.");
@@ -538,7 +538,7 @@ int main(int argc, char** argv) {
             "%s Could not communicate with VM Hypervisor. Rescheduling execution for a later date.\n",
             vboxwrapper_msg_prefix(buf, sizeof(buf))
         );
-        boinc_temporary_exit(300, message.c_str());
+        boinc_temporary_exit(86400, message.c_str());
     }
 
     // Parse Job File
@@ -669,17 +669,18 @@ int main(int argc, char** argv) {
                 "    AMD calls it 'AMD-V'\n"
                 "    More information can be found here: http://en.wikipedia.org/wiki/X86_virtualization\n"
                 "    Error Code: ERR_CPU_VM_EXTENSIONS_DISABLED\n";
-        } else if (vm.is_logged_failure_vm_extensions_in_use()) {
-            error_reason =
-                "   NOTE: VirtualBox hypervisor reports that another hypervisor has locked the hardware acceleration\n"
-                "    for virtual machines feature in exclusive mode. You'll either need to reconfigure the other hypervisor\n"
-                "    to not use the feature exclusively or just let BOINC run this project in software emulation mode.\n"
-                "    Error Code: ERR_CPU_VM_EXTENSIONS_DISABLED\n";
         } else if (vm.is_logged_failure_vm_extensions_not_supported()) {
             error_reason =
                 "   NOTE: VirtualBox has reported an improperly configured virtual machine. It was configured to require\n"
                 "    hardware acceleration for virtual machines, but your processor does not support the required feature.\n"
                 "    Please report this issue to the project so that it can be addresssed.\n";
+        } else if (vm.is_logged_failure_vm_extensions_in_use()) {
+            error_reason =
+                "   NOTE: VirtualBox hypervisor reports that another hypervisor has locked the hardware acceleration\n"
+                "    for virtual machines feature in exclusive mode.\n";
+            unrecoverable_error = false;
+            temp_reason = (char*)"Forign VM Hypervisor locked hardware acceleration features.";
+            temp_delay = 86400;
         } else if (vm.is_logged_failure_host_out_of_memory()) {
             error_reason =
                 "   NOTE: VirtualBox has failed to allocate enough memory to start the configured virtual machine.\n"

@@ -30,7 +30,8 @@ function show_form() {
         "description",
         "image URL",
         "level",
-        "tags"
+        "tags",
+        "SQL rule"
     );
 
     $badges = BoincBadge::enum("");
@@ -49,6 +50,7 @@ function show_form() {
         echo "<td><input name=\"image_url\" value=\"$badge->image_url\">$x</td>\n";
         echo "<td><input name=\"level\" value=\"$badge->level\"></td>\n";
         echo "<td><input name=\"tags\" value=\"$badge->tags\"></td>\n";
+        echo "<td><input name=\"sql_rule\" value=\"$badge->sql_rule\"></td>\n";
         echo "<td><input type=submit name=\"update\" value=Update>\n";
         echo "</form></tr>\n";
     }
@@ -62,6 +64,7 @@ function show_form() {
     echo "<td><input name=\"image_url\"></td>\n";
     echo "<td><input name=\"level\"></td>\n";
     echo "<td><input name=\"tags\"></td>\n";
+    echo "<td><input name=\"sql_rule\"></td>\n";
     echo "<td><input type=submit name=\"add_badge\" value=\"Create badge\"></td>\n";
     echo "</form></tr>\n";
 
@@ -76,8 +79,9 @@ function add_badge() {
     $image_url = BoincDb::escape_string(post_str("image_url"));
     $level = BoincDb::escape_string(post_str("level"));
     $tags = BoincDb::escape_string(post_str("tags"));
+    $sql_rule = BoincDb::escape_string(post_str("sql_rule"));
     $now = time();
-    $id = BoincBadge::insert("(create_time, name, type, title, description, image_url, level, tags) values ($now, '$name', $type, '$title', '$description', '$image_url', '$level', '$tags')");
+    $id = BoincBadge::insert("(create_time, name, type, title, description, image_url, level, tags, sql_rule) values ($now, '$name', $type, '$title', '$description', '$image_url', '$level', '$tags', '$sql_rule')");
     if (!$id) {
         admin_error_page("Insert failed");
     }
@@ -96,7 +100,8 @@ function update_badge() {
     $image_url = BoincDb::escape_string(post_str("image_url"));
     $level = BoincDb::escape_string(post_str("level"));
     $tags = BoincDb::escape_string(post_str("tags"));
-    $retval = $badge->update("name='$name', type=$type, title='$title', description='$description', image_url='$image_url', level='$level', tags='$tags'");
+    $sql_rule = BoincDb::escape_string(post_str("sql_rule"));
+    $retval = $badge->update("name='$name', type=$type, title='$title', description='$description', image_url='$image_url', level='$level', tags='$tags', sql_rule='$sql_rule'");
     if (!$retval) {
         admin_error_page("update failed");
     }
