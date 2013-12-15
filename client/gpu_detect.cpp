@@ -165,7 +165,7 @@ void COPROCS::correlate_gpus(
 
     nvidia.correlate(use_all, ignore_gpu_instance[PROC_TYPE_NVIDIA_GPU]);
     ati.correlate(use_all, ignore_gpu_instance[PROC_TYPE_AMD_GPU]);
-    intel_gpu.correlate(use_all, ignore_gpu_instance[PROC_TYPE_AMD_GPU]);
+    intel_gpu.correlate(use_all, ignore_gpu_instance[PROC_TYPE_INTEL_GPU]);
     correlate_opencl(use_all, ignore_gpu_instance);
 
     // NOTE: OpenCL can report a max of only 4GB.  
