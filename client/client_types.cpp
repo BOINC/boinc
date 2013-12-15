@@ -639,9 +639,9 @@ void FILE_INFO::failure_message(string& s) {
     sprintf(buf,
         "<file_xfer_error>\n"
         "  <file_name>%s</file_name>\n"
-        "  <error_code>%d</error_code>\n",
+        "  <error_code>%d (%s)</error_code>\n",
         name,
-        status
+        status, boincerror(status)
     );
     s = buf;
     if (error_msg.size()) {
