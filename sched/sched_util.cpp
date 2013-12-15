@@ -360,6 +360,13 @@ int restrict_wu_to_user(WORKUNIT& _wu, int userid) {
     return retval;
 }
 
+// return the min transition time.
+// This lets you check if the transitioner is backed up.
+//
+int min_transition_time(double& x) {
+    return boinc_db.get_double("select min(transition_time) from workunit", x);
+}
+
 #ifdef GCL_SIMULATOR
 
 void simulator_signal_handler(int signum) {
