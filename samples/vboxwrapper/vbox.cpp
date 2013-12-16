@@ -665,7 +665,7 @@ int VBOX_VM::create_vm() {
         fprintf(
             stderr,
             "%s Hardware acceleration CPU extensions not detected. Disabling VirtualBox hardware acceleration support.\n",
-            boinc_msg_prefix(buf, sizeof(buf))
+            vboxwrapper_msg_prefix(buf, sizeof(buf))
         );
         disable_acceleration = true;
     }
@@ -673,7 +673,7 @@ int VBOX_VM::create_vm() {
         fprintf(
             stderr,
             "%s Running under Hypervisor. Disabling VirtualBox hardware acceleration support.\n",
-            boinc_msg_prefix(buf, sizeof(buf))
+            vboxwrapper_msg_prefix(buf, sizeof(buf))
         );
         disable_acceleration = true;
     }
@@ -682,7 +682,7 @@ int VBOX_VM::create_vm() {
             fprintf(
                 stderr,
                 "%s Hardware acceleration failed with previous execution. Disabling VirtualBox hardware acceleration support.\n",
-                boinc_msg_prefix(buf, sizeof(buf))
+                vboxwrapper_msg_prefix(buf, sizeof(buf))
             );
             disable_acceleration = true;
         }
@@ -690,7 +690,7 @@ int VBOX_VM::create_vm() {
         if (vm_cpu_count == "1") {
             // Keep this around for older clients.  Removing this for older clients might
             // lead to a machine that will only return crashed VM reports.
-            boinc_msg_prefix(buf, sizeof(buf));
+            vboxwrapper_msg_prefix(buf, sizeof(buf));
             fprintf(
                 stderr,
                 "%s Legacy fallback configuration detected. Disabling VirtualBox hardware acceleration support.\n"
