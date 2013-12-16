@@ -1131,7 +1131,10 @@ int VBOX_VM::start() {
             if (online && !restoring) break;
             boinc_sleep(1.0);
         } while (timeout >= dtime());
-        if (timeout <= dtime()) retval = ERR_TIMEOUT;
+        if (timeout <= dtime()) {
+            poll(true);
+            retval = ERR_TIMEOUT;
+        }
     }
 
     if (online) {
