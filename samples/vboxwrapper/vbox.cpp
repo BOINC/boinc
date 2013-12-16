@@ -1324,7 +1324,8 @@ int VBOX_VM::createsnapshot(double elapsed_time) {
     poll(false);
 
     // Delete stale snapshot(s), if one exists
-    cleanupsnapshots(false);
+    retval = cleanupsnapshots(false);
+    if (retval) return retval;
 
     fprintf(
         stderr,
@@ -1394,7 +1395,8 @@ int VBOX_VM::cleanupsnapshots(bool delete_active) {
             
             // Only log the error if we are not attempting to deregister the VM.
             // delete_active is only set to true when we are deregistering the VM.
-            vbm_popen(command, output, "delete stale snapshot", !delete_active, false, 0);
+            retval = vbm_popen(command, output, "delete stale snapshot", !delete_active, false, 0);
+            if (retval) return retval;
         }
 
         eol_prev_pos = eol_pos + 1;

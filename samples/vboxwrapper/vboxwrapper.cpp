@@ -932,7 +932,22 @@ int main(int argc, char** argv) {
                     }
 
                     // Checkpoint
-                    if (!vm.createsnapshot(elapsed_time)) {
+                    retval = vm.createsnapshot(elapsed_time);
+                    if (retval) {
+                        // Let BOINC clean-up the environment which should release any file/mutex locks and then attempt
+                        // to resume from a previous snapshot.
+                        //
+                        fprintf(
+                            stderr,
+                            "%s ERROR: Checkpoint maintenance failed, rescheduling task for a later time. (%d)\n",
+                            vboxwrapper_msg_prefix(buf, sizeof(buf)),
+                            retval
+                        );
+                        vm.poweroff();
+                        boinc_temporary_exit(300, "VM job unmanageable, restarting later.");
+                    } else {
+                        // Inform BOINC that we have successfully created a checkpoint.
+                        //
                         checkpoint_cpu_time = elapsed_time;
                         write_checkpoint(checkpoint_cpu_time, vm);
                         boinc_report_app_status(
