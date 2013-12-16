@@ -301,36 +301,78 @@ void VBOX_VM::poll(bool log_state) {
                 restoring = false;
                 suspended = false;
                 crashed = false;
+                if (log_state) {
+                    fprintf(
+                        stderr,
+                        "%s VM is running.\n",
+                        vboxwrapper_msg_prefix(buf, sizeof(buf))
+                    );
+                }
             } else if (vmstate == "paused") {
                 online = true;
                 saving = false;
                 restoring = false;
                 suspended = true;
                 crashed = false;
+                if (log_state) {
+                    fprintf(
+                        stderr,
+                        "%s VM is paused.\n",
+                        vboxwrapper_msg_prefix(buf, sizeof(buf))
+                    );
+                }
             } else if (vmstate == "starting") {
                 online = true;
                 saving = false;
                 restoring = false;
                 suspended = false;
                 crashed = false;
+                if (log_state) {
+                    fprintf(
+                        stderr,
+                        "%s VM is starting.\n",
+                        vboxwrapper_msg_prefix(buf, sizeof(buf))
+                    );
+                }
             } else if (vmstate == "stopping") {
                 online = true;
                 saving = false;
                 restoring = false;
                 suspended = false;
                 crashed = false;
+                if (log_state) {
+                    fprintf(
+                        stderr,
+                        "%s VM is stopping.\n",
+                        vboxwrapper_msg_prefix(buf, sizeof(buf))
+                    );
+                }
             } else if (vmstate == "saving") {
                 online = true;
                 saving = true;
                 restoring = false;
                 suspended = false;
                 crashed = false;
+                if (log_state) {
+                    fprintf(
+                        stderr,
+                        "%s VM is saving.\n",
+                        vboxwrapper_msg_prefix(buf, sizeof(buf))
+                    );
+                }
             } else if (vmstate == "restoring") {
                 online = true;
                 saving = false;
                 restoring = true;
                 suspended = false;
                 crashed = false;
+                if (log_state) {
+                    fprintf(
+                        stderr,
+                        "%s VM is restoring.\n",
+                        vboxwrapper_msg_prefix(buf, sizeof(buf))
+                    );
+                }
             } else if (vmstate == "livesnapshotting") {
                 online = true;
                 saving = false;
@@ -355,12 +397,26 @@ void VBOX_VM::poll(bool log_state) {
                 restoring = false;
                 suspended = false;
                 crashed = true;
+                if (log_state) {
+                    fprintf(
+                        stderr,
+                        "%s VM was aborted.\n",
+                        vboxwrapper_msg_prefix(buf, sizeof(buf))
+                    );
+                }
             } else if (vmstate == "gurumeditation") {
                 online = false;
                 saving = false;
                 restoring = false;
                 suspended = false;
                 crashed = true;
+                if (log_state) {
+                    fprintf(
+                        stderr,
+                        "%s VM has crashed.\n",
+                        vboxwrapper_msg_prefix(buf, sizeof(buf))
+                    );
+                }
             } else {
                 online = false;
                 saving = false;
