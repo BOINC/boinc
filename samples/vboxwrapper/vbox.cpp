@@ -1584,16 +1584,38 @@ bool VBOX_VM::is_system_ready(std::string& message) {
 bool VBOX_VM::is_registered() {
     string command;
     string output;
+    string needle;
+    char buf[256];
+    int retval;
+    bool rc = false;
 
     command  = "showvminfo \"" + vm_master_name + "\" ";
     command += "--machinereadable ";
 
-    if (vbm_popen(command, output, "registration", false, false) == 0) {
-        if (output.find("VBOX_E_OBJECT_NOT_FOUND") == string::npos) {
-            // Error message not found in text
-            return true;
-        }
+    // Look for this string in the output
+    //
+    needle = "name=\"" + vm_master_name + "\"";
+
+    retval = vbm_popen(command, output, "registration", false, false);
+
+    // Handle explicit cases first
+    if (output.find(needle.c_str()) != string::npos) {
+        return true;
     }
+    if (output.find("VBOX_E_OBJECT_NOT_FOUND") != string::npos) {
+        return false;
+    }
+
+    // Something unexpected has happened.  Dump diagnostic output.
+    fprintf(
+        stderr,
+        "%s Error in registration for VM: %d\nArguments:\n%s\nOutput:\n%s\n",
+        vboxwrapper_msg_prefix(buf, sizeof(buf)),
+        retval,
+        command.c_str(),
+        output.c_str()
+    );
+
     return false;
 }
 
