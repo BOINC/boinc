@@ -669,6 +669,7 @@ int main(int argc, char** argv) {
                 "    AMD calls it 'AMD-V'\n"
                 "    More information can be found here: http://en.wikipedia.org/wiki/X86_virtualization\n"
                 "    Error Code: ERR_CPU_VM_EXTENSIONS_DISABLED\n";
+            retval = ERR_EXEC;
         } else if (vm.is_logged_failure_vm_extensions_not_supported()) {
             error_reason =
                 "   NOTE: VirtualBox has reported an improperly configured virtual machine. It was configured to require\n"
