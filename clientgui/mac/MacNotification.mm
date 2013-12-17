@@ -20,6 +20,7 @@
 #include "MacGUI.pch"
 #include "BOINCGUIApp.h"    // For wxGetApp()
 #include "BOINCTaskBar.h"
+#include <dlfcn.h>
 #import <Cocoa/Cocoa.h>
 
 // Weak linking of objective-C classes is not supported before 
@@ -27,6 +28,7 @@
 // objective-C equivalent of dlopen() and dlsym().
 static Class NSUserNotificationClass = nil;
 static Class NSUserNotificationCenterClass = nil;
+static NSString **NSUserNotificationDefaultSoundNamePtr = nil;
 
 
 @interface MacNotification : NSObject <NSUserNotificationCenterDelegate>
@@ -47,8 +49,12 @@ static Class NSUserNotificationCenterClass = nil;
     [theNotification setTitle:theTitle];
     [theNotification setInformativeText:theMessage];
     [theNotification setDeliveryDate:[NSDate dateWithTimeInterval:0 sinceDate:[NSDate date]]];
-//    [theNotification setSoundName:NSUserNotificationDefaultSoundName];
-
+    if (NSUserNotificationDefaultSoundNamePtr == nil) {
+        NSUserNotificationDefaultSoundNamePtr = (NSString **)dlsym(RTLD_DEFAULT, "NSUserNotificationDefaultSoundName");
+    }
+    if (NSUserNotificationDefaultSoundNamePtr != nil) {
+        [theNotification setSoundName:*NSUserNotificationDefaultSoundNamePtr];
+    }
     NSUserNotificationCenter *center = [NSUserNotificationCenterClass defaultUserNotificationCenter];
     [center deliverNotification:theNotification];
 }
@@ -73,6 +79,7 @@ bool CTaskBarIcon::IsBalloonsSupported() {
 
     NSUserNotificationClass = NSClassFromString(@"NSUserNotification");
     if (NSUserNotificationClass == nil) return false;
+    
     NSUserNotificationCenterClass = NSClassFromString(@"NSUserNotificationCenter");
     return (NSUserNotificationCenterClass != nil);
 }
