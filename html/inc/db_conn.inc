@@ -55,6 +55,8 @@ class DbConn {
         return $ret;
     }
 
+    // # rows affected by last query
+    //
     function affected_rows() {
         return mysql_affected_rows($this->db_conn);
     }

@@ -236,11 +236,6 @@ function current_versions($avs) {
     return $x;
 }
 
-function test_mysql_query($msg) {
-    echo "mysql_query($msg)<br/>";
-    return 1;
-}
-
 // cancel WUs with IDs in a given range.
 // This means:
 //
@@ -248,20 +243,19 @@ function test_mysql_query($msg) {
 // - set the CANCELLED bit in workunit.error_mask
 //
 function cancel_wus($wuid1, $wuid2) {
-    $query="update result set server_state=5, outcome=5 where server_state=2 and $wuid1<=workunitid and workunitid<=$wuid2";
-    if (!mysql_query($query)) {
-        error_page("DB query $query failed");
+    $retval = BoincResult::update_aux("server_state=5, outcome=5 where server_state=2 and $wuid1<=workunitid and workunitid<=$wuid2");
+    if (!$retval) {
+        error_page("Result update failed");
     }
-    $query="update workunit set error_mask=error_mask|16 where $wuid1<=id and id<=$wuid2";
-    if (!mysql_query($query)) {
-        error_page("DB query $query failed");
+    $retval = BoincWorkunit::update_aux("error_mask=error_mask|16 where $wuid1<=id and id<=$wuid2");
+    if (!$retval) {
+        error_page("Workunit update failed");
     }
 
     // trigger the transitioner (it will set file_delete_state)
 
     $now = time();
-    $query="update workunit set transition_time=$now where $wuid1<=id and id<=$wuid2";
-    mysql_query($query);
+    $retval = BoincWorkunit::update_aux("transition_time=$now where $wuid1<=id and id<=$wuid2");
     return 0;
 }
 
@@ -273,9 +267,9 @@ function cancel_wus_if_unsent($id1, $id2) {
     foreach ($wus as $wu) {
         $results = BoincResult::enum("workunitid=$wu->id and server_state > 2");
         if (count($results)) continue;
-        $query="update result set server_state=5, outcome=5 where workunitid=$wu->id";
-        if (!mysql_query($query)) {
-            error_page("DB query $query failed");
+        $retval = BoincResult::update_aux("server_state=5, outcome=5 where workunitid=$wu->id");
+        if (!$retval) {
+            error_page("result update failed");
         }
         if (!$wu->update("error_mask=error_mask|16")) {
             error_page("WU update failed");

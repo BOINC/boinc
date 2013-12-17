@@ -815,12 +815,10 @@ function db_init($try_replica=false) {
     $retval = db_init_aux($try_replica);
     if ($retval == 1) {
         echo tra("Unable to connect to database - please try again later");
-        echo tra("Error:"), " ", mysql_errno(), mysql_error();
         exit();
     }
     if ($retval == 2) {
         echo tra("Unable to select database - please try again later");
-        echo mysql_error();
         exit();
     }
     return 0;
