@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2013-11-28 00:00 PST\n"
+"POT-Creation-Date: 2013-12-17 00:00 PST\n"
 "PO-Revision-Date: 2013-01-20 16:11+0200\n"
 "Last-Translator: Pawel <pawel.pbm@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2056,7 +2056,7 @@ msgid "Computers on this account"
 msgstr "Komputery na tym koncie"
 
 #: ../inc/user.inc:151 ../inc/user.inc:152 ../inc/user.inc:217
-#: ../inc/user.inc:242 ../inc/user.inc:328 ../inc/user.inc:401
+#: ../inc/user.inc:242 ../inc/user.inc:328 ../inc/user.inc:412
 #: ../user/view_profile.php:64
 msgid "View"
 msgstr "Zobacz"
@@ -2186,7 +2186,7 @@ msgstr "Usuń"
 msgid "Create"
 msgstr "Stwórz"
 
-#: ../inc/user.inc:246 ../inc/user.inc:401 ../inc/util.inc:514
+#: ../inc/user.inc:246 ../inc/user.inc:412 ../inc/util.inc:514
 msgid "Profile"
 msgstr "Profil"
 
@@ -2259,15 +2259,15 @@ msgstr "Oczekujące zaproszenie"
 msgid "Add as friend"
 msgstr "Dodaj jako przyjaciela"
 
-#: ../inc/user.inc:445
+#: ../inc/user.inc:456
 msgid "user name cannot have leading or trailing white space"
 msgstr ""
 
-#: ../inc/user.inc:449
+#: ../inc/user.inc:460
 msgid "user name must be nonempty"
 msgstr ""
 
-#: ../inc/user.inc:453
+#: ../inc/user.inc:464
 msgid "user name may not contain HTML tags"
 msgstr ""
 
@@ -2344,11 +2344,7 @@ msgstr ""
 msgid "Unable to connect to database - please try again later"
 msgstr "Nie można połączyć się z bazą danych - spróbuj ponownie później"
 
-#: ../inc/util.inc:818
-msgid "Error:"
-msgstr "Błąd:"
-
-#: ../inc/util.inc:822
+#: ../inc/util.inc:821
 msgid "Unable to select database - please try again later"
 msgstr "Nie udało się wybrać bazy danych - spróbuj ponownie później"
 
@@ -6909,6 +6905,9 @@ msgstr ""
 #: ../project.sample/project_specific_prefs.inc:91
 msgid "(all applications)"
 msgstr ""
+
+#~ msgid "Error:"
+#~ msgstr "Błąd:"
 
 #~ msgid "Account creation is disabled"
 #~ msgstr "Tworzenie kont jest wyłączone"
