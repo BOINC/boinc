@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-11-22 00:00-0800\n"
-"PO-Revision-Date: 2013-10-06 19:41+0000\n"
+"PO-Revision-Date: 2013-10-06 20:40+0000\n"
 "Last-Translator: Jerome Cadet <jerome.cadet@pobox.com>\n"
 "Language-Team: <fr@li.org>\n"
 "Language: fr\n"
@@ -20,7 +20,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCGIT\\boinc\n"
-"X-POOTLE-MTIME: 1381088462.0\n"
+"X-POOTLE-MTIME: 1381092035.0\n"
 
 # 81%
 #: AccountInfoPage.cpp:387
@@ -122,8 +122,9 @@ msgstr ""
 "enregistrer ou pour récupérer un mot de passe oublié."
 
 #: AccountInfoPage.cpp:532
+#, fuzzy
 msgid "Account manager web site"
-msgstr ""
+msgstr "Site du gestionnaire de compte"
 
 # changement de terminologie boinc (cf. comm de David Anderson sur boinc_loc)
 #: AccountInfoPage.cpp:574 WelcomePage.cpp:348
@@ -144,8 +145,9 @@ msgid "Please enter a user name."
 msgstr ""
 
 #: AccountInfoPage.cpp:587
+#, fuzzy
 msgid "Please enter an email address."
-msgstr ""
+msgstr "Veuillez entrer une adresse email"
 
 #: AccountInfoPage.cpp:597
 #, c-format
@@ -172,12 +174,14 @@ msgstr ""
 "ci-dessous."
 
 #: AccountManagerInfoPage.cpp:279
+#, fuzzy
 msgid "Account manager details:"
-msgstr ""
+msgstr "Site du gestionnaire de compte"
 
 #: AccountManagerInfoPage.cpp:283
+#, fuzzy
 msgid "Account manager &URL:"
-msgstr ""
+msgstr "&URL du gestionnaire de compte:"
 
 #: AccountManagerInfoPage.cpp:287
 msgid "Open web page"
@@ -502,9 +506,9 @@ msgid "Show information about the %s"
 msgstr "Affiche les informations à propos du %s"
 
 #: AdvancedFrame.cpp:657 sg_BoincSimpleFrame.cpp:220
-#, c-format
+#, c-format, fuzzy
 msgid "%s &web site"
-msgstr ""
+msgstr "&Site web de %s"
 
 #: AdvancedFrame.cpp:663 sg_BoincSimpleFrame.cpp:226
 #, c-format
@@ -3797,9 +3801,9 @@ msgid "Project Commands"
 msgstr "Commandes du projet"
 
 #: sg_ProjectPanel.cpp:267
-#, c-format
+#, c-format, fuzzy
 msgid "Pop up a menu of web sites for project %s"
-msgstr ""
+msgstr "Afficher une liste des sites web du projet %s"
 
 #: sg_ProjectPanel.cpp:269
 #, c-format
