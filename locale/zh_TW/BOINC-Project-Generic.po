@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2013-11-28 00:00 PST\n"
+"POT-Creation-Date: 2013-12-17 00:00 PST\n"
 "PO-Revision-Date: 2013-11-26 12:36+0000\n"
 "Last-Translator: Hank <yihhann@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1963,7 +1963,7 @@ msgid "Computers on this account"
 msgstr "本帳號所屬的電腦"
 
 #: ../inc/user.inc:151 ../inc/user.inc:152 ../inc/user.inc:217
-#: ../inc/user.inc:242 ../inc/user.inc:328 ../inc/user.inc:401
+#: ../inc/user.inc:242 ../inc/user.inc:328 ../inc/user.inc:412
 #: ../user/view_profile.php:64
 msgid "View"
 msgstr "查看"
@@ -2091,7 +2091,7 @@ msgstr "刪除"
 msgid "Create"
 msgstr "建立"
 
-#: ../inc/user.inc:246 ../inc/user.inc:401 ../inc/util.inc:514
+#: ../inc/user.inc:246 ../inc/user.inc:412 ../inc/util.inc:514
 msgid "Profile"
 msgstr "用戶檔案"
 
@@ -2164,15 +2164,15 @@ msgstr "請求待處理"
 msgid "Add as friend"
 msgstr "新增為好友"
 
-#: ../inc/user.inc:445
+#: ../inc/user.inc:456
 msgid "user name cannot have leading or trailing white space"
 msgstr "使用者名稱前後不能使用空白建"
 
-#: ../inc/user.inc:449
+#: ../inc/user.inc:460
 msgid "user name must be nonempty"
 msgstr "使用者名稱不能留白"
 
-#: ../inc/user.inc:453
+#: ../inc/user.inc:464
 msgid "user name may not contain HTML tags"
 msgstr "使用者名稱不能包含HTML標籤"
 
@@ -2242,11 +2242,7 @@ msgstr "%1 已經臨時關閉並進行維護工作，請稍候再重試。"
 msgid "Unable to connect to database - please try again later"
 msgstr "無法連接資料庫 - 請稍候重試"
 
-#: ../inc/util.inc:818
-msgid "Error:"
-msgstr "錯誤："
-
-#: ../inc/util.inc:822
+#: ../inc/util.inc:821
 msgid "Unable to select database - please try again later"
 msgstr "無法選擇資料庫 - 請稍候重試"
 
@@ -6603,6 +6599,9 @@ msgstr "如果選中的應用程式暫時沒有運算任務，是否從其它應
 #: ../project.sample/project_specific_prefs.inc:91
 msgid "(all applications)"
 msgstr "(所有應用程式)"
+
+#~ msgid "Error:"
+#~ msgstr "錯誤："
 
 #~ msgid "Account creation is disabled"
 #~ msgstr "帳號建立功能已停用"
