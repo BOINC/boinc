@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2013-11-28 00:00 PST\n"
+"POT-Creation-Date: 2013-12-17 00:00 PST\n"
 "PO-Revision-Date: 2013-10-28 19:50+0000\n"
 "Last-Translator: Олег <pukish_oleg@ukr.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2057,7 +2057,7 @@ msgstr "Комп’ютери в цьому обліковому записі"
 # 80%
 # 100%
 #: ../inc/user.inc:151 ../inc/user.inc:152 ../inc/user.inc:217
-#: ../inc/user.inc:242 ../inc/user.inc:328 ../inc/user.inc:401
+#: ../inc/user.inc:242 ../inc/user.inc:328 ../inc/user.inc:412
 #: ../user/view_profile.php:64
 msgid "View"
 msgstr "Перегляд"
@@ -2185,7 +2185,7 @@ msgstr "Видалити"
 msgid "Create"
 msgstr "Створити"
 
-#: ../inc/user.inc:246 ../inc/user.inc:401 ../inc/util.inc:514
+#: ../inc/user.inc:246 ../inc/user.inc:412 ../inc/util.inc:514
 msgid "Profile"
 msgstr "Профіль"
 
@@ -2258,15 +2258,15 @@ msgstr "Запит в очікуванні"
 msgid "Add as friend"
 msgstr "Додати друга"
 
-#: ../inc/user.inc:445
+#: ../inc/user.inc:456
 msgid "user name cannot have leading or trailing white space"
 msgstr "ім’я користувача не може містити пробілів на початку або вкінці"
 
-#: ../inc/user.inc:449
+#: ../inc/user.inc:460
 msgid "user name must be nonempty"
 msgstr "ім’я користувача не може бути порожнім"
 
-#: ../inc/user.inc:453
+#: ../inc/user.inc:464
 msgid "user name may not contain HTML tags"
 msgstr "ім’я користувача не може містити тегів HTML"
 
@@ -2343,11 +2343,7 @@ msgid "Unable to connect to database - please try again later"
 msgstr ""
 "Неможливо підключитися до бази даних - будь-ласка, спробуйте ще раз пізніше"
 
-#: ../inc/util.inc:818
-msgid "Error:"
-msgstr "Помилка:"
-
-#: ../inc/util.inc:822
+#: ../inc/util.inc:821
 msgid "Unable to select database - please try again later"
 msgstr "Неможливо вибрати базу даних - будь-ласка, спробуйте ще раз пізніше"
 
@@ -7072,6 +7068,9 @@ msgstr ""
 #: ../project.sample/project_specific_prefs.inc:91
 msgid "(all applications)"
 msgstr "(все додатки)"
+
+#~ msgid "Error:"
+#~ msgstr "Помилка:"
 
 #~ msgid "Account creation is disabled"
 #~ msgstr "Створення облікового запису заборонене"
