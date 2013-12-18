@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Project (Generic) 6.x\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2013-11-28 00:00 PST\n"
+"POT-Creation-Date: 2013-12-17 00:00 PST\n"
 "PO-Revision-Date: 2013-11-16 14:35+0000\n"
 "Last-Translator: Christian <djangofett@gmx.net>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
@@ -2057,7 +2057,7 @@ msgid "Computers on this account"
 msgstr "Computer, die zu diesem Konto gehören"
 
 #: ../inc/user.inc:151 ../inc/user.inc:152 ../inc/user.inc:217
-#: ../inc/user.inc:242 ../inc/user.inc:328 ../inc/user.inc:401
+#: ../inc/user.inc:242 ../inc/user.inc:328 ../inc/user.inc:412
 #: ../user/view_profile.php:64
 msgid "View"
 msgstr "Anzeigen"
@@ -2186,7 +2186,7 @@ msgstr "Löschen"
 msgid "Create"
 msgstr "Erstellen"
 
-#: ../inc/user.inc:246 ../inc/user.inc:401 ../inc/util.inc:514
+#: ../inc/user.inc:246 ../inc/user.inc:412 ../inc/util.inc:514
 msgid "Profile"
 msgstr "Profil"
 
@@ -2259,15 +2259,15 @@ msgstr "Anfrage läuft"
 msgid "Add as friend"
 msgstr "als Freund hinzufügen"
 
-#: ../inc/user.inc:445
+#: ../inc/user.inc:456
 msgid "user name cannot have leading or trailing white space"
 msgstr "Der Benutzername kann keine Leerzeichen am Anfang oder Ende beinhalten"
 
-#: ../inc/user.inc:449
+#: ../inc/user.inc:460
 msgid "user name must be nonempty"
 msgstr "Der Benutzername darf nicht leer sein."
 
-#: ../inc/user.inc:453
+#: ../inc/user.inc:464
 msgid "user name may not contain HTML tags"
 msgstr "Der Benutzername darf keine HTML-Tags beinhalten."
 
@@ -2348,11 +2348,7 @@ msgstr ""
 "Es ist momentan nicht möglich die Datenbank zu erreichen - Bitte versuchen "
 "Sie es später noch einmal."
 
-#: ../inc/util.inc:818
-msgid "Error:"
-msgstr "Fehler:"
-
-#: ../inc/util.inc:822
+#: ../inc/util.inc:821
 msgid "Unable to select database - please try again later"
 msgstr ""
 "Es ist momentan nicht möglich die Datenbank auszuwählen - Bitte versuchen "
@@ -7135,6 +7131,9 @@ msgstr ""
 #: ../project.sample/project_specific_prefs.inc:91
 msgid "(all applications)"
 msgstr "(alle Anwendungen)"
+
+#~ msgid "Error:"
+#~ msgstr "Fehler:"
 
 #~ msgid "Account creation is disabled"
 #~ msgstr "Erstellung eines neuen Konto ist deaktiviert"
