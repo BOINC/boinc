@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2013-10-18 00:00-0700\n"
-"PO-Revision-Date: 2013-12-18 19:59+0000\n"
+"PO-Revision-Date: 2013-12-18 20:16+0000\n"
 "Last-Translator: Rene <oskamjr@ziggo.nl>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: nl\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
-"X-POOTLE-MTIME: 1387396775.0\n"
+"X-POOTLE-MTIME: 1387397800.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -730,11 +730,11 @@ msgstr "Project verwijderen?"
 
 msgctxt "projects_confirm_detach_message"
 msgid "Are you sure you want to remove"
-msgstr ""
+msgstr "Weet je zeker dat je"
 
 msgctxt "projects_confirm_detach_message2"
 msgid "from BOINC?"
-msgstr ""
+msgstr "uit BOINC wilt verwijderen?"
 
 msgctxt "projects_confirm_detach_confirm"
 msgid "Remove"
@@ -744,25 +744,27 @@ msgctxt "projects_confirm_reset_title"
 msgid "Reset project"
 msgstr ""
 
+#, fuzzy
 msgctxt "projects_confirm_reset_message"
 msgid "Are you sure you want to reset"
-msgstr ""
+msgstr "Weet je zeker dat je"
 
+#, fuzzy
 msgctxt "projects_confirm_reset_confirm"
 msgid "Reset"
-msgstr ""
+msgstr "Reset"
 
 msgctxt "projects_confirm_remove_acctmgr_title"
 msgid "Disable account manager"
-msgstr ""
+msgstr "Accountmanager uitzetten"
 
 msgctxt "projects_confirm_remove_acctmgr_message"
 msgid "Are you sure you want to stop using"
-msgstr ""
+msgstr "Weet je zeker dat je wilt stoppen met het gebruik van"
 
 msgctxt "projects_confirm_remove_acctmgr_confirm"
 msgid "Disable"
-msgstr ""
+msgstr "Uitzetten"
 
 #. tasks tab strings
 msgctxt "tasks_header_name"
@@ -909,7 +911,7 @@ msgstr "Bestand:"
 
 msgctxt "trans_control_retry"
 msgid "Retry transfers"
-msgstr ""
+msgstr "Opnieuw verzenden"
 
 msgctxt "confirm_abort_trans_title"
 msgid "Abort transfer?"
@@ -926,7 +928,7 @@ msgstr "Afbreken"
 #. notices tab strings
 msgctxt "notices_loading"
 msgid "Reading notices…"
-msgstr ""
+msgstr "Berichten inlezen..."
 
 #. eventlog tab strings
 msgctxt "eventlog_loading"
@@ -962,13 +964,15 @@ msgctxt "suspend_useractive"
 msgid "User is active."
 msgstr "Gebruiker is actief."
 
+#, fuzzy
 msgctxt "suspend_tod"
 msgid "Out of computation time-frame."
-msgstr ""
+msgstr "Out of computation time-frame."
 
+#, fuzzy
 msgctxt "suspend_bm"
 msgid "BOINC is benchmarking your device…"
-msgstr ""
+msgstr "BOINC is benchmarking your device…"
 
 msgctxt "suspend_disksize"
 msgid "Out of disk space."
@@ -1016,69 +1020,70 @@ msgstr ""
 
 msgctxt "suspend_battery_charging_current"
 msgid "currently"
-msgstr ""
+msgstr "huidig"
 
 msgctxt "suspend_battery_overheating"
 msgid "Waiting for battery to cool down"
-msgstr ""
+msgstr "Wacht op afkoelen batterij"
 
 msgctxt "suspend_user_req"
 msgid "Resuming computation…"
-msgstr ""
+msgstr "Berekeningen hervatten..."
 
 msgctxt "suspend_network_user_req"
 msgid "manually."
-msgstr ""
+msgstr "handmatig."
 
 #. rpc reasons
 msgctxt "rpcreason_userreq"
 msgid "Requested by user"
-msgstr ""
+msgstr "Op verzoek van gebruiker"
 
 msgctxt "rpcreason_needwork"
 msgid "To fetch work"
-msgstr ""
+msgstr "Om werk te verkrijgen"
 
 msgctxt "rpcreason_resultsdue"
 msgid "To report completed tasks"
-msgstr ""
+msgstr "Om taken te rapporteren"
 
 msgctxt "rpcreason_trickleup"
 msgid "To send trickle-up message"
-msgstr ""
+msgstr "Om trickle-up berichten te verzenden"
 
 msgctxt "rpcreason_acctmgrreq"
 msgid "Requested by account manager"
-msgstr ""
+msgstr "Op verzoek van accountmanager"
 
 msgctxt "rpcreason_init"
 msgid "Project initialization"
-msgstr ""
+msgstr "Project instellen"
 
 msgctxt "rpcreason_projectreq"
 msgid "Requested by project"
-msgstr ""
+msgstr "Op verzoek van project"
 
 msgctxt "rpcreason_unknown"
 msgid "Unknown reason"
-msgstr ""
+msgstr "Onbekende reden"
 
 #. menu
 msgctxt "menu_refresh"
 msgid "Refresh"
-msgstr ""
+msgstr "Ververs"
 
 msgctxt "menu_emailto"
 msgid "Send as Email"
-msgstr ""
+msgstr "Verzend als email"
 
 msgctxt "menu_copy"
 msgid "Copy to Clipboard"
-msgstr ""
+msgstr "Naar klembord kopiëren"
 
+#, fuzzy
 msgctxt "menu_eventlog"
 msgid "Event Log"
-msgstr ""
+msgstr "Event Log"
 
 msgctxt "menu_exit"
 msgid "Exit BOINC"
@@ -1101,9 +1106,10 @@ msgid "Help"
 msgstr "Help"
 
 #. about dialog
+#, fuzzy
 msgctxt "about_button"
 msgid "Return"
-msgstr ""
+msgstr "Return"
 
 msgctxt "about_title"
 msgid "About"
