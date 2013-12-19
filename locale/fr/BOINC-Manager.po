@@ -506,6 +506,7 @@ msgid "Show information about the %s"
 msgstr "Affiche les informations à propos du %s"
 
 #: AdvancedFrame.cpp:657 sg_BoincSimpleFrame.cpp:220
+#, c-format
 #, c-format, fuzzy
 msgid "%s &web site"
 msgstr "&Site web de %s"
@@ -3801,6 +3802,7 @@ msgid "Project Commands"
 msgstr "Commandes du projet"
 
 #: sg_ProjectPanel.cpp:267
+#, c-format
 #, c-format, fuzzy
 msgid "Pop up a menu of web sites for project %s"
 msgstr "Afficher une liste des sites web du projet %s"
