@@ -307,8 +307,12 @@ function app_version_desc($avid) {
     }
 }
 
+function running_from_web_server() {
+    return array_key_exists("SERVER_PORT", $_SERVER);
+}
+
 if (isset($cli_only)) {
-    if (array_key_exists("SERVER_PORT", $_SERVER)) {
+    if (running_from_web_server()) {
         die("This script is intended to be run from the command line,
             not from the web server."
         );
