@@ -307,6 +307,59 @@ function app_version_desc($avid) {
     }
 }
 
+////// badge-related stuff
+
+function get_badge($name, $title, $image_url) {
+    $b = BoincBadge::lookup("name='$name'");
+    if ($b) return $b;
+    $now = time();
+    $id = BoincBadge::insert("(create_time, name, title, image_url) values ($now, '$name', '$title', 'img/$image_url')");
+    $b = BoincBadge::lookup_id($id);
+    if ($b) return $b;
+    die("can't create badge $name\n");
+}
+
+function assign_badge($is_user, $item, $badge) {
+    $now = time();
+    if ($is_user) {
+        $bbu = BoincBadgeUser::lookup("user_id=$item->id and badge_id=$badge->id");
+        if ($bbu) {
+            $bbu->update("reassign_time=$now where user_id=$item->id and badge_id=$badge->id");
+        } else {
+            BoincBadgeUser::insert("(create_time, user_id, badge_id, reassign_time) values ($now, $item->id, $badge->id, $now)");
+        }
+    } else {
+        $bbt = BoincBadgeTeam::lookup("team_id=$item->id and badge_id=$badge->id");
+        if ($bbt) {
+            $bbt->update("reassign_time=$now where team_id=$item->id and badge_id=$badge->id");
+        } else {
+            BoincBadgeTeam::insert("(create_time, team_id, badge_id, reassign_time) values ($now, $item->id, $badge->id, $now)");
+        }
+    }
+}
+
+// unassign all badges except the given one
+//
+function unassign_badges($is_user, $item, $badges, $k) {
+    $list = null;
+    for ($i=0; $i<count($badges); $i++) {
+        if ($i == $k) continue;
+        $badge = $badges[$i];
+        if ($list) {
+            $list .= ",$badge->id";
+        } else {
+            $list = "$badge->id";
+        }
+    }
+    if ($is_user) {
+        BoincBadgeUser::delete("user_id=$item->id and badge_id in ($list)");
+    } else {
+        BoincBadgeTeam::delete("team_id=$item->id and badge_id in ($list)");
+    }
+}
+
+////// end badge-related stuff
+
 function running_from_web_server() {
     return array_key_exists("SERVER_PORT", $_SERVER);
 }

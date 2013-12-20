@@ -100,7 +100,7 @@ if ($format=="xml"){
     echo "</td><td valign=top>";
     start_table();
     show_profile_link($user);
-    show_badges($user);
+    show_badges(true, $user);
     community_links($community_links, $logged_in_user);
     end_table();
     echo "</td></tr></table>";

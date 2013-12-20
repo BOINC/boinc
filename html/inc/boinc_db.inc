@@ -162,6 +162,10 @@ class BoincUser {
         $db = BoincDb::get();
         return $db->sum('user', $field);
     }
+    static function percentile($field, $clause, $pct) {
+        $db = BoincDb::get();
+        return $db->percentile('user', $field, $clause, $pct);
+    }
 }
 
 class BoincTeam {
@@ -197,6 +201,20 @@ class BoincTeam {
     function delete() {
         $db = BoincDb::get();
         return $db->delete($this, 'team');
+    }
+    static function percentile($field, $clause, $pct) {
+        $db = BoincDb::get();
+        return $db->percentile('team', $field, $clause, $pct);
+    }
+    static function max($field) {
+        $db = BoincDb::get();
+        return $db->max('team', $field);
+    }
+    static function enum_fields($fields, $where_clause, $order_clause=null) {
+        $db = BoincDb::get();
+        return $db->enum_fields(
+            'team', 'BoincTeam', $fields, $where_clause, $order_clause
+        );
     }
 }
 
@@ -552,15 +570,23 @@ class BoincBadgeUser {
 }
 
 class BoincBadgeTeam {
-    static function lookup($clause) {
+    static function enum($where_clause) {
         $db = BoincDb::get();
-        return $db->lookup('badge_team', 'BoincBadgeTeam', $clause);
+        return $db->enum('badge_team', 'BoincBadgeTeam', $where_clause);
     }
     static function insert($clause) {
         $db = BoincDb::get();
         $ret = $db->insert('badge_team', $clause);
         if (!$ret) return false;
         return true;
+    }
+    static function lookup($clause) {
+        $db = BoincDb::get();
+        return $db->lookup('badge_team', 'BoincBadgeTeam', $clause);
+    }
+    static function update($clause) {
+        $db = BoincDb::get();
+        return $db->update_aux('badge_team', $clause);
     }
     function delete($clause) {
         $db = BoincDb::get();

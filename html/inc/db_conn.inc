@@ -168,6 +168,17 @@ class DbConn {
         if ($cnt) return (double)$cnt->total;
         return null;
     }
+    function percentile($table, $field, $clause, $pct) {
+        $n = $this->count($table, $clause);
+        if (!$n) return false;
+        $m = (int)($n*$pct/100);
+        $query = "select $field from ".$this->db_name.".$table where $clause order by $field limit $m,1";
+        $result = $this->do_query($query);
+        if (!$result) return false;
+        $percentile = mysql_fetch_object($result);
+        mysql_free_result($result);
+        return $percentile->$field;
+    }
     function replace($table, $clause) {
         $query = "replace into ".$this->db_name.".$table set $clause";
         return $this->do_query($query);

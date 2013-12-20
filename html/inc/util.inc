@@ -926,6 +926,21 @@ function redirect_to_secure_url($url) {
     }
 }
 
+function show_badges($is_user, $item) {
+    if ($is_user) {
+        $bus = BoincBadgeUser::enum("user_id=$item->id");
+    } else {
+        $bus = BoincBadgeTeam::enum("team_id=$item->id");
+    }
+    if (!$bus) return;
+    $x = "";
+    foreach ($bus as $bu) {
+        $badge = BoincBadge::lookup_id($bu->badge_id);
+        $x .= "<img title=\"$badge->title\" height=40 src=$badge->image_url> ";
+    }
+    row2("Badges", $x);
+}
+
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
 ?>
