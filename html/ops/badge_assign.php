@@ -25,10 +25,10 @@ require_once("../inc/util_ops.inc");
 // thresholds for the various badges
 // (i.e. gold badge is for top 1% of active users/teams)
 //
-$badge_pctiles = array(1, 10, 25);
+$badge_pctiles = array(1, 5, 25);
 $badge_images = array("gold.png", "silver.png", "bronze.png");
 
-// get the records for percentile badges; create if needed
+// get the records for percentile badges; create them if needed
 //
 function get_pct_badges($badge_name_prefix, $badge_pctiles, $badge_images) {
     $badges = array();
@@ -38,7 +38,7 @@ function get_pct_badges($badge_name_prefix, $badge_pctiles, $badge_images) {
     return $badges;
 }
 
-// get the RAC percentiles
+// get the RAC percentiles from the database
 //
 function get_percentiles($is_user, $badge_pctiles) {
     $percentiles = array();
@@ -55,6 +55,9 @@ function get_percentiles($is_user, $badge_pctiles) {
     return $percentiles;
 }
 
+// decide which badge to assign, if any.
+// Unassign other badges.
+//
 function assign_pct_badge($is_user, $item, $percentiles, $badges) {
     for ($i=0; $i<3; $i++) {
         if ($item->expavg_credit >= $percentiles[$i]) {
@@ -66,6 +69,9 @@ function assign_pct_badge($is_user, $item, $percentiles, $badges) {
     unassign_badges($is_user, $item, $badges, -1);
 }
 
+// Scan through all the users/teams, 1000 at a time,
+// and assign/unassign RAC badges
+//
 function assign_badges($is_user, $badge_pctiles, $badge_images) {
     $kind = $is_user?"user":"team";
     $badges = get_pct_badges($kind."_pct", $badge_pctiles, $badge_images);

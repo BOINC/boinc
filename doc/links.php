@@ -19,6 +19,11 @@ function site($url, $name) {
 
 $info_sites = array(
     array(
+        "http://www.pkcarlisle.com/smboinc.html",
+        "Running BOINC over a Samba Server",
+        "(in English)"
+    ),
+    array(
         "http://www.overclock.net/f/365/overclock-net-boinc-team",
         "Overclock.net",
         "(in English)"
