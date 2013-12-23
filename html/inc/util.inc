@@ -936,7 +936,7 @@ function show_badges($is_user, $item) {
     $x = "";
     foreach ($bus as $bu) {
         $badge = BoincBadge::lookup_id($bu->badge_id);
-        $x .= "<img title=\"$badge->title\" height=40 src=$badge->image_url> ";
+        $x .= "<img title=\"$badge->title\" height=48 src=$badge->image_url> ";
     }
     row2("Badges", $x);
 }

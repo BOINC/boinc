@@ -26,7 +26,7 @@ require_once("../inc/util_ops.inc");
 // (i.e. gold badge is for top 1% of active users/teams)
 //
 $badge_pctiles = array(1, 5, 25);
-$badge_images = array("gold.png", "silver.png", "bronze.png");
+$badge_images = array("pct_1.png", "pct_5.png", "pct_25.png");
 
 // get the records for percentile badges; create them if needed
 //
