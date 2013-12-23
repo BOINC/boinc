@@ -862,6 +862,47 @@ function update_9_17_2013() {
     do_query("alter table batch add expire_time double not null");
 }
 
+function update_12_22_2013() {
+    do_query("
+        create table badge (
+            id                      serial          primary key,
+            create_time             double          not null,
+            type                    tinyint         not null,
+            name                    varchar(255)    not null,
+            title                   varchar(255)    not null,
+            description             varchar(255)    not null,
+            image_url               varchar(255)    not null,
+            level                   varchar(255)    not null,
+            tags                    varchar(255)    not null,
+            sql_rule                varchar(255)    not null
+        )
+    ");
+    do_query("
+        create table badge_user (
+            badge_id                integer         not null,
+            user_id                 integer         not null,
+            create_time             double          not null,
+            reassign_time           double          not null
+        )
+    ");
+    do_query("
+        create table badge_team (
+            badge_id                integer         not null,
+            team_id                 integer         not null,
+            create_time             double          not null,
+            reassign_time           double          not null
+        )
+    ");
+    do_query("
+        alter table badge_user
+            add unique (user_id, badge_id)
+    ");
+    do_query("
+        alter table badge_team
+            add unique (team_id, badge_id)
+    ");
+}
+
 // Updates are done automatically if you use "upgrade".
 //
 // If you need to do updates manually,
@@ -898,6 +939,7 @@ $db_updates = array (
     array(27002, "update_5_23_2013"),
     array(27003, "update_9_10_2013"),
     array(27004, "update_9_17_2013"),
+    array(27005, "update_12_22_2013"),
 );
 
 ?>
