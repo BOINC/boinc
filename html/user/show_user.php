@@ -99,8 +99,8 @@ if ($format=="xml"){
     show_other_projects($user, false);
     echo "</td><td valign=top>";
     start_table();
-    show_profile_link($user);
     show_badges(true, $user);
+    show_profile_link($user);
     community_links($community_links, $logged_in_user);
     end_table();
     echo "</td></tr></table>";

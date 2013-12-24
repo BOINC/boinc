@@ -33,7 +33,7 @@ $badge_images = array("pct_1.png", "pct_5.png", "pct_25.png");
 function get_pct_badges($badge_name_prefix, $badge_pctiles, $badge_images) {
     $badges = array();
     for ($i=0; $i<3; $i++) {
-        $badges[$i] = get_badge($badge_name_prefix."_".$i, "Top ".$badge_pctiles[$i]."%", $badge_images[$i]);
+        $badges[$i] = get_badge($badge_name_prefix."_".$i, "Top ".$badge_pctiles[$i]."% in average credit", $badge_images[$i]);
     }
     return $badges;
 }
