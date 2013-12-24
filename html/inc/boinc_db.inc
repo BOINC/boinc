@@ -542,6 +542,10 @@ class BoincBadge {
         $db = BoincDb::get();
         return $db->lookup('badge', 'BoincBadge', $clause);
     }
+    function delete() {
+        $db = BoincDb::get();
+        return $db->delete($this, 'badge');
+    }
 }
 
 class BoincBadgeUser {
@@ -567,6 +571,10 @@ class BoincBadgeUser {
         $db = BoincDb::get();
         $db->delete_aux('badge_user', $clause);
     }
+    static function count($clause) {
+        $db = BoincDb::get();
+        return $db->count('badge_user', $clause);
+    }
 }
 
 class BoincBadgeTeam {
@@ -591,6 +599,10 @@ class BoincBadgeTeam {
     function delete($clause) {
         $db = BoincDb::get();
         $db->delete_aux('badge_team', $clause);
+    }
+    static function count($clause) {
+        $db = BoincDb::get();
+        return $db->count('badge_team', $clause);
     }
 }
 

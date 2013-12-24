@@ -28,38 +28,11 @@ define("TABLE", "<table cellpadding=\"8\" border=\"1\" width=\"100%\">");
 define("TABLE2", "<table width=\"580\">");
 
 function admin_page_head($title) {
-    $stylesheet = URL_BASE.STYLESHEET;
-
-    echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">";
-    echo "<html><head><title>$title</title>
-        <meta http-equiv=\"content-type\" content=\"text/html;charset=utf-8\" />
-        <link rel=stylesheet type=\"text/css\" href=\"".URL_BASE."main.css\" media=\"all\" />
-    ";
-    if (defined('ADMIN_STYLESHEET')) {
-        echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".URL_BASE.ADMIN_STYLESHEET."\" media=\"all\" />";
-    }
-    echo "
-        </head>
-        <body bgcolor=\"#ffffff\">
-        <h2>".PROJECT.": $title</h2>
-    ";
+    return page_head($title);
 }
 
 function admin_page_tail() {
-    echo "<br><hr noshade size=1><center>
-        <a href=\"index.php\"> Back to Main admin page </a> |
-    ";
-    $user = get_logged_in_user_ops();
-    if ($user) {
-        echo "logged in as $user->name. <a href=logout.php>Log out</a>";
-    } else {
-        echo "<a href=login_form.php>Log in</a>";
-    }
-
-    echo "
-        </center>
-        </body></html>
-    ";
+    echo "</body></html>\n";
 }
 
 // TODO: get rid of all the following

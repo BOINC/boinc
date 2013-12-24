@@ -25,21 +25,27 @@ function show_form() {
     table_header(
         "ID",
         "name",
-        "type<br>0=user<br>1=team",
+        "type<br><span class=note>0=user<br>1=team</span>",
         "title",
         "description",
         "image URL",
         "level",
         "tags",
-        "SQL rule"
+        "SQL rule",
+        "", ""
     );
 
     $badges = BoincBadge::enum("");
+    $i = 0;
     foreach ($badges as $badge) {
-        echo "<tr valign=top><form action=badge_admin.php method=POST>";
-        echo "<input type=hidden name=id value=$badge->id>";
+        echo "<tr class=row$i valign=top><form action=badge_admin.php method=POST>";
+        $i = 1-$i;
         echo "<td>$badge->id</td>\n";
-        echo "<td><input name=\"name\" value=\"$badge->name\"></td>\n";
+        echo "<input type=hidden name=id value=$badge->id>";
+        $nu = BoincBadgeUser::count("badge_id=$badge->id");
+        $nt = BoincBadgeTeam::count("badge_id=$badge->id");
+        $x = "<br><span class=note>Assigned to $nu users<br>Assigned to $nt teams</span>";
+        echo "<td><input name=\"name\" value=\"$badge->name\">$x</td>\n";
         echo "<td><input name=\"type\" size=4 value=\"$badge->type\"></td>\n";
         echo "<td><input name=\"title\" value=\"$badge->title\"></td>\n";
         echo "<td><input name=\"description\" value=\"$badge->description\"></td>\n";
@@ -52,6 +58,7 @@ function show_form() {
         echo "<td><input name=\"tags\" value=\"$badge->tags\"></td>\n";
         echo "<td><input name=\"sql_rule\" value=\"$badge->sql_rule\"></td>\n";
         echo "<td><input type=submit name=\"update\" value=Update>\n";
+        echo "<td><input type=submit name=\"delete\" value=Delete>\n";
         echo "</form></tr>\n";
     }
     
@@ -65,7 +72,7 @@ function show_form() {
     echo "<td><input name=\"level\"></td>\n";
     echo "<td><input name=\"tags\"></td>\n";
     echo "<td><input name=\"sql_rule\"></td>\n";
-    echo "<td><input type=submit name=\"add_badge\" value=\"Create badge\"></td>\n";
+    echo "<td colspan=2><input type=submit name=\"add_badge\" value=\"Create badge\"></td>\n";
     echo "</form></tr>\n";
 
     end_table();
@@ -107,11 +114,23 @@ function update_badge() {
     }
 }
 
+function delete_badge() {
+    $id = post_int("id");
+    $badge = BoincBadge::lookup_id($id);
+    if (!$badge) {
+        admin_error_page("no such badge");
+    }
+    BoincBadgeUser::delete("badge_id=$id");
+    BoincBadgeTeam::delete("badge_id=$id");
+    $badge->delete();
+}
 
 if (post_str('add_badge', true)) {
     add_badge();
 } else if (post_str('update', true)) {
     update_badge();
+} else if (post_str('delete', true)) {
+    delete_badge();
 }
 admin_page_head("Manage badges");
 show_form();
