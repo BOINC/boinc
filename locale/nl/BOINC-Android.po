@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2013-10-18 00:00-0700\n"
-"PO-Revision-Date: 2013-12-18 20:16+0000\n"
+"PO-Revision-Date: 2013-12-24 20:15+0000\n"
 "Last-Translator: Rene <oskamjr@ziggo.nl>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: nl\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
-"X-POOTLE-MTIME: 1387397800.0\n"
+"X-POOTLE-MTIME: 1387916154.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -706,10 +706,9 @@ msgctxt "projects_control_allownewtasks"
 msgid "Allow new tasks"
 msgstr "Nieuwe taken toestaan"
 
-#, fuzzy
 msgctxt "projects_control_reset"
 msgid "Reset"
-msgstr "Reset"
+msgstr "Resetten"
 
 msgctxt "projects_control_dialog_title_acctmgr"
 msgid "Account manager commands:"
@@ -742,17 +741,15 @@ msgstr "Verwijderen"
 
 msgctxt "projects_confirm_reset_title"
 msgid "Reset project"
-msgstr ""
+msgstr "Project resetten"
 
-#, fuzzy
 msgctxt "projects_confirm_reset_message"
 msgid "Are you sure you want to reset"
 msgstr "Weet je zeker dat je"
 
-#, fuzzy
 msgctxt "projects_confirm_reset_confirm"
 msgid "Reset"
-msgstr "Reset"
+msgstr "Resetten"
 
 msgctxt "projects_confirm_remove_acctmgr_title"
 msgid "Disable account manager"
@@ -976,31 +973,32 @@ msgstr "BOINC is benchmarking your device…"
 
 msgctxt "suspend_disksize"
 msgid "Out of disk space."
-msgstr ""
+msgstr "Geen vrije schijfruimte over."
 
+#, fuzzy
 msgctxt "suspend_cputhrottle"
 msgid "Scheduled CPU throttle."
-msgstr ""
+msgstr "Scheduled CPU throttle."
 
 msgctxt "suspend_noinput"
 msgid "No recent user activity."
-msgstr ""
+msgstr "Geen recente gebruikers activiteit."
 
 msgctxt "suspend_delay"
 msgid "Initialization delay."
-msgstr ""
+msgstr "Initialiseren vertraagd."
 
 msgctxt "suspend_exclusiveapp"
 msgid "An exclusive app is running."
-msgstr ""
+msgstr "Er wordt een exclusieve app uitgevoerd."
 
 msgctxt "suspend_cpu"
 msgid "Your device is busy with other apps."
-msgstr ""
+msgstr "Apparaat is bezig met andere apps."
 
 msgctxt "suspend_network_quota"
 msgid "BOINC reached network transfer limit."
-msgstr ""
+msgstr "BOINC transfer limiet is bereikt."
 
 msgctxt "suspend_os"
 msgid "Stopped by Android."
@@ -1012,11 +1010,12 @@ msgstr "Niet verbonden met WiFi."
 
 msgctxt "suspend_battery_charging"
 msgid "Battery needs to charge before resuming computation."
-msgstr ""
+msgstr "Batterij moet opgeladen worden om berekeningen te hervatten."
 
+#, fuzzy
 msgctxt "suspend_battery_charging_long"
 msgid "Computing will resume when battery charge reaches"
-msgstr ""
+msgstr "Computing will resume when battery charge reaches"
 
 msgctxt "suspend_battery_charging_current"
 msgid "currently"
