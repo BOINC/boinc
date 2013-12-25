@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2013-10-18 00:00-0700\n"
-"PO-Revision-Date: 2013-12-24 20:15+0000\n"
+"PO-Revision-Date: 2013-12-25 13:16+0000\n"
 "Last-Translator: Rene <oskamjr@ziggo.nl>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: nl\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
-"X-POOTLE-MTIME: 1387916154.0\n"
+"X-POOTLE-MTIME: 1387977375.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -154,7 +154,7 @@ msgstr "Aanmelden"
 
 msgctxt "attachproject_login_button_forgotpw"
 msgid "Forgot Password"
-msgstr "Wachtwoord vergeten?"
+msgstr "Wachtwoord Vergeten"
 
 msgctxt "attachproject_login_error_toast"
 msgid "Contacting project failed!"
@@ -397,7 +397,7 @@ msgstr "Berekenen"
 
 msgctxt "status_running_long"
 msgid "Thank you for participating."
-msgstr "Dank u voor uw deelname"
+msgstr "Dank u voor uw deelname."
 
 msgctxt "status_paused"
 msgid "Suspended"
@@ -537,7 +537,7 @@ msgstr "Dagelijkse overdracht limiet"
 
 msgctxt "prefs_network_daily_xfer_limit_mb_description"
 msgid "Limits the daily data traffic caused by BOINC."
-msgstr "Beperkt het dagelijkse dataverkeer van BOINC"
+msgstr "Beperkt het dagelijkse dataverkeer van BOINC."
 
 msgctxt "prefs_network_wifi_only_header"
 msgid "Transfer tasks on WiFi only"
@@ -583,20 +583,17 @@ msgctxt "prefs_memory_max_idle_description"
 msgid "Limits the amount of RAM tasks are allowed to occupy."
 msgstr "Beperkt de gebruikte hoeveelheid geheugen gebruikt door taken."
 
-#, fuzzy
 msgctxt "prefs_client_log_flags_header"
 msgid "BOINC Client log flags"
-msgstr "BOINC Client log flags"
+msgstr "BOINC Client log tekens"
 
-#, fuzzy
 msgctxt "prefs_gui_log_level_header"
 msgid "GUI log level"
 msgstr "GUI log level"
 
-#, fuzzy
 msgctxt "prefs_gui_log_level_description"
 msgid "Specifies verbosity of GUI log messages."
-msgstr "Specifies verbosity of GUI log messages."
+msgstr "Specificeert uitgebreidheid van GUI log berichten."
 
 msgctxt "prefs_unit_mb"
 msgid "MB"
@@ -630,7 +627,7 @@ msgstr "Project icoon"
 
 msgctxt "projects_credits_header"
 msgid "Credit:"
-msgstr "Punten"
+msgstr "Punten:"
 
 msgctxt "projects_credits_host_header"
 msgid "(on this device)"
@@ -798,7 +795,7 @@ msgstr "verwerkingsfout"
 
 msgctxt "tasks_result_files_uploading"
 msgid "uploading"
-msgstr "uploaden..."
+msgstr "uploaden"
 
 msgctxt "tasks_result_files_uploaded"
 msgid "upload complete"
@@ -826,11 +823,11 @@ msgstr "onderbroken"
 
 msgctxt "tasks_active_abort_pending"
 msgid "suspending"
-msgstr "onderbreken..."
+msgstr "onderbreken"
 
 msgctxt "tasks_active_quit_pending"
 msgid "suspending"
-msgstr "onderbreken..."
+msgstr "onderbreken"
 
 msgctxt "tasks_custom_suspended_via_gui"
 msgid "suspended"
@@ -961,24 +958,21 @@ msgctxt "suspend_useractive"
 msgid "User is active."
 msgstr "Gebruiker is actief."
 
-#, fuzzy
 msgctxt "suspend_tod"
 msgid "Out of computation time-frame."
-msgstr "Out of computation time-frame."
+msgstr "Niet binnen berekenings-tijdsbestek."
 
-#, fuzzy
 msgctxt "suspend_bm"
 msgid "BOINC is benchmarking your device…"
-msgstr "BOINC is benchmarking your device…"
+msgstr "BOINC benchmarkt je apparaat…"
 
 msgctxt "suspend_disksize"
 msgid "Out of disk space."
 msgstr "Geen vrije schijfruimte over."
 
-#, fuzzy
 msgctxt "suspend_cputhrottle"
 msgid "Scheduled CPU throttle."
-msgstr "Scheduled CPU throttle."
+msgstr "Geplande CPU beperking."
 
 msgctxt "suspend_noinput"
 msgid "No recent user activity."
@@ -1012,10 +1006,9 @@ msgctxt "suspend_battery_charging"
 msgid "Battery needs to charge before resuming computation."
 msgstr "Batterij moet opgeladen worden om berekeningen te hervatten."
 
-#, fuzzy
 msgctxt "suspend_battery_charging_long"
 msgid "Computing will resume when battery charge reaches"
-msgstr "Computing will resume when battery charge reaches"
+msgstr "Berekeningen worden hervat op batterij niveau van"
 
 msgctxt "suspend_battery_charging_current"
 msgid "currently"
@@ -1079,10 +1072,9 @@ msgctxt "menu_copy"
 msgid "Copy to Clipboard"
 msgstr "Naar klembord kopiëren"
 
-#, fuzzy
 msgctxt "menu_eventlog"
 msgid "Event Log"
-msgstr "Event Log"
+msgstr "Gebeurtenis Log"
 
 msgctxt "menu_exit"
 msgid "Exit BOINC"
@@ -1105,10 +1097,9 @@ msgid "Help"
 msgstr "Help"
 
 #. about dialog
-#, fuzzy
 msgctxt "about_button"
 msgid "Return"
-msgstr "Return"
+msgstr "Terug"
 
 msgctxt "about_title"
 msgid "About"
