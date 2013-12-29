@@ -499,6 +499,7 @@ msgid "Show information about the %s"
 msgstr "Показати інформацію про %s"
 
 #: AdvancedFrame.cpp:657 sg_BoincSimpleFrame.cpp:220
+#, c-format
 #, c-format, c-format
 msgid "%s &web site"
 msgstr "%s &веб-сайт"
@@ -3786,6 +3787,7 @@ msgid "Project Commands"
 msgstr "Команди проекту"
 
 #: sg_ProjectPanel.cpp:267
+#, c-format
 #, c-format, c-format
 msgid "Pop up a menu of web sites for project %s"
 msgstr "Показати меню веб-сайтів для проекту %s"
