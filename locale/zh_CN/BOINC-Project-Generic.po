@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2013-12-17 00:00 PST\n"
-"PO-Revision-Date: 2013-09-21 09:50+0000\n"
-"Last-Translator: Gang <zenith.yin@gmail.com>\n"
+"PO-Revision-Date: 2013-12-29 06:17+0000\n"
+"Last-Translator: Anonymous Pootle User\n"
 "Language-Team: Team China <zenith.yin@gmail.com>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
@@ -21,7 +21,7 @@ msgstr ""
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-SearchPath-0: html\\user\n"
 "X-Poedit-Basepath: D:\\Work\\boinc_src\\html\\user\n"
-"X-POOTLE-MTIME: 1379757051.0\n"
+"X-POOTLE-MTIME: 1388297877.0\n"
 
 msgid "LANG_NAME_NATIVE"
 msgstr "简体中文"
@@ -1152,8 +1152,9 @@ msgid "Use NVIDIA GPU %1 Enforced by version 6.10+ %2"
 msgstr "使用 NVIDIA GPU%16.10 之后的版本实现了该设置%2"
 
 #: ../inc/prefs.inc:344
+#, fuzzy
 msgid "Use Intel GPU %1 Enforced by version 7.2+ %2"
-msgstr ""
+msgstr "使用 ATI GPU%16.10 之后的版本实现了该设置%2"
 
 #: ../inc/prefs.inc:358
 msgid ""
