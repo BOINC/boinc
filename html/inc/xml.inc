@@ -18,13 +18,14 @@
 
 require_once("../inc/boinc_db.inc");
 require_once("../inc/util.inc");
+require_once("../inc/common_defs.inc");
 
 function db_init_xml() {
     if (web_stopped()) {
-        return -183;
+        return ERR_PROJECT_DOWN;
     }
     $db = BoincDb::get();
-    if (!$db) return -138;
+    if (!$db) return ERR_DB_CANT_CONNECT;
     return 0;
 }
 
