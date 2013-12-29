@@ -43,7 +43,7 @@ function xml_error($num, $msg=null) {
     if (!$msg) {
         switch($num) {
         case -112: $msg = "Invalid XML"; break;
-        case -136: $msg = "Invalid ID"; break;
+        case -136: $msg = "Not found"; break;
         case -137: $msg = "Name or email address is not unique"; break;
         case -138: $msg = "Can't access database"; break;
         case -183: $msg = "Project is temporarily offline"; break;

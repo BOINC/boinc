@@ -51,7 +51,7 @@ if ($format=="xml"){
         $user = lookup_user_id($id);
         $show_hosts = false;
     }
-    if (!$user) xml_error(-136);
+    if (!$user) xml_error(ERR_DB_NOT_FOUND);
 
     show_user_xml($user, $show_hosts);
 } else {

@@ -32,16 +32,16 @@ if ($retval) xml_error($retval);
 
 $config = get_config();
 if (parse_bool($config, "disable_account_creation")) {
-    xml_error(-208);
+    xml_error(ERR_ACCT_CREATION_DISABLED);
 }
 if (parse_bool($config, "disable_account_creation_rpc")) {
-    xml_error(-208);
+    xml_error(ERR_ACCT_CREATION_DISABLED);
 }
 
 if(defined('INVITE_CODES')) {
     $invite_code = get_str("invite_code");
     if (!preg_match(INVITE_CODES, $invite_code)) {
-        xml_error(-209);
+        xml_error(ERR_ATTACH_FAIL_INIT);
     }
 } 
 
@@ -52,15 +52,15 @@ $user_name = get_str("user_name");
 $team_name = get_str("team_name", true);
 
 if (!is_valid_user_name($user_name, $reason)) {
-    xml_error(-188, $reason);
+    xml_error(ERR_BAD_USER_NAME, $reason);
 }
 
 if (!is_valid_email_addr($email_addr)) {
-    xml_error(-205);
+    xml_error(ERR_BAD_EMAIL_ADDR);
 }
 
 if (is_banned_email_addr($email_addr)) {
-    xml_error(-205);
+    xml_error(ERR_BAD_EMAIL_ADDR);
 }
 
 if (strlen($passwd_hash) != 32) {
@@ -70,14 +70,14 @@ if (strlen($passwd_hash) != 32) {
 $user = lookup_user_email_addr($email_addr);
 if ($user) {
     if ($user->passwd_hash != $passwd_hash) {
-        xml_error(-137);
+        xml_error(ERR_DB_NOT_UNIQUE);
     } else {
         $authenticator = $user->authenticator;
     }
 } else {
     $user = make_user($email_addr, $user_name, $passwd_hash, 'International');
     if (!$user) {
-        xml_error(-137);
+        xml_error(ERR_DB_NOT_UNIQUE);
     }
     
     if(defined('INVITE_CODES')) {

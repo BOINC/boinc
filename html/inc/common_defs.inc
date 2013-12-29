@@ -80,4 +80,17 @@ define('RESULT_FILES_UPLOADED',      5);
 define('RESULT_ABORTED',             6);
 define('RESULT_UPLOAD_FAILED',       7);
 
+// from lib/error_numbers.h
+//
+define('ERR_XML_PARSE',               -112);
+define('ERR_DB_NOT_FOUND',            -136);
+define('ERR_DB_NOT_UNIQUE',           -137);
+define('ERR_DB_CANT_CONNECT',         -138);
+define('ERR_PROJECT_DOWN',            -183);
+define('ERR_BAD_USER_NAME',           -188);
+define('ERR_BAD_EMAIL_ADDR',          -205);
+define('ERR_BAD_PASSWD',              -206);
+define('ERR_ACCT_CREATION_DISABLED',  -208);
+define('ERR_ATTACH_FAIL_INIT',        -209);
+define('ERR_ATTACH_FAIL_DOWNLOAD',    -210);
 ?>

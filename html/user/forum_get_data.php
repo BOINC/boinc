@@ -27,13 +27,13 @@ if ($retval) xml_error($retval);
 
 $method = get_str("method", true);
 if ($method != "user_posts" && $method != "user_threads") {
-    xml_error(-210);
+    xml_error(-1);
 }
 
 $userid = get_int("userid", true);
 $user = lookup_user_id($userid);
 if (!$user) {
-    xml_error(-136);
+    xml_error(ERR_DB_NOT_FOUND);
 }
 
 if ($method == "user_posts") {

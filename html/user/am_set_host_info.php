@@ -29,14 +29,14 @@ if (!$db) xml_error($retval);
 $auth = BoincDb::escape_string(get_str("account_key"));
 $user = BoincUser::lookup("authenticator='$auth'");
 if (!$user) {
-    xml_error(-136);
+    xml_error(ERR_DB_NOT_FOUND);
 }
 
 $hostid = get_int("hostid");
 
 $host = BoincHost::lookup_id($hostid);
 if (!$host || $host->userid != $user->id) {
-    xml_error(-136);
+    xml_error(ERR_DB_NOT_FOUND);
 }
 
 $venue = BoincDb::escape_string(get_str("venue"));
