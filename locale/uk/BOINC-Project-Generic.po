@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2013-12-17 00:00 PST\n"
-"PO-Revision-Date: 2013-10-28 19:50+0000\n"
+"PO-Revision-Date: 2013-12-28 22:25+0000\n"
 "Last-Translator: Олег <pukish_oleg@ukr.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: uk\n"
@@ -18,7 +18,7 @@ msgstr ""
 "10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-POOTLE-MTIME: 1382989834.0\n"
+"X-POOTLE-MTIME: 1388269548.0\n"
 
 msgid "LANG_NAME_NATIVE"
 msgstr "Українська"
@@ -545,7 +545,7 @@ msgstr "Школа"
 
 #: ../inc/host.inc:59
 msgid "Mobile"
-msgstr ""
+msgstr "Мобільний"
 
 #: ../inc/host.inc:61 ../user/edit_forum_preferences_form.php:172
 #: ../user/edit_forum_preferences_form.php:173
@@ -578,7 +578,7 @@ msgstr "Доменне ім'я"
 
 #: ../inc/host.inc:98
 msgid "Product name"
-msgstr ""
+msgstr "Назва продукту"
 
 #: ../inc/host.inc:102
 msgid "Local Standard Time"
@@ -896,7 +896,7 @@ msgstr "Об'єднати комп'ютери за назвою"
 
 #: ../inc/language_names.inc:61
 msgid "Browser default"
-msgstr ""
+msgstr "Браузер за замовчуванням"
 
 #: ../inc/news.inc:40
 msgid "Comment"
@@ -1216,9 +1216,8 @@ msgstr ""
 "Використовувати графічний процесор NVIDIA %1 починаючи з версії 6.10+ %2"
 
 #: ../inc/prefs.inc:344
-#, fuzzy
 msgid "Use Intel GPU %1 Enforced by version 7.2+ %2"
-msgstr "Використовувати графічний процесор ATI %1 починаючи з версії 6.10+ %2"
+msgstr "Використовувати графічний процесор Intel %1 починаючи з версії 7.2+ %2"
 
 #: ../inc/prefs.inc:358
 msgid ""
@@ -1342,16 +1341,20 @@ msgstr "Редагувати налаштування %1"
 #: ../inc/prefs.inc:885
 msgid "These apply to all BOINC projects in which you participate."
 msgstr ""
+"Ці налаштування поширюються на всі проекти BOINC, в яких Ви приймаєте "
+"участь."
 
 #: ../inc/prefs.inc:887
 msgid ""
 "On computers participating in multiple projects, the most recently modified "
 "preferences will be used."
 msgstr ""
+"На комп'ютерах, які приймають участь в декількох проектах, будуть "
+"використовуватися налаштування, які змінювались останніми."
 
 #: ../inc/prefs.inc:889
 msgid "These preferences do not apply to Android devices."
-msgstr ""
+msgstr "Ці налаштування не відносяться до пристроїв на базі Android."
 
 #: ../inc/prefs.inc:892
 msgid "Preferences last modified:"
@@ -1448,7 +1451,7 @@ msgstr "Графічний процесор ATI"
 
 #: ../inc/result.inc:57 ../user/host_app_versions.php:28
 msgid "Intel GPU"
-msgstr ""
+msgstr "Графічний процесор Intel"
 
 #: ../inc/result.inc:65
 msgid "Not in DB"
