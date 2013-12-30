@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC-prject-generic\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2013-12-17 00:00 PST\n"
-"PO-Revision-Date: 2012-09-16 13:49+0200\n"
+"PO-Revision-Date: 2012-09-16 13:49+0000\n"
 "Last-Translator: Kenneth <kenneth@skjold.biz>\n"
 "Language-Team: Hjelp andre <kenneth@skjold.biz>\n"
 "Language: nb\n"
@@ -15,8 +15,9 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 2.1.6\n"
+"X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
+"X-POOTLE-MTIME: 1347803390.0\n"
 
 msgid "LANG_NAME_NATIVE"
 msgstr "English"
@@ -2080,8 +2081,9 @@ msgid "Used in community functions"
 msgstr "Brukes i fellesskap funksjoner"
 
 #: ../inc/user.inc:216 ../user/weak_auth.php:25
+#, fuzzy
 msgid "Account keys"
-msgstr ""
+msgstr "Konto nøkkel"
 
 #: ../inc/user.inc:221
 msgid "Preferences"
@@ -2521,8 +2523,9 @@ msgid "Top GPU models"
 msgstr ""
 
 #: ../user/bs_sample_index.php:70
+#, fuzzy
 msgid "Languages"
-msgstr ""
+msgstr "Språk"
 
 #: ../user/bs_sample_index.php:149 ../user/info.php:24
 #: ../user/sample_index.php:79
