@@ -66,6 +66,10 @@ using std::string;
 //
 #define REPORT_DEADLINE_CUSHION ((double)SECONDS_PER_DAY)
 
+// report results within this time after completion
+//
+#define MAX_REPORT_DELAY    3600
+
 #ifndef SIM
 
 // Write a scheduler request to a disk file,
@@ -1294,7 +1298,7 @@ PROJECT* CLIENT_STATE::find_project_with_overdue_results(
             return p;
         }
 
-        if (gstate.now > r->completed_time + SECONDS_PER_DAY) {
+        if (gstate.now > r->completed_time + MAX_REPORT_DELAY) {
             return p;
         }
 
