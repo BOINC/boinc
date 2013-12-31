@@ -260,9 +260,9 @@ $l70ubuntux64 = array(
 );
 
 $a72dev = array(
-	"num"=>"7.2.20",
+	"num"=>"7.2.35",
 	"status"=>"Development Version",
-	"file"=>"boinc_7.2.20_arm-android-linux-gnu.apk",
+	"file"=>"boinc_7.2.35.apk",
 	"date"=>"10 Oct 2013",
 	"type"=>"apk",
 );
