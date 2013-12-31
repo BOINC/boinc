@@ -46,8 +46,8 @@ function linux_info() {
 $w72dev = array(
 	"num"=>"7.2.34",
 	"status"=>"Development version",
-	"file"=>"boinc_7.2.33_windows_intelx86.exe",
-	"vbox_file"=>"boinc_7.2.33_windows_intelx86_vbox.exe",
+	"file"=>"boinc_7.2.34_windows_intelx86.exe",
+	"vbox_file"=>"boinc_7.2.34_windows_intelx86_vbox.exe",
   "vbox_version"=>"4.2.16",
 	"date"=>"3 Dec 2013",
 	"type"=>"win_new",
