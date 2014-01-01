@@ -6,16 +6,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-10-18 00:00-0700\n"
+"POT-Creation-Date: 2013-12-31 00:00-0800\n"
 "PO-Revision-Date: 2013-10-22 15:28-0700\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: es <LL@li.org>\n"
-"Language: es\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"X-Generator: Translate Toolkit 1.10.0\n"
 "Generated-By: Babel 1.0dev\n"
 
 #. app global
@@ -92,11 +90,11 @@ msgid "Android:"
 msgstr ""
 
 msgctxt "attachproject_login_platform_supported"
-msgid "This project supports Android devices"
+msgid "Device type is supported by this project"
 msgstr ""
 
 msgctxt "attachproject_login_platform_not_supported"
-msgid "This project does not support Android devices"
+msgid "Device is not supported by this project"
 msgstr ""
 
 msgctxt "attachproject_login_category_terms_of_use"
@@ -339,7 +337,7 @@ msgstr ""
 
 #. main activity
 msgctxt "main_noproject_warning"
-msgid "Tab here to choose a project."
+msgid "Tap here to choose a project."
 msgstr ""
 
 msgctxt "main_error"
@@ -483,8 +481,28 @@ msgctxt "prefs_show_advanced_header"
 msgid "Show advanced preferences and controls…"
 msgstr ""
 
-msgctxt "prefs_run_on_battery_header"
-msgid "Compute on Battery"
+msgctxt "prefs_power_source_header"
+msgid "Power sources for computation"
+msgstr ""
+
+msgctxt "prefs_power_source_description"
+msgid "Selects power sources BOINC is allowed to use for computation."
+msgstr ""
+
+msgctxt "prefs_power_source_ac"
+msgid "Wall socket"
+msgstr ""
+
+msgctxt "prefs_power_source_usb"
+msgid "USB connection"
+msgstr ""
+
+msgctxt "prefs_power_source_wireless"
+msgid "Wireless charger"
+msgstr ""
+
+msgctxt "prefs_power_source_battery"
+msgid "Battery"
 msgstr ""
 
 msgctxt "battery_charge_min_pct_header"
@@ -1112,3 +1130,20 @@ msgid ""
 "© 2003–2013 University of California, Berkeley.\n"
 "All Rights Reserved."
 msgstr ""
+
+#~ msgctxt "attachproject_login_platform_supported"
+#~ msgid "This project supports Android devices"
+#~ msgstr ""
+
+#~ msgctxt "attachproject_login_platform_not_supported"
+#~ msgid "This project does not support Android devices"
+#~ msgstr ""
+
+#~ msgctxt "main_noproject_warning"
+#~ msgid "Tab here to choose a project."
+#~ msgstr ""
+
+#~ msgctxt "prefs_run_on_battery_header"
+#~ msgid "Compute on Battery"
+#~ msgstr ""
+
