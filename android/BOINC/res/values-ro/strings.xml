@@ -77,7 +77,6 @@
   <string name="attachproject_working_login">Autentificare</string>
   <string name="attachproject_working_acctmgr">Adaugă manager de cont</string>
   <string name="attachproject_working_acctmgr_sync">Sincronizează</string>
-  <string name="main_noproject_warning">Apăsaţi aici pentru a alege un proiect.</string>
   <string name="main_error">Whooops</string>
   <string name="main_error_long">...asta nu ar trebui să se întâmple!\nApăsaţi pe icoană pentru a încerca din nou.</string>
   <string name="main_title_icon_desc">Icoană BOINC</string>
