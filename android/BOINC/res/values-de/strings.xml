@@ -76,7 +76,6 @@
   <string name="attachproject_working_login">Anmelden</string>
   <string name="attachproject_working_acctmgr">Kontoverwaltung hinzufügen</string>
   <string name="attachproject_working_acctmgr_sync">Synchronisieren</string>
-  <string name="main_noproject_warning">Hier tippen um ein Projekt auszuwählen.</string>
   <string name="main_error">Whooops</string>
   <string name="main_error_long">…das sollte eigentlich nicht passieren!\nAuf das Symbol klicken um es erneut zu probieren.</string>
   <string name="main_title_icon_desc">BOINC Logo</string>

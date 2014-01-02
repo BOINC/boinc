@@ -68,7 +68,6 @@
   <string name="attachproject_working_verify">Revisa el compte</string>
   <string name="attachproject_working_register">Registra el compte</string>
   <string name="attachproject_working_login">Registret</string>
-  <string name="main_noproject_warning">Prem aquí per escollir un projecte.</string>
   <string name="main_error">Uppps</string>
   <string name="main_error_long">...això no ha de succeir!\n Feu clic a la icona per intentar-ho de nou.</string>
   <string name="main_title_icon_desc">Icona de BOINC</string>
