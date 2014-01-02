@@ -392,7 +392,7 @@ int CLIENT_STATE::init() {
         }
 #if 0
         msg_printf(NULL, MSG_INFO, "Faking an NVIDIA GPU");
-        coprocs.nvidia.fake(18000, 512*MEGA, 490*MEGA, 1);
+        coprocs.nvidia.fake(18000, 512*MEGA, 490*MEGA, 2);
 #endif
 #if 0
         msg_printf(NULL, MSG_INFO, "Faking an ATI GPU");

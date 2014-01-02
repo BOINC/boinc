@@ -512,7 +512,7 @@ void COPROC_NVIDIA::fake(
    }
    available_ram = avail_ram;
    display_driver_version = driver_version;
-   cuda_version = 2020;
+   cuda_version = 5000;
    have_cuda = true;
    safe_strcpy(prop.name, "Fake NVIDIA GPU");
    memset(&prop, 0, sizeof(prop));
