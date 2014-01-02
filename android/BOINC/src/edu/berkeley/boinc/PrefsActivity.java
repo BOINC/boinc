@@ -186,6 +186,8 @@ public class PrefsActivity extends FragmentActivity {
 		data.clear();
 		
 		Boolean advanced = appPrefs.getShowAdvanced();
+		Boolean stationaryDevice = false;
+		if(mIsBound) stationaryDevice = monitor.getDeviceStatus().isStationaryDevice();
 
 		// general
     	data.add(new PrefsListItemWrapper(this,R.string.prefs_category_general,true));
@@ -197,10 +199,12 @@ public class PrefsActivity extends FragmentActivity {
 		data.add(new PrefsListItemWrapperBool(this,R.string.prefs_network_wifi_only_header,R.string.prefs_category_network,clientPrefs.network_wifi_only));
 		if(advanced) data.add(new PrefsListItemWrapperValue(this,R.string.prefs_network_daily_xfer_limit_mb_header,R.string.prefs_category_network,clientPrefs.daily_xfer_limit_mb));
     	// power
-		data.add(new PrefsListItemWrapper(this,R.string.prefs_category_power,true));
-		data.add(new PrefsListItemWrapperBool(this,R.string.prefs_run_on_battery_header,R.string.prefs_category_power,clientPrefs.run_on_batteries));
-		data.add(new PrefsListItemWrapperValue(this,R.string.battery_charge_min_pct_header,R.string.prefs_category_power,clientPrefs.battery_charge_min_pct));
-		if(advanced) data.add(new PrefsListItemWrapperValue(this,R.string.battery_temperature_max_header,R.string.prefs_category_power,clientPrefs.battery_max_temperature));
+		if(!stationaryDevice) {
+			data.add(new PrefsListItemWrapper(this,R.string.prefs_category_power,true));
+			data.add(new PrefsListItemWrapperBool(this,R.string.prefs_run_on_battery_header,R.string.prefs_category_power,clientPrefs.run_on_batteries));
+			data.add(new PrefsListItemWrapperValue(this,R.string.battery_charge_min_pct_header,R.string.prefs_category_power,clientPrefs.battery_charge_min_pct));
+			if(advanced) data.add(new PrefsListItemWrapperValue(this,R.string.battery_temperature_max_header,R.string.prefs_category_power,clientPrefs.battery_max_temperature));
+		}
 		// cpu
 		if(advanced) data.add(new PrefsListItemWrapper(this,R.string.prefs_category_cpu,true));
 		if(advanced && hostinfo.p_ncpus > 1) data.add(new PrefsListItemWrapperValue(this,R.string.prefs_cpu_number_cpus_header,R.string.prefs_category_cpu,pctCpuCoresToNumber(clientPrefs.max_ncpus_pct)));
