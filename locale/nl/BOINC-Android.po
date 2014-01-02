@@ -6,14 +6,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-12-31 00:00-0800\n"
+"POT-Creation-Date: 2013-10-18 00:00-0700\n"
 "PO-Revision-Date: 2013-12-25 13:16+0000\n"
 "Last-Translator: Rene <oskamjr@ziggo.nl>\n"
 "Language-Team: nl <LL@li.org>\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"X-Generator: Translate Toolkit 1.10.0\n"
 "Generated-By: Babel 1.0dev\n"
 
 #. app global
@@ -90,12 +92,12 @@ msgid "Android:"
 msgstr "Android:"
 
 msgctxt "attachproject_login_platform_supported"
-msgid "Device type is supported by this project"
-msgstr ""
+msgid "This project supports Android devices"
+msgstr "Dit project ondersteunt Android-apparaten"
 
 msgctxt "attachproject_login_platform_not_supported"
-msgid "Device is not supported by this project"
-msgstr ""
+msgid "This project does not support Android devices"
+msgstr "Dit project ondersteunt geen Android-apparaten"
 
 msgctxt "attachproject_login_category_terms_of_use"
 msgid "Terms of use for"
@@ -106,8 +108,8 @@ msgid ""
 "By creating an account with this project, you accept the terms of use as "
 "shown above."
 msgstr ""
-"Het aanmaken van een account bij dit project impliceert acceptatie van de"
-" gebruiksvoorwaarden zoals hierboven beschreven."
+"Het aanmaken van een account bij dit project impliceert acceptatie van de "
+"gebruiksvoorwaarden zoals hierboven beschreven."
 
 msgctxt "attachproject_login_category_login"
 msgid "Sign in with existing account"
@@ -338,10 +340,9 @@ msgid "Synchronize"
 msgstr "Bijwerken"
 
 #. main activity
-#, fuzzy
 msgctxt "main_noproject_warning"
-msgid "Tap here to choose a project."
-msgstr "Tik hier om een project te kiezen."
+msgid "Tab here to choose a project."
+msgstr ""
 
 msgctxt "main_error"
 msgid "Whooops"
@@ -415,7 +416,8 @@ msgstr "Onderbroken"
 
 msgctxt "status_computing_disabled_long"
 msgid "Press play to resume network and computation."
-msgstr "Klik op afspelen om de netwerkactiviteit en de berekeningen te hervatten."
+msgstr ""
+"Klik op afspelen om de netwerkactiviteit en de berekeningen te hervatten."
 
 msgctxt "status_launching"
 msgid "Starting…"
@@ -486,30 +488,9 @@ msgctxt "prefs_show_advanced_header"
 msgid "Show advanced preferences and controls…"
 msgstr "Toon geavanceerde voorkeuren en instellingen..."
 
-msgctxt "prefs_power_source_header"
-msgid "Power sources for computation"
-msgstr ""
-
-msgctxt "prefs_power_source_description"
-msgid "Selects power sources BOINC is allowed to use for computation."
-msgstr ""
-
-msgctxt "prefs_power_source_ac"
-msgid "Wall socket"
-msgstr ""
-
-#, fuzzy
-msgctxt "prefs_power_source_usb"
-msgid "USB connection"
-msgstr "Geen internetverbinding"
-
-msgctxt "prefs_power_source_wireless"
-msgid "Wireless charger"
-msgstr ""
-
-msgctxt "prefs_power_source_battery"
-msgid "Battery"
-msgstr ""
+msgctxt "prefs_run_on_battery_header"
+msgid "Compute on Battery"
+msgstr "Rekenen op Batterij"
 
 msgctxt "battery_charge_min_pct_header"
 msgid "Min. battery level"
@@ -1143,15 +1124,12 @@ msgstr ""
 "© 2003–2013 University of California, Berkeley.\n"
 "All Rights Reserved."
 
-#~ msgctxt "attachproject_login_platform_supported"
-#~ msgid "This project supports Android devices"
-#~ msgstr "Dit project ondersteunt Android-apparaten"
+#, fuzzy
+#~ msgctxt "main_noproject_warning"
+#~ msgid "Tap here to choose a project."
+#~ msgstr "Tik hier om een project te kiezen."
 
-#~ msgctxt "attachproject_login_platform_not_supported"
-#~ msgid "This project does not support Android devices"
-#~ msgstr "Dit project ondersteunt geen Android-apparaten"
-
-#~ msgctxt "prefs_run_on_battery_header"
-#~ msgid "Compute on Battery"
-#~ msgstr "Rekenen op Batterij"
-
+#, fuzzy
+#~ msgctxt "prefs_power_source_usb"
+#~ msgid "USB connection"
+#~ msgstr "Geen internetverbinding"
