@@ -409,7 +409,7 @@ int HTTP_OP::libcurl_exec(
     bool is_post
 ) {
     CURLMcode curlMErr;
-    char strTmp[128];
+    char buf[256];
     static int outfile_seqno=0;
 
     safe_strcpy(m_url, url);
@@ -591,12 +591,17 @@ int HTTP_OP::libcurl_exec(
     //
     pcurlList = curl_slist_append(pcurlList, g_content_type);
 
+	if (strlen(gstate.language)) {
+		sprintf(buf, "ACCEPT_LANGUAGE: %s", gstate.language);
+		pcurlList = curl_slist_append(pcurlList, buf);
+	}
+
     // set the file offset for resumable downloads
     //
     if (!is_post && offset>0.0f) {
         file_offset = offset;
-        sprintf(strTmp, "Range: bytes=%.0f-", offset);
-        pcurlList = curl_slist_append(pcurlList, strTmp);
+        sprintf(buf, "Range: bytes=%.0f-", offset);
+        pcurlList = curl_slist_append(pcurlList, buf);
     }
 
     // set up an output file for the reply
