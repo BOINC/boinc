@@ -862,9 +862,7 @@ bool CLIENT_STATE::poll_slow_events() {
         if (suspend_reason) {
             if (!tasks_suspended) {
                 show_suspend_tasks_message(suspend_reason);
-                if (!tasks_throttled) {
-                    active_tasks.suspend_all(suspend_reason);
-                }
+                active_tasks.suspend_all(suspend_reason);
             }
             last_suspend_reason = suspend_reason;
         } else {

@@ -1055,14 +1055,13 @@ int ACTIVE_TASK_SET::abort_project(PROJECT* project) {
 void ACTIVE_TASK_SET::suspend_all(int reason) {
     for (unsigned int i=0; i<active_tasks.size(); i++) {
         ACTIVE_TASK* atp = active_tasks[i];
-        if (atp->task_state() != PROCESS_EXECUTING) continue;
 
         // handle CPU throttling separately
         //
         if (reason == SUSPEND_REASON_CPU_THROTTLE) {
             if (atp->result->dont_throttle()) continue;
             atp->preempt(REMOVE_NEVER);
-            continue;;
+            continue;
         }
 
 #ifdef ANDROID
