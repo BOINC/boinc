@@ -849,7 +849,7 @@ int CLIENT_STATE::parse_app_info(PROJECT* p, FILE* in) {
     while (!xp.get_tag()) {
         if (xp.match_tag("app_info")) continue;
         if (xp.match_tag("/app_info")) return 0;
-        if (xp.match_tag("file_info")) {
+        if (xp.match_tag("file_info") || xp.match_tag("file")) {
             FILE_INFO* fip = new FILE_INFO;
             if (fip->parse(xp)) {
                 delete fip;
