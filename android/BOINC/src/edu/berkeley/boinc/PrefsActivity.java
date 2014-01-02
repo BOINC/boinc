@@ -25,7 +25,7 @@ import edu.berkeley.boinc.adapter.PrefsListAdapter;
 import edu.berkeley.boinc.adapter.PrefsListItemWrapper;
 import edu.berkeley.boinc.adapter.PrefsListItemWrapperBool;
 import edu.berkeley.boinc.adapter.PrefsListItemWrapperValue;
-import edu.berkeley.boinc.adapter.PrefsLogOptionsListAdapter;
+import edu.berkeley.boinc.adapter.PrefsSelectionDialogListAdapter;
 import edu.berkeley.boinc.client.ClientNotification;
 import edu.berkeley.boinc.client.ClientStatus;
 import edu.berkeley.boinc.client.Monitor;
@@ -201,7 +201,7 @@ public class PrefsActivity extends FragmentActivity {
     	// power
 		if(!stationaryDevice) {
 			data.add(new PrefsListItemWrapper(this,R.string.prefs_category_power,true));
-			data.add(new PrefsListItemWrapperBool(this,R.string.prefs_run_on_battery_header,R.string.prefs_category_power,clientPrefs.run_on_batteries));
+			data.add(new PrefsListItemWrapper(this,R.string.prefs_power_source_header,R.string.prefs_category_power));
 			data.add(new PrefsListItemWrapperValue(this,R.string.battery_charge_min_pct_header,R.string.prefs_category_power,clientPrefs.battery_charge_min_pct));
 			if(advanced) data.add(new PrefsListItemWrapperValue(this,R.string.battery_temperature_max_header,R.string.prefs_category_power,clientPrefs.battery_max_temperature));
 		}
@@ -284,11 +284,6 @@ public class PrefsActivity extends FragmentActivity {
 			// reload complete layout to remove/add advanced elements
 			populateLayout();
 			break;
-		case R.string.prefs_run_on_battery_header: //client pref
-			clientPrefs.run_on_batteries = isSet;
-			updateBoolPref(ID, isSet);
-			new WriteClientPrefsAsync().execute(clientPrefs); //async task triggers layout update
-			break;
 		case R.string.prefs_network_wifi_only_header: //client pref
 			clientPrefs.network_wifi_only = isSet;
 			updateBoolPref(ID, isSet);
@@ -299,161 +294,240 @@ public class PrefsActivity extends FragmentActivity {
 	
 	// onClick of listview items with prefs_layout_listitem
 	public void onItemClick (View view) {
+		PrefsListItemWrapper item = (PrefsListItemWrapper)view.getTag(); // cast to wrapper super class
 		final Dialog dialog = new Dialog(this);
 		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		Object item = view.getTag();
 		
-		if(item instanceof PrefsListItemWrapperValue) {
-			final PrefsListItemWrapperValue valueWrapper = (PrefsListItemWrapperValue) item;
-			if(Logging.DEBUG) Log.d(Logging.TAG,"PrefsActivity onItemClick Value " + valueWrapper.ID);
-
-			if(valueWrapper.isPct) {
-				// show dialog with slider
-				dialog.setContentView(R.layout.prefs_layout_dialog_pct);
-				// setup slider
-				TextView sliderProgress = (TextView) dialog.findViewById(R.id.seekbar_status);
-				sliderProgress.setText(valueWrapper.status.intValue() + " " + getString(R.string.prefs_unit_pct));
-				Double seekBarDefault = valueWrapper.status / 10;
-				SeekBar slider = (SeekBar) dialog.findViewById(R.id.seekbar);
-				slider.setProgress(seekBarDefault.intValue());
-				slider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-			        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser){
-			        	String progressString = (progress * 10) + " " + getString(R.string.prefs_unit_pct);
-			        	TextView sliderProgress = (TextView) dialog.findViewById(R.id.seekbar_status);
-			            sliderProgress.setText(progressString);
-			        }
-					@Override
-					public void onStartTrackingTouch(SeekBar seekBar) {}
-					@Override
-					public void onStopTrackingTouch(SeekBar seekBar) {}
-			    });
-			} else if(valueWrapper.isNumber) { 
-				if(!getHostInfo()) {
-					if(Logging.WARNING) Log.w(Logging.TAG, "onItemClick missing hostInfo");
-					return;
-				}
-				
-				// show dialog with slider
-				dialog.setContentView(R.layout.prefs_layout_dialog_pct);
-				TextView sliderProgress = (TextView) dialog.findViewById(R.id.seekbar_status);
-				sliderProgress.setText(""+valueWrapper.status.intValue());
-				SeekBar slider = (SeekBar) dialog.findViewById(R.id.seekbar);
-				
-				// slider setup depending on actual preference
-				if(valueWrapper.ID == R.string.prefs_cpu_number_cpus_header) {
-					slider.setMax(hostinfo.p_ncpus);
-					slider.setProgress(valueWrapper.status.intValue());
-					slider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-						public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser){
-							if(progress == 0) progress = 1; // do not allow 0 cpus
-							String progressString = String.valueOf(progress);
-							TextView sliderProgress = (TextView) dialog.findViewById(R.id.seekbar_status);
-							sliderProgress.setText(progressString);
-						}
-						@Override
-						public void onStartTrackingTouch(SeekBar seekBar) {}
-						@Override
-						public void onStopTrackingTouch(SeekBar seekBar) {}
-					});
-				} else if (valueWrapper.ID == R.string.prefs_gui_log_level_header){
-					slider.setMax(5);
-					slider.setProgress(valueWrapper.status.intValue());
-					slider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-						public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser){
-							String progressString = String.valueOf(progress);
-							TextView sliderProgress = (TextView) dialog.findViewById(R.id.seekbar_status);
-							sliderProgress.setText(progressString);
-						}
-						@Override
-						public void onStartTrackingTouch(SeekBar seekBar) {}
-						@Override
-						public void onStopTrackingTouch(SeekBar seekBar) {}
-					});
-				}
-			} else {
-				// show dialog with edit text
-				dialog.setContentView(R.layout.prefs_layout_dialog);
+		// setup dialog layout
+		switch(item.ID) {
+		case R.string.prefs_network_daily_xfer_limit_mb_header:
+			dialog.setContentView(R.layout.prefs_layout_dialog);
+			((TextView)dialog.findViewById(R.id.pref)).setText(item.ID);
+			setupDialogButtons(item, dialog);
+			break;
+		case R.string.prefs_power_source_header:
+			setupSelectionListDialog(item, dialog);
+			break;
+		case R.string.battery_charge_min_pct_header:
+			setupSliderDialog(item, dialog);
+			((TextView)dialog.findViewById(R.id.pref)).setText(item.ID);
+			break;
+		case R.string.battery_temperature_max_header:
+			dialog.setContentView(R.layout.prefs_layout_dialog);
+			((TextView)dialog.findViewById(R.id.pref)).setText(item.ID);
+			setupDialogButtons(item, dialog);
+			break;
+		case R.string.prefs_cpu_number_cpus_header:
+			setupSliderDialog(item, dialog);
+			((TextView)dialog.findViewById(R.id.pref)).setText(item.ID);
+			break;
+		case R.string.prefs_cpu_time_max_header:
+			setupSliderDialog(item, dialog);
+			((TextView)dialog.findViewById(R.id.pref)).setText(item.ID);
+			break;
+		case R.string.prefs_cpu_other_load_suspension_header:
+			setupSliderDialog(item, dialog);
+			((TextView)dialog.findViewById(R.id.pref)).setText(item.ID);
+			break;
+		case R.string.prefs_disk_max_pct_header:
+			setupSliderDialog(item, dialog);
+			((TextView)dialog.findViewById(R.id.pref)).setText(item.ID);
+			break;
+		case R.string.prefs_disk_min_free_gb_header:
+			dialog.setContentView(R.layout.prefs_layout_dialog);
+			((TextView)dialog.findViewById(R.id.pref)).setText(item.ID);
+			setupDialogButtons(item, dialog);
+			break;
+		case R.string.prefs_memory_max_idle_header:
+			setupSliderDialog(item, dialog);
+			((TextView)dialog.findViewById(R.id.pref)).setText(item.ID);
+			break;
+		case R.string.prefs_client_log_flags_header:
+			setupSelectionListDialog(item, dialog);
+			break;
+		case R.string.prefs_gui_log_level_header:
+			setupSliderDialog(item, dialog);
+			((TextView)dialog.findViewById(R.id.pref)).setText(item.ID);
+			break;
+		default:
+			if(Logging.ERROR) Log.d(Logging.TAG,"PrefsActivity onItemClick: could not map ID: " + item.ID);
+			return;
+		}
+		
+		// show dialog
+		dialog.show();
+	}
+	
+	private void setupSliderDialog(PrefsListItemWrapper item, final Dialog dialog) {
+		final PrefsListItemWrapperValue valueWrapper = (PrefsListItemWrapperValue) item;
+		dialog.setContentView(R.layout.prefs_layout_dialog_pct);
+		TextView sliderProgress = (TextView) dialog.findViewById(R.id.seekbar_status);
+		SeekBar slider = (SeekBar) dialog.findViewById(R.id.seekbar);
+		
+		if(valueWrapper.ID == R.string.battery_charge_min_pct_header || 
+				valueWrapper.ID == R.string.prefs_disk_max_pct_header || 
+				valueWrapper.ID == R.string.prefs_cpu_time_max_header ||
+				valueWrapper.ID == R.string.prefs_cpu_other_load_suspension_header || 
+				valueWrapper.ID == R.string.prefs_memory_max_idle_header ) {
+			sliderProgress.setText(valueWrapper.status.intValue() + " " + getString(R.string.prefs_unit_pct));
+			Double seekBarDefault = valueWrapper.status / 10;
+			slider.setProgress(seekBarDefault.intValue());
+			slider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+		        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser){
+		        	String progressString = (progress * 10) + " " + getString(R.string.prefs_unit_pct);
+		        	TextView sliderProgress = (TextView) dialog.findViewById(R.id.seekbar_status);
+		            sliderProgress.setText(progressString);
+		        }
+				@Override
+				public void onStartTrackingTouch(SeekBar seekBar) {}
+				@Override
+				public void onStopTrackingTouch(SeekBar seekBar) {}
+		    });
+		} else if(valueWrapper.ID == R.string.prefs_cpu_number_cpus_header) {
+			if(!getHostInfo()) {
+				if(Logging.WARNING) Log.w(Logging.TAG, "onItemClick missing hostInfo");
+				return;
 			}
-			// show preference name
-			((TextView)dialog.findViewById(R.id.pref)).setText(valueWrapper.ID);
-			
-			// setup buttons
-			Button confirm = (Button) dialog.findViewById(R.id.confirm);
-			confirm.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-		         	   double value = 0.0;
-		         	   Boolean clientPref = true;
-		         	   if(valueWrapper.isPct) {
-		         		   SeekBar slider = (SeekBar) dialog.findViewById(R.id.seekbar);
-		         		   value = slider.getProgress()*10;
-		         	   } else if(valueWrapper.isNumber) {
-		         		   SeekBar slider = (SeekBar) dialog.findViewById(R.id.seekbar);
-		         		   int sbProgress = slider.getProgress();
-		         		   if(valueWrapper.ID == R.string.prefs_cpu_number_cpus_header) {
-		         			   if(sbProgress == 0) sbProgress = 1;
-		         			   value = numberCpuCoresToPct(sbProgress);
-		         		   } else if (valueWrapper.ID == R.string.prefs_gui_log_level_header){
-		         			   appPrefs.setLogLevel(sbProgress);
-		         			   updateValuePref(valueWrapper.ID, (double) sbProgress);
-		         			   clientPref = false; // avoid writing client prefs via rpc
-		         			   updateLayout();
-		         		   }
-		         	   } else {
-		         		   EditText edit = (EditText) dialog.findViewById(R.id.Input);
-		         		   String input = edit.getText().toString();
-		         		   Double valueTmp = parseInputValueToDouble(input);
-		         		   if(valueTmp == null) return;
-		         		   value = valueTmp;
-		         	   }
-		         	   if(clientPref) writeClientValuePreference(valueWrapper.ID, value);
-		         	   dialog.dismiss();
+			sliderProgress.setText(""+valueWrapper.status.intValue());
+			slider.setMax(hostinfo.p_ncpus);
+			slider.setProgress(valueWrapper.status.intValue());
+			slider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+				public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser){
+					if(progress == 0) progress = 1; // do not allow 0 cpus
+					String progressString = String.valueOf(progress);
+					TextView sliderProgress = (TextView) dialog.findViewById(R.id.seekbar_status);
+					sliderProgress.setText(progressString);
 				}
-			});
-			Button cancel = (Button) dialog.findViewById(R.id.cancel);
-			cancel.setOnClickListener(new OnClickListener() {
 				@Override
-				public void onClick(View v) {
-					dialog.dismiss();
-				}
+				public void onStartTrackingTouch(SeekBar seekBar) {}
+				@Override
+				public void onStopTrackingTouch(SeekBar seekBar) {}
 			});
-			
-			dialog.show();
-			
-		} else {
-			// instance of PrefsListItemWrapper, i.e. client log flags
-			PrefsListItemWrapper wrapper = (PrefsListItemWrapper) item;
-			if(Logging.DEBUG) Log.d(Logging.TAG,"PrefsActivity onItemClick super " + wrapper.ID);
-
-			dialog.setContentView(R.layout.prefs_layout_dialog_selection);
-			final ArrayList<ClientLogOption> options = new ArrayList<ClientLogOption>();
+		} else if(valueWrapper.ID == R.string.prefs_gui_log_level_header) {
+			sliderProgress.setText(""+valueWrapper.status.intValue());
+			slider.setMax(5);
+			slider.setProgress(valueWrapper.status.intValue());
+			slider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+				public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser){
+					String progressString = String.valueOf(progress);
+					TextView sliderProgress = (TextView) dialog.findViewById(R.id.seekbar_status);
+					sliderProgress.setText(progressString);
+				}
+				@Override
+				public void onStartTrackingTouch(SeekBar seekBar) {}
+				@Override
+				public void onStopTrackingTouch(SeekBar seekBar) {}
+			});
+		}
+		
+		setupDialogButtons(item, dialog);
+	}
+	
+	private void setupSelectionListDialog(final PrefsListItemWrapper item, final Dialog dialog) {
+		dialog.setContentView(R.layout.prefs_layout_dialog_selection);
+		
+		if(item.ID == R.string.prefs_client_log_flags_header) {
+			final ArrayList<SelectionDialogOption> options = new ArrayList<SelectionDialogOption>();
 			String[] array = getResources().getStringArray(R.array.prefs_client_log_flags);
-			for(String option: array) options.add(new ClientLogOption(option));
+			for(String option: array) options.add(new SelectionDialogOption(option));
 			ListView lv = (ListView) dialog.findViewById(R.id.selection);
-			new PrefsLogOptionsListAdapter(this, lv, R.id.selection, options);
+			new PrefsSelectionDialogListAdapter(this, lv, R.id.selection, options);
 
-			// setup buttons
+			// setup confirm button action
 			Button confirm = (Button) dialog.findViewById(R.id.confirm);
 			confirm.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
 					ArrayList<String> selectedOptions = new ArrayList<String>();
-					for(ClientLogOption option: options) if(option.selected) selectedOptions.add(option.name);
+					for(SelectionDialogOption option: options) if(option.selected) selectedOptions.add(option.name);
 					if(Logging.DEBUG) Log.d(Logging.TAG, selectedOptions.size() + " log flags selected");
 					new SetCcConfigAsync().execute(formatOptionsToCcConfig(selectedOptions)); 
-		         	dialog.dismiss();
-				}
-			});
-			Button cancel = (Button) dialog.findViewById(R.id.cancel);
-			cancel.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
 					dialog.dismiss();
 				}
 			});
-			
-			dialog.show();
+		}else if(item.ID == R.string.prefs_power_source_header) {
+			final ArrayList<SelectionDialogOption> options = new ArrayList<SelectionDialogOption>();
+			options.add(new SelectionDialogOption(getResources().getString(R.string.prefs_power_source_ac), appPrefs.getPowerSourceAc()));
+			options.add(new SelectionDialogOption(getResources().getString(R.string.prefs_power_source_usb), appPrefs.getPowerSourceUsb()));
+			options.add(new SelectionDialogOption(getResources().getString(R.string.prefs_power_source_wireless), appPrefs.getPowerSourceWireless()));
+			options.add(new SelectionDialogOption(getResources().getString(R.string.prefs_power_source_battery), clientPrefs.run_on_batteries, true));
+			ListView lv = (ListView) dialog.findViewById(R.id.selection);
+			new PrefsSelectionDialogListAdapter(this, lv, R.id.selection, options);
+
+			// setup confirm button action
+			Button confirm = (Button) dialog.findViewById(R.id.confirm);
+			confirm.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					for(SelectionDialogOption option: options) {
+						if(option.name == getResources().getString(R.string.prefs_power_source_ac)) appPrefs.setPowerSourceAc(option.selected);
+						if(option.name == getResources().getString(R.string.prefs_power_source_usb)) appPrefs.setPowerSourceUsb(option.selected);
+						if(option.name == getResources().getString(R.string.prefs_power_source_wireless)) appPrefs.setPowerSourceWireless(option.selected);
+						if(option.name == getResources().getString(R.string.prefs_power_source_battery)) {
+							clientPrefs.run_on_batteries = option.selected;
+							new WriteClientPrefsAsync().execute(clientPrefs); //async task triggers layout update
+						}
+					}
+					dialog.dismiss();
+				}
+			});
 		}
+		
+		// generic cancel button
+		Button cancel = (Button) dialog.findViewById(R.id.cancel);
+		cancel.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				dialog.dismiss();
+			}
+		});
+	}
+		
+	private void setupDialogButtons(final PrefsListItemWrapper item, final Dialog dialog) {
+		// confirm
+		Button confirm = (Button) dialog.findViewById(R.id.confirm);
+		confirm.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+         	   if(item.ID == R.string.battery_charge_min_pct_header || 
+         			item.ID == R.string.prefs_disk_max_pct_header || 
+         			item.ID == R.string.prefs_cpu_time_max_header ||
+         			item.ID == R.string.prefs_cpu_other_load_suspension_header || 
+         			item.ID == R.string.prefs_memory_max_idle_header ) {
+         		   SeekBar slider = (SeekBar) dialog.findViewById(R.id.seekbar);
+         		   double value = slider.getProgress()*10;
+         		   writeClientValuePreference(item.ID, value);
+         	   } else if(item.ID == R.string.prefs_cpu_number_cpus_header) {
+         		   SeekBar slider = (SeekBar) dialog.findViewById(R.id.seekbar);
+         		   int sbProgress = slider.getProgress();
+         		   if(sbProgress == 0) sbProgress = 1;
+         		   double value = numberCpuCoresToPct(sbProgress);
+         		   writeClientValuePreference(item.ID, value);
+         	   } else if(item.ID == R.string.prefs_gui_log_level_header) {
+         		   SeekBar slider = (SeekBar) dialog.findViewById(R.id.seekbar);
+         		   int sbProgress = slider.getProgress();
+         		   appPrefs.setLogLevel(sbProgress);
+         		   updateValuePref(item.ID, (double) sbProgress);
+         		   updateLayout();
+         	   } else if(item.ID == R.string.prefs_network_daily_xfer_limit_mb_header || item.ID == R.string.battery_temperature_max_header || item.ID == R.string.prefs_disk_min_free_gb_header) {
+         		   EditText edit = (EditText) dialog.findViewById(R.id.Input);
+         		   String input = edit.getText().toString();
+         		   Double valueTmp = parseInputValueToDouble(input);
+         		   if(valueTmp == null) return;
+         		   double value = valueTmp;
+         		   writeClientValuePreference(item.ID, value);
+         	   }
+         	   dialog.dismiss();
+			}
+		});
+		// cancel
+		Button cancel = (Button) dialog.findViewById(R.id.cancel);
+		cancel.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				dialog.dismiss();
+			}
+		});
 	}
 
 	@Override
@@ -560,19 +634,31 @@ public class PrefsActivity extends FragmentActivity {
 	private final class SetCcConfigAsync extends AsyncTask<String,Void,Boolean> {
 		@Override
 		protected Boolean doInBackground(String... params) {
-			if(Logging.DEBUG) Log.d(Logging.TAG,"SetCcConfigAsync");
+			if(Logging.DEBUG) Log.d(Logging.TAG,"SetCcConfigAsync with: " + params[0]);
 			if(mIsBound) monitor.clientInterface.setCcConfig(params[0]);
 			else if(Logging.WARNING) Log.w(Logging.TAG,"SetCcConfigAsync monitor not bound!");
 			return true;
 		}
 	}
 	
-	public class ClientLogOption {
+	public class SelectionDialogOption {
 		public String name;
 		public Boolean selected = false;
+		public Boolean highlighted = false;
 		
-		public ClientLogOption(String name) {
+		public SelectionDialogOption(String name) {
 			this.name = name;
+		}
+		
+		public SelectionDialogOption(String name, Boolean selected) {
+			this.name = name;
+			this.selected = selected;
+		}
+		
+		public SelectionDialogOption(String name, Boolean selected, Boolean highlighted) {
+			this.name = name;
+			this.selected = selected;
+			this.highlighted = highlighted;
 		}
 	}
 }

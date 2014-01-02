@@ -26,7 +26,6 @@ import android.util.Log;
 
 public class PrefsListItemWrapperValue extends PrefsListItemWrapper {
 
-	public String description = "";
 	public String unit = "";
 	public Double status;
 	public Boolean isPct = false; // shows whether value is percentage, therefore using a SeekBar

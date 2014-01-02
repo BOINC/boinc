@@ -69,7 +69,7 @@ public class PrefsListAdapter extends ArrayAdapter<PrefsListItemWrapper>{
 	    		TextView header = (TextView) v.findViewById(R.id.header);
 	    		header.setText(item.header);
 	    		TextView description = (TextView) v.findViewById(R.id.description);
-	    		description.setText(item.description.toString());
+	    		description.setText(item.description);
 	    		
 	    		String value = item.status.toString();
 	    		if(item.isPct || item.isNumber) {
@@ -78,17 +78,21 @@ public class PrefsListAdapter extends ArrayAdapter<PrefsListItemWrapper>{
 	    		TextView status = (TextView) v.findViewById(R.id.status);
 	    		status.setText(value + " " + item.unit);
 	    	} else {
-	    		// instance of PrefsListItemWrapper, e.g. client log flags
-	    		PrefsListItemWrapper item = listItem;
 	    		v = vi.inflate(R.layout.prefs_layout_listitem, null);
 	    		v.setTag(listItem); //set listItem as tag to view, since root layout defines onClick method
 	    		TextView header = (TextView) v.findViewById(R.id.header);
-	    		header.setText(item.header);
-	    		// hide unused views
-	    		TextView description = (TextView) v.findViewById(R.id.description);
-	    		description.setVisibility(View.GONE);
-	    		TextView status = (TextView) v.findViewById(R.id.status);
-	    		status.setVisibility(View.INVISIBLE);
+	    		header.setText(listItem.header);
+	    		if(listItem.ID == R.string.prefs_client_log_flags_header) {
+		    		TextView description = (TextView) v.findViewById(R.id.description);
+		    		description.setVisibility(View.GONE);
+		    		TextView status = (TextView) v.findViewById(R.id.status);
+		    		status.setVisibility(View.INVISIBLE);
+	    		} else if(listItem.ID == R.string.prefs_power_source_header) {
+		    		TextView description = (TextView) v.findViewById(R.id.description);
+		    		description.setText(listItem.description);
+		    		TextView status = (TextView) v.findViewById(R.id.status);
+		    		status.setVisibility(View.INVISIBLE);
+	    		}
 	    	}
     	}
     	

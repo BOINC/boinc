@@ -20,7 +20,7 @@ package edu.berkeley.boinc.rpc;
 
 public class DeviceStatusData {
 	public boolean on_ac_power = false;
-	public boolean on_usb_power = false;
+	public boolean on_usb_power = false; // not used
 	public int battery_charge_pct = 0;
 	public int battery_state = -1; //not used
 	public int battery_temperature_celcius = -1;

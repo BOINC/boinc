@@ -32,6 +32,9 @@ public class AppPreferences {
 	private Boolean showNotification;
 	private Boolean showAdvanced;
 	private Integer logLevel;
+	private Boolean powerSourceAc;
+	private Boolean powerSourceUsb;
+	private Boolean powerSourceWireless;
 	
 	public void readPrefs (Context ctx) {
 		if(prefs == null) {
@@ -43,8 +46,11 @@ public class AppPreferences {
 		showAdvanced = prefs.getBoolean("showAdvanced", ctx.getResources().getBoolean(R.bool.prefs_default_advanced));
 		logLevel = prefs.getInt("logLevel", ctx.getResources().getInteger(R.integer.prefs_default_loglevel));
 		Logging.setLogLevel(logLevel);
+		powerSourceAc = prefs.getBoolean("powerSourceAc", ctx.getResources().getBoolean(R.bool.prefs_power_source_ac));
+		powerSourceUsb = prefs.getBoolean("powerSourceUsb", ctx.getResources().getBoolean(R.bool.prefs_power_source_usb));
+		powerSourceWireless = prefs.getBoolean("powerSourceWireless", ctx.getResources().getBoolean(R.bool.prefs_power_source_wireless));
 		
-		if(Logging.DEBUG) Log.d(Logging.TAG, "appPrefs read successful." + autostart + showNotification + showAdvanced + logLevel);
+		if(Logging.DEBUG) Log.d(Logging.TAG, "appPrefs read successful." + autostart + showNotification + showAdvanced + logLevel + powerSourceAc + powerSourceUsb + powerSourceWireless);
 	}
 	
 	public void setAutostart(Boolean as) {
@@ -90,5 +96,38 @@ public class AppPreferences {
 	
 	public Integer getLogLevel () {
 		return this.logLevel;
+	}
+	
+	public void setPowerSourceAc(Boolean ac) {
+		SharedPreferences.Editor editor = prefs.edit();
+		editor.putBoolean("powerSourceAc", ac);
+		editor.commit();
+		this.powerSourceAc = ac;
+	}
+	
+	public void setPowerSourceUsb(Boolean usb) {
+		SharedPreferences.Editor editor = prefs.edit();
+		editor.putBoolean("powerSourceUsb", usb);
+		editor.commit();
+		this.powerSourceUsb = usb;
+	}
+	
+	public void setPowerSourceWireless(Boolean wireless) {
+		SharedPreferences.Editor editor = prefs.edit();
+		editor.putBoolean("powerSourceWireless", wireless);
+		editor.commit();
+		this.powerSourceWireless = wireless;
+	}
+	
+	public Boolean getPowerSourceAc() {
+		return this.powerSourceAc;
+	}
+	
+	public Boolean getPowerSourceUsb() {
+		return this.powerSourceUsb;
+	}
+	
+	public Boolean getPowerSourceWireless() {
+		return this.powerSourceWireless;
 	}
 }

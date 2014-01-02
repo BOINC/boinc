@@ -1356,7 +1356,7 @@ public class RpcClient {
 				return parser.result();
 			}
 			catch (IOException e) {
-				if(Logging.WARNING) Log.w(Logging.TAG, "error in setRunMode()", e);
+				if(Logging.WARNING) Log.w(Logging.TAG, "error in setCcConfig()", e);
 				return false;
 			}
 		

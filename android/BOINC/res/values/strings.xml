@@ -150,7 +150,12 @@
 	<string name="prefs_category_debug">Debug</string>
 	
 	<string name="prefs_show_advanced_header">Show advanced preferences and controls&#8230;</string>
-	<string name="prefs_run_on_battery_header">Compute on Battery</string>
+	<string name="prefs_power_source_header">Power sources for computation</string>
+	<string name="prefs_power_source_description">Selects power sources BOINC is allowed to use for computation.</string>
+	<string name="prefs_power_source_ac">Wall socket</string>
+	<string name="prefs_power_source_usb">USB connection</string>
+	<string name="prefs_power_source_wireless">Wireless charger</string>
+	<string name="prefs_power_source_battery">Battery</string>
 	<string name="battery_charge_min_pct_header">Min. battery level</string>
 	<string name="battery_charge_min_pct_description">BOINC suspends computation below defined battery charge level.</string>
 	<string name="battery_temperature_max_header">Max. battery temperature</string>

@@ -34,11 +34,14 @@
     	<string name="boinc_platform_name_arm" translatable="false">arm-android-linux-gnu</string>
     	<string name="boinc_platform_name_x86" translatable="false">x86-android-linux-gnu</string>
     	<string name="boinc_platform_name_mips" translatable="false">mipsel-android-linux-gnu</string>
-    <!-- Default preferences of Android app, for BOINC client see assets/global_prefs_override.xml -->
+    <!-- Default preferences of Android app-->
     	<bool name="prefs_default_autostart">true</bool>
         <bool name="prefs_default_notifications">true</bool>
         <bool name="prefs_default_advanced">false</bool>
         <integer name="prefs_default_loglevel">2</integer>
+        <bool name="prefs_power_source_ac">true</bool>
+        <bool name="prefs_power_source_usb">true</bool>
+        <bool name="prefs_power_source_wireless">true</bool>
     <!-- Monitor behavior -->
     	<integer name="status_update_interval_ms">1000</integer>
     	<integer name="device_status_update_screen_off_every_X_loop">10</integer> <!-- every X status_update_interval_ms -->
