@@ -1,5 +1,6 @@
-boinc
-boinccmd
+BOINC/assets/arm*
+BOINC/assets/mips*
+BOINC/assets/x86*
 */bin
 */gen
 */libs/
