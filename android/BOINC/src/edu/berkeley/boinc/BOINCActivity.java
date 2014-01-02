@@ -63,9 +63,6 @@ public class BOINCActivity extends TabActivity {
 	
 	private TabHost tabHost;
 	private Resources res;
-	
-	private native String getDummyString();
-	// ---
 
 	private ServiceConnection mConnection = new ServiceConnection() {
 	    public void onServiceConnected(ComponentName className, IBinder service) {
@@ -95,7 +92,7 @@ public class BOINCActivity extends TabActivity {
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {  
-        if(Logging.DEBUG) Log.d(Logging.TAG, "BOINCActivity onCreate(), dummy jni: " + getDummyString()); 
+        if(Logging.DEBUG) Log.d(Logging.TAG, "BOINCActivity onCreate()"); 
 
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
