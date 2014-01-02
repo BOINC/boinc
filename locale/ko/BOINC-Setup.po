@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC 7.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-11-17 00:00-0800\n"
-"PO-Revision-Date: 2013-08-24 06:47+0200\n"
+"PO-Revision-Date: 2013-12-09 05:39+0000\n"
 "Last-Translator: Kangsan Lee <treppolse@gmail.com>\n"
 "Language-Team: SETIKAH@KOREA\n"
 "Language: ko\n"
@@ -15,16 +15,17 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 1.5.5\n"
+"X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SearchPath-0: mac_installer\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-Basepath: /Volumes/Cheer/BOINC_GIT/boinc_trunk\n"
 "X-Poedit-KeywordsList: _\n"
+"X-POOTLE-MTIME: 1386567551.0\n"
 
 #: Installer.cpp:124
 #, c-format
 msgid "Sorry, this version of %s requires system 10.5 or higher."
-msgstr ""
+msgstr "죄송합니다. 해단 버전의 %s는 시스템 10.5 이상을 필요로 합니다."
 
 #: PostInstall.cpp:130 PostInstall.cpp:1136
 msgid "Yes"

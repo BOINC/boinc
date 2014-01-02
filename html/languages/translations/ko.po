@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: 2012/11/19\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2013-11-28 00:00 PST\n"
-"PO-Revision-Date: 2013-09-01 00:11+0000\n"
+"PO-Revision-Date: 2013-12-09 05:38+0000\n"
 "Last-Translator: Kangsan Lee <treppolse@gmail.com>\n"
 "Language-Team: SETIKAH@KOREA\n"
 "Language: ko\n"
@@ -20,7 +20,7 @@ msgstr ""
 "X-BOINC-UTF8-Marker: ç®ä½ä¸­æ, æ¥æ¬èª\n"
 "X-Poedit-SearchPath-0: html\\user\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
-"X-POOTLE-MTIME: 1377994275.0\n"
+"X-POOTLE-MTIME: 1386567504.0\n"
 
 # The name of this language in this language
 msgid "LANG_NAME_NATIVE"
@@ -531,7 +531,7 @@ msgstr "학교"
 
 #: ../inc/host.inc:59
 msgid "Mobile"
-msgstr ""
+msgstr "모바일"
 
 #: ../inc/host.inc:61 ../user/edit_forum_preferences_form.php:172
 #: ../user/edit_forum_preferences_form.php:173
@@ -564,7 +564,7 @@ msgstr "도메인 이름"
 
 #: ../inc/host.inc:98
 msgid "Product name"
-msgstr ""
+msgstr "기기 이름"
 
 #: ../inc/host.inc:102
 msgid "Local Standard Time"
@@ -882,7 +882,7 @@ msgstr "이름순으로 컴퓨터 동기화"
 
 #: ../inc/language_names.inc:61
 msgid "Browser default"
-msgstr ""
+msgstr "브라우저 기본값"
 
 #: ../inc/news.inc:40
 msgid "Comment"
@@ -1164,7 +1164,7 @@ msgstr "NVIDIA GPU 존재시 사용 %1 6.10 이상 버전이 필요 %2"
 
 #: ../inc/prefs.inc:344
 msgid "Use Intel GPU %1 Enforced by version 7.2+ %2"
-msgstr ""
+msgstr "Intel GPU 사용 %1 7.2 이상 버전이 필요 %2"
 
 #: ../inc/prefs.inc:358
 msgid ""
@@ -1279,17 +1279,17 @@ msgstr "%1 환경 설정 수정"
 
 #: ../inc/prefs.inc:885
 msgid "These apply to all BOINC projects in which you participate."
-msgstr ""
+msgstr "이 환경설정은 여러분이 참여하는 모든 BOINC 프로젝트에 적용됩니다."
 
 #: ../inc/prefs.inc:887
 msgid ""
 "On computers participating in multiple projects, the most recently modified "
 "preferences will be used."
-msgstr ""
+msgstr "여러 프로젝트에 참여하는 컴퓨터의 경우 가장 최근에 수정된 환경 설정을 사용하게 될 것입니다."
 
 #: ../inc/prefs.inc:889
 msgid "These preferences do not apply to Android devices."
-msgstr ""
+msgstr "이 설정들은 Android 기기에는 적용되지 않습니다."
 
 #: ../inc/prefs.inc:892
 msgid "Preferences last modified:"
@@ -1379,7 +1379,7 @@ msgstr "ATI GPU"
 
 #: ../inc/result.inc:57 ../user/host_app_versions.php:28
 msgid "Intel GPU"
-msgstr ""
+msgstr "Intel GPU"
 
 #: ../inc/result.inc:65
 msgid "Not in DB"
@@ -1707,9 +1707,8 @@ msgid "State"
 msgstr "상태"
 
 #: ../inc/result.inc:747
-#, fuzzy
 msgid "Task name:"
-msgstr "태스크 이름"
+msgstr "태스크 이름:"
 
 #: ../inc/team.inc:40
 msgid "Search criteria (use one or more)"
@@ -2437,11 +2436,11 @@ msgstr ""
 
 #: ../user/bs_sample_index.php:44
 msgid "Participants"
-msgstr ""
+msgstr "참여자"
 
 #: ../user/bs_sample_index.php:46
 msgid "Do work"
-msgstr ""
+msgstr "작업 수행"
 
 #: ../user/bs_sample_index.php:47 ../user/bs_sample_index.php:50
 #: ../user/home.php:49 ../project.sample/project.inc:43
@@ -2450,7 +2449,7 @@ msgstr "계정"
 
 #: ../user/bs_sample_index.php:47 ../user/bs_sample_index.php:50
 msgid "view stats, modify preferences"
-msgstr ""
+msgstr "통계 보기, 환경설정 변경"
 
 #: ../user/bs_sample_index.php:48 ../user/bs_sample_index.php:53
 #: ../user/team.php:25
@@ -2459,7 +2458,7 @@ msgstr "팀"
 
 #: ../user/bs_sample_index.php:48 ../user/bs_sample_index.php:53
 msgid "create or join a team"
-msgstr ""
+msgstr "팀 생성 혹은 가입"
 
 #: ../user/bs_sample_index.php:51 ../user/sample_index.php:191
 msgid "User of the day"
@@ -2476,11 +2475,11 @@ msgstr "프로필"
 
 #: ../user/bs_sample_index.php:61
 msgid "User search"
-msgstr ""
+msgstr "사용자 검색"
 
 #: ../user/bs_sample_index.php:64
 msgid "Statistics"
-msgstr ""
+msgstr "통계"
 
 #: ../user/bs_sample_index.php:65 ../user/stats.php:30
 #: ../user/top_users.php:116
@@ -2501,9 +2500,8 @@ msgid "Top GPU models"
 msgstr "최고 GPU 칩셋"
 
 #: ../user/bs_sample_index.php:70
-#, fuzzy
 msgid "Languages"
-msgstr "언어"
+msgstr "언어 설정"
 
 #: ../user/bs_sample_index.php:149 ../user/info.php:24
 #: ../user/sample_index.php:79
@@ -3488,7 +3486,7 @@ msgstr "친구의 이름 혹은 이메일 주소를 입력하지 않았습니다
 msgid ""
 "This project hasn't created an email message - please notify its "
 "administrators"
-msgstr ""
+msgstr "이 프로젝트는 이메일 메세지를 생성할 수 없습니다 - 관리자에게 문의해 주세요"
 
 #: ../user/ffmail_form.php:33
 msgid "Tell your friends about %1"
@@ -4476,7 +4474,7 @@ msgstr "해당 계정으로 BOINC를 실행하고 있다면 계속 접근할 수
 msgid ""
 "Go to the BOINC data directory on your computer (its location is written to "
 "the Event Log at startup)."
-msgstr ""
+msgstr "컴퓨터상의 BOINC 데이터 디렉토리로 이동하세요.(해당 디렉토리 위치는 BOINC 관리자의 이벤트 기록에 쓰여져 있습니다.)"
 
 #: ../user/get_passwd.php:51
 msgid "Find your account file for this project; it will be named <b>%1</b>."
