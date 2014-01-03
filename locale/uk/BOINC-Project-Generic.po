@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2013-12-17 00:00 PST\n"
-"PO-Revision-Date: 2013-12-28 22:25+0000\n"
+"PO-Revision-Date: 2014-01-03 15:18+0000\n"
 "Last-Translator: Олег <pukish_oleg@ukr.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: uk\n"
@@ -18,7 +18,7 @@ msgstr ""
 "10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-POOTLE-MTIME: 1388269548.0\n"
+"X-POOTLE-MTIME: 1388762335.0\n"
 
 msgid "LANG_NAME_NATIVE"
 msgstr "Українська"
@@ -1779,9 +1779,8 @@ msgid "State"
 msgstr "Стан"
 
 #: ../inc/result.inc:747
-#, fuzzy
 msgid "Task name:"
-msgstr "Назва завдання"
+msgstr "Назва завдання:"
 
 #: ../inc/team.inc:40
 msgid "Search criteria (use one or more)"
@@ -2530,11 +2529,11 @@ msgstr ""
 
 #: ../user/bs_sample_index.php:44
 msgid "Participants"
-msgstr ""
+msgstr "Учасники"
 
 #: ../user/bs_sample_index.php:46
 msgid "Do work"
-msgstr ""
+msgstr "Працювати"
 
 #: ../user/bs_sample_index.php:47 ../user/bs_sample_index.php:50
 #: ../user/home.php:49 ../project.sample/project.inc:43
@@ -2543,7 +2542,7 @@ msgstr "Ваш обліковий запис"
 
 #: ../user/bs_sample_index.php:47 ../user/bs_sample_index.php:50
 msgid "view stats, modify preferences"
-msgstr ""
+msgstr "перегляд статистики, зміна налаштувань"
 
 #: ../user/bs_sample_index.php:48 ../user/bs_sample_index.php:53
 #: ../user/team.php:25
@@ -2552,7 +2551,7 @@ msgstr "Команди"
 
 #: ../user/bs_sample_index.php:48 ../user/bs_sample_index.php:53
 msgid "create or join a team"
-msgstr ""
+msgstr "створити або приєднатися до команди"
 
 #: ../user/bs_sample_index.php:51 ../user/sample_index.php:191
 msgid "User of the day"
@@ -2569,11 +2568,11 @@ msgstr "Профілі"
 
 #: ../user/bs_sample_index.php:61
 msgid "User search"
-msgstr ""
+msgstr "Пошук учасників"
 
 #: ../user/bs_sample_index.php:64
 msgid "Statistics"
-msgstr ""
+msgstr "Статистика"
 
 #: ../user/bs_sample_index.php:65 ../user/stats.php:30
 #: ../user/top_users.php:116
@@ -2594,9 +2593,8 @@ msgid "Top GPU models"
 msgstr "Кращі моделі графічних прискорювачів"
 
 #: ../user/bs_sample_index.php:70
-#, fuzzy
 msgid "Languages"
-msgstr "Мова"
+msgstr "Мови"
 
 #: ../user/bs_sample_index.php:149 ../user/info.php:24
 #: ../user/sample_index.php:79
@@ -3649,6 +3647,8 @@ msgid ""
 "This project hasn't created an email message - please notify its "
 "administrators"
 msgstr ""
+"Цей проект не створив електронне повідомлення - будь ласка, повідомте своїх "
+"адміністраторів"
 
 #: ../user/ffmail_form.php:33
 msgid "Tell your friends about %1"
@@ -4702,6 +4702,8 @@ msgid ""
 "Go to the BOINC data directory on your computer (its location is written to "
 "the Event Log at startup)."
 msgstr ""
+"Перейдіть в каталог даних BOINC на своєму комп'ютері (його розташування "
+"записується в журналі подій при запуску)."
 
 #: ../user/get_passwd.php:51
 msgid "Find your account file for this project; it will be named <b>%1</b>."
