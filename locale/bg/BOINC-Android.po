@@ -342,7 +342,7 @@ msgstr ""
 #. main activity
 msgctxt "main_noproject_warning"
 msgid "Tab here to choose a project."
-msgstr "Етикирайте тук за да изберете проект."
+msgstr ""
 
 msgctxt "main_error"
 msgid "Whooops"
@@ -1128,3 +1128,13 @@ msgid ""
 msgstr ""
 "© 2003–2013 Калифорнийски Университет, Бъркли.\n"
 "Всички Права Запазени."
+
+#, fuzzy
+#~ msgctxt "main_noproject_warning"
+#~ msgid "Tap here to choose a project."
+#~ msgstr "Етикирайте тук за да изберете проект."
+
+#, fuzzy
+#~ msgctxt "prefs_power_source_usb"
+#~ msgid "USB connection"
+#~ msgstr "Няма връзка с Интернет"

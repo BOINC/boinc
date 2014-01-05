@@ -320,10 +320,10 @@ static void wxRectToNSRect(wxRect &wxr, NSRect &nsr) {
 
     } else if ([attribute isEqualToString:NSAccessibilityRoleDescriptionAttribute]) {
         return NSAccessibilityRoleDescription(NSAccessibilityStaticTextRole,
-                    (isHeader && !isEventLog) ? NSAccessibilitySortButtonSubrole : nil);
+                    (isHeader && !isEventLog) ? NSAccessibilitySortButtonRole : nil);
 
     } else if ([attribute isEqualToString:NSAccessibilitySubroleAttribute]) {
-        return NSAccessibilitySortButtonSubrole;
+        return NSAccessibilitySortButtonRole;
         
     } else if ([attribute isEqualToString:NSAccessibilitySortDirectionAttribute]) {
         if (col == BOINCView->m_iSortColumn) {

@@ -78,7 +78,7 @@ if ($local_revision) {
 
 if (web_stopped()) {
     echo "
-        <error_num>-183</error_num>
+        <error_num>".ERR_PROJECT_DOWN."</error_num>
         <web_stopped>1</web_stopped>
     ";
 } else {

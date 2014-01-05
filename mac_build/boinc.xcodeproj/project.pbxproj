@@ -356,6 +356,7 @@
 		DDAEB54012F8295800EDEDBE /* LogBOINC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD81C41407C5D13E0098A04D /* LogBOINC.cpp */; };
 		DDAEC9FF07FA5A5C00A7BC36 /* SetVersion.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDAEC9E707FA58A000A7BC36 /* SetVersion.cpp */; };
 		DDB219B210B3BBA900417AEF /* WaitPermissions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB219B110B3BBA900417AEF /* WaitPermissions.cpp */; };
+		DDB295C9185B0DBD00B9F842 /* MacNotification.mm in Sources */ = {isa = PBXBuildFile; fileRef = DDB295C8185B0DBD00B9F842 /* MacNotification.mm */; };
 		DDB4A91E1411840800032E5D /* proc_control.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB4A91C1411840800032E5D /* proc_control.cpp */; };
 		DDB4A91F1411840800032E5D /* proc_control.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB4A91C1411840800032E5D /* proc_control.cpp */; };
 		DDB4A9201411871200032E5D /* proc_control.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB4A91C1411840800032E5D /* proc_control.cpp */; };
@@ -1079,6 +1080,7 @@
 		DDB219A410B3BB6100417AEF /* WaitPermissions.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WaitPermissions.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDB219A610B3BB6200417AEF /* WaitPermissions-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "WaitPermissions-Info.plist"; sourceTree = "<group>"; };
 		DDB219B110B3BBA900417AEF /* WaitPermissions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = WaitPermissions.cpp; path = ../mac_installer/WaitPermissions.cpp; sourceTree = SOURCE_ROOT; };
+		DDB295C8185B0DBD00B9F842 /* MacNotification.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = MacNotification.mm; path = ../clientgui/mac/MacNotification.mm; sourceTree = "<group>"; };
 		DDB4A91C1411840800032E5D /* proc_control.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = proc_control.cpp; sourceTree = "<group>"; };
 		DDB4A91D1411840800032E5D /* proc_control.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = proc_control.h; sourceTree = "<group>"; };
 		DDB506F80958446900181B75 /* ProxyInfoPage.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ProxyInfoPage.cpp; path = ../clientgui/ProxyInfoPage.cpp; sourceTree = SOURCE_ROOT; };
@@ -1985,6 +1987,7 @@
 				DD77A71612F2D1C9006B82E9 /* MacBitmapComboBox.cpp */,
 				DD77A71712F2D1C9006B82E9 /* MacBitmapComboBox.h */,
 				DDA9D3BB09189A8C0060E7A7 /* Mac_GUI.cpp */,
+				DDB295C8185B0DBD00B9F842 /* MacNotification.mm */,
 				DDA12AAD0A369C5800FBDD12 /* SecurityUtility.cpp */,
 				DD7748B40A356D6C0025D05E /* SetupSecurity.cpp */,
 				DDA12A910A369AB500FBDD12 /* SetupSecurity.h */,
@@ -2892,6 +2895,7 @@
 				DDC321AE12E45162006CB55F /* sg_PanelBase.cpp in Sources */,
 				DDDD6D8012E4611300C258A0 /* sg_ProjectPanel.cpp in Sources */,
 				DD7A5D8312EEBE5E0006268E /* sg_TaskCommandPopup.cpp in Sources */,
+				DDB295C9185B0DBD00B9F842 /* MacNotification.mm in Sources */,
 				DD7A5D9F12EEBFC20006268E /* sg_ProjectWebSitesPopup.cpp in Sources */,
 				DD7A5DAB12EEC37B0006268E /* sg_ProjectCommandPopup.cpp in Sources */,
 				DD77A71812F2D1C9006B82E9 /* MacBitmapComboBox.cpp in Sources */,
@@ -3543,7 +3547,7 @@
 					"\"$(SRCROOT)/../../wxWidgets-3.0.0/build/osx/build/Debug\"",
 					"../../sqlite-autoconf-3071401/.libs/",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				OTHER_CFLAGS = (
 					"-DHAVE_CONFIG_H",
 					"-D_FILE_OFFSET_BITS=64",
@@ -3555,6 +3559,7 @@
 					"-DSANDBOX",
 					"-D_DEBUG",
 					"-DHAVE_STRCASECMP_IN_STRING_H",
+					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1050",
 				);
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				OTHER_LDFLAGS = (
@@ -3598,7 +3603,7 @@
 					"\"$(SRCROOT)/../../wxWidgets-3.0.0/build/osx/build/Release\"",
 					"../../sqlite-autoconf-3071401/.libs/",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				OTHER_CFLAGS = (
 					"-DHAVE_CONFIG_H",
 					"-D_FILE_OFFSET_BITS=64",
@@ -3611,6 +3616,7 @@
 					"-DNDEBUG",
 					"-DHAVE_STRCASECMP_IN_STRING_H",
 					"-DBUILDING_MANAGER",
+					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1050",
 				);
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
 				OTHER_LDFLAGS = (
@@ -3982,7 +3988,7 @@
 					../clientgui/mac/config.h,
 				);
 				PREBINDING = NO;
-				SDKROOT = "";
+				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				STRINGS_FILE_OUTPUT_ENCODING = "UTF-8";
 				STRIP_INSTALLED_PRODUCT = YES;
@@ -4150,7 +4156,7 @@
 					../clientgui/mac/config.h,
 				);
 				PREBINDING = NO;
-				SDKROOT = "";
+				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				STRINGS_FILE_OUTPUT_ENCODING = "UTF-8";
 				STRIP_INSTALLED_PRODUCT = NO;

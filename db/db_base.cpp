@@ -424,14 +424,14 @@ int DB_BASE::get_integer(const char* query, int& n) {
     return retval;
 }
 
-int DB_BASE::get_double(const char* query, double& x) {
+int DB_CONN::get_double(const char* query, double& x) {
     int retval;
     MYSQL_ROW row;
     MYSQL_RES* resp;
 
-    retval = db->do_query(query);
+    retval = do_query(query);
     if (retval) return retval;
-    resp = mysql_store_result(db->mysql);
+    resp = mysql_store_result(mysql);
     if (!resp) return ERR_DB_NOT_FOUND;
     row = mysql_fetch_row(resp);
     if (!row || !row[0]) {
@@ -456,7 +456,7 @@ int DB_BASE::sum(double& x, const char* field, const char* clause) {
 
     sprintf(query, "select sum(%s) from %s %s", field, table_name, clause);
 
-    return get_double(query, x);
+    return db->get_double(query, x);
 }
 
 DB_BASE_SPECIAL::DB_BASE_SPECIAL(DB_CONN* p) : db(p) {

@@ -1,6 +1,6 @@
-# Translations template for PROJECT.
+# Catalan translations for PACKAGE.
 # Copyright (C) 2013 ORGANIZATION
-# This file is distributed under the same license as the PROJECT project.
+# This file is distributed under the same license as the PACKAGE project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
 msgid ""
 msgstr ""
@@ -9,15 +9,14 @@ msgstr ""
 "POT-Creation-Date: 2013-10-18 00:00-0700\n"
 "PO-Revision-Date: 2013-11-07 00:36+0000\n"
 "Last-Translator: Xavier <xavi.mormur@gmail.com>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language-Team: ca <LL@li.org>\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 2.5.0\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"X-Generator: Translate Toolkit 1.10.0\n"
 "Generated-By: Babel 1.0dev\n"
-"X-POOTLE-MTIME: 1383784588.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -343,7 +342,7 @@ msgstr "Sincronitzar"
 #. main activity
 msgctxt "main_noproject_warning"
 msgid "Tab here to choose a project."
-msgstr "Prem aquí per escollir un projecte."
+msgstr ""
 
 msgctxt "main_error"
 msgid "Whooops"
@@ -1129,3 +1128,13 @@ msgid ""
 msgstr ""
 "© 2003–2013 Universitat de Califòrnia, Berkeley.\n"
 "Tots els Drets Reservats."
+
+#, fuzzy
+#~ msgctxt "main_noproject_warning"
+#~ msgid "Tap here to choose a project."
+#~ msgstr "Prem aquí per escollir un projecte."
+
+#, fuzzy
+#~ msgctxt "prefs_power_source_usb"
+#~ msgid "USB connection"
+#~ msgstr "No hi ha connexió a Internet"

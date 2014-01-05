@@ -815,12 +815,10 @@ function db_init($try_replica=false) {
     $retval = db_init_aux($try_replica);
     if ($retval == 1) {
         echo tra("Unable to connect to database - please try again later");
-        echo tra("Error:"), " ", mysql_errno(), mysql_error();
         exit();
     }
     if ($retval == 2) {
         echo tra("Unable to select database - please try again later");
-        echo mysql_error();
         exit();
     }
     return 0;
@@ -926,6 +924,21 @@ function redirect_to_secure_url($url) {
         exit;
 
     }
+}
+
+function show_badges($is_user, $item) {
+    if ($is_user) {
+        $bus = BoincBadgeUser::enum("user_id=$item->id");
+    } else {
+        $bus = BoincBadgeTeam::enum("team_id=$item->id");
+    }
+    if (!$bus) return;
+    $x = "";
+    foreach ($bus as $bu) {
+        $badge = BoincBadge::lookup_id($bu->badge_id);
+        $x .= "<img title=\"$badge->title\" height=48 src=$badge->image_url> ";
+    }
+    row2("Badges", $x);
 }
 
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit

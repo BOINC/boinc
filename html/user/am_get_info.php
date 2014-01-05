@@ -29,7 +29,7 @@ $auth = get_str("account_key");
 
 $user = lookup_user_auth($auth);
 if (!$user) {
-    xml_error(-136);
+    xml_error(ERR_DB_NOT_FOUND);
 }
 
 $name = urlencode($user->name);

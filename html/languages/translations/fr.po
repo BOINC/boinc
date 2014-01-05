@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2013-11-28 00:00 PST\n"
+"POT-Creation-Date: 2013-12-17 00:00 PST\n"
 "PO-Revision-Date: 2013-10-06 20:40+0000\n"
 "Last-Translator: Jerome Cadet <jerome.cadet@pobox.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1209,8 +1209,9 @@ msgstr ""
 "plus %2"
 
 #: ../inc/prefs.inc:344
+#, fuzzy
 msgid "Use Intel GPU %1 Enforced by version 7.2+ %2"
-msgstr ""
+msgstr "Utiliser le GPU ATI %1 Applicable depuis la version 6.10 et plus %2"
 
 #: ../inc/prefs.inc:358
 msgid ""
@@ -1773,8 +1774,9 @@ msgid "State"
 msgstr "État"
 
 #: ../inc/result.inc:747
+#, fuzzy
 msgid "Task name:"
-msgstr ""
+msgstr "Nom de tâche"
 
 #: ../inc/team.inc:40
 msgid "Search criteria (use one or more)"
@@ -2051,7 +2053,7 @@ msgstr "Ordinateurs de ce compte"
 
 # vue ?
 #: ../inc/user.inc:151 ../inc/user.inc:152 ../inc/user.inc:217
-#: ../inc/user.inc:242 ../inc/user.inc:328 ../inc/user.inc:401
+#: ../inc/user.inc:242 ../inc/user.inc:328 ../inc/user.inc:412
 #: ../user/view_profile.php:64
 msgid "View"
 msgstr "Voir"
@@ -2179,7 +2181,7 @@ msgstr "Supprimer"
 msgid "Create"
 msgstr "Créer"
 
-#: ../inc/user.inc:246 ../inc/user.inc:401 ../inc/util.inc:514
+#: ../inc/user.inc:246 ../inc/user.inc:412 ../inc/util.inc:514
 msgid "Profile"
 msgstr "Profil"
 
@@ -2252,15 +2254,15 @@ msgstr "Requête en cours"
 msgid "Add as friend"
 msgstr "Ajouter en tant qu'ami(e)"
 
-#: ../inc/user.inc:445
+#: ../inc/user.inc:456
 msgid "user name cannot have leading or trailing white space"
 msgstr "le nom d'utilisateur ne peut contenir d'espace au début ou à la fin"
 
-#: ../inc/user.inc:449
+#: ../inc/user.inc:460
 msgid "user name must be nonempty"
 msgstr "le nom d'utilisateur ne doit pas être vide"
 
-#: ../inc/user.inc:453
+#: ../inc/user.inc:464
 msgid "user name may not contain HTML tags"
 msgstr "le nom d'utilisateur ne peut pas contenir de balises HTML"
 
@@ -2338,11 +2340,7 @@ msgstr ""
 "Impossible de se connecter à la base de données - veuillez réessayer "
 "ultérieurement."
 
-#: ../inc/util.inc:818
-msgid "Error:"
-msgstr "Erreur:"
-
-#: ../inc/util.inc:822
+#: ../inc/util.inc:821
 msgid "Unable to select database - please try again later"
 msgstr ""
 "Impossible d'interroger la base de données - veuillez réessayer "
@@ -2590,8 +2588,9 @@ msgid "Top GPU models"
 msgstr "Meilleurs modèles GPU"
 
 #: ../user/bs_sample_index.php:70
+#, fuzzy
 msgid "Languages"
-msgstr ""
+msgstr "Langue"
 
 #: ../user/bs_sample_index.php:149 ../user/info.php:24
 #: ../user/sample_index.php:79
@@ -7093,6 +7092,9 @@ msgstr ""
 #: ../project.sample/project_specific_prefs.inc:91
 msgid "(all applications)"
 msgstr "(toutes les applications)"
+
+#~ msgid "Error:"
+#~ msgstr "Erreur:"
 
 #~ msgid "Account creation is disabled"
 #~ msgstr "La création de compte est désactivée"

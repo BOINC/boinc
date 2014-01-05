@@ -77,7 +77,6 @@
   <string name="attachproject_working_login">Войти</string>
   <string name="attachproject_working_acctmgr">Добавить менеджер проектов</string>
   <string name="attachproject_working_acctmgr_sync">Синхронизировать</string>
-  <string name="main_noproject_warning">Нажмите здесь для выбора проекта.</string>
   <string name="main_error">Упс</string>
   <string name="main_error_long">…этого не должно было произойти!\nНажмите на значок BOINC, чтобы попробовать ещё раз.</string>
   <string name="main_title_icon_desc">Значок BOINC</string>

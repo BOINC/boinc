@@ -14,10 +14,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Pootle 2.5.0\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2\n"
+"X-Generator: Translate Toolkit 1.10.0\n"
 "Generated-By: Babel 1.0dev\n"
-"X-POOTLE-MTIME: 1377896370.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -343,7 +342,7 @@ msgstr ""
 #. main activity
 msgctxt "main_noproject_warning"
 msgid "Tab here to choose a project."
-msgstr "Prem aquí per escollir un projecte."
+msgstr ""
 
 msgctxt "main_error"
 msgid "Whooops"
@@ -1129,3 +1128,13 @@ msgid ""
 msgstr ""
 "© 2003–2013 Universitat de Califòrnia, Berkeley.\n"
 "Tots els Drets Reservats."
+
+#, fuzzy
+#~ msgctxt "main_noproject_warning"
+#~ msgid "Tap here to choose a project."
+#~ msgstr "Prem aquí per escollir un projecte."
+
+#, fuzzy
+#~ msgctxt "prefs_power_source_usb"
+#~ msgid "USB connection"
+#~ msgstr "No hi ha connexió a Internet"

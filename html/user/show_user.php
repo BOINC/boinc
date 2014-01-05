@@ -51,7 +51,7 @@ if ($format=="xml"){
         $user = lookup_user_id($id);
         $show_hosts = false;
     }
-    if (!$user) xml_error(-136);
+    if (!$user) xml_error(ERR_DB_NOT_FOUND);
 
     show_user_xml($user, $show_hosts);
 } else {
@@ -99,8 +99,8 @@ if ($format=="xml"){
     show_other_projects($user, false);
     echo "</td><td valign=top>";
     start_table();
+    show_badges(true, $user);
     show_profile_link($user);
-    show_badges($user);
     community_links($community_links, $logged_in_user);
     end_table();
     echo "</td></tr></table>";

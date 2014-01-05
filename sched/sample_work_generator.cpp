@@ -150,10 +150,23 @@ void main_loop() {
                     exit(retval);
                 }
             }
-            // Now sleep for a few seconds to let the transitioner
-            // create instances for the jobs we just created.
-            // Otherwise we could end up creating an excess of jobs.
-            daemon_sleep(5);
+            // Wait for the transitioner to create instances
+            // of the jobs we just created.
+            // Otherwise we'll create too many jobs.
+            //
+            double now = dtime();
+            while (1) {
+                daemon_sleep(5);
+                double x;
+                retval = min_transition_time(x);
+                if (retval) {
+                    log_messages.printf(MSG_CRITICAL,
+                        "min_transition_time failed: %s\n", boincerror(retval)
+                    );
+                    exit(retval);
+                }
+                if (x > now) break;
+            }
         }
     }
 }

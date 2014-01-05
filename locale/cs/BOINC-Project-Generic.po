@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2013-11-28 00:00 PST\n"
+"POT-Creation-Date: 2013-12-17 00:00 PST\n"
 "PO-Revision-Date: 2013-08-30 20:59+0000\n"
 "Last-Translator: Lycan <santdel@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2023,7 +2023,7 @@ msgid "Computers on this account"
 msgstr "Počítače na tomto účtu"
 
 #: ../inc/user.inc:151 ../inc/user.inc:152 ../inc/user.inc:217
-#: ../inc/user.inc:242 ../inc/user.inc:328 ../inc/user.inc:401
+#: ../inc/user.inc:242 ../inc/user.inc:328 ../inc/user.inc:412
 #: ../user/view_profile.php:64
 msgid "View"
 msgstr "Zobrazit"
@@ -2152,7 +2152,7 @@ msgstr "Smazat"
 msgid "Create"
 msgstr "Vytvořit"
 
-#: ../inc/user.inc:246 ../inc/user.inc:401 ../inc/util.inc:514
+#: ../inc/user.inc:246 ../inc/user.inc:412 ../inc/util.inc:514
 msgid "Profile"
 msgstr "Profil"
 
@@ -2225,15 +2225,15 @@ msgstr "Nevyřízený požadavek"
 msgid "Add as friend"
 msgstr "Přidat mezi přátele"
 
-#: ../inc/user.inc:445
+#: ../inc/user.inc:456
 msgid "user name cannot have leading or trailing white space"
 msgstr "uživatelské jméno nemůže začínat nebo končit mezerou"
 
-#: ../inc/user.inc:449
+#: ../inc/user.inc:460
 msgid "user name must be nonempty"
 msgstr "uživatelské jméno nemůže být prázdné"
 
-#: ../inc/user.inc:453
+#: ../inc/user.inc:464
 msgid "user name may not contain HTML tags"
 msgstr "uživatelské jméno nemůže obsahovat HTML tagy"
 
@@ -2307,11 +2307,7 @@ msgstr "%1 je dočasně nedostupný kvůli údržbě. Zkuste to prosím později
 msgid "Unable to connect to database - please try again later"
 msgstr "Nelze se připojit k databázi - zkuste to prosím později."
 
-#: ../inc/util.inc:818
-msgid "Error:"
-msgstr "Chyba:"
-
-#: ../inc/util.inc:822
+#: ../inc/util.inc:821
 msgid "Unable to select database - please try again later"
 msgstr "Nelze vybrat databázi - zkuste to prosím později."
 
@@ -6938,6 +6934,9 @@ msgstr ""
 #: ../project.sample/project_specific_prefs.inc:91
 msgid "(all applications)"
 msgstr "(všechny aplikace)"
+
+#~ msgid "Error:"
+#~ msgstr "Chyba:"
 
 #~ msgid "Account creation is disabled"
 #~ msgstr "Vytváření účtů je zakázáno"

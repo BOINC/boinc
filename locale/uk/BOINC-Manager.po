@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-11-22 00:00-0800\n"
-"PO-Revision-Date: 2013-10-28 19:50+0000\n"
+"PO-Revision-Date: 2013-12-28 22:21+0000\n"
 "Last-Translator: Олег <pukish_oleg@ukr.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: uk\n"
@@ -24,7 +24,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCGIT\\boinc\n"
-"X-POOTLE-MTIME: 1382989834.0\n"
+"X-POOTLE-MTIME: 1388269262.0\n"
 
 # 81%
 #: AccountInfoPage.cpp:387
@@ -126,7 +126,6 @@ msgstr ""
 "щоб зареєструватися чи відновити забутий пароль."
 
 #: AccountInfoPage.cpp:532
-#, fuzzy
 msgid "Account manager web site"
 msgstr "Веб-сайт менеджера проектів"
 
@@ -153,7 +152,7 @@ msgstr "Будь-ласка, вкажіть адресу електронної 
 #: AccountInfoPage.cpp:597
 #, c-format
 msgid "Please enter a password of at least %d characters."
-msgstr ""
+msgstr "Будь-ласка, введіть пароль, що складається мінімум з %d символів."
 
 #: AccountInfoPage.cpp:607
 msgid ""
@@ -173,22 +172,20 @@ msgstr ""
 "введіть його URL в полі нижче."
 
 #: AccountManagerInfoPage.cpp:279
-#, fuzzy
 msgid "Account manager details:"
-msgstr "Веб-сайт менеджера проектів"
+msgstr "Опис менеджера проектів:"
 
 #: AccountManagerInfoPage.cpp:283
-#, fuzzy
 msgid "Account manager &URL:"
 msgstr "&URL-адреса менеджера проектів:"
 
 #: AccountManagerInfoPage.cpp:287
 msgid "Open web page"
-msgstr ""
+msgstr "Відкрити веб-сторінку"
 
 #: AccountManagerInfoPage.cpp:290
 msgid "Visit this account manager's web site"
-msgstr ""
+msgstr "Відвідайте веб-сайт менеджера проектів"
 
 #: AccountManagerProcessingPage.cpp:187 AccountManagerPropertiesPage.cpp:193
 #, c-format
@@ -503,7 +500,7 @@ msgstr "Показати інформацію про %s"
 
 #: AdvancedFrame.cpp:657 sg_BoincSimpleFrame.cpp:220
 #, c-format
-#, c-format, fuzzy
+#, c-format, c-format
 msgid "%s &web site"
 msgstr "%s &веб-сайт"
 
@@ -1022,6 +1019,9 @@ msgid ""
 "\n"
 "Click Finish to close."
 msgstr ""
+"Будь-ласка, спробуйте ще раз пізніше. \n"
+"\n"
+"Натисніть Готово, щоб закрити."
 
 #: CompletionErrorPage.cpp:225 CompletionPage.cpp:222 CompletionPage.cpp:242
 #: CompletionPage.cpp:273
@@ -1377,7 +1377,7 @@ msgstr "У багатопроцесорних системах використ�
 #: DlgAdvPreferencesBase.cpp:346
 #, no-c-format
 msgid "% of the processors (0 means ignore this setting)"
-msgstr ""
+msgstr "% процесорів (0 означає ігнорування цього налаштування)"
 
 #: DlgAdvPreferencesBase.cpp:349 DlgAdvPreferencesBase.cpp:604
 #: DlgAdvPreferencesBase.cpp:626 DlgAdvPreferencesBase.cpp:647
@@ -3788,7 +3788,7 @@ msgstr "Команди проекту"
 
 #: sg_ProjectPanel.cpp:267
 #, c-format
-#, c-format, fuzzy
+#, c-format, c-format
 msgid "Pop up a menu of web sites for project %s"
 msgstr "Показати меню веб-сайтів для проекту %s"
 

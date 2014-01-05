@@ -1,24 +1,24 @@
-# Translations template for PROJECT.
+# Ukrainian translations for PACKAGE.
 # Copyright (C) 2013 ORGANIZATION
-# This file is distributed under the same license as the PROJECT project.
+# This file is distributed under the same license as the PACKAGE project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2013-10-18 00:00-0700\n"
-"PO-Revision-Date: 2013-10-19 20:47+0000\n"
+"PO-Revision-Date: 2014-01-03 15:12+0000\n"
 "Last-Translator: Олег <pukish_oleg@ukr.net>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language-Team: uk <LL@li.org>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
 "10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
-"X-POOTLE-MTIME: 1382215665.0\n"
+"X-POOTLE-MTIME: 1388761922.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -201,7 +201,7 @@ msgstr "Створити"
 #. account manager
 msgctxt "attachproject_acctmgr_header"
 msgid "Add account manager"
-msgstr ""
+msgstr "Додати менеджер проектів"
 
 msgctxt "attachproject_acctmgr_header_url"
 msgid "URL"
@@ -344,7 +344,7 @@ msgstr "Синхронізувати"
 #. main activity
 msgctxt "main_noproject_warning"
 msgid "Tab here to choose a project."
-msgstr "Для обрання проекту натисніть тут."
+msgstr "Щоб обрати проект натисніть тут."
 
 msgctxt "main_error"
 msgid "Whooops"
@@ -1124,3 +1124,13 @@ msgid ""
 msgstr ""
 "© 2003-2013 Університет Каліфорнії, Берклі.\n"
 "Всі права захищено."
+
+#, fuzzy
+#~ msgctxt "main_noproject_warning"
+#~ msgid "Tap here to choose a project."
+#~ msgstr "Для обрання проекту натисніть тут."
+
+#, fuzzy
+#~ msgctxt "prefs_power_source_usb"
+#~ msgid "USB connection"
+#~ msgstr "Відсутнє з’єднання з Інтернетом"

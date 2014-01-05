@@ -100,6 +100,7 @@ function display_team_page($team, $user) {
     if (!no_computing()) {
         row2(tra('Total credit'), format_credit_large($team->total_credit));
         row2(tra('Recent average credit'), format_credit_large($team->expavg_credit));
+        show_badges(false, $team);
 
         $x = "";
         shuffle($team_name_sites);

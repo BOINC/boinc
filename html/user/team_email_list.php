@@ -33,7 +33,7 @@ if ($xml) {
     $teamid = get_int("teamid");
     $team = BoincTeam::lookup_id($teamid);
     if (!$team) {
-        xml_error(-136);
+        xml_error(ERR_DB_NOT_FOUND);
     }
     $account_key = get_str('account_key', true);
     $user = lookup_user_auth($account_key);

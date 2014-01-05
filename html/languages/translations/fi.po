@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2013-11-28 00:00 PST\n"
+"POT-Creation-Date: 2013-12-17 00:00 PST\n"
 "PO-Revision-Date: 2013-11-25 11:56+0000\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2018,7 +2018,7 @@ msgid "Computers on this account"
 msgstr "Tämän tilin tietokoneet"
 
 #: ../inc/user.inc:151 ../inc/user.inc:152 ../inc/user.inc:217
-#: ../inc/user.inc:242 ../inc/user.inc:328 ../inc/user.inc:401
+#: ../inc/user.inc:242 ../inc/user.inc:328 ../inc/user.inc:412
 #: ../user/view_profile.php:64
 msgid "View"
 msgstr "Katso"
@@ -2146,7 +2146,7 @@ msgstr "Poista"
 msgid "Create"
 msgstr "Luo"
 
-#: ../inc/user.inc:246 ../inc/user.inc:401 ../inc/util.inc:514
+#: ../inc/user.inc:246 ../inc/user.inc:412 ../inc/util.inc:514
 msgid "Profile"
 msgstr "Profiili"
 
@@ -2219,15 +2219,15 @@ msgstr "Pyyntö odottaa"
 msgid "Add as friend"
 msgstr "Lisää ystäväksi"
 
-#: ../inc/user.inc:445
+#: ../inc/user.inc:456
 msgid "user name cannot have leading or trailing white space"
 msgstr "käyttäjänimen alussa tai lopussa ei saa olla välilyöntiä"
 
-#: ../inc/user.inc:449
+#: ../inc/user.inc:460
 msgid "user name must be nonempty"
 msgstr "käyttäjänimi ei saa olla tyhjä"
 
-#: ../inc/user.inc:453
+#: ../inc/user.inc:464
 msgid "user name may not contain HTML tags"
 msgstr "käyttäjänimi ei saa sisältää HTML-tageja"
 
@@ -2301,11 +2301,7 @@ msgstr ""
 msgid "Unable to connect to database - please try again later"
 msgstr "Tietokantaan ei saada yhteyttä - yritä myöhemmin uudelleen"
 
-#: ../inc/util.inc:818
-msgid "Error:"
-msgstr "Virhe:"
-
-#: ../inc/util.inc:822
+#: ../inc/util.inc:821
 msgid "Unable to select database - please try again later"
 msgstr "Tietokannan valinta ei onnistu - yritä myöhemmin uudelleen"
 
@@ -6930,6 +6926,9 @@ msgstr ""
 #: ../project.sample/project_specific_prefs.inc:91
 msgid "(all applications)"
 msgstr "(kaikki sovellukset)"
+
+#~ msgid "Error:"
+#~ msgstr "Virhe:"
 
 #~ msgid "Account creation is disabled"
 #~ msgstr "Tilin luonti on pois käytöstä"

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2013-11-28 00:00 PST\n"
+"POT-Creation-Date: 2013-12-17 00:00 PST\n"
 "PO-Revision-Date: 2013-11-26 07:26+0000\n"
 "Last-Translator: Marius <marius.sirbu@outlook.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1994,7 +1994,7 @@ msgid "Computers on this account"
 msgstr "Calculatoare în acest cont"
 
 #: ../inc/user.inc:151 ../inc/user.inc:152 ../inc/user.inc:217
-#: ../inc/user.inc:242 ../inc/user.inc:328 ../inc/user.inc:401
+#: ../inc/user.inc:242 ../inc/user.inc:328 ../inc/user.inc:412
 #: ../user/view_profile.php:64
 msgid "View"
 msgstr "Vizualizări"
@@ -2122,7 +2122,7 @@ msgstr "Şterge"
 msgid "Create"
 msgstr "Crează"
 
-#: ../inc/user.inc:246 ../inc/user.inc:401 ../inc/util.inc:514
+#: ../inc/user.inc:246 ../inc/user.inc:412 ../inc/util.inc:514
 msgid "Profile"
 msgstr "Profil"
 
@@ -2195,15 +2195,15 @@ msgstr "Cerere în aşteptare"
 msgid "Add as friend"
 msgstr "Adaugă prieten"
 
-#: ../inc/user.inc:445
+#: ../inc/user.inc:456
 msgid "user name cannot have leading or trailing white space"
 msgstr "numele de utilizator nu poate avea spaţii la început sau la sfârşit"
 
-#: ../inc/user.inc:449
+#: ../inc/user.inc:460
 msgid "user name must be nonempty"
 msgstr "numele de utilizator nu trebuie să fie gol"
 
-#: ../inc/user.inc:453
+#: ../inc/user.inc:464
 msgid "user name may not contain HTML tags"
 msgstr "numele de utilizator nu poate conţine tag-uri HTML"
 
@@ -2276,11 +2276,7 @@ msgstr ""
 msgid "Unable to connect to database - please try again later"
 msgstr "Nu s-a putut conecta la baza de date - vă rugăm încercaţi mai târziu"
 
-#: ../inc/util.inc:818
-msgid "Error:"
-msgstr "Eroare:"
-
-#: ../inc/util.inc:822
+#: ../inc/util.inc:821
 msgid "Unable to select database - please try again later"
 msgstr "Nu s-a putut selecta baza de date - vă rugăm încercaţi mai târziu"
 
@@ -6590,6 +6586,9 @@ msgstr ""
 #: ../project.sample/project_specific_prefs.inc:91
 msgid "(all applications)"
 msgstr "(toate aplicaţiile)"
+
+#~ msgid "Error:"
+#~ msgstr "Eroare:"
 
 #~ msgid "Account creation is disabled"
 #~ msgstr "Creare de conturi este dezactivată"

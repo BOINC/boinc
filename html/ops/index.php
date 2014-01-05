@@ -135,8 +135,8 @@ echo "
 
 $show_deprecated = get_str("show_deprecated", true);
 $show_only = array("all"); // Add all appids you want to display, or "all"
-$result = mysql_query("select id, name, deprecated from app");
-while ($app = mysql_fetch_object($result)) {
+$apps = BoincApp::enum("");
+foreach ($apps as $app) {
     if (in_array($app->id, $show_only) 
        || ( in_array("all", $show_only)
           && (!$app->deprecated || $show_deprecated)
@@ -173,7 +173,6 @@ while ($app = mysql_fetch_object($result)) {
         echo " </ul> ";
     }
 }
-mysql_free_result($result);
 
 if ($show_deprecated) {
     echo "<a href=\"index.php?show_deprecated=0\">Hide deprecated applications</a>";
@@ -181,19 +180,26 @@ if ($show_deprecated) {
     echo "<a href=\"index.php?show_deprecated=1\">Show deprecated applications</a>";
 }
 
-// Periodic tasks
+echo "<h3>Periodic tasks</h3>
+The following scripts should be run as periodic tasks, not via this web page
+(see <a href=\"http://boinc.berkeley.edu/trac/wiki/ProjectTasks\">http://boinc.berkeley.edu/trac/wiki/ProjectTasks</a>):
+<pre>
+    update_forum_activities.php, update_profile_pages.php, update_uotd.php
+</pre>
 
-echo "<h3>Periodic or special tasks</h3>
+<h3>Repair tasks</h3>
+The following scripts do one-time repair operations.
+Run them manually on the command line as needed
+(i.e. <tt>php scriptname.php</tt>):
+<pre>forum_repair.php, team_repair.php, repair_validator_problem.php</pre>
+
+<h3>Cleanup tasks</h3>
+You can run the following as a periodic task, on the command line,
+or by clicking here:
     <ul>
-    <li> The following scripts should be run as periodic tasks,
-        not via this web page
-        (see <a href=\"http://boinc.berkeley.edu/trac/wiki/ProjectTasks\">http://boinc.berkeley.edu/trac/wiki/ProjectTasks</a>):
-        <pre> update_forum_activities.php, update_profile_pages.php, update_uotd.php</pre>
-    <li> The following scripts can be run manually on the command line
-        as needed (i.e. <tt>php scriptname.php</tt>):
-        <pre>forum_repair.php, team_repair.php, repair_validator_problem.php</pre>
-   </ul>
-    ";
+    <li> <a href=remove_zombie_hosts.php>remove_zombie_hosts.php</a> Remove zombie host records
+    </ul>
+";
 
 admin_page_tail();
 

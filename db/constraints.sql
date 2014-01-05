@@ -137,4 +137,4 @@ alter table badge_user
     add unique (user_id, badge_id);
 
 alter table badge_team
-    add unique(team_id, badge_id);
+    add unique (team_id, badge_id);

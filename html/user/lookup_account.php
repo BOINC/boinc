@@ -33,7 +33,7 @@ $passwd_hash = get_str("passwd_hash", true);
 $email_addr = BoincDb::escape_string($email_addr);
 $user = BoincUser::lookup("email_addr='$email_addr'");
 if (!$user) {
-    xml_error(-136);
+    xml_error(ERR_DB_NOT_FOUND);
 }
 
 if (!$passwd_hash) {
@@ -60,8 +60,7 @@ if ($user->passwd_hash == $passwd_hash || $auth_hash == $passwd_hash) {
     echo "<authenticator>$user->authenticator</authenticator>\n";
     echo "</account_out>\n";
 } else {
-    xml_error(-206);
+    xml_error(ERR_BAD_PASSWD);
 }
 
 ?>
-

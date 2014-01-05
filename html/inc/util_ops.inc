@@ -28,38 +28,11 @@ define("TABLE", "<table cellpadding=\"8\" border=\"1\" width=\"100%\">");
 define("TABLE2", "<table width=\"580\">");
 
 function admin_page_head($title) {
-    $stylesheet = URL_BASE.STYLESHEET;
-
-    echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">";
-    echo "<html><head><title>$title</title>
-        <meta http-equiv=\"content-type\" content=\"text/html;charset=utf-8\" />
-        <link rel=stylesheet type=\"text/css\" href=\"".URL_BASE."main.css\" media=\"all\" />
-    ";
-    if (defined('ADMIN_STYLESHEET')) {
-        echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".URL_BASE.ADMIN_STYLESHEET."\" media=\"all\" />";
-    }
-    echo "
-        </head>
-        <body bgcolor=\"#ffffff\">
-        <h2>".PROJECT.": $title</h2>
-    ";
+    return page_head($title);
 }
 
 function admin_page_tail() {
-    echo "<br><hr noshade size=1><center>
-        <a href=\"index.php\"> Back to Main admin page </a> |
-    ";
-    $user = get_logged_in_user_ops();
-    if ($user) {
-        echo "logged in as $user->name. <a href=logout.php>Log out</a>";
-    } else {
-        echo "<a href=login_form.php>Log in</a>";
-    }
-
-    echo "
-        </center>
-        </body></html>
-    ";
+    echo "</body></html>\n";
 }
 
 // TODO: get rid of all the following
@@ -236,11 +209,6 @@ function current_versions($avs) {
     return $x;
 }
 
-function test_mysql_query($msg) {
-    echo "mysql_query($msg)<br/>";
-    return 1;
-}
-
 // cancel WUs with IDs in a given range.
 // This means:
 //
@@ -248,20 +216,19 @@ function test_mysql_query($msg) {
 // - set the CANCELLED bit in workunit.error_mask
 //
 function cancel_wus($wuid1, $wuid2) {
-    $query="update result set server_state=5, outcome=5 where server_state=2 and $wuid1<=workunitid and workunitid<=$wuid2";
-    if (!mysql_query($query)) {
-        error_page("DB query $query failed");
+    $retval = BoincResult::update_aux("server_state=5, outcome=5 where server_state=2 and $wuid1<=workunitid and workunitid<=$wuid2");
+    if (!$retval) {
+        error_page("Result update failed");
     }
-    $query="update workunit set error_mask=error_mask|16 where $wuid1<=id and id<=$wuid2";
-    if (!mysql_query($query)) {
-        error_page("DB query $query failed");
+    $retval = BoincWorkunit::update_aux("error_mask=error_mask|16 where $wuid1<=id and id<=$wuid2");
+    if (!$retval) {
+        error_page("Workunit update failed");
     }
 
     // trigger the transitioner (it will set file_delete_state)
 
     $now = time();
-    $query="update workunit set transition_time=$now where $wuid1<=id and id<=$wuid2";
-    mysql_query($query);
+    $retval = BoincWorkunit::update_aux("transition_time=$now where $wuid1<=id and id<=$wuid2");
     return 0;
 }
 
@@ -273,9 +240,9 @@ function cancel_wus_if_unsent($id1, $id2) {
     foreach ($wus as $wu) {
         $results = BoincResult::enum("workunitid=$wu->id and server_state > 2");
         if (count($results)) continue;
-        $query="update result set server_state=5, outcome=5 where workunitid=$wu->id";
-        if (!mysql_query($query)) {
-            error_page("DB query $query failed");
+        $retval = BoincResult::update_aux("server_state=5, outcome=5 where workunitid=$wu->id");
+        if (!$retval) {
+            error_page("result update failed");
         }
         if (!$wu->update("error_mask=error_mask|16")) {
             error_page("WU update failed");
@@ -313,8 +280,65 @@ function app_version_desc($avid) {
     }
 }
 
+////// badge-related stuff
+
+function get_badge($name, $title, $image_url) {
+    $b = BoincBadge::lookup("name='$name'");
+    if ($b) return $b;
+    $now = time();
+    $id = BoincBadge::insert("(create_time, name, title, image_url) values ($now, '$name', '$title', 'img/$image_url')");
+    $b = BoincBadge::lookup_id($id);
+    if ($b) return $b;
+    die("can't create badge $name\n");
+}
+
+function assign_badge($is_user, $item, $badge) {
+    $now = time();
+    if ($is_user) {
+        $bbu = BoincBadgeUser::lookup("user_id=$item->id and badge_id=$badge->id");
+        if ($bbu) {
+            $bbu->update("reassign_time=$now where user_id=$item->id and badge_id=$badge->id");
+        } else {
+            BoincBadgeUser::insert("(create_time, user_id, badge_id, reassign_time) values ($now, $item->id, $badge->id, $now)");
+        }
+    } else {
+        $bbt = BoincBadgeTeam::lookup("team_id=$item->id and badge_id=$badge->id");
+        if ($bbt) {
+            $bbt->update("reassign_time=$now where team_id=$item->id and badge_id=$badge->id");
+        } else {
+            BoincBadgeTeam::insert("(create_time, team_id, badge_id, reassign_time) values ($now, $item->id, $badge->id, $now)");
+        }
+    }
+}
+
+// unassign all badges except the given one
+//
+function unassign_badges($is_user, $item, $badges, $k) {
+    $list = null;
+    for ($i=0; $i<count($badges); $i++) {
+        if ($i == $k) continue;
+        $badge = $badges[$i];
+        if ($list) {
+            $list .= ",$badge->id";
+        } else {
+            $list = "$badge->id";
+        }
+    }
+    if ($is_user) {
+        BoincBadgeUser::delete("user_id=$item->id and badge_id in ($list)");
+    } else {
+        BoincBadgeTeam::delete("team_id=$item->id and badge_id in ($list)");
+    }
+}
+
+////// end badge-related stuff
+
+function running_from_web_server() {
+    return array_key_exists("SERVER_PORT", $_SERVER);
+}
+
 if (isset($cli_only)) {
-    if (array_key_exists("SERVER_PORT", $_SERVER)) {
+    if (running_from_web_server()) {
         die("This script is intended to be run from the command line,
             not from the web server."
         );

@@ -41,7 +41,7 @@ if ($format == "xml") {
     $auth = BoincDb::escape_string(get_str('authenticator'));
     $user = BoincUser::lookup("authenticator='$auth'");
     if (!$user) {
-        echo "<error>".xml_error(-136)."</error>\n";
+        echo "<error>".xml_error(ERR_DB_NOT_FOUND)."</error>\n";
         exit();
     }
     $sum = 0;

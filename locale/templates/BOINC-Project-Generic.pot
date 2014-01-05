@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC $Id$\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2013-11-28 00:00 PST\n"
+"POT-Creation-Date: 2013-12-17 00:00 PST\n"
 "Last-Translator: Generated automatically from source files\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -1942,7 +1942,7 @@ msgid "Computers on this account"
 msgstr ""
 
 #: ../inc/user.inc:151 ../inc/user.inc:152 ../inc/user.inc:217
-#: ../inc/user.inc:242 ../inc/user.inc:328 ../inc/user.inc:401
+#: ../inc/user.inc:242 ../inc/user.inc:328 ../inc/user.inc:412
 #: ../user/view_profile.php:64
 msgid "View"
 msgstr ""
@@ -2070,7 +2070,7 @@ msgstr ""
 msgid "Create"
 msgstr ""
 
-#: ../inc/user.inc:246 ../inc/user.inc:401 ../inc/util.inc:514
+#: ../inc/user.inc:246 ../inc/user.inc:412 ../inc/util.inc:514
 msgid "Profile"
 msgstr ""
 
@@ -2143,15 +2143,15 @@ msgstr ""
 msgid "Add as friend"
 msgstr ""
 
-#: ../inc/user.inc:445
+#: ../inc/user.inc:456
 msgid "user name cannot have leading or trailing white space"
 msgstr ""
 
-#: ../inc/user.inc:449
+#: ../inc/user.inc:460
 msgid "user name must be nonempty"
 msgstr ""
 
-#: ../inc/user.inc:453
+#: ../inc/user.inc:464
 msgid "user name may not contain HTML tags"
 msgstr ""
 
@@ -2221,11 +2221,7 @@ msgstr ""
 msgid "Unable to connect to database - please try again later"
 msgstr ""
 
-#: ../inc/util.inc:818
-msgid "Error:"
-msgstr ""
-
-#: ../inc/util.inc:822
+#: ../inc/util.inc:821
 msgid "Unable to select database - please try again later"
 msgstr ""
 

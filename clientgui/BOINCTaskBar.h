@@ -80,29 +80,15 @@ public:
     wxMenu *CreatePopupMenu();
     bool SetIcon(const wxIcon& icon, const wxString& message = wxEmptyString);
 
-    inline bool IsBalloonsSupported() {
-        return false;
-    }
-    
 #define BALLOONTYPE_INFO 0
-
-    bool SetBalloon(
-        const wxIcon& icon, 
-        const wxString title = wxEmptyString,
-        const wxString message = wxEmptyString,
-        unsigned int iconballoon = BALLOONTYPE_INFO
-    ) {
-        return false;
-    }
+    bool IsBalloonsSupported();
 
     bool QueueBalloon(
         const wxIcon& icon, 
         const wxString title = wxEmptyString,
         const wxString message = wxEmptyString,
         unsigned int iconballoon = BALLOONTYPE_INFO
-    ) {
-        return false;
-    }
+    );
 #endif
 
     wxIcon          m_iconTaskBarNormal;

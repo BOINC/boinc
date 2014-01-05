@@ -17,89 +17,85 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// Assign badges based on RAC.
+// Assign badges based on RAC percentile.
 // Customize this to grant other types of badges
 
-require_once("../inc/boinc_db.inc");
+require_once("../inc/util_ops.inc");
 
-define("GOLD_RAC", 100000);
-define("SILVER_RAC", 10000);
-define("BRONZE_RAC", 1000);
+// thresholds for the various badges
+// (i.e. gold badge is for top 1% of active users/teams)
+//
+$badge_pctiles = array(1, 5, 25);
+$badge_images = array("pct_1.png", "pct_5.png", "pct_25.png");
 
-function get_badge($name, $t, $rac, $image_url) {
-    $b = BoincBadge::lookup("name='$name'");
-    if ($b) return $b;
-    $now = time();
-    $title = "$t badge: average credit > $rac";
-    $id = BoincBadge::insert("(create_time, name, title, image_url) values ($now, '$name', '$title', 'img/$image_url')");
-    $b = BoincBadge::lookup_id($id);
-    if ($b) return $b;
-    die("can't create badge $name\n");
-}
-
-$rac_gold = get_badge("rac_gold", "Gold", GOLD_RAC, "gold.png");
-$rac_silver = get_badge("rac_silver", "Silver", SILVER_RAC, "silver.png");
-$rac_bronze = get_badge("rac_bronze", "Bronze", BRONZE_RAC, "bronze.png");
-
-function assign_badge($user, $badge) {
-    $now = time();
-    $bbu = BoincBadgeUser::lookup("user_id=$user->id and badge_id=$badge->id");
-    if ($bbu) {
-        //echo "reassigning $badge->name to $user->id\n";
-        $bbu->update("reassign_time=$now where user_id=$user->id and badge_id=$badge->id");
-    } else {
-        //echo "assigning $badge->name to $user->id\n";
-        BoincBadgeUser::insert("(create_time, user_id, badge_id, reassign_time) values ($now, $user->id, $badge->id, $now)");
+// get the records for percentile badges; create them if needed
+//
+function get_pct_badges($badge_name_prefix, $badge_pctiles, $badge_images) {
+    $badges = array();
+    for ($i=0; $i<3; $i++) {
+        $badges[$i] = get_badge($badge_name_prefix."_".$i, "Top ".$badge_pctiles[$i]."% in average credit", $badge_images[$i]);
     }
+    return $badges;
 }
 
-function unassign_badges($user, $badges) {
-    $list = null;
-    foreach($badges as $badge) {
-        //echo "unassigning $badge->name to $user->id\n";
-        if ($list) {
-            $list .= ",$badge->id";
+// get the RAC percentiles from the database
+//
+function get_percentiles($is_user, $badge_pctiles) {
+    $percentiles = array();
+    for ($i=0; $i<3; $i++) {
+        if ($is_user) {
+            $percentiles[$i] = BoincUser::percentile("expavg_credit", "expavg_credit>1", 100-$badge_pctiles[$i]);
         } else {
-            $list = "$badge->id";
+            $percentiles[$i] = BoincTeam::percentile("expavg_credit", "expavg_credit>1", 100-$badge_pctiles[$i]);
+        }
+        if ($percentiles[$i] === false) {
+            die("Can't get percentiles\n");
         }
     }
-    BoincBadgeUser::delete("user_id=$user->id and badge_id in ($list)");
+    return $percentiles;
 }
 
-function assign_rac_badge($user) {
-    global $rac_gold, $rac_silver, $rac_bronze;
-    if ($user->expavg_credit > GOLD_RAC) {
-        assign_badge($user, $rac_gold);
-        unassign_badges($user, array($rac_silver, $rac_bronze));
-    } else if ($user->expavg_credit > SILVER_RAC) {
-        assign_badge($user, $rac_silver);
-        unassign_badges($user, array($rac_bronze, $rac_gold));
-    } else if ($user->expavg_credit > BRONZE_RAC) {
-        assign_badge($user, $rac_bronze);
-        unassign_badges($user, array($rac_gold, $rac_silver));
-    } else {
-        unassign_badges($user, array($rac_gold, $rac_silver, $rac_bronze));
+// decide which badge to assign, if any.
+// Unassign other badges.
+//
+function assign_pct_badge($is_user, $item, $percentiles, $badges) {
+    for ($i=0; $i<3; $i++) {
+        if ($item->expavg_credit >= $percentiles[$i]) {
+            assign_badge($is_user, $item, $badges[$i]);
+            unassign_badges($is_user, $item, $badges, $i);
+            return;
+        }
     }
+    unassign_badges($is_user, $item, $badges, -1);
 }
 
-function assign_badges_user($user) {
-    assign_rac_badge($user);
-    // ... assign other types of badges
-}
+// Scan through all the users/teams, 1000 at a time,
+// and assign/unassign RAC badges
+//
+function assign_badges($is_user, $badge_pctiles, $badge_images) {
+    $kind = $is_user?"user":"team";
+    $badges = get_pct_badges($kind."_pct", $badge_pctiles, $badge_images);
+    $pctiles = get_percentiles($is_user, $badge_pctiles);
+    echo "thresholds for $kind badges: $pctiles[0] $pctiles[1] $pctiles[2]\n";
 
-function assign_badges() {
     $n = 0;
-    $maxid = BoincUser::max("id");
+    $maxid = $is_user?BoincUser::max("id"):BoincTeam::max("id");
     while ($n <= $maxid) {
         $m = $n + 1000;
-        $users = BoincUser::enum_fields("id, expavg_credit", "id>=$n and id<$m and total_credit>0");
-        foreach ($users as $user) {
-            assign_badges_user($user);
+        if ($is_user) {
+            $items = BoincUser::enum_fields("id, expavg_credit", "id>=$n and id<$m and total_credit>0");
+        } else {
+            $items = BoincTeam::enum_fields("id, expavg_credit", "id>=$n and id<$m and total_credit>0");
+        }
+        foreach ($items as $item) {
+            assign_pct_badge($is_user, $item, $pctiles, $badges);
+            // ... assign other types of badges
         }
         $n = $m;
     }
 }
 
-assign_badges();
+assign_badges(true, $badge_pctiles, $badge_images);
+assign_badges(false, $badge_pctiles, $badge_images);
 
 ?>

@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-11-17 00:00-0800\n"
-"PO-Revision-Date: 2013-10-28 19:50+0000\n"
+"PO-Revision-Date: 2013-12-28 22:26+0000\n"
 "Last-Translator: Олег <pukish_oleg@ukr.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: uk\n"
@@ -20,14 +20,14 @@ msgstr ""
 "X-Poedit-SearchPath-0: mac_installer\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-Basepath: /Volumes/Cheer/BOINC_GIT/boinc_trunk\n"
-"X-POOTLE-MTIME: 1382989834.0\n"
+"X-POOTLE-MTIME: 1388269567.0\n"
 "X-Poedit-KeywordsList: _\n"
 
 #: Installer.cpp:124
 #, c-format
-#, c-format, fuzzy
+#, c-format, c-format
 msgid "Sorry, this version of %s requires system 10.5 or higher."
-msgstr "Вибачте, дана версія %s потребує систему 10.4 або вищу."
+msgstr "Вибачте, дана версія %s потребує системи 10.5 або вищої."
 
 #: PostInstall.cpp:130 PostInstall.cpp:1136
 msgid "Yes"

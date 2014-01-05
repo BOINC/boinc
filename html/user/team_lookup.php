@@ -38,7 +38,7 @@ if ($team_id) {
     if ($team) {
         show_team_xml($team);
     } else {
-        xml_error(-136);
+        xml_error(ERR_DB_NOT_FOUND);
     }
     exit();
 }

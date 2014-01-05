@@ -1,23 +1,22 @@
-# Translations template for PROJECT.
+# Dutch translations for PACKAGE.
 # Copyright (C) 2013 ORGANIZATION
-# This file is distributed under the same license as the PROJECT project.
+# This file is distributed under the same license as the PACKAGE project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2013-10-18 00:00-0700\n"
-"PO-Revision-Date: 2013-11-09 15:30+0000\n"
+"PO-Revision-Date: 2013-12-25 13:16+0000\n"
 "Last-Translator: Rene <oskamjr@ziggo.nl>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language-Team: nl <LL@li.org>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 2.5.0\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"X-Generator: Translate Toolkit 1.10.0\n"
 "Generated-By: Babel 1.0dev\n"
-"X-POOTLE-MTIME: 1384011021.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -154,7 +153,7 @@ msgstr "Aanmelden"
 
 msgctxt "attachproject_login_button_forgotpw"
 msgid "Forgot Password"
-msgstr "Wachtwoord vergeten?"
+msgstr "Wachtwoord Vergeten"
 
 msgctxt "attachproject_login_error_toast"
 msgid "Contacting project failed!"
@@ -343,7 +342,7 @@ msgstr "Bijwerken"
 #. main activity
 msgctxt "main_noproject_warning"
 msgid "Tab here to choose a project."
-msgstr "Tik hier om een project te kiezen."
+msgstr ""
 
 msgctxt "main_error"
 msgid "Whooops"
@@ -397,7 +396,7 @@ msgstr "Berekenen"
 
 msgctxt "status_running_long"
 msgid "Thank you for participating."
-msgstr "Dank u voor uw deelname"
+msgstr "Dank u voor uw deelname."
 
 msgctxt "status_paused"
 msgid "Suspended"
@@ -418,6 +417,7 @@ msgstr "Onderbroken"
 msgctxt "status_computing_disabled_long"
 msgid "Press play to resume network and computation."
 msgstr ""
+"Klik op afspelen om de netwerkactiviteit en de berekeningen te hervatten."
 
 msgctxt "status_launching"
 msgid "Starting…"
@@ -466,7 +466,7 @@ msgstr "Netwerk"
 
 msgctxt "prefs_category_power"
 msgid "Power"
-msgstr ""
+msgstr "Energie"
 
 msgctxt "prefs_category_cpu"
 msgid "CPU"
@@ -486,11 +486,11 @@ msgstr "Foutoplossing"
 
 msgctxt "prefs_show_advanced_header"
 msgid "Show advanced preferences and controls…"
-msgstr ""
+msgstr "Toon geavanceerde voorkeuren en instellingen..."
 
 msgctxt "prefs_run_on_battery_header"
 msgid "Compute on Battery"
-msgstr ""
+msgstr "Rekenen op Batterij"
 
 msgctxt "battery_charge_min_pct_header"
 msgid "Min. battery level"
@@ -499,6 +499,8 @@ msgstr "Min. batterijniveau"
 msgctxt "battery_charge_min_pct_description"
 msgid "BOINC suspends computation below defined battery charge level."
 msgstr ""
+"BOINC pauzeert de berekening wanneer de batterijlading onder een gegeven "
+"niveau zakt."
 
 msgctxt "battery_temperature_max_header"
 msgid "Max. battery temperature"
@@ -509,6 +511,8 @@ msgid ""
 "BOINC suspends computation above defined battery temperature. It is not "
 "recommended to change this value."
 msgstr ""
+"BOINC stopt met bereken boven de aangegeven batterij temperatuur. Het is "
+"niet aanbevolen om deze waarde te wijzigen."
 
 msgctxt "prefs_disk_max_pct_header"
 msgid "Max. used storage space"
@@ -524,19 +528,19 @@ msgstr "Min. reserve opslagruimte"
 
 msgctxt "prefs_disk_min_free_gb_description"
 msgid "How much of your device's storage space shall stay free?"
-msgstr ""
+msgstr "Hoeveel van de opslagruimte moet er minimaal vrij blijven?"
 
 msgctxt "prefs_network_daily_xfer_limit_mb_header"
 msgid "Daily transfer limit"
-msgstr ""
+msgstr "Dagelijkse overdracht limiet"
 
 msgctxt "prefs_network_daily_xfer_limit_mb_description"
 msgid "Limits the daily data traffic caused by BOINC."
-msgstr ""
+msgstr "Beperkt het dagelijkse dataverkeer van BOINC."
 
 msgctxt "prefs_network_wifi_only_header"
 msgid "Transfer tasks on WiFi only"
-msgstr ""
+msgstr "Taken alleen bijwerken via WiFi"
 
 msgctxt "prefs_autostart_header"
 msgid "Autostart"
@@ -544,23 +548,23 @@ msgstr "Autostart"
 
 msgctxt "prefs_show_notification_header"
 msgid "Show notification when suspended"
-msgstr ""
+msgstr "Laat bericht zien indien opgeschort"
 
 msgctxt "prefs_cpu_number_cpus_header"
 msgid "Used CPU cores"
-msgstr ""
+msgstr "Gebruikte CPU cores"
 
 msgctxt "prefs_cpu_number_cpus_description"
 msgid "Limits the number of CPU cores BOINC uses for computation."
-msgstr ""
+msgstr "Beperkt het aantal gebruikte CPU cores voor BOINC berekeningen."
 
 msgctxt "prefs_cpu_other_load_suspension_header"
 msgid "Pause at CPU usage above"
-msgstr ""
+msgstr "Pauzeer bij CPU gebruik van meer dan"
 
 msgctxt "prefs_cpu_other_load_suspension_description"
 msgid "Determines when BOINC pauses computation due to other app's CPU usage."
-msgstr ""
+msgstr "Bepaalt wanneer BOINC pauzeert bij CPU gebruik door andere apps."
 
 msgctxt "prefs_cpu_time_max_header"
 msgid "CPU limit"
@@ -568,7 +572,7 @@ msgstr "CPU limiet"
 
 msgctxt "prefs_cpu_time_max_description"
 msgid "Limits the CPU time BOINC uses for computation."
-msgstr ""
+msgstr "Beperkt de CPU tijd gebruikt door BOINC voor berekeningen."
 
 msgctxt "prefs_memory_max_idle_header"
 msgid "RAM limit"
@@ -576,19 +580,19 @@ msgstr "Geheugen limiet"
 
 msgctxt "prefs_memory_max_idle_description"
 msgid "Limits the amount of RAM tasks are allowed to occupy."
-msgstr ""
+msgstr "Beperkt de gebruikte hoeveelheid geheugen gebruikt door taken."
 
 msgctxt "prefs_client_log_flags_header"
 msgid "BOINC Client log flags"
-msgstr ""
+msgstr "BOINC Client log tekens"
 
 msgctxt "prefs_gui_log_level_header"
 msgid "GUI log level"
-msgstr ""
+msgstr "GUI log level"
 
 msgctxt "prefs_gui_log_level_description"
 msgid "Specifies verbosity of GUI log messages."
-msgstr ""
+msgstr "Specificeert uitgebreidheid van GUI log berichten."
 
 msgctxt "prefs_unit_mb"
 msgid "MB"
@@ -622,7 +626,7 @@ msgstr "Project icoon"
 
 msgctxt "projects_credits_header"
 msgid "Credit:"
-msgstr "Punten"
+msgstr "Punten:"
 
 msgctxt "projects_credits_host_header"
 msgid "(on this device)"
@@ -639,36 +643,36 @@ msgstr "Onderbroken door gebruiker"
 
 msgctxt "projects_status_dontrequestmorework"
 msgid "Won't get new tasks"
-msgstr ""
+msgstr "Krijgt geen nieuwe taken"
 
 msgctxt "projects_status_ended"
 msgid "Project ended - OK to remove"
-msgstr ""
+msgstr "Project beëindigd - OK om te verwijderen "
 
 msgctxt "projects_status_detachwhendone"
 msgid "Will remove when tasks done"
-msgstr ""
+msgstr "Wordt verwijderd als taken klaar zijn"
 
 msgctxt "projects_status_schedrpcpending"
 msgid "Scheduler request pending"
-msgstr ""
+msgstr "Bijwerkverzoek in behandeling"
 
 msgctxt "projects_status_schedrpcinprogress"
 msgid "Scheduler request in progress"
-msgstr ""
+msgstr "Bijwerkverzoek is bezig"
 
 msgctxt "projects_status_trickleuppending"
 msgid "Trickle up message pending"
-msgstr ""
+msgstr "Trickle up bericht in behandeling"
 
 msgctxt "projects_status_backoff"
 msgid "Communication scheduled in:"
-msgstr ""
+msgstr "Communicatie gepland over:"
 
 #. project controls
 msgctxt "projects_control_dialog_title"
 msgid "Project commands:"
-msgstr ""
+msgstr "Project opdrachten:"
 
 msgctxt "projects_control_visit_website"
 msgid "Visit website"
@@ -700,11 +704,11 @@ msgstr "Nieuwe taken toestaan"
 
 msgctxt "projects_control_reset"
 msgid "Reset"
-msgstr ""
+msgstr "Resetten"
 
 msgctxt "projects_control_dialog_title_acctmgr"
 msgid "Account manager commands:"
-msgstr ""
+msgstr "Accountmanager opdrachten:"
 
 msgctxt "projects_control_sync_acctmgr"
 msgid "Synchronize"
@@ -712,7 +716,7 @@ msgstr "Bijwerken"
 
 msgctxt "projects_control_remove_acctmgr"
 msgid "Disable"
-msgstr ""
+msgstr "Uitzetten"
 
 #. project confirm dialog
 msgctxt "projects_confirm_detach_title"
@@ -721,11 +725,11 @@ msgstr "Project verwijderen?"
 
 msgctxt "projects_confirm_detach_message"
 msgid "Are you sure you want to remove"
-msgstr ""
+msgstr "Weet je zeker dat je"
 
 msgctxt "projects_confirm_detach_message2"
 msgid "from BOINC?"
-msgstr ""
+msgstr "uit BOINC wilt verwijderen?"
 
 msgctxt "projects_confirm_detach_confirm"
 msgid "Remove"
@@ -733,27 +737,27 @@ msgstr "Verwijderen"
 
 msgctxt "projects_confirm_reset_title"
 msgid "Reset project"
-msgstr ""
+msgstr "Project resetten"
 
 msgctxt "projects_confirm_reset_message"
 msgid "Are you sure you want to reset"
-msgstr ""
+msgstr "Weet je zeker dat je"
 
 msgctxt "projects_confirm_reset_confirm"
 msgid "Reset"
-msgstr ""
+msgstr "Resetten"
 
 msgctxt "projects_confirm_remove_acctmgr_title"
 msgid "Disable account manager"
-msgstr ""
+msgstr "Accountmanager uitzetten"
 
 msgctxt "projects_confirm_remove_acctmgr_message"
 msgid "Are you sure you want to stop using"
-msgstr ""
+msgstr "Weet je zeker dat je wilt stoppen met het gebruik van"
 
 msgctxt "projects_confirm_remove_acctmgr_confirm"
 msgid "Disable"
-msgstr ""
+msgstr "Uitzetten"
 
 #. tasks tab strings
 msgctxt "tasks_header_name"
@@ -790,7 +794,7 @@ msgstr "verwerkingsfout"
 
 msgctxt "tasks_result_files_uploading"
 msgid "uploading"
-msgstr "uploaden..."
+msgstr "uploaden"
 
 msgctxt "tasks_result_files_uploaded"
 msgid "upload complete"
@@ -818,11 +822,11 @@ msgstr "onderbroken"
 
 msgctxt "tasks_active_abort_pending"
 msgid "suspending"
-msgstr "onderbreken..."
+msgstr "onderbreken"
 
 msgctxt "tasks_active_quit_pending"
 msgid "suspending"
-msgstr "onderbreken..."
+msgstr "onderbreken"
 
 msgctxt "tasks_custom_suspended_via_gui"
 msgid "suspended"
@@ -900,7 +904,7 @@ msgstr "Bestand:"
 
 msgctxt "trans_control_retry"
 msgid "Retry transfers"
-msgstr ""
+msgstr "Opnieuw verzenden"
 
 msgctxt "confirm_abort_trans_title"
 msgid "Abort transfer?"
@@ -917,7 +921,7 @@ msgstr "Afbreken"
 #. notices tab strings
 msgctxt "notices_loading"
 msgid "Reading notices…"
-msgstr ""
+msgstr "Berichten inlezen..."
 
 #. eventlog tab strings
 msgctxt "eventlog_loading"
@@ -955,39 +959,39 @@ msgstr "Gebruiker is actief."
 
 msgctxt "suspend_tod"
 msgid "Out of computation time-frame."
-msgstr ""
+msgstr "Niet binnen berekenings-tijdsbestek."
 
 msgctxt "suspend_bm"
 msgid "BOINC is benchmarking your device…"
-msgstr ""
+msgstr "BOINC benchmarkt je apparaat…"
 
 msgctxt "suspend_disksize"
 msgid "Out of disk space."
-msgstr ""
+msgstr "Geen vrije schijfruimte over."
 
 msgctxt "suspend_cputhrottle"
 msgid "Scheduled CPU throttle."
-msgstr ""
+msgstr "Geplande CPU beperking."
 
 msgctxt "suspend_noinput"
 msgid "No recent user activity."
-msgstr ""
+msgstr "Geen recente gebruikers activiteit."
 
 msgctxt "suspend_delay"
 msgid "Initialization delay."
-msgstr ""
+msgstr "Initialiseren vertraagd."
 
 msgctxt "suspend_exclusiveapp"
 msgid "An exclusive app is running."
-msgstr ""
+msgstr "Er wordt een exclusieve app uitgevoerd."
 
 msgctxt "suspend_cpu"
 msgid "Your device is busy with other apps."
-msgstr ""
+msgstr "Apparaat is bezig met andere apps."
 
 msgctxt "suspend_network_quota"
 msgid "BOINC reached network transfer limit."
-msgstr ""
+msgstr "BOINC transfer limiet is bereikt."
 
 msgctxt "suspend_os"
 msgid "Stopped by Android."
@@ -999,77 +1003,77 @@ msgstr "Niet verbonden met WiFi."
 
 msgctxt "suspend_battery_charging"
 msgid "Battery needs to charge before resuming computation."
-msgstr ""
+msgstr "Batterij moet opgeladen worden om berekeningen te hervatten."
 
 msgctxt "suspend_battery_charging_long"
 msgid "Computing will resume when battery charge reaches"
-msgstr ""
+msgstr "Berekeningen worden hervat op batterij niveau van"
 
 msgctxt "suspend_battery_charging_current"
 msgid "currently"
-msgstr ""
+msgstr "huidig"
 
 msgctxt "suspend_battery_overheating"
 msgid "Waiting for battery to cool down"
-msgstr ""
+msgstr "Wacht op afkoelen batterij"
 
 msgctxt "suspend_user_req"
 msgid "Resuming computation…"
-msgstr ""
+msgstr "Berekeningen hervatten..."
 
 msgctxt "suspend_network_user_req"
 msgid "manually."
-msgstr ""
+msgstr "handmatig."
 
 #. rpc reasons
 msgctxt "rpcreason_userreq"
 msgid "Requested by user"
-msgstr ""
+msgstr "Op verzoek van gebruiker"
 
 msgctxt "rpcreason_needwork"
 msgid "To fetch work"
-msgstr ""
+msgstr "Om werk te verkrijgen"
 
 msgctxt "rpcreason_resultsdue"
 msgid "To report completed tasks"
-msgstr ""
+msgstr "Om taken te rapporteren"
 
 msgctxt "rpcreason_trickleup"
 msgid "To send trickle-up message"
-msgstr ""
+msgstr "Om trickle-up berichten te verzenden"
 
 msgctxt "rpcreason_acctmgrreq"
 msgid "Requested by account manager"
-msgstr ""
+msgstr "Op verzoek van accountmanager"
 
 msgctxt "rpcreason_init"
 msgid "Project initialization"
-msgstr ""
+msgstr "Project instellen"
 
 msgctxt "rpcreason_projectreq"
 msgid "Requested by project"
-msgstr ""
+msgstr "Op verzoek van project"
 
 msgctxt "rpcreason_unknown"
 msgid "Unknown reason"
-msgstr ""
+msgstr "Onbekende reden"
 
 #. menu
 msgctxt "menu_refresh"
 msgid "Refresh"
-msgstr ""
+msgstr "Ververs"
 
 msgctxt "menu_emailto"
 msgid "Send as Email"
-msgstr ""
+msgstr "Verzend als email"
 
 msgctxt "menu_copy"
 msgid "Copy to Clipboard"
-msgstr ""
+msgstr "Naar klembord kopiëren"
 
 msgctxt "menu_eventlog"
 msgid "Event Log"
-msgstr ""
+msgstr "Gebeurtenis Log"
 
 msgctxt "menu_exit"
 msgid "Exit BOINC"
@@ -1094,7 +1098,7 @@ msgstr "Help"
 #. about dialog
 msgctxt "about_button"
 msgid "Return"
-msgstr ""
+msgstr "Terug"
 
 msgctxt "about_title"
 msgid "About"
@@ -1119,3 +1123,13 @@ msgid ""
 msgstr ""
 "© 2003–2013 University of California, Berkeley.\n"
 "All Rights Reserved."
+
+#, fuzzy
+#~ msgctxt "main_noproject_warning"
+#~ msgid "Tap here to choose a project."
+#~ msgstr "Tik hier om een project te kiezen."
+
+#, fuzzy
+#~ msgctxt "prefs_power_source_usb"
+#~ msgid "USB connection"
+#~ msgstr "Geen internetverbinding"

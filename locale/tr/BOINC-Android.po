@@ -343,7 +343,7 @@ msgstr "Eşitle"
 #. main activity
 msgctxt "main_noproject_warning"
 msgid "Tab here to choose a project."
-msgstr "Proje seçmek için buraya dokunun."
+msgstr ""
 
 msgctxt "main_error"
 msgid "Whooops"
@@ -1127,3 +1127,13 @@ msgstr ""
 "\n"
 "© 2003-2013 Kaliforniya Üniversitesi, Berkeley.\n"
 "Tüm hakları saklıdır."
+
+#, fuzzy
+#~ msgctxt "main_noproject_warning"
+#~ msgid "Tap here to choose a project."
+#~ msgstr "Proje seçmek için buraya dokunun."
+
+#, fuzzy
+#~ msgctxt "prefs_power_source_usb"
+#~ msgid "USB connection"
+#~ msgstr "İnternet bağlantısı yok"

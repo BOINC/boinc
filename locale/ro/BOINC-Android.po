@@ -15,10 +15,9 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
-"20)) ? 1 : 2);;\n"
-"X-Generator: Pootle 2.5.0\n"
+"20)) ? 1 : 2)\n"
+"X-Generator: Translate Toolkit 1.10.0\n"
 "Generated-By: Babel 1.0dev\n"
-"X-POOTLE-MTIME: 1383111321.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -344,7 +343,7 @@ msgstr "Sincronizează"
 #. main activity
 msgctxt "main_noproject_warning"
 msgid "Tab here to choose a project."
-msgstr "Apăsaţi aici pentru a alege un proiect."
+msgstr ""
 
 msgctxt "main_error"
 msgid "Whooops"
@@ -1128,3 +1127,13 @@ msgid ""
 msgstr ""
 "© 2003–2013 Universitatea din California, Berkeley.\n"
 "Toate Drepturile Rezervate."
+
+#, fuzzy
+#~ msgctxt "main_noproject_warning"
+#~ msgid "Tap here to choose a project."
+#~ msgstr "Apăsaţi aici pentru a alege un proiect."
+
+#, fuzzy
+#~ msgctxt "prefs_power_source_usb"
+#~ msgid "USB connection"
+#~ msgstr "Nu există conexiune la Internet"

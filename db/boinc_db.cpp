@@ -814,7 +814,7 @@ int DB_HOST::fpops_percentile(double percentile, double& fpops) {
         "select p_fpops from host where expavg_credit>10 order by p_fpops limit %d,1",
         m
     );
-    return get_double(query, fpops);
+    return db->get_double(query, fpops);
 }
 
 int DB_HOST::fpops_mean(double& mean) {
@@ -822,7 +822,7 @@ int DB_HOST::fpops_mean(double& mean) {
     sprintf(query,
         "select avg(p_fpops) from host where expavg_credit>10"
     );
-    return get_double(query, mean);
+    return db->get_double(query, mean);
 }
 
 int DB_HOST::fpops_stddev(double& stddev) {
@@ -830,7 +830,7 @@ int DB_HOST::fpops_stddev(double& stddev) {
     sprintf(query,
         "select stddev(p_fpops) from host where expavg_credit>10"
     );
-    return get_double(query, stddev);
+    return db->get_double(query, stddev);
 }
 
 void DB_WORKUNIT::db_print(char* buf){

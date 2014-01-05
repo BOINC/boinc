@@ -238,6 +238,7 @@ function show_user_info_private($user) {
 function show_community_private($user) {
     row1(tra("Community"));
 
+    show_badges(true, $user);
     if ($user->has_profile) {
         $x = "<a href=\"view_profile.php?userid=$user->id\">".tra("View")."</a> &middot; <a href=\"delete_profile.php\">".tra("Delete")."</a>";
     } else {
@@ -394,17 +395,6 @@ function community_links($clo, $logged_in_user){
         }
         row2(tra("Friends")." (".sizeof($friends).")", $x);
     }
-}
-
-function show_badges($user) {
-    $bus = BoincBadgeUser::enum("user_id=$user->id");
-    if (!$bus) return;
-    $x = "";
-    foreach ($bus as $bu) {
-        $badge = BoincBadge::lookup_id($bu->badge_id);
-        $x .= "<img title=\"$badge->title\" height=40 src=$badge->image_url> ";
-    }
-    row2("Badges", $x);
 }
 
 function show_profile_link($user) {

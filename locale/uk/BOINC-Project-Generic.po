@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2013-11-28 00:00 PST\n"
-"PO-Revision-Date: 2013-10-28 19:50+0000\n"
+"POT-Creation-Date: 2013-12-17 00:00 PST\n"
+"PO-Revision-Date: 2014-01-03 15:18+0000\n"
 "Last-Translator: Олег <pukish_oleg@ukr.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: uk\n"
@@ -18,7 +18,7 @@ msgstr ""
 "10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-POOTLE-MTIME: 1382989834.0\n"
+"X-POOTLE-MTIME: 1388762335.0\n"
 
 msgid "LANG_NAME_NATIVE"
 msgstr "Українська"
@@ -545,7 +545,7 @@ msgstr "Школа"
 
 #: ../inc/host.inc:59
 msgid "Mobile"
-msgstr ""
+msgstr "Мобільний"
 
 #: ../inc/host.inc:61 ../user/edit_forum_preferences_form.php:172
 #: ../user/edit_forum_preferences_form.php:173
@@ -578,7 +578,7 @@ msgstr "Доменне ім'я"
 
 #: ../inc/host.inc:98
 msgid "Product name"
-msgstr ""
+msgstr "Назва продукту"
 
 #: ../inc/host.inc:102
 msgid "Local Standard Time"
@@ -896,7 +896,7 @@ msgstr "Об'єднати комп'ютери за назвою"
 
 #: ../inc/language_names.inc:61
 msgid "Browser default"
-msgstr ""
+msgstr "Браузер за замовчуванням"
 
 #: ../inc/news.inc:40
 msgid "Comment"
@@ -1216,9 +1216,8 @@ msgstr ""
 "Використовувати графічний процесор NVIDIA %1 починаючи з версії 6.10+ %2"
 
 #: ../inc/prefs.inc:344
-#, fuzzy
 msgid "Use Intel GPU %1 Enforced by version 7.2+ %2"
-msgstr "Використовувати графічний процесор ATI %1 починаючи з версії 6.10+ %2"
+msgstr "Використовувати графічний процесор Intel %1 починаючи з версії 7.2+ %2"
 
 #: ../inc/prefs.inc:358
 msgid ""
@@ -1342,16 +1341,20 @@ msgstr "Редагувати налаштування %1"
 #: ../inc/prefs.inc:885
 msgid "These apply to all BOINC projects in which you participate."
 msgstr ""
+"Ці налаштування поширюються на всі проекти BOINC, в яких Ви приймаєте "
+"участь."
 
 #: ../inc/prefs.inc:887
 msgid ""
 "On computers participating in multiple projects, the most recently modified "
 "preferences will be used."
 msgstr ""
+"На комп'ютерах, які приймають участь в декількох проектах, будуть "
+"використовуватися налаштування, які змінювались останніми."
 
 #: ../inc/prefs.inc:889
 msgid "These preferences do not apply to Android devices."
-msgstr ""
+msgstr "Ці налаштування не відносяться до пристроїв на базі Android."
 
 #: ../inc/prefs.inc:892
 msgid "Preferences last modified:"
@@ -1448,7 +1451,7 @@ msgstr "Графічний процесор ATI"
 
 #: ../inc/result.inc:57 ../user/host_app_versions.php:28
 msgid "Intel GPU"
-msgstr ""
+msgstr "Графічний процесор Intel"
 
 #: ../inc/result.inc:65
 msgid "Not in DB"
@@ -1776,9 +1779,8 @@ msgid "State"
 msgstr "Стан"
 
 #: ../inc/result.inc:747
-#, fuzzy
 msgid "Task name:"
-msgstr "Назва завдання"
+msgstr "Назва завдання:"
 
 #: ../inc/team.inc:40
 msgid "Search criteria (use one or more)"
@@ -2057,7 +2059,7 @@ msgstr "Комп’ютери в цьому обліковому записі"
 # 80%
 # 100%
 #: ../inc/user.inc:151 ../inc/user.inc:152 ../inc/user.inc:217
-#: ../inc/user.inc:242 ../inc/user.inc:328 ../inc/user.inc:401
+#: ../inc/user.inc:242 ../inc/user.inc:328 ../inc/user.inc:412
 #: ../user/view_profile.php:64
 msgid "View"
 msgstr "Перегляд"
@@ -2185,7 +2187,7 @@ msgstr "Видалити"
 msgid "Create"
 msgstr "Створити"
 
-#: ../inc/user.inc:246 ../inc/user.inc:401 ../inc/util.inc:514
+#: ../inc/user.inc:246 ../inc/user.inc:412 ../inc/util.inc:514
 msgid "Profile"
 msgstr "Профіль"
 
@@ -2258,15 +2260,15 @@ msgstr "Запит в очікуванні"
 msgid "Add as friend"
 msgstr "Додати друга"
 
-#: ../inc/user.inc:445
+#: ../inc/user.inc:456
 msgid "user name cannot have leading or trailing white space"
 msgstr "ім’я користувача не може містити пробілів на початку або вкінці"
 
-#: ../inc/user.inc:449
+#: ../inc/user.inc:460
 msgid "user name must be nonempty"
 msgstr "ім’я користувача не може бути порожнім"
 
-#: ../inc/user.inc:453
+#: ../inc/user.inc:464
 msgid "user name may not contain HTML tags"
 msgstr "ім’я користувача не може містити тегів HTML"
 
@@ -2343,11 +2345,7 @@ msgid "Unable to connect to database - please try again later"
 msgstr ""
 "Неможливо підключитися до бази даних - будь-ласка, спробуйте ще раз пізніше"
 
-#: ../inc/util.inc:818
-msgid "Error:"
-msgstr "Помилка:"
-
-#: ../inc/util.inc:822
+#: ../inc/util.inc:821
 msgid "Unable to select database - please try again later"
 msgstr "Неможливо вибрати базу даних - будь-ласка, спробуйте ще раз пізніше"
 
@@ -2531,11 +2529,11 @@ msgstr ""
 
 #: ../user/bs_sample_index.php:44
 msgid "Participants"
-msgstr ""
+msgstr "Учасники"
 
 #: ../user/bs_sample_index.php:46
 msgid "Do work"
-msgstr ""
+msgstr "Працювати"
 
 #: ../user/bs_sample_index.php:47 ../user/bs_sample_index.php:50
 #: ../user/home.php:49 ../project.sample/project.inc:43
@@ -2544,7 +2542,7 @@ msgstr "Ваш обліковий запис"
 
 #: ../user/bs_sample_index.php:47 ../user/bs_sample_index.php:50
 msgid "view stats, modify preferences"
-msgstr ""
+msgstr "перегляд статистики, зміна налаштувань"
 
 #: ../user/bs_sample_index.php:48 ../user/bs_sample_index.php:53
 #: ../user/team.php:25
@@ -2553,7 +2551,7 @@ msgstr "Команди"
 
 #: ../user/bs_sample_index.php:48 ../user/bs_sample_index.php:53
 msgid "create or join a team"
-msgstr ""
+msgstr "створити або приєднатися до команди"
 
 #: ../user/bs_sample_index.php:51 ../user/sample_index.php:191
 msgid "User of the day"
@@ -2570,11 +2568,11 @@ msgstr "Профілі"
 
 #: ../user/bs_sample_index.php:61
 msgid "User search"
-msgstr ""
+msgstr "Пошук учасників"
 
 #: ../user/bs_sample_index.php:64
 msgid "Statistics"
-msgstr ""
+msgstr "Статистика"
 
 #: ../user/bs_sample_index.php:65 ../user/stats.php:30
 #: ../user/top_users.php:116
@@ -2595,9 +2593,8 @@ msgid "Top GPU models"
 msgstr "Кращі моделі графічних прискорювачів"
 
 #: ../user/bs_sample_index.php:70
-#, fuzzy
 msgid "Languages"
-msgstr "Мова"
+msgstr "Мови"
 
 #: ../user/bs_sample_index.php:149 ../user/info.php:24
 #: ../user/sample_index.php:79
@@ -3650,6 +3647,8 @@ msgid ""
 "This project hasn't created an email message - please notify its "
 "administrators"
 msgstr ""
+"Цей проект не створив електронне повідомлення - будь ласка, повідомте своїх "
+"адміністраторів"
 
 #: ../user/ffmail_form.php:33
 msgid "Tell your friends about %1"
@@ -4703,6 +4702,8 @@ msgid ""
 "Go to the BOINC data directory on your computer (its location is written to "
 "the Event Log at startup)."
 msgstr ""
+"Перейдіть в каталог даних BOINC на своєму комп'ютері (його розташування "
+"записується в журналі подій при запуску)."
 
 #: ../user/get_passwd.php:51
 msgid "Find your account file for this project; it will be named <b>%1</b>."
@@ -7072,6 +7073,9 @@ msgstr ""
 #: ../project.sample/project_specific_prefs.inc:91
 msgid "(all applications)"
 msgstr "(все додатки)"
+
+#~ msgid "Error:"
+#~ msgstr "Помилка:"
 
 #~ msgid "Account creation is disabled"
 #~ msgstr "Створення облікового запису заборонене"

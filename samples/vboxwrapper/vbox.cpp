@@ -301,36 +301,78 @@ void VBOX_VM::poll(bool log_state) {
                 restoring = false;
                 suspended = false;
                 crashed = false;
+                if (log_state) {
+                    fprintf(
+                        stderr,
+                        "%s VM is running.\n",
+                        vboxwrapper_msg_prefix(buf, sizeof(buf))
+                    );
+                }
             } else if (vmstate == "paused") {
                 online = true;
                 saving = false;
                 restoring = false;
                 suspended = true;
                 crashed = false;
+                if (log_state) {
+                    fprintf(
+                        stderr,
+                        "%s VM is paused.\n",
+                        vboxwrapper_msg_prefix(buf, sizeof(buf))
+                    );
+                }
             } else if (vmstate == "starting") {
                 online = true;
                 saving = false;
                 restoring = false;
                 suspended = false;
                 crashed = false;
+                if (log_state) {
+                    fprintf(
+                        stderr,
+                        "%s VM is starting.\n",
+                        vboxwrapper_msg_prefix(buf, sizeof(buf))
+                    );
+                }
             } else if (vmstate == "stopping") {
                 online = true;
                 saving = false;
                 restoring = false;
                 suspended = false;
                 crashed = false;
+                if (log_state) {
+                    fprintf(
+                        stderr,
+                        "%s VM is stopping.\n",
+                        vboxwrapper_msg_prefix(buf, sizeof(buf))
+                    );
+                }
             } else if (vmstate == "saving") {
                 online = true;
                 saving = true;
                 restoring = false;
                 suspended = false;
                 crashed = false;
+                if (log_state) {
+                    fprintf(
+                        stderr,
+                        "%s VM is saving.\n",
+                        vboxwrapper_msg_prefix(buf, sizeof(buf))
+                    );
+                }
             } else if (vmstate == "restoring") {
                 online = true;
                 saving = false;
                 restoring = true;
                 suspended = false;
                 crashed = false;
+                if (log_state) {
+                    fprintf(
+                        stderr,
+                        "%s VM is restoring.\n",
+                        vboxwrapper_msg_prefix(buf, sizeof(buf))
+                    );
+                }
             } else if (vmstate == "livesnapshotting") {
                 online = true;
                 saving = false;
@@ -355,12 +397,26 @@ void VBOX_VM::poll(bool log_state) {
                 restoring = false;
                 suspended = false;
                 crashed = true;
+                if (log_state) {
+                    fprintf(
+                        stderr,
+                        "%s VM was aborted.\n",
+                        vboxwrapper_msg_prefix(buf, sizeof(buf))
+                    );
+                }
             } else if (vmstate == "gurumeditation") {
                 online = false;
                 saving = false;
                 restoring = false;
                 suspended = false;
                 crashed = true;
+                if (log_state) {
+                    fprintf(
+                        stderr,
+                        "%s VM has crashed.\n",
+                        vboxwrapper_msg_prefix(buf, sizeof(buf))
+                    );
+                }
             } else {
                 online = false;
                 saving = false;
@@ -609,7 +665,7 @@ int VBOX_VM::create_vm() {
         fprintf(
             stderr,
             "%s Hardware acceleration CPU extensions not detected. Disabling VirtualBox hardware acceleration support.\n",
-            boinc_msg_prefix(buf, sizeof(buf))
+            vboxwrapper_msg_prefix(buf, sizeof(buf))
         );
         disable_acceleration = true;
     }
@@ -617,7 +673,7 @@ int VBOX_VM::create_vm() {
         fprintf(
             stderr,
             "%s Running under Hypervisor. Disabling VirtualBox hardware acceleration support.\n",
-            boinc_msg_prefix(buf, sizeof(buf))
+            vboxwrapper_msg_prefix(buf, sizeof(buf))
         );
         disable_acceleration = true;
     }
@@ -626,7 +682,7 @@ int VBOX_VM::create_vm() {
             fprintf(
                 stderr,
                 "%s Hardware acceleration failed with previous execution. Disabling VirtualBox hardware acceleration support.\n",
-                boinc_msg_prefix(buf, sizeof(buf))
+                vboxwrapper_msg_prefix(buf, sizeof(buf))
             );
             disable_acceleration = true;
         }
@@ -634,7 +690,7 @@ int VBOX_VM::create_vm() {
         if (vm_cpu_count == "1") {
             // Keep this around for older clients.  Removing this for older clients might
             // lead to a machine that will only return crashed VM reports.
-            boinc_msg_prefix(buf, sizeof(buf));
+            vboxwrapper_msg_prefix(buf, sizeof(buf));
             fprintf(
                 stderr,
                 "%s Legacy fallback configuration detected. Disabling VirtualBox hardware acceleration support.\n"
@@ -1131,7 +1187,10 @@ int VBOX_VM::start() {
             if (online && !restoring) break;
             boinc_sleep(1.0);
         } while (timeout >= dtime());
-        if (timeout <= dtime()) retval = ERR_TIMEOUT;
+        if (timeout <= dtime()) {
+            poll(true);
+            retval = ERR_TIMEOUT;
+        }
     }
 
     if (online) {
@@ -1324,7 +1383,8 @@ int VBOX_VM::createsnapshot(double elapsed_time) {
     poll(false);
 
     // Delete stale snapshot(s), if one exists
-    cleanupsnapshots(false);
+    retval = cleanupsnapshots(false);
+    if (retval) return retval;
 
     fprintf(
         stderr,
@@ -1394,7 +1454,8 @@ int VBOX_VM::cleanupsnapshots(bool delete_active) {
             
             // Only log the error if we are not attempting to deregister the VM.
             // delete_active is only set to true when we are deregistering the VM.
-            vbm_popen(command, output, "delete stale snapshot", !delete_active, false, 0);
+            retval = vbm_popen(command, output, "delete stale snapshot", !delete_active, false, 0);
+            if (retval) return retval;
         }
 
         eol_prev_pos = eol_pos + 1;
@@ -1523,16 +1584,38 @@ bool VBOX_VM::is_system_ready(std::string& message) {
 bool VBOX_VM::is_registered() {
     string command;
     string output;
+    string needle;
+    char buf[256];
+    int retval;
+    bool rc = false;
 
     command  = "showvminfo \"" + vm_master_name + "\" ";
     command += "--machinereadable ";
 
-    if (vbm_popen(command, output, "registration", false, false) == 0) {
-        if (output.find("VBOX_E_OBJECT_NOT_FOUND") == string::npos) {
-            // Error message not found in text
-            return true;
-        }
+    // Look for this string in the output
+    //
+    needle = "name=\"" + vm_master_name + "\"";
+
+    retval = vbm_popen(command, output, "registration", false, false);
+
+    // Handle explicit cases first
+    if (output.find(needle.c_str()) != string::npos) {
+        return true;
     }
+    if (output.find("VBOX_E_OBJECT_NOT_FOUND") != string::npos) {
+        return false;
+    }
+
+    // Something unexpected has happened.  Dump diagnostic output.
+    fprintf(
+        stderr,
+        "%s Error in registration for VM: %d\nArguments:\n%s\nOutput:\n%s\n",
+        vboxwrapper_msg_prefix(buf, sizeof(buf)),
+        retval,
+        command.c_str(),
+        output.c_str()
+    );
+
     return false;
 }
 

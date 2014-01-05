@@ -93,7 +93,6 @@ msgctxt "attachproject_login_header_description"
 msgid "Description:"
 msgstr "Описание:"
 
-# Это типа институт/университет, который владеет проектом
 #, fuzzy
 msgctxt "attachproject_login_header_home"
 msgid "Home:"
@@ -108,12 +107,10 @@ msgctxt "attachproject_login_header_platform"
 msgid "Android:"
 msgstr "Android:"
 
-#, fuzzy
 msgctxt "attachproject_login_platform_supported"
 msgid "This project supports Android devices"
 msgstr "Этот проект поддерживает устройства на базе Android"
 
-#, fuzzy
 msgctxt "attachproject_login_platform_not_supported"
 msgid "This project does not support Android devices"
 msgstr "Этот проект не поддерживает устройства на базе Android"
@@ -401,7 +398,7 @@ msgstr "Sincronizează"
 #. main activity
 msgctxt "main_noproject_warning"
 msgid "Tab here to choose a project."
-msgstr "Нажмите здесь для выбора проекта."
+msgstr ""
 
 msgctxt "main_error"
 msgid "Whooops"
@@ -1253,3 +1250,13 @@ msgid ""
 msgstr ""
 "© 2003-2013 Калифорнийский университет, Беркли.\n"
 "Все права защищены."
+
+#, fuzzy
+#~ msgctxt "main_noproject_warning"
+#~ msgid "Tap here to choose a project."
+#~ msgstr "Нажмите здесь для выбора проекта."
+
+#, fuzzy
+#~ msgctxt "prefs_power_source_usb"
+#~ msgid "USB connection"
+#~ msgstr "Нет подключения к Интернету"

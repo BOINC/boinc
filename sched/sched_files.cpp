@@ -64,7 +64,7 @@ int do_file_delete_regex() {
         bool found = false;
         for (unsigned int j=0; j<file_delete_regex.size(); j++) {
             regex_t& re = file_delete_regex[j];
-            if (regexec(&re, fi.name, 0, NULL, 0)) {
+            if (!regexec(&re, fi.name, 0, NULL, 0)) {
                 g_reply->file_deletes.push_back(fi);
                 if (config.debug_client_files) {
                     log_messages.printf(MSG_NORMAL,

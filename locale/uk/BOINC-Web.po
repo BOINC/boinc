@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2013-11-12 00:00 PST\n"
-"PO-Revision-Date: 2013-09-23 10:29+0000\n"
+"PO-Revision-Date: 2014-01-03 18:08+0000\n"
 "Last-Translator: Олег <pukish_oleg@ukr.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: uk\n"
@@ -18,7 +18,7 @@ msgstr ""
 "10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-POOTLE-MTIME: 1379932174.0\n"
+"X-POOTLE-MTIME: 1388772504.0\n"
 
 #: docutil.php:21
 msgid "Search"
@@ -38,29 +38,31 @@ msgid ""
 "We recommend that you also install VirtualBox, so your computer can work on "
 "science projects that require it."
 msgstr ""
+"Ми рекомендуємо Вам також встановити VirtualBox, щоб Ваш комп'ютер міг "
+"приймати участь у наукових проектах, які цього вимагають."
 
 #: download.php:41
 msgid "Learn more about VirtualBox."
-msgstr ""
+msgstr "Дізнатися більше про VirtualBox."
 
 #: download.php:51
 msgid "Download BOINC + VirtualBox"
-msgstr ""
+msgstr "Завантажити BOINC + VirtualBox"
 
 #: download.php:54 download.php:69
 #, php-format
 msgid "for %s"
-msgstr ""
+msgstr "для %s"
 
 #: download.php:57 download.php:72
 #, php-format
 msgid "BOINC version %s"
-msgstr ""
+msgstr "Версія BOINC: %s"
 
 #: download.php:59
 #, php-format
 msgid "VirtualBox version %s"
-msgstr ""
+msgstr "Версія VirtualBox: %s"
 
 #: download.php:67
 msgid "Download BOINC"
@@ -72,12 +74,17 @@ msgid ""
 "projects like SETI@home, Climateprediction.net, Rosetta@home, World "
 "Community Grid, and many others."
 msgstr ""
+"BOINC - це програма, яка дозволяє Вам пожертвувати незадіяні потужності "
+"Вашого комп’ютера для наукових проектів, таких як: SETI@home, "
+"Climateprediction.net, Rosetta@home, World Community Grid і багатьох інших."
 
 #: download.php:125
 msgid ""
 "After installing BOINC on your computer, you can connect it to as many of "
 "these projects as you like."
 msgstr ""
+"Після встановлення BOINC на свій комп’ютер, Ви зможете приймати участь "
+"одночасно у стількох проектах, у скількох забажаєте."
 
 #: download.php:127
 msgid ""
@@ -92,6 +99,8 @@ msgid ""
 "We recommend that you download BOINC from the Google Play Store or Amazon "
 "Appstore, not from here."
 msgstr ""
+"Ми рекомендуємо Вам завантажити BOINC з Google Play Store або Amazon "
+"Appstore, а не звідси."
 
 #: download.php:167
 msgid "System requirements"
@@ -266,18 +275,22 @@ msgid ""
 "diseases, study global warming, discover pulsars, and do many other types of "
 "scientific research.  It's safe, secure, and easy:"
 msgstr ""
+"Використовуйте час простою свого комп'ютера (Windows, Mac, Linux чи Android) "
+"для того, щоб лікувати хвороби, вивчати глобальне потепління, відкривати "
+"пульсари і проводити багато інших типів наукових досліджень. Це безпечно, "
+"надійно і просто:"
 
 #: index.php:96
 msgid "Choose projects"
-msgstr ""
+msgstr "Виберіть проекти"
 
 #: index.php:97
 msgid "Download BOINC software"
-msgstr ""
+msgstr "Завантажити програмне забезпечення BOINC"
 
 #: index.php:98
 msgid "Enter an email address and password."
-msgstr ""
+msgstr "Введіть адресу електронної пошти та пароль."
 
 #: index.php:102
 #, php-format

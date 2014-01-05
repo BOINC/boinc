@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2013-11-28 00:00 PST\n"
-"PO-Revision-Date: 2013-11-09 15:13+0000\n"
+"POT-Creation-Date: 2013-12-17 00:00 PST\n"
+"PO-Revision-Date: 2013-12-18 19:29+0000\n"
 "Last-Translator: Rene <oskamjr@ziggo.nl>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: nl\n"
@@ -20,7 +20,7 @@ msgstr ""
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-SearchPath-0: html\\user\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
-"X-POOTLE-MTIME: 1384010011.0\n"
+"X-POOTLE-MTIME: 1387394972.0\n"
 
 msgid "LANG_NAME_NATIVE"
 msgstr "Nederlands"
@@ -2029,7 +2029,7 @@ msgid "Computers on this account"
 msgstr "Computers op dit account"
 
 #: ../inc/user.inc:151 ../inc/user.inc:152 ../inc/user.inc:217
-#: ../inc/user.inc:242 ../inc/user.inc:328 ../inc/user.inc:401
+#: ../inc/user.inc:242 ../inc/user.inc:328 ../inc/user.inc:412
 #: ../user/view_profile.php:64
 msgid "View"
 msgstr "Bekijk"
@@ -2157,7 +2157,7 @@ msgstr "Verwijder"
 msgid "Create"
 msgstr "Aanmaken"
 
-#: ../inc/user.inc:246 ../inc/user.inc:401 ../inc/util.inc:514
+#: ../inc/user.inc:246 ../inc/user.inc:412 ../inc/util.inc:514
 msgid "Profile"
 msgstr "Profiel"
 
@@ -2230,15 +2230,15 @@ msgstr "In aanvraag"
 msgid "Add as friend"
 msgstr "Voeg toe als vriend"
 
-#: ../inc/user.inc:445
+#: ../inc/user.inc:456
 msgid "user name cannot have leading or trailing white space"
 msgstr "gebruikersnaam mag niet starten of eindigen met een spatie"
 
-#: ../inc/user.inc:449
+#: ../inc/user.inc:460
 msgid "user name must be nonempty"
 msgstr "gebruikersnaam mag niet leeg zijn"
 
-#: ../inc/user.inc:453
+#: ../inc/user.inc:464
 msgid "user name may not contain HTML tags"
 msgstr "gebruikersnaam mag geen HTML tags bevatten"
 
@@ -2313,11 +2313,7 @@ msgstr ""
 msgid "Unable to connect to database - please try again later"
 msgstr "Verbinden met database mislukt - probeer het later a.u.b. opnieuw"
 
-#: ../inc/util.inc:818
-msgid "Error:"
-msgstr "Fout:"
-
-#: ../inc/util.inc:822
+#: ../inc/util.inc:821
 msgid "Unable to select database - please try again later"
 msgstr "Selecteren van database mislukt - probeer het later a.u.b. opnieuw"
 
@@ -3616,6 +3612,8 @@ msgid ""
 "This project hasn't created an email message - please notify its "
 "administrators"
 msgstr ""
+"Het project heeft geen e-mail aangemaakt - neem a.u.b. contact op met een "
+"admin"
 
 #: ../user/ffmail_form.php:33
 msgid "Tell your friends about %1"
@@ -7018,6 +7016,9 @@ msgstr ""
 #: ../project.sample/project_specific_prefs.inc:91
 msgid "(all applications)"
 msgstr "(alle applicaties)"
+
+#~ msgid "Error:"
+#~ msgstr "Fout:"
 
 #~ msgid "Account creation is disabled"
 #~ msgstr "Aanmaken van account gesloten"

@@ -63,6 +63,7 @@ function show_form() {
     $avs = BoincAppVersion::enum(
         "true order by appid, platformid, plan_class, version_num"
     );
+    $i = 0;
     foreach ($avs as $av) {
         // grey out deprecated versions 
         //
@@ -72,7 +73,8 @@ function show_form() {
             $f2="</font>";
         }
 
-        echo "<tr><form action=manage_app_versions.php method=POST>\n";
+        echo "<tr class=row$i><form action=manage_app_versions.php method=POST>\n";
+        $i = 1-$i;
         echo "<input type=hidden name=id value=$av->id>";
         echo "  <TD>$f1 $av->id $f2</TD>\n";
 

@@ -1118,3 +1118,13 @@ msgid ""
 msgstr ""
 "© 2003–2013 University of California, Berkeley.\n"
 "All Rights Reserved."
+
+#, fuzzy
+#~ msgctxt "main_noproject_warning"
+#~ msgid "Tap here to choose a project."
+#~ msgstr "프로젝트를 선택하려면 여기를 누르세요."
+
+#, fuzzy
+#~ msgctxt "prefs_power_source_usb"
+#~ msgid "USB connection"
+#~ msgstr "인터넷 연결이 되지 않았습니다"

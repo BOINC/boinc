@@ -1,6 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
   <string name="app_name">BOINC</string>
+  <string name="attachproject_login_platform_supported">Este projecto suporta dispositivos com Android</string>
+  <string name="attachproject_login_platform_not_supported">Este projecto não suporta dispositivos com Android</string>
   <string name="attachproject_registration_header">Реєстрація облікового запису для</string>
   <string name="attachproject_registration_header_pwd_confirm">… Повторити:</string>
   <string name="attachproject_acctmgr_header_url">Адреса (URL)</string>
@@ -26,7 +28,7 @@
   <string name="prefs_category_memory">Пам`ять</string>
   <string name="prefs_category_debug">Діагностика</string>
   <string name="prefs_show_advanced_header">Показати додаткові налаштування і елементи керування...</string>
-  <string name="prefs_run_on_battery_header">Обчислювати на батареї</string>
+  <string name="prefs_run_on_battery_header">Realizar computação quando estiver só em Bateria</string>
   <string name="battery_charge_min_pct_header">Низький заряд батареї</string>
   <string name="battery_charge_min_pct_description">BOINC призупиняє обчислення нижче визначеного рівня заряду акумулятора.</string>
   <string name="battery_temperature_max_header">Макс. температура батареї</string>

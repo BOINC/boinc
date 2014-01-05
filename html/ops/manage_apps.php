@@ -86,7 +86,8 @@ function show_form() {
         "homogeneous app version?<br><a href=http://boinc.berkeley.edu/trac/wiki/HomogeneousAppVersion><span class=note>details</span></a>",
         "deprecated?",
         "Non-CPU-intensive?",
-        "Beta?"
+        "Beta?",
+        ""
     );
 
     $total_weight = BoincApp::sum("weight");
@@ -96,6 +97,7 @@ function show_form() {
     }
 
     $apps = BoincApp::enum("");
+    $i = 0;
     foreach ($apps as $app) {
         // grey-out deprecated versions
         $f1=$f2='';
@@ -103,7 +105,8 @@ function show_form() {
             $f1 = "<font color='GREY'>";
             $f2 = "</font>";
         }
-        echo "<tr><form action=manage_apps.php method=POST>";
+        echo "<tr class=row$i><form action=manage_apps.php method=POST>";
+        $i = 1-$i;
         echo "<input type=hidden name=id value=$app->id>";
         echo "  <TD align='center'>$f1 $app->id $f2</TD>\n";
 

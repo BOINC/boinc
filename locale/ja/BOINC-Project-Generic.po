@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2013-11-28 00:00 PST\n"
+"POT-Creation-Date: 2013-12-17 00:00 PST\n"
 "PO-Revision-Date: 2013-03-16 11:43+0200\n"
 "Last-Translator: Kai <www.carrotsoft@gmail.com>\n"
 "Language-Team: \n"
@@ -2030,7 +2030,7 @@ msgid "Computers on this account"
 msgstr "このアカウントのコンピュータ"
 
 #: ../inc/user.inc:151 ../inc/user.inc:152 ../inc/user.inc:217
-#: ../inc/user.inc:242 ../inc/user.inc:328 ../inc/user.inc:401
+#: ../inc/user.inc:242 ../inc/user.inc:328 ../inc/user.inc:412
 #: ../user/view_profile.php:64
 msgid "View"
 msgstr "表示"
@@ -2159,7 +2159,7 @@ msgstr "削除"
 msgid "Create"
 msgstr "作成"
 
-#: ../inc/user.inc:246 ../inc/user.inc:401 ../inc/util.inc:514
+#: ../inc/user.inc:246 ../inc/user.inc:412 ../inc/util.inc:514
 msgid "Profile"
 msgstr "自己紹介"
 
@@ -2232,15 +2232,15 @@ msgstr "要求は保留中"
 msgid "Add as friend"
 msgstr "友人として追加"
 
-#: ../inc/user.inc:445
+#: ../inc/user.inc:456
 msgid "user name cannot have leading or trailing white space"
 msgstr ""
 
-#: ../inc/user.inc:449
+#: ../inc/user.inc:460
 msgid "user name must be nonempty"
 msgstr ""
 
-#: ../inc/user.inc:453
+#: ../inc/user.inc:464
 msgid "user name may not contain HTML tags"
 msgstr ""
 
@@ -2313,11 +2313,7 @@ msgstr "%1 プロジェクトは保守のため一時的に停止しています
 msgid "Unable to connect to database - please try again later"
 msgstr "データベースに接続できません - 後ほど試してくださいませ"
 
-#: ../inc/util.inc:818
-msgid "Error:"
-msgstr "異常:"
-
-#: ../inc/util.inc:822
+#: ../inc/util.inc:821
 msgid "Unable to select database - please try again later"
 msgstr "データベースの選択ができませんでした(mysql_select_dbに失敗) - 時間を置いてからまた試してください。"
 
@@ -6776,6 +6772,9 @@ msgstr "選択したアプリケーションの仕事がないとき、他のア
 #: ../project.sample/project_specific_prefs.inc:91
 msgid "(all applications)"
 msgstr "(すべてのアプリケーション)"
+
+#~ msgid "Error:"
+#~ msgstr "異常:"
 
 #~ msgid "Account creation is disabled"
 #~ msgstr "アカウントの作成機能は停止しています。"

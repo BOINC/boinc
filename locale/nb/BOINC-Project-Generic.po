@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC-prject-generic\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2013-11-28 00:00 PST\n"
-"PO-Revision-Date: 2012-09-16 13:49+0200\n"
+"POT-Creation-Date: 2013-12-17 00:00 PST\n"
+"PO-Revision-Date: 2012-09-16 13:49+0000\n"
 "Last-Translator: Kenneth <kenneth@skjold.biz>\n"
 "Language-Team: Hjelp andre <kenneth@skjold.biz>\n"
 "Language: nb\n"
@@ -15,8 +15,9 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 2.1.6\n"
+"X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
+"X-POOTLE-MTIME: 1347803390.0\n"
 
 msgid "LANG_NAME_NATIVE"
 msgstr "English"
@@ -1995,7 +1996,7 @@ msgid "Computers on this account"
 msgstr "Datamaskiner på denne kontoen"
 
 #: ../inc/user.inc:151 ../inc/user.inc:152 ../inc/user.inc:217
-#: ../inc/user.inc:242 ../inc/user.inc:328 ../inc/user.inc:401
+#: ../inc/user.inc:242 ../inc/user.inc:328 ../inc/user.inc:412
 #: ../user/view_profile.php:64
 msgid "View"
 msgstr "Vis"
@@ -2080,8 +2081,9 @@ msgid "Used in community functions"
 msgstr "Brukes i fellesskap funksjoner"
 
 #: ../inc/user.inc:216 ../user/weak_auth.php:25
+#, fuzzy
 msgid "Account keys"
-msgstr ""
+msgstr "Konto nøkkel"
 
 #: ../inc/user.inc:221
 msgid "Preferences"
@@ -2124,7 +2126,7 @@ msgstr "Slett"
 msgid "Create"
 msgstr "Lag"
 
-#: ../inc/user.inc:246 ../inc/user.inc:401 ../inc/util.inc:514
+#: ../inc/user.inc:246 ../inc/user.inc:412 ../inc/util.inc:514
 msgid "Profile"
 msgstr "Profil"
 
@@ -2197,15 +2199,15 @@ msgstr "Anmodning forestående"
 msgid "Add as friend"
 msgstr "Legg til som venn"
 
-#: ../inc/user.inc:445
+#: ../inc/user.inc:456
 msgid "user name cannot have leading or trailing white space"
 msgstr ""
 
-#: ../inc/user.inc:449
+#: ../inc/user.inc:460
 msgid "user name must be nonempty"
 msgstr ""
 
-#: ../inc/user.inc:453
+#: ../inc/user.inc:464
 msgid "user name may not contain HTML tags"
 msgstr ""
 
@@ -2277,12 +2279,7 @@ msgstr "Kunne ikke lage team - vennligst prøv igjen senere"
 msgid "Unable to connect to database - please try again later"
 msgstr ""
 
-#: ../inc/util.inc:818
-#, fuzzy
-msgid "Error:"
-msgstr "Feilet"
-
-#: ../inc/util.inc:822
+#: ../inc/util.inc:821
 msgid "Unable to select database - please try again later"
 msgstr ""
 
@@ -2526,8 +2523,9 @@ msgid "Top GPU models"
 msgstr ""
 
 #: ../user/bs_sample_index.php:70
+#, fuzzy
 msgid "Languages"
-msgstr ""
+msgstr "Språk"
 
 #: ../user/bs_sample_index.php:149 ../user/info.php:24
 #: ../user/sample_index.php:79
@@ -6710,6 +6708,10 @@ msgstr ""
 #: ../project.sample/project_specific_prefs.inc:91
 msgid "(all applications)"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Error:"
+#~ msgstr "Feilet"
 
 #~ msgid "Account creation is disabled"
 #~ msgstr "Konto etablering er deaktivert"
