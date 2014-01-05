@@ -71,12 +71,15 @@ public class PrefsSelectionDialogListAdapter extends ArrayAdapter<SelectionDialo
 		if(v == null) {
 	        LayoutInflater li = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     		v = li.inflate(R.layout.dialog_list_cbitem, null);
-    		if(getItem(position).highlighted)  v.setBackgroundDrawable(activity.getResources().getDrawable(R.drawable.shape_light_red_background));
     		CheckBox cb = (CheckBox) v.findViewById(R.id.checkbox);
     		cb.setChecked(listItem.selected);
-    		cb.setText(listItem.name);
     		cb.setOnClickListener(this);
     		cb.setTag(position);
+    		cb.setText(listItem.name);
+    		if(getItem(position).highlighted) {
+    			v.setBackgroundDrawable(activity.getResources().getDrawable(R.drawable.shape_light_red_background));
+    			cb.setBackgroundColor(activity.getResources().getColor(R.color.light_red));
+    		}
 		}
 	    return v;
 	}

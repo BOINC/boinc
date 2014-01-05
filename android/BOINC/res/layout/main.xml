@@ -93,8 +93,7 @@
 	    android:orientation="horizontal"
 	    android:paddingTop="20dp"
 	    android:paddingBottom="20dp"
-	    android:background="@drawable/shape_light_blue_background"
-	    android:visibility="gone" >
+	    android:background="@drawable/shape_light_blue_background" >
 
 	    <ProgressBar
 	        android:id="@+id/loading_progressBar"
@@ -108,7 +107,7 @@
 	        android:id="@+id/loading_header"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:text="@string/generic_loading"
+	        android:text="@string/status_launching"
 	        android:textAppearance="?android:attr/textAppearanceMedium"
 	        android:maxWidth="100dp"
 	        android:background="@android:color/transparent" />
