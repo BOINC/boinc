@@ -220,7 +220,7 @@ CAdvancedFrame::CAdvancedFrame(wxString title, wxIcon* icon, wxIcon* icon32, wxP
 
     // Initialize Application
 #ifdef __WXMSW__
-    SetIcon(wxICON(APP_ICON));
+    SetIcons(wxICON(BOINCGUIAPP));
 #else
     wxIconBundle icons;
     icons.AddIcon(*icon);
