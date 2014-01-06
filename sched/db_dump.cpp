@@ -837,6 +837,16 @@ int main(int argc, char** argv) {
         );
         exit(1);
     }
+
+    retval = boinc_mkdir(spec.output_dir);
+    if (retval) {
+        log_messages.printf(MSG_CRITICAL,
+            "boinc_mkdir(%s): %s; %s\n",
+            spec.output_dir, boincerror(retval), boinc_db.error_string()
+        );
+        exit(1);
+    }
+
     retval = boinc_db.open(
         config.replica_db_name,
         db_host?db_host:config.replica_db_host,
@@ -854,8 +864,6 @@ int main(int argc, char** argv) {
             boincerror(retval), boinc_db.error_string()
         );
     }
-
-    boinc_mkdir(spec.output_dir);
 
     unsigned int j;
     for (j=0; j<spec.enumerations.size(); j++) {
