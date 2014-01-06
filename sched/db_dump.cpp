@@ -747,6 +747,7 @@ void usage(char* name) {
         "    --dump_spec filename          Use the given config file (use ../db_dump_spec.xml)\n"
         "    [-d N | --debug_level]        Set verbosity level (1 to 4)\n"
         "    [--db_host H]                 Use the DB server on host H\n"
+        "    [--retry_period H]            When can't connect to DB, retry after N sec instead of terminating\n"
         "    [-h | --help]                 Show this\n"
         "    [-v | --version]              Show version information\n",
         name
@@ -759,6 +760,7 @@ int main(int argc, char** argv) {
     char* db_host = 0;
     char spec_filename[256], buf[256];
     FILE_LOCK file_lock;
+    int retry_period = 0;
 
     check_stop_daemons();
     setbuf(stderr, 0);
@@ -773,6 +775,13 @@ int main(int argc, char** argv) {
                 exit(1);
             }
             safe_strcpy(spec_filename, argv[i]);
+        } else if (is_arg(argv[i], "retry_period")) {
+            if (!argv[++i]) {
+                log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);
+                usage(argv[0]);
+                exit(1);
+            }
+            retry_period = atoi(argv[i]);
         } else if (is_arg(argv[i], "d") || is_arg(argv[i], "debug_level")) {
             if (!argv[++i]) {
                 log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);
@@ -847,15 +856,15 @@ int main(int argc, char** argv) {
         exit(1);
     }
 
-    retval = boinc_db.open(
+    while ((retval = boinc_db.open(
         config.replica_db_name,
         db_host?db_host:config.replica_db_host,
         config.replica_db_user,
         config.replica_db_passwd
-    );
-    if (retval) {
-        log_messages.printf(MSG_CRITICAL, "Can't open DB\n");
-        exit(1);
+    ))) {
+        log_messages.printf(MSG_CRITICAL, "Can't open DB: %d\n", retval);
+        if (retry_period == 0) exit(1);
+	boinc_sleep(retry_period);
     }
     retval = boinc_db.set_isolation_level(READ_UNCOMMITTED);
     if (retval) {
