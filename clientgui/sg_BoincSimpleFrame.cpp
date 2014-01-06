@@ -96,7 +96,7 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon, wxIcon* icon32, wxPoint
 
     // Initialize Application
 #ifdef __WXMSW__
-    SetIcon(wxICON(APP_ICON));
+    SetIcons(wxICON(BOINCGUIAPP));
 #else
     wxIconBundle icons;
     icons.AddIcon(*icon);

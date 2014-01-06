@@ -555,20 +555,18 @@ int CMainDocument::OnExit() {
 
 
 int CMainDocument::OnPoll() {
+    CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
     int iRetVal = 0;
     int otherInstanceID;
     wxString hostName = wxGetApp().GetClientHostNameArg();
-    int portNum = wxGetApp().GetClientRPCPortArg();
     wxString password = wxGetApp().GetClientPasswordArg();
+    int portNum = wxGetApp().GetClientRPCPortArg();
     
     wxASSERT(wxDynamicCast(m_pClientManager, CBOINCClientManager));
     wxASSERT(wxDynamicCast(m_pNetworkConnection, CNetworkConnection));
 
-    if (!m_bClientStartCheckCompleted) {
+    if (!m_bClientStartCheckCompleted && pFrame) {
         m_bClientStartCheckCompleted = true;
-
-        CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
-        wxASSERT(wxDynamicCast(pFrame, CBOINCBaseFrame));
 
         if (IsComputerNameLocal(hostName)) {
             otherInstanceID = wxGetApp().IsAnotherInstanceRunning();
