@@ -66,7 +66,6 @@
   <string name="attachproject_working_verify">Удостовери акаунт</string>
   <string name="attachproject_working_register">Регистрирайте акаунт</string>
   <string name="attachproject_working_login">Впишете се</string>
-  <string name="main_noproject_warning">Етикирайте тук за да изберете проект.</string>
   <string name="main_error">Уууупсс</string>
   <string name="main_error_long">…това не трябва да се случва!\nНатиснете на иконата за да опитате отново.</string>
   <string name="main_title_icon_desc">BOINC икона</string>

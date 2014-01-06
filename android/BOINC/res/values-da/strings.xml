@@ -77,7 +77,6 @@
   <string name="attachproject_working_login">Log ind</string>
   <string name="attachproject_working_acctmgr">Tilføj kontohåndtering</string>
   <string name="attachproject_working_acctmgr_sync">Synkronisér</string>
-  <string name="main_noproject_warning">Rør her for at vælge et projekt.</string>
   <string name="main_error">Ups</string>
   <string name="main_error_long">…dette burde ikke ske!\nKlik på ikonet for at prøve igen.</string>
   <string name="main_title_icon_desc">BOINC-ikon</string>

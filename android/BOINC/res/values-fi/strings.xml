@@ -74,7 +74,6 @@
   <string name="attachproject_working_login">Kirjaudu</string>
   <string name="attachproject_working_acctmgr">Lisää tilihallitsija</string>
   <string name="attachproject_working_acctmgr_sync">Synkronoi</string>
-  <string name="main_noproject_warning">Napauta tähän valitaksesi projektin.</string>
   <string name="main_error">Hups</string>
   <string name="main_error_long">…tätä ei olisi pitänyt tapahtua!\nNapsauta kuvaketta yrittääksesi uudelleen.</string>
   <string name="main_title_icon_desc">BOINC kuvake</string>

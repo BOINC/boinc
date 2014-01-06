@@ -77,7 +77,6 @@
   <string name="attachproject_working_login">登入</string>
   <string name="attachproject_working_acctmgr">新增帳號管理服務</string>
   <string name="attachproject_working_acctmgr_sync">同步</string>
-  <string name="main_noproject_warning">點此選擇一個專案。</string>
   <string name="main_error">哎呀</string>
   <string name="main_error_long">…這應該不會發生!\n點擊圖示再試一次。</string>
   <string name="main_title_icon_desc">BOINC 圖示</string>
