@@ -165,8 +165,7 @@ function show_download($pname) {
         <p>
         <center>
         <a href=\"wiki/System_requirements\"><span class=nobr>".tra("System requirements")."</span></a>
-        &middot; <a href=\"wiki/Release_Notes_for_BOINC_7.2\"><span class=nobr>".tra("Release notes 7.2")."</span></a>
-        &middot; <a href=\"wiki/Release_Notes_for_BOINC_7.0\"><span class=nobr>".tra("Release notes 7.0")."</span></a>
+        &middot; <a href=\"wiki/Release_Notes\"><span class=nobr>".tra("Release notes")."</span></a>
         &middot; <a href=\"wiki/BOINC_Help\"><span class=nobr>".tra("Help")."</span></a>
         &middot; <a href=download_all.php><span class=nobr>".tra("All versions")."</span></a>
         &middot; <a href=\"trac/wiki/VersionHistory\">".tra("Version history")."</a>

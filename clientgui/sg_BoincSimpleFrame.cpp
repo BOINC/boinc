@@ -95,10 +95,14 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon, wxIcon* icon32, wxPoint
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame:: - Overloaded Constructor Function Begin"));
 
     // Initialize Application
+#ifdef __WXMSW__
+    SetIcons(wxICON(BOINCGUIAPP));
+#else
     wxIconBundle icons;
     icons.AddIcon(*icon);
     icons.AddIcon(*icon32);
     SetIcons(icons);
+#endif
     
     CSkinAdvanced*     pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
     wxString           strMenuName;

@@ -219,10 +219,14 @@ CAdvancedFrame::CAdvancedFrame(wxString title, wxIcon* icon, wxIcon* icon32, wxP
     m_strBaseTitle = title;
 
     // Initialize Application
+#ifdef __WXMSW__
+    SetIcons(wxICON(BOINCGUIAPP));
+#else
     wxIconBundle icons;
     icons.AddIcon(*icon);
     icons.AddIcon(*icon32);
     SetIcons(icons);
+#endif
 
     // Create UI elements
     wxCHECK_RET(CreateMenu(), _T("Failed to create menu bar."));
