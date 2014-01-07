@@ -20,8 +20,6 @@ require_once('../inc/db.inc');
 require_once('../inc/email.inc');
 require_once('../inc/profile.inc');
 
-db_init();
-
 define('UOTD_THRESHOLD', 7);
     // email sysadmin if # of UOTD candidates falls below this
 
