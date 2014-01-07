@@ -42,6 +42,7 @@
   <string name="attachproject_registration_header_pwd">Пароль:</string>
   <string name="attachproject_registration_header_pwd_confirm">… Повторити:</string>
   <string name="attachproject_registration_button">Створити</string>
+  <string name="attachproject_acctmgr_header">Додати менеджер проектів</string>
   <string name="attachproject_acctmgr_header_url">Адреса (URL)</string>
   <string name="attachproject_acctmgr_header_name">Користувач:</string>
   <string name="attachproject_acctmgr_header_pwd">Пароль:</string>
@@ -76,6 +77,7 @@
   <string name="attachproject_working_login">Увійти</string>
   <string name="attachproject_working_acctmgr">Додати менеджер проектів</string>
   <string name="attachproject_working_acctmgr_sync">Синхронізувати</string>
+  <string name="main_noproject_warning">Щоб обрати проект натисніть тут.</string>
   <string name="main_error">Ой!</string>
   <string name="main_error_long">…цього не повинно траплятися!\nНатисніть на іконці для повторної спроби.</string>
   <string name="main_title_icon_desc">Іконка BOINC</string>
