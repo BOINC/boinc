@@ -703,12 +703,6 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
 
             // Can the core client support a platform that this project supports?
             //
-            // NOTE: if the platform entry contains a modifier such as [cuda] or [ati], 
-            // that capability is required.  If a project offers both a cuda application 
-            // and a CPU-only application for an operating system, it must have two 
-            // separate platform entries for that OS, one with [cuda] and one without.
-            // Likewise for ati and mt.
-            //
             for (j = 0;j < aClientPlatforms.size(); j++) {
                 wxString strClientPlatform = aClientPlatforms[j];
                 for (k = 0;k < aProjectPlatforms.size(); k++) {
