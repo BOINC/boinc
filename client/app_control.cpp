@@ -1056,6 +1056,23 @@ void ACTIVE_TASK_SET::suspend_all(int reason) {
     for (unsigned int i=0; i<active_tasks.size(); i++) {
         ACTIVE_TASK* atp = active_tasks[i];
 
+        // don't suspend if process doesn't exist,
+        // or if quit/abort is pending.
+        // If process is currently suspended, proceed;
+        // the new suspension may require it to be removed from memory.
+        // E.g. a GPU job may currently be suspended due to CPU throttling,
+        // and therefore left in memory,
+        // but this suspension (say, a user request)
+        // might require it to be removed from memory.
+        //
+        switch (atp->task_state()) {
+        case PROCESS_EXECUTING:
+        case PROCESS_SUSPENDED:
+            break;
+        default:
+            continue;
+        }
+
         // handle CPU throttling separately
         //
         if (reason == SUSPEND_REASON_CPU_THROTTLE) {
@@ -1484,4 +1501,3 @@ void ACTIVE_TASK::read_task_state_file() {
         }
     }
 }
-
