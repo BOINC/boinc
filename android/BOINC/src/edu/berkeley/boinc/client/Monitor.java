@@ -231,8 +231,11 @@ public class Monitor extends Service {
 		
 		//filter projects that do not support Android
 		for (ProjectInfo project: allProjects) {
-			if(project.platforms.contains(platform)) {
-				androidProjects.add(project);
+			for(String supportedPlatform: project.platforms) {
+				if(supportedPlatform.contains(platform) && !androidProjects.contains(project)) {
+					androidProjects.add(project);
+					break;
+				}
 			}
 		}
 		
