@@ -129,66 +129,50 @@ function show_counts($key, $xmlkey, $value) {
     return 0;
 }
 
-function get_mysql_count($query) {
-    $count = unserialize(get_cached_data(3600, "get_mysql_count".$query));
+function get_mysql_count($table, $query) {
+    $count = unserialize(get_cached_data(3600, "get_mysql_count".$table.$query));
     if ($count == false) {
-        $result = mysql_query("select count(*) as count from " . $query);
-        $count = mysql_fetch_object($result);
-        mysql_free_result($result);
-        $count = $count->count;
-        set_cached_data(3600, serialize($count), "get_mysql_count".$query);
+        $count = BoincDB::get()->count($table,$query);
+        set_cached_data(3600, serialize($count), "get_mysql_count".$table.$query);
     }
     return $count;
 }
 
-function get_mysql_value($query) {
-    $value = unserialize(get_cached_data(3600, "get_mysql_value".$query));
+function get_mysql_sum($table, $field) {
+    $value = unserialize(get_cached_data(3600, "get_mysql_sum".$table.$field));
     if ($value == false) {
-        $result = mysql_query($query);
-        $row = mysql_fetch_object($result);
-        mysql_free_result($result);
-        $value = $row->value;
-        set_cached_data(3600, serialize($value), "get_mysql_value".$query);
+        $value = BoincDB::get()->sum($table, $field);
+        set_cached_data(3600, serialize($value), "get_mysql_sum".$table.$field);
     }
     return $value;
 }
 
-function get_mysql_assoc($query) {
-    $assoc = unserialize(get_cached_data(3600, "get_mysql_assoc".$query));
-    if ($assoc == false) {
-        $sql = "SELECT * FROM app WHERE deprecated != 1";
-        $result = mysql_query($sql);
-        while($row = mysql_fetch_assoc($result)) {
-            $assoc[] = $row;
-        }
-        mysql_free_result($result);
-        set_cached_data(3600, serialize($assoc), "get_mysql_assoc".$query);
+function get_cached_apps() {
+    $apps = unserialize(get_cached_data(3600, "get_cached_apps"));
+    if ($apps == false) {
+        $apps = BoincApp::enum("deprecated=0");
+        set_cached_data(3600, serialize($apps), "get_cached_apps");
     }
-    return $assoc;
-}
-
-function get_mysql_user($clause) {
-    $count = unserialize(get_cached_data(3600, "get_mysql_user".$clause));
-    if ($count == false) {
-        $result = mysql_query("select count(userid) as userid from (SELECT distinct userid FROM result where validate_state=1 and received_time > (unix_timestamp()-(3600*24*1)) " . $clause . ") t");
-        $count = mysql_fetch_object($result);
-        mysql_free_result($result);
-        $count = $count->userid;
-        set_cached_data(3600, serialize($count), "get_mysql_user".$clause);
-    }
-    return $count;
+    return $apps;
 }
 
 function get_runtime_info($appid) {
     $info = unserialize(get_cached_data(3600, "get_runtime_info".$appid));
     if ($info == false) {
-        $result = mysql_query("
-        Select ceil(avg(elapsed_time)/3600*100)/100 as avg,
+        $info = BoincDB::get()->lookup_fields("result", "stdClass",
+                  "ceil(avg(elapsed_time)/3600*100)/100 as avg,
                    ceil(min(elapsed_time)/3600*100)/100 as min,
-                   ceil(max(elapsed_time)/3600*100)/100 as max
-        from (SELECT elapsed_time FROM `result` WHERE appid = $appid and validate_state =1 and received_time > (unix_timestamp()-(3600*24)) ORDER BY `received_time` DESC limit 100) t");
-        $info = mysql_fetch_object($result);
-        mysql_free_result($result);
+                   ceil(max(elapsed_time)/3600*100)/100 as max,
+                   count(distinct userid) as users",
+                   "appid = $appid 
+                   AND validate_state=1 
+                   AND received_time > (unix_timestamp()-(3600*24)) 
+                   GROUP BY appid");
+        if (!$info){
+            // No workunits found recently
+            $info = new stdClass;
+            $info->avg = $info->min = $info->max = $info->users = 0;
+        }
         set_cached_data(3600, serialize($info), "get_runtime_info".$appid);
     }
     return $info;
@@ -340,39 +324,38 @@ if ($retval) {
     show_counts(
         tra("Tasks ready to send"),
         "results_ready_to_send",
-        get_mysql_count("result where server_state = 2")
+        get_mysql_count("result", "server_state = 2")
     );
     show_counts(
         tra("Tasks in progress"),
         "results_in_progress",
-        get_mysql_count("result where server_state = 4")
+        get_mysql_count("result", "server_state = 4")
     );
     show_counts(
         tra("Workunits waiting for validation"),
         "workunits_waiting_for_validation",
-        get_mysql_count("workunit where need_validate=1")
+        get_mysql_count("workunit", "need_validate=1")
     );
     show_counts(
         tra("Workunits waiting for assimilation"),
         "workunits_waiting_for_assimilation",
-        get_mysql_count("workunit where assimilate_state=1")
+        get_mysql_count("workunit", "assimilate_state=1")
     );
     show_counts(
         tra("Workunits waiting for file deletion"),
         "workunits_waiting_for_deletion",
-        get_mysql_count("workunit where file_delete_state=1")
+        get_mysql_count("workunit", "file_delete_state=1")
     );
     show_counts(
         tra("Tasks waiting for file deletion"),
         "results_waiting_for_deletion",
-        get_mysql_count("result where file_delete_state=1")
+        get_mysql_count("result", "file_delete_state=1")
     );
 
     $gap = unserialize(get_cached_data(3600, "transitioner_backlog"));
     if ($gap === false) {
-        $result = mysql_query("select MIN(transition_time) as min from workunit");
-        $min = mysql_fetch_object($result);
-        mysql_free_result($result);
+        $min = BoincDB::get()->lookup_fields("workunit", "stdClass", "MIN(transition_time) as min", "TRUE");
+        //$gap = BoincDB::get()->min("workunit", "transition_time"); $gap = time()-$gap/3600;
         $gap = (time() - $min->min)/3600;
         if (($gap < 0) || ($min->min == 0)) {
             $gap = 0;
@@ -392,17 +375,17 @@ if ($retval) {
     show_counts(
         tra("with recent credit"),
         "users_with_recent_credit",
-        get_mysql_count("user where expavg_credit>1")
+        get_mysql_count("user", "expavg_credit>1")
     );
     show_counts(
         tra("with credit"),
         "users_with_credit",
-        get_mysql_count("user where total_credit>0")
+        get_mysql_count("user", "total_credit>0")
     );
     show_counts(
         tra("registered in past 24 hours"),
         "users_registered_in_past_24_hours",
-        get_mysql_count("user where create_time > (unix_timestamp() - (24*3600))")
+        get_mysql_count("user", "create_time > (unix_timestamp() - (24*3600))")
     );
     if (!$xml) {
         echo "<tr><th>".tra("Computers")."</th><th>#</th></tr>";
@@ -410,23 +393,23 @@ if ($retval) {
     show_counts(
         tra("with recent credit"),
         "hosts_with_recent_credit",
-        get_mysql_count("host where expavg_credit>1")
+        get_mysql_count("host", "expavg_credit>1")
     );
     show_counts(
         tra("with credit"),
         "hosts_with_credit",
-        get_mysql_count("host where total_credit>0")
+        get_mysql_count("host", "total_credit>0")
     );
     show_counts(
         tra("registered in past 24 hours"),
         "hosts_registered_in_past_24_hours",
-        get_mysql_count("host where create_time > (unix_timestamp() - (24*3600))")
+        get_mysql_count("host", "create_time > (unix_timestamp() - (24*3600))")
     );
     // 200 cobblestones = 1 GigaFLOPS
     show_counts(
         tra("current GigaFLOPs"),
         "current_floating_point_speed",
-        get_mysql_value("SELECT sum(expavg_credit)/200 as value FROM user")
+        get_mysql_sum("user", "expavg_credit/200")
     );
     if (!$xml) {
         end_table();
@@ -444,34 +427,32 @@ if ($retval) {
             )
         );
     }
-    $apps = get_mysql_assoc("SELECT * FROM app WHERE deprecated != 1");
+    $apps = get_cached_apps();
     if ($xml) {
         echo "    <tasks_by_app>\n";
     }
     foreach($apps as $app) {
-        $appid = $app["id"];
-        $uf_name = $app["user_friendly_name"];
-        $info = get_runtime_info($appid);
+        $info = get_runtime_info($app->id);
         if ($xml) {
              echo "      <app>\n";
-             echo "        <id>".$appid."</id>\n";
-             echo "        <name>".$app["name"]."</name>\n";
-             echo "        <unsent>".get_mysql_count("result where server_state = 2 and appid = $appid")."</unsent>\n";
-             echo "        <in_progress>".get_mysql_count("result where server_state = 4 and appid = $appid")."</in_progress>\n";
+             echo "        <id>".$app->id."</id>\n";
+             echo "        <name>".$app->name."</name>\n";
+             echo "        <unsent>".get_mysql_count("result", "server_state = 2 and appid = ".$app->id)."</unsent>\n";
+             echo "        <in_progress>".get_mysql_count("result", "server_state = 4 and appid = ".$app->id)."</in_progress>\n";
              echo "        <avg_runtime>".round($info->avg, 2)."</avg_runtime>\n";
              echo "        <min_runtime>".round($info->min, 2)."</min_runtime>\n";
              echo "        <max_runtime>".round($info->max, 2)."</max_runtime>\n";
-             echo "        <users_24h>".get_mysql_user("and appid = $appid")."</users_24h>\n";
+             echo "        <users_24h>".$info->users."</users_24h>\n";
              echo "      </app>\n";
         } else {
-            echo "<tr><td>$uf_name</td>
-                <td>" . number_format(get_mysql_count("result where server_state = 2 and appid = $appid")) . "</td>
-                <td>" . number_format(get_mysql_count("result where server_state = 4 and appid = $appid")) . "</td>
+            echo "<tr><td>".$app->user_friendly_name."</td>
+                <td>" . number_format(get_mysql_count("result", "server_state = 2 and appid = ".$app->id)) . "</td>
+                <td>" . number_format(get_mysql_count("result", "server_state = 4 and appid = ".$app->id)) . "</td>
                 <td>"
             ;
             echo number_format($info->avg,2) . " (" . number_format($info->min,2) . " - " . number_format($info->max,2) . ")";
             echo "</td>
-                <td>" . number_format(get_mysql_user("and appid = $appid")) . "</td>
+                <td>" . number_format($info->users) . "</td>
                 </tr>"
             ;
         }

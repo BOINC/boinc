@@ -21,7 +21,9 @@
   <string name="attachproject_registration_header_email">eMail:</string>
   <string name="attachproject_registration_header_username">Név:</string>
   <string name="attachproject_registration_header_pwd">Jelszó:</string>
+  <string name="attachproject_acctmgr_header">Fiókkezelő hozzáadása</string>
   <string name="attachproject_acctmgr_header_pwd">Jelszó:</string>
+  <string name="attachproject_working_acctmgr">Fiókkezelő hozzáadása</string>
   <string name="projects_add">Projekt hozzáadása</string>
   <string name="about_name">BOINC</string>
 </resources>

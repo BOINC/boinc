@@ -54,6 +54,9 @@ foreach($proj_list as $p) {
         echo "    <platforms>\n";
         foreach ($platforms as $platform) {
             if ($platform == 'Unknown') continue;
+            if (strstr($platform, "arm-android-linux-gnu")) {
+                $platform = "arm-android-linux-gnu";
+            }
             echo "        <name>$platform</name>\n";
         }
         echo "    </platforms>\n";

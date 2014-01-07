@@ -206,6 +206,5 @@ div.pm_preview {
 
 td.running { background-color: #9aff4f; }
 
-td.notrunning { background-color: #feff6f; }
-
-td.disabled { background-color: #ff4f4f; }
+td.notrunning { background-color: #ff4f4f; }
+td.disabled { background-color: #bbb; }

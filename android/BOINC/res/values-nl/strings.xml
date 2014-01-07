@@ -77,6 +77,7 @@
   <string name="attachproject_working_login">Aanmelden</string>
   <string name="attachproject_working_acctmgr">Account manager toevoegen</string>
   <string name="attachproject_working_acctmgr_sync">Bijwerken</string>
+  <string name="main_noproject_warning">Tik hier om een project te kiezen.</string>
   <string name="main_error">Oeps</string>
   <string name="main_error_long">...dit hoort niet te gebeuren!\nKlik op het icoontje om het opneuw te proberen.</string>
   <string name="main_title_icon_desc">BOINC-icoon</string>
