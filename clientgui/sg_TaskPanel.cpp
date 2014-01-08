@@ -55,6 +55,7 @@ CScrolledTextBox::CScrolledTextBox( wxWindow* parent) :
     SetForegroundColour(*wxBLACK);
 
     m_TextSizer = new wxBoxSizer( wxVERTICAL );
+    m_hLine = 0;
 
     this->SetSizerAndFit( m_TextSizer );
     this->Layout();
@@ -114,7 +115,7 @@ void CScrolledTextBox::OnOutputLine(const wxString& line) {
         if ( !m_hLine ) {
             m_hLine = GetCharHeight();
         }
-        m_TextSizer->Add(5, m_hLine);
+        m_TextSizer->Add(5, m_hLine/3);
     }
 }
 
@@ -136,6 +137,7 @@ int CScrolledTextBox::Wrap(const wxString& text, int widthMax, int *lineHeight) 
         }
 
         if ( *p == _T('\n') || *p == _T('\0') ) {
+            line.Trim();
             OnOutputLine(line);
             m_eol = true;
             ++numLines;
@@ -155,6 +157,7 @@ int CScrolledTextBox::Wrap(const wxString& text, int widthMax, int *lineHeight) 
                 if ( width > widthMax ) {
                     // remove the last word from this line
                     line.erase(lastSpace - lineStart, p + 1 - lineStart);
+                    line.Trim();
                     OnOutputLine(line);
                     m_eol = true;
                     ++numLines;
@@ -194,17 +197,9 @@ CSlideShowPanel::CSlideShowPanel( wxWindow* parent ) :
     wxBoxSizer* bSizer1;
     bSizer1 = new wxBoxSizer( wxVERTICAL );
 
-    m_institution = new CTransparentStaticText( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-    bSizer1->Add( m_institution, 0, 0, 0 );
-
-    m_scienceArea = new CTransparentStaticText( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-    bSizer1->Add( m_scienceArea, 0, 0, 0 );
-    
-    bSizer1->AddSpacer(DESCRIPTIONSPACER);
-
     m_description = new CScrolledTextBox( this );
     GetSize(&w, &h);
-    m_description->SetMinSize(wxSize(w, h - (2 * GetCharHeight()) - DESCRIPTIONSPACER));
+    m_description->SetMinSize(wxSize(w, h));
     bSizer1->Add( m_description, 1, wxEXPAND, 0 );
 
     this->SetSizer( bSizer1 );
@@ -240,7 +235,7 @@ void CSlideShowPanel::OnSlideShowTimer(wxTimerEvent& WXUNUSED(event)) {
 void CSlideShowPanel::AdvanceSlideShow(bool changeSlide, bool reload) {
     double xRatio, yRatio, ratio;
     unsigned int i;
-    wxString s;
+    wxString s, ss;
     TaskSelectionData* selData = ((CSimpleTaskPanel*)GetParent())->GetTaskSelectionData();
     if (selData == NULL) return;
 
@@ -264,8 +259,6 @@ numSlides = 0;
         dc.DrawBitmap(backgroundBitmap, 0, 0);
 
         // Force redraws if text unchanged; hide all if not in all-projects list
-        m_institution->Show(false);
-        m_scienceArea->Show(false);
         m_description->Show(false);
         Enable( false );
         
@@ -280,14 +273,15 @@ numSlides = 0;
         for (i=0; i<m_AllProjectsList.projects.size(); i++) {
             if (!strcmp(m_AllProjectsList.projects[i]->url.c_str(), selData->project_url)) {
                 s = wxString(m_AllProjectsList.projects[i]->home.c_str(), wxConvUTF8);
-                m_institution->SetLabel(wxGetTranslation(s));
+                ss = wxGetTranslation(s);
+                ss.Append("\n\n");
                 s = wxString(m_AllProjectsList.projects[i]->specific_area.c_str(), wxConvUTF8);
-                m_scienceArea->SetLabel(wxGetTranslation(s));
+                ss += wxGetTranslation(s);
+                ss.Append("\n\n");
                 s = wxString(m_AllProjectsList.projects[i]->description.c_str(), wxConvUTF8);
-                m_description->SetValue(wxGetTranslation(s));
+                ss += wxGetTranslation(s);
+                m_description->SetValue(ss);
 
-                m_institution->Show(true);
-                m_scienceArea->Show(true);
                 m_description->Show(true);
                 Enable( true );
                 m_description->Enable();
@@ -312,8 +306,6 @@ numSlides = 0;
 #endif  // HIDEDEFAULTSLIDE
     } else {
 #if HIDEDEFAULTSLIDE
-        m_institution->Show(false);
-        m_scienceArea->Show(false);
         m_description->Show(false);
         Enable( false );
 
