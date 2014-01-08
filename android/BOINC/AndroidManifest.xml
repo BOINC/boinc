@@ -46,47 +46,48 @@
     <uses-permission android:name="android.permission.READ_LOGS"/>
     <uses-permission android:name="android.permission.RESTART_PACKAGES"/>
 
-    <application
-        android:icon="@drawable/boinc"
-        android:label="@string/app_name"
-        android:theme="@style/Theme"
-        android:allowBackup="true" <!-- android:largeHeap="true" , possible api level > 10. grants application larger dalvik vm heap. better performance when showing many slideshow pictures. -->
-        
-        <activity
-            android:name="edu.berkeley.boinc.BOINCActivity"
-            android:label="@string/app_name"
-            android:launchMode="singleTop">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".AttachProjectListActivity"/>
-        <activity android:name=".AttachProjectAcctMgrActivity"/>
-        <activity android:name=".AttachProjectLoginActivity"
-            android:configChanges="orientation"/>
-        <activity android:name=".AttachProjectRegistrationActivity"/>
-        <activity android:name=".AttachProjectWorkingActivity"
-            android:configChanges="orientation"/>
-        <activity android:name=".StatusActivity" />
-        <activity android:name=".TasksActivity" />
-        <activity android:name=".NoticesActivity" />
-        <activity android:name=".PrefsActivity" />
-        <activity android:name=".ProjectsActivity" />
-        <activity android:name=".EventLogActivity" />
-        <service android:name=".client.Monitor"></service>
-        <receiver android:name=".receiver.BootReceiver">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
-            </intent-filter>
-        </receiver>
-        <receiver android:name=".receiver.PackageReplacedReceiver">
-            <intent-filter>
-                <action android:name="android.intent.action.PACKAGE_REPLACED"/>
-                <data android:scheme="package" android:path="edu.berkeley.boinc" />
-            </intent-filter>
-        </receiver>
+  <application
+      android:icon="@drawable/boinc"
+      android:label="@string/app_name"
+      android:theme="@style/Theme"
+      android:allowBackup="true">
+    <!-- android:largeHeap="true" , possible api level > 10. grants application larger dalvik vm heap. better performance when showing many slideshow pictures. -->
 
-    </application>
+    <activity
+        android:name="edu.berkeley.boinc.BOINCActivity"
+        android:label="@string/app_name"
+        android:launchMode="singleTop">
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN" />
+        <category android:name="android.intent.category.LAUNCHER" />
+      </intent-filter>
+    </activity>
+    <activity android:name=".AttachProjectListActivity"/>
+    <activity android:name=".AttachProjectAcctMgrActivity"/>
+    <activity android:name=".AttachProjectLoginActivity"
+        android:configChanges="orientation"/>
+    <activity android:name=".AttachProjectRegistrationActivity"/>
+    <activity android:name=".AttachProjectWorkingActivity"
+        android:configChanges="orientation"/>
+    <activity android:name=".StatusActivity" />
+    <activity android:name=".TasksActivity" />
+    <activity android:name=".NoticesActivity" />
+    <activity android:name=".PrefsActivity" />
+    <activity android:name=".ProjectsActivity" />
+    <activity android:name=".EventLogActivity" />
+    <service android:name=".client.Monitor"></service>
+    <receiver android:name=".receiver.BootReceiver">
+      <intent-filter>
+        <action android:name="android.intent.action.BOOT_COMPLETED"/>
+      </intent-filter>
+    </receiver>
+    <receiver android:name=".receiver.PackageReplacedReceiver">
+      <intent-filter>
+        <action android:name="android.intent.action.PACKAGE_REPLACED"/>
+        <data android:scheme="package" android:path="edu.berkeley.boinc" />
+      </intent-filter>
+    </receiver>
+
+  </application>
 
 </manifest>
