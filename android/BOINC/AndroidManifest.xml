@@ -20,8 +20,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="edu.berkeley.boinc"
     
-    android:versionCode="47"
-    android:versionName="7.2.36"
+    android:versionCode="48"
+    android:versionName="7.2.37"
     
     android:installLocation="internalOnly" > <!-- installation on SD card would break boot receiver -->
 
@@ -50,8 +50,7 @@
         android:icon="@drawable/boinc"
         android:label="@string/app_name"
         android:theme="@style/Theme"
-        android:allowBackup="true"
-        android:debuggable="true"> <!-- android:largeHeap="true" , possible api level > 10. grants application larger dalvik vm heap. better performance when showing many slideshow pictures. -->
+        android:allowBackup="true" <!-- android:largeHeap="true" , possible api level > 10. grants application larger dalvik vm heap. better performance when showing many slideshow pictures. -->
         
         <activity
             android:name="edu.berkeley.boinc.BOINCActivity"
