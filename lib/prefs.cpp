@@ -247,11 +247,7 @@ void GLOBAL_PREFS::defaults() {
 #endif
     run_gpu_if_user_active = false;
     run_if_user_active = true;
-#ifdef ANDROID
     run_on_batteries = false;
-#else
-    run_on_batteries = true;
-#endif
 #ifdef ANDROID
     suspend_cpu_usage = 50;
 #else
