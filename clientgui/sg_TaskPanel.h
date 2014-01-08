@@ -85,8 +85,6 @@ class CSlideShowPanel : public wxPanel
         void OnEraseBackground(wxEraseEvent& event);
                 
     private:
-        CTransparentStaticText*     m_institution;
-        CTransparentStaticText*     m_scienceArea;
         CScrolledTextBox*           m_description;
         wxTimer*                    m_ChangeSlideTimer;
         wxBitmap                    m_SlideBitmap;
