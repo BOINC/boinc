@@ -31,10 +31,10 @@
 #define SLIDESHOWWIDTH 290
 #define SLIDESHOWHEIGHT 126
 #define SLIDESHOWBORDER 1
-#define DESCRIPTIONSPACER 4
 #define HIDEDEFAULTSLIDE 1
 #define TESTALLDESCRIPTIONS 0
-#define SCROLLBARWIDTH 18
+#define SCROLLBARSPACER 8
+
 
 enum { suspendedIcon, waitingIcon, runningIcon };
 
@@ -55,7 +55,7 @@ CScrolledTextBox::CScrolledTextBox( wxWindow* parent) :
     SetForegroundColour(*wxBLACK);
 
     m_TextSizer = new wxBoxSizer( wxVERTICAL );
-    m_hLine = 0;
+    m_hLine = GetCharHeight();
 
     this->SetSizerAndFit( m_TextSizer );
     this->Layout();
@@ -70,7 +70,7 @@ CScrolledTextBox::~CScrolledTextBox() {
 
 
 void CScrolledTextBox::SetValue(const wxString& s) {
-    int lineHeight, totalLines, availableWidth;
+    int lineHeight, totalLines, totalWidth, usableWidth;
     wxString t = s;
 
     // Delete sizer & its children (CTransparentStaticText objects)
@@ -81,11 +81,18 @@ void CScrolledTextBox::SetValue(const wxString& s) {
     t.Replace(wxT("</sup>"), wxT(""), true);
     t.Replace(wxT("&lt;"), wxT("<"), true);
 
-    wxSize taskPanelSize = GetGrandParent()->GetSize();
-    availableWidth = taskPanelSize.GetWidth() - (2*SIDEMARGINS);
-    totalLines = Wrap(t, availableWidth - SCROLLBARWIDTH, &lineHeight);
-    
+    // First see if it fits without vertical scroll bar
+    totalWidth = GetSize().GetWidth();
+    totalLines = Wrap(t, totalWidth, &lineHeight);
     m_TextSizer->FitInside(this);
+    usableWidth = GetClientSize().GetWidth();
+    if (usableWidth < totalWidth) {
+        // It has a vertical scroll bar, so wrap again for reduced width
+        m_TextSizer->Clear(true);
+        totalLines = Wrap(t, usableWidth - SCROLLBARSPACER, &lineHeight);
+        m_TextSizer->FitInside(this);
+    }
+
     SetScrollRate(1, lineHeight);
 }
 
@@ -112,9 +119,6 @@ void CScrolledTextBox::OnOutputLine(const wxString& line) {
     if ( !line.empty() ) {
         m_TextSizer->Add(new CTransparentStaticText(this, wxID_ANY, line));
     } else { // empty line, no need to create a control for it
-        if ( !m_hLine ) {
-            m_hLine = GetCharHeight();
-        }
         m_TextSizer->Add(5, m_hLine/3);
     }
 }
@@ -208,6 +212,7 @@ CSlideShowPanel::CSlideShowPanel( wxWindow* parent ) :
     m_SlideBitmap = wxNullBitmap;
     m_bCurrentSlideIsDefault = false;
     m_bGotAllProjectsList = false;
+    m_bHasBeenDrawn = false;
 
 #ifdef __WXMAC__
     // Tell accessibility aids to ignore this panel (but not its contents)
@@ -231,11 +236,36 @@ void CSlideShowPanel::OnSlideShowTimer(wxTimerEvent& WXUNUSED(event)) {
     AdvanceSlideShow(true, false);
 }
 
+void CSlideShowPanel::SetDescriptionText(void) {
+    unsigned int i;
+    wxString s, ss;
+
+    TaskSelectionData* selData = ((CSimpleTaskPanel*)GetParent())->GetTaskSelectionData();
+    if (selData == NULL) return;
+    for (i=0; i<m_AllProjectsList.projects.size(); i++) {
+        if (!strcmp(m_AllProjectsList.projects[i]->url.c_str(), selData->project_url)) {
+            s = wxString(m_AllProjectsList.projects[i]->home.c_str(), wxConvUTF8);
+            ss = wxGetTranslation(s);
+            ss.Append("\n\n");
+            s = wxString(m_AllProjectsList.projects[i]->specific_area.c_str(), wxConvUTF8);
+            ss += wxGetTranslation(s);
+            ss.Append("\n\n");
+            s = wxString(m_AllProjectsList.projects[i]->description.c_str(), wxConvUTF8);
+            ss += wxGetTranslation(s);
+            m_description->SetValue(ss);
+
+            m_description->Show(true);
+            Enable( true );
+            m_description->Enable();
+            this->Layout();
+            break;
+        }
+    }
+}
+
 
 void CSlideShowPanel::AdvanceSlideShow(bool changeSlide, bool reload) {
     double xRatio, yRatio, ratio;
-    unsigned int i;
-    wxString s, ss;
     TaskSelectionData* selData = ((CSimpleTaskPanel*)GetParent())->GetTaskSelectionData();
     if (selData == NULL) return;
 
@@ -270,25 +300,8 @@ numSlides = 0;
             m_bGotAllProjectsList = true;
         }
         
-        for (i=0; i<m_AllProjectsList.projects.size(); i++) {
-            if (!strcmp(m_AllProjectsList.projects[i]->url.c_str(), selData->project_url)) {
-                s = wxString(m_AllProjectsList.projects[i]->home.c_str(), wxConvUTF8);
-                ss = wxGetTranslation(s);
-                ss.Append("\n\n");
-                s = wxString(m_AllProjectsList.projects[i]->specific_area.c_str(), wxConvUTF8);
-                ss += wxGetTranslation(s);
-                ss.Append("\n\n");
-                s = wxString(m_AllProjectsList.projects[i]->description.c_str(), wxConvUTF8);
-                ss += wxGetTranslation(s);
-                m_description->SetValue(ss);
+        SetDescriptionText();
 
-                m_description->Show(true);
-                Enable( true );
-                m_description->Enable();
-                this->Layout();
-                break;
-            }
-        }
         return;
 #else   // HIDEDEFAULTSLIDE
         SetBackgroundColour(*wxBLACK);
@@ -401,6 +414,13 @@ numSlides = 0;
                             ); 
         }
     }
+    
+    if (!m_bHasBeenDrawn) {
+        m_bHasBeenDrawn = true;
+        if (numSlides <= 0) {
+            SetDescriptionText();
+        }
+    }
 } 
 
 
@@ -428,6 +448,7 @@ END_EVENT_TABLE()
 CSimpleTaskPanel::CSimpleTaskPanel() {
 }
 
+
 CSimpleTaskPanel::CSimpleTaskPanel( wxWindow* parent ) :
     CSimplePanelBase( parent )
 {
@@ -451,7 +472,7 @@ CSimpleTaskPanel::CSimpleTaskPanel( wxWindow* parent ) :
 
     wxBoxSizer* bSizer2;
     bSizer2 = new wxBoxSizer( wxHORIZONTAL );
-    
+
     m_myTasksLabel = new CTransparentStaticText( this, wxID_ANY, _("Tasks:"), wxDefaultPosition, wxDefaultSize, 0 );
     m_myTasksLabel->Wrap( -1 );
     bSizer2->Add( m_myTasksLabel, 0, wxRIGHT, 5 );

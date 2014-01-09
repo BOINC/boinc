@@ -55,6 +55,7 @@ int init_file_delete_regex() {
             file_delete_regex_string.push_back(string(buf));
         }
     }
+    fclose(f);
     return 0;
 }
 

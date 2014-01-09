@@ -130,7 +130,7 @@ const double MAX_REQ_SECS = (28*SECONDS_IN_DAY);
 // # jobs per RPC
 // # jobs in progress
 //
-void WORK_REQ::get_job_limits() {
+void WORK_REQ_BASE::get_job_limits() {
     int n;
     n = g_reply->host.p_ncpus;
     if (g_request->global_prefs.max_ncpus_pct && g_request->global_prefs.max_ncpus_pct < 100) {
