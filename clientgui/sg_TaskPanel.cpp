@@ -417,7 +417,9 @@ numSlides = 0;
     
     if (!m_bHasBeenDrawn) {
         m_bHasBeenDrawn = true;
-        SetDescriptionText();
+        if (numSlides <= 0) {
+            SetDescriptionText();
+        }
     }
 } 
 
