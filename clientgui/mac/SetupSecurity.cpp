@@ -973,18 +973,6 @@ static OSStatus GetAuthorization (void) {
     ourAuthRightsItem[2].valueLength = strlen (chownPath);
     ourAuthRightsItem[2].flags = 0;
 
-#if AUTHORIZE_LOOKUPD_MEMBERD
-    ourAuthRightsItem[3].name = kAuthorizationRightExecute;
-    ourAuthRightsItem[3].value = lookupdPath;
-    ourAuthRightsItem[3].valueLength = strlen (lookupdPath);
-    ourAuthRightsItem[3].flags = 0;
-
-    ourAuthRightsItem[4].name = kAuthorizationRightExecute;
-    ourAuthRightsItem[4].value = memberdPath;
-    ourAuthRightsItem[4].valueLength = strlen (memberdPath);
-    ourAuthRightsItem[4].flags = 0;
-#endif
-
     ourAuthRights.count = RIGHTS_COUNT;
     ourAuthRights.items = ourAuthRightsItem;
 
@@ -996,7 +984,6 @@ static OSStatus GetAuthorization (void) {
     ourAuthEnvironment.count = 1;
     ourAuthEnvironment.items = ourAuthEnvItem;
 
-    
     ourAuthFlags = kAuthorizationFlagInteractionAllowed | kAuthorizationFlagExtendRights;
     
     // When this is called from the installer, the installer has already authenticated.  
