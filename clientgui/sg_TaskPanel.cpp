@@ -212,6 +212,7 @@ CSlideShowPanel::CSlideShowPanel( wxWindow* parent ) :
     m_SlideBitmap = wxNullBitmap;
     m_bCurrentSlideIsDefault = false;
     m_bGotAllProjectsList = false;
+    m_bHasBeenDrawn = false;
 
 #ifdef __WXMAC__
     // Tell accessibility aids to ignore this panel (but not its contents)
@@ -235,11 +236,36 @@ void CSlideShowPanel::OnSlideShowTimer(wxTimerEvent& WXUNUSED(event)) {
     AdvanceSlideShow(true, false);
 }
 
+void CSlideShowPanel::SetDescriptionText(void) {
+    unsigned int i;
+    wxString s, ss;
+
+    TaskSelectionData* selData = ((CSimpleTaskPanel*)GetParent())->GetTaskSelectionData();
+    if (selData == NULL) return;
+    for (i=0; i<m_AllProjectsList.projects.size(); i++) {
+        if (!strcmp(m_AllProjectsList.projects[i]->url.c_str(), selData->project_url)) {
+            s = wxString(m_AllProjectsList.projects[i]->home.c_str(), wxConvUTF8);
+            ss = wxGetTranslation(s);
+            ss.Append("\n\n");
+            s = wxString(m_AllProjectsList.projects[i]->specific_area.c_str(), wxConvUTF8);
+            ss += wxGetTranslation(s);
+            ss.Append("\n\n");
+            s = wxString(m_AllProjectsList.projects[i]->description.c_str(), wxConvUTF8);
+            ss += wxGetTranslation(s);
+            m_description->SetValue(ss);
+
+            m_description->Show(true);
+            Enable( true );
+            m_description->Enable();
+            this->Layout();
+            break;
+        }
+    }
+}
+
 
 void CSlideShowPanel::AdvanceSlideShow(bool changeSlide, bool reload) {
     double xRatio, yRatio, ratio;
-    unsigned int i;
-    wxString s, ss;
     TaskSelectionData* selData = ((CSimpleTaskPanel*)GetParent())->GetTaskSelectionData();
     if (selData == NULL) return;
 
@@ -274,25 +300,8 @@ numSlides = 0;
             m_bGotAllProjectsList = true;
         }
         
-        for (i=0; i<m_AllProjectsList.projects.size(); i++) {
-            if (!strcmp(m_AllProjectsList.projects[i]->url.c_str(), selData->project_url)) {
-                s = wxString(m_AllProjectsList.projects[i]->home.c_str(), wxConvUTF8);
-                ss = wxGetTranslation(s);
-                ss.Append("\n\n");
-                s = wxString(m_AllProjectsList.projects[i]->specific_area.c_str(), wxConvUTF8);
-                ss += wxGetTranslation(s);
-                ss.Append("\n\n");
-                s = wxString(m_AllProjectsList.projects[i]->description.c_str(), wxConvUTF8);
-                ss += wxGetTranslation(s);
-                m_description->SetValue(ss);
+        SetDescriptionText();
 
-                m_description->Show(true);
-                Enable( true );
-                m_description->Enable();
-                this->Layout();
-                break;
-            }
-        }
         return;
 #else   // HIDEDEFAULTSLIDE
         SetBackgroundColour(*wxBLACK);
@@ -404,6 +413,11 @@ numSlides = 0;
                             (h - m_SlideBitmap.GetHeight())/2
                             ); 
         }
+    }
+    
+    if (!m_bHasBeenDrawn) {
+        m_bHasBeenDrawn = true;
+        SetDescriptionText();
     }
 } 
 
