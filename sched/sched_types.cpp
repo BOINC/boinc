@@ -599,7 +599,7 @@ int MSG_FROM_HOST_DESC::parse(XML_PARSER& xp) {
 }
 
 SCHEDULER_REPLY::SCHEDULER_REPLY() {
-    memset(&wreq, 0, sizeof(wreq));
+    wreq.clear();
     memset(&disk_limits, 0, sizeof(disk_limits));
     request_delay = 0;
     hostid = 0;

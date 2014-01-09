@@ -146,6 +146,7 @@ int SCHED_SHMEM::scan_tables() {
                     log_messages.printf(MSG_CRITICAL,
                         "Size census file for app %s is too short\n", app.name
                     );
+                    fclose(f);
                     return ERR_XML_PARSE;   // whatever
                 }
                 app.size_class_quantiles[i] = atof(buf);
