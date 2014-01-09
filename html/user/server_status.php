@@ -160,16 +160,17 @@ function get_runtime_info($appid) {
     $info = unserialize(get_cached_data(3600, "get_runtime_info".$appid));
     if ($info == false) {
         $info = BoincDB::get()->lookup_fields("result", "stdClass",
-                  "ceil(avg(elapsed_time)/3600*100)/100 as avg,
-                   ceil(min(elapsed_time)/3600*100)/100 as min,
-                   ceil(max(elapsed_time)/3600*100)/100 as max,
-                   count(distinct userid) as users",
-                   "appid = $appid 
-                   AND validate_state=1 
-                   AND received_time > (unix_timestamp()-(3600*24)) 
-                   GROUP BY appid");
+            "ceil(avg(elapsed_time)/3600*100)/100 as avg,
+            ceil(min(elapsed_time)/3600*100)/100 as min,
+            ceil(max(elapsed_time)/3600*100)/100 as max,
+            count(distinct userid) as users",
+            "appid = $appid 
+            AND validate_state=1 
+            AND received_time > (unix_timestamp()-(3600*24)) 
+            "
+        );
         if (!$info){
-            // No workunits found recently
+            // No recent jobs sound
             $info = new stdClass;
             $info->avg = $info->min = $info->max = $info->users = 0;
         }
