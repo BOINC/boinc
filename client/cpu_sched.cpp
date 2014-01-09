@@ -1019,6 +1019,11 @@ static inline bool more_important(RESULT* r0, RESULT* r1) {
     if (unfin0 && !unfin1) return true;
     if (!unfin0 && unfin1) return false;
 
+    // favor jobs that use more CPUs
+    //
+    if (r0->avp->avg_ncpus > r1->avp->avg_ncpus) return true;
+    if (r1->avp->avg_ncpus > r0->avp->avg_ncpus) return false;
+
     // favor jobs selected first by schedule_cpus()
     // (e.g., because their project has high sched priority)
     //
@@ -1549,7 +1554,9 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
         more_important
     );
 
+#if 0
     promote_multi_thread_jobs(run_list);
+#endif
 
     if (log_flags.cpu_sched_debug) {
         msg_printf(0, MSG_INFO, "[cpu_sched_debug] final job list:");
@@ -1657,6 +1664,7 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
             }
         }
 
+#if 0
         // Don't overcommit CPUs by > 1 if a MT job is scheduled.
         // Skip this check for GPU jobs.
         //
@@ -1672,6 +1680,7 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
             }
             continue;
         }
+#endif
 
         double wss = 0;
         if (atp) {
