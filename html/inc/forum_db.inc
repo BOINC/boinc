@@ -296,7 +296,7 @@ class BoincNotify {
         $db = BoincDb::get();
         return $db->delete($this, 'notify');
     }
-    function delete_aux($clause) {
+    static function delete_aux($clause) {
         $db = BoincDb::get();
         $db->delete_aux('notify', $clause);
     }

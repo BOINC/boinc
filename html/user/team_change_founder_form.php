@@ -104,10 +104,10 @@ if ($navailable_users > 0) {
     end_table();
     echo "<input type=submit value=\"".tra("Change founder")."\">";
 } else {
-    echo '<tr>
-        <td colspan="4">".tra("There are no users to transfer team to.")."</td>
+    echo "<tr>
+        <td colspan='4'>".tra("There are no users to transfer team to.")."</td>
         </tr>
-    ';
+    ";
     end_table();
 }
 echo "</form>";
