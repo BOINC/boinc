@@ -134,6 +134,13 @@ struct PROC_RESOURCES {
         double wss;
         if (max_concurrent_exceeded(rp)) return false;
         if (atp) {
+			// don't schedule if something's pending
+			//
+			switch (atp->task_state()) {
+			case PROCESS_ABORT_PENDING:
+			case PROCESS_QUIT_PENDING:
+				return false;
+			}
             if (gstate.retry_shmem_time > gstate.now) {
                 if (atp->app_client_shm.shm == NULL) {
                     if (log_flags.cpu_sched_debug) {
