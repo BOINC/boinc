@@ -1392,8 +1392,8 @@ void ACTIVE_TASK_SET::get_msgs() {
         atp = active_tasks[i];
         if (!atp->process_exists()) continue;
         old_time = atp->checkpoint_cpu_time;
-        if (atp->task_state() == PROCESS_EXECUTING) {
-            atp->elapsed_time += delta_t;
+        if (atp->scheduler_state == CPU_SCHED_SCHEDULED) {
+            atp->elapsed_time += delta_t * gstate.global_prefs.cpu_usage_limit/100;
         }
         if (atp->get_app_status_msg()) {
             if (old_time != atp->checkpoint_cpu_time) {

@@ -29,10 +29,11 @@
 // read "in", convert to upper case, write to "out"
 //
 // command line options
-// --run_slow: sleep 1 second after each character
 // --cpu_time N: use about N CPU seconds after copying files
+// --critical_section: run most of the time in a critical section
 // --early_exit: exit(10) after 30 chars
 // --early_crash: crash after 30 chars
+// --run_slow: sleep 1 second after each character
 // --trickle_up: sent a trickle-up message
 // --trickle_down: receive a trickle-up message
 //
