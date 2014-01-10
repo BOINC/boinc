@@ -111,7 +111,7 @@ int main(int argc, char** argv) {
             fscanf(state,"%d",&dimension);
             cudaMallocHost((void **)&h_idata,dimension*dimension*sizeof(REAL));
             for (int i=0;i<dimension*dimension;++i) {
-                fscanf(state, "%f", &h_idata[i]);
+                fscanf(state, "%lf", &h_idata[i]);
 			}
         }
         fclose(state);

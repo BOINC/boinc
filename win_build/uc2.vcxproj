@@ -105,7 +105,7 @@
       <Optimization>MaxSpeed</Optimization>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
-      <AdditionalIncludeDirectories>.;..;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut;../coprocs/OpenCL/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut;../coprocs/OpenCL/include;../../boinc_depends_win_vs2010/zlib/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_MT;_CONSOLE;APP_GRAPHICS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>false</StringPooling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
@@ -127,7 +127,7 @@
       <Culture>0x0409</Culture>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>opengl32.lib;glu32.lib;odbc32.lib;odbccp32.lib;psapi.lib;libcmt.lib;libcpmt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;glu32.lib;odbc32.lib;odbccp32.lib;psapi.lib;libcmt.lib;libcpmt.lib;zlib1.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>.\Build\$(Platform)\$(Configuration)\$(ProjectName).exe</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
@@ -136,6 +136,7 @@
       <ProgramDatabaseFile>.\Build\$(Platform)\$(Configuration)\$(ProjectName).pdb</ProgramDatabaseFile>
       <SubSystem>Windows</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
+      <AdditionalLibraryDirectories>../../boinc_depends_win_vs2010/zlib/mswin/$(Platform)/$(Configuration)/lib</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -153,7 +154,7 @@
       <Optimization>MaxSpeed</Optimization>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
-      <AdditionalIncludeDirectories>.;..;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut;../coprocs/OpenCL/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut;../coprocs/OpenCL/include;../../boinc_depends_win_vs2010/zlib/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_MT;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>false</StringPooling>
       <ExceptionHandling>Sync</ExceptionHandling>
@@ -176,7 +177,7 @@
       <Culture>0x0409</Culture>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>opengl32.lib;glu32.lib;odbc32.lib;odbccp32.lib;psapi.lib;libcmt.lib;libcpmt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;glu32.lib;odbc32.lib;odbccp32.lib;psapi.lib;libcmt.lib;libcpmt.lib;zlib1.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>.\Build\$(Platform)\$(Configuration)\$(ProjectName).exe</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
@@ -185,6 +186,7 @@
       <ProgramDatabaseFile>.\Build\$(Platform)\$(Configuration)\$(ProjectName).pdb</ProgramDatabaseFile>
       <SubSystem>Windows</SubSystem>
       <TargetMachine>MachineX64</TargetMachine>
+      <AdditionalLibraryDirectories>../../boinc_depends_win_vs2010/zlib/mswin/$(Platform)/$(Configuration)/lib</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -200,7 +202,7 @@
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>.;..;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut;../coprocs/OpenCL/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut;../coprocs/OpenCL/include;../../boinc_depends_win_vs2010/zlib/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_MT;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -212,16 +214,18 @@
       </BrowseInformation>
       <WarningLevel>Level3</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <CompileAs>CompileAsCpp</CompileAs>
       <ForcedIncludeFiles>%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <OmitFramePointers>
+      </OmitFramePointers>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <Culture>0x0409</Culture>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>libcmtd.lib;libcpmtd.lib;kernel32.lib;user32.lib;ole32.lib;psapi.lib;delayimp.lib;psapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libcmtd.lib;libcpmtd.lib;zlib1d.lib;kernel32.lib;user32.lib;ole32.lib;psapi.lib;delayimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>.\Build\$(Platform)\$(Configuration)\$(ProjectName).exe</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
@@ -230,6 +234,7 @@
       <ProgramDatabaseFile>.\Build\$(Platform)\$(Configuration)\$(ProjectName).pdb</ProgramDatabaseFile>
       <SubSystem>Windows</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
+      <AdditionalLibraryDirectories>../../boinc_depends_win_vs2010/zlib/mswin/$(Platform)/$(Configuration)/lib</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -245,7 +250,7 @@
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>.;..;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut;../coprocs/OpenCL/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;..;../api;../lib;../samples/image_libs;../samples/jpeglib;../samples/glut;../coprocs/OpenCL/include;../../boinc_depends_win_vs2010/zlib/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_MT;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -266,7 +271,7 @@
       <Culture>0x0409</Culture>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>libcmtd.lib;libcpmtd.lib;kernel32.lib;user32.lib;gdi32.lib;opengl32.lib;glu32.lib;ole32.lib;psapi.lib;delayimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libcmtd.lib;libcpmtd.lib;zlib1d.lib;kernel32.lib;user32.lib;gdi32.lib;opengl32.lib;glu32.lib;ole32.lib;psapi.lib;delayimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>.\Build\$(Platform)\$(Configuration)\$(ProjectName).exe</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
@@ -275,6 +280,7 @@
       <ProgramDatabaseFile>.\Build\$(Platform)\$(Configuration)\$(ProjectName).pdb</ProgramDatabaseFile>
       <SubSystem>Windows</SubSystem>
       <TargetMachine>MachineX64</TargetMachine>
+      <AdditionalLibraryDirectories>../../boinc_depends_win_vs2010/zlib/mswin/$(Platform)/$(Configuration)/lib</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

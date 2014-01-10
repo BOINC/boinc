@@ -44,12 +44,12 @@ function linux_info() {
 }
 
 $w72dev = array(
-	"num"=>"7.2.34",
+	"num"=>"7.2.37",
 	"status"=>"Development version",
-	"file"=>"boinc_7.2.34_windows_intelx86.exe",
-	"vbox_file"=>"boinc_7.2.34_windows_intelx86_vbox.exe",
+	"file"=>"boinc_7.2.37_windows_intelx86.exe",
+	"vbox_file"=>"boinc_7.2.37_windows_intelx86_vbox.exe",
   "vbox_version"=>"4.2.16",
-	"date"=>"3 Dec 2013",
+	"date"=>"8 Jan 2014",
 	"type"=>"win_new",
 );
 
@@ -88,12 +88,12 @@ $w5816 = array(
 );
 
 $w72x64dev = array(
-	"num"=>"7.2.34",
+	"num"=>"7.2.37",
 	"status"=>"Development version",
-	"file"=>"boinc_7.2.34_windows_x86_64.exe",
-	"vbox_file"=>"boinc_7.2.34_windows_x86_64_vbox.exe",
+	"file"=>"boinc_7.2.37_windows_x86_64.exe",
+	"vbox_file"=>"boinc_7.2.37_windows_x86_64_vbox.exe",
   "vbox_version"=>"4.2.16",
-	"date"=>"3 Dec 2013",
+	"date"=>"8 Jan 2014",
 	"type"=>"win_new",
 );
 
@@ -116,10 +116,10 @@ $w70x64 = array(
 );
 
 $m72dev = array(
-	"num"=>"7.2.34",
+	"num"=>"7.2.37",
 	"status"=>"Development version (standard GUI)",
-	"file"=>"boinc_7.2.34_macOSX_i686.zip",
-	"date"=>"3 Dec 2013",
+	"file"=>"boinc_7.2.37_macOSX_i686.zip",
+	"date"=>"8 Jan 2014",
 	"type"=>"mac_advanced",
 );
 
@@ -156,10 +156,10 @@ $m66 = array(
 );
 
 $m72cdev = array(
-	"num"=>"7.2.34",
+	"num"=>"7.2.37",
 	"status"=>"Development version (Unix command-line version)",
-	"file"=>"boinc_7.2.34_i686-apple-darwin.zip",
-	"date"=>"3 Dec 2013",
+	"file"=>"boinc_7.2.37_i686-apple-darwin.zip",
+	"date"=>"8 Jan 2014",
 	"type"=>"bare_core",
 );
 
@@ -212,10 +212,10 @@ $l66 = array(
 	);
 
 $l72ubuntudev = array(
-	"num"=>"7.2.34",
+	"num"=>"7.2.37",
 	"status"=>"Development version",
-	"file"=>"boinc_7.2.34_i686-pc-linux-gnu.sh",
-	"date"=>"3 Dec 2013",
+	"file"=>"boinc_7.2.37_i686-pc-linux-gnu.sh",
+	"date"=>"8 Jan 2014",
 	"type"=>"sea",
 );
 
@@ -236,10 +236,10 @@ $l70ubuntu = array(
 );
 
 $l72ubuntux64dev = array(
-	"num"=>"7.2.34",
+	"num"=>"7.2.37",
 	"status"=>"Development version",
-	"file"=>"boinc_7.2.34_x86_64-pc-linux-gnu.sh",
-	"date"=>"3 Dec 2013",
+	"file"=>"boinc_7.2.37_x86_64-pc-linux-gnu.sh",
+	"date"=>"8 Jan 2014",
 	"type"=>"sea",
 );
 
@@ -260,10 +260,10 @@ $l70ubuntux64 = array(
 );
 
 $a72dev = array(
-	"num"=>"7.2.35",
+	"num"=>"7.2.37",
 	"status"=>"Development Version",
-	"file"=>"boinc_7.2.35.apk",
-	"date"=>"10 Oct 2013",
+	"file"=>"boinc_7.2.37.apk",
+	"date"=>"8 Jan 2014",
 	"type"=>"apk",
 );
 

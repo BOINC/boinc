@@ -29,10 +29,11 @@
 // read "in", convert to upper case, write to "out"
 //
 // command line options
-// --run_slow: sleep 1 second after each character
 // --cpu_time N: use about N CPU seconds after copying files
+// --critical_section: run most of the time in a critical section
 // --early_exit: exit(10) after 30 chars
 // --early_crash: crash after 30 chars
+// --run_slow: sleep 1 second after each character
 // --trickle_up: sent a trickle-up message
 // --trickle_down: receive a trickle-up message
 //
@@ -50,6 +51,7 @@
 #include <unistd.h>
 #endif
 
+#include "zlib.h"
 #include "str_util.h"
 #include "util.h"
 #include "filesys.h"
@@ -69,6 +71,7 @@ using std::string;
 #define OUTPUT_FILENAME "out"
 
 bool run_slow = false;
+bool compress_output = false;
 bool early_exit = false;
 bool early_crash = false;
 bool early_sleep = false;
@@ -148,6 +151,7 @@ int main(int argc, char **argv) {
         if (strstr(argv[i], "early_crash")) early_crash = true;
         if (strstr(argv[i], "early_sleep")) early_sleep = true;
         if (strstr(argv[i], "run_slow")) run_slow = true;
+        if (strstr(argv[i], "compress_output")) compress_output = true;
         if (strstr(argv[i], "critical_section")) critical_section = true;
         if (strstr(argv[i], "cpu_time")) {
             cpu_time = atof(argv[++i]);
@@ -170,10 +174,18 @@ int main(int argc, char **argv) {
         early_crash?" early_crash":"",
         early_sleep?" early_sleep":"",
         run_slow?" run_slow":"",
+        compress_output?" compress_output":"",
         critical_section?" critical_section":"",
         trickle_up?" trickle_up":"",
         trickle_down?" trickle_down":""
     );
+
+    if (compress_output) {
+        fprintf(stderr, "%s zlib version: %s\n",
+            boinc_msg_prefix(buf, sizeof(buf)),
+            zlibVersion()
+        );
+    }
 
     // open the input file (resolve logical name first)
     //
@@ -237,11 +249,12 @@ int main(int argc, char **argv) {
     //
     for (i=0; ; i++) {
         c = fgetc(infile);
-
         if (c == EOF) break;
+
         c = toupper(c);
         out._putchar(c);
         nchars++;
+
         if (run_slow) {
             boinc_sleep(1.);
         }
@@ -346,6 +359,3 @@ int WINAPI WinMain(
     return main(argc, argv);
 }
 #endif
-
-const char *BOINC_RCSID_33ac47a071 = "$Id: upper_case.cpp 20315 2010-01-29 15:50:47Z davea $";
-

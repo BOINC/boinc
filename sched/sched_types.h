@@ -348,7 +348,7 @@ struct DISK_LIMITS {
 // summary of a client's request for work, and our response to it
 // Note: this is zeroed out in SCHEDULER_REPLY constructor
 //
-struct WORK_REQ {
+struct WORK_REQ_BASE {
     bool anonymous_platform;
 
     // the following defined if anonymous platform
@@ -377,7 +377,6 @@ struct WORK_REQ {
     bool dont_use_proc_type[NPROC_TYPES];
     bool allow_non_preferred_apps;
     bool allow_beta_work;
-    std::vector<APP_INFO> preferred_apps;
 
     bool has_reliable_version;
         // whether the host has a reliable app version
@@ -448,11 +447,6 @@ struct WORK_REQ {
     RESOURCE speed;
     RESOURCE bandwidth;
 
-    std::vector<USER_MESSAGE> no_work_messages;
-    std::vector<BEST_APP_VERSION*> best_app_versions;
-    std::vector<DB_HOST_APP_VERSION> host_app_versions;
-    std::vector<DB_HOST_APP_VERSION> host_app_versions_orig;
-
     // various reasons for not sending jobs (used to explain why)
     //
     bool no_allowed_apps_available;
@@ -464,8 +458,22 @@ struct WORK_REQ {
     bool max_jobs_on_host_gpu_exceeded;
     bool no_jobs_available;     // project has no work right now
     int max_jobs_per_rpc;
-    void add_no_work_message(const char*);
     void get_job_limits();
+
+    void clear() {
+        memset(this, 0, sizeof(WORK_REQ_BASE));
+    }
+
+};
+
+struct WORK_REQ : public WORK_REQ_BASE {
+    std::vector<APP_INFO> preferred_apps;
+    std::vector<USER_MESSAGE> no_work_messages;
+    std::vector<BEST_APP_VERSION*> best_app_versions;
+    std::vector<DB_HOST_APP_VERSION> host_app_versions;
+    std::vector<DB_HOST_APP_VERSION> host_app_versions_orig;
+
+    void add_no_work_message(const char*);
 
     ~WORK_REQ() {}
 };

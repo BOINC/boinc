@@ -91,8 +91,10 @@ CBOINCBitmapComboBox::CBOINCBitmapComboBox(wxWindow *parent, wxWindowID id,
 {
     int i;
 
-    m_ChoiceControl = new CBOINCBitmapChoice(this, id, value, wxDefaultPosition, wxSize(size.x, POPUPBUTTONCONTROLHEIGHT), n, choices, style, validator);
     m_bHaveLargeBitmaps = (size.y > 0);
+    m_ChoiceControl = new CBOINCBitmapChoice(this, id, value, wxDefaultPosition,
+                wxSize(size.x, m_bHaveLargeBitmaps ? POPUPBUTTONCONTROLHEIGHT : size.y),
+                n, choices, style, validator);
 	wxBoxSizer* bSizer1;
 	bSizer1 = new wxBoxSizer( wxVERTICAL );
     int margin = m_bHaveLargeBitmaps ? (size.y - POPUPBUTTONCONTROLHEIGHT)/2 : 0;

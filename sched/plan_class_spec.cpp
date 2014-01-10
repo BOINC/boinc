@@ -819,7 +819,7 @@ int main() {
     PLAN_CLASS_SPECS pcs;
     int retval = pcs.parse_file("plan_class_spec.xml.sample");
     if (retval) {
-        printf("parse_file: %d\n");
+        printf("parse_file: %d\n", retval);
         exit(1);
     }
 
