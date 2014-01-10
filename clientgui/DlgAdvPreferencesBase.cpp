@@ -357,6 +357,7 @@ wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook)
     miscProcGridSizer->Add( m_staticText23, 0, wxALL, 5 );
 
     miscProcBoxSizer->Add( miscProcGridSizer, 0, wxEXPAND, 1 );
+    miscProcBoxSizer->AddSpacer(1); // Ensure m_staticText22 is fully visible on Mac
 
     processorTabSizer->Add( miscProcBoxSizer, 0, wxEXPAND, 1 );
 

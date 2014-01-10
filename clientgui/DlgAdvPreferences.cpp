@@ -348,6 +348,7 @@ void clamp_pct(double& x) {
 }
 
 /* write overridden preferences to disk (global_prefs_override.xml) */
+/* IMPORTANT: Any items added here must be checked in ValidateInput()! */
 bool CDlgAdvPreferences::SavePreferencesSettings() {
     double td;
 
@@ -409,6 +410,7 @@ bool CDlgAdvPreferences::SavePreferencesSettings() {
     m_txtProcUseCPUTime->GetValue().ToDouble(&td);
     prefs.cpu_usage_limit=td;
     mask.cpu_usage_limit=true;
+    
     // network page
     m_txtNetConnectInterval->GetValue().ToDouble(&td);
     prefs.work_buf_min_days=td;
@@ -585,7 +587,63 @@ bool CDlgAdvPreferences::ValidateInput() {
         }
         node = node->GetNext();
     }
+    
+    buffer = m_txtProcSwitchEvery->GetValue();
+    if(!IsValidFloatValue(buffer)) {
+        ShowErrorMessage(invMsgFloat, m_txtProcSwitchEvery);
+        return false;
+    }
+    
+    buffer = m_txtProcUseProcessors->GetValue();
+    if(!IsValidFloatValue(buffer)) {
+        ShowErrorMessage(invMsgFloat, m_txtProcUseProcessors);
+        return false;
+    }
+    
+    buffer = m_txtProcUseCPUTime->GetValue();
+    if(!IsValidFloatValue(buffer)) {
+        ShowErrorMessage(invMsgFloat, m_txtProcUseCPUTime);
+        return false;
+    }
+    
     //net page
+    buffer = m_txtNetDownloadRate->GetValue();
+    if(!IsValidFloatValue(buffer)) {
+        ShowErrorMessage(invMsgFloat, m_txtNetDownloadRate);
+        return false;
+    }
+    
+    buffer = m_txtNetUploadRate->GetValue();
+    if(!IsValidFloatValue(buffer)) {
+        ShowErrorMessage(invMsgFloat, m_txtNetUploadRate);
+        return false;
+    }
+    
+    buffer = m_txt_daily_xfer_limit_mb->GetValue();
+    if(!IsValidFloatValue(buffer)) {
+        ShowErrorMessage(invMsgFloat, m_txt_daily_xfer_limit_mb);
+        return false;
+    }
+    
+    buffer = m_txt_daily_xfer_period_days->GetValue();
+    if(!IsValidFloatValue(buffer)) {
+        ShowErrorMessage(invMsgFloat, m_txt_daily_xfer_period_days);
+        return false;
+    }
+    
+    //limit additional days from 0 to 10
+    double td;
+    if (!m_txtNetConnectInterval->GetValue().ToDouble(&td)) td = -1.;
+    if(td>10.0 || td < 0.0) {
+        ShowErrorMessage(invMsgFloat,m_txtNetConnectInterval);
+        return false;
+    }
+    if (!m_txtNetAdditionalDays->GetValue().ToDouble(&td)) td = -1.;
+    if(td>10.0 || td < 0.0) {
+        ShowErrorMessage(invMsgFloat,m_txtNetAdditionalDays);
+        return false;
+    }
+
     buffer = m_txtNetEveryDayStart->GetValue();
     if(!IsValidTimeValue(buffer)) {
         ShowErrorMessage(invMsgTime,m_txtNetEveryDayStart);
@@ -595,19 +653,6 @@ bool CDlgAdvPreferences::ValidateInput() {
     buffer = m_txtNetEveryDayStop->GetValue();
     if(!IsValidTimeValue(buffer)) {
         ShowErrorMessage(invMsgTime,m_txtNetEveryDayStop);
-        return false;
-    }
-
-    //limit additional days from 0 to 10
-    double td;
-    m_txtNetConnectInterval->GetValue().ToDouble(&td);
-    if(td>10.0 || td < 0.0) {
-        ShowErrorMessage(invMsgFloat,m_txtNetConnectInterval);
-        return false;
-    }
-    m_txtNetAdditionalDays->GetValue().ToDouble(&td);
-    if(td>10.0 || td < 0.0) {
-        ShowErrorMessage(invMsgFloat,m_txtNetAdditionalDays);
         return false;
     }
 
@@ -629,6 +674,49 @@ bool CDlgAdvPreferences::ValidateInput() {
             }//if(txt)
         }//if(node->GetData()
         node = node->GetNext();
+    }
+
+    //disk & memory usage page
+    buffer = m_txtDiskMaxSpace->GetValue();
+    if(!IsValidFloatValue(buffer)) {
+        ShowErrorMessage(invMsgFloat, m_txtDiskMaxSpace);
+        return false;
+    }
+    
+    buffer = m_txtDiskLeastFree->GetValue();
+    if(!IsValidFloatValue(buffer)) {
+        ShowErrorMessage(invMsgFloat, m_txtDiskLeastFree);
+        return false;
+    }
+    
+    buffer = m_txtDiskMaxOfTotal->GetValue();
+    if(!IsValidFloatValue(buffer)) {
+        ShowErrorMessage(invMsgFloat, m_txtDiskMaxOfTotal);
+        return false;
+    }
+    
+    buffer = m_txtDiskWriteToDisk->GetValue();
+    if(!IsValidFloatValue(buffer)) {
+        ShowErrorMessage(invMsgFloat, m_txtDiskWriteToDisk);
+        return false;
+    }
+    
+    buffer = m_txtDiskMaxSwap->GetValue();
+    if(!IsValidFloatValue(buffer)) {
+        ShowErrorMessage(invMsgFloat, m_txtDiskMaxSwap);
+        return false;
+    }
+    
+    buffer = m_txtMemoryMaxInUse->GetValue();
+    if(!IsValidFloatValue(buffer)) {
+        ShowErrorMessage(invMsgFloat, m_txtMemoryMaxInUse);
+        return false;
+    }
+    
+    buffer = m_txtMemoryMaxOnIdle->GetValue();
+    if(!IsValidFloatValue(buffer)) {
+        ShowErrorMessage(invMsgFloat, m_txtMemoryMaxOnIdle);
+        return false;
     }
 
     return true;
@@ -658,12 +746,12 @@ bool CDlgAdvPreferences::EnsureTabPageVisible(wxTextCtrl* txtCtrl) {
 /* show an error message and set the focus to the control that caused the error */
 void CDlgAdvPreferences::ShowErrorMessage(wxString& message,wxTextCtrl* errorCtrl) {
     wxASSERT(this->EnsureTabPageVisible(errorCtrl));
-    errorCtrl->SetFocus();
     //
     if(message.IsEmpty()){
         message = _("invalid input value detected");
     }
     wxGetApp().SafeMessageBox(message,_("Validation Error"),wxOK | wxCENTRE | wxICON_ERROR,this);
+    errorCtrl->SetFocus();
 }
 
 /* checks if ch is a valid character for float values */
