@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2013-12-17 00:00 PST\n"
-"PO-Revision-Date: 2012-03-10 18:30+0200\n"
+"PO-Revision-Date: 2014-01-10 17:32+0000\n"
 "Last-Translator: Rytis Slatkevičius <rytis.s@gmail.com>\n"
 "Language-Team: \n"
 "Language: lt\n"
@@ -16,11 +16,12 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%"
 "100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Pootle 2.1.6\n"
+"X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-SearchPath-0: html\\user\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
+"X-POOTLE-MTIME: 1389375139.0\n"
 
 # The name of this language in this language
 msgid "LANG_NAME_NATIVE"
@@ -1717,8 +1718,9 @@ msgid "State"
 msgstr "Būsena"
 
 #: ../inc/result.inc:747
+#, fuzzy
 msgid "Task name:"
-msgstr ""
+msgstr "Užduoties pavadinimas"
 
 #: ../inc/team.inc:40
 msgid "Search criteria (use one or more)"
@@ -2075,8 +2077,9 @@ msgid "Used in community functions"
 msgstr "Naudojama bendruomenės funkcijose"
 
 #: ../inc/user.inc:216 ../user/weak_auth.php:25
+#, fuzzy
 msgid "Account keys"
-msgstr ""
+msgstr "Abonemento raktas"
 
 #: ../inc/user.inc:221
 msgid "Preferences"
@@ -2218,7 +2221,7 @@ msgstr ""
 
 #: ../inc/util.inc:204 ../user/login_form.php:30 ../user/login_form.php:66
 msgid "Log in"
-msgstr ""
+msgstr "Prisijungti"
 
 # ########################################
 # "Your account" page (home.php)
@@ -2282,7 +2285,7 @@ msgstr ""
 
 #: ../inc/util_ops.inc:136 ../user/get_passwd.php:72
 msgid "Stay logged in on this computer"
-msgstr ""
+msgstr "Likite prisijungęs šiame kompiuteryje"
 
 #: ../user/account_finish.php:34
 msgid "Finish account setup"
@@ -5075,7 +5078,7 @@ msgstr "El. pašto adresas:"
 
 #: ../user/login_form.php:45
 msgid "forgot email address?"
-msgstr ""
+msgstr "pamiršote elektroninio pašto adresą?"
 
 #: ../user/login_form.php:48
 msgid "Password:"
@@ -5083,7 +5086,7 @@ msgstr "Slaptažodis:"
 
 #: ../user/login_form.php:48
 msgid "forgot password?"
-msgstr ""
+msgstr "pamiršote slaptažodį?"
 
 #: ../user/login_form.php:51
 msgid "Stay logged in"
@@ -5091,7 +5094,7 @@ msgstr ""
 
 #: ../user/login_form.php:62
 msgid "or %1create an account%2."
-msgstr ""
+msgstr "arba %1užsiregistruokite%2."
 
 #: ../user/merge_by_name.php:31
 msgid "Processing %1"
