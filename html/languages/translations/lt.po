@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2013-12-17 00:00 PST\n"
+"POT-Creation-Date: 2014-01-10 00:00 PST\n"
 "PO-Revision-Date: 2014-01-10 17:32+0000\n"
 "Last-Translator: Rytis Slatkevičius <rytis.s@gmail.com>\n"
 "Language-Team: \n"
@@ -18,9 +18,9 @@ msgstr ""
 "100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
+"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-SearchPath-0: html\\user\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
-"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-POOTLE-MTIME: 1389375139.0\n"
 
 # The name of this language in this language
@@ -195,7 +195,7 @@ msgstr "Detali paieška"
 
 # ########################################
 # Private messages
-#: ../inc/forum.inc:132 ../inc/user.inc:252 ../user/pm.php:69
+#: ../inc/forum.inc:132 ../inc/user.inc:253 ../user/pm.php:69
 #: ../user/pm.php:133
 msgid "Private messages"
 msgstr "Asmeninės žinutės"
@@ -207,8 +207,8 @@ msgstr "Asmeninės žinutės"
 msgid "Questions and Answers"
 msgstr "Klausimai ir atsakymai"
 
-#: ../inc/forum.inc:151 ../inc/forum.inc:183 ../inc/user.inc:249
-#: ../inc/user.inc:374 ../user/bs_sample_index.php:62
+#: ../inc/forum.inc:151 ../inc/forum.inc:183 ../inc/user.inc:250
+#: ../inc/user.inc:375 ../user/bs_sample_index.php:62
 #: ../user/forum_forum.php:73 ../user/sample_index.php:129
 #: ../project.sample/project.inc:43
 msgid "Message boards"
@@ -278,7 +278,7 @@ msgstr "Neskaityta"
 msgid "Message %1"
 msgstr "Žinutė %1"
 
-#: ../inc/forum.inc:624 ../inc/user.inc:330 ../user/forum_forum.php:174
+#: ../inc/forum.inc:624 ../inc/user.inc:331 ../user/forum_forum.php:174
 msgid "hidden"
 msgstr "paslėptas"
 
@@ -476,7 +476,7 @@ msgstr "Tema"
 
 # ########################################
 # Forum
-#: ../inc/forum.inc:1174 ../inc/team.inc:127 ../user/forum_forum.php:136
+#: ../inc/forum.inc:1174 ../inc/team.inc:128 ../user/forum_forum.php:136
 #: ../user/forum_index.php:94
 msgid "Posts"
 msgstr "Žinutės"
@@ -485,7 +485,7 @@ msgstr "Žinutės"
 msgid "Views"
 msgstr "Peržiūros"
 
-#: ../inc/forum.inc:1177 ../inc/team.inc:127 ../user/forum_forum.php:139
+#: ../inc/forum.inc:1177 ../inc/team.inc:128 ../user/forum_forum.php:139
 #: ../user/forum_help_desk.php:46 ../user/forum_index.php:95
 msgid "Last post"
 msgstr "Paskutinė žinutė"
@@ -523,7 +523,7 @@ msgid "Home"
 msgstr "Namai"
 
 #: ../inc/host.inc:57 ../inc/prefs.inc:641 ../inc/prefs.inc:1049
-#: ../user/server_status.php:329
+#: ../user/server_status.php:314
 msgid "Work"
 msgstr "Darbas"
 
@@ -589,9 +589,9 @@ msgid "Created"
 msgstr "Sukurtas"
 
 #: ../inc/host.inc:113 ../inc/host.inc:226 ../inc/host.inc:231
-#: ../inc/host.inc:681 ../inc/team.inc:101 ../inc/team.inc:214
-#: ../inc/team.inc:219 ../inc/team.inc:221 ../inc/team.inc:363
-#: ../inc/team.inc:368 ../inc/user.inc:125 ../inc/user.inc:138
+#: ../inc/host.inc:681 ../inc/team.inc:101 ../inc/team.inc:215
+#: ../inc/team.inc:220 ../inc/team.inc:222 ../inc/team.inc:364
+#: ../inc/team.inc:369 ../inc/user.inc:125 ../inc/user.inc:138
 #: ../user/profile_search_action.php:43
 #: ../user/team_change_founder_form.php:78 ../user/team_email_list.php:64
 #: ../user/team_remove_inactive_form.php:41 ../user/top_users.php:54
@@ -770,7 +770,7 @@ msgstr ""
 msgid "Computer info"
 msgstr "Kompiuterio informacija"
 
-#: ../inc/host.inc:221 ../inc/host.inc:676 ../inc/team.inc:356
+#: ../inc/host.inc:221 ../inc/host.inc:676 ../inc/team.inc:357
 #: ../user/top_users.php:48
 msgid "Rank"
 msgstr "Eilė"
@@ -779,9 +779,9 @@ msgstr "Eilė"
 msgid "Avg. credit"
 msgstr "Vid. kreditai"
 
-#: ../inc/host.inc:230 ../inc/team.inc:102 ../inc/team.inc:215
-#: ../inc/team.inc:224 ../inc/team.inc:226 ../inc/team.inc:362
-#: ../inc/team.inc:367 ../inc/user.inc:139
+#: ../inc/host.inc:230 ../inc/team.inc:102 ../inc/team.inc:216
+#: ../inc/team.inc:225 ../inc/team.inc:227 ../inc/team.inc:363
+#: ../inc/team.inc:368 ../inc/user.inc:139
 #: ../user/team_change_founder_form.php:79 ../user/team_email_list.php:64
 #: ../user/team_remove_inactive_form.php:42 ../user/top_users.php:53
 #: ../user/top_users.php:58
@@ -869,8 +869,8 @@ msgstr ""
 msgid "Computer ID"
 msgstr "Kompiuterio ID"
 
-#: ../inc/host.inc:669 ../inc/result.inc:628 ../inc/team.inc:209
-#: ../inc/team.inc:357 ../inc/user.inc:199 ../user/account_finish.php:41
+#: ../inc/host.inc:669 ../inc/result.inc:628 ../inc/team.inc:210
+#: ../inc/team.inc:358 ../inc/user.inc:199 ../user/account_finish.php:41
 #: ../user/create_account_form.php:79 ../user/team_admins.php:62
 #: ../user/team_change_founder_form.php:77 ../user/team_email_list.php:64
 #: ../user/top_users.php:49 ../user/user_search.php:139
@@ -908,7 +908,7 @@ msgstr "Rašyti"
 
 # ########################################
 # Private messages
-#: ../inc/pm.inc:33 ../inc/user.inc:377
+#: ../inc/pm.inc:33 ../inc/user.inc:378
 msgid "Send private message"
 msgstr "Siųsti asmeninę žinutę"
 
@@ -1637,7 +1637,7 @@ msgstr "Atlikimo laikas<br />arba galutinis terminas"
 msgid "explain"
 msgstr "paaiškinti"
 
-#: ../inc/result.inc:376 ../user/server_status.php:256
+#: ../inc/result.inc:376 ../user/server_status.php:241
 msgid "Status"
 msgstr "Būsena"
 
@@ -1734,9 +1734,9 @@ msgstr "Raktiniai žodžiai"
 msgid "Find teams with these words in their names or descriptions"
 msgstr "Rasti komandas su šiais žodžiais pavadinimuose ar aprašymuose"
 
-#: ../inc/team.inc:43 ../inc/team.inc:121 ../inc/team.inc:232
-#: ../inc/team.inc:372 ../inc/team.inc:456 ../inc/user.inc:205
-#: ../inc/user.inc:316 ../user/account_finish.php:45
+#: ../inc/team.inc:43 ../inc/team.inc:122 ../inc/team.inc:233
+#: ../inc/team.inc:373 ../inc/team.inc:455 ../inc/user.inc:205
+#: ../inc/user.inc:317 ../user/account_finish.php:45
 #: ../user/create_account_form.php:98 ../user/edit_user_info_form.php:38
 #: ../user/profile_search_action.php:42 ../user/team_email_list.php:64
 #: ../user/team_search.php:72 ../user/top_users.php:63
@@ -1744,7 +1744,7 @@ msgstr "Rasti komandas su šiais žodžiais pavadinimuose ar aprašymuose"
 msgid "Country"
 msgstr "Valstybė"
 
-#: ../inc/team.inc:49 ../inc/team.inc:454
+#: ../inc/team.inc:49 ../inc/team.inc:453
 msgid "Type of team"
 msgstr "Komandos tipas"
 
@@ -1772,8 +1772,8 @@ msgstr "Prašytas jūsų"
 msgid "founder response deadline is %1"
 msgstr "laikas, skirtas įkūrėjui atsakyti, yra %1"
 
-#: ../inc/team.inc:72 ../inc/team.inc:556 ../inc/user.inc:280
-#: ../inc/user.inc:370
+#: ../inc/team.inc:72 ../inc/team.inc:555 ../inc/user.inc:281
+#: ../inc/user.inc:371
 msgid "None"
 msgstr "Nėra"
 
@@ -1797,27 +1797,27 @@ msgstr "Aprašymas"
 msgid "Web site"
 msgstr "Tinklapis"
 
-#: ../inc/team.inc:119
+#: ../inc/team.inc:120
 msgid "Cross-project stats"
 msgstr "Tarpprojektinė statistika"
 
-#: ../inc/team.inc:122 ../inc/team.inc:373 ../user/team_search.php:71
+#: ../inc/team.inc:123 ../inc/team.inc:374 ../user/team_search.php:71
 msgid "Type"
 msgstr "Tipas"
 
-#: ../inc/team.inc:126 ../user/team_manage.php:63
+#: ../inc/team.inc:127 ../user/team_manage.php:63
 msgid "Message board"
 msgstr "Forumas"
 
-#: ../inc/team.inc:127 ../user/forum_forum.php:135 ../user/forum_index.php:93
+#: ../inc/team.inc:128 ../user/forum_forum.php:135 ../user/forum_index.php:93
 msgid "Threads"
 msgstr "Temos"
 
-#: ../inc/team.inc:135
+#: ../inc/team.inc:136
 msgid "Join this team"
 msgstr "Prisijungti prie komandos"
 
-#: ../inc/team.inc:136
+#: ../inc/team.inc:137
 msgid ""
 "Note: if 'OK to email' is set in your project preferences, joining a team "
 "gives its founder access to your email address."
@@ -1826,79 +1826,79 @@ msgstr ""
 "prisijungus prie komandos jos įkūrėjas gaus priėjimą prie jūsų el. pašto "
 "adreso."
 
-#: ../inc/team.inc:139
+#: ../inc/team.inc:140
 msgid "Not accepting new members"
 msgstr "Nauji dalyviai nepriimami"
 
-#: ../inc/team.inc:146
+#: ../inc/team.inc:147
 msgid "Foundership change requested"
 msgstr "Laukiamas įkūrėjo pakeitimas"
 
-#: ../inc/team.inc:147
+#: ../inc/team.inc:148
 msgid "Respond by %1"
 msgstr "Atsakyti per %1"
 
-#: ../inc/team.inc:151
+#: ../inc/team.inc:152
 msgid "Team foundership change"
 msgstr "Komandos įkūrėjo pakeitimas"
 
-#: ../inc/team.inc:155 ../inc/team.inc:358
+#: ../inc/team.inc:156 ../inc/team.inc:359
 msgid "Members"
 msgstr "Dalyviai"
 
-#: ../inc/team.inc:156 ../inc/team.inc:253
+#: ../inc/team.inc:157 ../inc/team.inc:254
 msgid "Founder"
 msgstr "Įkūrėjas"
 
-#: ../inc/team.inc:168
+#: ../inc/team.inc:169
 msgid "Admins"
 msgstr "Administratoriai"
 
-#: ../inc/team.inc:183
+#: ../inc/team.inc:184
 msgid "New members in last day"
 msgstr "Nauji nariai per paskutinę dieną"
 
-#: ../inc/team.inc:184
+#: ../inc/team.inc:185
 msgid "Total members"
 msgstr "Iš viso narių"
 
-#: ../inc/team.inc:184 ../inc/team.inc:185 ../inc/team.inc:186
+#: ../inc/team.inc:185 ../inc/team.inc:186 ../inc/team.inc:187
 msgid "view"
 msgstr "peržiūrėti"
 
-#: ../inc/team.inc:185
+#: ../inc/team.inc:186
 msgid "Active members"
 msgstr "Aktyvūs nariai"
 
-#: ../inc/team.inc:186
+#: ../inc/team.inc:187
 msgid "Members with credit"
 msgstr "Nariai, turintys kreditų"
 
-#: ../inc/team.inc:255
+#: ../inc/team.inc:256
 msgid "Admin"
 msgstr "Administratorius"
 
-#: ../inc/team.inc:276 ../user/forum_user_posts.php:122
+#: ../inc/team.inc:277 ../user/forum_user_posts.php:122
 #: ../user/top_hosts.php:93 ../user/top_teams.php:121
 #: ../user/top_users.php:127
 msgid "Previous %1"
 msgstr ""
 
-#: ../inc/team.inc:280 ../user/forum_user_posts.php:131
+#: ../inc/team.inc:281 ../user/forum_user_posts.php:131
 #: ../user/profile_search_action.php:61 ../user/top_hosts.php:98
 #: ../user/top_teams.php:126 ../user/top_users.php:132
 msgid "Next %1"
 msgstr "Kiti %1"
 
-#: ../inc/team.inc:288
+#: ../inc/team.inc:289
 msgid "No such team."
 msgstr "Tokios komandos nėra."
 
-#: ../inc/team.inc:301
+#: ../inc/team.inc:302
 msgid "This operation requires foundership."
 msgstr "Šiam veiksmui atlikti turite būti įkūrėju."
 
-#: ../inc/team.inc:325
+#: ../inc/team.inc:326
 msgid "This operation requires team admin privileges"
 msgstr "Šiai operacijai atlikti turite būti komandos administratoriumi."
 
@@ -1908,7 +1908,7 @@ msgid ""
 "be overwritten. Edit the %1BOINC-wide team%2 instead."
 msgstr ""
 
-#: ../inc/team.inc:429
+#: ../inc/team.inc:428
 msgid ""
 "%1Privacy note%2: if you create a team, your project preferences (resource "
 "share, graphics preferences) will be visible to the public."
@@ -1916,47 +1916,47 @@ msgstr ""
 "%1Pastaba%2: jei įkursite komandą, jūsų nustatymai (resursų padalijimas, "
 "vaizdo nustatymai) bus prieinami viešai."
 
-#: ../inc/team.inc:433
+#: ../inc/team.inc:432
 msgid "Team name, text version"
 msgstr "Komandos pavadinimas, tekstinė versija"
 
-#: ../inc/team.inc:434
+#: ../inc/team.inc:433
 msgid "Don't use HTML tags."
 msgstr "Nenaudokite HTML žymių."
 
-#: ../inc/team.inc:437
+#: ../inc/team.inc:436
 msgid "Team name, HTML version"
 msgstr "Komandos pavadinimas, HTML versija"
 
-#: ../inc/team.inc:439 ../inc/team.inc:449
+#: ../inc/team.inc:438 ../inc/team.inc:448
 msgid "You may use %1limited HTML tags%2."
 msgstr "Galite naudoti %1kai kurias HTML žymes%2."
 
-#: ../inc/team.inc:440
+#: ../inc/team.inc:439
 msgid "If you don't know HTML, leave this box blank."
 msgstr "Jei nežinote HTML, palikite šį lauką tuščią."
 
-#: ../inc/team.inc:443
+#: ../inc/team.inc:442
 msgid "URL of team web page, if any"
 msgstr "Komandos tinklapio adresas"
 
-#: ../inc/team.inc:443
+#: ../inc/team.inc:442
 msgid "without \"http://\""
 msgstr "be \"http://\""
 
-#: ../inc/team.inc:444
+#: ../inc/team.inc:443
 msgid "This URL will be linked to from the team's page on this site."
 msgstr "Ši nuoroda bus rodoma komandos puslapyje šiame tinklapyje."
 
-#: ../inc/team.inc:447
+#: ../inc/team.inc:446
 msgid "Description of team"
 msgstr "Komandos aprašymas"
 
-#: ../inc/team.inc:463
+#: ../inc/team.inc:462
 msgid "Accept new members?"
 msgstr ""
 
-#: ../inc/uotd.inc:30
+#: ../inc/uotd.inc:28
 msgid "User profile"
 msgstr ""
 
@@ -1991,7 +1991,7 @@ msgid "Computers on this account"
 msgstr "Abonementui priskirti kompiuteriai"
 
 #: ../inc/user.inc:151 ../inc/user.inc:152 ../inc/user.inc:217
-#: ../inc/user.inc:242 ../inc/user.inc:328 ../inc/user.inc:412
+#: ../inc/user.inc:243 ../inc/user.inc:329 ../inc/user.inc:402
 #: ../user/view_profile.php:64
 msgid "View"
 msgstr "Peržiūrėti"
@@ -2008,8 +2008,8 @@ msgstr "Tarpprojektinė statistika"
 msgid "Account"
 msgstr ""
 
-#: ../inc/user.inc:165 ../inc/user.inc:280 ../inc/user.inc:368
-#: ../inc/user.inc:370 ../user/user_search.php:139
+#: ../inc/user.inc:165 ../inc/user.inc:281 ../inc/user.inc:369
+#: ../inc/user.inc:371 ../user/user_search.php:139
 msgid "Team"
 msgstr "Komanda"
 
@@ -2038,7 +2038,7 @@ msgstr "Abonemento informacija"
 msgid "Email address"
 msgstr "El. pašto adresas"
 
-#: ../inc/user.inc:203 ../inc/user.inc:321
+#: ../inc/user.inc:203 ../inc/user.inc:322
 msgid "URL"
 msgstr "Tinklapis"
 
@@ -2046,7 +2046,7 @@ msgstr "Tinklapis"
 msgid "Postal code"
 msgstr "Pašto kodas"
 
-#: ../inc/user.inc:207 ../inc/user.inc:315
+#: ../inc/user.inc:207 ../inc/user.inc:316
 msgid "%1 member since"
 msgstr "%1 narys nuo"
 
@@ -2068,7 +2068,7 @@ msgstr "slaptažodį"
 msgid "other account info"
 msgstr "kitą abonemento informaciją"
 
-#: ../inc/user.inc:213 ../inc/user.inc:314
+#: ../inc/user.inc:213 ../inc/user.inc:315
 msgid "User ID"
 msgstr "Vartotojo ID"
 
@@ -2114,100 +2114,100 @@ msgstr "%1 nustatymai"
 msgid "Community"
 msgstr "Bendruomenė"
 
-#: ../inc/user.inc:242 ../user/pm.php:107 ../user/pm.php:147
+#: ../inc/user.inc:243 ../user/pm.php:107 ../user/pm.php:147
 msgid "Delete"
 msgstr "Ištrinti"
 
-#: ../inc/user.inc:244
+#: ../inc/user.inc:245
 msgid "Create"
 msgstr "Sukurti"
 
-#: ../inc/user.inc:246 ../inc/user.inc:412 ../inc/util.inc:514
+#: ../inc/user.inc:247 ../inc/user.inc:402 ../inc/util.inc:514
 msgid "Profile"
 msgstr "Aprašymas"
 
 # ########################################
 # Forum
-#: ../inc/user.inc:249 ../inc/user.inc:374
+#: ../inc/user.inc:250 ../inc/user.inc:375
 msgid "%1 posts"
 msgstr "%1 žinučių"
 
 # ########################################
 # Apps page (apps.php)
-#: ../inc/user.inc:261 ../user/edit_forum_preferences_form.php:51
+#: ../inc/user.inc:262 ../user/edit_forum_preferences_form.php:51
 msgid "Notifications"
 msgstr "Pranešimai"
 
-#: ../inc/user.inc:268
+#: ../inc/user.inc:269
 msgid "Quit team"
 msgstr "Palikti komandą"
 
-#: ../inc/user.inc:270 ../inc/user.inc:287
+#: ../inc/user.inc:271 ../inc/user.inc:288
 msgid "Administer"
 msgstr "Administruoti"
 
-#: ../inc/user.inc:276 ../inc/user.inc:289
+#: ../inc/user.inc:277 ../inc/user.inc:290
 msgid "(foundership change request pending)"
 msgstr "(laukiamas įkūrėjo pakeitimas)"
 
-#: ../inc/user.inc:278
+#: ../inc/user.inc:279
 msgid "Member of team"
 msgstr "Komandos narys"
 
-#: ../inc/user.inc:280
+#: ../inc/user.inc:281
 msgid "find a team"
 msgstr "raskite komandą"
 
-#: ../inc/user.inc:291
+#: ../inc/user.inc:292
 msgid "Founder but not member of"
 msgstr "Įkūrėjas, tačiau ne narys"
 
-#: ../inc/user.inc:297
+#: ../inc/user.inc:298
 msgid "Find friends"
 msgstr "Rasti draugus"
 
-#: ../inc/user.inc:304 ../inc/user.inc:306 ../inc/user.inc:384
-#: ../inc/user.inc:386 ../inc/user.inc:395
+#: ../inc/user.inc:305 ../inc/user.inc:307 ../inc/user.inc:385
+#: ../inc/user.inc:387 ../inc/user.inc:396
 msgid "Friends"
 msgstr "Draugai"
 
-#: ../inc/user.inc:328 ../inc/user.inc:330 ../user/server_status.php:408
+#: ../inc/user.inc:329 ../inc/user.inc:331 ../user/server_status.php:392
 msgid "Computers"
 msgstr "Kompiuteriai"
 
-#: ../inc/user.inc:337
+#: ../inc/user.inc:338
 msgid "Donor"
 msgstr "Suteikęs paramą"
 
-#: ../inc/user.inc:377
+#: ../inc/user.inc:378
 msgid "Contact"
 msgstr "Susisiekti"
 
-#: ../inc/user.inc:380
+#: ../inc/user.inc:381
 msgid "This person is a friend"
 msgstr "Šis asmuo yra draugas"
 
-#: ../inc/user.inc:381 ../user/friend.php:238
+#: ../inc/user.inc:382 ../user/friend.php:238
 msgid "Cancel friendship"
 msgstr "Nutraukti draugystę"
 
-#: ../inc/user.inc:384 ../user/friend.php:37
+#: ../inc/user.inc:385 ../user/friend.php:37
 msgid "Request pending"
 msgstr "Laukiama patvirtinimo"
 
-#: ../inc/user.inc:386
+#: ../inc/user.inc:387
 msgid "Add as friend"
 msgstr "Pridėti draugą"
 
-#: ../inc/user.inc:456
+#: ../inc/user.inc:446
 msgid "user name cannot have leading or trailing white space"
 msgstr ""
 
-#: ../inc/user.inc:460
+#: ../inc/user.inc:450
 msgid "user name must be nonempty"
 msgstr ""
 
-#: ../inc/user.inc:464
+#: ../inc/user.inc:454
 msgid "user name may not contain HTML tags"
 msgstr ""
 
@@ -2283,7 +2283,7 @@ msgstr ""
 msgid "Unable to select database - please try again later"
 msgstr ""
 
-#: ../inc/util_ops.inc:136 ../user/get_passwd.php:72
+#: ../inc/util_ops.inc:109 ../user/get_passwd.php:72
 msgid "Stay logged in on this computer"
 msgstr "Likite prisijungęs šiame kompiuteryje"
 
@@ -2488,7 +2488,7 @@ msgstr ""
 msgid "User of the day"
 msgstr "Dienos dalyvis"
 
-#: ../user/bs_sample_index.php:52 ../user/server_status.php:254
+#: ../user/bs_sample_index.php:52 ../user/server_status.php:239
 #, fuzzy
 msgid "Server status"
 msgstr "Būsena serveryje"
@@ -5514,137 +5514,137 @@ msgstr ""
 msgid "Disabled"
 msgstr ""
 
-#: ../user/server_status.php:246
+#: ../user/server_status.php:231
 msgid "Project status"
 msgstr "Projekto būsena"
 
-#: ../user/server_status.php:248
+#: ../user/server_status.php:233
 msgid "Server software version: %1"
 msgstr ""
 
-#: ../user/server_status.php:256
+#: ../user/server_status.php:241
 msgid "Program"
 msgstr ""
 
-#: ../user/server_status.php:256
+#: ../user/server_status.php:241
 msgid "Host"
 msgstr ""
 
-#: ../user/server_status.php:267
+#: ../user/server_status.php:252
 msgid "data-driven web pages"
 msgstr ""
 
-#: ../user/server_status.php:273
+#: ../user/server_status.php:258
 msgid "upload/download server"
 msgstr ""
 
-#: ../user/server_status.php:276
+#: ../user/server_status.php:261
 msgid "scheduler"
 msgstr ""
 
-#: ../user/server_status.php:309
+#: ../user/server_status.php:294
 msgid "Running:"
 msgstr ""
 
-#: ../user/server_status.php:310
+#: ../user/server_status.php:295
 msgid "Program is operating normally"
 msgstr ""
 
-#: ../user/server_status.php:311
+#: ../user/server_status.php:296
 msgid "Not Running:"
 msgstr ""
 
-#: ../user/server_status.php:312
+#: ../user/server_status.php:297
 msgid "Program failed or the project is down"
 msgstr ""
 
-#: ../user/server_status.php:313
+#: ../user/server_status.php:298
 msgid "Disabled:"
 msgstr ""
 
-#: ../user/server_status.php:314
+#: ../user/server_status.php:299
 msgid "Program is disabled"
 msgstr ""
 
-#: ../user/server_status.php:318
+#: ../user/server_status.php:303
 msgid "Computing status"
 msgstr ""
 
-#: ../user/server_status.php:324
+#: ../user/server_status.php:309
 msgid "The database server is not accessible"
 msgstr ""
 
-#: ../user/server_status.php:341
+#: ../user/server_status.php:326
 msgid "Tasks ready to send"
 msgstr ""
 
-#: ../user/server_status.php:346 ../user/workunit.php:55
+#: ../user/server_status.php:331 ../user/workunit.php:55
 msgid "Tasks in progress"
 msgstr ""
 
-#: ../user/server_status.php:351
+#: ../user/server_status.php:336
 msgid "Workunits waiting for validation"
 msgstr "Užduočių rinkiniai, laukiantys patikrinimo"
 
-#: ../user/server_status.php:356
+#: ../user/server_status.php:341
 msgid "Workunits waiting for assimilation"
 msgstr "Užduočių rinkiniai, laukiantys apdorojimo"
 
-#: ../user/server_status.php:361
+#: ../user/server_status.php:346
 msgid "Workunits waiting for file deletion"
 msgstr "Užduočių rinkiniai, laukiantys failų trynimo"
 
-#: ../user/server_status.php:366
+#: ../user/server_status.php:351
 msgid "Tasks waiting for file deletion"
 msgstr "Užduotys, laukiančios failų trynimo"
 
-#: ../user/server_status.php:383
+#: ../user/server_status.php:367
 msgid "Transitioner backlog (hours)"
 msgstr ""
 
-#: ../user/server_status.php:390
+#: ../user/server_status.php:374
 msgid "Users"
 msgstr ""
 
-#: ../user/server_status.php:393 ../user/server_status.php:411
+#: ../user/server_status.php:377 ../user/server_status.php:395
 msgid "with recent credit"
 msgstr ""
 
-#: ../user/server_status.php:398 ../user/server_status.php:416
+#: ../user/server_status.php:382 ../user/server_status.php:400
 msgid "with credit"
 msgstr ""
 
-#: ../user/server_status.php:403 ../user/server_status.php:421
+#: ../user/server_status.php:387 ../user/server_status.php:405
 msgid "registered in past 24 hours"
 msgstr ""
 
-#: ../user/server_status.php:427
+#: ../user/server_status.php:411
 msgid "current GigaFLOPs"
 msgstr ""
 
-#: ../user/server_status.php:436
+#: ../user/server_status.php:420
 msgid "Tasks by application"
 msgstr ""
 
 # ########################################
 # Apps page (apps.php)
-#: ../user/server_status.php:439 ../user/workunit.php:40
+#: ../user/server_status.php:423 ../user/workunit.php:40
 msgid "application"
 msgstr "programa"
 
-#: ../user/server_status.php:440
+#: ../user/server_status.php:424
 msgid "unsent"
 msgstr "neišsiųsta"
 
-#: ../user/server_status.php:441
+#: ../user/server_status.php:425
 msgid "in progress"
 msgstr "vykdoma"
 
-#: ../user/server_status.php:442
+#: ../user/server_status.php:426
 msgid "avg runtime of last 100 results in h (min-max)"
 msgstr ""
 
-#: ../user/server_status.php:443
+#: ../user/server_status.php:427
 msgid "users in last 24h"
 msgstr ""
 
@@ -5891,6 +5891,10 @@ msgstr ""
 
 #: ../user/team_change_founder_form.php:105 ../user/team_manage.php:56
 msgid "Change founder"
+msgstr ""
+
+#: ../user/team_change_founder_form.php:108
+msgid "There are no users to transfer team to."
 msgstr ""
 
 #: ../user/team_create_action.php:29
