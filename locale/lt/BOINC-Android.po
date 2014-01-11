@@ -18,7 +18,7 @@ msgstr ""
 "100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
-"X-POOTLE-MTIME: 1389375072.0\n"
+"X-POOTLE-MTIME: 1386566425.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -26,48 +26,56 @@ msgid "BOINC"
 msgstr "BOINC"
 
 #. generic. used by multiple Activities/tabs
+#, fuzzy
 msgctxt "generic_loading"
 msgid "Loading! Please wait…"
-msgstr "Įkeliama! Prašome palaukti…"
+msgstr "로딩 중! 잠시 기다려 주세요…"
 
 #. attach project
 #. project list
+#, fuzzy
 msgctxt "attachproject_list_header"
 msgid "Choose a project:"
-msgstr "Pasirinkite projektą:"
+msgstr "프로젝트를 선택:"
 
+#, fuzzy
 msgctxt "attachproject_list_manual_button"
 msgid "Add project by URL"
-msgstr "Pridėkite projektą pagal adresą"
+msgstr "URL로 프로젝트 추가"
 
+#, fuzzy
 msgctxt "attachproject_list_manual_dialog_title"
 msgid "Enter project URL:"
-msgstr "Įveskite projekto adresą:"
+msgstr "프로젝트 URL 입력:"
 
+#, fuzzy
 msgctxt "attachproject_list_manual_dialog_button"
 msgid "Add project"
-msgstr "Pridėti projektą"
+msgstr "프로젝트 추가"
 
+#, fuzzy
 msgctxt "attachproject_list_manual_no_url"
 msgid "Please enter project URL"
-msgstr "Įveskite projekto adresą"
+msgstr "프로젝트 URL를 입력하세요"
 
 msgctxt "attachproject_list_acctmgr_button"
 msgid "Add account manager"
 msgstr "계정 관리자 추가"
 
+#, fuzzy
 msgctxt "attachproject_list_no_internet"
 msgid "No Internet connection"
-msgstr "Nėra interneto prisijungimo"
+msgstr "인터넷 연결이 되지 않았습니다"
 
 #. project login
 msgctxt "attachproject_login_loading"
 msgid "Contacting project server…"
 msgstr "프로젝트 서버 연결 중…"
 
+#, fuzzy
 msgctxt "attachproject_login_image_description"
 msgid "Project logo."
-msgstr "Projekto logotipas."
+msgstr "프로젝트 로고"
 
 msgctxt "attachproject_login_header_general_area"
 msgid "General area:"
@@ -85,25 +93,29 @@ msgctxt "attachproject_login_header_home"
 msgid "Home:"
 msgstr "거점:"
 
+#, fuzzy
 msgctxt "attachproject_login_header_url"
 msgid "Website:"
-msgstr "Tinklapis:"
+msgstr "웹 사이트:"
 
 msgctxt "attachproject_login_header_platform"
 msgid "Android:"
 msgstr "Android:"
 
+#, fuzzy
 msgctxt "attachproject_login_platform_supported"
 msgid "This project supports Android devices"
-msgstr "Šis projektas palaiko Android įrenginius"
+msgstr "이 프로젝트는 안드로이드 장치를 지원합니다"
 
+#, fuzzy
 msgctxt "attachproject_login_platform_not_supported"
 msgid "This project does not support Android devices"
-msgstr "Šis projektas nepalaiko Android įrenginių"
+msgstr "이 프로젝트는 안드로이드 장치를 지원하지 않습니다"
 
+#, fuzzy
 msgctxt "attachproject_login_category_terms_of_use"
 msgid "Terms of use for"
-msgstr "Vartojimo sąlygos"
+msgstr "사용자 약관"
 
 msgctxt "attachproject_login_accept_terms_of_use"
 msgid ""
@@ -115,17 +127,20 @@ msgctxt "attachproject_login_category_login"
 msgid "Sign in with existing account"
 msgstr "기존 계정으로 로그인"
 
+#, fuzzy
 msgctxt "attachproject_login_header_id_email"
 msgid "eMail:"
-msgstr "El. paštas:"
+msgstr "이메일:"
 
+#, fuzzy
 msgctxt "attachproject_login_header_id_name"
 msgid "Name:"
-msgstr "Vardas:"
+msgstr "이름:"
 
+#, fuzzy
 msgctxt "attachproject_login_header_pwd"
 msgid "Password:"
-msgstr "Slaptažodis:"
+msgstr "비밀번호:"
 
 msgctxt "attachproject_login_category_creation"
 msgid "New to"
@@ -135,25 +150,29 @@ msgctxt "attachproject_login_header_creation_enabled"
 msgid "Register an account to participate:"
 msgstr "참여하기 위해 계정 등록:"
 
+#, fuzzy
 msgctxt "attachproject_login_header_creation_client_disabled"
 msgid "Visit project website to create an account:"
-msgstr "Apsilankykite projekto tinklapyje registracijai:"
+msgstr "계정 생성을 위해 프로젝트 웹사이트 방문하기:"
 
 msgctxt "attachproject_login_header_creation_disabled"
 msgid "Project does currently now allow creation of new accounts!"
 msgstr "현재 프로젝트에서 신규 계정 생성을 허용하지 않았습니다!"
 
+#, fuzzy
 msgctxt "attachproject_login_button_registration"
 msgid "Register"
-msgstr "Registruotis"
+msgstr "등록"
 
+#, fuzzy
 msgctxt "attachproject_login_button_login"
 msgid "Sign in"
-msgstr "Prisijungti"
+msgstr "로그인"
 
+#, fuzzy
 msgctxt "attachproject_login_button_forgotpw"
 msgid "Forgot Password"
-msgstr "Priminti slaptažodį"
+msgstr "비밀번호 분실"
 
 msgctxt "attachproject_login_error_toast"
 msgid "Contacting project failed!"
@@ -327,9 +346,10 @@ msgctxt "attachproject_working_register"
 msgid "Register account"
 msgstr "계정 등록"
 
+#, fuzzy
 msgctxt "attachproject_working_login"
 msgid "Log in"
-msgstr "Prisijungti"
+msgstr "로그인"
 
 msgctxt "attachproject_working_acctmgr"
 msgid "Add account manager"
