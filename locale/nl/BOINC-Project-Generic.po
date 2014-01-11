@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2013-12-17 00:00 PST\n"
+"POT-Creation-Date: 2014-01-10 00:00 PST\n"
 "PO-Revision-Date: 2013-12-18 19:29+0000\n"
 "Last-Translator: Rene <oskamjr@ziggo.nl>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -194,7 +194,7 @@ msgstr "Zoek in het forum"
 msgid "Advanced search"
 msgstr "Uitgebreid zoeken"
 
-#: ../inc/forum.inc:132 ../inc/user.inc:252 ../user/pm.php:69
+#: ../inc/forum.inc:132 ../inc/user.inc:253 ../user/pm.php:69
 #: ../user/pm.php:133
 msgid "Private messages"
 msgstr "Privé berichten"
@@ -204,8 +204,8 @@ msgstr "Privé berichten"
 msgid "Questions and Answers"
 msgstr "Vraag en Antwoord"
 
-#: ../inc/forum.inc:151 ../inc/forum.inc:183 ../inc/user.inc:249
-#: ../inc/user.inc:374 ../user/bs_sample_index.php:62
+#: ../inc/forum.inc:151 ../inc/forum.inc:183 ../inc/user.inc:250
+#: ../inc/user.inc:375 ../user/bs_sample_index.php:62
 #: ../user/forum_forum.php:73 ../user/sample_index.php:129
 #: ../project.sample/project.inc:43
 msgid "Message boards"
@@ -271,7 +271,7 @@ msgstr "Ongelezen"
 msgid "Message %1"
 msgstr "Bericht %1"
 
-#: ../inc/forum.inc:624 ../inc/user.inc:330 ../user/forum_forum.php:174
+#: ../inc/forum.inc:624 ../inc/user.inc:331 ../user/forum_forum.php:174
 msgid "hidden"
 msgstr "verborgen"
 
@@ -482,7 +482,7 @@ msgstr "Berichten plaatsen in verborgen onderwerp niet mogelijk."
 msgid "Thread"
 msgstr "Onderwerp"
 
-#: ../inc/forum.inc:1174 ../inc/team.inc:127 ../user/forum_forum.php:136
+#: ../inc/forum.inc:1174 ../inc/team.inc:128 ../user/forum_forum.php:136
 #: ../user/forum_index.php:94
 msgid "Posts"
 msgstr "Reacties"
@@ -491,7 +491,7 @@ msgstr "Reacties"
 msgid "Views"
 msgstr "Bekeken"
 
-#: ../inc/forum.inc:1177 ../inc/team.inc:127 ../user/forum_forum.php:139
+#: ../inc/forum.inc:1177 ../inc/team.inc:128 ../user/forum_forum.php:139
 #: ../user/forum_help_desk.php:46 ../user/forum_index.php:95
 msgid "Last post"
 msgstr "Laatste reactie"
@@ -529,7 +529,7 @@ msgid "Home"
 msgstr "Thuis pagina"
 
 #: ../inc/host.inc:57 ../inc/prefs.inc:641 ../inc/prefs.inc:1049
-#: ../user/server_status.php:329
+#: ../user/server_status.php:314
 msgid "Work"
 msgstr "Werk"
 
@@ -595,9 +595,9 @@ msgid "Created"
 msgstr "Aangemaakt"
 
 #: ../inc/host.inc:113 ../inc/host.inc:226 ../inc/host.inc:231
-#: ../inc/host.inc:681 ../inc/team.inc:101 ../inc/team.inc:214
-#: ../inc/team.inc:219 ../inc/team.inc:221 ../inc/team.inc:363
-#: ../inc/team.inc:368 ../inc/user.inc:125 ../inc/user.inc:138
+#: ../inc/host.inc:681 ../inc/team.inc:101 ../inc/team.inc:215
+#: ../inc/team.inc:220 ../inc/team.inc:222 ../inc/team.inc:364
+#: ../inc/team.inc:369 ../inc/user.inc:125 ../inc/user.inc:138
 #: ../user/profile_search_action.php:43
 #: ../user/team_change_founder_form.php:78 ../user/team_email_list.php:64
 #: ../user/team_remove_inactive_form.php:41 ../user/top_users.php:54
@@ -775,7 +775,7 @@ msgstr "Laatste contact"
 msgid "Computer info"
 msgstr "Computer informatie"
 
-#: ../inc/host.inc:221 ../inc/host.inc:676 ../inc/team.inc:356
+#: ../inc/host.inc:221 ../inc/host.inc:676 ../inc/team.inc:357
 #: ../user/top_users.php:48
 msgid "Rank"
 msgstr "Rang"
@@ -784,9 +784,9 @@ msgstr "Rang"
 msgid "Avg. credit"
 msgstr "Punten gemiddelde"
 
-#: ../inc/host.inc:230 ../inc/team.inc:102 ../inc/team.inc:215
-#: ../inc/team.inc:224 ../inc/team.inc:226 ../inc/team.inc:362
-#: ../inc/team.inc:367 ../inc/user.inc:139
+#: ../inc/host.inc:230 ../inc/team.inc:102 ../inc/team.inc:216
+#: ../inc/team.inc:225 ../inc/team.inc:227 ../inc/team.inc:363
+#: ../inc/team.inc:368 ../inc/user.inc:139
 #: ../user/team_change_founder_form.php:79 ../user/team_email_list.php:64
 #: ../user/team_remove_inactive_form.php:42 ../user/top_users.php:53
 #: ../user/top_users.php:58
@@ -874,8 +874,8 @@ msgstr "Alleen actieve computers in de laatste 30 dagen"
 msgid "Computer ID"
 msgstr "Computer ID"
 
-#: ../inc/host.inc:669 ../inc/result.inc:628 ../inc/team.inc:209
-#: ../inc/team.inc:357 ../inc/user.inc:199 ../user/account_finish.php:41
+#: ../inc/host.inc:669 ../inc/result.inc:628 ../inc/team.inc:210
+#: ../inc/team.inc:358 ../inc/user.inc:199 ../user/account_finish.php:41
 #: ../user/create_account_form.php:79 ../user/team_admins.php:62
 #: ../user/team_change_founder_form.php:77 ../user/team_email_list.php:64
 #: ../user/top_users.php:49 ../user/user_search.php:139
@@ -911,7 +911,7 @@ msgstr "Postvak In"
 msgid "Write"
 msgstr "Schrijven"
 
-#: ../inc/pm.inc:33 ../inc/user.inc:377
+#: ../inc/pm.inc:33 ../inc/user.inc:378
 msgid "Send private message"
 msgstr "Verstuur privé bericht"
 
@@ -1678,7 +1678,7 @@ msgstr "Rapportage tijd<br />of deadline"
 msgid "explain"
 msgstr "verklaring"
 
-#: ../inc/result.inc:376 ../user/server_status.php:256
+#: ../inc/result.inc:376 ../user/server_status.php:241
 msgid "Status"
 msgstr "Status"
 
@@ -1770,9 +1770,9 @@ msgstr "Steekwoorden"
 msgid "Find teams with these words in their names or descriptions"
 msgstr "Zoek teams met deze woorden in hun naam of beschrijving"
 
-#: ../inc/team.inc:43 ../inc/team.inc:121 ../inc/team.inc:232
-#: ../inc/team.inc:372 ../inc/team.inc:456 ../inc/user.inc:205
-#: ../inc/user.inc:316 ../user/account_finish.php:45
+#: ../inc/team.inc:43 ../inc/team.inc:122 ../inc/team.inc:233
+#: ../inc/team.inc:373 ../inc/team.inc:455 ../inc/user.inc:205
+#: ../inc/user.inc:317 ../user/account_finish.php:45
 #: ../user/create_account_form.php:98 ../user/edit_user_info_form.php:38
 #: ../user/profile_search_action.php:42 ../user/team_email_list.php:64
 #: ../user/team_search.php:72 ../user/top_users.php:63
@@ -1780,7 +1780,7 @@ msgstr "Zoek teams met deze woorden in hun naam of beschrijving"
 msgid "Country"
 msgstr "Land"
 
-#: ../inc/team.inc:49 ../inc/team.inc:454
+#: ../inc/team.inc:49 ../inc/team.inc:453
 msgid "Type of team"
 msgstr "Soort team"
 
@@ -1809,8 +1809,8 @@ msgstr "Op eigen verzoek"
 msgid "founder response deadline is %1"
 msgstr "Deadline voor oprichter verloopt op %1"
 
-#: ../inc/team.inc:72 ../inc/team.inc:556 ../inc/user.inc:280
-#: ../inc/user.inc:370
+#: ../inc/team.inc:72 ../inc/team.inc:555 ../inc/user.inc:281
+#: ../inc/user.inc:371
 msgid "None"
 msgstr "Geen"
 
@@ -1834,27 +1834,27 @@ msgstr "Beschrijving"
 msgid "Web site"
 msgstr "Website"
 
-#: ../inc/team.inc:119
+#: ../inc/team.inc:120
 msgid "Cross-project stats"
 msgstr "Cross-project statistieken"
 
-#: ../inc/team.inc:122 ../inc/team.inc:373 ../user/team_search.php:71
+#: ../inc/team.inc:123 ../inc/team.inc:374 ../user/team_search.php:71
 msgid "Type"
 msgstr "Soort"
 
-#: ../inc/team.inc:126 ../user/team_manage.php:63
+#: ../inc/team.inc:127 ../user/team_manage.php:63
 msgid "Message board"
 msgstr "Forum"
 
-#: ../inc/team.inc:127 ../user/forum_forum.php:135 ../user/forum_index.php:93
+#: ../inc/team.inc:128 ../user/forum_forum.php:135 ../user/forum_index.php:93
 msgid "Threads"
 msgstr "Onderwerpen"
 
-#: ../inc/team.inc:135
+#: ../inc/team.inc:136
 msgid "Join this team"
 msgstr "Sluit je aan bij dit team"
 
-#: ../inc/team.inc:136
+#: ../inc/team.inc:137
 msgid ""
 "Note: if 'OK to email' is set in your project preferences, joining a team "
 "gives its founder access to your email address."
@@ -1863,79 +1863,79 @@ msgstr ""
 "email adres bekend worden bij de team oprichter, indien je jezelf bij een "
 "team opgeeft."
 
-#: ../inc/team.inc:139
+#: ../inc/team.inc:140
 msgid "Not accepting new members"
 msgstr "Er is op dit moment een ledenstop"
 
-#: ../inc/team.inc:146
+#: ../inc/team.inc:147
 msgid "Foundership change requested"
 msgstr "Oprichters wissel aangevraagd"
 
-#: ../inc/team.inc:147
+#: ../inc/team.inc:148
 msgid "Respond by %1"
 msgstr "Reageren voor %1"
 
-#: ../inc/team.inc:151
+#: ../inc/team.inc:152
 msgid "Team foundership change"
 msgstr "Team oprichter wisselen"
 
-#: ../inc/team.inc:155 ../inc/team.inc:358
+#: ../inc/team.inc:156 ../inc/team.inc:359
 msgid "Members"
 msgstr "Leden"
 
-#: ../inc/team.inc:156 ../inc/team.inc:253
+#: ../inc/team.inc:157 ../inc/team.inc:254
 msgid "Founder"
 msgstr "Oprichter"
 
-#: ../inc/team.inc:168
+#: ../inc/team.inc:169
 msgid "Admins"
 msgstr "Administrator"
 
-#: ../inc/team.inc:183
+#: ../inc/team.inc:184
 msgid "New members in last day"
 msgstr "Nieuwe leden"
 
-#: ../inc/team.inc:184
+#: ../inc/team.inc:185
 msgid "Total members"
 msgstr "Totaal aantal leden"
 
-#: ../inc/team.inc:184 ../inc/team.inc:185 ../inc/team.inc:186
+#: ../inc/team.inc:185 ../inc/team.inc:186 ../inc/team.inc:187
 msgid "view"
 msgstr "bekijk"
 
-#: ../inc/team.inc:185
+#: ../inc/team.inc:186
 msgid "Active members"
 msgstr "Actieve leden"
 
-#: ../inc/team.inc:186
+#: ../inc/team.inc:187
 msgid "Members with credit"
 msgstr "Leden met punten"
 
-#: ../inc/team.inc:255
+#: ../inc/team.inc:256
 msgid "Admin"
 msgstr "Administrator"
 
-#: ../inc/team.inc:276 ../user/forum_user_posts.php:122
+#: ../inc/team.inc:277 ../user/forum_user_posts.php:122
 #: ../user/top_hosts.php:93 ../user/top_teams.php:121
 #: ../user/top_users.php:127
 msgid "Previous %1"
 msgstr "Vorige %1"
 
-#: ../inc/team.inc:280 ../user/forum_user_posts.php:131
+#: ../inc/team.inc:281 ../user/forum_user_posts.php:131
 #: ../user/profile_search_action.php:61 ../user/top_hosts.php:98
 #: ../user/top_teams.php:126 ../user/top_users.php:132
 msgid "Next %1"
 msgstr "Volgende %1"
 
-#: ../inc/team.inc:288
+#: ../inc/team.inc:289
 msgid "No such team."
 msgstr "Team niet gevonden."
 
-#: ../inc/team.inc:301
+#: ../inc/team.inc:302
 msgid "This operation requires foundership."
 msgstr "Deze actie vereist oprichters rechten."
 
-#: ../inc/team.inc:325
+#: ../inc/team.inc:326
 msgid "This operation requires team admin privileges"
 msgstr "Deze actie vereist administrator rechten"
 
@@ -1948,7 +1948,7 @@ msgstr ""
 "aanbrengt, worden ze snel overschreven. Pas daarom het %1BOINC-wide team%2 "
 "zelf aan."
 
-#: ../inc/team.inc:429
+#: ../inc/team.inc:428
 msgid ""
 "%1Privacy note%2: if you create a team, your project preferences (resource "
 "share, graphics preferences) will be visible to the public."
@@ -1956,47 +1956,47 @@ msgstr ""
 "%1Let op%2: Als je een team opricht worden je project voorkeuren (gedeelde "
 "bronnen, grafische voorkeuren) zichtbaar voor iedereen."
 
-#: ../inc/team.inc:433
+#: ../inc/team.inc:432
 msgid "Team name, text version"
 msgstr "Naam van team, tekst versie"
 
-#: ../inc/team.inc:434
+#: ../inc/team.inc:433
 msgid "Don't use HTML tags."
 msgstr "Gebruik geen HTML codes."
 
-#: ../inc/team.inc:437
+#: ../inc/team.inc:436
 msgid "Team name, HTML version"
 msgstr "Naam van team, HTML versie"
 
-#: ../inc/team.inc:439 ../inc/team.inc:449
+#: ../inc/team.inc:438 ../inc/team.inc:448
 msgid "You may use %1limited HTML tags%2."
 msgstr "%1HTML codes beperkt%2 toegestaan."
 
-#: ../inc/team.inc:440
+#: ../inc/team.inc:439
 msgid "If you don't know HTML, leave this box blank."
 msgstr "Indien je geen HTML kennis hebt, a.u.b. leeg laten."
 
-#: ../inc/team.inc:443
+#: ../inc/team.inc:442
 msgid "URL of team web page, if any"
 msgstr "URL van team webpagina, indien aanwezig"
 
-#: ../inc/team.inc:443
+#: ../inc/team.inc:442
 msgid "without \"http://\""
 msgstr "zonder \"http://\""
 
-#: ../inc/team.inc:444
+#: ../inc/team.inc:443
 msgid "This URL will be linked to from the team's page on this site."
 msgstr "Dit URL zal geplaatst worden op de team pagina hier op de site."
 
-#: ../inc/team.inc:447
+#: ../inc/team.inc:446
 msgid "Description of team"
 msgstr "Beschrijving van team"
 
-#: ../inc/team.inc:463
+#: ../inc/team.inc:462
 msgid "Accept new members?"
 msgstr "Accepteer nieuwe leden?"
 
-#: ../inc/uotd.inc:30
+#: ../inc/uotd.inc:28
 msgid "User profile"
 msgstr "Gebruikers profiel"
 
@@ -2029,7 +2029,7 @@ msgid "Computers on this account"
 msgstr "Computers op dit account"
 
 #: ../inc/user.inc:151 ../inc/user.inc:152 ../inc/user.inc:217
-#: ../inc/user.inc:242 ../inc/user.inc:328 ../inc/user.inc:412
+#: ../inc/user.inc:243 ../inc/user.inc:329 ../inc/user.inc:402
 #: ../user/view_profile.php:64
 msgid "View"
 msgstr "Bekijk"
@@ -2046,8 +2046,8 @@ msgstr "Cross-project statistieken"
 msgid "Account"
 msgstr "Account"
 
-#: ../inc/user.inc:165 ../inc/user.inc:280 ../inc/user.inc:368
-#: ../inc/user.inc:370 ../user/user_search.php:139
+#: ../inc/user.inc:165 ../inc/user.inc:281 ../inc/user.inc:369
+#: ../inc/user.inc:371 ../user/user_search.php:139
 msgid "Team"
 msgstr "Team"
 
@@ -2076,7 +2076,7 @@ msgstr "Account informatie"
 msgid "Email address"
 msgstr "Email adres"
 
-#: ../inc/user.inc:203 ../inc/user.inc:321
+#: ../inc/user.inc:203 ../inc/user.inc:322
 msgid "URL"
 msgstr "URL"
 
@@ -2084,7 +2084,7 @@ msgstr "URL"
 msgid "Postal code"
 msgstr "Postcode"
 
-#: ../inc/user.inc:207 ../inc/user.inc:315
+#: ../inc/user.inc:207 ../inc/user.inc:316
 msgid "%1 member since"
 msgstr "%1 lid sinds"
 
@@ -2104,7 +2104,7 @@ msgstr "wachtwoord"
 msgid "other account info"
 msgstr "ander account informatie"
 
-#: ../inc/user.inc:213 ../inc/user.inc:314
+#: ../inc/user.inc:213 ../inc/user.inc:315
 msgid "User ID"
 msgstr "Gebruikers ID"
 
@@ -2149,96 +2149,96 @@ msgstr "%1 voorkeuren"
 msgid "Community"
 msgstr "Gemeenschap"
 
-#: ../inc/user.inc:242 ../user/pm.php:107 ../user/pm.php:147
+#: ../inc/user.inc:243 ../user/pm.php:107 ../user/pm.php:147
 msgid "Delete"
 msgstr "Verwijder"
 
-#: ../inc/user.inc:244
+#: ../inc/user.inc:245
 msgid "Create"
 msgstr "Aanmaken"
 
-#: ../inc/user.inc:246 ../inc/user.inc:412 ../inc/util.inc:514
+#: ../inc/user.inc:247 ../inc/user.inc:402 ../inc/util.inc:514
 msgid "Profile"
 msgstr "Profiel"
 
-#: ../inc/user.inc:249 ../inc/user.inc:374
+#: ../inc/user.inc:250 ../inc/user.inc:375
 msgid "%1 posts"
 msgstr "%1 berichten"
 
-#: ../inc/user.inc:261 ../user/edit_forum_preferences_form.php:51
+#: ../inc/user.inc:262 ../user/edit_forum_preferences_form.php:51
 msgid "Notifications"
 msgstr "Aankondiging"
 
-#: ../inc/user.inc:268
+#: ../inc/user.inc:269
 msgid "Quit team"
 msgstr "Verlaat team"
 
-#: ../inc/user.inc:270 ../inc/user.inc:287
+#: ../inc/user.inc:271 ../inc/user.inc:288
 msgid "Administer"
 msgstr "Administrator"
 
-#: ../inc/user.inc:276 ../inc/user.inc:289
+#: ../inc/user.inc:277 ../inc/user.inc:290
 msgid "(foundership change request pending)"
 msgstr "(oprichters wissel in aanvraag)"
 
-#: ../inc/user.inc:278
+#: ../inc/user.inc:279
 msgid "Member of team"
 msgstr "Lid van team"
 
-#: ../inc/user.inc:280
+#: ../inc/user.inc:281
 msgid "find a team"
 msgstr "vind een team"
 
-#: ../inc/user.inc:291
+#: ../inc/user.inc:292
 msgid "Founder but not member of"
 msgstr "Oprichter maar geen lid van"
 
-#: ../inc/user.inc:297
+#: ../inc/user.inc:298
 msgid "Find friends"
 msgstr "Vind vrienden"
 
-#: ../inc/user.inc:304 ../inc/user.inc:306 ../inc/user.inc:384
-#: ../inc/user.inc:386 ../inc/user.inc:395
+#: ../inc/user.inc:305 ../inc/user.inc:307 ../inc/user.inc:385
+#: ../inc/user.inc:387 ../inc/user.inc:396
 msgid "Friends"
 msgstr "Vrienden"
 
-#: ../inc/user.inc:328 ../inc/user.inc:330 ../user/server_status.php:408
+#: ../inc/user.inc:329 ../inc/user.inc:331 ../user/server_status.php:392
 msgid "Computers"
 msgstr "Computers"
 
-#: ../inc/user.inc:337
+#: ../inc/user.inc:338
 msgid "Donor"
 msgstr "Donateur"
 
-#: ../inc/user.inc:377
+#: ../inc/user.inc:378
 msgid "Contact"
 msgstr "Contact"
 
-#: ../inc/user.inc:380
+#: ../inc/user.inc:381
 msgid "This person is a friend"
 msgstr "Dit persoon is een vriend"
 
-#: ../inc/user.inc:381 ../user/friend.php:238
+#: ../inc/user.inc:382 ../user/friend.php:238
 msgid "Cancel friendship"
 msgstr "Beëindig vriendschap"
 
-#: ../inc/user.inc:384 ../user/friend.php:37
+#: ../inc/user.inc:385 ../user/friend.php:37
 msgid "Request pending"
 msgstr "In aanvraag"
 
-#: ../inc/user.inc:386
+#: ../inc/user.inc:387
 msgid "Add as friend"
 msgstr "Voeg toe als vriend"
 
-#: ../inc/user.inc:456
+#: ../inc/user.inc:446
 msgid "user name cannot have leading or trailing white space"
 msgstr "gebruikersnaam mag niet starten of eindigen met een spatie"
 
-#: ../inc/user.inc:460
+#: ../inc/user.inc:450
 msgid "user name must be nonempty"
 msgstr "gebruikersnaam mag niet leeg zijn"
 
-#: ../inc/user.inc:464
+#: ../inc/user.inc:454
 msgid "user name may not contain HTML tags"
 msgstr "gebruikersnaam mag geen HTML tags bevatten"
 
@@ -2317,7 +2317,7 @@ msgstr "Verbinden met database mislukt - probeer het later a.u.b. opnieuw"
 msgid "Unable to select database - please try again later"
 msgstr "Selecteren van database mislukt - probeer het later a.u.b. opnieuw"
 
-#: ../inc/util_ops.inc:136 ../user/get_passwd.php:72
+#: ../inc/util_ops.inc:109 ../user/get_passwd.php:72
 msgid "Stay logged in on this computer"
 msgstr "Blijf ingelogd op deze computer"
 
@@ -2522,7 +2522,7 @@ msgstr "vorm of neem deel aan een team"
 msgid "User of the day"
 msgstr "Gebruiker van de dag"
 
-#: ../user/bs_sample_index.php:52 ../user/server_status.php:254
+#: ../user/bs_sample_index.php:52 ../user/server_status.php:239
 msgid "Server status"
 msgstr "Server status"
 
@@ -5662,135 +5662,135 @@ msgstr "Niet actief"
 msgid "Disabled"
 msgstr "Uitgezet"
 
-#: ../user/server_status.php:246
+#: ../user/server_status.php:231
 msgid "Project status"
 msgstr "Project status"
 
-#: ../user/server_status.php:248
+#: ../user/server_status.php:233
 msgid "Server software version: %1"
 msgstr "Server software versie: %1"
 
-#: ../user/server_status.php:256
+#: ../user/server_status.php:241
 msgid "Program"
 msgstr "Programma"
 
-#: ../user/server_status.php:256
+#: ../user/server_status.php:241
 msgid "Host"
 msgstr "Host computer"
 
-#: ../user/server_status.php:267
+#: ../user/server_status.php:252
 msgid "data-driven web pages"
 msgstr "data-afhankelijke web pagina's"
 
-#: ../user/server_status.php:273
+#: ../user/server_status.php:258
 msgid "upload/download server"
 msgstr "upload/download server"
 
-#: ../user/server_status.php:276
+#: ../user/server_status.php:261
 msgid "scheduler"
 msgstr "taakverdeler"
 
-#: ../user/server_status.php:309
+#: ../user/server_status.php:294
 msgid "Running:"
 msgstr "Actief:"
 
-#: ../user/server_status.php:310
+#: ../user/server_status.php:295
 msgid "Program is operating normally"
 msgstr "Programma functioneert normaal"
 
-#: ../user/server_status.php:311
+#: ../user/server_status.php:296
 msgid "Not Running:"
 msgstr "Niet actief:"
 
-#: ../user/server_status.php:312
+#: ../user/server_status.php:297
 msgid "Program failed or the project is down"
 msgstr "Programma of project functioneert niet goed"
 
-#: ../user/server_status.php:313
+#: ../user/server_status.php:298
 msgid "Disabled:"
 msgstr "Uitgezet:"
 
-#: ../user/server_status.php:314
+#: ../user/server_status.php:299
 msgid "Program is disabled"
 msgstr "Programma is stopgezet"
 
-#: ../user/server_status.php:318
+#: ../user/server_status.php:303
 msgid "Computing status"
 msgstr "Berekenings status"
 
-#: ../user/server_status.php:324
+#: ../user/server_status.php:309
 msgid "The database server is not accessible"
 msgstr "De database server is tijdelijk onbereikbaar"
 
-#: ../user/server_status.php:341
+#: ../user/server_status.php:326
 msgid "Tasks ready to send"
 msgstr "Taken gereed om te verzenden"
 
-#: ../user/server_status.php:346 ../user/workunit.php:55
+#: ../user/server_status.php:331 ../user/workunit.php:55
 msgid "Tasks in progress"
 msgstr "Taken in uitvoering"
 
-#: ../user/server_status.php:351
+#: ../user/server_status.php:336
 msgid "Workunits waiting for validation"
 msgstr "Werkeenheden in afwachting van validatie"
 
-#: ../user/server_status.php:356
+#: ../user/server_status.php:341
 msgid "Workunits waiting for assimilation"
 msgstr "Werkeenheden in aanmaak"
 
-#: ../user/server_status.php:361
+#: ../user/server_status.php:346
 msgid "Workunits waiting for file deletion"
 msgstr "Werkeenheden in afwachting van verwijdering"
 
-#: ../user/server_status.php:366
+#: ../user/server_status.php:351
 msgid "Tasks waiting for file deletion"
 msgstr "Taken in afwachting van verwijdering"
 
-#: ../user/server_status.php:383
+#: ../user/server_status.php:367
 msgid "Transitioner backlog (hours)"
 msgstr "Achterstand bestandsoverdracht (uren)"
 
-#: ../user/server_status.php:390
+#: ../user/server_status.php:374
 msgid "Users"
 msgstr "Gebruikers"
 
-#: ../user/server_status.php:393 ../user/server_status.php:411
+#: ../user/server_status.php:377 ../user/server_status.php:395
 msgid "with recent credit"
 msgstr "met recentelijke punten"
 
-#: ../user/server_status.php:398 ../user/server_status.php:416
+#: ../user/server_status.php:382 ../user/server_status.php:400
 msgid "with credit"
 msgstr "met punten"
 
-#: ../user/server_status.php:403 ../user/server_status.php:421
+#: ../user/server_status.php:387 ../user/server_status.php:405
 msgid "registered in past 24 hours"
 msgstr "geregistreerd in de afgelopen 24 uur"
 
-#: ../user/server_status.php:427
+#: ../user/server_status.php:411
 msgid "current GigaFLOPs"
 msgstr "huidig aantal GigaFLOPs"
 
-#: ../user/server_status.php:436
+#: ../user/server_status.php:420
 msgid "Tasks by application"
 msgstr "Taken per applicatie"
 
-#: ../user/server_status.php:439 ../user/workunit.php:40
+#: ../user/server_status.php:423 ../user/workunit.php:40
 msgid "application"
 msgstr "applicatie"
 
-#: ../user/server_status.php:440
+#: ../user/server_status.php:424
 msgid "unsent"
 msgstr "niet verzonden"
 
-#: ../user/server_status.php:441
+#: ../user/server_status.php:425
 msgid "in progress"
 msgstr "in uitvoering"
 
-#: ../user/server_status.php:442
+#: ../user/server_status.php:426
 msgid "avg runtime of last 100 results in h (min-max)"
 msgstr "gem. looptijd van de laatste 100 resultaten in u (min-max)"
 
-#: ../user/server_status.php:443
+#: ../user/server_status.php:427
 msgid "users in last 24h"
 msgstr "gebruikers in laatste 24u"
 
@@ -6067,6 +6067,10 @@ msgstr "Nieuwe oprichter?"
 #: ../user/team_change_founder_form.php:105 ../user/team_manage.php:56
 msgid "Change founder"
 msgstr "Oprichter wijzigen"
+
+#: ../user/team_change_founder_form.php:108
+msgid "There are no users to transfer team to."
+msgstr ""
 
 #: ../user/team_create_action.php:29
 msgid "You must choose a non-blank team name"
