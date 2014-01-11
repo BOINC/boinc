@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Project (Generic) 6.x\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2014-01-10 00:00 PST\n"
-"PO-Revision-Date: 2013-11-16 14:35+0000\n"
+"PO-Revision-Date: 2014-01-11 09:02+0000\n"
 "Last-Translator: Christian <djangofett@gmx.net>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: de\n"
@@ -20,7 +20,7 @@ msgstr ""
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-SearchPath-0: html\\user\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
-"X-POOTLE-MTIME: 1384612558.0\n"
+"X-POOTLE-MTIME: 1389430955.0\n"
 
 # The name of this language in this language
 msgid "LANG_NAME_NATIVE"
@@ -3678,6 +3678,8 @@ msgid ""
 "This project hasn't created an email message - please notify its "
 "administrators"
 msgstr ""
+"Das Projekt konnte keine E-Mail versenden - bitte informieren Sie die "
+"Administratoren"
 
 #: ../user/ffmail_form.php:33
 msgid "Tell your friends about %1"
@@ -6176,7 +6178,7 @@ msgstr "Gründer wechseln"
 
 #: ../user/team_change_founder_form.php:108
 msgid "There are no users to transfer team to."
-msgstr ""
+msgstr "Es gibt keinen Benutzer der das Team übernehmen kann."
 
 #: ../user/team_create_action.php:29
 msgid "You must choose a non-blank team name"
