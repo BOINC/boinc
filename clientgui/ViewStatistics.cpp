@@ -1162,9 +1162,11 @@ void CPaintStatistics::DrawAll(wxDC &dc) {
 	dc.SetTextForeground (m_pen_HeadTextColour);
 	dc.SetTextBackground (GetBackgroundColour ());
 
-	m_font_standart = dc.GetFont();
-	m_font_bold = dc.GetFont();
-	m_font_standart_italic = dc.GetFont();
+    // The next 3 lines seem unnecessary and cause problems
+    // when monitor dpi is set to 125% of normal on MS Windows.
+//	m_font_standart = dc.GetFont();
+//	m_font_bold = dc.GetFont();
+//	m_font_standart_italic = dc.GetFont();
 	
 	m_font_standart.SetWeight(wxNORMAL);
 	m_font_bold.SetWeight(wxBOLD);
