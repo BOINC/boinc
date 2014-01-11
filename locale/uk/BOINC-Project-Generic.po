@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
-"POT-Creation-Date: 2013-12-17 00:00 PST\n"
+"POT-Creation-Date: 2014-01-10 00:00 PST\n"
 "PO-Revision-Date: 2014-01-03 15:18+0000\n"
 "Last-Translator: Олег <pukish_oleg@ukr.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -192,7 +192,7 @@ msgstr "Знайти у форумах"
 msgid "Advanced search"
 msgstr "Розширений пошук"
 
-#: ../inc/forum.inc:132 ../inc/user.inc:252 ../user/pm.php:69
+#: ../inc/forum.inc:132 ../inc/user.inc:253 ../user/pm.php:69
 #: ../user/pm.php:133
 msgid "Private messages"
 msgstr "Приватні повідомлення"
@@ -202,8 +202,8 @@ msgstr "Приватні повідомлення"
 msgid "Questions and Answers"
 msgstr "Питання та відповіді"
 
-#: ../inc/forum.inc:151 ../inc/forum.inc:183 ../inc/user.inc:249
-#: ../inc/user.inc:374 ../user/bs_sample_index.php:62
+#: ../inc/forum.inc:151 ../inc/forum.inc:183 ../inc/user.inc:250
+#: ../inc/user.inc:375 ../user/bs_sample_index.php:62
 #: ../user/forum_forum.php:73 ../user/sample_index.php:129
 #: ../project.sample/project.inc:43
 msgid "Message boards"
@@ -269,7 +269,7 @@ msgstr "Непрочитане"
 msgid "Message %1"
 msgstr "Повідомлення %1"
 
-#: ../inc/forum.inc:624 ../inc/user.inc:330 ../user/forum_forum.php:174
+#: ../inc/forum.inc:624 ../inc/user.inc:331 ../user/forum_forum.php:174
 msgid "hidden"
 msgstr "приховане"
 
@@ -488,7 +488,7 @@ msgstr "Не можна написати повідомлення у прихо�
 msgid "Thread"
 msgstr "Обговорення"
 
-#: ../inc/forum.inc:1174 ../inc/team.inc:127 ../user/forum_forum.php:136
+#: ../inc/forum.inc:1174 ../inc/team.inc:128 ../user/forum_forum.php:136
 #: ../user/forum_index.php:94
 msgid "Posts"
 msgstr "Повідомлення"
@@ -497,7 +497,7 @@ msgstr "Повідомлення"
 msgid "Views"
 msgstr "Перегляди"
 
-#: ../inc/forum.inc:1177 ../inc/team.inc:127 ../user/forum_forum.php:139
+#: ../inc/forum.inc:1177 ../inc/team.inc:128 ../user/forum_forum.php:139
 #: ../user/forum_help_desk.php:46 ../user/forum_index.php:95
 msgid "Last post"
 msgstr "Останнє повідомлення"
@@ -535,7 +535,7 @@ msgid "Home"
 msgstr "Дім"
 
 #: ../inc/host.inc:57 ../inc/prefs.inc:641 ../inc/prefs.inc:1049
-#: ../user/server_status.php:329
+#: ../user/server_status.php:314
 msgid "Work"
 msgstr "Робота"
 
@@ -601,9 +601,9 @@ msgid "Created"
 msgstr "Створений"
 
 #: ../inc/host.inc:113 ../inc/host.inc:226 ../inc/host.inc:231
-#: ../inc/host.inc:681 ../inc/team.inc:101 ../inc/team.inc:214
-#: ../inc/team.inc:219 ../inc/team.inc:221 ../inc/team.inc:363
-#: ../inc/team.inc:368 ../inc/user.inc:125 ../inc/user.inc:138
+#: ../inc/host.inc:681 ../inc/team.inc:101 ../inc/team.inc:215
+#: ../inc/team.inc:220 ../inc/team.inc:222 ../inc/team.inc:364
+#: ../inc/team.inc:369 ../inc/user.inc:125 ../inc/user.inc:138
 #: ../user/profile_search_action.php:43
 #: ../user/team_change_founder_form.php:78 ../user/team_email_list.php:64
 #: ../user/team_remove_inactive_form.php:41 ../user/top_users.php:54
@@ -779,7 +779,7 @@ msgstr "Останній контакт"
 msgid "Computer info"
 msgstr "Інформація про комп'ютер"
 
-#: ../inc/host.inc:221 ../inc/host.inc:676 ../inc/team.inc:356
+#: ../inc/host.inc:221 ../inc/host.inc:676 ../inc/team.inc:357
 #: ../user/top_users.php:48
 msgid "Rank"
 msgstr "Позиція"
@@ -788,9 +788,9 @@ msgstr "Позиція"
 msgid "Avg. credit"
 msgstr "У середньому за день"
 
-#: ../inc/host.inc:230 ../inc/team.inc:102 ../inc/team.inc:215
-#: ../inc/team.inc:224 ../inc/team.inc:226 ../inc/team.inc:362
-#: ../inc/team.inc:367 ../inc/user.inc:139
+#: ../inc/host.inc:230 ../inc/team.inc:102 ../inc/team.inc:216
+#: ../inc/team.inc:225 ../inc/team.inc:227 ../inc/team.inc:363
+#: ../inc/team.inc:368 ../inc/user.inc:139
 #: ../user/team_change_founder_form.php:79 ../user/team_email_list.php:64
 #: ../user/team_remove_inactive_form.php:42 ../user/top_users.php:53
 #: ../user/top_users.php:58
@@ -878,8 +878,8 @@ msgstr "Тільки комп'ютери, активні за останні 30 
 msgid "Computer ID"
 msgstr "ID комп'ютера"
 
-#: ../inc/host.inc:669 ../inc/result.inc:628 ../inc/team.inc:209
-#: ../inc/team.inc:357 ../inc/user.inc:199 ../user/account_finish.php:41
+#: ../inc/host.inc:669 ../inc/result.inc:628 ../inc/team.inc:210
+#: ../inc/team.inc:358 ../inc/user.inc:199 ../user/account_finish.php:41
 #: ../user/create_account_form.php:79 ../user/team_admins.php:62
 #: ../user/team_change_founder_form.php:77 ../user/team_email_list.php:64
 #: ../user/top_users.php:49 ../user/user_search.php:139
@@ -916,7 +916,7 @@ msgid "Write"
 msgstr "Написати"
 
 # 80%
-#: ../inc/pm.inc:33 ../inc/user.inc:377
+#: ../inc/pm.inc:33 ../inc/user.inc:378
 msgid "Send private message"
 msgstr "Відправити приватне повідомлення"
 
@@ -1702,7 +1702,7 @@ msgstr "Час підтвердження<br />або крайній термі�
 msgid "explain"
 msgstr "пояснити"
 
-#: ../inc/result.inc:376 ../user/server_status.php:256
+#: ../inc/result.inc:376 ../user/server_status.php:241
 msgid "Status"
 msgstr "Статус"
 
@@ -1794,9 +1794,9 @@ msgstr "Ключові слова"
 msgid "Find teams with these words in their names or descriptions"
 msgstr "Знайти команди з цими словами в їх назвах або описах"
 
-#: ../inc/team.inc:43 ../inc/team.inc:121 ../inc/team.inc:232
-#: ../inc/team.inc:372 ../inc/team.inc:456 ../inc/user.inc:205
-#: ../inc/user.inc:316 ../user/account_finish.php:45
+#: ../inc/team.inc:43 ../inc/team.inc:122 ../inc/team.inc:233
+#: ../inc/team.inc:373 ../inc/team.inc:455 ../inc/user.inc:205
+#: ../inc/user.inc:317 ../user/account_finish.php:45
 #: ../user/create_account_form.php:98 ../user/edit_user_info_form.php:38
 #: ../user/profile_search_action.php:42 ../user/team_email_list.php:64
 #: ../user/team_search.php:72 ../user/top_users.php:63
@@ -1804,7 +1804,7 @@ msgstr "Знайти команди з цими словами в їх назв�
 msgid "Country"
 msgstr "Країна"
 
-#: ../inc/team.inc:49 ../inc/team.inc:454
+#: ../inc/team.inc:49 ../inc/team.inc:453
 msgid "Type of team"
 msgstr "Тип команди"
 
@@ -1832,8 +1832,8 @@ msgstr "Запрошений Вами"
 msgid "founder response deadline is %1"
 msgstr "крайній термін відповіді засновника %1"
 
-#: ../inc/team.inc:72 ../inc/team.inc:556 ../inc/user.inc:280
-#: ../inc/user.inc:370
+#: ../inc/team.inc:72 ../inc/team.inc:555 ../inc/user.inc:281
+#: ../inc/user.inc:371
 msgid "None"
 msgstr "Ні"
 
@@ -1857,31 +1857,31 @@ msgstr "Опис"
 msgid "Web site"
 msgstr "Веб-сайт"
 
-#: ../inc/team.inc:119
+#: ../inc/team.inc:120
 msgid "Cross-project stats"
 msgstr "Об'єднана статистика за проектами"
 
-#: ../inc/team.inc:122 ../inc/team.inc:373 ../user/team_search.php:71
+#: ../inc/team.inc:123 ../inc/team.inc:374 ../user/team_search.php:71
 msgid "Type"
 msgstr "Тип"
 
 # 92%
 # 100%
-#: ../inc/team.inc:126 ../user/team_manage.php:63
+#: ../inc/team.inc:127 ../user/team_manage.php:63
 msgid "Message board"
 msgstr "Дошка повідомлень"
 
 # 85%
 # 100%
-#: ../inc/team.inc:127 ../user/forum_forum.php:135 ../user/forum_index.php:93
+#: ../inc/team.inc:128 ../user/forum_forum.php:135 ../user/forum_index.php:93
 msgid "Threads"
 msgstr "Обговорення"
 
-#: ../inc/team.inc:135
+#: ../inc/team.inc:136
 msgid "Join this team"
 msgstr "Приєднатися до цієї команди"
 
-#: ../inc/team.inc:136
+#: ../inc/team.inc:137
 msgid ""
 "Note: if 'OK to email' is set in your project preferences, joining a team "
 "gives its founder access to your email address."
@@ -1890,81 +1890,81 @@ msgstr ""
 "повідомлення електронною поштою', приєднання до команди дає доступ її "
 "засновнику до Вашої адреси електронної пошти."
 
-#: ../inc/team.inc:139
+#: ../inc/team.inc:140
 msgid "Not accepting new members"
 msgstr "Не приймати нових учасників"
 
-#: ../inc/team.inc:146
+#: ../inc/team.inc:147
 msgid "Foundership change requested"
 msgstr "Запрошена зміна засновника"
 
-#: ../inc/team.inc:147
+#: ../inc/team.inc:148
 msgid "Respond by %1"
 msgstr "Відповісти до %1"
 
-#: ../inc/team.inc:151
+#: ../inc/team.inc:152
 msgid "Team foundership change"
 msgstr "Зміна засновника команди"
 
-#: ../inc/team.inc:155 ../inc/team.inc:358
+#: ../inc/team.inc:156 ../inc/team.inc:359
 msgid "Members"
 msgstr "Учасники"
 
-#: ../inc/team.inc:156 ../inc/team.inc:253
+#: ../inc/team.inc:157 ../inc/team.inc:254
 msgid "Founder"
 msgstr "Засновник"
 
-#: ../inc/team.inc:168
+#: ../inc/team.inc:169
 msgid "Admins"
 msgstr "Адміністратори"
 
-#: ../inc/team.inc:183
+#: ../inc/team.inc:184
 msgid "New members in last day"
 msgstr "Нові учасники за останній день"
 
-#: ../inc/team.inc:184
+#: ../inc/team.inc:185
 msgid "Total members"
 msgstr "Всього учасників"
 
 # 80%
 # 75%
-#: ../inc/team.inc:184 ../inc/team.inc:185 ../inc/team.inc:186
+#: ../inc/team.inc:185 ../inc/team.inc:186 ../inc/team.inc:187
 msgid "view"
 msgstr "Перегляд"
 
-#: ../inc/team.inc:185
+#: ../inc/team.inc:186
 msgid "Active members"
 msgstr "Активних учасників"
 
-#: ../inc/team.inc:186
+#: ../inc/team.inc:187
 msgid "Members with credit"
 msgstr "Учасників із заробленими балами"
 
-#: ../inc/team.inc:255
+#: ../inc/team.inc:256
 msgid "Admin"
 msgstr "Адміністратор"
 
-#: ../inc/team.inc:276 ../user/forum_user_posts.php:122
+#: ../inc/team.inc:277 ../user/forum_user_posts.php:122
 #: ../user/top_hosts.php:93 ../user/top_teams.php:121
 #: ../user/top_users.php:127
 msgid "Previous %1"
 msgstr "Попередні %1"
 
-#: ../inc/team.inc:280 ../user/forum_user_posts.php:131
+#: ../inc/team.inc:281 ../user/forum_user_posts.php:131
 #: ../user/profile_search_action.php:61 ../user/top_hosts.php:98
 #: ../user/top_teams.php:126 ../user/top_users.php:132
 msgid "Next %1"
 msgstr "Наступні %1"
 
-#: ../inc/team.inc:288
+#: ../inc/team.inc:289
 msgid "No such team."
 msgstr "Немає такої команди."
 
-#: ../inc/team.inc:301
+#: ../inc/team.inc:302
 msgid "This operation requires foundership."
 msgstr "Ця операція вимагає прав засновника."
 
-#: ../inc/team.inc:325
+#: ../inc/team.inc:326
 msgid "This operation requires team admin privileges"
 msgstr "Ця операція вимагає прав адміністратора команди"
 
@@ -1976,7 +1976,7 @@ msgstr ""
 "ПОПЕРЕДЖЕННЯ: це глобальна команда BOINC. Якщо Ви зтобите тут зміни, то вони "
 "будуть швидко перезаписані. Тому редагуйте %1глобальну команду BOINC%2."
 
-#: ../inc/team.inc:429
+#: ../inc/team.inc:428
 msgid ""
 "%1Privacy note%2: if you create a team, your project preferences (resource "
 "share, graphics preferences) will be visible to the public."
@@ -1984,47 +1984,47 @@ msgstr ""
 "%1Примітка безпеки%2: якщо Ви створите команду, то Ваші налаштування проекту "
 "(частка ресурсів, графічні налаштування) будуть видимі для всіх."
 
-#: ../inc/team.inc:433
+#: ../inc/team.inc:432
 msgid "Team name, text version"
 msgstr "Назва команди, текстова версія"
 
-#: ../inc/team.inc:434
+#: ../inc/team.inc:433
 msgid "Don't use HTML tags."
 msgstr "Не використовувати теги HTML."
 
-#: ../inc/team.inc:437
+#: ../inc/team.inc:436
 msgid "Team name, HTML version"
 msgstr "Назва команди, HTML версія"
 
-#: ../inc/team.inc:439 ../inc/team.inc:449
+#: ../inc/team.inc:438 ../inc/team.inc:448
 msgid "You may use %1limited HTML tags%2."
 msgstr "Ви можете використовувати %1обмежені теги HTML%2."
 
-#: ../inc/team.inc:440
+#: ../inc/team.inc:439
 msgid "If you don't know HTML, leave this box blank."
 msgstr "Якщо Ви не знаєте HTML, залиште це поле порожнім."
 
-#: ../inc/team.inc:443
+#: ../inc/team.inc:442
 msgid "URL of team web page, if any"
 msgstr "Адреса веб-сторінки команди, якщо є"
 
-#: ../inc/team.inc:443
+#: ../inc/team.inc:442
 msgid "without \"http://\""
 msgstr "без \"http://\""
 
-#: ../inc/team.inc:444
+#: ../inc/team.inc:443
 msgid "This URL will be linked to from the team's page on this site."
 msgstr "Ця адреса буде викликатися зі сторінки команди на цьому сайті."
 
-#: ../inc/team.inc:447
+#: ../inc/team.inc:446
 msgid "Description of team"
 msgstr "Опис команди"
 
-#: ../inc/team.inc:463
+#: ../inc/team.inc:462
 msgid "Accept new members?"
 msgstr "Приймати нових учасників?"
 
-#: ../inc/uotd.inc:30
+#: ../inc/uotd.inc:28
 msgid "User profile"
 msgstr "Профіль користувача"
 
@@ -2059,7 +2059,7 @@ msgstr "Комп’ютери в цьому обліковому записі"
 # 80%
 # 100%
 #: ../inc/user.inc:151 ../inc/user.inc:152 ../inc/user.inc:217
-#: ../inc/user.inc:242 ../inc/user.inc:328 ../inc/user.inc:412
+#: ../inc/user.inc:243 ../inc/user.inc:329 ../inc/user.inc:402
 #: ../user/view_profile.php:64
 msgid "View"
 msgstr "Перегляд"
@@ -2076,8 +2076,8 @@ msgstr "Об’єднана статистика за проектами"
 msgid "Account"
 msgstr "Обліковий запис"
 
-#: ../inc/user.inc:165 ../inc/user.inc:280 ../inc/user.inc:368
-#: ../inc/user.inc:370 ../user/user_search.php:139
+#: ../inc/user.inc:165 ../inc/user.inc:281 ../inc/user.inc:369
+#: ../inc/user.inc:371 ../user/user_search.php:139
 msgid "Team"
 msgstr "Команда"
 
@@ -2106,7 +2106,7 @@ msgstr "Облікова інформація"
 msgid "Email address"
 msgstr "Адреса електронної пошти"
 
-#: ../inc/user.inc:203 ../inc/user.inc:321
+#: ../inc/user.inc:203 ../inc/user.inc:322
 msgid "URL"
 msgstr "URL"
 
@@ -2114,7 +2114,7 @@ msgstr "URL"
 msgid "Postal code"
 msgstr "Поштовий індекс"
 
-#: ../inc/user.inc:207 ../inc/user.inc:315
+#: ../inc/user.inc:207 ../inc/user.inc:316
 msgid "%1 member since"
 msgstr "Учасник %1 з"
 
@@ -2134,7 +2134,7 @@ msgstr "пароль"
 msgid "other account info"
 msgstr "інша облікова інформація"
 
-#: ../inc/user.inc:213 ../inc/user.inc:314
+#: ../inc/user.inc:213 ../inc/user.inc:315
 msgid "User ID"
 msgstr "ID користувача"
 
@@ -2179,96 +2179,96 @@ msgstr "Налаштування %1"
 msgid "Community"
 msgstr "Спільнота"
 
-#: ../inc/user.inc:242 ../user/pm.php:107 ../user/pm.php:147
+#: ../inc/user.inc:243 ../user/pm.php:107 ../user/pm.php:147
 msgid "Delete"
 msgstr "Видалити"
 
-#: ../inc/user.inc:244
+#: ../inc/user.inc:245
 msgid "Create"
 msgstr "Створити"
 
-#: ../inc/user.inc:246 ../inc/user.inc:412 ../inc/util.inc:514
+#: ../inc/user.inc:247 ../inc/user.inc:402 ../inc/util.inc:514
 msgid "Profile"
 msgstr "Профіль"
 
-#: ../inc/user.inc:249 ../inc/user.inc:374
+#: ../inc/user.inc:250 ../inc/user.inc:375
 msgid "%1 posts"
 msgstr "%1 повідомлень"
 
-#: ../inc/user.inc:261 ../user/edit_forum_preferences_form.php:51
+#: ../inc/user.inc:262 ../user/edit_forum_preferences_form.php:51
 msgid "Notifications"
 msgstr "Сповіщення"
 
-#: ../inc/user.inc:268
+#: ../inc/user.inc:269
 msgid "Quit team"
 msgstr "Вийти з команди"
 
-#: ../inc/user.inc:270 ../inc/user.inc:287
+#: ../inc/user.inc:271 ../inc/user.inc:288
 msgid "Administer"
 msgstr "Керування"
 
-#: ../inc/user.inc:276 ../inc/user.inc:289
+#: ../inc/user.inc:277 ../inc/user.inc:290
 msgid "(foundership change request pending)"
 msgstr "(запит на зміну засновника в очікуванні)"
 
-#: ../inc/user.inc:278
+#: ../inc/user.inc:279
 msgid "Member of team"
 msgstr "Учасник команди"
 
-#: ../inc/user.inc:280
+#: ../inc/user.inc:281
 msgid "find a team"
 msgstr "знайти команду"
 
-#: ../inc/user.inc:291
+#: ../inc/user.inc:292
 msgid "Founder but not member of"
 msgstr "Засновник, але не учасник"
 
-#: ../inc/user.inc:297
+#: ../inc/user.inc:298
 msgid "Find friends"
 msgstr "Знайти друзів"
 
-#: ../inc/user.inc:304 ../inc/user.inc:306 ../inc/user.inc:384
-#: ../inc/user.inc:386 ../inc/user.inc:395
+#: ../inc/user.inc:305 ../inc/user.inc:307 ../inc/user.inc:385
+#: ../inc/user.inc:387 ../inc/user.inc:396
 msgid "Friends"
 msgstr "Друзі"
 
-#: ../inc/user.inc:328 ../inc/user.inc:330 ../user/server_status.php:408
+#: ../inc/user.inc:329 ../inc/user.inc:331 ../user/server_status.php:392
 msgid "Computers"
 msgstr "Комп’ютери"
 
-#: ../inc/user.inc:337
+#: ../inc/user.inc:338
 msgid "Donor"
 msgstr "Донор"
 
-#: ../inc/user.inc:377
+#: ../inc/user.inc:378
 msgid "Contact"
 msgstr "Контакт"
 
-#: ../inc/user.inc:380
+#: ../inc/user.inc:381
 msgid "This person is a friend"
 msgstr "Ця особа є другом"
 
-#: ../inc/user.inc:381 ../user/friend.php:238
+#: ../inc/user.inc:382 ../user/friend.php:238
 msgid "Cancel friendship"
 msgstr "Припинити дружбу"
 
-#: ../inc/user.inc:384 ../user/friend.php:37
+#: ../inc/user.inc:385 ../user/friend.php:37
 msgid "Request pending"
 msgstr "Запит в очікуванні"
 
-#: ../inc/user.inc:386
+#: ../inc/user.inc:387
 msgid "Add as friend"
 msgstr "Додати друга"
 
-#: ../inc/user.inc:456
+#: ../inc/user.inc:446
 msgid "user name cannot have leading or trailing white space"
 msgstr "ім’я користувача не може містити пробілів на початку або вкінці"
 
-#: ../inc/user.inc:460
+#: ../inc/user.inc:450
 msgid "user name must be nonempty"
 msgstr "ім’я користувача не може бути порожнім"
 
-#: ../inc/user.inc:464
+#: ../inc/user.inc:454
 msgid "user name may not contain HTML tags"
 msgstr "ім’я користувача не може містити тегів HTML"
 
@@ -2349,7 +2349,7 @@ msgstr ""
 msgid "Unable to select database - please try again later"
 msgstr "Неможливо вибрати базу даних - будь-ласка, спробуйте ще раз пізніше"
 
-#: ../inc/util_ops.inc:136 ../user/get_passwd.php:72
+#: ../inc/util_ops.inc:109 ../user/get_passwd.php:72
 msgid "Stay logged in on this computer"
 msgstr "Залишатися авторизованим на цьому комп’ютері"
 
@@ -2557,7 +2557,7 @@ msgstr "створити або приєднатися до команди"
 msgid "User of the day"
 msgstr "Користувач дня"
 
-#: ../user/bs_sample_index.php:52 ../user/server_status.php:254
+#: ../user/bs_sample_index.php:52 ../user/server_status.php:239
 msgid "Server status"
 msgstr "Статус сервера"
 
@@ -5712,135 +5712,135 @@ msgstr "Не працює"
 msgid "Disabled"
 msgstr "Відключений"
 
-#: ../user/server_status.php:246
+#: ../user/server_status.php:231
 msgid "Project status"
 msgstr "Статус проекту"
 
-#: ../user/server_status.php:248
+#: ../user/server_status.php:233
 msgid "Server software version: %1"
 msgstr "Версія серверного ПЗ: %1"
 
-#: ../user/server_status.php:256
+#: ../user/server_status.php:241
 msgid "Program"
 msgstr "Програма"
 
-#: ../user/server_status.php:256
+#: ../user/server_status.php:241
 msgid "Host"
 msgstr "Назва сервера"
 
-#: ../user/server_status.php:267
+#: ../user/server_status.php:252
 msgid "data-driven web pages"
 msgstr "Веб-сторінки, які керуються даними"
 
-#: ../user/server_status.php:273
+#: ../user/server_status.php:258
 msgid "upload/download server"
 msgstr "Сервер завантаження/вивантаження"
 
-#: ../user/server_status.php:276
+#: ../user/server_status.php:261
 msgid "scheduler"
 msgstr "Планувальник"
 
-#: ../user/server_status.php:309
+#: ../user/server_status.php:294
 msgid "Running:"
 msgstr "Працює:"
 
-#: ../user/server_status.php:310
+#: ../user/server_status.php:295
 msgid "Program is operating normally"
 msgstr "Програма працює нормально"
 
-#: ../user/server_status.php:311
+#: ../user/server_status.php:296
 msgid "Not Running:"
 msgstr "Не працює:"
 
-#: ../user/server_status.php:312
+#: ../user/server_status.php:297
 msgid "Program failed or the project is down"
 msgstr "Програма завершила роботу з помилкою або проект вимкнений"
 
-#: ../user/server_status.php:313
+#: ../user/server_status.php:298
 msgid "Disabled:"
 msgstr "Відключений:"
 
-#: ../user/server_status.php:314
+#: ../user/server_status.php:299
 msgid "Program is disabled"
 msgstr "Програма була зупинена"
 
-#: ../user/server_status.php:318
+#: ../user/server_status.php:303
 msgid "Computing status"
 msgstr "Статус обчислень"
 
-#: ../user/server_status.php:324
+#: ../user/server_status.php:309
 msgid "The database server is not accessible"
 msgstr "Сервер бази даних не доступний"
 
-#: ../user/server_status.php:341
+#: ../user/server_status.php:326
 msgid "Tasks ready to send"
 msgstr "Завдання, готові до відправлення"
 
-#: ../user/server_status.php:346 ../user/workunit.php:55
+#: ../user/server_status.php:331 ../user/workunit.php:55
 msgid "Tasks in progress"
 msgstr "Завдання обробляються"
 
-#: ../user/server_status.php:351
+#: ../user/server_status.php:336
 msgid "Workunits waiting for validation"
 msgstr "Задачі, які очікують перевірки"
 
-#: ../user/server_status.php:356
+#: ../user/server_status.php:341
 msgid "Workunits waiting for assimilation"
 msgstr "Задачі, які очікують злиття"
 
-#: ../user/server_status.php:361
+#: ../user/server_status.php:346
 msgid "Workunits waiting for file deletion"
 msgstr "Задачі, які очікують видалення"
 
-#: ../user/server_status.php:366
+#: ../user/server_status.php:351
 msgid "Tasks waiting for file deletion"
 msgstr "Завдання, які очікують видалення"
 
-#: ../user/server_status.php:383
+#: ../user/server_status.php:367
 msgid "Transitioner backlog (hours)"
 msgstr "Залишені в обробці (години)"
 
-#: ../user/server_status.php:390
+#: ../user/server_status.php:374
 msgid "Users"
 msgstr "Учасників"
 
-#: ../user/server_status.php:393 ../user/server_status.php:411
+#: ../user/server_status.php:377 ../user/server_status.php:395
 msgid "with recent credit"
 msgstr "з недавніми балами"
 
-#: ../user/server_status.php:398 ../user/server_status.php:416
+#: ../user/server_status.php:382 ../user/server_status.php:400
 msgid "with credit"
 msgstr "з балами"
 
-#: ../user/server_status.php:403 ../user/server_status.php:421
+#: ../user/server_status.php:387 ../user/server_status.php:405
 msgid "registered in past 24 hours"
 msgstr "зареєструвались за останні 24 години"
 
-#: ../user/server_status.php:427
+#: ../user/server_status.php:411
 msgid "current GigaFLOPs"
 msgstr "поточна швидкість (гігафлопс)"
 
-#: ../user/server_status.php:436
+#: ../user/server_status.php:420
 msgid "Tasks by application"
 msgstr "Розподілення завдань за додатками"
 
-#: ../user/server_status.php:439 ../user/workunit.php:40
+#: ../user/server_status.php:423 ../user/workunit.php:40
 msgid "application"
 msgstr "додаток"
 
-#: ../user/server_status.php:440
+#: ../user/server_status.php:424
 msgid "unsent"
 msgstr "не відправлених"
 
-#: ../user/server_status.php:441
+#: ../user/server_status.php:425
 msgid "in progress"
 msgstr "в обробці"
 
-#: ../user/server_status.php:442
+#: ../user/server_status.php:426
 msgid "avg runtime of last 100 results in h (min-max)"
 msgstr "середній час обробки останніх 100 результатів в год. (мін.-макс.)"
 
-#: ../user/server_status.php:443
+#: ../user/server_status.php:427
 msgid "users in last 24h"
 msgstr "користувачів за останні 24 год."
 
@@ -6116,6 +6116,10 @@ msgstr "Новий засновник?"
 #: ../user/team_change_founder_form.php:105 ../user/team_manage.php:56
 msgid "Change founder"
 msgstr "Змінити засновника"
+
+#: ../user/team_change_founder_form.php:108
+msgid "There are no users to transfer team to."
+msgstr ""
 
 #: ../user/team_create_action.php:29
 msgid "You must choose a non-blank team name"
