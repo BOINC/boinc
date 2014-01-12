@@ -541,7 +541,7 @@ void CDlgAdvPreferences::UpdateControlStates() {
 
 /* validates the entered informations */
 bool CDlgAdvPreferences::ValidateInput() {
-    wxString invMsgFloat = _("invalid float");
+    wxString invMsgFloat = _("invalid number");
     wxString invMsgTime = _("invalid time, format is HH:MM");
     wxString invMsgInterval = _("invalid time interval, format is HH:MM-HH:MM");
     wxString buffer;
