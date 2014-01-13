@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <?xml-stylesheet type="text/xsl" href="is.xsl" ?>
 <!DOCTYPE msi [
    <!ELEMENT msi   (summary,table*)>
@@ -1818,23 +1818,16 @@
 		<row><td>ca_bundle.crt</td><td>_BOINCDepends</td><td>CA-BUN~1.CRT|ca-bundle.crt</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\ca-bundle.crt</td><td>1</td><td/></row>
 		<row><td>copying</td><td>_BOINCDepends</td><td>COPYING</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_BOINC_FILES&gt;\COPYING</td><td>1</td><td/></row>
 		<row><td>copyright</td><td>_BOINCDepends</td><td>COPYRI~1|COPYRIGHT</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_BOINC_FILES&gt;\COPYRIGHT</td><td>1</td><td/></row>
-		<row><td>dbghelp.dll</td><td>_BOINCDepends</td><td>dbghelp.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\dbghelp.dll</td><td>1</td><td/></row>
-		<row><td>dbghelp95.dll</td><td>_BOINCDepends</td><td>DBGHEL~1.DLL|dbghelp95.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\dbghelp95.dll</td><td>1</td><td/></row>
 		<row><td>libcurl.dll</td><td>_BOINCDepends</td><td>libcurl.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\libcurl.dll</td><td>1</td><td/></row>
 		<row><td>libeay32.dll</td><td>_BOINCDepends</td><td>libeay32.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\libeay32.dll</td><td>1</td><td/></row>
 		<row><td>liberationsans_regular.ttf</td><td>_BOINCScreensaver</td><td>LIBERA~1.TTF|LiberationSans-Regular.ttf</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_BOINC_FILES&gt;\api\ttf\liberation-fonts-ttf-2.00.0\LiberationSans-Regular.ttf</td><td>1</td><td/></row>
-		<row><td>microsoft.vc80.crt.manifest</td><td>_BOINCDepends</td><td>MICROS~1.MAN|Microsoft.VC80.CRT.manifest</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ProgramFilesFolder&gt;\microsoft visual studio 8\vc\redist\x86\microsoft.vc80.crt\Microsoft.VC80.CRT.manifest</td><td>1</td><td/></row>
-		<row><td>msvcm80.dll</td><td>_BOINCDepends</td><td>msvcm80.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ProgramFilesFolder&gt;\microsoft visual studio 8\vc\redist\x86\microsoft.vc80.crt\msvcm80.dll</td><td>1</td><td/></row>
-		<row><td>msvcp80.dll</td><td>_BOINCDepends</td><td>msvcp80.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ProgramFilesFolder&gt;\microsoft visual studio 8\vc\redist\x86\microsoft.vc80.crt\msvcp80.dll</td><td>1</td><td/></row>
-		<row><td>msvcr80.dll</td><td>_BOINCDepends</td><td>msvcr80.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ProgramFilesFolder&gt;\microsoft visual studio 8\vc\redist\x86\microsoft.vc80.crt\msvcr80.dll</td><td>1</td><td/></row>
+		<row><td>msvcp100.dll</td><td>_BOINCDepends</td><td>msvcp100.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ProgramFilesFolder&gt;\microsoft visual studio 10.0\vc\redist\x86\microsoft.vc100.crt\msvcp100.dll</td><td>1</td><td/></row>
+		<row><td>msvcr100.dll</td><td>_BOINCDepends</td><td>msvcr100.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ProgramFilesFolder&gt;\microsoft visual studio 10.0\vc\redist\x86\microsoft.vc100.crt\msvcr100.dll</td><td>1</td><td/></row>
 		<row><td>placeholder.txt</td><td>_BOINCData</td><td>PLACEH~1.TXT|placeholder.txt</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISProjectFolder&gt;\redist\placeholder.txt</td><td>1</td><td/></row>
 		<row><td>placeholder.txt1</td><td>_BOINCDataProjects</td><td>PLACEH~1.TXT|placeholder.txt</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISProjectFolder&gt;\redist\placeholder.txt</td><td>1</td><td/></row>
 		<row><td>placeholder.txt2</td><td>_BOINCDataSlots</td><td>PLACEH~1.TXT|placeholder.txt</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;ISProjectFolder&gt;\redist\placeholder.txt</td><td>1</td><td/></row>
 		<row><td>sqlite3.dll</td><td>_BOINCManager</td><td>sqlite3.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\sqlite3.dll</td><td>1</td><td/></row>
-		<row><td>srcsrv.dll</td><td>_BOINCDepends</td><td>srcsrv.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\srcsrv.dll</td><td>1</td><td/></row>
 		<row><td>ssleay32.dll</td><td>_BOINCDepends</td><td>ssleay32.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\ssleay32.dll</td><td>1</td><td/></row>
-		<row><td>symsrv.dll</td><td>_BOINCDepends</td><td>symsrv.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\symsrv.dll</td><td>1</td><td/></row>
-		<row><td>symsrv.yes</td><td>_BOINCDepends</td><td>symsrv.yes</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\symsrv.yes</td><td>1</td><td/></row>
 		<row><td>zlib1.dll</td><td>_BOINCDepends</td><td>zlib1.dll</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\zlib1.dll</td><td>1</td><td/></row>
 	</table>
 

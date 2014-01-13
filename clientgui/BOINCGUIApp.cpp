@@ -418,7 +418,11 @@ bool CBOINCGUIApp::OnInit() {
     // Initialize the task bar icon
 	m_pTaskBarIcon = new CTaskBarIcon(
         m_pSkinManager->GetAdvanced()->GetApplicationName(), 
+#ifdef __WXMSW__
+        new wxIcon(wxICON(BOINCGUIAPP)),
+#else
         m_pSkinManager->GetAdvanced()->GetApplicationIcon(),
+#endif
         m_pSkinManager->GetAdvanced()->GetApplicationDisconnectedIcon(),
         m_pSkinManager->GetAdvanced()->GetApplicationSnoozeIcon()
 #ifdef __WXMAC__
