@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-22 00:00-0800\n"
+"POT-Creation-Date: 2014-01-13 00:00-0800\n"
 "PO-Revision-Date: 2013-11-07 00:41+0000\n"
 "Last-Translator: Xavier <xavi.mormur@gmail.com>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
@@ -211,341 +211,341 @@ msgstr "Connectat"
 msgid "Disconnected"
 msgstr "Desconnectat"
 
-#: AdvancedFrame.cpp:318 sg_BoincSimpleFrame.cpp:115
+#: AdvancedFrame.cpp:322 sg_BoincSimpleFrame.cpp:119
 #, c-format
 msgid "Close the %s window"
 msgstr "Tancar la finestra %s"
 
-#: AdvancedFrame.cpp:321 sg_BoincSimpleFrame.cpp:118
+#: AdvancedFrame.cpp:325 sg_BoincSimpleFrame.cpp:122
 msgid "&Close Window"
 msgstr "Tan&car la Finestra"
 
-#: AdvancedFrame.cpp:332 AdvancedFrame.cpp:339 AdvancedFrame.cpp:346
+#: AdvancedFrame.cpp:336 AdvancedFrame.cpp:343 AdvancedFrame.cpp:350
 #, c-format
 msgid "Exit %s"
 msgstr "Tancar %s"
 
-#: AdvancedFrame.cpp:367
+#: AdvancedFrame.cpp:371
 msgid "&Notices\tCtrl+Shift+N"
 msgstr "&Notícies\tCtrl+Shift+N"
 
-#: AdvancedFrame.cpp:368
+#: AdvancedFrame.cpp:372
 msgid "Display notices"
 msgstr "Mostra anuncis"
 
-#: AdvancedFrame.cpp:373
+#: AdvancedFrame.cpp:377
 msgid "&Projects\tCtrl+Shift+P"
 msgstr "&Projectes\tCtrl+Shift+P"
 
-#: AdvancedFrame.cpp:374
+#: AdvancedFrame.cpp:378
 msgid "Display projects"
 msgstr "Mostrar els projectes"
 
-#: AdvancedFrame.cpp:379
+#: AdvancedFrame.cpp:383
 msgid "&Tasks\tCtrl+Shift+T"
 msgstr "&Tasques\tCtrl+Shift+T"
 
-#: AdvancedFrame.cpp:380
+#: AdvancedFrame.cpp:384
 msgid "Display tasks"
 msgstr "Mostrar les tasques"
 
-#: AdvancedFrame.cpp:385
+#: AdvancedFrame.cpp:389
 msgid "Trans&fers\tCtrl+Shift+X"
 msgstr "&Lliuraments\tCtrl+Shift+X"
 
-#: AdvancedFrame.cpp:386
+#: AdvancedFrame.cpp:390
 msgid "Display transfers"
 msgstr "Mostrar els lliuraments"
 
-#: AdvancedFrame.cpp:391
+#: AdvancedFrame.cpp:395
 msgid "&Statistics\tCtrl+Shift+S"
 msgstr "&Estadístiques\tCtrl+Shift+S"
 
-#: AdvancedFrame.cpp:392
+#: AdvancedFrame.cpp:396
 msgid "Display statistics"
 msgstr "Mostrar les estadístiques"
 
-#: AdvancedFrame.cpp:397
+#: AdvancedFrame.cpp:401
 msgid "&Disk usage\tCtrl+Shift+D"
 msgstr "Utilització de &Disc\t Ctrl+Shift+D"
 
-#: AdvancedFrame.cpp:398
+#: AdvancedFrame.cpp:402
 msgid "Display disk usage"
 msgstr "Mostrar la utilització de disc"
 
-#: AdvancedFrame.cpp:405
+#: AdvancedFrame.cpp:409
 msgid "Simple &View...\tCtrl+Shift+V"
 msgstr "&Vista Senzilla...\t Ctrl+Shift+V"
 
-#: AdvancedFrame.cpp:406
+#: AdvancedFrame.cpp:410
 msgid "Display the simple graphical interface."
 msgstr "Mostrar la interfície gràfica senzilla."
 
-#: AdvancedFrame.cpp:420
+#: AdvancedFrame.cpp:424
 msgid "&Add project or account manager..."
 msgstr "&Afegir un projecte o un administrador de comptes..."
 
-#: AdvancedFrame.cpp:421 sg_ProjectPanel.cpp:76
+#: AdvancedFrame.cpp:425 sg_ProjectPanel.cpp:76
 msgid "Volunteer for any or all of 30+ projects in many areas of science"
 msgstr ""
 "Voluntariat per a tots o algun dels més de 30 projectes en moltes àrees de "
 "la ciència"
 
-#: AdvancedFrame.cpp:425
+#: AdvancedFrame.cpp:429
 #, c-format
 msgid "&Synchronize with %s"
 msgstr "&Sincronitzar amb %s"
 
-#: AdvancedFrame.cpp:429
+#: AdvancedFrame.cpp:433
 #, c-format
 msgid "Get current settings from %s"
 msgstr "Obtenir la configuració actual des de %s"
 
-#: AdvancedFrame.cpp:439
+#: AdvancedFrame.cpp:443
 msgid "&Add project..."
 msgstr "&Afegir el projecte..."
 
-#: AdvancedFrame.cpp:440
+#: AdvancedFrame.cpp:444
 msgid "Add a project"
 msgstr "Afegir un projecte"
 
-#: AdvancedFrame.cpp:443
+#: AdvancedFrame.cpp:447
 #, c-format
 msgid "S&top using %s..."
 msgstr "A&turar la utilització de %s..."
 
-#: AdvancedFrame.cpp:449
+#: AdvancedFrame.cpp:453
 msgid "Remove this computer from account manager control."
 msgstr "Eliminar aquest ordinador del administrador de comptes."
 
-#: AdvancedFrame.cpp:454 sg_BoincSimpleFrame.cpp:174
+#: AdvancedFrame.cpp:458 sg_BoincSimpleFrame.cpp:178
 msgid "&Options..."
 msgstr "&Opcions..."
 
-#: AdvancedFrame.cpp:455 sg_BoincSimpleFrame.cpp:175
+#: AdvancedFrame.cpp:459 sg_BoincSimpleFrame.cpp:179
 msgid "Configure display options and proxy settings"
 msgstr "Configureu les opcions de visualització i la configuració de proxy"
 
-#: AdvancedFrame.cpp:459 sg_BoincSimpleFrame.cpp:168
+#: AdvancedFrame.cpp:463 sg_BoincSimpleFrame.cpp:172
 msgid "Computing &preferences..."
 msgstr "&Preferències de computació..."
 
-#: AdvancedFrame.cpp:460 sg_BoincSimpleFrame.cpp:169
+#: AdvancedFrame.cpp:464 sg_BoincSimpleFrame.cpp:173
 msgid "Configure computing preferences"
 msgstr "Configurar les preferències de computació"
 
-#: AdvancedFrame.cpp:468
+#: AdvancedFrame.cpp:472
 msgid "&Run always"
 msgstr "Executar &sempre"
 
-#: AdvancedFrame.cpp:469
+#: AdvancedFrame.cpp:473
 msgid "Allow work regardless of preferences"
 msgstr "Permetre treballs tot i les preferències"
 
-#: AdvancedFrame.cpp:473
+#: AdvancedFrame.cpp:477
 msgid "Run based on &preferences"
 msgstr "Executar segons les &preferències"
 
-#: AdvancedFrame.cpp:474
+#: AdvancedFrame.cpp:478
 msgid "Allow work according to preferences"
 msgstr "Permetre treballs d'acord a les preferències"
 
-#: AdvancedFrame.cpp:478
+#: AdvancedFrame.cpp:482
 msgid "&Suspend"
 msgstr "&Suspendre"
 
-#: AdvancedFrame.cpp:479
+#: AdvancedFrame.cpp:483
 msgid "Stop work regardless of preferences"
 msgstr "Aturar les tasques tot i les preferències"
 
-#: AdvancedFrame.cpp:504
+#: AdvancedFrame.cpp:508
 msgid "Use GPU always"
 msgstr "Utilitzeu sempre la GPU"
 
-#: AdvancedFrame.cpp:505
+#: AdvancedFrame.cpp:509
 msgid "Allow GPU work regardless of preferences"
 msgstr "Permetre treballar la GPU tot i les preferències"
 
-#: AdvancedFrame.cpp:509
+#: AdvancedFrame.cpp:513
 msgid "Use GPU based on preferences"
 msgstr "Utilitzar la GPU basant-se en les preferències"
 
-#: AdvancedFrame.cpp:510
+#: AdvancedFrame.cpp:514
 msgid "Allow GPU work according to preferences"
 msgstr "Permetre treballar la GPU d'acord a les preferències"
 
-#: AdvancedFrame.cpp:514
+#: AdvancedFrame.cpp:518
 msgid "Suspend GPU"
 msgstr "Suspendre la GPU"
 
-#: AdvancedFrame.cpp:515
+#: AdvancedFrame.cpp:519
 msgid "Stop GPU work regardless of preferences"
 msgstr "Aturar les tasques de la GPU tot i les preferències"
 
-#: AdvancedFrame.cpp:539
+#: AdvancedFrame.cpp:543
 msgid "Network activity always available"
 msgstr "Accés a la xarxa sempre disponible"
 
-#: AdvancedFrame.cpp:540
+#: AdvancedFrame.cpp:544
 msgid "Allow network activity regardless of preferences"
 msgstr "Permetre l'accés al xarxa tot i les preferències"
 
-#: AdvancedFrame.cpp:544
+#: AdvancedFrame.cpp:548
 msgid "Network activity based on preferences"
 msgstr "Accés a la xarxa basat en les preferències"
 
-#: AdvancedFrame.cpp:545
+#: AdvancedFrame.cpp:549
 msgid "Allow network activity according to preferences"
 msgstr "Permetre l'accés a la xarxa d'acord a les preferències"
 
-#: AdvancedFrame.cpp:549
+#: AdvancedFrame.cpp:553
 msgid "Network activity suspended"
 msgstr "Suspès l'accés a la xarxa"
 
-#: AdvancedFrame.cpp:550
+#: AdvancedFrame.cpp:554
 msgid "Stop BOINC network activity"
 msgstr "Aturar l'accés de BOINC a la xarxa"
 
-#: AdvancedFrame.cpp:560
+#: AdvancedFrame.cpp:564
 #, c-format
 msgid "Connect to another computer running %s"
 msgstr "Connectar a un altre ordinador executant %s"
 
-#: AdvancedFrame.cpp:565
+#: AdvancedFrame.cpp:569
 msgid "Select computer..."
 msgstr "Seleccioni un ordinador..."
 
-#: AdvancedFrame.cpp:570
+#: AdvancedFrame.cpp:574
 msgid "Shut down connected client..."
 msgstr "Aturar el client connectat..."
 
-#: AdvancedFrame.cpp:571
+#: AdvancedFrame.cpp:575
 msgid "Shut down the currently connected client"
 msgstr "Aturar el client actualment connectat"
 
-#: AdvancedFrame.cpp:575
+#: AdvancedFrame.cpp:579
 msgid "Run CPU &benchmarks"
 msgstr "Executar les proves de la CPU"
 
-#: AdvancedFrame.cpp:576
+#: AdvancedFrame.cpp:580
 msgid "Runs BOINC CPU benchmarks"
 msgstr "Executa les proves de la CPU de BOINC"
 
-#: AdvancedFrame.cpp:580
+#: AdvancedFrame.cpp:584
 msgid "Do network communication"
 msgstr "Establir comunicació per xarxa"
 
-#: AdvancedFrame.cpp:581
+#: AdvancedFrame.cpp:585
 msgid "Do all pending network communication"
 msgstr "Executar les comunicacions pendents per xarxa"
 
 # 94%
-#: AdvancedFrame.cpp:585
+#: AdvancedFrame.cpp:589
 msgid "Read config files"
 msgstr "Llegiu els fitxers de configuració"
 
-#: AdvancedFrame.cpp:586
+#: AdvancedFrame.cpp:590
 msgid "Read configuration info from cc_config.xml and any app_config.xml files"
 msgstr ""
 "Llegiu la informació de configuració a cc_config.xml i qualsevol arxiu "
 "app_config.xml"
 
-#: AdvancedFrame.cpp:590
+#: AdvancedFrame.cpp:594
 msgid "Read local prefs file"
 msgstr "Llegir el fitxer de preferències locals"
 
-#: AdvancedFrame.cpp:591
+#: AdvancedFrame.cpp:595
 msgid "Read preferences from global_prefs_override.xml."
 msgstr "Llegir les preferències des de global_prefs_override.xml."
 
-#: AdvancedFrame.cpp:596
+#: AdvancedFrame.cpp:600
 #, c-format
 msgid "Launch another instance of %s..."
 msgstr "Inicieu una altra instància de %s..."
 
-#: AdvancedFrame.cpp:600
+#: AdvancedFrame.cpp:604
 #, c-format
 msgid "Launch another %s"
 msgstr "Iniciar un altre %s"
 
-#: AdvancedFrame.cpp:610
+#: AdvancedFrame.cpp:614
 msgid "Event Log...\tCtrl+Shift+E"
 msgstr "Registre d'Esdeveniments...\t Ctrl+Shift+E"
 
-#: AdvancedFrame.cpp:611
+#: AdvancedFrame.cpp:615
 msgid "Display diagnostic messages."
 msgstr "Mostrar els missatges de diagnòstic."
 
-#: AdvancedFrame.cpp:621 sg_BoincSimpleFrame.cpp:184
+#: AdvancedFrame.cpp:625 sg_BoincSimpleFrame.cpp:188
 #, c-format
 msgid "%s &help"
 msgstr "&ajuda de %s"
 
-#: AdvancedFrame.cpp:627 sg_BoincSimpleFrame.cpp:190
+#: AdvancedFrame.cpp:631 sg_BoincSimpleFrame.cpp:194
 #, c-format
 msgid "Show information about %s"
 msgstr "Mostrar la informació de %s"
 
-#: AdvancedFrame.cpp:639
+#: AdvancedFrame.cpp:643
 #, c-format
 msgid "&%s help"
 msgstr "ajuda de &%s"
 
-#: AdvancedFrame.cpp:645 sg_BoincSimpleFrame.cpp:208
+#: AdvancedFrame.cpp:649 sg_BoincSimpleFrame.cpp:212
 #, c-format
 msgid "Show information about the %s"
 msgstr "Mostrar la informació de %s"
 
-#: AdvancedFrame.cpp:657 sg_BoincSimpleFrame.cpp:220
+#: AdvancedFrame.cpp:661 sg_BoincSimpleFrame.cpp:224
 #, c-format
 msgid "%s &web site"
 msgstr ""
 
-#: AdvancedFrame.cpp:663 sg_BoincSimpleFrame.cpp:226
+#: AdvancedFrame.cpp:667 sg_BoincSimpleFrame.cpp:230
 #, c-format
 msgid "Show information about BOINC and %s"
 msgstr "Mostrar la informació de BOINC i %s"
 
-#: AdvancedFrame.cpp:675 BOINCTaskBar.cpp:530 sg_BoincSimpleFrame.cpp:238
+#: AdvancedFrame.cpp:679 BOINCTaskBar.cpp:530 sg_BoincSimpleFrame.cpp:242
 #, c-format
 msgid "&About %s..."
 msgstr "&A propòsit de %s..."
 
-#: AdvancedFrame.cpp:681 sg_BoincSimpleFrame.cpp:244
+#: AdvancedFrame.cpp:685 sg_BoincSimpleFrame.cpp:248
 msgid "Licensing and copyright information."
 msgstr "Informació de la llicència i copyright."
 
-#: AdvancedFrame.cpp:688 sg_BoincSimpleFrame.cpp:251
+#: AdvancedFrame.cpp:692 sg_BoincSimpleFrame.cpp:255
 msgid "&File"
 msgstr "&Fitxer"
 
-#: AdvancedFrame.cpp:692 sg_BoincSimpleFrame.cpp:255
+#: AdvancedFrame.cpp:696 sg_BoincSimpleFrame.cpp:259
 msgid "&View"
 msgstr "&Veure"
 
-#: AdvancedFrame.cpp:696 sg_BoincSimpleFrame.cpp:259
+#: AdvancedFrame.cpp:700 sg_BoincSimpleFrame.cpp:263
 msgid "&Tools"
 msgstr "&Utilitats"
 
-#: AdvancedFrame.cpp:700
+#: AdvancedFrame.cpp:704
 msgid "&Activity"
 msgstr "&Activitat"
 
-#: AdvancedFrame.cpp:704
+#: AdvancedFrame.cpp:708
 msgid "A&dvanced"
 msgstr "&Avançat"
 
-#: AdvancedFrame.cpp:708 DlgEventLog.cpp:334 sg_BoincSimpleFrame.cpp:263
+#: AdvancedFrame.cpp:712 DlgEventLog.cpp:334 sg_BoincSimpleFrame.cpp:267
 #: wizardex.cpp:374 wizardex.cpp:381
 msgid "&Help"
 msgstr "&Ajuda"
 
-#: AdvancedFrame.cpp:1195
+#: AdvancedFrame.cpp:1199
 #, c-format
 msgid "%s - Stop using %s"
 msgstr "%s - Deixi d'utilitzar %s"
 
-#: AdvancedFrame.cpp:1200
+#: AdvancedFrame.cpp:1204
 #, c-format
 msgid ""
 "If you stop using %s,\n"
@@ -560,12 +560,12 @@ msgstr ""
 "\n"
 "Desitja finalitzar la utilització de %s?"
 
-#: AdvancedFrame.cpp:1397
+#: AdvancedFrame.cpp:1401
 #, c-format
 msgid "%s - Shut down the current client..."
 msgstr "%s - Aturar el client actual..."
 
-#: AdvancedFrame.cpp:1406
+#: AdvancedFrame.cpp:1410
 #, c-format
 msgid ""
 "%s will shut down the current client\n"
@@ -574,27 +574,27 @@ msgstr ""
 "%s aturarà el client connectat actiu\n"
 "i demanarà per connectar-vos a un altre servidor."
 
-#: AdvancedFrame.cpp:1734 DlgAbout.cpp:119
+#: AdvancedFrame.cpp:1738 DlgAbout.cpp:119
 #, c-format
 msgid "%s"
 msgstr "%s"
 
-#: AdvancedFrame.cpp:1743
+#: AdvancedFrame.cpp:1747
 #, c-format
 msgid "%s has successfully added %s"
 msgstr "%s ha adjuntat satisfactòriament %s"
 
-#: AdvancedFrame.cpp:1882
+#: AdvancedFrame.cpp:1886
 #, c-format
 msgid "%s - (%s)"
 msgstr "%s - (%s)"
 
-#: AdvancedFrame.cpp:1886
+#: AdvancedFrame.cpp:1890
 #, c-format
 msgid "Connecting to %s"
 msgstr "Connectant a %s"
 
-#: AdvancedFrame.cpp:1889
+#: AdvancedFrame.cpp:1893
 #, c-format
 msgid "Connected to %s (%s)"
 msgstr "Connectat a %s (%s)"
@@ -631,26 +631,26 @@ msgstr ""
 "\n"
 "Si us plau, visiti la pàgina web del projecte i segueixi les instruccions."
 
-#: AsyncRPC.cpp:1026
+#: AsyncRPC.cpp:1031
 msgid "Communicating with BOINC client.  Please wait ..."
 msgstr "Establint comunicació amb el client BOINC.  Esperi si us plau ..."
 
-#: AsyncRPC.cpp:1029
+#: AsyncRPC.cpp:1034
 #, c-format
 msgid "&Quit %s"
 msgstr "&Sortir de %s"
 
-#: AsyncRPC.cpp:1031
+#: AsyncRPC.cpp:1036
 #, c-format
 msgid "E&xit %s"
 msgstr "&Tancar %s"
 
-#: AsyncRPC.cpp:1035
+#: AsyncRPC.cpp:1040
 #, c-format
 msgid "%s - Communication"
 msgstr "%s - Comunicació"
 
-#: AsyncRPC.cpp:1051 DlgAdvPreferencesBase.cpp:107 sg_DlgPreferences.cpp:438
+#: AsyncRPC.cpp:1056 DlgAdvPreferencesBase.cpp:107 sg_DlgPreferences.cpp:438
 msgid "Cancel"
 msgstr "Cancel·lar"
 
@@ -812,7 +812,7 @@ msgstr "%s s'ha desconnectat d'Internet."
 msgid "%s failed to disconnected from the Internet."
 msgstr "%s no ha pogut desconnectar-se d'Internet."
 
-#: BOINCGUIApp.cpp:341
+#: BOINCGUIApp.cpp:339
 #, c-format
 msgid ""
 "You currently are not authorized to manage the client.\n"
@@ -833,7 +833,7 @@ msgstr ""
 "  - contacti amb el seu administrador per afegir-lo al grup\n"
 "     d'usuaris 'boinc_master'."
 
-#: BOINCGUIApp.cpp:347
+#: BOINCGUIApp.cpp:345
 #, c-format
 msgid ""
 "%s ownership or permissions are not set properly; please reinstall %s.\n"
@@ -843,16 +843,16 @@ msgstr ""
 "reinstal·li %s.\n"
 "(Codi d'error %d"
 
-#: BOINCGUIApp.cpp:353
+#: BOINCGUIApp.cpp:351
 msgid " at "
 msgstr " a "
 
-#: BOINCGUIApp.cpp:356 MainDocument.cpp:2474 MainDocument.cpp:2524
-#: MainDocument.cpp:2544 ViewTransfers.cpp:803
+#: BOINCGUIApp.cpp:354 MainDocument.cpp:2484 MainDocument.cpp:2534
+#: MainDocument.cpp:2554 ViewTransfers.cpp:803
 msgid ")"
 msgstr ")"
 
-#: BOINCGUIApp.cpp:386
+#: BOINCGUIApp.cpp:384
 msgid ""
 "A reboot is required in order for BOINC to run properly.\n"
 "Please reboot your computer and try again."
@@ -861,71 +861,71 @@ msgstr ""
 "correctament.\n"
 "Si us plau reiniciï l'ordinador i provi-ho de nou."
 
-#: BOINCGUIApp.cpp:387 DlgAbout.cpp:153
+#: BOINCGUIApp.cpp:385 DlgAbout.cpp:153
 msgid "BOINC Manager"
 msgstr "Administrador BOINC"
 
-#: BOINCGUIApp.cpp:570
+#: BOINCGUIApp.cpp:568
 msgid "BOINC Manager was started by the operating system automatically"
 msgstr "El sistema ha iniciat automàticament l'Administrador BOINC"
 
-#: BOINCGUIApp.cpp:572
+#: BOINCGUIApp.cpp:570
 msgid "Startup BOINC so only the system tray icon is visible"
 msgstr ""
 "Iniciar BOINC de manera que només la icona de la barra de tasques sigui "
 "visible"
 
-#: BOINCGUIApp.cpp:574
+#: BOINCGUIApp.cpp:572
 msgid "Directory containing the BOINC Client executable"
 msgstr "Directori que conté l'executable del Client BOINC"
 
-#: BOINCGUIApp.cpp:575
+#: BOINCGUIApp.cpp:573
 msgid "BOINC data directory"
 msgstr "Directori de les dades de BOINC"
 
-#: BOINCGUIApp.cpp:577
+#: BOINCGUIApp.cpp:575
 msgid "Host name or IP address"
 msgstr "Nom de host o adreça IP"
 
-#: BOINCGUIApp.cpp:578
+#: BOINCGUIApp.cpp:576
 msgid "GUI RPC port number"
 msgstr "GUI RPC nombre de port"
 
-#: BOINCGUIApp.cpp:579
+#: BOINCGUIApp.cpp:577
 msgid "Password"
 msgstr "Contrasenya"
 
-#: BOINCGUIApp.cpp:580
+#: BOINCGUIApp.cpp:578
 msgid "Startup BOINC with these optional arguments"
 msgstr "Iniciar BOINC amb aquests arguments opcionals"
 
-#: BOINCGUIApp.cpp:581
+#: BOINCGUIApp.cpp:579
 msgid "disable BOINC security users and permissions"
 msgstr "desactivar la seguretat d'usuaris i permisos BOINC"
 
-#: BOINCGUIApp.cpp:582
+#: BOINCGUIApp.cpp:580
 msgid "set skin debugging mode to enable skin manager error messages"
 msgstr ""
 "seleccioni el mode de depuració per activar els missatges d'error de "
 "l'administrador"
 
-#: BOINCGUIApp.cpp:583
+#: BOINCGUIApp.cpp:581
 msgid "multiple instances of BOINC Manager allowed"
 msgstr "estan permeses diverses instàncies de BOINC Manager"
 
-#: BOINCGUIApp.cpp:585
+#: BOINCGUIApp.cpp:583
 msgid "Not used: workaround for bug in XCode 4.2"
 msgstr "No s'utilitza: solució per l'informe d'error al XCode 4.2"
 
-#: BOINCGUIApp.cpp:803
+#: BOINCGUIApp.cpp:801
 msgid "(Automatic Detection)"
 msgstr "(Detecció Automàtica)"
 
-#: BOINCGUIApp.cpp:804
+#: BOINCGUIApp.cpp:802
 msgid "(Unknown)"
 msgstr "(Desconegut)"
 
-#: BOINCGUIApp.cpp:805
+#: BOINCGUIApp.cpp:803
 msgid "(User Defined)"
 msgstr "(Definit per l'Usuari)"
 
@@ -952,7 +952,7 @@ msgid "E&xit"
 msgstr "&Sortir"
 
 #: BOINCTaskBar.cpp:612 ViewProjects.cpp:718 ViewWork.cpp:795
-#: sg_BoincSimpleFrame.cpp:754 sg_ProjectCommandPopup.cpp:110
+#: sg_BoincSimpleFrame.cpp:758 sg_ProjectCommandPopup.cpp:110
 #: sg_TaskCommandPopup.cpp:102
 msgid "Resume"
 msgstr "Continuar"
@@ -1115,60 +1115,60 @@ msgstr "Infraestructura Oberta de Berkeley per la Computació en xarxa"
 msgid "&OK"
 msgstr "&OK"
 
-#: DlgAdvPreferences.cpp:542
-msgid "invalid float"
-msgstr "número decimal incorrecte"
+#: DlgAdvPreferences.cpp:544
+msgid "invalid number"
+msgstr ""
 
-#: DlgAdvPreferences.cpp:543
+#: DlgAdvPreferences.cpp:545
 msgid "invalid time, format is HH:MM"
 msgstr "hora incorrecte, el format es HH:MM"
 
-#: DlgAdvPreferences.cpp:544
+#: DlgAdvPreferences.cpp:546
 msgid "invalid time interval, format is HH:MM-HH:MM"
 msgstr "període de temps incorrecte, el format es HH:MM-HH:MM"
 
-#: DlgAdvPreferences.cpp:664
+#: DlgAdvPreferences.cpp:751
 msgid "invalid input value detected"
 msgstr "detectat valor d'entrada incorrecte"
 
-#: DlgAdvPreferences.cpp:666
+#: DlgAdvPreferences.cpp:753
 msgid "Validation Error"
 msgstr "Error de validació"
 
-#: DlgAdvPreferences.cpp:797 DlgAdvPreferences.cpp:803
-#: DlgAdvPreferences.cpp:809
+#: DlgAdvPreferences.cpp:885 DlgAdvPreferences.cpp:891
+#: DlgAdvPreferences.cpp:897
 msgid "Applications to add"
 msgstr "Aplicacions per afegir"
 
-#: DlgAdvPreferences.cpp:826
+#: DlgAdvPreferences.cpp:914
 #, c-format
 msgid "'%s' is not an executable application."
 msgstr "'%s' no és una aplicació executable."
 
-#: DlgAdvPreferences.cpp:827 DlgAdvPreferences.cpp:874
-#: DlgAdvPreferences.cpp:898
+#: DlgAdvPreferences.cpp:915 DlgAdvPreferences.cpp:962
+#: DlgAdvPreferences.cpp:986
 msgid "Add Exclusive App"
 msgstr "Afegeix l'aplicació exclusiva"
 
-#: DlgAdvPreferences.cpp:839
+#: DlgAdvPreferences.cpp:927
 msgid "Name of application to add?"
 msgstr "Nom de l'aplicació per afegir?"
 
-#: DlgAdvPreferences.cpp:839
+#: DlgAdvPreferences.cpp:927
 msgid "Add exclusive app"
 msgstr "Afegir aplicació exclusiva"
 
-#: DlgAdvPreferences.cpp:873
+#: DlgAdvPreferences.cpp:961
 #, c-format
 msgid "Application names must end with '%s'"
 msgstr "Els noms d'aplicació han d'acabar amb '%s'"
 
-#: DlgAdvPreferences.cpp:897
+#: DlgAdvPreferences.cpp:985
 #, c-format
 msgid "'%s' is already in the list."
 msgstr "'%s' ja està a la llista."
 
-#: DlgAdvPreferences.cpp:989
+#: DlgAdvPreferences.cpp:1077
 msgid ""
 "Do you really want to clear all local preferences?\n"
 "(This will not affect exclusive applications.)"
@@ -1176,7 +1176,7 @@ msgstr ""
 "Do you really want to clear all local preferences?\n"
 "(Això no afectarà a les aplicacions exclusives.)"
 
-#: DlgAdvPreferences.cpp:990 sg_DlgPreferences.cpp:1035
+#: DlgAdvPreferences.cpp:1078 sg_DlgPreferences.cpp:1035
 msgid "Confirmation"
 msgstr "Confirmació"
 
@@ -1233,7 +1233,7 @@ msgid "close the dialog without saving"
 msgstr "tancar la finestra sense guardar"
 
 #: DlgAdvPreferencesBase.cpp:112 Localization.cpp:35 Localization.cpp:121
-#: Localization.cpp:139 sg_BoincSimpleFrame.cpp:790 sg_DlgPreferences.cpp:444
+#: Localization.cpp:139 sg_BoincSimpleFrame.cpp:794 sg_DlgPreferences.cpp:444
 msgid "Help"
 msgstr "Ajuda"
 
@@ -1307,7 +1307,7 @@ msgstr "suspendre el treball si el processador excedeix aquest nivell"
 msgid "percent (0 means no restriction)"
 msgstr "perntatge (0 significa sense restriccions)"
 
-#: DlgAdvPreferencesBase.cpp:235 DlgAdvPreferencesBase.cpp:495
+#: DlgAdvPreferencesBase.cpp:235 DlgAdvPreferencesBase.cpp:496
 msgid "Every day between hours of"
 msgstr "Cada dia entre les hores"
 
@@ -1315,7 +1315,7 @@ msgstr "Cada dia entre les hores"
 msgid "start work at this time"
 msgstr "començar a fer feina a aquesta hora"
 
-#: DlgAdvPreferencesBase.cpp:243 DlgAdvPreferencesBase.cpp:503
+#: DlgAdvPreferencesBase.cpp:243 DlgAdvPreferencesBase.cpp:504
 #: sg_DlgPreferences.cpp:331 sg_DlgPreferences.cpp:353
 msgid "and"
 msgstr "i"
@@ -1324,46 +1324,46 @@ msgstr "i"
 msgid "stop work at this time"
 msgstr "aturar de fer feina a aquesta hora"
 
-#: DlgAdvPreferencesBase.cpp:251 DlgAdvPreferencesBase.cpp:511
+#: DlgAdvPreferencesBase.cpp:251 DlgAdvPreferencesBase.cpp:512
 msgid "(no restriction if equal)"
 msgstr "(cap restricció si és igual)"
 
-#: DlgAdvPreferencesBase.cpp:256 DlgAdvPreferencesBase.cpp:516
+#: DlgAdvPreferencesBase.cpp:256 DlgAdvPreferencesBase.cpp:517
 msgid "Day-of-week override:"
 msgstr ""
 "Horari preferit dels dies de la setmana. Aquesta selecció és la que "
 "s'aplicarà:"
 
-#: DlgAdvPreferencesBase.cpp:261 DlgAdvPreferencesBase.cpp:521
+#: DlgAdvPreferencesBase.cpp:261 DlgAdvPreferencesBase.cpp:522
 msgid "check box to specify hours for this day of week"
 msgstr ""
 "marcar la casella per especificar les hores per aquest dia de la setmana"
 
-#: DlgAdvPreferencesBase.cpp:267 DlgAdvPreferencesBase.cpp:527
+#: DlgAdvPreferencesBase.cpp:267 DlgAdvPreferencesBase.cpp:528
 msgid "Monday"
 msgstr "Dilluns"
 
-#: DlgAdvPreferencesBase.cpp:274 DlgAdvPreferencesBase.cpp:534
+#: DlgAdvPreferencesBase.cpp:274 DlgAdvPreferencesBase.cpp:535
 msgid "Tuesday"
 msgstr "Dimarts"
 
-#: DlgAdvPreferencesBase.cpp:281 DlgAdvPreferencesBase.cpp:541
+#: DlgAdvPreferencesBase.cpp:281 DlgAdvPreferencesBase.cpp:542
 msgid "Wednesday"
 msgstr "Dimecres"
 
-#: DlgAdvPreferencesBase.cpp:288 DlgAdvPreferencesBase.cpp:548
+#: DlgAdvPreferencesBase.cpp:288 DlgAdvPreferencesBase.cpp:549
 msgid "Thursday"
 msgstr "Dijous"
 
-#: DlgAdvPreferencesBase.cpp:295 DlgAdvPreferencesBase.cpp:555
+#: DlgAdvPreferencesBase.cpp:295 DlgAdvPreferencesBase.cpp:556
 msgid "Friday"
 msgstr "Divendres"
 
-#: DlgAdvPreferencesBase.cpp:302 DlgAdvPreferencesBase.cpp:562
+#: DlgAdvPreferencesBase.cpp:302 DlgAdvPreferencesBase.cpp:563
 msgid "Saturday"
 msgstr "Dissabte"
 
-#: DlgAdvPreferencesBase.cpp:309 DlgAdvPreferencesBase.cpp:569
+#: DlgAdvPreferencesBase.cpp:309 DlgAdvPreferencesBase.cpp:570
 msgid "Sunday"
 msgstr "Diumenge"
 
@@ -1384,9 +1384,9 @@ msgstr "En equips multi-processador, utilitzar com a màxim"
 msgid "% of the processors (0 means ignore this setting)"
 msgstr "% dels processadors (0 significa ignorar aquesta opció)"
 
-#: DlgAdvPreferencesBase.cpp:349 DlgAdvPreferencesBase.cpp:604
-#: DlgAdvPreferencesBase.cpp:626 DlgAdvPreferencesBase.cpp:647
-#: DlgAdvPreferencesBase.cpp:668 DlgAdvPreferencesBase.cpp:678
+#: DlgAdvPreferencesBase.cpp:349 DlgAdvPreferencesBase.cpp:605
+#: DlgAdvPreferencesBase.cpp:627 DlgAdvPreferencesBase.cpp:648
+#: DlgAdvPreferencesBase.cpp:669 DlgAdvPreferencesBase.cpp:679
 msgid "Use at most"
 msgstr "Utilitzar com a màxim"
 
@@ -1395,73 +1395,73 @@ msgstr "Utilitzar com a màxim"
 msgid "% CPU time"
 msgstr "% temps de CPU"
 
-#: DlgAdvPreferencesBase.cpp:377
+#: DlgAdvPreferencesBase.cpp:378
 msgid "General options"
 msgstr "Opcions generals"
 
-#: DlgAdvPreferencesBase.cpp:385
+#: DlgAdvPreferencesBase.cpp:386
 msgid "Maximum download rate"
 msgstr "Màxima taxa de descàrrega"
 
-#: DlgAdvPreferencesBase.cpp:391 DlgAdvPreferencesBase.cpp:400
+#: DlgAdvPreferencesBase.cpp:392 DlgAdvPreferencesBase.cpp:401
 msgid "KBytes/sec."
 msgstr "KBytes/seg."
 
-#: DlgAdvPreferencesBase.cpp:394
+#: DlgAdvPreferencesBase.cpp:395
 msgid "Maximum upload rate"
 msgstr "Màxima taxa de càrrega"
 
-#: DlgAdvPreferencesBase.cpp:405
+#: DlgAdvPreferencesBase.cpp:406
 msgid "Transfer at most"
 msgstr "Transferir com a molt"
 
-#: DlgAdvPreferencesBase.cpp:411
+#: DlgAdvPreferencesBase.cpp:412
 msgid "Mbytes"
 msgstr "Mbytes"
 
-#: DlgAdvPreferencesBase.cpp:414
+#: DlgAdvPreferencesBase.cpp:415
 msgid "every"
 msgstr "cada"
 
-#: DlgAdvPreferencesBase.cpp:420 DlgAdvPreferencesBase.cpp:443
-#: DlgAdvPreferencesBase.cpp:462
+#: DlgAdvPreferencesBase.cpp:421 DlgAdvPreferencesBase.cpp:444
+#: DlgAdvPreferencesBase.cpp:463
 msgid "days"
 msgstr "dies"
 
-#: DlgAdvPreferencesBase.cpp:428
+#: DlgAdvPreferencesBase.cpp:429
 msgid "Minimum work buffer"
 msgstr "Buffer mínim de treball"
 
-#: DlgAdvPreferencesBase.cpp:437
+#: DlgAdvPreferencesBase.cpp:438
 msgid "Try to maintain enough tasks to keep busy for this many days"
 msgstr ""
 "Intenti mantenir suficients tasques per mantenir-lo ocupat durant molts dies"
 
-#: DlgAdvPreferencesBase.cpp:449
+#: DlgAdvPreferencesBase.cpp:450
 msgid "Max additional work buffer"
 msgstr "Màxim buffer addicional de treball"
 
-#: DlgAdvPreferencesBase.cpp:458
+#: DlgAdvPreferencesBase.cpp:459
 msgid "In addition, maintain enough tasks for up to this many days"
 msgstr "A més, mantenir les tasques suficients per tenir-lo actiu molts dies"
 
-#: DlgAdvPreferencesBase.cpp:465
+#: DlgAdvPreferencesBase.cpp:466
 msgid "Skip image file verification"
 msgstr "Ometre la verificació del fitxer"
 
-#: DlgAdvPreferencesBase.cpp:467
+#: DlgAdvPreferencesBase.cpp:468
 msgid "check this if your Internet provider modifies image files"
 msgstr "seleccioni-ho si el seu proveïdor d'Internet modifica els fitxers"
 
-#: DlgAdvPreferencesBase.cpp:475
+#: DlgAdvPreferencesBase.cpp:476
 msgid "Connect options"
 msgstr "Opcions de connexió"
 
-#: DlgAdvPreferencesBase.cpp:477
+#: DlgAdvPreferencesBase.cpp:478
 msgid "Confirm before connecting to internet"
 msgstr "Confirmar abans de connectar a internet"
 
-#: DlgAdvPreferencesBase.cpp:479
+#: DlgAdvPreferencesBase.cpp:480
 msgid ""
 "if checked, a confirmation dialog will be displayed before trying to connect "
 "to the Internet"
@@ -1469,11 +1469,11 @@ msgstr ""
 "si està seleccionat, una finestra de confirmació es mostrarà abans "
 "d'intentar connectar a Internet"
 
-#: DlgAdvPreferencesBase.cpp:483
+#: DlgAdvPreferencesBase.cpp:484
 msgid "Disconnect when done"
 msgstr "Desconnectar en finalitzar"
 
-#: DlgAdvPreferencesBase.cpp:485
+#: DlgAdvPreferencesBase.cpp:486
 msgid ""
 "if checked, BOINC hangs up when network usage is done\n"
 "(only relevant for dialup-connection)"
@@ -1481,111 +1481,111 @@ msgstr ""
 "si està seleccionat, BOINC penja quan finalitza l'activitat de xarxa\n"
 "(només es vàlid per connexions telefòniques)"
 
-#: DlgAdvPreferencesBase.cpp:491
+#: DlgAdvPreferencesBase.cpp:492
 msgid "Network usage allowed"
 msgstr "Es permet la utilització de la xarxa"
 
-#: DlgAdvPreferencesBase.cpp:499
+#: DlgAdvPreferencesBase.cpp:500
 msgid "network usage start hour"
 msgstr "hora d'inici d'utilització de la xarxa"
 
-#: DlgAdvPreferencesBase.cpp:507
+#: DlgAdvPreferencesBase.cpp:508
 msgid "network usage stop hour"
 msgstr "hora de fi d'utilització de la xarxa"
 
-#: DlgAdvPreferencesBase.cpp:597 DlgItemProperties.cpp:227
+#: DlgAdvPreferencesBase.cpp:598 DlgItemProperties.cpp:231
 msgid "Disk usage"
 msgstr "Utilització de disc"
 
-#: DlgAdvPreferencesBase.cpp:608
+#: DlgAdvPreferencesBase.cpp:609
 msgid "the maximum disk space used by BOINC (in Gigabytes)"
 msgstr "màxim espai en disc utilitzat per BOINC (en Gigabytes)"
 
-#: DlgAdvPreferencesBase.cpp:612
+#: DlgAdvPreferencesBase.cpp:613
 msgid "Gigabytes disk space"
 msgstr "Gigabytes de espai en disc"
 
-#: DlgAdvPreferencesBase.cpp:615
+#: DlgAdvPreferencesBase.cpp:616
 msgid "Leave at least"
 msgstr "Deixar al menys"
 
-#: DlgAdvPreferencesBase.cpp:619
+#: DlgAdvPreferencesBase.cpp:620
 msgid "BOINC leaves at least this amount of disk space free (in Gigabytes)"
 msgstr "BOINC deixa lliure al menys aquest espai en disc (en Gigabytes)"
 
-#: DlgAdvPreferencesBase.cpp:623
+#: DlgAdvPreferencesBase.cpp:624
 msgid "Gigabytes disk space free"
 msgstr "Gigabytes d'espai en disc lliure"
 
-#: DlgAdvPreferencesBase.cpp:630
+#: DlgAdvPreferencesBase.cpp:631
 msgid "BOINC uses at most this percentage of total disk space"
 msgstr "BOINC utilitza com a mínim aquest percentatge del total d'espai en disc"
 
-#: DlgAdvPreferencesBase.cpp:635
+#: DlgAdvPreferencesBase.cpp:636
 #, no-c-format
 msgid "% of total disk space"
 msgstr "% del total d'espai en disc"
 
-#: DlgAdvPreferencesBase.cpp:638
+#: DlgAdvPreferencesBase.cpp:639
 msgid "Tasks checkpoint to disk at most every"
 msgstr "Actualitzar els punts de control de les tasques cada"
 
-#: DlgAdvPreferencesBase.cpp:644
+#: DlgAdvPreferencesBase.cpp:645
 msgid "seconds"
 msgstr "segons"
 
-#: DlgAdvPreferencesBase.cpp:654
+#: DlgAdvPreferencesBase.cpp:655
 #, no-c-format
 msgid "% of page file (swap space)"
 msgstr "% del fitxer d'intercanvi (espai d'intercanvi)"
 
-#: DlgAdvPreferencesBase.cpp:661
+#: DlgAdvPreferencesBase.cpp:662
 msgid "Memory usage"
 msgstr "Utilització de memòria"
 
-#: DlgAdvPreferencesBase.cpp:675
+#: DlgAdvPreferencesBase.cpp:676
 #, no-c-format
 msgid "% when computer is in use"
 msgstr "% quan l'ordinador està en ús"
 
-#: DlgAdvPreferencesBase.cpp:685
+#: DlgAdvPreferencesBase.cpp:686
 #, no-c-format
 msgid "% when computer is idle"
 msgstr "% quan l'ordinador està en repòs"
 
-#: DlgAdvPreferencesBase.cpp:690
+#: DlgAdvPreferencesBase.cpp:691
 msgid "Leave applications in memory while suspended"
 msgstr "Deixar les aplicacions en memòria mentre estan en suspens"
 
-#: DlgAdvPreferencesBase.cpp:692
+#: DlgAdvPreferencesBase.cpp:693
 msgid "if checked, suspended work units are left in memory"
 msgstr "si està seleccionat, els treballs aturats es deixen en memòria"
 
-#: DlgAdvPreferencesBase.cpp:712
+#: DlgAdvPreferencesBase.cpp:713
 msgid ""
 "Suspend processor and network usage when these applications are running:"
 msgstr ""
 "Suspendre l'ús del processador i de la xarxa quan aquestes aplicacions "
 "s'estan executant:"
 
-#: DlgAdvPreferencesBase.cpp:721
+#: DlgAdvPreferencesBase.cpp:722
 msgid "Add..."
 msgstr "Afegir..."
 
-#: DlgAdvPreferencesBase.cpp:722
+#: DlgAdvPreferencesBase.cpp:723
 msgid "Add an application to this list"
 msgstr "Afegir una aplicació a la llista"
 
-#: DlgAdvPreferencesBase.cpp:727 ViewProjects.cpp:202
+#: DlgAdvPreferencesBase.cpp:728 ViewProjects.cpp:202
 #: sg_ProjectCommandPopup.cpp:85
 msgid "Remove"
 msgstr "Eliminar"
 
-#: DlgAdvPreferencesBase.cpp:728
+#: DlgAdvPreferencesBase.cpp:729
 msgid "Remove an application from this list"
 msgstr "Eliminar una aplicació d'aquesta llista"
 
-#: DlgAdvPreferencesBase.cpp:737
+#: DlgAdvPreferencesBase.cpp:738
 msgid "For advanced options, refer to "
 msgstr "Per a les opcions avançades, vegeu "
 
@@ -1595,7 +1595,7 @@ msgid "%s - Event Log"
 msgstr "%s - Registre d'esdeveniments"
 
 #: DlgEventLog.cpp:234 ViewMessages.cpp:117 ViewProjects.cpp:219
-#: ViewStatistics.cpp:435 ViewStatistics.cpp:2007 ViewTransfers.cpp:182
+#: ViewStatistics.cpp:435 ViewStatistics.cpp:2009 ViewTransfers.cpp:182
 #: ViewWork.cpp:232
 msgid "Project"
 msgstr "Projecte"
@@ -1644,7 +1644,7 @@ msgstr ""
 msgid "&Close"
 msgstr "&Tancar"
 
-#: DlgEventLog.cpp:336 sg_BoincSimpleFrame.cpp:794 sg_DlgPreferences.cpp:447
+#: DlgEventLog.cpp:336 sg_BoincSimpleFrame.cpp:798 sg_DlgPreferences.cpp:447
 #, c-format
 msgid "Get help with %s"
 msgstr "Obtenir ajuda amb %s"
@@ -1718,223 +1718,223 @@ msgstr "&Cancel·lar"
 msgid "Don't show this dialog again."
 msgstr "No tornar a mostrar aquesta finestra."
 
-#: DlgItemProperties.cpp:164 DlgItemProperties.cpp:167
-#: DlgItemProperties.cpp:170 DlgItemProperties.cpp:173
+#: DlgItemProperties.cpp:168 DlgItemProperties.cpp:171
+#: DlgItemProperties.cpp:174 DlgItemProperties.cpp:177
 msgid "Don't fetch tasks for "
 msgstr "No obtenir tasques per "
 
-#: DlgItemProperties.cpp:164
+#: DlgItemProperties.cpp:168
 msgid "Project preference"
 msgstr "Projecte preferent"
 
-#: DlgItemProperties.cpp:167
+#: DlgItemProperties.cpp:171
 msgid "Account manager preference"
 msgstr "Preferències de l'administrador de comptes"
 
-#: DlgItemProperties.cpp:170
+#: DlgItemProperties.cpp:174
 msgid "Project has no apps for "
 msgstr "El projecte no té aplicacions per "
 
-#: DlgItemProperties.cpp:173
+#: DlgItemProperties.cpp:177
 msgid "Client configuration excludes "
 msgstr "La configuració del client exclou "
 
-#: DlgItemProperties.cpp:177
+#: DlgItemProperties.cpp:181
 msgid " work fetch deferred for"
 msgstr " feina ajornada durant"
 
-#: DlgItemProperties.cpp:178
+#: DlgItemProperties.cpp:182
 msgid " work fetch deferral interval"
 msgstr " interval d'ajornament de la feina"
 
-#: DlgItemProperties.cpp:209
+#: DlgItemProperties.cpp:213
 msgid "Properties of project "
 msgstr "Propietats del projecte "
 
-#: DlgItemProperties.cpp:213 DlgOptions.cpp:218
+#: DlgItemProperties.cpp:217 DlgOptions.cpp:218
 msgid "General"
 msgstr "General"
 
-#: DlgItemProperties.cpp:214
+#: DlgItemProperties.cpp:218
 msgid "Master URL"
 msgstr "URL principal"
 
-#: DlgItemProperties.cpp:215
+#: DlgItemProperties.cpp:219
 msgid "User name"
 msgstr "Nom del usuari"
 
-#: DlgItemProperties.cpp:216
+#: DlgItemProperties.cpp:220
 msgid "Team name"
 msgstr "Nom de l'equip"
 
-#: DlgItemProperties.cpp:217 ViewProjects.cpp:224
+#: DlgItemProperties.cpp:221 ViewProjects.cpp:224
 msgid "Resource share"
 msgstr "Compartició de recursos"
 
-#: DlgItemProperties.cpp:219
+#: DlgItemProperties.cpp:223
 msgid "Scheduler RPC deferred for"
 msgstr "La programació RPC s'ha ajornat durant"
 
-#: DlgItemProperties.cpp:222
+#: DlgItemProperties.cpp:226
 msgid "File downloads deferred for"
 msgstr "Descàrrega de fitxers posposada durant"
 
-#: DlgItemProperties.cpp:225
+#: DlgItemProperties.cpp:229
 msgid "File uploads deferred for"
 msgstr "Lliurament de fitxers posposada durant"
 
-#: DlgItemProperties.cpp:228
+#: DlgItemProperties.cpp:232
 msgid "Computer ID"
 msgstr "ID de l'ordinador"
 
-#: DlgItemProperties.cpp:230
+#: DlgItemProperties.cpp:234
 msgid "Non CPU intensive"
 msgstr "Us no intensiu de la CPU"
 
-#: DlgItemProperties.cpp:230 DlgItemProperties.cpp:232
-#: DlgItemProperties.cpp:233 DlgItemProperties.cpp:235
-#: DlgItemProperties.cpp:238 DlgItemProperties.cpp:247
-#: DlgItemProperties.cpp:250 DlgItemProperties.cpp:253
+#: DlgItemProperties.cpp:234 DlgItemProperties.cpp:236
+#: DlgItemProperties.cpp:237 DlgItemProperties.cpp:239
+#: DlgItemProperties.cpp:242 DlgItemProperties.cpp:251
+#: DlgItemProperties.cpp:254 DlgItemProperties.cpp:257
 msgid "yes"
 msgstr "si"
 
-#: DlgItemProperties.cpp:232
+#: DlgItemProperties.cpp:236
 msgid "Suspended via GUI"
 msgstr "Aturat via GUI"
 
-#: DlgItemProperties.cpp:232 DlgItemProperties.cpp:233
+#: DlgItemProperties.cpp:236 DlgItemProperties.cpp:237
 msgid "no"
 msgstr "no"
 
-#: DlgItemProperties.cpp:233
+#: DlgItemProperties.cpp:237
 msgid "Don't request more work"
 msgstr "No demanar més feina"
 
-#: DlgItemProperties.cpp:235
+#: DlgItemProperties.cpp:239
 msgid "Scheduler call in progress"
 msgstr "Petició programada en execució"
 
-#: DlgItemProperties.cpp:238
+#: DlgItemProperties.cpp:242
 msgid "Trickle-up pending"
 msgstr "Informació pendent"
 
-#: DlgItemProperties.cpp:241 DlgItemProperties.cpp:243
+#: DlgItemProperties.cpp:245 DlgItemProperties.cpp:247
 msgid "Host location"
 msgstr "Ubicació dl'ordinador central"
 
-#: DlgItemProperties.cpp:243
+#: DlgItemProperties.cpp:247
 msgid "default"
 msgstr "per defecte"
 
-#: DlgItemProperties.cpp:247
+#: DlgItemProperties.cpp:251
 msgid "Added via account manager"
 msgstr "Afegit via l'administrador de comptes"
 
-#: DlgItemProperties.cpp:250
+#: DlgItemProperties.cpp:254
 msgid "Remove when tasks done"
 msgstr "Eliminar quan les tasques hagin finalitzat"
 
-#: DlgItemProperties.cpp:253
+#: DlgItemProperties.cpp:257
 msgid "Ended"
 msgstr "Finalitzat"
 
-#: DlgItemProperties.cpp:255
+#: DlgItemProperties.cpp:259
 msgid "Credit"
 msgstr "Crèdit"
 
-#: DlgItemProperties.cpp:256
+#: DlgItemProperties.cpp:260
 msgid "User"
 msgstr "Usuari"
 
-#: DlgItemProperties.cpp:263
+#: DlgItemProperties.cpp:267
 msgid "Host"
 msgstr "Ordinador central"
 
-#: DlgItemProperties.cpp:272
+#: DlgItemProperties.cpp:276
 msgid "Scheduling"
 msgstr "Planificant"
 
-#: DlgItemProperties.cpp:273
+#: DlgItemProperties.cpp:277
 msgid "Scheduling priority"
 msgstr "Planificació prioritària"
 
-#: DlgItemProperties.cpp:274
+#: DlgItemProperties.cpp:278
 msgid "CPU"
 msgstr "CPU"
 
-#: DlgItemProperties.cpp:298
+#: DlgItemProperties.cpp:302
 msgid "Duration correction factor"
 msgstr "Durada del factor de correcció"
 
-#: DlgItemProperties.cpp:312
+#: DlgItemProperties.cpp:316
 msgid "Properties of task "
 msgstr "Propietats de la tasca "
 
-#: DlgItemProperties.cpp:324 ViewWork.cpp:238
+#: DlgItemProperties.cpp:328 ViewWork.cpp:238
 msgid "Application"
 msgstr "Aplicació"
 
-#: DlgItemProperties.cpp:325
+#: DlgItemProperties.cpp:329
 msgid "Workunit name"
 msgstr "Nom de la feina"
 
-#: DlgItemProperties.cpp:326
+#: DlgItemProperties.cpp:330
 msgid "State"
 msgstr "Estat"
 
-#: DlgItemProperties.cpp:329
+#: DlgItemProperties.cpp:333
 msgid "Received"
 msgstr "Rebut"
 
-#: DlgItemProperties.cpp:332
+#: DlgItemProperties.cpp:336
 msgid "Report deadline"
 msgstr "Data límit per informar"
 
-#: DlgItemProperties.cpp:334
+#: DlgItemProperties.cpp:338
 msgid "Resources"
 msgstr "Recursos"
 
-#: DlgItemProperties.cpp:337
+#: DlgItemProperties.cpp:341
 msgid "Estimated computation size"
 msgstr "Càlcul estimat de computació"
 
-#: DlgItemProperties.cpp:340
+#: DlgItemProperties.cpp:344
 msgid "CPU time at last checkpoint"
 msgstr "Temps de CPU en el darrer punt de control"
 
-#: DlgItemProperties.cpp:341 DlgItemProperties.cpp:356
+#: DlgItemProperties.cpp:345 DlgItemProperties.cpp:360
 msgid "CPU time"
 msgstr "Temps de CPU"
 
-#: DlgItemProperties.cpp:343 DlgItemProperties.cpp:357
+#: DlgItemProperties.cpp:347 DlgItemProperties.cpp:361
 msgid "Elapsed time"
 msgstr "Temps transcorregut"
 
-#: DlgItemProperties.cpp:345
+#: DlgItemProperties.cpp:349
 msgid "Estimated time remaining"
 msgstr "Temps estimat que resta"
 
-#: DlgItemProperties.cpp:346
+#: DlgItemProperties.cpp:350
 msgid "Fraction done"
 msgstr "Fracció realitzada"
 
-#: DlgItemProperties.cpp:347
+#: DlgItemProperties.cpp:351
 msgid "Virtual memory size"
 msgstr "Grandària de la memòria virtual"
 
-#: DlgItemProperties.cpp:348
+#: DlgItemProperties.cpp:352
 msgid "Working set size"
 msgstr "Grandària del bloc de treball"
 
-#: DlgItemProperties.cpp:350
+#: DlgItemProperties.cpp:354
 msgid "Directory"
 msgstr "Directori"
 
-#: DlgItemProperties.cpp:353
+#: DlgItemProperties.cpp:357
 msgid "Process ID"
 msgstr "ID del procés"
 
-#: DlgItemProperties.cpp:427 ViewWork.cpp:1032 sg_TaskPanel.cpp:810
+#: DlgItemProperties.cpp:431 ViewWork.cpp:1032 sg_TaskPanel.cpp:823
 msgid "Local: "
 msgstr "Local: "
 
@@ -2297,23 +2297,23 @@ msgstr "Recerca"
 msgid "Learn about the projects hosted at World Community Grid"
 msgstr "Aprendre respecte del projectes controlats per la World Community Grid"
 
-#: MainDocument.cpp:585
+#: MainDocument.cpp:583
 msgid "Starting client"
 msgstr "Iniciant client"
 
-#: MainDocument.cpp:593
+#: MainDocument.cpp:591
 msgid "Connecting to client"
 msgstr "Connectant amb el client"
 
-#: MainDocument.cpp:1185
+#: MainDocument.cpp:1195
 msgid "Retrieving system state; please wait..."
 msgstr "Recuperant l'estat del sistema; esperi si us plau..."
 
-#: MainDocument.cpp:1806
+#: MainDocument.cpp:1816
 msgid "Missing application"
 msgstr "Manca l'aplicació"
 
-#: MainDocument.cpp:1807
+#: MainDocument.cpp:1817
 msgid ""
 "Please download and install the CoRD application from http://cord."
 "sourceforge.net"
@@ -2321,184 +2321,184 @@ msgstr ""
 "Si us plau, descarregueu i instal l'aplicació CoRD des de "
 "http://cord.sourceforge.net"
 
-#: MainDocument.cpp:2422
+#: MainDocument.cpp:2432
 msgid "on batteries"
 msgstr "en bateries"
 
-#: MainDocument.cpp:2423
+#: MainDocument.cpp:2433
 msgid "computer is in use"
 msgstr "l'ordinador està en us"
 
-#: MainDocument.cpp:2424
+#: MainDocument.cpp:2434
 msgid "user request"
 msgstr "sol.licitud de l'usuari"
 
-#: MainDocument.cpp:2425
+#: MainDocument.cpp:2435
 msgid "time of day"
 msgstr "hora del dia"
 
-#: MainDocument.cpp:2426
+#: MainDocument.cpp:2436
 msgid "CPU benchmarks in progress"
 msgstr "Test de la CPU en progrés"
 
-#: MainDocument.cpp:2427
+#: MainDocument.cpp:2437
 msgid "need disk space - check preferences"
 msgstr "necessitat d'espai en disc - comprovar les preferències"
 
-#: MainDocument.cpp:2428
+#: MainDocument.cpp:2438
 msgid "computer is not in use"
 msgstr "l'ordinador no està en us"
 
-#: MainDocument.cpp:2429
+#: MainDocument.cpp:2439
 msgid "starting up"
 msgstr "iniciant"
 
-#: MainDocument.cpp:2430
+#: MainDocument.cpp:2440
 msgid "an exclusive app is running"
 msgstr "s'està executant una aplicació amb exclusivitat"
 
-#: MainDocument.cpp:2431
+#: MainDocument.cpp:2441
 msgid "CPU is busy"
 msgstr "La CPU està ocupada"
 
-#: MainDocument.cpp:2432
+#: MainDocument.cpp:2442
 msgid "network bandwidth limit exceeded"
 msgstr "s'ha superat el límit d'ample de banda"
 
-#: MainDocument.cpp:2433
+#: MainDocument.cpp:2443
 msgid "requested by operating system"
 msgstr "sol·licitat pel sistema operatiu"
 
-#: MainDocument.cpp:2435
+#: MainDocument.cpp:2445
 msgid "unknown reason"
 msgstr "raó desconeguda"
 
-#: MainDocument.cpp:2457
+#: MainDocument.cpp:2467
 msgid "GPU missing, "
 msgstr "GPU inexistent, "
 
-#: MainDocument.cpp:2464
+#: MainDocument.cpp:2474
 msgid "New"
 msgstr "Nou"
 
-#: MainDocument.cpp:2468
+#: MainDocument.cpp:2478
 msgid "Download failed"
 msgstr "La descàrrega ha fallat"
 
-#: MainDocument.cpp:2470
+#: MainDocument.cpp:2480
 msgid "Downloading"
 msgstr "Descarregant"
 
-#: MainDocument.cpp:2472 MainDocument.cpp:2542
+#: MainDocument.cpp:2482 MainDocument.cpp:2552
 msgid " (suspended - "
 msgstr " (suspès - "
 
-#: MainDocument.cpp:2480
+#: MainDocument.cpp:2490
 msgid "Project suspended by user"
 msgstr "Projecte suspès per l'usuari"
 
-#: MainDocument.cpp:2482
+#: MainDocument.cpp:2492
 msgid "Task suspended by user"
 msgstr "Tasca suspesa per l'usuari"
 
-#: MainDocument.cpp:2484
+#: MainDocument.cpp:2494
 msgid "Suspended - "
 msgstr "Suspès - "
 
 # 75%
-#: MainDocument.cpp:2490
+#: MainDocument.cpp:2500
 msgid "GPU suspended - "
 msgstr "GPU suspesa - "
 
-#: MainDocument.cpp:2497
+#: MainDocument.cpp:2507
 msgid "Waiting for memory"
 msgstr "Esperant memòria"
 
-#: MainDocument.cpp:2499
+#: MainDocument.cpp:2509
 msgid "Waiting for shared memory"
 msgstr "Esperant memòria compartida"
 
-#: MainDocument.cpp:2502
+#: MainDocument.cpp:2512
 msgid "Running, high priority"
 msgstr "Executant, alta prioritat"
 
-#: MainDocument.cpp:2504
+#: MainDocument.cpp:2514
 msgid "Running"
 msgstr "Executant"
 
-#: MainDocument.cpp:2507
+#: MainDocument.cpp:2517
 msgid " (non-CPU-intensive)"
 msgstr " (no-CPU-intensiva)"
 
-#: MainDocument.cpp:2510
+#: MainDocument.cpp:2520
 msgid "Waiting to run"
 msgstr "Esperant per executar"
 
-#: MainDocument.cpp:2512 MainDocument.cpp:2518
+#: MainDocument.cpp:2522 MainDocument.cpp:2528
 msgid "Ready to start"
 msgstr "A punt per començar"
 
-#: MainDocument.cpp:2522
+#: MainDocument.cpp:2532
 msgid " (Scheduler wait: "
 msgstr " (Espera del programador: "
 
-#: MainDocument.cpp:2526
+#: MainDocument.cpp:2536
 msgid " (Scheduler wait)"
 msgstr " (Espera del programador)"
 
-#: MainDocument.cpp:2530
+#: MainDocument.cpp:2540
 msgid " (Waiting for network access)"
 msgstr " (Esperant accés a la xarxa)"
 
-#: MainDocument.cpp:2534
+#: MainDocument.cpp:2544
 msgid "Computation error"
 msgstr "Error de computació"
 
-#: MainDocument.cpp:2538
+#: MainDocument.cpp:2548
 msgid "Upload failed"
 msgstr "La càrrega ha fallat"
 
-#: MainDocument.cpp:2540
+#: MainDocument.cpp:2550
 msgid "Uploading"
 msgstr "Carregant"
 
-#: MainDocument.cpp:2551
+#: MainDocument.cpp:2561
 msgid "Aborted by user"
 msgstr "Avortat per l'usuari"
 
-#: MainDocument.cpp:2554
+#: MainDocument.cpp:2564
 msgid "Aborted by project"
 msgstr "Avortat per el projecte"
 
-#: MainDocument.cpp:2557
+#: MainDocument.cpp:2567
 msgid "Aborted: not started by deadline"
 msgstr "Avortat: no s'ha iniciat per haver superat el de temps de finalització"
 
-#: MainDocument.cpp:2560
+#: MainDocument.cpp:2570
 msgid "Aborted: disk limit exceeded"
 msgstr "Avortat: s'ha superat el límit d'espai en disc"
 
-#: MainDocument.cpp:2563
+#: MainDocument.cpp:2573
 msgid "Aborted: run time limit exceeded"
 msgstr "Avortat: s'ha superat el temps límit d'execució"
 
-#: MainDocument.cpp:2566
+#: MainDocument.cpp:2576
 msgid "Aborted: memory limit exceeded"
 msgstr "Avortat: s'ha superat el límit de memòria"
 
-#: MainDocument.cpp:2569
+#: MainDocument.cpp:2579
 msgid "Aborted"
 msgstr "Avortat"
 
-#: MainDocument.cpp:2574
+#: MainDocument.cpp:2584
 msgid "Acknowledged"
 msgstr "Reconegut"
 
-#: MainDocument.cpp:2576
+#: MainDocument.cpp:2586
 msgid "Ready to report"
 msgstr "A punt per informar"
 
-#: MainDocument.cpp:2578
+#: MainDocument.cpp:2588
 #, c-format
 msgid "Error: invalid state '%d'"
 msgstr "Error: estat incorrecte '%d'"
@@ -2558,53 +2558,53 @@ msgstr ""
 msgid "more..."
 msgstr "més..."
 
-#: ProjectInfoPage.cpp:479 ProjectInfoPage.cpp:786 ProjectInfoPage.cpp:790
+#: ProjectInfoPage.cpp:477 ProjectInfoPage.cpp:778 ProjectInfoPage.cpp:782
 msgid "All"
 msgstr "Tot"
 
-#: ProjectInfoPage.cpp:617
+#: ProjectInfoPage.cpp:615
 msgid "Choose a project"
 msgstr "Esculli un projecte"
 
-#: ProjectInfoPage.cpp:621
+#: ProjectInfoPage.cpp:619
 msgid "To choose a project, click its name or type its URL below."
 msgstr ""
 "Per escollir un projecte, premi el seu nom o introdueixi la seva URL a "
 "continuació."
 
-#: ProjectInfoPage.cpp:625
+#: ProjectInfoPage.cpp:623
 msgid "Categories:"
 msgstr "Catagories:"
 
-#: ProjectInfoPage.cpp:629 sg_ProjectPanel.cpp:89
+#: ProjectInfoPage.cpp:627 sg_ProjectPanel.cpp:89
 msgid "Projects:"
 msgstr "Projectes:"
 
-#: ProjectInfoPage.cpp:633
+#: ProjectInfoPage.cpp:631
 msgid "Project details"
 msgstr "Detalls del projecte"
 
-#: ProjectInfoPage.cpp:637
+#: ProjectInfoPage.cpp:635
 msgid "Research area:"
 msgstr "Àrea de recerca:"
 
-#: ProjectInfoPage.cpp:641
+#: ProjectInfoPage.cpp:639
 msgid "Organization:"
 msgstr "Organització:"
 
-#: ProjectInfoPage.cpp:645
+#: ProjectInfoPage.cpp:643
 msgid "Web site:"
 msgstr "Pàgina web:"
 
-#: ProjectInfoPage.cpp:649
+#: ProjectInfoPage.cpp:647
 msgid "Supported systems:"
 msgstr "Sistemes compatibles:"
 
-#: ProjectInfoPage.cpp:653
+#: ProjectInfoPage.cpp:651
 msgid "Project URL:"
 msgstr "&URL del projecte:"
 
-#: ProjectInfoPage.cpp:834
+#: ProjectInfoPage.cpp:826
 msgid ""
 "This project may not have work for your type of computer.  Do you want to "
 "add it anyway?"
@@ -2612,7 +2612,7 @@ msgstr ""
 "Aquest projecte poder no te feina per al seu ordinador.  Vol afegir-lo de "
 "totes maneres?"
 
-#: ProjectInfoPage.cpp:858
+#: ProjectInfoPage.cpp:850
 msgid "You already added this project. Please choose a different project."
 msgstr "Ja va afegir aquest projecte. Si us plau esculli un projecte diferent."
 
@@ -2826,7 +2826,7 @@ msgstr "'%s' no conté un nom vàlid de d'ordinador."
 msgid "'%s' does not contain a valid path."
 msgstr "'%s' no conté una ruta vàlida."
 
-#: ViewMessages.cpp:84 ViewProjects.cpp:170 ViewStatistics.cpp:1976
+#: ViewMessages.cpp:84 ViewProjects.cpp:170 ViewStatistics.cpp:1978
 #: ViewTransfers.cpp:160 ViewWork.cpp:183
 msgid "Commands"
 msgstr "Ordres"
@@ -2879,7 +2879,7 @@ msgstr "Obtenint noticies, si us plau esperi..."
 msgid "There are no notices at this time."
 msgstr "No hi han notícies en aquest moment."
 
-#: ViewNotices.cpp:99 sg_BoincSimpleFrame.cpp:772
+#: ViewNotices.cpp:99 sg_BoincSimpleFrame.cpp:776
 msgid "Notices"
 msgstr "Notícies"
 
@@ -2896,7 +2896,7 @@ msgstr ""
 "possiblement obtenir noves tasques."
 
 #: ViewProjects.cpp:181 ViewProjects.cpp:722 ViewWork.cpp:208 ViewWork.cpp:801
-#: sg_BoincSimpleFrame.cpp:753 sg_ProjectCommandPopup.cpp:67
+#: sg_BoincSimpleFrame.cpp:757 sg_ProjectCommandPopup.cpp:67
 #: sg_ProjectCommandPopup.cpp:113 sg_TaskCommandPopup.cpp:66
 #: sg_TaskCommandPopup.cpp:106
 msgid "Suspend"
@@ -3132,135 +3132,135 @@ msgstr "lliure: "
 msgid "used by other programs: "
 msgstr "utilitzat per altres programes: "
 
-#: ViewStatistics.cpp:1203
+#: ViewStatistics.cpp:1205
 msgid "User Total"
 msgstr "Total de l'Usuari"
 
-#: ViewStatistics.cpp:1204
+#: ViewStatistics.cpp:1206
 msgid "User Average"
 msgstr "Mitjana de l'Usuari"
 
-#: ViewStatistics.cpp:1205
+#: ViewStatistics.cpp:1207
 msgid "Host Total"
 msgstr "Total de l'Ordinador"
 
-#: ViewStatistics.cpp:1206
+#: ViewStatistics.cpp:1208
 msgid "Host Average"
 msgstr "Mitjana de l'Ordinador"
 
-#: ViewStatistics.cpp:1353
+#: ViewStatistics.cpp:1355
 #, c-format
 msgid "Last update: %.0f days ago"
 msgstr "Darrera actualització: fa %.0f dies"
 
-#: ViewStatistics.cpp:1980
+#: ViewStatistics.cpp:1982
 msgid "Show user total"
 msgstr "Mostrar el total de l'usuari"
 
-#: ViewStatistics.cpp:1981
+#: ViewStatistics.cpp:1983
 msgid "Show total credit for user"
 msgstr "Mostrar els crèdits totals de l'usuari"
 
-#: ViewStatistics.cpp:1987
+#: ViewStatistics.cpp:1989
 msgid "Show user average"
 msgstr "Mostrar la mitjana de l'usuari"
 
-#: ViewStatistics.cpp:1988
+#: ViewStatistics.cpp:1990
 msgid "Show average credit for user"
 msgstr "Mostrar el crèdit mitjà de l'usuari"
 
-#: ViewStatistics.cpp:1994
+#: ViewStatistics.cpp:1996
 msgid "Show host total"
 msgstr "Mostrar el total de l'ordinador"
 
-#: ViewStatistics.cpp:1995
+#: ViewStatistics.cpp:1997
 msgid "Show total credit for host"
 msgstr "Mostrar el crèdit total de l'ordinador"
 
-#: ViewStatistics.cpp:2001
+#: ViewStatistics.cpp:2003
 msgid "Show host average"
 msgstr "Mostrar la mitjana de l'ordinador"
 
-#: ViewStatistics.cpp:2002
+#: ViewStatistics.cpp:2004
 msgid "Show average credit for host"
 msgstr "Mostrar el crèdit mitjà de l'ordinador"
 
-#: ViewStatistics.cpp:2011
+#: ViewStatistics.cpp:2013
 msgid "< &Previous project"
 msgstr "< Projecte &anterior"
 
-#: ViewStatistics.cpp:2012
+#: ViewStatistics.cpp:2014
 msgid "Show chart for previous project"
 msgstr "Mostrar gràfica del projecte anterior"
 
-#: ViewStatistics.cpp:2017
+#: ViewStatistics.cpp:2019
 msgid "&Next project >"
 msgstr "Projecte &següent >"
 
-#: ViewStatistics.cpp:2018
+#: ViewStatistics.cpp:2020
 msgid "Show chart for next project"
 msgstr "Mostrar la gràfica del projecte següent"
 
-#: ViewStatistics.cpp:2024 ViewStatistics.cpp:2414
+#: ViewStatistics.cpp:2026 ViewStatistics.cpp:2416
 msgid "Hide project list"
 msgstr "Amaga la llista de projectes"
 
-#: ViewStatistics.cpp:2025 ViewStatistics.cpp:2414
+#: ViewStatistics.cpp:2027 ViewStatistics.cpp:2416
 msgid "Use entire area for graphs"
 msgstr "Utilitzeu tota l'espai per els gràfics"
 
-#: ViewStatistics.cpp:2030
+#: ViewStatistics.cpp:2032
 msgid "Mode view"
 msgstr "Mode visual"
 
-#: ViewStatistics.cpp:2034
+#: ViewStatistics.cpp:2036
 msgid "One project"
 msgstr "Un projecte"
 
-#: ViewStatistics.cpp:2035
+#: ViewStatistics.cpp:2037
 msgid "Show one chart with selected project"
 msgstr "Mostrar la gràfica del projecte seleccionat"
 
-#: ViewStatistics.cpp:2041
+#: ViewStatistics.cpp:2043
 msgid "All projects (separate)"
 msgstr "Tots els projectes (per separat)"
 
-#: ViewStatistics.cpp:2042
+#: ViewStatistics.cpp:2044
 msgid "Show all projects, one chart per project"
 msgstr "Mostrar tots els projectes, una gràfica per projecte"
 
-#: ViewStatistics.cpp:2048
+#: ViewStatistics.cpp:2050
 msgid "All projects (together)"
 msgstr "Tots els projectes (junts)"
 
-#: ViewStatistics.cpp:2049
+#: ViewStatistics.cpp:2051
 msgid "Show one chart with all projects"
 msgstr "Mostrar una gràfica amb tots els projectes"
 
-#: ViewStatistics.cpp:2055
+#: ViewStatistics.cpp:2057
 msgid "All projects (sum)"
 msgstr "Tots els projectes (suma)"
 
-#: ViewStatistics.cpp:2056
+#: ViewStatistics.cpp:2058
 msgid "Show one chart with sum of projects"
 msgstr "Mostrar una gràfica amb tots els projectes sumats"
 
-#: ViewStatistics.cpp:2077
+#: ViewStatistics.cpp:2079
 msgid "Statistics"
 msgstr "Estadístiques"
 
-#: ViewStatistics.cpp:2101 ViewStatistics.cpp:2122 ViewStatistics.cpp:2143
-#: ViewStatistics.cpp:2165 ViewStatistics.cpp:2186 ViewStatistics.cpp:2207
-#: ViewStatistics.cpp:2228 ViewStatistics.cpp:2249 ViewStatistics.cpp:2270
-#: ViewStatistics.cpp:2294
+#: ViewStatistics.cpp:2103 ViewStatistics.cpp:2124 ViewStatistics.cpp:2145
+#: ViewStatistics.cpp:2167 ViewStatistics.cpp:2188 ViewStatistics.cpp:2209
+#: ViewStatistics.cpp:2230 ViewStatistics.cpp:2251 ViewStatistics.cpp:2272
+#: ViewStatistics.cpp:2296
 msgid "Updating charts..."
 msgstr "Actualitzant les gràfiques..."
 
-#: ViewStatistics.cpp:2418
+#: ViewStatistics.cpp:2420
 msgid "Show project list"
 msgstr "Mostrar la llista de projectes"
 
-#: ViewStatistics.cpp:2418
+#: ViewStatistics.cpp:2420
 msgid "Uses smaller area for graphs"
 msgstr "Utilitza un àrea més petita per als gràfics"
 
@@ -3586,40 +3586,40 @@ msgstr "Realment vol cancel·lar?"
 msgid "Question"
 msgstr "Pregunta"
 
-#: sg_BoincSimpleFrame.cpp:145
+#: sg_BoincSimpleFrame.cpp:149
 msgid "Advanced View...\tCtrl+Shift+A"
 msgstr "Vista Avançada...\tCTRL+SHIFT+A"
 
-#: sg_BoincSimpleFrame.cpp:146
+#: sg_BoincSimpleFrame.cpp:150
 msgid "Display the advanced graphical interface."
 msgstr "Mostrar la interfície gràfica avançada."
 
-#: sg_BoincSimpleFrame.cpp:153
+#: sg_BoincSimpleFrame.cpp:157
 msgid "Skin"
 msgstr "Aspecte"
 
-#: sg_BoincSimpleFrame.cpp:155
+#: sg_BoincSimpleFrame.cpp:159
 msgid "Select the appearance of the user interface."
 msgstr "Seleccionar l'aparença de la interfície d'usuari."
 
-#: sg_BoincSimpleFrame.cpp:202
+#: sg_BoincSimpleFrame.cpp:206
 #, c-format
 msgid "&%s"
 msgstr "&%s"
 
-#: sg_BoincSimpleFrame.cpp:386
+#: sg_BoincSimpleFrame.cpp:390
 msgid "Default"
 msgstr "Per defecte"
 
-#: sg_BoincSimpleFrame.cpp:755
+#: sg_BoincSimpleFrame.cpp:759
 msgid "Suspend Computing"
 msgstr "Suspendre la computació"
 
-#: sg_BoincSimpleFrame.cpp:756
+#: sg_BoincSimpleFrame.cpp:760
 msgid "Resume Computing"
 msgstr "Restaurar la computació"
 
-#: sg_BoincSimpleFrame.cpp:773
+#: sg_BoincSimpleFrame.cpp:777
 msgid "Open a window to view notices from projects or BOINC"
 msgstr "Obrir una finestra per veure les notícies del's projectes o BOINC"
 
@@ -3810,116 +3810,116 @@ msgstr ""
 "Està segur de voler avortar aquesta tasca '%s'?\n"
 "(Progrés: %.1lf%%, Estat: %s)"
 
-#: sg_TaskPanel.cpp:451
+#: sg_TaskPanel.cpp:464
 msgid "You don't have any projects.  Please Add a Project."
 msgstr "No te cap projecte. Si us plau, afegeixi un  projecte."
 
-#: sg_TaskPanel.cpp:452
+#: sg_TaskPanel.cpp:465
 msgid "Not available"
 msgstr "No disponible"
 
-#: sg_TaskPanel.cpp:463
+#: sg_TaskPanel.cpp:476
 msgid "Tasks:"
 msgstr "Tasques:"
 
-#: sg_TaskPanel.cpp:469
+#: sg_TaskPanel.cpp:482
 msgid "Select a task to access"
 msgstr "Seleccioneu una tasca per accedir-hi"
 
-#: sg_TaskPanel.cpp:480
+#: sg_TaskPanel.cpp:493
 msgid "From:"
 msgstr "De:"
 
-#: sg_TaskPanel.cpp:534
+#: sg_TaskPanel.cpp:547
 msgid "This task's progress"
 msgstr "Progrés d'aquesta tasca"
 
-#: sg_TaskPanel.cpp:552
+#: sg_TaskPanel.cpp:565
 msgid "Task Commands"
 msgstr "Ordres de la tasca"
 
-#: sg_TaskPanel.cpp:553
+#: sg_TaskPanel.cpp:566
 msgid "Pop up a menu of commands to apply to this task"
 msgstr "Obre un menú d'ordres per aplicar a aquesta tasca"
 
-#: sg_TaskPanel.cpp:688
+#: sg_TaskPanel.cpp:701
 #, c-format
 msgid "Application: %s"
 msgstr "Aplicació: %s"
 
-#: sg_TaskPanel.cpp:711
+#: sg_TaskPanel.cpp:724
 #, c-format
 msgid "%.3f%%"
 msgstr "%.3f%%"
 
-#: sg_TaskPanel.cpp:719
+#: sg_TaskPanel.cpp:732
 msgid "Application: Not available"
 msgstr "Aplicació: No disponible"
 
-#: sg_TaskPanel.cpp:819
+#: sg_TaskPanel.cpp:832
 msgid "Not Available"
 msgstr "No Disponible"
 
-#: sg_TaskPanel.cpp:834
+#: sg_TaskPanel.cpp:847
 #, c-format
 msgid "Elapsed: %s"
 msgstr "Transcorregut: %s"
 
-#: sg_TaskPanel.cpp:848
+#: sg_TaskPanel.cpp:861
 #, c-format
 msgid "Remaining (estimated): %s"
 msgstr "Pendent (estimat): %s"
 
-#: sg_TaskPanel.cpp:863
+#: sg_TaskPanel.cpp:876
 #, c-format
 msgid "Status: %s"
 msgstr "Estat: %s"
 
-#: sg_TaskPanel.cpp:1210
+#: sg_TaskPanel.cpp:1223
 msgid "Retrieving current status."
 msgstr "Recuperant estat actual."
 
-#: sg_TaskPanel.cpp:1216
+#: sg_TaskPanel.cpp:1229
 msgid "Downloading work from the server."
 msgstr "Descarregant feina des del servidor."
 
-#: sg_TaskPanel.cpp:1221
+#: sg_TaskPanel.cpp:1234
 msgid "Processing Suspended:  Running On Batteries."
 msgstr "Procés en suspens:  Execució En Bateries."
 
-#: sg_TaskPanel.cpp:1223
+#: sg_TaskPanel.cpp:1236
 msgid "Processing Suspended:  User Active."
 msgstr "Procés en suspens:  Usuari Actiu."
 
-#: sg_TaskPanel.cpp:1225
+#: sg_TaskPanel.cpp:1238
 msgid "Processing Suspended:  User paused processing."
 msgstr "Procés en suspens:  L'usuari ha aturat l'execució."
 
-#: sg_TaskPanel.cpp:1227
+#: sg_TaskPanel.cpp:1240
 msgid "Processing Suspended:  Time of Day."
 msgstr "Procés en suspens:  Canviar Hora."
 
-#: sg_TaskPanel.cpp:1229
+#: sg_TaskPanel.cpp:1242
 msgid "Processing Suspended:  Benchmarks Running."
 msgstr "Procés en suspens:  Executant Test de Rendiment."
 
-#: sg_TaskPanel.cpp:1231
+#: sg_TaskPanel.cpp:1244
 msgid "Processing Suspended."
 msgstr "Procés en suspens."
 
-#: sg_TaskPanel.cpp:1235
+#: sg_TaskPanel.cpp:1248
 msgid "Waiting to contact project servers."
 msgstr "Esperant contactar amb els servidors del projecte."
 
-#: sg_TaskPanel.cpp:1239 sg_TaskPanel.cpp:1248
+#: sg_TaskPanel.cpp:1252 sg_TaskPanel.cpp:1261
 msgid "Retrieving current status"
 msgstr "Recuperant l'estat actual"
 
-#: sg_TaskPanel.cpp:1243
+#: sg_TaskPanel.cpp:1256
 msgid "No work available to process"
 msgstr "No hi ha feina disponible a processar"
 
-#: sg_TaskPanel.cpp:1245
+#: sg_TaskPanel.cpp:1258
 msgid "Unable to connect to the core client"
 msgstr "Impossible connectar amb el client"
 
@@ -3960,6 +3960,9 @@ msgstr "Mostra Tot"
 #, c-format
 msgid "Quit %s"
 msgstr "Sortir de %s"
+
+#~ msgid "invalid float"
+#~ msgstr "número decimal incorrecte"
 
 #~ msgid "Display the advanced (accessible) graphical interface."
 #~ msgstr "Mostrar la interfície gràfica avançada (accessible)."
