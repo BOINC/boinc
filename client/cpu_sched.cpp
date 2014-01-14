@@ -964,6 +964,7 @@ static inline bool in_run_list(vector<RESULT*>& run_list, ACTIVE_TASK* atp) {
     return false;
 }
 
+#if 0
 // scan the runnable list, keeping track of CPU usage X.
 // if find a MT job J, and X < ncpus, move J before all non-MT jobs
 // But don't promote a MT job ahead of a job in EDF
@@ -999,6 +1000,7 @@ static void promote_multi_thread_jobs(vector<RESULT*>& runnable_jobs) {
         cur++;
     }
 }
+#endif
 
 // return true if r0 is more important to run than r1
 //
