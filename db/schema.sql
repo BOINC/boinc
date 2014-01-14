@@ -320,10 +320,11 @@ create table user_submit (
     logical_start_time      double          not null,
     submit_all              tinyint         not null,
         -- can submit jobs to any app
-    manage_all              tinyint         not null
+    manage_all              tinyint         not null,
         -- manager privileges for all apps
         -- grant/revoke permissions (except manage), change quotas
         -- create apps
+    max_jobs_in_progress    integer         not null
 ) engine = InnoDB;
 
 -- (user, app) submit permissions

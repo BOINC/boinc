@@ -301,7 +301,7 @@ if (isset($accelerate_gpu_apps_pref) && $accelerate_gpu_apps_pref) {
     );
 }
 
-if ($app_types->count > 1) {
+//if ($app_types->count > 1) {
     if ($app_types->cpu) {
         $project_pref_descs[] = new PREF_BOOL (
             tra(
@@ -350,7 +350,7 @@ if ($app_types->count > 1) {
             true
         );
     }
-}
+//}
 
 if (isset($project_has_beta) && $project_has_beta) {
     $project_pref_descs[] = new PREF_BOOL(

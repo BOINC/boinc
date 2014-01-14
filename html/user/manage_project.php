@@ -48,6 +48,7 @@ function user_row($u) {
     }
     echo "</td>\n";
     echo "<td>$u->quota</td>\n";
+    echo "<td>$u->max_jobs_in_progress</td>\n";
     echo "<td>";
     if ($u->logical_start_time > time()) {
         echo local_time_str($u->logical_start_time);
@@ -72,6 +73,7 @@ function handle_list() {
         "User<br><span class=note>Click to change permissions or quota</span>",
         "Can submit jobs for",
         "Quota",
+        "Max jobs in progress<br><span class=note>0 means no limit</span>",
         "Current priority<br><span class=note>Later time = lower priority</span>"
     );
     foreach ($us as $u) {
@@ -88,9 +90,9 @@ function handle_edit_form() {
     $user_id = get_int('user_id');
     $user = BoincUser::lookup_id($user_id);
     $usub = BoincUserSubmit::lookup_userid($user_id);
-    page_head("Permissions for $user->name");
+    page_head("Job submission permissions for $user->name");
     echo "
-        $user->name is allowed to submit jobs for:
+        $user->name can submit jobs for:
         <p>
         <form action=manage_project.php>
         <input type=hidden name=action value=edit_action>
@@ -114,12 +116,16 @@ function handle_edit_form() {
         echo "<br>&nbsp;&nbsp;&nbsp; <input type=checkbox name=app_$app->id $checked> $app->name\n";
     }
     $q = (string) $usub->quota;
+    $mj = $usub->max_jobs_in_progress;
     $sav = $usub->create_app_versions?"checked":"";
     $sa = $usub->create_apps?"checked":"";
     echo "
         <p>
         Quota: <input name=quota value=$q>
         This determines how much computing capacity is allocated to $user->name.
+        <p>
+        Max jobs in progress:
+        <input name=max_jobs_in_progress value=$mj>
         <p>
         <input type=submit value=OK>
         </form>
@@ -150,6 +156,10 @@ function handle_edit_action() {
     $quota = (double) get_str('quota');
     if ($quota != $us->quota) {
         $us->update("quota=$quota");
+    }
+    $mj = (int) get_str('max_jobs_in_progress');
+    if ($mj != $us->max_jobs_in_progress) {
+        $us->update("max_jobs_in_progress=$mj");
     }
     header('Location: manage_project.php');
 }

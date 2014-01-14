@@ -82,6 +82,17 @@ function read_input_template($app) {
     return simplexml_load_file($path);
 }
 
+function check_max_jobs_in_progress($r, $user_submit) {
+    if (!$user_submit->max_jobs_in_progress) return;
+    $query = "select count(*) as total from DBNAME.result, DBNAME.batch where batch.user_id=$userid and result.batch = batch.id and result.server_state<".RESULT_SERVER_STATE_OVER;
+    $db = BoincDb::get();
+    $n = $db->get_int($query);
+    if ($n === false) return;
+    if ($n + count($r->batch->job) > $user_submit->max_jobs_in_progress) {
+        xml_error(,1 "BOINC server: limit on jobs in progress exceeded");
+    }
+}
+
 function estimate_batch($r) {
     $app = get_app((string)($r->batch->app_name));
     list($user, $user_submit) = authenticate_user($r, $app);
@@ -110,12 +121,6 @@ $fanout = parse_config(get_config(), "<uldl_dir_fanout>");
 function stage_file($file) {
     global $fanout;
 
-    switch ($file->mode) {
-    case "semilocal":
-    case "local":
-        $md5 = md5_file($file->source);
-        if (!$md5) {
-            xml_error(-1, "BOINC server: Can't get MD5 of file $file->source");
         }
         $name = "jf_$md5";
         $path = dir_hier_path($name, "../../download", $fanout);
@@ -219,6 +224,12 @@ function submit_batch($r) {
             $total_flops += $job->rsc_fpops_est;
         } else {
             $x = (double) $template->workunit->rsc_fpops_est;
+            if ($x) {
+                $total_flops += $x;
+            } else {
+                xml_error(-1, "BOINC server: no rsc_fpops_est given");
+            }
+        }
             if ($x) {
                 $total_flops += $x;
             } else {

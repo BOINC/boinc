@@ -41,6 +41,7 @@ class DbConn {
     //
     function do_query($q) {
         global $generating_xml;
+        $q = str_replace('DBNAME', $this->db_name, $q);
         //echo "query: $q<br>\n";
         $ret = mysql_query($q, $this->db_conn);
         if (!$ret) {
@@ -62,7 +63,7 @@ class DbConn {
     }
 
     function lookup_fields($table, $classname, $fields, $clause) {
-        $query = "select $fields from ".$this->db_name.".$table where $clause";
+        $query = "select $fields from DBNAME.$table where $clause";
         $result = $this->do_query($query);
         if (!$result) {
             return null;
@@ -73,7 +74,7 @@ class DbConn {
     }
 
     function lookup($table, $classname, $clause) {
-        $query = "select * from ".$this->db_name.".$table where $clause";
+        $query = "select * from DBNAME.$table where $clause";
         $result = $this->do_query($query);
         if (!$result) {
             return null;
@@ -105,7 +106,7 @@ class DbConn {
         if ($where_clause) {
             $where_clause = "where $where_clause";
         }
-        $query = "select $fields from ".$this->db_name.".$table $where_clause $order_clause";
+        $query = "select $fields from DBNAME.$table $where_clause $order_clause";
         $result = $this->do_query($query);
         if (!$result) return null;
         $x = array();
@@ -122,65 +123,63 @@ class DbConn {
     }
 
     function update($obj, $table, $clause) {
-        $query = "update ".$this->db_name.".$table set $clause where id=$obj->id";
+        $query = "update DBNAME.$table set $clause where id=$obj->id";
         return $this->do_query($query);
     }
     function update_aux($table, $clause) {
-        $query = "update ".$this->db_name.".$table set $clause";
+        $query = "update DBNAME.$table set $clause";
         return $this->do_query($query);
     }
     function insert($table, $clause) {
-        $query = "insert into ".$this->db_name.".$table $clause";
+        $query = "insert into DBNAME.$table $clause";
         return $this->do_query($query);
     }
     function delete($obj, $table) {
-        $query = "delete from ".$this->db_name.".$table where id=$obj->id";
+        $query = "delete from DBNAME.$table where id=$obj->id";
         return $this->do_query($query);
     }
     function delete_aux($table, $clause) {
-        $query = "delete from ".$this->db_name.".$table where $clause";
+        $query = "delete from DBNAME.$table where $clause";
         return $this->do_query($query);
     }
     function insert_id() {
         return mysql_insert_id($this->db_conn);
     }
-    function count($table, $clause) {
-        $query = "select count(*) as total from ".$this->db_name.".$table where $clause";
+    function get_int($query, $field) {
         $result = $this->do_query($query);
-        $cnt = mysql_fetch_object($result);
+        $x = mysql_fetch_object($result);
         mysql_free_result($result);
-        if ($cnt) return $cnt->total;
-        return null;
+        if ($x) return $x->$field;
+        return false;
+    }
+    function get_double($query, $field) {
+        $result = $this->do_query($query);
+        $x = mysql_fetch_object($result);
+        mysql_free_result($result);
+        if ($x) return (double)$x->$field;
+        return false;
+    }
+    function count($table, $clause) {
+        $query = "select count(*) as total from DBNAME.$table where $clause";
+        return $this->get_int($query, 'total');
     }
     function sum($table, $field, $clause="") {
-        $query = "select sum($field) as total from ".$this->db_name.".$table $clause";
-        $result = $this->do_query($query);
-        $cnt = mysql_fetch_object($result);
-        mysql_free_result($result);
-        if ($cnt) return (double)$cnt->total;
-        return null;
+        $query = "select sum($field) as total from DBNAME.$table $clause";
+        return $this->get_double($query, 'total');
     }
     function max($table, $field, $clause="") {
-        $query = "select max($field) as total from ".$this->db_name.".$table $clause";
-        $result = $this->do_query($query);
-        $cnt = mysql_fetch_object($result);
-        mysql_free_result($result);
-        if ($cnt) return (double)$cnt->total;
-        return null;
+        $query = "select max($field) as total from DBNAME.$table $clause";
+        return $this->get_double($query, 'total');
     }
     function percentile($table, $field, $clause, $pct) {
         $n = $this->count($table, $clause);
         if (!$n) return false;
         $m = (int)($n*$pct/100);
-        $query = "select $field from ".$this->db_name.".$table where $clause order by $field limit $m,1";
-        $result = $this->do_query($query);
-        if (!$result) return false;
-        $percentile = mysql_fetch_object($result);
-        mysql_free_result($result);
-        return $percentile->$field;
+        $query = "select $field from DBNAME.$table where $clause order by $field limit $m,1";
+        return $this->get_double($query, $field);
     }
     function replace($table, $clause) {
-        $query = "replace into ".$this->db_name.".$table set $clause";
+        $query = "replace into DBNAME.$table set $clause";
         return $this->do_query($query);
     }
     function base_escape_string($string) {
@@ -190,7 +189,7 @@ class DbConn {
         return mysql_error($this->db_conn);
     }
     function table_exists($table_name) {
-        $result = $this->do_query("show tables from ".$this->db_name." like '$table_name'");
+        $result = $this->do_query("show tables from DBNAME like '$table_name'");
         $t = mysql_fetch_array($result);
         mysql_free_result($result);
         if ($t[0] == "$table_name") return true;
