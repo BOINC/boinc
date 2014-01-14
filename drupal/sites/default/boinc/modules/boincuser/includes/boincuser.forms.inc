@@ -118,8 +118,7 @@ function boincuser_register_make_user($params) {
 function boincuser_register_make_drupal_user($boinc_user) {
   $account = null;
   if (is_numeric($boinc_user)) {
-    require_boinc('db');
-    $boinc_user = BoincUser::lookup_id($boinc_user);
+    $boinc_user = boincuser_load($boinc_user);
   }
   if ($boinc_user) {
     $account = boincuser_create_drupal_user($boinc_user);

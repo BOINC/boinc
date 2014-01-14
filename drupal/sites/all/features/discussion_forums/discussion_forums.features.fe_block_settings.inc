@@ -24,7 +24,7 @@ function discussion_forums_default_fe_block_settings() {
   $match = FALSE;
 
   // Which node types
-  $types = array(\'forum\');
+  $types = array(\'forum\', \'team_forum\');
 
   // Match current node type with array of types
   if (arg(0) == \'node\' && is_numeric(arg(1))) {
@@ -64,7 +64,7 @@ function discussion_forums_default_fe_block_settings() {
   $match = FALSE;
 
   // Which node types
-  $types = array(\'forum\');
+  $types = array(\'forum\', \'team_forum\');
 
   // Match current node type with array of types
   if (arg(0) == \'node\' && is_numeric(arg(1))) {
@@ -104,7 +104,7 @@ function discussion_forums_default_fe_block_settings() {
   $match = FALSE;
 
   // Which node types
-  $types = array(\'forum\');
+  $types = array(\'forum\', \'team_forum\');
 
   // Match current node type with array of types
   if (arg(0) == \'node\' && is_numeric(arg(1))) {

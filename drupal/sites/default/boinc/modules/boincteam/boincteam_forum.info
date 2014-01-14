@@ -1,0 +1,6 @@
+; $Id$
+name = BOINC team forum
+description = Enable team specific message boards
+core = 6.x
+dependencies[] = boincteam
+package = BOINC

@@ -155,6 +155,7 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
         total_credit, 
         expavg_credit,
         cross_project_id,
+        teamid,
         venue
       FROM {user}
       WHERE id = %d",
@@ -167,7 +168,16 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
     $account->boincuser_expavg_credit = round($boinc_user->expavg_credit);
     $account->boincuser_cpid = md5($boinc_user->cross_project_id . $account->mail);
     $account->boincuser_default_pref_set = $boinc_user->venue;
+    $account->boincteam_id = $boinc_user->teamid;
     db_set_active('default');
+    // Set Drupal team ID
+    $account->team = NULL;
+    if ($account->boincteam_id) {
+      $account->team = db_result(db_query("
+        SELECT nid FROM {boincteam} WHERE team_id = %d",
+        $account->boincteam_id
+      ));
+    }
     // Set post count
     $account->post_count = db_result(db_query("
       SELECT COUNT(*) +
@@ -1059,8 +1069,7 @@ function boincuser_get_weak_auth($boinc_id = null) {
     $boinc_id = $account->boincuser_id;
   }
   
-  require_boinc('user');
-  $boinc_user = BoincUser::lookup_id($account->boincuser_id);
+  $boinc_user = boincuser_load($account->boincuser_id);
   
   return weak_auth($boinc_user);
 }

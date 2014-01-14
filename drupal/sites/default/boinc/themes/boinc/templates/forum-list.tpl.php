@@ -73,6 +73,41 @@
     <?php endif; ?>
     
   <?php endforeach; ?>
+  
+  <?php // Show the team forum, if available ?>
+  
+  <?php if (module_exists('boincteam_forum')
+      AND $team_forums = boincteam_forum_list()): ?>
+      <tr class="heading">
+        <td class="primary"><div class="name"><?php echo t('Team'); ?></div></td>
+        <td><?php print t('Threads');?></td>
+        <td><?php print t('Posts'); ?></td>
+        <td><?php print t('Last post'); ?></td>
+      </tr>
+  
+    <?php foreach ($team_forums as $child_id => $forum): ?>
+      <tr id="team-forum-list<?php print $child_id; ?>" class="<?php print $forum->zebra; ?>">
+        <td class="forum">
+            <div class="name"><a href="<?php print $forum->link; ?>"><?php print $forum->title; ?></a></div>
+            <?php if ($forum->description): ?>
+              <div class="description"><?php print $forum->description; ?></div>
+            <?php endif; ?>
+        </td>
+        <td class="topics">
+          <?php if ($forum->new_topics): ?>
+            <a href="<?php print $forum->new_url; ?>">
+          <?php endif; ?>
+          <?php print $forum->num_topics ?>
+          <?php if ($forum->new_topics): ?>
+            <?php //print $forum->new_text; ?>
+            </a>
+          <?php endif; ?>
+        </td>
+        <td class="posts"><?php print $forum->num_posts ?></td>
+        <td class="last-reply"><?php print $forum->last_reply ?></td>
+      </tr>
+    <?php endforeach; // Team forum ?>
+  <?php endif; // Team forums exist ?>
   </tbody>
 </table>
 

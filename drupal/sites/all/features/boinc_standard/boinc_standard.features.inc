@@ -33,8 +33,8 @@ function boinc_standard_flag_default_flags() {
     'title' => 'Comment Abuse',
     'global' => FALSE,
     'types' => array(
-      '0' => 'forum',
-      '1' => 'news',
+      '0' => 'news',
+      '1' => 'forum',
     ),
     'flag_short' => 'Report',
     'flag_long' => 'Report this content as offensive.',
@@ -150,10 +150,10 @@ function boinc_standard_flag_default_flags() {
     'link_type' => 'toggle',
     'roles' => array(
       'flag' => array(
-        '0' => '2',
+        '0' => 2,
       ),
       'unflag' => array(
-        '0' => '2',
+        '0' => 2,
       ),
     ),
     'weight' => 0,

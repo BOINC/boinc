@@ -9,7 +9,7 @@ function friends_flag_default_flags() {
   $flags['friend'] = array(
     'content_type' => 'user',
     'title' => 'Friend',
-    'global' => FALSE,
+    'global' => '0',
     'types' => array(),
     'flag_short' => 'Add friend',
     'flag_long' => 'Add this user to your list of friends.',

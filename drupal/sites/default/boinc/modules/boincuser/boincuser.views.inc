@@ -53,12 +53,32 @@ function boincuser_views_data() {
       'handler' => 'views_handler_sort_numeric'
     )
   );
+  $data['user']['teamid'] = array(
+    'title' => t('Team ID'),
+    'help' => t('The ID of the user\'s team.'),
+    'field' => array(
+      'handler' => 'views_handler_field_numeric',
+      'click sortable' => TRUE,
+    ),
+    'argument' => array(
+      'handler' => 'views_handler_argument_boincteam_id', // custom handler
+      'name field' => 'title', // the field to display in the summary.
+      'numeric' => TRUE,
+      'validate type' => 'id'
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_numeric'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_numeric'
+    )
+  );
   
   // Descriptions of general host fields (alphabetized)
   
   $data['user']['authenticator'] = array(
     'title' => t('Account Key'),
-    'help' => t('The BOINC account key.'),
+    'help' => t('The BOINC account key of the user.'),
     'field' => array(
       'handler' => 'views_handler_field',
       'click sortable' => TRUE
@@ -128,7 +148,7 @@ function boincuser_views_data() {
   );
   $data['user']['expavg_credit'] = array(
     'title' => t('Recent average credit'),
-    'help' => t('A decaying average of credit per day.'),
+    'help' => t('A decaying average of credit per day for the user.'),
     'field' => array(
       'handler' => 'views_handler_field_numeric',
       'click sortable' => TRUE,
@@ -183,6 +203,20 @@ function boincuser_views_data() {
       'handler' => 'views_handler_sort_string'
     )
   );
+  $data['user']['send_email'] = array(
+    'title' => t('Send Email'),
+    'help' => t('User preference to allow email communications.'),
+    'field' => array(
+      'handler' => 'views_handler_field_numeric',
+      'click sortable' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_numeric'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_numeric'
+    )
+  );
   $data['user']['show_hosts'] = array(
     'title' => t('Show Hosts'),
     'help' => t('User preference to display owned computers.'),
@@ -199,7 +233,7 @@ function boincuser_views_data() {
   );
   $data['user']['total_credit'] = array(
     'title' => t('Total Credit'),
-    'help' => t('The total accumulated BOINC project credit.'),
+    'help' => t('The total accumulated BOINC credit for the user.'),
     'field' => array(
       'handler' => 'views_handler_field_numeric',
       'click sortable' => TRUE,
@@ -245,7 +279,10 @@ function boincuser_views_handlers() {
     'handlers' => array(
       'views_handler_argument_boincuser_id' => array(
         'parent' => 'views_handler_argument_numeric'
-      )
+      ),
+      'views_handler_argument_boincteam_id' => array(
+        'parent' => 'views_handler_argument_numeric'
+      ),
     )
   );
 }

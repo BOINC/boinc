@@ -343,7 +343,7 @@ Western Sahara|Western Sahara
 Yemen|Yemen
 Zambia|Zambia
 Zimbabwe|Zimbabwe',
-    'allowed_values_php' => '',
+    'allowed_values_php' => 'return boinccore_get_country_list();',
     'widget' => array(
       'default_value' => array(
         '0' => array(

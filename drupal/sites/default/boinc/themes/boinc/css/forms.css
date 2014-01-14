@@ -84,6 +84,9 @@ fieldset.collapsible legend a:hover {
   margin-right: 40px;
   font-size: 12px;
 }
+.panel-col-first .form-item label {
+  width: 200px;
+}
 
 .form-item label.option /* The label for a radio button or checkbox */ {
   display: inline;

@@ -258,6 +258,9 @@ function boincimport_process_form() {
       'categories' => t('Import forum containers'),
       'topics' => t('Import topics'),
       'posts' => t('Import posts'),
+      'team forums' => t('Import team forums'),
+      'team topics' => t('Import team topics'),
+      'team posts' => t('Import team posts'),
       'url' => t('Transform URLs'),
     );
 
@@ -361,6 +364,36 @@ function boincimport_process_form_submit($form, $form_state) {
       boincimport_forum_posts();
       if (!variable_get('boincimport_import_post_successful', 0)) {
         $_SESSION['boincimport_stage_selected'] = 'posts';
+      }
+      else {
+        $_SESSION['boincimport_stage_selected'] = 'url';
+      }
+      break;
+
+    case 'team forums':
+      boincimport_team_forums();
+      if (!variable_get('boincimport_team_forum_successful', 0)) {
+        $_SESSION['boincimport_stage_selected'] = 'team forums';
+      }
+      else {
+        $_SESSION['boincimport_stage_selected'] = 'team topics';
+      }
+      break;
+
+    case 'team topics':      
+      boincimport_team_forum_topics();
+      if (!variable_get('boincimport_team_topic_successful', 0)) {
+        $_SESSION['boincimport_stage_selected'] = 'team topics';
+      }
+      else {
+        $_SESSION['boincimport_stage_selected'] = 'team posts';
+      }
+      break;
+      
+    case 'team posts':
+      boincimport_team_forum_posts();
+      if (!variable_get('boincimport_team_post_successful', 0)) {
+        $_SESSION['boincimport_stage_selected'] = 'team posts';
       }
       else {
         $_SESSION['boincimport_stage_selected'] = 'url';
@@ -1062,7 +1095,11 @@ function boincimport_forum_categories() {
         // Once all forum categories are done, import the public forums
         db_set_active('boinc');
         $importing_categories = FALSE;
-        $boincforums = db_query('SELECT * FROM %sforum WHERE parent_type = 0 ORDER BY category', $pre);
+        $boincforums = db_query('
+          SELECT * FROM %sforum
+          WHERE parent_type = 0
+          ORDER BY category', $pre
+        );
         db_set_active('default');
         continue;
       }
@@ -1210,10 +1247,19 @@ function boincimport_forum_topics() {
     return;
   }
 
-  // Get All topics from BOINC
+  // Get all normal (non-team) topics from BOINC
   db_set_active('boinc');
-  $topics = db_query('SELECT * FROM %sthread ORDER BY id', $pre);
-  $topic_count = db_result(db_query('SELECT COUNT(*) FROM %sthread', $pre));
+  $topics = db_query('
+    SELECT t.* FROM %sthread t
+    JOIN %sforum f ON f.id = t.forum
+    WHERE f.parent_type = 0
+    ORDER BY id', $pre, $pre
+  );
+  $topic_count = db_result(db_query('
+    SELECT COUNT(*) FROM %sthread t
+    JOIN %sforum f ON f.id = t.forum
+    WHERE f.parent_type = 0', $pre, $pre
+  ));
   db_set_active('default');
   drupal_set_message(t('Found %topic_count discussion threads: Beginning Import', array('%topic_count' => $topic_count)));
   watchdog('boincimport', 'Found %topic_count discussion threads: Beginning Import', array('%topic_count' => $topic_count), WATCHDOG_INFO); 
@@ -1379,9 +1425,23 @@ function boincimport_forum_posts() {
   
   // Get the BOINC threads and get a count of what we're dealing with
   db_set_active('boinc');
-  $topic_ids = db_query('SELECT id FROM %sthread ORDER BY id', $pre);
-  $topic_count = db_result(db_query("SELECT COUNT(id) FROM %sthread", $pre));
-  $post_count = db_result(db_query("SELECT COUNT(id) FROM %spost", $pre));
+  $topic_ids = db_query('
+    SELECT t.id FROM %sthread t
+    JOIN %sforum f ON f.id = t.forum
+    WHERE f.parent_type = 0
+    ORDER BY id', $pre, $pre
+  );
+  $topic_count = db_result(db_query("
+    SELECT COUNT(t.id) FROM %sthread t
+    JOIN %sforum f ON f.id = t.forum
+    WHERE f.parent_type = 0", $pre
+  ));
+  $post_count = db_result(db_query("
+    SELECT COUNT(p.id) FROM %spost p
+    JOIN %sthread t ON t.id = p.thread
+    JOIN %sforum f ON f.id = t.forum
+    WHERE f.parent_type = 0", $pre, $pre, $pre
+  ));
   db_set_active('default');
   
   drupal_set_message(t('Found %post_count posts in %topic_count threads: Beginning Import', array('%post_count' => $post_count, '%topic_count' => $topic_count)));
@@ -1510,6 +1570,441 @@ function boincimport_forum_posts() {
   
   // Set the post import successful flag in the variable table
   variable_set('boincimport_import_post_successful', '1');
+  drupal_set_message(t('Successfully Imported %imported posts', array('%imported' => $total_posts_imported)));
+  watchdog('boincimport', 'Successfully Imported %imported posts', array('%imported' => $total_posts_imported), WATCHDOG_INFO); 
+  if ($empty_posts) {
+    drupal_set_message(t('Skipped importing %empty empty posts', array('%empty' => $empty_posts)));
+    watchdog('boincimport', 'Skipped importing %empty empty posts', array('%empty' => $empty_posts), WATCHDOG_INFO); 
+  }
+  if ($errors) {
+    drupal_set_message(t('There were %errors errors while importing posts', array('%errors' => $errors)), 'error');
+    watchdog('boincimport', 'There were %errors errors while importing posts', array('%errors' => $errors), WATCHDOG_ERROR); 
+  }
+  
+  // Indicate that the process is complete and return to the main migration page
+  echo "<br/>\n<br/>\n";
+  echo 'complete. redirecting';
+  ob_flush();
+  flush();
+  for ($i = 0; $i < 3; $i++) {
+    sleep(1);
+    echo '.';
+    ob_flush();
+    flush();
+  }
+  echo "<script>location.replace('{$_SERVER['REQUEST_URI']}');</script>";
+  ob_flush();
+  flush();
+}
+
+/**
+ * TEAM FORUM IMPORT
+ */
+/**
+ * Import team forums
+ */
+function boincimport_team_forums() {
+  $pre = variable_get('boincimport_table_prefix', '');
+  
+  // check if the forum database has been successfully imported
+  db_set_active('default');
+  if (variable_get('boincimport_team_forum_successful', 0)) {
+    drupal_set_message(t('Team Forums already imported successfully'));
+    watchdog('boincimport', 'Team Forums already imported successfully', array(), WATCHDOG_INFO); 
+    return;
+  }    
+  
+  // Get team forums from BOINC database
+  db_set_active('boinc');
+  $boincteam_forums = db_query('
+    SELECT * FROM %sforum WHERE parent_type = 1 ORDER BY id ASC',
+    $pre
+  );
+  db_set_active('default');
+  
+  $boincteam_forums_imported = 0;
+  
+  while ($boincteam_forum = db_fetch_object($boincteam_forums)) {
+    // Set term parameters for forums
+    $forum_id = $boincteam_forum->id;
+    $team_id = boincteam_lookup_nid($boincteam_forum->category);
+    $name = _boincimport_text_sanitize($boincteam_forum->title);
+    $description = _boincimport_text_sanitize($boincteam_forum->description);
+    
+    db_query("
+      INSERT INTO {boincteam_forum} SET 
+        boinc_id = %d,
+        nid = %d,
+        title = '%s',
+        description = '%s',
+        created = %d,
+        updated = %d,
+        public = %d,
+        min_time_between_posts = %d,
+        min_total_credit_to_post = %d,
+        min_avg_credit_to_post = %d",
+      $forum_id, $team_id, $name, $description, $timestamp, time(),
+      0, $boincteam_forum->post_min_interval, 
+      $boincteam_forum->post_min_total_credit,
+      $boincteam_forum->post_min_expavg_credit
+    );
+    $boincteam_forums_imported++;
+  }
+  
+  // Set the forums import successful flag in the variable table
+  variable_set('boincimport_team_forum_successful', '1');
+
+  drupal_set_message(t('Successfully Imported %count team forums.', 
+    array('%count' => $boincteam_forums_imported)));
+  watchdog('boincimport', 'Successfully Imported %count team forums.',
+    array('%count' => $boincteam_forums_imported), WATCHDOG_INFO); 
+}
+
+/**
+ * Imports BOINC team topics to Drupal team_forum type nodes
+ */
+function boincimport_team_forum_topics() {
+  $pre = variable_get('boincimport_table_prefix', '');
+  $input_format = variable_get('boincimport_input_format', 0);
+  
+  // Check if the topics have been successfully imported
+  db_set_active('default');
+  if (variable_get('boincimport_team_topic_successful', 0)) {
+    drupal_set_message(t('Team Topics already imported successfully'));
+    watchdog('boincimport', 'Team Topics already imported successfully',
+      array(), WATCHDOG_INFO); 
+    return;
+  }
+
+  // Get all team topics from BOINC
+  db_set_active('boinc');
+  $topics = db_query('
+    SELECT t.* FROM %sthread t
+    JOIN %sforum f ON f.id = t.forum
+    WHERE f.parent_type = 1
+    ORDER BY id', $pre, $pre
+  );
+  $topic_count = db_result(db_query('
+    SELECT COUNT(*) FROM %sthread t
+    JOIN %sforum f ON f.id = t.forum
+    WHERE f.parent_type = 1', $pre, $pre
+  ));
+  db_set_active('default');
+  drupal_set_message(t('Found %topic_count team discussion threads: Beginning Import', array('%topic_count' => $topic_count)));
+  watchdog('boincimport', 'Found %topic_count team discussion threads: Beginning Import', array('%topic_count' => $topic_count), WATCHDOG_INFO); 
+  
+  $total_topics_imported = 0;
+  $total_runtime = 0;
+  $last_status_update = 0;
+  $topics_without_update = 0;
+  
+  echo t('Importing %topic_count team discussion topics from BOINC database', array('%topic_count' => $topic_count));
+  ob_flush();
+  flush();
+  
+  // Import the topics into Drupal
+  while ($topic = db_fetch_object($topics)) {
+    
+    // Keep track of how long things are taking and provide occasional status
+    $start_time = microtime(true);
+    
+    // Check if this topic has been imported already just to be sure
+    $topic_exists = db_result(db_query('SELECT count(*) FROM {boincimport_temp_topic} WHERE topic_id = %d', $topic->id));
+    if ($topic_exists) continue;
+    
+    // Verify that the team forum container has been imported
+    $team_forum_id = db_result(db_query("
+      SELECT tfid FROM {boincteam_forum} WHERE boinc_id = %d",
+      $topic->forum
+    ));
+    if (!$team_forum_id) {
+      drupal_set_message(t('Aborting import of topic %topic_id: The parent forum is missing', array('%topic_id' => $topic->id)), 'error');
+      watchdog('boincimport', 'Aborting import of topic %topic_id: The parent forum is missing', array('%topic_id' => $topic->id), WATCHDOG_ERROR); 
+      continue;
+    }
+    
+    // Get the content of the post that started the topic
+    db_set_active('boinc');
+    $query = db_query('
+      SELECT id, content
+      FROM %spost
+      WHERE thread = %d
+      ORDER BY timestamp ASC
+      LIMIT 1', $pre, $topic->id);
+    db_set_active('default');
+      
+    // Skip this topic if there are no posts
+    if (!$post = db_fetch_object($query)) {
+      drupal_set_message(t('Could not find any posts in thread: %topic_id', array('%topic_id' => $topic->id)));    
+      watchdog('boincimport', 'Could not find any posts in thread: %topic_id', array('%topic_id' => $topic->id), WATCHDOG_INFO); 
+      continue;
+    }
+    
+    // Get the user ID along with other data to define the topic
+    $uid = get_drupal_id($topic->owner);
+     if (!$topic->owner) {
+      $uid = 0;
+    }
+    
+    $node_type = 'team_forum';
+    $promote = 0;
+    $comment = ($topic->locked) ? 1 : 2;
+    
+    $post->content = _boincimport_strip_bbcode($post->content);
+    $post->content = _boincimport_text_sanitize($post->content);
+    $teaser = node_teaser($post->content);
+    
+    if ($topic->timestamp < $topic->create_time) {
+      $topic->timestamp = $topic->create_time;
+    }
+
+    // Construct the thread as a team_forum topic node
+    $node = array(
+      'type' => $node_type,
+      'title' => $topic->title,
+      'uid' => $uid,
+      'status' => ($topic->hidden) ? 0 : 1,  // published or not
+      'promote' => $promote,
+      'created' => $topic->create_time,
+      'changed' => $topic->timestamp,
+      'comment' => $comment,
+      'moderate' => 0,
+      'body' => $post->content,
+      'sticky' => $topic->sticky,
+      'format' => $input_format,
+      'teaser' => $teaser,
+    );
+    $node['title'] = _boincimport_text_sanitize($node['title']);
+    
+    // Save the team topic node
+    $node = (object) $node; // node_save requires an object form
+    node_save($node);
+
+    if ($node->nid) {
+      db_query('
+        INSERT INTO {boincimport_temp_topic} (topic_id, post_id, nid)
+        VALUES (%d, %d, %d)', $topic->id, $post->id, $node->nid
+      );
+      db_query("
+        INSERT INTO {boincteam_forum_node} SET nid = %d, tfid = %d",
+        $node->nid, $team_forum_id
+      );
+      // Hack to keep the topics in correct order
+      db_query('UPDATE {node_comment_statistics} SET last_comment_timestamp = %d WHERE nid = %d', $node->created, $node->nid);
+    } else {
+      drupal_set_message(t('Failed importing %topic_id', array('%topic_id' => $topic->id)), 'error');
+      watchdog('boincimport', 'Failed importing %topic_id', array('%topic_id' => $topic->id), WATCHDOG_ERROR); 
+      continue;
+    }
+
+    $processing_time = round(microtime(true) - $start_time, 2);
+    
+    // Keep a running tally of things and provide occasional status updates
+    $total_topics_imported++;
+    $total_runtime += $processing_time;
+    $last_status_update += $processing_time;
+    $topics_without_update++;
+    if ($last_status_update > 60 OR $topics_without_update >= 1000) {
+      $progress = round(100*($total_topics_imported/$topic_count), 1);
+      echo "<br/>\n" . t("%num_topics topics imported in %time (%progress% complete)", array('%num_topics' => $total_topics_imported, '%time' => gmdate('H:i:s', $total_runtime), '%progress' => $progress));
+      ob_flush();
+      flush();
+      $last_status_update = 0;
+      $topics_without_update = 0;
+    } elseif ($topics_without_update % 50 == 0) {
+      echo '.';
+      ob_flush();
+      flush();
+    }
+  }
+  
+  // Set the topic import successful flag in the variable table
+  variable_set('boincimport_team_topic_successful', '1');
+  
+  drupal_set_message(t('Successfully Imported %count topics', array('%count' => $total_topics_imported)));
+  watchdog('boincimport', 'Successfully Imported %count topics', array('%count' => $total_topics_imported), WATCHDOG_INFO); 
+  
+  // Indicate that the process is complete and return to the main migration page
+  echo "<br/>\n<br/>\n";
+  echo 'complete. redirecting';
+  ob_flush();
+  flush();
+  for ($i = 0; $i < 3; $i++) {
+    sleep(1);
+    echo '.';
+    ob_flush();
+    flush();
+  }
+  echo "<script>location.replace('{$_SERVER['REQUEST_URI']}');</script>";
+  ob_flush();
+  flush();
+}
+
+/**
+ * Import BOINC team forum posts as Drupal comments
+ */
+function boincimport_team_forum_posts() {
+  $pre = variable_get('boincimport_table_prefix', '');
+  $input_format = variable_get('boincimport_input_format', 0);
+  
+  // Check if the team post data has been successfully imported
+  if (variable_get('boincimport_team_post_successful', 0)) {
+    drupal_set_message(t('Team Posts already imported successfully'));
+    watchdog('boincimport', 'Team Posts already imported successfully', array(), WATCHDOG_INFO); 
+    return;
+  }    
+
+  if (!variable_get('boincimport_team_post_started', 0)) {
+    variable_set('boincimport_team_post_started', 1);
+  }
+  
+  // Get the BOINC threads and get a count of what we're dealing with
+  db_set_active('boinc');
+  $topic_ids = db_query('
+    SELECT t.id FROM %sthread t
+    JOIN %sforum f ON f.id = t.forum
+    WHERE f.parent_type = 1
+    ORDER BY id', $pre, $pre
+  );
+  $topic_count = db_result(db_query("
+    SELECT COUNT(t.id) FROM %sthread t
+    JOIN %sforum f ON f.id = t.forum
+    WHERE f.parent_type = 1", $pre
+  ));
+  $post_count = db_result(db_query("
+    SELECT COUNT(p.id) FROM %spost p
+    JOIN %sthread t ON t.id = p.thread
+    JOIN %sforum f ON f.id = t.forum
+    WHERE f.parent_type = 1", $pre, $pre, $pre
+  ));
+  db_set_active('default');
+  
+  drupal_set_message(t('Found %post_count posts in %topic_count team threads: Beginning Import', array('%post_count' => $post_count, '%topic_count' => $topic_count)));
+  watchdog('boincimport', 'Found %post_count posts in %topic_count team threads: Beginning Import', array('%post_count' => $post_count, '%topic_count' => $topic_count), WATCHDOG_INFO); 
+  
+  $total_posts_imported = 0;
+  $total_runtime = 0;
+  $last_status_update = 0;
+  $topics_without_update = 0;
+  $errors = 0;
+  $empty_posts = 0;
+  
+  echo t('Importing %post_count posts in %topic_count team threads from BOINC database', array('%post_count' => $post_count, '%topic_count' => $topic_count));
+  ob_flush();
+  flush();
+  
+  // Import the posts into Drupal by team discussion thread
+  while ($topic = db_fetch_object($topic_ids)) {
+    
+    // Keep track of how long things are taking to provide occasional status
+    $start_time = microtime(true);
+    
+    db_set_active('boinc');
+    $posts = db_query('
+      SELECT id, user, thread, timestamp, content, parent_post, hidden
+      FROM %spost WHERE thread = %d ORDER BY timestamp ASC', $pre, $topic->id);
+    db_set_active('default');
+    
+    $first_post = true;
+
+    while ($post = db_fetch_object($posts)) {
+      
+      // Skip the first post as it has already been imported as a topic
+      if ($first_post) {
+        $first_post = false;
+        continue;
+      }
+      
+      // Make sure the post is valid
+      if (!$post->content) {
+        $empty_posts++;
+        continue;
+      }
+
+      // Skip the post if it has already been imported
+      $post_exists = db_result(db_query('SELECT COUNT(*) FROM {boincimport_temp_post} WHERE post_id = %d', $post->id));
+      if ($post_exists) {
+        continue;
+      }
+      
+      // Get user, node, and parent IDs for the post and sanitize
+      $uid = get_drupal_id($post->user);
+      $node = (db_fetch_object(db_query('SELECT nr.nid, nr.title FROM {boincimport_temp_topic} btt LEFT JOIN {node_revisions} AS nr ON btt.nid = nr.nid  WHERE btt.topic_id = %d', $post->thread)));
+      $nid = $node->nid;
+      $pid = db_result(db_query('SELECT cid FROM {boincimport_temp_post} WHERE post_id = %d', $post->parent_post));
+      if (is_null($pid)) $pid = 0;
+      if (!$uid) $uid = 0;
+      
+      $post->content = _boincimport_strip_bbcode($post->content);
+      $post->content = _boincimport_text_sanitize($post->content);
+      
+      $topic_reply = db_result(db_query('SELECT COUNT(*) FROM {comments} WHERE nid = %d', $nid));
+      $post_reply = $pid;
+      
+      if ($post_reply OR $topic_reply) {
+        // Create a subject for the post from the post content. The body may be in 
+        // any format, so we:
+        //  1) Filter it into HTML
+        //  2) Strip out all HTML tags
+        //  3) Convert entities back to plain-text.
+        // Note: format is checked by check_markup().
+        $subject = truncate_utf8(trim(decode_entities(strip_tags(check_markup($post->content, $input_format)))), 29, TRUE);
+        // Replace "Quote:" with "RE:"
+        $subject = str_replace('Quote:', 'RE: ', $subject);
+        // Fringe cases where the comment body is populated only by HTML tags
+        // will require a default subject...
+        if ($subject === '')
+          $subject = "RE: {$node->title}";
+      } else {
+        // This is the first post in the topic
+        $subject = $node->title;
+      }
+      
+      // Construct the post as a Drupal comment
+      $comment = array(
+        'pid' => $pid,
+        'nid' => $nid,
+        'uid' => $uid,
+        'subject' => $subject,
+        'comment' => $post->content,
+        'timestamp' => $post->timestamp,
+        'status' => $post->hidden,
+        'format' => $input_format
+      );
+      
+      // Save the comment
+      if ($cid = boincimport_forum_comment_save($comment)) {
+        db_query('INSERT INTO {boincimport_temp_post} (post_id, cid) VALUES (%d, %d)', $post->id, $cid);
+        $total_posts_imported++;
+      } else {
+        drupal_set_message(t('Failed importing %post_id', array('%post_id' => $post->id)), 'error');
+        watchdog('boincimport', 'Failed importing %post_id', array('%post_id' => $post->id), WATCHDOG_ERROR); 
+        $errors++;
+      }
+    }
+    
+    $processing_time = round(microtime(true) - $start_time, 2);
+    
+    // Keep a running tally of things and provide occasional status updates
+    $total_runtime += $processing_time;
+    $last_status_update += $processing_time;
+    $topics_without_update++;
+    if ($last_status_update > 60 OR $topics_without_update >= 500) {
+      $progress = round(100*($total_posts_imported/$post_count), 1);
+      echo "<br/>\n" . t("%num_posts posts imported in %time (%progress% complete)", array('%num_posts' => $total_posts_imported, '%time' => gmdate('H:i:s', $total_runtime), '%progress' => $progress));
+      ob_flush();
+      flush();
+      $last_status_update = 0;
+      $topics_without_update = 0;
+    } elseif ($topics_without_update % 20 == 0) {
+      echo '.';
+      ob_flush();
+      flush();
+    }
+  }
+  
+  // Set the post import successful flag in the variable table
+  variable_set('boincimport_team_post_successful', '1');
   drupal_set_message(t('Successfully Imported %imported posts', array('%imported' => $total_posts_imported)));
   watchdog('boincimport', 'Successfully Imported %imported posts', array('%imported' => $total_posts_imported), WATCHDOG_INFO); 
   if ($empty_posts) {

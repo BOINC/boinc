@@ -5,13 +5,13 @@
  * Panels Styling
  */
 
-.zen-one-sidebar-second .panel-content {
+.panel-display .panel-content {
   width: 650px;
 }
-.zen-one-sidebar-second .panel-sidebar-first {
+.panel-display .panel-sidebar-first {
   width: 310px;
 }
-.zen-one-sidebar-second .panel-sidebar-first .panel-sidebar-first-inner {
+.panel-display .panel-sidebar-first .panel-sidebar-first-inner {
   margin-left: 12px;
 }
 .panel-primary {

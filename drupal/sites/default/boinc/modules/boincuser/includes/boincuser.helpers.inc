@@ -239,9 +239,25 @@ function is_current_boinc_user($boinc_id) {
 /**
  * Convert a BOINC ID to a Drupal ID
  */
-function get_drupal_id($boinc_id) {
+function boincuser_lookup_uid($boinc_id) {
   $drupal_id = db_result(db_query("SELECT uid FROM {boincuser} WHERE boinc_id='%d'", $boinc_id));
   return $drupal_id;
+}
+function get_drupal_id($boinc_id) {
+  return boincuser_lookup_uid($boinc_id);
+}
+
+/**
+ * Get a BOINC user object
+ */
+function boincuser_load($uid = NULL) {
+  if (!$uid) {
+    global $user;
+    $uid = $user->uid;
+  }
+  $account = user_load($uid);
+  require_boinc('boinc_db');
+  return BoincUser::lookup_id($account->boincuser_id);
 }
 
 

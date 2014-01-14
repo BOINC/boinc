@@ -1,0 +1,118 @@
+<?php
+// $Id$
+function boincteam_forum_schema() {
+  $schema['boincteam_forum'] = array(
+    'description' => t('Stores custom forums for BOINC teams.'),
+    'fields' => array(
+      'tfid' => array(
+        'description' => 'The primary identifier for a boincteam_forum.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'boinc_id' => array(
+        'description' => 'The {forum}.id from the BOINC database.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'nid' => array(
+        'description' => 'The {node}.nid for the associated team.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'title' => array(
+        'description' => 'The title of this forum, always plain text.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'description' => array(
+        'description' => 'A description of this forum.',
+        'type' => 'text',
+        'not null' => TRUE,
+        'size' => 'big',
+      ),
+      'created' => array(
+        'description' => 'The Unix timestamp when the forum was created.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'updated' => array(
+        'description' => 'The Unix timestamp when the forum was last saved.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'public' => array(
+        'description' => 'Whether the forum is public or private.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'min_time_between_posts' => array(
+        'description' => 'The minimum number of seconds between posts by a user.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'min_total_credit_to_post' => array(
+        'description' => 'The minimum credit required to post.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'min_avg_credit_to_post' => array(
+        'description' => 'The minimum average credit required to post.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+    ),
+    'indexes' => array(
+      'boincteam_boinc_id' => array('boinc_id'),
+      'boincteam_nid' => array('nid'),
+    ),
+    'primary key' => array('tfid')
+  );
+  
+  $schema['boincteam_forum_node'] = array(
+    'description' => t('Maps topic nodes to team forums.'),
+    'fields' => array(
+      'nid' => array(
+        'description' => 'The {node}.nid for the team forum topic.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'tfid' => array(
+        'description' => 'The boincteam_forum in which this topic belongs.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+    ),
+    'indexes' => array(
+      'boincteam_forum_id' => array('tfid'),
+    ),
+    'primary key' => array('nid')
+  );
+  
+  return $schema;
+}
+
+function boincteam_forum_install() {
+  // Create tables.
+  drupal_install_schema('boincteam_forum');
+  drupal_install_schema('boincteam_forum_topic');
+}
+
+function boincteam_forum_uninstall() {
+  // Drop tables.
+  drupal_uninstall_schema('boincteam_forum');
+  drupal_uninstall_schema('boincteam_forum_topic');
+}

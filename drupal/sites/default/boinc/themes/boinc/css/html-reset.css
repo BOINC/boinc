@@ -38,11 +38,12 @@ body {
 
   /* Use a 12px base font size with a 16px line height */
   font-size: 0.75em; /* 16px x .75 = 12px */
-  line-height: 1.333em; /* 12px x 1.333 = 16px */
-
+  /*line-height: 1.333em; /* 12px x 1.333 = 16px */
+  line-height: 16px;
+  
   /* Use a 14px base font size with a 18px line height */
   /*font-size: 0.875em; /* 16px x .875 = 14px */
-  l/*ine-height: 1.286em; /* 14px x 1.286 = 18px */
+  /*line-height: 1.286em; /* 14px x 1.286 = 18px */
 }
 
 body,
