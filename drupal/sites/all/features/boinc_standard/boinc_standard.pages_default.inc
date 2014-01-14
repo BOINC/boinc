@@ -189,41 +189,6 @@ if (module_exists(\'boincteam\')) {
     $pane->pid = 'new-4';
     $pane->panel = 'sidebar_first';
     $pane->type = 'views';
-    $pane->subtype = 'og_my';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'override_pager_settings' => 0,
-      'use_pager' => 1,
-      'nodes_per_page' => '50',
-      'pager_id' => '',
-      'offset' => '0',
-      'more_link' => 0,
-      'feed_icons' => 0,
-      'panel_args' => 0,
-      'link_to_view' => 0,
-      'args' => '',
-      'url' => '',
-      'display' => 'default',
-      'override_title' => 1,
-      'override_title_text' => 'Team',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array(
-      'css_id' => '',
-      'css_class' => 'panel-secondary container shadow',
-    );
-    $pane->extras = array();
-    $pane->position = 2;
-    $display->content['new-4'] = $pane;
-    $display->panels['sidebar_first'][2] = 'new-4';
-    $pane = new stdClass;
-    $pane->pid = 'new-5';
-    $pane->panel = 'sidebar_first';
-    $pane->type = 'views';
     $pane->subtype = 'boinc_friends';
     $pane->shown = TRUE;
     $pane->access = array();
@@ -255,9 +220,9 @@ if (module_exists(\'boincteam\')) {
       'css_class' => 'panel-secondary container shadow',
     );
     $pane->extras = array();
-    $pane->position = 3;
-    $display->content['new-5'] = $pane;
-    $display->panels['sidebar_first'][3] = 'new-5';
+    $pane->position = 2;
+    $display->content['new-4'] = $pane;
+    $display->panels['sidebar_first'][2] = 'new-4';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -375,6 +340,36 @@ if (module_exists(\'boincteam\')) {
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
+      'admin_title' => 'Team summary',
+      'title' => '',
+      'body' => '<?php 
+if (module_exists(\'boincteam\')) {
+  echo boincteam_dashboard_panel(%user:uid);
+}
+?>',
+      'format' => '3',
+      'substitute' => 1,
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array(
+      'css_id' => 'team-dashboard-pane',
+      'css_class' => 'panel-secondary container shadow',
+    );
+    $pane->extras = array();
+    $pane->position = 1;
+    $display->content['new-3'] = $pane;
+    $display->panels['sidebar_first'][1] = 'new-3';
+    $pane = new stdClass;
+    $pane->pid = 'new-4';
+    $pane->panel = 'sidebar_first';
+    $pane->type = 'custom';
+    $pane->subtype = 'custom';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
       'admin_title' => 'User activity summary',
       'title' => '',
       'body' => '<?php
@@ -397,11 +392,11 @@ echo \'<div class="item-count-wrapper"><div class="item-count">\' . $account->po
       'css_class' => 'panel-secondary container shadow',
     );
     $pane->extras = array();
-    $pane->position = 1;
-    $display->content['new-3'] = $pane;
-    $display->panels['sidebar_first'][1] = 'new-3';
+    $pane->position = 2;
+    $display->content['new-4'] = $pane;
+    $display->panels['sidebar_first'][2] = 'new-4';
     $pane = new stdClass;
-    $pane->pid = 'new-4';
+    $pane->pid = 'new-5';
     $pane->panel = 'sidebar_first';
     $pane->type = 'views';
     $pane->subtype = 'boinc_friends';
@@ -435,9 +430,9 @@ echo \'<div class="item-count-wrapper"><div class="item-count">\' . $account->po
       'css_class' => 'panel-secondary container shadow',
     );
     $pane->extras = array();
-    $pane->position = 2;
-    $display->content['new-4'] = $pane;
-    $display->panels['sidebar_first'][2] = 'new-4';
+    $pane->position = 3;
+    $display->content['new-5'] = $pane;
+    $display->panels['sidebar_first'][3] = 'new-5';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;

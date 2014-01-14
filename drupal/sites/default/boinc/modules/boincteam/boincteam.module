@@ -552,10 +552,13 @@ function boincteam_member_link_panel() {
 /**
  * Link to user's team
  */
-function boincteam_dashboard_panel() {
-  global $user;
+function boincteam_dashboard_panel($uid = NULL) {
+  if (!$uid) {
+    global $user;
+    $uid = $user->uid;
+  }
   $output = '';
-  $account = user_load($user->uid);
+  $account = user_load($uid);
   if ($account->team) {
     $team = boincteam_load(boincteam_lookup_id($account->team));
     $output .= '<h2 class="pane-title">' . $team->name . '</h2>';
