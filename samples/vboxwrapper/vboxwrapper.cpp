@@ -659,7 +659,18 @@ int main(int argc, char** argv) {
         char*  temp_reason = (char*)"";
         int    temp_delay = 300;
 
-        if (vm.is_logged_failure_vm_extensions_disabled()) {
+        if (ERR_NOT_EXITED == retval) {
+            error_reason =
+                "   NOTE: VM was already running.\n"
+                "    BOINC will be notified that it needs to clean up the environment.\n"
+                "    This might be a temporary problem and so this job will be rescheduled for another time.\n";
+            unrecoverable_error = false;
+            temp_reason = (char*)"VM environment needed to be cleaned up.";
+        } else if (ERR_INVALID_PARAM == retval) {
+            unrecoverable_error = false;
+            temp_reason = (char*)"Please upgrade BOINC to the latest version.";
+            temp_delay = 86400;
+        } else if (vm.is_logged_failure_vm_extensions_disabled()) {
             error_reason =
                 "   NOTE: BOINC has detected that your computer's processor supports hardware acceleration for\n"
                 "    virtual machines but the hypervisor failed to successfully launch with this feature enabled.\n"
@@ -688,13 +699,6 @@ int main(int argc, char** argv) {
                 "    This might be a temporary problem and so this job will be rescheduled for another time.\n";
             unrecoverable_error = false;
             temp_reason = (char*)"VM Hypervisor was unable to allocate enough memory to start VM.";
-        } else if (ERR_NOT_EXITED == retval) {
-            error_reason =
-                "   NOTE: VM was already running.\n"
-                "    BOINC will be notified that it needs to clean up the environment.\n"
-                "    This might be a temporary problem and so this job will be rescheduled for another time.\n";
-            unrecoverable_error = false;
-            temp_reason = (char*)"VM environment needed to be cleaned up.";
         } else if (vm.is_virtualbox_error_recoverable(retval)) {
             error_reason =
                 "   NOTE: VM session lock error encountered.\n"
@@ -702,10 +706,6 @@ int main(int argc, char** argv) {
                 "    This might be a temporary problem and so this job will be rescheduled for another time.\n";
             unrecoverable_error = false;
             temp_reason = (char*)"VM environment needed to be cleaned up.";
-        } else if (ERR_INVALID_PARAM == retval) {
-            unrecoverable_error = false;
-            temp_reason = (char*)"Please upgrade BOINC to the latest version.";
-            temp_delay = 86400;
         } else {
             dump_hypervisor_logs = true;
         }

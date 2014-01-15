@@ -21,6 +21,15 @@
 #ifndef _VBOX_H_
 #define _VBOX_H_
 
+// Known VirtualBox/COM error codes
+//
+#ifndef RPC_S_SERVER_UNAVAILABLE
+#define RPC_S_SERVER_UNAVAILABLE        0x800706ba
+#endif
+#ifndef VBOX_E_INVALID_OBJECT_STATE
+#define VBOX_E_INVALID_OBJECT_STATE     0x80bb0007
+#endif
+
 // raw floppy drive device
 class FloppyIO;
 

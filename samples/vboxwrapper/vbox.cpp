@@ -58,11 +58,6 @@ using std::string;
 #include "vbox.h"
 
 
-// Known VirtualBox error codes
-//
-#define VBOX_E_INVALID_OBJECT_STATE     0x80bb0007
-
-
 VBOX_VM::VBOX_VM() {
     virtualbox_home_directory.clear();
     virtualbox_install_directory.clear();
@@ -1599,11 +1594,11 @@ bool VBOX_VM::is_registered() {
     retval = vbm_popen(command, output, "registration", false, false);
 
     // Handle explicit cases first
-    if (!retval && output.find(needle.c_str()) != string::npos) {
-        return true;
-    }
     if (output.find("VBOX_E_OBJECT_NOT_FOUND") != string::npos) {
         return false;
+    }
+    if (!retval && output.find(needle.c_str()) != string::npos) {
+        return true;
     }
 
     // Something unexpected has happened.  Dump diagnostic output.
