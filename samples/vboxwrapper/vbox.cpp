@@ -234,7 +234,7 @@ void VBOX_VM::poll(bool log_state) {
     string output;
     string::iterator iter;
     string vmstate;
-    static string vmstate_old = "";
+    static string vmstate_old = "poweroff";
     size_t vmstate_start;
     size_t vmstate_end;
 
