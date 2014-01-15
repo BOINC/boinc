@@ -1135,7 +1135,8 @@ int VBOX_VM::run(double elapsed_time) {
     // If our last checkpoint time is greater than 0, restore from the previously
     // saved snapshot
     if (elapsed_time) {
-        restoresnapshot();
+        retval = restoresnapshot();
+        if (retval) return retval;
     }
 
     // Start the VM
