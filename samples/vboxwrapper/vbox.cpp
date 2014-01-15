@@ -2268,40 +2268,46 @@ int VBOX_VM::write_floppy(std::string& data) {
 
 void VBOX_VM::lower_vm_process_priority() {
     char buf[256];
-
-    fprintf(
-        stderr,
-        "%s Lowering VM Process priority.\n",
-        vboxwrapper_msg_prefix(buf, sizeof(buf))
-    );
-
 #ifndef _WIN32
     if (vm_pid) {
         setpriority(PRIO_PROCESS, vm_pid, PROCESS_IDLE_PRIORITY);
+        fprintf(
+            stderr,
+            "%s Lowering VM Process priority.\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf))
+        );
     }
 #else
     if (vm_pid_handle) {
         SetPriorityClass(vm_pid_handle, IDLE_PRIORITY_CLASS);
+        fprintf(
+            stderr,
+            "%s Lowering VM Process priority.\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf))
+        );
     }
 #endif
 }
 
 void VBOX_VM::reset_vm_process_priority() {
     char buf[256];
-
-    fprintf(
-        stderr,
-        "%s Restoring VM Process priority.\n",
-        vboxwrapper_msg_prefix(buf, sizeof(buf))
-    );
-
 #ifndef _WIN32
     if (vm_pid) {
         setpriority(PRIO_PROCESS, vm_pid, PROCESS_MEDIUM_PRIORITY);
+        fprintf(
+            stderr,
+            "%s Restoring VM Process priority.\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf))
+        );
     }
 #else
     if (vm_pid_handle) {
         SetPriorityClass(vm_pid_handle, NORMAL_PRIORITY_CLASS);
+        fprintf(
+            stderr,
+            "%s Restoring VM Process priority.\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf))
+        );
     }
 #endif
 }
