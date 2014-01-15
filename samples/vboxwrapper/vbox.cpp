@@ -1599,7 +1599,7 @@ bool VBOX_VM::is_registered() {
     retval = vbm_popen(command, output, "registration", false, false);
 
     // Handle explicit cases first
-    if (output.find(needle.c_str()) != string::npos) {
+    if (!retval && output.find(needle.c_str()) != string::npos) {
         return true;
     }
     if (output.find("VBOX_E_OBJECT_NOT_FOUND") != string::npos) {
