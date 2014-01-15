@@ -592,8 +592,8 @@ int ACTIVE_TASK::write_gui(MIOFILE& fout) {
     double fd = fraction_done;
     if (fd == 0 && elapsed_time > 0) {
         double est_time = wup->rsc_fpops_est/app_version->flops;
-        fd = elapsed_time/est_time;
-        if (fd > .99) fd = .99;
+        double x = elapsed_time/est_time;
+		fd = 1 - exp(-x);
     }
     fout.printf(
         "<active_task>\n"
