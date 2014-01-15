@@ -326,7 +326,7 @@ void CDlgItemProperties::renderInfos(RESULT* result) {
     }
     
     addProperty(_("Application"), FormatApplicationName(result));
-    addProperty(_("Workunit name"), wxString(result->wu_name, wxConvUTF8));
+    addProperty(_("Name"), wxString(result->wu_name, wxConvUTF8));
     addProperty(_("State"), result_description(result, false));
     if (result->received_time) {
         dt.Set((time_t)result->received_time);
@@ -366,20 +366,16 @@ void CDlgItemProperties::renderInfos(RESULT* result) {
 
 //
 wxString CDlgItemProperties::FormatDiskSpace(double bytes) {    
-    double         xTera = 1099511627776.0;
-    double         xGiga = 1073741824.0;
-    double         xMega = 1048576.0;
-    double         xKilo = 1024.0;
     wxString strBuffer= wxEmptyString;
 
-    if (bytes >= xTera) {
-        strBuffer.Printf(wxT("%0.2f TB"), bytes/xTera);
-    } else if (bytes >= xGiga) {
-        strBuffer.Printf(wxT("%0.2f GB"), bytes/xGiga);
-    } else if (bytes >= xMega) {
-        strBuffer.Printf(wxT("%0.2f MB"), bytes/xMega);
-    } else if (bytes >= xKilo) {
-        strBuffer.Printf(wxT("%0.2f KB"), bytes/xKilo);
+    if (bytes >= TERA) {
+        strBuffer.Printf(wxT("%0.2f TB"), bytes/TERA);
+    } else if (bytes >= GIGA) {
+        strBuffer.Printf(wxT("%0.2f GB"), bytes/GIGA);
+    } else if (bytes >= MEGA) {
+        strBuffer.Printf(wxT("%0.2f MB"), bytes/MEGA);
+    } else if (bytes >= KILO) {
+        strBuffer.Printf(wxT("%0.2f KB"), bytes/KILO);
     } else {
         strBuffer.Printf(wxT("%0.0f bytes"), bytes);
     }
