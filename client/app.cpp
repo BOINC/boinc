@@ -586,6 +586,15 @@ int ACTIVE_TASK::write(MIOFILE& fout) {
 #ifndef SIM
 
 int ACTIVE_TASK::write_gui(MIOFILE& fout) {
+    // if the app hasn't reported fraction done, and time has elapsed,
+    // estimate fraction done
+    //
+    double fd = fraction_done;
+    if (fd == 0 && elapsed_time > 0) {
+        double est_time = wup->rsc_fpops_est/app_version->flops;
+        fd = elapsed_time/est_time;
+        if (fd > .99) fd = .99;
+    }
     fout.printf(
         "<active_task>\n"
         "    <active_task_state>%d</active_task_state>\n"
@@ -609,7 +618,7 @@ int ACTIVE_TASK::write_gui(MIOFILE& fout) {
         pid,
         scheduler_state,
         checkpoint_cpu_time,
-        fraction_done,
+        fd,
         current_cpu_time,
         elapsed_time,
         procinfo.swap_size,

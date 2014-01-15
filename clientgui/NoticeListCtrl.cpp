@@ -133,7 +133,7 @@ void CNoticeListCtrl::SetItemCount(int newCount) {
     wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
 
     m_itemCount = newCount;
-    m_noticesBody =  wxT("<html></html>");
+    m_noticesBody =  wxT("<html><font face=helvetica>");
 
     for (i=0; i<newCount; ++i) {
         if (pDoc->IsConnected()) {
@@ -187,6 +187,7 @@ void CNoticeListCtrl::SetItemCount(int newCount) {
             // of this automatically, but fails to do so under Windows, so we do 
             // it here explicitly.
             strDescription.Replace(wxT("\"//"), wxT("\"http://"));
+			strDescription.Replace(wxT("</a>"), wxT("</a> "));
 
             dtBuffer.Set((time_t)np->create_time);
             strCreateTime = dtBuffer.Format();
@@ -227,7 +228,7 @@ void CNoticeListCtrl::SetItemCount(int newCount) {
         }
         m_noticesBody += strBuffer;
     }
-    m_noticesBody += wxT("</html>");
+    m_noticesBody += wxT("</font></html>");
     m_browser->SetPage(m_noticesBody, wxT("http://"));
 }
 
