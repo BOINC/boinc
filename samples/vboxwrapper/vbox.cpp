@@ -434,30 +434,7 @@ void VBOX_VM::poll(bool log_state) {
     // Grab a snapshot of the latest log file.  Avoids multiple queries across several
     // functions.
     //
-
-    command  = "showvminfo \"" + vm_name + "\" ";
-    command += "--log 0 ";
-
-    if (vbm_popen(command, output, "get vm log", false, false, 10) == 0) {
-        // Keep only the last 16k if it is larger than that.
-        size_t size = output.size();
-        if (size > 16384) {
-            vm_log = output.substr(size - 16384, size);
-            if (vm_log.size() >= 16384) {
-                // Look for the next whole line of text.
-                iter = vm_log.begin();
-                while (iter != vm_log.end()) {
-                    if (*iter == '\n') {
-                        vm_log.erase(iter);
-                        break;
-                    }
-                    iter = vm_log.erase(iter);
-                }
-            }
-        } else {
-            vm_log = output;
-        }
-    }
+    get_vm_log(vm_log);
 }
 
 int VBOX_VM::create_vm() {
@@ -2042,7 +2019,7 @@ int VBOX_VM::get_system_log(string& log, bool tail_only) {
         boinc_copy(virtualbox_system_log_src.c_str(), virtualbox_system_log_dst.c_str());
 
         // Keep only the last 16k if it is larger than that.
-        read_file_string(virtualbox_system_log_dst.c_str(), log, 16384, true);
+        read_file_string(virtualbox_system_log_dst.c_str(), log);
 
 #ifdef _WIN32
         // Remove \r from the log spew
@@ -2075,6 +2052,68 @@ int VBOX_VM::get_system_log(string& log, bool tail_only) {
             "%s Could not find the Hypervisor System Log at '%s'.\n",
             vboxwrapper_msg_prefix(buf, sizeof(buf)),
             virtualbox_system_log_src.c_str()
+        );
+        retval = ERR_NOT_FOUND;
+    }
+
+    return retval;
+}
+
+int VBOX_VM::get_vm_log(string& log, bool tail_only) {
+    string slot_directory;
+    string virtualbox_vm_log_src;
+    string virtualbox_vm_log_dst;
+    string::iterator iter;
+    char buf[256];
+    int retval = BOINC_SUCCESS;
+
+    // Where should we copy temp files to?
+    get_slot_directory(slot_directory);
+
+    // Locate and read log file
+    virtualbox_vm_log_src = vm_master_name + "/Logs/VBox.log";
+    virtualbox_vm_log_dst = slot_directory + "/VBox.log";
+
+    if (boinc_file_exists(virtualbox_vm_log_src.c_str())) {
+        // Skip having to deal with various forms of file locks by just making a temp
+        // copy of the log file.
+        boinc_copy(virtualbox_vm_log_src.c_str(), virtualbox_vm_log_dst.c_str());
+
+        // Keep only the last 16k if it is larger than that.
+        read_file_string(virtualbox_vm_log_dst.c_str(), log);
+
+#ifdef _WIN32
+        // Remove \r from the log spew
+        iter = log.begin();
+        while (iter != log.end()) {
+            if (*iter == '\r') {
+                iter = log.erase(iter);
+            } else {
+                ++iter;
+            }
+        }
+#endif
+
+        if (tail_only) {
+            if (log.size() >= 16384) {
+                // Look for the next whole line of text.
+                iter = log.begin();
+                while (iter != log.end()) {
+                    if (*iter == '\n') {
+                        log.erase(iter);
+                        break;
+                    }
+                    iter = log.erase(iter);
+                }
+            }
+        }
+
+    } else {
+        fprintf(
+            stderr,
+            "%s Could not find the VM Log at '%s'.\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf)),
+            virtualbox_vm_log_src.c_str()
         );
         retval = ERR_NOT_FOUND;
     }
