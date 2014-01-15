@@ -99,9 +99,6 @@ CDlgEventLog::CDlgEventLog( wxWindow* parent, wxWindowID id, const wxString& cap
 CDlgEventLog::~CDlgEventLog() {
     wxLogTrace(wxT("Function Start/End"), wxT("CDlgEventLog::CDlgEventLog - Destructor Function Begin"));
     
-    SaveState();
-    SetWindowDimensions();
-
     if (m_pMessageInfoAttr) {
         delete m_pMessageInfoAttr;
         m_pMessageInfoAttr = NULL;
@@ -415,6 +412,9 @@ void CDlgEventLog::OnHelp(wxHelpEvent& event) {
  */
 
 void CDlgEventLog::OnOK( wxCommandEvent& WXUNUSED(event) ) {
+    SaveState();
+    SetWindowDimensions();
+
     Close();
 }
 
@@ -425,6 +425,10 @@ void CDlgEventLog::OnOK( wxCommandEvent& WXUNUSED(event) ) {
 
 void CDlgEventLog::OnClose(wxCloseEvent& WXUNUSED(event)) {
     m_bEventLogIsOpen = false;  // User specifically closed window
+
+    SaveState();
+    SetWindowDimensions();
+
     Destroy();
 }
 
