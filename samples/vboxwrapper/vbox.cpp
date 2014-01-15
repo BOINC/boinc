@@ -1836,17 +1836,13 @@ int VBOX_VM::get_vm_network_bytes_received(double& received) {
 }
 
 int VBOX_VM::get_vm_process_id(int& process_id) {
-    string command;
     string output;
     string pid;
     size_t pid_start;
     size_t pid_end;
     int retval;
 
-    command  = "showvminfo \"" + vm_name + "\" ";
-    command += "--log 0 ";
-
-    retval = vbm_popen(command, output, "get process ID");
+    retval = get_vm_log(output, false);
     if (retval) return retval;
 
     // Output should look like this:
