@@ -27,3 +27,13 @@ struct UC_SHMEM {
         // main program decrements it once/sec.
         // If it's zero, don't bother updating shmem
 };
+
+#ifdef _WIN32
+
+extern "C" {
+
+__declspec( dllimport )  char* uc2_dll_version();
+
+};
+
+#endif

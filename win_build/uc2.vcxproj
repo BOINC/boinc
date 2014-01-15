@@ -127,7 +127,7 @@
       <Culture>0x0409</Culture>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>opengl32.lib;glu32.lib;odbc32.lib;odbccp32.lib;psapi.lib;libcmt.lib;libcpmt.lib;zlib1.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;glu32.lib;odbc32.lib;odbccp32.lib;psapi.lib;libcmt.lib;libcpmt.lib;example_app_dll.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>.\Build\$(Platform)\$(Configuration)\$(ProjectName).exe</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
@@ -136,7 +136,7 @@
       <ProgramDatabaseFile>.\Build\$(Platform)\$(Configuration)\$(ProjectName).pdb</ProgramDatabaseFile>
       <SubSystem>Windows</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
-      <AdditionalLibraryDirectories>../../boinc_depends_win_vs2010/zlib/mswin/$(Platform)/$(Configuration)/lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(OutDir)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -177,7 +177,7 @@
       <Culture>0x0409</Culture>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>opengl32.lib;glu32.lib;odbc32.lib;odbccp32.lib;psapi.lib;libcmt.lib;libcpmt.lib;zlib1.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;glu32.lib;odbc32.lib;odbccp32.lib;psapi.lib;libcmt.lib;libcpmt.lib;example_app_dll.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>.\Build\$(Platform)\$(Configuration)\$(ProjectName).exe</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
@@ -186,7 +186,7 @@
       <ProgramDatabaseFile>.\Build\$(Platform)\$(Configuration)\$(ProjectName).pdb</ProgramDatabaseFile>
       <SubSystem>Windows</SubSystem>
       <TargetMachine>MachineX64</TargetMachine>
-      <AdditionalLibraryDirectories>../../boinc_depends_win_vs2010/zlib/mswin/$(Platform)/$(Configuration)/lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(OutDir)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -225,7 +225,7 @@
       <Culture>0x0409</Culture>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>libcmtd.lib;libcpmtd.lib;kernel32.lib;user32.lib;ole32.lib;psapi.lib;delayimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libcmtd.lib;libcpmtd.lib;example_app_dll.lib;kernel32.lib;user32.lib;ole32.lib;psapi.lib;delayimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>.\Build\$(Platform)\$(Configuration)\$(ProjectName).exe</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
@@ -234,8 +234,7 @@
       <ProgramDatabaseFile>.\Build\$(Platform)\$(Configuration)\$(ProjectName).pdb</ProgramDatabaseFile>
       <SubSystem>Windows</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
-      <AdditionalLibraryDirectories>
-      </AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(OutDir)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -272,7 +271,7 @@
       <Culture>0x0409</Culture>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>libcmtd.lib;libcpmtd.lib;zlib1d.lib;kernel32.lib;user32.lib;gdi32.lib;opengl32.lib;glu32.lib;ole32.lib;psapi.lib;delayimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libcmtd.lib;libcpmtd.lib;example_app_dll.lib;kernel32.lib;user32.lib;gdi32.lib;opengl32.lib;glu32.lib;ole32.lib;psapi.lib;delayimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>.\Build\$(Platform)\$(Configuration)\$(ProjectName).exe</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
@@ -281,7 +280,7 @@
       <ProgramDatabaseFile>.\Build\$(Platform)\$(Configuration)\$(ProjectName).pdb</ProgramDatabaseFile>
       <SubSystem>Windows</SubSystem>
       <TargetMachine>MachineX64</TargetMachine>
-      <AdditionalLibraryDirectories>../../boinc_depends_win_vs2010/zlib/mswin/$(Platform)/$(Configuration)/lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(OutDir)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

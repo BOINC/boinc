@@ -27,6 +27,9 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "worker", "worker.vcxproj", "{F1BE6109-586D-448E-8C5B-D5C2CB874EA2}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "example_app", "uc2.vcxproj", "{CCB9A37C-7AD8-4FC1-ABEC-1A6ED2268F83}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B275C525-5EF4-40BA-A70A-4E01A76A0CDD} = {B275C525-5EF4-40BA-A70A-4E01A76A0CDD}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "example_app_graphics", "uc2_graphics.vcxproj", "{3CF31288-A44D-4C78-A3AA-B05B6E32DF11}"
 EndProject
@@ -63,6 +66,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test_boinczip", "test_boinc_zip.vcxproj", "{92253F20-4CD6-494E-8DEF-F5B4555B61CD}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test_boinczip_zlib_conflicts", "test_boinc_zip_zlib_conflicts.vcxproj", "{0DCD2FE4-0604-4307-ABAA-C61F0065D717}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "example_app_dll", "uc2_dll.vcxproj", "{B275C525-5EF4-40BA-A70A-4E01A76A0CDD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -550,6 +555,22 @@ Global
 		{0DCD2FE4-0604-4307-ABAA-C61F0065D717}.EmuRelease|x64.ActiveCfg = Release|x64
 		{0DCD2FE4-0604-4307-ABAA-C61F0065D717}.Release|Win32.ActiveCfg = Release|Win32
 		{0DCD2FE4-0604-4307-ABAA-C61F0065D717}.Release|x64.ActiveCfg = Release|x64
+		{B275C525-5EF4-40BA-A70A-4E01A76A0CDD}.Debug|Win32.ActiveCfg = Debug|Win32
+		{B275C525-5EF4-40BA-A70A-4E01A76A0CDD}.Debug|Win32.Build.0 = Debug|Win32
+		{B275C525-5EF4-40BA-A70A-4E01A76A0CDD}.Debug|x64.ActiveCfg = Debug|x64
+		{B275C525-5EF4-40BA-A70A-4E01A76A0CDD}.Debug|x64.Build.0 = Debug|x64
+		{B275C525-5EF4-40BA-A70A-4E01A76A0CDD}.EmuDebug|Win32.ActiveCfg = Debug|Win32
+		{B275C525-5EF4-40BA-A70A-4E01A76A0CDD}.EmuDebug|Win32.Build.0 = Debug|Win32
+		{B275C525-5EF4-40BA-A70A-4E01A76A0CDD}.EmuDebug|x64.ActiveCfg = Debug|x64
+		{B275C525-5EF4-40BA-A70A-4E01A76A0CDD}.EmuDebug|x64.Build.0 = Debug|x64
+		{B275C525-5EF4-40BA-A70A-4E01A76A0CDD}.EmuRelease|Win32.ActiveCfg = Release|Win32
+		{B275C525-5EF4-40BA-A70A-4E01A76A0CDD}.EmuRelease|Win32.Build.0 = Release|Win32
+		{B275C525-5EF4-40BA-A70A-4E01A76A0CDD}.EmuRelease|x64.ActiveCfg = Release|x64
+		{B275C525-5EF4-40BA-A70A-4E01A76A0CDD}.EmuRelease|x64.Build.0 = Release|x64
+		{B275C525-5EF4-40BA-A70A-4E01A76A0CDD}.Release|Win32.ActiveCfg = Release|Win32
+		{B275C525-5EF4-40BA-A70A-4E01A76A0CDD}.Release|Win32.Build.0 = Release|Win32
+		{B275C525-5EF4-40BA-A70A-4E01A76A0CDD}.Release|x64.ActiveCfg = Release|x64
+		{B275C525-5EF4-40BA-A70A-4E01A76A0CDD}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

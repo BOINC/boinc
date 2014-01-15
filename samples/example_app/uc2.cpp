@@ -51,16 +51,15 @@
 #include <unistd.h>
 #endif
 
-#include "zlib.h"
 #include "str_util.h"
 #include "util.h"
 #include "filesys.h"
 #include "boinc_api.h"
 #include "mfile.h"
 #include "graphics2.h"
+#include "uc2.h"
 
 #ifdef APP_GRAPHICS
-#include "uc2.h"
 UC_SHMEM* shmem;
 #endif
 
@@ -166,8 +165,9 @@ int main(int argc, char **argv) {
         exit(retval);
     }
 
-    fprintf(stderr, "%s app started; CPU time %f, flags:%s%s%s%s%s%s\n",
+    fprintf(stderr, "%s app started; %s; CPU time %f, flags:%s%s%s%s%s%s\n",
         boinc_msg_prefix(buf, sizeof(buf)),
+        uc2_dll_version(),
         cpu_time,
         early_exit?" early_exit":"",
         early_crash?" early_crash":"",
