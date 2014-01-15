@@ -2043,12 +2043,6 @@ int VBOX_VM::get_system_log(string& log, bool tail_only) {
             }
         }
     } else {
-        fprintf(
-            stderr,
-            "%s Could not find the Hypervisor System Log at '%s'.\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf)),
-            virtualbox_system_log_src.c_str()
-        );
         retval = ERR_NOT_FOUND;
     }
 
@@ -2105,12 +2099,6 @@ int VBOX_VM::get_vm_log(string& log, bool tail_only) {
         }
 
     } else {
-        fprintf(
-            stderr,
-            "%s Could not find the VM Log at '%s'.\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf)),
-            virtualbox_vm_log_src.c_str()
-        );
         retval = ERR_NOT_FOUND;
     }
 
