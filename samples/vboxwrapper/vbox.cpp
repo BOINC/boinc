@@ -1028,10 +1028,16 @@ int VBOX_VM::deregister_stale_vm() {
     return 0;
 }
 
-int VBOX_VM::run(double elapsed_time) {
+int VBOX_VM::run(bool restore_snapshot) {
     int retval;
 
-    if (!is_registered()) {
+    retval = is_registered();
+    if (retval == ERR_TIMEOUT) {
+
+        return VBOXWRAPPER_ERR_RECOVERABLE;
+
+    } else if (retval == ERR_NOT_FOUND) {
+
         if (is_vm_machine_configuration_available()) {
             retval = register_vm();
             if (retval) return retval;
@@ -1046,6 +1052,7 @@ int VBOX_VM::run(double elapsed_time) {
             retval = create_vm();
             if (retval) return retval;
         }
+
     }
 
     // The user has requested that we exit after registering the VM, so return an
@@ -1066,7 +1073,7 @@ int VBOX_VM::run(double elapsed_time) {
 
     // If our last checkpoint time is greater than 0, restore from the previously
     // saved snapshot
-    if (elapsed_time) {
+    if (restore_snapshot) {
         retval = restoresnapshot();
         if (retval) return retval;
     }
@@ -1452,6 +1459,44 @@ void VBOX_VM::dumphypervisorlogs() {
     }
 }
 
+int VBOX_VM::is_registered() {
+    string command;
+    string output;
+    string needle;
+    char buf[256];
+    int retval;
+    bool rc = false;
+
+    command  = "showvminfo \"" + vm_master_name + "\" ";
+    command += "--machinereadable ";
+
+    // Look for this string in the output
+    //
+    needle = "name=\"" + vm_master_name + "\"";
+
+    retval = vbm_popen(command, output, "registration detection", false, false);
+
+    // Handle explicit cases first
+    if (output.find("VBOX_E_OBJECT_NOT_FOUND") != string::npos) {
+        return ERR_NOT_FOUND;
+    }
+    if (!retval && output.find(needle.c_str()) != string::npos) {
+        return BOINC_SUCCESS;
+    }
+
+    // Something unexpected has happened.  Dump diagnostic output.
+    fprintf(
+        stderr,
+        "%s Error in registration for VM: %d\nArguments:\n%s\nOutput:\n%s\n",
+        vboxwrapper_msg_prefix(buf, sizeof(buf)),
+        retval,
+        command.c_str(),
+        output.c_str()
+    );
+
+    return retval;
+}
+
 // Attempt to detect any condition that would prevent VirtualBox from running a VM properly, like:
 // 1. The DCOM service not being started on Windows
 // 2. Vboxmanage not being able to communicate with vboxsvc for some reason
@@ -1507,44 +1552,6 @@ bool VBOX_VM::is_system_ready(std::string& message) {
     }
 
     return rc;
-}
-
-bool VBOX_VM::is_registered() {
-    string command;
-    string output;
-    string needle;
-    char buf[256];
-    int retval;
-    bool rc = false;
-
-    command  = "showvminfo \"" + vm_master_name + "\" ";
-    command += "--machinereadable ";
-
-    // Look for this string in the output
-    //
-    needle = "name=\"" + vm_master_name + "\"";
-
-    retval = vbm_popen(command, output, "registration", false, false);
-
-    // Handle explicit cases first
-    if (output.find("VBOX_E_OBJECT_NOT_FOUND") != string::npos) {
-        return false;
-    }
-    if (!retval && output.find(needle.c_str()) != string::npos) {
-        return true;
-    }
-
-    // Something unexpected has happened.  Dump diagnostic output.
-    fprintf(
-        stderr,
-        "%s Error in registration for VM: %d\nArguments:\n%s\nOutput:\n%s\n",
-        vboxwrapper_msg_prefix(buf, sizeof(buf)),
-        retval,
-        command.c_str(),
-        output.c_str()
-    );
-
-    return false;
 }
 
 bool VBOX_VM::is_vm_machine_configuration_available() {

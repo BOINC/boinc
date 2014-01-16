@@ -30,6 +30,11 @@
 #define VBOX_E_INVALID_OBJECT_STATE     0x80bb0007
 #endif
 
+// Vboxwrapper errors
+//
+#define VBOXWRAPPER_ERR_RECOVERABLE     -1000
+
+
 // raw floppy drive device
 class FloppyIO;
 
@@ -132,7 +137,7 @@ struct VBOX_VM {
     int deregister_vm(bool delete_media);
     int deregister_stale_vm();
 
-    int run(double elapsed_time);
+    int run(bool restore_snapshot);
     void cleanup();
 
     int start();
@@ -145,8 +150,8 @@ struct VBOX_VM {
     int restoresnapshot();
     void dumphypervisorlogs();
 
+    int is_registered();
     bool is_system_ready(std::string& message);
-    bool is_registered();
     bool is_vm_machine_configuration_available();
     bool is_hdd_registered();
     bool is_extpack_installed();
@@ -184,7 +189,7 @@ struct VBOX_VM {
     int launch_vboxsvc();
 
     int vbm_popen(
-        std::string& command, std::string& output, const char* item, bool log_error = true, bool retry_failures = true, unsigned int timeout = 45
+        std::string& command, std::string& output, const char* item, bool log_error = true, bool retry_failures = true, unsigned int timeout = 60
     );
     int vbm_popen_raw(
         std::string& command, std::string& output, unsigned int timeout

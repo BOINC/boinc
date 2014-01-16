@@ -650,16 +650,22 @@ int main(int argc, char** argv) {
         return EXIT_TIME_LIMIT_EXCEEDED;
     }
 
-    retval = vm.run(elapsed_time);
+    retval = vm.run((elapsed_time > 0));
     if (retval) {
-        // All failure to start error are unrecoverable by default
+        // All 'failure to start' errors are unrecoverable by default
         bool   unrecoverable_error = true;
         bool   dump_hypervisor_logs = false;
         string error_reason;
         char*  temp_reason = (char*)"";
         int    temp_delay = 300;
 
-        if (ERR_NOT_EXITED == retval) {
+        if (VBOXWRAPPER_ERR_RECOVERABLE == retval) {
+            error_reason =
+                "    BOINC will be notified that it needs to clean up the environment.\n"
+                "    This is a temporary problem and so this job will be rescheduled for another time.\n";
+            unrecoverable_error = false;
+            temp_reason = (char*)"VM environment needed to be cleaned up.";
+        } else if (ERR_NOT_EXITED == retval) {
             error_reason =
                 "   NOTE: VM was already running.\n"
                 "    BOINC will be notified that it needs to clean up the environment.\n"
