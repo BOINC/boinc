@@ -1032,11 +1032,11 @@ int VBOX_VM::run(bool restore_snapshot) {
     int retval;
 
     retval = is_registered();
-    if (retval == ERR_TIMEOUT) {
+    if (ERR_TIMEOUT == retval) {
 
         return VBOXWRAPPER_ERR_RECOVERABLE;
 
-    } else if (retval == ERR_NOT_FOUND) {
+    } else if (ERR_NOT_FOUND == retval) {
 
         if (is_vm_machine_configuration_available()) {
             retval = register_vm();
@@ -1477,6 +1477,9 @@ int VBOX_VM::is_registered() {
     retval = vbm_popen(command, output, "registration detection", false, false);
 
     // Handle explicit cases first
+    if (ERR_TIMEOUT == retval) {
+        return ERR_TIMEOUT;
+    }
     if (output.find("VBOX_E_OBJECT_NOT_FOUND") != string::npos) {
         return ERR_NOT_FOUND;
     }
