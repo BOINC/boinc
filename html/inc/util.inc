@@ -941,6 +941,10 @@ function show_badges($is_user, $item) {
     row2("Badges", $x);
 }
 
+function dtime() {
+    return microtime(true);
+}
+
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
 
 ?>

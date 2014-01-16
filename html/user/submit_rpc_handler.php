@@ -89,7 +89,7 @@ function check_max_jobs_in_progress($r, $user_submit) {
     $n = $db->get_int($query);
     if ($n === false) return;
     if ($n + count($r->batch->job) > $user_submit->max_jobs_in_progress) {
-        xml_error(,1 "BOINC server: limit on jobs in progress exceeded");
+        xml_error(-1, "BOINC server: limit on jobs in progress exceeded");
     }
 }
 
@@ -121,6 +121,12 @@ $fanout = parse_config(get_config(), "<uldl_dir_fanout>");
 function stage_file($file) {
     global $fanout;
 
+    switch ($file->mode) {
+    case "semilocal":
+    case "local":
+        $md5 = md5_file($file->source);
+        if (!$md5) {
+            xml_error(-1, "BOINC server: Can't get MD5 of file $file->source");
         }
         $name = "jf_$md5";
         $path = dir_hier_path($name, "../../download", $fanout);
@@ -224,12 +230,6 @@ function submit_batch($r) {
             $total_flops += $job->rsc_fpops_est;
         } else {
             $x = (double) $template->workunit->rsc_fpops_est;
-            if ($x) {
-                $total_flops += $x;
-            } else {
-                xml_error(-1, "BOINC server: no rsc_fpops_est given");
-            }
-        }
             if ($x) {
                 $total_flops += $x;
             } else {
@@ -390,9 +390,18 @@ function query_batch2($r) {
         $batches[] = $batch;
     }
 
+    $min_mod_time = (double)$r->min_mod_time;
+    if ($min_mod_time) {
+        $mod_time_clause = "and mod_time > FROM_UNIXTIME($min_mod_time)";
+    } else {
+        $mod_time_clause = "";
+    }
+
+    $t = dtime();
+    echo "<server_time>$t</server_time>\n";
     echo "<jobs>\n";
     foreach ($batches as $batch) {
-        $wus = BoincWorkunit::enum("batch = $batch->id");
+        $wus = BoincWorkunit::enum("batch = $batch->id $mod_time_clause");
         echo "   <batch_size>".count($wus)."</batch_size>\n";
         foreach ($wus as $wu) {
             if ($wu->canonical_resultid) {

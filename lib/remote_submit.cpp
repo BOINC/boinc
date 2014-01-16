@@ -397,6 +397,7 @@ int submit_jobs(
 int query_batch_set(
     const char* project_url,
     const char* authenticator,
+    double min_mod_time,
     vector<string> &batch_names,
     QUERY_BATCH_SET_REPLY& qb_reply,
     string& error_msg
@@ -407,6 +408,8 @@ int query_batch_set(
 
     request = "<query_batch2>\n";
     sprintf(buf, "<authenticator>%s</authenticator>\n", authenticator);
+    request += string(buf);
+    sprintf(buf, "<min_mod_time>%f</min_mod_time>\n", min_mod_time);
     request += string(buf);
     for (unsigned int i=0; i<batch_names.size(); i++) {
         sprintf(buf, "<batch_name>%s</batch_name>\n", batch_names[i].c_str());
@@ -423,6 +426,7 @@ int query_batch_set(
     }
     fseek(reply, 0, SEEK_SET);
     retval = -1;
+    qb_reply.server_time = 0;
     error_msg = "";
     while (fgets(buf, 256, reply)) {
 #ifdef SHOW_REPLY
@@ -434,6 +438,7 @@ int query_batch_set(
         }
         if (parse_int(buf, "<error_num>", retval)) continue;
         if (parse_str(buf, "<error_msg>", error_msg)) continue;
+        if (parse_double(buf, "<server_time>", qb_reply.server_time)) continue;
         if (parse_int(buf, "<batch_size>", batch_size)) {
             qb_reply.batch_sizes.push_back(batch_size);
             continue;

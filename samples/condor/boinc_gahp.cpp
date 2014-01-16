@@ -83,6 +83,7 @@ struct COMMAND {
     vector<string> batch_names;
     char batch_name[256];
     double lease_end_time;
+    double min_mod_time;
 
     COMMAND(char* _in) {
         in = _in;
@@ -296,6 +297,7 @@ void handle_submit(COMMAND& c) {
 }
 
 int COMMAND::parse_query_batches(char* p) {
+    min_mod_time = atof(strtok_r(NULL, " ", &p));
     int n = atoi(strtok_r(NULL, " ", &p));
     for (int i=0; i<n; i++) {
         char* q = strtok_r(NULL, " ", &p);
@@ -304,18 +306,20 @@ int COMMAND::parse_query_batches(char* p) {
     return 0;
 }
 
-void handle_query_batches(COMMAND&c) {
+void handle_query_batches(COMMAND& c) {
     QUERY_BATCH_SET_REPLY reply;
     char buf[256];
     string error_msg, s;
     int retval = query_batch_set(
-        project_url, authenticator, c.batch_names, reply, error_msg
+        project_url, authenticator, c.min_mod_time, c.batch_names, reply, error_msg
     );
     if (retval) {
         sprintf(buf, "error\\ querying\\ batch:\\ %d\\ ", retval);
         s = string(buf) + escape_str(error_msg);
     } else {
         s = string("NULL");
+        sprintf(buf, " %f", reply.server_time);
+        s += string(buf);
         int i = 0;
         for (unsigned int j=0; j<reply.batch_sizes.size(); j++) {
             int n = reply.batch_sizes[j];

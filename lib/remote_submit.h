@@ -58,8 +58,9 @@ struct JOB_STATUS {
 };
 
 struct QUERY_BATCH_SET_REPLY {
+    double server_time;         // server time at start of query
     vector<int> batch_sizes;    // how many jobs in each of the queried batches
-    vector<JOB_STATUS> jobs;   // the jobs, sequentially
+    vector<JOB_STATUS> jobs;    // the jobs, sequentially
 };
 
 struct OUTFILE {
@@ -153,6 +154,7 @@ extern int estimate_batch(
 extern int query_batch_set(
     const char* project_url,
     const char* authenticator,
+    double min_mod_time,
     vector<string> &batch_names,
     QUERY_BATCH_SET_REPLY& reply,
     string& error_msg
