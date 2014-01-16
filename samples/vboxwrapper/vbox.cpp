@@ -1979,8 +1979,12 @@ int VBOX_VM::get_system_log(string& log, bool tail_only) {
         // copy of the log file.
         boinc_copy(virtualbox_system_log_src.c_str(), virtualbox_system_log_dst.c_str());
 
-        // Keep only the last 16k if it is larger than that.
-        read_file_string(virtualbox_system_log_dst.c_str(), log);
+        if (tail_only) {
+            // Keep only the last 8k if it is larger than that.
+            read_file_string(virtualbox_system_log_dst.c_str(), log, 8192, true);
+        } else {
+            read_file_string(virtualbox_system_log_dst.c_str(), log);
+        }
 
 #ifdef _WIN32
         // Remove \r from the log spew
@@ -1995,7 +1999,7 @@ int VBOX_VM::get_system_log(string& log, bool tail_only) {
 #endif
 
         if (tail_only) {
-            if (log.size() >= 16384) {
+            if (log.size() >= 8000) {
                 // Look for the next whole line of text.
                 iter = log.begin();
                 while (iter != log.end()) {
@@ -2033,8 +2037,12 @@ int VBOX_VM::get_vm_log(string& log, bool tail_only) {
         // copy of the log file.
         boinc_copy(virtualbox_vm_log_src.c_str(), virtualbox_vm_log_dst.c_str());
 
-        // Keep only the last 16k if it is larger than that.
-        read_file_string(virtualbox_vm_log_dst.c_str(), log);
+        if (tail_only) {
+            // Keep only the last 8k if it is larger than that.
+            read_file_string(virtualbox_vm_log_dst.c_str(), log, 8192, true);
+        } else {
+            read_file_string(virtualbox_vm_log_dst.c_str(), log);
+        }
 
 #ifdef _WIN32
         // Remove \r from the log spew
@@ -2049,7 +2057,7 @@ int VBOX_VM::get_vm_log(string& log, bool tail_only) {
 #endif
 
         if (tail_only) {
-            if (log.size() >= 16384) {
+            if (log.size() >= 8000) {
                 // Look for the next whole line of text.
                 iter = log.begin();
                 while (iter != log.end()) {
