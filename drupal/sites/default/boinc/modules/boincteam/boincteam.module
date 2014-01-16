@@ -60,7 +60,14 @@ function boincteam_menu() {
     'access arguments' => array(2),
     'type' => MENU_CALLBACK
   );
-
+  $items['community/teams/%/history/xml'] = array(
+    'page callback' => 'boincteam_history_xml',
+    'page arguments' => array(2),
+    'access callback' => 'boincteam_is_admin',
+    'access arguments' => array(2),
+    'type' => MENU_CALLBACK
+  );
+   
   return $items;
 }
 
@@ -159,6 +166,42 @@ function boincteam_get_vocabulary_by_name($name) {
     if ($vocab->name == $name) return $vocab->vid;
   }
   return null;
+}
+
+/**
+ * Output the XML of the team history
+ */
+function boincteam_history_xml($team_id) {
+  $team = node_load($team_id);
+  $boincteam_id = boincteam_lookup_id($team_id);
+  $team_history = array(
+    'actions' => array(
+      'action' => array(),
+    ),
+  );
+  
+  db_set_active('boinc');
+  $result = db_query("
+    SELECT 
+      td.userid AS id,
+      u.name,
+      IF (td.joining, 'joined', 'left') AS action,
+      td.total_credit,
+      FROM_UNIXTIME(td.timestamp, '%%e %%b %%Y | %%T UTC') AS `when`
+    FROM {team_delta} td
+    JOIN {user} u ON u.id = td.userid
+    WHERE td.teamid = %d
+    ORDER BY timestamp ASC",
+    $boincteam_id
+  );
+  db_set_active('default');
+  
+  while ($record = db_fetch_array($result)) {
+    $team_history['actions']['action'][] = $record;
+  }
+  
+  header('Content-type: text/xml');
+  echo xml_to_text(array_to_xml($team_history));
 }
 
 /**
