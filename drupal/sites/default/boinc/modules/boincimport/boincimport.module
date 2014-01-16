@@ -1643,8 +1643,8 @@ function boincimport_team_forums() {
         min_time_between_posts = %d,
         min_total_credit_to_post = %d,
         min_avg_credit_to_post = %d",
-      $forum_id, $team_id, $name, $description, $timestamp, time(),
-      0, $boincteam_forum->post_min_interval, 
+      $forum_id, $team_id, $name, $description, $boincteam_forum->timestamp, 
+      time(), 0, $boincteam_forum->post_min_interval, 
       $boincteam_forum->post_min_total_credit,
       $boincteam_forum->post_min_expavg_credit
     );
