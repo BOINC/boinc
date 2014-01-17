@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2014-01-10 00:00 PST\n"
-"PO-Revision-Date: 2013-11-25 11:56+0000\n"
+"PO-Revision-Date: 2014-01-17 17:23+0000\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fi\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-POOTLE-MTIME: 1385380598.0\n"
+"X-POOTLE-MTIME: 1389979433.0\n"
 
 msgid "LANG_NAME_NATIVE"
 msgstr "English"
@@ -5996,7 +5996,7 @@ msgstr "Vaihda perustaja"
 
 #: ../user/team_change_founder_form.php:108
 msgid "There are no users to transfer team to."
-msgstr ""
+msgstr "Tiimiin siirrettäviä käyttäjiä ei ole."
 
 #: ../user/team_create_action.php:29
 msgid "You must choose a non-blank team name"
