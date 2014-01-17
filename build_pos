@@ -24,8 +24,8 @@ system("tools/compare_pot clientgui/BOINC-Manager.pot $tdir/BOINC-Manager.pot $e
 system("cd mac_installer; ./build_po");
 system("tools/compare_pot mac_installer/BOINC-Setup.pot $tdir/BOINC-Setup.pot $emails");
 
-system("cd android; a2po export -v");
-system("tools/compare_pot android/BOINC-Android.pot $tdir/BOINC-Android.pot $emails");
+//system("cd android; a2po export -v");
+//system("tools/compare_pot android/BOINC-Android.pot $tdir/BOINC-Android.pot $emails");
 
 // generate translations for BOINC web site
 //

@@ -165,9 +165,8 @@ int main(int argc, char **argv) {
         exit(retval);
     }
 
-    fprintf(stderr, "%s app started; %s; CPU time %f, flags:%s%s%s%s%s%s\n",
+    fprintf(stderr, "%s app started; CPU time %f, flags:%s%s%s%s%s%s%s\n",
         boinc_msg_prefix(buf, sizeof(buf)),
-        uc2_dll_version(),
         cpu_time,
         early_exit?" early_exit":"",
         early_crash?" early_crash":"",
