@@ -968,8 +968,9 @@ int VBOX_VM::register_vm() {
     //
     fprintf(
         stderr,
-        "%s Adding virtual disk drive to VM.\n",
-        vboxwrapper_msg_prefix(buf, sizeof(buf))
+        "%s Adding virtual disk drive to VM. (%s)\n",
+        vboxwrapper_msg_prefix(buf, sizeof(buf)),
+	    image_filename.c_str()
     );
     command  = "storageattach \"" + vm_name + "\" ";
     command += "--storagectl \"Hard Disk Controller\" ";
@@ -1006,8 +1007,9 @@ int VBOX_VM::register_vm() {
 
         fprintf(
             stderr,
-            "%s Adding virtual floppy disk drive to VM.\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf))
+            "%s Adding virtual floppy disk drive to VM. (%s)\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf)),
+  	        floppy_image_filename.c_str()
         );
         command  = "storageattach \"" + vm_name + "\" ";
         command += "--storagectl \"Floppy Controller\" ";
@@ -1027,7 +1029,7 @@ int VBOX_VM::register_vm() {
             stderr,
             "%s Adding virtual cache disk drive to VM. (%s)\n",
             vboxwrapper_msg_prefix(buf, sizeof(buf)),
-    		image_filename.c_str()
+    		cache_disk_filename.c_str()
         );
         command  = "storageattach \"" + vm_name + "\" ";
         command += "--storagectl \"Hard Disk Controller\" ";
@@ -1046,8 +1048,9 @@ int VBOX_VM::register_vm() {
     if (enable_isocontextualization) {
         fprintf(
             stderr,
-            "%s Adding virtual iso9660 disk drive to VM.\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf))
+            "%s Adding virtual iso9660 disk drive to VM. (%s)\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf)),
+  	        iso_image_filename.c_str()
         );
         command  = "storageattach \"" + vm_name + "\" ";
         command += "--storagectl \"Hard Disk Controller\" ";
