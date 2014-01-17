@@ -246,6 +246,9 @@ function boincteam_is_founder($nid, $uid = NULL) {
     global $user;
     $uid = $user->uid;
   }
+  if (!boincteam_is_member($nid, $uid)) {
+    return FALSE;
+  }
   $team_id = boincteam_lookup_id($nid);
   require_boinc('team');
   return is_team_founder(boincuser_load($uid), boincteam_load($team_id));
@@ -258,6 +261,9 @@ function boincteam_is_admin($nid, $uid = NULL) {
   if (!$uid) {
     global $user;
     $uid = $user->uid;
+  }
+  if (!boincteam_is_member($nid, $uid)) {
+    return FALSE;
   }
   $team_id = boincteam_lookup_id($nid);
   require_boinc('team');
@@ -442,13 +448,28 @@ function boincteam_search_panel() {
  * Link to create a new team
  */
 function boincteam_create_team_link_panel() {
+  global $user;
+  $account = user_load($user->uid);
+  $unrestricted_role = array_search('verified contributor', user_roles(true));
   $output = '';
   $output .= '<h2 class="pane-title">' . t('Create a new team') . '</h2>';
   $output .= '<p>' . t('If you cannot find a team that is right for you, you
     can create a team.') . '</p>';
   $output .= '<ul class="tab-list">';
-  $output .= '  <li class="first last tab">' . 
-    l(t('Create new team'), 'community/teams/add') . '</li>';
+  $output .= '  <li class="first last tab">';
+  if (isset($account->roles[$unrestricted_role])) {
+    $output .= l(t('Create new team'), 'community/teams/add');
+  }
+  else {
+    $min_credit_needed = variable_get('boinc_comment_min_credit', 0);
+    $output .= '[' . t('You must earn @more_credit!',
+      array('@more_credit' => format_plural(
+        $min_credit_needed - $account->boincuser_total_credit,
+        '1 more credit', '@count more credits'
+      ))
+    ) . ']';
+  }
+  $output .= '  </li>';
   $output .= '</ul>';
   return $output;
 }
@@ -516,6 +537,8 @@ function boincteam_management_panel($team_id) {
   $team = node_load($team_id);
   $output = '';
   $output .= '<h2 class="pane-title">' . t('Manage team') . '</h2>';
+  
+  // Member list
   $output .= '<div class="form-item">';
   $output .= '  <label>' . t('View member list') . '</label>';
   $output .= '  <ul class="tab-list">';
@@ -528,6 +551,8 @@ function boincteam_management_panel($team_id) {
   $output .=   t('Member names and emails');
   $output .= '  </div>';
   $output .= '</div>'; 
+  
+  // Team history
   $output .= '<div class="form-item">';
   $output .= '  <label>' . t('View change history') . '</label>';
   $output .= '  <ul class="tab-list">';
@@ -540,12 +565,24 @@ function boincteam_management_panel($team_id) {
   $output .=   t('See member activity');
   $output .= '  </div>';
   $output .= '</div>';
+  
+  // Team forum
   if (module_exists('boincteam_forum')) {
     if ($is_founder) {
+      // Determine whether to create a forum or edit the existing forum
+      // (multiple forums per team could be supported in the future)
+      $team_forum_link_path = 'add';
+      $team_forums = boincteam_forum_list();
+      if ($team_forums) {
+        $team_forum = reset($team_forums);
+        $team_forum_link_path = "{$team_forum->tfid}/edit";
+      }
       $output .= '<div class="form-item">';
       $output .= '  <ul class="tab-list action-list">';
       $output .= '    <li class="first tab primary">' .   
-        l(t('Manage team message board'), "community/teams/{$team_id}/forum");
+        l(t('Manage team message board'),
+          "community/teams/{$team_id}/forum/{$team_forum_link_path}"
+        );
       $output .= '    </li>';
       $output .= '  <div class="description">';
       $output .=   t('Create or manage message board');
@@ -553,24 +590,38 @@ function boincteam_management_panel($team_id) {
       $output .= '</div>';
     }
   }
+  
+  // Remove members
   $output .= '<div class="form-item">';
   $output .= '  <ul class="tab-list action-list">';
   $output .= '    <li class="first tab primary">' . 
     l(t('Remove members'), "community/teams/{$team_id}/edit/members") . '</li>';
+  
   if ($is_founder) {
+    
+    // Change founder
     $output .= '    <li class="tab primary">' . 
       l(t('Change founder'), "community/teams/{$team_id}/edit/founder") . '</li>';
+      
+      // Manage admins
     $output .= '    <li class="tab primary">' . 
       l(t('Manage team admins'), "community/teams/{$team_id}/edit/admins") . '</li>';
   }
+  
+  // Edit team information
   $output .= '    <li class="tab primary">' . 
     l(t('Edit team info'), "community/teams/{$team_id}/edit/info") . '</li>';
+    
   if ($is_founder) {
+    
+    // Delete the team
     $output .= '    <li class="last tab primary">' . 
       l(t('Remove team'), "community/teams/{$team_id}/delete") . '</li>';
   }
+  
   $output .= '  </ul>';
   $output .= '</div>';
+  
   return $output;
 }
 
