@@ -732,7 +732,7 @@ int main(int argc, char** argv) {
             }
 
             if (dump_hypervisor_logs) {
-                vm.dumphypervisorlogs();
+                vm.dumphypervisorlogs(true);
             }
 
             boinc_finish(retval);
@@ -813,7 +813,7 @@ int main(int argc, char** argv) {
                         "%s VM Premature Shutdown Detected.\n",
                         vboxwrapper_msg_prefix(buf, sizeof(buf))
                     );
-                    vm.dumphypervisorlogs();
+                    vm.dumphypervisorlogs(true);
                     vm.get_vm_exit_code(vm_exit_code);
                     if (vm_exit_code) {
                         boinc_finish(vm_exit_code);
@@ -826,6 +826,7 @@ int main(int argc, char** argv) {
                         "%s Virtual machine exited.\n",
                         vboxwrapper_msg_prefix(buf, sizeof(buf))
                     );
+                    vm.dumphypervisorlogs(false);
                     boinc_finish(0);
                 }
             }
@@ -839,7 +840,7 @@ int main(int argc, char** argv) {
                     vboxwrapper_msg_prefix(buf, sizeof(buf))
                 );
                 vm.reset_vm_process_priority();
-                vm.dumphypervisorlogs();
+                vm.dumphypervisorlogs(true);
                 vm.poweroff();
                 boinc_finish(EXIT_OUT_OF_MEMORY);
             }
