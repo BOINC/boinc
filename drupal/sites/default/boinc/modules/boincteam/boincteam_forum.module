@@ -31,6 +31,101 @@ function boincteam_forum_menu() {
 }
 
 /**
+* Implementation of hook_form_alter()
+*/
+function boincteam_forum_form_alter(&$form, $form_state, $form_id) {
+  switch ($form_id) {
+  // Team forum node edit form
+  case 'team_forum_node_form':
+    
+    // Internal fields to indicate where these changes are taking place
+    array_unshift($form, array(
+      'tfid' => array(
+        '#type' => 'hidden',
+        '#value' => arg(3),
+      ),
+    ));
+    break;
+  
+  default:
+  }
+}
+
+/**
+ * Implementation of hook_nodeapi(); add custom actions to node operations
+ * Obsolete in Drupal 7...
+ */
+function boincteam_forum_nodeapi(&$node, $op, $a3 = null, $a4 = null) {
+  // In Drupal 7, these operation cases will all exist as their own hooks,
+  // so let's approximate that here so that this function can simply be removed
+  // upon migration to 7
+  switch($op) {
+  case 'insert':
+    boincteam_forum_node_insert($node);
+    break;
+  case 'update':
+    boincteam_forum_node_update($node);
+    break;
+  case 'validate':
+    boincteam_forum_node_validate($node);
+    break;
+  default:
+  }
+}
+
+/**
+ * Implementation of hook_node_insert(); add custom actions when a node
+ * is inserted (forward compatible to Drupal 7)
+ */
+function boincteam_forum_node_insert($node) {
+  switch($node->type) {
+  case 'team_forum':
+    global $user;
+    $account = user_load($user->uid);
+    $team_id = boincteam_forum_lookup_nid($node->tfid);
+    if ($account->team == $team_id) {
+      db_query("
+        INSERT INTO {boincteam_forum_node} SET
+          nid = %d,
+          tfid = %d",
+        $node->nid, $node->tfid
+      );
+    }
+    unset($node->tfid);
+    break;
+  default:
+  }
+}
+
+/**
+ * Implementation of hook_node_update(); add custom actions when a node
+ * is updated (forward compatible to Drupal 7)
+ */
+function boincteam_forum_node_update($node) {
+  switch($node->type) {
+  case 'team_forum':
+    
+    break;
+    
+  default:
+    
+  }
+}
+
+/**
+ * Implementation of hook_node_validate(); add custom actions when a node
+ * is validated (forward compatible to Drupal 7)
+ */
+function boincteam_forum_node_validate($node) {
+  switch($node->type) {
+  case 'team_forum':
+    
+    break;
+  default:
+  }
+}
+
+/**
 * Implementation of hook_views_api().
 */
 function boincteam_forum_views_api() {
@@ -125,6 +220,16 @@ function boincteam_forum_load($tfid) {
     FROM {boincteam_forum} WHERE tfid=%d", $tfid
   );
   return db_fetch_object($result);
+}
+
+/*
+ * Look up the team ID for a given team forum
+ */
+function boincteam_forum_lookup_nid($tfid) {
+  return db_result(db_query("
+    SELECT nid FROM {boincteam_forum}
+    WHERE tfid=%d", $tfid
+  ));
 }
 
 
