@@ -20,19 +20,9 @@
   $sort_order = isset($_GET['sort']) ? $_GET['sort'] : 'asc';
   
   $team_forum_id = arg(4);
-  $team_forum = boincteam_forum_load($team_forum_id);
   
   $topics = $rows;
-  // Grab a sample forum topic node to get the forum vocabulary name
-  $sample = db_result(db_query("
-    SELECT nid FROM {node} WHERE type = 'forum' LIMIT 1"
-  ));
-  $forum_node = node_load($sample);
-  // Get vocabulary name and use that as the page title
-  $taxonomy = taxonomy_get_term($forum_node->tid);
-  if ($forum_vocab = taxonomy_vocabulary_load($taxonomy->vid)) {
-    drupal_set_title($forum_vocab->name);
-  }
+  
   // Get the count of topics on this page
   $topic_count = count($topics);
   $topic_index = 0;
@@ -40,14 +30,7 @@
   
 ?>
 
-<h1 class="title"><?php print $forum_vocab->name; ?></h1>
-
 <table id="forum-topic-<?php print $team_forum_id; ?>">
-  
-  <h2 class="title">
-    <?php print l($forum_vocab->name, 'forum') . ' &rsaquo; '; ?>
-    <?php print $team_forum->title; ?>
-  </h2>
   
   <thead>
     <tr>
