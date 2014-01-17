@@ -36,7 +36,7 @@ endif
 
 lib_LTLIBRARIES = libboinc_api.la
 libboinc_api_la_SOURCES = $(api_files)
-libboinc_api_la_LDFLAGS = -L$(libdir) -rpath $(libdir) -version-number $(LIBBOINC_VERSION) -lpthread
+libboinc_api_la_LDFLAGS = -L$(libdir) -rpath $(libdir) -version-number $(LIBBOINC_VERSION)
 
 if BUILD_GRAPHICS_API
 lib_LTLIBRARIES += libboinc_graphics2.la
