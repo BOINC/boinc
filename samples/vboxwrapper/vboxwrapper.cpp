@@ -557,28 +557,20 @@ int main(int argc, char** argv) {
             sprintf(buf, "%s.%s", FLOPPY_IMAGE_FILENAME, FLOPPY_IMAGE_FILENAME_EXTENSION);
             vm.floppy_image_filename = buf;
         }
-	if (vm.enable_cache_disk) {
-            sprintf(buf, "%s.%s", CACHE_DISK_FILENAME, CACHE_DISK_FILENAME_EXTENSION);
-            vm.cache_disk_filename = buf;
-        }
-	if (vm.enable_isocontextualization) {
-            sprintf(buf, "%s.%s", ISO_IMAGE_FILENAME, ISO_IMAGE_FILENAME_EXTENSION);
-            vm.iso_image_filename = buf;
-	}
     } else {
         vm.vm_master_name += aid.result_name;
         if (vm.enable_floppyio) {
             sprintf(buf, "%s_%d.%s", FLOPPY_IMAGE_FILENAME, aid.slot, FLOPPY_IMAGE_FILENAME_EXTENSION);
             vm.floppy_image_filename = buf;
         }
-        if (vm.enable_cache_disk) {
-            sprintf(buf, "%s_%d.%s", CACHE_DISK_FILENAME, aid.slot, CACHE_DISK_FILENAME_EXTENSION);
-            vm.cache_disk_filename = buf;
-        }
-        if (vm.enable_isocontextualization) {
-            sprintf(buf, "%s_%d.%s", ISO_IMAGE_FILENAME, aid.slot, ISO_IMAGE_FILENAME_EXTENSION);
-            vm.iso_image_filename = buf;
-        }
+    }
+    if (vm.enable_cache_disk) {
+        sprintf(buf, "%s.%s", CACHE_DISK_FILENAME, CACHE_DISK_FILENAME_EXTENSION);
+        vm.cache_disk_filename = buf;
+    }
+    if (vm.enable_isocontextualization) {
+        sprintf(buf, "%s.%s", ISO_IMAGE_FILENAME, ISO_IMAGE_FILENAME_EXTENSION);
+        vm.iso_image_filename = buf;
     }
     if (aid.ncpus > 1.0 || ncpus > 1.0) {
         if (ncpus) {
