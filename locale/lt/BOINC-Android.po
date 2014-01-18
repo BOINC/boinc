@@ -6,16 +6,19 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-01-17 00:00-0800\n"
+"POT-Creation-Date: 2013-10-18 00:00-0700\n"
 "PO-Revision-Date: 2014-01-10 17:31+0000\n"
 "Last-Translator: Rytis Slatkevičius <rytis.s@gmail.com>\n"
 "Language-Team: lt <LL@li.org>\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"(n%100<10 || n%100>=20) ? 1 : 2)\n"
+"Language: lt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%"
+"100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
+"X-POOTLE-MTIME: 1386566425.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -99,13 +102,15 @@ msgctxt "attachproject_login_header_platform"
 msgid "Android:"
 msgstr "Android:"
 
+#, fuzzy
 msgctxt "attachproject_login_platform_supported"
-msgid "Device type is supported by this project"
-msgstr ""
+msgid "This project supports Android devices"
+msgstr "이 프로젝트는 안드로이드 장치를 지원합니다"
 
+#, fuzzy
 msgctxt "attachproject_login_platform_not_supported"
-msgid "Device is not supported by this project"
-msgstr ""
+msgid "This project does not support Android devices"
+msgstr "이 프로젝트는 안드로이드 장치를 지원하지 않습니다"
 
 #, fuzzy
 msgctxt "attachproject_login_category_terms_of_use"
@@ -355,9 +360,8 @@ msgid "Synchronize"
 msgstr "동기화"
 
 #. main activity
-#, fuzzy
 msgctxt "main_noproject_warning"
-msgid "Tap here to choose a project."
+msgid "Tab here to choose a project."
 msgstr "프로젝트를 선택하려면 여기를 누르세요."
 
 msgctxt "main_error"
@@ -503,30 +507,9 @@ msgctxt "prefs_show_advanced_header"
 msgid "Show advanced preferences and controls…"
 msgstr "고급 환경 설정과 제어판을 보여주기…"
 
-msgctxt "prefs_power_source_header"
-msgid "Power sources for computation"
-msgstr ""
-
-msgctxt "prefs_power_source_description"
-msgid "Selects power sources BOINC is allowed to use for computation."
-msgstr ""
-
-msgctxt "prefs_power_source_ac"
-msgid "Wall socket"
-msgstr ""
-
-#, fuzzy
-msgctxt "prefs_power_source_usb"
-msgid "USB connection"
-msgstr "인터넷 연결이 되지 않았습니다"
-
-msgctxt "prefs_power_source_wireless"
-msgid "Wireless charger"
-msgstr ""
-
-msgctxt "prefs_power_source_battery"
-msgid "Battery"
-msgstr ""
+msgctxt "prefs_run_on_battery_header"
+msgid "Compute on Battery"
+msgstr "배터리로 가동 중에도 연산"
 
 msgctxt "battery_charge_min_pct_header"
 msgid "Min. battery level"
@@ -1156,15 +1139,12 @@ msgstr ""
 "© 2003–2013 University of California, Berkeley.\n"
 "All Rights Reserved."
 
-#~ msgctxt "attachproject_login_platform_supported"
-#~ msgid "This project supports Android devices"
-#~ msgstr "이 프로젝트는 안드로이드 장치를 지원합니다"
+#, fuzzy
+#~ msgctxt "main_noproject_warning"
+#~ msgid "Tap here to choose a project."
+#~ msgstr "프로젝트를 선택하려면 여기를 누르세요."
 
-#~ msgctxt "attachproject_login_platform_not_supported"
-#~ msgid "This project does not support Android devices"
-#~ msgstr "이 프로젝트는 안드로이드 장치를 지원하지 않습니다"
-
-#~ msgctxt "prefs_run_on_battery_header"
-#~ msgid "Compute on Battery"
-#~ msgstr "배터리로 가동 중에도 연산"
-
+#, fuzzy
+#~ msgctxt "prefs_power_source_usb"
+#~ msgid "USB connection"
+#~ msgstr "인터넷 연결이 되지 않았습니다"
