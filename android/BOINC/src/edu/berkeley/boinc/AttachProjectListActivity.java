@@ -31,6 +31,7 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -101,7 +102,7 @@ public class AttachProjectListActivity extends ActionBarActivity implements andr
         // disable "add account manager" button, if account manager already present
         if(acctMgrPresent) {
         	MenuItem item = menu.findItem(R.id.acctmgr_add);
-        	//item.setVisible(false); //TODO
+        	item.setVisible(false);
         }
         
 		return true;
@@ -119,6 +120,11 @@ public class AttachProjectListActivity extends ActionBarActivity implements andr
 	    	case R.id.projects_add_url:
 	    		showDialog(R.id.projects_add_url);
 	    		return true;
+	    	case android.R.id.home:
+	    	    if(Logging.DEBUG) Log.d(Logging.TAG, "AttachProjectListActivity onOptionsItemSelected(): navigate to logical parent");
+	    		// navigate to logical parent (manifest) when home/up/appicon is clicked
+	    	    NavUtils.navigateUpFromSameTask(this);
+	            return true;
 			default:
 				return super.onOptionsItemSelected(item);
 		}

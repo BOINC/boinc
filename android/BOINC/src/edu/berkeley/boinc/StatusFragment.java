@@ -178,7 +178,7 @@ public class StatusFragment extends Fragment{
 					String text = getString(R.string.suspend_battery_charging);
 					try{
 						Double minCharge = Monitor.getClientStatus().getPrefs().battery_charge_min_pct;
-						Integer currentCharge = ((BOINCActivity)getActivity()).getMonitorService().getDeviceStatus().getBattery_charge_pct();
+						Integer currentCharge = ((BOINCActivity)getActivity()).getMonitorService().getDeviceStatus().getStatus().battery_charge_pct;
 						text = getString(R.string.suspend_battery_charging_long) + " " + minCharge.intValue()
 						+ "% (" + getString(R.string.suspend_battery_charging_current) + " " + currentCharge  + "%) "
 						+ getString(R.string.suspend_battery_charging_long2);

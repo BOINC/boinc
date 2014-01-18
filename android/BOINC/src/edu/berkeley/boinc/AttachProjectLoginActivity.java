@@ -39,6 +39,7 @@ import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -178,7 +179,12 @@ public class AttachProjectLoginActivity extends ActionBarActivity{
     	SpannableString content = new SpannableString(projectConfig.masterUrl);
     	content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
 		website.setText(content);
-		website.setTag(projectConfig.masterUrl); // set tag to use in onClick
+		website.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View v) {
+	    		Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(projectConfig.masterUrl));
+	    		startActivity(i);
+			}});
 		
 		// set android support
 		TextView platform = (TextView) findViewById(R.id.project_platform);
@@ -233,10 +239,10 @@ public class AttachProjectLoginActivity extends ActionBarActivity{
 			
 			// set home
 			if(projectInfo.home != null) {
-				TextView home = (TextView) findViewById(R.id.home);
+				TextView home = (TextView) findViewById(R.id.based_at);
 				home.setText(projectInfo.home);
 			} else {
-				LinearLayout wrapper = (LinearLayout) findViewById(R.id.home_wrapper);
+				LinearLayout wrapper = (LinearLayout) findViewById(R.id.based_at_wrapper);
 				wrapper.setVisibility(View.GONE);
 			}
 		}
@@ -343,14 +349,6 @@ public class AttachProjectLoginActivity extends ActionBarActivity{
 		// Start intent to project website forgot password link
 		Intent i = new Intent(Intent.ACTION_VIEW);
 		i.setData(Uri.parse(projectConfig.masterUrl + "/get_passwd.php"));
-		startActivity(i);
-	}
-	
-	// project url textview's onClick
-	public void projectUrlClicked (View view) {
-		// start intent to project website
-		Intent i = new Intent(Intent.ACTION_VIEW);
-		i.setData(Uri.parse(projectConfig.masterUrl));
 		startActivity(i);
 	}
 	

@@ -48,6 +48,7 @@ import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.rpc.CcState;
 import edu.berkeley.boinc.rpc.CcStatus;
 import edu.berkeley.boinc.rpc.GlobalPreferences;
+import edu.berkeley.boinc.rpc.Notice;
 import edu.berkeley.boinc.rpc.ProjectInfo;
 import edu.berkeley.boinc.rpc.Transfer;
 import edu.berkeley.boinc.rpc.AcctMgrInfo;
@@ -343,13 +344,12 @@ public class Monitor extends Service {
 	}
 	
 	/**
-
 	 * Returns class that holds the current device status as reported to the client.
 	 * Contains e.g. battery level.
 	 * @return Device Status instance, with the data latest reported to the BOINC client.
 	 */
 	public DeviceStatus getDeviceStatus() {
-		if (deviceStatus == null) return new DeviceStatus(getApplicationContext());
+		if (deviceStatus == null) return new DeviceStatus(getApplicationContext(), getAppPrefs());
 		else return deviceStatus;
 	}
 // --end-- public methods for Activities
@@ -418,9 +418,10 @@ public class Monitor extends Service {
 				CcState state = clientInterface.getState();
 				ArrayList<Transfer>  transfers = clientInterface.getFileTransfers();
 				AcctMgrInfo acctMgrInfo = clientInterface.getAcctMgrInfo();
+				ArrayList<Notice> newNotices = clientInterface.getNotices(Monitor.getClientStatus().getMostRecentNoticeSeqNo());
 				
 				if( (status != null) && (state != null) && (state.results != null) && (state.projects != null) && (transfers != null) && (state.host_info != null) && (acctMgrInfo != null)) {
-					Monitor.getClientStatus().setClientStatus(status, state.results, state.projects, transfers, state.host_info, acctMgrInfo);
+					Monitor.getClientStatus().setClientStatus(status, state.results, state.projects, transfers, state.host_info, acctMgrInfo, newNotices);
 					// Update status bar notification
 					ClientNotification.getInstance(getApplicationContext()).update();
 				} else {

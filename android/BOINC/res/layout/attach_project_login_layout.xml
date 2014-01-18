@@ -113,13 +113,13 @@
 		    </LinearLayout>
 		    
 	        <LinearLayout 
-		        android:id="@+id/home_wrapper"
+		        android:id="@+id/based_at_wrapper"
 	            android:layout_height="wrap_content"
 	            android:layout_width="fill_parent"
 	            android:orientation="horizontal"
 	            android:padding="10dp">
 			    <TextView
-			        android:id="@+id/header_home"
+			        android:id="@+id/header_based_at"
 			        android:layout_width="100dp"
 			        android:singleLine="true"
 			        android:layout_height="wrap_content"
@@ -128,7 +128,7 @@
 			        android:text="@string/attachproject_login_header_home" />
 			
 			    <TextView
-			        android:id="@+id/home"
+			        android:id="@+id/based_at"
 			        android:layout_width="wrap_content"
 			        android:layout_height="wrap_content"
 			        android:textAppearance="?android:attr/textAppearanceSmall" />
@@ -156,7 +156,6 @@
 		        android:layout_height="wrap_content"
 		        android:textAppearance="?android:attr/textAppearanceSmall"
 		        android:clickable="true"
-		        android:onClick="projectUrlClicked"
 		        android:textColor="@color/dark_blue"/>
 	    </LinearLayout>
 	    

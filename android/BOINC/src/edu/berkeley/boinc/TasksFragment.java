@@ -65,7 +65,7 @@ public class TasksFragment extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    	if(Logging.VERBOSE) Log.v(Logging.TAG,"TasksFragment onCreateView");
+    	if(Logging.DEBUG) Log.d(Logging.TAG,"TasksFragment onCreateView");
         // Inflate the layout for this fragment
     	View layout = inflater.inflate(R.layout.tasks_layout, container, false);
 		lv = (ListView) layout.findViewById(R.id.tasksList);
@@ -78,14 +78,14 @@ public class TasksFragment extends Fragment {
 	public void onResume() {
 		super.onResume();
 		//register noisy clientStatusChangeReceiver here, so only active when Activity is visible
-		if(Logging.VERBOSE) Log.d(Logging.TAG,"TasksFragment register receiver");
+		if(Logging.DEBUG) Log.d(Logging.TAG,"TasksFragment register receiver");
 		getActivity().registerReceiver(mClientStatusChangeRec,ifcsc);
 		loadData();
 	}
 	
 	public void onPause() {
 		//unregister receiver, so there are not multiple intents flying in
-		if(Logging.VERBOSE) Log.d(Logging.TAG,"TasksFragment remove receiver");
+		if(Logging.DEBUG) Log.d(Logging.TAG,"TasksFragment remove receiver");
 		getActivity().unregisterReceiver(mClientStatusChangeRec);
 		super.onPause();
 	}

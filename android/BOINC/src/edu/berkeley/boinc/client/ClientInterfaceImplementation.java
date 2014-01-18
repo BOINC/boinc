@@ -13,7 +13,6 @@ import edu.berkeley.boinc.rpc.AccountOut;
 import edu.berkeley.boinc.rpc.AcctMgrRPCReply;
 import edu.berkeley.boinc.rpc.GlobalPreferences;
 import edu.berkeley.boinc.rpc.Message;
-import edu.berkeley.boinc.rpc.Notice;
 import edu.berkeley.boinc.rpc.Project;
 import edu.berkeley.boinc.rpc.ProjectAttachReply;
 import edu.berkeley.boinc.rpc.ProjectConfig;
@@ -501,20 +500,5 @@ public class ClientInterfaceImplementation extends RpcClient{
 		else 
 			if(Logging.DEBUG) Log.d(Logging.TAG,"getEventLogMessages: returning empty array for lowerBound: " + lowerBound);
 		return msgs;
-	}
-	
-	/**
-	 * Returns list of server notices.
-	 * Filters only server notices out of all notices, used for showing scheduler reply related messages.
-	 * e.g. "device does not have enough memory for work unit"
-	 * @return list of server notices
-	 */
-	public ArrayList<Notice> getServerNotices() {
-		ArrayList<Notice> allNotices = getNotices(0);
-		ArrayList<Notice> serverNotices = new ArrayList<Notice>();
-		for(Notice notice: allNotices) {
-			if(notice.isServerNotice) serverNotices.add(notice);
-		}
-		return serverNotices;
 	}
 }

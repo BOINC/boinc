@@ -32,6 +32,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -70,6 +72,12 @@ public class ProjectsFragment extends Fragment {
 	};
 	
 	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		setHasOptionsMenu(true); // enables fragment specific menu
+		super.onCreate(savedInstanceState);
+	}
+
+	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     	if(Logging.VERBOSE) Log.v(Logging.TAG,"ProjectsFragment onCreateView");
         // Inflate the layout for this fragment
@@ -97,6 +105,13 @@ public class ProjectsFragment extends Fragment {
 		getActivity().registerReceiver(mClientStatusChangeRec, ifcsc);
 	}
 	
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		// appends the project specific menu to the main menu.
+		inflater.inflate(R.menu.projects_menu, menu);
+		super.onCreateOptionsMenu(menu, inflater);
+	}
+
 	private void populateLayout() {
 		try {
 			// read projects from state saved in ClientStatus
@@ -105,12 +120,10 @@ public class ProjectsFragment extends Fragment {
 			ArrayList<Transfer> statusTransfers = Monitor.getClientStatus().getTransfers();
 			
 			// get server / scheduler notices to display if device does not meet
-			// resource requirements
-			// TODO removed, dont do socket connection in UI thread!
-			// ArrayList<Notice> serverNotices = ((BOINCActivity)getActivity()).getMonitorService().clientInterface.getServerNotices();
+			ArrayList<Notice> serverNotices = Monitor.getClientStatus().getServerNotices();
 			
 			// Update Project data
-			updateData(statusProjects, statusAcctMgr, new ArrayList<Notice>(), statusTransfers);
+			updateData(statusProjects, statusAcctMgr, serverNotices, statusTransfers);
 			
 			// Force list adapter to refresh
 			listAdapter.notifyDataSetChanged(); 
