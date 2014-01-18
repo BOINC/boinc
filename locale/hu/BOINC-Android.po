@@ -6,15 +6,18 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-01-17 00:00-0800\n"
+"POT-Creation-Date: 2013-10-18 00:00-0700\n"
 "PO-Revision-Date: 2013-12-15 08:43+0000\n"
 "Last-Translator: Gabor <csega@mailbox.hu>\n"
 "Language-Team: hu <LL@li.org>\n"
-"Plural-Forms: nplurals=2; plural=(n !=1)\n"
+"Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n !=1);\n"
+"X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
+"X-POOTLE-MTIME: 1387097001.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -90,12 +93,12 @@ msgid "Android:"
 msgstr "Android:"
 
 msgctxt "attachproject_login_platform_supported"
-msgid "Device type is supported by this project"
-msgstr ""
+msgid "This project supports Android devices"
+msgstr "Ez a projekt támogatja az Android eszközöket"
 
 msgctxt "attachproject_login_platform_not_supported"
-msgid "Device is not supported by this project"
-msgstr ""
+msgid "This project does not support Android devices"
+msgstr "Ez a projekt nem támogatja az Android eszközöket"
 
 msgctxt "attachproject_login_category_terms_of_use"
 msgid "Terms of use for"
@@ -338,7 +341,7 @@ msgstr ""
 #. main activity
 #, fuzzy
 msgctxt "main_noproject_warning"
-msgid "Tap here to choose a project."
+msgid "Tab here to choose a project."
 msgstr "Válasszon projektet:"
 
 msgctxt "main_error"
@@ -482,29 +485,8 @@ msgctxt "prefs_show_advanced_header"
 msgid "Show advanced preferences and controls…"
 msgstr ""
 
-msgctxt "prefs_power_source_header"
-msgid "Power sources for computation"
-msgstr ""
-
-msgctxt "prefs_power_source_description"
-msgid "Selects power sources BOINC is allowed to use for computation."
-msgstr ""
-
-msgctxt "prefs_power_source_ac"
-msgid "Wall socket"
-msgstr ""
-
-#, fuzzy
-msgctxt "prefs_power_source_usb"
-msgid "USB connection"
-msgstr "Nincs internetkapcsolat"
-
-msgctxt "prefs_power_source_wireless"
-msgid "Wireless charger"
-msgstr ""
-
-msgctxt "prefs_power_source_battery"
-msgid "Battery"
+msgctxt "prefs_run_on_battery_header"
+msgid "Compute on Battery"
 msgstr ""
 
 msgctxt "battery_charge_min_pct_header"
@@ -1133,15 +1115,12 @@ msgid ""
 "All Rights Reserved."
 msgstr ""
 
-#~ msgctxt "attachproject_login_platform_supported"
-#~ msgid "This project supports Android devices"
-#~ msgstr "Ez a projekt támogatja az Android eszközöket"
+#, fuzzy
+#~ msgctxt "main_noproject_warning"
+#~ msgid "Tap here to choose a project."
+#~ msgstr "Válasszon projektet:"
 
-#~ msgctxt "attachproject_login_platform_not_supported"
-#~ msgid "This project does not support Android devices"
-#~ msgstr "Ez a projekt nem támogatja az Android eszközöket"
-
-#~ msgctxt "prefs_run_on_battery_header"
-#~ msgid "Compute on Battery"
-#~ msgstr ""
-
+#, fuzzy
+#~ msgctxt "prefs_power_source_usb"
+#~ msgid "USB connection"
+#~ msgstr "Nincs internetkapcsolat"
