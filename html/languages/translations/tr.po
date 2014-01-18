@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: BOINC Project Generic\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2014-01-10 00:00 PST\n"
-"PO-Revision-Date: 2013-11-24 20:31+0000\n"
+"PO-Revision-Date: 2014-01-17 20:25+0000\n"
 "Last-Translator: Aycan <aycandemirel@hotmail.com>\n"
 "Language-Team: Donanım Haber\n"
 "Language: tr\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-POOTLE-MTIME: 1385325085.0\n"
+"X-POOTLE-MTIME: 1389990335.0\n"
 
 msgid "LANG_NAME_NATIVE"
 msgstr "Türkçe"
@@ -6042,7 +6042,7 @@ msgstr "Kurucuyu değiştir"
 
 #: ../user/team_change_founder_form.php:108
 msgid "There are no users to transfer team to."
-msgstr ""
+msgstr "Takımın aktarılacağı hiçbir kullanıcı yok."
 
 #: ../user/team_create_action.php:29
 msgid "You must choose a non-blank team name"
