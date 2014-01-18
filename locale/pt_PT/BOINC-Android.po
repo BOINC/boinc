@@ -6,15 +6,18 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-01-17 00:00-0800\n"
+"POT-Creation-Date: 2013-10-18 00:00-0700\n"
 "PO-Revision-Date: 2014-01-03 15:31+0000\n"
 "Last-Translator: Miguel Filipe Paulino de Sousa <Miguel.veig@gmail.com>\n"
 "Language-Team: pt_PT <LL@li.org>\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"Language: pt_PT\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
+"X-POOTLE-MTIME: 1388763092.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -90,12 +93,12 @@ msgid "Android:"
 msgstr "Android:"
 
 msgctxt "attachproject_login_platform_supported"
-msgid "Device type is supported by this project"
-msgstr ""
+msgid "This project supports Android devices"
+msgstr "Este projecto suporta dispositivos com Android"
 
 msgctxt "attachproject_login_platform_not_supported"
-msgid "Device is not supported by this project"
-msgstr ""
+msgid "This project does not support Android devices"
+msgstr "Este projecto não suporta dispositivos com Android"
 
 msgctxt "attachproject_login_category_terms_of_use"
 msgid "Terms of use for"
@@ -106,8 +109,7 @@ msgid ""
 "By creating an account with this project, you accept the terms of use as "
 "shown above."
 msgstr ""
-"Ao criar uma conta neste projecto, aceita os termos de uso acima "
-"descritos."
+"Ao criar uma conta neste projecto, aceita os termos de uso acima descritos."
 
 msgctxt "attachproject_login_category_login"
 msgid "Sign in with existing account"
@@ -338,9 +340,8 @@ msgid "Synchronize"
 msgstr "Sincronizar"
 
 #. main activity
-#, fuzzy
 msgctxt "main_noproject_warning"
-msgid "Tap here to choose a project."
+msgid "Tab here to choose a project."
 msgstr "Carregue aqui para escolher um projecto."
 
 msgctxt "main_error"
@@ -486,30 +487,9 @@ msgctxt "prefs_show_advanced_header"
 msgid "Show advanced preferences and controls…"
 msgstr "Mostrar preferências avançadas e controlos..."
 
-msgctxt "prefs_power_source_header"
-msgid "Power sources for computation"
-msgstr ""
-
-msgctxt "prefs_power_source_description"
-msgid "Selects power sources BOINC is allowed to use for computation."
-msgstr ""
-
-msgctxt "prefs_power_source_ac"
-msgid "Wall socket"
-msgstr ""
-
-#, fuzzy
-msgctxt "prefs_power_source_usb"
-msgid "USB connection"
-msgstr "Sem conexão de Internet"
-
-msgctxt "prefs_power_source_wireless"
-msgid "Wireless charger"
-msgstr ""
-
-msgctxt "prefs_power_source_battery"
-msgid "Battery"
-msgstr ""
+msgctxt "prefs_run_on_battery_header"
+msgid "Compute on Battery"
+msgstr "Realizar computação quando estiver só em Bateria"
 
 msgctxt "battery_charge_min_pct_header"
 msgid "Min. battery level"
@@ -528,8 +508,8 @@ msgid ""
 "BOINC suspends computation above defined battery temperature. It is not "
 "recommended to change this value."
 msgstr ""
-"O BOINC suspende a computação abaixo da temperatura da bateria definida. "
-"Não é recomendada a alteração deste valor."
+"O BOINC suspende a computação abaixo da temperatura da bateria definida. Não "
+"é recomendada a alteração deste valor."
 
 msgctxt "prefs_disk_max_pct_header"
 msgid "Max. used storage space"
@@ -1026,7 +1006,8 @@ msgstr "Não conectado a um WiFi."
 
 msgctxt "suspend_battery_charging"
 msgid "Battery needs to charge before resuming computation."
-msgstr "A bateria precisa de ser carregada antes que a computação seja resumida."
+msgstr ""
+"A bateria precisa de ser carregada antes que a computação seja resumida."
 
 msgctxt "suspend_battery_charging_long"
 msgid "Computing will resume when battery charge reaches"
@@ -1147,15 +1128,12 @@ msgstr ""
 "© 2003-2013 Universidade da Califórnia, Berkeley.\n"
 "Todos os Direitos Reservados."
 
-#~ msgctxt "attachproject_login_platform_supported"
-#~ msgid "This project supports Android devices"
-#~ msgstr "Este projecto suporta dispositivos com Android"
+#, fuzzy
+#~ msgctxt "main_noproject_warning"
+#~ msgid "Tap here to choose a project."
+#~ msgstr "Carregue aqui para escolher um projecto."
 
-#~ msgctxt "attachproject_login_platform_not_supported"
-#~ msgid "This project does not support Android devices"
-#~ msgstr "Este projecto não suporta dispositivos com Android"
-
-#~ msgctxt "prefs_run_on_battery_header"
-#~ msgid "Compute on Battery"
-#~ msgstr "Realizar computação quando estiver só em Bateria"
-
+#, fuzzy
+#~ msgctxt "prefs_power_source_usb"
+#~ msgid "USB connection"
+#~ msgstr "Sem conexão de Internet"
