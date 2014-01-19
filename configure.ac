@@ -566,7 +566,7 @@ HINT: on MacOSX/Darwin these libs/includes are sometimes found in '/sw/' (if usi
    fi
 fi
 
-AM_CONDITIONAL(BUILD_GRAPHICS_API, [ test "$have_glut" = yes ])
+AM_CONDITIONAL(BUILD_GRAPHICS_API, [ test "$have_glut" = yes -a "$have_jpeg" = 1])
 
 dnl check for X screen saver lib
 if test "$enable_xss" == yes; then
