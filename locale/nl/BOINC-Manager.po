@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-01-13 00:00-0800\n"
-"PO-Revision-Date: 2013-12-18 19:34+0000\n"
+"PO-Revision-Date: 2014-01-17 18:17+0000\n"
 "Last-Translator: Rene <oskamjr@ziggo.nl>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: nl\n"
@@ -23,7 +23,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCGIT\\boinc\n"
-"X-POOTLE-MTIME: 1387395241.0\n"
+"X-POOTLE-MTIME: 1389982668.0\n"
 
 # 81%
 #: AccountInfoPage.cpp:387
@@ -1107,7 +1107,7 @@ msgstr "&OK"
 
 #: DlgAdvPreferences.cpp:544
 msgid "invalid number"
-msgstr ""
+msgstr "ongeldig nummer"
 
 #: DlgAdvPreferences.cpp:545
 msgid "invalid time, format is HH:MM"

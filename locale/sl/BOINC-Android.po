@@ -6,16 +6,19 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-01-17 00:00-0800\n"
+"POT-Creation-Date: 2013-10-18 00:00-0700\n"
 "PO-Revision-Date: 2013-10-22 15:28-0700\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: sl <LL@li.org>\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 "
-"|| n%100==4 ? 2 : 3)\n"
+"Language: sl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || "
+"n%100==4 ? 2 : 3)\n"
+"X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
+"X-POOTLE-MTIME: 1386194841.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -105,12 +108,12 @@ msgid "Android:"
 msgstr "Android:"
 
 msgctxt "attachproject_login_platform_supported"
-msgid "Device type is supported by this project"
-msgstr ""
+msgid "This project supports Android devices"
+msgstr "Этот проект поддерживает устройства на базе Android"
 
 msgctxt "attachproject_login_platform_not_supported"
-msgid "Device is not supported by this project"
-msgstr ""
+msgid "This project does not support Android devices"
+msgstr "Этот проект не поддерживает устройства на базе Android"
 
 #, fuzzy
 msgctxt "attachproject_login_category_terms_of_use"
@@ -123,8 +126,8 @@ msgid ""
 "By creating an account with this project, you accept the terms of use as "
 "shown above."
 msgstr ""
-"Создавая учётную запись в этом проекте, вы принимаете условия "
-"использования, которые показаны выше."
+"Создавая учётную запись в этом проекте, вы принимаете условия использования, "
+"которые показаны выше."
 
 #, fuzzy
 msgctxt "attachproject_login_category_login"
@@ -393,10 +396,9 @@ msgid "Synchronize"
 msgstr "Sincronizează"
 
 #. main activity
-#, fuzzy
 msgctxt "main_noproject_warning"
-msgid "Tap here to choose a project."
-msgstr "Выберите проект:"
+msgid "Tab here to choose a project."
+msgstr ""
 
 msgctxt "main_error"
 msgid "Whooops"
@@ -563,30 +565,9 @@ msgctxt "prefs_show_advanced_header"
 msgid "Show advanced preferences and controls…"
 msgstr "Показать дополнительные настройки и элементы управления…"
 
-msgctxt "prefs_power_source_header"
-msgid "Power sources for computation"
-msgstr ""
-
-msgctxt "prefs_power_source_description"
-msgid "Selects power sources BOINC is allowed to use for computation."
-msgstr ""
-
-msgctxt "prefs_power_source_ac"
-msgid "Wall socket"
-msgstr ""
-
-#, fuzzy
-msgctxt "prefs_power_source_usb"
-msgid "USB connection"
-msgstr "Нет подключения к Интернету"
-
-msgctxt "prefs_power_source_wireless"
-msgid "Wireless charger"
-msgstr ""
-
-msgctxt "prefs_power_source_battery"
-msgid "Battery"
-msgstr ""
+msgctxt "prefs_run_on_battery_header"
+msgid "Compute on Battery"
+msgstr "Выполнять расчёты при работе от батареи"
 
 msgctxt "battery_charge_min_pct_header"
 msgid "Min. battery level"
@@ -665,8 +646,8 @@ msgstr "Пауза при использовании процессора выш
 msgctxt "prefs_cpu_other_load_suspension_description"
 msgid "Determines when BOINC pauses computation due to other app's CPU usage."
 msgstr ""
-"Определяет, когда BOINC останавливает расчёты из-за использования "
-"процессора другими приложениями."
+"Определяет, когда BOINC останавливает расчёты из-за использования процессора "
+"другими приложениями."
 
 msgctxt "prefs_cpu_time_max_header"
 msgid "CPU limit"
@@ -707,6 +688,7 @@ msgid "GB"
 msgstr "ГБ"
 
 #, c-format
+#, c-format, c-format
 msgctxt "prefs_unit_pct"
 msgid "%"
 msgstr "%"
@@ -1086,8 +1068,7 @@ msgstr "Расчёты приостановлены."
 msgctxt "suspend_batteries"
 msgid "Connect your device to a charger to continue computing."
 msgstr ""
-"Подключите ваше устройство к зарядному устройству для продолжения "
-"расчётов."
+"Подключите ваше устройство к зарядному устройству для продолжения расчётов."
 
 msgctxt "suspend_useractive"
 msgid "User is active."
@@ -1270,19 +1251,12 @@ msgstr ""
 "© 2003-2013 Калифорнийский университет, Беркли.\n"
 "Все права защищены."
 
-#~ msgctxt "attachproject_login_platform_supported"
-#~ msgid "This project supports Android devices"
-#~ msgstr "Этот проект поддерживает устройства на базе Android"
-
-#~ msgctxt "attachproject_login_platform_not_supported"
-#~ msgid "This project does not support Android devices"
-#~ msgstr "Этот проект не поддерживает устройства на базе Android"
-
+#, fuzzy
 #~ msgctxt "main_noproject_warning"
-#~ msgid "Tab here to choose a project."
-#~ msgstr ""
+#~ msgid "Tap here to choose a project."
+#~ msgstr "Нажмите здесь для выбора проекта."
 
-#~ msgctxt "prefs_run_on_battery_header"
-#~ msgid "Compute on Battery"
-#~ msgstr "Выполнять расчёты при работе от батареи"
-
+#, fuzzy
+#~ msgctxt "prefs_power_source_usb"
+#~ msgid "USB connection"
+#~ msgstr "Нет подключения к Интернету"
