@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 5.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-13 00:00-0800\n"
-"PO-Revision-Date: 2013-10-09 09:31+0000\n"
+"POT-Creation-Date: 2014-01-18 00:00-0800\n"
+"PO-Revision-Date: 2014-01-19 08:32+0000\n"
 "Last-Translator: Gabor <csega@mailbox.hu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: hu\n"
@@ -23,7 +23,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCGIT\\boinc\n"
-"X-POOTLE-MTIME: 1381311093.0\n"
+"X-POOTLE-MTIME: 1390120322.0\n"
 
 # 81%
 #: AccountInfoPage.cpp:387
@@ -126,7 +126,7 @@ msgstr ""
 
 #: AccountInfoPage.cpp:532
 msgid "Account manager web site"
-msgstr ""
+msgstr "A fiókkezelő honlapja"
 
 #: AccountInfoPage.cpp:574 WelcomePage.cpp:348
 msgid "Add project"
@@ -142,11 +142,11 @@ msgstr "Fiókkezelő használata"
 
 #: AccountInfoPage.cpp:585
 msgid "Please enter a user name."
-msgstr ""
+msgstr "Kérjük, adjon meg egy felhasználónevet."
 
 #: AccountInfoPage.cpp:587
 msgid "Please enter an email address."
-msgstr ""
+msgstr "Kérjük, adjon meg egy email címet:"
 
 #: AccountInfoPage.cpp:597
 #, c-format
@@ -171,12 +171,14 @@ msgstr ""
 "vagy gépelje be alább az URL-jét."
 
 #: AccountManagerInfoPage.cpp:279
+#, fuzzy
 msgid "Account manager details:"
-msgstr ""
+msgstr "Fiókkezelő honlap"
 
 #: AccountManagerInfoPage.cpp:283
+#, fuzzy
 msgid "Account manager &URL:"
-msgstr ""
+msgstr "Fiókkezelő &URL-je:"
 
 #: AccountManagerInfoPage.cpp:287
 msgid "Open web page"
@@ -494,9 +496,9 @@ msgid "Show information about the %s"
 msgstr "Információk erről: %s"
 
 #: AdvancedFrame.cpp:661 sg_BoincSimpleFrame.cpp:224
-#, c-format
+#, c-format, fuzzy
 msgid "%s &web site"
-msgstr ""
+msgstr "%s &weboldal"
 
 #: AdvancedFrame.cpp:667 sg_BoincSimpleFrame.cpp:230
 #, c-format
@@ -532,7 +534,7 @@ msgstr "&Aktivitás"
 msgid "A&dvanced"
 msgstr "&Haladó"
 
-#: AdvancedFrame.cpp:712 DlgEventLog.cpp:334 sg_BoincSimpleFrame.cpp:267
+#: AdvancedFrame.cpp:712 DlgEventLog.cpp:331 sg_BoincSimpleFrame.cpp:267
 #: wizardex.cpp:374 wizardex.cpp:381
 msgid "&Help"
 msgstr "&Segítség"
@@ -861,65 +863,65 @@ msgstr ""
 msgid "BOINC Manager"
 msgstr "BOINC Kezelő"
 
-#: BOINCGUIApp.cpp:568
+#: BOINCGUIApp.cpp:572
 msgid "BOINC Manager was started by the operating system automatically"
 msgstr "A BOINC Kezelőt az operációs rendszer automatikusan indította"
 
-#: BOINCGUIApp.cpp:570
+#: BOINCGUIApp.cpp:574
 msgid "Startup BOINC so only the system tray icon is visible"
 msgstr "A BOINC csak tálcaikonként történő indítása"
 
-#: BOINCGUIApp.cpp:572
+#: BOINCGUIApp.cpp:576
 msgid "Directory containing the BOINC Client executable"
 msgstr "A futtatható BOINC Klienst tartalmazó könyvtár"
 
-#: BOINCGUIApp.cpp:573
+#: BOINCGUIApp.cpp:577
 msgid "BOINC data directory"
 msgstr "BOINC adatkönyvtár"
 
-#: BOINCGUIApp.cpp:575
+#: BOINCGUIApp.cpp:579
 msgid "Host name or IP address"
 msgstr "Hostnév vagy IP cím"
 
-#: BOINCGUIApp.cpp:576
+#: BOINCGUIApp.cpp:580
 msgid "GUI RPC port number"
 msgstr "GUI RPC portszám"
 
-#: BOINCGUIApp.cpp:577
+#: BOINCGUIApp.cpp:581
 msgid "Password"
 msgstr "Jelszó"
 
-#: BOINCGUIApp.cpp:578
+#: BOINCGUIApp.cpp:582
 msgid "Startup BOINC with these optional arguments"
 msgstr "A BOINC indítása a következő opcionális lehetőségekkel"
 
-#: BOINCGUIApp.cpp:579
+#: BOINCGUIApp.cpp:583
 msgid "disable BOINC security users and permissions"
 msgstr "BOINC biztonsági felhasználók és hozzáférések kikapcsolása"
 
-#: BOINCGUIApp.cpp:580
+#: BOINCGUIApp.cpp:584
 msgid "set skin debugging mode to enable skin manager error messages"
 msgstr ""
 "kinézet hibakereső mód beállítása, ezzel a kinézetkezelő hibaüzeneteinek "
 "engedélyezése"
 
-#: BOINCGUIApp.cpp:581
+#: BOINCGUIApp.cpp:585
 msgid "multiple instances of BOINC Manager allowed"
 msgstr "a BOINC Kezelő több példányának futása engedélyezett"
 
-#: BOINCGUIApp.cpp:583
+#: BOINCGUIApp.cpp:587
 msgid "Not used: workaround for bug in XCode 4.2"
 msgstr "Nem használt: az XCode 4.2-ben található megoldás a hibára"
 
-#: BOINCGUIApp.cpp:801
+#: BOINCGUIApp.cpp:805
 msgid "(Automatic Detection)"
 msgstr "(Automatikus felismerés)"
 
-#: BOINCGUIApp.cpp:802
+#: BOINCGUIApp.cpp:806
 msgid "(Unknown)"
 msgstr "(Ismeretlen)"
 
-#: BOINCGUIApp.cpp:803
+#: BOINCGUIApp.cpp:807
 msgid "(User Defined)"
 msgstr "(Felhasználó által megadott)"
 
@@ -1581,42 +1583,42 @@ msgstr "Alkalmazás eltávolítása ebből a listából"
 msgid "For advanced options, refer to "
 msgstr "Haladó beállításokhoz lásd"
 
-#: DlgEventLog.cpp:221
+#: DlgEventLog.cpp:218
 #, c-format
 msgid "%s - Event Log"
 msgstr "%s - Eseménynapló"
 
-#: DlgEventLog.cpp:234 ViewMessages.cpp:117 ViewProjects.cpp:219
+#: DlgEventLog.cpp:231 ViewMessages.cpp:117 ViewProjects.cpp:219
 #: ViewStatistics.cpp:435 ViewStatistics.cpp:2009 ViewTransfers.cpp:182
 #: ViewWork.cpp:232
 msgid "Project"
 msgstr "Projekt"
 
-#: DlgEventLog.cpp:235 ViewMessages.cpp:118
+#: DlgEventLog.cpp:232 ViewMessages.cpp:118
 msgid "Time"
 msgstr "Idő"
 
-#: DlgEventLog.cpp:236 ViewMessages.cpp:119
+#: DlgEventLog.cpp:233 ViewMessages.cpp:119
 msgid "Message"
 msgstr "Üzenet"
 
-#: DlgEventLog.cpp:292 DlgEventLog.cpp:356
+#: DlgEventLog.cpp:289 DlgEventLog.cpp:353
 msgid "&Show only this project"
 msgstr "&Csak ezt a projektet mutassa"
 
-#: DlgEventLog.cpp:296
+#: DlgEventLog.cpp:293
 msgid "Copy &All"
 msgstr "&Mindent másol"
 
-#: DlgEventLog.cpp:298 DlgEventLog.cpp:302 ViewMessages.cpp:89
+#: DlgEventLog.cpp:295 DlgEventLog.cpp:299 ViewMessages.cpp:89
 msgid "Copy all the messages to the clipboard."
 msgstr "Minden üzenet másolása a vágólapra."
 
-#: DlgEventLog.cpp:307
+#: DlgEventLog.cpp:304
 msgid "Copy &Selected"
 msgstr "&Kijelöltek másolása"
 
-#: DlgEventLog.cpp:310 DlgEventLog.cpp:318 ViewMessages.cpp:97
+#: DlgEventLog.cpp:307 DlgEventLog.cpp:315 ViewMessages.cpp:97
 msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
 "messages by holding down the shift or command key while clicking on messages."
@@ -1625,7 +1627,7 @@ msgstr ""
 "ha az üzenetkre történő kattintás közben nyomva tartja a Shift, vagy a "
 "parancsbillentyűt."
 
-#: DlgEventLog.cpp:312 DlgEventLog.cpp:320 ViewMessages.cpp:99
+#: DlgEventLog.cpp:309 DlgEventLog.cpp:317 ViewMessages.cpp:99
 msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
 "messages by holding down the shift or control key while clicking on messages."
@@ -1633,24 +1635,24 @@ msgstr ""
 "A kiválasztott üzenetek másolása a vágólapra. Több üzenetek is kiváaszthat a "
 "SHIFT vagy CTRL gombok lenyomásával, miközben az üzenetekre kattint."
 
-#: DlgEventLog.cpp:327 DlgItemProperties.cpp:67
+#: DlgEventLog.cpp:324 DlgItemProperties.cpp:67
 msgid "&Close"
 msgstr "&Bezárás"
 
-#: DlgEventLog.cpp:336 sg_BoincSimpleFrame.cpp:798 sg_DlgPreferences.cpp:447
+#: DlgEventLog.cpp:333 sg_BoincSimpleFrame.cpp:798 sg_DlgPreferences.cpp:447
 #, c-format
 msgid "Get help with %s"
 msgstr "Segítség ehhez: %s"
 
-#: DlgEventLog.cpp:350
+#: DlgEventLog.cpp:347
 msgid "Show all &messages"
 msgstr "&Minden üzenet mutatása"
 
-#: DlgEventLog.cpp:351 DlgEventLog.cpp:353
+#: DlgEventLog.cpp:348 DlgEventLog.cpp:350
 msgid "Show messages for all projects"
 msgstr "Az összes projekt üzeneteinek mutatása."
 
-#: DlgEventLog.cpp:357 DlgEventLog.cpp:359
+#: DlgEventLog.cpp:354 DlgEventLog.cpp:356
 msgid "Show only the messages for the selected project"
 msgstr "Csak a kiválasztott projekt üzeneteit mutassa"
 
@@ -1867,9 +1869,9 @@ msgstr "Feladat tulajdonságai: "
 msgid "Application"
 msgstr "Alkalmazás"
 
-#: DlgItemProperties.cpp:329
-msgid "Workunit name"
-msgstr "A munkacsomag neve"
+#: DlgItemProperties.cpp:329 ViewWork.cpp:239
+msgid "Name"
+msgstr "Név"
 
 #: DlgItemProperties.cpp:330
 msgid "State"
@@ -1927,7 +1929,7 @@ msgstr "Mappa"
 msgid "Process ID"
 msgstr "Folyamat azonosító"
 
-#: DlgItemProperties.cpp:431 ViewWork.cpp:1032 sg_TaskPanel.cpp:823
+#: DlgItemProperties.cpp:427 ViewWork.cpp:1032 sg_TaskPanel.cpp:823
 msgid "Local: "
 msgstr "Helyi:"
 
@@ -2548,7 +2550,7 @@ msgstr "Ellenőrizze a felhasználónevet és a jelszót, majd próbálja újra.
 msgid "Check the email address and password, and try again."
 msgstr "Ellenőrizze az emailcímet és a jelszót, majd próbálja újra."
 
-#: NoticeListCtrl.cpp:221
+#: NoticeListCtrl.cpp:222
 msgid "more..."
 msgstr "tovább..."
 
@@ -3421,10 +3423,6 @@ msgstr "Hátralévő (becsült)"
 msgid "Deadline"
 msgstr "Határidő"
 
-#: ViewWork.cpp:239
-msgid "Name"
-msgstr "Név"
-
 #: ViewWork.cpp:264
 msgid "Tasks"
 msgstr "Feladatok"
@@ -3767,9 +3765,9 @@ msgid "Project Commands"
 msgstr "Projekt parancsok"
 
 #: sg_ProjectPanel.cpp:267
-#, c-format
+#, c-format, fuzzy
 msgid "Pop up a menu of web sites for project %s"
-msgstr ""
+msgstr "Jelenjen meg egy menü a(z) %s projekt weboldalairól"
 
 #: sg_ProjectPanel.cpp:269
 #, c-format
@@ -3943,6 +3941,9 @@ msgstr "Mutasd mindet"
 #, c-format
 msgid "Quit %s"
 msgstr "%s bezárása"
+
+#~ msgid "Workunit name"
+#~ msgstr "A munkacsomag neve"
 
 #~ msgid "invalid float"
 #~ msgstr "érvénytelen lebegőpontos"

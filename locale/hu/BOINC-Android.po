@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2013-10-18 00:00-0700\n"
-"PO-Revision-Date: 2014-01-19 07:59+0000\n"
-"Last-Translator: Anonymous Pootle User\n"
+"PO-Revision-Date: 2014-01-19 08:28+0000\n"
+"Last-Translator: Gabor <csega@mailbox.hu>\n"
 "Language-Team: hu <LL@li.org>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n !=1);\n"
 "X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
-"X-POOTLE-MTIME: 1390118359.0\n"
+"X-POOTLE-MTIME: 1390120091.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -62,7 +62,7 @@ msgstr "Nincs internetkapcsolat"
 #. project login
 msgctxt "attachproject_login_loading"
 msgid "Contacting project server…"
-msgstr ""
+msgstr "Kapcsolódás a projekt szerverhez..."
 
 msgctxt "attachproject_login_image_description"
 msgid "Project logo."
@@ -109,10 +109,12 @@ msgid ""
 "By creating an account with this project, you accept the terms of use as "
 "shown above."
 msgstr ""
+"Fiók létrehozásával e projektben Ön elfogadja a fenti felhasználási "
+"feltételeket."
 
 msgctxt "attachproject_login_category_login"
 msgid "Sign in with existing account"
-msgstr ""
+msgstr "Jelentkezzen be már létező fiókjával"
 
 msgctxt "attachproject_login_header_id_email"
 msgid "eMail:"
@@ -132,7 +134,7 @@ msgstr ""
 
 msgctxt "attachproject_login_header_creation_enabled"
 msgid "Register an account to participate:"
-msgstr ""
+msgstr "A részvételhez hozzon létre egy fiókot:"
 
 msgctxt "attachproject_login_header_creation_client_disabled"
 msgid "Visit project website to create an account:"
@@ -144,15 +146,15 @@ msgstr ""
 
 msgctxt "attachproject_login_button_registration"
 msgid "Register"
-msgstr ""
+msgstr "Regisztráció"
 
 msgctxt "attachproject_login_button_login"
 msgid "Sign in"
-msgstr ""
+msgstr "Bejelentkezés"
 
 msgctxt "attachproject_login_button_forgotpw"
 msgid "Forgot Password"
-msgstr ""
+msgstr "Elfelejtett jelszó"
 
 msgctxt "attachproject_login_error_toast"
 msgid "Contacting project failed!"
@@ -169,7 +171,7 @@ msgstr ""
 
 msgctxt "attachproject_registration_header_url"
 msgid "Project:"
-msgstr ""
+msgstr "Projekt:"
 
 msgctxt "attachproject_registration_header_email"
 msgid "eMail:"
@@ -181,7 +183,7 @@ msgstr "Név:"
 
 msgctxt "attachproject_registration_header_teamname"
 msgid "Team:"
-msgstr ""
+msgstr "Csapat:"
 
 msgctxt "attachproject_registration_header_pwd"
 msgid "Password:"
@@ -193,7 +195,7 @@ msgstr ""
 
 msgctxt "attachproject_registration_button"
 msgid "Create"
-msgstr ""
+msgstr "Létrehoz"
 
 #. account manager
 msgctxt "attachproject_acctmgr_header"
@@ -202,11 +204,11 @@ msgstr "Fiókkezelő hozzáadása"
 
 msgctxt "attachproject_acctmgr_header_url"
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 msgctxt "attachproject_acctmgr_header_name"
 msgid "User:"
-msgstr ""
+msgstr "Felhasználó:"
 
 msgctxt "attachproject_acctmgr_header_pwd"
 msgid "Password:"
@@ -218,7 +220,7 @@ msgstr ""
 
 msgctxt "attachproject_acctmgr_button"
 msgid "Add"
-msgstr ""
+msgstr "Hozzáad"
 
 #. error strings
 msgctxt "attachproject_error_wrong_name"
@@ -227,15 +229,15 @@ msgstr ""
 
 msgctxt "attachproject_error_short_pwd"
 msgid "Password too short"
-msgstr ""
+msgstr "Túl rövid a jelszó"
 
 msgctxt "attachproject_error_no_internet"
 msgid "Connection failure"
-msgstr ""
+msgstr "Kapcsolódási hiba"
 
 msgctxt "attachproject_error_pwd_no_match"
 msgid "Passwords do not match"
-msgstr ""
+msgstr "A jelszavak nem egyeznek"
 
 msgctxt "attachproject_error_no_url"
 msgid "Please enter URL"
@@ -316,7 +318,7 @@ msgstr ""
 
 msgctxt "attachproject_working_connect"
 msgid "Connect"
-msgstr ""
+msgstr "Kapcsolódás"
 
 msgctxt "attachproject_working_verify"
 msgid "Verify account"
@@ -328,7 +330,7 @@ msgstr ""
 
 msgctxt "attachproject_working_login"
 msgid "Log in"
-msgstr ""
+msgstr "Bejelentkezés"
 
 msgctxt "attachproject_working_acctmgr"
 msgid "Add account manager"
@@ -336,7 +338,7 @@ msgstr "Fiókkezelő hozzáadása"
 
 msgctxt "attachproject_working_acctmgr_sync"
 msgid "Synchronize"
-msgstr ""
+msgstr "Szinkronizálás"
 
 #. main activity
 #, fuzzy
@@ -346,7 +348,7 @@ msgstr "Válasszon projektet:"
 
 msgctxt "main_error"
 msgid "Whooops"
-msgstr ""
+msgstr "Hupsz"
 
 msgctxt "main_error_long"
 msgid ""
@@ -356,61 +358,61 @@ msgstr ""
 
 msgctxt "main_title_icon_desc"
 msgid "BOINC icon"
-msgstr ""
+msgstr "BOINC ikon"
 
 #. tab names
 msgctxt "tab_status"
 msgid "Status"
-msgstr ""
+msgstr "Állapot"
 
 msgctxt "tab_projects"
 msgid "Projects"
-msgstr ""
+msgstr "Projektek"
 
 msgctxt "tab_tasks"
 msgid "Tasks"
-msgstr ""
+msgstr "Feladatok"
 
 msgctxt "tab_transfers"
 msgid "Transfers"
-msgstr ""
+msgstr "Adatforgalom"
 
 msgctxt "tab_preferences"
 msgid "Preferences"
-msgstr ""
+msgstr "Beállítások"
 
 msgctxt "tab_notices"
 msgid "Notices"
-msgstr ""
+msgstr "Értesítések"
 
 msgctxt "tab_desc"
 msgid "Navigation"
-msgstr ""
+msgstr "Navigáció"
 
 #. status strings
 msgctxt "status_running"
 msgid "Computing"
-msgstr ""
+msgstr "Számítás"
 
 msgctxt "status_running_long"
 msgid "Thank you for participating."
-msgstr ""
+msgstr "Köszönjük részvételét."
 
 msgctxt "status_paused"
 msgid "Suspended"
-msgstr ""
+msgstr "Felfüggesztve"
 
 msgctxt "status_idle"
 msgid "Nothing to do"
-msgstr ""
+msgstr "Nincs teendő"
 
 msgctxt "status_idle_long"
 msgid "Waiting for tasks…"
-msgstr ""
+msgstr "Várakozás feladatokra..."
 
 msgctxt "status_computing_disabled"
 msgid "Suspended"
-msgstr ""
+msgstr "Felfüggesztve"
 
 msgctxt "status_computing_disabled_long"
 msgid "Press play to resume network and computation."
@@ -418,11 +420,11 @@ msgstr ""
 
 msgctxt "status_launching"
 msgid "Starting…"
-msgstr ""
+msgstr "Indítás…"
 
 msgctxt "status_noproject"
 msgid "Choose a project to participate in."
-msgstr ""
+msgstr "Válasszon projektet, amiben részt szeretne venni."
 
 msgctxt "status_closing"
 msgid "Closing…"
@@ -430,24 +432,24 @@ msgstr ""
 
 msgctxt "status_benchmarking"
 msgid "Benchmarking…"
-msgstr ""
+msgstr "Sebességmérés..."
 
 msgctxt "status_image_description"
 msgid "project image"
-msgstr ""
+msgstr "projekt kép"
 
 #. preferences tab strings
 msgctxt "prefs_loading"
 msgid "Reading preferences…"
-msgstr ""
+msgstr "Beállítások olvasása..."
 
 msgctxt "prefs_submit_button"
 msgid "Save"
-msgstr ""
+msgstr "Mentés"
 
 msgctxt "prefs_dialog_title"
 msgid "Enter new value:"
-msgstr ""
+msgstr "Adjon meg új értéket:"
 
 msgctxt "prefs_dialog_title_selection"
 msgid "Select:"
@@ -455,11 +457,11 @@ msgstr ""
 
 msgctxt "prefs_category_general"
 msgid "General"
-msgstr ""
+msgstr "Általános"
 
 msgctxt "prefs_category_network"
 msgid "Network"
-msgstr ""
+msgstr "Hálózat"
 
 msgctxt "prefs_category_power"
 msgid "Power"
@@ -467,7 +469,7 @@ msgstr ""
 
 msgctxt "prefs_category_cpu"
 msgid "CPU"
-msgstr ""
+msgstr "CPU"
 
 msgctxt "prefs_category_storage"
 msgid "Storage"
@@ -475,11 +477,11 @@ msgstr ""
 
 msgctxt "prefs_category_memory"
 msgid "Memory"
-msgstr ""
+msgstr "Memória"
 
 msgctxt "prefs_category_debug"
 msgid "Debug"
-msgstr ""
+msgstr "Hibakeresés"
 
 msgctxt "prefs_show_advanced_header"
 msgid "Show advanced preferences and controls…"
@@ -491,7 +493,7 @@ msgstr ""
 
 msgctxt "battery_charge_min_pct_header"
 msgid "Min. battery level"
-msgstr ""
+msgstr "Min. akkumulátorszint"
 
 msgctxt "battery_charge_min_pct_description"
 msgid "BOINC suspends computation below defined battery charge level."
@@ -499,7 +501,7 @@ msgstr ""
 
 msgctxt "battery_temperature_max_header"
 msgid "Max. battery temperature"
-msgstr ""
+msgstr "Max. akkumulátor-hőmérséklet"
 
 msgctxt "battery_temperature_max_description"
 msgid ""
