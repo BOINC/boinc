@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-13 00:00-0800\n"
+"POT-Creation-Date: 2014-01-18 00:00-0800\n"
 "PO-Revision-Date: 2014-01-18 01:49+0000\n"
 "Last-Translator: 宇謙 <df910105@yahoo.com.tw>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
@@ -525,7 +525,7 @@ msgstr "活動 (&A)"
 msgid "A&dvanced"
 msgstr "進階 (&D)"
 
-#: AdvancedFrame.cpp:712 DlgEventLog.cpp:334 sg_BoincSimpleFrame.cpp:267
+#: AdvancedFrame.cpp:712 DlgEventLog.cpp:331 sg_BoincSimpleFrame.cpp:267
 #: wizardex.cpp:374 wizardex.cpp:381
 msgid "&Help"
 msgstr "說明 (&H)"
@@ -840,63 +840,63 @@ msgstr ""
 msgid "BOINC Manager"
 msgstr "BOINC Manager"
 
-#: BOINCGUIApp.cpp:568
+#: BOINCGUIApp.cpp:572
 msgid "BOINC Manager was started by the operating system automatically"
 msgstr "BOINC Manager 已經由作業系統啟動"
 
-#: BOINCGUIApp.cpp:570
+#: BOINCGUIApp.cpp:574
 msgid "Startup BOINC so only the system tray icon is visible"
 msgstr "只以系統匣圖示啟動 BOINC"
 
-#: BOINCGUIApp.cpp:572
+#: BOINCGUIApp.cpp:576
 msgid "Directory containing the BOINC Client executable"
 msgstr "包含 BOINC 客戶端執行的目錄"
 
-#: BOINCGUIApp.cpp:573
+#: BOINCGUIApp.cpp:577
 msgid "BOINC data directory"
 msgstr "BOINC 數據目錄"
 
-#: BOINCGUIApp.cpp:575
+#: BOINCGUIApp.cpp:579
 msgid "Host name or IP address"
 msgstr "電腦名稱或 IP 位址"
 
-#: BOINCGUIApp.cpp:576
+#: BOINCGUIApp.cpp:580
 msgid "GUI RPC port number"
 msgstr "圖形介面 RPC port"
 
-#: BOINCGUIApp.cpp:577
+#: BOINCGUIApp.cpp:581
 msgid "Password"
 msgstr "密碼"
 
-#: BOINCGUIApp.cpp:578
+#: BOINCGUIApp.cpp:582
 msgid "Startup BOINC with these optional arguments"
 msgstr "以這些選用參數啟動 BOINC"
 
-#: BOINCGUIApp.cpp:579
+#: BOINCGUIApp.cpp:583
 msgid "disable BOINC security users and permissions"
 msgstr "停用 BOINC 安全性使用者和權限"
 
-#: BOINCGUIApp.cpp:580
+#: BOINCGUIApp.cpp:584
 msgid "set skin debugging mode to enable skin manager error messages"
 msgstr "設置介面調試模式已啟用介面管理器的錯誤消息記錄"
 
-#: BOINCGUIApp.cpp:581
+#: BOINCGUIApp.cpp:585
 msgid "multiple instances of BOINC Manager allowed"
 msgstr "允許執行多個 BOINC Manager"
 
-#: BOINCGUIApp.cpp:583
+#: BOINCGUIApp.cpp:587
 msgid "Not used: workaround for bug in XCode 4.2"
 msgstr "未使用：用於臨時修復 XCode 4.2 的錯誤"
 
-#: BOINCGUIApp.cpp:801
+#: BOINCGUIApp.cpp:805
 msgid "(Automatic Detection)"
 msgstr "(自動偵測)"
 
-#: BOINCGUIApp.cpp:802
+#: BOINCGUIApp.cpp:806
 msgid "(Unknown)"
 msgstr "(未知的語言)"
 
-#: BOINCGUIApp.cpp:803
+#: BOINCGUIApp.cpp:807
 msgid "(User Defined)"
 msgstr "(使用者定義)"
 
@@ -1543,71 +1543,71 @@ msgstr "從列表中移除一個應用程式"
 msgid "For advanced options, refer to "
 msgstr "更多詳細的設定，請前往"
 
-#: DlgEventLog.cpp:221
+#: DlgEventLog.cpp:218
 #, c-format
 msgid "%s - Event Log"
 msgstr "%s - 訊息記錄"
 
-#: DlgEventLog.cpp:234 ViewMessages.cpp:117 ViewProjects.cpp:219
+#: DlgEventLog.cpp:231 ViewMessages.cpp:117 ViewProjects.cpp:219
 #: ViewStatistics.cpp:435 ViewStatistics.cpp:2009 ViewTransfers.cpp:182
 #: ViewWork.cpp:232
 msgid "Project"
 msgstr "專案"
 
-#: DlgEventLog.cpp:235 ViewMessages.cpp:118
+#: DlgEventLog.cpp:232 ViewMessages.cpp:118
 msgid "Time"
 msgstr "時間"
 
-#: DlgEventLog.cpp:236 ViewMessages.cpp:119
+#: DlgEventLog.cpp:233 ViewMessages.cpp:119
 msgid "Message"
 msgstr "訊息"
 
-#: DlgEventLog.cpp:292 DlgEventLog.cpp:356
+#: DlgEventLog.cpp:289 DlgEventLog.cpp:353
 msgid "&Show only this project"
 msgstr "只顯示本專案 (&S)"
 
-#: DlgEventLog.cpp:296
+#: DlgEventLog.cpp:293
 msgid "Copy &All"
 msgstr "全部複製 (&A)"
 
-#: DlgEventLog.cpp:298 DlgEventLog.cpp:302 ViewMessages.cpp:89
+#: DlgEventLog.cpp:295 DlgEventLog.cpp:299 ViewMessages.cpp:89
 msgid "Copy all the messages to the clipboard."
 msgstr "複製全部訊息到剪貼簿。"
 
-#: DlgEventLog.cpp:307
+#: DlgEventLog.cpp:304
 msgid "Copy &Selected"
 msgstr "複製所選擇的 (&S)"
 
-#: DlgEventLog.cpp:310 DlgEventLog.cpp:318 ViewMessages.cpp:97
+#: DlgEventLog.cpp:307 DlgEventLog.cpp:315 ViewMessages.cpp:97
 msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
 "messages by holding down the shift or command key while clicking on messages."
 msgstr "只複製已選取的訊息到剪貼簿，您可以在選取訊息時按住 Shift 或 Command 鍵以同時選取多個訊息。"
 
-#: DlgEventLog.cpp:312 DlgEventLog.cpp:320 ViewMessages.cpp:99
+#: DlgEventLog.cpp:309 DlgEventLog.cpp:317 ViewMessages.cpp:99
 msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
 "messages by holding down the shift or control key while clicking on messages."
 msgstr "只複製已選取的訊息到剪貼簿， 您可以在選取訊息時按住 Shift 或 Ctrl 鍵以同時選取多個訊息。"
 
-#: DlgEventLog.cpp:327 DlgItemProperties.cpp:67
+#: DlgEventLog.cpp:324 DlgItemProperties.cpp:67
 msgid "&Close"
 msgstr "關閉 (&C)"
 
-#: DlgEventLog.cpp:336 sg_BoincSimpleFrame.cpp:798 sg_DlgPreferences.cpp:447
+#: DlgEventLog.cpp:333 sg_BoincSimpleFrame.cpp:798 sg_DlgPreferences.cpp:447
 #, c-format
 msgid "Get help with %s"
 msgstr "取得 %s 的幫助"
 
-#: DlgEventLog.cpp:350
+#: DlgEventLog.cpp:347
 msgid "Show all &messages"
 msgstr "顯示所有訊息"
 
-#: DlgEventLog.cpp:351 DlgEventLog.cpp:353
+#: DlgEventLog.cpp:348 DlgEventLog.cpp:350
 msgid "Show messages for all projects"
 msgstr "顯示所有計畫於同一統計圖"
 
-#: DlgEventLog.cpp:357 DlgEventLog.cpp:359
+#: DlgEventLog.cpp:354 DlgEventLog.cpp:356
 msgid "Show only the messages for the selected project"
 msgstr "顯示所選計畫於同一統計圖"
 
@@ -1822,9 +1822,9 @@ msgstr "工作細節"
 msgid "Application"
 msgstr "應用程式"
 
-#: DlgItemProperties.cpp:329
-msgid "Workunit name"
-msgstr "工作名稱"
+#: DlgItemProperties.cpp:329 ViewWork.cpp:239
+msgid "Name"
+msgstr "名稱"
 
 #: DlgItemProperties.cpp:330
 msgid "State"
@@ -1882,7 +1882,7 @@ msgstr "工作目錄"
 msgid "Process ID"
 msgstr "程序 ID"
 
-#: DlgItemProperties.cpp:431 ViewWork.cpp:1032 sg_TaskPanel.cpp:823
+#: DlgItemProperties.cpp:427 ViewWork.cpp:1032 sg_TaskPanel.cpp:823
 msgid "Local: "
 msgstr "本地："
 
@@ -2481,7 +2481,7 @@ msgstr "請檢查您的帳號名稱和密碼後再試一次。"
 msgid "Check the email address and password, and try again."
 msgstr "請檢查您的電子郵件地址和密碼後再試一次。"
 
-#: NoticeListCtrl.cpp:221
+#: NoticeListCtrl.cpp:222
 msgid "more..."
 msgstr "更多。。。"
 
@@ -3333,10 +3333,6 @@ msgstr "剩餘時間 (預估)"
 msgid "Deadline"
 msgstr "上傳期限"
 
-#: ViewWork.cpp:239
-msgid "Name"
-msgstr "名稱"
-
 #: ViewWork.cpp:264
 msgid "Tasks"
 msgstr "工作"
@@ -3859,6 +3855,9 @@ msgstr "顯示全部"
 #, c-format
 msgid "Quit %s"
 msgstr "離該 %s"
+
+#~ msgid "Workunit name"
+#~ msgstr "工作名稱"
 
 #~ msgid "invalid float"
 #~ msgstr "無效的浮點數"
