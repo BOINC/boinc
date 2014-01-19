@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-13 00:00-0800\n"
+"POT-Creation-Date: 2014-01-18 00:00-0800\n"
 "PO-Revision-Date: 2013-09-10 11:32+0000\n"
 "Last-Translator: Dimitar <mexicoman@abv.bg>\n"
 "Language-Team: AMD Powered @ Home Team <timeros@gmail.com>\n"
@@ -536,7 +536,7 @@ msgstr "&Дейност"
 msgid "A&dvanced"
 msgstr "За &напреднали"
 
-#: AdvancedFrame.cpp:712 DlgEventLog.cpp:334 sg_BoincSimpleFrame.cpp:267
+#: AdvancedFrame.cpp:712 DlgEventLog.cpp:331 sg_BoincSimpleFrame.cpp:267
 #: wizardex.cpp:374 wizardex.cpp:381
 msgid "&Help"
 msgstr "&Помощ"
@@ -862,65 +862,65 @@ msgstr ""
 msgid "BOINC Manager"
 msgstr "BOINC Мениджър"
 
-#: BOINCGUIApp.cpp:568
+#: BOINCGUIApp.cpp:572
 msgid "BOINC Manager was started by the operating system automatically"
 msgstr "BOINC Мениджър бе стартиран от операционната система автоматично"
 
-#: BOINCGUIApp.cpp:570
+#: BOINCGUIApp.cpp:574
 msgid "Startup BOINC so only the system tray icon is visible"
 msgstr "Стартирай BOINC така че само иконата в системната лента да е видима"
 
-#: BOINCGUIApp.cpp:572
+#: BOINCGUIApp.cpp:576
 msgid "Directory containing the BOINC Client executable"
 msgstr "Папка съдържаща изпълнимия BOINC Клиент файл"
 
-#: BOINCGUIApp.cpp:573
+#: BOINCGUIApp.cpp:577
 msgid "BOINC data directory"
 msgstr "Папка с BOINC данни"
 
-#: BOINCGUIApp.cpp:575
+#: BOINCGUIApp.cpp:579
 msgid "Host name or IP address"
 msgstr "Име на хоста или IP адрес"
 
-#: BOINCGUIApp.cpp:576
+#: BOINCGUIApp.cpp:580
 msgid "GUI RPC port number"
 msgstr "GUI RPC номер на порт"
 
-#: BOINCGUIApp.cpp:577
+#: BOINCGUIApp.cpp:581
 msgid "Password"
 msgstr "Парола"
 
-#: BOINCGUIApp.cpp:578
+#: BOINCGUIApp.cpp:582
 msgid "Startup BOINC with these optional arguments"
 msgstr "Стартирай BOINC с тези аргументи по избор"
 
-#: BOINCGUIApp.cpp:579
+#: BOINCGUIApp.cpp:583
 msgid "disable BOINC security users and permissions"
 msgstr "изключи BOINC защитени потребители и разрешения"
 
-#: BOINCGUIApp.cpp:580
+#: BOINCGUIApp.cpp:584
 msgid "set skin debugging mode to enable skin manager error messages"
 msgstr ""
 "задайте режим на отстраняване на грешки за да позволите съобщения за грешки "
 "от мениджърa"
 
-#: BOINCGUIApp.cpp:581
+#: BOINCGUIApp.cpp:585
 msgid "multiple instances of BOINC Manager allowed"
 msgstr "позволени множество прозорци на BOINC Мениджъра"
 
-#: BOINCGUIApp.cpp:583
+#: BOINCGUIApp.cpp:587
 msgid "Not used: workaround for bug in XCode 4.2"
 msgstr "Не се използва: заобиколно решение за бъг в XCode 4.2"
 
-#: BOINCGUIApp.cpp:801
+#: BOINCGUIApp.cpp:805
 msgid "(Automatic Detection)"
 msgstr "(Автоматично Разпознаване)"
 
-#: BOINCGUIApp.cpp:802
+#: BOINCGUIApp.cpp:806
 msgid "(Unknown)"
 msgstr "(Непознат)"
 
-#: BOINCGUIApp.cpp:803
+#: BOINCGUIApp.cpp:807
 msgid "(User Defined)"
 msgstr "(Дефиниран от Потребителя)"
 
@@ -1581,42 +1581,42 @@ msgstr "Премахнете приложение от този списък"
 msgid "For advanced options, refer to "
 msgstr "За допълнителни опции се обърнете към "
 
-#: DlgEventLog.cpp:221
+#: DlgEventLog.cpp:218
 #, c-format
 msgid "%s - Event Log"
 msgstr "%s - Регистър на Събитията"
 
-#: DlgEventLog.cpp:234 ViewMessages.cpp:117 ViewProjects.cpp:219
+#: DlgEventLog.cpp:231 ViewMessages.cpp:117 ViewProjects.cpp:219
 #: ViewStatistics.cpp:435 ViewStatistics.cpp:2009 ViewTransfers.cpp:182
 #: ViewWork.cpp:232
 msgid "Project"
 msgstr "Проект"
 
-#: DlgEventLog.cpp:235 ViewMessages.cpp:118
+#: DlgEventLog.cpp:232 ViewMessages.cpp:118
 msgid "Time"
 msgstr "Време"
 
-#: DlgEventLog.cpp:236 ViewMessages.cpp:119
+#: DlgEventLog.cpp:233 ViewMessages.cpp:119
 msgid "Message"
 msgstr "Съобщение"
 
-#: DlgEventLog.cpp:292 DlgEventLog.cpp:356
+#: DlgEventLog.cpp:289 DlgEventLog.cpp:353
 msgid "&Show only this project"
 msgstr "&Покажи само този проект"
 
-#: DlgEventLog.cpp:296
+#: DlgEventLog.cpp:293
 msgid "Copy &All"
 msgstr "Копирай &Всичко"
 
-#: DlgEventLog.cpp:298 DlgEventLog.cpp:302 ViewMessages.cpp:89
+#: DlgEventLog.cpp:295 DlgEventLog.cpp:299 ViewMessages.cpp:89
 msgid "Copy all the messages to the clipboard."
 msgstr "Копира всички съобщения в клип-борда."
 
-#: DlgEventLog.cpp:307
+#: DlgEventLog.cpp:304
 msgid "Copy &Selected"
 msgstr "Копирай &Избраното"
 
-#: DlgEventLog.cpp:310 DlgEventLog.cpp:318 ViewMessages.cpp:97
+#: DlgEventLog.cpp:307 DlgEventLog.cpp:315 ViewMessages.cpp:97
 msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
 "messages by holding down the shift or command key while clicking on messages."
@@ -1625,7 +1625,7 @@ msgstr ""
 "като задържите клавиша Shift или командния клавиш, докато кликвате на "
 "съобщенията."
 
-#: DlgEventLog.cpp:312 DlgEventLog.cpp:320 ViewMessages.cpp:99
+#: DlgEventLog.cpp:309 DlgEventLog.cpp:317 ViewMessages.cpp:99
 msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
 "messages by holding down the shift or control key while clicking on messages."
@@ -1634,24 +1634,24 @@ msgstr ""
 "съобщения като задържите клавиша Shift или Ctrl, докато кликвате на "
 "съобщенията."
 
-#: DlgEventLog.cpp:327 DlgItemProperties.cpp:67
+#: DlgEventLog.cpp:324 DlgItemProperties.cpp:67
 msgid "&Close"
 msgstr "&Затвори"
 
-#: DlgEventLog.cpp:336 sg_BoincSimpleFrame.cpp:798 sg_DlgPreferences.cpp:447
+#: DlgEventLog.cpp:333 sg_BoincSimpleFrame.cpp:798 sg_DlgPreferences.cpp:447
 #, c-format
 msgid "Get help with %s"
 msgstr "Вземи помощ с %s"
 
-#: DlgEventLog.cpp:350
+#: DlgEventLog.cpp:347
 msgid "Show all &messages"
 msgstr "Покажи всички &съобщения"
 
-#: DlgEventLog.cpp:351 DlgEventLog.cpp:353
+#: DlgEventLog.cpp:348 DlgEventLog.cpp:350
 msgid "Show messages for all projects"
 msgstr "Показва съобщения за всички проекти"
 
-#: DlgEventLog.cpp:357 DlgEventLog.cpp:359
+#: DlgEventLog.cpp:354 DlgEventLog.cpp:356
 msgid "Show only the messages for the selected project"
 msgstr "Покажи само съобщенията за избрания проект"
 
@@ -1868,9 +1868,9 @@ msgstr "Свойства на задача "
 msgid "Application"
 msgstr "Приложение"
 
-#: DlgItemProperties.cpp:329
-msgid "Workunit name"
-msgstr "Име на работна единица"
+#: DlgItemProperties.cpp:329 ViewWork.cpp:239
+msgid "Name"
+msgstr "Име"
 
 #: DlgItemProperties.cpp:330
 msgid "State"
@@ -1928,7 +1928,7 @@ msgstr "Папка"
 msgid "Process ID"
 msgstr "Идентификатор на процес"
 
-#: DlgItemProperties.cpp:431 ViewWork.cpp:1032 sg_TaskPanel.cpp:823
+#: DlgItemProperties.cpp:427 ViewWork.cpp:1032 sg_TaskPanel.cpp:823
 msgid "Local: "
 msgstr "Локален: "
 
@@ -2541,7 +2541,7 @@ msgstr "Проверете потребителското име и парола
 msgid "Check the email address and password, and try again."
 msgstr "Проверете имейл адреса и паролата, и опитайте отново."
 
-#: NoticeListCtrl.cpp:221
+#: NoticeListCtrl.cpp:222
 msgid "more..."
 msgstr "още..."
 
@@ -3413,10 +3413,6 @@ msgstr "Оставащо (предполагаема стойност)"
 msgid "Deadline"
 msgstr "Краен срок"
 
-#: ViewWork.cpp:239
-msgid "Name"
-msgstr "Име"
-
 #: ViewWork.cpp:264
 msgid "Tasks"
 msgstr "Задачи"
@@ -3952,6 +3948,9 @@ msgstr "Покажи Всички"
 #, c-format
 msgid "Quit %s"
 msgstr "Напусни %s"
+
+#~ msgid "Workunit name"
+#~ msgstr "Име на работна единица"
 
 #~ msgid "invalid float"
 #~ msgstr "невалидно число"
