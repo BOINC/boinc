@@ -570,7 +570,7 @@ function boincimport_teams() {
     //drupal_set_message(t('Teams already imported successfully'));
     //watchdog('boincimport', 'Teams already imported successfully', array(), WATCHDOG_INFO); 
     //return;
-  } 
+  }
   
   require_once (drupal_get_path('module', 'pathauto') .'/pathauto.inc');
 
@@ -2235,7 +2235,10 @@ function _boincimport_strip_bbcode($text) {
  * Function to properly encode strings.
  */
 function _boincimport_text_sanitize($text) {
+  $input_format = variable_get('boincimport_input_format', 0);
   $text = html_entity_decode($text, ENT_QUOTES, 'utf-8');
+  // Be sure the text is filtered for the default input format
+  $text = check_markup($text, $input_format);
   return $text;
 }
 

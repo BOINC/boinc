@@ -32,7 +32,7 @@
   $team_exists = db_query('SELECT team_id FROM {boincteam} WHERE team_id = %d', $boincteam->id);
   // FIXME: $team_exists==FALSE should be handled as an error and return an error code!
 
-  if($team_exists != FALSE && db_fetch_object($team_exists) == FALSE) {
+  if ($team_exists != FALSE && db_fetch_object($team_exists) == FALSE) {
     $boincteam->description = _boincimport_text_sanitize($boincteam->description);
     $teaser = node_teaser($boincteam->description);
     
@@ -40,9 +40,9 @@
     $node = array(
       'type' => 'team',
       'title' => $boincteam->name,
-      'body' => '',
+      'body' => $boincteam->description,
       'teaser' => $teaser,
-      'uid' => get_drupal_id($boincteam->userid),
+      'uid' => boincuser_lookup_uid($boincteam->userid),
       'path' => null,
       'status' => 1,  // published or not - always publish
       'promote' => 0,
@@ -61,21 +61,9 @@
     else {
       echo 'Pathauto module is required!';
       exit;
-      //$node['path'] = check_plain($boincteam->name);
     }
     
-    // Add special organic group properties
-    $node['og_description'] = strip_tags($boincteam->description);
-    $node['og_selective'] = OG_OPEN;
-    $node['og_register'] = OG_REGISTRATION_NEVER;
-    $node['og_directory'] = OG_DIRECTORY_CHOOSE_FALSE;
-    $node['og_private'] = 0;
-    
     $node = (object) $node; // node_save requires an object form
-    
-    $node->field_description[]['value'] = $boincteam->description;
-    $node->field_url[]['value'] = $boincteam->url;
-    $node->field_country[]['value'] = $boincteam->country;
     
     $node->taxonomy[] = taxonomy_get_term($team_type_tid);
     
@@ -95,9 +83,8 @@
     $team_members = db_query('SELECT uid FROM {boincuser} WHERE boinc_id IN(%s)', implode(',', $boincteam_member_ids));
     $team_admin = (int) db_result(db_query('SELECT uid FROM {boincuser} WHERE boinc_id=%d', $boincteam_admin));
     
-    // Assign team membership "subscriptions"
     while ($drupal_user = db_fetch_object($team_members)) {
-      og_save_subscription($node->nid, $drupal_user->uid, array('is_active' => 1, 'is_admin' => (($drupal_user->uid == $team_admin) ? 1 : 0)));
+      // Add action to take on member accounts?
       $count++;
     }
   }
