@@ -64,6 +64,7 @@ public class Monitor extends Service {
 	
 	private static ClientStatus clientStatus; //holds the status of the client as determined by the Monitor
 	private static AppPreferences appPrefs; //hold the status of the app, controlled by AppPreferences
+	private static DeviceStatus deviceStatus; // holds the status of the device, i.e. status information that can only be obtained trough Java APIs
 	
 	public ClientInterfaceImplementation clientInterface = new ClientInterfaceImplementation(); //provides functions for interaction with client via rpc
 	
@@ -83,7 +84,6 @@ public class Monitor extends Service {
 	private Timer updateTimer = new Timer(true); // schedules frequent client status update
 	private TimerTask statusUpdateTask = new StatusUpdateTimerTask();
 	private boolean updateBroadcastEnabled = true;
-	private DeviceStatus deviceStatus = null;
 	private Integer screenOffStatusOmitCounter = 0;
 	
 	// screen on/off updated by screenOnOffBroadcastReceiver
@@ -125,6 +125,8 @@ public class Monitor extends Service {
 		// initialize singleton helper classes and provide application context
 		clientStatus = new ClientStatus(this);
 		getAppPrefs().readPrefs(this);
+		deviceStatus = new DeviceStatus(this, getAppPrefs());
+		if(Logging.ERROR) Log.d(Logging.TAG,"Monitor onCreate(): singletons initialized");
 		
 		// set current screen on/off status
 		PowerManager pm = (PowerManager)
@@ -203,6 +205,21 @@ public class Monitor extends Service {
 			appPrefs = new AppPreferences();
 		}
 		return appPrefs;
+	}
+
+	/**
+	 * Retrieve singleton of DeviceStatus.
+	 * @return DeviceStatus, represents data model of device information reported to the client
+	 * @throws Exception if deviceStatus hast not been initialized
+	 */
+	public static DeviceStatus getDeviceStatus() throws Exception {//singleton pattern
+		if (deviceStatus == null) {
+			// device status needs application context, but context might not be available
+			// in static code. functions have to deal with Exception!
+			if(Logging.WARNING) Log.w(Logging.TAG,"getDeviceStatus: deviceStatus not yet initialized");
+			throw new Exception("deviceStatus not initialized");
+		}
+		return deviceStatus;
 	}
 // --end-- singleton getter
 	
@@ -341,16 +358,6 @@ public class Monitor extends Service {
 	 */
 	public String getAuthFilePath(){
 		return boincWorkingDir + fileNameGuiAuthentication;
-	}
-	
-	/**
-	 * Returns class that holds the current device status as reported to the client.
-	 * Contains e.g. battery level.
-	 * @return Device Status instance, with the data latest reported to the BOINC client.
-	 */
-	public DeviceStatus getDeviceStatus() {
-		if (deviceStatus == null) return new DeviceStatus(getApplicationContext(), getAppPrefs());
-		else return deviceStatus;
 	}
 // --end-- public methods for Activities
     

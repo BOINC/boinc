@@ -21,6 +21,8 @@ package edu.berkeley.boinc;
 import edu.berkeley.boinc.utils.*;
 
 import java.util.ArrayList;
+
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -63,10 +65,15 @@ public class ProjectDetailsFragment extends Fragment {
 	private Project project;
     private ArrayList<ImageWrapper> slideshowImages = new ArrayList<ImageWrapper>();
     
+    private LayoutInflater li;
     private View root;
     private HorizontalScrollView slideshowWrapper;
     private LinearLayout slideshowHook;
     private ProgressBar slideshowLoading;
+
+    // display dimensions
+    private int width;
+    private int height;
     
 	// BroadcastReceiver event is used to update the UI with updated information from 
 	// the client.  This is generally called once a second.
@@ -101,11 +108,22 @@ public class ProjectDetailsFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     	if(Logging.VERBOSE) Log.v(Logging.TAG,"ProjectDetailsFragment onCreateView");
         // Inflate the layout for this fragment
+    	this.li = inflater;
     	View layout = inflater.inflate(R.layout.project_details_layout, container, false);
     	root = layout;
     	populateLayout(layout);
     	new UpdateSlideshowImagesAsync().execute();
 		return layout;
+	}
+
+	@SuppressWarnings("deprecation")
+	@Override
+	public void onAttach(Activity activity) {
+		// first time fragment can get a valid context (before this, getActivity() will return null!)
+		Display display = activity.getWindowManager().getDefaultDisplay(); 
+		width = display.getWidth();
+		height = display.getHeight();
+		super.onAttach(activity);
 	}
 
 	@Override
@@ -338,9 +356,8 @@ public class ProjectDetailsFragment extends Fragment {
 			
 			if(success && slideshowImages.size() > 0) {
 				slideshowLoading.setVisibility(View.GONE);
-				LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 				for(ImageWrapper image: slideshowImages) {
-					ImageView iv = (ImageView) inflater.inflate(R.layout.project_details_slideshow_image_layout, null);
+					ImageView iv = (ImageView) li.inflate(R.layout.project_details_slideshow_image_layout, null);
 					Bitmap bitmap = image.image;
 					if(scaleImages(bitmap.getHeight(), bitmap.getWidth())) bitmap = Bitmap.createScaledBitmap(image.image, image.image.getWidth() * 2, image.image.getHeight() * 2, false);
 					iv.setImageBitmap(bitmap);
@@ -351,11 +368,7 @@ public class ProjectDetailsFragment extends Fragment {
 			}
 		}
 		
-		@SuppressWarnings("deprecation")
 		private boolean scaleImages(int imageHeight, int imageWidth){
-			Display display = getActivity().getWindowManager().getDefaultDisplay(); 
-			int width = display.getWidth();
-			int height = display.getHeight();
 			return (height >= imageHeight * 2 && width >= imageWidth * 2);
 		}
 	}

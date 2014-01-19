@@ -43,7 +43,7 @@ public class NavDrawerListAdapter extends BaseAdapter{
 	private Context context;
 	private ArrayList<NavDrawerItem> navDrawerItems = new ArrayList<NavDrawerItem>();
 	
-	public int postitionOfSelectedMenu = 0;
+	public int selectedMenuId = 0;
 	
 	public NavDrawerListAdapter(Context context){
 		this.context = context;
@@ -72,7 +72,14 @@ public class NavDrawerListAdapter extends BaseAdapter{
 
 	@Override
 	public long getItemId(int position) {
-		return position;
+		return navDrawerItems.get(position).id;
+	}
+	
+	public NavDrawerItem getItemForId(int id) {
+		for(NavDrawerItem item: navDrawerItems) {
+			if (item.id == id) return item;
+		}
+		return null;
 	}
 
 	@Override
@@ -116,8 +123,8 @@ public class NavDrawerListAdapter extends BaseAdapter{
         }
         
         // highligt entry of currently activated item
-        if(position == postitionOfSelectedMenu) {
-        	if(Logging.DEBUG) Log.d(Logging.TAG, "NavDrawerListAdapter.getView() highlighted! at : " + position);
+        if(navDrawerItems.get(position).id == selectedMenuId) {
+        	if(Logging.DEBUG) Log.d(Logging.TAG, "NavDrawerListAdapter.getView() highlighted! ID : " + selectedMenuId);
     		wrapper.setBackgroundResource(R.drawable.navlist_selector_pressed);
         } else wrapper.setBackgroundResource(R.drawable.navlist_selector);
         
@@ -189,11 +196,13 @@ public class NavDrawerListAdapter extends BaseAdapter{
 		 * Creates item for project, which is sub item of Projects by default
 		 */
 		public NavDrawerItem(String name, Bitmap icon, String masterUrl) {
+			this.id = masterUrl.hashCode();
 			this.title = name;
 			this.projectIcon = icon;
 			this.projectMasterUrl = masterUrl;
 			this.isProjectItem = true;
 			this.isSubItem = true;
+			if(Logging.DEBUG) Log.d(Logging.TAG, "NavDrawerItem: created hash code " + id + " for project " + name);
 		}
 		
 		/**
@@ -228,6 +237,10 @@ public class NavDrawerListAdapter extends BaseAdapter{
 		
 		public boolean isSubItem() {
 			return this.isSubItem;
+		}
+		
+		public boolean isProjectItem() {
+			return this.isProjectItem;
 		}
 		
 		public Bitmap getProjectIcon() {

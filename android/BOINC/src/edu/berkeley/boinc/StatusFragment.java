@@ -20,6 +20,7 @@ package edu.berkeley.boinc;
 
 import edu.berkeley.boinc.utils.*;
 import edu.berkeley.boinc.client.ClientStatus;
+import edu.berkeley.boinc.client.DeviceStatus;
 import edu.berkeley.boinc.client.Monitor;
 import edu.berkeley.boinc.utils.BOINCDefs;
 import android.content.BroadcastReceiver;
@@ -81,8 +82,10 @@ public class StatusFragment extends Fragment{
 		//load layout, if if ClientStatus can be accessed.
 		//if this is not the case, the broadcast receiver will call "loadLayout" again
 		ClientStatus status;
+		DeviceStatus deviceStatus;
 		try{
 			status  = Monitor.getClientStatus();
+			deviceStatus = Monitor.getDeviceStatus();
 		} catch (Exception e){
 			if(Logging.WARNING) Log.w(Logging.TAG,"StatusFragment: Could not load data, clientStatus not initialized.");
 			return;
@@ -178,7 +181,7 @@ public class StatusFragment extends Fragment{
 					String text = getString(R.string.suspend_battery_charging);
 					try{
 						Double minCharge = Monitor.getClientStatus().getPrefs().battery_charge_min_pct;
-						Integer currentCharge = ((BOINCActivity)getActivity()).getMonitorService().getDeviceStatus().getStatus().battery_charge_pct;
+						Integer currentCharge = deviceStatus.getStatus().battery_charge_pct;
 						text = getString(R.string.suspend_battery_charging_long) + " " + minCharge.intValue()
 						+ "% (" + getString(R.string.suspend_battery_charging_current) + " " + currentCharge  + "%) "
 						+ getString(R.string.suspend_battery_charging_long2);

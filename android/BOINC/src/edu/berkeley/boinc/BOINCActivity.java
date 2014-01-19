@@ -110,7 +110,7 @@ public class BOINCActivity extends ActionBarActivity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				// display view for selected nav drawer item
-				dispathNavBarOnClick(mDrawerListAdapter.getItem(position),position,false);
+				dispatchNavBarOnClick(mDrawerListAdapter.getItem(position),false);
 			}});
 		mDrawerListAdapter = new NavDrawerListAdapter(getApplicationContext());
 		mDrawerList.setAdapter(mDrawerListAdapter);
@@ -137,15 +137,29 @@ public class BOINCActivity extends ActionBarActivity {
 		};
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
 
+
+		// try to restore previous state
 		if (savedInstanceState == null) {
 			// on first time display view for first nav item
-			dispathNavBarOnClick(mDrawerListAdapter.getItem(0),0,true);
+			dispatchNavBarOnClick(mDrawerListAdapter.getItem(0),true);
+		} else {
+			int selectedId = savedInstanceState.getInt("navBarSelectionId");
+			NavDrawerItem item = mDrawerListAdapter.getItemForId(selectedId);
+			if(item == null) dispatchNavBarOnClick(mDrawerListAdapter.getItem(0),true);
+			else dispatchNavBarOnClick(item,true);
+			if(Logging.DEBUG) Log.d(Logging.TAG, "BOINCActivity.onCreate pre selected nav bar item with id: " + selectedId);
 		}
 
         //bind monitor service
         doBindService();
     }
     
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		outState.putInt("navBarSelectionId", mDrawerListAdapter.selectedMenuId);
+		super.onSaveInstanceState(outState);
+	}
+
 	@Override
 	protected void onDestroy() {
     	if(Logging.DEBUG) Log.d(Logging.TAG, "BOINCActivity onDestroy()");
@@ -155,10 +169,14 @@ public class BOINCActivity extends ActionBarActivity {
 
 	@Override
 	protected void onResume() { // gets called by system every time activity comes to front. after onCreate upon first creation
-    	if(Logging.VERBOSE) Log.v(Logging.TAG, "BOINCActivity onResume()");
+    	if(Logging.VERBOSE) Log.d(Logging.TAG, "BOINCActivity onResume()");
 	    super.onResume();
 	    registerReceiver(mClientStatusChangeRec, ifcsc);
 	    determineStatus();
+		// navigate to explicitly requested fragment (e.g. after project attach)
+		Intent i = getIntent();
+		int id = i.getIntExtra("targetFragment", -1);
+		if(id > -1) dispatchNavBarOnClick(mDrawerListAdapter.getItemForId(id),false);
 	}
 
 	@Override
@@ -199,7 +217,7 @@ public class BOINCActivity extends ActionBarActivity {
 	 * @param position
 	 * @param init
 	 */
-	private void dispathNavBarOnClick(NavDrawerItem item, int position, boolean init) {
+	private void dispatchNavBarOnClick(NavDrawerItem item, boolean init) {
 		// update the main content by replacing fragments
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 		Boolean fragmentChanges = false;
@@ -207,7 +225,7 @@ public class BOINCActivity extends ActionBarActivity {
 			// if init, setup status fragment
 			ft.replace(R.id.status_container, new StatusFragment());
 		}
-		if(item.getId() > 0) {
+		if(!item.isProjectItem()) {
 			switch (item.getId()) {
 			case R.string.tab_tasks:
 				ft.replace(R.id.frame_container, new TasksFragment());
@@ -263,12 +281,12 @@ public class BOINCActivity extends ActionBarActivity {
 				break;
 	
 			default:
-				if(Logging.ERROR) Log.d(Logging.TAG, "displayFragmentForNavDrawer() could not find corresponding fragment for " + item.getTitle());
+				if(Logging.ERROR) Log.d(Logging.TAG, "dispatchNavBarOnClick() could not find corresponding fragment for " + item.getTitle());
 				break;
 			}
 
 		} else {
-			// project nav items do not have numerical ids.
+			// ProjectDetailsFragment. Data shown based on given master URL
 			Bundle args = new Bundle();
 			args.putString("url", item.getProjectMasterUrl());
 			Fragment frag = new ProjectDetailsFragment();
@@ -282,7 +300,7 @@ public class BOINCActivity extends ActionBarActivity {
 		if(fragmentChanges) {
 			ft.commit();
 			setTitle(item.getTitle());
-			mDrawerListAdapter.postitionOfSelectedMenu = position; //highlight item persistently
+			mDrawerListAdapter.selectedMenuId = item.getId(); //highlight item persistently
 			mDrawerListAdapter.notifyDataSetChanged(); // force redraw
 		} 
 

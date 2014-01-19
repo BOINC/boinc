@@ -28,6 +28,7 @@ import edu.berkeley.boinc.adapter.PrefsListItemWrapperValue;
 import edu.berkeley.boinc.adapter.PrefsSelectionDialogListAdapter;
 import edu.berkeley.boinc.client.ClientNotification;
 import edu.berkeley.boinc.client.ClientStatus;
+import edu.berkeley.boinc.client.DeviceStatus;
 import edu.berkeley.boinc.client.Monitor;
 import edu.berkeley.boinc.rpc.GlobalPreferences;
 import edu.berkeley.boinc.rpc.HostInfo;
@@ -130,7 +131,13 @@ public class PrefsFragment extends Fragment {
 		data.clear();
 		
 		Boolean advanced = appPrefs.getShowAdvanced();
-		Boolean stationaryDevice = ((BOINCActivity) getActivity()).getMonitorService().getDeviceStatus().isStationaryDevice();
+		Boolean stationaryDevice = false;
+		try{
+			DeviceStatus deviceStatus  = Monitor.getDeviceStatus();
+			stationaryDevice = deviceStatus.isStationaryDevice();
+		} catch (Exception e){
+			if(Logging.ERROR) Log.e(Logging.TAG, "PrefsFragment.populateLayout failed to retrieve device status. treat device as non-stationary");
+		}
 
 		// general
     	data.add(new PrefsListItemWrapper(getActivity(),R.string.prefs_category_general,true));

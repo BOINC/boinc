@@ -229,6 +229,7 @@ public class AttachProjectWorkingActivity extends Activity{
 	public void finishButtonClicked(View view) {
 		Intent intent = new Intent(this, BOINCActivity.class);
 		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); //clear_top closes AttachProjectListActivity!
+		intent.putExtra("targetFragment", R.string.tab_projects); // make activity display projects fragment
 		startActivity(intent);
 	}
 	

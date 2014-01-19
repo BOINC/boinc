@@ -73,7 +73,8 @@ public class SplashActivity extends Activity {
 					case ClientStatus.SETUP_STATUS_AVAILABLE:
 						if(Logging.DEBUG) Log.d(Logging.TAG, "SplashActivity SETUP_STATUS_AVAILABLE"); 
 						// forward to BOINCActivity
-						startActivity(new Intent(activity,BOINCActivity.class));
+						Intent startMain = new Intent(activity,BOINCActivity.class);
+						startActivity(startMain);
 						break;
 					case ClientStatus.SETUP_STATUS_CLOSED:
 						if(Logging.DEBUG) Log.d(Logging.TAG, "SplashActivity SETUP_STATUS_CLOSED"); 
@@ -83,7 +84,9 @@ public class SplashActivity extends Activity {
 					case ClientStatus.SETUP_STATUS_NOPROJECT:
 						if(Logging.DEBUG) Log.d(Logging.TAG, "SplashActivity SETUP_STATUS_NOPROJECT"); 
 						// forward to PROJECTATTACH
-						startActivity(new Intent(activity,AttachProjectListActivity.class));
+						Intent startAttach = new Intent(activity,AttachProjectListActivity.class);
+						startAttach.putExtra("showUp", false);
+						startActivity(startAttach);
 						break;
 					case ClientStatus.SETUP_STATUS_ERROR:
 						if(Logging.ERROR) Log.e(Logging.TAG, "SplashActivity SETUP_STATUS_ERROR"); 

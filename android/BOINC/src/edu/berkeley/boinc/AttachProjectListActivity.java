@@ -82,8 +82,11 @@ public class AttachProjectListActivity extends ActionBarActivity implements andr
         
         // setup action bar
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle(R.string.attachproject_list_header);
+        
+        // disable up as home if explicitly requested in intent (e.g. when navigating directly from splash screen)
+        Intent i = getIntent();
+        actionBar.setDisplayHomeAsUpEnabled(i.getBooleanExtra("showUp", true));
     }
     
 	@Override
