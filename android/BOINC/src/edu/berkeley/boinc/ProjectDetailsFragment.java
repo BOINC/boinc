@@ -75,6 +75,8 @@ public class ProjectDetailsFragment extends Fragment {
     private int width;
     private int height;
     
+    private boolean retryLayout = true;
+    
 	// BroadcastReceiver event is used to update the UI with updated information from 
 	// the client.  This is generally called once a second.
 	//
@@ -84,24 +86,20 @@ public class ProjectDetailsFragment extends Fragment {
 		public void onReceive(Context context, Intent intent) {
 			//if(Logging.DEBUG) Log.d(Logging.TAG, "ClientStatusChange - onReceive()");
 			getCurrentProjectData();
-			updateChangingItems(root);
+			if(retryLayout) populateLayout();
+			else updateChangingItems(root);
+			
 		}
 	};
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		setHasOptionsMenu(true); // enables fragment specific menu
-		super.onCreate(savedInstanceState);
-		
 		// get data
 		url = getArguments().getString("url");
 		getCurrentProjectData();
-		try{
-			ArrayList<ProjectInfo> allProjectInfos = Monitor.getClientStatus().getSupportedProjects();
-			for(ProjectInfo tmpPI: allProjectInfos) {
-				if(tmpPI.url.equals(url)) this.projectInfo = tmpPI;
-			}
-		}catch(Exception e) {}
+		
+		setHasOptionsMenu(true); // enables fragment specific menu
+		super.onCreate(savedInstanceState);
 	}
 
 	@Override
@@ -111,8 +109,6 @@ public class ProjectDetailsFragment extends Fragment {
     	this.li = inflater;
     	View layout = inflater.inflate(R.layout.project_details_layout, container, false);
     	root = layout;
-    	populateLayout(layout);
-    	new UpdateSlideshowImagesAsync().execute();
 		return layout;
 	}
 
@@ -229,7 +225,15 @@ public class ProjectDetailsFragment extends Fragment {
 		dialog.show();
 	}
 
-	private void populateLayout(View v) {
+	private void populateLayout() {
+		
+		if(projectInfo == null || project == null) {
+			retryLayout = true;
+			return; // if data not available yet, return. frequently retrys with onReceive
+		}
+		
+		retryLayout = false;
+		View v = root;
 		
 		updateChangingItems(v);
 		
@@ -284,6 +288,9 @@ public class ProjectDetailsFragment extends Fragment {
 			LinearLayout wrapper = (LinearLayout) v.findViewById(R.id.based_at_wrapper);
 			wrapper.setVisibility(View.GONE);
 		}
+		
+		// load slideshow
+    	new UpdateSlideshowImagesAsync().execute();
 	}
 	
 	private void getCurrentProjectData() {
@@ -292,7 +299,12 @@ public class ProjectDetailsFragment extends Fragment {
 			for(Project tmpP: allProjects) {
 				if(tmpP.master_url.equals(url)) this.project = tmpP;
 			}
-		}catch(Exception e) {}
+			ArrayList<ProjectInfo> allProjectInfos = Monitor.getClientStatus().getSupportedProjects();
+			for(ProjectInfo tmpPI: allProjectInfos) {
+				if(tmpPI.url.equals(url)) this.projectInfo = tmpPI;
+			}
+		}catch(Exception e) {if(Logging.ERROR) Log.e(Logging.TAG,"ProjectDetailsFragment getCurrentProjectData could not retrieve project list");}
+		if(this.project == null || this.projectInfo == null) if(Logging.WARNING) Log.w(Logging.TAG,"ProjectDetailsFragment getCurrentProjectData could not find project list");
 	}
 	
 	private void updateChangingItems(View v) {
