@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-13 00:00-0800\n"
+"POT-Creation-Date: 2014-01-18 00:00-0800\n"
 "PO-Revision-Date: 2013-09-20 10:48+0000\n"
 "Last-Translator: Anonymous Pootle User\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
@@ -527,7 +527,7 @@ msgstr "&Veikimas"
 msgid "A&dvanced"
 msgstr "&Papildomi"
 
-#: AdvancedFrame.cpp:712 DlgEventLog.cpp:334 sg_BoincSimpleFrame.cpp:267
+#: AdvancedFrame.cpp:712 DlgEventLog.cpp:331 sg_BoincSimpleFrame.cpp:267
 #: wizardex.cpp:374 wizardex.cpp:381
 msgid "&Help"
 msgstr "&Pagalba"
@@ -848,66 +848,66 @@ msgstr ""
 msgid "BOINC Manager"
 msgstr "BOINC valdiklis"
 
-#: BOINCGUIApp.cpp:568
+#: BOINCGUIApp.cpp:572
 msgid "BOINC Manager was started by the operating system automatically"
 msgstr "BOINC valdiklis buvo automatiškai paleistas operacinės sistemos"
 
-#: BOINCGUIApp.cpp:570
+#: BOINCGUIApp.cpp:574
 msgid "Startup BOINC so only the system tray icon is visible"
 msgstr "Paleisti BOINC tik su matoma piktograma sistemos dėkle"
 
-#: BOINCGUIApp.cpp:572
+#: BOINCGUIApp.cpp:576
 msgid "Directory containing the BOINC Client executable"
 msgstr ""
 
-#: BOINCGUIApp.cpp:573
+#: BOINCGUIApp.cpp:577
 msgid "BOINC data directory"
 msgstr ""
 
-#: BOINCGUIApp.cpp:575
+#: BOINCGUIApp.cpp:579
 msgid "Host name or IP address"
 msgstr ""
 
-#: BOINCGUIApp.cpp:576
+#: BOINCGUIApp.cpp:580
 msgid "GUI RPC port number"
 msgstr ""
 
-#: BOINCGUIApp.cpp:577
+#: BOINCGUIApp.cpp:581
 #, fuzzy
 msgid "Password"
 msgstr "Slaptažodis:"
 
-#: BOINCGUIApp.cpp:578
+#: BOINCGUIApp.cpp:582
 msgid "Startup BOINC with these optional arguments"
 msgstr "Paleisti BOINC su šiais parametrais"
 
-#: BOINCGUIApp.cpp:579
+#: BOINCGUIApp.cpp:583
 msgid "disable BOINC security users and permissions"
 msgstr "atjungti BOINC saugumo vartotojus ir įgaliojimus"
 
-#: BOINCGUIApp.cpp:580
+#: BOINCGUIApp.cpp:584
 msgid "set skin debugging mode to enable skin manager error messages"
 msgstr ""
 "įjungti apvalkalų derinimo režimą, kad būtų įjungti apvalkalų valdiklio "
 "klaidų pranešimai"
 
-#: BOINCGUIApp.cpp:581
+#: BOINCGUIApp.cpp:585
 msgid "multiple instances of BOINC Manager allowed"
 msgstr ""
 
-#: BOINCGUIApp.cpp:583
+#: BOINCGUIApp.cpp:587
 msgid "Not used: workaround for bug in XCode 4.2"
 msgstr ""
 
-#: BOINCGUIApp.cpp:801
+#: BOINCGUIApp.cpp:805
 msgid "(Automatic Detection)"
 msgstr "(Automatinis aptikimas)"
 
-#: BOINCGUIApp.cpp:802
+#: BOINCGUIApp.cpp:806
 msgid "(Unknown)"
 msgstr "(Nežinoma)"
 
-#: BOINCGUIApp.cpp:803
+#: BOINCGUIApp.cpp:807
 msgid "(User Defined)"
 msgstr "(Vartotojo nustatyta)"
 
@@ -1558,43 +1558,43 @@ msgstr ""
 msgid "For advanced options, refer to "
 msgstr ""
 
-#: DlgEventLog.cpp:221
+#: DlgEventLog.cpp:218
 #, c-format
 msgid "%s - Event Log"
 msgstr ""
 
-#: DlgEventLog.cpp:234 ViewMessages.cpp:117 ViewProjects.cpp:219
+#: DlgEventLog.cpp:231 ViewMessages.cpp:117 ViewProjects.cpp:219
 #: ViewStatistics.cpp:435 ViewStatistics.cpp:2009 ViewTransfers.cpp:182
 #: ViewWork.cpp:232
 msgid "Project"
 msgstr "Projektas"
 
-#: DlgEventLog.cpp:235 ViewMessages.cpp:118
+#: DlgEventLog.cpp:232 ViewMessages.cpp:118
 msgid "Time"
 msgstr "Laikas"
 
-#: DlgEventLog.cpp:236 ViewMessages.cpp:119
+#: DlgEventLog.cpp:233 ViewMessages.cpp:119
 msgid "Message"
 msgstr "Pranešimas"
 
-#: DlgEventLog.cpp:292 DlgEventLog.cpp:356
+#: DlgEventLog.cpp:289 DlgEventLog.cpp:353
 msgid "&Show only this project"
 msgstr ""
 
-#: DlgEventLog.cpp:296
+#: DlgEventLog.cpp:293
 msgid "Copy &All"
 msgstr ""
 
-#: DlgEventLog.cpp:298 DlgEventLog.cpp:302 ViewMessages.cpp:89
+#: DlgEventLog.cpp:295 DlgEventLog.cpp:299 ViewMessages.cpp:89
 msgid "Copy all the messages to the clipboard."
 msgstr "Kopijuoti visas žinutes į laikinąją saugyklą."
 
-#: DlgEventLog.cpp:307
+#: DlgEventLog.cpp:304
 #, fuzzy
 msgid "Copy &Selected"
 msgstr "Kopijuoti pasirinktas"
 
-#: DlgEventLog.cpp:310 DlgEventLog.cpp:318 ViewMessages.cpp:97
+#: DlgEventLog.cpp:307 DlgEventLog.cpp:315 ViewMessages.cpp:97
 msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
 "messages by holding down the shift or command key while clicking on messages."
@@ -1602,7 +1602,7 @@ msgstr ""
 "Kopijuoti pasirinktas žinutes į laikinąją saugyklą. Keletą žinučių galite "
 "pažymėti spausdami Shift arba Command klavišus žymėjimo metu."
 
-#: DlgEventLog.cpp:312 DlgEventLog.cpp:320 ViewMessages.cpp:99
+#: DlgEventLog.cpp:309 DlgEventLog.cpp:317 ViewMessages.cpp:99
 msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
 "messages by holding down the shift or control key while clicking on messages."
@@ -1610,25 +1610,25 @@ msgstr ""
 "Kopijuoti pasirinktas žinutes į laikinąją saugyklą. Keletą žinučių galite "
 "pažymėti spausdami Shift arba Control klavišus žymėjimo metu."
 
-#: DlgEventLog.cpp:327 DlgItemProperties.cpp:67
+#: DlgEventLog.cpp:324 DlgItemProperties.cpp:67
 msgid "&Close"
 msgstr "Uždaryti"
 
-#: DlgEventLog.cpp:336 sg_BoincSimpleFrame.cpp:798 sg_DlgPreferences.cpp:447
+#: DlgEventLog.cpp:333 sg_BoincSimpleFrame.cpp:798 sg_DlgPreferences.cpp:447
 #, c-format
 msgid "Get help with %s"
 msgstr ""
 
-#: DlgEventLog.cpp:350
+#: DlgEventLog.cpp:347
 #, fuzzy
 msgid "Show all &messages"
 msgstr "Rodyti visus pranešimus"
 
-#: DlgEventLog.cpp:351 DlgEventLog.cpp:353
+#: DlgEventLog.cpp:348 DlgEventLog.cpp:350
 msgid "Show messages for all projects"
 msgstr "Rodyti visų projektų žinutes"
 
-#: DlgEventLog.cpp:357 DlgEventLog.cpp:359
+#: DlgEventLog.cpp:354 DlgEventLog.cpp:356
 msgid "Show only the messages for the selected project"
 msgstr "Rodyti tik pasirinkto projekto žinutes"
 
@@ -1839,9 +1839,9 @@ msgstr ""
 msgid "Application"
 msgstr "Programa"
 
-#: DlgItemProperties.cpp:329
-msgid "Workunit name"
-msgstr ""
+#: DlgItemProperties.cpp:329 ViewWork.cpp:239
+msgid "Name"
+msgstr "Pavadinimas"
 
 #: DlgItemProperties.cpp:330
 msgid "State"
@@ -1899,7 +1899,7 @@ msgstr ""
 msgid "Process ID"
 msgstr ""
 
-#: DlgItemProperties.cpp:431 ViewWork.cpp:1032 sg_TaskPanel.cpp:823
+#: DlgItemProperties.cpp:427 ViewWork.cpp:1032 sg_TaskPanel.cpp:823
 msgid "Local: "
 msgstr ""
 
@@ -2518,7 +2518,7 @@ msgstr "Patikrinkite vartotojo vardą ir slaptažodį ir pabandykite dar kartą.
 msgid "Check the email address and password, and try again."
 msgstr "Patikrinkite el. pašto adresą ir slaptažodį ir pabandykite dar kartą."
 
-#: NoticeListCtrl.cpp:221
+#: NoticeListCtrl.cpp:222
 msgid "more..."
 msgstr ""
 
@@ -3395,10 +3395,6 @@ msgstr "Likęs laikas"
 #, fuzzy
 msgid "Deadline"
 msgstr "Atlikti iki"
-
-#: ViewWork.cpp:239
-msgid "Name"
-msgstr "Pavadinimas"
 
 #: ViewWork.cpp:264
 msgid "Tasks"
