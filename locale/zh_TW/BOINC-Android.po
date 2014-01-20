@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2013-10-18 00:00-0700\n"
-"PO-Revision-Date: 2014-01-18 01:48+0000\n"
+"PO-Revision-Date: 2014-01-20 08:27+0000\n"
 "Last-Translator: 宇謙 <df910105@yahoo.com.tw>\n"
 "Language-Team: zh_TW <LL@li.org>\n"
 "Language: zh_TW\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
-"X-POOTLE-MTIME: 1390009723.0\n"
+"X-POOTLE-MTIME: 1390206476.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -132,7 +132,7 @@ msgstr "第一次加入"
 
 msgctxt "attachproject_login_header_creation_enabled"
 msgid "Register an account to participate:"
-msgstr "註冊一個帳號來參加:"
+msgstr "註冊一個帳號來加入:"
 
 msgctxt "attachproject_login_header_creation_client_disabled"
 msgid "Visit project website to create an account:"
@@ -341,7 +341,7 @@ msgstr "同步"
 #. main activity
 msgctxt "main_noproject_warning"
 msgid "Tab here to choose a project."
-msgstr "點此選擇一個專案。"
+msgstr "點此選擇專案。"
 
 msgctxt "main_error"
 msgid "Whooops"
@@ -566,7 +566,7 @@ msgstr "限制CPU"
 
 msgctxt "prefs_cpu_time_max_description"
 msgid "Limits the CPU time BOINC uses for computation."
-msgstr "限制 BOINC 運算時使用的核心數。"
+msgstr "限制BOINC運算時使用的核心數。"
 
 msgctxt "prefs_memory_max_idle_header"
 msgid "RAM limit"
@@ -574,7 +574,7 @@ msgstr "限制RAM"
 
 msgctxt "prefs_memory_max_idle_description"
 msgid "Limits the amount of RAM tasks are allowed to occupy."
-msgstr "限制任務佔用 RAM 容量。"
+msgstr "限制任務佔用RAM。"
 
 msgctxt "prefs_client_log_flags_header"
 msgid "BOINC Client log flags"
@@ -743,7 +743,7 @@ msgstr "重置"
 
 msgctxt "projects_confirm_remove_acctmgr_title"
 msgid "Disable account manager"
-msgstr "來自帳號管理員的請求"
+msgstr "停用帳號管理員"
 
 msgctxt "projects_confirm_remove_acctmgr_message"
 msgid "Are you sure you want to stop using"
@@ -965,7 +965,7 @@ msgstr "硬碟空間不足。"
 
 msgctxt "suspend_cputhrottle"
 msgid "Scheduled CPU throttle."
-msgstr "安排 CPU 的使用。"
+msgstr "安排CPU的使用。"
 
 msgctxt "suspend_noinput"
 msgid "No recent user activity."
