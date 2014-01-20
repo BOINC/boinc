@@ -496,6 +496,7 @@ msgid "Show information about the %s"
 msgstr "Információk erről: %s"
 
 #: AdvancedFrame.cpp:661 sg_BoincSimpleFrame.cpp:224
+#, c-format
 #, c-format, fuzzy
 msgid "%s &web site"
 msgstr "%s &weboldal"
@@ -3765,6 +3766,7 @@ msgid "Project Commands"
 msgstr "Projekt parancsok"
 
 #: sg_ProjectPanel.cpp:267
+#, c-format
 #, c-format, fuzzy
 msgid "Pop up a menu of web sites for project %s"
 msgstr "Jelenjen meg egy menü a(z) %s projekt weboldalairól"
