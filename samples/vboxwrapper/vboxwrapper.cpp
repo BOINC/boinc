@@ -513,7 +513,7 @@ int main(int argc, char** argv) {
         );
     }
 
-    // Record if the sandboxed configuration is going to be used.
+    // Record which mode VirtualBox should be started in.
     //
     if (aid.vbox_window) {
         fprintf(
