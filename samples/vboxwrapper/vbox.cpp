@@ -41,6 +41,7 @@ using std::string;
 
 #if defined(_MSC_VER)
 #define getcwd      _getcwd
+#define stricmp     _stricmp
 #endif
 
 #include "diagnostics.h"
@@ -1916,44 +1917,6 @@ int VBOX_VM::get_vm_exit_code(unsigned long& exit_code) {
     return 0;
 }
 
-int VBOX_VM::get_vboxsvc_process_id(int& process_id) {
-    string output;
-    string pid;
-    size_t pid_start;
-    size_t pid_end;
-    int retval;
-
-    retval = get_system_log(output, false);
-    if (retval) return retval;
-
-    // Output should look like this:
-    // VirtualBox COM Server 4.2.16 r86992 win.amd64 (Jul  4 2013 15:51:44) release log
-    // 00:00:00.000000 main     Log opened 2013-12-02T18:21:12.011052800Z
-    // 00:00:00.000000 main     OS Product: Windows 7
-    // 00:00:00.000000 main     OS Release: 6.1.7601
-    // 00:00:00.000000 main     OS Service Pack: 1
-    // 00:00:00.031000 main     DMI Product Name: To Be Filled By O.E.M.
-    // 00:00:00.046000 main     DMI Product Version: To Be Filled By O.E.M.
-    // 00:00:00.046000 main     Host RAM: 16311MB total, 9435MB available
-    // 00:00:00.046000 main     Executable: C:\Program Files\Oracle\VirtualBox\VBoxSVC.exe
-    // 00:00:00.046000 main     Process ID: 8992
-    // 00:00:00.046000 main     Package type: WINDOWS_64BITS_GENERIC
-    //
-    pid_start = output.find("Process ID: ");
-    if (pid_start == string::npos) {
-        return ERR_NOT_FOUND;
-    }
-    pid_start += 12;
-    pid_end = output.find("\n", pid_start);
-    pid = output.substr(pid_start, pid_end - pid_start);
-    if (pid.size() <= 0) {
-        return ERR_NOT_FOUND;
-    }
-
-    process_id = atol(pid.c_str());
-    return 0;
-}
-
 int VBOX_VM::get_port_forwarding_port() {
     sockaddr_in addr;
     BOINC_SOCKLEN_T addrsize;
@@ -2349,9 +2312,11 @@ int VBOX_VM::launch_vboxsvc() {
     STARTUPINFO si;
     PROCESS_INFORMATION pi;
     APP_INIT_DATA aid;
+    PROC_MAP pm;
+    PROCINFO p;
     string command;
     char buf[256];
-    int pid = 0;
+    int pidVboxSvc = 0;
     HANDLE hVboxSvc = NULL;
 
     boinc_get_init_data_p(&aid);
@@ -2362,17 +2327,32 @@ int VBOX_VM::launch_vboxsvc() {
 
             if (vboxsvc_pid_handle) CloseHandle(vboxsvc_pid_handle);
 
-            get_vboxsvc_process_id(pid);
-            if (pid) hVboxSvc = OpenProcess(PROCESS_QUERY_INFORMATION, FALSE, pid);
-            if (pid && hVboxSvc) {
+            procinfo_setup(pm);
+            for (PROC_MAP::iterator i = pm.begin(); i != pm.end(); ++i) {
+                p = i->second;
+
+                // We are only looking for vboxsvc
+                if (0 != stricmp(p.command, "vboxsvc.exe")) continue;
+
+                // Store process id for later use
+                pidVboxSvc = p.id;
+
+                // Is this the vboxsvc for the current user?
+                // Non-service install it would be the current username
+                // Service install it would be boinc_project
+                hVboxSvc = OpenProcess(PROCESS_QUERY_INFORMATION, FALSE, p.id);
+                if (hVboxSvc) break;
+            }
+            
+            if (pidVboxSvc && hVboxSvc) {
                 
                 fprintf(
                     stderr,
                     "%s Status Report: Detected vboxsvc.exe. (PID = %d)\n",
                     vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                    pid
+                    pidVboxSvc
                 );
-                vboxsvc_pid = pid;
+                vboxsvc_pid = pidVboxSvc;
                 vboxsvc_pid_handle = hVboxSvc;
                 retval = BOINC_SUCCESS;
 
