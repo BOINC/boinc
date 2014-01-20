@@ -527,11 +527,13 @@ int main(int argc, char** argv) {
     // Check for invalid confgiurations.
     //
     if (aid.using_sandbox && aid.vbox_window) {
+        vboxwrapper_msg_prefix(buf, sizeof(buf));
         fprintf(
             stderr,
             "%s Invalid configuration detected.\n"
-            "   NOTE: BOINC cannot be installed as a service and run VirtualBox in headfull mode at the same time.\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf))
+            "%s NOTE: BOINC cannot be installed as a service and run VirtualBox in headfull mode at the same time.\n",
+            buf,
+            buf
         );
         boinc_temporary_exit(86400, "Incompatible confgiuration detected.");
     }
