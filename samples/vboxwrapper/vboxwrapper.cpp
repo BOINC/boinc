@@ -513,6 +513,29 @@ int main(int argc, char** argv) {
         );
     }
 
+    // Record if the sandboxed configuration is going to be used.
+    //
+    if (aid.vbox_window) {
+        fprintf(
+            stderr,
+            "%s Detected: Headless Mode Disabled\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf))
+        );
+        vm.headless = false;
+    }
+
+    // Check for invalid confgiurations.
+    //
+    if (aid.using_sandbox && aid.vbox_window) {
+        fprintf(
+            stderr,
+            "%s Invalid configuration detected.\n"
+            "   NOTE: BOINC cannot be installed as a service and run VirtualBox in headfull mode at the same time.\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf))
+        );
+        boinc_temporary_exit(86400, "Incompatible confgiuration detected.");
+    }
+
     // Check against known incompatible versions of VirtualBox.  
     // NOTE: Incompatible in this case means that VirtualBox 4.2.6 crashes during snapshot operations
     //       and 4.2.18 fails to restore from snapshots properly.
