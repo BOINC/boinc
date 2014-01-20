@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2014-01-10 00:00 PST\n"
-"PO-Revision-Date: 2013-11-08 11:52+0000\n"
-"Last-Translator: ZT <vdonksgula@gmail.com>\n"
+"PO-Revision-Date: 2014-01-19 08:15+0000\n"
+"Last-Translator: Gabor <csega@mailbox.hu>\n"
 "Language-Team: \n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
@@ -21,7 +21,7 @@ msgstr ""
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-SearchPath-0: html\\user\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
-"X-POOTLE-MTIME: 1383911572.0\n"
+"X-POOTLE-MTIME: 1390119345.0\n"
 
 # The name of this language in this language
 msgid "LANG_NAME_NATIVE"
@@ -1226,8 +1226,9 @@ msgid "Use NVIDIA GPU %1 Enforced by version 6.10+ %2"
 msgstr "Használja az NVIDIA GPU-t %1 Erőltetve a 6.10 verzió felett %2"
 
 #: ../inc/prefs.inc:344
+#, fuzzy
 msgid "Use Intel GPU %1 Enforced by version 7.2+ %2"
-msgstr ""
+msgstr "Használja az ATI GPU-t %1 Erőltetve a 6.10 verzió felett %2"
 
 #: ../inc/prefs.inc:358
 msgid ""
@@ -4720,7 +4721,7 @@ msgstr "2) Ha elfelejtette e-mail címét vagy nem tud leveleket fogadni:"
 msgid ""
 "If you have run BOINC under this account, you can still access it. Here's "
 "how:"
-msgstr ""
+msgstr "Ha ebben a fiókban futtatja a BOINC-ot, hozzáférhet az alábbi módon:"
 
 #: ../user/get_passwd.php:50
 msgid ""
@@ -4780,9 +4781,8 @@ msgid "If you have not already done so, %1download BOINC client software%2."
 msgstr "Ha még nem tette, %1töltse le a BOINC kliens szoftvert%2."
 
 #: ../user/host_app_versions.php:37
-#, fuzzy
 msgid "Anonymous platform, missing app"
-msgstr "Névtelen platform"
+msgstr "Névtelen platform, hiányzó app"
 
 #: ../user/host_app_versions.php:40
 #, fuzzy
@@ -4791,32 +4791,31 @@ msgstr "Névtelen platform"
 
 #: ../user/host_app_versions.php:43
 msgid "Missing app version"
-msgstr ""
+msgstr "Hiányzó app verzió"
 
 #: ../user/host_app_versions.php:45
 msgid "Missing app"
-msgstr ""
+msgstr "Hiányzó app"
 
 #: ../user/host_app_versions.php:47
 msgid "Missing platform"
-msgstr ""
+msgstr "Hiányzó platform"
 
 #: ../user/host_app_versions.php:56
 msgid "Number of tasks completed"
-msgstr ""
+msgstr "Elvégzett feladatok száma"
 
 #: ../user/host_app_versions.php:57
 msgid "Max tasks per day"
-msgstr ""
+msgstr "Maximális feladat naponta"
 
 #: ../user/host_app_versions.php:58
-#, fuzzy
 msgid "Number of tasks today"
-msgstr "processzorok száma"
+msgstr "Mai feladatok száma"
 
 #: ../user/host_app_versions.php:59
 msgid "Consecutive valid tasks"
-msgstr ""
+msgstr "Egymást követő érvényes feladatok"
 
 #: ../user/host_app_versions.php:63
 #, fuzzy
@@ -4831,9 +4830,8 @@ msgid "Application details for host %1"
 msgstr "Alkalmazások"
 
 #: ../user/host_delete.php:31
-#, fuzzy
 msgid "We have no record of that computer."
-msgstr "Egyesítse ezen számítógép kettőzött bejegyzéseit"
+msgstr "Nincs adat erről a számítógépről."
 
 #: ../user/host_delete.php:38
 msgid ""
@@ -4841,6 +4839,9 @@ msgid ""
 "contains work for it. You must wait a few days until the work for this "
 "computer has been deleted from the project database."
 msgstr ""
+"Nem törölheti a számítógép adatait, mert adatbázisunk még tartogat neki "
+"munkát. Néhány napot várnia kell, míg a számítógéphez rendelt munka törlődik "
+"a projekt adatbázisból."
 
 #: ../user/host_delete.php:40
 #, fuzzy
@@ -4848,14 +4849,12 @@ msgid "Delete record of computer"
 msgstr "Számítógép törlése"
 
 #: ../user/host_delete.php:41
-#, fuzzy
 msgid "Record deleted."
-msgstr "Valóban törli?"
+msgstr "Adatok törölve."
 
 #: ../user/host_delete.php:42 ../user/host_edit_action.php:65
-#, fuzzy
 msgid "Return to list of your computers"
-msgstr "A(z) %1 projektet csak jogosult számítógépeken futtassa"
+msgstr "Vissza a számítógépek listájához"
 
 #: ../user/host_edit_action.php:39
 #, fuzzy
@@ -4872,15 +4871,16 @@ msgid ""
 "Sometimes BOINC assigns separate identities to the same computer by mistake. "
 "You can correct this by merging old identities with the newest one."
 msgstr ""
+"Időként a BOINC tévedésből elkülöníti az egy számítógéphez tartozó "
+"identitásokat. Ön kijavíthatja ezt a régi identitások összefűzésével."
 
 #: ../user/host_edit_form.php:56
 msgid "No hosts are eligible for merging with this one."
-msgstr ""
+msgstr "Nincs megfelelő gép az összefűzéshez."
 
 #: ../user/host_edit_form.php:58 ../user/host_edit_form.php:114
-#, fuzzy
 msgid "Show details"
-msgstr "Nevek mutatása"
+msgstr "Részletek mutatása"
 
 #: ../user/host_edit_form.php:66
 msgid ""
@@ -4933,6 +4933,7 @@ msgid ""
 "This change will take effect the next time the host communicates with this "
 "project."
 msgstr ""
+"A változtatás a gép projekthez történő következő kapcsolódásakor lép életbe."
 
 #: ../user/host_venue_action.php:50
 msgid "Return to host page"
@@ -4951,43 +4952,40 @@ msgstr "Számítógép infó"
 #: ../user/hosts_user.php:56
 msgid ""
 "This user has chosen not to show information about his or her computers."
-msgstr ""
+msgstr "Ez a felhasználó elrejtette számítógépe adatait."
 
 #: ../user/hosts_user.php:64
-#, fuzzy
 msgid "Your computers"
-msgstr "Minden számítógép"
+msgstr "Az Ön számítógépei"
 
 #: ../user/html.php:23
-#, fuzzy
 msgid "Allowed HTML tags"
-msgstr "Ne használjon HTML címkéket."
+msgstr "Engedélyezett HTML címkék"
 
 #: ../user/html.php:25
 msgid "The following HTML tags are allowed in team descriptions:"
-msgstr ""
+msgstr "Az alábbi HTML címkék engedélyezettek a csapatleírásban:"
 
 # 75%
 #: ../user/html.php:27
-#, fuzzy
 msgid "bold"
-msgstr "Félkövér"
+msgstr "félkövér"
 
 #: ../user/html.php:28
 msgid "italics"
-msgstr ""
+msgstr "dőlt"
 
 #: ../user/html.php:29
 msgid "hyperlink"
-msgstr ""
+msgstr "hivatkozás"
 
 #: ../user/html.php:30
 msgid "paragraph"
-msgstr ""
+msgstr "bekezdés"
 
 #: ../user/html.php:31
 msgid "break"
-msgstr ""
+msgstr "sortörés"
 
 #: ../user/html.php:32
 msgid "preformatted"
@@ -5553,8 +5551,9 @@ msgid ""
 msgstr ""
 
 #: ../user/profile_menu.php:42
+#, fuzzy
 msgid "User of the Day"
-msgstr ""
+msgstr "A nap felhasználója"
 
 #: ../user/profile_menu.php:57
 msgid "User Profile Explorer"

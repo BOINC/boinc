@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 5.10 Japanese\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-13 00:00-0800\n"
+"POT-Creation-Date: 2014-01-18 00:00-0800\n"
 "PO-Revision-Date: 2013-10-28 15:20+0000\n"
 "Last-Translator: Anonymous Pootle User\n"
 "Language-Team: \n"
@@ -535,7 +535,7 @@ msgstr "アクティビティ(&A)"
 msgid "A&dvanced"
 msgstr "高度な操作(&D)"
 
-#: AdvancedFrame.cpp:712 DlgEventLog.cpp:334 sg_BoincSimpleFrame.cpp:267
+#: AdvancedFrame.cpp:712 DlgEventLog.cpp:331 sg_BoincSimpleFrame.cpp:267
 #: wizardex.cpp:374 wizardex.cpp:381
 msgid "&Help"
 msgstr "ヘルプ(&H)"
@@ -863,63 +863,63 @@ msgstr ""
 msgid "BOINC Manager"
 msgstr "BOINC マネージャ"
 
-#: BOINCGUIApp.cpp:568
+#: BOINCGUIApp.cpp:572
 msgid "BOINC Manager was started by the operating system automatically"
 msgstr "BOINC マネージャはオペレーティング・システムにより自動的に起動されました。"
 
-#: BOINCGUIApp.cpp:570
+#: BOINCGUIApp.cpp:574
 msgid "Startup BOINC so only the system tray icon is visible"
 msgstr "BOINC 起動時に、システムトレイのアイコンだけを表示します"
 
-#: BOINCGUIApp.cpp:572
+#: BOINCGUIApp.cpp:576
 msgid "Directory containing the BOINC Client executable"
 msgstr "BOINC クライアントの実行可能ファイルがあるディレクトリ"
 
-#: BOINCGUIApp.cpp:573
+#: BOINCGUIApp.cpp:577
 msgid "BOINC data directory"
 msgstr "BOINC 用データディレクトリ"
 
-#: BOINCGUIApp.cpp:575
+#: BOINCGUIApp.cpp:579
 msgid "Host name or IP address"
 msgstr "ホスト名 または IPアドレス"
 
-#: BOINCGUIApp.cpp:576
+#: BOINCGUIApp.cpp:580
 msgid "GUI RPC port number"
 msgstr "GUI用 RPC のポート番号"
 
-#: BOINCGUIApp.cpp:577
+#: BOINCGUIApp.cpp:581
 msgid "Password"
 msgstr "パスワード："
 
-#: BOINCGUIApp.cpp:578
+#: BOINCGUIApp.cpp:582
 msgid "Startup BOINC with these optional arguments"
 msgstr "これらのオプション引数を付けて BOINC を起動します"
 
-#: BOINCGUIApp.cpp:579
+#: BOINCGUIApp.cpp:583
 msgid "disable BOINC security users and permissions"
 msgstr "BOINC のユーザとアクセス許可についてのセキュリティを無効にします"
 
-#: BOINCGUIApp.cpp:580
+#: BOINCGUIApp.cpp:584
 msgid "set skin debugging mode to enable skin manager error messages"
 msgstr "skin マネージャのエラーメッセージを有効にするために、skin debugging モードにします"
 
-#: BOINCGUIApp.cpp:581
+#: BOINCGUIApp.cpp:585
 msgid "multiple instances of BOINC Manager allowed"
 msgstr "BOINC Manager の複数インスタンス起動を許す"
 
-#: BOINCGUIApp.cpp:583
+#: BOINCGUIApp.cpp:587
 msgid "Not used: workaround for bug in XCode 4.2"
 msgstr ""
 
-#: BOINCGUIApp.cpp:801
+#: BOINCGUIApp.cpp:805
 msgid "(Automatic Detection)"
 msgstr "(言語の自動判別)"
 
-#: BOINCGUIApp.cpp:802
+#: BOINCGUIApp.cpp:806
 msgid "(Unknown)"
 msgstr "(実装上のダミーエントリ1)"
 
-#: BOINCGUIApp.cpp:803
+#: BOINCGUIApp.cpp:807
 msgid "(User Defined)"
 msgstr "(実装上のダミーエントリ2)"
 
@@ -1572,51 +1572,51 @@ msgstr ""
 msgid "For advanced options, refer to "
 msgstr ""
 
-#: DlgEventLog.cpp:221
+#: DlgEventLog.cpp:218
 #, c-format
 msgid "%s - Event Log"
 msgstr "%s - イベント・ログ"
 
-#: DlgEventLog.cpp:234 ViewMessages.cpp:117 ViewProjects.cpp:219
+#: DlgEventLog.cpp:231 ViewMessages.cpp:117 ViewProjects.cpp:219
 #: ViewStatistics.cpp:435 ViewStatistics.cpp:2009 ViewTransfers.cpp:182
 #: ViewWork.cpp:232
 msgid "Project"
 msgstr "プロジェクト"
 
-#: DlgEventLog.cpp:235 ViewMessages.cpp:118
+#: DlgEventLog.cpp:232 ViewMessages.cpp:118
 msgid "Time"
 msgstr "日時"
 
-#: DlgEventLog.cpp:236 ViewMessages.cpp:119
+#: DlgEventLog.cpp:233 ViewMessages.cpp:119
 msgid "Message"
 msgstr "メッセージ"
 
-#: DlgEventLog.cpp:292 DlgEventLog.cpp:356
+#: DlgEventLog.cpp:289 DlgEventLog.cpp:353
 #, fuzzy
 msgid "&Show only this project"
 msgstr "このプロジェクトだけを表示"
 
-#: DlgEventLog.cpp:296
+#: DlgEventLog.cpp:293
 #, fuzzy
 msgid "Copy &All"
 msgstr "すべてコピー"
 
-#: DlgEventLog.cpp:298 DlgEventLog.cpp:302 ViewMessages.cpp:89
+#: DlgEventLog.cpp:295 DlgEventLog.cpp:299 ViewMessages.cpp:89
 msgid "Copy all the messages to the clipboard."
 msgstr "全メッセージをクリップボードにコピーします"
 
-#: DlgEventLog.cpp:307
+#: DlgEventLog.cpp:304
 #, fuzzy
 msgid "Copy &Selected"
 msgstr "選択部分をコピー"
 
-#: DlgEventLog.cpp:310 DlgEventLog.cpp:318 ViewMessages.cpp:97
+#: DlgEventLog.cpp:307 DlgEventLog.cpp:315 ViewMessages.cpp:97
 msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
 "messages by holding down the shift or command key while clicking on messages."
 msgstr "選択したメッセージをクリップボードにコピーします。シフトまたはコマンドキーを押しながらクリックすることで複数のメッセージを選択できます。"
 
-#: DlgEventLog.cpp:312 DlgEventLog.cpp:320 ViewMessages.cpp:99
+#: DlgEventLog.cpp:309 DlgEventLog.cpp:317 ViewMessages.cpp:99
 msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
 "messages by holding down the shift or control key while clicking on messages."
@@ -1624,25 +1624,25 @@ msgstr ""
 "選択したメッセージをクリップボードにコピーします。シフトまたはコントロールキーを押しながら、メッセージをクリックすれば複数のメッセージを選択状態にできま"
 "す。 "
 
-#: DlgEventLog.cpp:327 DlgItemProperties.cpp:67
+#: DlgEventLog.cpp:324 DlgItemProperties.cpp:67
 msgid "&Close"
 msgstr "閉じる(&C)"
 
-#: DlgEventLog.cpp:336 sg_BoincSimpleFrame.cpp:798 sg_DlgPreferences.cpp:447
+#: DlgEventLog.cpp:333 sg_BoincSimpleFrame.cpp:798 sg_DlgPreferences.cpp:447
 #, c-format
 msgid "Get help with %s"
 msgstr "%s について助けを求める"
 
-#: DlgEventLog.cpp:350
+#: DlgEventLog.cpp:347
 #, fuzzy
 msgid "Show all &messages"
 msgstr "全メッセージを表示"
 
-#: DlgEventLog.cpp:351 DlgEventLog.cpp:353
+#: DlgEventLog.cpp:348 DlgEventLog.cpp:350
 msgid "Show messages for all projects"
 msgstr "すべてのプロジェクトのメッセージを表示"
 
-#: DlgEventLog.cpp:357 DlgEventLog.cpp:359
+#: DlgEventLog.cpp:354 DlgEventLog.cpp:356
 msgid "Show only the messages for the selected project"
 msgstr "選択したプロジェクトのメッセージだけを表示"
 
@@ -1861,9 +1861,9 @@ msgstr "タスクのプロパティ ： "
 msgid "Application"
 msgstr "アプリケーション"
 
-#: DlgItemProperties.cpp:329
-msgid "Workunit name"
-msgstr "ワークユニットの名前"
+#: DlgItemProperties.cpp:329 ViewWork.cpp:239
+msgid "Name"
+msgstr "名前"
 
 #: DlgItemProperties.cpp:330
 msgid "State"
@@ -1921,7 +1921,7 @@ msgstr "ディレクトリ"
 msgid "Process ID"
 msgstr "プロセスID"
 
-#: DlgItemProperties.cpp:431 ViewWork.cpp:1032 sg_TaskPanel.cpp:823
+#: DlgItemProperties.cpp:427 ViewWork.cpp:1032 sg_TaskPanel.cpp:823
 msgid "Local: "
 msgstr "Local:"
 
@@ -2530,7 +2530,7 @@ msgstr "名前とパスワードを確認の上、もう一度試してくださ
 msgid "Check the email address and password, and try again."
 msgstr "電子メールアドレスとパスワードを確認の上、もう一度試してください。"
 
-#: NoticeListCtrl.cpp:221
+#: NoticeListCtrl.cpp:222
 msgid "more..."
 msgstr "つづく..."
 
@@ -3399,10 +3399,6 @@ msgstr "終了までの予想時間"
 msgid "Deadline"
 msgstr "報告期限"
 
-#: ViewWork.cpp:239
-msgid "Name"
-msgstr "名前"
-
 #: ViewWork.cpp:264
 msgid "Tasks"
 msgstr "タスク"
@@ -3925,6 +3921,9 @@ msgstr "全てを表示する"
 #, c-format
 msgid "Quit %s"
 msgstr "%s を終了する"
+
+#~ msgid "Workunit name"
+#~ msgstr "ワークユニットの名前"
 
 #~ msgid "invalid float"
 #~ msgstr "浮動小数点形式の数値が正しくありません"

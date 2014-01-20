@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-13 00:00-0800\n"
+"POT-Creation-Date: 2014-01-18 00:00-0800\n"
 "PO-Revision-Date: 2013-09-22 20:57+0000\n"
 "Last-Translator: Anonymous Pootle User\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
@@ -541,7 +541,7 @@ msgstr "Ac&tividad"
 msgid "A&dvanced"
 msgstr "Avan&zado"
 
-#: AdvancedFrame.cpp:712 DlgEventLog.cpp:334 sg_BoincSimpleFrame.cpp:267
+#: AdvancedFrame.cpp:712 DlgEventLog.cpp:331 sg_BoincSimpleFrame.cpp:267
 #: wizardex.cpp:374 wizardex.cpp:381
 msgid "&Help"
 msgstr "A&yuda"
@@ -868,69 +868,69 @@ msgstr ""
 msgid "BOINC Manager"
 msgstr "Administrador BOINC"
 
-#: BOINCGUIApp.cpp:568
+#: BOINCGUIApp.cpp:572
 msgid "BOINC Manager was started by the operating system automatically"
 msgstr ""
 "El Administrador BOINC ha sido iniciado por el sistema operativo "
 "automáticamente"
 
-#: BOINCGUIApp.cpp:570
+#: BOINCGUIApp.cpp:574
 msgid "Startup BOINC so only the system tray icon is visible"
 msgstr ""
 "Inicia BOINC de forma que sólo sea visible el icono en el área de "
 "notificación"
 
-#: BOINCGUIApp.cpp:572
+#: BOINCGUIApp.cpp:576
 msgid "Directory containing the BOINC Client executable"
 msgstr "Carpeta que contiene el ejecutable del Cliente BOINC"
 
-#: BOINCGUIApp.cpp:573
+#: BOINCGUIApp.cpp:577
 msgid "BOINC data directory"
 msgstr "Carpeta con los datos de BOINC"
 
-#: BOINCGUIApp.cpp:575
+#: BOINCGUIApp.cpp:579
 msgid "Host name or IP address"
 msgstr "Nombre del ordenador o dirección IP"
 
-#: BOINCGUIApp.cpp:576
+#: BOINCGUIApp.cpp:580
 msgid "GUI RPC port number"
 msgstr "Número de puerto GUI RPC"
 
-#: BOINCGUIApp.cpp:577
+#: BOINCGUIApp.cpp:581
 msgid "Password"
 msgstr "Contraseña"
 
-#: BOINCGUIApp.cpp:578
+#: BOINCGUIApp.cpp:582
 msgid "Startup BOINC with these optional arguments"
 msgstr "Arrancar BOINC con estos argumentos opcionales"
 
-#: BOINCGUIApp.cpp:579
+#: BOINCGUIApp.cpp:583
 msgid "disable BOINC security users and permissions"
 msgstr "desactiva la seguridad de usuarios y permisos en BOINC"
 
-#: BOINCGUIApp.cpp:580
+#: BOINCGUIApp.cpp:584
 msgid "set skin debugging mode to enable skin manager error messages"
 msgstr ""
 "activar modo depuración de pieles (skin) para permitir los mensajes de error "
 "del administrador de pieles"
 
-#: BOINCGUIApp.cpp:581
+#: BOINCGUIApp.cpp:585
 msgid "multiple instances of BOINC Manager allowed"
 msgstr "permitidas múltiples instancias del administrador BOINC"
 
-#: BOINCGUIApp.cpp:583
+#: BOINCGUIApp.cpp:587
 msgid "Not used: workaround for bug in XCode 4.2"
 msgstr "No usado: solución temporal para el error en XCode 4.2"
 
-#: BOINCGUIApp.cpp:801
+#: BOINCGUIApp.cpp:805
 msgid "(Automatic Detection)"
 msgstr "(Detección Automática)"
 
-#: BOINCGUIApp.cpp:802
+#: BOINCGUIApp.cpp:806
 msgid "(Unknown)"
 msgstr "(Desconocido)"
 
-#: BOINCGUIApp.cpp:803
+#: BOINCGUIApp.cpp:807
 msgid "(User Defined)"
 msgstr "(Definido por el Usuario)"
 
@@ -1594,42 +1594,42 @@ msgstr "Eliminar una aplicación de esta lista"
 msgid "For advanced options, refer to "
 msgstr "Para opciones avanzadas, dirigirse a "
 
-#: DlgEventLog.cpp:221
+#: DlgEventLog.cpp:218
 #, c-format
 msgid "%s - Event Log"
 msgstr "%s - Registro de Sucesos"
 
-#: DlgEventLog.cpp:234 ViewMessages.cpp:117 ViewProjects.cpp:219
+#: DlgEventLog.cpp:231 ViewMessages.cpp:117 ViewProjects.cpp:219
 #: ViewStatistics.cpp:435 ViewStatistics.cpp:2009 ViewTransfers.cpp:182
 #: ViewWork.cpp:232
 msgid "Project"
 msgstr "Proyecto"
 
-#: DlgEventLog.cpp:235 ViewMessages.cpp:118
+#: DlgEventLog.cpp:232 ViewMessages.cpp:118
 msgid "Time"
 msgstr "Hora"
 
-#: DlgEventLog.cpp:236 ViewMessages.cpp:119
+#: DlgEventLog.cpp:233 ViewMessages.cpp:119
 msgid "Message"
 msgstr "Mensaje"
 
-#: DlgEventLog.cpp:292 DlgEventLog.cpp:356
+#: DlgEventLog.cpp:289 DlgEventLog.cpp:353
 msgid "&Show only this project"
 msgstr "Mostrar sólo este &proyecto"
 
-#: DlgEventLog.cpp:296
+#: DlgEventLog.cpp:293
 msgid "Copy &All"
 msgstr "Copiar &Todo"
 
-#: DlgEventLog.cpp:298 DlgEventLog.cpp:302 ViewMessages.cpp:89
+#: DlgEventLog.cpp:295 DlgEventLog.cpp:299 ViewMessages.cpp:89
 msgid "Copy all the messages to the clipboard."
 msgstr "Copia todos los mensajes al portapapeles"
 
-#: DlgEventLog.cpp:307
+#: DlgEventLog.cpp:304
 msgid "Copy &Selected"
 msgstr "Copiar &Selección"
 
-#: DlgEventLog.cpp:310 DlgEventLog.cpp:318 ViewMessages.cpp:97
+#: DlgEventLog.cpp:307 DlgEventLog.cpp:315 ViewMessages.cpp:97
 msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
 "messages by holding down the shift or command key while clicking on messages."
@@ -1638,7 +1638,7 @@ msgstr ""
 "múltiples mensajes manteniendo pulsadas las teclas Shift o Control mientras "
 "hace clic en los mensajes."
 
-#: DlgEventLog.cpp:312 DlgEventLog.cpp:320 ViewMessages.cpp:99
+#: DlgEventLog.cpp:309 DlgEventLog.cpp:317 ViewMessages.cpp:99
 msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
 "messages by holding down the shift or control key while clicking on messages."
@@ -1647,24 +1647,24 @@ msgstr ""
 "múltiples mensajes manteniendo pulsadas las teclas Shift y/o Control "
 "mientras hace clic en los mensajes."
 
-#: DlgEventLog.cpp:327 DlgItemProperties.cpp:67
+#: DlgEventLog.cpp:324 DlgItemProperties.cpp:67
 msgid "&Close"
 msgstr "&Cerrar"
 
-#: DlgEventLog.cpp:336 sg_BoincSimpleFrame.cpp:798 sg_DlgPreferences.cpp:447
+#: DlgEventLog.cpp:333 sg_BoincSimpleFrame.cpp:798 sg_DlgPreferences.cpp:447
 #, c-format
 msgid "Get help with %s"
 msgstr "Obtener ayuda con %s"
 
-#: DlgEventLog.cpp:350
+#: DlgEventLog.cpp:347
 msgid "Show all &messages"
 msgstr "Mostrar todos los &mensajes"
 
-#: DlgEventLog.cpp:351 DlgEventLog.cpp:353
+#: DlgEventLog.cpp:348 DlgEventLog.cpp:350
 msgid "Show messages for all projects"
 msgstr "Mostar los mensajes de todos los proyectos"
 
-#: DlgEventLog.cpp:357 DlgEventLog.cpp:359
+#: DlgEventLog.cpp:354 DlgEventLog.cpp:356
 msgid "Show only the messages for the selected project"
 msgstr "Mostrar sólo los mensajes para el proyecto seleccionado"
 
@@ -1881,9 +1881,9 @@ msgstr "Propiedades de la tarea "
 msgid "Application"
 msgstr "Programa"
 
-#: DlgItemProperties.cpp:329
-msgid "Workunit name"
-msgstr "Nombre unidad trabajo"
+#: DlgItemProperties.cpp:329 ViewWork.cpp:239
+msgid "Name"
+msgstr "Nombre"
 
 #: DlgItemProperties.cpp:330
 msgid "State"
@@ -1941,7 +1941,7 @@ msgstr "Carpeta"
 msgid "Process ID"
 msgstr "ID de proceso"
 
-#: DlgItemProperties.cpp:431 ViewWork.cpp:1032 sg_TaskPanel.cpp:823
+#: DlgItemProperties.cpp:427 ViewWork.cpp:1032 sg_TaskPanel.cpp:823
 msgid "Local: "
 msgstr "Local: "
 
@@ -2557,7 +2557,7 @@ msgstr "Verifique su nombre de usuario y clave e inténtelo de nuevo."
 msgid "Check the email address and password, and try again."
 msgstr "Verifique que su dirección de correo y clave e inténtelo de nuevo."
 
-#: NoticeListCtrl.cpp:221
+#: NoticeListCtrl.cpp:222
 msgid "more..."
 msgstr "más..."
 
@@ -3428,10 +3428,6 @@ msgstr "Restante (estimado)"
 msgid "Deadline"
 msgstr "Límite para informar"
 
-#: ViewWork.cpp:239
-msgid "Name"
-msgstr "Nombre"
-
 #: ViewWork.cpp:264
 msgid "Tasks"
 msgstr "Tareas"
@@ -3962,6 +3958,9 @@ msgstr "Mostrar Todo"
 #, c-format
 msgid "Quit %s"
 msgstr "Cerrar %s"
+
+#~ msgid "Workunit name"
+#~ msgstr "Nombre unidad trabajo"
 
 #~ msgid "invalid float"
 #~ msgstr "número inválido"

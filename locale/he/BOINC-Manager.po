@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC 6.10.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-13 00:00-0800\n"
+"POT-Creation-Date: 2014-01-18 00:00-0800\n"
 "PO-Revision-Date: 2012-04-26 04:05+0000\n"
 "Last-Translator: Ido <dj_legolas1@hotmail.com>\n"
 "Language-Team: IOPanel.net\n"
@@ -532,7 +532,7 @@ msgstr "&פעילות"
 msgid "A&dvanced"
 msgstr "&מתקדם"
 
-#: AdvancedFrame.cpp:712 DlgEventLog.cpp:334 sg_BoincSimpleFrame.cpp:267
+#: AdvancedFrame.cpp:712 DlgEventLog.cpp:331 sg_BoincSimpleFrame.cpp:267
 #: wizardex.cpp:374 wizardex.cpp:381
 msgid "&Help"
 msgstr "&עזרה"
@@ -856,63 +856,63 @@ msgstr ""
 msgid "BOINC Manager"
 msgstr "BOINC Manager"
 
-#: BOINCGUIApp.cpp:568
+#: BOINCGUIApp.cpp:572
 msgid "BOINC Manager was started by the operating system automatically"
 msgstr "BOINC Manager הופעל אוטומטית על ידי המערכת הפעלה"
 
-#: BOINCGUIApp.cpp:570
+#: BOINCGUIApp.cpp:574
 msgid "Startup BOINC so only the system tray icon is visible"
 msgstr "הפעל את BOINC כך שניתן יהיה לראות רק את הסמל בשורת המשימות."
 
-#: BOINCGUIApp.cpp:572
+#: BOINCGUIApp.cpp:576
 msgid "Directory containing the BOINC Client executable"
 msgstr "התיקייה המכילה את קבצי ההפעלה של קליינט ה-BOINC"
 
-#: BOINCGUIApp.cpp:573
+#: BOINCGUIApp.cpp:577
 msgid "BOINC data directory"
 msgstr "תיקיית קבצי המידע של BOINC"
 
-#: BOINCGUIApp.cpp:575
+#: BOINCGUIApp.cpp:579
 msgid "Host name or IP address"
 msgstr "שם מחשב או כתובת IP"
 
-#: BOINCGUIApp.cpp:576
+#: BOINCGUIApp.cpp:580
 msgid "GUI RPC port number"
 msgstr "מספר הפורט של פרוצדורת קריאה מרוחקת לממשק משתמש גרפי"
 
-#: BOINCGUIApp.cpp:577
+#: BOINCGUIApp.cpp:581
 msgid "Password"
 msgstr "סיסמה"
 
-#: BOINCGUIApp.cpp:578
+#: BOINCGUIApp.cpp:582
 msgid "Startup BOINC with these optional arguments"
 msgstr "הפעל BOINC עם הגדרות אופציונליות אלו"
 
-#: BOINCGUIApp.cpp:579
+#: BOINCGUIApp.cpp:583
 msgid "disable BOINC security users and permissions"
 msgstr "נטרל את משתמשי האבטחה וההרשאות של BOINC"
 
-#: BOINCGUIApp.cpp:580
+#: BOINCGUIApp.cpp:584
 msgid "set skin debugging mode to enable skin manager error messages"
 msgstr "הפעל מצב איתור שגיאות מראה בכדי לאפשר הודעות שגיאה ממנהל המראה"
 
-#: BOINCGUIApp.cpp:581
+#: BOINCGUIApp.cpp:585
 msgid "multiple instances of BOINC Manager allowed"
 msgstr "ריבוי עותקי BOINC Manager מאושר"
 
-#: BOINCGUIApp.cpp:583
+#: BOINCGUIApp.cpp:587
 msgid "Not used: workaround for bug in XCode 4.2"
 msgstr ""
 
-#: BOINCGUIApp.cpp:801
+#: BOINCGUIApp.cpp:805
 msgid "(Automatic Detection)"
 msgstr "(זיהויי אוטומטי)"
 
-#: BOINCGUIApp.cpp:802
+#: BOINCGUIApp.cpp:806
 msgid "(Unknown)"
 msgstr "(לא ידוע)"
 
-#: BOINCGUIApp.cpp:803
+#: BOINCGUIApp.cpp:807
 msgid "(User Defined)"
 msgstr "(מוגדר ע\"י משתמש)"
 
@@ -1568,44 +1568,44 @@ msgstr "הסר אפליקציה מהרשימה"
 msgid "For advanced options, refer to "
 msgstr "לאפשרויות מתקדמות, עבור ל "
 
-#: DlgEventLog.cpp:221
+#: DlgEventLog.cpp:218
 #, c-format
 msgid "%s - Event Log"
 msgstr "%s - יומן אירועים"
 
-#: DlgEventLog.cpp:234 ViewMessages.cpp:117 ViewProjects.cpp:219
+#: DlgEventLog.cpp:231 ViewMessages.cpp:117 ViewProjects.cpp:219
 #: ViewStatistics.cpp:435 ViewStatistics.cpp:2009 ViewTransfers.cpp:182
 #: ViewWork.cpp:232
 msgid "Project"
 msgstr "פרוייקט"
 
-#: DlgEventLog.cpp:235 ViewMessages.cpp:118
+#: DlgEventLog.cpp:232 ViewMessages.cpp:118
 msgid "Time"
 msgstr "זמן"
 
-#: DlgEventLog.cpp:236 ViewMessages.cpp:119
+#: DlgEventLog.cpp:233 ViewMessages.cpp:119
 msgid "Message"
 msgstr "הודעה"
 
-#: DlgEventLog.cpp:292 DlgEventLog.cpp:356
+#: DlgEventLog.cpp:289 DlgEventLog.cpp:353
 msgid "&Show only this project"
 msgstr "&הצג פרוייקט זה בלבד"
 
-#: DlgEventLog.cpp:296
+#: DlgEventLog.cpp:293
 #, fuzzy
 msgid "Copy &All"
 msgstr "ה&עתק הכל"
 
-#: DlgEventLog.cpp:298 DlgEventLog.cpp:302 ViewMessages.cpp:89
+#: DlgEventLog.cpp:295 DlgEventLog.cpp:299 ViewMessages.cpp:89
 msgid "Copy all the messages to the clipboard."
 msgstr "העתק את כל ההודעות ללוח."
 
-#: DlgEventLog.cpp:307
+#: DlgEventLog.cpp:304
 #, fuzzy
 msgid "Copy &Selected"
 msgstr "העתק הודעות נבחרות"
 
-#: DlgEventLog.cpp:310 DlgEventLog.cpp:318 ViewMessages.cpp:97
+#: DlgEventLog.cpp:307 DlgEventLog.cpp:315 ViewMessages.cpp:97
 msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
 "messages by holding down the shift or command key while clicking on messages."
@@ -1613,7 +1613,7 @@ msgstr ""
 "העתק הודעות נבחרות ללוח. באפשרותך לבחור הודעות מרובות על ידי לחיצה ממושכת על "
 "לחצן shift או command בזמן הלחיצה על ההודעות."
 
-#: DlgEventLog.cpp:312 DlgEventLog.cpp:320 ViewMessages.cpp:99
+#: DlgEventLog.cpp:309 DlgEventLog.cpp:317 ViewMessages.cpp:99
 msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
 "messages by holding down the shift or control key while clicking on messages."
@@ -1621,26 +1621,26 @@ msgstr ""
 "העתק הודעות נבחרות ללוח. באפשרותך לבחור הודעות מרובות על ידי לחיצה ממושכת על "
 "לחצן shift או control בזמן הלחיצה על ההודעות."
 
-#: DlgEventLog.cpp:327 DlgItemProperties.cpp:67
+#: DlgEventLog.cpp:324 DlgItemProperties.cpp:67
 msgid "&Close"
 msgstr "&סגור"
 
-#: DlgEventLog.cpp:336 sg_BoincSimpleFrame.cpp:798 sg_DlgPreferences.cpp:447
+#: DlgEventLog.cpp:333 sg_BoincSimpleFrame.cpp:798 sg_DlgPreferences.cpp:447
 #, c-format
 #, fuzzy, c-format
 msgid "Get help with %s"
 msgstr "קבל עזרה עם %s"
 
-#: DlgEventLog.cpp:350
+#: DlgEventLog.cpp:347
 #, fuzzy
 msgid "Show all &messages"
 msgstr "ה&צג את כל ההודעות"
 
-#: DlgEventLog.cpp:351 DlgEventLog.cpp:353
+#: DlgEventLog.cpp:348 DlgEventLog.cpp:350
 msgid "Show messages for all projects"
 msgstr "הצג הודעות מכל הפרוייקטים"
 
-#: DlgEventLog.cpp:357 DlgEventLog.cpp:359
+#: DlgEventLog.cpp:354 DlgEventLog.cpp:356
 msgid "Show only the messages for the selected project"
 msgstr "הצג את ההודעות הקשורות לפרוייקט הנבחר בלבד"
 
@@ -1865,9 +1865,9 @@ msgstr "מאפייני משימה"
 msgid "Application"
 msgstr "יישום"
 
-#: DlgItemProperties.cpp:329
-msgid "Workunit name"
-msgstr "שם יחידת העבודה"
+#: DlgItemProperties.cpp:329 ViewWork.cpp:239
+msgid "Name"
+msgstr "שם"
 
 #: DlgItemProperties.cpp:330
 msgid "State"
@@ -1926,7 +1926,7 @@ msgstr "תיקייה"
 msgid "Process ID"
 msgstr "זהות יישום"
 
-#: DlgItemProperties.cpp:431 ViewWork.cpp:1032 sg_TaskPanel.cpp:823
+#: DlgItemProperties.cpp:427 ViewWork.cpp:1032 sg_TaskPanel.cpp:823
 msgid "Local: "
 msgstr "מקומי:"
 
@@ -2536,7 +2536,7 @@ msgstr "בדוק את שם המשתמש והסיסמה, ונסה שוב."
 msgid "Check the email address and password, and try again."
 msgstr "בדוק את כתובת הדוא\"ל והסיסמה, ונסה שוב."
 
-#: NoticeListCtrl.cpp:221
+#: NoticeListCtrl.cpp:222
 msgid "more..."
 msgstr "עוד..."
 
@@ -3410,10 +3410,6 @@ msgstr "נשאר"
 msgid "Deadline"
 msgstr "מועד אחרון לדיווח"
 
-#: ViewWork.cpp:239
-msgid "Name"
-msgstr "שם"
-
 #: ViewWork.cpp:264
 msgid "Tasks"
 msgstr "משימות"
@@ -3939,6 +3935,9 @@ msgstr "הצג הכל"
 #, c-format
 msgid "Quit %s"
 msgstr "הפסק %s"
+
+#~ msgid "Workunit name"
+#~ msgstr "שם יחידת העבודה"
 
 #~ msgid "invalid float"
 #~ msgstr "ערך לא חוקי"
