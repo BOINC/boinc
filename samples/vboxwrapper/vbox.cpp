@@ -2271,7 +2271,7 @@ int VBOX_VM::launch_vboxsvc() {
                 
                 fprintf(
                     stderr,
-                    "%s Status Report: Detected vboxsvc.exe. (PID = %d)\n",
+                    "%s Status Report: Detected vboxsvc.exe. (PID = '%d')\n",
                     vboxwrapper_msg_prefix(buf, sizeof(buf)),
                     pidVboxSvc
                 );
