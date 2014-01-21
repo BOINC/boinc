@@ -386,9 +386,8 @@ int main(int argc, char** argv) {
     double bytes_sent = 0;
     double bytes_received = 0;
     double ncpus = 0;
-    bool report_vm_pid = false;
+    double timeout = 0.0;
     bool report_net_usage = false;
-    int vm_pid = 0;
 	int vm_image = 0;
     unsigned long vm_exit_code = 0;
     string message;
@@ -765,8 +764,7 @@ int main(int argc, char** argv) {
             // if the VM is already running notify BOINC about the process ID so it can
             // clean up the environment.  We should be safe to run after that.
             //
-            vm.get_vm_process_id(vm_pid);
-            if (vm_pid) {
+            if (vm.vm_pid) {
                 retval = boinc_report_app_status_aux(
                     elapsed_time,
                     checkpoint_cpu_time,
@@ -795,6 +793,49 @@ int main(int argc, char** argv) {
         }
     }
 
+    // Report the VM pid to BOINC so BOINC can deal with it when needed.
+    //
+    vm.lower_vm_process_priority();
+    vboxwrapper_msg_prefix(buf, sizeof(buf));
+    fprintf(
+        stderr,
+        "%s Reporting VM Process ID to BOINC.\n",
+        buf
+    );
+    retval = boinc_report_app_status_aux(
+        elapsed_time,
+        checkpoint_cpu_time,
+        fraction_done,
+        vm.vm_pid,
+        bytes_sent,
+        bytes_received
+    );
+
+    // Wait for up to 5 minutes for the VM to switch states.  A system
+    // under load can take a while.  Since the poll function can wait for up
+    // to 60 seconds to execute a command we need to make this time based instead
+    // of iteration based.
+    timeout = dtime() + 300;
+    do {
+        vm.poll(false);
+        if (vm.online && !vm.restoring) break;
+        boinc_sleep(1.0);
+    } while (timeout >= dtime());
+    if (timeout <= dtime()) {
+        vm.poll(true);
+        vboxwrapper_msg_prefix(buf, sizeof(buf));
+        fprintf(
+            stderr,
+            "%s NOTE: VM failed to enter an online state within the timeout period.\n"
+            "%s   This might be a temporary problem and so this job will be rescheduled for another time.\n",
+            buf,
+            buf
+        );
+        vm.reset_vm_process_priority();
+        vm.poweroff();
+        boinc_temporary_exit(300, "VM Hypervisor failed to enter an online state in a timely fashion.");
+    }
+
     set_floppy_image(aid, vm);
     set_port_forwarding_info(aid, vm);
     set_remote_desktop_info(aid, vm);
@@ -821,11 +862,13 @@ int main(int argc, char** argv) {
         if (!vm.online) {
             // Is this a type of event we can recover from?
             if (vm.is_logged_failure_host_out_of_memory()) {
+                vboxwrapper_msg_prefix(buf, sizeof(buf));
                 fprintf(
                     stderr,
                     "%s NOTE: VirtualBox has failed to allocate enough memory to continue.\n"
-                    "    This might be a temporary problem and so this job will be rescheduled for another time.\n",
-                    vboxwrapper_msg_prefix(buf, sizeof(buf))
+                    "%s   This might be a temporary problem and so this job will be rescheduled for another time.\n",
+                    buf,
+                    buf
                 );
                 vm.reset_vm_process_priority();
                 vm.poweroff();
@@ -895,20 +938,6 @@ int main(int argc, char** argv) {
                     vm.poweroff();
                     boinc_temporary_exit(300, "VM job unmanageable, restarting later.");
                }
-            }
-
-            if (!vm_pid) {
-                vm.get_vm_process_id(vm_pid);
-                if (vm_pid) {
-                    fprintf(
-                        stderr,
-                        "%s Status Report: Detected vboxheadless.exe/virtualbox.exe. (PID = %d)\n",
-                        vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                        vm_pid
-                    );
-                    vm.lower_vm_process_priority();
-                    report_vm_pid = true;
-                }
             }
 
             if (boinc_time_to_checkpoint()) {
@@ -1084,17 +1113,16 @@ int main(int argc, char** argv) {
             }
         }
 
-        if (report_vm_pid || report_net_usage) {
+        if (report_net_usage) {
             retval = boinc_report_app_status_aux(
                 elapsed_time,
                 checkpoint_cpu_time,
                 fraction_done,
-                vm_pid,
+                vm.vm_pid,
                 bytes_sent,
                 bytes_received
             );
             if (!retval) {
-                report_vm_pid = false;
                 report_net_usage = false;
             }
         }

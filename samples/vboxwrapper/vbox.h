@@ -169,7 +169,6 @@ struct VBOX_VM {
     int get_remote_desktop_port();
     int get_vm_network_bytes_sent(double& sent);
     int get_vm_network_bytes_received(double& received);
-    int get_vm_process_id(int& process_id);
     int get_vm_exit_code(unsigned long& exit_code);
 
     int get_system_log(std::string& log, bool tail_only = true);
@@ -186,6 +185,7 @@ struct VBOX_VM {
     void reset_vm_process_priority();
 
     int launch_vboxsvc();
+    int launch_vboxvm();
 
     int vbm_popen(
         std::string& command, std::string& output, const char* item, bool log_error = true, bool retry_failures = true, unsigned int timeout = 60

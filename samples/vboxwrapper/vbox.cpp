@@ -1095,9 +1095,6 @@ void VBOX_VM::cleanup() {
 }
 
 int VBOX_VM::start() {
-    string command;
-    string output;
-    double timeout;
     char buf[256];
     int retval;
 
@@ -1106,41 +1103,14 @@ int VBOX_VM::start() {
         "%s Starting VM.\n",
         vboxwrapper_msg_prefix(buf, sizeof(buf))
     );
-    command = "startvm \"" + vm_name + "\"";
-    if (headless) {
-        command += " --type headless";
-    }
-    retval = vbm_popen(command, output, "start VM", true, false, 0);
+    retval = launch_vboxvm();
 
-    // Wait for up to 5 minutes for the VM to switch states.  A system
-    // under load can take a while.  Since the poll function can wait for up
-    // to 45 seconds to execute a command we need to make this time based instead
-    // of iteration based.
-    if (!retval) {
-        timeout = dtime() + 300;
-        do {
-            poll(false);
-            if (online && !restoring) break;
-            boinc_sleep(1.0);
-        } while (timeout >= dtime());
-        if (timeout <= dtime()) {
-            poll(true);
-            retval = ERR_TIMEOUT;
-        }
-    }
-
-    if (online) {
+    if (BOINC_SUCCESS == retval) {
         fprintf(
             stderr,
-            "%s Successfully started VM.\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf))
-        );
-        retval = BOINC_SUCCESS;
-    } else if (ERR_TIMEOUT == retval) {
-        fprintf(
-            stderr,
-            "%s VM did not start within 5 minutes.\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf))
+            "%s Successfully started VM. (PID = '%d')\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf)),
+            vm_pid
         );
     } else {
         fprintf(
@@ -1148,7 +1118,6 @@ int VBOX_VM::start() {
             "%s VM failed to start.\n",
             vboxwrapper_msg_prefix(buf, sizeof(buf))
         );
-        retval = ERR_EXEC;
     }
 
     return retval;
@@ -1857,55 +1826,6 @@ int VBOX_VM::get_vm_network_bytes_received(double& received) {
     return 0;
 }
 
-int VBOX_VM::get_vm_process_id(int& process_id) {
-    string output;
-    string pid;
-    size_t pid_start;
-    size_t pid_end;
-    int retval;
-
-    retval = get_vm_log(output, false);
-    if (retval) return retval;
-
-    // Output should look like this:
-    // VirtualBox 4.1.0 r73009 win.amd64 (Jul 19 2011 13:05:53) release log
-    // 00:00:06.008 Log opened 2011-09-01T23:00:59.829170900Z
-    // 00:00:06.008 OS Product: Windows 7
-    // 00:00:06.009 OS Release: 6.1.7601
-    // 00:00:06.009 OS Service Pack: 1
-    // 00:00:06.015 Host RAM: 4094MB RAM, available: 876MB
-    // 00:00:06.015 Executable: C:\Program Files\Oracle\VirtualBox\VirtualBox.exe
-    // 00:00:06.015 Process ID: 6128
-    // 00:00:06.015 Package type: WINDOWS_64BITS_GENERIC
-    // 00:00:06.015 Installed Extension Packs:
-    // 00:00:06.015   None installed!
-    //
-    pid_start = output.find("Process ID: ");
-    if (pid_start == string::npos) {
-        return ERR_NOT_FOUND;
-    }
-    pid_start += 12;
-    pid_end = output.find("\n", pid_start);
-    pid = output.substr(pid_start, pid_end - pid_start);
-    if (pid.size() <= 0) {
-        return ERR_NOT_FOUND;
-    }
-
-    process_id = atol(pid.c_str());
-
-#ifndef _WIN32
-    vm_pid = process_id;
-#else
-    vm_pid_handle = OpenProcess(
-        PROCESS_QUERY_INFORMATION | PROCESS_SET_INFORMATION,
-        FALSE,
-        process_id
-    );
-#endif
-
-    return 0;
-}
-
 int VBOX_VM::get_vm_exit_code(unsigned long& exit_code) {
 #ifndef _WIN32
     int ec = 0;
@@ -2257,9 +2177,9 @@ int VBOX_VM::write_floppy(std::string& data) {
 
 void VBOX_VM::lower_vm_process_priority() {
     char buf[256];
-#ifndef _WIN32
-    if (vm_pid) {
-        setpriority(PRIO_PROCESS, vm_pid, PROCESS_IDLE_PRIORITY);
+#ifdef _WIN32
+    if (vm_pid_handle) {
+        SetPriorityClass(vm_pid_handle, IDLE_PRIORITY_CLASS);
         fprintf(
             stderr,
             "%s Lowering VM Process priority.\n",
@@ -2267,8 +2187,8 @@ void VBOX_VM::lower_vm_process_priority() {
         );
     }
 #else
-    if (vm_pid_handle) {
-        SetPriorityClass(vm_pid_handle, IDLE_PRIORITY_CLASS);
+    if (vm_pid) {
+        setpriority(PRIO_PROCESS, vm_pid, PROCESS_IDLE_PRIORITY);
         fprintf(
             stderr,
             "%s Lowering VM Process priority.\n",
@@ -2280,9 +2200,9 @@ void VBOX_VM::lower_vm_process_priority() {
 
 void VBOX_VM::reset_vm_process_priority() {
     char buf[256];
-#ifndef _WIN32
-    if (vm_pid) {
-        setpriority(PRIO_PROCESS, vm_pid, PROCESS_MEDIUM_PRIORITY);
+#ifdef _WIN32
+    if (vm_pid_handle) {
+        SetPriorityClass(vm_pid_handle, NORMAL_PRIORITY_CLASS);
         fprintf(
             stderr,
             "%s Restoring VM Process priority.\n",
@@ -2290,8 +2210,8 @@ void VBOX_VM::reset_vm_process_priority() {
         );
     }
 #else
-    if (vm_pid_handle) {
-        SetPriorityClass(vm_pid_handle, NORMAL_PRIORITY_CLASS);
+    if (vm_pid) {
+        setpriority(PRIO_PROCESS, vm_pid, PROCESS_MEDIUM_PRIORITY);
         fprintf(
             stderr,
             "%s Restoring VM Process priority.\n",
@@ -2306,18 +2226,21 @@ void VBOX_VM::reset_vm_process_priority() {
 // to VBOX_USER_HOME which is required for running in the BOINC account-based
 // sandbox on Windows.
 int VBOX_VM::launch_vboxsvc() {
-    int retval = ERR_EXEC;
-
-#ifdef _WIN32
-    STARTUPINFO si;
-    PROCESS_INFORMATION pi;
     APP_INIT_DATA aid;
     PROC_MAP pm;
     PROCINFO p;
     string command;
     char buf[256];
+    int retval = ERR_EXEC;
+
+#ifdef _WIN32
+    STARTUPINFO si;
+    PROCESS_INFORMATION pi;
     int pidVboxSvc = 0;
     HANDLE hVboxSvc = NULL;
+
+    memset(&si, 0, sizeof(si));
+    memset(&pi, 0, sizeof(pi));
 
     boinc_get_init_data_p(&aid);
 
@@ -2358,14 +2281,11 @@ int VBOX_VM::launch_vboxsvc() {
 
             } else {
 
-                memset(&si, 0, sizeof(si));
-                memset(&pi, 0, sizeof(pi));
-
                 si.cb = sizeof(STARTUPINFO);
                 si.dwFlags |= STARTF_FORCEOFFFEEDBACK | STARTF_USESHOWWINDOW;
                 si.wShowWindow = SW_HIDE;
 
-                command = "\"" + virtualbox_install_directory + "\\VBoxSVC.exe\" --logrotate 1";
+                command = "\"VBoxSVC.exe\" --logrotate 1";
 
                 CreateProcess(NULL, (LPTSTR)command.c_str(), NULL, NULL, TRUE, CREATE_NO_WINDOW, NULL, NULL, &si, &pi);
 
@@ -2394,6 +2314,80 @@ int VBOX_VM::launch_vboxsvc() {
         }
     }
 #endif
+
+    return retval;
+}
+
+// Launch the VM.
+int VBOX_VM::launch_vboxvm() {
+    string command;
+    char buf[256];
+    int retval = ERR_EXEC;
+
+    // Construct the command line parameters
+    //
+    if (headless) {
+        command  = "\"vboxheadless.exe\" ";
+    } else {
+        command  = "\"virtualbox.exe\" ";
+    }
+    command += "--startvm \"" + vm_name + "\" ";
+    if (headless) {
+        command += "--vrde config ";
+    } else {
+        command += "--no-startvm-errormsgbox ";
+    }
+
+#ifdef _WIN32
+    STARTUPINFO si;
+    PROCESS_INFORMATION pi;
+
+    memset(&si, 0, sizeof(si));
+    memset(&pi, 0, sizeof(pi));
+
+    si.cb = sizeof(STARTUPINFO);
+    si.dwFlags |= STARTF_FORCEOFFFEEDBACK | STARTF_USESHOWWINDOW;
+    si.wShowWindow = SW_HIDE;
+
+    CreateProcess(NULL, (LPTSTR)command.c_str(), NULL, NULL, TRUE, CREATE_NO_WINDOW, NULL, NULL, &si, &pi);
+
+    if (pi.hThread) CloseHandle(pi.hThread);
+    if (pi.hProcess) {
+        vm_pid = pi.dwProcessId;
+        vm_pid_handle = pi.hProcess;
+        retval = BOINC_SUCCESS;
+    } else {
+        fprintf(
+            stderr,
+            "%s Status Report: Launching virtualbox.exe/vboxheadless.exe failed!.\n"
+            "           Error: %s",
+            vboxwrapper_msg_prefix(buf, sizeof(buf)),
+            windows_format_error_string(GetLastError(), buf, sizeof(buf))
+        );
+    }
+
+#else
+    int pid = fork();
+    if (-1 == pid) {
+        fprintf(
+            stderr,
+            "%s Status Report: Launching virtualbox.exe/vboxheadless.exe failed!.\n"
+            "           Error: %s",
+            vboxwrapper_msg_prefix(buf, sizeof(buf)),
+            strerror(errno)
+        );
+        retval = ERR_FORK;
+    } else if (0 == pid) {
+        if (-1 == execv(command.c_str(), NULL)) {
+            _exit(errno);
+        }
+    } else {
+        vm_pid = pid;
+        retval = BOINC_SUCCESS;
+    }
+#endif
+
+    boinc_sleep(1);
 
     return retval;
 }
@@ -2556,7 +2550,8 @@ int VBOX_VM::vbm_popen_raw(string& arguments, string& output, unsigned int timeo
         NULL,
         NULL,
         TRUE,
-        CREATE_NO_WINDOW, NULL,
+        CREATE_NO_WINDOW,
+        NULL,
         NULL,
         &si,
         &pi
