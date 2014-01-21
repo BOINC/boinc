@@ -1421,7 +1421,7 @@ void VBOX_VM::dumphypervisorlogs(bool include_error_logs) {
         line = prefiltered_guest_log.substr(eol_prev_pos, eol_pos - eol_prev_pos);
 
         if (line.find("Guest Log:") != string::npos) {
-            filtered_guest_log = line;
+            filtered_guest_log += line;
         }
 
         eol_prev_pos = eol_pos + 1;
@@ -1430,7 +1430,7 @@ void VBOX_VM::dumphypervisorlogs(bool include_error_logs) {
 
     // Take the last 16k
     if (filtered_guest_log.size() >= 16384) {
-        local_guest_log = filtered_guest_log.substr(filtered_guest_log.size() - 16384, filtered_guest_log.size());
+        local_guest_log = filtered_guest_log.substr(filtered_guest_log.size() - 16384, 16384);
 
         // Look for the next whole line of text.
         iter = local_guest_log.begin();
@@ -1459,6 +1459,7 @@ void VBOX_VM::dumphypervisorlogs(bool include_error_logs) {
     if (include_error_logs) {
         fprintf(
             stderr,
+            "\n"
             "    Hypervisor System Log:\n\n"
             "%s\n"
             "    VM Execution Log:\n\n"
