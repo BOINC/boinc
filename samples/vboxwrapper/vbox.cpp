@@ -2293,7 +2293,7 @@ int VBOX_VM::launch_vboxsvc() {
                 if (pi.hProcess) {
                     fprintf(
                         stderr,
-                        "%s Status Report: Launching vboxsvc.exe. (PID = %d)\n",
+                        "%s Status Report: Launching vboxsvc.exe. (PID = '%d')\n",
                         vboxwrapper_msg_prefix(buf, sizeof(buf)),
                         pi.dwProcessId
                     );
