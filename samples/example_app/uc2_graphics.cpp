@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// Example graphics application, paired with uc2.C
+// Example graphics application, paired with uc2.cpp
 // This demonstrates:
 // - using shared memory to communicate with the worker app
 // - reading XML preferences by which users can customize graphics
