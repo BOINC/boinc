@@ -17,7 +17,6 @@
 
 #ifdef __APPLE__
 #include <Carbon/Carbon.h>
-#include <CoreFoundation/CoreFoundation.h>
 #endif
 
 #ifdef _WIN32
