@@ -81,7 +81,12 @@ extern int read_file_string(
 #ifdef _WIN32
 
 extern int run_program(
-    const char* dir, const char* file, int argc, char *const argv[], double, HANDLE&
+    const char* dir,    // directory to run program in; NULL if current dir
+    const char* file,   // path of executable
+    int argc, char *const argv[],   // cmdline args, UNIX-style
+    double,             // if nonzero, wait for X seconds, then check
+                        // whether process is still running, return error if not
+    HANDLE&             // process handle
 );
 
 extern void kill_program(HANDLE);
@@ -89,6 +94,7 @@ extern int get_exit_status(HANDLE);
 extern bool process_exists(HANDLE);
 
 #else
+// like Win version, but returns PID
 extern int run_program(
     const char* dir, const char* file, int argc, char *const argv[], double, int&
 );

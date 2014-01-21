@@ -1491,7 +1491,6 @@ int VBOX_VM::is_registered() {
     string needle;
     char buf[256];
     int retval;
-    bool rc = false;
 
     command  = "showvminfo \"" + vm_master_name + "\" ";
     command += "--machinereadable ";
@@ -2230,10 +2229,10 @@ int VBOX_VM::launch_vboxsvc() {
     PROC_MAP pm;
     PROCINFO p;
     string command;
-    char buf[256];
     int retval = ERR_EXEC;
 
 #ifdef _WIN32
+    char buf[256];
     STARTUPINFO si;
     PROCESS_INFORMATION pi;
     int pidVboxSvc = 0;
@@ -2320,25 +2319,30 @@ int VBOX_VM::launch_vboxsvc() {
 
 // Launch the VM.
 int VBOX_VM::launch_vboxvm() {
-    string command;
     char buf[256];
     int retval = ERR_EXEC;
+    char* argv[5];
+    int argc;
 
     // Construct the command line parameters
     //
     if (headless) {
-        command  = "\"vboxheadless.exe\" ";
+        argv[0] = const_cast<char*>("vboxheadless.exe");
     } else {
-        command  = "\"virtualbox.exe\" ";
+        argv[0] = const_cast<char*>("virtualbox.exe");
     }
-    command += "--startvm \"" + vm_name + "\" ";
+    argv[1] = const_cast<char*>("--startvm");
+    argv[2] = const_cast<char*>(vm_name.c_str());
     if (headless) {
-        command += "--vrde config ";
+        argv[3] = const_cast<char*>("--vrde config");
     } else {
-        command += "--no-startvm-errormsgbox ";
+        argv[3] = const_cast<char*>("--no-startvm-errormsgbox");
     }
+    argv[4] = NULL;
+    argc = 4;
 
 #ifdef _WIN32
+    char cmdline[1024];
     STARTUPINFO si;
     PROCESS_INFORMATION pi;
 
@@ -2349,7 +2353,17 @@ int VBOX_VM::launch_vboxvm() {
     si.dwFlags |= STARTF_FORCEOFFFEEDBACK | STARTF_USESHOWWINDOW;
     si.wShowWindow = SW_HIDE;
 
-    CreateProcess(NULL, (LPTSTR)command.c_str(), NULL, NULL, TRUE, CREATE_NO_WINDOW, NULL, NULL, &si, &pi);
+    strcpy(cmdline, "");
+    for (int i=0; i<argc; i++) {
+        strcat(cmdline, argv[i]);
+        if (i<argc-1) {
+            strcat(cmdline, " ");
+        }
+    }
+
+    CreateProcess(
+        NULL, cmdline, NULL, NULL, TRUE, CREATE_NO_WINDOW, NULL, NULL, &si, &pi
+    );
 
     if (pi.hThread) CloseHandle(pi.hThread);
     if (pi.hProcess) {
@@ -2378,7 +2392,7 @@ int VBOX_VM::launch_vboxvm() {
         );
         retval = ERR_FORK;
     } else if (0 == pid) {
-        if (-1 == execv(command.c_str(), NULL)) {
+        if (-1 == execv(argv[0], argv)) {
             _exit(errno);
         }
     } else {

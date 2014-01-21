@@ -425,6 +425,7 @@ int run_program(
             }
         }
     }
+    if (process_info.hThread) CloseHandle(process_info.hThread);
     id = process_info.hProcess;
     return 0;
 }
