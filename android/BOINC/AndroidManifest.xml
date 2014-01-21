@@ -94,7 +94,8 @@
         </activity>
         <activity
             android:name="edu.berkeley.boinc.AttachProjectWorkingActivity"
-            android:configChanges="orientation" />
+            android:configChanges="orientation"
+            android:noHistory="true" />
         <activity android:name="edu.berkeley.boinc.EventLogActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
