@@ -1432,7 +1432,7 @@ void VBOX_VM::dumphypervisorlogs(bool include_error_logs) {
         line = prefiltered_guest_log.substr(eol_prev_pos, eol_pos - eol_prev_pos);
 
         if (line.find("Guest Log:") != string::npos) {
-            filtered_guest_log += line;
+            filtered_guest_log += line + "\n";
         }
 
         eol_prev_pos = eol_pos + 1;
@@ -1453,6 +1453,8 @@ void VBOX_VM::dumphypervisorlogs(bool include_error_logs) {
             iter = local_guest_log.erase(iter);
         }
 
+    } else {
+        local_guest_log = filtered_guest_log;
     }
 
     sanitize_output(local_guest_log);
