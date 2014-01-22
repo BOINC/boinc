@@ -1077,7 +1077,7 @@ void ACTIVE_TASK_SET::suspend_all(int reason) {
         //
         if (reason == SUSPEND_REASON_CPU_THROTTLE) {
             if (atp->result->dont_throttle()) continue;
-            atp->preempt(REMOVE_NEVER);
+            atp->preempt(REMOVE_NEVER, reason);
             continue;
         }
 
@@ -1122,7 +1122,7 @@ void ACTIVE_TASK_SET::suspend_all(int reason) {
 
 // resume all currently scheduled tasks
 //
-void ACTIVE_TASK_SET::unsuspend_all() {
+void ACTIVE_TASK_SET::unsuspend_all(int reason) {
     unsigned int i;
     ACTIVE_TASK* atp;
     for (i=0; i<active_tasks.size(); i++) {
@@ -1135,7 +1135,7 @@ void ACTIVE_TASK_SET::unsuspend_all() {
                 );
             }
         } else if (atp->task_state() == PROCESS_SUSPENDED) {
-            atp->unsuspend();
+            atp->unsuspend(reason);
         }
     }
 }
@@ -1209,14 +1209,14 @@ int ACTIVE_TASK::suspend() {
 
 // resume a suspended task
 //
-int ACTIVE_TASK::unsuspend() {
+int ACTIVE_TASK::unsuspend(int reason) {
     if (!app_client_shm.shm) return 0;
     if (task_state() != PROCESS_SUSPENDED) {
         msg_printf(result->project, MSG_INFO,
             "Internal error: expected process %s to be suspended", result->name
         );
     }
-    if (log_flags.cpu_sched) {
+    if (log_flags.cpu_sched && reason != SUSPEND_REASON_CPU_THROTTLE) {
         msg_printf(result->project, MSG_INFO,
             "[cpu_sched] Resuming %s", result->name
         );

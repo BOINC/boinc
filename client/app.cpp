@@ -139,7 +139,7 @@ ACTIVE_TASK::ACTIVE_TASK() {
 // called from the CLIENT_STATE::enforce_schedule()
 // and ACTIVE_TASK_SET::suspend_all()
 //
-int ACTIVE_TASK::preempt(int preempt_type) {
+int ACTIVE_TASK::preempt(int preempt_type, int reason) {
     bool remove=false;
 
     switch (preempt_type) {
@@ -169,8 +169,9 @@ int ACTIVE_TASK::preempt(int preempt_type) {
         break;
     }
 
+    bool show_msg = log_flags.cpu_sched && reason != SUSPEND_REASON_CPU_THROTTLE;
     if (remove) {
-        if (log_flags.cpu_sched) {
+        if (show_msg) {
             msg_printf(result->project, MSG_INFO,
                 "[cpu_sched] Preempting %s (removed from memory)",
                 result->name
@@ -178,7 +179,7 @@ int ACTIVE_TASK::preempt(int preempt_type) {
         }
         return request_exit();
     } else {
-        if (log_flags.cpu_sched) {
+        if (show_msg) {
             msg_printf(result->project, MSG_INFO,
                 "[cpu_sched] Preempting %s (left in memory)",
                 result->name
@@ -1055,7 +1056,7 @@ void* throttler(void*) {
         boinc_sleep(off);
         client_mutex.lock();
         if (!gstate.tasks_suspended) {
-            gstate.active_tasks.unsuspend_all();
+            gstate.active_tasks.unsuspend_all(SUSPEND_REASON_CPU_THROTTLE);
         }
         gstate.tasks_throttled = false;
         client_mutex.unlock();
