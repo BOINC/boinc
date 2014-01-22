@@ -2471,7 +2471,7 @@ int VBOX_VM::launch_vboxvm() {
         );
     }
 
-    if (pi.hProcess) {
+    if (pi.hProcess && (ulExitCode == STILL_ACTIVE)) {
         vm_pid = pi.dwProcessId;
         vm_pid_handle = pi.hProcess;
         retval = BOINC_SUCCESS;
