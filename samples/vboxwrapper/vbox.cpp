@@ -1455,17 +1455,7 @@ void VBOX_VM::dumphypervisorlogs(bool include_error_logs) {
 
     }
 
-#ifdef _WIN32
-    // Remove \r from the log spew
-    iter = local_guest_log.begin();
-    while (iter != local_guest_log.end()) {
-        if (*iter == '\r') {
-            iter = local_guest_log.erase(iter);
-        } else {
-            ++iter;
-        }
-    }
-#endif
+    sanitize_output(local_guest_log);
 
     if (include_error_logs) {
         fprintf(
@@ -1946,17 +1936,7 @@ int VBOX_VM::get_system_log(string& log, bool tail_only) {
             read_file_string(virtualbox_system_log_dst.c_str(), log);
         }
 
-#ifdef _WIN32
-        // Remove \r from the log spew
-        iter = log.begin();
-        while (iter != log.end()) {
-            if (*iter == '\r') {
-                iter = log.erase(iter);
-            } else {
-                ++iter;
-            }
-        }
-#endif
+        sanitize_output(log);
 
         if (tail_only) {
             if (log.size() >= 8000) {
@@ -2004,17 +1984,7 @@ int VBOX_VM::get_vm_log(string& log, bool tail_only) {
             read_file_string(virtualbox_vm_log_dst.c_str(), log);
         }
 
-#ifdef _WIN32
-        // Remove \r from the log spew
-        iter = log.begin();
-        while (iter != log.end()) {
-            if (*iter == '\r') {
-                iter = log.erase(iter);
-            } else {
-                ++iter;
-            }
-        }
-#endif
+        sanitize_output(log);
 
         if (tail_only) {
             if (log.size() >= 8000) {
@@ -2456,6 +2426,7 @@ int VBOX_VM::launch_vboxvm() {
     }
 
     if (ulExitCode != STILL_ACTIVE) {
+        sanitize_output(output);
         vboxwrapper_msg_prefix(buf, sizeof(buf)),
         fprintf(
             stderr,
@@ -2504,6 +2475,20 @@ CLEANUP:
 #endif
 
     return retval;
+}
+
+void VBOX_VM::sanitize_output(std::string& output) {
+#ifdef _WIN32
+    // Remove \r from the log spew
+    string::iterator iter = output.begin();
+    while (iter != output.end()) {
+        if (*iter == '\r') {
+            iter = output.erase(iter);
+        } else {
+            ++iter;
+        }
+    }
+#endif
 }
 
 // If there are errors we can recover from, process them here.
@@ -2563,21 +2548,11 @@ int VBOX_VM::vbm_popen(string& arguments, string& output, const char* item, bool
     }
     while (retval);
 
-#ifdef _WIN32
-    // Remove \r from the log spew
-    string::iterator iter = output.begin();
-    while (iter != output.end()) {
-        if (*iter == '\r') {
-            iter = output.erase(iter);
-        } else {
-            ++iter;
-        }
-    }
-#endif
-
     // Add all relivent notes to the output string and log errors
     //
     if (retval && log_error) {
+        sanitize_output(output);
+
         if (!retry_notes.empty()) {
             output += "\nNotes:\n\n" + retry_notes;
         }

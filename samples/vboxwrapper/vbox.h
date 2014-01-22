@@ -186,6 +186,7 @@ struct VBOX_VM {
 
     int launch_vboxsvc();
     int launch_vboxvm();
+    void sanitize_output(std::string& output);
 
     int vbm_popen(
         std::string& command, std::string& output, const char* item, bool log_error = true, bool retry_failures = true, unsigned int timeout = 45
