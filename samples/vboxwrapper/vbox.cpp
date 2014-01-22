@@ -276,7 +276,7 @@ void VBOX_VM::poll(bool log_state) {
     command  = "showvminfo \"" + vm_name + "\" ";
     command += "--machinereadable ";
 
-    if (vbm_popen(command, output, "VM state", false, false) == 0) {
+    if (vbm_popen(command, output, "VM state", false, false, 45, false) == 0) {
         vmstate_start = output.find("VMState=\"");
         if (vmstate_start != string::npos) {
             vmstate_start += 9;
@@ -2291,6 +2291,7 @@ int VBOX_VM::launch_vboxsvc() {
                     );
                 }
 
+                vbm_trace(command, std::string(""), retval);
             }
         }
     }
@@ -2303,9 +2304,11 @@ int VBOX_VM::launch_vboxsvc() {
 int VBOX_VM::launch_vboxvm() {
     char buf[256];
     char error_msg[256];
-    int retval = ERR_EXEC;
+    char cmdline[1024];
     char* argv[5];
     int argc;
+    std::string output;
+    int retval = ERR_EXEC;
 
     // Construct the command line parameters
     //
@@ -2324,8 +2327,15 @@ int VBOX_VM::launch_vboxvm() {
     argv[4] = NULL;
     argc = 4;
 
+    strcpy(cmdline, "");
+    for (int i=0; i<argc; i++) {
+        strcat(cmdline, argv[i]);
+        if (i<argc-1) {
+            strcat(cmdline, " ");
+        }
+    }
+
 #ifdef _WIN32
-    char cmdline[1024];
     STARTUPINFO si;
     PROCESS_INFORMATION pi;
     SECURITY_ATTRIBUTES sa;
@@ -2335,7 +2345,6 @@ int VBOX_VM::launch_vboxvm() {
     DWORD dwCount = 0;
     unsigned long ulExitCode = 0;
     unsigned long ulExitTimeout = 0;
-    std::string output;
 
     memset(&si, 0, sizeof(si));
     memset(&pi, 0, sizeof(pi));
@@ -2366,14 +2375,6 @@ int VBOX_VM::launch_vboxvm() {
     si.hStdOutput = hWritePipe;
     si.hStdError = hWritePipe;
     si.hStdInput = NULL;
-
-    strcpy(cmdline, "");
-    for (int i=0; i<argc; i++) {
-        strcat(cmdline, argv[i]);
-        if (i<argc-1) {
-            strcat(cmdline, " ");
-        }
-    }
 
     // Execute command
     if (!CreateProcess(
@@ -2456,12 +2457,13 @@ CLEANUP:
 #else
     int pid = fork();
     if (-1 == pid) {
+        output = strerror(errno);
         fprintf(
             stderr,
             "%s Status Report: Launching virtualbox.exe/vboxheadless.exe failed!.\n"
             "           Error: %s",
             vboxwrapper_msg_prefix(buf, sizeof(buf)),
-            strerror(errno)
+            output.c_str()
         );
         retval = ERR_FORK;
     } else if (0 == pid) {
@@ -2473,6 +2475,8 @@ CLEANUP:
         retval = BOINC_SUCCESS;
     }
 #endif
+
+    vbm_trace(std::string(cmdline), output, retval);
 
     return retval;
 }
@@ -2493,15 +2497,18 @@ void VBOX_VM::sanitize_output(std::string& output) {
 
 // If there are errors we can recover from, process them here.
 //
-int VBOX_VM::vbm_popen(string& arguments, string& output, const char* item, bool log_error, bool retry_failures, unsigned int timeout) {
+int VBOX_VM::vbm_popen(string& command, string& output, const char* item, bool log_error, bool retry_failures, unsigned int timeout, bool log_trace) {
     int retval = 0;
     int retry_count = 0;
     double sleep_interval = 1.0;
     char buf[256];
     string retry_notes;
 
+    // Initialize command line
+    command = "VBoxManage -q " + command;
+
     do {
-        retval = vbm_popen_raw(arguments, output, timeout);
+        retval = vbm_popen_raw(command, output, timeout);
         if (retval) {
 
             // VirtualBox designed the concept of sessions to prevent multiple applications using
@@ -2559,13 +2566,17 @@ int VBOX_VM::vbm_popen(string& arguments, string& output, const char* item, bool
 
         fprintf(
             stderr,
-            "%s Error in %s for VM: %d\nArguments:\n%s\nOutput:\n%s\n",
+            "%s Error in %s for VM: %d\nCommand:\n%s\nOutput:\n%s\n",
             vboxwrapper_msg_prefix(buf, sizeof(buf)),
             item,
             retval,
-            arguments.c_str(),
+            command.c_str(),
             output.c_str()
         );
+    }
+
+    if (log_trace) {
+        vbm_trace(command, output, retval);
     }
 
     return retval;
@@ -2573,9 +2584,8 @@ int VBOX_VM::vbm_popen(string& arguments, string& output, const char* item, bool
 
 // Execute the vbox manage application and copy the output to the buffer.
 //
-int VBOX_VM::vbm_popen_raw(string& arguments, string& output, unsigned int timeout) {
+int VBOX_VM::vbm_popen_raw(string& command, string& output, unsigned int timeout) {
     char buf[256];
-    string command;
     size_t errcode_start;
     size_t errcode_end;
     string errcode;
@@ -2583,9 +2593,6 @@ int VBOX_VM::vbm_popen_raw(string& arguments, string& output, unsigned int timeo
 
     // Launch vboxsvc in case it was shutdown for being idle
     launch_vboxsvc();
-
-    // Initialize command line
-    command = "VBoxManage -q " + arguments;
 
     // Reset output buffer
     output.clear();
@@ -2755,3 +2762,30 @@ CLEANUP:
 
     return retval;
 }
+
+void VBOX_VM::vbm_replay(std::string& command) {
+    FILE* f = fopen(REPLAYLOG_FILENAME, "a");
+    if (f) {
+        fprintf(f, "%s\n", command.c_str());
+        fclose(f);
+    }
+}
+
+void VBOX_VM::vbm_trace(std::string& command, std::string& output, int retval) {
+    vbm_replay(command);
+
+    char buf[256];
+    FILE* f = fopen(TRACELOG_FILENAME, "a");
+    if (f) {
+        fprintf(
+            f,
+            "%s\nCommand: %s\nExit Code: %d\nOutput:\n%s\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf)),
+            command.c_str(),
+            retval,
+            output.c_str()
+        );
+        fclose(f);
+    }
+}
+

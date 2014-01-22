@@ -34,6 +34,11 @@
 //
 #define VBOXWRAPPER_ERR_RECOVERABLE     -1000
 
+// Vboxwrapper diagnostics
+//
+#define REPLAYLOG_FILENAME "vbox_replay.txt"
+#define TRACELOG_FILENAME "vbox_trace.txt"
+
 
 // raw floppy drive device
 class FloppyIO;
@@ -186,13 +191,20 @@ struct VBOX_VM {
 
     int launch_vboxsvc();
     int launch_vboxvm();
+
     void sanitize_output(std::string& output);
 
     int vbm_popen(
-        std::string& command, std::string& output, const char* item, bool log_error = true, bool retry_failures = true, unsigned int timeout = 45
+        std::string& command, std::string& output, const char* item, bool log_error = true, bool retry_failures = true, unsigned int timeout = 45, bool log_trace = true
     );
     int vbm_popen_raw(
         std::string& command, std::string& output, unsigned int timeout
+    );
+    void vbm_replay(
+        std::string& command
+    );
+    void vbm_trace(
+        std::string& command, std::string& ouput, int retval
     );
 };
 
