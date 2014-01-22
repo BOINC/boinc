@@ -15,6 +15,10 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+#ifdef __APPLE__
+#include <Carbon/Carbon.h>
+#endif
+
 #ifdef _WIN32
 #include "boinc_win.h"
 #else
@@ -190,10 +194,25 @@ void CLIENT_STATE::show_host_info() {
         "Processor features: %s", host_info.p_features
     );
 #ifdef __APPLE__
+    SInt32 temp;
     int major, minor, rev;
-    sscanf(host_info.os_version, "%d.%d.%d", &major, &minor, &rev);
+    OSStatus err = noErr;
+    
+    err = Gestalt(gestaltSystemVersionMajor, &temp);
+    major = temp;
+    if (!err) {
+    err = Gestalt(gestaltSystemVersionMinor, &temp);
+    minor = temp;
+    }
+    if (!err) {
+    err = Gestalt(gestaltSystemVersionBugFix, &temp);
+    rev = temp;
+    }
+    if (err) {
+        sscanf(host_info.os_version, "%d.%d.%d", &major, &minor, &rev);
+    }
     msg_printf(NULL, MSG_INFO,
-        "OS: Mac OS X 10.%d.%d (%s %s)", major-4, minor,
+        "OS: Mac OS X %d.%d.%d (%s %s)", major, minor, rev, 
         host_info.os_name, host_info.os_version
     );
 #else

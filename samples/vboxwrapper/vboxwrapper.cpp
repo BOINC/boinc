@@ -678,6 +678,7 @@ int main(int argc, char** argv) {
     if (retval) {
         // All 'failure to start' errors are unrecoverable by default
         bool   unrecoverable_error = true;
+        bool   skip_cleanup = false;
         bool   dump_hypervisor_logs = false;
         string error_reason;
         char*  temp_reason = (char*)"";
@@ -700,6 +701,12 @@ int main(int argc, char** argv) {
             unrecoverable_error = false;
             temp_reason = (char*)"Please upgrade BOINC to the latest version.";
             temp_delay = 86400;
+        } else if (RPC_S_SERVER_UNAVAILABLE == retval) {
+            error_reason =
+                "    VboxSvc crashed while attempting to restore the current snapshot.  This is a critical\n"
+                "    operation and this job cannot be recovered.\n";
+            skip_cleanup = true;
+            retval = ERR_EXEC;
         } else if (vm.is_logged_failure_vm_extensions_disabled()) {
             error_reason =
                 "   NOTE: BOINC has detected that your computer's processor supports hardware acceleration for\n"
@@ -742,7 +749,9 @@ int main(int argc, char** argv) {
 
         if (unrecoverable_error) {
             // Attempt to cleanup the VM and exit.
-            vm.cleanup();
+            if (!skip_cleanup) {
+                vm.cleanup();
+            }
             write_checkpoint(elapsed_time, vm);
 
             if (error_reason.size()) {
@@ -795,7 +804,6 @@ int main(int argc, char** argv) {
 
     // Report the VM pid to BOINC so BOINC can deal with it when needed.
     //
-    vm.lower_vm_process_priority();
     vboxwrapper_msg_prefix(buf, sizeof(buf));
     fprintf(
         stderr,
@@ -821,8 +829,15 @@ int main(int argc, char** argv) {
         if (vm.online && !vm.restoring) break;
         boinc_sleep(1.0);
     } while (timeout >= dtime());
+
+    // Lower the VM process priority after it has successfully brought itself online.
+    vm.lower_vm_process_priority();
+
+    // Log our current state 
+    vm.poll(true);
+
+    // Did we timeout?
     if (timeout <= dtime()) {
-        vm.poll(true);
         vboxwrapper_msg_prefix(buf, sizeof(buf));
         fprintf(
             stderr,
@@ -839,8 +854,10 @@ int main(int argc, char** argv) {
     set_floppy_image(aid, vm);
     set_port_forwarding_info(aid, vm);
     set_remote_desktop_info(aid, vm);
-    set_throttles(aid, vm);
     write_checkpoint(elapsed_time, vm);
+
+    // Force throttling on our first pass through the loop
+    boinc_status.reread_init_data_file = true;
 
     while (1) {
         // Begin stopwatch timer

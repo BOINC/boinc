@@ -275,22 +275,17 @@ void CPanelPreferences::CreateControls()
 //    itemStaticText5->SetFont(wxFont(MEDIUM_FONT, wxSWISS, wxNORMAL, wxBOLD, false, _T("Arial")));
     itemFlexGridSizer3->Add(itemStaticText5, 0, wxALL, 0);
 
-    CTransparentStaticText* itemStaticText6 = new CTransparentStaticText( itemDialog1, wxID_ANY, _("Click Clear to restore web-based settings."), wxDefaultPosition, wxDefaultSize, 0 );
+    CTransparentStaticText* itemStaticText6 = new CTransparentStaticText( itemDialog1, wxID_ANY, _("Click Clear to restore web-based settings for all preferences listed below."), wxDefaultPosition, wxDefaultSize, 0 );
     
 //    itemStaticText6->SetFont(wxFont(MEDIUM_FONT, wxSWISS, wxNORMAL, wxBOLD, false, _T("Arial")));
     itemFlexGridSizer3->Add(itemStaticText6, 0, wxALL, 0);
 
     itemFlexGridSizer3->AddSpacer(10);
     
-    CTransparentStaticText* itemStaticText7 = new CTransparentStaticText( itemDialog1, wxID_ANY, _("For additional settings, select Computing Preferences in "), wxDefaultPosition, wxDefaultSize, 0 );
+    CTransparentStaticText* itemStaticText7 = new CTransparentStaticText( itemDialog1, wxID_ANY, _("For additional settings, select Computing Preferences in the Advanced View."), wxDefaultPosition, wxDefaultSize, 0 );
     
 //    itemStaticText7->SetFont(wxFont(MEDIUM_FONT, wxSWISS, wxNORMAL, wxBOLD, false, _T("Arial")));
     itemFlexGridSizer3->Add(itemStaticText7, 0, wxALL, 0);
-
-    CTransparentStaticText* itemStaticText8 = new CTransparentStaticText( itemDialog1, wxID_ANY, _("the Advanced View."), wxDefaultPosition, wxDefaultSize, 0 );
-    
-//    itemStaticText8->SetFont(wxFont(MEDIUM_FONT, wxSWISS, wxNORMAL, wxBOLD, false, _T("Arial")));
-    itemFlexGridSizer3->Add(itemStaticText8, 0, wxALL, 0);
 
     CTransparentStaticLine* itemStaticLine8 = new CTransparentStaticLine( itemDialog1, wxID_ANY, wxDefaultPosition, wxSize(300, 1), wxLI_HORIZONTAL|wxNO_BORDER );
     itemStaticLine8->SetLineColor(pSkinSimple->GetStaticLineColor());
@@ -431,7 +426,7 @@ void CPanelPreferences::CreateControls()
     itemBoxSizer44->Add(itemButton44, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_btnClear = new wxButton( this, ID_SGPREFERENCESCLEAR, _("Clear"), wxDefaultPosition, wxDefaultSize, 0 );
-    m_btnClear->SetToolTip( _("clear all local preferences and close the dialog") );
+    m_btnClear->SetToolTip( _("Clear all local preferences listed above and close the dialog") );
 
     itemBoxSizer44->Add(m_btnClear, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
     

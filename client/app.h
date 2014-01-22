@@ -229,9 +229,9 @@ struct ACTIVE_TASK {
     int suspend();
         // tell a process to stop executing (but stay in mem)
         // Done by sending it a <suspend> message
-    int unsuspend();
+    int unsuspend(int reason=0);
         // Undo a suspend: send a <resume> message
-    int preempt(int preempt_type);
+    int preempt(int preempt_type, int reason=0);
         // preempt (via suspend or quit) a running task
     int resume_or_start(bool);
     void send_network_available();
@@ -279,7 +279,7 @@ public:
     void init();
     bool poll();
     void suspend_all(int reason);
-    void unsuspend_all();
+    void unsuspend_all(int reason=0);
     bool is_task_executing();
     void request_tasks_exit(PROJECT* p=0);
     int wait_for_exit(double, PROJECT* p=0);

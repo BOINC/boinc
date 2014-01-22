@@ -1303,6 +1303,7 @@ int VBOX_VM::createsnapshot(double elapsed_time) {
 int VBOX_VM::cleanupsnapshots(bool delete_active) {
     string command;
     string output;
+    string snapshotlist;
     string line;
     string uuid;
     size_t eol_pos;
@@ -1319,7 +1320,7 @@ int VBOX_VM::cleanupsnapshots(bool delete_active) {
 
     // Only log the error if we are not attempting to deregister the VM.
     // delete_active is only set to true when we are deregistering the VM.
-    retval = vbm_popen(command, output, "enumerate snapshot(s)", !delete_active, false, 0);
+    retval = vbm_popen(command, snapshotlist, "enumerate snapshot(s)", !delete_active, false, 0);
     if (retval) return retval;
 
     // Output should look a little like this:
@@ -1327,16 +1328,29 @@ int VBOX_VM::cleanupsnapshots(bool delete_active) {
     //      Name: Snapshot 3 (UUID: 92fa8b35-873a-4197-9d54-7b6b746b2c58)
     //         Name: Snapshot 4 (UUID: c049023a-5132-45d5-987d-a9cfadb09664) *
     //
-    eol_prev_pos = 0;
-    eol_pos = output.find("\n");
+    // Traverse the list from newest to oldest.  Otherwise we end up with an error:
+    //   VBoxManage.exe: error: Snapshot operation failed
+    //   VBoxManage.exe: error: Hard disk 'C:\ProgramData\BOINC\slots\23\vm_image.vdi' has 
+    //     more than one child hard disk (2)
+    //
+
+    // Prepend a space and line feed to the output since we are going to traverse it backwards
+    snapshotlist = " \n" + snapshotlist;
+
+    eol_prev_pos = snapshotlist.rfind("\n");
+    eol_pos = snapshotlist.rfind("\n", eol_prev_pos - 1);
     while (eol_pos != string::npos) {
-        line = output.substr(eol_prev_pos, eol_pos - eol_prev_pos);
+        line = snapshotlist.substr(eol_pos, eol_prev_pos - eol_pos);
+
+        // Find the previous line to use in the next iteration
+        eol_prev_pos = eol_pos;
+        eol_pos = snapshotlist.rfind("\n", eol_prev_pos - 1);
 
         // This VM does not yet have any snapshots
         if (line.find("does not have any snapshots") != string::npos) break;
 
         // The * signifies that it is the active snapshot and one we do not want to delete
-        if (!delete_active && (line.find("*") != string::npos)) break;
+        if (!delete_active && (line.rfind("*") != string::npos)) continue;
 
         uuid_start = line.find("(UUID: ");
         if (uuid_start != string::npos) {
@@ -1362,9 +1376,6 @@ int VBOX_VM::cleanupsnapshots(bool delete_active) {
             retval = vbm_popen(command, output, "delete stale snapshot", !delete_active, false, 0);
             if (retval) return retval;
         }
-
-        eol_prev_pos = eol_pos + 1;
-        eol_pos = output.find("\n", eol_prev_pos);
     }
 
     return 0;
@@ -1421,7 +1432,7 @@ void VBOX_VM::dumphypervisorlogs(bool include_error_logs) {
         line = prefiltered_guest_log.substr(eol_prev_pos, eol_pos - eol_prev_pos);
 
         if (line.find("Guest Log:") != string::npos) {
-            filtered_guest_log = line;
+            filtered_guest_log += line;
         }
 
         eol_prev_pos = eol_pos + 1;
@@ -1430,7 +1441,7 @@ void VBOX_VM::dumphypervisorlogs(bool include_error_logs) {
 
     // Take the last 16k
     if (filtered_guest_log.size() >= 16384) {
-        local_guest_log = filtered_guest_log.substr(filtered_guest_log.size() - 16384, filtered_guest_log.size());
+        local_guest_log = filtered_guest_log.substr(filtered_guest_log.size() - 16384, 16384);
 
         // Look for the next whole line of text.
         iter = local_guest_log.begin();
@@ -1444,21 +1455,12 @@ void VBOX_VM::dumphypervisorlogs(bool include_error_logs) {
 
     }
 
-#ifdef _WIN32
-    // Remove \r from the log spew
-    iter = local_guest_log.begin();
-    while (iter != local_guest_log.end()) {
-        if (*iter == '\r') {
-            iter = local_guest_log.erase(iter);
-        } else {
-            ++iter;
-        }
-    }
-#endif
+    sanitize_output(local_guest_log);
 
     if (include_error_logs) {
         fprintf(
             stderr,
+            "\n"
             "    Hypervisor System Log:\n\n"
             "%s\n"
             "    VM Execution Log:\n\n"
@@ -1934,17 +1936,7 @@ int VBOX_VM::get_system_log(string& log, bool tail_only) {
             read_file_string(virtualbox_system_log_dst.c_str(), log);
         }
 
-#ifdef _WIN32
-        // Remove \r from the log spew
-        iter = log.begin();
-        while (iter != log.end()) {
-            if (*iter == '\r') {
-                iter = log.erase(iter);
-            } else {
-                ++iter;
-            }
-        }
-#endif
+        sanitize_output(log);
 
         if (tail_only) {
             if (log.size() >= 8000) {
@@ -1992,17 +1984,7 @@ int VBOX_VM::get_vm_log(string& log, bool tail_only) {
             read_file_string(virtualbox_vm_log_dst.c_str(), log);
         }
 
-#ifdef _WIN32
-        // Remove \r from the log spew
-        iter = log.begin();
-        while (iter != log.end()) {
-            if (*iter == '\r') {
-                iter = log.erase(iter);
-            } else {
-                ++iter;
-            }
-        }
-#endif
+        sanitize_output(log);
 
         if (tail_only) {
             if (log.size() >= 8000) {
@@ -2320,6 +2302,7 @@ int VBOX_VM::launch_vboxsvc() {
 // Launch the VM.
 int VBOX_VM::launch_vboxvm() {
     char buf[256];
+    char error_msg[256];
     int retval = ERR_EXEC;
     char* argv[5];
     int argc;
@@ -2345,13 +2328,44 @@ int VBOX_VM::launch_vboxvm() {
     char cmdline[1024];
     STARTUPINFO si;
     PROCESS_INFORMATION pi;
+    SECURITY_ATTRIBUTES sa;
+    SECURITY_DESCRIPTOR sd;
+    HANDLE hReadPipe = NULL, hWritePipe = NULL;
+    void* pBuf = NULL;
+    DWORD dwCount = 0;
+    unsigned long ulExitCode = 0;
+    unsigned long ulExitTimeout = 0;
+    std::string output;
 
     memset(&si, 0, sizeof(si));
     memset(&pi, 0, sizeof(pi));
+    memset(&sa, 0, sizeof(sa));
+    memset(&sd, 0, sizeof(sd));
+
+    InitializeSecurityDescriptor(&sd, SECURITY_DESCRIPTOR_REVISION);
+    SetSecurityDescriptorDacl(&sd, true, NULL, false);
+
+    sa.nLength = sizeof(SECURITY_ATTRIBUTES);
+    sa.bInheritHandle = TRUE;
+    sa.lpSecurityDescriptor = &sd;
+
+    if (!CreatePipe(&hReadPipe, &hWritePipe, &sa, NULL)) {
+        fprintf(
+            stderr,
+            "%s CreatePipe failed! (%d).\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf)),
+            GetLastError()
+        );
+        goto CLEANUP;
+    }
+    SetHandleInformation(hReadPipe, HANDLE_FLAG_INHERIT, 0);
 
     si.cb = sizeof(STARTUPINFO);
-    si.dwFlags |= STARTF_FORCEOFFFEEDBACK | STARTF_USESHOWWINDOW;
+    si.dwFlags |= STARTF_FORCEOFFFEEDBACK | STARTF_USESHOWWINDOW | STARTF_USESTDHANDLES;
     si.wShowWindow = SW_HIDE;
+    si.hStdOutput = hWritePipe;
+    si.hStdError = hWritePipe;
+    si.hStdInput = NULL;
 
     strcpy(cmdline, "");
     for (int i=0; i<argc; i++) {
@@ -2361,24 +2375,83 @@ int VBOX_VM::launch_vboxvm() {
         }
     }
 
-    CreateProcess(
-        NULL, cmdline, NULL, NULL, TRUE, CREATE_NO_WINDOW, NULL, NULL, &si, &pi
-    );
-
-    if (pi.hThread) CloseHandle(pi.hThread);
-    if (pi.hProcess) {
-        vm_pid = pi.dwProcessId;
-        vm_pid_handle = pi.hProcess;
-        retval = BOINC_SUCCESS;
-    } else {
+    // Execute command
+    if (!CreateProcess(
+        NULL, 
+        cmdline,
+        NULL,
+        NULL,
+        TRUE,
+        CREATE_NO_WINDOW,
+        NULL,
+        NULL,
+        &si,
+        &pi
+    )) {
+        vboxwrapper_msg_prefix(buf, sizeof(buf)),
         fprintf(
             stderr,
             "%s Status Report: Launching virtualbox.exe/vboxheadless.exe failed!.\n"
-            "           Error: %s",
-            vboxwrapper_msg_prefix(buf, sizeof(buf)),
-            windows_format_error_string(GetLastError(), buf, sizeof(buf))
+            "%s         Error: %s (%d)\n",
+            buf,
+            buf,
+            windows_format_error_string(GetLastError(), error_msg, sizeof(error_msg)),
+            GetLastError()
+        );
+        goto CLEANUP;
+    } 
+
+    while(1) {
+        GetExitCodeProcess(pi.hProcess, &ulExitCode);
+
+        // Copy stdout/stderr to output buffer, handle in the loop so that we can
+        // copy the pipe as it is populated and prevent the child process from blocking
+        // in case the output is bigger than pipe buffer.
+        PeekNamedPipe(hReadPipe, NULL, NULL, NULL, &dwCount, NULL);
+        if (dwCount) {
+            pBuf = malloc(dwCount+1);
+            memset(pBuf, 0, dwCount+1);
+
+            if (ReadFile(hReadPipe, pBuf, dwCount, &dwCount, NULL)) {
+                output += (char*)pBuf;
+            }
+
+            free(pBuf);
+        }
+
+        if ((ulExitCode != STILL_ACTIVE) || (ulExitTimeout >= 1000)) break;
+
+        Sleep(250);
+        ulExitTimeout += 250;
+    }
+
+    if (ulExitCode != STILL_ACTIVE) {
+        sanitize_output(output);
+        vboxwrapper_msg_prefix(buf, sizeof(buf)),
+        fprintf(
+            stderr,
+            "%s Status Report: Virtualbox.exe/Vboxheadless.exe exited prematurely!.\n"
+            "%s        Exit Code: %d\n"
+            "%s        Output:\n"
+            "%s\n",
+            buf,
+            buf,
+            ulExitCode,
+            buf,
+            output.c_str()
         );
     }
+
+    if (pi.hProcess && (ulExitCode == STILL_ACTIVE)) {
+        vm_pid = pi.dwProcessId;
+        vm_pid_handle = pi.hProcess;
+        retval = BOINC_SUCCESS;
+    }
+
+CLEANUP:
+    if (pi.hThread) CloseHandle(pi.hThread);
+    if (hReadPipe) CloseHandle(hReadPipe);
+    if (hWritePipe) CloseHandle(hWritePipe);
 
 #else
     int pid = fork();
@@ -2401,9 +2474,21 @@ int VBOX_VM::launch_vboxvm() {
     }
 #endif
 
-    boinc_sleep(1);
-
     return retval;
+}
+
+void VBOX_VM::sanitize_output(std::string& output) {
+#ifdef _WIN32
+    // Remove \r from the log spew
+    string::iterator iter = output.begin();
+    while (iter != output.end()) {
+        if (*iter == '\r') {
+            iter = output.erase(iter);
+        } else {
+            ++iter;
+        }
+    }
+#endif
 }
 
 // If there are errors we can recover from, process them here.
@@ -2463,21 +2548,11 @@ int VBOX_VM::vbm_popen(string& arguments, string& output, const char* item, bool
     }
     while (retval);
 
-#ifdef _WIN32
-    // Remove \r from the log spew
-    string::iterator iter = output.begin();
-    while (iter != output.end()) {
-        if (*iter == '\r') {
-            iter = output.erase(iter);
-        } else {
-            ++iter;
-        }
-    }
-#endif
-
     // Add all relivent notes to the output string and log errors
     //
     if (retval && log_error) {
+        sanitize_output(output);
+
         if (!retry_notes.empty()) {
             output += "\nNotes:\n\n" + retry_notes;
         }
