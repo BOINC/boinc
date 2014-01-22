@@ -1303,6 +1303,7 @@ int VBOX_VM::createsnapshot(double elapsed_time) {
 int VBOX_VM::cleanupsnapshots(bool delete_active) {
     string command;
     string output;
+    string snapshotlist;
     string line;
     string uuid;
     size_t eol_pos;
@@ -1319,7 +1320,7 @@ int VBOX_VM::cleanupsnapshots(bool delete_active) {
 
     // Only log the error if we are not attempting to deregister the VM.
     // delete_active is only set to true when we are deregistering the VM.
-    retval = vbm_popen(command, output, "enumerate snapshot(s)", !delete_active, false, 0);
+    retval = vbm_popen(command, snapshotlist, "enumerate snapshot(s)", !delete_active, false, 0);
     if (retval) return retval;
 
     // Output should look a little like this:
@@ -1327,16 +1328,29 @@ int VBOX_VM::cleanupsnapshots(bool delete_active) {
     //      Name: Snapshot 3 (UUID: 92fa8b35-873a-4197-9d54-7b6b746b2c58)
     //         Name: Snapshot 4 (UUID: c049023a-5132-45d5-987d-a9cfadb09664) *
     //
-    eol_prev_pos = 0;
-    eol_pos = output.find("\n");
+    // Traverse the list from newest to oldest.  Otherwise we end up with an error:
+    //   VBoxManage.exe: error: Snapshot operation failed
+    //   VBoxManage.exe: error: Hard disk 'C:\ProgramData\BOINC\slots\23\vm_image.vdi' has 
+    //     more than one child hard disk (2)
+    //
+
+    // Prepend a space and line feed to the output since we are going to traverse it backwards
+    snapshotlist = " \n" + snapshotlist;
+
+    eol_prev_pos = snapshotlist.rfind("\n");
+    eol_pos = snapshotlist.rfind("\n", eol_prev_pos - 1);
     while (eol_pos != string::npos) {
-        line = output.substr(eol_prev_pos, eol_pos - eol_prev_pos);
+        line = snapshotlist.substr(eol_pos, eol_prev_pos - eol_pos);
+
+        // Find the previous line to use in the next iteration
+        eol_prev_pos = eol_pos;
+        eol_pos = snapshotlist.rfind("\n", eol_prev_pos - 1);
 
         // This VM does not yet have any snapshots
         if (line.find("does not have any snapshots") != string::npos) break;
 
         // The * signifies that it is the active snapshot and one we do not want to delete
-        if (!delete_active && (line.find("*") != string::npos)) break;
+        if (!delete_active && (line.rfind("*") != string::npos)) continue;
 
         uuid_start = line.find("(UUID: ");
         if (uuid_start != string::npos) {
@@ -1362,9 +1376,6 @@ int VBOX_VM::cleanupsnapshots(bool delete_active) {
             retval = vbm_popen(command, output, "delete stale snapshot", !delete_active, false, 0);
             if (retval) return retval;
         }
-
-        eol_prev_pos = eol_pos + 1;
-        eol_pos = output.find("\n", eol_prev_pos);
     }
 
     return 0;
@@ -2321,6 +2332,7 @@ int VBOX_VM::launch_vboxsvc() {
 // Launch the VM.
 int VBOX_VM::launch_vboxvm() {
     char buf[256];
+    char error_msg[256];
     int retval = ERR_EXEC;
     char* argv[5];
     int argc;
@@ -2346,13 +2358,44 @@ int VBOX_VM::launch_vboxvm() {
     char cmdline[1024];
     STARTUPINFO si;
     PROCESS_INFORMATION pi;
+    SECURITY_ATTRIBUTES sa;
+    SECURITY_DESCRIPTOR sd;
+    HANDLE hReadPipe = NULL, hWritePipe = NULL;
+    void* pBuf = NULL;
+    DWORD dwCount = 0;
+    unsigned long ulExitCode = 0;
+    unsigned long ulExitTimeout = 0;
+    std::string output;
 
     memset(&si, 0, sizeof(si));
     memset(&pi, 0, sizeof(pi));
+    memset(&sa, 0, sizeof(sa));
+    memset(&sd, 0, sizeof(sd));
+
+    InitializeSecurityDescriptor(&sd, SECURITY_DESCRIPTOR_REVISION);
+    SetSecurityDescriptorDacl(&sd, true, NULL, false);
+
+    sa.nLength = sizeof(SECURITY_ATTRIBUTES);
+    sa.bInheritHandle = TRUE;
+    sa.lpSecurityDescriptor = &sd;
+
+    if (!CreatePipe(&hReadPipe, &hWritePipe, &sa, NULL)) {
+        fprintf(
+            stderr,
+            "%s CreatePipe failed! (%d).\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf)),
+            GetLastError()
+        );
+        goto CLEANUP;
+    }
+    SetHandleInformation(hReadPipe, HANDLE_FLAG_INHERIT, 0);
 
     si.cb = sizeof(STARTUPINFO);
-    si.dwFlags |= STARTF_FORCEOFFFEEDBACK | STARTF_USESHOWWINDOW;
+    si.dwFlags |= STARTF_FORCEOFFFEEDBACK | STARTF_USESHOWWINDOW | STARTF_USESTDHANDLES;
     si.wShowWindow = SW_HIDE;
+    si.hStdOutput = hWritePipe;
+    si.hStdError = hWritePipe;
+    si.hStdInput = NULL;
 
     strcpy(cmdline, "");
     for (int i=0; i<argc; i++) {
@@ -2362,24 +2405,82 @@ int VBOX_VM::launch_vboxvm() {
         }
     }
 
-    CreateProcess(
-        NULL, cmdline, NULL, NULL, TRUE, CREATE_NO_WINDOW, NULL, NULL, &si, &pi
-    );
+    // Execute command
+    if (!CreateProcess(
+        NULL, 
+        cmdline,
+        NULL,
+        NULL,
+        TRUE,
+        CREATE_NO_WINDOW,
+        NULL,
+        NULL,
+        &si,
+        &pi
+    )) {
+        vboxwrapper_msg_prefix(buf, sizeof(buf)),
+        fprintf(
+            stderr,
+            "%s Status Report: Launching virtualbox.exe/vboxheadless.exe failed!.\n"
+            "%s         Error: %s (%d)\n",
+            buf,
+            buf,
+            windows_format_error_string(GetLastError(), error_msg, sizeof(error_msg)),
+            GetLastError()
+        );
+        goto CLEANUP;
+    } 
 
-    if (pi.hThread) CloseHandle(pi.hThread);
+    while(1) {
+        GetExitCodeProcess(pi.hProcess, &ulExitCode);
+
+        // Copy stdout/stderr to output buffer, handle in the loop so that we can
+        // copy the pipe as it is populated and prevent the child process from blocking
+        // in case the output is bigger than pipe buffer.
+        PeekNamedPipe(hReadPipe, NULL, NULL, NULL, &dwCount, NULL);
+        if (dwCount) {
+            pBuf = malloc(dwCount+1);
+            memset(pBuf, 0, dwCount+1);
+
+            if (ReadFile(hReadPipe, pBuf, dwCount, &dwCount, NULL)) {
+                output += (char*)pBuf;
+            }
+
+            free(pBuf);
+        }
+
+        if ((ulExitCode != STILL_ACTIVE) || (ulExitTimeout >= 1000)) break;
+
+        Sleep(250);
+        ulExitTimeout += 250;
+    }
+
+    if (ulExitCode != STILL_ACTIVE) {
+        vboxwrapper_msg_prefix(buf, sizeof(buf)),
+        fprintf(
+            stderr,
+            "%s Status Report: Virtualbox.exe/Vboxheadless.exe exited prematurely!.\n"
+            "%s        Exit Code: %d\n"
+            "%s        Output:\n"
+            "%s\n",
+            buf,
+            buf,
+            ulExitCode,
+            buf,
+            output.c_str()
+        );
+    }
+
     if (pi.hProcess) {
         vm_pid = pi.dwProcessId;
         vm_pid_handle = pi.hProcess;
         retval = BOINC_SUCCESS;
-    } else {
-        fprintf(
-            stderr,
-            "%s Status Report: Launching virtualbox.exe/vboxheadless.exe failed!.\n"
-            "           Error: %s",
-            vboxwrapper_msg_prefix(buf, sizeof(buf)),
-            windows_format_error_string(GetLastError(), buf, sizeof(buf))
-        );
     }
+
+CLEANUP:
+    if (pi.hThread) CloseHandle(pi.hThread);
+    if (hReadPipe) CloseHandle(hReadPipe);
+    if (hWritePipe) CloseHandle(hWritePipe);
 
 #else
     int pid = fork();
@@ -2401,8 +2502,6 @@ int VBOX_VM::launch_vboxvm() {
         retval = BOINC_SUCCESS;
     }
 #endif
-
-    boinc_sleep(1);
 
     return retval;
 }
