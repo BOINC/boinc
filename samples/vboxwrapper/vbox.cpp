@@ -2509,6 +2509,11 @@ int VBOX_VM::vbm_popen(string& command, string& output, const char* item, bool l
 
     do {
         retval = vbm_popen_raw(command, output, timeout);
+
+        if (log_trace) {
+            vbm_trace(command, output, retval);
+        }
+
         if (retval) {
 
             // VirtualBox designed the concept of sessions to prevent multiple applications using
@@ -2573,10 +2578,6 @@ int VBOX_VM::vbm_popen(string& command, string& output, const char* item, bool l
             command.c_str(),
             output.c_str()
         );
-    }
-
-    if (log_trace) {
-        vbm_trace(command, output, retval);
     }
 
     return retval;
