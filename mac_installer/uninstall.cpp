@@ -107,9 +107,7 @@ int main(int argc, char *argv[])
     }
 
     strlcpy(pathToVBoxUninstallTool, pathToSelf, sizeof(pathToVBoxUninstallTool));
-    p = strrchr(pathToVBoxUninstallTool, '/');
-    if (p) *p = '\0';
-    strlcat(pathToVBoxUninstallTool, "/VirtualBox_Uninstall.tool", sizeof(pathToVBoxUninstallTool));
+     strlcat(pathToVBoxUninstallTool, "/Contents/Resources/VirtualBox_Uninstall.tool", sizeof(pathToVBoxUninstallTool));
 
     // To allow for branding, assume name of executable inside bundle is same as name of bundle
     p = strrchr(pathToSelf, '/');         // Assume name of executable inside bundle is same as name of bundle
@@ -274,6 +272,10 @@ int main(int argc, char *argv[])
                 "Do you also want to remove VirtualBox from your computer?\n"
                 "(VirtualBox was installed along with BOINC.)"));
             if (! cancelled) {
+                err = QuitOneProcess('VBOX');
+                if (err != procNotFound) {
+                    sleep(5);
+                }
                 // List of processes to kill taken from my_processes
                 // array in VirtualBox_Uninstall.tool script:
                 KillVBoxProcess("VirtualBox");
@@ -302,7 +304,7 @@ int main(int argc, char *argv[])
                 KillVBoxProcess("VBoxNetDHCP-x86");
                 sleep(2);
                 
-                snprintf(cmd, sizeof(cmd), "source %s --unattended", pathToVBoxUninstallTool);
+                snprintf(cmd, sizeof(cmd), "source \"%s\" --unattended", pathToVBoxUninstallTool);
                 system(cmd);
             }
         }
@@ -1353,13 +1355,13 @@ static OSStatus QuitOneProcess(OSType signature) {
     while (done == false) {		
         err = GetNextProcess(&thisPSN);
         if (err == procNotFound)	
-            done = true;		// apparently the demo app isn't running.  Odd but not impossible
+            done = true;		// apparently the app isn't running.
         else {		
             err = GetProcessInformation(&thisPSN,&thisPIR);
             if (err != noErr)
                 goto bail;
                     
-            if (thisPIR.processSignature == signature) {	// is it or target process?
+            if (thisPIR.processSignature == signature) {	// is it our target process?
                 err = AECreateDesc(typeProcessSerialNumber, (Ptr)&thisPSN,
                                             sizeof(thisPSN), &thisPSNDesc);
                 if (err != noErr)

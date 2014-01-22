@@ -37,6 +37,7 @@
 ## updated 10/30/13 by Charlie Fenton to build a flat package
 ## updated 11/1/13 by Charlie Fenton to build installers both with and without VBox
 ## updated 11/18/13 by Charlie Fenton for Xcode 5.0.2
+## updated 1/22/14 by Charlie Fenton: embed VBox uninstaller in BOINC uninstaller
 ##
 ## NOTE: This script requires Mac OS 10.6 or later, and uses XCode developer
 ##   tools.  So you must have installed XCode Developer Tools on the Mac 
@@ -270,6 +271,12 @@ if [ -f "../VirtualBox Installer/${VirtualBoxPackageName}" ]; then
 
     sudo chown -R root:admin "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_${arch}_vbox/extras/VirtualBox_Uninstall.tool"
     sudo chmod -R u+r-w,g+r-w,o+r-w "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_${arch}_vbox/extras/VirtualBox_Uninstall.tool"
+
+    # Copy the VirtualBox uninstall tool into the BOINC uninstaller
+    sudo cp -fpRL "../VirtualBox Installer/VirtualBox_Uninstall.tool" "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_${arch}_vbox/extras/Uninstall BOINC.app/Contents/Resources"
+
+    sudo chown -R root:admin "../VirtualBox Installer/VirtualBox_Uninstall.tool" "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_${arch}_vbox/extras/Uninstall BOINC.app/Contents/Resources/VirtualBox_Uninstall.tool"
+    sudo chmod -R u+r-w,g+r-w,o+r-w "../VirtualBox Installer/VirtualBox_Uninstall.tool" "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_${arch}_vbox/extras/Uninstall BOINC.app/Contents/Resources/VirtualBox_Uninstall.tool"
 fi
 
 # Build the installer package inside the wrapper application's bundle
