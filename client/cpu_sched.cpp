@@ -444,7 +444,10 @@ RESULT* first_coproc_result(int rsc_type) {
     for (i=0; i<gstate.results.size(); i++) {
         RESULT* rp = gstate.results[i];
         if (rp->resource_type() != rsc_type) continue;
-        if (!rp->runnable()) continue;
+        if (!rp->runnable()) {
+			//msg_printf(rp->project, MSG_INFO, "not runnable: %s", rp->name);
+			continue;
+		}
         if (rp->non_cpu_intensive()) continue;
         if (rp->already_selected) continue;
         prio = rp->project->sched_priority;

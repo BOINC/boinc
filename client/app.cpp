@@ -1031,7 +1031,6 @@ void ACTIVE_TASK::set_task_state(int val, const char* where) {
 
 #ifndef SIM
 #ifdef NEW_CPU_THROTTLE
-#define THROTTLE_PERIOD 1.
 #ifdef _WIN32
 DWORD WINAPI throttler(LPVOID) {
 #else
@@ -1049,8 +1048,23 @@ void* throttler(void*) {
             boinc_sleep(10);
             continue;
         }
-        double on = THROTTLE_PERIOD * gstate.global_prefs.cpu_usage_limit / 100;
-        double off = THROTTLE_PERIOD - on;
+		double on, off, on_frac = gstate.global_prefs.cpu_usage_limit / 100;
+#if 0
+// sub-second CPU throttling
+#define THROTTLE_PERIOD 1.
+        on = THROTTLE_PERIOD * on_frac;
+        off = THROTTLE_PERIOD - on;
+#else
+// throttling w/ at least 1 sec between suspend/resume
+		if (on_frac > .5) {
+			off = 1;
+			on = on_frac/(1.-on_frac);
+		} else {
+			on = 1;
+			off = (1.-on_frac)/on_frac;
+		}
+#endif
+
         gstate.tasks_throttled = true;
         gstate.active_tasks.suspend_all(SUSPEND_REASON_CPU_THROTTLE);
         client_mutex.unlock();

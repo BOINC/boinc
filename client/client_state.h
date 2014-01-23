@@ -19,6 +19,8 @@
 #define _CLIENT_STATE_
 
 #define NEW_CPU_THROTTLE
+// do CPU throttling using a separate thread.
+// This makes it possible to throttle faster than the client's 1-sec poll period
 
 #ifndef _WIN32
 #include <string>
