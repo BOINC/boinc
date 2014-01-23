@@ -1119,7 +1119,7 @@ int VBOX_VM::start() {
     retval = vbm_popen(command, output, "start VM", true, false, 0);
 
     // Get the VM pid as soon as possible
-    while (true) {
+    while (!retval) {
         boinc_sleep(1.0);
         timeout += 1;
 
