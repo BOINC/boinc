@@ -1126,9 +1126,9 @@ int VBOX_VM::start() {
         get_vm_process_id();
 
 #ifdef _WIN32
-        if (!vm_pid && !vm_pid_handle) break;
+        if (vm_pid && vm_pid_handle) break;
 #else
-        if (!vm_pid) break;
+        if (vm_pid) break;
 #endif
 
         if (timeout > 45) {
