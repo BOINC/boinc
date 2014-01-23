@@ -58,6 +58,7 @@ using std::string;
 #include "vboxwrapper.h"
 #include "vbox.h"
 
+//#define NEW_EXECUTION_PATH 1
 
 VBOX_VM::VBOX_VM() {
     virtualbox_home_directory.clear();
@@ -1103,7 +1104,39 @@ int VBOX_VM::start() {
         "%s Starting VM.\n",
         vboxwrapper_msg_prefix(buf, sizeof(buf))
     );
+
+#ifdef NEW_EXECUTION_PATH
     retval = launch_vboxvm();
+#else
+    string command;
+    string output;
+    int timeout = 0;
+
+    command = "startvm \"" + vm_name + "\"";
+    if (headless) {
+        command += " --type headless";
+    }
+    retval = vbm_popen(command, output, "start VM", true, false, 0);
+
+    // Get the VM pid as soon as possible
+    while (true) {
+        boinc_sleep(1.0);
+        timeout += 1;
+
+        get_vm_process_id();
+
+#ifdef _WIN32
+        if (!vm_pid && !vm_pid_handle) break;
+#else
+        if (!vm_pid) break;
+#endif
+
+        if (timeout > 45) {
+            retval = ERR_TIMEOUT;
+            break;
+        }
+    }
+#endif
 
     if (BOINC_SUCCESS == retval) {
         fprintf(
@@ -1825,6 +1858,53 @@ int VBOX_VM::get_vm_network_bytes_received(double& received) {
         received += atof(counter_value.c_str());
         counter_start = output.find("c=\"", counter_start);
     }
+
+    return 0;
+}
+
+int VBOX_VM::get_vm_process_id() {
+    string output;
+    string pid;
+    size_t pid_start;
+    size_t pid_end;
+    int retval;
+
+    retval = get_vm_log(output, false);
+    if (retval) return retval;
+
+    // Output should look like this:
+    // VirtualBox 4.1.0 r73009 win.amd64 (Jul 19 2011 13:05:53) release log
+    // 00:00:06.008 Log opened 2011-09-01T23:00:59.829170900Z
+    // 00:00:06.008 OS Product: Windows 7
+    // 00:00:06.009 OS Release: 6.1.7601
+    // 00:00:06.009 OS Service Pack: 1
+    // 00:00:06.015 Host RAM: 4094MB RAM, available: 876MB
+    // 00:00:06.015 Executable: C:\Program Files\Oracle\VirtualBox\VirtualBox.exe
+    // 00:00:06.015 Process ID: 6128
+    // 00:00:06.015 Package type: WINDOWS_64BITS_GENERIC
+    // 00:00:06.015 Installed Extension Packs:
+    // 00:00:06.015   None installed!
+    //
+    pid_start = output.find("Process ID: ");
+    if (pid_start == string::npos) {
+        return ERR_NOT_FOUND;
+    }
+    pid_start += 12;
+    pid_end = output.find("\n", pid_start);
+    pid = output.substr(pid_start, pid_end - pid_start);
+    if (pid.size() <= 0) {
+        return ERR_NOT_FOUND;
+    }
+
+    vm_pid = atol(pid.c_str());
+
+#ifdef _WIN32
+    vm_pid_handle = OpenProcess(
+        PROCESS_QUERY_INFORMATION | PROCESS_SET_INFORMATION,
+        FALSE,
+        vm_pid
+    );
+#endif
 
     return 0;
 }

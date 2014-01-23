@@ -174,6 +174,7 @@ struct VBOX_VM {
     int get_remote_desktop_port();
     int get_vm_network_bytes_sent(double& sent);
     int get_vm_network_bytes_received(double& received);
+    int get_vm_process_id();
     int get_vm_exit_code(unsigned long& exit_code);
 
     int get_system_log(std::string& log, bool tail_only = true);
