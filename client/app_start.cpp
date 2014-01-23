@@ -1143,14 +1143,19 @@ int ACTIVE_TASK::resume_or_start(bool first_time) {
         );
         return 0;
     }
-    if (log_flags.task) {
+    if (log_flags.task && first_time) {
+		msg_printf(result->project, MSG_INFO,
+			"Starting task %s", result->name
+		);
+	}
+	if (log_flags.cpu_sched) {
         char buf[256];
         strcpy(buf, "");
         if (strlen(app_version->plan_class)) {
             sprintf(buf, " (%s)", app_version->plan_class);
         }
         msg_printf(result->project, MSG_INFO,
-            "%s task %s using %s version %d%s in slot %d",
+            "[cpu_sched] %s task %s using %s version %d%s in slot %d",
             str,
             result->name,
             app_version->app->name,

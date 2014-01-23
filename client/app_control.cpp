@@ -1129,7 +1129,7 @@ void ACTIVE_TASK_SET::unsuspend_all(int reason) {
         atp = active_tasks[i];
         if (atp->scheduler_state != CPU_SCHED_SCHEDULED) continue;
         if (atp->task_state() == PROCESS_UNINITIALIZED) {
-            if (atp->start()) {
+            if (atp->resume_or_start(false)) {
                 msg_printf(atp->wup->project, MSG_INTERNAL_ERROR,
                     "Couldn't restart task %s", atp->result->name
                 );
