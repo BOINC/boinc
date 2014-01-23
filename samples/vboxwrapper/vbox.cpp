@@ -58,6 +58,7 @@ using std::string;
 #include "vboxwrapper.h"
 #include "vbox.h"
 
+//#define NEW_EXECUTION_PATH 1
 
 VBOX_VM::VBOX_VM() {
     virtualbox_home_directory.clear();
@@ -276,7 +277,7 @@ void VBOX_VM::poll(bool log_state) {
     command  = "showvminfo \"" + vm_name + "\" ";
     command += "--machinereadable ";
 
-    if (vbm_popen(command, output, "VM state", false, false) == 0) {
+    if (vbm_popen(command, output, "VM state", false, false, 45, false) == 0) {
         vmstate_start = output.find("VMState=\"");
         if (vmstate_start != string::npos) {
             vmstate_start += 9;
@@ -1020,10 +1021,10 @@ int VBOX_VM::deregister_stale_vm() {
         // Did the user delete the VM in VirtualBox and not the medium?  If so,
         // just remove the medium.
         command  = "closemedium disk \"" + virtual_machine_slot_directory + "/" + image_filename + "\" ";
-        vbm_popen(command, output, "remove virtual disk", false);
+        vbm_popen(command, output, "remove virtual disk", false, false);
         if (enable_floppyio) {
             command  = "closemedium floppy \"" + virtual_machine_slot_directory + "/" + floppy_image_filename + "\" ";
-            vbm_popen(command, output, "remove virtual floppy disk", false);
+            vbm_popen(command, output, "remove virtual floppy disk", false, false);
         }
     }
     return 0;
@@ -1103,7 +1104,39 @@ int VBOX_VM::start() {
         "%s Starting VM.\n",
         vboxwrapper_msg_prefix(buf, sizeof(buf))
     );
+
+#ifdef NEW_EXECUTION_PATH
     retval = launch_vboxvm();
+#else
+    string command;
+    string output;
+    int timeout = 0;
+
+    command = "startvm \"" + vm_name + "\"";
+    if (headless) {
+        command += " --type headless";
+    }
+    retval = vbm_popen(command, output, "start VM", true, false, 0);
+
+    // Get the VM pid as soon as possible
+    while (!retval) {
+        boinc_sleep(1.0);
+        timeout += 1;
+
+        get_vm_process_id();
+
+#ifdef _WIN32
+        if (!vm_pid && !vm_pid_handle) break;
+#else
+        if (!vm_pid) break;
+#endif
+
+        if (timeout > 45) {
+            retval = ERR_TIMEOUT;
+            break;
+        }
+    }
+#endif
 
     if (BOINC_SUCCESS == retval) {
         fprintf(
@@ -1432,7 +1465,7 @@ void VBOX_VM::dumphypervisorlogs(bool include_error_logs) {
         line = prefiltered_guest_log.substr(eol_prev_pos, eol_pos - eol_prev_pos);
 
         if (line.find("Guest Log:") != string::npos) {
-            filtered_guest_log += line;
+            filtered_guest_log += line + "\n";
         }
 
         eol_prev_pos = eol_pos + 1;
@@ -1453,6 +1486,8 @@ void VBOX_VM::dumphypervisorlogs(bool include_error_logs) {
             iter = local_guest_log.erase(iter);
         }
 
+    } else {
+        local_guest_log = filtered_guest_log;
     }
 
     sanitize_output(local_guest_log);
@@ -1823,6 +1858,53 @@ int VBOX_VM::get_vm_network_bytes_received(double& received) {
         received += atof(counter_value.c_str());
         counter_start = output.find("c=\"", counter_start);
     }
+
+    return 0;
+}
+
+int VBOX_VM::get_vm_process_id() {
+    string output;
+    string pid;
+    size_t pid_start;
+    size_t pid_end;
+    int retval;
+
+    retval = get_vm_log(output, false);
+    if (retval) return retval;
+
+    // Output should look like this:
+    // VirtualBox 4.1.0 r73009 win.amd64 (Jul 19 2011 13:05:53) release log
+    // 00:00:06.008 Log opened 2011-09-01T23:00:59.829170900Z
+    // 00:00:06.008 OS Product: Windows 7
+    // 00:00:06.009 OS Release: 6.1.7601
+    // 00:00:06.009 OS Service Pack: 1
+    // 00:00:06.015 Host RAM: 4094MB RAM, available: 876MB
+    // 00:00:06.015 Executable: C:\Program Files\Oracle\VirtualBox\VirtualBox.exe
+    // 00:00:06.015 Process ID: 6128
+    // 00:00:06.015 Package type: WINDOWS_64BITS_GENERIC
+    // 00:00:06.015 Installed Extension Packs:
+    // 00:00:06.015   None installed!
+    //
+    pid_start = output.find("Process ID: ");
+    if (pid_start == string::npos) {
+        return ERR_NOT_FOUND;
+    }
+    pid_start += 12;
+    pid_end = output.find("\n", pid_start);
+    pid = output.substr(pid_start, pid_end - pid_start);
+    if (pid.size() <= 0) {
+        return ERR_NOT_FOUND;
+    }
+
+    vm_pid = atol(pid.c_str());
+
+#ifdef _WIN32
+    vm_pid_handle = OpenProcess(
+        PROCESS_QUERY_INFORMATION | PROCESS_SET_INFORMATION,
+        FALSE,
+        vm_pid
+    );
+#endif
 
     return 0;
 }
@@ -2291,6 +2373,7 @@ int VBOX_VM::launch_vboxsvc() {
                     );
                 }
 
+                vbm_trace(command, std::string(""), retval);
             }
         }
     }
@@ -2303,9 +2386,11 @@ int VBOX_VM::launch_vboxsvc() {
 int VBOX_VM::launch_vboxvm() {
     char buf[256];
     char error_msg[256];
-    int retval = ERR_EXEC;
+    char cmdline[1024];
     char* argv[5];
     int argc;
+    std::string output;
+    int retval = ERR_EXEC;
 
     // Construct the command line parameters
     //
@@ -2324,8 +2409,15 @@ int VBOX_VM::launch_vboxvm() {
     argv[4] = NULL;
     argc = 4;
 
+    strcpy(cmdline, "");
+    for (int i=0; i<argc; i++) {
+        strcat(cmdline, argv[i]);
+        if (i<argc-1) {
+            strcat(cmdline, " ");
+        }
+    }
+
 #ifdef _WIN32
-    char cmdline[1024];
     STARTUPINFO si;
     PROCESS_INFORMATION pi;
     SECURITY_ATTRIBUTES sa;
@@ -2335,7 +2427,6 @@ int VBOX_VM::launch_vboxvm() {
     DWORD dwCount = 0;
     unsigned long ulExitCode = 0;
     unsigned long ulExitTimeout = 0;
-    std::string output;
 
     memset(&si, 0, sizeof(si));
     memset(&pi, 0, sizeof(pi));
@@ -2366,14 +2457,6 @@ int VBOX_VM::launch_vboxvm() {
     si.hStdOutput = hWritePipe;
     si.hStdError = hWritePipe;
     si.hStdInput = NULL;
-
-    strcpy(cmdline, "");
-    for (int i=0; i<argc; i++) {
-        strcat(cmdline, argv[i]);
-        if (i<argc-1) {
-            strcat(cmdline, " ");
-        }
-    }
 
     // Execute command
     if (!CreateProcess(
@@ -2456,12 +2539,13 @@ CLEANUP:
 #else
     int pid = fork();
     if (-1 == pid) {
+        output = strerror(errno);
         fprintf(
             stderr,
             "%s Status Report: Launching virtualbox.exe/vboxheadless.exe failed!.\n"
             "           Error: %s",
             vboxwrapper_msg_prefix(buf, sizeof(buf)),
-            strerror(errno)
+            output.c_str()
         );
         retval = ERR_FORK;
     } else if (0 == pid) {
@@ -2473,6 +2557,8 @@ CLEANUP:
         retval = BOINC_SUCCESS;
     }
 #endif
+
+    vbm_trace(std::string(cmdline), output, retval);
 
     return retval;
 }
@@ -2493,15 +2579,23 @@ void VBOX_VM::sanitize_output(std::string& output) {
 
 // If there are errors we can recover from, process them here.
 //
-int VBOX_VM::vbm_popen(string& arguments, string& output, const char* item, bool log_error, bool retry_failures, unsigned int timeout) {
+int VBOX_VM::vbm_popen(string& command, string& output, const char* item, bool log_error, bool retry_failures, unsigned int timeout, bool log_trace) {
     int retval = 0;
     int retry_count = 0;
     double sleep_interval = 1.0;
     char buf[256];
     string retry_notes;
 
+    // Initialize command line
+    command = "VBoxManage -q " + command;
+
     do {
-        retval = vbm_popen_raw(arguments, output, timeout);
+        retval = vbm_popen_raw(command, output, timeout);
+
+        if (log_trace) {
+            vbm_trace(command, output, retval);
+        }
+
         if (retval) {
 
             // VirtualBox designed the concept of sessions to prevent multiple applications using
@@ -2559,11 +2653,11 @@ int VBOX_VM::vbm_popen(string& arguments, string& output, const char* item, bool
 
         fprintf(
             stderr,
-            "%s Error in %s for VM: %d\nArguments:\n%s\nOutput:\n%s\n",
+            "%s Error in %s for VM: %d\nCommand:\n%s\nOutput:\n%s\n",
             vboxwrapper_msg_prefix(buf, sizeof(buf)),
             item,
             retval,
-            arguments.c_str(),
+            command.c_str(),
             output.c_str()
         );
     }
@@ -2573,9 +2667,8 @@ int VBOX_VM::vbm_popen(string& arguments, string& output, const char* item, bool
 
 // Execute the vbox manage application and copy the output to the buffer.
 //
-int VBOX_VM::vbm_popen_raw(string& arguments, string& output, unsigned int timeout) {
+int VBOX_VM::vbm_popen_raw(string& command, string& output, unsigned int timeout) {
     char buf[256];
-    string command;
     size_t errcode_start;
     size_t errcode_end;
     string errcode;
@@ -2583,9 +2676,6 @@ int VBOX_VM::vbm_popen_raw(string& arguments, string& output, unsigned int timeo
 
     // Launch vboxsvc in case it was shutdown for being idle
     launch_vboxsvc();
-
-    // Initialize command line
-    command = "VBoxManage -q " + arguments;
 
     // Reset output buffer
     output.clear();
@@ -2709,6 +2799,13 @@ CLEANUP:
             sscanf(errcode.c_str(), "%x", &retval);
         }
 
+        // Is this a RPC_S_SERVER_UNAVAILABLE returned by vboxsvc?
+        if (!retval) {
+            if (output.find("RPC_S_SERVER_UNAVAILABLE") != string::npos) {
+                retval = RPC_S_SERVER_UNAVAILABLE;
+            }
+        }
+
         // If something couldn't be found, just return ERR_FOPEN
         if (!retval) retval = ERR_FOPEN;
 
@@ -2755,3 +2852,30 @@ CLEANUP:
 
     return retval;
 }
+
+void VBOX_VM::vbm_replay(std::string& command) {
+    FILE* f = fopen(REPLAYLOG_FILENAME, "a");
+    if (f) {
+        fprintf(f, "%s\n", command.c_str());
+        fclose(f);
+    }
+}
+
+void VBOX_VM::vbm_trace(std::string& command, std::string& output, int retval) {
+    vbm_replay(command);
+
+    char buf[256];
+    FILE* f = fopen(TRACELOG_FILENAME, "a");
+    if (f) {
+        fprintf(
+            f,
+            "%s\nCommand: %s\nExit Code: %d\nOutput:\n%s\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf)),
+            command.c_str(),
+            retval,
+            output.c_str()
+        );
+        fclose(f);
+    }
+}
+
