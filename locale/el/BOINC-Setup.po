@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-17 00:00-0800\n"
+"POT-Creation-Date: 2014-01-26 00:00-0800\n"
 "PO-Revision-Date: 2013-10-21 15:34+0000\n"
 "Last-Translator: chris g <chr1407@hotmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -27,11 +27,11 @@ msgstr ""
 msgid "Sorry, this version of %s requires system 10.5 or higher."
 msgstr ""
 
-#: PostInstall.cpp:130 PostInstall.cpp:1136
+#: PostInstall.cpp:130 PostInstall.cpp:1136 uninstall.cpp:1618
 msgid "Yes"
 msgstr "Ναι"
 
-#: PostInstall.cpp:131 PostInstall.cpp:1137
+#: PostInstall.cpp:131 PostInstall.cpp:1137 uninstall.cpp:1619
 msgid "No"
 msgstr "Όχι"
 
@@ -56,15 +56,15 @@ msgstr ""
 msgid "Do you want to set %s as the screensaver for all %s users on this Mac?"
 msgstr ""
 
-#: uninstall.cpp:81
+#: uninstall.cpp:82
 msgid "OK"
 msgstr "Εντάξει"
 
-#: uninstall.cpp:131
+#: uninstall.cpp:136
 msgid "Permission error after relaunch"
 msgstr "Σφάλμα άδειας μετά απο επανεκτέλεση"
 
-#: uninstall.cpp:136
+#: uninstall.cpp:141
 #, fuzzy
 msgid ""
 "Removal may take several minutes.\n"
@@ -73,7 +73,7 @@ msgstr ""
 "Η Αφαίρεση μπορεί να διαρκέσει αρκετά λεπτά.\n"
 "Παρακαλώ να είστε υπομονετικοί."
 
-#: uninstall.cpp:151
+#: uninstall.cpp:156
 #, c-format
 msgid ""
 "Are you sure you want to completely remove %s from your computer?\n"
@@ -86,21 +86,27 @@ msgstr ""
 "Αυτό θα αφαιρέσει τα εκτελέσιμα αρχεία αλλά τα %s αρχεία δεδομένων θα "
 "μείνουν ανέπαφα."
 
-#: uninstall.cpp:158
+#: uninstall.cpp:163
 #, c-format
 msgid "Canceled: %s has not been touched."
 msgstr "Ακυρώθηκε: %s έμειναν ανέπαφα."
 
-#: uninstall.cpp:169
+#: uninstall.cpp:174
 #, c-format
 msgid "An error occurred: error code %d"
 msgstr "Ένα σφάλμα συνέβει: κωδικός σφάλματος %d"
 
-#: uninstall.cpp:225
+#: uninstall.cpp:230
 msgid "name  of user"
 msgstr "όνομα   του χρήστη"
 
-#: uninstall.cpp:262
+#: uninstall.cpp:272
+msgid ""
+"Do you also want to remove VirtualBox from your computer?\n"
+"(VirtualBox was installed along with BOINC.)"
+msgstr ""
+
+#: uninstall.cpp:312
 #, c-format
 msgid ""
 "Removal completed.\n"
@@ -112,7 +118,7 @@ msgid ""
 "\"%s\"."
 msgstr ""
 
-#: uninstall.cpp:790
+#: uninstall.cpp:840
 #, c-format
 msgid ""
 "Enter your administrator password to completely remove %s from you "
@@ -123,11 +129,11 @@ msgstr ""
 "υπολογιστή σας\n"
 "\n"
 
-#: uninstall.cpp:1549
+#: uninstall.cpp:1616
 msgid "Cancel"
 msgstr "Ακύρωση"
 
-#: uninstall.cpp:1550
+#: uninstall.cpp:1617
 msgid "Continue..."
 msgstr "Συνέχεια..."
 
