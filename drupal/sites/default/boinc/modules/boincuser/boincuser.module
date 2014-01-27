@@ -1112,16 +1112,16 @@ function boincuser_get_projects_table($account = null) {
   $output .= '<thead>' . "\n";
   $output .= '  <tr>' . "\n";
   $output .= '    <th>' . t('Name') . '</th>' . "\n";
-  $output .= '    <th>' . t('Avg credit') . '</th>' . "\n";
-  $output .= '    <th>' . t('Total credit') . '</th>' . "\n";
+  $output .= '    <th class="numeric">' . t('Avg credit') . '</th>' . "\n";
+  $output .= '    <th class="numeric">' . t('Total credit') . '</th>' . "\n";
   $output .= '  </tr>' . "\n";
   $output .= '</thead>' . "\n";
   $output .= '<tbody>' . "\n";
   foreach ($projects AS $project) {
     $output .= '  <tr>' . "\n";
     $output .= "    <td>{$project->name}</td>" . "\n";
-    $output .= "    <td>{$project->expavg_credit}</td>" . "\n"; 
-    $output .= "    <td>{$project->total_credit}</td>" . "\n";
+    $output .= "    <td class=\"numeric\">{$project->expavg_credit}</td>" . "\n"; 
+    $output .= "    <td class=\"numeric\">{$project->total_credit}</td>" . "\n";
     $output .= '  </tr>' . "\n";
   }
   $output .= '</tbody>' . "\n";
