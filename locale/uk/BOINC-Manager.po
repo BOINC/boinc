@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-18 00:00-0800\n"
+"POT-Creation-Date: 2014-01-26 00:00-0800\n"
 "PO-Revision-Date: 2013-12-28 22:21+0000\n"
 "Last-Translator: Олег <pukish_oleg@ukr.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -653,7 +653,7 @@ msgstr "В&ийти %s"
 msgid "%s - Communication"
 msgstr "%s - Встановлення зв'язку"
 
-#: AsyncRPC.cpp:1056 DlgAdvPreferencesBase.cpp:107 sg_DlgPreferences.cpp:438
+#: AsyncRPC.cpp:1056 DlgAdvPreferencesBase.cpp:107 sg_DlgPreferences.cpp:433
 msgid "Cancel"
 msgstr "Відмінити"
 
@@ -1173,11 +1173,11 @@ msgstr ""
 "Ви справді хочете очистити вісі локальні налаштування?\n"
 "(Дія не вплине на виняткові додатки.)"
 
-#: DlgAdvPreferences.cpp:1078 sg_DlgPreferences.cpp:1035
+#: DlgAdvPreferences.cpp:1078 sg_DlgPreferences.cpp:1030
 msgid "Confirmation"
 msgstr "Підтвердження"
 
-#: DlgAdvPreferencesBase.cpp:46 sg_DlgPreferences.cpp:951
+#: DlgAdvPreferencesBase.cpp:46 sg_DlgPreferences.cpp:946
 #, c-format
 msgid "%s - Preferences"
 msgstr "%s - Налаштування"
@@ -1193,11 +1193,11 @@ msgstr ""
 "Натисніть 'Очистити' для відновлення веб-налатувань (крім виняткових "
 "додатків)."
 
-#: DlgAdvPreferencesBase.cpp:65 sg_DlgPreferences.cpp:433
+#: DlgAdvPreferencesBase.cpp:65 sg_DlgPreferences.cpp:428
 msgid "Clear"
 msgstr "Очистити"
 
-#: DlgAdvPreferencesBase.cpp:66 sg_DlgPreferences.cpp:434
+#: DlgAdvPreferencesBase.cpp:66
 msgid "clear all local preferences and close the dialog"
 msgstr "очистити всі локальні налаштування і закрити діалогове вікно"
 
@@ -1217,7 +1217,7 @@ msgstr "диск і використання пам'яті"
 msgid "exclusive applications"
 msgstr "виняткові додатки"
 
-#: DlgAdvPreferencesBase.cpp:102 sg_DlgPreferences.cpp:429
+#: DlgAdvPreferencesBase.cpp:102 sg_DlgPreferences.cpp:424
 msgid "OK"
 msgstr "Гаразд"
 
@@ -1230,7 +1230,7 @@ msgid "close the dialog without saving"
 msgstr "закрити діалогове вікно без збереження змін"
 
 #: DlgAdvPreferencesBase.cpp:112 Localization.cpp:35 Localization.cpp:121
-#: Localization.cpp:139 sg_BoincSimpleFrame.cpp:794 sg_DlgPreferences.cpp:444
+#: Localization.cpp:139 sg_BoincSimpleFrame.cpp:794 sg_DlgPreferences.cpp:439
 msgid "Help"
 msgstr "Допомога"
 
@@ -1289,7 +1289,7 @@ msgstr ""
 "завдання"
 
 #: DlgAdvPreferencesBase.cpp:187 DlgAdvPreferencesBase.cpp:336
-#: sg_DlgPreferences.cpp:422
+#: sg_DlgPreferences.cpp:417
 msgid "minutes"
 msgstr "хвилин"
 
@@ -1314,7 +1314,7 @@ msgid "start work at this time"
 msgstr "запустити обробку в цей час"
 
 #: DlgAdvPreferencesBase.cpp:243 DlgAdvPreferencesBase.cpp:504
-#: sg_DlgPreferences.cpp:331 sg_DlgPreferences.cpp:353
+#: sg_DlgPreferences.cpp:326 sg_DlgPreferences.cpp:348
 msgid "and"
 msgstr "і"
 
@@ -1643,7 +1643,7 @@ msgstr ""
 msgid "&Close"
 msgstr "&Закрити"
 
-#: DlgEventLog.cpp:333 sg_BoincSimpleFrame.cpp:798 sg_DlgPreferences.cpp:447
+#: DlgEventLog.cpp:333 sg_BoincSimpleFrame.cpp:798 sg_DlgPreferences.cpp:442
 #, c-format
 msgid "Get help with %s"
 msgstr "Отримати довідку щодо %s"
@@ -3638,117 +3638,119 @@ msgid "Click OK to set preferences."
 msgstr "Для збереження налаштувань натисніть 'Гаразд'."
 
 #: sg_DlgPreferences.cpp:278
-msgid "Click Clear to restore web-based settings."
-msgstr "Натисніть 'Очистити' для повернення веб-налаштувань."
+msgid ""
+"Click Clear to restore web-based settings for all preferences listed below."
+msgstr ""
 
 #: sg_DlgPreferences.cpp:285
-msgid "For additional settings, select Computing Preferences in "
-msgstr "Для додаткових параметрів виберіть 'Налаштування клієнта' у  "
+msgid ""
+"For additional settings, select Computing Preferences in the Advanced View."
+msgstr ""
 
-#: sg_DlgPreferences.cpp:290
-msgid "the Advanced View."
-msgstr "Розширений вигляд."
-
-#: sg_DlgPreferences.cpp:318
+#: sg_DlgPreferences.cpp:313
 msgid "Do work only between:"
 msgstr "Працювати тільки між:"
 
-#: sg_DlgPreferences.cpp:340
+#: sg_DlgPreferences.cpp:335
 msgid "Connect to internet only between:"
 msgstr "Доступ в інтернет тільки між:"
 
-#: sg_DlgPreferences.cpp:362 sg_DlgPreferences.cpp:379
+#: sg_DlgPreferences.cpp:357 sg_DlgPreferences.cpp:374
 msgid "Use no more than:"
 msgstr "Використовувати не більше:"
 
-#: sg_DlgPreferences.cpp:375
+#: sg_DlgPreferences.cpp:370
 msgid "of disk space"
 msgstr "місця на диску"
 
-#: sg_DlgPreferences.cpp:392
+#: sg_DlgPreferences.cpp:387
 msgid "of the processor"
 msgstr "процесора"
 
-#: sg_DlgPreferences.cpp:396
+#: sg_DlgPreferences.cpp:391
 msgid "Do work while on battery?"
 msgstr "Працювати на батареях?"
 
-#: sg_DlgPreferences.cpp:409
+#: sg_DlgPreferences.cpp:404
 msgid "Do work after idle for:"
 msgstr "Запуск обробки при простої:"
 
-#: sg_DlgPreferences.cpp:607 sg_DlgPreferences.cpp:610
-#: sg_DlgPreferences.cpp:686 sg_DlgPreferences.cpp:690
-#: sg_DlgPreferences.cpp:702 sg_DlgPreferences.cpp:706
-#: sg_DlgPreferences.cpp:849 sg_DlgPreferences.cpp:860
+#: sg_DlgPreferences.cpp:429
+msgid "Clear all local preferences listed above and close the dialog"
+msgstr ""
+
+#: sg_DlgPreferences.cpp:602 sg_DlgPreferences.cpp:605
+#: sg_DlgPreferences.cpp:681 sg_DlgPreferences.cpp:685
+#: sg_DlgPreferences.cpp:697 sg_DlgPreferences.cpp:701
+#: sg_DlgPreferences.cpp:844 sg_DlgPreferences.cpp:855
 msgid "Anytime"
 msgstr "Завжди"
 
-#: sg_DlgPreferences.cpp:643
+#: sg_DlgPreferences.cpp:638
 msgid "100 MB"
 msgstr "100 Мб"
 
-#: sg_DlgPreferences.cpp:644
+#: sg_DlgPreferences.cpp:639
 msgid "200 MB"
 msgstr "200 Мб"
 
-#: sg_DlgPreferences.cpp:645
+#: sg_DlgPreferences.cpp:640
 msgid "500 MB"
 msgstr "500 Мб"
 
-#: sg_DlgPreferences.cpp:646
+#: sg_DlgPreferences.cpp:641
 msgid "1 GB"
 msgstr "1 Гб"
 
-#: sg_DlgPreferences.cpp:647
+#: sg_DlgPreferences.cpp:642
 msgid "2 GB"
 msgstr "2 Гб"
 
-#: sg_DlgPreferences.cpp:648
+#: sg_DlgPreferences.cpp:643
 msgid "5 GB"
 msgstr "5 Гб"
 
-#: sg_DlgPreferences.cpp:649
+#: sg_DlgPreferences.cpp:644
 msgid "10 GB"
 msgstr "10 Гб"
 
-#: sg_DlgPreferences.cpp:650
+#: sg_DlgPreferences.cpp:645
 msgid "20 GB"
 msgstr "20 Гб"
 
-#: sg_DlgPreferences.cpp:651
+#: sg_DlgPreferences.cpp:646
 msgid "50 GB"
 msgstr "50 Гб"
 
-#: sg_DlgPreferences.cpp:652
+#: sg_DlgPreferences.cpp:647
 msgid "100 GB"
 msgstr "100 Гб"
 
-#: sg_DlgPreferences.cpp:722
+#: sg_DlgPreferences.cpp:717
 #, c-format
 msgid "%d MB"
 msgstr "%d Мб"
 
-#: sg_DlgPreferences.cpp:724
+#: sg_DlgPreferences.cpp:719
 #, c-format
 msgid "%4.2f GB"
 msgstr "%4.2f Гб"
 
-#: sg_DlgPreferences.cpp:765
+#: sg_DlgPreferences.cpp:760
 #, c-format
 msgid "%d%%"
 msgstr "%d%%"
 
-#: sg_DlgPreferences.cpp:801
+#: sg_DlgPreferences.cpp:796
 msgid "0 (Run Always)"
 msgstr "0 (працювати завжди)"
 
-#: sg_DlgPreferences.cpp:804
+#: sg_DlgPreferences.cpp:799
 #, c-format
 msgid "%d"
 msgstr "%d"
 
-#: sg_DlgPreferences.cpp:1034
+#: sg_DlgPreferences.cpp:1029
 msgid "Do you really want to clear all local preferences?\n"
 msgstr "Ви справді хочете видалити всі налаштування, які зберігаються локально?\n"
 
@@ -3960,6 +3962,15 @@ msgstr "Показати все"
 #, c-format
 msgid "Quit %s"
 msgstr "Вийти %s"
+
+#~ msgid "Click Clear to restore web-based settings."
+#~ msgstr "Натисніть 'Очистити' для повернення веб-налаштувань."
+
+#~ msgid "For additional settings, select Computing Preferences in "
+#~ msgstr "Для додаткових параметрів виберіть 'Налаштування клієнта' у  "
+
+#~ msgid "the Advanced View."
+#~ msgstr "Розширений вигляд."
 
 #~ msgid "Workunit name"
 #~ msgstr "Назва завдання"
