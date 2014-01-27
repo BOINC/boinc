@@ -531,7 +531,7 @@ function boincteam_add_admin_form_validate($form, &$form_state) {
     }
     else {
       $form_state['storage']['boincuser_id'] = $account->boincuser_id;
-      $form_state['storage']['user_name'] = $account->boincuser_name;
+      $form_state['storage']['boincuser_name'] = $account->boincuser_name;
     }
   }
 }
