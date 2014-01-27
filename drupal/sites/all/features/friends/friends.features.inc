@@ -9,7 +9,7 @@ function friends_flag_default_flags() {
   $flags['friend'] = array(
     'content_type' => 'user',
     'title' => 'Friend',
-    'global' => '0',
+    'global' => FALSE,
     'types' => array(),
     'flag_short' => 'Add friend',
     'flag_long' => 'Add this user to your list of friends.',
@@ -21,17 +21,17 @@ function friends_flag_default_flags() {
     'link_type' => 'confirm',
     'roles' => array(
       'flag' => array(
-        '0' => '2',
+        '0' => 2,
       ),
       'unflag' => array(
-        '0' => '2',
+        '0' => 2,
       ),
     ),
     'weight' => 0,
     'show_on_profile' => 1,
     'access_uid' => '',
-    'flag_confirmation' => 'Are you sure you want to add [user] to your list of friends?',
-    'unflag_confirmation' => 'Are you sure you want to remove [user] from your list of friends?',
+    'flag_confirmation' => 'Add [display-name] as a friend?',
+    'unflag_confirmation' => 'Remove [display-name] as a friend?',
     'module' => 'friends',
     'locked' => array(
       '0' => 'name',
