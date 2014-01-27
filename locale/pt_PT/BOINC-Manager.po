@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.05\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-18 00:00-0800\n"
+"POT-Creation-Date: 2014-01-26 00:00-0800\n"
 "PO-Revision-Date: 2013-11-20 12:09+0000\n"
 "Last-Translator: Miguel Filipe Paulino de Sousa <Miguel.veig@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -649,7 +649,7 @@ msgstr "S&air %s"
 msgid "%s - Communication"
 msgstr "%s - Comunicação"
 
-#: AsyncRPC.cpp:1056 DlgAdvPreferencesBase.cpp:107 sg_DlgPreferences.cpp:438
+#: AsyncRPC.cpp:1056 DlgAdvPreferencesBase.cpp:107 sg_DlgPreferences.cpp:433
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -1172,11 +1172,11 @@ msgstr ""
 "Quer mesmo limpar todas as preferências locais?\n"
 "(As aplicações exclusivas não serão afectadas.)"
 
-#: DlgAdvPreferences.cpp:1078 sg_DlgPreferences.cpp:1035
+#: DlgAdvPreferences.cpp:1078 sg_DlgPreferences.cpp:1030
 msgid "Confirmation"
 msgstr "Confirmação"
 
-#: DlgAdvPreferencesBase.cpp:46 sg_DlgPreferences.cpp:951
+#: DlgAdvPreferencesBase.cpp:46 sg_DlgPreferences.cpp:946
 #, c-format
 msgid "%s - Preferences"
 msgstr "%s - Preferências"
@@ -1192,11 +1192,11 @@ msgstr ""
 "Carregue em Limpar para restaurar as definições web (excepto aplicações "
 "exclusivas)."
 
-#: DlgAdvPreferencesBase.cpp:65 sg_DlgPreferences.cpp:433
+#: DlgAdvPreferencesBase.cpp:65 sg_DlgPreferences.cpp:428
 msgid "Clear"
 msgstr "Limpar"
 
-#: DlgAdvPreferencesBase.cpp:66 sg_DlgPreferences.cpp:434
+#: DlgAdvPreferencesBase.cpp:66
 msgid "clear all local preferences and close the dialog"
 msgstr "limpar todas as preferências locais e fechar a caixa de diálogo"
 
@@ -1216,7 +1216,7 @@ msgstr "utilização de disco e memória"
 msgid "exclusive applications"
 msgstr "aplicações exclusivas"
 
-#: DlgAdvPreferencesBase.cpp:102 sg_DlgPreferences.cpp:429
+#: DlgAdvPreferencesBase.cpp:102 sg_DlgPreferences.cpp:424
 msgid "OK"
 msgstr "OK"
 
@@ -1229,7 +1229,7 @@ msgid "close the dialog without saving"
 msgstr "fechar caixa de diálogo sem salvar"
 
 #: DlgAdvPreferencesBase.cpp:112 Localization.cpp:35 Localization.cpp:121
-#: Localization.cpp:139 sg_BoincSimpleFrame.cpp:794 sg_DlgPreferences.cpp:444
+#: Localization.cpp:139 sg_BoincSimpleFrame.cpp:794 sg_DlgPreferences.cpp:439
 msgid "Help"
 msgstr "Ajuda"
 
@@ -1287,7 +1287,7 @@ msgstr ""
 "este número de minutos"
 
 #: DlgAdvPreferencesBase.cpp:187 DlgAdvPreferencesBase.cpp:336
-#: sg_DlgPreferences.cpp:422
+#: sg_DlgPreferences.cpp:417
 msgid "minutes"
 msgstr "minutos"
 
@@ -1312,7 +1312,7 @@ msgid "start work at this time"
 msgstr "iniciar trabalho a esta hora"
 
 #: DlgAdvPreferencesBase.cpp:243 DlgAdvPreferencesBase.cpp:504
-#: sg_DlgPreferences.cpp:331 sg_DlgPreferences.cpp:353
+#: sg_DlgPreferences.cpp:326 sg_DlgPreferences.cpp:348
 msgid "and"
 msgstr "e"
 
@@ -1641,7 +1641,7 @@ msgstr ""
 msgid "&Close"
 msgstr "&Fechar"
 
-#: DlgEventLog.cpp:333 sg_BoincSimpleFrame.cpp:798 sg_DlgPreferences.cpp:447
+#: DlgEventLog.cpp:333 sg_BoincSimpleFrame.cpp:798 sg_DlgPreferences.cpp:442
 #, c-format
 msgid "Get help with %s"
 msgstr "Obter ajuda com %s"
@@ -3623,117 +3623,119 @@ msgid "Click OK to set preferences."
 msgstr "Carregue em OK para definir as preferências."
 
 #: sg_DlgPreferences.cpp:278
-msgid "Click Clear to restore web-based settings."
-msgstr "Carregue em Limpar para restaurar as definições web."
+msgid ""
+"Click Clear to restore web-based settings for all preferences listed below."
+msgstr ""
 
 #: sg_DlgPreferences.cpp:285
-msgid "For additional settings, select Computing Preferences in "
-msgstr "Para configurações adicionais, seleccione Preferências de Computação na"
+msgid ""
+"For additional settings, select Computing Preferences in the Advanced View."
+msgstr ""
 
-#: sg_DlgPreferences.cpp:290
-msgid "the Advanced View."
-msgstr "Vista Avançada."
-
-#: sg_DlgPreferences.cpp:318
+#: sg_DlgPreferences.cpp:313
 msgid "Do work only between:"
 msgstr "Executar trabalho apenas entre:"
 
-#: sg_DlgPreferences.cpp:340
+#: sg_DlgPreferences.cpp:335
 msgid "Connect to internet only between:"
 msgstr "Conectar-se à internet apenas entre:"
 
-#: sg_DlgPreferences.cpp:362 sg_DlgPreferences.cpp:379
+#: sg_DlgPreferences.cpp:357 sg_DlgPreferences.cpp:374
 msgid "Use no more than:"
 msgstr "Usar não mais do que:"
 
-#: sg_DlgPreferences.cpp:375
+#: sg_DlgPreferences.cpp:370
 msgid "of disk space"
 msgstr "de espaço em disco"
 
-#: sg_DlgPreferences.cpp:392
+#: sg_DlgPreferences.cpp:387
 msgid "of the processor"
 msgstr "do processador"
 
-#: sg_DlgPreferences.cpp:396
+#: sg_DlgPreferences.cpp:391
 msgid "Do work while on battery?"
 msgstr "Executar trabalho se ligado apenas à bateria?"
 
-#: sg_DlgPreferences.cpp:409
+#: sg_DlgPreferences.cpp:404
 msgid "Do work after idle for:"
 msgstr "Executar trabalho depois de inactivo por:"
 
-#: sg_DlgPreferences.cpp:607 sg_DlgPreferences.cpp:610
-#: sg_DlgPreferences.cpp:686 sg_DlgPreferences.cpp:690
-#: sg_DlgPreferences.cpp:702 sg_DlgPreferences.cpp:706
-#: sg_DlgPreferences.cpp:849 sg_DlgPreferences.cpp:860
+#: sg_DlgPreferences.cpp:429
+msgid "Clear all local preferences listed above and close the dialog"
+msgstr ""
+
+#: sg_DlgPreferences.cpp:602 sg_DlgPreferences.cpp:605
+#: sg_DlgPreferences.cpp:681 sg_DlgPreferences.cpp:685
+#: sg_DlgPreferences.cpp:697 sg_DlgPreferences.cpp:701
+#: sg_DlgPreferences.cpp:844 sg_DlgPreferences.cpp:855
 msgid "Anytime"
 msgstr "A qualquer altura"
 
-#: sg_DlgPreferences.cpp:643
+#: sg_DlgPreferences.cpp:638
 msgid "100 MB"
 msgstr "100 MB"
 
-#: sg_DlgPreferences.cpp:644
+#: sg_DlgPreferences.cpp:639
 msgid "200 MB"
 msgstr "200 MB"
 
-#: sg_DlgPreferences.cpp:645
+#: sg_DlgPreferences.cpp:640
 msgid "500 MB"
 msgstr "500 MB"
 
-#: sg_DlgPreferences.cpp:646
+#: sg_DlgPreferences.cpp:641
 msgid "1 GB"
 msgstr "1 GB"
 
-#: sg_DlgPreferences.cpp:647
+#: sg_DlgPreferences.cpp:642
 msgid "2 GB"
 msgstr "2 GB"
 
-#: sg_DlgPreferences.cpp:648
+#: sg_DlgPreferences.cpp:643
 msgid "5 GB"
 msgstr "5 GB"
 
-#: sg_DlgPreferences.cpp:649
+#: sg_DlgPreferences.cpp:644
 msgid "10 GB"
 msgstr "10 GB"
 
-#: sg_DlgPreferences.cpp:650
+#: sg_DlgPreferences.cpp:645
 msgid "20 GB"
 msgstr "20 GB"
 
-#: sg_DlgPreferences.cpp:651
+#: sg_DlgPreferences.cpp:646
 msgid "50 GB"
 msgstr "50 GB"
 
-#: sg_DlgPreferences.cpp:652
+#: sg_DlgPreferences.cpp:647
 msgid "100 GB"
 msgstr "100 GB"
 
-#: sg_DlgPreferences.cpp:722
+#: sg_DlgPreferences.cpp:717
 #, c-format
 msgid "%d MB"
 msgstr "%d MB"
 
-#: sg_DlgPreferences.cpp:724
+#: sg_DlgPreferences.cpp:719
 #, c-format
 msgid "%4.2f GB"
 msgstr "%4.2f GB"
 
-#: sg_DlgPreferences.cpp:765
+#: sg_DlgPreferences.cpp:760
 #, c-format
 msgid "%d%%"
 msgstr "%d%%"
 
-#: sg_DlgPreferences.cpp:801
+#: sg_DlgPreferences.cpp:796
 msgid "0 (Run Always)"
 msgstr "0 (Executar Sempre)"
 
-#: sg_DlgPreferences.cpp:804
+#: sg_DlgPreferences.cpp:799
 #, c-format
 msgid "%d"
 msgstr "%d"
 
-#: sg_DlgPreferences.cpp:1034
+#: sg_DlgPreferences.cpp:1029
 msgid "Do you really want to clear all local preferences?\n"
 msgstr "Quer mesmo limpar todas as preferências locais?\n"
 
@@ -3942,6 +3944,15 @@ msgstr "Mostrar Todos"
 #, c-format
 msgid "Quit %s"
 msgstr "Sair %s"
+
+#~ msgid "Click Clear to restore web-based settings."
+#~ msgstr "Carregue em Limpar para restaurar as definições web."
+
+#~ msgid "For additional settings, select Computing Preferences in "
+#~ msgstr "Para configurações adicionais, seleccione Preferências de Computação na"
+
+#~ msgid "the Advanced View."
+#~ msgstr "Vista Avançada."
 
 #~ msgid "Workunit name"
 #~ msgstr "Nome da unidade de trabalho"
