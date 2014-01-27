@@ -437,6 +437,8 @@ function team_forums_views_default_views() {
     'type' => 'none',
   ));
   $handler = $view->new_display('panel_pane', 'Topic list', 'panel_pane_1');
+  $handler->override_option('empty', '<?php echo t(\'No topics yet...\'); ?>');
+  $handler->override_option('empty_format', '3');
   $handler->override_option('use_pager', '1');
   $handler->override_option('style_plugin', 'table');
   $handler->override_option('style_options', array(
@@ -512,7 +514,7 @@ function team_forums_views_default_views() {
       'type' => 'panel',
       'context' => 'term.description',
       'context_optional' => 0,
-      'panel' => '2',
+      'panel' => '1',
       'fixed' => '',
       'label' => 'BOINC: Team forum ID',
     ),

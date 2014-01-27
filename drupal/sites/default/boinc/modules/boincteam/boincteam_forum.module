@@ -63,11 +63,17 @@ function boincteam_forum_nodeapi(&$node, $op, $a3 = null, $a4 = null) {
   case 'insert':
     boincteam_forum_node_insert($node);
     break;
+  case 'load':
+    boincteam_forum_node_load($node);
+    break;
   case 'update':
     boincteam_forum_node_update($node);
     break;
   case 'validate':
     boincteam_forum_node_validate($node);
+    break;
+  case 'view':
+    boincteam_forum_node_view($node);
     break;
   default:
   }
@@ -98,6 +104,24 @@ function boincteam_forum_node_insert($node) {
 }
 
 /**
+ * Implementation of hook_node_load(); add custom actions when a node
+ * is loaded (forward compatible to Drupal 7)
+ */
+function boincteam_forum_node_load($node) {
+  switch($node->type) {
+  case 'team_forum':
+    $node->tfid = db_result(db_query("
+      SELECT tfid FROM {boincteam_forum_node}
+      WHERE nid = %d", $node->nid
+    ));
+    break;
+    
+  default:
+    
+  }
+}
+
+/**
  * Implementation of hook_node_update(); add custom actions when a node
  * is updated (forward compatible to Drupal 7)
  */
@@ -120,6 +144,26 @@ function boincteam_forum_node_validate($node) {
   switch($node->type) {
   case 'team_forum':
     
+    break;
+  default:
+  }
+}
+
+/**
+ * Implementation of hook_node_view(); add custom actions when a node
+ * is viewed (forward compatible to Drupal 7)
+ */
+function boincteam_forum_node_view($node) {
+  switch($node->type) {
+  case 'team_forum':
+    $team_id = boincteam_forum_lookup_nid($node->tfid);
+    $public_forum = boincteam_forum_is_public($node->tfid);
+    $is_member = boincteam_is_member($team_id);
+    if (!$public_forum AND !$is_member) {
+      drupal_not_found();
+      module_invoke_all('exit');
+      exit();
+    }
     break;
   default:
   }
