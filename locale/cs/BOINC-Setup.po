@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-17 00:00-0800\n"
+"POT-Creation-Date: 2014-01-26 00:00-0800\n"
 "PO-Revision-Date: 2013-08-30 20:59+0000\n"
 "Last-Translator: Lycan <santdel@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -28,11 +28,11 @@ msgstr ""
 msgid "Sorry, this version of %s requires system 10.5 or higher."
 msgstr "Promiňte, tato verze %s vyžaduje systém verze 10.4 a novější."
 
-#: PostInstall.cpp:130 PostInstall.cpp:1136
+#: PostInstall.cpp:130 PostInstall.cpp:1136 uninstall.cpp:1618
 msgid "Yes"
 msgstr "Ano"
 
-#: PostInstall.cpp:131 PostInstall.cpp:1137
+#: PostInstall.cpp:131 PostInstall.cpp:1137 uninstall.cpp:1619
 msgid "No"
 msgstr "Ne"
 
@@ -62,15 +62,15 @@ msgstr ""
 "Přejete si nastavit %s jako spořič obrazovky pro všechny %s uživatele na "
 "tomto Macu?"
 
-#: uninstall.cpp:81
+#: uninstall.cpp:82
 msgid "OK"
 msgstr "OK"
 
-#: uninstall.cpp:131
+#: uninstall.cpp:136
 msgid "Permission error after relaunch"
 msgstr "Chyba v přístupových právech po novém spuštění"
 
-#: uninstall.cpp:136
+#: uninstall.cpp:141
 msgid ""
 "Removal may take several minutes.\n"
 "Please be patient."
@@ -78,7 +78,7 @@ msgstr ""
 "Odebírání může trvat několik minut.\n"
 "Strpení prosím."
 
-#: uninstall.cpp:151
+#: uninstall.cpp:156
 #, c-format
 msgid ""
 "Are you sure you want to completely remove %s from your computer?\n"
@@ -89,21 +89,27 @@ msgstr ""
 "\n"
 "Tímto se odstraní aplikace, ale zachovají se %s uživatelské soubory."
 
-#: uninstall.cpp:158
+#: uninstall.cpp:163
 #, c-format
 msgid "Canceled: %s has not been touched."
 msgstr "Zrušeno: %s nebylo změněno."
 
-#: uninstall.cpp:169
+#: uninstall.cpp:174
 #, c-format
 msgid "An error occurred: error code %d"
 msgstr "Nastala chyba: kód chyby %d"
 
-#: uninstall.cpp:225
+#: uninstall.cpp:230
 msgid "name  of user"
 msgstr "jméno uživatele"
 
-#: uninstall.cpp:262
+#: uninstall.cpp:272
+msgid ""
+"Do you also want to remove VirtualBox from your computer?\n"
+"(VirtualBox was installed along with BOINC.)"
+msgstr ""
+
+#: uninstall.cpp:312
 #, c-format
 msgid ""
 "Removal completed.\n"
@@ -122,7 +128,7 @@ msgstr ""
 "pro každého uživatele, soubor\n"
 "\"%s\"."
 
-#: uninstall.cpp:790
+#: uninstall.cpp:840
 #, c-format
 msgid ""
 "Enter your administrator password to completely remove %s from you "
@@ -132,11 +138,11 @@ msgstr ""
 "Zadejte vaše administrátorské heslo pro úplné odebrání %s z vašeho počítače.\n"
 "\n"
 
-#: uninstall.cpp:1549
+#: uninstall.cpp:1616
 msgid "Cancel"
 msgstr "Zrušit"
 
-#: uninstall.cpp:1550
+#: uninstall.cpp:1617
 msgid "Continue..."
 msgstr "Pokračovat..."
 
