@@ -777,7 +777,7 @@ enum {
 
 Boolean SetLoginItemOSAScript(long brandID, Boolean deleteLogInItem, char *userName)
 {
-    int                     i;
+    int                     i, j;
     char                    cmd[2048];
     char                    systemEventsPath[1024];
     ProcessSerialNumber     SystemEventsPSN;
@@ -812,36 +812,40 @@ Boolean SetLoginItemOSAScript(long brandID, Boolean deleteLogInItem, char *userN
             err = noErr;
             goto cleanupSystemEvents;
         }
-        sleep(2);
+        sleep(4);
     }
     
     err = LSFindApplicationForInfo(kSystemEventsCreator, NULL, NULL, &appRef, NULL);
     if (err != noErr) {
         fprintf(stdout, "LSFindApplicationForInfo(kSystemEventsCreator) returned error %d \n", (int) err);
         fflush(stdout);
+        goto cleanupSystemEvents;
     } else {
         FSRefMakePath(&appRef, (UInt8*)systemEventsPath, sizeof(systemEventsPath));
         fprintf(stdout, "SystemEvents is at %s\n", systemEventsPath);
         fprintf(stdout, "Launching SystemEvents for user %s\n", userName);
         fflush(stdout);
 
-        sprintf(cmd, "sudo -iu \"%s\" \\\"%s/Contents/MacOS/System Events\\\" &", userName, systemEventsPath);
-        err = system(cmd);
-        if (err) {
-            fprintf(stdout, "[2] Command: %s returned error %d\n", cmd, (int) err);
+        for (j=0; j<5; ++j) {
+            sprintf(cmd, "sudo -iu \"%s\" \\\"%s/Contents/MacOS/System Events\\\" &", userName, systemEventsPath);
+            err = system(cmd);
+            if (err) {
+                fprintf(stdout, "[2] Command: %s returned error %d (try %d of 5)\n", cmd, (int) err, j);
+            }
+            // Wait for the process to start
+            for (i=0; i<50; ++i) {      // 5 seconds max delay
+                SleepTicks(6);  // 6 Ticks == 1/10 second
+                err = FindProcess ('APPL', kSystemEventsCreator, &SystemEventsPSN);
+                if (err == noErr) break;
+            }
+            if (i < 50) break;  // Exit j loop on success
         }
-    }
-    // Wait for the process to start
-    for (i=0; i<50; ++i) {      // 5 seconds max delay
-        SleepTicks(6);  // 6 Ticks == 1/10 second
-        err = FindProcess ('APPL', kSystemEventsCreator, &SystemEventsPSN);
-        if (err == noErr) break;
-    }
-    if (i >= 50) {
-        fprintf(stdout, "Failed to launch System Events for user %s\n", userName);
-        fflush(stdout);
-        err = noErr;
-        goto cleanupSystemEvents;
+        if (j >= 5) {
+            fprintf(stdout, "Failed to launch System Events for user %s\n", userName);
+            fflush(stdout);
+            err = noErr;
+            goto cleanupSystemEvents;
+        }
     }
     sleep(2);
     
@@ -884,7 +888,18 @@ cleanupSystemEvents:
         fprintf(stdout, "QuitOneProcess(kSystemEventsCreator) returned error %d \n", (int) err2);
         fflush(stdout);
     }
-    sleep(2);
+    // Wait for the process to be gone
+    for (i=0; i<50; ++i) {      // 5 seconds max delay
+        SleepTicks(6);  // 6 Ticks == 1/10 second
+        err2 = FindProcess ('APPL', kSystemEventsCreator, &SystemEventsPSN);
+        if (err2 != noErr) break;
+    }
+    if (i >= 50) {
+        fprintf(stdout, "Failed to make System Events quit\n");
+        fflush(stdout);
+    }
+    
+    sleep(4);
         
     return (err == noErr);
 }
