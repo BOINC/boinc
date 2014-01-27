@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-18 00:00-0800\n"
+"POT-Creation-Date: 2014-01-26 00:00-0800\n"
 "PO-Revision-Date: 2014-01-17 17:21+0000\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -649,7 +649,7 @@ msgstr "Lopeta %s"
 msgid "%s - Communication"
 msgstr "%s - Verkkoyhteys"
 
-#: AsyncRPC.cpp:1056 DlgAdvPreferencesBase.cpp:107 sg_DlgPreferences.cpp:438
+#: AsyncRPC.cpp:1056 DlgAdvPreferencesBase.cpp:107 sg_DlgPreferences.cpp:433
 msgid "Cancel"
 msgstr "Peruuta"
 
@@ -1165,11 +1165,11 @@ msgstr ""
 "Haluatko tyhjentää kaikki paikalliset asetukset?\n"
 "(Tämä ei vaikuta erityissovelluksiin.)"
 
-#: DlgAdvPreferences.cpp:1078 sg_DlgPreferences.cpp:1035
+#: DlgAdvPreferences.cpp:1078 sg_DlgPreferences.cpp:1030
 msgid "Confirmation"
 msgstr "Vahvistus"
 
-#: DlgAdvPreferencesBase.cpp:46 sg_DlgPreferences.cpp:951
+#: DlgAdvPreferencesBase.cpp:46 sg_DlgPreferences.cpp:946
 #, c-format
 msgid "%s - Preferences"
 msgstr "%s - Asetukset"
@@ -1185,11 +1185,11 @@ msgstr ""
 "Napsauta Tyhjennä palauttaaksesi web-pohjaiset asetukset (poislukien "
 "erityissovellukset)."
 
-#: DlgAdvPreferencesBase.cpp:65 sg_DlgPreferences.cpp:433
+#: DlgAdvPreferencesBase.cpp:65 sg_DlgPreferences.cpp:428
 msgid "Clear"
 msgstr "Tyhjennä"
 
-#: DlgAdvPreferencesBase.cpp:66 sg_DlgPreferences.cpp:434
+#: DlgAdvPreferencesBase.cpp:66
 msgid "clear all local preferences and close the dialog"
 msgstr "tyhjennä kaikki paikalliset asetukset ja sulje ikkuna"
 
@@ -1209,7 +1209,7 @@ msgstr "levyn ja muistin käyttö"
 msgid "exclusive applications"
 msgstr "erityissovellukset"
 
-#: DlgAdvPreferencesBase.cpp:102 sg_DlgPreferences.cpp:429
+#: DlgAdvPreferencesBase.cpp:102 sg_DlgPreferences.cpp:424
 msgid "OK"
 msgstr "OK"
 
@@ -1222,7 +1222,7 @@ msgid "close the dialog without saving"
 msgstr "sulje tallentamatta"
 
 #: DlgAdvPreferencesBase.cpp:112 Localization.cpp:35 Localization.cpp:121
-#: Localization.cpp:139 sg_BoincSimpleFrame.cpp:794 sg_DlgPreferences.cpp:444
+#: Localization.cpp:139 sg_BoincSimpleFrame.cpp:794 sg_DlgPreferences.cpp:439
 msgid "Help"
 msgstr "Apua"
 
@@ -1280,7 +1280,7 @@ msgstr ""
 "minuuttiin"
 
 #: DlgAdvPreferencesBase.cpp:187 DlgAdvPreferencesBase.cpp:336
-#: sg_DlgPreferences.cpp:422
+#: sg_DlgPreferences.cpp:417
 msgid "minutes"
 msgstr "minuuttia"
 
@@ -1305,7 +1305,7 @@ msgid "start work at this time"
 msgstr "aloita työ tähän aikaan"
 
 #: DlgAdvPreferencesBase.cpp:243 DlgAdvPreferencesBase.cpp:504
-#: sg_DlgPreferences.cpp:331 sg_DlgPreferences.cpp:353
+#: sg_DlgPreferences.cpp:326 sg_DlgPreferences.cpp:348
 msgid "and"
 msgstr "ja"
 
@@ -1630,7 +1630,7 @@ msgstr ""
 msgid "&Close"
 msgstr "&Sulje"
 
-#: DlgEventLog.cpp:333 sg_BoincSimpleFrame.cpp:798 sg_DlgPreferences.cpp:447
+#: DlgEventLog.cpp:333 sg_BoincSimpleFrame.cpp:798 sg_DlgPreferences.cpp:442
 #, c-format
 msgid "Get help with %s"
 msgstr "Hae apua %s:iin"
@@ -3606,117 +3606,119 @@ msgid "Click OK to set preferences."
 msgstr "Napsauta OK muuttaaksesi asetuksia."
 
 #: sg_DlgPreferences.cpp:278
-msgid "Click Clear to restore web-based settings."
-msgstr "Napsauta Tyhjennä palauttaaksesi web-pohjaiset asetukset."
+msgid ""
+"Click Clear to restore web-based settings for all preferences listed below."
+msgstr ""
 
 #: sg_DlgPreferences.cpp:285
-msgid "For additional settings, select Computing Preferences in "
-msgstr "Lisää asetuksia kohdassa Laskenta-asetukset "
+msgid ""
+"For additional settings, select Computing Preferences in the Advanced View."
+msgstr ""
 
-#: sg_DlgPreferences.cpp:290
-msgid "the Advanced View."
-msgstr "laajennetussa näkymässä."
-
-#: sg_DlgPreferences.cpp:318
+#: sg_DlgPreferences.cpp:313
 msgid "Do work only between:"
 msgstr "Salli työ vain välillä:"
 
-#: sg_DlgPreferences.cpp:340
+#: sg_DlgPreferences.cpp:335
 msgid "Connect to internet only between:"
 msgstr "Ota internetyhteys vain välillä:"
 
-#: sg_DlgPreferences.cpp:362 sg_DlgPreferences.cpp:379
+#: sg_DlgPreferences.cpp:357 sg_DlgPreferences.cpp:374
 msgid "Use no more than:"
 msgstr "Älä käytä enempää kuin:"
 
-#: sg_DlgPreferences.cpp:375
+#: sg_DlgPreferences.cpp:370
 msgid "of disk space"
 msgstr "levytilasta"
 
-#: sg_DlgPreferences.cpp:392
+#: sg_DlgPreferences.cpp:387
 msgid "of the processor"
 msgstr "prosessoreista"
 
-#: sg_DlgPreferences.cpp:396
+#: sg_DlgPreferences.cpp:391
 msgid "Do work while on battery?"
 msgstr "Suorita oltaessa akkukäytöllä?"
 
-#: sg_DlgPreferences.cpp:409
+#: sg_DlgPreferences.cpp:404
 msgid "Do work after idle for:"
 msgstr "Suorita, kun on ollut jouten:"
 
-#: sg_DlgPreferences.cpp:607 sg_DlgPreferences.cpp:610
-#: sg_DlgPreferences.cpp:686 sg_DlgPreferences.cpp:690
-#: sg_DlgPreferences.cpp:702 sg_DlgPreferences.cpp:706
-#: sg_DlgPreferences.cpp:849 sg_DlgPreferences.cpp:860
+#: sg_DlgPreferences.cpp:429
+msgid "Clear all local preferences listed above and close the dialog"
+msgstr ""
+
+#: sg_DlgPreferences.cpp:602 sg_DlgPreferences.cpp:605
+#: sg_DlgPreferences.cpp:681 sg_DlgPreferences.cpp:685
+#: sg_DlgPreferences.cpp:697 sg_DlgPreferences.cpp:701
+#: sg_DlgPreferences.cpp:844 sg_DlgPreferences.cpp:855
 msgid "Anytime"
 msgstr "Milloin vain"
 
-#: sg_DlgPreferences.cpp:643
+#: sg_DlgPreferences.cpp:638
 msgid "100 MB"
 msgstr "100 Mt"
 
-#: sg_DlgPreferences.cpp:644
+#: sg_DlgPreferences.cpp:639
 msgid "200 MB"
 msgstr "200 Mt"
 
-#: sg_DlgPreferences.cpp:645
+#: sg_DlgPreferences.cpp:640
 msgid "500 MB"
 msgstr "500 Mt"
 
-#: sg_DlgPreferences.cpp:646
+#: sg_DlgPreferences.cpp:641
 msgid "1 GB"
 msgstr "1 Gt"
 
-#: sg_DlgPreferences.cpp:647
+#: sg_DlgPreferences.cpp:642
 msgid "2 GB"
 msgstr "2 Gt"
 
-#: sg_DlgPreferences.cpp:648
+#: sg_DlgPreferences.cpp:643
 msgid "5 GB"
 msgstr "5 Gt"
 
-#: sg_DlgPreferences.cpp:649
+#: sg_DlgPreferences.cpp:644
 msgid "10 GB"
 msgstr "10 Gt"
 
-#: sg_DlgPreferences.cpp:650
+#: sg_DlgPreferences.cpp:645
 msgid "20 GB"
 msgstr "20 Gt"
 
-#: sg_DlgPreferences.cpp:651
+#: sg_DlgPreferences.cpp:646
 msgid "50 GB"
 msgstr "50 Gt"
 
-#: sg_DlgPreferences.cpp:652
+#: sg_DlgPreferences.cpp:647
 msgid "100 GB"
 msgstr "100 Gt"
 
-#: sg_DlgPreferences.cpp:722
+#: sg_DlgPreferences.cpp:717
 #, c-format
 msgid "%d MB"
 msgstr "%d Mt"
 
-#: sg_DlgPreferences.cpp:724
+#: sg_DlgPreferences.cpp:719
 #, c-format
 msgid "%4.2f GB"
 msgstr "%4.2f Gt"
 
-#: sg_DlgPreferences.cpp:765
+#: sg_DlgPreferences.cpp:760
 #, c-format
 msgid "%d%%"
 msgstr "%d%%"
 
-#: sg_DlgPreferences.cpp:801
+#: sg_DlgPreferences.cpp:796
 msgid "0 (Run Always)"
 msgstr "0 (Suorita aina)"
 
-#: sg_DlgPreferences.cpp:804
+#: sg_DlgPreferences.cpp:799
 #, c-format
 msgid "%d"
 msgstr "%d"
 
-#: sg_DlgPreferences.cpp:1034
+#: sg_DlgPreferences.cpp:1029
 msgid "Do you really want to clear all local preferences?\n"
 msgstr "Haluatko tyhjentää kaikki paikalliset asetukset?\n"
 
@@ -3925,6 +3927,15 @@ msgstr "Näytä kaikki"
 #, c-format
 msgid "Quit %s"
 msgstr "Sulje %s"
+
+#~ msgid "Click Clear to restore web-based settings."
+#~ msgstr "Napsauta Tyhjennä palauttaaksesi web-pohjaiset asetukset."
+
+#~ msgid "For additional settings, select Computing Preferences in "
+#~ msgstr "Lisää asetuksia kohdassa Laskenta-asetukset "
+
+#~ msgid "the Advanced View."
+#~ msgstr "laajennetussa näkymässä."
 
 #~ msgid "Workunit name"
 #~ msgstr "Työpaketin nimi"
