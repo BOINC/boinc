@@ -97,7 +97,6 @@
 #include <aclapi.h>
 #include <psapi.h>
 #include <iphlpapi.h>
-#include <security.h>
 
 #if !defined(__CYGWIN32__) || defined(USE_WINSOCK)
 
@@ -138,6 +137,7 @@ typedef size_t socklen_t;
 #include <stdint.h>
 #include <imagehlp.h>
 #else
+#include <security.h>
 #include <dbghelp.h>
 #endif
 #include <tlhelp32.h>
