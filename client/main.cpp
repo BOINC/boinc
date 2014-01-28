@@ -101,11 +101,12 @@ void log_message_error(const char* msg) {
     char evt_msg[2048];
     char* time_string = time_to_string(dtime());
 #ifdef _WIN32
+    char buf[1024];
     snprintf(evt_msg, sizeof(evt_msg),
         "%s %s\n"
         "GLE: %s\n",
         time_string, msg,
-        windows_format_error_string(GetLastError(), evt_msg, (sizeof(evt_msg)-((int)strlen(msg)+7)))
+        windows_format_error_string(GetLastError(), buf, sizeof(buf))
     );
 #else
     snprintf(evt_msg, sizeof(evt_msg),

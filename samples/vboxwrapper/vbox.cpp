@@ -2385,7 +2385,6 @@ int VBOX_VM::launch_vboxsvc() {
 // Launch the VM.
 int VBOX_VM::launch_vboxvm() {
     char buf[256];
-    char error_msg[256];
     char cmdline[1024];
     char* argv[5];
     int argc;
@@ -2418,6 +2417,7 @@ int VBOX_VM::launch_vboxvm() {
     }
 
 #ifdef _WIN32
+    char error_msg[256];
     STARTUPINFO si;
     PROCESS_INFORMATION pi;
     SECURITY_ATTRIBUTES sa;
@@ -2558,7 +2558,8 @@ CLEANUP:
     }
 #endif
 
-    vbm_trace(std::string(cmdline), output, retval);
+    string cmd_line = cmdline;
+    vbm_trace(cmd_line, output, retval);
 
     return retval;
 }
