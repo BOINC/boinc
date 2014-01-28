@@ -1,4 +1,4 @@
-// This file is part of BOINC.
+п»ї// This file is part of BOINC.
 // http://boinc.berkeley.edu
 // Copyright (C) 2008 University of California
 //
@@ -877,8 +877,8 @@ void CPaintStatistics::DrawGraph2(wxDC &dc, std::vector<DAILY_STATS> stats, cons
 		b_point1 = false;
 		b_point2 = false;
 
-		d_xpos = (m_Ax_ValToCoord * j->day + m_Bx_ValToCoord);// добавить округление
-		switch (selectedStatistic){  // добавить округление
+		d_xpos = (m_Ax_ValToCoord * j->day + m_Bx_ValToCoord);// Г¤Г®ГЎГ ГўГЁГІГј Г®ГЄГ°ГіГЈГ«ГҐГ­ГЁГҐ
+		switch (selectedStatistic){  // Г¤Г®ГЎГ ГўГЁГІГј Г®ГЄГ°ГіГЈГ«ГҐГ­ГЁГҐ
 		case show_user_total:	d_ypos = (m_Ay_ValToCoord * j->user_total_credit + m_By_ValToCoord);	break;
 		case show_user_average:	d_ypos = (m_Ay_ValToCoord * j->user_expavg_credit + m_By_ValToCoord);	break;
 		case show_host_total:	d_ypos = (m_Ay_ValToCoord * j->host_total_credit + m_By_ValToCoord);	break;
@@ -904,13 +904,13 @@ void CPaintStatistics::DrawGraph2(wxDC &dc, std::vector<DAILY_STATS> stats, cons
 			first_point = false;
 		}else {
 			dc.SetPen(wxPen(graphColour , m_GraphLineWidth , wxSOLID));
-			// проверка попадания первой точки линии в область рисования
+			// ГЇГ°Г®ГўГҐГ°ГЄГ  ГЇГ®ГЇГ Г¤Г Г­ГЁГї ГЇГҐГ°ГўГ®Г© ГІГ®Г·ГЄГЁ Г«ГЁГ­ГЁГЁ Гў Г®ГЎГ«Г Г±ГІГј Г°ГЁГ±Г®ГўГ Г­ГЁГї
 			if (last_point_in){ 
 				d_x1 = d_last_x;
 				d_y1 = d_last_y;
 				b_point1 = true;
 			}else b_point1 = false;
-			// проверка попадания второй точки линии в область рисования
+			// ГЇГ°Г®ГўГҐГ°ГЄГ  ГЇГ®ГЇГ Г¤Г Г­ГЁГї ГўГІГ®Г°Г®Г© ГІГ®Г·ГЄГЁ Г«ГЁГ­ГЁГЁ Гў Г®ГЎГ«Г Г±ГІГј Г°ГЁГ±Г®ГўГ Г­ГЁГї
 			if ((d_xpos < m_Graph_X_start) || (d_xpos > m_Graph_X_end) || 
 				(d_ypos < m_Graph_Y_start) || (d_ypos > m_Graph_Y_end)){
 				point_in = false;
@@ -921,7 +921,7 @@ void CPaintStatistics::DrawGraph2(wxDC &dc, std::vector<DAILY_STATS> stats, cons
 				d_y2 = d_ypos;
 				b_point2 = true;
 			}
-			// Ищем точку входа линии в область рисования (1) x=const
+			// Г€Г№ГҐГ¬ ГІГ®Г·ГЄГі ГўГµГ®Г¤Г  Г«ГЁГ­ГЁГЁ Гў Г®ГЎГ«Г Г±ГІГј Г°ГЁГ±Г®ГўГ Г­ГЁГї (1) x=const
 			if (!b_point1 || !b_point2){
 				if (CrossTwoLine(d_last_x, d_last_y, d_xpos, d_ypos, 
 								m_Graph_X_start, m_Graph_Y_end, m_Graph_X_start, m_Graph_Y_start,
@@ -954,7 +954,7 @@ void CPaintStatistics::DrawGraph2(wxDC &dc, std::vector<DAILY_STATS> stats, cons
 					}
 				}
 			}
-			// Ищем точку входа линии в область рисования (2) x=const
+			// Г€Г№ГҐГ¬ ГІГ®Г·ГЄГі ГўГµГ®Г¤Г  Г«ГЁГ­ГЁГЁ Гў Г®ГЎГ«Г Г±ГІГј Г°ГЁГ±Г®ГўГ Г­ГЁГї (2) x=const
 			if (!b_point1 || !b_point2){
 				if (CrossTwoLine(d_last_x, d_last_y, d_xpos, d_ypos, 
 								m_Graph_X_end, m_Graph_Y_end, m_Graph_X_end, m_Graph_Y_start,
@@ -987,7 +987,7 @@ void CPaintStatistics::DrawGraph2(wxDC &dc, std::vector<DAILY_STATS> stats, cons
 					}
 				}
 			}
-			// Ищем точку входа линии в область рисования (3) y=const
+			// Г€Г№ГҐГ¬ ГІГ®Г·ГЄГі ГўГµГ®Г¤Г  Г«ГЁГ­ГЁГЁ Гў Г®ГЎГ«Г Г±ГІГј Г°ГЁГ±Г®ГўГ Г­ГЁГї (3) y=const
 			if (!b_point1 || !b_point2){
 				if (CrossTwoLine(d_last_x, d_last_y, d_xpos, d_ypos, 
 								m_Graph_X_start, m_Graph_Y_start, m_Graph_X_end, m_Graph_Y_start,
@@ -1020,7 +1020,7 @@ void CPaintStatistics::DrawGraph2(wxDC &dc, std::vector<DAILY_STATS> stats, cons
 					}
 				}
 			}
-			// Ищем точку входа линии в область рисования (4) y=const
+			// Г€Г№ГҐГ¬ ГІГ®Г·ГЄГі ГўГµГ®Г¤Г  Г«ГЁГ­ГЁГЁ Гў Г®ГЎГ«Г Г±ГІГј Г°ГЁГ±Г®ГўГ Г­ГЁГї (4) y=const
 			if (!b_point1 || !b_point2){
 				if (CrossTwoLine(d_last_x, d_last_y, d_xpos, d_ypos, 
 								m_Graph_X_start, m_Graph_Y_end, m_Graph_X_end, m_Graph_Y_end,
