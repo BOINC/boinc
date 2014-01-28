@@ -55,6 +55,7 @@
 
 
 static bool s_bIsFiltered = false;
+static bool s_bFilteringChanged = false;
 static std::string s_strFilteredProjectName;
 
 /*!
@@ -467,6 +468,7 @@ void CDlgEventLog::OnMessagesFilter( wxCommandEvent& WXUNUSED(event) ) {
         }
     }
     
+    s_bFilteringChanged = true;
     SetFilterButtonText();
     
     // Force a complete update
@@ -624,15 +626,22 @@ void CDlgEventLog::OnRefresh() {
             }
         }
 
-        if ((iRowCount > 1) && (m_iPreviousLastMsgSeqNum != pDoc->GetLastMsgSeqNum())) {
-            if (EnsureLastItemVisible()) {
+        if (iRowCount > 1) {
+            if (s_bFilteringChanged) {
                 m_pList->EnsureVisible(iRowCount - 1);
-            } else if (topItem > 0) {
-                int n = topItem - m_iNumDeletedFilteredRows;
-                if (n < 0) n = 0;
-                Freeze();   // Avoid flicker if selected rows are visible
-                m_pList->EnsureVisible(n);
-                Thaw();
+                s_bFilteringChanged = false;
+            } else {
+                if (m_iPreviousLastMsgSeqNum != pDoc->GetLastMsgSeqNum()) {
+                    if (EnsureLastItemVisible()) {
+                        m_pList->EnsureVisible(iRowCount - 1);
+                    } else if (topItem > 0) {
+                        int n = topItem - m_iNumDeletedFilteredRows;
+                        if (n < 0) n = 0;
+                        Freeze();   // Avoid flicker if selected rows are visible
+                        m_pList->EnsureVisible(n);
+                        Thaw();
+                    }
+                }
             }
         }
 
@@ -903,6 +912,7 @@ void CDlgEventLog::OnColResize( wxListEvent& ) {
 }
 
 void CDlgEventLog::ResetMessageFiltering() {
+    s_bFilteringChanged = false;
     s_bIsFiltered = false;
     s_strFilteredProjectName.clear();
     m_iFilteredIndexes.Clear();
