@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-01-26 00:00-0800\n"
-"PO-Revision-Date: 2013-12-28 22:21+0000\n"
+"PO-Revision-Date: 2014-01-03 18:08+0000\n"
 "Last-Translator: Олег <pukish_oleg@ukr.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: uk\n"
@@ -24,7 +24,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCGIT\\boinc\n"
-"X-POOTLE-MTIME: 1388269262.0\n"
+"X-POOTLE-MTIME: 1388772504.0\n"
 
 # 81%
 #: AccountInfoPage.cpp:387
@@ -3643,9 +3643,10 @@ msgid ""
 msgstr ""
 
 #: sg_DlgPreferences.cpp:285
+#, fuzzy
 msgid ""
 "For additional settings, select Computing Preferences in the Advanced View."
-msgstr ""
+msgstr "Для додаткових параметрів виберіть 'Налаштування клієнта' у  "
 
 #: sg_DlgPreferences.cpp:313
 msgid "Do work only between:"
@@ -3676,8 +3677,9 @@ msgid "Do work after idle for:"
 msgstr "Запуск обробки при простої:"
 
 #: sg_DlgPreferences.cpp:429
+#, fuzzy
 msgid "Clear all local preferences listed above and close the dialog"
-msgstr ""
+msgstr "очистити всі локальні налаштування і закрити діалогове вікно"
 
 #: sg_DlgPreferences.cpp:602 sg_DlgPreferences.cpp:605
 #: sg_DlgPreferences.cpp:681 sg_DlgPreferences.cpp:685
