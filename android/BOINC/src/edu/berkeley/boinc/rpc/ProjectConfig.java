@@ -27,6 +27,7 @@ public class ProjectConfig{
 	public Integer error_num = 0; // if results are not present yet. (polling)
 	public String name = "";
 	public String masterUrl = "";
+	public String webRpcUrlBase = "";
 	public String localRevision = ""; // e.g. 4.3.2 can't be parse as int or float.
 	public Integer minPwdLength = 0;
 	public Boolean userName = false;

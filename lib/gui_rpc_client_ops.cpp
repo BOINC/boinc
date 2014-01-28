@@ -1307,6 +1307,7 @@ int PROJECT_CONFIG::parse(XML_PARSER& xp) {
         if (xp.parse_int("error_num", error_num)) continue;
         if (xp.parse_string("name", name)) continue;
         if (xp.parse_string("master_url", master_url)) continue;
+        if (xp.parse_string("web_rpc_url_base", web_rpc_url_base)) continue;
         if (xp.parse_int("local_revision", local_revision)) continue;
         if (xp.parse_int("min_passwd_length", min_passwd_length)) continue;
         if (xp.parse_bool("account_manager", account_manager)) continue;
@@ -1335,6 +1336,7 @@ void PROJECT_CONFIG::clear() {
     error_num = 0;
     name.clear();
     master_url.clear();
+    web_rpc_url_base.clear();
     error_msg.clear();
     terms_of_use.clear();
     min_passwd_length = 6;

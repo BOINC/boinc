@@ -379,10 +379,12 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSE
             ai->clear();
             ao->clear();
 
-            // Newer versions of the server-side software contain the correct
-            //   master url in the get_project_config response.  If it is available
-            //   use it instead of what the user typed in.
-            if (!pWA->project_config.master_url.empty()) {
+            // use the web RPC URL in the get_project_config response
+            // if present, otherwise use what the user typed
+            //
+            if (!pWA->project_config.web_rpc_url_base.empty()) {
+                ai->url = pWA->project_config.web_rpc_url_base;
+            } else if (!pWA->project_config.master_url.empty()) {
                 ai->url = pWA->project_config.master_url;
             } else {
                 ai->url = (const char*)pWA->m_ProjectInfoPage->GetProjectURL().mb_str();

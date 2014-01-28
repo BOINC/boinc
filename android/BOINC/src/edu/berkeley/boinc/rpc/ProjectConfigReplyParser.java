@@ -96,6 +96,9 @@ public class ProjectConfigReplyParser extends BaseParser {
 					else if (localName.equalsIgnoreCase("master_url")) {
 						mProjectConfig.masterUrl = mCurrentElement.toString();
 					}
+					else if (localName.equalsIgnoreCase("web_rpc_url_base")) {
+						mProjectConfig.webRpcUrlBase = mCurrentElement.toString();
+					}
 					else if (localName.equalsIgnoreCase("local_revision")) {
 						mProjectConfig.localRevision = mCurrentElement.toString();
 					}

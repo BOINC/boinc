@@ -59,6 +59,7 @@ $master_url = parse_config($config, "<master_url>");
 echo "<project_config>
     <name>$long_name</name>
     <master_url>$master_url</master_url>
+    <web_rpc_url_base>".secure_url_base()."</web_rpc_url_base>
 ";
 
 $local_revision = @trim(file_get_contents("../../local.revision"));
