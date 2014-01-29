@@ -746,7 +746,7 @@
 		DD0C5A8A0816711400CEC5D7 /* boinc.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = boinc.jpg; path = ../clientscr/res/boinc.jpg; sourceTree = SOURCE_ROOT; };
 		DD1277B3081F3D67007B5DE1 /* PostInstall.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PostInstall.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD1277B5081F3D67007B5DE1 /* PostInstall-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PostInstall-Info.plist"; sourceTree = "<group>"; };
-		DD1277C0081F3E73007B5DE1 /* PostInstall.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = PostInstall.cpp; path = ../mac_installer/PostInstall.cpp; sourceTree = SOURCE_ROOT; };
+		DD1277C0081F3E73007B5DE1 /* PostInstall.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PostInstall.cpp; path = ../mac_installer/PostInstall.cpp; sourceTree = SOURCE_ROOT; };
 		DD127880081F464E007B5DE1 /* postupgrade */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.csh; name = postupgrade; path = ../mac_installer/postupgrade; sourceTree = SOURCE_ROOT; };
 		DD16BF7B099D6C90003E4B69 /* cpu_sched.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = cpu_sched.cpp; sourceTree = "<group>"; };
 		DD16BF8F099D6CE5003E4B69 /* cpu_benchmark.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = cpu_benchmark.h; path = ../client/cpu_benchmark.h; sourceTree = SOURCE_ROOT; };
@@ -754,7 +754,7 @@
 		DD1929D80918A2F100C31BCF /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
 		DD1AFE8F0A512D2600EE5B82 /* Installer-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Installer-Info.plist"; sourceTree = "<group>"; };
 		DD1AFEBA0A512D8700EE5B82 /* BOINC Installer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "BOINC Installer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		DD1AFEE70A51301C00EE5B82 /* Installer.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = Installer.cpp; path = ../mac_installer/Installer.cpp; sourceTree = SOURCE_ROOT; };
+		DD1AFEE70A51301C00EE5B82 /* Installer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Installer.cpp; path = ../mac_installer/Installer.cpp; sourceTree = SOURCE_ROOT; };
 		DD1C822F0AF372D900F709AC /* sg_CustomControls.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = sg_CustomControls.cpp; path = ../clientgui/sg_CustomControls.cpp; sourceTree = SOURCE_ROOT; };
 		DD1C82300AF372D900F709AC /* sg_CustomControls.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = sg_CustomControls.h; path = ../clientgui/sg_CustomControls.h; sourceTree = SOURCE_ROOT; };
 		DD1CB22E154F5BF700BFF282 /* project.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = project.cpp; sourceTree = "<group>"; };
@@ -934,7 +934,7 @@
 		DD80C83D0CBAEB4F00F1121D /* sandbox.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = sandbox.cpp; sourceTree = "<group>"; };
 		DD80C83E0CBAEB4F00F1121D /* sandbox.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = sandbox.h; path = ../client/sandbox.h; sourceTree = SOURCE_ROOT; };
 		DD81C3D507C5CEB50098A04D /* cpp.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = cpp.h; path = ../client/cpp.h; sourceTree = SOURCE_ROOT; };
-		DD81C3FE07C5D1020098A04D /* BOINCBaseView.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = BOINCBaseView.cpp; path = ../clientgui/BOINCBaseView.cpp; sourceTree = SOURCE_ROOT; };
+		DD81C3FE07C5D1020098A04D /* BOINCBaseView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BOINCBaseView.cpp; path = ../clientgui/BOINCBaseView.cpp; sourceTree = SOURCE_ROOT; };
 		DD81C3FF07C5D1020098A04D /* DlgOptions.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = DlgOptions.cpp; path = ../clientgui/DlgOptions.cpp; sourceTree = SOURCE_ROOT; };
 		DD81C40207C5D1020098A04D /* DlgAbout.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = DlgAbout.cpp; path = ../clientgui/DlgAbout.cpp; sourceTree = SOURCE_ROOT; };
 		DD81C40307C5D1020098A04D /* BOINCTaskBar.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = BOINCTaskBar.cpp; path = ../clientgui/BOINCTaskBar.cpp; sourceTree = SOURCE_ROOT; };
@@ -1153,7 +1153,7 @@
 		DDE7A3AF15C6739E002B3B96 /* ttfont.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ttfont.cpp; path = ../api/ttfont.cpp; sourceTree = "<group>"; };
 		DDE7A3B015C6739E002B3B96 /* ttfont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ttfont.h; path = ../api/ttfont.h; sourceTree = "<group>"; };
 		DDEB3CA80981084A0087E200 /* gridrepublic.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = gridrepublic.icns; path = ../clientgui/res/gridrepublic.icns; sourceTree = SOURCE_ROOT; };
-		DDEF388E0802B73500E87552 /* ViewStatistics.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ViewStatistics.cpp; path = ../clientgui/ViewStatistics.cpp; sourceTree = SOURCE_ROOT; };
+		DDEF388E0802B73500E87552 /* ViewStatistics.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ViewStatistics.cpp; path = ../clientgui/ViewStatistics.cpp; sourceTree = SOURCE_ROOT; };
 		DDEF388F0802B73500E87552 /* ViewStatistics.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ViewStatistics.h; path = ../clientgui/ViewStatistics.h; sourceTree = SOURCE_ROOT; };
 		DDEFB8A3134689C7001E325E /* cl_boinc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cl_boinc.h; path = ../lib/cl_boinc.h; sourceTree = SOURCE_ROOT; };
 		DDF1F47A09822C3400482C89 /* preinstall */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.csh; name = preinstall; path = ../mac_installer/preinstall; sourceTree = SOURCE_ROOT; };
@@ -1198,7 +1198,7 @@
 		F54B8FCC02AC0A0C01FB7237 /* file_names.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = file_names.h; path = ../client/file_names.h; sourceTree = SOURCE_ROOT; };
 		F54B8FCD02AC0A0C01FB7237 /* file_xfer.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = file_xfer.cpp; sourceTree = "<group>"; };
 		F54B8FCE02AC0A0C01FB7237 /* file_xfer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = file_xfer.h; path = ../client/file_xfer.h; sourceTree = SOURCE_ROOT; };
-		F54B8FD302AC0A0C01FB7237 /* hostinfo_unix.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = hostinfo_unix.cpp; sourceTree = "<group>"; };
+		F54B8FD302AC0A0C01FB7237 /* hostinfo_unix.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = hostinfo_unix.cpp; sourceTree = "<group>"; };
 		F54B8FD602AC0A0C01FB7237 /* log_flags.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = log_flags.cpp; sourceTree = "<group>"; };
 		F54B8FD702AC0A0C01FB7237 /* log_flags.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = log_flags.h; path = ../client/log_flags.h; sourceTree = SOURCE_ROOT; };
 		F54B8FDA02AC0A0C01FB7237 /* net_stats.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = net_stats.cpp; sourceTree = "<group>"; };

@@ -1136,7 +1136,7 @@ static Boolean ShowMessage(Boolean allowCancel, const char *format, ...) {
 #endif
 
     // If defaultButton is nil or an empty string, a default localized
-    // button title (ÒOKÓ in English) is used.
+    // button title ("OK" in English) is used.
     
 #if 0
     enum {
