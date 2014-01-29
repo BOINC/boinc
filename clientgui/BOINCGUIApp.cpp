@@ -744,6 +744,7 @@ void CBOINCGUIApp::DetectDataDirectory() {
 	LONG    lReturnValue;
 	HKEY    hkSetupHive;
     LPTSTR  lpszRegistryValue = NULL;
+    TCHAR   szPath[MAX_PATH];
 	DWORD   dwSize = 0;
 
     // change the current directory to the boinc data directory if it exists
@@ -781,6 +782,14 @@ void CBOINCGUIApp::DetectDataDirectory() {
 
             // Store the root directory for later use.
             m_strBOINCMGRDataDirectory = lpszRegistryValue;
+        }
+    } else {
+        if (SUCCEEDED(SHGetFolderPath(NULL, CSIDL_COMMON_APPDATA|CSIDL_FLAG_CREATE, NULL, SHGFP_TYPE_CURRENT, szPath))) {
+            _tcsncat(szPath, _T("\\boinc"), ((sizeof(szPath)/sizeof(TCHAR)) - _tcslen(szPath)));
+            if (wxFile::Exists(szPath)) {
+                // Store the root directory for later use.
+                m_strBOINCMGRDataDirectory = szPath;
+            }
         }
     }
 
