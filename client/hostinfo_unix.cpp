@@ -1521,7 +1521,7 @@ int HOST_INFO::get_host_info() {
     // http://developer.apple.com/documentation/Performance/Conceptual/ManagingMemory/Articles/AboutMemory.html says:
     //    Unlike most UNIX-based operating systems, Mac OS X does not use a 
     //    preallocated swap partition for virtual memory. Instead, it uses all
-    //    of the available space on the machineÕs boot partition.
+    //    of the available space on the machine's boot partition.
     struct statfs fs_info;
 
     statfs(".", &fs_info);
