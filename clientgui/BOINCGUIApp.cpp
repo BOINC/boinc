@@ -786,7 +786,7 @@ void CBOINCGUIApp::DetectDataDirectory() {
     } else {
         if (SUCCEEDED(SHGetFolderPath(NULL, CSIDL_COMMON_APPDATA|CSIDL_FLAG_CREATE, NULL, SHGFP_TYPE_CURRENT, szPath))) {
             _tcsncat(szPath, _T("\\boinc"), ((sizeof(szPath)/sizeof(TCHAR)) - _tcslen(szPath)));
-            if (wxFile::Exists(szPath)) {
+            if (wxDir::Exists(szPath)) {
                 // Store the root directory for later use.
                 m_strBOINCMGRDataDirectory = szPath;
             }
