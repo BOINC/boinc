@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: 1.05\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-01-26 00:00-0800\n"
-"PO-Revision-Date: 2013-11-20 12:09+0000\n"
+"PO-Revision-Date: 2014-01-30 11:39+0000\n"
 "Last-Translator: Miguel Filipe Paulino de Sousa <Miguel.veig@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: pt_PT\n"
@@ -23,7 +23,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCGIT\\boinc\n"
-"X-POOTLE-MTIME: 1384949376.0\n"
+"X-POOTLE-MTIME: 1391081943.0\n"
 
 #: AccountInfoPage.cpp:387
 #, c-format
@@ -231,7 +231,7 @@ msgstr "&Notícias\tCtrl+Shift+N"
 
 #: AdvancedFrame.cpp:372
 msgid "Display notices"
-msgstr "Mostrar notícias"
+msgstr "Mostra as notícias"
 
 #: AdvancedFrame.cpp:377
 msgid "&Projects\tCtrl+Shift+P"
@@ -239,7 +239,7 @@ msgstr "&Projectos\tCtrl+Shift+P"
 
 #: AdvancedFrame.cpp:378
 msgid "Display projects"
-msgstr "Mostrar projectos"
+msgstr "Mostra os projectos"
 
 #: AdvancedFrame.cpp:383
 msgid "&Tasks\tCtrl+Shift+T"
@@ -247,7 +247,7 @@ msgstr "&Tarefas\tCtrl+Shift+T"
 
 #: AdvancedFrame.cpp:384
 msgid "Display tasks"
-msgstr "Mostrar tarefas"
+msgstr "Mostra as tarefas"
 
 #: AdvancedFrame.cpp:389
 msgid "Trans&fers\tCtrl+Shift+X"
@@ -255,7 +255,7 @@ msgstr "Trans&ferências\tCtrl+Shift+X"
 
 #: AdvancedFrame.cpp:390
 msgid "Display transfers"
-msgstr "Mostrar transferências"
+msgstr "Mostra as transferências"
 
 #: AdvancedFrame.cpp:395
 msgid "&Statistics\tCtrl+Shift+S"
@@ -263,7 +263,7 @@ msgstr "&Estatísticas\tCtrl+Shift+S"
 
 #: AdvancedFrame.cpp:396
 msgid "Display statistics"
-msgstr "Mostrar estatísticas"
+msgstr "Mostra as estatísticas"
 
 #: AdvancedFrame.cpp:401
 msgid "&Disk usage\tCtrl+Shift+D"
@@ -271,7 +271,7 @@ msgstr "&Utilização do disco\tCtrl+Shift+D"
 
 #: AdvancedFrame.cpp:402
 msgid "Display disk usage"
-msgstr "Mostrar utilização do disco"
+msgstr "Mostra a utilização em disco"
 
 #: AdvancedFrame.cpp:409
 msgid "Simple &View...\tCtrl+Shift+V"
@@ -279,7 +279,7 @@ msgstr "&Vista Simplificada ...\tCtrl+Shift+V"
 
 #: AdvancedFrame.cpp:410
 msgid "Display the simple graphical interface."
-msgstr "Mostrar a interface gráfica simplificada."
+msgstr "Mostra a interface gráfica simplificada."
 
 #: AdvancedFrame.cpp:424
 msgid "&Add project or account manager..."
@@ -294,7 +294,7 @@ msgstr ""
 #: AdvancedFrame.cpp:429
 #, c-format
 msgid "&Synchronize with %s"
-msgstr "&Sincronizar com %s"
+msgstr "&Sincronizar com o %s"
 
 #: AdvancedFrame.cpp:433
 #, c-format
@@ -409,7 +409,7 @@ msgstr "Parar actividade de rede do BOINC"
 #: AdvancedFrame.cpp:564
 #, c-format
 msgid "Connect to another computer running %s"
-msgstr "Ligar-se a outro computador executando %s"
+msgstr "Liga-se a outro computador que esteja a executar o %s"
 
 #: AdvancedFrame.cpp:569
 msgid "Select computer..."
@@ -421,19 +421,19 @@ msgstr "Desligar cliente ligado..."
 
 #: AdvancedFrame.cpp:575
 msgid "Shut down the currently connected client"
-msgstr "Desligar o cliente actualmente ligado"
+msgstr "Desliga o cliente que está actualmente ligado"
 
 #: AdvancedFrame.cpp:579
 msgid "Run CPU &benchmarks"
-msgstr "Realizar &testes de perfomance do CPU"
+msgstr "Executar &testes de perfomance do CPU"
 
 #: AdvancedFrame.cpp:580
 msgid "Runs BOINC CPU benchmarks"
-msgstr "Realiza testes de perfomance do CPU no BOINC"
+msgstr "Executa testes de perfomance do BOINC para o CPU"
 
 #: AdvancedFrame.cpp:584
 msgid "Do network communication"
-msgstr "Realiza comunicação com a rede"
+msgstr "Realizar comunicação com a rede"
 
 #: AdvancedFrame.cpp:585
 msgid "Do all pending network communication"
@@ -455,17 +455,17 @@ msgstr "Ler ficheiro de preferências locais"
 
 #: AdvancedFrame.cpp:595
 msgid "Read preferences from global_prefs_override.xml."
-msgstr "Ler preferências em global_prefs_override.xml."
+msgstr "Ler preferências em global_prefs_override.xml"
 
 #: AdvancedFrame.cpp:600
 #, c-format
 msgid "Launch another instance of %s..."
-msgstr "Lançar outra instância do %s..."
+msgstr "Iniciar outra instância do %s..."
 
 #: AdvancedFrame.cpp:604
 #, c-format
 msgid "Launch another %s"
-msgstr "Lançar outra %s"
+msgstr "Inicia outro %s"
 
 #: AdvancedFrame.cpp:614
 msgid "Event Log...\tCtrl+Shift+E"
@@ -473,7 +473,7 @@ msgstr "Registo de Eventos...\tCtrl+Shift+E"
 
 #: AdvancedFrame.cpp:615
 msgid "Display diagnostic messages."
-msgstr "Mostrar mensagens de diagnóstico."
+msgstr "Mostra as mensagens de diagnóstico."
 
 #: AdvancedFrame.cpp:625 sg_BoincSimpleFrame.cpp:188
 #, c-format
@@ -483,7 +483,7 @@ msgstr "%s &ajuda"
 #: AdvancedFrame.cpp:631 sg_BoincSimpleFrame.cpp:194
 #, c-format
 msgid "Show information about %s"
-msgstr "Mostrar informações acerca de %s"
+msgstr "Mostra informações sobre o %s"
 
 #: AdvancedFrame.cpp:643
 #, c-format
@@ -493,17 +493,17 @@ msgstr "&%s ajuda"
 #: AdvancedFrame.cpp:649 sg_BoincSimpleFrame.cpp:212
 #, c-format
 msgid "Show information about the %s"
-msgstr "Mostrar informações acerca de %s"
+msgstr "Mostra informações sobre o %s"
 
 #: AdvancedFrame.cpp:661 sg_BoincSimpleFrame.cpp:224
 #, c-format
 msgid "%s &web site"
-msgstr "%s &website"
+msgstr "%s &Website"
 
 #: AdvancedFrame.cpp:667 sg_BoincSimpleFrame.cpp:230
 #, c-format
 msgid "Show information about BOINC and %s"
-msgstr "Mostrar informações acerca do BOINC e %s"
+msgstr "Mostra informações sobre o BOINC e o %s"
 
 #: AdvancedFrame.cpp:679 BOINCTaskBar.cpp:530 sg_BoincSimpleFrame.cpp:242
 #, c-format
@@ -1113,7 +1113,7 @@ msgstr "&OK"
 
 #: DlgAdvPreferences.cpp:544
 msgid "invalid number"
-msgstr ""
+msgstr "número inválido"
 
 #: DlgAdvPreferences.cpp:545
 msgid "invalid time, format is HH:MM"
@@ -1235,7 +1235,7 @@ msgstr "Ajuda"
 
 #: DlgAdvPreferencesBase.cpp:113
 msgid "shows the preferences web page"
-msgstr "mostrar página web das preferências"
+msgstr "mostra a página web das preferências"
 
 #: DlgAdvPreferencesBase.cpp:135
 msgid "Computing allowed"
@@ -1644,7 +1644,7 @@ msgstr "&Fechar"
 #: DlgEventLog.cpp:333 sg_BoincSimpleFrame.cpp:798 sg_DlgPreferences.cpp:442
 #, c-format
 msgid "Get help with %s"
-msgstr "Obter ajuda com %s"
+msgstr "Obter ajuda com o %s"
 
 #: DlgEventLog.cpp:347
 msgid "Show all &messages"
@@ -3490,10 +3490,10 @@ msgid ""
 "listed on or managed via %s."
 msgstr ""
 "Se possível, adicione projectos no\n"
-"%s website.\n"
+"website do %s.\n"
 "\n"
 "Projectos adicionados através do assistente não serão\n"
-"listados ou geridos através do %s."
+"listados ou geridos pelo %s."
 
 #: WelcomePage.cpp:313
 msgid ""
@@ -3626,11 +3626,15 @@ msgstr "Carregue em OK para definir as preferências."
 msgid ""
 "Click Clear to restore web-based settings for all preferences listed below."
 msgstr ""
+"Carregue em Limpar para restaurar as configurações definidas na web para "
+"todas as preferência abaixo"
 
 #: sg_DlgPreferences.cpp:285
 msgid ""
 "For additional settings, select Computing Preferences in the Advanced View."
 msgstr ""
+"Para definições adicionais, seleccione Preferências de Computação na Vista "
+"Avançada"
 
 #: sg_DlgPreferences.cpp:313
 msgid "Do work only between:"
@@ -3663,6 +3667,8 @@ msgstr "Executar trabalho depois de inactivo por:"
 #: sg_DlgPreferences.cpp:429
 msgid "Clear all local preferences listed above and close the dialog"
 msgstr ""
+"Desmarcar todas as preferências locais listadas acima e fechar a caixa de "
+"diálogo"
 
 #: sg_DlgPreferences.cpp:602 sg_DlgPreferences.cpp:605
 #: sg_DlgPreferences.cpp:681 sg_DlgPreferences.cpp:685

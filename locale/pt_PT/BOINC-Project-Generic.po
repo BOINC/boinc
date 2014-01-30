@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: 1.03\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2014-01-10 00:00 PST\n"
-"PO-Revision-Date: 2013-11-27 11:23+0000\n"
+"PO-Revision-Date: 2014-01-30 11:35+0000\n"
 "Last-Translator: Miguel Filipe Paulino de Sousa <Miguel.veig@gmail.com>\n"
 "Language-Team: Portuguese <LL@li.org>\n"
 "Language: pt_PT\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-POOTLE-MTIME: 1385551424.0\n"
+"X-POOTLE-MTIME: 1391081718.0\n"
 
 msgid "LANG_NAME_NATIVE"
 msgstr "Português"
@@ -6058,7 +6058,7 @@ msgstr "Mudar fundador"
 
 #: ../user/team_change_founder_form.php:108
 msgid "There are no users to transfer team to."
-msgstr ""
+msgstr "Não existem utilizadores para transferir de equipa."
 
 #: ../user/team_create_action.php:29
 msgid "You must choose a non-blank team name"
