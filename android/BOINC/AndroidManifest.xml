@@ -78,19 +78,19 @@
         <activity android:name="edu.berkeley.boinc.AttachProjectAcctMgrActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".AttachProjectListActivity" />
+                android:value="edu.berkeley.boinc.AttachProjectListActivity" />
         </activity>
         <activity
             android:name="edu.berkeley.boinc.AttachProjectLoginActivity"
             android:configChanges="orientation" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".AttachProjectListActivity" />
+                android:value="edu.berkeley.boinc.AttachProjectListActivity" />
         </activity>
         <activity android:name="edu.berkeley.boinc.AttachProjectRegistrationActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="edu.berkeley.boinc..AttachProjectListActivity" />
+                android:value="edu.berkeley.boinc.AttachProjectListActivity" />
         </activity>
         <activity
             android:name="edu.berkeley.boinc.AttachProjectWorkingActivity"
