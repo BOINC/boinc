@@ -19,6 +19,7 @@
 package edu.berkeley.boinc.adapter;
 
 import edu.berkeley.boinc.utils.*;
+
 import java.util.ArrayList;
 import org.apache.http.impl.cookie.DateUtils;
 import edu.berkeley.boinc.R;
@@ -27,11 +28,14 @@ import edu.berkeley.boinc.client.Monitor;
 import edu.berkeley.boinc.rpc.Notice;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
@@ -50,7 +54,7 @@ public class NoticesListAdapter extends ArrayAdapter<Notice>{
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 
-		Notice listItem = entries.get(position);
+		final Notice listItem = entries.get(position);
 		
 		LayoutInflater vi = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View v = vi.inflate(R.layout.notices_layout_listitem, null);
@@ -76,8 +80,18 @@ public class NoticesListAdapter extends ArrayAdapter<Notice>{
 		TextView tvNoticeTime = (TextView) v.findViewById(R.id.noticeTime);
 		tvNoticeTime.setText(DateUtils.formatDate(new java.util.Date((long)listItem.create_time*1000)));
 		
-		// set tag for onClic
-		if(!listItem.link.isEmpty()) v.setTag(listItem.link);
+		v.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if(Logging.DEBUG) Log.d(Logging.TAG,"noticeClick: " + listItem.link);
+				
+				if(listItem.link != null && !listItem.link.isEmpty()){ 
+		    		Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(listItem.link));
+		    		activity.startActivity(i);
+				}
+				
+			}
+		});
 
 		return v;
 	}

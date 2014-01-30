@@ -22,24 +22,21 @@ import edu.berkeley.boinc.utils.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import android.app.Dialog;
-import android.app.Service;
 import android.content.BroadcastReceiver;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.ServiceConnection;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.IBinder;
-import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ListView;
@@ -53,39 +50,14 @@ import edu.berkeley.boinc.rpc.Project;
 import edu.berkeley.boinc.rpc.RpcClient;
 import edu.berkeley.boinc.rpc.Transfer;
 
-public class ProjectsActivity extends FragmentActivity {
-	
-	private Monitor monitor;
-	private Boolean mIsBound = false;
+public class ProjectsFragment extends Fragment {
 
 	private ListView lv;
 	private ProjectsListAdapter listAdapter;
 	private ArrayList<ProjectsListData> data = new ArrayList<ProjectsListData>();
-	private final FragmentActivity activity = this;
 
 	// controls popup dialog
 	Dialog dialogControls;
-	
-	// Controls whether initialization of view elements of "projects_layout"
-	// is required. This is the case, every time the layout switched.
-	private Boolean initialSetupRequired = true; 
-	
-    // This is called when the connection with the service has been established, 
-	// getService returns the Monitor object that is needed to call functions.
-	//
-	private ServiceConnection mConnection = new ServiceConnection() {
-		@Override
-	    public void onServiceConnected(ComponentName className, IBinder service) {
-	        monitor = ((Monitor.LocalBinder)service).getService();
-		    mIsBound = true;
-		    if(Logging.VERBOSE) Log.v(Logging.TAG,"ProjectsActivity service bound");
-	    }
-		@Override
-	    public void onServiceDisconnected(ComponentName className) {
-	        monitor = null;
-		    mIsBound = false;
-	    }
-	};
 	
 	// BroadcastReceiver event is used to update the UI with updated information from 
 	// the client.  This is generally called once a second.
@@ -98,49 +70,48 @@ public class ProjectsActivity extends FragmentActivity {
 			populateLayout();
 		}
 	};
-
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-	    if(Logging.VERBOSE) Log.v(Logging.TAG, "ProjectsActivity onCreate()");
-
-	    super.onCreate(savedInstanceState);
-
-	    // Establish a connection with the service, onServiceConnected gets called when
-	    // (calling within Tab needs getApplicationContext() for bindService to work!)
-	    getApplicationContext().bindService(new Intent(this, Monitor.class), mConnection, Service.START_STICKY_COMPATIBILITY);
+		setHasOptionsMenu(true); // enables fragment specific menu
+		super.onCreate(savedInstanceState);
 	}
-	
+
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    	if(Logging.VERBOSE) Log.v(Logging.TAG,"ProjectsFragment onCreateView");
+        // Inflate the layout for this fragment
+    	View layout = inflater.inflate(R.layout.projects_layout, container, false);
+		lv = (ListView) layout.findViewById(R.id.projectsList);
+        listAdapter = new ProjectsListAdapter(getActivity(), lv, R.id.projectsList, data);
+		return layout;
+	}
+
 	@Override
 	public void onPause() {
-		if(Logging.DEBUG) Log.d(Logging.TAG, "ProjectsActivity onPause()");
+		if(Logging.VERBOSE) Log.d(Logging.TAG, "ProjectsFragment onPause()");
 
-		unregisterReceiver(mClientStatusChangeRec);
+		getActivity().unregisterReceiver(mClientStatusChangeRec);
 		super.onPause();
 	}
 
 	@Override
 	public void onResume() {
-		if(Logging.DEBUG) Log.d(Logging.TAG, "ProjectsActivity onResume()");
+		if(Logging.VERBOSE) Log.d(Logging.TAG, "ProjectsFragment onResume()");
 		super.onResume();
 		
 		populateLayout();
 
-		registerReceiver(mClientStatusChangeRec, ifcsc);
+		getActivity().registerReceiver(mClientStatusChangeRec, ifcsc);
 	}
 	
 	@Override
-	protected void onDestroy() {
-	    if(Logging.VERBOSE) Log.v(Logging.TAG, "ProjectsActivity onDestroy()");
-
-	    if (mIsBound) {
-	    	getApplicationContext().unbindService(mConnection);
-	        mIsBound = false;
-	    }
-	    
-	    super.onDestroy();
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		// appends the project specific menu to the main menu.
+		inflater.inflate(R.menu.projects_menu, menu);
+		super.onCreateOptionsMenu(menu, inflater);
 	}
-	
+
 	private void populateLayout() {
 		try {
 			// read projects from state saved in ClientStatus
@@ -148,28 +119,8 @@ public class ProjectsActivity extends FragmentActivity {
 			AcctMgrInfo statusAcctMgr = Monitor.getClientStatus().getAcctMgrInfo();
 			ArrayList<Transfer> statusTransfers = Monitor.getClientStatus().getTransfers();
 			
-			if(statusProjects == null || statusAcctMgr == null || statusTransfers == null) {
-				Boolean statusProjectsNull = statusProjects == null;
-				Boolean statusAcctMgrNull = statusAcctMgr == null;
-				Boolean statusTransfersNull = statusTransfers == null;
-				if(Logging.ERROR) Log.d(Logging.TAG,"ProjectsActiviy data retrieval failed: statusProjectsNull: " + statusProjectsNull + " ; statusAcctMgrNull: " + statusAcctMgrNull + " ; statusTransfersNull: " + statusTransfersNull);
-				setLayoutLoading();
-				
-				return;
-			}
-			
 			// get server / scheduler notices to display if device does not meet
-			// resource requirements
-			ArrayList<Notice> serverNotices = null;
-			if(mIsBound) serverNotices = monitor.clientInterface.getServerNotices();
-			
-			// reading data successful. switch to standard layout, if first time.
-			if (initialSetupRequired) {
-				initialSetupRequired = false;
-				setContentView(R.layout.projects_layout); 
-				lv = (ListView) findViewById(R.id.projectsList);
-		        listAdapter = new ProjectsListAdapter(ProjectsActivity.this, lv, R.id.projectsList, data);
-		    }
+			ArrayList<Notice> serverNotices = Monitor.getClientStatus().getServerNotices();
 			
 			// Update Project data
 			updateData(statusProjects, statusAcctMgr, serverNotices, statusTransfers);
@@ -179,7 +130,6 @@ public class ProjectsActivity extends FragmentActivity {
 			
 		} catch (Exception e) {
 			// data retrieval failed, set layout to loading...
-			setLayoutLoading();
 			if(Logging.ERROR) Log.d(Logging.TAG,"ProjectsActiviy data retrieval failed.");
 		}
 	}
@@ -280,44 +230,6 @@ public class ProjectsActivity extends FragmentActivity {
 	    if(Logging.VERBOSE) Log.d(Logging.TAG, "ProjectsActivity mapTransfersToProject() mapped " + projectTransfers.size() + " transfers to project " + id);
 		return projectTransfers;
 	}
-	
-	private void setLayoutLoading() {
-		setContentView(R.layout.generic_layout_loading); 
-        TextView loadingHeader = (TextView)findViewById(R.id.loading_header);
-        loadingHeader.setText(R.string.projects_loading);
-        initialSetupRequired = true;
-	}
-	
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-	    if(Logging.VERBOSE) Log.v(Logging.TAG, "ProjectsActivity onCreateOptionsMenu()");
-
-		// call BOINCActivity's onCreateOptionsMenu to combine both menus
-		getParent().onCreateOptionsMenu(menu);
-
-	    MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.projects_menu, menu);
-
-		return true;
-	}
-	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-	    if(Logging.VERBOSE) Log.v(Logging.TAG, "ProjectsActivity onOptionsItemSelected()");
-
-	    switch (item.getItemId()) {
-			case R.id.projects_add:
-				addProject(null);
-				return true;
-			default:
-				return getParent().onOptionsItemSelected(item); // if item id can not be mapped, call parents method
-		}
-	}
-	
-	// on click of project add button
-	public void addProject(View view) {
-		startActivity(new Intent(this,AttachProjectListActivity.class));
-	}
 
 	// data wrapper for list view
 	public class ProjectsListData {
@@ -364,7 +276,7 @@ public class ProjectsActivity extends FragmentActivity {
 		public final OnClickListener projectsListClickListener = new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				dialogControls = new Dialog(activity);
+				dialogControls = new Dialog(getActivity());
 				// layout
 				dialogControls.requestWindowFeature(Window.FEATURE_NO_TITLE);
 				dialogControls.setContentView(R.layout.dialog_list);
@@ -397,7 +309,7 @@ public class ProjectsActivity extends FragmentActivity {
 				}
 				
 				// list adapter
-				list.setAdapter(new ProjectControlsListAdapter(activity,list,R.layout.projects_controls_listitem_layout,controls));
+				list.setAdapter(new ProjectControlsListAdapter(getActivity(),list,R.layout.projects_controls_listitem_layout,controls));
 				if(Logging.DEBUG) Log.d(Logging.TAG,"dialog list adapter entries: " + controls.size());
 				
 				// buttons
@@ -437,7 +349,7 @@ public class ProjectsActivity extends FragmentActivity {
 				if(operation == RpcClient.PROJECT_DETACH
 						|| operation == RpcClient.PROJECT_RESET
 						|| operation == RpcClient.MGR_DETACH) {
-					final Dialog dialog = new Dialog(activity);
+					final Dialog dialog = new Dialog(getActivity());
 					dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 					dialog.setContentView(R.layout.dialog_confirm);
 					Button confirm = (Button) dialog.findViewById(R.id.confirm);
@@ -495,55 +407,46 @@ public class ProjectsActivity extends FragmentActivity {
 	private final class ProjectOperationAsync extends AsyncTask<Object,Void,Boolean> {
 
 		@Override
-		protected void onPreExecute() {
-			if(Logging.DEBUG) Log.d(Logging.TAG,"ProjectOperationAsync onPreExecute");
-			super.onPreExecute();
-		}
-
-		@Override
 		protected Boolean doInBackground(Object... params) {
 			if(Logging.DEBUG) Log.d(Logging.TAG,"ProjectOperationAsync doInBackground");
 			try{
 				ProjectsListData data = (ProjectsListData) params[0];
 				Integer operation = (Integer) params[1];
-				if(Logging.DEBUG) Log.d(Logging.TAG,"ProjectOperationAsync isMgr: " + data.isMgr + "url: " + data.id + " operation: " + operation + " monitor bound: " + mIsBound);
+				if(Logging.DEBUG) Log.d(Logging.TAG,"ProjectOperationAsync isMgr: " + data.isMgr + "url: " + data.id + " operation: " + operation);
 	
-				if(mIsBound) {
-					switch (operation) {
-					// project operations
-					case RpcClient.PROJECT_UPDATE:
-					case RpcClient.PROJECT_SUSPEND:
-					case RpcClient.PROJECT_RESUME:
-					case RpcClient.PROJECT_NNW:
-					case RpcClient.PROJECT_ANW:
-					case RpcClient.PROJECT_DETACH:
-					case RpcClient.PROJECT_RESET:
-						return monitor.clientInterface.projectOp(operation, data.id);
-						
-					// acct mgr operations
-					case RpcClient.MGR_SYNC:
-						return monitor.clientInterface.synchronizeAcctMgr(data.acctMgrInfo.acct_mgr_url);
-					case RpcClient.MGR_DETACH:
-						return monitor.clientInterface.addAcctMgr("", "", "").error_num == BOINCErrors.ERR_OK;
-						
-					// transfer operations
-					case RpcClient.TRANSFER_RETRY:
-						return monitor.clientInterface.transferOperation(data.projectTransfers, operation);
-					case RpcClient.TRANSFER_ABORT:
-						break;
-						
-					default:
-						if(Logging.ERROR) Log.e(Logging.TAG,"ProjectOperationAsync could not match operation: " + operation);
-					}
+				switch (operation) {
+				// project operations
+				case RpcClient.PROJECT_UPDATE:
+				case RpcClient.PROJECT_SUSPEND:
+				case RpcClient.PROJECT_RESUME:
+				case RpcClient.PROJECT_NNW:
+				case RpcClient.PROJECT_ANW:
+				case RpcClient.PROJECT_DETACH:
+				case RpcClient.PROJECT_RESET:
+					return ((BOINCActivity)getActivity()).getMonitorService().clientInterface.projectOp(operation, data.id);
+					
+				// acct mgr operations
+				case RpcClient.MGR_SYNC:
+					return ((BOINCActivity)getActivity()).getMonitorService().clientInterface.synchronizeAcctMgr(data.acctMgrInfo.acct_mgr_url);
+				case RpcClient.MGR_DETACH:
+					return ((BOINCActivity)getActivity()).getMonitorService().clientInterface.addAcctMgr("", "", "").error_num == BOINCErrors.ERR_OK;
+					
+				// transfer operations
+				case RpcClient.TRANSFER_RETRY:
+					return ((BOINCActivity)getActivity()).getMonitorService().clientInterface.transferOperation(data.projectTransfers, operation);
+				case RpcClient.TRANSFER_ABORT:
+					break;
+					
+				default:
+					if(Logging.ERROR) Log.e(Logging.TAG,"ProjectOperationAsync could not match operation: " + operation);
 				}
-				else return false;
 			} catch(Exception e) {if(Logging.WARNING) Log.w(Logging.TAG,"ProjectOperationAsync error in do in background",e);}
 			return false;
 		}
 
 		@Override
 		protected void onPostExecute(Boolean success) {
-			if(success) monitor.forceRefresh();
+			if(success) ((BOINCActivity)getActivity()).getMonitorService().forceRefresh();
 			else if(Logging.WARNING) Log.w(Logging.TAG,"ProjectOperationAsync failed.");
 		}
 	}

@@ -27,7 +27,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import edu.berkeley.boinc.ProjectsActivity.ProjectControl;
+import edu.berkeley.boinc.ProjectsFragment.ProjectControl;
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.rpc.RpcClient;
 

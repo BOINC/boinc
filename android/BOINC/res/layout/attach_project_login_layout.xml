@@ -28,23 +28,6 @@
     	android:layout_height="wrap_content"
     	android:orientation="vertical"
     	android:paddingBottom="10dp">
-    	
-	    <LinearLayout 
-		    android:id="@+id/projectNameWrapper"
-	        android:layout_width="fill_parent"
-	        android:layout_height="wrap_content"
-	        android:background="@drawable/shape_dark_blue_gradient_background"
-	        android:padding="15dp"
-		    android:gravity="center_horizontal"
-		    android:layout_marginBottom="10dp">
-	        <TextView android:textAppearance="?android:attr/textAppearanceLarge"
-		        android:id="@+id/project_name"
-		        android:background="@android:color/transparent"
-		        android:textColor="@color/white_smoke"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:singleLine="true"/>
-	    </LinearLayout>
         
         <!-- data in this section only available after list selection -->
         <LinearLayout 
@@ -130,13 +113,13 @@
 		    </LinearLayout>
 		    
 	        <LinearLayout 
-		        android:id="@+id/home_wrapper"
+		        android:id="@+id/based_at_wrapper"
 	            android:layout_height="wrap_content"
 	            android:layout_width="fill_parent"
 	            android:orientation="horizontal"
 	            android:padding="10dp">
 			    <TextView
-			        android:id="@+id/header_home"
+			        android:id="@+id/header_based_at"
 			        android:layout_width="100dp"
 			        android:singleLine="true"
 			        android:layout_height="wrap_content"
@@ -145,7 +128,7 @@
 			        android:text="@string/attachproject_login_header_home" />
 			
 			    <TextView
-			        android:id="@+id/home"
+			        android:id="@+id/based_at"
 			        android:layout_width="wrap_content"
 			        android:layout_height="wrap_content"
 			        android:textAppearance="?android:attr/textAppearanceSmall" />
@@ -173,7 +156,6 @@
 		        android:layout_height="wrap_content"
 		        android:textAppearance="?android:attr/textAppearanceSmall"
 		        android:clickable="true"
-		        android:onClick="projectUrlClicked"
 		        android:textColor="@color/dark_blue"/>
 	    </LinearLayout>
 	    

@@ -48,6 +48,7 @@ import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.rpc.CcState;
 import edu.berkeley.boinc.rpc.CcStatus;
 import edu.berkeley.boinc.rpc.GlobalPreferences;
+import edu.berkeley.boinc.rpc.Notice;
 import edu.berkeley.boinc.rpc.ProjectInfo;
 import edu.berkeley.boinc.rpc.Transfer;
 import edu.berkeley.boinc.rpc.AcctMgrInfo;
@@ -63,6 +64,7 @@ public class Monitor extends Service {
 	
 	private static ClientStatus clientStatus; //holds the status of the client as determined by the Monitor
 	private static AppPreferences appPrefs; //hold the status of the app, controlled by AppPreferences
+	private static DeviceStatus deviceStatus; // holds the status of the device, i.e. status information that can only be obtained trough Java APIs
 	
 	public ClientInterfaceImplementation clientInterface = new ClientInterfaceImplementation(); //provides functions for interaction with client via rpc
 	
@@ -82,7 +84,6 @@ public class Monitor extends Service {
 	private Timer updateTimer = new Timer(true); // schedules frequent client status update
 	private TimerTask statusUpdateTask = new StatusUpdateTimerTask();
 	private boolean updateBroadcastEnabled = true;
-	private DeviceStatus deviceStatus = null;
 	private Integer screenOffStatusOmitCounter = 0;
 	
 	// screen on/off updated by screenOnOffBroadcastReceiver
@@ -124,6 +125,8 @@ public class Monitor extends Service {
 		// initialize singleton helper classes and provide application context
 		clientStatus = new ClientStatus(this);
 		getAppPrefs().readPrefs(this);
+		deviceStatus = new DeviceStatus(this, getAppPrefs());
+		if(Logging.ERROR) Log.d(Logging.TAG,"Monitor onCreate(): singletons initialized");
 		
 		// set current screen on/off status
 		PowerManager pm = (PowerManager)
@@ -202,6 +205,21 @@ public class Monitor extends Service {
 			appPrefs = new AppPreferences();
 		}
 		return appPrefs;
+	}
+
+	/**
+	 * Retrieve singleton of DeviceStatus.
+	 * @return DeviceStatus, represents data model of device information reported to the client
+	 * @throws Exception if deviceStatus hast not been initialized
+	 */
+	public static DeviceStatus getDeviceStatus() throws Exception {//singleton pattern
+		if (deviceStatus == null) {
+			// device status needs application context, but context might not be available
+			// in static code. functions have to deal with Exception!
+			if(Logging.WARNING) Log.w(Logging.TAG,"getDeviceStatus: deviceStatus not yet initialized");
+			throw new Exception("deviceStatus not initialized");
+		}
+		return deviceStatus;
 	}
 // --end-- singleton getter
 	
@@ -341,17 +359,6 @@ public class Monitor extends Service {
 	public String getAuthFilePath(){
 		return boincWorkingDir + fileNameGuiAuthentication;
 	}
-	
-	/**
-	 * Returns DeviceStatus class. Initializes it, if necessary.
-	 * @return device status class. containing the current status data
-	 */
-	public DeviceStatus getDeviceStatus() {
-		if(deviceStatus == null) {
-			deviceStatus = new DeviceStatus(getApplicationContext(), getAppPrefs());
-		}
-		return deviceStatus;
-	}
 // --end-- public methods for Activities
     
 // multi-threaded frequent information polling
@@ -418,9 +425,10 @@ public class Monitor extends Service {
 				CcState state = clientInterface.getState();
 				ArrayList<Transfer>  transfers = clientInterface.getFileTransfers();
 				AcctMgrInfo acctMgrInfo = clientInterface.getAcctMgrInfo();
+				ArrayList<Notice> newNotices = clientInterface.getNotices(Monitor.getClientStatus().getMostRecentNoticeSeqNo());
 				
 				if( (status != null) && (state != null) && (state.results != null) && (state.projects != null) && (transfers != null) && (state.host_info != null) && (acctMgrInfo != null)) {
-					Monitor.getClientStatus().setClientStatus(status, state.results, state.projects, transfers, state.host_info, acctMgrInfo);
+					Monitor.getClientStatus().setClientStatus(status, state.results, state.projects, transfers, state.host_info, acctMgrInfo, newNotices);
 					// Update status bar notification
 					ClientNotification.getInstance(getApplicationContext()).update();
 				} else {

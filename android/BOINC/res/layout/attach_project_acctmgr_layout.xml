@@ -28,22 +28,6 @@
 	    android:layout_height="wrap_content"
 	    android:orientation="vertical"
 	    android:paddingBottom="10dp">
-    	
-	    <LinearLayout 
-	        android:layout_width="fill_parent"
-	        android:layout_height="wrap_content"
-	        android:background="@drawable/shape_dark_blue_gradient_background"
-	        android:padding="15dp"
-		    android:gravity="center_horizontal"
-		    android:layout_marginBottom="10dp">
-	        <TextView android:textAppearance="?android:attr/textAppearanceLarge"
-		        android:background="@android:color/transparent"
-		        android:textColor="@color/white_smoke"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:singleLine="true"
-		        android:text="@string/attachproject_acctmgr_header"/>
-	    </LinearLayout>
 		
 	    <LinearLayout 
 	        android:layout_width="match_parent"

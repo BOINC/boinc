@@ -17,76 +17,15 @@
   You should have received a copy of the GNU Lesser General Public License
   along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <LinearLayout 
-	    android:id="@+id/headerWrapper"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/shape_dark_blue_gradient_background"
-        android:padding="15dp"
-	    android:gravity="center_horizontal">
-        <TextView android:textAppearance="?android:attr/textAppearanceLarge"
-	        android:id="@+id/header"
-	        android:text="@string/attachproject_list_header"
-	        android:background="@android:color/transparent"
-	        android:textColor="@color/white_smoke"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:singleLine="true"/>
-    </LinearLayout>
 
     <ListView
         android:id="@+id/listview"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_below="@+id/headerWrapper"
-        android:layout_marginBottom="70dp" >
+        android:layout_height="fill_parent">
     </ListView>
-    
-    <LinearLayout 
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-		android:layout_alignParentBottom="true"
-		android:gravity="center_horizontal">
-        
-        <Button
-			android:id="@+id/accountManagerButton"
-			android:layout_height="wrap_content"
-			android:layout_width="wrap_content"
-			android:maxWidth="200dp"
-			android:layout_weight="0.5"
-			android:padding="5dp"
-			android:layout_marginBottom="5dp"
-			android:layout_marginRight="10dp"
-			android:layout_marginLeft="10dp"
-			android:layout_gravity="center_horizontal"
-			android:clickable="true"
-			android:background="@drawable/shape_button_blue"
-			android:textColor="@color/white_smoke"
-			android:textAppearance="?android:attr/textAppearanceMedium"
-			android:onClick="onAcctMgrClick"
-			android:text="@string/attachproject_list_acctmgr_button" /> 
-    
-	    <Button
-			android:id="@+id/manualUrlButton"
-			android:layout_height="wrap_content"
-			android:layout_width="wrap_content"
-			android:maxWidth="200dp"
-			android:layout_weight="0.5"
-			android:padding="5dp"
-			android:layout_marginBottom="5dp"
-			android:layout_marginRight="10dp"
-			android:layout_marginLeft="10dp"
-			android:layout_gravity="center_horizontal"
-			android:clickable="true"
-			android:background="@drawable/shape_button_blue"
-			android:textColor="@color/white_smoke"
-			android:textAppearance="?android:attr/textAppearanceMedium"
-			android:onClick="manualUrlItem"
-			android:text="@string/attachproject_list_manual_button" /> 
-    </LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>

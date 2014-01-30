@@ -20,20 +20,24 @@
 package edu.berkeley.boinc;
 
 import edu.berkeley.boinc.utils.*;
-
 import java.util.ArrayList;
 import edu.berkeley.boinc.adapter.AttachProjectListAdapter;
 import edu.berkeley.boinc.client.ClientStatus;
 import edu.berkeley.boinc.client.Monitor;
 import edu.berkeley.boinc.rpc.ProjectInfo;
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -42,16 +46,16 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class AttachProjectListActivity extends Activity implements android.view.View.OnClickListener{
+public class AttachProjectListActivity extends ActionBarActivity implements android.view.View.OnClickListener{
 
 	private ListView lv;
 	private AttachProjectListAdapter listAdapter;
 	private Dialog manualUrlInputDialog;
+	private Boolean acctMgrPresent = false;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {  
         super.onCreate(savedInstanceState);  
-        requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
          
         if(Logging.DEBUG) Log.d(Logging.TAG, "AttachProjectListActivity onCreate"); 
         
@@ -61,6 +65,7 @@ public class AttachProjectListActivity extends Activity implements android.view.
 		ArrayList<ProjectInfo> data = new ArrayList<ProjectInfo>();
 		try{
 			status  = Monitor.getClientStatus();
+			acctMgrPresent = status.getAcctMgrInfo().present;
 			data = status.getSupportedProjects();
 			if(Logging.DEBUG) Log.d(Logging.TAG,"monitor.getAndroidProjectsList returned with " + data.size() + " elements");
 		} catch (Exception e){
@@ -75,20 +80,57 @@ public class AttachProjectListActivity extends Activity implements android.view.
         listAdapter = new AttachProjectListAdapter(AttachProjectListActivity.this,R.id.listview,data);
         lv.setAdapter(listAdapter);
         
-        // disable "add account manager" button, if account manager already present
-        if(status.getAcctMgrInfo().present) {
-        	Button addAcctMgrButton = (Button) findViewById(R.id.accountManagerButton);
-        	addAcctMgrButton.setVisibility(View.GONE);
-        }
+        // setup action bar
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle(R.string.attachproject_list_header);
         
-        // set title bar
-        getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title_bar);
+        // disable up as home if explicitly requested in intent (e.g. when navigating directly from splash screen)
+        Intent i = getIntent();
+        actionBar.setDisplayHomeAsUpEnabled(i.getBooleanExtra("showUp", true));
     }
     
 	@Override
 	protected void onDestroy() {
     	if(Logging.VERBOSE) Log.v(Logging.TAG, "AttachProjectListActivity onDestroy");
 	    super.onDestroy();
+	}	
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    if(Logging.VERBOSE) Log.v(Logging.TAG, "AttachProjectListActivity onCreateOptionsMenu()");
+
+	    MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.attach_list_menu, menu);
+
+        // disable "add account manager" button, if account manager already present
+        if(acctMgrPresent) {
+        	MenuItem item = menu.findItem(R.id.acctmgr_add);
+        	item.setVisible(false);
+        }
+        
+		return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    if(Logging.VERBOSE) Log.v(Logging.TAG, "AttachProjectListActivity onOptionsItemSelected()");
+
+	    switch (item.getItemId()) {
+	    	case R.id.acctmgr_add:
+	    		Intent intent = new Intent(this, AttachProjectAcctMgrActivity.class);
+	    		startActivity(intent);
+	    		return true;
+	    	case R.id.projects_add_url:
+	    		showDialog(R.id.projects_add_url);
+	    		return true;
+	    	case android.R.id.home:
+	    	    if(Logging.DEBUG) Log.d(Logging.TAG, "AttachProjectListActivity onOptionsItemSelected(): navigate to logical parent");
+	    		// navigate to logical parent (manifest) when home/up/appicon is clicked
+	    	    NavUtils.navigateUpFromSameTask(this);
+	            return true;
+			default:
+				return super.onOptionsItemSelected(item);
+		}
 	}
 	
 	// check whether device is online before starting connection attempt
@@ -101,13 +143,6 @@ public class AttachProjectListActivity extends Activity implements android.view.
 	    return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
 	}
 	
-	// get called by manual input list item
-	public void manualUrlItem(View view) {
-		//if(Logging.DEBUG) Log.d(Logging.TAG,"manualUrlItem");
-		//show dialog
-		showDialog(view.getId());
-	}
-	
 	// gets called by showDialog
 	@Override
 	protected Dialog onCreateDialog(int id) {
@@ -118,12 +153,6 @@ public class AttachProjectListActivity extends Activity implements android.view.
 		button.setOnClickListener(this);
 		((TextView)manualUrlInputDialog.findViewById(R.id.title)).setText(R.string.attachproject_list_manual_dialog_title);
 		return manualUrlInputDialog;
-	}
-	
-	// gets called by account manager button click
-	public void onAcctMgrClick(View v) {
-		Intent intent = new Intent(this, AttachProjectAcctMgrActivity.class);
-		startActivity(intent);
 	}
 
 	// gets called by dialog button

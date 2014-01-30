@@ -28,6 +28,7 @@ import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -40,11 +41,13 @@ import android.graphics.BitmapFactory;
 import android.net.wifi.WifiManager;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
+import android.text.format.DateUtils;
 import android.util.Log;
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.rpc.AcctMgrInfo;
 import edu.berkeley.boinc.rpc.CcStatus;
 import edu.berkeley.boinc.rpc.GlobalPreferences;
+import edu.berkeley.boinc.rpc.Notice;
 import edu.berkeley.boinc.rpc.Project;
 import edu.berkeley.boinc.rpc.ProjectInfo;
 import edu.berkeley.boinc.rpc.Result;
@@ -103,6 +106,11 @@ public class ClientStatus {
 	
 	// supported projects
 	private ArrayList<ProjectInfo> supportedProjects = new ArrayList<ProjectInfo>();
+	
+	// notices
+	private ArrayList<Notice> rssNotices = new ArrayList<Notice>();
+	private ArrayList<Notice> serverNotices = new ArrayList<Notice>();
+	private int mostRecentNoticeSeqNo = 0; 
 	
 	public ClientStatus(Context ctx) {
 		this.ctx = ctx;
@@ -170,7 +178,7 @@ public class ClientStatus {
 	/*
 	 * called frequently by Monitor to set the RPC data. These objects are used to determine the client status and parse it in the data model of this class.
 	 */
-	public synchronized void setClientStatus(CcStatus status,ArrayList<Result> results,ArrayList<Project> projects, ArrayList<Transfer> transfers, HostInfo hostinfo, AcctMgrInfo acctMgrInfo) {
+	public synchronized void setClientStatus(CcStatus status,ArrayList<Result> results,ArrayList<Project> projects, ArrayList<Transfer> transfers, HostInfo hostinfo, AcctMgrInfo acctMgrInfo, ArrayList<Notice> newNotices) {
 		this.status = status;
 		this.results = results;
 		this.projects = projects;
@@ -178,6 +186,7 @@ public class ClientStatus {
 		this.hostinfo = hostinfo;
 		this.acctMgrInfo = acctMgrInfo;
 		parseClientStatus();
+		appendNewNotices(newNotices);
 		if(Logging.VERBOSE) Log.v(Logging.TAG,"setClientStatus: #results:" + results.size() + " #projects:" + projects.size() + " #transfers:" + transfers.size() + " // computing: " + computingParseError + computingStatus + computingSuspendReason + " - network: " + networkParseError + networkStatus + networkSuspendReason);
 		if(!computingParseError && !networkParseError && !setupStatusParseError) {
 			fire(); // broadcast that status has changed
@@ -210,6 +219,18 @@ public class ClientStatus {
 	
 	public synchronized ArrayList<ProjectInfo> getSupportedProjects () {
 		return supportedProjects;
+	}
+	
+	public int getMostRecentNoticeSeqNo() {
+		return mostRecentNoticeSeqNo;
+	}
+	
+	public synchronized ArrayList<Notice> getRssNotices() {
+		return rssNotices;
+	}
+	
+	public synchronized ArrayList<Notice> getServerNotices() {
+		return serverNotices;
 	}
 	
 	public synchronized CcStatus getClientStatus() {
@@ -252,6 +273,57 @@ public class ClientStatus {
 		return projects;
 	}
 	
+	public synchronized String getProjectStatus(String master_url) {
+		StringBuffer sb = new StringBuffer();
+		for(Project project: projects) {
+			if(!project.master_url.equals(master_url)) continue;
+			
+			if (project.suspended_via_gui) {
+	        	appendToStatus(sb, ctx.getResources().getString(R.string.projects_status_suspendedviagui));
+	        }
+	        if (project.dont_request_more_work) {
+	        	appendToStatus(sb, ctx.getResources().getString(R.string.projects_status_dontrequestmorework));
+	        }
+	        if (project.ended) {
+	        	appendToStatus(sb, ctx.getResources().getString(R.string.projects_status_ended));
+	        }
+	        if (project.detach_when_done) {
+	        	appendToStatus(sb, ctx.getResources().getString(R.string.projects_status_detachwhendone));
+	        }
+	        if (project.sched_rpc_pending > 0) {
+	        	appendToStatus(sb, ctx.getResources().getString(R.string.projects_status_schedrpcpending));
+	            appendToStatus(sb, BOINCUtils.translateRPCReason(ctx, project.sched_rpc_pending));
+	        }
+	        if (project.scheduler_rpc_in_progress) {
+	        	appendToStatus(sb, ctx.getResources().getString(R.string.projects_status_schedrpcinprogress));
+	        }
+	        if (project.trickle_up_pending) {
+	        	appendToStatus(sb, ctx.getResources().getString(R.string.projects_status_trickleuppending));
+	        }
+	        
+	        Calendar minRPCTime = Calendar.getInstance();
+	        Calendar now = Calendar.getInstance();
+	        minRPCTime.setTimeInMillis((long)project.min_rpc_time*1000);
+	        if (minRPCTime.compareTo(now) > 0) {
+	            appendToStatus(
+	            	sb,
+	            	ctx.getResources().getString(R.string.projects_status_backoff) + " " +
+	            	DateUtils.formatElapsedTime((minRPCTime.getTimeInMillis() - now.getTimeInMillis()) / 1000)
+	            );
+	        }
+		}
+		return sb.toString();
+	}
+
+	private void appendToStatus(StringBuffer existing, String additional) {
+	    if (existing.length() == 0) {
+	        existing.append(additional);
+	    } else {
+	        existing.append(", ");
+	        existing.append(additional);
+	    }
+	}
+	
 	public synchronized HostInfo getHostInfo() {
 		if(hostinfo == null) {
 			if(Logging.DEBUG) Log.d(Logging.TAG, "getHostInfo() state is null");
@@ -262,6 +334,42 @@ public class ClientStatus {
 	
 	public synchronized AcctMgrInfo getAcctMgrInfo() {
 		return acctMgrInfo; // can be null
+	}
+	
+	// returns all slideshow images for given project
+	// images: 126 * 290 pixel from /projects/PNAME/slideshow_appname_n
+	// not aware of application!
+	public synchronized ArrayList<ImageWrapper> getSlideshowForProject(String masterUrl) {
+		ArrayList<ImageWrapper> images = new ArrayList<ImageWrapper>();
+		for(Project project: projects) {
+			if(!project.master_url.equals(masterUrl)) continue;
+			// get file paths of soft link files
+			File dir = new File(project.project_dir);
+			File[] foundFiles = dir.listFiles(new FilenameFilter() {
+			    public boolean accept(File dir, String name) {
+			        return name.startsWith("slideshow_") && !name.endsWith(".png");
+			    }
+			});
+			if(foundFiles == null) continue; // prevent NPE
+			
+			ArrayList<String> allImagePaths = new ArrayList<String>();
+			for (File file: foundFiles) {
+				String slideshowImagePath = parseSoftLinkToAbsPath(file.getAbsolutePath(), project.project_dir);
+				//check whether path is not empty, and avoid duplicates (slideshow images can 
+				//re-occur for multiple apps, since we do not distinct apps, skip duplicates.
+				if(slideshowImagePath != null && !slideshowImagePath.isEmpty() && !allImagePaths.contains(slideshowImagePath)) allImagePaths.add(slideshowImagePath);
+				//if(Logging.DEBUG) Log.d(Logging.TAG, "getSlideshowImages() path: " + slideshowImagePath);
+			}
+			//if(Logging.DEBUG) Log.d(Logging.TAG,"getSlideshowImages() retrieve number file paths: " + filePaths.size());
+			
+			// load images from paths
+			for (String filePath : allImagePaths) {
+					Bitmap tmp = BitmapFactory.decodeFile(filePath);
+					if(tmp!=null) images.add(new ImageWrapper(tmp,project.project_name, filePath));
+					else if(Logging.DEBUG) Log.d(Logging.TAG,"loadSlideshowImagesFromFile(): null for path: " + filePath);
+				}
+		}
+		return images;
 	}
 
 	// updates list of slideshow images of all projects
@@ -553,6 +661,17 @@ public class ClientStatus {
 		} catch (Exception e) {
 			if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 4) Log.e(Logging.TAG, "ClientStatus parseNetworkStatus - Exception", e);
 			if(Logging.DEBUG) Log.d(Logging.TAG, "ClientStatus error - client network status");
+		}
+	}
+	
+	private void appendNewNotices(ArrayList<Notice> newNotices) {
+		for(Notice newNotice: newNotices) {
+			if(Logging.DEBUG) Log.d(Logging.TAG,"ClientStatus.appendNewNotices new notice with seq number: " + newNotice.seqno + " is server notice: " + newNotice.isServerNotice);
+			if(newNotice.seqno > mostRecentNoticeSeqNo) {
+				if(!newNotice.isClientNotice && !newNotice.isServerNotice) rssNotices.add(newNotice);
+				if(newNotice.isServerNotice) serverNotices.add(newNotice);
+				mostRecentNoticeSeqNo = newNotice.seqno;
+			}
 		}
 	}
 

@@ -19,9 +19,8 @@
 package edu.berkeley.boinc.adapter;
 
 import java.util.ArrayList;
-
+import edu.berkeley.boinc.PrefsFragment;
 import edu.berkeley.boinc.R;
-
 import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -29,6 +28,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class PrefsListAdapter extends ArrayAdapter<PrefsListItemWrapper>{
@@ -36,11 +36,13 @@ public class PrefsListAdapter extends ArrayAdapter<PrefsListItemWrapper>{
 	//private final String TAG = "PrefsListAdapter";
 	private ArrayList<PrefsListItemWrapper> entries;
     private Activity activity;
- 
-    public PrefsListAdapter(Activity a, int textViewResourceId, ArrayList<PrefsListItemWrapper> entries) {
+    private PrefsFragment frag;
+    
+    public PrefsListAdapter(Activity a, PrefsFragment frag, int textViewResourceId, ArrayList<PrefsListItemWrapper> entries) {
         super(a, textViewResourceId, entries);
         this.entries = entries;
         this.activity = a;
+        this.frag = frag;
     }
  
     @Override
@@ -60,12 +62,13 @@ public class PrefsListAdapter extends ArrayAdapter<PrefsListItemWrapper>{
 	    		v = vi.inflate(R.layout.prefs_layout_listitem_bool, null);
 	    		CheckBox header = (CheckBox) v.findViewById(R.id.checkbox);
 	    		header.setText(((PrefsListItemWrapperBool) listItem).header);
-	    		header.setTag(listItem.ID); //set ID as tag to checkbox, since checkbox is clicked
 	        	header.setChecked(((PrefsListItemWrapperBool) listItem).getStatus());
+	        	header.setOnClickListener(frag.new BoolOnClick(listItem.ID, header));
 	    	} else if(listItem instanceof PrefsListItemWrapperValue) {
 	    		PrefsListItemWrapperValue item = (PrefsListItemWrapperValue) listItem;
 	    		v = vi.inflate(R.layout.prefs_layout_listitem, null);
-	    		v.setTag(listItem); //set listItem as tag to view, since root layout defines onClick method
+	    		RelativeLayout wrapper = (RelativeLayout) v.findViewById(R.id.wrapper);
+	    		wrapper.setOnClickListener(frag.new ValueOnClick(listItem));
 	    		TextView header = (TextView) v.findViewById(R.id.header);
 	    		header.setText(item.header);
 	    		TextView description = (TextView) v.findViewById(R.id.description);
@@ -79,7 +82,8 @@ public class PrefsListAdapter extends ArrayAdapter<PrefsListItemWrapper>{
 	    		status.setText(value + " " + item.unit);
 	    	} else {
 	    		v = vi.inflate(R.layout.prefs_layout_listitem, null);
-	    		v.setTag(listItem); //set listItem as tag to view, since root layout defines onClick method
+	    		RelativeLayout wrapper = (RelativeLayout) v.findViewById(R.id.wrapper);
+	    		wrapper.setOnClickListener(frag.new ValueOnClick(listItem));
 	    		TextView header = (TextView) v.findViewById(R.id.header);
 	    		header.setText(listItem.header);
 	    		if(listItem.ID == R.string.prefs_client_log_flags_header) {
