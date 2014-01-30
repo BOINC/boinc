@@ -170,7 +170,7 @@ public class ClientInterfaceImplementation extends RpcClient{
 	
 	/**
 	 * Attaches project, requires authenticator
-	 * @param url master URL of project to be attached
+	 * @param url URL of project to be attached, either masterUrl(HTTP) or webRpcUrlBase(HTTPS)
 	 * @param projectName name of project as shown in the manager
 	 * @param authenticator user authentication key, has to be obtained first
 	 * @return success
@@ -223,7 +223,7 @@ public class ClientInterfaceImplementation extends RpcClient{
 	/**
 	 * Looks up account credentials for given user data.
 	 * Contains authentication key for project attachment.
-	 * @param url master URL of project
+	 * @param url URL of project, either masterUrl(HTTP) or webRpcUrlBase(HTTPS)
 	 * @param id user ID, can be either name or eMail, see usesName
 	 * @param pwd password
 	 * @param usesName if true, id represents a user name, if not, the user's email address

@@ -23,6 +23,8 @@ import java.util.ArrayList;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
+
+import android.util.Log;
 import android.util.Xml;
 
 public class ProjectConfigReplyParser extends BaseParser {

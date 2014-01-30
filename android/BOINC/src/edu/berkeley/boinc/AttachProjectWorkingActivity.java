@@ -61,7 +61,7 @@ public class AttachProjectWorkingActivity extends Activity{
 	private ViewGroup anchor;
 	
 	private int action;
-	private String projectUrl;
+	private String projectUrl; // web rpc url, either masterUrl(HTTP) or webRpcUrlBase(HTTPS)
 	private String projectName;
 	private String id;
 	private String userName;
@@ -267,7 +267,7 @@ public class AttachProjectWorkingActivity extends Activity{
 		
 		public ProjectAccountAsync(Integer action, String url, String id, String email, String userName, String teamName, String pwd, Boolean usesName, String projectName) {
 			this.action = action;
-			this.url = url;
+			this.url = url; // either HTTP or HTTPS, if present (webRpcUrlBase in ProjectConfig)
 			this.id = id; // used for login
 			this.email = email;
 			this.userName = userName;

@@ -316,7 +316,7 @@ public class AttachProjectLoginActivity extends ActionBarActivity{
 			Intent intent = new Intent(this, AttachProjectWorkingActivity.class);
 			intent.putExtra("action", AttachProjectWorkingActivity.ACTION_ATTACH);
 			intent.putExtra("usesName", projectConfig.userName);
-			intent.putExtra("projectUrl", projectConfig.masterUrl);
+			intent.putExtra("projectUrl", getWebRpcUrl());
 			intent.putExtra("projectName", projectConfig.name);
 			intent.putExtra("id", id);
 			intent.putExtra("pwd", pwd);
@@ -331,7 +331,7 @@ public class AttachProjectLoginActivity extends ActionBarActivity{
 		if (clientCreation) {
 			// start intent to AttachProjectWorkingActivity
 			Intent intent = new Intent(this, AttachProjectRegistrationActivity.class);
-			intent.putExtra("projectUrl", projectConfig.masterUrl);
+			intent.putExtra("projectUrl", getWebRpcUrl());
 			intent.putExtra("projectName", projectConfig.name);
 			intent.putExtra("minPwdLength", projectConfig.minPwdLength);
 			intent.putExtra("usesName", projectConfig.userName);
@@ -350,6 +350,16 @@ public class AttachProjectLoginActivity extends ActionBarActivity{
 		Intent i = new Intent(Intent.ACTION_VIEW);
 		i.setData(Uri.parse(projectConfig.masterUrl + "/get_passwd.php"));
 		startActivity(i);
+	}
+	
+	// returns URL for web RPC (lookupAccount or createAccount)
+	// HTTPS if supported (ProjectConfig.webRpcUrlBase), masterUrl if not
+	private String getWebRpcUrl() {
+		if(projectConfig.webRpcUrlBase.isEmpty()) return projectConfig.masterUrl;
+		else {
+			if(Logging.DEBUG) Log.d(Logging.TAG, "AttachProjectLoginActivity.getWebRpcUrl(): HTTPS URL found, using : " + projectConfig.webRpcUrlBase + " for further account related RPCs");
+			return projectConfig.webRpcUrlBase;
+		}
 	}
 	
 	private Boolean verifyInput(String id, String pwd) {

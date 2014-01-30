@@ -19,7 +19,7 @@
 package edu.berkeley.boinc.rpc;
 
 public class AccountIn {
-	public String url;
+	public String url; // either master_url or web_rpc_url_base (HTTPS), if present
 	public String email_addr;
 	public String user_name;
 	public String passwd;
