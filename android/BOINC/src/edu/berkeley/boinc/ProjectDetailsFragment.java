@@ -61,7 +61,7 @@ import edu.berkeley.boinc.rpc.RpcClient;
 public class ProjectDetailsFragment extends Fragment {
 	
 	private String url;
-	private ProjectInfo projectInfo;
+	private ProjectInfo projectInfo; // might be null for projects added via manual URL attach
 	private Project project;
     private ArrayList<ImageWrapper> slideshowImages = new ArrayList<ImageWrapper>();
     
@@ -227,7 +227,7 @@ public class ProjectDetailsFragment extends Fragment {
 
 	private void populateLayout() {
 		
-		if(projectInfo == null || project == null) {
+		if(project == null) {
 			retryLayout = true;
 			return; // if data not available yet, return. frequently retrys with onReceive
 		}
@@ -254,7 +254,7 @@ public class ProjectDetailsFragment extends Fragment {
 			}});
 		
 		// set general area
-		if(projectInfo.generalArea != null) {
+		if(projectInfo != null && projectInfo.generalArea != null) {
 			TextView generalArea = (TextView) v.findViewById(R.id.general_area);
 			generalArea.setText(projectInfo.generalArea);
 		} else {
@@ -263,7 +263,7 @@ public class ProjectDetailsFragment extends Fragment {
 		}
 		
 		// set specific area
-		if(projectInfo.specificArea != null) {
+		if(projectInfo != null && projectInfo.specificArea != null) {
 			TextView specificArea = (TextView) v.findViewById(R.id.specific_area);
 			specificArea.setText(projectInfo.specificArea);
 		} else {
@@ -272,7 +272,7 @@ public class ProjectDetailsFragment extends Fragment {
 		}
 		
 		// set description
-		if(projectInfo.description != null) {
+		if(projectInfo != null && projectInfo.description != null) {
 			TextView description = (TextView) v.findViewById(R.id.description);
 			description.setText(projectInfo.description);
 		} else {
@@ -281,7 +281,7 @@ public class ProjectDetailsFragment extends Fragment {
 		}
 		
 		// set home
-		if(projectInfo.home != null) {
+		if(projectInfo != null && projectInfo.home != null) {
 			TextView home = (TextView) v.findViewById(R.id.based_at);
 			home.setText(projectInfo.home);
 		} else {
@@ -304,7 +304,8 @@ public class ProjectDetailsFragment extends Fragment {
 				if(tmpPI.url.equals(url)) this.projectInfo = tmpPI;
 			}
 		}catch(Exception e) {if(Logging.ERROR) Log.e(Logging.TAG,"ProjectDetailsFragment getCurrentProjectData could not retrieve project list");}
-		if(this.project == null || this.projectInfo == null) if(Logging.WARNING) Log.w(Logging.TAG,"ProjectDetailsFragment getCurrentProjectData could not find project list");
+		if(this.project == null) if(Logging.WARNING) Log.w(Logging.TAG,"ProjectDetailsFragment getCurrentProjectData could not find project for URL: " + url);
+		if(this.projectInfo == null) if(Logging.DEBUG) Log.d(Logging.TAG,"ProjectDetailsFragment getCurrentProjectData could not find project attach list for URL: " + url);
 	}
 	
 	private void updateChangingItems(View v) {
