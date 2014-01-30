@@ -52,6 +52,7 @@ BEGIN_EVENT_TABLE( CDlgSelectComputer, wxDialog )
 
 ////@begin CDlgSelectComputer event table entries
     EVT_TEXT( ID_SELECTCOMPUTERNAME, CDlgSelectComputer::OnComputerNameUpdated )
+    EVT_COMBOBOX( ID_SELECTCOMPUTERNAME, CDlgSelectComputer::OnComputerNameUpdated )
 
 ////@end CDlgSelectComputer event table entries
 
@@ -168,8 +169,22 @@ void CDlgSelectComputer::CreateControls(bool required)
     itemBoxSizer10->Add(itemButton12, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
 
     // Set validators
-    m_ComputerNameCtrl->SetValidator( wxGenericValidator(& m_strComputerName) );
-    m_ComputerPasswordCtrl->SetValidator( wxGenericValidator(& m_strComputerPassword) );
+    // Under wxCocoa 3.0, wxGenericValidator doesn't work right here
+    m_ComputerNameCtrl->SetValidator( wxTextValidator(wxFILTER_NONE, & m_strComputerName) );
+    m_ComputerPasswordCtrl->SetValidator( wxTextValidator(wxFILTER_NONE, & m_strComputerPassword) );
+
+#ifdef __WXMAC__
+    // Set keyboard shortcuts - why is this necessary?
+    m_Shortcuts[0].Set(wxACCEL_CTRL, 'x', wxID_CUT);
+    m_Shortcuts[1].Set(wxACCEL_CTRL, 'c', wxID_COPY);
+    m_Shortcuts[2].Set(wxACCEL_CTRL, 'v', wxID_PASTE);
+    m_pAccelTable = new wxAcceleratorTable(3, m_Shortcuts);
+    m_ComputerPasswordCtrl->SetAcceleratorTable(*m_pAccelTable);
+    // I don't know why this works for m_ComputerPasswordCtrl but not m_ComputerNameCtrl
+    m_ComputerNameCtrl->SetAcceleratorTable(*m_pAccelTable);
+ #endif
+
+
 ////@end CDlgSelectComputer content construction
 }
 
