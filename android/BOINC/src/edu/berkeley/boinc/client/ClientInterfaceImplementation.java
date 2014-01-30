@@ -13,7 +13,6 @@ import edu.berkeley.boinc.rpc.AccountOut;
 import edu.berkeley.boinc.rpc.AcctMgrRPCReply;
 import edu.berkeley.boinc.rpc.GlobalPreferences;
 import edu.berkeley.boinc.rpc.Message;
-import edu.berkeley.boinc.rpc.Notice;
 import edu.berkeley.boinc.rpc.Project;
 import edu.berkeley.boinc.rpc.ProjectAttachReply;
 import edu.berkeley.boinc.rpc.ProjectConfig;
@@ -171,7 +170,7 @@ public class ClientInterfaceImplementation extends RpcClient{
 	
 	/**
 	 * Attaches project, requires authenticator
-	 * @param url master URL of project to be attached
+	 * @param url URL of project to be attached, either masterUrl(HTTP) or webRpcUrlBase(HTTPS)
 	 * @param projectName name of project as shown in the manager
 	 * @param authenticator user authentication key, has to be obtained first
 	 * @return success
@@ -224,7 +223,7 @@ public class ClientInterfaceImplementation extends RpcClient{
 	/**
 	 * Looks up account credentials for given user data.
 	 * Contains authentication key for project attachment.
-	 * @param url master URL of project
+	 * @param url URL of project, either masterUrl(HTTP) or webRpcUrlBase(HTTPS)
 	 * @param id user ID, can be either name or eMail, see usesName
 	 * @param pwd password
 	 * @param usesName if true, id represents a user name, if not, the user's email address
@@ -501,20 +500,5 @@ public class ClientInterfaceImplementation extends RpcClient{
 		else 
 			if(Logging.DEBUG) Log.d(Logging.TAG,"getEventLogMessages: returning empty array for lowerBound: " + lowerBound);
 		return msgs;
-	}
-	
-	/**
-	 * Returns list of server notices.
-	 * Filters only server notices out of all notices, used for showing scheduler reply related messages.
-	 * e.g. "device does not have enough memory for work unit"
-	 * @return list of server notices
-	 */
-	public ArrayList<Notice> getServerNotices() {
-		ArrayList<Notice> allNotices = getNotices(0);
-		ArrayList<Notice> serverNotices = new ArrayList<Notice>();
-		for(Notice notice: allNotices) {
-			if(notice.isServerNotice) serverNotices.add(notice);
-		}
-		return serverNotices;
 	}
 }

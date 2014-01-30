@@ -25,7 +25,6 @@
     <CheckBox android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/checkbox"
-        android:onClick="onCbClick"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/black" />
 </LinearLayout>

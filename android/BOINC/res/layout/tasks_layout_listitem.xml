@@ -24,16 +24,20 @@
     android:padding="2dp" >
     
 	<!-- left column -->
-    <ImageView
-        android:id="@+id/projectIcon"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:background="@drawable/shape_blue_border"
-        android:contentDescription="@drawable/shape_blue_border"
-        android:padding="1dp"
-        android:scaleType="fitCenter"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true" />
+	<RelativeLayout 
+        android:id="@+id/icon_background"
+    	android:layout_width="60dp"
+    	android:layout_height="match_parent"
+    	android:minHeight="60dp"
+        android:background="@android:color/transparent">    
+	    <ImageView 
+	        android:id="@+id/projectIcon"
+	        android:layout_width="48dp"
+	        android:layout_height="48dp"
+	        android:scaleType="fitCenter"
+		    android:contentDescription="@string/projects_icon"
+	    	android:layout_centerInParent="true" />
+    </RelativeLayout>
 
     <!-- center column -->
     <LinearLayout
@@ -42,7 +46,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="3dp"
         android:orientation="vertical"
-        android:layout_toRightOf="@+id/projectIcon"
+        android:layout_toRightOf="@+id/icon_background"
         android:layout_toLeftOf="@+id/rightColumnWrapper"
         android:layout_alignParentTop="true" >
 

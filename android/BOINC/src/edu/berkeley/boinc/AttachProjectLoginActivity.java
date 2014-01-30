@@ -20,10 +20,8 @@
 package edu.berkeley.boinc;
 
 import edu.berkeley.boinc.utils.*;
-
 import java.net.URL;
 import edu.berkeley.boinc.client.Monitor;
-import android.app.Activity;
 import android.app.Service;
 import android.content.ComponentName;
 import android.content.Intent;
@@ -34,12 +32,14 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.text.InputType;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -50,7 +50,7 @@ import edu.berkeley.boinc.rpc.PlatformInfo;
 import edu.berkeley.boinc.rpc.ProjectConfig;
 import edu.berkeley.boinc.rpc.ProjectInfo;
 
-public class AttachProjectLoginActivity extends Activity{
+public class AttachProjectLoginActivity extends ActionBarActivity{
 	
 	private Monitor monitor;
 	private Boolean mIsBound = false;
@@ -60,6 +60,7 @@ public class AttachProjectLoginActivity extends Activity{
 	private Boolean projectInfoPresent = false; // complete ProjectInfo available, if selection from list
 	private ProjectConfig projectConfig;
 	private Bitmap projectLogo;
+	private ActionBar actionBar;
 	
 	private ServiceConnection mConnection = new ServiceConnection() {
 	    public void onServiceConnected(ComponentName className, IBinder service) {
@@ -79,7 +80,6 @@ public class AttachProjectLoginActivity extends Activity{
     @Override
     public void onCreate(Bundle savedInstanceState) {  
         super.onCreate(savedInstanceState);  
-        requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 
     	//parse master url from intent extras
         Boolean urlPresent = false;
@@ -120,8 +120,9 @@ public class AttachProjectLoginActivity extends Activity{
         subHeader.setVisibility(View.VISIBLE);
         subHeader.setText(url);
         
-        // set title bar
-        getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title_bar);
+		// set up action bar
+        actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
         
         // bind monitor service
         doBindService();
@@ -171,15 +172,19 @@ public class AttachProjectLoginActivity extends Activity{
 		setContentView(R.layout.attach_project_login_layout);
 		
 		// set name
-		TextView name = (TextView) findViewById(R.id.project_name);
-		name.setText(projectConfig.name);
+        actionBar.setTitle(projectConfig.name);
 		
 		// set website
 		TextView website = (TextView) findViewById(R.id.project_url);
     	SpannableString content = new SpannableString(projectConfig.masterUrl);
     	content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
 		website.setText(content);
-		website.setTag(projectConfig.masterUrl); // set tag to use in onClick
+		website.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View v) {
+	    		Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(projectConfig.masterUrl));
+	    		startActivity(i);
+			}});
 		
 		// set android support
 		TextView platform = (TextView) findViewById(R.id.project_platform);
@@ -234,10 +239,10 @@ public class AttachProjectLoginActivity extends Activity{
 			
 			// set home
 			if(projectInfo.home != null) {
-				TextView home = (TextView) findViewById(R.id.home);
+				TextView home = (TextView) findViewById(R.id.based_at);
 				home.setText(projectInfo.home);
 			} else {
-				LinearLayout wrapper = (LinearLayout) findViewById(R.id.home_wrapper);
+				LinearLayout wrapper = (LinearLayout) findViewById(R.id.based_at_wrapper);
 				wrapper.setVisibility(View.GONE);
 			}
 		}
@@ -311,7 +316,7 @@ public class AttachProjectLoginActivity extends Activity{
 			Intent intent = new Intent(this, AttachProjectWorkingActivity.class);
 			intent.putExtra("action", AttachProjectWorkingActivity.ACTION_ATTACH);
 			intent.putExtra("usesName", projectConfig.userName);
-			intent.putExtra("projectUrl", projectConfig.masterUrl);
+			intent.putExtra("projectUrl", getWebRpcUrl());
 			intent.putExtra("projectName", projectConfig.name);
 			intent.putExtra("id", id);
 			intent.putExtra("pwd", pwd);
@@ -326,7 +331,7 @@ public class AttachProjectLoginActivity extends Activity{
 		if (clientCreation) {
 			// start intent to AttachProjectWorkingActivity
 			Intent intent = new Intent(this, AttachProjectRegistrationActivity.class);
-			intent.putExtra("projectUrl", projectConfig.masterUrl);
+			intent.putExtra("projectUrl", getWebRpcUrl());
 			intent.putExtra("projectName", projectConfig.name);
 			intent.putExtra("minPwdLength", projectConfig.minPwdLength);
 			intent.putExtra("usesName", projectConfig.userName);
@@ -347,12 +352,14 @@ public class AttachProjectLoginActivity extends Activity{
 		startActivity(i);
 	}
 	
-	// project url textview's onClick
-	public void projectUrlClicked (View view) {
-		// start intent to project website
-		Intent i = new Intent(Intent.ACTION_VIEW);
-		i.setData(Uri.parse(projectConfig.masterUrl));
-		startActivity(i);
+	// returns URL for web RPC (lookupAccount or createAccount)
+	// HTTPS if supported (ProjectConfig.webRpcUrlBase), masterUrl if not
+	private String getWebRpcUrl() {
+		if(projectConfig.webRpcUrlBase.isEmpty()) return projectConfig.masterUrl;
+		else {
+			if(Logging.DEBUG) Log.d(Logging.TAG, "AttachProjectLoginActivity.getWebRpcUrl(): HTTPS URL found, using : " + projectConfig.webRpcUrlBase + " for further account related RPCs");
+			return projectConfig.webRpcUrlBase;
+		}
 	}
 	
 	private Boolean verifyInput(String id, String pwd) {

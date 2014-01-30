@@ -29,7 +29,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.ListView;
-import edu.berkeley.boinc.PrefsActivity.SelectionDialogOption;
+import edu.berkeley.boinc.PrefsFragment.SelectionDialogOption;
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.utils.Logging;
 

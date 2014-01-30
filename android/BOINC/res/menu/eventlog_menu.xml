@@ -17,18 +17,22 @@
   You should have received a copy of the GNU Lesser General Public License
   along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:yourapp="http://schemas.android.com/apk/res-auto" >
     <item android:id="@+id/refresh"
+        yourapp:showAsAction="ifRoom"
         android:enabled="true"
         android:visible="true"
         android:title="@string/menu_refresh"
         android:icon="@drawable/refreshw"></item>
     <item android:id="@+id/email_to"
+        yourapp:showAsAction="ifRoom"
         android:enabled="true"
         android:visible="true"
         android:title="@string/menu_emailto"
-        android:icon="@drawable/mailw"></item>
+        android:icon="@drawable/mailsmallw"></item>
     <item android:id="@+id/copy"
+        yourapp:showAsAction="ifRoom"
         android:enabled="true"
         android:visible="true"
         android:title="@string/menu_copy"

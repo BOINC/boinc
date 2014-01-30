@@ -29,19 +29,17 @@ import edu.berkeley.boinc.rpc.Result;
 import edu.berkeley.boinc.rpc.RpcClient;
 import edu.berkeley.boinc.utils.BOINCDefs;
 import android.app.Dialog;
-import android.app.Service;
 import android.content.BroadcastReceiver;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.ServiceConnection;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.IBinder;
-import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -50,82 +48,46 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class TasksActivity extends FragmentActivity {
+public class TasksFragment extends Fragment {
 
-	private Monitor monitor;
-	private Boolean mIsBound = false;
-
-	//private ClientStatus status; //client status, new information gets parsed by monitor, changes notified by "clientstatus" broadcast. read Result from here, to get information about tasks.
-	
 	private ListView lv;
 	private TasksListAdapter listAdapter;
-	private FragmentActivity activity = this;
-	
-	private ArrayList<TaskData> data = new ArrayList<TaskData>(); //Adapter for list data
-	private Boolean setup = false;
-
-	// This is called when the connection with the service has been established,
-	// getService returns the Monitor object that is needed to call functions.
-	private ServiceConnection mConnection = new ServiceConnection() {
-		public void onServiceConnected(ComponentName className, IBinder service) {
-			monitor = ((Monitor.LocalBinder)service).getService();
-			mIsBound = true;
-		}
-
-		public void onServiceDisconnected(ComponentName className) {
-			monitor = null;
-			mIsBound = false;
-		}
-	};
+	private ArrayList<TaskData> data = new ArrayList<TaskData>();
 
 	private BroadcastReceiver mClientStatusChangeRec = new BroadcastReceiver() {
-		
-		//private final String TAG = "TasksActivity-Receiver";
 		@Override
 		public void onReceive(Context context,Intent intent) {
-			//if(Logging.DEBUG) Log.d(Logging.TAG,"TasksActivity onReceive");
+			if(Logging.VERBOSE) Log.d(Logging.TAG,"TasksActivity onReceive");
 			loadData();
 		}
 	};
 	private IntentFilter ifcsc = new IntentFilter("edu.berkeley.boinc.clientstatuschange");
-	
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.tasks_layout);
-		// Establish a connection with the service, onServiceConnected gets called when
-		// (calling within Tab needs getApplicationContext() for bindService to work!)
-		getApplicationContext().bindService(new Intent(this, Monitor.class), mConnection, Service.START_STICKY_COMPATIBILITY);
-
-		//load data model
-		loadData();
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    	if(Logging.DEBUG) Log.d(Logging.TAG,"TasksFragment onCreateView");
+        // Inflate the layout for this fragment
+    	View layout = inflater.inflate(R.layout.tasks_layout, container, false);
+		lv = (ListView) layout.findViewById(R.id.tasksList);
+	    listAdapter = new TasksListAdapter(getActivity(),R.id.tasksList,data);
+        lv.setAdapter(listAdapter);
+        lv.setOnItemClickListener(itemClickListener);
+        return layout;
 	}
 	
 	public void onResume() {
 		super.onResume();
 		//register noisy clientStatusChangeReceiver here, so only active when Activity is visible
-		if(Logging.DEBUG) Log.d(Logging.TAG,"TasksActivity register receiver");
-		registerReceiver(mClientStatusChangeRec,ifcsc);
+		if(Logging.DEBUG) Log.d(Logging.TAG,"TasksFragment register receiver");
+		getActivity().registerReceiver(mClientStatusChangeRec,ifcsc);
 		loadData();
 	}
 	
 	public void onPause() {
 		//unregister receiver, so there are not multiple intents flying in
-		if(Logging.DEBUG) Log.d(Logging.TAG,"TasksActivity remove receiver");
-		unregisterReceiver(mClientStatusChangeRec);
+		if(Logging.DEBUG) Log.d(Logging.TAG,"TasksFragment remove receiver");
+		getActivity().unregisterReceiver(mClientStatusChangeRec);
 		super.onPause();
-	}
-	
-	@Override
-	protected void onDestroy() {
-		if(Logging.VERBOSE) Log.v(Logging.TAG, "TasksActivity onDestroy()");
-
-		if (mIsBound) {
-			getApplicationContext().unbindService(mConnection);
-			mIsBound = false;
-		}
-
-		super.onDestroy();
 	}
 	
 	private void loadData() {
@@ -143,15 +105,6 @@ public class TasksActivity extends FragmentActivity {
 		
 			//deep copy, so ArrayList adapter actually recognizes the difference
 			updateData(tmpA);
-
-			if(!setup) { //first time we got proper results, setup adapter
-				lv = (ListView) findViewById(R.id.tasksList);
-			    listAdapter = new TasksListAdapter(TasksActivity.this,R.id.tasksList,data);
-		        lv.setAdapter(listAdapter);
-		        lv.setOnItemClickListener(itemClickListener);
-
-				setup = true;
-			}
 		
 			//if(Logging.DEBUG) Log.d(Logging.TAG,"loadData: data set contains " + data.size() + " results.");
 			listAdapter.notifyDataSetChanged(); //force list adapter to refresh
@@ -246,7 +199,7 @@ public class TasksActivity extends FragmentActivity {
 						new ResultOperationAsync().execute(result.project_url, result.name, operation.toString());
 						break;
 					case RpcClient.RESULT_ABORT:
-						final Dialog dialog = new Dialog(activity);
+						final Dialog dialog = new Dialog(getActivity());
 						dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 						dialog.setContentView(R.layout.dialog_confirm);
 						Button confirm = (Button) dialog.findViewById(R.id.confirm);
@@ -317,15 +270,14 @@ public class TasksActivity extends FragmentActivity {
 				Integer operation = Integer.parseInt(params[2]);
 				if(Logging.DEBUG) Log.d(Logging.TAG,"url: " + url + " Name: " + name + " operation: " + operation);
 	
-				if(mIsBound) return monitor.clientInterface.resultOp(operation, url, name);
-				else return false;
+				return ((BOINCActivity)getActivity()).getMonitorService().clientInterface.resultOp(operation, url, name);
 			} catch(Exception e) {if(Logging.WARNING) Log.w(Logging.TAG,"SuspendResultAsync error in do in background",e);}
 			return false;
 		}
 
 		@Override
 		protected void onPostExecute(Boolean success) {
-			if(success) monitor.forceRefresh();
+			if(success) ((BOINCActivity)getActivity()).getMonitorService().forceRefresh();
 			else if(Logging.WARNING) Log.w(Logging.TAG,"SuspendResultAsync failed.");
 		}
 	}

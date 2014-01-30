@@ -38,7 +38,6 @@ import android.os.IBinder;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -62,7 +61,7 @@ public class AttachProjectWorkingActivity extends Activity{
 	private ViewGroup anchor;
 	
 	private int action;
-	private String projectUrl;
+	private String projectUrl; // web rpc url, either masterUrl(HTTP) or webRpcUrlBase(HTTPS)
 	private String projectName;
 	private String id;
 	private String userName;
@@ -91,7 +90,6 @@ public class AttachProjectWorkingActivity extends Activity{
     @Override
     public void onCreate(Bundle savedInstanceState) {  
         super.onCreate(savedInstanceState);  
-        requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
         
         // bind monitor service
         doBindService();
@@ -120,9 +118,6 @@ public class AttachProjectWorkingActivity extends Activity{
         // set layout
 		setContentView(R.layout.attach_project_working_layout);
 		anchor = (ViewGroup) findViewById(R.id.anchor);
-        
-        // set title bar
-        getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title_bar);
     }
     
 	@Override
@@ -234,6 +229,7 @@ public class AttachProjectWorkingActivity extends Activity{
 	public void finishButtonClicked(View view) {
 		Intent intent = new Intent(this, BOINCActivity.class);
 		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); //clear_top closes AttachProjectListActivity!
+		intent.putExtra("targetFragment", R.string.tab_projects); // make activity display projects fragment
 		startActivity(intent);
 	}
 	
@@ -271,7 +267,7 @@ public class AttachProjectWorkingActivity extends Activity{
 		
 		public ProjectAccountAsync(Integer action, String url, String id, String email, String userName, String teamName, String pwd, Boolean usesName, String projectName) {
 			this.action = action;
-			this.url = url;
+			this.url = url; // either HTTP or HTTPS, if present (webRpcUrlBase in ProjectConfig)
 			this.id = id; // used for login
 			this.email = email;
 			this.userName = userName;

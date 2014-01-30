@@ -21,24 +21,23 @@
 	android:id="@+id/tabsLayout"
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent"
-	android:paddingTop="5dp"
-	android:paddingBottom="5dp"
 	android:gravity="center"
-	android:orientation="vertical"
-	android:background="@drawable/tab_background">
+	android:orientation="horizontal"
+	android:background="@android:color/transparent">
 	
     <ImageView android:id="@+id/tabsIcon"
 	    android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:background="@android:color/transparent"
+		android:layout_marginRight="5dp"
 		android:contentDescription="@string/tab_desc" />
 
 	<TextView android:id="@+id/tabsText"
 	    android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:layout_marginTop="2dp"
 		android:textAppearance="?android:attr/textAppearanceSmall"
 		android:background="@android:color/transparent"
-		android:textColor="@drawable/tab_text"
+		android:textColor="@android:color/white"
+		android:textStyle="bold"
 		android:singleLine="true" />
 </LinearLayout>

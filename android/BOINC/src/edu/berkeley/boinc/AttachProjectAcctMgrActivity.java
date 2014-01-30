@@ -20,29 +20,29 @@
 package edu.berkeley.boinc;
 
 import edu.berkeley.boinc.utils.*;
-
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class AttachProjectAcctMgrActivity extends Activity{
+public class AttachProjectAcctMgrActivity extends ActionBarActivity{
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {  
         super.onCreate(savedInstanceState);  
         if(Logging.DEBUG) Log.d(Logging.TAG, "AttachProjectAcctMgrActivity onCreate"); 
-        requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
         
 		// setup layout
 		setContentView(R.layout.attach_project_acctmgr_layout);
-        
-        // set title bar
-        getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title_bar);
+		
+		// set up action bar
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle(R.string.attachproject_acctmgr_header);
     }
     
 	@Override
