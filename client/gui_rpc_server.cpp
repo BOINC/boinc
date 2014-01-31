@@ -35,9 +35,7 @@
 #if HAVE_SYS_STAT_H
 #include <sys/stat.h>
 #endif
-#if HAVE_SYS_UN_H
 #include <sys/un.h>
-#endif
 #include <vector>
 #include <cstring>
 #if HAVE_NETINET_IN_H
@@ -236,9 +234,16 @@ int GUI_RPC_CONN_SET::init_unix_domain() {
         return retval;
     }
     addr.sun_family = AF_UNIX;
+#ifdef ANDROID
+    // bind socket in abstract address space, i.e. start with 0 byte
+    addr.sun_path[0] = '\0';
+    strcpy(&addr.sun_path[1], GUI_RPC_FILE);
+    socklen_t len = offsetof(struct sockaddr_un, sun_path) + 1 + strlen(&addr.sun_path[1]);
+#else
     strcpy(addr.sun_path, GUI_RPC_FILE);
-    unlink(GUI_RPC_FILE);
     int len = strlen(GUI_RPC_FILE) + sizeof(addr.sun_family);
+#endif
+    unlink(GUI_RPC_FILE);
     if (bind(lsock, (struct sockaddr*)&addr, len) < 0) {
         msg_printf(NULL, MSG_INTERNAL_ERROR,
             "Failed to bind Unix domain socket"
