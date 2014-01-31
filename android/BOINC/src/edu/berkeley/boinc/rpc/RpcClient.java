@@ -24,14 +24,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.io.StringReader;
-import java.net.InetSocketAddress;
-import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Locale;
 
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
+
+import android.net.LocalSocket;
+import android.net.LocalSocketAddress;
 import android.util.Log;
 import android.util.Xml;
 import edu.berkeley.boinc.utils.BOINCDefs;
@@ -47,7 +47,6 @@ import edu.berkeley.boinc.utils.Logging;
  * get_cc_status() becomes getCcStatus() etc.
  */
 public class RpcClient {
-	private static final int CONNECT_TIMEOUT = 30000;      // 30s
 	private static final int READ_TIMEOUT = 15000;         // 15s
 	private static final int READ_BUF_SIZE = 2048;
 	private static final int RESULT_BUILDER_INIT_SIZE = 131072; // Yes, 128K
@@ -75,7 +74,7 @@ public class RpcClient {
 	public static final int MGR_DETACH = 30;
 	public static final int MGR_SYNC = 31;
 	
-	private Socket mSocket;
+	private LocalSocket mSocket;
 	private OutputStreamWriter mOutput;
 	private InputStream mInput;
 	private byte[] mReadBuffer = new byte[READ_BUF_SIZE];
@@ -159,12 +158,10 @@ public class RpcClient {
 	 */
 
 	/**
-	 * Connect to BOINC core client
-	 * @param address Internet address of client (hostname or IP-address)
-	 * @param port Port of BOINC client (default port is 31416)
+	 * Connect to BOINC core client via Unix Domain Socket (abstract, "boinc_socket")
 	 * @return true for success, false for failure
 	 */
-	public boolean open(String address, int port) {
+	public boolean open() {
 		if (isConnected()) {
 			// Already connected
 			if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 4) Log.e(Logging.TAG, "Attempt to connect when already connected");
@@ -172,16 +169,11 @@ public class RpcClient {
 			close();
 		}
 		try {
-			mSocket = new Socket();
-			mSocket.connect(new InetSocketAddress(address, port), CONNECT_TIMEOUT);
+			mSocket = new LocalSocket();
+			mSocket.connect(new LocalSocketAddress("boinc_socket"));
 			mSocket.setSoTimeout(READ_TIMEOUT);
 			mInput = mSocket.getInputStream();
 			mOutput = new OutputStreamWriter(mSocket.getOutputStream(), "ISO8859_1");
-		}
-		catch (UnknownHostException e) {
-			if(Logging.WARNING) Log.w(Logging.TAG, "connect failure: unknown host \"" + address + "\"", e);
-			mSocket = null;
-			return false;
 		}
 		catch (IllegalArgumentException e) {
 			if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 4) Log.e(Logging.TAG, "connect failure: illegal argument", e);
@@ -193,7 +185,12 @@ public class RpcClient {
 			mSocket = null;
 			return false;
 		}
-		if(Logging.DEBUG) Log.d(Logging.TAG, "open(" + address + ", " + port + ") - Connected successfully");
+		catch (Exception e) {
+			if(Logging.WARNING) Log.w(Logging.TAG, "connect failure", e);
+			mSocket = null;
+			return false;
+		}
+		if(Logging.DEBUG) Log.d(Logging.TAG, "Connected successfully");
 		return true;
 	}
 
