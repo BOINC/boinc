@@ -2,12 +2,11 @@
 # Copyright (C) 2014 ORGANIZATION
 # This file is distributed under the same license as the PROJECT project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2014.
-#
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-01-30 14:00-0800\n"
+"POT-Creation-Date: 2013-10-18 00:00-0700\n"
 "PO-Revision-Date: 2013-10-28 15:20+0000\n"
 "Last-Translator: Anonymous Pootle User\n"
 "Language-Team: ja <LL@li.org>\n"
@@ -18,7 +17,7 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
-"X-POOTLE-MTIME: 1382973625.0\n"
+"X-POOTLE-MTIME: 1383812267.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -94,12 +93,12 @@ msgid "Android:"
 msgstr "Android:"
 
 msgctxt "attachproject_login_platform_supported"
-msgid "Device type is supported by this project"
-msgstr ""
+msgid "This project supports Android devices"
+msgstr "Questo progetto supporta i dispositivi Android"
 
 msgctxt "attachproject_login_platform_not_supported"
-msgid "Device is not supported by this project"
-msgstr ""
+msgid "This project does not support Android devices"
+msgstr "Questo progetto non supporta i dispositivi Android"
 
 msgctxt "attachproject_login_category_terms_of_use"
 msgid "Terms of use for"
@@ -343,8 +342,8 @@ msgstr "Sincronizza"
 
 #. main activity
 msgctxt "main_noproject_warning"
-msgid "Tap here to choose a project."
-msgstr ""
+msgid "Tab here to choose a project."
+msgstr "Premi qui per scegliere un progetto."
 
 msgctxt "main_error"
 msgid "Whooops"
@@ -489,29 +488,9 @@ msgctxt "prefs_show_advanced_header"
 msgid "Show advanced preferences and controls…"
 msgstr "Visualizza preferenze avanzate e controlli…"
 
-msgctxt "prefs_power_source_header"
-msgid "Power sources for computation"
-msgstr ""
-
-msgctxt "prefs_power_source_description"
-msgid "Selects power sources BOINC is allowed to use for computation."
-msgstr ""
-
-msgctxt "prefs_power_source_ac"
-msgid "Wall socket"
-msgstr ""
-
-msgctxt "prefs_power_source_usb"
-msgid "USB connection"
-msgstr ""
-
-msgctxt "prefs_power_source_wireless"
-msgid "Wireless charger"
-msgstr ""
-
-msgctxt "prefs_power_source_battery"
-msgid "Battery"
-msgstr ""
+msgctxt "prefs_run_on_battery_header"
+msgid "Compute on Battery"
+msgstr "Elabora quando alimentato a Batteria"
 
 msgctxt "battery_charge_min_pct_header"
 msgid "Min. battery level"
