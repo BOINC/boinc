@@ -66,6 +66,7 @@ static void print_options(char* prog) {
         "    --fetch_minimal_work           fetch only 1 job per device\n"
         "    --file_xfer_giveup_period N    give up on file xfers after N sec\n"
         "    --gui_rpc_port <port>          port for GUI RPCs\n"
+        "    --gui_rpc_unix_domain          use Unix domain for GUI RPCs\n"
         "    --help                         show options\n"
 #ifdef SANDBOX
         "    --insecure                     disable app sandboxing (Unix)\n"
@@ -176,6 +177,8 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
         } else if (ARG(gui_rpc_port)) {
             if (i == argc-1) show_options = true;
             else cmdline_gui_rpc_port = atoi(argv[++i]);
+        } else if (ARG(gui_rpc_unix_domain)) {
+            gui_rpc_unix_domain = true;
         } else if (ARG(help)) {
             print_options(argv[0]);
             exit(0);

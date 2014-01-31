@@ -603,10 +603,11 @@ public class Monitor extends Service {
     private Boolean runClient() {
     	Boolean success = false;
     	try { 
-    		String[] cmd = new String[2];
+    		String[] cmd = new String[3];
     		
     		cmd[0] = boincWorkingDir + fileNameClient;
     		cmd[1] = "--daemon";
+    		cmd[2] = "--gui_rpc_unix_domain";
     		
         	Runtime.getRuntime().exec(cmd, null, new File(boincWorkingDir));
         	success = true;
@@ -624,7 +625,7 @@ public class Monitor extends Service {
 	private Boolean connectClient() {
 		Boolean success = false;
 		
-        success = clientInterface.connect();
+        success = clientInterface.open();
         if(!success) {
         	if(Logging.DEBUG) Log.d(Logging.TAG, "connection failed!");
         	return success;

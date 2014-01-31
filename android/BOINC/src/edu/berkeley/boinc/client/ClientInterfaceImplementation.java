@@ -31,15 +31,6 @@ public class ClientInterfaceImplementation extends RpcClient{
 	private final Integer maxRetryDuration = 3000;
 	// interval between polling retries in ms
 	private final Integer minRetryInterval = 500;
-
-	/**
-	 * Establishes socket connection to BOINC client.
-	 * Requirement for information exchange via RPC
-	 * @return success
-	 */
-    public Boolean connect() {
-    	return open("127.0.0.1", 31416);
-    }
     
     /**
      * Reads authentication key from specified file path and authenticates GUI for advanced RPCs with the client

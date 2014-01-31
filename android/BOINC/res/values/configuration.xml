@@ -69,9 +69,9 @@
     	<integer name="tasks_transistion_timeout_number_monitor_loops">15</integer>
     <!-- shutdown -->
     	<integer name="shutdown_graceful_rpc_check_rate_ms">1000</integer>
-    	<integer name="shutdown_graceful_rpc_check_attempts">10</integer>
+    	<integer name="shutdown_graceful_rpc_check_attempts">5</integer>
     	<integer name="shutdown_graceful_os_check_rate_ms">1000</integer>
-    	<integer name="shutdown_graceful_os_check_attempts">30</integer>
+    	<integer name="shutdown_graceful_os_check_attempts">5</integer>
     <!-- eventlog -->
     	<integer name="eventlog_gui_messages">100</integer>
     <!-- preferences -->	

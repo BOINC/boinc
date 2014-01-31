@@ -18,7 +18,7 @@ msgstr ""
 "n%100==4 ? 2 : 3)\n"
 "X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
-"X-POOTLE-MTIME: 1386194841.0\n"
+"X-POOTLE-MTIME: 1388701690.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -93,6 +93,7 @@ msgctxt "attachproject_login_header_description"
 msgid "Description:"
 msgstr "Описание:"
 
+# Это типа институт/университет, который владеет проектом
 #, fuzzy
 msgctxt "attachproject_login_header_home"
 msgid "Home:"
@@ -236,30 +237,34 @@ msgid "Create"
 msgstr "Создать"
 
 #. account manager
+#, fuzzy
 msgctxt "attachproject_acctmgr_header"
 msgid "Add account manager"
-msgstr "Adaugă manager de cont"
+msgstr "Добавить менеджер проектов"
 
 msgctxt "attachproject_acctmgr_header_url"
 msgid "URL"
 msgstr "URL"
 
+#, fuzzy
 msgctxt "attachproject_acctmgr_header_name"
 msgid "User:"
-msgstr "Utilizator:"
+msgstr "Пользователь:"
 
 #, fuzzy
 msgctxt "attachproject_acctmgr_header_pwd"
 msgid "Password:"
 msgstr "Heslo:"
 
+#, fuzzy
 msgctxt "attachproject_acctmgr_header_pwd_confirm"
 msgid "… Retype:"
-msgstr "... Reintroduceţi:"
+msgstr "… Повторите:"
 
+#, fuzzy
 msgctxt "attachproject_acctmgr_button"
 msgid "Add"
-msgstr "Adaugă"
+msgstr "Добавить"
 
 #. error strings
 #, fuzzy
@@ -282,9 +287,10 @@ msgctxt "attachproject_error_pwd_no_match"
 msgid "Passwords do not match"
 msgstr "Пароли не совпадают"
 
+#, fuzzy
 msgctxt "attachproject_error_no_url"
 msgid "Please enter URL"
-msgstr "Introduceți URL"
+msgstr "Введите URL"
 
 #, fuzzy
 msgctxt "attachproject_error_no_email"
@@ -330,9 +336,10 @@ msgctxt "attachproject_error_creation_disabled"
 msgid "Account creation is disabled on this project"
 msgstr "Создание учётной записи в данном проекте отключено"
 
+#, fuzzy
 msgctxt "attachproject_error_invalid_url"
 msgid "Invalid URL"
-msgstr "URL invalid"
+msgstr "Неправильный адрес (URL)"
 
 #. working activity
 #, fuzzy
@@ -387,22 +394,25 @@ msgctxt "attachproject_working_login"
 msgid "Log in"
 msgstr "Prihlásiť sa"
 
+#, fuzzy
 msgctxt "attachproject_working_acctmgr"
 msgid "Add account manager"
-msgstr "Adaugă manager de cont"
+msgstr "Добавить менеджер проектов"
 
+#, fuzzy
 msgctxt "attachproject_working_acctmgr_sync"
 msgid "Synchronize"
-msgstr "Sincronizează"
+msgstr "Синхронизировать"
 
 #. main activity
 msgctxt "main_noproject_warning"
 msgid "Tab here to choose a project."
 msgstr ""
 
+#, fuzzy
 msgctxt "main_error"
 msgid "Whooops"
-msgstr "Упс"
+msgstr "Ups"
 
 msgctxt "main_error_long"
 msgid ""
@@ -762,9 +772,10 @@ msgctxt "projects_control_dialog_title"
 msgid "Project commands:"
 msgstr "Команды проекта:"
 
+#, fuzzy
 msgctxt "projects_control_visit_website"
 msgid "Visit website"
-msgstr "Vizitați pagina web"
+msgstr "Посетить веб-сайт"
 
 #, fuzzy
 msgctxt "projects_control_update"
@@ -798,17 +809,20 @@ msgctxt "projects_control_reset"
 msgid "Reset"
 msgstr "Сбросить"
 
+#, fuzzy
 msgctxt "projects_control_dialog_title_acctmgr"
 msgid "Account manager commands:"
-msgstr "Comenzi manager de cont:"
+msgstr "Команды менеджера проектов:"
 
+#, fuzzy
 msgctxt "projects_control_sync_acctmgr"
 msgid "Synchronize"
-msgstr "Sincronizează"
+msgstr "Синхронизировать"
 
+#, fuzzy
 msgctxt "projects_control_remove_acctmgr"
 msgid "Disable"
-msgstr "Dezactivează"
+msgstr "Отключить"
 
 #. project confirm dialog
 #, fuzzy
@@ -843,17 +857,20 @@ msgctxt "projects_confirm_reset_confirm"
 msgid "Reset"
 msgstr "Сбросить"
 
+#, fuzzy
 msgctxt "projects_confirm_remove_acctmgr_title"
 msgid "Disable account manager"
-msgstr "Dezactivează manager de cont"
+msgstr "Отключить менеджер проектов"
 
+#, fuzzy
 msgctxt "projects_confirm_remove_acctmgr_message"
 msgid "Are you sure you want to stop using"
-msgstr "Sunteţi sigur că doriţi să nu mai folosiţi"
+msgstr "Вы уверены, что хотите прекратить использование"
 
+#, fuzzy
 msgctxt "projects_confirm_remove_acctmgr_confirm"
 msgid "Disable"
-msgstr "Dezactivează"
+msgstr "Отключить"
 
 #. tasks tab strings
 #, fuzzy
@@ -1017,9 +1034,10 @@ msgctxt "trans_header_name"
 msgid "File:"
 msgstr "Файл:"
 
+#, fuzzy
 msgctxt "trans_control_retry"
 msgid "Retry transfers"
-msgstr "Reîncearcă transferuri"
+msgstr "Повторить передачи"
 
 msgctxt "confirm_abort_trans_title"
 msgid "Abort transfer?"
@@ -1035,9 +1053,10 @@ msgid "Abort"
 msgstr "Prerušiť"
 
 #. notices tab strings
+#, fuzzy
 msgctxt "notices_loading"
 msgid "Reading notices…"
-msgstr "Se citesc atenţionările..."
+msgstr "Чтение уведомлений…"
 
 #. eventlog tab strings
 msgctxt "eventlog_loading"

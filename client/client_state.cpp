@@ -152,6 +152,7 @@ CLIENT_STATE::CLIENT_STATE()
     retry_shmem_time = 0;
     must_schedule_cpus = true;
     no_gui_rpc = false;
+    gui_rpc_unix_domain = false;
     new_version_check_time = 0;
     all_projects_list_check_time = 0;
     detach_console = false;
@@ -628,15 +629,19 @@ int CLIENT_STATE::init() {
     // set up for handling GUI RPCs
     //
     if (!no_gui_rpc) {
-        // When we're running at boot time,
-        // it may be a few seconds before we can socket/bind/listen.
-        // So retry a few times.
-        //
-        for (i=0; i<30; i++) {
-            bool last_time = (i==29);
-            retval = gui_rpcs.init(last_time);
-            if (!retval) break;
-            boinc_sleep(1.0);
+        if (gui_rpc_unix_domain) {
+            retval = gui_rpcs.init_unix_domain();
+        } else {
+            // When we're running at boot time,
+            // it may be a few seconds before we can socket/bind/listen.
+            // So retry a few times.
+            //
+            for (i=0; i<30; i++) {
+                bool last_time = (i==29);
+                retval = gui_rpcs.init_tcp(last_time);
+                if (!retval) break;
+                boinc_sleep(1.0);
+            }
         }
         if (retval) return retval;
     }

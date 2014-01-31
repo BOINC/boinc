@@ -15,8 +15,9 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"X-Generator: Translate Toolkit 1.10.0\n"
+"X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
+"X-POOTLE-MTIME: 1377896370.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -24,68 +25,82 @@ msgid "BOINC"
 msgstr "BOINC"
 
 #. generic. used by multiple Activities/tabs
+#, fuzzy
 msgctxt "generic_loading"
 msgid "Loading! Please wait…"
-msgstr "Indlæser! Vent venligst…"
+msgstr "Carregant! Si us plau, espera..."
 
 #. attach project
 #. project list
+#, fuzzy
 msgctxt "attachproject_list_header"
 msgid "Choose a project:"
-msgstr "Vælg et projekt:"
+msgstr "Selecciona un projecte:"
 
+#, fuzzy
 msgctxt "attachproject_list_manual_button"
 msgid "Add project by URL"
-msgstr "Tilføj projekt vha. URL"
+msgstr "Afegir projecte mitjançant URL"
 
+#, fuzzy
 msgctxt "attachproject_list_manual_dialog_title"
 msgid "Enter project URL:"
-msgstr "Indtast projekt-URL:"
+msgstr "Introdueix la URL del projecte:"
 
+#, fuzzy
 msgctxt "attachproject_list_manual_dialog_button"
 msgid "Add project"
-msgstr "Tilføj projekt"
+msgstr "Afegeix el projecte"
 
+#, fuzzy
 msgctxt "attachproject_list_manual_no_url"
 msgid "Please enter project URL"
-msgstr "Indtast venligst projekt-URL"
+msgstr "Si us plau introdueix la URL del projecte"
 
 msgctxt "attachproject_list_acctmgr_button"
 msgid "Add account manager"
 msgstr "Tilføj kontohåndtering"
 
+#, fuzzy
 msgctxt "attachproject_list_no_internet"
 msgid "No Internet connection"
-msgstr "Ingen Internet-forbindelse"
+msgstr "No hi ha connexió a Internet"
 
 #. project login
+#, fuzzy
 msgctxt "attachproject_login_loading"
 msgid "Contacting project server…"
-msgstr "Kontakter projekt-server…"
+msgstr "Contactant el servidor del projecte..."
 
+#, fuzzy
 msgctxt "attachproject_login_image_description"
 msgid "Project logo."
-msgstr "Projektlogo."
+msgstr "Logo del projecte."
 
+#, fuzzy
 msgctxt "attachproject_login_header_general_area"
 msgid "General area:"
-msgstr "Generelt område:"
+msgstr "Zona general:"
 
+#, fuzzy
 msgctxt "attachproject_login_header_specific_area"
 msgid "Specific area:"
-msgstr "Specifikt område:"
+msgstr "Zona específica:"
 
+#, fuzzy
 msgctxt "attachproject_login_header_description"
 msgid "Description:"
-msgstr "Beskrivelse:"
+msgstr "Descripció:"
 
+#, fuzzy
 msgctxt "attachproject_login_header_home"
 msgid "Home:"
-msgstr "Hjem:"
+msgstr "Inici:"
 
+#, fuzzy
 msgctxt "attachproject_login_header_url"
 msgid "Website:"
-msgstr "Webside:"
+msgstr "Pàgina web:"
 
 msgctxt "attachproject_login_header_platform"
 msgid "Android:"
@@ -99,102 +114,125 @@ msgctxt "attachproject_login_platform_not_supported"
 msgid "This project does not support Android devices"
 msgstr "Dette projekt understøtter ikke Android-enheder"
 
+#, fuzzy
 msgctxt "attachproject_login_category_terms_of_use"
 msgid "Terms of use for"
-msgstr "Brugsvilkår for"
+msgstr "Condicions d'ús de"
 
+#, fuzzy
 msgctxt "attachproject_login_accept_terms_of_use"
 msgid ""
 "By creating an account with this project, you accept the terms of use as "
 "shown above."
 msgstr ""
-"Ved at oprette en konto hos dette projekt, accepterer du brugsvilkårene, som "
-"vises herover."
+"Creant un compte en aquest projecte, acceptes els termes d'ús, que es "
+"mostren a dalt."
 
+#, fuzzy
 msgctxt "attachproject_login_category_login"
 msgid "Sign in with existing account"
-msgstr "Log ind med eksisterende konto"
+msgstr "Registre't amb un compte existent"
 
+#, fuzzy
 msgctxt "attachproject_login_header_id_email"
 msgid "eMail:"
-msgstr "Email:"
+msgstr "Correu electrònic:"
 
+#, fuzzy
 msgctxt "attachproject_login_header_id_name"
 msgid "Name:"
-msgstr "Navn:"
+msgstr "Nom:"
 
+#, fuzzy
 msgctxt "attachproject_login_header_pwd"
 msgid "Password:"
-msgstr "Kodeord:"
+msgstr "Contrasenya:"
 
+#, fuzzy
 msgctxt "attachproject_login_category_creation"
 msgid "New to"
-msgstr "Kender du ikke"
+msgstr "Nou a"
 
+#, fuzzy
 msgctxt "attachproject_login_header_creation_enabled"
 msgid "Register an account to participate:"
-msgstr "Opret en konto for at deltage:"
+msgstr "Registra un compte per participar:"
 
+#, fuzzy
 msgctxt "attachproject_login_header_creation_client_disabled"
 msgid "Visit project website to create an account:"
-msgstr "Besøg projektets webside for at oprette en konto:"
+msgstr "Visita la pàgina web del projecte per crear un compte:"
 
+#, fuzzy
 msgctxt "attachproject_login_header_creation_disabled"
 msgid "Project does currently now allow creation of new accounts!"
-msgstr "Projektet tillader for tiden ikke oprettelse af nye konti!"
+msgstr "Actualment el projecte permet la creació de nous comptes!"
 
+#, fuzzy
 msgctxt "attachproject_login_button_registration"
 msgid "Register"
-msgstr "Registrér"
+msgstr "Registre't"
 
+#, fuzzy
 msgctxt "attachproject_login_button_login"
 msgid "Sign in"
-msgstr "Log ind"
+msgstr "Registre't"
 
+#, fuzzy
 msgctxt "attachproject_login_button_forgotpw"
 msgid "Forgot Password"
-msgstr "Glemt kodeord"
+msgstr "He oblidat la contrasenya"
 
+#, fuzzy
 msgctxt "attachproject_login_error_toast"
 msgid "Contacting project failed!"
-msgstr "Kontakt til projekt fejlede!"
+msgstr "Ha fallat la connexió amb el projecte!"
 
+#, fuzzy
 msgctxt "attachproject_login_attached"
 msgid "Attached"
-msgstr "Forbundet"
+msgstr "Adjuntat"
 
 #. project registration
+#, fuzzy
 msgctxt "attachproject_registration_header"
 msgid "Account registration for"
-msgstr "Kontoregistrering for"
+msgstr "Compte de registre per"
 
+#, fuzzy
 msgctxt "attachproject_registration_header_url"
 msgid "Project:"
-msgstr "Projekt:"
+msgstr "Projecte:"
 
+#, fuzzy
 msgctxt "attachproject_registration_header_email"
 msgid "eMail:"
-msgstr "Email:"
+msgstr "Correu electrònic:"
 
+#, fuzzy
 msgctxt "attachproject_registration_header_username"
 msgid "Name:"
-msgstr "Navn:"
+msgstr "Nom:"
 
+#, fuzzy
 msgctxt "attachproject_registration_header_teamname"
 msgid "Team:"
-msgstr "Hold:"
+msgstr "Equip:"
 
+#, fuzzy
 msgctxt "attachproject_registration_header_pwd"
 msgid "Password:"
-msgstr "Kodeord:"
+msgstr "Contrasenya:"
 
+#, fuzzy
 msgctxt "attachproject_registration_header_pwd_confirm"
 msgid "… Retype:"
-msgstr "… Tast igen:"
+msgstr "... Torna a entrar-ho:"
 
+#, fuzzy
 msgctxt "attachproject_registration_button"
 msgid "Create"
-msgstr "Opret"
+msgstr "Crear"
 
 #. account manager
 msgctxt "attachproject_acctmgr_header"
@@ -209,99 +247,119 @@ msgctxt "attachproject_acctmgr_header_name"
 msgid "User:"
 msgstr "Bruger:"
 
+#, fuzzy
 msgctxt "attachproject_acctmgr_header_pwd"
 msgid "Password:"
-msgstr "Kodeord:"
+msgstr "Contrasenya:"
 
+#, fuzzy
 msgctxt "attachproject_acctmgr_header_pwd_confirm"
 msgid "… Retype:"
-msgstr "… Tast igen:"
+msgstr "... Torna a entrar-ho:"
 
 msgctxt "attachproject_acctmgr_button"
 msgid "Add"
 msgstr "Tilføj"
 
 #. error strings
+#, fuzzy
 msgctxt "attachproject_error_wrong_name"
 msgid "User not found"
-msgstr "Bruger ikke fundet"
+msgstr "No s'ha trobat aquest usuari"
 
+#, fuzzy
 msgctxt "attachproject_error_short_pwd"
 msgid "Password too short"
-msgstr "Kodeord for kort"
+msgstr "La contrasenya és massa curta"
 
+#, fuzzy
 msgctxt "attachproject_error_no_internet"
 msgid "Connection failure"
-msgstr "Forbindelsesfejl"
+msgstr "Ha fallat la connexió"
 
+#, fuzzy
 msgctxt "attachproject_error_pwd_no_match"
 msgid "Passwords do not match"
-msgstr "Kodeord passer ikke sammen"
+msgstr "Les contrasenyes no coincideixen"
 
 msgctxt "attachproject_error_no_url"
 msgid "Please enter URL"
 msgstr "Indtast venligst URL"
 
+#, fuzzy
 msgctxt "attachproject_error_no_email"
 msgid "Please enter eMail address"
-msgstr "Indtast venligst emailadresse"
+msgstr "Si us plau introdueix l'adreça de correu electrònic"
 
+#, fuzzy
 msgctxt "attachproject_error_no_pwd"
 msgid "Please enter a password"
-msgstr "Indtast venligst et kodeord"
+msgstr "Si us plau introdueix una contrasenya"
 
+#, fuzzy
 msgctxt "attachproject_error_no_name"
 msgid "Please enter user name"
-msgstr "Indtast venligst brugernavn"
+msgstr "Si us plau, introdueïx el nom d'usuari"
 
+#, fuzzy
 msgctxt "attachproject_error_unknown"
 msgid "failed"
-msgstr "fejlede"
+msgstr "ha fallat"
 
+#, fuzzy
 msgctxt "attachproject_error_bad_username"
 msgid "User name refused"
-msgstr "Brugernavn afvist"
+msgstr "Nom d'usuari rebutjat"
 
+#, fuzzy
 msgctxt "attachproject_error_email_in_use"
 msgid "eMail is already in use"
-msgstr "Email er allerede i brug"
+msgstr "L'adreça de correu electrònic ja està en ús"
 
+#, fuzzy
 msgctxt "attachproject_error_project_down"
 msgid "Project is offline"
-msgstr "Projekt er offline"
+msgstr "El projecte està desconnectat"
 
+#, fuzzy
 msgctxt "attachproject_error_email_bad_syntax"
 msgid "eMail refused"
-msgstr "Email afvist"
+msgstr "Adreça de correu electrònic rebutjada"
 
+#, fuzzy
 msgctxt "attachproject_error_bad_pwd"
 msgid "Password refused"
-msgstr "Kodeord afvist"
+msgstr "Contrasenya rebutjada"
 
+#, fuzzy
 msgctxt "attachproject_error_creation_disabled"
 msgid "Account creation is disabled on this project"
-msgstr "Oprettelse af konti er slået fra for dette projekt"
+msgstr "La creació de comptes està desactivada en aquest projecte"
 
 msgctxt "attachproject_error_invalid_url"
 msgid "Invalid URL"
 msgstr "Ugyldig URL"
 
 #. working activity
+#, fuzzy
 msgctxt "attachproject_working_back_button"
 msgid "Back"
-msgstr "Tilbage"
+msgstr "Enrere"
 
+#, fuzzy
 msgctxt "attachproject_working_finish_button"
 msgid "Finish"
-msgstr "Færdig"
+msgstr "Finalitza"
 
+#, fuzzy
 msgctxt "attachproject_working_check_desc"
 msgid "Successful"
-msgstr "Succesfuldt"
+msgstr "Reeixit"
 
+#, fuzzy
 msgctxt "attachproject_working_failed_desc"
 msgid "Failed"
-msgstr "Fejlede"
+msgstr "Ha fallat"
 
 msgctxt "attachproject_working_ongoing"
 msgid "…"
@@ -315,21 +373,25 @@ msgctxt "attachproject_working_description"
 msgid ":"
 msgstr ":"
 
+#, fuzzy
 msgctxt "attachproject_working_connect"
 msgid "Connect"
-msgstr "Forbind"
+msgstr "Connecta"
 
+#, fuzzy
 msgctxt "attachproject_working_verify"
 msgid "Verify account"
-msgstr "Verificér konto"
+msgstr "Revisa el compte"
 
+#, fuzzy
 msgctxt "attachproject_working_register"
 msgid "Register account"
-msgstr "Registrér konto"
+msgstr "Registra el compte"
 
+#, fuzzy
 msgctxt "attachproject_working_login"
 msgid "Log in"
-msgstr "Log ind"
+msgstr "Registret"
 
 msgctxt "attachproject_working_acctmgr"
 msgid "Add account manager"
@@ -344,254 +406,316 @@ msgctxt "main_noproject_warning"
 msgid "Tab here to choose a project."
 msgstr ""
 
+#, fuzzy
 msgctxt "main_error"
 msgid "Whooops"
-msgstr "Ups"
+msgstr "Uppps"
 
+#, fuzzy
 msgctxt "main_error_long"
 msgid ""
 "…this should not happen!\n"
 "Click on the icon to try again."
 msgstr ""
-"…dette burde ikke ske!\n"
-"Klik på ikonet for at prøve igen."
+"...això no ha de succeir!\n"
+" Feu clic a la icona per intentar-ho de nou."
 
+#, fuzzy
 msgctxt "main_title_icon_desc"
 msgid "BOINC icon"
-msgstr "BOINC-ikon"
+msgstr "Icona de BOINC"
 
 #. tab names
+#, fuzzy
 msgctxt "tab_status"
 msgid "Status"
-msgstr "Status"
+msgstr "Estatus"
 
+#, fuzzy
 msgctxt "tab_projects"
 msgid "Projects"
-msgstr "Projekter"
+msgstr "Projectes"
 
+#, fuzzy
 msgctxt "tab_tasks"
 msgid "Tasks"
-msgstr "Opgaver"
+msgstr "Tasques"
 
+#, fuzzy
 msgctxt "tab_transfers"
 msgid "Transfers"
-msgstr "Overførsler"
+msgstr "Transferències"
 
+#, fuzzy
 msgctxt "tab_preferences"
 msgid "Preferences"
-msgstr "Indstillinger"
+msgstr "Preferències"
 
 msgctxt "tab_notices"
 msgid "Notices"
 msgstr "Meddelelser"
 
+#, fuzzy
 msgctxt "tab_desc"
 msgid "Navigation"
-msgstr "Navigering"
+msgstr "Navegació"
 
 #. status strings
+#, fuzzy
 msgctxt "status_running"
 msgid "Computing"
-msgstr "Beregner"
+msgstr "Treballant"
 
+#, fuzzy
 msgctxt "status_running_long"
 msgid "Thank you for participating."
-msgstr "Tak for din deltagelse."
+msgstr "Gràcies per participar."
 
+#, fuzzy
 msgctxt "status_paused"
 msgid "Suspended"
-msgstr "Suspenderet"
+msgstr "Suspès"
 
+#, fuzzy
 msgctxt "status_idle"
 msgid "Nothing to do"
-msgstr "Intet at beregne"
+msgstr "Res a fer"
 
+#, fuzzy
 msgctxt "status_idle_long"
 msgid "Waiting for tasks…"
-msgstr "Venter på opgaver…"
+msgstr "Esperant feines..."
 
+#, fuzzy
 msgctxt "status_computing_disabled"
 msgid "Suspended"
-msgstr "Suspenderet"
+msgstr "Suspès"
 
+#, fuzzy
 msgctxt "status_computing_disabled_long"
 msgid "Press play to resume network and computation."
-msgstr "Tryk play for at genoptage netværk og beregning."
+msgstr "Premeu play per reprendre la connexió per xarxa i la computació."
 
+#, fuzzy
 msgctxt "status_launching"
 msgid "Starting…"
-msgstr "Starter…"
+msgstr "S'està iniciant..."
 
+#, fuzzy
 msgctxt "status_noproject"
 msgid "Choose a project to participate in."
-msgstr "Vælg et projekt at deltage i."
+msgstr "Tria un projecte per participar-hi."
 
+#, fuzzy
 msgctxt "status_closing"
 msgid "Closing…"
-msgstr "Lukker…"
+msgstr "Tancant..."
 
+#, fuzzy
 msgctxt "status_benchmarking"
 msgid "Benchmarking…"
-msgstr "Måler ydelsesevne…"
+msgstr "Executamt proves..."
 
+#, fuzzy
 msgctxt "status_image_description"
 msgid "project image"
-msgstr "projektbillede"
+msgstr "imatge del projecte"
 
 #. preferences tab strings
+#, fuzzy
 msgctxt "prefs_loading"
 msgid "Reading preferences…"
-msgstr "Indlæser indstillinger…"
+msgstr "Llegint preferències..."
 
+#, fuzzy
 msgctxt "prefs_submit_button"
 msgid "Save"
-msgstr "Gem"
+msgstr "Desa"
 
+#, fuzzy
 msgctxt "prefs_dialog_title"
 msgid "Enter new value:"
-msgstr "Indtast ny værdi:"
+msgstr "Introdueix el nou valor:"
 
+#, fuzzy
 msgctxt "prefs_dialog_title_selection"
 msgid "Select:"
-msgstr "Vælg:"
+msgstr "Selecciona:"
 
+#, fuzzy
 msgctxt "prefs_category_general"
 msgid "General"
-msgstr "Generelt"
+msgstr "General"
 
+#, fuzzy
 msgctxt "prefs_category_network"
 msgid "Network"
-msgstr "Netværk"
+msgstr "Xarxa"
 
+#, fuzzy
 msgctxt "prefs_category_power"
 msgid "Power"
-msgstr "Strøm"
+msgstr "Potència"
 
 msgctxt "prefs_category_cpu"
 msgid "CPU"
 msgstr "CPU"
 
+#, fuzzy
 msgctxt "prefs_category_storage"
 msgid "Storage"
-msgstr "Lagring"
+msgstr "Emmagatzematge"
 
+#, fuzzy
 msgctxt "prefs_category_memory"
 msgid "Memory"
-msgstr "Hukommelse"
+msgstr "Memòria"
 
+#, fuzzy
 msgctxt "prefs_category_debug"
 msgid "Debug"
-msgstr "Fejlsøgning"
+msgstr "Depura"
 
+#, fuzzy
 msgctxt "prefs_show_advanced_header"
 msgid "Show advanced preferences and controls…"
-msgstr "Vis avancerede indstillinger…"
+msgstr "Mostra les preferències i controls avançats..."
 
 msgctxt "prefs_run_on_battery_header"
 msgid "Compute on Battery"
 msgstr "Beregn i batteritilstand"
 
+#, fuzzy
 msgctxt "battery_charge_min_pct_header"
 msgid "Min. battery level"
-msgstr "Min. batteriniveau"
+msgstr "Nivell mínim de la bateria"
 
+#, fuzzy
 msgctxt "battery_charge_min_pct_description"
 msgid "BOINC suspends computation below defined battery charge level."
-msgstr "BOINC stopper beregninger under defineret batteriniveau."
+msgstr ""
+"BOINC atura la computació si el nivell de càrrega de la bateria per sota del "
+"definit."
 
+#, fuzzy
 msgctxt "battery_temperature_max_header"
 msgid "Max. battery temperature"
-msgstr "Max. batteritemperatur"
+msgstr "Temperatura màxima de la bateria"
 
+#, fuzzy
 msgctxt "battery_temperature_max_description"
 msgid ""
 "BOINC suspends computation above defined battery temperature. It is not "
 "recommended to change this value."
 msgstr ""
-"BOINC stopper beregninger over defineret batteritemperatur. Det anbefales "
-"ikke at ændre denne værdi."
+"BOINC atura la computació si la temperatura de la bateria està per sobre del "
+"valor definit. No es recomanable canviar aquest valor."
 
+#, fuzzy
 msgctxt "prefs_disk_max_pct_header"
 msgid "Max. used storage space"
-msgstr "Maks. brugt lagringsplads"
+msgstr "Màxim espai d'emmagatzematge utilitzat"
 
+#, fuzzy
 msgctxt "prefs_disk_max_pct_description"
 msgid "How many percent of your device's storage space is BOINC allowed to use?"
-msgstr "Hvor mange procent af din enheds lagringsplads må BOINC bruge?"
+msgstr ""
+"Quin percentatge d'espai d'emmagatzematge del seu dispositiu pot utilitzar "
+"BOINC?"
 
+#, fuzzy
 msgctxt "prefs_disk_min_free_gb_header"
 msgid "Min. spare storage"
-msgstr "Min. lagringsplads"
+msgstr "Espai mínim d'emmagatzematge"
 
+#, fuzzy
 msgctxt "prefs_disk_min_free_gb_description"
 msgid "How much of your device's storage space shall stay free?"
-msgstr "Hvor meget af din enheds lagringsplads skal forblive ubrugt?"
+msgstr ""
+"Quina quantitat d'espai d'emmagatzematge del dispositiu s'ha de mantenir "
+"lliure?"
 
+#, fuzzy
 msgctxt "prefs_network_daily_xfer_limit_mb_header"
 msgid "Daily transfer limit"
-msgstr "Daglig begrænsning på overførsler"
+msgstr "Límit de transferència diària"
 
+#, fuzzy
 msgctxt "prefs_network_daily_xfer_limit_mb_description"
 msgid "Limits the daily data traffic caused by BOINC."
-msgstr "Begrænser den daglige datatraffik forårsaget af BOINC."
+msgstr "Limita el tràfic diàri de dades degut a BOINC"
 
+#, fuzzy
 msgctxt "prefs_network_wifi_only_header"
 msgid "Transfer tasks on WiFi only"
-msgstr "Overfør kun opgaver over WiFi"
+msgstr "Transferir tasques només amb WiFi"
 
+#, fuzzy
 msgctxt "prefs_autostart_header"
 msgid "Autostart"
-msgstr "Autostart"
+msgstr "Inici automàtic"
 
+#, fuzzy
 msgctxt "prefs_show_notification_header"
 msgid "Show notification when suspended"
-msgstr "Vis notifikation under suspendering"
+msgstr "Mostra una notificació quan estigui suspés"
 
+#, fuzzy
 msgctxt "prefs_cpu_number_cpus_header"
 msgid "Used CPU cores"
-msgstr "Brugte CPU-kerner"
+msgstr "Nuclis de CPU usats"
 
+#, fuzzy
 msgctxt "prefs_cpu_number_cpus_description"
 msgid "Limits the number of CPU cores BOINC uses for computation."
-msgstr "Begrænser antallet af CPU-kerner, som BOINC bruger til beregninger."
+msgstr "Limita el nombre de nuclis de CPU que BOINC utilitza per la computació."
 
+#, fuzzy
 msgctxt "prefs_cpu_other_load_suspension_header"
 msgid "Pause at CPU usage above"
-msgstr "Pause ved CPU-belastning over"
+msgstr "Pausa en l'ús de la CPU per sobre de"
 
+#, fuzzy
 msgctxt "prefs_cpu_other_load_suspension_description"
 msgid "Determines when BOINC pauses computation due to other app's CPU usage."
 msgstr ""
-"Bestemmer hvornår BOINC sætter beregninger på pause på grund af andre "
-"app'ers CPU-brug."
+"Determina quan BOINC pausa el còmput degut a la utilització de la CPU per un "
+"altra aplicació."
 
+#, fuzzy
 msgctxt "prefs_cpu_time_max_header"
 msgid "CPU limit"
-msgstr "CPU-begrænsning"
+msgstr "Límit de CPU"
 
+#, fuzzy
 msgctxt "prefs_cpu_time_max_description"
 msgid "Limits the CPU time BOINC uses for computation."
-msgstr "Begrænser CPU-tiden, som BOINC bruger til beregninger."
+msgstr "Limita el temps de CPU que BOINC utilitza per la computació."
 
+#, fuzzy
 msgctxt "prefs_memory_max_idle_header"
 msgid "RAM limit"
-msgstr "RAM-begrænsning"
+msgstr "RAM límit"
 
+#, fuzzy
 msgctxt "prefs_memory_max_idle_description"
 msgid "Limits the amount of RAM tasks are allowed to occupy."
-msgstr "Begrænser mængden af RAM, som opgaver tillades at optage."
+msgstr "Limita la quantitat de RAM que les tasques poden utilitzar."
 
+#, fuzzy
 msgctxt "prefs_client_log_flags_header"
 msgid "BOINC Client log flags"
-msgstr "log-flag for BOINC-klient"
+msgstr "Marques de registre del client de BOINC"
 
+#, fuzzy
 msgctxt "prefs_gui_log_level_header"
 msgid "GUI log level"
-msgstr "GUI-logniveau"
+msgstr "Nivell de registre GUI"
 
+#, fuzzy
 msgctxt "prefs_gui_log_level_description"
 msgid "Specifies verbosity of GUI log messages."
-msgstr "Specificerer uddybning af GUI-logbeskeder."
+msgstr "Especifica el nivell de detall dels missatges de registre GUI."
 
 msgctxt "prefs_unit_mb"
 msgid "MB"
@@ -611,99 +735,120 @@ msgid "°C"
 msgstr "°C"
 
 #. projects tab strings
+#, fuzzy
 msgctxt "projects_loading"
 msgid "Reading projects…"
-msgstr "Indlæser projekter…"
+msgstr "S'estan carregant els projectes..."
 
+#, fuzzy
 msgctxt "projects_add"
 msgid "Add project"
-msgstr "Tilføj projekt"
+msgstr "Afegeix el projecte"
 
+#, fuzzy
 msgctxt "projects_icon"
 msgid "Project icon"
-msgstr "Projekt-ikon"
+msgstr "Icona delprojecte"
 
+#, fuzzy
 msgctxt "projects_credits_header"
 msgid "Credit:"
-msgstr "Bidragsydere:"
+msgstr "Crèdit:"
 
+#, fuzzy
 msgctxt "projects_credits_host_header"
 msgid "(on this device)"
-msgstr "(på denne enhed)"
+msgstr "(en aquest dispositiu)"
 
 msgctxt "projects_credits_user_header"
 msgid "(total)"
 msgstr "(total)"
 
 #. project status strings
+#, fuzzy
 msgctxt "projects_status_suspendedviagui"
 msgid "Suspended by user"
-msgstr "Suspenderet af bruger"
+msgstr "Suspès per l'usuari"
 
+#, fuzzy
 msgctxt "projects_status_dontrequestmorework"
 msgid "Won't get new tasks"
-msgstr "Vil ikke modtage nye opgaver"
+msgstr "No descarregar tasques noves"
 
+#, fuzzy
 msgctxt "projects_status_ended"
 msgid "Project ended - OK to remove"
-msgstr "Projekt afsluttet - O.k. for at fjerne"
+msgstr "Projecte finalitzat - CORRECTE per eliminar-lo"
 
+#, fuzzy
 msgctxt "projects_status_detachwhendone"
 msgid "Will remove when tasks done"
-msgstr "Vil blive fjernet, når opgaver er fuldført"
+msgstr "S'eliminarà quan finalitzi la tasca"
 
+#, fuzzy
 msgctxt "projects_status_schedrpcpending"
 msgid "Scheduler request pending"
-msgstr "Planlægningsforespørgsel afventer"
+msgstr "Petició al gestor pendent"
 
+#, fuzzy
 msgctxt "projects_status_schedrpcinprogress"
 msgid "Scheduler request in progress"
-msgstr "Planlægningsforespørgsel under udførsel"
+msgstr "Petició al gestor en curs"
 
+#, fuzzy
 msgctxt "projects_status_trickleuppending"
 msgid "Trickle up message pending"
-msgstr "Trickle-up-besked afventer"
+msgstr "Missatge de degoteig en espera"
 
+#, fuzzy
 msgctxt "projects_status_backoff"
 msgid "Communication scheduled in:"
-msgstr "Kommunikation planlagt om:"
+msgstr "Comunicació del gestor a:"
 
 #. project controls
+#, fuzzy
 msgctxt "projects_control_dialog_title"
 msgid "Project commands:"
-msgstr "Projektkommandoer:"
+msgstr "Ordres del projecte:"
 
 msgctxt "projects_control_visit_website"
 msgid "Visit website"
 msgstr "Besøg hjemmeside"
 
+#, fuzzy
 msgctxt "projects_control_update"
 msgid "Update"
-msgstr "Opdatér"
+msgstr "Actualitza"
 
+#, fuzzy
 msgctxt "projects_control_remove"
 msgid "Remove"
-msgstr "Fjern"
+msgstr "Elimina"
 
+#, fuzzy
 msgctxt "projects_control_suspend"
 msgid "Suspend"
-msgstr "Suspendér"
+msgstr "Suspèn"
 
+#, fuzzy
 msgctxt "projects_control_resume"
 msgid "Resume"
-msgstr "Fortsæt"
+msgstr "Reprèn"
 
+#, fuzzy
 msgctxt "projects_control_nonewtasks"
 msgid "No new tasks"
-msgstr "Ingen nye opgaver"
+msgstr "No hi han tasques noves"
 
+#, fuzzy
 msgctxt "projects_control_allownewtasks"
 msgid "Allow new tasks"
-msgstr "Tillad nye opgaver"
+msgstr "Permetre noves tasques"
 
+#, fuzzy
 msgctxt "projects_control_reset"
 msgid "Reset"
-msgstr "Nulstil"
+msgstr "Reinicia"
 
 msgctxt "projects_control_dialog_title_acctmgr"
 msgid "Account manager commands:"
@@ -718,33 +863,40 @@ msgid "Disable"
 msgstr "Deaktivér"
 
 #. project confirm dialog
+#, fuzzy
 msgctxt "projects_confirm_detach_title"
 msgid "Remove project?"
-msgstr "Fjern projekt?"
+msgstr "Eliminar el projecte?"
 
+#, fuzzy
 msgctxt "projects_confirm_detach_message"
 msgid "Are you sure you want to remove"
-msgstr "Er du sikker på, at du vil fjerne"
+msgstr "Estàs segur que voleu eliminar"
 
+#, fuzzy
 msgctxt "projects_confirm_detach_message2"
 msgid "from BOINC?"
-msgstr "fra BOINC?"
+msgstr "de BOINC?"
 
+#, fuzzy
 msgctxt "projects_confirm_detach_confirm"
 msgid "Remove"
-msgstr "Fjern"
+msgstr "Elimina"
 
+#, fuzzy
 msgctxt "projects_confirm_reset_title"
 msgid "Reset project"
-msgstr "Nulstil projekt"
+msgstr "Reinicia el projecte"
 
+#, fuzzy
 msgctxt "projects_confirm_reset_message"
 msgid "Are you sure you want to reset"
-msgstr "Er du sikker på, at du vil nulstille"
+msgstr "Estàs segur que vols reiniciar"
 
+#, fuzzy
 msgctxt "projects_confirm_reset_confirm"
 msgid "Reset"
-msgstr "Nulstil"
+msgstr "Reinicia"
 
 msgctxt "projects_confirm_remove_acctmgr_title"
 msgid "Disable account manager"
@@ -759,163 +911,201 @@ msgid "Disable"
 msgstr "Deaktivér"
 
 #. tasks tab strings
+#, fuzzy
 msgctxt "tasks_header_name"
 msgid "Task Name:"
-msgstr "Opgavenavn:"
+msgstr "Nom de la tasca:"
 
+#, fuzzy
 msgctxt "tasks_header_elapsed_time"
 msgid "Elapsed time:"
-msgstr "Forgangen tid:"
+msgstr "Temps transcorregut:"
 
+#, fuzzy
 msgctxt "tasks_header_project_paused"
 msgid "(suspended)"
-msgstr "(suspenderet)"
+msgstr "(suspès)"
 
+#, fuzzy
 msgctxt "tasks_header_deadline"
 msgid "Deadline:"
-msgstr "Deadline:"
+msgstr "Data límit:"
 
+#, fuzzy
 msgctxt "tasks_result_new"
 msgid "new"
-msgstr "ny"
+msgstr "nou"
 
+#, fuzzy
 msgctxt "tasks_result_files_downloading"
 msgid "waiting for download"
-msgstr "venter på download"
+msgstr "esperant per descarregar"
 
+#, fuzzy
 msgctxt "tasks_result_files_downloaded"
 msgid "download complete"
-msgstr "download komplet"
+msgstr "Descàrrega completa"
 
+#, fuzzy
 msgctxt "tasks_result_compute_error"
 msgid "computation error"
-msgstr "beregningsfejl"
+msgstr "error de computació"
 
+#, fuzzy
 msgctxt "tasks_result_files_uploading"
 msgid "uploading"
-msgstr "uploader"
+msgstr "s'està lliurant"
 
+#, fuzzy
 msgctxt "tasks_result_files_uploaded"
 msgid "upload complete"
-msgstr "upload komplet"
+msgstr "lliurament finalitzat"
 
+#, fuzzy
 msgctxt "tasks_result_aborted"
 msgid "aborted"
-msgstr "afbrudt"
+msgstr "avortat"
 
+#, fuzzy
 msgctxt "tasks_result_upload_failed"
 msgid "upload failed"
-msgstr "upload fejlede"
+msgstr "ha fallat el lliurament"
 
+#, fuzzy
 msgctxt "tasks_active_uninitialized"
 msgid "ready"
-msgstr "klar"
+msgstr "preparat"
 
+#, fuzzy
 msgctxt "tasks_active_executing"
 msgid "running"
-msgstr "kører"
+msgstr "executant"
 
+#, fuzzy
 msgctxt "tasks_active_suspended"
 msgid "suspended"
-msgstr "suspenderet"
+msgstr "suspès"
 
+#, fuzzy
 msgctxt "tasks_active_abort_pending"
 msgid "suspending"
-msgstr "suspenderer"
+msgstr "s'està suspenent"
 
+#, fuzzy
 msgctxt "tasks_active_quit_pending"
 msgid "suspending"
-msgstr "suspenderer"
+msgstr "s'està suspenent"
 
+#, fuzzy
 msgctxt "tasks_custom_suspended_via_gui"
 msgid "suspended"
-msgstr "suspenderet"
+msgstr "suspès"
 
+#, fuzzy
 msgctxt "tasks_custom_project_suspended_via_gui"
 msgid "project suspended"
-msgstr "projekt suspenderet"
+msgstr "projecte suspès"
 
+#, fuzzy
 msgctxt "tasks_custom_ready_to_report"
 msgid "ready to report"
-msgstr "klar til at rapportere"
+msgstr "a punt per informar"
 
 #. confirmation dialog
+#, fuzzy
 msgctxt "confirm_abort_task_title"
 msgid "Abort task?"
-msgstr "Afbryd opgave?"
+msgstr "Avortar la tasca?"
 
+#, fuzzy
 msgctxt "confirm_abort_task_message"
 msgid "Abort task:"
-msgstr "Afbryd opgave:"
+msgstr "Avortar la tasca:"
 
+#, fuzzy
 msgctxt "confirm_abort_task_confirm"
 msgid "Abort"
-msgstr "Afbryd"
+msgstr "Avorta"
 
+#, fuzzy
 msgctxt "confirm_cancel"
 msgid "Cancel"
-msgstr "Annullér"
+msgstr "Cancel·la"
 
+#, fuzzy
 msgctxt "confirm_image_desc"
 msgid "Confirmation dialog"
-msgstr "Bekræftelsesdialog"
+msgstr "Diàleg de confirmació"
 
 #. transfers tab strings
+#, fuzzy
 msgctxt "trans_loading"
 msgid "Reading transfers…"
-msgstr "Indlæser overførsler…"
+msgstr "Llegint transferències..."
 
+#, fuzzy
 msgctxt "trans_upload"
 msgid "Upload"
-msgstr "Upload"
+msgstr "Puja"
 
+#, fuzzy
 msgctxt "trans_download"
 msgid "Download"
-msgstr "Download"
+msgstr "Descarrega"
 
+#, fuzzy
 msgctxt "trans_retryin"
 msgid "retry in"
-msgstr "prøv igen om"
+msgstr "re intentar en"
 
+#, fuzzy
 msgctxt "trans_failed"
 msgid "failed"
-msgstr "fejlede"
+msgstr "ha fallat"
 
+#, fuzzy
 msgctxt "trans_suspended"
 msgid "suspended"
-msgstr "suspenderet"
+msgstr "suspès"
 
+#, fuzzy
 msgctxt "trans_active"
 msgid "active"
-msgstr "aktiv"
+msgstr "activa"
 
+#, fuzzy
 msgctxt "trans_pending"
 msgid "pending"
-msgstr "afventer"
+msgstr "pendent"
 
+#, fuzzy
 msgctxt "trans_projectbackoff"
 msgid "project backoff"
-msgstr "projekt backoff"
+msgstr "desentendre's del projecte"
 
+#, fuzzy
 msgctxt "trans_header_name"
 msgid "File:"
-msgstr "Fil:"
+msgstr "Fitxer:"
 
 msgctxt "trans_control_retry"
 msgid "Retry transfers"
 msgstr "Prøv filoverførsler igen"
 
+#, fuzzy
 msgctxt "confirm_abort_trans_title"
 msgid "Abort transfer?"
-msgstr "Afbryd overførsel?"
+msgstr "Avortar la transferència?"
 
+#, fuzzy
 msgctxt "confirm_abort_trans_message"
 msgid "Abort File:"
-msgstr "Afbryd fil:"
+msgstr "Avortar arxiu:"
 
+#, fuzzy
 msgctxt "confirm_abort_trans_confirm"
 msgid "Abort"
-msgstr "Afbryd"
+msgstr "Avorta"
 
 #. notices tab strings
 msgctxt "notices_loading"
@@ -923,205 +1113,251 @@ msgid "Reading notices…"
 msgstr "Indlæser meddelelser"
 
 #. eventlog tab strings
+#, fuzzy
 msgctxt "eventlog_loading"
 msgid "Loading log messages…"
-msgstr "Indlæser logbeskeder…"
+msgstr "Carregant missatges de registre..."
 
+#, fuzzy
 msgctxt "eventlog_client_header"
 msgid "Client Messages"
-msgstr "Klientbeskeder"
+msgstr "Missatges del client"
 
+#, fuzzy
 msgctxt "eventlog_gui_header"
 msgid "GUI Messages"
-msgstr "GUI-beskeder"
+msgstr "Missatges GUI"
 
+#, fuzzy
 msgctxt "eventlog_copy_toast"
 msgid "Log copied to clipboard."
-msgstr "Log kopieret til udklipsholder."
+msgstr "Registre copiat al porta-retalls"
 
+#, fuzzy
 msgctxt "eventlog_email_subject"
 msgid "Event Log for BOINC on Android:"
-msgstr "Hændelseslog for BOINC på Android:"
+msgstr "Registre d'esdeveniments de BOINC en Android:"
 
 #. suspend reasons
+#, fuzzy
 msgctxt "suspend_unknown"
 msgid "Computation suspended."
-msgstr "Beregning suspenderet."
+msgstr "Computació suspesa."
 
+#, fuzzy
 msgctxt "suspend_batteries"
 msgid "Connect your device to a charger to continue computing."
-msgstr "Forbind din enhed til en oplader for at fortsætte beregning."
+msgstr "Connecta el dispositiu a un carregador per continuar el còmput."
 
+#, fuzzy
 msgctxt "suspend_useractive"
 msgid "User is active."
-msgstr "Bruger er aktiv."
+msgstr "L'usuari està actiu."
 
+#, fuzzy
 msgctxt "suspend_tod"
 msgid "Out of computation time-frame."
-msgstr "Tidsvindue for beregning brugt up."
+msgstr "Fora del termini especificat per el còmput."
 
+#, fuzzy
 msgctxt "suspend_bm"
 msgid "BOINC is benchmarking your device…"
-msgstr "BOINC måler din enheds ydelsesevne…"
+msgstr "BOINC està avaluant el teu dispositiu..."
 
+#, fuzzy
 msgctxt "suspend_disksize"
 msgid "Out of disk space."
-msgstr "Diskplads brugt op."
+msgstr "S'ha exhaurit l'espai lliure del disc"
 
+#, fuzzy
 msgctxt "suspend_cputhrottle"
 msgid "Scheduled CPU throttle."
-msgstr "CPU-neddrosling planlagt."
+msgstr "Programada acceleració CPU."
 
+#, fuzzy
 msgctxt "suspend_noinput"
 msgid "No recent user activity."
-msgstr "Ingen nylig brugeraktivitet."
+msgstr "No hi ha hagut activitat recent de l'usuari."
 
+#, fuzzy
 msgctxt "suspend_delay"
 msgid "Initialization delay."
-msgstr "Initialiseringsforsinkelse."
+msgstr "Temps d'espera per reiniciar."
 
+#, fuzzy
 msgctxt "suspend_exclusiveapp"
 msgid "An exclusive app is running."
-msgstr "En eksklusiv app kører."
+msgstr "S'està executant una aplicació amb ús exclusiu."
 
+#, fuzzy
 msgctxt "suspend_cpu"
 msgid "Your device is busy with other apps."
-msgstr "Din enhed er optaget af andre apps."
+msgstr "El teu dispositiu està ocupat per altres aplicacions."
 
+#, fuzzy
 msgctxt "suspend_network_quota"
 msgid "BOINC reached network transfer limit."
-msgstr "BOINC har nået begrænsningen for netværksoverførsel."
+msgstr "BOINC ha assolit el límit de transferència per xarxa."
 
+#, fuzzy
 msgctxt "suspend_os"
 msgid "Stopped by Android."
-msgstr "Stoppet af Android."
+msgstr "Suspès per Android."
 
+#, fuzzy
 msgctxt "suspend_wifi"
 msgid "Not connected to WiFi."
-msgstr "Ikke forbundet til WiFi."
+msgstr "No hi ha connexió Wifi."
 
+#, fuzzy
 msgctxt "suspend_battery_charging"
 msgid "Battery needs to charge before resuming computation."
-msgstr "Batteri skal være under opladning, før beregning genoptages."
+msgstr "La bateria necessita carregar-se abans de continuar la computació."
 
+#, fuzzy
 msgctxt "suspend_battery_charging_long"
 msgid "Computing will resume when battery charge reaches"
-msgstr "Beregning vil blive genoptaget, når batteriniveau når"
+msgstr "La computació continuarà quan la bateria tingui una carregada del"
 
+#, fuzzy
 msgctxt "suspend_battery_charging_current"
 msgid "currently"
-msgstr "nuværende"
+msgstr "actual"
 
+#, fuzzy
 msgctxt "suspend_battery_overheating"
 msgid "Waiting for battery to cool down"
-msgstr "Venter på at batteri køler ned"
+msgstr "Esperant que es refredi la bateria"
 
+#, fuzzy
 msgctxt "suspend_user_req"
 msgid "Resuming computation…"
-msgstr "Genoptager beregning…"
+msgstr "Continuant la computació..."
 
+#, fuzzy
 msgctxt "suspend_network_user_req"
 msgid "manually."
-msgstr "manuelt."
+msgstr "manualment."
 
 #. rpc reasons
+#, fuzzy
 msgctxt "rpcreason_userreq"
 msgid "Requested by user"
-msgstr "Forespurgt af bruger"
+msgstr "Sol·licitat per l'usuari"
 
+#, fuzzy
 msgctxt "rpcreason_needwork"
 msgid "To fetch work"
-msgstr "For at hente opgaver"
+msgstr "Per obtenir feina"
 
+#, fuzzy
 msgctxt "rpcreason_resultsdue"
 msgid "To report completed tasks"
-msgstr "For at rapportere komplette opgaver"
+msgstr "Per informar tasques finalitzades"
 
+#, fuzzy
 msgctxt "rpcreason_trickleup"
 msgid "To send trickle-up message"
-msgstr "For at sende trickle-up-besked"
+msgstr "Per lliurar un missatge de degoteig"
 
+#, fuzzy
 msgctxt "rpcreason_acctmgrreq"
 msgid "Requested by account manager"
-msgstr "Forespurgt af kontohåndtering"
+msgstr "Sol·licitat per l'administrador de comptes"
 
+#, fuzzy
 msgctxt "rpcreason_init"
 msgid "Project initialization"
-msgstr "Projektinitialisering"
+msgstr "Inicialització del projecte"
 
+#, fuzzy
 msgctxt "rpcreason_projectreq"
 msgid "Requested by project"
-msgstr "Forespurgt af projekt"
+msgstr "Sol·licitat per el projecte"
 
+#, fuzzy
 msgctxt "rpcreason_unknown"
 msgid "Unknown reason"
-msgstr "Ukendt begrundelse"
+msgstr "Motiu desconegut"
 
 #. menu
+#, fuzzy
 msgctxt "menu_refresh"
 msgid "Refresh"
-msgstr "Opdatér"
+msgstr "Actualitza"
 
+#, fuzzy
 msgctxt "menu_emailto"
 msgid "Send as Email"
-msgstr "Send som email"
+msgstr "Envia per correu electrònic"
 
+#, fuzzy
 msgctxt "menu_copy"
 msgid "Copy to Clipboard"
-msgstr "Kopiér til udklipsholder"
+msgstr "Copia al porta-retalls"
 
+#, fuzzy
 msgctxt "menu_eventlog"
 msgid "Event Log"
-msgstr "Hændelseslog"
+msgstr "Registre d'esdeveniments"
 
+#, fuzzy
 msgctxt "menu_exit"
 msgid "Exit BOINC"
-msgstr "Afslut BOINC"
+msgstr "Surt de BOINC"
 
+#, fuzzy
 msgctxt "menu_run_mode_disable"
 msgid "Suspend"
-msgstr "Suspendér"
+msgstr "Suspèn"
 
+#, fuzzy
 msgctxt "menu_run_mode_enable"
 msgid "Resume"
-msgstr "Genoptag"
+msgstr "Reprèn"
 
+#, fuzzy
 msgctxt "menu_about"
 msgid "About"
-msgstr "Om"
+msgstr "Sobre"
 
+#, fuzzy
 msgctxt "menu_help"
 msgid "Help"
-msgstr "Hjælp"
+msgstr "Ajuda"
 
 #. about dialog
+#, fuzzy
 msgctxt "about_button"
 msgid "Return"
-msgstr "Tilbage"
+msgstr "Retorna"
 
+#, fuzzy
 msgctxt "about_title"
 msgid "About"
-msgstr "Om"
+msgstr "Sobre"
 
 msgctxt "about_name"
 msgid "BOINC"
 msgstr "BOINC"
 
+#, fuzzy
 msgctxt "about_version"
 msgid "Version"
-msgstr "Version"
+msgstr "Versió"
 
 msgctxt "about_name_long"
 msgid "Berkeley Open Infrastructure for Network Computing"
 msgstr "Berkeley Open Infrastructure for Network Computing"
 
+#, fuzzy
 msgctxt "about_copyright"
 msgid ""
 "© 2003–2013 University of California, Berkeley.\n"
 "All Rights Reserved."
 msgstr ""
-"© 2003–2013 University of California, Berkeley.\n"
-"Alle rettigheder forbeholdes."
+"© 2003–2013 Universitat de Califòrnia, Berkeley.\n"
+"Tots els Drets Reservats."
 
 #, fuzzy
 #~ msgctxt "main_noproject_warning"
