@@ -466,6 +466,7 @@ int HTTP_OP::libcurl_exec(
     // To control lying, see CURLOPT_SSL_VERIFYPEER.
     //
     curl_easy_setopt(curlEasy, CURLOPT_SSL_VERIFYHOST, 2L);
+    //curl_easy_setopt(curlEasy, CURLOPT_SSL_VERIFYHOST, 0);
 
     // the following sets "tough" certificate checking
     // (i.e. whether self-signed is OK)
@@ -474,6 +475,7 @@ int HTTP_OP::libcurl_exec(
     // if non-zero below, you need a valid 3rd party CA (i.e. Verisign, Thawte)
     //
     curl_easy_setopt(curlEasy, CURLOPT_SSL_VERIFYPEER, 1L);
+    //curl_easy_setopt(curlEasy, CURLOPT_SSL_VERIFYPEER, FALSE);
 
     // if the above is nonzero, you need the following:
     //

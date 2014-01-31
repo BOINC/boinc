@@ -237,6 +237,10 @@ int RPC_CLIENT::init_poll() {
 }
 
 int RPC_CLIENT::init_unix_domain() {
+#ifdef _WIN32
+	fprintf(stderr, "Unix domain not implemented in Windows\n");
+	return -1;
+#else
     struct sockaddr_un addr_un;
     int retval = boinc_socket(sock, AF_UNIX);
     if (retval) return retval;
@@ -248,6 +252,7 @@ int RPC_CLIENT::init_unix_domain() {
         return ERR_CONNECT;
     }
     return 0;
+#endif
 }
 
 int RPC_CLIENT::authorize(const char* passwd) {

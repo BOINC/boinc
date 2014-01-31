@@ -225,6 +225,7 @@ int GUI_RPC_CONN_SET::insert(GUI_RPC_CONN* p) {
 }
 
 int GUI_RPC_CONN_SET::init_unix_domain() {
+#ifndef _WIN32
     sockaddr_un addr;
     get_password();
     int retval = boinc_socket(lsock, AF_UNIX);
@@ -253,6 +254,7 @@ int GUI_RPC_CONN_SET::init_unix_domain() {
         boinc_close_socket(lsock);
         return ERR_LISTEN;
     }
+#endif
     return 0;
 }
 
