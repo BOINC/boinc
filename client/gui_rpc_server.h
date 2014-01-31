@@ -109,7 +109,8 @@ public:
     char password[256];
     void get_fdset(FDSET_GROUP&, FDSET_GROUP&);
     void got_select(FDSET_GROUP&);
-    int init(bool last_time);
+    int init_tcp(bool last_time);
+    int init_unix_domain();
     void close();
     bool recent_rpc_needs_network(double interval);
     void send_quits();

@@ -679,6 +679,7 @@ struct RPC_CLIENT {
         // retry: if true, keep retrying until succeed or timeout.
         //    Use this if just launched the core client.
     int init_poll();
+    int init_unix_domain();
     void close();
     int authorize(const char* passwd);
     int exchange_versions(VERSION_INFO&);

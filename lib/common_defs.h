@@ -24,7 +24,10 @@
 // #defines or enums that are shared by more than one BOINC component
 // (e.g. client, server, Manager, etc.)
 
-#define GUI_RPC_PORT                                31416
+#define GUI_RPC_PORT 31416
+    // for TCP connection
+#define GUI_RPC_FILE "boinc_socket"
+    // for Unix-domain connection
 
 #define COBBLESTONE_SCALE 200/86400e9
     // multiply normalized PFC by this to get Cobblestones
