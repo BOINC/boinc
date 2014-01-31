@@ -1686,7 +1686,14 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
 
     pDoc->rpc.get_project_init_status(pis);
     pDoc->rpc.acct_mgr_info(ami);
-    if (ami.acct_mgr_url.size() && !ami.have_credentials) {
+
+    if (ami.acct_mgr_url.size() && ami.have_credentials) {
+        // Fall through
+        //
+        // There isn't a need to bring up the attach wizard, the account manager will
+        // take care of ataching to projects when it completes the RPCs
+        //
+    } else if (ami.acct_mgr_url.size() && !ami.have_credentials) {
         if (IsShown()) {
             wasShown = 1;
         } else {
