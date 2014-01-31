@@ -224,13 +224,47 @@ int GUI_RPC_CONN_SET::insert(GUI_RPC_CONN* p) {
     return 0;
 }
 
+int GUI_RPC_CONN_SET::init_unix_domain() {
+#ifndef _WIN32
+    sockaddr_un addr;
+    get_password();
+    int retval = boinc_socket(lsock, AF_UNIX);
+    if (retval) {
+        msg_printf(NULL, MSG_INTERNAL_ERROR,
+            "Failed to create Unix domain socket: %s", boincerror(retval)
+        );
+        return retval;
+    }
+    addr.sun_family = AF_UNIX;
+    strcpy(addr.sun_path, GUI_RPC_FILE);
+    unlink(GUI_RPC_FILE);
+    int len = strlen(GUI_RPC_FILE) + sizeof(addr.sun_family);
+    if (bind(lsock, (struct sockaddr*)&addr, len) < 0) {
+        msg_printf(NULL, MSG_INTERNAL_ERROR,
+            "Failed to bind Unix domain socket"
+        );
+        boinc_close_socket(lsock);
+        return ERR_BIND;
+    }
+    retval = listen(lsock, 999);
+    if (retval < 0) {
+        msg_printf(NULL, MSG_INTERNAL_ERROR,
+            "Failed to listen on Unix domain socket"
+        );
+        boinc_close_socket(lsock);
+        return ERR_LISTEN;
+    }
+#endif
+    return 0;
+}
+
 // If the client runs at boot time,
 // it may be a while (~10 sec) before the DNS system is working.
 // If this returns an error,
 // it will get called once a second for up to 30 seconds.
 // On the last call, "last_time" is set; print error messages then.
 //
-int GUI_RPC_CONN_SET::init(bool last_time) {
+int GUI_RPC_CONN_SET::init_tcp(bool last_time) {
     sockaddr_in addr;
     int retval;
     bool first = true;
@@ -241,11 +275,11 @@ int GUI_RPC_CONN_SET::init(bool last_time) {
         first = false;
     }
 
-    retval = boinc_socket(lsock);
+    retval = boinc_socket(lsock, AF_INET);
     if (retval) {
         if (last_time) {
             msg_printf(NULL, MSG_INTERNAL_ERROR,
-                "GUI RPC failed to create socket: %d", lsock
+                "Failed to create TCP socket: %s", boincerror(retval)
             );
         }
         return retval;
@@ -419,7 +453,9 @@ void GUI_RPC_CONN_SET::got_select(FDSET_GROUP& fg) {
         // 2) client host is included in "remote_hosts" file or
         // 3) client is on localhost
         //
-        if (config.allow_remote_gui_rpc) {
+        if (gstate.gui_rpc_unix_domain) {
+            host_allowed = true;
+        } else if (config.allow_remote_gui_rpc) {
             host_allowed = true;
         } else if (is_localhost(addr)) {
             host_allowed = true;
@@ -438,7 +474,11 @@ void GUI_RPC_CONN_SET::got_select(FDSET_GROUP& fg) {
             if (strlen(password)) {
                 gr->auth_needed = true;
             }
-            gr->is_local = is_localhost(addr);
+            if (gstate.gui_rpc_unix_domain) {
+                gr->is_local = true;
+            } else {
+                gr->is_local = is_localhost(addr);
+            }
             if (log_flags.gui_rpc_debug) {
                 msg_printf(0, MSG_INFO,
                     "[gui_rpc] got new GUI RPC connection"

@@ -202,8 +202,8 @@ int resolve_hostname_or_ip_addr(
     return resolve_hostname(hostname, ip_addr);
 }
 
-int boinc_socket(int& fd) {
-    fd = (int)socket(AF_INET, SOCK_STREAM, 0);
+int boinc_socket(int& fd, int protocol) {
+    fd = (int)socket(protocol, SOCK_STREAM, 0);
     if (fd < 0) {
         perror("socket");
         return ERR_SOCKET;
