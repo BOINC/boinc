@@ -224,7 +224,7 @@ int GUI_RPC_CONN_SET::insert(GUI_RPC_CONN* p) {
 
 int GUI_RPC_CONN_SET::init_unix_domain() {
 #if !defined(_WIN32) && !defined(__APPLE__)
-    sockaddr_un addr;
+    struct sockaddr_un addr;
     get_password();
     int retval = boinc_socket(lsock, AF_UNIX);
     if (retval) {
