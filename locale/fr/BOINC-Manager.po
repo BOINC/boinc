@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-01-26 00:00-0800\n"
-"PO-Revision-Date: 2013-10-06 20:40+0000\n"
+"PO-Revision-Date: 2014-02-01 19:32+0000\n"
 "Last-Translator: Jerome Cadet <jerome.cadet@pobox.com>\n"
 "Language-Team: <fr@li.org>\n"
 "Language: fr\n"
@@ -20,7 +20,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCGIT\\boinc\n"
-"X-POOTLE-MTIME: 1381092035.0\n"
+"X-POOTLE-MTIME: 1391283178.0\n"
 
 # 81%
 #: AccountInfoPage.cpp:387
@@ -122,7 +122,6 @@ msgstr ""
 "enregistrer ou pour récupérer un mot de passe oublié."
 
 #: AccountInfoPage.cpp:532
-#, fuzzy
 msgid "Account manager web site"
 msgstr "Site du gestionnaire de compte"
 
@@ -142,17 +141,16 @@ msgstr "Utiliser le gestionnaire de compte"
 
 #: AccountInfoPage.cpp:585
 msgid "Please enter a user name."
-msgstr ""
+msgstr "Veuillez saisir un nom d'utilisateur."
 
 #: AccountInfoPage.cpp:587
-#, fuzzy
 msgid "Please enter an email address."
-msgstr "Veuillez entrer une adresse email"
+msgstr "Veuillez saisir une adresse de courriel."
 
 #: AccountInfoPage.cpp:597
 #, c-format
 msgid "Please enter a password of at least %d characters."
-msgstr ""
+msgstr "Veuillez entrer un mot de passe d'au moins %d caractères."
 
 #: AccountInfoPage.cpp:607
 msgid ""
@@ -174,9 +172,8 @@ msgstr ""
 "ci-dessous."
 
 #: AccountManagerInfoPage.cpp:279
-#, fuzzy
 msgid "Account manager details:"
-msgstr "Site du gestionnaire de compte"
+msgstr "Détails sur le gestionnaire de compte:"
 
 #: AccountManagerInfoPage.cpp:283
 #, fuzzy
@@ -185,11 +182,11 @@ msgstr "&URL du gestionnaire de compte:"
 
 #: AccountManagerInfoPage.cpp:287
 msgid "Open web page"
-msgstr ""
+msgstr "Ouvrir une page web"
 
 #: AccountManagerInfoPage.cpp:290
 msgid "Visit this account manager's web site"
-msgstr ""
+msgstr "Visiter le site web du gestionnaire de compte"
 
 #: AccountManagerProcessingPage.cpp:187 AccountManagerPropertiesPage.cpp:193
 #, c-format
@@ -1029,6 +1026,9 @@ msgid ""
 "\n"
 "Click Finish to close."
 msgstr ""
+"Veuillez réessayer ultérieurement.\n"
+"\n"
+"Cliquer sur Terminer pour fermer."
 
 #: CompletionErrorPage.cpp:225 CompletionPage.cpp:222 CompletionPage.cpp:242
 #: CompletionPage.cpp:273
@@ -1119,7 +1119,7 @@ msgstr "&OK"
 
 #: DlgAdvPreferences.cpp:544
 msgid "invalid number"
-msgstr ""
+msgstr "nombre invalide"
 
 #: DlgAdvPreferences.cpp:545
 msgid "invalid time, format is HH:MM"
@@ -1381,7 +1381,7 @@ msgstr "Sur les systèmes multiprocesseurs, utiliser au plus"
 #: DlgAdvPreferencesBase.cpp:346
 #, no-c-format
 msgid "% of the processors (0 means ignore this setting)"
-msgstr ""
+msgstr "% des processeurs (0 pour ignorer ce paramètre)"
 
 #: DlgAdvPreferencesBase.cpp:349 DlgAdvPreferencesBase.cpp:605
 #: DlgAdvPreferencesBase.cpp:627 DlgAdvPreferencesBase.cpp:648
@@ -3656,11 +3656,15 @@ msgstr "Cliquez sur OK pour enregistrer les préférences."
 msgid ""
 "Click Clear to restore web-based settings for all preferences listed below."
 msgstr ""
+"Cliquer sur Effacer pour restaurer les paramètres du site pour toutes les "
+"préférences listées ci-dessous."
 
 #: sg_DlgPreferences.cpp:285
 msgid ""
 "For additional settings, select Computing Preferences in the Advanced View."
 msgstr ""
+"Pour des réglages supplémentaires, choisissez Préférences de Calcul dans la "
+"vue Avancée."
 
 #: sg_DlgPreferences.cpp:313
 msgid "Do work only between:"
@@ -3692,7 +3696,7 @@ msgstr "Travailler après que l'ordinateur soit inactif pendant:"
 
 #: sg_DlgPreferences.cpp:429
 msgid "Clear all local preferences listed above and close the dialog"
-msgstr ""
+msgstr "Effacer toutes les préférences locales et fermer la fenêtre"
 
 #: sg_DlgPreferences.cpp:602 sg_DlgPreferences.cpp:605
 #: sg_DlgPreferences.cpp:681 sg_DlgPreferences.cpp:685
@@ -3799,10 +3803,9 @@ msgid "Project Commands"
 msgstr "Commandes du projet"
 
 #: sg_ProjectPanel.cpp:267
-#, c-format
-#, c-format, fuzzy
+#, c-format, c-format
 msgid "Pop up a menu of web sites for project %s"
-msgstr "Afficher une liste des sites web du projet %s"
+msgstr "Afficher une liste des sites web pour le projet %s"
 
 #: sg_ProjectPanel.cpp:269
 #, c-format

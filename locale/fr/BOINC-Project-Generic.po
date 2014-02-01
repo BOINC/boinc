@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2014-01-10 00:00 PST\n"
-"PO-Revision-Date: 2013-10-06 20:40+0000\n"
-"Last-Translator: Jerome Cadet <jerome.cadet@pobox.com>\n"
+"PO-Revision-Date: 2014-02-01 19:40+0000\n"
+"Last-Translator: Anonymous Pootle User\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-POOTLE-MTIME: 1381092035.0\n"
+"X-POOTLE-MTIME: 1391283627.0\n"
 
 msgid "LANG_NAME_NATIVE"
 msgstr "LANG_NAME_NATIVE"
@@ -538,7 +538,7 @@ msgstr "École"
 
 #: ../inc/host.inc:59
 msgid "Mobile"
-msgstr ""
+msgstr "Mobile"
 
 #: ../inc/host.inc:61 ../user/edit_forum_preferences_form.php:172
 #: ../user/edit_forum_preferences_form.php:173
@@ -571,7 +571,7 @@ msgstr "Nom de domaine"
 
 #: ../inc/host.inc:98
 msgid "Product name"
-msgstr ""
+msgstr "Nom du produit"
 
 #: ../inc/host.inc:102
 msgid "Local Standard Time"
@@ -892,7 +892,7 @@ msgstr "Fusionner les ordinateurs par le nom"
 
 #: ../inc/language_names.inc:61
 msgid "Browser default"
-msgstr ""
+msgstr "Navigateur par défaut"
 
 #: ../inc/news.inc:40
 msgid "Comment"
@@ -1209,9 +1209,9 @@ msgstr ""
 "plus %2"
 
 #: ../inc/prefs.inc:344
-#, fuzzy
 msgid "Use Intel GPU %1 Enforced by version 7.2+ %2"
-msgstr "Utiliser le GPU ATI %1 Applicable depuis la version 6.10 et plus %2"
+msgstr ""
+"Utiliser le GPU Intel %1 Applicable depuis la version 7.2 et suivantes %2"
 
 #: ../inc/prefs.inc:358
 msgid ""
@@ -1338,16 +1338,19 @@ msgstr "Modifier les préférences de %1"
 #: ../inc/prefs.inc:885
 msgid "These apply to all BOINC projects in which you participate."
 msgstr ""
+"Ceux-ci s'appliquent sur tous les projets BOINC auxquels vous participez."
 
 #: ../inc/prefs.inc:887
 msgid ""
 "On computers participating in multiple projects, the most recently modified "
 "preferences will be used."
 msgstr ""
+"Sur les ordinateurs participants à plusieurs projets, les préférences mises "
+"à jours le plus récemment seront utilisées."
 
 #: ../inc/prefs.inc:889
 msgid "These preferences do not apply to Android devices."
-msgstr ""
+msgstr "Ces préférences ne sont pas applicables pour les appareils Android."
 
 #: ../inc/prefs.inc:892
 msgid "Preferences last modified:"
@@ -1446,7 +1449,7 @@ msgstr "GPU ATI"
 
 #: ../inc/result.inc:57 ../user/host_app_versions.php:28
 msgid "Intel GPU"
-msgstr ""
+msgstr "GPU Intel"
 
 #: ../inc/result.inc:65
 msgid "Not in DB"
@@ -1774,9 +1777,8 @@ msgid "State"
 msgstr "État"
 
 #: ../inc/result.inc:747
-#, fuzzy
 msgid "Task name:"
-msgstr "Nom de tâche"
+msgstr "Nom de la tâche:"
 
 #: ../inc/team.inc:40
 msgid "Search criteria (use one or more)"
@@ -2524,11 +2526,11 @@ msgstr ""
 
 #: ../user/bs_sample_index.php:44
 msgid "Participants"
-msgstr ""
+msgstr "Participants"
 
 #: ../user/bs_sample_index.php:46
 msgid "Do work"
-msgstr ""
+msgstr "Faire le travail"
 
 #: ../user/bs_sample_index.php:47 ../user/bs_sample_index.php:50
 #: ../user/home.php:49 ../project.sample/project.inc:43
@@ -2537,7 +2539,7 @@ msgstr "Votre compte"
 
 #: ../user/bs_sample_index.php:47 ../user/bs_sample_index.php:50
 msgid "view stats, modify preferences"
-msgstr ""
+msgstr "afficher des statistiques, modifier les préférences"
 
 #: ../user/bs_sample_index.php:48 ../user/bs_sample_index.php:53
 #: ../user/team.php:25
@@ -2546,7 +2548,7 @@ msgstr "Equipes"
 
 #: ../user/bs_sample_index.php:48 ../user/bs_sample_index.php:53
 msgid "create or join a team"
-msgstr ""
+msgstr "créer ou rejoindre une équipe"
 
 #: ../user/bs_sample_index.php:51 ../user/sample_index.php:191
 msgid "User of the day"
@@ -2563,11 +2565,11 @@ msgstr "Profils"
 
 #: ../user/bs_sample_index.php:61
 msgid "User search"
-msgstr ""
+msgstr "Recherche d'utilisateur"
 
 #: ../user/bs_sample_index.php:64
 msgid "Statistics"
-msgstr ""
+msgstr "Statistiques"
 
 #: ../user/bs_sample_index.php:65 ../user/stats.php:30
 #: ../user/top_users.php:116
@@ -2588,9 +2590,8 @@ msgid "Top GPU models"
 msgstr "Meilleurs modèles GPU"
 
 #: ../user/bs_sample_index.php:70
-#, fuzzy
 msgid "Languages"
-msgstr "Langue"
+msgstr "Langues"
 
 #: ../user/bs_sample_index.php:149 ../user/info.php:24
 #: ../user/sample_index.php:79
@@ -3645,6 +3646,8 @@ msgid ""
 "This project hasn't created an email message - please notify its "
 "administrators"
 msgstr ""
+"Ce projet n'a pas créé de message email - Veuillez notifier ses "
+"administrateurs"
 
 #: ../user/ffmail_form.php:33
 msgid "Tell your friends about %1"
@@ -4697,6 +4700,8 @@ msgid ""
 "Go to the BOINC data directory on your computer (its location is written to "
 "the Event Log at startup)."
 msgstr ""
+"Aller dans le répertoire de données de BOINC de votre ordinateur (son chemin "
+"est inscrit dans le Journal d’événements au démarrage).                "
 
 #: ../user/get_passwd.php:51
 msgid "Find your account file for this project; it will be named <b>%1</b>."
@@ -6134,7 +6139,7 @@ msgstr "Changer de fondateur"
 
 #: ../user/team_change_founder_form.php:108
 msgid "There are no users to transfer team to."
-msgstr ""
+msgstr "Il n'y a pas d'utilisateur à qui transférer l'équipe."
 
 #: ../user/team_create_action.php:29
 msgid "You must choose a non-blank team name"
