@@ -223,8 +223,8 @@ int GUI_RPC_CONN_SET::insert(GUI_RPC_CONN* p) {
 }
 
 int GUI_RPC_CONN_SET::init_unix_domain() {
-#ifndef _WIN32
-    sockaddr_un addr;
+#if !defined(_WIN32)
+    struct sockaddr_un addr;
     get_password();
     int retval = boinc_socket(lsock, AF_UNIX);
     if (retval) {
@@ -240,8 +240,13 @@ int GUI_RPC_CONN_SET::init_unix_domain() {
     strcpy(&addr.sun_path[1], GUI_RPC_FILE);
     socklen_t len = offsetof(struct sockaddr_un, sun_path) + 1 + strlen(&addr.sun_path[1]);
 #else
+    // NOTE: if we ever add Mac OS X support, need to change this
+    //
+#ifdef __APPLE__
+    addr.sun_len = sizeof(addr);
+#endif
     strcpy(addr.sun_path, GUI_RPC_FILE);
-    int len = strlen(GUI_RPC_FILE) + sizeof(addr.sun_family);
+    socklen_t len = SUN_LEN(&addr);
 #endif
     unlink(GUI_RPC_FILE);
     if (bind(lsock, (struct sockaddr*)&addr, len) < 0) {
