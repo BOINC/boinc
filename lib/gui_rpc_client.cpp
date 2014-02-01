@@ -245,9 +245,11 @@ int RPC_CLIENT::init_unix_domain() {
     int retval = boinc_socket(sock, AF_UNIX);
     if (retval) return retval;
     addr_un.sun_family = AF_UNIX;
+#ifdef __APPLE__
+    addr_un.sun_len = sizeof(addr_un);
+#endif
     strcpy(addr_un.sun_path, GUI_RPC_FILE);
-    socklen_t len = strlen(GUI_RPC_FILE) + sizeof(addr_un.sun_family);
-        // would need to change this for Mac
+    socklen_t len = SUN_LEN(&addr_un);
     if (connect(sock, (struct sockaddr*)&addr_un, len) < 0) {
         boinc_close_socket(sock);
         return ERR_CONNECT;

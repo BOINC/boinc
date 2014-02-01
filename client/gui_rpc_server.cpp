@@ -242,8 +242,11 @@ int GUI_RPC_CONN_SET::init_unix_domain() {
 #else
     // NOTE: if we ever add Mac OS X support, need to change this
     //
+#ifdef __APPLE__
+    addr.sun_len = sizeof(addr);
+#endif
     strcpy(addr.sun_path, GUI_RPC_FILE);
-    socklen_t len = strlen(GUI_RPC_FILE) + sizeof(addr.sun_family);
+    socklen_t len = SUN_LEN(&addr);
 #endif
     unlink(GUI_RPC_FILE);
     if (bind(lsock, (struct sockaddr*)&addr, len) < 0) {
