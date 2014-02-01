@@ -18,7 +18,7 @@ msgstr ""
 "100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
-"X-POOTLE-MTIME: 1386566425.0\n"
+"X-POOTLE-MTIME: 1391208487.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -754,9 +754,10 @@ msgctxt "projects_confirm_reset_title"
 msgid "Reset project"
 msgstr "프로젝트 재설정"
 
+#, fuzzy
 msgctxt "projects_confirm_reset_message"
 msgid "Are you sure you want to reset"
-msgstr "다음 프로젝트가 재설정됩니다 괘찮습니까: "
+msgstr "다음 프로젝트가 재설정됩니다 괜찮습니까: "
 
 msgctxt "projects_confirm_reset_confirm"
 msgid "Reset"
