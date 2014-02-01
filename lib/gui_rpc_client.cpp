@@ -237,8 +237,8 @@ int RPC_CLIENT::init_poll() {
 }
 
 int RPC_CLIENT::init_unix_domain() {
-#if defined(_WIN32) || defined(__APPLE__)
-	fprintf(stderr, "Unix domain not implemented in Windows or Mac\n");
+#if defined(_WIN32)
+	fprintf(stderr, "Unix domain not implemented in Windows\n");
 	return -1;
 #else
     struct sockaddr_un addr_un;
