@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2013-10-18 00:00-0700\n"
-"PO-Revision-Date: 2014-01-11 08:59+0000\n"
+"PO-Revision-Date: 2014-02-02 19:40+0000\n"
 "Last-Translator: Christian <djangofett@gmx.net>\n"
 "Language-Team: de <LL@li.org>\n"
 "Language: de\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
-"X-POOTLE-MTIME: 1389430788.0\n"
+"X-POOTLE-MTIME: 1391370054.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -57,7 +57,7 @@ msgstr "Kontoverwaltung hinzufügen"
 
 msgctxt "attachproject_list_no_internet"
 msgid "No Internet connection"
-msgstr "Keine Internetverbindung"
+msgstr "Keine Internetverbindung gefunden"
 
 #. project login
 msgctxt "attachproject_login_loading"
@@ -138,7 +138,7 @@ msgstr "Ein Konto erstellen um teilzunehmen:"
 
 msgctxt "attachproject_login_header_creation_client_disabled"
 msgid "Visit project website to create an account:"
-msgstr "Die Projektwebseite besuchen um ein Konto zu erstellen:"
+msgstr "Besuchen Sie die Projektwebseite um ein Konto zu erstellen:"
 
 msgctxt "attachproject_login_header_creation_disabled"
 msgid "Project does currently now allow creation of new accounts!"
@@ -267,7 +267,6 @@ msgctxt "attachproject_error_email_in_use"
 msgid "eMail is already in use"
 msgstr "E-Mail-Adresse ist bereits registriert"
 
-#, fuzzy
 msgctxt "attachproject_error_project_down"
 msgid "Project is offline"
 msgstr "Projekt ist offline"
@@ -342,10 +341,9 @@ msgid "Synchronize"
 msgstr "Synchronisieren"
 
 #. main activity
-#, fuzzy
 msgctxt "main_noproject_warning"
 msgid "Tab here to choose a project."
-msgstr "Hier tippen um ein Projekt auszuwählen."
+msgstr "Hier klicken um ein Projekt auszuwählen."
 
 msgctxt "main_error"
 msgid "Whooops"
