@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-01-26 00:00-0800\n"
-"PO-Revision-Date: 2013-11-07 00:41+0000\n"
+"PO-Revision-Date: 2014-02-01 22:09+0000\n"
 "Last-Translator: Xavier <xavi.mormur@gmail.com>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: ca\n"
@@ -23,7 +23,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCGIT\\boinc\n"
-"X-POOTLE-MTIME: 1383784881.0\n"
+"X-POOTLE-MTIME: 1391292579.0\n"
 
 # 81%
 #: AccountInfoPage.cpp:387
@@ -125,7 +125,7 @@ msgstr ""
 
 #: AccountInfoPage.cpp:532
 msgid "Account manager web site"
-msgstr ""
+msgstr "Pàgina web de l'administrador de comptes"
 
 #: AccountInfoPage.cpp:574 WelcomePage.cpp:348
 msgid "Add project"
@@ -172,19 +172,19 @@ msgstr ""
 
 #: AccountManagerInfoPage.cpp:279
 msgid "Account manager details:"
-msgstr ""
+msgstr "Informació de l'administrador de comptes"
 
 #: AccountManagerInfoPage.cpp:283
 msgid "Account manager &URL:"
-msgstr ""
+msgstr "&URL del Administrador de Comptes:"
 
 #: AccountManagerInfoPage.cpp:287
 msgid "Open web page"
-msgstr ""
+msgstr "Pàgina web oberta"
 
 #: AccountManagerInfoPage.cpp:290
 msgid "Visit this account manager's web site"
-msgstr ""
+msgstr "Visita la pàgina web d'aquest administrador de comptes"
 
 #: AccountManagerProcessingPage.cpp:187 AccountManagerPropertiesPage.cpp:193
 #, c-format
@@ -499,7 +499,7 @@ msgstr "Mostrar la informació de %s"
 #: AdvancedFrame.cpp:661 sg_BoincSimpleFrame.cpp:224
 #, c-format
 msgid "%s &web site"
-msgstr ""
+msgstr "pàgina &web de %s"
 
 #: AdvancedFrame.cpp:667 sg_BoincSimpleFrame.cpp:230
 #, c-format
@@ -1117,7 +1117,7 @@ msgstr "&OK"
 
 #: DlgAdvPreferences.cpp:544
 msgid "invalid number"
-msgstr ""
+msgstr "número incorrecte"
 
 #: DlgAdvPreferences.cpp:545
 msgid "invalid time, format is HH:MM"
@@ -3640,11 +3640,15 @@ msgstr "Prem OK per confirmar preferències."
 msgid ""
 "Click Clear to restore web-based settings for all preferences listed below."
 msgstr ""
+"Prem Restaura per restaurar la configuració bassada en el web que es mostren "
+"a continuació."
 
 #: sg_DlgPreferences.cpp:285
 msgid ""
 "For additional settings, select Computing Preferences in the Advanced View."
 msgstr ""
+"Per altres paràmetres, selecciona Preferències de Computació a la Vista "
+"Avançada."
 
 #: sg_DlgPreferences.cpp:313
 msgid "Do work only between:"
@@ -3677,6 +3681,7 @@ msgstr "Fer feina després d'estar inactiu durant:"
 #: sg_DlgPreferences.cpp:429
 msgid "Clear all local preferences listed above and close the dialog"
 msgstr ""
+"Netejar totes les preferències locals que es mostren i tancar la finestra"
 
 #: sg_DlgPreferences.cpp:602 sg_DlgPreferences.cpp:605
 #: sg_DlgPreferences.cpp:681 sg_DlgPreferences.cpp:685
@@ -3784,7 +3789,7 @@ msgstr "Comandaments del Projecte"
 #: sg_ProjectPanel.cpp:267
 #, c-format
 msgid "Pop up a menu of web sites for project %s"
-msgstr ""
+msgstr "Obre un menú dels llocs web del projecte %s"
 
 #: sg_ProjectPanel.cpp:269
 #, c-format
