@@ -196,6 +196,8 @@ struct USER {
     double seti_total_cpu;          // number of CPU seconds
     char signature[256];
         // deprecated as of 9/2004 - may be used as temp
+        // currently used to store a nonce ID while email address
+        // is being verified.
     bool has_profile;
     char cross_project_id[256];
     char passwd_hash[256];
