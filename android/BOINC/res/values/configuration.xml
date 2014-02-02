@@ -42,6 +42,7 @@
         <bool name="prefs_power_source_ac">true</bool>
         <bool name="prefs_power_source_usb">true</bool>
         <bool name="prefs_power_source_wireless">true</bool>
+        <bool name="prefs_stationary_device_mode">false</bool>
     <!-- Monitor behavior -->
     	<integer name="status_update_interval_ms">1000</integer>
     	<integer name="device_status_update_screen_off_every_X_loop">10</integer> <!-- every X status_update_interval_ms -->
