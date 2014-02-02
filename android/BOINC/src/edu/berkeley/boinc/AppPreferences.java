@@ -35,6 +35,7 @@ public class AppPreferences {
 	private Boolean powerSourceAc;
 	private Boolean powerSourceUsb;
 	private Boolean powerSourceWireless;
+	private Boolean stationaryDeviceMode; // disable battery status parsing
 	
 	public void readPrefs (Context ctx) {
 		if(prefs == null) {
@@ -49,6 +50,7 @@ public class AppPreferences {
 		powerSourceAc = prefs.getBoolean("powerSourceAc", ctx.getResources().getBoolean(R.bool.prefs_power_source_ac));
 		powerSourceUsb = prefs.getBoolean("powerSourceUsb", ctx.getResources().getBoolean(R.bool.prefs_power_source_usb));
 		powerSourceWireless = prefs.getBoolean("powerSourceWireless", ctx.getResources().getBoolean(R.bool.prefs_power_source_wireless));
+		stationaryDeviceMode = prefs.getBoolean("stationaryDeviceMode", ctx.getResources().getBoolean(R.bool.prefs_stationary_device_mode));
 		
 		if(Logging.DEBUG) Log.d(Logging.TAG, "appPrefs read successful." + autostart + showNotification + showAdvanced + logLevel + powerSourceAc + powerSourceUsb + powerSourceWireless);
 	}
@@ -129,5 +131,16 @@ public class AppPreferences {
 	
 	public Boolean getPowerSourceWireless() {
 		return this.powerSourceWireless;
+	}
+	
+	public void setStationaryDeviceMode(Boolean sdm) {
+		SharedPreferences.Editor editor = prefs.edit();
+		editor.putBoolean("stationaryDeviceMode", sdm);
+		editor.commit();
+		this.stationaryDeviceMode = sdm;
+	}
+	
+	public Boolean getStationaryDeviceMode () {
+		return this.stationaryDeviceMode;
 	}
 }

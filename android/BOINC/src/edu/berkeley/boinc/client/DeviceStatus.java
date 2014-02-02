@@ -37,7 +37,8 @@ public class DeviceStatus {
 	private DeviceStatusData status = new DeviceStatusData();
 	
 	// additional device status
-	private boolean stationaryDevice = false;
+	private boolean stationaryDeviceMode = false; // true, if operating in stationary device mode
+	private boolean stationaryDeviceSuspected = false; // true, if API returns no battery. offer preference to go into stationary device mode
 
 	// android specifics
 	private Context ctx;// context required for reading device status
@@ -71,7 +72,7 @@ public class DeviceStatus {
 		change = change | determinePhoneStatus();
 		
 		if(change) if(Logging.DEBUG) Log.i(Logging.TAG, "change: " + change +
-													" - stationary device: " + stationaryDevice + 
+													" - stationary device: " + stationaryDeviceMode + 
 													" ; ac: " + status.on_ac_power + 
 													" ; level: " + status.battery_charge_pct + 
 													" ; temperature: " + status.battery_temperature_celcius + 
@@ -91,12 +92,13 @@ public class DeviceStatus {
 	}
 	
 	/**
-	 * Returns if device is a stationary one, i.e. without a battery.
-	 * Can be used, for example, to hide battery preferences in PrefsFragment.
-	 * @return true, if device does not have a battery, i.e. is stationary
+	 * Returns whether API indicates that device does not have a battery
+	 * Not a reliable indicator, e.g. on Galaxy Nexus.
+	 * Offer stationary device mode preference based on its return value.
+	 * @return true, if Android indicates absence of battery
 	 */
-	public Boolean isStationaryDevice() {
-		return stationaryDevice;
+	public Boolean isStationaryDeviceSuspected() {
+		return stationaryDeviceSuspected;
 	}
 	
 	/**
@@ -154,11 +156,23 @@ public class DeviceStatus {
 		Boolean change = false;
 		batteryStatus = ctx.registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
 		if(batteryStatus != null){
-			if(batteryStatus.getBooleanExtra(BatteryManager.EXTRA_PRESENT, true)) {
-
-				// battery present
-				if(stationaryDevice) change = true;
-				stationaryDevice = false;
+			stationaryDeviceSuspected = !batteryStatus.getBooleanExtra(BatteryManager.EXTRA_PRESENT, true); // if no battery present, suspect stationary device
+			if(appPrefs.getStationaryDeviceMode() && stationaryDeviceSuspected) {
+				// API says no battery present (not reliable, e.g. Galaxy Nexus)
+				// AND stationary device mode is enabled in preferences
+				
+				if(!stationaryDeviceMode) { // should not change during run-time. just triggered on initial read
+					change = true;
+					if(Logging.ERROR) Log.d(Logging.TAG, "No battery found and stationary device mode enabled in preferences -> skip battery status parsing"); 
+				}
+				stationaryDeviceMode = true;
+				setAttributesForStationaryDevice();
+			} else {
+				// battery present OR stationary device mode not enabled
+				// parse and report actual values to client
+				
+				if(stationaryDeviceMode) change = true;
+				stationaryDeviceMode = false;
 			
 				// calculate charging level
 				int level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
@@ -184,16 +198,6 @@ public class DeviceStatus {
 				// adapt on_ac_power according to power source preferences defined in manager
 				int plugged = batteryStatus.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1);
 				change = change | setAttributesForChargerType(plugged);
-				
-				
-			} else {
-				// no battery present, stationary device. skip parsing...
-				if(!stationaryDevice) { // should not change during run-time. just triggered on inital read
-					change = true;
-					if(Logging.ERROR) Log.d(Logging.TAG, "No battery found. Stationary device mode."); 
-				}
-				stationaryDevice = true;
-				setAttributesForStationaryDevice();
 			}
 		} else throw new Exception ("battery intent null");
 		return change;

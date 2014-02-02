@@ -131,10 +131,11 @@ public class PrefsFragment extends Fragment {
 		data.clear();
 		
 		Boolean advanced = appPrefs.getShowAdvanced();
-		Boolean stationaryDevice = false;
+		Boolean stationaryDeviceMode = appPrefs.getStationaryDeviceMode();
+		Boolean stationaryDeviceSuspected = false;
 		try{
 			DeviceStatus deviceStatus  = Monitor.getDeviceStatus();
-			stationaryDevice = deviceStatus.isStationaryDevice();
+			stationaryDeviceSuspected = deviceStatus.isStationaryDeviceSuspected();
 		} catch (Exception e){
 			if(Logging.ERROR) Log.e(Logging.TAG, "PrefsFragment.populateLayout failed to retrieve device status. treat device as non-stationary");
 		}
@@ -149,8 +150,11 @@ public class PrefsFragment extends Fragment {
 		data.add(new PrefsListItemWrapperBool(getActivity(),R.string.prefs_network_wifi_only_header,R.string.prefs_category_network,clientPrefs.network_wifi_only));
 		if(advanced) data.add(new PrefsListItemWrapperValue(getActivity(),R.string.prefs_network_daily_xfer_limit_mb_header,R.string.prefs_category_network,clientPrefs.daily_xfer_limit_mb));
     	// power
-		if(!stationaryDevice) {
-			data.add(new PrefsListItemWrapper(getActivity(),R.string.prefs_category_power,true));
+		data.add(new PrefsListItemWrapper(getActivity(),R.string.prefs_category_power,true));
+		if(stationaryDeviceSuspected) { // API indicates that there is no battery, offer opt-in preference for stationary device mode
+			data.add(new PrefsListItemWrapperBool(getActivity(),R.string.prefs_stationary_device_mode_header,R.string.prefs_category_power,appPrefs.getStationaryDeviceMode()));
+		}
+		if(!stationaryDeviceMode) { // client would compute regardless of battery preferences, so only show if that is not the case
 			data.add(new PrefsListItemWrapper(getActivity(),R.string.prefs_power_source_header,R.string.prefs_category_power));
 			data.add(new PrefsListItemWrapperValue(getActivity(),R.string.battery_charge_min_pct_header,R.string.prefs_category_power,clientPrefs.battery_charge_min_pct));
 			if(advanced) data.add(new PrefsListItemWrapperValue(getActivity(),R.string.battery_temperature_max_header,R.string.prefs_category_power,clientPrefs.battery_max_temperature));
@@ -492,6 +496,11 @@ public class PrefsFragment extends Fragment {
 				clientPrefs.network_wifi_only = isSet;
 				updateBoolPref(ID, isSet);
 				new WriteClientPrefsAsync().execute(clientPrefs); //async task triggers layout update
+				break;
+			case R.string.prefs_stationary_device_mode_header: //app pref
+				appPrefs.setStationaryDeviceMode(isSet);
+				// reload complete layout to remove/add power preference elements
+				populateLayout();
 				break;
 			}
 		}
