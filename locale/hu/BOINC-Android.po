@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2013-10-18 00:00-0700\n"
-"PO-Revision-Date: 2014-01-19 08:28+0000\n"
+"PO-Revision-Date: 2014-01-19 08:32+0000\n"
 "Last-Translator: Gabor <csega@mailbox.hu>\n"
 "Language-Team: hu <LL@li.org>\n"
 "Language: hu\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n !=1);\n"
 "X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
-"X-POOTLE-MTIME: 1390120091.0\n"
+"X-POOTLE-MTIME: 1390120322.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -156,9 +156,10 @@ msgctxt "attachproject_login_button_forgotpw"
 msgid "Forgot Password"
 msgstr "Elfelejtett jelszó"
 
+#, fuzzy
 msgctxt "attachproject_login_error_toast"
 msgid "Contacting project failed!"
-msgstr ""
+msgstr "Kapcsolódás a projekt szerverhez..."
 
 msgctxt "attachproject_login_attached"
 msgid "Attached"
@@ -681,9 +682,10 @@ msgctxt "projects_control_remove"
 msgid "Remove"
 msgstr ""
 
+#, fuzzy
 msgctxt "projects_control_suspend"
 msgid "Suspend"
-msgstr ""
+msgstr "Felfüggesztve"
 
 msgctxt "projects_control_resume"
 msgid "Resume"
@@ -707,7 +709,7 @@ msgstr ""
 
 msgctxt "projects_control_sync_acctmgr"
 msgid "Synchronize"
-msgstr ""
+msgstr "Szinkronizálás"
 
 msgctxt "projects_control_remove_acctmgr"
 msgid "Disable"
@@ -811,9 +813,10 @@ msgctxt "tasks_active_executing"
 msgid "running"
 msgstr ""
 
+#, fuzzy
 msgctxt "tasks_active_suspended"
 msgid "suspended"
-msgstr ""
+msgstr "Felfüggesztve"
 
 msgctxt "tasks_active_abort_pending"
 msgid "suspending"
@@ -823,9 +826,10 @@ msgctxt "tasks_active_quit_pending"
 msgid "suspending"
 msgstr ""
 
+#, fuzzy
 msgctxt "tasks_custom_suspended_via_gui"
 msgid "suspended"
-msgstr ""
+msgstr "Felfüggesztve"
 
 msgctxt "tasks_custom_project_suspended_via_gui"
 msgid "project suspended"
@@ -877,9 +881,10 @@ msgctxt "trans_failed"
 msgid "failed"
 msgstr ""
 
+#, fuzzy
 msgctxt "trans_suspended"
 msgid "suspended"
-msgstr ""
+msgstr "Felfüggesztve"
 
 msgctxt "trans_active"
 msgid "active"
@@ -1074,9 +1079,10 @@ msgctxt "menu_exit"
 msgid "Exit BOINC"
 msgstr ""
 
+#, fuzzy
 msgctxt "menu_run_mode_disable"
 msgid "Suspend"
-msgstr ""
+msgstr "Felfüggesztve"
 
 msgctxt "menu_run_mode_enable"
 msgid "Resume"
