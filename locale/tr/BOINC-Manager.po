@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.8x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-01-26 00:00-0800\n"
-"PO-Revision-Date: 2013-11-24 20:47+0000\n"
+"PO-Revision-Date: 2014-02-02 06:57+0000\n"
 "Last-Translator: Aycan <aycandemirel@hotmail.com>\n"
 "Language-Team: Donanım Haber <bilgi@donanimhaber.com>\n"
 "Language: tr\n"
@@ -23,7 +23,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCGIT\\boinc\n"
-"X-POOTLE-MTIME: 1385326053.0\n"
+"X-POOTLE-MTIME: 1391324242.0\n"
 
 # 81%
 #: AccountInfoPage.cpp:387
@@ -1117,7 +1117,7 @@ msgstr "&Tamam"
 
 #: DlgAdvPreferences.cpp:544
 msgid "invalid number"
-msgstr ""
+msgstr "geçersiz sayı"
 
 #: DlgAdvPreferences.cpp:545
 msgid "invalid time, format is HH:MM"
@@ -3646,11 +3646,15 @@ msgstr "Tercihlerinizi kaydetmek için 'Tamam'ı tıklayın."
 msgid ""
 "Click Clear to restore web-based settings for all preferences listed below."
 msgstr ""
+"Aşağıda listelenen tüm tercihler ​için web tabanlı ayarları geri yüklemek "
+"için Temizle'yi tıklatın."
 
 #: sg_DlgPreferences.cpp:285
 msgid ""
 "For additional settings, select Computing Preferences in the Advanced View."
 msgstr ""
+"Ek ayarlar için, 'Gelişmiş görünüm'de 'Hesaplama tercihleri' seçeneğini "
+"seçin."
 
 #: sg_DlgPreferences.cpp:313
 msgid "Do work only between:"
@@ -3682,7 +3686,7 @@ msgstr "Bu kadar süre boşta kaldığında çalıştır:"
 
 #: sg_DlgPreferences.cpp:429
 msgid "Clear all local preferences listed above and close the dialog"
-msgstr ""
+msgstr "Yukarıda listelenen tüm yerel tercihleri temizler ve pencereyi kapatır"
 
 #: sg_DlgPreferences.cpp:602 sg_DlgPreferences.cpp:605
 #: sg_DlgPreferences.cpp:681 sg_DlgPreferences.cpp:685
