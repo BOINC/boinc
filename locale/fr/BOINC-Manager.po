@@ -3803,6 +3803,7 @@ msgid "Project Commands"
 msgstr "Commandes du projet"
 
 #: sg_ProjectPanel.cpp:267
+#, c-format
 #, c-format, c-format
 msgid "Pop up a menu of web sites for project %s"
 msgstr "Afficher une liste des sites web pour le projet %s"
