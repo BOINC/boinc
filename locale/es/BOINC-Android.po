@@ -570,9 +570,10 @@ msgctxt "prefs_cpu_time_max_header"
 msgid "CPU limit"
 msgstr "Prozessorbegrenzung"
 
+#, fuzzy
 msgctxt "prefs_cpu_time_max_description"
 msgid "Limits the CPU time BOINC uses for computation."
-msgstr ""
+msgstr "Limitiert die Anzahl der Prozessoren welche BOINC nutzen darf."
 
 msgctxt "prefs_memory_max_idle_header"
 msgid "RAM limit"
@@ -739,9 +740,10 @@ msgctxt "projects_confirm_reset_title"
 msgid "Reset project"
 msgstr "Projekt zurücksetzen"
 
+#, fuzzy
 msgctxt "projects_confirm_reset_message"
 msgid "Are you sure you want to reset"
-msgstr ""
+msgstr "Wollen Sie wirklich zurücksetzen"
 
 msgctxt "projects_confirm_reset_confirm"
 msgid "Reset"
@@ -845,9 +847,10 @@ msgctxt "confirm_abort_task_title"
 msgid "Abort task?"
 msgstr "Aufgabe abbrechen?"
 
+#, fuzzy
 msgctxt "confirm_abort_task_message"
 msgid "Abort task:"
-msgstr ""
+msgstr "Aufgabe abbrechen?"
 
 msgctxt "confirm_abort_task_confirm"
 msgid "Abort"
