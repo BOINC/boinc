@@ -1891,78 +1891,84 @@ bool interrupts_idle(time_t t) {
 
 #if HAVE_XSS
 // Ask the X server for user idle time (using XScreenSaver API)
-// Returns true if the idle_threshold is smaller than the
-// idle time of the user (means: true = user is idle)
+// Return true if the idle time exceeds idle_threshold.
+//
 bool xss_idle(long idle_threshold) {
     static XScreenSaverInfo* xssInfo = NULL;
     static Display* disp = NULL;
+    static bool error = false;
+        // some X call failed - always return not idle
     
+    if (error) return false;
+
     long idle_time = 0;
     
-    if(disp != NULL) {
-        XScreenSaverQueryInfo(disp, DefaultRootWindow(disp), xssInfo);
-
-        idle_time = xssInfo->idle;
-
-#if HAVE_DPMS
-        // XIdleTime Detection
-        // See header for location and copywrites.
-        //
-        int dummy;
-        CARD16 standby, suspend, off;
-        CARD16 state;
-        BOOL onoff;
-
-        if (DPMSQueryExtension(disp, &dummy, &dummy)) {
-            if (DPMSCapable(disp)) {
-                DPMSGetTimeouts(disp, &standby, &suspend, &off);
-                DPMSInfo(disp, &state, &onoff);
-
-                if (onoff) {
-                    switch (state) {
-                    case DPMSModeStandby:
-                        // this check is a littlebit paranoid, but be sure
-                        if (idle_time < (unsigned) (standby * 1000)) {
-                            idle_time += (standby * 1000);
-                        }
-                        break;
-                    case DPMSModeSuspend:
-                        if (idle_time < (unsigned) ((suspend + standby) * 1000)) {
-                            idle_time += ((suspend + standby) * 1000);
-                        }
-                        break;
-                    case DPMSModeOff:
-                        if (idle_time < (unsigned) ((off + suspend + standby) * 1000)) {
-                            idle_time += ((off + suspend + standby) * 1000);
-                        }
-                        break;
-                    case DPMSModeOn:
-                    default:
-                        break;
-                    }
-                }
-            } 
-        }
-#endif
-
-        // convert from milliseconds to seconds
-        idle_time = idle_time / 1000;
-
-    } else {
+    if (disp == NULL) {
         disp = XOpenDisplay(NULL);
         // XOpenDisplay may return NULL if there is no running X
         // or DISPLAY points to wrong/invalid display
         //
-        if (disp != NULL) {
-            int event_base_return, error_base_return;
-            xssInfo = XScreenSaverAllocInfo();
-            if (!XScreenSaverQueryExtension(
-                disp, &event_base_return, &error_base_return
-            )){
-                // how to handle failure?
-            }
+        if (disp == NULL) {
+            error = true;
+            return false;
+        }
+        int event_base_return, error_base_return;
+        xssInfo = XScreenSaverAllocInfo();
+        if (!XScreenSaverQueryExtension(
+            disp, &event_base_return, &error_base_return
+        )){
+            error = true;
+            return false;
         }
     }
+
+    XScreenSaverQueryInfo(disp, DefaultRootWindow(disp), xssInfo);
+    idle_time = xssInfo->idle;
+
+#if HAVE_DPMS
+    // XIdleTime Detection
+    // See header for location and copywrites.
+    //
+    int dummy;
+    CARD16 standby, suspend, off;
+    CARD16 state;
+    BOOL onoff;
+
+    if (DPMSQueryExtension(disp, &dummy, &dummy)) {
+        if (DPMSCapable(disp)) {
+            DPMSGetTimeouts(disp, &standby, &suspend, &off);
+            DPMSInfo(disp, &state, &onoff);
+
+            if (onoff) {
+                switch (state) {
+                case DPMSModeStandby:
+                    // this check is a littlebit paranoid, but be sure
+                    if (idle_time < (unsigned) (standby * 1000)) {
+                        idle_time += (standby * 1000);
+                    }
+                    break;
+                case DPMSModeSuspend:
+                    if (idle_time < (unsigned) ((suspend + standby) * 1000)) {
+                        idle_time += ((suspend + standby) * 1000);
+                    }
+                    break;
+                case DPMSModeOff:
+                    if (idle_time < (unsigned) ((off + suspend + standby) * 1000)) {
+                        idle_time += ((off + suspend + standby) * 1000);
+                    }
+                    break;
+                case DPMSModeOn:
+                default:
+                    break;
+                }
+            }
+        } 
+    }
+#endif
+
+    // convert from milliseconds to seconds
+    //
+    idle_time = idle_time / 1000;
 
     return idle_threshold < idle_time;
 }
