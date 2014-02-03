@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 5.10 Japanese\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-26 00:00-0800\n"
+"POT-Creation-Date: 2014-02-02 00:00-0800\n"
 "PO-Revision-Date: 2013-10-28 15:20+0000\n"
 "Last-Translator: Anonymous Pootle User\n"
 "Language-Team: \n"
@@ -535,7 +535,7 @@ msgstr "アクティビティ(&A)"
 msgid "A&dvanced"
 msgstr "高度な操作(&D)"
 
-#: AdvancedFrame.cpp:712 DlgEventLog.cpp:331 sg_BoincSimpleFrame.cpp:267
+#: AdvancedFrame.cpp:712 DlgEventLog.cpp:332 sg_BoincSimpleFrame.cpp:267
 #: wizardex.cpp:374 wizardex.cpp:381
 msgid "&Help"
 msgstr "ヘルプ(&H)"
@@ -575,28 +575,28 @@ msgstr ""
 "%s は、現在接続しているクライアントをシャットダウンし、\n"
 "別の計算機に接続するよう促します。"
 
-#: AdvancedFrame.cpp:1738 DlgAbout.cpp:119
+#: AdvancedFrame.cpp:1745 DlgAbout.cpp:119
 #, c-format
 msgid "%s"
 msgstr "%s"
 
 # Case for attaching to an account manager
-#: AdvancedFrame.cpp:1747
+#: AdvancedFrame.cpp:1754
 #, c-format
 msgid "%s has successfully added %s"
 msgstr "%s は %s を追加することに成功しました。"
 
-#: AdvancedFrame.cpp:1886
+#: AdvancedFrame.cpp:1893
 #, c-format
 msgid "%s - (%s)"
 msgstr "%s - (%s)"
 
-#: AdvancedFrame.cpp:1890
+#: AdvancedFrame.cpp:1897
 #, c-format
 msgid "Connecting to %s"
 msgstr "%s に接続処理中"
 
-#: AdvancedFrame.cpp:1893
+#: AdvancedFrame.cpp:1900
 #, c-format
 msgid "Connected to %s (%s)"
 msgstr "%s (%s)に接続済み"
@@ -911,15 +911,15 @@ msgstr "BOINC Manager の複数インスタンス起動を許す"
 msgid "Not used: workaround for bug in XCode 4.2"
 msgstr ""
 
-#: BOINCGUIApp.cpp:805
+#: BOINCGUIApp.cpp:814
 msgid "(Automatic Detection)"
 msgstr "(言語の自動判別)"
 
-#: BOINCGUIApp.cpp:806
+#: BOINCGUIApp.cpp:815
 msgid "(Unknown)"
 msgstr "(実装上のダミーエントリ1)"
 
-#: BOINCGUIApp.cpp:807
+#: BOINCGUIApp.cpp:816
 msgid "(User Defined)"
 msgstr "(実装上のダミーエントリ2)"
 
@@ -1105,7 +1105,7 @@ msgid "Berkeley Open Infrastructure for Network Computing"
 msgstr "Berkeley Open Infrastructure for Network Computing"
 
 #: DlgAbout.cpp:208 DlgExitMessage.cpp:173 DlgGenericMessage.cpp:120
-#: DlgOptions.cpp:396 DlgSelectComputer.cpp:162
+#: DlgOptions.cpp:396 DlgSelectComputer.cpp:163
 msgid "&OK"
 msgstr "&OK"
 
@@ -1572,51 +1572,51 @@ msgstr ""
 msgid "For advanced options, refer to "
 msgstr ""
 
-#: DlgEventLog.cpp:218
+#: DlgEventLog.cpp:219
 #, c-format
 msgid "%s - Event Log"
 msgstr "%s - イベント・ログ"
 
-#: DlgEventLog.cpp:231 ViewMessages.cpp:117 ViewProjects.cpp:219
+#: DlgEventLog.cpp:232 ViewMessages.cpp:117 ViewProjects.cpp:219
 #: ViewStatistics.cpp:435 ViewStatistics.cpp:2009 ViewTransfers.cpp:182
 #: ViewWork.cpp:232
 msgid "Project"
 msgstr "プロジェクト"
 
-#: DlgEventLog.cpp:232 ViewMessages.cpp:118
+#: DlgEventLog.cpp:233 ViewMessages.cpp:118
 msgid "Time"
 msgstr "日時"
 
-#: DlgEventLog.cpp:233 ViewMessages.cpp:119
+#: DlgEventLog.cpp:234 ViewMessages.cpp:119
 msgid "Message"
 msgstr "メッセージ"
 
-#: DlgEventLog.cpp:289 DlgEventLog.cpp:353
+#: DlgEventLog.cpp:290 DlgEventLog.cpp:354
 #, fuzzy
 msgid "&Show only this project"
 msgstr "このプロジェクトだけを表示"
 
-#: DlgEventLog.cpp:293
+#: DlgEventLog.cpp:294
 #, fuzzy
 msgid "Copy &All"
 msgstr "すべてコピー"
 
-#: DlgEventLog.cpp:295 DlgEventLog.cpp:299 ViewMessages.cpp:89
+#: DlgEventLog.cpp:296 DlgEventLog.cpp:300 ViewMessages.cpp:89
 msgid "Copy all the messages to the clipboard."
 msgstr "全メッセージをクリップボードにコピーします"
 
-#: DlgEventLog.cpp:304
+#: DlgEventLog.cpp:305
 #, fuzzy
 msgid "Copy &Selected"
 msgstr "選択部分をコピー"
 
-#: DlgEventLog.cpp:307 DlgEventLog.cpp:315 ViewMessages.cpp:97
+#: DlgEventLog.cpp:308 DlgEventLog.cpp:316 ViewMessages.cpp:97
 msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
 "messages by holding down the shift or command key while clicking on messages."
 msgstr "選択したメッセージをクリップボードにコピーします。シフトまたはコマンドキーを押しながらクリックすることで複数のメッセージを選択できます。"
 
-#: DlgEventLog.cpp:309 DlgEventLog.cpp:317 ViewMessages.cpp:99
+#: DlgEventLog.cpp:310 DlgEventLog.cpp:318 ViewMessages.cpp:99
 msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
 "messages by holding down the shift or control key while clicking on messages."
@@ -1624,25 +1624,25 @@ msgstr ""
 "選択したメッセージをクリップボードにコピーします。シフトまたはコントロールキーを押しながら、メッセージをクリックすれば複数のメッセージを選択状態にできま"
 "す。 "
 
-#: DlgEventLog.cpp:324 DlgItemProperties.cpp:67
+#: DlgEventLog.cpp:325 DlgItemProperties.cpp:67
 msgid "&Close"
 msgstr "閉じる(&C)"
 
-#: DlgEventLog.cpp:333 sg_BoincSimpleFrame.cpp:798 sg_DlgPreferences.cpp:442
+#: DlgEventLog.cpp:334 sg_BoincSimpleFrame.cpp:798 sg_DlgPreferences.cpp:442
 #, c-format
 msgid "Get help with %s"
 msgstr "%s について助けを求める"
 
-#: DlgEventLog.cpp:347
+#: DlgEventLog.cpp:348
 #, fuzzy
 msgid "Show all &messages"
 msgstr "全メッセージを表示"
 
-#: DlgEventLog.cpp:348 DlgEventLog.cpp:350
+#: DlgEventLog.cpp:349 DlgEventLog.cpp:351
 msgid "Show messages for all projects"
 msgstr "すべてのプロジェクトのメッセージを表示"
 
-#: DlgEventLog.cpp:354 DlgEventLog.cpp:356
+#: DlgEventLog.cpp:355 DlgEventLog.cpp:357
 msgid "Show only the messages for the selected project"
 msgstr "選択したプロジェクトのメッセージだけを表示"
 
@@ -1690,7 +1690,7 @@ msgid "Remember this decision and do not show this dialog."
 msgstr "この決定を記憶して再びこのダイアログを表示しない"
 
 #: DlgExitMessage.cpp:178 DlgGenericMessage.cpp:125 DlgOptions.cpp:401
-#: DlgSelectComputer.cpp:167 wizardex.cpp:378
+#: DlgSelectComputer.cpp:168 wizardex.cpp:378
 msgid "&Cancel"
 msgstr "キャンセル(&C)"
 
@@ -2009,7 +2009,7 @@ msgstr "プロキシを必要としない場合は空欄のままにしてくだ
 msgid "User Name:"
 msgstr "プロキシのユーザ名："
 
-#: DlgOptions.cpp:317 DlgOptions.cpp:381 DlgSelectComputer.cpp:151
+#: DlgOptions.cpp:317 DlgOptions.cpp:381 DlgSelectComputer.cpp:152
 #: ProxyPage.cpp:346 ProxyPage.cpp:366
 msgid "Password:"
 msgstr "パスワード："
@@ -2069,12 +2069,12 @@ msgid ""
 "effect, you must restart the %s."
 msgstr "%s の言語設定を切り換えました。切り換えの効果を出すためには、この %s を再起動しなければなりません。"
 
-#: DlgSelectComputer.cpp:90
+#: DlgSelectComputer.cpp:91
 #, c-format
 msgid "%s - Select Computer"
 msgstr "%s - コンピュータの選択"
 
-#: DlgSelectComputer.cpp:124
+#: DlgSelectComputer.cpp:125
 #, c-format
 msgid ""
 "Another instance of %s is already running \n"
@@ -2083,7 +2083,7 @@ msgstr ""
 "このコンピュータではすでに %s の別のインスタンスが\n"
 "走っています。監視するクライアントを選択してください。"
 
-#: DlgSelectComputer.cpp:142
+#: DlgSelectComputer.cpp:143
 msgid "Host name:"
 msgstr "計算機名 (ホスト名)："
 
@@ -2595,11 +2595,11 @@ msgstr "すでに指定したプロジェクトは追加済みです。別のプ
 msgid "Communicating with project."
 msgstr "サーバと通信中です。"
 
-#: ProjectProcessingPage.cpp:507
+#: ProjectProcessingPage.cpp:509
 msgid "Required files not found on the server."
 msgstr "このサーバには必要なファイル群が見つかりません。"
 
-#: ProjectProcessingPage.cpp:510 ProjectProcessingPage.cpp:572
+#: ProjectProcessingPage.cpp:512 ProjectProcessingPage.cpp:574
 msgid "An internal server error has occurred."
 msgstr "サーバ内部で異常が発生しました。"
 
@@ -2708,8 +2708,8 @@ msgid "I agree to the terms of use."
 msgstr "使用条件に合意する。"
 
 #: TermsOfUsePage.cpp:237
-msgid "I do not agree with the terms of use."
-msgstr "使用条件に合意しない。"
+msgid "I do not agree to the terms of use."
+msgstr ""
 
 #: UnavailablePage.cpp:183
 msgid "Project temporarily unavailable"
@@ -3923,6 +3923,9 @@ msgstr "全てを表示する"
 #, c-format
 msgid "Quit %s"
 msgstr "%s を終了する"
+
+#~ msgid "I do not agree with the terms of use."
+#~ msgstr "使用条件に合意しない。"
 
 #~ msgid "Workunit name"
 #~ msgstr "ワークユニットの名前"
