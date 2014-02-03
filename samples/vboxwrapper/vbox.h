@@ -179,6 +179,7 @@ struct VBOX_VM {
 
     int get_system_log(std::string& log, bool tail_only = true);
     int get_vm_log(std::string& log, bool tail_only = true);
+    int get_trace_log(std::string& log, bool tail_only = true);
 
     int set_network_access(bool enabled);
     int set_cpu_usage(int percentage);

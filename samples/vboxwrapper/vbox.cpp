@@ -1444,6 +1444,7 @@ void VBOX_VM::dumphypervisorlogs(bool include_error_logs) {
     string local_system_log;
     string local_vm_log;
     string local_guest_log;
+    string local_trace_log;
     string prefiltered_guest_log;
     string filtered_guest_log;
     string line;
@@ -1454,6 +1455,7 @@ void VBOX_VM::dumphypervisorlogs(bool include_error_logs) {
 
     get_system_log(local_system_log);
     get_vm_log(local_vm_log);
+    get_trace_log(local_trace_log);
     get_vm_log(prefiltered_guest_log, false);
     get_vm_exit_code(vm_exit_code);
 
@@ -1499,14 +1501,18 @@ void VBOX_VM::dumphypervisorlogs(bool include_error_logs) {
             "    Hypervisor System Log:\n\n"
             "%s\n"
             "    VM Execution Log:\n\n"
-            "%s\n",
+            "%s\n"
+            "    VM Trace Log:\n\n"
+            "%s",
             local_system_log.c_str(),
-            local_vm_log.c_str()
+            local_vm_log.c_str(),
+            local_trace_log.c_str()
         );
     }
 
     fprintf(
         stderr,
+        "\n"
         "    VM Guest Log:\n\n"
         "%s\n",
         local_guest_log.c_str()
@@ -2064,6 +2070,49 @@ int VBOX_VM::get_vm_log(string& log, bool tail_only) {
             read_file_string(virtualbox_vm_log_dst.c_str(), log, 8192, true);
         } else {
             read_file_string(virtualbox_vm_log_dst.c_str(), log);
+        }
+
+        sanitize_output(log);
+
+        if (tail_only) {
+            if (log.size() >= 8000) {
+                // Look for the next whole line of text.
+                iter = log.begin();
+                while (iter != log.end()) {
+                    if (*iter == '\n') {
+                        log.erase(iter);
+                        break;
+                    }
+                    iter = log.erase(iter);
+                }
+            }
+        }
+
+    } else {
+        retval = ERR_NOT_FOUND;
+    }
+
+    return retval;
+}
+
+int VBOX_VM::get_trace_log(string& log, bool tail_only) {
+    string slot_directory;
+    string vm_trace_log;
+    string::iterator iter;
+    int retval = BOINC_SUCCESS;
+
+    // Where should we copy temp files to?
+    get_slot_directory(slot_directory);
+
+    // Locate and read log file
+    vm_trace_log = slot_directory + "/" + TRACELOG_FILENAME;
+
+    if (boinc_file_exists(vm_trace_log.c_str())) {
+        if (tail_only) {
+            // Keep only the last 8k if it is larger than that.
+            read_file_string(vm_trace_log.c_str(), log, 8192, true);
+        } else {
+            read_file_string(vm_trace_log.c_str(), log);
         }
 
         sanitize_output(log);
