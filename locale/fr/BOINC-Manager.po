@@ -502,6 +502,7 @@ msgid "Show information about the %s"
 msgstr "Affiche les informations à propos du %s"
 
 #: AdvancedFrame.cpp:661 sg_BoincSimpleFrame.cpp:224
+#, c-format
 #, c-format, c-format
 msgid "%s &web site"
 msgstr "Site web de %s"
