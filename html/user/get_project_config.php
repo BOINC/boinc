@@ -28,7 +28,7 @@ xml_header();
 function show_platforms() {
     $xmlFragment = unserialize(get_cached_data(3600, "project_config_platform_xml"));
     if ($xmlFragment==false){
-        $platforms = BoincDB::get()->enum_fields("platform, app_version", "BoincPlatform", "name, user_friendly_name, plan_class", "app_version.platformid = platform.id and app_version.deprecated=0 group by name, plan_class", "");
+        $platforms = BoincDB::get()->enum_fields("platform, DBNAME.app_version, DBNAME.app", "BoincPlatform", "platform.name, platform.user_friendly_name, plan_class", "app_version.platformid = platform.id and app_version.appid = app.id and app_version.deprecated=0 and app.deprecated=0 group by platform.name, plan_class", "");
         $xmlFragment = "    <platforms>";
         foreach ($platforms as $platform){
             $xmlFragment .= "

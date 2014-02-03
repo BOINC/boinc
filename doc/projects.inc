@@ -212,11 +212,8 @@ $astro_phys_chem = array(
             "Czech Technical University in Prague",
             tra("Mechanical engineering"),
             tra("Currently we are calculating the optimum design of a structure call the 52 bar truss"),
-            "convector.jpg",
-            ""
+            "convector.jpg"
         ),
-    ),
-    array(
         array(
             "theSkyNet POGS",
             "http://pogs.theskynet.org/pogs/",

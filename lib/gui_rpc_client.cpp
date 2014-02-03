@@ -249,7 +249,7 @@ int RPC_CLIENT::init_unix_domain() {
     addr_un.sun_len = sizeof(addr_un);
 #endif
     strcpy(addr_un.sun_path, GUI_RPC_FILE);
-    socklen_t len = SUN_LEN(&addr_un);
+    socklen_t len = offsetof(sockaddr_un, sun_path) + strlen(GUI_RPC_FILE);
     if (connect(sock, (struct sockaddr*)&addr_un, len) < 0) {
         boinc_close_socket(sock);
         return ERR_CONNECT;
