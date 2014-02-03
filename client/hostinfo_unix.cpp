@@ -1891,9 +1891,9 @@ bool interrupts_idle(time_t t) {
 
 #if HAVE_XSS
 // Ask the X server for user idle time (using XScreenSaver API)
-// Returns true if the idle_treshold is smaller than the
+// Returns true if the idle_threshold is smaller than the
 // idle time of the user (means: true = user is idle)
-bool xss_idle(long idle_treshold) {
+bool xss_idle(long idle_threshold) {
     static XScreenSaverInfo* xssInfo = NULL;
     static Display* disp = NULL;
     
@@ -1920,25 +1920,25 @@ bool xss_idle(long idle_treshold) {
 
                 if (onoff) {
                     switch (state) {
-                      case DPMSModeStandby:
-                          /* this check is a littlebit paranoid, but be sure */
-                          if (idle_time < (unsigned) (standby * 1000)) {
-                              idle_time += (standby * 1000);
-                          }
-                          break;
-                      case DPMSModeSuspend:
-                          if (idle_time < (unsigned) ((suspend + standby) * 1000)) {
-                              idle_time += ((suspend + standby) * 1000);
-                          }
-                          break;
-                      case DPMSModeOff:
-                          if (idle_time < (unsigned) ((off + suspend + standby) * 1000)) {
-                              idle_time += ((off + suspend + standby) * 1000);
-                          }
-                          break;
-                      case DPMSModeOn:
-                        default:
-                          break;
+                    case DPMSModeStandby:
+                        // this check is a littlebit paranoid, but be sure
+                        if (idle_time < (unsigned) (standby * 1000)) {
+                            idle_time += (standby * 1000);
+                        }
+                        break;
+                    case DPMSModeSuspend:
+                        if (idle_time < (unsigned) ((suspend + standby) * 1000)) {
+                            idle_time += ((suspend + standby) * 1000);
+                        }
+                        break;
+                    case DPMSModeOff:
+                        if (idle_time < (unsigned) ((off + suspend + standby) * 1000)) {
+                            idle_time += ((off + suspend + standby) * 1000);
+                        }
+                        break;
+                    case DPMSModeOn:
+                    default:
+                        break;
                     }
                 }
             } 
@@ -1952,12 +1952,19 @@ bool xss_idle(long idle_treshold) {
         disp = XOpenDisplay(NULL);
         // XOpenDisplay may return NULL if there is no running X
         // or DISPLAY points to wrong/invalid display
-        if(disp != NULL) {
+        //
+        if (disp != NULL) {
+            int event_base_return, error_base_return;
             xssInfo = XScreenSaverAllocInfo();
+            if (!XScreenSaverQueryExtension(
+                disp, &event_base_return, &error_base_return
+            )){
+                // how to handle failure?
+            }
         }
     }
 
-    return idle_treshold < idle_time;
+    return idle_threshold < idle_time;
 }
 #endif // HAVE_XSS
 #endif // LINUX_LIKE_SYSTEM
