@@ -682,7 +682,7 @@ int main(int argc, char** argv) {
         bool   dump_hypervisor_logs = false;
         string error_reason;
         char*  temp_reason = (char*)"";
-        int    temp_delay = 300;
+        int    temp_delay = 86400;
 
         if (VBOXWRAPPER_ERR_RECOVERABLE == retval) {
             error_reason =
@@ -848,7 +848,7 @@ int main(int argc, char** argv) {
         );
         vm.reset_vm_process_priority();
         vm.poweroff();
-        boinc_temporary_exit(300, "VM Hypervisor failed to enter an online state in a timely fashion.");
+        boinc_temporary_exit(86400, "VM Hypervisor failed to enter an online state in a timely fashion.");
     }
 
     set_floppy_image(aid, vm);
@@ -869,7 +869,7 @@ int main(int argc, char** argv) {
         if (boinc_status.no_heartbeat || boinc_status.quit_request) {
             vm.reset_vm_process_priority();
             vm.poweroff();
-            boinc_temporary_exit(300);
+            boinc_temporary_exit(86400);
         }
         if (boinc_status.abort_request) {
             vm.reset_vm_process_priority();
@@ -889,7 +889,7 @@ int main(int argc, char** argv) {
                 );
                 vm.reset_vm_process_priority();
                 vm.poweroff();
-                boinc_temporary_exit(300, "VM Hypervisor was unable to allocate enough memory.");
+                boinc_temporary_exit(86400, "VM Hypervisor was unable to allocate enough memory.");
             } else {
                 vm.cleanup();
                 if (vm.crashed || (elapsed_time < vm.job_duration)) {
@@ -940,7 +940,7 @@ int main(int argc, char** argv) {
                         vboxwrapper_msg_prefix(buf, sizeof(buf))
                     );
                     vm.poweroff();
-                    boinc_temporary_exit(300, "VM job unmanageable, restarting later.");
+                    boinc_temporary_exit(86400, "VM job unmanageable, restarting later.");
                }
             }
         } else {
@@ -953,7 +953,7 @@ int main(int argc, char** argv) {
                         vboxwrapper_msg_prefix(buf, sizeof(buf))
                     );
                     vm.poweroff();
-                    boinc_temporary_exit(300, "VM job unmanageable, restarting later.");
+                    boinc_temporary_exit(86400, "VM job unmanageable, restarting later.");
                }
             }
 
