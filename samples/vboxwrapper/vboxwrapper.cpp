@@ -1022,7 +1022,7 @@ int main(int argc, char** argv) {
                             retval
                         );
                         vm.poweroff();
-                        boinc_temporary_exit(300, "VM job unmanageable, restarting later.");
+                        boinc_temporary_exit(86400, "VM job unmanageable, restarting later.");
                     } else {
                         // Inform BOINC that we have successfully created a checkpoint.
                         //
