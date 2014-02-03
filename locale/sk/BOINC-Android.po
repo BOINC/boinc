@@ -17,7 +17,7 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
-"X-POOTLE-MTIME: 1388701690.0\n"
+"X-POOTLE-MTIME: 1391353715.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -25,69 +25,77 @@ msgid "BOINC"
 msgstr "BOINC"
 
 #. generic. used by multiple Activities/tabs
+#, fuzzy
 msgctxt "generic_loading"
 msgid "Loading! Please wait…"
-msgstr "Nahrávanie! Prosím, čakajte..."
+msgstr "Загружается! Пожалуйста подождите…"
 
 #. attach project
 #. project list
+#, fuzzy
 msgctxt "attachproject_list_header"
 msgid "Choose a project:"
-msgstr "Vyberte si projekt:"
+msgstr "Выберите проект:"
 
+#, fuzzy
 msgctxt "attachproject_list_manual_button"
 msgid "Add project by URL"
-msgstr "Pridajte projekt podľa URL"
+msgstr "Добавить URL-адрес проекта"
 
+#, fuzzy
 msgctxt "attachproject_list_manual_dialog_title"
 msgid "Enter project URL:"
-msgstr "Vložte URL projektu:"
+msgstr "Введите URL проекта:"
 
+#, fuzzy
 msgctxt "attachproject_list_manual_dialog_button"
 msgid "Add project"
-msgstr "Pridať projekt"
+msgstr "Добавить проект"
 
 msgctxt "attachproject_list_manual_no_url"
 msgid "Please enter project URL"
-msgstr ""
+msgstr "Пожалуйста, введите URL проекта"
 
 msgctxt "attachproject_list_acctmgr_button"
 msgid "Add account manager"
-msgstr ""
+msgstr "Добавить менеджер проектов"
 
+#, fuzzy
 msgctxt "attachproject_list_no_internet"
 msgid "No Internet connection"
-msgstr "Žiadne pripojenie na Internet"
+msgstr "Нет подключения к Интернету"
 
 #. project login
 msgctxt "attachproject_login_loading"
 msgid "Contacting project server…"
-msgstr ""
+msgstr "Соединение с сервером проекта…"
 
 msgctxt "attachproject_login_image_description"
 msgid "Project logo."
-msgstr ""
+msgstr "Логотип проекта."
 
 msgctxt "attachproject_login_header_general_area"
 msgid "General area:"
-msgstr ""
+msgstr "Основная область:"
 
 msgctxt "attachproject_login_header_specific_area"
 msgid "Specific area:"
-msgstr ""
+msgstr "Специализация:"
 
+#, fuzzy
 msgctxt "attachproject_login_header_description"
 msgid "Description:"
-msgstr "Popis:"
+msgstr "Описание:"
 
 # Это типа институт/университет, который владеет проектом
 msgctxt "attachproject_login_header_home"
 msgid "Home:"
 msgstr "Владелец:"
 
+#, fuzzy
 msgctxt "attachproject_login_header_url"
 msgid "Website:"
-msgstr "Webová stránka:"
+msgstr "Веб-сайт:"
 
 msgctxt "attachproject_login_header_platform"
 msgid "Android:"
@@ -95,11 +103,11 @@ msgstr "Android:"
 
 msgctxt "attachproject_login_platform_supported"
 msgid "This project supports Android devices"
-msgstr ""
+msgstr "Этот проект поддерживает Android-устройства"
 
 msgctxt "attachproject_login_platform_not_supported"
 msgid "This project does not support Android devices"
-msgstr ""
+msgstr "Этот проект не поддерживает устройства на базе Android"
 
 msgctxt "attachproject_login_category_terms_of_use"
 msgid "Terms of use for"
@@ -110,22 +118,26 @@ msgid ""
 "By creating an account with this project, you accept the terms of use as "
 "shown above."
 msgstr ""
+"Создавая учётную запись в этом проекте, вы принимаете условия использования, "
+"которые показаны выше."
 
 msgctxt "attachproject_login_category_login"
 msgid "Sign in with existing account"
-msgstr ""
+msgstr "Войти с существующей учётной записью"
 
 msgctxt "attachproject_login_header_id_email"
 msgid "eMail:"
 msgstr "Электронная почта:"
 
+#, fuzzy
 msgctxt "attachproject_login_header_id_name"
 msgid "Name:"
-msgstr "Názov:"
+msgstr "Имя:"
 
+#, fuzzy
 msgctxt "attachproject_login_header_pwd"
 msgid "Password:"
-msgstr "Heslo:"
+msgstr "Пароль:"
 
 msgctxt "attachproject_login_category_creation"
 msgid "New to"
@@ -143,13 +155,15 @@ msgctxt "attachproject_login_header_creation_disabled"
 msgid "Project does currently now allow creation of new accounts!"
 msgstr "Проект в данный момент не позволяет создавать новые учётные записи!"
 
+#, fuzzy
 msgctxt "attachproject_login_button_registration"
 msgid "Register"
-msgstr "Registrovať"
+msgstr "Зарегистрироваться"
 
+#, fuzzy
 msgctxt "attachproject_login_button_login"
 msgid "Sign in"
-msgstr "Prihlásiť sa"
+msgstr "Войти"
 
 msgctxt "attachproject_login_button_forgotpw"
 msgid "Forgot Password"
@@ -168,33 +182,38 @@ msgctxt "attachproject_registration_header"
 msgid "Account registration for"
 msgstr "Регистрация учётной записи для"
 
+#, fuzzy
 msgctxt "attachproject_registration_header_url"
 msgid "Project:"
-msgstr "Projekt:"
+msgstr "Проект:"
 
 msgctxt "attachproject_registration_header_email"
 msgid "eMail:"
 msgstr "Электронная почта:"
 
+#, fuzzy
 msgctxt "attachproject_registration_header_username"
 msgid "Name:"
-msgstr "Názov:"
+msgstr "Имя:"
 
+#, fuzzy
 msgctxt "attachproject_registration_header_teamname"
 msgid "Team:"
-msgstr "Tím:"
+msgstr "Команда:"
 
+#, fuzzy
 msgctxt "attachproject_registration_header_pwd"
 msgid "Password:"
-msgstr "Heslo:"
+msgstr "Пароль:"
 
 msgctxt "attachproject_registration_header_pwd_confirm"
 msgid "… Retype:"
 msgstr "… Повторите:"
 
+#, fuzzy
 msgctxt "attachproject_registration_button"
 msgid "Create"
-msgstr "Vytvoriť"
+msgstr "Создать"
 
 #. account manager
 msgctxt "attachproject_acctmgr_header"
@@ -209,9 +228,10 @@ msgctxt "attachproject_acctmgr_header_name"
 msgid "User:"
 msgstr "Пользователь:"
 
+#, fuzzy
 msgctxt "attachproject_acctmgr_header_pwd"
 msgid "Password:"
-msgstr "Heslo:"
+msgstr "Пароль:"
 
 msgctxt "attachproject_acctmgr_header_pwd_confirm"
 msgid "… Retype:"
@@ -222,41 +242,49 @@ msgid "Add"
 msgstr "Добавить"
 
 #. error strings
+#, fuzzy
 msgctxt "attachproject_error_wrong_name"
 msgid "User not found"
-msgstr "Používateľ nenájdený"
+msgstr "Пользователь не найден"
 
+#, fuzzy
 msgctxt "attachproject_error_short_pwd"
 msgid "Password too short"
-msgstr "Heslo je príliš krátke"
+msgstr "Пароль слишком короткий"
 
+#, fuzzy
 msgctxt "attachproject_error_no_internet"
 msgid "Connection failure"
-msgstr "Pripojenie zlyhalo"
+msgstr "Сбой подключения"
 
+#, fuzzy
 msgctxt "attachproject_error_pwd_no_match"
 msgid "Passwords do not match"
-msgstr "Heslá sa líšia"
+msgstr "Пароли не совпадают"
 
 msgctxt "attachproject_error_no_url"
 msgid "Please enter URL"
 msgstr "Введите URL"
 
+#, fuzzy
 msgctxt "attachproject_error_no_email"
 msgid "Please enter eMail address"
-msgstr "Zadajte prosím vašu e-mailovú adresu"
+msgstr "Введите адрес электронной почты"
 
+#, fuzzy
 msgctxt "attachproject_error_no_pwd"
 msgid "Please enter a password"
-msgstr "Prosím zadajte heslo"
+msgstr "Введите пароль"
 
+#, fuzzy
 msgctxt "attachproject_error_no_name"
 msgid "Please enter user name"
-msgstr "Prosím zadajte používateľské meno"
+msgstr "Введите имя пользователя"
 
+#, fuzzy
 msgctxt "attachproject_error_unknown"
 msgid "failed"
-msgstr "zlyhalo"
+msgstr "неудача"
 
 msgctxt "attachproject_error_bad_username"
 msgid "User name refused"
@@ -287,21 +315,25 @@ msgid "Invalid URL"
 msgstr "Неправильный адрес (URL)"
 
 #. working activity
+#, fuzzy
 msgctxt "attachproject_working_back_button"
 msgid "Back"
-msgstr "Späť"
+msgstr "Назад"
 
+#, fuzzy
 msgctxt "attachproject_working_finish_button"
 msgid "Finish"
-msgstr "Dokončiť"
+msgstr "Готово"
 
+#, fuzzy
 msgctxt "attachproject_working_check_desc"
 msgid "Successful"
-msgstr "Úspešné"
+msgstr "Успешно"
 
+#, fuzzy
 msgctxt "attachproject_working_failed_desc"
 msgid "Failed"
-msgstr "Zlyhalo"
+msgstr "Неудачно"
 
 msgctxt "attachproject_working_ongoing"
 msgid "…"
@@ -315,21 +347,25 @@ msgctxt "attachproject_working_description"
 msgid ":"
 msgstr ":"
 
+#, fuzzy
 msgctxt "attachproject_working_connect"
 msgid "Connect"
-msgstr "Pripojiť"
+msgstr "Подключиться"
 
+#, fuzzy
 msgctxt "attachproject_working_verify"
 msgid "Verify account"
-msgstr "Overiť účet"
+msgstr "Проверить учётную запись"
 
+#, fuzzy
 msgctxt "attachproject_working_register"
 msgid "Register account"
-msgstr "Registrovať účet"
+msgstr "Зарегистрировать учётную запись"
 
+#, fuzzy
 msgctxt "attachproject_working_login"
 msgid "Log in"
-msgstr "Prihlásiť sa"
+msgstr "Войти"
 
 msgctxt "attachproject_working_acctmgr"
 msgid "Add account manager"
@@ -342,11 +378,12 @@ msgstr "Синхронизировать"
 #. main activity
 msgctxt "main_noproject_warning"
 msgid "Tab here to choose a project."
-msgstr ""
+msgstr "Нажмите здесь для выбора проекта."
 
+#, fuzzy
 msgctxt "main_error"
 msgid "Whooops"
-msgstr "Ups"
+msgstr "Упс"
 
 msgctxt "main_error_long"
 msgid ""
@@ -365,42 +402,50 @@ msgctxt "tab_status"
 msgid "Status"
 msgstr "Статус"
 
+#, fuzzy
 msgctxt "tab_projects"
 msgid "Projects"
-msgstr "Projekty"
+msgstr "Проекты"
 
+#, fuzzy
 msgctxt "tab_tasks"
 msgid "Tasks"
-msgstr "Úlohy"
+msgstr "Задания"
 
+#, fuzzy
 msgctxt "tab_transfers"
 msgid "Transfers"
-msgstr "Prenosy"
+msgstr "Передачи"
 
+#, fuzzy
 msgctxt "tab_preferences"
 msgid "Preferences"
-msgstr "Nastavenia"
+msgstr "Настройки"
 
+#, fuzzy
 msgctxt "tab_notices"
 msgid "Notices"
-msgstr "Oznamy"
+msgstr "Уведомления"
 
+#, fuzzy
 msgctxt "tab_desc"
 msgid "Navigation"
-msgstr "Navigácia"
+msgstr "Навигация"
 
 #. status strings
+#, fuzzy
 msgctxt "status_running"
 msgid "Computing"
-msgstr "Výpočty"
+msgstr "Выполнение расчётов"
 
 msgctxt "status_running_long"
 msgid "Thank you for participating."
 msgstr "Спасибо за участие."
 
+#, fuzzy
 msgctxt "status_paused"
 msgid "Suspended"
-msgstr "Pozastavené"
+msgstr "Приостановлено"
 
 msgctxt "status_idle"
 msgid "Nothing to do"
@@ -410,17 +455,19 @@ msgctxt "status_idle_long"
 msgid "Waiting for tasks…"
 msgstr "Ожидание заданий…"
 
+#, fuzzy
 msgctxt "status_computing_disabled"
 msgid "Suspended"
-msgstr "Pozastavené"
+msgstr "Приостановлено"
 
 msgctxt "status_computing_disabled_long"
 msgid "Press play to resume network and computation."
 msgstr "Нажмите кнопку Play для возобновления расчётов и передачи данных."
 
+#, fuzzy
 msgctxt "status_launching"
 msgid "Starting…"
-msgstr "Spúšťa sa…"
+msgstr "Запуск…"
 
 msgctxt "status_noproject"
 msgid "Choose a project to participate in."
@@ -430,9 +477,10 @@ msgctxt "status_closing"
 msgid "Closing…"
 msgstr "Закрытие…"
 
+#, fuzzy
 msgctxt "status_benchmarking"
 msgid "Benchmarking…"
-msgstr "Test rýchlosti…"
+msgstr "Тестирование производительности…"
 
 msgctxt "status_image_description"
 msgid "project image"
@@ -443,45 +491,54 @@ msgctxt "prefs_loading"
 msgid "Reading preferences…"
 msgstr "Чтение настроек…"
 
+#, fuzzy
 msgctxt "prefs_submit_button"
 msgid "Save"
-msgstr "Uložiť"
+msgstr "Сохранить"
 
+#, fuzzy
 msgctxt "prefs_dialog_title"
 msgid "Enter new value:"
-msgstr "Zadajte novú hodnotu:"
+msgstr "Введите новое значение:"
 
 msgctxt "prefs_dialog_title_selection"
 msgid "Select:"
 msgstr "Выбрать:"
 
+#, fuzzy
 msgctxt "prefs_category_general"
 msgid "General"
-msgstr "Všeobecné"
+msgstr "Основные"
 
+#, fuzzy
 msgctxt "prefs_category_network"
 msgid "Network"
-msgstr "Sieť"
+msgstr "Сеть"
 
+#, fuzzy
 msgctxt "prefs_category_power"
 msgid "Power"
-msgstr "Napájanie"
+msgstr "Питание"
 
+#, fuzzy
 msgctxt "prefs_category_cpu"
 msgid "CPU"
-msgstr "Procesor"
+msgstr "Процессор"
 
+#, fuzzy
 msgctxt "prefs_category_storage"
 msgid "Storage"
-msgstr "Ukladací priestor"
+msgstr "Диск"
 
+#, fuzzy
 msgctxt "prefs_category_memory"
 msgid "Memory"
-msgstr "Pamäť"
+msgstr "Память"
 
+#, fuzzy
 msgctxt "prefs_category_debug"
 msgid "Debug"
-msgstr "Ladenie"
+msgstr "Отладка"
 
 msgctxt "prefs_show_advanced_header"
 msgid "Show advanced preferences and controls…"
@@ -489,7 +546,7 @@ msgstr "Показать дополнительные настройки и эл
 
 msgctxt "prefs_run_on_battery_header"
 msgid "Compute on Battery"
-msgstr ""
+msgstr "Выполнять расчёты при работе от батареи"
 
 msgctxt "battery_charge_min_pct_header"
 msgid "Min. battery level"
@@ -510,14 +567,18 @@ msgid ""
 "BOINC suspends computation above defined battery temperature. It is not "
 "recommended to change this value."
 msgstr ""
+"BOINC приостановит расчёты, когда температура батареи превысит указанный "
+"уровень. Не рекомендуется менять это значение."
 
 msgctxt "prefs_disk_max_pct_header"
 msgid "Max. used storage space"
-msgstr ""
+msgstr "Макс. используемое пространство памяти"
 
 msgctxt "prefs_disk_max_pct_description"
 msgid "How many percent of your device's storage space is BOINC allowed to use?"
 msgstr ""
+"Сколько процентов от общего объёма памяти вашего устройства BOINC может "
+"использовать?"
 
 msgctxt "prefs_disk_min_free_gb_header"
 msgid "Min. spare storage"
@@ -595,13 +656,15 @@ msgctxt "prefs_gui_log_level_description"
 msgid "Specifies verbosity of GUI log messages."
 msgstr "Задает уровень детализации сообщений журнала GUI."
 
+#, fuzzy
 msgctxt "prefs_unit_mb"
 msgid "MB"
-msgstr "MB"
+msgstr "МБ"
 
+#, fuzzy
 msgctxt "prefs_unit_gb"
 msgid "GB"
-msgstr "GB"
+msgstr "ГБ"
 
 #, c-format
 msgctxt "prefs_unit_pct"
@@ -617,9 +680,10 @@ msgctxt "projects_loading"
 msgid "Reading projects…"
 msgstr "Чтение проектов…"
 
+#, fuzzy
 msgctxt "projects_add"
 msgid "Add project"
-msgstr "Pridať projekt"
+msgstr "Добавить проект"
 
 msgctxt "projects_icon"
 msgid "Project icon"
@@ -635,7 +699,7 @@ msgstr "(на этом устройстве)"
 
 msgctxt "projects_credits_user_header"
 msgid "(total)"
-msgstr ""
+msgstr "(всего)"
 
 #. project status strings
 msgctxt "projects_status_suspendedviagui"
@@ -679,21 +743,25 @@ msgctxt "projects_control_visit_website"
 msgid "Visit website"
 msgstr "Посетить веб-сайт"
 
+#, fuzzy
 msgctxt "projects_control_update"
 msgid "Update"
-msgstr "Aktualizovať"
+msgstr "Обновить"
 
+#, fuzzy
 msgctxt "projects_control_remove"
 msgid "Remove"
-msgstr "Odstrániť"
+msgstr "Удалить"
 
+#, fuzzy
 msgctxt "projects_control_suspend"
 msgid "Suspend"
-msgstr "Pozastaviť"
+msgstr "Приостановить"
 
+#, fuzzy
 msgctxt "projects_control_resume"
 msgid "Resume"
-msgstr "Pokračovať"
+msgstr "Возобновить"
 
 msgctxt "projects_control_nonewtasks"
 msgid "No new tasks"
@@ -720,21 +788,25 @@ msgid "Disable"
 msgstr "Отключить"
 
 #. project confirm dialog
+#, fuzzy
 msgctxt "projects_confirm_detach_title"
 msgid "Remove project?"
-msgstr "Odstrániť projekt?"
+msgstr "Удалить проект?"
 
+#, fuzzy
 msgctxt "projects_confirm_detach_message"
 msgid "Are you sure you want to remove"
-msgstr "Naozaj chcete odstrániť"
+msgstr "Вы действительно хотите удалить"
 
+#, fuzzy
 msgctxt "projects_confirm_detach_message2"
 msgid "from BOINC?"
-msgstr "z BOINC?"
+msgstr "из BOINC?"
 
+#, fuzzy
 msgctxt "projects_confirm_detach_confirm"
 msgid "Remove"
-msgstr "Odstrániť"
+msgstr "Удалить"
 
 msgctxt "projects_confirm_reset_title"
 msgid "Reset project"
@@ -761,65 +833,77 @@ msgid "Disable"
 msgstr "Отключить"
 
 #. tasks tab strings
+#, fuzzy
 msgctxt "tasks_header_name"
 msgid "Task Name:"
-msgstr "Meno úlohy:"
+msgstr "Название задания:"
 
+#, fuzzy
 msgctxt "tasks_header_elapsed_time"
 msgid "Elapsed time:"
-msgstr "Uplynutý čas:"
+msgstr "Затрачено времени:"
 
+#, fuzzy
 msgctxt "tasks_header_project_paused"
 msgid "(suspended)"
-msgstr "(pozastavené)"
+msgstr "(приостановлено)"
 
 msgctxt "tasks_header_deadline"
 msgid "Deadline:"
 msgstr "Крайний срок:"
 
+#, fuzzy
 msgctxt "tasks_result_new"
 msgid "new"
-msgstr "nové"
+msgstr "новый"
 
 msgctxt "tasks_result_files_downloading"
 msgid "waiting for download"
 msgstr "ожидание загрузки"
 
+#, fuzzy
 msgctxt "tasks_result_files_downloaded"
 msgid "download complete"
-msgstr "sťahovanie dokončené"
+msgstr "загрузка завершена"
 
 msgctxt "tasks_result_compute_error"
 msgid "computation error"
 msgstr "ошибка расчётов"
 
+#, fuzzy
 msgctxt "tasks_result_files_uploading"
 msgid "uploading"
-msgstr "odosielanie"
+msgstr "отправка"
 
+#, fuzzy
 msgctxt "tasks_result_files_uploaded"
 msgid "upload complete"
-msgstr "odosielanie dokončené"
+msgstr "отправка завершена"
 
+#, fuzzy
 msgctxt "tasks_result_aborted"
 msgid "aborted"
-msgstr "prerušené"
+msgstr "прервано"
 
+#, fuzzy
 msgctxt "tasks_result_upload_failed"
 msgid "upload failed"
-msgstr "odoslanie zlyhalo"
+msgstr "сбой при отправке"
 
+#, fuzzy
 msgctxt "tasks_active_uninitialized"
 msgid "ready"
-msgstr "pripravené"
+msgstr "готово"
 
+#, fuzzy
 msgctxt "tasks_active_executing"
 msgid "running"
-msgstr "spustené"
+msgstr "выполняется"
 
+#, fuzzy
 msgctxt "tasks_active_suspended"
 msgid "suspended"
-msgstr "pozastavené"
+msgstr "приостановлено"
 
 msgctxt "tasks_active_abort_pending"
 msgid "suspending"
@@ -829,9 +913,10 @@ msgctxt "tasks_active_quit_pending"
 msgid "suspending"
 msgstr "приостанавливается"
 
+#, fuzzy
 msgctxt "tasks_custom_suspended_via_gui"
 msgid "suspended"
-msgstr "pozastavené"
+msgstr "приостановлено"
 
 msgctxt "tasks_custom_project_suspended_via_gui"
 msgid "project suspended"
@@ -850,13 +935,15 @@ msgctxt "confirm_abort_task_message"
 msgid "Abort task:"
 msgstr "Прервать задание:"
 
+#, fuzzy
 msgctxt "confirm_abort_task_confirm"
 msgid "Abort"
-msgstr "Prerušiť"
+msgstr "Прервать"
 
+#, fuzzy
 msgctxt "confirm_cancel"
 msgid "Cancel"
-msgstr "Zrušiť"
+msgstr "Отмена"
 
 msgctxt "confirm_image_desc"
 msgid "Confirmation dialog"
@@ -867,25 +954,29 @@ msgctxt "trans_loading"
 msgid "Reading transfers…"
 msgstr "Чтение списка передач…"
 
+#, fuzzy
 msgctxt "trans_upload"
 msgid "Upload"
-msgstr "Odoslať"
+msgstr "Отправка"
 
+#, fuzzy
 msgctxt "trans_download"
 msgid "Download"
-msgstr "Stiahnuť"
+msgstr "Загрузка"
 
 msgctxt "trans_retryin"
 msgid "retry in"
 msgstr "повтор через"
 
+#, fuzzy
 msgctxt "trans_failed"
 msgid "failed"
-msgstr "zlyhalo"
+msgstr "неудача"
 
+#, fuzzy
 msgctxt "trans_suspended"
 msgid "suspended"
-msgstr "pozastavené"
+msgstr "приостановлено"
 
 msgctxt "trans_active"
 msgid "active"
@@ -915,9 +1006,10 @@ msgctxt "confirm_abort_trans_message"
 msgid "Abort File:"
 msgstr "Прервать файл:"
 
+#, fuzzy
 msgctxt "confirm_abort_trans_confirm"
 msgid "Abort"
-msgstr "Prerušiť"
+msgstr "Прервать"
 
 #. notices tab strings
 msgctxt "notices_loading"
@@ -1056,14 +1148,16 @@ msgctxt "rpcreason_projectreq"
 msgid "Requested by project"
 msgstr "Запрошено проектом"
 
+#, fuzzy
 msgctxt "rpcreason_unknown"
 msgid "Unknown reason"
-msgstr "Neznámy dôvod"
+msgstr "Неизвестная причина"
 
 #. menu
+#, fuzzy
 msgctxt "menu_refresh"
 msgid "Refresh"
-msgstr "Obnoviť"
+msgstr "Обновить"
 
 msgctxt "menu_emailto"
 msgid "Send as Email"
@@ -1081,42 +1175,52 @@ msgctxt "menu_exit"
 msgid "Exit BOINC"
 msgstr "Выйти из BOINC"
 
+#, fuzzy
 msgctxt "menu_run_mode_disable"
 msgid "Suspend"
-msgstr "Pozastaviť"
+msgstr "Приостановить"
 
+#, fuzzy
 msgctxt "menu_run_mode_enable"
 msgid "Resume"
-msgstr "Pokračovať"
+msgstr "Возобновить"
 
+#, fuzzy
 msgctxt "menu_about"
 msgid "About"
-msgstr "О"
+msgstr "О программе"
 
+#, fuzzy
 msgctxt "menu_help"
 msgid "Help"
-msgstr "Nápoveda"
+msgstr "Справка"
 
 #. about dialog
+#, fuzzy
 msgctxt "about_button"
 msgid "Return"
-msgstr "Návrat"
+msgstr "Вернуться"
 
+#, fuzzy
 msgctxt "about_title"
 msgid "About"
-msgstr "О"
+msgstr "О программе"
 
 msgctxt "about_name"
 msgid "BOINC"
 msgstr "BOINC"
 
+#, fuzzy
 msgctxt "about_version"
 msgid "Version"
-msgstr "Verzia"
+msgstr "Версия"
 
+#, fuzzy
 msgctxt "about_name_long"
 msgid "Berkeley Open Infrastructure for Network Computing"
-msgstr "BOINC - Otvorená infraštruktúra pre sieťové výpočty z Berkeley"
+msgstr ""
+"BOINC - Berkeley Open Infrastructure for Network Computing\n"
+"Открытая Инфраструктура для Распределенных Вычислений университета Беркли"
 
 msgctxt "about_copyright"
 msgid ""
@@ -1125,3 +1229,13 @@ msgid ""
 msgstr ""
 "© 2003-2013 Калифорнийский университет, Беркли.\n"
 "Все права защищены."
+
+#, fuzzy
+#~ msgctxt "main_noproject_warning"
+#~ msgid "Tap here to choose a project."
+#~ msgstr "Нажмите здесь для выбора проекта."
+
+#, fuzzy
+#~ msgctxt "prefs_power_source_usb"
+#~ msgid "USB connection"
+#~ msgstr "Нет подключения к Интернету"
