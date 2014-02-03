@@ -246,7 +246,7 @@ int GUI_RPC_CONN_SET::init_unix_domain() {
     addr.sun_len = sizeof(addr);
 #endif
     strcpy(addr.sun_path, GUI_RPC_FILE);
-    socklen_t len = SUN_LEN(&addr);
+    socklen_t len = offsetof(sockaddr_un, sun_path) + strlen(GUI_RPC_FILE);
 #endif
     unlink(GUI_RPC_FILE);
     if (bind(lsock, (struct sockaddr*)&addr, len) < 0) {
