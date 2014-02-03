@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-26 00:00-0800\n"
+"POT-Creation-Date: 2014-02-02 00:00-0800\n"
 "PO-Revision-Date: 2014-01-03 18:08+0000\n"
 "Last-Translator: Олег <pukish_oleg@ukr.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -538,7 +538,7 @@ msgstr "&Діяльність"
 msgid "A&dvanced"
 msgstr "Д&одатково"
 
-#: AdvancedFrame.cpp:712 DlgEventLog.cpp:331 sg_BoincSimpleFrame.cpp:267
+#: AdvancedFrame.cpp:712 DlgEventLog.cpp:332 sg_BoincSimpleFrame.cpp:267
 #: wizardex.cpp:374 wizardex.cpp:381
 msgid "&Help"
 msgstr "&Довідка"
@@ -577,27 +577,27 @@ msgstr ""
 "%s вимкне підключений зараз клієнт\n"
 "і запитає у Вас адресу для підключення іншого комп'ютера."
 
-#: AdvancedFrame.cpp:1738 DlgAbout.cpp:119
+#: AdvancedFrame.cpp:1745 DlgAbout.cpp:119
 #, c-format
 msgid "%s"
 msgstr "%s"
 
-#: AdvancedFrame.cpp:1747
+#: AdvancedFrame.cpp:1754
 #, c-format
 msgid "%s has successfully added %s"
 msgstr "%s успішно додав проект %s"
 
-#: AdvancedFrame.cpp:1886
+#: AdvancedFrame.cpp:1893
 #, c-format
 msgid "%s - (%s)"
 msgstr "%s - (%s)"
 
-#: AdvancedFrame.cpp:1890
+#: AdvancedFrame.cpp:1897
 #, c-format
 msgid "Connecting to %s"
 msgstr "Відбувається підключення до %s"
 
-#: AdvancedFrame.cpp:1893
+#: AdvancedFrame.cpp:1900
 #, c-format
 msgid "Connected to %s (%s)"
 msgstr "Підключений до %s (%s)"
@@ -912,15 +912,15 @@ msgstr "дозволено декілька екземплярів менедж�
 msgid "Not used: workaround for bug in XCode 4.2"
 msgstr "Не використаний: зациклився через баг у XCode 4.2"
 
-#: BOINCGUIApp.cpp:805
+#: BOINCGUIApp.cpp:814
 msgid "(Automatic Detection)"
 msgstr "(Автовизначення)"
 
-#: BOINCGUIApp.cpp:806
+#: BOINCGUIApp.cpp:815
 msgid "(Unknown)"
 msgstr "(Невідомий)"
 
-#: BOINCGUIApp.cpp:807
+#: BOINCGUIApp.cpp:816
 msgid "(User Defined)"
 msgstr "(Користувацький)"
 
@@ -1108,7 +1108,7 @@ msgid "Berkeley Open Infrastructure for Network Computing"
 msgstr "Відкрита Інфраструктура для Розподілених Обчислень університету Берклі"
 
 #: DlgAbout.cpp:208 DlgExitMessage.cpp:173 DlgGenericMessage.cpp:120
-#: DlgOptions.cpp:396 DlgSelectComputer.cpp:162
+#: DlgOptions.cpp:396 DlgSelectComputer.cpp:163
 msgid "&OK"
 msgstr "&Гаразд"
 
@@ -1588,42 +1588,42 @@ msgstr "Видалити додаток зі списку"
 msgid "For advanced options, refer to "
 msgstr "Для розширених налаштувань, зверніться до "
 
-#: DlgEventLog.cpp:218
+#: DlgEventLog.cpp:219
 #, c-format
 msgid "%s - Event Log"
 msgstr "% s - Перегляд подій"
 
-#: DlgEventLog.cpp:231 ViewMessages.cpp:117 ViewProjects.cpp:219
+#: DlgEventLog.cpp:232 ViewMessages.cpp:117 ViewProjects.cpp:219
 #: ViewStatistics.cpp:435 ViewStatistics.cpp:2009 ViewTransfers.cpp:182
 #: ViewWork.cpp:232
 msgid "Project"
 msgstr "Проект"
 
-#: DlgEventLog.cpp:232 ViewMessages.cpp:118
+#: DlgEventLog.cpp:233 ViewMessages.cpp:118
 msgid "Time"
 msgstr "Час"
 
-#: DlgEventLog.cpp:233 ViewMessages.cpp:119
+#: DlgEventLog.cpp:234 ViewMessages.cpp:119
 msgid "Message"
 msgstr "Повідомлення"
 
-#: DlgEventLog.cpp:289 DlgEventLog.cpp:353
+#: DlgEventLog.cpp:290 DlgEventLog.cpp:354
 msgid "&Show only this project"
 msgstr "&Показати тільки цей проект"
 
-#: DlgEventLog.cpp:293
+#: DlgEventLog.cpp:294
 msgid "Copy &All"
 msgstr "Копіювати &все"
 
-#: DlgEventLog.cpp:295 DlgEventLog.cpp:299 ViewMessages.cpp:89
+#: DlgEventLog.cpp:296 DlgEventLog.cpp:300 ViewMessages.cpp:89
 msgid "Copy all the messages to the clipboard."
 msgstr "Копіювати всі повідомлення в буфер обміну."
 
-#: DlgEventLog.cpp:304
+#: DlgEventLog.cpp:305
 msgid "Copy &Selected"
 msgstr "Копіювати &виділене"
 
-#: DlgEventLog.cpp:307 DlgEventLog.cpp:315 ViewMessages.cpp:97
+#: DlgEventLog.cpp:308 DlgEventLog.cpp:316 ViewMessages.cpp:97
 msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
 "messages by holding down the shift or command key while clicking on messages."
@@ -1631,7 +1631,7 @@ msgstr ""
 "Копіювати виділені повідомлення в буфер обміну. Ви можете вибрати декілька "
 "повідомлень, утримуючи SHIFT і CTRL для їх виділення."
 
-#: DlgEventLog.cpp:309 DlgEventLog.cpp:317 ViewMessages.cpp:99
+#: DlgEventLog.cpp:310 DlgEventLog.cpp:318 ViewMessages.cpp:99
 msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
 "messages by holding down the shift or control key while clicking on messages."
@@ -1639,24 +1639,24 @@ msgstr ""
 "Копіювати виділені повідомлення в буфер обміну. Можна використовувати "
 "клавіші SHIFT і CTRL для виділення декількох повідомлень."
 
-#: DlgEventLog.cpp:324 DlgItemProperties.cpp:67
+#: DlgEventLog.cpp:325 DlgItemProperties.cpp:67
 msgid "&Close"
 msgstr "&Закрити"
 
-#: DlgEventLog.cpp:333 sg_BoincSimpleFrame.cpp:798 sg_DlgPreferences.cpp:442
+#: DlgEventLog.cpp:334 sg_BoincSimpleFrame.cpp:798 sg_DlgPreferences.cpp:442
 #, c-format
 msgid "Get help with %s"
 msgstr "Отримати довідку щодо %s"
 
-#: DlgEventLog.cpp:347
+#: DlgEventLog.cpp:348
 msgid "Show all &messages"
 msgstr "Показати всі &повідомлення"
 
-#: DlgEventLog.cpp:348 DlgEventLog.cpp:350
+#: DlgEventLog.cpp:349 DlgEventLog.cpp:351
 msgid "Show messages for all projects"
 msgstr "Показати повідомлення для всіх проектів"
 
-#: DlgEventLog.cpp:354 DlgEventLog.cpp:356
+#: DlgEventLog.cpp:355 DlgEventLog.cpp:357
 msgid "Show only the messages for the selected project"
 msgstr "Показувати повідомлення тільки для обраного проекту"
 
@@ -1709,7 +1709,7 @@ msgid "Remember this decision and do not show this dialog."
 msgstr "Запам'ятати вибір і більше не показувати це вікно."
 
 #: DlgExitMessage.cpp:178 DlgGenericMessage.cpp:125 DlgOptions.cpp:401
-#: DlgSelectComputer.cpp:167 wizardex.cpp:378
+#: DlgSelectComputer.cpp:168 wizardex.cpp:378
 msgid "&Cancel"
 msgstr "&Скасувати"
 
@@ -2021,7 +2021,7 @@ msgstr "Залишити поля порожніми, якщо не викори
 msgid "User Name:"
 msgstr "Ім'я користувача:"
 
-#: DlgOptions.cpp:317 DlgOptions.cpp:381 DlgSelectComputer.cpp:151
+#: DlgOptions.cpp:317 DlgOptions.cpp:381 DlgSelectComputer.cpp:152
 #: ProxyPage.cpp:346 ProxyPage.cpp:366
 msgid "Password:"
 msgstr "Пароль:"
@@ -2081,12 +2081,12 @@ msgstr ""
 "Мову інтерфейсу програми %s було змінено, для вступу в силу змін потрібно "
 "перезапустити %s."
 
-#: DlgSelectComputer.cpp:90
+#: DlgSelectComputer.cpp:91
 #, c-format
 msgid "%s - Select Computer"
 msgstr "%s - Вибір комп'ютера"
 
-#: DlgSelectComputer.cpp:124
+#: DlgSelectComputer.cpp:125
 #, c-format
 msgid ""
 "Another instance of %s is already running \n"
@@ -2095,7 +2095,7 @@ msgstr ""
 "Інший примірник %s вже працює \n"
 "на даному комп'ютері.  Будь-ласка, виберіть клієнт для моніторингу."
 
-#: DlgSelectComputer.cpp:142
+#: DlgSelectComputer.cpp:143
 msgid "Host name:"
 msgstr "Назва хоста:"
 
@@ -2620,11 +2620,11 @@ msgstr "Цей проект вже додано. Виберіть інший."
 msgid "Communicating with project."
 msgstr "Встановлення зв’язку з проектом."
 
-#: ProjectProcessingPage.cpp:507
+#: ProjectProcessingPage.cpp:509
 msgid "Required files not found on the server."
 msgstr "Необхідні файли на сервері не знайдено."
 
-#: ProjectProcessingPage.cpp:510 ProjectProcessingPage.cpp:572
+#: ProjectProcessingPage.cpp:512 ProjectProcessingPage.cpp:574
 msgid "An internal server error has occurred."
 msgstr "Сталася внутрішня помилка сервера."
 
@@ -2733,8 +2733,8 @@ msgid "I agree to the terms of use."
 msgstr "Я згоден з умовами використання."
 
 #: TermsOfUsePage.cpp:237
-msgid "I do not agree with the terms of use."
-msgstr "Я не згоден з умовами використання."
+msgid "I do not agree to the terms of use."
+msgstr ""
 
 #: UnavailablePage.cpp:183
 msgid "Project temporarily unavailable"
@@ -3964,6 +3964,9 @@ msgstr "Показати все"
 #, c-format
 msgid "Quit %s"
 msgstr "Вийти %s"
+
+#~ msgid "I do not agree with the terms of use."
+#~ msgstr "Я не згоден з умовами використання."
 
 #~ msgid "Click Clear to restore web-based settings."
 #~ msgstr "Натисніть 'Очистити' для повернення веб-налаштувань."
