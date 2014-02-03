@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 5.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-26 00:00-0800\n"
+"POT-Creation-Date: 2014-02-02 00:00-0800\n"
 "PO-Revision-Date: 2014-01-19 08:32+0000\n"
 "Last-Translator: Gabor <csega@mailbox.hu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
@@ -535,7 +535,7 @@ msgstr "&Aktivitás"
 msgid "A&dvanced"
 msgstr "&Haladó"
 
-#: AdvancedFrame.cpp:712 DlgEventLog.cpp:331 sg_BoincSimpleFrame.cpp:267
+#: AdvancedFrame.cpp:712 DlgEventLog.cpp:332 sg_BoincSimpleFrame.cpp:267
 #: wizardex.cpp:374 wizardex.cpp:381
 msgid "&Help"
 msgstr "&Segítség"
@@ -574,27 +574,27 @@ msgstr ""
 "%s leállítja a jelenleg kapcsolódott klienst,\n"
 "és javasol Önnek egy másik klienst, amihez csatlakozhat.\n"
 
-#: AdvancedFrame.cpp:1738 DlgAbout.cpp:119
+#: AdvancedFrame.cpp:1745 DlgAbout.cpp:119
 #, c-format
 msgid "%s"
 msgstr "%s"
 
-#: AdvancedFrame.cpp:1747
+#: AdvancedFrame.cpp:1754
 #, c-format
 msgid "%s has successfully added %s"
 msgstr "%s sikeresen hozzáadva ehhez: %s"
 
-#: AdvancedFrame.cpp:1886
+#: AdvancedFrame.cpp:1893
 #, c-format
 msgid "%s - (%s)"
 msgstr "%s - (%s)"
 
-#: AdvancedFrame.cpp:1890
+#: AdvancedFrame.cpp:1897
 #, c-format
 msgid "Connecting to %s"
 msgstr "Kapcsolódás %s-hoz"
 
-#: AdvancedFrame.cpp:1893
+#: AdvancedFrame.cpp:1900
 #, c-format
 msgid "Connected to %s (%s)"
 msgstr "Kapcsolódva ehhez: %s (%s)"
@@ -914,15 +914,15 @@ msgstr "a BOINC Kezelő több példányának futása engedélyezett"
 msgid "Not used: workaround for bug in XCode 4.2"
 msgstr "Nem használt: az XCode 4.2-ben található megoldás a hibára"
 
-#: BOINCGUIApp.cpp:805
+#: BOINCGUIApp.cpp:814
 msgid "(Automatic Detection)"
 msgstr "(Automatikus felismerés)"
 
-#: BOINCGUIApp.cpp:806
+#: BOINCGUIApp.cpp:815
 msgid "(Unknown)"
 msgstr "(Ismeretlen)"
 
-#: BOINCGUIApp.cpp:807
+#: BOINCGUIApp.cpp:816
 msgid "(User Defined)"
 msgstr "(Felhasználó által megadott)"
 
@@ -1106,7 +1106,7 @@ msgid "Berkeley Open Infrastructure for Network Computing"
 msgstr "Berkeley Nyílt Rendszer a Hálózati Számitásért (BOINC)"
 
 #: DlgAbout.cpp:208 DlgExitMessage.cpp:173 DlgGenericMessage.cpp:120
-#: DlgOptions.cpp:396 DlgSelectComputer.cpp:162
+#: DlgOptions.cpp:396 DlgSelectComputer.cpp:163
 msgid "&OK"
 msgstr "&OK"
 
@@ -1584,42 +1584,42 @@ msgstr "Alkalmazás eltávolítása ebből a listából"
 msgid "For advanced options, refer to "
 msgstr "Haladó beállításokhoz lásd"
 
-#: DlgEventLog.cpp:218
+#: DlgEventLog.cpp:219
 #, c-format
 msgid "%s - Event Log"
 msgstr "%s - Eseménynapló"
 
-#: DlgEventLog.cpp:231 ViewMessages.cpp:117 ViewProjects.cpp:219
+#: DlgEventLog.cpp:232 ViewMessages.cpp:117 ViewProjects.cpp:219
 #: ViewStatistics.cpp:435 ViewStatistics.cpp:2009 ViewTransfers.cpp:182
 #: ViewWork.cpp:232
 msgid "Project"
 msgstr "Projekt"
 
-#: DlgEventLog.cpp:232 ViewMessages.cpp:118
+#: DlgEventLog.cpp:233 ViewMessages.cpp:118
 msgid "Time"
 msgstr "Idő"
 
-#: DlgEventLog.cpp:233 ViewMessages.cpp:119
+#: DlgEventLog.cpp:234 ViewMessages.cpp:119
 msgid "Message"
 msgstr "Üzenet"
 
-#: DlgEventLog.cpp:289 DlgEventLog.cpp:353
+#: DlgEventLog.cpp:290 DlgEventLog.cpp:354
 msgid "&Show only this project"
 msgstr "&Csak ezt a projektet mutassa"
 
-#: DlgEventLog.cpp:293
+#: DlgEventLog.cpp:294
 msgid "Copy &All"
 msgstr "&Mindent másol"
 
-#: DlgEventLog.cpp:295 DlgEventLog.cpp:299 ViewMessages.cpp:89
+#: DlgEventLog.cpp:296 DlgEventLog.cpp:300 ViewMessages.cpp:89
 msgid "Copy all the messages to the clipboard."
 msgstr "Minden üzenet másolása a vágólapra."
 
-#: DlgEventLog.cpp:304
+#: DlgEventLog.cpp:305
 msgid "Copy &Selected"
 msgstr "&Kijelöltek másolása"
 
-#: DlgEventLog.cpp:307 DlgEventLog.cpp:315 ViewMessages.cpp:97
+#: DlgEventLog.cpp:308 DlgEventLog.cpp:316 ViewMessages.cpp:97
 msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
 "messages by holding down the shift or command key while clicking on messages."
@@ -1628,7 +1628,7 @@ msgstr ""
 "ha az üzenetkre történő kattintás közben nyomva tartja a Shift, vagy a "
 "parancsbillentyűt."
 
-#: DlgEventLog.cpp:309 DlgEventLog.cpp:317 ViewMessages.cpp:99
+#: DlgEventLog.cpp:310 DlgEventLog.cpp:318 ViewMessages.cpp:99
 msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
 "messages by holding down the shift or control key while clicking on messages."
@@ -1636,24 +1636,24 @@ msgstr ""
 "A kiválasztott üzenetek másolása a vágólapra. Több üzenetek is kiváaszthat a "
 "SHIFT vagy CTRL gombok lenyomásával, miközben az üzenetekre kattint."
 
-#: DlgEventLog.cpp:324 DlgItemProperties.cpp:67
+#: DlgEventLog.cpp:325 DlgItemProperties.cpp:67
 msgid "&Close"
 msgstr "&Bezárás"
 
-#: DlgEventLog.cpp:333 sg_BoincSimpleFrame.cpp:798 sg_DlgPreferences.cpp:442
+#: DlgEventLog.cpp:334 sg_BoincSimpleFrame.cpp:798 sg_DlgPreferences.cpp:442
 #, c-format
 msgid "Get help with %s"
 msgstr "Segítség ehhez: %s"
 
-#: DlgEventLog.cpp:347
+#: DlgEventLog.cpp:348
 msgid "Show all &messages"
 msgstr "&Minden üzenet mutatása"
 
-#: DlgEventLog.cpp:348 DlgEventLog.cpp:350
+#: DlgEventLog.cpp:349 DlgEventLog.cpp:351
 msgid "Show messages for all projects"
 msgstr "Az összes projekt üzeneteinek mutatása."
 
-#: DlgEventLog.cpp:354 DlgEventLog.cpp:356
+#: DlgEventLog.cpp:355 DlgEventLog.cpp:357
 msgid "Show only the messages for the selected project"
 msgstr "Csak a kiválasztott projekt üzeneteit mutassa"
 
@@ -1706,7 +1706,7 @@ msgid "Remember this decision and do not show this dialog."
 msgstr "Emlékezzen a döntésemre és ne mutassa többé ezt az ablakot."
 
 #: DlgExitMessage.cpp:178 DlgGenericMessage.cpp:125 DlgOptions.cpp:401
-#: DlgSelectComputer.cpp:167 wizardex.cpp:378
+#: DlgSelectComputer.cpp:168 wizardex.cpp:378
 msgid "&Cancel"
 msgstr "Mégsem"
 
@@ -2018,7 +2018,7 @@ msgstr "Csak szükség esetén töltse ki"
 msgid "User Name:"
 msgstr "Felhasználói név:"
 
-#: DlgOptions.cpp:317 DlgOptions.cpp:381 DlgSelectComputer.cpp:151
+#: DlgOptions.cpp:317 DlgOptions.cpp:381 DlgSelectComputer.cpp:152
 #: ProxyPage.cpp:346 ProxyPage.cpp:366
 msgid "Password:"
 msgstr "Jelszó:"
@@ -2078,12 +2078,12 @@ msgstr ""
 "A(z) %s alapértelmezett nyelve megváltozott, a változás érvénybe lépéséhez "
 "újra kell indítani %s-t."
 
-#: DlgSelectComputer.cpp:90
+#: DlgSelectComputer.cpp:91
 #, c-format
 msgid "%s - Select Computer"
 msgstr "%s - Számítógép kiválasztása"
 
-#: DlgSelectComputer.cpp:124
+#: DlgSelectComputer.cpp:125
 #, c-format
 msgid ""
 "Another instance of %s is already running \n"
@@ -2092,7 +2092,7 @@ msgstr ""
 "Jelenleg %s egy másik példánya is fut a számítógépen.\n"
 " Kérem válasszon egy klienst a megfigyeléshez."
 
-#: DlgSelectComputer.cpp:142
+#: DlgSelectComputer.cpp:143
 msgid "Host name:"
 msgstr "Számítógépnév:"
 
@@ -2617,11 +2617,11 @@ msgstr "Már hozzáadta ezt a projektet. Kérjük, válasszon másikat."
 msgid "Communicating with project."
 msgstr "Kommunikáció a projekttel."
 
-#: ProjectProcessingPage.cpp:507
+#: ProjectProcessingPage.cpp:509
 msgid "Required files not found on the server."
 msgstr "A szükséges fájlok nem találhatók a szerveren."
 
-#: ProjectProcessingPage.cpp:510 ProjectProcessingPage.cpp:572
+#: ProjectProcessingPage.cpp:512 ProjectProcessingPage.cpp:574
 msgid "An internal server error has occurred."
 msgstr "Belső szerverhiba történt."
 
@@ -2732,8 +2732,8 @@ msgid "I agree to the terms of use."
 msgstr "Elfogadom a felhasználási feltételeket."
 
 #: TermsOfUsePage.cpp:237
-msgid "I do not agree with the terms of use."
-msgstr "Nem fogadom el a felhasználási feltételeket."
+msgid "I do not agree to the terms of use."
+msgstr ""
 
 #: UnavailablePage.cpp:183
 msgid "Project temporarily unavailable"
@@ -3945,6 +3945,9 @@ msgstr "Mutasd mindet"
 #, c-format
 msgid "Quit %s"
 msgstr "%s bezárása"
+
+#~ msgid "I do not agree with the terms of use."
+#~ msgstr "Nem fogadom el a felhasználási feltételeket."
 
 #~ msgid "Click Clear to restore web-based settings."
 #~ msgstr "Kattintson a Törlésre a web-alapú beállítások visszaállításához."
