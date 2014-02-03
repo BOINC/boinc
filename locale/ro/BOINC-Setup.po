@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-01-26 00:00-0800\n"
-"PO-Revision-Date: 2013-11-18 18:37+0000\n"
+"PO-Revision-Date: 2014-02-03 14:58+0000\n"
 "Last-Translator: Marius <marius.sirbu@outlook.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: ro\n"
@@ -20,7 +20,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: mac_installer\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-Basepath: /Volumes/Cheer/BOINC_GIT/boinc_trunk\n"
-"X-POOTLE-MTIME: 1384799834.0\n"
+"X-POOTLE-MTIME: 1391439498.0\n"
 "X-Poedit-KeywordsList: _\n"
 
 #: Installer.cpp:124
@@ -111,6 +111,8 @@ msgid ""
 "Do you also want to remove VirtualBox from your computer?\n"
 "(VirtualBox was installed along with BOINC.)"
 msgstr ""
+"Doriţi să ştergeţi şi VirtualBox de pe calculatorul dumneavoastră?\n"
+"(VirtualBox a fost instalat împreună cu BOINC.)"
 
 #: uninstall.cpp:312
 #, c-format

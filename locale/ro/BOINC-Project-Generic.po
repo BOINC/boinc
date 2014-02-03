@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2014-01-10 00:00 PST\n"
-"PO-Revision-Date: 2013-11-26 07:26+0000\n"
+"PO-Revision-Date: 2014-02-03 15:06+0000\n"
 "Last-Translator: Marius <marius.sirbu@outlook.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: ro\n"
@@ -18,7 +18,7 @@ msgstr ""
 "20)) ? 1 : 2);;\n"
 "X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-POOTLE-MTIME: 1385450819.0\n"
+"X-POOTLE-MTIME: 1391440007.0\n"
 
 msgid "LANG_NAME_NATIVE"
 msgstr "Română"
@@ -5305,7 +5305,7 @@ msgstr ""
 
 #: ../user/results.php:56
 msgid "No computer with ID %1 found"
-msgstr ""
+msgstr "Nu s-a găsit un calcultor cu ID %1"
 
 #: ../user/results.php:63
 msgid "No access"
@@ -6060,6 +6060,8 @@ msgstr ""
 #: ../user/team_lookup.php:98
 msgid "More than 100 teams match your search. The first 100 are shown."
 msgstr ""
+"Mai mult de 100 de echipe se potrivesc căutării. Doar primele 100 sunt "
+"afişate."
 
 #: ../user/team_lookup.php:104
 msgid ""
@@ -6231,7 +6233,7 @@ msgstr "Nume (ID)"
 
 #: ../user/team_remove_inactive_form.php:65
 msgid "No members are eligible for removal."
-msgstr ""
+msgstr "Nu există membri care să poată fi şterşi."
 
 #: ../user/team_remove_inactive_form.php:68
 msgid "Remove users"
@@ -6248,10 +6250,11 @@ msgstr "Reultate căutare echipă"
 #: ../user/team_search.php:94
 msgid "No teams were found matching your criteria. Try another search."
 msgstr ""
+"Nicio echipă gasită folosind criteriul de căutare. Încercaţi o altă căutare."
 
 #: ../user/team_search.php:96
 msgid "Or you can %1create a new team%2."
-msgstr ""
+msgstr "Sau puteţi %1crea o nouă echipă%2."
 
 #: ../user/team_search.php:100
 msgid ""
