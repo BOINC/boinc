@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-26 00:00-0800\n"
+"POT-Creation-Date: 2014-02-02 00:00-0800\n"
 "PO-Revision-Date: 2013-10-21 15:23+0000\n"
 "Last-Translator: chris g <chr1407@hotmail.com>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
@@ -547,7 +547,7 @@ msgstr "&Δραστηριότητα"
 msgid "A&dvanced"
 msgstr "&Για προχωρημένους"
 
-#: AdvancedFrame.cpp:712 DlgEventLog.cpp:331 sg_BoincSimpleFrame.cpp:267
+#: AdvancedFrame.cpp:712 DlgEventLog.cpp:332 sg_BoincSimpleFrame.cpp:267
 #: wizardex.cpp:374 wizardex.cpp:381
 msgid "&Help"
 msgstr "&Βοήθεια"
@@ -586,27 +586,27 @@ msgstr ""
 "%s θα κλείσει το τρέχον πρόγραμμα\n"
 "και θα σας παρακινήσει για να συνδεθείτε σε άλλο πάροχο."
 
-#: AdvancedFrame.cpp:1738 DlgAbout.cpp:119
+#: AdvancedFrame.cpp:1745 DlgAbout.cpp:119
 #, c-format
 msgid "%s"
 msgstr "%s"
 
-#: AdvancedFrame.cpp:1747
+#: AdvancedFrame.cpp:1754
 #, c-format
 msgid "%s has successfully added %s"
 msgstr "%s προσέθεσε επιτυχώς το %s"
 
-#: AdvancedFrame.cpp:1886
+#: AdvancedFrame.cpp:1893
 #, c-format
 msgid "%s - (%s)"
 msgstr "%s - (%s)"
 
-#: AdvancedFrame.cpp:1890
+#: AdvancedFrame.cpp:1897
 #, c-format
 msgid "Connecting to %s"
 msgstr "Σύνδεση στο %s"
 
-#: AdvancedFrame.cpp:1893
+#: AdvancedFrame.cpp:1900
 #, c-format
 msgid "Connected to %s (%s)"
 msgstr "Συνδέθηκε στο %s (%s)"
@@ -931,15 +931,15 @@ msgstr ""
 msgid "Not used: workaround for bug in XCode 4.2"
 msgstr ""
 
-#: BOINCGUIApp.cpp:805
+#: BOINCGUIApp.cpp:814
 msgid "(Automatic Detection)"
 msgstr "(Αυτόματη Αναγνώριση)"
 
-#: BOINCGUIApp.cpp:806
+#: BOINCGUIApp.cpp:815
 msgid "(Unknown)"
 msgstr "(Άγνωστο)"
 
-#: BOINCGUIApp.cpp:807
+#: BOINCGUIApp.cpp:816
 msgid "(User Defined)"
 msgstr "(Καθορισμός από το Χρήστη)"
 
@@ -1126,7 +1126,7 @@ msgid "Berkeley Open Infrastructure for Network Computing"
 msgstr "Berkeley Open Infrastructure for Network Computing"
 
 #: DlgAbout.cpp:208 DlgExitMessage.cpp:173 DlgGenericMessage.cpp:120
-#: DlgOptions.cpp:396 DlgSelectComputer.cpp:162
+#: DlgOptions.cpp:396 DlgSelectComputer.cpp:163
 msgid "&OK"
 msgstr "Εντάξει"
 
@@ -1606,45 +1606,45 @@ msgstr "Αφαίρεση μιας εφαρμογής απο τη λίστα"
 msgid "For advanced options, refer to "
 msgstr "Για προχωρημένες επιλογές, ανατρέξτε στο"
 
-#: DlgEventLog.cpp:218
+#: DlgEventLog.cpp:219
 #, c-format
 msgid "%s - Event Log"
 msgstr "%s - Καταγραφέας Συμβάντων"
 
-#: DlgEventLog.cpp:231 ViewMessages.cpp:117 ViewProjects.cpp:219
+#: DlgEventLog.cpp:232 ViewMessages.cpp:117 ViewProjects.cpp:219
 #: ViewStatistics.cpp:435 ViewStatistics.cpp:2009 ViewTransfers.cpp:182
 #: ViewWork.cpp:232
 msgid "Project"
 msgstr "Πρόγραμμα"
 
-#: DlgEventLog.cpp:232 ViewMessages.cpp:118
+#: DlgEventLog.cpp:233 ViewMessages.cpp:118
 msgid "Time"
 msgstr "Χρόνος"
 
-#: DlgEventLog.cpp:233 ViewMessages.cpp:119
+#: DlgEventLog.cpp:234 ViewMessages.cpp:119
 msgid "Message"
 msgstr "Μήνυμα"
 
-#: DlgEventLog.cpp:289 DlgEventLog.cpp:353
+#: DlgEventLog.cpp:290 DlgEventLog.cpp:354
 #, fuzzy
 msgid "&Show only this project"
 msgstr "&Εμφάνιση μόνο αυτού του προγράμματος"
 
-#: DlgEventLog.cpp:293
+#: DlgEventLog.cpp:294
 #, fuzzy
 msgid "Copy &All"
 msgstr "Αντιγραφή &Όλων"
 
-#: DlgEventLog.cpp:295 DlgEventLog.cpp:299 ViewMessages.cpp:89
+#: DlgEventLog.cpp:296 DlgEventLog.cpp:300 ViewMessages.cpp:89
 msgid "Copy all the messages to the clipboard."
 msgstr "Αντιγραφή όλων των μηνυμάτων στο πρόχειρο"
 
-#: DlgEventLog.cpp:304
+#: DlgEventLog.cpp:305
 #, fuzzy
 msgid "Copy &Selected"
 msgstr "Αντιγραφή Επιλεγμένων"
 
-#: DlgEventLog.cpp:307 DlgEventLog.cpp:315 ViewMessages.cpp:97
+#: DlgEventLog.cpp:308 DlgEventLog.cpp:316 ViewMessages.cpp:97
 msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
 "messages by holding down the shift or command key while clicking on messages."
@@ -1653,7 +1653,7 @@ msgstr ""
 "πολλαπλά μηνύματα κρατώντας πατημένο το κουμπί shift ή control ενώ πατάτε "
 "στα μηνύματα."
 
-#: DlgEventLog.cpp:309 DlgEventLog.cpp:317 ViewMessages.cpp:99
+#: DlgEventLog.cpp:310 DlgEventLog.cpp:318 ViewMessages.cpp:99
 msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
 "messages by holding down the shift or control key while clicking on messages."
@@ -1662,25 +1662,25 @@ msgstr ""
 "πολλαπλά μηνύματα κρατώντας πατημένο το κουμπί shift ή control όταν κάνετε "
 "κλίκ στα μηνύματα."
 
-#: DlgEventLog.cpp:324 DlgItemProperties.cpp:67
+#: DlgEventLog.cpp:325 DlgItemProperties.cpp:67
 msgid "&Close"
 msgstr "&Έξοδος"
 
-#: DlgEventLog.cpp:333 sg_BoincSimpleFrame.cpp:798 sg_DlgPreferences.cpp:442
+#: DlgEventLog.cpp:334 sg_BoincSimpleFrame.cpp:798 sg_DlgPreferences.cpp:442
 #, c-format
 msgid "Get help with %s"
 msgstr ""
 
-#: DlgEventLog.cpp:347
+#: DlgEventLog.cpp:348
 #, fuzzy
 msgid "Show all &messages"
 msgstr "Εμφάνιση όλων των μηνυμάτων"
 
-#: DlgEventLog.cpp:348 DlgEventLog.cpp:350
+#: DlgEventLog.cpp:349 DlgEventLog.cpp:351
 msgid "Show messages for all projects"
 msgstr "Εμφάνιση μηνυμάτων για όλα τα έργα."
 
-#: DlgEventLog.cpp:354 DlgEventLog.cpp:356
+#: DlgEventLog.cpp:355 DlgEventLog.cpp:357
 msgid "Show only the messages for the selected project"
 msgstr "Εμφάνιση μόνο των μηνυμάτων για το επιλεγμένο έργο"
 
@@ -1731,7 +1731,7 @@ msgstr ""
 "Να απομνημονευτεί η απόφαση και να μην εμφανιστεί ξανά αυτό το παράθυρο."
 
 #: DlgExitMessage.cpp:178 DlgGenericMessage.cpp:125 DlgOptions.cpp:401
-#: DlgSelectComputer.cpp:167 wizardex.cpp:378
+#: DlgSelectComputer.cpp:168 wizardex.cpp:378
 msgid "&Cancel"
 msgstr "Ακύρωση"
 
@@ -2051,7 +2051,7 @@ msgstr "Αφήστε τα κενά εάν δεν χρειάζονται"
 msgid "User Name:"
 msgstr "Όνομα Χρήστη"
 
-#: DlgOptions.cpp:317 DlgOptions.cpp:381 DlgSelectComputer.cpp:151
+#: DlgOptions.cpp:317 DlgOptions.cpp:381 DlgSelectComputer.cpp:152
 #: ProxyPage.cpp:346 ProxyPage.cpp:366
 msgid "Password:"
 msgstr "Κωδικός:"
@@ -2114,12 +2114,12 @@ msgstr ""
 "Η %s γλώσσα έχει αλλάξει.  Για να τεθεί σε εφαρμογή αυτή η αλλαγή, πρέπει να "
 "επανεκκινήσετε το %s."
 
-#: DlgSelectComputer.cpp:90
+#: DlgSelectComputer.cpp:91
 #, c-format
 msgid "%s - Select Computer"
 msgstr "%s - Επιλογή Υπολογιστή"
 
-#: DlgSelectComputer.cpp:124
+#: DlgSelectComputer.cpp:125
 #, c-format
 msgid ""
 "Another instance of %s is already running \n"
@@ -2129,7 +2129,7 @@ msgstr ""
 "σε αυτόν τον υπολογιστή. Παρακαλώ επιλέξτε ένα άλλο πρόγραμμα για να "
 "παρακολουθήσετε."
 
-#: DlgSelectComputer.cpp:142
+#: DlgSelectComputer.cpp:143
 msgid "Host name:"
 msgstr "Όνομα host:"
 
@@ -2661,11 +2661,11 @@ msgstr ""
 msgid "Communicating with project."
 msgstr "Επικοινωνία με το έργο."
 
-#: ProjectProcessingPage.cpp:507
+#: ProjectProcessingPage.cpp:509
 msgid "Required files not found on the server."
 msgstr "Απαραίτητα αρχεία δε βρέθηκαν στον διακομιστή."
 
-#: ProjectProcessingPage.cpp:510 ProjectProcessingPage.cpp:572
+#: ProjectProcessingPage.cpp:512 ProjectProcessingPage.cpp:574
 msgid "An internal server error has occurred."
 msgstr "Προέκυψε ένα εσωτερικό σφάλμα στον διακομιστή."
 
@@ -2778,8 +2778,8 @@ msgid "I agree to the terms of use."
 msgstr "Συμφωνώ στους όρους χρήσης."
 
 #: TermsOfUsePage.cpp:237
-msgid "I do not agree with the terms of use."
-msgstr "Δε συμφωνώ με τους όρους χρήσης."
+msgid "I do not agree to the terms of use."
+msgstr ""
 
 #: UnavailablePage.cpp:183
 msgid "Project temporarily unavailable"
@@ -4002,6 +4002,9 @@ msgstr ""
 #, fuzzy, c-format
 msgid "Quit %s"
 msgstr "&Έξοδος %s"
+
+#~ msgid "I do not agree with the terms of use."
+#~ msgstr "Δε συμφωνώ με τους όρους χρήσης."
 
 #~ msgid "Workunit name"
 #~ msgstr "Όνομα εργασίας"
