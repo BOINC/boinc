@@ -2719,8 +2719,9 @@ msgid "I agree to the terms of use."
 msgstr "Eu concordo com os termos de uso."
 
 #: TermsOfUsePage.cpp:237
+#, fuzzy
 msgid "I do not agree to the terms of use."
-msgstr ""
+msgstr "Eu não concordo com os termos de uso."
 
 #: UnavailablePage.cpp:183
 msgid "Project temporarily unavailable"
