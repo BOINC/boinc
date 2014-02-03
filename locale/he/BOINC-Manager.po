@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC 6.10.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-26 00:00-0800\n"
+"POT-Creation-Date: 2014-02-02 00:00-0800\n"
 "PO-Revision-Date: 2012-04-26 04:05+0000\n"
 "Last-Translator: Ido <dj_legolas1@hotmail.com>\n"
 "Language-Team: IOPanel.net\n"
@@ -532,7 +532,7 @@ msgstr "&פעילות"
 msgid "A&dvanced"
 msgstr "&מתקדם"
 
-#: AdvancedFrame.cpp:712 DlgEventLog.cpp:331 sg_BoincSimpleFrame.cpp:267
+#: AdvancedFrame.cpp:712 DlgEventLog.cpp:332 sg_BoincSimpleFrame.cpp:267
 #: wizardex.cpp:374 wizardex.cpp:381
 msgid "&Help"
 msgstr "&עזרה"
@@ -571,27 +571,27 @@ msgstr ""
 "%s יסגור את הקליינט המחובר כרגע\n"
 "ויבקש ממך להתחבר למחשב מארח אחר."
 
-#: AdvancedFrame.cpp:1738 DlgAbout.cpp:119
+#: AdvancedFrame.cpp:1745 DlgAbout.cpp:119
 #, c-format
 msgid "%s"
 msgstr "%s"
 
-#: AdvancedFrame.cpp:1747
+#: AdvancedFrame.cpp:1754
 #, c-format
 msgid "%s has successfully added %s"
 msgstr "%s הוסיף בהצלחה את %s"
 
-#: AdvancedFrame.cpp:1886
+#: AdvancedFrame.cpp:1893
 #, c-format
 msgid "%s - (%s)"
 msgstr "%s - (%s)"
 
-#: AdvancedFrame.cpp:1890
+#: AdvancedFrame.cpp:1897
 #, c-format
 msgid "Connecting to %s"
 msgstr "מתחבר ל-%s"
 
-#: AdvancedFrame.cpp:1893
+#: AdvancedFrame.cpp:1900
 #, c-format
 msgid "Connected to %s (%s)"
 msgstr "מחובר ל-%s (%s)"
@@ -904,15 +904,15 @@ msgstr "ריבוי עותקי BOINC Manager מאושר"
 msgid "Not used: workaround for bug in XCode 4.2"
 msgstr ""
 
-#: BOINCGUIApp.cpp:805
+#: BOINCGUIApp.cpp:814
 msgid "(Automatic Detection)"
 msgstr "(זיהויי אוטומטי)"
 
-#: BOINCGUIApp.cpp:806
+#: BOINCGUIApp.cpp:815
 msgid "(Unknown)"
 msgstr "(לא ידוע)"
 
-#: BOINCGUIApp.cpp:807
+#: BOINCGUIApp.cpp:816
 msgid "(User Defined)"
 msgstr "(מוגדר ע\"י משתמש)"
 
@@ -1097,7 +1097,7 @@ msgid "Berkeley Open Infrastructure for Network Computing"
 msgstr "Berkeley Open Infrastructure for Network Computing"
 
 #: DlgAbout.cpp:208 DlgExitMessage.cpp:173 DlgGenericMessage.cpp:120
-#: DlgOptions.cpp:396 DlgSelectComputer.cpp:162
+#: DlgOptions.cpp:396 DlgSelectComputer.cpp:163
 msgid "&OK"
 msgstr "&אישור"
 
@@ -1568,44 +1568,44 @@ msgstr "הסר אפליקציה מהרשימה"
 msgid "For advanced options, refer to "
 msgstr "לאפשרויות מתקדמות, עבור ל "
 
-#: DlgEventLog.cpp:218
+#: DlgEventLog.cpp:219
 #, c-format
 msgid "%s - Event Log"
 msgstr "%s - יומן אירועים"
 
-#: DlgEventLog.cpp:231 ViewMessages.cpp:117 ViewProjects.cpp:219
+#: DlgEventLog.cpp:232 ViewMessages.cpp:117 ViewProjects.cpp:219
 #: ViewStatistics.cpp:435 ViewStatistics.cpp:2009 ViewTransfers.cpp:182
 #: ViewWork.cpp:232
 msgid "Project"
 msgstr "פרוייקט"
 
-#: DlgEventLog.cpp:232 ViewMessages.cpp:118
+#: DlgEventLog.cpp:233 ViewMessages.cpp:118
 msgid "Time"
 msgstr "זמן"
 
-#: DlgEventLog.cpp:233 ViewMessages.cpp:119
+#: DlgEventLog.cpp:234 ViewMessages.cpp:119
 msgid "Message"
 msgstr "הודעה"
 
-#: DlgEventLog.cpp:289 DlgEventLog.cpp:353
+#: DlgEventLog.cpp:290 DlgEventLog.cpp:354
 msgid "&Show only this project"
 msgstr "&הצג פרוייקט זה בלבד"
 
-#: DlgEventLog.cpp:293
+#: DlgEventLog.cpp:294
 #, fuzzy
 msgid "Copy &All"
 msgstr "ה&עתק הכל"
 
-#: DlgEventLog.cpp:295 DlgEventLog.cpp:299 ViewMessages.cpp:89
+#: DlgEventLog.cpp:296 DlgEventLog.cpp:300 ViewMessages.cpp:89
 msgid "Copy all the messages to the clipboard."
 msgstr "העתק את כל ההודעות ללוח."
 
-#: DlgEventLog.cpp:304
+#: DlgEventLog.cpp:305
 #, fuzzy
 msgid "Copy &Selected"
 msgstr "העתק הודעות נבחרות"
 
-#: DlgEventLog.cpp:307 DlgEventLog.cpp:315 ViewMessages.cpp:97
+#: DlgEventLog.cpp:308 DlgEventLog.cpp:316 ViewMessages.cpp:97
 msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
 "messages by holding down the shift or command key while clicking on messages."
@@ -1613,7 +1613,7 @@ msgstr ""
 "העתק הודעות נבחרות ללוח. באפשרותך לבחור הודעות מרובות על ידי לחיצה ממושכת על "
 "לחצן shift או command בזמן הלחיצה על ההודעות."
 
-#: DlgEventLog.cpp:309 DlgEventLog.cpp:317 ViewMessages.cpp:99
+#: DlgEventLog.cpp:310 DlgEventLog.cpp:318 ViewMessages.cpp:99
 msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
 "messages by holding down the shift or control key while clicking on messages."
@@ -1621,26 +1621,26 @@ msgstr ""
 "העתק הודעות נבחרות ללוח. באפשרותך לבחור הודעות מרובות על ידי לחיצה ממושכת על "
 "לחצן shift או control בזמן הלחיצה על ההודעות."
 
-#: DlgEventLog.cpp:324 DlgItemProperties.cpp:67
+#: DlgEventLog.cpp:325 DlgItemProperties.cpp:67
 msgid "&Close"
 msgstr "&סגור"
 
-#: DlgEventLog.cpp:333 sg_BoincSimpleFrame.cpp:798 sg_DlgPreferences.cpp:442
+#: DlgEventLog.cpp:334 sg_BoincSimpleFrame.cpp:798 sg_DlgPreferences.cpp:442
 #, c-format
 #, fuzzy, c-format
 msgid "Get help with %s"
 msgstr "קבל עזרה עם %s"
 
-#: DlgEventLog.cpp:347
+#: DlgEventLog.cpp:348
 #, fuzzy
 msgid "Show all &messages"
 msgstr "ה&צג את כל ההודעות"
 
-#: DlgEventLog.cpp:348 DlgEventLog.cpp:350
+#: DlgEventLog.cpp:349 DlgEventLog.cpp:351
 msgid "Show messages for all projects"
 msgstr "הצג הודעות מכל הפרוייקטים"
 
-#: DlgEventLog.cpp:354 DlgEventLog.cpp:356
+#: DlgEventLog.cpp:355 DlgEventLog.cpp:357
 msgid "Show only the messages for the selected project"
 msgstr "הצג את ההודעות הקשורות לפרוייקט הנבחר בלבד"
 
@@ -1695,7 +1695,7 @@ msgid "Remember this decision and do not show this dialog."
 msgstr "זכור אפשרות זו ואל תציג חלון זה."
 
 #: DlgExitMessage.cpp:178 DlgGenericMessage.cpp:125 DlgOptions.cpp:401
-#: DlgSelectComputer.cpp:167 wizardex.cpp:378
+#: DlgSelectComputer.cpp:168 wizardex.cpp:378
 msgid "&Cancel"
 msgstr "&ביטול"
 
@@ -2014,7 +2014,7 @@ msgstr "השאר ריק במידה ולא נחוץ"
 msgid "User Name:"
 msgstr "שם משתמש"
 
-#: DlgOptions.cpp:317 DlgOptions.cpp:381 DlgSelectComputer.cpp:151
+#: DlgOptions.cpp:317 DlgOptions.cpp:381 DlgSelectComputer.cpp:152
 #: ProxyPage.cpp:346 ProxyPage.cpp:366
 msgid "Password:"
 msgstr "סיסמה:"
@@ -2073,12 +2073,12 @@ msgid ""
 msgstr ""
 "שפת ברירת המחדל של %s שונתה, על מנת ששינוי זה יכנס לתוקף עליך לאתחל את %s."
 
-#: DlgSelectComputer.cpp:90
+#: DlgSelectComputer.cpp:91
 #, c-format
 msgid "%s - Select Computer"
 msgstr "%s - בחר מחשב"
 
-#: DlgSelectComputer.cpp:124
+#: DlgSelectComputer.cpp:125
 #, c-format
 msgid ""
 "Another instance of %s is already running \n"
@@ -2087,7 +2087,7 @@ msgstr ""
 "עותק אחר של %s כבר רץ על מחשב זה.\n"
 "בחר קליינט לניתור."
 
-#: DlgSelectComputer.cpp:142
+#: DlgSelectComputer.cpp:143
 msgid "Host name:"
 msgstr "שם המחשב:"
 
@@ -2601,11 +2601,11 @@ msgstr "כבר הוספת פרוייקט זה. אנא בחר פרוייקט אח
 msgid "Communicating with project."
 msgstr "מתקשר עם הפרוייקט."
 
-#: ProjectProcessingPage.cpp:507
+#: ProjectProcessingPage.cpp:509
 msgid "Required files not found on the server."
 msgstr "קבצים דרושים לא נמצאו על השרת."
 
-#: ProjectProcessingPage.cpp:510 ProjectProcessingPage.cpp:572
+#: ProjectProcessingPage.cpp:512 ProjectProcessingPage.cpp:574
 msgid "An internal server error has occurred."
 msgstr "התרחשה שגיאת שרת פנימית."
 
@@ -2714,8 +2714,8 @@ msgid "I agree to the terms of use."
 msgstr "אני מסכים לתנאי השימוש."
 
 #: TermsOfUsePage.cpp:237
-msgid "I do not agree with the terms of use."
-msgstr "אני לא מסכים לתנאי השימוש."
+msgid "I do not agree to the terms of use."
+msgstr ""
 
 #: UnavailablePage.cpp:183
 msgid "Project temporarily unavailable"
@@ -3937,6 +3937,9 @@ msgstr "הצג הכל"
 #, c-format
 msgid "Quit %s"
 msgstr "הפסק %s"
+
+#~ msgid "I do not agree with the terms of use."
+#~ msgstr "אני לא מסכים לתנאי השימוש."
 
 #~ msgid "Workunit name"
 #~ msgstr "שם יחידת העבודה"
