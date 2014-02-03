@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-26 00:00-0800\n"
-"PO-Revision-Date: 2014-02-01 19:32+0000\n"
+"POT-Creation-Date: 2014-02-02 00:00-0800\n"
+"PO-Revision-Date: 2014-02-02 21:58+0000\n"
 "Last-Translator: Jerome Cadet <jerome.cadet@pobox.com>\n"
 "Language-Team: <fr@li.org>\n"
 "Language: fr\n"
@@ -20,7 +20,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCGIT\\boinc\n"
-"X-POOTLE-MTIME: 1391283178.0\n"
+"X-POOTLE-MTIME: 1391378324.0\n"
 
 # 81%
 #: AccountInfoPage.cpp:387
@@ -117,9 +117,9 @@ msgid ""
 "please do so before proceeding.  Click on the link below\n"
 "to register or to retrieve a forgotten password."
 msgstr ""
-"Si vous ne vous êtres pas encore inscrit à ce gestionnaire de compte, merci "
-"de la faire avant de continuer. Cliquez sur le lien ci-dessous pour vous "
-"enregistrer ou pour récupérer un mot de passe oublié."
+"Si vous ne vous êtres pas encore inscrit à ce gestionnaire de compte, \n"
+"merci de la faire avant de continuer. Cliquez sur le lien ci-dessous pour \n"
+"vous enregistrer ou pour récupérer un mot de passe oublié."
 
 #: AccountInfoPage.cpp:532
 msgid "Account manager web site"
@@ -168,17 +168,16 @@ msgid ""
 "To choose an account manager, click its name or \n"
 "type its URL below."
 msgstr ""
-"Pour choisir un gestionnaire de compte, cliquez sur son nom ou tapez son URL "
-"ci-dessous."
+"Pour choisir un gestionnaire de compte, cliquez sur son nom\n"
+"ou tapez son URL ci-dessous."
 
 #: AccountManagerInfoPage.cpp:279
 msgid "Account manager details:"
 msgstr "Détails sur le gestionnaire de compte:"
 
 #: AccountManagerInfoPage.cpp:283
-#, fuzzy
 msgid "Account manager &URL:"
-msgstr "&URL du gestionnaire de compte:"
+msgstr "URL du gestionnaire de compte:"
 
 #: AccountManagerInfoPage.cpp:287
 msgid "Open web page"
@@ -503,10 +502,9 @@ msgid "Show information about the %s"
 msgstr "Affiche les informations à propos du %s"
 
 #: AdvancedFrame.cpp:661 sg_BoincSimpleFrame.cpp:224
-#, c-format
-#, c-format, fuzzy
+#, c-format, c-format
 msgid "%s &web site"
-msgstr "&Site web de %s"
+msgstr "Site web de %s"
 
 #: AdvancedFrame.cpp:667 sg_BoincSimpleFrame.cpp:230
 #, c-format
@@ -542,7 +540,7 @@ msgstr "&Activité"
 msgid "A&dvanced"
 msgstr "A&vancé"
 
-#: AdvancedFrame.cpp:712 DlgEventLog.cpp:331 sg_BoincSimpleFrame.cpp:267
+#: AdvancedFrame.cpp:712 DlgEventLog.cpp:332 sg_BoincSimpleFrame.cpp:267
 #: wizardex.cpp:374 wizardex.cpp:381
 msgid "&Help"
 msgstr "&Aide"
@@ -561,8 +559,10 @@ msgid ""
 "\n"
 "Do you want to stop using %s?"
 msgstr ""
-"Si vous cessez d'utiliser %s, vous conserverez tous vos projets mais vous "
-"devrez les gérer manuellement.Voulez-vous cesser d'utiliser %s ?"
+"Si vous cessez d'utiliser %s, \n"
+"vous conserverez tous vos projets \n"
+"mais vous devrez les gérer manuellement.\n"
+"Voulez-vous cesser d'utiliser %s ?"
 
 #: AdvancedFrame.cpp:1401
 #, c-format
@@ -575,30 +575,30 @@ msgid ""
 "%s will shut down the current client\n"
 "and prompt you for another host to connect to."
 msgstr ""
-"%s arrêtera le client connecté,et vous invitera à vous connecter à un autre "
-"ordinateur."
+"%s arrêtera le client connecté\n"
+"et vous invitera à vous connecter à un autre ordinateur."
 
-#: AdvancedFrame.cpp:1738 DlgAbout.cpp:119
+#: AdvancedFrame.cpp:1745 DlgAbout.cpp:119
 #, c-format
 msgid "%s"
 msgstr "%s"
 
-#: AdvancedFrame.cpp:1747
+#: AdvancedFrame.cpp:1754
 #, c-format
 msgid "%s has successfully added %s"
 msgstr "%s a ajouté avec succès %s"
 
-#: AdvancedFrame.cpp:1886
+#: AdvancedFrame.cpp:1893
 #, c-format
 msgid "%s - (%s)"
 msgstr "%s - (%s)"
 
-#: AdvancedFrame.cpp:1890
+#: AdvancedFrame.cpp:1897
 #, c-format
 msgid "Connecting to %s"
 msgstr "Connexion à %s en cours"
 
-#: AdvancedFrame.cpp:1893
+#: AdvancedFrame.cpp:1900
 #, c-format
 msgid "Connected to %s (%s)"
 msgstr "Connecté à %s (%s)"
@@ -669,8 +669,9 @@ msgid ""
 "Please contact your administrator to add you to the 'boinc_users' local user "
 "group."
 msgstr ""
-"Vous n'êtes actuellement pas autorisé à gérer le client. Demandez à votre "
-"administrateur système de vous ajouter au groupe local \"boinc_users\"."
+"Vous n'êtes actuellement pas autorisé à gérer le client. \n"
+"Demandez à votre administrateur système de vous ajouter au groupe local "
+"\"boinc_users\"."
 
 #: BOINCBaseFrame.cpp:523
 msgid ""
@@ -717,9 +718,9 @@ msgid ""
 "Please launch the Control Panel->Administative Tools->Services applet and "
 "start the BOINC service."
 msgstr ""
-"%s ne peut pas démarrer un client %s.Merci d'ouvrir le Panneau de "
-"Contrôle->Outils d'Administration->Gestionnaire de Services et démarrez le "
-"service BOINC."
+"%s ne peut pas démarrer un client %s.\n"
+"Merci d'ouvrir le Panneau de Contrôle->Outils d'Administration->Gestionnaire "
+"de Services et démarrez le service BOINC."
 
 #: BOINCBaseFrame.cpp:638
 #, c-format
@@ -803,8 +804,8 @@ msgid ""
 "%s has detected it is now connected to the Internet.\n"
 "Updating all projects and retrying all transfers."
 msgstr ""
-"%s a détecté qu'il est maintenant connecté à Internet.Mise à jour de tous "
-"les projets et essais de transfert en cours."
+"%s a détecté qu'il est maintenant connecté à Internet.\n"
+"Mise à jour de tous les projets et essais de transfert en cours."
 
 #: BOINCDialupManager.cpp:417
 #, c-format
@@ -919,15 +920,15 @@ msgstr "instances multiples du gestionnaire BOINC autorisées"
 msgid "Not used: workaround for bug in XCode 4.2"
 msgstr "Non utilisé: contournement du bogue dans XCode 4.2"
 
-#: BOINCGUIApp.cpp:805
+#: BOINCGUIApp.cpp:814
 msgid "(Automatic Detection)"
 msgstr "(Détection automatique)"
 
-#: BOINCGUIApp.cpp:806
+#: BOINCGUIApp.cpp:815
 msgid "(Unknown)"
 msgstr "(Inconnu)"
 
-#: BOINCGUIApp.cpp:807
+#: BOINCGUIApp.cpp:816
 msgid "(User Defined)"
 msgstr "(Défini par l'utilisateur)"
 
@@ -1113,7 +1114,7 @@ msgid "Berkeley Open Infrastructure for Network Computing"
 msgstr "Berkeley Open Infrastructure for Network Computing"
 
 #: DlgAbout.cpp:208 DlgExitMessage.cpp:173 DlgGenericMessage.cpp:120
-#: DlgOptions.cpp:396 DlgSelectComputer.cpp:162
+#: DlgOptions.cpp:396 DlgSelectComputer.cpp:163
 msgid "&OK"
 msgstr "&OK"
 
@@ -1175,8 +1176,8 @@ msgid ""
 "Do you really want to clear all local preferences?\n"
 "(This will not affect exclusive applications.)"
 msgstr ""
-"Voulez-vous réellement supprimer vos préférences locales ? (cela n'affectera "
-"pas vos applications exclusives)"
+"Voulez-vous réellement supprimer vos préférences locales ? \n"
+"(cela n'affectera pas vos applications exclusives)"
 
 #: DlgAdvPreferences.cpp:1078 sg_DlgPreferences.cpp:1030
 msgid "Confirmation"
@@ -1594,42 +1595,42 @@ msgstr "Retirer une application de cette liste"
 msgid "For advanced options, refer to "
 msgstr "Pour les paramètres avancés, se référer à"
 
-#: DlgEventLog.cpp:218
+#: DlgEventLog.cpp:219
 #, c-format
 msgid "%s - Event Log"
 msgstr "%s - Journal des événements"
 
-#: DlgEventLog.cpp:231 ViewMessages.cpp:117 ViewProjects.cpp:219
+#: DlgEventLog.cpp:232 ViewMessages.cpp:117 ViewProjects.cpp:219
 #: ViewStatistics.cpp:435 ViewStatistics.cpp:2009 ViewTransfers.cpp:182
 #: ViewWork.cpp:232
 msgid "Project"
 msgstr "Projet"
 
-#: DlgEventLog.cpp:232 ViewMessages.cpp:118
+#: DlgEventLog.cpp:233 ViewMessages.cpp:118
 msgid "Time"
 msgstr "Date"
 
-#: DlgEventLog.cpp:233 ViewMessages.cpp:119
+#: DlgEventLog.cpp:234 ViewMessages.cpp:119
 msgid "Message"
 msgstr "Message"
 
-#: DlgEventLog.cpp:289 DlgEventLog.cpp:353
+#: DlgEventLog.cpp:290 DlgEventLog.cpp:354
 msgid "&Show only this project"
 msgstr "Ne montrer que ce projet"
 
-#: DlgEventLog.cpp:293
+#: DlgEventLog.cpp:294
 msgid "Copy &All"
 msgstr "Tout copier"
 
-#: DlgEventLog.cpp:295 DlgEventLog.cpp:299 ViewMessages.cpp:89
+#: DlgEventLog.cpp:296 DlgEventLog.cpp:300 ViewMessages.cpp:89
 msgid "Copy all the messages to the clipboard."
 msgstr "Copie tous les messages dans le presse-papiers"
 
-#: DlgEventLog.cpp:304
+#: DlgEventLog.cpp:305
 msgid "Copy &Selected"
 msgstr "Copier la sélection"
 
-#: DlgEventLog.cpp:307 DlgEventLog.cpp:315 ViewMessages.cpp:97
+#: DlgEventLog.cpp:308 DlgEventLog.cpp:316 ViewMessages.cpp:97
 msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
 "messages by holding down the shift or command key while clicking on messages."
@@ -1638,7 +1639,7 @@ msgstr ""
 "sélectionner plusieurs messages en maintenant appuyée la touche Shift ou "
 "Ctrl lorsque vous cliquez sur les messages."
 
-#: DlgEventLog.cpp:309 DlgEventLog.cpp:317 ViewMessages.cpp:99
+#: DlgEventLog.cpp:310 DlgEventLog.cpp:318 ViewMessages.cpp:99
 msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
 "messages by holding down the shift or control key while clicking on messages."
@@ -1647,24 +1648,24 @@ msgstr ""
 "sélectionner plusieurs messages en maintenant appuyée la touche Shift ou "
 "Ctrl lorsque vous cliquez sur les messages."
 
-#: DlgEventLog.cpp:324 DlgItemProperties.cpp:67
+#: DlgEventLog.cpp:325 DlgItemProperties.cpp:67
 msgid "&Close"
 msgstr "&Fermer"
 
-#: DlgEventLog.cpp:333 sg_BoincSimpleFrame.cpp:798 sg_DlgPreferences.cpp:442
+#: DlgEventLog.cpp:334 sg_BoincSimpleFrame.cpp:798 sg_DlgPreferences.cpp:442
 #, c-format
 msgid "Get help with %s"
 msgstr "Obtenir de l'aide avec %s"
 
-#: DlgEventLog.cpp:347
+#: DlgEventLog.cpp:348
 msgid "Show all &messages"
 msgstr "Montrer tous les messages"
 
-#: DlgEventLog.cpp:348 DlgEventLog.cpp:350
+#: DlgEventLog.cpp:349 DlgEventLog.cpp:351
 msgid "Show messages for all projects"
 msgstr "Montrer les messages de tous les projets."
 
-#: DlgEventLog.cpp:354 DlgEventLog.cpp:356
+#: DlgEventLog.cpp:355 DlgEventLog.cpp:357
 msgid "Show only the messages for the selected project"
 msgstr "Ne montrer que les messages du projet sélectionné."
 
@@ -1717,7 +1718,7 @@ msgid "Remember this decision and do not show this dialog."
 msgstr "Se rappeler de cette décision et ne plus afficher cette fenêtre."
 
 #: DlgExitMessage.cpp:178 DlgGenericMessage.cpp:125 DlgOptions.cpp:401
-#: DlgSelectComputer.cpp:167 wizardex.cpp:378
+#: DlgSelectComputer.cpp:168 wizardex.cpp:378
 msgid "&Cancel"
 msgstr "&Annuler"
 
@@ -2032,7 +2033,7 @@ msgstr "Laisser vide si non nécessaire"
 msgid "User Name:"
 msgstr "Nom d'utilisateur:"
 
-#: DlgOptions.cpp:317 DlgOptions.cpp:381 DlgSelectComputer.cpp:151
+#: DlgOptions.cpp:317 DlgOptions.cpp:381 DlgSelectComputer.cpp:152
 #: ProxyPage.cpp:346 ProxyPage.cpp:366
 msgid "Password:"
 msgstr "Mot de passe:"
@@ -2092,12 +2093,12 @@ msgstr ""
 "La langue par défaut du %s a été modifiée. Pour que le changement prenne "
 "effet, vous devez redémarrer le %s."
 
-#: DlgSelectComputer.cpp:90
+#: DlgSelectComputer.cpp:91
 #, c-format
 msgid "%s - Select Computer"
 msgstr "%s - Sélectionner un ordinateur"
 
-#: DlgSelectComputer.cpp:124
+#: DlgSelectComputer.cpp:125
 #, c-format
 msgid ""
 "Another instance of %s is already running \n"
@@ -2106,7 +2107,7 @@ msgstr ""
 "Une autre instance de %s est en cours d'exécution \n"
 "sur cet ordinateur. Veuillez sélectionnez un client à superviser."
 
-#: DlgSelectComputer.cpp:142
+#: DlgSelectComputer.cpp:143
 msgid "Host name:"
 msgstr "Nom d'hôte:"
 
@@ -2624,11 +2625,11 @@ msgstr "Vous avez déjà ajouté ce projet. Merci de choisir un projet différen
 msgid "Communicating with project."
 msgstr "Communication avec le projet en cours."
 
-#: ProjectProcessingPage.cpp:507
+#: ProjectProcessingPage.cpp:509
 msgid "Required files not found on the server."
 msgstr "Fichiers requis non trouvés sur le serveur."
 
-#: ProjectProcessingPage.cpp:510 ProjectProcessingPage.cpp:572
+#: ProjectProcessingPage.cpp:512 ProjectProcessingPage.cpp:574
 msgid "An internal server error has occurred."
 msgstr "Une erreur interne du serveur a eu lieu."
 
@@ -2741,7 +2742,7 @@ msgid "I agree to the terms of use."
 msgstr "J'accepte les conditions d'utilisation."
 
 #: TermsOfUsePage.cpp:237
-msgid "I do not agree with the terms of use."
+msgid "I do not agree to the terms of use."
 msgstr "Je n'accepte pas les conditions d'utilisation."
 
 #: UnavailablePage.cpp:183
@@ -3563,14 +3564,17 @@ msgid ""
 "Please choose which type of change you would like to make:\n"
 msgstr ""
 "Vous avez choisi d'ajouter un nouveau projet de calcul volontaire ou changez "
-"les projetsauxquels vous contribuez.Quelques projets sont exécutés et "
-"administrés par World Community Grid, quand d'autressont exécutés et "
-"administrés par d'autres chercheurs ou organisations. Le programme BOINCpeut "
-"diviser votre puissance de calcul que vous avez décidé de partager parmi "
-"une combinaison de projets.Sinon, si vous vous êtes enregistrés avec une "
-"Gestionnaire de compte BOINC, vous pouvez l'utiliserpour choisir quels "
-"projets supporter.S'il-vous-plaît, choisissez quel genre de changement vous "
-"voudriez faire:"
+"les projets auxquels vous contribuez.\n"
+"Quelques projets sont exécutés et administrés par World Community Grid, "
+"quand d'autres\n"
+"sont exécutés et administrés par d'autres chercheurs ou organisations. Le "
+"programme BOINC\n"
+"peut répartir la puissance de calcul que vous avez décidé de partager parmi "
+"une liste de projets.\n"
+"Sinon, si vous vous êtes enregistrés avec un Gestionnaire de compte BOINC, "
+"vous pouvez l'utiliser\n"
+"pour choisir quels projets supporter.\n"
+"S'il-vous-plaît, choisissez quel genre de changement vous voudriez faire:\n"
 
 #: WelcomePage.cpp:339
 msgid "Use a BOINC Account Manager"
@@ -3771,7 +3775,7 @@ msgstr "%d"
 
 #: sg_DlgPreferences.cpp:1029
 msgid "Do you really want to clear all local preferences?\n"
-msgstr "Voulez-vous vraiment annuler toutes les préférences locales ?"
+msgstr "Voulez-vous vraiment annuler toutes les préférences locales ?\n"
 
 # changement de terminologie boinc (cf. comm de David Anderson sur boinc_loc)
 #: sg_ProjectPanel.cpp:72
@@ -3982,6 +3986,9 @@ msgstr "Montrer tout"
 #, c-format
 msgid "Quit %s"
 msgstr "Quitter %s"
+
+#~ msgid "I do not agree with the terms of use."
+#~ msgstr "Je n'accepte pas les conditions d'utilisation."
 
 #~ msgid "Click Clear to restore web-based settings."
 #~ msgstr "Cliquez sur Effacer pour revenir aux réglages du site web."
