@@ -150,6 +150,8 @@
 	<string name="prefs_category_debug">Debug</string>
 	
 	<string name="prefs_show_advanced_header">Show advanced preferences and controls&#8230;</string>
+	<string name="prefs_stationary_device_mode_header">Stationary device mode</string>
+	<string name="prefs_stationary_device_mode_description">Allows computation regardless of Power preferences. Only enable if device does not have a battery.</string>
 	<string name="prefs_power_source_header">Power sources for computation</string>
 	<string name="prefs_power_source_description">Selects power sources BOINC is allowed to use for computation.</string>
 	<string name="prefs_power_source_ac">Wall socket</string>
