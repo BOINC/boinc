@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-26 00:00-0800\n"
+"POT-Creation-Date: 2014-02-02 00:00-0800\n"
 "PO-Revision-Date: 2013-01-20 16:11+0000\n"
 "Last-Translator: Pawel <pawel.pbm@gmail.com>\n"
 "Language-Team: Ruch Oporu Sekcja Badawcza <marekz@irc.pl>\n"
@@ -549,7 +549,7 @@ msgstr "&Aktywność"
 msgid "A&dvanced"
 msgstr "&Zaawansowane"
 
-#: AdvancedFrame.cpp:712 DlgEventLog.cpp:331 sg_BoincSimpleFrame.cpp:267
+#: AdvancedFrame.cpp:712 DlgEventLog.cpp:332 sg_BoincSimpleFrame.cpp:267
 #: wizardex.cpp:374 wizardex.cpp:381
 msgid "&Help"
 msgstr "&Pomoc"
@@ -588,28 +588,28 @@ msgstr ""
 "%s zamknie obecnie podłączonego klienta,\n"
 "i zapyta o nowego hosta do którego ma się podłączyć."
 
-#: AdvancedFrame.cpp:1738 DlgAbout.cpp:119
+#: AdvancedFrame.cpp:1745 DlgAbout.cpp:119
 #, c-format
 msgid "%s"
 msgstr "%s"
 
-#: AdvancedFrame.cpp:1747
+#: AdvancedFrame.cpp:1754
 #, c-format
 #, c-format, c-format
 msgid "%s has successfully added %s"
 msgstr "%s został pomyślnie dołączony do %s"
 
-#: AdvancedFrame.cpp:1886
+#: AdvancedFrame.cpp:1893
 #, c-format
 msgid "%s - (%s)"
 msgstr "%s - (%s)"
 
-#: AdvancedFrame.cpp:1890
+#: AdvancedFrame.cpp:1897
 #, c-format
 msgid "Connecting to %s"
 msgstr "Łączenie z %s"
 
-#: AdvancedFrame.cpp:1893
+#: AdvancedFrame.cpp:1900
 #, c-format
 msgid "Connected to %s (%s)"
 msgstr "Połączony z %s (%s)"
@@ -932,15 +932,15 @@ msgstr "zezwolono na wiele instancji Menedżera BOINC"
 msgid "Not used: workaround for bug in XCode 4.2"
 msgstr "Nie wykorzystywane: workaround dla błędu w XCode 4.2"
 
-#: BOINCGUIApp.cpp:805
+#: BOINCGUIApp.cpp:814
 msgid "(Automatic Detection)"
 msgstr "(Wykrywanie automatyczne)"
 
-#: BOINCGUIApp.cpp:806
+#: BOINCGUIApp.cpp:815
 msgid "(Unknown)"
 msgstr "(Nieznany)"
 
-#: BOINCGUIApp.cpp:807
+#: BOINCGUIApp.cpp:816
 msgid "(User Defined)"
 msgstr "(Użytkownika)"
 
@@ -1127,7 +1127,7 @@ msgstr ""
 "Otwarta Platforma Obliczeń Rozproszonych BOINC"
 
 #: DlgAbout.cpp:208 DlgExitMessage.cpp:173 DlgGenericMessage.cpp:120
-#: DlgOptions.cpp:396 DlgSelectComputer.cpp:162
+#: DlgOptions.cpp:396 DlgSelectComputer.cpp:163
 msgid "&OK"
 msgstr "&OK"
 
@@ -1610,42 +1610,42 @@ msgstr "Usuń aplikację z listy"
 msgid "For advanced options, refer to "
 msgstr "Dla zaawansowanych opcji zapoznaj się z"
 
-#: DlgEventLog.cpp:218
+#: DlgEventLog.cpp:219
 #, c-format
 msgid "%s - Event Log"
 msgstr "%s - Dziennik zdarzeń"
 
-#: DlgEventLog.cpp:231 ViewMessages.cpp:117 ViewProjects.cpp:219
+#: DlgEventLog.cpp:232 ViewMessages.cpp:117 ViewProjects.cpp:219
 #: ViewStatistics.cpp:435 ViewStatistics.cpp:2009 ViewTransfers.cpp:182
 #: ViewWork.cpp:232
 msgid "Project"
 msgstr "Projekt"
 
-#: DlgEventLog.cpp:232 ViewMessages.cpp:118
+#: DlgEventLog.cpp:233 ViewMessages.cpp:118
 msgid "Time"
 msgstr "Czas"
 
-#: DlgEventLog.cpp:233 ViewMessages.cpp:119
+#: DlgEventLog.cpp:234 ViewMessages.cpp:119
 msgid "Message"
 msgstr "Wiadomość"
 
-#: DlgEventLog.cpp:289 DlgEventLog.cpp:353
+#: DlgEventLog.cpp:290 DlgEventLog.cpp:354
 msgid "&Show only this project"
 msgstr "&Pokaż tylko ten projekt"
 
-#: DlgEventLog.cpp:293
+#: DlgEventLog.cpp:294
 msgid "Copy &All"
 msgstr "Kopiuj &wszystko"
 
-#: DlgEventLog.cpp:295 DlgEventLog.cpp:299 ViewMessages.cpp:89
+#: DlgEventLog.cpp:296 DlgEventLog.cpp:300 ViewMessages.cpp:89
 msgid "Copy all the messages to the clipboard."
 msgstr "Kopiuje wszystkie wiadomości do schowka."
 
-#: DlgEventLog.cpp:304
+#: DlgEventLog.cpp:305
 msgid "Copy &Selected"
 msgstr "&Kopiuj wybrane"
 
-#: DlgEventLog.cpp:307 DlgEventLog.cpp:315 ViewMessages.cpp:97
+#: DlgEventLog.cpp:308 DlgEventLog.cpp:316 ViewMessages.cpp:97
 msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
 "messages by holding down the shift or command key while clicking on messages."
@@ -1653,7 +1653,7 @@ msgstr ""
 "Kopiuje wybrane wiadomości do schowka. Możesz wybrać kilka wiadomości, "
 "używając klawiszy Shift lub Command podczas klikania na wiadomości."
 
-#: DlgEventLog.cpp:309 DlgEventLog.cpp:317 ViewMessages.cpp:99
+#: DlgEventLog.cpp:310 DlgEventLog.cpp:318 ViewMessages.cpp:99
 msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
 "messages by holding down the shift or control key while clicking on messages."
@@ -1661,24 +1661,24 @@ msgstr ""
 "Kopiuje wybrane wiadomości do schowka. Możesz wybrać kilka wiadomości, "
 "używając klawiszy Shift lub Ctrl podczas klikania na wiadomości."
 
-#: DlgEventLog.cpp:324 DlgItemProperties.cpp:67
+#: DlgEventLog.cpp:325 DlgItemProperties.cpp:67
 msgid "&Close"
 msgstr "&Zamknij"
 
-#: DlgEventLog.cpp:333 sg_BoincSimpleFrame.cpp:798 sg_DlgPreferences.cpp:442
+#: DlgEventLog.cpp:334 sg_BoincSimpleFrame.cpp:798 sg_DlgPreferences.cpp:442
 #, c-format
 msgid "Get help with %s"
 msgstr "Uzyskaj pomoc dla %s"
 
-#: DlgEventLog.cpp:347
+#: DlgEventLog.cpp:348
 msgid "Show all &messages"
 msgstr "&Pokaż wszystkie wiadomości"
 
-#: DlgEventLog.cpp:348 DlgEventLog.cpp:350
+#: DlgEventLog.cpp:349 DlgEventLog.cpp:351
 msgid "Show messages for all projects"
 msgstr "Pokazuje wiadomości dotyczące wszystkich projektów"
 
-#: DlgEventLog.cpp:354 DlgEventLog.cpp:356
+#: DlgEventLog.cpp:355 DlgEventLog.cpp:357
 msgid "Show only the messages for the selected project"
 msgstr "Pokazuje wiadomości związane tylko z wybranym projektem"
 
@@ -1733,7 +1733,7 @@ msgid "Remember this decision and do not show this dialog."
 msgstr "Zapamiętaj tę decyzję i nie pokazuj tego okna w przyszłości."
 
 #: DlgExitMessage.cpp:178 DlgGenericMessage.cpp:125 DlgOptions.cpp:401
-#: DlgSelectComputer.cpp:167 wizardex.cpp:378
+#: DlgSelectComputer.cpp:168 wizardex.cpp:378
 msgid "&Cancel"
 msgstr "&Anuluj"
 
@@ -2047,7 +2047,7 @@ msgstr "Pozostaw puste jeśli nie wymagane"
 msgid "User Name:"
 msgstr "Login:"
 
-#: DlgOptions.cpp:317 DlgOptions.cpp:381 DlgSelectComputer.cpp:151
+#: DlgOptions.cpp:317 DlgOptions.cpp:381 DlgSelectComputer.cpp:152
 #: ProxyPage.cpp:346 ProxyPage.cpp:366
 msgid "Password:"
 msgstr "Hasło:"
@@ -2104,12 +2104,12 @@ msgid ""
 "effect, you must restart the %s."
 msgstr ""
 
-#: DlgSelectComputer.cpp:90
+#: DlgSelectComputer.cpp:91
 #, c-format
 msgid "%s - Select Computer"
 msgstr "%s - Wybierz komputer"
 
-#: DlgSelectComputer.cpp:124
+#: DlgSelectComputer.cpp:125
 #, c-format
 msgid ""
 "Another instance of %s is already running \n"
@@ -2118,7 +2118,7 @@ msgstr ""
 "Inna instancja %s już działa na tym komputerze.\n"
 "Wybierz klienta do monitorowania."
 
-#: DlgSelectComputer.cpp:142
+#: DlgSelectComputer.cpp:143
 msgid "Host name:"
 msgstr "Nazwa komputera:"
 
@@ -2630,11 +2630,11 @@ msgstr "Jesteś już przyłączony do tego projektu. Wybierz inny projekt."
 msgid "Communicating with project."
 msgstr "Trwa wymiana informacji z serwerem."
 
-#: ProjectProcessingPage.cpp:507
+#: ProjectProcessingPage.cpp:509
 msgid "Required files not found on the server."
 msgstr "Wymagane pliki nie zostały odnalezione na serwerze."
 
-#: ProjectProcessingPage.cpp:510 ProjectProcessingPage.cpp:572
+#: ProjectProcessingPage.cpp:512 ProjectProcessingPage.cpp:574
 msgid "An internal server error has occurred."
 msgstr "Wystąpił wewnętrzny błąd serwera."
 
@@ -2743,8 +2743,8 @@ msgid "I agree to the terms of use."
 msgstr "Zgadzam się z zasadami użytkowania."
 
 #: TermsOfUsePage.cpp:237
-msgid "I do not agree with the terms of use."
-msgstr "Nie zgadzam się z zasadami użytkowania."
+msgid "I do not agree to the terms of use."
+msgstr ""
 
 #: UnavailablePage.cpp:183
 msgid "Project temporarily unavailable"
@@ -3958,6 +3958,9 @@ msgstr "Pokaż wszystkie"
 #, c-format, c-format
 msgid "Quit %s"
 msgstr "Zakończ %s"
+
+#~ msgid "I do not agree with the terms of use."
+#~ msgstr "Nie zgadzam się z zasadami użytkowania."
 
 #~ msgid "Click Clear to restore web-based settings."
 #~ msgstr "Naciśnij Wyczyść aby przywrócić preferencje z serwera."
