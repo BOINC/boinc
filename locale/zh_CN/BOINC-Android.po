@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2013-10-18 00:00-0700\n"
-"PO-Revision-Date: 2013-12-29 06:18+0000\n"
-"Last-Translator: Anonymous Pootle User\n"
+"PO-Revision-Date: 2014-02-03 01:14+0000\n"
+"Last-Translator: Gang <zenith.yin@gmail.com>\n"
 "Language-Team: zh_CN <LL@li.org>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
@@ -17,47 +17,47 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
-"X-POOTLE-MTIME: 1388297894.0\n"
+"X-POOTLE-MTIME: 1391390066.0\n"
 
 #. app global
 msgctxt "app_name"
 msgid "BOINC"
-msgstr "BOINC"
+msgstr "伯克利开放式网络计算平台（BOINC）"
 
 #. generic. used by multiple Activities/tabs
 msgctxt "generic_loading"
 msgid "Loading! Please wait…"
-msgstr ""
+msgstr "载入中！请稍候..."
 
 #. attach project
 #. project list
 msgctxt "attachproject_list_header"
 msgid "Choose a project:"
-msgstr ""
+msgstr "选择一个项目："
 
 msgctxt "attachproject_list_manual_button"
 msgid "Add project by URL"
-msgstr ""
+msgstr "通过网址添加项目"
 
 msgctxt "attachproject_list_manual_dialog_title"
 msgid "Enter project URL:"
-msgstr ""
+msgstr "输入项目网址："
 
 msgctxt "attachproject_list_manual_dialog_button"
 msgid "Add project"
-msgstr ""
+msgstr "添加项目"
 
 msgctxt "attachproject_list_manual_no_url"
 msgid "Please enter project URL"
-msgstr ""
+msgstr "请输入项目网址"
 
 msgctxt "attachproject_list_acctmgr_button"
 msgid "Add account manager"
-msgstr ""
+msgstr "添加账号管理器"
 
 msgctxt "attachproject_list_no_internet"
 msgid "No Internet connection"
-msgstr ""
+msgstr "无互联网连接"
 
 #. project login
 msgctxt "attachproject_login_loading"
@@ -214,7 +214,7 @@ msgstr ""
 
 msgctxt "attachproject_acctmgr_header_pwd_confirm"
 msgid "… Retype:"
-msgstr ""
+msgstr "… Повторити:"
 
 msgctxt "attachproject_acctmgr_button"
 msgid "Add"
@@ -255,7 +255,7 @@ msgstr ""
 
 msgctxt "attachproject_error_unknown"
 msgid "failed"
-msgstr ""
+msgstr "невдало"
 
 msgctxt "attachproject_error_bad_username"
 msgid "User name refused"
@@ -298,9 +298,10 @@ msgctxt "attachproject_working_check_desc"
 msgid "Successful"
 msgstr ""
 
+#, fuzzy
 msgctxt "attachproject_working_failed_desc"
 msgid "Failed"
-msgstr ""
+msgstr "невдало"
 
 msgctxt "attachproject_working_ongoing"
 msgid "…"

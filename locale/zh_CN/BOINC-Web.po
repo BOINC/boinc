@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 15349\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2013-11-12 00:00 PST\n"
+"POT-Creation-Date: 2014-02-01 00:00 PST\n"
 "PO-Revision-Date: 2013-09-21 07:57+0000\n"
 "Last-Translator: Gang <zenith.yin@gmail.com>\n"
 "Language-Team: Team China <zenith.yin@gmail.com>\n"
@@ -422,16 +422,16 @@ msgstr "想参加这些项目，你必须购买一个传感器并接入到你的
 msgid "Cognitive science and artifical intelligence"
 msgstr "认知科学与人工智能"
 
-#: projects.inc:50 projects.inc:342 projects.inc:386 projects.inc:435
-#: projects.inc:442 projects.inc:489
+#: projects.inc:60 projects.inc:364 projects.inc:408 projects.inc:457
+#: projects.inc:464 projects.inc:511
 msgid "Private"
 msgstr "个人项目"
 
-#: projects.inc:51
+#: projects.inc:61
 msgid "Artificial intelligence"
 msgstr "人工智能"
 
-#: projects.inc:52
+#: projects.inc:62
 msgid ""
 "Parse and convert semantic nets for use in FreeHAL, an artificial "
 "intelligence that uses semantic networks, stemmers, part of speech "
@@ -440,19 +440,19 @@ msgid ""
 msgstr ""
 "解析和转换用于 FreeHAL 的语义网，而 FreeHAL 是一个利用语义网络、词干提取、部分语音库、部分语音标签来模仿人类的交谈行为的人工智能。"
 
-#: projects.inc:58
+#: projects.inc:69
 msgid "Biology and Medicine"
 msgstr "生物学和医药学"
 
-#: projects.inc:71
+#: projects.inc:82
 msgid "University College Dublin"
 msgstr "都柏林大学"
 
-#: projects.inc:72
+#: projects.inc:83
 msgid "Antimalarial drug discovery"
 msgstr "寻找抗疟疾药物"
 
-#: projects.inc:73
+#: projects.inc:84
 msgid ""
 "The parasite that causes malaria continues to evolve resistance to available "
 "medication. We therefore urgently need to discover new drugs to replace "
@@ -463,15 +463,15 @@ msgstr ""
 "导致疟疾的寄生虫继续对可用药物产生抗药性。因此，我们迫切需要发现新的药物，以取代现有的药物。重要的是，这些新的药物需要针对新的寄生虫中的蛋白质。 "
 "FightMalaria@ Home项目的目的是在寻找这些新的靶点。"
 
-#: projects.inc:79
+#: projects.inc:90
 msgid "University of Karlsruhe (Germany)"
 msgstr "德国卡尔斯鲁厄（Karlsruhe）大学"
 
-#: projects.inc:80
+#: projects.inc:91
 msgid "Protein structure prediction"
 msgstr "蛋白质结构预测"
 
-#: projects.inc:81
+#: projects.inc:92
 msgid ""
 "POEM@HOME uses a computational approach to predict the biologically active "
 "structure of proteins, to understand the signal-processing mechanisms when "
@@ -482,15 +482,15 @@ msgstr ""
 "POEM@HOME "
 "通过计算的途径来预测蛋白质的生物结构、理解蛋白质之间交互的信号传递机制、理解疾病相关的蛋白质变异，并在生物学重要的蛋白质的三维结构的基础上开发新的药物。"
 
-#: projects.inc:87
+#: projects.inc:98
 msgid "University of Delaware"
 msgstr "美国特拉华大学"
 
-#: projects.inc:88
+#: projects.inc:99
 msgid "Study of protein - ligand interactions"
 msgstr "研究蛋白质和配体间的相互作用"
 
-#: projects.inc:89
+#: projects.inc:100
 msgid ""
 "Docking@Home has both bioscience and computer science goals. The project "
 "aims to further knowledge of the atomic details of protein-ligand "
@@ -499,15 +499,15 @@ msgid ""
 msgstr ""
 "Docking@Home 的研究目标既包括生物科学上的，也包括计算机科学上的。该项目试图了解蛋白质配体交互过程中的原子尺度的细节，并以此来寻找新的药物。"
 
-#: projects.inc:103
+#: projects.inc:114
 msgid "Barcelona Biomedical Research Park (PRBB)"
 msgstr "巴塞罗那生物医学研究园区（PRBB）"
 
-#: projects.inc:104
+#: projects.inc:115
 msgid "Molecular simulations of proteins"
 msgstr "蛋白质分子模拟"
 
-#: projects.inc:105
+#: projects.inc:116
 msgid ""
 "GPUGrid.net opens novel computational scenarios by the first full-atom "
 "molecular dynamics code (CellMD) specially optimized to run on NVIDIA GPUs. "
@@ -515,31 +515,31 @@ msgid ""
 "computational biology for biomedical research."
 msgstr "GPUGrid.net 利用 NVIDIA 的显卡（GPU）来进行全原子的分子动力学模拟。计算生物学的应用给生物医药学带来了新的研究方向。"
 
-#: projects.inc:111
+#: projects.inc:122
 msgid "Technion, Israel"
 msgstr "以色列理工大学"
 
-#: projects.inc:112
+#: projects.inc:123
 msgid "Genetic linkage analysis"
 msgstr "遗传连锁分析"
 
-#: projects.inc:113
+#: projects.inc:124
 msgid ""
 "Superlink@Technion helps geneticists all over the world find disease-"
 "provoking genes causing some types of diabetes, hypertension (high blood "
 "pressure), cancer, schizophrenia and many others."
 msgstr "Superlink@Technion 帮助全世界的遗传学家来寻找导致会导致某些类型疾病的基因，比如糖尿病、高血压、癌症、精神分裂等等。"
 
-#: projects.inc:127
+#: projects.inc:138
 msgid ""
 "University of Maryland Center for Bioinformatics and Computational Biology"
 msgstr "美国马里兰大学生物信息学和计算生物学中心"
 
-#: projects.inc:128
+#: projects.inc:139
 msgid "Life science research"
 msgstr "生命科学研究"
 
-#: projects.inc:129
+#: projects.inc:140
 msgid ""
 "The Lattice Project supplies computing power to scientists at the University "
 "of Maryland studying evolutionary relationships based on DNA sequence data; "
@@ -549,15 +549,15 @@ msgstr ""
 "The Lattice Project 为马里兰大学的科学家们提供计算资源，用于研究基于 DNA "
 "序列数据的进化关系，细菌、病毒蛋白质序列，还有自然界的生物多样性。"
 
-#: projects.inc:135
+#: projects.inc:146
 msgid "The Swiss Tropical Institute"
 msgstr "瑞士热带研究所"
 
-#: projects.inc:136
+#: projects.inc:147
 msgid "Epidemiology"
 msgstr "流行病学"
 
-#: projects.inc:137
+#: projects.inc:148
 msgid ""
 "Simulation models of the transmission dynamics and health effects of malaria "
 "are an important tool for malaria control. They can be used to determine "
@@ -570,15 +570,15 @@ msgstr ""
 "模拟疟疾的传播动力学模型，用于对疟疾的控制，包括如何才能对蚊帐、药物和正在研发测试过程中的疫苗等进行最优化的分发。相关的建模过程非常耗费计算资源，除了需"
 "要模拟相当大的人群分布，还要考虑生物学和社会学方面对疾病传播可能有影响的相关因素。"
 
-#: projects.inc:159
+#: projects.inc:170
 msgid "University of Washington"
 msgstr "美国华盛顿大学"
 
-#: projects.inc:160 projects.inc:168
+#: projects.inc:171 projects.inc:179
 msgid "Biology"
 msgstr "生物学"
 
-#: projects.inc:161
+#: projects.inc:172
 msgid ""
 "Determine the 3-dimensional shapes of proteins in research that may "
 "ultimately lead to finding cures for some major human diseases. By running "
@@ -590,30 +590,30 @@ msgstr ""
 "对蛋白质的三维结构进行预测，可能最终能帮助找到一些重大人类疾病的治疗方法。通过运行 Rosetta@home 你能够帮助我们加速这个进程，并能扩展我们的"
 "研究领域，而没有你们的帮助，这都是不可能完成的。除些之外，你还能帮助我们设计新的蛋白质，用来对抗类似爱滋、天花、癌症和老年痴呆症等疾病。"
 
-#: projects.inc:167
+#: projects.inc:178
 msgid "University of Vienna"
 msgstr "维也纳大学"
 
-#: projects.inc:169
+#: projects.inc:180
 msgid ""
 "Calculate similarities between proteins. SIMAP provides a public database of "
 "the resulting data, which plays a key role in many bioinformatics research "
 "projects."
 msgstr "计算蛋白质结构间的相似性。SIMAP 以公共数据库的形式发布其研究结果，该数据库对很多生物信息学研究项目有重要作用。"
 
-#: projects.inc:175
+#: projects.inc:186
 msgid "Earth Sciences"
 msgstr "地球科学"
 
-#: projects.inc:187
+#: projects.inc:198
 msgid "Oxford University"
 msgstr "英国牛津大学"
 
-#: projects.inc:188
+#: projects.inc:199
 msgid "Climate study"
 msgstr "气候研究"
 
-#: projects.inc:189
+#: projects.inc:200
 msgid ""
 "Investigate the approximations that have to be made in state-of-the-art "
 "climate models. By running the model thousands of times we hope to find out "
@@ -627,16 +627,25 @@ msgstr ""
 "研究最新的气候模型中的近似处理。通过将模型运行数千次，我们希望能研究模型对近似处理的反应，同时还要保证模型不能脱离于实际。这能够帮助我们加深对模型的理解"
 "，包括对二氧化碳、硫循环等的敏感程度。更进一步，这能够帮助我们了解下一个世纪的气候变化趋势，包括各种不同的场景。"
 
-# 75%
-#: projects.inc:196
-msgid "Astronomy, Physics, and Chemistry"
-msgstr "天文、物理和化学"
+#: projects.inc:207
+msgid "Physical Science"
+msgstr ""
 
-#: projects.inc:202 projects.inc:241 projects.inc:249
+#: projects.inc:213
+msgid "Mechanical engineering"
+msgstr ""
+
+#: projects.inc:214
+msgid ""
+"Currently we are calculating the optimum design of a structure call the 52 "
+"bar truss"
+msgstr ""
+
+#: projects.inc:224 projects.inc:263 projects.inc:271
 msgid "Astronomy"
 msgstr "天文学"
 
-#: projects.inc:203
+#: projects.inc:225
 msgid ""
 "We will combine the spectral coverage of GALEX, Pan-STARRS1, and WISE to "
 "generate a multi-wavelength UV-optical-NIR galaxy atlas for the nearby "
@@ -646,15 +655,15 @@ msgid ""
 "energy distribution (SED) fitting techniques in a distributed computing mode."
 msgstr ""
 
-#: projects.inc:225
+#: projects.inc:247
 msgid "University of Texas at Austin"
 msgstr "美国得克萨斯大学奥斯汀分校"
 
-#: projects.inc:226 projects.inc:257
+#: projects.inc:248 projects.inc:279
 msgid "Chemistry"
 msgstr "化学"
 
-#: projects.inc:227
+#: projects.inc:249
 msgid ""
 "A common problem in theoretical chemistry, condensed matter physics and "
 "materials science is the calculation of the time evolution of an atomic "
@@ -671,33 +680,33 @@ msgstr ""
 "这些系统的长时动力学过程进行计算。"
 
 # 95%
-#: projects.inc:240
+#: projects.inc:262
 msgid "University of Illinois at Urbana-Champaign"
 msgstr "伊利诺伊大学厄本那-香槟分校"
 
-#: projects.inc:242
+#: projects.inc:264
 msgid ""
 "The goal of Cosmology@Home is to search for the model that best describes "
 "our Universe and to find the range of models that agree with the available "
 "astronomical particle physics data."
 msgstr "Cosmology@Home 的目标是搜索可以描述我们宇宙的最适合的模型，并研究能够与天文观测数据相符的模型范围。"
 
-#: projects.inc:248
+#: projects.inc:270
 msgid "Rensselaer Polytechnic Institute"
 msgstr "伦斯勒理工学院"
 
-#: projects.inc:250
+#: projects.inc:272
 msgid ""
 "The goal of Milkyway@Home is to create a highly accurate three dimensional "
 "model of the Milky Way galaxy using data gathered by the Sloan Digital Sky "
 "Survey."
 msgstr "Milkeyway@Home 使用 Sloan 数字巡天的数据来对银河系进行高精度的三维建模。"
 
-#: projects.inc:256
+#: projects.inc:278
 msgid "Leiden University, The Netherlands"
 msgstr "荷兰莱顿大学"
 
-#: projects.inc:258
+#: projects.inc:280
 msgid ""
 "Surface science calculations using Classical Dynamics.  Leiden Classical "
 "allows volunteers, students and other scientist to submit their personal "
@@ -709,15 +718,15 @@ msgstr ""
 "使用经典力学进行表面科学的计算。Leiden Classical 允许志愿者、学者和其它科研人员提供他们自己的计算任务，每个用户都有他自己的经典力学任务"
 "队列。通过这种方式，学生们可以利用网格来对他们学习到的相关理论进行验证。"
 
-#: projects.inc:272
+#: projects.inc:294
 msgid "Univ. of Wisconsin - Milwaukee, Max Planck Institute"
 msgstr "美国威斯康星大学密尔沃基分校，德国马克斯普朗克研究所"
 
-#: projects.inc:273
+#: projects.inc:295
 msgid "Astrophysics"
 msgstr "天体物理学"
 
-#: projects.inc:274
+#: projects.inc:296
 msgid ""
 "Search for spinning neutron stars (also called pulsars) using data from the "
 "LIGO and GEO gravitational wave detectors, and from the Arecibo radio "
@@ -728,15 +737,15 @@ msgstr ""
 "分析 LIGO 和 GEO 引力波探测器以及阿雷西波观测站采集到的数据，以寻找自旋中子星（也称为脉冲星）。Einstein@Home 是 2005 "
 "世界物理学年的推介项目，由美国物理学会（APS）和一些相关的国际组织发起。"
 
-#: projects.inc:288 projects.inc:296
+#: projects.inc:310 projects.inc:318
 msgid "CERN (European Organization for Nuclear Research)"
 msgstr "CERN（欧洲核研究组织）"
 
-#: projects.inc:289 projects.inc:297
+#: projects.inc:311 projects.inc:319
 msgid "Physics"
 msgstr "物理学"
 
-#: projects.inc:290
+#: projects.inc:312
 msgid ""
 "The Large Hadron Collider (LHC) is a particle accelerator at CERN, the "
 "European Organization for Nuclear Research, the world's largest particle "
@@ -748,22 +757,22 @@ msgstr ""
 "CERN（欧洲核研究组织）的一个粒子加速器装置，也是世界上最大的粒子物理实验室。它是人类现有的用于研究基本粒子特性的最强大的实验装置。LHC@home "
 "的作用主要是对加速器进行模拟，并帮助改进 LHC 及其探测器的设计。"
 
-#: projects.inc:298
+#: projects.inc:320
 msgid ""
 "This project uses CERN-developed virtual machine technology for full-fledged "
 "LHC event physics simulation on volunteer computers.  Requires that you "
 "install VirtualBox on your computer"
 msgstr "该项目在志愿者的计算机上使用 CERN 开发的虚拟机技术来对 LHC 中发生的物理事件进行模拟。要求在你的计算机上安装 VirtualBox。"
 
-#: projects.inc:304
+#: projects.inc:326
 msgid "University of California, Berkeley"
 msgstr "美国加州大学伯克利分校"
 
-#: projects.inc:305
+#: projects.inc:327
 msgid "Astrophysics, astrobiology"
 msgstr "天体物理学，天体生物学"
 
-#: projects.inc:306
+#: projects.inc:328
 msgid ""
 "SETI (Search for Extraterrestrial Intelligence) is a scientific area whose "
 "goal is to detect intelligent life outside Earth. One approach, known as "
@@ -774,15 +783,15 @@ msgstr ""
 "SETI （搜索地外智能）的研究领域是探测地球之外的智慧生命。探测的途径之一，也被称之为射电 "
 "SETI，使用射电望远镜来监听太空中的窄波射电信号。因为依照人类目前的认识，这些信号不会自然产生，因此可以作为将其地外技术文明存在的证据。"
 
-#: projects.inc:320
+#: projects.inc:342
 msgid "Bielefeld University of Applied Sciences"
 msgstr "比勒费尔德（Bielefeld）应用技术大学"
 
-#: projects.inc:321
+#: projects.inc:343
 msgid "Chemical engineering and nanotechnology"
 msgstr "化学工程和纳米技术"
 
-#: projects.inc:322
+#: projects.inc:344
 msgid ""
 "The study of molecular magnets and controlled nanoscale magnetism.  These "
 "magnetic molecules may be used to develop tiny magnetic switches, with "
@@ -790,30 +799,30 @@ msgid ""
 "biotechnology."
 msgstr "研究分子磁体和纳米尺度的磁力学。这些分子磁体可用于研发微型磁性开关，适用于医药（比如肿瘤化疗）和生物技术领域。"
 
-#: projects.inc:329
+#: projects.inc:351
 msgid "Multiple applications"
 msgstr "多种计算程序"
 
-#: projects.inc:334
+#: projects.inc:356
 msgid "Chinese Academy of Sciences"
 msgstr "中国科学院"
 
-#: projects.inc:335
+#: projects.inc:357
 msgid "Physics, biochemistry, and others"
 msgstr "物理学、生物化学、其它"
 
-#: projects.inc:336
+#: projects.inc:358
 msgid ""
 "The objective of CAS@home is to encourage and assist scientists in China to "
 "adopt the technologies of volunteer computing and volunteer thinking for "
 "their research."
 msgstr "CAS@home 的目标是鼓励和帮忙中国的科研人员采用志愿计算这种计算技术以及相应的科研思维方式"
 
-#: projects.inc:343
+#: projects.inc:365
 msgid "Mathematics, physics, evolution"
 msgstr "数学、物理学、进化论"
 
-#: projects.inc:344
+#: projects.inc:366
 msgid ""
 "Yoyo@home is an adapter between BOINC and several existing volunteer "
 "computing projects: ECM, Muon, Evolution@home, and distributed.net"
@@ -821,15 +830,15 @@ msgstr ""
 "Yoyo@home 将一些传统的志愿计算项目，包括 ECM、Muon、Evolution@home 和 distributed.net 等，移植到了 "
 "BOINC 平台。"
 
-#: projects.inc:349 projects.inc:505
+#: projects.inc:371 projects.inc:527
 msgid "MTA-SZTAKI Laboratory of Parallel and Distributed Systems (Hungary)"
 msgstr "匈牙利 MTA-SZTAKI 并行和分布式系统实验室"
 
-#: projects.inc:350
+#: projects.inc:372
 msgid "European research projects"
 msgstr "欧盟研究项目"
 
-#: projects.inc:351
+#: projects.inc:373
 msgid ""
 "The EDGeS@Home Beta project integrates volunteer computing into the service "
 "grid network of Europe by allowing service grids to send workunits to be "
@@ -839,27 +848,27 @@ msgstr ""
 "EDGes@Home Beta "
 "项目将志愿计算融入到欧洲计算服务网格的网络，允许服务网格将计算任务分发给项目的志愿者们来处理。项目所涉及的科研领域包括数学、物理、生物等等。"
 
-#: projects.inc:357
+#: projects.inc:379
 msgid "Spanish universities and research centers"
 msgstr "西班牙的大学和研究中心"
 
-#: projects.inc:358
+#: projects.inc:380
 msgid "Various Spanish research projects"
 msgstr "各种西班牙的研究项目"
 
-#: projects.inc:359
+#: projects.inc:381
 msgid "Research in physics, material science, and biomedicine"
 msgstr "物理学、材料科学和生物医药学方面的研究"
 
-#: projects.inc:365
+#: projects.inc:387
 msgid "IBM Corporate Citizenship"
 msgstr ""
 
-#: projects.inc:366
+#: projects.inc:388
 msgid "Medical, environmental and other humanitarian research"
 msgstr "医疗，环境和其他人道主义研究"
 
-#: projects.inc:367
+#: projects.inc:389
 msgid ""
 "To further critical non-profit research on some of humanity's most pressing "
 "problems by creating the world's largest volunteer computing grid.  Research "
@@ -867,50 +876,50 @@ msgid ""
 "clean water and many more."
 msgstr ""
 
-#: projects.inc:373
+#: projects.inc:395
 msgid "Mathematics, computing, and games"
 msgstr "数学、计算机、游戏"
 
-#: projects.inc:379
+#: projects.inc:401
 msgid "Computer Science"
 msgstr "计算机科学"
 
-#: projects.inc:387
+#: projects.inc:409
 msgid "Mathematics, Physics, Artificial Intelligence"
 msgstr "数学、物理、人工智能"
 
-#: projects.inc:388
+#: projects.inc:410
 msgid "Simulation of quantum computing; Goldbach's conjecture."
 msgstr "量子计算模拟、哥德巴赫猜想"
 
-#: projects.inc:428 projects.inc:436
+#: projects.inc:450 projects.inc:458
 msgid "Cryptography"
 msgstr "密码学"
 
-#: projects.inc:437
+#: projects.inc:459
 msgid ""
 "Attempt to decode 3 original Enigma messages. The signals were intercepted "
 "in the North Atlantic in 1942 and are believed to be unbroken."
 msgstr "该项目试图解密三条二战期间的加密电报消息，这些消息于 1942 年在北大西洋截获而且一直被认为是不可破解的。"
 
-#: projects.inc:443 projects.inc:482 projects.inc:490 projects.inc:498
-#: projects.inc:506 projects.inc:546
+#: projects.inc:465 projects.inc:504 projects.inc:512 projects.inc:520
+#: projects.inc:528 projects.inc:568
 msgid "Mathematics"
 msgstr "数学"
 
-#: projects.inc:444
+#: projects.inc:466
 msgid "Study the Collatz Conjecture, an unsolved conjecture in mathematics"
 msgstr "研究考拉兹猜想（Collatz conjecture），一个尚未被证明的数学猜想。"
 
-#: projects.inc:449
+#: projects.inc:471
 msgid "California State University Fullerton"
 msgstr "加州州立大学富尔顿分校"
 
-#: projects.inc:450
+#: projects.inc:472
 msgid "Factorization of large integers"
 msgstr "大数的因式分解"
 
-#: projects.inc:451
+#: projects.inc:473
 msgid ""
 "NFS@Home is a research project that uses Internet-connected computers to do "
 "the lattice sieving step in the Number Field Sieve factorization of large "
@@ -923,17 +932,17 @@ msgstr ""
 "是一个利用通过互联网连接的计算机来进行大整数数域筛选分解中的格筛步骤的研究项目。当你还是一个年轻的学生时，你应该就有了分解质因数的经历，比如 "
 "15=3*5 或者 35=5*7。NFS@Home 正是这一经历的延续，不过却是分解有数百位数字长的大整数。"
 
-#: projects.inc:457
+#: projects.inc:479
 msgid ""
 "Vilnius Gediminas Technical University and Kaunas University of Technology "
 "(Lithuania)"
 msgstr "Vilnius Gediminas 理工大学 和 Kaunas 理工大学（立陶宛）"
 
-#: projects.inc:458
+#: projects.inc:480
 msgid "Software testing"
 msgstr "软件测试"
 
-#: projects.inc:459
+#: projects.inc:481
 msgid ""
 "The aim of this project is to provide a powerful distributed computing "
 "platform for scientists of Vilnius Gediminas Technical University (VGTU) as "
@@ -943,11 +952,11 @@ msgstr ""
 "本项目的目的是为 Vilnius Gediminas "
 "理工大学（VGTU）和其它立陶宛的科研机构提供一个强大的分布式计算平台。当前的应用主要涉及到基于蒙特卡罗的软件测试研究。"
 
-#: projects.inc:481
+#: projects.inc:503
 msgid "Mathematical Institute of Leiden University / Kennislink"
 msgstr "莱顿（Leiden）大学数字学院（Kennislink）"
 
-#: projects.inc:483
+#: projects.inc:505
 msgid ""
 "Search for 'abc-triples': positive integers a,b,c such that a+b=c, a &lt; b "
 "&lt; c, a,b,c have no common divisors and c > rad(abc), where rad(n) is the "
@@ -962,23 +971,23 @@ msgstr ""
 "C(e)，对于所有满足a+b=c,a 与 b 互质的三元整数组 (a,b,c)，均成立 c<=C(e)((rad(abc))^(1+e))。ABC "
 "猜想是当前数论中最重要的未解决问题之一，如果它能够被证明，其它不少未解决问题也能得到直接的证明。"
 
-#: projects.inc:491
+#: projects.inc:513
 msgid ""
 "Primegrid has multiple projects searching for different forms of very large "
 "prime numbers, including searching for the largest known prime number."
 msgstr ""
 
-#: projects.inc:497
+#: projects.inc:519
 msgid "Hochschule RheinMain University of Applied Sciences"
 msgstr "莱茵曼应用技术大学"
 
-#: projects.inc:499
+#: projects.inc:521
 msgid ""
 "Search for counterexamples to two conjectures related to the identification "
 "of prime numbers"
 msgstr "寻找两个有关质数识别的猜想的反例。"
 
-#: projects.inc:507
+#: projects.inc:529
 msgid ""
 "Find all the generalized binary number systems (in which bases are matrices "
 "and digits are vectors) up to dimension 11."
@@ -993,6 +1002,10 @@ msgstr "备注"
 #, php-format
 msgid "News is available as an %sRSS feed%s"
 msgstr "新闻还可以通过 %sRSS%s 来访问"
+
+# 75%
+#~ msgid "Astronomy, Physics, and Chemistry"
+#~ msgstr "天文、物理和化学"
 
 #, php-format
 #~ msgid "%s for %s (%s MB)"
