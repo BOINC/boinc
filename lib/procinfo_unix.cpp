@@ -59,6 +59,12 @@ using std::vector;
 // see:
 // man 5 proc
 // /usr/src/linux/fs/proc/array.C
+//
+// Interesting note: the command part of /proc/PID/stat is the first
+// 15 characters of the executable filename.
+// If you want the entire filename, or the rest of the cmdline,
+// you need to parse /proc/PID/cmdline,
+// which is the cmdline with NULL separators
 
 struct PROC_STAT {
     int pid;

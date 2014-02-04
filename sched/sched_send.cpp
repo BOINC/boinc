@@ -1608,8 +1608,7 @@ void send_work() {
     }
 
     if (!work_needed(false)) {
-        send_user_messages();
-        return;
+        goto done;
     }
 
     if (config.locality_scheduler_fraction > 0) {
