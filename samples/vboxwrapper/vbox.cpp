@@ -2821,7 +2821,14 @@ int VBOX_VM::vbm_popen_raw(string& command, string& output, unsigned int timeout
 
         // Timeout?
         if (ulExitTimeout >= (timeout * 1000)) {
-            TerminateProcess(pi.hProcess, EXIT_FAILURE);
+            if (!TerminateProcess(pi.hProcess, EXIT_FAILURE)) {
+                fprintf(
+                    stderr,
+                    "%s TerminateProcess failed! (%d).\n",
+                    vboxwrapper_msg_prefix(buf, sizeof(buf)),
+                    GetLastError()
+                );
+            }
             ulExitCode = 0;
             retval = ERR_TIMEOUT;
             Sleep(1000);
