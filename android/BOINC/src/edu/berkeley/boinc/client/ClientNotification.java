@@ -46,8 +46,9 @@ public class ClientNotification {
 		this.nm = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
 		notificationId = context.getResources().getInteger(R.integer.autostart_notification_id);
 		Intent intent = new Intent(context, BOINCActivity.class);
-		intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-		contentIntent = PendingIntent.getActivity(context, 0, intent, 0);
+		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); 
+		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		contentIntent = PendingIntent.getActivity(context, 0, intent, Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
 	}
 
 	/**
