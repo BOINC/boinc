@@ -874,6 +874,7 @@ int main(int argc, char** argv) {
         if (boinc_status.abort_request) {
             vm.reset_vm_process_priority();
             vm.cleanup();
+            vm.dumphypervisorlogs(true);
             boinc_finish(EXIT_ABORTED_BY_CLIENT);
         }
         if (!vm.online) {
