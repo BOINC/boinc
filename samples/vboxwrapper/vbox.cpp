@@ -2641,6 +2641,8 @@ int VBOX_VM::vbm_popen(string& command, string& output, const char* item, bool l
 
     do {
         retval = vbm_popen_raw(command, output, timeout);
+        sanitize_output(command);
+        sanitize_output(output);
 
         if (log_trace) {
             vbm_trace(command, output, retval);
@@ -2695,8 +2697,6 @@ int VBOX_VM::vbm_popen(string& command, string& output, const char* item, bool l
     // Add all relivent notes to the output string and log errors
     //
     if (retval && log_error) {
-        sanitize_output(output);
-
         if (!retry_notes.empty()) {
             output += "\nNotes:\n\n" + retry_notes;
         }
