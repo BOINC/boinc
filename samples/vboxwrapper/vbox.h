@@ -23,6 +23,9 @@
 
 // Known VirtualBox/COM error codes
 //
+#ifndef CO_E_SERVER_EXEC_FAILURE
+#define CO_E_SERVER_EXEC_FAILURE        0x80080005
+#endif
 #ifndef RPC_S_SERVER_UNAVAILABLE
 #define RPC_S_SERVER_UNAVAILABLE        0x800706ba
 #endif

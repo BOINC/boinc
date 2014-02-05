@@ -2681,9 +2681,34 @@ int VBOX_VM::vbm_popen(string& command, string& output, const char* item, bool l
                     sleep_interval *= 2;
                 }
             }
+
+            // VboxManage has to be able to communicate with vboxsvc in order to actually issue a
+            // command.  In cases where we detect CO_E_SERVER_EXEC_FAILURE, we should just automatically
+            // try the command again.  Vboxmanage wasn't even able to issue the desired command
+            // anyway.
+            //
+            // Experiments performed by jujube suggest changing the sleep interval to an exponential
+            // style backoff would increase our chances of success.
+            //
+            // Error Code: CO_E_SERVER_EXEC_FAILURE (0x80080005) 
+            //
+            if (CO_E_SERVER_EXEC_FAILURE == retval) {
+                if (retry_notes.find("Unable to communicate with VirtualBox") == string::npos) {
+                    retry_notes += "Unable to communicate with VirtualBox.  VirtualBox may need to\n";
+                    retry_notes += "be reinstalled.\n\n";
+                }
+                if (retry_count) {
+                    sleep_interval *= 2;
+                }
+            }
             
             // Retry?
-            if (!retry_failures) break;
+            if (!retry_failures && 
+                (VBOX_E_INVALID_OBJECT_STATE != retval) && 
+                (CO_E_SERVER_EXEC_FAILURE != retval)
+            ) {
+                break;
+            }
 
             // Timeout?
             if (retry_count >= 5) break;
