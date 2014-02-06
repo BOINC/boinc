@@ -2443,9 +2443,9 @@ int VBOX_VM::launch_vboxvm() {
     // Construct the command line parameters
     //
     if (headless) {
-        argv[0] = const_cast<char*>("vboxheadless.exe");
+        argv[0] = const_cast<char*>("VboxHeadless.exe");
     } else {
-        argv[0] = const_cast<char*>("virtualbox.exe");
+        argv[0] = const_cast<char*>("VirtualBox.exe");
     }
     argv[1] = const_cast<char*>("--startvm");
     argv[2] = const_cast<char*>(vm_name.c_str());
