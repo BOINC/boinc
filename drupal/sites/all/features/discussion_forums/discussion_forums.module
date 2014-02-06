@@ -24,3 +24,14 @@ function discussion_forums_enable() {
     }
   }
 }
+
+function discussion_forums_menu_alter(&$items) {
+  // Change the forum menu item to use the path: community/forum
+  $items['community'] = $items['forum'];
+  $items['community']['title'] = t('Community');
+  $items['community']['type'] = MENU_NORMAL_ITEM;
+  $items['community']['menu_name'] = 'primary-links';
+  $items['community/forum'] = $items['community'];
+  $items['community/forum']['title'] = t('Message boards');
+  unset($items['forum']);
+}
