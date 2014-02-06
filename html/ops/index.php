@@ -118,7 +118,6 @@ echo "
         <li><a href=\"manage_special_users.php\">User privileges</a></li>
         <li><a href=".URL_BASE."/manage_project.php>User job submission privileges</a></li>
         <li><a href=\"mass_email.php\">Send mass email to a selected set of users</a></li>
-        <li><a href=\"problem_host.php\">Email user with misconfigured host</a></li>
         <li><form action=\"manage_user.php\">
             <input type=\"submit\" value=\"Manage user\">
             ID: <input name=\"userid\">
