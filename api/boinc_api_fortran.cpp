@@ -20,13 +20,18 @@
 // Define this symbol (here or in Makefile) if you want graphics functions
 //#define GRAPHICS
 
+// Define this symbol (here or in Makefile) if you want zip/unzip functions
+//#define INCLUDE_ZIP
+
 #include "config.h"
 #include "util.h"
 #include "boinc_api.h"
 #ifdef GRAPHICS
 #include "graphics_api.h"
 #endif
+#ifdef INCLUDE_ZIP
 #include "boinc_zip.h"
+#endif
 
 // helper class that makes a C-string from a character array and length,
 // automatically deleted on destruction.
@@ -90,10 +95,6 @@ void boinc_parse_init_data_file_() {
     boinc_parse_init_data_file();
 }
 
-void boinc_write_init_data_file_() {
-    boinc_write_init_data_file();
-}
-
 void boinc_time_to_checkpoint_(int* result) {
     *result = boinc_time_to_checkpoint();
 }
@@ -114,6 +115,7 @@ void boinc_calling_thread_cpu_time_(double* d) {
     boinc_calling_thread_cpu_time(*d);
 }
 
+#ifdef INCLUDE_ZIP
 void boinc_zip_(int* zipmode, const char* zipfile,
     const char* path, int zipfile_len, int path_len
 ) {
@@ -125,6 +127,7 @@ void boinc_zip_(int* zipmode, const char* zipfile,
     pathff.strip_whitespace();
     boinc_zip(*zipmode,zipfileff.c_str(),pathff.c_str());
 } 
+#endif
 
 }   // extern "C"
 
