@@ -1247,7 +1247,7 @@ int HOST_INFO::get_virtualbox_version() {
     FILE* fd;
 
 #if LINUX_LIKE_SYSTEM
-    safe_strcpy(path, "/usr/lib/virtualbox/VBoxManage");
+    safe_strcpy(path, "/usr/bin/VBoxManage");
 #elif defined( __APPLE__)
     FSRef theFSRef;
     OSStatus status = noErr;
