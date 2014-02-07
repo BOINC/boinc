@@ -262,7 +262,7 @@ $l70ubuntux64 = array(
 $a72 = array(
 	"num"=>"7.2.41",
 	"status"=>"Recommended Version",
-	"file"=>"boinc_7.2.41_arm-android-linux-gnu.apk",
+	"file"=>"boinc_7.2.41.apk",
 	"date"=>"3 Feb 2014",
 	"type"=>"apk",
 );
@@ -353,10 +353,28 @@ $linuxcompat = array(
 	)
 );
 
-$android = array(
+$androidarm = array(
 	"name"=>"Android/ARM",
 	"description"=>"Android version 2.3 and later<br>We recommend that, rather than downloading BOINC from here,</br>you get it from the Google Play Store or the Amazon app store (for Kindle Fire)",
 	"dbname" => "arm-android-linux-gnu",
+	"versions"=>array(
+		$a72,
+	)
+);
+
+$androidmips = array(
+	"name"=>"Android/MIPS",
+	"description"=>"Android version 2.3 and later<br>We recommend that, rather than downloading BOINC from here,</br>you get it from the Google Play Store or the Amazon app store (for Kindle Fire)",
+	"dbname" => "mips-android-linux-gnu",
+	"versions"=>array(
+		$a72,
+	)
+);
+
+$androidx86 = array(
+	"name"=>"Android/x86",
+	"description"=>"Android version 2.3 and later<br>We recommend that, rather than downloading BOINC from here,</br>you get it from the Google Play Store or the Amazon app store (for Kindle Fire)",
+	"dbname" => "x86-android-linux-gnu",
 	"versions"=>array(
 		$a72,
 	)
@@ -369,8 +387,10 @@ $platforms = array(
     "macppc"=>$macppc,
     "linux"=>$linux,
     "linuxx64"=>$linuxx64,
-	"linuxcompat"=>$linuxcompat,
-	"android"=>$android,
+    "linuxcompat"=>$linuxcompat,
+    "androidarm"=>$androidarm,
+    "androidmips"=>$androidmips,
+    "androidx86"=>$androidx86,
 );
 
 function is_dev($v) {

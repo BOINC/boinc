@@ -207,9 +207,9 @@ if (get_str2('all_platforms')) {
 	}
 } else if (strstr($client_info, 'Linux') && strstr($client_info, 'Android')) {
 	// Check for Android before Linux,
-    // since Android contains the Linux kernel and the
+  // since Android contains the Linux kernel and the
 	// web browser user agent string list Linux too.
-	show_download('android');
+	show_download('androidarm');
 } else if (strstr($client_info, 'Linux')) {
 	if (strstr($client_info, 'x86_64')) {
 		show_download('linuxx64');
