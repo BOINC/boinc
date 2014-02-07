@@ -1056,7 +1056,7 @@ function boincimport_forum_categories() {
       'name' => t('Forums'),
       'description' => t('The different forum categories / containers'),
     );
-    taxonomy_save_vocabulary($team_vocab);
+    taxonomy_save_vocabulary($forum_vocab);
     $forum_vid = db_result(db_query('SELECT vid FROM {vocabulary} WHERE name="%s"', 'Forums'));
   }
   drupal_set_message(t('Forum vid: %forum_vid', array('%forum_vid' => $forum_vid)));
@@ -2134,6 +2134,10 @@ function boincimport_process_cleanup() {
   variable_del('boincimport_import_topic_started');
   variable_del('boincimport_import_post_successful');
   variable_del('boincimport_import_post_started');
+  variable_del('boincimport_team_forum_successful');
+  variable_del('boincimport_team_topic_successful');
+  variable_del('boincimport_team_post_successful');
+  variable_del('boincimport_team_post_started');
   variable_del('boincimport_ready');
   variable_del('boincimport_db_url');
   variable_del('boincimport_tested');
