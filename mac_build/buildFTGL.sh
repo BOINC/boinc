@@ -24,6 +24,7 @@
 #   [path]/ftgl-2.1.3~rc5/src/.libs/libftgl.a
 #
 # by Charlie Fenton 7/27/12
+# Updated 2/7/14 for OS 10.9
 #
 ## This script requires OS 10.6 or later
 #
@@ -87,7 +88,7 @@ export CPPFLAGS="-isysroot ${SDKPATH} -arch i386 -DMAC_OS_X_VERSION_MAX_ALLOWED=
 export CFLAGS="-isysroot ${SDKPATH} -arch i386 -DMAC_OS_X_VERSION_MAX_ALLOWED=1040 -DMAC_OS_X_VERSION_MIN_REQUIRED=1040"
 export SDKROOT="${SDKPATH}"
 
-./configure --enable-shared=NO --disable-freetypetest --host=i386
+./configure --enable-shared=NO --disable-freetypetest  --with-ft-prefix="`pwd`/../freetype_install/" --host=i386
 if [  $? -ne 0 ]; then return 1; fi
 
 if [ "$1" = "-clean" ]; then
@@ -113,7 +114,7 @@ export CPPFLAGS="-isysroot ${SDKPATH} -arch x86_64 -DMAC_OS_X_VERSION_MAX_ALLOWE
 export CFLAGS="-isysroot ${SDKPATH} -arch x86_64 -DMAC_OS_X_VERSION_MAX_ALLOWED=1040 -DMAC_OS_X_VERSION_MIN_REQUIRED=1040"
 export SDKROOT="${SDKPATH}"
 
-./configure --enable-shared=NO --disable-freetypetest --host=x86_64
+./configure --enable-shared=NO --disable-freetypetest --with-ft-prefix="`pwd`/../freetype_install/" --host=x86_64
 if [  $? -ne 0 ]; then
     rm -f src/libftgl_i386.a
     return 1;

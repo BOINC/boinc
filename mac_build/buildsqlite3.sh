@@ -39,7 +39,7 @@
 
 if [ "$1" != "-clean" ]; then
     if [ -f .libs/libsqlite3.a ]; then
-        echo "c3.7.14.1 already built"
+        echo "sqlite-3.7.14.1 already built"
         return 0
     fi
 fi
