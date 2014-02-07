@@ -19,7 +19,7 @@
 #
 #
 # Master script to build Universal Binary libraries needed by BOINC:
-# curl-7.26.0 with c-ares-1.9.1, openssl-1.0.1e, wxMac-2.8.10,
+# curl-7.26.0 with c-ares-1.9.1, openssl-1.0.1e, wxWidgets-3.0.0,
 # sqlite3.7.14.1, FreeType-2.4.10 and FTGL-2.1.3
 #
 # by Charlie Fenton 7/21/06
@@ -30,6 +30,7 @@
 # Updated 8/3/12 for FreeType-2.4.10 and FTGL-2.1.3~rc5
 # Updated 12/11/12 for sqlite3.7.14.1 from sqlite-autoconf-3071401
 # Updated 11/30/13 for openssl-1.0.1e
+# Updated 2/7/14 for wxWidgets-3.0.0
 #
 # Download these seven packages and place them in a common parent 
 # directory with the BOINC source tree.
@@ -46,9 +47,9 @@
 #
 
 if [ "$1" = "-clean" ]; then
-  doclean="-clean"
+  cleanit="-clean"
 else
-  doclean=""
+  cleanit=""
 fi
 
 caresOK="NO"
@@ -69,7 +70,7 @@ echo ""
 
 cd ../../c-ares-1.9.1/
 if [  $? -eq 0 ]; then
-    source "${SCRIPT_DIR}/buildc-ares.sh" ${doclean}
+    source "${SCRIPT_DIR}/buildc-ares.sh" ${cleanit}
     if [  $? -eq 0 ]; then
         caresOK="YES"
     fi
@@ -85,7 +86,7 @@ cd "${SCRIPT_DIR}"
 
 cd ../../curl-7.26.0/
 if [  $? -eq 0 ]; then
-    source "${SCRIPT_DIR}/buildcurl.sh" ${doclean}
+    source "${SCRIPT_DIR}/buildcurl.sh" ${cleanit}
     if [  $? -eq 0 ]; then
         curlOK="YES"
     fi
@@ -101,7 +102,7 @@ cd "${SCRIPT_DIR}"
 
 cd ../../openssl-1.0.1e/
 if [  $? -eq 0 ]; then
-    source "${SCRIPT_DIR}/buildopenssl.sh" ${doclean}
+    source "${SCRIPT_DIR}/buildopenssl.sh" ${cleanit}
     if [  $? -eq 0 ]; then
         opensslOK="YES"
     fi
@@ -109,15 +110,15 @@ fi
 
 echo ""
 echo "----------------------------------"
-echo "------- BUILD wxMac-2.8.10 -------"
+echo "----- BUILD wxWidgets-3.0.0 ------"
 echo "----------------------------------"
 echo ""
 
 cd "${SCRIPT_DIR}"
 
-cd ../../wxMac-2.8.10/
+cd ../../wxWidgets-3.0.0/
 if [  $? -eq 0 ]; then
-    source "${SCRIPT_DIR}/buildWxMac.sh" ${doclean}
+    source "${SCRIPT_DIR}/buildWxMac.sh" ${cleanit}
     if [  $? -eq 0 ]; then
         wxWidgetsOK="YES"
     fi
@@ -125,7 +126,7 @@ fi
 
 echo ""
 echo "----------------------------------"
-echo "------ BUILD sqlite3.7.14.1 ------"
+echo "------ BUILD sqlite-3.7.14.1 ------"
 echo "----------------------------------"
 echo ""
 
@@ -133,7 +134,7 @@ cd "${SCRIPT_DIR}"
 
 cd ../../sqlite-autoconf-3071401/
 if [  $? -eq 0 ]; then
-    source "${SCRIPT_DIR}/buildsqlite3.sh" ${doclean}
+    source "${SCRIPT_DIR}/buildsqlite3.sh" ${cleanit}
     if [  $? -eq 0 ]; then
         sqlite3OK="YES"
     fi
@@ -149,7 +150,7 @@ cd "${SCRIPT_DIR}"
 
 cd ../../freetype-2.4.10/
 if [  $? -eq 0 ]; then
-    source "${SCRIPT_DIR}/buildfreetype.sh" ${doclean}
+    source "${SCRIPT_DIR}/buildfreetype.sh" ${cleanit}
     if [  $? -eq 0 ]; then
         freetypeOK="YES"
     fi
@@ -165,7 +166,7 @@ cd "${SCRIPT_DIR}"
 
 cd ../../ftgl-2.1.3~rc5/
 if [  $? -eq 0 ]; then
-    source "${SCRIPT_DIR}/buildFTGL.sh" ${doclean}
+    source "${SCRIPT_DIR}/buildFTGL.sh" ${cleanit}
     if [  $? -eq 0 ]; then
         ftglOK="YES"
     fi
@@ -203,21 +204,21 @@ fi
 
 if [ "${wxWidgetsOK}" = "NO" ]; then
     echo ""
-    echo "----------------------------------"
-    echo "------------ WARNING -------------"
-    echo "------------         -------------"
-    echo "-- COULD NOT BUILD wxMac-2.8.10 --"
-    echo "----------------------------------"
+    echo "-----------------------------------"
+    echo "------------ WARNING --------------"
+    echo "------------         --------------"
+    echo "- COULD NOT BUILD wxWidgets-3.0.0 -"
+    echo "-----------------------------------"
     echo ""
 fi
 
 if [ "${sqlite3OK}" = "NO" ]; then
     echo ""
-    echo "----------------------------------"
-    echo "------------ WARNING -------------"
-    echo "------------         -------------"
-    echo "- COULD NOT BUILD sqlite3.7.14.1 -"
-    echo "----------------------------------"
+    echo "-----------------------------------"
+    echo "------------ WARNING --------------"
+    echo "------------         --------------"
+    echo "- COULD NOT BUILD sqlite-3.7.14.1 -"
+    echo "-----------------------------------"
     echo ""
 fi
 
@@ -225,7 +226,7 @@ if [ "${freetypeOK}" = "NO" ]; then
     echo ""
     echo "-----------------------------------"
     echo "------------ WARNING --------------"
-    echo "------------         -------------"
+    echo "------------         --------------"
     echo "- COULD NOT BUILD FreeType-2.4.10 -"
     echo "-----------------------------------"
     echo ""
@@ -235,8 +236,8 @@ if [ "${ftglOK}" = "NO" ]; then
     echo ""
     echo "-----------------------------------"
     echo "------------ WARNING --------------"
-    echo "------------         -------------"
-    echo "- COULD NOT BUILD FTGL-2.1.3~rc50 -"
+    echo "------------         --------------"
+    echo "- COULD NOT BUILD FTGL-2.1.3~rc5 --"
     echo "-----------------------------------"
     echo ""
 fi
