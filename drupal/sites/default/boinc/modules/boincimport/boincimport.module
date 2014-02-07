@@ -1053,7 +1053,7 @@ function boincimport_forum_categories() {
   $forum_vid = db_result(db_query('SELECT vid FROM {vocabulary} WHERE name="%s"', 'Forums'));
   if (!$forum_vid) {
     $forum_vocab = array(
-      'name' => t('Forums'),
+      'name' => t('Message Boards'),
       'description' => t('The different forum categories / containers'),
     );
     taxonomy_save_vocabulary($forum_vocab);
