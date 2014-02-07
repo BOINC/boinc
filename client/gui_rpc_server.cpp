@@ -25,6 +25,7 @@
 #else
 #include "config.h"
 #include <cstdio>
+#include <cstddef>
 #if HAVE_UNISTD_H
 #include <unistd.h>
 #endif
