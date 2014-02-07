@@ -163,9 +163,6 @@ function get_platforms($url) {
         //echo "XML parse error";
         return null;
     }
-    if (array_key_exists('rpc_prefix', $s)) {
-        $url = $s->rpc_prefix;
-    }
     if (!array_key_exists('platforms', $s)) {
         return null;
     }

@@ -465,8 +465,8 @@ int COPROCS::launch_child_process_to_detect_gpus() {
 #else
     int prog;
 #endif
-    char quotedDataDir[MAXPATHLEN+2];
-    char dataDir[MAXPATHLEN];
+    char quoted_data_dir[MAXPATHLEN+2];
+    char data_dir[MAXPATHLEN];
     int retval = 0;
     
     retval = boinc_delete_file(COPROC_INFO_FILENAME);
@@ -482,14 +482,14 @@ int COPROCS::launch_child_process_to_detect_gpus() {
         }
     }
     
-    boinc_getcwd(dataDir);
+    boinc_getcwd(data_dir);
 
 #ifdef _WIN32
-    strlcpy(quotedDataDir, "\"", sizeof(quotedDataDir));
-    strlcat(quotedDataDir, dataDir, sizeof(quotedDataDir));
-    strlcat(quotedDataDir, "\"", sizeof(quotedDataDir));
+    strlcpy(quoted_data_dir, "\"", sizeof(quoted_data_dir));
+    strlcat(quoted_data_dir, data_dir, sizeof(quoted_data_dir));
+    strlcat(quoted_data_dir, "\"", sizeof(quoted_data_dir));
 #else
-    strlcpy(quotedDataDir, dataDir, sizeof(quotedDataDir));
+    strlcpy(quoted_data_dir, data_dir, sizeof(quoted_data_dir));
 #endif
 
     if (log_flags.coproc_debug) {
@@ -503,16 +503,20 @@ int COPROCS::launch_child_process_to_detect_gpus() {
         );
         msg_printf(0, MSG_INFO,
             "[coproc] with data directory %s",
-            quotedDataDir
+            quoted_data_dir
         );
     }
             
     int argc = 4;
     char* const argv[5] = {
+#ifdef _WIN32
+         const_cast<char *>("boinc.exe"), 
+#else
          const_cast<char *>("boinc"), 
+#endif
          const_cast<char *>("--detect_gpus"), 
          const_cast<char *>("--dir"), 
-         const_cast<char *>(quotedDataDir),
+         const_cast<char *>(quoted_data_dir),
          NULL
     }; 
 
@@ -527,7 +531,7 @@ int COPROCS::launch_child_process_to_detect_gpus() {
         prog
     );
 
-    chdir(dataDir);
+    chdir(data_dir);
     
     if (retval) {
         if (log_flags.coproc_debug) {
