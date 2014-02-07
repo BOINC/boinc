@@ -406,7 +406,7 @@ static inline bool actively_uploading(PROJECT* p) {
         FILE_XFER* fxp = gstate.file_xfers->file_xfers[i];
         if (fxp->fip->project != p) continue;
         if (!fxp->is_upload) continue;
-        if (gstate.now - fxp->start_time > WF_DEFER_INTERVAL) continue;
+        if (gstate.now - fxp->start_time > WF_UPLOAD_DEFER_INTERVAL) continue;
         //msg_printf(p, MSG_INFO, "actively uploading");
         return true;
     }
@@ -534,7 +534,7 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
     p = work_fetch.choose_project();
     if (p) {
         if (actively_uploading(p)) {
-            if (!idle_request()) {
+            //if (!idle_request()) {
                 if (log_flags.work_fetch_debug) {
                     msg_printf(p, MSG_INFO,
                         "[work_fetch] deferring work fetch; upload active"
@@ -542,7 +542,7 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
                 }
                 p->sched_rpc_pending = 0;
                 return false;
-            }
+            //}
         }
         scheduler_op->init_op_project(p, RPC_REASON_NEED_WORK);
         return true;

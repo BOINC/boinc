@@ -569,7 +569,7 @@ extern THREAD throttle_thread;
     // so if the project develops a GPU app,
     // we'll find out about it within a day.
 
-#define WF_DEFER_INTERVAL   300
+#define WF_UPLOAD_DEFER_INTERVAL   300
     // if a project is uploading,
     // and the last upload started within this interval,
     // don't fetch work from it.
