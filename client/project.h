@@ -305,6 +305,7 @@ struct PROJECT : PROJ_AM {
     int write_state(MIOFILE&, bool gui_rpc=false);
     const char* project_dir();
     const char* project_dir_absolute();
+    void show_no_work_notice();
 
     // statistic of the last x days
     std::vector<DAILY_STATS> statistics;

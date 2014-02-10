@@ -654,12 +654,17 @@ int CLIENT_STATE::handle_scheduler_reply(
         }
         msg_printf(project, prio, "%s", um.message.c_str());
     }
+
     // if we requested work and didn't get notices,
     // clear scheduler notices from this project
     //
     if (work_fetch.requested_work() && !got_notice) {
         notices.remove_scheduler_notices(project);
     }
+
+    // show notice if we can't possibly get work from this project
+    //
+    project->show_no_work_notice();
 
     if (log_flags.sched_op_debug && sr.request_delay) {
         msg_printf(project, MSG_INFO,

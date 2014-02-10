@@ -2128,6 +2128,7 @@ void CLIENT_STATE::log_show_projects() {
         if (p->ended) {
             msg_printf(p, MSG_INFO, "Project has ended - OK to detach");
         }
+        p->show_no_work_notice();
     }
 }
 
