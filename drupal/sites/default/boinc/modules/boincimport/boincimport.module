@@ -687,10 +687,9 @@ function boincimport_teams() {
   }
   // Set the team import successful flag in the variable table
   variable_set('boincimport_import_team_successful', '1');
-
-  $count = db_result(db_query('SELECT COUNT(*) FROM {boincteam}'));
-  drupal_set_message(t('Successfully Imported %count teams.', array('%count' => $count)));
-  watchdog('boincimport', 'Successfully Imported %count teams.', array('%count' => $count), WATCHDOG_INFO); 
+  
+  drupal_set_message(t('Successfully Imported %count teams.', array('%count' => $teams_imported)));
+  watchdog('boincimport', 'Successfully Imported %count teams.', array('%count' => $teams_imported), WATCHDOG_INFO); 
   
   // Indicate that the process is complete and return to the main migration page
   echo "<br/>\n<br/>\n";
@@ -1784,10 +1783,6 @@ function boincimport_team_forum_topics() {
       db_query('
         INSERT INTO {boincimport_temp_topic} (topic_id, post_id, nid)
         VALUES (%d, %d, %d)', $topic->id, $post->id, $node->nid
-      );
-      db_query("
-        INSERT INTO {boincteam_forum_node} SET nid = %d, tfid = %d",
-        $node->nid, $team_forum_id
       );
       // Hack to keep the topics in correct order
       db_query('UPDATE {node_comment_statistics} SET last_comment_timestamp = %d WHERE nid = %d', $node->created, $node->nid);
