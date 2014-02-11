@@ -952,5 +952,5 @@ void PROJECT::show_no_work_notice() {
         x += _("change your settings at your account manager web site");
     }
     x += ".";
-    msg_printf(this, MSG_USER_ALERT, x.c_str());
+    msg_printf(this, MSG_USER_ALERT, "%s", x.c_str());
 }
