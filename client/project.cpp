@@ -932,24 +932,24 @@ void PROJECT::show_no_work_notice() {
 
     bool first = true;
     string x;
-    x = "Your current settings do not allow tasks from this project.";
-    x += "To change this, you can ";
+    x = NO_WORK_MSG;
+    x += _("To fix this, you can ");
     if (show_prefs) {
         first = false;
-        x += "change Project Preferences on the project's web site";
+        x += _("change Project Preferences on the project's web site");
     }
     if (show_config) {
         if (!first) {
             x += ", or ";
         }
-        x += "remove GPU exclusions in your cc_config.xml file";
+        x += _("remove GPU exclusions in your cc_config.xml file");
         first = false;
     }
     if (show_ams) {
         if (!first) {
             x += ", or ";
         }
-        x += "change your settings at your account manager web site";
+        x += _("change your settings at your account manager web site");
     }
     x += ".";
     msg_printf(this, MSG_USER_ALERT, x.c_str());

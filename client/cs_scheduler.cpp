@@ -659,7 +659,7 @@ int CLIENT_STATE::handle_scheduler_reply(
     // clear scheduler notices from this project
     //
     if (work_fetch.requested_work() && !got_notice) {
-        notices.remove_scheduler_notices(project);
+        notices.remove_notices(project, REMOVE_SCHEDULER_MSG);
     }
 
     // show notice if we can't possibly get work from this project
