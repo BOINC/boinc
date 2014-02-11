@@ -27,9 +27,7 @@ function private_messages_user_default_permissions() {
   // Exported permission: read all private messages
   $permissions['read all private messages'] = array(
     'name' => 'read all private messages',
-    'roles' => array(
-      '0' => 'administrator',
-    ),
+    'roles' => array(),
   );
 
   // Exported permission: read privatemsg
