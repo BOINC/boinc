@@ -24,6 +24,8 @@ function teams_default_page_manager_pages() {
       ),
     ),
     'logic' => 'and',
+    'type' => 'none',
+    'settings' => NULL,
   );
   $page->menu = array(
     'type' => 'none',
@@ -205,7 +207,10 @@ function teams_default_page_manager_pages() {
   $page->admin_title = 'Teams';
   $page->admin_description = '';
   $page->path = 'community/teams';
-  $page->access = array();
+  $page->access = array(
+    'type' => 'none',
+    'settings' => NULL,
+  );
   $page->menu = array(
     'type' => 'normal',
     'title' => 'Teams',
@@ -1206,101 +1211,6 @@ return boincteam_is_founder($team_id);',
   $handler = new stdClass;
   $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
   $handler->api_version = 1;
-  $handler->name = 'page_view_team_panel_context_7';
-  $handler->task = 'page';
-  $handler->subtask = 'view_team';
-  $handler->handler = 'panel_context';
-  $handler->weight = -23;
-  $handler->conf = array(
-    'title' => 'View forum',
-    'no_blocks' => 0,
-    'pipeline' => 'standard',
-    'css_id' => '',
-    'css' => '',
-    'contexts' => array(),
-    'relationships' => array(),
-    'access' => array(
-      'plugins' => array(
-        0 => array(
-          'name' => 'path_visibility',
-          'settings' => array(
-            'visibility_setting' => '1',
-            'paths' => 'community/teams/*/forum/*',
-          ),
-          'context' => 'empty',
-          'not' => FALSE,
-        ),
-        3 => array(
-          'name' => 'role',
-          'settings' => array(
-            'rids' => array(
-              0 => 2,
-            ),
-          ),
-          'context' => 'logged-in-user',
-          'not' => FALSE,
-        ),
-        4 => array(
-          'name' => 'php',
-          'settings' => array(
-            'description' => 'A member of this team or the forum is public',
-            'php' => '$team_id = $contexts[\'argument_nid_1\']->data->nid;
-$team_forum_id = $contexts[\'argument_string_2\']->data;
-return (boincteam_is_member($team_id) OR boincteam_forum_is_public($team_forum_id));',
-          ),
-          'not' => FALSE,
-        ),
-      ),
-      'logic' => 'and',
-    ),
-  );
-  $display = new panels_display;
-  $display->layout = 'onecol';
-  $display->layout_settings = array();
-  $display->panel_settings = array(
-    'style_settings' => array(
-      'default' => NULL,
-      'left' => NULL,
-      'right' => NULL,
-      'top' => NULL,
-      'bottom' => NULL,
-      'middle' => NULL,
-    ),
-  );
-  $display->cache = array();
-  $display->title = '';
-  $display->content = array();
-  $display->panels = array();
-    $pane = new stdClass;
-    $pane->pid = 'new-1';
-    $pane->panel = 'middle';
-    $pane->type = 'views_panes';
-    $pane->subtype = 'boinc_team_forum_topics-panel_pane_1';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'override_title' => 0,
-      'override_title_text' => '',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array(
-      'css_id' => '',
-      'css_class' => 'section framing container shadow',
-    );
-    $pane->extras = array();
-    $pane->position = 0;
-    $display->content['new-1'] = $pane;
-    $display->panels['middle'][0] = 'new-1';
-  $display->hide_title = PANELS_TITLE_NONE;
-  $display->title_pane = '0';
-  $handler->conf['display'] = $display;
-  $page->default_handlers[$handler->name] = $handler;
-  $handler = new stdClass;
-  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
-  $handler->api_version = 1;
   $handler->name = 'page_view_team_panel_context_9';
   $handler->task = 'page';
   $handler->subtask = 'view_team';
@@ -1441,6 +1351,101 @@ return boincteam_is_founder($team_id);',
     $pane->position = 0;
     $display->content['new-3'] = $pane;
     $display->panels['right'][0] = 'new-3';
+  $display->hide_title = PANELS_TITLE_NONE;
+  $display->title_pane = '0';
+  $handler->conf['display'] = $display;
+  $page->default_handlers[$handler->name] = $handler;
+  $handler = new stdClass;
+  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
+  $handler->api_version = 1;
+  $handler->name = 'page_view_team_panel_context_7';
+  $handler->task = 'page';
+  $handler->subtask = 'view_team';
+  $handler->handler = 'panel_context';
+  $handler->weight = -23;
+  $handler->conf = array(
+    'title' => 'View forum',
+    'no_blocks' => 0,
+    'pipeline' => 'standard',
+    'css_id' => '',
+    'css' => '',
+    'contexts' => array(),
+    'relationships' => array(),
+    'access' => array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'path_visibility',
+          'settings' => array(
+            'visibility_setting' => '1',
+            'paths' => 'community/teams/*/forum/*',
+          ),
+          'context' => 'empty',
+          'not' => FALSE,
+        ),
+        3 => array(
+          'name' => 'role',
+          'settings' => array(
+            'rids' => array(
+              0 => 2,
+            ),
+          ),
+          'context' => 'logged-in-user',
+          'not' => FALSE,
+        ),
+        4 => array(
+          'name' => 'php',
+          'settings' => array(
+            'description' => 'A member of this team or the forum is public',
+            'php' => '$team_id = $contexts[\'argument_nid_1\']->data->nid;
+$team_forum_id = $contexts[\'argument_string_2\']->data;
+return (boincteam_is_member($team_id) OR boincteam_forum_is_public($team_forum_id));',
+          ),
+          'not' => FALSE,
+        ),
+      ),
+      'logic' => 'and',
+    ),
+  );
+  $display = new panels_display;
+  $display->layout = 'onecol';
+  $display->layout_settings = array();
+  $display->panel_settings = array(
+    'style_settings' => array(
+      'default' => NULL,
+      'left' => NULL,
+      'right' => NULL,
+      'top' => NULL,
+      'bottom' => NULL,
+      'middle' => NULL,
+    ),
+  );
+  $display->cache = array();
+  $display->title = '';
+  $display->content = array();
+  $display->panels = array();
+    $pane = new stdClass;
+    $pane->pid = 'new-1';
+    $pane->panel = 'middle';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'boinc_team_forum_topics-panel_pane_1';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array(
+      'css_id' => '',
+      'css_class' => 'section framing container shadow',
+    );
+    $pane->extras = array();
+    $pane->position = 0;
+    $display->content['new-1'] = $pane;
+    $display->panels['middle'][0] = 'new-1';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;

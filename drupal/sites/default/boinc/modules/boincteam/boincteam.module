@@ -88,6 +88,13 @@ function boincteam_menu() {
     'access arguments' => array(2),
     'type' => MENU_CALLBACK
   );
+  $items['community/teams/%/members/email'] = array(
+    'page callback' => 'boincteam_members_email_list',
+    'page arguments' => array(2),
+    'access callback' => 'boincteam_is_admin',
+    'access arguments' => array(2),
+    'type' => MENU_CALLBACK
+  );
   $items['community/teams/%/request-foundership'] = array(
     'page callback' => 'boincteam_request_foundership',
     'page arguments' => array(2),
@@ -424,6 +431,33 @@ function boincteam_leave($team_id) {
         your membership to it.', array('@team' => $boincteam->name)));
   }
   drupal_goto("community/teams/{$team_id}");
+}
+
+/**
+ * Output a plain text list of member email addresses
+ */
+function boincteam_members_email_list($team_id) {
+  $team = node_load($team_id);
+  $boincteam_id = boincteam_lookup_id($team_id);
+  $output = '';
+  
+  db_set_active('boinc');
+  $result = db_query("
+    SELECT 
+      u.name, u.email_addr
+    FROM {user} u
+    WHERE u.teamid = %d
+    ORDER BY u.email_addr ASC",
+    $boincteam_id
+  );
+  db_set_active('default');
+  
+  while ($member = db_fetch_object($result)) {
+    $output .= "{$member->name} <{$member->email_addr}>\n";
+  }
+  
+  header('Content-type: text/plain');
+  print $output;
 }
 
 /**
