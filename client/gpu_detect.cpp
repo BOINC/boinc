@@ -63,7 +63,10 @@ vector<OPENCL_DEVICE_PROP> intel_gpu_opencls;
 vector<OPENCL_CPU_PROP> cpu_opencls;
 
 static char* client_path;
+    // argv[0] from the command used to run client.
+    // May be absolute or relative.
 static char client_dir[MAXPATHLEN];
+    // current directory at start of client
 
 void COPROCS::get(
     bool use_all, vector<string>&descs, vector<string>&warnings,
@@ -448,11 +451,9 @@ int COPROCS::read_coproc_info_file(vector<string> &warnings) {
             continue;
         }
 
-
-
-    // TODO: parse OpenCL info for CPU when implemented:
-    //  gstate.host_info.have_cpu_opencl
-    //  gstate.host_info.cpu_opencl_prop
+        // TODO: parse OpenCL info for CPU when implemented:
+        //  gstate.host_info.have_cpu_opencl
+        //  gstate.host_info.cpu_opencl_prop
     }
     
     fclose(f);

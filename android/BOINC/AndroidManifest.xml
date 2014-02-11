@@ -114,12 +114,11 @@
         <receiver android:name="edu.berkeley.boinc.receiver.PackageReplacedReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_REPLACED" />
-
-                <data
-                    android:path="edu.berkeley.boinc"
-                    android:scheme="package" />
+                <data android:path="edu.berkeley.boinc" android:scheme="package" />
             </intent-filter>
         </receiver>
+        <activity android:name=".ForwardDialog" android:theme="@android:style/Theme.Dialog">
+        </activity>
     </application>
 
 </manifest>

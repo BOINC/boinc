@@ -654,11 +654,12 @@ int CLIENT_STATE::handle_scheduler_reply(
         }
         msg_printf(project, prio, "%s", um.message.c_str());
     }
+
     // if we requested work and didn't get notices,
     // clear scheduler notices from this project
     //
     if (work_fetch.requested_work() && !got_notice) {
-        notices.remove_scheduler_notices(project);
+        notices.remove_notices(project, REMOVE_SCHEDULER_MSG);
     }
 
     if (log_flags.sched_op_debug && sr.request_delay) {
@@ -754,6 +755,11 @@ int CLIENT_STATE::handle_scheduler_reply(
         project->parse_preferences_for_user_files();
         active_tasks.request_reread_prefs(project);
     }
+
+    // show notice if we can't possibly get work from this project.
+	// This must come after parsing project prefs
+    //
+    project->show_no_work_notice();
 
     // if the scheduler reply includes a code-signing key,
     // accept it if we don't already have one from the project.

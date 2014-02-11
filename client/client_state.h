@@ -630,4 +630,7 @@ extern THREAD throttle_thread;
     // Don't do this on Android
 #endif
 
+#define NEED_NETWORK_MSG _("BOINC can't access Internet - check network connection or proxy configuration.")
+#define NO_WORK_MSG _("Your current settings do not allow tasks from this project.")
+
 #endif

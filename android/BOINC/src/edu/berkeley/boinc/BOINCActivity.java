@@ -264,10 +264,7 @@ public class BOINCActivity extends ActionBarActivity {
 	    		break;
 			case R.string.menu_exit:
 				if(Logging.DEBUG) Log.d(Logging.TAG,"exit BOINC");
-				new QuitClientAsync().execute();
-				Intent exitSplash = new Intent(this,SplashActivity.class);
-				exitSplash.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-				startActivity(exitSplash);
+				new QuitClientAsync().execute(); // quitClient brings up exit splash screen
 				break;
 			case R.string.menu_eventlog:
 				startActivity(new Intent(this,EventLogActivity.class));

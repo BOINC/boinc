@@ -340,4 +340,10 @@
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
 
+    <!-- Power To Give compitability -->
+    <string name="ptg_dialog_header">Power To Give detected</string>
+    <string name="ptg_dialog_text">Your device has installed Power To Give. Do you want to launch Power To Give?</string>
+    <string name="ptg_dialog_launch">Launch</string>
+    <string name="ptg_dialog_exit">Exit</string>
+
 </resources>

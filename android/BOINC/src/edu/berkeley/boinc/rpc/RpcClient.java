@@ -239,6 +239,7 @@ public class RpcClient {
 		if (!isConnected()) {
 			return false;
 		}
+		if(password.length() == 0) return false;
 		try {
 			// Phase 1: get nonce
 			sendRequest("<auth1/>\n");
