@@ -2882,15 +2882,17 @@ CLEANUP:
             sscanf(errcode.c_str(), "%x", &retval);
         }
 
+        // If something couldn't be found, just return ERR_FOPEN
+        if (!retval) retval = ERR_FOPEN;
+
+    } else {
+
         // Is this a RPC_S_SERVER_UNAVAILABLE returned by vboxsvc?
         if (!retval) {
             if (output.find("RPC_S_SERVER_UNAVAILABLE") != string::npos) {
                 retval = RPC_S_SERVER_UNAVAILABLE;
             }
         }
-
-        // If something couldn't be found, just return ERR_FOPEN
-        if (!retval) retval = ERR_FOPEN;
 
     }
 
