@@ -51,7 +51,7 @@
                  * left-margin for indenting.
                  */ ?>
           <?php print str_repeat('<div class="indent">', $forum->depth); ?>
-            <div class="name"><a href="<?php print $forum->link; ?>"><?php print $forum->name; ?></a></div>
+            <div class="name"><?php print l($forum->name, "community/forum/{$forum->tid}", array('html' => TRUE)); ?></div>
             <?php if ($forum->description): ?>
               <div class="description"><?php print $forum->description; ?></div>
             <?php endif; ?>

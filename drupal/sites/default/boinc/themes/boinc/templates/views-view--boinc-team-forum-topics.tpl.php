@@ -76,7 +76,7 @@
       
       <div id="forum">
         <h2 class="title">
-          <?php print l($forum_vocab->name, 'forum') . ' &rsaquo; '; ?>
+          <?php print l($forum_vocab->name, 'community/forum') . ' &rsaquo; '; ?>
           <?php print $team_forum->title; ?>
         </h2>
         <?php if ($rows): ?>

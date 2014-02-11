@@ -100,7 +100,7 @@
       // Get vocabulary name and taxonomy name for subtitle breadcrumbs
       $taxonomy = taxonomy_get_term($forum_node->tid);
       if ($forum_vocab = taxonomy_vocabulary_load($taxonomy->vid)) {
-        $subtitle[] = l($forum_vocab->name, 'forum');
+        $subtitle[] = l($forum_vocab->name, 'community/forum');
       }
       if ($team_forum) {
         $subtitle[] = l($team_forum->title, "community/teams/{$team_forum->nid}/forum/{$team_forum->tfid}");
