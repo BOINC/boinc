@@ -104,6 +104,17 @@ public class SplashActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_splash);
 		
+		// check whether PTG is installed, if not, do not start.
+		try {
+			getPackageManager().getPackageInfo("com.htc.ptg", 0);
+	    	Log.e(Logging.TAG, "SplashActivity: PTG found, show forward dialog.");
+	    	Intent startPTGIntent = new Intent();
+		    startPTGIntent.setClassName("edu.berkeley.boinc", "edu.berkeley.boinc.ForwardDialog");
+		    startActivity(startPTGIntent);
+		    finish();
+		    return;
+		} catch (Exception ex) {} // Package not found exception.
+
 		//bind monitor service
         doBindService();
         

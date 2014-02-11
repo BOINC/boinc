@@ -19,6 +19,7 @@
 package edu.berkeley.boinc.client;
 
 import edu.berkeley.boinc.utils.*;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -38,6 +39,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.os.AsyncTask;
 import android.os.Binder;
 import android.os.Build;
 import android.os.IBinder;
@@ -45,6 +48,7 @@ import android.os.PowerManager;
 import android.util.Log;
 import edu.berkeley.boinc.AppPreferences;
 import edu.berkeley.boinc.R;
+import edu.berkeley.boinc.SplashActivity;
 import edu.berkeley.boinc.rpc.CcState;
 import edu.berkeley.boinc.rpc.CcStatus;
 import edu.berkeley.boinc.rpc.GlobalPreferences;
@@ -109,7 +113,25 @@ public class Monitor extends Service {
 	
 	@Override
     public void onCreate() {
+		
+		// check whether PTG is installed, if so, do not start service.
+		try {
+			getPackageManager().getPackageInfo("com.htc.ptg", 0);
+			Log.e(Logging.TAG,"Monitor onCreate(): PTG found, do not start.");
+			stopSelf();
+			return;
+		}
+		catch (NameNotFoundException ex) {
+			// catch exception and then skip once Power To Give is not found.
+		} 
+		
 		if(Logging.ERROR) Log.d(Logging.TAG,"Monitor onCreate()");
+		
+		// register listener for installation of incompatible apps
+		IntentFilter packageAddedIF = new IntentFilter();
+		packageAddedIF.addAction(Intent.ACTION_PACKAGE_ADDED);
+		packageAddedIF.addDataScheme("package");
+		registerReceiver(packageAddedReceiver, packageAddedIF);
 		
 		// populate attributes with XML resource values
 		boincWorkingDir = getString(R.string.client_path); 
@@ -152,8 +174,11 @@ public class Monitor extends Service {
     public void onDestroy() {
     	if(Logging.ERROR) Log.d(Logging.TAG,"Monitor onDestroy()");
     	
-    	// remove screen on/off receiver
-    	unregisterReceiver(screenOnOffReceiver);
+    	try {
+    		unregisterReceiver(packageAddedReceiver);
+    		// remove screen on/off receiver
+    		unregisterReceiver(screenOnOffReceiver);
+    	} catch (Exception ex) {}
     	
         // Cancel the persistent notification.
     	((NotificationManager)getSystemService(Service.NOTIFICATION_SERVICE)).cancel(getResources().getInteger(R.integer.autostart_notification_id));
@@ -162,8 +187,10 @@ public class Monitor extends Service {
 		updateTimer.cancel(); // cancel task
 		
 		 // release locks, if held.
-		clientStatus.setWakeLock(false);
-		clientStatus.setWifiLock(false);
+		try {
+			clientStatus.setWakeLock(false);
+			clientStatus.setWifiLock(false);
+		} catch (Exception ex) {}
     }
 
     @Override
@@ -292,6 +319,11 @@ public class Monitor extends Service {
     	
     	// set client status to SETUP_STATUS_CLOSING to adapt layout accordingly
 		if(status!=null)status.setSetupStatus(ClientStatus.SETUP_STATUS_CLOSING,true);
+		
+		// open exit splash activity. implies destruction (and unbound) of all others
+		Intent exitSplash = new Intent(this,SplashActivity.class);
+		exitSplash.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+		startActivity(exitSplash);
     	
     	// try graceful shutdown via RPC
 		clientInterface.quit();
@@ -321,13 +353,10 @@ public class Monitor extends Service {
         	quitProcessOsLevel(processName);
     	}
     	
-    	// cancel notification
-		ClientNotification.getInstance(getApplicationContext()).cancel();
-    	
     	// set client status to SETUP_STATUS_CLOSED to adapt layout accordingly
 		if(status!=null)status.setSetupStatus(ClientStatus.SETUP_STATUS_CLOSED,true);
 		
-		//stop service, triggers onDestroy
+		//stop service, triggers onDestroy (since all activities are unbound at this point
 		stopSelf();
     }
 	
@@ -569,26 +598,32 @@ public class Monitor extends Service {
 			} catch (Exception e) {}
 		}
 		
+		Boolean init = false;
 		if(connected) { // connection established
-			// make client read override settings from file
-			clientInterface.readGlobalPrefsOverride();
-			// read preferences for GUI to be able to display data
-			GlobalPreferences clientPrefs = clientInterface.getGlobalPrefsWorkingStruct();
-			status.setPrefs(clientPrefs);
-			// read supported projects
-			readAndroidProjectsList();
-			// set Android model as hostinfo
-			// should output something like "Samsung Galaxy SII - SDK:15 ABI:armeabi-v7a"
-			String model = Build.MANUFACTURER + " " + Build.MODEL + " - SDK:" + Build.VERSION.SDK_INT + " ABI: " + Build.CPU_ABI;
-			if(Logging.DEBUG) Log.d(Logging.TAG,"reporting hostinfo model name: " + model);
-			clientInterface.setHostInfo(model);
+			try {
+				// read preferences for GUI to be able to display data
+				GlobalPreferences clientPrefs = clientInterface.getGlobalPrefsWorkingStruct();
+				if(clientPrefs == null) throw new Exception("client prefs null");
+				status.setPrefs(clientPrefs);
+				
+				// read supported projects
+				readAndroidProjectsList();
+				
+				// set Android model as hostinfo
+				// should output something like "Samsung Galaxy SII - SDK:15 ABI:armeabi-v7a"
+				String model = Build.MANUFACTURER + " " + Build.MODEL + " - SDK:" + Build.VERSION.SDK_INT + " ABI: " + Build.CPU_ABI;
+				if(Logging.DEBUG) Log.d(Logging.TAG,"reporting hostinfo model name: " + model);
+				clientInterface.setHostInfo(model);
+				
+				init = true;
+			} catch(Exception e) {if(Logging.ERROR) Log.e(Logging.TAG,"Monitor.clientSetup() init failed: " + e.getMessage());}
 		}
 		
-		if(connected) {
+		if(init) {
 			if(Logging.DEBUG) Log.d(Logging.TAG, "setup completed successfully"); 
 			status.setSetupStatus(ClientStatus.SETUP_STATUS_AVAILABLE,false);
 		} else {
-			if(Logging.DEBUG) Log.d(Logging.TAG, "onPostExecute - setup experienced an error"); 
+			if(Logging.ERROR) Log.e(Logging.TAG, "onPostExecute - setup experienced an error"); 
 			status.setSetupStatus(ClientStatus.SETUP_STATUS_ERROR,true);
 		}
 		
@@ -627,14 +662,14 @@ public class Monitor extends Service {
 		
         success = clientInterface.open();
         if(!success) {
-        	if(Logging.DEBUG) Log.d(Logging.TAG, "connection failed!");
+        	if(Logging.ERROR) Log.e(Logging.TAG, "connection failed!");
         	return success;
         }
         
         //authorize
         success = clientInterface.authorizeGuiFromFile(boincWorkingDir + fileNameGuiAuthentication);
         if(!success) {
-        	if(Logging.DEBUG) Log.d(Logging.TAG, "authorization failed!");
+        	if(Logging.ERROR) Log.e(Logging.TAG, "authorization failed!");
         }
         return success;
 	}
@@ -896,7 +931,7 @@ public class Monitor extends Service {
     }
 // --end-- BOINC client installation and run-time management
 	
-// screen on/off receiver
+// broadcast receiver
 	/**
 	 * broadcast receiver to detect changes to screen on or off, used to adapt scheduling of StatusUpdateTimerTask
 	 * e.g. avoid polling GUI status RPCs while screen is off in order to save battery
@@ -916,5 +951,42 @@ public class Monitor extends Service {
 			}
         } 
 	}; 
-// --end-- screen on/off receiver
+
+	/**
+	 * broadcast receiver to detect added/installed packages. If package not compatible with BOINC
+	 * shutdown service.
+	 */
+	BroadcastReceiver packageAddedReceiver = new BroadcastReceiver() {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			if (intent.getAction().equals(Intent.ACTION_PACKAGE_ADDED)) {
+	    		if (intent.hasExtra(Intent.EXTRA_UID)) {
+	    			int uid = intent.getIntExtra(Intent.EXTRA_UID, -1);
+	    			if (uid > -1) {
+	    				String[] packages = context.getPackageManager().getPackagesForUid(uid);
+	    				for (String pkg : packages) {
+	    					if (pkg.equals("com.htc.ptg")) {
+	    						if(Logging.ERROR) Log.d(Logging.TAG,"PackageReplacedReceiver: PTG added, stop Monitor...");
+	    						new QuitClientAsync().execute();
+	    						break;
+	    					}
+	    				}
+	    			}
+	    		}
+	    	}
+		}
+	};
+// --end-- broadcast receiver
+	
+// async tasks
+	// monitor.quitClient is blocking (Thread.sleep)
+	// execute in AsyncTask to maintain UI responsiveness
+	private final class QuitClientAsync extends AsyncTask<Void, Void, Void> {
+		@Override
+		protected Void doInBackground(Void... params) {
+			quitClient();
+			return null;
+		}
+	}
+// --end -- async tasks
 }

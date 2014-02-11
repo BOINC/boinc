@@ -95,11 +95,11 @@ public class ClientInterfaceImplementation extends RpcClient{
 	 * @return GUI RPC authentication code
 	 */
 	public String readAuthToken(String authFilePath) {
-		File authFile = new File(authFilePath);
     	StringBuffer fileData = new StringBuffer(100);
     	char[] buf = new char[1024];
     	int read = 0;
     	try{
+    		File authFile = new File(authFilePath);
     		BufferedReader br = new BufferedReader(new FileReader(authFile));
     		while((read=br.read(buf)) != -1){
     	    	String readData = String.valueOf(buf, 0, read);
