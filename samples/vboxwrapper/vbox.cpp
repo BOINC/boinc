@@ -1514,13 +1514,14 @@ void VBOX_VM::dumphypervisorlogs(bool include_error_logs) {
         stderr,
         "\n"
         "    VM Guest Log:\n\n"
-        "%s\n",
+        "%s",
         local_guest_log.c_str()
     );
 
     if (vm_exit_code) {
         fprintf(
             stderr,
+            "\n"
             "    VM Exit Code: %d (0x%x)\n\n",
             (unsigned int)vm_exit_code,
             (unsigned int)vm_exit_code
