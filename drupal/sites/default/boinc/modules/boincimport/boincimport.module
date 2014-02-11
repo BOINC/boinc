@@ -1772,6 +1772,7 @@ function boincimport_team_forum_topics() {
       'sticky' => $topic->sticky,
       'format' => $input_format,
       'teaser' => $teaser,
+      'tfid' => $team_forum_id,
     );
     $node['title'] = _boincimport_text_sanitize($node['title']);
     
