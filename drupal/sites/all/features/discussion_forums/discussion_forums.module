@@ -10,17 +10,42 @@ require_once('discussion_forums.features.inc');
 function discussion_forums_enable() {
   // Check that the forum access module has its internal role set up and that
   // it has been renamed from "Forum Moderator," which is ridiculous
-  if (!$rid = forum_access_query_moderator_rid()) {
-    module_load_include('inc', 'forum_access', 'forum_access.admin');
-    $rid = _forum_access_create_moderator_rid();
-  }
-  $ret = array();
+  
+  $better_name = t('forum control (system use only)');
+  
+  // Get the role ID of the forum access moderator role; this also sets up the
+  // role if for some reason it has not already been done
+  module_load_include('inc', 'forum_access', 'forum_access.node');
+  $rid = _forum_access_get_moderator_rid();
+  
+  // The role export module really messes with role IDs... be sure things are
+  // normalized before thinking that the forum access role ID won't change
+  role_export_normalize();
+  
   $roles = user_roles();
-  if ($rid AND isset($roles[$rid])) {
-    $role_name = $roles[$rid];
-    if ($role_name == 'Forum Moderator') {
-      $ret[] = db_query("UPDATE {role} SET name = '%s' WHERE rid = %d",
-        t('forum control (system use only)'), $rid);
+  
+  if (isset($roles[$rid]) AND $roles[$rid] == $better_name) {
+    // Life is good
+  }
+  else {
+    $better_rid = array_search($better_name, $roles);
+    $old_rid = array_search('Forum Moderator', $roles);
+    if (!$better_rid) {
+      if ($old_rid) {
+        db_query("UPDATE {role} SET name = '%s' WHERE rid = %d",
+          $better_name, $old_rid);
+        $better_rid = $old_rid;
+        $old_rid = NULL;
+      }
+      else {
+        drupal_set_message(t('The Forum Access module is not set up right. Try disabling the Discussion Forums feature and then manually uninstall the Forum Access module before enabling Discussion Forums again.', 'error'));
+      }
+    }
+    // Use our "better named" role for the forum access moderator
+    variable_set('forum_access_moderator_rid', $better_rid);
+    if ($old_rid) {
+      // Delete the default forum access role
+      db_query("DELETE FROM {role} WHERE rid = '%d'", $old_rid);
     }
   }
 }
