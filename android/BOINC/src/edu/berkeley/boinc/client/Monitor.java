@@ -39,6 +39,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.AsyncTask;
 import android.os.Binder;
@@ -114,18 +115,22 @@ public class Monitor extends Service {
 	@Override
     public void onCreate() {
 		
+		Log.d(Logging.TAG,"Monitor onCreate()");
+		
 		// check whether PTG is installed, if so, do not start service.
+		// this check has to be similar to SpalshActivity.onCreate()
 		try {
-			getPackageManager().getPackageInfo("com.htc.ptg", 0);
-			Log.e(Logging.TAG,"Monitor onCreate(): PTG found, do not start.");
-			stopSelf();
-			return;
+			getPackageManager().getPackageInfo("com.htc.ptg", 0); 
+			if ("com.android.vending".equals(getPackageManager().getInstallerPackageName("com.htc.ptg")) // check if installed through PlayStore
+	                || (getPackageManager().getPackageInfo("com.htc.ptg", 0).applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == ApplicationInfo.FLAG_SYSTEM) { // check if pre-installed
+				Log.e(Logging.TAG,"Monitor onCreate(): PTG found, do not start.");
+				stopSelf();
+				return;
+			} else Log.w(Logging.TAG,"Monitor.onCreate(): com.htc.ptg found, but unknown vendor, start...");
 		}
 		catch (NameNotFoundException ex) {
 			// catch exception and then skip once Power To Give is not found.
 		} 
-		
-		if(Logging.ERROR) Log.d(Logging.TAG,"Monitor onCreate()");
 		
 		// register listener for installation of incompatible apps
 		IntentFilter packageAddedIF = new IntentFilter();

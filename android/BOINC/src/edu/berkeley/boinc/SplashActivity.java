@@ -29,6 +29,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.content.pm.ApplicationInfo;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
@@ -105,15 +106,19 @@ public class SplashActivity extends Activity {
 		setContentView(R.layout.activity_splash);
 		
 		// check whether PTG is installed, if not, do not start.
+		// this check has to be similar to client.Monitor.onCreate()
 		try {
 			getPackageManager().getPackageInfo("com.htc.ptg", 0);
-	    	Log.e(Logging.TAG, "SplashActivity: PTG found, show forward dialog.");
-	    	Intent startPTGIntent = new Intent();
-		    startPTGIntent.setClassName("edu.berkeley.boinc", "edu.berkeley.boinc.ForwardDialog");
-		    startActivity(startPTGIntent);
-		    finish();
-		    return;
-		} catch (Exception ex) {} // Package not found exception.
+			if ("com.android.vending".equals(getPackageManager().getInstallerPackageName("com.htc.ptg")) // check if installed through PlayStore
+	                || (getPackageManager().getPackageInfo("com.htc.ptg", 0).applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == ApplicationInfo.FLAG_SYSTEM) { // check if pre-installed
+		    	Log.e(Logging.TAG, "SplashActivity: PTG found, show forward dialog.");
+		    	Intent startPTGIntent = new Intent();
+			    startPTGIntent.setClassName("edu.berkeley.boinc", "edu.berkeley.boinc.ForwardDialog");
+			    startActivity(startPTGIntent);
+			    finish();
+			    return;
+			} else Log.w(Logging.TAG,"SplashActivity: com.htc.ptg found, but unknown vendor, start BOINC...");
+		} catch (Exception ex) {} // NOP Package not found exception.
 
 		//bind monitor service
         doBindService();
