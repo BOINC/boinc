@@ -821,7 +821,12 @@ bool ACTIVE_TASK_SET::check_rsc_limits_exceeded() {
             did_anything = true;
             continue;
         }
-        ram_left -= atp->procinfo.working_set_size_smoothed;
+
+        // don't count RAM usage of non-CPU-intensive jobs
+        //
+        if (!atp->result->non_cpu_intensive()) {
+            ram_left -= atp->procinfo.working_set_size_smoothed;
+        }
     }
     if (ram_left < 0) {
         gstate.request_schedule_cpus("RAM usage limit exceeded");
