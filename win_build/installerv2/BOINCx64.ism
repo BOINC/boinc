@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <?xml-stylesheet type="text/xsl" href="is.xsl" ?>
 <!DOCTYPE msi [
    <!ELEMENT msi   (summary,table*)>
@@ -352,7 +352,7 @@
 		<row><td>_BOINCData</td><td>{4E793828-A468-4366-892F-FC2F36EC99D9}</td><td>DATADIR</td><td>272</td><td/><td/><td>145</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>_BOINCDataProjects</td><td>{9C720438-35E8-4377-A105-AF3675664094}</td><td>PROJECTS</td><td>272</td><td/><td/><td>145</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>_BOINCDataSlots</td><td>{C9FE7A6E-2470-4666-949B-4DB2BB936E5F}</td><td>SLOTS</td><td>272</td><td/><td/><td>145</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>_BOINCDepends</td><td>{69AF1C45-9D67-4F33-B97B-5DA096D77908}</td><td>INSTALLDIR</td><td>256</td><td/><td>msvcr80.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>_BOINCDepends</td><td>{69AF1C45-9D67-4F33-B97B-5DA096D77908}</td><td>INSTALLDIR</td><td>256</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>_BOINCManager</td><td>{7EBB5E76-86BA-4EBA-98AA-DD908C215D72}</td><td>INSTALLDIR</td><td>256</td><td/><td>boincmgr.exe</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>_BOINCManagerGlobalization</td><td>{F92B6595-2E79-45F0-BF41-4EDB52645FFC}</td><td>LOCALE</td><td>256</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>_BOINCManagerSkin</td><td>{73A92885-CE76-42CE-916B-1B52DAADD11C}</td><td>DEFAULT</td><td>256</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
@@ -2467,7 +2467,7 @@
 		<row><td>WEBx64</td><td>ProductCode</td><td/></row>
 		<row><td>WEBx64</td><td>ProductName</td><td/></row>
 		<row><td>WEBx64</td><td>ProductVersion</td><td/></row>
-		<row><td>WEBx64</td><td>SetupFileName</td><td>boinc_7.2.4_windows_x86_64</td></row>
+		<row><td>WEBx64</td><td>SetupFileName</td><td>boinc_7.3.2_windows_x86_64</td></row>
 		<row><td>WEBx64</td><td>UpgradeCode</td><td/></row>
 	</table>
 
@@ -4574,11 +4574,11 @@ VwBlAGIAAQBXAEUAQgB4ADYANAA=
 		<row><td>PROGMSG_IIS_ROLLBACKAPPPOOLS</td><td>##IDS_PROGMSG_IIS_ROLLBACKAPPPOOLS##</td><td/></row>
 		<row><td>PROGMSG_IIS_ROLLBACKWEBSERVICEEXTENSIONS</td><td>##IDS_PROGMSG_IIS_ROLLBACKWEBSERVICEEXTENSIONS##</td><td/></row>
 		<row><td>PROGRAMFILETOLAUNCHATEND</td><td>[#boincmgr.exe]</td><td/></row>
-		<row><td>ProductCode</td><td>{B71752EB-7921-40D2-B349-5782916C39CB}</td><td/></row>
+		<row><td>ProductCode</td><td>{903ECB00-E65A-4AA0-BE89-72F3B638A09A}</td><td/></row>
 		<row><td>ProductID</td><td>none</td><td/></row>
 		<row><td>ProductLanguage</td><td>1033</td><td/></row>
 		<row><td>ProductName</td><td>BOINC</td><td/></row>
-		<row><td>ProductVersion</td><td>7.2.4</td><td/></row>
+		<row><td>ProductVersion</td><td>7.3.2</td><td/></row>
 		<row><td>ProgressType0</td><td>install</td><td/></row>
 		<row><td>ProgressType1</td><td>Installing</td><td/></row>
 		<row><td>ProgressType2</td><td>installed</td><td/></row>
