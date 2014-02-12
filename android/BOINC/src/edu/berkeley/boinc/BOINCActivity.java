@@ -131,6 +131,7 @@ public class BOINCActivity extends ActionBarActivity {
 
 			public void onDrawerOpened(View drawerView) {
 				getSupportActionBar().setTitle(mDrawerTitle);
+				mDrawerListAdapter.notifyDataSetChanged(); // force redraw of all items (adapter.getView()) in order to adapt changing icons or number of tasks/notices
 				// calling onPrepareOptionsMenu() to hide action bar icons
 				supportInvalidateOptionsMenu();
 			}
@@ -332,7 +333,7 @@ public class BOINCActivity extends ActionBarActivity {
 
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
-	    if(Logging.DEBUG) Log.d(Logging.TAG, "BOINCActivity onCreateOptionsMenu()");
+	    if(Logging.DEBUG) Log.d(Logging.TAG, "BOINCActivity onPrepareOptionsMenu()");
 		
 		// run mode, set title and icon based on status
 		MenuItem runMode = menu.findItem(R.id.run_mode);

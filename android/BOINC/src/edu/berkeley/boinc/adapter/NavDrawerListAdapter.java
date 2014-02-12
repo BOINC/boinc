@@ -99,6 +99,7 @@ public class NavDrawerListAdapter extends BaseAdapter{
          
         if(navDrawerItems.get(position).isProjectItem) {
         	Bitmap icon = navDrawerItems.get(position).getProjectIcon();
+        	if(icon == null) navDrawerItems.get(position).updateProjectIcon();
         	if(icon != null) imgIcon.setImageBitmap(icon);
         }
         else imgIcon.setImageResource(navDrawerItems.get(position).getIcon());        
@@ -132,6 +133,14 @@ public class NavDrawerListAdapter extends BaseAdapter{
         return convertView;
 	}
 	
+	public Bitmap getProjectIconForMasterUrl(String masterUrl) {
+		Bitmap bm = null;
+		try {
+			bm = Monitor.getClientStatus().getProjectIcon(masterUrl);
+		} catch (Exception e) {}
+		return bm;
+	}
+	
 	/**
 	 * Compares list of projects to items represented in nav bar.
 	 * @param projects
@@ -146,13 +155,12 @@ public class NavDrawerListAdapter extends BaseAdapter{
 		}
 		
 		Integer numberAdded = 0;
-		try {
-			for(Project project: projects) {
-				NavDrawerItem newProjectItem = new NavDrawerItem(project.project_name, Monitor.getClientStatus().getProjectIcon(project.master_url), project.master_url);
-				navDrawerItems.add(3, newProjectItem);
-				numberAdded++;
-			}
-		} catch (Exception e) {}
+		
+		for(Project project: projects) {
+			NavDrawerItem newProjectItem = new NavDrawerItem(project.project_name, getProjectIconForMasterUrl(project.master_url), project.master_url);
+			navDrawerItems.add(3, newProjectItem);
+			numberAdded++;
+		}
 		
 		if(Logging.DEBUG) Log.d(Logging.TAG, "NavDrawerListAdapter.compareAndAddProjects() added: " + numberAdded);
 		this.notifyDataSetChanged();
@@ -245,6 +253,10 @@ public class NavDrawerListAdapter extends BaseAdapter{
 		
 		public Bitmap getProjectIcon() {
 			return this.projectIcon;
+		}
+		
+		public void updateProjectIcon() {
+			this.projectIcon = getProjectIconForMasterUrl(projectMasterUrl);
 		}
 		
 		public void setTitle(String title){
