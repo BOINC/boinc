@@ -336,6 +336,10 @@ void ACTIVE_TASK_SET::get_memory_usage() {
         }
         return;
     }
+    PROCINFO boinc_total;
+    if (log_flags.mem_usage_debug) {
+        memset(&boinc_total, 0, sizeof(boinc_total));
+    }
     for (i=0; i<active_tasks.size(); i++) {
         ACTIVE_TASK* atp = active_tasks[i];
         if (atp->task_state() == PROCESS_UNINITIALIZED) continue;
@@ -371,15 +375,32 @@ void ACTIVE_TASK_SET::get_memory_usage() {
             pi.page_fault_rate = pf/diff;
             if (log_flags.mem_usage_debug) {
                 msg_printf(atp->result->project, MSG_INFO,
-                    "[mem_usage] %s: WS %.2fMB, smoothed %.2fMB, page %.2fMB, %.2f page faults/sec, user CPU %.3f, kernel CPU %.3f",
+                    "[mem_usage] %s: WS %.2fMB, smoothed %.2fMB, swap %.2fMB, %.2f page faults/sec, user CPU %.3f, kernel CPU %.3f",
                     atp->result->name,
                     pi.working_set_size/MEGA,
                     pi.working_set_size_smoothed/MEGA,
                     pi.swap_size/MEGA,
                     pi.page_fault_rate,
-                    pi.user_time, pi.kernel_time
+                    pi.user_time,
+                    pi.kernel_time
                 );
+                boinc_total.working_set_size += pi.working_set_size;
+                boinc_total.working_set_size_smoothed += pi.working_set_size_smoothed;
+                boinc_total.swap_size += pi.swap_size;
+                boinc_total.page_fault_rate += pi.page_fault_rate;
             }
+        }
+    }
+
+    if (!first) {
+        if (log_flags.mem_usage_debug) {
+            msg_printf(0, MSG_INFO,
+                "[mem_usage] BOINC totals: WS %.2fMB, smoothed %.2fMB, swap %.2fMB, %.2f page faults/sec",
+                boinc_total.working_set_size/MEGA,
+                boinc_total.working_set_size_smoothed/MEGA,
+                boinc_total.swap_size/MEGA,
+                boinc_total.page_fault_rate
+            );
         }
     }
 
@@ -408,7 +429,7 @@ void ACTIVE_TASK_SET::get_memory_usage() {
     procinfo_non_boinc(pi, pm);
     if (log_flags.mem_usage_debug) {
         msg_printf(NULL, MSG_INFO,
-            "[mem_usage] All others: RAM %.2fMB, page %.2fMB, user %.3f, kernel %.3f",
+            "[mem_usage] All others: WS %.2fMB, swap %.2fMB, user %.3fs, kernel %.3fs",
             pi.working_set_size/MEGA, pi.swap_size/MEGA,
             pi.user_time, pi.kernel_time
         );
