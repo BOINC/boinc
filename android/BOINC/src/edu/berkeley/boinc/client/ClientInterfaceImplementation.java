@@ -476,6 +476,7 @@ public class ClientInterfaceImplementation extends RpcClient{
 		// less than desired number of messsages available, adapt lower bound
 		if(lowerBound < 0) lowerBound = 0;
 		ArrayList<Message> msgs= getMessages(lowerBound); // returns ever messages with seqNo > lowerBound
+		if(msgs == null) msgs = new ArrayList<Message>(); // getMessages might return null in case of parsing or IO error
 		
 		if(seqNo > 0) {
 			// remove messages that are >= seqNo

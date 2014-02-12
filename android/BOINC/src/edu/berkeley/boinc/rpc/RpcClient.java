@@ -500,7 +500,6 @@ public class RpcClient {
 			}
 			sendRequest(request);
 			ArrayList<Message> messages = MessagesParser.parse(receiveReply());
-			if(messages == null) messages = new ArrayList<Message>(); // do not return null
 			return messages;
 		}
 		catch (IOException e) {
