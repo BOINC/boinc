@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2008 University of California
+# Copyright (C) 2014 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -18,10 +18,11 @@
 # along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 #
 #
-# Script to build Macintosh 32-bit Intel library of sqlite3.7.14.1 for
+# Script to build Macintosh 32-bit Intel library of sqlite 3.8.3 for
 # use in building BOINC Manager.
 #
 # by Charlie Fenton 12/11/12
+# Updated 2/11/14 for sqlite 3.8.3
 #
 ## This script requires OS 10.6 or later
 #
@@ -29,8 +30,8 @@
 ## and clicked the Install button on the dialog which appears to 
 ## complete the Xcode installation before running this script.
 #
-## In Terminal, CD to the sqlite-autoconf-3071401 directory.
-##     cd [path]/sqlite-autoconf-3071401/
+## In Terminal, CD to the sqlite-autoconf-3080300 directory.
+##     cd [path]/sqlite-autoconf-3080300/
 ## then run this script:
 ##     source [path]/buildsqlite3.sh [ -clean ]
 ##
@@ -39,7 +40,7 @@
 
 if [ "$1" != "-clean" ]; then
     if [ -f .libs/libsqlite3.a ]; then
-        echo "sqlite-3.7.14.1 already built"
+        echo "sqlite-3.8.3 already built"
         return 0
     fi
 fi

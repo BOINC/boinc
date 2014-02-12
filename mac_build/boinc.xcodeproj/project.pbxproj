@@ -195,7 +195,6 @@
 		DD6A829C181103990037172D /* thread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD6A829A181103990037172D /* thread.cpp */; };
 		DD6ABCD10BD4C5CA009AA7A1 /* browser_safari.mm in Sources */ = {isa = PBXBuildFile; fileRef = DD6ABCD00BD4C5CA009AA7A1 /* browser_safari.mm */; };
 		DD6D0A8707E9A61E007F882B /* network.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD6D0A8507E9A61B007F882B /* network.cpp */; };
-		DD6FCB68167745E700C740DB /* libsqlite3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DD6FCB67167745E700C740DB /* libsqlite3.a */; };
 		DD728D45175DD3B900A1CE23 /* url.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDC06AB210A3E93F00C8D9A5 /* url.cpp */; };
 		DD728D47175DD41B00A1CE23 /* str_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7BF7D70B8E7A9800A009F7 /* str_util.cpp */; };
 		DD73E36E08A0720500656EB1 /* gui_rpc_server_ops.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD73E36208A06ED400656EB1 /* gui_rpc_server_ops.cpp */; };
@@ -329,6 +328,7 @@
 		DDA12AAE0A369C5800FBDD12 /* SecurityUtility.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDA12AAD0A369C5800FBDD12 /* SecurityUtility.cpp */; };
 		DDA165E513B49B0D00CB4DD5 /* url.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDC06AB210A3E93F00C8D9A5 /* url.cpp */; };
 		DDA1F1EE126D105B005EFFEB /* current_version.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDA1F1EC126D105B005EFFEB /* current_version.cpp */; };
+		DDA2EC1618AA592D002664B6 /* libsqlite3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DDA2EC1518AA592D002664B6 /* libsqlite3.a */; };
 		DDA45500140F7DE200D97676 /* synch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD407AED07D2FE7200163EF5 /* synch.cpp */; };
 		DDA45501140F7E7900D97676 /* reduce_main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD40825807D3076400163EF5 /* reduce_main.cpp */; };
 		DDA6BD120BD4551F008F7921 /* mac_backtrace.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDA6BD040BD4551F008F7921 /* mac_backtrace.cpp */; };
@@ -906,7 +906,6 @@
 		DD6D0A8507E9A61B007F882B /* network.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = network.cpp; sourceTree = "<group>"; };
 		DD6D0A8607E9A61B007F882B /* network.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = network.h; path = ../lib/network.h; sourceTree = SOURCE_ROOT; };
 		DD6D82DA08131AB1008F7200 /* macglutfix.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = macglutfix.m; sourceTree = "<group>"; };
-		DD6FCB67167745E700C740DB /* libsqlite3.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsqlite3.a; path = "../../sqlite-autoconf-3071401/.libs/libsqlite3.a"; sourceTree = "<group>"; };
 		DD7168360AAD72040051642B /* common_defs.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = common_defs.h; path = ../lib/common_defs.h; sourceTree = SOURCE_ROOT; };
 		DD73E34E08A0694000656EB1 /* gui_rpc_client_ops.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = gui_rpc_client_ops.cpp; sourceTree = "<group>"; };
 		DD73E34F08A0694100656EB1 /* gui_rpc_client_print.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = gui_rpc_client_print.cpp; sourceTree = "<group>"; };
@@ -1054,6 +1053,7 @@
 		DDA1F1EC126D105B005EFFEB /* current_version.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = current_version.cpp; path = ../client/current_version.cpp; sourceTree = SOURCE_ROOT; };
 		DDA1F1ED126D105B005EFFEB /* current_version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = current_version.h; path = ../client/current_version.h; sourceTree = SOURCE_ROOT; };
 		DDA290360CB5D80E00512BD8 /* Mac_Saver_Module.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Mac_Saver_Module.h; path = ../clientscr/Mac_Saver_Module.h; sourceTree = SOURCE_ROOT; };
+		DDA2EC1518AA592D002664B6 /* libsqlite3.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsqlite3.a; path = "../../sqlite-autoconf-3080300/.libs/libsqlite3.a"; sourceTree = "<group>"; };
 		DDA45502140F85DD00D97676 /* str_replace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = str_replace.h; sourceTree = "<group>"; };
 		DDA6BD030BD4551F008F7921 /* dyld_gdb.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = dyld_gdb.h; path = ../lib/mac/dyld_gdb.h; sourceTree = SOURCE_ROOT; };
 		DDA6BD040BD4551F008F7921 /* mac_backtrace.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = mac_backtrace.cpp; path = ../lib/mac/mac_backtrace.cpp; sourceTree = SOURCE_ROOT; };
@@ -1249,10 +1249,10 @@
 				DD3E15320A774397007E0084 /* IOKit.framework in Frameworks */,
 				DD3E15330A774397007E0084 /* Security.framework in Frameworks */,
 				DD21B49D0D750FC600AFFEE5 /* AppKit.framework in Frameworks */,
-				DD6FCB68167745E700C740DB /* libsqlite3.a in Frameworks */,
 				DD9E560A182D06A6002AF0F8 /* libwx_osx_cocoa_static.a in Frameworks */,
 				DD9E560F182D0D40002AF0F8 /* WebKit.framework in Frameworks */,
 				DD7811631851AC8D0050CF7B /* OpenGL.framework in Frameworks */,
+				DDA2EC1618AA592D002664B6 /* libsqlite3.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1469,13 +1469,13 @@
 			isa = PBXGroup;
 			children = (
 				DDE36DF517C3896A000E78D6 /* libwx_osx_cocoa_static.a */,
+				DDA2EC1518AA592D002664B6 /* libsqlite3.a */,
 				DDFE854A0B60CFD0009B43D9 /* AppKit.framework */,
 				DDE2552B07C62F3E008E7D6E /* IOKit.framework */,
 				20286C33FDCF999611CA2CEA /* Carbon.framework */,
 				DD7C5E7508110AE3002FCE1E /* ScreenSaver.framework */,
 				DD1929D80918A2F100C31BCF /* Security.framework */,
 				DD9E560E182D0D40002AF0F8 /* WebKit.framework */,
-				DD6FCB67167745E700C740DB /* libsqlite3.a */,
 				DD89165D0F3B1BC200DE5B1C /* GLUT.framework */,
 				DD89165E0F3B1BC200DE5B1C /* OpenGL.framework */,
 			);
@@ -3545,7 +3545,8 @@
 				LIBRARY_SEARCH_PATHS = (
 					"../../wxWidgets-3.0.0/build/osx/build/Debug",
 					"\"$(SRCROOT)/../../wxWidgets-3.0.0/build/osx/build/Debug\"",
-					"../../sqlite-autoconf-3071401/.libs/",
+					"../../sqlite-autoconf-3080300/.libs/",
+					"\"$(SRCROOT)/../../sqlite-autoconf-3080300/.libs\"",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				OTHER_CFLAGS = (
@@ -3601,7 +3602,8 @@
 				LIBRARY_SEARCH_PATHS = (
 					"../../wxWidgets-3.0.0/build/osx/build/Release",
 					"\"$(SRCROOT)/../../wxWidgets-3.0.0/build/osx/build/Release\"",
-					"../../sqlite-autoconf-3071401/.libs/",
+					"../../sqlite-autoconf-3080300/.libs/",
+					"\"$(SRCROOT)/../../sqlite-autoconf-3080300/.libs\"",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				OTHER_CFLAGS = (
@@ -3744,14 +3746,6 @@
 					"-lbz2",
 				);
 				PRODUCT_NAME = boincscr;
-				WARNING_LDFLAGS = (
-					"-lresolv",
-					"-ljpeg",
-					"../../freetype-2.4.10/objs/.libs/libfreetype.a",
-					"../../ftgl-2.1.3~rc5/src/.libs/libftgl.a",
-					"-lz",
-					"-lbz2",
-				);
 			};
 			name = Development;
 		};
@@ -3777,14 +3771,6 @@
 					"-lbz2",
 				);
 				PRODUCT_NAME = boincscr;
-				WARNING_LDFLAGS = (
-					"-lresolv",
-					"-ljpeg",
-					"../../freetype-2.4.10/objs/.libs/libfreetype.a",
-					"../../ftgl-2.1.3~rc5/src/.libs/libftgl.a",
-					"-lz",
-					"-lbz2",
-				);
 			};
 			name = Deployment;
 		};
@@ -3896,10 +3882,10 @@
 				);
 				OTHER_LDFLAGS = (
 					"-L.",
-					"../../curl-7.26.0/lib/.libs/libcurl.a",
-					"../../c-ares-1.9.1/.libs/libcares.a",
-					"../../openssl-1.0.1e/libcrypto.a",
-					"../../openssl-1.0.1e/libssl.a",
+					"../../curl-7.35.0/lib/.libs/libcurl.a",
+					"../../c-ares-1.10.0/.libs/libcares.a",
+					"../../openssl-1.0.1f/libcrypto.a",
+					"../../openssl-1.0.1f/libssl.a",
 					"-lldap",
 					"-lz",
 				);
@@ -4062,10 +4048,10 @@
 				LIBRARY_SEARCH_PATHS = "";
 				OTHER_LDFLAGS = (
 					"-L.",
-					"../../curl-7.26.0/lib/.libs/libcurl.a",
-					"../../c-ares-1.9.1/.libs/libcares.a",
-					"../../openssl-1.0.1e/libcrypto.a",
-					"../../openssl-1.0.1e/libssl.a",
+					"../../curl-7.35.0/lib/.libs/libcurl.a",
+					"../../c-ares-1.10.0/.libs/libcares.a",
+					"../../openssl-1.0.1f/libcrypto.a",
+					"../../openssl-1.0.1f/libssl.a",
 					"-lldap",
 					"-lz",
 				);
