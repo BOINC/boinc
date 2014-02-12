@@ -21,6 +21,9 @@ package edu.berkeley.boinc;
 import edu.berkeley.boinc.utils.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+
 import edu.berkeley.boinc.adapter.NoticesListAdapter;
 import edu.berkeley.boinc.client.Monitor;
 import edu.berkeley.boinc.rpc.Notice;
@@ -47,7 +50,7 @@ public class NoticesFragment extends Fragment {
     	if(Logging.VERBOSE) Log.d(Logging.TAG,"NoticesFragment onCreateView");
     	View layout = inflater.inflate(R.layout.notices_layout, container, false);
 		noticesList = (ListView) layout.findViewById(R.id.noticesList);
-		try{data = Monitor.getClientStatus().getRssNotices();} catch(Exception e){}
+		updateNotices();
 		noticesListAdapter = new NoticesListAdapter(getActivity(), R.id.noticesList, data);
 		noticesList.setAdapter(noticesListAdapter);
 		return layout;
@@ -74,9 +77,23 @@ public class NoticesFragment extends Fragment {
 			if(Logging.VERBOSE) Log.d(Logging.TAG, "StatusFragment ClientStatusChange - onReceive()"); 
 
 		    // data retrieval
-			try{data = Monitor.getClientStatus().getRssNotices();} catch(Exception e){}
+			updateNotices();
 			noticesListAdapter.notifyDataSetChanged();
 		}
 	};
 	private IntentFilter ifcsc = new IntentFilter("edu.berkeley.boinc.clientstatuschange");
+	
+	private void updateNotices() {
+		try{
+			data = Monitor.getClientStatus().getRssNotices();
+			// sorting policy:
+			// latest arrival first.
+			Collections.sort(data, new Comparator<Notice>() {
+				@Override
+				public int compare(Notice lhs, Notice rhs) {
+					return ((Double) (rhs.create_time - lhs.create_time)).intValue();
+				}
+			});
+		} catch(Exception e){}
+	}
 }
