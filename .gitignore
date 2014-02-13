@@ -11,8 +11,11 @@
 
 # Installshield build directories
 /win_build/installerv2/BOINC
+/win_build/installerv2/BOINC_vbox
 /win_build/installerv2/BOINCx64
+/win_build/installerv2/BOINCx64_vbox
 /win_build/installerv2/WCG
+/win_build/installerv2/Progress
 
 #
 *.pfx
@@ -24,7 +27,6 @@
 *.la
 *.in
 /client/Makefile
-/win_build/installerv2/Progress
 /win_build/*.filters
 /win_build/boinc.sdf
 /win_build/boinc.opensdf
