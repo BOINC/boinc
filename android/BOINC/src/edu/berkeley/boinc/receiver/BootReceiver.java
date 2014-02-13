@@ -20,7 +20,7 @@ package edu.berkeley.boinc.receiver;
 
 import edu.berkeley.boinc.utils.*;
 
-import edu.berkeley.boinc.AppPreferences;
+import edu.berkeley.boinc.client.AppPreferences;
 import edu.berkeley.boinc.client.Monitor;
 import android.content.BroadcastReceiver;
 import android.content.Context;

@@ -19,8 +19,39 @@
 
 package edu.berkeley.boinc.rpc;
 
-public class GuiUrl {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class GuiUrl implements Parcelable{
 	public String name;
 	public String description;
 	public String url;
+	@Override
+	public int describeContents() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	@Override
+	public void writeToParcel(Parcel dest, int arg1) {
+		dest.writeString(name);
+		dest.writeString(description);
+		dest.writeString(url);
+	}
+	
+	public GuiUrl() {}
+	
+	private GuiUrl(Parcel in) {
+		name = in.readString();
+		description = in.readString();
+		url = in.readString();
+	}
+	
+	public static final Parcelable.Creator<GuiUrl> CREATOR = new Parcelable.Creator<GuiUrl>() {
+		public GuiUrl createFromParcel(Parcel in) {
+		    return new GuiUrl(in);
+		}
+		public GuiUrl[] newArray(int size) {
+		    return new GuiUrl[size];
+		}
+	};
 }

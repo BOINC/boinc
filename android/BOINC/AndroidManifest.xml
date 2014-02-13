@@ -103,7 +103,7 @@
                 android:value="edu.berkeley.boinc.BOINCActivity" />
         </activity>
 
-        <service android:name="edu.berkeley.boinc.client.Monitor" >
+        <service android:name="edu.berkeley.boinc.client.Monitor" android:process=":remote">
         </service>
 
         <receiver android:name="edu.berkeley.boinc.receiver.BootReceiver" >

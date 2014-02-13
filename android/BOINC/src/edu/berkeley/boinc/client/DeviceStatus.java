@@ -18,7 +18,6 @@
  ******************************************************************************/
 package edu.berkeley.boinc.client;
 
-import edu.berkeley.boinc.AppPreferences;
 import edu.berkeley.boinc.rpc.DeviceStatusData;
 import edu.berkeley.boinc.utils.*;
 

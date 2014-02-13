@@ -19,7 +19,6 @@
 package edu.berkeley.boinc.client;
 
 import edu.berkeley.boinc.utils.*;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -30,6 +29,7 @@ import java.io.OutputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -41,20 +41,28 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
-import android.os.Binder;
 import android.os.Build;
 import android.os.IBinder;
 import android.os.PowerManager;
+import android.os.RemoteException;
 import android.util.Log;
-import edu.berkeley.boinc.AppPreferences;
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.SplashActivity;
+import edu.berkeley.boinc.rpc.AccountOut;
+import edu.berkeley.boinc.rpc.AcctMgrRPCReply;
 import edu.berkeley.boinc.rpc.CcState;
 import edu.berkeley.boinc.rpc.CcStatus;
 import edu.berkeley.boinc.rpc.GlobalPreferences;
+import edu.berkeley.boinc.rpc.HostInfo;
+import edu.berkeley.boinc.rpc.ImageWrapper;
+import edu.berkeley.boinc.rpc.Message;
 import edu.berkeley.boinc.rpc.Notice;
+import edu.berkeley.boinc.rpc.Project;
+import edu.berkeley.boinc.rpc.ProjectConfig;
 import edu.berkeley.boinc.rpc.ProjectInfo;
+import edu.berkeley.boinc.rpc.Result;
 import edu.berkeley.boinc.rpc.Transfer;
 import edu.berkeley.boinc.rpc.AcctMgrInfo;
 
@@ -99,12 +107,12 @@ public class Monitor extends Service {
 	 * Extension of Android's Binder class to return instance of this service
 	 * allows components bound to this service, to access its functions and attributes
 	 */
-	public class LocalBinder extends Binder {
-        public Monitor getService() {
-            return Monitor.this;
-        }
-    }
-    private final IBinder mBinder = new LocalBinder();
+//	public class LocalBinder extends Binder {
+//        public Monitor getService() {
+//            return Monitor.this;
+//        }
+//    }
+//    private final IBinder mBinder = new LocalBinder();
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -994,4 +1002,336 @@ public class Monitor extends Service {
 		}
 	}
 // --end -- async tasks
+	
+// remote service
+	private final IMonitor.Stub mBinder = new IMonitor.Stub() {
+			
+		@Override
+		public boolean transferOperation(List<Transfer> list, int op) throws RemoteException {
+			return clientInterface.transferOperation((ArrayList)list, op);
+		}
+		
+		@Override
+		public boolean synchronizeAcctMgr(String url) throws RemoteException {
+			return clientInterface.synchronizeAcctMgr(url);
+		}
+		
+		@Override
+		public boolean setRunMode(int mode) throws RemoteException {
+			return clientInterface.setRunMode(mode);
+		}
+		
+		@Override
+		public boolean setNetworkMode(int mode) throws RemoteException {
+			return clientInterface.setNetworkMode(mode);
+		}
+		
+		@Override
+		public boolean setGlobalPreferences(GlobalPreferences pref)
+				throws RemoteException {
+			return clientInterface.setGlobalPreferences(pref);
+		}
+		
+		@Override
+		public boolean setCcConfig(String config) throws RemoteException {
+			return clientInterface.setCcConfig(config);
+		}
+		
+		@Override
+		public boolean resultOp(int op, String url, String name)
+				throws RemoteException {
+			return clientInterface.resultOp(op, url, name);
+		}
+		
+		@Override
+		public String readAuthToken(String path) throws RemoteException {
+			return clientInterface.readAuthToken(path);
+		}
+		
+		@Override
+		public void quitClient() throws RemoteException {
+			Monitor.this.quitClient();
+		}
+		
+		@Override
+		public boolean projectOp(int status, String url) throws RemoteException {
+			return clientInterface.projectOp(status, url);
+		}
+		
+		@Override
+		public int getBoincPlatform() throws RemoteException {
+			return Monitor.this.getBoincPlatform();
+		}
+		
+		@Override
+		public AccountOut lookupCredentials(String url, String id, String pwd,
+				boolean usesName) throws RemoteException {
+			return clientInterface.lookupCredentials(url, id, pwd, usesName);
+		}
+		
+		@Override
+		public boolean isStationaryDeviceSuspected() throws RemoteException {
+			try {
+				return Monitor.getDeviceStatus().isStationaryDeviceSuspected();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return false;
+		}
+		
+		@Override
+		public List<Notice> getServerNotices() throws RemoteException {
+			return clientStatus.getServerNotices();
+		}
+		
+		@Override
+		public ProjectConfig getProjectConfigPolling(String url)
+				throws RemoteException {
+			return clientInterface.getProjectConfigPolling(url);
+		}
+		
+		@Override
+		public List<Notice> getNotices(int seq) throws RemoteException {
+			return clientInterface.getNotices(seq);
+		}
+		
+		@Override
+		public List<Message> getMessages(int seq) throws RemoteException {
+			return clientInterface.getMessages(seq);
+		}
+		
+		@Override
+		public List<Message> getEventLogMessages(int seq, int num)
+				throws RemoteException {
+			return clientInterface.getEventLogMessages(seq, num);
+		}
+		
+		@Override
+		public int getBatteryChargeStatus() throws RemoteException{
+			try {
+				return getDeviceStatus().getStatus().battery_charge_pct;
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return 0;
+		}
+		
+		@Override
+		public AcctMgrInfo getAcctMgrInfo() throws RemoteException {
+			return clientInterface.getAcctMgrInfo();
+		}
+		
+		@Override
+		public void forceRefresh() throws RemoteException {
+			Monitor.this.forceRefresh();
+		}
+		
+		@Override
+		public AccountOut createAccountPolling(String url, String email, String id,
+				String pw, String team) throws RemoteException {
+			return clientInterface.createAccountPolling(url, email, id, pw, team);
+		}
+		
+		@Override
+		public boolean checkProjectAttached(String url) throws RemoteException {
+			return clientInterface.checkProjectAttached(url);
+		}
+		
+		@Override
+		public boolean attachProject(String url, String id, String pwd)
+				throws RemoteException {
+			return clientInterface.attachProject(url, id, pwd);
+		}
+		
+		@Override
+		public int addAcctMgrErrorNum(String url, String userName, String pwd)
+				throws RemoteException {
+			AcctMgrRPCReply acctMgr =clientInterface.addAcctMgr(url, userName, pwd);
+			if (acctMgr!=null) {
+				return acctMgr.error_num;
+			}
+			return -1;
+		}
+		
+		@Override
+		public String getAuthFilePath() throws RemoteException {
+			return Monitor.this.getAuthFilePath();
+		}
+		
+		@Override
+		public List<ProjectInfo> getSupportedProjects() throws RemoteException {
+			return clientStatus.getSupportedProjects();
+		}
+		
+		@Override
+		public boolean getAcctMgrInfoPresent() throws RemoteException {
+			return clientStatus.getAcctMgrInfo().present;
+		}
+		
+		@Override
+		public int getSetupStatus() throws RemoteException {
+			return clientStatus.setupStatus;
+		}
+		
+		@Override
+		public int getComputingStatus() throws RemoteException {
+			return clientStatus.computingStatus;
+		}
+		
+		@Override
+		public int getComputingSuspendReason() throws RemoteException {
+			return clientStatus.computingSuspendReason;
+		}
+		
+		@Override
+		public int getNetworkSuspendReason() throws RemoteException {
+			return clientStatus.networkSuspendReason;
+		}
+		
+		@Override
+		public String getCurrentStatusString() throws RemoteException {
+			return clientStatus.getCurrentStatusString();
+		}
+		
+		@Override
+		public HostInfo getHostInfo() throws RemoteException {
+			return clientStatus.getHostInfo();
+		}
+		
+		@Override
+		public GlobalPreferences getPrefs() throws RemoteException {
+			return clientStatus.getPrefs();
+		}
+		
+		@Override
+		public List<Project> getProjects() throws RemoteException {
+			return clientStatus.getProjects();
+		}
+		
+		@Override
+		public AcctMgrInfo getClientAcctMgrInfo() throws RemoteException {
+			return clientStatus.getAcctMgrInfo();
+		}
+		
+		@Override
+		public List<Transfer> getTransfers() throws RemoteException {
+			return clientStatus.getTransfers();
+		}
+		
+		@Override
+		public void setAutostart(boolean isAutoStart) throws RemoteException {
+			Monitor.getAppPrefs().setAutostart(isAutoStart);
+		}
+		
+		@Override
+		public void setShowNotification(boolean isShow) throws RemoteException {
+			Monitor.getAppPrefs().setShowNotification(isShow);
+		}
+		
+		@Override
+		public boolean getShowAdvanced() throws RemoteException {
+			return Monitor.getAppPrefs().getShowAdvanced();
+		}
+		
+		@Override
+		public boolean getAutostart() throws RemoteException {
+			return Monitor.getAppPrefs().getAutostart();
+		}
+		
+		@Override
+		public boolean getShowNotification() throws RemoteException {
+			return  Monitor.getAppPrefs().getShowNotification();
+		}
+		
+		@Override
+		public int getLogLevel() throws RemoteException {
+			return Monitor.getAppPrefs().getLogLevel();
+		}
+		
+		@Override
+		public void setLogLevel(int level) throws RemoteException {
+			Monitor.getAppPrefs().setLogLevel(level);
+		}
+		
+		@Override
+		public void setPowerSourceAc(boolean src) throws RemoteException {
+			Monitor.getAppPrefs().setPowerSourceAc(src);
+		}
+		
+		@Override
+		public void setPowerSourceUsb(boolean src) throws RemoteException {
+			Monitor.getAppPrefs().setPowerSourceUsb(src);
+		}
+		
+		@Override
+		public void setPowerSourceWireless(boolean src) throws RemoteException {
+			Monitor.getAppPrefs().setPowerSourceWireless(src);
+		}
+		
+		@Override
+		public List<Result> getTasks() throws RemoteException {
+			return clientStatus.getTasks();
+		}
+		
+		@Override
+		public String getProjectStatus(String url) throws RemoteException {
+			return clientStatus.getProjectStatus(url);
+		}
+		
+		@Override
+		public List<Notice> getRssNotices() throws RemoteException {
+			return clientStatus.getRssNotices();
+		}
+		
+		@Override
+		public List<ImageWrapper> getSlideshowForProject(String url)
+				throws RemoteException {
+			return clientStatus.getSlideshowForProject(url);
+		}
+		
+		@Override
+		public boolean getStationaryDeviceMode() throws RemoteException {
+			return Monitor.getAppPrefs().getStationaryDeviceMode();
+		}
+		
+		@Override
+		public boolean getPowerSourceAc() throws RemoteException {
+			return Monitor.getAppPrefs().getPowerSourceAc();
+		}
+		
+		@Override
+		public boolean getPowerSourceUsb() throws RemoteException {
+			return Monitor.getAppPrefs().getPowerSourceUsb();
+		}
+		
+		@Override
+		public boolean getPowerSourceWireless() throws RemoteException {
+			return Monitor.getAppPrefs().getPowerSourceWireless();
+		}
+		
+		@Override
+		public void setShowAdvanced(boolean isShow) throws RemoteException {
+			Monitor.getAppPrefs().setShowAdvanced(isShow);
+		}
+		
+		@Override
+		public void setStationaryDeviceMode(boolean mode)
+				throws RemoteException {
+			Monitor.getAppPrefs().setStationaryDeviceMode(mode);
+			
+		}
+		
+		@Override
+		public Bitmap getProjectIconByName(String name) throws RemoteException {
+			return clientStatus.getProjectIconByName(name);
+		}
+		
+		@Override
+		public Bitmap getProjectIcon(String id) throws RemoteException {
+			return clientStatus.getProjectIcon(id);
+		}
+	};
+// --end-- remote service	
 }

@@ -19,13 +19,10 @@
 package edu.berkeley.boinc;
 
 import edu.berkeley.boinc.utils.*;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-
 import edu.berkeley.boinc.adapter.NoticesListAdapter;
-import edu.berkeley.boinc.client.Monitor;
 import edu.berkeley.boinc.rpc.Notice;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -85,7 +82,7 @@ public class NoticesFragment extends Fragment {
 	
 	private void updateNotices() {
 		try{
-			data = Monitor.getClientStatus().getRssNotices();
+			data = (ArrayList<Notice>) BOINCActivity.monitor.getRssNotices();
 			// sorting policy:
 			// latest arrival first.
 			Collections.sort(data, new Comparator<Notice>() {

@@ -20,9 +20,8 @@
 package edu.berkeley.boinc;
 
 import edu.berkeley.boinc.utils.*;
-
 import java.util.ArrayList;
-
+import edu.berkeley.boinc.client.IMonitor;
 import edu.berkeley.boinc.client.Monitor;
 import android.app.Activity;
 import android.app.Service;
@@ -35,6 +34,7 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.os.RemoteException;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,7 +42,6 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import edu.berkeley.boinc.rpc.AccountOut;
-import edu.berkeley.boinc.rpc.AcctMgrRPCReply;
 import edu.berkeley.boinc.rpc.AcctMgrInfo;
 import edu.berkeley.boinc.utils.BOINCErrors;
 
@@ -52,7 +51,7 @@ public class AttachProjectWorkingActivity extends Activity{
 	public static final int ACTION_REGISTRATION = 2;
 	public static final int ACTION_ACCTMGR = 3;
 	
-	private Monitor monitor;
+	private IMonitor monitor;
 	private Boolean mIsBound = false;
 	
 	private Integer timeInterval;
@@ -74,7 +73,7 @@ public class AttachProjectWorkingActivity extends Activity{
 	private ServiceConnection mConnection = new ServiceConnection() {
 	    public void onServiceConnected(ComponentName className, IBinder service) {
 	        // This is called when the connection with the service has been established, getService returns the Monitor object that is needed to call functions.
-	        monitor = ((Monitor.LocalBinder)service).getService();
+	        monitor = IMonitor.Stub.asInterface(service);
 		    mIsBound = true;        
 		    
 		    // do desired action
@@ -294,7 +293,8 @@ public class AttachProjectWorkingActivity extends Activity{
 			
 			if(action == ACTION_ACCTMGR) {
 			// 1st: add account manager	
-				AcctMgrRPCReply reply = null;
+				//AcctMgrRPCReply reply = null;
+				int reply = -1;
 				publishProgress(new Update(false, false, R.string.attachproject_working_acctmgr,"",0));
 				Integer maxAttempts = getResources().getInteger(R.integer.attach_acctmgr_retries);
 				Integer attemptCounter = 0;
@@ -304,11 +304,17 @@ public class AttachProjectWorkingActivity extends Activity{
 				// retry a defined number of times, if non deterministic failure occurs.
 				// makes login more robust on bad network connections
 				while(!success && attemptCounter < maxAttempts) {
-					reply = monitor.clientInterface.addAcctMgr(url, userName, pwd);
+					try {
+						reply = monitor.addAcctMgrErrorNum(url, userName, pwd);
+					} catch (RemoteException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+						reply = -1;
+					}
 					
-					if(reply == null || reply.error_num != BOINCErrors.ERR_OK) {
+					if(reply == -1 || reply != BOINCErrors.ERR_OK) {
 						// failed
-						if(reply != null) err = reply.error_num;
+						if(reply != -1) err = reply;
 						if(Logging.DEBUG) Log.d(Logging.TAG,"adding account manager failed, error code: " + err);
 						if(err == -1 || err == BOINCErrors.ERR_GETHOSTBYNAME){
 							// worth a retry
@@ -338,7 +344,14 @@ public class AttachProjectWorkingActivity extends Activity{
 				// retry a defined number of times, if non deterministic failure occurs.
 				// makes login more robust on bad network connections
 				while(!success && attemptCounter < maxAttempts) {
-					AcctMgrInfo info = monitor.clientInterface.getAcctMgrInfo();
+					AcctMgrInfo info;
+					try {
+						info = monitor.getAcctMgrInfo();
+					} catch (RemoteException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+						info = null;
+					}
 					if(Logging.DEBUG) Log.d(Logging.TAG,"acctMgrInfo: " + info.acct_mgr_url + info.acct_mgr_name + info.have_credentials);
 					
 
@@ -375,7 +388,13 @@ public class AttachProjectWorkingActivity extends Activity{
 					// retry a defined number of times, if non deterministic failure occurs.
 					// makes login more robust on bad network connections
 					while(!success && attemptCounter < maxAttempts) {
-						account = monitor.clientInterface.createAccountPolling(url, email, userName, pwd, teamName);
+						try {
+							account = monitor.createAccountPolling(url, email, userName, pwd, teamName);
+						} catch (RemoteException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+							account = null;
+						}
 						
 						if(account == null || account.error_num != BOINCErrors.ERR_OK) {
 							// failed
@@ -409,7 +428,13 @@ public class AttachProjectWorkingActivity extends Activity{
 					// retry a defined number of times, if non deterministic failure occurs.
 					// makes login more robust on bad network connections
 					while(!success && attemptCounter < maxAttempts) {
-						account = monitor.clientInterface.lookupCredentials(url, id, pwd, usesName);
+						try {
+							account = monitor.lookupCredentials(url, id, pwd, usesName);
+						} catch (RemoteException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+							account = null;
+						}
 						
 						if(account == null || account.error_num != BOINCErrors.ERR_OK) {
 							// failed
@@ -443,7 +468,14 @@ public class AttachProjectWorkingActivity extends Activity{
 				maxAttempts = getResources().getInteger(R.integer.attach_attach_retries);
 				publishProgress(new Update(false, false, R.string.attachproject_working_login,"",0));
 				while(!success && attemptCounter < maxAttempts) {
-					Boolean attach = monitor.clientInterface.attachProject(url, projectName, account.authenticator);
+					Boolean attach;
+					try {
+						attach = monitor.attachProject(url, projectName, account.authenticator);
+					} catch (RemoteException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+						attach = false;
+					}
 					if(attach) {
 						// successful
 						success = true;

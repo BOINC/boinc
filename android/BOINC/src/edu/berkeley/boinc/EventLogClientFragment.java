@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.RemoteException;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -128,7 +129,13 @@ public class EventLogClientFragment extends Fragment {
 		
 		@Override
 		protected ArrayList<Message> doInBackground(Void... params) {
-			return ((EventLogActivity)getActivity()).getMonitorService().clientInterface.getMessages(mostRecentSeqNo); 
+			try {
+				return (ArrayList<Message>) ((EventLogActivity)getActivity()).getMonitorService().getMessages(mostRecentSeqNo);
+			} catch (RemoteException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return new ArrayList<Message>();
+			} 
 		}
 
 		@Override
@@ -158,7 +165,13 @@ public class EventLogClientFragment extends Fragment {
 		@Override
 		protected List<Message> doInBackground(Void... params) {
 			if(Logging.DEBUG) Log.d("RetrievePastMsgs", "calling monitor with: " + pastSeqNo + " / " + pastMsgsLoadingRange);
-			return ((EventLogActivity)getActivity()).getMonitorService().clientInterface.getEventLogMessages(pastSeqNo, pastMsgsLoadingRange); 
+			try {
+				return ((EventLogActivity)getActivity()).getMonitorService().getEventLogMessages(pastSeqNo, pastMsgsLoadingRange);
+			} catch (RemoteException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return new ArrayList<Message>();
+			} 
 		}
 
 		@Override

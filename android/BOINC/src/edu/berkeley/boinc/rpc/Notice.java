@@ -19,7 +19,10 @@
 
 package edu.berkeley.boinc.rpc;
 
-public class Notice {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Notice implements Parcelable {
 	public int seqno = -1;
     public String title = "";
     public String description = "";
@@ -37,4 +40,55 @@ public class Notice {
     
     public boolean isServerNotice;
     public boolean isClientNotice;
+    
+	@Override
+	public int describeContents() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		// TODO Auto-generated method stub
+		dest.writeInt(seqno);
+		dest.writeString(title);
+		dest.writeString(description);
+		dest.writeDouble(create_time);
+		dest.writeDouble(arrival_time);
+		dest.writeString(category);
+		dest.writeString(link);
+		dest.writeString(project_name);
+		
+		dest.writeBooleanArray(new boolean[] {
+				is_private,
+				isServerNotice,
+				isClientNotice});
+	}
+	
+	public Notice() {}
+	
+	private Notice(Parcel in) {
+		seqno = in.readInt();
+		title = in.readString();
+		description = in.readString();
+		create_time = in.readDouble();
+		arrival_time = in.readDouble();
+		category = in.readString();
+		link = in.readString();
+		project_name = in.readString();
+		
+		boolean[] bArray = in.createBooleanArray();
+		is_private = bArray[0];
+		isServerNotice = bArray[1];
+		isClientNotice = bArray[2];
+		
+	}
+	
+	public static final Parcelable.Creator<Notice> CREATOR = new Parcelable.Creator<Notice>() {
+		public Notice createFromParcel(Parcel in) {
+		    return new Notice(in);
+		}
+		public Notice[] newArray(int size) {
+		    return new Notice[size];
+		}
+	};
 }

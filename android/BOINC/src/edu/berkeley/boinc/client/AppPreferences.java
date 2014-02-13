@@ -16,8 +16,9 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package edu.berkeley.boinc;
+package edu.berkeley.boinc.client;
 
+import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.utils.*;
 import android.content.Context;
 import android.content.SharedPreferences;

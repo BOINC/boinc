@@ -19,12 +19,9 @@
 package edu.berkeley.boinc;
 
 import edu.berkeley.boinc.utils.*;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import edu.berkeley.boinc.adapter.TasksListAdapter;
-import edu.berkeley.boinc.client.ClientStatus;
-import edu.berkeley.boinc.client.Monitor;
 import edu.berkeley.boinc.rpc.Result;
 import edu.berkeley.boinc.rpc.RpcClient;
 import edu.berkeley.boinc.utils.BOINCDefs;
@@ -35,6 +32,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.RemoteException;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -92,15 +90,17 @@ public class TasksFragment extends Fragment {
 	
 	private void loadData() {
 		// try to get current client status from monitor
-		ClientStatus status;
+		//ClientStatus status;
+		ArrayList<Result> tmpA = null;
 		try{
-			status  = Monitor.getClientStatus();
+			//status  = Monitor.getClientStatus();
+			tmpA = (ArrayList<Result>) BOINCActivity.monitor.getTasks();
 		} catch (Exception e){
 			if(Logging.WARNING) Log.w(Logging.TAG,"TasksActivity: Could not load data, clientStatus not initialized.");
 			return;
 		}
 		//setup list and adapter
-		ArrayList<Result> tmpA = status.getTasks();
+		//ArrayList<Result> tmpA = status.getTasks();
 		if(tmpA!=null) { //can be null before first monitor status cycle (e.g. when not logged in or during startup)
 		
 			//deep copy, so ArrayList adapter actually recognizes the difference
@@ -270,14 +270,17 @@ public class TasksFragment extends Fragment {
 				Integer operation = Integer.parseInt(params[2]);
 				if(Logging.DEBUG) Log.d(Logging.TAG,"url: " + url + " Name: " + name + " operation: " + operation);
 	
-				return ((BOINCActivity)getActivity()).getMonitorService().clientInterface.resultOp(operation, url, name);
+				return BOINCActivity.monitor.resultOp(operation, url, name);
 			} catch(Exception e) {if(Logging.WARNING) Log.w(Logging.TAG,"SuspendResultAsync error in do in background",e);}
 			return false;
 		}
 
 		@Override
 		protected void onPostExecute(Boolean success) {
-			if(success) ((BOINCActivity)getActivity()).getMonitorService().forceRefresh();
+			if(success)
+				try {
+					BOINCActivity.monitor.forceRefresh();
+				} catch (RemoteException e) {}
 			else if(Logging.WARNING) Log.w(Logging.TAG,"SuspendResultAsync failed.");
 		}
 	}

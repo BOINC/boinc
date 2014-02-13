@@ -20,9 +20,8 @@ package edu.berkeley.boinc.adapter;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-
+import edu.berkeley.boinc.BOINCActivity;
 import edu.berkeley.boinc.R;
-import edu.berkeley.boinc.client.Monitor;
 import edu.berkeley.boinc.rpc.Project;
 import edu.berkeley.boinc.utils.Logging;
 import android.app.Activity;
@@ -111,10 +110,10 @@ public class NavDrawerListAdapter extends BaseAdapter{
     		Integer counter = 0;
         	switch(navDrawerItems.get(position).id) {
         	case R.string.tab_tasks:
-        		try {counter = Monitor.getClientStatus().getTasks().size();}catch(Exception e) {}
+        		try {counter = BOINCActivity.monitor.getTasks().size();}catch(Exception e) {}
         		break;
         	case R.string.tab_notices: 
-        		try {counter = Monitor.getClientStatus().getRssNotices().size();}catch(Exception e) {}
+        		try {counter = BOINCActivity.monitor.getRssNotices().size();}catch(Exception e) {}
         		break;
         	}
         	txtCount.setText(counter.toString());
@@ -136,7 +135,7 @@ public class NavDrawerListAdapter extends BaseAdapter{
 	public Bitmap getProjectIconForMasterUrl(String masterUrl) {
 		Bitmap bm = null;
 		try {
-			bm = Monitor.getClientStatus().getProjectIcon(masterUrl);
+			bm = BOINCActivity.monitor.getProjectIcon(masterUrl);
 		} catch (Exception e) {}
 		return bm;
 	}

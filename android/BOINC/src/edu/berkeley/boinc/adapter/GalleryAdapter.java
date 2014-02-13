@@ -20,7 +20,7 @@ package edu.berkeley.boinc.adapter;
 
 import java.util.ArrayList;
 
-import edu.berkeley.boinc.client.ClientStatus.ImageWrapper;
+import edu.berkeley.boinc.rpc.ImageWrapper;
 
 import android.content.Context;
 import android.view.View;

@@ -20,8 +20,6 @@ package edu.berkeley.boinc;
 
 import edu.berkeley.boinc.utils.*;
 import edu.berkeley.boinc.client.ClientStatus;
-import edu.berkeley.boinc.client.DeviceStatus;
-import edu.berkeley.boinc.client.Monitor;
 import edu.berkeley.boinc.utils.BOINCDefs;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -29,6 +27,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.RemoteException;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -81,11 +80,20 @@ public class StatusFragment extends Fragment{
 	private void loadLayout(Boolean forceUpdate) {
 		//load layout, if if ClientStatus can be accessed.
 		//if this is not the case, the broadcast receiver will call "loadLayout" again
-		ClientStatus status;
-		DeviceStatus deviceStatus;
+		//ClientStatus status;
+		//DeviceStatus deviceStatus;
+		int localSetupStatus = -1;
+		int localComputingStatus = -1;
+		int localComputingSuspendReason = -1;
+		int localNetworkSuspendReason = -1;
+		int localBatteryCahrgeStatus = -1;
 		try{
-			status  = Monitor.getClientStatus();
-			deviceStatus = Monitor.getDeviceStatus();
+			localSetupStatus  = BOINCActivity.monitor.getSetupStatus();
+			localComputingStatus = BOINCActivity.monitor.getComputingStatus();
+			localComputingSuspendReason = BOINCActivity.monitor.getComputingSuspendReason();
+			localNetworkSuspendReason = BOINCActivity.monitor.getNetworkSuspendReason();
+			localBatteryCahrgeStatus = BOINCActivity.monitor.getBatteryChargeStatus();
+			//deviceStatus = Monitor.getDeviceStatus();
 		} catch (Exception e){
 			if(Logging.WARNING) Log.w(Logging.TAG,"StatusFragment: Could not load data, clientStatus not initialized.");
 			return;
@@ -93,10 +101,10 @@ public class StatusFragment extends Fragment{
 		
 		// layout only if client RPC connection is established
 		// otherwise BOINCActivity does not start Tabs
-		if(status.setupStatus == ClientStatus.SETUP_STATUS_AVAILABLE) { 
+		if(localSetupStatus == ClientStatus.SETUP_STATUS_AVAILABLE) { 
 			// return in cases nothing has changed
-			if (!forceUpdate && computingStatus == status.computingStatus && computingStatus != ClientStatus.COMPUTING_STATUS_SUSPENDED) return; 
-			if (!forceUpdate && computingStatus == status.computingStatus && computingStatus == ClientStatus.COMPUTING_STATUS_SUSPENDED && status.computingSuspendReason == suspendReason) return;
+			if (!forceUpdate && computingStatus == localComputingStatus && computingStatus != ClientStatus.COMPUTING_STATUS_SUSPENDED) return; 
+			if (!forceUpdate && computingStatus == localComputingStatus && computingStatus == ClientStatus.COMPUTING_STATUS_SUSPENDED && localComputingSuspendReason == suspendReason) return;
 			
 			// set layout and retrieve elements
 			LinearLayout statusWrapper = (LinearLayout) getView().findViewById(R.id.status_wrapper);
@@ -109,7 +117,7 @@ public class StatusFragment extends Fragment{
 			restartingWrapper.setVisibility(View.GONE);
 			
 			// adapt to specific computing status
-			switch(status.computingStatus) {
+			switch(localComputingStatus) {
 			case ClientStatus.COMPUTING_STATUS_NEVER:
 				statusWrapper.setVisibility(View.VISIBLE);
 				statusHeader.setText(R.string.status_computing_disabled);
@@ -128,7 +136,7 @@ public class StatusFragment extends Fragment{
 				statusImage.setContentDescription(getString(R.string.status_paused));
 				statusImage.setClickable(false);
 				centerWrapper.setVisibility(View.VISIBLE);
-				switch(status.computingSuspendReason) {
+				switch(localComputingSuspendReason) {
 				case BOINCDefs.SUSPEND_REASON_BATTERIES:
 					statusDescriptor.setText(R.string.suspend_batteries);
 					statusImage.setImageResource(R.drawable.notconnectedb48);
@@ -180,8 +188,8 @@ public class StatusFragment extends Fragment{
 				case BOINCDefs.SUSPEND_REASON_BATTERY_CHARGING:
 					String text = getString(R.string.suspend_battery_charging);
 					try{
-						Double minCharge = Monitor.getClientStatus().getPrefs().battery_charge_min_pct;
-						Integer currentCharge = deviceStatus.getStatus().battery_charge_pct;
+						Double minCharge = BOINCActivity.monitor.getPrefs().battery_charge_min_pct;
+						Integer currentCharge = localBatteryCahrgeStatus;
 						text = getString(R.string.suspend_battery_charging_long) + " " + minCharge.intValue()
 						+ "% (" + getString(R.string.suspend_battery_charging_current) + " " + currentCharge  + "%) "
 						+ getString(R.string.suspend_battery_charging_long2);
@@ -199,7 +207,7 @@ public class StatusFragment extends Fragment{
 					statusDescriptor.setText(R.string.suspend_unknown);
 					break;
 				}
-				suspendReason = status.computingSuspendReason;
+				suspendReason = localComputingSuspendReason;
 				break;
 			case ClientStatus.COMPUTING_STATUS_IDLE: 
 				statusWrapper.setVisibility(View.VISIBLE);
@@ -211,7 +219,7 @@ public class StatusFragment extends Fragment{
 				statusImage.setClickable(false);
 				Integer networkState = 0;
 				try{
-					networkState = status.networkSuspendReason;
+					networkState = localNetworkSuspendReason;
 				} catch (Exception e) {}
 				if(networkState == BOINCDefs.SUSPEND_REASON_WIFI_STATE){
 					// Network suspended due to wifi state
@@ -224,9 +232,9 @@ public class StatusFragment extends Fragment{
 				statusWrapper.setVisibility(View.GONE);
 				break;
 			}
-			computingStatus = status.computingStatus; //save new computing status
+			computingStatus = localComputingStatus; //save new computing status
 			setupStatus = -1; // invalidate to force update next time no project
-		} else if (status.setupStatus == ClientStatus.SETUP_STATUS_NOPROJECT) {
+		} else if (localSetupStatus == ClientStatus.SETUP_STATUS_NOPROJECT) {
 			
 			if(setupStatus != ClientStatus.SETUP_STATUS_NOPROJECT) {
 				// set layout and retrieve elements
@@ -275,83 +283,28 @@ public class StatusFragment extends Fragment{
 		@Override
 		protected Boolean doInBackground(Integer... params) {
 			// setting provided mode for both, CPU computation and network.
-			Boolean runMode = ((BOINCActivity)getActivity()).getMonitorService().clientInterface.setRunMode(params[0]);
-			Boolean networkMode = ((BOINCActivity)getActivity()).getMonitorService().clientInterface.setNetworkMode(params[0]);
+			Boolean runMode;
+			try {
+				runMode = BOINCActivity.monitor.setRunMode(params[0]);
+			} catch (RemoteException e) {
+				runMode = false;
+			}
+			Boolean networkMode;
+			try {
+				networkMode = BOINCActivity.monitor.setNetworkMode(params[0]);
+			} catch (RemoteException e) {
+				networkMode = false;
+			}
 			return runMode && networkMode;
 		}
 		
 		@Override
 		protected void onPostExecute(Boolean success) {
-			if(success) ((BOINCActivity)getActivity()).getMonitorService().forceRefresh();
+			if(success)
+				try {
+					BOINCActivity.monitor.forceRefresh();
+				} catch (RemoteException e) {}
 			else if(Logging.WARNING) Log.w(Logging.TAG,"StatusFragment: setting run mode failed");
 		}
 	}
-	/*
-	private final class UpdateSlideshowImagesAsync extends AsyncTask<Void, Void, Boolean> {
-		
-		@Override
-		protected Boolean doInBackground(Void... params) {
-			if(Logging.DEBUG) Log.d(Logging.TAG, "UpdateSlideshowImagesAsync updating images in new thread.");
-			// try to get current client status from monitor
-			ClientStatus status;
-			try{
-				status  = Monitor.getClientStatus();
-			} catch (Exception e){
-				if(Logging.WARNING) Log.w(Logging.TAG,"UpdateSlideshowImagesAsync: Could not load data, clientStatus not initialized.");
-				return false;
-			}
-			// load slideshow images
-			status.updateSlideshowImages(slideshowImages);
-			if(slideshowImages == null || slideshowImages.size() == 0) return false;
-			return true;
-		}
-		
-		@Override
-		protected void onPostExecute(Boolean success) {
-			if(Logging.DEBUG) Log.d(Logging.TAG, "UpdateSlideshowImagesAsync success: " + success);
-			
-			// check whether computingStatus has changed in the meantime.
-			if(computingStatus != ClientStatus.COMPUTING_STATUS_COMPUTING) return;
-			
-			if(success) {
-				// images available, adapt layout
-			    Gallery gallery = (Gallery) findViewById(R.id.gallery);
-			    final ImageView imageView = (ImageView) findViewById(R.id.image_view);
-			    final TextView imageDesc = (TextView)findViewById(R.id.image_description);
-		        imageDesc.setText(slideshowImages.get(0).projectName);
-				LinearLayout centerWrapper = (LinearLayout) findViewById(R.id.center_wrapper);
-				centerWrapper.setVisibility(View.GONE);
-		        slideshowWrapper.setVisibility(View.VISIBLE);
-		        
-		        //setup adapter
-		        galleryAdapter = new GalleryAdapter(activity, slideshowImages);
-		        gallery.setAdapter(galleryAdapter);
-		        
-		        // adapt layout according to screen size
-				if(screenHeight < minScreenHeightForImage) {
-					// screen is not high enough for large image
-					imageView.setVisibility(View.GONE);
-					RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
-					params.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
-					LinearLayout galleryWrapper = (LinearLayout) findViewById(R.id.gallery_wrapper);
-					galleryWrapper.setLayoutParams(params);
-					galleryWrapper.setPadding(0, 0, 0, 5);
-			        gallery.setOnItemClickListener(new OnItemClickListener() {
-			            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-			                imageDesc.setText(slideshowImages.get(position).projectName);
-			            }
-			        });
-				} else {
-					// screen is high enough, fully blown layout
-			        imageView.setImageBitmap(slideshowImages.get(0).image);
-			        gallery.setOnItemClickListener(new OnItemClickListener() {
-			            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-			                imageView.setImageBitmap(slideshowImages.get(position).image);
-			                imageDesc.setText(slideshowImages.get(position).projectName);
-			            }
-			        });
-				}
-			} else loadPlainOldComputingScreen();
-		}
-	}*/
 }

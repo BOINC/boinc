@@ -29,10 +29,8 @@ import java.nio.channels.FileChannel;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -47,6 +45,7 @@ import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.rpc.AcctMgrInfo;
 import edu.berkeley.boinc.rpc.CcStatus;
 import edu.berkeley.boinc.rpc.GlobalPreferences;
+import edu.berkeley.boinc.rpc.ImageWrapper;
 import edu.berkeley.boinc.rpc.Notice;
 import edu.berkeley.boinc.rpc.Project;
 import edu.berkeley.boinc.rpc.ProjectInfo;
@@ -371,98 +370,6 @@ public class ClientStatus {
 		}
 		return images;
 	}
-
-	// updates list of slideshow images of all projects
-	// takes list and updates content
-	// returns true, if changes found.
-	// 126 * 290 pixel from /projects/PNAME/slideshow_appname_n
-	// not aware of project or application!
-	public synchronized Boolean updateSlideshowImages(ArrayList<ImageWrapper> slideshowImages) {
-		if(Logging.DEBUG) Log.d(Logging.TAG, "updateSlideshowImages()");
-
-		int maxImagesPerProject = ctx.getResources().getInteger(R.integer.status_max_slideshow_images_per_project);
-		Boolean change = false;
-		
-		// removing images of detached projects
-		// use iterator to safely remove while iterating
-		Iterator<ImageWrapper> iImage = slideshowImages.iterator();
-		Integer counter = 0;
-		while(iImage.hasNext()) {
-			Boolean found = false;
-			ImageWrapper image = iImage.next();
-			for (Project project: projects) {
-				if(project.project_name.equals(image.projectName)){
-					found = true;
-					continue;
-				}
-			}
-			if(!found) {
-				iImage.remove();
-				counter++;
-			}
-		}
-		if(Logging.DEBUG) Log.d(Logging.TAG, "updateSlideshowImages() has removed " + counter + " images.");
-		
-		// adding new images
-		counter = 0;
-		for (Project project: projects) {
-			try{
-				// check how many images project is allowed to add
-				int numberOfLoadedImages = 0;
-				for(ImageWrapper image: slideshowImages){
-					if(image.projectName.equals(project.project_name)) numberOfLoadedImages++;
-				}
-				if(numberOfLoadedImages >= maxImagesPerProject) continue;
-				
-				// get file paths of soft link files
-				File dir = new File(project.project_dir);
-				File[] foundFiles = dir.listFiles(new FilenameFilter() {
-				    public boolean accept(File dir, String name) {
-				        return name.startsWith("slideshow_") && !name.endsWith(".png");
-				    }
-				});
-				if(foundFiles == null) continue; // prevent NPE
-				
-				ArrayList<String> allImagePaths = new ArrayList<String>();
-				for (File file: foundFiles) {
-					String slideshowImagePath = parseSoftLinkToAbsPath(file.getAbsolutePath(), project.project_dir);
-					//check whether path is not empty, and avoid duplicates (slideshow images can 
-					//re-occur for multiple apps, since we do not distinct apps, skip duplicates.
-					if(slideshowImagePath != null && !slideshowImagePath.isEmpty() && !allImagePaths.contains(slideshowImagePath)) allImagePaths.add(slideshowImagePath);
-					//if(Logging.DEBUG) Log.d(Logging.TAG, "getSlideshowImages() path: " + slideshowImagePath);
-				}
-				//if(Logging.DEBUG) Log.d(Logging.TAG,"getSlideshowImages() retrieve number file paths: " + filePaths.size());
-				
-				// load images from paths
-				for (String filePath : allImagePaths) {
-					Boolean load = true;
-					if(numberOfLoadedImages >= maxImagesPerProject) load = false;
-					// check whether image is new
-					for (ImageWrapper image: slideshowImages) {
-						if(image.path.equals(filePath)) load = false;
-					}
-					
-					// project is allowed to add new images
-					// this image is not loaded yet
-					// -> load!
-					if(load){
-						Bitmap tmp = BitmapFactory.decodeFile(filePath);
-						if(tmp!=null) {
-							slideshowImages.add(new ImageWrapper(tmp,project.project_name, filePath));
-							numberOfLoadedImages++;
-							change = true;
-							counter++;
-						}
-						else if(Logging.DEBUG) Log.d(Logging.TAG,"loadSlideshowImagesFromFile(): null for path: " + filePath);
-					}
-				}
-			} catch(Exception e) {if(Logging.WARNING) Log.w(Logging.TAG,"exception for project " + project.master_url,e);}
-			catch (OutOfMemoryError oome) {if(Logging.WARNING) Log.w(Logging.TAG,"updateSlideshowImages, OutOfMemeryError");}
-		}
-		if(Logging.DEBUG) Log.d(Logging.TAG, "updateSlideshowImages() has added " + counter + " images.");
-		if(Logging.DEBUG) Log.d(Logging.TAG,"updateSlideshowImages() slideshow contains " + slideshowImages.size() + " bitmaps.");
-		return change;
-	}
 	
 	// returns project icon for given master url
 	// bitmap: 40 * 40 pixel, symbolic link in /projects/PNAME/stat_icon
@@ -720,14 +627,14 @@ public class ClientStatus {
 	}
 	
 	// Wrapper for slideshow images
-	public class ImageWrapper {
-		public Bitmap image;
-		public String projectName;
-		public String path;
-		public ImageWrapper(Bitmap image, String projectName, String path) {
-			this.image = image;
-			this.projectName = projectName;
-			this.path = path;
-		}
-	}
+//	public class ImageWrapper {
+//		public Bitmap image;
+//		public String projectName;
+//		public String path;
+//		public ImageWrapper(Bitmap image, String projectName, String path) {
+//			this.image = image;
+//			this.projectName = projectName;
+//			this.path = path;
+//		}
+//	}
 }

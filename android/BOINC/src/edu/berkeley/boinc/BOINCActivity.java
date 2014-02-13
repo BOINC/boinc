@@ -18,6 +18,9 @@
  ******************************************************************************/
 package edu.berkeley.boinc;
 
+import java.util.ArrayList;
+
+import edu.berkeley.boinc.rpc.Project;
 import edu.berkeley.boinc.utils.*;
 import edu.berkeley.boinc.client.*;
 import edu.berkeley.boinc.utils.BOINCDefs;
@@ -35,6 +38,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle; 
 import android.os.IBinder;
+import android.os.RemoteException;
 import android.util.Log;  
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -56,10 +60,10 @@ import edu.berkeley.boinc.adapter.NavDrawerListAdapter.NavDrawerItem;
 
 public class BOINCActivity extends ActionBarActivity {
 	
-	private Monitor monitor;
+	public static IMonitor monitor;
 	private Integer clientComputingStatus = -1;
 	private Integer numberProjectsInNavList = 0;
-	private Boolean mIsBound = false;
+	static Boolean mIsBound = false;
 	
 	// app title (changes with nav bar selection)
 	private CharSequence mTitle;
@@ -75,7 +79,7 @@ public class BOINCActivity extends ActionBarActivity {
 	    public void onServiceConnected(ComponentName className, IBinder service) {
 	        // This is called when the connection with the service has been established, getService returns 
 	    	// the Monitor object that is needed to call functions.
-	        monitor = ((Monitor.LocalBinder)service).getService();
+	        monitor = IMonitor.Stub.asInterface(service);
 		    mIsBound = true;
 		    determineStatus();
 	    }
@@ -201,11 +205,11 @@ public class BOINCActivity extends ActionBarActivity {
 	        mIsBound = false;
 	    }
 	}
-	
-	public Monitor getMonitorService() {
+	/*
+	public IMonitor getMonitorService() {
 		if(!mIsBound) if(Logging.WARNING) Log.w(Logging.TAG, "Fragment trying to obtain serive reference, but Monitor not bound in BOINCActivity");
 		return monitor;
-	}
+	}*/
 	
 	public void startAttachProjectListActivity() {
 		if(Logging.DEBUG) Log.d(Logging.TAG, "BOINCActivity attempt to start ");
@@ -309,14 +313,14 @@ public class BOINCActivity extends ActionBarActivity {
 	private void determineStatus() {
     	try {
 			if(mIsBound) { 
-				Integer newComputingStatus = Monitor.getClientStatus().computingStatus;
+				Integer newComputingStatus = monitor.getComputingStatus();
 				if(newComputingStatus != clientComputingStatus) {
 					// computing status has changed, update and invalidate to force adaption of action items
 					clientComputingStatus = newComputingStatus;
 					supportInvalidateOptionsMenu();
 				}
-				if(numberProjectsInNavList != Monitor.getClientStatus().getProjects().size())
-					numberProjectsInNavList = mDrawerListAdapter.compareAndAddProjects(Monitor.getClientStatus().getProjects());
+				if(numberProjectsInNavList != monitor.getProjects().size())
+					numberProjectsInNavList = mDrawerListAdapter.compareAndAddProjects((ArrayList<Project>)monitor.getProjects());
 				//setAppTitle();
 			} 
     	} catch (Exception e) {}
@@ -403,7 +407,9 @@ public class BOINCActivity extends ActionBarActivity {
 
 		@Override
 		protected Void doInBackground(Void... params) {
-			monitor.quitClient();
+			try {
+				monitor.quitClient();
+			} catch (RemoteException e) {}
 			return null;
 		}
 	}
@@ -413,14 +419,27 @@ public class BOINCActivity extends ActionBarActivity {
 		@Override
 		protected Boolean doInBackground(Integer... params) {
 			// setting provided mode for both, CPU computation and network.
-			Boolean runMode = monitor.clientInterface.setRunMode(params[0]);
-			Boolean networkMode = monitor.clientInterface.setNetworkMode(params[0]);
+			Boolean runMode;
+			try {
+				runMode = monitor.setRunMode(params[0]);
+			} catch (RemoteException e) {
+				runMode = false;
+			}
+			Boolean networkMode;
+			try {
+				networkMode = monitor.setNetworkMode(params[0]);
+			} catch (RemoteException e) {
+				networkMode = false;
+			}
 			return runMode && networkMode;
 		}
 		
 		@Override
 		protected void onPostExecute(Boolean success) {
-			if(success) monitor.forceRefresh();
+			if(success)
+				try {
+					monitor.forceRefresh();
+				} catch (RemoteException e) {}
 			else if(Logging.WARNING) Log.w(Logging.TAG,"setting run and network mode failed");
 		}
 	}

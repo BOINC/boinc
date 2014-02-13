@@ -19,9 +19,7 @@
 package edu.berkeley.boinc;
 
 import edu.berkeley.boinc.utils.*;
-
 import java.util.ArrayList;
-
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
@@ -32,6 +30,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.RemoteException;
 import android.support.v4.app.Fragment;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
@@ -52,8 +51,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import edu.berkeley.boinc.client.ClientStatus;
-import edu.berkeley.boinc.client.ClientStatus.ImageWrapper;
-import edu.berkeley.boinc.client.Monitor;
+import edu.berkeley.boinc.rpc.ImageWrapper;
 import edu.berkeley.boinc.rpc.Project;
 import edu.berkeley.boinc.rpc.ProjectInfo;
 import edu.berkeley.boinc.rpc.RpcClient;
@@ -295,11 +293,11 @@ public class ProjectDetailsFragment extends Fragment {
 	
 	private void getCurrentProjectData() {
 		try{
-			ArrayList<Project> allProjects = Monitor.getClientStatus().getProjects();
+			ArrayList<Project> allProjects = (ArrayList<Project>) BOINCActivity.monitor.getProjects();
 			for(Project tmpP: allProjects) {
 				if(tmpP.master_url.equals(url)) this.project = tmpP;
 			}
-			ArrayList<ProjectInfo> allProjectInfos = Monitor.getClientStatus().getSupportedProjects();
+			ArrayList<ProjectInfo> allProjectInfos = (ArrayList<ProjectInfo>) BOINCActivity.monitor.getSupportedProjects();
 			for(ProjectInfo tmpPI: allProjectInfos) {
 				if(tmpPI.url.equals(url)) this.projectInfo = tmpPI;
 			}
@@ -311,7 +309,7 @@ public class ProjectDetailsFragment extends Fragment {
 	private void updateChangingItems(View v) {
 		try{
 			// status
-			String newStatus = Monitor.getClientStatus().getProjectStatus(project.master_url);
+			String newStatus = BOINCActivity.monitor.getProjectStatus(project.master_url);
 			LinearLayout wrapper = (LinearLayout) v.findViewById(R.id.status_wrapper);
 			if(!newStatus.isEmpty()) {
 				wrapper.setVisibility(View.VISIBLE);
@@ -332,14 +330,17 @@ public class ProjectDetailsFragment extends Fragment {
 			if(Logging.DEBUG) Log.d(Logging.TAG,"ProjectOperationAsync doInBackground");
 			try{
 				Integer operation = (Integer) params[0];
-				return ((BOINCActivity)getActivity()).getMonitorService().clientInterface.projectOp(operation, project.master_url);
+				return BOINCActivity.monitor.projectOp(operation, project.master_url);
 			} catch(Exception e) {if(Logging.WARNING) Log.w(Logging.TAG,"ProjectOperationAsync error in do in background",e);}
 			return false;
 		}
 
 		@Override
 		protected void onPostExecute(Boolean success) {
-			if(success) ((BOINCActivity)getActivity()).getMonitorService().forceRefresh();
+			if(success)
+				try {
+					BOINCActivity.monitor.forceRefresh();
+				} catch (RemoteException e) {}
 			else if(Logging.WARNING) Log.w(Logging.TAG,"ProjectOperationAsync failed.");
 		}
 	}
@@ -352,13 +353,14 @@ public class ProjectDetailsFragment extends Fragment {
 			// try to get current client status from monitor
 			ClientStatus status;
 			try{
-				status  = Monitor.getClientStatus();
+				//status  = Monitor.getClientStatus();
+				slideshowImages = (ArrayList<ImageWrapper>) BOINCActivity.monitor.getSlideshowForProject(project.master_url);
 			} catch (Exception e){
 				if(Logging.WARNING) Log.w(Logging.TAG,"UpdateSlideshowImagesAsync: Could not load data, clientStatus not initialized.");
 				return false;
 			}
 			// load slideshow images
-			slideshowImages = status.getSlideshowForProject(project.master_url);
+//			slideshowImages = status.getSlideshowForProject(project.master_url);
 			if(slideshowImages == null || slideshowImages.size() == 0) return false;
 			return true;
 		}

@@ -19,7 +19,10 @@
 
 package edu.berkeley.boinc.rpc;
 
-public class Result {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Result implements Parcelable{
 	public String  name = "";
 	public String  wu_name = "";
 	public String  project_url = "";
@@ -70,5 +73,130 @@ public class Result {
 	public AppVersion avp;
 	public App app;
 	public Workunit wup;
+	
+	@Override
+	public int describeContents() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeString(name);
+		dest.writeString(wu_name);
+		dest.writeString(project_url);
+		dest.writeInt(version_num);
+		dest.writeString(plan_class);
+		dest.writeLong(report_deadline);
+		dest.writeLong(received_time);
 
+		dest.writeDouble(final_cpu_time);
+		dest.writeDouble(final_elapsed_time);
+		dest.writeInt(state);
+		dest.writeInt(scheduler_state);
+		dest.writeInt(exit_status);
+		dest.writeInt(signal);
+		dest.writeString(stderr_out);
+
+		dest.writeInt(active_task_state);
+		dest.writeInt(app_version_num);
+		dest.writeInt(slot);
+		dest.writeInt(pid);
+		dest.writeDouble(checkpoint_cpu_time);
+		dest.writeDouble(current_cpu_time);
+		dest.writeFloat(fraction_done);
+		dest.writeDouble(elapsed_time);
+		dest.writeDouble(swap_size);
+		dest.writeDouble(working_set_size_smoothed);
+		dest.writeDouble(estimated_cpu_time_remaining);
+		dest.writeInt(graphics_mode_acked);
+		dest.writeString(graphics_exec_path);
+
+		dest.writeString(slot_path);
+
+		dest.writeString(resources);
+		
+		dest.writeValue(project);
+		dest.writeValue(avp);
+		dest.writeValue(app);
+		dest.writeValue(wup);
+		
+		dest.writeBooleanArray(new boolean[]{
+				ready_to_report,
+				got_server_ack,
+				suspended_via_gui,
+				project_suspended_via_gui,
+				coproc_missing,
+				gpu_mem_wait,
+				active_task,
+				supports_graphics,
+				too_large,
+				needs_shmem,
+				edf_scheduled
+		});
+	}
+	
+	public Result() {}
+	
+	private Result(Parcel in) {
+		name = in.readString();
+		wu_name = in.readString();
+		project_url = in.readString();
+		version_num = in.readInt();
+		plan_class = in.readString();
+		report_deadline = in.readLong();
+		received_time = in.readLong();
+
+		final_cpu_time = in.readDouble();
+		final_elapsed_time = in.readDouble();
+		state = in.readInt();
+		scheduler_state = in.readInt();
+		exit_status = in.readInt();
+		signal = in.readInt();
+		stderr_out = in.readString();
+
+		active_task_state = in.readInt();
+		app_version_num = in.readInt();
+		slot = in.readInt();
+		pid = in.readInt();
+		checkpoint_cpu_time = in.readDouble();
+		current_cpu_time = in.readDouble();
+		fraction_done = in.readFloat();
+		elapsed_time = in.readDouble();
+		swap_size = in.readDouble();
+		working_set_size_smoothed = in.readDouble();
+		estimated_cpu_time_remaining = in.readDouble();
+		graphics_mode_acked = in.readInt();
+		graphics_exec_path = in.readString();
+
+		slot_path = in.readString();
+
+		resources = in.readString();
+		
+		project = (Project) in.readValue(Project.class.getClassLoader());
+		avp = (AppVersion) in.readValue(AppVersion.class.getClassLoader());
+		app = (App) in.readValue(App.class.getClassLoader());
+		wup = (Workunit) in.readValue(Workunit.class.getClassLoader());
+		
+		boolean[] bArray = in.createBooleanArray();
+		ready_to_report = bArray[0]; 
+		got_server_ack = bArray[1];
+		suspended_via_gui = bArray[2];
+		project_suspended_via_gui = bArray[3];
+		coproc_missing = bArray[4];
+		gpu_mem_wait = bArray[5];
+		active_task = bArray[6];
+		supports_graphics = bArray[7];
+		too_large = bArray[8];
+		needs_shmem = bArray[9];
+		edf_scheduled = bArray[10];
+	}
+	
+	public static final Parcelable.Creator<Result> CREATOR = new Parcelable.Creator<Result>() {
+		public Result createFromParcel(Parcel in) {
+		    return new Result(in);
+		}
+		public Result[] newArray(int size) {
+		    return new Result[size];
+		}
+	};
 }

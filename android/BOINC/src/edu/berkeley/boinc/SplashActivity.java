@@ -19,6 +19,7 @@
 package edu.berkeley.boinc;
 
 import edu.berkeley.boinc.client.ClientStatus;
+import edu.berkeley.boinc.client.IMonitor;
 import edu.berkeley.boinc.client.Monitor;
 import edu.berkeley.boinc.utils.Logging;
 import android.app.Activity;
@@ -49,16 +50,19 @@ public class SplashActivity extends Activity {
 	
 	private Boolean mIsBound = false;
 	private Activity activity = this;
-
+	private static IMonitor monitor = null;
+	
 	private ServiceConnection mConnection = new ServiceConnection() {
 	    public void onServiceConnected(ComponentName className, IBinder service) {
 	        // This is called when the connection with the service has been established
 		    mIsBound = true;
+		    monitor = IMonitor.Stub.asInterface(service);
 	    }
 
 	    public void onServiceDisconnected(ComponentName className) {
 	    	// This should not happen
 		    mIsBound = false;
+		    monitor = null;
 	    }
 	};
 	
@@ -69,7 +73,7 @@ public class SplashActivity extends Activity {
 
 			if(mIsBound) {
 				try{
-					int setupStatus = Monitor.getClientStatus().setupStatus;
+					int setupStatus = SplashActivity.monitor.getSetupStatus();
 					switch(setupStatus) {
 					case ClientStatus.SETUP_STATUS_AVAILABLE:
 						if(Logging.DEBUG) Log.d(Logging.TAG, "SplashActivity SETUP_STATUS_AVAILABLE"); 

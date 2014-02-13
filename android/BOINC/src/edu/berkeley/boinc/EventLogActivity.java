@@ -22,6 +22,7 @@ import edu.berkeley.boinc.utils.*;
 import java.util.ArrayList;
 import java.lang.StringBuffer;
 import edu.berkeley.boinc.adapter.ClientLogListAdapter;
+import edu.berkeley.boinc.client.IMonitor;
 import edu.berkeley.boinc.client.Monitor;
 import edu.berkeley.boinc.rpc.Message;
 import android.content.ComponentName;
@@ -41,10 +42,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-
 public class EventLogActivity extends ActionBarActivity {
 	
-	private Monitor monitor;
+	private IMonitor monitor;
 	private Boolean mIsBound = false;
 
 	public EventLogClientFragment clientFrag;
@@ -105,7 +105,7 @@ public class EventLogActivity extends ActionBarActivity {
 	private ServiceConnection mConnection = new ServiceConnection() {
 	    public void onServiceConnected(ComponentName className, IBinder service) {
 	    	if(Logging.VERBOSE) Log.d(Logging.TAG,"EventLogActivity onServiceConnected");
-	        monitor = ((Monitor.LocalBinder)service).getService();
+	        monitor = IMonitor.Stub.asInterface(service);
 		    mIsBound = true;
 		    
 		    // initialize default fragment
@@ -131,7 +131,7 @@ public class EventLogActivity extends ActionBarActivity {
 	    }
 	}
 	
-	public Monitor getMonitorService() {
+	public IMonitor getMonitorService() {
 		if(!mIsBound) if(Logging.WARNING) Log.w(Logging.TAG, "Fragment trying to obtain serive reference, but Monitor not bound in EventLogActivity");
 		return monitor;
 	}
