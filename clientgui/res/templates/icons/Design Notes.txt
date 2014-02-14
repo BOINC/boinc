@@ -1,0 +1,18 @@
+Paint.NET
+
+=============================================================================
+Disconnected: Pure Red, Filled Shape with outline, Black, placed perfectly.
+Icon Size -> Circle Width/Height and Brush Width
+256 -> 96 BW 8
+128 -> 48 BW 5
+64 -> 24 BW 3
+48 -> 18 BW 2.5
+32 -> 12 BW 2
+16 -> 6 BW 1
+
+=============================================================================
+Snoozed: Rounded Rectangle, Filled Shape with outline, Color 1E3C64 on both... with Pause lines Rounded-Solid-Rounded, Color FFCC33
+256 -> BW 40, 96 x 112, resized down some -> BW 10
+128 -> BW 20, 48 x 56, resized down some -> BW 5
+64 -> BW 10, 24 x 28, resized down some -> BW 3
+48 -> BW 3
