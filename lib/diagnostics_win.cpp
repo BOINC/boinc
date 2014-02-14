@@ -43,6 +43,13 @@
 #include "util.h"
 #include "version.h"
 
+#if _MSC_VER > 1600
+  //required for compiling with v110_xp to create XP compatible executables
+  #ifndef FACILITY_VISUALCPP
+    #define FACILITY_VISUALCPP  ((LONG)0x6d)  //now defined in winerror.h
+  #endif
+#endif
+
 #include "diagnostics_win.h"
 
 // NtQuerySystemInformation

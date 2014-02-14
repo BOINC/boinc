@@ -997,6 +997,14 @@ void CMainDocument::RunPeriodicRPCs(int frameRefreshRate) {
             request.arg1 = &m_iNoticeSequenceNumber;
             request.arg2 = &notices;
             request.rpcType = RPC_TYPE_ASYNC_WITH_REFRESH_AFTER;
+            if (!pFrame->IsShown()
+#ifdef __WXMAC__
+                || (!wxGetApp().IsApplicationVisible())
+#endif
+            ) {
+                request.rpcType = RPC_TYPE_ASYNC_NO_REFRESH;
+            }
+
             request.completionTime = &m_dtNoticesTimeStamp;
             request.resultPtr = &m_iGet_notices_rpc_result;
            

@@ -75,17 +75,24 @@
 #endif
 #endif
 
-#define __WXDEBUG__ 1
+#ifndef _DEBUG
+#undef wxDEBUG_LEVEL
+#define wxDEBUG_LEVEL 0
+#endif
 
 #if (defined(_DEBUG) && (! USE_DEBUG_WXMAC))
 
 #undef _DEBUG       // so we can link with Deployment Wx libs
 #undef __WXDEBUG__
+#undef wxDEBUG_LEVEL
+#define wxDEBUG_LEVEL 0
 
 #include "stdwx.h"
 
 #define  _DEBUG     // Redefine _DEBUG for the rest of the code
 #define __WXDEBUG__
+#undef wxDEBUG_LEVEL
+#define wxDEBUG_LEVEL 1
 
 #else   // ! (defined(_DEBUG) && (! USE_DEBUG_WXMAC))
 
