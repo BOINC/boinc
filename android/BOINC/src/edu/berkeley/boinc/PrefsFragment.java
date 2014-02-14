@@ -168,6 +168,7 @@ public class PrefsFragment extends Fragment {
 		if(advanced) data.add(new PrefsListItemWrapper(getActivity(),R.string.prefs_category_storage,true));
 		if(advanced) data.add(new PrefsListItemWrapperValue(getActivity(),R.string.prefs_disk_max_pct_header,R.string.prefs_category_storage,clientPrefs.disk_max_used_pct));
 		if(advanced) data.add(new PrefsListItemWrapperValue(getActivity(),R.string.prefs_disk_min_free_gb_header,R.string.prefs_category_storage,clientPrefs.disk_min_free_gb));
+		if(advanced) data.add(new PrefsListItemWrapperValue(getActivity(),R.string.prefs_disk_access_interval_header,R.string.prefs_category_storage,clientPrefs.disk_interval));
 		// memory
 		if(advanced) data.add(new PrefsListItemWrapper(getActivity(),R.string.prefs_category_memory,true));
 		if(advanced) data.add(new PrefsListItemWrapperValue(getActivity(),R.string.prefs_memory_max_idle_header,R.string.prefs_category_memory,clientPrefs.ram_max_used_idle_frac));
@@ -365,7 +366,10 @@ public class PrefsFragment extends Fragment {
          		   } catch (RemoteException e) {}
          		   updateValuePref(item.ID, (double) sbProgress);
          		   updateLayout();
-         	   } else if(item.ID == R.string.prefs_network_daily_xfer_limit_mb_header || item.ID == R.string.battery_temperature_max_header || item.ID == R.string.prefs_disk_min_free_gb_header) {
+         	   } else if(item.ID == R.string.prefs_network_daily_xfer_limit_mb_header ||
+         			   item.ID == R.string.battery_temperature_max_header ||
+         			   item.ID == R.string.prefs_disk_min_free_gb_header ||
+         			   item.ID == R.string.prefs_disk_access_interval_header) {
          		   EditText edit = (EditText) dialog.findViewById(R.id.Input);
          		   String input = edit.getText().toString();
          		   Double valueTmp = parseInputValueToDouble(input);
@@ -394,6 +398,9 @@ public class PrefsFragment extends Fragment {
 			break;
 		case R.string.prefs_disk_min_free_gb_header:
 			clientPrefs.disk_min_free_gb = value;
+			break;
+		case R.string.prefs_disk_access_interval_header:
+			clientPrefs.disk_interval = value;
 			break;
 		case R.string.prefs_network_daily_xfer_limit_mb_header:
 			clientPrefs.daily_xfer_limit_mb = value;
@@ -571,6 +578,11 @@ public class PrefsFragment extends Fragment {
 				((TextView)dialog.findViewById(R.id.pref)).setText(item.ID);
 				break;
 			case R.string.prefs_disk_min_free_gb_header:
+				dialog.setContentView(R.layout.prefs_layout_dialog);
+				((TextView)dialog.findViewById(R.id.pref)).setText(item.ID);
+				setupDialogButtons(item, dialog);
+				break;
+			case R.string.prefs_disk_access_interval_header:
 				dialog.setContentView(R.layout.prefs_layout_dialog);
 				((TextView)dialog.findViewById(R.id.pref)).setText(item.ID);
 				setupDialogButtons(item, dialog);
