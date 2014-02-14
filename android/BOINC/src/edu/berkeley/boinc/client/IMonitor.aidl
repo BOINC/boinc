@@ -99,5 +99,7 @@ boolean getPowerSourceAc();
 boolean getPowerSourceUsb();
 boolean getPowerSourceWireless();
 void setShowAdvanced(in boolean isShow);
-void setStationaryDeviceMode(in boolean mode);                                     
+void setStationaryDeviceMode(in boolean mode);
+boolean getSuspendWhenScreenOn();
+void setSuspendWhenScreenOn(in boolean swso);                                         
 }

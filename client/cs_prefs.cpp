@@ -227,9 +227,12 @@ int CLIENT_STATE::check_suspend_processing() {
         ) {
             return SUSPEND_REASON_BATTERIES;
         }
-        if (!global_prefs.run_if_user_active && user_active) {
+#ifndef ANDROID
+	// perform this check after SUSPEND_REASON_BATTERY_CHARGING on Android
+        /*if (!global_prefs.run_if_user_active && user_active) {
             return SUSPEND_REASON_USER_ACTIVE;
-        }
+        }*/
+#endif
         if (global_prefs.cpu_times.suspended(now)) {
             return SUSPEND_REASON_TIME_OF_DAY;
         }
@@ -272,6 +275,16 @@ int CLIENT_STATE::check_suspend_processing() {
         if (cp < global_prefs.battery_charge_min_pct) {
             return SUSPEND_REASON_BATTERY_CHARGING;
         }
+    }
+    
+    // user active.
+    // Do this check after checks that user can not influence on Android.
+    // E.g.
+    // 1. "connect to charger to continue computing"
+    // 2. "charge battery until 90%"
+    // 3. "turn screen off to continue computing"
+    if (!global_prefs.run_if_user_active && user_active) {
+	return SUSPEND_REASON_USER_ACTIVE;
     }
 #endif
 

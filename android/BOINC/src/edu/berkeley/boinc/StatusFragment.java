@@ -143,7 +143,15 @@ public class StatusFragment extends Fragment{
 					statusHeader.setVisibility(View.GONE);
 					break;
 				case BOINCDefs.SUSPEND_REASON_USER_ACTIVE:
-					statusDescriptor.setText(R.string.suspend_useractive);
+					Boolean suspendDueToScreenOn = false;
+					try{ suspendDueToScreenOn = BOINCActivity.monitor.getSuspendWhenScreenOn();} catch(RemoteException e){}
+					if(suspendDueToScreenOn){
+						statusDescriptor.setText(R.string.suspend_screen_on);
+						statusImage.setImageResource(R.drawable.screen48b);
+						statusHeader.setVisibility(View.GONE);
+					} else {
+						statusDescriptor.setText(R.string.suspend_useractive);
+					}
 					break;
 				case BOINCDefs.SUSPEND_REASON_USER_REQ:
 					// state after user stops and restarts computation

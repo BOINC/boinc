@@ -37,6 +37,7 @@ public class AppPreferences {
 	private Boolean powerSourceUsb;
 	private Boolean powerSourceWireless;
 	private Boolean stationaryDeviceMode; // disable battery status parsing
+	private Boolean suspendWhenScreenOn;
 	
 	public void readPrefs (Context ctx) {
 		if(prefs == null) {
@@ -52,6 +53,7 @@ public class AppPreferences {
 		powerSourceUsb = prefs.getBoolean("powerSourceUsb", ctx.getResources().getBoolean(R.bool.prefs_power_source_usb));
 		powerSourceWireless = prefs.getBoolean("powerSourceWireless", ctx.getResources().getBoolean(R.bool.prefs_power_source_wireless));
 		stationaryDeviceMode = prefs.getBoolean("stationaryDeviceMode", ctx.getResources().getBoolean(R.bool.prefs_stationary_device_mode));
+		suspendWhenScreenOn = prefs.getBoolean("suspendWhenScreenOn", ctx.getResources().getBoolean(R.bool.prefs_suspend_when_screen_on));
 		
 		if(Logging.DEBUG) Log.d(Logging.TAG, "appPrefs read successful." + autostart + showNotification + showAdvanced + logLevel + powerSourceAc + powerSourceUsb + powerSourceWireless);
 	}
@@ -143,5 +145,16 @@ public class AppPreferences {
 	
 	public Boolean getStationaryDeviceMode () {
 		return this.stationaryDeviceMode;
+	}
+	
+	public void setSuspendWhenScreenOn(Boolean swso) {
+		SharedPreferences.Editor editor = prefs.edit();
+		editor.putBoolean("suspendWhenScreenOn", swso);
+		editor.commit();
+		this.suspendWhenScreenOn = swso;
+	}
+	
+	public Boolean getSuspendWhenScreenOn () {
+		return this.suspendWhenScreenOn;
 	}
 }

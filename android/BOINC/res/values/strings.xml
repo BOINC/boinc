@@ -150,6 +150,7 @@
     <string name="prefs_category_memory">Memory</string>
     <string name="prefs_category_debug">Debug</string>
     <string name="prefs_show_advanced_header">Show advanced preferences and controls&#8230;</string>
+    <string name="prefs_suspend_when_screen_on">Pause computation when screen is on</string>
 	<string name="prefs_stationary_device_mode_header">Stationary device mode</string>
 	<string name="prefs_stationary_device_mode_description">Allows computation regardless of Power preferences. Only enable if device does not have a battery.</string>
     <string name="prefs_power_source_header">Power sources for computation</string>
@@ -288,6 +289,7 @@
     <!-- suspend reasons -->
     <string name="suspend_unknown">Computation suspended.</string>
     <string name="suspend_batteries">Connect your device to a charger to continue computing.</string>
+    <string name="suspend_screen_on">Turn screen off to continue computing.</string>
     <string name="suspend_useractive">User is active.</string>
     <string name="suspend_tod">Out of computation time-frame.</string>
     <string name="suspend_bm">BOINC is benchmarking your device&#8230;</string>

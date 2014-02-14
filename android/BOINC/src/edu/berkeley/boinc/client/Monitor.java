@@ -47,6 +47,7 @@ import android.os.Build;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.os.RemoteException;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.SplashActivity;
@@ -510,7 +511,7 @@ public class Monitor extends Service {
     	try{
 	    	// set devices status
 			if(deviceStatus != null) { // make sure deviceStatus is initialized
-				Boolean reportStatusSuccess = clientInterface.reportDeviceStatus(deviceStatus.update()); // transmit device status via rpc
+				Boolean reportStatusSuccess = clientInterface.reportDeviceStatus(deviceStatus.update(screenOn)); // transmit device status via rpc
 				if(reportStatusSuccess) screenOffStatusOmitCounter = 0;
 				else if(Logging.DEBUG) Log.d(Logging.TAG,"reporting device status returned false.");
 			} else if(Logging.WARNING) Log.w(Logging.TAG,"reporting device status failed, wrapper not initialized.");
@@ -979,7 +980,7 @@ public class Monitor extends Service {
 	    				String[] packages = context.getPackageManager().getPackagesForUid(uid);
 	    				for (String pkg : packages) {
 	    					if (pkg.equals("com.htc.ptg")) {
-	    						if(Logging.ERROR) Log.d(Logging.TAG,"PackageReplacedReceiver: PTG added, stop Monitor...");
+	    						if(Logging.ERROR) Log.d(Logging.TAG,"packageAddedReceiver: PTG added, stop Monitor...");
 	    						new QuitClientAsync().execute();
 	    						break;
 	    					}
@@ -1008,7 +1009,7 @@ public class Monitor extends Service {
 			
 		@Override
 		public boolean transferOperation(List<Transfer> list, int op) throws RemoteException {
-			return clientInterface.transferOperation((ArrayList)list, op);
+			return clientInterface.transferOperation((ArrayList<Transfer>)list, op);
 		}
 		
 		@Override
@@ -1073,10 +1074,7 @@ public class Monitor extends Service {
 		public boolean isStationaryDeviceSuspected() throws RemoteException {
 			try {
 				return Monitor.getDeviceStatus().isStationaryDeviceSuspected();
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			} catch (Exception e) {}
 			return false;
 		}
 		
@@ -1111,10 +1109,7 @@ public class Monitor extends Service {
 		public int getBatteryChargeStatus() throws RemoteException{
 			try {
 				return getDeviceStatus().getStatus().battery_charge_pct;
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			} catch (Exception e) {}
 			return 0;
 		}
 		
@@ -1331,6 +1326,16 @@ public class Monitor extends Service {
 		@Override
 		public Bitmap getProjectIcon(String id) throws RemoteException {
 			return clientStatus.getProjectIcon(id);
+		}
+
+		@Override
+		public boolean getSuspendWhenScreenOn() throws RemoteException {
+			return Monitor.getAppPrefs().getSuspendWhenScreenOn();
+		}
+
+		@Override
+		public void setSuspendWhenScreenOn(boolean swso) throws RemoteException {
+			Monitor.getAppPrefs().setSuspendWhenScreenOn(swso);
 		}
 	};
 // --end-- remote service	

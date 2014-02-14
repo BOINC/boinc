@@ -144,6 +144,7 @@ public class PrefsFragment extends Fragment {
 		data.add(new PrefsListItemWrapperBool(getActivity(),R.string.prefs_autostart_header,R.string.prefs_category_general,BOINCActivity.monitor.getAutostart()));
 		data.add(new PrefsListItemWrapperBool(getActivity(),R.string.prefs_show_notification_header,R.string.prefs_category_general,BOINCActivity.monitor.getShowNotification()));
 		data.add(new PrefsListItemWrapperBool(getActivity(),R.string.prefs_show_advanced_header,R.string.prefs_category_general,BOINCActivity.monitor.getShowAdvanced()));
+		if(!stationaryDeviceMode) data.add(new PrefsListItemWrapperBool(getActivity(),R.string.prefs_suspend_when_screen_on,R.string.prefs_category_general,BOINCActivity.monitor.getSuspendWhenScreenOn()));
 		// network
     	data.add(new PrefsListItemWrapper(getActivity(),R.string.prefs_category_network,true));
 		data.add(new PrefsListItemWrapperBool(getActivity(),R.string.prefs_network_wifi_only_header,R.string.prefs_category_network,clientPrefs.network_wifi_only));
@@ -497,6 +498,11 @@ public class PrefsFragment extends Fragment {
 					BOINCActivity.monitor.setShowAdvanced(isSet);
 					// reload complete layout to remove/add advanced elements
 					populateLayout();
+					break;
+				case R.string.prefs_suspend_when_screen_on: //app pref
+					BOINCActivity.monitor.setSuspendWhenScreenOn(isSet);
+					updateBoolPref(ID, isSet);
+					updateLayout();
 					break;
 				case R.string.prefs_network_wifi_only_header: //client pref
 					clientPrefs.network_wifi_only = isSet;
