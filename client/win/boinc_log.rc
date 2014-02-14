@@ -36,7 +36,7 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 #elif defined(_WCG)
 IDI_MAIN_ICON           ICON                    "res\\wcg.ico"
 #else
-IDI_MAIN_ICON           ICON                    "res\\icon.ico"
+IDI_MAIN_ICON           ICON                    "res\\boinc.ico"
 #endif
 
 /////////////////////////////////////////////////////////////////////////////

@@ -288,6 +288,9 @@
       <Message>Checking boincmgr.exe dependencies</Message>
       <Command>"$(ProjectDir)\buildenv.cmd" devenvdir "$(DevEnvDir)" type "$(Configuration)" platform "$(Platform)" exec updatedepends.cmd</Command>
     </PostBuildEvent>
+    <Manifest>
+      <EnableDPIAwareness>false</EnableDPIAwareness>
+    </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
     <None Include="..\clientgui\res\BOINCGUIApp.ico" />
