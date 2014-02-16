@@ -1529,6 +1529,48 @@ void VBOX_VM::dumphypervisorlogs(bool include_error_logs) {
     }
 }
 
+void VBOX_VM::dumphypervisorstatusreports() {
+    char buf[256];
+
+#ifdef _WIN32
+    SIZE_T ulMinimumWorkingSetSize;
+    SIZE_T ulMaximumWorkingSetSize;
+    DWORD  dwFlags;
+
+    if (
+        GetProcessWorkingSetSizeEx(
+            vboxsvc_pid_handle,
+            &ulMinimumWorkingSetSize,
+            &ulMaximumWorkingSetSize,
+            &dwFlags)
+    ) {
+        fprintf(
+            stderr,
+            "%s Status Report (VirtualBox VboxSvc.exe): Minimum WSS: '%dKB', Maximum WSS: '%dKB'\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf)),
+            ulMinimumWorkingSetSize/1024,
+            ulMaximumWorkingSetSize/1024
+        );
+    }
+
+    if (
+        GetProcessWorkingSetSizeEx(
+            vm_pid_handle,
+            &ulMinimumWorkingSetSize,
+            &ulMaximumWorkingSetSize,
+            &dwFlags)
+    ) {
+        fprintf(
+            stderr,
+            "%s Status Report (VirtualBox Vboxheadless.exe/VirtualBox.exe): Minimum WSS: '%dKB', Maximum WSS: '%dKB'\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf)),
+            ulMinimumWorkingSetSize/1024,
+            ulMaximumWorkingSetSize/1024
+        );
+    }
+#endif
+}
+
 int VBOX_VM::is_registered() {
     string command;
     string output;

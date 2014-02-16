@@ -36,7 +36,7 @@ IDI_MAIN_ICON           ICON                    "res\\ce.ico"
 #elif defined(_WCG)
 IDI_MAIN_ICON           ICON                    "res\\wcg.ico"
 #else
-IDI_MAIN_ICON           ICON                    "res\\icon.ico"
+IDI_MAIN_ICON           ICON                    "res\\boinc.ico"
 #endif
 
 /////////////////////////////////////////////////////////////////////////////

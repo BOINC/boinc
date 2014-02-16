@@ -418,17 +418,14 @@ bool CBOINCGUIApp::OnInit() {
     // Initialize the task bar icon
 	m_pTaskBarIcon = new CTaskBarIcon(
         m_pSkinManager->GetAdvanced()->GetApplicationName(), 
-#ifdef __WXMSW__
-        new wxIcon(wxICON(BOINCGUIAPP)),
-#else
         m_pSkinManager->GetAdvanced()->GetApplicationIcon(),
-#endif
         m_pSkinManager->GetAdvanced()->GetApplicationDisconnectedIcon(),
         m_pSkinManager->GetAdvanced()->GetApplicationSnoozeIcon()
 #ifdef __WXMAC__
         , wxTBI_CUSTOM_STATUSITEM
 #endif
     );
+    wxASSERT(m_pTaskBarIcon);
 #ifdef __WXMAC__
     m_pMacDockIcon = new CTaskBarIcon(
         m_pSkinManager->GetAdvanced()->GetApplicationName(), 
@@ -439,7 +436,6 @@ bool CBOINCGUIApp::OnInit() {
     );
     wxASSERT(m_pMacDockIcon);
 #endif
-    wxASSERT(m_pTaskBarIcon);
 
     // Startup the System Idle Detection code
     IdleTrackerAttach();
@@ -1049,7 +1045,6 @@ bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
             pNewFrame = new CAdvancedFrame(
                 m_pSkinManager->GetAdvanced()->GetApplicationName(), 
                 m_pSkinManager->GetAdvanced()->GetApplicationIcon(),
-                m_pSkinManager->GetAdvanced()->GetApplicationIcon32(),
                 wxPoint(iLeft, iTop),
                 wxSize(iWidth, iHeight)
             );
@@ -1058,7 +1053,6 @@ bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
             pNewFrame = new CSimpleFrame(
                 m_pSkinManager->GetAdvanced()->GetApplicationName(), 
                 m_pSkinManager->GetAdvanced()->GetApplicationIcon(),
-                m_pSkinManager->GetAdvanced()->GetApplicationIcon32(),
                 wxPoint(iLeft, iTop),
                 wxSize(iWidth, iHeight)
             );

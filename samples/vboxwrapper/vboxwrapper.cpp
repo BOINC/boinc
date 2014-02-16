@@ -1008,6 +1008,8 @@ int main(int argc, char** argv) {
                                 );
                             }
                         }
+
+                        vm.dumphypervisorstatusreports();
                     }
 
                     // Checkpoint

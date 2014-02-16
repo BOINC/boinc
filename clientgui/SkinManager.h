@@ -83,12 +83,19 @@ public:
 
     void Clear();
     int  Parse(MIOFILE& in);
+    int  Parse32(MIOFILE& in);
 
-    wxIcon* GetIcon();
+    wxIconBundle* GetIcon();
 
     bool SetDefaults(
         wxString strComponentName,
-        const char** ppDefaultIcon
+        wxString strIcon
+    );
+
+    bool SetDefaults(
+        wxString strComponentName,
+        const char** m_ppIcon,
+        const char** m_ppIcon32
     );
 
     bool Validate();
@@ -97,8 +104,11 @@ private:
     wxString     m_strComponentName;
     wxString     m_strDesiredIcon;
     wxString     m_strDesiredTransparencyMask;
-    const char** m_ppDefaultIcon;
-    wxIcon       m_icoIcon;
+    wxIconBundle m_icoDefaultIcon;
+    wxString     m_strDesiredIcon32;
+    wxString     m_strDesiredTransparencyMask32;
+    wxIconBundle m_icoDefaultIcon32;
+    wxIconBundle m_icoIcon;
 };
 
 
@@ -158,35 +168,34 @@ public:
 
     bool InitializeDelayedValidation();
 
-    wxString    GetApplicationName();
-    wxString    GetApplicationShortName();
-    wxIcon*     GetApplicationIcon();
-    wxIcon*     GetApplicationIcon32();
-    wxIcon*     GetApplicationDisconnectedIcon();
-    wxIcon*     GetApplicationSnoozeIcon();
-    wxBitmap*   GetApplicationLogo();
-    wxString    GetOrganizationName();
-    wxString    GetOrganizationWebsite();
-    wxString    GetOrganizationHelpUrl();
-    int         GetDefaultTab();
-    wxString    GetExitMessage();
-    bool        IsBranded();
+    wxString      GetApplicationName();
+    wxString      GetApplicationShortName();
+    wxIconBundle* GetApplicationIcon();
+    wxIconBundle* GetApplicationDisconnectedIcon();
+    wxIconBundle* GetApplicationSnoozeIcon();
+    wxBitmap*     GetApplicationLogo();
+    wxString      GetOrganizationName();
+    wxString      GetOrganizationWebsite();
+    wxString      GetOrganizationHelpUrl();
+    int           GetDefaultTab();
+    wxString      GetExitMessage();
+    bool          IsBranded();
 
 private:
-    bool        m_bIsBranded;
-    wxString    m_strApplicationName;
-    wxString    m_strApplicationShortName;
-    CSkinIcon   m_iconApplicationIcon;
-    CSkinIcon   m_iconApplicationIcon32;
-    CSkinIcon   m_iconApplicationDisconnectedIcon;
-    CSkinIcon   m_iconApplicationSnoozeIcon;
-    wxBitmap    m_bitmapApplicationLogo;
-    wxString    m_strOrganizationName;
-    wxString    m_strOrganizationWebsite;
-    wxString    m_strOrganizationHelpUrl;
-    bool        m_bDefaultTabSpecified;
-    int         m_iDefaultTab;
-    wxString    m_strExitMessage;
+    bool          m_bIsBranded;
+    wxString      m_strApplicationName;
+    wxString      m_strApplicationShortName;
+    CSkinIcon     m_iconApplicationIcon;
+    CSkinIcon     m_iconApplicationIcon32;
+    CSkinIcon     m_iconApplicationDisconnectedIcon;
+    CSkinIcon     m_iconApplicationSnoozeIcon;
+    wxBitmap      m_bitmapApplicationLogo;
+    wxString      m_strOrganizationName;
+    wxString      m_strOrganizationWebsite;
+    wxString      m_strOrganizationHelpUrl;
+    bool          m_bDefaultTabSpecified;
+    int           m_iDefaultTab;
+    wxString      m_strExitMessage;
 };
 
 

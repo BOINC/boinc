@@ -88,21 +88,14 @@ CSimpleFrame::CSimpleFrame() {
 }
 
 
-CSimpleFrame::CSimpleFrame(wxString title, wxIcon* icon, wxIcon* icon32, wxPoint position, wxSize size) : 
+CSimpleFrame::CSimpleFrame(wxString title, wxIconBundle* icons, wxPoint position, wxSize size) : 
     CBOINCBaseFrame((wxFrame *)NULL, ID_SIMPLEFRAME, title, position, size,
                     wxMINIMIZE_BOX | wxSYSTEM_MENU | wxCAPTION | wxCLOSE_BOX | wxCLIP_CHILDREN)
 {
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame:: - Overloaded Constructor Function Begin"));
 
     // Initialize Application
-#ifdef __WXMSW__
-    SetIcons(wxICON(BOINCGUIAPP));
-#else
-    wxIconBundle icons;
-    icons.AddIcon(*icon);
-    icons.AddIcon(*icon32);
-    SetIcons(icons);
-#endif
+    SetIcons(*icons);
     
     CSkinAdvanced*     pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
     wxString           strMenuName;
@@ -567,7 +560,7 @@ void CSimpleFrame::OnReloadSkin(CFrameEvent& WXUNUSED(event)) {
 
     m_pBackgroundPanel->ReskinInterface();
     SetTitle(pSkinAdvanced->GetApplicationName());
-    SetIcon(*pSkinAdvanced->GetApplicationIcon());
+    SetIcon(pSkinAdvanced->GetApplicationIcon()->GetIcon(wxDefaultSize));
 
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnReloadSkin - Function End"));
 }
