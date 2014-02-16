@@ -423,47 +423,132 @@ public class ClientStatus {
 		return null;
 	}
 	
-	// returns a string describing the current client status.
-	// use this method, to harmonize UI text, e.g. in Notification, Status Tab, App Title.
-	public String getCurrentStatusString() {
-		String statusString = "";
+	public ArrayList<Result> getExecutingTasks() {
+		ArrayList<Result> activeTasks = new ArrayList<Result>();
+		for(Result tmp: results) {
+			if(tmp.active_task && tmp.active_task_state == BOINCDefs.PROCESS_EXECUTING)
+				activeTasks.add(tmp);
+		}
+		return activeTasks;
+	}
+	
+	public String getCurrentStatusTitle() {
+		String statusTitle = "";
 		try {
 			switch(setupStatus) {
 			case SETUP_STATUS_AVAILABLE:
 				switch(computingStatus) {
 				case COMPUTING_STATUS_COMPUTING:
-					statusString = ctx.getString(R.string.status_running);
+					statusTitle = ctx.getString(R.string.status_running);
 					break;
 				case COMPUTING_STATUS_IDLE:
-					statusString = ctx.getString(R.string.status_idle);
+					statusTitle = ctx.getString(R.string.status_idle);
 					break;
 				case COMPUTING_STATUS_SUSPENDED:
-					switch(computingSuspendReason) {
-					case BOINCDefs.SUSPEND_REASON_USER_REQ:
-						// restarting after user has previously manually suspended computation
-						statusString = ctx.getString(R.string.suspend_user_req);
-						break;
-					case BOINCDefs.SUSPEND_REASON_BENCHMARKS:
-						statusString = ctx.getString(R.string.status_benchmarking);
-						break;
-					default:
-						statusString = ctx.getString(R.string.status_paused);
-						break;
-					}
+					statusTitle = ctx.getString(R.string.status_paused);
 					break;
 				case COMPUTING_STATUS_NEVER:
-					statusString = ctx.getString(R.string.status_computing_disabled);
+					statusTitle = ctx.getString(R.string.status_computing_disabled);
 					break;
 				}
 				break;
 			case SETUP_STATUS_CLOSING:
-				statusString = ctx.getString(R.string.status_closing);
+				statusTitle = ctx.getString(R.string.status_closing);
 				break;
 			case SETUP_STATUS_LAUNCHING:
-				statusString = ctx.getString(R.string.status_launching);
+				statusTitle = ctx.getString(R.string.status_launching);
 				break;
 			case SETUP_STATUS_NOPROJECT:
-				statusString = ctx.getString(R.string.status_noproject);
+				statusTitle = ctx.getString(R.string.status_noproject);
+				break;
+			}
+		} catch (Exception e) {
+			if(Logging.WARNING) Log.w(Logging.TAG, "error parsing setup status string",e);
+		}
+		return statusTitle;
+	}
+
+	public String getCurrentStatusDescription() {
+		String statusString = "";
+		try {
+			switch(computingStatus) {
+			case COMPUTING_STATUS_COMPUTING:
+				statusString = ctx.getString(R.string.status_running_long);
+				break;
+			case COMPUTING_STATUS_IDLE:
+				if(networkSuspendReason == BOINCDefs.SUSPEND_REASON_WIFI_STATE){
+					// Network suspended due to wifi state
+					statusString = ctx.getString(R.string.suspend_wifi);
+				}else statusString = ctx.getString(R.string.status_idle_long);
+				break;
+			case COMPUTING_STATUS_SUSPENDED:
+				switch(computingSuspendReason) {
+				case BOINCDefs.SUSPEND_REASON_USER_REQ:
+					// restarting after user has previously manually suspended computation
+					statusString = ctx.getString(R.string.suspend_user_req);
+					break;
+				case BOINCDefs.SUSPEND_REASON_BENCHMARKS:
+					statusString = ctx.getString(R.string.status_benchmarking);
+					break;
+				case BOINCDefs.SUSPEND_REASON_BATTERIES:
+					statusString = ctx.getString(R.string.suspend_batteries);
+					break;
+				case BOINCDefs.SUSPEND_REASON_BATTERY_CHARGING:
+					statusString = ctx.getString(R.string.suspend_battery_charging);
+					try{
+						Double minCharge = prefs.battery_charge_min_pct;
+						Integer currentCharge = Monitor.getDeviceStatus().getStatus().battery_charge_pct;
+						statusString = ctx.getString(R.string.suspend_battery_charging_long) + " " + minCharge.intValue()
+						+ "% (" + ctx.getString(R.string.suspend_battery_charging_current) + " " + currentCharge  + "%) "
+						+ ctx.getString(R.string.suspend_battery_charging_long2);
+					} catch (Exception e) {}
+					break;
+				case BOINCDefs.SUSPEND_REASON_BATTERY_OVERHEATED:
+					statusString = ctx.getString(R.string.suspend_battery_overheating);
+					break;
+				case BOINCDefs.SUSPEND_REASON_USER_ACTIVE:
+					Boolean suspendDueToScreenOn = false;
+					suspendDueToScreenOn = Monitor.getAppPrefs().getSuspendWhenScreenOn();
+					if(suspendDueToScreenOn) statusString = ctx.getString(R.string.suspend_screen_on);
+					else statusString = ctx.getString(R.string.suspend_useractive);
+					break;
+				case BOINCDefs.SUSPEND_REASON_TIME_OF_DAY:
+					statusString = ctx.getString(R.string.suspend_tod);
+					break;
+				case BOINCDefs.SUSPEND_REASON_DISK_SIZE:
+					statusString = ctx.getString(R.string.suspend_disksize);
+					break;
+				case BOINCDefs.SUSPEND_REASON_CPU_THROTTLE:
+					statusString = ctx.getString(R.string.suspend_cputhrottle);
+					break;
+				case BOINCDefs.SUSPEND_REASON_NO_RECENT_INPUT:
+					statusString = ctx.getString(R.string.suspend_noinput);
+					break;
+				case BOINCDefs.SUSPEND_REASON_INITIAL_DELAY:
+					statusString = ctx.getString(R.string.suspend_delay);
+					break;
+				case BOINCDefs.SUSPEND_REASON_EXCLUSIVE_APP_RUNNING:
+					statusString = ctx.getString(R.string.suspend_exclusiveapp);
+					break;
+				case BOINCDefs.SUSPEND_REASON_CPU_USAGE:
+					statusString = ctx.getString(R.string.suspend_cpu);
+					break;
+				case BOINCDefs.SUSPEND_REASON_NETWORK_QUOTA_EXCEEDED:
+					statusString = ctx.getString(R.string.suspend_network_quota);
+					break;
+				case BOINCDefs.SUSPEND_REASON_OS:
+					statusString = ctx.getString(R.string.suspend_os);
+					break;
+				case BOINCDefs.SUSPEND_REASON_WIFI_STATE:
+					statusString = ctx.getString(R.string.suspend_wifi);
+					break;
+				default:
+					statusString = ctx.getString(R.string.suspend_unknown);
+					break;
+				}
+				break;
+			case COMPUTING_STATUS_NEVER:
+				statusString = ctx.getString(R.string.status_computing_disabled_long);
 				break;
 			}
 		} catch (Exception e) {

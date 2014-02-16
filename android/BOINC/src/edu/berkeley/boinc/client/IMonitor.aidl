@@ -62,6 +62,7 @@ boolean isStationaryDeviceSuspected();               // implement: call Monitor.
 int getBatteryChargeStatus();           // implement: return getDeviceStatus().getStatus().battery_charge_pct;
 String getAuthFilePath();               // implement: return Monitor.getAuthFilePath();
 int getBoincPlatform();                        // should be not necessary to be implemented as monitor interface
+void cancelNoticeNotification();
 
 /////// client status //////////////////////////////////////////
 List<ProjectInfo> getSupportedProjects();  // clientstatus.getSupportedProjects();
@@ -70,7 +71,8 @@ int getSetupStatus();         // clientStatus.setupStatus;
 int getComputingStatus();     // clientStatus.computingStatus;
 int getComputingSuspendReason(); // clientStatus.computingSuspendReason;
 int getNetworkSuspendReason();   // clientStatus.networkSuspendReason;
-String getCurrentStatusString(); // status.getCurrentStatusString()
+String getCurrentStatusTitle(); // status.getCurrentStatusTitle()
+String getCurrentStatusDescription(); // status.getCurrentStatusDescription()
 HostInfo getHostInfo();            // clientStatus.getHostInfo()
 GlobalPreferences getPrefs();        // clientStatus.getPrefs()
 List<Project> getProjects();    // clientStatus.getProjects();

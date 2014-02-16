@@ -173,15 +173,19 @@ public class BOINCActivity extends ActionBarActivity {
 	}
 
 	@Override
+	protected void onNewIntent(Intent intent) {
+		super.onNewIntent(intent);
+		// navigate to explicitly requested fragment (e.g. after project attach)
+		int id = intent.getIntExtra("targetFragment", -1);
+    	if(Logging.DEBUG) Log.d(Logging.TAG, "BOINCActivity onNewIntent() for target fragment: " + id);
+		if(id > -1) dispatchNavBarOnClick(mDrawerListAdapter.getItemForId(id),false);
+	}
+
+	@Override
 	protected void onResume() { // gets called by system every time activity comes to front. after onCreate upon first creation
-    	if(Logging.VERBOSE) Log.d(Logging.TAG, "BOINCActivity onResume()");
 	    super.onResume();
 	    registerReceiver(mClientStatusChangeRec, ifcsc);
 	    determineStatus();
-		// navigate to explicitly requested fragment (e.g. after project attach)
-		Intent i = getIntent();
-		int id = i.getIntExtra("targetFragment", -1);
-		if(id > -1) dispatchNavBarOnClick(mDrawerListAdapter.getItemForId(id),false);
 	}
 
 	@Override
@@ -224,6 +228,8 @@ public class BOINCActivity extends ActionBarActivity {
 	 */
 	private void dispatchNavBarOnClick(NavDrawerItem item, boolean init) {
 		// update the main content by replacing fragments
+		if(item == null) return;
+		
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 		Boolean fragmentChanges = false;
 		if(init) {

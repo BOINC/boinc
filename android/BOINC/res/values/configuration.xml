@@ -50,6 +50,7 @@
     	<integer name="monitor_setup_connection_retry_rate_ms">1000</integer>
     	<integer name="monitor_setup_connection_retry_attempts">10</integer>
     	<integer name="autostart_notification_id">1</integer>
+    	<integer name="notice_notification_id">2</integer>
     <!-- configuration project attach -->
     	<integer name="attach_step_interval_ms">1000</integer>
     	<integer name="attach_get_project_config_retries">3</integer>

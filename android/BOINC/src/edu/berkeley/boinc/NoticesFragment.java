@@ -29,6 +29,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.RemoteException;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -55,8 +56,13 @@ public class NoticesFragment extends Fragment {
 
 	@Override
 	public void onResume() {
-		if(Logging.DEBUG) Log.d(Logging.TAG, "NoticesFragment onResume()");
+		Log.d(Logging.TAG, "NoticesFragment onResume()");
 		getActivity().registerReceiver(mClientStatusChangeRec,ifcsc);
+		
+		// clear notice notification
+		try {
+			BOINCActivity.monitor.cancelNoticeNotification();
+		} catch (RemoteException e) {}
 		super.onResume();
 	}
 	
