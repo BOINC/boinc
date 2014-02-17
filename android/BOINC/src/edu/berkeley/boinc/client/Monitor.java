@@ -19,6 +19,7 @@
 package edu.berkeley.boinc.client;
 
 import edu.berkeley.boinc.utils.*;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -47,7 +48,6 @@ import android.os.Build;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.os.RemoteException;
-import android.telephony.TelephonyManager;
 import android.util.Log;
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.SplashActivity;
@@ -102,18 +102,6 @@ public class Monitor extends Service {
 	
 	// screen on/off updated by screenOnOffBroadcastReceiver
 	private boolean screenOn = false;
-	
-// attributes and methods related to Android Service life-cycle
-	/**
-	 * Extension of Android's Binder class to return instance of this service
-	 * allows components bound to this service, to access its functions and attributes
-	 */
-//	public class LocalBinder extends Binder {
-//        public Monitor getService() {
-//            return Monitor.this;
-//        }
-//    }
-//    private final IBinder mBinder = new LocalBinder();
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -211,6 +199,21 @@ public class Monitor extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {	
     	//this gets called after startService(intent) (either by BootReceiver or AndroidBOINCActivity, depending on the user's autostart configuration)
     	if(Logging.ERROR) Log.d(Logging.TAG, "Monitor onStartCommand()");
+
+		// execute action if one is explicitly requested (e.g. from notification)
+    	if(intent != null) {
+			int actionCode = intent.getIntExtra("action", -1);
+	    	if(Logging.DEBUG) Log.d(Logging.TAG, "Monitor.onStartCommand() with action code: " + actionCode);
+			switch(actionCode) {
+			case 1: // suspend
+				new SetClientRunModeAsync().execute(BOINCDefs.RUN_MODE_NEVER);
+				break;
+			case 2: // resume
+				new SetClientRunModeAsync().execute(BOINCDefs.RUN_MODE_AUTO);
+				break;
+			}
+    	}
+		
 		/*
 		 * START_STICKY causes service to stay in memory until stopSelf() is called, even if all
 		 * Activities get destroyed by the system. Important for GUI keep-alive
@@ -447,16 +450,7 @@ public class Monitor extends Service {
      */
     private void readClientStatus(Boolean forceCompleteUpdate) {
     	try{
-    		// read ccStatus and adjust wakelocks and service state independently of screen status
-    		// wake locks and foreground enabled when Client is not suspended, therefore also during
-    		// idle.
-    		CcStatus status = clientInterface.getCcStatus();
-    		// treat cpu throttling as if it was computing
-    		Boolean computing = (status.task_suspend_reason == BOINCDefs.SUSPEND_NOT_SUSPENDED) || (status.task_suspend_reason == BOINCDefs.SUSPEND_REASON_CPU_THROTTLE);
-    		if(Logging.VERBOSE) Log.d(Logging.TAG,"readClientStatus(): computation enabled: " + computing);
-			Monitor.getClientStatus().setWifiLock(computing);
-			Monitor.getClientStatus().setWakeLock(computing);
-			ClientNotification.getInstance(getApplicationContext()).setForeground(computing, this);
+    		CcStatus status; // read independently of screen status
     		
 			// complete status read, depending on screen status
     		// screen off: only read computing status to adjust wakelock, do not send broadcast
@@ -465,6 +459,7 @@ public class Monitor extends Service {
 	    	if(screenOn || forceCompleteUpdate) {
 	    		// complete status read, with broadcast
 				if(Logging.VERBOSE) Log.d(Logging.TAG, "readClientStatus(): screen on, get complete status");
+	    		status = clientInterface.getCcStatus();
 				CcState state = clientInterface.getState();
 				ArrayList<Transfer>  transfers = clientInterface.getFileTransfers();
 				AcctMgrInfo acctMgrInfo = clientInterface.getAcctMgrInfo();
@@ -472,8 +467,6 @@ public class Monitor extends Service {
 				
 				if( (status != null) && (state != null) && (state.results != null) && (state.projects != null) && (transfers != null) && (state.host_info != null) && (acctMgrInfo != null)) {
 					Monitor.getClientStatus().setClientStatus(status, state.results, state.projects, transfers, state.host_info, acctMgrInfo, newNotices);
-					// Update status bar notification
-					ClientNotification.getInstance(getApplicationContext()).update();
 				} else {
 					String nullValues = "";
 					try{
@@ -487,13 +480,29 @@ public class Monitor extends Service {
 					if(Logging.ERROR) Log.e(Logging.TAG, "readClientStatus(): connection problem, null: " + nullValues);
 				}
 				
+				// update notices notification
+				NoticeNotification.getInstance(getApplicationContext()).update(Monitor.getClientStatus().getRssNotices(), Monitor.getAppPrefs().getShowNotification());
+				
 				// check whether monitor is still intended to update, if not, skip broadcast and exit...
 				if(updateBroadcastEnabled) {
 			        Intent clientStatus = new Intent();
 			        clientStatus.setAction("edu.berkeley.boinc.clientstatus");
 			        getApplicationContext().sendBroadcast(clientStatus);
 				}
-	    	} 
+	    	} else {
+	    		// read only ccStatus to adjust wakelocks and service state independently of screen status
+	    		status = clientInterface.getCcStatus();
+	    	}
+	    	
+	    	// independent of screen on off:
+    		// wake locks and foreground enabled when Client is not suspended, therefore also during
+    		// idle.
+    		// treat cpu throttling as if it was computing.
+    		Boolean computing = (status.task_suspend_reason == BOINCDefs.SUSPEND_NOT_SUSPENDED) || (status.task_suspend_reason == BOINCDefs.SUSPEND_REASON_CPU_THROTTLE);
+    		if(Logging.VERBOSE) Log.d(Logging.TAG,"readClientStatus(): computation enabled: " + computing);
+			Monitor.getClientStatus().setWifiLock(computing);
+			Monitor.getClientStatus().setWakeLock(computing);
+			ClientNotification.getInstance(getApplicationContext()).update(Monitor.getClientStatus(), this, computing);
 			
 		}catch(Exception e) {
 			if(Logging.ERROR) Log.e(Logging.TAG, "Monitor.readClientStatus excpetion: " + e.getMessage(),e);
@@ -956,6 +965,9 @@ public class Monitor extends Service {
 			String action = intent.getAction();
 			if(action.equals(Intent.ACTION_SCREEN_OFF)) {
 				screenOn = false;
+				// forces report of device status at next scheduled update
+				// allows timely reaction to screen off for resume of computation
+				screenOffStatusOmitCounter = deviceStatusIntervalScreenOff;
 				if(Logging.DEBUG) Log.d(Logging.TAG, "screenOnOffReceiver: screen turned off");
 			}
 			if(action.equals(Intent.ACTION_SCREEN_ON)) {
@@ -999,6 +1011,15 @@ public class Monitor extends Service {
 		@Override
 		protected Void doInBackground(Void... params) {
 			quitClient();
+			return null;
+		}
+	}
+	private final class SetClientRunModeAsync extends AsyncTask<Integer, Void, Void> {
+		@Override
+		protected Void doInBackground(Integer... params) {
+			try {
+				mBinder.setRunMode(params[0]);
+			} catch (RemoteException e) {}
 			return null;
 		}
 	}
@@ -1186,11 +1207,6 @@ public class Monitor extends Service {
 		}
 		
 		@Override
-		public String getCurrentStatusString() throws RemoteException {
-			return clientStatus.getCurrentStatusString();
-		}
-		
-		@Override
 		public HostInfo getHostInfo() throws RemoteException {
 			return clientStatus.getHostInfo();
 		}
@@ -1336,6 +1352,21 @@ public class Monitor extends Service {
 		@Override
 		public void setSuspendWhenScreenOn(boolean swso) throws RemoteException {
 			Monitor.getAppPrefs().setSuspendWhenScreenOn(swso);
+		}
+
+		@Override
+		public String getCurrentStatusTitle() throws RemoteException {
+			return clientStatus.getCurrentStatusTitle();
+		}
+
+		@Override
+		public String getCurrentStatusDescription() throws RemoteException {
+			return clientStatus.getCurrentStatusDescription();
+		}
+
+		@Override
+		public void cancelNoticeNotification() throws RemoteException {
+			NoticeNotification.getInstance(getApplicationContext()).cancelNotification();
 		}
 	};
 // --end-- remote service	

@@ -25,7 +25,6 @@ import edu.berkeley.boinc.adapter.PrefsListItemWrapper;
 import edu.berkeley.boinc.adapter.PrefsListItemWrapperBool;
 import edu.berkeley.boinc.adapter.PrefsListItemWrapperValue;
 import edu.berkeley.boinc.adapter.PrefsSelectionDialogListAdapter;
-import edu.berkeley.boinc.client.ClientNotification;
 import edu.berkeley.boinc.rpc.GlobalPreferences;
 import edu.berkeley.boinc.rpc.HostInfo;
 import android.app.Dialog;
@@ -496,8 +495,6 @@ public class PrefsFragment extends Fragment {
 					break;
 				case R.string.prefs_show_notification_header: //app pref
 					BOINCActivity.monitor.setShowNotification(isSet);
-					if(isSet) ClientNotification.getInstance(getActivity()).update();
-					else ClientNotification.getInstance(getActivity()).cancel();
 					updateBoolPref(ID, isSet);
 					updateLayout();
 					break;

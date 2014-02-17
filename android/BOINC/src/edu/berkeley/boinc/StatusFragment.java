@@ -80,31 +80,18 @@ public class StatusFragment extends Fragment{
 	private void loadLayout(Boolean forceUpdate) {
 		//load layout, if if ClientStatus can be accessed.
 		//if this is not the case, the broadcast receiver will call "loadLayout" again
-		//ClientStatus status;
-		//DeviceStatus deviceStatus;
-		int localSetupStatus = -1;
-		int localComputingStatus = -1;
-		int localComputingSuspendReason = -1;
-		int localNetworkSuspendReason = -1;
-		int localBatteryCahrgeStatus = -1;
-		try{
-			localSetupStatus  = BOINCActivity.monitor.getSetupStatus();
-			localComputingStatus = BOINCActivity.monitor.getComputingStatus();
-			localComputingSuspendReason = BOINCActivity.monitor.getComputingSuspendReason();
-			localNetworkSuspendReason = BOINCActivity.monitor.getNetworkSuspendReason();
-			localBatteryCahrgeStatus = BOINCActivity.monitor.getBatteryChargeStatus();
-			//deviceStatus = Monitor.getDeviceStatus();
-		} catch (Exception e){
-			if(Logging.WARNING) Log.w(Logging.TAG,"StatusFragment: Could not load data, clientStatus not initialized.");
-			return;
-		}
+		try {
+			
+		int currentSetupStatus  = BOINCActivity.monitor.getSetupStatus();
+		int currentComputingStatus = BOINCActivity.monitor.getComputingStatus();
+		int currentComputingSuspendReason = BOINCActivity.monitor.getComputingSuspendReason();
 		
 		// layout only if client RPC connection is established
 		// otherwise BOINCActivity does not start Tabs
-		if(localSetupStatus == ClientStatus.SETUP_STATUS_AVAILABLE) { 
+		if(currentSetupStatus == ClientStatus.SETUP_STATUS_AVAILABLE) { 
 			// return in cases nothing has changed
-			if (!forceUpdate && computingStatus == localComputingStatus && computingStatus != ClientStatus.COMPUTING_STATUS_SUSPENDED) return; 
-			if (!forceUpdate && computingStatus == localComputingStatus && computingStatus == ClientStatus.COMPUTING_STATUS_SUSPENDED && localComputingSuspendReason == suspendReason) return;
+			if (!forceUpdate && computingStatus == currentComputingStatus && computingStatus != ClientStatus.COMPUTING_STATUS_SUSPENDED) return; 
+			if (!forceUpdate && computingStatus == currentComputingStatus && computingStatus == ClientStatus.COMPUTING_STATUS_SUSPENDED && currentComputingSuspendReason == suspendReason) return;
 			
 			// set layout and retrieve elements
 			LinearLayout statusWrapper = (LinearLayout) getView().findViewById(R.id.status_wrapper);
@@ -117,28 +104,28 @@ public class StatusFragment extends Fragment{
 			restartingWrapper.setVisibility(View.GONE);
 			
 			// adapt to specific computing status
-			switch(localComputingStatus) {
+			switch(currentComputingStatus) {
 			case ClientStatus.COMPUTING_STATUS_NEVER:
 				statusWrapper.setVisibility(View.VISIBLE);
-				statusHeader.setText(R.string.status_computing_disabled);
+				statusHeader.setText(BOINCActivity.monitor.getCurrentStatusTitle());
 				statusHeader.setVisibility(View.VISIBLE);
 				statusImage.setImageResource(R.drawable.playb48);
-				statusImage.setContentDescription(getString(R.string.status_computing_disabled));
-				statusDescriptor.setText(R.string.status_computing_disabled_long);
+				statusImage.setContentDescription(BOINCActivity.monitor.getCurrentStatusTitle());
+				statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusDescription());
 				centerWrapper.setVisibility(View.VISIBLE);
 				centerWrapper.setOnClickListener(runModeOnClickListener);
 				break;
 			case ClientStatus.COMPUTING_STATUS_SUSPENDED:
 				statusWrapper.setVisibility(View.VISIBLE);
-				statusHeader.setText(R.string.status_paused);
+				statusHeader.setText(BOINCActivity.monitor.getCurrentStatusTitle());
 				statusHeader.setVisibility(View.VISIBLE);
 				statusImage.setImageResource(R.drawable.pauseb48);
-				statusImage.setContentDescription(getString(R.string.status_paused));
+				statusImage.setContentDescription(BOINCActivity.monitor.getCurrentStatusTitle());
 				statusImage.setClickable(false);
 				centerWrapper.setVisibility(View.VISIBLE);
-				switch(localComputingSuspendReason) {
+				switch(currentComputingSuspendReason) {
 				case BOINCDefs.SUSPEND_REASON_BATTERIES:
-					statusDescriptor.setText(R.string.suspend_batteries);
+					statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusDescription());
 					statusImage.setImageResource(R.drawable.notconnectedb48);
 					statusHeader.setVisibility(View.GONE);
 					break;
@@ -146,12 +133,10 @@ public class StatusFragment extends Fragment{
 					Boolean suspendDueToScreenOn = false;
 					try{ suspendDueToScreenOn = BOINCActivity.monitor.getSuspendWhenScreenOn();} catch(RemoteException e){}
 					if(suspendDueToScreenOn){
-						statusDescriptor.setText(R.string.suspend_screen_on);
 						statusImage.setImageResource(R.drawable.screen48b);
 						statusHeader.setVisibility(View.GONE);
-					} else {
-						statusDescriptor.setText(R.string.suspend_useractive);
 					}
+					statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusDescription());
 					break;
 				case BOINCDefs.SUSPEND_REASON_USER_REQ:
 					// state after user stops and restarts computation
@@ -159,90 +144,73 @@ public class StatusFragment extends Fragment{
 					restartingWrapper.setVisibility(View.VISIBLE);
 					break;
 				case BOINCDefs.SUSPEND_REASON_TIME_OF_DAY:
-					statusDescriptor.setText(R.string.suspend_tod);
+					statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusDescription());
 					break;
 				case BOINCDefs.SUSPEND_REASON_BENCHMARKS:
-					statusDescriptor.setText(R.string.suspend_bm);
+					statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusDescription());
 					statusImage.setImageResource(R.drawable.watchb48);
 					statusHeader.setVisibility(View.GONE);
 					break;
 				case BOINCDefs.SUSPEND_REASON_DISK_SIZE:
-					statusDescriptor.setText(R.string.suspend_disksize);
+					statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusDescription());
 					break;
 				case BOINCDefs.SUSPEND_REASON_CPU_THROTTLE:
-					statusDescriptor.setText(R.string.suspend_cputhrottle);
+					statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusDescription());
 					break;
 				case BOINCDefs.SUSPEND_REASON_NO_RECENT_INPUT:
-					statusDescriptor.setText(R.string.suspend_noinput);
+					statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusDescription());
 					break;
 				case BOINCDefs.SUSPEND_REASON_INITIAL_DELAY:
-					statusDescriptor.setText(R.string.suspend_delay);
+					statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusDescription());
 					break;
 				case BOINCDefs.SUSPEND_REASON_EXCLUSIVE_APP_RUNNING:
-					statusDescriptor.setText(R.string.suspend_exclusiveapp);
+					statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusDescription());
 					break;
 				case BOINCDefs.SUSPEND_REASON_CPU_USAGE:
-					statusDescriptor.setText(R.string.suspend_cpu);
+					statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusDescription());
 					break;
 				case BOINCDefs.SUSPEND_REASON_NETWORK_QUOTA_EXCEEDED:
-					statusDescriptor.setText(R.string.suspend_network_quota);
+					statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusDescription());
 					break;
 				case BOINCDefs.SUSPEND_REASON_OS:
-					statusDescriptor.setText(R.string.suspend_os);
+					statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusDescription());
 					break;
 				case BOINCDefs.SUSPEND_REASON_WIFI_STATE:
-					statusDescriptor.setText(R.string.suspend_wifi);
+					statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusDescription());
 					break;
 				case BOINCDefs.SUSPEND_REASON_BATTERY_CHARGING:
-					String text = getString(R.string.suspend_battery_charging);
-					try{
-						Double minCharge = BOINCActivity.monitor.getPrefs().battery_charge_min_pct;
-						Integer currentCharge = localBatteryCahrgeStatus;
-						text = getString(R.string.suspend_battery_charging_long) + " " + minCharge.intValue()
-						+ "% (" + getString(R.string.suspend_battery_charging_current) + " " + currentCharge  + "%) "
-						+ getString(R.string.suspend_battery_charging_long2);
-					} catch (Exception e) {}
-					statusDescriptor.setText(text);
+					statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusDescription());
 					statusImage.setImageResource(R.drawable.batteryb48);
 					statusHeader.setVisibility(View.GONE);
 					break;
 				case BOINCDefs.SUSPEND_REASON_BATTERY_OVERHEATED:
-					statusDescriptor.setText(R.string.suspend_battery_overheating);
+					statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusDescription());
 					statusImage.setImageResource(R.drawable.batteryb48);
 					statusHeader.setVisibility(View.GONE);
 					break;
 				default:
-					statusDescriptor.setText(R.string.suspend_unknown);
+					statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusDescription());
 					break;
 				}
-				suspendReason = localComputingSuspendReason;
+				suspendReason = currentComputingSuspendReason;
 				break;
 			case ClientStatus.COMPUTING_STATUS_IDLE: 
 				statusWrapper.setVisibility(View.VISIBLE);
 				centerWrapper.setVisibility(View.VISIBLE);
-				statusHeader.setText(R.string.status_idle);
+				statusHeader.setText(BOINCActivity.monitor.getCurrentStatusTitle());
 				statusHeader.setVisibility(View.VISIBLE);
 				statusImage.setImageResource(R.drawable.pauseb48);
-				statusImage.setContentDescription(getString(R.string.status_idle));
+				statusImage.setContentDescription(BOINCActivity.monitor.getCurrentStatusTitle());
 				statusImage.setClickable(false);
-				Integer networkState = 0;
-				try{
-					networkState = localNetworkSuspendReason;
-				} catch (Exception e) {}
-				if(networkState == BOINCDefs.SUSPEND_REASON_WIFI_STATE){
-					// Network suspended due to wifi state
-					statusDescriptor.setText(R.string.suspend_wifi);
-				}else {
-					statusDescriptor.setText(R.string.status_idle_long);
-				}
+				statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusDescription());
 				break;
 			case ClientStatus.COMPUTING_STATUS_COMPUTING:
 				statusWrapper.setVisibility(View.GONE);
 				break;
 			}
-			computingStatus = localComputingStatus; //save new computing status
+			computingStatus = currentComputingStatus; //save new computing status
 			setupStatus = -1; // invalidate to force update next time no project
-		} else if (localSetupStatus == ClientStatus.SETUP_STATUS_NOPROJECT) {
+		} else if (currentSetupStatus == ClientStatus.SETUP_STATUS_NOPROJECT) {
 			
 			if(setupStatus != ClientStatus.SETUP_STATUS_NOPROJECT) {
 				// set layout and retrieve elements
@@ -259,17 +227,17 @@ public class StatusFragment extends Fragment{
 				centerWrapper.setOnClickListener(addProjectOnClickListener);
 				statusImage.setImageResource(R.drawable.projectsb48);
 				statusHeader.setVisibility(View.GONE);
-				statusDescriptor.setText(R.string.status_noproject);
+				statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusTitle());
 				setupStatus = ClientStatus.SETUP_STATUS_NOPROJECT;
 				computingStatus = -1;
 			}
-			
 		}
 		else { // BOINC client is not available
 			//invalid computingStatus, forces layout on next event
 			setupStatus = -1;
 			computingStatus = -1;
 		}
+		} catch(Exception e){}
 	}
 	
 	private OnClickListener runModeOnClickListener = new OnClickListener(){
