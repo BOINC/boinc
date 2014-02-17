@@ -380,7 +380,7 @@ int boinc_main_loop() {
                     gstate.start_abort_sequence();
                 }
             } else {
-                msg_printf(NULL, MSG_INFO, "Exit requested by user");
+                msg_printf(NULL, MSG_INFO, "Exiting");
                 break;
             }
         }
