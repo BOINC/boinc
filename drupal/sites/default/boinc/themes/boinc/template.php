@@ -360,6 +360,33 @@ function boinc_preprocess_comment(&$vars, $hook) {
 // */
 
 /**
+ * Override or insert variables into the privatemsg view templates.
+ *
+ * @param $vars
+ *   An array of variables to pass to the theme template.
+ */
+///* -- Delete this line if you want to use this function
+function boinc_preprocess_privatemsg_view(&$vars, $hook) {
+  //echo '<pre>' . print_r($vars, true) . '</pre>';
+  //$account = user_load(array('uid' => $comment->uid));
+  $user_image = boincuser_get_user_profile_image($vars['message']['author']->uid);
+  if ($user_image['image']['filepath']) {
+    $author_picture = '<div class="picture">';
+    //print theme('imagecache', 'thumbnail', $user_image['image']['filepath'], $user_image['alt'], $user_image['alt']);
+    $author_picture .= theme('imagefield_image', $user_image['image'], $user_image['alt'], $user_image['alt'], array(), false);
+    $author_picture .= '</div>';
+    // Generate ignore user link
+    //$vars['ignore_link'] = ignore_user_link('comment', $comment);
+    //echo '<pre>' . print_r($links, TRUE) . '</pre>';
+  }
+  $vars['author_picture'] = $author_picture;
+  //$vars['author_name_link'] = 
+  $vars['message_timestamp'] = date('j M Y H:i:s T', $message['timestamp']);
+  //$vars['message_actions'] = */
+}
+// */
+
+/**
  * Override or insert variables into the block templates.
  *
  * @param $vars

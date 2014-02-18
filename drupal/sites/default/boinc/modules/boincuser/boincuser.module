@@ -479,6 +479,35 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
     $form['#redirect'] = 'account/profile';
     break;
     
+  case 'privatemsg_new':
+    
+    $form['privatemsg']['body']['#title'] = '';
+    
+    // Wrap action buttons for styling consistency
+    $form['privatemsg']['form control tabs prefix'] = array(
+      '#value' => '<ul class="form-control tab-list">',
+      '#weight' => 1001,
+    );
+    $form['privatemsg']['submit']['#prefix'] = '<li class="first tab">';
+    $form['privatemsg']['submit']['#value'] = t('Send message');
+    $form['privatemsg']['submit']['#suffix'] = '</li>';
+    $form['privatemsg']['submit']['#weight'] = 1002;
+    $form['privatemsg']['preview']['#prefix'] = '<li class="tab">';
+    $form['privatemsg']['preview']['#suffix'] = '</li>';
+    $form['privatemsg']['preview']['#weight'] = 1003;
+    $form['privatemsg']['cancel'] = array(
+      '#value' => '<li class="tab">' . l(t('Cancel'), $_GET['q']) . '</li>',
+      '#weight' => 1004,
+    );
+    $form['privatemsg']['form control tabs suffix'] = array(
+      '#value' => '</ul>',
+      '#weight' => 1010,
+    );
+    
+    unset($form['privatemsg']['recipient_display']);
+    
+    break;
+    
   // Login form
   case 'user_login':
   case 'user_login_block':
