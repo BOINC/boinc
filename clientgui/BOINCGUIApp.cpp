@@ -65,8 +65,6 @@ BEGIN_EVENT_TABLE (CBOINCGUIApp, wxApp)
 #endif
 END_EVENT_TABLE ()
 
-wxString language = wxEmptyString;
-
 bool s_bSkipExitConfirmation = false;
 
 #ifdef __WXMAC__
@@ -141,6 +139,7 @@ bool CBOINCGUIApp::OnInit() {
     m_strPasswordArg = wxEmptyString;
     m_iRPCPortArg = GUI_RPC_PORT;
     m_strBOINCArguments = wxEmptyString;
+    m_strISOLanguageCode = wxEmptyString;
     m_bGUIVisible = true;
     m_bDebugSkins = false;
     m_bMultipleInstancesOK = false;
@@ -291,7 +290,7 @@ bool CBOINCGUIApp::OnInit() {
 
     InitSupportedLanguages();
 
-	language = m_pLocale->GetCanonicalName();
+	m_strISOLanguageCode = m_pLocale->GetCanonicalName();
 
     // Note: JAWS for Windows will only speak the context-sensitive
     // help if you use this help provider:

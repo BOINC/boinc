@@ -395,6 +395,8 @@ CMainDocument::CMainDocument() : rpc(this) {
     }
 #endif
 
+    strcpy(m_szLanguage, "");
+
     m_bClientStartCheckCompleted = false;
 
     m_ActiveTasksOnly = false;
@@ -936,9 +938,10 @@ void CMainDocument::RunPeriodicRPCs(int frameRefreshRate) {
 	static bool first = true;
 	if (first) {
 		first = false;
+        strcpy(m_szLanguage, wxGetApp().GetISOLanguageCode().mb_str());
 		request.clear();
 		request.which_rpc = RPC_SET_LANGUAGE;
-		request.arg1 = (void*)(const char*)language.mb_str();
+		request.arg1 = (void*)(const char*)&m_szLanguage;
 		request.rpcType = RPC_TYPE_ASYNC_NO_REFRESH;
 		RequestRPC(request);
 	}

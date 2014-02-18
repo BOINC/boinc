@@ -111,6 +111,7 @@ protected:
     // The last value defined in the wxLanguage enum is wxLANGUAGE_USER_DEFINED.
     // defined in: wx/intl.h
     wxArrayString       m_astrLanguages;
+    wxString            m_strISOLanguageCode;
     
     int                 m_bSafeMessageBoxDisplayed;
 
@@ -156,6 +157,7 @@ public:
 
 
     wxArrayString&      GetSupportedLanguages()     { return m_astrLanguages; }
+    wxString            GetISOLanguageCode()        { return m_strISOLanguageCode; }
     
     void                DisplayEventLog(bool bShowWindow = true);
     void                OnEventLogClose();
@@ -203,8 +205,6 @@ public:
 
 DECLARE_EVENT_TABLE()
 };
-
-extern wxString language;
 
 DECLARE_APP(CBOINCGUIApp)
 
