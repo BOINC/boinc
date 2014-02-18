@@ -111,6 +111,11 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+        <receiver android:name="edu.berkeley.boinc.receiver.PowerConnectedReceiver" >
+	        <intent-filter>
+	            <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
+	        </intent-filter>
+        </receiver>
         <receiver android:name="edu.berkeley.boinc.receiver.PackageReplacedReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_REPLACED" />
