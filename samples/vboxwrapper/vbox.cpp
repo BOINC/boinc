@@ -2916,7 +2916,7 @@ CLEANUP:
 
         // Determine the real error code by parsing the output
         errcode_start = output.find("(0x");
-        if (errcode_start) {
+        if (errcode_start != string::npos) {
             errcode_start += 1;
             errcode_end = output.find(")", errcode_start);
             errcode = output.substr(errcode_start, errcode_end - errcode_start);
@@ -2957,7 +2957,7 @@ CLEANUP:
 
         // Determine the real error code by parsing the output
         errcode_start = output.find("(0x");
-        if (errcode_start) {
+        if (errcode_start != string::npos) {
             errcode_start += 1;
             errcode_end = output.find(")", errcode_start);
             errcode = output.substr(errcode_start, errcode_end - errcode_start);
