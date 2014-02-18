@@ -19,6 +19,7 @@
 package edu.berkeley.boinc;
 
 import edu.berkeley.boinc.utils.*;
+
 import java.util.ArrayList;
 import edu.berkeley.boinc.adapter.PrefsListAdapter;
 import edu.berkeley.boinc.adapter.PrefsListItemWrapper;
@@ -28,6 +29,10 @@ import edu.berkeley.boinc.adapter.PrefsSelectionDialogListAdapter;
 import edu.berkeley.boinc.rpc.GlobalPreferences;
 import edu.berkeley.boinc.rpc.HostInfo;
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.RemoteException;
@@ -56,6 +61,19 @@ public class PrefsFragment extends Fragment {
 	//private AppPreferences appPrefs = null; //Android specific preferences, singleton of monitor
 	private HostInfo hostinfo = null;
 	
+	private boolean layoutSuccessful = false;
+	
+	private BroadcastReceiver mClientStatusChangeRec = new BroadcastReceiver() {
+		@Override
+		public void onReceive(Context context,Intent intent) {
+			if(Logging.VERBOSE) Log.d(Logging.TAG, "PrefsFragment ClientStatusChange - onReceive()"); 
+			try {
+				if(!layoutSuccessful) populateLayout();
+			} catch (RemoteException e) {}
+		}
+	};
+	private IntentFilter ifcsc = new IntentFilter("edu.berkeley.boinc.clientstatuschange");
+	
 	// fragment lifecycle: 2.
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -77,14 +95,19 @@ public class PrefsFragment extends Fragment {
 	// fragment lifecycle: 3.
 	@Override
 	public void onResume() {
-		super.onResume();
 		try {
 			populateLayout();
-		} catch (RemoteException e) {
-	    	if(Logging.ERROR) Log.e(Logging.TAG,"ProjectsFragment populateLayout:" + e.getLocalizedMessage());
-		}
+		} catch (RemoteException e) {}
+		getActivity().registerReceiver(mClientStatusChangeRec,ifcsc);
+		super.onResume();
 	}
 	
+	@Override
+	public void onPause() {
+		getActivity().unregisterReceiver(mClientStatusChangeRec);
+		super.onPause();
+	}
+
 	private Boolean getPrefs() {
 		// try to get current client status from monitor
 		//ClientStatus status;
@@ -177,6 +200,7 @@ public class PrefsFragment extends Fragment {
 		if(advanced) data.add(new PrefsListItemWrapperValue(getActivity(),R.string.prefs_gui_log_level_header,R.string.prefs_category_debug,(double)BOINCActivity.monitor.getLogLevel()));
 		
 		updateLayout();
+		layoutSuccessful = true;
 	}
 	
 	private void updateLayout(){
