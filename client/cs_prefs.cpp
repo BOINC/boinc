@@ -229,9 +229,9 @@ int CLIENT_STATE::check_suspend_processing() {
         }
 #ifndef ANDROID
 	// perform this check after SUSPEND_REASON_BATTERY_CHARGING on Android
-        /*if (!global_prefs.run_if_user_active && user_active) {
+        if (!global_prefs.run_if_user_active && user_active) {
             return SUSPEND_REASON_USER_ACTIVE;
-        }*/
+        }
 #endif
         if (global_prefs.cpu_times.suspended(now)) {
             return SUSPEND_REASON_TIME_OF_DAY;
