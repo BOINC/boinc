@@ -86,8 +86,7 @@ function boincteam_forum_nodeapi(&$node, $op, $a3 = null, $a4 = null) {
 function boincteam_forum_node_insert($node) {
   switch($node->type) {
   case 'team_forum':
-    global $user;
-    $account = user_load($user->uid);
+    $account = user_load($node->uid);
     $team_id = boincteam_forum_lookup_nid($node->tfid);
     if ($account->team == $team_id) {
       db_query("
