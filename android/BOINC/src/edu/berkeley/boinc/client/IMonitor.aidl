@@ -56,7 +56,6 @@ boolean transferOperation(in List<Transfer> list, in int op);  // implement: cal
 List<Notice> getServerNotices();        // implement: call clientInterface.getServerNotices()
 
 /////// general //////////////////////////////////////////
-void quitClient();                               // implement: call Monitor.quitClient();
 void forceRefresh();                        // implement: call Monitor.forceRefresh();
 boolean isStationaryDeviceSuspected();               // implement: call Monitor.getDeviceStatus().isStationaryDevice();
 int getBatteryChargeStatus();           // implement: return getDeviceStatus().getStatus().battery_charge_pct;

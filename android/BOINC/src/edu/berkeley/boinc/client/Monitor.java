@@ -34,7 +34,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
-import android.app.NotificationManager;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -102,6 +101,8 @@ public class Monitor extends Service {
 	
 	// screen on/off updated by screenOnOffBroadcastReceiver
 	private boolean screenOn = false;
+	
+	private boolean forceReinstall = false; // for debugging purposes
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -176,14 +177,18 @@ public class Monitor extends Service {
     public void onDestroy() {
     	if(Logging.ERROR) Log.d(Logging.TAG,"Monitor onDestroy()");
     	
+    	updateBroadcastEnabled = false; // prevent broadcast from currently running update task
+		updateTimer.cancel(); // cancel task
+		
+    	// there might be still other AsyncTasks executing RPCs
+    	// close sockets in a synchronized way
+		clientInterface.close();
+		
     	try {
     		unregisterReceiver(packageAddedReceiver);
     		// remove screen on/off receiver
     		unregisterReceiver(screenOnOffReceiver);
     	} catch (Exception ex) {}
-    	
-        // Cancel the persistent notification.
-    	((NotificationManager)getSystemService(Service.NOTIFICATION_SERVICE)).cancel(getResources().getInteger(R.integer.autostart_notification_id));
         
     	updateBroadcastEnabled = false; // prevent broadcast from currently running update task
 		updateTimer.cancel(); // cancel task
@@ -313,68 +318,6 @@ public class Monitor extends Service {
     	try{
     		updateTimer.schedule(new StatusUpdateTimerTask(), 0);
     	} catch (Exception e){} // throws IllegalStateException if called after timer got cancelled, i.e. after manual shutdown
-    }
-    
-    /**
-     * Quit BOINC client.
-     * Tries to quit BOINC client process gracefully, kills the process if no reaction within defined time frame 
-     */
-    public void quitClient() {
-		// try to get current client status from monitor
-		ClientStatus status = null;
-		try{
-			status  = Monitor.getClientStatus();
-		} catch (Exception e){
-			if(Logging.WARNING) Log.w(Logging.TAG,"Monitor.quitClient: Could not load data, clientStatus not initialized.");
-			// do not return here, try to shut down without publishing status
-		}
-    	String processName = boincWorkingDir + fileNameClient;
-    	
-    	updateBroadcastEnabled = false; // prevent broadcast from currently running update task
-		updateTimer.cancel(); // cancel task
-    	// no scheduled RPCs anymore
-    	
-    	// set client status to SETUP_STATUS_CLOSING to adapt layout accordingly
-		if(status!=null)status.setSetupStatus(ClientStatus.SETUP_STATUS_CLOSING,true);
-		
-		// open exit splash activity. implies destruction (and unbound) of all others
-		Intent exitSplash = new Intent(this,SplashActivity.class);
-		exitSplash.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-		startActivity(exitSplash);
-    	
-    	// try graceful shutdown via RPC
-		clientInterface.quit();
-    	
-    	// there might be still other AsyncTasks executing RPCs
-    	// close sockets in a synchronized way
-		clientInterface.close();
-    	// there are now no more RPCs...
-    	
-    	// graceful RPC shutdown waiting period...
-    	Boolean success = false;
-    	Integer attempts = getApplicationContext().getResources().getInteger(R.integer.shutdown_graceful_rpc_check_attempts);
-    	Integer sleepPeriod = getApplicationContext().getResources().getInteger(R.integer.shutdown_graceful_rpc_check_rate_ms);
-    	for(int x = 0; x < attempts; x++) {
-    		try {
-    			Thread.sleep(sleepPeriod);
-    		} catch (Exception e) {}
-    		if(getPidForProcessName(processName) == null) { //client is now closed
-        		if(Logging.DEBUG) Log.d(Logging.TAG,"quitClient: gracefull RPC shutdown successful after " + x + " seconds");
-    			success = true;
-    			x = attempts;
-    		}
-    	}
-    	
-    	if(!success) {
-    		// graceful RPC shutdown was not successful, try OS signals
-        	quitProcessOsLevel(processName);
-    	}
-    	
-    	// set client status to SETUP_STATUS_CLOSED to adapt layout accordingly
-		if(status!=null)status.setSetupStatus(ClientStatus.SETUP_STATUS_CLOSED,true);
-		
-		//stop service, triggers onDestroy (since all activities are unbound at this point
-		stopSelf();
     }
 	
 	/**
@@ -561,7 +504,7 @@ public class Monitor extends Service {
 		// If client hashes do not match, we need to install the one that is a part
 		// of the package. Shutdown the currently running client if needed.
 		//
-		if (!md5InstalledClient.equals(md5AssetClient)) {
+		if (forceReinstall || !md5InstalledClient.equals(md5AssetClient)) {
 			if(Logging.DEBUG) Log.d(Logging.TAG,"Hashes of installed client does not match binary in assets - re-install.");
 			
 			// try graceful shutdown using RPC (faster)
@@ -993,7 +936,11 @@ public class Monitor extends Service {
 	    				for (String pkg : packages) {
 	    					if (pkg.equals("com.htc.ptg")) {
 	    						if(Logging.ERROR) Log.d(Logging.TAG,"packageAddedReceiver: PTG added, stop Monitor...");
-	    						new QuitClientAsync().execute();
+	    						// open exit splash activity. implies destruction (and unbound) of all others
+	    						Intent exitSplash = new Intent(getApplicationContext(),SplashActivity.class);
+	    						exitSplash.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+	    						startActivity(exitSplash);
+	    						stopSelf();
 	    						break;
 	    					}
 	    				}
@@ -1005,15 +952,6 @@ public class Monitor extends Service {
 // --end-- broadcast receiver
 	
 // async tasks
-	// monitor.quitClient is blocking (Thread.sleep)
-	// execute in AsyncTask to maintain UI responsiveness
-	private final class QuitClientAsync extends AsyncTask<Void, Void, Void> {
-		@Override
-		protected Void doInBackground(Void... params) {
-			quitClient();
-			return null;
-		}
-	}
 	private final class SetClientRunModeAsync extends AsyncTask<Integer, Void, Void> {
 		@Override
 		protected Void doInBackground(Integer... params) {
@@ -1068,11 +1006,6 @@ public class Monitor extends Service {
 		@Override
 		public String readAuthToken(String path) throws RemoteException {
 			return clientInterface.readAuthToken(path);
-		}
-		
-		@Override
-		public void quitClient() throws RemoteException {
-			Monitor.this.quitClient();
 		}
 		
 		@Override

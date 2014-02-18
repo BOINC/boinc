@@ -82,8 +82,6 @@ public class ClientStatus {
 	public static final int SETUP_STATUS_AVAILABLE = 1; // 1 = client is launched and available for RPC (connected and authorized)
 	public static final int SETUP_STATUS_ERROR = 2; // 2 = client is in a permanent error state
 	public static final int SETUP_STATUS_NOPROJECT = 3; // 3 = client is launched but not attached to a project (login)
-	public static final int SETUP_STATUS_CLOSING = 4; // 4 = client is shutting down
-	public static final int SETUP_STATUS_CLOSED = 5; // 5 = client shut down
 	private Boolean setupStatusParseError = false;
 	
 	// computing status
@@ -451,9 +449,6 @@ public class ClientStatus {
 					statusTitle = ctx.getString(R.string.status_computing_disabled);
 					break;
 				}
-				break;
-			case SETUP_STATUS_CLOSING:
-				statusTitle = ctx.getString(R.string.status_closing);
 				break;
 			case SETUP_STATUS_LAUNCHING:
 				statusTitle = ctx.getString(R.string.status_launching);

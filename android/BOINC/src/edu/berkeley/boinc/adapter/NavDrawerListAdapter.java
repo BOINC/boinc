@@ -56,7 +56,6 @@ public class NavDrawerListAdapter extends BaseAdapter{
 		navDrawerItems.add(new NavDrawerItem(R.string.menu_help, R.drawable.helpb));
 		navDrawerItems.add(new NavDrawerItem(R.string.menu_about, R.drawable.infob));
 		navDrawerItems.add(new NavDrawerItem(R.string.menu_eventlog, R.drawable.bugb));
-		navDrawerItems.add(new NavDrawerItem(R.string.menu_exit, R.drawable.offb));
 	}
 
 	@Override

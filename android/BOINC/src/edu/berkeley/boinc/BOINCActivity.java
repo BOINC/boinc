@@ -88,6 +88,8 @@ public class BOINCActivity extends ActionBarActivity {
 	    	// This should not happen
 	        monitor = null;
 		    mIsBound = false;
+
+		    Log.e(Logging.TAG, "BOINCActivity onServiceDisconnected");
 	    }
 	};
 	
@@ -273,10 +275,6 @@ public class BOINCActivity extends ActionBarActivity {
 				});
 				dialog.show();
 	    		break;
-			case R.string.menu_exit:
-				if(Logging.DEBUG) Log.d(Logging.TAG,"exit BOINC");
-				new QuitClientAsync().execute(); // quitClient brings up exit splash screen
-				break;
 			case R.string.menu_eventlog:
 				startActivity(new Intent(this,EventLogActivity.class));
 				break;
@@ -405,19 +403,6 @@ public class BOINCActivity extends ActionBarActivity {
 	public void setTitle(CharSequence title) {
 		mTitle = title;
 		getSupportActionBar().setTitle(mTitle);
-	}
-
-	// monitor.quitClient is blocking (Thread.sleep)
-	// execute in AsyncTask to maintain UI responsiveness
-	private final class QuitClientAsync extends AsyncTask<Void, Void, Void> {
-
-		@Override
-		protected Void doInBackground(Void... params) {
-			try {
-				monitor.quitClient();
-			} catch (RemoteException e) {}
-			return null;
-		}
 	}
 	
 	private final class WriteClientModeAsync extends AsyncTask<Integer, Void, Boolean> {

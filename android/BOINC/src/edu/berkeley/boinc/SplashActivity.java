@@ -81,11 +81,6 @@ public class SplashActivity extends Activity {
 						Intent startMain = new Intent(activity,BOINCActivity.class);
 						startActivity(startMain);
 						break;
-					case ClientStatus.SETUP_STATUS_CLOSED:
-						if(Logging.DEBUG) Log.d(Logging.TAG, "SplashActivity SETUP_STATUS_CLOSED"); 
-						// close this activity
-						finish();
-						break;
 					case ClientStatus.SETUP_STATUS_NOPROJECT:
 						if(Logging.DEBUG) Log.d(Logging.TAG, "SplashActivity SETUP_STATUS_NOPROJECT"); 
 						// forward to PROJECTATTACH
