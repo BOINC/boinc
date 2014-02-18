@@ -260,9 +260,6 @@ bool PERS_FILE_XFER::poll() {
                 // the project must not have a file_upload_handler.
                 // Treat this as a transient error.
                 //
-                msg_printf(fip->project, MSG_INFO,
-                    "Project file upload handler is missing"
-                );
                 transient_failure(fxp->file_xfer_retval);
             } else {
                 permanent_failure(fxp->file_xfer_retval);

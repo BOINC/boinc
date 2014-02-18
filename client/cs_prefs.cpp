@@ -254,6 +254,7 @@ int CLIENT_STATE::check_suspend_processing() {
 
 #ifdef ANDROID
     if (now > device_status_time + ANDROID_KEEPALIVE_TIMEOUT) {
+        requested_exit = true;
         return SUSPEND_REASON_NO_GUI_KEEPALIVE;
     }
 
@@ -435,6 +436,7 @@ void CLIENT_STATE::check_suspend_network() {
 
 #ifdef ANDROID
     if (now > device_status_time + ANDROID_KEEPALIVE_TIMEOUT) {
+        requested_exit = true;
         file_xfers_suspended = true;
         if (!recent_rpc) network_suspended = true;
         network_suspend_reason = SUSPEND_REASON_NO_GUI_KEEPALIVE;

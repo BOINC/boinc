@@ -1003,16 +1003,16 @@ void HTTP_OP::handle_messages(CURLMsg *pcurlMsg) {
 
     if (CurlResult == CURLE_OK) {
         switch ((response/100)*100) {
-        case HTTP_STATUS_OK:
+        case HTTP_STATUS_OK:                        // 200
             http_op_retval = 0;
             break;
-        case HTTP_STATUS_CONTINUE:
+        case HTTP_STATUS_CONTINUE:                  // 100
             return;
-        case HTTP_STATUS_INTERNAL_SERVER_ERROR:
+        case HTTP_STATUS_INTERNAL_SERVER_ERROR:     // 500
             http_op_retval = ERR_HTTP_TRANSIENT;
             safe_strcpy(error_msg, boincerror(response));
             break;
-        default:
+        default:                                    // 400
             http_op_retval = ERR_HTTP_PERMANENT;
             safe_strcpy(error_msg, boincerror(response));
             break;
