@@ -62,6 +62,7 @@
 	    android:text="@string/about_name"
 	    android:gravity="center_horizontal" />
      
+<!--
    	<TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -73,7 +74,7 @@
 	    android:paddingBottom="10dp"
 	    android:text="@string/about_name_long"
 	    android:gravity="center_horizontal" />
-     
+-->     
    	<TextView
 	    android:id="@+id/version"
         android:layout_width="fill_parent"

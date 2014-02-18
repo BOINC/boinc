@@ -340,7 +340,7 @@
     <string name="about_name">BOINC</string>
     <string name="about_version">Version</string>
     <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
-    <string name="about_copyright">\u00A9 2003&#8211;2013 University of California, Berkeley.\nAll Rights Reserved.</string>
+    <string name="about_copyright">\u00A9 2003&#8211;2014 University of California, Berkeley.  All Rights Reserved.\nThanks to the Max Planck Institute for Gravitational Physics, IBM Corporation and HTC Corporation for their support.</string>
     <string name="title_activity_splash">SplashActivity</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
