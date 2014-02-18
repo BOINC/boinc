@@ -594,7 +594,7 @@ int HTTP_OP::libcurl_exec(
     pcurlList = curl_slist_append(pcurlList, g_content_type);
 
 	if (strlen(gstate.language)) {
-		sprintf(buf, "ACCEPT_LANGUAGE: %s", gstate.language);
+		sprintf(buf, "Accept-Language: %s", gstate.language);
 		pcurlList = curl_slist_append(pcurlList, buf);
 	}
 
