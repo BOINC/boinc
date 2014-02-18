@@ -1680,24 +1680,34 @@ function boincimport_team_forum_topics() {
   $topics = db_query('
     SELECT t.* FROM %sthread t
     JOIN %sforum f ON f.id = t.forum
+    JOIN %spost p ON p.thread = t.id
     WHERE f.parent_type = 1
-    ORDER BY id', $pre, $pre
+    ORDER BY id', $pre, $pre, $pre
   );
-  $topic_count = db_result(db_query('
+  $total_topic_count = db_result(db_query('
     SELECT COUNT(*) FROM %sthread t
     JOIN %sforum f ON f.id = t.forum
     WHERE f.parent_type = 1', $pre, $pre
   ));
+  $topic_count = db_result(db_query('
+    SELECT COUNT(*) FROM %sthread t
+    JOIN %sforum f ON f.id = t.forum
+    JOIN %spost p ON p.thread = t.id
+    WHERE f.parent_type = 1', $pre, $pre, $pre
+  ));
+  $empty_topic_count = $total_topic_count - $topic_count;
   db_set_active('default');
-  drupal_set_message(t('Found %topic_count team discussion threads: Beginning Import', array('%topic_count' => $topic_count)));
-  watchdog('boincimport', 'Found %topic_count team discussion threads: Beginning Import', array('%topic_count' => $topic_count), WATCHDOG_INFO); 
+  drupal_set_message(t('Found %topic_count team discussion threads: Beginning Import', array('%topic_count' => $total_topic_count)));
+  watchdog('boincimport', 'Found %topic_count team discussion threads: Beginning Import', array('%topic_count' => $total_topic_count), WATCHDOG_INFO); 
   
   $total_topics_imported = 0;
+  $topics_already_imported = 0;
+  $topic_import_errors = 0;
   $total_runtime = 0;
   $last_status_update = 0;
   $topics_without_update = 0;
   
-  echo t('Importing %topic_count team discussion topics from BOINC database', array('%topic_count' => $topic_count));
+  echo t('Importing %topic_count team discussion topics from BOINC database', array('%topic_count' => $total_topic_count));
   ob_flush();
   flush();
   
@@ -1709,7 +1719,10 @@ function boincimport_team_forum_topics() {
     
     // Check if this topic has been imported already just to be sure
     $topic_exists = db_result(db_query('SELECT count(*) FROM {boincimport_temp_topic} WHERE topic_id = %d', $topic->id));
-    if ($topic_exists) continue;
+    if ($topic_exists) {
+      $topics_already_imported++;
+      continue;
+    }
     
     // Verify that the team forum container has been imported
     $team_forum_id = db_result(db_query("
@@ -1718,7 +1731,8 @@ function boincimport_team_forum_topics() {
     ));
     if (!$team_forum_id) {
       drupal_set_message(t('Aborting import of topic %topic_id: The parent forum is missing', array('%topic_id' => $topic->id)), 'error');
-      watchdog('boincimport', 'Aborting import of topic %topic_id: The parent forum is missing', array('%topic_id' => $topic->id), WATCHDOG_ERROR); 
+      watchdog('boincimport', 'Aborting import of topic %topic_id: The parent forum is missing', array('%topic_id' => $topic->id), WATCHDOG_ERROR);
+      $topic_import_errors++;
       continue;
     }
     
@@ -1735,7 +1749,10 @@ function boincimport_team_forum_topics() {
     // Skip this topic if there are no posts
     if (!$post = db_fetch_object($query)) {
       drupal_set_message(t('Could not find any posts in thread: %topic_id', array('%topic_id' => $topic->id)));    
-      watchdog('boincimport', 'Could not find any posts in thread: %topic_id', array('%topic_id' => $topic->id), WATCHDOG_INFO); 
+      watchdog('boincimport', 'Could not find any posts in thread: %topic_id', array('%topic_id' => $topic->id), WATCHDOG_INFO);
+      // Empty topics should have already been filtered out of the import, so
+      // consider this an error condition
+      $topic_import_errors++;
       continue;
     }
     
@@ -1789,7 +1806,8 @@ function boincimport_team_forum_topics() {
       db_query('UPDATE {node_comment_statistics} SET last_comment_timestamp = %d WHERE nid = %d', $node->created, $node->nid);
     } else {
       drupal_set_message(t('Failed importing %topic_id', array('%topic_id' => $topic->id)), 'error');
-      watchdog('boincimport', 'Failed importing %topic_id', array('%topic_id' => $topic->id), WATCHDOG_ERROR); 
+      watchdog('boincimport', 'Failed importing %topic_id', array('%topic_id' => $topic->id), WATCHDOG_ERROR);
+      $topic_import_errors++;
       continue;
     }
 
@@ -1817,7 +1835,15 @@ function boincimport_team_forum_topics() {
   // Set the topic import successful flag in the variable table
   variable_set('boincimport_team_topic_successful', '1');
   
-  drupal_set_message(t('Successfully Imported %count topics', array('%count' => $total_topics_imported)));
+  drupal_set_message(t('Successfully Imported %count topics. (Total available: %total; skipped as empty: %empty; errors: %errors; already imported: %redundant)', 
+    array(
+      '%count' => $total_topics_imported,
+      '%total' => $total_topic_count,
+      '%empty' => $empty_topic_count,
+      '%errors' => $topic_import_errors,
+      '%redundant' => $topics_already_imported,
+    )
+  ));
   watchdog('boincimport', 'Successfully Imported %count topics', array('%count' => $total_topics_imported), WATCHDOG_INFO); 
   
   // Indicate that the process is complete and return to the main migration page
@@ -1865,7 +1891,7 @@ function boincimport_team_forum_posts() {
   $topic_count = db_result(db_query("
     SELECT COUNT(t.id) FROM %sthread t
     JOIN %sforum f ON f.id = t.forum
-    WHERE f.parent_type = 1", $pre
+    WHERE f.parent_type = 1", $pre, $pre
   ));
   $post_count = db_result(db_query("
     SELECT COUNT(p.id) FROM %spost p
