@@ -336,6 +336,9 @@ int CLIENT_STATE::init() {
 
     srand((unsigned int)time(0));
     now = dtime();
+#ifdef ANDROID
+    device_status_time = dtime();
+#endif
     scheduler_op->url_random = drand();
 
     notices.init();
