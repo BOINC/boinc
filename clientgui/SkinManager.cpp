@@ -257,14 +257,12 @@ wxIconBundle* CSkinIcon::GetIcon() {
 
 bool CSkinIcon::SetDefaults(wxString strComponentName, wxString strIcon) {
     m_strComponentName = strComponentName;
-#ifdef _WIN32
     m_icoDefaultIcon.AddIcon(wxIcon(strIcon, wxICON_DEFAULT_TYPE, 16, 16));
     m_icoDefaultIcon.AddIcon(wxIcon(strIcon, wxICON_DEFAULT_TYPE, 32, 32));
     m_icoDefaultIcon.AddIcon(wxIcon(strIcon, wxICON_DEFAULT_TYPE, 48, 48));
     m_icoDefaultIcon.AddIcon(wxIcon(strIcon, wxICON_DEFAULT_TYPE, 64, 64));
     m_icoDefaultIcon.AddIcon(wxIcon(strIcon, wxICON_DEFAULT_TYPE, 128, 128));
     m_icoDefaultIcon.AddIcon(wxIcon(strIcon, wxICON_DEFAULT_TYPE, 256, 256));
-#endif
     return true;
 }
 
@@ -582,13 +580,13 @@ bool CSkinAdvanced::InitializeDelayedValidation() {
         wxASSERT(!m_strApplicationShortName.IsEmpty());
     }
 #ifdef _WIN32
-    m_iconApplicationIcon.SetDefaults(wxT("application"), wxString("boinc"));
-    m_iconApplicationDisconnectedIcon.SetDefaults(wxT("application disconnected"), wxString("boincdisconnect"));
-    m_iconApplicationSnoozeIcon.SetDefaults(wxT("application snooze"), wxString("boincsnooze"));
+    m_iconApplicationIcon.SetDefaults(wxT("application"), wxT("boinc"));
+    m_iconApplicationDisconnectedIcon.SetDefaults(wxT("application disconnected"), wxT("boincdisconnect"));
+    m_iconApplicationSnoozeIcon.SetDefaults(wxT("application snooze"), wxT("boincsnooze"));
 #else
-    m_iconApplicationIcon.SetDefaults(wxT("application"), wxICON(boinc), wxICON(boinc32));
-    m_iconApplicationDisconnectedIcon.SetDefaults(wxT("application disconnected"), wxICON(boincdisconnect), wxICON(boincdisconnect32));
-    m_iconApplicationSnoozeIcon.SetDefaults(wxT("application snooze"), wxICON(boincsnooze), wxICON(boincsnooze32));
+    m_iconApplicationIcon.SetDefaults(wxT("application"), boinc_xpm, boinc32_xpm);
+    m_iconApplicationDisconnectedIcon.SetDefaults(wxT("application disconnected"), boincdisconnect_xpm, boincdisconnect32_xpm);
+    m_iconApplicationSnoozeIcon.SetDefaults(wxT("application snooze"), boincsnooze_xpm, boincsnooze32_xpm);
 #endif
     if (!m_bitmapApplicationLogo.Ok()) {
         if (show_error_msgs) {
