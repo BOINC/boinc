@@ -1,5 +1,5 @@
 /* XPM */
-static char *boincsnooze_xpm[] = {
+static const char *boincsnooze_xpm[] = {
 /* columns rows colors chars-per-pixel */
 "16 16 105 2",
 "A  c #FFCC33",
