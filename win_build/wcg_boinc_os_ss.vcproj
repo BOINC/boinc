@@ -86,7 +86,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libcmtd.lib libcpmtd.lib opengl32.lib glu32.lib wsock32.lib wininet.lib winmm.lib kernel32.lib user32.lib gdi32.lib advapi32.lib comctl32.lib msimg32.lib userenv.lib $(NOINHERIT)"
+				AdditionalDependencies="libcmtd.lib libcpmtd.lib opengl32.lib glu32.lib wsock32.lib wininet.lib winmm.lib kernel32.lib user32.lib gdi32.lib advapi32.lib comctl32.lib msimg32.lib shell32.lib userenv.lib $(NOINHERIT)"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\boinc.scr"
 				LinkIncremental="0"
 				SuppressStartupBanner="true"
@@ -196,7 +196,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libcmt.lib libcpmt.lib opengl32.lib glu32.lib wsock32.lib wininet.lib winmm.lib kernel32.lib user32.lib gdi32.lib advapi32.lib comctl32.lib msimg32.lib userenv.lib $(NOINHERIT)"
+				AdditionalDependencies="libcmt.lib libcpmt.lib opengl32.lib glu32.lib wsock32.lib wininet.lib winmm.lib kernel32.lib user32.lib gdi32.lib advapi32.lib comctl32.lib msimg32.lib shell32.lib userenv.lib $(NOINHERIT)"
 				ShowProgress="0"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\boinc.scr"
 				LinkIncremental="1"
@@ -270,7 +270,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="../;../api/;../lib;../client/;../coprocs/OpenCL/include"
-				PreprocessorDefinitions="WIN32;_DEBUG;_MT;_WINDOWS;_CONSOLE"
+				PreprocessorDefinitions="WIN32;_DEBUG;_MT;_WINDOWS;_CONSOLE;_WCG"
 				ExceptionHandling="2"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
@@ -296,7 +296,7 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG"
+				PreprocessorDefinitions="_DEBUG;_WCG"
 				Culture="1033"
 				AdditionalIncludeDirectories="../"
 			/>
@@ -305,7 +305,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libcmtd.lib libcpmtd.lib opengl32.lib glu32.lib wsock32.lib wininet.lib winmm.lib kernel32.lib user32.lib gdi32.lib advapi32.lib comctl32.lib msimg32.lib userenv.lib $(NOINHERIT)"
+				AdditionalDependencies="libcmtd.lib libcpmtd.lib opengl32.lib glu32.lib wsock32.lib wininet.lib winmm.lib kernel32.lib user32.lib gdi32.lib advapi32.lib comctl32.lib msimg32.lib shell32.lib userenv.lib $(NOINHERIT)"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\boinc.scr"
 				LinkIncremental="0"
 				SuppressStartupBanner="true"
@@ -415,7 +415,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libcmt.lib libcpmt.lib opengl32.lib glu32.lib wsock32.lib wininet.lib winmm.lib kernel32.lib user32.lib gdi32.lib advapi32.lib comctl32.lib msimg32.lib userenv.lib $(NOINHERIT)"
+				AdditionalDependencies="libcmt.lib libcpmt.lib opengl32.lib glu32.lib wsock32.lib wininet.lib winmm.lib kernel32.lib user32.lib gdi32.lib advapi32.lib comctl32.lib msimg32.lib shell32.lib userenv.lib $(NOINHERIT)"
 				ShowProgress="0"
 				OutputFile=".\Build\$(PlatformName)\$(ConfigurationName)\boinc.scr"
 				LinkIncremental="1"
@@ -623,6 +623,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\lib\opencl_boinc.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\lib\parse.cpp"
 				>
 			</File>
@@ -684,6 +688,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\lib\coproc.h"
+				>
+			</File>
+			<File
 				RelativePath="..\lib\diagnostics.h"
 				>
 			</File>
@@ -721,6 +729,10 @@
 			</File>
 			<File
 				RelativePath="..\lib\notice.h"
+				>
+			</File>
+			<File
+				RelativePath="..\lib\opencl_boinc.h"
 				>
 			</File>
 			<File
