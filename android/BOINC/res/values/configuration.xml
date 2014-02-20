@@ -31,7 +31,7 @@
         <string name="assets_dir_x86" translatable="false">x86/</string>
         <string name="assets_dir_mips" translatable="false">mips/</string>
     <!-- client socket address, CAUTION: change this if you are building branded BOINC app to avoid interference btwn apps! -->
-        <string name="client_socket_address" translatable="false">edu_berekeley_boinc_client_socket</string>
+        <string name="client_socket_address" translatable="false">edu_berkeley_boinc_client_socket</string>
     <!-- BOINC platform -->
     	<string name="boinc_platform_name_arm" translatable="false">arm-android-linux-gnu</string>
     	<string name="boinc_platform_name_x86" translatable="false">x86-android-linux-gnu</string>

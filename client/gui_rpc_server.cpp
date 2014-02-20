@@ -240,7 +240,7 @@ int GUI_RPC_CONN_SET::init_unix_domain() {
     addr.sun_path[0] = '\0';
     // using app specific socket name instead of GUI_RPC_FILE defintion
     // to avoid interference with other BOINC based Android apps.
-    strcpy(&addr.sun_path[1], "edu_berekeley_boinc_client_socket");
+    strcpy(&addr.sun_path[1], "edu_berkeley_boinc_client_socket");
     socklen_t len = offsetof(struct sockaddr_un, sun_path) + 1 + strlen(&addr.sun_path[1]);
 #else
     // NOTE: if we ever add Mac OS X support, need to change this
