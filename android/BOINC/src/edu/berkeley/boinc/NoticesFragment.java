@@ -29,7 +29,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.os.RemoteException;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -41,7 +40,7 @@ public class NoticesFragment extends Fragment {
 
 	private ListView noticesList;
 	private NoticesListAdapter noticesListAdapter;
-	private ArrayList<Notice> data;
+	private ArrayList<Notice> data = new ArrayList<Notice>();
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -62,7 +61,7 @@ public class NoticesFragment extends Fragment {
 		// clear notice notification
 		try {
 			BOINCActivity.monitor.cancelNoticeNotification();
-		} catch (RemoteException e) {}
+		} catch (Exception e) {}
 		super.onResume();
 	}
 	
@@ -77,10 +76,12 @@ public class NoticesFragment extends Fragment {
 	private BroadcastReceiver mClientStatusChangeRec = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context,Intent intent) {
-			if(Logging.VERBOSE) Log.d(Logging.TAG, "StatusFragment ClientStatusChange - onReceive()"); 
+			if(Logging.VERBOSE) Log.d(Logging.TAG, "NoticesFragment ClientStatusChange - onReceive()"); 
 
 		    // data retrieval
 			updateNotices();
+			noticesListAdapter.clear();
+			noticesListAdapter.addAll(data);
 			noticesListAdapter.notifyDataSetChanged();
 		}
 	};

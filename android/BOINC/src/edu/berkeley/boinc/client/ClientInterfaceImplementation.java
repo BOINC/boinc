@@ -458,6 +458,13 @@ public class ClientInterfaceImplementation extends RpcClient{
 		return true;
 	}
 	
+	@Override
+	public synchronized boolean setCcConfig(String ccConfig) {
+		// set CC config and trigger re-read.
+		super.setCcConfig(ccConfig);
+		return super.readCcConfig();
+	}
+
 	/**
 	 * Returns List of event log messages
 	 * @param seqNo lower bound of sequence number

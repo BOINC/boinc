@@ -17,11 +17,14 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// size_census
+// size_census [--all_apps]
 // for each multi-size app,
 // find the N quantiles of its effective speed,
 // and write them to a file.
 // See http://boinc.berkeley.edu/trac/wiki/JobSizeMatching
+//
+// --all_apps: compute quantiles for all apps;
+// use this during setup and testing.
 
 error_reporting(E_ALL);
 ini_set('display_errors', true);
@@ -34,11 +37,10 @@ function do_app($app) {
     // joined to the host
 
     $db = BoincDb::get();
-    $dbn = $db->db_name;
     $query = "select et_avg, host.on_frac, host.active_frac " .
-        " from $dbn.host_app_version, $dbn.host, $dbn.app_version " .
+        " from DBNAME.host_app_version, DBNAME.host, DBNAME.app_version " .
         " where host_app_version.app_version_id = app_version.id " .
-        " and app_version.appid = 1 " .
+        " and app_version.appid = $app->id " .
         " and et_n > 0 " .
         " and host.id = host_app_version.host_id";
     $result = $db->do_query($query);
@@ -57,7 +59,12 @@ function do_app($app) {
     fclose($f);
 }
 
-$apps = BoincApp::enum("deprecated=0 and n_size_classes>1");
+if ($argc == 2 && $argv[1]=="--all_apps") {
+    $apps = BoincApp::enum("deprecated=0");
+} else {
+    $apps = BoincApp::enum("deprecated=0 and n_size_classes>1");
+}
+
 foreach ($apps as $app) {
     do_app($app);
 }

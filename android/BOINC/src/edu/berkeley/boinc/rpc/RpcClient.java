@@ -161,7 +161,7 @@ public class RpcClient {
 	 * Connect to BOINC core client via Unix Domain Socket (abstract, "boinc_socket")
 	 * @return true for success, false for failure
 	 */
-	public boolean open() {
+	public boolean open(String socketAddress) {
 		if (isConnected()) {
 			// Already connected
 			if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 4) Log.e(Logging.TAG, "Attempt to connect when already connected");
@@ -170,7 +170,7 @@ public class RpcClient {
 		}
 		try {
 			mSocket = new LocalSocket();
-			mSocket.connect(new LocalSocketAddress("boinc_socket"));
+			mSocket.connect(new LocalSocketAddress(socketAddress));
 			mSocket.setSoTimeout(READ_TIMEOUT);
 			mInput = mSocket.getInputStream();
 			mOutput = new OutputStreamWriter(mSocket.getOutputStream(), "ISO8859_1");
