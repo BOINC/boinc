@@ -54,6 +54,7 @@ public class ProjectConfig implements Parcelable{
 		dest.writeInt(error_num);
 		dest.writeString(name);
 		dest.writeString(masterUrl);
+		dest.writeString(webRpcUrlBase);
 		dest.writeString(localRevision);
 		dest.writeInt(minPwdLength);
 		dest.writeInt(minClientVersion);
@@ -77,6 +78,7 @@ public class ProjectConfig implements Parcelable{
 		error_num = in.readInt();
 		name = in.readString();
 		masterUrl = in.readString();
+		webRpcUrlBase = in.readString();
 		localRevision = in.readString();
 		minPwdLength = in.readInt();
 		minClientVersion = in.readInt();
