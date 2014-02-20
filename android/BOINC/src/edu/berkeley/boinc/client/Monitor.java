@@ -34,6 +34,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import android.app.NotificationManager;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -93,6 +95,7 @@ public class Monitor extends Service {
 	private String boincWorkingDir; 
 	private Integer clientStatusInterval;
 	private Integer deviceStatusIntervalScreenOff;
+	private String clientSocketAddress;
 	
 	private Timer updateTimer = new Timer(true); // schedules frequent client status update
 	private TimerTask statusUpdateTask = new StatusUpdateTimerTask();
@@ -146,6 +149,7 @@ public class Monitor extends Service {
 		fileNameAllProjectsList = getString(R.string.all_projects_list); 
 		clientStatusInterval = getResources().getInteger(R.integer.status_update_interval_ms);
 		deviceStatusIntervalScreenOff = getResources().getInteger(R.integer.device_status_update_screen_off_every_X_loop);
+		clientSocketAddress = getString(R.string.client_socket_address); 
 		
 		// initialize singleton helper classes and provide application context
 		clientStatus = new ClientStatus(this);
@@ -626,7 +630,7 @@ public class Monitor extends Service {
 	private Boolean connectClient() {
 		Boolean success = false;
 		
-        success = clientInterface.open();
+        success = clientInterface.open(clientSocketAddress);
         if(!success) {
         	if(Logging.ERROR) Log.e(Logging.TAG, "connection failed!");
         	return success;
@@ -936,6 +940,11 @@ public class Monitor extends Service {
 	    				for (String pkg : packages) {
 	    					if (pkg.equals("com.htc.ptg")) {
 	    						if(Logging.ERROR) Log.d(Logging.TAG,"packageAddedReceiver: PTG added, stop Monitor...");
+	    						// cancel notifications
+	    						NotificationManager nm = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
+	    						nm.cancelAll();
+	    						// cancel async task
+	    						statusUpdateTask.cancel();
 	    						// open exit splash activity. implies destruction (and unbound) of all others
 	    						Intent exitSplash = new Intent(getApplicationContext(),SplashActivity.class);
 	    						exitSplash.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
