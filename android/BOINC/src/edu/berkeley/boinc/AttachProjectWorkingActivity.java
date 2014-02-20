@@ -60,7 +60,8 @@ public class AttachProjectWorkingActivity extends Activity{
 	private ViewGroup anchor;
 	
 	private int action;
-	private String projectUrl; // web rpc url, either masterUrl(HTTP) or webRpcUrlBase(HTTPS)
+	private String projectUrl; 
+	private String webRpcUrlBase; // might be empty
 	private String projectName;
 	private String id;
 	private String userName;
@@ -77,7 +78,7 @@ public class AttachProjectWorkingActivity extends Activity{
 		    mIsBound = true;        
 		    
 		    // do desired action
-		    new ProjectAccountAsync(action, projectUrl, id, eMail, userName, teamName, pwd, usesName, projectName).execute();
+		    new ProjectAccountAsync(action, getRpcUrl(), id, eMail, userName, teamName, pwd, usesName, projectName).execute();
 	    }
 
 	    public void onServiceDisconnected(ComponentName className) { // This should not happen
@@ -98,6 +99,7 @@ public class AttachProjectWorkingActivity extends Activity{
         	action = getIntent().getIntExtra("action", 0);
         	usesName = getIntent().getBooleanExtra("usesName", false);
         	projectUrl = getIntent().getStringExtra("projectUrl");
+        	webRpcUrlBase = getIntent().getStringExtra("webRpcUrlBase");
         	projectName = getIntent().getStringExtra("projectName");
         	userName = getIntent().getStringExtra("userName");
         	teamName = getIntent().getStringExtra("teamName");
@@ -105,7 +107,7 @@ public class AttachProjectWorkingActivity extends Activity{
         	pwd = getIntent().getStringExtra("pwd");
         	id = getIntent().getStringExtra("id");
         			
-        	if(Logging.DEBUG) Log.d(Logging.TAG,"AttachProjectWorkingActivity intent extras: " + action + projectUrl + projectName + id + userName + teamName + eMail + usesName);
+        	if(Logging.DEBUG) Log.d(Logging.TAG,"AttachProjectWorkingActivity intent extras: " + action + projectUrl + webRpcUrlBase + projectName + id + userName + teamName + eMail + usesName);
         } catch (Exception e) {
         	if(Logging.WARNING) Log.w(Logging.TAG, "AttachProjectWorkingActivity error while parsing extras", e);
         	finish(); // no point to continue without data
@@ -137,6 +139,14 @@ public class AttachProjectWorkingActivity extends Activity{
 	        unbindService(mConnection);
 	        mIsBound = false;
 	    }
+	}
+	
+	// returns URL to be used for RPCs.
+	// either webRpcUrlBase for HTTPS, if available
+	// master URL otherwise
+	private String getRpcUrl() {
+		if(!webRpcUrlBase.isEmpty()) return webRpcUrlBase;
+		else return projectUrl;
 	}
 	
 	// check whether device is online before starting connection attempt
@@ -276,6 +286,8 @@ public class AttachProjectWorkingActivity extends Activity{
 			this.pwd = pwd;
 			this.usesName = usesName;
 			this.projectName = projectName;
+			
+			Log.d(Logging.TAG, "ProjectAccountAsync uses URL for RPCs: " + url);
 		}
 		
 		@Override

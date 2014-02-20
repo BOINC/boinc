@@ -32,6 +32,7 @@ import android.widget.TextView;
 public class AttachProjectRegistrationActivity extends ActionBarActivity{
 	
 	private String projectUrl;
+	private String webRpcUrlBase; // might be empty
 	private String projectName;
 	private Integer minPwdLength;
 	private Boolean usesName;
@@ -44,6 +45,7 @@ public class AttachProjectRegistrationActivity extends ActionBarActivity{
     	//parse master url from intent extras
         try {
         	projectUrl = getIntent().getCharSequenceExtra("projectUrl").toString();
+        	webRpcUrlBase = getIntent().getCharSequenceExtra("webRpcUrlBase").toString();
         	projectName = getIntent().getCharSequenceExtra("projectName").toString();
         	minPwdLength = getIntent().getIntExtra("minPwdLength", 0);
         	usesName = getIntent().getBooleanExtra("usesName", false);
@@ -91,6 +93,7 @@ public class AttachProjectRegistrationActivity extends ActionBarActivity{
 			intent.putExtra("action", AttachProjectWorkingActivity.ACTION_REGISTRATION);
 			intent.putExtra("usesName", false);
 			intent.putExtra("projectUrl", projectUrl);
+			intent.putExtra("webRpcUrlBase", webRpcUrlBase); // might be empty
 			intent.putExtra("projectName", projectName);
 			intent.putExtra("userName", user);
 			intent.putExtra("teamName", team);
