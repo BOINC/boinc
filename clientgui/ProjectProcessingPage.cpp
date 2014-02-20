@@ -542,7 +542,7 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSE
                         if (pWA->m_bCredentialsCached) {
                             pDoc->rpc.project_attach_from_file();
                         } else {
-                            string master_url;
+                            std::string master_url;
                             if (!pWA->project_config.master_url.empty()) {
                                 master_url = pWA->project_config.master_url;
                             } else {
