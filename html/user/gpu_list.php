@@ -26,6 +26,9 @@
 
 require_once("../inc/util.inc");
 
+// take a host.serialnum field (which may encode several GPUs)
+// and extract the model name for the given vendor
+//
 function get_gpu_model($x, $vendor) {
     $descs = explode("]", $x);
     array_pop($descs);
@@ -86,7 +89,14 @@ function get_gpu_list($vendor, $alt_vendor=null) {
         if (!$h) continue;
         $wu = BoincWorkunit::lookup_id($r->workunitid);
         if (!$wu) continue;
-        $v = $vendor=="cuda"?"CUDA":"CAL";
+        $v = "";
+        if ($vendor == "cuda") {
+            $v = "CUDA";
+        } else if ($vendor == "intel_gpu") {
+            $v = "INTEL";
+        } else {
+            $v = "CAL";
+        }
         $model = get_gpu_model($h->serialnum, $v);
         if (!$model) continue;
         add_model($model, $r, $wu, $total);
@@ -113,6 +123,7 @@ function get_gpu_lists() {
     $x = new StdClass;
     $x->cuda = get_gpu_list("cuda", "nvidia");
     $x->ati = get_gpu_list("ati");
+    $x->intel_gpu = get_gpu_list("intel_gpu");
     return $x;
 }
 
@@ -183,6 +194,7 @@ page_head(tra("Top GPU models"));
 echo tra("The following lists show the most productive GPU models on different platforms.  Relative speeds are shown in parentheses.");
 show_vendor("NVIDIA", $data->cuda);
 show_vendor("ATI/AMD", $data->ati);
+show_vendor("Intel", $data->intel_gpu);
 page_tail();
 
 ?>
