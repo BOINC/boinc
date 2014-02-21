@@ -78,7 +78,7 @@ public class AttachProjectWorkingActivity extends Activity{
 		    mIsBound = true;        
 		    
 		    // do desired action
-		    new ProjectAccountAsync(action, getRpcUrl(), id, eMail, userName, teamName, pwd, usesName, projectName).execute();
+		    new ProjectAccountAsync(action, projectUrl, webRpcUrlBase, id, eMail, userName, teamName, pwd, usesName, projectName).execute();
 	    }
 
 	    public void onServiceDisconnected(ComponentName className) { // This should not happen
@@ -139,14 +139,6 @@ public class AttachProjectWorkingActivity extends Activity{
 	        unbindService(mConnection);
 	        mIsBound = false;
 	    }
-	}
-	
-	// returns URL to be used for RPCs.
-	// either webRpcUrlBase for HTTPS, if available
-	// master URL otherwise
-	private String getRpcUrl() {
-		if(!webRpcUrlBase.isEmpty()) return webRpcUrlBase;
-		else return projectUrl;
 	}
 	
 	// check whether device is online before starting connection attempt
@@ -268,6 +260,7 @@ public class AttachProjectWorkingActivity extends Activity{
 		
 		private Integer action;
 		private String url;
+		private String webRpcUrlBase; // secure ULR for lookup_account and create_account RPCs
 		private String id; // used for login can be either email or user, depending on usesName
 		private String email;
 		private String userName;
@@ -276,9 +269,10 @@ public class AttachProjectWorkingActivity extends Activity{
 		private Boolean usesName;
 		private String projectName;
 		
-		public ProjectAccountAsync(Integer action, String url, String id, String email, String userName, String teamName, String pwd, Boolean usesName, String projectName) {
+		public ProjectAccountAsync(Integer action, String url, String webRpcUrlBase, String id, String email, String userName, String teamName, String pwd, Boolean usesName, String projectName) {
 			this.action = action;
-			this.url = url; // either HTTP or HTTPS, if present (webRpcUrlBase in ProjectConfig)
+			this.url = url;
+			this.webRpcUrlBase = webRpcUrlBase;
 			this.id = id; // used for login
 			this.email = email;
 			this.userName = userName;
@@ -287,7 +281,7 @@ public class AttachProjectWorkingActivity extends Activity{
 			this.usesName = usesName;
 			this.projectName = projectName;
 			
-			Log.d(Logging.TAG, "ProjectAccountAsync uses URL for RPCs: " + url);
+			Log.d(Logging.TAG, "ProjectAccountAsync URL for RPCs: " + url + " ; URL for secure RPCs: " + getSecureUrlIfAvailable());
 		}
 		
 		@Override
@@ -401,7 +395,7 @@ public class AttachProjectWorkingActivity extends Activity{
 					// makes login more robust on bad network connections
 					while(!success && attemptCounter < maxAttempts) {
 						try {
-							account = monitor.createAccountPolling(url, email, userName, pwd, teamName);
+							account = monitor.createAccountPolling(getSecureUrlIfAvailable(), email, userName, pwd, teamName);
 						} catch (RemoteException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
@@ -441,7 +435,7 @@ public class AttachProjectWorkingActivity extends Activity{
 					// makes login more robust on bad network connections
 					while(!success && attemptCounter < maxAttempts) {
 						try {
-							account = monitor.lookupCredentials(url, id, pwd, usesName);
+							account = monitor.lookupCredentials(getSecureUrlIfAvailable(), id, pwd, usesName);
 						} catch (RemoteException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
@@ -482,7 +476,7 @@ public class AttachProjectWorkingActivity extends Activity{
 				while(!success && attemptCounter < maxAttempts) {
 					Boolean attach;
 					try {
-						attach = monitor.attachProject(url, projectName, account.authenticator);
+						attach = monitor.attachProject(url, projectName, account.authenticator); // use standard URL for attach, i.e. not webRpcUrlBase!
 					} catch (RemoteException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -524,6 +518,15 @@ public class AttachProjectWorkingActivity extends Activity{
 				Button backButton = (Button) findViewById(R.id.backButton);
 				backButton.setVisibility(View.VISIBLE);
 			}
+		}
+
+		
+		// returns URL to be used for RPCs.
+		// either webRpcUrlBase for HTTPS, if available
+		// master URL otherwise
+		private String getSecureUrlIfAvailable() {
+			if(!webRpcUrlBase.isEmpty()) return webRpcUrlBase;
+			else return projectUrl;
 		}
 	}
 }
