@@ -33,6 +33,7 @@ require_once("../inc/util_ops.inc");
 require_once("../inc/profile.inc");
 require_once("../project/project.inc");
 
+get_logged_in_user();
 db_init();
 
 $is_admin = true;
@@ -173,7 +174,7 @@ if (isset($_POST['suspend_submit']) && !empty($user) && $is_admin) {
             );
         } else {
             if (is_numeric($dt)) {
-                $t = time()+$dt;
+                $t = $dt>0 ? time()+$dt : 0;
                 $q = "UPDATE forum_preferences SET banished_until=$t WHERE userid=$id";
                 mysql_query($q);
 
