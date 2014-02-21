@@ -72,7 +72,7 @@ struct PERF_INFO {
 extern int mylockf(int fd);
 
 extern int count_workunits(int&, const char* query);
-extern int count_unsent_results(int&, int appid);
+extern int count_unsent_results(int&, int appid, int size_class=-1);
 
 // Return a value for host_app_version.app_version_id.
 // if the app version is anonymous platform,

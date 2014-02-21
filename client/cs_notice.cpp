@@ -501,7 +501,7 @@ void NOTICES::remove_notices(PROJECT* p, int which) {
             remove = !strcmp(n.category, "scheduler");
             break;
         case REMOVE_NO_WORK_MSG:
-            remove = strcmp(n.description.c_str(), NO_WORK_MSG);
+            remove = !strcmp(n.description.c_str(), NO_WORK_MSG);
             break;
         }
         if (remove) {
