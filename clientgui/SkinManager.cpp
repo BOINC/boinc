@@ -257,9 +257,14 @@ wxIconBundle* CSkinIcon::GetIcon() {
 bool CSkinIcon::SetDefaults(wxString strComponentName, wxString strIcon) {
     m_strComponentName = strComponentName;
     m_icoDefaultIcon.AddIcon(wxIcon(strIcon, wxICON_DEFAULT_TYPE, 16, 16));
+    m_icoDefaultIcon.AddIcon(wxIcon(strIcon, wxICON_DEFAULT_TYPE, 20, 20));
+    m_icoDefaultIcon.AddIcon(wxIcon(strIcon, wxICON_DEFAULT_TYPE, 24, 24));
     m_icoDefaultIcon.AddIcon(wxIcon(strIcon, wxICON_DEFAULT_TYPE, 32, 32));
+    m_icoDefaultIcon.AddIcon(wxIcon(strIcon, wxICON_DEFAULT_TYPE, 40, 40));
     m_icoDefaultIcon.AddIcon(wxIcon(strIcon, wxICON_DEFAULT_TYPE, 48, 48));
     m_icoDefaultIcon.AddIcon(wxIcon(strIcon, wxICON_DEFAULT_TYPE, 64, 64));
+    m_icoDefaultIcon.AddIcon(wxIcon(strIcon, wxICON_DEFAULT_TYPE, 80, 80));
+    m_icoDefaultIcon.AddIcon(wxIcon(strIcon, wxICON_DEFAULT_TYPE, 96, 96));
     m_icoDefaultIcon.AddIcon(wxIcon(strIcon, wxICON_DEFAULT_TYPE, 128, 128));
     m_icoDefaultIcon.AddIcon(wxIcon(strIcon, wxICON_DEFAULT_TYPE, 256, 256));
     return true;
