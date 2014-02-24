@@ -483,9 +483,13 @@ void COPROC_NVIDIA::set_peak_flops() {
             }
             break;
         case 3:
-        default:
             flops_per_clock = 2;
             cores_per_proc = 192;
+            break;
+        case 5:
+        default:
+            flops_per_clock = 2;
+            cores_per_proc = 128;
             break;
         }
         // clock rate is scaled down by 1000
