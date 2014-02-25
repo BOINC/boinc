@@ -984,7 +984,7 @@ int CLIENT_STATE::handle_scheduler_reply(
             for (int j=0; j<coprocs.n_rsc; j++) {
                 msg_printf(project, MSG_INFO,
                     "[sched_op] estimated total %s task duration: %.0f seconds",
-                    rsc_name(j),
+                    rsc_name_long(j),
                     est_rsc_runtime[j]/time_stats.availability_frac(j)
                 );
             }

@@ -256,8 +256,16 @@ int rsc_index(const char* name) {
     return -1;
 }
 
+// used in XML and COPROC::type
+//
 const char* rsc_name(int i) {
     return coprocs.coprocs[i].type;
+}
+
+// user-friendly version
+//
+const char* rsc_name_long(int i) {
+    return proc_type_name(coproc_type_name_to_num(coprocs.coprocs[i].type));
 }
 
 // alert user if any jobs need more RAM than available

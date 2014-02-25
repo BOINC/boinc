@@ -53,7 +53,7 @@ inline void rsc_string(RESULT* rp, char* buf) {
     if (avp->gpu_usage.rsc_type) {
         sprintf(buf, "%.2f CPU + %.2f %s",
             avp->avg_ncpus, avp->gpu_usage.usage,
-            rsc_name(avp->gpu_usage.rsc_type)
+            rsc_name_long(avp->gpu_usage.rsc_type)
         );
     } else {
         sprintf(buf, "%.2f CPU", avp->avg_ncpus);
@@ -156,7 +156,7 @@ void print_deadline_misses() {
                 msg_printf(p, MSG_INFO,
                     "[rr_sim] Project has %d projected %s deadline misses",
                     p->rsc_pwf[j].deadlines_missed,
-                    rsc_name(j)
+                    rsc_name_long(j)
                 );
             }
         }

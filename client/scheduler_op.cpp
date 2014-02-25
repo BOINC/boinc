@@ -216,7 +216,7 @@ static void request_string(char* buf) {
     for (int i=0; i<coprocs.n_rsc; i++) {
         if (rsc_work_fetch[i].req_secs) {
             if (!first) strcat(buf, " and ");
-            strcat(buf, rsc_name(i));
+            strcat(buf, rsc_name_long(i));
             first = false;
         }
     }
@@ -260,7 +260,7 @@ int SCHEDULER_OP::start_rpc(PROJECT* p) {
         for (int i=0; i<coprocs.n_rsc; i++) {
             msg_printf(p, MSG_INFO,
                 "[sched_op] %s work request: %.2f seconds; %.2f devices",
-                rsc_name(i),
+                rsc_name_long(i),
                 rsc_work_fetch[i].req_secs,
                 rsc_work_fetch[i].req_instances
             );

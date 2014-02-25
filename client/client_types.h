@@ -58,6 +58,7 @@
 
 extern int rsc_index(const char*);
 extern const char* rsc_name(int);
+extern const char* rsc_name_long(int);
 extern COPROCS coprocs;
 
 struct FILE_INFO;
