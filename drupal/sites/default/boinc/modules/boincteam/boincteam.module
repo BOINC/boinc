@@ -796,7 +796,7 @@ function boincteam_dashboard_panel($uid = NULL) {
     $output .= '</div>' . "\n";
     $output .= '<div class="stats">';
     $output .= '  <label>' . t('Total credit: ') . '</label>';
-    $output .= '  <span>' . number_format(boincstats_credit_to_ghours($team->total_credit)) . '</span>';
+    $output .= '  <span>' . number_format($team->total_credit, 2) . '</span>';
     $output .= '</div>' . "\n";
     $output .= '<ul class="tab-list">';
     $output .= '  <li class="first last tab">' . 
@@ -1157,8 +1157,8 @@ function boincteam_view_team_panel($team_id) {
   $output .= '<div>';
   $output .= '<div class="left-column">';
   $output .= '<ul class="stats">';
-  $output .= '  <li>' . t('Total credits') . ': ' . $team->total_credit . '</li>';
-  $output .= '  <li>' . t('Recent avg credits') . ': ' . $team->expavg_credit . '</li>';
+  $output .= '  <li>' . t('Total credits') . ': ' . number_format($team->total_credit, 2) . '</li>';
+  $output .= '  <li>' . t('Recent avg credits') . ': ' . number_format($team->expavg_credit, 2) . '</li>';
   $output .= '  <li>' . t('Country') . ': ' . $team->country . '</li>';
   $output .= '  <li>' . t('Type') . ': ' . boincteam_get_type($team_id) . '</li>';
   $output .= '</ul>';
