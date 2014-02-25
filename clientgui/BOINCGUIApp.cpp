@@ -470,8 +470,9 @@ bool CBOINCGUIApp::OnInit() {
 #ifdef __WXMAC__
         // We don't call Hide() or Show(false) for the main frame
         // under wxCocoa 2.9.5 because it bounces the Dock icon
-        // (as in notification.)  We work around this by moving
-        // the main window/frame off screen here.
+        // (as in notification) when we click on our menu bar icon.
+        // We work around this by moving the main window/frame off
+        // screen here.
         // The position will be restored in one of these methods:
         // CBOINCGUIApp::OnActivateApp(), CSimpleFrame::SaveState()
         // or CAdvancedFrame::SaveWindowDimensions().
@@ -479,6 +480,8 @@ bool CBOINCGUIApp::OnInit() {
             m_pFrame->MoveFrameOffScreen();
             m_pFrame->Show();
         }
+        // Force BOINC Manager to background (needed on OS 10.9)
+        system("osascript -e 'tell application \"Finder\" to activate'");
 #endif
         ShowApplication(false);
 	}
@@ -839,10 +842,9 @@ void CBOINCGUIApp::OnActivateApp(wxActivateEvent& event) {
 #ifdef __WXMAC__
     // We don't call Hide() or Show(false) for the main frame
     // under wxCocoa 2.9.5 because it bounces the Dock icon
-    // (as in notification.)  We work around this by moving
-    // the main window/frame off screen when displaying the
-    // CDlgAbout modal dialog while the main window is hidden
-    // by CTaskBarIcon::OnAbout().
+    // (as in notification) when we click on our menu bar icon.
+    // We work around this by moving the main window/frame off
+    // screen when needed.
     if (m_pFrame) {
         if (event.GetActive()) {
             if (!m_bAboutDialogIsOpen) {

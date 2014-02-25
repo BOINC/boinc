@@ -319,6 +319,7 @@ void CBOINCBaseFrame::OnClose(wxCloseEvent& event) {
 #elif defined(__WXMAC__)
         // Don't call Hide() or Show(false) under wxCocoa 2.9.5 
         // because it bounces the Dock icon (as in notification)
+        // when we click on our menu bar icon.
         wxGetApp().ShowApplication(false);
 #else
         Hide();
@@ -896,8 +897,9 @@ bool CBOINCBaseFrame::Show(bool bShow) {
 
 // We don't call Hide() or Show(false) for the main frame
 // under wxCocoa 2.9.5 because it bounces the Dock icon
-// (as in notification.)  We work around this by moving
-// the main window/frame off screen when needed.
+// (as in notification) when we click on our menu bar icon.
+// We work around this by moving the main window/frame off
+// screen when needed.
 // The position will be restored in one of these methods:
 // CBOINCGUIApp::OnActivateApp(), CSimpleFrame::SaveState()
 // or CAdvancedFrame::SaveWindowDimensions().
