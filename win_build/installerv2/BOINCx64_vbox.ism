@@ -907,7 +907,6 @@
 	<table name="CreateFolder">
 		<col key="yes" def="s72">Directory_</col>
 		<col key="yes" def="s72">Component_</col>
-		<row><td>DATADIR</td><td>_BOINCData</td></row>
 		<row><td>INSTALLDIR</td><td>BOINCServiceConfig</td></row>
 		<row><td>INSTALLDIR</td><td>_BOINC</td></row>
 		<row><td>INSTALLDIR</td><td>_BOINCManagerStartMenu</td></row>
@@ -917,8 +916,6 @@
 		<row><td>INSTALLDIR</td><td>_BOINCTrayStartup</td></row>
 		<row><td>INSTALLDIR</td><td>_ScreensaverEnable9x</td></row>
 		<row><td>INSTALLDIR</td><td>_ScreensaverEnableNT</td></row>
-		<row><td>PROJECTS</td><td>_BOINCDataProjects</td></row>
-		<row><td>SLOTS</td><td>_BOINCDataSlots</td></row>
 	</table>
 
 	<table name="CustomAction">
@@ -4278,21 +4275,6 @@ VwBlAGIAAQBXAEUAQgB4ADYANAA=
 		<col key="yes" def="S255">Domain</col>
 		<col key="yes" def="s255">User</col>
 		<col def="I4">Permission</col>
-		<row><td>DATADIR</td><td>CreateFolder</td><td></td><td>SYSTEM</td><td>1880031743</td></row>
-		<row><td>DATADIR</td><td>CreateFolder</td><td></td><td>[BOINC_ADMINS_GROUPNAME]</td><td>1610809855</td></row>
-		<row><td>DATADIR</td><td>CreateFolder</td><td></td><td>[BOINC_PROJECTS_GROUPNAME]</td><td>0</td></row>
-		<row><td>DATADIR</td><td>CreateFolder</td><td></td><td>[BOINC_USERS_GROUPNAME]</td><td>131241</td></row>
-		<row><td>DATADIR</td><td>CreateFolder</td><td></td><td>[GROUPALIAS_ADMINISTRATORS]</td><td>1880031743</td></row>
-		<row><td>PROJECTS</td><td>CreateFolder</td><td></td><td>SYSTEM</td><td>1880031743</td></row>
-		<row><td>PROJECTS</td><td>CreateFolder</td><td></td><td>[BOINC_ADMINS_GROUPNAME]</td><td>1610809855</td></row>
-		<row><td>PROJECTS</td><td>CreateFolder</td><td></td><td>[BOINC_PROJECTS_GROUPNAME]</td><td>1610809855</td></row>
-		<row><td>PROJECTS</td><td>CreateFolder</td><td></td><td>[BOINC_USERS_GROUPNAME]</td><td>131241</td></row>
-		<row><td>PROJECTS</td><td>CreateFolder</td><td></td><td>[GROUPALIAS_ADMINISTRATORS]</td><td>1880031743</td></row>
-		<row><td>SLOTS</td><td>CreateFolder</td><td></td><td>SYSTEM</td><td>1880031743</td></row>
-		<row><td>SLOTS</td><td>CreateFolder</td><td></td><td>[BOINC_ADMINS_GROUPNAME]</td><td>1610809855</td></row>
-		<row><td>SLOTS</td><td>CreateFolder</td><td></td><td>[BOINC_PROJECTS_GROUPNAME]</td><td>1610809855</td></row>
-		<row><td>SLOTS</td><td>CreateFolder</td><td></td><td>[BOINC_USERS_GROUPNAME]</td><td>131241</td></row>
-		<row><td>SLOTS</td><td>CreateFolder</td><td></td><td>[GROUPALIAS_ADMINISTRATORS]</td><td>1880031743</td></row>
 	</table>
 
 	<table name="MIME">
