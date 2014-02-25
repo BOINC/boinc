@@ -63,7 +63,6 @@
 		DD1CB233154F5BF700BFF282 /* result.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD1CB230154F5BF700BFF282 /* result.cpp */; };
 		DD1E4B7B14DCA83F0093C711 /* async_file.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD1E4B7914DCA83F0093C711 /* async_file.cpp */; };
 		DD21B49D0D750FC600AFFEE5 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDFE854A0B60CFD0009B43D9 /* AppKit.framework */; };
-		DD2370E113F49DF3003149F9 /* LoginItemAPI.c in Sources */ = {isa = PBXBuildFile; fileRef = DD2370DF13F49DF3003149F9 /* LoginItemAPI.c */; };
 		DD247AF90AEA308A0034104A /* SkinManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD247AF70AEA308A0034104A /* SkinManager.cpp */; };
 		DD25F72815914F8C007845B5 /* gpu_nvidia.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD25F72315914F8C007845B5 /* gpu_nvidia.cpp */; };
 		DD25F72915914F8C007845B5 /* gpu_amd.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD25F72415914F8C007845B5 /* gpu_amd.cpp */; };
@@ -77,8 +76,6 @@
 		DD2B6C8113149177005D6F3E /* procinfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD2B6C7E13149177005D6F3E /* procinfo.cpp */; };
 		DD2B6C8D131491B7005D6F3E /* procinfo_mac.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB6934F0ABFE9C600689FD8 /* procinfo_mac.cpp */; };
 		DD2B6C8E131491B8005D6F3E /* procinfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD2B6C7E13149177005D6F3E /* procinfo.cpp */; };
-		DD2FE5C9142DE75A00A1E6F3 /* LoginItemAPI.c in Sources */ = {isa = PBXBuildFile; fileRef = DD2370DF13F49DF3003149F9 /* LoginItemAPI.c */; };
-		DD2FE5CB142DE94700A1E6F3 /* LoginItemAPI.c in Sources */ = {isa = PBXBuildFile; fileRef = DD2370DF13F49DF3003149F9 /* LoginItemAPI.c */; };
 		DD3157C316740D5300B6C909 /* gpu_intel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD3157C016740C9100B6C909 /* gpu_intel.cpp */; };
 		DD33C6F308B5BAF500768630 /* gui_http.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD33C6F108B5BAF500768630 /* gui_http.cpp */; };
 		DD33C6F808B5BB4500768630 /* acct_setup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD33C6F708B5BB4500768630 /* acct_setup.cpp */; };
@@ -168,7 +165,6 @@
 		DD431F240A415EE70060585A /* SetupSecurity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7748B40A356D6C0025D05E /* SetupSecurity.cpp */; };
 		DD431FAA0A41660D0060585A /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
 		DD4329910BA63DEC007CDF2A /* str_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7BF7D70B8E7A9800A009F7 /* str_util.cpp */; };
-		DD46885A0C1661970089F500 /* uninstall.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD4688590C1661970089F500 /* uninstall.cpp */; };
 		DD48091F081A66F100A174AA /* BOINCSaver.nib in Resources */ = {isa = PBXBuildFile; fileRef = DD48091E081A66F100A174AA /* BOINCSaver.nib */; };
 		DD4AE04D13652BD700285859 /* cc_config.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD4AE04B13652BD700285859 /* cc_config.cpp */; };
 		DD4AE05013652C1300285859 /* cc_config.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD4AE04B13652BD700285859 /* cc_config.cpp */; };
@@ -392,7 +388,6 @@
 		DDCF84080E1B7C0A005EDC45 /* DlgItemProperties.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDCF84060E1B7C0A005EDC45 /* DlgItemProperties.cpp */; };
 		DDD0697312D70C9400120920 /* sg_TaskPanel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDD0697112D70C9400120920 /* sg_TaskPanel.cpp */; };
 		DDD095490A3EDF2D00C95BA4 /* switcher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDD095480A3EDF2D00C95BA4 /* switcher.cpp */; };
-		DDD3370A106224E800867C7D /* AddRemoveUser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDD33709106224E800867C7D /* AddRemoveUser.cpp */; };
 		DDD3371310622D0800867C7D /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
 		DDD52DCA0C03CAE6009B5FC0 /* ViewProjects.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDD52DC40C03CAE6009B5FC0 /* ViewProjects.cpp */; };
 		DDD52DCC0C03CAE6009B5FC0 /* ViewTransfers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDD52DC60C03CAE6009B5FC0 /* ViewTransfers.cpp */; };
@@ -473,6 +468,9 @@
 		DDE586B310FC8E9B00DFA887 /* mfile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BD207C5B1150043025C /* mfile.cpp */; };
 		DDE7A3B115C6739E002B3B96 /* ttfont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE7A3AF15C6739E002B3B96 /* ttfont.cpp */; };
 		DDE813221770479C0068A770 /* translate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDF9350F176B0D0C00A2793C /* translate.cpp */; };
+		DDF5E23318B8673E005DEA6E /* uninstall.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD4688590C1661970089F500 /* uninstall.cpp */; };
+		DDF5E23418B86803005DEA6E /* AddRemoveUser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDD33709106224E800867C7D /* AddRemoveUser.cpp */; };
+		DDF5E23518B868A0005DEA6E /* LoginItemAPI.c in Sources */ = {isa = PBXBuildFile; fileRef = DD2370DF13F49DF3003149F9 /* LoginItemAPI.c */; };
 		DDF5F85A10DD05DB006A50CD /* notice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE1372D10DC5E8D00161D6B /* notice.cpp */; };
 		DDF5F85B10DD05E4006A50CD /* notice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE1372D10DC5E8D00161D6B /* notice.cpp */; };
 		DDF93511176B0D0C00A2793C /* translate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDF9350F176B0D0C00A2793C /* translate.cpp */; };
@@ -2762,7 +2760,6 @@
 				DD1277C4081F3E73007B5DE1 /* PostInstall.cpp in Sources */,
 				DDA12AA20A369B5500FBDD12 /* SetupSecurity.cpp in Sources */,
 				DD51DC8F0A4943A300BD24E6 /* check_security.cpp in Sources */,
-				DD2FE5CB142DE94700A1E6F3 /* LoginItemAPI.c in Sources */,
 				DD728D45175DD3B900A1CE23 /* url.cpp in Sources */,
 				DD728D47175DD41B00A1CE23 /* str_util.cpp in Sources */,
 				DDF93511176B0D0C00A2793C /* translate.cpp in Sources */,
@@ -2954,11 +2951,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DD2FE5C9142DE75A00A1E6F3 /* LoginItemAPI.c in Sources */,
-				DD46885A0C1661970089F500 /* uninstall.cpp in Sources */,
 				DDE813221770479C0068A770 /* translate.cpp in Sources */,
 				DDB9EA9717BE2C0D00651B07 /* filesys.cpp in Sources */,
 				DDB9EA9C17BE2C7100651B07 /* util.cpp in Sources */,
+				DDF5E23318B8673E005DEA6E /* uninstall.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3186,8 +3182,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DDD3370A106224E800867C7D /* AddRemoveUser.cpp in Sources */,
-				DD2370E113F49DF3003149F9 /* LoginItemAPI.c in Sources */,
+				DDF5E23418B86803005DEA6E /* AddRemoveUser.cpp in Sources */,
+				DDF5E23518B868A0005DEA6E /* LoginItemAPI.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
