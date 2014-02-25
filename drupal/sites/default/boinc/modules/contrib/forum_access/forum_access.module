@@ -1,0 +1,722 @@
+<?php
+
+/**
+ * @file forum_access.module
+ *
+ * This module uses form_alter to add permissions and moderator settings to
+ * forums.
+ *
+ */
+
+/**
+ * Implementation of hook_node_grants().
+ *
+ * This function supplies the forum access grants. forum_access simply uses
+ * roles as ACLs, so rids translate directly to gids.
+ */
+function forum_access_node_grants($user, $op) {
+  $grants['forum_access'] = array_keys($user->roles);
+  return $grants;
+}
+
+/**
+ * Implementation of hook_node_access_records().
+ *
+ * Returns a list of grant records for the passed in node object.
+ * Checks to see if maybe we're being disabled.
+ */
+function forum_access_node_access_records($node) {
+  if (!forum_access_enabled()) {
+    return;
+  }
+
+  static $grants = array();
+  static $node_admins;
+  $tid = _forum_access_get_tid($node);
+
+  // Set proper grants for nodecomment comment nodes.
+  if (isset($node->comment_target_nid)) {
+    if ($changed_tid = _forum_access_changed_tid()) {
+      $tid = $changed_tid; // the topic node hasn't been saved yet!
+    }
+    else {
+      $node = node_load($node->comment_target_nid);
+      $tid = _forum_access_get_tid($node);
+    }
+  }
+
+  if ($tid) {
+    if (!isset($grants[$tid])) {
+      if (!isset($node_admins)) {
+        $node_admins = user_roles(FALSE, 'administer nodes');
+      }
+      $result = db_query('SELECT * FROM {forum_access} WHERE tid = %d', $tid);
+      while ($grant = db_fetch_object($result)) {
+        if (isset($node_admins[$grant->rid])) {
+          continue; // Don't provide any useless grants!
+        }
+        $grants[$tid][] = array(
+          'realm' => 'forum_access',
+          'gid' => $grant->rid,
+          'grant_view' => $grant->grant_view,
+          'grant_update' => $grant->grant_update,
+          'grant_delete' => $grant->grant_delete,
+          'priority' => $grant->priority,
+        );
+      }
+      //drupal_set_message("forum_access_node_access_records($node->nid) (tid=$tid) returns ". var_export($grants[$tid], TRUE), 'status');
+    }
+    if (isset($grants[$tid])) {
+      return $grants[$tid];
+    }
+  }
+}
+
+/**
+ * Implementation of hook_init().
+ *
+ * Enable moderator access on node/%, node/%/edit, comment/edit/%,
+ * and comment/delete/% where needed.
+ */
+function forum_access_init() {
+  global $user;
+  if ($user->uid == 1) {
+    return;
+  }
+
+  switch (arg(0)) {
+    case 'comment':
+      if (variable_get('forum_access_D5_legacy_mode', FALSE)) {
+        return; // disable comment access control
+      }
+      if ((arg(1) == 'edit' || arg(1) == 'delete') && !user_access('administer comments')) {
+        if (is_numeric($cid = arg(2))) { // comment/edit/%, comment/delete/%
+          $access[] = (arg(1) == 'edit' ? 'update' : 'delete');
+          $comment = _comment_load($cid);
+          $nid = $comment->nid;
+          // If the node turns out to be in a forum where we have update/delete
+          // access, then we need Moderator permissions now, so we can moderate
+          // this comment.
+          // We won't provide full Administrator access, though: we'll remove
+          // author and timestamp, for example.
+          $grant_normal_access = TRUE;
+        }
+      }
+      break;
+
+    case 'node':
+      if (is_numeric(arg(1))) {
+        if (arg(2) == 'edit' && !user_access('administer nodes')) { // node/%/edit
+          $access[] = 'update';
+          $nid = arg(1);
+          // If the node turns out to be in a forum where we have update/delete
+          // access, then we already get limited edit capabilities from NA, but
+          // we need some more, e.g. publish/unpublish and comment status.
+          // In order to get these controls on the form, we need Moderator
+          // permissions now.
+          // We won't provide full Administrator access, though: we'll remove
+          // author and timestamp, for example.
+        }
+        if (arg(2) == 'delete' && !user_access('administer nodes')) { // node/%/delete
+          $access = array();
+          $nid = arg(1);
+          // This is the delete confirmation page. We don't need any
+          // additional permissions, but we'll assert 'view' access below.
+        }
+        if (arg(2) == NULL && !user_access('administer comments')) { // node/%
+          $access[] = 'update';
+          $nid = arg(1);
+          // If the node turns out to be in a forum where we have update/delete
+          // access, then we'll get the 'Edit' link automatically from NA, but
+          // we'll need Moderator permissions, so that we can add the edit/delete
+          // comment links (*after* we've identified the other comment links).
+        }
+      }
+      break;
+  }
+  if (isset($nid)) {
+    $node = node_load($nid);
+    if ($tid = _forum_access_get_tid($node)) {
+      if (!forum_access_access($tid, 'view')) {
+        drupal_access_denied();
+        module_invoke_all('exit');
+        exit;
+      }
+      foreach ($access as $a) {
+        $faa = forum_access_access($tid, $a);
+        $grant_moderator_access = $faa > 1;
+        $grant_normal_access = !empty($grant_normal_access) && $faa > 0;
+        if ($grant_normal_access || $grant_moderator_access) {
+          $user->_forum_access_moderator = $grant_moderator_access;
+          if (arg(0) == 'comment' || arg(0) == 'node' && arg(2) == 'edit') {
+            module_load_include('node.inc', 'forum_access');
+            _forum_access_enable_moderator();
+            break;
+          }
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Implementation of hook_form_alter().
+ *
+ * Alter the node/comment create/edit forms and various admin forms.
+ */
+function forum_access_form_alter(&$form, &$form_state, $form_id) {
+  //dpm($form, "form_id($form_id)");
+  if (isset($form['type']['#value']) && $form['type']['#value'] .'_node_form' == $form_id) {
+    module_load_include('node.inc', 'forum_access');
+    _forum_access_node_form($form, $form_state);
+  }
+  elseif ($form_id == 'comment_form' && !variable_get('forum_access_D5_legacy_mode', FALSE)) {
+    module_load_include('node.inc', 'forum_access');
+    _forum_access_comment_form($form, $form_state);
+  }
+  elseif ($form_id == 'forum_overview') {
+    module_load_include('admin.inc', 'forum_access');
+    _forum_access_forum_overview($form, $form_state);
+  }
+  elseif ($form_id == 'forum_form_container') {
+    module_load_include('admin.inc', 'forum_access');
+    _forum_access_forum_form($form, $form_state, TRUE);
+  }
+  elseif ($form_id == 'forum_form_forum') {
+    module_load_include('admin.inc', 'forum_access');
+    _forum_access_forum_form($form, $form_state, FALSE);
+  }
+  elseif ($form_id == 'forum_admin_settings') {
+    module_load_include('admin.inc', 'forum_access');
+    _forum_access_forum_admin_settings_form($form, $form_state);
+  }
+  elseif ($form_id == 'user_admin_role') {
+    module_load_include('admin.inc', 'forum_access');
+    _forum_access_user_admin_role_form($form, $form_state);
+  }
+  elseif ($form_id == 'content_access_admin_settings' && empty($_POST)) {
+    module_load_include('admin.inc', 'forum_access');
+    _forum_access_content_access_admin_form();
+  }
+  elseif ($form_id == 'user_admin_perm') {
+    module_load_include('admin.inc', 'forum_access');
+    _forum_access_user_admin_perm_form($form, $form_state);
+  }
+  elseif ($form_id == 'user_admin_account') {
+    module_load_include('admin.inc', 'forum_access');
+    _forum_access_user_admin_account_form($form, $form_state);
+  }
+  elseif ($form_id == 'user_profile_form') {
+    module_load_include('admin.inc', 'forum_access');
+    _forum_access_user_profile_form($form, $form_state);
+  }
+}
+
+/**
+ * Implementation of hook_db_rewrite_sql().
+ *
+ * Because in order to restrict the visible forums, we have to rewrite
+ * the sql. This is because there isn't a node_access equivalent for
+ * taxonomy. There should be.
+ */
+function forum_access_db_rewrite_sql($query, $primary_table, $primary_field, $args) {
+  global $user;
+  //dpm($query, "hook_db_rewrite_sql($primary_table.$primary_field)");
+  $sql = NULL;
+  switch ($primary_field) {
+    case 'tid':
+      if ($user->uid == 1
+        || user_access('administer nodes') && strpos($_GET['q'], 'node/add/forum') === FALSE
+        || user_access('administer forums') && $_GET['q'] == 'admin/content/forum') {
+        break;
+      }
+      if (strpos($_GET['q'], 'node/add/forum') !== FALSE) {
+        $required_access = 'create';
+      }
+      else {
+        $required_access = 'view';
+      }
+      $roles = implode(', ', array_keys($user->roles));
+      $sql['join'] = "LEFT JOIN {forum_access} fa ON $primary_table.tid = fa.tid
+                      LEFT JOIN {acl} acl_fa ON acl_fa.number = $primary_table.tid AND acl_fa.module = 'forum_access'
+                      LEFT JOIN {acl_user} aclu_fa ON aclu_fa.acl_id = acl_fa.acl_id AND aclu_fa.uid = $user->uid";
+      $sql['where'] = "(fa.grant_$required_access >= 1 AND fa.rid IN ($roles)) OR fa.tid IS NULL OR aclu_fa.uid = $user->uid";
+      $sql['distinct'] = 1;
+      break;
+
+    case 'rid':
+      if (strpos($query, 'FROM {role}') === FALSE
+        || strpos($_GET['q'] .'/', 'admin/content/forum/') === 0) {
+        break;
+      }
+      $moderator_rid = forum_access_query_moderator_rid();
+      if (!empty($moderator_rid)) {
+        $sql['where'] = "$primary_table.rid <> $moderator_rid";
+      }
+      break;
+  }
+  //dpm($sql, "rewritten:");
+  return $sql;
+}
+
+/**
+ * Implementation of hook_nodeapi().
+ *
+ * Add ACL data to fresh forum posts.
+ */
+function forum_access_nodeapi(&$node, $op, $teaser = NULL, $page = NULL) {
+  static $old_tid = NULL;
+  // This is modeled after forum_nodeapi():
+  $vid = _forum_access_get_vid();
+  $vocabulary = taxonomy_vocabulary_load($vid);
+  if (empty($vocabulary) || !in_array($node->type, $vocabulary->nodes)) {
+    if ($op == 'insert' && isset($node->comment_target_nid)) {
+      // Set moderator on nodecomment.
+      $topic_node = node_load($node->comment_target_nid);
+      if ($topic_tid = _forum_access_get_tid($topic_node)) {
+        $acl_id = acl_get_id_by_number('forum_access', $topic_tid);
+        acl_node_add_acl($node->nid, $acl_id, 1, 1, 1);
+      }
+    }
+    return;
+  }
+
+  switch ($op) {
+    case 'presave':
+      $old_tid = db_result(db_query('SELECT tid FROM {forum} WHERE nid = %d', $node->nid));
+      break;
+
+    case 'update':
+      if (!empty($old_tid)) {
+        if (!empty($node->tid) && $node->tid == $old_tid) {
+          return;
+        }
+        acl_node_clear_acls($node->nid, 'forum_access');
+
+        if (module_exists('nodecomment')) {
+          _forum_access_changed_tid($node->tid);
+          $result = db_query('SELECT cid FROM {node_comments} WHERE nid = %d', $node->nid);
+          while ($row = db_fetch_object($result)) {
+            acl_node_clear_acls($row->cid, 'forum_access');
+          }
+        }
+      }
+      // Deliberate no break -- for changed and for previously unassigned terms we need an insert.
+
+    case 'insert':
+      if (!empty($node->tid)) {
+        $acl_id = acl_get_id_by_number('forum_access', $node->tid);
+        acl_node_add_acl($node->nid, $acl_id, 1, 1, 1);
+
+        if (isset($old_tid) && module_exists('nodecomment')) {
+          $result = db_query('SELECT cid FROM {node_comments} WHERE nid = %d', $node->nid);
+          while ($row = db_fetch_object($result)) {
+            acl_node_add_acl($row->cid, $acl_id, 1, 1, 1);
+            node_access_acquire_grants(node_load($row->cid));
+          }
+        }
+      }
+      $old_tid = NULL;
+      break;
+  }
+}
+
+/**
+ * Get an array of moderator UIDs or NULL.
+ */
+function forum_access_get_moderator_uids($tid) {
+  if ($acl_id = acl_get_id_by_number('forum_access', $tid)) {
+    if ($uids = acl_get_uids($acl_id)) {
+      return $uids;
+    }
+  }
+}
+
+/**
+ * Implementation of $modulename_preprocess_$hook() for forum_list.
+ *
+ * Add forum_access_moderators to each forum,
+ * containing a list of user objects.
+ *
+ * Note: On a site with many moderators, this function is expensive,
+ * and thus it is disabled by default. Set the variable to TRUE to enable.
+ */
+function forum_access_preprocess_forum_list(&$variables) {
+  if (variable_get('forum_access_provide_moderators_template_variable', FALSE)) {
+    static $users;
+    foreach ($variables['forums'] as $tid => $forum) {
+      $moderators = array();
+      if ($uids = forum_access_get_moderator_uids($tid)) {
+        foreach ($uids as $uid) {
+          if (!isset($users[$uid])) {
+            $users[$uid] = user_load(array('uid' => $uid));
+          }
+          $moderators[$uid] = $users[$uid];
+        }
+      }
+      $forum->forum_access_moderators = (empty($moderators) ? NULL : $moderators);
+    }
+  }
+}
+
+/**
+ * Implementation of $modulename_preprocess_$hook() for forums.
+ *
+ * Remove 'post' links from forum page, if the user does not have the
+ * 'create' permission.
+ */
+function forum_access_preprocess_forums(&$variables) {
+  if (!forum_access_access($variables['tid'], 'create') && !empty($variables['links'])) {
+    foreach ($variables['links'] as $key => $link) {
+      if (isset($link['href']) && substr($link['href'], 0, 9) == 'node/add/') {
+        unset($variables['links'][$key]);
+      }
+    }
+  }
+}
+
+if (!variable_get('forum_access_D5_legacy_mode', FALSE)) {
+  // LEGACY-MODE disables these methods
+
+/**
+ * Implementation of hook_link_alter().
+ *
+ * For nodes, remove the 'Add new comment' link, if the user does not have the
+ * 'create' permission; for comments, add any missing links (D6.17+).
+ */
+function forum_access_link_alter(&$links, $node, $comment = NULL) {
+  global $user;
+  static $user1, $recursing = FALSE, $stored_links;
+
+  // If we are being called recursively, store the $links and return.
+  if ($recursing) {
+    $stored_links = $links;
+    return;
+  }
+  if ($user->uid == 1 || !($tid = _forum_access_get_tid($node))) {
+    return;
+  }
+  if (empty($comment)) {
+    // Check links for the node.
+    if ($tid && isset($links['comment_add']) && !forum_access_access($tid, 'create')) {
+      unset($links['comment_add']);
+    }
+  }
+  else {
+    // Check links for the comment.
+    //dpm($links, "forum_access_link_alter() - links BEFORE:");
+    //dpm($node, "forum_access_link_alter() - node:");
+    //dpm($comment, "forum_access_link_alter() - comment:");
+    $required_keys = array(
+      'create' => 'comment_reply',
+      'update' => 'comment_edit',
+      'delete' => 'comment_delete',
+    );
+    foreach ($required_keys as $access => $key) {
+      if (!forum_access_access($tid, $access) && !($access == 'update' && comment_access('edit', $comment))) {
+        unset($links[$required_keys[$access]]);
+        unset($required_keys[$access]);
+      }
+      elseif (!array_key_exists($key, $links)) {
+        $link_is_missing = TRUE;
+      }
+    }
+    if (isset($required_keys['create']) && !user_access('post comments')) {
+      unset($required_keys['create']);
+    }
+    if (!empty($link_is_missing)) {
+      // One of the $required_links should be present, because the current
+      // user has the corresponding permission, but it isn't.
+      // We temporarily switch to UID 1 to 'harvest' all comment links.
+      if (!isset($user1)) {
+        $user1 = user_load(1);
+      }
+      $saved_user = $user;
+      session_save_session(FALSE);
+      $user = $user1;
+
+      // With UID 1 we call hook_link(). This should give us the full set of
+      // links that the site admin sees.
+      $admin_links = module_invoke_all('link', 'comment', $comment, array_key_exists('comment_parent', $links));
+
+      $user = $saved_user;
+      session_save_session(TRUE);
+
+      // Remove the links from $admin_links that are not in the reduced
+      // set of $required_links AND not available to the current user anyway.
+      // Afterwards, $admin_links should have the same content as $links, plus
+      // one or more additional links from the original set in $required_links.
+      foreach ($admin_links as $key => $target) {
+        if (!in_array($key, $required_keys) && !array_key_exists($key, $links)) {
+          unset($admin_links[$key]);
+        }
+      }
+
+      // As the real current user, call hook_link_alter on the admin links.
+      // First we set a static variable so that the next time this function is
+      // called it will store a copy of the links at their current state. Then
+      // we pull those links which have not been link_alter'ed by any modules
+      // that come after forum_access.
+      $recursing = TRUE;
+      drupal_alter('link', $admin_links, $node, $comment);
+      $recursing = FALSE;
+      // Now return the stored links.
+      $links = $stored_links;
+    }
+    //dpm($links, "forum_access_link_alter() - links AFTER:");
+  }
+}
+
+/**
+ * Implementation of $modulename_preprocess_$hook() for box.
+ *
+ * Remove the in-line 'Post new comment' box, if it's empty
+ * (after _forum_access_comment_form()).
+ */
+function forum_access_preprocess_box(&$variables) {
+  $tr = 't';
+  if (empty($variables['content']) && ($variables['title'] == $tr('Post new comment') || $variables['title'] == $tr('Reply'))) {
+    $variables['title'] = '';
+  }
+}
+
+/**
+ * Implementation of $modulename_preprocess_$hook() for comment.
+ *
+ * Recreate comment links (they've already been themed), and
+ * remove those that aren't accessible to the user.
+ */
+function forum_access_preprocess_comment(&$variables) {
+  if (version_compare(VERSION, '6.17', '<') && isset($variables['node']->tid)) {
+    module_load_include('node.inc', 'forum_access');
+    _forum_access_preprocess_comment($variables);
+  }
+}
+
+} // End of !LEGACY-MODE
+
+/**
+ * This is also required by ACL module.
+ */
+function forum_access_enabled($set = NULL) {
+  static $enabled = TRUE;
+  if ($set !== NULL) {
+    $enabled = $set;
+  }
+  return $enabled;
+}
+
+/**
+ * See if a given user has access to a forum.
+ *
+ * $tid -- the tid of the forum
+ * $type -- view, update, delete or create
+ * $account -- the account to test for; if NULL use current user
+ * $administer_nodes_sees_everything -- pass FALSE to ignore the 'administer nodes' permission
+ *
+ * Return:
+ *   FALSE - access not granted
+ *   1     - access granted
+ *   2     - access granted for forum moderator
+ */
+function forum_access_access($tid, $type, $account = NULL, $administer_nodes_sees_everything = TRUE) {
+  static $cache = array();
+  if (!$account) {
+    global $user;
+    $account = $user;
+  }
+
+  if ($account->uid == 1 ||
+      $administer_nodes_sees_everything && user_access('administer nodes', $account) && array_search($type, array('view', 'update', 'delete')) !== FALSE) {
+    return 1;
+  }
+
+  if (!isset($cache[$account->uid][$tid][$type])) {
+    if (!user_access('access content', $account)) {
+      return $cache[$account->uid][$tid][$type] = FALSE;
+    }
+
+    $roles = array_keys($account->roles);
+    $result = db_result(db_query("SELECT tid FROM {forum_access} WHERE rid IN (". db_placeholders($roles) .") AND grant_". $type ." = 1 AND tid = %d", array_merge($roles, array($tid))));
+
+    if ($result) {
+      $cache[$account->uid][$tid][$type] = 1;
+    }
+    else {
+      // check our moderators too
+      $acl_id = acl_get_id_by_number('forum_access', $tid);
+      $result = db_result(db_query("SELECT uid FROM {acl_user} WHERE acl_id = %d AND uid = %d", $acl_id, $account->uid));
+      if ($result) {
+        $cache[$account->uid][$tid][$type] = 2;
+      }
+      else {
+        $cache[$account->uid][$tid][$type] = FALSE;
+      }
+    }
+  }
+  return $cache[$account->uid][$tid][$type];
+}
+
+/**
+ * Implementation of hook_user().
+ */
+function forum_access_user($op, &$edit, &$account, $category = NULL) {
+  switch ($op) {
+    case 'validate':
+      $rid = forum_access_query_moderator_rid();
+      if (!empty($rid)) {
+        if (isset($edit['roles'][$rid]) && $edit['roles'][$rid]) {
+          $roles = user_roles();
+          $variables = array(
+            '@Forum_Access' => 'Forum Access',
+            '%Role' => $roles[$rid],
+          );
+          drupal_set_message(t('The %Role role is reserved for internal use by the @Forum_Access module! It was not assigned.', $variables), 'warning');
+          unset($edit['roles'][$rid]);
+        }
+      }
+      break;
+  }
+}
+
+/**
+ * Implementation of hook_menu_alter().
+ *
+ * Remove the 'Forum' menu item if no forums are visible.
+ */
+function forum_access_menu_alter(&$items) {
+  if (!empty($items['forum'])) {
+    //dpm($items['forum'], 'hook_menu_alter($items[\'forum\'])');
+    if (!empty($items['forum']['access callback']) || $items['forum']['access arguments'][0] != 'access content') {
+      drupal_set_message(t('Unexpected access specification for the %forum menu path; @Forum_Access cannot control its access.', array('%forum' => 'forum', '@Forum_Access' => 'Forum Access')), 'error');
+      return;
+    }
+    $items['forum']['access callback'] = '_forum_access_forum_access_callback';
+    $items['forum']['access arguments'] = array(1);
+  }
+}
+
+/**
+ * Access callback for the 'forum' menu path.
+ *
+ * Returns TRUE if the user has access to the specified forum or containter. If
+ * no forum or container is specified will return TRUE if the user has at least
+ * one role that can access at least one forum.
+ */
+function _forum_access_forum_access_callback($tid = NULL) {
+  return (!$tid && _forum_access_access_any_forum()) || forum_access_access($tid, 'view');
+}
+
+/**
+ * Helper function to determine the access to the 'forum' menu item.
+ *
+ * Returns TRUE if the user has at least one role that can access
+ * at least one forum.
+ */
+function _forum_access_access_any_forum($account = NULL) {
+  global $user;
+  static $return = array();
+
+  if (!isset($account)) {
+    $account = $user;
+  }
+
+  if (!isset($return[$account->uid])) {
+    if ($account->uid == 1) {
+      return $return[$account->uid] = TRUE;
+    }
+    if (!user_access('access content', $account)) {
+      return $return[$account->uid] = FALSE;
+    }
+    $rids = variable_get('forum_access_rids', NULL);
+    if (!isset($rids)) {
+      $rids = array();
+      $result = db_query("SELECT fa.rid FROM {forum_access} fa WHERE fa.grant_view > 0 GROUP BY fa.rid");
+      while ($role = db_fetch_object($result)) {
+        $rids[] = $role->rid;
+      }
+      variable_set('forum_access_rids', $rids);
+    }
+    foreach ($rids as $rid) {
+      if (isset($account->roles[$rid])) {
+        return $return[$account->uid] = TRUE;
+      }
+    }
+    $return[$account->uid] = FALSE;
+  }
+  return $return[$account->uid];
+}
+
+/**
+ * Implementation of hook_taxonomy().
+ *
+ * Delete {forum_access} records when forums are deleted.
+ */
+function forum_access_taxonomy($op, $type, $array = NULL) {
+  //dpm($array, "hook_taxonomy($op, $type)");
+  if ($type = 'term' && $op == 'delete' && $array['vid'] == _forum_access_get_vid()) {
+    db_query("DELETE FROM {forum_access} WHERE tid = %d", $array['tid']);
+    variable_del('forum_access_rids'); // clear cache
+  }
+}
+
+/**
+ * Return forum.module's forum vocabulary ID.
+ */
+function _forum_access_get_vid() {
+  return variable_get('forum_nav_vocabulary', '');
+}
+
+/**
+ * Return the rid of the Forum Moderator role or NULL if the role does not
+ * exist.
+ */
+function forum_access_query_moderator_rid() {
+  return variable_get('forum_access_moderator_rid', NULL);
+}
+
+/**
+ * Return the forum tid or FALSE.
+ */
+function _forum_access_get_tid($node) {
+  return (isset($node->forum_tid) ? $node->forum_tid : (isset($node->tid) ? $node->tid : FALSE));
+}
+
+/**
+ * Save and return the $tid.
+ */
+function _forum_access_changed_tid($tid = NULL) {
+  static $saved_tid = NULL;
+  if (!empty($tid)) {
+    $saved_tid = $tid;
+  }
+  return $saved_tid;
+}
+
+/**
+ * Implementation of hook_node_access_explain().
+ */
+function forum_access_node_access_explain($row) {
+  static $roles = NULL;
+  if ($row->realm == 'forum_access') {
+    if (!isset($roles)) {
+      module_load_include('node.inc', 'forum_access');
+      $roles = _forum_access_get_all_roles();
+    }
+    if (isset($roles[$row->gid])) {
+      return array($roles[$row->gid]);
+    }
+    return array('(unknown gid)');
+  }
+}
+
+/**
+ * Implementation of hook_acl_explain().
+ */
+function forum_access_acl_explain($acl_id, $name, $number, $users = NULL) {
+  if (empty($users)) {
+    return "ACL (id=$acl_id) would grant access to nodes in forum/$number.";
+  }
+  return "ACL (id=$acl_id) grants access to nodes in forum/$number to the listed user(s).";
+}
+

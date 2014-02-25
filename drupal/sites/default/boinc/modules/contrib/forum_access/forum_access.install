@@ -1,0 +1,348 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the forum_access module.
+ *
+ */
+
+/**
+ * Implementation of hook_install().
+ */
+function forum_access_install() {
+  drupal_install_schema('forum_access');
+  db_query("UPDATE {system} SET weight = 2 WHERE name = 'forum_access'");
+
+  if ($vid = variable_get('forum_nav_vocabulary', FALSE)) {
+    $result = db_query("
+      SELECT t.tid
+        FROM {term_data} t
+        LEFT JOIN {forum_access} fa ON t.tid = fa.tid
+        WHERE fa.tid IS NULL AND t.vid = %d
+      ", $vid);
+    $grant_create_by_rid = array(
+      DRUPAL_ANONYMOUS_RID => 0,
+      DRUPAL_AUTHENTICATED_RID => 1,
+    );
+    while ($td = db_fetch_object($result)) {
+      foreach ($grant_create_by_rid as $rid => $grant_create) {
+        db_query("
+          INSERT INTO {forum_access}
+          (tid, rid, grant_view, grant_update, grant_delete, grant_create, priority)
+          VALUES(%d, %d, 1, 0, 0, %d, 0)
+        ", $td->tid, $rid, $grant_create);
+      }
+    }
+  }
+}
+
+/**
+ * Implementation of hook_schema().
+ */
+function forum_access_schema() {
+  $schema['forum_access'] = array(
+    'description'     => 'The base Forum Access Control table.',
+    'fields'          => array(
+      'tid'           => array(
+        'description' => 'The {term_data}.tid to which this {forum_access} entry applies.',
+        'type'        => 'int',
+        'not null'    => TRUE,
+        'default'     => 0),
+      'rid'           => array(
+        'description' => 'The {role}.rid to which this {forum_access} entry applies.',
+        'type'        => 'int',
+        'not null'    => TRUE,
+        'default'     => 0),
+      'grant_view'    => array(
+        'description' => 'Whether to grant "view" permission.',
+        'type'        => 'int',
+        'size'        => 'tiny',
+        'unsigned'    => TRUE,
+        'not null'    => TRUE,
+        'default'     => 0),
+      'grant_update'  => array(
+        'description' => 'Whether to grant "update" permission.',
+        'type'        => 'int',
+        'size'        => 'tiny',
+        'unsigned'    => TRUE,
+        'not null'    => TRUE,
+        'default'     => 0),
+      'grant_delete'  => array(
+        'description' => 'Whether to grant "delete" permission.',
+        'type'        => 'int',
+        'size'        => 'tiny',
+        'unsigned'    => TRUE,
+        'not null'    => TRUE,
+        'default'     => 0),
+      'grant_create'  => array(
+        'description' => 'Whether to grant "create" permission.',
+        'type'        => 'int',
+        'size'        => 'tiny',
+        'unsigned'    => TRUE,
+        'not null'    => TRUE,
+        'default'     => 0),
+      'priority'  => array(
+        'description' => 'The priority of this grant.',
+        'type'        => 'int',
+        'size'        => 'small',
+        'not null'    => TRUE,
+        'default'     => 0)),
+    'indexes'         => array(
+      'tid'           => array('tid'),
+      'rid'           => array('rid')),
+  );
+  return $schema;
+}
+
+/**
+ * Implementation of hook_enable().
+ */
+function forum_access_enable() {
+  variable_del('forum_access_rids'); // clear cache
+  _forum_access_update_table();
+}
+
+/**
+ * Add missing default records to the {forum_acces} table.
+ *
+ * @return An array of links to the forums whose records have been added.
+ */
+function _forum_access_update_table() {
+  $result = db_query("SELECT td.tid, td.name FROM {term_data} td LEFT JOIN {forum_access} fa ON td.tid = fa.tid WHERE td.vid = %d AND fa.tid IS NULL", _forum_access_get_vid());
+  $forums = array();
+  while ($forum = db_fetch_array($result)) {
+    $forums[] = l($forum['name'], 'admin/content/forum/edit/forum/'. $forum['tid']);
+    $record = array(
+      'tid' => $forum['tid'],
+      'rid' => DRUPAL_ANONYMOUS_RID,
+      'grant_view' => 1,
+    );
+    drupal_write_record('forum_access', $record);
+    $record['rid'] = DRUPAL_AUTHENTICATED_RID;
+    $record['grant_create'] = 1;
+    drupal_write_record('forum_access', $record);
+  }
+  return $forums;
+}
+
+/**
+ * Implementation of hook_disable().
+ */
+function forum_access_disable() {
+  forum_access_enabled(FALSE);
+}
+
+/*
+ * Implementation of hook_uninstall().
+ */
+function forum_access_uninstall() {
+  // Remove moderator role.
+  if ($moderator_rid = variable_get('forum_access_moderator_rid', 0)) {
+    db_query('DELETE FROM {role} WHERE rid = %d', $moderator_rid);
+    db_query('DELETE FROM {permission} WHERE rid = %d', $moderator_rid);
+    db_query('DELETE FROM {users_roles} WHERE rid = %d', $moderator_rid);
+  }
+
+  drupal_uninstall_schema('forum_access');
+  variable_del('forum_access_allowed_node_edit_elements');
+  variable_del('forum_access_allowed_node_edit_options');
+  variable_del('forum_access_batch_threshold');
+  variable_del('forum_access_D5_legacy_mode');
+  variable_del('forum_access_default_template_tid');
+  variable_del('forum_access_moderator_rid');
+  variable_del('forum_access_new_template_tid');
+  variable_del('forum_access_provide_moderators_template_variable');
+  variable_del('forum_access_rids');
+}
+
+
+/**
+ * Purge orphaned grants that were left behind when deleting roles.
+ */
+function forum_access_update_1() {
+  $ret = array();
+  $ret[] = update_sql("DELETE FROM {forum_access} WHERE rid NOT IN (SELECT rid from {role})");
+  $ret[] = update_sql("DELETE FROM {node_access} WHERE realm = 'forum_access' AND gid NOT IN (SELECT rid from {role})");
+  return $ret;
+}
+
+/**
+ * Add a priority column (will probably not be used until D6).
+ */
+function forum_access_update_2() {
+  $ret = array();
+  db_add_field($ret, 'forum_access', 'priority', array(
+    'description' => 'The priority of this grant.',
+    'type'        => 'int',
+    'size'        => 'small',
+    'not null'    => TRUE,
+    'default'     => 0));
+  return $ret;
+}
+
+/**
+ * Warn users upgrading from Drupal 5.
+ */
+function forum_access_update_6100() {
+  drupal_set_message('<b>Upgrading Forum Access from Drupal 5?&nbsp; Then please read:</b><br />In Drupal 5, comment posting was not restricted by Forum Access; users with <em>View</em> access (and the <em>post comments</em> permission) were always allowed to post forum comments. Starting with Drupal 6, posting comments is now restricted to users with <em>Post</em> access. If you prefer the old behavior, then go to '. l('Forum Settings', 'admin/content/forum/settings', array('fragment' => 'edit-forum-admin-settings-forum-access')) .' and turn <em>Drupal 5 legacy mode</em> on.', 'warning', FALSE);
+  return array();
+}
+
+/**
+ * Clean out {forum_access} table and remove Forum Moderator assignments.
+ */
+function forum_access_update_6101() {
+  $ret = array();
+  $forum_vid = variable_get('forum_nav_vocabulary', 0);
+  $ret[] = update_sql("DELETE FROM {forum_access} WHERE tid NOT IN (SELECT tid FROM {term_data} WHERE vid = $forum_vid)");
+  $ret[] = update_sql("DELETE FROM {forum_access} WHERE rid NOT IN (SELECT rid FROM {role})");
+  if ($moderator_rid = variable_get('forum_access_moderator_rid', FALSE)) {
+    $ret[] = update_sql("DELETE FROM {users_roles} WHERE rid = $moderator_rid");
+    $ret[] = update_sql("UPDATE {permission} SET perm = 'administer comments, administer nodes' WHERE rid = $moderator_rid");
+  }
+  return $ret;
+}
+
+/**
+ * Return the abort message.
+ */
+function abort_disabled_update() {
+  return array('#abort' => array('success' => FALSE, 'query' => t('Please enable %module before trying to run this update.', array('%module' => 'Forum Access'))));
+}
+
+/**
+ * Set the proper permissions for the Forum Moderator role.
+ */
+function forum_access_update_6102() {
+  $ret = array();
+  if (!module_exists('forum_access')) {
+    return abort_disabled_update();
+  }
+  $moderator_rid = forum_access_query_moderator_rid();
+  if (isset($moderator_rid)) {
+    if (db_result(db_query("SELECT COUNT(*) FROM {permission} WHERE rid = %d", $moderator_rid))) {
+      $ret[] = update_sql("UPDATE {permission} SET perm = 'administer comments, administer nodes' WHERE rid = $moderator_rid");
+    }
+    else {
+      $ret[] = update_sql("INSERT INTO {permission} (rid, perm) VALUES ($moderator_rid, 'administer comments, administer nodes')");
+    }
+  }
+  return $ret;
+}
+
+/**
+ * Remove bogus rows from the {forum_access} table.
+ */
+function forum_access_update_6103() {
+  $ret = array();
+  if ($vid = variable_get('forum_nav_vocabulary', FALSE)) {
+    $ret[] = update_sql("
+      DELETE FROM {forum_access}
+      WHERE tid NOT IN (
+        SELECT t.tid
+        FROM {term_data} t
+        WHERE t.vid = $vid
+      )
+    ");
+    if ($ret[0]['success'] && $affected_rows = db_affected_rows()) {
+      $ret[0]['query'] = $ret[0]['query'] .'<br />'. $affected_rows .' bogus rows purged.';
+    }
+  }
+  return $ret;
+}
+
+/**
+ * Remove grants for roles with the 'administer nodes' permission.
+ */
+function forum_access_update_6104() {
+  $ret = array();
+  if ($admin_rids = array_keys(user_roles(FALSE, 'administer nodes'))) {
+    $ret[] = update_sql("
+      UPDATE {forum_access}
+      SET grant_view = 0, grant_update = 0, grant_delete = 0
+      WHERE rid IN (". implode($admin_rids, ', ') .")
+    ");
+    $ret[] = update_sql("
+      DELETE FROM {node_access}
+      WHERE realm = 'forum_access'
+        AND gid IN (". implode($admin_rids, ', ') .")
+    ");
+  }
+  return $ret;
+}
+
+/**
+ * Add missing default records to the {forum_access} table.
+ */
+function forum_access_update_6105() {
+  if (!module_exists('forum_access')) {
+    return abort_disabled_update();
+  }
+  $forums = _forum_access_update_table();
+  $msg = t('Please see the <a href="@href">release notes for release 6.x-1.5 of the @Forum_Access module</a>.', array('@href' => 'http://drupal.org/node/936848', '@Forum_Access' => 'Forum Access'));
+  if (!empty($forums)) {
+    $msg .= '<br />'. t('The following forums have been updated as explained in the release notes:') .'<ul><li>'. implode($forums, '</li><li>') .'</li></ul>';
+  }
+  drupal_set_message($msg, 'warning');
+  return array();
+}
+
+/**
+ * Change our {acl} table records from 'name' to 'number'.
+ */
+function forum_access_update_6106() {
+  $acl_version = db_result(db_query("SELECT schema_version FROM {system} WHERE type = 'module' AND name = 'acl'"));
+  if ($acl_version < 6002) {
+    $ret[] = array('success' => FALSE, 'query' => t('Please update the !ACL module (%version) to version !link or later first!', array('!ACL' => l('ACL', 'http://drupal.org/project/acl'), '%version' => $acl_version, '!link' => l('6.x-1.3', 'http://drupal.org/node/1017698'))));
+    $ret['#abort'] = array('success' => FALSE, 'query' => t('Some updates are still pending.<br/>Please re-run the update script.'));
+    return $ret;
+  }
+  switch ($GLOBALS['db_type']) {
+    case 'pgsql':
+      $ret[] = update_sql("UPDATE {acl} SET number = CAST(name AS INTEGER) WHERE module = 'forum_access' AND name IS NOT NULL");
+      break;
+    default:
+      $ret[] = update_sql("UPDATE {acl} SET number = name WHERE module = 'forum_access' AND name IS NOT NULL");
+  }
+  if ($ret[0]['success']) {
+    $ret[] = update_sql("UPDATE {acl} SET name = NULL WHERE module = 'forum_access' AND number IS NOT NULL");
+  }
+  return $ret;
+}
+
+/**
+ * Add the 'post comments' permissions to the Forum Moderator role.
+ */
+function forum_access_update_6107() {
+  $ret = array();
+  if ($moderator_rid = variable_get('forum_access_moderator_rid', 0)) {
+    $result = db_query("SELECT p.rid, p.perm FROM {permission} p WHERE p.rid = %d", $moderator_rid);
+    if ($moderator = db_fetch_array($result)) {
+      $perm = $moderator['perm'];
+      $perms = explode(', ', $perm);
+      foreach (array('post comments', 'post comments without approval') as $p) {
+        if (array_search($p, $perms) === FALSE) {
+          $perms[] = $p;
+        }
+      }
+      $new_perm = implode(', ', $perms);
+      if ($new_perm != $perm) {
+        $ret[] = update_sql("UPDATE {permission} SET perm = '$new_perm' WHERE rid = $moderator_rid");
+      }
+    }
+  }
+  return $ret;
+}
+
+/**
+ * Change the rid field to unsigned INT
+ */
+function forum_access_update_6108() {
+  $ret = array();
+  $ret[] = update_sql("
+    ALTER TABLE {forum_access}
+    MODIFY rid INT(10) unsigned NOT NULL default '0'"
+  );
+  return $ret;
+}
+

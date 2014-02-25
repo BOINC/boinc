@@ -1,0 +1,1766 @@
+<?php
+/**
+ * @file
+ * Test file for forum_access.module.
+ */
+
+
+/**
+ * This is the base class for forum access testing.
+ */
+class ForumAccessTestCase extends DrupalWebTestCase {
+  /**
+   * Implements setUp().
+   */
+  public function setUp() {
+    $this->timeLimit = 600;
+    //$this->testForumAccessUseDNA = module_exists('devel_node_access');
+    if ($this->testForumAccessUseDNA) {
+      parent::setUp('forum_access', 'forum', 'comment', 'acl', 'devel_node_access');
+    }
+    else {
+      parent::setUp('forum_access', 'forum', 'comment', 'acl');
+    }
+  }
+
+  /**
+   * This variable holds the current forum Id.
+   */
+  private $testForumAccessCurrentForumId = 0;
+
+  /**
+   * This variable holds the admin user account.
+   */
+  private $testForumAccessAdminUser;
+
+  /**
+   * This variable is an array with user objects.
+   */
+  private $testForumAccessUsers = array();
+
+  /**
+   * This variable is an array with user permissions (also in an array).
+   */
+  private $testForumAccessPermissions = array();
+
+  /**
+   * This variable is an array with the permissions of the anonymous userrole.
+   */
+  private $testForumAccessPermissionsAnonymous = array();
+
+  /**
+   * This variable is an array with uids to forum access test username
+   * (NOT $user->name).
+   */
+  private $testForumAccessUidToName = array();
+
+  /**
+   * This variable is the forum access test username of the logged in
+   * user (NOT $user->name).
+   */
+  private $testForumAccessCurrentUsername = '';
+
+  /**
+   * This variable is the forum access users with moderator status in an
+   * array with uids.
+   */
+  private $testForumAccessModerators = array();
+
+  /**
+   * This variable is the forum grants of the tested forum configuration
+   * in an array.
+   */
+  private $testForumAccessGrants = array(
+      'anonymous_view'   => TRUE,
+      'anonymous_create' => TRUE,
+      'anonymous_update' => TRUE,
+      'anonymous_delete' => TRUE,
+
+      'authenticated_view'   => TRUE,
+      'authenticated_create' => TRUE,
+      'authenticated_update' => TRUE,
+      'authenticated_delete' => TRUE,
+    );
+
+  /**
+   * This variable determines whether the Devel Node Access module is
+   * active; it's set in setUp().
+   */
+  private $testForumAccessUseDNA = FALSE;
+
+  /**
+   * The main function which is used to start testing a specific forum
+   * configuration.
+   *
+   * You can add new users with specific permissions.
+   * You can also remove users with permissions who are not important to you,
+   * please do NOT remove the admin_user!
+   */
+  protected function testForumAccessRun($grants = array()) {
+    if (is_array($grants) && isset($grants['anonymous_view']) && isset($grants['anonymous_create']) && isset($grants['anonymous_update']) && isset($grants['anonymous_delete']) && isset($grants['authenticated_view']) && isset($grants['authenticated_create']) && isset($grants['authenticated_update']) && isset($grants['authenticated_delete'])) {
+      // permissions for default roles
+      $this->testForumAccessSetPermissionsAnonymousRole();
+      $this->testForumAccessSetPermissionsAuthenticatedRole();
+
+      $this->testForumAccessCreateUser('admin_user', array('administer site configuration', 'access administration pages', 'administer nodes', 'administer blocks', 'administer comments', 'administer forums', 'create forum topics', 'post comments', 'post comments without approval', 'access content', 'access comments'));
+
+      // view
+      $this->testForumAccessCreateUser('normal_user_1'); // no permissions
+      //$this->testForumAccessCreateUser('normal_user_2', array('access content'));
+      //$this->testForumAccessCreateUser('normal_user_3', array('access comments'));
+      $this->testForumAccessCreateUser('normal_user_4', array('access content', 'access comments'));
+
+      // create
+      $this->testForumAccessCreateUser('normal_user_5', array('access content', 'access comments', 'post comments', 'post comments without approval'));
+      $this->testForumAccessCreateUser('normal_user_6', array('access content', 'access comments', 'post comments', 'post comments without approval', 'create forum topics'));
+
+      // edit & delete
+      $this->testForumAccessCreateUser('normal_user_7', array('access content', 'access comments', 'post comments', 'post comments without approval', 'create forum topics', 'edit own forum topics', 'delete own forum topics'));
+      $this->testForumAccessCreateUser('normal_user_8', array('access content', 'access comments', 'post comments', 'post comments without approval', 'create forum topics', 'edit any forum topic', 'delete any forum topic'));
+      $this->testForumAccessCreateUser('normal_user_9', array('access content', 'access comments', 'post comments', 'post comments without approval', 'create forum topics', 'delete own forum topics', 'delete any forum topic'));
+
+      // You can create extra users here.
+      //$this->testForumAccessCreateUser('unique_name', array('permissions'));
+
+      $this->testForumAccessLogin('admin_user');
+
+      // Disable clean URLs (on qa.d.o they are disabled!).
+      //$this->drupalPost('admin/settings/clean-urls', array('clean_url' => 0), t('Save configuration'));
+
+      if ($this->testForumAccessUseDNA) {
+        // Enable Devel Node Access verbose mode.
+        $this->drupalPost('admin/settings/devel', array('devel_node_access_debug_mode' => 1), t('Save configuration'));
+        $this->drupalPost('admin/build/block/list/garland', array('devel_node_access_1[region]' => 'footer'), t('Save blocks'));
+      }
+
+      // Rebuild permissions.
+      $this->drupalPost('admin/content/node-settings/rebuild', array(), t('Rebuild permissions'));
+
+      // Delete all cached permissions.
+      user_access(NULL, NULL, TRUE);
+
+      // Create the forum with the appropriate grants.
+      $this->testForumAccessCurrentForumId = $this->testForumAccessCreateForum($grants);
+
+      if ($this->testForumAccessCurrentForumId == 0) {
+        $this->pass(t('There was a problem creating a forum for this test.'), 'Debug');
+        return;
+      }
+
+      // Save the grants.
+      $this->testForumAccessGrants = $grants;
+
+      // for every user except the admin_user
+      foreach ($this->testForumAccessUsers as $forumAccessUser) {
+
+        // Do the loop 3 times, once as an anonymous user and once as an
+        // authenticated user and once as moderator, all with the same permissions.
+        for ($i = 0; $i < 3; $i++) {
+
+          // admin makes default content to start.
+          if ($this->testForumAccessCurrentUsername != 'admin_user') {
+            $this->testForumAccessLogin('admin_user');
+          }
+          $admin_topic_id = $this->testForumAccessCreateTopic();
+          $admin_comment_id = $this->testForumAccessCreateComment($admin_topic_id);
+          $this->testForumAccessLogout();
+
+          switch ($i) {
+            case 0; // anonymous user with the same permissions
+              $this->testForumAccessSetPermissionsAnonymousRole($this->testForumAccessPermissions[$this->testForumAccessUidToName[$forumAccessUser->uid]]);
+              break;
+            case 1; // authenticated user
+              $this->testForumAccessLogin($this->testForumAccessUidToName[$forumAccessUser->uid]);
+              break;
+            case 2; // upgrade authenticated user to moderator
+              $this->testForumAccessLogin('admin_user');
+              $this->testForumAccessAddModerator($forumAccessUser->uid);
+              $this->testForumAccessLogin($this->testForumAccessUidToName[$forumAccessUser->uid]);
+              break;
+          }
+
+          // view
+          $this->testForumAccessViewForum();
+          $this->testForumAccessViewTopic($admin_topic_id);
+          $this->testForumAccessViewComment($admin_topic_id, $admin_comment_id);
+
+          // create
+          $user_topic_id = $this->testForumAccessCreateTopic();
+          if (intval($user_topic_id) == 0) {
+            $user_topic_id = $admin_topic_id;
+          }
+          $user_comment_id = $this->testForumAccessCreateComment($user_topic_id);
+          if (intval($user_comment_id) == 0) {
+            $user_comment_id = $admin_comment_id;
+          }
+          $user_reply_id = 0;
+          if ($this->testForumAccessCreateReply($user_topic_id, $user_comment_id)) {
+            $user_reply_id = $user_comment_id + 1;
+          }
+
+          // edit
+          if ($user_topic_id != $admin_topic_id) {
+            $this->testForumAccessUpdateTopic($user_topic_id);
+          }
+          if ($user_comment_id != $admin_comment_id) {
+            $this->testForumAccessUpdateComment($user_topic_id, $user_comment_id);
+          }
+          if ($user_reply_id) {
+            $this->testForumAccessUpdateComment($user_topic_id, $user_reply_id);
+          }
+          $this->testForumAccessUpdateTopic($admin_topic_id);
+          $this->testForumAccessUpdateComment($admin_topic_id, $admin_comment_id);
+
+          // delete
+          if ($user_comment_id != $admin_comment_id) {
+            $this->testForumAccessDeleteComment($user_topic_id, $user_comment_id);
+          }
+          if ($user_topic_id != $admin_topic_id) {
+            $this->testForumAccessDeleteTopic($user_topic_id);
+          }
+          $this->testForumAccessDeleteComment($admin_topic_id, $admin_comment_id);
+          $this->testForumAccessDeleteTopic($admin_topic_id);
+        }
+      }
+    }
+  }
+
+  /**
+   * This function calculates if a user is allowed to perform a certain action
+   */
+  private function testForumAccessAllowed($type = '', $content_id = 0) {
+    /**
+     * The rules according to forum_access
+     *
+     * the 'access content' and 'access comments' permissions AND View to be able to see this forum and its content at all,
+     * the 'create forum topics' (and similar) permissions AND Post to be able to create forum content, and
+     * the 'post comments' and (probably) 'post comments without approval' permission AND Post to be able to post comments/replies;
+     *
+     * the 'edit own forum topics' or 'edit any forum topic' (and similar) permissions (OR Edit) can be added if desired, plus
+     * the 'delete own forum topics' or 'delete any forum topic' (and similar) permissions (OR Delete) if desired;
+     *
+     * the 'administer comments' (global!) permission OR Edit/Delete to be able to edit/delete comments;
+     * the 'administer forums' permission AND View to be able to administer forums (and change access!).
+     *
+     * content permissions: 'access content'
+     * comment permissions: 'access comments', 'administer comments', 'post comments', 'post comments without approval'
+     * forum permissions: 'create forum topics', 'delete any forum topic', 'delete own forum topics', 'edit any forum topic', 'edit own forum topics'
+     */
+
+    global $user;
+    $current_user_is_content_owner = FALSE;
+
+    if (!$this->loggedInUser) {
+      if (($type == 'topic_update') || ($type == 'topic_delete')) {
+        $topic = node_load($content_id);
+        if ($topic && empty($topic->uid)) {
+          $current_user_is_content_owner = TRUE;
+          $this->pass(t('Anonymous is the topic owner'), 'Debug');
+        }
+        else {
+          $this->pass(t('Anonymous is NOT the topic owner'), 'Debug');
+        }
+      }
+      if (($type == 'comment_update') || ($type == 'comment_delete')) {
+        $comment = _comment_load($content_id);
+        if ($comment && empty($comment->uid)) {
+          $current_user_is_content_owner = TRUE;
+          $this->pass(t('Anonymous is the comment owner'), 'Debug');
+        }
+        else {
+          $this->pass(t('Anonymous is NOT the comment owner'), 'Debug');
+        }
+      }
+      $anonymous_permissions = $this->testForumAccessPermissionsAnonymous;
+    }
+    else {
+      if (($this->testForumAccessCurrentUsername != 'admin_user') && in_array($this->testForumAccessUsers[$this->testForumAccessCurrentUsername]->uid, $this->testForumAccessModerators)) {
+        $current_user_is_moderator = TRUE;
+      }
+      else {
+        $current_user_is_moderator = FALSE;
+      }
+
+      if (($type == 'topic_update') || ($type == 'topic_delete')) {
+        $topic = node_load($content_id);
+        if ($topic && ($this->testForumAccessUidToName[$topic->uid] == $this->testForumAccessCurrentUsername)) {
+          $current_user_is_content_owner = TRUE;
+          $this->pass(t('The current user is the topic owner'), 'Debug');
+        }
+        else {
+          $this->pass(t('The current user is NOT the topic owner'), 'Debug');
+        }
+      }
+      if (($type == 'comment_update') || ($type == 'comment_delete')) {
+        $comment = _comment_load($content_id);
+        if ($comment && ($this->testForumAccessUidToName[$comment->uid] == $this->testForumAccessCurrentUsername)) {
+          $current_user_is_content_owner = TRUE;
+          $this->pass(t('The current user is the comment owner'), 'Debug');
+        }
+        else {
+          $this->pass(t('The current user is NOT the comment owner'), 'Debug');
+        }
+      }
+      $user_permissions = $this->testForumAccessPermissions[$this->testForumAccessCurrentUsername];
+    }
+    switch ($type) {
+      case 'forum_view':
+      case 'topic_view':
+        if (!$this->loggedInUser) {
+          if ((in_array('access content', $anonymous_permissions)) && ($this->testForumAccessGrants['anonymous_view'])) {
+            return TRUE;
+          }
+          else {
+            return FALSE;
+          }
+        }
+        else {
+          if ((in_array('access content', $user_permissions)) &&
+              (($this->testForumAccessGrants['authenticated_view']) || $current_user_is_moderator)) {
+            return TRUE;
+          }
+          else {
+            return FALSE;
+          }
+        }
+        break;
+      case 'comment_view':
+        if (!$this->loggedInUser) {
+          if ((in_array('access content', $anonymous_permissions)) && (in_array('access comments', $anonymous_permissions)) && ($this->testForumAccessGrants['anonymous_view'])) {
+            return TRUE;
+          }
+          else {
+            return FALSE;
+          }
+        }
+        else {
+          if ((in_array('access content', $user_permissions)) &&
+              (in_array('access comments', $user_permissions)) &&
+              (($this->testForumAccessGrants['authenticated_view']) || $current_user_is_moderator)) {
+            return TRUE;
+          }
+          else {
+            return FALSE;
+          }
+        }
+        break;
+      case 'topic_create':
+        if (!$this->loggedInUser) {
+          if ((in_array('create forum topics', $anonymous_permissions)) && ($this->testForumAccessGrants['anonymous_create'])) {
+            return TRUE;
+          }
+          else {
+            return FALSE;
+          }
+        }
+        else {
+          if ((in_array('create forum topics', $user_permissions)) &&
+              (($this->testForumAccessGrants['authenticated_create']) || $current_user_is_moderator)) {
+            return TRUE;
+          }
+          else {
+            return FALSE;
+          }
+        }
+        break;
+      case 'comment_create':
+        if (!$this->loggedInUser) {
+          if ((in_array('post comments', $anonymous_permissions)) && ($this->testForumAccessGrants['anonymous_create'])) {
+            return TRUE;
+          }
+          else {
+            return FALSE;
+          }
+        }
+        else {
+          if ((in_array('post comments', $user_permissions)) &&
+              (($this->testForumAccessGrants['authenticated_create']) || $current_user_is_moderator)) {
+            return TRUE;
+          }
+          else {
+            return FALSE;
+          }
+        }
+        break;
+      case 'topic_update':
+        if (!$this->testForumAccessAllowed('topic_view', $content_id)) {
+          return FALSE;
+        }
+        // check ownership
+        if (!$this->loggedInUser) {
+          if ((in_array('edit any forum topic', $anonymous_permissions)) ||
+              (in_array('administer nodes', $anonymous_permissions)) ||
+              ($this->testForumAccessGrants['anonymous_update']) ||
+              ((in_array('edit own forum topics', $anonymous_permissions)) && $current_user_is_content_owner)) {
+            if ((in_array('access content', $anonymous_permissions))) {
+              return TRUE;
+            }
+          }
+          return FALSE;
+        }
+        else {
+          if ((in_array('edit any forum topic', $user_permissions)) ||
+              (in_array('administer nodes', $user_permissions)) ||
+              ($this->testForumAccessGrants['authenticated_update']) ||
+              ((in_array('edit own forum topics', $user_permissions)) && $current_user_is_content_owner) ||
+              $current_user_is_moderator) {
+            if ((in_array('access content', $user_permissions))) {
+              return TRUE;
+            }
+          }
+          return FALSE;
+        }
+        break;
+      case 'comment_update':
+        if (!$this->testForumAccessAllowed('comment_view', $content_id)) {
+          return FALSE;
+        }
+        // check ownership
+        if (!$this->loggedInUser) {
+          if ((in_array('administer comments', $anonymous_permissions)) || ($this->testForumAccessGrants['anonymous_update'])) {
+            if ((in_array('access content', $anonymous_permissions)) && (in_array('access comments', $anonymous_permissions))) {
+              return TRUE;
+            }
+          }
+          return FALSE;
+        }
+        else {
+          if ((in_array('administer comments', $user_permissions)) || ($this->testForumAccessGrants['authenticated_update']) || $current_user_is_moderator) {
+            if ((in_array('access content', $user_permissions)) && (in_array('access comments', $user_permissions))) {
+              return TRUE;
+            }
+          }
+          elseif ($current_user_is_content_owner) {
+            session_save_session(FALSE);
+            $user_saved = $user;
+            $user = user_load($comment->uid);
+            $allow_editing_own_comment = comment_access('edit', $comment);
+            $user = $user_saved;
+            session_save_session(TRUE);
+            if ($allow_editing_own_comment) {
+              return TRUE;
+            }
+          }
+          return FALSE;
+        }
+        break;
+      case 'topic_delete':
+        if (!$this->testForumAccessAllowed('topic_view', $content_id)) {
+          return FALSE;
+        }
+        // check ownership
+        if (!$this->loggedInUser) {
+          if ((in_array('delete any forum topic', $anonymous_permissions)) ||
+              (in_array('administer nodes', $anonymous_permissions)) ||
+              ($this->testForumAccessGrants['anonymous_delete']) ||
+              ((in_array('delete own forum topics', $anonymous_permissions)) && $current_user_is_content_owner)) {
+            if ((in_array('access content', $anonymous_permissions))) {
+              return TRUE;
+            }
+          }
+          return FALSE;
+        }
+        else {
+          if ((in_array('delete any forum topic', $user_permissions)) ||
+              (in_array('administer nodes', $user_permissions)) ||
+              ($this->testForumAccessGrants['authenticated_delete']) ||
+              ((in_array('delete own forum topics', $user_permissions)) && $current_user_is_content_owner) ||
+              $current_user_is_moderator) {
+            if ((in_array('access content', $user_permissions))) {
+              return TRUE;
+            }
+          }
+          return FALSE;
+        }
+        break;
+      case 'comment_delete':
+        if (!$this->testForumAccessAllowed('comment_view', $content_id)) {
+          return FALSE;
+        }
+        // check ownership
+        if (!$this->loggedInUser) {
+          if ((in_array('administer comments', $anonymous_permissions)) || ($this->testForumAccessGrants['anonymous_delete'])) {
+            if ((in_array('access content', $anonymous_permissions)) && (in_array('access comments', $anonymous_permissions))) {
+              return TRUE;
+            }
+          }
+          return FALSE;
+        }
+        else {
+          if ((in_array('administer comments', $user_permissions)) || ($this->testForumAccessGrants['authenticated_delete']) || $current_user_is_moderator) {
+            if ((in_array('access content', $user_permissions)) && (in_array('access comments', $user_permissions))) {
+              return TRUE;
+            }
+          }
+          return FALSE;
+        }
+        break;
+    }
+    return FALSE;
+  }
+
+  /**
+   * This function test if the user can view a forum
+   */
+  private function testForumAccessViewForum() {
+    if (intval($this->testForumAccessCurrentForumId) > 0) {
+      $allowed = $this->testForumAccessAllowed('forum_view');
+
+      // Check to see if the user/anonymous is allowed to view forum
+      $this->drupalGet('forum/' . $this->testForumAccessCurrentForumId);
+      if ($allowed) {
+        if (!$this->assertNoText("not authorized", t('@user should be allowed to view this forum: @page', array('@user' => ($this->loggedInUser ? t('The user') : t('Anonymous')), '@page' => $this->getUrl())))) {
+          $this->testForumAccessDumpDebugInfo();
+        }
+      }
+      else {
+        if (!$this->assertText("not authorized", t('@user should NOT be allowed to view this forum: @page', array('@user' => ($this->loggedInUser ? t('The user') : t('Anonymous')), '@page' => $this->getUrl())))) {
+          $this->testForumAccessDumpDebugInfo();
+        }
+      }
+    }
+  }
+
+  /**
+   * This function creates a new forum (must be used by the admin user!)
+   */
+  private function testForumAccessCreateForum($options = array()) {
+    if (is_array($options) && isset($options['anonymous_view']) && isset($options['anonymous_create']) && isset($options['anonymous_update']) && isset($options['anonymous_delete']) && isset($options['authenticated_view']) && isset($options['authenticated_create']) && isset($options['authenticated_update']) && isset($options['authenticated_delete'])) {
+      $forum_options = array(
+        'name' => 'Forum name: ' . $this->randomName(32),
+        'description' => 'Forum description: ' . $this->randomName(64),
+
+        'forum_access[view][1]'   => $options['anonymous_view'],
+        'forum_access[create][1]' => $options['anonymous_create'],
+        'forum_access[update][1]' => $options['anonymous_update'],
+        'forum_access[delete][1]' => $options['anonymous_delete'],
+
+        'forum_access[view][2]'   => $options['authenticated_view'],
+        'forum_access[create][2]' => $options['authenticated_create'],
+        'forum_access[update][2]' => $options['authenticated_update'],
+        'forum_access[delete][2]' => $options['authenticated_delete'],
+      );
+      $html = $this->drupalPost('admin/content/forum/add/forum', $forum_options, t('Save'));
+      if ($this->assertNoText("not authorized", t('@user should be allowed to create new forum: @page', array('@user' => ($this->loggedInUser ? t('The user') : t('Anonymous')), '@page' => $this->getUrl())))) {
+        $position = strpos($html, $forum_options['name']);
+        $matches = array();
+        if ($this->assert(intval($position) > 0, t("Found 'edit forum' link."))) {
+          preg_match('/admin\/content\/forum\/edit\/forum\/(?<forum_id>\d+)/', $html, $matches, 0, $position);
+          $forum_tid = (array_key_exists('forum_id', $matches) ? intval($matches['forum_id']) : 0);
+          if (!$this->assert($forum_tid > 0, t("Found tid in 'edit forum' link."))) {
+            $this->testForumAccessDumpDebugInfo();
+          }
+          return $forum_tid;
+        }
+        else {
+          $this->testForumAccessDumpDebugInfo();
+        }
+      }
+      else {
+        $this->testForumAccessDumpDebugInfo();
+      }
+    }
+    return 0;
+  }
+
+  /**
+   * This function test if the user can view a certain topic
+   */
+  private function testForumAccessViewTopic($topic_id = 0) {
+    if (intval($topic_id) > 0) {
+      $allowed = $this->testForumAccessAllowed('topic_view');
+
+      // Check to see if the user/anonymous is allowed to view topic
+      $this->drupalGet('node/' . $topic_id);
+      if ($allowed) {
+        if (!$this->assertNoText("not authorized", t('@user should be allowed to view this topic: @page', array('@user' => ($this->loggedInUser ? t('The user') : t('Anonymous')), '@page' => $this->getUrl())))) {
+          $this->testForumAccessDumpDebugInfo('topic', $topic_id);
+        }
+      }
+      else {
+        if (!$this->assertText("not authorized", t('@user should NOT be allowed to view this topic: @page', array('@user' => ($this->loggedInUser ? t('The user') : t('Anonymous')), '@page' => $this->getUrl())))) {
+          $this->testForumAccessDumpDebugInfo('topic', $topic_id);
+        }
+      }
+    }
+  }
+
+  /**
+   * This function test if the user can create a topic
+   * Three steps: is there a create link, does the create topic page opens and can the new topic be saved
+   */
+  private function testForumAccessCreateTopic() {
+    if (intval($this->testForumAccessCurrentForumId) > 0) {
+      $allowed = $this->testForumAccessAllowed('topic_create');
+
+      // Check to see if the reply link is on the view page
+      $this->drupalGet('forum/' . $this->testForumAccessCurrentForumId);
+      if ($allowed) {
+        if (!$this->assertPattern("/node\/add\/forum\/$this->testForumAccessCurrentForumId/", t('For @user there should be an post-new-topic-link on this page: @page', array('@user' => ($this->loggedInUser ? t('this user') : t('anonymous')), '@page' => $this->getUrl())))) {
+          $this->testForumAccessDumpDebugInfo();
+        }
+      }
+      else {
+        if (!$this->assertNoPattern("/node\/add\/forum\/$this->testForumAccessCurrentForumId/", t('For @user there should NOT be any post-new-topic-link on this page: @page', array('@user' => ($this->loggedInUser ? t('this user') : t('anonymous')), '@page' => $this->getUrl())))) {
+          $this->testForumAccessDumpDebugInfo();
+        }
+      }
+
+      // Check to see if the user/anonymous is allowed to open the reply page
+      $page_opened = FALSE;
+      $this->drupalGet('node/add/forum/' . $this->testForumAccessCurrentForumId);
+      // Can the user select a forum from the selectbox
+      $selectbox_has_forum = (bool)preg_match('/<option value="">.*<\/option><option value="\d+"(>| selected="selected">).*<\/option><\/select>/', $this->drupalGetContent(), $matches);
+      // Does the text "not authorized" exists on the page
+      $not_authorized_exists = strpos(filter_xss($this->drupalGetContent(), array()), "not authorized") !== FALSE;
+      if ($allowed) {
+        if (!$this->assert(($selectbox_has_forum && !$not_authorized_exists), t('@user should be allowed to open the post new topic page for this forum: @page', array('@user' => ($this->loggedInUser ? t('The user') : t('Anonymous')), '@page' => $this->getUrl())))) {
+//        if (!$this->assertNoText("not authorized", t('@user should be allowed to open the post new topic page for this forum: @page', array('@user' => ($this->loggedInUser ? t('The user') : t('Anonymous')), '@page' => $this->getUrl())))) {
+          $this->testForumAccessDumpDebugInfo();
+        }
+        else {
+          $page_opened = TRUE;
+        }
+      }
+      else {
+        if (!$this->assert((!$selectbox_has_forum || $not_authorized_exists), t('@user should NOT be allowed to open the post new topic page for this forum: @page', array('@user' => ($this->loggedInUser ? t('The user') : t('Anonymous')), '@page' => $this->getUrl())))) {
+//        if (!$this->assertText("not authorized", t('@user should NOT be allowed to open the post new topic page for this forum: @page', array('@user' => ($this->loggedInUser ? t('The user') : t('Anonymous')), '@page' => $this->getUrl())))) {
+          $this->testForumAccessDumpDebugInfo();
+          $page_opened = TRUE;
+        }
+      }
+
+      if ($page_opened) {
+        // Check to see if the user/anonymous is allowed to create a new topic
+        $topic_options = array(
+          'title' => 'Topic title: ' . $this->randomName(32),
+          'body' => 'Topic body: ' . $this->randomName(64),
+        );
+        $this->drupalPost('node/add/forum/' . $this->testForumAccessCurrentForumId, $topic_options, t('Save'));
+        if ($allowed) {
+          if ($this->assertNoText("not authorized", t('@user should be allowed to create a new topic on this forum: @page', array('@user' => ($this->loggedInUser ? t('The user') : t('Anonymous')), '@page' => $this->getUrl())))) {
+            $topic = node_load(array('title' => $topic_options['title']));
+            return ($topic ? $topic->nid : 0);
+          }
+          else {
+            $this->testForumAccessDumpDebugInfo();
+          }
+        }
+        else {
+          if (!$this->assertText("not authorized", t('@user should NOT be allowed to create a new topic on this forum: @page', array('@user' => ($this->loggedInUser ? t('The user') : t('Anonymous')), '@page' => $this->getUrl())))) {
+            $this->testForumAccessDumpDebugInfo();
+            $topic = node_load(array('title' => $topic_options['title']));
+            return ($topic ? $topic->nid : 0);
+          }
+        }
+      }
+    }
+    return 0;
+  }
+
+  /**
+   * This function test if the user can update a topic
+   * Three steps: is there a edit link, does the edit page opens and can the edited topic be saved
+   */
+  private function testForumAccessUpdateTopic($topic_id = 0) {
+    if (intval($topic_id) > 0) {
+      $allowed = $this->testForumAccessAllowed('topic_update', $topic_id);
+
+      // Check to see if there is an edit link on the page
+      $this->drupalGet('node/' . $topic_id);
+      if ($allowed) {
+        if (!$this->assertPattern("/node\/$topic_id\/edit/", t('For @user there should be an edit-this-topic-link on the page: @page', array('@user' => ($this->loggedInUser ? t('this user') : t('anonymous')), '@page' => $this->getUrl())))) {
+          $this->testForumAccessDumpDebugInfo('topic', $topic_id);
+        }
+      }
+      else {
+        if (!$this->assertNoPattern("/node\/$topic_id\/edit/", t('For @user there should NOT be an edit-this-topic-link on the page: @page', array('@user' => ($this->loggedInUser ? t('this user') : t('anonymous')), '@page' => $this->getUrl())))) {
+          $this->testForumAccessDumpDebugInfo('topic', $topic_id);
+        }
+      }
+
+      // Check to see if the user/anonymous is allowed to open the reply page
+      $page_opened = FALSE;
+      $this->drupalGet('node/' . $topic_id . '/edit/');
+      if ($allowed) {
+        if (!$this->assertNoText("not authorized", t('@user should be allowed to open the edit page for this topic: @page', array('@user' => ($this->loggedInUser ? t('The user') : t('Anonymous')), '@page' => $this->getUrl())))) {
+          $this->testForumAccessDumpDebugInfo('topic', $topic_id);
+        }
+        else {
+          $page_opened = TRUE;
+        }
+      }
+      else {
+        if (!$this->assertText("not authorized", t('@user should NOT be allowed to open the edit page for this topic: @page', array('@user' => ($this->loggedInUser ? t('The user') : t('Anonymous')), '@page' => $this->getUrl())))) {
+          $this->testForumAccessDumpDebugInfo('topic', $topic_id);
+          $page_opened = TRUE;
+        }
+      }
+
+      if ($page_opened) {
+        // Check to see if the user/anonymous is allowed to edit the topic
+        $topic_options = array(
+          'title' => 'Topic title: ' . $this->randomName(32),
+          'body' => 'Topic body: ' . $this->randomName(64),
+        );
+        $this->drupalPost('node/' . $topic_id . '/edit', $topic_options, t('Save'));
+        if ($allowed) {
+          if (!$this->assertNoText("not authorized", t('@user should be allowed to edit this topic: @page', array('@user' => ($this->loggedInUser ? t('The user') : t('Anonymous')), '@page' => $this->getUrl())))) {
+            $this->testForumAccessDumpDebugInfo('topic', $topic_id);
+          }
+        }
+        else {
+          if (!$this->assertText("not authorized", t('@user should NOT be allowed to edit this topic: @page', array('@user' => ($this->loggedInUser ? t('The user') : t('Anonymous')), '@page' => $this->getUrl())))) {
+            $this->testForumAccessDumpDebugInfo('topic', $topic_id);
+          }
+        }
+      }
+    }
+  }
+
+  /**
+   * This function test if the user can delete a topic
+   * Four steps: is there a edit link, does the edit page opens, is there a delete link on the edit page and can the topic be deleted
+   */
+  private function testForumAccessDeleteTopic($topic_id = 0) {
+    if (intval($topic_id) > 0) {
+      $allowed_edit = $this->testForumAccessAllowed('topic_update', $topic_id);
+      $allowed_delete = $this->testForumAccessAllowed('topic_delete', $topic_id);
+
+      // Check to see if there is an edit link on the page
+      $this->drupalGet('node/' . $topic_id);
+      if ($allowed_edit) {
+        if (!$this->assertPattern("/node\/$topic_id\/edit/", t('For @user there should be an edit-this-topic-link on the page: @page', array('@user' => ($this->loggedInUser ? t('this user') : t('anonymous')), '@page' => $this->getUrl())))) {
+          $this->testForumAccessDumpDebugInfo('topic', $topic_id);
+        }
+      }
+      else {
+        if (!$this->assertNoPattern("/node\/$topic_id\/edit/", t('For @user there should NOT be an edit-this-topic-link on the page: @page', array('@user' => ($this->loggedInUser ? t('this user') : t('anonymous')), '@page' => $this->getUrl())))) {
+          $this->testForumAccessDumpDebugInfo('topic', $topic_id);
+        }
+      }
+
+      // Check to see if the user/anonymous is allowed to open the edit page
+      $page_opened = FALSE;
+      $this->drupalGet('node/' . $topic_id . '/edit/');
+      if ($allowed_edit) {
+        if (!$this->assertNoText("not authorized", t('@user should be allowed to open the edit page on this topic: @page', array('@user' => ($this->loggedInUser ? t('The user') : t('Anonymous')), '@page' => $this->getUrl())))) {
+          $this->testForumAccessDumpDebugInfo('topic', $topic_id);
+        }
+        else {
+          $page_opened = TRUE;
+        }
+      }
+      else {
+        if (!$this->assertText("not authorized", t('@user should NOT be allowed to open the edit page on this topic: @page', array('@user' => ($this->loggedInUser ? t('The user') : t('Anonymous')), '@page' => $this->getUrl())))) {
+          $this->testForumAccessDumpDebugInfo('topic', $topic_id);
+          $page_opened = TRUE;
+        }
+      }
+
+      $page_has_delete_button = $test_direct_link = FALSE;
+      if ($page_opened) {
+        // Check to see if there is an delete link on the edit page
+        $this->drupalGet('node/' . $topic_id . '/edit');
+        if ($allowed_delete) {
+          if (!$this->assertFieldById('edit-delete', 'Delete', t('For @user there should be a delete-link on the edit page for this topic: @page', array('@user' => ($this->loggedInUser ? t('this user') : t('anonymous')), '@page' => $this->getUrl())))) {
+            $this->testForumAccessDumpDebugInfo('topic', $topic_id);
+          }
+          else {
+            $page_has_delete_button = TRUE;
+          }
+        }
+        else {
+          if (!$this->assertNoFieldById('edit-delete', 'Delete', t('For @user there should NOT be a delete-link on the edit page for this topic: @page', array('@user' => ($this->loggedInUser ? t('this user') : t('anonymous')), '@page' => $this->getUrl())))) {
+            $this->testForumAccessDumpDebugInfo('topic', $topic_id);
+            $page_has_delete_button = TRUE;
+          }
+        }
+
+        if ($page_has_delete_button) {
+          // Check to see if the user/anonymous is allowed to delete the topic
+          $this->drupalPost('node/' . $topic_id . '/edit', array(), t('Delete'));
+        }
+      }
+      else {
+        $this->drupalGet('node/' . $topic_id . '/delete');
+        $test_direct_link = TRUE;
+      }
+
+      if ($page_has_delete_button || $test_direct_link) {
+        if ($allowed_delete) {
+          if (!$this->assertNoText("not authorized", t('@user should be allowed to delete this topic: @page', array('@user' => ($this->loggedInUser ? t('The user') : t('Anonymous')), '@page' => $this->getUrl())))) {
+            $this->testForumAccessDumpDebugInfo('topic', $topic_id);
+          }
+        }
+        else {
+          if (!$this->assertText("not authorized", t('@user should NOT be allowed to delete this topic: @page', array('@user' => ($this->loggedInUser ? t('The user') : t('Anonymous')), '@page' => $this->getUrl())))) {
+            $this->testForumAccessDumpDebugInfo('topic', $topic_id);
+          }
+        }
+      }
+    }
+  }
+
+  /**
+   * This function test if the user can view a certain comment
+   */
+  private function testForumAccessViewComment($topic_id = 0, $comment_id = 0) {
+    if ((intval($topic_id) > 0) && (intval($comment_id) > 0)) {
+      $allowed = $this->testForumAccessAllowed('comment_view');
+
+      // Check to see if the user/anonymous is allowed to view comment
+      $this->drupalGet('node/' . $topic_id, array('fragment' => 'comment-' . $comment_id));
+      if ($allowed) {
+        if (!$this->assertText("Comment comment", t('@user should be allowed to view this comment: @page', array('@user' => ($this->loggedInUser ? t('The user') : t('Anonymous')), '@page' => $this->getUrl())))) {
+          $this->testForumAccessDumpDebugInfo('comment', $comment_id);
+        }
+      }
+      else {
+        if (!$this->assertNoText("Comment comment", t('@user should NOT be allowed to view this comment: @page', array('@user' => ($this->loggedInUser ? t('The user') : t('Anonymous')), '@page' => $this->getUrl())))) {
+          $this->testForumAccessDumpDebugInfo('comment', $comment_id);
+        }
+      }
+    }
+  }
+
+  /**
+   * This function test if the user can create a comment
+   * Three steps: is there a create link, does the create comment page opens and can the new comment be saved
+   */
+  private function testForumAccessCreateComment($topic_id = 0) {
+    if (intval($topic_id) > 0) {
+      $allowed = $this->testForumAccessAllowed('comment_create');
+
+      // Check to see if the reply link is on the view page
+      $this->drupalGet('node/' . $topic_id);
+      if ($allowed) {
+        if (!$this->assertPattern("/comment\/reply\/$topic_id/", t('For @user there should be a reply link on this page for a new comment: @page', array('@user' => ($this->loggedInUser ? t('this user') : t('anonymous')), '@page' => $this->getUrl())))) {
+          $this->testForumAccessDumpDebugInfo('topic', $topic_id);
+        }
+      }
+      else {
+        if (!$this->assertNoPattern("/comment\/reply\/$topic_id/", t('For @user there should NOT be any reply link on this page for a new comment: @page', array('@user' => ($this->loggedInUser ? t('this user') : t('anonymous')), '@page' => $this->getUrl())))) {
+          $this->testForumAccessDumpDebugInfo('topic', $topic_id);
+        }
+      }
+
+      // Check to see if the user/anonymous is allowed to open the reply page
+      $page_opened = FALSE;
+      $this->drupalGet('comment/reply/' . $topic_id);
+      if ($allowed) {
+        if (!$this->assertNoText("not authorized", t('@user should be allowed to open the reply page for this topic: @page', array('@user' => ($this->loggedInUser ? t('The user') : t('Anonymous')), '@page' => $this->getUrl())))) {
+          $this->testForumAccessDumpDebugInfo('topic', $topic_id);
+        }
+        else {
+          $page_opened = TRUE;
+        }
+      }
+      else {
+        if (!$this->assertText("not authorized", t('@user should NOT be allowed to open the reply page for this topic: @page', array('@user' => ($this->loggedInUser ? t('The user') : t('Anonymous')), '@page' => $this->getUrl())))) {
+          $this->testForumAccessDumpDebugInfo('topic', $topic_id);
+          $page_opened = TRUE;
+        }
+      }
+
+      if ($page_opened) {
+        // Check to see if the user/anonymous is allowed to create a new comment
+        $comment_options = array(
+          'subject' => 'Comment subject: ' . $this->randomName(32),
+          'comment' => 'Comment comment: ' . $this->randomName(64),
+        );
+        $this->drupalPost('comment/reply/' . $topic_id, $comment_options, t('Preview'));
+        $html = $this->drupalPost(NULL, $comment_options, t('Save'));
+        if ($allowed) {
+          if ($this->assertNoText("not authorized", t('@user should be allowed to reply on this topic: @page', array('@user' => ($this->loggedInUser ? t('The user') : t('Anonymous')), '@page' => $this->getUrl())))) {
+            preg_match('/node\/(?<topic_id>\d+)#comment-(?<comment_id>\d+)/', $this->url, $matches);
+            return (array_key_exists('comment_id', $matches) ? intval($matches['comment_id']) : 0);
+          }
+          else {
+            $this->testForumAccessDumpDebugInfo('topic', $topic_id);
+          }
+        }
+        else {
+          if (!$this->assertText("not authorized", t('@user should NOT be allowed to reply on this topic: @page', array('@user' => ($this->loggedInUser ? t('The user') : t('Anonymous')), '@page' => $this->getUrl())))) {
+            $this->testForumAccessDumpDebugInfo('topic', $topic_id);
+            preg_match('/node\/(?<topic_id>\d+)#comment-(?<comment_id>\d+)/', $this->url, $matches);
+            return (array_key_exists('comment_id', $matches) ? intval($matches['comment_id']) : 0);
+          }
+        }
+      }
+    }
+    return 0;
+  }
+
+  /**
+   * This function test if the user can create a reply on a comment
+   * Three steps: is there a create link, does the create reply page opens and can the new reply on a comment be saved
+   */
+  private function testForumAccessCreateReply($topic_id = 0, $comment_id = 0) {
+    if ((intval($topic_id) > 0) && (intval($comment_id) > 0)) {
+      $allowed = $this->testForumAccessAllowed('comment_create');
+
+      // Check to see if the reply link is on the view page
+      $this->drupalGet('node/' . $topic_id, array('fragment' => 'comment-' . $comment_id));
+      if ($allowed) {
+        if (!$this->assertPattern("/comment\/reply\/$topic_id\/$comment_id/", t('For @user there should be a reply link on this comment on the page: @page', array('@user' => ($this->loggedInUser ? t('this user') : t('anonymous')), '@page' => $this->getUrl())))) {
+          $this->testForumAccessDumpDebugInfo('comment', $comment_id);
+        }
+      }
+      else {
+        if (!$this->assertNoPattern("/comment\/reply\/$topic_id\/$comment_id/", t('For @user there should NOT be any reply link on this comment on the page: @page', array('@user' => ($this->loggedInUser ? t('this user') : t('anonymous')), '@page' => $this->getUrl())))) {
+          $this->testForumAccessDumpDebugInfo('comment', $comment_id);
+        }
+      }
+
+      // Check to see if the user/anonymous is allowed to open the reply page
+      $page_opened = FALSE;
+      $this->drupalGet('comment/reply/' . $topic_id . '/' . $comment_id);
+      if ($allowed) {
+        if (!$this->assertNoTextArray(array("not authorized", "not exist"), t('@user should be allowed to open the reply page for this comment: @page', array('@user' => ($this->loggedInUser ? t('The user') : t('Anonymous')), '@page' => $this->getUrl())))) {
+          $this->testForumAccessDumpDebugInfo('comment', $comment_id);
+        }
+        else {
+          $page_opened = TRUE;
+        }
+      }
+      else {
+        if (!$this->assertTextArray(array("not authorized", "not exist"), t('@user should NOT be allowed to open the reply page for this comment: @page', array('@user' => ($this->loggedInUser ? t('The user') : t('Anonymous')), '@page' => $this->getUrl())))) {
+          $this->testForumAccessDumpDebugInfo('comment', $comment_id);
+          $page_opened = TRUE;
+        }
+      }
+
+      if ($page_opened) {
+        // Check to see if the user/anonymous is allowed to reply the comment
+        $comment_options = array(
+          'subject' => 'Comment subject: ' . $this->randomName(32),
+          'comment' => 'Comment comment: ' . $this->randomName(64),
+        );
+        $this->drupalPost('comment/reply/' . $topic_id . '/' . $comment_id, $comment_options, t('Preview'));
+        $this->drupalPost(NULL, $comment_options, t('Save'));
+        if ($allowed) {
+          if ($this->assertNoText("not authorized", t('@user should be allowed to reply on this comment: @page', array('@user' => ($this->loggedInUser ? t('The user') : t('Anonymous')), '@page' => $this->getUrl())))) {
+            //preg_match_all('/node\/(?<topic_id>\d+)#comment-(?<comment_id>\d+)/', $this->url, $matches);
+            //return (array_key_exists('comment_id', $matches) ? intval($matches['comment_id']) : 0);
+            return TRUE;
+          }
+          else {
+            $this->testForumAccessDumpDebugInfo('comment', $comment_id);
+          }
+        }
+        else {
+          if (!$this->assertText("not authorized", t('@user should NOT be allowed to reply on this comment: @page', array('@user' => ($this->loggedInUser ? t('The user') : t('Anonymous')), '@page' => $this->getUrl())))) {
+            $this->testForumAccessDumpDebugInfo('comment', $comment_id);
+            //preg_match_all('/node\/(?<topic_id>\d+)#comment-(?<comment_id>\d+)/', $this->url, $matches);
+            //return (array_key_exists('comment_id', $matches) ? intval($matches['comment_id']) : 0);
+          }
+        }
+      }
+    }
+    return FALSE;
+  }
+
+  /**
+   * This function test if the user can update a comment
+   * Three steps: is there a edit link, does the edit page opens and can the edited comment be saved
+   */
+  private function testForumAccessUpdateComment($topic_id = 0, $comment_id = 0) {
+    if ((intval($topic_id) > 0) && (intval($comment_id) > 0)) {
+      $allowed = $this->testForumAccessAllowed('comment_update', $comment_id);
+
+      // Check to see if the edit link is on the view page
+      $this->drupalGet('node/' . $topic_id, array('fragment' => 'comment-' . $comment_id));
+      if ($allowed) {
+        if (!$this->assertPattern("/comment\/edit\/$comment_id/", t('For @user there should be an edit this comment-link on the page: @page', array('@user' => ($this->loggedInUser ? t('this user') : t('anonymous')), '@page' => $this->getUrl())))) {
+          $this->testForumAccessDumpDebugInfo('comment', $comment_id);
+        }
+      }
+      else {
+        if (!$this->assertNoPattern("/comment\/edit\/$comment_id/", t('For @user there should NOT be an edit this comment-link on the page: @page', array('@user' => ($this->loggedInUser ? t('this user') : t('anonymous')), '@page' => $this->getUrl())))) {
+          $this->testForumAccessDumpDebugInfo('comment', $comment_id);
+        }
+      }
+
+      // Check to see if the user/anonymous is allowed to open the reply page
+      $page_opened = FALSE;
+      $this->drupalGet('comment/edit/' . $comment_id);
+      if ($allowed) {
+        if (!$this->assertNoText("not authorized", t('@user should be allowed to open the edit page for this comment: @page', array('@user' => ($this->loggedInUser ? t('The user') : t('Anonymous')), '@page' => $this->getUrl())))) {
+          $this->testForumAccessDumpDebugInfo('comment', $comment_id);
+        }
+        else {
+          $page_opened = TRUE;
+        }
+      }
+      else {
+        if (!$this->assertText("not authorized", t('@user should NOT be allowed to open the edit page for this comment: @page', array('@user' => ($this->loggedInUser ? t('The user') : t('Anonymous')), '@page' => $this->getUrl())))) {
+          $this->testForumAccessDumpDebugInfo('comment', $comment_id);
+          $page_opened = TRUE;
+        }
+      }
+
+      if ($page_opened) {
+        // Check to see if the user/anonymous is allowed to edit the comment
+        $comment_options = array(
+          'subject' => 'Comment subject: ' . $this->randomName(32),
+          'comment' => 'Comment comment: ' . $this->randomName(64),
+        );
+        $this->drupalPost('comment/edit/' . $comment_id, $comment_options, t('Preview'));
+        $this->drupalPost(NULL, $comment_options, t('Save'));
+        if ($allowed) {
+          if (!$this->assertNoText("not authorized", t('@user should be allowed to edit this comment: @page', array('@user' => ($this->loggedInUser ? t('The user') : t('Anonymous')), '@page' => $this->getUrl())))) {
+            $this->testForumAccessDumpDebugInfo('comment', $comment_id);
+          }
+        }
+        else {
+          if (!$this->assertText("not authorized", t('@user should NOT be allowed to edit this comment: @page', array('@user' => ($this->loggedInUser ? t('The user') : t('Anonymous')), '@page' => $this->getUrl())))) {
+            $this->testForumAccessDumpDebugInfo('comment', $comment_id);
+          }
+        }
+      }
+    }
+  }
+
+  /**
+   * This function test if the user can delete a comment
+   * Three steps: is there a delete link, does the delete page opens and can the comment be deleted
+   */
+  private function testForumAccessDeleteComment($topic_id = 0, $comment_id = 0) {
+    if ((intval($topic_id) > 0) && (intval($comment_id) > 0)) {
+      $allowed = $this->testForumAccessAllowed('comment_delete', $comment_id);
+
+      // Check to see if the delete link is on the view page
+      $this->drupalGet('node/' . $topic_id, array('fragment' => 'comment-' . $comment_id));
+      if ($allowed) {
+        if (!$this->assertPattern("/comment\/delete\/$comment_id/", t('For @user there should be a delete-this-comment-link on the page: @page', array('@user' => ($this->loggedInUser ? t('this user') : t('anonymous')), '@page' => $this->getUrl())))) {
+          $this->testForumAccessDumpDebugInfo('comment', $comment_id);
+        }
+      }
+      else {
+        if (!$this->assertNoPattern("/comment\/delete\/$comment_id/", t('For @user there should NOT be a delete-this-comment-link on the page: @page', array('@user' => ($this->loggedInUser ? t('this user') : t('anonymous')), '@page' => $this->getUrl())))) {
+          $this->testForumAccessDumpDebugInfo('comment', $comment_id);
+        }
+      }
+
+      // Check to see if the user/anonymous is allowed to open the delete page
+      $page_opened = FALSE;
+      $this->drupalGet('comment/delete/' . $comment_id);
+      if ($allowed) {
+        if (!$this->assertNoText("not authorized", t('@user should be allowed to open the delete page for this comment: @page', array('@user' => ($this->loggedInUser ? t('The user') : t('Anonymous')), '@page' => $this->getUrl())))) {
+          $this->testForumAccessDumpDebugInfo('comment', $comment_id);
+        }
+        else {
+          $page_opened = TRUE;
+        }
+      }
+      else {
+        if (!$this->assertText("not authorized", t('@user should NOT be allowed to open the delete page for this comment: @page', array('@user' => ($this->loggedInUser ? t('The user') : t('Anonymous')), '@page' => $this->getUrl())))) {
+          $this->testForumAccessDumpDebugInfo('comment', $comment_id);
+          $page_opened = TRUE;
+        }
+      }
+
+      if ($page_opened) {
+        // Check to see if the user/anonymous is allowed to edit the comment
+        $this->drupalPost('comment/delete/' . $comment_id, array(), t('Delete'));
+        if ($allowed) {
+          if (!$this->assertNoText("not authorized", t('@user should be allowed to delete this comment: @page', array('@user' => ($this->loggedInUser ? t('The user') : t('Anonymous')), '@page' => $this->getUrl())))) {
+            $this->testForumAccessDumpDebugInfo('comment', $comment_id);
+          }
+        }
+        else {
+          if (!$this->assertText("not authorized", t('@user should NOT be allowed to delete this comment: @page', array('@user' => ($this->loggedInUser ? t('The user') : t('Anonymous')), '@page' => $this->getUrl())))) {
+            $this->testForumAccessDumpDebugInfo('comment', $comment_id);
+          }
+        }
+      }
+    }
+  }
+
+  /**
+   * Wrapper function for drupalCreateUser
+   */
+  private function testForumAccessCreateUser($name = '', $permissions = array()) {
+    if (empty($name)) {
+      $name = 'User name: ' . $this->randomName(16);
+    }
+
+    $delete_permissions = FALSE;
+    if (count($permissions) == 0) {
+      $delete_permissions = TRUE;
+      $permissions = array('access comments', 'access content', 'post comments', 'post comments without approval'); // default permissions
+    }
+
+    if ($this->testForumAccessUseDNA) {
+      $permissions[] = 'view devel_node_access information';
+    }
+
+    if ($name == 'admin_user') {
+      $this->testForumAccessAdminUser = $this->drupalCreateUser($permissions);
+    }
+    else {
+      $this->testForumAccessUsers[$name] = $this->drupalCreateUser($permissions);
+    }
+
+    if ($delete_permissions) {
+      $permissions = array();
+      if ($name == 'admin_user') {
+        $this->testForumAccessDeletePermissionsUser($this->testForumAccessAdminUser->uid);
+      }
+      else {
+        $this->testForumAccessDeletePermissionsUser($this->testForumAccessUsers[$name]->uid);
+      }
+      $this->pass('The permissions are deleted for user: ' . $name, 'Debug');
+    }
+    $this->testForumAccessPermissions[$name] = $permissions;
+    if ($name == 'admin_user') {
+      $this->testForumAccessUidToName[$this->testForumAccessAdminUser->uid] = $name;
+    }
+    else {
+      $this->testForumAccessUidToName[$this->testForumAccessUsers[$name]->uid] = $name;
+    }
+  }
+
+  /**
+   * Wrapper function for drupalLogin
+   */
+  private function testForumAccessLogin($name = '') {
+    if (array_key_exists($name, $this->testForumAccessUsers)) {
+      $this->drupalLogin($this->testForumAccessUsers[$name]);
+      $this->testForumAccessCurrentUsername = $name;
+    }
+    elseif ($name == 'admin_user') {
+      $this->drupalLogin($this->testForumAccessAdminUser);
+      $this->testForumAccessCurrentUsername = 'admin_user';
+    }
+    else {
+      $this->drupalLogout();
+      $this->testForumAccessCurrentUsername = '';
+    }
+  }
+
+  /**
+   * Wrapper function for drupalLogout
+   */
+  private function testForumAccessLogout() {
+    $this->drupalLogout();
+    $this->testForumAccessCurrentUsername = '';
+  }
+
+  /**
+   * This function adds a user as a moderator to a forum (must be used by the admin user!)
+   */
+  private function testForumAccessAddModerator($uid = 0) {
+    if ($this->testForumAccessCurrentUsername == 'admin_user' && (intval($this->testForumAccessCurrentForumId) > 0) && (intval($uid) > 0)) {
+      if ($uid > 0) {
+        $forum_options = array(
+          'forum_access[acl][add]' => $this->testForumAccessUsers[$this->testForumAccessUidToName[$uid]]->name,
+        );
+        $this->drupalPost('admin/content/forum/edit/forum/' . $this->testForumAccessCurrentForumId, $forum_options, t('Add User'));
+        $this->drupalPost(NULL, $forum_options, t('Save'));
+        if (!$this->assertNoText("not authorized", t('@user should be allowed to add moderators to a forum: @page', array('@user' => ($this->loggedInUser ? t('The user') : t('Anonymous')), '@page' => $this->getUrl())))) {
+          $this->testForumAccessDumpDebugInfo();
+        }
+        else {
+          array_push($this->testForumAccessModerators, $uid);
+        }
+      }
+    }
+  }
+
+  /**
+   * This function adds a user as a moderator to a forum (must be used by the admin user!)
+   */
+  private function testForumAccessGetModeratorStatus($uid = 0) {
+    if ((intval($this->testForumAccessCurrentForumId) > 0) && (intval($uid) > 0)) {
+      $result = db_fetch_object(db_query("SELECT uid FROM {acl_user} WHERE uid = %d AND acl_id = (SELECT acl_id FROM {acl} WHERE module = 'forum_access' AND (name = '%s' OR number = %d))", $uid, $this->testForumAccessCurrentForumId, $this->testForumAccessCurrentForumId));
+      if (isset($result->uid) && (intval($result->uid) > 0) && ($uid == $result->uid)) {
+        return TRUE;
+      }
+      else {
+        return FALSE;
+      }
+    }
+  }
+
+  /**
+   * This function is called when the program detects an error. It gives extra information so that the error can be fixed. hopefully :)
+   */
+  private function testForumAccessDumpDebugInfo($content_type = '', $content_id = 0) {
+    if (($content_type == 'comment') && (intval($content_id) > 0)) {
+      $comment = _comment_load($content_id);
+      if ($comment && ($comment->cid > 0)) {
+        $this->pass('The comment owner is: ' . ($comment->uid > 0 ? $this->testForumAccessUidToName[$comment->uid] : t('Anonymous')), 'Debug');
+        $topic = node_load($comment->nid);
+        if ($topic && ($topic->nid > 0)) {
+          $this->pass('The topic owner is: ' . ($topic->uid > 0 ? $this->testForumAccessUidToName[$topic->uid] : t('Anonymous')), 'Debug');
+        }
+      }
+    }
+
+    if (($content_type == 'topic') && (intval($content_id) > 0)) {
+      $topic = node_load($content_id);
+      if ($topic && ($topic->nid > 0)) {
+        $this->pass('The topic owner is: ' . ($topic->uid > 0 ? $this->testForumAccessUidToName[$topic->uid] : t('Anonymous')), 'Debug');
+      }
+    }
+
+    $this->pass('The current user is: ' . (empty($this->testForumAccessCurrentUsername) ? 'anonymous' : $this->testForumAccessCurrentUsername), 'Debug');
+    if ($this->loggedInUser) {
+      // Check the moderator status.
+      $moderator_status_set = (($this->testForumAccessCurrentUsername != 'admin_user') && in_array($this->testForumAccessUsers[$this->testForumAccessCurrentUsername]->uid, $this->testForumAccessModerators)) ? TRUE : FALSE;
+      $moderator_status_database = (($this->testForumAccessCurrentUsername != 'admin_user') && $this->testForumAccessGetModeratorStatus($this->testForumAccessUsers[$this->testForumAccessCurrentUsername]->uid)) ? TRUE : FALSE;
+      if ($moderator_status_set == $moderator_status_database) {
+       $this->pass('The moderator status is: ' . ($moderator_status_set ? 'TRUE' : 'FALSE'), 'Debug');
+      }
+      else {
+        $this->pass('Set moderator status is: ' . ($moderator_status_set ? 'TRUE' : 'FALSE'), 'Debug');
+        $this->pass('Database moderator status is: ' . ($moderator_status_database ? 'TRUE' : 'FALSE'), 'Debug');
+      }
+
+      // Check the permissions of the logged-in user.
+      $permissions_set = (count($this->testForumAccessPermissions[$this->testForumAccessCurrentUsername]) > 0) ? $this->testForumAccessPermissions[$this->testForumAccessCurrentUsername] : array(t('none'));
+      if ($this->testForumAccessCurrentUsername == 'admin_user') {
+        $permissions_database = $this->testForumAccessGetPermissionsUser($this->testForumAccessAdminUser->uid, TRUE);
+      }
+      else {
+        $permissions_database = $this->testForumAccessGetPermissionsUser($this->testForumAccessUsers[$this->testForumAccessCurrentUsername]->uid, TRUE);
+      }
+      $permissions_error = FALSE;
+      foreach ($permissions_set as $perm) {
+        if (!(in_array($perm, $permissions_database))) {
+          $permissions_error = TRUE;
+        }
+      }
+      foreach ($permissions_database as $perm) {
+        if (!(in_array($perm, $permissions_set))) {
+          $permissions_error = TRUE;
+        }
+      }
+      if (!$permissions_error) {
+        $this->pass('The permissions are: ' . implode(', ', $permissions_set), 'Debug');
+      }
+      else {
+        $this->pass('Set permissions are: ' . implode(', ', $permissions_set), 'Debug');
+        if ($this->testForumAccessCurrentUsername == 'admin_user') {
+          $this->pass('Database permissions are: ' . implode(', ', $this->testForumAccessGetPermissionsUser($this->testForumAccessAdminUser->uid, TRUE)), 'Debug');
+        }
+        else {
+          $this->pass('Database permissions are: ' . implode(', ', $this->testForumAccessGetPermissionsUser($this->testForumAccessUsers[$this->testForumAccessCurrentUsername]->uid, TRUE)), 'Debug');
+        }
+      }
+    }
+    else {
+      // Check the permissions for anonymous.
+      $permissions_set = (count($this->testForumAccessPermissionsAnonymous) > 0) ? $this->testForumAccessPermissionsAnonymous : array(t('none'));
+      $permissions_database = $this->testForumAccessGetPermissionsAnonymousUser(TRUE);
+      $permissions_error = FALSE;
+      foreach ($permissions_set as $perm) {
+        if (!(in_array($perm, $permissions_database))) {
+          $permissions_error = TRUE;
+        }
+      }
+      foreach ($permissions_database as $perm) {
+        if (!(in_array($perm, $permissions_set))) {
+          $permissions_error = TRUE;
+        }
+      }
+      if (!$permissions_error) {
+        $this->pass('The permissions are: ' . implode(', ', $permissions_set), 'Debug');
+      }
+      else {
+        $this->pass('Set permissions are: ' . implode(', ', $permissions_set), 'Debug');
+        $this->pass('Database permissions are: ' . implode(', ', $permissions_database), 'Debug');
+      }
+    }
+
+    // Check the forum grants.
+    $forum_grants_set = array_keys(array_filter($this->testForumAccessGrants, create_function('$grant', 'return $grant;')));
+    $forum_grants_database = array_keys(array_filter($this->testForumAccessGetForumGrants(), create_function('$grant', 'return $grant;')));
+    $forum_grants_error = FALSE;
+    foreach ($forum_grants_set as $grant) {
+      if (!(in_array($grant, $forum_grants_database))) {
+        $forum_grants_error = TRUE;
+      }
+    }
+    foreach ($forum_grants_database as $grant) {
+      if (!(in_array($grant, $forum_grants_set))) {
+        $forum_grants_error = TRUE;
+      }
+    }
+    if (!$forum_grants_error) {
+      $this->pass('The forum grants are: ' . implode(', ', $forum_grants_set), 'Debug');
+    }
+    else {
+      $this->pass('Set forum grants are: ' . implode(', ', $forum_grants_set), 'Debug');
+      $this->pass('Database forum grants are: ' . implode(', ', $forum_grants_database), 'Debug');
+    }
+
+    $this->verbose('URL: ' . $this->getUrl() . '<hr />' . $this->drupalGetContent(), 'Debug');
+  }
+
+  /**
+   * This function sets the permissions for the anonymous userrole in the database
+   */
+  private function testForumAccessSetPermissionsAnonymousRole($permissions = array()) {
+    if ($this->checkPermissions($permissions)) {
+      $this->testForumAccessPermissionsAnonymous = $permissions;
+      db_query("UPDATE {permission} SET perm = '%s' WHERE rid = %d", implode(', ', $permissions), DRUPAL_ANONYMOUS_RID);
+    }
+  }
+
+  /**
+   * This function gets the permissions for the authenticated userrole from the database
+   */
+  private function testForumAccessSetPermissionsAuthenticatedRole($permissions = array()) {
+    if ($this->checkPermissions($permissions)) {
+      db_query("UPDATE {permission} SET perm = '%s' WHERE rid = %d", implode(', ', $permissions), DRUPAL_AUTHENTICATED_RID);
+    }
+  }
+
+  /**
+   * This function deletes the user permissions for a specific from the database
+   */
+  private function testForumAccessDeletePermissionsUser($uid = 0) {
+    if ($uid > 0) {
+      db_query("UPDATE {permission} SET perm = '' WHERE rid IN (SELECT rid FROM {users_roles} WHERE uid = %d)", $uid);
+    }
+  }
+
+  /**
+   * This function gets the permissions for the anonymous userrole from the database
+   */
+  private function testForumAccessGetPermissionsAnonymousUser($if_empty_return_none = FALSE) {
+    $result = db_fetch_object(db_query("SELECT perm FROM {permission} WHERE rid = %d", DRUPAL_ANONYMOUS_RID));
+    if (!empty($result->perm)) {
+      return explode(', ', $result->perm);
+    }
+    elseif ($if_empty_return_none) {
+      return array(t('none'));
+    }
+    return array();
+  }
+
+  /**
+   * This function gets the user permissions for a specific from the database
+   */
+  private function testForumAccessGetPermissionsUser($uid = 0, $if_empty_return_none = FALSE) {
+    if ($uid > 0) {
+      $result_authenticated = db_fetch_object(db_query("SELECT perm FROM {permission} WHERE rid = %d", DRUPAL_AUTHENTICATED_RID));
+      $result_user = db_fetch_object(db_query("SELECT p.perm as perm FROM {users_roles} u JOIN {permission} p ON u.rid = p.rid where u.uid = %d", $uid));
+      if ((!empty($result_authenticated->perm)) && (!empty($result_user->perm))) {
+        return array_merge(explode(', ', $result_authenticated->perm), explode(', ', $result_user->perm));
+      }
+      elseif (!empty($result_authenticated->perm)) {
+        return explode(', ', $result_authenticated->perm);
+      }
+      elseif (!empty($result_user->perm)) {
+        return explode(', ', $result_user->perm);
+      }
+      elseif ($if_empty_return_none) {
+        return array(t('none'));
+      }
+    }
+    return array();
+  }
+
+  /**
+   * This function gets the forum grants from the database
+   */
+  private function testForumAccessGetForumGrants() {
+    $grants = array();
+    $grants_anonymous = db_fetch_object(db_query("SELECT * FROM {forum_access} WHERE rid = %d", DRUPAL_ANONYMOUS_RID));
+    $grants['anonymous_view']   = ($grants_anonymous->grant_view ? TRUE : FALSE);
+    $grants['anonymous_create'] = ($grants_anonymous->grant_create ? TRUE : FALSE);
+    $grants['anonymous_update'] = ($grants_anonymous->grant_update ? TRUE : FALSE);
+    $grants['anonymous_delete'] = ($grants_anonymous->grant_delete ? TRUE : FALSE);
+    $grants_authenticated = db_fetch_object(db_query("SELECT * FROM {forum_access} WHERE rid = %d", DRUPAL_AUTHENTICATED_RID));
+    $grants['authenticated_view']   = ($grants_authenticated->grant_view ? TRUE : FALSE);
+    $grants['authenticated_create'] = ($grants_authenticated->grant_create ? TRUE : FALSE);
+    $grants['authenticated_update'] = ($grants_authenticated->grant_update ? TRUE : FALSE);
+    $grants['authenticated_delete'] = ($grants_authenticated->grant_delete ? TRUE : FALSE);
+    return $grants;
+  }
+
+  /**
+   * This function gets the forum grants from the input string
+   */
+  protected function testForumAccessGetGrants($grants_string = '') {
+    $grants = array();
+    $grants['anonymous_view'] = ((stristr($grants_string, 'anonymous_view') === FALSE) ? FALSE : TRUE);
+    $grants['anonymous_create'] = ((stristr($grants_string, 'anonymous_create') === FALSE) ? FALSE : TRUE);
+    $grants['anonymous_update'] = ((stristr($grants_string, 'anonymous_update') === FALSE) ? FALSE : TRUE);
+    $grants['anonymous_delete'] = ((stristr($grants_string, 'anonymous_delete') === FALSE) ? FALSE : TRUE);
+
+    $grants['authenticated_view'] = ((stristr($grants_string, 'authenticated_view') === FALSE) ? FALSE : TRUE);
+    $grants['authenticated_create'] = ((stristr($grants_string, 'authenticated_create') === FALSE) ? FALSE : TRUE);
+    $grants['authenticated_update'] = ((stristr($grants_string, 'authenticated_update') === FALSE) ? FALSE : TRUE);
+    $grants['authenticated_delete'] = ((stristr($grants_string, 'authenticated_delete') === FALSE) ? FALSE : TRUE);
+
+    return $grants;
+  }
+
+  /**
+   * The array version of the function assertText
+   */
+  private function assertTextArray($text, $message = '', $group = 'Other') {
+    return $this->assertTextArrayHelper($text, $message, $group, FALSE);
+  }
+
+  /**
+   * The array version of the function assertNoText
+   */
+  private function assertNoTextArray($text, $message = '', $group = 'Other') {
+    return $this->assertTextArrayHelper($text, $message, $group, TRUE);
+  }
+
+  /**
+   * The array version of the function assertTextHelper
+   */
+  private function assertTextArrayHelper($text, $message, $group, $not_exists) {
+    if ($this->plainTextContent === FALSE) {
+      $this->plainTextContent = filter_xss($this->content, array());
+    }
+    if (!$message) {
+      $message = !$not_exists ? t('"@text" found', array('@text' => $text)) : t('"@text" not found', array('@text' => $text));
+    }
+    return $this->assert($not_exists == ($this->strpos_array($this->plainTextContent, $text) === FALSE), $message, $group);
+  }
+
+  /**
+   * The array version of the function strpos
+   */
+  private function strpos_array($haystack, $needles) {
+    foreach ($needles as $needle) {
+      $pos = strpos($haystack, $needle);
+      if ($pos !== FALSE) {
+        return $pos;
+      }
+    }
+    return FALSE;
+  }
+}
+
+class ForumAccessTestCase1 extends ForumAccessTestCase {
+  /**
+   * Implements getInfo().
+   *
+   * Change the grants to your wishes
+   */
+  public function getInfo() {
+    $grants = array(
+      'anonymous_view'   => TRUE,
+      'anonymous_create' => TRUE,
+      'anonymous_update' => TRUE,
+      'anonymous_delete' => TRUE,
+
+      'authenticated_view'   => TRUE,
+      'authenticated_create' => TRUE,
+      'authenticated_update' => TRUE,
+      'authenticated_delete' => TRUE,
+    );
+    $grants_string = implode(', ', array_keys(array_filter($grants, create_function('$grant', 'return $grant;'))));
+    if (empty($grants_string)) {
+      $grants_string = t('none');
+    }
+    return array
+    (
+      'name' => t('Forum access functionality #1'),
+      'description' => t('Test forum access with the following grants: @grants_string', array('@grants_string' => $grants_string)),
+      'group' => t('Forum access'),
+    );
+  }
+
+  /**
+   * Implements setUp().
+   */
+  public function setUp() {
+    parent::setUp();
+  }
+
+  /**
+   * Implements the Forum Access testing.
+   */
+  function testForumAccess() {
+    $getinfo = $this->getInfo();
+    $this->testForumAccessRun($this->testForumAccessGetGrants($getinfo['description']));
+  }
+}
+
+class ForumAccessTestCase2 extends ForumAccessTestCase {
+  /**
+   * Implements getInfo().
+   *
+   * Change the grants to your wishes
+   */
+  public function getInfo() {
+    $grants = array(
+      'anonymous_view'   => TRUE,
+      'anonymous_create' => TRUE,
+      'anonymous_update' => FALSE,
+      'anonymous_delete' => FALSE,
+
+      'authenticated_view'   => TRUE,
+      'authenticated_create' => TRUE,
+      'authenticated_update' => TRUE,
+      'authenticated_delete' => TRUE,
+    );
+    $grants_string = implode(', ', array_keys(array_filter($grants, create_function('$grant', 'return $grant;'))));
+    if (empty($grants_string)) {
+      $grants_string = t('none');
+    }
+    return array
+    (
+      'name' => t('Forum access functionality #2'),
+      'description' => t('Test forum access with the following grants: @grants_string', array('@grants_string' => $grants_string)),
+      'group' => t('Forum access'),
+    );
+  }
+
+  /**
+   * Implements setUp().
+   */
+  public function setUp() {
+    parent::setUp();
+  }
+
+  /**
+   * Implements the Forum Access testing.
+   */
+  function testForumAccess() {
+    $getinfo = $this->getInfo();
+    $this->testForumAccessRun($this->testForumAccessGetGrants($getinfo['description']));
+  }
+}
+
+class ForumAccessTestCase3 extends ForumAccessTestCase {
+  /**
+   * Implements getInfo().
+   *
+   * Change the grants to your wishes
+   */
+  public function getInfo() {
+    $grants = array(
+      'anonymous_view'   => FALSE,
+      'anonymous_create' => FALSE,
+      'anonymous_update' => FALSE,
+      'anonymous_delete' => FALSE,
+
+      'authenticated_view'   => TRUE,
+      'authenticated_create' => TRUE,
+      'authenticated_update' => TRUE,
+      'authenticated_delete' => TRUE,
+    );
+    $grants_string = implode(', ', array_keys(array_filter($grants, create_function('$grant', 'return $grant;'))));
+    if (empty($grants_string)) {
+      $grants_string = t('none');
+    }
+    return array
+    (
+      'name' => t('Forum access functionality #3'),
+      'description' => t('Test forum access with the following grants: @grants_string', array('@grants_string' => $grants_string)),
+      'group' => t('Forum access'),
+    );
+  }
+
+  /**
+   * Implements setUp().
+   */
+  public function setUp() {
+    parent::setUp();
+  }
+
+  /**
+   * Implements the Forum Access testing.
+   */
+  function testForumAccess() {
+    $getinfo = $this->getInfo();
+    $this->testForumAccessRun($this->testForumAccessGetGrants($getinfo['description']));
+  }
+}
+
+class ForumAccessTestCase4 extends ForumAccessTestCase {
+  /**
+   * Implements getInfo().
+   *
+   * Change the grants to your wishes
+   */
+  public function getInfo() {
+    $grants = array(
+      'anonymous_view'   => TRUE,
+      'anonymous_create' => FALSE,
+      'anonymous_update' => FALSE,
+      'anonymous_delete' => FALSE,
+
+      'authenticated_view'   => TRUE,
+      'authenticated_create' => TRUE,
+      'authenticated_update' => FALSE,
+      'authenticated_delete' => FALSE,
+    );
+    $grants_string = implode(', ', array_keys(array_filter($grants, create_function('$grant', 'return $grant;'))));
+    if (empty($grants_string)) {
+      $grants_string = t('none');
+    }
+    return array
+    (
+      'name' => t('Forum access functionality #4'),
+      'description' => t('Test forum access with the following grants: @grants_string', array('@grants_string' => $grants_string)),
+      'group' => t('Forum access'),
+    );
+  }
+
+  /**
+   * Implements setUp().
+   */
+  public function setUp() {
+    parent::setUp();
+  }
+
+  /**
+   * Implements the Forum Access testing.
+   */
+  function testForumAccess() {
+    $getinfo = $this->getInfo();
+    $this->testForumAccessRun($this->testForumAccessGetGrants($getinfo['description']));
+  }
+}
+
+class ForumAccessTestCase5 extends ForumAccessTestCase {
+  /**
+   * Implements getInfo().
+   *
+   * Change the grants to your wishes
+   */
+  public function getInfo() {
+    $grants = array(
+      'anonymous_view'   => FALSE,
+      'anonymous_create' => FALSE,
+      'anonymous_update' => FALSE,
+      'anonymous_delete' => FALSE,
+
+      'authenticated_view'   => TRUE,
+      'authenticated_create' => TRUE,
+      'authenticated_update' => TRUE,
+      'authenticated_delete' => FALSE,
+    );
+    $grants_string = implode(', ', array_keys(array_filter($grants, create_function('$grant', 'return $grant;'))));
+    if (empty($grants_string)) {
+      $grants_string = t('none');
+    }
+    return array
+    (
+      'name' => t('Forum access functionality #5'),
+      'description' => t('Test forum access with the following grants: @grants_string', array('@grants_string' => $grants_string)),
+      'group' => t('Forum access'),
+    );
+  }
+
+  /**
+   * Implements setUp().
+   */
+  public function setUp() {
+    parent::setUp();
+  }
+
+  /**
+   * Implements the Forum Access testing.
+   */
+  function testForumAccess() {
+    $getinfo = $this->getInfo();
+    $this->testForumAccessRun($this->testForumAccessGetGrants($getinfo['description']));
+  }
+}
+
+class ForumAccessTestCase6 extends ForumAccessTestCase {
+  /**
+   * Implements getInfo().
+   *
+   * Change the grants to your wishes
+   */
+  public function getInfo() {
+    $grants = array(
+      'anonymous_view'   => FALSE,
+      'anonymous_create' => FALSE,
+      'anonymous_update' => FALSE,
+      'anonymous_delete' => FALSE,
+
+      'authenticated_view'   => TRUE,
+      'authenticated_create' => TRUE,
+      'authenticated_update' => FALSE,
+      'authenticated_delete' => FALSE,
+    );
+    $grants_string = implode(', ', array_keys(array_filter($grants, create_function('$grant', 'return $grant;'))));
+    if (empty($grants_string)) {
+      $grants_string = t('none');
+    }
+    return array
+    (
+      'name' => t('Forum access functionality #6'),
+      'description' => t('Test forum access with the following grants: @grants_string', array('@grants_string' => $grants_string)),
+      'group' => t('Forum access'),
+    );
+  }
+
+  /**
+   * Implements setUp().
+   */
+  public function setUp() {
+    parent::setUp();
+  }
+
+  /**
+   * Implements the Forum Access testing.
+   */
+  function testForumAccess() {
+    $getinfo = $this->getInfo();
+    $this->testForumAccessRun($this->testForumAccessGetGrants($getinfo['description']));
+  }
+}
+
+class ForumAccessTestCase7 extends ForumAccessTestCase {
+  /**
+   * Implements getInfo().
+   *
+   * Change the grants to your wishes
+   */
+  public function getInfo() {
+    $grants = array(
+      'anonymous_view'   => FALSE,
+      'anonymous_create' => FALSE,
+      'anonymous_update' => FALSE,
+      'anonymous_delete' => FALSE,
+
+      'authenticated_view'   => TRUE,
+      'authenticated_create' => FALSE,
+      'authenticated_update' => FALSE,
+      'authenticated_delete' => FALSE,
+    );
+    $grants_string = implode(', ', array_keys(array_filter($grants, create_function('$grant', 'return $grant;'))));
+    if (empty($grants_string)) {
+      $grants_string = t('none');
+    }
+    return array
+    (
+      'name' => t('Forum access functionality #7'),
+      'description' => t('Test forum access with the following grants: @grants_string', array('@grants_string' => $grants_string)),
+      'group' => t('Forum access'),
+    );
+  }
+
+  /**
+   * Implements setUp().
+   */
+  public function setUp() {
+    parent::setUp();
+  }
+
+  /**
+   * Implements the Forum Access testing.
+   */
+  function testForumAccess() {
+    $getinfo = $this->getInfo();
+    $this->testForumAccessRun($this->testForumAccessGetGrants($getinfo['description']));
+  }
+}
+
