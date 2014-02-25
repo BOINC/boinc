@@ -84,14 +84,14 @@ fi
 echo ""
 
 # Patch build/osx/setup/cocoa/include/wx/setup.h
-f [ ! -f build/osx/setup/cocoa/include/wx/setup.h.orig ]; then
+if [ ! -f build/osx/setup/cocoa/include/wx/setup.h.orig ]; then
 
 # First run wxWidget's built-in script to copy setup.h into place
     cd build/osx
     ../../distrib/mac/pbsetup-sh ../../src ../../build/osx/setup/cocoa
     cd ../..
 
-i    cat >> /tmp/setup_h_diff << ENDOFFILE
+    cat >> /tmp/setup_h_diff << ENDOFFILE
 --- setup.h	2014-02-18 05:17:45.000000000 -0800
 +++ setup_patched.h	2014-02-18 05:19:50.000000000 -0800
 @@ -339,7 +339,10 @@
