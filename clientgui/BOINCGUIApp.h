@@ -138,6 +138,10 @@ public:
     bool                IsMgrMultipleInstance()     { return m_bMultipleInstancesOK; }
 
 #ifdef __WXMAC__
+    // Override standard wxCocoa wxApp::CallOnInit() to allow Manager
+    // to run properly when launched hidden on login via Login Item. 
+    bool                CallOnInit()                { return OnInit(); }
+    
     CTaskBarIcon*       GetMacDockIcon()            { return m_pMacDockIcon; }
     void                DeleteMacDockIcon();
     int                 ShouldShutdownCoreClient()  { return true; }
