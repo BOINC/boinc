@@ -1176,7 +1176,7 @@ const char* cant_fetch_work_string(PROJECT* p, char* buf) {
                 );
                 x += buf2;
                 if (i < coprocs.n_rsc-1) {
-                    x += ";";
+                    x += "; ";
                 }
             }
             x += ")";
