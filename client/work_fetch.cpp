@@ -44,12 +44,12 @@ using std::vector;
 RSC_WORK_FETCH rsc_work_fetch[MAX_RSC];
 WORK_FETCH work_fetch;
 
-static inline bool dont_fetch(PROJECT* p, int rsc_type) {
-    if (p->no_rsc_pref[rsc_type]) return true;
-    if (p->no_rsc_config[rsc_type]) return true;
-    if (p->no_rsc_apps[rsc_type]) return true;
-    if (p->no_rsc_ams[rsc_type]) return true;
-    return false;
+static inline int dont_fetch(PROJECT* p, int rsc_type) {
+    if (p->no_rsc_pref[rsc_type]) return DONT_FETCH_PREFS;
+    if (p->no_rsc_config[rsc_type]) return DONT_FETCH_CONFIG;
+    if (p->no_rsc_apps[rsc_type]) return DONT_FETCH_NO_APPS;
+    if (p->no_rsc_ams[rsc_type]) return DONT_FETCH_AMS;
+    return 0;
 }
 
 // if the configuration file disallows the use of a GPU type
@@ -427,16 +427,13 @@ void WORK_FETCH::print_state() {
     msg_printf(0, MSG_INFO, "[work_fetch] --- project states ---");
     for (unsigned int i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
-        char buf[256];
+        char buf[1024], buf2[1024];
         if (p->pwf.cant_fetch_work_reason) {
-            sprintf(buf, "can't req work: %s",
-                cant_fetch_work_string(p->pwf.cant_fetch_work_reason)
-            );
+            sprintf(buf, "can't req work: %s", cant_fetch_work_string(p, buf2));
         } else {
             strcpy(buf, "can req work");
         }
         if (p->min_rpc_time > gstate.now) {
-            char buf2[256];
             sprintf(buf2, " (backoff: %.2f sec)", p->min_rpc_time - gstate.now);
             strcat(buf, buf2);
         }
@@ -506,9 +503,13 @@ void WORK_FETCH::piggyback_work_request(PROJECT* p) {
     //
     for (int i=0; i<coprocs.n_rsc; i++) {
         DEBUG(msg_printf(p, MSG_INFO, "piggyback: resource %s", rsc_name(i));)
-        if (i && !gpus_usable) continue;
         RSC_WORK_FETCH& rwf = rsc_work_fetch[i];
-        if (!rwf.can_fetch(p)) {
+        if (i && !gpus_usable) {
+            rwf.dont_fetch_reason = DONT_FETCH_GPUS_NOT_USABLE;
+            continue;
+        }
+        rwf.dont_fetch_reason = rwf.cant_fetch(p);
+        if (rwf.dont_fetch_reason) {
             DEBUG(msg_printf(p, MSG_INFO, "piggyback: can't fetch %s", rsc_name(i));)
             continue;
         }
@@ -519,6 +520,7 @@ void WORK_FETCH::piggyback_work_request(PROJECT* p) {
         }
         if (!need_work) {
             DEBUG(msg_printf(p, MSG_INFO, "piggyback: don't need %s", rsc_name(i));)
+            rwf.dont_fetch_reason = DONT_FETCH_BUFFER_FULL;
             continue;
         }
         if (check_higher_priority_projects) {
@@ -530,12 +532,15 @@ void WORK_FETCH::piggyback_work_request(PROJECT* p) {
                     DEBUG(msg_printf(p, MSG_INFO, "piggyback: %s can't fetch work", p2->project_name);)
                     continue;
                 }
-                if (rwf.can_fetch(p2) && !rwf.backed_off(p2)) {
+                if (!rwf.cant_fetch(p2) && !rwf.backed_off(p2)) {
                     DEBUG(msg_printf(p, MSG_INFO, "piggyback: better proj %s", p2->project_name);)
                     break;
                 }
             }
-            if (p != p2) continue;
+            if (p != p2) {
+                rwf.dont_fetch_reason = DONT_FETCH_NOT_HIGHEST_PRIO;
+                continue;
+            }
         }
         DEBUG(msg_printf(p, MSG_INFO, "piggyback: requesting %s", rsc_name(i));)
         if (buffer_low) {
@@ -582,13 +587,14 @@ bool RSC_WORK_FETCH::backed_off(PROJECT* p) {
 // a variety of checks for whether we should ask this project
 // for work of this type
 //
-bool RSC_WORK_FETCH::can_fetch(PROJECT *p) {
+int RSC_WORK_FETCH::cant_fetch(PROJECT *p) {
     // see whether work fetch for this resource is banned
     // by prefs, config, project, or acct mgr
     //
-    if (dont_fetch(p, rsc_type)) {
+    int reason = dont_fetch(p, rsc_type);
+    if (reason) {
         DEBUG(msg_printf(p, MSG_INFO, "skip: dont_fetch");)
-        return false;
+        return reason;
     }
 
     RSC_PROJECT_WORK_FETCH& rpwf = project_state(p);
@@ -598,7 +604,7 @@ bool RSC_WORK_FETCH::can_fetch(PROJECT *p) {
     //
     if (p->resource_share == 0 && nidle_now == 0) {
         DEBUG(msg_printf(p, MSG_INFO, "skip: zero share");)
-        return false;
+        return DONT_FETCH_ZERO_SHARE;
     }
 
     // if project has excluded GPUs of this type,
@@ -622,15 +628,15 @@ bool RSC_WORK_FETCH::can_fetch(PROJECT *p) {
             && rpwf.queue_est > (gstate.work_buf_min() * n_not_excluded)/ninstances
         ) {
             DEBUG(msg_printf(p, MSG_INFO, "skip: too much work");)
-            return false;
+            return DONT_FETCH_BUFFER_FULL;
         }
     }
 
     if (rpwf.anon_skip) {
         DEBUG(msg_printf(p, MSG_INFO, "skip: anon");)
-        return false;
+        return DONT_FETCH_NO_APPS;
     }
-    return true;
+    return 0;
 }
 
 // return true if there is exclusion starvation
@@ -732,7 +738,7 @@ PROJECT* WORK_FETCH::choose_project() {
         for (int i=0; i<coprocs.n_rsc; i++) {
             if (i && !gpus_usable) continue;
             RSC_WORK_FETCH& rwf = rsc_work_fetch[i];
-            if (rwf.can_fetch(p) && !rwf.backed_off(p)) {
+            if (!rwf.cant_fetch(p) && !rwf.backed_off(p)) {
                 if (!rwf.found_project) {
                     rwf.found_project = p;
                 }
@@ -783,7 +789,8 @@ PROJECT* WORK_FETCH::choose_project() {
                         DEBUG(msg_printf(p, MSG_INFO, "%s don't need", rsc_name(i));)
                         continue;
                     }
-                    if (!rwf.can_fetch(p)) {
+                    int reason = rwf.cant_fetch(p);
+                    if (reason) {
                         DEBUG(msg_printf(p, MSG_INFO, "%s can't fetch", rsc_name(i));)
                         continue;
                     }
@@ -1114,4 +1121,68 @@ void CLIENT_STATE::generate_new_host_cpid() {
             projects[i]->set_min_rpc_time(now + 15, "Sending new host CPID");
         }
     }
+}
+
+inline const char* dont_fetch_string(int reason) {
+    switch (reason) {
+    case DONT_FETCH_GPUS_NOT_USABLE: return "GPUs not usable";
+    case DONT_FETCH_PREFS: return "project preferences";
+    case DONT_FETCH_CONFIG: return "client configuration";
+    case DONT_FETCH_NO_APPS: return "no applications";
+    case DONT_FETCH_AMS: return "account manager prefs";
+    case DONT_FETCH_BACKOFF: return "backoff";
+    case DONT_FETCH_ZERO_SHARE: return "zero resource share";
+    case DONT_FETCH_BUFFER_FULL: return "buffer full";
+    case DONT_FETCH_NOT_HIGHEST_PRIO: return "not highest priority project";
+    }
+    return "";
+}
+
+const char* cant_fetch_work_string(PROJECT* p, char* buf) {
+    switch (p->pwf.cant_fetch_work_reason) {
+    case CANT_FETCH_WORK_NON_CPU_INTENSIVE:
+        return "non CPU intensive";
+    case CANT_FETCH_WORK_SUSPENDED_VIA_GUI:
+        return "suspended via Manager";
+    case CANT_FETCH_WORK_MASTER_URL_FETCH_PENDING:
+        return "master URL fetch pending";
+    case CANT_FETCH_WORK_MIN_RPC_TIME:
+        return "scheduler RPC backoff";
+    case CANT_FETCH_WORK_DONT_REQUEST_MORE_WORK:
+        return "\"no new tasks\" requested via Manager";
+    case CANT_FETCH_WORK_DOWNLOAD_STALLED:
+        return "some download is stalled";
+    case CANT_FETCH_WORK_RESULT_SUSPENDED:
+        return "some task is suspended via Manager";
+    case CANT_FETCH_WORK_TOO_MANY_UPLOADS:
+        return "too many uploads in progress";
+    case CANT_FETCH_WORK_NOT_HIGHEST_PRIORITY:
+        return "project is not highest priority";
+    case CANT_FETCH_WORK_TOO_MANY_RUNNABLE:
+        return "too many runnable tasks";
+    case CANT_FETCH_WORK_DONT_NEED:
+        if (coprocs.n_rsc == 1) {
+            sprintf(buf, "don't need (%s)",
+                dont_fetch_string(rsc_work_fetch[0].dont_fetch_reason)
+            );
+        } else {
+            string x;
+            x = "don't need (";
+            for (int i=0; i<coprocs.n_rsc; i++) {
+                char buf2[256];
+                sprintf(buf2, "%s: %s",
+                    rsc_name(i),
+                    dont_fetch_string(rsc_work_fetch[i].dont_fetch_reason)
+                );
+                x += buf2;
+                if (i < coprocs.n_rsc-1) {
+                    x += ";";
+                }
+            }
+            x += ")";
+            strcpy(buf, x.c_str());
+        }
+        return buf;
+    }
+    return "";
 }
