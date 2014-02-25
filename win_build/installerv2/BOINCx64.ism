@@ -4053,7 +4053,7 @@ Click Advanced to customize.</td><td>0</td><td/><td>1427879980</td></row>
 		<row><td>CACleanupOldBinaries</td><td>REMOVE &lt;&gt; "ALL"</td><td>796</td><td/><td/></row>
 		<row><td>CACreateAcctMgrLoginFile</td><td>NOT Installed</td><td>6605</td><td/><td/></row>
 		<row><td>CACreateBOINCAccounts</td><td>VersionNT And REMOVE &lt;&gt; "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1546</td><td/><td/></row>
-		<row><td>CACreateBOINCGroups</td><td>VersionNT And REMOVE &lt;&gt; "ALL"</td><td>1549</td><td/><td/></row>
+		<row><td>CACreateBOINCGroups</td><td>VersionNT And REMOVE &lt;&gt; "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1549</td><td/><td/></row>
 		<row><td>CACreateClientAuthFile</td><td>VersionNT And NOT Installed</td><td>6604</td><td/><td/></row>
 		<row><td>CACreateProjectInitFile</td><td>NOT Installed</td><td>6606</td><td/><td/></row>
 		<row><td>CAGetAdministratorsGroupName</td><td>VersionNT And REMOVE &lt;&gt; "ALL"</td><td>1537</td><td/><td/></row>
