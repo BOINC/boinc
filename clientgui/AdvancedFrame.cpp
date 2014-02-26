@@ -1011,15 +1011,6 @@ void CAdvancedFrame::SaveWindowDimensions() {
 
     wxASSERT(pConfig);
 
-#ifdef __WXMAC__
-    // We don't call Hide() or Show(false) for the main frame
-    // under wxCocoa 2.9.5 because it bounces the Dock icon
-    // (as in notification) when we click on our menu bar icon.
-    // We work around this by moving the main window/frame off
-    // screen when needed.
-    pos = GetOnScreenFramePosition();
-#endif
-
     pConfig->SetPath(strBaseConfigLocation);
 
     bool iconized = IsIconized();
@@ -1713,7 +1704,6 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
         Show();
         wasVisible = wxGetApp().IsApplicationVisible();
         if (!wasVisible) {
-            MoveFrameOnScreen();
             wxGetApp().ShowApplication(true);
         }
         
@@ -1724,11 +1714,12 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
             // If successful, hide the main window if we showed it
             if (!wasVisible) {
                 wxGetApp().ShowApplication(false);
-                MoveFrameOffScreen();
             }
+#ifndef __WXMAC__   // See explanation in ShowApplication()
             if (!wasShown) {
                 Hide();
             }
+#endif
 #endif
 
             // %s is the application name
@@ -1760,7 +1751,6 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
         }
     } else if ((pis.url.size() || (0 >= pDoc->GetProjectCount())) && !status.disallow_attach) {
         Show();
-        MoveFrameOnScreen();
         wxGetApp().ShowApplication(true);
         
         pWizard = new CWizardAttach(this);

@@ -865,9 +865,6 @@ Boolean SetLoginItemOSAScript(long brandID, Boolean deleteLogInItem, char *userN
     
     fprintf(stdout, "Making new login item %s for user %s\n", appName[brandID], userName);
     fflush(stdout);
-    // With wxCocoa 3.0, setting login item with hidden=true seems to prevent BOINC Manager
-    // from fully starting at login until it is brought to the front, so set hidden=false.
-    // The logic inside BOINC Manager keeps it hidden anyway (unless not attached to any projects.)
     sprintf(cmd, "sudo -u \"%s\" osascript -e 'tell application \"System Events\"' -e 'make new login item at end with properties {path:\"%s\", hidden:true, name:\"%s\"}' -e 'end tell'", userName, appPath[brandID], appName[brandID]);
     err = system(cmd);
     if (err) {
