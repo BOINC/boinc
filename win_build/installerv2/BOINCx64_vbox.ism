@@ -1807,7 +1807,6 @@
 		<row><td>boinc.scr</td><td>_Screensaver</td><td>boinc.scr</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\boinc.scr</td><td>1</td><td/></row>
 		<row><td>boinc_logo_black.jpg</td><td>_BOINCScreensaver</td><td>BOINC_~1.JPG|boinc_logo_black.jpg</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_LOGO_FILES&gt;\boinc_logo_black.jpg</td><td>1</td><td/></row>
 		<row><td>boinccmd.exe</td><td>_BOINCCMD</td><td>boinccmd.exe</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\boinccmd.exe</td><td>1</td><td/></row>
-		<row><td>boincguiapp.ico</td><td>_BOINCManager</td><td>BOINCG~1.ICO|BOINCGUIApp.ico</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_BOINC_FILES&gt;\clientgui\res\BOINCGUIApp.ico</td><td>1</td><td/></row>
 		<row><td>boincmgr.exe</td><td>_BOINCManager</td><td>boincmgr.exe</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\boincmgr.exe</td><td>1</td><td/></row>
 		<row><td>boincscr.exe</td><td>_BOINCScreensaver</td><td>boincscr.exe</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\boincscr.exe</td><td>1</td><td/></row>
 		<row><td>boincsvcctrl.exe</td><td>_BOINCSvcCtrl</td><td>BOINCS~1.EXE|boincsvcctrl.exe</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\boincsvcctrl.exe</td><td>1</td><td/></row>
@@ -4016,7 +4015,7 @@ Click Advanced to customize.</td><td>0</td><td/><td>1427879980</td></row>
 		<col def="S255">ISBuildSourcePath</col>
 		<col def="I2">ISIconIndex</col>
 		<row><td>ARPPRODUCTICON.exe</td><td/><td>&lt;ISProjectFolder&gt;\redist\setup.ico</td><td/></row>
-		<row><td>BOINCManagerShortc_A93DE976FB764046A81032A4C7BB0936.exe</td><td/><td>&lt;PATH_TO_BOINC_FILES&gt;\clientgui\res\BOINCGUIApp.ico</td><td>0</td></row>
+		<row><td>BOINCManagerShortc_6E797A1C8FF24C29BF4BAD5AE09E4AB3.exe</td><td/><td>&lt;PATH_TO_BOINC_FILES&gt;\clientgui\res\boinc.ico</td><td>0</td></row>
 		<row><td>NewShortcut1_1F831FAF6288497299C84802D2DCC55C.exe</td><td/><td>&lt;PATH_TO_BOINC_FILES&gt;\clientgui\res\BOINCGUIApp.ico</td><td/></row>
 		<row><td>NewShortcut2_0DD4D63A90D3496F8A8CF0ABD3175580.exe</td><td/><td>&lt;PATH_TO_RELEASE_FILES&gt;\boinctray.exe</td><td>0</td></row>
 	</table>
@@ -4731,7 +4730,7 @@ VwBlAGIAAQBXAEUAQgB4ADYANAA=
 		<col def="S255">ISComments</col>
 		<col def="S255">ISShortcutName</col>
 		<col def="I4">ISAttributes</col>
-		<row><td>BOINCManagerShortcut</td><td>newfolder1</td><td>##IDS_FEATURE_BOINC_MANAGER_NAME##</td><td>_BOINCManagerStartMenu</td><td>[INSTALLDIR]boincmgr.exe</td><td/><td>##IDS_FEATURE_BOINC_MANAGER_DESCRIPTION##</td><td/><td>BOINCManagerShortc_A93DE976FB764046A81032A4C7BB0936.exe</td><td>0</td><td>1</td><td>INSTALLDIR</td><td/><td/><td/><td/><td/><td/><td/></row>
+		<row><td>BOINCManagerShortcut</td><td>newfolder1</td><td>##IDS_FEATURE_BOINC_MANAGER_NAME##</td><td>_BOINCManagerStartMenu</td><td>[INSTALLDIR]boincmgr.exe</td><td/><td>##IDS_FEATURE_BOINC_MANAGER_DESCRIPTION##</td><td/><td>BOINCManagerShortc_6E797A1C8FF24C29BF4BAD5AE09E4AB3.exe</td><td>0</td><td>1</td><td>INSTALLDIR</td><td/><td/><td/><td/><td/><td/><td/></row>
 	</table>
 
 	<table name="Signature">
