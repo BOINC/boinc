@@ -81,7 +81,9 @@ public class NoticesFragment extends Fragment {
 		    // data retrieval
 			updateNotices();
 			noticesListAdapter.clear();
-			noticesListAdapter.addAll(data);
+			for(Notice tmp: data) { // addAll only in API 11
+				noticesListAdapter.add(tmp);
+			}
 			noticesListAdapter.notifyDataSetChanged();
 		}
 	};
