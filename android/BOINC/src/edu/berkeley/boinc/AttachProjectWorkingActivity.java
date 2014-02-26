@@ -525,7 +525,7 @@ public class AttachProjectWorkingActivity extends Activity{
 		// either webRpcUrlBase for HTTPS, if available
 		// master URL otherwise
 		private String getSecureUrlIfAvailable() {
-			if(!webRpcUrlBase.isEmpty()) return webRpcUrlBase;
+			if(webRpcUrlBase != null && !webRpcUrlBase.isEmpty()) return webRpcUrlBase;
 			else return projectUrl;
 		}
 	}
