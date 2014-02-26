@@ -467,22 +467,6 @@ bool CBOINCGUIApp::OnInit() {
     SetActiveGUI(m_iGUISelected, m_bGUIVisible);
 
     if (!m_bGUIVisible) {
-#ifdef __WXMAC__
-        // We don't call Hide() or Show(false) for the main frame
-        // under wxCocoa 2.9.5 because it bounces the Dock icon
-        // (as in notification) when we click on our menu bar icon.
-        // We work around this by moving the main window/frame off
-        // screen here.
-        // The position will be restored in one of these methods:
-        // CBOINCGUIApp::OnActivateApp(), CSimpleFrame::SaveState()
-        // or CAdvancedFrame::SaveWindowDimensions().
-        if (m_pFrame) {
-            m_pFrame->MoveFrameOffScreen();
-            m_pFrame->Show();
-        }
-        // Force BOINC Manager to background (needed on OS 10.9)
-        system("osascript -e 'tell application \"Finder\" to activate'");
-#endif
         ShowApplication(false);
 	}
 
@@ -840,21 +824,6 @@ int CBOINCGUIApp::IdleTrackerDetach() {
 
 void CBOINCGUIApp::OnActivateApp(wxActivateEvent& event) {
 #ifdef __WXMAC__
-    // We don't call Hide() or Show(false) for the main frame
-    // under wxCocoa 2.9.5 because it bounces the Dock icon
-    // (as in notification) when we click on our menu bar icon.
-    // We work around this by moving the main window/frame off
-    // screen when needed.
-    if (m_pFrame) {
-        if (event.GetActive()) {
-            if (!m_bAboutDialogIsOpen) {
-                m_pFrame->MoveFrameOnScreen();
-            }
-        } else {
-            m_pFrame->SaveFramePosition();
-        }
-    }
-
     // Make sure any modal dialog (such as Attach Wizard) ends up in front.
     if (IsModalDialogDisplayed()) {
         event.Skip();
@@ -1271,6 +1240,9 @@ bool CBOINCGUIApp::IsApplicationVisible() {
     return false;
 }
 
+// A tiny Cocoa routine in MacNotification.mm
+extern void HideThisApp(void);
+
 ///
 /// Shows or hides the current process.
 ///
@@ -1278,11 +1250,40 @@ bool CBOINCGUIApp::IsApplicationVisible() {
 ///   true will show the process, false will hide the process.
 ///
 #ifdef __WXMAC__
+#define OFFSCREEN_DELTA 20000
+
+// We can "show" (unhide) the main window when the
+// application is hidden and it won't be visible.  But
+// if we don't do this under wxCocoa 3.0, the Dock 
+// icon will bounce (as in notification) when we
+// click on our menu bar icon.
+// However, there is a delay after we tell the OS to
+// hide the application before it is actually hidden,
+// so if we have the window hidden while displaying the
+// About dialog, it may appear briefly when we close
+// the dialog.  As a work around, we move the window
+// outside the screen bounds when hiding the application.
+
 void CBOINCGUIApp::ShowApplication(bool bShow) {
+    wxPoint pos = m_pFrame->GetPosition();
+    
     if (bShow) {
         SetFrontProcess(&m_psnCurrentProcess);
-    } else {
-        ShowHideProcess(&m_psnCurrentProcess, false);
+        if (m_pFrame) {
+            if (pos.x >= OFFSCREEN_DELTA) {
+                pos.x -= OFFSCREEN_DELTA;
+                m_pFrame->SetPosition(pos);
+            }
+        }
+    } else {    // bShow == false
+        if (m_pFrame) {
+            if (pos.x < OFFSCREEN_DELTA) {
+                pos.x += OFFSCREEN_DELTA;
+                m_pFrame->SetPosition(pos);
+            }
+            m_pFrame->wxFrame::Show();
+        }
+        HideThisApp();
     }
 }
 #else

@@ -257,19 +257,10 @@ void CTaskBarIcon::OnAbout(wxCommandEvent& WXUNUSED(event)) {
         if (bEventLogWasShown && !bWasVisible) eventLog->Show(false);
     }
     
-    // We don't call Hide() or Show(false) for the main frame
-    // under wxCocoa 2.9.5 because it bounces the Dock icon
-    // (as in notification) when we click on our menu bar icon.
-    // We work around this by moving the main window/frame off
-    // screen when displaying the CDlgAbout modal dialog while
-    // the main window is hidden.
-    // The position will be restored in one of these methods:
-    // CBOINCGUIApp::OnActivateApp(), CSimpleFrame::SaveState()
-    // or CAdvancedFrame::SaveWindowDimensions().
     CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
     if (pFrame) {
         if (!bWasVisible) {
-            pFrame->MoveFrameOffScreen();
+            pFrame->Show(false);
         }
     }
 #endif

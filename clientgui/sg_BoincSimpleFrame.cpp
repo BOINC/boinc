@@ -308,7 +308,6 @@ bool CSimpleFrame::SaveState() {
 	CBOINCBaseFrame::SaveState();
     wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
 	wxString        strBaseConfigLocation = wxString(wxT("/Simple"));
-    wxPoint         pos = GetPosition();
 
     wxASSERT(pConfig);
 
@@ -318,25 +317,13 @@ bool CSimpleFrame::SaveState() {
     //   pointer, return false.
     if (!pConfig) return false;
 
-#ifdef __WXMAC__
-    // We don't call Hide() or Show(false) for the main frame
-    // under wxCocoa 2.9.5 because it bounces the Dock icon
-    // (as in notification) when we click on our menu bar icon.
-    // We work around this by moving the main window/frame off
-    // screen when needed.
-    // The position will be restored in one of these methods:
-    // CBOINCGUIApp::OnActivateApp(), CSimpleFrame::SaveState()
-    // or CAdvancedFrame::SaveWindowDimensions().
-    pos = GetOnScreenFramePosition();
-#endif
-
     //
     // Save Frame State
     //
     pConfig->SetPath(strBaseConfigLocation);
 
-    pConfig->Write(wxT("XPos"), pos.x);
-    pConfig->Write(wxT("YPos"), pos.y);
+    pConfig->Write(wxT("XPos"), GetPosition().x);
+    pConfig->Write(wxT("YPos"), GetPosition().y);
 
     return true;
 }
@@ -648,6 +635,8 @@ void CSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     ACCT_MGR_INFO ami;
     PROJECT_INIT_STATUS pis;
 	CC_STATUS     status;
+    int wasShown = 0;
+    int wasVisible = 0;
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
@@ -667,20 +656,27 @@ void CSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     pDoc->rpc.get_project_init_status(pis);
     pDoc->rpc.acct_mgr_info(ami);
     if (ami.acct_mgr_url.size() && !ami.have_credentials) {
+        wasShown = IsShown();
         Show();
-        MoveFrameOnScreen();
-        wxGetApp().ShowApplication(true);
+        wasVisible = wxGetApp().IsApplicationVisible();
+        if (!wasVisible) {
+            wxGetApp().ShowApplication(true);
+        }
 
         pWizard = new CWizardAttach(this);
         if (pWizard->SyncToAccountManager()) {
-            // If successful, hide the main window
-            wxGetApp().ShowApplication(false);
-            MoveFrameOffScreen();
-            Hide();
+            // If successful, hide the main window if we showed it
+            if (!wasVisible) {
+                wxGetApp().ShowApplication(false);
+            }
+#ifndef __WXMAC__   // See explanation in ShowApplication()
+            if (!wasShown) {
+                Hide();
+            }
+#endif
         }
     } else if ((pis.url.size() || (0 >= pDoc->GetSimpleProjectCount())) && !status.disallow_attach) {
         Show();
-        MoveFrameOnScreen();
         wxGetApp().ShowApplication(true);
 
         strName = wxString(pis.name.c_str(), wxConvUTF8);
