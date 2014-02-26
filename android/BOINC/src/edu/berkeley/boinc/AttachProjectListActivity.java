@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import edu.berkeley.boinc.adapter.AttachProjectListAdapter;
 import edu.berkeley.boinc.client.IMonitor;
 import edu.berkeley.boinc.client.Monitor;
+import edu.berkeley.boinc.rpc.Notice;
 import edu.berkeley.boinc.rpc.ProjectInfo;
 import android.app.Dialog;
 import android.app.Service;
@@ -272,7 +273,9 @@ public class AttachProjectListActivity extends ActionBarActivity implements andr
 		
 		protected void onPostExecute(ArrayList<ProjectInfo> result) {
 	        if (listAdapter!=null) {
-	        	listAdapter.addAll(result);
+				for(ProjectInfo tmp: result) { // addAll only in API 11
+					listAdapter.add(tmp);
+				}
 	         }
 	        	 
 	     }
