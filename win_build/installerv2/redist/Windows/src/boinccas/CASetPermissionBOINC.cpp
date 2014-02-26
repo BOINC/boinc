@@ -64,18 +64,17 @@ UINT CASetPermissionBOINC::OnExecution()
     DWORD                   dwRes = 0;
     PACL                    pACL = NULL;
     PACL                    pOldACL = NULL;
-    PSID                    psidEveryone = NULL;
+    ULONGLONG               rgSidBU[(SECURITY_MAX_SID_SIZE+sizeof(ULONGLONG)-1)/sizeof(ULONGLONG)]={0};
+    DWORD                   dwSidSize;
     PSECURITY_DESCRIPTOR    pSD = NULL;
     EXPLICIT_ACCESS         ea[3];
-    ULONG                   ulEntries = 2;
+    ULONG                   ulEntries = 0;
     tstring                 strBOINCAdminsGroupAlias;
     tstring                 strBOINCUsersGroupAlias;
     tstring                 strBOINCInstallDirectory;
+    tstring                 strEnableProtectedApplicationExecution;
     tstring                 strEnableUseByAllUsers;
     UINT                    uiReturnValue = -1;
-
-    SID_IDENTIFIER_AUTHORITY SIDAuthNT = SECURITY_NT_AUTHORITY;
-    SID_IDENTIFIER_AUTHORITY SIDAuthWorld = SECURITY_WORLD_SID_AUTHORITY;
 
     uiReturnValue = GetProperty( _T("BOINC_ADMINS_GROUPNAME"), strBOINCAdminsGroupAlias );
     if ( uiReturnValue ) return uiReturnValue;
@@ -86,12 +85,38 @@ UINT CASetPermissionBOINC::OnExecution()
     uiReturnValue = GetProperty( _T("INSTALLDIR"), strBOINCInstallDirectory );
     if ( uiReturnValue ) return uiReturnValue;
 
+    uiReturnValue = GetProperty( _T("ENABLEPROTECTEDAPPLICATIONEXECUTION3"), strEnableProtectedApplicationExecution );
+    if ( uiReturnValue ) return uiReturnValue;
+
     uiReturnValue = GetProperty( _T("ENABLEUSEBYALLUSERS"), strEnableUseByAllUsers );
     if ( uiReturnValue ) return uiReturnValue;
 
+    // We should only tweek the permissions on the executable directory if we are installing
+    // as a service.
+    if (_T("1") != strEnableProtectedApplicationExecution) {
+        return ERROR_SUCCESS;
+    }
 
     // Initialize an EXPLICIT_ACCESS structure for all ACEs.
     ZeroMemory(&ea, 3 * sizeof(EXPLICIT_ACCESS));
+
+
+    // Create a SID for the Users group.
+    dwSidSize = sizeof( rgSidBU );
+    if(!CreateWellKnownSid(WinBuiltinUsersSid, NULL, rgSidBU, &dwSidSize))
+    {
+        LogMessage(
+            INSTALLMESSAGE_ERROR,
+            NULL, 
+            NULL,
+            NULL,
+            GetLastError(),
+            _T("CreateWellKnownSid Error for BUILTIN\\Users")
+        );
+        return ERROR_INSTALL_FAILURE;
+    }
+
+    ulEntries = 2;
 
     // boinc_admins
     ea[0].grfAccessPermissions = GENERIC_ALL;
@@ -109,36 +134,8 @@ UINT CASetPermissionBOINC::OnExecution()
     ea[1].Trustee.TrusteeType = TRUSTEE_IS_GROUP;
     ea[1].Trustee.ptstrName  = (LPTSTR)strBOINCUsersGroupAlias.c_str();
 
-    // Everyone
+    // Users
     if (_T("1") == strEnableUseByAllUsers) {
-
-        // Create a well-known SID for the Everyone group.
-        if(!AllocateAndInitializeSid(
-                         &SIDAuthWorld,
-                         1,
-                         SECURITY_WORLD_RID,
-                         0, 0, 0, 0, 0, 0, 0,
-                         &psidEveryone
-          ))
-        {
-            LogMessage(
-                INSTALLMESSAGE_INFO,
-                NULL, 
-                NULL,
-                NULL,
-                GetLastError(),
-                _T("AllocateAndInitializeSid Error for Everyone group")
-            );
-            LogMessage(
-                INSTALLMESSAGE_ERROR,
-                NULL, 
-                NULL,
-                NULL,
-                GetLastError(),
-                _T("AllocateAndInitializeSid Error for Everyone group")
-            );
-        }
-
         ulEntries = 3;
 
         ea[2].grfAccessPermissions = GENERIC_READ|GENERIC_EXECUTE;
@@ -146,8 +143,9 @@ UINT CASetPermissionBOINC::OnExecution()
         ea[2].grfInheritance= SUB_CONTAINERS_AND_OBJECTS_INHERIT;
         ea[2].Trustee.TrusteeForm = TRUSTEE_IS_SID;
         ea[2].Trustee.TrusteeType = TRUSTEE_IS_WELL_KNOWN_GROUP;
-        ea[2].Trustee.ptstrName  = (LPTSTR)psidEveryone;
+        ea[2].Trustee.ptstrName  = (LPTSTR)rgSidBU;
     }
+
 
     // Get the old ACL for the directory
     dwRes = GetNamedSecurityInfo(
@@ -243,8 +241,6 @@ UINT CASetPermissionBOINC::OnExecution()
         LocalFree(pACL);
     if (pSD)
         LocalFree(pSD);
-    if (psidEveryone)
-        FreeSid(psidEveryone);
 
     return ERROR_SUCCESS;
 }
