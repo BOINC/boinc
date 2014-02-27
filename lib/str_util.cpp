@@ -703,3 +703,14 @@ void strip_translation(char* p) {
     remove_str(p, "_(\"");
     remove_str(p, "\")");
 }
+
+char* lf_terminate(char* p) {
+    int n = strlen(p);
+    if (p[n-1] == '\n') {
+        return p;
+    }
+    p = (char*)realloc(p, n+2);
+    p[n] = '\n';
+    p[n+1] = 0;
+    return p;
+}

@@ -1344,6 +1344,7 @@ void GLOBAL_PREFS::defaults() {
 void GUI_URLS::init() {
     text = 0;
     read_file_malloc(config.project_path("gui_urls.xml"), text);
+    text = lf_terminate(text);
 }
 
 void GUI_URLS::get_gui_urls(USER& user, HOST& host, TEAM& team, char* buf, int len) {
@@ -1385,6 +1386,7 @@ void GUI_URLS::get_gui_urls(USER& user, HOST& host, TEAM& team, char* buf, int l
 void PROJECT_FILES::init() {
     text = 0;
     read_file_malloc(config.project_path("project_files.xml"), text);
+    text = lf_terminate(text);
 }
 
 void get_weak_auth(USER& user, char* buf) {
