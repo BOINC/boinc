@@ -5,5 +5,5 @@ core = 6.x
 version = "6.x-1.5-dev-boinc-1"
 core = "6.x"
 project = "r4032login"
-datestamp = "1382632830"
+datestamp = "1393530079"
 

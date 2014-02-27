@@ -7,5 +7,5 @@ core = 6.x
 version = "6.x-1.2-dev-boinc-1"
 core = "6.x"
 project = "bbcode"
-datestamp = "1228042502"
+datestamp = "1393530079"
 

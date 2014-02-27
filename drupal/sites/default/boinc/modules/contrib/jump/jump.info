@@ -7,5 +7,5 @@ dependencies[] = ahah_helper
 version = "6.x-2.x-dev"
 core = "6.x"
 project = "jump"
-datestamp = "1380584240"
+datestamp = "1393530079"
 
