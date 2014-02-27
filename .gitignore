@@ -17,6 +17,13 @@
 /win_build/installerv2/WCG
 /win_build/installerv2/Progress
 
+# Visual Studio Build Directories for BOINCCAS
+/win_build/installerv2/redist/Windows/src/boinccas/Debug
+/win_build/installerv2/redist/Windows/src/boinccas/Debug95
+/win_build/installerv2/redist/Windows/src/boinccas/Release
+/win_build/installerv2/redist/Windows/src/boinccas/Release95
+/win_build/installerv2/redist/Windows/src/boinccas/x64
+
 #
 *.pfx
 *.pvk
