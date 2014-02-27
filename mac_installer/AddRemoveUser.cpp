@@ -17,6 +17,8 @@
 
 /*  AddRemoveUser.cpp */
 
+#define VERBOSE 0
+
 #include <Carbon/Carbon.h>
 
 #include <unistd.h>	// getlogin
@@ -24,12 +26,13 @@
 #include <pwd.h>	// getpwname, getpwuid, getuid
 #include <grp.h>        // getgrnam
 
-#include "LoginItemAPI.h"  //please take a look at LoginItemAPI.h for an explanation of the routines available to you.
-
 void printUsage(void);
-void SetLoginItem(Boolean addLogInItem);
+Boolean SetLoginItemOSAScript(Boolean addLogInItem, char *userName);
 static char * PersistentFGets(char *buf, size_t buflen, FILE *f);
 static int compareOSVersionTo(int toMajor, int toMinor);
+OSErr FindProcess (OSType typeToFind, OSType creatorToFind, ProcessSerialNumberPtr processSN);
+static void SleepTicks(UInt32 ticksToSleep);
+static OSErr QuitOneProcess(OSType signature);
 
 
 int main(int argc, char *argv[])
@@ -136,10 +139,11 @@ int main(int argc, char *argv[])
             system(s);
         }
 
+        // Set or remove login item for this user
+        SetLoginItemOSAScript(AddUsers, pw->pw_name);
+
         saved_uid = geteuid();
         seteuid(pw->pw_uid);                        // Temporarily set effective uid to this user
-
-        SetLoginItem(AddUsers);                     // Set or remove login item for this user
 
         if (compareOSVersionTo(10, 6) < 0) {
             sprintf(s, "sudo -u %s defaults -currentHost read com.apple.screensaver moduleName", 
@@ -208,37 +212,144 @@ void printUsage() {
     printf("\n");
 }
 
-void SetLoginItem(Boolean addLogInItem){
-    Boolean                 Success;
-    int                     NumberOfLoginItems, Counter;
-    char                    *p, *q;
+enum {
+	kSystemEventsCreator = 'sevs'
+};
 
-    Success = false;
-    
-    NumberOfLoginItems = GetCountOfLoginItems(kCurrentUser);
-    
-    // Search existing login items in reverse order, deleting any duplicates of ours
-    for (Counter = NumberOfLoginItems ; Counter > 0 ; Counter--)
-    {
-        p = ReturnLoginItemPropertyAtIndex(kCurrentUser, kApplicationNameInfo, Counter-1);
-        if (p == NULL) continue;
-        q = p;
-        while (*q)
-        {
-            // It is OK to modify the returned string because we "own" it
-            *q = toupper(*q);	// Make it case-insensitive
-            q++;
+Boolean SetLoginItemOSAScript(Boolean addLogInItem, char *userName)
+{
+    int                     i, j;
+    char                    cmd[2048];
+    char                    systemEventsPath[1024];
+    ProcessSerialNumber     SystemEventsPSN;
+	FSRef                   appRef;
+    OSErr                   err, err2;
+
+#if VERBOSE
+    fprintf(stderr, "Adjusting login items for user %s\n", userName);
+    fflush(stderr);
+#endif
+
+    // We must launch the System Events application for the target user
+
+    err = FindProcess ('APPL', kSystemEventsCreator, &SystemEventsPSN);
+    if (err == noErr) {
+        // Find SystemEvents process.  If found, quit it in case 
+        // it is running under a different user.
+#if VERBOSE
+        fprintf(stderr, "Telling System Events to quit (at start of SetLoginItemOSAScript)\n");
+        fflush(stderr);
+#endif
+        err = QuitOneProcess(kSystemEventsCreator);
+        if (err != noErr) {
+            fprintf(stderr, "QuitOneProcess(kSystemEventsCreator) returned error %d \n", (int) err);
+            fflush(stderr);
         }
+        // Wait for the process to be gone
+        for (i=0; i<50; ++i) {      // 5 seconds max delay
+            SleepTicks(6);  // 6 Ticks == 1/10 second
+            err = FindProcess ('APPL', kSystemEventsCreator, &SystemEventsPSN);
+            if (err != noErr) break;
+        }
+        if (i >= 50) {
+            fprintf(stderr, "Failed to make System Events quit\n");
+            fflush(stderr);
+            err = noErr;
+            goto cleanupSystemEvents;
+        }
+        sleep(4);
+    }
     
-        if (strcmp(p, "BOINCMANAGER.APP") == 0) {
-            Success = RemoveLoginItemAtIndex(kCurrentUser, Counter-1);
+    err = LSFindApplicationForInfo(kSystemEventsCreator, NULL, NULL, &appRef, NULL);
+    if (err != noErr) {
+        fprintf(stderr, "LSFindApplicationForInfo(kSystemEventsCreator) returned error %d \n", (int) err);
+        fflush(stderr);
+        goto cleanupSystemEvents;
+    } else {
+        FSRefMakePath(&appRef, (UInt8*)systemEventsPath, sizeof(systemEventsPath));
+#if VERBOSE
+        fprintf(stderr, "SystemEvents is at %s\n", systemEventsPath);
+        fprintf(stderr, "Launching SystemEvents for user %s\n", userName);
+        fflush(stderr);
+#endif
+
+        for (j=0; j<5; ++j) {
+            sprintf(cmd, "sudo -u \"%s\" \"%s/Contents/MacOS/System Events\" &", userName, systemEventsPath);
+            err = system(cmd);
+            if (err) {
+                fprintf(stderr, "Command: %s returned error %d (try %d of 5)\n", cmd, (int) err, j);
+            }
+            // Wait for the process to start
+            for (i=0; i<50; ++i) {      // 5 seconds max delay
+                SleepTicks(6);  // 6 Ticks == 1/10 second
+                err = FindProcess ('APPL', kSystemEventsCreator, &SystemEventsPSN);
+                if (err == noErr) break;
+            }
+            if (i < 50) break;  // Exit j loop on success
+        }
+        if (j >= 5) {
+            fprintf(stderr, "Failed to launch System Events for user %s\n", userName);
+            fflush(stderr);
+            err = noErr;
+            goto cleanupSystemEvents;
         }
     }
-
-    if (addLogInItem) {
-        Success = AddLoginItemWithPropertiesToUser(kCurrentUser, "/Applications/BOINCManager.app", kHideOnLaunch);
+    sleep(2);
+    
+#if VERBOSE
+    fprintf(stderr, "Deleting any login items containing BOINCManager for user %s\n", userName);
+    fflush(stderr);
+#endif
+    sprintf(cmd, "sudo -u \"%s\" osascript -e 'tell application \"System Events\"' -e 'delete (every login item whose path contains \"BOINCManager\")' -e 'end tell'", userName);
+    err = system(cmd);
+    if (err) {
+        fprintf(stderr, "Command: %s\n", cmd);
+        fprintf(stderr, "Delete login item containing \"BOINCManager\" returned error %d\n", err);
+        fflush(stderr);
     }
+
+    if (addLogInItem == false) {
+        err = noErr;
+        goto cleanupSystemEvents;
+    }
+    
+    fprintf(stdout, "Making new login item %s for user %s\n", "BOINCManager", userName);
+    fflush(stderr);
+    sprintf(cmd, "sudo -u \"%s\" osascript -e 'tell application \"System Events\"' -e 'make new login item at end with properties {path:\"/Applications/BOINCManager.app\", hidden:true, name:\"BOINCManager\"}' -e 'end tell'", userName);
+    err = system(cmd);
+    if (err) {
+        fprintf(stderr, "Command: %s\n", cmd);
+        printf("Make login item for %s returned error %d\n", "/Applications/BOINCManager.app", err);
+    }
+    fflush(stderr);
+
+cleanupSystemEvents:
+    // Clean up in case this was our last user
+#if VERBOSE
+    fprintf(stderr, "Telling System Events to quit (at end of SetLoginItemOSAScript)\n");
+    fflush(stderr);
+#endif
+    err2 = QuitOneProcess(kSystemEventsCreator);
+    if (err2 != noErr) {
+        fprintf(stderr, "QuitOneProcess(kSystemEventsCreator) returned error %d \n", (int) err2);
+        fflush(stderr);
+    }
+    // Wait for the process to be gone
+    for (i=0; i<50; ++i) {      // 5 seconds max delay
+        SleepTicks(6);  // 6 Ticks == 1/10 second
+        err2 = FindProcess ('APPL', kSystemEventsCreator, &SystemEventsPSN);
+        if (err2 != noErr) break;
+    }
+    if (i >= 50) {
+        fprintf(stderr, "Failed to make System Events quit\n");
+        fflush(stderr);
+    }
+    
+    sleep(4);
+        
+    return (err == noErr);
 }
+
 
 static char * PersistentFGets(char *buf, size_t buflen, FILE *f) {
     char *p = buf;
@@ -282,4 +393,114 @@ static int compareOSVersionTo(int toMajor, int toMinor) {
     return 0;
 }
 
+// ---------------------------------------------------------------------------
+/* This runs through the process list looking for the indicated application */
+/*  Searches for process by file type and signature (creator code)          */
+// ---------------------------------------------------------------------------
+OSErr FindProcess (OSType typeToFind, OSType creatorToFind, ProcessSerialNumberPtr processSN)
+{
+    ProcessInfoRec tempInfo;
+    FSSpec procSpec;
+    Str31 processName;
+    OSErr myErr = noErr;
+    /* null out the PSN so we're starting at the beginning of the list */
+    processSN->lowLongOfPSN = kNoProcess;
+    processSN->highLongOfPSN = kNoProcess;
+    /* initialize the process information record */
+    tempInfo.processInfoLength = sizeof(ProcessInfoRec);
+    tempInfo.processName = processName;
+    tempInfo.processAppSpec = &procSpec;
+    /* loop through all the processes until we */
+    /* 1) find the process we want */
+    /* 2) error out because of some reason (usually, no more processes) */
+    do {
+        myErr = GetNextProcess(processSN);
+        if (myErr == noErr)
+            GetProcessInformation(processSN, &tempInfo);
+    }
+            while ((tempInfo.processSignature != creatorToFind || tempInfo.processType != typeToFind) &&
+                   myErr == noErr);
+    return(myErr);
+}
 
+
+// Uses usleep to sleep for full duration even if a signal is received
+static void SleepTicks(UInt32 ticksToSleep) {
+    UInt32 endSleep, timeNow, ticksRemaining;
+
+    timeNow = TickCount();
+    ticksRemaining = ticksToSleep;
+    endSleep = timeNow + ticksToSleep;
+    while ( (timeNow < endSleep) && (ticksRemaining <= ticksToSleep) ) {
+        usleep(16667 * ticksRemaining);
+        timeNow = TickCount();
+        ticksRemaining = endSleep - timeNow;
+    } 
+}
+
+static OSErr QuitOneProcess(OSType signature) {
+    bool                done = false;
+    ProcessSerialNumber thisPSN;
+    ProcessInfoRec		thisPIR;
+    OSErr               err = noErr;
+    Str63               thisProcessName;
+    AEAddressDesc		thisPSNDesc;
+    AppleEvent			thisQuitEvent, thisReplyEvent;
+    
+
+    thisPIR.processInfoLength = sizeof (ProcessInfoRec);
+    thisPIR.processName = thisProcessName;
+    thisPIR.processAppSpec = nil;
+    
+    thisPSN.highLongOfPSN = 0;
+    thisPSN.lowLongOfPSN = kNoProcess;
+    
+    while (done == false) {		
+        err = GetNextProcess(&thisPSN);
+        if (err == procNotFound) {	
+            done = true;		// Finished stepping through all running applications.
+            err = noErr;        // Success
+        } else {		
+            err = GetProcessInformation(&thisPSN,&thisPIR);
+            if (err != noErr)
+                goto bail;
+                    
+            if (thisPIR.processSignature == signature) {	// is it our target process?
+                err = AECreateDesc(typeProcessSerialNumber, (Ptr)&thisPSN,
+                                            sizeof(thisPSN), &thisPSNDesc);
+                if (err != noErr)
+                    goto bail;
+
+                // Create the 'quit' Apple event for this process.
+                err = AECreateAppleEvent(kCoreEventClass, kAEQuitApplication, &thisPSNDesc,
+                                                kAutoGenerateReturnID, kAnyTransactionID, &thisQuitEvent);
+                if (err != noErr) {
+                    AEDisposeDesc (&thisPSNDesc);
+                    goto bail;		// don't know how this could happen, but limp gamely onward
+                }
+
+                // send the event 
+                err = AESend(&thisQuitEvent, &thisReplyEvent, kAEWaitReply,
+                                           kAENormalPriority, kAEDefaultTimeout, 0L, 0L);
+                AEDisposeDesc (&thisQuitEvent);
+                AEDisposeDesc (&thisPSNDesc);
+
+                if (err != noErr)
+                    goto bail;
+#if 0
+                if (err == errAETimeout) {
+                    pid_t thisPID;
+                        
+                    err = GetProcessPID(&thisPSN , &thisPID);
+                    if (err == noErr)
+                        err = kill(thisPID, SIGKILL);
+                }
+#endif
+                continue;		// There can be multiple instances of the Manager
+            }
+        }
+    }
+
+bail:
+    return err;
+}
