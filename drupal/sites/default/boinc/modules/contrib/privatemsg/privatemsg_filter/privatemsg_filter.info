@@ -6,8 +6,8 @@ dependencies[] = privatemsg
 
 
 ; Information added by drupal.org packaging script on 2011-06-19
-version = "6.x-1.5"
+version = "6.x-1.5-dev-boinc-1"
 core = "6.x"
 project = "privatemsg"
-datestamp = "1308483720"
+datestamp = "1393530079"
 
