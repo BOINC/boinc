@@ -665,13 +665,31 @@ void CSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
 
         pWizard = new CWizardAttach(this);
         if (pWizard->SyncToAccountManager()) {
-            // If successful, hide the main window if we showed it
-            if (!wasVisible) {
-                wxGetApp().ShowApplication(false);
+            // _GRIDREPUBLIC, _PROGRESSTHRUPROCESSORS and _CHARITYENGINE
+            // are defined for those branded builds on Windows only
+#if defined(_GRIDREPUBLIC) || defined(_PROGRESSTHRUPROCESSORS) || defined(_CHARITYENGINE) || defined(__WXMAC__)
+#ifdef __WXMAC__
+            // For GridRepublic, Charity Engine or ProgressThruProcessors, 
+            // the Mac installer put a branding file in our data directory
+            long iBrandID = 0;  // 0 is unbranded (default) BOINC
+
+            FILE *f = boinc_fopen("/Library/Application Support/BOINC Data/Branding", "r");
+            if (f) {
+                fscanf(f, "BrandId=%ld\n", &iBrandID);
+                fclose(f);
             }
+            if ((iBrandID > 0) && (iBrandID < 4))
+#endif
+            {
+                // If successful, hide the main window if we showed it
+                if (!wasVisible) {
+                    wxGetApp().ShowApplication(false);
+                }
 #ifndef __WXMAC__   // See explanation in ShowApplication()
-            if (!wasShown) {
-                Hide();
+                if (!wasShown) {
+                    Hide();
+                }
+#endif
             }
 #endif
         }
