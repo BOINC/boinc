@@ -39,6 +39,7 @@ using std::vector;
 #define BOINC_BRAND_ID 0
 #define GRIDREPUBLIC_BRAND_ID 1
 #define PROGRESSTHRUPROCESSORS_BRAND_ID 2
+#define CHARITYENGINE_BRAND_ID 3
 
 
 // build table of all processes in system
@@ -137,12 +138,17 @@ int procinfo_setup(PROC_MAP& pm) {
 
         switch (iBrandID) {
         case GRIDREPUBLIC_BRAND_ID:
-            if (!strcmp(p.command, "GridRepublic Desktop")) {
+            if (!strcasestr(p.command, "GridRepublic")) {
                 p.is_boinc_app = true;
             }
             break;
         case PROGRESSTHRUPROCESSORS_BRAND_ID:
-            if (!strcmp(p.command, "Progress Thru Processors Desktop")) {
+            if (!strcasestr(p.command, "Progress Thru Processors")) {
+                p.is_boinc_app = true;
+            }
+            break;
+        case CHARITYENGINE_BRAND_ID:
+            if (!strcasestr(p.command, "Charity Engine")) {
                 p.is_boinc_app = true;
             }
             break;
