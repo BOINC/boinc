@@ -308,6 +308,7 @@ bool CSimpleFrame::SaveState() {
 	CBOINCBaseFrame::SaveState();
     wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
 	wxString        strBaseConfigLocation = wxString(wxT("/Simple"));
+    wxPoint         pos = GetPosition();
 
     wxASSERT(pConfig);
 
@@ -322,8 +323,15 @@ bool CSimpleFrame::SaveState() {
     //
     pConfig->SetPath(strBaseConfigLocation);
 
-    pConfig->Write(wxT("XPos"), GetPosition().x);
-    pConfig->Write(wxT("YPos"), GetPosition().y);
+#ifdef __WXMAC__
+    // See comment in CBOINCGUIApp::ShowApplication()
+    if (pos.x >= OFFSCREEN_DELTA) {
+        pos.x -= OFFSCREEN_DELTA;
+    }
+#endif
+
+    pConfig->Write(wxT("XPos"), pos.x);
+    pConfig->Write(wxT("YPos"), pos.y);
 
     return true;
 }
@@ -685,7 +693,7 @@ void CSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
                 if (!wasVisible) {
                     wxGetApp().ShowApplication(false);
                 }
-#ifndef __WXMAC__   // See explanation in ShowApplication()
+#ifndef __WXMAC__   // See comment in CBOINCGUIApp::ShowApplication()
                 if (!wasShown) {
                     Hide();
                 }

@@ -990,6 +990,10 @@ bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
         // Make sure that the new window is going to be visible
         //   on a screen
 #ifdef __WXMAC__
+    // See comment in CBOINCGUIApp::ShowApplication()
+    if (iLeft >= OFFSCREEN_DELTA) {
+        iLeft -= OFFSCREEN_DELTA;
+    }
     if (!IsWindowOnScreen(iLeft, iTop, iWidth, iHeight)) {
         iTop = iLeft = 30;
     }
@@ -1250,8 +1254,6 @@ extern void HideThisApp(void);
 ///   true will show the process, false will hide the process.
 ///
 #ifdef __WXMAC__
-#define OFFSCREEN_DELTA 20000
-
 // We can "show" (unhide) the main window when the
 // application is hidden and it won't be visible.  But
 // if we don't do this under wxCocoa 3.0, the Dock 

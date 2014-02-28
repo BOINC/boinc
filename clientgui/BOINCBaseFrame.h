@@ -22,6 +22,11 @@
 #pragma interface "BOINCBaseFrame.cpp"
 #endif
 
+#ifdef __WXMAC__
+#define OFFSCREEN_DELTA 20000
+#endif
+
+
 class CFrameEvent;
 class CFrameAlertEvent;
 class CBOINCDialUpManager;

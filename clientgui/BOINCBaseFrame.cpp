@@ -317,7 +317,7 @@ void CBOINCBaseFrame::OnClose(wxCloseEvent& event) {
         // again.  Just minimize the window instead.
         Iconize();
 #elif defined(__WXMAC__)
-        // See explanation in CBOINCGUIApp::ShowApplication().
+        // See comment in CBOINCGUIApp::ShowApplication().
         wxGetApp().ShowApplication(false);
 #else
         Hide();

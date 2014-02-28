@@ -1011,6 +1011,13 @@ void CAdvancedFrame::SaveWindowDimensions() {
 
     wxASSERT(pConfig);
 
+#ifdef __WXMAC__
+    // See comment in CBOINCGUIApp::ShowApplication()
+    if (pos.x >= OFFSCREEN_DELTA) {
+        pos.x -= OFFSCREEN_DELTA;
+    }
+#endif
+
     pConfig->SetPath(strBaseConfigLocation);
 
     bool iconized = IsIconized();
@@ -1729,7 +1736,7 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
                 if (!wasVisible) {
                     wxGetApp().ShowApplication(false);
                 }
-#ifndef __WXMAC__   // See explanation in ShowApplication()
+#ifndef __WXMAC__   // See comment in CBOINCGUIApp::ShowApplication()
                 if (!wasShown) {
                     Hide();
                 }
