@@ -40,7 +40,6 @@ using std::string;
 #define SEARCHFORALLBOINCMANAGERS 0
 #define MAX_LANGUAGES_TO_TRY 5
 
-#include "LoginItemAPI.h"
 #include "translate.h"
 
 static OSStatus DoUninstall(void);
