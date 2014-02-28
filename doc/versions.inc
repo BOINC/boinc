@@ -44,12 +44,12 @@ function linux_info() {
 }
 
 $w72 = array(
-	"num"=>"7.2.39",
+	"num"=>"7.2.42",
 	"status"=>"Recommended version",
-	"file"=>"boinc_7.2.39_windows_intelx86.exe",
-	"vbox_file"=>"boinc_7.2.39_windows_intelx86_vbox.exe",
-  "vbox_version"=>"4.2.16",
-	"date"=>"28 Jan 2014",
+	"file"=>"boinc_7.2.42_windows_intelx86.exe",
+	"vbox_file"=>"boinc_7.2.4239_windows_intelx86_vbox.exe",
+    "vbox_version"=>"4.2.16",
+	"date"=>"28 Feb 2014",
 	"type"=>"win_new",
 );
 
@@ -78,12 +78,12 @@ $w5816 = array(
 );
 
 $w72x64 = array(
-	"num"=>"7.2.39",
+	"num"=>"7.2.42",
 	"status"=>"Recommended version",
-	"file"=>"boinc_7.2.39_windows_x86_64.exe",
-	"vbox_file"=>"boinc_7.2.39_windows_x86_64_vbox.exe",
-  "vbox_version"=>"4.2.16",
-	"date"=>"28 Jan 2014",
+	"file"=>"boinc_7.2.42_windows_x86_64.exe",
+	"vbox_file"=>"boinc_7.2.42_windows_x86_64_vbox.exe",
+    "vbox_version"=>"4.2.16",
+	"date"=>"28 Feb 2014",
 	"type"=>"win_new",
 );
 
@@ -96,10 +96,10 @@ $w70x64 = array(
 );
 
 $m72 = array(
-	"num"=>"7.2.39",
+	"num"=>"7.2.42",
 	"status"=>"Recommended version (standard GUI)",
-	"file"=>"boinc_7.2.39_macOSX_i686.zip",
-	"date"=>"28 Jan 2014",
+	"file"=>"boinc_7.2.42_macOSX_i686.zip",
+	"date"=>"28 Feb 2014",
 	"type"=>"mac_advanced",
 );
 
@@ -128,10 +128,10 @@ $m66 = array(
 );
 
 $m72c = array(
-	"num"=>"7.2.39",
+	"num"=>"7.2.42",
 	"status"=>"Recommended version (Unix command-line version)",
-	"file"=>"boinc_7.2.39_i686-apple-darwin.zip",
-	"date"=>"28 Jan 2014",
+	"file"=>"boinc_7.2.42_i686-apple-darwin.zip",
+	"date"=>"28 Feb 2014",
 	"type"=>"bare_core",
 );
 
@@ -176,10 +176,10 @@ $l66 = array(
 	);
 
 $l72ubuntu = array(
-	"num"=>"7.2.39",
+	"num"=>"7.2.42",
 	"status"=>"Recommended version",
-	"file"=>"boinc_7.2.39_i686-pc-linux-gnu.sh",
-	"date"=>"28 Jan 2014",
+	"file"=>"boinc_7.2.42_i686-pc-linux-gnu.sh",
+	"date"=>"28 Feb 2014",
 	"type"=>"sea",
 );
 
@@ -192,10 +192,10 @@ $l70ubuntu = array(
 );
 
 $l72ubuntux64 = array(
-	"num"=>"7.2.39",
+	"num"=>"7.2.42",
 	"status"=>"Recommended version",
-	"file"=>"boinc_7.2.39_x86_64-pc-linux-gnu.sh",
-	"date"=>"28 Jan 2014",
+	"file"=>"boinc_7.2.42_x86_64-pc-linux-gnu.sh",
+	"date"=>"28 Feb 2014",
 	"type"=>"sea",
 );
 
