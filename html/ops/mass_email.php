@@ -71,6 +71,10 @@ if ($receiver > 0) {
         // lapsed users
         $query = "select user.id,user.name,user.email_addr from user left join result on user.id=result.userid where send_email>0 and total_credit>0 and isnull(result.id)";
         break;
+    case 6:
+        $userids = post_str('userids');
+        $query = "select * from user where id in ($userids)";
+        break;
     default:
         // should never happen!
         exit_error("Got impossible value of receiver from selection!");
@@ -102,14 +106,12 @@ echo "<p>\n";
 start_table();
 echo "<tr><td align=right>Send email to: </td><td> ";
 echo "
-    <select name=\"receiver\">
-      <option value='0' selected> PLEASE CHOOSE DESIRED SET OF USERS TO EMAIL
-      <option value='1' > All users
-      <option value='2' > Unsuccessful users: total_credit = 0, create time > 1 week ago, NO results in DB 
-      <option value='3' > Successful users: total_credit > 0
-      <option value='4' > Currently contributing users: total_credit > 0 and at least one result in DB
-      <option value='5' > Lapsed users: total_credit > 0 but NO results in DB
-    </select>
+    <input type=radio name=receiver value='1' > All users
+    <br><input type=radio name=receiver value='2' > Unsuccessful users: total_credit = 0, create time > 1 week ago, no jobs in DB 
+    <br><input type=radio name=receiver value='3' > Successful users: total_credit > 0
+    <br><input type=radio name=receiver value='4' > Currently contributing users: total_credit > 0 and at least one job in DB
+    <br><input type=radio name=receiver value='5' > Lapsed users: total_credit > 0 but no jobs in DB
+    <br><input type=radio name=receiver value='6' checked> User IDs, comma-separated: <input name=userids>
     </td></tr>
     <tr>
       <td align=\"right\">Email subject</td>
