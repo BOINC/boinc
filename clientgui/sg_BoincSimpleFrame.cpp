@@ -76,6 +76,7 @@ BEGIN_EVENT_TABLE(CSimpleFrame, CBOINCBaseFrame)
     EVT_MENU(ID_HELPBOINCWEBSITE, CSimpleFrame::OnHelpBOINC)
     EVT_MENU(wxID_ABOUT, CSimpleFrame::OnHelpAbout)
 	EVT_MENU(ID_EVENTLOG, CSimpleFrame::OnEventLog)
+    EVT_MOVE(CSimpleFrame::OnMove)
 #ifdef __WXMAC__
 	EVT_MENU(wxID_PREFERENCES, CSimpleFrame::OnPreferences)
 #endif
@@ -304,8 +305,7 @@ CSimpleFrame::~CSimpleFrame() {
 }
 
 
-bool CSimpleFrame::SaveState() {
-	CBOINCBaseFrame::SaveState();
+bool CSimpleFrame::SaveWindowPosition() {
     wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
 	wxString        strBaseConfigLocation = wxString(wxT("/Simple"));
     wxPoint         pos = GetPosition();
@@ -318,21 +318,29 @@ bool CSimpleFrame::SaveState() {
     //   pointer, return false.
     if (!pConfig) return false;
 
-    //
-    // Save Frame State
-    //
     pConfig->SetPath(strBaseConfigLocation);
 
     pConfig->Write(wxT("XPos"), pos.x);
     pConfig->Write(wxT("YPos"), pos.y);
-
     return true;
+}
+
+
+bool CSimpleFrame::SaveState() {
+	CBOINCBaseFrame::SaveState();
+    return SaveWindowPosition();
 }
 
 
 bool CSimpleFrame::RestoreState() {
 	CBOINCBaseFrame::RestoreState();
     return true;
+}
+
+
+void CSimpleFrame::OnMove(wxMoveEvent& event) {
+    SaveWindowPosition();
+    event.Skip();
 }
 
 

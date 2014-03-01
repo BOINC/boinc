@@ -124,8 +124,10 @@ public:
 	void SetMsgsDlgOpen(CDlgMessages* newDlgPtr) { dlgMsgsPtr = newDlgPtr; }
     bool isMessagesDlgOpen() { return (dlgMsgsPtr != NULL); }
 
+    bool SaveWindowPosition();
     bool SaveState();
     bool RestoreState();
+    void OnMove(wxMoveEvent& event);
 
 protected:
     virtual int     _GetCurrentViewPage();
