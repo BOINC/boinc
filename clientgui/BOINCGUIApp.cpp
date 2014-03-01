@@ -990,10 +990,6 @@ bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
         // Make sure that the new window is going to be visible
         //   on a screen
 #ifdef __WXMAC__
-    // See comment in CBOINCGUIApp::ShowApplication()
-    if (iLeft >= OFFSCREEN_DELTA) {
-        iLeft -= OFFSCREEN_DELTA;
-    }
     if (!IsWindowOnScreen(iLeft, iTop, iWidth, iHeight)) {
         iTop = iLeft = 30;
     }
@@ -1255,37 +1251,21 @@ extern void HideThisApp(void);
 ///
 #ifdef __WXMAC__
 // We can "show" (unhide) the main window when the
-// application is hidden and it won't be visible.  But
-// if we don't do this under wxCocoa 3.0, the Dock 
+// application is hidden and it won't be visible.
+// If we don't do this under wxCocoa 3.0, the Dock 
 // icon will bounce (as in notification) when we
 // click on our menu bar icon.
-// However, there is a delay after we tell the OS to
-// hide the application before it is actually hidden,
-// so if we have the window hidden while displaying the
-// About dialog, it may appear briefly when we close
-// the dialog.  As a work around, we move the window
-// outside the screen bounds when hiding the application.
-
+// But wxFrame::Show(true) makes the application
+// visible again, so call m_pFrame->wxWindow::Show()
+// instead.
 void CBOINCGUIApp::ShowApplication(bool bShow) {
-    wxPoint pos = m_pFrame->GetPosition();
-    
     if (bShow) {
         SetFrontProcess(&m_psnCurrentProcess);
-        if (m_pFrame) {
-            if (pos.x >= OFFSCREEN_DELTA) {
-                pos.x -= OFFSCREEN_DELTA;
-                m_pFrame->SetPosition(pos);
-            }
-        }
-    } else {    // bShow == false
-        if (m_pFrame) {
-            if (pos.x < OFFSCREEN_DELTA) {
-                pos.x += OFFSCREEN_DELTA;
-                m_pFrame->SetPosition(pos);
-            }
-            m_pFrame->wxFrame::Show();
-        }
+    } else {
         HideThisApp();
+        if (m_pFrame) {
+            m_pFrame->wxWindow::Show();
+        }
     }
 }
 #else

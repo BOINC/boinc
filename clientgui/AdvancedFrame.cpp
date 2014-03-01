@@ -1011,13 +1011,6 @@ void CAdvancedFrame::SaveWindowDimensions() {
 
     wxASSERT(pConfig);
 
-#ifdef __WXMAC__
-    // See comment in CBOINCGUIApp::ShowApplication()
-    if (pos.x >= OFFSCREEN_DELTA) {
-        pos.x -= OFFSCREEN_DELTA;
-    }
-#endif
-
     pConfig->SetPath(strBaseConfigLocation);
 
     bool iconized = IsIconized();

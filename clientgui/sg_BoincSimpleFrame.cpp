@@ -323,13 +323,6 @@ bool CSimpleFrame::SaveState() {
     //
     pConfig->SetPath(strBaseConfigLocation);
 
-#ifdef __WXMAC__
-    // See comment in CBOINCGUIApp::ShowApplication()
-    if (pos.x >= OFFSCREEN_DELTA) {
-        pos.x -= OFFSCREEN_DELTA;
-    }
-#endif
-
     pConfig->Write(wxT("XPos"), pos.x);
     pConfig->Write(wxT("YPos"), pos.y);
 
