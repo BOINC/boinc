@@ -84,7 +84,7 @@ OSErr QuitAppleEventHandler( const AppleEvent *appleEvt, AppleEvent* reply, UInt
         SysBeep(4);
         return userCanceledErr;
     }
-            
+    
     anErr = AEGetAttributePtr(appleEvt, keyAddressAttr, typeProcessSerialNumber,
                                 &senderType, &SenderPSN, sizeof(SenderPSN), &actualSize);
 
@@ -500,8 +500,29 @@ void CBOINCGUIApp::OnEndSession(wxCloseEvent& ) {
 
 
 int CBOINCGUIApp::OnExit() {
+#ifdef __WXMAC__
+// Needed to properly handle logout / shutdown
+// See comment in CBOINCBaseFrame::OnClose()
+static bool alreadyExited = false;
+    if (alreadyExited) return 0;
+    alreadyExited = true;
+#endif
+
     // Shutdown the System Idle Detection code
     IdleTrackerDetach();
+
+// Under wxWidgets 2.8.0, the task bar icons
+// must be deleted for app to exit its main loop
+#ifdef __WXMAC__
+    if (m_pMacDockIcon) {
+        delete m_pMacDockIcon;
+    }
+    m_pMacDockIcon = NULL;
+#endif
+    if (m_pTaskBarIcon) {
+        delete m_pTaskBarIcon;
+    }
+    m_pTaskBarIcon = NULL;
 
     if (m_pDocument) {
         m_pDocument->OnExit();
@@ -1309,23 +1330,6 @@ bool CBOINCGUIApp::IsModalDialogDisplayed() {
     }
     return false;
 }
-
-void CBOINCGUIApp::DeleteTaskBarIcon() {
-    if (m_pTaskBarIcon) {
-        delete m_pTaskBarIcon;
-    }
-    m_pTaskBarIcon = NULL;
-}
-
-#ifdef __WXMAC__
-void CBOINCGUIApp::DeleteMacDockIcon() {
-    if (m_pMacDockIcon) {
-        delete m_pMacDockIcon;
-    }
-    m_pMacDockIcon = NULL;
-}
-#endif
-
 
 // Prevent recursive entry of CMainDocument::RequestRPC()
 int CBOINCGUIApp::FilterEvent(wxEvent &event) {

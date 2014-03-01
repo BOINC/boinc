@@ -49,7 +49,6 @@ class CBOINCGUIApp : public wxApp {
     DECLARE_DYNAMIC_CLASS(CBOINCGUIApp)
 
 protected:
-    int                 OnExit();
 #if (defined(__WXMSW__) && !wxCHECK_VERSION(2, 9, 4))
     void                OnEndSession(wxCloseEvent& event);
 #endif
@@ -117,6 +116,7 @@ protected:
 
 public:
 
+    int                 OnExit();
     bool                OnInit();
     void                SaveState();
 
@@ -133,7 +133,6 @@ public:
     int                 GetClientRPCPortArg()       { return m_iRPCPortArg; }
     CDlgEventLog*       GetEventLog()               { return m_pEventLog; }
     CTaskBarIcon*       GetTaskBarIcon()            { return m_pTaskBarIcon; }
-    void                DeleteTaskBarIcon();
 
     bool                IsMgrMultipleInstance()     { return m_bMultipleInstancesOK; }
 
@@ -143,7 +142,6 @@ public:
     bool                CallOnInit()                { return OnInit(); }
     
     CTaskBarIcon*       GetMacDockIcon()            { return m_pMacDockIcon; }
-    void                DeleteMacDockIcon();
     int                 ShouldShutdownCoreClient()  { return true; }
 #else
     int                 ShouldShutdownCoreClient()  { return m_iShutdownCoreClient; }

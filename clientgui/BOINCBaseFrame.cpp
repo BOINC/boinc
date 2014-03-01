@@ -310,7 +310,15 @@ void CBOINCBaseFrame::OnClose(wxCloseEvent& event) {
 
     if (!event.CanVeto() || IsIconized()) {
         wxGetApp().FrameClosed();
+#ifdef __WXMAC__
+        // Needed to properly write wxConfig data on logout / shutdown
+        wxGetApp().OnExit();
+        event.Skip();
+        // Prevent wxCocoa from issuing events to closed frames
+        wxGetApp().ExitMainLoop();
+#else
         Destroy();
+#endif
     } else {
 #ifdef __WXGTK__
         // Apparently aborting a close event just causes the main window to be displayed
@@ -364,12 +372,6 @@ void CBOINCBaseFrame::OnExit(wxCommandEvent& WXUNUSED(event)) {
 
         // Save state before exiting
         SaveState();
-
-        // Under wxWidgets 2.8.0, the task bar icons must be deleted for app to exit its main loop
-#ifdef __WXMAC__
-        wxGetApp().DeleteMacDockIcon();
-#endif
-        wxGetApp().DeleteTaskBarIcon();
 
         CDlgEventLog*   eventLog = wxGetApp().GetEventLog();
         if (eventLog) {
