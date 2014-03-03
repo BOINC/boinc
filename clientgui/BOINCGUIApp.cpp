@@ -98,6 +98,7 @@ OSErr QuitAppleEventHandler( const AppleEvent *appleEvt, AppleEvent* reply, UInt
         // Consider a Quit command from our Dock menu as coming from this application
         if ( (pInfo.processSignature != 'dock') && (pInfo.processSignature != 'BNC!') ) {
             s_bSkipExitConfirmation = true; // Not from our app, our dock icon or our taskbar icon
+            // The following may no longer be needed under wxCocoa-3.0.0
             wxGetApp().ExitMainLoop();  // Prevents wxMac from issuing events to closed frames
         }
     }
@@ -106,7 +107,6 @@ OSErr QuitAppleEventHandler( const AppleEvent *appleEvt, AppleEvent* reply, UInt
     wxGetApp().GetFrame()->GetEventHandler()->AddPendingEvent(evt);
     return noErr;
 }
-
 #endif
 
 
@@ -500,14 +500,6 @@ void CBOINCGUIApp::OnEndSession(wxCloseEvent& ) {
 
 
 int CBOINCGUIApp::OnExit() {
-#ifdef __WXMAC__
-// Needed to properly handle logout / shutdown
-// See comment in CBOINCBaseFrame::OnClose()
-static bool alreadyExited = false;
-    if (alreadyExited) return 0;
-    alreadyExited = true;
-#endif
-
     // Shutdown the System Idle Detection code
     IdleTrackerDetach();
 
@@ -1260,9 +1252,6 @@ bool CBOINCGUIApp::IsApplicationVisible() {
 #endif
     return false;
 }
-
-// A tiny Cocoa routine in MacNotification.mm
-extern void HideThisApp(void);
 
 ///
 /// Shows or hides the current process.
