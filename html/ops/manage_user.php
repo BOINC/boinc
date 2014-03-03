@@ -33,6 +33,10 @@ require_once("../inc/util_ops.inc");
 require_once("../inc/profile.inc");
 require_once("../project/project.inc");
 
+error_reporting(E_ALL);
+ini_set('display_errors', true);
+ini_set('display_startup_errors', true);
+
 get_logged_in_user();
 db_init();
 
@@ -96,11 +100,13 @@ $delete_problem="";
 // Process user search form
 
 $matches="";
+print_r($_POST);
 
 if (isset($_POST['search_submit'])){
     $search_name = post_str('search_text');
     $search_name = BoincDb::escape_string(sanitize_tags($search_name));
 
+    echo "search name ($search_name)";
     if (!empty($search_name)){ 
         $result = mysql_query("SELECT * FROM user WHERE name='$search_name'");
 
@@ -234,9 +240,7 @@ if (!empty($user)) {
 
 // Output:
 
-admin_page_head("User Management: $user->name");
-
-echo "<h2>User Management</h2>\n";
+admin_page_head("Management $user->name");
 
 if (!defined("POST_REPORT_EMAILS")) {
     echo "<p><font color='RED'>
