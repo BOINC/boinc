@@ -1114,9 +1114,11 @@ static void timer_handler() {
         return;
     }
     if (finishing) {
-        double cur_cpu = boinc_worker_thread_cpu_time();
-        last_wu_cpu_time = cur_cpu + initial_wu_cpu_time;
-        update_app_progress(last_wu_cpu_time, last_checkpoint_cpu_time);
+        if (options.send_status_msgs) {
+            double cur_cpu = boinc_worker_thread_cpu_time();
+            last_wu_cpu_time = cur_cpu + initial_wu_cpu_time;
+            update_app_progress(last_wu_cpu_time, last_checkpoint_cpu_time);
+        }
         boinc_disable_timer_thread = true;
         return;
     }
