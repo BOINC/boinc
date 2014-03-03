@@ -474,7 +474,10 @@ public class ClientStatus {
 				if(networkSuspendReason == BOINCDefs.SUSPEND_REASON_WIFI_STATE){
 					// Network suspended due to wifi state
 					statusString = ctx.getString(R.string.suspend_wifi);
-				}else statusString = ctx.getString(R.string.status_idle_long);
+				} else if(networkSuspendReason == BOINCDefs.SUSPEND_REASON_NETWORK_QUOTA_EXCEEDED) {
+					// network suspend due to traffic quota
+					statusString = ctx.getString(R.string.suspend_network_quota);
+				} else statusString = ctx.getString(R.string.status_idle_long);
 				break;
 			case COMPUTING_STATUS_SUSPENDED:
 				switch(computingSuspendReason) {

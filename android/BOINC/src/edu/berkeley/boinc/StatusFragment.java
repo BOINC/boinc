@@ -42,7 +42,8 @@ public class StatusFragment extends Fragment{
 	
 	// keep computingStatus and suspend reason to only adapt layout when changes occur
 	private Integer computingStatus = -1;
-	private Integer suspendReason = -1;
+	private Integer computingSuspendReason = -1;
+	private Integer networkSuspendReason = -1;
 	private Integer setupStatus = -1;
 	
 	private BroadcastReceiver mClientStatusChangeRec = new BroadcastReceiver() {
@@ -85,131 +86,137 @@ public class StatusFragment extends Fragment{
 		int currentSetupStatus  = BOINCActivity.monitor.getSetupStatus();
 		int currentComputingStatus = BOINCActivity.monitor.getComputingStatus();
 		int currentComputingSuspendReason = BOINCActivity.monitor.getComputingSuspendReason();
+		int currentNetworkSuspendReason = BOINCActivity.monitor.getNetworkSuspendReason();
 		
 		// layout only if client RPC connection is established
 		// otherwise BOINCActivity does not start Tabs
 		if(currentSetupStatus == ClientStatus.SETUP_STATUS_AVAILABLE) { 
 			// return in cases nothing has changed
-			if (!forceUpdate && computingStatus == currentComputingStatus && computingStatus != ClientStatus.COMPUTING_STATUS_SUSPENDED) return; 
-			if (!forceUpdate && computingStatus == currentComputingStatus && computingStatus == ClientStatus.COMPUTING_STATUS_SUSPENDED && currentComputingSuspendReason == suspendReason) return;
-			
-			// set layout and retrieve elements
-			LinearLayout statusWrapper = (LinearLayout) getView().findViewById(R.id.status_wrapper);
-			LinearLayout centerWrapper = (LinearLayout) getView().findViewById(R.id.center_wrapper);
-			LinearLayout restartingWrapper = (LinearLayout) getView().findViewById(R.id.restarting_wrapper);
-			TextView statusHeader = (TextView) getView().findViewById(R.id.status_header);
-			ImageView statusImage = (ImageView) getView().findViewById(R.id.status_image);
-			TextView statusDescriptor = (TextView) getView().findViewById(R.id.status_long);
-			
-			restartingWrapper.setVisibility(View.GONE);
-			
-			// adapt to specific computing status
-			switch(currentComputingStatus) {
-			case ClientStatus.COMPUTING_STATUS_NEVER:
-				statusWrapper.setVisibility(View.VISIBLE);
-				statusHeader.setText(BOINCActivity.monitor.getCurrentStatusTitle());
-				statusHeader.setVisibility(View.VISIBLE);
-				statusImage.setImageResource(R.drawable.playb48);
-				statusImage.setContentDescription(BOINCActivity.monitor.getCurrentStatusTitle());
-				statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusDescription());
-				centerWrapper.setVisibility(View.VISIBLE);
-				centerWrapper.setOnClickListener(runModeOnClickListener);
-				break;
-			case ClientStatus.COMPUTING_STATUS_SUSPENDED:
-				statusWrapper.setVisibility(View.VISIBLE);
-				statusHeader.setText(BOINCActivity.monitor.getCurrentStatusTitle());
-				statusHeader.setVisibility(View.VISIBLE);
-				statusImage.setImageResource(R.drawable.pauseb48);
-				statusImage.setContentDescription(BOINCActivity.monitor.getCurrentStatusTitle());
-				statusImage.setClickable(false);
-				centerWrapper.setVisibility(View.VISIBLE);
-				switch(currentComputingSuspendReason) {
-				case BOINCDefs.SUSPEND_REASON_BATTERIES:
+			if (forceUpdate ||
+					computingStatus != currentComputingStatus ||
+					currentComputingSuspendReason != computingSuspendReason ||
+					currentNetworkSuspendReason != networkSuspendReason) {
+				
+				// set layout and retrieve elements
+				LinearLayout statusWrapper = (LinearLayout) getView().findViewById(R.id.status_wrapper);
+				LinearLayout centerWrapper = (LinearLayout) getView().findViewById(R.id.center_wrapper);
+				LinearLayout restartingWrapper = (LinearLayout) getView().findViewById(R.id.restarting_wrapper);
+				TextView statusHeader = (TextView) getView().findViewById(R.id.status_header);
+				ImageView statusImage = (ImageView) getView().findViewById(R.id.status_image);
+				TextView statusDescriptor = (TextView) getView().findViewById(R.id.status_long);
+				
+				restartingWrapper.setVisibility(View.GONE);
+				
+				// adapt to specific computing status
+				switch(currentComputingStatus) {
+				case ClientStatus.COMPUTING_STATUS_NEVER:
+					statusWrapper.setVisibility(View.VISIBLE);
+					statusHeader.setText(BOINCActivity.monitor.getCurrentStatusTitle());
+					statusHeader.setVisibility(View.VISIBLE);
+					statusImage.setImageResource(R.drawable.playb48);
+					statusImage.setContentDescription(BOINCActivity.monitor.getCurrentStatusTitle());
 					statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusDescription());
-					statusImage.setImageResource(R.drawable.notconnectedb48);
-					statusHeader.setVisibility(View.GONE);
+					centerWrapper.setVisibility(View.VISIBLE);
+					centerWrapper.setOnClickListener(runModeOnClickListener);
 					break;
-				case BOINCDefs.SUSPEND_REASON_USER_ACTIVE:
-					Boolean suspendDueToScreenOn = false;
-					try{ suspendDueToScreenOn = BOINCActivity.monitor.getSuspendWhenScreenOn();} catch(RemoteException e){}
-					if(suspendDueToScreenOn){
-						statusImage.setImageResource(R.drawable.screen48b);
+				case ClientStatus.COMPUTING_STATUS_SUSPENDED:
+					statusWrapper.setVisibility(View.VISIBLE);
+					statusHeader.setText(BOINCActivity.monitor.getCurrentStatusTitle());
+					statusHeader.setVisibility(View.VISIBLE);
+					statusImage.setImageResource(R.drawable.pauseb48);
+					statusImage.setContentDescription(BOINCActivity.monitor.getCurrentStatusTitle());
+					statusImage.setClickable(false);
+					centerWrapper.setVisibility(View.VISIBLE);
+					switch(currentComputingSuspendReason) {
+					case BOINCDefs.SUSPEND_REASON_BATTERIES:
+						statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusDescription());
+						statusImage.setImageResource(R.drawable.notconnectedb48);
 						statusHeader.setVisibility(View.GONE);
+						break;
+					case BOINCDefs.SUSPEND_REASON_USER_ACTIVE:
+						Boolean suspendDueToScreenOn = false;
+						try{ suspendDueToScreenOn = BOINCActivity.monitor.getSuspendWhenScreenOn();} catch(RemoteException e){}
+						if(suspendDueToScreenOn){
+							statusImage.setImageResource(R.drawable.screen48b);
+							statusHeader.setVisibility(View.GONE);
+						}
+						statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusDescription());
+						break;
+					case BOINCDefs.SUSPEND_REASON_USER_REQ:
+						// state after user stops and restarts computation
+						centerWrapper.setVisibility(View.GONE);
+						restartingWrapper.setVisibility(View.VISIBLE);
+						break;
+					case BOINCDefs.SUSPEND_REASON_TIME_OF_DAY:
+						statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusDescription());
+						break;
+					case BOINCDefs.SUSPEND_REASON_BENCHMARKS:
+						statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusDescription());
+						statusImage.setImageResource(R.drawable.watchb48);
+						statusHeader.setVisibility(View.GONE);
+						break;
+					case BOINCDefs.SUSPEND_REASON_DISK_SIZE:
+						statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusDescription());
+						break;
+					case BOINCDefs.SUSPEND_REASON_CPU_THROTTLE:
+						statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusDescription());
+						break;
+					case BOINCDefs.SUSPEND_REASON_NO_RECENT_INPUT:
+						statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusDescription());
+						break;
+					case BOINCDefs.SUSPEND_REASON_INITIAL_DELAY:
+						statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusDescription());
+						break;
+					case BOINCDefs.SUSPEND_REASON_EXCLUSIVE_APP_RUNNING:
+						statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusDescription());
+						break;
+					case BOINCDefs.SUSPEND_REASON_CPU_USAGE:
+						statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusDescription());
+						break;
+					case BOINCDefs.SUSPEND_REASON_NETWORK_QUOTA_EXCEEDED:
+						statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusDescription());
+						break;
+					case BOINCDefs.SUSPEND_REASON_OS:
+						statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusDescription());
+						break;
+					case BOINCDefs.SUSPEND_REASON_WIFI_STATE:
+						statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusDescription());
+						break;
+					case BOINCDefs.SUSPEND_REASON_BATTERY_CHARGING:
+						statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusDescription());
+						statusImage.setImageResource(R.drawable.batteryb48);
+						statusHeader.setVisibility(View.GONE);
+						break;
+					case BOINCDefs.SUSPEND_REASON_BATTERY_OVERHEATED:
+						statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusDescription());
+						statusImage.setImageResource(R.drawable.batteryb48);
+						statusHeader.setVisibility(View.GONE);
+						break;
+					default:
+						statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusDescription());
+						break;
 					}
+					break;
+				case ClientStatus.COMPUTING_STATUS_IDLE: 
+					statusWrapper.setVisibility(View.VISIBLE);
+					centerWrapper.setVisibility(View.VISIBLE);
+					statusHeader.setText(BOINCActivity.monitor.getCurrentStatusTitle());
+					statusHeader.setVisibility(View.VISIBLE);
+					statusImage.setImageResource(R.drawable.pauseb48);
+					statusImage.setContentDescription(BOINCActivity.monitor.getCurrentStatusTitle());
+					statusImage.setClickable(false);
 					statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusDescription());
 					break;
-				case BOINCDefs.SUSPEND_REASON_USER_REQ:
-					// state after user stops and restarts computation
-					centerWrapper.setVisibility(View.GONE);
-					restartingWrapper.setVisibility(View.VISIBLE);
-					break;
-				case BOINCDefs.SUSPEND_REASON_TIME_OF_DAY:
-					statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusDescription());
-					break;
-				case BOINCDefs.SUSPEND_REASON_BENCHMARKS:
-					statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusDescription());
-					statusImage.setImageResource(R.drawable.watchb48);
-					statusHeader.setVisibility(View.GONE);
-					break;
-				case BOINCDefs.SUSPEND_REASON_DISK_SIZE:
-					statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusDescription());
-					break;
-				case BOINCDefs.SUSPEND_REASON_CPU_THROTTLE:
-					statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusDescription());
-					break;
-				case BOINCDefs.SUSPEND_REASON_NO_RECENT_INPUT:
-					statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusDescription());
-					break;
-				case BOINCDefs.SUSPEND_REASON_INITIAL_DELAY:
-					statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusDescription());
-					break;
-				case BOINCDefs.SUSPEND_REASON_EXCLUSIVE_APP_RUNNING:
-					statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusDescription());
-					break;
-				case BOINCDefs.SUSPEND_REASON_CPU_USAGE:
-					statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusDescription());
-					break;
-				case BOINCDefs.SUSPEND_REASON_NETWORK_QUOTA_EXCEEDED:
-					statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusDescription());
-					break;
-				case BOINCDefs.SUSPEND_REASON_OS:
-					statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusDescription());
-					break;
-				case BOINCDefs.SUSPEND_REASON_WIFI_STATE:
-					statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusDescription());
-					break;
-				case BOINCDefs.SUSPEND_REASON_BATTERY_CHARGING:
-					statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusDescription());
-					statusImage.setImageResource(R.drawable.batteryb48);
-					statusHeader.setVisibility(View.GONE);
-					break;
-				case BOINCDefs.SUSPEND_REASON_BATTERY_OVERHEATED:
-					statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusDescription());
-					statusImage.setImageResource(R.drawable.batteryb48);
-					statusHeader.setVisibility(View.GONE);
-					break;
-				default:
-					statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusDescription());
+				case ClientStatus.COMPUTING_STATUS_COMPUTING:
+					statusWrapper.setVisibility(View.GONE);
 					break;
 				}
-				suspendReason = currentComputingSuspendReason;
-				break;
-			case ClientStatus.COMPUTING_STATUS_IDLE: 
-				statusWrapper.setVisibility(View.VISIBLE);
-				centerWrapper.setVisibility(View.VISIBLE);
-				statusHeader.setText(BOINCActivity.monitor.getCurrentStatusTitle());
-				statusHeader.setVisibility(View.VISIBLE);
-				statusImage.setImageResource(R.drawable.pauseb48);
-				statusImage.setContentDescription(BOINCActivity.monitor.getCurrentStatusTitle());
-				statusImage.setClickable(false);
-				statusDescriptor.setText(BOINCActivity.monitor.getCurrentStatusDescription());
-				break;
-			case ClientStatus.COMPUTING_STATUS_COMPUTING:
-				statusWrapper.setVisibility(View.GONE);
-				break;
+				//save new computing status
+				computingStatus = currentComputingStatus; 
+				computingSuspendReason = currentComputingSuspendReason;
+				networkSuspendReason = currentNetworkSuspendReason;
+				setupStatus = -1; // invalidate to force update next time no project
 			}
-			computingStatus = currentComputingStatus; //save new computing status
-			setupStatus = -1; // invalidate to force update next time no project
 		} else if (currentSetupStatus == ClientStatus.SETUP_STATUS_NOPROJECT) {
 			
 			if(setupStatus != ClientStatus.SETUP_STATUS_NOPROJECT) {
