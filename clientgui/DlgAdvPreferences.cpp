@@ -84,7 +84,11 @@ CDlgAdvPreferences::CDlgAdvPreferences(wxWindow* parent) : CDlgAdvPreferencesBas
     iImageIndex = pImageList->Add(wxBitmap(usage_xpm));
     m_Notebook->SetPageImage(2,iImageIndex);
 
+#ifdef __WXMAC__
+    iImageIndex = pImageList->Add(pSkinAdvanced->GetApplicationSnoozeIcon()->GetIcon(wxSize(16,16)));
+#else
     iImageIndex = pImageList->Add(pSkinAdvanced->GetApplicationSnoozeIcon()->GetIcon(wxDefaultSize));
+#endif
     m_Notebook->SetPageImage(3,iImageIndex);
 
     //setting warning bitmap
