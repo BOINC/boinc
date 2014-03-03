@@ -427,6 +427,8 @@ public class PrefsFragment extends Fragment {
 			break;
 		case R.string.prefs_network_daily_xfer_limit_mb_header:
 			clientPrefs.daily_xfer_limit_mb = value;
+			// also need to set the period!
+			clientPrefs.daily_xfer_period_days = 1;
 			break;
 		case R.string.battery_charge_min_pct_header:
 			clientPrefs.battery_charge_min_pct = value;
