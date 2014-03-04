@@ -818,7 +818,7 @@ function work_and_host_stats_views_default_views() {
     'grouping' => '',
     'override' => 1,
     'sticky' => 1,
-    'order' => 'asc',
+    'order' => 'desc',
     'summary' => '',
     'columns' => array(
       'id' => 'id',
@@ -6112,7 +6112,7 @@ else {
     'grouping' => '',
     'override' => 1,
     'sticky' => 1,
-    'order' => 'asc',
+    'order' => 'desc',
     'summary' => '',
     'columns' => array(
       'id' => 'id',
