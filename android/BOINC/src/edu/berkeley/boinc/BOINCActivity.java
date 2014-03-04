@@ -145,17 +145,23 @@ public class BOINCActivity extends ActionBarActivity {
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
 
 
-		// try to restore previous state
-		if (savedInstanceState == null) {
-			// on first time display view for first nav item
-			dispatchNavBarOnClick(mDrawerListAdapter.getItem(0),true);
-		} else {
-			int selectedId = savedInstanceState.getInt("navBarSelectionId");
-			NavDrawerItem item = mDrawerListAdapter.getItemForId(selectedId);
-			if(item == null) dispatchNavBarOnClick(mDrawerListAdapter.getItem(0),true);
-			else dispatchNavBarOnClick(item,true);
-			if(Logging.DEBUG) Log.d(Logging.TAG, "BOINCActivity.onCreate pre selected nav bar item with id: " + selectedId);
-		}
+		// pre-select fragment
+		// 1. check if explicitly requested fragment present
+		// e.g. after initial project attach.
+		int targetFragId = getIntent().getIntExtra("targetFragment", -1);
+		
+		// 2. if no explicit request, try to restore previous selection
+		if(targetFragId < 0 && savedInstanceState != null)
+			targetFragId = savedInstanceState.getInt("navBarSelectionId");
+		
+		NavDrawerItem item = null;
+		if(targetFragId < 0) {
+			// if non of the above, go to default
+			item = mDrawerListAdapter.getItem(0);
+		} else item = mDrawerListAdapter.getItemForId(targetFragId);
+		
+		if(item != null) dispatchNavBarOnClick(item, true);
+		else if(Logging.WARNING) Log.w(Logging.TAG, "onCreate: fragment selection returned null");
 
         //bind monitor service
         doBindService();
@@ -176,11 +182,17 @@ public class BOINCActivity extends ActionBarActivity {
 
 	@Override
 	protected void onNewIntent(Intent intent) {
+        if(Logging.DEBUG) Log.d(Logging.TAG, "BOINCActivity onNewIntent()"); 
+		// onNewIntent gets called if activity is brought to front via intent, but was still alive, so onCreate is not called again
+		// getIntent always returns the intent activity was created of, so this method is the only hook to receive an updated intent
+		// e.g. after (not initial) project attach
 		super.onNewIntent(intent);
 		// navigate to explicitly requested fragment (e.g. after project attach)
 		int id = intent.getIntExtra("targetFragment", -1);
     	if(Logging.DEBUG) Log.d(Logging.TAG, "BOINCActivity onNewIntent() for target fragment: " + id);
-		if(id > -1) dispatchNavBarOnClick(mDrawerListAdapter.getItemForId(id),false);
+    	NavDrawerItem item = mDrawerListAdapter.getItemForId(id);
+    	if(item != null) dispatchNavBarOnClick(item,false);
+    	else if(Logging.WARNING) Log.w(Logging.TAG, "onNewIntent: requested target fragment is null, for id: " + id);
 	}
 
 	@Override
@@ -230,7 +242,11 @@ public class BOINCActivity extends ActionBarActivity {
 	 */
 	private void dispatchNavBarOnClick(NavDrawerItem item, boolean init) {
 		// update the main content by replacing fragments
-		if(item == null) return;
+		if(item == null) {
+			if(Logging.WARNING) Log.w(Logging.TAG, "dispatchNavBarOnClick returns, item null.");
+			return;
+		}
+		if(Logging.DEBUG) Log.d(Logging.TAG, "dispatchNavBarOnClick for item with id: " + item.getId() + " title: " + item.getTitle() + " is project? " + item.isProjectItem());
 		
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 		Boolean fragmentChanges = false;
