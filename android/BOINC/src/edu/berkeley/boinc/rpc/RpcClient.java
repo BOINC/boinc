@@ -1392,4 +1392,22 @@ public class RpcClient {
 			return false;
 		}
 	}
+	
+	public synchronized Boolean runBenchmarks() {
+		try {
+			mRequest.setLength(0);
+			mRequest.append("<run_benchmarks/>");
+
+			sendRequest(mRequest.toString());
+			SimpleReplyParser parser = SimpleReplyParser.parse(receiveReply());
+			if (parser == null)
+				return false;
+			mLastErrorMessage = parser.getErrorMessage();
+			return parser.result();
+		} catch (IOException e) {
+			if(Logging.WARNING) Log.w(Logging.TAG, "error in runBenchmark()", e);
+			return false;
+		}
+		
+	}
 }

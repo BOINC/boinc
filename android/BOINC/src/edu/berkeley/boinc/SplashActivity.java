@@ -83,6 +83,9 @@ public class SplashActivity extends Activity {
 						break;
 					case ClientStatus.SETUP_STATUS_NOPROJECT:
 						if(Logging.DEBUG) Log.d(Logging.TAG, "SplashActivity SETUP_STATUS_NOPROJECT"); 
+						// run benchmarks to speed up project initialization
+						boolean benchmarks = monitor.runBenchmarks();
+						Log.d(Logging.TAG, "SplashActivity: runBenchmarks returned: " + benchmarks);
 						// forward to PROJECTATTACH
 						Intent startAttach = new Intent(activity,AttachProjectListActivity.class);
 						startAttach.putExtra("showUp", false);

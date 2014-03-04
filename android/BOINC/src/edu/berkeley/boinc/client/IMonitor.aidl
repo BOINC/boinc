@@ -54,6 +54,7 @@ boolean setCcConfig(in String config);                // implement: call clientI
 boolean setGlobalPreferences(in GlobalPreferences pref);   // implement: call clientInterface.setGlobalPreferences(GlobalPreferences);
 boolean transferOperation(in List<Transfer> list, in int op);  // implement: call clientInterface.transferOperation(ArrayList<transfer>, int);
 List<Notice> getServerNotices();        // implement: call clientInterface.getServerNotices()
+boolean runBenchmarks();
 
 /////// general //////////////////////////////////////////
 void forceRefresh();                        // implement: call Monitor.forceRefresh();
