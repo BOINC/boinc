@@ -512,6 +512,8 @@ public class PrefsFragment extends Fragment {
 		@Override
 		public void onClick(View view) {
 			if(Logging.DEBUG) Log.d(Logging.TAG,"onCbClick");
+			Boolean previousState = cb.isChecked();
+			cb.setChecked(!previousState);
 			Boolean isSet = cb.isChecked();
 			try{
 				switch (ID) {

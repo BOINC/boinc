@@ -65,7 +65,9 @@ public class PrefsListAdapter extends ArrayAdapter<PrefsListItemWrapper>{
 	    		CheckBox cb = (CheckBox) v.findViewById(R.id.checkbox);
 	        	cb.setChecked(((PrefsListItemWrapperBool) listItem).getStatus());
 	    		BoolOnClick listener = frag.new BoolOnClick(listItem.ID, cb);
-	    		cb.setOnClickListener(listener);
+	        	RelativeLayout wrapper = (RelativeLayout) v.findViewById(R.id.checkbox_wrapper);
+	        	wrapper.setClickable(true);
+	        	wrapper.setOnClickListener(listener);
 	    		TextView header = (TextView) v.findViewById(R.id.checkbox_text);
 	    		header.setText(((PrefsListItemWrapperBool) listItem).header);
 	    	} else if(listItem instanceof PrefsListItemWrapperValue) {
