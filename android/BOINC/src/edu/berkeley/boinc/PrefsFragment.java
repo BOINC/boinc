@@ -386,6 +386,8 @@ public class PrefsFragment extends Fragment {
          		   SeekBar slider = (SeekBar) dialog.findViewById(R.id.seekbar);
          		   int sbProgress = slider.getProgress();
          		   try {
+         			   // monitor and UI in two different processes. set static variable in both
+          			  Logging.setLogLevel(sbProgress);
          			  BOINCActivity.monitor.setLogLevel(sbProgress);
          		   } catch (RemoteException e) {}
          		   updateValuePref(item.ID, (double) sbProgress);

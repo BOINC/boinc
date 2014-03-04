@@ -55,7 +55,7 @@ public class NoticesFragment extends Fragment {
 
 	@Override
 	public void onResume() {
-		Log.d(Logging.TAG, "NoticesFragment onResume()");
+		if(Logging.DEBUG) Log.d(Logging.TAG, "NoticesFragment onResume()");
 		getActivity().registerReceiver(mClientStatusChangeRec,ifcsc);
 		
 		// clear notice notification
