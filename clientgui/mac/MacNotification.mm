@@ -111,13 +111,3 @@ bool CTaskBarIcon::QueueBalloon(
     
     return false;
 }
-
-// The following is not associated with notifications.  It
-// is called from CBOINCGUIApp::ShowApplication(bool) and
-// replaces a call of ShowHideProcess() which is deprecated
-// under OS 10.9.
-// It is too small to be worth creating its own source file,
-// but C++ files like BOINCGUIApp.cpp can't have Cocoa code.
-void HideThisApp() {
-    [ NSApp hide:NSApp ];
-}

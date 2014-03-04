@@ -49,6 +49,7 @@ class CBOINCGUIApp : public wxApp {
     DECLARE_DYNAMIC_CLASS(CBOINCGUIApp)
 
 protected:
+    int                 OnExit();
 #if (defined(__WXMSW__) && !wxCHECK_VERSION(2, 9, 4))
     void                OnEndSession(wxCloseEvent& event);
 #endif
@@ -116,7 +117,6 @@ protected:
 
 public:
 
-    int                 OnExit();
     bool                OnInit();
     void                SaveState();
 
@@ -137,10 +137,6 @@ public:
     bool                IsMgrMultipleInstance()     { return m_bMultipleInstancesOK; }
 
 #ifdef __WXMAC__
-    // Override standard wxCocoa wxApp::CallOnInit() to allow Manager
-    // to run properly when launched hidden on login via Login Item. 
-    bool                CallOnInit()                { return OnInit(); }
-    
     CTaskBarIcon*       GetMacDockIcon()            { return m_pMacDockIcon; }
     int                 ShouldShutdownCoreClient()  { return true; }
 #else
@@ -204,6 +200,16 @@ public:
     
     void                SetAboutDialogIsOpen(bool set) { m_bAboutDialogIsOpen = set; }
     bool                GetAboutDialogIsOpen() { return m_bAboutDialogIsOpen; }
+
+#ifdef __WXMAC__
+    // The following Cocoa routines are in CBOINCGUIApp.mm
+    //
+    void                HideThisApp(void);
+
+    // Override standard wxCocoa wxApp::CallOnInit() to allow Manager
+    // to run properly when launched hidden on login via Login Item. 
+    bool                CallOnInit();
+#endif
 
 DECLARE_EVENT_TABLE()
 };

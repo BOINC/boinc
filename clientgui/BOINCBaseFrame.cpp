@@ -310,15 +310,7 @@ void CBOINCBaseFrame::OnClose(wxCloseEvent& event) {
 
     if (!event.CanVeto() || IsIconized()) {
         wxGetApp().FrameClosed();
-#ifdef __WXMAC__
-        // Needed to properly write wxConfig data on logout / shutdown
-        wxGetApp().OnExit();
-        event.Skip();
-        // Prevent wxCocoa from issuing events to closed frames
-        wxGetApp().ExitMainLoop();
-#else
         Destroy();
-#endif
     } else {
 #ifdef __WXGTK__
         // Apparently aborting a close event just causes the main window to be displayed
