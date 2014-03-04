@@ -681,7 +681,7 @@ int main(int argc, char** argv) {
         bool   skip_cleanup = false;
         bool   dump_hypervisor_logs = false;
         string error_reason;
-        char*  temp_reason = (char*)"";
+        const char*  temp_reason = "";
         int    temp_delay = 86400;
 
         if (VBOXWRAPPER_ERR_RECOVERABLE == retval) {
@@ -689,19 +689,19 @@ int main(int argc, char** argv) {
                 "    BOINC will be notified that it needs to clean up the environment.\n"
                 "    This is a temporary problem and so this job will be rescheduled for another time.\n";
             unrecoverable_error = false;
-            temp_reason = (char*)"VM environment needed to be cleaned up.";
+            temp_reason = "VM environment needed to be cleaned up.";
         } else if (ERR_NOT_EXITED == retval) {
             error_reason =
                 "   NOTE: VM was already running.\n"
                 "    BOINC will be notified that it needs to clean up the environment.\n"
                 "    This might be a temporary problem and so this job will be rescheduled for another time.\n";
             unrecoverable_error = false;
-            temp_reason = (char*)"VM environment needed to be cleaned up.";
+            temp_reason = "VM environment needed to be cleaned up.";
         } else if (ERR_INVALID_PARAM == retval) {
             unrecoverable_error = false;
-            temp_reason = (char*)"Please upgrade BOINC to the latest version.";
+            temp_reason = "Please upgrade BOINC to the latest version.";
             temp_delay = 86400;
-        } else if (RPC_S_SERVER_UNAVAILABLE == retval) {
+        } else if (retval == (int)RPC_S_SERVER_UNAVAILABLE) {
             error_reason =
                 "    VboxSvc crashed while attempting to restore the current snapshot.  This is a critical\n"
                 "    operation and this job cannot be recovered.\n";
@@ -728,21 +728,21 @@ int main(int argc, char** argv) {
                 "   NOTE: VirtualBox hypervisor reports that another hypervisor has locked the hardware acceleration\n"
                 "    for virtual machines feature in exclusive mode.\n";
             unrecoverable_error = false;
-            temp_reason = (char*)"Forign VM Hypervisor locked hardware acceleration features.";
+            temp_reason = "Forign VM Hypervisor locked hardware acceleration features.";
             temp_delay = 86400;
         } else if (vm.is_logged_failure_host_out_of_memory()) {
             error_reason =
                 "   NOTE: VirtualBox has failed to allocate enough memory to start the configured virtual machine.\n"
                 "    This might be a temporary problem and so this job will be rescheduled for another time.\n";
             unrecoverable_error = false;
-            temp_reason = (char*)"VM Hypervisor was unable to allocate enough memory to start VM.";
+            temp_reason = "VM Hypervisor was unable to allocate enough memory to start VM.";
         } else if (vm.is_virtualbox_error_recoverable(retval)) {
             error_reason =
                 "   NOTE: VM session lock error encountered.\n"
                 "    BOINC will be notified that it needs to clean up the environment.\n"
                 "    This might be a temporary problem and so this job will be rescheduled for another time.\n";
             unrecoverable_error = false;
-            temp_reason = (char*)"VM environment needed to be cleaned up.";
+            temp_reason = "VM environment needed to be cleaned up.";
         } else {
             dump_hypervisor_logs = true;
         }
