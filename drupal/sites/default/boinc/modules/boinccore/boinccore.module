@@ -176,6 +176,40 @@ function boinccore_form_alter(&$form, $form_state, $form_id) {
     unset($form['_author']);
     
     break;
+    
+  // Forum node form
+  case 'forum_node_form':
+    $forum_id = key($form['#node']->taxonomy);
+    $form['buttons']['separator_bottom'] = array(
+      '#value' => '<div class="separator buttons"></div>',
+      '#weight' => 999,
+    );
+    
+    // Wrap action buttons for styling consistency
+    $form['buttons']['form control tabs prefix'] = array(
+      '#value' => '<ul class="form-control tab-list">',
+      '#weight' => 1001,
+    );
+    $form['buttons']['submit']['#prefix'] = '<li class="first tab">';
+    $form['buttons']['submit']['#value'] = t('Post topic');
+    $form['buttons']['submit']['#suffix'] = '</li>';
+    $form['buttons']['submit']['#weight'] = 1002;
+    $form['buttons']['preview']['#prefix'] = '<li class="tab">';
+    $form['buttons']['preview']['#suffix'] = '</li>';
+    $form['buttons']['preview']['#weight'] = 1003;
+    $form['buttons']['preview_changes']['#prefix'] = '<li class="tab">';
+    $form['buttons']['preview_changes']['#suffix'] = '</li>';
+    $form['buttons']['preview_changes']['#weight'] = 1004;
+    $form['buttons']['cancel'] = array(
+      '#value' => '<li class="tab">' . l(t('Cancel'), "community/forum/{$forum_id}") . '</li>',
+      '#weight' => 1005,
+    );
+    $form['buttons']['form control tabs suffix'] = array(
+      '#value' => '</ul>',
+      '#weight' => 1010,
+    );
+
+    break;
   default:
   }
 }
