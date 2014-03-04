@@ -207,11 +207,11 @@ $l70ubuntux64 = array(
 	"type"=>"sea",
 );
 
-$a72 = array(
-	"num"=>"7.2.41",
+$a73 = array(
+	"num"=>"7.3.7",
 	"status"=>"Recommended Version",
-	"file"=>"boinc_7.2.41.apk",
-	"date"=>"3 Feb 2014",
+	"file"=>"boinc_7.3.7.apk",
+	"date"=>"3 Mar 2014",
 	"type"=>"apk",
 );
 
@@ -300,7 +300,7 @@ $androidarm = array(
 	"description"=>"Android version 2.3 and later<br>We recommend that, rather than downloading BOINC from here,</br>you get it from the Google Play Store or the Amazon app store (for Kindle Fire)",
 	"dbname" => "arm-android-linux-gnu",
 	"versions"=>array(
-		$a72,
+		$a73,
 	)
 );
 
@@ -309,7 +309,7 @@ $androidmips = array(
 	"description"=>"Android version 2.3 and later<br>We recommend that, rather than downloading BOINC from here,</br>you get it from the Google Play Store or the Amazon app store (for Kindle Fire)",
 	"dbname" => "mips-android-linux-gnu",
 	"versions"=>array(
-		$a72,
+		$a73,
 	)
 );
 
@@ -318,7 +318,7 @@ $androidx86 = array(
 	"description"=>"Android version 2.3 and later<br>We recommend that, rather than downloading BOINC from here,</br>you get it from the Google Play Store or the Amazon app store (for Kindle Fire)",
 	"dbname" => "x86-android-linux-gnu",
 	"versions"=>array(
-		$a72,
+		$a73,
 	)
 );
 
