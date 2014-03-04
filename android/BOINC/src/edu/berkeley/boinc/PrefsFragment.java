@@ -164,7 +164,8 @@ public class PrefsFragment extends Fragment {
 		// general
     	data.add(new PrefsListItemWrapper(getActivity(),R.string.prefs_category_general,true));
 		data.add(new PrefsListItemWrapperBool(getActivity(),R.string.prefs_autostart_header,R.string.prefs_category_general,BOINCActivity.monitor.getAutostart()));
-		data.add(new PrefsListItemWrapperBool(getActivity(),R.string.prefs_show_notification_header,R.string.prefs_category_general,BOINCActivity.monitor.getShowNotification()));
+		data.add(new PrefsListItemWrapperBool(getActivity(),R.string.prefs_show_notification_notices_header,R.string.prefs_category_general,BOINCActivity.monitor.getShowNotificationForNotices()));
+		data.add(new PrefsListItemWrapperBool(getActivity(),R.string.prefs_show_notification_suspended_header,R.string.prefs_category_general,BOINCActivity.monitor.getShowNotificationDuringSuspend()));
 		data.add(new PrefsListItemWrapperBool(getActivity(),R.string.prefs_show_advanced_header,R.string.prefs_category_general,BOINCActivity.monitor.getShowAdvanced()));
 		if(!stationaryDeviceMode) data.add(new PrefsListItemWrapperBool(getActivity(),R.string.prefs_suspend_when_screen_on,R.string.prefs_category_general,BOINCActivity.monitor.getSuspendWhenScreenOn()));
 		// network
@@ -519,8 +520,13 @@ public class PrefsFragment extends Fragment {
 					updateBoolPref(ID, isSet);
 					updateLayout();
 					break;
-				case R.string.prefs_show_notification_header: //app pref
-					BOINCActivity.monitor.setShowNotification(isSet);
+				case R.string.prefs_show_notification_notices_header: //app pref
+					BOINCActivity.monitor.setShowNotificationForNotices(isSet);
+					updateBoolPref(ID, isSet);
+					updateLayout();
+					break;
+				case R.string.prefs_show_notification_suspended_header: //app pref
+					BOINCActivity.monitor.setShowNotificationDuringSuspend(isSet);
 					updateBoolPref(ID, isSet);
 					updateLayout();
 					break;

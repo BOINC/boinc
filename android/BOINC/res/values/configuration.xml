@@ -38,7 +38,8 @@
     	<string name="boinc_platform_name_mips" translatable="false">mipsel-android-linux-gnu</string>
     <!-- Default preferences of Android app-->
     	<bool name="prefs_default_autostart">true</bool>
-        <bool name="prefs_default_notifications">true</bool>
+        <bool name="prefs_default_notification_notices">true</bool>
+        <bool name="prefs_default_notification_suspended">true</bool>
         <bool name="prefs_default_advanced">false</bool>
         <integer name="prefs_default_loglevel">2</integer>
         <bool name="prefs_power_source_ac">true</bool>

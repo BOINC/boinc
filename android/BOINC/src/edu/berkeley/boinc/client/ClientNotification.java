@@ -59,7 +59,27 @@ public class ClientNotification {
 	/**
 	 * Updates notification with client's current status
 	 */
-	public void update(ClientStatus updatedStatus, Monitor service, Boolean computing) {
+	/**
+	 * Updates notification with client's current status. Notifies if not present. Checking notification related preferences.
+	 * @param updatedStatus client status data
+	 * @param service reference to service, sets to foreground if active
+	 * @param active indicator whether BOINC should stay in foreground (during computing and idle, i.e. not suspended)
+	 */
+	public void update(ClientStatus updatedStatus, Monitor service, Boolean active) {
+		
+		// stop service foreground, if not active anymore
+		if(!active && foreground) setForegroundState(service, false);
+		
+		// if not active, check preference whether to show notification during suspension
+		if(!active && !Monitor.getAppPrefs().getShowNotificationDuringSuspend()) {
+			// cancel notification if necessary
+			if(notificationShown) {
+				Log.d(Logging.TAG, "ClientNotification: cancel suspension notification due to preference.");
+				nm.cancel(notificationId);
+				notificationShown = false;
+			}
+			return;
+		}
 		
 		//check if active tasks have changed to force update
 		Boolean activeTasksChanged = false;
@@ -89,7 +109,7 @@ public class ClientNotification {
 					&& updatedStatus.computingSuspendReason != clientNotification.mOldSuspendReason)) {
 			
 			// update, build and notify
-			nm.notify(notificationId, buildNotification(updatedStatus, computing, mOldActiveTasks));
+			nm.notify(notificationId, buildNotification(updatedStatus, active, mOldActiveTasks));
 			notificationShown = true;
 			
 			// save status for comparison next time
@@ -99,24 +119,25 @@ public class ClientNotification {
 		
 		// start foreground service, if requested
 		// notification instance exists now, but might be out-dated (if screen is off)
-		if(foreground != computing) {
-			if(computing) {
-				// set service foreground
-				service.startForeground(notificationId, n);
-				if(Logging.DEBUG) Log.d(Logging.TAG,"ClientNotification.setForeground() start service as foreground.");
-				foreground = true;
-			} else {
-				// set service background
-				foreground = false;
-				service.stopForeground(true);
-				notificationShown = false;
-				if(Logging.DEBUG) Log.d(Logging.TAG,"ClientNotification.setForeground() stop service as foreground.");
-			}
+		if(active && !foreground) setForegroundState(service, true);
+	}
+	
+	// Notification must be built, before setting service to foreground!
+	private void setForegroundState(Monitor service, Boolean foregroundState) {
+		if(foregroundState) {
+			service.startForeground(notificationId, n);
+			if(Logging.DEBUG) Log.d(Logging.TAG,"ClientNotification.setForeground() start service as foreground.");
+			foreground = true;
+		} else {
+			foreground = false;
+			service.stopForeground(true);
+			notificationShown = false;
+			if(Logging.DEBUG) Log.d(Logging.TAG,"ClientNotification.setForeground() stop service as foreground.");
 		}
 	}
 
 	@SuppressLint("InlinedApi")
-	private Notification buildNotification(ClientStatus status, Boolean computing, ArrayList<Result> activeTasks) {
+	private Notification buildNotification(ClientStatus status, Boolean active, ArrayList<Result> activeTasks) {
 		// get current client computingstatus
 		Integer computingStatus = status.computingStatus;
 		// get status strings from ClientStatus
@@ -132,7 +153,7 @@ public class ClientNotification {
 		
 		// adapt priority based on computing status
 		// computing: IDLE and COMPUTING (see wakelock handling)
-		if(computing) {
+		if(active) {
 			nb.setPriority(Notification.PRIORITY_HIGH);
 		}
 		else {

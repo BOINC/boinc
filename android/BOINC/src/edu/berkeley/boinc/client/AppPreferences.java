@@ -30,7 +30,8 @@ public class AppPreferences {
 	private SharedPreferences prefs;
 	
 	private Boolean autostart;
-	private Boolean showNotification;
+	private Boolean showNotificationForNotices;
+	private Boolean showNotificationDuringSuspend;
 	private Boolean showAdvanced;
 	private Integer logLevel;
 	private Boolean powerSourceAc;
@@ -45,7 +46,8 @@ public class AppPreferences {
 		}
 		//second parameter of reading function is the initial value after installation.
 		autostart = prefs.getBoolean("autostart", ctx.getResources().getBoolean(R.bool.prefs_default_autostart));
-		showNotification = prefs.getBoolean("showNotification", ctx.getResources().getBoolean(R.bool.prefs_default_notifications));
+		showNotificationForNotices = prefs.getBoolean("showNotification", ctx.getResources().getBoolean(R.bool.prefs_default_notification_notices));
+		showNotificationDuringSuspend = prefs.getBoolean("showNotificationDuringSuspend", ctx.getResources().getBoolean(R.bool.prefs_default_notification_suspended));
 		showAdvanced = prefs.getBoolean("showAdvanced", ctx.getResources().getBoolean(R.bool.prefs_default_advanced));
 		logLevel = prefs.getInt("logLevel", ctx.getResources().getInteger(R.integer.prefs_default_loglevel));
 		Logging.setLogLevel(logLevel);
@@ -55,7 +57,7 @@ public class AppPreferences {
 		stationaryDeviceMode = prefs.getBoolean("stationaryDeviceMode", ctx.getResources().getBoolean(R.bool.prefs_stationary_device_mode));
 		suspendWhenScreenOn = prefs.getBoolean("suspendWhenScreenOn", ctx.getResources().getBoolean(R.bool.prefs_suspend_when_screen_on));
 		
-		if(Logging.DEBUG) Log.d(Logging.TAG, "appPrefs read successful." + autostart + showNotification + showAdvanced + logLevel + powerSourceAc + powerSourceUsb + powerSourceWireless);
+		if(Logging.DEBUG) Log.d(Logging.TAG, "appPrefs read successful." + autostart + showNotificationForNotices + showAdvanced + logLevel + powerSourceAc + powerSourceUsb + powerSourceWireless);
 	}
 	
 	public void setAutostart(Boolean as) {
@@ -69,15 +71,26 @@ public class AppPreferences {
 		return this.autostart;
 	}
 
-	public void setShowNotification(Boolean as) {
+	public void setShowNotificationForNotices(Boolean as) {
 		SharedPreferences.Editor editor = prefs.edit();
 		editor.putBoolean("showNotification", as);
 		editor.commit();
-		this.showNotification = as;
+		this.showNotificationForNotices = as;
 	}
 
-	public Boolean getShowNotification() {
-		return this.showNotification;
+	public Boolean getShowNotificationForNotices() {
+		return this.showNotificationForNotices;
+	}
+
+	public void setShowNotificationDuringSuspend(Boolean ns) {
+		SharedPreferences.Editor editor = prefs.edit();
+		editor.putBoolean("showNotificationDuringSuspend", ns);
+		editor.commit();
+		this.showNotificationDuringSuspend = ns;
+	}
+
+	public Boolean getShowNotificationDuringSuspend() {
+		return this.showNotificationDuringSuspend;
 	}
 	
 	public void setShowAdvanced(Boolean as) {

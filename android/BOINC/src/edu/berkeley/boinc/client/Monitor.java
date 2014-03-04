@@ -428,7 +428,7 @@ public class Monitor extends Service {
 				}
 				
 				// update notices notification
-				NoticeNotification.getInstance(getApplicationContext()).update(Monitor.getClientStatus().getRssNotices(), Monitor.getAppPrefs().getShowNotification());
+				NoticeNotification.getInstance(getApplicationContext()).update(Monitor.getClientStatus().getRssNotices(), Monitor.getAppPrefs().getShowNotificationForNotices());
 				
 				// check whether monitor is still intended to update, if not, skip broadcast and exit...
 				if(updateBroadcastEnabled) {
@@ -1179,8 +1179,8 @@ public class Monitor extends Service {
 		}
 		
 		@Override
-		public void setShowNotification(boolean isShow) throws RemoteException {
-			Monitor.getAppPrefs().setShowNotification(isShow);
+		public void setShowNotificationForNotices(boolean isShow) throws RemoteException {
+			Monitor.getAppPrefs().setShowNotificationForNotices(isShow);
 		}
 		
 		@Override
@@ -1194,8 +1194,8 @@ public class Monitor extends Service {
 		}
 		
 		@Override
-		public boolean getShowNotification() throws RemoteException {
-			return  Monitor.getAppPrefs().getShowNotification();
+		public boolean getShowNotificationForNotices() throws RemoteException {
+			return  Monitor.getAppPrefs().getShowNotificationForNotices();
 		}
 		
 		@Override
@@ -1309,6 +1309,17 @@ public class Monitor extends Service {
 		@Override
 		public void cancelNoticeNotification() throws RemoteException {
 			NoticeNotification.getInstance(getApplicationContext()).cancelNotification();
+		}
+
+		@Override
+		public void setShowNotificationDuringSuspend(boolean isShow) throws RemoteException {
+			Monitor.getAppPrefs().setShowNotificationDuringSuspend(isShow);
+			
+		}
+
+		@Override
+		public boolean getShowNotificationDuringSuspend() throws RemoteException {
+			return Monitor.getAppPrefs().getShowNotificationDuringSuspend();
 		}
 	};
 // --end-- remote service	
