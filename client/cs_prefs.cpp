@@ -462,11 +462,15 @@ void CLIENT_STATE::check_suspend_network() {
         }
     }
 
+#ifndef ANDROID
+// allow network transfers while user active, i.e. screen on.
+// otherwise nothing (visible to the user) happens after intial attach
     if (!global_prefs.run_if_user_active && user_active) {
         file_xfers_suspended = true;
         if (!recent_rpc) network_suspended = true;
         network_suspend_reason = SUSPEND_REASON_USER_ACTIVE;
     }
+#endif    
     if (global_prefs.net_times.suspended(now)) {
         file_xfers_suspended = true;
         if (!recent_rpc) network_suspended = true;
