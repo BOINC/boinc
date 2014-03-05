@@ -48,6 +48,7 @@
 #include <wx/wx.h>
 #include <wx/config.h>          // configuration support
 #include <wx/debug.h>           // diagnostics support
+#include <wx/debugrpt.h>
 #include <wx/log.h>             // logging support
 #include <wx/accel.h>           // accelerator support
 #include <wx/regex.h>           // regular expression support

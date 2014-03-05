@@ -753,8 +753,6 @@ bool CBOINCBaseFrame::SaveState() {
     int             iItemCount;
 
 
-    wxASSERT(pConfig);
-
     // An odd case happens every once and awhile where wxWidgets looses
     //   the pointer to the config object, or it is cleaned up before
     //   the window has finished it's cleanup duty.  If we detect a NULL

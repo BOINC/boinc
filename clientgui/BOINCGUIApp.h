@@ -50,6 +50,8 @@ class CBOINCGUIApp : public wxApp {
 
 protected:
     int                 OnExit();
+
+    void                OnFatalException(); 
     
     void                OnInitCmdLine(wxCmdLineParser &parser);
     bool                OnCmdLineParsed(wxCmdLineParser &parser);

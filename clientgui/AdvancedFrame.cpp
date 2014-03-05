@@ -883,7 +883,6 @@ bool CAdvancedFrame::SaveState() {
     int             iItemCount = 0;
 
 
-    wxASSERT(pConfig);
     wxASSERT(m_pNotebook);
 
     CBOINCBaseFrame::SaveState();

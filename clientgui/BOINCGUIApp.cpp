@@ -108,15 +108,19 @@ OSErr QuitAppleEventHandler( const AppleEvent *appleEvt, AppleEvent* reply, UInt
 
 
 void BOINCAssertHandler(const wxString &file, int line, const wxString &func, const wxString &cond, const wxString &msg) {
-    wxLogTrace(
-        wxT("Assert"),
-        wxT("ASSERT: %s:%d - %s - %s - %s"),
-        file.c_str(),
+    fprintf(
+        stderr,
+        "ASSERT: %s:%d - %s - %s - %s\n",
+        file.IsEmpty() ? "<NULL>" : file.mb_str(),
         line,
-        func.c_str(),
-        cond.c_str(),
-        msg.c_str()
+        func.IsEmpty() ? "<NULL>" : func.mb_str(),
+        cond.IsEmpty() ? "<NULL>" : cond.mb_str(),
+        msg.IsEmpty() ? "<NULL>" : msg.mb_str()
     );
+
+    //if (wxIsDebuggerRunning()) {
+        wxTrap();
+    //}
 }
 
 
@@ -170,6 +174,11 @@ bool CBOINCGUIApp::OnInit() {
     wxString strDesiredSkinName = wxEmptyString;
     wxString strDialogMessage = wxEmptyString;
     bool     success = false;
+
+
+    // call this to tell the library to call our OnFatalException()
+    wxHandleFatalExceptions(); 
+
 
     // Configure wxWidgets platform specific code
 #ifdef __WXMSW__
@@ -539,6 +548,27 @@ int CBOINCGUIApp::OnExit() {
     diagnostics_finish();
 
     return wxApp::OnExit();
+}
+
+
+void CBOINCGUIApp::OnFatalException() {
+    wxDebugReportCompress* report = new wxDebugReportCompress;
+
+    if (report->IsOk()) {
+        report->AddAll(wxDebugReport::Context_Exception);
+
+        if (report->Process())
+        {
+            fprintf(
+                stderr,
+                "ASSERT: Report generated in \"%s\".\n",
+                report->GetCompressedFileName().mb_str()
+            );
+            report->Reset();
+        }
+    }
+
+    delete report;
 }
 
 
