@@ -118,9 +118,9 @@ void BOINCAssertHandler(const wxString &file, int line, const wxString &func, co
         msg.IsEmpty() ? "<NULL>" : msg.mb_str()
     );
 
-    //if (wxIsDebuggerRunning()) {
+    if (wxIsDebuggerRunning()) {
         wxTrap();
-    //}
+    }
 }
 
 
