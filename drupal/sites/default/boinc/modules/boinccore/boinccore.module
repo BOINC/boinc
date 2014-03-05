@@ -152,22 +152,31 @@ function boinccore_form_alter(&$form, $form_state, $form_id) {
     }
     
     // Wrap action buttons for styling consistency
-    $form['form control tabs prefix'] = array(
+    $form['buttons']['form control tabs prefix'] = array(
       '#value' => '<ul class="form-control tab-list">',
       '#weight' => 1001,
     );
-    $form['submit']['#prefix'] = '<li class="first tab">';
-    $form['submit']['#value'] = t('Post comment');
-    $form['submit']['#suffix'] = '</li>';
-    $form['submit']['#weight'] = 1002;
-    $form['preview']['#prefix'] = '<li class="tab">';
-    $form['preview']['#suffix'] = '</li>';
-    $form['preview']['#weight'] = 1003;
-    $form['cancel'] = array(
+    $form['buttons']['submit'] = $form['submit'];
+    unset($form['submit']);
+    $form['buttons']['submit']['#prefix'] = '<li class="first tab">';
+    $form['buttons']['submit']['#value'] = t('Post comment');
+    $form['buttons']['submit']['#suffix'] = '</li>';
+    $form['buttons']['submit']['#weight'] = 1002;
+    // We want all these buttons together under the "buttons" array, but the
+    // default submit and preview buttons cannot both be unset or odd display
+    // bugs result. Somehow the comment form ends up above the preview div in
+    // this case. So... don't unset the preview button, just hide it
+    $form['buttons']['preview'] = $form['preview'];
+    //unset($form['preview']);
+    $form['preview']['#attributes']['style'] = 'display: none;';
+    $form['buttons']['preview']['#prefix'] = '<li class="tab">';
+    $form['buttons']['preview']['#suffix'] = '</li>';
+    $form['buttons']['preview']['#weight'] = 1003;
+    $form['buttons']['cancel'] = array(
       '#value' => '<li class="tab">' . l(t('Cancel'), $cancel_url) . '</li>',
       '#weight' => 1004,
     );
-    $form['form control tabs suffix'] = array(
+    $form['buttons']['form control tabs suffix'] = array(
       '#value' => '</ul>',
       '#weight' => 1010,
     );
