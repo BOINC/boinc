@@ -60,9 +60,6 @@ IMPLEMENT_DYNAMIC_CLASS(CBOINCGUIApp, wxApp)
 BEGIN_EVENT_TABLE (CBOINCGUIApp, wxApp)
     EVT_ACTIVATE_APP(CBOINCGUIApp::OnActivateApp)
     EVT_RPC_FINISHED(CBOINCGUIApp::OnRPCFinished)
-#if (defined(__WXMSW__) && !wxCHECK_VERSION(2, 9, 4))
-    EVT_END_SESSION(CBOINCGUIApp::OnEndSession)
-#endif
 END_EVENT_TABLE ()
 
 bool s_bSkipExitConfirmation = false;
