@@ -107,6 +107,19 @@ OSErr QuitAppleEventHandler( const AppleEvent *appleEvt, AppleEvent* reply, UInt
 #endif
 
 
+void BOINCAssertHandler(const wxString &file, int line, const wxString &func, const wxString &cond, const wxString &msg) {
+    wxLogTrace(
+        wxT("Assert"),
+        wxT("ASSERT: %s:%d - %s - %s - %s"),
+        file.c_str(),
+        line,
+        func.c_str(),
+        cond.c_str(),
+        msg.c_str()
+    );
+}
+
+
 bool CBOINCGUIApp::OnInit() {
     // Initialize globals
 #ifdef SANDBOX
@@ -255,11 +268,15 @@ bool CBOINCGUIApp::OnInit() {
         "stderrgui"
     );
 
+#ifdef _NDEBUG
+    wxSetAssertHandler(BOINCAssertHandler);
+#endif
 
     // Enable Logging and Trace Masks
     m_pLog = new wxLogBOINC();
     wxLog::SetActiveTarget(m_pLog);
 
+    m_pLog->AddTraceMask(wxT("Assert"));
     m_pLog->AddTraceMask(wxT("Function Start/End"));
     m_pLog->AddTraceMask(wxT("Function Status"));
 
