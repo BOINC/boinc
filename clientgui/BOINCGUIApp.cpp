@@ -52,16 +52,6 @@
 #include "sg_BoincSimpleFrame.h"
 
 
-DEFINE_EVENT_TYPE(wxEVT_RPC_FINISHED)
-
-IMPLEMENT_APP(CBOINCGUIApp)
-IMPLEMENT_DYNAMIC_CLASS(CBOINCGUIApp, wxApp)
-
-BEGIN_EVENT_TABLE (CBOINCGUIApp, wxApp)
-    EVT_ACTIVATE_APP(CBOINCGUIApp::OnActivateApp)
-    EVT_RPC_FINISHED(CBOINCGUIApp::OnRPCFinished)
-END_EVENT_TABLE ()
-
 bool s_bSkipExitConfirmation = false;
 
 #ifdef __WXMAC__
@@ -104,6 +94,7 @@ OSErr QuitAppleEventHandler( const AppleEvent *appleEvt, AppleEvent* reply, UInt
     wxGetApp().GetFrame()->GetEventHandler()->AddPendingEvent(evt);
     return noErr;
 }
+
 #endif
 
 
@@ -123,6 +114,17 @@ void BOINCAssertHandler(const wxString &file, int line, const wxString &func, co
     }
 }
 
+
+DEFINE_EVENT_TYPE(wxEVT_RPC_FINISHED)
+
+IMPLEMENT_APP(CBOINCGUIApp)
+IMPLEMENT_DYNAMIC_CLASS(CBOINCGUIApp, wxApp)
+
+BEGIN_EVENT_TABLE (CBOINCGUIApp, wxApp)
+    EVT_ACTIVATE_APP(CBOINCGUIApp::OnActivateApp)
+    EVT_RPC_FINISHED(CBOINCGUIApp::OnRPCFinished)
+    EVT_END_SESSION(CBOINCGUIApp::OnEndSession)
+END_EVENT_TABLE ()
 
 bool CBOINCGUIApp::OnInit() {
     // Initialize globals
@@ -548,6 +550,20 @@ int CBOINCGUIApp::OnExit() {
     diagnostics_finish();
 
     return wxApp::OnExit();
+}
+
+
+// Work around a bug in wxWidgets call OnExit() when Windows is shut down.
+//
+void CBOINCGUIApp::OnEndSession(wxCloseEvent& ) {
+    s_bSkipExitConfirmation = true;
+
+    CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
+    wxCommandEvent evt(wxEVT_COMMAND_MENU_SELECTED, wxID_EXIT);
+    // The event loop has already been stopped,
+    // so we must call OnExit directly
+    pFrame->OnExit(evt);
+    OnExit();
 }
 
 

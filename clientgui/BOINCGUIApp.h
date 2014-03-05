@@ -50,6 +50,7 @@ class CBOINCGUIApp : public wxApp {
 
 protected:
     int                 OnExit();
+    void                OnEndSession(wxCloseEvent& event);
 
     void                OnFatalException(); 
     
