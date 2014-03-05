@@ -2463,7 +2463,7 @@
 		<row><td>WEBx86</td><td>ProductCode</td><td/></row>
 		<row><td>WEBx86</td><td>ProductName</td><td/></row>
 		<row><td>WEBx86</td><td>ProductVersion</td><td/></row>
-		<row><td>WEBx86</td><td>SetupFileName</td><td>boinc_7.3.2_windows_intelx86_vbox</td></row>
+		<row><td>WEBx86</td><td>SetupFileName</td><td>boinc_7.3.8_windows_intelx86_vbox</td></row>
 		<row><td>WEBx86</td><td>UpgradeCode</td><td/></row>
 	</table>
 
@@ -4557,11 +4557,11 @@ VwBlAGIAAQBXAEUAQgB4ADgANgA=
 		<row><td>PROGMSG_IIS_ROLLBACKAPPPOOLS</td><td>##IDS_PROGMSG_IIS_ROLLBACKAPPPOOLS##</td><td/></row>
 		<row><td>PROGMSG_IIS_ROLLBACKWEBSERVICEEXTENSIONS</td><td>##IDS_PROGMSG_IIS_ROLLBACKWEBSERVICEEXTENSIONS##</td><td/></row>
 		<row><td>PROGRAMFILETOLAUNCHATEND</td><td>[#boincmgr.exe]</td><td/></row>
-		<row><td>ProductCode</td><td>{2C419967-6B58-4DF5-A508-8F924F7E8739}</td><td/></row>
+		<row><td>ProductCode</td><td>{DB2E8AC2-E9CC-4FAE-85A6-1CCCCAC315A2}</td><td/></row>
 		<row><td>ProductID</td><td>none</td><td/></row>
 		<row><td>ProductLanguage</td><td>1033</td><td/></row>
 		<row><td>ProductName</td><td>BOINC</td><td/></row>
-		<row><td>ProductVersion</td><td>7.3.2</td><td/></row>
+		<row><td>ProductVersion</td><td>7.3.8</td><td/></row>
 		<row><td>ProgressType0</td><td>install</td><td/></row>
 		<row><td>ProgressType1</td><td>Installing</td><td/></row>
 		<row><td>ProgressType2</td><td>installed</td><td/></row>
