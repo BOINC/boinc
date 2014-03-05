@@ -481,24 +481,6 @@ bool CBOINCGUIApp::OnInit() {
 }
 
 
-#if (defined(__WXMSW__) && !wxCHECK_VERSION(2, 9, 4))
-// Work around a bug in wxWidgets 2.8.x which fails 
-// to call OnExit() when Windows is shut down. This
-// is supposed to be fixed in wxWidgets 2.9.x.
-//
-void CBOINCGUIApp::OnEndSession(wxCloseEvent& ) {
-    s_bSkipExitConfirmation = true;
-
-    CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
-    wxCommandEvent evt(wxEVT_COMMAND_MENU_SELECTED, wxID_EXIT);
-    // The event loop has already been stopped,
-    // so we must call OnExit directly
-    pFrame->OnExit(evt);
-    OnExit();
-}
-#endif
-
-
 int CBOINCGUIApp::OnExit() {
     // Shutdown the System Idle Detection code
     IdleTrackerDetach();
