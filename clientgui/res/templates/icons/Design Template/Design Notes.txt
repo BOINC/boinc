@@ -22,12 +22,12 @@ Suspended Icon:
 
 Container:
 Shape, Rounded Rectangle, Filled Shape with outline
-Color on both brushes: 1E3C64 if not adding saturation; 173E72 if adding saturation
+Color: Without saturation: 1E3C64 and FFFFFF; With saturation: 173E72 and FFFFFF
 Icon Size: 256 x 256
-Shape Size: 84 x 104
-Brush Width: 25
+Shape Size: Blue: 78 x 105, BW 25
+Shape Size: White: 81 x 107, BW 25
 ... For smaller icon sizes, scale shape down
-... 24 x 24 and smaller, needed custom editing
+... 48 x 48 and smaller, might need custom editing
 
 Pause Lines:
 Shape, Line, Rounded-Solid-Rounded
@@ -76,3 +76,4 @@ Needed XPM sizes (with NO transparency!):
 16x16
 32x32
 ...Note: Rom says he DOES want "Disconnected" and "Suspended" versions.
+...Ended up using 128 transparency lock, on images that excluded white bordering.
