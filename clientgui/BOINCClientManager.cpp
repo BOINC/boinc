@@ -157,9 +157,7 @@ bool CBOINCClientManager::IsBOINCCoreRunning() {
     } else {
         // Global mutex on Win2k and later
         //
-        if (IsWindows2000Compatible()) {
-            safe_strcpy(buf, "Global\\");
-        }
+        safe_strcpy(buf, "Global\\");
         strcat( buf, RUN_MUTEX);
 
         HANDLE h = CreateMutexA(NULL, true, buf);

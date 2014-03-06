@@ -18,11 +18,8 @@
 #ifndef _WIN_UTIL_
 #define _WIN_UTIL_
 
-extern BOOL IsWindows2000Compatible();extern BOOL IsTerminalServicesEnabled();
-extern BOOL ValidateProductSuite(LPSTR SuiteName);
 extern BOOL TerminateProcessById(DWORD dwProcessId);
 extern void chdir_to_data_dir();
-extern bool is_remote_desktop();
 
 extern std::wstring A2W(const std::string& str);
 extern std::string W2A(const std::wstring& str);

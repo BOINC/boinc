@@ -23,13 +23,13 @@
 
 // Target Windows 2000 or better with Internet Explorer 5.01 or better
 #ifndef WINVER
-#define WINVER 0x0500
+#define WINVER 0x0501
 #endif
 #ifndef _WIN32_WINNT
-#define _WIN32_WINNT 0x0500
+#define _WIN32_WINNT 0x0501
 #endif
 #ifndef _WIN32_WINDOWS
-#define _WIN32_WINDOWS 0x0500
+#define _WIN32_WINDOWS 0x0501
 #endif
 #ifndef _WIN32_IE
 #define _WIN32_IE 0x0501
@@ -136,6 +136,7 @@
 // Windows Headers
 //
 #include <windows.h>
+#include <winternl.h>
 #if !defined(__CYGWIN32__) && !defined(__MINGW32__)
 #include <crtdbg.h>
 #endif
@@ -144,9 +145,9 @@
 #include <share.h>
 #include <ole2.h>
 #include <oleauto.h>
-#include <wininet.h>
 #include <shlobj.h>
 #include <userenv.h>
+#include <wtsapi32.h>
 
 #if wxUSE_ACCESSIBILITY
     #include <oleacc.h>

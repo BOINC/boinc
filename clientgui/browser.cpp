@@ -22,6 +22,20 @@
 
 #ifdef _WIN32
 #include "win_util.h"
+
+#ifndef InternetGetCookie
+
+#if defined(__cplusplus)
+extern "C" {
+#endif
+
+BOOL WINAPI InternetGetCookieA( LPCSTR lpszUrl, LPCSTR lpszCookieName, LPSTR lpszCookieData, LPDWORD lpdwSize );
+
+#if defined(__cplusplus)
+}
+#endif
+
+#endif
 #else
 #include <string>
 #include <vector>

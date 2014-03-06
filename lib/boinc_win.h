@@ -73,15 +73,15 @@
 
 #endif
 
-// Target Windows 2000 or better with Internet Explorer 5.01 or better
+// Target Windows XP or better with Internet Explorer 5.01 or better
 #ifndef WINVER
-#define WINVER 0x0500
+#define WINVER 0x0501
 #endif
 #ifndef _WIN32_WINNT
-#define _WIN32_WINNT 0x0500
+#define _WIN32_WINNT 0x0501
 #endif
 #ifndef _WIN32_WINDOWS
-#define _WIN32_WINDOWS 0x0500
+#define _WIN32_WINDOWS 0x0501
 #endif
 #ifndef _WIN32_IE
 #define _WIN32_IE 0x0501
@@ -91,12 +91,14 @@
 #endif
 
 #include <windows.h>
+#include <winternl.h>
 #include <share.h>
 #include <shlobj.h>
 #include <userenv.h>
 #include <aclapi.h>
 #include <psapi.h>
 #include <iphlpapi.h>
+#include <wtsapi32.h>
 
 #if !defined(__CYGWIN32__) || defined(USE_WINSOCK)
 
@@ -104,7 +106,7 @@
 #undef USE_WINSOCK
 #define USE_WINSOCK 1
 #include <winsock.h>
-#include <wininet.h>
+#include <winhttp.h>
 
 typedef size_t socklen_t;
 
