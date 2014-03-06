@@ -568,6 +568,9 @@ void CBOINCGUIApp::OnEndSession(wxCloseEvent& ) {
 
 
 void CBOINCGUIApp::OnFatalException() {
+
+#ifdef wxUSE_DEBUGREPORT
+
     wxDebugReportCompress* report = new wxDebugReportCompress;
 
     if (report->IsOk()) {
@@ -585,6 +588,9 @@ void CBOINCGUIApp::OnFatalException() {
     }
 
     delete report;
+
+#endif
+
 }
 
 
