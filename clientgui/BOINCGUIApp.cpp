@@ -571,6 +571,7 @@ void CBOINCGUIApp::OnEndSession(wxCloseEvent& ) {
 
 
 void CBOINCGUIApp::OnFatalException() {
+#ifdef wxUSE_DEBUGREPORT 
     wxDebugReportCompress* report = new wxDebugReportCompress;
 
     if (report->IsOk()) {
@@ -581,13 +582,14 @@ void CBOINCGUIApp::OnFatalException() {
             fprintf(
                 stderr,
                 "ASSERT: Report generated in \"%s\".\n",
-                report->GetCompressedFileName().mb_str()
+                (const char*)report->GetCompressedFileName().mb_str()
             );
             report->Reset();
         }
     }
 
     delete report;
+#endif
 }
 #endif
 
