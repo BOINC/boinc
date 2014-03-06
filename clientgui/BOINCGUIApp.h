@@ -102,9 +102,6 @@ protected:
     bool                m_bFilterEvents;
     bool                m_bAboutDialogIsOpen;
 
-#ifdef __WXMSW__
-    HINSTANCE           m_hClientLibraryDll;
-#endif
 #ifdef __WXMAC__
     ProcessSerialNumber m_psnCurrentProcess;
 #endif

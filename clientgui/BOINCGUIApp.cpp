@@ -167,9 +167,6 @@ bool CBOINCGUIApp::OnInit() {
     m_iDisplayExitDialog = 1;
     m_iGUISelected = BOINC_SIMPLEGUI;
     m_bSafeMessageBoxDisplayed = 0;
-#ifdef __WXMSW__
-    m_hClientLibraryDll = NULL;
-#endif
 
     // Initialize local variables
     int      iErrorCode = 0;
