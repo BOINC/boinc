@@ -909,6 +909,12 @@ function update_1_13_2014() {
     );
 }
 
+function update_3_6_2014() {
+    do_query(
+        "alter table host add gpu_active_frac double not null"
+    );
+}
+
 // Updates are done automatically if you use "upgrade".
 //
 // If you need to do updates manually,
@@ -947,6 +953,7 @@ $db_updates = array (
     array(27004, "update_9_17_2013"),
     array(27005, "update_12_22_2013"),
     array(27006, "update_1_13_2014"),
+    array(27007, "update_3_6_2014"),
 );
 
 ?>

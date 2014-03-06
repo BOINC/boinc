@@ -252,8 +252,9 @@ int procinfo_setup(PROC_MAP& pm) {
         strlcpy(p.command, ps.comm, sizeof(p.command));
         p.is_boinc_app = (p.id == pid || strcasestr(p.command, "boinc"));
         p.is_low_priority = (ps.priority == 39);
-            // Linux seems to add 20 here,
-            // but this isn't documented anywhere
+            // Internally Linux stores the process priority as nice + 20
+            // as -ve values are error codes. Thus this generally gives
+            // a process priority range of 39..0
         pm.insert(std::pair<int, PROCINFO>(p.id, p));
 #endif
     }

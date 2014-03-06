@@ -186,6 +186,7 @@ create table host (
     max_results_day         integer         not null,
     error_rate              double          not null default 0,
     product_name            varchar(254)    not null,
+    gpu_active_frac         double          not null,
 
     primary key (id)
 ) engine=InnoDB;
