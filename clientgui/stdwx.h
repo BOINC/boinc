@@ -118,6 +118,7 @@
 #include <wx/selstore.h>
 #include <wx/webview.h>
 #include <wx/webviewfshandler.h>
+#include <wx/snglinst.h>
 
 
 #ifdef _WIN32

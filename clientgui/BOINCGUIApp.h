@@ -72,6 +72,7 @@ protected:
     wxConfig*           m_pConfig;
     wxLocale*           m_pLocale;
     wxLogBOINC*         m_pLog;
+    wxSingleInstanceChecker* m_pInstanceChecker;
 
     CSkinManager*       m_pSkinManager;
     CBOINCBaseFrame*    m_pFrame;
@@ -133,6 +134,7 @@ public:
     CDlgEventLog*       GetEventLog()               { return m_pEventLog; }
     CTaskBarIcon*       GetTaskBarIcon()            { return m_pTaskBarIcon; }
 
+    bool                IsAnotherInstanceRunning()  { return m_pInstanceChecker->IsAnotherRunning(); }
     bool                IsMgrMultipleInstance()     { return m_bMultipleInstancesOK; }
 
 #ifdef __WXMAC__
@@ -181,7 +183,6 @@ public:
                             int y = wxDefaultCoord
                         );
 
-    int                 IsAnotherInstanceRunning();
     bool                IsApplicationVisible();
     void                ShowApplication(bool bShow);
     bool                ShowInterface();

@@ -141,6 +141,7 @@ bool CBOINCGUIApp::OnInit() {
     m_bAboutDialogIsOpen = false;
 
     // Initialize class variables
+    m_pInstanceChecker = NULL;
     m_pLocale = NULL;
     m_pSkinManager = NULL;
     m_pFrame = NULL;
@@ -547,6 +548,11 @@ int CBOINCGUIApp::OnExit() {
         m_pEventLog = NULL;
     }
 
+    if (m_pInstanceChecker) {
+        delete m_pInstanceChecker;
+        m_pInstanceChecker = NULL;
+    }
+
     diagnostics_finish();
 
     return wxApp::OnExit();
@@ -712,21 +718,13 @@ bool CBOINCGUIApp::OnCmdLineParsed(wxCmdLineParser &parser) {
 //  Returns true if there is, otherwise false
 ///
 bool CBOINCGUIApp::DetectDuplicateInstance() {
+    m_pInstanceChecker = new wxSingleInstanceChecker();
+    if (m_pInstanceChecker->IsAnotherRunning()) {
 #ifdef __WXMSW__
-    if (CTaskBarIcon::FireAppRestore()) {
+        CTaskBarIcon::FireAppRestore();
+#endif
         return true;
     }
-#endif
-#ifdef __WXMAC__
-    ProcessSerialNumber PSN;
-    int iInstanceID = wxGetApp().IsAnotherInstanceRunning();
-    if (iInstanceID) {
-        // Bring other instance to the front and exit this instance
-        OSStatus err = GetProcessForPID(iInstanceID, &PSN);
-        if (!err) SetFrontProcess(&PSN);
-        return true;
-    }
-#endif
     return false;
 }
 
@@ -1226,60 +1224,6 @@ int CBOINCGUIApp::SafeMessageBox(const wxString& message, const wxString& captio
     m_bSafeMessageBoxDisplayed--;
 
     return retval;
-}
-
-
-///
-/// Determines if another instance of BOINC Manager is running.
-///
-/// @return
-///  true if another instance of BOINC Manager is running, otherwise false.
-///
-/// Note: will always return false on Win95, Win98, WinME
-/// 
-int CBOINCGUIApp::IsAnotherInstanceRunning() {
-    PROC_MAP pm;
-    int retval;
-    char myName[256];
-    int otherInstanceID = 0;
-    int myPid;
-
-    // Look for BOINC Manager in list of all running processes
-    retval = procinfo_setup(pm);
-    if (retval) return false;     // Should never happen
-
-#ifdef _WIN32
-    myPid = (int)GetCurrentProcessId();
-#else
-    myPid = getpid();
-#endif
-
-    // Get the name of this Application
-    myName[0] = 0;
-    PROC_MAP::iterator i;
-    for (i=pm.begin(); i!=pm.end(); i++) {
-        PROCINFO& procinfo = i->second;
-        if (procinfo.id == myPid) {
-            strncpy(myName, procinfo.command, sizeof(myName));
-            break;
-        }
-    }
-
-    if (myName[0] == 0) {
-         return false;     // Should never happen
-    }
-    
-    // Search process list for other applications with same name
-    for (i=pm.begin(); i!=pm.end(); i++) {
-        PROCINFO& procinfo = i->second;
-        if (procinfo.id == myPid) continue;
-        if (!strcmp(procinfo.command, myName)) {
-            otherInstanceID = procinfo.id;
-            break;
-        }
-    }
-    
-    return otherInstanceID;
 }
 
 

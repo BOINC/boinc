@@ -559,7 +559,6 @@ int CMainDocument::OnExit() {
 int CMainDocument::OnPoll() {
     CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
     int iRetVal = 0;
-    int otherInstanceID;
     wxString hostName = wxGetApp().GetClientHostNameArg();
     wxString password = wxGetApp().GetClientPasswordArg();
     int portNum = wxGetApp().GetClientRPCPortArg();
@@ -571,8 +570,7 @@ int CMainDocument::OnPoll() {
         m_bClientStartCheckCompleted = true;
 
         if (IsComputerNameLocal(hostName)) {
-            otherInstanceID = wxGetApp().IsAnotherInstanceRunning();
-            if (otherInstanceID) {
+            if (wxGetApp().IsAnotherInstanceRunning()) {
                 if (!pFrame->SelectComputer(hostName, portNum, password, true)) {
                     s_bSkipExitConfirmation = true;
                     wxCommandEvent event;
