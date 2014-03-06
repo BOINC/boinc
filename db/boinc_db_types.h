@@ -337,6 +337,7 @@ struct HOST {
         // that fail validation
         // DEPRECATED
     char product_name[256];
+    double gpu_active_frac;
 
     // the following items are passed in scheduler requests,
     // and used in the scheduler,
@@ -349,7 +350,6 @@ struct HOST {
     OPENCL_CPU_PROP opencl_cpu_prop[MAX_OPENCL_CPU_PLATFORMS];
 
     // stuff from time_stats
-    double gpu_active_frac;
     double cpu_and_network_available_frac;
     double client_start_time;
     double previous_uptime;

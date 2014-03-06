@@ -491,14 +491,16 @@ void DB_HOST::db_print(char* buf){
         "avg_turnaround=%.15e, "
         "host_cpid='%s', external_ip_addr='%s', max_results_day=%d, "
         "error_rate=%.15e, "
-        "product_name='%s' ",
+        "product_name='%s', "
+        "gpu_active_frac=%.15e ",
         create_time, userid,
         rpc_seqno, rpc_time,
         total_credit, expavg_credit, expavg_time,
         timezone, domain_name, serialnum,
         last_ip_addr, nsame_ip_addr,
-        on_frac, connected_frac, active_frac,
-        cpu_efficiency, duration_correction_factor,
+        on_frac, connected_frac,
+        active_frac, cpu_efficiency,
+        duration_correction_factor,
         p_ncpus, p_vendor, p_model,
         p_fpops, p_iops, p_membw,
         os_name, os_version,
@@ -511,7 +513,8 @@ void DB_HOST::db_print(char* buf){
         avg_turnaround,
         host_cpid, external_ip_addr, _max_results_day,
         _error_rate,
-        product_name
+        product_name,
+        gpu_active_frac
     );
     UNESCAPE(domain_name);
     UNESCAPE(serialnum);
@@ -572,6 +575,7 @@ void DB_HOST::db_parse(MYSQL_ROW &r) {
     _max_results_day = atoi(r[i++]);
     _error_rate = atof(r[i++]);
     strcpy2(product_name, r[i++]);
+    gpu_active_frac = atof(r[i++]);
 }
 
 int DB_HOST::update_diff_validator(HOST& h) {
@@ -791,6 +795,10 @@ int DB_HOST::update_diff_sched(HOST& h) {
         escape_string(product_name, sizeof(product_name));
         sprintf(buf, " product_name='%s',", product_name);
         unescape_string(product_name, sizeof(product_name));
+        strcat(updates, buf);
+    }
+    if (gpu_active_frac != h.gpu_active_frac) {
+        sprintf(buf, " gpu_active_frac=%.15e,", gpu_active_frac);
         strcat(updates, buf);
     }
 

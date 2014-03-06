@@ -229,7 +229,7 @@ void RSC_WORK_FETCH::set_request(PROJECT* p) {
 
     if (log_flags.work_fetch_debug) {
         msg_printf(p, MSG_INFO,
-            "[work_fetch] set_request() for %s: ninst %d nused_total %f nidle_now %f fetch share %f req_inst %f req_secs %f",
+            "[work_fetch] set_request() for %s: ninst %d nused_total %.2f nidle_now %.2f fetch share %.2f req_inst %.2f req_secs %.2f",
             rsc_name_long(rsc_type), ninstances, w.nused_total, nidle_now,
             w.fetchable_share, req_instances, req_secs
         );
