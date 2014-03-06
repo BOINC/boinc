@@ -414,6 +414,30 @@ function boincuser_views_api() {
 function boincuser_form_alter(&$form, $form_state, $form_id) {
   global $user;
   switch ($form_id) {
+  // Confirm adding a friend
+  case 'flag_confirm':
+    
+    // Wrap action buttons for styling consistency
+    $form['form control tabs prefix'] = array(
+      '#value' => '<ul class="form-control tab-list">',
+      '#weight' => 1001,
+    );
+    $form['flag_friend_submit']['#prefix'] = '<li class="first tab">';
+    $form['flag_friend_submit']['#value'] = t('Send request');
+    $form['flag_friend_submit']['#suffix'] = '</li>';
+    $form['flag_friend_submit']['#weight'] = 1002;
+    $friend_id = $form['content_id']['#value'];
+    $form['cancel'] = array(
+      '#value' => '<li class="tab">' . l(t('Cancel'), "account/{$friend_id}") . '</li>',
+      '#weight' => 1004,
+    );
+    $form['form control tabs suffix'] = array(
+      '#value' => '</ul>',
+      '#weight' => 1010,
+    );
+    
+    break;
+    
   // General node edit form
   case 'news_node_form':
     $form['separator_bottom'] = array(
