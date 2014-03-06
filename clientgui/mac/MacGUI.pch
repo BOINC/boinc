@@ -42,8 +42,12 @@
 // Set USE_DEBUG_WXMAC to 0 to disable wxAssert() calls in Manager Development builds.
 // Set USE_DEBUG_WXMAC to 1 to enable wxAssert() calls in Manager Development builds.
 // See the note above for a special exception.
-// wxAssert() calls are always disabled in Manager Deployment builds.
-#define USE_DEBUG_WXMAC 0
+//
+// wxAssert() calls are now always enabled in Manager Deployment builds, but they will
+// only log the assert to stderrgui.txt; they will not display an alert window or
+// trigger a debugger breakpoint in Manager Deployment builds.
+
+#define USE_DEBUG_WXMAC 1
 
 // Set wxUSE_LOG_TRACE to 0 to disable wxLogTrace() calls in Manager Development builds.
 // Set wxUSE_LOG_TRACE to 1 to enable wxLogTrace() calls in Manager Development builds.
@@ -66,12 +70,11 @@
 #include <wchar.h>
 
 
-#if (defined(_DEBUG) && (USE_DEBUG_WXMAC))
-#define __WXDEBUG__
+#ifdef _DEBUG
 #undef wxDEBUG_LEVEL
-#define wxDEBUG_LEVEL 1
+#define wxDEBUG_LEVEL USE_DEBUG_WXMAC
 #else
-#define wxDEBUG_LEVEL 0
+#define wxDEBUG_LEVEL 1
 #endif
 
 #include <wx/wxprec.h>

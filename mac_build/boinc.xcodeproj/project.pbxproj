@@ -3606,7 +3606,7 @@
 					"-D_THREAD_SAFE",
 					"-D__WXMAC__",
 					"-DSANDBOX",
-					"-DNDEBUG",
+					"-D_NDEBUG",
 					"-DHAVE_STRCASECMP_IN_STRING_H",
 					"-DBUILDING_MANAGER",
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1050",

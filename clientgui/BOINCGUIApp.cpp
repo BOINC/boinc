@@ -123,7 +123,9 @@ IMPLEMENT_DYNAMIC_CLASS(CBOINCGUIApp, wxApp)
 BEGIN_EVENT_TABLE (CBOINCGUIApp, wxApp)
     EVT_ACTIVATE_APP(CBOINCGUIApp::OnActivateApp)
     EVT_RPC_FINISHED(CBOINCGUIApp::OnRPCFinished)
+#ifndef __WXMAC__
     EVT_END_SESSION(CBOINCGUIApp::OnEndSession)
+#endif
 END_EVENT_TABLE ()
 
 bool CBOINCGUIApp::OnInit() {
@@ -178,9 +180,10 @@ bool CBOINCGUIApp::OnInit() {
     bool     success = false;
 
 
+#ifndef __WXMAC__
     // call this to tell the library to call our OnFatalException()
-    wxHandleFatalExceptions(); 
-
+    wxHandleFatalExceptions();
+#endif
 
     // Configure wxWidgets platform specific code
 #ifdef __WXMSW__
@@ -553,8 +556,8 @@ int CBOINCGUIApp::OnExit() {
 }
 
 
-// Work around a bug in wxWidgets call OnExit() when Windows is shut down.
-//
+#ifndef __WXMAC__
+// Ensure we shut down gracefully on Windows logout or shutdown
 void CBOINCGUIApp::OnEndSession(wxCloseEvent& ) {
     s_bSkipExitConfirmation = true;
 
@@ -568,9 +571,6 @@ void CBOINCGUIApp::OnEndSession(wxCloseEvent& ) {
 
 
 void CBOINCGUIApp::OnFatalException() {
-
-#ifdef wxUSE_DEBUGREPORT
-
     wxDebugReportCompress* report = new wxDebugReportCompress;
 
     if (report->IsOk()) {
@@ -588,10 +588,8 @@ void CBOINCGUIApp::OnFatalException() {
     }
 
     delete report;
-
-#endif
-
 }
+#endif
 
 
 void CBOINCGUIApp::SaveState() {
