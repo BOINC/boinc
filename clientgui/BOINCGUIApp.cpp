@@ -99,14 +99,14 @@ OSErr QuitAppleEventHandler( const AppleEvent *appleEvt, AppleEvent* reply, UInt
 
 
 void BOINCAssertHandler(const wxString &file, int line, const wxString &func, const wxString &cond, const wxString &msg) {
-    fprintf(
-        stderr,
-        "ASSERT: %s:%d - %s - %s - %s\n",
-        file.IsEmpty() ? "<NULL>" : file.mb_str(),
+    wxLogTrace(
+        wxT("Assert"),
+        wxT("ASSERT: %s:%d - %s - %s - %s"),
+        file.IsEmpty() ? wxT("<NULL>") : file.c_str(),
         line,
-        func.IsEmpty() ? "<NULL>" : func.mb_str(),
-        cond.IsEmpty() ? "<NULL>" : cond.mb_str(),
-        msg.IsEmpty() ? "<NULL>" : msg.mb_str()
+        func.IsEmpty() ? wxT("<NULL>") : func.c_str(),
+        cond.IsEmpty() ? wxT("<NULL>") : cond.c_str(),
+        msg.IsEmpty()  ? wxT("<NULL>") : msg.c_str()
     );
 
     if (wxIsDebuggerRunning()) {
