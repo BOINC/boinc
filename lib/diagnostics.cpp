@@ -243,7 +243,7 @@ int diagnostics_init(
         char user_dir[MAXPATHLEN];
 
 #if   defined(_WIN32)
-        snprintf(user_dir, sizeof(user_dir), "%s", getenv("APPDATA"));
+        snprintf(user_dir, sizeof(user_dir), "%s", getenv("LOCALAPPDATA"));
         strncat(user_dir, "/BOINC", sizeof(user_dir) - strlen(user_dir)-1);
 #elif defined(__APPLE__)
         snprintf(user_dir, sizeof(user_dir), "%s", getenv("HOME"));
