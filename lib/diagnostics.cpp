@@ -244,13 +244,13 @@ int diagnostics_init(
 
 #if   defined(_WIN32)
         snprintf(user_dir, sizeof(user_dir), "%s", getenv("APPDATA"));
-        strncat(user_dir, "/BOINC", sizeof(user_dir) - strlen(user_dir));
+        strncat(user_dir, "/BOINC", sizeof(user_dir) - strlen(user_dir)-1);
 #elif defined(__APPLE__)
         snprintf(user_dir, sizeof(user_dir), "%s", getenv("HOME"));
-        strncat(user_dir, "/Library/Logs/BOINC", sizeof(user_dir) - strlen(user_dir));
+        strncat(user_dir, "/Library/Application Support/BOINC", sizeof(user_dir) - strlen(user_dir)-1);
 #else
         snprintf(user_dir, sizeof(user_dir), "%s", getenv("HOME"));
-        strncat(user_dir, "/.BOINC", sizeof(user_dir) - strlen(user_dir));
+        strncat(user_dir, "/.BOINC", sizeof(user_dir) - strlen(user_dir)-1);
 #endif
 
         // Check to see if the directory exists

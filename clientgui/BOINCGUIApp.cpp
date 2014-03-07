@@ -415,10 +415,8 @@ bool CBOINCGUIApp::OnInit() {
 
     // Detect if BOINC Manager is already running, if so, bring it into the
     // foreground and then exit.
-    if (!m_bMultipleInstancesOK) {
-        if (DetectDuplicateInstance()) {
+    if (DetectDuplicateInstance()) {
             return false;
-        }
     }
 
     // Initialize the main document
@@ -712,11 +710,22 @@ bool CBOINCGUIApp::OnCmdLineParsed(wxCmdLineParser &parser) {
 
 ///
 /// Detect if another instance of this application is running.
-//  Returns true if there is, otherwise false
+//  Returns true if there is and it is forbidden, otherwise false
+//
+// We must initialize m_pInstanceChecker even if m_bMultipleInstancesOK
+// is true so CMainDocument::OnPoll() can call IsMgrMultipleInstance().
 ///
 bool CBOINCGUIApp::DetectDuplicateInstance() {
+#ifdef __WXMAC__
+    m_pInstanceChecker = new wxSingleInstanceChecker(
+            wxTheApp->GetAppName() + '-' + wxGetUserId(),
+            wxFileName::GetHomeDir() + "/Library/Application Support/BOINC"
+            );
+#else
     m_pInstanceChecker = new wxSingleInstanceChecker();
+#endif
     if (m_pInstanceChecker->IsAnotherRunning()) {
+        if (m_bMultipleInstancesOK) return false;
 #ifdef __WXMSW__
         CTaskBarIcon::FireAppRestore();
 #endif
