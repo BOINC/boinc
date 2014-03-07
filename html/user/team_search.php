@@ -66,6 +66,11 @@ function show_list($list) {
     echo "
         <tr>
         <th>".tra("Team name")."</th>
+    ";
+    if (defined("SHOW_NONVALIDATED_TEAMS")) {
+        echo "<th>Validated?</th>\n";
+    }
+    echo "
         <th>".tra("Description")."</th>
         <th>".tra("Average credit")."</th>
         <th>".tra("Type")."</th>
@@ -78,6 +83,14 @@ function show_list($list) {
         $j = $i++ % 2;
         echo "<tr class=row$j>
             <td><a href=team_display.php?teamid=$team->id>$team->name</a></td>
+        ";
+        if (defined("SHOW_NONVALIDATED_TEAMS")) {
+            $user = BoincUser::lookup_id($team->userid);
+            echo "<td>";
+            echo $user->email_validated?"Yes":"No";
+            echo "</td>\n";
+        }
+        echo "
             <td><span class=note>".sanitize_html($team->description)."</span></td>
             <td>".format_credit($team->expavg_credit)."</td>
             <td>$type</td>
