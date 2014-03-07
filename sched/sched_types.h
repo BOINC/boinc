@@ -415,7 +415,8 @@ struct WORK_REQ_BASE {
 
     double disk_available;
     double ram, usable_ram;
-    double running_frac;
+    double cpu_available_frac;
+    double gpu_available_frac;
     int njobs_sent;
 
     // The following keep track of the "easiest" job that was rejected
@@ -548,4 +549,5 @@ inline bool is_64b_platform(const char* name) {
     return (strstr(name, "64") != NULL);
 }
 
+extern double available_frac(BEST_APP_VERSION&);
 #endif

@@ -409,28 +409,46 @@ static double estimate_duration_unscaled(WORKUNIT& wu, BEST_APP_VERSION& bav) {
     return rsc_fpops_est/bav.host_usage.projected_flops;
 }
 
-static inline void get_running_frac() {
-    double rf;
-    if (g_request->core_client_version<=41900) {
-        rf = g_reply->host.on_frac;
-    } else {
-        rf = g_reply->host.active_frac * g_reply->host.on_frac;
+// Compute cpu_available_frac and gpu_available_frac.
+// These are based on client-supplied data, so do sanity checks
+//
+#define FRAC_MIN 0.1
+static inline void clamp_frac(double& frac, const char* name) {
+    if (frac > 1) {
+        if (config.debug_send) {
+            log_messages.printf(MSG_NORMAL,
+                "[send] %s=%f; setting to 1\n", name, frac
+            );
+        }
+        frac = 1;
+    } else if (frac < FRAC_MIN) {
+        if (config.debug_send) {
+            log_messages.printf(MSG_NORMAL,
+                "[send] %s=%f; setting to %f\n", name, frac, FRAC_MIN
+            );
+        }
+        frac = .01;
     }
+}
 
-    // clamp running_frac to a reasonable range
-    //
-    if (rf > 1) {
-        if (config.debug_send) {
-            log_messages.printf(MSG_NORMAL, "[send] running_frac=%f; setting to 1\n", rf);
-        }
-        rf = 1;
-    } else if (rf < .1) {
-        if (config.debug_send) {
-            log_messages.printf(MSG_NORMAL, "[send] running_frac=%f; setting to 0.1\n", rf);
-        }
-        rf = .1;
+static inline void get_available_fracs() {
+    if (g_request->core_client_version<=41900) {
+        g_wreq->cpu_available_frac = g_reply->host.on_frac;
+        g_wreq->gpu_available_frac = g_reply->host.on_frac; // irrelevant
+    } else {
+        g_wreq->cpu_available_frac = g_reply->host.active_frac * g_reply->host.on_frac;
+        g_wreq->gpu_available_frac = g_reply->host.gpu_active_frac * g_reply->host.on_frac;
     }
-    g_wreq->running_frac = rf;
+    clamp_frac(g_wreq->cpu_available_frac, "CPU available fraction");
+    clamp_frac(g_wreq->gpu_available_frac, "GPU available fraction");
+}
+
+double available_frac(BEST_APP_VERSION& bav) {
+    if (bav.host_usage.uses_gpu()) {
+        return g_wreq->gpu_available_frac;
+    } else {
+        return g_wreq->cpu_available_frac;
+    }
 }
 
 // estimate the amount of real time to complete this WU,
@@ -440,7 +458,7 @@ static inline void get_running_frac() {
 //
 double estimate_duration(WORKUNIT& wu, BEST_APP_VERSION& bav) {
     double edu = estimate_duration_unscaled(wu, bav);
-    double ed = edu/g_wreq->running_frac;
+    double ed = edu/available_frac(bav);
     if (config.debug_send) {
         log_messages.printf(MSG_NORMAL,
             "[send] est. duration for WU %d: unscaled %.2f scaled %.2f\n",
@@ -1376,7 +1394,7 @@ void send_work_setup() {
 
     g_wreq->disk_available = max_allowable_disk();
     get_mem_sizes();
-    get_running_frac();
+    get_available_fracs();
     g_wreq->get_job_limits();
 
     // do sanity checking on GPU scheduling parameters
@@ -1464,9 +1482,10 @@ void send_work_setup() {
             (int)g_request->global_prefs.work_buf_min()
         );
         log_messages.printf(MSG_NORMAL,
-            "[send] active_frac %f on_frac %f\n",
+            "[send] on_frac %f active_frac %f gpu_active_frac %f\n",
+            g_reply->host.on_frac,
             g_reply->host.active_frac,
-            g_reply->host.on_frac
+            g_reply->host.gpu_active_frac
         );
         if (g_wreq->anonymous_platform) {
             log_messages.printf(MSG_NORMAL,
