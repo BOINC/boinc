@@ -265,20 +265,17 @@ bool CBOINCGUIApp::OnInit() {
 
     // Initialize the BOINC Diagnostics Framework
     int dwDiagnosticsFlags =
-        BOINC_DIAG_DUMPCALLSTACKENABLED | 
+#ifdef _DEBUG
         BOINC_DIAG_HEAPCHECKENABLED |
         BOINC_DIAG_MEMORYLEAKCHECKENABLED |
-#if defined(__WXMSW__) || defined(__WXMAC__)
+#endif
+        BOINC_DIAG_DUMPCALLSTACKENABLED | 
+        BOINC_DIAG_PERUSERLOGFILES |
         BOINC_DIAG_REDIRECTSTDERR |
         BOINC_DIAG_REDIRECTSTDOUT |
-#endif
         BOINC_DIAG_TRACETOSTDOUT;
 
-    diagnostics_init(
-        dwDiagnosticsFlags,
-        "stdoutgui",
-        "stderrgui"
-    );
+    diagnostics_init(dwDiagnosticsFlags, "stdoutgui", "stderrgui");
 
 #ifdef _NDEBUG
     wxSetAssertHandler(BOINCAssertHandler);
