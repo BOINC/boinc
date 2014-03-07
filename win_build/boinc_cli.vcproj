@@ -736,6 +736,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\client\mac_address.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\client\main.cpp"
 				>
 			</File>
@@ -905,10 +909,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\client\hostinfo_network.h"
-				>
-			</File>
-			<File
 				RelativePath="..\client\http_curl.h"
 				>
 			</File>
@@ -918,6 +918,10 @@
 			</File>
 			<File
 				RelativePath="..\client\log_flags.h"
+				>
+			</File>
+			<File
+				RelativePath="..\client\mac_address.h"
 				>
 			</File>
 			<File

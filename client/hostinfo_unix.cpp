@@ -109,7 +109,6 @@
 #include "client_state.h"
 #include "client_types.h"
 #include "client_msgs.h"
-#include "hostinfo_network.h"
 #include "hostinfo.h"
 
 using std::string;
