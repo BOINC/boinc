@@ -55,11 +55,14 @@ int JOB_LIMIT::parse(XML_PARSER& xp, const char* end_tag) {
             continue;
         }
         if (xp.match_tag("cpu_limit")) {
-            cpu.parse(xp, "/cpu_limit");
+            proc_type_limits[0].parse(xp, "/cpu_limit");
             continue;
         }
         if (xp.match_tag("gpu_limit")) {
-            gpu.parse(xp, "/gpu_limit");
+            proc_type_limits[1].parse(xp, "/gpu_limit");
+            for (int i=2; i<NPROC_TYPES; i++) {
+                proc_type_limits[i] = proc_type_limits[1];
+            }
             continue;
         }
     }
