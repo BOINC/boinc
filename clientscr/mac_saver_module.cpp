@@ -114,8 +114,8 @@ const char *  RunningOnBatteryMsg = "Computing and screensaver disabled while ru
 void initBOINCSaver() {
     diagnostics_init(
         BOINC_DIAG_PERUSERLOGFILES |
-        BOINC_DIAG_REDIRECTSTDOUTOVERWRITE |
-        BOINC_DIAG_REDIRECTSTDERROVERWRITE |
+        BOINC_DIAG_REDIRECTSTDOUT |
+        BOINC_DIAG_REDIRECTSTDERR |
         BOINC_DIAG_TRACETOSTDOUT,
         "stdoutscr", "stderrscr"
         );
