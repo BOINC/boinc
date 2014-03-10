@@ -547,7 +547,8 @@ int DeleteReceipt()
     Initialize();
 
     restartNeeded = IsRestartNeeded();
-//    print_to_log_file("IsRestartNeeded() returned %d\n", (int)restartNeeded);
+    printf("IsRestartNeeded() returned %d\n", (int)restartNeeded);
+    fflush(stdout);
     
     brandID = GetBrandID();
 
@@ -568,8 +569,9 @@ int DeleteReceipt()
             for (i=0; i<15; i++) { // Wait 15 seconds max for installer to quit
                 sleep (1);
                 if (err == noErr)
-                    if (FindProcessPID(NULL, installerPID) == 0)
+                    if (FindProcessPID(NULL, installerPID) == 0) {
                         break;
+                    }
             }
         }
 
@@ -594,6 +596,9 @@ Boolean IsRestartNeeded() {
     int value;
 
     restartNeededFile = fopen("/tmp/BOINC_restart_flag", "r");
+    if (!restartNeededFile) {
+        restartNeededFile = fopen("/private/tmp/BOINC_restart_flag", "r");
+    }
     if (restartNeededFile) {
         fscanf(restartNeededFile,"%d", &value);
         fclose(restartNeededFile);
