@@ -43,12 +43,22 @@ function linux_info() {
     instead.  ";
 }
 
+$w74dev = array(
+	"num"=>"7.3.11",
+	"status"=>"Development version",
+	"file"=>"boinc_7.3.11_windows_intelx86.exe",
+	"vbox_file"=>"boinc_7.3.11_windows_intelx86_vbox.exe",
+  "vbox_version"=>"4.2.16",
+	"date"=>"10 Mar 2014",
+	"type"=>"win_new",
+);
+
 $w72 = array(
 	"num"=>"7.2.42",
 	"status"=>"Recommended version",
 	"file"=>"boinc_7.2.42_windows_intelx86.exe",
 	"vbox_file"=>"boinc_7.2.42_windows_intelx86_vbox.exe",
-    "vbox_version"=>"4.2.16",
+  "vbox_version"=>"4.2.16",
 	"date"=>"28 Feb 2014",
 	"type"=>"win_new",
 );
@@ -77,12 +87,22 @@ $w5816 = array(
     "type"=>"win_new",
 );
 
+$w74x64dev = array(
+	"num"=>"7.3.11",
+	"status"=>"Development version",
+	"file"=>"boinc_7.3.11_windows_x86_64.exe",
+	"vbox_file"=>"boinc_7.3.11_windows_x86_64_vbox.exe",
+  "vbox_version"=>"4.2.16",
+	"date"=>"10 Mar 2014",
+	"type"=>"win_new",
+);
+
 $w72x64 = array(
 	"num"=>"7.2.42",
 	"status"=>"Recommended version",
 	"file"=>"boinc_7.2.42_windows_x86_64.exe",
 	"vbox_file"=>"boinc_7.2.42_windows_x86_64_vbox.exe",
-    "vbox_version"=>"4.2.16",
+  "vbox_version"=>"4.2.16",
 	"date"=>"28 Feb 2014",
 	"type"=>"win_new",
 );
@@ -224,6 +244,7 @@ $windows = array(
     "description"=>"XP/Vista/7/8/8.1",
     "dbname" => "windows_intelx86",
     "versions"=>array(
+		  $w74dev,
 		  $w72,
 		  $w70,
 		  $w66,
@@ -236,6 +257,7 @@ $windowsx64 = array(
     "description"=>"XP/Vista/7/8/8.1",
     "dbname" => "windows_x86_64",
     "versions"=>array(
+		  $w74x64dev,
 		  $w72x64,
 		  $w70x64,
     )
