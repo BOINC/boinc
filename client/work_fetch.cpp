@@ -955,6 +955,7 @@ void WORK_FETCH::handle_reply(
             p->rsc_pwf[i].clear_backoff();
         }
     }
+    p->pwf.request_if_idle_and_uploading = false;
 }
 
 // set up for initial RPC.

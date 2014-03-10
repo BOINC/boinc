@@ -534,7 +534,13 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
     p = work_fetch.choose_project();
     if (p) {
         if (actively_uploading(p)) {
-            //if (!idle_request()) {
+            bool dont_request = true;
+            if (p->pwf.request_if_idle_and_uploading) {
+                if (idle_request()) {
+                    dont_request = false;
+                }
+            }
+            if (dont_request) {
                 if (log_flags.work_fetch_debug) {
                     msg_printf(p, MSG_INFO,
                         "[work_fetch] deferring work fetch; upload active"
@@ -542,7 +548,7 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
                 }
                 p->sched_rpc_pending = 0;
                 return false;
-            //}
+            }
         }
         scheduler_op->init_op_project(p, RPC_REASON_NEED_WORK);
         return true;

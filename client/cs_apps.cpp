@@ -205,6 +205,10 @@ int CLIENT_STATE::app_finished(ACTIVE_TASK& at) {
     double elapsed_time = now - rec_interval_start;
     work_fetch.accumulate_inst_sec(&at, elapsed_time);
 
+    rp->project->pwf.request_if_idle_and_uploading = true;
+        // set this to allow work fetch if idle instance,
+        // even before upload finishes
+
     return 0;
 }
 
