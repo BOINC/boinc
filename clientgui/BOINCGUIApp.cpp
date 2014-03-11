@@ -477,8 +477,9 @@ bool CBOINCGUIApp::OnInit() {
     // Don't open main window if we were started automatically at login
     if (pInfo.processSignature == 'lgnw') {  // Login Window app
         m_bGUIVisible = false;
+        HideThisApp();  // Needed for OS 10.5
 
-        // If the system was just started, we usually get a "Connection 
+        // If the system was just started, we usually get a "Connection
         // failed" error if we try to connect too soon, so delay a bit.
         sleep(10);
     }
@@ -970,7 +971,15 @@ void CBOINCGUIApp::DisplayEventLog(bool bShowWindow) {
     } else {
         m_pEventLog = new CDlgEventLog();
         if (m_pEventLog) {
-            m_pEventLog->Show(bShowWindow);
+#ifdef __WXMAC__
+            // See comment in CBOINCGUIApp::ShowApplication()
+            if (!bShowWindow) {
+                m_pEventLog->ShowWithoutActivating();
+            } else
+#endif
+            {
+                m_pEventLog->Show(bShowWindow);
+            }
             if (bShowWindow) {
                 m_pEventLog->Raise();
             }
@@ -1261,15 +1270,17 @@ bool CBOINCGUIApp::IsApplicationVisible() {
 // icon will bounce (as in notification) when we
 // click on our menu bar icon.
 // But wxFrame::Show(true) makes the application
-// visible again, so call m_pFrame->wxWindow::Show()
-// instead.
+// visible again, so we instead call
+// m_pFrame->ShowWithoutActivating().  The frame
+// will automatically be shown when the application
+// is made visible (i.e., activated.)
 void CBOINCGUIApp::ShowApplication(bool bShow) {
     if (bShow) {
         SetFrontProcess(&m_psnCurrentProcess);
     } else {
         HideThisApp();
         if (m_pFrame) {
-            m_pFrame->wxWindow::Show();
+            m_pFrame->ShowWithoutActivating();
         }
     }
 }
