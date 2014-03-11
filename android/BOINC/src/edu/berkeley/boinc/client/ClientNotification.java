@@ -67,6 +67,9 @@ public class ClientNotification {
 	 */
 	public void update(ClientStatus updatedStatus, Monitor service, Boolean active) {
 		
+		// nop if data is not present
+		if(service == null || updatedStatus == null) return;
+		
 		// stop service foreground, if not active anymore
 		if(!active && foreground) setForegroundState(service, false);
 		
