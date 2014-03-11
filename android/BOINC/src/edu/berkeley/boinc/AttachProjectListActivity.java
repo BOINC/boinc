@@ -257,22 +257,27 @@ public class AttachProjectListActivity extends ActionBarActivity implements andr
 		@Override
 		protected ArrayList<ProjectInfo> doInBackground(Void... arg0) {
 			
-			if (!mIsBound) return null;
-			ArrayList<ProjectInfo> data = new ArrayList<ProjectInfo>();
-			try{
-				//status  = Monitor.getClientStatus();
-				acctMgrPresent = monitor.getAcctMgrInfoPresent();
-				data = (ArrayList<ProjectInfo>) monitor.getSupportedProjects();
-				if(Logging.DEBUG) Log.d( Logging.TAG,"monitor.getAndroidProjectsList returned with " + data.size() + " elements");
-			} catch (Exception e){
-				if(Logging.WARNING) Log.w(Logging.TAG,"AttachProjectListActivity: Could not load supported projects, clientStatus not initialized.");
-				finish();
+			ArrayList<ProjectInfo> data = null;
+			while(acctMgrPresent == null || data == null) {
+				try{
+					//status  = Monitor.getClientStatus();
+					acctMgrPresent = monitor.getAcctMgrInfoPresent();
+					data = (ArrayList<ProjectInfo>) monitor.getSupportedProjects();
+					if(Logging.DEBUG) Log.d( Logging.TAG,"monitor.getAndroidProjectsList returned with " + data.size() + " elements");
+				} catch (Exception e){
+					if(Logging.WARNING) Log.w(Logging.TAG,"AttachProjectListActivity: Could not load supported projects: " + e.getLocalizedMessage());
+					finish();
+				}
+				if(acctMgrPresent == null || data == null) {
+					if(Logging.WARNING) Log.w(Logging.TAG,"AttachProjectListActivity: UpdateProjectListAsyncTask failed to retrieve data, retry....");
+					try{Thread.sleep(500);} catch(Exception e) {}
+				}
 			}
 			return data;
 		}
 		
 		protected void onPostExecute(ArrayList<ProjectInfo> result) {
-	        if (listAdapter!=null) {
+	        if (listAdapter!=null && result != null) {
 				for(ProjectInfo tmp: result) { // addAll only in API 11
 					listAdapter.add(tmp);
 				}

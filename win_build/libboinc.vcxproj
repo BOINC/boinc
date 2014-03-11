@@ -107,6 +107,8 @@
     <Lib>
       <OutputFile>.\Build\$(Platform)\$(Configuration)\libboinc.lib</OutputFile>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -137,6 +139,8 @@
     <Lib>
       <OutputFile>.\Build\$(Platform)\$(Configuration)\libboinc.lib</OutputFile>
       <AdditionalLibraryDirectories>../openssl/win32/x86/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -160,6 +164,8 @@
     <Lib>
       <OutputFile>.\Build\$(Platform)\$(Configuration)\libboinc.lib</OutputFile>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -186,6 +192,8 @@
     <Lib>
       <OutputFile>.\Build\$(Platform)\$(Configuration)\libboinc.lib</OutputFile>
       <AdditionalLibraryDirectories>../openssl/win32/x86/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>

@@ -112,18 +112,13 @@ const char *  RunningOnBatteryMsg = "Computing and screensaver disabled while ru
 // multiple times (once for each display), so we need to guard 
 // against any problems that may cause.
 void initBOINCSaver() {
-#ifdef _DEBUG
-    char buf1[256], buf2[256];
-    safe_strcpy(buf1, getenv("HOME"));
-    safe_strcat(buf1, "/Documents/ss_stdout");
-    safe_strcpy(buf2, getenv("HOME"));
-    safe_strcat(buf2, "/Documents/ss_stderr");
-
-    diagnostics_init(BOINC_DIAG_REDIRECTSTDOUTOVERWRITE
-        | BOINC_DIAG_REDIRECTSTDERROVERWRITE
-        | BOINC_DIAG_TRACETOSTDOUT, buf1, buf2
+    diagnostics_init(
+        BOINC_DIAG_PERUSERLOGFILES |
+        BOINC_DIAG_REDIRECTSTDOUT |
+        BOINC_DIAG_REDIRECTSTDERR |
+        BOINC_DIAG_TRACETOSTDOUT,
+        "stdoutscr", "stderrscr"
         );
-#endif
 
     if (gspScreensaver == NULL) {
         gspScreensaver = new CScreensaver();

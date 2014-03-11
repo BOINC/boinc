@@ -274,6 +274,10 @@ struct PROJECT_WORK_FETCH {
     int cant_fetch_work_reason;
     int compute_cant_fetch_work_reason(PROJECT*);
     int n_runnable_jobs;
+    bool request_if_idle_and_uploading;
+        // Set when a job finishes.
+        // If we're uploading but a resource is idle, make a work request.
+        // If this succeeds, clear the flag.
     PROJECT_WORK_FETCH() {
         memset(this, 0, sizeof(*this));
     }

@@ -703,18 +703,8 @@ int ACTIVE_TASK::start(bool test) {
 
     for (i=0; i<5; i++) {
         if (sandbox_account_service_token != NULL) {
-            // Find CreateEnvironmentBlock/DestroyEnvironmentBlock pointers
-            tCEB    pCEB = NULL;
-            tDEB    pDEB = NULL;
-            HMODULE hUserEnvLib = NULL;
 
-            hUserEnvLib = LoadLibrary("userenv.dll");
-            if (hUserEnvLib) {
-                pCEB = (tCEB) GetProcAddress(hUserEnvLib, "CreateEnvironmentBlock");
-                pDEB = (tDEB) GetProcAddress(hUserEnvLib, "DestroyEnvironmentBlock");
-            }
-
-            if (!pCEB(&environment_block, sandbox_account_service_token, FALSE)) {
+            if (!CreateEnvironmentBlock(&environment_block, sandbox_account_service_token, FALSE)) {
                 if (log_flags.task) {
                     windows_format_error_string(GetLastError(), error_msg, sizeof(error_msg));
                     msg_printf(wup->project, MSG_INFO,
@@ -745,7 +735,7 @@ int ACTIVE_TASK::start(bool test) {
                 );
             }
 
-            if (!pDEB(environment_block)) {
+            if (!DestroyEnvironmentBlock(environment_block)) {
                 if (log_flags.task) {
                     windows_format_error_string(GetLastError(), error_msg, sizeof(error_msg2));
                     msg_printf(wup->project, MSG_INFO,
@@ -753,12 +743,6 @@ int ACTIVE_TASK::start(bool test) {
                         error_msg2
                     );
                 }
-            }
-
-            if (hUserEnvLib) {
-                pCEB = NULL;
-                pDEB = NULL;
-                FreeLibrary(hUserEnvLib);
             }
 
         } else {

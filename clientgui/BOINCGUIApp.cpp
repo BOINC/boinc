@@ -99,14 +99,14 @@ OSErr QuitAppleEventHandler( const AppleEvent *appleEvt, AppleEvent* reply, UInt
 
 
 void BOINCAssertHandler(const wxString &file, int line, const wxString &func, const wxString &cond, const wxString &msg) {
-    fprintf(
-        stderr,
-        "ASSERT: %s:%d - %s - %s - %s\n",
-        file.IsEmpty() ? "<NULL>" : file.mb_str(),
+    wxLogTrace(
+        wxT("Assert"),
+        wxT("ASSERT: %s:%d - %s - %s - %s"),
+        file.IsEmpty() ? wxT("<NULL>") : file.c_str(),
         line,
-        func.IsEmpty() ? "<NULL>" : func.mb_str(),
-        cond.IsEmpty() ? "<NULL>" : cond.mb_str(),
-        msg.IsEmpty() ? "<NULL>" : msg.mb_str()
+        func.IsEmpty() ? wxT("<NULL>") : func.c_str(),
+        cond.IsEmpty() ? wxT("<NULL>") : cond.c_str(),
+        msg.IsEmpty()  ? wxT("<NULL>") : msg.c_str()
     );
 
     if (wxIsDebuggerRunning()) {
@@ -265,20 +265,17 @@ bool CBOINCGUIApp::OnInit() {
 
     // Initialize the BOINC Diagnostics Framework
     int dwDiagnosticsFlags =
-        BOINC_DIAG_DUMPCALLSTACKENABLED | 
+#ifdef _DEBUG
         BOINC_DIAG_HEAPCHECKENABLED |
         BOINC_DIAG_MEMORYLEAKCHECKENABLED |
-#if defined(__WXMSW__) || defined(__WXMAC__)
+#endif
+        BOINC_DIAG_DUMPCALLSTACKENABLED | 
+        BOINC_DIAG_PERUSERLOGFILES |
         BOINC_DIAG_REDIRECTSTDERR |
         BOINC_DIAG_REDIRECTSTDOUT |
-#endif
         BOINC_DIAG_TRACETOSTDOUT;
 
-    diagnostics_init(
-        dwDiagnosticsFlags,
-        "stdoutgui",
-        "stderrgui"
-    );
+    diagnostics_init(dwDiagnosticsFlags, "stdoutgui", "stderrgui");
 
 #ifdef _NDEBUG
     wxSetAssertHandler(BOINCAssertHandler);
@@ -418,10 +415,8 @@ bool CBOINCGUIApp::OnInit() {
 
     // Detect if BOINC Manager is already running, if so, bring it into the
     // foreground and then exit.
-    if (!m_bMultipleInstancesOK) {
-        if (DetectDuplicateInstance()) {
+    if (DetectDuplicateInstance()) {
             return false;
-        }
     }
 
     // Initialize the main document
@@ -482,8 +477,9 @@ bool CBOINCGUIApp::OnInit() {
     // Don't open main window if we were started automatically at login
     if (pInfo.processSignature == 'lgnw') {  // Login Window app
         m_bGUIVisible = false;
+        HideThisApp();  // Needed for OS 10.5
 
-        // If the system was just started, we usually get a "Connection 
+        // If the system was just started, we usually get a "Connection
         // failed" error if we try to connect too soon, so delay a bit.
         sleep(10);
     }
@@ -715,11 +711,22 @@ bool CBOINCGUIApp::OnCmdLineParsed(wxCmdLineParser &parser) {
 
 ///
 /// Detect if another instance of this application is running.
-//  Returns true if there is, otherwise false
+//  Returns true if there is and it is forbidden, otherwise false
+//
+// We must initialize m_pInstanceChecker even if m_bMultipleInstancesOK
+// is true so CMainDocument::OnPoll() can call IsMgrMultipleInstance().
 ///
 bool CBOINCGUIApp::DetectDuplicateInstance() {
+#ifdef __WXMAC__
+    m_pInstanceChecker = new wxSingleInstanceChecker(
+            wxTheApp->GetAppName() + '-' + wxGetUserId(),
+            wxFileName::GetHomeDir() + "/Library/Application Support/BOINC"
+            );
+#else
     m_pInstanceChecker = new wxSingleInstanceChecker();
+#endif
     if (m_pInstanceChecker->IsAnotherRunning()) {
+        if (m_bMultipleInstancesOK) return false;
 #ifdef __WXMSW__
         CTaskBarIcon::FireAppRestore();
 #endif
@@ -964,7 +971,15 @@ void CBOINCGUIApp::DisplayEventLog(bool bShowWindow) {
     } else {
         m_pEventLog = new CDlgEventLog();
         if (m_pEventLog) {
-            m_pEventLog->Show(bShowWindow);
+#ifdef __WXMAC__
+            // See comment in CBOINCGUIApp::ShowApplication()
+            if (!bShowWindow) {
+                m_pEventLog->ShowWithoutActivating();
+            } else
+#endif
+            {
+                m_pEventLog->Show(bShowWindow);
+            }
             if (bShowWindow) {
                 m_pEventLog->Raise();
             }
@@ -1255,15 +1270,17 @@ bool CBOINCGUIApp::IsApplicationVisible() {
 // icon will bounce (as in notification) when we
 // click on our menu bar icon.
 // But wxFrame::Show(true) makes the application
-// visible again, so call m_pFrame->wxWindow::Show()
-// instead.
+// visible again, so we instead call
+// m_pFrame->ShowWithoutActivating().  The frame
+// will automatically be shown when the application
+// is made visible (i.e., activated.)
 void CBOINCGUIApp::ShowApplication(bool bShow) {
     if (bShow) {
         SetFrontProcess(&m_psnCurrentProcess);
     } else {
         HideThisApp();
         if (m_pFrame) {
-            m_pFrame->wxWindow::Show();
+            m_pFrame->ShowWithoutActivating();
         }
     }
 }

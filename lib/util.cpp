@@ -504,9 +504,7 @@ static int get_client_mutex(const char*) {
     
     // Global mutex on Win2k and later
     //
-    if (IsWindows2000Compatible()) {
-        strcpy(buf, "Global\\");
-    }
+    strcpy(buf, "Global\\");
     strcat(buf, RUN_MUTEX);
 
     HANDLE h = CreateMutexA(NULL, true, buf);

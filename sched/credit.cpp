@@ -255,7 +255,7 @@ int update_av_scales(SCHED_SHMEM *ssp) {
                 return retval;
             }
             avr = av;       // update shared mem array
-            if (app_plan_uses_gpu(av.plan_class)) {
+            if (plan_class_to_proc_type(av.plan_class) != PROC_TYPE_CPU) {
                 if (config.debug_credit) {
                     log_messages.printf(MSG_NORMAL,
                         "add to gpu totals: (%d %s) %g %g\n",

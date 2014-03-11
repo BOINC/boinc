@@ -37,7 +37,7 @@ function do_app($app) {
     // joined to the host
 
     $db = BoincDb::get();
-    $query = "select et_avg, host.on_frac, host.active_frac " .
+    $query = "select et_avg, host.on_frac, host.active_frac, host.gpu_active_frac, app_version.plan_class " .
         " from DBNAME.host_app_version, DBNAME.host, DBNAME.app_version " .
         " where host_app_version.app_version_id = app_version.id " .
         " and app_version.appid = $app->id " .
@@ -46,7 +46,17 @@ function do_app($app) {
     $result = $db->do_query($query);
     $a = array();
     while ($x = mysql_fetch_object($result)) {
-        $a[] = (1/$x->et_avg) * $x->on_frac * $x->active_frac;
+        if (is_gpu($x->plan_class)) {
+            $av = $x->on_frac;
+            if ($x->gpu_active_frac) {
+                $av *= $x->gpu_active_frac;
+            } else {
+                $av *= $x->active_frac;
+            }
+        } else {
+            $av = $x->on_frac * $x->active_frac;
+        }
+        $a[] = (1/$x->et_avg) * $av;
     }
     mysql_free_result($result);
     sort($a);

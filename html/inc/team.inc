@@ -88,6 +88,10 @@ function display_team_page($team, $user) {
     if (strlen($team->description)) {
         row2(tra('Description'), sanitize_html($team->description));
     }
+    row2("Created", date_str($team->create_time));
+    if (defined("SHOW_NONVALIDATED_TEAMS")) {
+        row2("Founder email validated", $user->email_validated?"Yes":"No (team will not be exported)");
+    }
     if (strlen($team->url)) {;
         if (strstr($team->url, "http://")) {
             $x = $team->url;

@@ -75,8 +75,7 @@ public class PrefsSelectionDialogListAdapter extends ArrayAdapter<SelectionDialo
     		v = li.inflate(R.layout.prefs_layout_listitem_bool, null);
     		CheckBox cb = (CheckBox) v.findViewById(R.id.checkbox);
     		cb.setChecked(listItem.selected);
-    		cb.setOnClickListener(this);
-    		cb.setTag(position);
+    		cb.setClickable(false);
     		TextView text = (TextView) v.findViewById(R.id.checkbox_text);
     		text.setText(listItem.name);
     		RelativeLayout wrapper = (RelativeLayout) v.findViewById(R.id.checkbox_wrapper);

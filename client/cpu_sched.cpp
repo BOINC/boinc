@@ -55,7 +55,7 @@
 
 #ifdef _WIN32
 #include "boinc_win.h"
-#include "win_util.h"
+#include "sysmon_win.h"
 #else
 #include "config.h"
 #include <string>

@@ -1073,10 +1073,8 @@ bool is_avx_supported() {
 int get_processor_features(char* vendor, char* features, int features_size) {
     unsigned int std_eax = 0, std_ebx = 0, std_ecx = 0, std_edx = 0;
     unsigned int ext_eax = 0, ext_ebx = 0, ext_ecx = 0, ext_edx = 0;
-    unsigned int std_supported = 0, ext_supported = 0, intel_supported = 0, amd_supported = 0;
-
-	unsigned int struc_ext_supported = 0; // CPUID 0000:0007 ECX=0;
 	unsigned int struc_eax = 0, struc_ebx = 0, struc_ecx = 0, struc_edx = 0;
+    unsigned int std_supported = 0, ext_supported = 0, struc_ext_supported = 0, intel_supported = 0, amd_supported = 0;
 
     if (!vendor) return ERR_INVALID_PARAM;
     if (!features) return ERR_INVALID_PARAM;
@@ -1097,23 +1095,18 @@ int get_processor_features(char* vendor, char* features, int features_size) {
         get_cpuid(0x00000001, std_eax, std_ebx, std_ecx, std_edx);
     }
 
-	// Structured Ext. Feature Flags
-	//
-	// only using eax=7 ecx=0; could need an other option later for ecx=1...n //
-	get_cpuid(0x00000000, std_eax, std_ebx, std_ecx, std_edx);
-	if (std_eax >= 0x00000007) {
-		struc_ext_supported = 1;
-		get_cpuid(0x00000007, struc_eax, struc_ebx, struc_ecx, struc_edx);
-	}
-
-
-
     get_cpuid(0x80000000, ext_eax, ext_ebx, ext_ecx, ext_edx);
     if (ext_eax >= 0x80000001) {
         ext_supported = 1;
         get_cpuid(0x80000001, ext_eax, ext_ebx, ext_ecx, ext_edx);
     }
 
+	get_cpuid(0x00000000, struc_eax, struc_ebx, struc_ecx, struc_edx);
+	if (struc_eax >= 0x00000007) {
+		struc_ext_supported = 1;
+		get_cpuid(0x00000007, struc_eax, struc_ebx, struc_ecx, struc_edx);
+	}
+    
     FEATURE_TEST(std_supported, (std_edx & (1 << 0)), "fpu ");
     FEATURE_TEST(std_supported, (std_edx & (1 << 1)), "vme ");
     FEATURE_TEST(std_supported, (std_edx & (1 << 2)), "de ");
@@ -1167,16 +1160,6 @@ int get_processor_features(char* vendor, char* features, int features_size) {
 		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 5)), "avx2 ");
     }
 
-	if (struc_ext_supported) {
-		// Structured Ext. Feature Flags
-		// used by newer Intel and newer AMD CPUs
-		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 0)), "fsgsbase ");
-		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 3)), "bmi1 ");
-		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 4)), "hle ");
-		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 7)), "smep ");
-		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 8)), "bmi2 ");
-	}
-
     if (intel_supported) {
         // Intel only features
         FEATURE_TEST(std_supported, (std_ecx & (1 << 5)), "vmx ");
@@ -1208,6 +1191,16 @@ int get_processor_features(char* vendor, char* features, int features_size) {
         FEATURE_TEST(ext_supported, (ext_edx & (1 << 30)), "3dnowext ");
         FEATURE_TEST(ext_supported, (ext_edx & (1 << 31)), "3dnow ");
     }
+
+	if (struc_ext_supported) {
+		// Structured Ext. Feature Flags
+		// used by newer Intel and newer AMD CPUs
+		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 0)), "fsgsbase ");
+		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 3)), "bmi1 ");
+		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 4)), "hle ");
+		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 7)), "smep ");
+		FEATURE_TEST(struc_ext_supported, (struc_ebx & (1 << 8)), "bmi2 ");
+	}
 
     strip_whitespace(features);
     return 0;
