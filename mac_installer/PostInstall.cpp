@@ -1322,10 +1322,10 @@ OSErr UpdateAllVisibleUsers(long brandID)
             }
             
             saved_uid = geteuid();
-            seteuid(pw->pw_uid);                        // Temporarily set effective uid to this user
             
             if (compareOSVersionTo(10, 6) < 0) {
-                f = popen("defaults -currentHost read com.apple.screensaver moduleName", "r");
+                sprintf(cmd, "sudo -u \"%s\" defaults -currentHost read com.apple.screensaver moduleName", pw->pw_name);
+                f = popen(cmd, "r");
             
                 if (f) {
                     found = false;
@@ -1340,16 +1340,17 @@ OSErr UpdateAllVisibleUsers(long brandID)
                         saverAlreadySetForAll = false;
                     }
                 }
+
             } else {
+                seteuid(pw->pw_uid);                        // Temporarily set effective uid to this user
                 err = GetCurrentScreenSaverSelection(s, sizeof(s) -1);
                 if (err == noErr) {
                     if (!strstr(s, saverName[brandID])) {
                         saverAlreadySetForAll = false;
                     }
                 }
+                seteuid(saved_uid);                         // Set effective uid back to privileged user
             }
-            
-            seteuid(saved_uid);                         // Set effective uid back to privileged user
         }       // End if (isGroupMember)
     }           // End for (userIndex=0; userIndex< human_user_names.size(); ++userIndex)
     
@@ -1515,18 +1516,18 @@ OSErr UpdateAllVisibleUsers(long brandID)
             SetSkinInUserPrefs(pw->pw_name, skinName[brandID]);
         
             if (setSaverForAllUsers) {
-                seteuid(pw->pw_uid);    // Temporarily set effective uid to this user
                 if (compareOSVersionTo(10, 6) < 0) {
-                     sprintf(s, "defaults -currentHost write com.apple.screensaver moduleName %s", saverNameEscaped[brandID]);
+                     sprintf(s, "sudo -u \"%s\" defaults -currentHost write com.apple.screensaver moduleName %s", pw->pw_name, saverNameEscaped[brandID]);
                     system (s);
-                    sprintf(s, "defaults -currentHost write com.apple.screensaver modulePath /Library/Screen\\ Savers/%s.saver", 
-                                saverNameEscaped[brandID]);
+                    sprintf(s, "sudo -u \"%s\" defaults -currentHost write com.apple.screensaver modulePath /Library/Screen\\ Savers/%s.saver", 
+                                pw->pw_name, saverNameEscaped[brandID]);
                     system (s);
                 } else {
+                    seteuid(pw->pw_uid);    // Temporarily set effective uid to this user
                     sprintf(s, "/Library/Screen Savers/%s.saver", saverName[brandID]);
                     err = SetScreenSaverSelection(saverName[brandID], s, 0);
+                    seteuid(saved_uid);     // Set effective uid back to privileged user
                 }
-                seteuid(saved_uid);     // Set effective uid back to privileged user
             }
         }
     }   // End for (userIndex=0; userIndex< human_user_names.size(); ++userIndex)
@@ -1787,8 +1788,9 @@ pid_t FindProcessPID(char* name, pid_t thePID)
         n = strlen(name);
     
     f = popen("ps -a -x -c -o command,pid", "r");
-    if (f == NULL)
+    if (f == NULL) {
         return 0;
+    }
     
     while (PersistentFGets(buf, sizeof(buf), f))
     {
