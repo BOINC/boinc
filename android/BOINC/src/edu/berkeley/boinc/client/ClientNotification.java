@@ -90,20 +90,26 @@ public class ClientNotification {
 			ArrayList<Result> activeTasks = updatedStatus.getExecutingTasks();
 			if(activeTasks.size() != mOldActiveTasks.size()) activeTasksChanged = true;
 			else {
-				int x = 0;
-				for (Result tmp: activeTasks) {
-					if(!tmp.name.equals(mOldActiveTasks.get(x).name)) {
+				for(int x = 0; x < activeTasks.size(); x++) {
+					if(!activeTasks.get(x).name.equals(mOldActiveTasks.get(x).name)) {
 						activeTasksChanged = true;
+						Log.d("blub", "bla " + activeTasks.get(x).name + " vs. " + mOldActiveTasks.get(x).name); //TODO
 						break;
 					}
 				}
 			}
-			mOldActiveTasks = activeTasks;
+			if(activeTasksChanged) mOldActiveTasks = activeTasks;
 		}
 		
 		// update notification, only 
 		// if it hasn't been shown before, or
 		// after change in status
+		if(Logging.VERBOSE) Log.d(Logging.TAG, "ClientNotification: notification needs update? "+ (clientNotification.mOldComputingStatus == -1) 
+				+ activeTasksChanged
+				+ !notificationShown
+				+ (updatedStatus.computingStatus.intValue() != clientNotification.mOldComputingStatus)
+				+ (updatedStatus.computingStatus == ClientStatus.COMPUTING_STATUS_SUSPENDED
+					&& updatedStatus.computingSuspendReason != clientNotification.mOldSuspendReason));
 		if (clientNotification.mOldComputingStatus == -1 
 				|| activeTasksChanged
 				|| !notificationShown
@@ -113,6 +119,7 @@ public class ClientNotification {
 			
 			// update, build and notify
 			nm.notify(notificationId, buildNotification(updatedStatus, active, mOldActiveTasks));
+			if(Logging.DEBUG) Log.d(Logging.TAG, "ClientNotification: update");
 			notificationShown = true;
 			
 			// save status for comparison next time
