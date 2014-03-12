@@ -568,10 +568,11 @@ int DeleteReceipt()
            // Launch BOINC Manager when user closes installer or after 15 seconds
             for (i=0; i<15; i++) { // Wait 15 seconds max for installer to quit
                 sleep (1);
-                if (err == noErr)
+                if (err == noErr) {
                     if (FindProcessPID(NULL, installerPID) == 0) {
                         break;
                     }
+                }
             }
         }
 
@@ -1000,8 +1001,7 @@ static char * PersistentFGets(char *buf, size_t buflen, FILE *f) {
     char *p = buf;
     size_t len = buflen;
     size_t datalen = 0;
-
-    *buf = '\0';
+    memset(buf, 0, buflen);
     while (datalen < (buflen - 1)) {
         fgets(p, len, f);
         if (feof(f)) break;
@@ -1786,7 +1786,7 @@ pid_t FindProcessPID(char* name, pid_t thePID)
     
     if (name != NULL)     // Search ny name
         n = strlen(name);
-    
+
     f = popen("ps -a -x -c -o command,pid", "r");
     if (f == NULL) {
         return 0;
