@@ -567,6 +567,14 @@ bool do_pass() {
                 );
                 exit(6);
             }
+            if (config.enable_assignment) {
+                DB_ASSIGNMENT asg;
+                sprintf(buf, "where workunitid=%d", wu.id);
+                retval = asg.lookup(buf);
+                if (!retval) {
+                    asg.delete_from_db();
+                }
+            }
         }
         log_messages.printf(MSG_DEBUG,
             "Purged workunit [%d] from database\n", wu.id
