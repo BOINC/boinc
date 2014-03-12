@@ -195,6 +195,14 @@ $l66 = array(
 	"type"=>"sea",
 	);
 
+$l74ubuntudev = array(
+	"num"=>"7.3.11",
+	"status"=>"Development version",
+	"file"=>"boinc_7.3.11_i686-pc-linux-gnu.sh",
+	"date"=>"12 Mar 2014",
+	"type"=>"sea",
+);
+
 $l72ubuntu = array(
 	"num"=>"7.2.42",
 	"status"=>"Recommended version",
@@ -208,6 +216,14 @@ $l70ubuntu = array(
 	"status"=>"Older version",
 	"file"=>"boinc_7.0.65_i686-pc-linux-gnu.sh",
 	"date"=>"17 Apr 2013",
+	"type"=>"sea",
+);
+
+$l74ubuntux64dev = array(
+	"num"=>"7.3.11",
+	"status"=>"Development version",
+	"file"=>"boinc_7.3.11_x86_64-pc-linux-gnu.sh",
+	"date"=>"12 Mar 2014",
 	"type"=>"sea",
 );
 
@@ -292,6 +308,7 @@ $linux = array(
     "description"=> linux_info(),
     "dbname" => "i686-pc-linux-gnu",
     "versions"=>array(
+		  $l74ubuntudev,
 		  $l72ubuntu,
 		  $l70ubuntu,
     )
@@ -302,6 +319,7 @@ $linuxx64 = array(
     "description"=> linux_info(),
     "dbname" => "x86_64-pc-linux-gnu",
     "versions"=>array(
+  		$l74ubuntux64dev,
   		$l72ubuntux64,
 	  	$l70ubuntux64,
     )
