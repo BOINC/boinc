@@ -228,8 +228,18 @@ bool send_jobs(int assign_type) {
 
         // OK, send the job
         //
+        if (config.debug_send) {
+            log_messages.printf(MSG_NORMAL,
+                "sending targeted job: %s\n", wu.name
+            );
+        }
         retval = send_assigned_job(asg);
-        if (retval) continue;
+        if (retval) {
+            log_messages.printf(MSG_NORMAL,
+                "failed to send targeted job: %s\n", boincerror(retval)
+            );
+            continue;
+        }
 
         sent_something = true;
 
@@ -251,6 +261,9 @@ bool send_jobs(int assign_type) {
 //
 bool send_targeted_jobs() {
     bool sent_something = false;
+    if (config.debug_send) {
+        log_messages.printf(MSG_NORMAL, "checking for targeted jobs\n");
+    }
     sent_something |= send_jobs(ASSIGN_USER);
     sent_something |= send_jobs(ASSIGN_HOST);
     sent_something |= send_jobs(ASSIGN_TEAM);

@@ -144,6 +144,7 @@ void WORK_REQ_BASE::get_job_limits() {
     if (n < 1) n = 1;
     if (n > MAX_CPUS) n = MAX_CPUS;
     ninstances[PROC_TYPE_CPU] = n;
+    effective_ncpus = n;
 
     effective_ngpus = 0;
     for (i=1; i<g_request->coprocs.n_rsc; i++) {
@@ -788,7 +789,7 @@ bool work_needed(bool locality_sched) {
 
     for (int i=0; i<NPROC_TYPES; i++) {
         if (!have_apps(i)) continue;
-        if (config.max_jobs_in_progress._exceeded(NULL, i)) {
+        if (config.max_jobs_in_progress.exceeded(NULL, i)) {
             if (config.debug_quota) {
                 log_messages.printf(MSG_NORMAL,
                     "[quota] reached limit on %s jobs in progress\n",
@@ -1005,7 +1006,7 @@ int add_result_to_reply(
     }
     update_estimated_delay(*bavp, est_dur);
     g_wreq->njobs_sent++;
-    config.max_jobs_in_progress._register_job(app, bavp->host_usage.proc_type);
+    config.max_jobs_in_progress.register_job(app, bavp->host_usage.proc_type);
     if (!resent_result) {
         DB_HOST_APP_VERSION* havp = bavp->host_app_version();
         if (havp) {
@@ -1430,7 +1431,7 @@ void send_work_setup() {
                 proc_type = plan_class_to_proc_type(r.plan_class);
             }
         }
-        config.max_jobs_in_progress._register_job(app, proc_type);
+        config.max_jobs_in_progress.register_job(app, proc_type);
     }
 
     // print details of request to log

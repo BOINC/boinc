@@ -83,13 +83,13 @@ struct JOB_LIMIT {
         }
     }
 
-    inline bool _exceeded(int proc_type) {
+    inline bool exceeded(int proc_type) {
         if (total.exceeded()) return true;
         if (proc_type_limits[proc_type].exceeded()) return true;
         return false;
     }
 
-    inline void _register_job(int proc_type) {
+    inline void register_job(int proc_type) {
         total.register_job();
         proc_type_limits[proc_type].register_job();
     }
@@ -131,23 +131,23 @@ struct JOB_LIMITS {
         return NULL;
     }
 
-    inline bool _exceeded(APP* app, int proc_type) {
-        if (project_limits._exceeded(proc_type)) return true;
+    inline bool exceeded(APP* app, int proc_type) {
+        if (project_limits.exceeded(proc_type)) return true;
         if (app) {
             JOB_LIMIT* jlp = lookup_app(app->name);
             if (jlp) {
-                if (jlp->_exceeded(proc_type)) return true;
+                if (jlp->exceeded(proc_type)) return true;
             }
         }
         return false;
     }
 
-    inline void _register_job(APP* app, int proc_type) {
-        project_limits._register_job(proc_type);
+    inline void register_job(APP* app, int proc_type) {
+        project_limits.register_job(proc_type);
         if (app) {
             JOB_LIMIT* jlp = lookup_app(app->name);
             if (jlp) {
-                jlp->_register_job(proc_type);
+                jlp->register_job(proc_type);
             }
         }
     }
