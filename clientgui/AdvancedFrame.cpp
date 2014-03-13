@@ -1728,7 +1728,7 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
                 if (!wasVisible) {
                     wxGetApp().ShowApplication(false);
                 }
-#ifndef __WXMAC__   // See comment in CBOINCGUIApp::ShowApplication()
+#ifndef __WXMAC__   // See comment in CBOINCGUIApp::OnFinishInit()
                 if (!wasShown) {
                     Hide();
                 }

@@ -2334,7 +2334,7 @@ void VBOX_VM::lower_vm_process_priority() {
     char buf[256];
 #ifdef _WIN32
     if (vm_pid_handle) {
-        SetPriorityClass(vm_pid_handle, IDLE_PRIORITY_CLASS);
+        SetPriorityClass(vm_pid_handle, BELOW_NORMAL_PRIORITY_CLASS);
         fprintf(
             stderr,
             "%s Lowering VM Process priority.\n",
@@ -2343,7 +2343,7 @@ void VBOX_VM::lower_vm_process_priority() {
     }
 #else
     if (vm_pid) {
-        setpriority(PRIO_PROCESS, vm_pid, PROCESS_IDLE_PRIORITY);
+        setpriority(PRIO_PROCESS, vm_pid, PROCESS_MEDIUM_PRIORITY);
         fprintf(
             stderr,
             "%s Lowering VM Process priority.\n",
@@ -2366,7 +2366,7 @@ void VBOX_VM::reset_vm_process_priority() {
     }
 #else
     if (vm_pid) {
-        setpriority(PRIO_PROCESS, vm_pid, PROCESS_MEDIUM_PRIORITY);
+        setpriority(PRIO_PROCESS, vm_pid, PROCESS_NORMAL_PRIORITY);
         fprintf(
             stderr,
             "%s Restoring VM Process priority.\n",

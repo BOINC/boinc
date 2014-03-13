@@ -256,11 +256,13 @@ void CTaskBarIcon::OnAbout(wxCommandEvent& WXUNUSED(event)) {
         bEventLogWasShown = eventLog->IsShown();
         if (bEventLogWasShown && !bWasVisible) eventLog->Show(false);
     }
-    
+
     CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
     if (pFrame) {
         if (!bWasVisible) {
-            pFrame->Show(false);
+            // We really do need to hide the frame here
+            // See comment in CBOINCGUIApp::OnFinishInit()
+            pFrame->wxFrame::Show(false);
         }
     }
 #endif
@@ -277,6 +279,11 @@ void CTaskBarIcon::OnAbout(wxCommandEvent& WXUNUSED(event)) {
     if (!bWasVisible) {
         wxGetApp().ShowApplication(false);
     }
+
+#ifdef __WXMAC__
+    // See comment in CBOINCGUIApp::OnFinishInit()
+    pFrame->wxWindow::Show(true);
+#endif
 }
 
 
