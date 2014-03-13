@@ -300,10 +300,10 @@ $mac = array(
     "description"=>"Version 10.4.0+",
     "dbname" => "x86_64-apple-darwin",
     "versions"=>array(
-		  $m74dev
+		  $m74dev,
           $m72,
 		  $m70,
-          $m74cdev
+          $m74cdev,
 		  $m72c,
 		  $m70c,
     )
