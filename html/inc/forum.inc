@@ -507,6 +507,9 @@ function show_post(
 
     $tokens = "";
     $options = get_output_options($logged_in_user);
+    if ($forum->is_dev_blog) {
+        $options->htmlitems = false;
+    }
 
     // check whether the poster is on the list of people to ignore
     //
