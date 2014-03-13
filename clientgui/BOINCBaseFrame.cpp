@@ -157,6 +157,14 @@ void CBOINCBaseFrame::OnPeriodicRPC(wxTimerEvent& WXUNUSED(event)) {
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
+#ifdef __WXMAC__
+    static bool first = true;
+    if (first) {
+        first = false;
+        wxGetApp().OnFinishInit();
+    }
+#endif
+
     if (!bAlreadyRunningLoop && m_pPeriodicRPCTimer->IsRunning()) {
         bAlreadyRunningLoop = true;
 
@@ -316,9 +324,6 @@ void CBOINCBaseFrame::OnClose(wxCloseEvent& event) {
         // Apparently aborting a close event just causes the main window to be displayed
         // again.  Just minimize the window instead.
         Iconize();
-#elif defined(__WXMAC__)
-        // See comment in CBOINCGUIApp::ShowApplication().
-        wxGetApp().ShowApplication(false);
 #else
         Hide();
 #endif
@@ -878,7 +883,14 @@ bool CBOINCBaseFrame::Show(bool bShow) {
 #endif
     }
 
+#ifdef __WXMAC__
+    retval = (wxGetApp().IsApplicationVisible() != bShow);
+    if (bShow) {
+        retval = wxFrame::Show(bShow);
+    }
+#else
     retval = wxFrame::Show(bShow);
+#endif
     if (bShow) wxFrame::Raise();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::Show - Function End"));

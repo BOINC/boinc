@@ -138,6 +138,7 @@ public:
     bool                IsMgrMultipleInstance()     { return m_bMultipleInstancesOK; }
 
 #ifdef __WXMAC__
+    void                OnFinishInit();
     CTaskBarIcon*       GetMacDockIcon()            { return m_pMacDockIcon; }
     int                 ShouldShutdownCoreClient()  { return true; }
 #else
