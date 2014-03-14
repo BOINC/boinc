@@ -519,8 +519,13 @@ bool CBOINCGUIApp::OnInit() {
 void CBOINCGUIApp::OnFinishInit() {
     if (!m_bGUIVisible) {
         HideThisApp();
+    
+        m_pFrame->wxWindow::Show();
+        
+        if (m_pEventLog) {
+            m_pEventLog->wxWindow::Show();
+        }
     }
-    m_pFrame->wxWindow::Show();
 }
 #endif
 
