@@ -412,8 +412,6 @@ int HTTP_OP::libcurl_exec(
     char buf[256];
     static int outfile_seqno=0;
 
-    safe_strcpy(m_url, url);
-
     if (g_user_agent_string[0] == 0x00) {
         get_user_agent_string();
     }
@@ -441,9 +439,8 @@ int HTTP_OP::libcurl_exec(
     // the following seems to be a no-op
     // curl_easy_setopt(curlEasy, CURLOPT_ERRORBUFFER, error_msg);
 
-    char esc_url[1024];
-    string_substitute(m_url, esc_url, sizeof(esc_url), " ", "%20");
-    curl_easy_setopt(curlEasy, CURLOPT_URL, esc_url);
+    string_substitute(url, m_url, sizeof(m_url), " ", "%20");
+    curl_easy_setopt(curlEasy, CURLOPT_URL, m_url);
 
     // This option determines whether curl verifies that the server
     // claims to be who you want it to be.

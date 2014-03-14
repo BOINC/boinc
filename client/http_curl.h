@@ -57,7 +57,7 @@ public:
     PROXY_INFO pi;
     PROJECT* project;   // associated project, if any
 
-    char m_url[256];  
+    char m_url[1024];  
     char m_curl_ca_bundle_location[256];
         // string needed for ssl support
     char m_curl_user_credentials[128];
