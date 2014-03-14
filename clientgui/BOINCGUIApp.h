@@ -210,6 +210,8 @@ public:
     // Override standard wxCocoa wxApp::CallOnInit() to allow Manager
     // to run properly when launched hidden on login via Login Item. 
     bool                CallOnInit();
+    
+    void                CheckPartialActivation();
 #endif
 
 DECLARE_EVENT_TABLE()
