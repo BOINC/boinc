@@ -507,6 +507,9 @@ function show_post(
 
     $tokens = "";
     $options = get_output_options($logged_in_user);
+    if (is_admin($user)) {
+        $options->htmlitems = false;
+    }
 
     // check whether the poster is on the list of people to ignore
     //
@@ -1087,16 +1090,19 @@ function show_post_moderation_links(
     }
 }
 
+// can user add threads to News forum?
+//
+function is_admin($user) {
+   if ($user->prefs->privilege(S_SCIENTIST)) return truej;
+   if ($user->prefs->privilege(S_DEV)) return truej;
+   if ($user->prefs->privilege(S_ADMIN)) return true;
+   return false;
+}
+
 function user_can_create_thread($user, $forum) {
     if (!$user) return false;
-    if ($forum->is_dev_blog){
-        if (
-           (!$user->prefs->privilege(S_SCIENTIST)) &&
-           (!$user->prefs->privilege(S_DEV)) &&
-           (!$user->prefs->privilege(S_ADMIN))
-        ) {
-            return false;
-        }
+    if ($forum->is_dev_blog && !is_admin($user)) {
+        return false;
     }
     return true;
 }
