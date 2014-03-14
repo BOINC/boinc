@@ -1093,8 +1093,8 @@ function show_post_moderation_links(
 // can user add threads to News forum?
 //
 function is_admin($user) {
-   if ($user->prefs->privilege(S_SCIENTIST)) return truej;
-   if ($user->prefs->privilege(S_DEV)) return truej;
+   if ($user->prefs->privilege(S_SCIENTIST)) return true;
+   if ($user->prefs->privilege(S_DEV)) return true;
    if ($user->prefs->privilege(S_ADMIN)) return true;
    return false;
 }
