@@ -114,7 +114,7 @@ function show_forum_header($user) {
     echo "<table cellpadding=\"5\" width=\"100%\" class=\"forum_header\">";
     echo "<tr>
     ";
-    
+
     // Search
     echo "
         <td>
@@ -126,7 +126,7 @@ function show_forum_header($user) {
         <span class=\"smalltext\"><a href=\"forum_search.php\">".tra("Advanced search")."</a></span>
         </td>
     ";
-    
+
     if ($user) {
         echo "<td align=\"right\">\n";
         echo "<p>".tra("Private messages").": ", pm_notification($user);
@@ -1093,10 +1093,11 @@ function show_post_moderation_links(
 // can user add threads to News forum?
 //
 function is_admin($user) {
-   if ($user->prefs->privilege(S_SCIENTIST)) return true;
-   if ($user->prefs->privilege(S_DEV)) return true;
-   if ($user->prefs->privilege(S_ADMIN)) return true;
-   return false;
+    if (!$user) return false;
+    if ($user->prefs->privilege(S_SCIENTIST)) return true;
+    if ($user->prefs->privilege(S_DEV)) return true;
+    if ($user->prefs->privilege(S_ADMIN)) return true;
+    return false;
 }
 
 function user_can_create_thread($user, $forum) {
