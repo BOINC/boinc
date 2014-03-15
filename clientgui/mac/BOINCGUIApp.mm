@@ -23,21 +23,6 @@
 
 
 // Cocoa routines which are part of CBOINCGUIApp
-
-// Weak linking of objective-C classes is not supported before 
-// OS 10.6.8 so to be compatible with OS 10.5 we must use the
-// objective-C equivalent of dlopen() and dlsym().
-static Class NSRunningApplicationClass = nil;   // Requires OS 10.6
-static bool hasOwnsMenuBar = false;             // Requires OS 10.7
-
-
-// HideThisApp() is called from CBOINCGUIApp::ShowApplication(bool)
-// and replaces a call of ShowHideProcess() which is deprecated
-// under OS 10.9.
-void CBOINCGUIApp::HideThisApp() {
-    [ NSApp hide:NSApp ];
-}
-
 // Override standard wxCocoa wxApp::CallOnInit() to allow Manager
 // to run properly when launched hidden on login via Login Item. 
 bool CBOINCGUIApp::CallOnInit() {
@@ -53,19 +38,6 @@ bool CBOINCGUIApp::CallOnInit() {
         [NSApp postEvent:event atStart:FALSE];
 
     bool retVal = wxApp::CallOnInit();
-
-    // Determine whether [[NSRunningApplication currentApplication] ownsMenuBar] is available
-    NSBundle *bundle = [NSBundle bundleWithPath:@"/System/Library/Frameworks/AppKit.framework"];
-    NSError *err = nil;
-    bool loaded = [bundle loadAndReturnError:&err];
-    if (loaded) {
-        NSRunningApplicationClass = NSClassFromString(@"NSRunningApplication");
-        if (NSRunningApplicationClass != nil) {
-            if ([[NSRunningApplicationClass currentApplication] respondsToSelector:@selector(ownsMenuBar)]) {
-                hasOwnsMenuBar = true;
-            }
-        }
-    }
 
     [mypool release];
     return retVal;
@@ -91,29 +63,49 @@ bool CBOINCGUIApp::CallOnInit() {
 //
 void CBOINCGUIApp::CheckPartialActivation() {
     // This code is not needed and has bad effects on OS 10.5.
-    // Initializing wasVisible this way avoids the problem 
-    // because we briefly own the menu bar at login on OS 10.5.
-    static bool wasVisible = ![ NSApp isHidden ];
+    // Initializing wasHidden this way avoids the problem 
+    // because we are briefly shown at login on OS 10.5.
+    static bool wasHidden = [ NSApp isHidden ];
     
-    ProcessSerialNumber frontPSN;
-    Boolean isSame = false;
+    if (wasHidden) {
+        if (m_bAboutDialogIsOpen) return;
         
-    if (m_bAboutDialogIsOpen) return;
-    
-    if (!wasVisible) {
-        
-        if (hasOwnsMenuBar) {   // Requires OS 10.7
-            isSame = (bool)[[NSRunningApplicationClass
-                                performSelector:NSSelectorFromString(@"currentApplication")]
-                                performSelector:NSSelectorFromString(@"ownsMenuBar")];
-        } else {
-            GetFrontProcess(&frontPSN); // Deprecated in OS 10.9
-            SameProcess(&m_psnCurrentProcess, &frontPSN, &isSame);
-        }
-        
-        if (isSame) {
+        if (! [ NSApp isHidden ]) {
+            wasHidden = false;
             ShowInterface();
         }
-        wasVisible = ![ NSApp isHidden ];
+    }
+}
+
+
+// HideThisApp() is called from CBOINCGUIApp::ShowApplication(bool)
+// and replaces a call of ShowHideProcess() which is deprecated
+// under OS 10.9.
+void CBOINCGUIApp::HideThisApp() {
+    [ NSApp hide:NSApp ];
+}
+
+
+/// Determines if the current process is visible.
+///
+/// @return
+///  true if the current process is visible, otherwise false.
+/// 
+bool CBOINCGUIApp::IsApplicationVisible() {
+    return (! [ NSApp isHidden ]);
+}
+
+
+///
+/// Shows or hides the current process.
+///
+/// @param bShow
+///   true will show the process, false will hide the process.
+///
+void CBOINCGUIApp::ShowApplication(bool bShow) {
+    if (bShow) {
+        [ NSApp activateIgnoringOtherApps:YES ];
+    } else {
+        [ NSApp hide:NSApp ];
     }
 }
