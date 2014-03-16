@@ -1128,13 +1128,13 @@ void CLIENT_STATE::generate_new_host_cpid() {
 inline const char* dont_fetch_string(int reason) {
     switch (reason) {
     case DONT_FETCH_GPUS_NOT_USABLE: return "GPUs not usable";
-    case DONT_FETCH_PREFS: return "project preferences";
+    case DONT_FETCH_PREFS: return "blocked by project preferences";
     case DONT_FETCH_CONFIG: return "client configuration";
     case DONT_FETCH_NO_APPS: return "no applications";
     case DONT_FETCH_AMS: return "account manager prefs";
     case DONT_FETCH_BACKOFF: return "backoff";
     case DONT_FETCH_ZERO_SHARE: return "zero resource share";
-    case DONT_FETCH_BUFFER_FULL: return "buffer full";
+    case DONT_FETCH_BUFFER_FULL: return "job cache full";
     case DONT_FETCH_NOT_HIGHEST_PRIO: return "not highest priority project";
     }
     return "";
