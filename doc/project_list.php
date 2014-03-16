@@ -22,13 +22,16 @@ foreach ($areas as $area) {
     shuffle($projects);
     foreach ($projects as $p) {
         $np = null;
-        if (array_key_exists(5, $p)) {
+        if (array_key_exists(5, $p) && strlen($p[5])) {
             $np->image = $p[5];
         }
         $np->url = $p[1];
         $np->web_url = $p[1];
-        if (array_key_exists(6, $p)) {
+        if (array_key_exists(6, $p) && strlen($p[6])) {
             $np->web_url = $p[6];
+        }
+        if (array_key_exists(7, $p) && strlen($p[7])) {
+            $np->summary = $p[7];
         }
         $np->home = $p[2];
         $np->general_area = $area_name;
@@ -60,6 +63,10 @@ foreach($proj_list as $p) {
     }
     if (isset($p->image)) {
         echo "      <image>http://boinc.berkeley.edu/images/$p->image</image>
+";
+    }
+    if (isset($p->summary)) {
+        echo "      <summary>$p->summary</summary>
 ";
     }
     echo "    </project>
