@@ -262,6 +262,8 @@ void CBOINCBitmapComboBox::DrawLargeBitmap(CDrawLargeBitmapEvent&) {
 
 
 void CBOINCBitmapComboBox::OnPaint(wxPaintEvent& event) {
+    if (!m_bHaveLargeBitmaps) return;
+
     int x, y;
 	wxPaintDC myDC(this);
     unsigned int i = GetSelection();
