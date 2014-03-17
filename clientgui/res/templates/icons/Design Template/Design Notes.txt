@@ -75,5 +75,6 @@ Sizes to include:
 Needed XPM sizes (with NO transparency!):
 16x16
 32x32
+40x40
 ...Note: Rom says he DOES want "Disconnected" and "Suspended" versions.
 ...Ended up using 128 transparency lock, on images that excluded white bordering.
