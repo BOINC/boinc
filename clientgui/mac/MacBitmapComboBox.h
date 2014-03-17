@@ -23,6 +23,8 @@
 WXDLLEXPORT_DATA(extern const wxChar) CBOINCBitmapChoiceNameStr[];
 WXDLLEXPORT_DATA(extern const wxChar) CBOINCBitmapComboBoxNameStr[];
 
+class CDrawLargeBitmapEvent;    // Forward declaration
+
 #define EVT_BOINCBITMAPCOMBOBOX EVT_CHOICE
 
 class CBOINCBitmapChoice : public wxChoice 
@@ -89,6 +91,7 @@ public:
     
 private:
     void OnPaint(wxPaintEvent& event);
+    void DrawLargeBitmap(CDrawLargeBitmapEvent& event);
     void OnSelection(wxCommandEvent& event);
     void EmptyBitmapCache();
 
@@ -96,5 +99,24 @@ private:
     bool                    m_bHaveLargeBitmaps;
     std::vector<wxBitmap>   m_BitmapCache;
 };
+
+
+class CDrawLargeBitmapEvent : public wxEvent
+{
+public:
+    CDrawLargeBitmapEvent(wxEventType evtType, CBOINCBitmapComboBox* myCtrl)
+        : wxEvent(-1, evtType)
+        {
+            SetEventObject(myCtrl);
+        }
+
+    virtual wxEvent *       Clone() const { return new CDrawLargeBitmapEvent(*this); }
+};
+
+BEGIN_DECLARE_EVENT_TYPES()
+DECLARE_EVENT_TYPE( wxEVT_DRAW_LARGEBITMAP, 12001 )
+END_DECLARE_EVENT_TYPES()
+
+#define EVT_DRAW_LARGEBITMAP(fn)            DECLARE_EVENT_TABLE_ENTRY(wxEVT_DRAW_LARGEBITMAP, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
 
 #endif //__MACBITMAPCOMBOBOX__
