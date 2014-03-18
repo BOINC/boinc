@@ -32,6 +32,8 @@ typedef struct {
 /// Class CSimpleProjectPanel
 ///////////////////////////////////////////////////////////////////////////////
 
+class CBOINCBitmapComboBox;
+
 class CSimpleProjectPanel : public CSimplePanelBase 
 {
     DECLARE_DYNAMIC_CLASS( CSimpleProjectPanel )

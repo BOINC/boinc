@@ -119,6 +119,7 @@
 #include <wx/webview.h>
 #include <wx/webviewfshandler.h>
 #include <wx/snglinst.h>
+#include <wx/bmpcbox.h>
 
 
 #ifdef _WIN32

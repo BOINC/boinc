@@ -100,13 +100,10 @@ class CSlideShowPanel : public wxPanel
 /// Class CSimpleTaskPanel
 ///////////////////////////////////////////////////////////////////////////////
 
-#if 0
 #ifdef __WXMAC__
 #include "MacBitmapComboBox.h"
 #else
 #define CBOINCBitmapComboBox wxBitmapComboBox
-#define EVT_BOINCBITMAPCOMBOBOX EVT_COMBOBOX
-#endif
 #endif
 
 class CSimpleTaskPanel : public CSimplePanelBase 

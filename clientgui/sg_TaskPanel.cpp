@@ -437,7 +437,7 @@ void CSlideShowPanel::OnEraseBackground(wxEraseEvent& event) {
 IMPLEMENT_DYNAMIC_CLASS(CSimpleTaskPanel, CSimplePanelBase)
 
 BEGIN_EVENT_TABLE(CSimpleTaskPanel, CSimplePanelBase)
-    EVT_BOINCBITMAPCOMBOBOX(ID_SGTASKSELECTOR, CSimpleTaskPanel::OnTaskSelection)
+    EVT_COMBOBOX(ID_SGTASKSELECTOR, CSimpleTaskPanel::OnTaskSelection)
 #if 0   // This is apparently no longer needed with wxCocoa 3.0 
 #ifdef __WXMAC__
     EVT_ERASE_BACKGROUND(CSimpleTaskPanel::OnEraseBackground)    
