@@ -34,7 +34,6 @@ boincmgr_SOURCES = \
     BOINCBaseFrame.cpp \
     BOINCBaseView.cpp \
     BOINCBaseWizard.cpp \
-    BOINCBitmapComboBox.cpp \
     BOINCClientManager.cpp \
     BOINCDialupManager.cpp \
     BOINCGUIApp.cpp \
