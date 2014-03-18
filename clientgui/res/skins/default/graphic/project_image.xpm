@@ -73,7 +73,7 @@ static char *project_image_xpm[] = {
 "6  c #255688",
 ")  c #8398B3",
 "4  c #144D84",
-"   c None",
+"   c #FFFFFF",
 "0  c #144D85",
 "O  c #6690B4",
 ".  c #6690B5",
