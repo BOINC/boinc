@@ -4652,7 +4652,7 @@ VwBlAGIAAQBXAEUAQgB4ADgANgA=
 		<col def="S0">Value</col>
 		<col def="s72">Component_</col>
 		<col def="I4">ISAttributes</col>
-		<row><td>Registry1</td><td>1</td><td>Control Panel\Desktop</td><td>SCRNSAVE.EXE</td><td>boinc.scr</td><td>_ScreensaverEnableNT</td><td>0</td></row>
+		<row><td>Registry1</td><td>1</td><td>Control Panel\Desktop</td><td>SCRNSAVE.EXE</td><td>C:\Windows\boinc.scr</td><td>_ScreensaverEnableNT</td><td>0</td></row>
 		<row><td>Registry10</td><td>1</td><td>Software\Space Sciences Laboratory, U.C. Berkeley\BOINC Manager</td><td>Skin</td><td>World Community Grid</td><td>_WCGManagerSkin</td><td>0</td></row>
 		<row><td>Registry12</td><td>1</td><td>Software\Space Sciences Laboratory, U.C. Berkeley\BOINC Manager</td><td>AutomaticallyShutdownClient</td><td>#1</td><td>_BOINCManager</td><td>0</td></row>
 		<row><td>Registry18</td><td>2</td><td>SOFTWARE\Microsoft\Windows\CurrentVersion\Run</td><td>boincmgr</td><td>"[INSTALLDIR]boincmgr.exe" /a /s</td><td>_BOINCManagerStartupAll</td><td>0</td></row>
