@@ -104,7 +104,7 @@ class CSimpleFrame : public CBOINCBaseFrame
 
 public:
     CSimpleFrame();
-    CSimpleFrame(wxString title, wxIcon* icon, wxIcon* icon32, wxPoint position, wxSize size);
+    CSimpleFrame(wxString title, wxIconBundle* icons, wxPoint position, wxSize size);
 
    ~CSimpleFrame();
 

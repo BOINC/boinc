@@ -82,16 +82,21 @@ BEGIN_EVENT_TABLE(CTaskBarIcon, wxTaskBarIconEx)
 END_EVENT_TABLE()
 
 
-CTaskBarIcon::CTaskBarIcon(wxString title, wxIcon* icon, wxIcon* iconDisconnected, wxIcon* iconSnooze) : 
+CTaskBarIcon::CTaskBarIcon(wxString title, wxIconBundle* icon, wxIconBundle* iconDisconnected, wxIconBundle* iconSnooze
+#ifdef __WXMAC__
+, wxTaskBarIconType iconType
+#endif
+) :
 #ifdef __WXMAC__
     wxTaskBarIcon(DOCK)
 #else 
     wxTaskBarIconEx(wxT("BOINCManagerSystray"), 1)
 #endif
 {
-    m_iconTaskBarNormal = *icon;
-    m_iconTaskBarDisconnected = *iconDisconnected;
-    m_iconTaskBarSnooze = *iconSnooze;
+    wxSize size = wxSize(wxSystemSettings::GetMetric(wxSYS_SMALLICON_X), wxSystemSettings::GetMetric(wxSYS_SMALLICON_Y));
+    m_iconTaskBarNormal = icon->GetIcon(size);
+    m_iconTaskBarDisconnected = iconDisconnected->GetIcon(size);
+    m_iconTaskBarSnooze = iconSnooze->GetIcon(size);
     m_SnoozeGPUMenuItem = NULL;
 
     m_bTaskbarInitiatedShutdown = false;
@@ -337,9 +342,10 @@ void CTaskBarIcon::OnReloadSkin(CTaskbarEvent& WXUNUSED(event)) {
     wxASSERT(pSkinAdvanced);
     wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
 
-    m_iconTaskBarNormal = *pSkinAdvanced->GetApplicationIcon();
-    m_iconTaskBarDisconnected = *pSkinAdvanced->GetApplicationDisconnectedIcon();
-    m_iconTaskBarSnooze = *pSkinAdvanced->GetApplicationSnoozeIcon();
+    wxSize size = wxSize(wxSystemSettings::GetMetric(wxSYS_SMALLICON_X), wxSystemSettings::GetMetric(wxSYS_SMALLICON_Y));
+    m_iconTaskBarNormal = pSkinAdvanced->GetApplicationIcon()->GetIcon(size);
+    m_iconTaskBarDisconnected = pSkinAdvanced->GetApplicationDisconnectedIcon()->GetIcon(size);
+    m_iconTaskBarSnooze = pSkinAdvanced->GetApplicationSnoozeIcon()->GetIcon(size);
 
 #ifdef __WXMAC__
     // For unknown reasons, menus won't work if we call BuildMenu() here 

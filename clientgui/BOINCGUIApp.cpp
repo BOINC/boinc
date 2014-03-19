@@ -439,7 +439,6 @@ bool CBOINCGUIApp::OnInit() {
     wxASSERT(m_pMacSystemMenu);
 #endif
 
-
     // Startup the System Idle Detection code
     IdleTrackerAttach();
 
@@ -1005,7 +1004,6 @@ bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
             pNewFrame = new CAdvancedFrame(
                 m_pSkinManager->GetAdvanced()->GetApplicationName(), 
                 m_pSkinManager->GetAdvanced()->GetApplicationIcon(),
-                m_pSkinManager->GetAdvanced()->GetApplicationIcon32(),
                 wxPoint(iLeft, iTop),
                 wxSize(iWidth, iHeight)
             );
@@ -1014,7 +1012,6 @@ bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
             pNewFrame = new CSimpleFrame(
                 m_pSkinManager->GetAdvanced()->GetApplicationName(), 
                 m_pSkinManager->GetAdvanced()->GetApplicationIcon(),
-                m_pSkinManager->GetAdvanced()->GetApplicationIcon32(),
                 wxPoint(iLeft, iTop),
                 wxSize(iWidth, iHeight)
             );

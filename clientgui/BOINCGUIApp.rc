@@ -75,6 +75,23 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 // Icon
 //
 
+#if   defined(_GRIDREPUBLIC)
+boinc                      ICON                    "res\\gridrepublic.ico"
+#elif defined(_PROGRESSTHRUPROCESSORS)
+boinc                      ICON                    "res\\progress.ico"
+#elif defined(_CHARITYENGINE)
+boinc                      ICON                    "res\\ce.ico"
+#elif defined(_WCG)
+boinc                      ICON                    "res\\wcg.ico"
+#else
+boinc                      ICON                    "res\\boinc.ico"
+#endif
+
+boincdisconnect            ICON                    "res\\boincdisconnect.ico"
+boincsnooze                ICON                    "res\\boincsnooze.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+
 /////////////////////////////////////////////////////////////////////////////
 //
 // Bitmap
