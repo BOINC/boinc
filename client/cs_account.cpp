@@ -100,6 +100,7 @@ int PROJECT::parse_account(FILE* in) {
     char buf2[256];
     int retval;
     bool in_project_prefs = false, btemp;
+
     for (int i=0; i<coprocs.n_rsc; i++) {
         no_rsc_pref[i] = false;
     }
@@ -193,6 +194,7 @@ int PROJECT::parse_account_file_venue() {
     char attr_buf[256], venue[256], path[MAXPATHLEN], buf2[256];
     int retval;
     bool in_right_venue = false, btemp;
+    double dtemp;
 
     get_account_filename(master_url, path);
     FILE* in = boinc_fopen(path, "r");
@@ -237,7 +239,12 @@ int PROJECT::parse_account_file_venue() {
             );
             if (retval) return retval;
             continue;
-        } else if (xp.parse_double("resource_share", resource_share)) {
+        } else if (xp.parse_double("resource_share", dtemp)) {
+            // if account manager has specified resource share, don't override
+            //
+            if (ams_resource_share < 0) {
+                resource_share = dtemp;
+            }
             continue;
         }
         else if (xp.parse_bool("no_cpu", btemp)) {

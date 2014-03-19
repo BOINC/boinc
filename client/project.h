@@ -107,7 +107,7 @@ struct PROJECT : PROJ_AM {
     double host_create_time;
     double ams_resource_share;
         // resource share according to AMS; overrides project
-        // -1 means not specified by AMS
+        // -1 means not specified by AMS, or not using an AMS
 
     // stuff related to scheduler RPCs and master fetch
     //
