@@ -75,5 +75,7 @@ Sizes to include:
 Needed XPM sizes (with NO transparency!):
 16x16
 32x32
+40x40 (for Simple View Default Project icon)
 ...Note: Rom says he DOES want "Disconnected" and "Suspended" versions.
 ...Ended up using 128 transparency lock, on images that excluded white bordering.
+...And, for the 40x40, created a white-background version
