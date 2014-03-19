@@ -1535,14 +1535,12 @@ void VBOX_VM::dumphypervisorstatusreports() {
 #ifdef _WIN32
     SIZE_T ulMinimumWorkingSetSize;
     SIZE_T ulMaximumWorkingSetSize;
-    DWORD  dwFlags;
 
     if (
-        GetProcessWorkingSetSizeEx(
+        GetProcessWorkingSetSize(
             vboxsvc_pid_handle,
             &ulMinimumWorkingSetSize,
-            &ulMaximumWorkingSetSize,
-            &dwFlags)
+            &ulMaximumWorkingSetSize)
     ) {
         fprintf(
             stderr,
@@ -1554,11 +1552,10 @@ void VBOX_VM::dumphypervisorstatusreports() {
     }
 
     if (
-        GetProcessWorkingSetSizeEx(
+        GetProcessWorkingSetSize(
             vm_pid_handle,
             &ulMinimumWorkingSetSize,
-            &ulMaximumWorkingSetSize,
-            &dwFlags)
+            &ulMaximumWorkingSetSize)
     ) {
         fprintf(
             stderr,
