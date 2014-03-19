@@ -25,8 +25,6 @@ WXDLLEXPORT_DATA(extern const wxChar) CBOINCBitmapComboBoxNameStr[];
 
 class CDrawLargeBitmapEvent;    // Forward declaration
 
-#define EVT_BOINCBITMAPCOMBOBOX EVT_CHOICE
-
 class CBOINCBitmapChoice : public wxChoice 
 {
     DECLARE_DYNAMIC_CLASS(CBOINCBitmapChoice )

@@ -37,7 +37,11 @@
 IMPLEMENT_DYNAMIC_CLASS(CSimpleProjectPanel, CSimplePanelBase)
 
 BEGIN_EVENT_TABLE(CSimpleProjectPanel, CSimplePanelBase)
+#ifdef __WXMAC__
+    EVT_CHOICE(ID_SGPROJECTSELECTOR, CSimpleProjectPanel::OnProjectSelection)
+#else
     EVT_COMBOBOX(ID_SGPROJECTSELECTOR, CSimpleProjectPanel::OnProjectSelection)
+#endif
     EVT_BUTTON(ID_ADDROJECTBUTTON, CSimpleProjectPanel::OnAddProject)
 #if TESTBIGICONPOPUP
     EVT_BUTTON(ID_PROJECTWEBSITESBUTTON, CSimpleProjectPanel::OnProjectWebSiteButton)
