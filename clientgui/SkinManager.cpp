@@ -191,6 +191,7 @@ CSkinIcon::~CSkinIcon() {
 
 
 void CSkinIcon::Clear() {
+    bInitialized = false;
     m_strDesiredIcon.Clear();
     m_strDesiredTransparencyMask.Clear();
 }
@@ -274,6 +275,8 @@ wxIconBundle* CSkinIcon::GetIcon() {
 #endif
 
 bool CSkinIcon::SetDefaults(wxString strComponentName, wxString strIcon) {
+    if (bInitialized) return true;
+
     m_strComponentName = strComponentName;
     m_icoDefaultIcon.AddIcon(wxIcon(strIcon, wxICON_DEFAULT_TYPE, 16, 16));
     m_icoDefaultIcon.AddIcon(wxIcon(strIcon, wxICON_DEFAULT_TYPE, 20, 20));
@@ -286,14 +289,20 @@ bool CSkinIcon::SetDefaults(wxString strComponentName, wxString strIcon) {
     m_icoDefaultIcon.AddIcon(wxIcon(strIcon, wxICON_DEFAULT_TYPE, 96, 96));
     m_icoDefaultIcon.AddIcon(wxIcon(strIcon, wxICON_DEFAULT_TYPE, 128, 128));
     m_icoDefaultIcon.AddIcon(wxIcon(strIcon, wxICON_DEFAULT_TYPE, 256, 256));
+    bInitialized = true;
+
     return true;
 }
 
 
 bool CSkinIcon::SetDefaults(wxString strComponentName, const char** m_ppIcon, const char** m_ppIcon32) {
+    if (bInitialized) return true;
+
     m_strComponentName = strComponentName;
     m_icoDefaultIcon.AddIcon(wxIcon(m_ppIcon));
     m_icoDefaultIcon.AddIcon(wxIcon(m_ppIcon32));
+    bInitialized = true;
+
     return true;
 }
 
@@ -339,6 +348,8 @@ bool CSkinIcon::Validate() {
             m_icoIcon.AddIcon(ico);
             m_icoIcon.AddIcon(ico32);
         }
+    } else {
+        m_icoIcon = m_icoDefaultIcon;
     }
 
     return true;

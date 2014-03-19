@@ -109,6 +109,7 @@ private:
     wxString     m_strDesiredTransparencyMask32;
     wxIconBundle m_icoDefaultIcon32;
     wxIconBundle m_icoIcon;
+    bool         bInitialized;
 };
 
 
@@ -186,7 +187,6 @@ private:
     wxString      m_strApplicationName;
     wxString      m_strApplicationShortName;
     CSkinIcon     m_iconApplicationIcon;
-    CSkinIcon     m_iconApplicationIcon32;
     CSkinIcon     m_iconApplicationDisconnectedIcon;
     CSkinIcon     m_iconApplicationSnoozeIcon;
     wxBitmap      m_bitmapApplicationLogo;
