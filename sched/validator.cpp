@@ -105,7 +105,7 @@ int g_argc;
 char **g_argv;
 
 WORKUNIT* g_wup;
-vector<DB_APP_VERSION> app_versions;
+vector<DB_APP_VERSION_VAL> app_versions;
     // cache of app_versions; the PFC statistics of these are
     // updated in memory, and periodically flushed to the DB
 

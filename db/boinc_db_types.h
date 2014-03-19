@@ -137,12 +137,6 @@ struct APP_VERSION {
     //
     BEST_APP_VERSION* bavp;
 
-    // used by validator, not in DB
-    //
-    std::vector<double>pfc_samples;
-    std::vector<double>credit_samples;
-    std::vector<double>credit_times;
-
     int write(FILE*);
     void clear();
 
