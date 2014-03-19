@@ -36,7 +36,7 @@ class CTaskbarEvent;
 
 class CTaskBarIcon : public wxTaskBarIconEx {
 public:
-    CTaskBarIcon(wxString title, wxIconBundle* icon, wxIconBundle* iconDisconnected, wxIconBundle* iconSnooze
+    CTaskBarIcon(wxString title, wxIconBundle* icon, wxIconBundle* iconDisconnected, wxIconBundle* iconSnooze);
     ~CTaskBarIcon();
 
     void OnOpenWebsite(wxCommandEvent& event);

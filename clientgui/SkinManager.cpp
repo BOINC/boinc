@@ -253,6 +253,25 @@ wxIconBundle* CSkinIcon::GetIcon() {
     return &m_icoIcon;
 }
 
+#if defined(__WXMSW__)
+  #define wxICON_DEFAULT_TYPE   wxBITMAP_TYPE_ICO_RESOURCE
+#elif defined(__WXMOTIF__)
+  #define wxICON_DEFAULT_TYPE   wxBITMAP_TYPE_XPM
+#elif defined(__WXGTK20__)
+  #define wxICON_DEFAULT_TYPE   wxBITMAP_TYPE_XPM
+#elif defined(__WXGTK__)
+  #define wxICON_DEFAULT_TYPE   wxBITMAP_TYPE_XPM
+#elif defined(__WXX11__)
+  #define wxICON_DEFAULT_TYPE   wxBITMAP_TYPE_XPM
+#elif defined(__WXDFB__)
+  #define wxICON_DEFAULT_TYPE   wxBITMAP_TYPE_XPM
+#elif defined(__WXMAC__)
+  #define wxICON_DEFAULT_TYPE   wxBITMAP_TYPE_ICON_RESOURCE
+#elif defined(__WXCOCOA__)
+  #define wxICON_DEFAULT_TYPE   wxBITMAP_TYPE_ICON_RESOURCE
+#elif defined(__WXPM__)
+  #define wxICON_DEFAULT_TYPE   wxBITMAP_TYPE_ICO_RESOURCE
+#endif
 
 bool CSkinIcon::SetDefaults(wxString strComponentName, wxString strIcon) {
     m_strComponentName = strComponentName;
@@ -306,6 +325,7 @@ bool CSkinIcon::Validate() {
         ico32.CopyFromBitmap(bmp32);
         m_icoIcon.AddIcon(ico32);
     }
+/*
     if (!m_icoIcon.Ok()) {
         if (show_error_msgs) {
             fprintf(stderr, "Skin Manager: Failed to load '%s' icon. Using default.\n", (const char *)m_strComponentName.mb_str());
@@ -313,6 +333,7 @@ bool CSkinIcon::Validate() {
         m_icoIcon = m_icoDefaultIcon;
         wxASSERT(m_icoIcon.Ok());
     }
+*/
     return true;
 }
 

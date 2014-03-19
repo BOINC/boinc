@@ -23,28 +23,6 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 #endif //_WIN32
 
 /////////////////////////////////////////////////////////////////////////////
-//
-// Icon
-//
-
-// Icon with lowest ID value placed first to ensure application icon
-// remains consistent on all systems.
-#if   defined(_GRIDREPUBLIC)
-APP_ICON                ICON                    "res\\gridrepublic.ico"
-#elif defined(_PROGRESSTHRUPROCESSORS)
-APP_ICON                ICON                    "res\\progress.ico"
-#elif defined(_CHARITYENGINE)
-APP_ICON                ICON                    "res\\ce.ico"
-#elif defined(_WCG)
-APP_ICON                ICON                    "res\\wcg.ico"
-#else
-APP_ICON                ICON                    "res\\boincguiApp.ico"
-#endif
-
-/////////////////////////////////////////////////////////////////////////////
-
-
-/////////////////////////////////////////////////////////////////////////////
 
 #endif    // Neutral resources
 
@@ -77,18 +55,25 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 
 #if   defined(_GRIDREPUBLIC)
 boinc                      ICON                    "res\\gridrepublic.ico"
-#elif defined(_PROGRESSTHRUPROCESSORS)
-boinc                      ICON                    "res\\progress.ico"
-#elif defined(_CHARITYENGINE)
-boinc                      ICON                    "res\\ce.ico"
-#elif defined(_WCG)
-boinc                      ICON                    "res\\wcg.ico"
-#else
-boinc                      ICON                    "res\\boinc.ico"
-#endif
-
 boincdisconnect            ICON                    "res\\boincdisconnect.ico"
 boincsnooze                ICON                    "res\\boincsnooze.ico"
+#elif defined(_PROGRESSTHRUPROCESSORS)
+boinc                      ICON                    "res\\progress.ico"
+boincdisconnect            ICON                    "res\\boincdisconnect.ico"
+boincsnooze                ICON                    "res\\boincsnooze.ico"
+#elif defined(_CHARITYENGINE)
+boinc                      ICON                    "res\\ce.ico"
+boincdisconnect            ICON                    "res\\boincdisconnect.ico"
+boincsnooze                ICON                    "res\\boincsnooze.ico"
+#elif defined(_WCG)
+boinc                      ICON                    "res\\wcg.ico"
+boincdisconnect            ICON                    "res\\wcgdisconnect.ico"
+boincsnooze                ICON                    "res\\wcgsnooze.ico"
+#else
+boinc                      ICON                    "res\\boinc.ico"
+boincdisconnect            ICON                    "res\\boincdisconnect.ico"
+boincsnooze                ICON                    "res\\boincsnooze.ico"
+#endif
 
 /////////////////////////////////////////////////////////////////////////////
 
