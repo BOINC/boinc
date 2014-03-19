@@ -1147,8 +1147,18 @@ int SCHED_DB_RESULT::parse_from_client(XML_PARSER& xp) {
         }
         if (xp.parse_str("name", name, sizeof(name))) continue;
         if (xp.parse_int("state", client_state)) continue;
-        if (xp.parse_double("final_cpu_time", cpu_time)) continue;
-        if (xp.parse_double("final_elapsed_time", elapsed_time)) continue;
+        if (xp.parse_double("final_cpu_time", cpu_time)) {
+            if (!boinc_is_finite(cpu_time)) {
+                cpu_time = 0;
+            }
+            continue;
+        }
+        if (xp.parse_double("final_elapsed_time", elapsed_time)) {
+            if (!boinc_is_finite(elapsed_time)) {
+                elapsed_time = 0;
+            }
+            continue;
+        }
         if (xp.parse_int("exit_status", exit_status)) continue;
         if (xp.parse_int("app_version_num", app_version_num)) continue;
         if (xp.match_tag("file_info")) {

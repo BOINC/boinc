@@ -539,10 +539,9 @@ int wait_client_mutex(const char* dir, double timeout) {
     return retval;
 }
 
-bool boinc_is_finite(double x) {
+inline bool boinc_is_finite(double x) {
 #if defined (HPUX_SOURCE)
     return _Isfinite(x);
-    return false;
 #else
     return finite(x) != 0;
 #endif
