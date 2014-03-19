@@ -93,10 +93,9 @@ CTaskBarIcon::CTaskBarIcon(wxString title, wxIconBundle* icon, wxIconBundle* ico
     wxTaskBarIconEx(wxT("BOINCManagerSystray"), 1)
 #endif
 {
-    wxSize size = wxSize(wxSystemSettings::GetMetric(wxSYS_SMALLICON_X), wxSystemSettings::GetMetric(wxSYS_SMALLICON_Y));
-    m_iconTaskBarNormal = icon->GetIcon(size, wxIconBundle::FALLBACK_NEAREST_LARGER);
-    m_iconTaskBarDisconnected = iconDisconnected->GetIcon(size, wxIconBundle::FALLBACK_NEAREST_LARGER);
-    m_iconTaskBarSnooze = iconSnooze->GetIcon(size, wxIconBundle::FALLBACK_NEAREST_LARGER);
+    m_iconTaskBarNormal = icon->GetIcon(GetBestIconSize(), wxIconBundle::FALLBACK_NEAREST_LARGER);
+    m_iconTaskBarDisconnected = iconDisconnected->GetIcon(GetBestIconSize(), wxIconBundle::FALLBACK_NEAREST_LARGER);
+    m_iconTaskBarSnooze = iconSnooze->GetIcon(GetBestIconSize(), wxIconBundle::FALLBACK_NEAREST_LARGER);
     m_SnoozeGPUMenuItem = NULL;
 
     m_bTaskbarInitiatedShutdown = false;
@@ -342,10 +341,9 @@ void CTaskBarIcon::OnReloadSkin(CTaskbarEvent& WXUNUSED(event)) {
     wxASSERT(pSkinAdvanced);
     wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
 
-    wxSize size = wxSize(wxSystemSettings::GetMetric(wxSYS_SMALLICON_X), wxSystemSettings::GetMetric(wxSYS_SMALLICON_Y));
-    m_iconTaskBarNormal = pSkinAdvanced->GetApplicationIcon()->GetIcon(size, wxIconBundle::FALLBACK_NEAREST_LARGER);
-    m_iconTaskBarDisconnected = pSkinAdvanced->GetApplicationDisconnectedIcon()->GetIcon(size, wxIconBundle::FALLBACK_NEAREST_LARGER);
-    m_iconTaskBarSnooze = pSkinAdvanced->GetApplicationSnoozeIcon()->GetIcon(size, wxIconBundle::FALLBACK_NEAREST_LARGER);
+    m_iconTaskBarNormal = pSkinAdvanced->GetApplicationIcon()->GetIcon(GetBestIconSize(), wxIconBundle::FALLBACK_NEAREST_LARGER);
+    m_iconTaskBarDisconnected = pSkinAdvanced->GetApplicationDisconnectedIcon()->GetIcon(GetBestIconSize(), wxIconBundle::FALLBACK_NEAREST_LARGER);
+    m_iconTaskBarSnooze = pSkinAdvanced->GetApplicationSnoozeIcon()->GetIcon(GetBestIconSize(), wxIconBundle::FALLBACK_NEAREST_LARGER);
 
 #ifdef __WXMAC__
     // For unknown reasons, menus won't work if we call BuildMenu() here 
@@ -362,6 +360,19 @@ void CTaskBarIcon::FireReloadSkin() {
 
 void CTaskBarIcon::ResetTaskBar() {
     SetIcon(m_iconTaskBarNormal);
+}
+
+
+wxSize CTaskBarIcon::GetBestIconSize() {
+    wxSize size;
+
+#ifdef _WIN32
+    size = wxSize(wxSystemSettings::GetMetric(wxSYS_SMALLICON_X), wxSystemSettings::GetMetric(wxSYS_SMALLICON_Y));
+#else
+    size = wxSize(16, 16);
+#endif
+
+    return size;
 }
 
 
