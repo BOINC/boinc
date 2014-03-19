@@ -101,6 +101,8 @@ bool credit_from_wu = false;
 bool credit_from_runtime = false;
 double max_runtime = 0;
 bool no_credit = false;
+int g_argc;
+char **g_argv;
 
 WORKUNIT* g_wup;
 vector<DB_APP_VERSION> app_versions;
@@ -790,6 +792,8 @@ int main(int argc, char** argv) {
             exit(1);
         }
     }
+    g_argc = argc;
+    g_argv = argv;
 
     if (app_name[0] == 0) {
         log_messages.printf(MSG_CRITICAL,
