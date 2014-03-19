@@ -486,6 +486,21 @@ int main(int argc, char** argv) {
             retry_connect = true;
         }
     }
+
+    // Initialize the BOINC Diagnostics Framework
+    int dwDiagnosticsFlags =
+#ifdef _DEBUG
+        BOINC_DIAG_HEAPCHECKENABLED |
+        BOINC_DIAG_MEMORYLEAKCHECKENABLED |
+#endif
+        BOINC_DIAG_DUMPCALLSTACKENABLED | 
+        BOINC_DIAG_PERUSERLOGFILES |
+        BOINC_DIAG_REDIRECTSTDERR |
+        BOINC_DIAG_REDIRECTSTDOUT |
+        BOINC_DIAG_TRACETOSTDOUT;
+
+    diagnostics_init(dwDiagnosticsFlags, "stdoutscrgfx", "stderrscrgfx");
+
 #ifdef _WIN32
     WinsockInitialize();
 #endif
