@@ -299,6 +299,11 @@ bool CSkinIcon::SetDefaults(wxString strComponentName, const char** m_ppIcon, co
 
 
 bool CSkinIcon::Validate() {
+    wxIcon ico;
+    wxIcon ico32;
+    bool set_ico = false;
+    bool set_ico32 = false;
+
     if (!m_strDesiredIcon.IsEmpty()) {
         // Configure bitmap object with optional transparency mask
         wxImage img = wxImage(m_strDesiredIcon, wxBITMAP_TYPE_ANY);
@@ -308,9 +313,8 @@ bool CSkinIcon::Validate() {
             bmp.SetMask(new wxMask(bmp, ParseColor(m_strDesiredTransparencyMask)));
         }
         // Now set the icon object using the newly created bitmap with optional transparency mask
-        wxIcon ico;
+        set_ico = true;
         ico.CopyFromBitmap(bmp);
-        m_icoIcon.AddIcon(ico);
     }
     if (!m_strDesiredIcon32.IsEmpty()) {
         // Configure bitmap object with optional transparency mask
@@ -321,19 +325,22 @@ bool CSkinIcon::Validate() {
             bmp32.SetMask(new wxMask(bmp32, ParseColor(m_strDesiredTransparencyMask32)));
         }
         // Now set the icon object using the newly created bitmap with optional transparency mask
-        wxIcon ico32;
+        set_ico32 = true;
         ico32.CopyFromBitmap(bmp32);
-        m_icoIcon.AddIcon(ico32);
     }
-/*
-    if (!m_icoIcon.Ok()) {
-        if (show_error_msgs) {
-            fprintf(stderr, "Skin Manager: Failed to load '%s' icon. Using default.\n", (const char *)m_strComponentName.mb_str());
+
+    if (set_ico || set_ico32) {
+        if ((set_ico && !ico.IsOk()) || (set_ico32 && !ico32.IsOk())) {
+            if (show_error_msgs) {
+                fprintf(stderr, "Skin Manager: Failed to load '%s' icon. Using default.\n", (const char *)m_strComponentName.mb_str());
+            }
+            m_icoIcon = m_icoDefaultIcon;
+        } else {
+            m_icoIcon.AddIcon(ico);
+            m_icoIcon.AddIcon(ico32);
         }
-        m_icoIcon = m_icoDefaultIcon;
-        wxASSERT(m_icoIcon.Ok());
     }
-*/
+
     return true;
 }
 
