@@ -46,31 +46,31 @@ function download_link($pname, $button=false) {
             $vbox_path = "dl/$vbox_file";
             $vbox_size = number_format(filesize($vbox_path)/1000000, 2);
             echo "
-                <table cellpadding=10><tr valign=top><td class=heading>
+                <table cellpadding=10><tr valign=top><td class=button>
                 <a href=\"$vbox_url\"><font size=4><u>"
                 .tra("Download BOINC + VirtualBox")
                 ."</u></font></a>
                 <br>"
                 .sprintf(tra("for %s"), $long_name)
                 ." ($vbox_size MB)"
-                ."<br>"
-                .sprintf(tra("BOINC version %s"), $num)
-                ."<br>"
-                .sprintf(tra("VirtualBox version %s"), $vbox_version)
-                ."</td></tr>
+                ."<br><span class=note>"
+                .sprintf(tra("BOINC %s"), $num)
+                .", "
+                .sprintf(tra("VirtualBox %s"), $vbox_version)
+                ."</span></td></tr>
                 </table>
             ";
             echo "</td><td>\n";
         }
         echo "
-            <table cellpadding=10><tr valign=top><td class=heading>
+            <table cellpadding=10><tr valign=top><td class=button>
             <a href=\"$url\"><font size=4><u>".tra("Download BOINC")."</u></font></a>
             <br>"
             .sprintf(tra("for %s"), $long_name)
             ." ($s MB)"
-            ."<br>"
-            .sprintf(tra("BOINC version %s"), $num)
-            ."</td></tr>
+            ."<br><span class=note>"
+            .sprintf(tra("BOINC %s"), $num)
+            ."</span></td></tr>
             </table>
         ";
         if ($vbox_file) {
