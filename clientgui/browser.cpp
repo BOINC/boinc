@@ -726,7 +726,7 @@ static int find_site_cookie_chrome(
     CHROME_COOKIE_SQL* _cookie = (CHROME_COOKIE_SQL*)cookie;
     char host[256], cookie_name[256], cookie_value[256];
     long long expires;
-    long httponly;
+    long long httponly;
 
     strcpy(host, "");
     strcpy(cookie_name, "");
