@@ -475,8 +475,18 @@ void boinc_app_key_release(int, int){}
 
 void app_graphics_init() {
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+
+#ifdef _WIN32
+    chdir_to_install_dir();
+#endif
+
     ttf_load_fonts(".");
     logo.load_image_file(logo_file);
+
+#ifdef _WIN32
+    chdir_to_data_dir();
+#endif
+
     init_lights();
 }
 

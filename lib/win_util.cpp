@@ -205,6 +205,55 @@ BOOL TerminateProcessById( DWORD dwProcessID ) {
 }
 
 
+void chdir_to_install_dir() {
+    LONG    lReturnValue;
+    HKEY    hkSetupHive;
+    LPSTR  lpszRegistryValue = NULL;
+    char    szPath[MAX_PATH];
+    DWORD   dwSize = 0;
+
+    // change the current directory to the boinc data directory if it exists
+    lReturnValue = RegOpenKeyExA(
+        HKEY_LOCAL_MACHINE, 
+        "SOFTWARE\\Space Sciences Laboratory, U.C. Berkeley\\BOINC Setup",  
+        0, 
+        KEY_READ,
+        &hkSetupHive
+    );
+    if (lReturnValue == ERROR_SUCCESS) {
+        // How large does our buffer need to be?
+        lReturnValue = RegQueryValueExA(
+            hkSetupHive,
+            "INSTALLDIR",
+            NULL,
+            NULL,
+            NULL,
+            &dwSize
+        );
+        if (lReturnValue != ERROR_FILE_NOT_FOUND) {
+            // Allocate the buffer space.
+            lpszRegistryValue = (LPSTR) malloc(dwSize);
+            (*lpszRegistryValue) = NULL;
+
+            // Now get the data
+            lReturnValue = RegQueryValueExA( 
+                hkSetupHive,
+                "INSTALLDIR",
+                NULL,
+                NULL,
+                (LPBYTE)lpszRegistryValue,
+                &dwSize
+            );
+
+            SetCurrentDirectoryA(lpszRegistryValue);
+        }
+    }
+
+    if (hkSetupHive) RegCloseKey(hkSetupHive);
+    if (lpszRegistryValue) free(lpszRegistryValue);
+}
+
+
 void chdir_to_data_dir() {
     LONG    lReturnValue;
     HKEY    hkSetupHive;

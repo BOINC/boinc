@@ -21,6 +21,7 @@
 extern BOOL IsWindows2000Compatible();extern BOOL IsTerminalServicesEnabled();
 extern BOOL ValidateProductSuite(LPSTR SuiteName);
 extern BOOL TerminateProcessById(DWORD dwProcessId);
+extern void chdir_to_install_dir();
 extern void chdir_to_data_dir();
 extern bool is_remote_desktop();
 
