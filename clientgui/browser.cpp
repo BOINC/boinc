@@ -749,6 +749,8 @@ static int find_site_cookie_chrome(
     sscanf( argv[4],
 #ifdef _WIN32
         "%I64d",
+#elif defined(__APPLE__)
+        "%lld",
 #else
         "%ld",
 #endif
