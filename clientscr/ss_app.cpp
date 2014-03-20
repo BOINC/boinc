@@ -21,6 +21,7 @@
 
 #ifdef _WIN32
 #include "boinc_win.h"
+#include "win_util.h"
 #else
 #include <cmath>
 #endif
@@ -487,6 +488,10 @@ int main(int argc, char** argv) {
         }
     }
 
+#ifdef _WIN32
+    chdir_to_data_dir();
+#endif
+
     // Initialize the BOINC Diagnostics Framework
     int dwDiagnosticsFlags =
 #ifdef _DEBUG
@@ -494,7 +499,6 @@ int main(int argc, char** argv) {
         BOINC_DIAG_MEMORYLEAKCHECKENABLED |
 #endif
         BOINC_DIAG_DUMPCALLSTACKENABLED | 
-        BOINC_DIAG_PERUSERLOGFILES |
         BOINC_DIAG_REDIRECTSTDERR |
         BOINC_DIAG_REDIRECTSTDOUT |
         BOINC_DIAG_TRACETOSTDOUT;
