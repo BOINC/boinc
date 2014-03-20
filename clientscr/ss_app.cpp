@@ -84,12 +84,18 @@ char* brand_name = "BOINC";
 char* logo_file = "boinc_logo_black.jpg";
 # else
 // These defines are used only on Windows builds
-#ifdef _GRIDREPUBLIC
+#if   defined(_GRIDREPUBLIC)
 const char* brand_name = "GridRepublic";
 const char* logo_file = "gridrepublic_ss_logo.jpg";
 #elif defined(_CHARITYENGINE)
 const char* brand_name = "Charity Engine";
 const char* logo_file = "CE_ss_logo.jpg";
+#elif defined(_PROGRESSTHRUPROCESSORS)
+const char* brand_name = "Progress Thru Processors";
+const char* logo_file = "progress_ss_logo.jpg";
+#elif defined(_WCG)
+const char* brand_name = "World Community Grid";
+const char* logo_file = "wcg_ss_logo.jpg";
 #else
 const char* brand_name = "BOINC";
 const char* logo_file = "boinc_logo_black.jpg";
@@ -161,6 +167,9 @@ PROJECT_IMAGES* get_project_images(PROJECT* p) {
 }
 
 #endif
+
+
+
 
 // set up lighting model
 //
@@ -466,11 +475,7 @@ void boinc_app_key_release(int, int){}
 void app_graphics_init() {
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     ttf_load_fonts(".");
-#ifdef _WCG
-    logo.load_image_file("wcg.bmp");
-#else
     logo.load_image_file(logo_file);
-#endif
     init_lights();
 }
 
@@ -531,8 +536,12 @@ int main(int argc, char** argv) {
 #endif
 
     boinc_graphics_loop(argc, argv, "BOINC screensaver");
+
     boinc_finish_diag();
+
 #ifdef _WIN32
     WinsockCleanup();
 #endif
+
+    return 0;
 }
