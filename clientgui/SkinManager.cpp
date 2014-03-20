@@ -313,6 +313,9 @@ bool CSkinIcon::Validate() {
     bool set_ico = false;
     bool set_ico32 = false;
 
+    // Setup baseline
+    m_icoIcon = m_icoDefaultIcon;
+
     if (!m_strDesiredIcon.IsEmpty()) {
         // Configure bitmap object with optional transparency mask
         wxImage img = wxImage(m_strDesiredIcon, wxBITMAP_TYPE_ANY);
@@ -343,13 +346,14 @@ bool CSkinIcon::Validate() {
             if (show_error_msgs) {
                 fprintf(stderr, "Skin Manager: Failed to load '%s' icon. Using default.\n", (const char *)m_strComponentName.mb_str());
             }
-            m_icoIcon = m_icoDefaultIcon;
         } else {
-            m_icoIcon.AddIcon(ico);
-            m_icoIcon.AddIcon(ico32);
+            if (ico.IsOk()) {
+                m_icoIcon.AddIcon(ico);
+            }
+            if (ico32.IsOk()) {
+                m_icoIcon.AddIcon(ico32);
+            }
         }
-    } else {
-        m_icoIcon = m_icoDefaultIcon;
     }
 
     return true;
