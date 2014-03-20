@@ -853,6 +853,9 @@ int ACTIVE_TASK::abort_task(int exit_status, const char* msg) {
     result->exit_status = exit_status;
     gstate.report_result_error(*result, msg);
     result->set_state(RESULT_ABORTED, "abort_task");
+    if (task_state() == PROCESS_ABORTED) {
+        read_stderr_file();
+    }
     return 0;
 }
 
