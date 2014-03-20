@@ -116,7 +116,7 @@ int procinfo_setup(PROC_MAP& pm) {
 
     while (1) {
         p.clear();
-        c = fscanf(fd, "%d%d%d%d%ld%d%d:%lf ",
+        c = fscanf(fd, "%d%d%d%d%lu%d%d:%lf ",
             &p.id,
             &p.parentid,
             &real_mem, 
