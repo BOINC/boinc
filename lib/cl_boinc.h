@@ -3,6 +3,8 @@
 #ifndef __CL_BOINC_H
 #define __CL_BOINC_H
 
+#include <cstddef>
+
 #if defined(_WIN32)
 #define CL_API_ENTRY
 #define CL_API_CALL __stdcall

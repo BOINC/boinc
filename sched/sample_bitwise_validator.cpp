@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2014 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -20,16 +20,27 @@
 // This is useful only if either
 // 1) your application does no floating-point math, or
 // 2) you use homogeneous redundancy
+//
+// if the --is_gzip option is used, all files are assumed to be gzipped.
+// In this case, the 10-byte gzip header is skipped
+// (it has stuff like a timestamp and OS code that can differ
+// even if the archive contents are the same)
 
 #include "config.h"
 #include "util.h"
 #include "sched_util.h"
 #include "sched_msgs.h"
 #include "validate_util.h"
+#include "validate_util2.h"
+#include "validator.h"
 #include "md5_file.h"
 
 using std::string;
 using std::vector;
+
+bool first = true;
+bool is_gzip = false;
+    // if true, files are gzipped; skip header when comparing
 
 struct FILE_CKSUM_LIST {
     vector<string> files;   // list of MD5s of files
@@ -44,12 +55,25 @@ bool files_match(FILE_CKSUM_LIST& f1, FILE_CKSUM_LIST& f2) {
     return true;
 }
 
+void parse_cmdline() {
+    for (int i=1; i<g_argc; i++) {
+        if (!strcmp(g_argv[i], "--is_gzip")) {
+            is_gzip = true;
+        }
+    }
+}
+
 int init_result(RESULT& result, void*& data) {
     int retval;
     FILE_CKSUM_LIST* fcl = new FILE_CKSUM_LIST;
     vector<OUTPUT_FILE_INFO> files;
     char md5_buf[MD5_LEN];
     double nbytes;
+
+    if (first) {
+        parse_cmdline();
+        first = false;
+    }
 
     retval = get_output_file_infos(result, files);
     if (retval) {
@@ -63,15 +87,15 @@ int init_result(RESULT& result, void*& data) {
     for (unsigned int i=0; i<files.size(); i++) {
         OUTPUT_FILE_INFO& fi = files[i];
         if (fi.no_validate) continue;
-        retval = md5_file(fi.path.c_str(), md5_buf, nbytes);
+        retval = md5_file(fi.path.c_str(), md5_buf, nbytes, is_gzip);
         if (retval) {
-            if (fi.optional) {
+            if (fi.optional && retval == ERR_FOPEN) {
                 strcpy(md5_buf, "");
                     // indicate file is missing; not the same as md5("")
             } else {
                 log_messages.printf(MSG_CRITICAL,
-                    "[RESULT#%u %s] Couldn't open %s\n",
-                    result.id, result.name, fi.path.c_str()
+                    "[RESULT#%u %s] md5_file() failed for %s: %s\n",
+                    result.id, result.name, fi.path.c_str(), boincerror(retval)
                 );
                 return retval;
             }

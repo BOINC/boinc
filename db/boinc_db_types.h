@@ -336,6 +336,7 @@ struct HOST {
     // the following items are passed in scheduler requests,
     // and used in the scheduler,
     // but not stored in the DB
+    // TODO: move this stuff to a derived class HOST_SCHED
     //
     char p_features[1024];
     char virtualbox_version[256];

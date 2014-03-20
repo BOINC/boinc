@@ -784,12 +784,7 @@ int main(int argc, char** argv) {
         } else if (is_arg(argv[i], "no_credit")) {
             no_credit = true;
         } else {
-            fprintf(stderr,
-                "Invalid option '%s'\nTry `%s --help` for more information\n",
-                argv[i], argv[0]
-            );
-            log_messages.printf(MSG_CRITICAL, "unrecognized arg: %s\n", argv[i]);
-            exit(1);
+            //log_messages.printf(MSG_CRITICAL, "unrecognized arg: %s\n", argv[i]);
         }
     }
     g_argc = argc;

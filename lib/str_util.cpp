@@ -432,6 +432,7 @@ const char* boincerror(int which_error) {
         case ERR_NO_SIGNATURE: return "no signature";
         case ERR_THREAD: return "thread failure";
         case ERR_SIGNAL_CATCH: return "caught signal";
+        case ERR_BAD_FORMAT: return "bad file format";
         case ERR_UPLOAD_TRANSIENT: return "transient upload error";
         case ERR_UPLOAD_PERMANENT: return "permanent upload error";
         case ERR_IDLE_PERIOD: return "user preferences say can't start work";
