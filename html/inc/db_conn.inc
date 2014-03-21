@@ -23,12 +23,22 @@
 /// represents a connection to a database.
 // Intended to be subclassed (e.g., BoincDb, BossaDb)
 
+if (class_exists("mysqli")) {
+    define("MYSQLI", true);
+} else {
+    define("MYSQLI", false);
+}
+
 class DbConn {
     var $db_conn;
     var $db_name;
 
     function init_conn($user, $passwd, $host, $name) {
-        $this->db_conn = mysql_pconnect($host, $user, $passwd);
+        if (MYSQLI) {
+            $this->db_conn = new mysqli("p:".$host, $user, $passwd);
+        } else {
+            $this->db_conn = mysql_pconnect($host, $user, $passwd);
+        }
         if (!$this->db_conn) {
             return false;
         }
@@ -43,12 +53,16 @@ class DbConn {
         global $generating_xml;
         $q = str_replace('DBNAME', $this->db_name, $q);
         //echo "query: $q<br>\n";
-        $ret = mysql_query($q, $this->db_conn);
+        if (MYSQLI) {
+            $ret = $this->db_conn->query($q);
+        } else {
+            $ret = mysql_query($q, $this->db_conn);
+        }
         if (!$ret) {
             if (!$generating_xml) {
                 echo "Database Error<br>\n";
             }
-            //echo ": ", mysql_error(), "\n<pre>";
+            //echo ": ", $this->base_error(), "\n<pre>";
             //var_dump(debug_backtrace());
             //echo "</pre>query: $q\n";
             return null;
@@ -59,7 +73,11 @@ class DbConn {
     // # rows affected by last query
     //
     function affected_rows() {
-        return mysql_affected_rows($this->db_conn);
+        if (MYSQLI) {
+            $this->db_conn->affected_rows;
+        } else {
+            return mysql_affected_rows($this->db_conn);
+        }
     }
 
     function lookup_fields($table, $classname, $fields, $clause) {
@@ -68,20 +86,18 @@ class DbConn {
         if (!$result) {
             return null;
         }
-        $obj = mysql_fetch_object($result, $classname);
-        mysql_free_result($result);
+        if (MYSQLI) {
+            $obj = $result->fetch_object($classname);
+            $result->free();
+        } else {
+            $obj = mysql_fetch_object($result, $classname);
+            mysql_free_result($result);
+        }
         return $obj;
     }
 
     function lookup($table, $classname, $clause) {
-        $query = "select * from DBNAME.$table where $clause";
-        $result = $this->do_query($query);
-        if (!$result) {
-            return null;
-        }
-        $obj = mysql_fetch_object($result, $classname);
-        mysql_free_result($result);
-        return $obj;
+        return $this->lookup_fields($table, $classname, "*", $clause);
     }
 
     function lookup_id($id, $table, $classname) {
@@ -92,10 +108,17 @@ class DbConn {
         $result = $this->do_query($query);
         if (!$result) return null;
         $x = array();
-        while ($obj = mysql_fetch_object($result, $classname)) {
-            $x[] = $obj;
+        if (MYSQLI) {
+            while ($obj = $result->fetch_object($classname)) {
+                $x[] = $obj;
+            }
+            $result->free();
+        } else {
+            while ($obj = mysql_fetch_object($result, $classname)) {
+                $x[] = $obj;
+            }
+            mysql_free_result($result);
         }
-        mysql_free_result($result);
         return $x;
     }
 
@@ -107,15 +130,9 @@ class DbConn {
             $where_clause = "where $where_clause";
         }
         $query = "select $fields from DBNAME.$table $where_clause $order_clause";
-        $result = $this->do_query($query);
-        if (!$result) return null;
-        $x = array();
-        while ($obj = mysql_fetch_object($result, $classname)) {
-            $x[] = $obj;
-        }
-        mysql_free_result($result);
-        return $x;
+        return $this->enum_general($classname,$query);
     }
+
     function enum($table, $classname, $where_clause=null, $order_clause=null) {
         return self::enum_fields(
             $table, $classname, '*', $where_clause, $order_clause
@@ -143,7 +160,11 @@ class DbConn {
         return $this->do_query($query);
     }
     function insert_id() {
-        return mysql_insert_id($this->db_conn);
+        if (MYSQLI) {
+            return $this->db_conn->insert_id;
+        } else {
+            return mysql_insert_id($this->db_conn);
+        }
     }
     function get_int($query, $field) {
         $result = $this->do_query($query);
@@ -159,7 +180,7 @@ class DbConn {
         if ($x) return (double)$x->$field;
         return false;
     }
-    function count($table, $clause) {
+    function count($table, $clause="TRUE") {
         $query = "select count(*) as total from DBNAME.$table where $clause";
         return $this->get_int($query, 'total');
     }
@@ -183,15 +204,28 @@ class DbConn {
         return $this->do_query($query);
     }
     function base_escape_string($string) {
-        return mysql_real_escape_string($string);
+        if (MYSQLI) {
+            return $this->db_conn->escape_string($string);
+        } else {
+            return mysql_real_escape_string($string);
+        }
     }
     function base_error() {
-        return mysql_error($this->db_conn);
+        if (MYSQLI) {
+            return $this->db_conn->error;
+        } else {
+            return mysql_error($this->db_conn);
+        }
     }
     function table_exists($table_name) {
         $result = $this->do_query("show tables from DBNAME like '$table_name'");
-        $t = mysql_fetch_array($result);
-        mysql_free_result($result);
+        if (MYSQLI) {
+            $t = $result->fetch_array();
+            $result->free();
+        } else {
+            $t = mysql_fetch_array($result);
+            mysql_free_result($result);
+        }
         if ($t[0] == "$table_name") return true;
         return false;
     }
