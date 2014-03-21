@@ -802,6 +802,7 @@ void CBOINCBaseView::UpdateWebsiteSelection(long lControlGroup, PROJECT* project
             }
         }
 
+        m_pTaskPane->FitInside();
         m_bForceUpdateSelection = false;
     }
 }
