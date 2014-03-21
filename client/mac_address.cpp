@@ -264,7 +264,11 @@ int get_mac_address(char* address) {
         hw_addr = (struct ether_addr *)&(item->lifr_lifru.lifru_enaddr);  
 #endif
         strcpy(address, ether_ntoa(hw_addr));
+#ifdef HAVE_STRUCT_LIFCONF
+        if (strstr(item->lifr_name, "eth")) break;
+#else
         if (strstr(item->ifr_name, "eth")) break;
+#endif
     }
     close(sck);
     if (!strcmp(address, "")) return -1;
