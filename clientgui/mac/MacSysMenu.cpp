@@ -116,7 +116,7 @@ public:
 #endif
 
 
-CMacSystemMenu::CMacSystemMenu(wxString title, wxIcon* icon, wxIcon* iconDisconnected, wxIcon* iconSnooze)
+CMacSystemMenu::CMacSystemMenu(wxString title, wxIconBundle* icon, wxIconBundle* iconDisconnected, wxIconBundle* iconSnooze)
                                 : CTaskBarIcon(title, icon, iconDisconnected, iconSnooze) {
      CFBundleRef	SysMenuBundle	= NULL;
 
@@ -199,9 +199,9 @@ void CMacSystemMenu::BuildMenu() {
     wxASSERT(pSkinAdvanced);
     wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
 
-    m_iconTaskBarNormal = *pSkinAdvanced->GetApplicationIcon();
-    m_iconTaskBarDisconnected = *pSkinAdvanced->GetApplicationDisconnectedIcon();
-    m_iconTaskBarSnooze = *pSkinAdvanced->GetApplicationSnoozeIcon();
+    m_iconTaskBarNormal = pSkinAdvanced->GetApplicationIcon()->GetIcon(GetBestIconSize());
+    m_iconTaskBarDisconnected = pSkinAdvanced->GetApplicationDisconnectedIcon()->GetIcon(GetBestIconSize());
+    m_iconTaskBarSnooze = pSkinAdvanced->GetApplicationSnoozeIcon()->GetIcon(GetBestIconSize());
 
     theBits.CopyFromIcon(m_iconTaskBarNormal);
     CGImageRef imageRef = (CGImageRef)theBits.CGImageCreate();                

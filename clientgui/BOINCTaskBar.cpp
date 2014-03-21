@@ -83,9 +83,6 @@ END_EVENT_TABLE()
 
 
 CTaskBarIcon::CTaskBarIcon(wxString title, wxIconBundle* icon, wxIconBundle* iconDisconnected, wxIconBundle* iconSnooze
-#ifdef __WXMAC__
-, wxTaskBarIconType iconType
-#endif
 ) :
 #ifdef __WXMAC__
     wxTaskBarIcon(DOCK)

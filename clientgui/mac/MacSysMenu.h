@@ -29,7 +29,7 @@
 class CMacSystemMenu : public CTaskBarIcon
 {
 public:
-    CMacSystemMenu(wxString title, wxIcon* icon, wxIcon* iconDisconnected, wxIcon* iconSnooze);
+    CMacSystemMenu(wxString title, wxIconBundle* icon, wxIconBundle* iconDisconnected, wxIconBundle* iconSnooze);
     ~CMacSystemMenu();
 
     bool SetMacMenuIcon(const wxIcon& icon);
