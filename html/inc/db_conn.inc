@@ -168,15 +168,25 @@ class DbConn {
     }
     function get_int($query, $field) {
         $result = $this->do_query($query);
-        $x = mysql_fetch_object($result);
-        mysql_free_result($result);
+        if (MYSQLI) {
+            $x = $result->fetch_object("StdClass");
+            $result->free();
+        } else {
+            $x = mysql_fetch_object($result);
+            mysql_free_result($result);
+        }
         if ($x) return $x->$field;
         return false;
     }
     function get_double($query, $field) {
         $result = $this->do_query($query);
-        $x = mysql_fetch_object($result);
-        mysql_free_result($result);
+        if (MYSQLI) {
+            $x = $result->fetch_object("StdClass");
+            $result->free();
+        } else {
+            $x = mysql_fetch_object($result);
+            mysql_free_result($result);
+        }
         if ($x) return (double)$x->$field;
         return false;
     }

@@ -117,7 +117,7 @@ bool JOB::get_score(WU_RESULT& wu_result) {
     }
     if (config.debug_send) {
         log_messages.printf(MSG_NORMAL,
-            "[send]: job score %f\n", score
+            "[send]: score %f for result %d\n", score, wu_result.resultid
         );
     }
 
