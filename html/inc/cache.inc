@@ -126,22 +126,6 @@ function cache_need_to_regenerate($path, $max_age){
     clearstatcache();
     $lastmodified = @filemtime($path);
     if ($lastmodified) {
-
-        // Check to see if this is a conditional fetch.
-        //
-        $if_modified_since = isset($request['If-Modified-Since']) ?
-            (explode(';',$request['If-Modified-Since'])) : false;
-
-        if ($if_modified_since) {
-            $if_modified_since=strtotime($if_modified_since[0]);
-        }
-
-        if ($if_modified_since && ($if_modified_since == $lastmodified)) {
-            Header("Last-Modified: " . gmdate("D, d M Y H:i:s",$lastmodified) . " GMT");
-            Header('HTTP/1.0 304 Not Modified');
-            exit;
-        }
-
         // See if cached copy is too old.
         // If so regenerate,
         // and touch the cached copy so other processes
