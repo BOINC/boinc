@@ -31,12 +31,13 @@ function dl_item($x, $y) {
 }
 
 function version_url($file) {
-    global $url_base;
-    if (is_dev($v)) {
-        return "http://boinc.berkeley.edu/dl/$file";
-    } else {
-        return $url_base.$file;
-    }
+    return $url_base.$file;
+//    global $url_base;
+//    if (is_dev($v)) {
+//        return "http://boinc.berkeley.edu/dl/$file";
+//    } else {
+//        return $url_base.$file;
+//    }
 }
 
 function show_detail($v) {

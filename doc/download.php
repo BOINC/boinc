@@ -8,6 +8,7 @@ require_once("versions.inc");
 require_once("../html/inc/translation.inc");
 
 function latest_version($p) {
+    $dev = false;
     foreach ($p['versions'] as $i=>$v) {
         if (!$dev && is_dev($v)) continue;
         return $v;
