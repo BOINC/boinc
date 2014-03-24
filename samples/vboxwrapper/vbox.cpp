@@ -1530,9 +1530,9 @@ void VBOX_VM::dumphypervisorlogs(bool include_error_logs) {
 }
 
 void VBOX_VM::dumphypervisorstatusreports() {
-    char buf[256];
 
 #ifdef _WIN32
+    char buf[256];
     SIZE_T ulMinimumWorkingSetSize;
     SIZE_T ulMaximumWorkingSetSize;
 
@@ -1763,7 +1763,7 @@ bool VBOX_VM::is_virtualbox_version_newer(int maj, int min, int rel) {
 
 bool VBOX_VM::is_virtualbox_error_recoverable(int retval) {
     // See comments for VBOX_VM::vbm_popen about session lock issues.
-    if (VBOX_E_INVALID_OBJECT_STATE == retval) return true;
+    if (VBOX_E_INVALID_OBJECT_STATE == (unsigned int)retval) return true;
     return false;
 }
 
@@ -2711,7 +2711,7 @@ int VBOX_VM::vbm_popen(string& command, string& output, const char* item, bool l
             //
             // Error Code: VBOX_E_INVALID_OBJECT_STATE (0x80bb0007) 
             //
-            if (VBOX_E_INVALID_OBJECT_STATE == retval) {
+            if (VBOX_E_INVALID_OBJECT_STATE == (unsigned int)retval) {
                 if (retry_notes.find("Another VirtualBox management") == string::npos) {
                     retry_notes += "Another VirtualBox management application has locked the session for\n";
                     retry_notes += "this VM. BOINC cannot properly monitor this VM\n";
@@ -2732,7 +2732,7 @@ int VBOX_VM::vbm_popen(string& command, string& output, const char* item, bool l
             //
             // Error Code: CO_E_SERVER_EXEC_FAILURE (0x80080005) 
             //
-            if (CO_E_SERVER_EXEC_FAILURE == retval) {
+            if (CO_E_SERVER_EXEC_FAILURE == (unsigned int)retval) {
                 if (retry_notes.find("Unable to communicate with VirtualBox") == string::npos) {
                     retry_notes += "Unable to communicate with VirtualBox.  VirtualBox may need to\n";
                     retry_notes += "be reinstalled.\n\n";
@@ -2744,8 +2744,8 @@ int VBOX_VM::vbm_popen(string& command, string& output, const char* item, bool l
             
             // Retry?
             if (!retry_failures && 
-                (VBOX_E_INVALID_OBJECT_STATE != retval) && 
-                (CO_E_SERVER_EXEC_FAILURE != retval)
+                (VBOX_E_INVALID_OBJECT_STATE != (unsigned int)retval) && 
+                (CO_E_SERVER_EXEC_FAILURE != (unsigned int)retval)
             ) {
                 break;
             }

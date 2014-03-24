@@ -15,17 +15,28 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// vboxwrapper [options]     BOINC VirtualBox wrapper
+// BOINC VirtualBox wrapper; lets you run apps in VMs
 // see: http://boinc.berkeley.edu/trac/wiki/VboxApps
-// Options:
+//
+// usage: vboxwrapper [options]
+//
 // --trickle X      send a trickle message reporting elapsed time every X secs
 //                  (use this for credit granting if your app does its
 //                  own job management, like CernVM).
+// --nthreads N     create a VM with N threads.
+// --vmimage file   Use "file" as the VM image.
+//                  This lets you create an app version with several images,
+//                  and the app_plan function can decide which one to use
+//                  for the particular host.
+// --register_only  Register the VM but don't run it.
+//                  Useful for debugging; see the wiki page
 //
 // Handles:
 // - suspend/resume/quit/abort
 // - reporting CPU time
-// - loss of heartbeat from core client
+// - loss of heartbeat from client
+// - checkpoint (using snapshots)
+// - a bunch of other stuff; see the wiki page
 //
 // Contributors:
 // Andrew J. Younge (ajy4490 AT umiacs DOT umd DOT edu)
@@ -33,19 +44,6 @@
 // Daniel Lombraña González <teleyinex AT gmail DOT com>
 // Rom Walton
 // David Anderson
-
-// To debug a VM within the BOINC/VboxWrapper framework:
-// 1. Launch BOINC with --exit_before_start
-// 2. When BOINC exits, launch the VboxWrapper with the register_only
-// 3. Set the VBOX_USER_HOME environment variable to the vbox directory
-//    under the slot directory.
-//    This changes where the VirtualBox applications look for the
-//    root VirtualBox configuration files.
-//    It may or may not apply to your installation of VirtualBox.
-//    It depends on where your copy of VirtualBox came from
-//    and what type of system it is installed on.
-// 4. Now Launch the VM using the VirtualBox UI.
-//    You should now be able to interact with your VM.
 
 #ifdef _WIN32
 #include "boinc_win.h"
@@ -633,18 +631,25 @@ int main(int argc, char** argv) {
         vm.vm_master_name += "standalone";
         vm.vm_master_description = "standalone";
         if (vm.enable_floppyio) {
-            sprintf(buf, "%s.%s", FLOPPY_IMAGE_FILENAME, FLOPPY_IMAGE_FILENAME_EXTENSION);
+            sprintf(buf, "%s.%s",
+                FLOPPY_IMAGE_FILENAME, FLOPPY_IMAGE_FILENAME_EXTENSION
+            );
             vm.floppy_image_filename = buf;
         }
     } else {
         vm.vm_master_name += md5_string(std::string(aid.result_name)).substr(0, 16);
         vm.vm_master_description = aid.result_name;
 		if (vm_image) {
-            sprintf(buf, "%s_%d.%s", IMAGE_FILENAME, vm_image, IMAGE_FILENAME_EXTENSION);
+            sprintf(buf, "%s_%d.%s",
+                IMAGE_FILENAME, vm_image, IMAGE_FILENAME_EXTENSION
+            );
             vm.image_filename = buf;
 		}
         if (vm.enable_floppyio) {
-            sprintf(buf, "%s_%d.%s", FLOPPY_IMAGE_FILENAME, aid.slot, FLOPPY_IMAGE_FILENAME_EXTENSION);
+            sprintf(buf, "%s_%d.%s",
+                FLOPPY_IMAGE_FILENAME, aid.slot,
+                FLOPPY_IMAGE_FILENAME_EXTENSION
+            );
             vm.floppy_image_filename = buf;
         }
     }
@@ -785,6 +790,7 @@ int main(int argc, char** argv) {
             }
  
             // Give the BOINC API time to report the pid to BOINC.
+            //
             boinc_sleep(5.0);
 
             if (error_reason.size()) {
@@ -798,6 +804,7 @@ int main(int argc, char** argv) {
             }
 
             // Exit and let BOINC clean up the rest.
+            //
             boinc_temporary_exit(temp_delay, temp_reason);
         }
     }
@@ -819,10 +826,12 @@ int main(int argc, char** argv) {
         bytes_received
     );
 
-    // Wait for up to 5 minutes for the VM to switch states.  A system
-    // under load can take a while.  Since the poll function can wait for up
-    // to 60 seconds to execute a command we need to make this time based instead
+    // Wait for up to 5 minutes for the VM to switch states.
+    // A system under load can take a while.
+    // Since the poll function can wait for up to 60 seconds
+    // to execute a command we need to make this time based instead
     // of iteration based.
+    //
     timeout = dtime() + 300;
     do {
         vm.poll(false);
@@ -831,6 +840,7 @@ int main(int argc, char** argv) {
     } while (timeout >= dtime());
 
     // Lower the VM process priority after it has successfully brought itself online.
+    //
     vm.lower_vm_process_priority();
 
     // Log our current state 
@@ -848,7 +858,9 @@ int main(int argc, char** argv) {
         );
         vm.reset_vm_process_priority();
         vm.poweroff();
-        boinc_temporary_exit(86400, "VM Hypervisor failed to enter an online state in a timely fashion.");
+        boinc_temporary_exit(86400,
+            "VM Hypervisor failed to enter an online state in a timely fashion."
+        );
     }
 
     set_floppy_image(aid, vm);
@@ -1027,7 +1039,7 @@ int main(int argc, char** argv) {
                         vm.poweroff();
                         boinc_temporary_exit(86400, "VM job unmanageable, restarting later.");
                     } else {
-                        // Inform BOINC that we have successfully created a checkpoint.
+                        // tell BOINC we've successfully created a checkpoint.
                         //
                         checkpoint_cpu_time = elapsed_time;
                         write_checkpoint(checkpoint_cpu_time, vm);
@@ -1049,8 +1061,12 @@ int main(int argc, char** argv) {
                         vboxwrapper_msg_prefix(buf, sizeof(buf))
                     );
                     last_trickle_report_time = elapsed_time;
-                    sprintf(buf, "<cpu_time>%f</cpu_time>", last_trickle_report_time);
-                    retval = boinc_send_trickle_up(const_cast<char*>("cpu_time"), buf);
+                    sprintf(buf,
+                        "<cpu_time>%f</cpu_time>", last_trickle_report_time
+                    );
+                    retval = boinc_send_trickle_up(
+                        const_cast<char*>("cpu_time"), buf
+                    );
                     if (retval) {
                         fprintf(
                             stderr,
