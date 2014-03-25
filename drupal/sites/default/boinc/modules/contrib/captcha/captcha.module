@@ -210,9 +210,14 @@ function captcha_process($element, $edit, &$form_state, $complete_form) {
     '#value' => $captcha_sid,
   );
 
-  // Additional one time CAPTCHA token: store in database and send with form.
-  $captcha_token = md5(mt_rand());
-  db_query("UPDATE {captcha_sessions} SET token='%s' WHERE csid=%d", $captcha_token, $captcha_sid);
+  // Get the token for a captcha_sid
+  $captcha_token = db_result(db_query("SELECT token FROM {captcha_sessions} WHERE csid = %d", $captcha_sid));
+  // Generate a new token if the token could not be retrieved (but not if the form has been submitted, because otherwise the session could be reused.)
+  if (! isset($captcha_token) && ! $form_state['submitted']) {
+    // Additional one time CAPTCHA token: store in database and send with form.
+    $captcha_token = md5(mt_rand());
+    db_query("UPDATE {captcha_sessions} SET token='%s' WHERE csid=%d", $captcha_token, $captcha_sid);
+  }
   $element['captcha_token'] = array(
     '#type' => 'hidden',
     '#value' => $captcha_token,
@@ -374,6 +379,8 @@ function captcha_form_alter(&$form, $form_state, $form_id) {
       // Get placement in form and insert in form.
       $captcha_placement = _captcha_get_captcha_placement($form_id, $form);
       _captcha_insert_captcha_element($form, $captcha_placement, $captcha_element);
+      // Add #submit functions to invalidate captcha
+      $form['#submit'][] = 'captcha_submit_invalidate_session';
     }
   }
   else if (
@@ -568,8 +575,6 @@ function _captcha_get_posted_captcha_info($element, $form_state, $this_form_id) 
           // Invalidate the CAPTCHA session.
           $posted_captcha_sid = NULL;
         }
-        // Invalidate CAPTCHA token to avoid reuse.
-        db_query("UPDATE {captcha_sessions} SET token=NULL WHERE csid=%d", $posted_captcha_sid);
       }
     }
     else {
@@ -740,5 +745,15 @@ function captcha_captcha($op, $captcha_type = '') {
         return $result;
       }
       break;
+  }
+}
+/**
+ * Invalidate CAPTCHA token to avoid reuse.
+ * @param unknown_type $form
+ * @param unknown_type $form_state
+ */
+function captcha_submit_invalidate_session($form, $form_state) {
+  if (isset($form_state['captcha_info']['captcha_sid'])) {
+    db_query("UPDATE {captcha_sessions} SET token=NULL WHERE csid=%d", $form_state['captcha_info']['captcha_sid']);
   }
 }
