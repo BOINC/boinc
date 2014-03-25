@@ -108,12 +108,13 @@ extern int diagnostics_update_thread_list();
 extern int diagnostics_set_thread_exempt_suspend();
 extern int diagnostics_is_thread_exempt_suspend(long thread_id);
 
-// Message Monitoring
+// Message Monitoring (debugger viewport)
 extern int diagnostics_init_message_monitor();
 extern int diagnostics_finish_message_monitor();
 #ifdef _WIN32
 extern UINT WINAPI diagnostics_message_monitor(LPVOID lpParameter);
 #endif
+extern int diagnostics_trace_to_debugger(const char* msg);
 
 // Unhandled exception monitor
 extern int diagnostics_init_unhandled_exception_monitor();

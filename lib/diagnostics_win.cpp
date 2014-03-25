@@ -664,7 +664,7 @@ int diagnostics_init_message_monitor() {
     }
     diagnostics_monitor_messages.clear();
 
-    // Check the registry to see if we are aloud to capture debugger messages.
+    // Check the registry to see if we are allowed to capture debugger messages.
     //   Apparently many audio and visual payback programs dump serious
     //   amounts of data to the debugger viewport even on a release build.
     //   When this feature is enabled it slows down the replay of DVDs and CDs
@@ -966,6 +966,38 @@ UINT WINAPI diagnostics_message_monitor(LPVOID /* lpParameter */) {
     SetEvent(hMessageQuitFinishedEvent);
     return 0;
 }
+
+
+// Dump a message to the debuggers viewport if we are allowed to.
+//
+int diagnostics_trace_to_debugger(const char* msg) {
+    DWORD dwType;
+    DWORD dwSize;
+    DWORD dwTraceToViewport;
+
+    // Check the registry to see if we are allowed to dump debugger messages.
+    //
+    // We'll turn it off by default, but keep it around just in case we need
+    //   it or want to use it.
+    //
+    dwTraceToViewport = 0;
+    dwType = REG_DWORD;
+    dwSize = sizeof(dwTraceToViewport);
+    diagnostics_get_registry_value(
+        "TraceToViewport",
+        &dwType,
+        &dwSize,
+        (LPBYTE)&dwTraceToViewport
+    );
+
+    if (dwTraceToViewport) {
+        OutputDebugStringA(msg);
+    }
+
+    return 0;
+}
+
+
 
 
 // Structured Exceptions are Windows primary mechanism for dealing with
