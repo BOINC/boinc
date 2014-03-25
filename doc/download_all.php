@@ -31,8 +31,8 @@ function dl_item($x, $y) {
 }
 
 function version_url($file) {
+    global $url_base;
     return $url_base.$file;
-//    global $url_base;
 //    if (is_dev($v)) {
 //        return "http://boinc.berkeley.edu/dl/$file";
 //    } else {
@@ -106,8 +106,8 @@ function show_version($pname, $i, $v) {
     $url = version_url($v['file']);
 
     $link = "<a href=\"$url\"><b>Download</b></a> ($s MB)";
-    $vbox_file = $v['vbox_file'];
-    if ($vbox_file) {
+    if (array_key_exists('vbox_file', $v)) {
+        $vbox_file = $v['vbox_file'];
         $vbox_version = $v['vbox_version'];
         $vbox_url = version_url($vbox_file);
         $vbox_path = "dl/$vbox_file";

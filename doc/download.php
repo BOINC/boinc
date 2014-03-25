@@ -26,7 +26,11 @@ function download_link($pname, $button=false) {
     $p = $platforms[$pname];
     $v = latest_version($p);
     $file = $v['file'];
-    $vbox_file = $v['vbox_file'];
+    if (array_key_exists('vbox_file', $v)) {
+        $vbox_file = $v['vbox_file'];
+    } else {
+        $vbox_file = null;
+    }
     $vbox_version = $v['vbox_version'];
     $long_name = $p['name'];
     $num = $v['num'];
@@ -38,7 +42,7 @@ function download_link($pname, $button=false) {
     if ($button) {
         if ($vbox_file) {
             echo tra("We recommend that you also install VirtualBox, so your computer can work on science projects that require it.");
-            echo " <a href=https://www.virtualbox.org/>";
+            echo " <a href=wiki/VirtualBox>";
             echo tra("Learn more about VirtualBox.");
             echo "</a>";
 

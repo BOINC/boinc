@@ -438,6 +438,7 @@
 		DDD74DD207CF493C0065AC9D /* proxy_info.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BEF07C5B1770043025C /* proxy_info.cpp */; };
 		DDD74DD307CF493D0065AC9D /* shmem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAA31C97042157A800A80164 /* shmem.cpp */; };
 		DDD74DD407CF493E0065AC9D /* util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5EAD479031AF001018E201A /* util.cpp */; };
+		DDD8846418E17D7A00BE1E34 /* DlgDiagnosticLogFlags.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDD8846218E17D7A00BE1E34 /* DlgDiagnosticLogFlags.cpp */; };
 		DDD93E7313E017B600B92D0F /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDE2552B07C62F3E008E7D6E /* IOKit.framework */; };
 		DDD9C5A510CCF61F00A1E4CD /* coproc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7475500D86273300860636 /* coproc.cpp */; };
 		DDD9C5AA10CCF6A000A1E4CD /* coproc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7475500D86273300860636 /* coproc.cpp */; };
@@ -1123,6 +1124,8 @@
 		DDD52DC80C03CAE6009B5FC0 /* ViewWork.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ViewWork.cpp; path = ../clientgui/ViewWork.cpp; sourceTree = SOURCE_ROOT; };
 		DDD52DC90C03CAE6009B5FC0 /* ViewWork.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ViewWork.h; path = ../clientgui/ViewWork.h; sourceTree = SOURCE_ROOT; };
 		DDD74D8707CF482E0065AC9D /* boinc */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = boinc; sourceTree = BUILT_PRODUCTS_DIR; };
+		DDD8846218E17D7A00BE1E34 /* DlgDiagnosticLogFlags.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DlgDiagnosticLogFlags.cpp; sourceTree = "<group>"; };
+		DDD8846318E17D7A00BE1E34 /* DlgDiagnosticLogFlags.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DlgDiagnosticLogFlags.h; sourceTree = "<group>"; };
 		DDDC2053183B560B00CB5845 /* mac_address.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mac_address.cpp; sourceTree = "<group>"; };
 		DDDC2054183B560B00CB5845 /* mac_address.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mac_address.h; sourceTree = "<group>"; };
 		DDDD6D7E12E4611300C258A0 /* sg_ProjectPanel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sg_ProjectPanel.cpp; path = ../clientgui/sg_ProjectPanel.cpp; sourceTree = SOURCE_ROOT; };
@@ -1540,6 +1543,8 @@
 				DDFE84E20B60CD66009B43D9 /* DlgAdvPreferences.h */,
 				DDFE84E30B60CD66009B43D9 /* DlgAdvPreferencesBase.cpp */,
 				DDFE84E40B60CD66009B43D9 /* DlgAdvPreferencesBase.h */,
+				DDD8846218E17D7A00BE1E34 /* DlgDiagnosticLogFlags.cpp */,
+				DDD8846318E17D7A00BE1E34 /* DlgDiagnosticLogFlags.h */,
 				DDE1374710DC613600161D6B /* DlgEventLogListCtrl.cpp */,
 				DDE1374810DC613600161D6B /* DlgEventLogListCtrl.h */,
 				DDE1374010DC60E200161D6B /* DlgEventLog.cpp */,
@@ -2899,6 +2904,7 @@
 				DD11E5B617D1A89700947975 /* MacAccessiblity.mm in Sources */,
 				DD76BF9817CB465E0075936D /* opencl_boinc.cpp in Sources */,
 				DDD50AFA18C49D2300EC244E /* BOINCGUIApp.mm in Sources */,
+				DDD8846418E17D7A00BE1E34 /* DlgDiagnosticLogFlags.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

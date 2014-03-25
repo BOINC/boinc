@@ -50,6 +50,7 @@
 #include "ViewResources.h"
 #include "DlgAbout.h"
 #include "DlgOptions.h"
+#include "DlgDiagnosticLogFlags.h"
 #include "DlgGenericMessage.h"
 #include "DlgEventLog.h"
 #include "wizardex.h"
@@ -171,6 +172,7 @@ BEGIN_EVENT_TABLE (CAdvancedFrame, CBOINCBaseFrame)
     // Advanced
     EVT_MENU(ID_OPTIONS, CAdvancedFrame::OnOptions)
 	EVT_MENU(ID_PREFERENCES, CAdvancedFrame::OnPreferences)
+	EVT_MENU(ID_DIAGNOSTICLOGFLAGS, CAdvancedFrame::OnDiagnosticLogFlags)
     EVT_MENU(ID_SELECTCOMPUTER, CAdvancedFrame::OnSelectComputer)
     EVT_MENU(ID_SHUTDOWNCORECLIENT, CAdvancedFrame::OnClientShutdown)
     EVT_MENU(ID_RUNBENCHMARKS, CAdvancedFrame::OnRunBenchmarks)
@@ -455,6 +457,11 @@ bool CAdvancedFrame::CreateMenu() {
 		ID_PREFERENCES, 
         _("Computing &preferences..."),
         _("Configure computing preferences")
+    );
+    menuTools->Append(
+		ID_DIAGNOSTICLOGFLAGS,
+        _("Diagnostics..."),
+        _("Enable or disable diagnostics")
     );
 
     // Activity menu
@@ -1312,6 +1319,16 @@ void CAdvancedFrame::OnPreferences(wxCommandEvent& WXUNUSED(event)) {
 	dlg.ShowModal();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnPreferences - Function End"));
+}
+
+
+void CAdvancedFrame::OnDiagnosticLogFlags(wxCommandEvent& WXUNUSED(event)) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnDiagnosticLogFlags - Function Begin"));
+
+    CDlgDiagnosticLogFlags dlg(this);
+	dlg.ShowModal();
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnDiagnosticLogFlags - Function End"));
 }
 
 

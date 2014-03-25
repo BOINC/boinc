@@ -46,6 +46,8 @@
 #include "DlgEventLog.h"
 #include "DlgAbout.h"
 #include "DlgOptions.h"
+#include "DlgDiagnosticLogFlags.h"
+
 
 #ifdef __WXMAC__
 static int compareOSVersionTo(int toMajor, int toMinor);
@@ -71,6 +73,7 @@ BEGIN_EVENT_TABLE(CSimpleFrame, CBOINCBaseFrame)
     EVT_FRAME_NOTIFICATION(CSimpleFrame::OnNotification)
     EVT_MENU(ID_PREFERENCES, CSimpleFrame::OnPreferences)
     EVT_MENU(ID_SGOPTIONS, CSimpleFrame::OnOptions)
+	EVT_MENU(ID_SGDIAGNOSTICLOGFLAGS, CSimpleFrame::OnDiagnosticLogFlags)
     EVT_MENU(ID_HELPBOINC, CSimpleFrame::OnHelpBOINC)
     EVT_MENU(ID_HELPBOINCMANAGER, CSimpleFrame::OnHelpBOINC)
     EVT_MENU(ID_HELPBOINCWEBSITE, CSimpleFrame::OnHelpBOINC)
@@ -171,6 +174,12 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIconBundle* icons, wxPoint position
         ID_SGOPTIONS, 
         _("&Options..."),
         _("Configure display options and proxy settings")
+    );
+
+    menuTools->Append(
+		ID_SGDIAGNOSTICLOGFLAGS,
+        _("Diagnostics..."),
+        _("Enable or disable diagnostics")
     );
 
     // Help menu
@@ -490,6 +499,16 @@ void CSimpleFrame::OnOptions(wxCommandEvent& WXUNUSED(event)) {
     m_pBackgroundPanel->SetDlgOpen(false);
 
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnOptions - Function End"));
+}
+
+
+void CSimpleFrame::OnDiagnosticLogFlags(wxCommandEvent& WXUNUSED(event)) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnDiagnosticLogFlags - Function Begin"));
+
+    CDlgDiagnosticLogFlags dlg(this);
+	dlg.ShowModal();
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CSimpleFrame::OnDiagnosticLogFlags - Function End"));
 }
 
 

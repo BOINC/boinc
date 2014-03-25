@@ -71,6 +71,7 @@ public:
 
     void OnOptions( wxCommandEvent& event );
 	void OnPreferences( wxCommandEvent& event );
+	void OnDiagnosticLogFlags( wxCommandEvent& event );
     void OnSelectComputer( wxCommandEvent& event );
     void OnClientShutdown( wxCommandEvent& event );
     void OnRunBenchmarks( wxCommandEvent& event );
