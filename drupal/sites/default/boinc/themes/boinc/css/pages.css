@@ -925,3 +925,14 @@ table.user-projects {
   padding-top: 7px;
   margin: 0 0 0 120px;
 }
+
+/* Search pane */
+.panel-secondary #search-form #edit-keys-wrapper {
+  margin-right: 7px;
+}
+.panel-secondary #search-form label[for=edit-keys] {
+  display: none;
+}
+.panel-secondary #search-form #edit-keys {
+  width: 100%;
+}

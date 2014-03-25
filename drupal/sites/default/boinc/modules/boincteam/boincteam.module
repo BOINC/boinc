@@ -1090,8 +1090,16 @@ function boincteam_request_foundership_response_panel($team_id) {
 function boincteam_search_panel() {
   $output = '';
   $output .= '<h2 class="pane-title">' . t('Search teams') . '</h2>';
-  $output .= '<p>' . t('Render a search form here.') . '</p>';
+  //$output .= '<p>' . t('Render a search form here.') . '</p>';
+  $output .= '<p>' . boincteam_search_view() . '</p>';
   return $output;
+}
+
+function boincteam_search_view($type = 'team') {
+  // Get the team search form
+  $search_page = apachesolr_search_page_load('team_search');
+  module_load_include('inc', 'apachesolr_search', 'apachesolr_search.pages');
+  return drupal_get_form('apachesolr_search_custom_page_search_form', $search_page);
 }
 
 /**

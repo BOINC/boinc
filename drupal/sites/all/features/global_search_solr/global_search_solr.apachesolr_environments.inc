@@ -85,7 +85,6 @@ function global_search_solr_apachesolr_environments() {
       4 => 'profile',
       5 => 'story',
       6 => 'team',
-      7 => 'team_forum',
     ),
   );
   $export['solr'] = $environment;

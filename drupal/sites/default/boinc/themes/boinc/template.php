@@ -392,6 +392,18 @@ function boinc_preprocess_block(&$vars, $hook) {
 }
 // */ 
 
+function boinc_preprocess_search_result(&$variables) {
+  $type = $variables['result']['type'];
+  switch ($type) {
+  case 'team':
+    global $base_url;
+    $node = $variables['result']['node'];
+    $variables['url'] = $base_url .'/community/teams/' . $node->entity_id;
+    break;
+  default:
+  }
+}
+
 // Remove the mess of text under the search form and don't display "no results"
 // if a search hasn't even been submitted
 function boinc_apachesolr_search_noresults() {
