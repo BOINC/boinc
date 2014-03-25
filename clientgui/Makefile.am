@@ -47,6 +47,7 @@ boincmgr_SOURCES = \
     DlgAbout.cpp 		\
     DlgAdvPreferences.cpp \
     DlgAdvPreferencesBase.cpp \
+    DlgDiagnosticLogFlags.cpp \
     DlgEventLog.cpp \
     DlgEventLogListCtrl.cpp \
     DlgExitMessage.cpp \

@@ -300,6 +300,7 @@
     <ResourceCompile Include="..\clientgui\BOINCGUIApp.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\clientgui\DlgDiagnosticLogFlags.cpp" />
     <ClCompile Include="..\clientgui\sg_BoincSimpleFrame.cpp" />
     <ClCompile Include="..\clientgui\sg_CustomControls.cpp" />
     <ClCompile Include="..\clientgui\sg_DlgMessages.cpp" />
@@ -408,6 +409,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\clientgui\DlgDiagnosticLogFlags.h" />
     <ClInclude Include="..\clientgui\sg_BoincSimpleFrame.h" />
     <ClInclude Include="..\clientgui\sg_CustomControls.h" />
     <ClInclude Include="..\clientgui\sg_DlgMessages.h" />
