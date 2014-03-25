@@ -151,7 +151,6 @@ function boincteam_create_form_submit($form, &$form_state) {
   global $user;
   $account = user_load($user->uid);
   $values = $form_state['values'];
-  $created_time = time();
   //drupal_set_message('<pre>' . print_r($values,true) . '</pre>');
   
   // Create the team in the BOINC db
@@ -182,6 +181,9 @@ function boincteam_create_form_submit($form, &$form_state) {
   // Create the team node in Drupal
   
   $teaser = node_teaser($values['description']);
+  $created_time = time();
+  $input_format = variable_get('filter_default_format', 1);
+  
   $node = array(
     'type' => 'team',
     'title' => $values['name'],
