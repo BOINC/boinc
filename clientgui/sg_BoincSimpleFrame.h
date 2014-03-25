@@ -108,6 +108,7 @@ public:
     void OnSelectSkin( wxCommandEvent& event );
     void OnPreferences( wxCommandEvent& event );
     void OnOptions( wxCommandEvent& event );
+    void OnDiagnosticLogFlags( wxCommandEvent& event );
     void OnOldSG( wxCommandEvent& event );
     void OnHelp( wxHelpEvent& event );
     void OnHelpBOINC( wxCommandEvent& event );
