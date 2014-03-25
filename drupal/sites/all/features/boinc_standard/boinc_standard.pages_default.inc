@@ -303,7 +303,7 @@ if (module_exists(\'boincteam\')) {
     );
     $pane->css = array(
       'css_id' => '',
-      'css_class' => 'panel-secondary container shadow',
+      'css_class' => 'panel-primary container shadow',
     );
     $pane->extras = array();
     $pane->position = 0;

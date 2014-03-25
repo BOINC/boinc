@@ -107,7 +107,6 @@ if ($user->uid AND ($user->uid != $account->uid)) {
     }
   }
 }
-$link_index = 0;
 
 ?>
 <div class="user-profile">
@@ -139,8 +138,8 @@ $link_index = 0;
     <?php endif; ?>
     <?php if ($user->uid AND ($user->uid != $account->uid)): ?>
       <ul class="tab-list">
-        <?php foreach ($user_links as $link): ?>
-          <li class="<?php print ($link_index == 0) ? 'first ' : ''; ?>tab<?php print ($link_index == count($user_links)-1) ? ' last' : ''; ?>">
+        <?php foreach ($user_links as $key => $link): ?>
+          <li class="primary <?php print ($key == 0) ? 'first ' : ''; ?>tab<?php print ($key == count($user_links)-1) ? ' last' : ''; ?>">
             <?php print l($link['title'], $link['href'], array('query' => drupal_get_destination())); ?>
           </li>
           <!--
