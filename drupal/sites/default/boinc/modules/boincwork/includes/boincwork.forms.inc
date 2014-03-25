@@ -295,7 +295,7 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null,
     '#field_suffix' => t('processors'),
     '#default_value' => $default['max_cpus'],
     '#size' => 1,
-    '#description' => ' '
+    '#description' => t('Set to 0 for no limit'),
   );
   $form['prefs']['advanced']['processor']['max_ncpus_pct'] = array(
     '#title' => t('On multiprocessors, use at most'),
@@ -328,7 +328,7 @@ function boincwork_generalprefs_form(&$form_state, $venue, $prefs_preset = null,
     '#field_suffix' => t('GB'),
     '#default_value' => $default['disk_max_used_gb'],
     '#size' => 1,
-    '#description' => ' '
+    '#description' => t('Set to 0 for no limit'),
   ); 
   $form['prefs']['advanced']['storage']['disk_min_free_gb'] = array(
     '#title' => t('Disk: leave free at least'),

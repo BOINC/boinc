@@ -88,7 +88,11 @@ function boincwork_admin_prefs_presets_page($preset = 'standard') {
 function boincwork_admin_prefs_presets_form(&$form_state, $preset = 'standard') {
   
   // Load a copy of the general prefs form
-  $form = drupal_retrieve_form('boincwork_generalprefs_form', $form_state, NULL, $preset);
+  $form = boincwork_generalprefs_form($form_state, NULL, $preset);
+  if ($key = array_search('boincwork_generalprefs_form_submit', $form['#submit'])) {
+    unset($form['#submit'][$key]);
+  }
+  $form['#submit'][] = 'boincwork_admin_prefs_presets_form_submit';
   
   // Just keep the necessary items
   $form['processor'] = $form['prefs']['advanced']['processor'];
@@ -205,7 +209,7 @@ function boincwork_admin_prefs_presets_form_submit($form, &$form_state) {
   $prefs['dont_verify_images'] = ($values['network']['dont_verify_images']) ? 1 : 0;
   
   // Throw the preset attribute on there so we know which preset to save
-  $prefs['ATTRIBUTES']['preset'] = $preset;
+  $prefs['@attributes']['preset'] = $preset;
   
   // Update the configuration
   boincwork_save_preset_prefs($prefs, $preset);
@@ -229,7 +233,7 @@ function boincwork_save_preset_prefs($updated_prefs, $preset = 'standard') {
     }
     foreach ($all_presets['preset'] as $key => $old_preset) {
       // Find the preset being updated and... update it
-      if (isset($old_preset['ATTRIBUTES']['name']) AND $old_preset['ATTRIBUTES']['name'] == $preset) {
+      if (isset($old_preset['@attributes']['name']) AND $old_preset['@attributes']['name'] == $preset) {
         $all_presets['preset'][$key] = $updated_prefs + $old_preset;
       }
     }
