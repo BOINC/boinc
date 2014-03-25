@@ -1,0 +1,71 @@
+<?php
+
+/*
+ * @file
+ * Installation/uninstallation related functions for the image_captcha module.
+ */
+
+/**
+ * Implementation of hook_requirements().
+ */
+function image_captcha_requirements($phase) {
+  $requirements = array();
+  $t = get_t();
+  if ($phase == 'install') {
+    // _image_captcha_check_setup() is defined in image_captcha.module.
+    // We use a trick based on __FILE__ instead of a call to
+    // module_load_include(), because the latter is not available when
+    // this module is installed as part of an installation profile.
+    include_once(dirname(__FILE__) .'/image_captcha.module');
+    // Check if the GD library is available and raise an error when not.
+    if (_image_captcha_check_setup(FALSE) & IMAGE_CAPTCHA_ERROR_NO_GDLIB) {
+      $requirements['image_captcha_requires_gd'] = array(
+        'title' => $t('Image CAPTCHA requires GD library'),
+        'description' =>
+          $t('The Image CAPTCHA module can not be installed because your PHP setup does not provide the <a href="!gddoc">GD library</a>, which is required to generate images.',
+            array('!gddoc' => 'http://www.php.net/manual/en/book.image.php',)
+          ),
+        'severity' => REQUIREMENT_ERROR,
+      );
+    }
+  }
+  return $requirements;
+}
+
+/**
+ * On uninstall: remove module variables and clear variable cache
+ */
+function image_captcha_uninstall() {
+  db_query("DELETE FROM {variable} WHERE name LIKE 'image_captcha_%'");
+  cache_clear_all('variables', 'cache');
+}
+
+/**
+ * Implementation of hook_update_N()
+ */
+function image_captcha_update_6201() {
+  // Fixing a typo in a variable.
+  $old = 'image_captcha_bilinair_interpolation';
+  $new = 'image_captcha_bilinear_interpolation';
+  variable_set($new, variable_get($old, FALSE));
+  variable_del($old);
+  $items = array();
+  return $items;
+}
+
+/**
+ * Implementation of hook_update_N().
+ *
+ * Translate single font variable to multiple font variable.
+ */
+function image_captcha_update_6203() {
+  // Old single font variable.
+  $font = variable_get('image_captcha_font', NULL);
+  // If there was a valid value,
+  // save it as an array to the new multiple fonts variable.
+  if ($font != NULL) {
+    variable_set('image_captcha_fonts', array($font));
+  }
+  return array();
+}
+

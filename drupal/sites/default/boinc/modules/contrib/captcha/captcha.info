@@ -1,0 +1,11 @@
+name = CAPTCHA
+description = Base CAPTCHA module for adding challenges to arbitrary forms.
+package = "Spam control"
+core = 6.x
+
+; Information added by drupal.org packaging script on 2013-06-25
+version = "6.x-2.5"
+core = "6.x"
+project = "captcha"
+datestamp = "1372204251"
+

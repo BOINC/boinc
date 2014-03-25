@@ -1,0 +1,30 @@
+
+/**
+ * Styling of the font selection list (with previews)
+ * on the Image CAPTCHA settings page.
+ */
+
+/**
+ * Float the fonts with preview (with a fixed width)
+ * to create a multi-column layout.
+ */
+.image_captcha_admin_font_preview {
+  float: left;
+  width: 160px;
+}
+
+/**
+ * Fonts without a preview should not follow the column layout.
+ */
+.image_captcha_admin_fonts_selection .form-item {
+  clear: both;
+}
+
+/**
+ * Center the font previews vertically to the text.
+ */
+.image_captcha_admin_fonts_selection img {
+  vertical-align: middle;
+}
+
+
