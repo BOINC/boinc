@@ -65,20 +65,20 @@ CDlgDiagnosticLogFlags::CDlgDiagnosticLogFlags(wxWindow* parent) :
     
     wxBoxSizer* buttonSizer = new wxBoxSizer( wxHORIZONTAL );
 
-    wxButton* btnOK = new wxButton( this, wxID_OK, _("OK"), wxDefaultPosition, wxDefaultSize, 0 );
-    btnOK->SetToolTip( _("save all values and close the dialog") );
-    buttonSizer->Add( btnOK, 0, wxALL, 5 );
+    wxButton* btnDefaults = new wxButton( this, ID_DEFAULTSBTN, _("Defaults"), wxDefaultPosition, wxDefaultSize, 0 );
+    btnDefaults->SetToolTip( _("Restore default settings") );
+    buttonSizer->Add( btnDefaults, 0, wxALL, 5 );
 
     wxButton* btnCancel = new wxButton( this, wxID_CANCEL, _("Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
     btnCancel->SetToolTip( _("close the dialog without saving") );
     buttonSizer->Add( btnCancel, 0, wxALL, 5 );
 
-    wxButton* btnDefaults = new wxButton( this, ID_DEFAULTSBTN, _("Defaults"), wxDefaultPosition, wxDefaultSize, 0 );
-    btnDefaults->SetToolTip( _("Restore default settings") );
-    buttonSizer->Add( btnDefaults, 0, wxALL, 5 );
+    wxButton* btnOK = new wxButton( this, wxID_OK, _("OK"), wxDefaultPosition, wxDefaultSize, 0 );
+    btnOK->SetToolTip( _("save all values and close the dialog") );
+    buttonSizer->Add( btnOK, 0, wxALL, 5 );
 
     btnCancel->SetDefault();
-    bSizer1->Add( buttonSizer, 0, wxALL, 5 );
+    bSizer1->Add( buttonSizer, 0, wxALIGN_RIGHT | wxALL, 15 );
     
     SetSizer( bSizer1 );
     
