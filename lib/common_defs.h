@@ -89,8 +89,11 @@
     // (used internally within the client;
     // changed to MSG_USER_ALERT before passing to manager)
     
-// bitmap defs for task_suspend_reason, network_suspend_reason
-// Note: doesn't need to be a bitmap, but keep for compatibility
+// values for suspend_reason, network_suspend_reason
+// Notes:
+// - doesn't need to be a bitmap, but keep for compatibility
+// - with new CPU throttling implementation (separate thread)
+//   CLIENT_STATE.suspend_reason will never be SUSPEND_REASON_CPU_THROTTLE.
 //
 enum SUSPEND_REASON {
     SUSPEND_REASON_BATTERIES = 1,

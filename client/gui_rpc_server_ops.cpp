@@ -599,8 +599,7 @@ static void handle_get_screensaver_tasks(GUI_RPC_CONN& grc) {
     );
     for (i=0; i<gstate.active_tasks.active_tasks.size(); i++) {
         atp = gstate.active_tasks.active_tasks[i];
-        if ((atp->task_state() == PROCESS_EXECUTING) || 
-                ((atp->task_state() == PROCESS_SUSPENDED) && (gstate.suspend_reason == SUSPEND_REASON_CPU_THROTTLE))) {
+        if (atp->scheduler_state == CPU_SCHED_SCHEDULED) {
             atp->result->write_gui(grc.mfout);
         }
     }
