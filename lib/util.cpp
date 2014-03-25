@@ -491,7 +491,8 @@ int get_exit_status(int pid) {
     return status;
 }
 bool process_exists(int pid) {
-    int p = waitpid(pid, 0, WNOHANG);
+    int status;
+    int p = waitpid(pid, &status, WNOHANG);
     if (p == pid) return false;     // process has exited
     if (p == -1) return false;      // PID doesn't exist
     return true;
