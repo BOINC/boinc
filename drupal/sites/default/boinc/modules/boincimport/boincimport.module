@@ -661,7 +661,7 @@ function boincimport_teams() {
     // Save the team type affiliation 
     $tid = $team_type_map[$boincteam->type];
     
-    $memberships_assigned = (int) exec("php {$team_import_script} {$boincteam->id} {$tid} {$input_format}");
+    $memberships_assigned = (int) exec("php '{$team_import_script}' {$boincteam->id} {$tid} {$input_format}");
     
     // Keep a running tally of things and provide occasional status updates
     $teams_imported++;
