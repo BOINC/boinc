@@ -857,10 +857,14 @@ void CViewWork::UpdateSelection() {
     pGroup->m_Tasks[BTN_GRAPHICS]->m_pButton->Enable(enableShowGraphics);
     if (enableShowVMConsole) {
         pGroup->m_Tasks[BTN_VMCONSOLE]->m_pButton->Enable();
-        pGroup->m_Tasks[BTN_VMCONSOLE]->m_pButton->Show();
+        if (pGroup->m_Tasks[BTN_VMCONSOLE]->m_pButton->Show()) {
+            m_pTaskPane->FitInside();
+        }
     } else {
         pGroup->m_Tasks[BTN_VMCONSOLE]->m_pButton->Disable();
-        pGroup->m_Tasks[BTN_VMCONSOLE]->m_pButton->Hide();
+        if (pGroup->m_Tasks[BTN_VMCONSOLE]->m_pButton->Hide()) {
+            m_pTaskPane->FitInside();
+        };
     }
     pGroup->m_Tasks[BTN_SUSPEND]->m_pButton->Enable(enableSuspendResume);
     pGroup->m_Tasks[BTN_ABORT]->m_pButton->Enable(enableAbort);
