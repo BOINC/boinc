@@ -113,6 +113,18 @@
     <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Template|x64'">AllRules.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Template|x64'" />
     <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Template|x64'" />
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">boinc</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.scr</TargetExt>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">boinc</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.scr</TargetExt>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">boinc</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">.scr</TargetExt>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">boinc</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.scr</TargetExt>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">boinc</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.scr</TargetExt>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Template|x64'">boinc</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Template|x64'">.scr</TargetExt>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Midl>
