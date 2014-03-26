@@ -90,7 +90,9 @@ $md5 = md5_file($path);
 //
 if (file_exists($dl_path)) {
     if (file_exists($dl_md5_path)) {
-        $dl_md5 = trim(file_get_contents($dl_md5_path));
+        $x = file_get_contents($dl_md5_path);
+        $x = explode(" ", $x);
+        $dl_md5 = $x[0];
     } else {
         $dl_md5 = md5_file($dl_path);
     }
@@ -115,7 +117,8 @@ Please use a different file name.
 // make MD5 file if needed
 //
 if (!file_exists($dl_md5_path)) {
-    file_put_contents($dl_md5_path, $md5);
+    $x = $md5." ".filesize($path)."\n";
+    file_put_contents($dl_md5_path, $x);
 }
 
 // make gzipped version if needed
