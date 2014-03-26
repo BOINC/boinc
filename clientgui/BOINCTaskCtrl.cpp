@@ -28,6 +28,10 @@
 
 IMPLEMENT_DYNAMIC_CLASS(CBOINCTaskCtrl, wxScrolledWindow)
 
+BEGIN_EVENT_TABLE (CBOINCTaskCtrl, CBOINCBaseView)
+    EVT_CHILD_FOCUS(CBOINCTaskCtrl::OnChildFocus)
+END_EVENT_TABLE ()
+
 
 CBOINCTaskCtrl::CBOINCTaskCtrl() {}
 
@@ -259,6 +263,19 @@ bool CBOINCTaskCtrl::OnRestoreState(wxConfigBase* pConfig) {
     pConfig->SetPath(strBaseConfigLocation);
 
     return true;
+}
+
+
+// Work around a problem on Windows where clicking on a button
+// in the wwb sites Task Item Group sometimes causes the task
+// control panel to scroll but does not send the button clicked
+// event.  This is because the task control panel is the parent
+// of the Task Item Group's wxStaticBox, which is the parent of
+// the button; if we have scroll bars the Child Focus Event
+// scrolls the task control panel to make the wxStaticBox fully
+// visible. To prevent this, we intercept the Child Focus Event
+// and do not call event.Skip.
+void CBOINCTaskCtrl::OnChildFocus(wxChildFocusEvent& event) {
 }
 
 
