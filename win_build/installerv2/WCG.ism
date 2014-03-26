@@ -1850,6 +1850,7 @@
 		<row><td>wcg_32.png</td><td>_WCGManagerSkin</td><td>wcg_32.png</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_BOINC_FILES&gt;\clientgui\skins\World Community Grid\wcg_32.png</td><td>1</td><td/></row>
 		<row><td>wcg_pause.png</td><td>_WCGManagerSkin</td><td>WCG_PA~1.PNG|wcg_pause.png</td><td>0</td><td>65535.0.0.0</td><td/><td>0</td><td>1</td><td>&lt;PATH_TO_BOINC_FILES&gt;\clientgui\skins\World Community Grid\wcg_pause.png</td><td>17</td><td/></row>
 		<row><td>wcg_play.png</td><td>_WCGManagerSkin</td><td>wcg_play.png</td><td>0</td><td>65535.0.0.0</td><td/><td>0</td><td>1</td><td>&lt;PATH_TO_BOINC_FILES&gt;\clientgui\skins\World Community Grid\wcg_play.png</td><td>17</td><td/></row>
+		<row><td>wcg_ss_logo.jpg</td><td>_BOINCScreensaver</td><td>WCG_SS~1.JPG|wcg_ss_logo.jpg</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_BOINC_FILES&gt;\clientscr\res\wcg_ss_logo.jpg</td><td>1</td><td/></row>
 		<row><td>wcg_stop.png</td><td>_WCGManagerSkin</td><td>wcg_stop.png</td><td>0</td><td>65535.0.0.0</td><td/><td>0</td><td>1</td><td>&lt;PATH_TO_BOINC_FILES&gt;\clientgui\skins\World Community Grid\wcg_stop.png</td><td>17</td><td/></row>
 		<row><td>yellow_dot.png</td><td>_WCGManagerSkin</td><td>YELLOW~1.PNG|Yellow_dot.png</td><td>0</td><td>65535.0.0.0</td><td/><td>0</td><td>1</td><td>&lt;PATH_TO_BOINC_FILES&gt;\clientgui\skins\World Community Grid\Yellow_dot.png</td><td>17</td><td/></row>
 		<row><td>zlib1.dll</td><td>_BOINCDepends</td><td>zlib1.dll</td><td>0</td><td>65535.0.0.0</td><td/><td>0</td><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\zlib1.dll</td><td>17</td><td/></row>
@@ -2493,7 +2494,7 @@
 		<row><td>WEBx86</td><td>ProductCode</td><td/></row>
 		<row><td>WEBx86</td><td>ProductName</td><td/></row>
 		<row><td>WEBx86</td><td>ProductVersion</td><td/></row>
-		<row><td>WEBx86</td><td>SetupFileName</td><td>wcg_boinc_7.0.67_windows_intelx86</td></row>
+		<row><td>WEBx86</td><td>SetupFileName</td><td>wcg_boinc_7.2.43_windows_intelx86</td></row>
 		<row><td>WEBx86</td><td>UpgradeCode</td><td/></row>
 	</table>
 
@@ -2528,7 +2529,7 @@
 		<col def="S255">DotNetBuildConfiguration</col>
 		<col def="S255">MsiCommandLine</col>
 		<col def="I4">ISSetupPrerequisiteLocation</col>
-		<row><td>Web</td><td>WEBx86</td><td>&lt;ISProjectDataFolder&gt;</td><td>PackageName</td><td>1</td><td>1033</td><td>2</td><td>1</td><td>Intel</td><td/><td>1033</td><td>0</td><td>0</td><td>1</td><td>0</td><td/><td>0</td><td/><td>MediaLocation</td><td/><td>http://boinc.berkeley.edu/</td><td/><td>&lt;PATH_TO_BOINC_CODESIGN&gt;\boinc.pfx</td><td/><td>Copyright (C) 2004 University of California at Berkeley. All Rights Reserved.</td><td>579579279</td><td/><td/><td/><td>1</td></row>
+		<row><td>Web</td><td>WEBx86</td><td>&lt;ISProjectDataFolder&gt;</td><td>PackageName</td><td>1</td><td>1033</td><td>2</td><td>1</td><td>Intel</td><td/><td>1033</td><td>0</td><td>0</td><td>1</td><td>0</td><td/><td>0</td><td/><td>MediaLocation</td><td/><td>http://boinc.berkeley.edu/</td><td/><td/><td/><td>Copyright (C) 2004 University of California at Berkeley. All Rights Reserved.</td><td>579579279</td><td/><td/><td/><td>1</td></row>
 	</table>
 
 	<table name="ISReleaseASPublishInfo">
@@ -4584,11 +4585,11 @@ VwBlAGIAAQBXAEUAQgB4ADgANgA=
 		<row><td>PROGMSG_IIS_ROLLBACKAPPPOOLS</td><td>##IDS_PROGMSG_IIS_ROLLBACKAPPPOOLS##</td><td/></row>
 		<row><td>PROGMSG_IIS_ROLLBACKWEBSERVICEEXTENSIONS</td><td>##IDS_PROGMSG_IIS_ROLLBACKWEBSERVICEEXTENSIONS##</td><td/></row>
 		<row><td>PROGRAMFILETOLAUNCHATEND</td><td>[#boincmgr.exe]</td><td/></row>
-		<row><td>ProductCode</td><td>{86570786-AC6D-441E-AB04-1A1FAEFD34E8}</td><td/></row>
+		<row><td>ProductCode</td><td>{B68F02F3-7194-4CD0-85D5-A521C7D8AA22}</td><td/></row>
 		<row><td>ProductID</td><td>none</td><td/></row>
 		<row><td>ProductLanguage</td><td>1033</td><td/></row>
 		<row><td>ProductName</td><td>World Community Grid</td><td/></row>
-		<row><td>ProductVersion</td><td>7.0.67</td><td/></row>
+		<row><td>ProductVersion</td><td>7.2.43</td><td/></row>
 		<row><td>ProgressType0</td><td>install</td><td/></row>
 		<row><td>ProgressType1</td><td>Installing</td><td/></row>
 		<row><td>ProgressType2</td><td>installed</td><td/></row>
@@ -4652,7 +4653,7 @@ VwBlAGIAAQBXAEUAQgB4ADgANgA=
 		<col def="S0">Value</col>
 		<col def="s72">Component_</col>
 		<col def="I4">ISAttributes</col>
-		<row><td>Registry1</td><td>1</td><td>Control Panel\Desktop</td><td>SCRNSAVE.EXE</td><td>boinc.scr</td><td>_ScreensaverEnableNT</td><td>0</td></row>
+		<row><td>Registry1</td><td>1</td><td>Control Panel\Desktop</td><td>SCRNSAVE.EXE</td><td>C:\Windows\boinc.scr</td><td>_ScreensaverEnableNT</td><td>0</td></row>
 		<row><td>Registry10</td><td>1</td><td>Software\Space Sciences Laboratory, U.C. Berkeley\BOINC Manager</td><td>Skin</td><td>World Community Grid</td><td>_WCGManagerSkin</td><td>0</td></row>
 		<row><td>Registry12</td><td>1</td><td>Software\Space Sciences Laboratory, U.C. Berkeley\BOINC Manager</td><td>AutomaticallyShutdownClient</td><td>#1</td><td>_BOINCManager</td><td>0</td></row>
 		<row><td>Registry18</td><td>2</td><td>SOFTWARE\Microsoft\Windows\CurrentVersion\Run</td><td>boincmgr</td><td>"[INSTALLDIR]boincmgr.exe" /a /s</td><td>_BOINCManagerStartupAll</td><td>0</td></row>
