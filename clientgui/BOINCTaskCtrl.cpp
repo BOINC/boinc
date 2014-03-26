@@ -267,7 +267,7 @@ bool CBOINCTaskCtrl::OnRestoreState(wxConfigBase* pConfig) {
 
 
 // Work around a problem on Windows where clicking on a button
-// in the wwb sites Task Item Group sometimes causes the task
+// in the web sites Task Item Group sometimes causes the task
 // control panel to scroll but does not send the button clicked
 // event.  This is because the task control panel is the parent
 // of the Task Item Group's wxStaticBox, which is the parent of
