@@ -27,6 +27,7 @@
 #include "Events.h"
 #include "error_numbers.h"
 #include "gui_rpc_client.h" // For SET_LOCALE
+#include "SkinManager.h"
 
 IMPLEMENT_DYNAMIC_CLASS(CDlgDiagnosticLogFlags, wxDialog)
 
@@ -41,7 +42,12 @@ END_EVENT_TABLE()
 CDlgDiagnosticLogFlags::CDlgDiagnosticLogFlags(wxWindow* parent) :
     wxDialog( parent, ID_ANYDIALOG, wxEmptyString, wxDefaultPosition, 
                 wxSize( 503,480 ), wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER ) {
+
     CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
+    CSkinAdvanced*     pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
+
+    wxASSERT(pSkinAdvanced);
+    wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
     wxASSERT(pFrame);
     if (!pFrame) return;
 
@@ -50,7 +56,11 @@ CDlgDiagnosticLogFlags::CDlgDiagnosticLogFlags(wxWindow* parent) :
     
     wxBoxSizer* bSizer1 = new wxBoxSizer( wxVERTICAL );
     
-    m_desctext = _("BOINC's tech support assistants may ask you to set some of these on or off to help diagnose certain types of problems.");
+    m_desctext.Printf(
+        _("%s technical support personnel may ask you to set some of these on or off to help diagnose certain types of problems."),
+        pSkinAdvanced->GetApplicationShortName().c_str()
+    );
+    
     m_desc = new wxStaticText(this, wxID_ANY, m_desctext);
     bSizer1->AddSpacer(7);
     bSizer1->Add(m_desc, 0, wxLEFT | wxRIGHT, 25);
