@@ -924,5 +924,6 @@ void diagnostics_set_max_file_sizes(int stdout_size, int stderr_size) {
 // 
 #ifndef _WIN32
 int diagnostics_trace_to_debugger(const char*) {
+    return 0;
 }
 #endif
