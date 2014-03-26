@@ -193,7 +193,10 @@ CSkinIcon::~CSkinIcon() {
 
 void CSkinIcon::Clear() {
     m_strDesiredIcon.Clear();
+    m_strDesiredIcon32.Clear();
     m_strDesiredTransparencyMask.Clear();
+    m_strDesiredTransparencyMask32.Clear();
+    m_icoIcon = m_icoDefaultIcon;
 }
 
 
