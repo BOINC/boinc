@@ -7,6 +7,8 @@ require_once("docutil.php");
 require_once("versions.inc");
 require_once("../html/inc/translation.inc");
 
+$client_info = $_SERVER['HTTP_USER_AGENT'];
+
 function latest_version($p) {
     $dev = false;
     foreach ($p['versions'] as $i=>$v) {
@@ -23,12 +25,16 @@ function latest_version($p) {
 function download_link($pname, $button=false) {
     global $platforms;
     global $url_base;
+    global $client_info;
     $p = $platforms[$pname];
     $v = latest_version($p);
     $file = $v['file'];
     if (array_key_exists('vbox_file', $v)) {
         $vbox_file = $v['vbox_file'];
     } else {
+        $vbox_file = null;
+    }
+    if (strstr($client_info, 'Windows NT 4') || strstr($client_info, 'Windows NT 5')) {
         $vbox_file = null;
     }
     $vbox_version = $v['vbox_version'];
@@ -193,8 +199,6 @@ if (get_str2('xml')) {
 }
 
 page_head(tra("BOINC: compute for science"));
-
-$client_info = $_SERVER['HTTP_USER_AGENT'];
 
 if (get_str2('all_platforms')) {
     show_download(null);
