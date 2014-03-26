@@ -77,9 +77,10 @@ static bool got_md5_info(
     int n = fscanf(fp, "%s %lf%c", md5data, nbytes, &endline);
     int c = fgetc(fp);
     fclose(fp);
-    if (n != 3) return false;
-    if (endline !='\n') return false;
-    if (c != EOF) return false;
+    if ((n != 3) || (endline !='\n') || (c != EOF)) {
+        fprintf(stderr, "bad MD5 cache file %s; remove it and stage file again\n", md5name);
+        return false;
+    }
 
     // if this is one of our cached md5 files, but it's OLDER than the
     // data file which it supposedly corresponds to, delete it.
@@ -141,17 +142,19 @@ static int process_file_info(
     SCHED_CONFIG& config_loc
 ) {
     vector<string> urls;
-    bool generated_locally = false;
+    bool gzip = false;
     int retval, file_number = -1;
-    double nbytes, nbytesdef = -1;
+    double nbytes, nbytesdef = -1, gzipped_nbytes;
     string md5str, urlstr, tmpstr;
-    char buf[BLOB_SIZE], path[MAXPATHLEN], top_download_path[MAXPATHLEN], md5[33], url[256];
+    char buf[BLOB_SIZE], path[MAXPATHLEN], top_download_path[MAXPATHLEN];
+    char gzip_path[MAXPATHLEN];
+    char md5[33], url[256], gzipped_url[256], buf2[256];
 
     out += "<file_info>\n";
     while (!xp.get_tag()) {
         if (xp.parse_int("number", file_number)) {
             continue;
-        } else if (xp.parse_bool("generated_locally", generated_locally)) {
+        } else if (xp.parse_bool("gzip", gzip)) {
             continue;
         } else if (xp.parse_string("url", urlstr)) {
             urls.push_back(urlstr);
@@ -160,12 +163,18 @@ static int process_file_info(
             continue;
         } else if (xp.parse_double("nbytes", nbytesdef)) {
             continue;
+        } else if (xp.parse_double("gzipped_nbytes", gzipped_nbytes)) {
+            continue;
         } else if (xp.match_tag("/file_info")) {
             if (nbytesdef != -1 || md5str != "" || urlstr != "") {
                 if (nbytesdef == -1 || md5str == "" || urlstr == "") {
                     fprintf(stderr, "All file properties must be defined "
                         "if at least one is defined (url, md5_cksum, nbytes)!\n"
                     );
+                    return ERR_XML_PARSE;
+                }
+                if (gzip && !gzipped_nbytes) {
+                    fprintf(stderr, "Must specify gzipped_nbytes\n");
                     return ERR_XML_PARSE;
                 }
             }
@@ -187,15 +196,8 @@ static int process_file_info(
                 return ERR_XML_PARSE;
             }
             input_file_found[file_number] = true;
-            if (generated_locally) {
-                sprintf(buf,
-                    "    <name>%s</name>\n"
-                    "    <generated_locally/>\n"
-                    "</file_info>\n",
-                    infiles[file_number]
-                );
-            } else if (nbytesdef == -1) {
-                // here if nybtes was not supplied; stage the file
+            if (nbytesdef == -1) {
+                // here if nybtes was not supplied; stage the file if needed
                 //
                 dir_hier_path(
                     infiles[file_number], config_loc.download_dir,
@@ -230,14 +232,36 @@ static int process_file_info(
                     infiles[file_number], config_loc.download_url,
                     config_loc.uldl_dir_fanout, url
                 );
+
+                if (gzip) {
+                    sprintf(gzip_path, "%s.gz", path);
+                    retval = file_size(gzip_path, gzipped_nbytes);
+                    if (retval) {
+                        fprintf(stderr,
+                            "process_input_template: missing gzip file %s\n",
+                            gzip_path
+                        );
+                        return ERR_FILE_MISSING;
+                    }
+                    sprintf(gzipped_url,
+                        "    <gzipped_url>%s.gz</gzipped_url>\n"
+                        "    <gzipped_nbytes>%.0f</gzipped_nbytes>\n",
+                        url, gzipped_nbytes
+                    );
+                } else {
+                    strcpy(gzipped_url, "");
+                }
+
                 sprintf(buf,
                     "    <name>%s</name>\n"
                     "    <url>%s</url>\n"
+                    "%s"
                     "    <md5_cksum>%s</md5_cksum>\n"
                     "    <nbytes>%.0f</nbytes>\n"
                     "</file_info>\n",
                     infiles[file_number],
                     url,
+                    gzipped_url,
                     md5,
                     nbytes
                 );
@@ -248,18 +272,27 @@ static int process_file_info(
                 urlstr = "";
                 for (unsigned int i=0; i<urls.size(); i++) {
                     urlstr += "    <url>" + urls.at(i) + string(infiles[file_number]) + "</url>\n";
+                    if (gzip) {
+                        urlstr += "    <gzipped_url>" + urls.at(i) + string(infiles[file_number]) + ".gz</gzipped_url>\n";
+                    }
                 }
                 sprintf(buf,
                     "    <name>%s</name>\n"
                     "%s"
                     "    <md5_cksum>%s</md5_cksum>\n"
-                    "    <nbytes>%.0f</nbytes>\n"
-                    "</file_info>\n",
+                    "    <nbytes>%.0f</nbytes>\n",
                     infiles[file_number],
                     urlstr.c_str(),
                     md5str.c_str(),
                     nbytesdef
                 );
+                if (gzip) {
+                    sprintf(buf2, "    <gzipped_nbytes>%.0f</gzipped_nbytes>\n",
+                        gzipped_nbytes
+                    );
+                    strcat(buf, buf2);
+                }
+                strcat(buf, "</file_info>\n");
             }
             out += buf;
             break;
