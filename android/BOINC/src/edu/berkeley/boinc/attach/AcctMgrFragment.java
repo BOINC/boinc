@@ -24,8 +24,11 @@ import edu.berkeley.boinc.utils.*;
 import android.app.Dialog;
 import android.app.Service;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -42,6 +45,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class AcctMgrFragment extends DialogFragment{
 	
@@ -75,6 +79,7 @@ public class AcctMgrFragment extends DialogFragment{
 			@Override
 			public void onClick(View arg0) {
 		        if(Logging.DEBUG) Log.d(Logging.TAG, "AcctMgrFragment continue clicked"); 
+				if(!checkDeviceOnline()) return;
 		        if(asIsBound) {
 		        	// adapt layout
 		        	continueB.setVisibility(View.GONE);
@@ -122,10 +127,6 @@ public class AcctMgrFragment extends DialogFragment{
 		  return dialog;
 	}
 	
-	// onclick of button
-	public void addAcctMgrClick(View view) {	
-	}
-	
 	private int verifyInput(String url, String name, String pwd) {
 		int stringResource = 0;
 		
@@ -141,6 +142,22 @@ public class AcctMgrFragment extends DialogFragment{
 		}
 		
 		return stringResource;
+	}
+
+	// check whether device is online before starting connection attempt
+	// as needed for AttachProjectLoginActivity (retrieval of ProjectConfig)
+	// note: available internet does not imply connection to project server
+	// is possible!
+	private Boolean checkDeviceOnline() {
+	    ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+	    NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+	    Boolean online = activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
+	    if(!online) {
+	    	Toast toast = Toast.makeText(getActivity(), R.string.attachproject_list_no_internet, Toast.LENGTH_SHORT);
+	    	toast.show();
+	    	if(Logging.DEBUG) Log.d(Logging.TAG, "AttachProjectListActivity not online, stop!"); 
+	    }
+	    return online;
 	}
 	
 	private ServiceConnection mASConnection = new ServiceConnection() {

@@ -90,7 +90,7 @@ public class BatchConflictListAdapter extends ArrayAdapter<ProjectAttachWrapper>
 					@Override
 					public void onClick(View v) {
 						if(Logging.DEBUG) Log.d(Logging.TAG, "BatchConflictListAdapter: start resolution dialog for: " + listItem.name);
-						CredentialInputFragment dialog = CredentialInputFragment.newInstance(listItem);
+						IndividualCredentialInputFragment dialog = IndividualCredentialInputFragment.newInstance(listItem);
 						dialog.show(fmgr, listItem.name);
 					}
 				});
@@ -105,7 +105,7 @@ public class BatchConflictListAdapter extends ArrayAdapter<ProjectAttachWrapper>
 					@Override
 					public void onClick(View v) {
 						if(Logging.DEBUG) Log.d(Logging.TAG, "BatchConflictListAdapter: start resolution dialog for: " + listItem.name);
-						CredentialInputFragment dialog = CredentialInputFragment.newInstance(listItem);
+						IndividualCredentialInputFragment dialog = IndividualCredentialInputFragment.newInstance(listItem);
 						dialog.show(fmgr, listItem.name);
 					}
 				});

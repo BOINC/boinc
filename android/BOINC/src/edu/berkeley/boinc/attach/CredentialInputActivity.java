@@ -34,7 +34,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class CredentialInputActivity extends Activity{
 	
@@ -68,11 +67,14 @@ public class CredentialInputActivity extends Activity{
 	public void continueClicked(View v) {
         if(Logging.DEBUG) Log.d(Logging.TAG, "CredentialInputActivity.continueClicked.");
         
-        // verfiy input, return if failed.
-		if(!verifyInput(emailET.getText().toString(), nameET.getText().toString(), pwdET.getText().toString(), null)) return;
 		
 		// set credentials in service
-		if(asIsBound) attachService.setCredentials(emailET.getText().toString(), nameET.getText().toString(), pwdET.getText().toString());
+		if(asIsBound) {
+	        // verfiy input, return if failed.
+			if(!attachService.verifyInput(emailET.getText().toString(), nameET.getText().toString(), pwdET.getText().toString())) return;
+			// set credentials
+			attachService.setCredentials(emailET.getText().toString(), nameET.getText().toString(), pwdET.getText().toString());
+		}
 		else {
 			if(Logging.ERROR) Log.e(Logging.TAG, "CredentialInputActivity.continueClicked: service not bound.");
 			return;
@@ -93,36 +95,6 @@ public class CredentialInputActivity extends Activity{
 		Intent intent = new Intent(this, BatchConflictListActivity.class);
 		intent.putExtra("conflicts", false);
 		startActivity(new Intent(this, BatchConflictListActivity.class));
-	}
-	
-	private Boolean verifyInput(String email, String user, String pwd, String pwdConfirm) {
-		int stringResource = 0;
-		
-		// check input
-		if(email.length() == 0) {
-			stringResource = R.string.attachproject_error_no_email;
-		}
-		else if(user.length() == 0) {
-			stringResource = R.string.attachproject_error_no_name;
-		}
-		else if(pwd != null && pwd.length() == 0) {
-			stringResource = R.string.attachproject_error_no_pwd;
-		}
-		else if(pwd != null && pwd.length() < 6) { // appropriate for min pwd length?!
-			stringResource = R.string.attachproject_error_short_pwd;
-		}
-		else if(pwdConfirm != null && pwdConfirm.length() == 0) {
-			stringResource = R.string.attachproject_error_pwd_no_retype;
-		}
-		else if(pwd != null && pwdConfirm != null && !pwd.equals(pwdConfirm)) {
-			stringResource = R.string.attachproject_error_pwd_no_match;
-		}
-		
-		if(stringResource != 0) {
-			Toast toast = Toast.makeText(getApplicationContext(), stringResource, Toast.LENGTH_SHORT);
-			toast.show();
-			return false;
-		} else return true;
 	}
 	
 	private ServiceConnection mASConnection = new ServiceConnection() {

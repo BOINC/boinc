@@ -22,7 +22,10 @@ package edu.berkeley.boinc.attach;
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.utils.*;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
@@ -33,6 +36,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class ManualUrlInputFragment extends DialogFragment{
 	
@@ -50,7 +54,8 @@ public class ManualUrlInputFragment extends DialogFragment{
 			public void onClick(View v) {
 				if(Logging.DEBUG) Log.d(Logging.TAG, "ManualUrlInputFragment: continue clicked");
 				
-				//TODO verify input
+				if(!checkDeviceOnline()) return;
+				
 				//startActivity
 	    		Intent intent = new Intent(getActivity(), BatchConflictListActivity.class);
 	    		intent.putExtra("conflicts", false);
@@ -70,5 +75,21 @@ public class ManualUrlInputFragment extends DialogFragment{
 		  // request a window without the title
 		  dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
 		  return dialog;
+	}
+	
+	// check whether device is online before starting connection attempt
+	// as needed for AttachProjectLoginActivity (retrieval of ProjectConfig)
+	// note: available internet does not imply connection to project server
+	// is possible!
+	private Boolean checkDeviceOnline() {
+	    ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+	    NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+	    Boolean online = activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
+	    if(!online) {
+	    	Toast toast = Toast.makeText(getActivity(), R.string.attachproject_list_no_internet, Toast.LENGTH_SHORT);
+	    	toast.show();
+	    	if(Logging.DEBUG) Log.d(Logging.TAG, "ManualUrlInputFragment not online, stop!"); 
+	    }
+	    return online;
 	}
 }

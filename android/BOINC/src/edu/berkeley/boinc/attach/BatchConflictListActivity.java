@@ -23,7 +23,7 @@ import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.utils.*;
 import java.util.ArrayList;
 import edu.berkeley.boinc.BOINCActivity;
-import edu.berkeley.boinc.attach.CredentialInputFragment.IndividualCredentialInputFragmentListener;
+import edu.berkeley.boinc.attach.IndividualCredentialInputFragment.IndividualCredentialInputFragmentListener;
 import edu.berkeley.boinc.attach.ProjectAttachService.ProjectAttachWrapper;
 import android.app.Service;
 import android.content.BroadcastReceiver;
@@ -156,6 +156,8 @@ public class BatchConflictListActivity extends FragmentActivity implements Indiv
 	@Override
 	public void onFinish(ProjectAttachWrapper project, Boolean login, String email, String name, String pwd) {
 		if(Logging.DEBUG) Log.d(Logging.TAG, "BatchConflictListActivity onFinish of dialog"); 
+		
+		if(asIsBound && !attachService.verifyInput(email, name, pwd)) return;
 		
 		new AttachProjectAsyncTask(project, login, email, name, pwd).execute();
 	}

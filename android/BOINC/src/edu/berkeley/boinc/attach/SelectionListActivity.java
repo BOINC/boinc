@@ -22,18 +22,10 @@ package edu.berkeley.boinc.attach;
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.utils.*;
 import java.util.ArrayList;
-
-import edu.berkeley.boinc.R.id;
-import edu.berkeley.boinc.R.layout;
-import edu.berkeley.boinc.R.menu;
-import edu.berkeley.boinc.R.string;
 import edu.berkeley.boinc.client.IMonitor;
 import edu.berkeley.boinc.client.Monitor;
-import edu.berkeley.boinc.rpc.AccountIn;
-import edu.berkeley.boinc.rpc.Notice;
 import edu.berkeley.boinc.rpc.ProjectInfo;
 import android.app.Activity;
-import android.app.Dialog;
 import android.app.Service;
 import android.content.ComponentName;
 import android.content.Context;
@@ -44,21 +36,10 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.os.Parcelable;
 import android.os.RemoteException;
-import android.support.v4.app.NavUtils;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 public class SelectionListActivity extends Activity{
@@ -66,7 +47,6 @@ public class SelectionListActivity extends Activity{
 	private ListView lv;
 	ArrayList<ProjectListEntry> entries = new ArrayList<ProjectListEntry>();
 	ArrayList<ProjectInfo> selected = new ArrayList<ProjectInfo>();
-	private Dialog manualUrlInputDialog;
 	
 	// services
 	private IMonitor monitor = null;
@@ -101,47 +81,19 @@ public class SelectionListActivity extends Activity{
 	private Boolean checkDeviceOnline() {
 	    ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 	    NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-	    return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
+	    Boolean online = activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
+	    if(!online) {
+	    	Toast toast = Toast.makeText(getApplicationContext(), R.string.attachproject_list_no_internet, Toast.LENGTH_SHORT);
+	    	toast.show();
+	    	if(Logging.DEBUG) Log.d(Logging.TAG, "AttachProjectListActivity not online, stop!"); 
+	    }
+	    return online;
 	}
-	
-	/*
-	// gets called by showDialog
-	@Override
-	protected Dialog onCreateDialog(int id) {
-		manualUrlInputDialog = new Dialog(this); //instance new dialog
-		manualUrlInputDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		manualUrlInputDialog.setContentView(R.layout.attach_project_list_layout_manual_dialog);
-		Button button = (Button) manualUrlInputDialog.findViewById(R.id.buttonUrlSubmit);
-		button.setOnClickListener(this);
-		((TextView)manualUrlInputDialog.findViewById(R.id.title)).setText(R.string.attachproject_list_manual_dialog_title);
-		return manualUrlInputDialog;
-	}
-
-	// gets called by dialog button
-	@Override
-	public void onClick(View v) {
-		try {
-			String url = ((EditText)manualUrlInputDialog.findViewById(R.id.Input)).getText().toString();
-
-			if(url == null) { // error while parsing
-				showErrorToast(R.string.attachproject_list_manual_no_url);
-			}
-			else if(url.length()== 0) { //nothing in edittext
-				showErrorToast(R.string.attachproject_list_manual_no_url);
-			}
-			else if(!checkDeviceOnline()) {
-				showErrorToast(R.string.attachproject_list_no_internet);
-			} else {
-				manualUrlInputDialog.dismiss();
-				startAttachProjectLoginActivity(null, url);
-			}
-		} catch (Exception e) {
-			if(Logging.WARNING) Log.w(Logging.TAG,"error parsing edit text",e);
-		}
-	}*/
 	
 	// triggered by continue button
 	public void continueClicked(View v) {
+		if(!checkDeviceOnline()) return;
+		
 		String selectedProjectsDebug = "";
 		// get selected projects
 		selected.clear();
@@ -153,7 +105,6 @@ public class SelectionListActivity extends Activity{
 		}
 		if(Logging.DEBUG) Log.d(Logging.TAG, "SelectionListActivity: selected projects: " + selectedProjectsDebug);
 		
-		//TODO error handling no internet
 		attachService.setSelectedProjects(selected); // returns immediately
 		
 		// start credential input activity
@@ -164,20 +115,8 @@ public class SelectionListActivity extends Activity{
 	public void onProjectClick(View view) {
 		Toast toast = Toast.makeText(getApplicationContext(), "show project info, not implemented yet...", Toast.LENGTH_SHORT);
 		toast.show();
+		//TODO
 	}
-	
-	/*
-	private void startAttachProjectLoginActivity(ProjectInfo project, String url) {
-		Intent intent = new Intent(this, AttachProjectLoginActivity.class);
-		intent.putExtra("projectInfo", (Parcelable)project);
-		intent.putExtra("url", url);
-		startActivity(intent);
-	}
-
-	private void showErrorToast(int resourceId) {
-		Toast toast = Toast.makeText(getApplicationContext(), resourceId, Toast.LENGTH_SHORT);
-		toast.show();
-	}*/
 	
 	private ServiceConnection mMonitorConnection = new ServiceConnection() {
 	    public void onServiceConnected(ComponentName className, IBinder service) {

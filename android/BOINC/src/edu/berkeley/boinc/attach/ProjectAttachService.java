@@ -39,6 +39,7 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.util.Log;
+import android.widget.Toast;
 
 public class ProjectAttachService extends Service {
 	
@@ -212,6 +213,37 @@ public class ProjectAttachService extends Service {
     	}
     	return null;
     }
+    
+    /**
+     * Checks user input, e.g. length of input. Shows an error toast if problem detected
+     * @param email
+     * @param user
+     * @param pwd
+     * @return true if input verified
+     */
+	public Boolean verifyInput(String email, String user, String pwd) {
+		int stringResource = 0;
+		
+		// check input
+		if(email.length() == 0) {
+			stringResource = R.string.attachproject_error_no_email;
+		}
+		else if(user.length() == 0) {
+			stringResource = R.string.attachproject_error_no_name;
+		}
+		else if(pwd != null && pwd.length() == 0) {
+			stringResource = R.string.attachproject_error_no_pwd;
+		}
+		else if(pwd != null && pwd.length() < 6) { // appropriate for min pwd length?!
+			stringResource = R.string.attachproject_error_short_pwd;
+		}
+		
+		if(stringResource != 0) {
+			Toast toast = Toast.makeText(getApplicationContext(), stringResource, Toast.LENGTH_LONG);
+			toast.show();
+			return false;
+		} else return true;
+	}
     
     /**
      * Returns true as long as there have been unresolved conflicts.

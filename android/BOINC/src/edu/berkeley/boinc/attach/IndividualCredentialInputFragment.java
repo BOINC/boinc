@@ -40,7 +40,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class CredentialInputFragment extends DialogFragment{
+public class IndividualCredentialInputFragment extends DialogFragment{
 	
 	private String projectName;
 	private String errorMessage;
@@ -51,8 +51,8 @@ public class CredentialInputFragment extends DialogFragment{
 	private EditText nameET;
 	private EditText pwdET;
 	
-    static CredentialInputFragment newInstance(ProjectAttachWrapper item) {
-    	CredentialInputFragment frag = new CredentialInputFragment();
+    static IndividualCredentialInputFragment newInstance(ProjectAttachWrapper item) {
+    	IndividualCredentialInputFragment frag = new IndividualCredentialInputFragment();
     	frag.projectName = item.config.name;
     	frag.errorMessage = item.getResultDescription();
     	frag.forgotPwdLink = item.config.masterUrl + "/get_passwd.php";
@@ -87,7 +87,7 @@ public class CredentialInputFragment extends DialogFragment{
         loginButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if(Logging.DEBUG) Log.d(Logging.TAG, "CredentialInputFragment: login clicked");
+				if(Logging.DEBUG) Log.d(Logging.TAG, "IndividualCredentialInputFragment: login clicked");
 				mListener.onFinish(project, true, emailET.getText().toString(), nameET.getText().toString(), pwdET.getText().toString());
 				dismiss();
 			}
@@ -97,7 +97,7 @@ public class CredentialInputFragment extends DialogFragment{
         registerButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if(Logging.DEBUG) Log.d(Logging.TAG, "CredentialInputFragment: register clicked, client account creation disabled: " + project.config.clientAccountCreationDisabled);
+				if(Logging.DEBUG) Log.d(Logging.TAG, "IndividualCredentialInputFragment: register clicked, client account creation disabled: " + project.config.clientAccountCreationDisabled);
 				if(project.config.clientAccountCreationDisabled) {
 					// cannot register in client, open website
 					Intent i = new Intent(Intent.ACTION_VIEW);
@@ -114,7 +114,7 @@ public class CredentialInputFragment extends DialogFragment{
         forgotPwdButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if(Logging.DEBUG) Log.d(Logging.TAG, "CredentialInputFragment: forgot pwd clicked");
+				if(Logging.DEBUG) Log.d(Logging.TAG, "IndividualCredentialInputFragment: forgot pwd clicked");
 				Intent i = new Intent(Intent.ACTION_VIEW);
 				i.setData(Uri.parse(forgotPwdLink));
 				startActivity(i);

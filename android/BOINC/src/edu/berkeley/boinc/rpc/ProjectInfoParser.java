@@ -20,13 +20,8 @@
 package edu.berkeley.boinc.rpc;
 
 import java.util.ArrayList;
-
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
-
-import edu.berkeley.boinc.utils.Logging;
-
-import android.util.Log;
 import android.util.Xml;
 
 
