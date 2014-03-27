@@ -17,10 +17,17 @@
  * along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package edu.berkeley.boinc;
+package edu.berkeley.boinc.attach;
 
+import edu.berkeley.boinc.BOINCActivity;
+import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.utils.*;
 import java.util.ArrayList;
+
+import edu.berkeley.boinc.R.id;
+import edu.berkeley.boinc.R.integer;
+import edu.berkeley.boinc.R.layout;
+import edu.berkeley.boinc.R.string;
 import edu.berkeley.boinc.client.IMonitor;
 import edu.berkeley.boinc.client.Monitor;
 import android.app.Activity;
@@ -395,7 +402,7 @@ public class AttachProjectWorkingActivity extends Activity{
 					// makes login more robust on bad network connections
 					while(!success && attemptCounter < maxAttempts) {
 						try {
-							account = monitor.createAccountPolling(getSecureUrlIfAvailable(), email, userName, pwd, teamName);
+							account = monitor.createAccountPolling(null/*getSecureUrlIfAvailable(), email, userName, pwd, teamName*/); //TODO
 						} catch (RemoteException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
@@ -435,7 +442,7 @@ public class AttachProjectWorkingActivity extends Activity{
 					// makes login more robust on bad network connections
 					while(!success && attemptCounter < maxAttempts) {
 						try {
-							account = monitor.lookupCredentials(getSecureUrlIfAvailable(), id, pwd, usesName);
+							account = monitor.lookupCredentials(null/*getSecureUrlIfAvailable(), id, pwd, usesName*/); //TODO
 						} catch (RemoteException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();

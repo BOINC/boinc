@@ -24,9 +24,12 @@
 
     <!-- generic. used by multiple Activities/tabs -->
     <string name="generic_loading">Loading! Please wait&#8230;</string>
+    <string name="generic_button_continue">Continue</string>
+    <string name="generic_button_finish">Finish</string>
 
     <!-- attach project -->
-    <!-- project list -->
+    <!-- selection list -->
+    <string name="attachproject_list_desc">Select scientific projects you want to contribute in:</string>
     <string name="attachproject_list_header">Choose a project</string>
     <string name="attachproject_list_manual_button">Add project by URL</string>
     <string name="attachproject_list_manual_dialog_title">Enter project URL:</string>
@@ -34,6 +37,21 @@
     <string name="attachproject_list_manual_no_url">Please enter project URL</string>
     <string name="attachproject_list_acctmgr_button">Add account manager</string>
     <string name="attachproject_list_no_internet">No Internet connection</string>
+    <!-- credential input -->
+    <string name="attachproject_credential_input_sing_desc">Enter account information.</string>
+    <string name="attachproject_credential_input_desc">Enter account information for selected projects:</string>
+    <string name="attachproject_individual_credential_input">Attach projects individually>></string>
+    <!-- conflicts -->
+    <string name="attachproject_conflicts_desc">There have been problems attaching scientific projects:</string>
+    <string name="attachproject_conflict_undefined">Could not connect.</string>
+    <string name="attachproject_conflict_not_unique">Account exists with different password.</string>
+    <string name="attachproject_conflict_bad_password">Password incorrect.</string>
+    <string name="attachproject_conflict_unknown_user">Account does not exist.</string>
+    <string name="attachproject_conflict_unknown_user_creation_disabled">Account does not exist. Visit project website to register.</string>
+    <!-- conflict resolution -->
+    <string name="attachproject_conflict_resolve_input">Please correct:</string>
+    <!-- working -->
+    <string name="attachproject_working_attaching">Attaching</string> <!-- e.g. Attaching Einstein@Home -->
     <!-- project login -->
     <string name="attachproject_login_loading">Contacting project server&#8230;</string>
     <string name="attachproject_login_image_description">Project logo.</string>
@@ -81,6 +99,7 @@
     <string name="attachproject_error_short_pwd">Password too short</string>
     <string name="attachproject_error_no_internet">Connection failure</string>
     <string name="attachproject_error_pwd_no_match">Passwords do not match</string>
+    <string name="attachproject_error_pwd_no_retype">Please type password again</string>
     <string name="attachproject_error_no_url">Please enter URL</string>
     <string name="attachproject_error_no_email">Please enter eMail address</string>
     <string name="attachproject_error_no_pwd">Please enter a password</string>

@@ -29,6 +29,10 @@
     	<item name="android:itemBackground">@color/dark_blue</item>
     </style>
     
+    <style name="Theme.Styled.NoActionBar" parent="Theme.Styled">
+    	<item name="android:windowNoTitle">true</item>
+	</style>
+    
     <style name="StyledActionBar" parent="@style/Widget.AppCompat.Light.ActionBar">
     	<item name="background">@drawable/shape_dark_blue_gradient_background</item>
     	<item name="backgroundStacked">@color/dark_blue</item>

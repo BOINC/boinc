@@ -23,6 +23,10 @@ import java.util.ArrayList;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
+
+import edu.berkeley.boinc.utils.Logging;
+
+import android.util.Log;
 import android.util.Xml;
 
 
@@ -113,6 +117,9 @@ public class ProjectInfoParser extends BaseParser {
 				}
 				else if (localName.equalsIgnoreCase("image")) {
 					mProjectInfo.imageUrl = mCurrentElement.toString();
+				}
+				else if (localName.equalsIgnoreCase("summary")) {
+					mProjectInfo.summary = mCurrentElement.toString();
 				}
 			}
 		}

@@ -55,22 +55,12 @@
     	<integer name="autostart_notification_id">1</integer>
     	<integer name="notice_notification_id">2</integer>
     <!-- configuration project attach -->
-    	<integer name="attach_step_interval_ms">1000</integer>
-    	<integer name="attach_get_project_config_retries">3</integer>
+    	<integer name="attach_step_interval_ms">1000</integer> 
+    	<integer name="attach_get_project_config_retries">5</integer>
     	<integer name="attach_login_retries">5</integer>
     	<integer name="attach_creation_retries">5</integer>
     	<integer name="attach_attach_retries">5</integer>
     	<integer name="attach_acctmgr_retries">5</integer>
-    <!-- configuration on tab layout -->
-    	<bool name="tab_status">true</bool>
-        <bool name="tab_projects">true</bool>
-        <bool name="tab_tasks">true</bool>
-    	<bool name="tab_notices">true</bool>
-    	<bool name="tab_preferences">true</bool>
-    <!-- configuration on status layout -->
-    	<integer name="status_min_screen_height_for_slideshow_px">400</integer>
-    	<integer name="status_min_screen_height_for_image_px">700</integer>
-    	<integer name="status_max_slideshow_images_per_project">15</integer>
     <!-- configuration on tasks layout -->
     	<integer name="tasks_transistion_timeout_number_monitor_loops">15</integer>
     <!-- shutdown -->
@@ -88,5 +78,11 @@
     	    <item>gui_rpc_debug</item>
     	    <item>cpu_sched_debug</item>
     	    <item>work_fetch_debug</item>
+    	</string-array>
+    <!-- account manager -->	
+    	<string-array name="acct_mgr_url_list" translatable="false">
+        	<item>http://bam.boincstats.com/</item>
+        	<item>http://gridrepublic.org/</item>
+        	<item>http://www.extremadurathome.org/extremadurathome/</item>
     	</string-array>
 </resources>

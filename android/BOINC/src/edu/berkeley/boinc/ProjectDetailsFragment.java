@@ -297,10 +297,7 @@ public class ProjectDetailsFragment extends Fragment {
 			for(Project tmpP: allProjects) {
 				if(tmpP.master_url.equals(url)) this.project = tmpP;
 			}
-			ArrayList<ProjectInfo> allProjectInfos = (ArrayList<ProjectInfo>) BOINCActivity.monitor.getSupportedProjects();
-			for(ProjectInfo tmpPI: allProjectInfos) {
-				if(tmpPI.url.equals(url)) this.projectInfo = tmpPI;
-			}
+			this.projectInfo = BOINCActivity.monitor.getProjectInfo(url);
 		}catch(Exception e) {if(Logging.ERROR) Log.e(Logging.TAG,"ProjectDetailsFragment getCurrentProjectData could not retrieve project list");}
 		if(this.project == null) if(Logging.WARNING) Log.w(Logging.TAG,"ProjectDetailsFragment getCurrentProjectData could not find project for URL: " + url);
 		if(this.projectInfo == null) if(Logging.DEBUG) Log.d(Logging.TAG,"ProjectDetailsFragment getCurrentProjectData could not find project attach list for URL: " + url);

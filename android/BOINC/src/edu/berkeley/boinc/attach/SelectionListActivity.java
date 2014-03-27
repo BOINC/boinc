@@ -17,15 +17,22 @@
  * along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package edu.berkeley.boinc;
+package edu.berkeley.boinc.attach;
 
+import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.utils.*;
 import java.util.ArrayList;
-import edu.berkeley.boinc.adapter.AttachProjectListAdapter;
+
+import edu.berkeley.boinc.R.id;
+import edu.berkeley.boinc.R.layout;
+import edu.berkeley.boinc.R.menu;
+import edu.berkeley.boinc.R.string;
 import edu.berkeley.boinc.client.IMonitor;
 import edu.berkeley.boinc.client.Monitor;
+import edu.berkeley.boinc.rpc.AccountIn;
 import edu.berkeley.boinc.rpc.Notice;
 import edu.berkeley.boinc.rpc.ProjectInfo;
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.Service;
 import android.content.ComponentName;
@@ -38,6 +45,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.Parcelable;
+import android.os.RemoteException;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -53,14 +61,18 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class AttachProjectListActivity extends ActionBarActivity implements android.view.View.OnClickListener{
+public class SelectionListActivity extends Activity{
 
 	private ListView lv;
-	private AttachProjectListAdapter listAdapter;
+	ArrayList<ProjectListEntry> entries = new ArrayList<ProjectListEntry>();
+	ArrayList<ProjectInfo> selected = new ArrayList<ProjectInfo>();
 	private Dialog manualUrlInputDialog;
-	private Boolean acctMgrPresent = false;
+	
+	// services
 	private IMonitor monitor = null;
 	private boolean mIsBound = false;
+	private ProjectAttachService attachService = null;
+	private boolean asIsBound = false;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {  
@@ -69,37 +81,10 @@ public class AttachProjectListActivity extends ActionBarActivity implements andr
         if(Logging.DEBUG) Log.d(Logging.TAG, "AttachProjectListActivity onCreate"); 
         
         doBindService();
-		//get supported projects
-		// try to get current client status from monitor
-		//ClientStatus status;
-// Move to background update
-//		ArrayList<ProjectInfo> data = new ArrayList<ProjectInfo>();
-//		try{
-//			//status  = Monitor.getClientStatus();
-//			acctMgrPresent = SplashActivity.monitor.getAcctMgrInfoPresent();
-//			data = (ArrayList<ProjectInfo>) SplashActivity.monitor.getSupportedProjects();
-//			if(Logging.DEBUG) Log.d( Logging.TAG,"monitor.getAndroidProjectsList returned with " + data.size() + " elements");
-//		} catch (Exception e){
-//			if(Logging.WARNING) Log.w(Logging.TAG,"AttachProjectListActivity: Could not load supported projects, clientStatus not initialized.");
-//			finish();
-//			return;
-//		}
 		
 		// setup layout
         setContentView(R.layout.attach_project_list_layout);  
 		lv = (ListView) findViewById(R.id.listview);
-        listAdapter = new AttachProjectListAdapter(AttachProjectListActivity.this,R.id.listview,new ArrayList<ProjectInfo>());
-        lv.setAdapter(listAdapter);
-        
-        // setup action bar
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle(R.string.attachproject_list_header);
-        
-        // disable up as home if explicitly requested in intent (e.g. when navigating directly from splash screen)
-        Intent i = getIntent();
-        actionBar.setDisplayHomeAsUpEnabled(i.getBooleanExtra("showUp", true));
-        
-        
     }
     
 	@Override
@@ -108,44 +93,6 @@ public class AttachProjectListActivity extends ActionBarActivity implements andr
     	doUnbindService();
 	    super.onDestroy();
 	}	
-	
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-	    if(Logging.VERBOSE) Log.v(Logging.TAG, "AttachProjectListActivity onCreateOptionsMenu()");
-
-	    MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.attach_list_menu, menu);
-
-        // disable "add account manager" button, if account manager already present
-        if(acctMgrPresent) {
-        	MenuItem item = menu.findItem(R.id.acctmgr_add);
-        	item.setVisible(false);
-        }
-        
-		return true;
-	}
-	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-	    if(Logging.VERBOSE) Log.v(Logging.TAG, "AttachProjectListActivity onOptionsItemSelected()");
-
-	    switch (item.getItemId()) {
-	    	case R.id.acctmgr_add:
-	    		Intent intent = new Intent(this, AttachProjectAcctMgrActivity.class);
-	    		startActivity(intent);
-	    		return true;
-	    	case R.id.projects_add_url:
-	    		showDialog(R.id.projects_add_url);
-	    		return true;
-	    	case android.R.id.home:
-	    	    if(Logging.DEBUG) Log.d(Logging.TAG, "AttachProjectListActivity onOptionsItemSelected(): navigate to logical parent");
-	    		// navigate to logical parent (manifest) when home/up/appicon is clicked
-	    	    NavUtils.navigateUpFromSameTask(this);
-	            return true;
-			default:
-				return super.onOptionsItemSelected(item);
-		}
-	}
 	
 	// check whether device is online before starting connection attempt
 	// as needed for AttachProjectLoginActivity (retrieval of ProjectConfig)
@@ -157,6 +104,7 @@ public class AttachProjectListActivity extends ActionBarActivity implements andr
 	    return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
 	}
 	
+	/*
 	// gets called by showDialog
 	@Override
 	protected Dialog onCreateDialog(int id) {
@@ -190,23 +138,35 @@ public class AttachProjectListActivity extends ActionBarActivity implements andr
 		} catch (Exception e) {
 			if(Logging.WARNING) Log.w(Logging.TAG,"error parsing edit text",e);
 		}
+	}*/
+	
+	// triggered by continue button
+	public void continueClicked(View v) {
+		String selectedProjectsDebug = "";
+		// get selected projects
+		selected.clear();
+		for(ProjectListEntry tmp: entries) {
+			if(tmp.checked) {
+				selected.add(tmp.info);
+				selectedProjectsDebug += tmp.info.name + ",";
+			}
+		}
+		if(Logging.DEBUG) Log.d(Logging.TAG, "SelectionListActivity: selected projects: " + selectedProjectsDebug);
+		
+		//TODO error handling no internet
+		attachService.setSelectedProjects(selected); // returns immediately
+		
+		// start credential input activity
+		startActivity(new Intent(this, CredentialInputActivity.class));
 	}
 	
 	// gets called by project list item
 	public void onProjectClick(View view) {
-		if(!checkDeviceOnline()) {
-			showErrorToast(R.string.attachproject_list_no_internet);
-			return;
-		}
-		try {
-			ProjectInfo project = (ProjectInfo) view.getTag();
-			startAttachProjectLoginActivity(project, null); 
-		} catch (Exception e) {
-			if(Logging.WARNING) Log.w(Logging.TAG,"error parsing view tag",e);
-			showErrorToast(R.string.attachproject_list_manual_no_url);
-		}
+		Toast toast = Toast.makeText(getApplicationContext(), "show project info, not implemented yet...", Toast.LENGTH_SHORT);
+		toast.show();
 	}
 	
+	/*
 	private void startAttachProjectLoginActivity(ProjectInfo project, String url) {
 		Intent intent = new Intent(this, AttachProjectLoginActivity.class);
 		intent.putExtra("projectInfo", (Parcelable)project);
@@ -217,9 +177,9 @@ public class AttachProjectListActivity extends ActionBarActivity implements andr
 	private void showErrorToast(int resourceId) {
 		Toast toast = Toast.makeText(getApplicationContext(), resourceId, Toast.LENGTH_SHORT);
 		toast.show();
-	}
+	}*/
 	
-	private ServiceConnection mConnection = new ServiceConnection() {
+	private ServiceConnection mMonitorConnection = new ServiceConnection() {
 	    public void onServiceConnected(ComponentName className, IBinder service) {
 	        // This is called when the connection with the service has been established, getService returns 
 	    	// the Monitor object that is needed to call functions.
@@ -237,18 +197,40 @@ public class AttachProjectListActivity extends ActionBarActivity implements andr
 	    }
 	};
 	
+	private ServiceConnection mASConnection = new ServiceConnection() {
+	    public void onServiceConnected(ComponentName className, IBinder service) {
+	        // This is called when the connection with the service has been established, getService returns 
+	    	// the Monitor object that is needed to call functions.
+	        attachService = ((ProjectAttachService.LocalBinder)service).getService();
+		    asIsBound = true;
+	    }
+
+	    public void onServiceDisconnected(ComponentName className) {
+	    	// This should not happen
+	    	attachService = null;
+	    	asIsBound = false;
+	    }
+	};
+	
 	private void doBindService() {
 		// start service to allow setForeground later on...
 		startService(new Intent(this, Monitor.class));
 	    // Establish a connection with the service, onServiceConnected gets called when
-		bindService(new Intent(this, Monitor.class), mConnection, Service.BIND_AUTO_CREATE);
+		bindService(new Intent(this, Monitor.class), mMonitorConnection, Service.BIND_AUTO_CREATE);
+		// bind to attach service
+		bindService(new Intent(this, ProjectAttachService.class), mASConnection, Service.BIND_AUTO_CREATE);
 	}
 
 	private void doUnbindService() {
 	    if (mIsBound) {
 	        // Detach existing connection.
-	        unbindService(mConnection);
+	        unbindService(mMonitorConnection);
 	        mIsBound = false;
+	    }
+	    if (asIsBound) {
+	        // Detach existing connection.
+	        unbindService(mASConnection);
+	        asIsBound = false;
 	    }
 	}
 	
@@ -258,32 +240,37 @@ public class AttachProjectListActivity extends ActionBarActivity implements andr
 		protected ArrayList<ProjectInfo> doInBackground(Void... arg0) {
 			
 			ArrayList<ProjectInfo> data = null;
-			while(acctMgrPresent == null || data == null) {
-				try{
-					//status  = Monitor.getClientStatus();
-					acctMgrPresent = monitor.getAcctMgrInfoPresent();
-					data = (ArrayList<ProjectInfo>) monitor.getSupportedProjects();
-					if(Logging.DEBUG) Log.d( Logging.TAG,"monitor.getAndroidProjectsList returned with " + data.size() + " elements");
-				} catch (Exception e){
-					if(Logging.WARNING) Log.w(Logging.TAG,"AttachProjectListActivity: Could not load supported projects: " + e.getLocalizedMessage());
-					finish();
-				}
-				if(acctMgrPresent == null || data == null) {
-					if(Logging.WARNING) Log.w(Logging.TAG,"AttachProjectListActivity: UpdateProjectListAsyncTask failed to retrieve data, retry....");
+			Boolean retry = true;
+			while(retry) {
+				try{data = (ArrayList<ProjectInfo>) monitor.getAttachableProjects();} catch (RemoteException e){}
+				if(data == null) {
+					if(Logging.WARNING) Log.w(Logging.TAG,"UpdateProjectListAsyncTask: failed to retrieve data, retry....");
 					try{Thread.sleep(500);} catch(Exception e) {}
-				}
+				} else retry = false;
 			}
+			if(Logging.DEBUG) Log.d( Logging.TAG,"monitor.getAttachableProjects returned with " + data.size() + " elements");
 			return data;
 		}
 		
 		protected void onPostExecute(ArrayList<ProjectInfo> result) {
-	        if (listAdapter!=null && result != null) {
-				for(ProjectInfo tmp: result) { // addAll only in API 11
-					listAdapter.add(tmp);
-				}
-	         }
-	        	 
-	     }
+	        if (result != null) {
+	        	entries.clear();
+	        	for(ProjectInfo tmp: result) {
+	        		entries.add(new ProjectListEntry(tmp));
+	        	}
+		        SelectionListAdapter listAdapter = new SelectionListAdapter(SelectionListActivity.this,R.id.listview,entries);
+		        lv.setAdapter(listAdapter);
+	         } 
+	    }
 	}
-
+	
+	class ProjectListEntry {
+		public ProjectInfo info;
+		public boolean checked;
+		
+		public ProjectListEntry(ProjectInfo info) {
+			this.info = info;
+			this.checked = false;
+		}
+	}
 }

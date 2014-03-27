@@ -39,7 +39,7 @@
         android:id="@+id/desc"
     	android:layout_width="fill_parent"
     	android:layout_height="wrap_content"
-    	android:text="@string/attachproject_list_desc"
+    	android:text="@string/attachproject_conflicts_desc"
     	android:textAppearance="?android:attr/textAppearanceMedium"
     	android:layout_below="@+id/logo"
     	android:layout_marginLeft="40dp"
@@ -51,21 +51,21 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
     	android:layout_below="@+id/desc"
-        android:layout_above="@+id/continue_button"/>
+        android:layout_above="@+id/finish_button"/>
     
     <Button 
-        android:id="@+id/continue_button"
+        android:id="@+id/finish_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:text="@string/generic_button_continue"
+        android:text="@string/generic_button_finish"
 		android:textColor="@android:color/white"
 		android:textAppearance="?android:attr/textAppearanceMedium"
         android:background="@drawable/shape_button_blue"
         android:minWidth="150dp"
 		android:padding="5dp"
 		android:layout_margin="10dp"
-		android:onClick="continueClicked"/>
+		android:onClick="finishClicked"/>
 
 </RelativeLayout>

@@ -35,24 +35,24 @@
     	android:src="@drawable/boinc_logo_large"
     	android:contentDescription="@string/app_name"/>
     
-    <TextView 
-        android:id="@+id/desc"
-    	android:layout_width="fill_parent"
+    <ProgressBar 
+        android:id="@+id/pb"
+    	android:layout_width="wrap_content"
     	android:layout_height="wrap_content"
-    	android:text="@string/attachproject_list_desc"
-    	android:textAppearance="?android:attr/textAppearanceMedium"
     	android:layout_below="@+id/logo"
     	android:layout_marginLeft="40dp"
     	android:layout_marginRight="40dp"
-    	android:layout_marginBottom="20dp"/>
-
-    <ListView
-        android:id="@+id/listview"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-    	android:layout_below="@+id/desc"
-        android:layout_above="@+id/continue_button"/>
+    	android:layout_marginBottom="20dp"
+    	android:layout_centerInParent="true"/>
+    <TextView 
+        android:id="@+id/status"
+    	android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:layout_below="@+id/pb"
+    	android:layout_centerHorizontal="true"/>
     
+
+        
     <Button 
         android:id="@+id/continue_button"
         android:layout_width="wrap_content"
@@ -66,6 +66,9 @@
         android:minWidth="150dp"
 		android:padding="5dp"
 		android:layout_margin="10dp"
-		android:onClick="continueClicked"/>
+		android:onClick="continueClicked"
+		android:visibility="gone"/>
+    
+    
 
 </RelativeLayout>

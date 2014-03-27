@@ -17,8 +17,12 @@
  * along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package edu.berkeley.boinc;
+package edu.berkeley.boinc.attach;
 
+import edu.berkeley.boinc.R;
+import edu.berkeley.boinc.R.id;
+import edu.berkeley.boinc.R.layout;
+import edu.berkeley.boinc.R.string;
 import edu.berkeley.boinc.utils.*;
 import android.content.Intent;
 import android.os.Bundle;

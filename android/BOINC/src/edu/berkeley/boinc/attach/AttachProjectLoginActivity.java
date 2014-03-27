@@ -17,11 +17,17 @@
  * along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package edu.berkeley.boinc;
+package edu.berkeley.boinc.attach;
 
+import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.utils.*;
 import java.net.URL;
 
+import edu.berkeley.boinc.R.drawable;
+import edu.berkeley.boinc.R.id;
+import edu.berkeley.boinc.R.integer;
+import edu.berkeley.boinc.R.layout;
+import edu.berkeley.boinc.R.string;
 import edu.berkeley.boinc.client.IMonitor;
 import edu.berkeley.boinc.client.Monitor;
 import android.app.Service;
@@ -289,7 +295,7 @@ public class AttachProjectLoginActivity extends ActionBarActivity{
 		} else {
 			TextView loginCategory = (TextView) findViewById(R.id.category_login);
 			loginCategory.setText(R.string.attachproject_login_category_login);
-			if(projectConfig.userName) { // user vs. email?
+			if(projectConfig.usesName) { // user vs. email?
 				if(Logging.DEBUG) Log.d(Logging.TAG,"project is using user name instead of email for login");
 				TextView idHeader = (TextView) findViewById(R.id.header_id);
 				idHeader.setText(R.string.attachproject_login_header_id_name);
@@ -318,7 +324,7 @@ public class AttachProjectLoginActivity extends ActionBarActivity{
 		if(verifyInput(id, pwd)){
 			Intent intent = new Intent(this, AttachProjectWorkingActivity.class);
 			intent.putExtra("action", AttachProjectWorkingActivity.ACTION_ATTACH);
-			intent.putExtra("usesName", projectConfig.userName);
+			intent.putExtra("usesName", projectConfig.usesName);
 			intent.putExtra("projectUrl", projectConfig.masterUrl);
 			intent.putExtra("webRpcUrlBase", projectConfig.webRpcUrlBase); // might be empty
 			intent.putExtra("projectName", projectConfig.name);
@@ -339,7 +345,7 @@ public class AttachProjectLoginActivity extends ActionBarActivity{
 			intent.putExtra("webRpcUrlBase", projectConfig.webRpcUrlBase); // might be empty
 			intent.putExtra("projectName", projectConfig.name);
 			intent.putExtra("minPwdLength", projectConfig.minPwdLength);
-			intent.putExtra("usesName", projectConfig.userName);
+			intent.putExtra("usesName", projectConfig.usesName);
 			startActivity(intent);
 		} else {
 			// start intent to project website
