@@ -1246,32 +1246,12 @@ int HOST_INFO::get_virtualbox_version() {
     char *newlinePtr;
     FILE* fd;
 
-#if LINUX_LIKE_SYSTEM
     safe_strcpy(path, "/usr/bin/VBoxManage");
-#elif defined( __APPLE__)
-    FSRef theFSRef;
-    OSStatus status = noErr;
-
-    // First try to locate the VirtualBox application by Bundle ID and Creator Code
-    status = LSFindApplicationForInfo(
-        'VBOX', CFSTR("org.virtualbox.app.VirtualBox"), NULL, &theFSRef, NULL
-    );
-    if (status == noErr) {
-        status = FSRefMakePath(&theFSRef, (unsigned char *)path, sizeof(path));
-    }
-    // If that failed, try its default location
-    if (status != noErr) {
-        strcpy(path, "/Applications/VirtualBox.app");
-    }
-    safe_strcat(path, "/Contents/MacOS/VBoxManage");
-#endif
 
     if (boinc_file_exists(path)) {
-#if LINUX_LIKE_SYSTEM
         if (access(path, X_OK)) {
             return 0;
         }
-#endif
         safe_strcpy(cmd, path);
         safe_strcat(cmd, " --version");
         fd = popen(cmd, "r");
