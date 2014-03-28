@@ -21,7 +21,7 @@ require_once('../inc/util_ops.inc');
 
 db_init();
 
-admin_page_head('Manage special users');
+admin_page_head('Manage user privileges');
 
 start_table("align=\"center\"");
 row1("Current special users", '9');
