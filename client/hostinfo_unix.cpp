@@ -1263,6 +1263,7 @@ int HOST_INFO::get_virtualbox_version() {
     if (status != noErr) {
         strcpy(path, "/Applications/VirtualBox.app");
     }
+    safe_strcat(path, "/Contents/MacOS/VBoxManage");
 #endif
 
     if (boinc_file_exists(path)) {
@@ -1270,13 +1271,9 @@ int HOST_INFO::get_virtualbox_version() {
         if (access(path, X_OK)) {
             return 0;
         }
+#endif
         safe_strcpy(cmd, path);
         safe_strcat(cmd, " --version");
-#elif defined( __APPLE__)
-        safe_strcpy(cmd, "defaults read ");
-        safe_strcat(cmd, path);
-        safe_strcat(cmd, "/Contents/Info CFBundleShortVersionString");
-#endif
         fd = popen(cmd, "r");
         if (fd) {
             if (fgets(virtualbox_version, sizeof(virtualbox_version), fd)) {
