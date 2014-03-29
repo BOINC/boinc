@@ -781,9 +781,10 @@ bool ACTIVE_TASK_SET::check_rsc_limits_exceeded() {
     static double last_disk_check_time = 0;
     bool do_disk_check = false;
     bool did_anything = false;
+	char buf[256];
 
     double ram_left = gstate.available_ram();
-    double max_ram = gstate.max_available_ram();
+	double max_ram = gstate.max_available_ram();
 
     // Some slot dirs have lots of files,
     // so only check every min(disk_interval, 300) secs
@@ -797,23 +798,39 @@ bool ACTIVE_TASK_SET::check_rsc_limits_exceeded() {
         atp = active_tasks[i];
         if (atp->task_state() != PROCESS_EXECUTING) continue;
         if (!atp->result->non_cpu_intensive() && (atp->elapsed_time > atp->max_elapsed_time)) {
-            msg_printf(atp->result->project, MSG_INFO,
-                "Aborting task %s: exceeded elapsed time limit %.2f (%.2fG/%.2fG)",
-                atp->result->name, atp->max_elapsed_time,
+			sprintf(buf, "exceeded elapsed time limit %.2f (%.2fG/%.2fG)",
+                atp->max_elapsed_time,
                 atp->result->wup->rsc_fpops_bound/1e9,
                 atp->result->avp->flops/1e9
+			);
+            msg_printf(atp->result->project, MSG_INFO,
+                "Aborting task %s: %s", atp->result->name, buf
             );
-            atp->abort_task(EXIT_TIME_LIMIT_EXCEEDED, "Maximum elapsed time exceeded");
+            atp->abort_task(EXIT_TIME_LIMIT_EXCEEDED, buf);
             did_anything = true;
             continue;
         }
-        if (atp->procinfo.working_set_size_smoothed > max_ram) {
+		if (atp->procinfo.working_set_size_smoothed > atp->max_mem_usage) {
+			sprintf(buf, "working set size > workunit.rsc_memory_bound: %.2fMB > %.2fMB",
+				atp->procinfo.working_set_size_smoothed/MEGA, atp->max_mem_usage/MEGA
+			);
             msg_printf(atp->result->project, MSG_INFO,
-                "Aborting task %s: exceeded memory limit %.2fMB > %.2fMB\n",
-                atp->result->name,
-                atp->procinfo.working_set_size_smoothed/MEGA, max_ram/MEGA
+                "Aborting task %s: %s",
+                atp->result->name, buf
             );
-            atp->abort_task(EXIT_MEM_LIMIT_EXCEEDED, "Maximum memory exceeded");
+            atp->abort_task(EXIT_MEM_LIMIT_EXCEEDED, buf);
+            did_anything = true;
+            continue;
+        }
+		if (atp->procinfo.working_set_size_smoothed > max_ram) {
+			sprintf(buf, "working set size > client RAM limit: %.2fMB > %.2fMB",
+				atp->procinfo.working_set_size_smoothed/MEGA, max_ram/MEGA
+			);
+            msg_printf(atp->result->project, MSG_INFO,
+                "Aborting task %s: %s",
+                atp->result->name, buf
+            );
+            atp->abort_task(EXIT_MEM_LIMIT_EXCEEDED, buf);
             did_anything = true;
             continue;
         }
