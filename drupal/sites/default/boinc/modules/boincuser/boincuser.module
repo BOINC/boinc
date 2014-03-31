@@ -414,21 +414,60 @@ function boincuser_views_api() {
 function boincuser_form_alter(&$form, $form_state, $form_id) {
   global $user;
   switch ($form_id) {
-  // Confirm adding a friend
   case 'flag_confirm':
+    // The URL seems to be the only way to put any kind of context to this
+    // request!
+    $action = arg(2);
+    $flag_type = arg(3);
+    $cancel_dest = isset($_REQUEST['destination']) ? $_REQUEST['destination'] : '';
     
     // Wrap action buttons for styling consistency
     $form['form control tabs prefix'] = array(
       '#value' => '<ul class="form-control tab-list">',
       '#weight' => 1001,
     );
-    $form['flag_friend_submit']['#prefix'] = '<li class="first tab">';
-    $form['flag_friend_submit']['#value'] = t('Send request');
-    $form['flag_friend_submit']['#suffix'] = '</li>';
-    $form['flag_friend_submit']['#weight'] = 1002;
-    $friend_id = $form['content_id']['#value'];
+    
+    switch ($flag_type) {
+    case 'friend':
+      $form_dest = strstr($form['#action'], 'destination=');
+      $is_approval = strstr($form_dest, 'friends%2Fpending');
+      $is_request = strstr($form_dest, 'friends%2Fflagged');
+      // General friend overrides
+      $form['flag_friend_submit']['#prefix'] = '<li class="first tab">';
+      $form['flag_friend_submit']['#value'] = t('Send request');
+      $form['flag_friend_submit']['#type'] = 'submit';
+      $form['flag_friend_submit']['#suffix'] = '</li>';
+      $form['flag_friend_submit']['#weight'] = 1002;
+      $friend_id = $form['content_id']['#value'];
+      //$cancel_dest = "account/{$friend_id}";
+      // Overrides for more specific contexts
+      if ($is_approval) {
+        if ($action == 'flag') {
+          $form['flag_friend_submit']['#value'] = t('Approve request');
+        }
+        elseif ($action == 'unflag') {
+          unset($form['actions']);
+          $form['flag_friend_submit']['#value'] = t('Deny request');
+        }
+        //$cancel_dest = "account/{$user->uid}/friends/pending";
+      }
+      elseif ($is_request) {
+        if ($action == 'unflag') {
+          unset($form['actions']);
+          $form['flag_friend_submit']['#value'] = t('Remove request');
+        }
+      }
+      elseif ($action == 'unfriend') {
+        unset($form['actions']);
+        $form['flag_friend_submit']['#value'] = t('Remove friend');
+        //$cancel_dest = drupal_get_destination();
+      }
+      break;
+    default:
+    }
+    
     $form['cancel'] = array(
-      '#value' => '<li class="tab">' . l(t('Cancel'), "account/{$friend_id}") . '</li>',
+      '#value' => '<li class="tab">' . l(t('Cancel'), $cancel_dest) . '</li>',
       '#weight' => 1004,
     );
     $form['form control tabs suffix'] = array(

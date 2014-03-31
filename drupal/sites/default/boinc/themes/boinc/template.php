@@ -467,6 +467,71 @@ function boinc_filter_tips_more_info () {
 }
 
 /**
+ * Theme outgoing email messages for adding friends.
+ *
+ * @param $status
+ *   Status of the friendship.
+ * @param $flag
+ *   The flag object.
+ * @param $recipient
+ *   The user object of the person receiving the email.
+ * @param $sender
+ *   The user object of the person sending the email.
+ * @return
+ *   An array containing the email [type] (mailkey), [subject] and [body].
+ */
+function boinc_flag_friend_message_email($status, $flag, $recipient, $sender) {
+  $email = array();
+  $email['type'] = 'flag-friend';
+  // Reload the sender to get a full user object
+  $sender = user_load($sender->uid);
+  
+  switch ($status) {
+    case FLAG_FRIEND_FLAGGED:
+      // Sender accepted recipient's friend request
+      $email['subject'] = t('!name accepted your friend request [!site]', array(
+        '!name' => $sender->boincuser_name,
+        '!site' => variable_get('site_name', ''),
+        ));
+      $email['body'] = t('!name confirmed you as a friend on !site.
+
+Follow this link to view his or her profile:
+!link
+
+!message
+
+Thanks,
+The !site team', array(
+        '!name' => isset($sender->boincuser_name) ? $sender->boincuser_name : $sender->name,
+        '!site' => variable_get('site_name', ''),
+        '!message' => $flag->friend_message ? t('Message') . ': ' . $flag->friend_message : '',
+        '!link' => url('account/'. $sender->uid, array('absolute' => TRUE)),
+        ));
+      break;
+
+    case FLAG_FRIEND_PENDING:
+      // Sender is requesting to be recipient's friend
+      $email['subject'] = t('Friend request from !name [!site]', array('!name' => $sender->boincuser_name, '!site' => variable_get('site_name', '')));
+      $email['body'] = t('!name added you as a friend on !site. You can approve or deny this request. Denying a request will not send a notification, but will remove the request from both of your accounts.
+
+Follow the link below to view this request:
+!link
+
+!message
+
+Thanks,
+The !site team', array(
+        '!name' => isset($sender->boincuser_name) ? $sender->boincuser_name : $sender->name,
+        '!site' => variable_get('site_name', ''),
+        '!message' => $flag->friend_message ? t('Message') . ': ' . $flag->friend_message : '',
+        '!link' => url('goto/friend-requests', array('absolute' => TRUE)),
+        ));
+      break;
+  }
+  return $email;
+}
+
+/**
  * Edit action links
  */
 function phptemplate_links($links, $attributes = array('class' => 'links')) {

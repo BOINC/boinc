@@ -364,7 +364,7 @@ function boinccore_comment_control($cid = NULL, $action = NULL) {
  * in advance on which page a given comment will appear. Link instead to this
  * controller function, which can compute the page based on the user's settings
  */
-function boinccore_url_pagination_handler($type, $object_id) {
+function boinccore_url_pagination_handler($type, $object_id = NULL) {
   global $user;
   $path = NULL;
   $params = array();
@@ -402,15 +402,24 @@ function boinccore_url_pagination_handler($type, $object_id) {
         }
       }
     }
+    if ($path) {
+      drupal_goto($path, $params, "comment-{$object->cid}");
+    }
+    break;
+  case 'friend-requests':
+    // Check for a login, then redirect to the user's friend requests page
+    if ($user->uid) {
+      drupal_goto("account/{$user->uid}/friends/pending");
+    }
+    else {
+      drupal_goto('user/login', array(
+        'destination' => 'goto/friend-requests'
+      ));
+    }
     break;
   default:
   }
-  if ($path) {
-    drupal_goto($path, $params, "comment-{$object->cid}");
-  }
-  else {
-    drupal_not_found();
-  }
+  drupal_not_found();
 }
 
 /*
