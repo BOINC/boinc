@@ -50,11 +50,14 @@
 
 
 #ifdef __WXMAC__
+#include "util.h"
+
 static int compareOSVersionTo(int toMajor, int toMinor);
 #endif
 
 // Workaround for Linux refresh problem
-#if (defined(__WXMSW__) || defined(__WXMAC__))
+// and Mac keyboard navigation problem
+#ifdef __WXMSW__
 #define REFRESH_WAIT 0
 #else
 #define REFRESH_WAIT 1
@@ -283,6 +286,11 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIconBundle* icons, wxPoint position
 #ifdef __WXMAC__
     m_pMenubar->MacInstallMenuBar();
     MacLocalizeBOINCMenu();
+    
+    // Mac needs a short delay to ensure that controls are
+    // created in proper order to allow keyboard navigation
+    m_iFrameRefreshRate = 1;    // 1 millisecond
+    m_pPeriodicRPCTimer->Start(m_iFrameRefreshRate);
 #endif
 
     m_Shortcuts[0].Set(wxACCEL_NORMAL, WXK_HELP, ID_HELPBOINCMANAGER);
@@ -296,6 +304,7 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIconBundle* icons, wxPoint position
     SetAcceleratorTable(*m_pAccelTable);
     
     dlgMsgsPtr = NULL;
+
     m_pBackgroundPanel = new CSimpleGUIPanel(this);
     
     RestoreState();
@@ -611,6 +620,11 @@ void CSimpleFrame::OnRefreshView(CFrameEvent& WXUNUSED(event)) {
     }
     
 #ifdef __WXMAC__
+    if (m_iFrameRefreshRate != 1000) {
+        m_iFrameRefreshRate = 1000;
+        m_pPeriodicRPCTimer->Start(m_iFrameRefreshRate);
+    }
+
     // We disabled tooltips on Mac while menus were popped up because they cover menus
     wxToolTip::Enable(true);
 #endif
@@ -864,6 +878,7 @@ CSimpleGUIPanel::CSimpleGUIPanel(wxWindow* parent) :
 #endif    
 
     m_SuspendResumeButton->Disable();
+
     OnFrameRender();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleGUIPanel::CSimpleGUIPanel - Overloaded Constructor Function End"));
