@@ -139,6 +139,7 @@ public:
 
 #ifdef __WXMAC__
     CBOINCListCtrl*         GetListCtrl() { return m_pListPane; }
+    void                    OnKeyPressed(wxKeyEvent &event);
 #endif    
  
     std::vector<CTaskItemGroup*> m_TaskGroups;

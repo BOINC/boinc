@@ -816,6 +816,73 @@ void CBOINCBaseView::RefreshTaskPane() {
 }
 
 
+#ifdef __WXMAC__
+// Fix Keyboard navigation on Mac
+//
+// NOTE: to select an item in wxListCtrl when none
+// has yet been selected, press tab and then space.
+#define SHIFT_MASK (1<<17)
+
+void CBOINCBaseView::OnKeyPressed(wxKeyEvent &event) {
+    wxWindow        next;
+    CTaskItemGroup* pGroup = NULL;
+    CTaskItem*      pItem = NULL;
+    int             i, j;
+    bool            focusOK = false;
+
+    if (m_pTaskPane) {
+        int keyCode = event.GetKeyCode();
+        wxUint32 keyFlags = event.GetRawKeyFlags();
+        
+        if (keyCode == WXK_TAB) {
+            wxWindow* focused = wxWindow::FindFocus();
+            if (!m_pTaskPane->IsDescendant(focused)) {
+                if (keyFlags & SHIFT_MASK) {
+                    for (i=m_TaskGroups.size()-1; i>=0; --i) {
+                        pGroup = m_TaskGroups[i];
+                        for (j=pGroup->m_Tasks.size()-1; j>=0; --j) {
+                            pItem = pGroup->m_Tasks[j];
+                            if (pItem->m_pButton) {
+                                if (pItem->m_pButton->CanAcceptFocus()) {
+                                    focusOK = true;
+                                    break;
+                                }
+                            }
+                        }
+                        if (focusOK) break;
+                    }
+                } else {
+                   for (i=0; i<m_TaskGroups.size(); ++i) {
+                        pGroup = m_TaskGroups[i];
+                        for (j=0; j<pGroup->m_Tasks.size(); ++j) {
+                            pItem = pGroup->m_Tasks[j];
+                            if (pItem->m_pButton) {
+                                if (pItem->m_pButton->CanAcceptFocus()) {
+                                    focusOK = true;
+                                    break;
+                                }
+                            }
+                        }
+                        if (focusOK) break;
+                    }
+                }
+                if (focusOK) {
+                    pItem->m_pButton->SetFocus();
+                    return;
+                }
+            }
+            wxNavigationKeyEvent evt;
+            evt.SetDirection((keyFlags & SHIFT_MASK) == 0);
+            evt.SetFromTab(true);
+            m_pTaskPane->GetEventHandler()->AddPendingEvent(evt);
+            return;
+        }
+    }
+    event.Skip();
+}
+#endif
+
+
 bool CBOINCBaseView::_IsSelectionManagementNeeded() {
     return IsSelectionManagementNeeded();
 }

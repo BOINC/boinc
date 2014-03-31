@@ -198,6 +198,7 @@ BEGIN_EVENT_TABLE (CAdvancedFrame, CBOINCBaseFrame)
     EVT_MOVE(CAdvancedFrame::OnMove)
 #ifdef __WXMAC__
 	EVT_MENU(wxID_PREFERENCES, CAdvancedFrame::OnPreferences)
+    EVT_CHAR_HOOK(CAdvancedFrame::OnKeyPressed)
 #endif
 END_EVENT_TABLE ()
 
@@ -2190,3 +2191,11 @@ void CAdvancedFrame::StopTimers() {
     m_pFrameRenderTimer->Stop();
 }
 
+
+#ifdef __WXMAC__
+// Fix Keyboard navigation on Mac
+void CAdvancedFrame::OnKeyPressed(wxKeyEvent &event) {
+    CBOINCBaseView* pView = wxDynamicCast(m_pNotebook->GetPage(m_pNotebook->GetSelection()), CBOINCBaseView);
+    pView->OnKeyPressed(event);
+}
+#endif

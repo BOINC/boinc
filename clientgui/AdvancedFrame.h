@@ -101,9 +101,12 @@ public:
     bool RestoreState();
     bool SaveState();
 
+#ifdef __WXMAC__
+    void                OnKeyPressed(wxKeyEvent &event);
+#endif
+
     wxTimer*        m_pRefreshStateTimer;
     wxTimer*        m_pFrameRenderTimer;
-
 
 protected:
     virtual int     _GetCurrentViewPage();
