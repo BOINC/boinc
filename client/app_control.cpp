@@ -810,6 +810,13 @@ bool ACTIVE_TASK_SET::check_rsc_limits_exceeded() {
             did_anything = true;
             continue;
         }
+#if 0
+        // removing this for now because most projects currently
+        // have too-low values of workunit.rsc_memory_bound
+        // (causing lots of aborts)
+        // and I don't think we can expect projects to provide
+        // accurate bounds.
+        //
 		if (atp->procinfo.working_set_size_smoothed > atp->max_mem_usage) {
 			sprintf(buf, "working set size > workunit.rsc_memory_bound: %.2fMB > %.2fMB",
 				atp->procinfo.working_set_size_smoothed/MEGA, atp->max_mem_usage/MEGA
@@ -822,6 +829,7 @@ bool ACTIVE_TASK_SET::check_rsc_limits_exceeded() {
             did_anything = true;
             continue;
         }
+#endif
 		if (atp->procinfo.working_set_size_smoothed > max_ram) {
 			sprintf(buf, "working set size > client RAM limit: %.2fMB > %.2fMB",
 				atp->procinfo.working_set_size_smoothed/MEGA, max_ram/MEGA
