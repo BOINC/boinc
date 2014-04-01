@@ -323,10 +323,16 @@ struct PROJECT : PROJ_AM {
     // clear AMS-related fields
     inline void detach_ams() {
         attached_via_acct_mgr = false;
-        ams_resource_share = -1;
         for (int i=0; i<MAX_RSC; i++) {
             no_rsc_ams[i] = false;
         }
+
+		ams_resource_share = -1;
+
+		// parse the account file to get right resource share
+		// in case AMS had set it
+		//
+		parse_account_file();
     }
 
 #ifdef SIM

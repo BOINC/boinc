@@ -755,9 +755,6 @@ int CLIENT_STATE::handle_scheduler_reply(
 
     if (update_project_prefs) {
         project->parse_account_file();
-        if (strlen(project->host_venue)) {
-            project->parse_account_file_venue();
-        }
         project->parse_preferences_for_user_files();
         active_tasks.request_reread_prefs(project);
     }
