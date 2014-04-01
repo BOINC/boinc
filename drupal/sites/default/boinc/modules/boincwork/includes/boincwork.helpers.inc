@@ -72,9 +72,9 @@ function boincwork_get_preset_prefs($preset = null) {
           <max_cpus>16</max_cpus>
           <max_ncpus_pct>100</max_ncpus_pct>
           <cpu_usage_limit>100</cpu_usage_limit>
-          <disk_max_used_gb>0</disk_max_used_gb>
+          <disk_max_used_gb>100</disk_max_used_gb>
           <disk_min_free_gb>2</disk_min_free_gb>
-          <disk_max_used_pct>0</disk_max_used_pct>
+          <disk_max_used_pct>100</disk_max_used_pct>
           <disk_interval>60</disk_interval>
           <vm_max_used_pct>50</vm_max_used_pct>
           <ram_max_used_busy_pct>80</ram_max_used_busy_pct>
