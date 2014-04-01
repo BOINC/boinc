@@ -220,10 +220,7 @@ struct CLIENT_STATE {
     int old_minor_version;
     int old_release;
     bool run_cpu_benchmarks;
-        // if set, run benchmarks on client startup
-    bool cpu_benchmarks_pending;
-        // set if a benchmark fails to start because of a job that doesn't exit
-        // Persists so that the next start of BOINC runs the benchmarks.
+        // if set, run benchmarks when possible
 
     int exit_after_app_start_secs;
         // if nonzero, exit this many seconds after starting an app
@@ -371,7 +368,8 @@ struct CLIENT_STATE {
 // --------------- cs_benchmark.cpp:
     bool benchmarks_running;
 
-    bool should_run_cpu_benchmarks();
+    void check_if_need_benchmarks();
+    bool can_run_cpu_benchmarks();
     void start_cpu_benchmarks();
     bool cpu_benchmarks_poll();
     void abort_cpu_benchmarks();

@@ -252,8 +252,6 @@ void CLIENT_STATE::start_cpu_benchmarks() {
     }
     msg_printf(NULL, MSG_INFO, "Running CPU benchmarks");
 
-    cpu_benchmarks_pending = false;
-
     bm_state = BM_FP_INIT;
     remove_benchmark_file(BM_TYPE_FP);
     remove_benchmark_file(BM_TYPE_INT);
@@ -296,27 +294,32 @@ void CLIENT_STATE::start_cpu_benchmarks() {
     }
 }
 
-// Returns true if CPU benchmarks should be run:
-// flag is set or it's been 5 days since we last ran
+// called at startup to decide if we need to do benchmarks;
+// set run_cpu_benchmarks if so.
 //
-bool CLIENT_STATE::should_run_cpu_benchmarks() {
-    if (did_benchmarks) return false;
-    // Note: if skip_cpu_benchmarks we still should "run" cpu benchmarks
-    // (we'll just use default values in cpu_benchmarks())
-    //
-    if (tasks_suspended) return false;
-
+void CLIENT_STATE::check_if_need_benchmarks() {
+    if (run_cpu_benchmarks) return;
     // if user has changed p_calculated into the future
     // (as part of cheating, presumably) always run benchmarks
     //
     double diff = now - host_info.p_calculated;
-    if (diff < 0) return true;
+    if (diff < 0) {
+        run_cpu_benchmarks = true;
+    } else if (diff > BENCHMARK_PERIOD) {
+        run_cpu_benchmarks = true;
+    }
+}
+
+// Returns true if CPU benchmarks can be run
+//
+bool CLIENT_STATE::can_run_cpu_benchmarks() {
+    if (tasks_suspended) return false;
 
     // if no projects attached yet, don't run
     //
-    if (projects.size()==0 && !run_cpu_benchmarks) return false;
+    if (projects.size()==0) return false;
 
-    return ((run_cpu_benchmarks || diff > BENCHMARK_PERIOD));
+    return true;
 }
 
 // abort a running benchmark thread/process
@@ -390,7 +393,7 @@ bool CLIENT_STATE::cpu_benchmarks_poll() {
         abort_cpu_benchmarks();
         benchmarks_running = false;
         set_client_state_dirty("CPU benchmarks");
-        cpu_benchmarks_pending = true;
+        cpu_benchmarks_set_defaults();
         return false;
     }
 

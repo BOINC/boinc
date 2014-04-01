@@ -606,6 +606,8 @@ int CLIENT_STATE::init() {
         }
     }
 
+    check_if_need_benchmarks();
+
     log_show_projects();
 
     read_global_prefs();
@@ -827,7 +829,7 @@ bool CLIENT_STATE::poll_slow_events() {
         last_wakeup_time = now;
     }
 
-    if (should_run_cpu_benchmarks() && !benchmarks_running) {
+    if (run_cpu_benchmarks && can_run_cpu_benchmarks()) {
         run_cpu_benchmarks = false;
         start_cpu_benchmarks();
     }
