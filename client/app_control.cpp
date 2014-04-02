@@ -853,9 +853,11 @@ bool ACTIVE_TASK_SET::check_rsc_limits_exceeded() {
             did_anything = true;
             continue;
         }
-        if (do_disk_check && atp->check_max_disk_exceeded()) {
-            did_anything = true;
-            continue;
+        if (do_disk_check || atp->peak_disk_usage == 0) {
+			if (atp->check_max_disk_exceeded()) {
+				did_anything = true;
+				continue;
+			}
         }
 
         // don't count RAM usage of non-CPU-intensive jobs
@@ -1498,9 +1500,9 @@ void ACTIVE_TASK::write_task_state_file() {
         "    <checkpoint_cpu_time>%f</checkpoint_cpu_time>\n"
         "    <checkpoint_elapsed_time>%f</checkpoint_elapsed_time>\n"
         "    <fraction_done>%f</fraction_done>\n"
-        "    <peak_working_set_size>%f</peak_working_set_size>\n"
-        "    <peak_swap_size>%f</peak_swap_size>\n"
-        "    <peak_disk_usage>%f</peak_disk_usage>\n"
+        "    <peak_working_set_size>%.0f</peak_working_set_size>\n"
+        "    <peak_swap_size>%.0f</peak_swap_size>\n"
+        "    <peak_disk_usage>%.0f</peak_disk_usage>\n"
         "</active_task>\n",
         result->project->master_url,
         result->name,
