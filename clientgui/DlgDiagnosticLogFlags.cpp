@@ -29,6 +29,10 @@
 #include "gui_rpc_client.h" // For SET_LOCALE
 #include "SkinManager.h"
 
+
+#define DLGDIAGNOSTICS_INITIAL_SIZE 480
+#define DLGDIAGNOSTICS_MIN_SIZE 400
+
 IMPLEMENT_DYNAMIC_CLASS(CDlgDiagnosticLogFlags, wxDialog)
 
 BEGIN_EVENT_TABLE(CDlgDiagnosticLogFlags, wxDialog)
@@ -40,30 +44,42 @@ END_EVENT_TABLE()
 
 /* Constructor */
 CDlgDiagnosticLogFlags::CDlgDiagnosticLogFlags(wxWindow* parent) :
-    wxDialog( parent, ID_ANYDIALOG, wxEmptyString, wxDefaultPosition, 
-                wxSize( 503,480 ), wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER ) {
+    wxDialog( parent, ID_ANYDIALOG, _("BOINC Diagnostic Flags"), wxDefaultPosition,
+                wxSize( DLGDIAGNOSTICS_INITIAL_SIZE,DLGDIAGNOSTICS_INITIAL_SIZE ),
+                wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER
+            ) {
 
-    CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
     CSkinAdvanced*     pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
+    CMainDocument* pDoc = wxGetApp().GetDocument();
+
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
     wxASSERT(pSkinAdvanced);
     wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
-    wxASSERT(pFrame);
-    if (!pFrame) return;
 
+    // Get cc_config.xml file flags
+    log_flags.init();
+    config.defaults();
+    pDoc->rpc.get_cc_config(config, log_flags);
+    
     SetSizeHints( wxDefaultSize, wxDefaultSize );
     SetExtraStyle( GetExtraStyle() | wxWS_EX_VALIDATE_RECURSIVELY );
     
     wxBoxSizer* bSizer1 = new wxBoxSizer( wxVERTICAL );
+    m_headingSizer = new wxGridSizer( 1 );
     
-    m_desctext.Printf(
+    m_headingText.Printf(
         _("%s technical support personnel may ask you to set some of these on or off to help diagnose certain types of problems."),
         pSkinAdvanced->GetApplicationShortName().c_str()
     );
     
-    m_desc = new wxStaticText(this, wxID_ANY, m_desctext);
+    m_heading = new wxStaticText(this, wxID_ANY, m_headingText);
+
+    m_headingSizer->Add(m_heading, 1, wxLEFT | wxRIGHT, 25);
+
     bSizer1->AddSpacer(7);
-    bSizer1->Add(m_desc, 0, wxLEFT | wxRIGHT, 25);
+    bSizer1->Add( m_headingSizer, 0, wxEXPAND | wxALL, 5 );
     bSizer1->AddSpacer(7);
 
     m_scrolledWindow = new wxScrolledWindow( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxHSCROLL|wxVSCROLL );
@@ -75,25 +91,27 @@ CDlgDiagnosticLogFlags::CDlgDiagnosticLogFlags(wxWindow* parent) :
     
     wxBoxSizer* buttonSizer = new wxBoxSizer( wxHORIZONTAL );
 
+    wxButton* btnOK = new wxButton( this, wxID_OK, _("OK"), wxDefaultPosition, wxDefaultSize, 0 );
+    btnOK->SetToolTip( _("Save all values and close the dialog") );
+    buttonSizer->Add( btnOK, 0, wxALL, 5 );
+
     wxButton* btnDefaults = new wxButton( this, ID_DEFAULTSBTN, _("Defaults"), wxDefaultPosition, wxDefaultSize, 0 );
     btnDefaults->SetToolTip( _("Restore default settings") );
     buttonSizer->Add( btnDefaults, 0, wxALL, 5 );
 
     wxButton* btnCancel = new wxButton( this, wxID_CANCEL, _("Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
-    btnCancel->SetToolTip( _("close the dialog without saving") );
+    btnCancel->SetToolTip( _("Close the dialog without saving") );
     buttonSizer->Add( btnCancel, 0, wxALL, 5 );
-
-    wxButton* btnOK = new wxButton( this, wxID_OK, _("OK"), wxDefaultPosition, wxDefaultSize, 0 );
-    btnOK->SetToolTip( _("save all values and close the dialog") );
-    buttonSizer->Add( btnOK, 0, wxALL, 5 );
 
     btnCancel->SetDefault();
     bSizer1->Add( buttonSizer, 0, wxALIGN_RIGHT | wxALL, 15 );
     
     SetSizer( bSizer1 );
     
+    SetSizeHints(DLGDIAGNOSTICS_MIN_SIZE, DLGDIAGNOSTICS_MIN_SIZE);
+    
     RestoreState();
-    FitInside();
+    Layout();
     Center( wxBOTH );
 }
 
@@ -108,23 +126,13 @@ void CDlgDiagnosticLogFlags::CreateCheckboxes() {
     char buf[64000];
     MIOFILE mf;
     bool val;
-    CMainDocument* pDoc = wxGetApp().GetDocument();
-
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
     m_checkbox_list.clear();
-    
-    // Get cc_config.xml file flags
-    log_flags.init();
-    config.defaults();
-    pDoc->rpc.get_cc_config(config, log_flags);
     
     mf.init_buf_write(buf, sizeof(buf));
     config.write(mf, log_flags);
 
-    wxBoxSizer* bSizer2;
-    bSizer2 = new wxBoxSizer( wxVERTICAL );
+    wxGridSizer* bSizer2 = new wxGridSizer(2, wxSize(0,3));
     
     mf.init_buf_read(buf);
     XML_PARSER xp(&mf);
@@ -146,7 +154,6 @@ void CDlgDiagnosticLogFlags::CreateCheckboxes() {
 
         wxCheckBox* ckbox = new wxCheckBox(m_scrolledWindow, wxID_ANY, label);
         bSizer2->Add(ckbox, 0, wxLEFT, 25);
-        bSizer2->AddSpacer(3);
         m_checkbox_list.push_back(ckbox);
         ckbox->SetValue(val);
     }
@@ -167,10 +174,6 @@ bool CDlgDiagnosticLogFlags::SaveState() {
     pConfig->SetPath("/DlgDiagnosticLogFlags/");
     pConfig->Write(wxT("Width"), GetSize().GetWidth());
     pConfig->Write(wxT("Height"), GetSize().GetHeight());
-#ifdef __WXMAC__
-    pConfig->Write(wxT("XPos"), GetPosition().x);
-    pConfig->Write(wxT("YPos"), GetPosition().y);
-#endif
 
     pConfig->Flush();
     
@@ -187,49 +190,27 @@ bool CDlgDiagnosticLogFlags::RestoreState() {
 
     pConfig->SetPath("/DlgDiagnosticLogFlags/");
 
-    pConfig->Read(wxT("Width"), &iWidth, wxDefaultCoord);
-    pConfig->Read(wxT("Height"), &iHeight, wxDefaultCoord);
+    pConfig->Read(wxT("Width"), &iWidth, DLGDIAGNOSTICS_INITIAL_SIZE);
+    pConfig->Read(wxT("Height"), &iHeight, DLGDIAGNOSTICS_INITIAL_SIZE);
 
     // Guard against a rare situation where registry values are zero
-    if ((iWidth < 50) && (iWidth != wxDefaultCoord)) iWidth = wxDefaultCoord;
-    if ((iHeight < 50) && (iHeight != wxDefaultCoord)) iHeight = wxDefaultCoord;
+    if ((iWidth < 50) && (iWidth != wxDefaultCoord)) iWidth = DLGDIAGNOSTICS_INITIAL_SIZE;
+    if ((iHeight < 50) && (iHeight != wxDefaultCoord)) iHeight = DLGDIAGNOSTICS_INITIAL_SIZE;
 
-#ifndef __WXMAC__
     // Set size to saved values or defaults if no saved values
-    SetSize(iWidth, iHeight);    
-#else
-    int                iTop, iLeft;
-    
-    pConfig->Read(wxT("YPos"), &iTop, wxDefaultCoord);
-    pConfig->Read(wxT("XPos"), &iLeft, wxDefaultCoord);
-    
-    // If either co-ordinate is less then 0 then set it equal to 0 to ensure
-    // it displays on the screen.
-    if ((iLeft < 0) && (iLeft != wxDefaultCoord)) iLeft = 30;
-    if ((iTop < 0) && (iTop != wxDefaultCoord)) iTop = 30;
-
-    // Set size and position to saved values or defaults if no saved values
-    SetSize(iLeft, iTop, iWidth, iHeight, wxSIZE_USE_EXISTING);
-
-    // Now make sure window is on screen
-    GetScreenPosition(&iLeft, &iTop);
-    GetSize(&iWidth, &iHeight);
-
-    if (!IsWindowOnScreen(iLeft, iTop, iWidth, iHeight)) {
-        iTop = iLeft = 30;
-        SetSize(iLeft, iTop, iWidth, iHeight, wxSIZE_USE_EXISTING);
-    }
-#endif
+    SetSize(std::max(iWidth, DLGDIAGNOSTICS_MIN_SIZE), std::max(iHeight, DLGDIAGNOSTICS_MIN_SIZE));
 
     return true;
 }
 
 
 void CDlgDiagnosticLogFlags::OnSize(wxSizeEvent& event) {
-    m_desc->SetLabel(m_desctext);
-    m_desc->Wrap(GetSize().GetWidth()-50);
-    FitInside();
+    m_heading->SetLabel(m_headingText);
+    m_heading->Wrap(m_headingSizer->GetSize().GetWidth()-50);
+    m_headingSizer->Fit(m_heading);
+    Layout();
     SaveState();
+    Refresh();
     
     event.Skip();
 }
@@ -240,7 +221,7 @@ void CDlgDiagnosticLogFlags::OnOK(wxCommandEvent& event) {
     char buf[64000];
     MIOFILE mf;
     bool val;
-    int i;
+    unsigned int i;
     CMainDocument* pDoc = wxGetApp().GetDocument();
 
     wxASSERT(pDoc);
@@ -273,9 +254,8 @@ void CDlgDiagnosticLogFlags::OnSetDefaults(wxCommandEvent& event) {
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
     log_flags.init();
-    int retval = pDoc->rpc.set_cc_config(config, log_flags);
-    if (!retval) {
-        pDoc->rpc.read_cc_config();
-    }
-    this->EndModal(wxID_CANCEL);
+    
+    m_scrolledWindow->GetSizer()->Clear(true);
+    CreateCheckboxes();
+    Layout();
 }
