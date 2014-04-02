@@ -131,6 +131,7 @@ struct EXCLUDE_GPU {
     int device_num;         // -1 means all instances
 
     int parse(XML_PARSER&);
+    void write(MIOFILE&);
 };
 
 // if you add anything, you must add it to

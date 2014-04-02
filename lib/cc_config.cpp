@@ -455,6 +455,31 @@ int CONFIG::parse(XML_PARSER& xp, LOG_FLAGS& log_flags) {
     return ERR_XML_PARSE;
 }
 
+void EXCLUDE_GPU::write(MIOFILE& out) {
+    out.printf(
+        "    <exclude_gpu>\n"
+        "        <url>%s</url>\n"
+        "        <device_num>%d</device_num>\n",
+        url.c_str(),
+        device_num
+    );
+    if (type.length()) {
+        out.printf(
+            "        <type>%s</type>\n",
+            type.c_str()
+        );
+    }
+    if (appname.length()) {
+        out.printf(
+            "        <app>%s</app>\n",
+            appname.c_str()
+        );
+    }
+    out.printf(
+        "    </exclude_gpu>\n"
+    );
+}
+
 int CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
     int j;
     unsigned int i;
@@ -515,6 +540,7 @@ int CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
     }
     
     // Older versions of BOINC choke on empty data_dir string 
+    //
     if (strlen(data_dir)) {
         out.printf("        <data_dir>%s</data_dir>\n", data_dir);
     }
@@ -528,6 +554,10 @@ int CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
         dont_contact_ref_site
     );
     
+    for (i=0; i<exclude_gpus.size(); i++) {
+        exclude_gpus[i].write(out);
+    }
+
     for (i=0; i<exclusive_apps.size(); ++i) {
         out.printf(
             "        <exclusive_app>%s</exclusive_app>\n",
@@ -541,7 +571,7 @@ int CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
             exclusive_gpu_apps[i].c_str()
         );
     }
-            
+
     out.printf(
         "        <exit_after_finish>%d</exit_after_finish>\n"
         "        <exit_before_start>%d</exit_before_start>\n"
