@@ -66,6 +66,7 @@ protected:
     wxString            m_headingText;
     wxStaticText*       m_heading;
     wxScrolledWindow*   m_scrolledWindow;
+    wxGridSizer*        m_checkboxSizer;
 };
 
 #endif // _DLGDIAGNOSTICLOGFLAGS_H_

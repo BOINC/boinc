@@ -85,6 +85,7 @@ CDlgDiagnosticLogFlags::CDlgDiagnosticLogFlags(wxWindow* parent) :
     m_scrolledWindow = new wxScrolledWindow( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxHSCROLL|wxVSCROLL );
     m_scrolledWindow->SetScrollRate( 5, 5 );
 
+    m_checkboxSizer = new wxGridSizer(2, wxSize(0,3));
     CreateCheckboxes();
     
     bSizer1->Add( m_scrolledWindow, 1, wxEXPAND | wxALL, 5 );
@@ -135,8 +136,6 @@ void CDlgDiagnosticLogFlags::CreateCheckboxes() {
     
     mf.init_buf_write(buf, sizeof(buf));
     config.write(mf, log_flags);
-
-    wxGridSizer* bSizer2 = new wxGridSizer(2, wxSize(0,3));
     
     mf.init_buf_read(buf);
     XML_PARSER xp(&mf);
@@ -157,14 +156,14 @@ void CDlgDiagnosticLogFlags::CreateCheckboxes() {
         xp.parse_bool(xp.parsed_tag, val);
 
         wxCheckBox* ckbox = new wxCheckBox(m_scrolledWindow, wxID_ANY, label);
-        bSizer2->Add(ckbox, 0, wxLEFT, 25);
+        m_checkboxSizer->Add(ckbox, 0, wxLEFT, 25);
         m_checkbox_list.push_back(ckbox);
         ckbox->SetValue(val);
     }
 
-    m_scrolledWindow->SetSizer( bSizer2 );
+    m_scrolledWindow->SetSizer( m_checkboxSizer );
     m_scrolledWindow->Layout();
-    bSizer2->Fit( m_scrolledWindow );
+    m_checkboxSizer->Fit( m_scrolledWindow );
 }
 
 
@@ -259,7 +258,7 @@ void CDlgDiagnosticLogFlags::OnSetDefaults(wxCommandEvent& ) {
 
     log_flags.init();
     
-    m_scrolledWindow->GetSizer()->Clear(true);
+    m_checkboxSizer->Clear(true);
     CreateCheckboxes();
     Layout();
 }
