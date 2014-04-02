@@ -70,8 +70,7 @@ CDlgDiagnosticLogFlags::CDlgDiagnosticLogFlags(wxWindow* parent) :
     m_headingSizer = new wxGridSizer( 1 );
     
     m_headingText.Printf(
-        _("%s technical support personnel may ask you to set some of these on or off to help diagnose certain types of problems."),
-        pSkinAdvanced->GetApplicationShortName().c_str()
+        _("These flags enable various types of diagnostic messages in the Event Log.")
     );
     
     m_heading = new wxStaticText(this, wxID_ANY, m_headingText);
