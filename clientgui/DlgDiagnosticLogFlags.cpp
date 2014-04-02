@@ -251,7 +251,7 @@ void CDlgDiagnosticLogFlags::OnOK(wxCommandEvent& event) {
 }
 
 
-void CDlgDiagnosticLogFlags::OnSetDefaults(wxCommandEvent& event) {
+void CDlgDiagnosticLogFlags::OnSetDefaults(wxCommandEvent& ) {
     CMainDocument* pDoc = wxGetApp().GetDocument();
 
     wxASSERT(pDoc);
