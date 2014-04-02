@@ -113,6 +113,10 @@ CDlgDiagnosticLogFlags::CDlgDiagnosticLogFlags(wxWindow* parent) :
     RestoreState();
     Layout();
     Center( wxBOTH );
+    
+#if defined(__WXMSW__) || defined(__WXGTK__)
+    SetDoubleBuffered(true);
+#endif
 }
 
 // destructor
