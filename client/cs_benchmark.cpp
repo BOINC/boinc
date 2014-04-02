@@ -92,9 +92,8 @@ static int bm_state;
 
 static bool did_benchmarks = false;
     // true if we successfully did benchmarks.
-    // don't do them again during this run of client
 
-#define BENCHMARK_PERIOD        (SECONDS_PER_DAY*5)
+#define BENCHMARK_PERIOD        (SECONDS_PER_DAY*30)
     // rerun CPU benchmarks this often (hardware may have been upgraded)
 
 // represents a benchmark thread/process, in progress or completed

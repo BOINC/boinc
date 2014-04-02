@@ -101,6 +101,9 @@ ACTIVE_TASK::ACTIVE_TASK() {
     checkpoint_fraction_done = 0;
     checkpoint_fraction_done_elapsed_time = 0;
     current_cpu_time = 0;
+    peak_working_set_size = 0;
+    peak_swap_size = 0;
+    peak_disk_usage = 0;
     once_ran_edf = false;
 
     fraction_done = 0;
@@ -370,6 +373,13 @@ void ACTIVE_TASK_SET::get_memory_usage() {
             pi.working_set_size_smoothed = .5*(pi.working_set_size_smoothed + pi.working_set_size);
         }
 
+        if (pi.working_set_size > atp->peak_working_set_size) {
+            atp->peak_working_set_size = pi.working_set_size;
+        }
+        if (pi.swap_size > atp->peak_swap_size) {
+            atp->peak_swap_size = pi.swap_size;
+        }
+
         if (!first) {
             int pf = pi.page_fault_count - last_page_fault_count;
             pi.page_fault_rate = pf/diff;
@@ -491,6 +501,9 @@ int ACTIVE_TASK::current_disk_usage(double& size) {
         get_pathname(fip, path, sizeof(path));
         retval = file_size(path, x);
         if (!retval) size += x;
+    }
+    if (size > peak_disk_usage) {
+        peak_disk_usage = size;
     }
     return 0;
 }

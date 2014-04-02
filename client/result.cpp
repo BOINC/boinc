@@ -210,8 +210,14 @@ int RESULT::write(MIOFILE& out, bool to_server) {
     }
     if (to_server) {
         out.printf(
-            "    <app_version_num>%d</app_version_num>\n",
-            wup->version_num
+            "    <app_version_num>%d</app_version_num>\n"
+            "    <final_peak_working_set_size>%f</final_peak_working_set_size>\n"
+            "    <final_peak_swap_size>%f</final_peak_swap_size>\n"
+            "    <final_peak_disk_usage>%f</final_peak_disk_usage>\n",
+            wup->version_num,
+            final_peak_working_set_size,
+            final_peak_swap_size,
+            final_peak_disk_usage
         );
     }
     n = (int)stderr_out.length();
