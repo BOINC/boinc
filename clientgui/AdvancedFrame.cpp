@@ -612,7 +612,7 @@ bool CAdvancedFrame::CreateMenu() {
     );
     menuAdvanced->Append(
 		ID_DIAGNOSTICLOGFLAGS,
-        _("Event Log Diagnostic Flags...\tCtrl+Shift+D"),
+        _("Event Log Diagnostic Flags...\tCtrl+Shift+F"),
         _("Enable or disable various diagnostic messages")
     );
 

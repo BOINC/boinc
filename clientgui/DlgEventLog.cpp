@@ -260,7 +260,7 @@ bool CDlgEventLog::Create( wxWindow* parent, wxWindowID id, const wxString& capt
     // Register that we had the Event Log open immediately
     SaveState();
     
-    m_Shortcuts[0].Set(wxACCEL_CTRL|wxACCEL_SHIFT, (int)'D', ID_SGDIAGNOSTICLOGFLAGS);
+    m_Shortcuts[0].Set(wxACCEL_CTRL|wxACCEL_SHIFT, (int)'F', ID_SGDIAGNOSTICLOGFLAGS);
     m_pAccelTable = new wxAcceleratorTable(1, m_Shortcuts);
 
     SetAcceleratorTable(*m_pAccelTable);
