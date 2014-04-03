@@ -38,3 +38,4 @@
 /win_build/boinc.sdf
 /win_build/boinc.opensdf
 /win_build/ipch
+/win_build/installerv2/redist/Windows/src/boinccas/*.filters

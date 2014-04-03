@@ -1,8 +1,8 @@
-Microsoft Visual Studio Solution File, Format Version 9.00
-# Visual Studio 2005
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BOINCCAS", "boinccas.vcproj", "{49723CA5-DA05-43C0-93AB-6FD30D046919}"
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "boinccas", "boinccas.vcxproj", "{49723CA5-DA05-43C0-93AB-6FD30D046919}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BOINCCAS95", "boinccas95.vcproj", "{49723CA5-DA05-43C0-93AB-6FD30D046910}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "boinccas95", "boinccas95.vcxproj", "{49723CA5-DA05-43C0-93AB-6FD30D046910}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
