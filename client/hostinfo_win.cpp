@@ -172,7 +172,6 @@ int get_memory_info(double& bytes, double& swap) {
 // Returns the OS name and version
 //
 
-typedef void (WINAPI *PGNSI)(LPSYSTEM_INFO);
 typedef BOOL (WINAPI *PGPI)(DWORD, DWORD, DWORD, DWORD, PDWORD);
 
 int get_os_information(
@@ -186,7 +185,6 @@ int get_os_information(
     char szServicePack[128];
     OSVERSIONINFOEX osvi;
     SYSTEM_INFO si;
-    PGNSI pGNSI;
     PGPI pGPI;
     BOOL bOsVersionInfoEx;
     DWORD dwType = 0;
@@ -199,24 +197,20 @@ int get_os_information(
     osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
 
 
+    // GetProductInfo is a Vista+ API
+    pGPI = (PGPI) GetProcAddress(GetModuleHandle(_T("kernel32.dll")), "GetProductInfo");
+
+
     // Try calling GetVersionEx using the OSVERSIONINFOEX structure.
     // If that fails, try using the OSVERSIONINFO structure.
-    bOsVersionInfoEx = GetVersionEx ((OSVERSIONINFO *) &osvi);
+    bOsVersionInfoEx = GetVersionEx ((OSVERSIONINFO*)&osvi);
     if(!bOsVersionInfoEx) {
-        osvi.dwOSVersionInfoSize = sizeof (OSVERSIONINFO);
-        GetVersionEx ( (OSVERSIONINFO *) &osvi );
+        osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
+        GetVersionEx ((OSVERSIONINFO*)&osvi);
     }
 
 
-    // Call GetNativeSystemInfo if supported or GetSystemInfo otherwise.
-    pGNSI = (PGNSI) GetProcAddress(GetModuleHandle(_T("kernel32.dll")), "GetNativeSystemInfo");
-    if(NULL != pGNSI) {
-        pGNSI(&si);
-    } else {
-        GetSystemInfo(&si);
-    }
-
-    pGPI = (PGPI) GetProcAddress(GetModuleHandle(_T("kernel32.dll")), "GetProductInfo");
+    GetNativeSystemInfo(&si);
 
 
     // Windows is a Microsoft OS
