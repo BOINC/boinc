@@ -43,3 +43,4 @@ EXPORTS
     CCConfigMd5sum
     CreateProjectInitFile
     CreateAcctMgrLoginFile
+	RestorePermissionBOINCData

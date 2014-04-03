@@ -228,6 +228,7 @@
     <ClCompile Include="CALaunchBOINCManager.cpp" />
     <ClCompile Include="CALaunchBOINCTray.cpp" />
     <ClCompile Include="CARestoreExecutionState.cpp" />
+    <ClCompile Include="CARestorePermissionBOINCData.cpp" />
     <ClCompile Include="CARestoreSetupState.cpp" />
     <ClCompile Include="CASaveExecutionState.cpp" />
     <ClCompile Include="CASaveSetupState.cpp" />
@@ -284,6 +285,7 @@
     <ClInclude Include="CALaunchBOINCManager.h" />
     <ClInclude Include="CALaunchBOINCTray.h" />
     <ClInclude Include="CARestoreExecutionState.h" />
+    <ClInclude Include="CARestorePermissionBOINCData.h" />
     <ClInclude Include="CARestoreSetupState.h" />
     <ClInclude Include="CASaveExecutionState.h" />
     <ClInclude Include="CASaveSetupState.h" />
