@@ -38,6 +38,9 @@
 #ifndef _CRT_SECURE_NO_DEPRECATE
 #define _CRT_SECURE_NO_DEPRECATE
 #endif
+#ifndef _CRT_NON_CONFORMING_SWPRINTFS
+#define _CRT_NON_CONFORMING_SWPRINTFS
+#endif
 #endif
 
 // Modify the following defines if you have to target a platform prior to the ones specified below.

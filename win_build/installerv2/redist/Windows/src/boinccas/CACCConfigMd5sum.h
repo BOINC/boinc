@@ -30,8 +30,6 @@ public:
     ~CACCConfigMd5sum();
     virtual UINT OnExecution();
 
-private:
-	bool CheckFile(char *);
 };
 
 

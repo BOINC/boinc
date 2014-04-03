@@ -30,3 +30,16 @@ EXPORTS
 	SetPermissionBOINCDataSlots
 	LaunchBOINCManager
 	LaunchBOINCTray
+	ValidateSetupType
+	RestoreSetupState
+	SaveSetupState
+	ShutdownBOINCManager
+	CleanupOldBinaries
+	VerifyInstallDirectories
+    ValidateInstall
+    ValidateRebootRequest
+    SaveExecutionState
+    RestoreExecutionState
+    CCConfigMd5sum
+    CreateProjectInitFile
+    CreateAcctMgrLoginFile

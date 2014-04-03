@@ -31,14 +31,17 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <CharacterSet>Unicode</CharacterSet>
+    <UseOfAtl>Static</UseOfAtl>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <CharacterSet>Unicode</CharacterSet>
+    <UseOfAtl>Static</UseOfAtl>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <CharacterSet>Unicode</CharacterSet>
+    <UseOfAtl>Static</UseOfAtl>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -101,7 +104,7 @@
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>atls.lib;msi.lib;libcmtd.lib;libcpmtd.lib;delayimp.lib;netapi32.lib;advapi32.lib;kernel32.lib;user32.lib;version.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>atlsd.lib;msi.lib;libcmtd.lib;libcpmtd.lib;delayimp.lib;netapi32.lib;advapi32.lib;kernel32.lib;user32.lib;version.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)boinccas.dll</OutputFile>
       <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
       <ModuleDefinitionFile>boinccas.def</ModuleDefinitionFile>
@@ -130,7 +133,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>atls.lib;msi.lib;libcmtd.lib;libcpmtd.lib;delayimp.lib;netapi32.lib;advapi32.lib;kernel32.lib;user32.lib;version.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>atlsd.lib;msi.lib;libcmtd.lib;libcpmtd.lib;delayimp.lib;netapi32.lib;advapi32.lib;kernel32.lib;user32.lib;version.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)boinccas.dll</OutputFile>
       <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
       <ModuleDefinitionFile>boinccas.def</ModuleDefinitionFile>
@@ -156,7 +159,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>atls.lib;msi.lib;libcmt.lib;libcpmt.lib;delayimp.lib;netapi32.lib;advapi32.lib;kernel32.lib;user32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>atls.lib;msi.lib;libcmt.lib;libcpmt.lib;delayimp.lib;netapi32.lib;advapi32.lib;kernel32.lib;user32.lib;version.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)boinccas.dll</OutputFile>
       <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
       <ModuleDefinitionFile>boinccas.def</ModuleDefinitionFile>
@@ -204,9 +207,13 @@
   <ItemGroup>
     <ClCompile Include="aclmgmt.cpp" />
     <ClCompile Include="boinccas.cpp" />
+    <ClCompile Include="CACCConfigMd5sum.cpp" />
+    <ClCompile Include="CACleanupOldBinaries.cpp" />
+    <ClCompile Include="CACreateAcctMgrLoginFile.cpp" />
     <ClCompile Include="CACreateBOINCAccounts.cpp" />
     <ClCompile Include="CACreateBOINCGroups.cpp" />
     <ClCompile Include="CACreateClientAuthFile.cpp" />
+    <ClCompile Include="CACreateProjectInitFile.cpp" />
     <ClCompile Include="CAGetAdministratorsGroupName.cpp" />
     <ClCompile Include="CAGetUsersGroupName.cpp" />
     <ClCompile Include="CAGrantBOINCAdminsRights.cpp" />
@@ -220,6 +227,10 @@
     <ClCompile Include="CAHideBOINCProjectProfile.cpp" />
     <ClCompile Include="CALaunchBOINCManager.cpp" />
     <ClCompile Include="CALaunchBOINCTray.cpp" />
+    <ClCompile Include="CARestoreExecutionState.cpp" />
+    <ClCompile Include="CARestoreSetupState.cpp" />
+    <ClCompile Include="CASaveExecutionState.cpp" />
+    <ClCompile Include="CASaveSetupState.cpp" />
     <ClCompile Include="CASetPermissionBOINC.cpp" />
     <ClCompile Include="CASetPermissionBOINCData.cpp" />
     <ClCompile Include="CASetPermissionBOINCDataProjects.cpp" />
@@ -228,6 +239,10 @@
     <ClCompile Include="CAShutdownBOINCManager.cpp" />
     <ClCompile Include="CAShutdownBOINCScreensaver.cpp" />
     <ClCompile Include="CAShutdownUD.cpp" />
+    <ClCompile Include="CAValidateInstall.cpp" />
+    <ClCompile Include="CAValidateRebootRequest.cpp" />
+    <ClCompile Include="CAValidateSetupType.cpp" />
+    <ClCompile Include="CAVerifyInstallDirectories.cpp" />
     <ClCompile Include="dirops.cpp" />
     <ClCompile Include="launcher.cpp" />
     <ClCompile Include="listacl.cpp" />
@@ -248,9 +263,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="boinccas.h" />
+    <ClInclude Include="CACCConfigMd5sum.h" />
+    <ClInclude Include="CACleanupOldBinaries.h" />
+    <ClInclude Include="CACreateAcctMgrLoginFile.h" />
     <ClInclude Include="CACreateBOINCAccounts.h" />
     <ClInclude Include="CACreateBOINCGroups.h" />
     <ClInclude Include="CACreateClientAuthFile.h" />
+    <ClInclude Include="CACreateProjectInitFile.h" />
     <ClInclude Include="CAGetAdministratorsGroupName.h" />
     <ClInclude Include="CAGetUsersGroupName.h" />
     <ClInclude Include="CAGrantBOINCAdminsRights.h" />
@@ -264,6 +283,10 @@
     <ClInclude Include="CAHideBOINCProjectProfile.h" />
     <ClInclude Include="CALaunchBOINCManager.h" />
     <ClInclude Include="CALaunchBOINCTray.h" />
+    <ClInclude Include="CARestoreExecutionState.h" />
+    <ClInclude Include="CARestoreSetupState.h" />
+    <ClInclude Include="CASaveExecutionState.h" />
+    <ClInclude Include="CASaveSetupState.h" />
     <ClInclude Include="CASetPermissionBOINC.h" />
     <ClInclude Include="CASetPermissionBOINCData.h" />
     <ClInclude Include="CASetPermissionBOINCDataProjects.h" />
@@ -272,6 +295,10 @@
     <ClInclude Include="CAShutdownBOINCManager.h" />
     <ClInclude Include="CAShutdownBOINCScreensaver.h" />
     <ClInclude Include="CAShutdownUD.h" />
+    <ClInclude Include="CAValidateInstall.h" />
+    <ClInclude Include="CAValidateRebootRequest.h" />
+    <ClInclude Include="CAValidateSetupType.h" />
+    <ClInclude Include="CAVerifyInstallDirectories.h" />
     <ClInclude Include="dcomperm.h" />
     <ClInclude Include="dirops.h" />
     <ClInclude Include="launcher.h" />
