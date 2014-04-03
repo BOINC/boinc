@@ -135,7 +135,7 @@ protected:
 
 	wxMenuBar*          m_pMenubar;
     wxMenu*             m_pSubmenuSkins;
-    wxAcceleratorEntry  m_Shortcuts[2];
+    wxAcceleratorEntry  m_Shortcuts[3];
     wxAcceleratorTable* m_pAccelTable;
 
 	CSimpleGUIPanel* m_pBackgroundPanel;

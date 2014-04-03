@@ -459,11 +459,6 @@ bool CAdvancedFrame::CreateMenu() {
         _("Computing &preferences..."),
         _("Configure computing preferences")
     );
-    menuTools->Append(
-		ID_DIAGNOSTICLOGFLAGS,
-        _("Diagnostics..."),
-        _("Enable or disable diagnostics")
-    );
 
     // Activity menu
     wxMenu *menuActivity = new wxMenu;
@@ -614,6 +609,11 @@ bool CAdvancedFrame::CreateMenu() {
         ID_EVENTLOG, 
         _("Event Log...\tCtrl+Shift+E"),
         _("Display diagnostic messages.")
+    );
+    menuAdvanced->Append(
+		ID_DIAGNOSTICLOGFLAGS,
+        _("Event Log Diagnostic Flags...\tCtrl+Shift+D"),
+        _("Enable or disable various diagnostic messages")
     );
 
 

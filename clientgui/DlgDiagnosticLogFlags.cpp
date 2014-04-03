@@ -44,7 +44,7 @@ END_EVENT_TABLE()
 
 /* Constructor */
 CDlgDiagnosticLogFlags::CDlgDiagnosticLogFlags(wxWindow* parent) :
-    wxDialog( parent, ID_ANYDIALOG, _("BOINC Diagnostic Flags"), wxDefaultPosition,
+    wxDialog( parent, ID_ANYDIALOG, wxEmptyString, wxDefaultPosition,
                 wxSize( DLGDIAGNOSTICS_INITIAL_SIZE,DLGDIAGNOSTICS_INITIAL_SIZE ),
                 wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER
             ) {
@@ -57,6 +57,14 @@ CDlgDiagnosticLogFlags::CDlgDiagnosticLogFlags(wxWindow* parent) :
 
     wxASSERT(pSkinAdvanced);
     wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
+
+    wxString title;
+    title.Printf(
+        _("%s Diagnostic Log Flags"),
+        pSkinAdvanced->GetApplicationShortName().c_str()
+    );
+
+    SetTitle(title);
 
     // Get cc_config.xml file flags
     log_flags.init();

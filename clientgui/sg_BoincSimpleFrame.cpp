@@ -179,12 +179,6 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIconBundle* icons, wxPoint position
         _("Configure display options and proxy settings")
     );
 
-    menuTools->Append(
-		ID_SGDIAGNOSTICLOGFLAGS,
-        _("Diagnostics..."),
-        _("Enable or disable diagnostics")
-    );
-
     // Help menu
     wxMenu *menuHelp = new wxMenu;
 
@@ -294,12 +288,9 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIconBundle* icons, wxPoint position
 #endif
 
     m_Shortcuts[0].Set(wxACCEL_NORMAL, WXK_HELP, ID_HELPBOINCMANAGER);
-#ifdef __WXMAC__
-    m_Shortcuts[1].Set(wxACCEL_CMD|wxACCEL_SHIFT, (int)'E', ID_EVENTLOG);
-#else
     m_Shortcuts[1].Set(wxACCEL_CTRL|wxACCEL_SHIFT, (int)'E', ID_EVENTLOG);
-#endif
-    m_pAccelTable = new wxAcceleratorTable(2, m_Shortcuts);
+    m_Shortcuts[2].Set(wxACCEL_CTRL|wxACCEL_SHIFT, (int)'D', ID_SGDIAGNOSTICLOGFLAGS);
+    m_pAccelTable = new wxAcceleratorTable(3, m_Shortcuts);
 
     SetAcceleratorTable(*m_pAccelTable);
     
