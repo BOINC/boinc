@@ -1159,6 +1159,24 @@ int SCHED_DB_RESULT::parse_from_client(XML_PARSER& xp) {
             }
             continue;
         }
+        if (xp.parse_double("final_peak_working_set_size", peak_working_set_size)) {
+            if (!boinc_is_finite(peak_working_set_size)) {
+                peak_working_set_size = 0;
+            }
+            continue;
+        }
+        if (xp.parse_double("final_peak_swap_size", peak_swap_size)) {
+            if (!boinc_is_finite(peak_swap_size)) {
+                peak_swap_size = 0;
+            }
+            continue;
+        }
+        if (xp.parse_double("final_peak_disk_usage", peak_disk_usage)) {
+            if (!boinc_is_finite(peak_disk_usage)) {
+                peak_disk_usage = 0;
+            }
+            continue;
+        }
         if (xp.parse_int("exit_status", exit_status)) continue;
         if (xp.parse_int("app_version_num", app_version_num)) continue;
         if (xp.match_tag("file_info")) {

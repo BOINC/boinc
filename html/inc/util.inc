@@ -42,6 +42,10 @@ $caching = false;
     // if set, we're writing to a file rather than to client
 $did_page_head = false;
 
+define('KILO', 1024);
+define('MEGA', 1024*KILO);
+define('GIGA', 1024*MEGA);
+
 // return true if this page is HTTPS
 //
 function is_https() {

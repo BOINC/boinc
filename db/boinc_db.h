@@ -348,6 +348,9 @@ struct SCHED_RESULT_ITEM {
     int file_delete_state;
     double elapsed_time;
     int app_version_id;
+    double peak_working_set_size;
+    double peak_swap_size;
+    double peak_disk_usage;
 
     void clear();
     void parse(MYSQL_ROW& row);

@@ -594,6 +594,11 @@ struct RESULT {
     int size_class;
         // -1 means none
 
+    // the following reported by 7.3.16+ clients
+    double peak_working_set_size;
+    double peak_swap_size;
+    double peak_disk_usage;
+
     void clear();
     RESULT() {clear();}
 };

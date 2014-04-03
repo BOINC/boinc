@@ -951,7 +951,10 @@ void DB_RESULT::db_print(char* buf){
         "claimed_credit=%.15e, granted_credit=%.15e, opaque=%.15e, random=%d, "
         "app_version_num=%d, appid=%d, exit_status=%d, teamid=%d, "
         "priority=%d, elapsed_time=%.15e, flops_estimate=%.15e, "
-        "app_version_id=%d, runtime_outlier=%d, size_class=%d",
+        "app_version_id=%d, runtime_outlier=%d, size_class=%d, "
+        "peak_working_set_size=%.0f, "
+        "peak_swap_size=%.0f, "
+        "peak_disk_usage=%.0f ",
         create_time, workunitid,
         server_state, outcome, client_state,
         hostid, userid,
@@ -964,7 +967,10 @@ void DB_RESULT::db_print(char* buf){
         priority, elapsed_time, flops_estimate,
         app_version_id,
         runtime_outlier?1:0,
-        size_class
+        size_class,
+        peak_working_set_size,
+        peak_swap_size,
+        peak_disk_usage
     );
     UNESCAPE(xml_doc_out);
     UNESCAPE(stderr_out);
@@ -985,7 +991,7 @@ void DB_RESULT::db_print_values(char* buf){
         "'%s', '%s', '%s', "
         "%d, %d, %d, "
         "%.15e, %.15e, %.15e, %d, "
-        "%d, %d, %d, %d, %d, NOW(), 0, 0, 0, 0, %d)",
+        "%d, %d, %d, %d, %d, NOW(), 0, 0, 0, 0, %d, 0, 0, 0)",
         create_time, workunitid,
         server_state, outcome, client_state,
         hostid, userid,
@@ -1063,6 +1069,9 @@ void DB_RESULT::db_parse(MYSQL_ROW &r) {
     app_version_id = atoi(r[i++]);
     runtime_outlier = (atoi(r[i++]) != 0);
     size_class = atoi(r[i++]);
+    peak_working_set_size = atof(r[i++]);
+    peak_swap_size = atof(r[i++]);
+    peak_disk_usage = atof(r[i++]);
 }
 
 int DB_RESULT::get_unsent_counts(APP& app, int* unsent_count) {
@@ -2125,7 +2134,10 @@ int DB_SCHED_RESULT_ITEM_SET::update_result(SCHED_RESULT_ITEM& ri) {
         "    xml_doc_out='%s', "
         "    validate_state=%d, "
         "    teamid=%d, "
-        "    elapsed_time=%.15e "
+        "    elapsed_time=%.15e, "
+        "    peak_working_set_size=%.0f, "
+        "    peak_swap_size=%.0f, "
+        "    peak_disk_usage=%.0f "
         "WHERE "
         "    id=%u",
         ri.hostid,
@@ -2141,6 +2153,9 @@ int DB_SCHED_RESULT_ITEM_SET::update_result(SCHED_RESULT_ITEM& ri) {
         ri.validate_state,
         ri.teamid,
         ri.elapsed_time,
+        ri.peak_working_set_size,
+        ri.peak_swap_size,
+        ri.peak_disk_usage,
         ri.id
     );
     retval = db->do_query(query);

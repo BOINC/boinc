@@ -125,7 +125,8 @@ int handle_results() {
     // which srip appears as an lval. These are:
     // hostid, teamid, received_time, client_state, cpu_time, exit_status,
     // app_version_num, claimed_credit, server_state, stderr_out,
-    // xml_doc_out, outcome, validate_state, elapsed_time
+    // xml_doc_out, outcome, validate_state, elapsed_time,
+    // and peak_*
     //
     retval = result_handler.enumerate();
     if (retval) {
@@ -295,6 +296,9 @@ int handle_results() {
         srip->client_state = rp->client_state;
         srip->cpu_time = rp->cpu_time;
         srip->elapsed_time = rp->elapsed_time;
+        srip->peak_working_set_size = rp->peak_working_set_size;
+        srip->peak_swap_size = rp->peak_swap_size;
+        srip->peak_disk_usage = rp->peak_disk_usage;
 
         // Some buggy clients sporadically report very low elapsed time
         // but actual CPU time.
@@ -391,7 +395,8 @@ int handle_results() {
                 "[HOST#%d] [RESULT#%u] [WU#%u] can't update result: %s\n",
                 g_reply->host.id, sri.id, sri.workunitid, boinc_db.error_string()
             );
-        } else {
+        }
+        if (retval == 0 || retval == ERR_DB_NOT_FOUND) {
             g_reply->result_acks.push_back(std::string(sri.name));
         }
     }
