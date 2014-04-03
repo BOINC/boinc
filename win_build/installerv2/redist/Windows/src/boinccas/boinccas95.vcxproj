@@ -207,10 +207,6 @@
     <ClCompile Include="CACleanupOldBinaries.cpp" />
     <ClCompile Include="CACreateAcctMgrLoginFile.cpp" />
     <ClCompile Include="CACreateProjectInitFile.cpp" />
-    <ClCompile Include="CAMigrateBOINCData.cpp" />
-    <ClCompile Include="CAMigrateBOINCDataCleanup.cpp" />
-    <ClCompile Include="CAMigrateBOINCDataVersion.cpp" />
-    <ClCompile Include="CAMigratex86x64.cpp" />
     <ClCompile Include="CARestoreExecutionState.cpp" />
     <ClCompile Include="CARestoreSetupState.cpp" />
     <ClCompile Include="CASaveExecutionState.cpp" />
@@ -235,10 +231,6 @@
     <ClInclude Include="CACleanupOldBinaries.h" />
     <ClInclude Include="CACreateAcctMgrLoginFile.h" />
     <ClInclude Include="CACreateProjectInitFile.h" />
-    <ClInclude Include="CAMigrateBOINCData.h" />
-    <ClInclude Include="CAMigrateBOINCDataCleanup.h" />
-    <ClInclude Include="CAMigrateBOINCDataVersion.h" />
-    <ClInclude Include="CAMigratex86x64.h" />
     <ClInclude Include="CARestoreExecutionState.h" />
     <ClInclude Include="CARestoreSetupState.h" />
     <ClInclude Include="CASaveExecutionState.h" />
