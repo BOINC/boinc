@@ -1641,6 +1641,50 @@ return (boincteam_is_founder($team_id, $uid) OR boincteam_is_admin($team_id, $ui
         0 => array(
           'name' => 'php',
           'settings' => array(
+            'description' => 'A member of this team, the forum is public, or has global team moderation',
+            'php' => '$team_id = $contexts[\'argument_nid_1\']->data->nid;
+return (
+  (
+    boincteam_is_member($team_id) OR
+    boincteam_forum_is_any_public($team_id) OR
+    boincteam_forum_is_global_moderator()
+  ) AND (
+   boincteam_forum_list($team_id)
+  )
+);',
+          ),
+          'not' => FALSE,
+        ),
+      ),
+    );
+    $pane->configuration = array(
+      'admin_title' => 'Team forum',
+      'title' => '',
+      'body' => '<?php print boincteam_forum_link_panel(%team_id:nid); ?>',
+      'format' => '3',
+      'substitute' => 1,
+    );
+    $pane->cache = array();
+    $pane->style = array();
+    $pane->css = array(
+      'css_id' => '',
+      'css_class' => 'panel-secondary container shadow',
+    );
+    $pane->extras = array();
+    $pane->position = 1;
+    $display->content['new-3'] = $pane;
+    $display->panels['right'][1] = 'new-3';
+    $pane = new stdClass;
+    $pane->pid = 'new-4';
+    $pane->panel = 'right';
+    $pane->type = 'custom';
+    $pane->subtype = 'custom';
+    $pane->shown = TRUE;
+    $pane->access = array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'php',
+          'settings' => array(
             'description' => 'Not in another team',
             'php' => '$account = user_load($contexts[\'logged-in-user\']->data->uid);
 return ($account->team == 0);',
@@ -1683,11 +1727,11 @@ return $boincteam->joinable;',
       'css_class' => 'panel-secondary container shadow',
     );
     $pane->extras = array();
-    $pane->position = 1;
-    $display->content['new-3'] = $pane;
-    $display->panels['right'][1] = 'new-3';
+    $pane->position = 2;
+    $display->content['new-4'] = $pane;
+    $display->panels['right'][2] = 'new-4';
     $pane = new stdClass;
-    $pane->pid = 'new-4';
+    $pane->pid = 'new-5';
     $pane->panel = 'right';
     $pane->type = 'custom';
     $pane->subtype = 'custom';
@@ -1721,11 +1765,11 @@ return ($account->team == $contexts[\'argument_nid_1\']->data->nid);',
       'css_class' => 'panel-secondary container shadow',
     );
     $pane->extras = array();
-    $pane->position = 2;
-    $display->content['new-4'] = $pane;
-    $display->panels['right'][2] = 'new-4';
+    $pane->position = 3;
+    $display->content['new-5'] = $pane;
+    $display->panels['right'][3] = 'new-5';
     $pane = new stdClass;
-    $pane->pid = 'new-5';
+    $pane->pid = 'new-6';
     $pane->panel = 'right';
     $pane->type = 'custom';
     $pane->subtype = 'custom';
@@ -1784,11 +1828,11 @@ return FALSE;',
       'css_class' => 'panel-secondary container shadow',
     );
     $pane->extras = array();
-    $pane->position = 3;
-    $display->content['new-5'] = $pane;
-    $display->panels['right'][3] = 'new-5';
+    $pane->position = 4;
+    $display->content['new-6'] = $pane;
+    $display->panels['right'][4] = 'new-6';
     $pane = new stdClass;
-    $pane->pid = 'new-6';
+    $pane->pid = 'new-7';
     $pane->panel = 'right';
     $pane->type = 'custom';
     $pane->subtype = 'custom';
@@ -1810,9 +1854,9 @@ return FALSE;',
       'css_class' => 'panel-secondary container shadow',
     );
     $pane->extras = array();
-    $pane->position = 4;
-    $display->content['new-6'] = $pane;
-    $display->panels['right'][4] = 'new-6';
+    $pane->position = 5;
+    $display->content['new-7'] = $pane;
+    $display->panels['right'][5] = 'new-7';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = 'new-1';
   $handler->conf['display'] = $display;

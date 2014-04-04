@@ -158,7 +158,8 @@ function boincteam_forum_node_view($node) {
     $team_id = boincteam_forum_lookup_nid($node->tfid);
     $public_forum = boincteam_forum_is_public($node->tfid);
     $is_member = boincteam_is_member($team_id);
-    if (!$public_forum AND !$is_member) {
+    $is_global_moderator = boincteam_forum_is_global_moderator();
+    if (!$public_forum AND !$is_member AND !$is_global_moderator) {
       drupal_not_found();
       module_invoke_all('exit');
       exit();
@@ -191,7 +192,28 @@ function boincteam_forum_perm() {
  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
 
 /*
- * Load the current user's team forums, if any exist
+ * Check if the user has global access to moderate team forums
+ */
+function boincteam_forum_is_global_moderator() {
+  global $user;
+  return user_access('manage boincteam forum');
+}
+
+/*
+ * Check if any forums for a team are public
+ */
+function boincteam_forum_is_any_public($team_id) {
+  $forums = boincteam_forum_list($team_id);
+  foreach ($forums as $forum) {
+    if ($forum->public) {
+      return TRUE;
+    }
+  }
+  return FALSE;
+}
+
+/*
+ * Check if a team forum should be visible to everyone
  */
 function boincteam_forum_is_public($tfid) {
   return db_result(db_query("
@@ -200,23 +222,26 @@ function boincteam_forum_is_public($tfid) {
 }
 
 /*
- * Load the current user's team forums, if any exist
+ * Load the forums for a team, if any exist
  */
-function boincteam_forum_list() {
-  global $user;
-  $account = user_load($user->uid);
+function boincteam_forum_list($team_id = NULL) {
+  if (!$team_id) {
+    global $user;
+    $account = user_load($user->uid);
+    $team_id = $account->team;
+  }
   $team_forums = array();
-  if ($account->team) {
+  if ($team_id) {
     // Load any team forum objects for the user's team
     $result = db_query("
       SELECT tfid, nid, title, description, created, updated, public,
         min_time_between_posts, min_total_credit_to_post, min_avg_credit_to_post
-      FROM {boincteam_forum} WHERE nid=%d", $account->team
+      FROM {boincteam_forum} WHERE nid=%d", $team_id
     );
     $row = 0;
     while ($team_forum = db_fetch_object($result)) {
       
-      $team_forum->link = url("community/teams/{$account->team}/forum/{$team_forum->tfid}");
+      $team_forum->link = url("community/teams/{$team_id}/forum/{$team_forum->tfid}");
       $team_forum->zebra = $row % 2 ? 'even' : 'odd';
       $team_forum->new_topics = 0; // TODO: Track user views of team topics
       $team_forum->new_text = '';
@@ -292,6 +317,43 @@ function boincteam_forum_create_form_panel() {
 }
 
 /**
+ * Edit team forum form
+ */
+function boincteam_forum_edit_form_panel($tfid) {
+  $team_forum = boincteam_forum_load($tfid);
+  $output = '';
+  $output .= '<h2 class="pane-title">' . t('Edit message board') . ': ' . 
+    $team_forum->title . '</h2>';
+  $output .= drupal_get_form('boincteam_forum_edit_form', $tfid);
+  
+  return $output;
+}
+
+/**
+ * Link to team forums
+ */
+function boincteam_forum_link_panel($team_id) {
+  $show_public_only = (
+    !boincteam_is_member($team_id) AND
+    !boincteam_forum_is_global_moderator()
+  );
+  $forums = boincteam_forum_list($team_id);
+  $output = '';
+  $output .= '<h2 class="pane-title">' . t('Team forums') . '</h2>';
+  $output .= '<p>' . t('Discussion forums have been set up for team members.') . '</p>';
+  $output .= '<ul class="tab-list action-list">';
+  foreach ($forums as $forum) {
+    if (!$show_public_only OR $forum->public) {
+      $output .= '  <li class="tab primary">' . 
+        l($forum->title, "community/teams/{$team_id}/forum/{$forum->tfid}") .
+        '</li>';
+    }
+  }
+  $output .= '</ul>';
+  return $output;
+}
+
+/**
  * General info about team forums
  */                                         
 function boincteam_forum_topic_overview_panel($nid = NULL) {
@@ -313,18 +375,5 @@ function boincteam_forum_topic_overview_panel($nid = NULL) {
     '</li>';
   $output .= '</ul>';
   $output .= '</div>';
-  return $output;
-}
-
-/**
- * Edit team forum form
- */
-function boincteam_forum_edit_form_panel($tfid) {
-  $team_forum = boincteam_forum_load($tfid);
-  $output = '';
-  $output .= '<h2 class="pane-title">' . t('Edit message board') . ': ' . 
-    $team_forum->title . '</h2>';
-  $output .= drupal_get_form('boincteam_forum_edit_form', $tfid);
-  
   return $output;
 }

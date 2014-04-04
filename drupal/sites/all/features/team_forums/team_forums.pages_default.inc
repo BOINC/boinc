@@ -481,11 +481,15 @@ return boincteam_is_founder($team_id);',
         2 => array(
           'name' => 'php',
           'settings' => array(
-            'description' => 'A member of this team or the forum is public',
+            'description' => 'A member of this team, the forum is public, or has global team moderation',
             'php' => '$team_id = $contexts[\'argument_nid_1\']->data->nid;
 $team_forum_id = $contexts[\'argument_string_1\']->data;
 if ($team_id == boincteam_forum_lookup_nid($team_forum_id)) {
-  return (boincteam_is_member($team_id) OR boincteam_forum_is_public($team_forum_id));
+  return (
+    boincteam_is_member($team_id) OR
+    boincteam_forum_is_public($team_forum_id) OR
+    boincteam_forum_is_global_moderator()
+  );
 }
 return FALSE;',
           ),
