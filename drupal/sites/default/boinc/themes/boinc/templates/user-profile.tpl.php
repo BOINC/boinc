@@ -82,6 +82,11 @@ if ($user->uid AND ($user->uid != $account->uid)) {
       );
       break;
     case FLAG_FRIEND_APPROVAL:
+       $user_links[] = array(
+        'title' => t('Approve friend request'),
+        'href' => "flag/confirm/flag/friend/{$account->uid}"
+      );
+      break;
     case FLAG_FRIEND_UNFLAGGED:
     default:
       $user_links[] = array(

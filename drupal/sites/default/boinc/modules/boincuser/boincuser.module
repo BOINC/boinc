@@ -429,19 +429,28 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
     
     switch ($flag_type) {
     case 'friend':
-      $form_dest = strstr($form['#action'], 'destination=');
-      $is_approval = strstr($form_dest, 'friends%2Fpending');
-      $is_request = strstr($form_dest, 'friends%2Fflagged');
-      // General friend overrides
+      $friend_id = $form['content_id']['#value'];
+      $flag = flag_get_flag('friend');
+      $friend_status = flag_friend_determine_friend_status($flag, $friend_id, $user->uid);
+      
+      // General friend form overrides
       $form['flag_friend_submit']['#prefix'] = '<li class="first tab">';
       $form['flag_friend_submit']['#value'] = t('Send request');
       $form['flag_friend_submit']['#type'] = 'submit';
       $form['flag_friend_submit']['#suffix'] = '</li>';
       $form['flag_friend_submit']['#weight'] = 1002;
-      $friend_id = $form['content_id']['#value'];
-      //$cancel_dest = "account/{$friend_id}";
-      // Overrides for more specific contexts
-      if ($is_approval) {
+      
+      switch ($friend_status) {
+      case FLAG_FRIEND_BOTH:
+      case FLAG_FRIEND_FLAGGED:
+        unset($form['actions']);
+        $form['flag_friend_submit']['#value'] = t('Remove friend');
+        break;
+      case FLAG_FRIEND_PENDING:
+        unset($form['actions']);
+        $form['flag_friend_submit']['#value'] = t('Remove request');
+        break;
+      case FLAG_FRIEND_APPROVAL:
         if ($action == 'flag') {
           $form['flag_friend_submit']['#value'] = t('Approve request');
         }
@@ -449,20 +458,16 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
           unset($form['actions']);
           $form['flag_friend_submit']['#value'] = t('Deny request');
         }
-        //$cancel_dest = "account/{$user->uid}/friends/pending";
-      }
-      elseif ($is_request) {
-        if ($action == 'unflag') {
-          unset($form['actions']);
-          $form['flag_friend_submit']['#value'] = t('Remove request');
-        }
-      }
-      elseif ($action == 'unfriend') {
-        unset($form['actions']);
-        $form['flag_friend_submit']['#value'] = t('Remove friend');
-        //$cancel_dest = drupal_get_destination();
+        break;
+      case FLAG_FRIEND_UNFLAGGED:
+      default:
+        $user_links[] = array(
+          'title' => t('Add as friend'),
+          'href' => "flag/confirm/flag/friend/{$account->uid}"
+        );
       }
       break;
+      
     default:
     }
     
