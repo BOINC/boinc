@@ -21,6 +21,6 @@
 ?>
 <?php if ($output): ?>
 <ul class="tab-list">
-  <li class="first last secondary tab"><?php print $output; ?></li>
+  <li class="first last alt tab"><?php print $output; ?></li>
 </ul>
 <?php endif;  ?>
