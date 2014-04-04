@@ -19,6 +19,8 @@
   * the view is modified.
   */
 ?>
+<?php if ($output): ?>
 <ul class="tab-list">
   <li class="first last secondary tab"><?php print $output; ?></li>
 </ul>
+<?php endif;  ?>
