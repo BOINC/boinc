@@ -95,6 +95,13 @@ public class BatchConflictListAdapter extends ArrayAdapter<ProjectAttachWrapper>
 					}
 				});
 				statusImage.setVisibility(View.INVISIBLE);
+			} else if(listItem.result == ProjectAttachWrapper.RESULT_CONFIG_DOWNLOAD_FAILED) {
+				// download failed, can not continue from here.
+				// if user wants to retry, need to go back to selection activity
+				statusPb.setVisibility(View.GONE);
+				status.setVisibility(View.VISIBLE);
+				status.setText(listItem.getResultDescription());
+				resolveButton.setVisibility(View.GONE);
 			} else {
 				// failed
 				statusPb.setVisibility(View.GONE);

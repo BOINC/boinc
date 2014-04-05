@@ -109,6 +109,7 @@ public class ProjectAttachService extends Service {
     private ArrayList<ProjectAttachWrapper> selectedProjects = new ArrayList<ProjectAttachWrapper>();
     
     public boolean projectConfigRetrievalFinished = false;
+    private GetProjectConfigsAsync configRetrieveTask;
     
     //credentials
     private String email = "";
@@ -152,6 +153,10 @@ public class ProjectAttachService extends Service {
      * @return success
      */
     public boolean setSelectedProjects (ArrayList<ProjectInfo> selected) {
+    	if(configRetrieveTask != null) {
+    		// stop running task, to avoid having two tasks in parallel
+    		configRetrieveTask.cancel(true);
+    	}
     	selectedProjects.clear();
     	for(ProjectInfo tmp: selected) {
     		selectedProjects.add(new ProjectAttachWrapper(tmp));
@@ -159,7 +164,8 @@ public class ProjectAttachService extends Service {
     	
     	// get projectConfigs
     	if(mIsBound) {
-	    	new GetProjectConfigsAsync().execute();
+	    	configRetrieveTask = new GetProjectConfigsAsync();
+	    	configRetrieveTask.execute();
     	} else {
     		if(Logging.ERROR) Log.e(Logging.TAG,"ProjectAttachService.setSelectedProjects: could not load configuration files, monitor not bound!");
     		return false;
@@ -177,12 +183,17 @@ public class ProjectAttachService extends Service {
      * @return success
      */
     public boolean setManuallySelectedProject(String url) {
+    	if(configRetrieveTask != null) {
+    		// stop running task, to avoid having two tasks in parallel
+    		configRetrieveTask.cancel(true);
+    	}
     	selectedProjects.clear();
     	selectedProjects.add(new ProjectAttachWrapper(url));
     	
     	// get projectConfig
     	if(mIsBound) {
-	    	new GetProjectConfigsAsync().execute();
+	    	configRetrieveTask = new GetProjectConfigsAsync();
+	    	configRetrieveTask.execute();
     	} else {
     		if(Logging.ERROR) Log.e(Logging.TAG,"ProjectAttachService.setManuallySelectedProject: could not load configuration file, monitor not bound!");
     		return false;

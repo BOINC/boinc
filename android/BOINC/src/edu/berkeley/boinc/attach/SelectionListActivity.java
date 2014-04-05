@@ -72,11 +72,23 @@ public class SelectionListActivity extends FragmentActivity{
     	if(Logging.VERBOSE) Log.v(Logging.TAG, "AttachProjectListActivity onDestroy");
     	doUnbindService();
 	    super.onDestroy();
-	}	
+	}
+	
+	// check whether user has checked at least a single project
+	// shows toast otherwise
+	private Boolean checkProjectChecked() {
+		for(ProjectListEntry tmp: entries) {
+			if(tmp.checked) return true;
+		}
+    	Toast toast = Toast.makeText(getApplicationContext(), R.string.attachproject_list_header, Toast.LENGTH_SHORT);
+    	toast.show();
+    	if(Logging.DEBUG) Log.d(Logging.TAG, "AttachProjectListActivity no project selected, stop!"); 
+		return false;
+	}
 	
 	// check whether device is online before starting connection attempt
 	// as needed for AttachProjectLoginActivity (retrieval of ProjectConfig)
-	// note: available internet does not imply connection to project server
+	// note: available internet does not guarantee connection to project server
 	// is possible!
 	private Boolean checkDeviceOnline() {
 	    ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -92,6 +104,7 @@ public class SelectionListActivity extends FragmentActivity{
 	
 	// triggered by continue button
 	public void continueClicked(View v) {
+		if(!checkProjectChecked()) return;
 		if(!checkDeviceOnline()) return;
 		
 		String selectedProjectsDebug = "";

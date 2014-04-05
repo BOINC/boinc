@@ -21,26 +21,14 @@ package edu.berkeley.boinc.attach;
 
 import java.io.InputStream;
 import java.net.URL;
-import java.util.ArrayList;
-
 import edu.berkeley.boinc.R;
-import edu.berkeley.boinc.attach.SelectionListActivity.ProjectListEntry;
 import edu.berkeley.boinc.rpc.ProjectInfo;
 import edu.berkeley.boinc.utils.*;
 import android.app.Dialog;
-import android.app.Service;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
-import android.content.ServiceConnection;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.IBinder;
-import android.os.RemoteException;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -48,15 +36,11 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class ProjectInfoFragment extends DialogFragment{
 	
