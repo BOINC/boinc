@@ -372,6 +372,7 @@ int main(int argc, char** argv) {
     BOINC_OPTIONS boinc_options;
     VBOX_VM vm;
     APP_INIT_DATA aid;
+    double random_checkpoint_factor = 0;
     double elapsed_time = 0;
     double trickle_period = 0;
     double fraction_done = 0;
@@ -432,6 +433,29 @@ int main(int argc, char** argv) {
 
     // Log important information
     //
+
+    // Choose a random interleave value for checkpoint intervals to stagger disk I/O.
+    // 
+    random_checkpoint_factor = (double)(((int)(drand() * 100000.0)) % 600);
+    fprintf(
+        stderr,
+        "%s Feature: Checkpoint interval offset (%f seconds)\n",
+        vboxwrapper_msg_prefix(buf, sizeof(buf)),
+        random_checkpoint_factor
+    );
+
+    // Display trickle value if specified
+    //
+    if (trickle_period > 0.0) {
+        fprintf(
+            stderr,
+            "%s Feature: Enabling trickle-ups (Interval: %f)\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf)), trickle_period
+        );
+    }
+
+    // Initialize system services
+    // 
 #if defined(_WIN32) && defined(USE_WINSOCK)
     WSADATA wsdata;
     retval = WSAStartup( MAKEWORD( 1, 1 ), &wsdata);
@@ -445,14 +469,6 @@ int main(int argc, char** argv) {
         boinc_finish(retval);
     }
 #endif
-
-    if (trickle_period > 0.0) {
-        fprintf(
-            stderr,
-            "%s Feature: Enabling trickle-ups (Interval: %f)\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf)), trickle_period
-        );
-    }
 
     // Check for architecture incompatibilities
     // 
@@ -973,7 +989,12 @@ int main(int argc, char** argv) {
             if (boinc_time_to_checkpoint()) {
                 // Only peform a VM checkpoint every ten minutes or so.
                 //
-                if (elapsed_time >= checkpoint_cpu_time + 600.0) {
+                if (elapsed_time >= checkpoint_cpu_time + random_checkpoint_factor + 600.0) {
+                    // Basic interleave factor is only needed once.
+                    if (random_checkpoint_factor > 0) {
+                        random_checkpoint_factor = 0.0;
+                    }
+
                     // Basic bookkeeping
                     if (vm.job_duration) {
                         fraction_done = elapsed_time / vm.job_duration;
