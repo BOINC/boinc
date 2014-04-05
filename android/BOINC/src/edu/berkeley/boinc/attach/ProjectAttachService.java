@@ -317,7 +317,7 @@ public class ProjectAttachService extends Service {
     	public ProjectInfo info; // chosen from list
     	public String name = ""; // name of project in debug messages, do not use otherwise!
     	public ProjectConfig config; // has to be downloaded, available if RESULT_READY
-    	public int result = RESULT_SUCCESS;
+    	public int result = RESULT_UNINITIALIZED;
 
     	public static final int RESULT_UNINITIALIZED = 0; // config not downloaded yet, download!
     	public static final int RESULT_READY = 1; // config is available, project is ready to be attached

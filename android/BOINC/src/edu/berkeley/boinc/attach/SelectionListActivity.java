@@ -25,7 +25,6 @@ import java.util.ArrayList;
 import edu.berkeley.boinc.client.IMonitor;
 import edu.berkeley.boinc.client.Monitor;
 import edu.berkeley.boinc.rpc.ProjectInfo;
-import android.app.Activity;
 import android.app.Service;
 import android.content.ComponentName;
 import android.content.Context;
@@ -37,12 +36,13 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
-public class SelectionListActivity extends Activity{
+public class SelectionListActivity extends FragmentActivity{
 
 	private ListView lv;
 	ArrayList<ProjectListEntry> entries = new ArrayList<ProjectListEntry>();
@@ -109,13 +109,6 @@ public class SelectionListActivity extends Activity{
 		
 		// start credential input activity
 		startActivity(new Intent(this, CredentialInputActivity.class));
-	}
-	
-	// gets called by project list item
-	public void onProjectClick(View view) {
-		Toast toast = Toast.makeText(getApplicationContext(), "show project info, not implemented yet...", Toast.LENGTH_SHORT);
-		toast.show();
-		//TODO
 	}
 	
 	private ServiceConnection mMonitorConnection = new ServiceConnection() {

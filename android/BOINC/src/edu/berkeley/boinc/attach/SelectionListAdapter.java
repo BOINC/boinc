@@ -21,22 +21,25 @@ package edu.berkeley.boinc.attach;
 import java.util.ArrayList;
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.attach.SelectionListActivity.ProjectListEntry;
-import android.app.Activity;
+import edu.berkeley.boinc.utils.Logging;
 import android.content.Context;
+import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class SelectionListAdapter extends ArrayAdapter<ProjectListEntry>{
 
 	private ArrayList<ProjectListEntry> entries;
-    private Activity activity;
+    private FragmentActivity activity;
  
-    public SelectionListAdapter(Activity a, int textViewResourceId, ArrayList<ProjectListEntry> entries) {
+    public SelectionListAdapter(FragmentActivity a, int textViewResourceId, ArrayList<ProjectListEntry> entries) {
         super(a, textViewResourceId, entries);
         this.entries = entries;
         this.activity = a;
@@ -66,7 +69,16 @@ public class SelectionListAdapter extends ArrayAdapter<ProjectListEntry>{
 				listItem.checked = !listItem.checked;
 			}
 		});
-		v.setTag(listItem); //add ProjectListEntry to view
+		LinearLayout textWrapper = (LinearLayout) v.findViewById(R.id.text_wrapper);
+		textWrapper.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if(Logging.DEBUG) Log.d(Logging.TAG, "SelectionListAdapter: onProjectClick open info for: " + listItem.info.name);
+
+				ProjectInfoFragment dialog = ProjectInfoFragment.newInstance(listItem.info);
+				dialog.show(activity.getSupportFragmentManager(), "ProjectInfoFragment");
+			}
+		});
         return v;
     }
 	

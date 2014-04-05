@@ -30,7 +30,6 @@
     	android:layout_alignParentLeft="true"
     	android:layout_centerVertical="true"
     	android:clickable="true"
-    	android:onClick="onProjectClick"
     	android:layout_marginRight="40dp">
 	    <TextView android:textAppearance="?android:attr/textAppearanceMedium"
 	        android:id="@+id/name"
