@@ -67,11 +67,7 @@ public:
     void                    AddPendingProgressBar(int row);
     void                    RefreshCell(int row, int col);
     
-    bool                    m_bIsSingleSelection;
-
 private:
-    virtual void            OnClick(wxCommandEvent& event);
-
     virtual wxString        OnGetItemText(long item, long column) const;
     virtual int             OnGetItemImage(long item) const;
 #if BASEVIEW_STRIPES

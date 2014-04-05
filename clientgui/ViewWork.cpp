@@ -169,7 +169,7 @@ CViewWork::CViewWork()
 
 
 CViewWork::CViewWork(wxNotebook* pNotebook) :
-    CBOINCBaseView(pNotebook, ID_TASK_WORKVIEW, DEFAULT_TASK_FLAGS, ID_LIST_WORKVIEW, DEFAULT_LIST_MULTI_SEL_FLAGS)
+    CBOINCBaseView(pNotebook, ID_TASK_WORKVIEW, DEFAULT_TASK_FLAGS, ID_LIST_WORKVIEW, DEFAULT_LIST_FLAGS)
 {
     CTaskItemGroup* pGroup = NULL;
     CTaskItem*      pItem = NULL;

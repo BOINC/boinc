@@ -58,11 +58,6 @@ CBOINCBaseView::CBOINCBaseView(wxNotebook* pNotebook) :
     
     SetName(GetViewName());
     SetAutoLayout(TRUE);
-
-#if BASEVIEW_STRIPES    
-    m_pWhiteBackgroundAttr = NULL;
-    m_pGrayBackgroundAttr = NULL;
-#endif
 }
 
 
@@ -118,20 +113,6 @@ CBOINCBaseView::CBOINCBaseView(wxNotebook* pNotebook, wxWindowID iTaskWindowID, 
     m_SortArrows->Add( wxIcon( sortascending_xpm ) );
     m_SortArrows->Add( wxIcon( sortdescending_xpm ) );
     m_pListPane->SetImageList(m_SortArrows, wxIMAGE_LIST_SMALL);
-
-#if BASEVIEW_STRIPES    
-    m_pWhiteBackgroundAttr = new wxListItemAttr(
-        wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT),
-        wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOW),
-        wxNullFont
-    );
-    m_pGrayBackgroundAttr = new wxListItemAttr(
-        wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT),
-        wxColour(240, 240, 240),
-        wxNullFont
-    );
-#endif
-
 }
 
 
@@ -149,18 +130,6 @@ CBOINCBaseView::~CBOINCBaseView() {
     m_arrSelectedKeys1.Clear();
     m_arrSelectedKeys2.Clear();
     m_iSortedIndexes.Clear();
-
-#if BASEVIEW_STRIPES    
-    if (m_pWhiteBackgroundAttr) {
-        delete m_pWhiteBackgroundAttr;
-        m_pWhiteBackgroundAttr = NULL;
-    }
-
-    if (m_pGrayBackgroundAttr) {
-        delete m_pGrayBackgroundAttr;
-        m_pGrayBackgroundAttr = NULL;
-    }
-#endif
 }
 
 
@@ -262,23 +231,6 @@ int CBOINCBaseView::FireOnListGetItemImage(long item) const {
 }
 
 
-#if BASEVIEW_STRIPES
-wxListItemAttr* CBOINCBaseView::FireOnListGetItemAttr(long item) const {
-    return OnListGetItemAttr(item);
-}
-
-
-wxListItemAttr* CBOINCBaseView::OnListGetItemAttr(long item) const {
-
-    // If we are using some theme where the default background color isn't
-    //   white, then our whole system is boned. Use defaults instead.
-    if (wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOW) != wxColor(wxT("WHITE"))) return NULL;
-
-    return item % 2 ? m_pGrayBackgroundAttr : m_pWhiteBackgroundAttr;
-}
-#endif
-
-
 void CBOINCBaseView::OnListRender(wxTimerEvent& event) {
     if (!m_bProcessingListRenderEvent) {
         m_bProcessingListRenderEvent = true;
@@ -329,24 +281,6 @@ void CBOINCBaseView::OnListRender(wxTimerEvent& event) {
                 if (_EnsureLastItemVisible() && (iDocCount != iCacheCount)) {
                     m_pListPane->EnsureVisible(iDocCount - 1);
                 }
-            }
-
-            if (m_pListPane->m_bIsSingleSelection) {
-                // If no item has been selected yet, select the first item.
-#ifdef __WXMSW__
-                if ((m_pListPane->GetSelectedItemCount() == 0) &&
-                    (m_pListPane->GetItemCount() >= 1)) {
-
-                    long desiredstate = wxLIST_STATE_FOCUSED | wxLIST_STATE_SELECTED;
-                    m_pListPane->SetItemState(0, desiredstate, desiredstate);
-                }
-#else
-                if ((m_pListPane->GetFirstSelected() < 0) &&
-                    (m_pListPane->GetItemCount() >= 1)) {
-                    m_pListPane->SetItemState(0, wxLIST_STATE_FOCUSED | wxLIST_STATE_SELECTED, 
-                                                    wxLIST_STATE_FOCUSED | wxLIST_STATE_SELECTED);
-                }
-#endif
             }
         }
         
