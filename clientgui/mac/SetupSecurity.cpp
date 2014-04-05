@@ -137,14 +137,15 @@ saverName[2] = "Progress Thru Processors";
         err = FSRefMakePath (&ourFSRef, (UInt8*)dir_path, sizeof(dir_path));
         if (err)
             return err;          // Should never happen
-    } else
-        strlcpy(dir_path, path, MAXPATHLEN);    // Path to BOINC Manager's bundle was passed as argument
-        
-    if (strlen(fullpath) >= (MAXPATHLEN-1)) {
-        ShowSecurityError("SetBOINCAppOwnersGroupsAndPermissions: path to Manager is too long");
-        return -1;
-    }
+    } else {
+        if (strlen(path) >= (MAXPATHLEN-1)) {
+            ShowSecurityError("SetBOINCAppOwnersGroupsAndPermissions: path to Manager is too long");
+            return -1;
+        }
 
+        strlcpy(dir_path, path, MAXPATHLEN);    // Path to BOINC Manager's bundle was passed as argument
+    }
+    
     strlcpy(fullpath, dir_path, sizeof(fullpath));
 
 #ifdef _DEBUG
