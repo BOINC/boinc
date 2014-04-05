@@ -436,6 +436,12 @@ int main(int argc, char** argv) {
 
     // Choose a random interleave value for checkpoint intervals to stagger disk I/O.
     // 
+    struct stat vm_image_stat;
+    if (-1 == stat(IMAGE_FILENAME_COMPLETE, &vm_image_stat)) {
+        srand((int)time(NULL));
+    } else {
+        srand((int)(vm_image_stat.st_mtime * time(NULL)));
+    }
     random_checkpoint_factor = (double)(((int)(drand() * 100000.0)) % 600);
     fprintf(
         stderr,
