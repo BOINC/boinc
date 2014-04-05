@@ -445,9 +445,9 @@ int main(int argc, char** argv) {
     random_checkpoint_factor = (double)(((int)(drand() * 100000.0)) % 600);
     fprintf(
         stderr,
-        "%s Feature: Checkpoint interval offset (%f seconds)\n",
+        "%s Feature: Checkpoint interval offset (%d seconds)\n",
         vboxwrapper_msg_prefix(buf, sizeof(buf)),
-        random_checkpoint_factor
+        (int)random_checkpoint_factor
     );
 
     // Display trickle value if specified
