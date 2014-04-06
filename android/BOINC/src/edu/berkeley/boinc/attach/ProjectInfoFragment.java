@@ -75,10 +75,9 @@ public class ProjectInfoFragment extends DialogFragment{
         // set texts
         ((TextView) v.findViewById(R.id.project_name)).setText(info.name);
         ((TextView) v.findViewById(R.id.project_summary)).setText(info.summary);
-        ((TextView) v.findViewById(R.id.project_ga)).setText(info.generalArea);
-        ((TextView) v.findViewById(R.id.project_sa)).setText(info.specificArea);
+        ((TextView) v.findViewById(R.id.project_area)).setText(info.generalArea + ": " + info.specificArea);
         ((TextView) v.findViewById(R.id.project_desc)).setText(info.description);
-        ((TextView) v.findViewById(R.id.project_home)).setText(info.home);
+        ((TextView) v.findViewById(R.id.project_home)).setText(getResources().getString(R.string.attachproject_login_header_home) + " " + info.home);
         
         // find view elements for later use in image download
         logoWrapper = (LinearLayout) v.findViewById(R.id.project_logo_wrapper);
@@ -95,6 +94,7 @@ public class ProjectInfoFragment extends DialogFragment{
 			}
         });
         
+        if(Logging.DEBUG) Log.d(Logging.TAG, "ProjectInfoFragment image url: " + info.imageUrl); 
         new DownloadLogoAsync().execute(info.imageUrl);
         
         return v;

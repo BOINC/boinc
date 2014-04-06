@@ -31,9 +31,9 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class BatchConflictListAdapter extends ArrayAdapter<ProjectAttachWrapper>{
@@ -54,73 +54,69 @@ public class BatchConflictListAdapter extends ArrayAdapter<ProjectAttachWrapper>
 
         final ProjectAttachWrapper listItem = entries.get(position);
         
-        View v = convertView;
-        if(v == null || ((Integer)v.getTag()) != listItem.result) {
-	        LayoutInflater vi = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-	
-	        if(Logging.DEBUG) Log.d(Logging.TAG, "BatchConflictListAdapter.getView update for: " + listItem.name + " attach status: " + listItem.result);
-			
-	        v = vi.inflate(R.layout.attach_project_batch_conflicts_listitem, null);
-			TextView name = (TextView) v.findViewById(R.id.name);
-			name.setText(listItem.name);
-			TextView status = (TextView) v.findViewById(R.id.status);
-			Button resolveButton = (Button) v.findViewById(R.id.resolve_button);
-			ImageView statusImage = (ImageView) v.findViewById(R.id.status_image);
-			ProgressBar statusPb = (ProgressBar) v.findViewById(R.id.status_pb);
-			if(listItem.result == ProjectAttachWrapper.RESULT_SUCCESS) {
-				// success
-				status.setVisibility(View.GONE);
-				resolveButton.setVisibility(View.GONE);
-				statusPb.setVisibility(View.GONE);
-				statusImage.setVisibility(View.VISIBLE);
-				statusImage.setImageDrawable(activity.getResources().getDrawable(R.drawable.checkb));
-			} else if(listItem.result == ProjectAttachWrapper.RESULT_ONGOING || listItem.result == ProjectAttachWrapper.RESULT_UNINITIALIZED){
-				// ongoing
-				status.setVisibility(View.GONE);
-				resolveButton.setVisibility(View.GONE);
-				statusImage.setVisibility(View.GONE);
-				statusPb.setVisibility(View.VISIBLE);
-			} else if(listItem.result == ProjectAttachWrapper.RESULT_READY) {
-				// ready
-				statusPb.setVisibility(View.GONE);
-				status.setVisibility(View.VISIBLE);
-				status.setText(listItem.getResultDescription());
-				resolveButton.setVisibility(View.VISIBLE);
-				resolveButton.setOnClickListener(new OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						if(Logging.DEBUG) Log.d(Logging.TAG, "BatchConflictListAdapter: start resolution dialog for: " + listItem.name);
-						IndividualCredentialInputFragment dialog = IndividualCredentialInputFragment.newInstance(listItem);
-						dialog.show(fmgr, listItem.name);
-					}
-				});
-				statusImage.setVisibility(View.INVISIBLE);
-			} else if(listItem.result == ProjectAttachWrapper.RESULT_CONFIG_DOWNLOAD_FAILED) {
-				// download failed, can not continue from here.
-				// if user wants to retry, need to go back to selection activity
-				statusPb.setVisibility(View.GONE);
-				status.setVisibility(View.VISIBLE);
-				status.setText(listItem.getResultDescription());
-				resolveButton.setVisibility(View.GONE);
-			} else {
-				// failed
-				statusPb.setVisibility(View.GONE);
-				status.setVisibility(View.VISIBLE);
-				status.setText(listItem.getResultDescription());
-				resolveButton.setVisibility(View.VISIBLE);
-				resolveButton.setOnClickListener(new OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						if(Logging.DEBUG) Log.d(Logging.TAG, "BatchConflictListAdapter: start resolution dialog for: " + listItem.name);
-						IndividualCredentialInputFragment dialog = IndividualCredentialInputFragment.newInstance(listItem);
-						dialog.show(fmgr, listItem.name);
-					}
-				});
-				statusImage.setVisibility(View.VISIBLE);
-				statusImage.setImageDrawable(activity.getResources().getDrawable(R.drawable.failedb));
-			}
-			v.setTag(listItem.result);
-        }
+        if(Logging.VERBOSE) Log.d(Logging.TAG, "BatchConflictListAdapter.getView for: " + listItem.name + " at position: " + position + " with result: " + listItem.result);
+        
+        LayoutInflater vi = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View v = vi.inflate(R.layout.attach_project_batch_conflicts_listitem, null);
+		TextView name = (TextView) v.findViewById(R.id.name);
+		name.setText(listItem.name);
+		TextView status = (TextView) v.findViewById(R.id.status);
+		ImageView resolveIv = (ImageView) v.findViewById(R.id.resolve_button_image);
+		ImageView statusImage = (ImageView) v.findViewById(R.id.status_image);
+		ProgressBar statusPb = (ProgressBar) v.findViewById(R.id.status_pb);
+		RelativeLayout itemWrapper = (RelativeLayout) v.findViewById(R.id.resolve_item_wrapper);
+		if(listItem.result == ProjectAttachWrapper.RESULT_SUCCESS) {
+			// success
+			status.setVisibility(View.GONE);
+			resolveIv.setVisibility(View.GONE);
+			statusPb.setVisibility(View.GONE);
+			statusImage.setVisibility(View.VISIBLE);
+			statusImage.setImageDrawable(activity.getResources().getDrawable(R.drawable.checkb));
+		} else if(listItem.result == ProjectAttachWrapper.RESULT_ONGOING || listItem.result == ProjectAttachWrapper.RESULT_UNINITIALIZED){
+			// ongoing
+			status.setVisibility(View.GONE);
+			resolveIv.setVisibility(View.GONE);
+			statusImage.setVisibility(View.GONE);
+			statusPb.setVisibility(View.VISIBLE);
+		} else if(listItem.result == ProjectAttachWrapper.RESULT_READY) {
+			// ready
+			status.setVisibility(View.VISIBLE);
+			status.setText(listItem.getResultDescription());
+			resolveIv.setVisibility(View.VISIBLE);
+			itemWrapper.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if(Logging.DEBUG) Log.d(Logging.TAG, "BatchConflictListAdapter: start resolution dialog for: " + listItem.name);
+					IndividualCredentialInputFragment dialog = IndividualCredentialInputFragment.newInstance(listItem);
+					dialog.show(fmgr, listItem.name);
+				}
+			});
+		} else if(listItem.result == ProjectAttachWrapper.RESULT_CONFIG_DOWNLOAD_FAILED) {
+			// download failed, can not continue from here.
+			// if user wants to retry, need to go back to selection activity
+			status.setVisibility(View.VISIBLE);
+			status.setText(listItem.getResultDescription());
+			resolveIv.setVisibility(View.GONE);
+			statusPb.setVisibility(View.GONE);
+			statusImage.setVisibility(View.VISIBLE);
+			statusImage.setImageDrawable(activity.getResources().getDrawable(R.drawable.failedb));
+		} else {
+			// failed
+			status.setVisibility(View.VISIBLE);
+			status.setText(listItem.getResultDescription());
+			resolveIv.setVisibility(View.VISIBLE);
+			itemWrapper.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if(Logging.DEBUG) Log.d(Logging.TAG, "BatchConflictListAdapter: start resolution dialog for: " + listItem.name);
+					IndividualCredentialInputFragment dialog = IndividualCredentialInputFragment.newInstance(listItem);
+					dialog.show(fmgr, listItem.name);
+				}
+			});
+			statusPb.setVisibility(View.GONE);
+			statusImage.setVisibility(View.VISIBLE);
+			statusImage.setImageDrawable(activity.getResources().getDrawable(R.drawable.failedb));
+		}
         return v;
     }
 	

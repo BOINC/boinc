@@ -21,7 +21,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:minWidth="200dp">
+    android:minWidth="200dp"
+    android:background="@color/white">
     
     <TextView 
         android:id="@+id/title"
@@ -29,6 +30,7 @@
     	android:layout_height="wrap_content"
     	android:textAppearance="?android:attr/textAppearanceLarge"
     	android:textStyle="bold"
+	    android:singleLine="true"
     	android:padding="20dp"
     	android:background="@drawable/shape_light_blue_background"
         android:text="@string/attachproject_acctmgr_header"/>
@@ -59,7 +61,7 @@
     
     <TextView 
         android:id="@+id/warning"
-    	android:layout_width="match_parent"
+    	android:layout_width="fill_parent"
     	android:layout_height="wrap_content"
 	    android:gravity="center"
 	    android:textAppearance="?android:attr/textAppearanceMedium"

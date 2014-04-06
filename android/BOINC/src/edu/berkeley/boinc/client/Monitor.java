@@ -106,7 +106,7 @@ public class Monitor extends Service {
 	// screen on/off updated by screenOnOffBroadcastReceiver
 	private boolean screenOn = false;
 	
-	private boolean forceReinstall = false; // for debugging purposes //TODO
+	private boolean forceReinstall = true; // for debugging purposes //TODO
 
     @Override
     public IBinder onBind(Intent intent) {

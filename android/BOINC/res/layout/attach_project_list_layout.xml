@@ -33,18 +33,21 @@
     	android:maxWidth="400dp"
     	android:adjustViewBounds="true"
     	android:src="@drawable/boinc_logo_large"
-    	android:contentDescription="@string/app_name"/>
+    	android:contentDescription="@string/app_name"
+    	android:layout_centerHorizontal="true"/>
     
     <TextView 
         android:id="@+id/desc"
     	android:layout_width="fill_parent"
     	android:layout_height="wrap_content"
     	android:text="@string/attachproject_list_desc"
-    	android:textAppearance="?android:attr/textAppearanceMedium"
+    	android:textAppearance="?android:attr/textAppearanceSmall"
+    	android:textStyle="bold"
+    	android:textColor="@android:color/white"
     	android:layout_below="@+id/logo"
-    	android:layout_marginLeft="40dp"
-    	android:layout_marginRight="40dp"
-    	android:layout_marginBottom="20dp"/>
+    	android:padding="5dp"
+    	android:background="@drawable/shape_dark_blue_background_wo_stroke"
+    	android:layout_centerHorizontal="true"/>
 
     <ListView
         android:id="@+id/listview"

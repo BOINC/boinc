@@ -56,7 +56,7 @@
     	<integer name="notice_notification_id">2</integer>
     <!-- configuration project attach -->
     	<integer name="attach_step_interval_ms">1000</integer> 
-    	<integer name="attach_get_project_config_retries">5</integer>
+    	<integer name="attach_get_project_config_retries">2</integer>
     	<integer name="attach_login_retries">5</integer>
     	<integer name="attach_creation_retries">5</integer>
     	<integer name="attach_attach_retries">5</integer>

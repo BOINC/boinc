@@ -40,18 +40,27 @@
     <!-- credential input -->
     <string name="attachproject_credential_input_sing_desc">Enter account information</string>
     <string name="attachproject_credential_input_desc">Enter account information for selected projects:</string>
-    <string name="attachproject_individual_credential_input">Attach projects individually>></string>
+    <string name="attachproject_individual_credential_input">Attach projects individually</string>
     <!-- conflicts -->
     <string name="attachproject_conflicts_desc">There have been problems attaching scientific projects:</string>
     <string name="attachproject_conflict_undefined">Could not connect</string>
-    <string name="attachproject_conflict_not_unique">Account exists with different password.</string>
+    <string name="attachproject_conflict_not_unique">Account exists with different password</string>
     <string name="attachproject_conflict_bad_password">Password incorrect</string>
     <string name="attachproject_conflict_unknown_user">Account does not exist</string>
     <string name="attachproject_conflict_unknown_user_creation_disabled">Account does not exist, visit project website to register</string>
-    <!-- conflict resolution -->
-    <string name="attachproject_conflict_resolve_input">Please correct:</string>
     <!-- working -->
     <string name="attachproject_working_attaching">Attaching</string> <!-- e.g. Attaching Einstein@Home -->
+    <!-- hints -->
+    <string name="attachproject_hints_header">Hint</string> <!-- e.g. Hint 1/2 -->
+    <string name="attachproject_hint_contribtion_header">How to contribute:</string>
+    <string name="attachproject_hint_contribtion_wifi">1. Connect to WiFi</string>
+    <string name="attachproject_hint_contribtion_charger">2. Plug in Charger</string>
+    <string name="attachproject_hint_contribtion_screen">3. Turn off Screen</string>
+    <string name="attachproject_hint_projectwebsite_header">Visit project websites to:</string>
+    <string name="attachproject_hint_projectwebsite_science">Learn more about the science</string>
+    <string name="attachproject_hint_projectwebsite_stats">View contribtion statistics</string>
+    <string name="attachproject_hint_projectwebsite_community">Get in touch with other volunteers</string>
+    <string name="attachproject_hint_platforms_header">BOINC is also available for your computer or laptop, visit boinc.berkeley.edu to learn more.</string>
     <!-- project login -->
     <string name="attachproject_login_loading">Contacting project server&#8230;</string>
     <string name="attachproject_login_image_description">Project logo.</string>

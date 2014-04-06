@@ -58,6 +58,8 @@ public class AcctMgrFragment extends DialogFragment{
 	private TextView warning;
 	private LinearLayout ongoingWrapper;
 	private Button continueB;
+	
+	private AttachProjectAsyncTask asyncTask;
 
     @Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -81,10 +83,6 @@ public class AcctMgrFragment extends DialogFragment{
 		        if(Logging.DEBUG) Log.d(Logging.TAG, "AcctMgrFragment continue clicked"); 
 				if(!checkDeviceOnline()) return;
 		        if(asIsBound) {
-		        	// adapt layout
-		        	continueB.setVisibility(View.GONE);
-					warning.setVisibility(View.GONE);
-		        	ongoingWrapper.setVisibility(View.VISIBLE);
 		        	
 		    		// get user input
 		    		String url = urlSpinner.getSelectedItem().toString();
@@ -98,12 +96,18 @@ public class AcctMgrFragment extends DialogFragment{
 		    			warning.setVisibility(View.VISIBLE);
 		    			return;
 		    		}
+
+		        	// adapt layout
+		        	continueB.setVisibility(View.GONE);
+					warning.setVisibility(View.GONE);
+		        	ongoingWrapper.setVisibility(View.VISIBLE);
 		    		
 		    		String[] params = new String[3];
 		    		params[0] = url;
 		    		params[1] = name;
 		    		params[2] = pwd;
-		    		new AttachProjectAsyncTask().execute(params);
+		    		asyncTask = new AttachProjectAsyncTask();
+		    		asyncTask.execute(params);
 		        	
 		        } else if(Logging.DEBUG) Log.d(Logging.TAG, "AcctMgrFragment service not bound, do nothing..."); 
 			}
@@ -115,6 +119,7 @@ public class AcctMgrFragment extends DialogFragment{
 	@Override
 	public void onDestroyView() {
 		doUnbindService();
+		if(asyncTask != null) asyncTask.cancel(true);
 		super.onDestroyView();
 	}
 

@@ -110,7 +110,7 @@ public class IndividualCredentialInputFragment extends DialogFragment{
 			}
         });
         
-        Button forgotPwdButton = (Button) v.findViewById(R.id.forgotpwd_button);
+        TextView forgotPwdButton = (TextView) v.findViewById(R.id.forgotpwd_text);
         forgotPwdButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {

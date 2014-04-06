@@ -27,13 +27,11 @@ import android.app.Service;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 
 public class CredentialInputActivity extends Activity{
 	
@@ -53,8 +51,6 @@ public class CredentialInputActivity extends Activity{
         emailET = (EditText) findViewById(R.id.email_input);
         nameET = (EditText) findViewById(R.id.name_input);
         pwdET = (EditText) findViewById(R.id.pwd_input);
-        
-        ((TextView) findViewById(R.id.individual_login_button)).setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
     }
 	
 	@Override
