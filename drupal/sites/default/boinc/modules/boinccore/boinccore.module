@@ -16,6 +16,7 @@
 
 //require_once('includes/boinccore.forms.inc');
 //require_once('includes/boinccore.helpers.inc');
+require_once('boinccore.admin.inc');
 
 
 /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
