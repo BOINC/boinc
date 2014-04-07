@@ -280,7 +280,7 @@ bool CBOINCTaskCtrl::OnRestoreState(wxConfigBase* pConfig) {
 // we intercept the Child Focus Event, scroll only enough to
 // make the button visible if it is not already visible, and 
 // do not call event.Skip.
-void CBOINCTaskCtrl::OnChildFocus(wxChildFocusEvent& event) {
+void CBOINCTaskCtrl::OnChildFocus(wxChildFocusEvent&) {
     int stepx, stepy;
     int startx, starty;
     int diff = 0;
@@ -289,12 +289,12 @@ void CBOINCTaskCtrl::OnChildFocus(wxChildFocusEvent& event) {
     if (!theButton) return;
     
     // Get button position relative to Task Control's viewing area
-    wxRect buttonRect(ScreenToClient(theButton->GetScreenPosition()),
-                theButton->GetSize());
+    wxRect buttonRect(
+		ScreenToClient(theButton->GetScreenPosition()), theButton->GetSize()
+	);
     
     const wxRect viewRect(GetClientRect());
-    if ( viewRect.Contains(buttonRect) )
-    {
+    if (viewRect.Contains(buttonRect)){
         return; // Already fully visible
     }
 
@@ -302,13 +302,9 @@ void CBOINCTaskCtrl::OnChildFocus(wxChildFocusEvent& event) {
 
     GetViewStart(&startx, &starty);
 
-
-    if ( buttonRect.GetTop() < 0 )
-    {
+    if (buttonRect.GetTop() < 0) {
         diff = buttonRect.GetTop();
-    }
-    else if ( buttonRect.GetBottom() > viewRect.GetHeight() )
-    {
+    } else if (buttonRect.GetBottom() > viewRect.GetHeight()) {
         diff = buttonRect.GetBottom() - viewRect.GetHeight() + 1;
         // round up to next scroll step if we can't get exact position,
         // so that the button is fully visible
