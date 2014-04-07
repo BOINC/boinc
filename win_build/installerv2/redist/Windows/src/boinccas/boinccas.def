@@ -44,3 +44,7 @@ EXPORTS
     CreateProjectInitFile
     CreateAcctMgrLoginFile
 	RestorePermissionBOINCData
+	RevokeBOINCAdminsRights
+	RevokeBOINCMasterRights
+	RevokeBOINCProjectRights
+	RevokeBOINCProjectsRights

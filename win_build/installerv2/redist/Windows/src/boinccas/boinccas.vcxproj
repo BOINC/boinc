@@ -230,6 +230,10 @@
     <ClCompile Include="CARestoreExecutionState.cpp" />
     <ClCompile Include="CARestorePermissionBOINCData.cpp" />
     <ClCompile Include="CARestoreSetupState.cpp" />
+    <ClCompile Include="CARevokeBOINCAdminsRights.cpp" />
+    <ClCompile Include="CARevokeBOINCMasterRights.cpp" />
+    <ClCompile Include="CARevokeBOINCProjectRights.cpp" />
+    <ClCompile Include="CARevokeBOINCProjectsRights.cpp" />
     <ClCompile Include="CASaveExecutionState.cpp" />
     <ClCompile Include="CASaveSetupState.cpp" />
     <ClCompile Include="CASetPermissionBOINC.cpp" />
@@ -287,6 +291,10 @@
     <ClInclude Include="CARestoreExecutionState.h" />
     <ClInclude Include="CARestorePermissionBOINCData.h" />
     <ClInclude Include="CARestoreSetupState.h" />
+    <ClInclude Include="CARevokeBOINCAdminsRights.h" />
+    <ClInclude Include="CARevokeBOINCMasterRights.h" />
+    <ClInclude Include="CARevokeBOINCProjectRights.h" />
+    <ClInclude Include="CARevokeBOINCProjectsRights.h" />
     <ClInclude Include="CASaveExecutionState.h" />
     <ClInclude Include="CASaveSetupState.h" />
     <ClInclude Include="CASetPermissionBOINC.h" />
