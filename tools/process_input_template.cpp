@@ -371,7 +371,7 @@ static int process_workunit(
             }
         } else if (xp.parse_string("command_line", cmdline)) {
             if (command_line) {
-                fprintf(stderr, "Can't specify command line twice");
+                fprintf(stderr, "Can't specify command line twice\n");
                 return ERR_XML_PARSE;
             }
             out += "<command_line>\n";
