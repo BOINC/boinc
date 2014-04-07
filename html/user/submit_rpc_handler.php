@@ -163,17 +163,26 @@ function stage_files(&$jobs, $template) {
     }
 }
 
-function submit_job($job, $template, $app, $batch_id, $i, $priority) {
-    $cmd = "cd ../..; ./bin/create_work --appname $app->name --batch $batch_id --rsc_fpops_est $job->rsc_fpops_est --priority $priority";
-    if ($job->command_line) {
-        $cmd .= " --command_line \"$job->command_line\"";
+function submit_jobs($jobs, $template, $app, $batch_id, $priority) {
+    $x = "";
+    foreach($jobs as $job) {
+        if ($job->name) {
+            $x .= "--wu_name $job->name";
+        }
+        if ($job->command_line) {
+            $x .= " --command_line \"$job->command_line\"";
+        }
+        foreach ($job->input_files as $file) {
+            $x .= " $file->name";
+        }
+        $x .= "\n";
     }
-    $cmd .= " --wu_name $job->name";
-    foreach ($job->input_files as $file) {
-        $cmd .= " $file->name";
-    }
-    $ret = system($cmd);
-    if ($ret === FALSE) {
+
+    $cmd = "cd ../..; ./bin/create_work --appname $app->name --batch $batch_id --rsc_fpops_est $job->rsc_fpops_est --priority $priority --stdin";
+    $h = popen($cmd, "w");
+    fwrite($h, $x);
+    $ret = pclose($h);
+    if ($ret < 0) {
         xml_error(-1, "BOINC server: can't create job");
     }
 }
@@ -258,10 +267,8 @@ function submit_batch($r) {
         }
         $batch = BoincBatch::lookup_id($batch_id);
     }
-    $i = 0;
-    foreach($jobs as $job) {
-        submit_job($job, $template, $app, $batch_id, $i++, $let);
-    }
+
+    submit_jobs($jobs, $template, $app, $batch_id, $let);
 
     // set state to IN_PROGRESS only after creating jobs;
     // otherwise we might flag batch as COMPLETED

@@ -320,9 +320,12 @@ int main(int argc, char** argv) {
             char* p = fgets(buf, sizeof(buf), stdin);
             if (p == NULL) break;
             JOB_DESC jd2 = jd;
+            strcpy(jd2.wu.name, "");
             _argc = parse_command_line(buf, _argv);
             jd2.parse_cmdline(_argc, _argv);
-            sprintf(jd2.wu.name, "%s_%d", jd.wu.name, j);
+            if (!strlen(jd2.wu.name)) {
+                sprintf(jd2.wu.name, "%s_%d", jd.wu.name, j);
+            }
             jd2.create();
         }
     } else {
