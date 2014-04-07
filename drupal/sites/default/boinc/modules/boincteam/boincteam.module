@@ -349,7 +349,7 @@ function boincteam_is_founder($nid, $uid = NULL) {
   }
   $team_id = boincteam_lookup_id($nid);
   require_boinc('team');
-  return is_team_founder(boincuser_load($uid), boincteam_load($team_id));
+  return is_team_founder(boincuser_load($uid, TRUE), boincteam_load($team_id));
 }
 
 /**
@@ -365,7 +365,7 @@ function boincteam_is_admin($nid, $uid = NULL) {
   }
   $team_id = boincteam_lookup_id($nid);
   require_boinc('team');
-  return is_team_admin(boincuser_load($uid), boincteam_load($team_id));
+  return is_team_admin(boincuser_load($uid, TRUE), boincteam_load($team_id));
 }
 
 /**
@@ -508,7 +508,7 @@ function boincteam_remove_member($team_id, $user_id) {
   $boincteam = boincteam_load($boincteam_id);
   if ($account->team == $team_id) {
     require_boinc('team');
-    $boincuser = boincuser_load($user_id);
+    $boincuser = boincuser_load($user_id, TRUE);
     user_quit_team($boincuser);
     drupal_set_message(t('@user has been removed from @team.',
       array(

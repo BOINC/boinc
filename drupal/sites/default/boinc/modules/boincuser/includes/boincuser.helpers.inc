@@ -250,14 +250,18 @@ function get_drupal_id($boinc_id) {
 /**
  * Get a BOINC user object
  */
-function boincuser_load($uid = NULL) {
-  if (!$uid) {
+function boincuser_load($user_id = NULL, $is_drupal_id = FALSE) {
+  if (!$user_id) {
     global $user;
-    $uid = $user->uid;
+    $user_id = $user->uid;
+    $is_drupal_id = TRUE;
   }
-  $account = user_load($uid);
+  if ($is_drupal_id) {
+    $account = user_load($user_id);
+    $user_id = $account->boincuser_id;
+  }
   require_boinc('boinc_db');
-  return BoincUser::lookup_id($account->boincuser_id);
+  return BoincUser::lookup_id($user_id);
 }
 
 
