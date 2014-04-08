@@ -339,14 +339,20 @@ function boincteam_forum_link_panel($team_id) {
   );
   $forums = boincteam_forum_list($team_id);
   $output = '';
-  $output .= '<h2 class="pane-title">' . t('Team forums') . '</h2>';
-  $output .= '<p>' . t('Discussion forums have been set up for team members.') . '</p>';
+  $output .= '<h2 class="pane-title">' . t('Team forum') . '</h2>';
+  $output .= '<p>' . t('A discussion forum has been set up for team members.') . '</p>';
   $output .= '<ul class="tab-list action-list">';
   foreach ($forums as $forum) {
     if (!$show_public_only OR $forum->public) {
       $output .= '  <li class="tab primary">' . 
-        l($forum->title, "community/teams/{$team_id}/forum/{$forum->tfid}") .
-        '</li>';
+        l(
+          //$forum->title,
+          t('Enter forum'),
+          "community/teams/{$team_id}/forum/{$forum->tfid}"
+        ) . '</li>';
+      // Since we're only supporting one team forum for now, we've labeled the
+      // link in a generic way above and will now just break out of the loop
+      break;
     }
   }
   $output .= '</ul>';
