@@ -3,7 +3,7 @@
 /**
  * Implementation of hook_apachesolr_search_default_searchers().
  */
-function teams_apachesolr_search_default_searchers() {
+function global_search_teams_solr_apachesolr_search_default_searchers() {
   $export = array();
 
   $searcher = new stdClass;
