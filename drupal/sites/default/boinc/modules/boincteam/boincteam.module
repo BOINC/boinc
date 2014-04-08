@@ -1153,23 +1153,24 @@ function boincteam_view_member_list_panel($team_id) {
  * Link to view a team
  */
 function boincteam_view_team_panel($team_id) {
-  $team = boincteam_load(boincteam_lookup_id($team_id), TRUE);
-  $founder = user_load(get_drupal_id($team->userid));
+  $team = node_load($team_id);
+  $boincteam = boincteam_load(boincteam_lookup_id($team_id), TRUE);
+  $founder = user_load(get_drupal_id($boincteam->userid));
   $new_members = array();
-  if ($team->new_members) {
-    foreach ($team->new_members as $member) {
+  if ($boincteam->new_members) {
+    foreach ($boincteam->new_members as $member) {
       $account = user_load(get_drupal_id($member->id));
       $new_members[] = l($account->boincuser_name, "account/{$account->uid}");
     }
   }
   $output = '';
-  $output .= '<h2 class="pane-title">' . $team->name . '</h2>';
+  $output .= '<h2 class="pane-title">' . $boincteam->name . '</h2>';
   $output .= '<div>';
   $output .= '<div class="left-column">';
   $output .= '<ul class="stats">';
-  $output .= '  <li>' . t('Total credits') . ': ' . number_format($team->total_credit, 2) . '</li>';
-  $output .= '  <li>' . t('Recent avg credits') . ': ' . number_format($team->expavg_credit, 2) . '</li>';
-  $output .= '  <li>' . t('Country') . ': ' . $team->country . '</li>';
+  $output .= '  <li>' . t('Total credits') . ': ' . number_format($boincteam->total_credit, 2) . '</li>';
+  $output .= '  <li>' . t('Recent avg credits') . ': ' . number_format($boincteam->expavg_credit, 2) . '</li>';
+  $output .= '  <li>' . t('Country') . ': ' . $boincteam->country . '</li>';
   $output .= '  <li>' . t('Type') . ': ' . boincteam_get_type($team_id) . '</li>';
   $output .= '</ul>';
   $output .= '</div>';
@@ -1177,21 +1178,21 @@ function boincteam_view_team_panel($team_id) {
   $output .= '<ul class="stats">';
   $output .= '  <li>' . t('Founder') . ': ' . l($founder->boincuser_name, "account/{$founder->uid}") . '</li>';
   $output .= '  <li>' . t('New members in last day') . ': ' . implode('&middot;', $new_members) . '</li>';
-  $output .= '  <li>' . t('Total members') . ': ' . l($team->nusers, "community/teams/{$team_id}/members") . '</li>';
-  $output .= '  <li>' . t('Active members') . ': ' . $team->nusers_active . '</li>';
-  $output .= '  <li>' . t('Members with credit') . ': ' . $team->nusers_worked . '</li>';
+  $output .= '  <li>' . t('Total members') . ': ' . l($boincteam->nusers, "community/teams/{$team_id}/members") . '</li>';
+  $output .= '  <li>' . t('Active members') . ': ' . $boincteam->nusers_active . '</li>';
+  $output .= '  <li>' . t('Members with credit') . ': ' . $boincteam->nusers_worked . '</li>';
   $output .= '</ul>';
   $output .= '</div>';
   $output .= '</div>';
   $output .= '<div class="clearfix"></div>';
-  if ($team->url) {
+  if ($boincteam->url) {
     $output .= '<div class="stats">';
-    $output .= t('Web site') . ': ' . l("http://{$team->url}", "http://{$team->url}");
+    $output .= t('Web site') . ': ' . l("http://{$boincteam->url}", "http://{$boincteam->url}");
     $output .= '</div>';
   }
-  if ($team->description) {
+  if ($team->body) {
     $output .= '<h3>' . t('Description') . '</h3>';
-    $output .= $team->description;
+    $output .= $team->body;
     $output .= '</div>';
   }
   return $output;

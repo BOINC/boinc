@@ -101,8 +101,9 @@ function boincteam_create_form(&$form_state) {
     '#type' => 'textarea',
     '#default_value' => $default['description'],
     '#size' => 5,
-    '#description' => t('You may use limited HTML tags'),
+    '#description' => NULL,
   );
+  $form['format'] = filter_form();
   
   // Form control
   $form['form control tabs prefix'] = array(
@@ -343,8 +344,9 @@ function boincteam_edit_form(&$form_state, $team_id) {
     '#type' => 'textarea',
     '#default_value' => $default['description'],
     '#size' => 5,
-    '#description' => t('You may use limited HTML tags'),
+    '#description' => NULL,
   );
+  $form['format'] = filter_form();
   
   // Form control
   $form['form control tabs prefix'] = array(
