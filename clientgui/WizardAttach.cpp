@@ -625,11 +625,12 @@ wxWizardPageEx* CWizardAttach::_PushPageTransition( wxWizardPageEx* pCurrentPage
     return NULL;
 }
 
-#if 0
 void CWizardAttach::_ProcessCancelEvent( wxWizardExEvent& event ) {
 
     bool bCancelWithoutNextPage = false;
     wxWizardPageEx* page = GetCurrentPage();
+
+    m_bCancelInProgress = true;
 
     int iRetVal = wxGetApp().SafeMessageBox(
         _("Do you really want to cancel?"), 
@@ -676,9 +677,11 @@ void CWizardAttach::_ProcessCancelEvent( wxWizardExEvent& event ) {
     }
     if (wxYES != iRetVal) {
         event.Veto();
+        m_bCancelInProgress = false;
+    } else {
+        m_bCancelInProgress = true;
     }
 }
-#endif
 
 /*!
  * wxEVT_WIZARD_FINISHED event handler for ID_ATTACHPROJECTWIZARD
