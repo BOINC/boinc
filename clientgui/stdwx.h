@@ -120,6 +120,7 @@
 #include <wx/webviewfshandler.h>
 #include <wx/snglinst.h>
 #include <wx/bmpcbox.h>
+#include <wx/evtloop.h>
 
 
 #ifdef _WIN32
