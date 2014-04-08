@@ -39,6 +39,9 @@
 #include "AccountInfoPage.h"
 #include "CompletionErrorPage.h"
 #include "TermsOfUsePage.h"
+#ifdef __WXMAC__
+#include <wx/evtloop.h>
+#endif
 
 
 ////@begin XPM images
@@ -287,7 +290,12 @@ void CAccountManagerPropertiesPage::OnStateChange( CAccountManagerPropertiesPage
                 IncrementProgress(m_pProgressIndicator);
 
                 ::wxMilliSleep(500);
+#ifdef __WXMAC__
+                wxEventLoopBase * const modalLoop = wxEventLoopBase::GetActive();
+                modalLoop->YieldFor(wxEVT_CATEGORY_USER_INPUT);
+#else
                 ::wxSafeYield(GetParent());
+#endif
             }
  
             if (
@@ -366,7 +374,12 @@ void CAccountManagerPropertiesPage::OnStateChange( CAccountManagerPropertiesPage
                 IncrementProgress(m_pProgressIndicator);
 
                 ::wxMilliSleep(500);
+#ifdef __WXMAC__
+                wxEventLoopBase * const modalLoop = wxEventLoopBase::GetActive();
+                modalLoop->YieldFor(wxEVT_CATEGORY_USER_INPUT);
+#else
                 ::wxSafeYield(GetParent());
+#endif
             }
 
             SetNetworkConnectionNotDetected(NETWORK_STATUS_WANT_CONNECTION == status.network_status);

@@ -37,6 +37,9 @@
 #include "AccountManagerInfoPage.h"
 #include "AccountInfoPage.h"
 #include "CompletionErrorPage.h"
+#ifdef __WXMAC__
+#include <wx/evtloop.h>
+#endif
 
 
 ////@begin XPM images
@@ -298,7 +301,12 @@ void CAccountManagerProcessingPage::OnStateChange( CAccountManagerProcessingPage
                 IncrementProgress(m_pProgressIndicator);
 
                 ::wxMilliSleep(500);
+#ifdef __WXMAC__
+                wxEventLoopBase * const modalLoop = wxEventLoopBase::GetActive();
+                modalLoop->YieldFor(wxEVT_CATEGORY_USER_INPUT);
+#else
                 ::wxSafeYield(GetParent());
+#endif
             }
     
             if (!iReturnValue && !reply.error_num) {
