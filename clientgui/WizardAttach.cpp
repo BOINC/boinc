@@ -624,7 +624,8 @@ wxWizardPageEx* CWizardAttach::_PushPageTransition( wxWizardPageEx* pCurrentPage
     }
     return NULL;
 }
-  
+
+#if 0
 void CWizardAttach::_ProcessCancelEvent( wxWizardExEvent& event ) {
 
     bool bCancelWithoutNextPage = false;
@@ -677,6 +678,7 @@ void CWizardAttach::_ProcessCancelEvent( wxWizardExEvent& event ) {
         event.Veto();
     }
 }
+#endif
 
 /*!
  * wxEVT_WIZARD_FINISHED event handler for ID_ATTACHPROJECTWIZARD

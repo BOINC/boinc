@@ -650,7 +650,7 @@ void wxWizardEx::OnCancel(wxCommandEvent& WXUNUSED(eventUnused))
     // page, but a small extra check won't hurt
     wxWindow *win = m_page ? (wxWindow *)m_page : (wxWindow *)this;
 
-    wxWizardExEvent event(wxEVT_WIZARD_CANCEL, GetId(), false, m_page);
+    wxWizardExEvent event(wxEVT_WIZARDEX_CANCEL, GetId(), false, m_page);
     if ( !win->GetEventHandler()->ProcessEvent(event) || event.IsAllowed() )
     {
         // no objections - close the dialog

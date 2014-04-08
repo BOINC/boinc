@@ -245,7 +245,7 @@ public:
     wxWizardPageEx* _PushPageTransition( wxWizardPageEx* pCurrentPage, unsigned long ulPageID );
 
     /// Cancel Event Infrastructure
-    void _ProcessCancelEvent( wxWizardExEvent& event );
+//    void _ProcessCancelEvent( wxWizardExEvent& event );
 
     /// Finish Button Environment
     bool GetAccountCreatedSuccessfully() const { return account_created_successfully ; }
