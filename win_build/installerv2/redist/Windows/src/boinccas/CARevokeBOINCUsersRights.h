@@ -1,6 +1,6 @@
 // Berkeley Open Infrastructure for Network Computing
 // http://boinc.berkeley.edu
-// Copyright (C) 2005 University of California
+// Copyright (C) 2014 University of California
 //
 // This is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -18,16 +18,16 @@
 // 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-#ifndef _CAHIDEBOINCMASTERPROFILE_H_
-#define _CAHIDEBOINCMASTERPROFILE_H_
+#ifndef _CAREVOKEBOINCUSERSRIGHTS_H_
+#define _CAREVOKEBOINCUSERSRIGHTS_H_
 
 
-class CAHideBOINCMasterProfile : public BOINCCABase
+class CARevokeBOINCUsersRights : public BOINCCABase
 {
 public:
 
-    CAHideBOINCMasterProfile(MSIHANDLE hMSIHandle);
-    ~CAHideBOINCMasterProfile();
+    CARevokeBOINCUsersRights(MSIHANDLE hMSIHandle);
+    ~CARevokeBOINCUsersRights();
     virtual UINT OnExecution();
 
 };

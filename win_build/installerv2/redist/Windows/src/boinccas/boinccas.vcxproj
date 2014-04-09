@@ -223,8 +223,6 @@
     <ClCompile Include="CAGrantBOINCProjectsRights.cpp" />
     <ClCompile Include="CAGrantBOINCProjectsVirtualBoxRights.cpp" />
     <ClCompile Include="CAGrantBOINCUsersRights.cpp" />
-    <ClCompile Include="CAHideBOINCMasterProfile.cpp" />
-    <ClCompile Include="CAHideBOINCProjectProfile.cpp" />
     <ClCompile Include="CALaunchBOINCManager.cpp" />
     <ClCompile Include="CALaunchBOINCTray.cpp" />
     <ClCompile Include="CARestoreExecutionState.cpp" />
@@ -234,6 +232,7 @@
     <ClCompile Include="CARevokeBOINCMasterRights.cpp" />
     <ClCompile Include="CARevokeBOINCProjectRights.cpp" />
     <ClCompile Include="CARevokeBOINCProjectsRights.cpp" />
+    <ClCompile Include="CARevokeBOINCUsersRights.cpp" />
     <ClCompile Include="CASaveExecutionState.cpp" />
     <ClCompile Include="CASaveSetupState.cpp" />
     <ClCompile Include="CASetPermissionBOINC.cpp" />
@@ -284,8 +283,6 @@
     <ClInclude Include="CAGrantBOINCProjectsRights.h" />
     <ClInclude Include="CAGrantBOINCProjectsVirtualBoxRights.h" />
     <ClInclude Include="CAGrantBOINCUsersRights.h" />
-    <ClInclude Include="CAHideBOINCMasterProfile.h" />
-    <ClInclude Include="CAHideBOINCProjectProfile.h" />
     <ClInclude Include="CALaunchBOINCManager.h" />
     <ClInclude Include="CALaunchBOINCTray.h" />
     <ClInclude Include="CARestoreExecutionState.h" />
@@ -295,6 +292,7 @@
     <ClInclude Include="CARevokeBOINCMasterRights.h" />
     <ClInclude Include="CARevokeBOINCProjectRights.h" />
     <ClInclude Include="CARevokeBOINCProjectsRights.h" />
+    <ClInclude Include="CARevokeBOINCUsersRights.h" />
     <ClInclude Include="CASaveExecutionState.h" />
     <ClInclude Include="CASaveSetupState.h" />
     <ClInclude Include="CASetPermissionBOINC.h" />

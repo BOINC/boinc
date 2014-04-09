@@ -22,8 +22,6 @@ EXPORTS
 	GrantBOINCUsersRights
 	GrantBOINCProjectsRights
 	GrantBOINCProjectsVirtualBoxRights
-	HideBOINCMasterProfile
-	HideBOINCProjectProfile
 	SetPermissionBOINC
 	SetPermissionBOINCData
 	SetPermissionBOINCDataProjects
@@ -48,3 +46,4 @@ EXPORTS
 	RevokeBOINCMasterRights
 	RevokeBOINCProjectRights
 	RevokeBOINCProjectsRights
+	RevokeBOINCUsersRights
