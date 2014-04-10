@@ -379,14 +379,16 @@ int main(int argc, char** argv) {
     double checkpoint_cpu_time = 0;
     double last_status_report_time = 0;
     double last_trickle_report_time = 0;
-    double stopwatch_time = 0;
+    double stopwatch_starttime = 0;
     double stopwatch_endtime = 0;
+    double stopwatch_elapsedtime = 0;
     double sleep_time = 0;
     double bytes_sent = 0;
     double bytes_received = 0;
     double ncpus = 0;
     double timeout = 0.0;
     bool report_net_usage = false;
+    double net_usage_timer = 600;
 	int vm_image = 0;
     unsigned long vm_exit_code = 0;
     string message;
@@ -895,7 +897,7 @@ int main(int argc, char** argv) {
 
     while (1) {
         // Begin stopwatch timer
-        stopwatch_time = dtime();
+        stopwatch_starttime = dtime();
 
         // Discover the VM's current state
         vm.poll();
@@ -1154,7 +1156,6 @@ int main(int argc, char** argv) {
 
         // report network usage every 10 min so the client can enforce quota
         //
-        static double net_usage_timer=600;
         if (aid.global_prefs.daily_xfer_limit_mb
             && vm.enable_network
             && !vm.suspended
@@ -1191,20 +1192,25 @@ int main(int argc, char** argv) {
         }
 
         stopwatch_endtime = dtime();
+        stopwatch_elapsedtime = stopwatch_endtime - stopwatch_starttime;
 
         // Sleep for the remainder of the polling period
-        sleep_time = POLL_PERIOD - (stopwatch_endtime - stopwatch_time);
+        sleep_time = POLL_PERIOD - stopwatch_elapsedtime;
         if (sleep_time > 0) {
             boinc_sleep(sleep_time);
         }
 
         // Calculate the elapsed time after all potiential commands have been executed
-        // and base it off of wall clock time instead of a fixed interval.
-        if (!boinc_status.suspended) {
+        // and base it off of wall clock time instead of a fixed interval unless we had
+        // to sleep.
+        if (!boinc_status.suspended && !vm.suspended) {
             if (sleep_time > 0) {
                 elapsed_time += POLL_PERIOD;
             } else {
-                elapsed_time += stopwatch_endtime - stopwatch_time;
+                if (stopwatch_elapsedtime > 0)
+                {
+                    elapsed_time += stopwatch_elapsedtime;
+                }
             }
         }
     }
