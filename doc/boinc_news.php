@@ -2062,7 +2062,7 @@ We hope to resolve this issue soon.
 
 array("March 31, 2003",
 "We are preparing a BOINC-based version of SETI@home.
-See a <a href=setiathome.jpg>preview of the graphics</a>.
+See a <a href=http://boinc.berkeley.edu/setiathome.jpg>preview of the graphics</a>.
 "),
 
 array("March 25, 2003",

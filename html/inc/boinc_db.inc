@@ -567,7 +567,7 @@ class BoincBadgeUser {
         $db = BoincDb::get();
         return $db->update_aux('badge_user', $clause);
     }
-    function delete($clause) {
+    static function delete($clause) {
         $db = BoincDb::get();
         $db->delete_aux('badge_user', $clause);
     }
@@ -596,7 +596,7 @@ class BoincBadgeTeam {
         $db = BoincDb::get();
         return $db->update_aux('badge_team', $clause);
     }
-    function delete($clause) {
+    static function delete($clause) {
         $db = BoincDb::get();
         $db->delete_aux('badge_team', $clause);
     }
