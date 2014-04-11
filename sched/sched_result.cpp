@@ -341,6 +341,17 @@ int handle_results() {
             }
         }
 
+        // check for impossible CPU time
+        //
+        if (srip->cpu_time > srip->elapsed_time*g_reply->host.p_ncpus) {
+            log_messages.printf(MSG_NORMAL,
+                "[HOST#%d] [RESULT#%u] [WU#%u] impossible CPU time: %f > %f * %d\n",
+                srip->hostid, srip->id, srip->workunitid,
+                srip->cpu_time, srip->elapsed_time, g_reply->host.p_ncpus
+            );
+            srip->cpu_time = srip->elapsed_time*g_reply->host.p_ncpus;
+        }
+
         srip->exit_status = rp->exit_status;
         srip->app_version_num = rp->app_version_num;
         srip->server_state = RESULT_SERVER_STATE_OVER;
