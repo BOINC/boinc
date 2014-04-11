@@ -250,9 +250,12 @@ function handle_main($user) {
                 $app = BoincApp::lookup_id($usa->app_id);
                 echo "<li>$app->user_friendly_name<br>
                     <a href=submit.php?action=admin&app_id=$app->id>Batches</a>
-                    &middot;
-                    <a href=manage_app.php?app_id=$app->id&action=app_version_form>Versions</a>
                 ";
+                if ($usa->manage) {
+                    echo "&middot;
+                        <a href=manage_app.php?app_id=$app->id&action=app_version_form>Versions</a>
+                    ";
+                }
             }
         }
         echo "</ul>\n";
