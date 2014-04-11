@@ -35,7 +35,11 @@ class DbConn {
 
     function init_conn($user, $passwd, $host, $name) {
         if (MYSQLI) {
-            $this->db_conn = new mysqli("p:".$host, $user, $passwd);
+            if (version_compare(PHP_VERSION, '5.3.0') < 0) {
+                $this->db_conn = new mysqli($host, $user, $passwd);
+            } else {
+                $this->db_conn = new mysqli("p:".$host, $user, $passwd);
+            }
         } else {
             $this->db_conn = mysql_pconnect($host, $user, $passwd);
         }
