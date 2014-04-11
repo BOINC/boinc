@@ -1,4 +1,4 @@
 
   $(document).ready(function() {
-    $(".balance-height").equalHeights(300);
+    $(".balance-height").equalHeights();
   });

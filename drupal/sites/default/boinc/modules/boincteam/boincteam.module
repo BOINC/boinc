@@ -1111,7 +1111,7 @@ function boincteam_topic_overview_panel() {
   $site_name =  variable_get('site_name', t('Project'));
   $output = '';
   $output .= '<h2 class="pane-title">' . t('Teams') . '</h2>';
-  $output .= '<div class="balance-height">';
+  $output .= '<div class="">';
   $output .= '<p>' . t('@project participants may form teams. You may belong
     to only one team. You can join or quit a team at any time. To join a team,
     visit its team page and click "Join this team". Each team has a founder who
@@ -1124,7 +1124,6 @@ function boincteam_topic_overview_panel() {
   $output .= '  <li>' . t('disband a team if it has no members') . '</li>';
   $output .= '</ul>';
   $output .= '</div>';
-  $output .= '<div class="hack" style="height: 74px;">.</div>';
   return $output;
 }
 
