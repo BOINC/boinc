@@ -120,6 +120,7 @@ $fanout = parse_config(get_config(), "<uldl_dir_fanout>");
 //
 function stage_file($file) {
     global $fanout;
+    $download_dir = parse_config(get_config(), "<download_dir>");
 
     switch ($file->mode) {
     case "semilocal":
@@ -129,7 +130,7 @@ function stage_file($file) {
             xml_error(-1, "BOINC server: Can't get MD5 of file $file->source");
         }
         $name = "jf_$md5";
-        $path = dir_hier_path($name, "../../download", $fanout);
+        $path = dir_hier_path($name, $download_dir, $fanout);
         if (file_exists($path)) return $name;
         if (!copy($file->source, $path)) {
             xml_error(-1, "BOINC server: can't copy file from $file->source to $path");
@@ -143,7 +144,7 @@ function stage_file($file) {
             xml_error(-1, "BOINC server: Can't get MD5 of inline data");
         }
         $name = "jf_$md5";
-        $path = dir_hier_path($name, "../../download", $fanout);
+        $path = dir_hier_path($name, $download_dir, $fanout);
         if (file_exists($path)) return $name;
         if (!file_put_contents($path, $file->source)) {
             xml_error(-1, "BOINC server: can't write to file $path");
