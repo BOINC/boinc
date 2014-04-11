@@ -408,11 +408,12 @@ function handle_query_job($user) {
         "Size (bytes)", "MD5"
     );
     $fanout = parse_config(get_config(), "<uldl_dir_fanout>");
+    $download_dir = parse_config(get_config(), "<download_dir>");
     foreach ($x->workunit->file_ref as $fr) {
         $pname = (string)$fr->file_name;
         $lname = (string)$fr->open_name;
         $dir = filename_hash($pname, $fanout);
-        $path = "../../download/$dir/$pname";
+        $path = $download_dir."/$dir/$pname";
         $md5 = md5_file($path);
         $s = stat($path);
         $size = $s['size'];
@@ -431,6 +432,7 @@ function handle_query_job($user) {
         "State", "Output files<br><span class=note>click to view the file</span>"
     );
     $results = BoincResult::enum("workunitid=$wuid");
+    $upload_dir = parse_config(get_config(), "<upload_dir>");
     foreach($results as $result) {
         echo "<tr>
             <td><a href=result.php?resultid=$result->id>$result->id &middot; $result->name </a></td>
@@ -440,11 +442,9 @@ function handle_query_job($user) {
         $i = 0;
         if ($result->server_state == 5) {
             $names = get_outfile_names($result);
-            $fanout = parse_config(get_config(), "<uldl_dir_fanout>");
             $i = 0;
             foreach ($names as $name) {
                 $url = boinc_get_output_file_url($user, $result, $i++);
-                $upload_dir = parse_config(get_config(), "<upload_dir>");
                 $path = dir_hier_path($name, $upload_dir, $fanout);
                 $s = stat($path);
                 $size = $s['size'];
