@@ -884,6 +884,49 @@ void DB_WORKUNIT::db_print(char* buf){
     );
 }
 
+void DB_WORKUNIT::db_print_values(char* buf) {
+    sprintf(buf,
+        "(0, %d, %d, "
+        "'%s', '%s', %d, "
+        "%f, %f, "
+        "%f, %f, "
+        "%d, "
+        "%u, %f, "
+        "%d, %d, "
+        "%d, %d, %d, "
+        "%d, %f, "
+        "%d, %d, %d, "
+        "%d, %d, "
+        "'%s', NOW(), "
+        "%d, "
+        "%f, "
+        "%d, "
+        "%d, "
+        "%d, "
+        "%d)",
+        create_time, appid,
+        name, xml_doc, batch,
+        rsc_fpops_est, rsc_fpops_bound, rsc_memory_bound, rsc_disk_bound,
+        need_validate,
+        canonical_resultid, canonical_credit,
+        transition_time, delay_bound,
+        error_mask, file_delete_state, assimilate_state,
+        hr_class, opaque,
+        min_quorum,
+        target_nresults,
+        max_error_results,
+        max_total_results,
+        max_success_results,
+        result_template_file,
+        priority,
+        rsc_bandwidth_bound,
+        fileset_id,
+        app_version_id,
+        transitioner_flags,
+        size_class
+    );
+}
+
 void DB_WORKUNIT::db_parse(MYSQL_ROW &r) {
     int i=0;
     clear();

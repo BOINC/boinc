@@ -231,7 +231,8 @@ int create_work(
     int ninfiles,
     SCHED_CONFIG& config_loc,
     const char* command_line,
-    const char* additional_xml
+    const char* additional_xml,
+    char* query_string
 ) {
     int retval;
     char _result_template[BLOB_SIZE];
@@ -321,7 +322,9 @@ int create_work(
     } else {
         wu.transition_time = time(0);
     }
-    if (wu.id) {
+    if (query_string) {
+        wu.db_print_values(query_string);
+    } else if (wu.id) {
         retval = wu.update();
         if (retval) {
             fprintf(stderr,

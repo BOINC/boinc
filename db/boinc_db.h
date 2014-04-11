@@ -194,6 +194,7 @@ public:
     DB_WORKUNIT(DB_CONN* p=0);
     int get_id();
     void db_print(char*);
+    void db_print_values(char*);
     void db_parse(MYSQL_ROW &row);
     void operator=(WORKUNIT& w) {WORKUNIT::operator=(w);}
 };

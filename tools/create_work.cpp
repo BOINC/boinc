@@ -39,6 +39,8 @@
 
 #include "backend_lib.h"
 
+using std::string;
+
 void usage() {
     fprintf(stderr,
         "usage: create_work [options] infile1 infile2 ...\n"
@@ -292,6 +294,7 @@ int main(int argc, char** argv) {
         );
         exit(1);
     }
+    boinc_db.set_isolation_level(READ_UNCOMMITTED);
     sprintf(buf, "where name='%s'", app.name);
     retval = app.lookup(buf);
     if (retval) {
@@ -314,8 +317,10 @@ int main(int argc, char** argv) {
     strcpy(jd.result_template_path, "./");
     strcat(jd.result_template_path, jd.result_template_file);
     if (use_stdin) {
+        string values;
+        DB_WORKUNIT wu;
         int _argc;
-        char* _argv[100];
+        char* _argv[100], value_buf[MAX_QUERY_LEN];
         for (int j=0; ; j++) {
             char* p = fgets(buf, sizeof(buf), stdin);
             if (p == NULL) break;
@@ -326,7 +331,46 @@ int main(int argc, char** argv) {
             if (!strlen(jd2.wu.name)) {
                 sprintf(jd2.wu.name, "%s_%d", jd.wu.name, j);
             }
-            jd2.create();
+            create_work(
+                jd2.wu,
+                jd2.wu_template,
+                jd2.result_template_file,
+                jd2.result_template_path,
+                const_cast<const char **>(jd2.infiles),
+                jd2.ninfiles,
+                config,
+                jd2.command_line,
+                jd2.additional_xml,
+                value_buf
+            );
+            if (values.size()) {
+                values += ",";
+                values += value_buf;
+            } else {
+                values = value_buf;
+            }
+            // MySQL can handles queries at least 1 MB
+            //
+            int n = strlen(value_buf);
+            if (values.size() + 2*n > 1000000) {
+                retval = wu.insert_batch(values);
+                if (retval) {
+                    fprintf(stderr,
+                        "wu.insert_batch() failed: %d\n", retval
+                    );
+                    exit(1);
+                }
+                values.clear();
+            }
+        }
+        if (values.size()) {
+            retval = wu.insert_batch(values);
+            if (retval) {
+                fprintf(stderr,
+                    "wu.insert_batch() failed: %d\n", retval
+                );
+                exit(1);
+            }
         }
     } else {
         jd.create();

@@ -68,7 +68,8 @@ extern int create_work(
     int ninfiles,
     SCHED_CONFIG&,
     const char* command_line = NULL,
-    const char* additional_xml = NULL
+    const char* additional_xml = NULL,
+    char* query_string = 0
 );
 
 extern int stage_file(const char*, bool);
