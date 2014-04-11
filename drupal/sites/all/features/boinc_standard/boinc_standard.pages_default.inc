@@ -628,7 +628,7 @@ echo \'<div class="item-count-wrapper"><div class="item-count">\' . $account->po
     );
     $pane->css = array(
       'css_id' => '',
-      'css_class' => 'panel-secondary container shadow',
+      'css_class' => 'panel-secondary container shadow balance-height no-resize',
     );
     $pane->extras = array();
     $pane->position = 0;

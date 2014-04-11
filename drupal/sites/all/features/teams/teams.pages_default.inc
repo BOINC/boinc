@@ -385,7 +385,7 @@ function teams_default_page_manager_pages() {
     );
     $pane->css = array(
       'css_id' => '',
-      'css_class' => 'panel-primary container shadow',
+      'css_class' => 'panel-primary container shadow balance-height',
     );
     $pane->extras = array();
     $pane->position = 0;
@@ -423,7 +423,7 @@ return ($account->team > 0);',
     );
     $pane->css = array(
       'css_id' => '',
-      'css_class' => 'panel-secondary container shadow',
+      'css_class' => 'panel-secondary container shadow balance-height no-resize',
     );
     $pane->extras = array();
     $pane->position = 0;
@@ -487,7 +487,7 @@ return ($account->team == 0);',
     );
     $pane->css = array(
       'css_id' => '',
-      'css_class' => 'panel-secondary container shadow',
+      'css_class' => 'panel-secondary container shadow balance-height no-resize',
     );
     $pane->extras = array();
     $pane->position = 2;
