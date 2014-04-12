@@ -293,7 +293,7 @@ int signof(float x) {
         if ( kernResult == kIOReturnSuccess ) {
             idleTime = ((double)params) / 1000.0 / 1000.0 / 1000.0;
             if (idleTime < 1.5) {
-                [ self stopAnimation ];
+                [ NSApp terminate:nil ];
             }
         }
     }
