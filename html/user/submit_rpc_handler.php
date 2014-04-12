@@ -181,10 +181,13 @@ function submit_jobs($jobs, $template, $app, $batch_id, $priority) {
 
     $cmd = "cd ../..; ./bin/create_work --appname $app->name --batch $batch_id --rsc_fpops_est $job->rsc_fpops_est --priority $priority --stdin";
     $h = popen($cmd, "w");
+    if ($h === false) {
+        xml_error(-1, "BOINC server: can't run create_work");
+    }
     fwrite($h, $x);
     $ret = pclose($h);
     if ($ret < 0) {
-        xml_error(-1, "BOINC server: can't create job");
+        xml_error(-1, "BOINC server: create_work failed");
     }
 }
 

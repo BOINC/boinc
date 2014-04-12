@@ -331,7 +331,7 @@ int main(int argc, char** argv) {
             if (!strlen(jd2.wu.name)) {
                 sprintf(jd2.wu.name, "%s_%d", jd.wu.name, j);
             }
-            create_work(
+            retval = create_work(
                 jd2.wu,
                 jd2.wu_template,
                 jd2.result_template_file,
@@ -343,6 +343,10 @@ int main(int argc, char** argv) {
                 jd2.additional_xml,
                 value_buf
             );
+            if (retval) {
+                fprintf(stderr, "create_work() failed: %d\n", retval);
+                exit(1);
+            }
             if (values.size()) {
                 values += ",";
                 values += value_buf;
