@@ -1194,23 +1194,29 @@ int main(int argc, char** argv) {
         stopwatch_endtime = dtime();
         stopwatch_elapsedtime = stopwatch_endtime - stopwatch_starttime;
 
+        // user may have changed system clock, so do sanity checks
+        //
+        if (stopwatch_elapsedtime < 0) {
+            stopwatch_elapsedtime = 0;
+        }
+        if (stopwatch_elapsedtime > 60) {
+            stopwatch_elapsedtime = 0;
+        }
+
         // Sleep for the remainder of the polling period
+        //
         sleep_time = POLL_PERIOD - stopwatch_elapsedtime;
         if (sleep_time > 0) {
             boinc_sleep(sleep_time);
         }
 
-        // Calculate the elapsed time after all potiential commands have been executed
-        // and base it off of wall clock time instead of a fixed interval unless we had
-        // to sleep.
+        // if VM is running, increment elapsed time
+        //
         if (!boinc_status.suspended && !vm.suspended) {
             if (sleep_time > 0) {
                 elapsed_time += POLL_PERIOD;
             } else {
-                if (stopwatch_elapsedtime > 0)
-                {
-                    elapsed_time += stopwatch_elapsedtime;
-                }
+                elapsed_time += stopwatch_elapsedtime;
             }
         }
     }
