@@ -139,6 +139,8 @@ void JOB_DESC::parse_cmdline(int argc, char** argv) {
     for (int i=0; i<argc; i++) {
         if (arg(argv, i, (char*)"command_line")) {
             command_line = argv[++i];
+        } else if (arg(argv, i, (char*)"wu_name")) {
+            strcpy(wu.name, argv[++i]);
         } else {
             if (!strncmp("-", argv[i], 1)) {
                 fprintf(stderr, "create_work: bad stdin argument '%s'\n", argv[i]);
@@ -378,9 +380,9 @@ int main(int argc, char** argv) {
         }
     } else {
         jd.create();
-    }
-    if (show_wu_name) {
-        printf("workunit name: %s\n", jd.wu.name);
+        if (show_wu_name) {
+            printf("workunit name: %s\n", jd.wu.name);
+        }
     }
     boinc_db.close();
 }

@@ -186,7 +186,7 @@ function submit_jobs($jobs, $template, $app, $batch_id, $priority) {
     }
     fwrite($h, $x);
     $ret = pclose($h);
-    if ($ret < 0) {
+    if ($ret) {
         xml_error(-1, "BOINC server: create_work failed");
     }
 }
