@@ -47,3 +47,5 @@ EXPORTS
 	RevokeBOINCProjectRights
 	RevokeBOINCProjectsRights
 	RevokeBOINCUsersRights
+    DeleteBOINCGroups
+    DeleteBOINCAccounts

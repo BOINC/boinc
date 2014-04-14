@@ -214,6 +214,8 @@
     <ClCompile Include="CACreateBOINCGroups.cpp" />
     <ClCompile Include="CACreateClientAuthFile.cpp" />
     <ClCompile Include="CACreateProjectInitFile.cpp" />
+    <ClCompile Include="CADeleteBOINCAccounts.cpp" />
+    <ClCompile Include="CADeleteBOINCGroups.cpp" />
     <ClCompile Include="CAGetAdministratorsGroupName.cpp" />
     <ClCompile Include="CAGetUsersGroupName.cpp" />
     <ClCompile Include="CAGrantBOINCAdminsRights.cpp" />
@@ -274,6 +276,8 @@
     <ClInclude Include="CACreateBOINCGroups.h" />
     <ClInclude Include="CACreateClientAuthFile.h" />
     <ClInclude Include="CACreateProjectInitFile.h" />
+    <ClInclude Include="CADeleteBOINCAccounts.h" />
+    <ClInclude Include="CADeleteBOINCGroups.h" />
     <ClInclude Include="CAGetAdministratorsGroupName.h" />
     <ClInclude Include="CAGetUsersGroupName.h" />
     <ClInclude Include="CAGrantBOINCAdminsRights.h" />
