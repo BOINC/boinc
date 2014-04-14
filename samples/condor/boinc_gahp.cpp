@@ -707,14 +707,17 @@ int handle_command(char* p) {
         exit(0);
     } else if (!strcasecmp(cmd, "RESULTS")) {
         flockfile(stdout);
-        BPRINTF("S %d\n", n_results());
+        int cnt = n_results();
+        BPRINTF("S %d\n", cnt);
         vector<COMMAND*>::iterator i = commands.begin();
-        while (i != commands.end()) {
+        int j = 0;
+        while (i != commands.end() && j < cnt) {
             COMMAND *c2 = *i;
             if (c2->out) {
                 BPRINTF("%d %s\n", c2->id, c2->out);
                 delete c2;
                 i = commands.erase(i);
+                j++;
             } else {
                 i++;
             }
