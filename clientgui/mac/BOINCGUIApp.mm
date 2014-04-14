@@ -21,6 +21,9 @@
 #include "BOINCGUIApp.h"
 #import <Cocoa/Cocoa.h>
 
+#if !wxCHECK_VERSION(3,0,0)
+// This should be fixed after wxCocoa 3.0.0:
+// http://trac.wxwidgets.org/ticket/16156
 
 // Cocoa routines which are part of CBOINCGUIApp
 // Override standard wxCocoa wxApp::CallOnInit() to allow Manager
@@ -42,6 +45,7 @@ bool CBOINCGUIApp::CallOnInit() {
     [mypool release];
     return retVal;
 }
+#endif
 
 
 // Our application can get into a strange state 
