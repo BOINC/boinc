@@ -86,7 +86,7 @@ function sandbox_file_name($user, $md5) {
 function sandbox_physical_path($user, $md5) {
     global $fanout;
     $f = sandbox_file_name($user, $md5);
-    return dir_hier_path($f, "../../download", $fanout);
+    return dir_hier_path($f, parse_config(get_config(), "<download_dir>"), $fanout);
 }
 
 // return list of files in sandbox
