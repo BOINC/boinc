@@ -25,6 +25,7 @@
 # Updated 7/10/12 for Xcode 4.3 and later which are not at a fixed address
 # Updated 7/30/13 for openssl-1.0.1e
 # Updated 2/12/14 for openssl-1.0.1f
+# Updated 4/14/14 for openssl-1.0.1g
 #
 ## This script requires OS 10.6 or later
 #
@@ -32,8 +33,8 @@
 ## and clicked the Install button on the dialog which appears to 
 ## complete the Xcode installation before running this script.
 #
-## In Terminal, CD to the openssl-1.0.1f directory.
-##     cd [path]/openssl-1.0.1f/
+## In Terminal, CD to the openssl-1.0.1g directory.
+##     cd [path]/openssl-1.0.1g/
 ## then run this script:
 ##     source [path]/buildopenssl.sh [ -clean ]
 ##
@@ -42,7 +43,7 @@
 
 if [ "$1" != "-clean" ]; then
     if [ -f libssl.a ]&& [ -f libcrypto.a ]; then
-        echo "openssl-1.0.1f libraries already built"
+        echo "openssl-1.0.1g libraries already built"
         return 0
     fi
 fi
