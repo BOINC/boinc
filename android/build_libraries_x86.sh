@@ -48,7 +48,7 @@ make stage
 make install
 
 echo "==================building Libraries from $BOINC/zip =========================="
-cd $BOINC/zip
+cd zip
 if [ -n "$MAKECLEAN" ]; then
 make clean
 fi
