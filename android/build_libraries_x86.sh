@@ -44,6 +44,7 @@ if [ -n "$CONFIGURE" ]; then
 fi
 make
 make stage
+make install
 
 echo "=============================BOINC done============================="
 
