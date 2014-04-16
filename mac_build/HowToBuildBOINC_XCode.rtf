@@ -14,10 +14,10 @@
 \b0\fs24 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc
 \cf0 Written by Charlie Fenton\
-Last updated 7/31/13\
+Last updated 4/15/14\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
 \cf0 \
-This document applies to BOINC version 7.2.8 and later.  It has instructions for building the BOINC Client and Manager for Macintosh OSX.  Information for building science project applications to run under BOINC on Macintosh OSX can be found {\field{\*\fldinst{HYPERLINK "http://boinc.berkeley.edu/trac/wiki/BuildMacApp"}}{\fldrslt here}}.  \
+This document applies to BOINC version 7.2.48 and later.  It has instructions for building the BOINC Client and Manager for Macintosh OSX.  Information for building science project applications to run under BOINC on Macintosh OSX can be found {\field{\*\fldinst{HYPERLINK "http://boinc.berkeley.edu/trac/wiki/BuildMacApp"}}{\fldrslt here}}.  \
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
 
@@ -99,7 +99,7 @@ You get these tools, including the GCC compilers and system library header files
 
 \b0\fs24 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
-\cf0 BOINC depends on six third-party libraries: wxMac-2.8.10, c-ares-1.9.1, curl-7.26.0, openssl-1.0.1e,  freetype-2.4.10, ftgl-2.1.3~rc5 and sqlite3.7.14.1.  You can obtain the source files from the following URLs:\
+\cf0 BOINC depends on six third-party libraries: wxMac-2.8.10, c-ares-1.9.1, curl-7.26.0, openssl-1.0.1g,  freetype-2.4.10, ftgl-2.1.3~rc5 and sqlite3.7.14.1.  You can obtain the source files from the following URLs:\
 \
 wxMac-2.8.10 (needed  only if you are building the BOINC Manager):\
 	{\field{\*\fldinst{HYPERLINK "http://www.wxwidgets.org"}}{\fldrslt 
@@ -140,11 +140,11 @@ curl-7.26.0:\
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
 
-\f0\fs24 \cf0 openssl-1.0.1e:\
+\f0\fs24 \cf0 openssl-1.0.1g:\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
 
 \f1\fs26 \cf0 	{\field{\*\fldinst{HYPERLINK "http://www.openssl.org/"}}{\fldrslt http://www.openssl.org/}}\
-	{\field{\*\fldinst{HYPERLINK "http://www.openssl.org/source/openssl-1.0.1e.tar.gz"}}{\fldrslt http://www.openssl.org/source/openssl-1.0.1e.tar.gz}}\
+	{\field{\*\fldinst{HYPERLINK "http://www.openssl.org/source/openssl-1.0.1g.tar.gz"}}{\fldrslt http://www.openssl.org/source/openssl-1.0.1g.tar.gz}}\
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
 
@@ -180,7 +180,7 @@ MAC_OS_X_VERSION_MIN_REQUIRED=1040\
 
 \f0\fs24 \cf0 \
 \pard\pardeftab720\sa260
-\cf0 These are not done automatically by either the Xcode projects which come with wxMac-2.8.10, nor  the AutoMake scripts supplied with wxMac-2.8.10, c-ares-1.9.1, curl-7.26.0, openssl-1.0.1e, freetype-2.4.10, ftgl-2.1.3~rc5 and sqlite3.7.14.1.  So be sure to use our special scripts to build these packages.\
+\cf0 These are not done automatically by either the Xcode projects which come with wxMac-2.8.10, nor  the AutoMake scripts supplied with wxMac-2.8.10, c-ares-1.9.1, curl-7.26.0, openssl-1.0.1g, freetype-2.4.10, ftgl-2.1.3~rc5 and sqlite3.7.14.1.  So be sure to use our special scripts to build these packages.\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
 \cf0 [1] Create a parent directory within which to work.  In this description , we will call it BOINC_dev, but you can name it anything you wish.\
 \
@@ -192,7 +192,7 @@ MAC_OS_X_VERSION_MIN_REQUIRED=1040\
 \f1\fs26 \
     curl-7.26.0\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
-\cf0     openssl-1.0.1e\
+\cf0     openssl-1.0.1g\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
 \cf0     wxMac-2.8.10\
     freetype-2.4.10\
@@ -253,7 +253,7 @@ If you don't wish to force a full rebuild of everything, omit the -clean argumen
 \f0\fs24  command to run them.\
 
 \b Note 2:
-\b0  this script tries to build all six third-party libraries: wxMac-2.8.10, c-ares-1.9.1, curl-7.26.0, openssl-1.0.1e,  freetype-2.4.10, ftgl-2.1.3~rc5 and sqlite3.7.14.1.  when the script finishes, it will display a warning about any libraries was unable to build (for example, if you have not downloaded them.)\
+\b0  this script tries to build all six third-party libraries: wxMac-2.8.10, c-ares-1.9.1, curl-7.26.0, openssl-1.0.1g,  freetype-2.4.10, ftgl-2.1.3~rc5 and sqlite3.7.14.1.  when the script finishes, it will display a warning about any libraries was unable to build (for example, if you have not downloaded them.)\
 \
 [5] Build BOINC as follows:\
 \

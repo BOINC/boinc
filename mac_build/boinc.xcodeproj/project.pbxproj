@@ -3997,8 +3997,8 @@
 					"-L.",
 					"../../curl-7.26.0/lib/.libs/libcurl.a",
 					"../../c-ares-1.9.1/.libs/libcares.a",
-					"../../openssl-1.0.1e/libcrypto.a",
-					"../../openssl-1.0.1e/libssl.a",
+					"../../openssl-1.0.1g/libcrypto.a",
+					"../../openssl-1.0.1g/libssl.a",
 					"-lldap",
 					"-lz",
 				);
@@ -4180,8 +4180,8 @@
 					"-L.",
 					"../../curl-7.26.0/lib/.libs/libcurl.a",
 					"../../c-ares-1.9.1/.libs/libcares.a",
-					"../../openssl-1.0.1e/libcrypto.a",
-					"../../openssl-1.0.1e/libssl.a",
+					"../../openssl-1.0.1g/libcrypto.a",
+					"../../openssl-1.0.1g/libssl.a",
 					"-lldap",
 					"-lz",
 				);
