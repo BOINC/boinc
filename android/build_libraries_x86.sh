@@ -33,6 +33,7 @@ export PKG_CONFIG_SYSROOT_DIR=$TCSYSROOT
 ./build_androidtc_x86.sh
 
 if [ -n "$COMPILEBOINC" ]; then
+
 echo "==================building Libraries from $BOINC=========================="
 cd $BOINC
 if [ -n "$MAKECLEAN" ]; then
@@ -46,7 +47,6 @@ make
 make stage
 make install
 
-if [ -n "$COMPILEBOINC" ]; then
 echo "==================building Libraries from $BOINC/zip =========================="
 cd $BOINC/zip
 if [ -n "$MAKECLEAN" ]; then
