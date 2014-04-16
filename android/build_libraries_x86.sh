@@ -40,7 +40,7 @@ make clean
 fi
 if [ -n "$CONFIGURE" ]; then
 ./_autosetup
-./configure --host=i686-linux --with-boinc-platform="x86-android-linux-gnu" --with-ssl=$TCINCLUDES --disable-server --disable-manager --disable-client --disable-shared --enable-static
+./configure --host=i686-linux --with-boinc-platform="x86-android-linux-gnu" --prefix=$TCINCLUDES --libdir="$TCINCLUDES/lib" --with-ssl=$TCINCLUDES --disable-server --disable-manager --disable-client --disable-shared --enable-static
 fi
 make
 make stage
