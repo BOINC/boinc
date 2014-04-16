@@ -46,6 +46,19 @@ make
 make stage
 make install
 
+if [ -n "$COMPILEBOINC" ]; then
+echo "==================building Libraries from $BOINC/zip =========================="
+cd $BOINC/zip
+if [ -n "$MAKECLEAN" ]; then
+make clean
+fi
+if [ -n "$CONFIGURE" ]; then
+./_autosetup
+./configure --host=arm-linux --prefix=$TCINCLUDES --libdir="$TCINCLUDES/lib" --disable-shared --enable-static
+fi
+make
+make install
+
 echo "=============================BOINC done============================="
 
 fi
