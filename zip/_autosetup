@@ -1,0 +1,146 @@
+#!/bin/sh
+
+## $Id$
+
+## ---------- some portability checks/adjustments [stolen from configure] ----------
+## 'echo -n' is not portable..
+case `echo "testing\c"; echo 1,2,3`,`echo -n testing; echo 1,2,3` in
+  *c*,-n*) ECHO_N= ECHO_C='
+' ECHO_T='	' ;;
+  *c*,*  ) ECHO_N=-n ECHO_C= ECHO_T= ;;
+  *)       ECHO_N= ECHO_C='\c' ECHO_T= ;;
+esac
+##----------
+
+## ----------------------------------------------------------------------
+## Check that given command $1 has version >= $2.$3
+## return 0 if ok, 1 too old or not found  (-> shell conventions).
+## ----------------------------------------------------------------------
+check_version()
+{  
+    dir=`pwd`
+    cd /tmp
+    foundit=
+    ## get current version of $1
+    desired=`echo $2 | awk -F. '{print $1*100+$2}'`
+    echo $ECHO_N "Checking version of '$1' >= $desired... $ECHO_C"
+    name=$1
+    fullpath=`type $name | awk '{ print $(NF) }'`;
+    if [ -x "$fullpath" ]; then
+	foundit=yes;
+    fi
+
+    if [ "$foundit" != yes ]; then 
+	echo "Didn't find application";
+	version=0
+	success=no
+    else
+	cmdline="$fullpath --version";
+	if version=`($cmdline 2>/dev/null)` 2>/dev/null; then
+	    echo >/dev/null
+	else
+	    version="0";
+	fi
+	if [ -n "${version}" ]; then
+	    version=`echo $version | awk '{ for (i=1;i<=NF;i++) { split($i,j,"."); m=j[1]*100+j[2] ; if ((m*1)>0) { print m ; break; } } }'`
+	    if [ -z "$version" ]; then version=0; fi
+	    success=`echo "$version" "$desired" | awk '{ if ($1 >= $2) { print "yes";} else {print "no";}} '`
+	else
+	    version=0
+	    success=no
+	fi
+    fi
+    cd $dir
+
+    if [ $success = "yes" ] ; then
+      echo "succeeded. ($version)"
+      return 0;
+    else
+      echo "failed. ($version)"
+      return 1;
+    fi
+} ## check_version()
+
+
+  ## --------------------------------------------------------------------------------
+  ## 'MAIN' starts here 
+  ## --------------------------------------------------------------------------------
+  echo "Bootstrapping configure script and makefiles:"
+
+  ## ---------- first check santity of the installed versions of the build-system
+  ## in case there's GNU drop-in tools available, set these
+
+  ## some sorry systems don't have proper GNU-make...
+  if check_version make 3.79; then
+      echo >/dev/null
+  else
+      if check_version gmake 3.79; then
+	  have_gmake=yes;
+      else
+	echo "Couldn't find a new-enough version of GNU 'make', please install one!";
+    echo "If you have a newer version, set the environment variable 'MAKE' to its path";
+	exit 1;
+      fi
+  fi
+
+  ## FreeBSD's m4 seems to be broken? Download a fresh one
+  if check_version m4 1.4; then
+      echo >/dev/null
+  else
+      ## solaris m4 works fine
+      if test -f /usr/ccs/bin/m4
+      then
+         echo >/dev/null
+      elif check_version gm4 1.4; then
+         have_gm4=yes;
+      else 
+         echo "Couldn't find a new-enough version of 'm4', please install one!";
+         echo "If you have a newer version, set the environment variable 'M4' to its path";
+         exit 1;
+      fi
+      # build_lsc_aux "m4-1.4.1"
+  fi
+
+  if check_version pkg-config 0.15; then
+      echo >/dev/null
+  else
+      echo "Couldn't find a new-enough version of 'pkg-config', please install one!";
+      exit 1;
+      # build_lsc_aux "pkgconfig-0.15.0"
+  fi
+
+  if check_version autoreconf 2.58; then
+      echo >/dev/null
+  else
+      echo "Couldn't find a new-enough version of 'autoreconf', please install one!";
+      exit 1;
+      # build_lsc_aux "autoconf-2.59"
+  fi
+  if check_version automake 1.8; then
+      echo >/dev/null
+  else
+      echo "Couldn't find a new-enough version of 'automake', please install one!";
+      echo "If you have a newer version, set the environment variable 'AUTOMAKE' and 'ACLOCAL' to its path";
+      exit 1;
+      # build_lsc_aux "automake-1.8.5"
+  fi
+  if check_version libtoolize 1.5; then
+      echo >/dev/null
+  else
+      echo "Couldn't find a new-enough version of 'libtoolize', please install one!";
+      echo "If you have a newer version, set the environment variable 'LIBTOOLIZE' to its path";
+      exit 1;
+  fi
+
+  ## ---------- now run autoreconf
+  cmdline="autoreconf -i";
+echo "$cmdline"
+if eval $cmdline; then
+    echo "Done, now run ./configure"
+    echo " ./configure -C                         to enable caching"
+    exit 0
+else
+    echo "Something failed .... please check error-message and re-run when fixed."
+    echo "exiting..."
+    exit 1
+fi

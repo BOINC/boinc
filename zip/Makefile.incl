@@ -1,0 +1,18 @@
+## -*-Makefile -*-
+## $Id$
+
+AM_CFLAGS = -Wall -Wextra -Wshadow -Wredundant-decls -Wdisabled-optimization -Wpointer-arith -Wstrict-aliasing -Wcast-align 
+AM_CXXFLAGS = $(AM_CFLAGS)
+AM_LDFLAGS =
+
+# dependencies to make sure libs gets compiled before
+# programs linking to them:
+
+LIBBOINC = $(top_builddir)/../lib/libboinc.la
+$(LIBBOINC):
+	cd $(top_builddir)/../lib; ${MAKE} libboinc.la
+LIBAPI = $(top_builddir)/../api/libboinc_api.la
+$(LIBAPI):
+	cd $(top_builddir)/../api; ${MAKE} libboinc_api.la
+
+APPLIBS = $(LIBAPI) $(LIBBOINC)
