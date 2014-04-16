@@ -5,6 +5,7 @@ dnl $Id$
 dnl not sure exactly what the minimum version is (but 2.13 wont work)
 AC_PREREQ(2.58)
 AC_INIT(BOINCZIP, 1.0.0)
+AC_CONFIG_MACRO_DIR([m4])
 AC_CANONICAL_TARGET
 
 dnl generate .tar.gz, .tar.bz2, .zip
