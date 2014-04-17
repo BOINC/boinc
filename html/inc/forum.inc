@@ -889,11 +889,24 @@ function delete_post($post, $thread, $forum) {
     }
     $count = BoincPost::count("thread=$thread->id");
     if ($count == 0) {
-        $forum->update("threads=threads-1");
+        if (!$thread->hidden) {
+            $forum->update("threads=threads-1");
+        }
         $thread->delete();
     } else {
         update_thread_timestamp($thread);
     }
+    return true;
+}
+
+function delete_thread($thread, $forum) {
+    $nposts = BoincPost::count("thread=$thread->id and hidden=0");
+    $forum->update("posts=posts-$nposts");
+    BoincPost::delete_aux("thread=$thread->id");
+    if (!$thread->hidden) {
+        $forum->update("threads=threads-1");
+    }
+    $thread->delete();
 }
 
 // delete all forum records related to user
@@ -1046,7 +1059,8 @@ function get_thread_posts($threadid, $sort_style, $show_hidden) {
     return BoincPost::enum($sql);
 }
 
-// Show the links for possible moderation actions related to a single post 
+// Show links for post moderation actions;
+// logged in user has moderation rights.
 //
 function show_post_moderation_links(
     $config, $logged_in_user, $post, $forum, $tokens
@@ -1066,10 +1080,10 @@ function show_post_moderation_links(
     );
 
     if ($forum->parent_type == 0) {
-        if ($logged_in_user->prefs->privilege(S_ADMIN) || ($logged_in_user->prefs->privilege(S_MODERATOR) && $moderators_allowed_to_ban)) {
+        if (is_admin($logged_in_user) || $moderators_allowed_to_ban) {
             show_button("forum_moderate_post.php?action=banish_user&amp;id=".$post->id."&amp;userid=".$post->user."$tokens", tra("Banish author"));
         }
-        if ($logged_in_user->prefs->privilege(S_MODERATOR) && $moderators_vote_to_ban) {
+        if ($moderators_vote_to_ban) {
             require_once("../inc/forum_banishment_vote.inc");
             if (vote_is_in_progress($post->user)) {
                 show_button(
@@ -1087,10 +1101,16 @@ function show_post_moderation_links(
                 );
             }
         }
+        if (is_admin($logged_in_user)) {
+            show_button("forum_moderate_post.php?action=delete&amp;id=".$post->id."$tokens", tra("Delete"), tra("Delete this post"));
+        }
     }
 }
 
-// can user add threads to News forum?
+// is the given user allowed to
+// - add threads to News forum
+// - use HTML in posts
+// - delete threads and posts
 //
 function is_admin($user) {
     if (!$user) return false;
@@ -1155,6 +1175,12 @@ function check_reply_access($user, $forum, $thread) {
 
     check_post_access($user, $forum);
 }
+
+// is the given user allowed to moderate the given forum? this includes
+// - post to locked threads
+// - see hidden threads and posts
+// - edit their posts at any time
+// - hide/unhide/move threads and posts
 
 function is_moderator($user, $forum) {
     if (!$user) return false;

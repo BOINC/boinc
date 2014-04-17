@@ -40,6 +40,7 @@ echo form_tokens($logged_in_user->authenticator);
 start_table();
 
 $action = get_str('action');
+$get_reason = true;
 switch ($action) {
 case 'hide':
 case 'lock':
@@ -78,18 +79,28 @@ case 'title':
         "<input size=80 name=\"newtitle\" value=\"".htmlspecialchars($thread->title)."\">"
     );
     break;
+case 'delete':
+    echo "<input type=hidden name=action value=delete>";
+    echo "Are you sure you want to delete this thread and all its posts?
+        This action cannot be undone.
+        <input type=submit value=Yes>
+    ";
+    $get_reason = false;
+    break;
 default:
     error_page("Unknown action");
 }
 
-row2(tra("Reason")."<br><span class=note>".tra("Mailed if nonempty")."</span>",
-    "<textarea rows=10 cols=80 name=\"reason\"></textarea>"
-);
+if ($get_reason) {
+    row2(tra("Reason")."<br><span class=note>".tra("Mailed if nonempty")."</span>",
+        "<textarea rows=10 cols=80 name=\"reason\"></textarea>"
+    );
 
-row2(
-    "",
-    "<input type=\"submit\" name=\"submit\" value=\"".tra("OK")."\">"
-);
+    row2(
+        "",
+        "<input type=\"submit\" name=\"submit\" value=\"".tra("OK")."\">"
+    );
+}
 
 end_table();
 

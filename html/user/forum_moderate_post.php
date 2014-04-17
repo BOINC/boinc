@@ -46,6 +46,7 @@ echo "<form action=\"forum_moderate_post_action.php?id=".$post->id."\" method=\"
 echo form_tokens($logged_in_user->authenticator);
 start_table();
 
+$get_reason = true;
 if (get_str('action')=="hide") {
     //display input that selects reason
     echo "<input type=hidden name=action value=hide>";
@@ -89,17 +90,26 @@ if (get_str('action')=="hide") {
     echo "<input type=\"hidden\" name=\"id\" value=\"".$postid."\">\n";
     echo "<input type=\"hidden\" name=\"userid\" value=\"".$userid."\">\n";
     echo "<input type=\"hidden\" name=\"confirmed\" value=\"yes\">\n";
+} elseif (get_str('action')=="delete") {
+    echo "<input type=hidden name=action value=delete>";
+    row2(
+        "Are you sure want to delete this post?  This cannot be undone.",
+        "<input type=\"submit\" name=\"submit\" value=\"".tra("OK")."\">"
+    );
+    $get_reason = false;
 } else {
     error_page("Unknown action");
 }
 
-row2(tra("Optional explanation %1 This is included in email to user.%2", "<br><span class=note>", "</span>"),
-    "<textarea name=\"reason\" rows=\"10\" cols=\"80\"></textarea>");
-
-row2(
-    "",
-    "<input type=\"submit\" name=\"submit\" value=\"".tra("OK")."\">"
-);
+if ($get_reason) {
+    row2(tra("Optional explanation %1 This is included in email to user.%2", "<br><span class=note>", "</span>"),
+        "<textarea name=\"reason\" rows=\"10\" cols=\"80\"></textarea>"
+    );
+    row2(
+        "",
+        "<input type=\"submit\" name=\"submit\" value=\"".tra("OK")."\">"
+    );
+}
 
 end_table();
 
