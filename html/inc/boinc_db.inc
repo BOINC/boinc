@@ -387,7 +387,7 @@ class BoincProfile {
         $db = BoincDb::get();
         return $db->insert('profile', $clause);
     }
-    static function enum($clause, $clause2=null) {
+    static function enum($clause=null, $clause2=null) {
         $db = BoincDb::get();
         return $db->enum('profile', 'BoincProfile', $clause, $clause2);
     }

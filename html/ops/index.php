@@ -33,24 +33,33 @@ admin_page_head($title);
 echo "<ul>\n";
 
 if (!file_exists(".htaccess")) {
-    echo "<li><span style=\"color: #ff0000\">The Project Management directory is not
-        protected from public access by a .htaccess file.</span></li>\n";
+    echo "<li><span style=\"color: #ff0000\">
+        The Project Management directory is not
+        protected from public access by a .htaccess file.
+        </span></li>
+    ";
 }
 
 if (!defined("SYS_ADMIN_EMAIL")) {
-    echo "<li><span style=\"color: #ff0000\">The defined constant SYS_ADMIN_EMAIL
+    echo "<li><span style=\"color: #ff0000\">
+        The defined constant SYS_ADMIN_EMAIL
         has not been set. Please edit <tt>project/project.inc</tt> and set this
         to an address which can be used to contact the project administrators.
-        </span></li>\n";
+        </span></li>
+    ";
 }
 
 if (parse_bool($config, "disable_account_creation")) {
-    echo "<li><span style=\"color: #ff9900\">Account creation is disabled.</span></li>\n";
+    echo "<li><span style=\"color: #ff9900\">
+        Account creation is disabled.</span></li>
+    ";
 }
 
 if (defined("INVITE_CODES")) {
-    echo "<li><span style=\"color: #ff9900\">Account creation is restricted by the use of
-        invitation codes.</span></li>\n";
+    echo "<li><span style=\"color: #ff9900\">
+        Account creation is restricted by the use of
+        invitation codes.</span></li>
+    ";
 }
 
 $uotd_candidates = count_uotd_candidates();
@@ -62,8 +71,10 @@ if ($uotd_candidates >= 0) {
     } else {
         $color = "#ff9900";
     }
-    echo "<li><span style=\"color: ".$color."\">There are ".$uotd_candidates." remaining
-        candidates for User of the Day.</span></li>\n";
+    echo "<li><span style=\"color: ".$color."\">
+        There are ".$uotd_candidates." remaining candidates for User of the Day.
+        </span></li>
+    ";
 }
 
 echo "</ul>\n";
