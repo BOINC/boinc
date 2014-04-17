@@ -41,22 +41,10 @@ make clean
 fi
 if [ -n "$CONFIGURE" ]; then
 ./_autosetup
-./configure --host=arm-linux --with-boinc-platform="arm-android-linux-gnu" --prefix=$TCINCLUDES --libdir="$TCINCLUDES/lib" --with-ssl=$TCINCLUDES --disable-server --disable-manager --disable-client --disable-shared --enable-static
+./configure --host=arm-linux --with-boinc-platform="arm-android-linux-gnu" --prefix=$TCINCLUDES --libdir="$TCINCLUDES/lib" --with-ssl=$TCINCLUDES --disable-server --disable-manager --disable-client --disable-shared --enable-static --enable-boinczip
 fi
 make
 make stage
-make install
-
-echo "==================building Libraries from $BOINC/zip =========================="
-cd zip
-if [ -n "$MAKECLEAN" ]; then
-make clean
-fi
-if [ -n "$CONFIGURE" ]; then
-./_autosetup
-./configure --host=arm-linux --prefix=$TCINCLUDES --libdir="$TCINCLUDES/lib" --disable-shared --enable-static
-fi
-make
 make install
 
 echo "=============================BOINC done============================="
