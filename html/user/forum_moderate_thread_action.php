@@ -94,6 +94,12 @@ case "title":
     $result = $thread->update("title='$title'");
     $action_name = "renamed from '$thread->title' to '$new_title'";
     break;
+case "delete":
+    delete_thread($thread, $forum);
+    page_head("Thread deleted");
+    echo "Thread successfully deleted.";
+    page_tail();
+    exit;
 default:
     error_page("Unknown action");
 }

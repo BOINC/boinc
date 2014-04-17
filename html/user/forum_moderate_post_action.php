@@ -76,6 +76,13 @@ if ($action=="hide"){
 } elseif ($action=="unhide"){
     $result = unhide_post($post, $thread, $forum);
     $action_name = "unhidden";
+} elseif ($action=="delete"){
+    $result = delete_post($post, $thread, $forum);
+    if (!$result) error_page("Can't delete post");
+    page_head("Post deleted");
+    echo "Post successfully deleted.";
+    page_tail();
+    exit;
 } elseif ($action=="move"){
     $destid = post_int('threadid');
     $new_thread = BoincThread::lookup_id($destid);
