@@ -686,8 +686,8 @@ int boinc_finish(int status) {
     char buf[256];
     fraction_done = 1;
     fprintf(stderr,
-        "%s called boinc_finish\n",
-        boinc_msg_prefix(buf, sizeof(buf))
+        "%s called boinc_finish(%d)\n",
+        boinc_msg_prefix(buf, sizeof(buf)), status
     );
     finishing = true;
     boinc_sleep(2.0);   // let the timer thread send final messages
