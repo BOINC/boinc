@@ -5,12 +5,7 @@ BOINC_DIR = ../..
 BOINC_API_DIR = $(BOINC_DIR)/api
 BOINC_LIB_DIR = $(BOINC_DIR)/lib
 BOINC_ZIP_DIR = $(BOINC_DIR)/zip
-
-ifneq (, $(findstring ANDROID, $(CXXFLAGS)))
 PTHREAD = -pthread
-else
-PTHREAD = 
-endif
 
 CXXFLAGS += -g -O0 \
 	-Wall -W -Wshadow -Wpointer-arith -Wcast-qual -Wcast-align -Wwrite-strings -fno-common \
