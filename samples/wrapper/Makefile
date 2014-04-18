@@ -6,12 +6,10 @@ BOINC_API_DIR = $(BOINC_DIR)/api
 BOINC_LIB_DIR = $(BOINC_DIR)/lib
 BOINC_ZIP_DIR = $(BOINC_DIR)/zip
 
-ifeq ($(CXXFLAGS), -DANDROID)
-PTHREAD = 
-endif
-
-ifneq ($(CXXFLAGS), -DANDROID)
+ifneq (, $(findstring ANDROID, $(CXXFLAGS)))
 PTHREAD = -pthread
+else
+PTHREAD = 
 endif
 
 CXXFLAGS += -g -O0 \
