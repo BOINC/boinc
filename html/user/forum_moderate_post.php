@@ -1,7 +1,7 @@
 <?php
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2014 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -18,10 +18,13 @@
 
 
 // The form where a moderator decides what he is going to do to a post.
-// Submits informaiton to forum_moderate_post_action.php for actual action
+// Submits information to forum_moderate_post_action.php for actual action
 // to be done.
 
+require_once('../inc/util.inc');
 require_once('../inc/forum.inc');
+
+if (DISABLE_FORUMS) error_page("Forums are disabled");
 
 check_get_args(array("id", "action", "userid", "tnow", "ttok"));
 

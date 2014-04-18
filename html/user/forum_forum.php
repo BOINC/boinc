@@ -33,6 +33,11 @@ if (!$start) $start = 0;
 $forum = BoincForum::lookup_id($id);
 if (!$forum) error_page("forum ID not found");
 $user = get_logged_in_user(false);
+BoincForumPrefs::lookup($user);
+
+if (DISABLE_FORUMS && !is_admin($user)) {
+    error_page("Forums are disabled");
+}
 
 if (!is_forum_visible_to_user($forum, $user)) {
     if ($user) {
@@ -40,8 +45,6 @@ if (!is_forum_visible_to_user($forum, $user)) {
     }
     error_page(tra("Not visible to you"));
 }
-
-BoincForumPrefs::lookup($user);
 
 if (!$sort_style) {
     // get the sort style either from the logged in user or a cookie

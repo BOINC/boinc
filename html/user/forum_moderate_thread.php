@@ -16,12 +16,17 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+require_once('../inc/util.inc');
 require_once('../inc/forum.inc');
 
 check_get_args(array("action", "thread", "ttok", "tnow"));
 
 $logged_in_user = get_logged_in_user();
 BoincForumPrefs::lookup($logged_in_user);
+
+if (DISABLE_FORUMS && !is_admin($logged_in_user)) {
+    error_page("Forums are disabled");
+}
 
 if (!get_str('action')) {
     error_page("unknown action");

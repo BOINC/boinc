@@ -1,7 +1,7 @@
 <?php
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2014 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -21,10 +21,6 @@
 // and to create a graphical identity for your web site
 // my developing your own stylesheet
 // and customizing the header/footer functions in html/project/project.inc
-
-error_reporting(E_ALL);
-ini_set('display_errors', true);
-ini_set('display_startup_errors', true);
 
 require_once("../inc/db.inc");
 require_once("../inc/util.inc");

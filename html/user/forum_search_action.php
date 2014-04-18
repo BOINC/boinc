@@ -23,6 +23,8 @@ require_once('../inc/time.inc');
 require_once('../inc/text_transform.inc');
 require_once('../inc/forum.inc');
 
+if (DISABLE_FORUMS) error_page("Forums are disabled");
+
 check_get_args(array());
 
 // Searches for the keywords in the $keyword_list array in thread titles.

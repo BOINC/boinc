@@ -247,9 +247,11 @@ function show_community_private($user) {
         }
         row2(tra("Profile"), $x);
     }
-    $tot = total_posts($user);
-    if ($tot) {
-        row2(tra("Message boards"), "<a href=\"".URL_BASE."forum_user_posts.php?userid=$user->id\">".tra("%1 posts", $tot)."</a>");
+    if (!DISABLE_FORUMS) {
+        $tot = total_posts($user);
+        if ($tot) {
+            row2(tra("Message boards"), "<a href=\"".URL_BASE."forum_user_posts.php?userid=$user->id\">".tra("%1 posts", $tot)."</a>");
+        }
     }
     
     row2(tra("Private messages"), pm_notification($user).pm_email_remind($user));
@@ -373,8 +375,10 @@ function community_links($clo, $logged_in_user){
             row2(tra("Team"), tra("None"));
         }
     }
-    if ($tot) {
-        row2(tra("Message boards"), "<a href=\"".URL_BASE."forum_user_posts.php?userid=$user->id\">".tra("%1 posts", $tot)."</a>");
+    if (!DISABLE_FORUMS) {
+        if ($tot) {
+            row2(tra("Message boards"), "<a href=\"".URL_BASE."forum_user_posts.php?userid=$user->id\">".tra("%1 posts", $tot)."</a>");
+        }
     }
     if ($logged_in_user && $logged_in_user->id != $user->id) {
         row2(tra("Contact"), "<a href=\"pm.php?action=new&userid=".$user->id."\">".tra("Send private message")."</a>");

@@ -1,7 +1,7 @@
 <?php
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2014 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -124,6 +124,7 @@ echo "
     </td> 
     <td><b>User management</b>
     <ul>
+        <li><a href=".URL_BASE."/forum_index.php>Post news item</a></li>
         <li><a href=\"profile_screen_form.php\">Screen user profiles </a></li>
         <li><a href=\"badge_admin.php\">Badges</a></li>
         <li><a href=\"manage_special_users.php\">User privileges</a></li>
@@ -133,7 +134,6 @@ echo "
             <input type=\"submit\" value=\"Manage user\">
             ID: <input name=\"userid\">
             </form>
-        </li>
         </li>
     </ul>
     </td>
