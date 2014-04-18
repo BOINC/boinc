@@ -6,6 +6,12 @@ BOINC_API_DIR = $(BOINC_DIR)/api
 BOINC_LIB_DIR = $(BOINC_DIR)/lib
 BOINC_ZIP_DIR = $(BOINC_DIR)/zip
 
+ifneq (, $(findstring ANDROID, $(CXXFLAGS)))
+PTHREAD = -pthread
+else
+PTHREAD = 
+endif
+
 CXXFLAGS += -g -O0 \
 	-Wall -W -Wshadow -Wpointer-arith -Wcast-qual -Wcast-align -Wwrite-strings -fno-common \
     -I$(BOINC_DIR) \
@@ -22,7 +28,7 @@ PROGS = wrapper
 all: $(PROGS)
 
 libstdc++.a:
-	ln -s `g++ -print-file-name=libstdc++.a`
+	ln -s `$(CXX) -print-file-name=libstdc++.a`
 
 clean: distclean
 
@@ -37,4 +43,4 @@ REGEXP_OBJS = \
 	regexp_report.o
 
 wrapper: wrapper.o libstdc++.a $(BOINC_LIB_DIR)/libboinc.a $(BOINC_API_DIR)/libboinc_api.a $(REGEXP_OBJS)
-	g++ $(CXXFLAGS) $(CPPFLAGS) -o wrapper wrapper.o $(REGEXP_OBJS) libstdc++.a -pthread -lboinc_api -lboinc -lboinc_zip
+	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -o wrapper wrapper.o $(REGEXP_OBJS) libstdc++.a $(PTHREAD) -lboinc_api -lboinc -lboinc_zip
