@@ -100,7 +100,9 @@ if ($format=="xml"){
     echo "</td><td valign=top>";
     start_table();
     show_badges(true, $user);
-    show_profile_link($user);
+    if (!DISABLE_PROFILES) {
+        show_profile_link($user);
+    }
     community_links($community_links, $logged_in_user);
     end_table();
     echo "</td></tr></table>";

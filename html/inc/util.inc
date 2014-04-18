@@ -38,6 +38,16 @@ if (defined('TIMEZONE')) {
     date_default_timezone_set('UTC');
 }
 
+if (!defined('DISABLE_PROFILES')) {
+    define('DISABLE_PROFILES', false);
+}
+if (!defined('DISABLE_FORUMS')) {
+    define('DISABLE_FORUMS', false);
+}
+if (!defined('DISABLE_TEAMS')) {
+    define('DISABLE_TEAMS', false);
+}
+
 $caching = false;
     // if set, we're writing to a file rather than to client
 $did_page_head = false;

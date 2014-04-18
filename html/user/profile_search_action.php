@@ -19,6 +19,8 @@
 require_once("../inc/boinc_db.inc");
 require_once("../inc/util.inc");
 
+if (DISABLE_PROFILES) error_page("Profiles are disabled");
+
 check_get_args(array("search_string", "offset"));
 
 function show_profile_link2($profile, $n) {

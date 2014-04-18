@@ -22,6 +22,10 @@
 // my developing your own stylesheet
 // and customizing the header/footer functions in html/project/project.inc
 
+error_reporting(E_ALL);
+ini_set('display_errors', true);
+ini_set('display_startup_errors', true);
+
 require_once("../inc/db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/news.inc");
@@ -104,30 +108,40 @@ function show_nav() {
 
         <h2 class=headline>Returning participants</h2>
         <ul>
+        <li><a href=\"home.php\">Your account</a> - view stats, modify preferences
     ";
-    if ($no_computing) {
+    if (!$no_computing) {
         echo "
-            <li><a href=\"bossa_apps.php\">Do work</a>
-            <li><a href=\"home.php\">Your account</a> - view stats, modify preferences
-            <li><a href=\"team.php\">Teams</a> - create or join a team
-        ";
-    } else {
-        echo "
-            <li><a href=\"home.php\">Your account</a> - view stats, modify preferences
             <li><a href=server_status.php>Server status</a>
-            <li><a href=\"team.php\">Teams</a> - create or join a team
             <li><a href=\"cert1.php\">Certificate</a>
             <li><a href=\"apps.php\">".tra("Applications")."</a>
+        ";
+    }
+    if (!DISABLE_TEAMS) {
+        echo "
+            <li><a href=\"team.php\">Teams</a> - create or join a team
         ";
     }
     echo "
         </ul>
         <h2 class=headline>".tra("Community")."</h2>
         <ul>
-        <li><a href=\"profile_menu.php\">".tra("Profiles")."</a>
+    ";
+    if (!DISABLE_PROFILES) {
+        echo "
+            <li><a href=\"profile_menu.php\">".tra("Profiles")."</a>
+        ";
+    }
+    echo "
         <li><a href=\"user_search.php\">User search</a>
-        <li><a href=\"forum_index.php\">".tra("Message boards")."</a>
-        <li><a href=\"forum_help_desk.php\">".tra("Questions and Answers")."</a>
+    ";
+    if (!DISABLE_FORUMS) {
+        echo "
+            <li><a href=\"forum_index.php\">".tra("Message boards")."</a>
+            <li><a href=\"forum_help_desk.php\">".tra("Questions and Answers")."</a>
+        ";
+    }
+    echo "
         <li><a href=\"stats.php\">Statistics</a>
         <li><a href=language_select.php>Languages</a>
         </ul>
@@ -183,7 +197,7 @@ echo "
     </td>
 ";
 
-if (!$stopped) {
+if (!$stopped && !DISABLE_PROFILES) {
     $profile = get_current_uotd();
     if ($profile) {
         echo "
