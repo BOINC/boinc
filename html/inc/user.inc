@@ -264,7 +264,7 @@ function show_community_private($user) {
         row2(tra("Notifications"), $x);
     }
 
-    if (!defined('NO_TEAMS')) {
+    if (!DISABLE_TEAMS) {
         if ($user->teamid) {
             $team = lookup_team($user->teamid);
             $x = "<a href=\"team_display.php?teamid=$team->id\">$team->name</a>
@@ -366,7 +366,7 @@ function community_links($clo, $logged_in_user){
     $friends = $clo->friends;
     $tot = $clo->post_count;
     
-    if (!defined('NO_TEAMS')) {
+    if (!DISABLE_TEAMS) {
         if ($user->teamid && $team) {
             row2(tra("Team"), "<a href=\"".URL_BASE."team_display.php?teamid=$team->id\">$team->name</a>");
         } else {
