@@ -51,7 +51,12 @@ function show_form() {
         echo "<td><input name=\"description\" value=\"$badge->description\"></td>\n";
         $x = "";
         if ($badge->image_url) {
-            $x = " <img align=right height=64 src=\"$badge->image_url\">";
+            if (strstr($badge->image_url, "http") == $badge->image_url) {
+                $y = $badge->image_url;
+            } else {
+                $y = URL_BASE.$badge->image_url;
+            }
+            $x = " <img align=right height=64 src=\"$y\">";
         }
         echo "<td><input name=\"image_url\" value=\"$badge->image_url\">$x</td>\n";
         echo "<td><input name=\"level\" value=\"$badge->level\"></td>\n";
