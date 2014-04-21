@@ -27,12 +27,17 @@
 // describes an input file, possibly remote
 //
 struct INFILE_DESC {
-    char name[1024];     // physical name
     bool is_remote;
-    // the following defined if remote
+
+    // the following defined if remote (physical name is jf_MD5)
+    //
     double nbytes;
     char md5[64];
     char url[1024];         // make this a vector to support multiple URLs
+
+    // the following defined if not remote
+    //
+    char name[1024];     // physical name
 };
 
 extern int add_signatures(char*, R_RSA_PRIVATE_KEY&);

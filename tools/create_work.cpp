@@ -141,7 +141,6 @@ void JOB_DESC::parse_cmdline(int argc, char** argv) {
         } else if (arg(argv, i, (char*)"remote_file")) {
             INFILE_DESC id;
             id.is_remote = true;
-            strcpy(id.name, argv[++i]);
             strcpy(id.url, argv[++i]);
             id.nbytes = atof(argv[++i]);
             strcpy(id.md5, argv[++i]);
@@ -261,7 +260,6 @@ int main(int argc, char** argv) {
         } else if (arg(argv, i, (char*)"remote_file")) {
             INFILE_DESC id;
             id.is_remote = true;
-            strcpy(id.name, argv[++i]);
             strcpy(id.url, argv[++i]);
             id.nbytes = atof(argv[++i]);
             strcpy(id.md5, argv[++i]);

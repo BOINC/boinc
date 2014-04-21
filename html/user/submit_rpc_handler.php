@@ -153,8 +153,6 @@ function stage_file($file) {
             xml_error(-1, "BOINC server: can't write to file $path");
         }
         return $name;
-    case "remote":
-        return "jf_".$file->md5;
     }
     xml_error(-1, "BOINC server: unsupported file mode: $file->mode");
 }
@@ -164,7 +162,9 @@ function stage_file($file) {
 function stage_files(&$jobs, $template) {
     foreach($jobs as $job) {
         foreach ($job->input_files as $file) {
-            $file->name = stage_file($file);
+            if ($file->mode != "remote") {
+                $file->name = stage_file($file);
+            }
         }
     }
 }
@@ -180,7 +180,7 @@ function submit_jobs($jobs, $template, $app, $batch_id, $priority) {
         }
         foreach ($job->input_files as $file) {
             if ($file->mode == "remote") {
-                $x .= " --remote_file $file->name $file->url $file->nbytes $file->md5";
+                $x .= " --remote_file $file->url $file->nbytes $file->md5";
             } else {
                 $x .= " $file->name";
             }

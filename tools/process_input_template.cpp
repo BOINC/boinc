@@ -239,12 +239,12 @@ static int process_file_info(
                 strcat(buf, "</file_info>\n");
             } else if (infile.is_remote) {
                 sprintf(buf,
-                    "    <name>%s</name>\n"
+                    "    <name>jf_%s</name>\n"
                     "    <url>%s</url>\n"
                     "    <md5_cksum>%s</md5_cksum>\n"
                     "    <nbytes>%.0f</nbytes>\n"
                     "</file_info>\n",
-                    infile.name,
+                    infile.md5,
                     infile.url,
                     infile.md5,
                     infile.nbytes
