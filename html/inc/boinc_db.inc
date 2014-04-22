@@ -462,6 +462,18 @@ class BoincPlatform {
         $db = BoincDb::get();
         return $db->lookup_id($id, 'platform', 'BoincPlatform');
     }
+    static function lookup($clause) {
+        $db = BoincDb::get();
+        return $db->lookup('platform', 'BoincPlatform', $clause);
+    }
+    function update($clause) {
+        $db = BoincDb::get();
+        return $db->update($this, 'platform', $clause);
+    }
+    static function insert($clause) {
+        $db = BoincDb::get();
+        return $db->insert('platform', $clause);
+    }
 }
 
 class BoincHostAppVersion {
