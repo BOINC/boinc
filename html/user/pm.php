@@ -205,7 +205,7 @@ function do_send($logged_in_user) {
                     pm_form($replyto, $userid, tra("Could not find user with id %1", $userid));
                 }
             } else {
-                $user = BoincUser:lookup_name($username);
+                $user = BoincUser::lookup_name($username);
                 if ($user == null) {
                     pm_form($replyto, $userid, tra("Could not find user with username %1", $username));
                 } elseif ($user == -1) { // Non-unique username
