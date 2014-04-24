@@ -33,7 +33,7 @@ $email_addr = strtolower(sanitize_tags(post_str("email_addr", true)));
 $passwd = post_str("passwd", true);
 
 if ($email_addr && $passwd) {
-    $user = lookup_user_email_addr($email_addr);
+    $user = BoincUser::lookup_email_addr($email_addr);
     if (!$user) {
         page_head("No such account");
         echo "No account with email address <b>$email_addr</b> exists.
@@ -111,7 +111,7 @@ if (substr($user->authenticator, 0, 1) == 'x'){
     //User has been bad so we are going to take away ability to post for awhile.
     error_page("This account has been administratively disabled.");
 }
-$user = lookup_user_auth($authenticator);
+$user = BoincUser::lookup_auth($authenticator);
 if (!$user) {
     page_head("Login failed");
     echo "There is no account with that authenticator.

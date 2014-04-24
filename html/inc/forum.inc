@@ -704,7 +704,7 @@ function show_post_and_context($post, $thread, $forum, $options, $n) {
 
     $content = output_transform($post->content, $options);
     $when = time_diff_str($post->timestamp, time());
-    $user = lookup_user_id($post->user);
+    $user = BoincUser::lookup_id($post->user);
     $title = cleanup_title($thread->title);
     $m = $n%2;
     if ($post->hidden) {

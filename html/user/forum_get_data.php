@@ -35,7 +35,7 @@ if ($method != "user_posts" && $method != "user_threads") {
 }
 
 $userid = get_int("userid", true);
-$user = lookup_user_id($userid);
+$user = BoincUser::lookup_id($userid);
 if (!$user) {
     xml_error(ERR_DB_NOT_FOUND);
 }

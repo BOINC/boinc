@@ -1,7 +1,7 @@
 <?php
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2014 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -31,7 +31,7 @@ if (!$profile) {
     echo tra("No user of the day has been chosen.");
 } else {
     $d = gmdate("d F Y", time());
-    $user = lookup_user_id($profile->userid);
+    $user = BoincUser::lookup_id($profile->userid);
     page_head(tra("User of the Day for %1: %2", $d, $user->name));
     start_table();
     show_profile($user, get_logged_in_user(false));

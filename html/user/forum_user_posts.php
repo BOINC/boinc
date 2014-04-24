@@ -30,7 +30,7 @@ $offset = get_int("offset", true);
 if (!$offset) $offset=0;
 $items_per_page = 20;
 
-$user = lookup_user_id($userid);
+$user = BoincUser::lookup_id($userid);
 $logged_in_user = get_logged_in_user(false);
 
 // Policy for what to show:

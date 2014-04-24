@@ -125,6 +125,16 @@ class BoincUser {
         }
         return self::$cache[$id];
     }
+    static function lookup_auth($auth) {
+        $db = BoincDb::get();
+        $auth = BoincDb::escape_string($auth);
+        return self::lookup("authenticator='$auth'");
+    }
+    static function lookup_email_addr($email_addr) {
+        $db = BoincDb::get();
+        $email_addr = BoincDb::escape_string($email_addr);
+        return self::lookup("email_addr='$email_addr'");
+    }
     static function count($clause) {
         $db = BoincDb::get();
         return $db->count('user', $clause);
