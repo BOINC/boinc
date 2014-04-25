@@ -104,11 +104,17 @@ function sandbox_file_names($user) {
 
 // return a <select> for files in sandbox
 //
-function sandbox_file_select($user, $select_name) {
+function sandbox_file_select($user, $select_name, $regexp = null, $allow_none = false) {
+    if ($regexp === null) {
+        $regexp = $select_name;
+    }
     $x = "<select name=$select_name>\n";
+    if ($allow_none) {
+        $x .= "<option>--- None</option>\n";
+    }
     $files = sandbox_file_names($user);
     foreach ($files as $f) {
-        if(preg_match("/$select_name/",$f)){
+        if(preg_match("/$regexp/",$f)){
             $x .= "<option value=\"$f\">$f</option>\n";
         }
     }
