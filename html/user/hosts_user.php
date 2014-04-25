@@ -1,7 +1,7 @@
 <?php
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2014 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -44,7 +44,7 @@ if ($user && $user->id == $userid) {
     $userid = 0;
 }
 if ($userid) {
-    $user = lookup_user_id($userid);
+    $user = BoincUser::lookup_id($userid);
     if (!$user) {
         error_page("No such user");
     }

@@ -24,12 +24,18 @@ check_get_args(array());
 
 start_table();
 echo "
-<tr><td>"
-. tra("Statistics for %1",PROJECT).":
-<ul>
-<li><a href=\"top_users.php\">" . tra("Top participants")."</a>
-<li><a href=\"top_hosts.php\">" . tra("Top computers")."</a>
-<li><a href=\"top_teams.php\">" . tra("Top teams"). "</a>
+    <tr><td>"
+    . tra("Statistics for %1",PROJECT).":
+    <ul>
+    <li><a href=\"top_users.php\">" . tra("Top participants")."</a>
+    <li><a href=\"top_hosts.php\">" . tra("Top computers")."</a>
+";
+if (!DISABLE_TEAMS) {
+    echo "
+        <li><a href=\"top_teams.php\">" . tra("Top teams"). "</a>
+    ";
+}
+echo "
 <li><a href=\"gpu_list.php\">" . tra("Top GPU models"). "</a>
 </ul>
 

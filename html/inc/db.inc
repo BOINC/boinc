@@ -22,6 +22,9 @@ require_once('../inc/boinc_db.inc');
 // database-related functions.
 // Presentation code (HTML) shouldn't be here
 
+// DEPRECATED; use boinc_db.inc instead.
+// TODO: replace calls to these functions
+
 function db_init_aux($try_replica=false) {
     $config = get_config();
     $user = parse_config($config, "<db_user>");
@@ -56,34 +59,6 @@ function db_init_aux($try_replica=false) {
     }
 
     return 0;
-}
-
-function lookup_user_auth($auth) {
-    $auth = BoincDb::escape_string($auth);
-    return BoincUser::lookup("authenticator='$auth'");
-}
-
-function lookup_user_id($id) {
-    return BoincUser::lookup_id($id);
-}
-
-function lookup_user_email_addr($email_addr) {
-    $e = BoincDb::escape_string($email_addr);
-    return BoincUser::lookup("email_addr='$e'");
-}
-
-function lookup_user_name($name) {
-    // TODO: is the following double escaped? Why?
-    $name = BoincDb::escape_string($name);
-    $users = BoincUser::enum("name='".boinc_real_escape_string($name)."'");
-    if (sizeof($users)==1) {
-        return $users[0];
-    }
-    return null;
-}
-
-function lookup_host($id) {
-    return BoincHost::lookup_id($id);
 }
 
 function lookup_team($id) {

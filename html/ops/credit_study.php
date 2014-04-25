@@ -97,7 +97,7 @@ function get_data() {
         $found_zero = false;
         while ($result = mysql_fetch_object($r2)) {
             if ($result->granted_credit==0) continue;   // skip invalid
-            $host = lookup_host($result->hostid);
+            $host = BoincHost::lookup_id($result->hostid);
             $r = new StdClass;
             $r->cpu_time = $result->cpu_time;
             $r->p_fpops = $host->p_fpops;

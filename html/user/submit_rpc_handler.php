@@ -125,6 +125,9 @@ function stage_file($file) {
     switch ($file->mode) {
     case "semilocal":
     case "local":
+        // read the file (from disk or network) to get MD5.
+        // Copy to download hier, using a physical name based on MD5
+        //
         $md5 = md5_file($file->source);
         if (!$md5) {
             xml_error(-1, "BOINC server: Can't get MD5 of file $file->source");
@@ -159,7 +162,9 @@ function stage_file($file) {
 function stage_files(&$jobs, $template) {
     foreach($jobs as $job) {
         foreach ($job->input_files as $file) {
-            $file->name = stage_file($file);
+            if ($file->mode != "remote") {
+                $file->name = stage_file($file);
+            }
         }
     }
 }
@@ -174,7 +179,11 @@ function submit_jobs($jobs, $template, $app, $batch_id, $priority) {
             $x .= " --command_line \"$job->command_line\"";
         }
         foreach ($job->input_files as $file) {
-            $x .= " $file->name";
+            if ($file->mode == "remote") {
+                $x .= " --remote_file $file->url $file->nbytes $file->md5";
+            } else {
+                $x .= " $file->name";
+            }
         }
         $x .= "\n";
     }
@@ -202,7 +211,13 @@ function xml_get_jobs($r) {
         foreach ($j->input_file as $f) {
             $file = new StdClass;
             $file->mode = (string)$f->mode;
-            $file->source = (string)$f->source;
+            if ($file->mode == "remote") {
+                $file->url = (string)$f->url;
+                $file->nbytes = (double)$f->nbytes;
+                $file->md5 = (string)$f->md5;
+            } else {
+                $file->source = (string)$f->source;
+            }
             $job->input_files[] = $file;
         }
         $jobs[] = $job;
@@ -640,6 +655,10 @@ $r = simplexml_load_string("
 ");
 estimate_batch($r);
 exit;
+}
+
+if (0) {
+    require_once("submit_test.inc");
 }
 
 xml_header();

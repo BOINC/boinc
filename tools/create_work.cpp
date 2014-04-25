@@ -92,18 +92,16 @@ struct JOB_DESC {
     DB_WORKUNIT wu;
     char wu_template[BLOB_SIZE];
     char result_template_file[256], result_template_path[MAXPATHLEN];
-    char** infiles;
+    vector <INFILE_DESC> infiles;
     char* command_line;
     char additional_xml[256];
     bool assign_flag;
     bool assign_multi;
     int assign_id;
     int assign_type;
-    int ninfiles;
 
     JOB_DESC() {
         wu.clear();
-        infiles = NULL;
         command_line = NULL;
         assign_flag = false;
         assign_multi = false;
@@ -111,7 +109,6 @@ struct JOB_DESC {
         strcpy(additional_xml, "");
         assign_id = 0;
         assign_type = ASSIGN_NONE;
-        ninfiles = 0;
 
         // defaults (in case they're not in WU template)
         //
@@ -141,14 +138,22 @@ void JOB_DESC::parse_cmdline(int argc, char** argv) {
             command_line = argv[++i];
         } else if (arg(argv, i, (char*)"wu_name")) {
             strcpy(wu.name, argv[++i]);
+        } else if (arg(argv, i, (char*)"remote_file")) {
+            INFILE_DESC id;
+            id.is_remote = true;
+            strcpy(id.url, argv[++i]);
+            id.nbytes = atof(argv[++i]);
+            strcpy(id.md5, argv[++i]);
+            infiles.push_back(id);
         } else {
             if (!strncmp("-", argv[i], 1)) {
                 fprintf(stderr, "create_work: bad stdin argument '%s'\n", argv[i]);
                 exit(1);
             }
-            infiles = argv+i;
-            ninfiles = argc - i;
-            break;
+            INFILE_DESC id;
+            id.is_remote = false;
+            strcpy(id.name, argv[i]);
+            infiles.push_back(id);
         }
     }
 }
@@ -252,14 +257,22 @@ int main(int argc, char** argv) {
             exit(0);
         } else if (arg(argv, i, "stdin")) {
             use_stdin = true;
+        } else if (arg(argv, i, (char*)"remote_file")) {
+            INFILE_DESC id;
+            id.is_remote = true;
+            strcpy(id.url, argv[++i]);
+            id.nbytes = atof(argv[++i]);
+            strcpy(id.md5, argv[++i]);
+            jd.infiles.push_back(id);
         } else {
             if (!strncmp("-", argv[i], 1)) {
                 fprintf(stderr, "create_work: bad argument '%s'\n", argv[i]);
                 exit(1);
             }
-            jd.infiles = argv+i;
-            jd.ninfiles = argc - i;
-            break;
+            INFILE_DESC id;
+            id.is_remote = false;
+            strcpy(id.name, argv[i]);
+            jd.infiles.push_back(id);
         }
         i++;
     }
@@ -333,13 +346,12 @@ int main(int argc, char** argv) {
             if (!strlen(jd2.wu.name)) {
                 sprintf(jd2.wu.name, "%s_%d", jd.wu.name, j);
             }
-            retval = create_work(
+            retval = create_work2(
                 jd2.wu,
                 jd2.wu_template,
                 jd2.result_template_file,
                 jd2.result_template_path,
-                const_cast<const char **>(jd2.infiles),
-                jd2.ninfiles,
+                jd2.infiles,
                 config,
                 jd2.command_line,
                 jd2.additional_xml,
@@ -389,13 +401,12 @@ int main(int argc, char** argv) {
 
 void JOB_DESC::create() {
     char buf[256];
-    int retval = create_work(
+    int retval = create_work2(
         wu,
         wu_template,
         result_template_file,
         result_template_path,
-        const_cast<const char **>(infiles),
-        ninfiles,
+        infiles,
         config,
         command_line,
         additional_xml

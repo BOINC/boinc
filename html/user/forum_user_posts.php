@@ -1,7 +1,7 @@
 <?php
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2014 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -21,6 +21,8 @@ require_once('../inc/time.inc');
 require_once('../inc/forum.inc');
 require_once('../inc/user.inc');
 
+if (DISABLE_FORUMS) error_page("Forums are disabled");
+
 check_get_args(array("userid", "offset"));
 
 $userid = get_int("userid");
@@ -28,7 +30,7 @@ $offset = get_int("offset", true);
 if (!$offset) $offset=0;
 $items_per_page = 20;
 
-$user = lookup_user_id($userid);
+$user = BoincUser::lookup_id($userid);
 $logged_in_user = get_logged_in_user(false);
 
 // Policy for what to show:

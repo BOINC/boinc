@@ -98,7 +98,7 @@ function do_inbox($logged_in_user) {
                 $msg->update("opened=1");
             }
             echo "<td valign=top> $checkbox $msg->subject </td>\n";
-            echo "<td valign=top>".user_links(get_user_from_id($msg->senderid));
+            echo "<td valign=top>".user_links(BoincUser::lookup_id($msg->senderid));
             show_block_link($msg->senderid);
             echo "<br>".time_str($msg->date)."</td>\n";
             echo "<td valign=top>".output_transform($msg->content, $options)."<p>";
@@ -200,12 +200,12 @@ function do_send($logged_in_user) {
             $user = explode(" ", $username);
             if (is_numeric($user[0])) { // user ID is gived
                 $userid = $user[0];
-                $user = lookup_user_id($userid);
+                $user = BoincUser::lookup_id($userid);
                 if ($user == null) {
                     pm_form($replyto, $userid, tra("Could not find user with id %1", $userid));
                 }
             } else {
-                $user = lookup_user_name($username);
+                $user = BoincUser::lookup_name($username);
                 if ($user == null) {
                     pm_form($replyto, $userid, tra("Could not find user with username %1", $username));
                 } elseif ($user == -1) { // Non-unique username

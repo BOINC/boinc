@@ -1,7 +1,7 @@
 <?php
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2014 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -21,6 +21,8 @@ require_once("../inc/util.inc");
 require_once("../inc/email.inc");
 require_once("../inc/team.inc");
 
+if (DISABLE_TEAMS) error_page("Teams are disabled");
+
 check_get_args(array("xml", "creditonly", "teamid", "account_key", "plain"));
 
 $xml = get_int('xml', true);
@@ -36,7 +38,7 @@ if ($xml) {
         xml_error(ERR_DB_NOT_FOUND);
     }
     $account_key = get_str('account_key', true);
-    $user = lookup_user_auth($account_key);
+    $user = Boinc_user::lookup_auth($account_key);
     $show_email = ($user && is_team_founder($user, $team));
     echo "<users>\n";
     $users = BoincUser::enum_fields("id, email_addr, send_email, name, total_credit, expavg_credit, expavg_time, has_profile, donated, country, cross_project_id, create_time, url", "teamid=$team->id");

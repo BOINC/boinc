@@ -31,6 +31,7 @@
 #include "process_input_template.h"
 
 using std::string;
+using std::vector;
 
 // look for file named FILENAME.md5 containing md5sum and length.
 // If found, and newer mod time than file,
@@ -137,8 +138,18 @@ static void write_md5_info(
 
 static bool input_file_found[1024];
 
+// generate a <file_info> element for workunit XML doc,
+// based on the input template and list of files
+//
+// Inputs:
+// xp: parser for input template
+// ninfiles, infiles: list of physical filenames
+//
+// Output:
+// out: the <file_info> element for the WU XML doc
+
 static int process_file_info(
-    XML_PARSER& xp, string& out, int ninfiles, const char** infiles,
+    XML_PARSER& xp, string& out, vector<INFILE_DESC> infiles,
     SCHED_CONFIG& config_loc
 ) {
     vector<string> urls;
@@ -182,7 +193,7 @@ static int process_file_info(
                 fprintf(stderr, "No file number found\n");
                 return ERR_XML_PARSE;
             }
-            if (file_number >= ninfiles) {
+            if (file_number >= (int)infiles.size()) {
                 fprintf(stderr,
                     "Too few input files given; need at least %d\n",
                     file_number+1
@@ -196,11 +207,54 @@ static int process_file_info(
                 return ERR_XML_PARSE;
             }
             input_file_found[file_number] = true;
-            if (nbytesdef == -1) {
-                // here if nybtes was not supplied; stage the file if needed
+            INFILE_DESC& infile = infiles[file_number];
+
+            if (nbytesdef > 0) {
+                // here if the file was specified in the input template;
+                // i.e it's already staged, possibly remotely
+                //
+                urlstr = "";
+                for (unsigned int i=0; i<urls.size(); i++) {
+                    urlstr += "    <url>" + urls.at(i) + string(infile.name) + "</url>\n";
+                    if (gzip) {
+                        urlstr += "    <gzipped_url>" + urls.at(i) + string(infile.name) + ".gz</gzipped_url>\n";
+                    }
+                }
+                sprintf(buf,
+                    "    <name>%s</name>\n"
+                    "%s"
+                    "    <md5_cksum>%s</md5_cksum>\n"
+                    "    <nbytes>%.0f</nbytes>\n",
+                    infile.name,
+                    urlstr.c_str(),
+                    md5str.c_str(),
+                    nbytesdef
+                );
+                if (gzip) {
+                    sprintf(buf2, "    <gzipped_nbytes>%.0f</gzipped_nbytes>\n",
+                        gzipped_nbytes
+                    );
+                    strcat(buf, buf2);
+                }
+                strcat(buf, "</file_info>\n");
+            } else if (infile.is_remote) {
+                sprintf(buf,
+                    "    <name>jf_%s</name>\n"
+                    "    <url>%s</url>\n"
+                    "    <md5_cksum>%s</md5_cksum>\n"
+                    "    <nbytes>%.0f</nbytes>\n"
+                    "</file_info>\n",
+                    infile.md5,
+                    infile.url,
+                    infile.md5,
+                    infile.nbytes
+                );
+            } else {
+                // here if file is local; we need to find its size and MD5;
+                // stage the file if needed
                 //
                 dir_hier_path(
-                    infiles[file_number], config_loc.download_dir,
+                    infile.name, config_loc.download_dir,
                     config_loc.uldl_dir_fanout, path, true
                 );
 
@@ -209,8 +263,7 @@ static int process_file_info(
                 //
                 if (!boinc_file_exists(path)) {
                     sprintf(top_download_path,
-                        "%s/%s",config_loc.download_dir,
-                        infiles[file_number]
+                        "%s/%s",config_loc.download_dir, infile.name
                     );
                     boinc_copy(top_download_path, path);
                 }
@@ -229,7 +282,7 @@ static int process_file_info(
                 }
 
                 dir_hier_url(
-                    infiles[file_number], config_loc.download_url,
+                    infile.name, config_loc.download_url,
                     config_loc.uldl_dir_fanout, url
                 );
 
@@ -259,44 +312,18 @@ static int process_file_info(
                     "    <md5_cksum>%s</md5_cksum>\n"
                     "    <nbytes>%.0f</nbytes>\n"
                     "</file_info>\n",
-                    infiles[file_number],
+                    infile.name,
                     url,
                     gzipped_url,
                     md5,
                     nbytes
                 );
-            } else {
-                // here if nbytes etc. was supplied,
-                // i.e the file is already staged, possibly remotely
-                //
-                urlstr = "";
-                for (unsigned int i=0; i<urls.size(); i++) {
-                    urlstr += "    <url>" + urls.at(i) + string(infiles[file_number]) + "</url>\n";
-                    if (gzip) {
-                        urlstr += "    <gzipped_url>" + urls.at(i) + string(infiles[file_number]) + ".gz</gzipped_url>\n";
-                    }
-                }
-                sprintf(buf,
-                    "    <name>%s</name>\n"
-                    "%s"
-                    "    <md5_cksum>%s</md5_cksum>\n"
-                    "    <nbytes>%.0f</nbytes>\n",
-                    infiles[file_number],
-                    urlstr.c_str(),
-                    md5str.c_str(),
-                    nbytesdef
-                );
-                if (gzip) {
-                    sprintf(buf2, "    <gzipped_nbytes>%.0f</gzipped_nbytes>\n",
-                        gzipped_nbytes
-                    );
-                    strcat(buf, buf2);
-                }
-                strcat(buf, "</file_info>\n");
             }
             out += buf;
             break;
         } else {
+            // copy any other elements from input template to XML doc
+            //
             retval = xp.copy_element(tmpstr);
             if (retval) return retval;
             out += tmpstr;
@@ -308,7 +335,7 @@ static int process_file_info(
 
 static int process_workunit(
     XML_PARSER& xp, WORKUNIT& wu, string& out,
-    const char** infiles,
+    vector<INFILE_DESC> &infiles,
     const char* command_line,
     const char* additional_xml
 ) {
@@ -338,7 +365,7 @@ static int process_workunit(
             while (!xp.get_tag()) {
                 if (xp.parse_int("file_number", file_number)) {
                     sprintf(buf, "    <file_name>%s</file_name>\n",
-                        infiles[file_number]
+                        infiles[file_number].name
                     );
                     out += buf;
                     found_file_number = true;
@@ -420,8 +447,7 @@ static int process_workunit(
 int process_input_template(
     WORKUNIT& wu,
     char* tmplate,
-    const char** infiles,
-    int ninfiles,
+    vector<INFILE_DESC> &infiles,
     SCHED_CONFIG& config_loc,
     const char* command_line,
     const char* additional_xml
@@ -444,7 +470,7 @@ int process_input_template(
         if (xp.match_tag("input_template")) continue;
         if (xp.match_tag("/input_template")) continue;
         if (xp.match_tag("file_info")) {
-            retval = process_file_info(xp, out, ninfiles, infiles, config_loc);
+            retval = process_file_info(xp, out, infiles, config_loc);
             if (retval) return retval;
             nfiles_parsed++;
         } else if (xp.match_tag("workunit")) {
@@ -459,10 +485,10 @@ int process_input_template(
         fprintf(stderr, "process_input_template: bad WU template - no <workunit>\n");
         return ERR_XML_PARSE;
     }
-    if (nfiles_parsed != ninfiles) {
+    if (nfiles_parsed != (int)infiles.size()) {
         fprintf(stderr,
             "process_input_template: %d input files listed, but template has %d\n",
-            ninfiles, nfiles_parsed
+            (int)infiles.size(), nfiles_parsed
         );
         return ERR_XML_PARSE;
     }

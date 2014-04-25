@@ -320,6 +320,16 @@ bool FILE_XFER_SET::poll() {
                 //
                 if (fxp->fip->nbytes) {
                     if (size == fxp->fip->nbytes) continue;
+
+                    // but skip this check if it's an image file
+                    // and user has image verification disabled
+                    // (i.e. they're behind a proxy that shrinks images)
+                    // The shrunk image could be < 5 KB
+                    //
+                    if (is_image_file(pathname) && gstate.global_prefs.dont_verify_images) {
+                        continue;
+                    }
+
                     if (diff>0 && diff<MIN_DOWNLOAD_INCREMENT) {
                         msg_printf(fxp->fip->project, MSG_INFO,
                             "Incomplete read of %f < 5KB for %s - truncating",

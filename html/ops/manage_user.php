@@ -294,7 +294,7 @@ if (!$id) {
     $id = post_int("userid", true);
 }
 if (!$id) error_page("No ID given");
-$user = lookup_user_id($id);
+$user = BoincUser::lookup_id($id);
 if (!$user) error_page("No such user: $id");
 
 BoincForumPrefs::lookup($user);

@@ -102,12 +102,18 @@ AC_ARG_ENABLE(xss,
     [enable_xss=${enableval}],
     [enable_xss=yes])
 
+AC_ARG_ENABLE(boinczip,
+    AS_HELP_STRING([--enable-boinczip],
+                   [enable building the boinc zip library]),
+    [enable_boinczip=${enableval}],
+    [enable_boinczip=no])
+
 AC_ARG_ENABLE(pkg-libs, 
     AS_HELP_STRING([--enable-pkg-libs],
                    [Builds and installs components that would be present in a
 		   boinc-libs package.  This is a synonym for --disable-server
 		   --disable-client --enable-libraries --disable-static
-		   --disable-install-headers --disable-manager]),
+		   --disable-install-headers --disable-manager --enable-boinczip]),
     [
      enable_libraries=yes
      enable_server=no
@@ -115,6 +121,7 @@ AC_ARG_ENABLE(pkg-libs,
      enable_manager=no
      enable_install_headers=no
      enable_static=no
+	 enable_boinczip=yes
     ],
     [])
 
@@ -123,13 +130,14 @@ AC_ARG_ENABLE(pkg-devel,
                    [Builds and installs components that would be present in a
 		   boinc-devel package.  This is a synonym for --disable-server
 		   --disable-client --enable-libraries --enable-install-headers
-		   --disable-manger]),
+		   --disable-manger --enable-boinczip]),
     [
      enable_libraries=yes
      enable_server=no
      enable_client=no
      enable_manager=no
      enable_install_headers=yes
+	 enable_boinczip=yes
     ],
     [])
 
@@ -145,6 +153,7 @@ AC_ARG_ENABLE(pkg-client,
      enable_client=yes
      enable_manager=no
      enable_install_headers=no
+	 enable_boinczip=no
     ],
     [])
 
@@ -158,6 +167,7 @@ AC_ARG_ENABLE(pkg-manager,
      enable_client=no
      enable_manager=yes
      enable_install_headers=no
+	 enable_boinczip=no
     ],
     [])
 
@@ -790,6 +800,7 @@ AM_CONDITIONAL(ENABLE_SERVER, [test "${enable_server}" = yes])
 AM_CONDITIONAL(ENABLE_CLIENT, [test "${enable_client}" = yes])
 AM_CONDITIONAL(ENABLE_MANAGER, [ test "x${ac_cv_have_wxwidgets}" = xyes -a "${enable_manager}" = yes ])
 AM_CONDITIONAL(ENABLE_LIBRARIES, [test "${enable_libraries}" = yes])
+AM_CONDITIONAL(ENABLE_BOINCZIP, [test "${enable_boinczip}" = yes])
 AM_CONDITIONAL(INSTALL_HEADERS, [test "${enable_install_headers}" = yes])
 AM_CONDITIONAL(HAVE_CUDA_LIB, [test "${enable_client}" = yes -a -f ./coprocs/CUDA/posix/${boinc_platform}/libcudart.so])
 

@@ -125,6 +125,27 @@ class BoincUser {
         }
         return self::$cache[$id];
     }
+    static function lookup_auth($auth) {
+        $db = BoincDb::get();
+        $auth = BoincDb::escape_string($auth);
+        return self::lookup("authenticator='$auth'");
+    }
+    static function lookup_email_addr($email_addr) {
+        $db = BoincDb::get();
+        $email_addr = BoincDb::escape_string($email_addr);
+        return self::lookup("email_addr='$email_addr'");
+    }
+    static function lookup_name($name) {
+        $name = BoincDb::escape_string($name);
+        $users = BoincUser::enum("name='$name'");
+        switch (sizeof($users)) {
+        case 1:
+            return $users[0];
+        case 0:
+            return null;
+        }
+        return -1;
+    }
     static function count($clause) {
         $db = BoincDb::get();
         return $db->count('user', $clause);
@@ -387,7 +408,7 @@ class BoincProfile {
         $db = BoincDb::get();
         return $db->insert('profile', $clause);
     }
-    static function enum($clause, $clause2=null) {
+    static function enum($clause=null, $clause2=null) {
         $db = BoincDb::get();
         return $db->enum('profile', 'BoincProfile', $clause, $clause2);
     }
@@ -461,6 +482,18 @@ class BoincPlatform {
     static function lookup_id($id) {
         $db = BoincDb::get();
         return $db->lookup_id($id, 'platform', 'BoincPlatform');
+    }
+    static function lookup($clause) {
+        $db = BoincDb::get();
+        return $db->lookup('platform', 'BoincPlatform', $clause);
+    }
+    function update($clause) {
+        $db = BoincDb::get();
+        return $db->update($this, 'platform', $clause);
+    }
+    static function insert($clause) {
+        $db = BoincDb::get();
+        return $db->insert('platform', $clause);
     }
 }
 

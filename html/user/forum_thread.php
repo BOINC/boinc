@@ -37,10 +37,15 @@ if ($filter != "false"){
 }
 
 $logged_in_user = get_logged_in_user(false);
+
 $tokens = "";
 if ($logged_in_user) {
     BoincForumPrefs::lookup($logged_in_user);
     $tokens = url_tokens($logged_in_user->authenticator);
+}
+
+if (DISABLE_FORUMS && !is_admin($logged_in_user)) {
+    error_page("Forums are disabled");
 }
 
 if ($threadid < 1) {
@@ -206,20 +211,20 @@ if (is_moderator($logged_in_user, $forum)) {
         show_button(
             "forum_moderate_thread_action.php?action=sticky&amp;thread=".$thread->id."$tokens",
             tra("Make sticky"),
-            tra("Make this thread sticky")
+            tra("Make this thread always appear at top of forum")
         );
     }
     if ($thread->locked) {
         show_button(
             "forum_moderate_thread_action.php?action=unlock&amp;thread=".$thread->id."$tokens",
             tra("Unlock"),
-            tra("Unlock this thread")
+            tra("Allow new posts in this thread")
         );
     } else {
         show_button(
             "forum_moderate_thread.php?action=lock&amp;thread=".$thread->id."$tokens",
             tra("Lock"),
-            tra("Lock this thread")
+            tra("Don't allow new posts in this thread")
         );
     }
     if ($forum->parent_type == 0) {
@@ -233,6 +238,14 @@ if (is_moderator($logged_in_user, $forum)) {
         "forum_moderate_thread.php?action=title&amp;thread=".$thread->id."$tokens",
         tra("Edit title"),
         tra("Edit thread title")
+    );
+}
+
+if (is_admin($logged_in_user)) {
+    show_button(
+        "forum_moderate_thread.php?action=delete&amp;thread=".$thread->id."$tokens",
+        tra("Delete"),
+        tra("Delete thread permanently")
     );
 }
 

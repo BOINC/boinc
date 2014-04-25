@@ -37,7 +37,7 @@ function news_item($date, $title, $post) {
         <span class=news_content>$text</span>
         <span class=news_date>$d
     ";
-    if ($forum_link) {
+    if ($forum_link && !DISABLE_FORUMS) {
         echo "
             &middot; <a href=".URL_BASE."forum_thread.php?id=$post->thread> ".tra("Comment")."</a>
         ";

@@ -55,10 +55,9 @@ $auth = $user->authenticator;
 //
 function handle_main() {
     global $project, $auth;
-    $req = (object)array(
-        'project' => $project,
-        'authenticator' => $auth,
-    );
+    $req = new StdClass;
+    $req->project = $project;
+    $req->authenticator = $auth;
     list($batches, $errmsg) = boinc_query_batches($req);
     if ($errmsg) error_page(htmlentities($errmsg));
 
@@ -244,18 +243,16 @@ function form_to_request() {
     $param_inc = (double)get_str('param_inc');
     if ($param_inc < 1) error_page("param inc must be >= 1");
 
-    $req = (object)array(
-        'project' => $project,
-        'authenticator' => $auth,
-        'app_name' => APP_NAME,
-        'batch_name' => get_str('batch_name'),
-        'jobs' => array(),
-    );
+    $req = new StdClass;
+    $req->project = $project;
+    $req->authenticator = $auth;
+    $req->app_name = APP_NAME;
+    $req->batch_name = get_str('batch_name');
+    $req->jobs = array();
     
-    $f = (object)array(
-        'source' => $input_url,
-        'mode' => 'semilocal',
-    );
+    $f = new StdClass;
+    $f->source = $input_url;
+    $f->mode = 'semilocal';
 
     for ($x=$param_lo; $x<$param_hi; $x += $param_inc) {
         $job = new StdClass;
@@ -373,11 +370,11 @@ function handle_query_batch() {
 // 
 function handle_query_job() {
     global $project, $auth;
-    $req = (object)array(
-        'project' => $project,
-        'authenticator' => $auth,
-        'job_id' => get_int('job_id'),
-    );
+    $req = new StdClass;
+    $req->project = $project;
+    $req->authenticator = $auth;
+    $req->job_id = get_int('job_id');
+
     list($reply, $errmsg) = boinc_query_job($req);
     if ($errmsg) error_page(htmlentities($errmsg));
 

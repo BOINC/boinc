@@ -203,21 +203,23 @@ function handle_main($user) {
 
     page_head("Job submission and control");
 
-    // show links to per-app job submission pages
-    //
-    echo "<h2>Submit jobs</h2>
-        <ul>
-    ";
-    foreach ($submit_urls as $appname=>$submit_url) {
-        $appname = BoincDb::escape_string($appname);
-        $app = BoincApp::lookup("name='$appname'");
-        if (!$app) error_page("bad submit_url name: $appname");
-        $usa = BoincUserSubmitApp::lookup("user_id=$user->id and app_id=$app->id");
-        if ($usa || $user_submit->submit_all) {
-            echo "<li> <a href=$submit_url> $app->user_friendly_name </a>";
+    if (isset($submit_urls)) {
+        // show links to per-app job submission pages
+        //
+        echo "<h2>Submit jobs</h2>
+            <ul>
+        ";
+        foreach ($submit_urls as $appname=>$submit_url) {
+            $appname = BoincDb::escape_string($appname);
+            $app = BoincApp::lookup("name='$appname'");
+            if (!$app) error_page("bad submit_url name: $appname");
+            $usa = BoincUserSubmitApp::lookup("user_id=$user->id and app_id=$app->id");
+            if ($usa || $user_submit->submit_all) {
+                echo "<li> <a href=$submit_url> $app->user_friendly_name </a>";
+            }
         }
+        echo "</ul>\n";
     }
-    echo "</ul>\n";
 
     // show links to admin pages if relevant
     //

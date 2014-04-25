@@ -33,6 +33,7 @@ export PKG_CONFIG_SYSROOT_DIR=$TCSYSROOT
 ./build_androidtc_x86.sh
 
 if [ -n "$COMPILEBOINC" ]; then
+
 echo "==================building Libraries from $BOINC=========================="
 cd $BOINC
 if [ -n "$MAKECLEAN" ]; then
@@ -40,10 +41,11 @@ make clean
 fi
 if [ -n "$CONFIGURE" ]; then
 ./_autosetup
-./configure --host=i686-linux --with-boinc-platform="x86-android-linux-gnu" --with-ssl=$TCINCLUDES --disable-server --disable-manager --disable-client --disable-shared --enable-static
+./configure --host=i686-linux --with-boinc-platform="x86-android-linux-gnu" --prefix=$TCINCLUDES --libdir="$TCINCLUDES/lib" --with-ssl=$TCINCLUDES --disable-server --disable-manager --disable-client --disable-shared --enable-static --enable-boinczip
 fi
 make
 make stage
+make install
 
 echo "=============================BOINC done============================="
 
