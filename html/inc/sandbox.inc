@@ -65,6 +65,7 @@ function sandbox_lf_exist($user, $md5) {
 // parse a link file and return (error, size, md5)
 //
 function sandbox_parse_link_file($path) {
+    if (!file_exists($path)) { return array(true, null, null); }
     $x = file_get_contents($path);
     $n = sscanf($x, "%s %d %s", $s, $size, $md5);
     if ($n != 3) return array(true, null, null);
@@ -110,7 +111,7 @@ function sandbox_file_select($user, $select_name, $regexp = null, $allow_none = 
     }
     $x = "<select name=$select_name>\n";
     if ($allow_none) {
-        $x .= "<option>--- None</option>\n";
+        $x .= "<option value=\"\">--- None</option>\n";
     }
     $files = sandbox_file_names($user);
     foreach ($files as $f) {
