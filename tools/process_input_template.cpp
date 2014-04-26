@@ -364,9 +364,16 @@ static int process_workunit(
             bool found_file_number = false, found_open_name = false;
             while (!xp.get_tag()) {
                 if (xp.parse_int("file_number", file_number)) {
-                    sprintf(buf, "    <file_name>%s</file_name>\n",
-                        infiles[file_number].name
-                    );
+                    INFILE_DESC& id = infiles[file_number];
+                    if (id.is_remote) {
+                        sprintf(buf, "    <file_name>jf_%s</file_name>\n",
+                            infiles[file_number].md5
+                        );
+                    } else {
+                        sprintf(buf, "    <file_name>%s</file_name>\n",
+                            infiles[file_number].name
+                        );
+                    }
                     out += buf;
                     found_file_number = true;
                     continue;
