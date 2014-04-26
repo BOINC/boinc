@@ -393,6 +393,10 @@ void COPROC_NVIDIA::correlate(
     for (i=0; i<nvidia_gpus.size(); i++) {
         if (in_vector(nvidia_gpus[i].device_num, ignore_devs)) {
             nvidia_gpus[i].is_used = COPROC_IGNORED;
+        } else if (this->have_opencl && !nvidia_gpus[i].have_opencl) {
+            nvidia_gpus[i].is_used = COPROC_UNUSED;
+        } else if (this->have_cuda && !nvidia_gpus[i].have_cuda) {
+            nvidia_gpus[i].is_used = COPROC_UNUSED;
         } else if (use_all || !nvidia_compare(nvidia_gpus[i], *this, true)) {
             device_nums[count] = nvidia_gpus[i].device_num;
             pci_infos[count] = nvidia_gpus[i].pci_info;
