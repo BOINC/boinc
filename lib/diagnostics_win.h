@@ -101,13 +101,13 @@ typedef struct _SYSTEM_PROCESSES {
 } SYSTEM_PROCESSES, * PSYSTEM_PROCESSES;
 
 typedef enum _THREAD_STATE {
-    ThreadStateInitialized,
-    ThreadStateReady,
-    ThreadStateRunning,
-    ThreadStateStandby,
-    ThreadStateTerminated,
-    ThreadStateWaiting,
-    ThreadStateTransition
+    StateInitialized,
+    StateReady,
+    StateRunning,
+    StateStandby,
+    StateTerminated,
+    StateWaiting,
+    StateTransition
 } THREAD_STATE, *PTHREAD_STATE;
 
 typedef enum _THREAD_WAIT_REASON {
