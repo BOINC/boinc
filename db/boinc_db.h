@@ -194,6 +194,7 @@ public:
     DB_WORKUNIT(DB_CONN* p=0);
     int get_id();
     void db_print(char*);
+    void db_print_values(char*);
     void db_parse(MYSQL_ROW &row);
     void operator=(WORKUNIT& w) {WORKUNIT::operator=(w);}
 };
@@ -348,6 +349,9 @@ struct SCHED_RESULT_ITEM {
     int file_delete_state;
     double elapsed_time;
     int app_version_id;
+    double peak_working_set_size;
+    double peak_swap_size;
+    double peak_disk_usage;
 
     void clear();
     void parse(MYSQL_ROW& row);

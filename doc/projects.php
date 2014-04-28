@@ -74,7 +74,7 @@ function grouped_display($areas) {
             $home = $p[2];
             $area = $p[3];
             $master_url = $p[1];
-            if (array_key_exists(6, $p)) {
+            if (array_key_exists(6, $p) && strlen($p[6])) {
                 $master_url = $p[6];
             }
             $p = get_platforms_string($master_url);
@@ -136,7 +136,7 @@ function ordered_display($areas, $sort) {
         $area = $p['area'];
         $spec_area = $p[3];
         $master_url = $p[1];
-        if (array_key_exists(6, $p)) {
+        if (array_key_exists(6, $p) && strlen($p[6])) {
             $master_url = $p[6];
         }
         $p = get_platform_icons($master_url);

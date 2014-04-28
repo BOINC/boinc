@@ -18,9 +18,10 @@
   along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical" >
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@android:color/white" >
     
     <LinearLayout 
     	android:layout_width="fill_parent"
@@ -61,19 +62,7 @@
 	    android:textStyle="bold"
 	    android:text="@string/about_name"
 	    android:gravity="center_horizontal" />
-     
-   	<TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:background="@android:color/transparent"
-	    android:textColor="@color/black"
-	    android:paddingLeft="10dp"
-	    android:paddingRight="10dp"
-	    android:paddingBottom="10dp"
-	    android:text="@string/about_name_long"
-	    android:gravity="center_horizontal" />
-     
+         
    	<TextView
 	    android:id="@+id/version"
         android:layout_width="fill_parent"
@@ -85,13 +74,33 @@
 	    android:gravity="center_horizontal"  />
      
    	<TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:background="@android:color/transparent"
+	    android:textColor="@color/black"
+	    android:paddingLeft="10dp"
+	    android:paddingRight="10dp"
+	    android:text="@string/about_copyright"
+	    android:gravity="center_horizontal" />
+     
+   	<TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:background="@android:color/transparent"
 	    android:textColor="@color/black"
-	    android:padding="10dp"
-	    android:text="@string/about_copyright"
+	    android:text="@string/about_copyright_reserved"
+	    android:gravity="center_horizontal" />
+   	
+   	<TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:background="@android:color/transparent"
+	    android:textColor="@color/black"
+	    android:layout_margin="10dp"
+	    android:text="@string/about_credits"
 	    android:gravity="center_horizontal" />
     	
 	<Button

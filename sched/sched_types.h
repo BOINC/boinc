@@ -394,15 +394,9 @@ struct WORK_REQ_BASE {
     inline bool need_proc_type(int t) {
         return (req_secs[t]>0) || (req_instances[t]>0);
     }
-    inline void clear_cpu_req() {
-        req_secs[PROC_TYPE_CPU] = 0;
-        req_instances[PROC_TYPE_CPU] = 0;
-    }
-    inline void clear_gpu_req() {
-        for (int i=1; i<NPROC_TYPES; i++) {
-            req_secs[i] = 0;
-            req_instances[i] = 0;
-        }
+    inline void clear_req(int proc_type) {
+        req_secs[proc_type] = 0;
+        req_instances[proc_type] = 0;
     }
 
     // older clients send send a single number, the requested duration of jobs
@@ -415,7 +409,8 @@ struct WORK_REQ_BASE {
 
     double disk_available;
     double ram, usable_ram;
-    double running_frac;
+    double cpu_available_frac;
+    double gpu_available_frac;
     int njobs_sent;
 
     // The following keep track of the "easiest" job that was rejected
@@ -454,12 +449,18 @@ struct WORK_REQ_BASE {
     bool hr_reject_perm;
     bool outdated_client;
     bool max_jobs_on_host_exceeded;
-    bool max_jobs_on_host_cpu_exceeded;
-    bool max_jobs_on_host_gpu_exceeded;
+    bool max_jobs_on_host_proc_type_exceeded[NPROC_TYPES];
     bool no_jobs_available;     // project has no work right now
     int max_jobs_per_rpc;
     void get_job_limits();
 
+    bool max_jobs_exceeded() {
+        if (max_jobs_on_host_exceeded) return true;
+        for (int i=0; i<NPROC_TYPES; i++) {
+            if (max_jobs_on_host_proc_type_exceeded[i]) return true;
+        }
+        return false;
+    }
     void clear() {
         memset(this, 0, sizeof(WORK_REQ_BASE));
     }
@@ -548,4 +549,5 @@ inline bool is_64b_platform(const char* name) {
     return (strstr(name, "64") != NULL);
 }
 
+extern double available_frac(BEST_APP_VERSION&);
 #endif

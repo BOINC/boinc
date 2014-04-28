@@ -76,7 +76,7 @@ BEGIN_EVENT_TABLE(CTaskBarIcon, wxTaskBarIconEx)
 END_EVENT_TABLE()
 
 
-CTaskBarIcon::CTaskBarIcon(wxString title, wxIcon* icon, wxIcon* iconDisconnected, wxIcon* iconSnooze
+CTaskBarIcon::CTaskBarIcon(wxString title, wxIconBundle* icon, wxIconBundle* iconDisconnected, wxIconBundle* iconSnooze
 #ifdef __WXMAC__
 , wxTaskBarIconType iconType
 #endif
@@ -87,9 +87,9 @@ CTaskBarIcon::CTaskBarIcon(wxString title, wxIcon* icon, wxIcon* iconDisconnecte
     wxTaskBarIconEx(wxT("BOINCManagerSystray"), 1)
 #endif
 {
-    m_iconTaskBarNormal = *icon;
-    m_iconTaskBarDisconnected = *iconDisconnected;
-    m_iconTaskBarSnooze = *iconSnooze;
+    m_iconTaskBarNormal = icon->GetIcon(GetBestIconSize(), wxIconBundle::FALLBACK_NEAREST_LARGER);
+    m_iconTaskBarDisconnected = iconDisconnected->GetIcon(GetBestIconSize(), wxIconBundle::FALLBACK_NEAREST_LARGER);
+    m_iconTaskBarSnooze = iconSnooze->GetIcon(GetBestIconSize(), wxIconBundle::FALLBACK_NEAREST_LARGER);
     m_SnoozeGPUMenuItem = NULL;
 
     m_bTaskbarInitiatedShutdown = false;
@@ -256,19 +256,13 @@ void CTaskBarIcon::OnAbout(wxCommandEvent& WXUNUSED(event)) {
         bEventLogWasShown = eventLog->IsShown();
         if (bEventLogWasShown && !bWasVisible) eventLog->Show(false);
     }
-    
-    // We don't call Hide() or Show(false) for the main frame
-    // under wxCocoa 2.9.5 because it bounces the Dock icon
-    // (as in notification.)  We work around this by moving
-    // the main window/frame off screen when displaying the
-    // CDlgAbout modal dialog while the main window is hidden.
-    // The position will be restored in one of these methods:
-    // CBOINCGUIApp::OnActivateApp(), CSimpleFrame::SaveState()
-    // or CAdvancedFrame::SaveWindowDimensions().
+
     CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
     if (pFrame) {
         if (!bWasVisible) {
-            pFrame->MoveFrameOffScreen();
+            // We really do need to hide the frame here
+            // See comment in CBOINCGUIApp::OnFinishInit()
+            pFrame->wxFrame::Show(false);
         }
     }
 #endif
@@ -285,6 +279,11 @@ void CTaskBarIcon::OnAbout(wxCommandEvent& WXUNUSED(event)) {
     if (!bWasVisible) {
         wxGetApp().ShowApplication(false);
     }
+
+#ifdef __WXMAC__
+    // See comment in CBOINCGUIApp::OnFinishInit()
+    pFrame->wxWindow::Show(true);
+#endif
 }
 
 
@@ -349,9 +348,9 @@ void CTaskBarIcon::OnReloadSkin(CTaskbarEvent& WXUNUSED(event)) {
     wxASSERT(pSkinAdvanced);
     wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
 
-    m_iconTaskBarNormal = *pSkinAdvanced->GetApplicationIcon();
-    m_iconTaskBarDisconnected = *pSkinAdvanced->GetApplicationDisconnectedIcon();
-    m_iconTaskBarSnooze = *pSkinAdvanced->GetApplicationSnoozeIcon();
+    m_iconTaskBarNormal = pSkinAdvanced->GetApplicationIcon()->GetIcon(GetBestIconSize(), wxIconBundle::FALLBACK_NEAREST_LARGER);
+    m_iconTaskBarDisconnected = pSkinAdvanced->GetApplicationDisconnectedIcon()->GetIcon(GetBestIconSize(), wxIconBundle::FALLBACK_NEAREST_LARGER);
+    m_iconTaskBarSnooze = pSkinAdvanced->GetApplicationSnoozeIcon()->GetIcon(GetBestIconSize(), wxIconBundle::FALLBACK_NEAREST_LARGER);
 }
 
 
@@ -363,6 +362,19 @@ void CTaskBarIcon::FireReloadSkin() {
 
 void CTaskBarIcon::ResetTaskBar() {
     SetIcon(m_iconTaskBarNormal);
+}
+
+
+wxSize CTaskBarIcon::GetBestIconSize() {
+    wxSize size;
+
+#ifdef _WIN32
+    size = wxSize(wxSystemSettings::GetMetric(wxSYS_SMALLICON_X), wxSystemSettings::GetMetric(wxSYS_SMALLICON_Y));
+#else
+    size = wxSize(16, 16);
+#endif
+
+    return size;
 }
 
 

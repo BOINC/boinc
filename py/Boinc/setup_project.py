@@ -316,12 +316,12 @@ def install_boinc_files(dest_dir, install_web_files, install_server_files):
     # which is needed even for a server_only upgrade
 
     install_glob(srcdir('html/ops/*.php'), dir('html/ops/'))
-    install_glob(srcdir('html/ops/*.inc'), dir('html/ops/'))
 
     if install_web_files:
         install_glob(srcdir('html/inc/*.inc'), dir('html/inc/'))
         install_glob(srcdir('html/inc/*.php'), dir('html/inc/'))
         install_glob(srcdir('html/inc/*.dat'), dir('html/inc/'))
+        install_glob(srcdir('html/ops/*.css'), dir('html/ops/'))
         install_glob(srcdir('html/ops/ffmail/sample*'), dir('html/ops/ffmail/'))
         install_glob(srcdir('html/ops/mass_email/sample*'), dir('html/ops/mass_email/'))
         install_glob(srcdir('html/ops/remind_email/sample*'), dir('html/ops/remind_email/'))
@@ -477,6 +477,7 @@ class Project:
         config.daily_result_quota = 500
         config.disable_account_creation = 0
         config.show_results = 1
+        config.cache_md5_info = 1
         config.sched_debug_level = 3
         config.fuh_debug_level = 3
         config.one_result_per_user_per_wu = 0

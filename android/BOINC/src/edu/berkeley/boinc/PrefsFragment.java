@@ -26,15 +26,16 @@ import edu.berkeley.boinc.adapter.PrefsListItemWrapper;
 import edu.berkeley.boinc.adapter.PrefsListItemWrapperBool;
 import edu.berkeley.boinc.adapter.PrefsListItemWrapperValue;
 import edu.berkeley.boinc.adapter.PrefsSelectionDialogListAdapter;
-import edu.berkeley.boinc.client.ClientNotification;
-import edu.berkeley.boinc.client.ClientStatus;
-import edu.berkeley.boinc.client.DeviceStatus;
-import edu.berkeley.boinc.client.Monitor;
 import edu.berkeley.boinc.rpc.GlobalPreferences;
 import edu.berkeley.boinc.rpc.HostInfo;
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.RemoteException;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -57,8 +58,21 @@ public class PrefsFragment extends Fragment {
 	
 	private ArrayList<PrefsListItemWrapper> data = new ArrayList<PrefsListItemWrapper>(); //Adapter for list data
 	private GlobalPreferences clientPrefs = null; //preferences of the client, read on every onResume via RPC
-	private AppPreferences appPrefs = null; //Android specific preferences, singleton of monitor
+	//private AppPreferences appPrefs = null; //Android specific preferences, singleton of monitor
 	private HostInfo hostinfo = null;
+	
+	private boolean layoutSuccessful = false;
+	
+	private BroadcastReceiver mClientStatusChangeRec = new BroadcastReceiver() {
+		@Override
+		public void onReceive(Context context,Intent intent) {
+			if(Logging.VERBOSE) Log.d(Logging.TAG, "PrefsFragment ClientStatusChange - onReceive()"); 
+			try {
+				if(!layoutSuccessful) populateLayout();
+			} catch (RemoteException e) {}
+		}
+	};
+	private IntentFilter ifcsc = new IntentFilter("edu.berkeley.boinc.clientstatuschange");
 	
 	// fragment lifecycle: 2.
 	@Override
@@ -75,27 +89,37 @@ public class PrefsFragment extends Fragment {
 	// fragment lifecycle: 1.
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		appPrefs = Monitor.getAppPrefs();
 		super.onCreate(savedInstanceState);
 	}
 
 	// fragment lifecycle: 3.
 	@Override
 	public void onResume() {
+		try {
+			populateLayout();
+		} catch (RemoteException e) {}
+		getActivity().registerReceiver(mClientStatusChangeRec,ifcsc);
 		super.onResume();
-		populateLayout();
 	}
 	
+	@Override
+	public void onPause() {
+		getActivity().unregisterReceiver(mClientStatusChangeRec);
+		super.onPause();
+	}
+
 	private Boolean getPrefs() {
 		// try to get current client status from monitor
-		ClientStatus status;
+		//ClientStatus status;
 		try{
-			status  = Monitor.getClientStatus();
+			//status  = Monitor.getClientStatus();
+			clientPrefs = BOINCActivity.monitor.getPrefs();
 		} catch (Exception e){
 			if(Logging.WARNING) Log.w(Logging.TAG,"PrefsActivity: Could not load data, clientStatus not initialized.");
+			e.printStackTrace();
 			return false;
 		}
-		clientPrefs = status.getPrefs(); //read prefs from client via rpc
+		//clientPrefs = status.getPrefs(); //read prefs from client via rpc
 		if(clientPrefs == null) {
 			if(Logging.DEBUG) Log.d(Logging.TAG, "readPrefs: null, return false");
 			return false;
@@ -106,14 +130,17 @@ public class PrefsFragment extends Fragment {
 	
 	private Boolean getHostInfo() {
 		// try to get current client status from monitor
-		ClientStatus status;
+		//ClientStatus status;
+		
 		try{
-			status  = Monitor.getClientStatus();
+			//status  = Monitor.getClientStatus();
+			hostinfo = BOINCActivity.monitor.getHostInfo();
 		} catch (Exception e){
 			if(Logging.WARNING) Log.w(Logging.TAG,"PrefsActivity: Could not load data, clientStatus not initialized.");
+			e.printStackTrace();
 			return false;
 		}
-		hostinfo = status.getHostInfo(); //Get the hostinfo from client via rpc
+		//hostinfo = status.getHostInfo(); //Get the hostinfo from client via rpc
 		if(hostinfo == null) {
 			if(Logging.DEBUG) Log.d(Logging.TAG, "getHostInfo: null, return false");
 			return false;
@@ -121,30 +148,26 @@ public class PrefsFragment extends Fragment {
 		return true;
 	}
 	
-	private void populateLayout() {
+	private void populateLayout() throws RemoteException{
 		
-		if(!getPrefs() || appPrefs == null || !getHostInfo()) {
+		if(!getPrefs() || BOINCActivity.monitor == null || !getHostInfo()) {
 			if(Logging.ERROR) Log.e(Logging.TAG, "PrefsFragment.populateLayout returns, data is not present");
 			return;
 		}
 		
 		data.clear();
 		
-		Boolean advanced = appPrefs.getShowAdvanced();
-		Boolean stationaryDeviceMode = appPrefs.getStationaryDeviceMode();
-		Boolean stationaryDeviceSuspected = false;
-		try{
-			DeviceStatus deviceStatus  = Monitor.getDeviceStatus();
-			stationaryDeviceSuspected = deviceStatus.isStationaryDeviceSuspected();
-		} catch (Exception e){
-			if(Logging.ERROR) Log.e(Logging.TAG, "PrefsFragment.populateLayout failed to retrieve device status. treat device as non-stationary");
-		}
+		Boolean advanced = BOINCActivity.monitor.getShowAdvanced();
+		Boolean stationaryDeviceMode = BOINCActivity.monitor.getStationaryDeviceMode();
+		Boolean stationaryDeviceSuspected = BOINCActivity.monitor.isStationaryDeviceSuspected();
 
 		// general
     	data.add(new PrefsListItemWrapper(getActivity(),R.string.prefs_category_general,true));
-		data.add(new PrefsListItemWrapperBool(getActivity(),R.string.prefs_autostart_header,R.string.prefs_category_general,appPrefs.getAutostart()));
-		data.add(new PrefsListItemWrapperBool(getActivity(),R.string.prefs_show_notification_header,R.string.prefs_category_general,appPrefs.getShowNotification())); 
-		data.add(new PrefsListItemWrapperBool(getActivity(),R.string.prefs_show_advanced_header,R.string.prefs_category_general,appPrefs.getShowAdvanced()));
+		data.add(new PrefsListItemWrapperBool(getActivity(),R.string.prefs_autostart_header,R.string.prefs_category_general,BOINCActivity.monitor.getAutostart()));
+		data.add(new PrefsListItemWrapperBool(getActivity(),R.string.prefs_show_notification_notices_header,R.string.prefs_category_general,BOINCActivity.monitor.getShowNotificationForNotices()));
+		data.add(new PrefsListItemWrapperBool(getActivity(),R.string.prefs_show_notification_suspended_header,R.string.prefs_category_general,BOINCActivity.monitor.getShowNotificationDuringSuspend()));
+		data.add(new PrefsListItemWrapperBool(getActivity(),R.string.prefs_show_advanced_header,R.string.prefs_category_general,BOINCActivity.monitor.getShowAdvanced()));
+		if(!stationaryDeviceMode) data.add(new PrefsListItemWrapperBool(getActivity(),R.string.prefs_suspend_when_screen_on,R.string.prefs_category_general,BOINCActivity.monitor.getSuspendWhenScreenOn()));
 		// network
     	data.add(new PrefsListItemWrapper(getActivity(),R.string.prefs_category_network,true));
 		data.add(new PrefsListItemWrapperBool(getActivity(),R.string.prefs_network_wifi_only_header,R.string.prefs_category_network,clientPrefs.network_wifi_only));
@@ -152,7 +175,7 @@ public class PrefsFragment extends Fragment {
     	// power
 		data.add(new PrefsListItemWrapper(getActivity(),R.string.prefs_category_power,true));
 		if(stationaryDeviceSuspected) { // API indicates that there is no battery, offer opt-in preference for stationary device mode
-			data.add(new PrefsListItemWrapperBool(getActivity(),R.string.prefs_stationary_device_mode_header,R.string.prefs_category_power,appPrefs.getStationaryDeviceMode()));
+			data.add(new PrefsListItemWrapperBool(getActivity(),R.string.prefs_stationary_device_mode_header,R.string.prefs_category_power,BOINCActivity.monitor.getStationaryDeviceMode()));
 		}
 		if(!stationaryDeviceMode) { // client would compute regardless of battery preferences, so only show if that is not the case
 			data.add(new PrefsListItemWrapper(getActivity(),R.string.prefs_power_source_header,R.string.prefs_category_power));
@@ -168,15 +191,17 @@ public class PrefsFragment extends Fragment {
 		if(advanced) data.add(new PrefsListItemWrapper(getActivity(),R.string.prefs_category_storage,true));
 		if(advanced) data.add(new PrefsListItemWrapperValue(getActivity(),R.string.prefs_disk_max_pct_header,R.string.prefs_category_storage,clientPrefs.disk_max_used_pct));
 		if(advanced) data.add(new PrefsListItemWrapperValue(getActivity(),R.string.prefs_disk_min_free_gb_header,R.string.prefs_category_storage,clientPrefs.disk_min_free_gb));
+		if(advanced) data.add(new PrefsListItemWrapperValue(getActivity(),R.string.prefs_disk_access_interval_header,R.string.prefs_category_storage,clientPrefs.disk_interval));
 		// memory
 		if(advanced) data.add(new PrefsListItemWrapper(getActivity(),R.string.prefs_category_memory,true));
 		if(advanced) data.add(new PrefsListItemWrapperValue(getActivity(),R.string.prefs_memory_max_idle_header,R.string.prefs_category_memory,clientPrefs.ram_max_used_idle_frac));
 		// debug
 		if(advanced) data.add(new PrefsListItemWrapper(getActivity(),R.string.prefs_category_debug,true));
 		if(advanced) data.add(new PrefsListItemWrapper(getActivity(),R.string.prefs_client_log_flags_header,R.string.prefs_category_debug));
-		if(advanced) data.add(new PrefsListItemWrapperValue(getActivity(),R.string.prefs_gui_log_level_header,R.string.prefs_category_debug,(double)appPrefs.getLogLevel()));
+		if(advanced) data.add(new PrefsListItemWrapperValue(getActivity(),R.string.prefs_gui_log_level_header,R.string.prefs_category_debug,(double)BOINCActivity.monitor.getLogLevel()));
 		
 		updateLayout();
+		layoutSuccessful = true;
 	}
 	
 	private void updateLayout(){
@@ -272,7 +297,7 @@ public class PrefsFragment extends Fragment {
 		setupDialogButtons(item, dialog);
 	}
 	
-	private void setupSelectionListDialog(final PrefsListItemWrapper item, final Dialog dialog) {
+	private void setupSelectionListDialog(final PrefsListItemWrapper item, final Dialog dialog) throws RemoteException{
 		dialog.setContentView(R.layout.prefs_layout_dialog_selection);
 		
 		if(item.ID == R.string.prefs_client_log_flags_header) {
@@ -296,9 +321,9 @@ public class PrefsFragment extends Fragment {
 			});
 		}else if(item.ID == R.string.prefs_power_source_header) {
 			final ArrayList<SelectionDialogOption> options = new ArrayList<SelectionDialogOption>();
-			options.add(new SelectionDialogOption(getResources().getString(R.string.prefs_power_source_ac), appPrefs.getPowerSourceAc()));
-			options.add(new SelectionDialogOption(getResources().getString(R.string.prefs_power_source_usb), appPrefs.getPowerSourceUsb()));
-			options.add(new SelectionDialogOption(getResources().getString(R.string.prefs_power_source_wireless), appPrefs.getPowerSourceWireless()));
+			options.add(new SelectionDialogOption(getResources().getString(R.string.prefs_power_source_ac), BOINCActivity.monitor.getPowerSourceAc()));
+			options.add(new SelectionDialogOption(getResources().getString(R.string.prefs_power_source_usb), BOINCActivity.monitor.getPowerSourceUsb()));
+			options.add(new SelectionDialogOption(getResources().getString(R.string.prefs_power_source_wireless), BOINCActivity.monitor.getPowerSourceWireless()));
 			options.add(new SelectionDialogOption(getResources().getString(R.string.prefs_power_source_battery), clientPrefs.run_on_batteries, true));
 			ListView lv = (ListView) dialog.findViewById(R.id.selection);
 			new PrefsSelectionDialogListAdapter(getActivity(), lv, R.id.selection, options);
@@ -308,16 +333,21 @@ public class PrefsFragment extends Fragment {
 			confirm.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					for(SelectionDialogOption option: options) {
-						if(option.name == getResources().getString(R.string.prefs_power_source_ac)) appPrefs.setPowerSourceAc(option.selected);
-						if(option.name == getResources().getString(R.string.prefs_power_source_usb)) appPrefs.setPowerSourceUsb(option.selected);
-						if(option.name == getResources().getString(R.string.prefs_power_source_wireless)) appPrefs.setPowerSourceWireless(option.selected);
-						if(option.name == getResources().getString(R.string.prefs_power_source_battery)) {
-							clientPrefs.run_on_batteries = option.selected;
-							new WriteClientPrefsAsync().execute(clientPrefs); //async task triggers layout update
+					try{
+						for(SelectionDialogOption option: options) {
+							if(option.name == getResources().getString(R.string.prefs_power_source_ac))
+								BOINCActivity.monitor.setPowerSourceAc(option.selected);
+							if(option.name == getResources().getString(R.string.prefs_power_source_usb))
+								BOINCActivity.monitor.setPowerSourceUsb(option.selected);
+							if(option.name == getResources().getString(R.string.prefs_power_source_wireless))
+								BOINCActivity.monitor.setPowerSourceWireless(option.selected);
+							if(option.name == getResources().getString(R.string.prefs_power_source_battery)) {
+								clientPrefs.run_on_batteries = option.selected;
+								new WriteClientPrefsAsync().execute(clientPrefs); //async task triggers layout update
+							}
 						}
-					}
-					dialog.dismiss();
+						dialog.dismiss();
+					} catch(RemoteException e) {}
 				}
 			});
 		}
@@ -355,10 +385,17 @@ public class PrefsFragment extends Fragment {
          	   } else if(item.ID == R.string.prefs_gui_log_level_header) {
          		   SeekBar slider = (SeekBar) dialog.findViewById(R.id.seekbar);
          		   int sbProgress = slider.getProgress();
-         		   appPrefs.setLogLevel(sbProgress);
+         		   try {
+         			   // monitor and UI in two different processes. set static variable in both
+          			  Logging.setLogLevel(sbProgress);
+         			  BOINCActivity.monitor.setLogLevel(sbProgress);
+         		   } catch (RemoteException e) {}
          		   updateValuePref(item.ID, (double) sbProgress);
          		   updateLayout();
-         	   } else if(item.ID == R.string.prefs_network_daily_xfer_limit_mb_header || item.ID == R.string.battery_temperature_max_header || item.ID == R.string.prefs_disk_min_free_gb_header) {
+         	   } else if(item.ID == R.string.prefs_network_daily_xfer_limit_mb_header ||
+         			   item.ID == R.string.battery_temperature_max_header ||
+         			   item.ID == R.string.prefs_disk_min_free_gb_header ||
+         			   item.ID == R.string.prefs_disk_access_interval_header) {
          		   EditText edit = (EditText) dialog.findViewById(R.id.Input);
          		   String input = edit.getText().toString();
          		   Double valueTmp = parseInputValueToDouble(input);
@@ -388,8 +425,13 @@ public class PrefsFragment extends Fragment {
 		case R.string.prefs_disk_min_free_gb_header:
 			clientPrefs.disk_min_free_gb = value;
 			break;
+		case R.string.prefs_disk_access_interval_header:
+			clientPrefs.disk_interval = value;
+			break;
 		case R.string.prefs_network_daily_xfer_limit_mb_header:
 			clientPrefs.daily_xfer_limit_mb = value;
+			// also need to set the period!
+			clientPrefs.daily_xfer_period_days = 1;
 			break;
 		case R.string.battery_charge_min_pct_header:
 			clientPrefs.battery_charge_min_pct = value;
@@ -472,37 +514,48 @@ public class PrefsFragment extends Fragment {
 		@Override
 		public void onClick(View view) {
 			if(Logging.DEBUG) Log.d(Logging.TAG,"onCbClick");
+			Boolean previousState = cb.isChecked();
+			cb.setChecked(!previousState);
 			Boolean isSet = cb.isChecked();
-			
-			switch (ID) {
-			case R.string.prefs_autostart_header: //app pref
-				appPrefs.setAutostart(isSet);
-				updateBoolPref(ID, isSet);
-				updateLayout();
-				break;
-			case R.string.prefs_show_notification_header: //app pref
-				appPrefs.setShowNotification(isSet);
-				if(isSet) ClientNotification.getInstance(getActivity()).update();
-				else ClientNotification.getInstance(getActivity()).cancel();
-				updateBoolPref(ID, isSet);
-				updateLayout();
-				break;
-			case R.string.prefs_show_advanced_header: //app pref
-				appPrefs.setShowAdvanced(isSet);
-				// reload complete layout to remove/add advanced elements
-				populateLayout();
-				break;
-			case R.string.prefs_network_wifi_only_header: //client pref
-				clientPrefs.network_wifi_only = isSet;
-				updateBoolPref(ID, isSet);
-				new WriteClientPrefsAsync().execute(clientPrefs); //async task triggers layout update
-				break;
-			case R.string.prefs_stationary_device_mode_header: //app pref
-				appPrefs.setStationaryDeviceMode(isSet);
-				// reload complete layout to remove/add power preference elements
-				populateLayout();
-				break;
-			}
+			try{
+				switch (ID) {
+				case R.string.prefs_autostart_header: //app pref
+					BOINCActivity.monitor.setAutostart(isSet);
+					updateBoolPref(ID, isSet);
+					updateLayout();
+					break;
+				case R.string.prefs_show_notification_notices_header: //app pref
+					BOINCActivity.monitor.setShowNotificationForNotices(isSet);
+					updateBoolPref(ID, isSet);
+					updateLayout();
+					break;
+				case R.string.prefs_show_notification_suspended_header: //app pref
+					BOINCActivity.monitor.setShowNotificationDuringSuspend(isSet);
+					updateBoolPref(ID, isSet);
+					updateLayout();
+					break;
+				case R.string.prefs_show_advanced_header: //app pref
+					BOINCActivity.monitor.setShowAdvanced(isSet);
+					// reload complete layout to remove/add advanced elements
+					populateLayout();
+					break;
+				case R.string.prefs_suspend_when_screen_on: //app pref
+					BOINCActivity.monitor.setSuspendWhenScreenOn(isSet);
+					updateBoolPref(ID, isSet);
+					updateLayout();
+					break;
+				case R.string.prefs_network_wifi_only_header: //client pref
+					clientPrefs.network_wifi_only = isSet;
+					updateBoolPref(ID, isSet);
+					new WriteClientPrefsAsync().execute(clientPrefs); //async task triggers layout update
+					break;
+				case R.string.prefs_stationary_device_mode_header: //app pref
+					BOINCActivity.monitor.setStationaryDeviceMode(isSet);
+					// reload complete layout to remove/add power preference elements
+					populateLayout();
+					break;
+				}
+			} catch(RemoteException e) {}
 		}
 		
 	}
@@ -528,7 +581,9 @@ public class PrefsFragment extends Fragment {
 				setupDialogButtons(item, dialog);
 				break;
 			case R.string.prefs_power_source_header:
-				setupSelectionListDialog(item, dialog);
+				try {
+					setupSelectionListDialog(item, dialog);
+				} catch (RemoteException e) {}
 				break;
 			case R.string.battery_charge_min_pct_header:
 				setupSliderDialog(item, dialog);
@@ -560,12 +615,19 @@ public class PrefsFragment extends Fragment {
 				((TextView)dialog.findViewById(R.id.pref)).setText(item.ID);
 				setupDialogButtons(item, dialog);
 				break;
+			case R.string.prefs_disk_access_interval_header:
+				dialog.setContentView(R.layout.prefs_layout_dialog);
+				((TextView)dialog.findViewById(R.id.pref)).setText(item.ID);
+				setupDialogButtons(item, dialog);
+				break;
 			case R.string.prefs_memory_max_idle_header:
 				setupSliderDialog(item, dialog);
 				((TextView)dialog.findViewById(R.id.pref)).setText(item.ID);
 				break;
 			case R.string.prefs_client_log_flags_header:
-				setupSelectionListDialog(item, dialog);
+				try {
+					setupSelectionListDialog(item, dialog);
+				} catch (RemoteException e) {}
 				break;
 			case R.string.prefs_gui_log_level_header:
 				setupSliderDialog(item, dialog);
@@ -584,7 +646,11 @@ public class PrefsFragment extends Fragment {
 	private final class WriteClientPrefsAsync extends AsyncTask<GlobalPreferences,Void,Boolean> {
 		@Override
 		protected Boolean doInBackground(GlobalPreferences... params) {
-			return ((BOINCActivity) getActivity()).getMonitorService().clientInterface.setGlobalPreferences(params[0]);
+			try {
+				return BOINCActivity.monitor.setGlobalPreferences(params[0]);
+			} catch (RemoteException e) {
+				return false;
+			}
 		}
 		
 		@Override
@@ -598,7 +664,11 @@ public class PrefsFragment extends Fragment {
 		@Override
 		protected Boolean doInBackground(String... params) {
 			if(Logging.DEBUG) Log.d(Logging.TAG,"SetCcConfigAsync with: " + params[0]);
-			return ((BOINCActivity) getActivity()).getMonitorService().clientInterface.setCcConfig(params[0]);
+			try {
+				return BOINCActivity.monitor.setCcConfig(params[0]);
+			} catch (RemoteException e) {
+				return false;
+			}
 		}
 	}
 	

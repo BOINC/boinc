@@ -273,17 +273,18 @@ int count_workunits(int& n, const char* query) {
     return workunit.count(n, query);
 }
 
-int count_unsent_results(int& n, int appid) {
-    char buf[256];
+int count_unsent_results(int& n, int appid, int size_class) {
+    char query[1024], buf[256];
+    sprintf(query, "where server_state<=%d", RESULT_SERVER_STATE_UNSENT);
     if (appid) {
-        sprintf(buf, "where server_state<=%d and appid=%d ",
-            RESULT_SERVER_STATE_UNSENT, appid
-        );
-    } else {
-        sprintf(buf, "where server_state<=%d", RESULT_SERVER_STATE_UNSENT);
+        sprintf(buf, " and appid=%d", appid);
+        strcat(query, buf);
     }
-    return count_results(buf, n);
-
+    if (size_class >= 0) {
+        sprintf(buf, " and size_class=%d", size_class);
+        strcat(query, buf);
+    }
+    return count_results(query, n);
 }
 
 bool is_arg(const char* x, const char* y) {
@@ -299,20 +300,20 @@ bool is_arg(const char* x, const char* y) {
 // to enforce limits on in-progress jobs
 // for GPUs and CPUs (see handle_request.cpp)
 //
-bool app_plan_uses_gpu(const char* plan_class) {
+int plan_class_to_proc_type(const char* plan_class) {
     if (strstr(plan_class, "cuda")) {
-        return true;
+        return PROC_TYPE_NVIDIA_GPU;
     }
     if (strstr(plan_class, "nvidia")) {
-        return true;
+        return PROC_TYPE_NVIDIA_GPU;
     }
     if (strstr(plan_class, "ati")) {
-        return true;
+        return PROC_TYPE_AMD_GPU;
     }
     if (strstr(plan_class, "intel_gpu")) {
-        return true;
+        return PROC_TYPE_INTEL_GPU;
     }
-    return false;
+    return PROC_TYPE_CPU;
 }
 
 // Arrange that further results for this workunit

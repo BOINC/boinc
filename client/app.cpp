@@ -101,6 +101,9 @@ ACTIVE_TASK::ACTIVE_TASK() {
     checkpoint_fraction_done = 0;
     checkpoint_fraction_done_elapsed_time = 0;
     current_cpu_time = 0;
+    peak_working_set_size = 0;
+    peak_swap_size = 0;
+    peak_disk_usage = 0;
     once_ran_edf = false;
 
     fraction_done = 0;
@@ -336,6 +339,10 @@ void ACTIVE_TASK_SET::get_memory_usage() {
         }
         return;
     }
+    PROCINFO boinc_total;
+    if (log_flags.mem_usage_debug) {
+        memset(&boinc_total, 0, sizeof(boinc_total));
+    }
     for (i=0; i<active_tasks.size(); i++) {
         ACTIVE_TASK* atp = active_tasks[i];
         if (atp->task_state() == PROCESS_UNINITIALIZED) continue;
@@ -366,20 +373,44 @@ void ACTIVE_TASK_SET::get_memory_usage() {
             pi.working_set_size_smoothed = .5*(pi.working_set_size_smoothed + pi.working_set_size);
         }
 
+        if (pi.working_set_size > atp->peak_working_set_size) {
+            atp->peak_working_set_size = pi.working_set_size;
+        }
+        if (pi.swap_size > atp->peak_swap_size) {
+            atp->peak_swap_size = pi.swap_size;
+        }
+
         if (!first) {
             int pf = pi.page_fault_count - last_page_fault_count;
             pi.page_fault_rate = pf/diff;
             if (log_flags.mem_usage_debug) {
                 msg_printf(atp->result->project, MSG_INFO,
-                    "[mem_usage] %s: WS %.2fMB, smoothed %.2fMB, page %.2fMB, %.2f page faults/sec, user CPU %.3f, kernel CPU %.3f",
+                    "[mem_usage] %s: WS %.2fMB, smoothed %.2fMB, swap %.2fMB, %.2f page faults/sec, user CPU %.3f, kernel CPU %.3f",
                     atp->result->name,
                     pi.working_set_size/MEGA,
                     pi.working_set_size_smoothed/MEGA,
                     pi.swap_size/MEGA,
                     pi.page_fault_rate,
-                    pi.user_time, pi.kernel_time
+                    pi.user_time,
+                    pi.kernel_time
                 );
+                boinc_total.working_set_size += pi.working_set_size;
+                boinc_total.working_set_size_smoothed += pi.working_set_size_smoothed;
+                boinc_total.swap_size += pi.swap_size;
+                boinc_total.page_fault_rate += pi.page_fault_rate;
             }
+        }
+    }
+
+    if (!first) {
+        if (log_flags.mem_usage_debug) {
+            msg_printf(0, MSG_INFO,
+                "[mem_usage] BOINC totals: WS %.2fMB, smoothed %.2fMB, swap %.2fMB, %.2f page faults/sec",
+                boinc_total.working_set_size/MEGA,
+                boinc_total.working_set_size_smoothed/MEGA,
+                boinc_total.swap_size/MEGA,
+                boinc_total.page_fault_rate
+            );
         }
     }
 
@@ -408,7 +439,7 @@ void ACTIVE_TASK_SET::get_memory_usage() {
     procinfo_non_boinc(pi, pm);
     if (log_flags.mem_usage_debug) {
         msg_printf(NULL, MSG_INFO,
-            "[mem_usage] All others: RAM %.2fMB, page %.2fMB, user %.3f, kernel %.3f",
+            "[mem_usage] All others: WS %.2fMB, swap %.2fMB, user %.3fs, kernel %.3fs",
             pi.working_set_size/MEGA, pi.swap_size/MEGA,
             pi.user_time, pi.kernel_time
         );
@@ -470,6 +501,9 @@ int ACTIVE_TASK::current_disk_usage(double& size) {
         get_pathname(fip, path, sizeof(path));
         retval = file_size(path, x);
         if (!retval) size += x;
+    }
+    if (size > peak_disk_usage) {
+        peak_disk_usage = size;
     }
     return 0;
 }

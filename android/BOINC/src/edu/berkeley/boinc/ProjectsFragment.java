@@ -29,6 +29,7 @@ import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.RemoteException;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -43,7 +44,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import edu.berkeley.boinc.adapter.ProjectControlsListAdapter;
 import edu.berkeley.boinc.adapter.ProjectsListAdapter;
-import edu.berkeley.boinc.client.Monitor;
 import edu.berkeley.boinc.rpc.Notice;
 import edu.berkeley.boinc.rpc.AcctMgrInfo;
 import edu.berkeley.boinc.rpc.Project;
@@ -115,12 +115,12 @@ public class ProjectsFragment extends Fragment {
 	private void populateLayout() {
 		try {
 			// read projects from state saved in ClientStatus
-			ArrayList<Project> statusProjects = Monitor.getClientStatus().getProjects();
-			AcctMgrInfo statusAcctMgr = Monitor.getClientStatus().getAcctMgrInfo();
-			ArrayList<Transfer> statusTransfers = Monitor.getClientStatus().getTransfers();
+			ArrayList<Project> statusProjects = (ArrayList<Project>) BOINCActivity.monitor.getProjects();
+			AcctMgrInfo statusAcctMgr = BOINCActivity.monitor.getClientAcctMgrInfo();
+			ArrayList<Transfer> statusTransfers = (ArrayList<Transfer>) BOINCActivity.monitor.getTransfers();
 			
 			// get server / scheduler notices to display if device does not meet
-			ArrayList<Notice> serverNotices = Monitor.getClientStatus().getServerNotices();
+			ArrayList<Notice> serverNotices = (ArrayList<Notice>) BOINCActivity.monitor.getServerNotices();
 			
 			// Update Project data
 			updateData(statusProjects, statusAcctMgr, serverNotices, statusTransfers);
@@ -302,9 +302,15 @@ public class ProjectsFragment extends Fragment {
 					controls.add(new ProjectControl(listEntry, RpcClient.PROJECT_UPDATE));
 					if(project.suspended_via_gui) controls.add(new ProjectControl(listEntry, RpcClient.PROJECT_RESUME));
 					else controls.add(new ProjectControl(listEntry, RpcClient.PROJECT_SUSPEND));
-					if(Monitor.getAppPrefs().getShowAdvanced() && project.dont_request_more_work) controls.add(new ProjectControl(listEntry, RpcClient.PROJECT_ANW));
-					if(Monitor.getAppPrefs().getShowAdvanced() && !project.dont_request_more_work) controls.add(new ProjectControl(listEntry, RpcClient.PROJECT_NNW));
-					if(Monitor.getAppPrefs().getShowAdvanced()) controls.add(new ProjectControl(listEntry, RpcClient.PROJECT_RESET));
+					boolean isShowAdvanced;
+					try {
+						isShowAdvanced = BOINCActivity.monitor.getShowAdvanced();
+					} catch (RemoteException e) {
+						isShowAdvanced = false;
+					}
+					if(isShowAdvanced && project.dont_request_more_work) controls.add(new ProjectControl(listEntry, RpcClient.PROJECT_ANW));
+					if(isShowAdvanced && !project.dont_request_more_work) controls.add(new ProjectControl(listEntry, RpcClient.PROJECT_NNW));
+					if(isShowAdvanced) controls.add(new ProjectControl(listEntry, RpcClient.PROJECT_RESET));
 					if(!project.attached_via_acct_mgr)controls.add(new ProjectControl(listEntry, RpcClient.PROJECT_DETACH));
 				}
 				
@@ -423,17 +429,17 @@ public class ProjectsFragment extends Fragment {
 				case RpcClient.PROJECT_ANW:
 				case RpcClient.PROJECT_DETACH:
 				case RpcClient.PROJECT_RESET:
-					return ((BOINCActivity)getActivity()).getMonitorService().clientInterface.projectOp(operation, data.id);
+					return BOINCActivity.monitor.projectOp(operation, data.id);
 					
 				// acct mgr operations
 				case RpcClient.MGR_SYNC:
-					return ((BOINCActivity)getActivity()).getMonitorService().clientInterface.synchronizeAcctMgr(data.acctMgrInfo.acct_mgr_url);
+					return BOINCActivity.monitor.synchronizeAcctMgr(data.acctMgrInfo.acct_mgr_url);
 				case RpcClient.MGR_DETACH:
-					return ((BOINCActivity)getActivity()).getMonitorService().clientInterface.addAcctMgr("", "", "").error_num == BOINCErrors.ERR_OK;
+					return BOINCActivity.monitor.addAcctMgrErrorNum("", "", "") == BOINCErrors.ERR_OK;
 					
 				// transfer operations
 				case RpcClient.TRANSFER_RETRY:
-					return ((BOINCActivity)getActivity()).getMonitorService().clientInterface.transferOperation(data.projectTransfers, operation);
+					return BOINCActivity.monitor.transferOperation(data.projectTransfers, operation);
 				case RpcClient.TRANSFER_ABORT:
 					break;
 					
@@ -446,7 +452,11 @@ public class ProjectsFragment extends Fragment {
 
 		@Override
 		protected void onPostExecute(Boolean success) {
-			if(success) ((BOINCActivity)getActivity()).getMonitorService().forceRefresh();
+			if(success)
+				try {
+					BOINCActivity.monitor.forceRefresh();
+				} catch (RemoteException e) {	e.printStackTrace();
+				}
 			else if(Logging.WARNING) Log.w(Logging.TAG,"ProjectOperationAsync failed.");
 		}
 	}

@@ -22,7 +22,7 @@ require_once("../inc/util.inc");
 require_once("../inc/text_transform.inc");
 require_once("../project/project.inc");
 
-function show_forum_rss_item($thread, $userid, $threads_only, $truncate) {
+function show_forum_rss_item($thread, $userid, $threads_only) {
     $unique_url=URL_BASE."forum_thread.php?id=".$thread->id;
 
     $clause2 = " and hidden=0 ";
@@ -35,13 +35,13 @@ function show_forum_rss_item($thread, $userid, $threads_only, $truncate) {
     if (!count($posts)) return;
     $post = $posts[0];
     $post_date = gmdate('D, d M Y H:i:s',$post->timestamp).' GMT';
-    $t = bb2html($post->content, true);
-    if ($truncate) {
-        if (strlen($post->content) > 256) {
-            $t = substr($post->content, 0, 256).". . .";
-        }
+    $post_user = BOincUser::lookup_id($post->user);
+    BoincForumPrefs::lookup($post_user);
+    $options = new output_options();
+    if (is_admin($post_user)) {
+        $options->htmlitems = false;
     }
-    //$t = htmlspecialchars($t);
+    $t = output_transform($post->content, $options);
     echo "<item>
         <title><![CDATA[".sanitize_tags(bb2html($thread->title))."]]></title>
         <link>$unique_url</link>
@@ -52,7 +52,7 @@ function show_forum_rss_item($thread, $userid, $threads_only, $truncate) {
     ";
 }
 
-function forum_rss($forumid, $userid, $truncate, $threads_only, $ndays) {
+function forum_rss($forumid, $userid, $threads_only, $ndays) {
     $clause = "forum=$forumid ";
 
     if ($userid) {
@@ -82,6 +82,8 @@ function forum_rss($forumid, $userid, $truncate, $threads_only, $ndays) {
         $last_mod_time = $threads_only?$t->create_time:$t->timestamp;
         $create_date  = gmdate('D, d M Y H:i:s', $last_mod_time) . ' GMT'; 
         header ("Last-Modified: " . $create_date);
+    } else {
+        $create_date  = gmdate('D, d M Y H:i:s') . ' GMT'; 
     }
     header ("Content-Type: application/xml");
 
@@ -109,10 +111,8 @@ function forum_rss($forumid, $userid, $truncate, $threads_only, $ndays) {
         </image>
     ";
 
-    // write news items
-    //
     foreach ($threads as $thread) {
-        show_forum_rss_item($thread, $userid, $threads_only, $truncate);
+        show_forum_rss_item($thread, $userid, $threads_only);
     }
 
     echo "

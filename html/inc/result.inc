@@ -629,18 +629,30 @@ function show_result($result, $show_outfile_links=false) {
     row2(tra("Workunit"), "<a href=\"workunit.php?wuid=$result->workunitid\">$result->workunitid</a>");
     row2(tra("Created"), time_str($result->create_time));
     row2(tra("Sent"), time_str($result->sent_time));
+    row2(tra("Report deadline"), time_str($result->report_deadline));
     row2(tra("Received"), time_str($result->received_time));
     row2(tra("Server state"), result_server_state_string($result));
     row2(tra("Outcome"), result_outcome_string($result));
     row2(tra("Client state"), result_client_state_string($result));
     row2(tra("Exit status"), exit_status_string($result->exit_status));
     row2(tra("Computer ID"), host_link($result->hostid));
-    row2(tra("Report deadline"), time_str($result->report_deadline));
-    row2(tra("Run time"), number_format($result->elapsed_time, 2));
-    row2(tra("CPU time"), number_format($result->cpu_time, 2));
+    row2(tra("Run time"), number_format($result->elapsed_time, 2)." sec");
+    row2(tra("CPU time"), number_format($result->cpu_time, 2)." sec");
     row2(tra("Validate state"), validate_state_str($result));
     row2(tra("Credit"), number_format($result->granted_credit, 2));
     row2(tra("Application version"), app_version_string($result));
+    if ($result->peak_working_set_size) {
+        $x = number_format($result->peak_working_set_size/MEGA, 2);
+        row2("Peak working set size", "$x MB");
+    }
+    if ($result->peak_swap_size) {
+        $x = number_format($result->peak_swap_size/MEGA, 2);
+        row2("Peak swap size", "$x MB");
+    }
+    if ($result->peak_disk_usage) {
+        $x = number_format($result->peak_disk_usage/MEGA, 2);
+        row2("Peak disk usage", "$x MB");
+    }
     if ($show_outfile_links && $result->outcome == 1) {
         $fanout = parse_config(get_config(), "<uldl_dir_fanout>");
         $names = get_outfile_names($result);

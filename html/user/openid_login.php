@@ -1,7 +1,7 @@
 <?php
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California, 2011 Daniel Lombraña González
+// Copyright (C) 2014 University of California, 2011 Daniel Lombraña González
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -73,8 +73,8 @@ try {
         //
         //$teamid = post_int("teamid", true);
         //if ($teamid) {
-        //    $team = lookup_team($teamid);
-        //    $clone_user = lookup_user_id($team->userid);
+        //    $team = BoincTeam::lookup_id($teamid);
+        //    $clone_user = BoincUser::lookup_id($team->userid);
         //    if (!$clone_user) {
         //        echo "User $userid not found";
         //        exit();
@@ -110,7 +110,7 @@ try {
                 name@domain"
             );
         }
-        $user = lookup_user_email_addr($new_email_addr);
+        $user = BoincUser::lookup_email_addr($new_email_addr);
         if (!$user) {
             $passwd_hash = random_string();
             

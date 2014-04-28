@@ -155,7 +155,7 @@ CViewProjects::CViewProjects()
 
 
 CViewProjects::CViewProjects(wxNotebook* pNotebook) :
-    CBOINCBaseView(pNotebook, ID_TASK_PROJECTSVIEW, DEFAULT_TASK_FLAGS, ID_LIST_PROJECTSVIEW, DEFAULT_LIST_MULTI_SEL_FLAGS)
+    CBOINCBaseView(pNotebook, ID_TASK_PROJECTSVIEW, DEFAULT_TASK_FLAGS, ID_LIST_PROJECTSVIEW, DEFAULT_LIST_FLAGS)
 {
     CTaskItemGroup* pGroup = NULL;
     CTaskItem*      pItem = NULL;

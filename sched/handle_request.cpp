@@ -393,8 +393,8 @@ lookup_user_and_make_new_host:
         //
         if (strlen(g_request->host.host_cpid)) {
             if (find_host_by_cpid(user, g_request->host.host_cpid, host)) {
-                log_messages.printf(MSG_CRITICAL,
-                    "[HOST#%d] [USER#%d] User has another host with same CPID.\n",
+                log_messages.printf(MSG_NORMAL,
+                    "[HOST#%d] [USER#%d] No host ID in request, but host with matching CPID found.\n",
                     host.id, host.userid
                 );
                 if ((g_request->allow_multiple_clients != 1)

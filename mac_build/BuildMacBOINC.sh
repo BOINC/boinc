@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2010 University of California
+# Copyright (C) 2014 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -25,8 +25,9 @@
 #
 # Updated for OS 10.7 Lion and XCode 4.2 on 10/19/11
 # Updated 7/9/12 for Xcode 4.3 and later which are not at a fixed address
+# Updated 2/7/14 to also build libboinc_zip.a
 #
-## This script requires OS 10.6 or later
+## This script requires OS 10.8 or later
 #
 ## If you drag-install Xcode 4.3 or later, you must have opened Xcode 
 ## and clicked the Install button on the dialog which appears to 
@@ -54,14 +55,14 @@
 ##
 ## -all         build all targets (i.e. target "Build_All" -- this is the default)
 ##
-## -lib         build the five libraries: libboinc_api.a, libboinc_graphics2.a,  
-##              libboinc.a, libboinc_opncl.a, jpeglib.a and the utility 
-##              application MakeAppIcon_h.
+## -lib         build the six libraries: libboinc_api.a, libboinc_graphics2.a,
+##              libboinc.a, libboinc_opencl.a, libboinc_zip.a, jpeglib.a and the
+##              utility application MakeAppIcon_h.
 ##
 ## -client      build two targets: boinc client and command-line utility boinc_cmd
 ##              (also builds libboinc.a if needed, since boinc_cmd requires it.)
 ##
-## Both -lib and -client may be specified to build five targets (no BOINC Manager)
+## Both -lib and -client may be specified to build seven targets (no BOINC Manager)
 ##
 
 targets=""
@@ -87,11 +88,11 @@ if [ "${doclean}" = "clean" ]; then
 fi
 
 if [ "${buildlibs}" = "1" ]; then
-targets="$targets -target libboinc -target gfx2libboinc -target api_libboinc -target boinc_opencl -target jpeg -target MakeAppIcon_h"
+    targets="$targets -target libboinc -target gfx2libboinc -target api_libboinc -target boinc_opencl -target jpeg -target MakeAppIcon_h"
 fi
 
 if [ "${buildclient}" = "1" ]; then
-targets="$targets -target BOINC_Client -target cmd_boinc"
+    targets="$targets -target BOINC_Client -target cmd_boinc"
 fi
 
 ## "-all" overrides "-lib" and "-client" since it includes those targets
@@ -134,4 +135,16 @@ SDKPATH=`xcodebuild -version -sdk macosx Path`
 
 xcodebuild -project boinc.xcodeproj ${targets} -configuration ${style} -sdk "${SDKPATH}" ${doclean} build
 
-return $?
+result=$?
+
+if [ $result -eq 0 ]; then
+    # build ibboinc_zip.a for -all or -lib or default, where
+    # default is none of { -all, -lib, -client }
+    if [ "${buildall}" = "1" ] || [ "${buildlibs}" = "1" ] || [ "${buildclient}" = "0" ]; then
+        xcodebuild -project ../zip/boinc_zip.xcodeproj -target boinc_zip -configuration ${style} -sdk "${SDKPATH}" ${doclean} build
+
+        result=$?
+    fi
+fi
+
+return $result

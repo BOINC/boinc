@@ -19,7 +19,10 @@
 
 package edu.berkeley.boinc.rpc;
 
-public class App {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class App implements Parcelable{
 	public String name = "";
 	public String user_friendly_name = "";
 	public int non_cpu_intensive = 0;
@@ -36,4 +39,37 @@ public class App {
 	public final String getName() {
 		return user_friendly_name.equals("") ? name : user_friendly_name;
 	}
+
+	@Override
+	public int describeContents() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeString(name);
+		dest.writeString(user_friendly_name);
+		dest.writeInt(non_cpu_intensive);
+		dest.writeValue(project);
+	}
+	
+	public App() {}
+	
+	private App(Parcel in) {
+		name = in.readString();
+		user_friendly_name = in.readString();
+		non_cpu_intensive = in.readInt();
+		project = (Project) in.readValue(Project.class.getClassLoader());
+
+	}
+	
+	public static final Parcelable.Creator<App> CREATOR = new Parcelable.Creator<App>() {
+		public App createFromParcel(Parcel in) {
+		    return new App(in);
+		}
+		public App[] newArray(int size) {
+		    return new App[size];
+		}
+	};
 }

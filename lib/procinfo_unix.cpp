@@ -59,6 +59,12 @@ using std::vector;
 // see:
 // man 5 proc
 // /usr/src/linux/fs/proc/array.C
+//
+// Interesting note: the command part of /proc/PID/stat is the first
+// 15 characters of the executable filename.
+// If you want the entire filename, or the rest of the cmdline,
+// you need to parse /proc/PID/cmdline,
+// which is the cmdline with NULL separators
 
 struct PROC_STAT {
     int pid;
@@ -246,8 +252,9 @@ int procinfo_setup(PROC_MAP& pm) {
         strlcpy(p.command, ps.comm, sizeof(p.command));
         p.is_boinc_app = (p.id == pid || strcasestr(p.command, "boinc"));
         p.is_low_priority = (ps.priority == 39);
-            // Linux seems to add 20 here,
-            // but this isn't documented anywhere
+            // Internally Linux stores the process priority as nice + 20
+            // as -ve values are error codes. Thus this generally gives
+            // a process priority range of 39..0
         pm.insert(std::pair<int, PROCINFO>(p.id, p));
 #endif
     }

@@ -231,13 +231,15 @@ int SCHED_CONFIG::parse(FILE* f) {
         if (xp.parse_bool("matchmaker", matchmaker)) continue;
         if (xp.parse_int("max_ncpus", max_ncpus)) continue;
         if (xp.parse_int("max_wus_in_progress", itemp)) {
-            max_jobs_in_progress.project_limits.cpu.base_limit = itemp;
-            max_jobs_in_progress.project_limits.cpu.per_proc = true;
+            max_jobs_in_progress.project_limits.proc_type_limits[PROC_TYPE_CPU].base_limit = itemp;
+            max_jobs_in_progress.project_limits.proc_type_limits[PROC_TYPE_CPU].per_proc = true;
             continue;
         }
         if (xp.parse_int("max_wus_in_progress_gpu", itemp)) {
-            max_jobs_in_progress.project_limits.gpu.base_limit = itemp;
-            max_jobs_in_progress.project_limits.gpu.per_proc = true;
+            for (int i=1; i<NPROC_TYPES; i++) {
+                max_jobs_in_progress.project_limits.proc_type_limits[i].base_limit = itemp;
+                max_jobs_in_progress.project_limits.proc_type_limits[i].per_proc = true;
+            }
             continue;
         }
         if (xp.parse_int("max_results_accepted", max_results_accepted)) continue;

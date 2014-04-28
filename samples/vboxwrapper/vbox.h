@@ -23,6 +23,9 @@
 
 // Known VirtualBox/COM error codes
 //
+#ifndef CO_E_SERVER_EXEC_FAILURE
+#define CO_E_SERVER_EXEC_FAILURE        0x80080005
+#endif
 #ifndef RPC_S_SERVER_UNAVAILABLE
 #define RPC_S_SERVER_UNAVAILABLE        0x800706ba
 #endif
@@ -154,6 +157,7 @@ struct VBOX_VM {
     int cleanupsnapshots(bool delete_active);
     int restoresnapshot();
     void dumphypervisorlogs(bool include_error_logs);
+    void dumphypervisorstatusreports();
 
     int is_registered();
     bool is_system_ready(std::string& message);
@@ -179,6 +183,7 @@ struct VBOX_VM {
 
     int get_system_log(std::string& log, bool tail_only = true);
     int get_vm_log(std::string& log, bool tail_only = true);
+    int get_trace_log(std::string& log, bool tail_only = true);
 
     int set_network_access(bool enabled);
     int set_cpu_usage(int percentage);

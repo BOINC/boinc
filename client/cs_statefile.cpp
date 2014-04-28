@@ -117,7 +117,6 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
     PROJECT *project=NULL;
     int retval=0;
     int failnum;
-    bool btemp;
     string stemp;
 
     FILE* f = fopen(fname, "r");
@@ -478,10 +477,6 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
 		if (xp.parse_str("language", language, sizeof(language))) {
 			continue;
 		}
-        if (xp.parse_bool("cpu_benchmarks_pending", btemp)) {
-            if (btemp) run_cpu_benchmarks = true;
-            continue;
-        }
         if (xp.match_tag("proxy_info")) {
             retval = gui_proxy_info.parse(xp);
             if (retval) {
@@ -755,7 +750,6 @@ int CLIENT_STATE::write_state(MIOFILE& f) {
         "<user_gpu_request>%d</user_gpu_request>\n"
         "<user_gpu_prev_request>%d</user_gpu_prev_request>\n"
         "<user_network_request>%d</user_network_request>\n"
-        "%s"
         "<new_version_check_time>%f</new_version_check_time>\n"
         "<all_projects_list_check_time>%f</all_projects_list_check_time>\n",
         get_primary_platform(),
@@ -767,7 +761,6 @@ int CLIENT_STATE::write_state(MIOFILE& f) {
         gpu_run_mode.get_perm(),
         gpu_run_mode.get_prev(),
         network_run_mode.get_perm(),
-        cpu_benchmarks_pending?"<cpu_benchmarks_pending/>\n":"",
         new_version_check_time,
         all_projects_list_check_time
     );

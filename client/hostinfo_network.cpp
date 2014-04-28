@@ -123,7 +123,8 @@ void HOST_INFO::make_random_string(const char* salt, char* out) {
 //
 void HOST_INFO::generate_host_cpid() {
     int retval;
-    char buf[256];
+    char buf[256+MAXPATHLEN];
+    char dir[MAXPATHLEN];
 
     // if a MAC address is available, compute an ID based on it;
     // this has the advantage of stability
@@ -134,5 +135,13 @@ void HOST_INFO::generate_host_cpid() {
         make_random_string("", host_cpid);
         return;
     }
+
+    // append the current dir to the MAC address;
+    // that way if there are multiple instances per host
+    // (used by some grid installations)
+    // the instances will get different CPIDs
+    //
+    boinc_getcwd(dir);
+    strcat(buf, dir);
     md5_block((const unsigned char*) buf, (int)strlen(buf), host_cpid);
 }

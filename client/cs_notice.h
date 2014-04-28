@@ -71,8 +71,7 @@ struct NOTICES {
     int read_archive_file(const char* file, struct RSS_FEED*);
     void write_archive(struct RSS_FEED*);
     bool remove_dups(NOTICE&);
-    void remove_network_msg();
-    void remove_scheduler_notices(PROJECT*);
+    void remove_notices(PROJECT*, int which);
     void clear_keep();
         // prior to parsing an RSS feed, we mark all notices as "don't keep".
         // We clear this flag if the notice is present in the feed.
@@ -83,6 +82,14 @@ struct NOTICES {
         notices.clear();
     }
 };
+
+// args to remove_notices()
+#define REMOVE_NETWORK_MSG      0
+    // "need network access" notice
+#define REMOVE_SCHEDULER_MSG    1
+    // msgs from scheduler
+#define REMOVE_NO_WORK_MSG      2
+    // msgs about no work due to settings
 
 extern NOTICES notices;
 

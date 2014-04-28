@@ -39,7 +39,6 @@
 #include "CompletionErrorPage.h"
 #include "TermsOfUsePage.h"
 
-
 ////@begin XPM images
 #include "res/wizprogress01.xpm"
 #include "res/wizprogress02.xpm"
@@ -414,7 +413,7 @@ void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& WXUNUSE
                 IncrementProgress(m_pProgressIndicator);
 
                 ::wxMilliSleep(500);
-                ::wxSafeYield(GetParent());
+                wxEventLoopBase::GetActive()->YieldFor(wxEVT_CATEGORY_USER_INPUT);
             }
  
             if (
@@ -489,7 +488,7 @@ void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& WXUNUSE
                 IncrementProgress(m_pProgressIndicator);
 
                 ::wxMilliSleep(500);
-                ::wxSafeYield(GetParent());
+                wxEventLoopBase::GetActive()->YieldFor(wxEVT_CATEGORY_USER_INPUT);
             }
 
             SetNetworkConnectionNotDetected(NETWORK_STATUS_WANT_CONNECTION == status.network_status);

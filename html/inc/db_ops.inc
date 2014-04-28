@@ -1015,7 +1015,6 @@ function show_result_ops($result) {
     row("Batch", $result->batch);
     row("File delete state", file_delete_state_str($result->file_delete_state)." [$result->file_delete_state]");
     row("Validate state", validate_state_str($result)." [$result->validate_state]");
-    row("claimed credit", $result->claimed_credit);
     row("Granted credit", $result->granted_credit);
     row("Application", "<a href=\"db_action.php?table=app&id=$result->appid\">".app_name_by_id($result->appid)."</a>");
     if ($result->app_version_id > 0) {
@@ -1058,7 +1057,6 @@ function result_short_header() {
         <th>app<br>ver</th>
         <th>received <br><i>or</i> <font color=\"#ff3333\">dead</font><font color=\"#33cc33\">line</font> <br><i>or</i> <font color=\"#9900cc\">created</font></th>
         <th>CPU<br>hours</th>
-        <th>claimed<br>credit</th>
         <th>granted<br>credit</th>
         </tr>
     ";
@@ -1095,7 +1093,6 @@ function show_result_short($result) {
     $validate_color = validate_color($result->validate_state);
     $host_user = host_user_link($result->hostid);
     $cpu_hours = sprintf("%.1f",$result->cpu_time / 3600);
-    $claimed_credit = credit_str($result->claimed_credit);
     $granted_credit = "<a href=credit.php?resultid=$result->id>".credit_str($result->granted_credit)."</a>";
     $delete_state = file_delete_state_str($result->file_delete_state);
 
@@ -1113,7 +1110,6 @@ function show_result_short($result) {
         <td>$version</td>
         <td>$received</td>
         <td>$cpu_hours</td>
-        <td>$claimed_credit</td>
         <td>$granted_credit</td>
         </tr>
     ";

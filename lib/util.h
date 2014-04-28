@@ -50,6 +50,7 @@ extern int boinc_process_cpu_time(HANDLE process_handle, double& cpu);
 //
 static const int PROCESS_IDLE_PRIORITY = 19;
 static const int PROCESS_MEDIUM_PRIORITY = 10;
+static const int PROCESS_NORMAL_PRIORITY = 0;
 extern double linux_cpu_time(int pid);
 #endif
 

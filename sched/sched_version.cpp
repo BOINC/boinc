@@ -584,8 +584,8 @@ BEST_APP_VERSION* get_app_version(
             // app and resource type, fall through and find another version
             //
             if (config.max_jobs_in_progress.exceeded(
-                app, bavp->host_usage.uses_gpu())
-            ) {
+                app, bavp->host_usage.proc_type
+            )) {
                 if (config.debug_version_select) {
                     app_version_desc(*bavp, buf);
                     log_messages.printf(MSG_NORMAL,
@@ -742,7 +742,7 @@ BEST_APP_VERSION* get_app_version(
 
             // skip versions for which we're at the jobs-in-progress limit
             //
-            if (config.max_jobs_in_progress.exceeded(app, host_usage.uses_gpu())) {
+            if (config.max_jobs_in_progress.exceeded(app, host_usage.proc_type)) {
                 if (config.debug_version_select) {
                     log_messages.printf(MSG_NORMAL,
                         "[version] [AV#%d] jobs in progress limit exceeded\n",

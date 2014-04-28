@@ -19,17 +19,13 @@
 package edu.berkeley.boinc.adapter;
 
 import edu.berkeley.boinc.utils.*;
-
 import java.sql.Date;
 import java.util.ArrayList;
-
+import edu.berkeley.boinc.BOINCActivity;
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.TasksFragment.TaskData;
-import edu.berkeley.boinc.client.ClientStatus;
-import edu.berkeley.boinc.client.Monitor;
 import edu.berkeley.boinc.rpc.RpcClient;
 import edu.berkeley.boinc.utils.BOINCDefs;
-
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -212,14 +208,15 @@ public class TasksListAdapter extends ArrayAdapter<TaskData>{
 	
 	private Bitmap getIcon(int position) {
 		// try to get current client status from monitor
-		ClientStatus status;
+		//ClientStatus status;
 		try{
-			status  = Monitor.getClientStatus();
+			//status  = Monitor.getClientStatus();
+			return BOINCActivity.monitor.getProjectIcon(entries.get(position).result.project_url);
 		} catch (Exception e){
 			if(Logging.WARNING) Log.w(Logging.TAG,"TasksListAdapter: Could not load data, clientStatus not initialized.");
 			return null;
 		}
-		return status.getProjectIcon(entries.get(position).result.project_url);
+		//return status.getProjectIcon(entries.get(position).result.project_url);
 	}
 
 	private String determineStatusText(TaskData tmp) {

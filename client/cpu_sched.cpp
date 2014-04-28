@@ -17,7 +17,7 @@
 
 // CPU scheduling logic.
 //
-//  - create an ordered "run list" (schedule_cpus).
+//  - create an ordered "run list" (make_run_list()).
 //      The ordering is roughly as follows:
 //          - GPU jobs first, then CPU jobs
 //          - for a given resource, jobs in deadline danger first
@@ -39,8 +39,8 @@
 //      - sort the list according to "more_important()"
 //      - shuffle the list to avoid starving multi-thread jobs
 //
-//  - scan through the resulting list,
-//      running the jobs and preempting other jobs.
+//  - scan through the resulting list, running the jobs and preempting
+//      other jobs (enforce_run_list).
 //      Don't run a job if
 //      - its GPUs can't be assigned (possible if need >1 GPU)
 //      - it's a multi-thread job, and CPU usage would be #CPUs+1 or more
@@ -55,7 +55,7 @@
 
 #ifdef _WIN32
 #include "boinc_win.h"
-#include "win_util.h"
+#include "sysmon_win.h"
 #else
 #include "config.h"
 #include <string>
@@ -99,7 +99,6 @@ struct PROC_RESOURCES {
     double ncpus_used_st;   // #CPUs of GPU or single-thread jobs
     double ncpus_used_mt;   // #CPUs of multi-thread jobs
     COPROCS pr_coprocs;
-    double ram_left;
 
     void init() {
         ncpus = gstate.ncpus;
@@ -107,7 +106,6 @@ struct PROC_RESOURCES {
         ncpus_used_mt = 0;
         pr_coprocs.clone(coprocs, false);
         pr_coprocs.clear_usage();
-        ram_left = gstate.available_ram();
         if (have_max_concurrent) {
             max_concurrent_init();
         }
@@ -116,7 +114,11 @@ struct PROC_RESOURCES {
     // should we stop scanning jobs?
     //
     inline bool stop_scan_cpu() {
-        return ncpus_used_st >= ncpus;
+        if (ncpus_used_st >= ncpus) return true;
+        if (ncpus_used_mt >= 2*ncpus) return true;
+            // kind of arbitrary, but need to have some limit
+            // in case there are only MT jobs, and lots of them
+        return false;
     }
 
     inline bool stop_scan_coproc(int rsc_type) {
@@ -131,7 +133,6 @@ struct PROC_RESOURCES {
     // (i.e add it to the runnable list; not actually run it)
     //
     bool can_schedule(RESULT* rp, ACTIVE_TASK* atp) {
-        double wss;
         if (max_concurrent_exceeded(rp)) return false;
         if (atp) {
 			// don't schedule if something's pending
@@ -154,11 +155,7 @@ struct PROC_RESOURCES {
                 }
                 atp->needs_shmem = false;
             }
-            wss = atp->procinfo.working_set_size_smoothed;
-        } else {
-            wss = rp->avp->max_working_set_size;
         }
-        if (wss > ram_left) return false;
         if (rp->schedule_backoff > gstate.now) return false;
         if (rp->uses_coprocs()) {
             if (gpu_suspend_reason) return false;
@@ -211,13 +208,6 @@ struct PROC_RESOURCES {
         } else {
             ncpus_used_st += rp->avp->avg_ncpus;
         }
-        double wss;
-        if (atp) {
-            wss = atp->procinfo.working_set_size_smoothed;
-        } else {
-            wss = rp->avp->max_working_set_size;
-        }
-        ram_left -= wss;
 
         adjust_rec_sched(rp);
         max_concurrent_inc(rp);
@@ -1093,7 +1083,7 @@ void CLIENT_STATE::append_unfinished_time_slice(vector<RESULT*> &run_list) {
 //    That's the only kind of suspended GPU job.
 // CORPOC::usage[]: for each instance, its usage
 //
-// enforce_schedule() calls assign_coprocs(),
+// enforce_run_list() calls assign_coprocs(),
 // which assigns coproc instances to scheduled jobs,
 // and prunes jobs for which we can't make an assignment
 // (the job list is in order of decreasing priority)
@@ -1536,7 +1526,7 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
 #endif
 
     if (log_flags.cpu_sched_debug) {
-        msg_printf(0, MSG_INFO, "[cpu_sched_debug] enforce_schedule(): start");
+        msg_printf(0, MSG_INFO, "[cpu_sched_debug] enforce_run_list(): start");
         msg_printf(0, MSG_INFO, "[cpu_sched_debug] preliminary job list:");
         print_job_list(run_list);
     }
@@ -1901,7 +1891,7 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
         set_client_state_dirty("enforce_cpu_schedule");
     }
     if (log_flags.cpu_sched_debug) {
-        msg_printf(0, MSG_INFO, "[cpu_sched_debug] enforce_schedule: end");
+        msg_printf(0, MSG_INFO, "[cpu_sched_debug] enforce_run_list: end");
     }
     if (coproc_start_deferred) {
         if (log_flags.cpu_sched_debug) {

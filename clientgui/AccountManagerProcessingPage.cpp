@@ -38,7 +38,6 @@
 #include "AccountInfoPage.h"
 #include "CompletionErrorPage.h"
 
-
 ////@begin XPM images
 #include "res/wizprogress01.xpm"
 #include "res/wizprogress02.xpm"
@@ -298,7 +297,7 @@ void CAccountManagerProcessingPage::OnStateChange( CAccountManagerProcessingPage
                 IncrementProgress(m_pProgressIndicator);
 
                 ::wxMilliSleep(500);
-                ::wxSafeYield(GetParent());
+                wxEventLoopBase::GetActive()->YieldFor(wxEVT_CATEGORY_USER_INPUT);
             }
     
             if (!iReturnValue && !reply.error_num) {

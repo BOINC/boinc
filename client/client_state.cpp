@@ -256,8 +256,16 @@ int rsc_index(const char* name) {
     return -1;
 }
 
+// used in XML and COPROC::type
+//
 const char* rsc_name(int i) {
     return coprocs.coprocs[i].type;
+}
+
+// user-friendly version
+//
+const char* rsc_name_long(int i) {
+    return proc_type_name(coproc_type_name_to_num(coprocs.coprocs[i].type));
 }
 
 // alert user if any jobs need more RAM than available
@@ -336,6 +344,9 @@ int CLIENT_STATE::init() {
 
     srand((unsigned int)time(0));
     now = dtime();
+#ifdef ANDROID
+    device_status_time = dtime();
+#endif
     scheduler_op->url_random = drand();
 
     notices.init();
@@ -595,6 +606,8 @@ int CLIENT_STATE::init() {
         }
     }
 
+    check_if_need_benchmarks();
+
     log_show_projects();
 
     read_global_prefs();
@@ -816,7 +829,7 @@ bool CLIENT_STATE::poll_slow_events() {
         last_wakeup_time = now;
     }
 
-    if (should_run_cpu_benchmarks() && !benchmarks_running) {
+    if (run_cpu_benchmarks && can_run_cpu_benchmarks()) {
         run_cpu_benchmarks = false;
         start_cpu_benchmarks();
     }
@@ -2128,6 +2141,7 @@ void CLIENT_STATE::log_show_projects() {
         if (p->ended) {
             msg_printf(p, MSG_INFO, "Project has ended - OK to detach");
         }
+        p->show_no_work_notice();
     }
 }
 

@@ -20,6 +20,7 @@ package edu.berkeley.boinc.adapter;
 
 import java.util.ArrayList;
 import edu.berkeley.boinc.PrefsFragment;
+import edu.berkeley.boinc.PrefsFragment.BoolOnClick;
 import edu.berkeley.boinc.R;
 import android.app.Activity;
 import android.content.Context;
@@ -28,6 +29,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -60,10 +62,14 @@ public class PrefsListAdapter extends ArrayAdapter<PrefsListItemWrapper>{
     	} else { // item is element
 	    	if(listItem instanceof PrefsListItemWrapperBool) {
 	    		v = vi.inflate(R.layout.prefs_layout_listitem_bool, null);
-	    		CheckBox header = (CheckBox) v.findViewById(R.id.checkbox);
+	    		CheckBox cb = (CheckBox) v.findViewById(R.id.checkbox);
+	        	cb.setChecked(((PrefsListItemWrapperBool) listItem).getStatus());
+	    		BoolOnClick listener = frag.new BoolOnClick(listItem.ID, cb);
+	        	RelativeLayout wrapper = (RelativeLayout) v.findViewById(R.id.checkbox_wrapper);
+	        	wrapper.setClickable(true);
+	        	wrapper.setOnClickListener(listener);
+	    		TextView header = (TextView) v.findViewById(R.id.checkbox_text);
 	    		header.setText(((PrefsListItemWrapperBool) listItem).header);
-	        	header.setChecked(((PrefsListItemWrapperBool) listItem).getStatus());
-	        	header.setOnClickListener(frag.new BoolOnClick(listItem.ID, header));
 	    	} else if(listItem instanceof PrefsListItemWrapperValue) {
 	    		PrefsListItemWrapperValue item = (PrefsListItemWrapperValue) listItem;
 	    		v = vi.inflate(R.layout.prefs_layout_listitem, null);
@@ -74,12 +80,17 @@ public class PrefsListAdapter extends ArrayAdapter<PrefsListItemWrapper>{
 	    		TextView description = (TextView) v.findViewById(R.id.description);
 	    		description.setText(item.description);
 	    		
-	    		String value = item.status.toString();
-	    		if(item.isPct || item.isNumber) {
-	    			value = "" + item.status.intValue();
-	    		} 
-	    		TextView status = (TextView) v.findViewById(R.id.status);
-	    		status.setText(value + " " + item.unit);
+	    		// set status value or hide if 0
+    			LinearLayout statusWrapper = (LinearLayout) v.findViewById(R.id.status_wrapper);
+	    		if(item.status > 0) {
+	    			statusWrapper.setVisibility(View.VISIBLE);
+		    		String value = item.status.toString();
+		    		if(item.isPct || item.isNumber) {
+		    			value = "" + item.status.intValue();
+		    		} 
+		    		TextView status = (TextView) v.findViewById(R.id.status);
+		    		status.setText(value + " " + item.unit);
+	    		} else statusWrapper.setVisibility(View.GONE);
 	    	} else {
 	    		v = vi.inflate(R.layout.prefs_layout_listitem, null);
 	    		RelativeLayout wrapper = (RelativeLayout) v.findViewById(R.id.wrapper);
@@ -89,13 +100,13 @@ public class PrefsListAdapter extends ArrayAdapter<PrefsListItemWrapper>{
 	    		if(listItem.ID == R.string.prefs_client_log_flags_header) {
 		    		TextView description = (TextView) v.findViewById(R.id.description);
 		    		description.setVisibility(View.GONE);
-		    		TextView status = (TextView) v.findViewById(R.id.status);
-		    		status.setVisibility(View.INVISIBLE);
+	    			LinearLayout statusWrapper = (LinearLayout) v.findViewById(R.id.status_wrapper);
+	    			statusWrapper.setVisibility(View.GONE);
 	    		} else if(listItem.ID == R.string.prefs_power_source_header) {
 		    		TextView description = (TextView) v.findViewById(R.id.description);
 		    		description.setText(listItem.description);
-		    		TextView status = (TextView) v.findViewById(R.id.status);
-		    		status.setVisibility(View.INVISIBLE);
+	    			LinearLayout statusWrapper = (LinearLayout) v.findViewById(R.id.status_wrapper);
+	    			statusWrapper.setVisibility(View.GONE);
 	    		}
 	    	}
     	}

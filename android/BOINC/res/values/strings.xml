@@ -150,6 +150,7 @@
     <string name="prefs_category_memory">Memory</string>
     <string name="prefs_category_debug">Debug</string>
     <string name="prefs_show_advanced_header">Show advanced preferences and controls&#8230;</string>
+    <string name="prefs_suspend_when_screen_on">Pause computation when screen is on</string>
 	<string name="prefs_stationary_device_mode_header">Stationary device mode</string>
 	<string name="prefs_stationary_device_mode_description">Allows computation regardless of Power preferences. Only enable if device does not have a battery.</string>
     <string name="prefs_power_source_header">Power sources for computation</string>
@@ -166,11 +167,14 @@
     <string name="prefs_disk_max_pct_description">How many percent of your device\'s storage space is BOINC allowed to use?</string>
     <string name="prefs_disk_min_free_gb_header">Min. spare storage</string>
     <string name="prefs_disk_min_free_gb_description">How much of your device\'s storage space shall stay free?</string>
+    <string name="prefs_disk_access_interval_header">Access interval</string>
+    <string name="prefs_disk_access_interval_description">Suggests an interval between disk accesses</string>
     <string name="prefs_network_daily_xfer_limit_mb_header">Daily transfer limit</string>
     <string name="prefs_network_daily_xfer_limit_mb_description">Limits the daily data traffic caused by BOINC.</string>
     <string name="prefs_network_wifi_only_header">Transfer tasks on WiFi only</string>
     <string name="prefs_autostart_header">Autostart</string>
-    <string name="prefs_show_notification_header">Show notification when suspended</string>
+    <string name="prefs_show_notification_notices_header">Show notification for new notices</string>
+    <string name="prefs_show_notification_suspended_header">Show notification when suspended</string>
     <string name="prefs_cpu_number_cpus_header">Used CPU cores</string>
     <string name="prefs_cpu_number_cpus_description">Limits the number of CPU cores BOINC uses for computation.</string>
     <string name="prefs_cpu_other_load_suspension_header">Pause at CPU usage above</string>
@@ -186,6 +190,7 @@
     <string name="prefs_unit_gb">GB</string>
     <string name="prefs_unit_pct">%</string>
     <string name="prefs_unit_celcius">&#0176;C</string>
+    <string name="prefs_unit_seconds">s</string>
 
     <!-- projects tab strings -->
     <string name="projects_loading">Reading projects&#8230;</string>
@@ -288,6 +293,7 @@
     <!-- suspend reasons -->
     <string name="suspend_unknown">Computation suspended.</string>
     <string name="suspend_batteries">Connect your device to a charger to continue computing.</string>
+    <string name="suspend_screen_on">Turn screen off to continue computing.</string>
     <string name="suspend_useractive">User is active.</string>
     <string name="suspend_tod">Out of computation time-frame.</string>
     <string name="suspend_bm">BOINC is benchmarking your device&#8230;</string>
@@ -335,9 +341,18 @@
     <string name="about_name">BOINC</string>
     <string name="about_version">Version</string>
     <string name="about_name_long">Berkeley Open Infrastructure for Network Computing</string>
-    <string name="about_copyright">\u00A9 2003&#8211;2013 University of California, Berkeley.\nAll Rights Reserved.</string>
-    <string name="title_activity_splash">SplashActivity</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="about_copyright">\u00A9 2003&#8211;2014 University of California, Berkeley.</string>
+    <string name="about_copyright_reserved">All Rights Reserved.</string>
+    <string name="about_credits">Thanks to the Max Planck Institute for Gravitational Physics, IBM Corporation and HTC Corporation for their support.</string>
+
+    <!-- notice notification -->
+    <string name="notice_notification_single_header">New notice from</string> <!-- e.g. New notice from SETI@HOME -->
+    <string name="notice_notification_multiple_header">new notices</string> <!-- e.g. 3 new notices -->
+
+    <!-- Power To Give compitability -->
+    <string name="ptg_dialog_header">Power To Give detected</string>
+    <string name="ptg_dialog_text">Your device has installed Power To Give. Do you want to launch Power To Give?</string>
+    <string name="ptg_dialog_launch">Launch</string>
+    <string name="ptg_dialog_exit">Exit</string>
 
 </resources>

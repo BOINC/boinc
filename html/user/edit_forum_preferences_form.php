@@ -60,6 +60,7 @@ row2(
     "
 );
 
+if (!DISABLE_FORUMS) {
 // ------------ Forum identity -----------
 
 $select_0 = $select_1 = $select_2 = "";
@@ -142,6 +143,7 @@ row2(tra("How to sort"),
     <input type=\"checkbox\" name=\"forum_ignore_sticky_posts\" ".$forum_ignore_sticky_posts.">".tra("Don't move sticky posts to top")."<br>
     "
 );
+}   // DISABLE_FORUMS
 
 // ------------ Message filtering  -----------
 

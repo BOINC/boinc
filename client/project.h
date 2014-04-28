@@ -107,7 +107,7 @@ struct PROJECT : PROJ_AM {
     double host_create_time;
     double ams_resource_share;
         // resource share according to AMS; overrides project
-        // -1 means not specified by AMS
+        // -1 means not specified by AMS, or not using an AMS
 
     // stuff related to scheduler RPCs and master fetch
     //
@@ -305,6 +305,7 @@ struct PROJECT : PROJ_AM {
     int write_state(MIOFILE&, bool gui_rpc=false);
     const char* project_dir();
     const char* project_dir_absolute();
+    void show_no_work_notice();
 
     // statistic of the last x days
     std::vector<DAILY_STATS> statistics;
@@ -322,10 +323,16 @@ struct PROJECT : PROJ_AM {
     // clear AMS-related fields
     inline void detach_ams() {
         attached_via_acct_mgr = false;
-        ams_resource_share = -1;
         for (int i=0; i<MAX_RSC; i++) {
             no_rsc_ams[i] = false;
         }
+
+		ams_resource_share = -1;
+
+		// parse the account file to get right resource share
+		// in case AMS had set it
+		//
+		parse_account_file();
     }
 
 #ifdef SIM

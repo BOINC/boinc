@@ -19,7 +19,10 @@
 
 package edu.berkeley.boinc.rpc;
 
-public class PlatformInfo {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class PlatformInfo implements Parcelable{
 	public String name;
 	public String friendlyName;
 	public String planClass;
@@ -29,4 +32,34 @@ public class PlatformInfo {
 		this.friendlyName = friendlyName;
 		this.planClass = planClass;
 	}
+
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int arg1) {
+		dest.writeString(name);
+		dest.writeString(friendlyName);
+		dest.writeString(planClass);
+	}
+	
+	public PlatformInfo() {}
+	
+	private PlatformInfo(Parcel in) {
+		name = in.readString();
+		friendlyName = in.readString();
+		planClass = in.readString();
+	}
+	
+	public static final Parcelable.Creator<PlatformInfo> CREATOR = new Parcelable.Creator<PlatformInfo>() {
+		public PlatformInfo createFromParcel(Parcel in) {
+		    return new PlatformInfo(in);
+		}
+		public PlatformInfo[] newArray(int size) {
+		    return new PlatformInfo[size];
+		}
+	};
+
 }

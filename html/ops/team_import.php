@@ -52,17 +52,21 @@ function lookup_team_seti_id($id) {
     return null;
 }
 
+function decode($x) {
+    return html_entity_decode($x, ENT_COMPAT, 'UTF-8');
+}
+
 function parse_team($f) {
     while ($s = fgets($f)) {
         if (strstr($s, '</team>')) {
-            $t->name = htmlspecialchars_decode($t->name);
-            $t->url = htmlspecialchars_decode($t->url);
-            $t->name_html = htmlspecialchars_decode($t->name_html);
-            $t->description = htmlspecialchars_decode($t->description);
-            $t->user_name = htmlspecialchars_decode($t->user_name);
-            $t->user_country = htmlspecialchars_decode($t->user_country);
-            $t->user_postal_code = htmlspecialchars_decode($t->user_postal_code);
-            $t->user_url = htmlspecialchars_decode($t->user_url);
+            $t->name = decode($t->name);
+            $t->url = decode($t->url);
+            $t->name_html = decode($t->name_html);
+            $t->description = decode($t->description);
+            $t->user_name = decode($t->user_name);
+            $t->user_country = decode($t->user_country);
+            $t->user_postal_code = decode($t->user_postal_code);
+            $t->user_url = decode($t->user_url);
             return $t;
         }
         else if (strstr($s, '<name>')) $t->name = parse_element($s, '<name>');

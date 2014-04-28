@@ -40,7 +40,6 @@ using std::string;
 #define SEARCHFORALLBOINCMANAGERS 0
 #define MAX_LANGUAGES_TO_TRY 5
 
-#include "LoginItemAPI.h"
 #include "translate.h"
 
 static OSStatus DoUninstall(void);
@@ -49,7 +48,6 @@ static OSStatus DeleteOurBundlesFromDirectory(CFStringRef bundleID, char *extens
 static OSStatus GetAuthorization(AuthorizationRef * authRef, const char *pathToTool, char *brandName);
 static OSStatus DoPrivilegedExec(char *brandName, const char *pathToTool, char *arg1, char *arg2, char *arg3, char *arg4, char *arg5);
 static void DeleteLoginItemOSAScript(char* user, char* appName);
-static void DeleteLoginItemAPI(void);
 static void DeleteLoginItemFromPListFile(void);
 static char * PersistentFGets(char *buf, size_t buflen, FILE *f);
 OSErr GetCurrentScreenSaverSelection(char *moduleName, size_t maxLen);
@@ -107,7 +105,7 @@ int main(int argc, char *argv[])
     }
 
     strlcpy(pathToVBoxUninstallTool, pathToSelf, sizeof(pathToVBoxUninstallTool));
-     strlcat(pathToVBoxUninstallTool, "/Contents/Resources/VirtualBox_Uninstall.tool", sizeof(pathToVBoxUninstallTool));
+    strlcat(pathToVBoxUninstallTool, "/Contents/Resources/VirtualBox_Uninstall.tool", sizeof(pathToVBoxUninstallTool));
 
     // To allow for branding, assume name of executable inside bundle is same as name of bundle
     p = strrchr(pathToSelf, '/');         // Assume name of executable inside bundle is same as name of bundle
@@ -321,6 +319,7 @@ int main(int argc, char *argv[])
 
 static OSStatus DoUninstall(void) {
     pid_t                   coreClientPID = 0;
+    pid_t                   BOINCManagerPID = 0;
     char                    cmd[1024];
     char                    *p;
     passwd                  *pw;
@@ -336,8 +335,36 @@ static OSStatus DoUninstall(void) {
     ShowMessage(false, false, false, "Permission OK after relaunch");
 #endif
 
-    QuitOneProcess('BNC!'); // Quit any old instance of BOINC manager
-    sleep(2);
+    //TODO: It would be nice to get the app name from the bundle ID or signature
+    // so we don't have to try all 4 and to allow for future branded versions
+
+    for (;;) {
+        BOINCManagerPID = FindProcessPID("BOINCManager", 0);
+        if (BOINCManagerPID == 0) break;
+        kill(BOINCManagerPID, SIGTERM);
+        sleep(2);
+    }
+    
+    for (;;) {
+        BOINCManagerPID = FindProcessPID("GridRepublic Desktop", 0);
+        if (BOINCManagerPID == 0) break;
+        kill(BOINCManagerPID, SIGTERM);
+        sleep(2);
+    }
+    
+    for (;;) {
+        BOINCManagerPID = FindProcessPID("Progress Thru Processors Desktop", 0);
+        if (BOINCManagerPID == 0) break;
+        kill(BOINCManagerPID, SIGTERM);
+        sleep(2);
+    }
+    
+    for (;;) {
+        BOINCManagerPID = FindProcessPID("Charity Engine Desktop", 0);
+        if (BOINCManagerPID == 0) break;
+        kill(BOINCManagerPID, SIGTERM);
+        sleep(2);
+    }
 
     // Core Client may still be running if it was started without Manager
     coreClientPID = FindProcessPID("boinc", 0);
@@ -397,6 +424,10 @@ static OSStatus DoUninstall(void) {
     // Phase 4: Delete our files and directories at our installer's default locations
     // Remove everything we've installed, whether BOINC, GridRepublic, Progress Thru Processors or
     // Charity Engine
+    
+    //TODO: It would be nice to get the app name from the bundle ID or signature
+    // so we don't have to try all 4 and to allow for future branded versions
+    
     // These first 4 should already have been deleted by the above code, but do them anyway for safety
     system ("rm -rf /Applications/BOINCManager.app");
     system ("rm -rf \"/Library/Screen Savers/BOINCSaver.saver\"");
@@ -404,11 +435,11 @@ static OSStatus DoUninstall(void) {
     system ("rm -rf \"/Applications/GridRepublic Desktop.app\"");
     system ("rm -rf \"/Library/Screen Savers/GridRepublic.saver\"");
     
-    system ("rm -rf \"/Applications/Progress\\ Thru\\ Processors\\ Desktop.app\"");
-    system ("rm -rf \"/Library/Screen Savers/Progress\\ Thru\\ Processors.saver\"");
+    system ("rm -rf \"/Applications/Progress Thru Processors Desktop.app\"");
+    system ("rm -rf \"/Library/Screen Savers/Progress Thru Processors.saver\"");
     
-    system ("rm -rf \"/Applications/Charity\\ Engine\\ Desktop.app\"");
-    system ("rm -rf \"/Library/Screen Savers/Charity\\ Engine.saver\"");
+    system ("rm -rf \"/Applications/Charity Engine Desktop.app\"");
+    system ("rm -rf \"/Library/Screen Savers/Charity Engine.saver\"");
     
     // Delete any receipt from an older installer (which had 
     // a wrapper application around the installer package.)
@@ -658,15 +689,9 @@ static OSStatus CleanupAllVisibleUsers(void)
 #if TESTING
 //    ShowMessage(false, false, false, "Before seteuid(%d) for user %s, euid = %d", pw->pw_uid, human_user_name, geteuid());
 #endif
-        if (compareOSVersionTo(10, 6) >= 0) {
-            setuid(0);
-        }
+        setuid(0);
         // Delete our login item(s) for this user
-        if (compareOSVersionTo(10, 7) < 0) {
-            seteuid(pw->pw_uid);    // Temporarily set effective uid to this user
-            DeleteLoginItemAPI();
-            seteuid(saved_euid);    // Set effective uid back to privileged user
-        } else if (compareOSVersionTo(10, 8) >= 0) {
+       if (compareOSVersionTo(10, 8) >= 0) {
             seteuid(pw->pw_uid);    // Temporarily set effective uid to this user
             DeleteLoginItemFromPListFile();
             seteuid(saved_euid);    // Set effective uid back to privileged user
@@ -712,7 +737,7 @@ static OSStatus CleanupAllVisibleUsers(void)
                 ShowMessage(false, false, false, "Launching SystemEvents for user %s", pw->pw_name);
 #endif
 
-                sprintf(cmd, "sudo -iu \"%s\" \\\"%s/Contents/MacOS/System Events\\\" &", pw->pw_name, systemEventsPath);
+                sprintf(cmd, "sudo -u \"%s\" \"%s/Contents/MacOS/System Events\" &", pw->pw_name, systemEventsPath);
                 err = system(cmd);
                 if (err == noErr) {
                     // Wait for the process to start
@@ -743,6 +768,10 @@ static OSStatus CleanupAllVisibleUsers(void)
         // We don't delete the user's BOINC Manager preferences
 //        sprintf(s, "rm -f \"/Users/%s/Library/Preferences/BOINC Manager Preferences\"", human_user_name);
 //        system (s);
+        
+        // Delete per-user BOINC Manager and screensaver files
+        sprintf(s, "rm -fR \"/Users/%s/Library/Application Support/BOINC\"", human_user_name);
+        system (s);
         
         //  Set screensaver to "Computer Name" default screensaver only 
         //  if it was BOINC, GridRepublic, Progress Thru Processors or Charity Engine.
@@ -925,7 +954,7 @@ if (err != noErr)
 }
 
 
-// Used for OS 10.7.x
+// Used for OS <= 10.7
 static void DeleteLoginItemOSAScript(char* user, char* appName)
 {
     char                    cmd[2048];
@@ -941,42 +970,7 @@ static void DeleteLoginItemOSAScript(char* user, char* appName)
 }
     
 
-// Used for OS < OS 10.7
-static void DeleteLoginItemAPI(void)
-{
-    Boolean                 success;
-    int                     numberOfLoginItems, counter;
-    char                    *p, *q;
-
-    success = false;
-
-    numberOfLoginItems = GetCountOfLoginItems(kCurrentUser);
-    
-    // Search existing login items in reverse order, deleting ours
-    for (counter = numberOfLoginItems ; counter > 0 ; counter--)
-    {
-        p = ReturnLoginItemPropertyAtIndex(kCurrentUser, kApplicationNameInfo, counter-1);
-        q = p;
-        while (*q)
-        {
-            // It is OK to modify the returned string because we "own" it
-            *q = toupper(*q);	// Make it case-insensitive
-            q++;
-        }
-            
-        if (strcmp(p, "BOINCMANAGER.APP") == 0)
-            success = RemoveLoginItemAtIndex(kCurrentUser, counter-1);
-        if (strcmp(p, "GRIDREPUBLIC DESKTOP.APP") == 0)
-            success = RemoveLoginItemAtIndex(kCurrentUser, counter-1);
-        if (strcmp(p, "PROGRESS THRU PROCESSORS DESKTOP.APP") == 0)
-            success = RemoveLoginItemAtIndex(kCurrentUser, counter-1);
-        if (strcmp(p, "CHARITY ENGINE DESKTOP.APP") == 0)
-            success = RemoveLoginItemAtIndex(kCurrentUser, counter-1);
-    }
-}
-
-
-// Used for OS 10.8
+// Used for OS >= 10.8
 static void DeleteLoginItemFromPListFile(void)
 {
     Boolean                 success;

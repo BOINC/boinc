@@ -210,8 +210,14 @@ int RESULT::write(MIOFILE& out, bool to_server) {
     }
     if (to_server) {
         out.printf(
-            "    <app_version_num>%d</app_version_num>\n",
-            wup->version_num
+            "    <app_version_num>%d</app_version_num>\n"
+            "    <final_peak_working_set_size>%.0f</final_peak_working_set_size>\n"
+            "    <final_peak_swap_size>%.0f</final_peak_swap_size>\n"
+            "    <final_peak_disk_usage>%.0f</final_peak_disk_usage>\n",
+            wup->version_num,
+            final_peak_working_set_size,
+            final_peak_swap_size,
+            final_peak_disk_usage
         );
     }
     n = (int)stderr_out.length();
@@ -328,16 +334,16 @@ int RESULT::write_gui(MIOFILE& out) {
         if (avp->gpu_usage.rsc_type) {
             if (avp->gpu_usage.usage == 1) {
                 sprintf(resources,
-                    "%.3g CPUs + 1 %s GPU",
+                    "%.3g CPUs + 1 %s",
                     avp->avg_ncpus,
-                    rsc_name(avp->gpu_usage.rsc_type)
+                    rsc_name_long(avp->gpu_usage.rsc_type)
                 );
             } else {
                 sprintf(resources,
-                    "%.3g CPUs + %.3g %s GPUs",
+                    "%.3g CPUs + %.3g %ss",
                     avp->avg_ncpus,
                     avp->gpu_usage.usage,
-                    rsc_name(avp->gpu_usage.rsc_type)
+                    rsc_name_long(avp->gpu_usage.rsc_type)
                 );
             }
         } else if (avp->missing_coproc) {

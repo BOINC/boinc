@@ -139,7 +139,7 @@
       <AdditionalIncludeDirectories>..\..\boinc_depends_win_vs2010\wxwidgets\include;..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>MSVCRT.LIB;MSVCPRT.LIB;kernel32.lib;user32.lib;gdi32.lib;ole32.lib;oleaut32.lib;oleacc.lib;shell32.lib;comdlg32.lib;advapi32.lib;oldnames.lib;uuid.lib;rpcrt4.lib;comctl32.lib;wsock32.lib;wininet.lib;userenv.lib;winspool.lib;wxbase30u.lib;wxbase30u_net.lib;wxbase30u_xml.lib;wxmsw30u_adv.lib;wxmsw30u_core.lib;wxmsw30u_html.lib;wxmsw30u_webview.lib;wxregexu.lib;wxexpat.lib;wxpng.lib;wxjpeg.lib;wxtiff.lib;wxzlib.lib;sqlite3.lib</AdditionalDependencies>
+      <AdditionalDependencies>MSVCRT.LIB;MSVCPRT.LIB;kernel32.lib;user32.lib;gdi32.lib;ole32.lib;oleaut32.lib;oleacc.lib;shell32.lib;comdlg32.lib;advapi32.lib;oldnames.lib;uuid.lib;rpcrt4.lib;comctl32.lib;wsock32.lib;wininet.lib;userenv.lib;winspool.lib;wxbase30u.lib;wxbase30u_net.lib;wxbase30u_xml.lib;wxmsw30u_adv.lib;wxmsw30u_core.lib;wxmsw30u_html.lib;wxmsw30u_qa.lib;wxmsw30u_webview.lib;wxregexu.lib;wxexpat.lib;wxpng.lib;wxjpeg.lib;wxtiff.lib;wxzlib.lib;sqlite3.lib</AdditionalDependencies>
       <OutputFile>.\Build\$(Platform)\$(Configuration)\$(ProjectName).exe</OutputFile>
       <AdditionalLibraryDirectories>$(OutDir);..\..\boinc_depends_win_vs2010\wxwidgets\mswin\$(Platform)\$(Configuration)\lib\vc_lib;..\..\boinc_depends_win_vs2010\sqlite3\mswin\$(Platform)\$(Configuration)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
@@ -183,7 +183,7 @@
       <AdditionalIncludeDirectories>..\..\boinc_depends_win_vs2010\wxwidgets\include;..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>MSVCRT.LIB;MSVCPRT.LIB;kernel32.lib;user32.lib;gdi32.lib;ole32.lib;oleacc.lib;oleaut32.lib;shell32.lib;comdlg32.lib;advapi32.lib;oldnames.lib;uuid.lib;rpcrt4.lib;comctl32.lib;wsock32.lib;wininet.lib;userenv.lib;winspool.lib;wxbase30u.lib;wxbase30u_net.lib;wxbase30u_xml.lib;wxmsw30u_adv.lib;wxmsw30u_core.lib;wxmsw30u_html.lib;wxmsw30u_webview.lib;wxregexu.lib;wxexpat.lib;wxpng.lib;wxtiff.lib;wxjpeg.lib;wxzlib.lib;sqlite3.lib</AdditionalDependencies>
+      <AdditionalDependencies>MSVCRT.LIB;MSVCPRT.LIB;kernel32.lib;user32.lib;gdi32.lib;ole32.lib;oleacc.lib;oleaut32.lib;shell32.lib;comdlg32.lib;advapi32.lib;oldnames.lib;uuid.lib;rpcrt4.lib;comctl32.lib;wsock32.lib;wininet.lib;userenv.lib;winspool.lib;wxbase30u.lib;wxbase30u_net.lib;wxbase30u_xml.lib;wxmsw30u_adv.lib;wxmsw30u_core.lib;wxmsw30u_html.lib;wxmsw30u_qa.lib;wxmsw30u_webview.lib;wxregexu.lib;wxexpat.lib;wxpng.lib;wxtiff.lib;wxjpeg.lib;wxzlib.lib;sqlite3.lib</AdditionalDependencies>
       <OutputFile>.\Build\$(Platform)\$(Configuration)\$(ProjectName).exe</OutputFile>
       <AdditionalLibraryDirectories>$(OutDir);..\..\boinc_depends_win_vs2010\wxwidgets\mswin\$(Platform)\$(Configuration)\lib\vc_lib;..\..\boinc_depends_win_vs2010\sqlite3\mswin\$(Platform)\$(Configuration)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
@@ -229,7 +229,7 @@
       <AdditionalIncludeDirectories>..\..\boinc_depends_win_vs2010\wxwidgets\include;..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>MSVCRTD.LIB;MSVCPRTD.LIB;kernel32.lib;user32.lib;gdi32.lib;ole32.lib;oleacc.lib;oleaut32.lib;shell32.lib;comdlg32.lib;advapi32.lib;oldnames.lib;uuid.lib;rpcrt4.lib;comctl32.lib;wsock32.lib;wininet.lib;userenv.lib;winspool.lib;wxbase30ud.lib;wxbase30ud_net.lib;wxbase30ud_xml.lib;wxmsw30ud_adv.lib;wxmsw30ud_core.lib;wxmsw30ud_html.lib;wxmsw30ud_webview.lib;wxregexud.lib;wxexpatd.lib;wxjpegd.lib;wxtiffd.lib;wxpngd.lib;wxzlibd.lib;sqlite3.lib</AdditionalDependencies>
+      <AdditionalDependencies>MSVCRTD.LIB;MSVCPRTD.LIB;kernel32.lib;user32.lib;gdi32.lib;ole32.lib;oleacc.lib;oleaut32.lib;shell32.lib;comdlg32.lib;advapi32.lib;oldnames.lib;uuid.lib;rpcrt4.lib;comctl32.lib;wsock32.lib;wininet.lib;userenv.lib;winspool.lib;wxbase30ud.lib;wxbase30ud_net.lib;wxbase30ud_xml.lib;wxmsw30ud_adv.lib;wxmsw30ud_core.lib;wxmsw30ud_html.lib;wxmsw30ud_qa.lib;wxmsw30ud_webview.lib;wxregexud.lib;wxexpatd.lib;wxjpegd.lib;wxtiffd.lib;wxpngd.lib;wxzlibd.lib;sqlite3.lib</AdditionalDependencies>
       <OutputFile>.\Build\$(Platform)\$(Configuration)\$(ProjectName).exe</OutputFile>
       <AdditionalLibraryDirectories>$(OutDir);..\..\boinc_depends_win_vs2010\wxwidgets\mswin\$(Platform)\$(Configuration)\lib\vc_lib;..\..\boinc_depends_win_vs2010\sqlite3\mswin\$(Platform)\$(Configuration)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
@@ -275,7 +275,7 @@
       <AdditionalIncludeDirectories>..\..\boinc_depends_win_vs2010\wxwidgets\include;..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>MSVCRTD.LIB;MSVCPRTD.LIB;kernel32.lib;user32.lib;gdi32.lib;ole32.lib;oleaut32.lib;oleacc.lib;shell32.lib;comdlg32.lib;advapi32.lib;oldnames.lib;uuid.lib;rpcrt4.lib;comctl32.lib;wsock32.lib;wininet.lib;userenv.lib;winspool.lib;wxbase30ud.lib;wxbase30ud_net.lib;wxbase30ud_xml.lib;wxmsw30ud_adv.lib;wxmsw30ud_core.lib;wxmsw30ud_html.lib;wxmsw30ud_webview.lib;wxregexud.lib;wxexpatd.lib;wxpngd.lib;wxtiffd.lib;wxjpegd.lib;wxzlibd.lib;sqlite3.lib</AdditionalDependencies>
+      <AdditionalDependencies>MSVCRTD.LIB;MSVCPRTD.LIB;kernel32.lib;user32.lib;gdi32.lib;ole32.lib;oleaut32.lib;oleacc.lib;shell32.lib;comdlg32.lib;advapi32.lib;oldnames.lib;uuid.lib;rpcrt4.lib;comctl32.lib;wsock32.lib;wininet.lib;userenv.lib;winspool.lib;wxbase30ud.lib;wxbase30ud_net.lib;wxbase30ud_xml.lib;wxmsw30ud_adv.lib;wxmsw30ud_core.lib;wxmsw30ud_html.lib;wxmsw30ud_qa.lib;wxmsw30ud_webview.lib;wxregexud.lib;wxexpatd.lib;wxpngd.lib;wxtiffd.lib;wxjpegd.lib;wxzlibd.lib;sqlite3.lib</AdditionalDependencies>
       <OutputFile>.\Build\$(Platform)\$(Configuration)\$(ProjectName).exe</OutputFile>
       <AdditionalLibraryDirectories>$(OutDir);..\..\boinc_depends_win_vs2010\wxwidgets\mswin\$(Platform)\$(Configuration)\lib\vc_lib;..\..\boinc_depends_win_vs2010\sqlite3\mswin\$(Platform)\$(Configuration)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
@@ -288,6 +288,9 @@
       <Message>Checking boincmgr.exe dependencies</Message>
       <Command>"$(ProjectDir)\buildenv.cmd" devenvdir "$(DevEnvDir)" type "$(Configuration)" platform "$(Platform)" exec updatedepends.cmd</Command>
     </PostBuildEvent>
+    <Manifest>
+      <EnableDPIAwareness>false</EnableDPIAwareness>
+    </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
     <None Include="..\clientgui\res\BOINCGUIApp.ico" />
@@ -297,7 +300,7 @@
     <ResourceCompile Include="..\clientgui\BOINCGUIApp.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\clientgui\BOINCBitmapComboBox.cpp" />
+    <ClCompile Include="..\clientgui\DlgDiagnosticLogFlags.cpp" />
     <ClCompile Include="..\clientgui\sg_BoincSimpleFrame.cpp" />
     <ClCompile Include="..\clientgui\sg_CustomControls.cpp" />
     <ClCompile Include="..\clientgui\sg_DlgMessages.cpp" />
@@ -406,7 +409,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\clientgui\BOINCBitmapComboBox.h" />
+    <ClInclude Include="..\clientgui\DlgDiagnosticLogFlags.h" />
     <ClInclude Include="..\clientgui\sg_BoincSimpleFrame.h" />
     <ClInclude Include="..\clientgui\sg_CustomControls.h" />
     <ClInclude Include="..\clientgui\sg_DlgMessages.h" />

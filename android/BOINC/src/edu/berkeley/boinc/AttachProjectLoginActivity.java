@@ -21,6 +21,8 @@ package edu.berkeley.boinc;
 
 import edu.berkeley.boinc.utils.*;
 import java.net.URL;
+
+import edu.berkeley.boinc.client.IMonitor;
 import edu.berkeley.boinc.client.Monitor;
 import android.app.Service;
 import android.content.ComponentName;
@@ -32,6 +34,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.os.RemoteException;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.text.InputType;
@@ -52,7 +55,7 @@ import edu.berkeley.boinc.rpc.ProjectInfo;
 
 public class AttachProjectLoginActivity extends ActionBarActivity{
 	
-	private Monitor monitor;
+	private IMonitor monitor;
 	private Boolean mIsBound = false;
 	
 	private String url = "";
@@ -65,7 +68,7 @@ public class AttachProjectLoginActivity extends ActionBarActivity{
 	private ServiceConnection mConnection = new ServiceConnection() {
 	    public void onServiceConnected(ComponentName className, IBinder service) {
 	        // This is called when the connection with the service has been established, getService returns the Monitor object that is needed to call functions.
-	        monitor = ((Monitor.LocalBinder)service).getService();
+	        monitor = IMonitor.Stub.asInterface(service);
 		    mIsBound = true;
 		    
 		    (new GetProjectConfig()).execute(url);
@@ -316,7 +319,8 @@ public class AttachProjectLoginActivity extends ActionBarActivity{
 			Intent intent = new Intent(this, AttachProjectWorkingActivity.class);
 			intent.putExtra("action", AttachProjectWorkingActivity.ACTION_ATTACH);
 			intent.putExtra("usesName", projectConfig.userName);
-			intent.putExtra("projectUrl", getWebRpcUrl());
+			intent.putExtra("projectUrl", projectConfig.masterUrl);
+			intent.putExtra("webRpcUrlBase", projectConfig.webRpcUrlBase); // might be empty
 			intent.putExtra("projectName", projectConfig.name);
 			intent.putExtra("id", id);
 			intent.putExtra("pwd", pwd);
@@ -331,7 +335,8 @@ public class AttachProjectLoginActivity extends ActionBarActivity{
 		if (clientCreation) {
 			// start intent to AttachProjectWorkingActivity
 			Intent intent = new Intent(this, AttachProjectRegistrationActivity.class);
-			intent.putExtra("projectUrl", getWebRpcUrl());
+			intent.putExtra("projectUrl", projectConfig.masterUrl);
+			intent.putExtra("webRpcUrlBase", projectConfig.webRpcUrlBase); // might be empty
 			intent.putExtra("projectName", projectConfig.name);
 			intent.putExtra("minPwdLength", projectConfig.minPwdLength);
 			intent.putExtra("usesName", projectConfig.userName);
@@ -352,16 +357,6 @@ public class AttachProjectLoginActivity extends ActionBarActivity{
 		startActivity(i);
 	}
 	
-	// returns URL for web RPC (lookupAccount or createAccount)
-	// HTTPS if supported (ProjectConfig.webRpcUrlBase), masterUrl if not
-	private String getWebRpcUrl() {
-		if(projectConfig.webRpcUrlBase.isEmpty()) return projectConfig.masterUrl;
-		else {
-			if(Logging.DEBUG) Log.d(Logging.TAG, "AttachProjectLoginActivity.getWebRpcUrl(): HTTPS URL found, using : " + projectConfig.webRpcUrlBase + " for further account related RPCs");
-			return projectConfig.webRpcUrlBase;
-		}
-	}
-	
 	private Boolean verifyInput(String id, String pwd) {
 		if(id.length() == 0) {
 			Toast toast = Toast.makeText(getApplicationContext(), R.string.attachproject_error_no_name, Toast.LENGTH_SHORT);
@@ -379,7 +374,14 @@ public class AttachProjectLoginActivity extends ActionBarActivity{
 	private Boolean platformSupported() {
 		if(projectConfig == null) return false;
 		if(!mIsBound) return false;
-		String platformName = getString(monitor.getBoincPlatform());
+		String platformName;
+		try {
+			platformName = getString(monitor.getBoincPlatform());
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
 		Boolean supported = false;
 		for(PlatformInfo platform: projectConfig.platforms) {
 			if(platform.name.equals(platformName)) {
@@ -405,12 +407,12 @@ public class AttachProjectLoginActivity extends ActionBarActivity{
 						if(Logging.DEBUG) Log.d(Logging.TAG, "doInBackground() - GetProjectConfig for manual input url: " + url);
 						
 						//fetch ProjectConfig
-						projectConfig = monitor.clientInterface.getProjectConfigPolling(url);
+						projectConfig = monitor.getProjectConfigPolling(url);
 					} else {
 						if(Logging.DEBUG) Log.d(Logging.TAG, "doInBackground() - GetProjectConfig for list selection url: " + projectInfo.url);
 						
 						//fetch ProjectConfig
-						projectConfig = monitor.clientInterface.getProjectConfigPolling(projectInfo.url);
+						projectConfig = monitor.getProjectConfigPolling(projectInfo.url);
 						
 						// fetch project logo	
 						loadBitmap();
@@ -437,6 +439,7 @@ public class AttachProjectLoginActivity extends ActionBarActivity{
 		protected void onPostExecute(Integer toastStringId) {
 			if(toastStringId == 0) { // no error, no toast...
 				if(Logging.DEBUG) Log.d(Logging.TAG, "onPostExecute() - GetProjectConfig successful.");
+		        if(!projectConfig.webRpcUrlBase.isEmpty()) Log.d(Logging.TAG, "HTTPS URL found: " + projectConfig.webRpcUrlBase);
 				populateLayout(projectAlreadyAttached);
 			} else {
 				finish(toastStringId);
@@ -457,7 +460,13 @@ public class AttachProjectLoginActivity extends ActionBarActivity{
 		
 		private Boolean checkProjectAlreadyAttached(String url) {
 			if(Logging.DEBUG) Log.d(Logging.TAG, "check whether project with url is already attached: " + url);
-			return monitor.clientInterface.checkProjectAttached(url);
+			try {
+				return monitor.checkProjectAttached(url);
+			} catch (RemoteException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return false;
+			}
 		}
 	}
 }

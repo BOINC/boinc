@@ -18,6 +18,9 @@
  ******************************************************************************/
 package edu.berkeley.boinc;
 
+import java.util.ArrayList;
+
+import edu.berkeley.boinc.rpc.Project;
 import edu.berkeley.boinc.utils.*;
 import edu.berkeley.boinc.client.*;
 import edu.berkeley.boinc.utils.BOINCDefs;
@@ -35,6 +38,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle; 
 import android.os.IBinder;
+import android.os.RemoteException;
 import android.util.Log;  
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -56,10 +60,10 @@ import edu.berkeley.boinc.adapter.NavDrawerListAdapter.NavDrawerItem;
 
 public class BOINCActivity extends ActionBarActivity {
 	
-	private Monitor monitor;
+	public static IMonitor monitor;
 	private Integer clientComputingStatus = -1;
 	private Integer numberProjectsInNavList = 0;
-	private Boolean mIsBound = false;
+	static Boolean mIsBound = false;
 	
 	// app title (changes with nav bar selection)
 	private CharSequence mTitle;
@@ -75,7 +79,7 @@ public class BOINCActivity extends ActionBarActivity {
 	    public void onServiceConnected(ComponentName className, IBinder service) {
 	        // This is called when the connection with the service has been established, getService returns 
 	    	// the Monitor object that is needed to call functions.
-	        monitor = ((Monitor.LocalBinder)service).getService();
+	        monitor = IMonitor.Stub.asInterface(service);
 		    mIsBound = true;
 		    determineStatus();
 	    }
@@ -84,6 +88,8 @@ public class BOINCActivity extends ActionBarActivity {
 	    	// This should not happen
 	        monitor = null;
 		    mIsBound = false;
+
+		    Log.e(Logging.TAG, "BOINCActivity onServiceDisconnected");
 	    }
 	};
 	
@@ -131,6 +137,7 @@ public class BOINCActivity extends ActionBarActivity {
 
 			public void onDrawerOpened(View drawerView) {
 				getSupportActionBar().setTitle(mDrawerTitle);
+				mDrawerListAdapter.notifyDataSetChanged(); // force redraw of all items (adapter.getView()) in order to adapt changing icons or number of tasks/notices
 				// calling onPrepareOptionsMenu() to hide action bar icons
 				supportInvalidateOptionsMenu();
 			}
@@ -138,17 +145,23 @@ public class BOINCActivity extends ActionBarActivity {
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
 
 
-		// try to restore previous state
-		if (savedInstanceState == null) {
-			// on first time display view for first nav item
-			dispatchNavBarOnClick(mDrawerListAdapter.getItem(0),true);
-		} else {
-			int selectedId = savedInstanceState.getInt("navBarSelectionId");
-			NavDrawerItem item = mDrawerListAdapter.getItemForId(selectedId);
-			if(item == null) dispatchNavBarOnClick(mDrawerListAdapter.getItem(0),true);
-			else dispatchNavBarOnClick(item,true);
-			if(Logging.DEBUG) Log.d(Logging.TAG, "BOINCActivity.onCreate pre selected nav bar item with id: " + selectedId);
-		}
+		// pre-select fragment
+		// 1. check if explicitly requested fragment present
+		// e.g. after initial project attach.
+		int targetFragId = getIntent().getIntExtra("targetFragment", -1);
+		
+		// 2. if no explicit request, try to restore previous selection
+		if(targetFragId < 0 && savedInstanceState != null)
+			targetFragId = savedInstanceState.getInt("navBarSelectionId");
+		
+		NavDrawerItem item = null;
+		if(targetFragId < 0) {
+			// if non of the above, go to default
+			item = mDrawerListAdapter.getItem(0);
+		} else item = mDrawerListAdapter.getItemForId(targetFragId);
+		
+		if(item != null) dispatchNavBarOnClick(item, true);
+		else if(Logging.WARNING) Log.w(Logging.TAG, "onCreate: fragment selection returned null");
 
         //bind monitor service
         doBindService();
@@ -168,15 +181,25 @@ public class BOINCActivity extends ActionBarActivity {
 	}
 
 	@Override
+	protected void onNewIntent(Intent intent) {
+        if(Logging.DEBUG) Log.d(Logging.TAG, "BOINCActivity onNewIntent()"); 
+		// onNewIntent gets called if activity is brought to front via intent, but was still alive, so onCreate is not called again
+		// getIntent always returns the intent activity was created of, so this method is the only hook to receive an updated intent
+		// e.g. after (not initial) project attach
+		super.onNewIntent(intent);
+		// navigate to explicitly requested fragment (e.g. after project attach)
+		int id = intent.getIntExtra("targetFragment", -1);
+    	if(Logging.DEBUG) Log.d(Logging.TAG, "BOINCActivity onNewIntent() for target fragment: " + id);
+    	NavDrawerItem item = mDrawerListAdapter.getItemForId(id);
+    	if(item != null) dispatchNavBarOnClick(item,false);
+    	else if(Logging.WARNING) Log.w(Logging.TAG, "onNewIntent: requested target fragment is null, for id: " + id);
+	}
+
+	@Override
 	protected void onResume() { // gets called by system every time activity comes to front. after onCreate upon first creation
-    	if(Logging.VERBOSE) Log.d(Logging.TAG, "BOINCActivity onResume()");
 	    super.onResume();
 	    registerReceiver(mClientStatusChangeRec, ifcsc);
 	    determineStatus();
-		// navigate to explicitly requested fragment (e.g. after project attach)
-		Intent i = getIntent();
-		int id = i.getIntExtra("targetFragment", -1);
-		if(id > -1) dispatchNavBarOnClick(mDrawerListAdapter.getItemForId(id),false);
 	}
 
 	@Override
@@ -200,11 +223,11 @@ public class BOINCActivity extends ActionBarActivity {
 	        mIsBound = false;
 	    }
 	}
-	
-	public Monitor getMonitorService() {
+	/*
+	public IMonitor getMonitorService() {
 		if(!mIsBound) if(Logging.WARNING) Log.w(Logging.TAG, "Fragment trying to obtain serive reference, but Monitor not bound in BOINCActivity");
 		return monitor;
-	}
+	}*/
 	
 	public void startAttachProjectListActivity() {
 		if(Logging.DEBUG) Log.d(Logging.TAG, "BOINCActivity attempt to start ");
@@ -219,6 +242,12 @@ public class BOINCActivity extends ActionBarActivity {
 	 */
 	private void dispatchNavBarOnClick(NavDrawerItem item, boolean init) {
 		// update the main content by replacing fragments
+		if(item == null) {
+			if(Logging.WARNING) Log.w(Logging.TAG, "dispatchNavBarOnClick returns, item null.");
+			return;
+		}
+		if(Logging.DEBUG) Log.d(Logging.TAG, "dispatchNavBarOnClick for item with id: " + item.getId() + " title: " + item.getTitle() + " is project? " + item.isProjectItem());
+		
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 		Boolean fragmentChanges = false;
 		if(init) {
@@ -262,13 +291,6 @@ public class BOINCActivity extends ActionBarActivity {
 				});
 				dialog.show();
 	    		break;
-			case R.string.menu_exit:
-				if(Logging.DEBUG) Log.d(Logging.TAG,"exit BOINC");
-				new QuitClientAsync().execute();
-				Intent exitSplash = new Intent(this,SplashActivity.class);
-				exitSplash.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-				startActivity(exitSplash);
-				break;
 			case R.string.menu_eventlog:
 				startActivity(new Intent(this,EventLogActivity.class));
 				break;
@@ -311,14 +333,14 @@ public class BOINCActivity extends ActionBarActivity {
 	private void determineStatus() {
     	try {
 			if(mIsBound) { 
-				Integer newComputingStatus = Monitor.getClientStatus().computingStatus;
+				Integer newComputingStatus = monitor.getComputingStatus();
 				if(newComputingStatus != clientComputingStatus) {
 					// computing status has changed, update and invalidate to force adaption of action items
 					clientComputingStatus = newComputingStatus;
 					supportInvalidateOptionsMenu();
 				}
-				if(numberProjectsInNavList != Monitor.getClientStatus().getProjects().size())
-					numberProjectsInNavList = mDrawerListAdapter.compareAndAddProjects(Monitor.getClientStatus().getProjects());
+				if(numberProjectsInNavList != monitor.getProjects().size())
+					numberProjectsInNavList = mDrawerListAdapter.compareAndAddProjects((ArrayList<Project>)monitor.getProjects());
 				//setAppTitle();
 			} 
     	} catch (Exception e) {}
@@ -335,7 +357,7 @@ public class BOINCActivity extends ActionBarActivity {
 
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
-	    if(Logging.DEBUG) Log.d(Logging.TAG, "BOINCActivity onCreateOptionsMenu()");
+	    if(Logging.DEBUG) Log.d(Logging.TAG, "BOINCActivity onPrepareOptionsMenu()");
 		
 		// run mode, set title and icon based on status
 		MenuItem runMode = menu.findItem(R.id.run_mode);
@@ -398,31 +420,33 @@ public class BOINCActivity extends ActionBarActivity {
 		mTitle = title;
 		getSupportActionBar().setTitle(mTitle);
 	}
-
-	// monitor.quitClient is blocking (Thread.sleep)
-	// execute in AsyncTask to maintain UI responsiveness
-	private final class QuitClientAsync extends AsyncTask<Void, Void, Void> {
-
-		@Override
-		protected Void doInBackground(Void... params) {
-			monitor.quitClient();
-			return null;
-		}
-	}
 	
 	private final class WriteClientModeAsync extends AsyncTask<Integer, Void, Boolean> {
 		
 		@Override
 		protected Boolean doInBackground(Integer... params) {
 			// setting provided mode for both, CPU computation and network.
-			Boolean runMode = monitor.clientInterface.setRunMode(params[0]);
-			Boolean networkMode = monitor.clientInterface.setNetworkMode(params[0]);
+			Boolean runMode;
+			try {
+				runMode = monitor.setRunMode(params[0]);
+			} catch (RemoteException e) {
+				runMode = false;
+			}
+			Boolean networkMode;
+			try {
+				networkMode = monitor.setNetworkMode(params[0]);
+			} catch (RemoteException e) {
+				networkMode = false;
+			}
 			return runMode && networkMode;
 		}
 		
 		@Override
 		protected void onPostExecute(Boolean success) {
-			if(success) monitor.forceRefresh();
+			if(success)
+				try {
+					monitor.forceRefresh();
+				} catch (RemoteException e) {}
 			else if(Logging.WARNING) Log.w(Logging.TAG,"setting run and network mode failed");
 		}
 	}

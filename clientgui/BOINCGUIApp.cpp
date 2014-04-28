@@ -52,21 +52,6 @@
 #include "sg_BoincSimpleFrame.h"
 
 
-DEFINE_EVENT_TYPE(wxEVT_RPC_FINISHED)
-
-IMPLEMENT_APP(CBOINCGUIApp)
-IMPLEMENT_DYNAMIC_CLASS(CBOINCGUIApp, wxApp)
-
-BEGIN_EVENT_TABLE (CBOINCGUIApp, wxApp)
-    EVT_ACTIVATE_APP(CBOINCGUIApp::OnActivateApp)
-    EVT_RPC_FINISHED(CBOINCGUIApp::OnRPCFinished)
-#if (defined(__WXMSW__) && !wxCHECK_VERSION(2, 9, 4))
-    EVT_END_SESSION(CBOINCGUIApp::OnEndSession)
-#endif
-END_EVENT_TABLE ()
-
-wxString language = wxEmptyString;
-
 bool s_bSkipExitConfirmation = false;
 
 #ifdef __WXMAC__
@@ -86,7 +71,7 @@ OSErr QuitAppleEventHandler( const AppleEvent *appleEvt, AppleEvent* reply, UInt
         SysBeep(4);
         return userCanceledErr;
     }
-            
+    
     anErr = AEGetAttributePtr(appleEvt, keyAddressAttr, typeProcessSerialNumber,
                                 &senderType, &SenderPSN, sizeof(SenderPSN), &actualSize);
 
@@ -100,6 +85,7 @@ OSErr QuitAppleEventHandler( const AppleEvent *appleEvt, AppleEvent* reply, UInt
         // Consider a Quit command from our Dock menu as coming from this application
         if ( (pInfo.processSignature != 'dock') && (pInfo.processSignature != 'BNC!') ) {
             s_bSkipExitConfirmation = true; // Not from our app, our dock icon or our taskbar icon
+            // The following may no longer be needed under wxCocoa-3.0.0
             wxGetApp().ExitMainLoop();  // Prevents wxMac from issuing events to closed frames
         }
     }
@@ -111,6 +97,36 @@ OSErr QuitAppleEventHandler( const AppleEvent *appleEvt, AppleEvent* reply, UInt
 
 #endif
 
+
+void BOINCAssertHandler(const wxString &file, int line, const wxString &func, const wxString &cond, const wxString &msg) {
+    wxLogTrace(
+        wxT("Assert"),
+        wxT("ASSERT: %s:%d - %s - %s - %s"),
+        file.IsEmpty() ? wxT("<NULL>") : file.c_str(),
+        line,
+        func.IsEmpty() ? wxT("<NULL>") : func.c_str(),
+        cond.IsEmpty() ? wxT("<NULL>") : cond.c_str(),
+        msg.IsEmpty()  ? wxT("<NULL>") : msg.c_str()
+    );
+
+    if (wxIsDebuggerRunning()) {
+        wxTrap();
+    }
+}
+
+
+DEFINE_EVENT_TYPE(wxEVT_RPC_FINISHED)
+
+IMPLEMENT_APP(CBOINCGUIApp)
+IMPLEMENT_DYNAMIC_CLASS(CBOINCGUIApp, wxApp)
+
+BEGIN_EVENT_TABLE (CBOINCGUIApp, wxApp)
+    EVT_ACTIVATE_APP(CBOINCGUIApp::OnActivateApp)
+    EVT_RPC_FINISHED(CBOINCGUIApp::OnRPCFinished)
+#ifndef __WXMAC__
+    EVT_END_SESSION(CBOINCGUIApp::OnEndSession)
+#endif
+END_EVENT_TABLE ()
 
 bool CBOINCGUIApp::OnInit() {
     // Initialize globals
@@ -125,6 +141,7 @@ bool CBOINCGUIApp::OnInit() {
     m_bAboutDialogIsOpen = false;
 
     // Initialize class variables
+    m_pInstanceChecker = NULL;
     m_pLocale = NULL;
     m_pSkinManager = NULL;
     m_pFrame = NULL;
@@ -141,6 +158,7 @@ bool CBOINCGUIApp::OnInit() {
     m_strPasswordArg = wxEmptyString;
     m_iRPCPortArg = GUI_RPC_PORT;
     m_strBOINCArguments = wxEmptyString;
+    m_strISOLanguageCode = wxEmptyString;
     m_bGUIVisible = true;
     m_bDebugSkins = false;
     m_bMultipleInstancesOK = false;
@@ -150,9 +168,6 @@ bool CBOINCGUIApp::OnInit() {
     m_iDisplayExitDialog = 1;
     m_iGUISelected = BOINC_SIMPLEGUI;
     m_bSafeMessageBoxDisplayed = 0;
-#ifdef __WXMSW__
-    m_hClientLibraryDll = NULL;
-#endif
 
     // Initialize local variables
     int      iErrorCode = 0;
@@ -161,6 +176,12 @@ bool CBOINCGUIApp::OnInit() {
     wxString strDesiredSkinName = wxEmptyString;
     wxString strDialogMessage = wxEmptyString;
     bool     success = false;
+
+
+#ifndef __WXMAC__
+    // call this to tell the library to call our OnFatalException()
+    wxHandleFatalExceptions();
+#endif
 
     // Configure wxWidgets platform specific code
 #ifdef __WXMSW__
@@ -244,26 +265,27 @@ bool CBOINCGUIApp::OnInit() {
 
     // Initialize the BOINC Diagnostics Framework
     int dwDiagnosticsFlags =
-        BOINC_DIAG_DUMPCALLSTACKENABLED | 
+#ifdef _DEBUG
         BOINC_DIAG_HEAPCHECKENABLED |
         BOINC_DIAG_MEMORYLEAKCHECKENABLED |
-#if defined(__WXMSW__) || defined(__WXMAC__)
+#endif
+        BOINC_DIAG_DUMPCALLSTACKENABLED | 
+        BOINC_DIAG_PERUSERLOGFILES |
         BOINC_DIAG_REDIRECTSTDERR |
         BOINC_DIAG_REDIRECTSTDOUT |
-#endif
         BOINC_DIAG_TRACETOSTDOUT;
 
-    diagnostics_init(
-        dwDiagnosticsFlags,
-        "stdoutgui",
-        "stderrgui"
-    );
+    diagnostics_init(dwDiagnosticsFlags, "stdoutgui", "stderrgui");
 
+#ifdef _NDEBUG
+    wxSetAssertHandler(BOINCAssertHandler);
+#endif
 
     // Enable Logging and Trace Masks
     m_pLog = new wxLogBOINC();
     wxLog::SetActiveTarget(m_pLog);
 
+    m_pLog->AddTraceMask(wxT("Assert"));
     m_pLog->AddTraceMask(wxT("Function Start/End"));
     m_pLog->AddTraceMask(wxT("Function Status"));
 
@@ -291,7 +313,7 @@ bool CBOINCGUIApp::OnInit() {
 
     InitSupportedLanguages();
 
-	language = m_pLocale->GetCanonicalName();
+	m_strISOLanguageCode = m_pLocale->GetCanonicalName();
 
     // Note: JAWS for Windows will only speak the context-sensitive
     // help if you use this help provider:
@@ -393,10 +415,8 @@ bool CBOINCGUIApp::OnInit() {
 
     // Detect if BOINC Manager is already running, if so, bring it into the
     // foreground and then exit.
-    if (!m_bMultipleInstancesOK) {
-        if (DetectDuplicateInstance()) {
+    if (DetectDuplicateInstance()) {
             return false;
-        }
     }
 
     // Initialize the main document
@@ -418,17 +438,14 @@ bool CBOINCGUIApp::OnInit() {
     // Initialize the task bar icon
 	m_pTaskBarIcon = new CTaskBarIcon(
         m_pSkinManager->GetAdvanced()->GetApplicationName(), 
-#ifdef __WXMSW__
-        new wxIcon(wxICON(BOINCGUIAPP)),
-#else
         m_pSkinManager->GetAdvanced()->GetApplicationIcon(),
-#endif
         m_pSkinManager->GetAdvanced()->GetApplicationDisconnectedIcon(),
         m_pSkinManager->GetAdvanced()->GetApplicationSnoozeIcon()
 #ifdef __WXMAC__
         , wxTBI_CUSTOM_STATUSITEM
 #endif
     );
+    wxASSERT(m_pTaskBarIcon);
 #ifdef __WXMAC__
     m_pMacDockIcon = new CTaskBarIcon(
         m_pSkinManager->GetAdvanced()->GetApplicationName(), 
@@ -439,7 +456,6 @@ bool CBOINCGUIApp::OnInit() {
     );
     wxASSERT(m_pMacDockIcon);
 #endif
-    wxASSERT(m_pTaskBarIcon);
 
     // Startup the System Idle Detection code
     IdleTrackerAttach();
@@ -462,7 +478,7 @@ bool CBOINCGUIApp::OnInit() {
     if (pInfo.processSignature == 'lgnw') {  // Login Window app
         m_bGUIVisible = false;
 
-        // If the system was just started, we usually get a "Connection 
+        // If the system was just started, we usually get a "Connection
         // failed" error if we try to connect too soon, so delay a bit.
         sleep(10);
     }
@@ -472,19 +488,6 @@ bool CBOINCGUIApp::OnInit() {
     SetActiveGUI(m_iGUISelected, m_bGUIVisible);
 
     if (!m_bGUIVisible) {
-#ifdef __WXMAC__
-        // We don't call Hide() or Show(false) for the main frame
-        // under wxCocoa 2.9.5 because it bounces the Dock icon
-        // (as in notification.)  We work around this by moving
-        // the main window/frame off screen here.
-        // The position will be restored in one of these methods:
-        // CBOINCGUIApp::OnActivateApp(), CSimpleFrame::SaveState()
-        // or CAdvancedFrame::SaveWindowDimensions().
-        if (m_pFrame) {
-            m_pFrame->MoveFrameOffScreen();
-            m_pFrame->Show();
-        }
-#endif
         ShowApplication(false);
 	}
 
@@ -498,21 +501,31 @@ bool CBOINCGUIApp::OnInit() {
     return true;
 }
 
-
-#if (defined(__WXMSW__) && !wxCHECK_VERSION(2, 9, 4))
-// Work around a bug in wxWidgets 2.8.x which fails 
-// to call OnExit() when Windows is shut down. This
-// is supposed to be fixed in wxWidgets 2.9.x.
+#ifdef __WXMAC__
+// We can "show" (unhide) the main window when the
+// application is hidden and it won't be visible.
+// If we don't do this under wxCocoa 3.0, the Dock 
+// icon will bounce (as in notification) when we
+// click on our menu bar icon.
+// But wxFrame::Show(true) makes the application
+// visible again, so we instead call
+// m_pFrame->wxWindow::Show() here.
 //
-void CBOINCGUIApp::OnEndSession(wxCloseEvent& ) {
-    s_bSkipExitConfirmation = true;
-
-    CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
-    wxCommandEvent evt(wxEVT_COMMAND_MENU_SELECTED, wxID_EXIT);
-    // The event loop has already been stopped,
-    // so we must call OnExit directly
-    pFrame->OnExit(evt);
-    OnExit();
+// We need to call HideThisApp() after the event
+// loop is running, so this is called from
+// CBOINCBaseFrame::OnPeriodicRPC() at the first
+// firing of ID_PERIODICRPCTIMER.
+// 
+void CBOINCGUIApp::OnFinishInit() {
+    if (!m_bGUIVisible) {
+        HideThisApp();
+    
+        m_pFrame->wxWindow::Show();
+        
+        if (m_pEventLog) {
+            m_pEventLog->wxWindow::Show();
+        }
+    }
 }
 #endif
 
@@ -520,6 +533,19 @@ void CBOINCGUIApp::OnEndSession(wxCloseEvent& ) {
 int CBOINCGUIApp::OnExit() {
     // Shutdown the System Idle Detection code
     IdleTrackerDetach();
+
+// Under wxWidgets 2.8.0, the task bar icons
+// must be deleted for app to exit its main loop
+#ifdef __WXMAC__
+    if (m_pMacDockIcon) {
+        delete m_pMacDockIcon;
+    }
+    m_pMacDockIcon = NULL;
+#endif
+    if (m_pTaskBarIcon) {
+        delete m_pTaskBarIcon;
+    }
+    m_pTaskBarIcon = NULL;
 
     if (m_pDocument) {
         m_pDocument->OnExit();
@@ -545,10 +571,53 @@ int CBOINCGUIApp::OnExit() {
         m_pEventLog = NULL;
     }
 
+    if (m_pInstanceChecker) {
+        delete m_pInstanceChecker;
+        m_pInstanceChecker = NULL;
+    }
+
     diagnostics_finish();
 
     return wxApp::OnExit();
 }
+
+
+#ifndef __WXMAC__
+// Ensure we shut down gracefully on Windows logout or shutdown
+void CBOINCGUIApp::OnEndSession(wxCloseEvent& ) {
+    s_bSkipExitConfirmation = true;
+
+    CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
+    wxCommandEvent evt(wxEVT_COMMAND_MENU_SELECTED, wxID_EXIT);
+    // The event loop has already been stopped,
+    // so we must call OnExit directly
+    pFrame->OnExit(evt);
+    OnExit();
+}
+
+
+void CBOINCGUIApp::OnFatalException() {
+#ifdef wxUSE_DEBUGREPORT 
+    wxDebugReportCompress* report = new wxDebugReportCompress;
+
+    if (report->IsOk()) {
+        report->AddAll(wxDebugReport::Context_Exception);
+
+        if (report->Process())
+        {
+            fprintf(
+                stderr,
+                "ASSERT: Report generated in \"%s\".\n",
+                (const char*)report->GetCompressedFileName().mb_str()
+            );
+            report->Reset();
+        }
+    }
+
+    delete report;
+#endif
+}
+#endif
 
 
 void CBOINCGUIApp::SaveState() {
@@ -669,24 +738,27 @@ bool CBOINCGUIApp::OnCmdLineParsed(wxCmdLineParser &parser) {
 
 ///
 /// Detect if another instance of this application is running.
-//  Returns true if there is, otherwise false
+//  Returns true if there is and it is forbidden, otherwise false
+//
+// We must initialize m_pInstanceChecker even if m_bMultipleInstancesOK
+// is true so CMainDocument::OnPoll() can call IsMgrMultipleInstance().
 ///
 bool CBOINCGUIApp::DetectDuplicateInstance() {
-#ifdef __WXMSW__
-    if (CTaskBarIcon::FireAppRestore()) {
-        return true;
-    }
-#endif
 #ifdef __WXMAC__
-    ProcessSerialNumber PSN;
-    int iInstanceID = wxGetApp().IsAnotherInstanceRunning();
-    if (iInstanceID) {
-        // Bring other instance to the front and exit this instance
-        OSStatus err = GetProcessForPID(iInstanceID, &PSN);
-        if (!err) SetFrontProcess(&PSN);
+    m_pInstanceChecker = new wxSingleInstanceChecker(
+            wxTheApp->GetAppName() + '-' + wxGetUserId(),
+            wxFileName::GetHomeDir() + "/Library/Application Support/BOINC"
+            );
+#else
+    m_pInstanceChecker = new wxSingleInstanceChecker();
+#endif
+    if (m_pInstanceChecker->IsAnotherRunning()) {
+        if (m_bMultipleInstancesOK) return false;
+#ifdef __WXMSW__
+        CTaskBarIcon::FireAppRestore();
+#endif
         return true;
     }
-#endif
     return false;
 }
 
@@ -842,22 +914,6 @@ int CBOINCGUIApp::IdleTrackerDetach() {
 
 void CBOINCGUIApp::OnActivateApp(wxActivateEvent& event) {
 #ifdef __WXMAC__
-    // We don't call Hide() or Show(false) for the main frame
-    // under wxCocoa 2.9.5 because it bounces the Dock icon
-    // (as in notification.)  We work around this by moving
-    // the main window/frame off screen when displaying the
-    // CDlgAbout modal dialog while the main window is hidden
-    // by CTaskBarIcon::OnAbout().
-    if (m_pFrame) {
-        if (event.GetActive()) {
-            if (!m_bAboutDialogIsOpen) {
-                m_pFrame->MoveFrameOnScreen();
-            }
-        } else {
-            m_pFrame->SaveFramePosition();
-        }
-    }
-
     // Make sure any modal dialog (such as Attach Wizard) ends up in front.
     if (IsModalDialogDisplayed()) {
         event.Skip();
@@ -942,7 +998,7 @@ void CBOINCGUIApp::DisplayEventLog(bool bShowWindow) {
     } else {
         m_pEventLog = new CDlgEventLog();
         if (m_pEventLog) {
-            m_pEventLog->Show(bShowWindow);
+                m_pEventLog->Show(bShowWindow);
             if (bShowWindow) {
                 m_pEventLog->Raise();
             }
@@ -1049,7 +1105,6 @@ bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
             pNewFrame = new CAdvancedFrame(
                 m_pSkinManager->GetAdvanced()->GetApplicationName(), 
                 m_pSkinManager->GetAdvanced()->GetApplicationIcon(),
-                m_pSkinManager->GetAdvanced()->GetApplicationIcon32(),
                 wxPoint(iLeft, iTop),
                 wxSize(iWidth, iHeight)
             );
@@ -1058,7 +1113,6 @@ bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
             pNewFrame = new CSimpleFrame(
                 m_pSkinManager->GetAdvanced()->GetApplicationName(), 
                 m_pSkinManager->GetAdvanced()->GetApplicationIcon(),
-                m_pSkinManager->GetAdvanced()->GetApplicationIcon32(),
                 wxPoint(iLeft, iTop),
                 wxSize(iWidth, iHeight)
             );
@@ -1207,60 +1261,8 @@ int CBOINCGUIApp::SafeMessageBox(const wxString& message, const wxString& captio
 }
 
 
-///
-/// Determines if another instance of BOINC Manager is running.
-///
-/// @return
-///  true if another instance of BOINC Manager is running, otherwise false.
-///
-/// Note: will always return false on Win95, Win98, WinME
-/// 
-int CBOINCGUIApp::IsAnotherInstanceRunning() {
-    PROC_MAP pm;
-    int retval;
-    char myName[256];
-    int otherInstanceID = 0;
-    int myPid;
-
-    // Look for BOINC Manager in list of all running processes
-    retval = procinfo_setup(pm);
-    if (retval) return false;     // Should never happen
-
-#ifdef _WIN32
-    myPid = (int)GetCurrentProcessId();
-#else
-    myPid = getpid();
-#endif
-
-    // Get the name of this Application
-    myName[0] = 0;
-    PROC_MAP::iterator i;
-    for (i=pm.begin(); i!=pm.end(); i++) {
-        PROCINFO& procinfo = i->second;
-        if (procinfo.id == myPid) {
-            strncpy(myName, procinfo.command, sizeof(myName));
-            break;
-        }
-    }
-
-    if (myName[0] == 0) {
-         return false;     // Should never happen
-    }
-    
-    // Search process list for other applications with same name
-    for (i=pm.begin(); i!=pm.end(); i++) {
-        PROCINFO& procinfo = i->second;
-        if (procinfo.id == myPid) continue;
-        if (!strcmp(procinfo.command, myName)) {
-            otherInstanceID = procinfo.id;
-            break;
-        }
-    }
-    
-    return otherInstanceID;
-}
-
-
+#ifndef __WXMAC__
+// See clientgui/mac/BOINCGUIApp.mm for the Mac versions.
 ///
 /// Determines if the current process is visible.
 ///
@@ -1268,11 +1270,6 @@ int CBOINCGUIApp::IsAnotherInstanceRunning() {
 ///  true if the current process is visible, otherwise false.
 /// 
 bool CBOINCGUIApp::IsApplicationVisible() {
-#ifdef __WXMAC__
-    if (IsProcessVisible(&m_psnCurrentProcess)) {
-        return true;
-    }
-#endif
     return false;
 }
 
@@ -1282,15 +1279,6 @@ bool CBOINCGUIApp::IsApplicationVisible() {
 /// @param bShow
 ///   true will show the process, false will hide the process.
 ///
-#ifdef __WXMAC__
-void CBOINCGUIApp::ShowApplication(bool bShow) {
-    if (bShow) {
-        SetFrontProcess(&m_psnCurrentProcess);
-    } else {
-        ShowHideProcess(&m_psnCurrentProcess, false);
-    }
-}
-#else
 void CBOINCGUIApp::ShowApplication(bool) {
 }
 #endif
@@ -1331,23 +1319,6 @@ bool CBOINCGUIApp::IsModalDialogDisplayed() {
     }
     return false;
 }
-
-void CBOINCGUIApp::DeleteTaskBarIcon() {
-    if (m_pTaskBarIcon) {
-        delete m_pTaskBarIcon;
-    }
-    m_pTaskBarIcon = NULL;
-}
-
-#ifdef __WXMAC__
-void CBOINCGUIApp::DeleteMacDockIcon() {
-    if (m_pMacDockIcon) {
-        delete m_pMacDockIcon;
-    }
-    m_pMacDockIcon = NULL;
-}
-#endif
-
 
 // Prevent recursive entry of CMainDocument::RequestRPC()
 int CBOINCGUIApp::FilterEvent(wxEvent &event) {

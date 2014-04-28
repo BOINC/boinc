@@ -20,9 +20,8 @@
 package edu.berkeley.boinc;
 
 import edu.berkeley.boinc.utils.*;
-
 import java.util.ArrayList;
-
+import edu.berkeley.boinc.client.IMonitor;
 import edu.berkeley.boinc.client.Monitor;
 import android.app.Activity;
 import android.app.Service;
@@ -35,6 +34,7 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.os.RemoteException;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,7 +42,6 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import edu.berkeley.boinc.rpc.AccountOut;
-import edu.berkeley.boinc.rpc.AcctMgrRPCReply;
 import edu.berkeley.boinc.rpc.AcctMgrInfo;
 import edu.berkeley.boinc.utils.BOINCErrors;
 
@@ -52,7 +51,7 @@ public class AttachProjectWorkingActivity extends Activity{
 	public static final int ACTION_REGISTRATION = 2;
 	public static final int ACTION_ACCTMGR = 3;
 	
-	private Monitor monitor;
+	private IMonitor monitor;
 	private Boolean mIsBound = false;
 	
 	private Integer timeInterval;
@@ -61,7 +60,8 @@ public class AttachProjectWorkingActivity extends Activity{
 	private ViewGroup anchor;
 	
 	private int action;
-	private String projectUrl; // web rpc url, either masterUrl(HTTP) or webRpcUrlBase(HTTPS)
+	private String projectUrl; 
+	private String webRpcUrlBase; // might be empty
 	private String projectName;
 	private String id;
 	private String userName;
@@ -74,11 +74,11 @@ public class AttachProjectWorkingActivity extends Activity{
 	private ServiceConnection mConnection = new ServiceConnection() {
 	    public void onServiceConnected(ComponentName className, IBinder service) {
 	        // This is called when the connection with the service has been established, getService returns the Monitor object that is needed to call functions.
-	        monitor = ((Monitor.LocalBinder)service).getService();
+	        monitor = IMonitor.Stub.asInterface(service);
 		    mIsBound = true;        
 		    
 		    // do desired action
-		    new ProjectAccountAsync(action, projectUrl, id, eMail, userName, teamName, pwd, usesName, projectName).execute();
+		    new ProjectAccountAsync(action, projectUrl, webRpcUrlBase, id, eMail, userName, teamName, pwd, usesName, projectName).execute();
 	    }
 
 	    public void onServiceDisconnected(ComponentName className) { // This should not happen
@@ -99,6 +99,7 @@ public class AttachProjectWorkingActivity extends Activity{
         	action = getIntent().getIntExtra("action", 0);
         	usesName = getIntent().getBooleanExtra("usesName", false);
         	projectUrl = getIntent().getStringExtra("projectUrl");
+        	webRpcUrlBase = getIntent().getStringExtra("webRpcUrlBase");
         	projectName = getIntent().getStringExtra("projectName");
         	userName = getIntent().getStringExtra("userName");
         	teamName = getIntent().getStringExtra("teamName");
@@ -106,7 +107,7 @@ public class AttachProjectWorkingActivity extends Activity{
         	pwd = getIntent().getStringExtra("pwd");
         	id = getIntent().getStringExtra("id");
         			
-        	if(Logging.DEBUG) Log.d(Logging.TAG,"AttachProjectWorkingActivity intent extras: " + action + projectUrl + projectName + id + userName + teamName + eMail + usesName);
+        	if(Logging.DEBUG) Log.d(Logging.TAG,"AttachProjectWorkingActivity intent extras: " + action + projectUrl + webRpcUrlBase + projectName + id + userName + teamName + eMail + usesName);
         } catch (Exception e) {
         	if(Logging.WARNING) Log.w(Logging.TAG, "AttachProjectWorkingActivity error while parsing extras", e);
         	finish(); // no point to continue without data
@@ -228,7 +229,9 @@ public class AttachProjectWorkingActivity extends Activity{
 	
 	public void finishButtonClicked(View view) {
 		Intent intent = new Intent(this, BOINCActivity.class);
-		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); //clear_top closes AttachProjectListActivity!
+		// add flags to return to main activity and clearing all others and clear the back stack
+		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); 
+		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		intent.putExtra("targetFragment", R.string.tab_projects); // make activity display projects fragment
 		startActivity(intent);
 	}
@@ -257,6 +260,7 @@ public class AttachProjectWorkingActivity extends Activity{
 		
 		private Integer action;
 		private String url;
+		private String webRpcUrlBase; // secure ULR for lookup_account and create_account RPCs
 		private String id; // used for login can be either email or user, depending on usesName
 		private String email;
 		private String userName;
@@ -265,9 +269,10 @@ public class AttachProjectWorkingActivity extends Activity{
 		private Boolean usesName;
 		private String projectName;
 		
-		public ProjectAccountAsync(Integer action, String url, String id, String email, String userName, String teamName, String pwd, Boolean usesName, String projectName) {
+		public ProjectAccountAsync(Integer action, String url, String webRpcUrlBase, String id, String email, String userName, String teamName, String pwd, Boolean usesName, String projectName) {
 			this.action = action;
-			this.url = url; // either HTTP or HTTPS, if present (webRpcUrlBase in ProjectConfig)
+			this.url = url;
+			this.webRpcUrlBase = webRpcUrlBase;
 			this.id = id; // used for login
 			this.email = email;
 			this.userName = userName;
@@ -275,6 +280,8 @@ public class AttachProjectWorkingActivity extends Activity{
 			this.pwd = pwd;
 			this.usesName = usesName;
 			this.projectName = projectName;
+			
+			Log.d(Logging.TAG, "ProjectAccountAsync URL for RPCs: " + url + " ; URL for secure RPCs: " + getSecureUrlIfAvailable());
 		}
 		
 		@Override
@@ -292,7 +299,8 @@ public class AttachProjectWorkingActivity extends Activity{
 			
 			if(action == ACTION_ACCTMGR) {
 			// 1st: add account manager	
-				AcctMgrRPCReply reply = null;
+				//AcctMgrRPCReply reply = null;
+				int reply = -1;
 				publishProgress(new Update(false, false, R.string.attachproject_working_acctmgr,"",0));
 				Integer maxAttempts = getResources().getInteger(R.integer.attach_acctmgr_retries);
 				Integer attemptCounter = 0;
@@ -302,11 +310,17 @@ public class AttachProjectWorkingActivity extends Activity{
 				// retry a defined number of times, if non deterministic failure occurs.
 				// makes login more robust on bad network connections
 				while(!success && attemptCounter < maxAttempts) {
-					reply = monitor.clientInterface.addAcctMgr(url, userName, pwd);
+					try {
+						reply = monitor.addAcctMgrErrorNum(url, userName, pwd);
+					} catch (RemoteException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+						reply = -1;
+					}
 					
-					if(reply == null || reply.error_num != BOINCErrors.ERR_OK) {
+					if(reply == -1 || reply != BOINCErrors.ERR_OK) {
 						// failed
-						if(reply != null) err = reply.error_num;
+						if(reply != -1) err = reply;
 						if(Logging.DEBUG) Log.d(Logging.TAG,"adding account manager failed, error code: " + err);
 						if(err == -1 || err == BOINCErrors.ERR_GETHOSTBYNAME){
 							// worth a retry
@@ -336,7 +350,14 @@ public class AttachProjectWorkingActivity extends Activity{
 				// retry a defined number of times, if non deterministic failure occurs.
 				// makes login more robust on bad network connections
 				while(!success && attemptCounter < maxAttempts) {
-					AcctMgrInfo info = monitor.clientInterface.getAcctMgrInfo();
+					AcctMgrInfo info;
+					try {
+						info = monitor.getAcctMgrInfo();
+					} catch (RemoteException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+						info = null;
+					}
 					if(Logging.DEBUG) Log.d(Logging.TAG,"acctMgrInfo: " + info.acct_mgr_url + info.acct_mgr_name + info.have_credentials);
 					
 
@@ -373,7 +394,13 @@ public class AttachProjectWorkingActivity extends Activity{
 					// retry a defined number of times, if non deterministic failure occurs.
 					// makes login more robust on bad network connections
 					while(!success && attemptCounter < maxAttempts) {
-						account = monitor.clientInterface.createAccountPolling(url, email, userName, pwd, teamName);
+						try {
+							account = monitor.createAccountPolling(getSecureUrlIfAvailable(), email, userName, pwd, teamName);
+						} catch (RemoteException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+							account = null;
+						}
 						
 						if(account == null || account.error_num != BOINCErrors.ERR_OK) {
 							// failed
@@ -407,7 +434,13 @@ public class AttachProjectWorkingActivity extends Activity{
 					// retry a defined number of times, if non deterministic failure occurs.
 					// makes login more robust on bad network connections
 					while(!success && attemptCounter < maxAttempts) {
-						account = monitor.clientInterface.lookupCredentials(url, id, pwd, usesName);
+						try {
+							account = monitor.lookupCredentials(getSecureUrlIfAvailable(), id, pwd, usesName);
+						} catch (RemoteException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+							account = null;
+						}
 						
 						if(account == null || account.error_num != BOINCErrors.ERR_OK) {
 							// failed
@@ -441,7 +474,14 @@ public class AttachProjectWorkingActivity extends Activity{
 				maxAttempts = getResources().getInteger(R.integer.attach_attach_retries);
 				publishProgress(new Update(false, false, R.string.attachproject_working_login,"",0));
 				while(!success && attemptCounter < maxAttempts) {
-					Boolean attach = monitor.clientInterface.attachProject(url, projectName, account.authenticator);
+					Boolean attach;
+					try {
+						attach = monitor.attachProject(url, projectName, account.authenticator); // use standard URL for attach, i.e. not webRpcUrlBase!
+					} catch (RemoteException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+						attach = false;
+					}
 					if(attach) {
 						// successful
 						success = true;
@@ -478,6 +518,15 @@ public class AttachProjectWorkingActivity extends Activity{
 				Button backButton = (Button) findViewById(R.id.backButton);
 				backButton.setVisibility(View.VISIBLE);
 			}
+		}
+
+		
+		// returns URL to be used for RPCs.
+		// either webRpcUrlBase for HTTPS, if available
+		// master URL otherwise
+		private String getSecureUrlIfAvailable() {
+			if(webRpcUrlBase != null && !webRpcUrlBase.isEmpty()) return webRpcUrlBase;
+			else return projectUrl;
 		}
 	}
 }

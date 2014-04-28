@@ -82,6 +82,7 @@
 #define ERR_THREAD          -124
     // Error creating a thread
 #define ERR_SIGNAL_CATCH    -125
+#define ERR_BAD_FORMAT      -126
 #define ERR_UPLOAD_TRANSIENT    -127
 #define ERR_UPLOAD_PERMANENT    -128
 #define ERR_IDLE_PERIOD     -129

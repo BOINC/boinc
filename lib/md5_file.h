@@ -27,7 +27,10 @@
 //
 #define MD5_LEN 64
 
-extern int md5_file(const char* path, char* output, double& nbytes);
+extern int md5_file(
+    const char* path, char* output, double& nbytes, bool is_gzip=false
+);
+
 extern int md5_block(const unsigned char* data, int nbytes, char* output);
 
 extern std::string md5_string(const unsigned char* data, int nbytes);

@@ -82,7 +82,7 @@ if ($auth) {
     $password_hash = get_str("password_hash", true);
 }
 
-$user = lookup_user_auth($auth);
+$user = BoincUser::lookup_auth($auth);
 if (!$user) {
     xml_error(ERR_DB_NOT_FOUND);
 }
@@ -161,7 +161,7 @@ if (!is_null($teamid)) {
     if ($teamid==0) {
         user_quit_team($user);
     } else {
-        $team = lookup_team($teamid);
+        $team = BoincTeam::lookup_id_nocache($teamid);
         if ($team && $team->joinable) {
             user_join_team($team, $user);
         }

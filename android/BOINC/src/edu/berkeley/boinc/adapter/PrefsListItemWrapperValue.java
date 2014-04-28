@@ -55,6 +55,10 @@ public class PrefsListItemWrapperValue extends PrefsListItemWrapper {
 			description = ctx.getString(R.string.prefs_disk_min_free_gb_description);
 			unit = ctx.getString(R.string.prefs_unit_gb);
 			break;
+		case R.string.prefs_disk_access_interval_header:
+			description = ctx.getString(R.string.prefs_disk_access_interval_description);
+			unit = ctx.getString(R.string.prefs_unit_seconds);
+			break;
 		case R.string.prefs_network_daily_xfer_limit_mb_header:
 			description = ctx.getString(R.string.prefs_network_daily_xfer_limit_mb_description);
 			unit = ctx.getString(R.string.prefs_unit_mb);

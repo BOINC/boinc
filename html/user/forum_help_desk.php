@@ -20,6 +20,8 @@ require_once('../inc/forum.inc');
 require_once('../inc/util.inc');
 require_once('../inc/time.inc');
 
+if (DISABLE_FORUMS) error_page("Forums are disabled");
+
 check_get_args(array());
 
 $user = get_logged_in_user(false);

@@ -18,6 +18,8 @@
 
 require_once("../inc/profile.inc");
 
+if (DISABLE_PROFILES) error_page("Profiles are disabled");
+
 check_get_args(array("userid"));
 
 $userid = get_int('userid');

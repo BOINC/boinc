@@ -65,6 +65,7 @@ function sandbox_lf_exist($user, $md5) {
 // parse a link file and return (error, size, md5)
 //
 function sandbox_parse_link_file($path) {
+    if (!file_exists($path)) { return array(true, null, null); }
     $x = file_get_contents($path);
     $n = sscanf($x, "%s %d %s", $s, $size, $md5);
     if ($n != 3) return array(true, null, null);
@@ -86,7 +87,7 @@ function sandbox_file_name($user, $md5) {
 function sandbox_physical_path($user, $md5) {
     global $fanout;
     $f = sandbox_file_name($user, $md5);
-    return dir_hier_path($f, "../../download", $fanout);
+    return dir_hier_path($f, parse_config(get_config(), "<download_dir>"), $fanout);
 }
 
 // return list of files in sandbox
@@ -104,11 +105,17 @@ function sandbox_file_names($user) {
 
 // return a <select> for files in sandbox
 //
-function sandbox_file_select($user, $select_name) {
+function sandbox_file_select($user, $select_name, $regexp = null, $allow_none = false) {
+    if ($regexp === null) {
+        $regexp = $select_name;
+    }
     $x = "<select name=$select_name>\n";
+    if ($allow_none) {
+        $x .= "<option value=\"\">--- None</option>\n";
+    }
     $files = sandbox_file_names($user);
     foreach ($files as $f) {
-        if(preg_match("/$select_name/",$f)){
+        if(preg_match("/$regexp/",$f)){
             $x .= "<option value=\"$f\">$f</option>\n";
         }
     }

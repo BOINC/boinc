@@ -37,7 +37,7 @@ function do_updates() {
     $n = post_str("homogeneous_app_version", true)?1:0;
     $app->update("homogeneous_app_version=$n");
 
-    $n = post_str("cpu_intensive", true)?1:0;
+    $n = post_str("non_cpu_intensive", true)?1:0;
     $app->update("non_cpu_intensive=$n");
 
     $n = post_str("beta", true)?1:0;

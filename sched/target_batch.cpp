@@ -129,10 +129,8 @@ int main(int argc, char *argv[])
         }
     }
 
-    char batch_str[256];
     int batch;
-    if (sscanf(query_str, "batch=%256s", &batch_str) == 1){
-            batch = atoi(batch_str);
+    if (sscanf(query_str, "batch=%d", &batch) == 1){
             printf ("Targetting batch id: %d\n\n", batch);
     } else {
         printf ("Bad argument format. Should be \"batch=[id]\"\n");

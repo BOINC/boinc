@@ -48,7 +48,6 @@ function location_form($host) {
     if ($host->venue == "home") $h = "selected";
     if ($host->venue == "work") $w = "selected";
     if ($host->venue == "school") $s = "selected";
-    if ($host->venue == "mobile") $m = "selected";
     $x = "<form action=host_venue_action.php>
         <input type=hidden name=hostid value=$host->id>
         <select name=venue>
@@ -56,7 +55,6 @@ function location_form($host) {
         <option value=home $h>".tra("Home")."
         <option value=work $w>".tra("Work")."
         <option value=school $s>".tra("School")."
-        <option value=mobile $m>".tra("Mobile")."
         </select>
         <input type=submit value=".tra("Update").">
         </form>
@@ -101,7 +99,7 @@ function show_host($host, $user, $ipprivate) {
         if ($x >= 0) $x="+$x";
         row2(tra("Local Standard Time"), tra("UTC %1 hours", $x));
     } else {
-        $owner = lookup_user_id($host->userid);
+        $owner = BoincUser::lookup_id($host->userid);
         if ($owner && $owner->show_hosts) {
             row2(tra("Owner"), user_links($owner));
         } else {
@@ -125,23 +123,23 @@ function show_host($host, $user, $ipprivate) {
     if ($v) {
         row2(tra("BOINC version"), $v);
     }
-    $x = $host->m_nbytes/(1024*1024);
+    $x = $host->m_nbytes/MEGA;
     $y = round($x, 2);
     row2(tra("Memory"), tra("%1 MB", $y));
     if ($host->m_cache > 0) {
-        $x = $host->m_cache/1024;
+        $x = $host->m_cache/KILO;
         $y = round($x, 2);
         row2(tra("Cache"), tra("%1 KB", $y));
     }
 
     if ($user) {
-        $x = $host->m_swap/(1024*1024);
+        $x = $host->m_swap/MEGA;
         $y = round($x, 2);
         row2(tra("Swap space"), tra("%1 MB", $y));
-        $x = $host->d_total/(1024*1024*1024);
+        $x = $host->d_total/GIGA;
         $y = round($x, 2);
         row2(tra("Total disk space"), tra("%1 GB", $y));
-        $x = $host->d_free/(1024*1024*1024);
+        $x = $host->d_free/GIGA;
         $y = round($x, 2);
         row2(tra("Free Disk Space"), tra("%1 GB", $y));
     }
@@ -151,14 +149,14 @@ function show_host($host, $user, $ipprivate) {
     $x = $host->p_iops/(1000*1000);
     $y = round($x, 2);
     row2(tra("Measured integer speed"), tra("%1 million ops/sec", $y));
-    $x = $host->n_bwup/(1024);
+    $x = $host->n_bwup/KILO;
     $y = round($x, 2);
     if ($y > 0) {
         row2(tra("Average upload rate"), tra("%1 KB/sec", $y));
     } else {
         row2(tra("Average upload rate"), tra("Unknown"));
     }
-    $x = $host->n_bwdown/(1024);
+    $x = $host->n_bwdown/KILO;
     $y = round($x, 2);
     if ($y > 0) {
         row2(tra("Average download rate"), tra("%1 KB/sec", $y));
@@ -184,11 +182,12 @@ function show_host($host, $user, $ipprivate) {
     if ($user) {
         row2(tra("Number of times client has contacted server"), $host->rpc_seqno);
         row2(tra("Last time contacted server"), sched_log_link($host->rpc_time));
-        row2(tra("% of time BOINC is running"), 100*$host->on_frac." %");
+        row2(tra("% of time BOINC is running"), number_format(100*$host->on_frac, 2)."%");
         if ($host->connected_frac > 0) {
-            row2(tra("While BOINC running, % of time host has an Internet connection"), 100*$host->connected_frac." %");
+            row2(tra("While BOINC running, % of time host has an Internet connection"), number_format(100*$host->connected_frac, 2)."%");
         }
-        row2(tra("While BOINC running, % of time work is allowed"), 100*$host->active_frac." %");
+        row2(tra("While BOINC running, % of time work is allowed"), number_format(100*$host->active_frac, 2)."%");
+        row2(tra("While BOINC running, % of time GPU work is allowed"), number_format(100*$host->gpu_active_frac, 2)."%");
         if ($host->cpu_efficiency) {
             row2(tra("Average CPU efficiency"), $host->cpu_efficiency);
         }
@@ -290,7 +289,7 @@ function gpu_desc($x) {
                     $i = (int)$d[5];
                     $maj = (int)($i/100);
                     $min = $i%100;
-                    $str .= sprintf(" OpenCL: %d.%02d", $maj, $min);
+                    $str .= sprintf(" OpenCL: %d.%d", $maj, $min);
                 }
             }
         }

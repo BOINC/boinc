@@ -1,0 +1,81 @@
+Paint.NET
+
+=============================================================================
+Disconnected Icon:
+Shape, Ellipse, Filled Shape with outline, Pure Red with Black outline
+
+Icon Size -> Circle Dimensions and Brush Width
+256 -> 96 BW 4
+128 -> 48 BW 2.1
+96 -> 36 BW 1.6
+80 -> 30 BW 1.4
+64 -> 24 BW 1.3
+48 -> 18 BW 1
+40 -> 15 BW 1, Black 240 alpha
+32 -> 12 BW 1, Black 225 alpha
+24 -> 9 BW 1, Black 210 alpha
+20 -> 7.5 BW 1, Black 195 alpha
+16 -> 6 BW 1, Black 180 alpha
+
+=============================================================================
+Suspended Icon:
+
+Container:
+Shape, Rounded Rectangle, Filled Shape with outline
+Color: Without saturation: 1E3C64 and FFFFFF; With saturation: 173E72 and FFFFFF
+Icon Size: 256 x 256
+Shape Size: Blue: 78 x 105, BW 25
+Shape Size: White: 81 x 107, BW 25
+... For smaller icon sizes, scale shape down
+... 48 x 48 and smaller, might need custom editing
+
+Pause Lines:
+Shape, Line, Rounded-Solid-Rounded
+Color: FFCC33 if not adding saturation; FFCD06 if adding saturation
+256 -> BW 10
+128 -> BW 5
+96 -> BW 3.75
+80 -> BW 3.125
+64 -> BW 2.5
+48 -> BW 2
+40 -> BW 1.6
+32 -> BW 1.5
+24 -> BW 1.1
+20 -> BW 1.1
+16 -> BW 1
+
+=============================================================================
+Icon Sizes:
+
+Reference: http://msdn.microsoft.com/en-us/library/windows/desktop/aa511280.aspx
+
+Custom sizing options (from Control Panel\Appearance and Personalization\Display):
+100%
+125%
+150%
+200%
+250%
+300%
+400%
+500%
+
+Sizes to include:
+16 (app size 1; classic mode size 1)
+20 (16x16 @ 125%)
+24 (classic mode size 2; 16x16 @ 150%)
+32 (app size 2; classic mode size 3)
+40 (Alt+Tab overlay; 16x16 @ 250%; 32x32 @ 125%)
+48 (app size 3; classic mode size 4)
+64 (classic mode size 5; 16x16 @ 400%; 32x32 @ 200%)
+80 (16x16 @ 500%; 32x32 @ 250%)
+96 (additional size; 32x32 @ 300%)
+128 (additional size; 32x32 @ 400%)
+256 (app size 4; maximum size)
+
+Needed XPM sizes (with NO transparency!):
+16x16
+32x32
+40x40 (for Simple View Default Project icon)
+...Note: Rom says he DOES want "Disconnected" and "Suspended" versions.
+...Ended up using 128 transparency lock, on images that excluded white bordering.
+...And, for the 40x40, created a white-background version

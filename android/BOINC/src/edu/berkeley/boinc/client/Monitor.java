@@ -19,6 +19,7 @@
 package edu.berkeley.boinc.client;
 
 import edu.berkeley.boinc.utils.*;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -29,27 +30,41 @@ import java.io.OutputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
+
 import android.app.NotificationManager;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.Binder;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.IBinder;
 import android.os.PowerManager;
+import android.os.RemoteException;
 import android.util.Log;
-import edu.berkeley.boinc.AppPreferences;
 import edu.berkeley.boinc.R;
+import edu.berkeley.boinc.SplashActivity;
+import edu.berkeley.boinc.rpc.AccountOut;
+import edu.berkeley.boinc.rpc.AcctMgrRPCReply;
 import edu.berkeley.boinc.rpc.CcState;
 import edu.berkeley.boinc.rpc.CcStatus;
 import edu.berkeley.boinc.rpc.GlobalPreferences;
+import edu.berkeley.boinc.rpc.HostInfo;
+import edu.berkeley.boinc.rpc.ImageWrapper;
+import edu.berkeley.boinc.rpc.Message;
 import edu.berkeley.boinc.rpc.Notice;
+import edu.berkeley.boinc.rpc.Project;
+import edu.berkeley.boinc.rpc.ProjectConfig;
 import edu.berkeley.boinc.rpc.ProjectInfo;
+import edu.berkeley.boinc.rpc.Result;
 import edu.berkeley.boinc.rpc.Transfer;
 import edu.berkeley.boinc.rpc.AcctMgrInfo;
 
@@ -80,6 +95,7 @@ public class Monitor extends Service {
 	private String boincWorkingDir; 
 	private Integer clientStatusInterval;
 	private Integer deviceStatusIntervalScreenOff;
+	private String clientSocketAddress;
 	
 	private Timer updateTimer = new Timer(true); // schedules frequent client status update
 	private TimerTask statusUpdateTask = new StatusUpdateTimerTask();
@@ -89,17 +105,7 @@ public class Monitor extends Service {
 	// screen on/off updated by screenOnOffBroadcastReceiver
 	private boolean screenOn = false;
 	
-// attributes and methods related to Android Service life-cycle
-	/**
-	 * Extension of Android's Binder class to return instance of this service
-	 * allows components bound to this service, to access its functions and attributes
-	 */
-	public class LocalBinder extends Binder {
-        public Monitor getService() {
-            return Monitor.this;
-        }
-    }
-    private final IBinder mBinder = new LocalBinder();
+	private boolean forceReinstall = false; // for debugging purposes
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -109,7 +115,29 @@ public class Monitor extends Service {
 	
 	@Override
     public void onCreate() {
-		if(Logging.ERROR) Log.d(Logging.TAG,"Monitor onCreate()");
+		
+		Log.d(Logging.TAG,"Monitor onCreate()");
+		
+		// check whether PTG is installed, if so, do not start service.
+		// this check has to be similar to SpalshActivity.onCreate()
+		try {
+			getPackageManager().getPackageInfo("com.htc.ptg", 0); 
+			if ("com.android.vending".equals(getPackageManager().getInstallerPackageName("com.htc.ptg")) // check if installed through PlayStore
+	                || (getPackageManager().getPackageInfo("com.htc.ptg", 0).applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == ApplicationInfo.FLAG_SYSTEM) { // check if pre-installed
+				Log.e(Logging.TAG,"Monitor onCreate(): PTG found, do not start.");
+				stopSelf();
+				return;
+			} else Log.w(Logging.TAG,"Monitor.onCreate(): com.htc.ptg found, but unknown vendor, start...");
+		}
+		catch (NameNotFoundException ex) {
+			// catch exception and then skip once Power To Give is not found.
+		} 
+		
+		// register listener for installation of incompatible apps
+		IntentFilter packageAddedIF = new IntentFilter();
+		packageAddedIF.addAction(Intent.ACTION_PACKAGE_ADDED);
+		packageAddedIF.addDataScheme("package");
+		registerReceiver(packageAddedReceiver, packageAddedIF);
 		
 		// populate attributes with XML resource values
 		boincWorkingDir = getString(R.string.client_path); 
@@ -121,6 +149,7 @@ public class Monitor extends Service {
 		fileNameAllProjectsList = getString(R.string.all_projects_list); 
 		clientStatusInterval = getResources().getInteger(R.integer.status_update_interval_ms);
 		deviceStatusIntervalScreenOff = getResources().getInteger(R.integer.device_status_update_screen_off_every_X_loop);
+		clientSocketAddress = getString(R.string.client_socket_address); 
 		
 		// initialize singleton helper classes and provide application context
 		clientStatus = new ClientStatus(this);
@@ -152,24 +181,48 @@ public class Monitor extends Service {
     public void onDestroy() {
     	if(Logging.ERROR) Log.d(Logging.TAG,"Monitor onDestroy()");
     	
-    	// remove screen on/off receiver
-    	unregisterReceiver(screenOnOffReceiver);
-    	
-        // Cancel the persistent notification.
-    	((NotificationManager)getSystemService(Service.NOTIFICATION_SERVICE)).cancel(getResources().getInteger(R.integer.autostart_notification_id));
+    	updateBroadcastEnabled = false; // prevent broadcast from currently running update task
+		updateTimer.cancel(); // cancel task
+		
+    	// there might be still other AsyncTasks executing RPCs
+    	// close sockets in a synchronized way
+		clientInterface.close();
+		
+    	try {
+    		unregisterReceiver(packageAddedReceiver);
+    		// remove screen on/off receiver
+    		unregisterReceiver(screenOnOffReceiver);
+    	} catch (Exception ex) {}
         
     	updateBroadcastEnabled = false; // prevent broadcast from currently running update task
 		updateTimer.cancel(); // cancel task
 		
 		 // release locks, if held.
-		clientStatus.setWakeLock(false);
-		clientStatus.setWifiLock(false);
+		try {
+			clientStatus.setWakeLock(false);
+			clientStatus.setWifiLock(false);
+		} catch (Exception ex) {}
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {	
     	//this gets called after startService(intent) (either by BootReceiver or AndroidBOINCActivity, depending on the user's autostart configuration)
     	if(Logging.ERROR) Log.d(Logging.TAG, "Monitor onStartCommand()");
+
+		// execute action if one is explicitly requested (e.g. from notification)
+    	if(intent != null) {
+			int actionCode = intent.getIntExtra("action", -1);
+	    	if(Logging.DEBUG) Log.d(Logging.TAG, "Monitor.onStartCommand() with action code: " + actionCode);
+			switch(actionCode) {
+			case 1: // suspend
+				new SetClientRunModeAsync().execute(BOINCDefs.RUN_MODE_NEVER);
+				break;
+			case 2: // resume
+				new SetClientRunModeAsync().execute(BOINCDefs.RUN_MODE_AUTO);
+				break;
+			}
+    	}
+		
 		/*
 		 * START_STICKY causes service to stay in memory until stopSelf() is called, even if all
 		 * Activities get destroyed by the system. Important for GUI keep-alive
@@ -270,66 +323,6 @@ public class Monitor extends Service {
     		updateTimer.schedule(new StatusUpdateTimerTask(), 0);
     	} catch (Exception e){} // throws IllegalStateException if called after timer got cancelled, i.e. after manual shutdown
     }
-    
-    /**
-     * Quit BOINC client.
-     * Tries to quit BOINC client process gracefully, kills the process if no reaction within defined time frame 
-     */
-    public void quitClient() {
-		// try to get current client status from monitor
-		ClientStatus status = null;
-		try{
-			status  = Monitor.getClientStatus();
-		} catch (Exception e){
-			if(Logging.WARNING) Log.w(Logging.TAG,"Monitor.quitClient: Could not load data, clientStatus not initialized.");
-			// do not return here, try to shut down without publishing status
-		}
-    	String processName = boincWorkingDir + fileNameClient;
-    	
-    	updateBroadcastEnabled = false; // prevent broadcast from currently running update task
-		updateTimer.cancel(); // cancel task
-    	// no scheduled RPCs anymore
-    	
-    	// set client status to SETUP_STATUS_CLOSING to adapt layout accordingly
-		if(status!=null)status.setSetupStatus(ClientStatus.SETUP_STATUS_CLOSING,true);
-    	
-    	// try graceful shutdown via RPC
-		clientInterface.quit();
-    	
-    	// there might be still other AsyncTasks executing RPCs
-    	// close sockets in a synchronized way
-		clientInterface.close();
-    	// there are now no more RPCs...
-    	
-    	// graceful RPC shutdown waiting period...
-    	Boolean success = false;
-    	Integer attempts = getApplicationContext().getResources().getInteger(R.integer.shutdown_graceful_rpc_check_attempts);
-    	Integer sleepPeriod = getApplicationContext().getResources().getInteger(R.integer.shutdown_graceful_rpc_check_rate_ms);
-    	for(int x = 0; x < attempts; x++) {
-    		try {
-    			Thread.sleep(sleepPeriod);
-    		} catch (Exception e) {}
-    		if(getPidForProcessName(processName) == null) { //client is now closed
-        		if(Logging.DEBUG) Log.d(Logging.TAG,"quitClient: gracefull RPC shutdown successful after " + x + " seconds");
-    			success = true;
-    			x = attempts;
-    		}
-    	}
-    	
-    	if(!success) {
-    		// graceful RPC shutdown was not successful, try OS signals
-        	quitProcessOsLevel(processName);
-    	}
-    	
-    	// cancel notification
-		ClientNotification.getInstance(getApplicationContext()).cancel();
-    	
-    	// set client status to SETUP_STATUS_CLOSED to adapt layout accordingly
-		if(status!=null)status.setSetupStatus(ClientStatus.SETUP_STATUS_CLOSED,true);
-		
-		//stop service, triggers onDestroy
-		stopSelf();
-    }
 	
 	/**
 	 * Determines BOINC platform name corresponding to device's cpu architecture (ARM, x86 or MIPS).
@@ -404,16 +397,7 @@ public class Monitor extends Service {
      */
     private void readClientStatus(Boolean forceCompleteUpdate) {
     	try{
-    		// read ccStatus and adjust wakelocks and service state independently of screen status
-    		// wake locks and foreground enabled when Client is not suspended, therefore also during
-    		// idle.
-    		CcStatus status = clientInterface.getCcStatus();
-    		// treat cpu throttling as if it was computing
-    		Boolean computing = (status.task_suspend_reason == BOINCDefs.SUSPEND_NOT_SUSPENDED) || (status.task_suspend_reason == BOINCDefs.SUSPEND_REASON_CPU_THROTTLE);
-    		if(Logging.VERBOSE) Log.d(Logging.TAG,"readClientStatus(): computation enabled: " + computing);
-			Monitor.getClientStatus().setWifiLock(computing);
-			Monitor.getClientStatus().setWakeLock(computing);
-			ClientNotification.getInstance(getApplicationContext()).setForeground(computing, this);
+    		CcStatus status; // read independently of screen status
     		
 			// complete status read, depending on screen status
     		// screen off: only read computing status to adjust wakelock, do not send broadcast
@@ -422,6 +406,7 @@ public class Monitor extends Service {
 	    	if(screenOn || forceCompleteUpdate) {
 	    		// complete status read, with broadcast
 				if(Logging.VERBOSE) Log.d(Logging.TAG, "readClientStatus(): screen on, get complete status");
+	    		status = clientInterface.getCcStatus();
 				CcState state = clientInterface.getState();
 				ArrayList<Transfer>  transfers = clientInterface.getFileTransfers();
 				AcctMgrInfo acctMgrInfo = clientInterface.getAcctMgrInfo();
@@ -429,8 +414,6 @@ public class Monitor extends Service {
 				
 				if( (status != null) && (state != null) && (state.results != null) && (state.projects != null) && (transfers != null) && (state.host_info != null) && (acctMgrInfo != null)) {
 					Monitor.getClientStatus().setClientStatus(status, state.results, state.projects, transfers, state.host_info, acctMgrInfo, newNotices);
-					// Update status bar notification
-					ClientNotification.getInstance(getApplicationContext()).update();
 				} else {
 					String nullValues = "";
 					try{
@@ -444,13 +427,29 @@ public class Monitor extends Service {
 					if(Logging.ERROR) Log.e(Logging.TAG, "readClientStatus(): connection problem, null: " + nullValues);
 				}
 				
+				// update notices notification
+				NoticeNotification.getInstance(getApplicationContext()).update(Monitor.getClientStatus().getRssNotices(), Monitor.getAppPrefs().getShowNotificationForNotices());
+				
 				// check whether monitor is still intended to update, if not, skip broadcast and exit...
 				if(updateBroadcastEnabled) {
 			        Intent clientStatus = new Intent();
 			        clientStatus.setAction("edu.berkeley.boinc.clientstatus");
 			        getApplicationContext().sendBroadcast(clientStatus);
 				}
-	    	} 
+	    	} else {
+	    		// read only ccStatus to adjust wakelocks and service state independently of screen status
+	    		status = clientInterface.getCcStatus();
+	    	}
+	    	
+	    	// independent of screen on off:
+    		// wake locks and foreground enabled when Client is not suspended, therefore also during
+    		// idle.
+    		// treat cpu throttling as if it was computing.
+    		Boolean computing = (status.task_suspend_reason == BOINCDefs.SUSPEND_NOT_SUSPENDED) || (status.task_suspend_reason == BOINCDefs.SUSPEND_REASON_CPU_THROTTLE);
+    		if(Logging.VERBOSE) Log.d(Logging.TAG,"readClientStatus(): computation enabled: " + computing);
+			Monitor.getClientStatus().setWifiLock(computing);
+			Monitor.getClientStatus().setWakeLock(computing);
+			ClientNotification.getInstance(getApplicationContext()).update(Monitor.getClientStatus(), this, computing);
 			
 		}catch(Exception e) {
 			if(Logging.ERROR) Log.e(Logging.TAG, "Monitor.readClientStatus excpetion: " + e.getMessage(),e);
@@ -468,7 +467,7 @@ public class Monitor extends Service {
     	try{
 	    	// set devices status
 			if(deviceStatus != null) { // make sure deviceStatus is initialized
-				Boolean reportStatusSuccess = clientInterface.reportDeviceStatus(deviceStatus.update()); // transmit device status via rpc
+				Boolean reportStatusSuccess = clientInterface.reportDeviceStatus(deviceStatus.update(screenOn)); // transmit device status via rpc
 				if(reportStatusSuccess) screenOffStatusOmitCounter = 0;
 				else if(Logging.DEBUG) Log.d(Logging.TAG,"reporting device status returned false.");
 			} else if(Logging.WARNING) Log.w(Logging.TAG,"reporting device status failed, wrapper not initialized.");
@@ -509,7 +508,7 @@ public class Monitor extends Service {
 		// If client hashes do not match, we need to install the one that is a part
 		// of the package. Shutdown the currently running client if needed.
 		//
-		if (!md5InstalledClient.equals(md5AssetClient)) {
+		if (forceReinstall || !md5InstalledClient.equals(md5AssetClient)) {
 			if(Logging.DEBUG) Log.d(Logging.TAG,"Hashes of installed client does not match binary in assets - re-install.");
 			
 			// try graceful shutdown using RPC (faster)
@@ -569,26 +568,32 @@ public class Monitor extends Service {
 			} catch (Exception e) {}
 		}
 		
+		Boolean init = false;
 		if(connected) { // connection established
-			// make client read override settings from file
-			clientInterface.readGlobalPrefsOverride();
-			// read preferences for GUI to be able to display data
-			GlobalPreferences clientPrefs = clientInterface.getGlobalPrefsWorkingStruct();
-			status.setPrefs(clientPrefs);
-			// read supported projects
-			readAndroidProjectsList();
-			// set Android model as hostinfo
-			// should output something like "Samsung Galaxy SII - SDK:15 ABI:armeabi-v7a"
-			String model = Build.MANUFACTURER + " " + Build.MODEL + " - SDK:" + Build.VERSION.SDK_INT + " ABI: " + Build.CPU_ABI;
-			if(Logging.DEBUG) Log.d(Logging.TAG,"reporting hostinfo model name: " + model);
-			clientInterface.setHostInfo(model);
+			try {
+				// read preferences for GUI to be able to display data
+				GlobalPreferences clientPrefs = clientInterface.getGlobalPrefsWorkingStruct();
+				if(clientPrefs == null) throw new Exception("client prefs null");
+				status.setPrefs(clientPrefs);
+				
+				// read supported projects
+				readAndroidProjectsList();
+				
+				// set Android model as hostinfo
+				// should output something like "Samsung Galaxy SII - SDK:15 ABI:armeabi-v7a"
+				String model = Build.MANUFACTURER + " " + Build.MODEL + " - SDK:" + Build.VERSION.SDK_INT + " ABI: " + Build.CPU_ABI;
+				if(Logging.DEBUG) Log.d(Logging.TAG,"reporting hostinfo model name: " + model);
+				clientInterface.setHostInfo(model);
+				
+				init = true;
+			} catch(Exception e) {if(Logging.ERROR) Log.e(Logging.TAG,"Monitor.clientSetup() init failed: " + e.getMessage());}
 		}
 		
-		if(connected) {
+		if(init) {
 			if(Logging.DEBUG) Log.d(Logging.TAG, "setup completed successfully"); 
 			status.setSetupStatus(ClientStatus.SETUP_STATUS_AVAILABLE,false);
 		} else {
-			if(Logging.DEBUG) Log.d(Logging.TAG, "onPostExecute - setup experienced an error"); 
+			if(Logging.ERROR) Log.e(Logging.TAG, "onPostExecute - setup experienced an error"); 
 			status.setSetupStatus(ClientStatus.SETUP_STATUS_ERROR,true);
 		}
 		
@@ -625,16 +630,16 @@ public class Monitor extends Service {
 	private Boolean connectClient() {
 		Boolean success = false;
 		
-        success = clientInterface.open();
+        success = clientInterface.open(clientSocketAddress);
         if(!success) {
-        	if(Logging.DEBUG) Log.d(Logging.TAG, "connection failed!");
+        	if(Logging.ERROR) Log.e(Logging.TAG, "connection failed!");
         	return success;
         }
         
         //authorize
         success = clientInterface.authorizeGuiFromFile(boincWorkingDir + fileNameGuiAuthentication);
         if(!success) {
-        	if(Logging.DEBUG) Log.d(Logging.TAG, "authorization failed!");
+        	if(Logging.ERROR) Log.e(Logging.TAG, "authorization failed!");
         }
         return success;
 	}
@@ -896,7 +901,7 @@ public class Monitor extends Service {
     }
 // --end-- BOINC client installation and run-time management
 	
-// screen on/off receiver
+// broadcast receiver
 	/**
 	 * broadcast receiver to detect changes to screen on or off, used to adapt scheduling of StatusUpdateTimerTask
 	 * e.g. avoid polling GUI status RPCs while screen is off in order to save battery
@@ -907,6 +912,9 @@ public class Monitor extends Service {
 			String action = intent.getAction();
 			if(action.equals(Intent.ACTION_SCREEN_OFF)) {
 				screenOn = false;
+				// forces report of device status at next scheduled update
+				// allows timely reaction to screen off for resume of computation
+				screenOffStatusOmitCounter = deviceStatusIntervalScreenOff;
 				if(Logging.DEBUG) Log.d(Logging.TAG, "screenOnOffReceiver: screen turned off");
 			}
 			if(action.equals(Intent.ACTION_SCREEN_ON)) {
@@ -916,5 +924,408 @@ public class Monitor extends Service {
 			}
         } 
 	}; 
-// --end-- screen on/off receiver
+
+	/**
+	 * broadcast receiver to detect added/installed packages. If package not compatible with BOINC
+	 * shutdown service.
+	 */
+	BroadcastReceiver packageAddedReceiver = new BroadcastReceiver() {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			if (intent.getAction().equals(Intent.ACTION_PACKAGE_ADDED)) {
+	    		if (intent.hasExtra(Intent.EXTRA_UID)) {
+	    			int uid = intent.getIntExtra(Intent.EXTRA_UID, -1);
+	    			if (uid > -1) {
+	    				String[] packages = context.getPackageManager().getPackagesForUid(uid);
+	    				for (String pkg : packages) {
+	    					if (pkg.equals("com.htc.ptg")) {
+	    						if(Logging.ERROR) Log.d(Logging.TAG,"packageAddedReceiver: PTG added, stop Monitor...");
+	    						// cancel notifications
+	    						NotificationManager nm = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
+	    						nm.cancelAll();
+	    						// cancel async task
+	    						statusUpdateTask.cancel();
+	    						// open exit splash activity. implies destruction (and unbound) of all others
+	    						Intent exitSplash = new Intent(getApplicationContext(),SplashActivity.class);
+	    						exitSplash.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+	    						startActivity(exitSplash);
+	    						stopSelf();
+	    						break;
+	    					}
+	    				}
+	    			}
+	    		}
+	    	}
+		}
+	};
+// --end-- broadcast receiver
+	
+// async tasks
+	private final class SetClientRunModeAsync extends AsyncTask<Integer, Void, Void> {
+		@Override
+		protected Void doInBackground(Integer... params) {
+			try {
+				mBinder.setRunMode(params[0]);
+			} catch (RemoteException e) {}
+			return null;
+		}
+	}
+// --end -- async tasks
+	
+// remote service
+	private final IMonitor.Stub mBinder = new IMonitor.Stub() {
+			
+		@Override
+		public boolean transferOperation(List<Transfer> list, int op) throws RemoteException {
+			return clientInterface.transferOperation((ArrayList<Transfer>)list, op);
+		}
+		
+		@Override
+		public boolean synchronizeAcctMgr(String url) throws RemoteException {
+			return clientInterface.synchronizeAcctMgr(url);
+		}
+		
+		@Override
+		public boolean setRunMode(int mode) throws RemoteException {
+			return clientInterface.setRunMode(mode);
+		}
+		
+		@Override
+		public boolean setNetworkMode(int mode) throws RemoteException {
+			return clientInterface.setNetworkMode(mode);
+		}
+		
+		@Override
+		public boolean setGlobalPreferences(GlobalPreferences pref)
+				throws RemoteException {
+			return clientInterface.setGlobalPreferences(pref);
+		}
+		
+		@Override
+		public boolean setCcConfig(String config) throws RemoteException {
+			return clientInterface.setCcConfig(config);
+		}
+		
+		@Override
+		public boolean resultOp(int op, String url, String name)
+				throws RemoteException {
+			return clientInterface.resultOp(op, url, name);
+		}
+		
+		@Override
+		public String readAuthToken(String path) throws RemoteException {
+			return clientInterface.readAuthToken(path);
+		}
+		
+		@Override
+		public boolean projectOp(int status, String url) throws RemoteException {
+			return clientInterface.projectOp(status, url);
+		}
+		
+		@Override
+		public int getBoincPlatform() throws RemoteException {
+			return Monitor.this.getBoincPlatform();
+		}
+		
+		@Override
+		public AccountOut lookupCredentials(String url, String id, String pwd,
+				boolean usesName) throws RemoteException {
+			return clientInterface.lookupCredentials(url, id, pwd, usesName);
+		}
+		
+		@Override
+		public boolean isStationaryDeviceSuspected() throws RemoteException {
+			try {
+				return Monitor.getDeviceStatus().isStationaryDeviceSuspected();
+			} catch (Exception e) {}
+			return false;
+		}
+		
+		@Override
+		public List<Notice> getServerNotices() throws RemoteException {
+			return clientStatus.getServerNotices();
+		}
+		
+		@Override
+		public ProjectConfig getProjectConfigPolling(String url)
+				throws RemoteException {
+			return clientInterface.getProjectConfigPolling(url);
+		}
+		
+		@Override
+		public List<Notice> getNotices(int seq) throws RemoteException {
+			return clientInterface.getNotices(seq);
+		}
+		
+		@Override
+		public List<Message> getMessages(int seq) throws RemoteException {
+			return clientInterface.getMessages(seq);
+		}
+		
+		@Override
+		public List<Message> getEventLogMessages(int seq, int num)
+				throws RemoteException {
+			return clientInterface.getEventLogMessages(seq, num);
+		}
+		
+		@Override
+		public int getBatteryChargeStatus() throws RemoteException{
+			try {
+				return getDeviceStatus().getStatus().battery_charge_pct;
+			} catch (Exception e) {}
+			return 0;
+		}
+		
+		@Override
+		public AcctMgrInfo getAcctMgrInfo() throws RemoteException {
+			return clientInterface.getAcctMgrInfo();
+		}
+		
+		@Override
+		public void forceRefresh() throws RemoteException {
+			Monitor.this.forceRefresh();
+		}
+		
+		@Override
+		public AccountOut createAccountPolling(String url, String email, String id,
+				String pw, String team) throws RemoteException {
+			return clientInterface.createAccountPolling(url, email, id, pw, team);
+		}
+		
+		@Override
+		public boolean checkProjectAttached(String url) throws RemoteException {
+			return clientInterface.checkProjectAttached(url);
+		}
+		
+		@Override
+		public boolean attachProject(String url, String id, String pwd)
+				throws RemoteException {
+			return clientInterface.attachProject(url, id, pwd);
+		}
+		
+		@Override
+		public int addAcctMgrErrorNum(String url, String userName, String pwd)
+				throws RemoteException {
+			AcctMgrRPCReply acctMgr =clientInterface.addAcctMgr(url, userName, pwd);
+			if (acctMgr!=null) {
+				return acctMgr.error_num;
+			}
+			return -1;
+		}
+		
+		@Override
+		public String getAuthFilePath() throws RemoteException {
+			return Monitor.this.getAuthFilePath();
+		}
+		
+		@Override
+		public List<ProjectInfo> getSupportedProjects() throws RemoteException {
+			return clientStatus.getSupportedProjects();
+		}
+		
+		@Override
+		public boolean getAcctMgrInfoPresent() throws RemoteException {
+			return clientStatus.getAcctMgrInfo().present;
+		}
+		
+		@Override
+		public int getSetupStatus() throws RemoteException {
+			return clientStatus.setupStatus;
+		}
+		
+		@Override
+		public int getComputingStatus() throws RemoteException {
+			return clientStatus.computingStatus;
+		}
+		
+		@Override
+		public int getComputingSuspendReason() throws RemoteException {
+			return clientStatus.computingSuspendReason;
+		}
+		
+		@Override
+		public int getNetworkSuspendReason() throws RemoteException {
+			return clientStatus.networkSuspendReason;
+		}
+		
+		@Override
+		public HostInfo getHostInfo() throws RemoteException {
+			return clientStatus.getHostInfo();
+		}
+		
+		@Override
+		public GlobalPreferences getPrefs() throws RemoteException {
+			return clientStatus.getPrefs();
+		}
+		
+		@Override
+		public List<Project> getProjects() throws RemoteException {
+			return clientStatus.getProjects();
+		}
+		
+		@Override
+		public AcctMgrInfo getClientAcctMgrInfo() throws RemoteException {
+			return clientStatus.getAcctMgrInfo();
+		}
+		
+		@Override
+		public List<Transfer> getTransfers() throws RemoteException {
+			return clientStatus.getTransfers();
+		}
+		
+		@Override
+		public void setAutostart(boolean isAutoStart) throws RemoteException {
+			Monitor.getAppPrefs().setAutostart(isAutoStart);
+		}
+		
+		@Override
+		public void setShowNotificationForNotices(boolean isShow) throws RemoteException {
+			Monitor.getAppPrefs().setShowNotificationForNotices(isShow);
+		}
+		
+		@Override
+		public boolean getShowAdvanced() throws RemoteException {
+			return Monitor.getAppPrefs().getShowAdvanced();
+		}
+		
+		@Override
+		public boolean getAutostart() throws RemoteException {
+			return Monitor.getAppPrefs().getAutostart();
+		}
+		
+		@Override
+		public boolean getShowNotificationForNotices() throws RemoteException {
+			return  Monitor.getAppPrefs().getShowNotificationForNotices();
+		}
+		
+		@Override
+		public int getLogLevel() throws RemoteException {
+			return Monitor.getAppPrefs().getLogLevel();
+		}
+		
+		@Override
+		public void setLogLevel(int level) throws RemoteException {
+			Monitor.getAppPrefs().setLogLevel(level);
+		}
+		
+		@Override
+		public void setPowerSourceAc(boolean src) throws RemoteException {
+			Monitor.getAppPrefs().setPowerSourceAc(src);
+		}
+		
+		@Override
+		public void setPowerSourceUsb(boolean src) throws RemoteException {
+			Monitor.getAppPrefs().setPowerSourceUsb(src);
+		}
+		
+		@Override
+		public void setPowerSourceWireless(boolean src) throws RemoteException {
+			Monitor.getAppPrefs().setPowerSourceWireless(src);
+		}
+		
+		@Override
+		public List<Result> getTasks() throws RemoteException {
+			return clientStatus.getTasks();
+		}
+		
+		@Override
+		public String getProjectStatus(String url) throws RemoteException {
+			return clientStatus.getProjectStatus(url);
+		}
+		
+		@Override
+		public List<Notice> getRssNotices() throws RemoteException {
+			return clientStatus.getRssNotices();
+		}
+		
+		@Override
+		public List<ImageWrapper> getSlideshowForProject(String url)
+				throws RemoteException {
+			return clientStatus.getSlideshowForProject(url);
+		}
+		
+		@Override
+		public boolean getStationaryDeviceMode() throws RemoteException {
+			return Monitor.getAppPrefs().getStationaryDeviceMode();
+		}
+		
+		@Override
+		public boolean getPowerSourceAc() throws RemoteException {
+			return Monitor.getAppPrefs().getPowerSourceAc();
+		}
+		
+		@Override
+		public boolean getPowerSourceUsb() throws RemoteException {
+			return Monitor.getAppPrefs().getPowerSourceUsb();
+		}
+		
+		@Override
+		public boolean getPowerSourceWireless() throws RemoteException {
+			return Monitor.getAppPrefs().getPowerSourceWireless();
+		}
+		
+		@Override
+		public void setShowAdvanced(boolean isShow) throws RemoteException {
+			Monitor.getAppPrefs().setShowAdvanced(isShow);
+		}
+		
+		@Override
+		public void setStationaryDeviceMode(boolean mode)
+				throws RemoteException {
+			Monitor.getAppPrefs().setStationaryDeviceMode(mode);
+			
+		}
+		
+		@Override
+		public Bitmap getProjectIconByName(String name) throws RemoteException {
+			return clientStatus.getProjectIconByName(name);
+		}
+		
+		@Override
+		public Bitmap getProjectIcon(String id) throws RemoteException {
+			return clientStatus.getProjectIcon(id);
+		}
+
+		@Override
+		public boolean getSuspendWhenScreenOn() throws RemoteException {
+			return Monitor.getAppPrefs().getSuspendWhenScreenOn();
+		}
+
+		@Override
+		public void setSuspendWhenScreenOn(boolean swso) throws RemoteException {
+			Monitor.getAppPrefs().setSuspendWhenScreenOn(swso);
+		}
+
+		@Override
+		public String getCurrentStatusTitle() throws RemoteException {
+			return clientStatus.getCurrentStatusTitle();
+		}
+
+		@Override
+		public String getCurrentStatusDescription() throws RemoteException {
+			return clientStatus.getCurrentStatusDescription();
+		}
+
+		@Override
+		public void cancelNoticeNotification() throws RemoteException {
+			NoticeNotification.getInstance(getApplicationContext()).cancelNotification();
+		}
+
+		@Override
+		public void setShowNotificationDuringSuspend(boolean isShow) throws RemoteException {
+			Monitor.getAppPrefs().setShowNotificationDuringSuspend(isShow);
+			
+		}
+
+		@Override
+		public boolean getShowNotificationDuringSuspend() throws RemoteException {
+			return Monitor.getAppPrefs().getShowNotificationDuringSuspend();
+		}
+
+		@Override
+		public boolean runBenchmarks() throws RemoteException {
+			return clientInterface.runBenchmarks();
+		}
+	};
+// --end-- remote service	
 }

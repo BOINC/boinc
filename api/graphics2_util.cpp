@@ -70,9 +70,9 @@ void* boinc_graphics_make_shmem(const char* prog_name, int size) {
     char shmem_name[MAXPATHLEN];
     get_shmem_name(prog_name, shmem_name);
     int retval = create_shmem_mmap(shmem_name, size, &p);
-    // Graphics app may be run by a different user & group than worker app
-    // Although create_shmem passed 0666 to open(), it was modified by umask
-    if (retval == 0) chmod(shmem_name, 0666);
+    // make sure user/group RW permissions are set, but not other.
+    //
+    if (retval == 0) chmod(shmem_name, 0660);
 #endif
     if (retval) return 0;
     return p;

@@ -686,8 +686,8 @@ int boinc_finish(int status) {
     char buf[256];
     fraction_done = 1;
     fprintf(stderr,
-        "%s called boinc_finish\n",
-        boinc_msg_prefix(buf, sizeof(buf))
+        "%s called boinc_finish(%d)\n",
+        boinc_msg_prefix(buf, sizeof(buf)), status
     );
     finishing = true;
     boinc_sleep(2.0);   // let the timer thread send final messages
@@ -1114,9 +1114,11 @@ static void timer_handler() {
         return;
     }
     if (finishing) {
-        double cur_cpu = boinc_worker_thread_cpu_time();
-        last_wu_cpu_time = cur_cpu + initial_wu_cpu_time;
-        update_app_progress(last_wu_cpu_time, last_checkpoint_cpu_time);
+        if (options.send_status_msgs) {
+            double cur_cpu = boinc_worker_thread_cpu_time();
+            last_wu_cpu_time = cur_cpu + initial_wu_cpu_time;
+            update_app_progress(last_wu_cpu_time, last_checkpoint_cpu_time);
+        }
         boinc_disable_timer_thread = true;
         return;
     }

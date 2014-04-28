@@ -131,4 +131,14 @@ function drand() {
     return ((double)rand())/getrandmax();
 }
 
+// kludge
+//
+function is_gpu($plan_class) {
+    if (strstr($plan_class, "ati")) return true;
+    if (strstr($plan_class, "cuda")) return true;
+    if (strstr($plan_class, "nvidia")) return true;
+    if (strstr($plan_class, "intel_gpu")) return true;
+    return false;
+}
+
 ?>

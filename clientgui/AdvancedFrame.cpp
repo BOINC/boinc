@@ -50,6 +50,7 @@
 #include "ViewResources.h"
 #include "DlgAbout.h"
 #include "DlgOptions.h"
+#include "DlgDiagnosticLogFlags.h"
 #include "DlgGenericMessage.h"
 #include "DlgEventLog.h"
 #include "wizardex.h"
@@ -171,6 +172,7 @@ BEGIN_EVENT_TABLE (CAdvancedFrame, CBOINCBaseFrame)
     // Advanced
     EVT_MENU(ID_OPTIONS, CAdvancedFrame::OnOptions)
 	EVT_MENU(ID_PREFERENCES, CAdvancedFrame::OnPreferences)
+	EVT_MENU(ID_DIAGNOSTICLOGFLAGS, CAdvancedFrame::OnDiagnosticLogFlags)
     EVT_MENU(ID_SELECTCOMPUTER, CAdvancedFrame::OnSelectComputer)
     EVT_MENU(ID_SHUTDOWNCORECLIENT, CAdvancedFrame::OnClientShutdown)
     EVT_MENU(ID_RUNBENCHMARKS, CAdvancedFrame::OnRunBenchmarks)
@@ -196,6 +198,7 @@ BEGIN_EVENT_TABLE (CAdvancedFrame, CBOINCBaseFrame)
     EVT_MOVE(CAdvancedFrame::OnMove)
 #ifdef __WXMAC__
 	EVT_MENU(wxID_PREFERENCES, CAdvancedFrame::OnPreferences)
+    EVT_CHAR_HOOK(CAdvancedFrame::OnKeyPressed)
 #endif
 END_EVENT_TABLE ()
 
@@ -206,7 +209,7 @@ CAdvancedFrame::CAdvancedFrame() {
 }
 
 
-CAdvancedFrame::CAdvancedFrame(wxString title, wxIcon* icon, wxIcon* icon32, wxPoint position, wxSize size) : 
+CAdvancedFrame::CAdvancedFrame(wxString title, wxIconBundle* icons, wxPoint position, wxSize size) : 
     CBOINCBaseFrame((wxFrame *)NULL, ID_ADVANCEDFRAME, title, position, size, wxDEFAULT_FRAME_STYLE)
 {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::CAdvancedFrame - Function Begin"));
@@ -219,14 +222,7 @@ CAdvancedFrame::CAdvancedFrame(wxString title, wxIcon* icon, wxIcon* icon32, wxP
     m_strBaseTitle = title;
 
     // Initialize Application
-#ifdef __WXMSW__
-    SetIcons(wxICON(BOINCGUIAPP));
-#else
-    wxIconBundle icons;
-    icons.AddIcon(*icon);
-    icons.AddIcon(*icon32);
-    SetIcons(icons);
-#endif
+    SetIcons(*icons);
 
     // Create UI elements
     wxCHECK_RET(CreateMenu(), _T("Failed to create menu bar."));
@@ -614,6 +610,11 @@ bool CAdvancedFrame::CreateMenu() {
         _("Event Log...\tCtrl+Shift+E"),
         _("Display diagnostic messages.")
     );
+    menuAdvanced->Append(
+		ID_DIAGNOSTICLOGFLAGS,
+        _("Event Log Diagnostic Flags...\tCtrl+Shift+F"),
+        _("Enable or disable various diagnostic messages")
+    );
 
 
     // Help menu
@@ -890,7 +891,6 @@ bool CAdvancedFrame::SaveState() {
     int             iItemCount = 0;
 
 
-    wxASSERT(pConfig);
     wxASSERT(m_pNotebook);
 
     CBOINCBaseFrame::SaveState();
@@ -1017,16 +1017,6 @@ void CAdvancedFrame::SaveWindowDimensions() {
     wxPoint         pos = GetPosition();
 
     wxASSERT(pConfig);
-
-#ifdef __WXMAC__
-    // We don't call Hide() or Show(false) for the main frame
-    // under wxCocoa 2.9.5 because it bounces the Dock icon
-    // (as in notification.)  We work around this by moving
-    // the main window/frame off screen when displaying the
-    // CDlgAbout modal dialog while the main window is hidden
-    // by CTaskBarIcon::OnAbout().
-    pos = GetOnScreenFramePosition();
-#endif
 
     pConfig->SetPath(strBaseConfigLocation);
 
@@ -1330,6 +1320,16 @@ void CAdvancedFrame::OnPreferences(wxCommandEvent& WXUNUSED(event)) {
 	dlg.ShowModal();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnPreferences - Function End"));
+}
+
+
+void CAdvancedFrame::OnDiagnosticLogFlags(wxCommandEvent& WXUNUSED(event)) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnDiagnosticLogFlags - Function Begin"));
+
+    CDlgDiagnosticLogFlags dlg(this);
+	dlg.ShowModal();
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnDiagnosticLogFlags - Function End"));
 }
 
 
@@ -1721,21 +1721,36 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
         Show();
         wasVisible = wxGetApp().IsApplicationVisible();
         if (!wasVisible) {
-            MoveFrameOnScreen();
             wxGetApp().ShowApplication(true);
         }
         
         pWizard = new CWizardAttach(this);
         if (pWizard->SyncToAccountManager()) {
+            // _GRIDREPUBLIC, _PROGRESSTHRUPROCESSORS and _CHARITYENGINE
+            // are defined for those branded builds on Windows only
+#if defined(_GRIDREPUBLIC) || defined(_PROGRESSTHRUPROCESSORS) || defined(_CHARITYENGINE) || defined(__WXMAC__)
+#ifdef __WXMAC__
+            // For GridRepublic, Charity Engine or ProgressThruProcessors, 
+            // the Mac installer put a branding file in our data directory
+            long iBrandID = 0;  // 0 is unbranded (default) BOINC
 
-#if defined(__WXMSW__) || defined(__WXMAC__)
-            // If successful, hide the main window if we showed it
-            if (!wasVisible) {
-                wxGetApp().ShowApplication(false);
-                MoveFrameOffScreen();
+            FILE *f = boinc_fopen("/Library/Application Support/BOINC Data/Branding", "r");
+            if (f) {
+                fscanf(f, "BrandId=%ld\n", &iBrandID);
+                fclose(f);
             }
-            if (!wasShown) {
-                Hide();
+            if ((iBrandID > 0) && (iBrandID < 4))
+#endif
+            {
+                // If successful, hide the main window if we showed it
+                if (!wasVisible) {
+                    wxGetApp().ShowApplication(false);
+                }
+#ifndef __WXMAC__   // See comment in CBOINCGUIApp::OnFinishInit()
+                if (!wasShown) {
+                    Hide();
+                }
+#endif
             }
 #endif
 
@@ -1768,7 +1783,6 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
         }
     } else if ((pis.url.size() || (0 >= pDoc->GetProjectCount())) && !status.disallow_attach) {
         Show();
-        MoveFrameOnScreen();
         wxGetApp().ShowApplication(true);
         
         pWizard = new CWizardAttach(this);
@@ -2177,3 +2191,11 @@ void CAdvancedFrame::StopTimers() {
     m_pFrameRenderTimer->Stop();
 }
 
+
+#ifdef __WXMAC__
+// Fix Keyboard navigation on Mac
+void CAdvancedFrame::OnKeyPressed(wxKeyEvent &event) {
+    CBOINCBaseView* pView = wxDynamicCast(m_pNotebook->GetPage(m_pNotebook->GetSelection()), CBOINCBaseView);
+    pView->OnKeyPressed(event);
+}
+#endif

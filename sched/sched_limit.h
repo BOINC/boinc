@@ -72,38 +72,34 @@ struct RSC_JOB_LIMIT {
 struct JOB_LIMIT {
     char app_name[256];
     RSC_JOB_LIMIT total;
-    RSC_JOB_LIMIT cpu;
-    RSC_JOB_LIMIT gpu;
+    RSC_JOB_LIMIT proc_type_limits[NPROC_TYPES];
 
     int parse(XML_PARSER&, const char* end_tag);
 
-    inline void reset(int ncpus, int ngpus) {
+    inline void reset(int ninstances[]) {
         total.reset(1);
-        cpu.reset(ncpus);
-        gpu.reset(ngpus);
+        for (int i=0; i<NPROC_TYPES; i++) {
+            proc_type_limits[i].reset(ninstances[i]);
+        }
     }
 
-    inline bool exceeded(bool is_gpu) {
+    inline bool exceeded(int proc_type) {
         if (total.exceeded()) return true;
-        if (is_gpu) {
-            if (gpu.exceeded()) return true;
-        } else {
-            if (cpu.exceeded()) return true;
-        }
+        if (proc_type_limits[proc_type].exceeded()) return true;
         return false;
     }
 
-    inline void register_job(bool is_gpu) {
+    inline void register_job(int proc_type) {
         total.register_job();
-        if (is_gpu) {
-            gpu.register_job();
-        } else {
-            cpu.register_job();
-        }
+        proc_type_limits[proc_type].register_job();
     }
 
     inline bool any_limit() {
-        return total.any_limit() || cpu.any_limit() || gpu.any_limit();
+        if (total.any_limit()) return true;
+        for (int i=0; i<NPROC_TYPES; i++) {
+            if (proc_type_limits[i].any_limit()) return true;
+        }
+        return false;
     }
 
     void print_log();
@@ -118,10 +114,10 @@ struct JOB_LIMITS {
 
     // called at start of each request
     //
-    inline void reset(int ncpus, int ngpus) {
-        project_limits.reset(ncpus, ngpus);
+    inline void reset(int ninstances[]) {
+        project_limits.reset(ninstances);
         for (unsigned int i=0; i<app_limits.size(); i++) {
-            app_limits[i].reset(ncpus, ngpus);
+            app_limits[i].reset(ninstances);
         }
     }
 
@@ -135,23 +131,23 @@ struct JOB_LIMITS {
         return NULL;
     }
 
-    inline bool exceeded(APP* app, bool is_gpu) {
-        if (project_limits.exceeded(is_gpu)) return true;
+    inline bool exceeded(APP* app, int proc_type) {
+        if (project_limits.exceeded(proc_type)) return true;
         if (app) {
             JOB_LIMIT* jlp = lookup_app(app->name);
             if (jlp) {
-                if (jlp->exceeded(is_gpu)) return true;
+                if (jlp->exceeded(proc_type)) return true;
             }
         }
         return false;
     }
 
-    inline void register_job(APP* app, bool is_gpu) {
-        project_limits.register_job(is_gpu);
+    inline void register_job(APP* app, int proc_type) {
+        project_limits.register_job(proc_type);
         if (app) {
             JOB_LIMIT* jlp = lookup_app(app->name);
             if (jlp) {
-                jlp->register_job(is_gpu);
+                jlp->register_job(proc_type);
             }
         }
     }

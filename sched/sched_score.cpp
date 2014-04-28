@@ -99,7 +99,7 @@ bool JOB::get_score(WU_RESULT& wu_result) {
     }
 
     if (app->n_size_classes > 1) {
-        double effective_speed = bavp->host_usage.projected_flops * g_reply->host.on_frac * g_reply->host.active_frac;
+        double effective_speed = bavp->host_usage.projected_flops * available_frac(*bavp);
         int target_size = get_size_class(*app, effective_speed);
         if (config.debug_send) {
             log_messages.printf(MSG_NORMAL,
@@ -117,7 +117,7 @@ bool JOB::get_score(WU_RESULT& wu_result) {
     }
     if (config.debug_send) {
         log_messages.printf(MSG_NORMAL,
-            "[send]: job score %f\n", score
+            "[send]: score %f for result %d\n", score, wu_result.resultid
         );
     }
 

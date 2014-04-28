@@ -15,17 +15,28 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// vboxwrapper [options]     BOINC VirtualBox wrapper
+// BOINC VirtualBox wrapper; lets you run apps in VMs
 // see: http://boinc.berkeley.edu/trac/wiki/VboxApps
-// Options:
+//
+// usage: vboxwrapper [options]
+//
 // --trickle X      send a trickle message reporting elapsed time every X secs
 //                  (use this for credit granting if your app does its
 //                  own job management, like CernVM).
+// --nthreads N     create a VM with N threads.
+// --vmimage file   Use "file" as the VM image.
+//                  This lets you create an app version with several images,
+//                  and the app_plan function can decide which one to use
+//                  for the particular host.
+// --register_only  Register the VM but don't run it.
+//                  Useful for debugging; see the wiki page
 //
 // Handles:
 // - suspend/resume/quit/abort
 // - reporting CPU time
-// - loss of heartbeat from core client
+// - loss of heartbeat from client
+// - checkpoint (using snapshots)
+// - a bunch of other stuff; see the wiki page
 //
 // Contributors:
 // Andrew J. Younge (ajy4490 AT umiacs DOT umd DOT edu)
@@ -33,19 +44,6 @@
 // Daniel Lombraña González <teleyinex AT gmail DOT com>
 // Rom Walton
 // David Anderson
-
-// To debug a VM within the BOINC/VboxWrapper framework:
-// 1. Launch BOINC with --exit_before_start
-// 2. When BOINC exits, launch the VboxWrapper with the register_only
-// 3. Set the VBOX_USER_HOME environment variable to the vbox directory
-//    under the slot directory.
-//    This changes where the VirtualBox applications look for the
-//    root VirtualBox configuration files.
-//    It may or may not apply to your installation of VirtualBox.
-//    It depends on where your copy of VirtualBox came from
-//    and what type of system it is installed on.
-// 4. Now Launch the VM using the VirtualBox UI.
-//    You should now be able to interact with your VM.
 
 #ifdef _WIN32
 #include "boinc_win.h"
@@ -374,20 +372,23 @@ int main(int argc, char** argv) {
     BOINC_OPTIONS boinc_options;
     VBOX_VM vm;
     APP_INIT_DATA aid;
+    double random_checkpoint_factor = 0;
     double elapsed_time = 0;
     double trickle_period = 0;
     double fraction_done = 0;
     double checkpoint_cpu_time = 0;
     double last_status_report_time = 0;
     double last_trickle_report_time = 0;
-    double stopwatch_time = 0;
+    double stopwatch_starttime = 0;
     double stopwatch_endtime = 0;
+    double stopwatch_elapsedtime = 0;
     double sleep_time = 0;
     double bytes_sent = 0;
     double bytes_received = 0;
     double ncpus = 0;
     double timeout = 0.0;
     bool report_net_usage = false;
+    double net_usage_timer = 600;
 	int vm_image = 0;
     unsigned long vm_exit_code = 0;
     string message;
@@ -434,6 +435,35 @@ int main(int argc, char** argv) {
 
     // Log important information
     //
+
+    // Choose a random interleave value for checkpoint intervals to stagger disk I/O.
+    // 
+    struct stat vm_image_stat;
+    if (-1 == stat(IMAGE_FILENAME_COMPLETE, &vm_image_stat)) {
+        srand((int)time(NULL));
+    } else {
+        srand((int)(vm_image_stat.st_mtime * time(NULL)));
+    }
+    random_checkpoint_factor = (double)(((int)(drand() * 100000.0)) % 600);
+    fprintf(
+        stderr,
+        "%s Feature: Checkpoint interval offset (%d seconds)\n",
+        vboxwrapper_msg_prefix(buf, sizeof(buf)),
+        (int)random_checkpoint_factor
+    );
+
+    // Display trickle value if specified
+    //
+    if (trickle_period > 0.0) {
+        fprintf(
+            stderr,
+            "%s Feature: Enabling trickle-ups (Interval: %f)\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf)), trickle_period
+        );
+    }
+
+    // Initialize system services
+    // 
 #if defined(_WIN32) && defined(USE_WINSOCK)
     WSADATA wsdata;
     retval = WSAStartup( MAKEWORD( 1, 1 ), &wsdata);
@@ -447,14 +477,6 @@ int main(int argc, char** argv) {
         boinc_finish(retval);
     }
 #endif
-
-    if (trickle_period > 0.0) {
-        fprintf(
-            stderr,
-            "%s Feature: Enabling trickle-ups (Interval: %f)\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf)), trickle_period
-        );
-    }
 
     // Check for architecture incompatibilities
     // 
@@ -633,18 +655,25 @@ int main(int argc, char** argv) {
         vm.vm_master_name += "standalone";
         vm.vm_master_description = "standalone";
         if (vm.enable_floppyio) {
-            sprintf(buf, "%s.%s", FLOPPY_IMAGE_FILENAME, FLOPPY_IMAGE_FILENAME_EXTENSION);
+            sprintf(buf, "%s.%s",
+                FLOPPY_IMAGE_FILENAME, FLOPPY_IMAGE_FILENAME_EXTENSION
+            );
             vm.floppy_image_filename = buf;
         }
     } else {
         vm.vm_master_name += md5_string(std::string(aid.result_name)).substr(0, 16);
         vm.vm_master_description = aid.result_name;
 		if (vm_image) {
-            sprintf(buf, "%s_%d.%s", IMAGE_FILENAME, vm_image, IMAGE_FILENAME_EXTENSION);
+            sprintf(buf, "%s_%d.%s",
+                IMAGE_FILENAME, vm_image, IMAGE_FILENAME_EXTENSION
+            );
             vm.image_filename = buf;
 		}
         if (vm.enable_floppyio) {
-            sprintf(buf, "%s_%d.%s", FLOPPY_IMAGE_FILENAME, aid.slot, FLOPPY_IMAGE_FILENAME_EXTENSION);
+            sprintf(buf, "%s_%d.%s",
+                FLOPPY_IMAGE_FILENAME, aid.slot,
+                FLOPPY_IMAGE_FILENAME_EXTENSION
+            );
             vm.floppy_image_filename = buf;
         }
     }
@@ -681,27 +710,27 @@ int main(int argc, char** argv) {
         bool   skip_cleanup = false;
         bool   dump_hypervisor_logs = false;
         string error_reason;
-        char*  temp_reason = (char*)"";
-        int    temp_delay = 300;
+        const char*  temp_reason = "";
+        int    temp_delay = 86400;
 
         if (VBOXWRAPPER_ERR_RECOVERABLE == retval) {
             error_reason =
                 "    BOINC will be notified that it needs to clean up the environment.\n"
                 "    This is a temporary problem and so this job will be rescheduled for another time.\n";
             unrecoverable_error = false;
-            temp_reason = (char*)"VM environment needed to be cleaned up.";
+            temp_reason = "VM environment needed to be cleaned up.";
         } else if (ERR_NOT_EXITED == retval) {
             error_reason =
                 "   NOTE: VM was already running.\n"
                 "    BOINC will be notified that it needs to clean up the environment.\n"
                 "    This might be a temporary problem and so this job will be rescheduled for another time.\n";
             unrecoverable_error = false;
-            temp_reason = (char*)"VM environment needed to be cleaned up.";
+            temp_reason = "VM environment needed to be cleaned up.";
         } else if (ERR_INVALID_PARAM == retval) {
             unrecoverable_error = false;
-            temp_reason = (char*)"Please upgrade BOINC to the latest version.";
+            temp_reason = "Please upgrade BOINC to the latest version.";
             temp_delay = 86400;
-        } else if (RPC_S_SERVER_UNAVAILABLE == retval) {
+        } else if (retval == (int)RPC_S_SERVER_UNAVAILABLE) {
             error_reason =
                 "    VboxSvc crashed while attempting to restore the current snapshot.  This is a critical\n"
                 "    operation and this job cannot be recovered.\n";
@@ -728,21 +757,21 @@ int main(int argc, char** argv) {
                 "   NOTE: VirtualBox hypervisor reports that another hypervisor has locked the hardware acceleration\n"
                 "    for virtual machines feature in exclusive mode.\n";
             unrecoverable_error = false;
-            temp_reason = (char*)"Forign VM Hypervisor locked hardware acceleration features.";
+            temp_reason = "Forign VM Hypervisor locked hardware acceleration features.";
             temp_delay = 86400;
         } else if (vm.is_logged_failure_host_out_of_memory()) {
             error_reason =
                 "   NOTE: VirtualBox has failed to allocate enough memory to start the configured virtual machine.\n"
                 "    This might be a temporary problem and so this job will be rescheduled for another time.\n";
             unrecoverable_error = false;
-            temp_reason = (char*)"VM Hypervisor was unable to allocate enough memory to start VM.";
+            temp_reason = "VM Hypervisor was unable to allocate enough memory to start VM.";
         } else if (vm.is_virtualbox_error_recoverable(retval)) {
             error_reason =
                 "   NOTE: VM session lock error encountered.\n"
                 "    BOINC will be notified that it needs to clean up the environment.\n"
                 "    This might be a temporary problem and so this job will be rescheduled for another time.\n";
             unrecoverable_error = false;
-            temp_reason = (char*)"VM environment needed to be cleaned up.";
+            temp_reason = "VM environment needed to be cleaned up.";
         } else {
             dump_hypervisor_logs = true;
         }
@@ -785,6 +814,7 @@ int main(int argc, char** argv) {
             }
  
             // Give the BOINC API time to report the pid to BOINC.
+            //
             boinc_sleep(5.0);
 
             if (error_reason.size()) {
@@ -798,6 +828,7 @@ int main(int argc, char** argv) {
             }
 
             // Exit and let BOINC clean up the rest.
+            //
             boinc_temporary_exit(temp_delay, temp_reason);
         }
     }
@@ -819,10 +850,12 @@ int main(int argc, char** argv) {
         bytes_received
     );
 
-    // Wait for up to 5 minutes for the VM to switch states.  A system
-    // under load can take a while.  Since the poll function can wait for up
-    // to 60 seconds to execute a command we need to make this time based instead
+    // Wait for up to 5 minutes for the VM to switch states.
+    // A system under load can take a while.
+    // Since the poll function can wait for up to 60 seconds
+    // to execute a command we need to make this time based instead
     // of iteration based.
+    //
     timeout = dtime() + 300;
     do {
         vm.poll(false);
@@ -831,6 +864,7 @@ int main(int argc, char** argv) {
     } while (timeout >= dtime());
 
     // Lower the VM process priority after it has successfully brought itself online.
+    //
     vm.lower_vm_process_priority();
 
     // Log our current state 
@@ -848,7 +882,9 @@ int main(int argc, char** argv) {
         );
         vm.reset_vm_process_priority();
         vm.poweroff();
-        boinc_temporary_exit(300, "VM Hypervisor failed to enter an online state in a timely fashion.");
+        boinc_temporary_exit(86400,
+            "VM Hypervisor failed to enter an online state in a timely fashion."
+        );
     }
 
     set_floppy_image(aid, vm);
@@ -861,7 +897,7 @@ int main(int argc, char** argv) {
 
     while (1) {
         // Begin stopwatch timer
-        stopwatch_time = dtime();
+        stopwatch_starttime = dtime();
 
         // Discover the VM's current state
         vm.poll();
@@ -869,11 +905,12 @@ int main(int argc, char** argv) {
         if (boinc_status.no_heartbeat || boinc_status.quit_request) {
             vm.reset_vm_process_priority();
             vm.poweroff();
-            boinc_temporary_exit(300);
+            boinc_temporary_exit(86400);
         }
         if (boinc_status.abort_request) {
             vm.reset_vm_process_priority();
             vm.cleanup();
+            vm.dumphypervisorlogs(true);
             boinc_finish(EXIT_ABORTED_BY_CLIENT);
         }
         if (!vm.online) {
@@ -889,7 +926,7 @@ int main(int argc, char** argv) {
                 );
                 vm.reset_vm_process_priority();
                 vm.poweroff();
-                boinc_temporary_exit(300, "VM Hypervisor was unable to allocate enough memory.");
+                boinc_temporary_exit(86400, "VM Hypervisor was unable to allocate enough memory.");
             } else {
                 vm.cleanup();
                 if (vm.crashed || (elapsed_time < vm.job_duration)) {
@@ -940,7 +977,7 @@ int main(int argc, char** argv) {
                         vboxwrapper_msg_prefix(buf, sizeof(buf))
                     );
                     vm.poweroff();
-                    boinc_temporary_exit(300, "VM job unmanageable, restarting later.");
+                    boinc_temporary_exit(86400, "VM job unmanageable, restarting later.");
                }
             }
         } else {
@@ -953,14 +990,19 @@ int main(int argc, char** argv) {
                         vboxwrapper_msg_prefix(buf, sizeof(buf))
                     );
                     vm.poweroff();
-                    boinc_temporary_exit(300, "VM job unmanageable, restarting later.");
+                    boinc_temporary_exit(86400, "VM job unmanageable, restarting later.");
                }
             }
 
             if (boinc_time_to_checkpoint()) {
                 // Only peform a VM checkpoint every ten minutes or so.
                 //
-                if (elapsed_time >= checkpoint_cpu_time + 600.0) {
+                if (elapsed_time >= checkpoint_cpu_time + random_checkpoint_factor + 600.0) {
+                    // Basic interleave factor is only needed once.
+                    if (random_checkpoint_factor > 0) {
+                        random_checkpoint_factor = 0.0;
+                    }
+
                     // Basic bookkeeping
                     if (vm.job_duration) {
                         fraction_done = elapsed_time / vm.job_duration;
@@ -1007,6 +1049,8 @@ int main(int argc, char** argv) {
                                 );
                             }
                         }
+
+                        vm.dumphypervisorstatusreports();
                     }
 
                     // Checkpoint
@@ -1022,9 +1066,9 @@ int main(int argc, char** argv) {
                             retval
                         );
                         vm.poweroff();
-                        boinc_temporary_exit(300, "VM job unmanageable, restarting later.");
+                        boinc_temporary_exit(86400, "VM job unmanageable, restarting later.");
                     } else {
-                        // Inform BOINC that we have successfully created a checkpoint.
+                        // tell BOINC we've successfully created a checkpoint.
                         //
                         checkpoint_cpu_time = elapsed_time;
                         write_checkpoint(checkpoint_cpu_time, vm);
@@ -1046,8 +1090,12 @@ int main(int argc, char** argv) {
                         vboxwrapper_msg_prefix(buf, sizeof(buf))
                     );
                     last_trickle_report_time = elapsed_time;
-                    sprintf(buf, "<cpu_time>%f</cpu_time>", last_trickle_report_time);
-                    retval = boinc_send_trickle_up(const_cast<char*>("cpu_time"), buf);
+                    sprintf(buf,
+                        "<cpu_time>%f</cpu_time>", last_trickle_report_time
+                    );
+                    retval = boinc_send_trickle_up(
+                        const_cast<char*>("cpu_time"), buf
+                    );
                     if (retval) {
                         fprintf(
                             stderr,
@@ -1108,7 +1156,6 @@ int main(int argc, char** argv) {
 
         // report network usage every 10 min so the client can enforce quota
         //
-        static double net_usage_timer=600;
         if (aid.global_prefs.daily_xfer_limit_mb
             && vm.enable_network
             && !vm.suspended
@@ -1145,20 +1192,31 @@ int main(int argc, char** argv) {
         }
 
         stopwatch_endtime = dtime();
+        stopwatch_elapsedtime = stopwatch_endtime - stopwatch_starttime;
+
+        // user may have changed system clock, so do sanity checks
+        //
+        if (stopwatch_elapsedtime < 0) {
+            stopwatch_elapsedtime = 0;
+        }
+        if (stopwatch_elapsedtime > 60) {
+            stopwatch_elapsedtime = 0;
+        }
 
         // Sleep for the remainder of the polling period
-        sleep_time = POLL_PERIOD - (stopwatch_endtime - stopwatch_time);
+        //
+        sleep_time = POLL_PERIOD - stopwatch_elapsedtime;
         if (sleep_time > 0) {
             boinc_sleep(sleep_time);
         }
 
-        // Calculate the elapsed time after all potiential commands have been executed
-        // and base it off of wall clock time instead of a fixed interval.
-        if (!boinc_status.suspended) {
+        // if VM is running, increment elapsed time
+        //
+        if (!boinc_status.suspended && !vm.suspended) {
             if (sleep_time > 0) {
                 elapsed_time += POLL_PERIOD;
             } else {
-                elapsed_time += stopwatch_endtime - stopwatch_time;
+                elapsed_time += stopwatch_elapsedtime;
             }
         }
     }

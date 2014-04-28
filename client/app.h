@@ -73,6 +73,7 @@ struct ACTIVE_TASK {
     PROCINFO procinfo;
 
     // START OF ITEMS SAVED IN STATE FILE
+
     int _task_state;
         // PROCESS_*; see common_defs.h
     int slot;
@@ -90,6 +91,9 @@ struct ACTIVE_TASK {
         // fraction done elapsed time at last checkpoint
     double current_cpu_time;
         // most recent CPU time reported by app
+    double peak_working_set_size;
+    double peak_swap_size;
+    double peak_disk_usage;
     bool once_ran_edf;
 
     // END OF ITEMS SAVED IN STATE FILE
@@ -179,6 +183,8 @@ struct ACTIVE_TASK {
             || _task_state == PROCESS_EXECUTING
             || _task_state == PROCESS_SUSPENDED;
     }
+    void copy_final_info();
+        // copy final CPU time etc. to result
 
     ACTIVE_TASK();
     ~ACTIVE_TASK();

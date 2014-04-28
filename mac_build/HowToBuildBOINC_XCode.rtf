@@ -14,10 +14,10 @@
 \b0\fs24 \cf0 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\qc
 \cf0 Written by Charlie Fenton\
-Last updated 11/20/13\
+Last updated 4/14/14\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
 \cf0 \
-This document applies to BOINC version 7.3.0 and later.  It has instructions for building the BOINC Client and Manager for Macintosh OSX.  Information for building science project applications to run under BOINC on Macintosh OSX can be found {\field{\*\fldinst{HYPERLINK "http://boinc.berkeley.edu/trac/wiki/BuildMacApp"}}{\fldrslt here}}.  \
+This document applies to BOINC version 7.3.16 and later.  It has instructions for building the BOINC Client and Manager for Macintosh OSX.  Information for building science project applications to run under BOINC on Macintosh OSX can be found {\field{\*\fldinst{HYPERLINK "http://boinc.berkeley.edu/trac/wiki/BuildMacApp"}}{\fldrslt here}}.  \
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
 
@@ -57,7 +57,7 @@ Contents of this document:\
 \pard\pardeftab720\sa260
 \cf0 As of version 6.13.0, BOINC does not support Macintosh PowerPC processors.\
 Although BOINC supports 64-bit Intel project applications on Mac OS 10.5.0 and above, the only part of the BOINC client package built as a 64-bit executable is the screensaver coordinator for OS 10.6.x and later.  The BOINC libraries also include a 64-bit build so that they can be linked with 64-bit project applications.\
-You need to take certain steps to ensure that you use only APIs that are available in all the OS versions BOINC supports for each architecture. The best way to accomplish this is to use a single development system running OS 10.7.x or OS 10.8.x and cross-compile for the various platforms. The remainder of this document describes that process.\
+You need to take certain steps to ensure that you use only APIs that are available in all the OS versions BOINC supports for each architecture. The best way to accomplish this is to use a single development system running OS 10.8.x or OS 10.9.x and cross-compile for the various platforms. The remainder of this document describes that process.\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
 \cf0 \
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
@@ -76,7 +76,7 @@ You need to take certain steps to ensure that you use only APIs that are availab
 \f2\fs32 \
 \pard\pardeftab720\sa260
 
-\f0\b0\fs24 \cf0 Apple provides the tools necessary to cross-compile for both BOINC Mac platforms on any Mac running OS 10.7.x or OS 10.8.x.\
+\f0\b0\fs24 \cf0 Apple provides the tools necessary to cross-compile for both BOINC Mac platforms on any Mac running OS 10.8.x or OS 10.9.x.\
 You get these tools, including the GCC compilers and system library header files, by installing the Xcode Tools package. \
 \pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural
 
@@ -98,8 +98,10 @@ You get these tools, including the GCC compilers and system library header files
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
 
 \b0\fs24 \cf0 \
+Note: building BOINC Manager 7.3.0 and later requires the OS 10.8 SDK or later.\
+\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
-\cf0 BOINC depends on six third-party libraries: wxWidgets-3.0, c-ares-1.9.1, curl-7.26.0, openssl-1.0.1e,  freetype-2.4.10, ftgl-2.1.3~rc5 and sqlite3.7.14.1.  You can obtain the source files from the following URLs:\
+\cf0 BOINC depends on six third-party libraries: wxWidgets-3.0, c-ares-1.10.0, curl-7.35.0, openssl-1.0.1g,  freetype-2.4.10, ftgl-2.1.3~rc5 and sqlite-3.8.3.  You can obtain the source files from the following URLs:\
 \
 wxWidgets-3.0 (needed  only if you are building the BOINC Manager):\
 	{\field{\*\fldinst{HYPERLINK "http://www.wxwidgets.org"}}{\fldrslt 
@@ -111,40 +113,40 @@ wxWidgets-3.0 (needed  only if you are building the BOINC Manager):\
 \f1\fs26 \
 
 \f0\fs24 \
-sqlite3.7.14.1 (needed  only if you are building the BOINC Manager):\
+sqlite-3.8.3 (needed  only if you are building the BOINC Manager):\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
 
 \f1 \cf0 	{\field{\*\fldinst{HYPERLINK "http://www.sqlite.org/"}}{\fldrslt 
 \fs26 http://www.sqlite.org/}}
 \fs26 \
 
-\fs24 	{\field{\*\fldinst{HYPERLINK "http://www.sqlite.org/sqlite-autoconf-3071401.tar.gz"}}{\fldrslt 
-\fs26 http://www.sqlite.org/sqlite-autoconf-3071401.tar.gz}}
+\fs24 	{\field{\*\fldinst{HYPERLINK "http://www.sqlite.org/2014/sqlite-autoconf-3080300.tar.gz"}}{\fldrslt 
+\fs26 http://www.sqlite.org/2014/sqlite-autoconf-3080300.tar.gz}}
 \fs26 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
 
 \f0\fs24 \cf0 \
-curl-7.26.0:\
+curl-7.35.0:\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
 
 \f1\fs26 \cf0 	{\field{\*\fldinst{HYPERLINK "http://curl.haxx.se"}}{\fldrslt http://curl.haxx.se}}\
-	{\field{\*\fldinst{HYPERLINK "http://curl.haxx.se/download/curl-7.26.0.tar.gz"}}{\fldrslt http://curl.haxx.se/download/curl-7.26.0.tar.gz}}\
+	{\field{\*\fldinst{HYPERLINK "http://curl.haxx.se/download/curl-7.35.0.tar.gz"}}{\fldrslt http://curl.haxx.se/download/curl-7.35.0.tar.gz}}\
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
 
-\f0\fs24 \cf0 c-ares-1.9.1 (used by curl):\
+\f0\fs24 \cf0 c-ares-1.10.0 (used by curl):\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
 
 \f1\fs26 \cf0 	{\field{\*\fldinst{HYPERLINK "http://daniel.haxx.se/projects/c-ares/"}}{\fldrslt http://daniel.haxx.se/projects/c-ares/}}\
-	{\field{\*\fldinst{HYPERLINK "http://c-ares.haxx.se/download/c-ares-1.9.1.tar.gz"}}{\fldrslt http://c-ares.haxx.se/download/c-ares-1.9.1.tar.gz}}\
+	{\field{\*\fldinst{HYPERLINK "http://c-ares.haxx.se/download/c-ares-1.10.0.tar.gz"}}{\fldrslt http://c-ares.haxx.se/download/c-ares-1.10.0.tar.gz}}\
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
 
-\f0\fs24 \cf0 openssl-1.0.1e:\
+\f0\fs24 \cf0 openssl-1.0.1g:\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
 
 \f1\fs26 \cf0 	{\field{\*\fldinst{HYPERLINK "http://www.openssl.org/"}}{\fldrslt http://www.openssl.org/}}\
-	{\field{\*\fldinst{HYPERLINK "http://www.openssl.org/source/openssl-1.0.1e.tar.gz"}}{\fldrslt http://www.openssl.org/source/openssl-1.0.1e.tar.gz}}\
+	{\field{\*\fldinst{HYPERLINK "http://www.openssl.org/source/openssl-1.0.1g.tar.gz"}}{\fldrslt http://www.openssl.org/source/openssl-1.0.1g.tar.gz}}\
 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
 
@@ -180,7 +182,7 @@ MAC_OS_X_VERSION_MIN_REQUIRED=1050\
 
 \f0\fs24 \cf0 \
 \pard\pardeftab720\sa260
-\cf0 These are not done automatically by either the Xcode projects which come with wxWidgets-3.0, nor  the AutoMake scripts supplied with wxWidgets-3.0, c-ares-1.9.1, curl-7.26.0, openssl-1.0.1e, freetype-2.4.10, ftgl-2.1.3~rc5 and sqlite3.7.14.1.  So be sure to use our special scripts to build these packages.\
+\cf0 These are not done automatically by either the Xcode projects which come with wxWidgets-3.0, nor  the AutoMake scripts supplied with wxWidgets-3.0, c-ares-1.10.0, curl-7.35.0, openssl-1.0.1g, freetype-2.4.10, ftgl-2.1.3~rc5 and sqlite-3.8.3.  So be sure to use our special scripts to build these packages.\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
 \cf0 [1] Create a parent directory within which to work.  In this description , we will call it BOINC_dev, but you can name it anything you wish.\
 \
@@ -188,17 +190,17 @@ MAC_OS_X_VERSION_MIN_REQUIRED=1050\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
 
 \f1\fs26 \cf0     c-ares-
-\f0\fs24 1.9.1
-\f1\fs26 \
-    curl-7.26.0\
+\fs24 1.10.0
+\fs26 \
+    curl-7.35.0\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
-\cf0     openssl-1.0.1e\
+\cf0     openssl-1.0.1g\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
 \cf0     wxWidgets-3.0\
     freetype-2.4.10\
     ftgl-2.1.3~rc5\
     
-\fs24 sqlite3.7.14.1
+\fs24 sqlite-3.8.3
 \fs26 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640
 
@@ -246,7 +248,7 @@ If you don't wish to force a full rebuild of everything, omit the -clean argumen
 \f0\fs24  command to run them.\
 
 \b Note 2:
-\b0  this script tries to build all six third-party libraries: wxWidgets-3.0, c-ares-1.9.1, curl-7.26.0, openssl-1.0.1e,  freetype-2.4.10, ftgl-2.1.3~rc5 and sqlite3.7.14.1.  when the script finishes, it will display a warning about any libraries was unable to build (for example, if you have not downloaded them.)\
+\b0  this script tries to build all six third-party libraries: wxWidgets-3.0, c-ares-1.10.0, curl-7.35.0, openssl-1.0.1g,  freetype-2.4.10, ftgl-2.1.3~rc5 and sqlite-3.8.3.  when the script finishes, it will display a warning about any libraries was unable to build (for example, if you have not downloaded them.)\
 \
 [5] Build BOINC as follows:\
 \

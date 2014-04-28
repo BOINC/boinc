@@ -1147,8 +1147,36 @@ int SCHED_DB_RESULT::parse_from_client(XML_PARSER& xp) {
         }
         if (xp.parse_str("name", name, sizeof(name))) continue;
         if (xp.parse_int("state", client_state)) continue;
-        if (xp.parse_double("final_cpu_time", cpu_time)) continue;
-        if (xp.parse_double("final_elapsed_time", elapsed_time)) continue;
+        if (xp.parse_double("final_cpu_time", cpu_time)) {
+            if (!boinc_is_finite(cpu_time)) {
+                cpu_time = 0;
+            }
+            continue;
+        }
+        if (xp.parse_double("final_elapsed_time", elapsed_time)) {
+            if (!boinc_is_finite(elapsed_time)) {
+                elapsed_time = 0;
+            }
+            continue;
+        }
+        if (xp.parse_double("final_peak_working_set_size", peak_working_set_size)) {
+            if (!boinc_is_finite(peak_working_set_size)) {
+                peak_working_set_size = 0;
+            }
+            continue;
+        }
+        if (xp.parse_double("final_peak_swap_size", peak_swap_size)) {
+            if (!boinc_is_finite(peak_swap_size)) {
+                peak_swap_size = 0;
+            }
+            continue;
+        }
+        if (xp.parse_double("final_peak_disk_usage", peak_disk_usage)) {
+            if (!boinc_is_finite(peak_disk_usage)) {
+                peak_disk_usage = 0;
+            }
+            continue;
+        }
         if (xp.parse_int("exit_status", exit_status)) continue;
         if (xp.parse_int("app_version_num", app_version_num)) continue;
         if (xp.match_tag("file_info")) {
@@ -1344,6 +1372,7 @@ void GLOBAL_PREFS::defaults() {
 void GUI_URLS::init() {
     text = 0;
     read_file_malloc(config.project_path("gui_urls.xml"), text);
+    if (text) text = lf_terminate(text);
 }
 
 void GUI_URLS::get_gui_urls(USER& user, HOST& host, TEAM& team, char* buf, int len) {
@@ -1385,6 +1414,7 @@ void GUI_URLS::get_gui_urls(USER& user, HOST& host, TEAM& team, char* buf, int l
 void PROJECT_FILES::init() {
     text = 0;
     read_file_malloc(config.project_path("project_files.xml"), text);
+    if (text) text = lf_terminate(text);
 }
 
 void get_weak_auth(USER& user, char* buf) {

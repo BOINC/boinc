@@ -19,12 +19,10 @@
 package edu.berkeley.boinc.adapter;
 
 import edu.berkeley.boinc.utils.*;
-
 import java.util.ArrayList;
 import org.apache.http.impl.cookie.DateUtils;
+import edu.berkeley.boinc.BOINCActivity;
 import edu.berkeley.boinc.R;
-import edu.berkeley.boinc.client.ClientStatus;
-import edu.berkeley.boinc.client.Monitor;
 import edu.berkeley.boinc.rpc.Notice;
 import android.app.Activity;
 import android.content.Context;
@@ -98,14 +96,15 @@ public class NoticesListAdapter extends ArrayAdapter<Notice>{
 	
 	private Bitmap getIcon(int position) {
 		// try to get current client status from monitor
-		ClientStatus status;
+		//ClientStatus status;
 		try{
-			status  = Monitor.getClientStatus();
+			//status  = Monitor.getClientStatus();
+			return BOINCActivity.monitor.getProjectIconByName(entries.get(position).project_name);
 		} catch (Exception e){
 			if(Logging.WARNING) Log.w(Logging.TAG,"TasksListAdapter: Could not load data, clientStatus not initialized.");
 			return null;
 		}
-		return status.getProjectIconByName(entries.get(position).project_name);
+		//return status.getProjectIconByName(entries.get(position).project_name);
 	}
 
 }

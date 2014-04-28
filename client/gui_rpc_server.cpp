@@ -25,6 +25,7 @@
 #else
 #include "config.h"
 #include <cstdio>
+#include <cstddef>
 #if HAVE_UNISTD_H
 #include <unistd.h>
 #endif
@@ -237,7 +238,9 @@ int GUI_RPC_CONN_SET::init_unix_domain() {
 #ifdef ANDROID
     // bind socket in abstract address space, i.e. start with 0 byte
     addr.sun_path[0] = '\0';
-    strcpy(&addr.sun_path[1], GUI_RPC_FILE);
+    // using app specific socket name instead of GUI_RPC_FILE defintion
+    // to avoid interference with other BOINC based Android apps.
+    strcpy(&addr.sun_path[1], "edu_berkeley_boinc_client_socket");
     socklen_t len = offsetof(struct sockaddr_un, sun_path) + 1 + strlen(&addr.sun_path[1]);
 #else
     // NOTE: if we ever add Mac OS X support, need to change this

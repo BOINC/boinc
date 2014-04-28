@@ -137,12 +137,6 @@ struct APP_VERSION {
     //
     BEST_APP_VERSION* bavp;
 
-    // used by validator, not in DB
-    //
-    std::vector<double>pfc_samples;
-    std::vector<double>credit_samples;
-    std::vector<double>credit_times;
-
     int write(FILE*);
     void clear();
 
@@ -337,10 +331,12 @@ struct HOST {
         // that fail validation
         // DEPRECATED
     char product_name[256];
+    double gpu_active_frac;
 
     // the following items are passed in scheduler requests,
     // and used in the scheduler,
     // but not stored in the DB
+    // TODO: move this stuff to a derived class HOST_SCHED
     //
     char p_features[1024];
     char virtualbox_version[256];
@@ -349,7 +345,6 @@ struct HOST {
     OPENCL_CPU_PROP opencl_cpu_prop[MAX_OPENCL_CPU_PLATFORMS];
 
     // stuff from time_stats
-    double gpu_active_frac;
     double cpu_and_network_available_frac;
     double client_start_time;
     double previous_uptime;
@@ -598,6 +593,11 @@ struct RESULT {
         // don't include it in PFC or elapsed time statistics.
     int size_class;
         // -1 means none
+
+    // the following reported by 7.3.16+ clients
+    double peak_working_set_size;
+    double peak_swap_size;
+    double peak_disk_usage;
 
     void clear();
     RESULT() {clear();}

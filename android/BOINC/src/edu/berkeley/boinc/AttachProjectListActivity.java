@@ -22,15 +22,22 @@ package edu.berkeley.boinc;
 import edu.berkeley.boinc.utils.*;
 import java.util.ArrayList;
 import edu.berkeley.boinc.adapter.AttachProjectListAdapter;
-import edu.berkeley.boinc.client.ClientStatus;
+import edu.berkeley.boinc.client.IMonitor;
 import edu.berkeley.boinc.client.Monitor;
+import edu.berkeley.boinc.rpc.Notice;
 import edu.berkeley.boinc.rpc.ProjectInfo;
 import android.app.Dialog;
+import android.app.Service;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.IBinder;
+import android.os.Parcelable;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -52,6 +59,8 @@ public class AttachProjectListActivity extends ActionBarActivity implements andr
 	private AttachProjectListAdapter listAdapter;
 	private Dialog manualUrlInputDialog;
 	private Boolean acctMgrPresent = false;
+	private IMonitor monitor = null;
+	private boolean mIsBound = false;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {  
@@ -59,25 +68,27 @@ public class AttachProjectListActivity extends ActionBarActivity implements andr
          
         if(Logging.DEBUG) Log.d(Logging.TAG, "AttachProjectListActivity onCreate"); 
         
+        doBindService();
 		//get supported projects
 		// try to get current client status from monitor
-		ClientStatus status;
-		ArrayList<ProjectInfo> data = new ArrayList<ProjectInfo>();
-		try{
-			status  = Monitor.getClientStatus();
-			acctMgrPresent = status.getAcctMgrInfo().present;
-			data = status.getSupportedProjects();
-			if(Logging.DEBUG) Log.d(Logging.TAG,"monitor.getAndroidProjectsList returned with " + data.size() + " elements");
-		} catch (Exception e){
-			if(Logging.WARNING) Log.w(Logging.TAG,"AttachProjectListActivity: Could not load supported projects, clientStatus not initialized.");
-			finish();
-			return;
-		}
+		//ClientStatus status;
+// Move to background update
+//		ArrayList<ProjectInfo> data = new ArrayList<ProjectInfo>();
+//		try{
+//			//status  = Monitor.getClientStatus();
+//			acctMgrPresent = SplashActivity.monitor.getAcctMgrInfoPresent();
+//			data = (ArrayList<ProjectInfo>) SplashActivity.monitor.getSupportedProjects();
+//			if(Logging.DEBUG) Log.d( Logging.TAG,"monitor.getAndroidProjectsList returned with " + data.size() + " elements");
+//		} catch (Exception e){
+//			if(Logging.WARNING) Log.w(Logging.TAG,"AttachProjectListActivity: Could not load supported projects, clientStatus not initialized.");
+//			finish();
+//			return;
+//		}
 		
 		// setup layout
         setContentView(R.layout.attach_project_list_layout);  
 		lv = (ListView) findViewById(R.id.listview);
-        listAdapter = new AttachProjectListAdapter(AttachProjectListActivity.this,R.id.listview,data);
+        listAdapter = new AttachProjectListAdapter(AttachProjectListActivity.this,R.id.listview,new ArrayList<ProjectInfo>());
         lv.setAdapter(listAdapter);
         
         // setup action bar
@@ -87,11 +98,14 @@ public class AttachProjectListActivity extends ActionBarActivity implements andr
         // disable up as home if explicitly requested in intent (e.g. when navigating directly from splash screen)
         Intent i = getIntent();
         actionBar.setDisplayHomeAsUpEnabled(i.getBooleanExtra("showUp", true));
+        
+        
     }
     
 	@Override
 	protected void onDestroy() {
     	if(Logging.VERBOSE) Log.v(Logging.TAG, "AttachProjectListActivity onDestroy");
+    	doUnbindService();
 	    super.onDestroy();
 	}	
 	
@@ -195,7 +209,7 @@ public class AttachProjectListActivity extends ActionBarActivity implements andr
 	
 	private void startAttachProjectLoginActivity(ProjectInfo project, String url) {
 		Intent intent = new Intent(this, AttachProjectLoginActivity.class);
-		intent.putExtra("projectInfo", project);
+		intent.putExtra("projectInfo", (Parcelable)project);
 		intent.putExtra("url", url);
 		startActivity(intent);
 	}
@@ -203,6 +217,73 @@ public class AttachProjectListActivity extends ActionBarActivity implements andr
 	private void showErrorToast(int resourceId) {
 		Toast toast = Toast.makeText(getApplicationContext(), resourceId, Toast.LENGTH_SHORT);
 		toast.show();
+	}
+	
+	private ServiceConnection mConnection = new ServiceConnection() {
+	    public void onServiceConnected(ComponentName className, IBinder service) {
+	        // This is called when the connection with the service has been established, getService returns 
+	    	// the Monitor object that is needed to call functions.
+	        monitor = IMonitor.Stub.asInterface(service);
+		    mIsBound = true;
+		    
+			UpdateProjectListAsyncTask task = new UpdateProjectListAsyncTask();
+			task.execute();
+	    }
+
+	    public void onServiceDisconnected(ComponentName className) {
+	    	// This should not happen
+	        monitor = null;
+		    mIsBound = false;
+	    }
+	};
+	
+	private void doBindService() {
+		// start service to allow setForeground later on...
+		startService(new Intent(this, Monitor.class));
+	    // Establish a connection with the service, onServiceConnected gets called when
+		bindService(new Intent(this, Monitor.class), mConnection, Service.BIND_AUTO_CREATE);
+	}
+
+	private void doUnbindService() {
+	    if (mIsBound) {
+	        // Detach existing connection.
+	        unbindService(mConnection);
+	        mIsBound = false;
+	    }
+	}
+	
+	private class UpdateProjectListAsyncTask extends AsyncTask<Void, Void, ArrayList<ProjectInfo>> {
+
+		@Override
+		protected ArrayList<ProjectInfo> doInBackground(Void... arg0) {
+			
+			ArrayList<ProjectInfo> data = null;
+			while(acctMgrPresent == null || data == null) {
+				try{
+					//status  = Monitor.getClientStatus();
+					acctMgrPresent = monitor.getAcctMgrInfoPresent();
+					data = (ArrayList<ProjectInfo>) monitor.getSupportedProjects();
+					if(Logging.DEBUG) Log.d( Logging.TAG,"monitor.getAndroidProjectsList returned with " + data.size() + " elements");
+				} catch (Exception e){
+					if(Logging.WARNING) Log.w(Logging.TAG,"AttachProjectListActivity: Could not load supported projects: " + e.getLocalizedMessage());
+					finish();
+				}
+				if(acctMgrPresent == null || data == null) {
+					if(Logging.WARNING) Log.w(Logging.TAG,"AttachProjectListActivity: UpdateProjectListAsyncTask failed to retrieve data, retry....");
+					try{Thread.sleep(500);} catch(Exception e) {}
+				}
+			}
+			return data;
+		}
+		
+		protected void onPostExecute(ArrayList<ProjectInfo> result) {
+	        if (listAdapter!=null && result != null) {
+				for(ProjectInfo tmp: result) { // addAll only in API 11
+					listAdapter.add(tmp);
+				}
+	         }
+	        	 
+	     }
 	}
 
 }

@@ -82,6 +82,10 @@ $wallpaper = array(
         <a href=images/BOINC_background_1_grey.jpg><img src=images/BOINC_background_1_grey_120.jpg></a>
         <a href=images/BOINC_background_2_blue.jpg><img src=images/BOINC_background_2_blue_120.jpg></a>"
     ),
+    array(
+        "Jacob Klein",
+        "<a href=images/boinc_logo_1920x1080.png><img width=180 src=images/boinc_logo_1920x1080.png></a>"
+    ),
 );
 art_list_head();
 art_list_show($wallpaper);

@@ -16,23 +16,15 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// DEPRECATED - the email by this script doesn't tell the
+// volunteer anything specific or useful.
+
 require_once("../inc/db.inc");
 require_once("../inc/util_ops.inc");
 require_once("../inc/email.inc");
 
-// activate/deactivate script
-if (0) {
-  echo "
-This script needs to be activated before it can be run.
-Once you understand what the script does you can change the 
-if (1) to if (0) at the top of the file to activate it.
-Be sure to deactivate the script after using it to make sure
-it is not accidentally run. 
-";
-  exit;
-}
+exit();
 
-db_init();
 
 function send_problem_email($user, $host) {
     global $master_url;
@@ -110,7 +102,7 @@ For further information and assistance with ".PROJECT." go to $master_url";
 }
 
 
-$hostid = $_GET["hostid"];
+$hostid = get_int("hostid", true);
 
 if (!$hostid) {
     admin_page_head("Misconfigured Host");
@@ -122,14 +114,12 @@ if (!$hostid) {
     </form>
     ";
 } else {
-    $res = mysql_query("select * from host where id='$hostid'");
-    $host = mysql_fetch_object($res);
+    $host = BoincHost::lookup_id($hostid);
     if (!$host) {
     	echo "<h2>No host with that ID</h2>
 	 	<center>Please <a href=\"problem_host.php\">try again</a></center>";
     } else {
-    	$res = mysql_query("select * from user where id='$host->userid'");
-    	$user = mysql_fetch_object($res);
+        $user = BoincUser::lookup_id($host->userid);
     	echo "<a href=\"problem_host.php\">Do another?</a><br><br>";
     	send_problem_email($user, $host);
     	echo "Email to ".$user->email_addr." has been sent.<br>";

@@ -53,8 +53,8 @@ if ($privatekey) {
 //
 $teamid = post_int("teamid", true);
 if ($teamid) {
-    $team = lookup_team($teamid);
-    $clone_user = lookup_user_id($team->userid);
+    $team = BoincTeam::lookup_id($teamid);
+    $clone_user = BoincUser::lookup_id($team->userid);
     if (!$clone_user) {
         error_page("User $userid not found");
     }
@@ -83,7 +83,7 @@ $new_email_addr = strtolower(post_str("new_email_addr"));
 if (!is_valid_email_addr($new_email_addr)) {
     show_error(tra("Invalid email address: you must enter a valid address of the form name@domain"));
 }
-$user = lookup_user_email_addr($new_email_addr);
+$user = BoincUser::lookup_email_addr($new_email_addr);
 if ($user) {
     show_error(tra("There's already an account with that email address."));
 }

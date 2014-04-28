@@ -43,7 +43,7 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
         wxASSERT(pSkinAdvanced);
         wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
 
-        strCaption.Printf(_("%s - Preferences"), pSkinAdvanced->GetApplicationShortName().c_str());
+        strCaption.Printf(_("%s - Computing preferences"), pSkinAdvanced->GetApplicationShortName().c_str());
     }
 
     this->SetExtraStyle( this->GetExtraStyle() | wxWS_EX_VALIDATE_RECURSIVELY );

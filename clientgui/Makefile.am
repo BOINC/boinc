@@ -34,7 +34,6 @@ boincmgr_SOURCES = \
     BOINCBaseFrame.cpp \
     BOINCBaseView.cpp \
     BOINCBaseWizard.cpp \
-    BOINCBitmapComboBox.cpp \
     BOINCClientManager.cpp \
     BOINCDialupManager.cpp \
     BOINCGUIApp.cpp \
@@ -48,6 +47,7 @@ boincmgr_SOURCES = \
     DlgAbout.cpp 		\
     DlgAdvPreferences.cpp \
     DlgAdvPreferencesBase.cpp \
+    DlgDiagnosticLogFlags.cpp \
     DlgEventLog.cpp \
     DlgEventLogListCtrl.cpp \
     DlgExitMessage.cpp \

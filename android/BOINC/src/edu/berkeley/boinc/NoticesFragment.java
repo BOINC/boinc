@@ -19,10 +19,10 @@
 package edu.berkeley.boinc;
 
 import edu.berkeley.boinc.utils.*;
-
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import edu.berkeley.boinc.adapter.NoticesListAdapter;
-import edu.berkeley.boinc.client.Monitor;
 import edu.berkeley.boinc.rpc.Notice;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -40,14 +40,14 @@ public class NoticesFragment extends Fragment {
 
 	private ListView noticesList;
 	private NoticesListAdapter noticesListAdapter;
-	private ArrayList<Notice> data;
+	private ArrayList<Notice> data = new ArrayList<Notice>();
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     	if(Logging.VERBOSE) Log.d(Logging.TAG,"NoticesFragment onCreateView");
     	View layout = inflater.inflate(R.layout.notices_layout, container, false);
 		noticesList = (ListView) layout.findViewById(R.id.noticesList);
-		try{data = Monitor.getClientStatus().getRssNotices();} catch(Exception e){}
+		updateNotices();
 		noticesListAdapter = new NoticesListAdapter(getActivity(), R.id.noticesList, data);
 		noticesList.setAdapter(noticesListAdapter);
 		return layout;
@@ -57,6 +57,11 @@ public class NoticesFragment extends Fragment {
 	public void onResume() {
 		if(Logging.DEBUG) Log.d(Logging.TAG, "NoticesFragment onResume()");
 		getActivity().registerReceiver(mClientStatusChangeRec,ifcsc);
+		
+		// clear notice notification
+		try {
+			BOINCActivity.monitor.cancelNoticeNotification();
+		} catch (Exception e) {}
 		super.onResume();
 	}
 	
@@ -71,12 +76,30 @@ public class NoticesFragment extends Fragment {
 	private BroadcastReceiver mClientStatusChangeRec = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context,Intent intent) {
-			if(Logging.VERBOSE) Log.d(Logging.TAG, "StatusFragment ClientStatusChange - onReceive()"); 
+			if(Logging.VERBOSE) Log.d(Logging.TAG, "NoticesFragment ClientStatusChange - onReceive()"); 
 
 		    // data retrieval
-			try{data = Monitor.getClientStatus().getRssNotices();} catch(Exception e){}
+			updateNotices();
+			noticesListAdapter.clear();
+			for(Notice tmp: data) { // addAll only in API 11
+				noticesListAdapter.add(tmp);
+			}
 			noticesListAdapter.notifyDataSetChanged();
 		}
 	};
 	private IntentFilter ifcsc = new IntentFilter("edu.berkeley.boinc.clientstatuschange");
+	
+	private void updateNotices() {
+		try{
+			data = (ArrayList<Notice>) BOINCActivity.monitor.getRssNotices();
+			// sorting policy:
+			// latest arrival first.
+			Collections.sort(data, new Comparator<Notice>() {
+				@Override
+				public int compare(Notice lhs, Notice rhs) {
+					return ((Double) (rhs.create_time - lhs.create_time)).intValue();
+				}
+			});
+		} catch(Exception e){}
+	}
 }

@@ -34,9 +34,8 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import edu.berkeley.boinc.ProjectsFragment.ProjectsListData;
+import edu.berkeley.boinc.BOINCActivity;
 import edu.berkeley.boinc.R;
-import edu.berkeley.boinc.client.ClientStatus;
-import edu.berkeley.boinc.client.Monitor;
 import edu.berkeley.boinc.rpc.Notice;
 import edu.berkeley.boinc.rpc.Transfer;
 import edu.berkeley.boinc.utils.Logging;
@@ -92,14 +91,15 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
 	
 	public Bitmap getIcon(int position) {
 		// try to get current client status from monitor
-		ClientStatus status;
+		//ClientStatus status;
 		try{
-			status  = Monitor.getClientStatus();
+			//status  = Monitor.getClientStatus();
+			return BOINCActivity.monitor.getProjectIcon(entries.get(position).id);
 		} catch (Exception e){
 			if(Logging.WARNING) Log.w(Logging.TAG,"ProjectsListAdapter: Could not load data, clientStatus not initialized.");
 			return null;
 		}
-		return status.getProjectIcon(entries.get(position).id);
+		//return status.getProjectIcon(entries.get(position).id);
 	}
 	
 	@Override
@@ -155,7 +155,7 @@ public class ProjectsListAdapter extends ArrayAdapter<ProjectsListData> {
 	        }
 	        
 		    String statusText = "";
-		    try{statusText = Monitor.getClientStatus().getProjectStatus(data.project.master_url);}catch(Exception e){}
+		    try{statusText = BOINCActivity.monitor.getProjectStatus(data.project.master_url);}catch(Exception e){}
 	        TextView tvStatus = (TextView)vi.findViewById(R.id.project_status);
 		    if(statusText.isEmpty()) tvStatus.setVisibility(View.GONE);
 		    else {

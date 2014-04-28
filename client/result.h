@@ -40,6 +40,9 @@ struct RESULT {
         // we've received the ack for this result from the server
     double final_cpu_time;
     double final_elapsed_time;
+    double final_peak_working_set_size;
+    double final_peak_swap_size;
+    double final_peak_disk_usage;
 #ifdef SIM
     double peak_flop_count;
     double sim_flops_left;

@@ -131,6 +131,10 @@ const double MAX_REQ_SECS = (28*SECONDS_IN_DAY);
 // # jobs in progress
 //
 void WORK_REQ_BASE::get_job_limits() {
+    int ninstances[NPROC_TYPES];
+    int i;
+    
+    memset(ninstances, 0, sizeof(ninstances));
     int n;
     n = g_reply->host.p_ncpus;
     if (g_request->global_prefs.max_ncpus_pct && g_request->global_prefs.max_ncpus_pct < 100) {
@@ -139,16 +143,24 @@ void WORK_REQ_BASE::get_job_limits() {
     if (n > config.max_ncpus) n = config.max_ncpus;
     if (n < 1) n = 1;
     if (n > MAX_CPUS) n = MAX_CPUS;
+    ninstances[PROC_TYPE_CPU] = n;
     effective_ncpus = n;
 
-    n = g_request->coprocs.ndevs();
-    if (n > MAX_GPUS) n = MAX_GPUS;
-    effective_ngpus = n;
+    effective_ngpus = 0;
+    for (i=1; i<g_request->coprocs.n_rsc; i++) {
+        COPROC& cp = g_request->coprocs.coprocs[i];
+        int proc_type = coproc_type_name_to_num(cp.type);
+        if (!proc_type) continue;
+        n = cp.count;
+        if (n > MAX_GPUS) n = MAX_GPUS;
+        ninstances[proc_type] = n;
+        effective_ngpus += n;
+    }
 
     int mult = effective_ncpus + config.gpu_multiplier * effective_ngpus;
     if (config.non_cpu_intensive) {
         mult = 1;
-        effective_ncpus = 1;
+        ninstances[0] = 1;
         if (effective_ngpus) effective_ngpus = 1;
     }
 
@@ -164,7 +176,7 @@ void WORK_REQ_BASE::get_job_limits() {
             effective_ncpus, effective_ngpus
         );
     }
-    config.max_jobs_in_progress.reset(effective_ncpus, effective_ngpus);
+    config.max_jobs_in_progress.reset(ninstances);
 }
 
 const char* find_user_friendly_name(int appid) {
@@ -409,28 +421,46 @@ static double estimate_duration_unscaled(WORKUNIT& wu, BEST_APP_VERSION& bav) {
     return rsc_fpops_est/bav.host_usage.projected_flops;
 }
 
-static inline void get_running_frac() {
-    double rf;
-    if (g_request->core_client_version<=41900) {
-        rf = g_reply->host.on_frac;
-    } else {
-        rf = g_reply->host.active_frac * g_reply->host.on_frac;
+// Compute cpu_available_frac and gpu_available_frac.
+// These are based on client-supplied data, so do sanity checks
+//
+#define FRAC_MIN 0.1
+static inline void clamp_frac(double& frac, const char* name) {
+    if (frac > 1) {
+        if (config.debug_send) {
+            log_messages.printf(MSG_NORMAL,
+                "[send] %s=%f; setting to 1\n", name, frac
+            );
+        }
+        frac = 1;
+    } else if (frac < FRAC_MIN) {
+        if (config.debug_send) {
+            log_messages.printf(MSG_NORMAL,
+                "[send] %s=%f; setting to %f\n", name, frac, FRAC_MIN
+            );
+        }
+        frac = .01;
     }
+}
 
-    // clamp running_frac to a reasonable range
-    //
-    if (rf > 1) {
-        if (config.debug_send) {
-            log_messages.printf(MSG_NORMAL, "[send] running_frac=%f; setting to 1\n", rf);
-        }
-        rf = 1;
-    } else if (rf < .1) {
-        if (config.debug_send) {
-            log_messages.printf(MSG_NORMAL, "[send] running_frac=%f; setting to 0.1\n", rf);
-        }
-        rf = .1;
+static inline void get_available_fracs() {
+    if (g_request->core_client_version<=41900) {
+        g_wreq->cpu_available_frac = g_reply->host.on_frac;
+        g_wreq->gpu_available_frac = g_reply->host.on_frac; // irrelevant
+    } else {
+        g_wreq->cpu_available_frac = g_reply->host.active_frac * g_reply->host.on_frac;
+        g_wreq->gpu_available_frac = g_reply->host.gpu_active_frac * g_reply->host.on_frac;
     }
-    g_wreq->running_frac = rf;
+    clamp_frac(g_wreq->cpu_available_frac, "CPU available fraction");
+    clamp_frac(g_wreq->gpu_available_frac, "GPU available fraction");
+}
+
+double available_frac(BEST_APP_VERSION& bav) {
+    if (bav.host_usage.uses_gpu()) {
+        return g_wreq->gpu_available_frac;
+    } else {
+        return g_wreq->cpu_available_frac;
+    }
 }
 
 // estimate the amount of real time to complete this WU,
@@ -440,7 +470,7 @@ static inline void get_running_frac() {
 //
 double estimate_duration(WORKUNIT& wu, BEST_APP_VERSION& bav) {
     double edu = estimate_duration_unscaled(wu, bav);
-    double ed = edu/g_wreq->running_frac;
+    double ed = edu/available_frac(bav);
     if (config.debug_send) {
         log_messages.printf(MSG_NORMAL,
             "[send] est. duration for WU %d: unscaled %.2f scaled %.2f\n",
@@ -757,36 +787,21 @@ bool work_needed(bool locality_sched) {
     //
     bool some_type_allowed = false;
 
-    // check GPU limit
-    //
-    if (config.max_jobs_in_progress.exceeded(NULL, true)) {
-        if (config.debug_quota) {
-            log_messages.printf(MSG_NORMAL,
-                "[quota] reached limit on GPU jobs in progress\n"
-            );
-            config.max_jobs_in_progress.print_log();
+    for (int i=0; i<NPROC_TYPES; i++) {
+        if (!have_apps(i)) continue;
+        if (config.max_jobs_in_progress.exceeded(NULL, i)) {
+            if (config.debug_quota) {
+                log_messages.printf(MSG_NORMAL,
+                    "[quota] reached limit on %s jobs in progress\n",
+                    proc_type_name(i)
+                );
+                config.max_jobs_in_progress.print_log();
+            }
+            g_wreq->clear_req(i);
+            g_wreq->max_jobs_on_host_proc_type_exceeded[i] = true;
+        } else {
+            some_type_allowed = true;
         }
-        g_wreq->clear_gpu_req();
-        if (g_wreq->effective_ngpus) {
-            g_wreq->max_jobs_on_host_gpu_exceeded = true;
-        }
-    } else {
-        some_type_allowed = true;
-    }
-
-    // check CPU limit
-    //
-    if (config.max_jobs_in_progress.exceeded(NULL, false)) {
-        if (config.debug_quota) {
-            log_messages.printf(MSG_NORMAL,
-                "[quota] reached limit on CPU jobs in progress\n"
-            );
-            config.max_jobs_in_progress.print_log();
-        }
-        g_wreq->clear_cpu_req();
-        g_wreq->max_jobs_on_host_cpu_exceeded = true;
-    } else {
-        some_type_allowed = true;
     }
 
     if (!some_type_allowed) {
@@ -991,7 +1006,7 @@ int add_result_to_reply(
     }
     update_estimated_delay(*bavp, est_dur);
     g_wreq->njobs_sent++;
-    config.max_jobs_in_progress.register_job(app, bavp->host_usage.uses_gpu());
+    config.max_jobs_in_progress.register_job(app, bavp->host_usage.proc_type);
     if (!resent_result) {
         DB_HOST_APP_VERSION* havp = bavp->host_app_version();
         if (havp) {
@@ -1322,10 +1337,7 @@ static void send_user_messages() {
             }
             g_reply->set_delay(DELAY_NO_WORK_CACHE);
         }
-        if (g_wreq->max_jobs_on_host_exceeded
-            || g_wreq->max_jobs_on_host_cpu_exceeded
-            || g_wreq->max_jobs_on_host_gpu_exceeded
-        ) {
+        if (g_wreq->max_jobs_exceeded()) {
             sprintf(buf, "This computer has reached a limit on tasks in progress");
             g_reply->insert_message(buf, "low");
             g_reply->set_delay(DELAY_NO_WORK_CACHE);
@@ -1376,7 +1388,7 @@ void send_work_setup() {
 
     g_wreq->disk_available = max_allowable_disk();
     get_mem_sizes();
-    get_running_frac();
+    get_available_fracs();
     g_wreq->get_job_limits();
 
     // do sanity checking on GPU scheduling parameters
@@ -1402,7 +1414,7 @@ void send_work_setup() {
     for (i=0; i<g_request->other_results.size(); i++) {
         OTHER_RESULT& r = g_request->other_results[i];
         APP* app = NULL;
-        bool uses_gpu = false;
+        int proc_type = PROC_TYPE_CPU;
         bool have_cav = false;
         if (r.app_version >= 0
             && r.app_version < (int)g_request->client_app_versions.size()
@@ -1411,15 +1423,15 @@ void send_work_setup() {
             app = cav.app;
             if (app) {
                 have_cav = true;
-                uses_gpu = cav.host_usage.uses_gpu();
+                proc_type = cav.host_usage.proc_type;
             }
         }
         if (!have_cav) {
-            if (r.have_plan_class && app_plan_uses_gpu(r.plan_class)) {
-                uses_gpu = true;
+            if (r.have_plan_class) {
+                proc_type = plan_class_to_proc_type(r.plan_class);
             }
         }
-        config.max_jobs_in_progress.register_job(app, uses_gpu);
+        config.max_jobs_in_progress.register_job(app, proc_type);
     }
 
     // print details of request to log
@@ -1464,9 +1476,10 @@ void send_work_setup() {
             (int)g_request->global_prefs.work_buf_min()
         );
         log_messages.printf(MSG_NORMAL,
-            "[send] active_frac %f on_frac %f\n",
+            "[send] on_frac %f active_frac %f gpu_active_frac %f\n",
+            g_reply->host.on_frac,
             g_reply->host.active_frac,
-            g_reply->host.on_frac
+            g_reply->host.gpu_active_frac
         );
         if (g_wreq->anonymous_platform) {
             log_messages.printf(MSG_NORMAL,
@@ -1608,8 +1621,7 @@ void send_work() {
     }
 
     if (!work_needed(false)) {
-        send_user_messages();
-        return;
+        goto done;
     }
 
     if (config.locality_scheduler_fraction > 0) {

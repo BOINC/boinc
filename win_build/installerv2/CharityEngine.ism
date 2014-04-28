@@ -843,7 +843,6 @@
 	<table name="CreateFolder">
 		<col key="yes" def="s72">Directory_</col>
 		<col key="yes" def="s72">Component_</col>
-		<row><td>DATADIR</td><td>_BOINCData</td></row>
 		<row><td>INSTALLDIR</td><td>BOINCServiceConfig</td></row>
 		<row><td>INSTALLDIR</td><td>_BOINC</td></row>
 		<row><td>INSTALLDIR</td><td>_BOINCManagerStartMenu</td></row>
@@ -853,8 +852,6 @@
 		<row><td>INSTALLDIR</td><td>_BOINCTrayStartup</td></row>
 		<row><td>INSTALLDIR</td><td>_ScreensaverEnable9x</td></row>
 		<row><td>INSTALLDIR</td><td>_ScreensaverEnableNT</td></row>
-		<row><td>PROJECTS</td><td>_BOINCDataProjects</td></row>
-		<row><td>SLOTS</td><td>_BOINCDataSlots</td></row>
 	</table>
 
 	<table name="CustomAction">
@@ -4001,7 +3998,7 @@ Click Advanced to customize.</td><td>0</td><td/><td>1427879980</td></row>
 		<row><td>CACleanupOldBinaries</td><td>REMOVE &lt;&gt; "ALL"</td><td>796</td><td/><td/></row>
 		<row><td>CACreateAcctMgrLoginFile</td><td>NOT Installed</td><td>6605</td><td/><td/></row>
 		<row><td>CACreateBOINCAccounts</td><td>VersionNT And REMOVE &lt;&gt; "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1546</td><td/><td/></row>
-		<row><td>CACreateBOINCGroups</td><td>VersionNT And REMOVE &lt;&gt; "ALL"</td><td>1549</td><td/><td/></row>
+		<row><td>CACreateBOINCGroups</td><td>VersionNT And REMOVE &lt;&gt; "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1549</td><td/><td/></row>
 		<row><td>CACreateClientAuthFile</td><td>VersionNT And NOT Installed</td><td>6604</td><td/><td/></row>
 		<row><td>CACreateProjectInitFile</td><td>NOT Installed</td><td>6606</td><td/><td/></row>
 		<row><td>CAGetAdministratorsGroupName</td><td>VersionNT And REMOVE &lt;&gt; "ALL"</td><td>1537</td><td/><td/></row>
@@ -4020,10 +4017,10 @@ Click Advanced to customize.</td><td>0</td><td/><td>1427879980</td></row>
 		<row><td>CASaveSetupState</td><td/><td>6614</td><td/><td/></row>
 		<row><td>CASetBOINCDataProjects</td><td/><td>1004</td><td/><td/></row>
 		<row><td>CASetBOINCDataSlots</td><td/><td>1003</td><td/><td/></row>
-		<row><td>CASetPermissionBOINC</td><td>VersionNT And REMOVE &lt;&gt; "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>6607</td><td/><td/></row>
-		<row><td>CASetPermissionBOINCData</td><td>VersionNT And REMOVE &lt;&gt; "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>6608</td><td/><td/></row>
-		<row><td>CASetPermissionBOINCDataProjects</td><td>VersionNT And REMOVE &lt;&gt; "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>6609</td><td/><td/></row>
-		<row><td>CASetPermissionBOINCDataSlots</td><td>VersionNT And REMOVE &lt;&gt; "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>6611</td><td/><td/></row>
+		<row><td>CASetPermissionBOINC</td><td>VersionNT And REMOVE &lt;&gt; "ALL"</td><td>6607</td><td/><td/></row>
+		<row><td>CASetPermissionBOINCData</td><td>VersionNT And REMOVE &lt;&gt; "ALL"</td><td>6608</td><td/><td/></row>
+		<row><td>CASetPermissionBOINCDataProjects</td><td>VersionNT And REMOVE &lt;&gt; "ALL"</td><td>6609</td><td/><td/></row>
+		<row><td>CASetPermissionBOINCDataSlots</td><td>VersionNT And REMOVE &lt;&gt; "ALL"</td><td>6611</td><td/><td/></row>
 		<row><td>CAShutdownBOINC</td><td>VersionNT</td><td>403</td><td/><td/></row>
 		<row><td>CAShutdownBOINCManager</td><td>VersionNT</td><td>404</td><td/><td/></row>
 		<row><td>CAShutdownBOINCManager95</td><td>Version9X</td><td>405</td><td/><td/></row>
@@ -4220,21 +4217,6 @@ VwBlAGIAAQBXAEUAQgB4ADgANgA=
 		<col key="yes" def="S255">Domain</col>
 		<col key="yes" def="s255">User</col>
 		<col def="I4">Permission</col>
-		<row><td>DATADIR</td><td>CreateFolder</td><td></td><td>SYSTEM</td><td>1880031743</td></row>
-		<row><td>DATADIR</td><td>CreateFolder</td><td></td><td>[BOINC_ADMINS_GROUPNAME]</td><td>1610809855</td></row>
-		<row><td>DATADIR</td><td>CreateFolder</td><td></td><td>[BOINC_PROJECTS_GROUPNAME]</td><td>0</td></row>
-		<row><td>DATADIR</td><td>CreateFolder</td><td></td><td>[BOINC_USERS_GROUPNAME]</td><td>131241</td></row>
-		<row><td>DATADIR</td><td>CreateFolder</td><td></td><td>[GROUPALIAS_ADMINISTRATORS]</td><td>1880031743</td></row>
-		<row><td>PROJECTS</td><td>CreateFolder</td><td></td><td>SYSTEM</td><td>1880031743</td></row>
-		<row><td>PROJECTS</td><td>CreateFolder</td><td></td><td>[BOINC_ADMINS_GROUPNAME]</td><td>1610809855</td></row>
-		<row><td>PROJECTS</td><td>CreateFolder</td><td></td><td>[BOINC_PROJECTS_GROUPNAME]</td><td>1610809855</td></row>
-		<row><td>PROJECTS</td><td>CreateFolder</td><td></td><td>[BOINC_USERS_GROUPNAME]</td><td>131241</td></row>
-		<row><td>PROJECTS</td><td>CreateFolder</td><td></td><td>[GROUPALIAS_ADMINISTRATORS]</td><td>1880031743</td></row>
-		<row><td>SLOTS</td><td>CreateFolder</td><td></td><td>SYSTEM</td><td>1880031743</td></row>
-		<row><td>SLOTS</td><td>CreateFolder</td><td></td><td>[BOINC_ADMINS_GROUPNAME]</td><td>1610809855</td></row>
-		<row><td>SLOTS</td><td>CreateFolder</td><td></td><td>[BOINC_PROJECTS_GROUPNAME]</td><td>1610809855</td></row>
-		<row><td>SLOTS</td><td>CreateFolder</td><td></td><td>[BOINC_USERS_GROUPNAME]</td><td>131241</td></row>
-		<row><td>SLOTS</td><td>CreateFolder</td><td></td><td>[GROUPALIAS_ADMINISTRATORS]</td><td>1880031743</td></row>
 	</table>
 
 	<table name="MIME">

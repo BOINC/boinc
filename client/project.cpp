@@ -905,3 +905,55 @@ void PROJECT::check_no_apps() {
         no_rsc_apps[avp->gpu_usage.rsc_type] = false;
     }
 }
+
+// show a notice if we can't possibly get work from this project,
+// and there's something the user could do about it
+//
+void PROJECT::show_no_work_notice() {
+    bool show_ams = false, show_prefs=false, show_config = false;
+    bool user_action_possible = false;
+    for (int i=0; i<coprocs.n_rsc; i++) {
+        if (no_rsc_apps[i]) continue;
+        bool banned_by_user = no_rsc_pref[i] || no_rsc_config[i] || no_rsc_ams[i];
+        if (!banned_by_user) {
+            // work for this resource is possible; return
+			notices.remove_notices(this, REMOVE_NO_WORK_MSG);
+            return;
+        }
+        if (no_rsc_pref[i]) show_prefs = true;
+        if (no_rsc_config[i]) show_config = true;
+        if (no_rsc_ams[i]) show_ams = true;
+        user_action_possible = true;
+    }
+    if (!user_action_possible) {
+        // no work is possible because project has no apps for any resource
+        //
+		notices.remove_notices(this, REMOVE_NO_WORK_MSG);
+        return;
+    }
+
+    bool first = true;
+    string x;
+    x = NO_WORK_MSG;
+	x += "  ";
+    x += _("To fix this, you can ");
+    if (show_prefs) {
+        first = false;
+        x += _("change Project Preferences on the project's web site");
+    }
+    if (show_config) {
+        if (!first) {
+            x += ", or ";
+        }
+        x += _("remove GPU exclusions in your cc_config.xml file");
+        first = false;
+    }
+    if (show_ams) {
+        if (!first) {
+            x += ", or ";
+        }
+        x += _("change your settings at your account manager web site");
+    }
+    x += ".";
+    msg_printf(this, MSG_USER_ALERT, "%s", x.c_str());
+}

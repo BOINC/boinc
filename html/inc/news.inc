@@ -24,18 +24,20 @@ function news_item($date, $title, $post) {
         echo "<span class=news_title>$title</span><br>\n";
     }
     $d = time_str($date);
+    $options = new output_options();
+    $options->htmlitems = false;
     if (is_string($post)) {
         $forum_link = false;
-        $text = output_transform($post);
+        $text = output_transform($post, $options);
     } else {
         $forum_link = true;
-        $text = output_transform($post->content);
+        $text = output_transform($post->content, $options);
     }
     echo "
         <span class=news_content>$text</span>
         <span class=news_date>$d
     ";
-    if ($forum_link) {
+    if ($forum_link && !DISABLE_FORUMS) {
         echo "
             &middot; <a href=".URL_BASE."forum_thread.php?id=$post->thread> ".tra("Comment")."</a>
         ";

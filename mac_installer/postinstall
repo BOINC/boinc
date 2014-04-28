@@ -1,9 +1,10 @@
 #!/bin/sh
 
 ##
-# post-Install Script for Macintosh BOINC Manager for OS X revised 12/6/10
+# post-Install Script for Macintosh BOINC Manager for OS X revised 3/12/14
 ##
 
+echo "Starting BOINC postinstall script"
 echo "initial directory = $PWD"
 echo "argument 1 = $1"
 
@@ -22,7 +23,9 @@ sleep 2
 else
 "/tmp/PostInstall.app/Contents/MacOS/PostInstall" -part1
 sleep 2
-"/tmp/PostInstall.app/Contents/MacOS/PostInstall" -part2 >> stdout &
+# part2 continues to run after Installer finishes, 
+# and fails unless we redirect stdout to a file
+"/tmp/PostInstall.app/Contents/MacOS/PostInstall" -part2 >> /tmp/BOINCInstallLog.txt &
 fi
 
 exit 0

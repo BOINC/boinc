@@ -22,11 +22,30 @@ EXPORTS
 	GrantBOINCUsersRights
 	GrantBOINCProjectsRights
 	GrantBOINCProjectsVirtualBoxRights
-	HideBOINCMasterProfile
-	HideBOINCProjectProfile
 	SetPermissionBOINC
 	SetPermissionBOINCData
 	SetPermissionBOINCDataProjects
 	SetPermissionBOINCDataSlots
 	LaunchBOINCManager
 	LaunchBOINCTray
+	ValidateSetupType
+	RestoreSetupState
+	SaveSetupState
+	ShutdownBOINCManager
+	CleanupOldBinaries
+	VerifyInstallDirectories
+    ValidateInstall
+    ValidateRebootRequest
+    SaveExecutionState
+    RestoreExecutionState
+    CCConfigMd5sum
+    CreateProjectInitFile
+    CreateAcctMgrLoginFile
+	RestorePermissionBOINCData
+	RevokeBOINCAdminsRights
+	RevokeBOINCMasterRights
+	RevokeBOINCProjectRights
+	RevokeBOINCProjectsRights
+	RevokeBOINCUsersRights
+    DeleteBOINCGroups
+    DeleteBOINCAccounts

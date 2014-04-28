@@ -216,7 +216,7 @@ static void request_string(char* buf) {
     for (int i=0; i<coprocs.n_rsc; i++) {
         if (rsc_work_fetch[i].req_secs) {
             if (!first) strcat(buf, " and ");
-            strcat(buf, rsc_name(i));
+            strcat(buf, rsc_name_long(i));
             first = false;
         }
     }
@@ -228,7 +228,7 @@ static void request_string(char* buf) {
 //
 int SCHEDULER_OP::start_rpc(PROJECT* p) {
     int retval;
-    char request_file[1024], reply_file[1024], buf[256];
+    char request_file[1024], reply_file[1024], buf[1024];
 
     safe_strcpy(scheduler_url, p->get_scheduler_url(url_index, url_random));
     if (log_flags.sched_ops) {
@@ -249,8 +249,7 @@ int SCHEDULER_OP::start_rpc(PROJECT* p) {
         } else {
             if (p->pwf.cant_fetch_work_reason) {
                 msg_printf(p, MSG_INFO,
-                    "Not requesting tasks: %s",
-                    cant_fetch_work_string(p->pwf.cant_fetch_work_reason)
+                    "Not requesting tasks: %s", cant_fetch_work_string(p, buf)
                 );
             } else {
                 msg_printf(p, MSG_INFO, "Not requesting tasks");
@@ -261,7 +260,7 @@ int SCHEDULER_OP::start_rpc(PROJECT* p) {
         for (int i=0; i<coprocs.n_rsc; i++) {
             msg_printf(p, MSG_INFO,
                 "[sched_op] %s work request: %.2f seconds; %.2f devices",
-                rsc_name(i),
+                rsc_name_long(i),
                 rsc_work_fetch[i].req_secs,
                 rsc_work_fetch[i].req_instances
             );

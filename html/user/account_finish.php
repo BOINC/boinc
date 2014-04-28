@@ -27,7 +27,7 @@ require_once('../inc/countries.inc');
 check_get_args(array("auth"));
 
 $auth = get_str("auth");
-$user = lookup_user_auth($auth);
+$user = BoincUser::lookup_auth($auth);
 if (!$user) {
     error_page("no such account");
 }

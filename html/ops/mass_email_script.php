@@ -311,7 +311,7 @@ if (!$USE_PHPMAILER) {
 $email_files = read_email_files();
 
 if ($globals->userid) {
-    $user = lookup_user_id($globals->userid);
+    $user = BoincUser::lookup_id($globals->userid);
     if (!$user) {
         echo "no such user\n";
     } else {

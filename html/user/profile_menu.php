@@ -1,7 +1,7 @@
 <?php
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2014 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -20,6 +20,8 @@
 require_once("../inc/util.inc");
 require_once("../inc/profile.inc");
 require_once("../inc/uotd.inc");
+
+if (DISABLE_PROFILES) error_page("Profiles are disabled");
 
 check_get_args(array("cmd", "pic"));
 
@@ -44,7 +46,7 @@ row1($UOTD_heading);
 echo "<tr><td>";
     $profile = get_current_uotd();
     if ($profile) {
-        $user = lookup_user_id($profile->userid);
+        $user = BoincUser::lookup_id($profile->userid);
         echo uotd_thumbnail($profile, $user);
         echo user_links($user)."<br>";
         $resp = output_transform($profile->response1);

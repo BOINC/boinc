@@ -67,13 +67,14 @@ void CBOINCBitmapChoice::OnMouseDown(wxMouseEvent& event) {
 
 
 
-
+DEFINE_EVENT_TYPE(wxEVT_DRAW_LARGEBITMAP)
 
 IMPLEMENT_DYNAMIC_CLASS(CBOINCBitmapComboBox, wxPanel)
 
 BEGIN_EVENT_TABLE(CBOINCBitmapComboBox, wxPanel)
 //	EVT_ERASE_BACKGROUND(CBOINCBitmapComboBox::OnEraseBackground)
     EVT_PAINT(CBOINCBitmapComboBox::OnPaint)
+    EVT_DRAW_LARGEBITMAP(CBOINCBitmapComboBox::DrawLargeBitmap)
 //    EVT_CHOICE(CBOINCBitmapComboBox::OnSelection)
 END_EVENT_TABLE()
 
@@ -233,32 +234,61 @@ void CBOINCBitmapComboBox::OnSelection(wxCommandEvent& event) {
 }
 
 
+void CBOINCBitmapComboBox::DrawLargeBitmap(CDrawLargeBitmapEvent&) {
+    int x, y;
+    wxClientDC myDC(this);
+    unsigned int i = GetSelection();
+    if (m_BitmapCache.size() <= i) {
+        return;
+    }
+
+    wxPen oldPen = myDC.GetPen();
+    wxBrush oldBrush = myDC.GetBrush();
+    int oldMode = myDC.GetBackgroundMode();
+    
+    myDC.SetPen(*wxTRANSPARENT_PEN);
+    myDC.SetBrush(*wxWHITE_BRUSH);
+    myDC.SetBackgroundMode(wxSOLID);
+
+    GetSize(&x, &y);
+    myDC.DrawRectangle(9, 1, y-2, y-2);
+    if ((m_BitmapCache.at(i)).Ok()) {
+        myDC.DrawBitmap(m_BitmapCache.at(i), 9, 1, true);
+    }
+    myDC.SetBackgroundMode(oldMode);
+    myDC.SetPen(oldPen);
+    myDC.SetBrush(oldBrush);
+}
+
+
 void CBOINCBitmapComboBox::OnPaint(wxPaintEvent& event) {
+    if (!m_bHaveLargeBitmaps) return;
+
     int x, y;
 	wxPaintDC myDC(this);
     unsigned int i = GetSelection();
     if (m_BitmapCache.size() <= i) {
         return;
     }
-    
+
     wxPen oldPen = myDC.GetPen();
     wxBrush oldBrush = myDC.GetBrush();
     int oldMode = myDC.GetBackgroundMode();
 
     myDC.SetPen(*wxMEDIUM_GREY_PEN);
-    myDC.SetBrush(*wxTRANSPARENT_BRUSH);
+    myDC.SetBrush(*wxWHITE_BRUSH);
     myDC.SetBackgroundMode(wxSOLID);
 
     GetSize(&x, &y);
-    if ((m_BitmapCache.at(i)).Ok()) {
-        myDC.DrawBitmap(m_BitmapCache.at(i), 9, 1, false);
-        myDC.DrawRectangle(8, 0, y, y);
-    }
+    myDC.DrawRectangle(7, 0, y+1, y);
     
     // Restore Mode, Pen and Brush 
     myDC.SetBackgroundMode(oldMode);
     myDC.SetPen(oldPen);
     myDC.SetBrush(oldBrush);
+
+    CDrawLargeBitmapEvent newEvent(wxEVT_DRAW_LARGEBITMAP, this);
+    AddPendingEvent(newEvent);
 }
 
 

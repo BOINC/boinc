@@ -180,7 +180,9 @@ void CDlgSelectComputer::CreateControls(bool required)
     m_Shortcuts[2].Set(wxACCEL_CTRL, 'v', wxID_PASTE);
     m_pAccelTable = new wxAcceleratorTable(3, m_Shortcuts);
     m_ComputerPasswordCtrl->SetAcceleratorTable(*m_pAccelTable);
-    // I don't know why this works for m_ComputerPasswordCtrl but not m_ComputerNameCtrl
+
+    // This does not work for m_ComputerNameCtrl under wxCocoa 3.0.0
+    // because of a known bug: http://trac.wxwidgets.org/ticket/14953
     m_ComputerNameCtrl->SetAcceleratorTable(*m_pAccelTable);
  #endif
 

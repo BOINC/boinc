@@ -7,7 +7,10 @@ require_once("docutil.php");
 require_once("versions.inc");
 require_once("../html/inc/translation.inc");
 
+$client_info = $_SERVER['HTTP_USER_AGENT'];
+
 function latest_version($p) {
+    $dev = false;
     foreach ($p['versions'] as $i=>$v) {
         if (!$dev && is_dev($v)) continue;
         return $v;
@@ -22,10 +25,18 @@ function latest_version($p) {
 function download_link($pname, $button=false) {
     global $platforms;
     global $url_base;
+    global $client_info;
     $p = $platforms[$pname];
     $v = latest_version($p);
     $file = $v['file'];
-    $vbox_file = $v['vbox_file'];
+    if (array_key_exists('vbox_file', $v)) {
+        $vbox_file = $v['vbox_file'];
+    } else {
+        $vbox_file = null;
+    }
+    if (strstr($client_info, 'Windows NT 4') || strstr($client_info, 'Windows NT 5')) {
+        $vbox_file = null;
+    }
     $vbox_version = $v['vbox_version'];
     $long_name = $p['name'];
     $num = $v['num'];
@@ -37,7 +48,7 @@ function download_link($pname, $button=false) {
     if ($button) {
         if ($vbox_file) {
             echo tra("We recommend that you also install VirtualBox, so your computer can work on science projects that require it.");
-            echo " <a href=https://www.virtualbox.org/>";
+            echo " <a href=wiki/VirtualBox>";
             echo tra("Learn more about VirtualBox.");
             echo "</a>";
 
@@ -46,31 +57,31 @@ function download_link($pname, $button=false) {
             $vbox_path = "dl/$vbox_file";
             $vbox_size = number_format(filesize($vbox_path)/1000000, 2);
             echo "
-                <table cellpadding=10><tr valign=top><td class=heading>
+                <table cellpadding=10><tr valign=top><td class=button>
                 <a href=\"$vbox_url\"><font size=4><u>"
                 .tra("Download BOINC + VirtualBox")
                 ."</u></font></a>
                 <br>"
                 .sprintf(tra("for %s"), $long_name)
                 ." ($vbox_size MB)"
-                ."<br>"
-                .sprintf(tra("BOINC version %s"), $num)
-                ."<br>"
-                .sprintf(tra("VirtualBox version %s"), $vbox_version)
-                ."</td></tr>
+                ."<br><span class=note>"
+                .sprintf(tra("BOINC %s"), $num)
+                .", "
+                .sprintf(tra("VirtualBox %s"), $vbox_version)
+                ."</span></td></tr>
                 </table>
             ";
             echo "</td><td>\n";
         }
         echo "
-            <table cellpadding=10><tr valign=top><td class=heading>
+            <table cellpadding=10><tr valign=top><td class=button>
             <a href=\"$url\"><font size=4><u>".tra("Download BOINC")."</u></font></a>
             <br>"
             .sprintf(tra("for %s"), $long_name)
             ." ($s MB)"
-            ."<br>"
-            .sprintf(tra("BOINC version %s"), $num)
-            ."</td></tr>
+            ."<br><span class=note>"
+            .sprintf(tra("BOINC %s"), $num)
+            ."</span></td></tr>
             </table>
         ";
         if ($vbox_file) {
@@ -189,8 +200,6 @@ if (get_str2('xml')) {
 
 page_head(tra("BOINC: compute for science"));
 
-$client_info = $_SERVER['HTTP_USER_AGENT'];
-
 if (get_str2('all_platforms')) {
     show_download(null);
 } else if (strstr($client_info, 'Windows')) {
@@ -207,9 +216,9 @@ if (get_str2('all_platforms')) {
 	}
 } else if (strstr($client_info, 'Linux') && strstr($client_info, 'Android')) {
 	// Check for Android before Linux,
-    // since Android contains the Linux kernel and the
+  // since Android contains the Linux kernel and the
 	// web browser user agent string list Linux too.
-	show_download('android');
+	show_download('androidarm');
 } else if (strstr($client_info, 'Linux')) {
 	if (strstr($client_info, 'x86_64')) {
 		show_download('linuxx64');

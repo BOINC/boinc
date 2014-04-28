@@ -1,4 +1,4 @@
-﻿// This file is part of BOINC.
+// This file is part of BOINC.
 // http://boinc.berkeley.edu
 // Copyright (C) 2008 University of California
 //
@@ -1246,37 +1246,14 @@ int HOST_INFO::get_virtualbox_version() {
     char *newlinePtr;
     FILE* fd;
 
-#if LINUX_LIKE_SYSTEM
-    safe_strcpy(path, "/usr/lib/virtualbox/VBoxManage");
-#elif defined( __APPLE__)
-    FSRef theFSRef;
-    OSStatus status = noErr;
-
-    // First try to locate the VirtualBox application by Bundle ID and Creator Code
-    status = LSFindApplicationForInfo(
-        'VBOX', CFSTR("org.virtualbox.app.VirtualBox"), NULL, &theFSRef, NULL
-    );
-    if (status == noErr) {
-        status = FSRefMakePath(&theFSRef, (unsigned char *)path, sizeof(path));
-    }
-    // If that failed, try its default location
-    if (status != noErr) {
-        strcpy(path, "/Applications/VirtualBox.app");
-    }
-#endif
+    safe_strcpy(path, "/usr/bin/VBoxManage");
 
     if (boinc_file_exists(path)) {
-#if LINUX_LIKE_SYSTEM
         if (access(path, X_OK)) {
             return 0;
         }
         safe_strcpy(cmd, path);
         safe_strcat(cmd, " --version");
-#elif defined( __APPLE__)
-        safe_strcpy(cmd, "defaults read ");
-        safe_strcat(cmd, path);
-        safe_strcat(cmd, "/Contents/Info CFBundleShortVersionString");
-#endif
         fd = popen(cmd, "r");
         if (fd) {
             if (fgets(virtualbox_version, sizeof(virtualbox_version), fd)) {
@@ -1891,73 +1868,86 @@ bool interrupts_idle(time_t t) {
 
 #if HAVE_XSS
 // Ask the X server for user idle time (using XScreenSaver API)
-// Returns true if the idle_treshold is smaller than the
-// idle time of the user (means: true = user is idle)
-bool xss_idle(long idle_treshold) {
+// Return true if the idle time exceeds idle_threshold.
+//
+bool xss_idle(long idle_threshold) {
     static XScreenSaverInfo* xssInfo = NULL;
     static Display* disp = NULL;
+    static bool error = false;
+        // some X call failed - always return not idle
     
+    if (error) return false;
+
     long idle_time = 0;
     
-    if(disp != NULL) {
-        XScreenSaverQueryInfo(disp, DefaultRootWindow(disp), xssInfo);
-
-        idle_time = xssInfo->idle;
-
-#if HAVE_DPMS
-        // XIdleTime Detection
-        // See header for location and copywrites.
-        //
-        int dummy;
-        CARD16 standby, suspend, off;
-        CARD16 state;
-        BOOL onoff;
-
-        if (DPMSQueryExtension(disp, &dummy, &dummy)) {
-            if (DPMSCapable(disp)) {
-                DPMSGetTimeouts(disp, &standby, &suspend, &off);
-                DPMSInfo(disp, &state, &onoff);
-
-                if (onoff) {
-                    switch (state) {
-                      case DPMSModeStandby:
-                          /* this check is a littlebit paranoid, but be sure */
-                          if (idle_time < (unsigned) (standby * 1000)) {
-                              idle_time += (standby * 1000);
-                          }
-                          break;
-                      case DPMSModeSuspend:
-                          if (idle_time < (unsigned) ((suspend + standby) * 1000)) {
-                              idle_time += ((suspend + standby) * 1000);
-                          }
-                          break;
-                      case DPMSModeOff:
-                          if (idle_time < (unsigned) ((off + suspend + standby) * 1000)) {
-                              idle_time += ((off + suspend + standby) * 1000);
-                          }
-                          break;
-                      case DPMSModeOn:
-                        default:
-                          break;
-                    }
-                }
-            } 
-        }
-#endif
-
-        // convert from milliseconds to seconds
-        idle_time = idle_time / 1000;
-
-    } else {
+    if (disp == NULL) {
         disp = XOpenDisplay(NULL);
         // XOpenDisplay may return NULL if there is no running X
         // or DISPLAY points to wrong/invalid display
-        if(disp != NULL) {
-            xssInfo = XScreenSaverAllocInfo();
+        //
+        if (disp == NULL) {
+            error = true;
+            return false;
+        }
+        int event_base_return, error_base_return;
+        xssInfo = XScreenSaverAllocInfo();
+        if (!XScreenSaverQueryExtension(
+            disp, &event_base_return, &error_base_return
+        )){
+            error = true;
+            return false;
         }
     }
 
-    return idle_treshold < idle_time;
+    XScreenSaverQueryInfo(disp, DefaultRootWindow(disp), xssInfo);
+    idle_time = xssInfo->idle;
+
+#if HAVE_DPMS
+    // XIdleTime Detection
+    // See header for location and copywrites.
+    //
+    int dummy;
+    CARD16 standby, suspend, off;
+    CARD16 state;
+    BOOL onoff;
+
+    if (DPMSQueryExtension(disp, &dummy, &dummy)) {
+        if (DPMSCapable(disp)) {
+            DPMSGetTimeouts(disp, &standby, &suspend, &off);
+            DPMSInfo(disp, &state, &onoff);
+
+            if (onoff) {
+                switch (state) {
+                case DPMSModeStandby:
+                    // this check is a littlebit paranoid, but be sure
+                    if (idle_time < (unsigned) (standby * 1000)) {
+                        idle_time += (standby * 1000);
+                    }
+                    break;
+                case DPMSModeSuspend:
+                    if (idle_time < (unsigned) ((suspend + standby) * 1000)) {
+                        idle_time += ((suspend + standby) * 1000);
+                    }
+                    break;
+                case DPMSModeOff:
+                    if (idle_time < (unsigned) ((off + suspend + standby) * 1000)) {
+                        idle_time += ((off + suspend + standby) * 1000);
+                    }
+                    break;
+                case DPMSModeOn:
+                default:
+                    break;
+                }
+            }
+        } 
+    }
+#endif
+
+    // convert from milliseconds to seconds
+    //
+    idle_time = idle_time / 1000;
+
+    return idle_threshold < idle_time;
 }
 #endif // HAVE_XSS
 #endif // LINUX_LIKE_SYSTEM

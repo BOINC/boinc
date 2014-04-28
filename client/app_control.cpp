@@ -379,6 +379,14 @@ void ACTIVE_TASK::handle_temporary_exit(
     }
 }
 
+void ACTIVE_TASK::copy_final_info() {
+    result->final_cpu_time = current_cpu_time;
+    result->final_elapsed_time = elapsed_time;
+    result->final_peak_working_set_size = peak_working_set_size;
+    result->final_peak_swap_size = peak_swap_size;
+    result->final_peak_disk_usage = peak_disk_usage;
+}
+
 // deal with a process that has exited, for whatever reason:
 // - completion
 // - crash
@@ -406,8 +414,7 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
 
     get_app_status_msg();
     get_trickle_up_msg();
-    result->final_cpu_time = current_cpu_time;
-    result->final_elapsed_time = elapsed_time;
+    copy_final_info();
 
     // if an abort or quit is pending,
     // the process may have exited itself, or we may have killed it.
@@ -775,15 +782,20 @@ bool ACTIVE_TASK::check_max_disk_exceeded() {
 // Check if any of the active tasks have exceeded their
 // resource limits on disk, CPU time or memory
 //
+// TODO: this gets called ever 1 sec,
+// but mem and disk usage are computed less often.
+// refactor.
+//
 bool ACTIVE_TASK_SET::check_rsc_limits_exceeded() {
     unsigned int i;
     ACTIVE_TASK *atp;
     static double last_disk_check_time = 0;
     bool do_disk_check = false;
     bool did_anything = false;
+	char buf[256];
 
     double ram_left = gstate.available_ram();
-    double max_ram = gstate.max_available_ram();
+	double max_ram = gstate.max_available_ram();
 
     // Some slot dirs have lots of files,
     // so only check every min(disk_interval, 300) secs
@@ -797,31 +809,62 @@ bool ACTIVE_TASK_SET::check_rsc_limits_exceeded() {
         atp = active_tasks[i];
         if (atp->task_state() != PROCESS_EXECUTING) continue;
         if (!atp->result->non_cpu_intensive() && (atp->elapsed_time > atp->max_elapsed_time)) {
-            msg_printf(atp->result->project, MSG_INFO,
-                "Aborting task %s: exceeded elapsed time limit %.2f (%.2fG/%.2fG)",
-                atp->result->name, atp->max_elapsed_time,
+			sprintf(buf, "exceeded elapsed time limit %.2f (%.2fG/%.2fG)",
+                atp->max_elapsed_time,
                 atp->result->wup->rsc_fpops_bound/1e9,
                 atp->result->avp->flops/1e9
-            );
-            atp->abort_task(EXIT_TIME_LIMIT_EXCEEDED, "Maximum elapsed time exceeded");
-            did_anything = true;
-            continue;
-        }
-        if (atp->procinfo.working_set_size_smoothed > max_ram) {
+			);
             msg_printf(atp->result->project, MSG_INFO,
-                "Aborting task %s: exceeded memory limit %.2fMB > %.2fMB\n",
-                atp->result->name,
-                atp->procinfo.working_set_size_smoothed/MEGA, max_ram/MEGA
+                "Aborting task %s: %s", atp->result->name, buf
             );
-            atp->abort_task(EXIT_MEM_LIMIT_EXCEEDED, "Maximum memory exceeded");
+            atp->abort_task(EXIT_TIME_LIMIT_EXCEEDED, buf);
             did_anything = true;
             continue;
         }
-        if (do_disk_check && atp->check_max_disk_exceeded()) {
+#if 0
+        // removing this for now because most projects currently
+        // have too-low values of workunit.rsc_memory_bound
+        // (causing lots of aborts)
+        // and I don't think we can expect projects to provide
+        // accurate bounds.
+        //
+		if (atp->procinfo.working_set_size_smoothed > atp->max_mem_usage) {
+			sprintf(buf, "working set size > workunit.rsc_memory_bound: %.2fMB > %.2fMB",
+				atp->procinfo.working_set_size_smoothed/MEGA, atp->max_mem_usage/MEGA
+			);
+            msg_printf(atp->result->project, MSG_INFO,
+                "Aborting task %s: %s",
+                atp->result->name, buf
+            );
+            atp->abort_task(EXIT_MEM_LIMIT_EXCEEDED, buf);
             did_anything = true;
             continue;
         }
-        ram_left -= atp->procinfo.working_set_size_smoothed;
+#endif
+		if (atp->procinfo.working_set_size_smoothed > max_ram) {
+			sprintf(buf, "working set size > client RAM limit: %.2fMB > %.2fMB",
+				atp->procinfo.working_set_size_smoothed/MEGA, max_ram/MEGA
+			);
+            msg_printf(atp->result->project, MSG_INFO,
+                "Aborting task %s: %s",
+                atp->result->name, buf
+            );
+            atp->abort_task(EXIT_MEM_LIMIT_EXCEEDED, buf);
+            did_anything = true;
+            continue;
+        }
+        if (do_disk_check || atp->peak_disk_usage == 0) {
+			if (atp->check_max_disk_exceeded()) {
+				did_anything = true;
+				continue;
+			}
+        }
+
+        // don't count RAM usage of non-CPU-intensive jobs
+        //
+        if (!atp->result->non_cpu_intensive()) {
+            ram_left -= atp->procinfo.working_set_size_smoothed;
+        }
     }
     if (ram_left < 0) {
         gstate.request_schedule_cpus("RAM usage limit exceeded");
@@ -848,6 +891,10 @@ int ACTIVE_TASK::abort_task(int exit_status, const char* msg) {
     result->exit_status = exit_status;
     gstate.report_result_error(*result, msg);
     result->set_state(RESULT_ABORTED, "abort_task");
+    if (task_state() == PROCESS_ABORTED) {
+        copy_final_info();
+        read_stderr_file();
+    }
     return 0;
 }
 
@@ -1453,12 +1500,18 @@ void ACTIVE_TASK::write_task_state_file() {
         "    <checkpoint_cpu_time>%f</checkpoint_cpu_time>\n"
         "    <checkpoint_elapsed_time>%f</checkpoint_elapsed_time>\n"
         "    <fraction_done>%f</fraction_done>\n"
+        "    <peak_working_set_size>%.0f</peak_working_set_size>\n"
+        "    <peak_swap_size>%.0f</peak_swap_size>\n"
+        "    <peak_disk_usage>%.0f</peak_disk_usage>\n"
         "</active_task>\n",
         result->project->master_url,
         result->name,
         checkpoint_cpu_time,
         checkpoint_elapsed_time,
-        fraction_done
+        fraction_done,
+        peak_working_set_size,
+        peak_swap_size,
+        peak_disk_usage
     );
     fclose(f);
 }
@@ -1476,6 +1529,8 @@ void ACTIVE_TASK::read_task_state_file() {
     fclose(f);
     buf[4095] = 0;
     double x;
+    // TODO: use XML parser
+
     // sanity checks - project and result name must match
     //
     if (!parse_str(buf, "<project_master_url>", s, sizeof(s))) {
@@ -1511,5 +1566,14 @@ void ACTIVE_TASK::read_task_state_file() {
         if (x > checkpoint_elapsed_time) {
             checkpoint_elapsed_time = x;
         }
+    }
+    if (parse_double(buf, "<peak_working_set_size>", x)) {
+        peak_working_set_size = x;
+    }
+    if (parse_double(buf, "<peak_swap_size>", x)) {
+        peak_swap_size = x;
+    }
+    if (parse_double(buf, "<peak_disk_usage>", x)) {
+        peak_disk_usage = x;
     }
 }

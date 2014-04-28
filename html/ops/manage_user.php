@@ -33,30 +33,24 @@ require_once("../inc/util_ops.inc");
 require_once("../inc/profile.inc");
 require_once("../project/project.inc");
 
-db_init();
-
-$is_admin = true;
-$Nbf = sizeof($special_user_bitfield);
-$q = null;
+error_reporting(E_ALL);
+ini_set('display_errors', true);
+ini_set('display_startup_errors', true);
 
 // Delete a user (or at least try to)
 //
 function delete_user($user){
-    global $delete_problem;
-  
     if (!empty($user->teamid)){
         user_quit_team($user);
-        #$delete_problem .= "Removed user from team.<br/>";
     }
     if ($user->has_profile){
         mysql_query("DELETE FROM profile WHERE userid = $user->id");
         delete_user_pictures($user->id);
         mysql_query("UPDATE user SET has_profile=0 WHERE id=$user->id");
-        #$delete_problem .= "Deleted profile.<br/>";
     }
 
     if ($user->total_credit > 0.0){
-        $delete_problem .= "Cannot delete user: User has credit.<br/>";
+        error_page("Cannot delete user: User has credit.");
         return false;
     }  
 
@@ -67,8 +61,7 @@ function delete_user($user){
     $c = mysql_fetch_object($result);
     mysql_free_result($result);
     if ($c->count) {
-        $delete_problem .= "Cannot delete user: User has ". $c->count.
-            " Results in the database.<br/>";
+        error_page("Cannot delete user: User has $c->count results in the database.");
     }
 
     // Don't delete user if they have posted to the forums
@@ -78,74 +71,18 @@ function delete_user($user){
     $c = mysql_fetch_object($result);
     mysql_free_result($result);
     if ($c->count) {
-        $delete_problem .= "Cannot delete user: User has ". $c->count.
-            " forum posts.<br/>";
+        error_page("Cannot delete user: User has $c->count forum posts.");
     }
-    if ($delete_problem) return false;
 
     $q = "DELETE FROM user WHERE id=".$user->id;
     $result = mysql_query($q);
-    $delete_problem .= "User ".$user->id." deleted.";
-    unset($user);
-
-}
-
-$delete_problem="";
-
-// Process user search form
-
-$matches="";
-
-if (isset($_POST['search_submit'])){
-    $search_name = post_str('search_text');
-    $search_name = BoincDb::escape_string(sanitize_tags($search_name));
-
-    if (!empty($search_name)){ 
-        $result = mysql_query("SELECT * FROM user WHERE name='$search_name'");
-
-        if (mysql_num_rows($result)==1) {
-            $user = mysql_fetch_object($result);
-            mysql_free_result($result);
-        } else {
-            $q = "SELECT * FROM user WHERE name LIKE '%".$search_name."%'";
-            $result = mysql_query($q);
-            if (mysql_num_rows($result)==1) {
-                $user = mysql_fetch_object($result);
-                mysql_free_result($result);
-            }
-            if (mysql_num_rows($result)>1) { 
-                while ($row = mysql_fetch_object($result)){ 
-                    if (!empty($matches)) {
-                        $matches .= ",  ";
-                    }
-                    $matches .= $row->name;
-                }
-                mysql_free_result($result);
-            }
-        }
-    }
-}
-
-
-// Look up the user 
-
-$id = get_int("userid", true);
-if (!$id) {
-    $id = post_int("userid", true);
-}
-if (!$id) error_page("No ID given");
-$user = lookup_user_id($id);
-if (!$user) error_page("No such user: $id");
-
-// but clear if page was reset (forcing search form) 
-
-if (isset($_POST['reset_page'])){
-    unset($user);
 }
 
 // Process special user settings
-
-if (isset($_POST['special_user']) && $user && $is_admin){
+//
+function handle_special_user($user) {
+    global $special_user_bitfield;
+    $Nbf = sizeof($special_user_bitfield);
     $bits="";
     for ($i=0; $i<$Nbf; $i++) {
         $key = "special_user_$i";
@@ -155,247 +92,230 @@ if (isset($_POST['special_user']) && $user && $is_admin){
             $bits .= "0";
         }
     }
-    $q = "UPDATE forum_preferences SET special_user=\"$bits\" WHERE userid=$id";
+    $q = "UPDATE forum_preferences SET special_user=\"$bits\" WHERE userid=$user->id";
     mysql_query($q);
 }
 
 
 // Process a suspension:
+//
+function handle_suspend($user) {
+    global $g_logged_in_user;
+    $dt = post_int('suspend_for', true);
 
-if (isset($_POST['suspend_submit']) && !empty($user) && $is_admin) {
-    $dt = post_int('suspend_for',true);
+    $reason = $_POST['suspend_reason'];
+    if ($dt > 0 && empty($reason)) {
+        error_page("You must supply a reason for a suspension.
+            <p><a href=manage_user.php?userid=$user->id>Try again</a>"
+        );
+    } else {
+        if (is_numeric($dt)) {
+            $t = $dt>0 ? time()+$dt : 0;
+            $q = "UPDATE forum_preferences SET banished_until=$t WHERE userid=$user->id";
+            mysql_query($q);
 
-    if ($is_admin || ($is_mod && $dt < 86400)) {
-        $reason = $_POST['suspend_reason'];
-        if ($dt > 0 && empty($reason)) {
-            error_page("You must supply a reason for a suspension.
-                <p><a href=manage_user.php?userid=$user->id>Try again</a>"
-            );
-        } else {
-            if (is_numeric($dt)) {
-                $t = time()+$dt;
-                $q = "UPDATE forum_preferences SET banished_until=$t WHERE userid=$id";
-                mysql_query($q);
+            // put a timestamp in wiki to trigger re-validation of credentials
 
-                // put a timestamp in wiki to trigger re-validation of credentials
+            if (function_exists('touch_wiki_user')){
+                touch_wiki_user($user);  
+            }
 
-                if (function_exists('touch_wiki_user')){
-                    touch_wiki_user($user);  
-                }
+            // Send suspension e-mail to user and administrators
 
-                // Send suspension e-mail to user and administrators
-
-                if ($dt>0) {
-                    $subject = PROJECT." posting privileges suspended for ". $user->name;
-                    $body = "
+            if ($dt>0) {
+                $subject = PROJECT." posting privileges suspended for ". $user->name;
+                $body = "
 Forum posting privileges for the " .PROJECT. " user \"".$user->name."\"
 have been suspended for " .time_diff($dt). " by ".$g_logged_in_user->name.". 
 The reason given was:
-  
-   $reason
-   
+
+$reason
+
 The suspension will end at " .time_str($t)."\n";
-                } else {
-                    $subject = PROJECT." user ". $user->name. " unsuspended";
-                    $body = "
+            } else {
+                $subject = PROJECT." user ". $user->name. " unsuspended";
+                $body = "
 Forum posting privileges for the " .PROJECT. " user \"".$user->name."\"
 have been restored by ".$g_logged_in_user->name."\n";
-                    if ($reason) {
-                        $body.="The reason given was:\n\n   $reason\n";
-                    }
+                if ($reason) {
+                    $body.="The reason given was:\n\n   $reason\n";
                 }
+            }
 
-                send_email($user, $subject, $body);
+            send_email($user, $subject, $body);
 
-                $emails = explode(",", POST_REPORT_EMAILS);
-                foreach ($emails as $email) {
-                    $admin->email_addr = $email;
-                    send_email($admin, $subject, $body);
-                }
+            $emails = explode(",", POST_REPORT_EMAILS);
+            foreach ($emails as $email) {
+                $admin->email_addr = $email;
+                send_email($admin, $subject, $body);
             }
         }
     }
 }
 
+function show_manage_user_form($user) {
+    global $special_user_bitfield;
+    $Nbf = sizeof($special_user_bitfield);
 
-// Process a delete request.  Empty user will trigger search form.
-//
-if (isset($_POST['delete_user']) && !empty($user)) {
-    delete_user($user);
-}
+    admin_page_head("Management $user->name");
 
-
-// Now update from whatever might have been set above
-
-if (!empty($user)) {
-    BoincForumPrefs::lookup($user);
-}
-
-// Output:
-
-admin_page_head("User Management: $user->name");
-
-echo "<h2>User Management</h2>\n";
-
-if (!defined("POST_REPORT_EMAILS")) {
-    echo "<p><font color='RED'>
-   There is no addministrative e-mail address defined for reporting problems
-or abuse in the forums.  Please define POST_REPORT_EMAILS in project.inc
-        </font></p>\n";
-}
-
-echo "<form name='manage_user' action=manage_user.php method='POST'>
-    <input type='hidden' name='userid' value='". $user->id."'>
-";
-
-start_table();
-
-if (empty($user->id)) {
-    if (!empty($search_name)) {
-        echo "No match found. ";
-        if (!empty($matches)) {
-            echo " Partial matches are: <blockquote> $matches </blockquote>\n";
-        }
+    if (!defined("POST_REPORT_EMAILS")) {
+        echo "<p><font color='RED'>
+       There is no administrative email address defined for reporting problems
+    or abuse in the forums.  Please define POST_REPORT_EMAILS in project.inc
+            </font></p>\n";
     }
-    echo " Enter user name:
-        <blockquote>
-         <input type='text' name='search_text' >
-         <input type='submit' name='search_submit' value='Search'>
-        </form>
+
+    echo "<form name='manage_user' action=manage_user.php method='POST'>
+        <input type='hidden' name='userid' value='". $user->id."'>
     ";
-    admin_page_tail();
-    exit();
-}
 
-row1("<b>User: </b> ".$user->name. "<br/>
-      Id# ". $user->id 
-     . "<div align='right'>
-        <input name='reset_page'  type='submit' value='Reset'>
-        <input name='manage_user' type='submit' value='Update'><br>
-        <input name=\"delete_user\" type=\"submit\" value=\"Delete user\">
-        </div>"
-);
-
-if ($delete_problem) {
-    echo "<font color='RED'>$delete_problem</font><br/>\n";
-}
-
-show_user_summary_public($user);
-show_profile_link_ops($user);
-if ($is_admin) {
-    row2("E-mail:", "$user->email_addr");
-}
-project_user_summary($user);
-end_table();
-project_user_page_private($user);
-
-echo "</form>\n";
+    start_table();
 
 
-// Special User status:
+    row1("<b>User: </b> $user->name <div align='right'>
+            <input name=\"delete_user\" type=\"submit\" value=\"Delete user\">
+            </div>"
+    );
 
-echo "\n\n<P>
-   <table width='100%'><tr>
-   <td width='50%' valign='TOP'> \n";
+    show_user_summary_public($user);
+    show_profile_link_ops($user);
+    row2("Email:", "$user->email_addr");
+    project_user_summary($user);
+    end_table();
+    project_user_page_private($user);
 
-echo "<form name='special_user' action=manage_user.php method=\"POST\">
-    <input type='hidden' name='userid' value='".$user->id."'>
-";
+    echo "</form>\n";
 
-start_table();
-row1("Special User Status: $user->name", $Nbf );
 
-echo "<tr>\n";
-for ($i=0; $i<$Nbf; $i++) {
-    $bit = substr($user->prefs->special_user, $i, 1);
-    echo "<tr><td><input type='checkbox'' name='special_user_".$i."' value='1'";
-    if ($bit == 1) {
-        echo " checked='checked'";
+    // Special User status:
+
+    echo "\n\n<P>
+       <table width='100%'><tr>
+       <td width='50%' valign='TOP'> \n";
+
+    echo "<form name='special_user' action=manage_user.php method=\"POST\">
+        <input type='hidden' name='userid' value='".$user->id."'>
+    ";
+
+    start_table();
+    row1("Special User Status");
+
+    echo "<tr>\n";
+    for ($i=0; $i<$Nbf; $i++) {
+        $bit = substr($user->prefs->special_user, $i, 1);
+        echo "<tr><td><input type='checkbox'' name='special_user_".$i."' value='1'";
+        if ($bit == 1) {
+            echo " checked='checked'";
+        }
+        echo ">". $special_user_bitfield[$i] ."</td></tr>\n";
     }
-    echo ">". $special_user_bitfield[$i] ."</td></tr>\n";
-}
-echo "</tr>";
+    echo "</tr>";
 
-if ($is_admin) {
     echo "</tr><td colspan=$Nbf align='RIGHT'>
-        <input name='special_user' type='SUBMIT' value='Apply'>
+        <input name='special_user' type='SUBMIT' value='Update'>
         </td></tr>
     ";
-}
-end_table();
-echo "</form>\n";
+    end_table();
+    echo "</form>\n";
 
-echo "\n\n</td><td valign='TOP'>\n\n";
+    echo "\n\n</td><td valign='TOP'>\n\n";
 
 
-// Suspended posting privileges
+    // Suspended posting privileges
 
-echo "<form name='banishment' action=manage_user.php method=\"POST\">
-    <input type='hidden' name='userid' value='".$user->id."'>
-";
-start_table();
-row1("Suspension: $user->name");
+    echo "<form name='banishment' action=manage_user.php method=\"POST\">
+        <input type='hidden' name='userid' value='".$user->id."'>
+    ";
+    start_table();
+    row1("Suspension");
 
-if ($user->prefs->banished_until) {
-    $dt = $user->prefs->banished_until - time();
-    if ($dt > 0) {
-        $x = " Suspended until " . time_str($user->prefs->banished_until)
-            ."<br/> (Expires in " . time_diff($dt) .")" ;
+    if ($user->prefs->banished_until) {
+        $dt = $user->prefs->banished_until - time();
+        if ($dt > 0) {
+            $x = " Suspended until " . time_str($user->prefs->banished_until)
+                ."<br/> (Expires in " . time_diff($dt) .")" ;
+        } else {
+            $x = " last suspended " . time_str($user->prefs->banished_until);
+        }
+        row1($x);
     } else {
-        $x = " last suspended " . time_str($user->prefs->banished_until);
+        $dt = 0;
     }
-    row1($x);
-} else {
-    $dt = 0;
-}
 
-echo "<tr><td>
-Suspend user for:
- <blockquote>
-        <input type='radio' name='suspend_for' value='3600'> 1 hour   <br/>
-        <input type='radio' name='suspend_for' value='7200'> 2 hours  <br/>
-        <input type='radio' name='suspend_for' value='18000'> 6 hours  <br/>
-        <input type='radio' name='suspend_for' value='36000'> 12 hours  <br/>
-        <input type='radio' name='suspend_for' value='86400'> 24 hours  <br/>
-";
-if ($is_admin) {       // in case we are only a moderator
+    echo "<tr><td>
+    Suspend user for:
+     <blockquote>
+            <input type='radio' name='suspend_for' value='3600'> 1 hour   <br/>
+            <input type='radio' name='suspend_for' value='7200'> 2 hours  <br/>
+            <input type='radio' name='suspend_for' value='18000'> 6 hours  <br/>
+            <input type='radio' name='suspend_for' value='36000'> 12 hours  <br/>
+            <input type='radio' name='suspend_for' value='86400'> 24 hours  <br/>
+    ";
     echo "
         <input type='radio' name='suspend_for' value='172800'> 48 hours  <br/>
         <input type='radio' name='suspend_for' value='",86400*7,"'> 1 week  <br/>
         <input type='radio' name='suspend_for' value='",86400*14,"'> 2 weeks  <br/>
-";
-}
+    ";
 
-
-if ($dt>0) {
+    if ($dt>0) {
+        echo "
+            <input type='radio' name='suspend_for' value='-1'>  <b>unsuspend</b>   <br/>";
+    }
     echo "
-        <input type='radio' name='suspend_for' value='-1'>  <b>unsuspend</b>   <br/>";
+     </blockquote>
+
+    ";
+
+    echo "<P>Reason (required):\n";
+    echo "<textarea name='suspend_reason' cols='40' rows='4'></textarea>";
+    echo "<br><font size='-2' >The reason will be sent to both the user
+            and to the project administrators.</font>\n";
+
+
+    echo "<p align='RIGHT'><input name='suspend_submit' type='SUBMIT' value='Update'></P>\n";
+    echo " </td></tr>\n";
+
+    end_table();
+    echo "</form>\n";
+
+    echo "</td></tr> </table>\n";
+
+    admin_page_tail();
 }
-echo "
- </blockquote>
 
-";
+get_logged_in_user();
+db_init();
 
-echo "<P>Reason (required):\n";
-echo "<textarea name='suspend_reason' cols='40' rows='4'></textarea>";
-echo "<br><font size='-2' >The reason will be sent to both the user
-        and to the project administrators.</font>\n";
+$q = null;
 
+$id = get_int("userid", true);
+if (!$id) {
+    $id = post_int("userid", true);
+}
+if (!$id) error_page("No ID given");
+$user = BoincUser::lookup_id($id);
+if (!$user) error_page("No such user: $id");
 
-echo "<p align='RIGHT'><input name='suspend_submit' type='SUBMIT' value='Apply'></P>\n";
-echo " </td></tr>\n";
+BoincForumPrefs::lookup($user);
 
-end_table();
-echo "</form>\n";
+if (isset($_POST['delete_user'])) {
+    delete_user($user);
+    admin_page_head();
+    echo "User $user->name ($user->id) deleted";
+    admin_page_tail();
+}
 
-echo "</td></tr> </table>\n";
+if (isset($_POST['special_user'])) {
+    handle_special_user($user);
+    Header("Location: manage_user.php?userid=$user->id");
+}
+if (isset($_POST['suspend_submit'])) {
+    handle_suspend($user);
+    Header("Location: manage_user.php?userid=$user->id");
+}
 
-
-if ($q) {
-    echo "<P><font color='grey'>Query: $q </font>";
- }
-
-admin_page_tail();
+show_manage_user_form($user);
 
 $cvs_version_tracker[]=        //Generated automatically - do not edit
     "\$Id$"; 

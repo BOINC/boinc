@@ -186,6 +186,7 @@ create table host (
     max_results_day         integer         not null,
     error_rate              double          not null default 0,
     product_name            varchar(254)    not null,
+    gpu_active_frac         double          not null,
 
     primary key (id)
 ) engine=InnoDB;
@@ -287,6 +288,9 @@ create table result (
     app_version_id          integer         not null,
     runtime_outlier         tinyint         not null,
     size_class              smallint        not null default -1,
+    peak_working_set_size   double          not null,
+    peak_swap_size          double          not null,
+    peak_disk_usage         double          not null,
     primary key (id)
 ) engine=InnoDB;
 

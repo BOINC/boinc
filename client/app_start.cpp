@@ -703,18 +703,8 @@ int ACTIVE_TASK::start(bool test) {
 
     for (i=0; i<5; i++) {
         if (sandbox_account_service_token != NULL) {
-            // Find CreateEnvironmentBlock/DestroyEnvironmentBlock pointers
-            tCEB    pCEB = NULL;
-            tDEB    pDEB = NULL;
-            HMODULE hUserEnvLib = NULL;
 
-            hUserEnvLib = LoadLibrary("userenv.dll");
-            if (hUserEnvLib) {
-                pCEB = (tCEB) GetProcAddress(hUserEnvLib, "CreateEnvironmentBlock");
-                pDEB = (tDEB) GetProcAddress(hUserEnvLib, "DestroyEnvironmentBlock");
-            }
-
-            if (!pCEB(&environment_block, sandbox_account_service_token, FALSE)) {
+            if (!CreateEnvironmentBlock(&environment_block, sandbox_account_service_token, FALSE)) {
                 if (log_flags.task) {
                     windows_format_error_string(GetLastError(), error_msg, sizeof(error_msg));
                     msg_printf(wup->project, MSG_INFO,
@@ -745,7 +735,7 @@ int ACTIVE_TASK::start(bool test) {
                 );
             }
 
-            if (!pDEB(environment_block)) {
+            if (!DestroyEnvironmentBlock(environment_block)) {
                 if (log_flags.task) {
                     windows_format_error_string(GetLastError(), error_msg, sizeof(error_msg2));
                     msg_printf(wup->project, MSG_INFO,
@@ -753,12 +743,6 @@ int ACTIVE_TASK::start(bool test) {
                         error_msg2
                     );
                 }
-            }
-
-            if (hUserEnvLib) {
-                pCEB = NULL;
-                pDEB = NULL;
-                FreeLibrary(hUserEnvLib);
             }
 
         } else {
@@ -1021,12 +1005,26 @@ int ACTIVE_TASK::start(bool test) {
         //
         (void) freopen(STDERR_FILE, "a", stderr);
 
+        // lower our priority if needed
+        //
         if (!config.no_priority_change) {
 #if HAVE_SETPRIORITY
             if (setpriority(PRIO_PROCESS, 0,
                 high_priority?PROCESS_MEDIUM_PRIORITY:PROCESS_IDLE_PRIORITY)
             ) {
                 perror("setpriority");
+            }
+#endif
+#ifdef ANDROID
+            // Android has its own notion of background scheduling
+            if (!high_priority) {
+                FILE* f = fopen("/dev/cpuctl/apps/bg_non_interactive/tasks", "w");
+                if (!f) {
+                    msg_printf(NULL, MSG_INFO, "Can't open /dev/cpuctl/apps/bg_non_interactive/tasks");
+                } else {
+                    fprintf(f, "%d", getpid());
+                    fclose(f);
+                }
             }
 #endif
 #if HAVE_SCHED_SETSCHEDULER && defined(SCHED_BATCH) && defined (__linux__)
@@ -1039,6 +1037,11 @@ int ACTIVE_TASK::start(bool test) {
             }
 #endif
         }
+
+        // Run the application program.
+        // If using account-based sandboxing, use a helper app
+        // to do this, to set the right user ID
+        //
         if (test) {
             strcpy(buf, exec_path);
         } else {
@@ -1076,11 +1079,16 @@ int ACTIVE_TASK::start(bool test) {
         _exit(errno);
     }
 
+    // parent process (client) continues here
+    //
     if (log_flags.task_debug) {
         msg_printf(wup->project, MSG_INFO,
             "[task] ACTIVE_TASK::start(): forked process: pid %d\n", pid
         );
     }
+
+#ifdef ANDROID
+#endif
 
 #endif
     set_task_state(PROCESS_EXECUTING, "start");

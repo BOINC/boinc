@@ -100,6 +100,8 @@ int PROJECT::parse_account(FILE* in) {
     char buf2[256];
     int retval;
     bool in_project_prefs = false, btemp;
+	double dtemp;
+
     for (int i=0; i<coprocs.n_rsc; i++) {
         no_rsc_pref[i] = false;
     }
@@ -130,7 +132,12 @@ int PROJECT::parse_account(FILE* in) {
             canonicalize_master_url(master_url, sizeof(master_url));
             continue;
         } else if (xp.parse_str("authenticator", authenticator, sizeof(authenticator))) continue;
-        else if (xp.parse_double("resource_share", resource_share)) continue;
+        else if (xp.parse_double("resource_share", dtemp)) {
+			if (ams_resource_share < 0) {
+				resource_share = dtemp;
+			}
+			continue;
+		}
         else if (xp.parse_bool("no_cpu", btemp)) {
             if (btemp) handle_no_rsc_pref(this, "CPU");
             continue;
@@ -193,11 +200,13 @@ int PROJECT::parse_account_file_venue() {
     char attr_buf[256], venue[256], path[MAXPATHLEN], buf2[256];
     int retval;
     bool in_right_venue = false, btemp;
+    double dtemp;
 
     get_account_filename(master_url, path);
     FILE* in = boinc_fopen(path, "r");
     if (!in) return ERR_FOPEN;
 
+	//msg_printf(this, MSG_INFO, "parsing project prefs, looking for venue %s", host_venue);
     MIOFILE mf;
     XML_PARSER xp(&mf);
     mf.init_file(in);
@@ -208,6 +217,7 @@ int PROJECT::parse_account_file_venue() {
         } else if (xp.match_tag("venue")) {
             parse_attr(attr_buf, "name", venue, sizeof(venue));
             if (!strcmp(venue, host_venue)) {
+				//msg_printf(this, MSG_INFO, "found venue %s", host_venue);
                 using_venue_specific_prefs = true;
                 in_right_venue = true;
 
@@ -235,7 +245,12 @@ int PROJECT::parse_account_file_venue() {
             );
             if (retval) return retval;
             continue;
-        } else if (xp.parse_double("resource_share", resource_share)) {
+        } else if (xp.parse_double("resource_share", dtemp)) {
+            // if account manager has specified resource share, don't override
+            //
+            if (ams_resource_share < 0) {
+                resource_share = dtemp;
+            }
             continue;
         }
         else if (xp.parse_bool("no_cpu", btemp)) {
@@ -281,7 +296,11 @@ int PROJECT::parse_account_file() {
     if (!f) return ERR_FOPEN;
     retval = parse_account(f);
     fclose(f);
-    return retval;
+    if (retval) return retval;
+	if (strlen(host_venue)) {
+        return parse_account_file_venue();
+    }
+	return 0;
 }
 
 int CLIENT_STATE::parse_account_files_venue() {

@@ -63,7 +63,6 @@
 		DD1CB233154F5BF700BFF282 /* result.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD1CB230154F5BF700BFF282 /* result.cpp */; };
 		DD1E4B7B14DCA83F0093C711 /* async_file.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD1E4B7914DCA83F0093C711 /* async_file.cpp */; };
 		DD21B49D0D750FC600AFFEE5 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDFE854A0B60CFD0009B43D9 /* AppKit.framework */; };
-		DD2370E113F49DF3003149F9 /* LoginItemAPI.c in Sources */ = {isa = PBXBuildFile; fileRef = DD2370DF13F49DF3003149F9 /* LoginItemAPI.c */; };
 		DD247AF90AEA308A0034104A /* SkinManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD247AF70AEA308A0034104A /* SkinManager.cpp */; };
 		DD25F72815914F8C007845B5 /* gpu_nvidia.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD25F72315914F8C007845B5 /* gpu_nvidia.cpp */; };
 		DD25F72915914F8C007845B5 /* gpu_amd.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD25F72415914F8C007845B5 /* gpu_amd.cpp */; };
@@ -77,8 +76,6 @@
 		DD2B6C8113149177005D6F3E /* procinfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD2B6C7E13149177005D6F3E /* procinfo.cpp */; };
 		DD2B6C8D131491B7005D6F3E /* procinfo_mac.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB6934F0ABFE9C600689FD8 /* procinfo_mac.cpp */; };
 		DD2B6C8E131491B8005D6F3E /* procinfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD2B6C7E13149177005D6F3E /* procinfo.cpp */; };
-		DD2FE5C9142DE75A00A1E6F3 /* LoginItemAPI.c in Sources */ = {isa = PBXBuildFile; fileRef = DD2370DF13F49DF3003149F9 /* LoginItemAPI.c */; };
-		DD2FE5CB142DE94700A1E6F3 /* LoginItemAPI.c in Sources */ = {isa = PBXBuildFile; fileRef = DD2370DF13F49DF3003149F9 /* LoginItemAPI.c */; };
 		DD3157C316740D5300B6C909 /* gpu_intel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD3157C016740C9100B6C909 /* gpu_intel.cpp */; };
 		DD33C6F308B5BAF500768630 /* gui_http.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD33C6F108B5BAF500768630 /* gui_http.cpp */; };
 		DD33C6F808B5BB4500768630 /* acct_setup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD33C6F708B5BB4500768630 /* acct_setup.cpp */; };
@@ -168,7 +165,6 @@
 		DD431F240A415EE70060585A /* SetupSecurity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7748B40A356D6C0025D05E /* SetupSecurity.cpp */; };
 		DD431FAA0A41660D0060585A /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
 		DD4329910BA63DEC007CDF2A /* str_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7BF7D70B8E7A9800A009F7 /* str_util.cpp */; };
-		DD46885A0C1661970089F500 /* uninstall.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD4688590C1661970089F500 /* uninstall.cpp */; };
 		DD48091F081A66F100A174AA /* BOINCSaver.nib in Resources */ = {isa = PBXBuildFile; fileRef = DD48091E081A66F100A174AA /* BOINCSaver.nib */; };
 		DD4AE04D13652BD700285859 /* cc_config.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD4AE04B13652BD700285859 /* cc_config.cpp */; };
 		DD4AE05013652C1300285859 /* cc_config.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD4AE04B13652BD700285859 /* cc_config.cpp */; };
@@ -195,7 +191,6 @@
 		DD6A829C181103990037172D /* thread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD6A829A181103990037172D /* thread.cpp */; };
 		DD6ABCD10BD4C5CA009AA7A1 /* browser_safari.mm in Sources */ = {isa = PBXBuildFile; fileRef = DD6ABCD00BD4C5CA009AA7A1 /* browser_safari.mm */; };
 		DD6D0A8707E9A61E007F882B /* network.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD6D0A8507E9A61B007F882B /* network.cpp */; };
-		DD6FCB68167745E700C740DB /* libsqlite3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DD6FCB67167745E700C740DB /* libsqlite3.a */; };
 		DD728D45175DD3B900A1CE23 /* url.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDC06AB210A3E93F00C8D9A5 /* url.cpp */; };
 		DD728D47175DD41B00A1CE23 /* str_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7BF7D70B8E7A9800A009F7 /* str_util.cpp */; };
 		DD73E36E08A0720500656EB1 /* gui_rpc_server_ops.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD73E36208A06ED400656EB1 /* gui_rpc_server_ops.cpp */; };
@@ -321,7 +316,6 @@
 		DD957E5B181B908800ECA34E /* thumbnail.png in Resources */ = {isa = PBXBuildFile; fileRef = DD957E59181B908800ECA34E /* thumbnail.png */; };
 		DD957E5C181B908800ECA34E /* thumbnail@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DD957E5A181B908800ECA34E /* thumbnail@2x.png */; };
 		DD9AB0340EB7D5DE00AF1616 /* rr_sim.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD9AB0320EB7D5DE00AF1616 /* rr_sim.cpp */; };
-		DD9E560A182D06A6002AF0F8 /* libwx_osx_cocoa_static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DDE36DF517C3896A000E78D6 /* libwx_osx_cocoa_static.a */; };
 		DD9E560F182D0D40002AF0F8 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD9E560E182D0D40002AF0F8 /* WebKit.framework */; };
 		DDA0C8350FE1D704001E02E6 /* procinfo_mac.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB6934F0ABFE9C600689FD8 /* procinfo_mac.cpp */; };
 		DDA12A6D0A36974600FBDD12 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD1929D80918A2F100C31BCF /* Security.framework */; };
@@ -329,6 +323,7 @@
 		DDA12AAE0A369C5800FBDD12 /* SecurityUtility.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDA12AAD0A369C5800FBDD12 /* SecurityUtility.cpp */; };
 		DDA165E513B49B0D00CB4DD5 /* url.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDC06AB210A3E93F00C8D9A5 /* url.cpp */; };
 		DDA1F1EE126D105B005EFFEB /* current_version.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDA1F1EC126D105B005EFFEB /* current_version.cpp */; };
+		DDA2EC1618AA592D002664B6 /* libsqlite3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DDA2EC1518AA592D002664B6 /* libsqlite3.a */; };
 		DDA45500140F7DE200D97676 /* synch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD407AED07D2FE7200163EF5 /* synch.cpp */; };
 		DDA45501140F7E7900D97676 /* reduce_main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD40825807D3076400163EF5 /* reduce_main.cpp */; };
 		DDA6BD120BD4551F008F7921 /* mac_backtrace.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDA6BD040BD4551F008F7921 /* mac_backtrace.cpp */; };
@@ -393,8 +388,8 @@
 		DDCF84080E1B7C0A005EDC45 /* DlgItemProperties.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDCF84060E1B7C0A005EDC45 /* DlgItemProperties.cpp */; };
 		DDD0697312D70C9400120920 /* sg_TaskPanel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDD0697112D70C9400120920 /* sg_TaskPanel.cpp */; };
 		DDD095490A3EDF2D00C95BA4 /* switcher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDD095480A3EDF2D00C95BA4 /* switcher.cpp */; };
-		DDD3370A106224E800867C7D /* AddRemoveUser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDD33709106224E800867C7D /* AddRemoveUser.cpp */; };
 		DDD3371310622D0800867C7D /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
+		DDD50AFA18C49D2300EC244E /* BOINCGUIApp.mm in Sources */ = {isa = PBXBuildFile; fileRef = DDCA2EBD18C49139007D5F6C /* BOINCGUIApp.mm */; };
 		DDD52DCA0C03CAE6009B5FC0 /* ViewProjects.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDD52DC40C03CAE6009B5FC0 /* ViewProjects.cpp */; };
 		DDD52DCC0C03CAE6009B5FC0 /* ViewTransfers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDD52DC60C03CAE6009B5FC0 /* ViewTransfers.cpp */; };
 		DDD52DCE0C03CAE6009B5FC0 /* ViewWork.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDD52DC80C03CAE6009B5FC0 /* ViewWork.cpp */; };
@@ -443,6 +438,7 @@
 		DDD74DD207CF493C0065AC9D /* proxy_info.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BEF07C5B1770043025C /* proxy_info.cpp */; };
 		DDD74DD307CF493D0065AC9D /* shmem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AAA31C97042157A800A80164 /* shmem.cpp */; };
 		DDD74DD407CF493E0065AC9D /* util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5EAD479031AF001018E201A /* util.cpp */; };
+		DDD8846418E17D7A00BE1E34 /* DlgDiagnosticLogFlags.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDD8846218E17D7A00BE1E34 /* DlgDiagnosticLogFlags.cpp */; };
 		DDD93E7313E017B600B92D0F /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDE2552B07C62F3E008E7D6E /* IOKit.framework */; };
 		DDD9C5A510CCF61F00A1E4CD /* coproc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7475500D86273300860636 /* coproc.cpp */; };
 		DDD9C5AA10CCF6A000A1E4CD /* coproc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7475500D86273300860636 /* coproc.cpp */; };
@@ -474,6 +470,8 @@
 		DDE586B310FC8E9B00DFA887 /* mfile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BD207C5B1150043025C /* mfile.cpp */; };
 		DDE7A3B115C6739E002B3B96 /* ttfont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE7A3AF15C6739E002B3B96 /* ttfont.cpp */; };
 		DDE813221770479C0068A770 /* translate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDF9350F176B0D0C00A2793C /* translate.cpp */; };
+		DDF5E23318B8673E005DEA6E /* uninstall.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD4688590C1661970089F500 /* uninstall.cpp */; };
+		DDF5E23418B86803005DEA6E /* AddRemoveUser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDD33709106224E800867C7D /* AddRemoveUser.cpp */; };
 		DDF5F85A10DD05DB006A50CD /* notice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE1372D10DC5E8D00161D6B /* notice.cpp */; };
 		DDF5F85B10DD05E4006A50CD /* notice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDE1372D10DC5E8D00161D6B /* notice.cpp */; };
 		DDF93511176B0D0C00A2793C /* translate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDF9350F176B0D0C00A2793C /* translate.cpp */; };
@@ -765,8 +763,6 @@
 		DD1E4B7A14DCA83F0093C711 /* async_file.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = async_file.h; sourceTree = "<group>"; };
 		DD1F0ACD0822069E00AFC5FA /* MacGUI.pch */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MacGUI.pch; path = ../clientgui/mac/MacGUI.pch; sourceTree = SOURCE_ROOT; };
 		DD2049DC0D862516009EEE7A /* coproc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = coproc.h; path = ../lib/coproc.h; sourceTree = SOURCE_ROOT; };
-		DD2370DF13F49DF3003149F9 /* LoginItemAPI.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = LoginItemAPI.c; path = ../mac_installer/LoginItemAPI.c; sourceTree = "<group>"; };
-		DD2370E013F49DF3003149F9 /* LoginItemAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoginItemAPI.h; path = ../mac_installer/LoginItemAPI.h; sourceTree = "<group>"; };
 		DD247AF70AEA308A0034104A /* SkinManager.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = SkinManager.cpp; path = ../clientgui/SkinManager.cpp; sourceTree = SOURCE_ROOT; };
 		DD247AF80AEA308A0034104A /* SkinManager.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = SkinManager.h; path = ../clientgui/SkinManager.h; sourceTree = SOURCE_ROOT; };
 		DD252F3009E3E014006454D7 /* boinc_glut.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = boinc_glut.h; path = ../api/boinc_glut.h; sourceTree = SOURCE_ROOT; };
@@ -906,7 +902,6 @@
 		DD6D0A8507E9A61B007F882B /* network.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = network.cpp; sourceTree = "<group>"; };
 		DD6D0A8607E9A61B007F882B /* network.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = network.h; path = ../lib/network.h; sourceTree = SOURCE_ROOT; };
 		DD6D82DA08131AB1008F7200 /* macglutfix.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = macglutfix.m; sourceTree = "<group>"; };
-		DD6FCB67167745E700C740DB /* libsqlite3.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsqlite3.a; path = "../../sqlite-autoconf-3071401/.libs/libsqlite3.a"; sourceTree = "<group>"; };
 		DD7168360AAD72040051642B /* common_defs.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = common_defs.h; path = ../lib/common_defs.h; sourceTree = SOURCE_ROOT; };
 		DD73E34E08A0694000656EB1 /* gui_rpc_client_ops.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = gui_rpc_client_ops.cpp; sourceTree = "<group>"; };
 		DD73E34F08A0694100656EB1 /* gui_rpc_client_print.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = gui_rpc_client_print.cpp; sourceTree = "<group>"; };
@@ -1054,6 +1049,7 @@
 		DDA1F1EC126D105B005EFFEB /* current_version.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = current_version.cpp; path = ../client/current_version.cpp; sourceTree = SOURCE_ROOT; };
 		DDA1F1ED126D105B005EFFEB /* current_version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = current_version.h; path = ../client/current_version.h; sourceTree = SOURCE_ROOT; };
 		DDA290360CB5D80E00512BD8 /* Mac_Saver_Module.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Mac_Saver_Module.h; path = ../clientscr/Mac_Saver_Module.h; sourceTree = SOURCE_ROOT; };
+		DDA2EC1518AA592D002664B6 /* libsqlite3.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsqlite3.a; path = "../../sqlite-autoconf-3080300/.libs/libsqlite3.a"; sourceTree = "<group>"; };
 		DDA45502140F85DD00D97676 /* str_replace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = str_replace.h; sourceTree = "<group>"; };
 		DDA6BD030BD4551F008F7921 /* dyld_gdb.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = dyld_gdb.h; path = ../lib/mac/dyld_gdb.h; sourceTree = SOURCE_ROOT; };
 		DDA6BD040BD4551F008F7921 /* mac_backtrace.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = mac_backtrace.cpp; path = ../lib/mac/mac_backtrace.cpp; sourceTree = SOURCE_ROOT; };
@@ -1110,6 +1106,7 @@
 		DDC63EEF0985B89600383FD2 /* DlgGenericMessage.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = DlgGenericMessage.cpp; path = ../clientgui/DlgGenericMessage.cpp; sourceTree = SOURCE_ROOT; };
 		DDC63EF00985B89600383FD2 /* DlgGenericMessage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = DlgGenericMessage.h; path = ../clientgui/DlgGenericMessage.h; sourceTree = SOURCE_ROOT; };
 		DDC836E50EDEA5DB001C2EF9 /* TermsOfUsePage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TermsOfUsePage.cpp; path = ../clientgui/TermsOfUsePage.cpp; sourceTree = SOURCE_ROOT; };
+		DDCA2EBD18C49139007D5F6C /* BOINCGUIApp.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = BOINCGUIApp.mm; path = ../clientgui/mac/BOINCGUIApp.mm; sourceTree = "<group>"; };
 		DDCAD7D30A6C603A0086C7EE /* sg_DlgPreferences.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = sg_DlgPreferences.cpp; path = ../clientgui/sg_DlgPreferences.cpp; sourceTree = SOURCE_ROOT; };
 		DDCAD7D40A6C603A0086C7EE /* sg_DlgPreferences.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = sg_DlgPreferences.h; path = ../clientgui/sg_DlgPreferences.h; sourceTree = SOURCE_ROOT; };
 		DDCF84060E1B7C0A005EDC45 /* DlgItemProperties.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DlgItemProperties.cpp; sourceTree = "<group>"; };
@@ -1127,6 +1124,8 @@
 		DDD52DC80C03CAE6009B5FC0 /* ViewWork.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = ViewWork.cpp; path = ../clientgui/ViewWork.cpp; sourceTree = SOURCE_ROOT; };
 		DDD52DC90C03CAE6009B5FC0 /* ViewWork.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ViewWork.h; path = ../clientgui/ViewWork.h; sourceTree = SOURCE_ROOT; };
 		DDD74D8707CF482E0065AC9D /* boinc */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = boinc; sourceTree = BUILT_PRODUCTS_DIR; };
+		DDD8846218E17D7A00BE1E34 /* DlgDiagnosticLogFlags.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DlgDiagnosticLogFlags.cpp; sourceTree = "<group>"; };
+		DDD8846318E17D7A00BE1E34 /* DlgDiagnosticLogFlags.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DlgDiagnosticLogFlags.h; sourceTree = "<group>"; };
 		DDDC2053183B560B00CB5845 /* mac_address.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mac_address.cpp; sourceTree = "<group>"; };
 		DDDC2054183B560B00CB5845 /* mac_address.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mac_address.h; sourceTree = "<group>"; };
 		DDDD6D7E12E4611300C258A0 /* sg_ProjectPanel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sg_ProjectPanel.cpp; path = ../clientgui/sg_ProjectPanel.cpp; sourceTree = SOURCE_ROOT; };
@@ -1146,7 +1145,6 @@
 		DDE1741E166746F70059083A /* app_config.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = app_config.cpp; sourceTree = "<group>"; };
 		DDE1741F166746F70059083A /* app_config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = app_config.h; sourceTree = "<group>"; };
 		DDE2552B07C62F3E008E7D6E /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = /System/Library/Frameworks/IOKit.framework; sourceTree = "<absolute>"; };
-		DDE36DF517C3896A000E78D6 /* libwx_osx_cocoa_static.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libwx_osx_cocoa_static.a; path = "../../wxWidgets-3.0.0/build/osx/build/Debug/libwx_osx_cocoa_static.a"; sourceTree = SOURCE_ROOT; };
 		DDE3A87F0E90D1BF00A363A7 /* client_state.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = client_state.cpp; sourceTree = "<group>"; };
 		DDE3A8840E90D23400A363A7 /* scheduler_op.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = scheduler_op.cpp; sourceTree = "<group>"; };
 		DDE41C250C1FCA8F00CA1F86 /* graphics2_util.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = graphics2_util.cpp; sourceTree = "<group>"; };
@@ -1249,10 +1247,9 @@
 				DD3E15320A774397007E0084 /* IOKit.framework in Frameworks */,
 				DD3E15330A774397007E0084 /* Security.framework in Frameworks */,
 				DD21B49D0D750FC600AFFEE5 /* AppKit.framework in Frameworks */,
-				DD6FCB68167745E700C740DB /* libsqlite3.a in Frameworks */,
-				DD9E560A182D06A6002AF0F8 /* libwx_osx_cocoa_static.a in Frameworks */,
 				DD9E560F182D0D40002AF0F8 /* WebKit.framework in Frameworks */,
 				DD7811631851AC8D0050CF7B /* OpenGL.framework in Frameworks */,
+				DDA2EC1618AA592D002664B6 /* libsqlite3.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1468,14 +1465,13 @@
 		20286C32FDCF999611CA2CEA /* External Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				DDE36DF517C3896A000E78D6 /* libwx_osx_cocoa_static.a */,
+				DDA2EC1518AA592D002664B6 /* libsqlite3.a */,
 				DDFE854A0B60CFD0009B43D9 /* AppKit.framework */,
 				DDE2552B07C62F3E008E7D6E /* IOKit.framework */,
 				20286C33FDCF999611CA2CEA /* Carbon.framework */,
 				DD7C5E7508110AE3002FCE1E /* ScreenSaver.framework */,
 				DD1929D80918A2F100C31BCF /* Security.framework */,
 				DD9E560E182D0D40002AF0F8 /* WebKit.framework */,
-				DD6FCB67167745E700C740DB /* libsqlite3.a */,
 				DD89165D0F3B1BC200DE5B1C /* GLUT.framework */,
 				DD89165E0F3B1BC200DE5B1C /* OpenGL.framework */,
 			);
@@ -1494,8 +1490,6 @@
 				DDB8D5A5081FC8C700A5A1E8 /* postinstall */,
 				DD127880081F464E007B5DE1 /* postupgrade */,
 				DDD33709106224E800867C7D /* AddRemoveUser.cpp */,
-				DD2370DF13F49DF3003149F9 /* LoginItemAPI.c */,
-				DD2370E013F49DF3003149F9 /* LoginItemAPI.h */,
 				DDB219B110B3BBA900417AEF /* WaitPermissions.cpp */,
 			);
 			name = mac_installer;
@@ -1549,6 +1543,8 @@
 				DDFE84E20B60CD66009B43D9 /* DlgAdvPreferences.h */,
 				DDFE84E30B60CD66009B43D9 /* DlgAdvPreferencesBase.cpp */,
 				DDFE84E40B60CD66009B43D9 /* DlgAdvPreferencesBase.h */,
+				DDD8846218E17D7A00BE1E34 /* DlgDiagnosticLogFlags.cpp */,
+				DDD8846318E17D7A00BE1E34 /* DlgDiagnosticLogFlags.h */,
 				DDE1374710DC613600161D6B /* DlgEventLogListCtrl.cpp */,
 				DDE1374810DC613600161D6B /* DlgEventLogListCtrl.h */,
 				DDE1374010DC60E200161D6B /* DlgEventLog.cpp */,
@@ -1980,6 +1976,7 @@
 		F5C5403402BFC5C701BEDAB8 /* mac */ = {
 			isa = PBXGroup;
 			children = (
+				DDCA2EBD18C49139007D5F6C /* BOINCGUIApp.mm */,
 				DD6ABCD00BD4C5CA009AA7A1 /* browser_safari.mm */,
 				DD30446A0864332D00D73756 /* config.h */,
 				DD1F0ACD0822069E00AFC5FA /* MacGUI.pch */,
@@ -2766,7 +2763,6 @@
 				DD1277C4081F3E73007B5DE1 /* PostInstall.cpp in Sources */,
 				DDA12AA20A369B5500FBDD12 /* SetupSecurity.cpp in Sources */,
 				DD51DC8F0A4943A300BD24E6 /* check_security.cpp in Sources */,
-				DD2FE5CB142DE94700A1E6F3 /* LoginItemAPI.c in Sources */,
 				DD728D45175DD3B900A1CE23 /* url.cpp in Sources */,
 				DD728D47175DD41B00A1CE23 /* str_util.cpp in Sources */,
 				DDF93511176B0D0C00A2793C /* translate.cpp in Sources */,
@@ -2907,6 +2903,8 @@
 				DD262C781366D2A200C9A187 /* cc_config.cpp in Sources */,
 				DD11E5B617D1A89700947975 /* MacAccessiblity.mm in Sources */,
 				DD76BF9817CB465E0075936D /* opencl_boinc.cpp in Sources */,
+				DDD50AFA18C49D2300EC244E /* BOINCGUIApp.mm in Sources */,
+				DDD8846418E17D7A00BE1E34 /* DlgDiagnosticLogFlags.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2958,11 +2956,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DD2FE5C9142DE75A00A1E6F3 /* LoginItemAPI.c in Sources */,
-				DD46885A0C1661970089F500 /* uninstall.cpp in Sources */,
 				DDE813221770479C0068A770 /* translate.cpp in Sources */,
 				DDB9EA9717BE2C0D00651B07 /* filesys.cpp in Sources */,
 				DDB9EA9C17BE2C7100651B07 /* util.cpp in Sources */,
+				DDF5E23318B8673E005DEA6E /* uninstall.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3190,8 +3187,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DDD3370A106224E800867C7D /* AddRemoveUser.cpp in Sources */,
-				DD2370E113F49DF3003149F9 /* LoginItemAPI.c in Sources */,
+				DDF5E23418B86803005DEA6E /* AddRemoveUser.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3545,7 +3541,8 @@
 				LIBRARY_SEARCH_PATHS = (
 					"../../wxWidgets-3.0.0/build/osx/build/Debug",
 					"\"$(SRCROOT)/../../wxWidgets-3.0.0/build/osx/build/Debug\"",
-					"../../sqlite-autoconf-3071401/.libs/",
+					"../../sqlite-autoconf-3080300/.libs/",
+					"\"$(SRCROOT)/../../sqlite-autoconf-3080300/.libs\"",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				OTHER_CFLAGS = (
@@ -3565,6 +3562,7 @@
 				OTHER_LDFLAGS = (
 					"-bind_at_load",
 					"-D_THREAD_SAFE",
+					"-lwx_osx_cocoa_static",
 					"-lz",
 					"-lpthread",
 					"-lm",
@@ -3601,7 +3599,8 @@
 				LIBRARY_SEARCH_PATHS = (
 					"../../wxWidgets-3.0.0/build/osx/build/Release",
 					"\"$(SRCROOT)/../../wxWidgets-3.0.0/build/osx/build/Release\"",
-					"../../sqlite-autoconf-3071401/.libs/",
+					"../../sqlite-autoconf-3080300/.libs/",
+					"\"$(SRCROOT)/../../sqlite-autoconf-3080300/.libs\"",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				OTHER_CFLAGS = (
@@ -3613,7 +3612,7 @@
 					"-D_THREAD_SAFE",
 					"-D__WXMAC__",
 					"-DSANDBOX",
-					"-DNDEBUG",
+					"-D_NDEBUG",
 					"-DHAVE_STRCASECMP_IN_STRING_H",
 					"-DBUILDING_MANAGER",
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1050",
@@ -3622,6 +3621,7 @@
 				OTHER_LDFLAGS = (
 					"-bind_at_load",
 					"-D_THREAD_SAFE",
+					"-lwx_osx_cocoa_static",
 					"-lz",
 					"-lpthread",
 					"-lm",
@@ -3744,14 +3744,6 @@
 					"-lbz2",
 				);
 				PRODUCT_NAME = boincscr;
-				WARNING_LDFLAGS = (
-					"-lresolv",
-					"-ljpeg",
-					"../../freetype-2.4.10/objs/.libs/libfreetype.a",
-					"../../ftgl-2.1.3~rc5/src/.libs/libftgl.a",
-					"-lz",
-					"-lbz2",
-				);
 			};
 			name = Development;
 		};
@@ -3777,14 +3769,6 @@
 					"-lbz2",
 				);
 				PRODUCT_NAME = boincscr;
-				WARNING_LDFLAGS = (
-					"-lresolv",
-					"-ljpeg",
-					"../../freetype-2.4.10/objs/.libs/libfreetype.a",
-					"../../ftgl-2.1.3~rc5/src/.libs/libftgl.a",
-					"-lz",
-					"-lbz2",
-				);
 			};
 			name = Deployment;
 		};
@@ -3896,10 +3880,10 @@
 				);
 				OTHER_LDFLAGS = (
 					"-L.",
-					"../../curl-7.26.0/lib/.libs/libcurl.a",
-					"../../c-ares-1.9.1/.libs/libcares.a",
-					"../../openssl-1.0.1e/libcrypto.a",
-					"../../openssl-1.0.1e/libssl.a",
+					"../../curl-7.35.0/lib/.libs/libcurl.a",
+					"../../c-ares-1.10.0/.libs/libcares.a",
+					"../../openssl-1.0.1g/libcrypto.a",
+					"../../openssl-1.0.1g/libssl.a",
 					"-lldap",
 					"-lz",
 				);
@@ -3977,7 +3961,7 @@
 				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
 				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = NO;
 				LIBRARY_STYLE = STATIC;
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				"MACOSX_DEPLOYMENT_TARGET[arch=ppc]" = 10.4;
 				"MACOSX_DEPLOYMENT_TARGET[arch=x86_64]" = 10.5;
 				OTHER_CFLAGS = (
@@ -4062,10 +4046,10 @@
 				LIBRARY_SEARCH_PATHS = "";
 				OTHER_LDFLAGS = (
 					"-L.",
-					"../../curl-7.26.0/lib/.libs/libcurl.a",
-					"../../c-ares-1.9.1/.libs/libcares.a",
-					"../../openssl-1.0.1e/libcrypto.a",
-					"../../openssl-1.0.1e/libssl.a",
+					"../../curl-7.35.0/lib/.libs/libcurl.a",
+					"../../c-ares-1.10.0/.libs/libcares.a",
+					"../../openssl-1.0.1g/libcrypto.a",
+					"../../openssl-1.0.1g/libssl.a",
 					"-lldap",
 					"-lz",
 				);
@@ -4145,7 +4129,7 @@
 				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
 				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = NO;
 				LIBRARY_STYLE = STATIC;
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				"MACOSX_DEPLOYMENT_TARGET[arch=ppc]" = 10.4;
 				"MACOSX_DEPLOYMENT_TARGET[arch=x86_64]" = 10.5;
 				OTHER_CFLAGS = (

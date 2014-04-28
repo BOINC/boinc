@@ -406,7 +406,7 @@ static inline bool actively_uploading(PROJECT* p) {
         FILE_XFER* fxp = gstate.file_xfers->file_xfers[i];
         if (fxp->fip->project != p) continue;
         if (!fxp->is_upload) continue;
-        if (gstate.now - fxp->start_time > WF_DEFER_INTERVAL) continue;
+        if (gstate.now - fxp->start_time > WF_UPLOAD_DEFER_INTERVAL) continue;
         //msg_printf(p, MSG_INFO, "actively uploading");
         return true;
     }
@@ -534,7 +534,13 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
     p = work_fetch.choose_project();
     if (p) {
         if (actively_uploading(p)) {
-            if (!idle_request()) {
+            bool dont_request = true;
+            if (p->pwf.request_if_idle_and_uploading) {
+                if (idle_request()) {
+                    dont_request = false;
+                }
+            }
+            if (dont_request) {
                 if (log_flags.work_fetch_debug) {
                     msg_printf(p, MSG_INFO,
                         "[work_fetch] deferring work fetch; upload active"
@@ -654,11 +660,12 @@ int CLIENT_STATE::handle_scheduler_reply(
         }
         msg_printf(project, prio, "%s", um.message.c_str());
     }
+
     // if we requested work and didn't get notices,
     // clear scheduler notices from this project
     //
     if (work_fetch.requested_work() && !got_notice) {
-        notices.remove_scheduler_notices(project);
+        notices.remove_notices(project, REMOVE_SCHEDULER_MSG);
     }
 
     if (log_flags.sched_op_debug && sr.request_delay) {
@@ -702,7 +709,6 @@ int CLIENT_STATE::handle_scheduler_reply(
         }
     }
 
-#ifdef USE_NET_PREFS
     // see if we have a new venue from this project
     // (this must go AFTER the above, since otherwise
     // global_prefs_source_project() is meaningless)
@@ -711,16 +717,17 @@ int CLIENT_STATE::handle_scheduler_reply(
         safe_strcpy(project->host_venue, sr.host_venue);
         msg_printf(project, MSG_INFO, "New computer location: %s", sr.host_venue);
         update_project_prefs = true;
+#ifdef USE_NET_PREFS
         if (project == global_prefs_source_project()) {
             safe_strcpy(main_host_venue, sr.host_venue);
             update_global_prefs = true;
         }
+#endif
     }
 
     if (update_global_prefs) {
         read_global_prefs();
     }
-#endif
 
     // deal with project preferences (should always be there)
     // If they've changed, write to account file,
@@ -748,12 +755,14 @@ int CLIENT_STATE::handle_scheduler_reply(
 
     if (update_project_prefs) {
         project->parse_account_file();
-        if (strlen(project->host_venue)) {
-            project->parse_account_file_venue();
-        }
         project->parse_preferences_for_user_files();
         active_tasks.request_reread_prefs(project);
     }
+
+    // show notice if we can't possibly get work from this project.
+	// This must come after parsing project prefs
+    //
+    project->show_no_work_notice();
 
     // if the scheduler reply includes a code-signing key,
     // accept it if we don't already have one from the project.
@@ -978,7 +987,7 @@ int CLIENT_STATE::handle_scheduler_reply(
             for (int j=0; j<coprocs.n_rsc; j++) {
                 msg_printf(project, MSG_INFO,
                     "[sched_op] estimated total %s task duration: %.0f seconds",
-                    rsc_name(j),
+                    rsc_name_long(j),
                     est_rsc_runtime[j]/time_stats.availability_frac(j)
                 );
             }

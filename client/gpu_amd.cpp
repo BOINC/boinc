@@ -276,16 +276,16 @@ void COPROC_ATI::get(
             break;
         case 10:
             gpu_name="ATI Radeon HD 5500/5600 series (Redwood)";
-	    break;
+            break;
         case 11:
             gpu_name="ATI Radeon HD 5400 series (Cedar)";
-	    break;
+            break;
         case 12:
             gpu_name="AMD Radeon HD 6370D/6380G/6410D/6480G (Sumo)";
-	    break;
+            break;
         case 13:
             gpu_name="AMD Radeon HD 6520G/6530D/6550D/6620G (SuperSumo)";
-	    break;
+            break;
         case 14:
             gpu_name="AMD Radeon HD 6200/6300/7200/7300 series (Wrestler)";
             break;
@@ -294,7 +294,7 @@ void COPROC_ATI::get(
             break;
         case 16:
             gpu_name="AMD Radeon HD (Kauai)";
-	    break;
+            break;
         case 17:
             gpu_name="AMD Radeon HD 6790/6850/6870 series (Barts)";
             break;
@@ -325,21 +325,21 @@ void COPROC_ATI::get(
         case 26:
             gpu_name="AMD Radeon HD 7790/R7 260X (Bonaire)";
             break;
-	case 27:
-	    gpu_name="AMD Radeon HD (Spectre)"; // Kaveri
-	    break;
+        case 27:
+            gpu_name="AMD Radeon HD (Spectre)"; // Kaveri
+            break;
         case 28:
-	    gpu_name="AMD Radeon HD (Spooky)";  // Kaveri
-	    break;
+            gpu_name="AMD Radeon HD (Spooky)";  // Kaveri
+            break;
         case 29:
-	    gpu_name="AMD Radeon HD 8200/8300/8400 series (Kalindi)"; // Kabini
-	    break;
+            gpu_name="AMD Radeon HD 8200/8300/8400 series (Kalindi)"; // Kabini
+            break;
         case 30:
-	    gpu_name="AMD Radeon HD 8600M (Hainan)";
-	    break;
+            gpu_name="AMD Radeon HD 8600M (Hainan)";
+            break;
         case 31:
-	    gpu_name="AMD Radeon R9 270X (Curacao)";
-	    break;
+            gpu_name="AMD Radeon R9 270X (Curacao)";
+            break;
         case 32:
             gpu_name="AMD Radeon R9 290 (Hawaii)";
             break;
@@ -404,6 +404,10 @@ void COPROC_ATI::correlate(
         ati_gpus[i].description(buf, sizeof(buf));
         if (in_vector(ati_gpus[i].device_num, ignore_devs)) {
             ati_gpus[i].is_used = COPROC_IGNORED;
+        } else if (this->have_opencl && !ati_gpus[i].have_opencl) {
+            ati_gpus[i].is_used = COPROC_UNUSED;
+        } else if (this->have_cal && !ati_gpus[i].have_cal) {
+            ati_gpus[i].is_used = COPROC_UNUSED;
         } else if (use_all || !ati_compare(ati_gpus[i], *this, true)) {
             device_nums[count] = ati_gpus[i].device_num;
             count++;

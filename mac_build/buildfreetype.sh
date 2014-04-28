@@ -24,6 +24,7 @@
 #   [path]/freetype-2.4.10/objs/.libs/libfreetype.a
 #
 # by Charlie Fenton 7/27/12
+# Updated 2/7/14 for OS 10.9
 #
 ## This script requires OS 10.6 or later
 #
@@ -83,6 +84,7 @@ rm -fR objs/*.*
 rm -fR objs/*
 cp -p README-objs objs/README
 rm -f README-objs
+rm -fR "../freetype_install/"
 
 if [  $? -ne 0 ]; then return 1; fi
 
@@ -94,7 +96,7 @@ export CFLAGS="-isysroot ${SDKPATH} -arch i386 -DMAC_OS_X_VERSION_MAX_ALLOWED=10
 export SDKROOT="${SDKPATH}"
 export MACOSX_DEPLOYMENT_TARGET=10.4
 
-./configure --enable-shared=NO --host=i386
+./configure --enable-shared=NO --prefix="`pwd`/../freetype_install/" --host=i386
 if [  $? -ne 0 ]; then return 1; fi
 
 if [ "$1" = "-clean" ]; then
@@ -116,7 +118,7 @@ export CFLAGS="-isysroot ${SDKPATH} -arch x86_64 -DMAC_OS_X_VERSION_MAX_ALLOWED=
 export SDKROOT="${SDKPATH}"
 export MACOSX_DEPLOYMENT_TARGET=10.5
 
-./configure --enable-shared=NO --host=x86_64
+./configure --enable-shared=NO --prefix="`pwd`/../freetype_install/" --host=x86_64
 if [  $? -ne 0 ]; then return 1; fi
 
 make
@@ -130,6 +132,13 @@ if [  $? -ne 0 ]; then return 1; fi
 
 rm -f objs/.libs/libfreetype_i386.a
 rm -f objs/.libs/libfreetype_x86_64.a
+
+# Building ftgl requires [install-path]/bin.freetype-config
+make install
+
+# remove installed items not needed by ftgl build
+rm -fR "../freetype_install/lib"
+rm -fR "../freetype_install/share"
 
 export CC="";export CXX=""
 export LDFLAGS=""

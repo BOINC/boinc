@@ -943,15 +943,12 @@ bool CDlgPreferences::Create( wxWindow* parent, wxWindowID id, const wxString& c
     // Initialize Application Title
     wxString strCaption = caption;
     if (strCaption.IsEmpty()) {
-        strCaption.Printf(_("%s - Preferences"), pSkinAdvanced->GetApplicationShortName().c_str());
+        strCaption.Printf(_("%s - Computing Preferences"), pSkinAdvanced->GetApplicationShortName().c_str());
     }
     SetTitle(strCaption);
 
     // Initialize Application Icon
-    wxIconBundle icons;
-    icons.AddIcon(*pSkinAdvanced->GetApplicationIcon());
-    icons.AddIcon(*pSkinAdvanced->GetApplicationIcon32());
-    SetIcons(icons);
+    SetIcons(*pSkinAdvanced->GetApplicationIcon());
 
     Freeze();
 

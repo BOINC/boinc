@@ -11,8 +11,18 @@
 
 # Installshield build directories
 /win_build/installerv2/BOINC
+/win_build/installerv2/BOINC_vbox
 /win_build/installerv2/BOINCx64
+/win_build/installerv2/BOINCx64_vbox
 /win_build/installerv2/WCG
+/win_build/installerv2/Progress
+
+# Visual Studio Build Directories for BOINCCAS
+/win_build/installerv2/redist/Windows/src/boinccas/Debug
+/win_build/installerv2/redist/Windows/src/boinccas/Debug95
+/win_build/installerv2/redist/Windows/src/boinccas/Release
+/win_build/installerv2/redist/Windows/src/boinccas/Release95
+/win_build/installerv2/redist/Windows/src/boinccas/x64
 
 #
 *.pfx
@@ -24,8 +34,9 @@
 *.la
 *.in
 /client/Makefile
-/win_build/installerv2/Progress
 /win_build/*.filters
 /win_build/boinc.sdf
 /win_build/boinc.opensdf
 /win_build/ipch
+/win_build/installerv2/redist/Windows/src/boinccas/*.filters
+/win_build/installerv2/redist/Windows/src/boinccas/boinccas.sdf

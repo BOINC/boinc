@@ -1,0 +1,45 @@
+/* XPM */
+static const char *boincsnooze_xpm[] = {
+/* columns rows colors chars-per-pixel */
+"16 16 7 1",
+"@ c #F8BC1A",
+"+ c #293F64",
+". c None",
+"O c #ED9D00",
+"o c #203C66",
+"X c #174A78",
+"  c #0E588A",
+/* pixels */
+"  ............  ",
+" XX..........XX ",
+".Xoo..oooo..ooX.",
+"..ooooooo..ooo..",
+"...ooo....ooo...",
+"....o..OO..++...",
+"..o...O@@O..oo..",
+"..oo.O@.........",
+"..oo.O@.ooooooo.",
+"..oo..O.ooooooo.",
+"...++...oo@o@oo.",
+"...ooo..oo@o@oo.",
+"..ooo...oo@o@oo.",
+".ooo..o.oo@o@oo.",
+" oo.....ooooooo.",
+"  ......ooooooo."
+};
+// This file is part of BOINC.
+// http://boinc.berkeley.edu
+// Copyright (C) 2013 University of California
+//
+// BOINC is free software; you can redistribute it and/or modify it
+// under the terms of the GNU Lesser General Public License
+// as published by the Free Software Foundation,
+// either version 3 of the License, or (at your option) any later version.
+//
+// BOINC is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+// See the GNU Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public License
+// along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
