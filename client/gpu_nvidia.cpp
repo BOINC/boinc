@@ -47,6 +47,8 @@ using std::string;
 
 static void get_available_nvidia_ram(COPROC_NVIDIA &cc, vector<string>& warnings);
 
+#ifndef _WIN32
+
 static int nvidia_driver_version() {
     int (*nvml_init)()  = NULL;
     int (*nvml_finish)()  = NULL;
@@ -72,6 +74,8 @@ end:
     if (handle) dlclose(handle);
     return dri_ver;
 }
+
+#endif 
 
 // return 1/-1/0 if device 1 is more/less/same capable than device 2.
 // factors (decreasing priority):
