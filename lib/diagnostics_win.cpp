@@ -522,7 +522,7 @@ char* diagnostics_format_thread_state(int thread_state) {
         case StateRunning: return "Running";
         case StateStandby: return "Standby";
         case StateTerminated: return "Terminated";
-        case StateWaiting: return "Waiting";
+        case StateWait: return "Waiting";
         case StateTransition: return "Transition";
         default: return "Unknown";
     }
@@ -1337,7 +1337,7 @@ int diagnostics_dump_process_information() {
 int diagnostics_dump_thread_information(PBOINC_THREADLISTENTRY pThreadEntry) {
     std::string strStatusExtra;
 
-    if (pThreadEntry->crash_state == StateWaiting) {
+    if (pThreadEntry->crash_state == StateWait) {
         strStatusExtra += "Wait Reason: ";
         strStatusExtra += diagnostics_format_thread_wait_reason(pThreadEntry->crash_wait_reason);
         strStatusExtra += ", ";
