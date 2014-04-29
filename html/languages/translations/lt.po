@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2014-01-10 00:00 PST\n"
-"PO-Revision-Date: 2014-01-11 13:03+0000\n"
+"PO-Revision-Date: 2014-04-25 11:11+0000\n"
 "Last-Translator: Rytis Slatkevičius <rytis.s@gmail.com>\n"
 "Language-Team: \n"
 "Language: lt\n"
@@ -21,7 +21,7 @@ msgstr ""
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-SearchPath-0: html\\user\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
-"X-POOTLE-MTIME: 1389445406.0\n"
+"X-POOTLE-MTIME: 1398424289.0\n"
 
 # The name of this language in this language
 msgid "LANG_NAME_NATIVE"
@@ -4556,9 +4556,8 @@ msgstr ""
 # ########################################
 # "Your account" page (home.php)
 #: ../user/get_passwd.php:25
-#, fuzzy
 msgid "Forgot your account info?"
-msgstr "kitą abonemento informaciją"
+msgstr "Pamiršote prisijungimo informaciją?"
 
 #: ../user/get_passwd.php:28
 msgid ""
@@ -4576,6 +4575,8 @@ msgid ""
 "2) If you forgot your account's email address, or you can't receive email "
 "there:"
 msgstr ""
+"2) Jei pamiršote elektroninio pašto adresą arba į jį nebegalite gauti "
+"elektroninių laiškų:"
 
 #: ../user/get_passwd.php:47
 msgid ""

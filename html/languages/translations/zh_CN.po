@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2014-01-10 00:00 PST\n"
-"PO-Revision-Date: 2013-12-29 06:17+0000\n"
-"Last-Translator: Anonymous Pootle User\n"
+"PO-Revision-Date: 2014-02-23 02:23+0000\n"
+"Last-Translator: Gang <zenith.yin@gmail.com>\n"
 "Language-Team: Team China <zenith.yin@gmail.com>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
@@ -21,7 +21,7 @@ msgstr ""
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-SearchPath-0: html\\user\n"
 "X-Poedit-Basepath: D:\\Work\\boinc_src\\html\\user\n"
-"X-POOTLE-MTIME: 1388297877.0\n"
+"X-POOTLE-MTIME: 1393122217.0\n"
 
 msgid "LANG_NAME_NATIVE"
 msgstr "简体中文"
@@ -521,7 +521,7 @@ msgstr "学习"
 
 #: ../inc/host.inc:59
 msgid "Mobile"
-msgstr ""
+msgstr "手机"
 
 #: ../inc/host.inc:61 ../user/edit_forum_preferences_form.php:172
 #: ../user/edit_forum_preferences_form.php:173
@@ -554,7 +554,7 @@ msgstr "域名"
 
 #: ../inc/host.inc:98
 msgid "Product name"
-msgstr ""
+msgstr "产品名称"
 
 #: ../inc/host.inc:102
 msgid "Local Standard Time"
@@ -872,7 +872,7 @@ msgstr "通过名称合并计算机"
 
 #: ../inc/language_names.inc:61
 msgid "Browser default"
-msgstr ""
+msgstr "浏览器缺省"
 
 #: ../inc/news.inc:40
 msgid "Comment"
@@ -1152,9 +1152,8 @@ msgid "Use NVIDIA GPU %1 Enforced by version 6.10+ %2"
 msgstr "使用 NVIDIA GPU%16.10 之后的版本实现了该设置%2"
 
 #: ../inc/prefs.inc:344
-#, fuzzy
 msgid "Use Intel GPU %1 Enforced by version 7.2+ %2"
-msgstr "使用 ATI GPU%16.10 之后的版本实现了该设置%2"
+msgstr "使用 %17.2 及后续版本%2支持的 Intel GPU"
 
 #: ../inc/prefs.inc:358
 msgid ""
@@ -1269,17 +1268,17 @@ msgstr "编辑 %1 的参数设置"
 
 #: ../inc/prefs.inc:885
 msgid "These apply to all BOINC projects in which you participate."
-msgstr ""
+msgstr "这些参数设置对你参加的所有 BOINC 项目均有效。"
 
 #: ../inc/prefs.inc:887
 msgid ""
 "On computers participating in multiple projects, the most recently modified "
 "preferences will be used."
-msgstr ""
+msgstr "在参与到多个项目的计算机上，使用的是最近修改的参数设置。"
 
 #: ../inc/prefs.inc:889
 msgid "These preferences do not apply to Android devices."
-msgstr ""
+msgstr "这些参数设置不适用于安卓设备。"
 
 #: ../inc/prefs.inc:892
 msgid "Preferences last modified:"
@@ -1369,7 +1368,7 @@ msgstr "ATI GPU"
 
 #: ../inc/result.inc:57 ../user/host_app_versions.php:28
 msgid "Intel GPU"
-msgstr ""
+msgstr "Intel GPU"
 
 #: ../inc/result.inc:65
 msgid "Not in DB"
@@ -1697,9 +1696,8 @@ msgid "State"
 msgstr "状态"
 
 #: ../inc/result.inc:747
-#, fuzzy
 msgid "Task name:"
-msgstr "任务名称"
+msgstr "任务名称："
 
 #: ../inc/team.inc:40
 msgid "Search criteria (use one or more)"
@@ -2419,11 +2417,11 @@ msgstr ""
 
 #: ../user/bs_sample_index.php:44
 msgid "Participants"
-msgstr ""
+msgstr "参与者"
 
 #: ../user/bs_sample_index.php:46
 msgid "Do work"
-msgstr ""
+msgstr "执行任务"
 
 #: ../user/bs_sample_index.php:47 ../user/bs_sample_index.php:50
 #: ../user/home.php:49 ../project.sample/project.inc:43
@@ -2432,7 +2430,7 @@ msgstr "你的帐户"
 
 #: ../user/bs_sample_index.php:47 ../user/bs_sample_index.php:50
 msgid "view stats, modify preferences"
-msgstr ""
+msgstr "查看统计信息，修改参数设置"
 
 #: ../user/bs_sample_index.php:48 ../user/bs_sample_index.php:53
 #: ../user/team.php:25
@@ -2441,7 +2439,7 @@ msgstr "团队"
 
 #: ../user/bs_sample_index.php:48 ../user/bs_sample_index.php:53
 msgid "create or join a team"
-msgstr ""
+msgstr "创建或加入一个团队"
 
 #: ../user/bs_sample_index.php:51 ../user/sample_index.php:191
 msgid "User of the day"
@@ -2458,11 +2456,11 @@ msgstr "用户档案"
 
 #: ../user/bs_sample_index.php:61
 msgid "User search"
-msgstr ""
+msgstr "用户搜索"
 
 #: ../user/bs_sample_index.php:64
 msgid "Statistics"
-msgstr ""
+msgstr "统计"
 
 #: ../user/bs_sample_index.php:65 ../user/stats.php:30
 #: ../user/top_users.php:116
@@ -2483,7 +2481,6 @@ msgid "Top GPU models"
 msgstr "GPU 型号排名"
 
 #: ../user/bs_sample_index.php:70
-#, fuzzy
 msgid "Languages"
 msgstr "语言"
 
@@ -3460,7 +3457,7 @@ msgstr "你没有输入好友的名称和/或电子邮箱地址，请%1回退到
 msgid ""
 "This project hasn't created an email message - please notify its "
 "administrators"
-msgstr ""
+msgstr "该项目还没有创建电子邮件消息 - 请通知其管理员"
 
 #: ../user/ffmail_form.php:33
 msgid "Tell your friends about %1"
@@ -4439,7 +4436,7 @@ msgstr "如果你仍有 BOINC 客户端运行在该账户下，请按如下操�
 msgid ""
 "Go to the BOINC data directory on your computer (its location is written to "
 "the Event Log at startup)."
-msgstr ""
+msgstr "打开你计算机上的 BOINC 数据路径（其具体位置会写入到启动时的事件日志）。                "
 
 #: ../user/get_passwd.php:51
 msgid "Find your account file for this project; it will be named <b>%1</b>."
@@ -5711,7 +5708,7 @@ msgstr "更改团队创建人"
 
 #: ../user/team_change_founder_form.php:108
 msgid "There are no users to transfer team to."
-msgstr ""
+msgstr "目前没有用户更换了团队。"
 
 #: ../user/team_create_action.php:29
 msgid "You must choose a non-blank team name"
