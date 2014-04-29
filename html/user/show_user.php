@@ -45,10 +45,10 @@ if ($format=="xml"){
     $retval = db_init_xml();
     if ($retval) xml_error($retval);
     if ($auth){
-        $user = lookup_user_auth($auth);        
+        $user = BoincUser::lookup_auth($auth);        
         $show_hosts = true;
     } else {
-        $user = lookup_user_id($id);
+        $user = BoincUser::lookup_id($id);
         $show_hosts = false;
     }
     if (!$user) xml_error(ERR_DB_NOT_FOUND);
@@ -70,7 +70,7 @@ if ($format=="xml"){
         $community_links = $data->clo;
     } else {
         // No data was found, generate new data for the cache and store it
-        $user = lookup_user_id($id);
+        $user = BoincUser::lookup_id($id);
         if (!$user) {
             error_page("No such user $id");
         }

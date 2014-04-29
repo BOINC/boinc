@@ -46,7 +46,7 @@ row1($UOTD_heading);
 echo "<tr><td>";
     $profile = get_current_uotd();
     if ($profile) {
-        $user = lookup_user_id($profile->userid);
+        $user = BoincUser::lookup_id($profile->userid);
         echo uotd_thumbnail($profile, $user);
         echo user_links($user)."<br>";
         $resp = output_transform($profile->response1);

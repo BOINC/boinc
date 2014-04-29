@@ -39,7 +39,7 @@ if (!$user->teamid) {
 }
 
 function send_founder_transfer_email($team, $user) {
-    $founder = lookup_user_id($team->userid);
+    $founder = BoincUser::lookup_id($team->userid);
 
     // send founder a private message for good measure
 

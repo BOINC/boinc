@@ -38,7 +38,7 @@ if ($xml) {
         xml_error(ERR_DB_NOT_FOUND);
     }
     $account_key = get_str('account_key', true);
-    $user = lookup_user_auth($account_key);
+    $user = Boinc_user::lookup_auth($account_key);
     $show_email = ($user && is_team_founder($user, $team));
     echo "<users>\n";
     $users = BoincUser::enum_fields("id, email_addr, send_email, name, total_credit, expavg_credit, expavg_time, has_profile, donated, country, cross_project_id, create_time, url", "teamid=$team->id");

@@ -125,6 +125,27 @@ class BoincUser {
         }
         return self::$cache[$id];
     }
+    static function lookup_auth($auth) {
+        $db = BoincDb::get();
+        $auth = BoincDb::escape_string($auth);
+        return self::lookup("authenticator='$auth'");
+    }
+    static function lookup_email_addr($email_addr) {
+        $db = BoincDb::get();
+        $email_addr = BoincDb::escape_string($email_addr);
+        return self::lookup("email_addr='$email_addr'");
+    }
+    static function lookup_name($name) {
+        $name = BoincDb::escape_string($name);
+        $users = BoincUser::enum("name='$name'");
+        switch (sizeof($users)) {
+        case 1:
+            return $users[0];
+        case 0:
+            return null;
+        }
+        return -1;
+    }
     static function count($clause) {
         $db = BoincDb::get();
         return $db->count('user', $clause);

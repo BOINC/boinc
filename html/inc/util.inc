@@ -96,11 +96,6 @@ function clear_cookie($name, $ops=false) {
     setcookie($name, '', time()-3600, $path);
 }
 
-function get_user_from_id($id) {
-    if ($id) return lookup_user_id($id);
-    return NULL;
-}
-
 $g_logged_in_user = null;
 $got_logged_in_user = false;
 

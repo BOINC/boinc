@@ -21,7 +21,7 @@ require_once("../inc/forum.inc");
 require_once("../inc/image.inc"); // Avatar scaling
 
 if (post_str("account_key", true) != null) {
-    $user = lookup_user_auth(post_str("account_key"));
+    $user = BoincUser::lookup_auth(post_str("account_key"));
     $rpc = true;
 } else {
     $user = get_logged_in_user();

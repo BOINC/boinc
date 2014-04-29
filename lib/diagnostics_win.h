@@ -20,17 +20,23 @@
 
 #include "boinc_win.h"
 
+
 #define STATUS_INFO_LENGTH_MISMATCH             ((NTSTATUS)0xC0000004L)
 
 typedef LONG       NTSTATUS;
 
 typedef LONG       KPRIORITY;
 
+//MinGW-W64 defines this struct in its own header
+#ifndef __MINGW32__
 typedef struct _CLIENT_ID {
     DWORD          UniqueProcess;
     DWORD          UniqueThread;
 } CLIENT_ID;
+#endif
 
+//MinGW-W64 defines this struct in its own header
+#ifndef __MINGW32__
 typedef struct _VM_COUNTERS {
 #ifdef _WIN64
 // the following was inferred by painful reverse engineering
@@ -59,7 +65,10 @@ typedef struct _VM_COUNTERS {
     SIZE_T         PeakPagefileUsage;
 #endif
 } VM_COUNTERS;
+#endif
 
+//MinGW-W64 defines this struct in its own header
+#ifndef __MINGW32__
 typedef struct _SYSTEM_THREADS {
     LARGE_INTEGER  KernelTime;
     LARGE_INTEGER  UserTime;
@@ -73,6 +82,7 @@ typedef struct _SYSTEM_THREADS {
     LONG           State;
     LONG           WaitReason;
 } SYSTEM_THREADS, * PSYSTEM_THREADS;
+#endif
 
 typedef struct _SYSTEM_PROCESSES {
     ULONG          NextEntryDelta;
@@ -100,15 +110,18 @@ typedef struct _SYSTEM_PROCESSES {
     SYSTEM_THREADS Threads[1];
 } SYSTEM_PROCESSES, * PSYSTEM_PROCESSES;
 
+//MinGW-W64 defines this struct in its own header
+#ifndef __MINGW32__
 typedef enum _THREAD_STATE {
-    ThreadStateInitialized,
-    ThreadStateReady,
-    ThreadStateRunning,
-    ThreadStateStandby,
-    ThreadStateTerminated,
-    ThreadStateWaiting,
-    ThreadStateTransition
+    StateInitialized,
+    StateReady,
+    StateRunning,
+    StateStandby,
+    StateTerminated,
+    StateWait,
+    StateTransition
 } THREAD_STATE, *PTHREAD_STATE;
+#endif
 
 typedef enum _THREAD_WAIT_REASON {
     ThreadWaitReasonExecutive,

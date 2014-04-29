@@ -1,7 +1,7 @@
 <?php
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2014 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -37,7 +37,7 @@ if (!is_valid_email_addr($email_addr)) {
 } else if ($email_addr == $user->email_addr) {
     echo tra("New email address is same as existing address. Nothing is changed.");
 } else {
-    $existing = lookup_user_email_addr($email_addr);
+    $existing = BoincUser::lookup_email_addr($email_addr);
     if ($existing) {
         echo tra("There's already an account with that email address");
     } else {

@@ -99,7 +99,7 @@ function show_host($host, $user, $ipprivate) {
         if ($x >= 0) $x="+$x";
         row2(tra("Local Standard Time"), tra("UTC %1 hours", $x));
     } else {
-        $owner = lookup_user_id($host->userid);
+        $owner = BoincUser::lookup_id($host->userid);
         if ($owner && $owner->show_hosts) {
             row2(tra("Owner"), user_links($owner));
         } else {

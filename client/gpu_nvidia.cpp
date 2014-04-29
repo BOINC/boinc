@@ -47,6 +47,36 @@ using std::string;
 
 static void get_available_nvidia_ram(COPROC_NVIDIA &cc, vector<string>& warnings);
 
+#ifndef _WIN32
+
+static int nvidia_driver_version() {
+    int (*nvml_init)()  = NULL;
+    int (*nvml_finish)()  = NULL;
+    int (*nvml_driver)(char *f, unsigned int len) = NULL;
+    int dri_ver  = 0;
+    void *handle = NULL;
+    char driver_string[81];
+
+    handle  = dlopen("libnvidia-ml.so", RTLD_NOW);
+    if (!handle) goto end; 
+
+    nvml_driver = (int(*)(char *, unsigned int)) dlsym(handle,  "nvmlSystemGetDriverVersion");
+    nvml_init = (int(*)(void)) dlsym(handle,  "nvmlInit");
+    nvml_finish = (int(*)(void)) dlsym(handle,  "nvmlShutdown");
+    if (!nvml_driver || !nvml_init || !nvml_finish) goto end;
+
+    if (nvml_init()) goto end;
+    if (nvml_driver(driver_string, 80)) goto end;
+    dri_ver = (int) (100. * atof(driver_string));
+
+end:
+    if (nvml_finish) nvml_finish();
+    if (handle) dlclose(handle);
+    return dri_ver;
+}
+
+#endif 
+
 // return 1/-1/0 if device 1 is more/less/same capable than device 2.
 // factors (decreasing priority):
 // - compute capability
@@ -323,7 +353,7 @@ void COPROC_NVIDIA::get(
 #elif defined(__APPLE__)
         cc.display_driver_version = NSVersionOfRunTimeLibrary("cuda");
 #else
-        cc.display_driver_version = 0;
+        cc.display_driver_version = nvidia_driver_version();
 #endif
         have_cuda = true;
         cc.have_cuda = true;
@@ -367,6 +397,10 @@ void COPROC_NVIDIA::correlate(
     for (i=0; i<nvidia_gpus.size(); i++) {
         if (in_vector(nvidia_gpus[i].device_num, ignore_devs)) {
             nvidia_gpus[i].is_used = COPROC_IGNORED;
+        } else if (this->have_opencl && !nvidia_gpus[i].have_opencl) {
+            nvidia_gpus[i].is_used = COPROC_UNUSED;
+        } else if (this->have_cuda && !nvidia_gpus[i].have_cuda) {
+            nvidia_gpus[i].is_used = COPROC_UNUSED;
         } else if (use_all || !nvidia_compare(nvidia_gpus[i], *this, true)) {
             device_nums[count] = nvidia_gpus[i].device_num;
             pci_infos[count] = nvidia_gpus[i].pci_info;

@@ -45,12 +45,12 @@ if (strlen($passwd)<$min_passwd_length) {
     error_page(tra("New password is too short: minimum password length is %1 characters.", $min_passwd_length));
 }
 if ($auth) {
-    $user = lookup_user_auth($auth);
+    $user = BoincUser::lookup_auth($auth);
     if (!$user) {
         error_page(tra("Invalid account key"));
     }
 } else {
-    $user = lookup_user_email_addr($email_addr);
+    $user = BoincUser::lookup_email_addr($email_addr);
     if (!$user) {
         error_page(tra("No account with that email address was found"));
     }

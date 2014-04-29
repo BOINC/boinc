@@ -1,7 +1,7 @@
 <?php
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2014 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -46,7 +46,7 @@ $email_addr = sanitize_email($email_addr);
 if (!strlen($email_addr)) {
     error_page("no address given");
 }
-$user = lookup_user_email_addr($email_addr);
+$user = BoincUser::lookup_email_addr($email_addr);
 
 if (!$user) {
     page_head("No such user");
