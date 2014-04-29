@@ -2743,8 +2743,9 @@ msgid "I agree to the terms of use."
 msgstr "Zgadzam się z zasadami użytkowania."
 
 #: TermsOfUsePage.cpp:237
+#, fuzzy
 msgid "I do not agree to the terms of use."
-msgstr ""
+msgstr "Nie zgadzam się z zasadami użytkowania."
 
 #: UnavailablePage.cpp:183
 msgid "Project temporarily unavailable"
@@ -3638,9 +3639,10 @@ msgid ""
 msgstr ""
 
 #: sg_DlgPreferences.cpp:285
+#, fuzzy
 msgid ""
 "For additional settings, select Computing Preferences in the Advanced View."
-msgstr ""
+msgstr "Dla dodatkowych ustawień wybierze preferencje przetwarzania w "
 
 #: sg_DlgPreferences.cpp:313
 msgid "Do work only between:"
@@ -3671,8 +3673,9 @@ msgid "Do work after idle for:"
 msgstr "Przetwarzanie danych tylko po bezczynności przez:"
 
 #: sg_DlgPreferences.cpp:429
+#, fuzzy
 msgid "Clear all local preferences listed above and close the dialog"
-msgstr ""
+msgstr "Wyczyść lokalne preferencje i zamknij okno"
 
 #: sg_DlgPreferences.cpp:602 sg_DlgPreferences.cpp:605
 #: sg_DlgPreferences.cpp:681 sg_DlgPreferences.cpp:685
