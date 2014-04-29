@@ -193,7 +193,6 @@ typedef LPCSTR PCTSTR, LPCTSTR, PCUTSTR, LPCUTSTR;
 #endif
 
 
-
 #ifdef __cplusplus
 #include <algorithm>
 #include <cassert>
