@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: 1.05\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-02-02 00:00-0800\n"
-"PO-Revision-Date: 2014-01-30 11:39+0000\n"
-"Last-Translator: Miguel Filipe Paulino de Sousa <Miguel.veig@gmail.com>\n"
+"PO-Revision-Date: 2014-02-06 16:59+0000\n"
+"Last-Translator: Anonymous Pootle User\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: pt_PT\n"
 "MIME-Version: 1.0\n"
@@ -23,7 +23,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCGIT\\boinc\n"
-"X-POOTLE-MTIME: 1391081943.0\n"
+"X-POOTLE-MTIME: 1391705981.0\n"
 
 #: AccountInfoPage.cpp:387
 #, c-format
@@ -2719,9 +2719,8 @@ msgid "I agree to the terms of use."
 msgstr "Eu concordo com os termos de uso."
 
 #: TermsOfUsePage.cpp:237
-#, fuzzy
 msgid "I do not agree to the terms of use."
-msgstr "Eu não concordo com os termos de uso."
+msgstr "Eu não concordo com os termos de utilização."
 
 #: UnavailablePage.cpp:183
 msgid "Project temporarily unavailable"
