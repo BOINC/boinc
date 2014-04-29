@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2013-10-18 00:00-0700\n"
-"PO-Revision-Date: 2014-01-02 22:28+0000\n"
+"PO-Revision-Date: 2014-04-06 00:49+0000\n"
 "Last-Translator: aceman <acelists@atlas.sk>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: sk\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
-"X-POOTLE-MTIME: 1391353715.0\n"
+"X-POOTLE-MTIME: 1396745386.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -25,32 +25,27 @@ msgid "BOINC"
 msgstr "BOINC"
 
 #. generic. used by multiple Activities/tabs
-#, fuzzy
 msgctxt "generic_loading"
 msgid "Loading! Please wait…"
-msgstr "Загружается! Пожалуйста подождите…"
+msgstr ""
 
 #. attach project
 #. project list
-#, fuzzy
 msgctxt "attachproject_list_header"
 msgid "Choose a project:"
-msgstr "Выберите проект:"
+msgstr ""
 
-#, fuzzy
 msgctxt "attachproject_list_manual_button"
 msgid "Add project by URL"
-msgstr "Добавить URL-адрес проекта"
+msgstr ""
 
-#, fuzzy
 msgctxt "attachproject_list_manual_dialog_title"
 msgid "Enter project URL:"
-msgstr "Введите URL проекта:"
+msgstr ""
 
-#, fuzzy
 msgctxt "attachproject_list_manual_dialog_button"
 msgid "Add project"
-msgstr "Добавить проект"
+msgstr ""
 
 msgctxt "attachproject_list_manual_no_url"
 msgid "Please enter project URL"
@@ -60,10 +55,9 @@ msgctxt "attachproject_list_acctmgr_button"
 msgid "Add account manager"
 msgstr "Добавить менеджер проектов"
 
-#, fuzzy
 msgctxt "attachproject_list_no_internet"
 msgid "No Internet connection"
-msgstr "Нет подключения к Интернету"
+msgstr ""
 
 #. project login
 msgctxt "attachproject_login_loading"
@@ -82,20 +76,18 @@ msgctxt "attachproject_login_header_specific_area"
 msgid "Specific area:"
 msgstr "Специализация:"
 
-#, fuzzy
 msgctxt "attachproject_login_header_description"
 msgid "Description:"
-msgstr "Описание:"
+msgstr ""
 
 # Это типа институт/университет, который владеет проектом
 msgctxt "attachproject_login_header_home"
 msgid "Home:"
 msgstr "Владелец:"
 
-#, fuzzy
 msgctxt "attachproject_login_header_url"
 msgid "Website:"
-msgstr "Веб-сайт:"
+msgstr ""
 
 msgctxt "attachproject_login_header_platform"
 msgid "Android:"
@@ -129,15 +121,13 @@ msgctxt "attachproject_login_header_id_email"
 msgid "eMail:"
 msgstr "Электронная почта:"
 
-#, fuzzy
 msgctxt "attachproject_login_header_id_name"
 msgid "Name:"
-msgstr "Имя:"
+msgstr ""
 
-#, fuzzy
 msgctxt "attachproject_login_header_pwd"
 msgid "Password:"
-msgstr "Пароль:"
+msgstr ""
 
 msgctxt "attachproject_login_category_creation"
 msgid "New to"
@@ -155,15 +145,13 @@ msgctxt "attachproject_login_header_creation_disabled"
 msgid "Project does currently now allow creation of new accounts!"
 msgstr "Проект в данный момент не позволяет создавать новые учётные записи!"
 
-#, fuzzy
 msgctxt "attachproject_login_button_registration"
 msgid "Register"
-msgstr "Зарегистрироваться"
+msgstr ""
 
-#, fuzzy
 msgctxt "attachproject_login_button_login"
 msgid "Sign in"
-msgstr "Войти"
+msgstr ""
 
 msgctxt "attachproject_login_button_forgotpw"
 msgid "Forgot Password"
@@ -182,38 +170,33 @@ msgctxt "attachproject_registration_header"
 msgid "Account registration for"
 msgstr "Регистрация учётной записи для"
 
-#, fuzzy
 msgctxt "attachproject_registration_header_url"
 msgid "Project:"
-msgstr "Проект:"
+msgstr ""
 
 msgctxt "attachproject_registration_header_email"
 msgid "eMail:"
 msgstr "Электронная почта:"
 
-#, fuzzy
 msgctxt "attachproject_registration_header_username"
 msgid "Name:"
-msgstr "Имя:"
+msgstr ""
 
-#, fuzzy
 msgctxt "attachproject_registration_header_teamname"
 msgid "Team:"
-msgstr "Команда:"
+msgstr ""
 
-#, fuzzy
 msgctxt "attachproject_registration_header_pwd"
 msgid "Password:"
-msgstr "Пароль:"
+msgstr ""
 
 msgctxt "attachproject_registration_header_pwd_confirm"
 msgid "… Retype:"
 msgstr "… Повторите:"
 
-#, fuzzy
 msgctxt "attachproject_registration_button"
 msgid "Create"
-msgstr "Создать"
+msgstr ""
 
 #. account manager
 msgctxt "attachproject_acctmgr_header"
@@ -228,10 +211,9 @@ msgctxt "attachproject_acctmgr_header_name"
 msgid "User:"
 msgstr "Пользователь:"
 
-#, fuzzy
 msgctxt "attachproject_acctmgr_header_pwd"
 msgid "Password:"
-msgstr "Пароль:"
+msgstr ""
 
 msgctxt "attachproject_acctmgr_header_pwd_confirm"
 msgid "… Retype:"
@@ -242,49 +224,41 @@ msgid "Add"
 msgstr "Добавить"
 
 #. error strings
-#, fuzzy
 msgctxt "attachproject_error_wrong_name"
 msgid "User not found"
-msgstr "Пользователь не найден"
+msgstr ""
 
-#, fuzzy
 msgctxt "attachproject_error_short_pwd"
 msgid "Password too short"
-msgstr "Пароль слишком короткий"
+msgstr ""
 
-#, fuzzy
 msgctxt "attachproject_error_no_internet"
 msgid "Connection failure"
-msgstr "Сбой подключения"
+msgstr ""
 
-#, fuzzy
 msgctxt "attachproject_error_pwd_no_match"
 msgid "Passwords do not match"
-msgstr "Пароли не совпадают"
+msgstr ""
 
 msgctxt "attachproject_error_no_url"
 msgid "Please enter URL"
 msgstr "Введите URL"
 
-#, fuzzy
 msgctxt "attachproject_error_no_email"
 msgid "Please enter eMail address"
-msgstr "Введите адрес электронной почты"
+msgstr ""
 
-#, fuzzy
 msgctxt "attachproject_error_no_pwd"
 msgid "Please enter a password"
-msgstr "Введите пароль"
+msgstr ""
 
-#, fuzzy
 msgctxt "attachproject_error_no_name"
 msgid "Please enter user name"
-msgstr "Введите имя пользователя"
+msgstr ""
 
-#, fuzzy
 msgctxt "attachproject_error_unknown"
 msgid "failed"
-msgstr "неудача"
+msgstr ""
 
 msgctxt "attachproject_error_bad_username"
 msgid "User name refused"
@@ -315,25 +289,21 @@ msgid "Invalid URL"
 msgstr "Неправильный адрес (URL)"
 
 #. working activity
-#, fuzzy
 msgctxt "attachproject_working_back_button"
 msgid "Back"
-msgstr "Назад"
+msgstr ""
 
-#, fuzzy
 msgctxt "attachproject_working_finish_button"
 msgid "Finish"
-msgstr "Готово"
+msgstr ""
 
-#, fuzzy
 msgctxt "attachproject_working_check_desc"
 msgid "Successful"
-msgstr "Успешно"
+msgstr ""
 
-#, fuzzy
 msgctxt "attachproject_working_failed_desc"
 msgid "Failed"
-msgstr "Неудачно"
+msgstr ""
 
 msgctxt "attachproject_working_ongoing"
 msgid "…"
@@ -347,25 +317,21 @@ msgctxt "attachproject_working_description"
 msgid ":"
 msgstr ":"
 
-#, fuzzy
 msgctxt "attachproject_working_connect"
 msgid "Connect"
-msgstr "Подключиться"
+msgstr ""
 
-#, fuzzy
 msgctxt "attachproject_working_verify"
 msgid "Verify account"
-msgstr "Проверить учётную запись"
+msgstr ""
 
-#, fuzzy
 msgctxt "attachproject_working_register"
 msgid "Register account"
-msgstr "Зарегистрировать учётную запись"
+msgstr ""
 
-#, fuzzy
 msgctxt "attachproject_working_login"
 msgid "Log in"
-msgstr "Войти"
+msgstr ""
 
 msgctxt "attachproject_working_acctmgr"
 msgid "Add account manager"
@@ -380,10 +346,9 @@ msgctxt "main_noproject_warning"
 msgid "Tab here to choose a project."
 msgstr "Нажмите здесь для выбора проекта."
 
-#, fuzzy
 msgctxt "main_error"
 msgid "Whooops"
-msgstr "Упс"
+msgstr ""
 
 msgctxt "main_error_long"
 msgid ""
@@ -402,50 +367,42 @@ msgctxt "tab_status"
 msgid "Status"
 msgstr "Статус"
 
-#, fuzzy
 msgctxt "tab_projects"
 msgid "Projects"
-msgstr "Проекты"
+msgstr ""
 
-#, fuzzy
 msgctxt "tab_tasks"
 msgid "Tasks"
-msgstr "Задания"
+msgstr ""
 
-#, fuzzy
 msgctxt "tab_transfers"
 msgid "Transfers"
-msgstr "Передачи"
+msgstr ""
 
-#, fuzzy
 msgctxt "tab_preferences"
 msgid "Preferences"
-msgstr "Настройки"
+msgstr ""
 
-#, fuzzy
 msgctxt "tab_notices"
 msgid "Notices"
-msgstr "Уведомления"
+msgstr ""
 
-#, fuzzy
 msgctxt "tab_desc"
 msgid "Navigation"
-msgstr "Навигация"
+msgstr ""
 
 #. status strings
-#, fuzzy
 msgctxt "status_running"
 msgid "Computing"
-msgstr "Выполнение расчётов"
+msgstr ""
 
 msgctxt "status_running_long"
 msgid "Thank you for participating."
 msgstr "Спасибо за участие."
 
-#, fuzzy
 msgctxt "status_paused"
 msgid "Suspended"
-msgstr "Приостановлено"
+msgstr ""
 
 msgctxt "status_idle"
 msgid "Nothing to do"
@@ -455,19 +412,17 @@ msgctxt "status_idle_long"
 msgid "Waiting for tasks…"
 msgstr "Ожидание заданий…"
 
-#, fuzzy
 msgctxt "status_computing_disabled"
 msgid "Suspended"
-msgstr "Приостановлено"
+msgstr ""
 
 msgctxt "status_computing_disabled_long"
 msgid "Press play to resume network and computation."
 msgstr "Нажмите кнопку Play для возобновления расчётов и передачи данных."
 
-#, fuzzy
 msgctxt "status_launching"
 msgid "Starting…"
-msgstr "Запуск…"
+msgstr ""
 
 msgctxt "status_noproject"
 msgid "Choose a project to participate in."
