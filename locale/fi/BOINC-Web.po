@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2014-02-01 00:00 PST\n"
-"PO-Revision-Date: 2013-11-16 09:11+0000\n"
+"PO-Revision-Date: 2014-02-21 20:06+0000\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fi\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-POOTLE-MTIME: 1384593098.0\n"
+"X-POOTLE-MTIME: 1393013199.0\n"
 
 #: docutil.php:21
 msgid "Search"
@@ -402,7 +402,7 @@ msgstr "BOINC sijaitsee Kalifornian yliopistolla, Berkeleyssä"
 
 #: projects.inc:14
 msgid "Distributed sensing"
-msgstr ""
+msgstr "Hajautettu anturitekniikka"
 
 # 78%
 #: projects.inc:19
@@ -696,17 +696,17 @@ msgstr ""
 
 #: projects.inc:207
 msgid "Physical Science"
-msgstr ""
+msgstr "Fysikaalinen tiede"
 
 #: projects.inc:213
 msgid "Mechanical engineering"
-msgstr ""
+msgstr "Konetekniikka"
 
 #: projects.inc:214
 msgid ""
 "Currently we are calculating the optimum design of a structure call the 52 "
 "bar truss"
-msgstr ""
+msgstr "Lasketaan optimaalista rakennetta nk. 52 tangon ristikkopalkille."
 
 #: projects.inc:224 projects.inc:263 projects.inc:271
 msgid "Astronomy"
@@ -721,6 +721,11 @@ msgid ""
 "star formation history) on a resolved pixel-by-pixel basis using spectral "
 "energy distribution (SED) fitting techniques in a distributed computing mode."
 msgstr ""
+"Yhdistämme GALEX:n, Pan-STARRS1:n ja WISE:n spektrit muodostaaksemme "
+"moniaaltopituisen UV-optis-infrapunagalaktisen kartaston lähiuniversumista. "
+"Mittaamme fysikaalisia parametreja (kuten tähden pintatiheyden, "
+"muodostumisnopeuden ja historia) käyttämällä SED:iin sovitettuja tekniikoita "
+"hajautetussa laskennassa."
 
 #: projects.inc:247
 msgid "University of Texas at Austin"
