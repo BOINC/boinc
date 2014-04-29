@@ -27,7 +27,7 @@ require_once("../inc/dir_hier.inc");
 //
 if (!function_exists("sandbox_dir")){
 function sandbox_dir($user) {
-    $dir = parse_str(get_config(), "sandbox_dir");
+    $dir = parse_config(get_config(), "<sandbox_dir>");
     if (!$dir) { $dir = "../../sandbox/"; }
     if (!is_dir($dir)) {
         mkdir($dir);
