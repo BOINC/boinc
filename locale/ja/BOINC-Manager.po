@@ -2708,8 +2708,9 @@ msgid "I agree to the terms of use."
 msgstr "使用条件に合意する。"
 
 #: TermsOfUsePage.cpp:237
+#, fuzzy
 msgid "I do not agree to the terms of use."
-msgstr ""
+msgstr "使用条件に合意しない。"
 
 #: UnavailablePage.cpp:183
 msgid "Project temporarily unavailable"
@@ -3635,8 +3636,9 @@ msgid "Do work after idle for:"
 msgstr "アイドル時間が次の時間を超えたときのみ仕事をする:"
 
 #: sg_DlgPreferences.cpp:429
+#, fuzzy
 msgid "Clear all local preferences listed above and close the dialog"
-msgstr ""
+msgstr "このコンピュータだけに適用するプレファレンス（好みの設定）を全てクリアして、ダイアログを終了します。"
 
 #: sg_DlgPreferences.cpp:602 sg_DlgPreferences.cpp:605
 #: sg_DlgPreferences.cpp:681 sg_DlgPreferences.cpp:685
