@@ -25,15 +25,19 @@ require_once("../inc/dir_hier.inc");
 // Return path of sandbox directory for the given user.
 // Create dir if not present.
 //
+if (!function_exists("sandbox_dir")){
 function sandbox_dir($user) {
-    if (!is_dir("../../sandbox")) {
-        mkdir("../../sandbox");
+    $dir = parse_str(get_config(), "sandbox_dir");
+    if (!$dir) { $dir = "../../sandbox/"; }
+    if (!is_dir($dir)) {
+        mkdir($dir);
     }
-    $d = "../../sandbox/$user->id";
+    $d = $dir."$user->id";
     if (!is_dir($d)) {
         mkdir($d);
     }
     return $d;
+}
 }
 
 function sandbox_write_link_file($path, $size, $md5) {
