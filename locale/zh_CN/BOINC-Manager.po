@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 7.0.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-02-02 00:00-0800\n"
-"PO-Revision-Date: 2013-09-21 09:50+0000\n"
+"PO-Revision-Date: 2014-02-23 05:36+0000\n"
 "Last-Translator: Gang <zenith.yin@gmail.com>\n"
 "Language-Team: Team China <zenith.yin@gmail.com>\n"
 "Language: zh_CN\n"
@@ -23,13 +23,13 @@ msgstr ""
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCGIT\\boinc\n"
-"X-POOTLE-MTIME: 1379757051.0\n"
+"X-POOTLE-MTIME: 1393133792.0\n"
 
 # 81%
 #: AccountInfoPage.cpp:387
 #, c-format
 msgid "Identify your account at %s"
-msgstr "确认您的帐户"
+msgstr "确认你在 %s 的帐户"
 
 #: AccountInfoPage.cpp:393
 msgid ""
@@ -122,7 +122,6 @@ msgstr ""
 "就可以进行注册或取回您已忘记的密码。"
 
 #: AccountInfoPage.cpp:532
-#, fuzzy
 msgid "Account manager web site"
 msgstr "帐户管理器网站"
 
@@ -140,17 +139,16 @@ msgstr "使用帐户管理器"
 
 #: AccountInfoPage.cpp:585
 msgid "Please enter a user name."
-msgstr ""
+msgstr "请输入一个用户名。"
 
 #: AccountInfoPage.cpp:587
-#, fuzzy
 msgid "Please enter an email address."
-msgstr "请指定一个电子邮件地址"
+msgstr "请指定一个电子邮箱地址。"
 
 #: AccountInfoPage.cpp:597
 #, c-format
 msgid "Please enter a password of at least %d characters."
-msgstr ""
+msgstr "请输入长度至少为 %d 的口令。"
 
 #: AccountInfoPage.cpp:607
 msgid ""
@@ -168,22 +166,20 @@ msgid ""
 msgstr "要选择一个帐户管理器，请点击它的名称或在下方输入它的网址。"
 
 #: AccountManagerInfoPage.cpp:279
-#, fuzzy
 msgid "Account manager details:"
-msgstr "帐户管理器网站"
+msgstr "帐户管理器详情："
 
 #: AccountManagerInfoPage.cpp:283
-#, fuzzy
 msgid "Account manager &URL:"
-msgstr "帐户管理器的网址(&U)："
+msgstr "帐户管理器网址（&URL）："
 
 #: AccountManagerInfoPage.cpp:287
 msgid "Open web page"
-msgstr ""
+msgstr "打开网页"
 
 #: AccountManagerInfoPage.cpp:290
 msgid "Visit this account manager's web site"
-msgstr ""
+msgstr "访问该账户管理器的网站"
 
 #: AccountManagerProcessingPage.cpp:187 AccountManagerPropertiesPage.cpp:193
 #, c-format
@@ -492,8 +488,7 @@ msgid "Show information about the %s"
 msgstr "查看 %s 的信息"
 
 #: AdvancedFrame.cpp:661 sg_BoincSimpleFrame.cpp:224
-#, c-format
-#, c-format, fuzzy
+#, c-format, c-format
 msgid "%s &web site"
 msgstr "%s 网站(&W)"
 
@@ -1002,6 +997,9 @@ msgid ""
 "\n"
 "Click Finish to close."
 msgstr ""
+"请稍后重试。\n"
+"\n"
+"点击完成以关闭。"
 
 #: CompletionErrorPage.cpp:225 CompletionPage.cpp:222 CompletionPage.cpp:242
 #: CompletionPage.cpp:273
@@ -1095,7 +1093,7 @@ msgstr "确定(&O)"
 
 #: DlgAdvPreferences.cpp:544
 msgid "invalid number"
-msgstr ""
+msgstr "无效的数字"
 
 #: DlgAdvPreferences.cpp:545
 msgid "invalid time, format is HH:MM"
@@ -1348,7 +1346,7 @@ msgstr "在多处理器系统上，最多使用"
 #: DlgAdvPreferencesBase.cpp:346
 #, no-c-format
 msgid "% of the processors (0 means ignore this setting)"
-msgstr ""
+msgstr "% 的处理器（0 表示不限制）"
 
 #: DlgAdvPreferencesBase.cpp:349 DlgAdvPreferencesBase.cpp:605
 #: DlgAdvPreferencesBase.cpp:627 DlgAdvPreferencesBase.cpp:648
@@ -2656,7 +2654,7 @@ msgstr "我同意该使用协议。"
 
 #: TermsOfUsePage.cpp:237
 msgid "I do not agree to the terms of use."
-msgstr ""
+msgstr "我不同意该用户条款。"
 
 #: UnavailablePage.cpp:183
 msgid "Project temporarily unavailable"
@@ -3539,12 +3537,12 @@ msgstr "点击确定可以保存并应用当前的参数设置。"
 #: sg_DlgPreferences.cpp:278
 msgid ""
 "Click Clear to restore web-based settings for all preferences listed below."
-msgstr ""
+msgstr "点击清除可将下列所有参数设置恢复到项目网站上的设定。"
 
 #: sg_DlgPreferences.cpp:285
 msgid ""
 "For additional settings, select Computing Preferences in the Advanced View."
-msgstr ""
+msgstr "更多的参数设置，请在高级视图下选择“计算参数设置”来查看。"
 
 #: sg_DlgPreferences.cpp:313
 msgid "Do work only between:"
@@ -3576,7 +3574,7 @@ msgstr "闲置一定时间后开始计算："
 
 #: sg_DlgPreferences.cpp:429
 msgid "Clear all local preferences listed above and close the dialog"
-msgstr ""
+msgstr "清除所有本地的参数设置并关闭对话框"
 
 #: sg_DlgPreferences.cpp:602 sg_DlgPreferences.cpp:605
 #: sg_DlgPreferences.cpp:681 sg_DlgPreferences.cpp:685
@@ -3682,8 +3680,7 @@ msgid "Project Commands"
 msgstr "项目命令"
 
 #: sg_ProjectPanel.cpp:267
-#, c-format
-#, c-format, fuzzy
+#, c-format, c-format
 msgid "Pop up a menu of web sites for project %s"
 msgstr "弹出一个 %s 项目的网站菜单"
 
