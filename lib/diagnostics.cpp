@@ -630,7 +630,7 @@ int diagnostics_cycle_logs() {
 
 // Diagnostics for POSIX Compatible systems.
 //
-#if HAVE_SIGNAL_H
+#if defined(HAVE_SIGNAL_H) && !defined(_WIN32)
 
 // Set a signal handler only if it is not currently ignored
 //
