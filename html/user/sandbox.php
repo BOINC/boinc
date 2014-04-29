@@ -42,7 +42,7 @@ function list_files($user, $err_msg) {
     $dir = sandbox_dir($user);
     $d = opendir($dir);
     if (!$d) error_page("Can't open sandbox directory");
-    page_head("file sandbox for $user->name");
+    page_head("File sandbox for $user->name");
     echo "
         <form action=sandbox.php method=post ENCTYPE=\"multipart/form-data\">
         <input type=hidden name=action value=upload_file>

@@ -181,8 +181,13 @@ typedef LPCSTR PCTSTR, LPCTSTR, PCUTSTR, LPCUTSTR;
 
 #if !defined(__MINGW32__) && !defined(__CYGWIN32__)
 #include <crtdbg.h>
+#endif
+
+#if !defined(__CYGWIN32__)
 #include <delayimp.h>
 #endif
+
+
 
 #ifdef __cplusplus
 #include <algorithm>

@@ -409,21 +409,19 @@ function handle_query_job($user) {
     table_header("Logical name<br><span class=note>(click to view)</span>",
         "Size (bytes)", "MD5"
     );
-    $fanout = parse_config(get_config(), "<uldl_dir_fanout>");
-    $download_dir = parse_config(get_config(), "<download_dir>");
     foreach ($x->workunit->file_ref as $fr) {
         $pname = (string)$fr->file_name;
         $lname = (string)$fr->open_name;
-        $dir = filename_hash($pname, $fanout);
-        $path = $download_dir."/$dir/$pname";
-        $md5 = md5_file($path);
-        $s = stat($path);
-        $size = $s['size'];
-        table_row(
-            "<a href=download/$dir/$pname>$lname</a>",
-            $size,
-            $md5
-        );
+        foreach ($x->file_info as $fi) {
+            if ((string)$fi->name == $pname) {
+                table_row(
+                    "<a href=$fi->url>$lname</a>",
+                    $fi->nbytes,
+                    $fi->md5_cksum
+                );
+                break;
+            }
+        }
     }
     end_table();
 
@@ -435,6 +433,7 @@ function handle_query_job($user) {
     );
     $results = BoincResult::enum("workunitid=$wuid");
     $upload_dir = parse_config(get_config(), "<upload_dir>");
+    $fanout = parse_config(get_config(), "<uldl_dir_fanout>");
     foreach($results as $result) {
         echo "<tr>
             <td><a href=result.php?resultid=$result->id>$result->id &middot; $result->name </a></td>
