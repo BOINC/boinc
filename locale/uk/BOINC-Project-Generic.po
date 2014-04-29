@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2014-01-10 00:00 PST\n"
-"PO-Revision-Date: 2014-01-03 15:18+0000\n"
-"Last-Translator: Олег <pukish_oleg@ukr.net>\n"
+"PO-Revision-Date: 2014-02-26 13:35+0000\n"
+"Last-Translator: point <Kobzar@icn.od.ua>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
@@ -18,7 +18,7 @@ msgstr ""
 "10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-POOTLE-MTIME: 1388762335.0\n"
+"X-POOTLE-MTIME: 1393421732.0\n"
 
 msgid "LANG_NAME_NATIVE"
 msgstr "Українська"
@@ -6119,7 +6119,7 @@ msgstr "Змінити засновника"
 
 #: ../user/team_change_founder_form.php:108
 msgid "There are no users to transfer team to."
-msgstr ""
+msgstr "Немає користувачів для переходу в команду."
 
 #: ../user/team_create_action.php:29
 msgid "You must choose a non-blank team name"
