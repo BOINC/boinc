@@ -32,7 +32,7 @@ function sandbox_dir($user) {
     if (!is_dir($dir)) {
         mkdir($dir);
     }
-    $d = $dir."$user->id";
+    $d = "$dir/$user->id";
     if (!is_dir($d)) {
         mkdir($d);
     }
