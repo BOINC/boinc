@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-02-02 00:00-0800\n"
-"PO-Revision-Date: 2014-01-03 18:08+0000\n"
+"PO-Revision-Date: 2014-02-26 13:20+0000\n"
 "Last-Translator: Олег <pukish_oleg@ukr.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: uk\n"
@@ -24,7 +24,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCGIT\\boinc\n"
-"X-POOTLE-MTIME: 1388772504.0\n"
+"X-POOTLE-MTIME: 1393420839.0\n"
 
 # 81%
 #: AccountInfoPage.cpp:387
@@ -1114,7 +1114,7 @@ msgstr "&Гаразд"
 
 #: DlgAdvPreferences.cpp:544
 msgid "invalid number"
-msgstr ""
+msgstr "неправильний номер"
 
 #: DlgAdvPreferences.cpp:545
 msgid "invalid time, format is HH:MM"
@@ -2734,7 +2734,7 @@ msgstr "Я згоден з умовами використання."
 
 #: TermsOfUsePage.cpp:237
 msgid "I do not agree to the terms of use."
-msgstr ""
+msgstr "Я не згоден з умовами використання."
 
 #: UnavailablePage.cpp:183
 msgid "Project temporarily unavailable"
@@ -3641,12 +3641,14 @@ msgstr "Для збереження налаштувань натисніть '�
 msgid ""
 "Click Clear to restore web-based settings for all preferences listed below."
 msgstr ""
+"Для відновлення інтернет налаштувань всіх вказаних нижче уподобань натисніть "
+"Очистити."
 
 #: sg_DlgPreferences.cpp:285
-#, fuzzy
 msgid ""
 "For additional settings, select Computing Preferences in the Advanced View."
-msgstr "Для додаткових параметрів виберіть 'Налаштування клієнта' у  "
+msgstr ""
+"Для додаткових параметрів, виберіть Налаштування клієнта у Розширеному виді."
 
 #: sg_DlgPreferences.cpp:313
 msgid "Do work only between:"
@@ -3677,9 +3679,8 @@ msgid "Do work after idle for:"
 msgstr "Запуск обробки при простої:"
 
 #: sg_DlgPreferences.cpp:429
-#, fuzzy
 msgid "Clear all local preferences listed above and close the dialog"
-msgstr "очистити всі локальні налаштування і закрити діалогове вікно"
+msgstr "Очистити всі вказані локальні налаштування і закрити діалогове вікно"
 
 #: sg_DlgPreferences.cpp:602 sg_DlgPreferences.cpp:605
 #: sg_DlgPreferences.cpp:681 sg_DlgPreferences.cpp:685

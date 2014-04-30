@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.8x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-02-02 00:00-0800\n"
-"PO-Revision-Date: 2014-02-02 06:57+0000\n"
+"PO-Revision-Date: 2014-04-22 09:26+0000\n"
 "Last-Translator: Aycan <aycandemirel@hotmail.com>\n"
 "Language-Team: Donanım Haber <bilgi@donanimhaber.com>\n"
 "Language: tr\n"
@@ -23,7 +23,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCGIT\\boinc\n"
-"X-POOTLE-MTIME: 1391324242.0\n"
+"X-POOTLE-MTIME: 1398158771.0\n"
 
 # 81%
 #: AccountInfoPage.cpp:387
@@ -1416,7 +1416,7 @@ msgstr "En yüksek gönderme hızı:"
 
 #: DlgAdvPreferencesBase.cpp:406
 msgid "Transfer at most"
-msgstr "Aktarım kotası:"
+msgstr "İnternet kullanım kotası:"
 
 #: DlgAdvPreferencesBase.cpp:412
 msgid "Mbytes"
@@ -1429,7 +1429,7 @@ msgstr "her"
 #: DlgAdvPreferencesBase.cpp:421 DlgAdvPreferencesBase.cpp:444
 #: DlgAdvPreferencesBase.cpp:463
 msgid "days"
-msgstr "gün"
+msgstr "günlük"
 
 #: DlgAdvPreferencesBase.cpp:429
 msgid "Minimum work buffer"
@@ -1441,7 +1441,7 @@ msgstr "En az bu kadar gün boyunca yetecek miktarda iş indirilir"
 
 #: DlgAdvPreferencesBase.cpp:450
 msgid "Max additional work buffer"
-msgstr "En çok bu kadarda tüketilecek iş indirilsin:"
+msgstr "En çok bu sürede tüketilebilecek iş indir:"
 
 #: DlgAdvPreferencesBase.cpp:459
 msgid "In addition, maintain enough tasks for up to this many days"
@@ -1531,11 +1531,11 @@ msgstr "% kadar disk alanı kullanılsın"
 
 #: DlgAdvPreferencesBase.cpp:639
 msgid "Tasks checkpoint to disk at most every"
-msgstr "İşler kontrol noktasını diske en erken"
+msgstr "İşler, kontrol noktasını diske en fazla"
 
 #: DlgAdvPreferencesBase.cpp:645
 msgid "seconds"
-msgstr "saniyede bir kaydedebilsin"
+msgstr "saniyede bir kaydetsin"
 
 #: DlgAdvPreferencesBase.cpp:655
 #, no-c-format
@@ -2737,7 +2737,7 @@ msgstr "Kullanım koşullarını kabul ediyorum."
 
 #: TermsOfUsePage.cpp:237
 msgid "I do not agree to the terms of use."
-msgstr ""
+msgstr "Kullanım koşullarını kabul etmiyorum."
 
 #: UnavailablePage.cpp:183
 msgid "Project temporarily unavailable"

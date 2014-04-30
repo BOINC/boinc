@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2013-10-18 00:00-0700\n"
-"PO-Revision-Date: 2014-01-19 08:32+0000\n"
+"PO-Revision-Date: 2014-02-22 14:58+0000\n"
 "Last-Translator: Gabor <csega@mailbox.hu>\n"
 "Language-Team: hu <LL@li.org>\n"
 "Language: hu\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n !=1);\n"
 "X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
-"X-POOTLE-MTIME: 1390120322.0\n"
+"X-POOTLE-MTIME: 1393081112.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -536,7 +536,7 @@ msgstr ""
 
 msgctxt "prefs_network_wifi_only_header"
 msgid "Transfer tasks on WiFi only"
-msgstr ""
+msgstr "Feladatok átvitele csak WiFi-n történjen"
 
 msgctxt "prefs_autostart_header"
 msgid "Autostart"
@@ -576,7 +576,7 @@ msgstr ""
 
 msgctxt "prefs_memory_max_idle_description"
 msgid "Limits the amount of RAM tasks are allowed to occupy."
-msgstr ""
+msgstr "A feladatok által lefoglalható memória korlátozása."
 
 msgctxt "prefs_client_log_flags_header"
 msgid "BOINC Client log flags"
@@ -639,7 +639,7 @@ msgstr ""
 
 msgctxt "projects_status_dontrequestmorework"
 msgid "Won't get new tasks"
-msgstr ""
+msgstr "Nem kap új feladatot"
 
 msgctxt "projects_status_ended"
 msgid "Project ended - OK to remove"
@@ -693,11 +693,11 @@ msgstr ""
 
 msgctxt "projects_control_nonewtasks"
 msgid "No new tasks"
-msgstr ""
+msgstr "Nincs új feladat"
 
 msgctxt "projects_control_allownewtasks"
 msgid "Allow new tasks"
-msgstr ""
+msgstr "Új feladatok engedélyezése"
 
 msgctxt "projects_control_reset"
 msgid "Reset"
@@ -765,9 +765,10 @@ msgctxt "tasks_header_elapsed_time"
 msgid "Elapsed time:"
 msgstr ""
 
+#, fuzzy
 msgctxt "tasks_header_project_paused"
 msgid "(suspended)"
-msgstr ""
+msgstr "Felfüggesztve"
 
 msgctxt "tasks_header_deadline"
 msgid "Deadline:"
@@ -837,7 +838,7 @@ msgstr ""
 
 msgctxt "tasks_custom_ready_to_report"
 msgid "ready to report"
-msgstr ""
+msgstr "jelentésre kész"
 
 #. confirmation dialog
 msgctxt "confirm_abort_task_title"
@@ -1036,7 +1037,7 @@ msgstr ""
 
 msgctxt "rpcreason_resultsdue"
 msgid "To report completed tasks"
-msgstr ""
+msgstr "Elkészült feladatok jelentése"
 
 msgctxt "rpcreason_trickleup"
 msgid "To send trickle-up message"

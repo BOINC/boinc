@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.4x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-02-02 00:00-0800\n"
-"PO-Revision-Date: 2014-02-02 19:38+0000\n"
+"PO-Revision-Date: 2014-04-06 14:05+0000\n"
 "Last-Translator: Christian <djangofett@gmx.net>\n"
 "Language-Team: BOINC.DE Team <webmaster@boinc.de>\n"
 "Language: de\n"
@@ -23,7 +23,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCGIT\\boinc\n"
-"X-POOTLE-MTIME: 1391369924.0\n"
+"X-POOTLE-MTIME: 1396793150.0\n"
 
 # 81%
 #: AccountInfoPage.cpp:387
@@ -2764,7 +2764,7 @@ msgstr "Ich stimme den Nutzungsbedingungen zu."
 
 #: TermsOfUsePage.cpp:237
 msgid "I do not agree to the terms of use."
-msgstr ""
+msgstr "Ich stimme den Nutzungsbedingungen nicht zu."
 
 #: UnavailablePage.cpp:183
 msgid "Project temporarily unavailable"

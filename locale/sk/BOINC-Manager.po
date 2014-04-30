@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-10-15 22:26-0700\n"
-"PO-Revision-Date: 2013-11-12 23:08+0000\n"
+"PO-Revision-Date: 2014-03-17 21:31+0000\n"
 "Last-Translator: aceman <acelists@atlas.sk>\n"
 "Language-Team: BOINC SK\n"
 "Language: sk\n"
@@ -23,7 +23,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCGIT\\boinc\n"
-"X-POOTLE-MTIME: 1384297687.0\n"
+"X-POOTLE-MTIME: 1395091864.0\n"
 
 #: AccountInfoPage.cpp:387
 #, c-format
@@ -3803,7 +3803,8 @@ msgstr "Toto okno nastavuje preferencie len pre tento počítač."
 
 #: sg_DlgPreferences.cpp:287
 msgid "Click OK to set preferences."
-msgstr "Kliknite OK pre uloženie preferencií."
+msgstr ""
+"Kliknite Vymazať pre obnovenie preferencií uvedených nižšie na stav z webu."
 
 #: sg_DlgPreferences.cpp:292
 msgid "Click Clear to restore web-based settings."

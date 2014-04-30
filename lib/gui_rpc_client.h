@@ -279,6 +279,8 @@ struct RESULT {
     double working_set_size_smoothed;
     double estimated_cpu_time_remaining;
         // actually, estimated elapsed time remaining
+    double bytes_sent;
+    double bytes_received;
     bool too_large;
     bool needs_shmem;
     bool edf_scheduled;

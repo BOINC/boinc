@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2014-01-10 00:00 PST\n"
-"PO-Revision-Date: 2013-11-26 12:36+0000\n"
-"Last-Translator: Hank <yihhann@gmail.com>\n"
+"PO-Revision-Date: 2014-03-04 06:54+0000\n"
+"Last-Translator: 宇謙 <df910105@yahoo.com.tw>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-POOTLE-MTIME: 1385469401.0\n"
+"X-POOTLE-MTIME: 1393916097.0\n"
 
 msgid "LANG_NAME_NATIVE"
 msgstr "繁體中文 ( 台灣 )"
@@ -5507,7 +5507,7 @@ msgstr "每個團隊都有一個%1創始人%2，他可以："
 
 #: ../user/team.php:33
 msgid "access team members' email addresses"
-msgstr "訪問團隊成員的電子郵件地址"
+msgstr "造訪團隊成員的電子郵件地址"
 
 #: ../user/team.php:34
 msgid "edit the team's name and description"
@@ -5708,7 +5708,7 @@ msgstr "更改團隊創始人"
 
 #: ../user/team_change_founder_form.php:108
 msgid "There are no users to transfer team to."
-msgstr ""
+msgstr "目前沒有用戶變更團隊。"
 
 #: ../user/team_create_action.php:29
 msgid "You must choose a non-blank team name"

@@ -35,6 +35,7 @@ $language_names = array(
     array("he", "עִבְרִית", "Hebrew"),
     array("hr", "Hrvatski", "Croatian"),
     array("hu", "Magyar", "Hungarian"),
+    array("ms", "بهاس ملايو", "Malay"),
     array("it", "Italiano", "Italian"),
     array("ja", "日本語", "Japanese"),
     array("ko", "한국어", "Korean"),

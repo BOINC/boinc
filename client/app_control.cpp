@@ -1331,16 +1331,16 @@ bool ACTIVE_TASK::get_app_status_msg() {
     parse_double(msg_buf, "<intops_per_cpu_sec>", result->intops_per_cpu_sec);
     parse_double(msg_buf, "<intops_cumulative>", result->intops_cumulative);
     if (parse_double(msg_buf, "<bytes_sent>", dtemp)) {
-        if (dtemp > bytes_sent) {
-            daily_xfer_history.add(dtemp - bytes_sent, true);
+        if (dtemp > bytes_sent_episode) {
+            daily_xfer_history.add(dtemp - bytes_sent_episode, true);
         }
-        bytes_sent = dtemp;
+        bytes_sent_episode = dtemp;
     }
     if (parse_double(msg_buf, "<bytes_received>", dtemp)) {
-        if (dtemp > bytes_received) {
-            daily_xfer_history.add(dtemp - bytes_received, false);
+        if (dtemp > bytes_received_episode) {
+            daily_xfer_history.add(dtemp - bytes_received_episode, false);
         }
-        bytes_received = dtemp;
+        bytes_received_episode = dtemp;
     }
     parse_int(msg_buf, "<want_network>", want_network);
     if (parse_int(msg_buf, "<other_pid>", other_pid)) {
@@ -1485,7 +1485,8 @@ void ACTIVE_TASK_SET::get_msgs() {
     }
 }
 
-// write checkpoint state to a file in the slot dir
+// The job just checkpointed.
+// Write some state items to a file in the slot dir
 // (this avoids rewriting the state file on each checkpoint)
 //
 void ACTIVE_TASK::write_task_state_file() {
@@ -1508,7 +1509,7 @@ void ACTIVE_TASK::write_task_state_file() {
         result->name,
         checkpoint_cpu_time,
         checkpoint_elapsed_time,
-        fraction_done,
+        checkpoint_fraction_done,
         peak_working_set_size,
         peak_swap_size,
         peak_disk_usage
@@ -1517,7 +1518,7 @@ void ACTIVE_TASK::write_task_state_file() {
 }
 
 // called on startup; read the task state file in case it's more recent
-// then the main state file
+// than the main state file
 //
 void ACTIVE_TASK::read_task_state_file() {
     char buf[4096], path[MAXPATHLEN], s[1024];

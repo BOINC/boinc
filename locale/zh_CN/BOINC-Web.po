@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: 15349\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2014-02-01 00:00 PST\n"
-"PO-Revision-Date: 2013-09-21 07:57+0000\n"
+"PO-Revision-Date: 2014-02-23 06:01+0000\n"
 "Last-Translator: Gang <zenith.yin@gmail.com>\n"
 "Language-Team: Team China <zenith.yin@gmail.com>\n"
 "Language: zh_CN\n"
@@ -20,7 +20,7 @@ msgstr ""
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-SearchPath-0: doc\n"
 "X-Poedit-Basepath: D:\\Work\\boinc_src\\doc\n"
-"X-POOTLE-MTIME: 1379750268.0\n"
+"X-POOTLE-MTIME: 1393135305.0\n"
 "X-Poedit-KeywordsList: tra\n"
 
 #: docutil.php:21
@@ -40,30 +40,30 @@ msgstr "当前页面%s提供翻译接口%s。"
 msgid ""
 "We recommend that you also install VirtualBox, so your computer can work on "
 "science projects that require it."
-msgstr ""
+msgstr "我们建议你同时安装 VirtualBox，这样你的计算机就可以运行那些要求该软件的科学项目了。"
 
 #: download.php:41
 msgid "Learn more about VirtualBox."
-msgstr ""
+msgstr "更多了解 VirtualBox。"
 
 #: download.php:51
 msgid "Download BOINC + VirtualBox"
-msgstr ""
+msgstr "下载 BOINC + VirtualBox"
 
 #: download.php:54 download.php:69
 #, php-format
 msgid "for %s"
-msgstr ""
+msgstr "用于 %s"
 
 #: download.php:57 download.php:72
 #, php-format
 msgid "BOINC version %s"
-msgstr ""
+msgstr "BOINC 版本 %s"
 
 #: download.php:59
 #, php-format
 msgid "VirtualBox version %s"
-msgstr ""
+msgstr "VirtualBox 版本 %s"
 
 # ######################################<br />
 # <br />
@@ -80,12 +80,14 @@ msgid ""
 "projects like SETI@home, Climateprediction.net, Rosetta@home, World "
 "Community Grid, and many others."
 msgstr ""
+"通过 BOINC 你可以将闲置的计算机时间贡献给 SETI@home, Climateprediction.net, Rosetta@home, "
+"World Community Grid 等科学研究项目。"
 
 #: download.php:125
 msgid ""
 "After installing BOINC on your computer, you can connect it to as many of "
 "these projects as you like."
-msgstr ""
+msgstr "在计算机上安装好 BOINC 之后，你可以加入各式各样你喜欢的项目。"
 
 #: download.php:127
 msgid ""
@@ -97,7 +99,7 @@ msgstr "你应该在自己拥有的计算机或得到使用许可的计算机上
 msgid ""
 "We recommend that you download BOINC from the Google Play Store or Amazon "
 "Appstore, not from here."
-msgstr ""
+msgstr "我们推荐你从谷歌或亚马逊的应用市场下载 BOINC，而不是这里。"
 
 #: download.php:167
 msgid "System requirements"
@@ -256,18 +258,20 @@ msgid ""
 "diseases, study global warming, discover pulsars, and do many other types of "
 "scientific research.  It's safe, secure, and easy:"
 msgstr ""
+"利用你计算机的闲置时间，不管是 Windows, Mac, Linux 还是 "
+"Android，来帮助如疾病治疗、全球变暖、发现脉冲星等多种类型的科学研究。很安全，也很容易："
 
 #: index.php:96
 msgid "Choose projects"
-msgstr ""
+msgstr "选择项目"
 
 #: index.php:97
 msgid "Download BOINC software"
-msgstr ""
+msgstr "下载 BOINC 软件"
 
 #: index.php:98
 msgid "Enter an email address and password."
-msgstr ""
+msgstr "输入电子邮箱地址及口令。"
 
 #: index.php:102
 #, php-format
@@ -629,17 +633,17 @@ msgstr ""
 
 #: projects.inc:207
 msgid "Physical Science"
-msgstr ""
+msgstr "物理科学"
 
 #: projects.inc:213
 msgid "Mechanical engineering"
-msgstr ""
+msgstr "机械工程"
 
 #: projects.inc:214
 msgid ""
 "Currently we are calculating the optimum design of a structure call the 52 "
 "bar truss"
-msgstr ""
+msgstr "当前我们正在对一个名为 52 bar truss 的结构进行优化设计"
 
 #: projects.inc:224 projects.inc:263 projects.inc:271
 msgid "Astronomy"
@@ -654,6 +658,9 @@ msgid ""
 "star formation history) on a resolved pixel-by-pixel basis using spectral "
 "energy distribution (SED) fitting techniques in a distributed computing mode."
 msgstr ""
+"我们将结合 GALEX，Pan-STARRS 1 和 WISE 的光谱覆盖范围来生成附近宇宙的从紫外到近红外的多波长的图集。以分布式计算模式为基础，使用"
+"光谱能量分布（SED）的拟合技术逐个解析像素，我们将可以测量各种物理参数，比如恒星质量表面密度，恒星形成率表面密度，恒星的衰减和一阶恒星形成历史。 "
+"               "
 
 #: projects.inc:247
 msgid "University of Texas at Austin"
@@ -862,7 +869,7 @@ msgstr "物理学、材料科学和生物医药学方面的研究"
 
 #: projects.inc:387
 msgid "IBM Corporate Citizenship"
-msgstr ""
+msgstr "IBM 企业公民"
 
 #: projects.inc:388
 msgid "Medical, environmental and other humanitarian research"
@@ -875,6 +882,8 @@ msgid ""
 "includes HIV-AIDS, cancer, tropical and neglected diseases, solar energy, "
 "clean water and many more."
 msgstr ""
+"通过建立世界上最大的志愿计算网络来推进一些关于人类最紧迫问题的关键的、非赢利性的科学研究。包括艾滋，癌症，登革热以及一些被忽视的疾病，太阳能，清洁水等等"
+"。"
 
 #: projects.inc:395
 msgid "Mathematics, computing, and games"
@@ -975,7 +984,7 @@ msgstr ""
 msgid ""
 "Primegrid has multiple projects searching for different forms of very large "
 "prime numbers, including searching for the largest known prime number."
-msgstr ""
+msgstr "Primegrid 旗下有多个研究各种类型大质数的项目，其中也包括寻找已知最大质数。"
 
 #: projects.inc:519
 msgid "Hochschule RheinMain University of Applied Sciences"
@@ -994,7 +1003,6 @@ msgid ""
 msgstr "寻找所有的广义二进制数系（基是矩阵，而位是向量），目前项目正在搜索 12 维的广义二进制数系。"
 
 #: ../html/inc/news.inc:40
-#, fuzzy
 msgid "Comment"
 msgstr "备注"
 

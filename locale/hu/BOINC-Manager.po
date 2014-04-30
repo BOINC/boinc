@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 5.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-02-02 00:00-0800\n"
-"PO-Revision-Date: 2014-01-19 08:32+0000\n"
+"PO-Revision-Date: 2014-02-22 15:16+0000\n"
 "Last-Translator: Gabor <csega@mailbox.hu>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: hu\n"
@@ -23,7 +23,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCGIT\\boinc\n"
-"X-POOTLE-MTIME: 1390120322.0\n"
+"X-POOTLE-MTIME: 1393082210.0\n"
 
 # 81%
 #: AccountInfoPage.cpp:387
@@ -151,7 +151,7 @@ msgstr "Kérjük, adjon meg egy email címet:"
 #: AccountInfoPage.cpp:597
 #, c-format
 msgid "Please enter a password of at least %d characters."
-msgstr ""
+msgstr "Kérjük, adjon meg egy legalább %d karakter hosszú jelszót."
 
 #: AccountInfoPage.cpp:607
 msgid ""
@@ -171,18 +171,16 @@ msgstr ""
 "vagy gépelje be alább az URL-jét."
 
 #: AccountManagerInfoPage.cpp:279
-#, fuzzy
 msgid "Account manager details:"
-msgstr "Fiókkezelő honlap"
+msgstr "Fiókkezelő részletek:"
 
 #: AccountManagerInfoPage.cpp:283
-#, fuzzy
 msgid "Account manager &URL:"
 msgstr "Fiókkezelő &URL-je:"
 
 #: AccountManagerInfoPage.cpp:287
 msgid "Open web page"
-msgstr ""
+msgstr "Weboldal megnyitása"
 
 #: AccountManagerInfoPage.cpp:290
 msgid "Visit this account manager's web site"
@@ -191,7 +189,7 @@ msgstr ""
 #: AccountManagerProcessingPage.cpp:187 AccountManagerPropertiesPage.cpp:193
 #, c-format
 msgid "Communicating with %s."
-msgstr "Kommunikáció ezzel: %s."
+msgstr "Ezen fiókkezelő weboldalának megtekintése"
 
 #: AccountManagerProcessingPage.cpp:194 AccountManagerPropertiesPage.cpp:200
 msgid "Communicating with server."
@@ -2732,8 +2730,9 @@ msgid "I agree to the terms of use."
 msgstr "Elfogadom a felhasználási feltételeket."
 
 #: TermsOfUsePage.cpp:237
+#, fuzzy
 msgid "I do not agree to the terms of use."
-msgstr ""
+msgstr "Nem fogadom el a felhasználási feltételeket."
 
 #: UnavailablePage.cpp:183
 msgid "Project temporarily unavailable"
@@ -3626,9 +3625,10 @@ msgid ""
 msgstr ""
 
 #: sg_DlgPreferences.cpp:285
+#, fuzzy
 msgid ""
 "For additional settings, select Computing Preferences in the Advanced View."
-msgstr ""
+msgstr "További beállításokhoz válassza a Számítási beállításokat a"
 
 #: sg_DlgPreferences.cpp:313
 msgid "Do work only between:"
@@ -3659,8 +3659,9 @@ msgid "Do work after idle for:"
 msgstr "Ennyi üresjárat után dolgozhat:"
 
 #: sg_DlgPreferences.cpp:429
+#, fuzzy
 msgid "Clear all local preferences listed above and close the dialog"
-msgstr ""
+msgstr "minden helyi beállítás törlése és a párbeszédpanel bezárása"
 
 #: sg_DlgPreferences.cpp:602 sg_DlgPreferences.cpp:605
 #: sg_DlgPreferences.cpp:681 sg_DlgPreferences.cpp:685

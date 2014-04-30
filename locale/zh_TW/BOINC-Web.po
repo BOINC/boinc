@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2014-02-01 00:00 PST\n"
-"PO-Revision-Date: 2013-11-15 15:59+0000\n"
+"PO-Revision-Date: 2014-02-25 13:19+0000\n"
 "Last-Translator: 宇謙 <df910105@yahoo.com.tw>\n"
 "Language-Team: \n"
 "Language: zh_TW\n"
@@ -20,7 +20,7 @@ msgstr ""
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-SearchPath-0: doc\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
-"X-POOTLE-MTIME: 1384531151.0\n"
+"X-POOTLE-MTIME: 1393334371.0\n"
 "X-Poedit-KeywordsList: tra\n"
 
 #: docutil.php:21
@@ -625,17 +625,17 @@ msgstr ""
 
 #: projects.inc:207
 msgid "Physical Science"
-msgstr ""
+msgstr "自然科學"
 
 #: projects.inc:213
 msgid "Mechanical engineering"
-msgstr ""
+msgstr "機械工程"
 
 #: projects.inc:214
 msgid ""
 "Currently we are calculating the optimum design of a structure call the 52 "
 "bar truss"
-msgstr ""
+msgstr "現在我們正在對一個名為52 bar truss的結構進行優化設計。"
 
 #: projects.inc:224 projects.inc:263 projects.inc:271
 msgid "Astronomy"
