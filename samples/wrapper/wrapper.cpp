@@ -801,12 +801,10 @@ bool TASK::poll(int& status) {
         if (exit_code != STILL_ACTIVE) {
             status = exit_code;
             final_cpu_time = current_cpu_time;
-#ifdef DEBUG
-            fprintf(stderr, "%s process exited; current CPU %f final CPU %f\n",
-                boinc_message_prefix(buf, sizeof(buf)),
-                current_cpu_time, final_cpu_time
+            fprintf(stderr, "%s %s exited; CPU time %f\n",
+                boinc_msg_prefix(buf, sizeof(buf)),
+                application.c_str(), final_cpu_time
             );
-#endif
             return true;
         }
     }
@@ -819,12 +817,10 @@ bool TASK::poll(int& status) {
         getrusage(RUSAGE_CHILDREN, &ru);
         final_cpu_time = (float)ru.ru_utime.tv_sec + ((float)ru.ru_utime.tv_usec)/1e+6;
         final_cpu_time -= start_rusage;
-#ifdef DEBUG
-        fprintf(stderr, "%s process exited; current CPU %f final CPU %f\n",
-            boinc_message_prefix(buf, sizeof(buf)),
-            current_cpu_time, final_cpu_time
+        fprintf(stderr, "%s %s exited; CPU time %f\n",
+            boinc_msg_prefix(buf, sizeof(buf)),
+            application.c_str(), final_cpu_time
         );
-#endif
         if (final_cpu_time < current_cpu_time) {
             final_cpu_time = current_cpu_time;
         }
