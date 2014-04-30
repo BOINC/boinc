@@ -311,6 +311,13 @@ void PROJECTS::print() {
     }
 }
 
+void PROJECTS::print_urls() {
+    unsigned int i;
+    for (i=0; i<projects.size(); i++) {
+        printf("%s\n", projects[i]->master_url);
+    }
+}
+
 void DISK_USAGE::print() {
     unsigned int i;
     printf("======== Disk usage ========\n");
