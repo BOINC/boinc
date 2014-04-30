@@ -1,27 +1,21 @@
-# BOINC web translation
-# Copyright (C) 2008-2009 University of California
-# This file is distributed under the same license as BOINC.
-# FileID  : $Id$
 msgid ""
 msgstr ""
-"Project-Id-Version: BOINC web 2013/08/24\n"
+"Project-Id-Version: BOINC web 2014/2/7\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2013-11-12 00:00 PST\n"
-"PO-Revision-Date: 2013-12-09 03:37+0000\n"
-"Last-Translator: Kangsan Lee <treppolse@gmail.com>\n"
+"POT-Creation-Date: 2014-02-01 00:00 PST\n"
+"PO-Revision-Date: 2014-02-07 17:56+0900\n"
+"Last-Translator: Lee Kangsan <treppolse@gmail.com>\n"
 "Language-Team: SETIKAH@KOREA\n"
-"Language: ko\n"
+"Language: ko_KR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Pootle 2.5.0\n"
-"X-Poedit-SourceCharset: utf-8\n"
-"X-Poedit-SearchPath-0: doc\n"
+"X-Generator: Poedit 1.6.3\n"
+"X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-KeywordsList: tra\n"
-"X-POOTLE-MTIME: 1386560274.0\n"
+"X-Poedit-SearchPath-0: doc\n"
 
 #: docutil.php:21
 msgid "Search"
@@ -41,13 +35,16 @@ msgid ""
 "We recommend that you also install VirtualBox, so your computer can work on "
 "science projects that require it."
 msgstr ""
-"저희는 여러분이 VirtualBox도 같이 설치하길 권장합니다. 그렇게 하면 해당 기능을 요구하는 과학 프로젝트 작업도 수행할 수 "
-"있습니다."
+"저희는 여러분이 VirtualBox도 같이 설치하길 권장합니다. 그렇게 하면 해당 기능"
+"을 요구하는 과학 프로젝트 작업도 수행할 수 있습니다."
 
 #: download.php:41
 msgid "Learn more about VirtualBox."
 msgstr "VirtualBox에 대해서 알아봅니다."
 
+# #######################################
+# download.php
+# #######################################
 #: download.php:51
 msgid "Download BOINC + VirtualBox"
 msgstr "BOINC + VirtualBox 다운로드"
@@ -69,6 +66,7 @@ msgstr "VirtualBox 버전 %s"
 
 # #######################################
 # download.php
+# #######################################
 #: download.php:67
 msgid "Download BOINC"
 msgstr "BOINC 다운로드"
@@ -80,25 +78,32 @@ msgid ""
 "Community Grid, and many others."
 msgstr ""
 "BOINC는 SETI@home, Climateprediction.net, Rosetta@home, World Community Grid "
-"그리고 다른 많은 과학 프로젝트들에게 여러분의 컴퓨터 대기 시간을 기여하도록 하는 프로그램입니다."
+"그 외 다른 많은 과학 프로젝트들에게 여러분의 컴퓨터 대기 시간을 기부하도록 하"
+"는 프로그램입니다."
 
 #: download.php:125
 msgid ""
 "After installing BOINC on your computer, you can connect it to as many of "
 "these projects as you like."
-msgstr "컴퓨터에 BOINC를 설치한 후에 여러분이 선호하는 수많은 프로젝트에 연결하실 수 있습니다."
+msgstr ""
+"컴퓨터에 BOINC를 설치한 후에 여러분이 선호하는 수많은 프로젝트에 연결하실 수 "
+"있습니다."
 
 #: download.php:127
 msgid ""
 "You may run this software on a computer only if you own the computer or have "
 "the permission of its owner."
-msgstr "여러분은 이 소프트웨어를 여러분이 소유한 컴퓨터 혹은 소유자로부터 권한을 부여받은 컴퓨터에서만 실행해야 합니다."
+msgstr ""
+"여러분은 이 소프트웨어를 여러분이 소유한 컴퓨터 혹은 소유자로부터 권한을 부여"
+"받은 컴퓨터에서만 실행해야 합니다."
 
 #: download.php:132
 msgid ""
 "We recommend that you download BOINC from the Google Play Store or Amazon "
 "Appstore, not from here."
-msgstr "이곳보다는 Google Play Store 또는 Amazon Appstore에서 BOINC를 다운로드하시길 권장합니다."
+msgstr ""
+"이곳보다는 Google Play Store 또는 Amazon Appstore에서 BOINC를 다운로드하시길 "
+"권장합니다."
 
 #: download.php:167
 msgid "System requirements"
@@ -136,8 +141,9 @@ msgid ""
 "through the process of installing and using BOINC; %s troubleshoot any "
 "problems you might have."
 msgstr ""
-"BOINC 온라인 도움말은 경험많은 BOINC 사용자와 1:1대화를 하도록 합니다 대상: %s는 BOINC와 기여자 컴퓨팅에 대해서 "
-"답합니다. %s는 BOINC 설치 진행 및 사용을 도와드릴 것입니다. %s는 여러분이 겪는 각종 문제를 해결해 드릴 것입니다."
+"BOINC 온라인 도움말은 경험많은 BOINC 사용자와 1:1대화를 하도록 합니다 대상: "
+"%s는 BOINC와 기여자 컴퓨팅에 대해서 답합니다. %s는 BOINC 설치 진행 및 사용을 "
+"도와드릴 것입니다. %s는 여러분이 겪는 각종 문제를 해결해 드릴 것입니다."
 
 #: help.php:21
 #, php-format
@@ -147,8 +153,9 @@ msgid ""
 "Skype, please %sdownload and install it now%s.  When you're finished, return "
 "to this page."
 msgstr ""
-"BOINC 온라인 도움말은 인터넷 전화인 %sSkype%s에 기반을 두고 있습니다. Skype는 소프트웨어와 전화 모두 무료입니다. 아직 "
-"Skype를 사용하고 계시지 않았다면, %s지금 다운로드하고 설치하십시오%s. 완료되면 이 페이지로 돌아오십시오."
+"BOINC 온라인 도움말은 인터넷 전화인 %sSkype%s에 기반을 두고 있습니다. Skype"
+"는 소프트웨어와 전화 모두 무료입니다. 아직 Skype를 사용하고 계시지 않았다면, "
+"%s지금 다운로드하고 설치하십시오%s. 완료되면 이 페이지로 돌아오십시오."
 
 #: help.php:28
 msgid ""
@@ -157,15 +164,17 @@ msgid ""
 "also use Skype's text-based chat system or regular email (if you don't have "
 "Skype) to communicate with Help Volunteers."
 msgstr ""
-"도움을 구하는 가장 좋은 방법은 목소리입니다. 이를 위해서 여러분 컴퓨터에는 마이크와 스피커 또는 외부 헤드셋이 필요합니다. 여러분은 "
-"또한 도우미 기여자들과 Skype 텍스트 기반 대화 시스템이나 일반적인 email (만약 Skype를 쓰지 않을 경우)로 대화를 주고받을 "
-"수 있습니다. "
+"도움을 구하는 가장 좋은 방법은 목소리입니다. 이를 위해서 여러분 컴퓨터에는 마"
+"이크와 스피커 또는 외부 헤드셋이 필요합니다. 여러분은 또한 도우미 기여자들과 "
+"Skype 텍스트 기반 대화 시스템이나 일반적인 email (만약 Skype를 쓰지 않을 경"
+"우)로 대화를 주고받을 수 있습니다. "
 
 #: help.php:31
 msgid ""
 "Volunteers speaking several languages are available. Please select a "
 "language:"
-msgstr "기여자들은 몇가지 언어로 얘기하는 것이 가능합니다. 언어를 선택해 주세요:"
+msgstr ""
+"기여자들은 몇가지 언어로 얘기하는 것이 가능합니다. 언어를 선택해 주세요:"
 
 #: help.php:47
 msgid "Be a Help Volunteer"
@@ -178,24 +187,29 @@ msgid ""
 "Volunteer%s.  It's a great way to help the cause of scientific research and "
 "volunteer computing - and it's fun!"
 msgstr ""
-"만약 여러분이 경험많은 BOINC 사용자라면, 우리는 여러분이 %s도우미 기여자%s가 되길 장려합니다. 그 것은 과학적 연구와 기여자 "
-"컴퓨팅을 돕는 위대한 방법입니다 - 그리고 그 것을 즐기세요!"
+"만약 여러분이 경험많은 BOINC 사용자라면, 우리는 여러분이 %s도우미 기여자%s가 "
+"되길 장려합니다. 그 것은 과학적 연구와 기여자 컴퓨팅을 돕는 위대한 방법입니"
+"다 - 그리고 그 것을 즐기세요!"
 
 #: help.php:56
 #, php-format
 msgid ""
 "If you're already a Help Volunteer: to edit your settings, %sclick here%s."
-msgstr "여러분이 이미 도우미 기여자일 경우: 설정을 바꾸실려면 %s여기를 누르십시오%s."
+msgstr ""
+"여러분이 이미 도우미 기여자일 경우: 설정을 바꾸실려면 %s여기를 누르십시오%s."
 
 #: help_funcs.php:107
 msgid ""
 "BOINC helpers are unpaid volunteers.  Their advice is not endorsed by BOINC "
 "or the University of California."
-msgstr "BOINC 도우미는 자원봉사자들입니다.  그들의 조언은 BOINC나 캘리포니아 대학교에서 보증하지 않습니다."
+msgstr ""
+"BOINC 도우미는 자원봉사자들입니다.  그들의 조언은 BOINC나 캘리포니아 대학교에"
+"서 보증하지 않습니다."
 
 #: help_funcs.php:110
 msgid "%1Never%2 give email address or password information to BOINC helpers."
-msgstr "%1절대로%2 이메일 주소나 비밀번호 정보를 BOINC 도우미에게 제공하지 마세요."
+msgstr ""
+"%1절대로%2 이메일 주소나 비밀번호 정보를 BOINC 도우미에게 제공하지 마세요."
 
 #: index.php:24
 msgid "Computing power"
@@ -239,6 +253,7 @@ msgstr "기여자"
 
 # #######################################
 # download.php
+# #######################################
 #: index.php:85
 msgid "Download"
 msgstr "다운로드"
@@ -261,13 +276,17 @@ msgid ""
 "diseases, study global warming, discover pulsars, and do many other types of "
 "scientific research.  It's safe, secure, and easy:"
 msgstr ""
-"질병 치료, 지구 온난화 연구, 중성자별 발견 그 외에 또 많은 종류의 과학연구를 위해 여러분 컴퓨터(윈도우, 맥, 리눅스, "
-"안드로이드)의 대기 시간을 사용하십시오. 이 것은 안전하고 보안이 철저하며 쉽습니다:"
+"질병 치료, 지구 온난화 연구, 중성자별 발견 그 외에 또 많은 종류의 과학연구를 "
+"위해 여러분 컴퓨터(윈도우, 맥, 리눅스, 안드로이드)의 대기 시간을 사용하십시"
+"오. 이 것은 안전하고 보안이 철저하며 쉽습니다:"
 
 #: index.php:96
 msgid "Choose projects"
 msgstr "프로젝트를 선택하세요"
 
+# #######################################
+# download.php
+# #######################################
 #: index.php:97
 msgid "Download BOINC software"
 msgstr "BOINC 소프트웨어를 다운로드하세요"
@@ -279,10 +298,11 @@ msgstr "이메일 주소와 비밀번호를 입력하세요."
 #: index.php:102
 #, php-format
 msgid ""
-"Or, if you run several projects, try an %saccount manager%s such as %"
-"sGridRepublic%s or %sBAM!%s. "
+"Or, if you run several projects, try an %saccount manager%s such as "
+"%sGridRepublic%s or %sBAM!%s. "
 msgstr ""
-"혹시 여러 개의 프로젝트를 수행하고 계시다면 %s계정 관리자%s(%sGridRepublic%s이나 %sBAM!%s등)를 사용해 보십시오."
+"혹시 여러 개의 프로젝트를 수행하고 계시다면 %s계정 관리자%s(%sGridRepublic%s"
+"이나 %sBAM!%s등)를 사용해 보십시오."
 
 #: index.php:118
 msgid "Compute with BOINC"
@@ -296,13 +316,16 @@ msgstr "소프트웨어 업데이트"
 msgid ""
 "%1Scientists%2: use BOINC to create a %3volunteer computing project%4 giving "
 "you the computing power of thousands of CPUs."
-msgstr "%1과학자%2: BOINC를 이용해서 %3기여자 컴퓨팅 프로젝트%4를 생성하고 CPU 수천 개분의 연산 능력을 제공받으세요."
+msgstr ""
+"%1과학자%2: BOINC를 이용해서 %3기여자 컴퓨팅 프로젝트%4를 생성하고 CPU 수천 "
+"개분의 연산 능력을 제공받으세요."
 
 #: index.php:132
 msgid ""
 "%1Universities%2: use BOINC to create a %3Virtual Campus Supercomputing "
 "Center%4."
-msgstr "%1대학%2: %3가상 캠퍼스 슈퍼컴퓨터 센터%4를 생성해서 BOINC를 이용하세요."
+msgstr ""
+"%1대학%2: %3가상 캠퍼스 슈퍼컴퓨터 센터%4를 생성해서 BOINC를 이용하세요."
 
 #: index.php:137
 msgid "%1Companies%2: use BOINC for %3desktop Grid computing%4."
@@ -381,8 +404,8 @@ msgstr "%s기여자 컴퓨팅%s과 %s그리드 컴퓨팅%s을 위한 오픈 소�
 #: index.php:230
 msgid "BOINC is based at The University of California, Berkeley"
 msgstr ""
-"BOINC는 캘리포니아 대학교 버클리 캠퍼스(The University of California, Berkeley)에 기반을 두고 "
-"있습니다"
+"BOINC는 캘리포니아 대학교 버클리 캠퍼스(The University of California, "
+"Berkeley)에 기반을 두고 있습니다"
 
 #: projects.inc:14
 msgid "Distributed sensing"
@@ -402,8 +425,9 @@ msgid ""
 "using sensors attached to Internet-connected computers.  You must buy a "
 "sensor to participate."
 msgstr ""
-"Quake-Catcher Network는 인터넷에 연결된 컴퓨터에 연결된 센서를 사용한 세계에서 가장 큰 지진 감지망으로 개발되었습니다. "
-"여러분이 참여하려면 반드시 센서를 사야 됩니다."
+"Quake-Catcher Network는 인터넷에 연결된 컴퓨터에 연결된 센서를 사용한 세계에"
+"서 가장 큰 지진 감지망으로 개발되었습니다. 여러분이 참여하려면 반드시 센서를 "
+"사야 됩니다."
 
 #: projects.inc:27
 msgid "BOINC Poland Foundation"
@@ -419,51 +443,55 @@ msgid ""
 "levels by using sensors connected to volunteers' computers.  You must buy a "
 "sensor to participate."
 msgstr ""
-"이 프로젝트는 기여자들의 컴퓨터에 연결된 센서를 사용해서 지속적으로 업데이트되는 방사능 단계 지도를 대가없이 생성합니다. 여러분이 "
-"참여하려면 반드시 센서를 사야 됩니다."
+"이 프로젝트는 기여자들의 컴퓨터에 연결된 센서를 사용해서 지속적으로 업데이트"
+"되는 방사능 단계 지도를 대가없이 생성합니다. 여러분이 참여하려면 반드시 센서"
+"를 사야 됩니다."
 
 #: projects.inc:33
 msgid ""
 "To participate in these projects you must buy a sensor and attach it to your "
 "computer."
-msgstr "이러한 프로젝트에 참여하려면 여러분은 반드시 센서를 사서 컴퓨터에 연결시켜야 됩니다."
+msgstr ""
+"이러한 프로젝트에 참여하려면 여러분은 반드시 센서를 사서 컴퓨터에 연결시켜야 "
+"됩니다."
 
 #: projects.inc:37
 msgid "Cognitive science and artifical intelligence"
 msgstr "인지 과학과 인공 지능"
 
-#: projects.inc:50 projects.inc:342 projects.inc:386 projects.inc:435
-#: projects.inc:442 projects.inc:489
+#: projects.inc:60 projects.inc:364 projects.inc:408 projects.inc:457
+#: projects.inc:464 projects.inc:511
 msgid "Private"
 msgstr "개인"
 
-#: projects.inc:51
+#: projects.inc:61
 msgid "Artificial intelligence"
 msgstr "인공 지능"
 
-#: projects.inc:52
+#: projects.inc:62
 msgid ""
 "Parse and convert semantic nets for use in FreeHAL, an artificial "
 "intelligence that uses semantic networks, stemmers, part of speech "
 "databases, and part of speech taggers in order to imitate human behavior in "
 "conversations."
 msgstr ""
-"인공 지능은 회화에서 인간의 행동을 모방하기 위해서 의미망, 스테밍, 품사 데이터베이스, 품사 태거를 이용합니다. FreeHAL에서는 "
-"이런 인공 지능 개발을 위해서 의미망을 분석하고 FreeHAL에서 사용할 수 있게 변환합니다."
+"인공 지능은 회화에서 인간의 행동을 모방하기 위해서 의미망, 스테밍, 품사 데이"
+"터베이스, 품사 태거를 이용합니다. FreeHAL에서는 이런 인공 지능 개발을 위해서 "
+"의미망을 분석하고 FreeHAL에서 사용할 수 있게 변환합니다."
 
-#: projects.inc:58
+#: projects.inc:69
 msgid "Biology and Medicine"
 msgstr "생물학 및 의약"
 
-#: projects.inc:71
+#: projects.inc:82
 msgid "University College Dublin"
 msgstr "칼리지 더블린 대학교<br />(University College Dublin)"
 
-#: projects.inc:72
+#: projects.inc:83
 msgid "Antimalarial drug discovery"
 msgstr "항말라리야성 약물 발견"
 
-#: projects.inc:73
+#: projects.inc:84
 msgid ""
 "The parasite that causes malaria continues to evolve resistance to available "
 "medication. We therefore urgently need to discover new drugs to replace "
@@ -471,19 +499,21 @@ msgid ""
 "the parasite. The FightMalaria@Home project is aimed at finding these new "
 "targets."
 msgstr ""
-"말라리야를 유발하는 기생충은 사용가능한 약물에 대한 내성이 계속 진화하고 있습니다. 따라서 우리는 시급히 현존하는 약을 대체할 새로운 "
-"약을 발견할 필요가 있습니다. 중요한 점은 이런 새로운 약은 기생충 안에 있는 '새로운' 단백질을 대상으로 요구합니다. "
-"FightMalaria@Home 프로젝트는 이러한 새로운 대상을 찾는 것을 목표로 합니다."
+"말라리야를 유발하는 기생충은 사용가능한 약물에 대한 내성이 계속 진화하고 있습"
+"니다. 따라서 우리는 시급히 현존하는 약을 대체할 새로운 약을 발견할 필요가 있"
+"습니다. 중요한 점은 이런 새로운 약은 기생충 안에 있는 '새로운' 단백질을 대상"
+"으로 요구합니다. FightMalaria@Home 프로젝트는 이러한 새로운 대상을 찾는 것을 "
+"목표로 합니다."
 
-#: projects.inc:79
+#: projects.inc:90
 msgid "University of Karlsruhe (Germany)"
 msgstr "Karlsruhe 대학교 (독일, University of Karlsruhe)"
 
-#: projects.inc:80
+#: projects.inc:91
 msgid "Protein structure prediction"
 msgstr "단백질 구조 예측"
 
-#: projects.inc:81
+#: projects.inc:92
 msgid ""
 "POEM@HOME uses a computational approach to predict the biologically active "
 "structure of proteins, to understand the signal-processing mechanisms when "
@@ -491,94 +521,99 @@ msgid ""
 "protein malfunction or aggregation, and to develop new drugs on the basis of "
 "the three-dimensions structure of biologically important proteins."
 msgstr ""
-"POEM@HOME은 단백질의 활성 구조를 생물학적으로 예측하기 위해서 컴퓨터를 이용합니다. 또 단백질 간의 상호작용이 일어날 때의 "
-"신호처리 메커니즘을 이해하고자 합니다. 이외에 단백질의 기능 저하나 집적과 관련있는 질병을 이해하고 생물학적으로 중요한 단백질들의 3차원 "
-"구조에 기반해서 신약을 개발하는데 그 목적이 있습니다."
+"POEM@HOME은 단백질의 활성 구조를 생물학적으로 예측하기 위해서 컴퓨터를 이용합"
+"니다. 또 단백질 간의 상호작용이 일어날 때의 신호처리 메커니즘을 이해하고자 합"
+"니다. 이외에 단백질의 기능 저하나 집적과 관련있는 질병을 이해하고 생물학적으"
+"로 중요한 단백질들의 3차원 구조에 기반해서 신약을 개발하는데 그 목적이 있습니"
+"다."
 
-#: projects.inc:87
+#: projects.inc:98
 msgid "University of Delaware"
 msgstr "델라웨어 대학교"
 
-#: projects.inc:88
+#: projects.inc:99
 msgid "Study of protein - ligand interactions"
 msgstr "단백질 이론 - 리간드 상호작용"
 
-#: projects.inc:89
+#: projects.inc:100
 msgid ""
 "Docking@Home has both bioscience and computer science goals. The project "
 "aims to further knowledge of the atomic details of protein-ligand "
 "interactions and, by doing so, will search for insights into the discovery "
 "of novel pharmaceuticals."
 msgstr ""
-"Docking@Home은 생명과학과 컴퓨터 과학의 양면에 목표를 갖고 있습니다. 프로젝트는 단백질 리간드 상호작용의 원자적 세부사항을 "
-"이해하고 그렇게 함으로써 새로운 의약품을 개발하기 위한 식견을 넓히는 것을 목표로 합니다."
+"Docking@Home은 생명과학과 컴퓨터 과학의 양면에 목표를 갖고 있습니다. 프로젝트"
+"는 단백질 리간드 상호작용의 원자적 세부사항을 이해하고 그렇게 함으로써 새로"
+"운 의약품을 개발하기 위한 식견을 넓히는 것을 목표로 합니다."
 
-#: projects.inc:103
+#: projects.inc:114
 msgid "Barcelona Biomedical Research Park (PRBB)"
 msgstr "바로셀로나 생물의학 연구 단지(PRBB)"
 
-#: projects.inc:104
+#: projects.inc:115
 msgid "Molecular simulations of proteins"
 msgstr "단백질 분자 시뮬레이션"
 
-#: projects.inc:105
+#: projects.inc:116
 msgid ""
 "GPUGrid.net opens novel computational scenarios by the first full-atom "
 "molecular dynamics code (CellMD) specially optimized to run on NVIDIA GPUs. "
 "New biomedical applications suddenly become possible giving a new role to "
 "computational biology for biomedical research."
 msgstr ""
-"GPUGrid.net은 NVIDIA GPU에서 실행시키기 위해 처음으로 분자 속 전체 원자 동적 분석 코드(CellMD)로 특별히 "
-"최적화되었습니다. 이로서 새로운 계산 시나리오가 개척되었습니다. 새로운 생물의학 어플리케이션은 생물의학 연구를 위한 전산 생물학에 새로운 "
-"역할을 부여할 가능성을 가지고 있습니다."
+"GPUGrid.net은 NVIDIA GPU에서 실행시키기 위해 처음으로 분자 속 전체 원자 동적 "
+"분석 코드(CellMD)로 특별히 최적화되었습니다. 이로서 새로운 계산 시나리오가 개"
+"척되었습니다. 새로운 생물의학 어플리케이션은 생물의학 연구를 위한 전산 생물학"
+"에 새로운 역할을 부여할 가능성을 가지고 있습니다."
 
-#: projects.inc:111
+#: projects.inc:122
 msgid "Technion, Israel"
 msgstr "이스라엘 Technion 대학교(Technion, Israel)"
 
-#: projects.inc:112
+#: projects.inc:123
 msgid "Genetic linkage analysis"
 msgstr "유전학적 연관성 분석"
 
-#: projects.inc:113
+#: projects.inc:124
 msgid ""
 "Superlink@Technion helps geneticists all over the world find disease-"
 "provoking genes causing some types of diabetes, hypertension (high blood "
 "pressure), cancer, schizophrenia and many others."
 msgstr ""
-"Superlink@Technion은 당뇨병, 고혈압, 암, 정신 분열증, 기타 질병 등을 유발하는 특정 종류의 질병 유발 유전자를 찾는 "
-"전세계 모든 유전학자를 지원합니다."
+"Superlink@Technion은 당뇨병, 고혈압, 암, 정신 분열증, 기타 질병 등을 유발하"
+"는 특정 종류의 질병 유발 유전자를 찾는 전세계 모든 유전학자를 지원합니다."
 
-#: projects.inc:127
+#: projects.inc:138
 msgid ""
 "University of Maryland Center for Bioinformatics and Computational Biology"
 msgstr ""
-"메릴랜드 대학교 생물정보학과 전산생물학 연구 센터(University of Maryland Center for Bioinformatics "
-"and Computational Biology)"
+"메릴랜드 대학교 생물정보학과 전산생물학 연구 센터(University of Maryland "
+"Center for Bioinformatics and Computational Biology)"
 
-#: projects.inc:128
+#: projects.inc:139
 msgid "Life science research"
 msgstr "생명 과학 연구"
 
-#: projects.inc:129
+#: projects.inc:140
 msgid ""
 "The Lattice Project supplies computing power to scientists at the University "
 "of Maryland studying evolutionary relationships based on DNA sequence data; "
 "bacterial, plasmid, and virus protein sequences; and biological diversity in "
 "nature reserves. "
 msgstr ""
-"Lattice 프로젝트는 Maryland 대학교의 과학자들에게 컴퓨터 연산 능력을 제공합니다. 연구 분야: DNA 서열 데이터에 기반한 "
-"진화 관계, 박테리아, 플라스미드, 바이러스의 단백질 서열, 자연보호구역의 생물학적 다양성"
+"Lattice 프로젝트는 Maryland 대학교의 과학자들에게 컴퓨터 연산 능력을 제공합니"
+"다. 연구 분야: DNA 서열 데이터에 기반한 진화 관계, 박테리아, 플라스미드, 바이"
+"러스의 단백질 서열, 자연보호구역의 생물학적 다양성"
 
-#: projects.inc:135
+#: projects.inc:146
 msgid "The Swiss Tropical Institute"
 msgstr "스위스 열대 연구소(The Swiss Tropical Institute)"
 
-#: projects.inc:136
+#: projects.inc:147
 msgid "Epidemiology"
 msgstr "전염병학"
 
-#: projects.inc:137
+#: projects.inc:148
 msgid ""
 "Simulation models of the transmission dynamics and health effects of malaria "
 "are an important tool for malaria control. They can be used to determine "
@@ -588,20 +623,22 @@ msgid ""
 "populations with a diverse set of parameters related to biological and "
 "social factors that influence the distribution of the disease. "
 msgstr ""
-"전염 개체들의 시뮬레이션과 말라리아가 건강에 끼치는 영향은 말라리아 통제를 위한 중요한 수단입니다. 이는 현재 개발되고 있거나 시험 중인 "
-"새로운 백신, 화학요법, 모기장을 제공하기 위한 최적화된 전략을 정하기 위해서 이용될 수 있습니다. 이러한 모델은 컴퓨터에 매우 "
-"의존해야 되며, 질병 분포에 영향을 미치는 생물학적, 사회적 요인들이 관련된 인자를 포함한 여러 종류의 조건을 갖춘 대규모 인구 집단의 "
-"시뮬레이션이 요구됩니다."
+"전염 개체들의 시뮬레이션과 말라리아가 건강에 끼치는 영향은 말라리아 통제를 위"
+"한 중요한 수단입니다. 이는 현재 개발되고 있거나 시험 중인 새로운 백신, 화학요"
+"법, 모기장을 제공하기 위한 최적화된 전략을 정하기 위해서 이용될 수 있습니다. "
+"이러한 모델은 컴퓨터에 매우 의존해야 되며, 질병 분포에 영향을 미치는 생물학"
+"적, 사회적 요인들이 관련된 인자를 포함한 여러 종류의 조건을 갖춘 대규모 인구 "
+"집단의 시뮬레이션이 요구됩니다."
 
-#: projects.inc:159
+#: projects.inc:170
 msgid "University of Washington"
 msgstr "워싱턴 대학교"
 
-#: projects.inc:160 projects.inc:168
+#: projects.inc:171 projects.inc:179
 msgid "Biology"
 msgstr "생물학"
 
-#: projects.inc:161
+#: projects.inc:172
 msgid ""
 "Determine the 3-dimensional shapes of proteins in research that may "
 "ultimately lead to finding cures for some major human diseases. By running "
@@ -610,37 +647,38 @@ msgid ""
 "efforts at designing new proteins to fight diseases such as HIV, Malaria, "
 "Cancer, and Alzheimer's"
 msgstr ""
-"단백질의 3차원 형태를 파악하는 연구는 궁극적으로 특정 질병의 치료법을 이끌어낼 수 있을지도 모릅니다. Rosetta@home을 "
-"실행함으로써 여러분의 도움 없이는 시도할 수 없었던 방법으로 연구를 진행하고 있습니다. 따라서 여러분은 저희 연구의 속도를 높이고 "
-"확장하는 것을 도울 수 있습니다. 또한 HIV, 말라리아, 암, 알츠하이머 병과 같은 질환과 싸울 새로운 단백질의 설계를 도와줄 수 "
-"있습니다."
+"단백질의 3차원 형태를 파악하는 연구는 궁극적으로 특정 질병의 치료법을 이끌어"
+"낼 수 있을지도 모릅니다. Rosetta@home을 실행함으로써 여러분의 도움 없이는 시"
+"도할 수 없었던 방법으로 연구를 진행하고 있습니다. 따라서 여러분은 저희 연구"
+"의 속도를 높이고 확장하는 것을 도울 수 있습니다. 또한 HIV, 말라리아, 암, 알츠"
+"하이머 병과 같은 질환과 싸울 새로운 단백질의 설계를 도와줄 수 있습니다."
 
-#: projects.inc:167
+#: projects.inc:178
 msgid "University of Vienna"
 msgstr "비엔나 대학교"
 
-#: projects.inc:169
+#: projects.inc:180
 msgid ""
 "Calculate similarities between proteins. SIMAP provides a public database of "
 "the resulting data, which plays a key role in many bioinformatics research "
 "projects."
 msgstr ""
-"단백질 사이의 유사성을 계산합니다. SIMAP는 많은 생명 정보학 연구 프로젝트에게 중요한 역할을 하는 결과 값들의 공공 데이터베이스를 "
-"제공합니다."
+"단백질 사이의 유사성을 계산합니다. SIMAP는 많은 생명 정보학 연구 프로젝트에"
+"게 중요한 역할을 하는 결과 값들의 공공 데이터베이스를 제공합니다."
 
-#: projects.inc:175
+#: projects.inc:186
 msgid "Earth Sciences"
 msgstr "지구 과학"
 
-#: projects.inc:187
+#: projects.inc:198
 msgid "Oxford University"
 msgstr "옥스퍼드 대학교"
 
-#: projects.inc:188
+#: projects.inc:199
 msgid "Climate study"
 msgstr "기후 연구"
 
-#: projects.inc:189
+#: projects.inc:200
 msgid ""
 "Investigate the approximations that have to be made in state-of-the-art "
 "climate models. By running the model thousands of times we hope to find out "
@@ -651,20 +689,32 @@ msgid ""
 "cycle. This will allow us to explore how climate may change in the next "
 "century under a wide range of different scenarios."
 msgstr ""
-"최첨단 기후 모델로 만들어진 근사값을 추측합니다. 우리는 해당 모델을 여러 번 실행시켜서, 근사값을 조금씩 수정함에 따라 모델이 어떻게 "
-"반응하는지를 알아내려고 하고 있습니다.(근사값이 비현실적인 값이 되지 않을 만큼 조금씩만 변화시킵니다)  이 것은 우리의 모델이 작은 "
-"변화나 이산화탄소 및 유황순환의 변화에 얼마나 민감한지 이해할 수 있게 해줍니다. 또한 우리에게 기후가 다른 시나리오에서 넓은 지역에 "
-"걸쳐 다음 세기에 어떻게 변할 것인지 탐색할 수 있게 해줄 것입니다."
+"최첨단 기후 모델로 만들어진 근사값을 추측합니다. 우리는 해당 모델을 여러 번 "
+"실행시켜서, 근사값을 조금씩 수정함에 따라 모델이 어떻게 반응하는지를 알아내려"
+"고 하고 있습니다.(근사값이 비현실적인 값이 되지 않을 만큼 조금씩만 변화시킵니"
+"다)  이 것은 우리의 모델이 작은 변화나 이산화탄소 및 유황순환의 변화에 얼마"
+"나 민감한지 이해할 수 있게 해줍니다. 또한 우리에게 기후가 다른 시나리오에서 "
+"넓은 지역에 걸쳐 다음 세기에 어떻게 변할 것인지 탐색할 수 있게 해줄 것입니다."
 
-#: projects.inc:196
-msgid "Astronomy, Physics, and Chemistry"
-msgstr "천문학, 물리학, 화학"
+#: projects.inc:207
+msgid "Physical Science"
+msgstr "자연 과학"
 
-#: projects.inc:202 projects.inc:241 projects.inc:249
+#: projects.inc:213
+msgid "Mechanical engineering"
+msgstr "기계 공학"
+
+#: projects.inc:214
+msgid ""
+"Currently we are calculating the optimum design of a structure call the 52 "
+"bar truss"
+msgstr "현재 저희는 52 바 트로스라는 구조물의 최적 설계안을 계산하고 있습니다"
+
+#: projects.inc:224 projects.inc:263 projects.inc:271
 msgid "Astronomy"
 msgstr "천문학"
 
-#: projects.inc:203
+#: projects.inc:225
 msgid ""
 "We will combine the spectral coverage of GALEX, Pan-STARRS1, and WISE to "
 "generate a multi-wavelength UV-optical-NIR galaxy atlas for the nearby "
@@ -673,19 +723,21 @@ msgid ""
 "star formation history) on a resolved pixel-by-pixel basis using spectral "
 "energy distribution (SED) fitting techniques in a distributed computing mode."
 msgstr ""
-"저희는 근처 우주의 다파장 UV 광학 NIR 은하 지도를 생성하기 위해 GALEX, Pan-STARRS1, WISE의 스펙트럼 커버리지를 "
-"통합합니다. 저희는 분산 컴퓨팅 모드에서 스펙트럼 에너지 분포(SED) 피팅 기술을 사용한, 분해된 개별 픽셀 정보상의 물리적 "
-"파라메터들(예를 들어 항성의 질량 면밀도, 항성 생성률의 면밀도, 감쇠, 일차 항성의 형성 이력)을 측량합니다."
+"저희는 근처 우주의 다파장 UV 광학 NIR 은하 지도를 생성하기 위해 GALEX, Pan-"
+"STARRS1, WISE의 스펙트럼 커버리지를 통합합니다. 저희는 분산 컴퓨팅 모드에서 "
+"스펙트럼 에너지 분포(SED) 피팅 기술을 사용한, 분해된 개별 픽셀 정보상의 물리"
+"적 파라메터들(예를 들어 항성의 질량 면밀도, 항성 생성률의 면밀도, 감쇠, 일차 "
+"항성의 형성 이력)을 측량합니다."
 
-#: projects.inc:225
+#: projects.inc:247
 msgid "University of Texas at Austin"
 msgstr "텍사스 대학교 오스틴 캠퍼스(University of Texas at Austin)"
 
-#: projects.inc:226 projects.inc:257
+#: projects.inc:248 projects.inc:279
 msgid "Chemistry"
 msgstr "화학"
 
-#: projects.inc:227
+#: projects.inc:249
 msgid ""
 "A common problem in theoretical chemistry, condensed matter physics and "
 "materials science is the calculation of the time evolution of an atomic "
@@ -697,42 +749,48 @@ msgid ""
 "single event of interest can be expected to occur.  Our research group is "
 "interested in calculating the long time dynamics of systems."
 msgstr ""
-"이론화학, 응집물질물리학, 재료과학에서의 일반적인 문제는 화학 반응이나 확산이 발생할 때 원자 단위 체계에서 일어나는 시간 변화를 "
-"계산하는 것입니다. 일반적으로 우리가 관측하려는 사건은 훨씬 드물게 발생합니다.(원자의 진동속도보다 비교할 수 없을 정도로 느립니다) 즉 "
-"원자 각각의 운동을 직접 시뮬레이션다면, 관측하려는 사건을 단 한 번 발생시키려고 하는 데만도 현존하는 가장 빠른 컴퓨터로 수천 년이 "
-"걸릴 정도입니다. 저희 연구 단체에서는 체계의 장시간 역학을 계산하는 것에 흥미를 갖고 있습니다."
+"이론화학, 응집물질물리학, 재료과학에서의 일반적인 문제는 화학 반응이나 확산"
+"이 발생할 때 원자 단위 체계에서 일어나는 시간 변화를 계산하는 것입니다. 일반"
+"적으로 우리가 관측하려는 사건은 훨씬 드물게 발생합니다.(원자의 진동속도보다 "
+"비교할 수 없을 정도로 느립니다) 즉 원자 각각의 운동을 직접 시뮬레이션다면, 관"
+"측하려는 사건을 단 한 번 발생시키려고 하는 데만도 현존하는 가장 빠른 컴퓨터"
+"로 수천 년이 걸릴 정도입니다. 저희 연구 단체에서는 체계의 장시간 역학을 계산"
+"하는 것에 흥미를 갖고 있습니다."
 
-#: projects.inc:240
+#: projects.inc:262
 msgid "University of Illinois at Urbana-Champaign"
-msgstr "일리노이 대학교 어바나-샴페인<br />(University of Illinois at Urbana-Chamapign)"
+msgstr ""
+"일리노이 대학교 어바나-샴페인<br />(University of Illinois at Urbana-"
+"Chamapign)"
 
-#: projects.inc:242
+#: projects.inc:264
 msgid ""
 "The goal of Cosmology@Home is to search for the model that best describes "
 "our Universe and to find the range of models that agree with the available "
 "astronomical particle physics data."
 msgstr ""
-"Cosmology@Home의 목표는 우리 우주를 가장 잘 기술할 수 있는 모델을 찾고 사용 가능한 천문학적 입자 물리학 데이터와 일치하는 "
-"모델의 범위를 찾습니다."
+"Cosmology@Home의 목표는 우리 우주를 가장 잘 기술할 수 있는 모델을 찾고 사용 "
+"가능한 천문학적 입자 물리학 데이터와 일치하는 모델의 범위를 찾습니다."
 
-#: projects.inc:248
+#: projects.inc:270
 msgid "Rensselaer Polytechnic Institute"
 msgstr "렌셀러 폴리테크닉 대학교(Rensselaer Polytechnic Institute)"
 
-#: projects.inc:250
+#: projects.inc:272
 msgid ""
 "The goal of Milkyway@Home is to create a highly accurate three dimensional "
 "model of the Milky Way galaxy using data gathered by the Sloan Digital Sky "
 "Survey."
 msgstr ""
-"Milkyway@Home의 목표는 슬론 디지털 스카이 탐사(Sloan Digital Sky Survey)에서 수집된 데이터를 사용해서 "
-"은하수 은하의 가장 정확한 3차원 모델을 만드는 것입니다."
+"Milkyway@Home의 목표는 슬론 디지털 스카이 탐사(Sloan Digital Sky Survey)에서 "
+"수집된 데이터를 사용해서 은하수 은하의 가장 정확한 3차원 모델을 만드는 것입니"
+"다."
 
-#: projects.inc:256
+#: projects.inc:278
 msgid "Leiden University, The Netherlands"
 msgstr "네덜란드 Leiden 대학교"
 
-#: projects.inc:258
+#: projects.inc:280
 msgid ""
 "Surface science calculations using Classical Dynamics.  Leiden Classical "
 "allows volunteers, students and other scientist to submit their personal "
@@ -741,22 +799,24 @@ msgid ""
 "argon, or to test the validity of the ideal gas law by actually doing the "
 "simulations through the grid."
 msgstr ""
-"표면 과학 계산은 고전 역학을 이용합니다. Leiden Classical은 기여자, 학생, 다른 과학자에게 가각 개인적으로 한 계산을 "
-"그리드로 제출할 수 있게 해줍니다. 각 유저는 고전 역학 작업을 위한 개인적인 대기열을 가지고 있습니다. 이런 방식으로 학생들은 액체 "
-"아르곤을 시뮬레이션하기 위해서 또는 실제로 그리드를 통해서 시뮬레이션을 실행함으로써 이상기체 법칙의 타당성을 시험하기 위해 그리드를 "
-"이용할 수 있습니다."
+"표면 과학 계산은 고전 역학을 이용합니다. Leiden Classical은 기여자, 학생, 다"
+"른 과학자에게 가각 개인적으로 한 계산을 그리드로 제출할 수 있게 해줍니다. 각 "
+"유저는 고전 역학 작업을 위한 개인적인 대기열을 가지고 있습니다. 이런 방식으"
+"로 학생들은 액체 아르곤을 시뮬레이션하기 위해서 또는 실제로 그리드를 통해서 "
+"시뮬레이션을 실행함으로써 이상기체 법칙의 타당성을 시험하기 위해 그리드를 이"
+"용할 수 있습니다."
 
-#: projects.inc:272
+#: projects.inc:294
 msgid "Univ. of Wisconsin - Milwaukee, Max Planck Institute"
 msgstr ""
-"위스콘신-밀워키 대학교(Univ. of Wisconsin - Milwaukee), 막스 플랑크 연구소(Max Planck "
-"Institute)"
+"위스콘신-밀워키 대학교(Univ. of Wisconsin - Milwaukee), 막스 플랑크 연구소"
+"(Max Planck Institute)"
 
-#: projects.inc:273
+#: projects.inc:295
 msgid "Astrophysics"
 msgstr "천체물리학"
 
-#: projects.inc:274
+#: projects.inc:296
 msgid ""
 "Search for spinning neutron stars (also called pulsars) using data from the "
 "LIGO and GEO gravitational wave detectors, and from the Arecibo radio "
@@ -764,18 +824,20 @@ msgid ""
 "supported by the American Physical Society (APS) and by a number of "
 "international organizations."
 msgstr ""
-"LIGO 및 GEO 중력파 감지기와 아레시보 전파 망원경에서 수집된 데이터를 사용해서 회전하는 중성자 별(펄서라고도 합니다)을 찾습니다. "
-" Einstein@Home은 미국 물리학 협회(APS) 및 수많은 국제 단체로부터 지원을 받는 2005 세계 과학의 해 프로젝트입니다."
+"LIGO 및 GEO 중력파 감지기와 아레시보 전파 망원경에서 수집된 데이터를 사용해"
+"서 회전하는 중성자 별(펄서라고도 합니다)을 찾습니다.  Einstein@Home은 미국 물"
+"리학 협회(APS) 및 수많은 국제 단체로부터 지원을 받는 2005 세계 과학의 해 프로"
+"젝트입니다."
 
-#: projects.inc:288 projects.inc:296
+#: projects.inc:310 projects.inc:318
 msgid "CERN (European Organization for Nuclear Research)"
 msgstr "CERN (유럽 입자 물리 연구소)"
 
-#: projects.inc:289 projects.inc:297
+#: projects.inc:311 projects.inc:319
 msgid "Physics"
 msgstr "물리학"
 
-#: projects.inc:290
+#: projects.inc:312
 msgid ""
 "The Large Hadron Collider (LHC) is a particle accelerator at CERN, the "
 "European Organization for Nuclear Research, the world's largest particle "
@@ -783,28 +845,30 @@ msgid ""
 "investigate on particles proprieties. LHC@home runs simulations to improve "
 "the design of LHC and its detectors."
 msgstr ""
-"대형 강입자 가속기(LHC)는 CERN(유럽 입자 물리 연구소)에 위치한 소립자 가속기이며, 세계에서 가장 큰 입자 물리학 "
-"연구시설입니다. 이것은 입자의 속성을 조사하기 위해서 건설한 것 중 가장 강력한 장치입니다. LHC@home은 LHC 및 검출기의 설계를 "
-"향상시키기 위한 시뮬레이션을 수행합니다."
+"대형 강입자 가속기(LHC)는 CERN(유럽 입자 물리 연구소)에 위치한 소립자 가속기"
+"이며, 세계에서 가장 큰 입자 물리학 연구시설입니다. 이것은 입자의 속성을 조사"
+"하기 위해서 건설한 것 중 가장 강력한 장치입니다. LHC@home은 LHC 및 검출기의 "
+"설계를 향상시키기 위한 시뮬레이션을 수행합니다."
 
-#: projects.inc:298
+#: projects.inc:320
 msgid ""
 "This project uses CERN-developed virtual machine technology for full-fledged "
 "LHC event physics simulation on volunteer computers.  Requires that you "
 "install VirtualBox on your computer"
 msgstr ""
-"이 프로젝트는 CERN이 개발한, 완전히 독립된 LHC 사건(event) 물리학 시뮬레이션용 가상 머신 기술을 기여자 컴퓨터 상에서 "
-"사용합니다. 따라서 여러분은 컴퓨터에 VirtualBox를 설치해야 됩니다."
+"이 프로젝트는 CERN이 개발한, 완전히 독립된 LHC 사건(event) 물리학 시뮬레이션"
+"용 가상 머신 기술을 기여자 컴퓨터 상에서 사용합니다. 따라서 여러분은 컴퓨터"
+"에 VirtualBox를 설치해야 됩니다."
 
-#: projects.inc:304
+#: projects.inc:326
 msgid "University of California, Berkeley"
 msgstr "캘리포니아 대학교 버클리 캠퍼스(University of California, Berkeley)"
 
-#: projects.inc:305
+#: projects.inc:327
 msgid "Astrophysics, astrobiology"
 msgstr "천체물리학, 우주생물학"
 
-#: projects.inc:306
+#: projects.inc:328
 msgid ""
 "SETI (Search for Extraterrestrial Intelligence) is a scientific area whose "
 "goal is to detect intelligent life outside Earth. One approach, known as "
@@ -812,156 +876,164 @@ msgid ""
 "signals from space. Such signals are not known to occur naturally, so a "
 "detection would provide evidence of extraterrestrial technology."
 msgstr ""
-"SETI(Search for Extraterrestrial Intelligence, 외계 지성체 탐사)는 지구 밖에 존재하는 지성체를 "
-"감지하는 데 목표를 둔 과학 분야입니다. 라디오 SETI로 알려진 한가지 접근 방법은 우주에서 오는, 좁은 대역폭의 전파를 듣기 위해서 "
-"전파 망원경을 사용합니다. 어떤 신호는 자연적으로 발생하지 않는다고 알려져 있습니다. 따라서 이 것의 감지는 외계 기술의 증거를 제공해 "
-"줄 수도 있습니다."
+"SETI(Search for Extraterrestrial Intelligence, 외계 지성체 탐사)는 지구 밖에 "
+"존재하는 지성체를 감지하는 데 목표를 둔 과학 분야입니다. 라디오 SETI로 알려"
+"진 한가지 접근 방법은 우주에서 오는, 좁은 대역폭의 전파를 듣기 위해서 전파 망"
+"원경을 사용합니다. 어떤 신호는 자연적으로 발생하지 않는다고 알려져 있습니다. "
+"따라서 이 것의 감지는 외계 기술의 증거를 제공해 줄 수도 있습니다."
 
-#: projects.inc:320
+#: projects.inc:342
 msgid "Bielefeld University of Applied Sciences"
 msgstr "Bielefeld 응용 과학 대학교"
 
-#: projects.inc:321
+#: projects.inc:343
 msgid "Chemical engineering and nanotechnology"
 msgstr "화학 공학과 나노 기술"
 
-#: projects.inc:322
+#: projects.inc:344
 msgid ""
 "The study of molecular magnets and controlled nanoscale magnetism.  These "
 "magnetic molecules may be used to develop tiny magnetic switches, with "
 "applications in medicine (such as local tumor chemotherapy) and "
 "biotechnology."
 msgstr ""
-"분자 자석과 제어된 나노 단위의 자력을 연구합니다. 이런 자성을 가진 분자는 의약품(예를 들어 국소암 화학 요법)과 생물 공학에 적용할 "
-"수 있는 극소형 자성 스위치 개발에 사용될 수 있을지도 모릅니다."
+"분자 자석과 제어된 나노 단위의 자력을 연구합니다. 이런 자성을 가진 분자는 의"
+"약품(예를 들어 국소암 화학 요법)과 생물 공학에 적용할 수 있는 극소형 자성 스"
+"위치 개발에 사용될 수 있을지도 모릅니다."
 
-#: projects.inc:329
+#: projects.inc:351
 msgid "Multiple applications"
 msgstr "여러 응용 분야"
 
-#: projects.inc:334
+#: projects.inc:356
 msgid "Chinese Academy of Sciences"
 msgstr "중국 과학원"
 
-#: projects.inc:335
+#: projects.inc:357
 msgid "Physics, biochemistry, and others"
 msgstr "물리학, 생화학, 기타"
 
-#: projects.inc:336
+#: projects.inc:358
 msgid ""
 "The objective of CAS@home is to encourage and assist scientists in China to "
 "adopt the technologies of volunteer computing and volunteer thinking for "
 "their research."
 msgstr ""
-"CAS@home의 목적은 기여자 컴퓨팅 기술과 연구에 대한 기여자들의 생각을 채택해서 중국에 있는 과학자들을 장려하고 지원하는 것입니다."
+"CAS@home의 목적은 기여자 컴퓨팅 기술과 연구에 대한 기여자들의 생각을 채택해"
+"서 중국에 있는 과학자들을 장려하고 지원하는 것입니다."
 
-#: projects.inc:343
+#: projects.inc:365
 msgid "Mathematics, physics, evolution"
 msgstr "수학, 물리학, 진화론"
 
-#: projects.inc:344
+#: projects.inc:366
 msgid ""
 "Yoyo@home is an adapter between BOINC and several existing volunteer "
 "computing projects: ECM, Muon, Evolution@home, and distributed.net"
 msgstr ""
-"Yoyo@home은 BOINC와 기존 기여자 컴퓨팅 프로젝트(ECM, 뮤온, Evolution@home, distributed.net)를 "
-"중개합니다."
+"Yoyo@home은 BOINC와 기존 기여자 컴퓨팅 프로젝트(ECM, 뮤온, Evolution@home, "
+"distributed.net)를 중개합니다."
 
-#: projects.inc:349 projects.inc:505
+#: projects.inc:371 projects.inc:527
 msgid "MTA-SZTAKI Laboratory of Parallel and Distributed Systems (Hungary)"
 msgstr ""
-"MTA-SZTAKI 병렬 및 분산 시스템 연구소 (헝가리, MTA-SZTAKI Laboratory of Parallel and "
-"Distributed Systems)"
+"MTA-SZTAKI 병렬 및 분산 시스템 연구소 (헝가리, MTA-SZTAKI Laboratory of "
+"Parallel and Distributed Systems)"
 
-#: projects.inc:350
+#: projects.inc:372
 msgid "European research projects"
 msgstr "유럽의 연구 프로젝트들"
 
-#: projects.inc:351
+#: projects.inc:373
 msgid ""
 "The EDGeS@Home Beta project integrates volunteer computing into the service "
 "grid network of Europe by allowing service grids to send workunits to be "
 "processed by the volunteers of this project. The scientific projects covered "
 "by the project include math, physics, biology, etc."
 msgstr ""
-"EDGeS@Home 베타 프로젝트는 해당 프로젝트의 기여자가 처리해야할 작업 유닛을 전송하는 서비스 그리드를 허용함으로써 유럽 서비스 "
-"그리드 네트워크와 기여자 컴퓨팅을 통합합니다. 과학 프로젝트는 수학, 물리학, 생물학, 기타 등을 포함하고 있습니다."
+"EDGeS@Home 베타 프로젝트는 해당 프로젝트의 기여자가 처리해야할 작업 유닛을 전"
+"송하는 서비스 그리드를 허용함으로써 유럽 서비스 그리드 네트워크와 기여자 컴퓨"
+"팅을 통합합니다. 과학 프로젝트는 수학, 물리학, 생물학, 기타 등을 포함하고 있"
+"습니다."
 
-#: projects.inc:357
+#: projects.inc:379
 msgid "Spanish universities and research centers"
 msgstr "여러 스페인 대학교 및 연구소"
 
-#: projects.inc:358
+#: projects.inc:380
 msgid "Various Spanish research projects"
 msgstr "스페인의 각종 연구 프로젝트"
 
-#: projects.inc:359
+#: projects.inc:381
 msgid "Research in physics, material science, and biomedicine"
 msgstr "물리학, 재료 과학, 생물 의학 등의 연구"
 
-#: projects.inc:365
+#: projects.inc:387
 msgid "IBM Corporate Citizenship"
 msgstr "IBM 시민 공동체(IBM Corporate Citizenship)"
 
-#: projects.inc:366
+#: projects.inc:388
 msgid "Medical, environmental and other humanitarian research"
 msgstr "의학, 환경 및 기타 인도주의적 연구"
 
-#: projects.inc:367
+#: projects.inc:389
 msgid ""
 "To further critical non-profit research on some of humanity's most pressing "
 "problems by creating the world's largest volunteer computing grid.  Research "
 "includes HIV-AIDS, cancer, tropical and neglected diseases, solar energy, "
 "clean water and many more."
 msgstr ""
-"세계에서 가장 큰 기여자 컴퓨팅 그리드를 통해서 인류가 직면한 가장 심각한 문제를 비영리적으로 연구합니다.  연구에는 HIV 에이즈, "
-"암, 열대 지방의 병 및 연구가 덜 된 질병, 태양 에너지, 깨끗한 물 이외에 많은 것들이 포함됩니다."
+"세계에서 가장 큰 기여자 컴퓨팅 그리드를 통해서 인류가 직면한 가장 심각한 문제"
+"를 비영리적으로 연구합니다.  연구에는 HIV 에이즈, 암, 열대 지방의 병 및 연구"
+"가 덜 된 질병, 태양 에너지, 깨끗한 물 이외에 많은 것들이 포함됩니다."
 
-#: projects.inc:373
+#: projects.inc:395
 msgid "Mathematics, computing, and games"
 msgstr "수학, 컴퓨팅, 게임"
 
-#: projects.inc:379
+#: projects.inc:401
 msgid "Computer Science"
 msgstr "컴퓨터 과학"
 
-#: projects.inc:387
+#: projects.inc:409
 msgid "Mathematics, Physics, Artificial Intelligence"
 msgstr "수학, 물리학, 인공 지능"
 
-#: projects.inc:388
+#: projects.inc:410
 msgid "Simulation of quantum computing; Goldbach's conjecture."
 msgstr "양자 컴퓨팅 시뮬레이션, 골드바흐 추측(Goldbach's conjecture)."
 
-#: projects.inc:428 projects.inc:436
+#: projects.inc:450 projects.inc:458
 msgid "Cryptography"
 msgstr "암호학"
 
-#: projects.inc:437
+#: projects.inc:459
 msgid ""
 "Attempt to decode 3 original Enigma messages. The signals were intercepted "
 "in the North Atlantic in 1942 and are believed to be unbroken."
 msgstr ""
-"3가지 에니그마 원문을 해독하고자 시도합니다. 이 신호는 1942년 북대서양에서 포착되었으며 깨지지 않은 것으로 여겨지고 있습니다."
+"3가지 에니그마 원문을 해독하고자 시도합니다. 이 신호는 1942년 북대서양에서 포"
+"착되었으며 깨지지 않은 것으로 여겨지고 있습니다."
 
-#: projects.inc:443 projects.inc:482 projects.inc:490 projects.inc:498
-#: projects.inc:506 projects.inc:546
+#: projects.inc:465 projects.inc:504 projects.inc:512 projects.inc:520
+#: projects.inc:528 projects.inc:568
 msgid "Mathematics"
 msgstr "수학"
 
-#: projects.inc:444
+#: projects.inc:466
 msgid "Study the Collatz Conjecture, an unsolved conjecture in mathematics"
 msgstr "수학에서 풀리지 않은 Collatz 추측을 연구합니다."
 
-#: projects.inc:449
+#: projects.inc:471
 msgid "California State University Fullerton"
-msgstr "캘리포니아 주립 대학교 풀러턴 캠퍼스(California State University Fullerton)"
+msgstr ""
+"캘리포니아 주립 대학교 풀러턴 캠퍼스(California State University Fullerton)"
 
-#: projects.inc:450
+#: projects.inc:472
 msgid "Factorization of large integers"
 msgstr "큰 정수의 인수 분해"
 
-#: projects.inc:451
+#: projects.inc:473
 msgid ""
 "NFS@Home is a research project that uses Internet-connected computers to do "
 "the lattice sieving step in the Number Field Sieve factorization of large "
@@ -970,39 +1042,42 @@ msgid ""
 "NFS@Home is a continuation of that experience, only with integers that are "
 "hundreds of digits long."
 msgstr ""
-"NFS@Home은 큰 정수들을 수체선별법(Number Field Sieve)으로써 인수분해하는 래티스 시빙 절차를 시행하기 위해서, "
-"인터넷에 연결된 컴퓨터를 사용하는 연구 프로젝트입니다. 초등학교 저학년 시절에 15 = 3 * 5 혹은 35 = 5 * 7처럼 정수를 "
-"소인수로 쪼개어 본 경험을 하셨을 것입니다. NFS@Home은 이러한 경험의 연장선입니다. 단지 정수가 백자리 정도의 길이를 갖을 "
-"뿐입니다."
+"NFS@Home은 큰 정수들을 수체선별법(Number Field Sieve)으로써 인수분해하는 래티"
+"스 시빙 절차를 시행하기 위해서, 인터넷에 연결된 컴퓨터를 사용하는 연구 프로젝"
+"트입니다. 초등학교 저학년 시절에 15 = 3 * 5 혹은 35 = 5 * 7처럼 정수를 소인수"
+"로 쪼개어 본 경험을 하셨을 것입니다. NFS@Home은 이러한 경험의 연장선입니다. "
+"단지 정수가 백자리 정도의 길이를 갖을 뿐입니다."
 
-#: projects.inc:457
+#: projects.inc:479
 msgid ""
 "Vilnius Gediminas Technical University and Kaunas University of Technology "
 "(Lithuania)"
 msgstr ""
-"빌니우스 게디미나스 공과대학교(Vilnius Gediminas Technical University)와 카우나스 기술 대학교(Kaunas "
-"University of Technology)(리투아니아)"
+"빌니우스 게디미나스 공과대학교(Vilnius Gediminas Technical University)와 카우"
+"나스 기술 대학교(Kaunas University of Technology)(리투아니아)"
 
-#: projects.inc:458
+#: projects.inc:480
 msgid "Software testing"
 msgstr "소프트웨어 테스트"
 
-#: projects.inc:459
+#: projects.inc:481
 msgid ""
 "The aim of this project is to provide a powerful distributed computing "
 "platform for scientists of Vilnius Gediminas Technical University (VGTU) as "
 "well as others Lithuanian academic institutions.  Current applications "
 "involve the study of Monte-Carlo based software testing."
 msgstr ""
-"이 프로젝트의 목표는 Vilnius Gediminas 공과대학교와 같은 다른 리투아니아 연구 기관들의 과학자에게 강력한 분산 컴퓨팅 "
-"플랫폼을 제공하는 것입니다. 현 응용 프로그램은 몬테 카를로 이론에 기반한 소프트웨어 테스트를 수반합니다."
+"이 프로젝트의 목표는 Vilnius Gediminas 공과대학교와 같은 다른 리투아니아 연"
+"구 기관들의 과학자에게 강력한 분산 컴퓨팅 플랫폼을 제공하는 것입니다. 현 응"
+"용 프로그램은 몬테 카를로 이론에 기반한 소프트웨어 테스트를 수반합니다."
 
-#: projects.inc:481
+#: projects.inc:503
 msgid "Mathematical Institute of Leiden University / Kennislink"
 msgstr ""
-"Leiden 대학교 수학 연구소(Mathematical Institute of Leiden University) / Kennislink"
+"Leiden 대학교 수학 연구소(Mathematical Institute of Leiden University) / "
+"Kennislink"
 
-#: projects.inc:483
+#: projects.inc:505
 msgid ""
 "Search for 'abc-triples': positive integers a,b,c such that a+b=c, a &lt; b "
 "&lt; c, a,b,c have no common divisors and c > rad(abc), where rad(n) is the "
@@ -1012,35 +1087,38 @@ msgid ""
 "problems in mathematics. If it is proven to be true, a lot of other open "
 "problems can be answered directly from it."
 msgstr ""
-"'ABC 삼각형'을 찾습니다: 양의 정수 a, b, c는 다음과 같다. a+b=c, a &lt; b &lt; c, a, b, c는 "
-"공약수가 없으며 c > rad(abc)이다. 여기서 rad(n)은 n을 구성하는 소인수들의 곱을 나타냅니다. ABC 추측은 "
-"log(c)/log(rad(abc)) > h (h는 1보다 큰 임의의 실수)를 만족하는 a, b, c는 유한하다고 말하고 있습니다. "
-"ABC 추측은 현재 수학에서 가장 큰 미해결 문제 중 하나입니다. 만약 이 것이 사실로 증명되면 이 것에서 다른 수많은 미해결 문제들의 "
-"답을 직접적으로 찾을 수 있습니다."
+"'ABC 삼각형'을 찾습니다: 양의 정수 a, b, c는 다음과 같다. a+b=c, a &lt; b "
+"&lt; c, a, b, c는 공약수가 없으며 c > rad(abc)이다. 여기서 rad(n)은 n을 구성"
+"하는 소인수들의 곱을 나타냅니다. ABC 추측은 log(c)/log(rad(abc)) > h (h는 1보"
+"다 큰 임의의 실수)를 만족하는 a, b, c는 유한하다고 말하고 있습니다. ABC 추측"
+"은 현재 수학에서 가장 큰 미해결 문제 중 하나입니다. 만약 이 것이 사실로 증명"
+"되면 이 것에서 다른 수많은 미해결 문제들의 답을 직접적으로 찾을 수 있습니다."
 
-#: projects.inc:491
+#: projects.inc:513
 msgid ""
 "Primegrid has multiple projects searching for different forms of very large "
 "prime numbers, including searching for the largest known prime number."
 msgstr ""
-"Primegrid는 다른 형태의 매우 큰 소수를 찾는 복수 프로젝트입니다. 그중에는 알려진 소수 중 가장 큰 소수를 찾는 프로젝트도 "
-"포함됩니다."
+"Primegrid는 다른 형태의 매우 큰 소수를 찾는 복수 프로젝트입니다. 그중에는 알"
+"려진 소수 중 가장 큰 소수를 찾는 프로젝트도 포함됩니다."
 
-#: projects.inc:497
+#: projects.inc:519
 msgid "Hochschule RheinMain University of Applied Sciences"
 msgstr "Hochschule RheinMain 응용 과학 대학교"
 
-#: projects.inc:499
+#: projects.inc:521
 msgid ""
 "Search for counterexamples to two conjectures related to the identification "
 "of prime numbers"
 msgstr "소수 증명과 관련된 두가지 추측의 반례를 찾습니다"
 
-#: projects.inc:507
+#: projects.inc:529
 msgid ""
 "Find all the generalized binary number systems (in which bases are matrices "
 "and digits are vectors) up to dimension 11."
-msgstr "11차원 이상에서 법칙화된 2진수 체계(행렬들로 이루어졌으며, 숫자는 벡터)를 모두 찾습니다."
+msgstr ""
+"11차원 이상에서 법칙화된 2진수 체계(행렬들로 이루어졌으며, 숫자는 벡터)를 모"
+"두 찾습니다."
 
 #: ../html/inc/news.inc:40
 msgid "Comment"
@@ -1051,257 +1129,5 @@ msgstr "코멘트"
 msgid "News is available as an %sRSS feed%s"
 msgstr "공지 사항은 %sRSS 피드%s로도 제공됩니다"
 
-#, php-format
-#~ msgid "%s for %s (%s MB)"
-#~ msgstr "%s버전 %s용 (%s MB)"
-
-#~ msgid ""
-#~ "BOINC is a program that lets you donate your idle computer time to science "
-#~ "projects like SETI@home, Climateprediction.net, Rosetta@home, World "
-#~ "Community Grid, and many others. <p> After installing BOINC on your "
-#~ "computer, you can connect it to as many of these projects as you like."
-#~ msgstr ""
-#~ "BOINC는 SETI@home, Climateprediction.net, Rosetta@home, World Community Grid "
-#~ "그리고 다른 많은 과학 프로젝트들에게 여러분의 컴퓨터 대기 시간을 기여하도록 하는 프로그램입니다. <p> BOINC를 여러분 컴퓨터에 "
-#~ "설치한 후 여러분의 취향에 따라서 이런 다양한 프로젝트에 접속하실 수 있습니다."
-
-#~ msgid "Browser default"
-#~ msgstr "브라우저 기본 설정"
-
-#, php-format
-#~ msgid ""
-#~ " Use the idle time on your computer (Windows, Mac, or Linux) to cure "
-#~ "diseases, study global warming, discover pulsars, and do many other types of "
-#~ "scientific research.  It's safe, secure, and easy:  %sChoose%s projects  "
-#~ "%sDownload%s and run BOINC software  %sEnter%s an email address and "
-#~ "password. "
-#~ msgstr ""
-#~ "질병 치료, 지구 온난화 연구, 펄서 발견 그리고 또 다른 종류의 과학연구를 위해 여러분 컴퓨터(윈도우, 맥, 리눅스)의 대기 시간을 "
-#~ "사용하십시오. 이 것은 안전하고 보안이 철저하며 쉽습니다:  %s프로젝트%s를 선택하십시오  %sBOINC 소프트웨어%s를 다운로드받고 "
-#~ "실행하십시오  %semail 주소와 비밀번호%s를 입력하십시오."
-
-#~ msgid "Humanitarian research on disease, natural disasters and hunger."
-#~ msgstr "질병, 자연 재해, 기아에 대한 인도주의적 연구"
-
-#~ msgid ""
-#~ "Primegrid is generating a public sequential prime number database, and is "
-#~ "searching for large twin primes of the form k*2<sup>n</sup>+1 and "
-#~ "k*2<sup>n</sup>-1"
-#~ msgstr ""
-#~ "Primegrid는 공공 순차적인 소수 데이터베이스를 제작하고 k*2<sup>n</sup>+1"
-#~ "와 k*2<sup>n</sup>-1 형태의 큰 두 소수를 찾습니다."
-
-#~ msgid "FreeHAL"
-#~ msgstr "FreeHAL"
-
-#~ msgid "private"
-#~ msgstr "개인"
-
-#~ msgid "POEM@HOME"
-#~ msgstr "POEM@HOME"
-
-#~ msgid "Docking@Home"
-#~ msgstr "Docking@Home"
-
-#~ msgid "GPUGrid.net"
-#~ msgstr "GPUGrid.net"
-
-#~ msgid "Superlink@Technion"
-#~ msgstr "Superlink@Technion"
-
-#~ msgid "The Lattice Project"
-#~ msgstr "Lattice 프로젝트"
-
-#~ msgid "Malariacontrol.net"
-#~ msgstr "Malariacontrol.net"
-
-#~ msgid "Rosetta@home"
-#~ msgstr "Rosetta@home"
-
-#~ msgid "SIMAP"
-#~ msgstr "SIMAP"
-
-#~ msgid "Virtual Prairie"
-#~ msgstr "가상 초원(Virtual Prairie)"
-
-#~ msgid "University of Houston"
-#~ msgstr "휴스턴 대학교"
-
-#~ msgid "Study of botanical ecosystems"
-#~ msgstr "식물학 관련 생태계 이론"
-
-#~ msgid ""
-#~ "Provide ecological guidelines on the design of prairies with the best "
-#~ "potential for water purification."
-#~ msgstr ""
-#~ "수질 정화에 최적의 가능성을 가진 초원 디자인을 위해서 생태학적 가이드라인"
-#~ "을 제공합니다."
-
-#~ msgid "Climateprediction.net"
-#~ msgstr "Climateprediction.net"
-
-#~ msgid "eOn"
-#~ msgstr "eOn"
-
-#~ msgid "Orbit@home"
-#~ msgstr "Orbit@home"
-
-#~ msgid "Planetary Science Institute"
-#~ msgstr "행성 과학 연구소(Planetary Science Institute)"
-
-#~ msgid "Monitor and study the hazard posed by near-Earth asteroids"
-#~ msgstr "재앙을 초래할 위험성을 지닌 지구 접근 소행성들을 연구 및 감시"
-
-#~ msgid "Cosmology@Home"
-#~ msgstr "Cosmology@Home"
-
-#~ msgid "Milkyway@home"
-#~ msgstr "Milkyway@home"
-
-#~ msgid "Leiden Classical"
-#~ msgstr "Leiden Classical"
-
-#~ msgid "uFluids@home"
-#~ msgstr "uFluids@home"
-
-#~ msgid "Purdue University"
-#~ msgstr "퍼듀 대학교"
-
-#~ msgid "Physics/Aeronautics"
-#~ msgstr "물리학/항공학"
-
-#~ msgid ""
-#~ "The uFluids project simulates two-phase fluid behavior in microgravity "
-#~ "and microfluidics problems. Our goal is to design better satellite "
-#~ "propellant management devices and address two-phase flow in microchannel "
-#~ "and MEMS devices."
-#~ msgstr ""
-#~ "uFluids 프로젝트는 미세 중력에서의 2상 유체 활동 및 미세 유체 공학 문제를 "
-#~ "시뮬레이션합니다. 우리의 목표는 더 좋은 인공 위성 추진체 관리 장치를 설계"
-#~ "하고 마이크로 채널 및 MEMS 장치에서의 2상 흐름을 다루는 것입니다."
-
-#~ msgid "Einstein@home"
-#~ msgstr "Einstein@home"
-
-#~ msgid "LHC@home"
-#~ msgstr "LHC@home"
-
-#~ msgid "SETI@home"
-#~ msgstr "SETI@home"
-
-#~ msgid "Quantum Monte Carlo at Home"
-#~ msgstr "Quantum Monte Carlo@Home"
-
-#~ msgid "University of Muenster (Germany)"
-#~ msgstr "뮌스터 대학교 (독일)"
-
-#~ msgid ""
-#~ "Study the structure and reactivity of molecules using Quantum Chemistry."
-#~ msgstr "양자 화학을 이용한 분자 구조 및 반응성을 연구합니다."
-
-#~ msgid "Spinhenge@home"
-#~ msgstr "Spinhenge@home"
-
-#~ msgid "CAS@home"
-#~ msgstr "CAS@home"
-
-#~ msgid "Yoyo@home"
-#~ msgstr "Yoyo@home"
-
-#~ msgid "EDGeS@Home"
-#~ msgstr "EDGeS@Home"
-
-#~ msgid "Ibercivis"
-#~ msgstr "Ibercivis"
-
-#~ msgid "World Community Grid"
-#~ msgstr "World Community Grid"
-
-#~ msgid "Enigma@Home"
-#~ msgstr "Enigma@Home"
-
-#~ msgid "Collatz Conjecture"
-#~ msgstr "Collatz 추측<br />(Collatz Conjecture)"
-
-#~ msgid "NFS@home"
-#~ msgstr "NFS@home"
-
-#~ msgid "VTU@home"
-#~ msgstr "VTU@home"
-
-#~ msgid "AQUA@home"
-#~ msgstr "AQUA@home"
-
-#~ msgid "D-Wave Systems, Inc."
-#~ msgstr "D-Wave Systems, Inc."
-
-#~ msgid ""
-#~ "D-Wave's AQUA (Adiabatic QUantum Algorithms) is a research project whose "
-#~ "goal is to predict the performance of superconducting adiabatic quantum "
-#~ "computers on a variety of hard problems arising in fields ranging from "
-#~ "materials science to machine learning. AQUA@home uses Internet-connected "
-#~ "computers to help design and analyze quantum computing algorithms, using "
-#~ "Quantum Monte Carlo techniques."
-#~ msgstr ""
-#~ "D-Wave의 AQUA(단열 양자 알고리즘, Adiabatic QUantum Algorithms)은 재료과학"
-#~ "에서 기계학습까지 여러 분야에 걸쳐서 제기된 다양한 난제를 풀기 위한 초전"
-#~ "도 단열 양자 컴퓨터의 성능을 예측하는 것이 목표입니다. AQUA@home은 양자 몬"
-#~ "테 카를로 기술을 활용한 양자 컴퓨터 알고리즘 설계를 지원하고 분석하기 위해"
-#~ "서 인터넷에 연결된 컴퓨터를 사용합니다."
-
-#~ msgid "ABC@home"
-#~ msgstr "ABC@home"
-
-#~ msgid "PrimeGrid"
-#~ msgstr "PrimeGrid"
-
-#~ msgid "primaboinca"
-#~ msgstr "primaboinca"
-
-#~ msgid "SZTAKI Desktop Grid"
-#~ msgstr "SZTAKI Desktop Grid"
-
-#~ msgid "Chess960@home"
-#~ msgstr "Chess960@home"
-
-#~ msgid "Chess-960.org"
-#~ msgstr "Chess-960.org"
-
-#~ msgid "Game-playing"
-#~ msgstr "게임 진행"
-
-#~ msgid ""
-#~ "This project studies Chess 960, a variant of orthodox chess. In classical "
-#~ "chess the starting position of the game never changes.  In Chess 960, "
-#~ "just before the start of every game, the initial configuration of the "
-#~ "chess pieces is determined randomly."
-#~ msgstr ""
-#~ "체스 960 프로젝트는 전통적 체스의 변종을 연구합니다. 전통적인 체스 게임에"
-#~ "서는 말의 시작 위치가 절대 바뀌지 않습니다. 체스 960에서는 모든 게임을 시"
-#~ "작하기 바로 전에 체스 말의 초기 위치가 무작위로 결정됩니다."
-
-#~ msgid "The current release is known to work with these Linux versions:"
-#~ msgstr "해당 리눅스 버전에서 동작하는 최신 릴리즈 버전:"
-
-#~ msgid ""
-#~ "For other Linux versions, check if a BOINC package is offered by your "
-#~ "Linux distribution."
-#~ msgstr ""
-#~ "다른 리눅스 버전이시면 여러분의 리눅스 배포판에서 BOINC 패키지를 제공하는"
-#~ "지 확인하세요."
-
-#~ msgid ""
-#~ "Alternatively, download the %1BOINC client for older Linux versions%2. "
-#~ "This doesn't have a graphical interface, but it should work on all Linux "
-#~ "systems, both x86 and x64."
-#~ msgstr ""
-#~ "대안으로서 %1구 리눅스 버전용 BOINC 클라이언트%2를 다운로드하세요. 그래픽 "
-#~ "인터페이스는 제공하지 않지만 x86과 x64를 포함한 모든 리눅스 시스템에서 동"
-#~ "작합니다."
-
-#~ msgid ""
-#~ "Note: if your computer is equipped with an Graphics Processing Unit "
-#~ "(GPU), you may be able to %suse it to compute faster%s"
-#~ msgstr ""
-#~ "참고: 만약 여러분 컴퓨터에 그래픽 처리 유닛(GPU)이 장착되어 있으면 %s연산"
-#~ "을 더 빠르게 할 수 있습니다%s"
+#~ msgid "Astronomy, Physics, and Chemistry"
+#~ msgstr "천문학, 물리학, 화학"

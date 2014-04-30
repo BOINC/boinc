@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2014-02-01 00:00 PST\n"
-"PO-Revision-Date: 2014-01-03 18:08+0000\n"
-"Last-Translator: Олег <pukish_oleg@ukr.net>\n"
+"PO-Revision-Date: 2014-02-26 13:36+0000\n"
+"Last-Translator: point <Kobzar@icn.od.ua>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
@@ -18,7 +18,7 @@ msgstr ""
 "10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-POOTLE-MTIME: 1388772504.0\n"
+"X-POOTLE-MTIME: 1393421799.0\n"
 
 #: docutil.php:21
 msgid "Search"
@@ -711,11 +711,11 @@ msgstr ""
 
 #: projects.inc:207
 msgid "Physical Science"
-msgstr ""
+msgstr "Фізика"
 
 #: projects.inc:213
 msgid "Mechanical engineering"
-msgstr ""
+msgstr "Машинобудування"
 
 #: projects.inc:214
 msgid ""

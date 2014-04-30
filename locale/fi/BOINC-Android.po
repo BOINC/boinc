@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2013-10-18 00:00-0700\n"
-"PO-Revision-Date: 2014-01-31 21:49+0000\n"
+"PO-Revision-Date: 2014-03-05 10:57+0000\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: fi <LL@li.org>\n"
 "Language: fi\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
-"X-POOTLE-MTIME: 1391204976.0\n"
+"X-POOTLE-MTIME: 1394017036.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -100,10 +100,9 @@ msgctxt "attachproject_login_platform_not_supported"
 msgid "This project does not support Android devices"
 msgstr "Tämä projekti ei tue Android-laitteita"
 
-#, fuzzy
 msgctxt "attachproject_login_category_terms_of_use"
 msgid "Terms of use for"
-msgstr "Nutzungsbedingungen für"
+msgstr "Käyttöehdot projektille"
 
 msgctxt "attachproject_login_accept_terms_of_use"
 msgid ""
@@ -127,6 +126,7 @@ msgctxt "attachproject_login_header_pwd"
 msgid "Password:"
 msgstr "Salasana:"
 
+#, fuzzy
 msgctxt "attachproject_login_category_creation"
 msgid "New to"
 msgstr "Neu bei"
@@ -582,15 +582,15 @@ msgstr "Rajoittaa tehtävän käytettävissä olevan muistin määrän."
 
 msgctxt "prefs_client_log_flags_header"
 msgid "BOINC Client log flags"
-msgstr "BOINC Client Protokolleinstellungen"
+msgstr "BOINC ohjelman lokimerkinnät"
 
 msgctxt "prefs_gui_log_level_header"
 msgid "GUI log level"
-msgstr ""
+msgstr "Määrittää GUI-kirjausviestien laajuuden."
 
 msgctxt "prefs_gui_log_level_description"
 msgid "Specifies verbosity of GUI log messages."
-msgstr ""
+msgstr "Määrittää GUI-kirjausviestien laajuuden."
 
 msgctxt "prefs_unit_mb"
 msgid "MB"
@@ -969,16 +969,15 @@ msgstr "Levytila loppu."
 
 msgctxt "suspend_cputhrottle"
 msgid "Scheduled CPU throttle."
-msgstr ""
+msgstr "Aikataulutettu CPU-kiihdytys."
 
 msgctxt "suspend_noinput"
 msgid "No recent user activity."
 msgstr "Ei käyttäjän toimintaa lähiaikoina."
 
-#, fuzzy
 msgctxt "suspend_delay"
 msgid "Initialization delay."
-msgstr "Startverzögerung"
+msgstr "Käyttöönoton viivästys."
 
 msgctxt "suspend_exclusiveapp"
 msgid "An exclusive app is running."
@@ -1008,10 +1007,9 @@ msgctxt "suspend_battery_charging_long"
 msgid "Computing will resume when battery charge reaches"
 msgstr "Laskenta jatkuu kun akun varaustila saavuttaa"
 
-#, fuzzy
 msgctxt "suspend_battery_charging_current"
 msgid "currently"
-msgstr "aktuell"
+msgstr "tällä hetkellä"
 
 msgctxt "suspend_battery_overheating"
 msgid "Waiting for battery to cool down"
@@ -1096,10 +1094,9 @@ msgid "Help"
 msgstr "Apua"
 
 #. about dialog
-#, fuzzy
 msgctxt "about_button"
 msgid "Return"
-msgstr "Zurück"
+msgstr "Takaisin"
 
 msgctxt "about_title"
 msgid "About"

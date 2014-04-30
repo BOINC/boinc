@@ -113,6 +113,8 @@ ACTIVE_TASK::ACTIVE_TASK() {
     run_interval_start_wall_time = gstate.now;
     checkpoint_wall_time = 0;
     elapsed_time = 0;
+    bytes_sent_episode = 0;
+    bytes_received_episode = 0;
     bytes_sent = 0;
     bytes_received = 0;
     strcpy(slot_dir, "");
@@ -597,7 +599,9 @@ int ACTIVE_TASK::write(MIOFILE& fout) {
         "    <swap_size>%f</swap_size>\n"
         "    <working_set_size>%f</working_set_size>\n"
         "    <working_set_size_smoothed>%f</working_set_size_smoothed>\n"
-        "    <page_fault_rate>%f</page_fault_rate>\n",
+        "    <page_fault_rate>%f</page_fault_rate>\n"
+        "    <bytes_sent>%f</bytes_sent>\n"
+        "    <bytes_received>%f</bytes_received>\n",
         result->project->master_url,
         result->name,
         task_state(),
@@ -612,7 +616,9 @@ int ACTIVE_TASK::write(MIOFILE& fout) {
         procinfo.swap_size,
         procinfo.working_set_size,
         procinfo.working_set_size_smoothed,
-        procinfo.page_fault_rate
+        procinfo.page_fault_rate,
+        bytes_sent,
+        bytes_received
     );
     fout.printf("</active_task>\n");
     return 0;
@@ -645,6 +651,8 @@ int ACTIVE_TASK::write_gui(MIOFILE& fout) {
         "    <working_set_size>%f</working_set_size>\n"
         "    <working_set_size_smoothed>%f</working_set_size_smoothed>\n"
         "    <page_fault_rate>%f</page_fault_rate>\n"
+        "    <bytes_sent>%f</bytes_sent>\n"
+        "    <bytes_received>%f</bytes_received>\n"
         "%s"
         "%s",
         task_state(),
@@ -660,6 +668,8 @@ int ACTIVE_TASK::write_gui(MIOFILE& fout) {
         procinfo.working_set_size,
         procinfo.working_set_size_smoothed,
         procinfo.page_fault_rate,
+        bytes_sent,
+        bytes_received,
         too_large?"   <too_large/>\n":"",
         needs_shmem?"   <needs_shmem/>\n":""
     );
@@ -792,6 +802,8 @@ int ACTIVE_TASK::parse(XML_PARSER& xp) {
         else if (xp.parse_double("working_set_size_smoothed", procinfo.working_set_size_smoothed)) continue;
         else if (xp.parse_double("page_fault_rate", procinfo.page_fault_rate)) continue;
         else if (xp.parse_double("current_cpu_time", x)) continue;
+        else if (xp.parse_double("bytes_sent", bytes_sent)) continue;
+        else if (xp.parse_double("bytes_received", bytes_received)) continue;
         else {
             if (log_flags.unparsed_xml) {
                 msg_printf(project, MSG_INFO,

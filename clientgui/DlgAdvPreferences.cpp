@@ -884,19 +884,19 @@ void CDlgAdvPreferences::OnAddExclusiveApp(wxCommandEvent&) {
 #ifdef __WXMAC__
         wxFileDialog picker(this, _("Applications to add"),
             wxT("/Applications"), wxT(""), wxT("*.app"),
-            wxFD_OPEN|wxFD_FILE_MUST_EXIST|wxFD_CHANGE_DIR|wxFD_MULTIPLE|wxFD_CHANGE_DIR
+            wxFD_OPEN|wxFD_FILE_MUST_EXIST|wxFD_MULTIPLE|wxFD_CHANGE_DIR
         );
 #elif defined(__WXMSW__)
 //TODO: fill in the default directory for MSW
         wxFileDialog picker(this, _("Applications to add"),
             wxT("C:/Program Files"), wxT(""), wxT("*.exe"),
-            wxFD_OPEN|wxFD_FILE_MUST_EXIST|wxFD_CHANGE_DIR|wxFD_MULTIPLE|wxFD_CHANGE_DIR
+            wxFD_OPEN|wxFD_FILE_MUST_EXIST|wxFD_MULTIPLE|wxFD_CHANGE_DIR
         );
 #else
 //TODO: fill in the default directory for Linux
         wxFileDialog picker(this, _("Applications to add"),
             wxT("/usr/bin"), wxT(""), wxT("*"),
-            wxFD_OPEN|wxFD_FILE_MUST_EXIST|wxFD_CHANGE_DIR|wxFD_MULTIPLE|wxFD_CHANGE_DIR
+            wxFD_OPEN|wxFD_FILE_MUST_EXIST|wxFD_MULTIPLE|wxFD_CHANGE_DIR
         );
 #endif
         if (picker.ShowModal() != wxID_OK) return;
