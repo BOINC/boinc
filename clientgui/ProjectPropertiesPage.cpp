@@ -153,14 +153,14 @@ void CProjectPropertiesPage::CreateControls()
     itemFlexGridSizer40->AddGrowableCol(2);
     itemBoxSizer37->Add(itemFlexGridSizer40, 0, wxGROW|wxALL, 5);
 
-    itemFlexGridSizer40->Add(5, 5, 0, wxGROW|wxGROW|wxALL, 5);
+    itemFlexGridSizer40->Add(5, 5, 0, wxGROW|wxALL, 5);
 
     wxBitmap itemBitmap41(GetBitmapResource(wxT("res/wizprogress01.xpm")));
     m_pProgressIndicator = new wxStaticBitmap;
     m_pProgressIndicator->Create( itemWizardPage36, ID_PROGRESSCTRL, itemBitmap41, wxDefaultPosition, wxSize(184, 48), 0 );
     itemFlexGridSizer40->Add(m_pProgressIndicator, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    itemFlexGridSizer40->Add(5, 5, 0, wxGROW|wxGROW|wxALL, 5);
+    itemFlexGridSizer40->Add(5, 5, 0, wxGROW|wxALL, 5);
 ////@end CProjectPropertiesPage content construction
 }
  
