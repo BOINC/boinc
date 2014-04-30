@@ -231,7 +231,7 @@ void CProjectInfoPage::CreateControls()
     wxFlexGridSizer* itemFlexGridSizer6 = new wxFlexGridSizer(2, 2, 0, 0);
     itemFlexGridSizer6->AddGrowableRow(1);
     itemFlexGridSizer6->AddGrowableCol(1);
-    itemFlexGridSizer4->Add(itemFlexGridSizer6, 0, wxGROW|wxGROW|wxALL, 0);
+    itemFlexGridSizer4->Add(itemFlexGridSizer6, 0, wxGROW|wxALL, 0);
 
     wxBoxSizer* itemBoxSizer7 = new wxBoxSizer(wxVERTICAL);
     itemFlexGridSizer6->Add(itemBoxSizer7, 0, wxALIGN_LEFT|wxALIGN_TOP, 0);

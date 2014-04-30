@@ -105,19 +105,19 @@ BOOL GenPwd(TCHAR* ppwd, int nLen)
 	//Clean up memory.
 	if (pRandomBuf)
 	{
-		delete pRandomBuf;
+		delete[] pRandomBuf;
 		pRandomBuf = NULL;
 	}
 
 	if (pEncodedString)
 	{
-		delete pEncodedString;
+		delete[] pEncodedString;
 		pEncodedString = NULL;
 	}
 
 	if (pTRandomPwd)
 	{
-		delete pTRandomPwd;
+		delete[] pTRandomPwd;
 		pTRandomPwd = NULL;
 	}
 

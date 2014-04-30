@@ -289,10 +289,6 @@ int main(int argc, char** argv) {
             retval = rpc.project_op(project, "detach");
         } else if (!strcmp(op, "update")) {
             retval = rpc.project_op(project, "update");
-        } else if (!strcmp(op, "suspend")) {
-            retval = rpc.project_op(project, "suspend");
-        } else if (!strcmp(op, "resume")) {
-            retval = rpc.project_op(project, "resume");
         } else if (!strcmp(op, "nomorework")) {
             retval = rpc.project_op(project, "nomorework");
         } else if (!strcmp(op, "allowmorework")) {

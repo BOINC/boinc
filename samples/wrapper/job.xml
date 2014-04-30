@@ -5,6 +5,5 @@
         <stdin_filename>stdin_file</stdin_filename>
         <stdout_filename>stdout_file</stdout_filename>
         <stderr_filename>stderr_file</stderr_filename>
-        <time_limit>5</time_limit>
     </task>
 </job_desc>
