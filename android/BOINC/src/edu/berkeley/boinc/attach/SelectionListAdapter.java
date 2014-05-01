@@ -16,28 +16,30 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package edu.berkeley.boinc.adapter;
+package edu.berkeley.boinc.attach;
 
 import java.util.ArrayList;
-
 import edu.berkeley.boinc.R;
-import edu.berkeley.boinc.rpc.ProjectInfo;
-
-import android.app.Activity;
+import edu.berkeley.boinc.attach.SelectionListActivity.ProjectListEntry;
+import edu.berkeley.boinc.utils.Logging;
 import android.content.Context;
+import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class AttachProjectListAdapter extends ArrayAdapter<ProjectInfo>{
+public class SelectionListAdapter extends ArrayAdapter<ProjectListEntry>{
 
-	//private final String TAG = "AttachProjectListAdapter";
-	private ArrayList<ProjectInfo> entries;
-    private Activity activity;
+	private ArrayList<ProjectListEntry> entries;
+    private FragmentActivity activity;
  
-    public AttachProjectListAdapter(Activity a, int textViewResourceId, ArrayList<ProjectInfo> entries) {
+    public SelectionListAdapter(FragmentActivity a, int textViewResourceId, ArrayList<ProjectListEntry> entries) {
         super(a, textViewResourceId, entries);
         this.entries = entries;
         this.activity = a;
@@ -47,17 +49,36 @@ public class AttachProjectListAdapter extends ArrayAdapter<ProjectInfo>{
     public View getView(int position, View convertView, ViewGroup parent) {
     	
         View v = convertView;
+        
         LayoutInflater vi = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         
-		ProjectInfo listItem = entries.get(position);
+        final ProjectListEntry listItem = entries.get(position);
 		
         v = vi.inflate(R.layout.attach_project_list_layout_listitem, null);
 		TextView name = (TextView) v.findViewById(R.id.name);
+		name.setText(listItem.info.name);
 		TextView description = (TextView) v.findViewById(R.id.description);
-		name.setText(listItem.name);
-		description.setText(listItem.generalArea);
-		v.setTag(listItem); //add ProjectInfo to view
-		
+		description.setText(listItem.info.generalArea);
+		TextView summary = (TextView) v.findViewById(R.id.summary);
+		summary.setText(listItem.info.summary);
+		CheckBox cb = (CheckBox) v.findViewById(R.id.cb);
+		cb.setChecked(listItem.checked);
+		cb.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				listItem.checked = !listItem.checked;
+			}
+		});
+		LinearLayout textWrapper = (LinearLayout) v.findViewById(R.id.text_wrapper);
+		textWrapper.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if(Logging.DEBUG) Log.d(Logging.TAG, "SelectionListAdapter: onProjectClick open info for: " + listItem.info.name);
+
+				ProjectInfoFragment dialog = ProjectInfoFragment.newInstance(listItem.info);
+				dialog.show(activity.getSupportFragmentManager(), "ProjectInfoFragment");
+			}
+		});
         return v;
     }
 	

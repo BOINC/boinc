@@ -57,6 +57,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.*;
 import edu.berkeley.boinc.adapter.*;
 import edu.berkeley.boinc.adapter.NavDrawerListAdapter.NavDrawerItem;
+import edu.berkeley.boinc.attach.SelectionListActivity;
 
 public class BOINCActivity extends ActionBarActivity {
 	
@@ -231,7 +232,7 @@ public class BOINCActivity extends ActionBarActivity {
 	
 	public void startAttachProjectListActivity() {
 		if(Logging.DEBUG) Log.d(Logging.TAG, "BOINCActivity attempt to start ");
-		startActivity(new Intent(this,AttachProjectListActivity.class));
+		startActivity(new Intent(this,SelectionListActivity.class));
 	}
 	
 	/**
@@ -295,7 +296,7 @@ public class BOINCActivity extends ActionBarActivity {
 				startActivity(new Intent(this,EventLogActivity.class));
 				break;
 			case R.string.projects_add:
-				startActivity(new Intent(this, AttachProjectListActivity.class));
+				startActivity(new Intent(this, SelectionListActivity.class));
 				break;
 			case R.string.tab_preferences:
 				ft.replace(R.id.frame_container, new PrefsFragment());
@@ -394,7 +395,7 @@ public class BOINCActivity extends ActionBarActivity {
 				} else if(Logging.DEBUG) Log.d(Logging.TAG,"run mode: unrecognized command");
 				return true;
 			case R.id.projects_add:
-				startActivity(new Intent(this, AttachProjectListActivity.class));
+				startActivity(new Intent(this, SelectionListActivity.class));
 				return true;
 			default:
 				return super.onOptionsItemSelected(item);

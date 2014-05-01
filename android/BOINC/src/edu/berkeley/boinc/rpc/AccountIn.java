@@ -18,10 +18,63 @@
  ******************************************************************************/
 package edu.berkeley.boinc.rpc;
 
-public class AccountIn {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class AccountIn implements Parcelable{
 	public String url; // either master_url or web_rpc_url_base (HTTPS), if present
 	public String email_addr;
 	public String user_name;
+	public Boolean uses_name;
 	public String passwd;
 	public String team_name;
+	
+	public static final Parcelable.Creator<AccountIn> CREATOR = new Parcelable.Creator<AccountIn>() {
+		public AccountIn createFromParcel(Parcel in) {
+		    return new AccountIn(in);
+		}
+		public AccountIn[] newArray(int size) {
+		    return null;
+		}
+	};
+
+	public AccountIn() {
+		super();
+	}
+	
+	public AccountIn(String url, String email, String userName, Boolean usesName, String password, String teamName) {
+		this.url = url;
+		this.email_addr = email;
+		this.user_name = userName;
+		this.uses_name = usesName;
+		this.passwd = password;
+		this.team_name = teamName;
+	}
+
+	private AccountIn(Parcel in) {
+	    readFromParcel(in);
+	}
+
+	public int describeContents() {
+	    return 0;
+	}
+
+	public void writeToParcel(Parcel out, int flags) {
+		out.writeString(url);
+		out.writeString(email_addr);
+		out.writeString(user_name);
+		out.writeString(passwd);
+		out.writeString(team_name);
+		out.writeBooleanArray(new boolean[]{
+				uses_name});
+	}
+	public void readFromParcel(Parcel in) {
+		url = in.readString();
+		email_addr = in.readString();
+		user_name = in.readString();
+		passwd = in.readString();
+		team_name = in.readString();
+		boolean[] bArray = in.createBooleanArray();
+		uses_name = bArray[0];
+	}
 }

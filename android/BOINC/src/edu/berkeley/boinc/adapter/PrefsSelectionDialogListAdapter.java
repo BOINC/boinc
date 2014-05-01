@@ -83,8 +83,9 @@ public class PrefsSelectionDialogListAdapter extends ArrayAdapter<SelectionDialo
     		wrapper.setOnClickListener(this);
     		wrapper.setTag(position);
     		if(getItem(position).highlighted) {
-    			v.setBackgroundDrawable(activity.getResources().getDrawable(R.drawable.shape_light_red_background));
-    			cb.setBackgroundColor(activity.getResources().getColor(R.color.light_red));
+    			v.setBackgroundResource(R.drawable.shape_light_red_background_wo_stroke);
+    			//v.setBackgroundDrawable(activity.getResources().getDrawable());
+    			//cb.setBackgroundColor(activity.getResources().getColor(R.color.light_red));
     		}
 		}
 	    return v;
