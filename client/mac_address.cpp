@@ -21,7 +21,7 @@
 #include <string.h>
 
 #if defined(_WIN32)
-#include <windows.h>
+#include <boinc_win.h>
 #include <Iphlpapi.h>
 #elif defined(__APPLE__)
 #include <cstdio>
