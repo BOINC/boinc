@@ -27,7 +27,13 @@
         <item name="actionBarTabStyle">@style/StyledActionBarTabView</item>
         <item name="actionMenuTextColor">@android:color/white</item>
     	<item name="android:itemBackground">@color/dark_blue</item>
+        <item name="android:windowBackground">@color/white</item>
+        <item name="android:textColor">@color/black</item>
     </style>
+    
+    <style name="Theme.Styled.NoActionBar" parent="Theme.Styled">
+    	<item name="android:windowNoTitle">true</item>
+	</style>
     
     <style name="StyledActionBar" parent="@style/Widget.AppCompat.Light.ActionBar">
     	<item name="background">@drawable/shape_dark_blue_gradient_background</item>

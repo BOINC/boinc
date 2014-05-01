@@ -18,6 +18,7 @@
  ******************************************************************************/
 package edu.berkeley.boinc;
 
+import edu.berkeley.boinc.attach.SelectionListActivity;
 import edu.berkeley.boinc.client.ClientStatus;
 import edu.berkeley.boinc.client.IMonitor;
 import edu.berkeley.boinc.client.Monitor;
@@ -92,8 +93,7 @@ public class SplashActivity extends Activity {
 						boolean benchmarks = monitor.runBenchmarks();
 						if(Logging.DEBUG) Log.d(Logging.TAG, "SplashActivity: runBenchmarks returned: " + benchmarks);
 						// forward to PROJECTATTACH
-						Intent startAttach = new Intent(activity,AttachProjectListActivity.class);
-						startAttach.putExtra("showUp", false);
+						Intent startAttach = new Intent(activity,SelectionListActivity.class);
 						startActivity(startAttach);
 						break;
 					case ClientStatus.SETUP_STATUS_ERROR:
