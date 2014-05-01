@@ -30,7 +30,7 @@ import edu.berkeley.boinc.utils.Logging;
 public class ClientInterfaceImplementation extends RpcClient{
 	
 	// interval between polling retries in ms
-	private final Integer minRetryInterval = 100;
+	private final Integer minRetryInterval = 1000;
     
     /**
      * Reads authentication key from specified file path and authenticates GUI for advanced RPCs with the client

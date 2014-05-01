@@ -109,7 +109,6 @@ public class ProjectAttachService extends Service {
     private ArrayList<ProjectAttachWrapper> selectedProjects = new ArrayList<ProjectAttachWrapper>();
     
     public boolean projectConfigRetrievalFinished = false;
-    private GetProjectConfigsAsync configRetrieveTask;
     
     //credentials
     private String email = "";
@@ -153,10 +152,6 @@ public class ProjectAttachService extends Service {
      * @return success
      */
     public boolean setSelectedProjects (ArrayList<ProjectInfo> selected) {
-    	if(configRetrieveTask != null) {
-    		// stop running task, to avoid having two tasks in parallel
-    		configRetrieveTask.cancel(true);
-    	}
     	selectedProjects.clear();
     	for(ProjectInfo tmp: selected) {
     		selectedProjects.add(new ProjectAttachWrapper(tmp));
@@ -164,8 +159,7 @@ public class ProjectAttachService extends Service {
     	
     	// get projectConfigs
     	if(mIsBound) {
-	    	configRetrieveTask = new GetProjectConfigsAsync();
-	    	configRetrieveTask.execute();
+	    	new GetProjectConfigsAsync().execute();
     	} else {
     		if(Logging.ERROR) Log.e(Logging.TAG,"ProjectAttachService.setSelectedProjects: could not load configuration files, monitor not bound!");
     		return false;
@@ -183,17 +177,12 @@ public class ProjectAttachService extends Service {
      * @return success
      */
     public boolean setManuallySelectedProject(String url) {
-    	if(configRetrieveTask != null) {
-    		// stop running task, to avoid having two tasks in parallel
-    		configRetrieveTask.cancel(true);
-    	}
     	selectedProjects.clear();
     	selectedProjects.add(new ProjectAttachWrapper(url));
     	
     	// get projectConfig
     	if(mIsBound) {
-	    	configRetrieveTask = new GetProjectConfigsAsync();
-	    	configRetrieveTask.execute();
+	    	new GetProjectConfigsAsync().execute();
     	} else {
     		if(Logging.ERROR) Log.e(Logging.TAG,"ProjectAttachService.setManuallySelectedProject: could not load configuration file, monitor not bound!");
     		return false;
@@ -608,9 +597,10 @@ public class ProjectAttachService extends Service {
 					case BOINCErrors.ERR_GETHOSTBYNAME: // no internet
 						attemptCounter++; // limit number of retries
 						break;
+						/* disable retries fo ERR_CONNECT because timeout can be very long (over 60sec)
 					case BOINCErrors.ERR_CONNECT: // connection problems
 						attemptCounter++; // limit number of retries
-						break;
+						break;*/
 					case BOINCErrors.ERR_HTTP_TRANSIENT: // connection problems
 						attemptCounter++; // limit number of retries
 						break;

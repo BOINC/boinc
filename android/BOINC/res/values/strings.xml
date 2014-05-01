@@ -40,6 +40,7 @@
     <!-- credential input -->
     <string name="attachproject_credential_input_sing_desc">Enter account information</string>
     <string name="attachproject_credential_input_desc">Enter account information for selected projects:</string>
+    <string name="attachproject_credential_input_show_pwd">Show password</string>
     <string name="attachproject_individual_credential_input">Attach projects individually</string>
     <!-- conflicts -->
     <string name="attachproject_conflicts_desc">There have been problems attaching scientific projects:</string>

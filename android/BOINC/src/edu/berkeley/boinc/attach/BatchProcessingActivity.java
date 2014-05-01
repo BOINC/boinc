@@ -37,9 +37,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -55,6 +55,11 @@ public class BatchProcessingActivity extends FragmentActivity{
     private PagerAdapter mPagerAdapter; // provides content to pager
 	private ArrayList<HintFragment> hints = new ArrayList<HintFragment>(); // hint fragments
 	
+	//header
+	private TextView hintTv;
+	private ImageView hintIvRight;
+	private ImageView hintIvLeft;
+	
     @Override
     public void onCreate(Bundle savedInstanceState) {  
         super.onCreate(savedInstanceState);  
@@ -62,6 +67,10 @@ public class BatchProcessingActivity extends FragmentActivity{
         
 		// setup layout
         setContentView(R.layout.attach_project_batch_processing_layout); 
+        
+        hintTv = (TextView)findViewById(R.id.hint_header_text);
+        hintIvRight = (ImageView)findViewById(R.id.hint_header_image_right);
+        hintIvLeft = (ImageView)findViewById(R.id.hint_header_image_left);
         
         // create hint fragments
         hints.add(HintFragment.newInstance(HintFragment.HINT_TYPE_CONTRIBUTION));
@@ -72,6 +81,17 @@ public class BatchProcessingActivity extends FragmentActivity{
         mPager = (ViewPager) findViewById(R.id.hint_container);
         mPagerAdapter = new HintPagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
+        mPager.setOnPageChangeListener(new OnPageChangeListener() {
+			@Override
+			public void onPageScrollStateChanged(int arg0) {}
+			@Override
+			public void onPageScrolled(int arg0, float arg1, int arg2) {}
+			@Override
+			public void onPageSelected(int arg0) {
+				adaptHintHeader();
+			}
+        });
+        adaptHintHeader();
         
         doBindService();
     }
@@ -122,7 +142,8 @@ public class BatchProcessingActivity extends FragmentActivity{
 	private void adaptHintHeader() {
 		int position = mPager.getCurrentItem();
 		if(Logging.DEBUG) Log.d(Logging.TAG, "BatchProcessingActivity.adaptHintHeader position: " + position);
-		((TextView) findViewById(R.id.hint_header_text)).setText(getString(R.string.attachproject_hints_header) + " " + (position + 1) + "/" + NUM_HINTS);
+		String hintText = getString(R.string.attachproject_hints_header) + " " + (position + 1) + "/" + NUM_HINTS;
+		hintTv.setText(hintText);
 		int leftVisibility = View.VISIBLE;
 		int rightVisibility = View.VISIBLE;
 		if(position == 0) {
@@ -132,8 +153,8 @@ public class BatchProcessingActivity extends FragmentActivity{
 			// last element reached
 			rightVisibility = View.GONE;
 		}
-		((ImageView) findViewById(R.id.hint_header_image_left)).setVisibility(leftVisibility);
-		((ImageView) findViewById(R.id.hint_header_image_right)).setVisibility(rightVisibility);
+		hintIvLeft.setVisibility(leftVisibility);
+		hintIvRight.setVisibility(rightVisibility);
 	}
 	
 	// previous image in hint header clicked
@@ -228,12 +249,6 @@ public class BatchProcessingActivity extends FragmentActivity{
         public HintPagerAdapter(FragmentManager fm) {
             super(fm);
         }
-
-        @Override
-		public void startUpdate(ViewGroup container) {
-			super.startUpdate(container);
-			adaptHintHeader();
-		}
 
 		@Override
         public Fragment getItem(int position) {

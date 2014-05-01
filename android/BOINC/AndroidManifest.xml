@@ -85,13 +85,12 @@
             android:name="edu.berkeley.boinc.attach.CredentialInputActivity"
             android:theme="@style/Theme.Styled.NoActionBar"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateUnchanged" >
+            android:windowSoftInputMode="adjustPan" >
         </activity>
         <activity
             android:name="edu.berkeley.boinc.attach.BatchProcessingActivity"
             android:theme="@style/Theme.Styled.NoActionBar"
-            android:screenOrientation="portrait"
-            android:noHistory="true" >
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="edu.berkeley.boinc.attach.BatchConflictListActivity"

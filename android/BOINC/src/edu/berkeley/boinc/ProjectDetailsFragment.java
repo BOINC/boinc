@@ -50,7 +50,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import edu.berkeley.boinc.client.ClientStatus;
 import edu.berkeley.boinc.rpc.ImageWrapper;
 import edu.berkeley.boinc.rpc.Project;
 import edu.berkeley.boinc.rpc.ProjectInfo;
@@ -347,8 +346,6 @@ public class ProjectDetailsFragment extends Fragment {
 		@Override
 		protected Boolean doInBackground(Void... params) {
 			if(Logging.DEBUG) Log.d(Logging.TAG, "UpdateSlideshowImagesAsync updating images in new thread. project: " + project.master_url);
-			// try to get current client status from monitor
-			ClientStatus status;
 			try{
 				//status  = Monitor.getClientStatus();
 				slideshowImages = (ArrayList<ImageWrapper>) BOINCActivity.monitor.getSlideshowForProject(project.master_url);

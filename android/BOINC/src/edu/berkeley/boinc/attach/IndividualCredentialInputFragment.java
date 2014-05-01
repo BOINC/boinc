@@ -30,6 +30,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.text.InputType;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,6 +39,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -118,6 +121,19 @@ public class IndividualCredentialInputFragment extends DialogFragment{
 				Intent i = new Intent(Intent.ACTION_VIEW);
 				i.setData(Uri.parse(forgotPwdLink));
 				startActivity(i);
+			}
+        });
+        
+        CheckBox showPwdCb = (CheckBox) v.findViewById(R.id.show_pwd_cb);
+        showPwdCb.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if(((CheckBox) v).isChecked()) {
+					pwdET.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+				} else {
+					pwdET.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+					pwdET.setTransformationMethod(PasswordTransformationMethod.getInstance());
+				}
 			}
         });
         
