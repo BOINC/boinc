@@ -385,6 +385,8 @@ void ACTIVE_TASK::copy_final_info() {
     result->final_peak_working_set_size = peak_working_set_size;
     result->final_peak_swap_size = peak_swap_size;
     result->final_peak_disk_usage = peak_disk_usage;
+    result->final_bytes_sent = bytes_sent;
+    result->final_bytes_received = bytes_received;
 }
 
 // deal with a process that has exited, for whatever reason:
@@ -1332,13 +1334,17 @@ bool ACTIVE_TASK::get_app_status_msg() {
     parse_double(msg_buf, "<intops_cumulative>", result->intops_cumulative);
     if (parse_double(msg_buf, "<bytes_sent>", dtemp)) {
         if (dtemp > bytes_sent_episode) {
-            daily_xfer_history.add(dtemp - bytes_sent_episode, true);
+            double nbytes = dtemp - bytes_sent_episode;
+            daily_xfer_history.add(nbytes, true);
+            bytes_sent += nbytes;
         }
         bytes_sent_episode = dtemp;
     }
     if (parse_double(msg_buf, "<bytes_received>", dtemp)) {
         if (dtemp > bytes_received_episode) {
-            daily_xfer_history.add(dtemp - bytes_received_episode, false);
+            double nbytes = dtemp - bytes_received_episode;
+            daily_xfer_history.add(nbytes, false);
+            bytes_received += nbytes;
         }
         bytes_received_episode = dtemp;
     }
