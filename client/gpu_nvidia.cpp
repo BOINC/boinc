@@ -47,7 +47,7 @@ using std::string;
 
 static void get_available_nvidia_ram(COPROC_NVIDIA &cc, vector<string>& warnings);
 
-#ifndef _WIN32
+#if !(defined(_WIN32) || defined(__APPLE__))
 
 static int nvidia_driver_version() {
     int (*nvml_init)()  = NULL;
