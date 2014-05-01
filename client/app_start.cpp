@@ -510,6 +510,10 @@ int ACTIVE_TASK::start(bool test) {
     FILE_INFO* fip;
     int retval, rt;
     APP_INIT_DATA aid;
+#ifdef _WIN32
+    bool success = false;
+    LPVOID environment_block=NULL;
+#endif
 
     if (async_copy) {
         if (log_flags.task_debug) {
@@ -658,7 +662,6 @@ int ACTIVE_TASK::start(bool test) {
 #ifdef _WIN32
     PROCESS_INFORMATION process_info;
     STARTUPINFO startup_info;
-    LPVOID environment_block = NULL;
     char slotdirpath[MAXPATHLEN];
     char error_msg[1024];
     char error_msg2[1024];
@@ -691,7 +694,6 @@ int ACTIVE_TASK::start(bool test) {
     }
 
     relative_to_absolute(slot_dir, slotdirpath);
-    bool success = false;
     int prio_mask;
     if (config.no_priority_change) {
         prio_mask = 0;
