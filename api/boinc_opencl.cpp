@@ -124,7 +124,6 @@ int boinc_get_opencl_ids_aux(
                 *platform = platforms[platform_index];
                 return 0;
             }
-        }
             
             continue;
         }
