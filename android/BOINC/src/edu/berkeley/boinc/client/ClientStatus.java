@@ -19,7 +19,6 @@
 package edu.berkeley.boinc.client;
 
 import edu.berkeley.boinc.utils.*;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FilenameFilter;
@@ -48,7 +47,6 @@ import edu.berkeley.boinc.rpc.GlobalPreferences;
 import edu.berkeley.boinc.rpc.ImageWrapper;
 import edu.berkeley.boinc.rpc.Notice;
 import edu.berkeley.boinc.rpc.Project;
-import edu.berkeley.boinc.rpc.ProjectInfo;
 import edu.berkeley.boinc.rpc.Result;
 import edu.berkeley.boinc.rpc.Transfer;
 import edu.berkeley.boinc.rpc.HostInfo;
@@ -100,9 +98,6 @@ public class ClientStatus {
 	public static final int NETWORK_STATUS_AVAILABLE = 2;
 	public Integer networkSuspendReason = 0; //reason why network activity got suspended, only if NETWORK_STATUS_SUSPENDED
 	private Boolean networkParseError = false; //indicates that status could not be parsed and is therefore invalid
-	
-	// supported projects
-	private ArrayList<ProjectInfo> supportedProjects = new ArrayList<ProjectInfo>();
 	
 	// notices
 	private ArrayList<Notice> rssNotices = new ArrayList<Notice>();
@@ -208,14 +203,6 @@ public class ClientStatus {
 	public synchronized void setPrefs(GlobalPreferences prefs) {
 		//if(Logging.DEBUG) Log.d(Logging.TAG, "setPrefs");
 		this.prefs = prefs;
-	}
-	
-	public synchronized void setSupportedProjects (ArrayList<ProjectInfo> projects) {
-		this.supportedProjects = projects;
-	}
-	
-	public synchronized ArrayList<ProjectInfo> getSupportedProjects () {
-		return supportedProjects;
 	}
 	
 	public int getMostRecentNoticeSeqNo() {

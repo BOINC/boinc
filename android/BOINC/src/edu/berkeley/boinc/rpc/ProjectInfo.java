@@ -36,6 +36,7 @@ public class ProjectInfo implements Serializable, Parcelable{
 	public String home;
 	public ArrayList<String> platforms;
 	public String imageUrl;
+	public String summary;
 	
 	@Override
 	public String toString() {
@@ -61,6 +62,7 @@ public class ProjectInfo implements Serializable, Parcelable{
 		//dest.writeList(platforms);
 		dest.writeSerializable(platforms);
 		dest.writeString(imageUrl);
+		dest.writeString(summary);
 	}
 	
 	public ProjectInfo() {}
@@ -75,6 +77,7 @@ public class ProjectInfo implements Serializable, Parcelable{
 		//in.readList(platforms, String.class.getClassLoader());
 		platforms = (ArrayList<String>) in.readSerializable();
 		imageUrl = in.readString();
+		summary = in.readString();
 		
 	}
 	
