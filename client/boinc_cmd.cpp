@@ -250,6 +250,10 @@ int main(int argc, char** argv) {
         PROJECTS ps;
         retval = rpc.get_project_status(ps);
         if (!retval) ps.print();
+    } else if (!strcmp(cmd, "--get_project_urls")) {
+        PROJECTS ps;
+        retval = rpc.get_project_status(ps);
+        if (!retval) ps.print_urls();
     } else if (!strcmp(cmd, "--get_simple_gui_info")) {
         SIMPLE_GUI_INFO info;
         retval = rpc.get_simple_gui_info(info);
