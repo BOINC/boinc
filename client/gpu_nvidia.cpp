@@ -19,6 +19,53 @@
 
 #ifdef _WIN32
 #include "boinc_win.h"
+/* get annotation macros from sal.h */
+/* define the ones that don't exist */
+#include "sal.h"
+/* These are just an annotations.  They don't do anything */
+#ifndef __success
+#define __success(x)  
+#endif
+#ifndef __in
+#define __in
+#endif
+#ifndef __out
+#define __out
+#endif
+#ifndef __in_ecount
+#define __in_ecount(x)
+#endif
+#ifndef __out_ecount
+#define __out_ecount(x)
+#endif
+#ifndef __in_opt
+#define __in_opt
+#endif
+#ifndef __out_opt
+#define __out_opt
+#endif
+#ifndef __inout
+#define __inout
+#endif
+#ifndef __inout_opt
+#define __inout_opt
+#endif
+#ifndef __inout_ecount
+#define __inout_ecount(x)
+#endif
+#ifndef __inout_ecount_full
+#define __inout_ecount_full(x)
+#endif
+#ifndef __inout_ecount_part_opt
+#define __inout_ecount_part_opt(x,y)
+#endif 
+#ifndef __inout_ecount_full_opt
+#define __inout_ecount_full_opt(x,y)
+#endif 
+#ifndef __out_ecount_full_opt
+#define __out_ecount_full_opt(x)
+#endif 
+
 #include "nvapi.h"
 #ifdef _MSC_VER
 #define snprintf _snprintf
