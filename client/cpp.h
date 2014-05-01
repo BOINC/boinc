@@ -17,7 +17,7 @@
 
 #if defined(_WIN32) && !defined(__CYGWIN32__)
 
-#if defined(_WIN64) && defined(_M_X64)
+#if defined(_WIN64) && (defined(_M_X64) || defined(__x86_64__))
 #define HOSTTYPE    "windows_x86_64"
 #define HOSTTYPEALT "windows_intelx86"
 #else
