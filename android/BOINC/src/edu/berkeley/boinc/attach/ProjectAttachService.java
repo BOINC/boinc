@@ -108,7 +108,7 @@ public class ProjectAttachService extends Service {
 	
     private ArrayList<ProjectAttachWrapper> selectedProjects = new ArrayList<ProjectAttachWrapper>();
     
-    public boolean projectConfigRetrievalFinished = false;
+    public boolean projectConfigRetrievalFinished = true; // shows whether project retrieval is ongoing
     
     //credentials
     private String email = "";
@@ -152,16 +152,20 @@ public class ProjectAttachService extends Service {
      * @return success
      */
     public boolean setSelectedProjects (ArrayList<ProjectInfo> selected) {
+    	if(!projectConfigRetrievalFinished) {
+    		if(Logging.ERROR) Log.e(Logging.TAG,"ProjectAttachService.setSelectedProjects: stop, async task already running.");
+    		return false;
+    	}
+    	
     	selectedProjects.clear();
     	for(ProjectInfo tmp: selected) {
     		selectedProjects.add(new ProjectAttachWrapper(tmp));
     	}
     	
-    	// get projectConfigs
     	if(mIsBound) {
 	    	new GetProjectConfigsAsync().execute();
     	} else {
-    		if(Logging.ERROR) Log.e(Logging.TAG,"ProjectAttachService.setSelectedProjects: could not load configuration files, monitor not bound!");
+    		if(Logging.ERROR) Log.e(Logging.TAG,"ProjectAttachService.setSelectedProjects: could not load configuration files, monitor not bound.");
     		return false;
     	}
 
@@ -177,6 +181,11 @@ public class ProjectAttachService extends Service {
      * @return success
      */
     public boolean setManuallySelectedProject(String url) {
+    	if(!projectConfigRetrievalFinished) {
+    		if(Logging.ERROR) Log.e(Logging.TAG,"ProjectAttachService.setManuallySelectedProject: stop, async task already running.");
+    		return false;
+    	}
+    	
     	selectedProjects.clear();
     	selectedProjects.add(new ProjectAttachWrapper(url));
     	
@@ -184,7 +193,7 @@ public class ProjectAttachService extends Service {
     	if(mIsBound) {
 	    	new GetProjectConfigsAsync().execute();
     	} else {
-    		if(Logging.ERROR) Log.e(Logging.TAG,"ProjectAttachService.setManuallySelectedProject: could not load configuration file, monitor not bound!");
+    		if(Logging.ERROR) Log.e(Logging.TAG,"ProjectAttachService.setManuallySelectedProject: could not load configuration file, monitor not bound.");
     		return false;
     	}
 
