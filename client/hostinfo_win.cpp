@@ -670,7 +670,7 @@ int get_cpuid(unsigned int info_type, unsigned int& a, unsigned int& b, unsigned
 #elif defined(__GNUC__)
 
     // GCC compiler
-    __asm__ __volatile__ ("cpuid": "=a" (ax), "=b" (bx), "=c" (cx), "=d" (dx) : "a" (info_type));
+    __asm__ __volatile__ ("cpuid": "=a" (a), "=b" (b), "=c" (c), "=d" (d) : "a" (info_type));
     return 0;
 
 #else
