@@ -920,7 +920,7 @@ void PROJECT::show_no_work_notice() {
         bool banned_by_user = no_rsc_pref[i] || no_rsc_config[i] || no_rsc_ams[i];
         if (!banned_by_user) {
             // work for this resource is possible; return
-			notices.remove_notices(this, REMOVE_NO_WORK_MSG);
+            notices.remove_notices(this, REMOVE_NO_WORK_MSG);
             return;
         }
         if (no_rsc_pref[i]) show_prefs = true;
@@ -931,14 +931,14 @@ void PROJECT::show_no_work_notice() {
     if (!user_action_possible) {
         // no work is possible because project has no apps for any resource
         //
-		notices.remove_notices(this, REMOVE_NO_WORK_MSG);
+        notices.remove_notices(this, REMOVE_NO_WORK_MSG);
         return;
     }
 
     bool first = true;
     string x;
     x = NO_WORK_MSG;
-	x += "  ";
+    x += "  ";
     x += _("To fix this, you can ");
     if (show_prefs) {
         first = false;

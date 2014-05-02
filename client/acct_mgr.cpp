@@ -278,7 +278,7 @@ int AM_ACCOUNT::parse(XML_PARSER& xp) {
 
         if (xp.parse_str("no_rsc", buf, sizeof(buf))) {
             handle_no_rsc(buf, true);
-			continue;
+            continue;
         }
         if (xp.parse_bool("dont_request_more_work", btemp)) {
             dont_request_more_work.set(btemp);

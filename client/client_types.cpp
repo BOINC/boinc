@@ -759,7 +759,7 @@ int APP_VERSION::parse(XML_PARSER& xp) {
         if (xp.match_tag("/app_version")) {
             rt = gpu_usage.rsc_type;
             if (rt) {
-				dont_throttle = true;		// don't throttle GPU apps
+                dont_throttle = true;        // don't throttle GPU apps
                 if (strstr(plan_class, "opencl")) {
                     if (!coprocs.coprocs[rt].have_opencl) {
                         msg_printf(0, MSG_INFO,

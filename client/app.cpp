@@ -190,7 +190,7 @@ int ACTIVE_TASK::preempt(int preempt_type, int reason) {
                 result->name
             );
         }
-		if (task_state() != PROCESS_EXECUTING) return 0;
+        if (task_state() != PROCESS_EXECUTING) return 0;
         return suspend();
     }
     return 0;
@@ -634,7 +634,7 @@ int ACTIVE_TASK::write_gui(MIOFILE& fout) {
     if (fd == 0 && elapsed_time > 0) {
         double est_time = wup->rsc_fpops_est/app_version->flops;
         double x = elapsed_time/est_time;
-		fd = 1 - exp(-x);
+        fd = 1 - exp(-x);
     }
     fout.printf(
         "<active_task>\n"
@@ -1082,7 +1082,7 @@ DWORD WINAPI throttler(LPVOID) {
 #else
 void* throttler(void*) {
 #endif
-    
+
     // Initialize diagnostics framework for this thread
     //
     diagnostics_thread_init();
@@ -1094,7 +1094,7 @@ void* throttler(void*) {
             boinc_sleep(10);
             continue;
         }
-		double on, off, on_frac = gstate.global_prefs.cpu_usage_limit / 100;
+        double on, off, on_frac = gstate.global_prefs.cpu_usage_limit / 100;
 #if 0
 // sub-second CPU throttling
 #define THROTTLE_PERIOD 1.
@@ -1102,13 +1102,13 @@ void* throttler(void*) {
         off = THROTTLE_PERIOD - on;
 #else
 // throttling w/ at least 1 sec between suspend/resume
-		if (on_frac > .5) {
-			off = 1;
-			on = on_frac/(1.-on_frac);
-		} else {
-			on = 1;
-			off = (1.-on_frac)/on_frac;
-		}
+        if (on_frac > .5) {
+            off = 1;
+            on = on_frac/(1.-on_frac);
+        } else {
+            on = 1;
+            off = (1.-on_frac)/on_frac;
+        }
 #endif
 
         gstate.tasks_throttled = true;

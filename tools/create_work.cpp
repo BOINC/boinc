@@ -332,45 +332,75 @@ int main(int argc, char** argv) {
     strcpy(jd.result_template_path, "./");
     strcat(jd.result_template_path, jd.result_template_file);
     if (use_stdin) {
-        string values;
-        DB_WORKUNIT wu;
-        int _argc;
-        char* _argv[100], value_buf[MAX_QUERY_LEN];
-        for (int j=0; ; j++) {
-            char* p = fgets(buf, sizeof(buf), stdin);
-            if (p == NULL) break;
-            JOB_DESC jd2 = jd;
-            strcpy(jd2.wu.name, "");
-            _argc = parse_command_line(buf, _argv);
-            jd2.parse_cmdline(_argc, _argv);
-            if (!strlen(jd2.wu.name)) {
-                sprintf(jd2.wu.name, "%s_%d", jd.wu.name, j);
+        if (jd.assign_flag) {
+            // if we're doing assignment we can't use the bulk-query method;
+            // create the jobs one at a time.
+            //
+            int _argc;
+            char* _argv[100];
+            for (int j=0; ; j++) {
+                char* p = fgets(buf, sizeof(buf), stdin);
+                if (p == NULL) break;
+                JOB_DESC jd2 = jd;
+                strcpy(jd2.wu.name, "");
+                _argc = parse_command_line(buf, _argv);
+                jd2.parse_cmdline(_argc, _argv);
+                if (!strlen(jd2.wu.name)) {
+                    sprintf(jd2.wu.name, "%s_%d", jd.wu.name, j);
+                }
+                jd2.create();
             }
-            retval = create_work2(
-                jd2.wu,
-                jd2.wu_template,
-                jd2.result_template_file,
-                jd2.result_template_path,
-                jd2.infiles,
-                config,
-                jd2.command_line,
-                jd2.additional_xml,
-                value_buf
-            );
-            if (retval) {
-                fprintf(stderr, "create_work() failed: %d\n", retval);
-                exit(1);
+        } else {
+            string values;
+            DB_WORKUNIT wu;
+            int _argc;
+            char* _argv[100], value_buf[MAX_QUERY_LEN];
+            for (int j=0; ; j++) {
+                char* p = fgets(buf, sizeof(buf), stdin);
+                if (p == NULL) break;
+                JOB_DESC jd2 = jd;
+                strcpy(jd2.wu.name, "");
+                _argc = parse_command_line(buf, _argv);
+                jd2.parse_cmdline(_argc, _argv);
+                if (!strlen(jd2.wu.name)) {
+                    sprintf(jd2.wu.name, "%s_%d", jd.wu.name, j);
+                }
+                retval = create_work2(
+                    jd2.wu,
+                    jd2.wu_template,
+                    jd2.result_template_file,
+                    jd2.result_template_path,
+                    jd2.infiles,
+                    config,
+                    jd2.command_line,
+                    jd2.additional_xml,
+                    value_buf
+                );
+                if (retval) {
+                    fprintf(stderr, "create_work() failed: %d\n", retval);
+                    exit(1);
+                }
+                if (values.size()) {
+                    values += ",";
+                    values += value_buf;
+                } else {
+                    values = value_buf;
+                }
+                // MySQL can handles queries at least 1 MB
+                //
+                int n = strlen(value_buf);
+                if (values.size() + 2*n > 1000000) {
+                    retval = wu.insert_batch(values);
+                    if (retval) {
+                        fprintf(stderr,
+                            "wu.insert_batch() failed: %d\n", retval
+                        );
+                        exit(1);
+                    }
+                    values.clear();
+                }
             }
             if (values.size()) {
-                values += ",";
-                values += value_buf;
-            } else {
-                values = value_buf;
-            }
-            // MySQL can handles queries at least 1 MB
-            //
-            int n = strlen(value_buf);
-            if (values.size() + 2*n > 1000000) {
                 retval = wu.insert_batch(values);
                 if (retval) {
                     fprintf(stderr,
@@ -378,16 +408,6 @@ int main(int argc, char** argv) {
                     );
                     exit(1);
                 }
-                values.clear();
-            }
-        }
-        if (values.size()) {
-            retval = wu.insert_batch(values);
-            if (retval) {
-                fprintf(stderr,
-                    "wu.insert_batch() failed: %d\n", retval
-                );
-                exit(1);
             }
         }
     } else {
