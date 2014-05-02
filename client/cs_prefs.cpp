@@ -228,7 +228,7 @@ int CLIENT_STATE::check_suspend_processing() {
             return SUSPEND_REASON_BATTERIES;
         }
 #ifndef ANDROID
-	// perform this check after SUSPEND_REASON_BATTERY_CHARGING on Android
+        // perform this check after SUSPEND_REASON_BATTERY_CHARGING on Android
         if (!global_prefs.run_if_user_active && user_active) {
             return SUSPEND_REASON_USER_ACTIVE;
         }
@@ -285,7 +285,7 @@ int CLIENT_STATE::check_suspend_processing() {
     // 2. "charge battery until 90%"
     // 3. "turn screen off to continue computing"
     if (!global_prefs.run_if_user_active && user_active) {
-	return SUSPEND_REASON_USER_ACTIVE;
+        return SUSPEND_REASON_USER_ACTIVE;
     }
 #endif
 

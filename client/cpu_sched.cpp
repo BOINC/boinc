@@ -135,13 +135,13 @@ struct PROC_RESOURCES {
     bool can_schedule(RESULT* rp, ACTIVE_TASK* atp) {
         if (max_concurrent_exceeded(rp)) return false;
         if (atp) {
-			// don't schedule if something's pending
-			//
-			switch (atp->task_state()) {
-			case PROCESS_ABORT_PENDING:
-			case PROCESS_QUIT_PENDING:
-				return false;
-			}
+            // don't schedule if something's pending
+            //
+            switch (atp->task_state()) {
+            case PROCESS_ABORT_PENDING:
+            case PROCESS_QUIT_PENDING:
+                return false;
+            }
             if (gstate.retry_shmem_time > gstate.now) {
                 if (atp->app_client_shm.shm == NULL) {
                     if (log_flags.cpu_sched_debug) {
@@ -435,9 +435,9 @@ RESULT* first_coproc_result(int rsc_type) {
         RESULT* rp = gstate.results[i];
         if (rp->resource_type() != rsc_type) continue;
         if (!rp->runnable()) {
-			//msg_printf(rp->project, MSG_INFO, "not runnable: %s", rp->name);
-			continue;
-		}
+            //msg_printf(rp->project, MSG_INFO, "not runnable: %s", rp->name);
+            continue;
+        }
         if (rp->non_cpu_intensive()) continue;
         if (rp->already_selected) continue;
         prio = rp->project->sched_priority;
@@ -1119,10 +1119,10 @@ static inline void increment_pending_usage(
         int j = rp->coproc_indices[i];
         cp->pending_usage[j] += x;
         if (log_flags.coproc_debug) {
-			msg_printf(rp->project, MSG_INFO,
-				"[coproc] %s instance %d; %f pending for %s", cp->type, i, x, rp->name
-			);
-			if (cp->pending_usage[j] > 1) {
+            msg_printf(rp->project, MSG_INFO,
+                "[coproc] %s instance %d; %f pending for %s", cp->type, i, x, rp->name
+            );
+            if (cp->pending_usage[j] > 1) {
                 msg_printf(rp->project, MSG_INFO,
                     "[coproc] huh? %s %d %s pending usage > 1",
                     cp->type, i, rp->name
@@ -1406,8 +1406,8 @@ static inline void assign_coprocs(vector<RESULT*>& jobs) {
         ACTIVE_TASK* atp = gstate.lookup_active_task_by_result(rp);
         if (!atp) continue;
         if (is_gpu_task_running(atp)) {
-			increment_pending_usage(rp, usage, cp);
-		}
+            increment_pending_usage(rp, usage, cp);
+        }
     }
 
     vector<RESULT*>::iterator job_iter;
@@ -1783,14 +1783,14 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
                 atp->preempt(preempt_type);
                 break;
             case PROCESS_SUSPENDED:
-				// remove from memory GPU jobs that were suspended by CPU throttling
-				// and are now unscheduled.
-				//
-				if (atp->result->uses_coprocs()) {
-					atp->preempt(REMOVE_ALWAYS);
-					request_schedule_cpus("removed suspended GPU task");
-					break;
-				}
+                // remove from memory GPU jobs that were suspended by CPU throttling
+                // and are now unscheduled.
+                //
+                if (atp->result->uses_coprocs()) {
+                    atp->preempt(REMOVE_ALWAYS);
+                    request_schedule_cpus("removed suspended GPU task");
+                    break;
+                }
 
                 // Handle the case where user changes prefs from
                 // "leave in memory" to "remove from memory";

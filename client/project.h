@@ -327,12 +327,12 @@ struct PROJECT : PROJ_AM {
             no_rsc_ams[i] = false;
         }
 
-		ams_resource_share = -1;
+        ams_resource_share = -1;
 
-		// parse the account file to get right resource share
-		// in case AMS had set it
-		//
-		parse_account_file();
+        // parse the account file to get right resource share
+        // in case AMS had set it
+        //
+        parse_account_file();
     }
 
 #ifdef SIM

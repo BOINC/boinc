@@ -149,27 +149,27 @@ GetMACAddress(io_iterator_t intfIterator, char* buffer)
 int get_mac_address(char* address) {
 #if defined(_WIN32)
     IP_ADAPTER_INFO AdapterInfo[16]; // Allocate information for up to 16 NICs
-	DWORD dwBufLen = sizeof(AdapterInfo); // Save memory size of buffer
-	// Call GetAdapterInfo
-	DWORD dwStatus = GetAdaptersInfo(AdapterInfo, &dwBufLen);
+    DWORD dwBufLen = sizeof(AdapterInfo); // Save memory size of buffer
+    // Call GetAdapterInfo
+    DWORD dwStatus = GetAdaptersInfo(AdapterInfo, &dwBufLen);
 
-	if(dwStatus != ERROR_SUCCESS) {
-		return -1;
-	}
-	strcpy(address, "");
-	PIP_ADAPTER_INFO pAdapterInfo = AdapterInfo; // Contains pointer to current adapter info
-	while (pAdapterInfo) {
-		sprintf(address, "%02x:%02x:%02x:%02x:%02x:%02x",
-			pAdapterInfo->Address[0], pAdapterInfo->Address[1], pAdapterInfo->Address[2], 
-			pAdapterInfo->Address[3], pAdapterInfo->Address[4], pAdapterInfo->Address[5]
-		);
-		if (pAdapterInfo->Type == MIB_IF_TYPE_ETHERNET) break;
-		pAdapterInfo = pAdapterInfo->Next;
-	}
-	return 0;
+    if(dwStatus != ERROR_SUCCESS) {
+        return -1;
+    }
+    strcpy(address, "");
+    PIP_ADAPTER_INFO pAdapterInfo = AdapterInfo; // Contains pointer to current adapter info
+    while (pAdapterInfo) {
+        sprintf(address, "%02x:%02x:%02x:%02x:%02x:%02x",
+            pAdapterInfo->Address[0], pAdapterInfo->Address[1], pAdapterInfo->Address[2], 
+            pAdapterInfo->Address[3], pAdapterInfo->Address[4], pAdapterInfo->Address[5]
+        );
+        if (pAdapterInfo->Type == MIB_IF_TYPE_ETHERNET) break;
+        pAdapterInfo = pAdapterInfo->Next;
+    }
+    return 0;
 
 #elif defined(__APPLE__)
-	kern_return_t   kernResult = KERN_SUCCESS; // on PowerPC this is an int (4 bytes)
+    kern_return_t   kernResult = KERN_SUCCESS; // on PowerPC this is an int (4 bytes)
     /*
      *  error number layout as follows (see mach/error.h and IOKitLib/IOReturn.h):
      *
@@ -177,21 +177,21 @@ int get_mac_address(char* address) {
      *  | system(6) | subsystem(12) | code(14) |
      */
     io_iterator_t   intfIterator;
-	int retval = 0;
+    int retval = 0;
 
     kernResult = FindEthernetInterfaces(&intfIterator);
     if (KERN_SUCCESS != kernResult) {
-		fprintf(stderr, "FindEthernetInterfaces returned 0x%08x\n", kernResult);
-		retval = -1;
-	} else {
+        fprintf(stderr, "FindEthernetInterfaces returned 0x%08x\n", kernResult);
+        retval = -1;
+    } else {
         kernResult = GetMACAddress(intfIterator, address);
         if (KERN_SUCCESS != kernResult) {
-			fprintf(stderr, "GetMACAddress returned 0x%08x\n", kernResult);
-			retval = -1;
-		}
+            fprintf(stderr, "GetMACAddress returned 0x%08x\n", kernResult);
+            retval = -1;
+        }
     }
     IOObjectRelease(intfIterator);
-	return retval;
+    return retval;
 
 #elif defined(SIOCGIFCONF) || defined(SIOCGLIFCONF)
     char          buf[1024];
@@ -235,7 +235,7 @@ int get_mac_address(char* address) {
     ifr         = ifc.lifc_req;
     nInterfaces = ifc.lifc_len / sizeof(struct lifreq);
 #else
-    ifr		= ifc.ifc_req;
+    ifr        = ifc.ifc_req;
     nInterfaces = ifc.ifc_len / sizeof(struct ifreq);
 #endif
     strcpy(address, "");

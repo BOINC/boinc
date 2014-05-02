@@ -213,14 +213,14 @@ void COPROC_NVIDIA::get(
     NvAPI_SYS_GetDriverAndBranchVersion(&Version, ss);
 
 #if 0
-	// NvAPI now provides an API for getting #cores :-)
-	// But not FLOPs per clock cycle :-(
-	// Anyway, don't use this for now because server code estimates FLOPS
-	// based on compute capability, so we may as well do the same
-	//
+    // NvAPI now provides an API for getting #cores :-)
+    // But not FLOPs per clock cycle :-(
+    // Anyway, don't use this for now because server code estimates FLOPS
+    // based on compute capability, so we may as well do the same
+    //
     NvPhysicalGpuHandle GPUHandle[NVAPI_MAX_PHYSICAL_GPUS];
     NvU32 GpuCount, nc;
-	NvAPI_EnumPhysicalGPUs(GPUHandle, &GpuCount);
+    NvAPI_EnumPhysicalGPUs(GPUHandle, &GpuCount);
     for (unsigned int i=0; i<GpuCount; i++) {
         NvAPI_GPU_GetGpuCoreCount(GPUHandle[i], &nc);
     }
