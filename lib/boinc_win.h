@@ -22,7 +22,7 @@
 #ifndef _BOINC_WIN_
 #define _BOINC_WIN_
 
-#ifndef __CYGWIN32__
+#ifndef HAVE_CONFIG_H
 
 // Windows C Runtime Library
 
@@ -48,7 +48,7 @@
 
 #else
 
-// Under CYGWIN we need to include config.h first.
+// Under any system that can run configure we need to include config.h first.
 #include "config.h"
 
 #endif
@@ -90,25 +90,22 @@
 #define SECURITY_WIN32
 #endif
 
-#include <windows.h>
-#include <winternl.h>
-#include <share.h>
-#include <shlobj.h>
-#include <userenv.h>
-#include <aclapi.h>
-#include <psapi.h>
-#include <iphlpapi.h>
-#include <wtsapi32.h>
 
 #if !defined(__CYGWIN32__) || defined(USE_WINSOCK)
 
 /* If we're not running under CYGWIN use windows networking */
 #undef USE_WINSOCK
 #define USE_WINSOCK 1
+#ifdef HAVE_WINSOCK2_H
+#include <winsock2.h>
+#else
 #include <winsock.h>
+#endif
 #include <winhttp.h>
 
+#ifndef HAVE_SOCKLEN_T
 typedef size_t socklen_t;
+#endif
 
 #else 
 
@@ -128,6 +125,16 @@ typedef size_t socklen_t;
 
 #endif
 
+#include <windows.h>
+#include <winternl.h>
+#include <share.h>
+#include <shlobj.h>
+#include <userenv.h>
+#include <aclapi.h>
+#include <psapi.h>
+#include <iphlpapi.h>
+#include <wtsapi32.h>
+
 #include <process.h>
 #if defined(__MINGW32__) || defined(__CYGWIN32__)
 #include <pbt.h>
@@ -137,12 +144,19 @@ typedef size_t socklen_t;
 #include <raserror.h>
 #if defined(__MINGW32__)
 #include <stdint.h>
+#ifdef HAVE_SECURITY_H
+#include <security.h>
+#endif
+#ifdef HAVE_DBGHELP_H
+#include <dbghelp.h>
+#endif
 #include <imagehlp.h>
 #else
 #include <security.h>
 #include <dbghelp.h>
 #endif
 #include <tlhelp32.h>
+
 
 #include <io.h>
 #if !defined(__CYGWIN32__)
@@ -186,7 +200,6 @@ typedef LPCSTR PCTSTR, LPCTSTR, PCUTSTR, LPCUTSTR;
 #if !defined(__CYGWIN32__)
 #include <delayimp.h>
 #endif
-
 
 
 #ifdef __cplusplus
@@ -263,8 +276,15 @@ typedef LPCSTR PCTSTR, LPCTSTR, PCUTSTR, LPCUTSTR;
 #ifdef __cplusplus
 extern "C" {
 #endif
-void __cdecl _fpreset (void);
-void __cdecl fpreset (void);
+#ifndef __MINGW_NOTHROW
+#define __MINGW_NOTHROW
+#endif
+#ifndef HAVE__FPRESET
+void __cdecl __MINGW_NOTHROW _fpreset (void);
+#endif
+#ifndef HAVE_FPRESET
+void __cdecl __MINGW_NOTHROW fpreset (void);
+#endif
 #ifdef __cplusplus
 }
 #endif //cplusplus

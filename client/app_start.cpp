@@ -292,9 +292,9 @@ int ACTIVE_TASK::write_app_init_file(APP_INIT_DATA& aid) {
     char init_data_path[MAXPATHLEN];
 
 #if 0
-	msg_printf(wup->project, MSG_INFO,
-		"writing app_init.xml for %s; slot %d rt %s gpu_device_num %d", result->name, slot, aid.gpu_type, aid.gpu_device_num
-	);
+    msg_printf(wup->project, MSG_INFO,
+        "writing app_init.xml for %s; slot %d rt %s gpu_device_num %d", result->name, slot, aid.gpu_type, aid.gpu_device_num
+    );
 #endif
 
     sprintf(init_data_path, "%s/%s", slot_dir, INIT_DATA_FILE);
@@ -510,6 +510,10 @@ int ACTIVE_TASK::start(bool test) {
     FILE_INFO* fip;
     int retval, rt;
     APP_INIT_DATA aid;
+#ifdef _WIN32
+    bool success = false;
+    LPVOID environment_block=NULL;
+#endif
 
     if (async_copy) {
         if (log_flags.task_debug) {
@@ -658,7 +662,6 @@ int ACTIVE_TASK::start(bool test) {
 #ifdef _WIN32
     PROCESS_INFORMATION process_info;
     STARTUPINFO startup_info;
-    LPVOID environment_block = NULL;
     char slotdirpath[MAXPATHLEN];
     char error_msg[1024];
     char error_msg2[1024];
@@ -691,7 +694,6 @@ int ACTIVE_TASK::start(bool test) {
     }
 
     relative_to_absolute(slot_dir, slotdirpath);
-    bool success = false;
     int prio_mask;
     if (config.no_priority_change) {
         prio_mask = 0;
@@ -1152,11 +1154,11 @@ int ACTIVE_TASK::resume_or_start(bool first_time) {
         return 0;
     }
     if (log_flags.task && first_time) {
-		msg_printf(result->project, MSG_INFO,
-			"Starting task %s", result->name
-		);
-	}
-	if (log_flags.cpu_sched) {
+        msg_printf(result->project, MSG_INFO,
+            "Starting task %s", result->name
+        );
+    }
+    if (log_flags.cpu_sched) {
         char buf[256];
         strcpy(buf, "");
         if (strlen(app_version->plan_class)) {

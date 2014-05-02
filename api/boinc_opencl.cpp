@@ -110,16 +110,19 @@ int boinc_get_opencl_ids_aux(
 
         // Use gpu_opencl_dev_index if available
         if (opencl_device_index >= 0) {
-            if (opencl_device_index < (int)num_devices) {
-                device_id = devices[opencl_device_index];
-                retval = get_vendor(device_id, vendor, sizeof(vendor));
-                if (retval != CL_SUCCESS) continue;
+            if (opencl_device_index >= (int)num_devices) {
+                fprintf(stderr, "Invalid OpenCL GPU index: %d \n", opencl_device_index);
+                return CL_INVALID_DEVICE;
+            }
             
-                if (!strcmp(vendor, type)) {
-                    *device = device_id;
-                    *platform = platforms[platform_index];
-                    return 0;
-                }
+            device_id = devices[opencl_device_index];
+            retval = get_vendor(device_id, vendor, sizeof(vendor));
+            if (retval != CL_SUCCESS) continue;
+        
+            if (!strcmp(vendor, type)) {
+                *device = device_id;
+                *platform = platforms[platform_index];
+                return 0;
             }
             
             continue;
@@ -127,7 +130,7 @@ int boinc_get_opencl_ids_aux(
         
         // Older versions of init_data.xml don't have gpu_opencl_dev_index field
         // NOTE: This may return the wrong device on older versions of BOINC if
-        //  OpenCL does not recognize all GPU models detected by CUDA
+        // OpenCL does not recognize all GPU models detected by CUDA or CAL
         for (device_index=0; device_index<(int)num_devices; ++device_index) {
             device_id = devices[device_index];
 

@@ -15,7 +15,13 @@ AC_CANONICAL_TARGET
 
 dnl generate .tar.gz, .tar.bz2, .zip
 dnl AM_INIT_AUTOMAKE(dist-bzip2 dist-zip)
+
+dnl subdir-objects is supposed to become the default soon, but specifying it
+dnl breaks depfile generation.  We'll worry about it when that happens.
+dnl AM_INIT_AUTOMAKE(dist-zip subdir-objects)
+
 AM_INIT_AUTOMAKE(dist-zip)
+
 m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
 
 AC_CONFIG_SRCDIR(lib/shmem.cpp)
@@ -519,8 +525,11 @@ AX_CHECK_GL
 AX_CHECK_GLU
 
 dnl check for glut and prerequesites to the glut-test: libXmu and libXi
+dnl or on windows libGDI32 and libWinMM
 AC_CHECK_LIB([Xmu], [fopen], [have_Xmu="yes"], [have_Xmu="no"])
 AC_CHECK_LIB([Xi], [fopen], [have_Xi="yes"], [have_Xi="no"])
+AC_CHECK_LIB([gdi32], [fopen])
+AC_CHECK_LIB([winmm], [fopen])
 
 AX_CHECK_GLUT
 if test "X${no_x}" != "Xyes" -a "$no_glut" = yes; then
@@ -621,7 +630,75 @@ AC_HEADER_STDC
 AC_HEADER_SYS_WAIT
 AC_HEADER_TIME
 AC_TYPE_SIGNAL
-AC_CHECK_HEADERS(windows.h sys/types.h sys/un.h arpa/inet.h dirent.h grp.h fcntl.h inttypes.h stdint.h memory.h netdb.h netinet/in.h netinet/tcp.h netinet/ether.h net/if.h net/if_arp.h signal.h strings.h sys/auxv.h sys/file.h sys/fcntl.h sys/ipc.h sys/ioctl.h sys/msg.h sys/param.h sys/resource.h sys/select.h sys/sem.h sys/shm.h sys/sockio.h sys/socket.h sys/stat.h sys/statvfs.h sys/statfs.h sys/systeminfo.h sys/time.h sys/types.h sys/utsname.h sys/vmmeter.h sys/wait.h unistd.h utmp.h errno.h procfs.h ieeefp.h setjmp.h)
+AC_CHECK_HEADERS(winsock2.h windows.h ws2tcpip.h sys/types.h sys/un.h arpa/inet.h dirent.h grp.h fcntl.h inttypes.h stdint.h memory.h netdb.h netinet/in.h netinet/tcp.h netinet/ether.h net/if.h net/if_arp.h signal.h strings.h sys/auxv.h sys/file.h sys/fcntl.h sys/ipc.h sys/ioctl.h sys/msg.h sys/param.h sys/resource.h sys/select.h sys/sem.h sys/shm.h sys/sockio.h sys/socket.h sys/stat.h sys/statvfs.h sys/statfs.h sys/systeminfo.h sys/time.h sys/types.h sys/utsname.h sys/vmmeter.h sys/wait.h unistd.h utmp.h errno.h procfs.h ieeefp.h setjmp.h)
+
+if test x${ac_cv_header_windows_h} = xyes ; then
+
+AC_CHECK_HEADER(winhttp.h, [
+AC_DEFINE(HAVE_WINHTTP_H,1,[Define to 1 if your compiler has the security.h header file])
+], [], [[
+#if HAVE_WINDOWS_H
+# include <windows.h>
+#endif
+]])
+
+AC_CHECK_HEADER(security.h, [
+AC_DEFINE(HAVE_SECURITY_H,1,[Define to 1 if your compiler has the security.h header file])
+AC_DEFINE(SECURITY_WIN32,1,[Define to 1 if your compiler has the security.h header file])
+], [], [[
+#define SECURITY_WIN32 1
+#if HAVE_WINDOWS_H
+# include <windows.h>
+#endif
+]])
+
+AC_CHECK_HEADER(dbghelp.h, [
+AC_DEFINE(HAVE_DBGHELP_H,1,[Define to 1 if your compiler has the dbghelp.h header])
+], [], [[
+#if HAVE_WINDOWS_H
+# include <windows.h>
+#endif
+]])
+
+
+fi
+
+AC_CHECK_TYPES([socklen_t],[],[],[[
+#if HAVE_WINDOWS_H
+#include <windows.h>
+#endif
+#ifdef HAVE_SYS_WINSOCK2_H
+#include <winsock2.h>
+#endif
+#ifdef HAVE_WS2TCPIP_H
+#include <ws2tcpip.h>
+#endif
+#ifdef HAVE_WINSOCK_H
+#include <winsock.h>
+#endif
+#ifdef HAVE_WINHTTP_H
+#include <winhttp.h>
+#endif
+#ifdef HAVE_STDINT_H
+#include <stdint.h>
+#endif
+#ifdef HAVE_SYS_TYPES_H
+#include <sys/types.h>
+#endif
+#ifdef HAVE_SYS_SOCKET_H
+#include <sys/socket.h>
+#endif
+#ifdef HAVE_NETINET_IN_H
+#include <netinet/in.h>
+#endif
+#ifdef HAVE_ARPA_INET_H
+#include <arpa/inet.h>
+#endif
+#ifdef HAVE_NET_IF_H
+#include <net/if.h>
+#endif
+]])
+
 
 AC_CHECK_HEADER(net/if.h, [], [], [[
 #if HAVE_SYS_SOCKET_H
@@ -664,6 +741,7 @@ AC_CHECK_HEADERS(netinet/if_ether.h,[],[],[[
 #include <net/if.h>
 #endif
 ]])
+
 AC_CHECK_TYPES([struct lifconf, struct lifreq, struct ifconf, struct ifreq, struct ether_addr],[],[],[[
 #ifdef HAVE_SYS_TYPES_H
 #include <sys/types.h>
@@ -713,7 +791,7 @@ AC_LANG_POP
 dnl Checks for library functions.
 AC_PROG_GCC_TRADITIONAL
 AC_FUNC_VPRINTF
-AC_CHECK_FUNCS(ether_ntoa setpriority sched_setscheduler strlcpy strlcat strcasestr strcasecmp sigaction getutent setutent getisax strdup strdupa daemon stat64 putenv setenv unsetenv res_init strtoull)
+AC_CHECK_FUNCS(ether_ntoa setpriority sched_setscheduler strlcpy strlcat strcasestr strcasecmp sigaction getutent setutent getisax strdup strdupa daemon stat64 putenv setenv unsetenv res_init strtoull _fpreset fpreset)
 
 dnl Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST
@@ -786,6 +864,7 @@ fi
 
 AM_CONDITIONAL(OS_LINUX, [echo $host_os | grep '^linux' > /dev/null])
 dnl In case anyone wants to try building the windows code using mingw!
+AM_CONDITIONAL(OS_WIN32, [echo $host_os | egrep '^mingw|^winnt' > /dev/null])
 AM_CONDITIONAL(OS_WIN32_MINGW, [echo $host_os | grep '^mingw' > /dev/null])
 dnl or OS2
 AM_CONDITIONAL(OS_OS2, [echo $host_os | grep '^os2' > /dev/null])
@@ -846,6 +925,10 @@ fi
 fi
 SAH_CHECK_LIB([wsock32],[fopen],[
     AC_DEFINE([HAVE_LIBWSOCK32],[1],[Define to 1 if you have the wsock32 library])
+    CLIENTLIBS="${sah_lib_last} ${CLIENTLIBS}"])
+   echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
+SAH_CHECK_LIB([userenv],[fopen],[
+    AC_DEFINE([HAVE_LIBUSERENV],[1],[Define to 1 if you have the userenv library])
     CLIENTLIBS="${sah_lib_last} ${CLIENTLIBS}"])
    echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
 

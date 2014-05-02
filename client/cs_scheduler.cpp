@@ -760,7 +760,7 @@ int CLIENT_STATE::handle_scheduler_reply(
     }
 
     // show notice if we can't possibly get work from this project.
-	// This must come after parsing project prefs
+    // This must come after parsing project prefs
     //
     project->show_no_work_notice();
 

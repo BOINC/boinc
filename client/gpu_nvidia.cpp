@@ -19,6 +19,53 @@
 
 #ifdef _WIN32
 #include "boinc_win.h"
+/* get annotation macros from sal.h */
+/* define the ones that don't exist */
+#include "sal.h"
+/* These are just an annotations.  They don't do anything */
+#ifndef __success
+#define __success(x)  
+#endif
+#ifndef __in
+#define __in
+#endif
+#ifndef __out
+#define __out
+#endif
+#ifndef __in_ecount
+#define __in_ecount(x)
+#endif
+#ifndef __out_ecount
+#define __out_ecount(x)
+#endif
+#ifndef __in_opt
+#define __in_opt
+#endif
+#ifndef __out_opt
+#define __out_opt
+#endif
+#ifndef __inout
+#define __inout
+#endif
+#ifndef __inout_opt
+#define __inout_opt
+#endif
+#ifndef __inout_ecount
+#define __inout_ecount(x)
+#endif
+#ifndef __inout_ecount_full
+#define __inout_ecount_full(x)
+#endif
+#ifndef __inout_ecount_part_opt
+#define __inout_ecount_part_opt(x,y)
+#endif 
+#ifndef __inout_ecount_full_opt
+#define __inout_ecount_full_opt(x,y)
+#endif 
+#ifndef __out_ecount_full_opt
+#define __out_ecount_full_opt(x)
+#endif 
+
 #include "nvapi.h"
 #ifdef _MSC_VER
 #define snprintf _snprintf
@@ -47,7 +94,7 @@ using std::string;
 
 static void get_available_nvidia_ram(COPROC_NVIDIA &cc, vector<string>& warnings);
 
-#ifndef _WIN32
+#if !(defined(_WIN32) || defined(__APPLE__))
 
 static int nvidia_driver_version() {
     int (*nvml_init)()  = NULL;
@@ -207,13 +254,24 @@ void COPROC_NVIDIA::get(
     __cuMemGetInfo = (CUDA_MGI)GetProcAddress( cudalib, "cuMemGetInfo" );
 
 #ifndef SIM
-    NvAPI_Status nvapiStatus;
-    NV_DISPLAY_DRIVER_VERSION Version;
-    memset(&Version, 0, sizeof(Version));
-    Version.version = NV_DISPLAY_DRIVER_VERSION_VER;
-
     NvAPI_Initialize();
-    nvapiStatus = NvAPI_GetDisplayDriverVersion(NULL, &Version);
+    NvAPI_ShortString ss;
+    NvU32 Version = 0;
+    NvAPI_SYS_GetDriverAndBranchVersion(&Version, ss);
+
+#if 0
+    // NvAPI now provides an API for getting #cores :-)
+    // But not FLOPs per clock cycle :-(
+    // Anyway, don't use this for now because server code estimates FLOPS
+    // based on compute capability, so we may as well do the same
+    //
+    NvPhysicalGpuHandle GPUHandle[NVAPI_MAX_PHYSICAL_GPUS];
+    NvU32 GpuCount, nc;
+    NvAPI_EnumPhysicalGPUs(GPUHandle, &GpuCount);
+    for (unsigned int i=0; i<GpuCount; i++) {
+        NvAPI_GPU_GetGpuCoreCount(GPUHandle[i], &nc);
+    }
+#endif
 #endif
 #else
 
@@ -349,7 +407,7 @@ void COPROC_NVIDIA::get(
         if (cc.prop.major <= 0) continue;  // major == 0 means emulation
         if (cc.prop.major > 100) continue;  // e.g. 9999 is an error
 #if defined(_WIN32) && !defined(SIM)
-        cc.display_driver_version = Version.drvVersion;
+        cc.display_driver_version = Version;
 #elif defined(__APPLE__)
         cc.display_driver_version = NSVersionOfRunTimeLibrary("cuda");
 #else

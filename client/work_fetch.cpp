@@ -528,7 +528,7 @@ void WORK_FETCH::piggyback_work_request(PROJECT* p) {
             for (unsigned int j=0; j<gstate.projects.size(); j++) {
                 p2 = gstate.projects[j];
                 if (p2 == p) break;
-				if (p2->sched_priority == p->sched_priority) continue;
+                if (p2->sched_priority == p->sched_priority) continue;
                 if (p2->pwf.cant_fetch_work_reason) {
                     DEBUG(msg_printf(p, MSG_INFO, "piggyback: %s can't fetch work", p2->project_name);)
                     continue;

@@ -1159,14 +1159,14 @@ static bool complete_post_request(char* buf) {
 }
 
 static void handle_set_language(GUI_RPC_CONN& grc) {
-	while (!grc.xp.get_tag()) {
+    while (!grc.xp.get_tag()) {
         if (grc.xp.parse_str("language", gstate.language, sizeof(gstate.language))) {
-			gstate.set_client_state_dirty("set_language");
-			grc.mfout.printf("<success/>\n");
-			return;
-		}
-	}
-	grc.mfout.printf("<error>no language found</error>\n");
+            gstate.set_client_state_dirty("set_language");
+            grc.mfout.printf("<success/>\n");
+            return;
+        }
+    }
+    grc.mfout.printf("<error>no language found</error>\n");
 }
 
 static void handle_report_device_status(GUI_RPC_CONN& grc) {

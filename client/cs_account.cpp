@@ -100,7 +100,7 @@ int PROJECT::parse_account(FILE* in) {
     char buf2[256];
     int retval;
     bool in_project_prefs = false, btemp;
-	double dtemp;
+    double dtemp;
 
     for (int i=0; i<coprocs.n_rsc; i++) {
         no_rsc_pref[i] = false;
@@ -133,11 +133,11 @@ int PROJECT::parse_account(FILE* in) {
             continue;
         } else if (xp.parse_str("authenticator", authenticator, sizeof(authenticator))) continue;
         else if (xp.parse_double("resource_share", dtemp)) {
-			if (ams_resource_share < 0) {
-				resource_share = dtemp;
-			}
-			continue;
-		}
+            if (ams_resource_share < 0) {
+                resource_share = dtemp;
+            }
+            continue;
+        }
         else if (xp.parse_bool("no_cpu", btemp)) {
             if (btemp) handle_no_rsc_pref(this, "CPU");
             continue;
@@ -206,7 +206,7 @@ int PROJECT::parse_account_file_venue() {
     FILE* in = boinc_fopen(path, "r");
     if (!in) return ERR_FOPEN;
 
-	//msg_printf(this, MSG_INFO, "parsing project prefs, looking for venue %s", host_venue);
+    //msg_printf(this, MSG_INFO, "parsing project prefs, looking for venue %s", host_venue);
     MIOFILE mf;
     XML_PARSER xp(&mf);
     mf.init_file(in);
@@ -217,7 +217,7 @@ int PROJECT::parse_account_file_venue() {
         } else if (xp.match_tag("venue")) {
             parse_attr(attr_buf, "name", venue, sizeof(venue));
             if (!strcmp(venue, host_venue)) {
-				//msg_printf(this, MSG_INFO, "found venue %s", host_venue);
+                //msg_printf(this, MSG_INFO, "found venue %s", host_venue);
                 using_venue_specific_prefs = true;
                 in_right_venue = true;
 
@@ -297,10 +297,10 @@ int PROJECT::parse_account_file() {
     retval = parse_account(f);
     fclose(f);
     if (retval) return retval;
-	if (strlen(host_venue)) {
+    if (strlen(host_venue)) {
         return parse_account_file_venue();
     }
-	return 0;
+    return 0;
 }
 
 int CLIENT_STATE::parse_account_files_venue() {

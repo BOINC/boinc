@@ -572,9 +572,9 @@ int HTTP_OP::libcurl_exec(
     // Per: http://curl.haxx.se/dev/readme-encoding.html
     // NULL disables, empty string accepts all.
     if (out) {
-        if (ends_with(out, ".gzt")) {
+        if (ends_with(out, ".gzt") || ends_with(out, ".gz") || ends_with(out, ".tgz")) {
             curl_easy_setopt(curlEasy, CURLOPT_ENCODING, NULL);
-        } else if (!ends_with(out, ".gz")) {
+        } else {
             curl_easy_setopt(curlEasy, CURLOPT_ENCODING, "");
         }
     } else {
@@ -590,10 +590,10 @@ int HTTP_OP::libcurl_exec(
     //
     pcurlList = curl_slist_append(pcurlList, g_content_type);
 
-	if (strlen(gstate.language)) {
-		sprintf(buf, "Accept-Language: %s", gstate.language);
-		pcurlList = curl_slist_append(pcurlList, buf);
-	}
+    if (strlen(gstate.language)) {
+        sprintf(buf, "Accept-Language: %s", gstate.language);
+        pcurlList = curl_slist_append(pcurlList, buf);
+    }
 
     // set the file offset for resumable downloads
     //

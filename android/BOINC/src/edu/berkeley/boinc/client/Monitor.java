@@ -52,6 +52,7 @@ import android.os.RemoteException;
 import android.util.Log;
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.SplashActivity;
+import edu.berkeley.boinc.rpc.AccountIn;
 import edu.berkeley.boinc.rpc.AccountOut;
 import edu.berkeley.boinc.rpc.AcctMgrRPCReply;
 import edu.berkeley.boinc.rpc.CcState;
@@ -105,7 +106,7 @@ public class Monitor extends Service {
 	// screen on/off updated by screenOnOffBroadcastReceiver
 	private boolean screenOn = false;
 	
-	private boolean forceReinstall = false; // for debugging purposes
+	private boolean forceReinstall = true; // for debugging purposes //TODO
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -277,43 +278,6 @@ public class Monitor extends Service {
 // --end-- singleton getter
 	
 // public methods for Activities
-    /**
-     * read BOINC's all_project_list.xml and filters output for device's BOINC platform
-     * stores list of projects in ClienStatus class.
-     * Content does not change during runtime, call only upon start.
-     */
-	public void readAndroidProjectsList() {
-		// try to get current client status from monitor
-		ClientStatus status;
-		try{
-			status  = Monitor.getClientStatus();
-		} catch (Exception e){
-			if(Logging.WARNING) Log.w(Logging.TAG,"Monitor.readAndroidProjectList: Could not load data, clientStatus not initialized.");
-			return;
-		}
-		
-		ArrayList<ProjectInfo> allProjects = clientInterface.getAllProjectsList();
-		ArrayList<ProjectInfo> androidProjects = new ArrayList<ProjectInfo>();
-		
-		if(allProjects == null) return;
-		
-		String platform = getString(getBoincPlatform());
-		if(Logging.DEBUG) Log.d(Logging.TAG, "readAndroidProjectsList for platform: " + platform);
-		
-		//filter projects that do not support Android
-		for (ProjectInfo project: allProjects) {
-			for(String supportedPlatform: project.platforms) {
-				if(supportedPlatform.contains(platform) && !androidProjects.contains(project)) {
-					androidProjects.add(project);
-					break;
-				}
-			}
-		}
-		
-		// set list in ClientStatus
-		status.setSupportedProjects(androidProjects);
-	}
-
     /**
      * Force refresh of client status data model, will fire Broadcast upon success.
      */
@@ -575,9 +539,6 @@ public class Monitor extends Service {
 				GlobalPreferences clientPrefs = clientInterface.getGlobalPrefsWorkingStruct();
 				if(clientPrefs == null) throw new Exception("client prefs null");
 				status.setPrefs(clientPrefs);
-				
-				// read supported projects
-				readAndroidProjectsList();
 				
 				// set Android model as hostinfo
 				// should output something like "Samsung Galaxy SII - SDK:15 ABI:armeabi-v7a"
@@ -1028,9 +989,8 @@ public class Monitor extends Service {
 		}
 		
 		@Override
-		public AccountOut lookupCredentials(String url, String id, String pwd,
-				boolean usesName) throws RemoteException {
-			return clientInterface.lookupCredentials(url, id, pwd, usesName);
+		public AccountOut lookupCredentials(AccountIn credentials) throws RemoteException {
+			return clientInterface.lookupCredentials(credentials);
 		}
 		
 		@Override
@@ -1087,9 +1047,8 @@ public class Monitor extends Service {
 		}
 		
 		@Override
-		public AccountOut createAccountPolling(String url, String email, String id,
-				String pw, String team) throws RemoteException {
-			return clientInterface.createAccountPolling(url, email, id, pw, team);
+		public AccountOut createAccountPolling(AccountIn information) throws RemoteException {
+			return clientInterface.createAccountPolling(information);
 		}
 		
 		@Override
@@ -1098,9 +1057,9 @@ public class Monitor extends Service {
 		}
 		
 		@Override
-		public boolean attachProject(String url, String id, String pwd)
+		public boolean attachProject(String url, String projectName, String authenticator)
 				throws RemoteException {
-			return clientInterface.attachProject(url, id, pwd);
+			return clientInterface.attachProject(url, projectName, authenticator);
 		}
 		
 		@Override
@@ -1119,8 +1078,8 @@ public class Monitor extends Service {
 		}
 		
 		@Override
-		public List<ProjectInfo> getSupportedProjects() throws RemoteException {
-			return clientStatus.getSupportedProjects();
+		public List<ProjectInfo> getAttachableProjects() throws RemoteException {
+			return clientInterface.getAttachableProjects(getString(getBoincPlatform()));
 		}
 		
 		@Override
@@ -1325,6 +1284,11 @@ public class Monitor extends Service {
 		@Override
 		public boolean runBenchmarks() throws RemoteException {
 			return clientInterface.runBenchmarks();
+		}
+
+		@Override
+		public ProjectInfo getProjectInfo(String url) throws RemoteException {
+			return clientInterface.getProjectInfo(url);
 		}
 	};
 // --end-- remote service	

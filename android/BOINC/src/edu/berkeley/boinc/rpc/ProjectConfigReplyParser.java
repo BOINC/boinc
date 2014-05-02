@@ -105,10 +105,10 @@ public class ProjectConfigReplyParser extends BaseParser {
 						mProjectConfig.minPwdLength = Integer.parseInt(mCurrentElement.toString());
 					}
 					else if (localName.equalsIgnoreCase("user_name")) {
-						mProjectConfig.userName = true;
+						mProjectConfig.usesName = true;
 					}
 					else if (localName.equalsIgnoreCase("uses_username")) {
-						mProjectConfig.userName = true;
+						mProjectConfig.usesName = true;
 					}
 					else if (localName.equalsIgnoreCase("web_stopped")) {
 						mProjectConfig.webStopped = false; //default in case parsing fails

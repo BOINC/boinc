@@ -232,6 +232,12 @@ struct ACTIVE_TASK {
     int abort_task(int exit_status, const char*);
         // can be called whether or not process exists
 
+    // is the GPU task running or suspended (due to CPU throttling)
+    //
+    inline bool is_gpu_task_running() {
+        int s = task_state();
+        return s == PROCESS_EXECUTING || s == PROCESS_SUSPENDED;
+    }
 
     // Implementation stuff related to termination
     //

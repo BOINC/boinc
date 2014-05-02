@@ -18,6 +18,12 @@ else
   if test "X${no_x}" != "Xyes"; then
     GLUT_LIBS="${X_PRE_LIBS} -lXmu -lXi ${X_EXTRA_LIBS} ${GLUT_LIBS}"
   fi
+  #
+  # If were running under windows assume we need GDI32 and WinMM
+  #
+  if echo $host_os | egrep '^mingw|^winnt' > /dev/null ; then
+    GLUT_LIBS="${GLUT_LIBS} -lgdi32 -lwinmm"
+  fi
 
   AC_LANG_PUSH(C)
 
@@ -28,7 +34,7 @@ else
   [ax_cv_check_glut_libglut="no"
   ax_save_LIBS="${LIBS}"
   LIBS=""
-  ax_check_libs="-lglut32 -lglut"
+  ax_check_libs="-lglut32 -lglut -lfreeglut_static -lfreeglut"
   for ax_lib in ${ax_check_libs}; do
     if test X$ax_compiler_ms = Xyes; then
       ax_try_lib=`echo $ax_lib | sed -e 's/^-l//' -e 's/$/.lib/'`
@@ -38,6 +44,7 @@ else
     LIBS="-L${prefix}/lib ${ax_try_lib} ${GLUT_LIBS} ${ax_save_LIBS}"
     AC_LINK_IFELSE(
     [AC_LANG_PROGRAM([[
+#define FREEGLUT_STATIC 1
 # if HAVE_WINDOWS_H && (defined(_WIN32) || defined(CYGWIN_USE_WIN32))
 #   include <windows.h>
 # endif

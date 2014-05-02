@@ -385,6 +385,8 @@ void ACTIVE_TASK::copy_final_info() {
     result->final_peak_working_set_size = peak_working_set_size;
     result->final_peak_swap_size = peak_swap_size;
     result->final_peak_disk_usage = peak_disk_usage;
+    result->final_bytes_sent = bytes_sent;
+    result->final_bytes_received = bytes_received;
 }
 
 // deal with a process that has exited, for whatever reason:
@@ -792,10 +794,10 @@ bool ACTIVE_TASK_SET::check_rsc_limits_exceeded() {
     static double last_disk_check_time = 0;
     bool do_disk_check = false;
     bool did_anything = false;
-	char buf[256];
+    char buf[256];
 
     double ram_left = gstate.available_ram();
-	double max_ram = gstate.max_available_ram();
+    double max_ram = gstate.max_available_ram();
 
     // Some slot dirs have lots of files,
     // so only check every min(disk_interval, 300) secs
@@ -809,11 +811,11 @@ bool ACTIVE_TASK_SET::check_rsc_limits_exceeded() {
         atp = active_tasks[i];
         if (atp->task_state() != PROCESS_EXECUTING) continue;
         if (!atp->result->non_cpu_intensive() && (atp->elapsed_time > atp->max_elapsed_time)) {
-			sprintf(buf, "exceeded elapsed time limit %.2f (%.2fG/%.2fG)",
+            sprintf(buf, "exceeded elapsed time limit %.2f (%.2fG/%.2fG)",
                 atp->max_elapsed_time,
                 atp->result->wup->rsc_fpops_bound/1e9,
                 atp->result->avp->flops/1e9
-			);
+            );
             msg_printf(atp->result->project, MSG_INFO,
                 "Aborting task %s: %s", atp->result->name, buf
             );
@@ -828,10 +830,10 @@ bool ACTIVE_TASK_SET::check_rsc_limits_exceeded() {
         // and I don't think we can expect projects to provide
         // accurate bounds.
         //
-		if (atp->procinfo.working_set_size_smoothed > atp->max_mem_usage) {
-			sprintf(buf, "working set size > workunit.rsc_memory_bound: %.2fMB > %.2fMB",
-				atp->procinfo.working_set_size_smoothed/MEGA, atp->max_mem_usage/MEGA
-			);
+        if (atp->procinfo.working_set_size_smoothed > atp->max_mem_usage) {
+            sprintf(buf, "working set size > workunit.rsc_memory_bound: %.2fMB > %.2fMB",
+                atp->procinfo.working_set_size_smoothed/MEGA, atp->max_mem_usage/MEGA
+            );
             msg_printf(atp->result->project, MSG_INFO,
                 "Aborting task %s: %s",
                 atp->result->name, buf
@@ -841,10 +843,10 @@ bool ACTIVE_TASK_SET::check_rsc_limits_exceeded() {
             continue;
         }
 #endif
-		if (atp->procinfo.working_set_size_smoothed > max_ram) {
-			sprintf(buf, "working set size > client RAM limit: %.2fMB > %.2fMB",
-				atp->procinfo.working_set_size_smoothed/MEGA, max_ram/MEGA
-			);
+        if (atp->procinfo.working_set_size_smoothed > max_ram) {
+            sprintf(buf, "working set size > client RAM limit: %.2fMB > %.2fMB",
+                atp->procinfo.working_set_size_smoothed/MEGA, max_ram/MEGA
+            );
             msg_printf(atp->result->project, MSG_INFO,
                 "Aborting task %s: %s",
                 atp->result->name, buf
@@ -854,10 +856,10 @@ bool ACTIVE_TASK_SET::check_rsc_limits_exceeded() {
             continue;
         }
         if (do_disk_check || atp->peak_disk_usage == 0) {
-			if (atp->check_max_disk_exceeded()) {
-				did_anything = true;
-				continue;
-			}
+            if (atp->check_max_disk_exceeded()) {
+                did_anything = true;
+                continue;
+            }
         }
 
         // don't count RAM usage of non-CPU-intensive jobs
@@ -1332,13 +1334,17 @@ bool ACTIVE_TASK::get_app_status_msg() {
     parse_double(msg_buf, "<intops_cumulative>", result->intops_cumulative);
     if (parse_double(msg_buf, "<bytes_sent>", dtemp)) {
         if (dtemp > bytes_sent_episode) {
-            daily_xfer_history.add(dtemp - bytes_sent_episode, true);
+            double nbytes = dtemp - bytes_sent_episode;
+            daily_xfer_history.add(nbytes, true);
+            bytes_sent += nbytes;
         }
         bytes_sent_episode = dtemp;
     }
     if (parse_double(msg_buf, "<bytes_received>", dtemp)) {
         if (dtemp > bytes_received_episode) {
-            daily_xfer_history.add(dtemp - bytes_received_episode, false);
+            double nbytes = dtemp - bytes_received_episode;
+            daily_xfer_history.add(nbytes, false);
+            bytes_received += nbytes;
         }
         bytes_received_episode = dtemp;
     }
@@ -1435,17 +1441,17 @@ void ACTIVE_TASK_SET::get_msgs() {
     }
     last_time = gstate.now;
 
-	double et_diff, et_diff_throttle;
-	switch (gstate.suspend_reason) {
-	case 0:
-	case SUSPEND_REASON_CPU_THROTTLE:
-		et_diff = delta_t;
-		et_diff_throttle = delta_t * gstate.global_prefs.cpu_usage_limit/100;
-		break;
-	default:
-		et_diff = et_diff_throttle = 0;
-		break;
-	}
+    double et_diff, et_diff_throttle;
+    switch (gstate.suspend_reason) {
+    case 0:
+    case SUSPEND_REASON_CPU_THROTTLE:
+        et_diff = delta_t;
+        et_diff_throttle = delta_t * gstate.global_prefs.cpu_usage_limit/100;
+        break;
+    default:
+        et_diff = et_diff_throttle = 0;
+        break;
+    }
 
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
