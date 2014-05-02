@@ -630,7 +630,7 @@ AC_HEADER_STDC
 AC_HEADER_SYS_WAIT
 AC_HEADER_TIME
 AC_TYPE_SIGNAL
-AC_CHECK_HEADERS(winsock2.h windows.h ws2tcpip.h sys/types.h sys/un.h arpa/inet.h dirent.h grp.h fcntl.h inttypes.h stdint.h memory.h netdb.h netinet/in.h netinet/tcp.h netinet/ether.h net/if.h net/if_arp.h signal.h strings.h sys/auxv.h sys/file.h sys/fcntl.h sys/ipc.h sys/ioctl.h sys/msg.h sys/param.h sys/resource.h sys/select.h sys/sem.h sys/shm.h sys/sockio.h sys/socket.h sys/stat.h sys/statvfs.h sys/statfs.h sys/systeminfo.h sys/time.h sys/types.h sys/utsname.h sys/vmmeter.h sys/wait.h unistd.h utmp.h errno.h procfs.h ieeefp.h setjmp.h)
+AC_CHECK_HEADERS(winsock2.h winsock.h windows.h ws2tcpip.h winternl.h delayimp.h ntapi.h ddk/ntapi.h crtdbg.h sys/types.h sys/un.h arpa/inet.h dirent.h grp.h fcntl.h inttypes.h stdint.h memory.h netdb.h netinet/in.h netinet/tcp.h netinet/ether.h net/if.h net/if_arp.h signal.h strings.h sys/auxv.h sys/file.h sys/fcntl.h sys/ipc.h sys/ioctl.h sys/msg.h sys/param.h sys/resource.h sys/select.h sys/sem.h sys/shm.h sys/sockio.h sys/socket.h sys/stat.h sys/statvfs.h sys/statfs.h sys/systeminfo.h sys/time.h sys/types.h sys/utsname.h sys/vmmeter.h sys/wait.h unistd.h utmp.h errno.h procfs.h ieeefp.h setjmp.h)
 
 if test x${ac_cv_header_windows_h} = xyes ; then
 
@@ -791,7 +791,12 @@ AC_LANG_POP
 dnl Checks for library functions.
 AC_PROG_GCC_TRADITIONAL
 AC_FUNC_VPRINTF
-AC_CHECK_FUNCS(ether_ntoa setpriority sched_setscheduler strlcpy strlcat strcasestr strcasecmp sigaction getutent setutent getisax strdup strdupa daemon stat64 putenv setenv unsetenv res_init strtoull _fpreset fpreset)
+AC_CHECK_FUNCS(ether_ntoa setpriority sched_setscheduler strlcpy strlcat strcasestr strcasecmp sigaction getutent setutent getisax strdup strdupa daemon stat64 putenv setenv unsetenv res_init strtoull)
+
+AC_CHECK_DECLS(_fpreset,
+    AC_DEFINE(HAVE_DECL__FPRESET,1,[Define to 1 if the function _fpreset() is declared]))
+AC_CHECK_DECLS(fpreset,
+    AC_DEFINE(HAVE_DECL_FPRESET,1,[Define to 1 if the function _fpreset() is declared]))
 
 dnl Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST
