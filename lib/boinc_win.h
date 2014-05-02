@@ -25,6 +25,9 @@
 #ifndef HAVE_CONFIG_H
 
 // Windows C Runtime Library
+// These are version dependent.  If you aren't using MSC, you'll probably need
+// to edit this file or create a config.h
+// For MINGW32 and MINGW64, it's best to run autoconf if possible.
 
 #ifndef HAVE_STD_MAX
 #define HAVE_STD_MAX 1
@@ -38,6 +41,7 @@
 #define HAVE_STD_TRANSFORM 1
 #endif 
 
+
 #ifndef HAVE_ALLOCA
 #define HAVE_ALLOCA 1
 #endif 
@@ -46,6 +50,18 @@
 #define HAVE_STRCASECMP 1
 #endif
 
+#define USE_WINSOCK 1
+#define HAVE_WINSOCK2_H 1
+#define HAVE_WINSOCK_H 1
+#define HAVE_WINDOWS_H 1
+#define HAVE_WS2TCPIP_H 1
+#define HAVE_WINHTTP_H 1
+#define HAVE_WINTERNL_H 1
+#define HAVE_DELAYIMP_H 1
+#define HAVE_FCNTL_H 1
+#define HAVE_CRTDBG_H 1
+#define HAVE_DECL_FPRESET 1
+#define HAVE_DECL__FPRESET 1
 #else
 
 // Under any system that can run configure we need to include config.h first.
@@ -98,10 +114,12 @@
 #define USE_WINSOCK 1
 #ifdef HAVE_WINSOCK2_H
 #include <winsock2.h>
-#else
+#elif defined(HAVE_WINSOCK_H)
 #include <winsock.h>
 #endif
+#ifdef HAVE_WINHTTP_H
 #include <winhttp.h>
+#endif
 
 #ifndef HAVE_SOCKLEN_T
 typedef size_t socklen_t;
@@ -126,7 +144,9 @@ typedef size_t socklen_t;
 #endif
 
 #include <windows.h>
+#ifdef HAVE_WINTERNL_H
 #include <winternl.h>
+#endif
 #include <share.h>
 #include <shlobj.h>
 #include <userenv.h>
@@ -188,18 +208,27 @@ typedef LPCSTR PCTSTR, LPCTSTR, PCUTSTR, LPCUTSTR;
 // C headers
 #include <sys/stat.h>
 #include <sys/types.h>
-#if !defined(__MINGW32__)
+#ifdef HAVE_FCNTL_H
 #include <fcntl.h>
 #endif
 #include <malloc.h>
 
-#if !defined(__MINGW32__) && !defined(__CYGWIN32__)
+#ifdef HAVE_CRTDBG_H
 #include <crtdbg.h>
 #endif
 
-#if !defined(__CYGWIN32__)
+#if defined(HAVE_DELAYIMP_H) 
 #include <delayimp.h>
 #endif
+
+#if defined(__MINGW32__) && !defined(HAVE_WINTERNL_H)
+#ifdef HAVE_NTAPI_H
+#include <ntapi.h>
+#elif defined(HAVE_DDK_NTAPI_H)
+#include <ddk/ntapi.h>
+#endif
+#endif
+
 
 
 #ifdef __cplusplus
@@ -279,10 +308,10 @@ extern "C" {
 #ifndef __MINGW_NOTHROW
 #define __MINGW_NOTHROW
 #endif
-#ifndef HAVE__FPRESET
+#if !HAVE_DECL__FPRESET
 void __cdecl __MINGW_NOTHROW _fpreset (void);
 #endif
-#ifndef HAVE_FPRESET
+#if !HAVE_DECL_FPRESET
 void __cdecl __MINGW_NOTHROW fpreset (void);
 #endif
 #ifdef __cplusplus

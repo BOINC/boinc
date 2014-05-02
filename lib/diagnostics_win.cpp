@@ -1392,12 +1392,15 @@ int diagnostics_dump_exception_record(PEXCEPTION_POINTERS pExPtrs) {
     char           message[1024];
     PVOID          exception_address = pExPtrs->ExceptionRecord->ExceptionAddress;
     DWORD          exception_code = pExPtrs->ExceptionRecord->ExceptionCode;
+#ifdef HAVE_DELAYIMP_H
     PDelayLoadInfo delay_load_info = NULL;
+#endif
 
     // Print unhandled exception banner
     fprintf(stderr, "- Unhandled Exception Record -\n");
 
     switch (exception_code) {
+#ifdef HAVE_DELAYIMP_H
         case VcppException(ERROR_SEVERITY_ERROR, ERROR_MOD_NOT_FOUND):
             delay_load_info = (PDelayLoadInfo)pExPtrs->ExceptionRecord->ExceptionInformation[0];
             fprintf(
@@ -1415,6 +1418,7 @@ int diagnostics_dump_exception_record(PEXCEPTION_POINTERS pExPtrs) {
                 delay_load_info->szDll
             );
             break;
+#endif
         case 0xC0000135:                     // STATUS_DLL_NOT_FOUND
         case 0xC0000139:                     // STATUS_ENTRYPOINT_NOT_FOUND
         case 0xC0000142:                     // STATUS_DLL_INIT_FAILED

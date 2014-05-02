@@ -154,7 +154,7 @@ if test $build_manager != no ; then
 fi
 
 if test $build_manager != no -o $build_libs != no ; then
-  if ! test -f ${XCOMPILE_ROOT}/include/GL/glut.h ; then
+  if ! test -f ${XCOMPILE_ROOT}/include/GL/glut.h -a -f ${XCOMPILE_ROOT}/lib/libfreeglut_static.a  ; then
     svn co http://svn.code.sf.net/p/freeglut/code/trunk/freeglut/freeglut freeglut
     cd freeglut
     mkdir build
