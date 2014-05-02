@@ -311,7 +311,7 @@ int diagnostics_update_thread_list() {
             // Enumerate the threads
             for(uiSystemIndex = 0; uiSystemIndex < pProcesses->ThreadCount; uiSystemIndex++) {
                 pThread = &pProcesses->Threads[uiSystemIndex];
-                pThreadEntry = diagnostics_find_thread_entry(pThread->ClientId.UniqueThread);
+                pThreadEntry = diagnostics_find_thread_entry((DWORD)pThread->ClientId.UniqueThread);
 
                 if (pThreadEntry) {
                     pThreadEntry->crash_kernel_time = (FLOAT)pThread->KernelTime.QuadPart;
@@ -325,12 +325,12 @@ int diagnostics_update_thread_list() {
                     hThread = OpenThread(
                         THREAD_ALL_ACCESS,
                         FALSE,
-                        pThread->ClientId.UniqueThread
+                        (DWORD)(pThread->ClientId.UniqueThread)
                     );
 
                     pThreadEntry = new BOINC_THREADLISTENTRY;
                     diagnostics_init_thread_entry(pThreadEntry);
-                    pThreadEntry->thread_id = pThread->ClientId.UniqueThread;
+                    pThreadEntry->thread_id = (DWORD)(pThread->ClientId.UniqueThread);
                     pThreadEntry->thread_handle = hThread;
                     pThreadEntry->crash_kernel_time = (FLOAT)pThread->KernelTime.QuadPart;
                     pThreadEntry->crash_user_time = (FLOAT)pThread->UserTime.QuadPart;

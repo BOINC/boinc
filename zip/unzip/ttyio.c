@@ -105,6 +105,19 @@
 #  endif
 #endif
 
+#ifdef UNZIP
+#warning UNZIP defined
+#endif
+#ifdef FUNZIP
+#warning FUNZIP defined
+#endif
+#ifdef UNIX
+#warning UNIX defined
+#endif
+#ifdef MORE
+#warning MORE defined
+#endif
+
 #if (defined(UNZIP) && !defined(FUNZIP) && defined(UNIX) && defined(MORE))
 #  include <sys/ioctl.h>
 #  define GOT_IOCTL_H

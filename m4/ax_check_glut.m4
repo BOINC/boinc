@@ -18,6 +18,12 @@ else
   if test "X${no_x}" != "Xyes"; then
     GLUT_LIBS="${X_PRE_LIBS} -lXmu -lXi ${X_EXTRA_LIBS} ${GLUT_LIBS}"
   fi
+  #
+  # If were running under windows assume we need GDI32 and WinMM
+  #
+  if echo $host_os | egrep '^mingw|^winnt' > /dev/null ; then
+    GLUT_LIBS="${GLUT_LIBS} -lgdi32 -lwinmm"
+  fi
 
   AC_LANG_PUSH(C)
 

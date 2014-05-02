@@ -103,7 +103,9 @@
 #endif
 #include <winhttp.h>
 
+#ifndef HAVE_SOCKLEN_T
 typedef size_t socklen_t;
+#endif
 
 #else 
 
@@ -142,12 +144,19 @@ typedef size_t socklen_t;
 #include <raserror.h>
 #if defined(__MINGW32__)
 #include <stdint.h>
+#ifdef HAVE_SECURITY_H
+#include <security.h>
+#endif
+#ifdef HAVE_DBGHELP_H
+#include <dbghelp.h>
+#endif
 #include <imagehlp.h>
 #else
 #include <security.h>
 #include <dbghelp.h>
 #endif
 #include <tlhelp32.h>
+
 
 #include <io.h>
 #if !defined(__CYGWIN32__)
