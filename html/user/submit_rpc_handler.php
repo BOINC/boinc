@@ -173,10 +173,17 @@ function submit_jobs($jobs, $template, $app, $batch_id, $priority) {
     $x = "";
     foreach($jobs as $job) {
         if ($job->name) {
-            $x .= "--wu_name $job->name";
+            $x .= " --wu_name $job->name";
         }
         if ($job->command_line) {
             $x .= " --command_line \"$job->command_line\"";
+        }
+        if ($job->target_team) {
+            $x .= " --target_team $job->target_team";
+        } elseif ($job->target_user) {
+            $x .= " --target_user $job->target_user";
+        } elseif ($job->target_host) {
+            $x .= " --target_host $job->target_host";
         }
         foreach ($job->input_files as $file) {
             if ($file->mode == "remote") {
@@ -206,6 +213,9 @@ function xml_get_jobs($r) {
         $job = new StdClass;
         $job->input_files = array();
         $job->command_line = (string)$j->command_line;
+        $job->target_team = (int)$j->target_team;
+        $job->target_user = (int)$j->target_user;
+        $job->target_host = (int)$j->target_host;
         $job->name = (string)$j->name;
         $job->rsc_fpops_est = (double)$j->rsc_fpops_est;
         foreach ($j->input_file as $f) {

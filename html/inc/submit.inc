@@ -44,6 +44,16 @@ function req_to_xml($req, $op) {
         <rsc_fpops_est>$job->rsc_fpops_est</rsc_fpops_est>
         <command_line>$job->command_line</command_line>
 ";
+        if ((isset($job->target_team)) && ($job->target_team)) {
+            $x .= "        <target_team>$job->target_team</target_team>
+";
+        } elseif ((isset($job->target_user)) && ($job->target_user)) {
+            $x .= "        <target_user>$job->target_user</target_user>
+";
+        } elseif ((isset($job->target_team)) && ($job->target_team)) {
+            $x .= "        <target_team>$job->target_team</target_team>
+";
+        }
         foreach ($job->input_files as $file) {
             $x .= "        <input_file>\n";
             $x .= "            <mode>$file->mode</mode>\n";
