@@ -68,6 +68,18 @@ using std::vector;
 //                else
 //                    prune J
 
+// can the given task use this GPU instance?  Enforce
+// - GPU exclusions
+// - OpenCL availability (relevant if use_all_gpus set)
+//
+static inline bool can_use_gpu(RESULT* rp, COPROC* cp, int i) {
+    if (gpu_excluded(rp->app, *cp, i)) return false;
+    if (rp->avp->is_opencl()) {
+        if (cp->opencl_device_ids[i] == 0) return false;
+    }
+    return true;
+}
+
 static inline void increment_pending_usage(
     RESULT* rp, double usage, COPROC* cp
 ) {
@@ -143,7 +155,7 @@ static inline bool get_fractional_assignment(
     // try to assign an instance that's already fractionally assigned
     //
     for (i=0; i<cp->count; i++) {
-        if (gpu_excluded(rp->app, *cp, i)) {
+        if (!can_use_gpu(rp, cp, i)) {
             continue;
         }
         if ((cp->usage[i] || cp->pending_usage[i])
@@ -171,7 +183,7 @@ static inline bool get_fractional_assignment(
     // failing that, assign an unreserved instance
     //
     for (i=0; i<cp->count; i++) {
-        if (gpu_excluded(rp->app, *cp, i)) {
+        if (!can_use_gpu(rp, cp, i)) {
             continue;
         }
         if (!cp->usage[i]) {
@@ -213,7 +225,7 @@ static inline bool get_integer_assignment(
     //
     int nfree = 0;
     for (i=0; i<cp->count; i++) {
-        if (gpu_excluded(rp->app, *cp, i)) {
+        if (!can_use_gpu(rp, cp, i)) {
             continue;
         }
         if (!cp->usage[i]) {
@@ -252,7 +264,7 @@ static inline bool get_integer_assignment(
     // assign non-pending instances first
 
     for (i=0; i<cp->count; i++) {
-        if (gpu_excluded(rp->app, *cp, i)) {
+        if (!can_use_gpu(rp, cp, i)) {
             continue;
         }
         if (!cp->usage[i]
@@ -279,7 +291,7 @@ static inline bool get_integer_assignment(
     // if needed, assign pending instances
 
     for (i=0; i<cp->count; i++) {
-        if (gpu_excluded(rp->app, *cp, i)) {
+        if (!can_use_gpu(rp, cp, i)) {
             continue;
         }
         if (!cp->usage[i]
