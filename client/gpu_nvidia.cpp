@@ -207,13 +207,24 @@ void COPROC_NVIDIA::get(
     __cuMemGetInfo = (CUDA_MGI)GetProcAddress( cudalib, "cuMemGetInfo" );
 
 #ifndef SIM
-    NvAPI_Status nvapiStatus;
-    NV_DISPLAY_DRIVER_VERSION Version;
-    memset(&Version, 0, sizeof(Version));
-    Version.version = NV_DISPLAY_DRIVER_VERSION_VER;
-
     NvAPI_Initialize();
-    nvapiStatus = NvAPI_GetDisplayDriverVersion(NULL, &Version);
+    NvAPI_ShortString ss;
+    NvU32 Version = 0;
+    NvAPI_SYS_GetDriverAndBranchVersion(&Version, ss);
+
+#if 0
+	// NvAPI now provides an API for getting #cores :-)
+	// But not FLOPs per clock cycle :-(
+	// Anyway, don't use this for now because server code estimates FLOPS
+	// based on compute capability, so we may as well do the same
+	//
+    NvPhysicalGpuHandle GPUHandle[NVAPI_MAX_PHYSICAL_GPUS];
+    NvU32 GpuCount, nc;
+	NvAPI_EnumPhysicalGPUs(GPUHandle, &GpuCount);
+    for (unsigned int i=0; i<GpuCount; i++) {
+        NvAPI_GPU_GetGpuCoreCount(GPUHandle[i], &nc);
+    }
+#endif
 #endif
 #else
 
@@ -349,7 +360,7 @@ void COPROC_NVIDIA::get(
         if (cc.prop.major <= 0) continue;  // major == 0 means emulation
         if (cc.prop.major > 100) continue;  // e.g. 9999 is an error
 #if defined(_WIN32) && !defined(SIM)
-        cc.display_driver_version = Version.drvVersion;
+        cc.display_driver_version = Version;
 #elif defined(__APPLE__)
         cc.display_driver_version = NSVersionOfRunTimeLibrary("cuda");
 #else
