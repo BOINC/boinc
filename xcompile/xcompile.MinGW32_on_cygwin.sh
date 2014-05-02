@@ -20,6 +20,13 @@ for target_host in ${TARGET_HOST} i686-w64-mingw32 i686-pc-mingw32 x86_64-w64-mi
    fi
 done
 
+case $TARGET_HOST in 
+	i686*)   openssl_cross=mingw 
+	         ;;
+	x86_64*) openssl_cross=mingw64
+	         ;;
+esac
+
 build_manager=no
 build_client=no
 build_libs=yes
@@ -93,7 +100,7 @@ if test $build_client != no -o $build_manager != no -o $build_libs != no ; then
     tar zxf openssl-${opensslver}.tar.gz
     /bin/rm openssl-${opensslver}.tar.gz
     cd openssl-${opensslver}
-    ./Configure --prefix=${XCOMPILE_ROOT}/ no-shared zlib mingw
+    ./Configure --prefix=${XCOMPILE_ROOT}/ ${CFLAGS} ${LDFLAGS} no-shared zlib $openssl_cross
     make -j 4 all
     make install
     cd ..
