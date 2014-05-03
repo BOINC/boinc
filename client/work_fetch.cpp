@@ -1052,10 +1052,18 @@ void CLIENT_STATE::compute_nuploading_results() {
 double ACTIVE_TASK::est_dur() {
     if (fraction_done >= 1) return elapsed_time;
     double wu_est = result->estimated_runtime();
-    if (fraction_done <= 0) return wu_est;
     if (wu_est < elapsed_time) wu_est = elapsed_time;
+    if (fraction_done <= 0) return wu_est;
     double frac_est = fraction_done_elapsed_time / fraction_done;
-    double fd_weight = fraction_done * fraction_done;
+
+    // if app says fraction done is accurate, just use it
+    //
+    if (fraction_done_exact) return frac_est;
+
+    // weighting of dynamic estimate is the fraction done
+    // i.e. when fraction done is 0.5, weighting is 50/50
+    //
+    double fd_weight = fraction_done;
     double wu_weight = 1 - fd_weight;
     double x = fd_weight*frac_est + wu_weight*wu_est;
 #if 0

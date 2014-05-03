@@ -106,7 +106,7 @@ win_sources=
 win_headers=
 else # !(OS_WIN32 || OS_MAC)
 
-generic_sources += 
+generic_sources += \
     procinfo_unix.cpp \
     synch.cpp \
     unix_util.cpp

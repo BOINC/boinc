@@ -332,6 +332,9 @@ struct APP_VERSION {
     inline int rsc_type() {
         return gpu_usage.rsc_type;
     }
+    inline bool is_opencl() {
+        return (strstr(plan_class, "opencl") != NULL);
+    }
 };
 
 struct WORKUNIT {
