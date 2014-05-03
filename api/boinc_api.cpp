@@ -127,6 +127,7 @@ APP_CLIENT_SHM* app_client_shm = 0;
 static volatile int time_until_checkpoint;
     // time until enable checkpoint
 static volatile double fraction_done;
+static volatile bool fd_exact = false;
 static volatile double last_checkpoint_cpu_time;
 static volatile bool ready_to_checkpoint = false;
 static volatile int in_critical_section = 0;
@@ -382,6 +383,9 @@ static bool update_app_progress(double cpu_t, double cp_cpu_t) {
         double fdone = aid.fraction_done_start + fraction_done*range;
         sprintf(buf, "<fraction_done>%e</fraction_done>\n", fdone);
         strlcat(msg_buf, buf, sizeof(msg_buf));
+    }
+    if (fd_exact) {
+        strlcat(msg_buf, "<fd_exact/>\n", sizeof(msg_buf));
     }
     if (bytes_sent) {
         sprintf(buf, "<bytes_sent>%f</bytes_sent>\n", bytes_sent);
@@ -849,6 +853,8 @@ int boinc_parse_init_data_file() {
     return 0;
 }
 
+// used by wrappers
+//
 int boinc_report_app_status_aux(
     double cpu_time,
     double checkpoint_cpu_time,
@@ -1426,6 +1432,12 @@ void boinc_end_critical_section() {
 
 int boinc_fraction_done(double x) {
     fraction_done = x;
+    return 0;
+}
+
+int boinc_fraction_done_exact(double x) {
+    fraction_done = x;
+    fd_exact = true;
     return 0;
 }
 
