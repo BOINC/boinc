@@ -20,9 +20,6 @@
 
 #include "boinc_win.h"
 
-#define DECLARE_WINTERNL_STRUCTURES (!defined(__MINGW32__) || !(defined(HAVE_WINTERNL_H) || defined(HAVE_DDK_NTAPI_H)))
-
-
 #define STATUS_INFO_LENGTH_MISMATCH             ((NTSTATUS)0xC0000004L)
 
 typedef LONG       NTSTATUS;
@@ -30,7 +27,7 @@ typedef LONG       NTSTATUS;
 typedef LONG       KPRIORITY;
 
 //MinGW-W64 defines this struct in its own header
-#if DECLARE_WINTERNL_STRUCTURES
+#ifndef HAVE_CLIENT_ID
 typedef struct _CLIENT_ID {
     DWORD          UniqueProcess;
     DWORD          UniqueThread;
@@ -38,7 +35,7 @@ typedef struct _CLIENT_ID {
 #endif
 
 //MinGW-W64 defines this struct in its own header
-#if DECLARE_WINTERNL_STRUCTURES
+#ifndef HAVE_VM_COUNTERS
 typedef struct _VM_COUNTERS {
 #ifdef _WIN64
 // the following was inferred by painful reverse engineering
@@ -70,7 +67,7 @@ typedef struct _VM_COUNTERS {
 #endif
 
 //MinGW-W64 defines this struct in its own header
-#if DECLARE_WINTERNL_STRUCTURES
+#ifndef HAVE_SYSTEM_THREADS
 typedef struct _SYSTEM_THREADS {
     LARGE_INTEGER  KernelTime;
     LARGE_INTEGER  UserTime;
@@ -86,7 +83,7 @@ typedef struct _SYSTEM_THREADS {
 } SYSTEM_THREADS, * PSYSTEM_THREADS;
 #endif
 
-#if DECLARE_WINTERNL_STRUCTURES
+#ifndef HAVE_SYSTEM_PROCESSES
 typedef struct _SYSTEM_PROCESSES {
     ULONG          NextEntryDelta;
     ULONG          ThreadCount;
@@ -115,7 +112,7 @@ typedef struct _SYSTEM_PROCESSES {
 #endif
 
 //MinGW-W64 defines this struct in its own header
-#if DECLARE_WINTERNL_STRUCTURES
+#ifndef HAVE_THREAD_STATE
 typedef enum _THREAD_STATE {
     StateInitialized,
     StateReady,
@@ -127,6 +124,7 @@ typedef enum _THREAD_STATE {
 } THREAD_STATE, *PTHREAD_STATE;
 #endif
 
+#ifndef HAVE_THREAD_WAIT_REASON
 typedef enum _THREAD_WAIT_REASON {
     ThreadWaitReasonExecutive,
     ThreadWaitReasonFreePage,
@@ -150,5 +148,6 @@ typedef enum _THREAD_WAIT_REASON {
     ThreadWaitReasonWrPageOut,
     ThreadWaitReasonMaximumWaitReason
 } THREAD_WAIT_REASON;
+#endif
 
 #endif

@@ -630,13 +630,11 @@ AC_HEADER_STDC
 AC_HEADER_SYS_WAIT
 AC_HEADER_TIME
 AC_TYPE_SIGNAL
-AC_CHECK_HEADERS(winsock2.h winsock.h windows.h ws2tcpip.h winternl.h delayimp.h ntapi.h ddk/ntapi.h crtdbg.h sys/types.h sys/un.h arpa/inet.h dirent.h grp.h fcntl.h inttypes.h stdint.h memory.h netdb.h netinet/in.h netinet/tcp.h netinet/ether.h net/if.h net/if_arp.h signal.h strings.h sys/auxv.h sys/file.h sys/fcntl.h sys/ipc.h sys/ioctl.h sys/msg.h sys/param.h sys/resource.h sys/select.h sys/sem.h sys/shm.h sys/sockio.h sys/socket.h sys/stat.h sys/statvfs.h sys/statfs.h sys/systeminfo.h sys/time.h sys/types.h sys/utsname.h sys/vmmeter.h sys/wait.h unistd.h utmp.h errno.h procfs.h ieeefp.h setjmp.h)
+AC_CHECK_HEADERS(winsock2.h winsock.h windows.h ws2tcpip.h winternl.h crtdbg.h sys/types.h sys/un.h arpa/inet.h dirent.h grp.h fcntl.h inttypes.h stdint.h memory.h netdb.h netinet/in.h netinet/tcp.h netinet/ether.h net/if.h net/if_arp.h signal.h strings.h sys/auxv.h sys/file.h sys/fcntl.h sys/ipc.h sys/ioctl.h sys/msg.h sys/param.h sys/resource.h sys/select.h sys/sem.h sys/shm.h sys/sockio.h sys/socket.h sys/stat.h sys/statvfs.h sys/statfs.h sys/systeminfo.h sys/time.h sys/types.h sys/utsname.h sys/vmmeter.h sys/wait.h unistd.h utmp.h errno.h procfs.h ieeefp.h setjmp.h float.h)
 
 if test x${ac_cv_header_windows_h} = xyes ; then
 
-AC_CHECK_HEADER(winhttp.h, [
-AC_DEFINE(HAVE_WINHTTP_H,1,[Define to 1 if your compiler has the security.h header file])
-], [], [[
+AC_CHECK_HEADERS([winhttp.h ntapi.h ddk/ntapi.h dbghelp.h delayimp.h],[], [], [[
 #if HAVE_WINDOWS_H
 # include <windows.h>
 #endif
@@ -652,14 +650,18 @@ AC_DEFINE(SECURITY_WIN32,1,[Define to 1 if your compiler has the security.h head
 #endif
 ]])
 
-AC_CHECK_HEADER(dbghelp.h, [
-AC_DEFINE(HAVE_DBGHELP_H,1,[Define to 1 if your compiler has the dbghelp.h header])
-], [], [[
+AC_CHECK_TYPES([SYSTEM_PROCESSES, CLIENT_ID, VM_COUNTERS, SYSTEM_THREADS, THREAD_STATE, THREAD_WAIT_REASON],[],[],[[
 #if HAVE_WINDOWS_H
-# include <windows.h>
+#include <windows.h>
+#endif
+#ifdef HAVE_WINTERNL_H
+#include <winternl.h>
+#elif defined(HAVE_DDK_NTAPI_H)
+#include <ddk/ntapi.h>
+#elif defined(HAVE_NTAPI_H)
+#include <ntapi.h>
 #endif
 ]])
-
 
 fi
 
@@ -698,7 +700,6 @@ AC_CHECK_TYPES([socklen_t],[],[],[[
 #include <net/if.h>
 #endif
 ]])
-
 
 AC_CHECK_HEADER(net/if.h, [], [], [[
 #if HAVE_SYS_SOCKET_H
@@ -793,10 +794,54 @@ AC_PROG_GCC_TRADITIONAL
 AC_FUNC_VPRINTF
 AC_CHECK_FUNCS(ether_ntoa setpriority sched_setscheduler strlcpy strlcat strcasestr strcasecmp sigaction getutent setutent getisax strdup strdupa daemon stat64 putenv setenv unsetenv res_init strtoull)
 
-AC_CHECK_DECLS(_fpreset,
-    AC_DEFINE(HAVE_DECL__FPRESET,1,[Define to 1 if the function _fpreset() is declared]))
-AC_CHECK_DECLS(fpreset,
-    AC_DEFINE(HAVE_DECL_FPRESET,1,[Define to 1 if the function _fpreset() is declared]))
+AC_CHECK_DECLS([_fpreset, fpreset],
+    [],[],[[
+#include <stdio.h>
+#if HAVE_SYS_TYPES_H
+# include <sys/types.h>
+#endif
+#if HAVE_SYS_STAT_H
+# include <sys/stat.h>
+#endif
+#if STDC_HEADERS
+# include <stdlib.h>
+# include <stddef.h>
+#else
+# if HAVE_STDLIB_H
+#  include <stdlib.h>
+# endif
+#endif
+#if HAVE_STRING_H
+# if !STDC_HEADERS && HAVE_MEMORY_H
+#  include <memory.h>
+# endif
+# include <string.h>
+#endif
+#if HAVE_STRINGS_H
+# include <strings.h>
+#endif
+#if HAVE_INTTYPES_H
+# include <inttypes.h>
+#endif
+#if HAVE_STDINT_H
+# include <stdint.h>
+#endif
+#if HAVE_UNISTD_H
+# include <unistd.h>
+#endif
+#ifdef HAVE_WINDOWS_H
+#include <windows.h>
+#endif
+#ifdef HAVE_FLOAT_H
+#include <float.h>
+#endif
+#ifdef HAVE_IEEEFP_H
+#include <ieeefp.h>
+#endif
+#ifdef HAVE_MATH_H
+#include <math.h>
+#endif
+]])
 
 dnl Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST
