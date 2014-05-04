@@ -45,6 +45,9 @@ int APP_CONFIG::parse(XML_PARSER& xp, PROJECT* p) {
             }
             continue;
         }
+        if (xp.parse_bool("fraction_done_exact", fraction_done_exact)) {
+            continue;
+        }
         if (log_flags.unparsed_xml) {
             msg_printf(p, MSG_INFO,
                 "Unparsed line in app_config.xml: %s",
@@ -134,6 +137,8 @@ void APP_CONFIGS::config_app_versions(PROJECT* p, bool show_warnings) {
             continue;
         }
         app->max_concurrent = ac.max_concurrent;
+        app->fraction_done_exact = ac.fraction_done_exact;
+
         if (!ac.gpu_gpu_usage || !ac.gpu_cpu_usage) continue;
         for (unsigned int j=0; j<gstate.app_versions.size(); j++) {
             APP_VERSION* avp = gstate.app_versions[j];
