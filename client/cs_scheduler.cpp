@@ -798,7 +798,11 @@ int CLIENT_STATE::handle_scheduler_reply(
     for (i=0; i<sr.apps.size(); i++) {
         APP* app = lookup_app(project, sr.apps[i].name);
         if (app) {
+            // update app attributes; they may have changed on server
+            //
             safe_strcpy(app->user_friendly_name, sr.apps[i].user_friendly_name);
+            app->non_cpu_intensive = sr.apps[i].non_cpu_intensive;
+            app->fraction_done_exact = sr.apps[i].fraction_done_exact;
         } else {
             app = new APP;
             *app = sr.apps[i];
@@ -879,9 +883,7 @@ int CLIENT_STATE::handle_scheduler_reply(
             app, avpp.platform, avpp.version_num, avpp.plan_class
         );
         if (avp) {
-            // update performance-related info;
-            // generally this shouldn't change,
-            // but if it does it's better to use the new stuff
+            // update app version attributes in case they changed on server
             //
             avp->avg_ncpus = avpp.avg_ncpus;
             avp->max_ncpus = avpp.max_ncpus;

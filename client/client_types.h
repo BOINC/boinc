@@ -244,6 +244,7 @@ struct APP {
     char name[256];
     char user_friendly_name[256];
     bool non_cpu_intensive;
+    bool fraction_done_exact;
     PROJECT* project;
     int max_concurrent;
         // Limit on # of concurrent jobs of this app; 0 if none

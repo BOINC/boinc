@@ -214,7 +214,8 @@ void DB_APP::db_print(char* buf){
         "homogeneous_app_version=%d, "
         "non_cpu_intensive=%d, "
         "locality_scheduling=%d, "
-        "n_size_classes=%d ",
+        "n_size_classes=%d, "
+        "fraction_done_exact=%d ",
         create_time,
         name,
         min_version,
@@ -229,7 +230,8 @@ void DB_APP::db_print(char* buf){
         homogeneous_app_version?1:0,
         non_cpu_intensive?1:0,
         locality_scheduling,
-        n_size_classes
+        n_size_classes,
+        fraction_done_exact?1:0
     );
 }
 
@@ -252,6 +254,7 @@ void DB_APP::db_parse(MYSQL_ROW &r) {
     non_cpu_intensive = (atoi(r[i++]) != 0);
     locality_scheduling = atoi(r[i++]);
     n_size_classes = atoi(r[i++]);
+    fraction_done_exact = (atoi(r[i++]) != 0);
 }
 
 void DB_APP_VERSION::db_print(char* buf){

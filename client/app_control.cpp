@@ -1349,7 +1349,6 @@ bool ACTIVE_TASK::get_app_status_msg() {
         bytes_received_episode = dtemp;
     }
     parse_int(msg_buf, "<want_network>", want_network);
-    parse_bool(msg_buf, "fd_exact", fraction_done_exact);
     if (parse_int(msg_buf, "<other_pid>", other_pid)) {
         // for now, we handle only one of these
         other_pids.clear();

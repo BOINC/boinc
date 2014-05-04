@@ -925,6 +925,14 @@ function update_4_2_2014() {
     );
 }
 
+function update_5_3_2014() {
+    do_query(
+        "alter table app
+            add fraction_done_exact tinyint not null
+        "
+    );
+}
+
 // Updates are done automatically if you use "upgrade".
 //
 // If you need to do updates manually,
@@ -965,6 +973,7 @@ $db_updates = array (
     array(27006, "update_1_13_2014"),
     array(27007, "update_3_6_2014"),
     array(27008, "update_4_2_2014"),
+    array(27009, "update_5_3_2014"),
 );
 
 ?>

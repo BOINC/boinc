@@ -1058,7 +1058,7 @@ double ACTIVE_TASK::est_dur() {
 
     // if app says fraction done is accurate, just use it
     //
-    if (fraction_done_exact) return frac_est;
+    if (result->app->fraction_done_exact) return frac_est;
 
     // weighting of dynamic estimate is the fraction done
     // i.e. when fraction done is 0.5, weighting is 50/50
