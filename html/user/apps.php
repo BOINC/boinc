@@ -49,7 +49,8 @@ foreach ($apps as $app) {
             <tr>
                 <th>".tra("Platform")."</th>
                 <th>".tra("Version")."</th>
-                <th>".tra("Installation time")."</th>
+                <th>".tra("Created")."</th>
+                <th>".tra("Average credit")."</th>
             </tr>
         ";
     }
@@ -75,6 +76,7 @@ foreach ($apps as $app) {
                     <td>$platform->user_friendly_name</td>
                     <td>$version_num_f</td>
                     <td>$create_time_f</td>
+                    <td>".number_format($av->expavg_credit, 0)."</td>
                     </tr>
                 ";
             }
