@@ -30,13 +30,14 @@ if ($xml) {
     echo "<app_versions>\n";
 } else {
     page_head(tra("Applications"));
-    echo tra("%1 currently has the following applications. When you participate in %1, work for one or more of these applications will be assigned to your computer. The current version of the application will be downloaded to your computer. This happens automatically; you don't have to do anything.", PROJECT)."<br><br>
+    echo tra("%1 currently has the following applications. When you participate in %1, tasks for one or more of these applications will be assigned to your computer. The current version of the application will be downloaded to your computer. This happens automatically; you don't have to do anything.", PROJECT)."<br><br>
     ";
     start_table();
 }
 
 $apps = BoincApp::enum("deprecated=0");
 
+$total_gf = 0;
 foreach ($apps as $app) {
     if ($xml) {
         echo "<application>\n";
@@ -50,7 +51,7 @@ foreach ($apps as $app) {
                 <th>".tra("Platform")."</th>
                 <th>".tra("Version")."</th>
                 <th>".tra("Created")."</th>
-                <th>".tra("Average credit")."</th>
+                <th>".tra("Average computing")."</th>
             </tr>
         ";
     }
@@ -72,11 +73,14 @@ foreach ($apps as $app) {
                 if ($av->plan_class) {
                     $version_num_f .= " ($av->plan_class)";
                 }
+                $gf = $av->expavg_credit/200;
+                $total_gf += $gf;
+                $gf = number_format($gf, 0);
                 echo "<tr>
                     <td>$platform->user_friendly_name</td>
                     <td>$version_num_f</td>
                     <td>$create_time_f</td>
-                    <td>".number_format($av->expavg_credit, 0)."</td>
+                    <td align=right>$gf GigaFLOPS</td>
                     </tr>
                 ";
             }
@@ -91,6 +95,8 @@ if ($xml) {
     echo "</app_versions>\n";
 } else {
     end_table();
+    $x = number_format($total_gf, 0);
+    echo "<p>Total average computing: $x GigaFLOPS";
     page_tail();
 }
 ?>
