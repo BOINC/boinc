@@ -455,11 +455,20 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
             error_num = ERR_XML_PARSE;
         }
     } else if (error_num) {
-        msg_printf(&ami, MSG_USER_ALERT,
-            "%s: %s",
-            _("Message from account manager"),
-            boincerror(error_num)
-        );
+        if (error_num == http_op_retval) {
+            // if it was an HTTP error, don't notify the user;
+            // probably the acct mgr server is down
+            //
+            msg_printf(&ami, MSG_INFO,
+                "Account manager RPC failed: %s", boincerror(error_num)
+            );
+        } else {
+            msg_printf(&ami, MSG_USER_ALERT,
+                "%s: %s",
+                _("Message from account manager"),
+                boincerror(error_num)
+            );
+        }
     }
 
     if (error_num) {
