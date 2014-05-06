@@ -36,7 +36,8 @@ if (!DISABLE_TEAMS) {
     ";
 }
 echo "
-<li><a href=\"gpu_list.php\">" . tra("Top GPU models"). "</a>
+<li><a href=\"gpu_list.php\">" . tra("GPU models"). "</a>
+<li><a href=\"cpu_list.php\">" . tra("CPU models"). "</a>
 </ul>
 
 <p>".
