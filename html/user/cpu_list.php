@@ -22,8 +22,8 @@ require_once("../inc/boinc_db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/cache.inc");
 
-define("MIN_CREDIT", 0);
-define("MIN_COUNT", 3);
+define("MIN_CREDIT", 100);
+define("MIN_COUNT", 10);
 
 function compare($a, $b) {
     if ($a->p_fpops < $b->p_fpops) return 1;
