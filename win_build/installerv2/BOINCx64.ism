@@ -944,11 +944,6 @@
 		<row><td>CAGrantBOINCUsersRights</td><td>1</td><td>NewBinary6</td><td>GrantBOINCUsersRights</td><td/><td/></row>
 		<row><td>CALaunchBOINCManager</td><td>65</td><td>NewBinary6</td><td>LaunchBOINCManager</td><td/><td/></row>
 		<row><td>CALaunchBOINCTray</td><td>65</td><td>NewBinary6</td><td>LaunchBOINCTray</td><td/><td/></row>
-		<row><td>CAMigrateBOINCData</td><td>1</td><td>NewBinary20</td><td>MigrateBOINCData</td><td/><td/></row>
-		<row><td>CAMigrateBOINCDataCleanup</td><td>1</td><td>NewBinary20</td><td>MigrateBOINCDataCleanup</td><td/><td/></row>
-		<row><td>CAMigrateBOINCDataInstall</td><td>3073</td><td>NewBinary20</td><td>MigrateBOINCData</td><td/><td/></row>
-		<row><td>CAMigrateBOINCDataRollback</td><td>1281</td><td>NewBinary20</td><td>MigrateBOINCData</td><td/><td/></row>
-		<row><td>CAMigrateBOINCDataVersion</td><td>1</td><td>NewBinary20</td><td>MigrateBOINCDataVersion</td><td/><td/></row>
 		<row><td>CARestoreExecutionState</td><td>1</td><td>NewBinary20</td><td>RestoreExecutionState</td><td/><td/></row>
 		<row><td>CARestoreSetupState</td><td>1</td><td>NewBinary20</td><td>RestoreSetupState</td><td/><td/></row>
 		<row><td>CASaveExecutionState</td><td>1</td><td>NewBinary20</td><td>SaveExecutionState</td><td/><td/></row>
@@ -4064,11 +4059,6 @@ Click Advanced to customize.</td><td>0</td><td/><td>1427879980</td></row>
 		<row><td>CAGrantBOINCProjectsRights</td><td>VersionNT And REMOVE &lt;&gt; "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1553</td><td/><td/></row>
 		<row><td>CAGrantBOINCProjectsVirtualBoxRights</td><td>VersionNT And REMOVE &lt;&gt; "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1554</td><td/><td/></row>
 		<row><td>CAGrantBOINCUsersRights</td><td>VersionNT And REMOVE &lt;&gt; "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1552</td><td/><td/></row>
-		<row><td>CAMigrateBOINCData</td><td/><td>1555</td><td/><td/></row>
-		<row><td>CAMigrateBOINCDataCleanup</td><td>REMOVE &lt;&gt; "ALL"</td><td>6612</td><td/><td/></row>
-		<row><td>CAMigrateBOINCDataInstall</td><td/><td>3950</td><td/><td/></row>
-		<row><td>CAMigrateBOINCDataRollback</td><td/><td>3900</td><td/><td/></row>
-		<row><td>CAMigrateBOINCDataVersion</td><td>REMOVE &lt;&gt; "ALL"</td><td>409</td><td/><td/></row>
 		<row><td>CASaveExecutionState</td><td/><td>6614</td><td/><td/></row>
 		<row><td>CASaveSetupState</td><td/><td>6613</td><td/><td/></row>
 		<row><td>CASetBOINCDataProjects</td><td/><td>1004</td><td/><td/></row>
