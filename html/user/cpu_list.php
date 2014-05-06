@@ -77,9 +77,9 @@ function get_cpu_list() {
 function show_cpu_list($data) {
     page_head("CPU performance");
     echo "
-        This table shows the median peak speed
-        (Whetstone benchmark times number of CPUs)
-        of the computers participating in this project.
+        This table shows peak CPU speed
+        (based on Whetstone benchmarks)
+        of computers participating in this project.
         <p>
     ";
     start_table();
