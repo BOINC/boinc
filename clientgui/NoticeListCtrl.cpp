@@ -243,9 +243,9 @@ void CNoticeListCtrl::OnLinkClicked( wxWebViewEvent& event ) {
     if (event.GetURL().StartsWith(wxT("http://")) || event.GetURL().StartsWith(wxT("https://"))) {
         event.Veto();   // Tell wxWebView not to follow link
 		wxLaunchDefaultBrowser(event.GetURL());
+    } else {
+        event.Skip();
     }
-
-    event.Skip();
 }
 
 
