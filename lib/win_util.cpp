@@ -52,8 +52,10 @@ BOOL TerminateProcessById( DWORD dwProcessID ) {
 void chdir_to_data_dir() {
     LONG    lReturnValue;
     HKEY    hkSetupHive;
-    LPSTR  lpszRegistryValue = NULL;
     char    szPath[MAX_PATH];
+    LPSTR   lpszValue = NULL;
+    LPSTR   lpszExpandedValue = NULL;
+    DWORD   dwValueType = REG_EXPAND_SZ;
     DWORD   dwSize = 0;
 
     // change the current directory to the boinc data directory if it exists
@@ -70,26 +72,40 @@ void chdir_to_data_dir() {
             hkSetupHive,
             "DATADIR",
             NULL,
-            NULL,
+            &dwValueType,
             NULL,
             &dwSize
         );
         if (lReturnValue != ERROR_FILE_NOT_FOUND) {
             // Allocate the buffer space.
-            lpszRegistryValue = (LPSTR) malloc(dwSize);
-            (*lpszRegistryValue) = NULL;
+            lpszValue = (LPSTR) malloc(dwSize);
+            (*lpszValue) = NULL;
 
             // Now get the data
             lReturnValue = RegQueryValueExA( 
                 hkSetupHive,
                 "DATADIR",
                 NULL,
-                NULL,
-                (LPBYTE)lpszRegistryValue,
+                &dwValueType,
+                (LPBYTE)lpszValue,
                 &dwSize
             );
 
-            SetCurrentDirectoryA(lpszRegistryValue);
+            // Expand the Strings
+            // We need to get the size of the buffer needed
+            dwSize = 0;
+            lReturnValue = ExpandEnvironmentStringsA(lpszValue, NULL, dwSize);
+   
+            if (lReturnValue) {
+                // Make the buffer big enough for the expanded string
+                lpszExpandedValue = (LPSTR) malloc(lReturnValue);
+                (*lpszExpandedValue) = NULL;
+                dwSize = lReturnValue;
+   
+                ExpandEnvironmentStringsA(lpszValue, lpszExpandedValue, dwSize);
+
+                SetCurrentDirectoryA(lpszExpandedValue);
+            }
         }
     } else {
         if (SUCCEEDED(SHGetFolderPathA(NULL, CSIDL_COMMON_APPDATA|CSIDL_FLAG_CREATE, NULL, SHGFP_TYPE_CURRENT, szPath))) {
@@ -101,7 +117,8 @@ void chdir_to_data_dir() {
     }
 
     if (hkSetupHive) RegCloseKey(hkSetupHive);
-    if (lpszRegistryValue) free(lpszRegistryValue);
+    if (lpszValue) free(lpszValue);
+    if (lpszExpandedValue) free(lpszExpandedValue);
 }
 
 std::wstring A2W(const std::string& str) {
