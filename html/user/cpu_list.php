@@ -22,12 +22,12 @@ require_once("../inc/boinc_db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/cache.inc");
 
-define("MIN_CREDIT", 100);
-define("MIN_COUNT", 10);
+define("MIN_CREDIT", 0);
+define("MIN_COUNT", 3);
 
 function compare($a, $b) {
-    if ($a->gflops < $b->gflops) return 1;
-    if ($a->gflops > $b->gflops) return -1;
+    if ($a->p_fpops < $b->p_fpops) return 1;
+    if ($a->p_fpops > $b->p_fpops) return -1;
     return 0;
 }
 
@@ -35,7 +35,9 @@ function get_cpu_list() {
     $models = array();
     $hosts = BoincHost::enum("expavg_credit >= ".MIN_CREDIT);
     foreach($hosts as $host) {
-        $x = $host->p_ncpus * $host->p_fpops;
+        $x = new StdClass;
+        $x->p_ncpus = $host->p_ncpus;
+        $x->p_fpops = $host->p_fpops;
         if (!array_key_exists($host->p_model, $models)) {
             $models[$host->p_model] = array();
         }
@@ -48,21 +50,27 @@ function get_cpu_list() {
     foreach ($models as $model=>$list) {
         $n = sizeof($list);
         if ($n < MIN_COUNT) continue;
-        sort($list);
+        uasort($list, 'compare');
         $m = (int)($n/2);
-        $x = $list[$m]/1e9;
+        $total_cores = 0;
+        foreach ($list as $l) {
+            $total_cores += $l->p_ncpus;
+        }
+        $x = $list[$m]->p_fpops;
         $y = new StdClass;
         $y->model = $model;
-        $y->gflops = $x;
-        $y->count = $n;
+        $y->p_fpops = $x;
+        $y->mean_ncores = $total_cores/$n;
+        $y->nhosts = $n;
         $m2[] = $y;
         //echo "$model: $x GFLOPS ($n samples)\n";
     }
 
     uasort($m2, 'compare');
     return $m2;
-    foreach ($m2 as $model=>$x) {
-        echo "$model: $x GFLOPS\n";
+    foreach ($m2 as $x) {
+        $g = $x->p_fpops/1e9;
+        echo "$x->model: $g gflops $x->mean_ncores cores $x->nhosts hosts \n";
     }
 }
 
@@ -75,21 +83,26 @@ function show_cpu_list($data) {
         <p>
     ";
     start_table();
-    row_heading_array(array("CPU model", "Number of computers", "Median peak speed, GFLOPS"));
+    row_heading_array(array("CPU model", "Number of computers", "Avg. cores/computer", "GFLOPS/core", "GFLOPs/computer"));
     $i = 0;
-    $total_count = 0;
+    $total_nhosts = 0;
     $total_gflops = 0;
     foreach ($data as $d) {
         row_array(
-            array($d->model, $d->count, number_format($d->gflops, 2)),
+            array(
+                $d->model, $d->nhosts,
+                number_format($d->mean_ncores, 2),
+                number_format($d->p_fpops/1e9, 2),
+                number_format($d->mean_ncores*$d->p_fpops/1e9, 2)
+            ),
             "row$i"
         );
-        $total_count += $d->count;
-        $total_gflops += $d->gflops;
+        $total_nhosts += $d->nhosts;
+        $total_gflops += $d->mean_ncores*$d->p_fpops/1e9;
         $i = 1-$i;
     }
     row_array(
-        array("Total", $total_count, number_format($total_gflops, 2)),
+        array("Total", $total_nhosts, "", "", number_format($total_gflops, 2)),
         "row$i"
     );
     end_table();
