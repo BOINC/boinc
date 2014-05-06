@@ -396,8 +396,12 @@ function rowify($string) {
     echo "<tr><td>$string</td></tr>";
 }
 
-function row_array($x) {
-    echo "<tr>";
+function row_array($x, $class=null) {
+    if ($class) {
+        echo "<tr class='$class'>";
+    } else {
+        echo "<tr>";
+    }
     foreach ($x as $h) {
         echo "<td>$h</td>";
     }
@@ -952,6 +956,19 @@ function show_badges($is_user, $item) {
 
 function dtime() {
     return microtime(true);
+}
+
+// If this request is from a BOINC client, return its version as MMmmRR.
+// Otherwise return 0.
+// Format of user agent string is "BOINC client (windows_x86_64 7.3.17)"
+//
+function boinc_client_version(){
+    $x = $_SERVER[HTTP_USER_AGENT];
+    $e =  "/BOINC client [^ ]* (\d+).(\d+).(\d+)\)/";
+    if (preg_match($e, $x, $matches)) {
+        return $matches[1]*10000 + $matches[2]*100 + $matches[3];
+    }
+    return 0;
 }
 
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
