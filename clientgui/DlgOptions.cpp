@@ -277,27 +277,27 @@ void CDlgOptions::CreateControls() {
     wxFlexGridSizer* itemFlexGridSizer32 = new wxFlexGridSizer(2, 0, 0);
     itemGridSizer31->Add(itemFlexGridSizer32, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
     wxStaticText* itemStaticText33 = new wxStaticText;
-    itemStaticText33->Create( itemPanel27, wxID_STATIC, _("Address:"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemStaticText33->Create( itemStaticBoxSizer30Static, wxID_STATIC, _("Address:"), wxDefaultPosition, wxDefaultSize, 0 );
     itemFlexGridSizer32->Add(itemStaticText33, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_HTTPAddressCtrl = new wxTextCtrl;
-    m_HTTPAddressCtrl->Create( itemPanel27, ID_HTTPADDRESSCTRL, wxT(""), wxDefaultPosition, wxSize(150, -1), 0 );
+    m_HTTPAddressCtrl->Create( itemStaticBoxSizer30Static, ID_HTTPADDRESSCTRL, wxT(""), wxDefaultPosition, wxSize(150, -1), 0 );
     itemFlexGridSizer32->Add(m_HTTPAddressCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     wxStaticText* itemStaticText35 = new wxStaticText;
-    itemStaticText35->Create( itemPanel27, wxID_STATIC, _("Port:"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemStaticText35->Create( itemStaticBoxSizer30Static, wxID_STATIC, _("Port:"), wxDefaultPosition, wxDefaultSize, 0 );
     itemFlexGridSizer32->Add(itemStaticText35, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_HTTPPortCtrl = new wxTextCtrl;
-    m_HTTPPortCtrl->Create( itemPanel27, ID_HTTPPORTCTRL, wxT(""), wxDefaultPosition, wxSize(50, -1), 0 );
+    m_HTTPPortCtrl->Create( itemStaticBoxSizer30Static, ID_HTTPPORTCTRL, wxT(""), wxDefaultPosition, wxSize(50, -1), 0 );
     itemFlexGridSizer32->Add(m_HTTPPortCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
 	wxStaticText* itemStaticText62 = new wxStaticText;
-    itemStaticText62->Create( itemPanel27, wxID_STATIC, _("Don't use proxy for:"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemStaticText62->Create( itemStaticBoxSizer30Static, wxID_STATIC, _("Don't use proxy for:"), wxDefaultPosition, wxDefaultSize, 0 );
     itemFlexGridSizer32->Add(itemStaticText62, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
 	m_HTTPNoProxiesCtrl = new wxTextCtrl;
-	m_HTTPNoProxiesCtrl->Create(itemPanel27,ID_HTTPNOPROXYCTRL,wxT(""),wxDefaultPosition,wxSize(150,-1),0);
+	m_HTTPNoProxiesCtrl->Create(itemStaticBoxSizer30Static,ID_HTTPNOPROXYCTRL,wxT(""),wxDefaultPosition,wxSize(150,-1),0);
 	itemFlexGridSizer32->Add(m_HTTPNoProxiesCtrl,0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     wxStaticBox* itemStaticBoxSizer37Static = new wxStaticBox(itemPanel27, wxID_ANY, _("Leave these blank if not needed"));
@@ -306,19 +306,23 @@ void CDlgOptions::CreateControls() {
     wxFlexGridSizer* itemFlexGridSizer38 = new wxFlexGridSizer(2, 0, 0);
     itemStaticBoxSizer37->Add(itemFlexGridSizer38, 0, wxALIGN_LEFT|wxALL, 5);
     wxStaticText* itemStaticText39 = new wxStaticText;
-    itemStaticText39->Create( itemPanel27, wxID_STATIC, _("User Name:"), wxDefaultPosition, wxDefaultSize, 0 );
+// If we pass itemStaticBoxSizer37Static as parent layout is correct but it doesn't refresh correctly
+    itemStaticText39->Create( itemStaticBoxSizer30Static, wxID_STATIC, _("User Name:"), wxDefaultPosition, wxDefaultSize, 0 );
     itemFlexGridSizer38->Add(itemStaticText39, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_HTTPUsernameCtrl = new wxTextCtrl;
-    m_HTTPUsernameCtrl->Create( itemPanel27, ID_HTTPUSERNAMECTRL, wxT(""), wxDefaultPosition, wxSize(175, -1), 0 );
+// If we pass itemStaticBoxSizer37Static as parent layout is correct but it doesn't refresh correctly
+    m_HTTPUsernameCtrl->Create( itemStaticBoxSizer30Static, ID_HTTPUSERNAMECTRL, wxT(""), wxDefaultPosition, wxSize(175, -1), 0 );
     itemFlexGridSizer38->Add(m_HTTPUsernameCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     wxStaticText* itemStaticText41 = new wxStaticText;
-    itemStaticText41->Create( itemPanel27, wxID_STATIC, _("Password:"), wxDefaultPosition, wxDefaultSize, 0 );
+// If we pass itemStaticBoxSizer37Static as parent layout is correct but it doesn't refresh correctly
+    itemStaticText41->Create( itemStaticBoxSizer30Static, wxID_STATIC, _("Password:"), wxDefaultPosition, wxDefaultSize, 0 );
     itemFlexGridSizer38->Add(itemStaticText41, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_HTTPPasswordCtrl = new wxTextCtrl;
-    m_HTTPPasswordCtrl->Create( itemPanel27, ID_HTTPPASSWORDCTRL, wxT(""), wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD );
+// If we pass itemStaticBoxSizer37Static as parent layout is correct but it doesn't refresh correctly
+    m_HTTPPasswordCtrl->Create( itemStaticBoxSizer30Static, ID_HTTPPASSWORDCTRL, wxT(""), wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD );
     itemFlexGridSizer38->Add(m_HTTPPasswordCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     itemNotebook3->AddPage(itemPanel27, _("HTTP Proxy"));
