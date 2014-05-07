@@ -98,11 +98,11 @@ function show_cpu_list($data) {
             "row$i"
         );
         $total_nhosts += $d->nhosts;
-        $total_gflops += $d->mean_ncores*$d->p_fpops/1e9;
+        $total_gflops += $d->nhosts*$d->mean_ncores*$d->p_fpops/1e9;
         $i = 1-$i;
     }
     row_array(
-        array("Total", $total_nhosts, "", "", number_format($total_gflops, 2)),
+        array("Total", number_format($total_nhosts, 0). " computers", "", "", number_format($total_gflops/1e3, 2)." TeraFLOPS"),
         "row$i"
     );
     end_table();
