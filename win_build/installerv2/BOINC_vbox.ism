@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <?xml-stylesheet type="text/xsl" href="is.xsl" ?>
 <!DOCTYPE msi [
    <!ELEMENT msi   (summary,table*)>
@@ -930,6 +930,8 @@
 		<row><td>CACreateBOINCGroups</td><td>1</td><td>NewBinary6</td><td>CreateBOINCGroups</td><td/><td/></row>
 		<row><td>CACreateClientAuthFile</td><td>1</td><td>NewBinary6</td><td>CreateClientAuthFile</td><td/><td/></row>
 		<row><td>CACreateProjectInitFile</td><td>1</td><td>NewBinary6</td><td>CreateProjectInitFile</td><td/><td/></row>
+		<row><td>CADeleteBOINCAccounts</td><td>65</td><td>NewBinary6</td><td>DeleteBOINCAccounts</td><td/><td/></row>
+		<row><td>CADeleteBOINCGroups</td><td>1</td><td>NewBinary6</td><td>DeleteBOINCGroups</td><td/><td/></row>
 		<row><td>CADisableProtectedApplicationExecution</td><td>51</td><td>ENABLEPROTECTEDAPPLICATIONEXECUTION2</td><td/><td/><td/></row>
 		<row><td>CADisableUseByAllUsers</td><td>51</td><td>ENABLEUSEBYALLUSERS</td><td/><td/><td/></row>
 		<row><td>CAGetAdministratorsGroupName</td><td>1</td><td>NewBinary6</td><td>GetAdministratorsGroupName</td><td/><td/></row>
@@ -944,7 +946,13 @@
 		<row><td>CALaunchBOINCManager</td><td>65</td><td>NewBinary6</td><td>LaunchBOINCManager</td><td/><td/></row>
 		<row><td>CALaunchBOINCTray</td><td>65</td><td>NewBinary6</td><td>LaunchBOINCTray</td><td/><td/></row>
 		<row><td>CARestoreExecutionState</td><td>1</td><td>NewBinary6</td><td>RestoreExecutionState</td><td/><td/></row>
+		<row><td>CARestorePermissionBOINCData</td><td>1</td><td>NewBinary6</td><td>RestorePermissionBOINCData</td><td/><td/></row>
 		<row><td>CARestoreSetupState</td><td>1</td><td>NewBinary6</td><td>RestoreSetupState</td><td/><td/></row>
+		<row><td>CARevokeBOINCAdminsRights</td><td>1</td><td>NewBinary6</td><td>RevokeBOINCAdminsRights</td><td/><td/></row>
+		<row><td>CARevokeBOINCMasterRights</td><td>1</td><td>NewBinary6</td><td>RevokeBOINCMasterRights</td><td/><td/></row>
+		<row><td>CARevokeBOINCProjectRights</td><td>1</td><td>NewBinary6</td><td>RevokeBOINCProjectRights</td><td/><td/></row>
+		<row><td>CARevokeBOINCProjectsRights</td><td>1</td><td>NewBinary6</td><td>RevokeBOINCProjectsRights</td><td/><td/></row>
+		<row><td>CARevokeBOINCUsersRights</td><td>1</td><td>NewBinary6</td><td>RevokeBOINCUsersRights</td><td/><td/></row>
 		<row><td>CASaveExecutionState</td><td>1</td><td>NewBinary6</td><td>SaveExecutionState</td><td/><td/></row>
 		<row><td>CASaveSetupState</td><td>1</td><td>NewBinary6</td><td>SaveSetupState</td><td/><td/></row>
 		<row><td>CASetBOINCDataProjects</td><td>35</td><td>PROJECTS</td><td>[DATADIR]projects</td><td/><td/></row>
@@ -976,14 +984,6 @@
 		<row><td>SetAllUsersProfileNT</td><td>51</td><td>ALLUSERSPROFILE</td><td>[%SystemRoot]\Profiles\All Users</td><td/><td/></row>
 		<row><td>setAllUsersProfile2K</td><td>51</td><td>ALLUSERSPROFILE</td><td>[%ALLUSERSPROFILE]</td><td/><td/></row>
 		<row><td>setUserProfileNT</td><td>51</td><td>USERPROFILE</td><td>[%USERPROFILE]</td><td/><td/></row>
-    <row><td>CARestorePermissionBOINCData</td><td>1</td><td>NewBinary6</td><td>RestorePermissionBOINCData</td><td/><td/></row>
-    <row><td>CARevokeBOINCAdminsRights</td><td>1</td><td>NewBinary6</td><td>RevokeBOINCAdminsRights</td><td/><td/></row>
-    <row><td>CARevokeBOINCMasterRights</td><td>1</td><td>NewBinary6</td><td>RevokeBOINCMasterRights</td><td/><td/></row>
-    <row><td>CARevokeBOINCProjectRights</td><td>1</td><td>NewBinary6</td><td>RevokeBOINCProjectRights</td><td/><td/></row>
-    <row><td>CARevokeBOINCProjectsRights</td><td>1</td><td>NewBinary6</td><td>RevokeBOINCProjectsRights</td><td/><td/></row>
-    <row><td>CARevokeBOINCUsersRights</td><td>1</td><td>NewBinary6</td><td>RevokeBOINCUsersRights</td><td/><td/></row>
-    <row><td>CADeleteBOINCGroups</td><td>1</td><td>NewBinary6</td><td>DeleteBOINCGroups</td><td/><td/></row>
-    <row><td>DeleteBOINCAccounts</td><td>65</td><td>NewBinary6</td><td>DeleteBOINCAccounts</td><td/><td/></row>
 	</table>
 
 	<table name="Dialog">
@@ -4049,24 +4049,31 @@ Click Advanced to customize.</td><td>0</td><td/><td>1427879980</td></row>
 		<col def="I2">Sequence</col>
 		<col def="S255">ISComments</col>
 		<col def="I4">ISAttributes</col>
-		<row><td>AllocateRegistrySpace</td><td>NOT Installed</td><td>1556</td><td>AllocateRegistrySpace</td><td/></row>
+		<row><td>AllocateRegistrySpace</td><td>NOT Installed</td><td>1562</td><td>AllocateRegistrySpace</td><td/></row>
 		<row><td>AppSearch</td><td/><td>400</td><td>AppSearch</td><td/></row>
 		<row><td>BindImage</td><td/><td>4300</td><td>BindImage</td><td/></row>
 		<row><td>CACleanupOldBinaries</td><td>REMOVE &lt;&gt; "ALL"</td><td>796</td><td/><td/></row>
 		<row><td>CACreateAcctMgrLoginFile</td><td>NOT Installed</td><td>6605</td><td/><td/></row>
 		<row><td>CACreateBOINCAccounts</td><td>VersionNT And REMOVE &lt;&gt; "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1546</td><td/><td/></row>
-		<row><td>CACreateBOINCGroups</td><td>VersionNT And REMOVE &lt;&gt; "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1549</td><td/><td/></row>
+		<row><td>CACreateBOINCGroups</td><td>VersionNT And REMOVE &lt;&gt; "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1552</td><td/><td/></row>
 		<row><td>CACreateClientAuthFile</td><td>VersionNT And NOT Installed</td><td>6604</td><td/><td/></row>
 		<row><td>CACreateProjectInitFile</td><td>NOT Installed</td><td>6606</td><td/><td/></row>
+		<row><td>CADeleteBOINCAccounts</td><td>VersionNT And REMOVE = "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1561</td><td/><td/></row>
+		<row><td>CADeleteBOINCGroups</td><td>VersionNT And REMOVE = "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1551</td><td/><td/></row>
 		<row><td>CAGetAdministratorsGroupName</td><td>VersionNT And REMOVE &lt;&gt; "ALL"</td><td>1537</td><td/><td/></row>
 		<row><td>CAGetUsersGroupName</td><td>VersionNT And REMOVE &lt;&gt; "ALL"</td><td>1543</td><td/><td/></row>
-		<row><td>CAGrantBOINCAdminsRights</td><td>VersionNT And REMOVE &lt;&gt; "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1550</td><td/><td/></row>
-		<row><td>CAGrantBOINCAdminsVirtualBoxRights</td><td>VersionNT And REMOVE &lt;&gt; "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1551</td><td/><td/></row>
+		<row><td>CAGrantBOINCAdminsRights</td><td>VersionNT And REMOVE &lt;&gt; "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1553</td><td/><td/></row>
+		<row><td>CAGrantBOINCAdminsVirtualBoxRights</td><td>VersionNT And REMOVE &lt;&gt; "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1555</td><td/><td/></row>
 		<row><td>CAGrantBOINCMasterRights</td><td>VersionNT And REMOVE &lt;&gt; "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1547</td><td/><td/></row>
-		<row><td>CAGrantBOINCProjectRights</td><td>VersionNT And REMOVE &lt;&gt; "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1548</td><td/><td/></row>
-		<row><td>CAGrantBOINCProjectsRights</td><td>VersionNT And REMOVE &lt;&gt; "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1553</td><td/><td/></row>
-		<row><td>CAGrantBOINCProjectsVirtualBoxRights</td><td>VersionNT And REMOVE &lt;&gt; "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1554</td><td/><td/></row>
-		<row><td>CAGrantBOINCUsersRights</td><td>VersionNT And REMOVE &lt;&gt; "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1552</td><td/><td/></row>
+		<row><td>CAGrantBOINCProjectRights</td><td>VersionNT And REMOVE &lt;&gt; "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1549</td><td/><td/></row>
+		<row><td>CAGrantBOINCProjectsRights</td><td>VersionNT And REMOVE &lt;&gt; "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1558</td><td/><td/></row>
+		<row><td>CAGrantBOINCProjectsVirtualBoxRights</td><td>VersionNT And REMOVE &lt;&gt; "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1560</td><td/><td/></row>
+		<row><td>CAGrantBOINCUsersRights</td><td>VersionNT And REMOVE &lt;&gt; "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1556</td><td/><td/></row>
+		<row><td>CARevokeBOINCAdminsRights</td><td>VersionNT And REMOVE = "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1554</td><td/><td/></row>
+		<row><td>CARevokeBOINCMasterRights</td><td>VersionNT And REMOVE = "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1548</td><td/><td/></row>
+		<row><td>CARevokeBOINCProjectRights</td><td>VersionNT And REMOVE = "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1550</td><td/><td/></row>
+		<row><td>CARevokeBOINCProjectsRights</td><td>VersionNT And REMOVE = "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1559</td><td/><td/></row>
+		<row><td>CARevokeBOINCUsersRights</td><td>VersionNT And REMOVE = "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1557</td><td/><td/></row>
 		<row><td>CASaveExecutionState</td><td/><td>6615</td><td/><td/></row>
 		<row><td>CASaveSetupState</td><td/><td>6614</td><td/><td/></row>
 		<row><td>CASetBOINCDataProjects</td><td/><td>1004</td><td/><td/></row>
