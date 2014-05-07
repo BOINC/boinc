@@ -75,7 +75,7 @@ UINT CARevokeBOINCProjectsRights::OnExecution()
     if(
         GetAccountSid(
             NULL,                                    // default lookup logic
-            tstring(L"boinc_projects").c_str(),      // account to obtain SID
+            L"boinc_projects",                       // account to obtain SID
             &pSid                                    // buffer to allocate to contain resultant SID
             )
     ) 
