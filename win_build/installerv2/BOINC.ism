@@ -4068,6 +4068,7 @@ Click Advanced to customize.</td><td>0</td><td/><td>1427879980</td></row>
 		<row><td>CAGrantBOINCProjectsRights</td><td>VersionNT And REMOVE &lt;&gt; "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1559</td><td/><td/></row>
 		<row><td>CAGrantBOINCProjectsVirtualBoxRights</td><td>VersionNT And REMOVE &lt;&gt; "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1561</td><td/><td/></row>
 		<row><td>CAGrantBOINCUsersRights</td><td>VersionNT And REMOVE &lt;&gt; "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1557</td><td/><td/></row>
+		<row><td>CARestorePermissionBOINCData</td><td>VersionNT And REMOVE = "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>6611</td><td/><td/></row>
 		<row><td>CARestoreSetupState</td><td>VersionNT And REMOVE = "ALL"</td><td>1001</td><td/><td/></row>
 		<row><td>CARevokeBOINCAdminsRights</td><td>VersionNT And REMOVE = "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1555</td><td/><td/></row>
 		<row><td>CARevokeBOINCMasterRights</td><td>VersionNT And REMOVE = "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1548</td><td/><td/></row>
@@ -4081,7 +4082,7 @@ Click Advanced to customize.</td><td>0</td><td/><td>1427879980</td></row>
 		<row><td>CASetPermissionBOINC</td><td>VersionNT And REMOVE &lt;&gt; "ALL"</td><td>6607</td><td/><td/></row>
 		<row><td>CASetPermissionBOINCData</td><td>VersionNT And REMOVE &lt;&gt; "ALL"</td><td>6608</td><td/><td/></row>
 		<row><td>CASetPermissionBOINCDataProjects</td><td>VersionNT And REMOVE &lt;&gt; "ALL"</td><td>6609</td><td/><td/></row>
-		<row><td>CASetPermissionBOINCDataSlots</td><td>VersionNT And REMOVE &lt;&gt; "ALL"</td><td>6611</td><td/><td/></row>
+		<row><td>CASetPermissionBOINCDataSlots</td><td>VersionNT And REMOVE &lt;&gt; "ALL"</td><td>6610</td><td/><td/></row>
 		<row><td>CAShutdownBOINC</td><td>VersionNT</td><td>403</td><td/><td/></row>
 		<row><td>CAShutdownBOINCManager</td><td>VersionNT</td><td>404</td><td/><td/></row>
 		<row><td>CAShutdownBOINCScreensaver</td><td>VersionNT</td><td>408</td><td/><td/></row>
@@ -4100,7 +4101,7 @@ Click Advanced to customize.</td><td>0</td><td/><td>1427879980</td></row>
 		<row><td>ISPreventDowngrade</td><td>ISFOUNDNEWERPRODUCTVERSION</td><td>450</td><td/><td/></row>
 		<row><td>ISSelfRegisterCosting</td><td/><td>2201</td><td/><td/></row>
 		<row><td>ISSelfRegisterFiles</td><td/><td>5601</td><td/><td/></row>
-		<row><td>ISSelfRegisterFinalize</td><td/><td>6610</td><td/><td/></row>
+		<row><td>ISSelfRegisterFinalize</td><td/><td>6612</td><td/><td/></row>
 		<row><td>ISSetAllUsers</td><td>Not Installed</td><td>10</td><td/><td/></row>
 		<row><td>ISSetupFilesCleanup</td><td/><td>6616</td><td/><td/></row>
 		<row><td>ISSetupFilesExtract</td><td/><td>3</td><td/><td/></row>
