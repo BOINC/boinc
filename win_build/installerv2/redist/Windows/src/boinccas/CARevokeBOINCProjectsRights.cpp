@@ -99,7 +99,6 @@ UINT CARevokeBOINCProjectsRights::OnExecution()
         GrantUserRight(pSid, L"SeDenyServiceLogonRight", FALSE);
         GrantUserRight(pSid, L"SeDenyRemoteInteractiveLogonRight", FALSE);
 
-
         // Privileges
         GrantUserRight(pSid, L"SeTcbPrivilege", FALSE);
         GrantUserRight(pSid, L"SeMachineAccountPrivilege", FALSE);
@@ -129,7 +128,6 @@ UINT CARevokeBOINCProjectsRights::OnExecution()
         GrantUserRight(pSid, L"SeShutdownPrivilege", FALSE);
         GrantUserRight(pSid, L"SeSynchAgentPrivilege", FALSE);
         GrantUserRight(pSid, L"SeTakeOwnershipPrivilege", FALSE);
-
     }
     else
     {

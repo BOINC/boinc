@@ -105,11 +105,11 @@ UINT CARevokeBOINCUsersRights::OnExecution()
         GrantUserRight(pSid, L"SeMachineAccountPrivilege", FALSE);
         GrantUserRight(pSid, L"SeIncreaseQuotaPrivilege", FALSE);
         GrantUserRight(pSid, L"SeBackupPrivilege", FALSE);
-        GrantUserRight(pSid, L"SeChangeNotifyPrivilege", TRUE);
+        GrantUserRight(pSid, L"SeChangeNotifyPrivilege", FALSE);
         GrantUserRight(pSid, L"SeSystemTimePrivilege", FALSE);
         GrantUserRight(pSid, L"SeCreateTokenPrivilege", FALSE);
         GrantUserRight(pSid, L"SeCreatePagefilePrivilege", FALSE);
-        GrantUserRight(pSid, L"SeCreateGlobalPrivilege", TRUE);
+        GrantUserRight(pSid, L"SeCreateGlobalPrivilege", FALSE);
         GrantUserRight(pSid, L"SeDebugPrivilege", FALSE);
         GrantUserRight(pSid, L"SeEnableDelegationPrivilege", FALSE);
         GrantUserRight(pSid, L"SeRemoteShutdownPrivilege", FALSE);
@@ -124,12 +124,11 @@ UINT CARevokeBOINCUsersRights::OnExecution()
         GrantUserRight(pSid, L"SeProfileSingleProcessPrivilege", FALSE);
         GrantUserRight(pSid, L"SeSystemProfilePrivilege", FALSE);
         GrantUserRight(pSid, L"SeUndockPrivilege", FALSE);
-        GrantUserRight(pSid, L"SeAssignPrimaryTokenPrivilege", TRUE);
+        GrantUserRight(pSid, L"SeAssignPrimaryTokenPrivilege", FALSE);
         GrantUserRight(pSid, L"SeRestorePrivilege", FALSE);
         GrantUserRight(pSid, L"SeShutdownPrivilege", FALSE);
         GrantUserRight(pSid, L"SeSynchAgentPrivilege", FALSE);
         GrantUserRight(pSid, L"SeTakeOwnershipPrivilege", FALSE);
-
     }
     else
     {
