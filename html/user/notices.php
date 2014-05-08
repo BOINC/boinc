@@ -97,6 +97,9 @@ foreach ($threads as $t) {
 
 usort($items, 'notice_cmp');
 
+$client_version = boinc_client_version();
+$no_images = ($client_version < 73000);
+
 notices_rss_start();
 foreach ($items as $item) {
     switch ($item->type) {
@@ -104,7 +107,7 @@ foreach ($items as $item) {
         show_notify_rss_item($item->val);
         break;
     case 1:
-        show_forum_rss_item($item->val, 0, 1, 0);
+        show_forum_rss_item($item->val, 0, 1, $no_images);
         break;
     }
 }

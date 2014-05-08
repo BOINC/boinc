@@ -271,7 +271,7 @@ void ACTIVE_TASK::init_app_init_data(APP_INIT_DATA& aid) {
         aid.gpu_usage = 0;
     }
     aid.ncpus = app_version->avg_ncpus;
-    aid.vbox_window = config.vbox_window;
+    aid.vbox_window = cc_config.vbox_window;
     aid.checkpoint_period = gstate.global_prefs.disk_interval;
     aid.fraction_done_start = 0;
     aid.fraction_done_end = 1;
@@ -654,7 +654,7 @@ int ACTIVE_TASK::start(bool test) {
     sprintf(file_path, "%s/%s", slot_dir, TEMPORARY_EXIT_FILE);
     delete_project_owned_file(file_path, true);
 
-    if (config.exit_before_start) {
+    if (cc_config.exit_before_start) {
         msg_printf(0, MSG_INFO, "about to start a job; exiting");
         exit(0);
     }
@@ -676,7 +676,7 @@ int ACTIVE_TASK::start(bool test) {
 
     app_client_shm.reset_msgs();
 
-    if (config.run_apps_manually) {
+    if (cc_config.run_apps_manually) {
         // fill in client's PID so we won't think app has exited
         //
         pid = GetCurrentProcessId();
@@ -695,7 +695,7 @@ int ACTIVE_TASK::start(bool test) {
 
     relative_to_absolute(slot_dir, slotdirpath);
     int prio_mask;
-    if (config.no_priority_change) {
+    if (cc_config.no_priority_change) {
         prio_mask = 0;
     } else if (high_priority) {
         prio_mask = BELOW_NORMAL_PRIORITY_CLASS;
@@ -841,7 +841,7 @@ int ACTIVE_TASK::start(bool test) {
         );
     }
 
-    if (!config.no_priority_change) {
+    if (!cc_config.no_priority_change) {
         if (setpriority(PRIO_PROCESS, pid,
             high_priority?PROCESS_MEDIUM_PRIORITY:PROCESS_IDLE_PRIORITY)
         ) {
@@ -921,7 +921,7 @@ int ACTIVE_TASK::start(bool test) {
     // PowerPC apps emulated on i386 Macs crash if running graphics
     powerpc_emulated_on_i386 = ! is_native_i386_app(exec_path);
 #endif
-    if (config.run_apps_manually) {
+    if (cc_config.run_apps_manually) {
         pid = getpid();     // use the client's PID
         set_task_state(PROCESS_EXECUTING, "start");
         return 0;
@@ -1009,7 +1009,7 @@ int ACTIVE_TASK::start(bool test) {
 
         // lower our priority if needed
         //
-        if (!config.no_priority_change) {
+        if (!cc_config.no_priority_change) {
 #if HAVE_SETPRIORITY
             if (setpriority(PRIO_PROCESS, 0,
                 high_priority?PROCESS_MEDIUM_PRIORITY:PROCESS_IDLE_PRIORITY)

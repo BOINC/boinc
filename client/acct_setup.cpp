@@ -254,7 +254,7 @@ void GET_PROJECT_LIST_OP::handle_reply(int http_op_retval) {
 }
 
 void CLIENT_STATE::all_projects_list_check() {
-    if (config.dont_contact_ref_site) return;
+    if (cc_config.dont_contact_ref_site) return;
     if (all_projects_list_check_time) {
         if (now - all_projects_list_check_time < ALL_PROJECTS_LIST_CHECK_PERIOD) {
             return;

@@ -35,7 +35,7 @@
 #include "cc_config.h"
 
 extern LOG_FLAGS log_flags;
-extern CONFIG config;
+extern CC_CONFIG cc_config;
 extern int read_config_file(bool init, const char* fname=CONFIG_FILE);
 extern void process_gpu_exclusions();
 extern bool gpu_excluded(APP* app, COPROC& cp, int ind);

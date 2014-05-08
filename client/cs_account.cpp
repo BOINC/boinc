@@ -511,7 +511,7 @@ int CLIENT_STATE::add_project(
     FILE* f;
     int retval;
 
-    if (config.disallow_attach) {
+    if (cc_config.disallow_attach) {
         return ERR_USER_PERMISSION;
     }
 

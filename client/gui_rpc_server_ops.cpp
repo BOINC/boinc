@@ -678,9 +678,9 @@ static void handle_get_cc_status(GUI_RPC_CONN& grc) {
         gstate.network_run_mode.get_current(),
         gstate.network_run_mode.get_perm(),
         gstate.network_run_mode.delay(),
-        config.disallow_attach?1:0,
-        config.simple_gui_only?1:0,
-        config.max_event_log_lines
+        cc_config.disallow_attach?1:0,
+        cc_config.simple_gui_only?1:0,
+        cc_config.max_event_log_lines
     );
     if (grc.au_mgr_state == AU_MGR_QUIT_REQ) {
         grc.mfout.printf(
@@ -972,7 +972,7 @@ static void handle_get_newer_version(GUI_RPC_CONN& grc) {
         "<newer_version>%s</newer_version>\n"
         "<download_url>%s</download_url>\n",
         gstate.newer_version.c_str(),
-        config.client_download_url.c_str()
+        cc_config.client_download_url.c_str()
     );
 }
 
@@ -1127,7 +1127,7 @@ static void handle_read_global_prefs_override(GUI_RPC_CONN& grc) {
 static void handle_read_cc_config(GUI_RPC_CONN& grc) {
     grc.mfout.printf("<success/>\n");
     read_config_file(false);
-    config.show();
+    cc_config.show();
     log_flags.show();
     gstate.set_ncpus();
     process_gpu_exclusions();

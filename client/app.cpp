@@ -241,7 +241,7 @@ void ACTIVE_TASK::cleanup_task() {
     }
 #endif
 
-    if (config.exit_after_finish) {
+    if (cc_config.exit_after_finish) {
         gstate.write_state_file();
         exit(0);
     }
@@ -416,14 +416,14 @@ void ACTIVE_TASK_SET::get_memory_usage() {
         }
     }
 
-    for (i=0; i<config.exclusive_apps.size(); i++) {
-        if (app_running(pm, config.exclusive_apps[i].c_str())) {
+    for (i=0; i<cc_config.exclusive_apps.size(); i++) {
+        if (app_running(pm, cc_config.exclusive_apps[i].c_str())) {
             exclusive_app_running = gstate.now;
             break;
         }
     }
-    for (i=0; i<config.exclusive_gpu_apps.size(); i++) {
-        if (app_running(pm, config.exclusive_gpu_apps[i].c_str())) {
+    for (i=0; i<cc_config.exclusive_gpu_apps.size(); i++) {
+        if (app_running(pm, cc_config.exclusive_gpu_apps[i].c_str())) {
             exclusive_gpu_app_running = gstate.now;
             break;
         }

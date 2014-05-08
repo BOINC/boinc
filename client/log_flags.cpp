@@ -48,7 +48,7 @@
 using std::string;
 
 LOG_FLAGS log_flags;
-CONFIG config;
+CC_CONFIG cc_config;
 
 static void show_flag(char* buf, bool flag, const char* flag_name) {
     if (!flag) return;
@@ -151,10 +151,10 @@ static void show_exclude_gpu(EXCLUDE_GPU& e) {
 //
 // TODO: show other config options
 //
-void CONFIG::show() {
+void CC_CONFIG::show() {
     unsigned int i;
     if (ncpus>0) {
-        msg_printf(NULL, MSG_INFO, "Config: simulate %d CPUs", config.ncpus);
+        msg_printf(NULL, MSG_INFO, "Config: simulate %d CPUs", cc_config.ncpus);
     }
     if (no_gpus) {
         msg_printf(NULL, MSG_INFO, "Config: don't use coprocessors");
@@ -241,10 +241,10 @@ void CONFIG::show() {
 }
 
 // This is used by the BOINC client.
-// KEEP IN SYNCH WITH CONFIG::parse_options()!!
+// KEEP IN SYNCH WITH CC_CONFIG::parse_options()!!
 // (It's separate so that we can write messages in it)
 
-int CONFIG::parse_options_client(XML_PARSER& xp) {
+int CC_CONFIG::parse_options_client(XML_PARSER& xp) {
     char path[MAXPATHLEN];
     string s;
     int n, retval;
@@ -423,12 +423,12 @@ int CONFIG::parse_options_client(XML_PARSER& xp) {
             _("Unrecognized tag in cc_config.xml"),
             xp.parsed_tag
         );
-        xp.skip_unexpected(true, "CONFIG::parse_options");
+        xp.skip_unexpected(true, "CC_CONFIG::parse_options");
     }
     return ERR_XML_PARSE;
 }
 
-int CONFIG::parse_client(FILE* f) {
+int CC_CONFIG::parse_client(FILE* f) {
     MIOFILE mf;
     XML_PARSER xp(&mf);
 
@@ -475,7 +475,7 @@ int CONFIG::parse_client(FILE* f) {
             _("Unrecognized tag in cc_config.xml"),
             xp.parsed_tag
         );
-        xp.skip_unexpected(true, "CONFIG.parse");
+        xp.skip_unexpected(true, "CC_CONFIG.parse");
     }
     msg_printf_notice(NULL, false,
         "http://boinc.berkeley.edu/manager_links.php?target=notice&controlid=config",
@@ -485,7 +485,7 @@ int CONFIG::parse_client(FILE* f) {
     return ERR_XML_PARSE;
 }
 
-int CONFIG::parse(FILE* f) {
+int CC_CONFIG::parse(FILE* f) {
     MIOFILE mf;
     mf.init_file(f);
     XML_PARSER xp(&mf);
@@ -499,7 +499,7 @@ int CONFIG::parse(FILE* f) {
 int read_config_file(bool init, const char* fname) {
     if (!init) {
         msg_printf(NULL, MSG_INFO, "Re-reading %s", fname);
-        config.defaults();
+        cc_config.defaults();
         log_flags.init();
     }
     FILE* f = boinc_fopen(fname, "r");
@@ -507,25 +507,25 @@ int read_config_file(bool init, const char* fname) {
         msg_printf(NULL, MSG_INFO, "cc_config.xml not found - using defaults");
         return ERR_FOPEN;
     }
-    config.parse_client(f);
+    cc_config.parse_client(f);
     fclose(f);
 #ifndef SIM
     diagnostics_set_max_file_sizes(
-        config.max_stdout_file_size, config.max_stderr_file_size
+        cc_config.max_stdout_file_size, cc_config.max_stderr_file_size
     );
 #endif
-    config_proxy_info = config.proxy_info;
+    config_proxy_info = cc_config.proxy_info;
 
     if (init) {
-        coprocs = config.config_coprocs;
-        if (strlen(config.data_dir)) {
+        coprocs = cc_config.config_coprocs;
+        if (strlen(cc_config.data_dir)) {
 #ifdef _WIN32
-            _chdir(config.data_dir);
+            _chdir(cc_config.data_dir);
 #else
-            if (chdir(config.data_dir)) {
+            if (chdir(cc_config.data_dir)) {
                 msg_printf(NULL, MSG_INFO,
                     "Couldn't change to directory specified in cc_config.xml: %s",
-                    config.data_dir
+                    cc_config.data_dir
                 );
                 return ERR_OPENDIR;
             }
@@ -556,8 +556,8 @@ void process_gpu_exclusions() {
 
     // check the syntactic validity of the exclusions
     //
-    for (i=0; i<config.exclude_gpus.size(); i++) {
-        EXCLUDE_GPU& eg = config.exclude_gpus[i];
+    for (i=0; i<cc_config.exclude_gpus.size(); i++) {
+        EXCLUDE_GPU& eg = cc_config.exclude_gpus[i];
         p = gstate.lookup_project(eg.url.c_str());
         if (!p) {
             msg_printf(0, MSG_USER_ALERT,
@@ -615,8 +615,8 @@ void process_gpu_exclusions() {
         for (int k=1; k<coprocs.n_rsc; k++) {
             COPROC& cp = coprocs.coprocs[k];
             int all_instances = (1<<cp.count)-1;  // bitmap of 1 for all inst
-            for (j=0; j<config.exclude_gpus.size(); j++) {
-                EXCLUDE_GPU& eg = config.exclude_gpus[j];
+            for (j=0; j<cc_config.exclude_gpus.size(); j++) {
+                EXCLUDE_GPU& eg = cc_config.exclude_gpus[j];
                 if (!eg.type.empty() && (eg.type != cp.type)) continue;
                 if (strcmp(eg.url.c_str(), p->master_url)) continue;
                 int mask;
@@ -708,10 +708,10 @@ void process_gpu_exclusions() {
 }
 
 bool gpu_excluded(APP* app, COPROC& cp, int ind) {
-    if (config.no_gpus) return true;
+    if (cc_config.no_gpus) return true;
     PROJECT* p = app->project;
-    for (unsigned int i=0; i<config.exclude_gpus.size(); i++) {
-        EXCLUDE_GPU& eg = config.exclude_gpus[i];
+    for (unsigned int i=0; i<cc_config.exclude_gpus.size(); i++) {
+        EXCLUDE_GPU& eg = cc_config.exclude_gpus[i];
         if (strcmp(eg.url.c_str(), p->master_url)) continue;
         if (!eg.type.empty() && (eg.type != cp.type)) continue;
         if (!eg.appname.empty() && (eg.appname != app->name)) continue;

@@ -57,7 +57,7 @@ private:
     void CreateCheckboxes();
     
     LOG_FLAGS           log_flags;
-    CONFIG              config;
+    CC_CONFIG              config;
     
     wxGridSizer*        m_headingSizer;
     std::vector <wxCheckBox*> m_checkbox_list;
