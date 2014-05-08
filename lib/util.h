@@ -41,7 +41,7 @@ static inline double drand() {
 extern double rand_normal();
 
 #ifdef _WIN32
-#include <windows.h>
+#include "boinc_win.h"
 extern int boinc_thread_cpu_time(HANDLE thread_handle, double& cpu);
 extern int boinc_process_cpu_time(HANDLE process_handle, double& cpu);
 #else

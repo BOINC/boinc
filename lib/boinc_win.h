@@ -51,7 +51,7 @@
 #endif
 
 #define USE_WINSOCK 1
-#define HAVE_WINSOCK2_H 1
+#undef HAVE_WINSOCK2_H
 #define HAVE_WINSOCK_H 1
 #define HAVE_WINDOWS_H 1
 #define HAVE_WS2TCPIP_H 1
