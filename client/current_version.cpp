@@ -32,7 +32,7 @@ int GET_CURRENT_VERSION_OP::do_rpc() {
     int retval;
 
     retval = gui_http->do_rpc(
-        this, config.client_version_check_url.c_str(),
+        this, cc_config.client_version_check_url.c_str(),
         GET_CURRENT_VERSION_FILENAME,
         true
     );
@@ -84,21 +84,21 @@ static bool parse_version(FILE* f, char* new_version, int len) {
 }
 
 static void show_newer_version_msg(const char* new_vers) {
-    if (config.client_new_version_text.empty()) {
+    if (cc_config.client_new_version_text.empty()) {
         msg_printf_notice(0, true,
             "http://boinc.berkeley.edu/manager_links.php?target=notice&controlid=download",
             "%s (%s) <a href=%s>%s</a>",
             _("A new version of BOINC is available."),
             new_vers,
-            config.client_download_url.c_str(),
+            cc_config.client_download_url.c_str(),
             _("Download")
         );
     } else {
         msg_printf_notice(0, true, NULL,
             "%s (%s) <a href=%s>%s</a>",
-            config.client_new_version_text.c_str(),
+            cc_config.client_new_version_text.c_str(),
             new_vers,
-            config.client_download_url.c_str(),
+            cc_config.client_download_url.c_str(),
             _("Download")
         );
     }

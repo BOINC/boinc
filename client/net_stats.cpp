@@ -198,7 +198,7 @@ void NET_STATUS::got_http_error() {
     // Don't spam the reference site when a project is down
     if (need_physical_connection) return;
 
-    if (config.dont_contact_ref_site) return;
+    if (cc_config.dont_contact_ref_site) return;
 
     if (log_flags.network_status_debug) {
         msg_printf(0, MSG_INFO,
@@ -217,10 +217,10 @@ void NET_STATUS::contact_reference_site() {
     if (log_flags.network_status_debug) {
         msg_printf(0, MSG_INFO,
             "[network_status] need_phys_conn %d; trying %s",
-            need_physical_connection, config.network_test_url.c_str()
+            need_physical_connection, cc_config.network_test_url.c_str()
         );
     }
-    gstate.lookup_website_op.do_rpc(config.network_test_url);
+    gstate.lookup_website_op.do_rpc(cc_config.network_test_url);
     need_to_contact_reference_site = false;
 }
 

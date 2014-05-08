@@ -179,12 +179,12 @@ static void init_core_client(int argc, char** argv) {
     setbuf(stdout, 0);
     setbuf(stderr, 0);
 
-    config.defaults();
+    cc_config.defaults();
     gstate.parse_cmdline(argc, argv);
     gstate.now = dtime();
 
 #ifdef _WIN32
-    if (!config.allow_multiple_clients) {
+    if (!cc_config.allow_multiple_clients) {
         chdir_to_data_dir();
     }
 #endif
@@ -283,7 +283,7 @@ static void do_gpu_detection(int argc, char** argv) {
 static int initialize() {
     int retval;
 
-    if (!config.allow_multiple_clients) {
+    if (!cc_config.allow_multiple_clients) {
         retval = wait_client_mutex(".", 10);
         if (retval) {
             log_message_error("Another instance of BOINC is running.");
@@ -372,7 +372,7 @@ int boinc_main_loop() {
             break;
         }
         if (gstate.requested_exit) {
-            if (config.abort_jobs_on_exit) {
+            if (cc_config.abort_jobs_on_exit) {
                 if (!gstate.in_abort_sequence) {
                     msg_printf(NULL, MSG_INFO,
                         "Exit requested; starting abort sequence"

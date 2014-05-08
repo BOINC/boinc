@@ -65,8 +65,8 @@ void set_no_rsc_config() {
             for (int k=0; k<c.count; k++) {
                 allowed[c.device_nums[k]] = true;
             }
-            for (unsigned int k=0; k<config.exclude_gpus.size(); k++) {
-                EXCLUDE_GPU& e = config.exclude_gpus[k];
+            for (unsigned int k=0; k<cc_config.exclude_gpus.size(); k++) {
+                EXCLUDE_GPU& e = cc_config.exclude_gpus[k];
                 if (strcmp(e.url.c_str(), p.master_url)) continue;
                 if (!e.type.empty() && strcmp(e.type.c_str(), c.type)) continue;
                 if (!e.appname.empty()) continue;
@@ -199,7 +199,7 @@ void RSC_WORK_FETCH::set_request(PROJECT* p) {
         req_secs = 1;
         return;
     }
-    if (config.fetch_minimal_work) {
+    if (cc_config.fetch_minimal_work) {
         req_instances = ninstances;
         req_secs = 1;
         return;
@@ -256,7 +256,7 @@ void RSC_WORK_FETCH::set_request_excluded(PROJECT* p) {
     }
     DEBUG(msg_printf(p, MSG_INFO, "set_request_excluded() %d %d %d", sim_excluded_instances, pwf.non_excluded_instances, n));
     req_instances = n;
-    if (p->resource_share == 0 || config.fetch_minimal_work) {
+    if (p->resource_share == 0 || cc_config.fetch_minimal_work) {
         req_secs = 1;
     } else {
         req_secs = n*gstate.work_buf_total();
@@ -469,7 +469,7 @@ bool WORK_FETCH::requested_work() {
 void WORK_FETCH::piggyback_work_request(PROJECT* p) {
     DEBUG(msg_printf(p, MSG_INFO, "piggyback_work_request()");)
     clear_request();
-    if (config.fetch_minimal_work && gstate.had_or_requested_work) return;
+    if (cc_config.fetch_minimal_work && gstate.had_or_requested_work) return;
     if (p->non_cpu_intensive) {
         if (!has_a_job_in_progress(p) && !p->dont_request_more_work) {
             rsc_work_fetch[0].req_secs = 1;
@@ -492,7 +492,7 @@ void WORK_FETCH::piggyback_work_request(PROJECT* p) {
     // able to fetch it
     //
     bool check_higher_priority_projects = true;
-    if (p->sched_rpc_pending && config.fetch_on_update) {
+    if (p->sched_rpc_pending && cc_config.fetch_on_update) {
         check_higher_priority_projects = false;
     }
 

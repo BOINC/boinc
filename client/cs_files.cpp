@@ -70,8 +70,8 @@ bool CLIENT_STATE::start_new_file_xfer(PERS_FILE_XFER& pfx) {
             }
         }
     }
-    if (nproj >= config.max_file_xfers_per_project) return false;
-    if (ntotal >= config.max_file_xfers) return false;
+    if (nproj >= cc_config.max_file_xfers_per_project) return false;
+    if (ntotal >= cc_config.max_file_xfers) return false;
     return true;
 }
 
@@ -216,7 +216,7 @@ int FILE_INFO::verify_file(
         return 0;
     }
 
-    if (nbytes && (nbytes != size) && (!config.dont_check_file_sizes)) {
+    if (nbytes && (nbytes != size) && (!cc_config.dont_check_file_sizes)) {
         if (show_errors) {
             msg_printf(project, MSG_INTERNAL_ERROR,
                 "File %s has wrong size: expected %.0f, got %.0f",
@@ -241,13 +241,13 @@ int FILE_INFO::verify_file(
             status = ERR_NO_SIGNATURE;
             return ERR_NO_SIGNATURE;
         }
-        if (config.use_certs || config.use_certs_only) {
+        if (cc_config.use_certs || cc_config.use_certs_only) {
             if (verify_file_certs()) {
                 verified = true;
                 return 0;
             }
         }
-        if (config.use_certs_only) {
+        if (cc_config.use_certs_only) {
             msg_printf(project, MSG_INTERNAL_ERROR,
                 "Unable to verify %s using certificates", name
             );
@@ -470,7 +470,7 @@ void CLIENT_STATE::check_file_existence() {
             fip->reset();
             continue;
         }
-        if (config.dont_check_file_sizes) continue;
+        if (cc_config.dont_check_file_sizes) continue;
         if (fip->status == FILE_PRESENT) {
             get_pathname(fip, path, sizeof(path));
             double size;

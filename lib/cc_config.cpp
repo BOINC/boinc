@@ -191,12 +191,12 @@ int LOG_FLAGS::write(MIOFILE& out) {
     return 0;
 }
 
-CONFIG::CONFIG() {
+CC_CONFIG::CC_CONFIG() {
 }
 
 // this is called first thing by client
 //
-void CONFIG::defaults() {
+void CC_CONFIG::defaults() {
     abort_jobs_on_exit = false;
     allow_multiple_clients = false;
     allow_remote_gui_rpc = false;
@@ -282,9 +282,9 @@ int EXCLUDE_GPU::parse(XML_PARSER& xp) {
 }
 
 // This is used by GUI RPC clients, NOT by the BOINC client
-// KEEP IN SYNCH WITH CONFIG::parse_options_client()!!
+// KEEP IN SYNCH WITH CC_CONFIG::parse_options_client()!!
 //
-int CONFIG::parse_options(XML_PARSER& xp) {
+int CC_CONFIG::parse_options(XML_PARSER& xp) {
     string s;
     int n, retval;
 
@@ -430,12 +430,12 @@ int CONFIG::parse_options(XML_PARSER& xp) {
         if (xp.parse_bool("use_certs_only", use_certs_only)) continue;
         if (xp.parse_bool("vbox_window", vbox_window)) continue;
 
-        xp.skip_unexpected(true, "CONFIG::parse_options");
+        xp.skip_unexpected(true, "CC_CONFIG::parse_options");
     }
     return ERR_XML_PARSE;
 }
 
-int CONFIG::parse(XML_PARSER& xp, LOG_FLAGS& log_flags) {
+int CC_CONFIG::parse(XML_PARSER& xp, LOG_FLAGS& log_flags) {
     while (!xp.get_tag()) {
         if (!xp.is_tag) {
             continue;
@@ -480,7 +480,7 @@ void EXCLUDE_GPU::write(MIOFILE& out) {
     );
 }
 
-int CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
+int CC_CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
     int j;
     unsigned int i;
 

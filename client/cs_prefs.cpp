@@ -207,7 +207,7 @@ int CLIENT_STATE::check_suspend_processing() {
         return SUSPEND_REASON_BENCHMARKS;
     }
 
-    if (config.start_delay && now < time_stats.client_start_time + config.start_delay) {
+    if (cc_config.start_delay && now < time_stats.client_start_time + cc_config.start_delay) {
         return SUSPEND_REASON_INITIAL_DELAY;
     }
 
@@ -411,7 +411,7 @@ void CLIENT_STATE::check_suspend_network() {
 
     // no network traffic if we're allowing unsigned apps
     //
-    if (config.unsigned_apps_ok) {
+    if (cc_config.unsigned_apps_ok) {
         network_suspended = true;
         file_xfers_suspended = true;
         network_suspend_reason = SUSPEND_REASON_USER_REQ;

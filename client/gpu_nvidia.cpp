@@ -264,6 +264,7 @@ void COPROC_NVIDIA::get(
     // But not FLOPs per clock cycle :-(
     // Anyway, don't use this for now because server code estimates FLOPS
     // based on compute capability, so we may as well do the same
+    // See http://docs.nvidia.com/gameworks/content/gameworkslibrary/coresdk/nvapi/
     //
     NvPhysicalGpuHandle GPUHandle[NVAPI_MAX_PHYSICAL_GPUS];
     NvU32 GpuCount, nc;
