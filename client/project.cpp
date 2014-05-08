@@ -840,7 +840,7 @@ bool PROJECT::waiting_until_min_rpc_time() {
 }
 
 void PROJECT::trim_statistics() {
-    double cutoff = dday() - config.save_stats_days*86400;
+    double cutoff = dday() - cc_config.save_stats_days*86400;
     // delete old stats; fill in the gaps if some days missing
     //
     while (!statistics.empty()) {

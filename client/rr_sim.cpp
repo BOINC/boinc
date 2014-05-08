@@ -510,7 +510,7 @@ void RR_SIM::simulate() {
                 sim_now+delta_t,
                 sim_now,
                 x,
-                config.rec_half_life,
+                cc_config.rec_half_life,
                 p->pwf.rec_temp,
                 dtemp
             );

@@ -63,6 +63,8 @@ UINT CARestoreSetupState::OnExecution()
     tstring     strInstallDirectory;
     tstring     strDataDirectory;
     tstring     strLaunchProgram;
+    tstring     strBOINCMasterAccountUsername;
+    tstring     strBOINCProjectAccountUsername;
     tstring     strEnableLaunchAtLogon;
     tstring     strEnableScreensaver;
     tstring     strEnableProtectedApplicationExecution;
@@ -70,6 +72,8 @@ UINT CARestoreSetupState::OnExecution()
     tstring     strOverrideInstallDirectory;
     tstring     strOverrideDataDirectory;
     tstring     strOverrideLaunchProgram;
+    tstring     strOverrideBOINCMasterAccountUsername;
+    tstring     strOverrideBOINCProjectAccountUsername;
     tstring     strOverrideEnableLaunchAtLogon;
     tstring     strOverrideEnableScreensaver;
     tstring     strOverrideEnableProtectedApplicationExecution;
@@ -83,6 +87,8 @@ UINT CARestoreSetupState::OnExecution()
         GetProperty( _T("OVERRIDE_INSTALLDIR"), strOverrideInstallDirectory );
         GetProperty( _T("OVERRIDE_DATADIR"), strOverrideDataDirectory );
         GetProperty( _T("OVERRIDE_LAUNCHPROGRAM"), strOverrideLaunchProgram );
+        GetProperty( _T("OVERRIDE_BOINC_MASTER_USERNAME"), strOverrideBOINCMasterAccountUsername );
+        GetProperty( _T("OVERRIDE_BOINC_PROJECT_USERNAME"), strOverrideBOINCProjectAccountUsername );
         GetProperty( _T("OVERRIDE_ENABLELAUNCHATLOGON"), strOverrideEnableLaunchAtLogon );
         GetProperty( _T("OVERRIDE_ENABLESCREENSAVER"), strOverrideEnableScreensaver );
         GetProperty( _T("OVERRIDE_ENABLEPROTECTEDAPPLICATIONEXECUTION3"), strOverrideEnableProtectedApplicationExecution );
@@ -91,6 +97,8 @@ UINT CARestoreSetupState::OnExecution()
         GetRegistryValue( _T("INSTALLDIR"), strInstallDirectory );
         GetRegistryValue( _T("DATADIR"), strDataDirectory );
         GetRegistryValue( _T("LAUNCHPROGRAM"), strLaunchProgram );
+        GetRegistryValue( _T("BOINC_MASTER_USERNAME"), strBOINCMasterAccountUsername );
+        GetRegistryValue( _T("BOINC_PROJECT_USERNAME"), strBOINCProjectAccountUsername );
         GetRegistryValue( _T("ENABLELAUNCHATLOGON"), strEnableLaunchAtLogon );
         GetRegistryValue( _T("ENABLESCREENSAVER"), strEnableScreensaver );
         GetRegistryValue( _T("ENABLEPROTECTEDAPPLICATIONEXECUTION3"), strEnableProtectedApplicationExecution );
@@ -116,6 +124,18 @@ UINT CARestoreSetupState::OnExecution()
             }
         } else {
             SetProperty( _T("LAUNCHPROGRAM"), strOverrideLaunchProgram );
+        }
+
+        if (strOverrideBOINCMasterAccountUsername.empty()) {
+            SetProperty( _T("BOINC_MASTER_USERNAME"), strBOINCMasterAccountUsername );
+        } else {
+            SetProperty( _T("BOINC_MASTER_USERNAME"), strOverrideBOINCMasterAccountUsername );
+        }
+
+        if (strOverrideBOINCProjectAccountUsername.empty()) {
+            SetProperty( _T("BOINC_PROJECT_USERNAME"), strBOINCProjectAccountUsername );
+        } else {
+            SetProperty( _T("BOINC_PROJECT_USERNAME"), strOverrideBOINCProjectAccountUsername );
         }
 
         if (strOverrideEnableLaunchAtLogon.empty()) {

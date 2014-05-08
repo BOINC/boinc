@@ -444,13 +444,13 @@ int RPCThread::ProcessRPCRequest() {
         break;
     case RPC_GET_CC_CONFIG:
          retval = (m_pDoc->rpcClient).get_cc_config(
-            *(CONFIG*)(current_request->arg1),
+            *(CC_CONFIG*)(current_request->arg1),
             *(LOG_FLAGS*)(current_request->arg2)
         );
         break;
     case RPC_SET_CC_CONFIG:
          retval = (m_pDoc->rpcClient).set_cc_config(
-            *(CONFIG*)(current_request->arg1),
+            *(CC_CONFIG*)(current_request->arg1),
             *(LOG_FLAGS*)(current_request->arg2)
         );
         break;

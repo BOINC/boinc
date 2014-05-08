@@ -2553,7 +2553,7 @@ int RPC_CLIENT::read_cc_config() {
     return rpc.parse_reply();
 }
 
-int RPC_CLIENT::get_cc_config(CONFIG& config, LOG_FLAGS& log_flags) {
+int RPC_CLIENT::get_cc_config(CC_CONFIG& config, LOG_FLAGS& log_flags) {
     int retval;
     SET_LOCALE sl;
     RPC rpc(this);
@@ -2564,7 +2564,7 @@ int RPC_CLIENT::get_cc_config(CONFIG& config, LOG_FLAGS& log_flags) {
     return config.parse(rpc.xp, log_flags);
 }
 
-int RPC_CLIENT::set_cc_config(CONFIG& config, LOG_FLAGS& log_flags) {
+int RPC_CLIENT::set_cc_config(CC_CONFIG& config, LOG_FLAGS& log_flags) {
     SET_LOCALE sl;
     char buf[64000];
     MIOFILE mf;

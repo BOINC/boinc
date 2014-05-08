@@ -64,16 +64,22 @@ UINT CASaveExecutionState::OnExecution()
     tstring     strReturnRebootRequested;
     tstring     strReturnValidateInstall;
     tstring     strRebootPrompt;
+    tstring     strBOINCMasterAccountUsername;
+    tstring     strBOINCProjectAccountUsername;
 
     GetProperty( _T("LAUNCHPROGRAM"), strLaunchProgram );
-    GetProperty( _T("RETURN_REBOOTREQUESTED"), strReturnRebootRequested );
     GetProperty( _T("REBOOTPROMPT"), strRebootPrompt );
+    GetProperty( _T("RETURN_REBOOTREQUESTED"), strReturnRebootRequested );
     GetProperty( _T("RETURN_VALIDATEINSTALL"), strReturnValidateInstall );
+    GetProperty( _T("BOINC_MASTER_USERNAME"), strBOINCMasterAccountUsername );
+    GetProperty( _T("BOINC_PROJECT_USERNAME"), strBOINCProjectAccountUsername );
 
     SetRegistryValue( _T("LAUNCHPROGRAM"), strLaunchProgram );
-    SetRegistryValue( _T("RETURN_REBOOTREQUESTED"), strReturnRebootRequested );
     SetRegistryValue( _T("REBOOTPROMPT"), strRebootPrompt );
+    SetRegistryValue( _T("RETURN_REBOOTREQUESTED"), strReturnRebootRequested );
     SetRegistryValue( _T("RETURN_VALIDATEINSTALL"), strReturnValidateInstall );
+    SetRegistryValue( _T("RETURN_BOINC_MASTER_USERNAME"), strBOINCMasterAccountUsername );
+    SetRegistryValue( _T("RETURN_BOINC_PROJECT_USERNAME"), strBOINCProjectAccountUsername );
 
     // Disable the ability to launch BOINC Manager if either a reboot is
     //   requested or validation of the installation executables fails.

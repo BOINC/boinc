@@ -33,19 +33,19 @@ EXPORTS
 	SaveSetupState
 	ShutdownBOINCManager
 	CleanupOldBinaries
-	VerifyInstallDirectories
-    ValidateInstall
-    ValidateRebootRequest
-    SaveExecutionState
-    RestoreExecutionState
-    CCConfigMd5sum
-    CreateProjectInitFile
-    CreateAcctMgrLoginFile
+	VerifyInstallDirectories	
+	ValidateInstall
+	ValidateRebootRequest
+	SaveExecutionState
+	RestoreExecutionState
+	CCConfigMd5sum
+	CreateProjectInitFile
+	CreateAcctMgrLoginFile
 	RestorePermissionBOINCData
 	RevokeBOINCAdminsRights
 	RevokeBOINCMasterRights
 	RevokeBOINCProjectRights
 	RevokeBOINCProjectsRights
 	RevokeBOINCUsersRights
-    DeleteBOINCGroups
-    DeleteBOINCAccounts
+	DeleteBOINCGroups
+	DeleteBOINCAccounts

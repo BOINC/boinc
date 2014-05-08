@@ -55,6 +55,7 @@ create table app (
     non_cpu_intensive       tinyint         not null default 0,
     locality_scheduling     integer         not null default 0,
     n_size_classes          smallint        not null default 0,
+    fraction_done_exact     tinyint         not null default 0,
     primary key (id)
 ) engine=InnoDB;
 

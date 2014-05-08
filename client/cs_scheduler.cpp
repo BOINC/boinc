@@ -136,7 +136,7 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
         rrs_fraction,
         prrs_fraction,
         p->duration_correction_factor,
-        config.allow_multiple_clients?1:0,
+        cc_config.allow_multiple_clients?1:0,
         g_use_sandbox?1:0
     );
     work_fetch.write_request(f, p);
@@ -210,7 +210,7 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
     //
     host_info.get_host_info();
     set_ncpus();
-    host_info.write(mf, !config.suppress_net_info, false);
+    host_info.write(mf, !cc_config.suppress_net_info, false);
 
     // get and write disk usage
     //
@@ -260,8 +260,8 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
             p->nresults_returned++;
             rp->write(mf, true);
         }
-        if (config.max_tasks_reported
-            && (p->nresults_returned >= config.max_tasks_reported)
+        if (cc_config.max_tasks_reported
+            && (p->nresults_returned >= cc_config.max_tasks_reported)
         ) {
             last_reported_index = i;
             break;
@@ -527,7 +527,7 @@ bool CLIENT_STATE::scheduler_rpc_poll() {
     default:
         return false;
     }
-    if (config.fetch_minimal_work && had_or_requested_work) {
+    if (cc_config.fetch_minimal_work && had_or_requested_work) {
         return false;
     }
 
@@ -798,7 +798,11 @@ int CLIENT_STATE::handle_scheduler_reply(
     for (i=0; i<sr.apps.size(); i++) {
         APP* app = lookup_app(project, sr.apps[i].name);
         if (app) {
+            // update app attributes; they may have changed on server
+            //
             safe_strcpy(app->user_friendly_name, sr.apps[i].user_friendly_name);
+            app->non_cpu_intensive = sr.apps[i].non_cpu_intensive;
+            app->fraction_done_exact = sr.apps[i].fraction_done_exact;
         } else {
             app = new APP;
             *app = sr.apps[i];
@@ -879,9 +883,7 @@ int CLIENT_STATE::handle_scheduler_reply(
             app, avpp.platform, avpp.version_num, avpp.plan_class
         );
         if (avp) {
-            // update performance-related info;
-            // generally this shouldn't change,
-            // but if it does it's better to use the new stuff
+            // update app version attributes in case they changed on server
             //
             avp->avg_ncpus = avpp.avg_ncpus;
             avp->max_ncpus = avpp.max_ncpus;
@@ -1290,7 +1292,7 @@ PROJECT* CLIENT_STATE::find_project_with_overdue_results(
             return p;
         }
 
-        if (config.report_results_immediately) {
+        if (cc_config.report_results_immediately) {
             return p;
         }
 

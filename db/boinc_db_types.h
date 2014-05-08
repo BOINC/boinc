@@ -82,6 +82,8 @@ struct APP {
         // type of locality scheduling used by this app (see above)
     int n_size_classes;
         // for multi-size apps, number of size classes
+    bool fraction_done_exact;
+        // fraction done reported by app is accurate
 
     int write(FILE*);
     void clear();

@@ -339,9 +339,9 @@ public:
             { return RPC_Wait(RPC_GET_GLOBAL_PREFS_OVERRIDE_STRUCT, (void*)&arg1, (void*)&arg2); }
     int set_global_prefs_override_struct(GLOBAL_PREFS& arg1, GLOBAL_PREFS_MASK& arg2)
             { return RPC_Wait(RPC_SET_GLOBAL_PREFS_OVERRIDE_STRUCT, (void*)&arg1, (void*)&arg2); }
-    int get_cc_config(CONFIG& arg1, LOG_FLAGS& arg2)
+    int get_cc_config(CC_CONFIG& arg1, LOG_FLAGS& arg2)
             { return RPC_Wait(RPC_GET_CC_CONFIG, (void*)&arg1, (void*)&arg2); }
-    int set_cc_config(CONFIG& arg1, LOG_FLAGS& arg2)
+    int set_cc_config(CC_CONFIG& arg1, LOG_FLAGS& arg2)
             { return RPC_Wait(RPC_SET_CC_CONFIG, (void*)&arg1, (void*)&arg2); }
 private:
     CMainDocument*              m_pDoc;

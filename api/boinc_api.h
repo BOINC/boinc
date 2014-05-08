@@ -92,7 +92,6 @@ extern int boinc_send_trickle_up(char* variety, char* text);
 extern int boinc_set_min_checkpoint_period(int);
 extern int boinc_checkpoint_completed(void);
 extern int boinc_fraction_done(double);
-extern int boinc_fraction_done_exact(double);
 extern int boinc_suspend_other_activities(void);
 extern int boinc_resume_other_activities(void);
 extern int boinc_report_app_status(

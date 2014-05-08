@@ -108,8 +108,6 @@ struct ACTIVE_TASK {
         // will be zero if the app doesn't use this call
     double fraction_done_elapsed_time;
         // elapsed time when fraction done was last reported
-    bool fraction_done_exact;
-        // true if app thinks fraction done is accurate
     int scheduler_state;
     int next_scheduler_state; // temp
     int signal;

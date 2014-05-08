@@ -95,7 +95,7 @@ bool CNoticeListCtrl::Create( wxWindow* parent ) {
     SetSizer(topsizer);
     
     m_itemCount = 0;
-    m_noticesBody = wxT("<html><body></body>");
+    m_noticesBody = wxT("<html><head></head><body></body></html>");
     
     // Display the fetching notices message until we have notices
     // to display or have determined that there are no notices.
@@ -133,7 +133,7 @@ void CNoticeListCtrl::SetItemCount(int newCount) {
     wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
 
     m_itemCount = newCount;
-    m_noticesBody =  wxT("<html><font face=helvetica>");
+    m_noticesBody =  wxT("<html><head></head><body><font face=helvetica>");
 
     for (i=0; i<newCount; ++i) {
         if (pDoc->IsConnected()) {
@@ -228,7 +228,7 @@ void CNoticeListCtrl::SetItemCount(int newCount) {
         }
         m_noticesBody += strBuffer;
     }
-    m_noticesBody += wxT("</font></html>");
+    m_noticesBody += wxT("</font></body></html>");
     m_browser->SetPage(m_noticesBody, wxT("http://"));
 }
 
@@ -243,9 +243,9 @@ void CNoticeListCtrl::OnLinkClicked( wxWebViewEvent& event ) {
     if (event.GetURL().StartsWith(wxT("http://")) || event.GetURL().StartsWith(wxT("https://"))) {
         event.Veto();   // Tell wxWebView not to follow link
 		wxLaunchDefaultBrowser(event.GetURL());
+    } else {
+        event.Skip();
     }
-
-    event.Skip();
 }
 
 

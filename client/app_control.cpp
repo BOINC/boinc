@@ -912,7 +912,7 @@ int ACTIVE_TASK::read_stderr_file() {
     int max_len = 63*1024;
     sprintf(path, "%s/%s", slot_dir, STDERR_FILE);
     if (!boinc_file_exists(path)) return 0;
-    if (read_file_malloc(path, buf1, max_len, !config.stderr_head)) {
+    if (read_file_malloc(path, buf1, max_len, !cc_config.stderr_head)) {
         return ERR_MALLOC;
     }
 
@@ -1349,7 +1349,6 @@ bool ACTIVE_TASK::get_app_status_msg() {
         bytes_received_episode = dtemp;
     }
     parse_int(msg_buf, "<want_network>", want_network);
-    parse_bool(msg_buf, "fd_exact", fraction_done_exact);
     if (parse_int(msg_buf, "<other_pid>", other_pid)) {
         // for now, we handle only one of these
         other_pids.clear();

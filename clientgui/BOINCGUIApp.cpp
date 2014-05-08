@@ -815,9 +815,11 @@ void CBOINCGUIApp::DetectDataDirectory() {
     //
 	LONG    lReturnValue;
 	HKEY    hkSetupHive;
-    LPTSTR  lpszRegistryValue = NULL;
     TCHAR   szPath[MAX_PATH];
-	DWORD   dwSize = 0;
+    LPTSTR  lpszValue = NULL;
+    LPTSTR  lpszExpandedValue = NULL;
+    DWORD   dwValueType = REG_EXPAND_SZ;
+    DWORD   dwSize = 0;
 
     // change the current directory to the boinc data directory if it exists
 	lReturnValue = RegOpenKeyEx(
@@ -833,27 +835,41 @@ void CBOINCGUIApp::DetectDataDirectory() {
             hkSetupHive,
             _T("DATADIR"),
             NULL,
-            NULL,
+            &dwValueType,
             NULL,
             &dwSize
         );
         if (lReturnValue != ERROR_FILE_NOT_FOUND) {
             // Allocate the buffer space.
-            lpszRegistryValue = (LPTSTR) malloc(dwSize);
-            (*lpszRegistryValue) = NULL;
+            lpszValue = (LPTSTR) malloc(dwSize);
+            (*lpszValue) = NULL;
 
             // Now get the data
             lReturnValue = RegQueryValueEx( 
                 hkSetupHive,
                 _T("DATADIR"),
                 NULL,
-                NULL,
-                (LPBYTE)lpszRegistryValue,
+                &dwValueType,
+                (LPBYTE)lpszValue,
                 &dwSize
             );
 
-            // Store the root directory for later use.
-            m_strBOINCMGRDataDirectory = lpszRegistryValue;
+            // Expand the Strings
+            // We need to get the size of the buffer needed
+            dwSize = 0;
+            lReturnValue = ExpandEnvironmentStrings(lpszValue, NULL, dwSize);
+   
+            if (lReturnValue) {
+                // Make the buffer big enough for the expanded string
+                lpszExpandedValue = (LPTSTR) malloc(lReturnValue*sizeof(TCHAR));
+                (*lpszExpandedValue) = NULL;
+                dwSize = lReturnValue;
+   
+                ExpandEnvironmentStrings(lpszValue, lpszExpandedValue, dwSize);
+
+                // Store the root directory for later use.
+                m_strBOINCMGRDataDirectory = lpszExpandedValue;
+            }
         }
     } else {
         if (SUCCEEDED(SHGetFolderPath(NULL, CSIDL_COMMON_APPDATA|CSIDL_FLAG_CREATE, NULL, SHGFP_TYPE_CURRENT, szPath))) {
@@ -867,7 +883,8 @@ void CBOINCGUIApp::DetectDataDirectory() {
 
     // Cleanup
 	if (hkSetupHive) RegCloseKey(hkSetupHive);
-    if (lpszRegistryValue) free(lpszRegistryValue);
+    if (lpszValue) free(lpszValue);
+    if (lpszExpandedValue) free(lpszExpandedValue);
 #endif
 #ifdef __WXMAC__
     m_strBOINCMGRDataDirectory = wxT("/Library/Application Support/BOINC Data");

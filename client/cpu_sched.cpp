@@ -578,7 +578,7 @@ static void update_rec() {
             gstate.now,
             gstate.rec_interval_start,
             x,
-            config.rec_half_life,
+            cc_config.rec_half_life,
             p->pwf.rec,
             p->pwf.rec_time
         );
@@ -1591,8 +1591,8 @@ ACTIVE_TASK* CLIENT_STATE::get_task(RESULT* rp) {
 void CLIENT_STATE::set_ncpus() {
     int ncpus_old = ncpus;
 
-    if (config.ncpus>0) {
-        ncpus = config.ncpus;
+    if (cc_config.ncpus>0) {
+        ncpus = cc_config.ncpus;
         host_info.p_ncpus = ncpus;
     } else if (host_info.p_ncpus>0) {
         ncpus = host_info.p_ncpus;

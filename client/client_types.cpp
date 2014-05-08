@@ -134,6 +134,7 @@ int APP::parse(XML_PARSER& xp) {
         if (xp.parse_str("name", name, sizeof(name))) continue;
         if (xp.parse_str("user_friendly_name", user_friendly_name, sizeof(user_friendly_name))) continue;
         if (xp.parse_bool("non_cpu_intensive", non_cpu_intensive)) continue;
+        if (xp.parse_bool("fraction_done_exact", fraction_done_exact)) continue;
 #ifdef SIM
         if (xp.parse_double("latency_bound", latency_bound)) continue;
         if (xp.parse_double("fpops_est", fpops_est)) continue;

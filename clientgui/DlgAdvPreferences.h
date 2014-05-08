@@ -69,7 +69,7 @@ private:
     GLOBAL_PREFS      prefs;
     GLOBAL_PREFS_MASK mask;
     LOG_FLAGS log_flags;
-    CONFIG config;
+    CC_CONFIG config;
 	bool m_bExclusiveAppsDataChanged;
 	bool m_bPrefsDataChanged;
 	bool m_bInInit;
