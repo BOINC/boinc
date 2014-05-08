@@ -50,6 +50,14 @@
 #define HAVE_STRCASECMP 1
 #endif
 
+/* 
+ * WINSOCK vs WINSOCK2 could be an issue in compiles because we include multiple
+ * packages that have the same choice.  The wx currently packed with BOINC 
+ * uses WINSOCK, so we have to not include WINSOCK2 by undefining 
+ * HAVE_WINSOCK2_H.  That limits what CURL in its header file as well.  We might
+ * need something more complicated if CURL and wxWidgets decide to go in
+ * opposite directions.
+ */
 #define USE_WINSOCK 1
 #undef HAVE_WINSOCK2_H
 #define HAVE_WINSOCK_H 1
