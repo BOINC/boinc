@@ -73,6 +73,8 @@ UINT CACreateBOINCAccounts::OnExecution()
     tstring          strEnableProtectedApplicationExecution;
     PSID             pSid;
     NET_API_STATUS   nasReturnValue;
+    BOOL             bCreateBOINCMasterAccount = FALSE;
+    BOOL             bCreateBOINCProjectAccount = FALSE;
     BOOL             bBOINCMasterAccountCreated = FALSE;
     BOOL             bBOINCProjectAccountCreated = FALSE;
     BOOL             bBOINCMasterAccountModified = FALSE;
@@ -101,9 +103,14 @@ UINT CACreateBOINCAccounts::OnExecution()
     if ( uiReturnValue ) return uiReturnValue;
 
 
+
     // Only create a new account or change the password on an existing account
     //   if the user hasn't explicitly defined an account
-    if (strBOINCMasterAccountUsername.empty() && strBOINCMasterAccountPassword.empty()) {
+    if (strBOINCMasterAccountUsername.empty() && strBOINCMasterAccountPassword.empty()) bCreateBOINCMasterAccount = true;
+    if (strBOINCMasterAccountUsername == _T("boinc_master")) bCreateBOINCMasterAccount = true;
+    if (strProductType == tstring(_T("2")) && (strBOINCMasterAccountUsername == (tstring(_T("boinc_master_")) + strComputerName))) bCreateBOINCMasterAccount = true;
+
+    if (bCreateBOINCMasterAccount) {
 
         LogMessage(
             INSTALLMESSAGE_INFO,
@@ -261,7 +268,11 @@ UINT CACreateBOINCAccounts::OnExecution()
 
     // Only create a new account or change the password on an existing account
     //   if the user hasn't explicitly defined an account
-    if (strBOINCProjectAccountUsername.empty() && strBOINCProjectAccountPassword.empty()) {
+    if (strBOINCProjectAccountUsername.empty() && strBOINCProjectAccountPassword.empty()) bCreateBOINCProjectAccount = true;
+    if (strBOINCProjectAccountUsername == _T("boinc_project")) bCreateBOINCProjectAccount = true;
+    if (strProductType == tstring(_T("2")) && (strBOINCProjectAccountUsername == (tstring(_T("boinc_project_")) + strComputerName))) bCreateBOINCProjectAccount = true;
+
+    if (bCreateBOINCProjectAccount) {
 
         LogMessage(
             INSTALLMESSAGE_INFO,
