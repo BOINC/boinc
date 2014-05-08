@@ -1417,7 +1417,7 @@ int GUI_RPC_CONN::handle_rpc() {
             "Connection: Keep-Alive\n"
             "Content-Type: text/plain\n\n"
         );
-        send(sock, buf, strlen(buf), 0);
+        send(sock, buf, (int)strlen(buf), 0);
         request_nbytes = 0;
         if (log_flags.gui_rpc_debug) {
             msg_printf(0, MSG_INFO,
@@ -1494,7 +1494,7 @@ int GUI_RPC_CONN::handle_rpc() {
             "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>\n",
             n
         );
-        send(sock, buf, strlen(buf), 0);
+        send(sock, buf, (int)strlen(buf), 0);
     }
     if (p) {
         send(sock, p, n, 0);

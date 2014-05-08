@@ -370,7 +370,7 @@ int COPROCS::read_coproc_info_file(vector<string> &warnings) {
             if (retval) {
                 my_ati_gpu.clear();
             } else {
-                my_ati_gpu.device_num = ati_gpus.size();
+                my_ati_gpu.device_num = (int)ati_gpus.size();
                 ati_gpus.push_back(my_ati_gpu);
             }
             continue;
@@ -380,7 +380,7 @@ int COPROCS::read_coproc_info_file(vector<string> &warnings) {
             if (retval) {
                 my_nvidia_gpu.clear();
             } else {
-                my_nvidia_gpu.device_num = nvidia_gpus.size();
+                my_nvidia_gpu.device_num = (int)nvidia_gpus.size();
                 my_nvidia_gpu.pci_info = my_nvidia_gpu.pci_infos[0];
                 memset(&my_nvidia_gpu.pci_infos[0], 0, sizeof(struct PCI_INFO));
                 nvidia_gpus.push_back(my_nvidia_gpu);
@@ -392,7 +392,7 @@ int COPROCS::read_coproc_info_file(vector<string> &warnings) {
             if (retval) {
                 my_intel_gpu.clear();
             } else {
-                my_intel_gpu.device_num = intel_gpus.size();
+                my_intel_gpu.device_num = (int)intel_gpus.size();
                 intel_gpus.push_back(my_intel_gpu);
             }
             continue;

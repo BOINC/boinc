@@ -706,7 +706,7 @@ void strip_translation(char* p) {
 }
 
 char* lf_terminate(char* p) {
-    int n = strlen(p);
+    int n = (int)strlen(p);
     if (p[n-1] == '\n') {
         return p;
     }
