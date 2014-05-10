@@ -325,9 +325,15 @@ dnl GUI
 BOINC_CHECK_CYGWIN
 
 dnl enable objective-C 
+if test x$OBJC = x ; then
+  OBJC="$CC"
+fi
+if test x$OBJCXX = x ; then
+  OBJCXX="$CXX"
+fi
 _AM_DEPENDENCIES([OBJC])
-OBJC="$CC"
 AC_SUBST(OBJC)
+AC_SUBST(OBJCXX)
 OBJCFLAGS="-ObjC"
 AC_SUBST(OBJCFLAGS)
 
