@@ -107,26 +107,26 @@ $biomed = array(
             "",
             "Study protein structure and interaction"
         ),
-        array(
-            "Docking@Home",
-            "http://docking.cis.udel.edu/",
-            tra("University of Delaware"),
-            tra("Study of protein - ligand interactions"),
-            tra("Docking@Home has both bioscience and computer science goals. The project aims to further knowledge of the atomic details of protein-ligand interactions and, by doing so, will search for insights into the discovery of novel pharmaceuticals."),
-            "docking.png",
-            "",
-            "Study protein-ligand interactions"
-        ),
-        array(
-            "Simulation One",
-            "http://mmgboinc.unimi.it/",
-            "Universita degli Studi, Milan, Italy",
-            "Molecular biology",
-            "The project studies osmoprotectants - small molecules that protect proteins, for example by thermal stress. Thanks to these molecules in nature we can find plants able to survive without water, or bacteria able to survive in extreme environmental conditions. And how is this possible? Answering this question could have a major impact in agriculture, e.g. developing plants that require less water intake.",
-            "SimOne_logo.png",
-            "",
-            "Study molecules that protect proteins"
-        ),
+//        array(
+//            "Docking@Home",
+//            "http://docking.cis.udel.edu/",
+//            tra("University of Delaware"),
+//            tra("Study of protein - ligand interactions"),
+//            tra("Docking@Home has both bioscience and computer science goals. The project aims to further knowledge of the atomic details of protein-ligand interactions and, by doing so, will search for insights into the discovery of novel pharmaceuticals."),
+//            "docking.png",
+//            "",
+//            "Study protein-ligand interactions"
+//        ),
+//        array(
+//            "Simulation One",
+//            "http://mmgboinc.unimi.it/",
+//            "Universita degli Studi, Milan, Italy",
+//            "Molecular biology",
+//            "The project studies osmoprotectants - small molecules that protect proteins, for example by thermal stress. Thanks to these molecules in nature we can find plants able to survive without water, or bacteria able to survive in extreme environmental conditions. And how is this possible? Answering this question could have a major impact in agriculture, e.g. developing plants that require less water intake.",
+//            "SimOne_logo.png",
+//            "",
+//            "Study molecules that protect proteins"
+//        ),
         array(
             "GPUGrid.net",
             "http://www.gpugrid.net/",
@@ -137,16 +137,16 @@ $biomed = array(
             "",
             "Help biomedical research"
         ),
-        array(
-            "Superlink@Technion",
-            "http://cbl-boinc-server2.cs.technion.ac.il/superlinkattechnion/",
-            tra("Technion, Israel"),
-            tra("Genetic linkage analysis"),
-            tra("Superlink@Technion helps geneticists all over the world find disease-provoking genes causing some types of diabetes, hypertension (high blood pressure), cancer, schizophrenia and many others."),
-            "superlink_logo.gif",
-            "",
-            "Find genetic causes of diseases"
-        ),
+//        array(
+//            "Superlink@Technion",
+//            "http://cbl-boinc-server2.cs.technion.ac.il/superlinkattechnion/",
+//            tra("Technion, Israel"),
+//            tra("Genetic linkage analysis"),
+//            tra("Superlink@Technion helps geneticists all over the world find disease-provoking genes causing some types of diabetes, hypertension (high blood pressure), cancer, schizophrenia and many others."),
+//            "superlink_logo.gif",
+//            "",
+//            "Find genetic causes of diseases"
+//        ),
 //        array(
 //            "Proteins@Home",
 //            "http://biology.polytechnique.fr/proteinsathome",
@@ -278,16 +278,16 @@ $astro_phys_chem = array(
             "",
             "Perform aerospace-related simulations"
         ),
-        array(
-            "eOn",
-            "http://eon.ices.utexas.edu/eon2/",
-            tra("University of Texas at Austin"),
-            tra("Chemistry"),
-            tra("A common problem in theoretical chemistry, condensed matter physics and materials science is the calculation of the time evolution of an atomic scale system where, for example, chemical reactions and/or diffusion occur. Generally the events of interest are quite rare (many orders of magnitude slower than the vibrational movements of the atoms), and therefore direct simulations, tracking every movement of the atoms, would take thousands of years of computer calculations on the fastest present day computer before a single event of interest can be expected to occur.  Our research group is interested in calculating the long time dynamics of systems."),
-            "",
-            "",
-            "Study the time evolution of atomic systems"
-        ),
+//        array(
+//            "eOn",
+//            "http://eon.ices.utexas.edu/eon2/",
+//            tra("University of Texas at Austin"),
+//            tra("Chemistry"),
+//            tra("A common problem in theoretical chemistry, condensed matter physics and materials science is the calculation of the time evolution of an atomic scale system where, for example, chemical reactions and/or diffusion occur. Generally the events of interest are quite rare (many orders of magnitude slower than the vibrational movements of the atoms), and therefore direct simulations, tracking every movement of the atoms, would take thousands of years of computer calculations on the fastest present day computer before a single event of interest can be expected to occur.  Our research group is interested in calculating the long time dynamics of systems."),
+//            "",
+//            "",
+//            "Study the time evolution of atomic systems"
+//        ),
 //        array(
 //            "Orbit@home",
 //            "http://orbit.psi.edu/oah/",
@@ -390,16 +390,16 @@ $astro_phys_chem = array(
 //            tra("Study the structure and reactivity of molecules using Quantum Chemistry."),
 //            "logo_oben.jpg"
 //        ),
-        array(
-            "Spinhenge@home",
-            "http://spin.fh-bielefeld.de/",
-            tra("Bielefeld University of Applied Sciences"),
-            tra("Chemical engineering and nanotechnology"),
-            tra("The study of molecular magnets and controlled nanoscale magnetism.  These magnetic molecules may be used to develop tiny magnetic switches, with applications in medicine (such as local tumor chemotherapy) and biotechnology."),
-            "rotating-fe30-h90px.gif",
-            "",
-            "Study nanoscale magnetism"
-        ),
+//        array(
+//            "Spinhenge@home",
+//            "http://spin.fh-bielefeld.de/",
+//            tra("Bielefeld University of Applied Sciences"),
+//            tra("Chemical engineering and nanotechnology"),
+//            tra("The study of molecular magnets and controlled nanoscale magnetism.  These magnetic molecules may be used to develop tiny magnetic switches, with applications in medicine (such as local tumor chemotherapy) and biotechnology."),
+//            "rotating-fe30-h90px.gif",
+//            "",
+//            "Study nanoscale magnetism"
+//        ),
     ),
 );
 
@@ -658,16 +658,16 @@ $math = array(
 //            tra("The eight queens problem consists of trying to place eight queens on a chessboard so that no queen attacks any other queen.  I has long been known that there are 92 solutions, of which 12 are distinct. NQueens@home studies the generalization to N queens on an NxN board, for N=19 and greater."),
 //            "NQueens-Logo1b.png"
 //        ),
-        array(
-            "sudoku@vtaiwan",
-            "http://sudoku.nctu.edu.tw/",
-            "National Chiao Tung University, Taiwan",
-            tra("Mathematics"),
-            "Sudoku@vtaiwan seeks to solve the minimum Sudoku problem, a well-known problem in mathematics and computer science.",
-            "sudoku.png",
-            "",
-            "Find the minimum Sudoku puzzle"
-        ),
+//        array(
+//            "sudoku@vtaiwan",
+//            "http://sudoku.nctu.edu.tw/",
+//            "National Chiao Tung University, Taiwan",
+//            tra("Mathematics"),
+//            "Sudoku@vtaiwan seeks to solve the minimum Sudoku problem, a well-known problem in mathematics and computer science.",
+//            "sudoku.png",
+//            "",
+//            "Find the minimum Sudoku puzzle"
+//        ),
 //        array(
 //            "Surveill@Home",
 //            "http://surveill.dei.uc.pt/surveill",
