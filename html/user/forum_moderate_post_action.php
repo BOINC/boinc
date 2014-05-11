@@ -83,7 +83,17 @@ if ($action=="hide"){
     $result = delete_post($post, $thread, $forum);
     if (!$result) error_page("Can't delete post");
     page_head("Post deleted");
-    echo "Post successfully deleted.";
+    if (BoincThread::lookup_id($thread->id)) {
+        echo "Post successfully deleted.
+            <p>
+            <a href=forum_thread.php?id=$thread->id>Return to thread</a>
+        ";
+    } else {
+        echo "Post and thread successfully deleted.
+            <p>
+            <a href=forum_forum.php?id=$forum->id>Return to forum</a>
+        ";
+    }
     page_tail();
     exit;
 } elseif ($action=="move"){

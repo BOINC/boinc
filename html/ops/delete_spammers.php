@@ -31,12 +31,18 @@
 // Run it in test mode first.
 
 require_once("../inc/db.inc");
+require_once("../inc/profile.inc");
+require_once("../inc/forum.inc");
 db_init();
 
-function del($id) {
+// delete a spammer account, and everything associated with it
+//
+function delete_user($id) {
+    $user = new StdClass;
+    $user->id = $id;
     echo "deleting user $id\n";
-    $q = "delete from profile where userid=$id";
-    mysql_query($q);
+    delete_profile($user);
+    forum_delete_user($user);
     $q = "delete from user where id=$id";
     mysql_query($q);
 }
@@ -47,7 +53,7 @@ function delete_list($fname) {
     while ($s = fgets($f)) {
         $s = trim($s);
         if (!is_numeric($s)) die("bad ID $s\n");
-        del($s);
+        delete_user($s);
     }
 }
 
@@ -81,7 +87,7 @@ function delete_auto() {
             // Change 0 to 1 if you want to actually delete
             //
             if (0) {
-                del($user->id);
+                delete_user($user->id);
             } else {
                 echo "------------\n$p->userid\n$p->response1\n$p->response2\n";
             }
@@ -94,6 +100,16 @@ for ($i=1; $i<$argc; $i++) {
         delete_list($argv[++$i]);
     } else if ($argv[$i] == "--auto") {
         delete_auto();
+    } else if ($argv[$i] == "--id_range") {
+        $id1 = $argv[++$i];
+        $id2 = $argv[++$i];
+        if (!is_numeric($id1) || !is_numeric($id2)) {
+            die ("bad args\n");
+        }
+        for ($i=$id1; $i <= $id2; $i++) {
+            echo "deleting $i\n";
+            delete_user($i);
+        }
     }
 }
 

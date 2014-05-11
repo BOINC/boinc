@@ -925,7 +925,7 @@ function forum_delete_user($user) {
         BoincSubscription::delete($s->userid, $s->threadid);
     }
     $p = BoincForumPrefs::lookup_userid($user->id);
-    $p->delete();
+    if ($p) $p->delete();
 }
 
 function move_post($post, $old_thread, $old_forum, $new_thread, $new_forum) {

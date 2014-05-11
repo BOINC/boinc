@@ -26,6 +26,8 @@ $cli_only = true;
 require_once("../inc/forum_db.inc");
 require_once("../inc/util_ops.inc");
 
+db_init();
+
 function update_thread_timestamps() {
     $threads = BoincThread::enum();
     foreach ($threads as $thread) {
@@ -43,7 +45,7 @@ function update_thread_timestamps() {
 }
 
 function update_user_posts() {
-    $users = BoincUser::enum();
+    $users = BoincUser::enum("");
     foreach ($users as $user) {
         BoincForumPrefs::lookup($user);
         $num = BoincPost::count("user=$user->id");
@@ -66,7 +68,8 @@ function update_thread_replies() {
     }
 }
 
-//update_thread_replies(); exit();
+update_thread_timestamps();
+update_user_posts();
+update_thread_replies();
 
-echo "You must uncomment a function call in the script\n";
 ?>
