@@ -67,6 +67,12 @@ bool JOB::get_score(WU_RESULT& wu_result) {
         if (g_wreq->allow_beta_work) {
             score += 1;
         } else {
+            if (config.debug_send) {
+                log_messages.printf(MSG_NORMAL,
+                    "[send] can't send job %d for beta app to non-beta user\n",
+                    wu_result.workunit.id
+                );
+            }
             return false;
         }
     }
