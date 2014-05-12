@@ -1631,13 +1631,19 @@ void CAdvancedFrame::OnRefreshView(CFrameEvent& WXUNUSED(event)) {
 #ifdef __WXMSW__
             // Ugly hack to work around a bug in wxWidgets 3.0
             // which fails to center the updated tab label text.
-            if (m_pNotebook->GetSelection() != noticesPage) {
-                m_pNotebook->Freeze();
+            m_pNotebook->Freeze();
+            if (m_pNotebook->GetSelection() == (int)noticesPage) {
+                size_t projectsPage = ID_ADVPROJECTSVIEW - ID_ADVVIEWBASE;
+                wxWindow * thePage = m_pNotebook->GetPage(projectsPage);
+                strTabTitle = m_pNotebook->GetPageText(projectsPage);
+                m_pNotebook->RemovePage(projectsPage);
+                m_pNotebook->InsertPage(projectsPage, thePage, strTabTitle, false, projectsPage);
+            } else {
                 wxWindow * thePage = m_pNotebook->GetPage(noticesPage);
                 m_pNotebook->RemovePage(noticesPage);
                 m_pNotebook->InsertPage(noticesPage, thePage, strTabTitle, false, noticesPage);
-                m_pNotebook->Thaw();
             }
+            m_pNotebook->Thaw();
 #endif
         }
 
