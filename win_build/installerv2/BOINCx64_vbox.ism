@@ -929,7 +929,7 @@
 		<row><td>CACreateBOINCAccounts</td><td>1</td><td>NewBinary6</td><td>CreateBOINCAccounts</td><td/><td/></row>
 		<row><td>CACreateBOINCGroups</td><td>1</td><td>NewBinary6</td><td>CreateBOINCGroups</td><td/><td/></row>
 		<row><td>CACreateClientAuthFile</td><td>1</td><td>NewBinary6</td><td>CreateClientAuthFile</td><td/><td/></row>
-		<row><td>CACreateProjectInitFile</td><td>1</td><td>NewBinary20</td><td>CreateProjectInitFile</td><td/><td/></row>
+		<row><td>CACreateProjectInitFile</td><td>1</td><td>NewBinary6</td><td>CreateProjectInitFile</td><td/><td/></row>
 		<row><td>CADeleteBOINCAccounts</td><td>65</td><td>NewBinary6</td><td>DeleteBOINCAccounts</td><td/><td/></row>
 		<row><td>CADeleteBOINCGroups</td><td>1</td><td>NewBinary6</td><td>DeleteBOINCGroups</td><td/><td/></row>
 		<row><td>CADisableProtectedApplicationExecution</td><td>51</td><td>ENABLEPROTECTEDAPPLICATIONEXECUTION3</td><td/><td/><td/></row>
