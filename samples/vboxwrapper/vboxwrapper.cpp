@@ -864,13 +864,23 @@ int main(int argc, char** argv) {
                 vm.cleanup();
 
                 if (vm.enable_cern_dataformat) {
-                    FILE* output = fopen("output", "w");
-                    if (output) {
+                    char outfilename[1024];
+
+                    boinc_resolve_filename(JOB_OUTFILENAME, outfilename, sizeof(outfilename));
+                    FILE* ofn = boinc_fopen(outfilename, "w");
+                    if (!ofn) {
                         fprintf(
-                            output,
+                            stderr,
+                            "%s can't open output file %s\n",
+                            vboxwrapper_msg_prefix(buf, sizeof(buf)), outfilename
+                        );
+                        return ERR_FOPEN;
+                    } else {
+                        fprintf(
+                            ofn,
                             "Work Unit completed!\n"
                         );
-                        fclose(output);
+                        fclose(ofn);
                     }
                 }
 

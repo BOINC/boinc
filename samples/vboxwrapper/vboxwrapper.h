@@ -31,6 +31,7 @@
 #define ISO_IMAGE_FILENAME "vm_isocontext"
 #define ISO_IMAGE_FILENAME_EXTENSION "iso"
 #define JOB_FILENAME "vbox_job.xml"
+#define JOB_OUTFILENAME "out"
 #define CHECKPOINT_FILENAME "vbox_checkpoint.txt"
 #define PORTFORWARD_FILENAME "vbox_port_forward.xml"
 #define REMOTEDESKTOP_FILENAME "vbox_remote_desktop.xml"
