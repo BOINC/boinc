@@ -824,6 +824,7 @@ void COPROC::merge_opencl(
                 opencls[j].is_used = COPROC_USED;
                 opencl_device_indexes[opencl_device_count] = opencls[j].opencl_device_index;
                 opencl_device_ids[opencl_device_count++] = opencls[j].device_id;
+                have_opencls[i] = true;
             }
         }
     }
@@ -873,6 +874,7 @@ void COPROC::find_best_opencls(
             continue;
         }
         if (use_all || !opencl_compare(opencls[i], opencl_prop, true)) {
+            have_opencls[count] = true;
             device_nums[count++] = opencls[i].device_num;
             opencl_device_indexes[opencl_device_count] = opencls[i].opencl_device_index;
             opencl_device_ids[opencl_device_count++] = opencls[i].device_id;

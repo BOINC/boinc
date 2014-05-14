@@ -75,7 +75,7 @@ using std::vector;
 static inline bool can_use_gpu(RESULT* rp, COPROC* cp, int i) {
     if (gpu_excluded(rp->app, *cp, i)) return false;
     if (rp->avp->is_opencl()) {
-        if (cp->opencl_device_ids[i] == 0) return false;
+        if (!cp->have_opencls[i]) return false;
     }
     return true;
 }
