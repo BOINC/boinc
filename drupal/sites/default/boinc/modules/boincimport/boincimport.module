@@ -1923,8 +1923,7 @@ function boincimport_forum_topics() {
   // Get all non-team topics to import
   db_set_active('boinc');
   $boinc_topics = db_query('
-    SELECT DISTINCT t.id, t.title, t.owner, t.forum, t.locked, t.hidden,
-      t.sticky, t.timestamp, t.create_time
+    SELECT DISTINCT t.id
     FROM %sthread t
     JOIN %sforum f ON f.id = t.forum
     JOIN %spost p ON p.thread = t.id
@@ -1933,12 +1932,6 @@ function boincimport_forum_topics() {
     $pre, $pre, $pre
   );
   $topic_count = mysql_num_rows($boinc_topics);
-  $total_topic_count = db_result(db_query('
-    SELECT COUNT(*) FROM %sthread t
-    JOIN %sforum f ON f.id = t.forum
-    WHERE f.parent_type = 0', $pre, $pre
-  ));
-  $empty_topic_count = $total_topic_count - $topic_count;
   db_set_active('default');
 
   if (!$topic_count) {
@@ -1959,38 +1952,14 @@ function boincimport_forum_topics() {
   );
   
   $operations = array();
-  $existing_topics = array();
-  $duplicates = array();
-  
-  // Get the list of topics already imported to be sure we're not importing
-  // any twice
-  $result = db_query('
-    SELECT nid, topic_id FROM {boincimport_temp_topic}'
-  );
-  while ($row = db_fetch_object($result)) {
-    $existing_topics[$row->topic_id] = $row->nid;
-  }
   
   // Create batches to process
   while ($boinc_topic = db_fetch_object($boinc_topics)) {
-     if (isset($existing_topics[$boinc_topic->id])) {
-      // This topic has already been imported
-      $duplicates[] = $boinc_topic->id;
-    }
-    else {
-      $operations[] = array(
-        'boincimport_topics_op', array(
-          $boinc_topic, $pre
-        )
-      );
-    }
-  }
-  
-  if ($duplicates) {
-    drupal_set_message(t(
-      'Skipped @count topics that were already imported',
-      array('@count' => count($duplicates))
-    ));
+    $operations[] = array(
+      'boincimport_topics_op', array(
+        $boinc_topic->id, $pre
+      )
+    );
   }
   
   $batch = array(
@@ -2009,29 +1978,41 @@ function boincimport_forum_topics() {
  * Batch operation for importing topics
  * Create a Drupal node from the given BOINC topic object
  */
-function boincimport_topics_op($topic, $pre = '', &$context) {
+function boincimport_topics_op($topic_id, $pre = '', &$context) {
   
   $input_format = variable_get('boincimport_input_format', 0);
   $news_forum_id = variable_get('boincimport_news_forum_id', 0);
   
-  // Get the content of the post that started the topic
   db_set_active('boinc');
-  $query = db_query('
+  $topic = db_fetch_object(db_query('
+    SELECT t.id, t.title, t.owner, t.forum, t.locked, t.hidden,
+      t.sticky, t.timestamp, t.create_time
+    FROM %sthread t
+    WHERE t.id = %d',
+    $pre, $topic_id
+  ));
+
+  // Get the content of the post that started the topic
+  $post = db_fetch_object(db_query('
     SELECT id, content
     FROM %spost
     WHERE thread = %d
     ORDER BY timestamp ASC
-    LIMIT 1', $pre, $topic->id);
+    LIMIT 1',
+    $pre, $topic->id
+  ));
   db_set_active('default');
     
-  // Skip this topic if there are no posts
-  if (!$post = db_fetch_object($query)) {
-    drupal_set_message(t('Could not find any posts in thread: %topic_id', array('%topic_id' => $topic->id)), 'warning');    
-    watchdog('boincimport', 'Could not find any posts in thread: %topic_id', array('%topic_id' => $topic->id), WATCHDOG_WARNING);
-    // Empty topics should have already been filtered out of the import, so
-    // consider this an error condition
+  $duplicate = db_result(db_query('
+    SELECT COUNT(*) FROM {boincimport_temp_topic}
+    WHERE topic_id = %d',
+    $topic->id
+  ));
+  
+  if ($duplicate OR !$post) {
     $success = FALSE;
   }
+  
   else {
     // Get the user and term IDs along with other data to define the topic
     $uid = boincuser_lookup_uid($topic->owner);
@@ -2102,6 +2083,14 @@ function boincimport_topics_op($topic, $pre = '', &$context) {
     $context['results']['success'][] = $topic->id;
     $message = "Successfully imported topic {$topic->id}";
   }
+  elseif ($duplicate) {
+    $context['results']['duplicate'][] = $topic->id;
+    $message = "Topic {$topic->id} was already imported";
+  }
+  elseif (!$post) {
+    $context['results']['empty'][] = $topic->id;
+    $message = "Skipping topic {$topic->id} as empty";
+  }
   else {
     $context['results']['failure'][] = $topic->id;
     $message = "Failed to import topic {$topic->id}!";
@@ -2128,13 +2117,23 @@ function boincimport_topics_finished($success, $results, $operations) {
   if ($success) {
     // Let's count our successes
     $total_imported = count($results['success']);
+    $duplicates = count($results['duplicate']);
+    $empty_topics = count($results['empty']);
     $message = t(
-      'Successfully imported @count topics',
-      array('@count' => $total_imported)
+      'Successfully imported @count topics (skipped @duplicates already imported, @abandoned empty topics)',
+      array(
+        '@count' => $total_imported,
+        '@duplicates' => $duplicates,
+        '@abandoned' => $empty_topics,
+      )
     );
     watchdog('boincimport',
-      'Successfully imported @count topics.',
-      array('@count' => $total_imported), WATCHDOG_INFO
+      'Successfully imported @count topics (skipped @duplicates already imported, @abandoned empty topics).',
+      array(
+        '@count' => $total_imported,
+        '@duplicates' => $duplicates,
+        '@abandoned' => $empty_topics,
+      ), WATCHDOG_INFO
     ); 
     // Set the topic import successful flag in the variable table
     variable_set('boincimport_import_topic_successful', '1');
@@ -2223,56 +2222,14 @@ function boincimport_forum_posts() {
   );
   
   $operations = array();
-  $existing_posts = array();
-  $duplicates = array();
-  
-  // Get the list of posts already in Drupal to be sure we're not importing
-  // any twice
-  $result = db_query('
-    SELECT cid, post_id FROM {boincimport_temp_post}'
-  );
-  while ($row = db_fetch_object($result)) {
-    $existing_posts[$row->post_id] = $row->cid;
-  }
   
   // Create batches to process
   while ($boinc_topic = db_fetch_object($boinc_topic_ids)) {
-    
-    db_set_active('boinc');
-    $boinc_posts = db_query('
-      SELECT id, user, thread, timestamp, content, parent_post, hidden
-      FROM %spost WHERE thread = %d ORDER BY timestamp ASC', $pre, $boinc_topic->id);
-    db_set_active('default');
-    
-    $first_post = true;
-
-    while ($boinc_post = db_fetch_object($boinc_posts)) {
-      
-      // Skip the first post as it has already been imported as a topic
-      if ($first_post) {
-        $first_post = false;
-        continue;
-      }
-
-      if (isset($existing_posts[$boinc_post->id])) {
-        // This post has already been imported
-        $duplicates[] = $boinc_post->id;
-      }
-      else {
-        $operations[] = array(
-          'boincimport_posts_op', array(
-            $boinc_post
-          )
-        );
-      }
-    }
-  }
-  
-  if ($duplicates) {
-    drupal_set_message(t(
-      'Skipped @count posts that were already imported',
-      array('@count' => count($duplicates))
-    ));
+    $operations[] = array(
+      'boincimport_posts_op', array(
+        $boinc_topic->id
+      )
+    );
   }
   
   $batch = array(
@@ -2280,7 +2237,7 @@ function boincimport_forum_posts() {
     'finished' => 'boincimport_posts_finished',
     'title' => t('Importing posts'),
     'init_message' => t('Beginning post import...'),
-    'progress_message' => t('Processed @current out of @total posts.'),
+    'progress_message' => t('Processed posts in @current out of @total topics.'),
     'error_message' => t('Post import has encountered an error.'),
   );
   
@@ -2291,99 +2248,134 @@ function boincimport_forum_posts() {
  * Batch operation for importing posts
  * Create a Drupal comment from the given BOINC post object
  */
-function boincimport_posts_op($post, &$context) {
+function boincimport_posts_op($boinc_topic_id, &$context) {
   
   $input_format = variable_get('boincimport_input_format', 0);
   $success = FALSE;
+  $posts_imported = 0;
   
-  // Make sure the post is valid
-  if ($post->content) {
+  // Get the posts in this topic
+  db_set_active('boinc');
+  $boinc_posts = db_query('
+    SELECT id, user, thread, timestamp, content, parent_post, hidden
+    FROM %spost WHERE thread = %d ORDER BY timestamp ASC', $pre, $boinc_topic_id);
+  db_set_active('default');
+  
+  $first_post = true;
+
+  while ($post = db_fetch_object($boinc_posts)) {
     
-    // Get user, node, and parent IDs for the post and sanitize
-    $uid = boincuser_lookup_uid($post->user);
-    $node = db_fetch_object(db_query('
-      SELECT nr.nid, nr.title
-      FROM {boincimport_temp_topic} btt
-      LEFT JOIN {node_revisions} AS nr ON btt.nid = nr.nid
-      WHERE btt.topic_id = %d',
-      $post->thread
-    ));
-    $nid = $node->nid;
-    $pid = db_result(db_query('
-      SELECT cid
-      FROM {boincimport_temp_post}
-      WHERE post_id = %d',
-      $post->parent_post));
-    if (is_null($pid)) $pid = 0;
-    if (!$uid) $uid = 0;
-    
-    $post->content = _boincimport_strip_bbcode($post->content);
-    $post->content = _boincimport_text_sanitize($post->content);
-    
-    $topic_reply = db_result(db_query('
-      SELECT COUNT(*)
-      FROM {comments}
-      WHERE nid = %d',
-      $nid
-    ));
-    $post_reply = $pid;
-    
-    if ($post_reply OR $topic_reply) {
-      // Create a subject for the post from the post content. The body may be in 
-      // any format, so we:
-      //  1) Filter it into HTML
-      //  2) Strip out all HTML tags
-      //  3) Convert entities back to plain-text.
-      // Note: format is checked by check_markup().
-      $subject = truncate_utf8(trim(decode_entities(strip_tags(check_markup($post->content, $input_format)))), 29, TRUE);
-      // Replace "Quote:" with "RE:"
-      $subject = str_replace('Quote:', 'RE: ', $subject);
-      // Fringe cases where the comment body is populated only by HTML tags
-      // will require a default subject...
-      if ($subject === '')
-        $subject = "RE: {$node->title}";
-    } else {
-      // This is the first post in the topic
-      $subject = $node->title;
+    // Skip the first post as it has already been imported as a topic
+    if ($first_post) {
+      $first_post = false;
+      continue;
     }
     
-    // Construct the post as a Drupal comment
-    $comment = array(
-      'pid' => $pid,
-      'nid' => $nid,
-      'uid' => $uid,
-      'subject' => $subject,
-      'comment' => $post->content,
-      'timestamp' => $post->timestamp,
-      'status' => $post->hidden,
-      'format' => $input_format
-    );
+    $is_duplicate = db_result(db_query('
+      SELECT COUNT(*) FROM {boincimport_temp_post}
+      WHERE post_id = %d',
+      $post->id
+    ));
+    if ($is_duplicate) {
+      // This post has already been imported
+      $context['results']['duplicate'][] = $post->id;
+      continue;
+    }
     
-    // Save the comment
-    if ($cid = boincimport_forum_comment_save($comment)) {
-      db_query('
-        INSERT INTO {boincimport_temp_post} (post_id, cid)
-        VALUES (%d, %d)',
-        $post->id, $cid
+    // Make sure the post is valid
+    if ($post->content) {
+      
+      // Get user, node, and parent IDs for the post and sanitize
+      $uid = boincuser_lookup_uid($post->user);
+      $node = db_fetch_object(db_query('
+        SELECT nr.nid, nr.title
+        FROM {boincimport_temp_topic} btt
+        LEFT JOIN {node_revisions} AS nr ON btt.nid = nr.nid
+        WHERE btt.topic_id = %d',
+        $post->thread
+      ));
+      $nid = $node->nid;
+      $pid = db_result(db_query('
+        SELECT cid
+        FROM {boincimport_temp_post}
+        WHERE post_id = %d',
+        $post->parent_post));
+      if (is_null($pid)) $pid = 0;
+      if (!$uid) $uid = 0;
+      
+      $post->content = _boincimport_strip_bbcode($post->content);
+      $post->content = _boincimport_text_sanitize($post->content);
+      
+      $topic_reply = db_result(db_query('
+        SELECT COUNT(*)
+        FROM {comments}
+        WHERE nid = %d',
+        $nid
+      ));
+      $post_reply = $pid;
+      
+      if ($post_reply OR $topic_reply) {
+        // Create a subject for the post from the post content. The body may be in 
+        // any format, so we:
+        //  1) Filter it into HTML
+        //  2) Strip out all HTML tags
+        //  3) Convert entities back to plain-text.
+        // Note: format is checked by check_markup().
+        $subject = truncate_utf8(trim(decode_entities(strip_tags(check_markup($post->content, $input_format)))), 29, TRUE);
+        // Replace "Quote:" with "RE:"
+        $subject = str_replace('Quote:', 'RE: ', $subject);
+        // Fringe cases where the comment body is populated only by HTML tags
+        // will require a default subject...
+        if ($subject === '')
+          $subject = "RE: {$node->title}";
+      } else {
+        // This is the first post in the topic
+        $subject = $node->title;
+      }
+      
+      // Construct the post as a Drupal comment
+      $comment = array(
+        'pid' => $pid,
+        'nid' => $nid,
+        'uid' => $uid,
+        'subject' => $subject,
+        'comment' => $post->content,
+        'timestamp' => $post->timestamp,
+        'status' => $post->hidden,
+        'format' => $input_format
       );
-      $success = TRUE;
+      
+      // Save the comment
+      if ($cid = boincimport_forum_comment_save($comment)) {
+        db_query('
+          INSERT INTO {boincimport_temp_post} (post_id, cid)
+          VALUES (%d, %d)',
+          $post->id, $cid
+        );
+        $success = TRUE;
+        $posts_imported++;
+        $context['results']['posts']['success'][] = $post->id;
+      }
+      else {
+        $context['results']['posts']['failure'][] = $post->id;
+      }
     }
   }
   
   $message = '';
   if ($success) {
     // Store some result for post-processing in the finished callback.
-    $context['results']['success'][] = $post->id;
-    $message = "Successfully imported post {$post->id}";
+    $context['results']['success'][] = $boinc_topic_id;
+    $message = "Imported {$posts_imported} post(s) for topic {$boinc_topic_id}";
   }
   else {
-    $context['results']['failure'][] = $post->id;
-    $message = "Failed to import post {$post->id}!";
+    $context['results']['failure'][] = $boinc_topic_id;
+    $message = "No posts to import for topic {$boinc_topic_id}";
   }
   
   // Update our progress information.
   $context['sandbox']['progress']++;
-  $context['sandbox']['current_post'] = $post->id;
+  $context['sandbox']['current_topic'] = $boinc_topic_id;
   $context['message'] = $message;
 
   // Update the progress for the batch engine
@@ -2401,14 +2393,24 @@ function boincimport_posts_op($post, &$context) {
 function boincimport_posts_finished($success, $results, $operations) {
   if ($success) {
     // Let's count our successes
-    $total_imported = count($results['success']);
+    $posts_imported = count($results['success']['posts']);
+    $topic_count = count($results['success']);
+    $duplicates = count($results['duplicate']);
     $message = t(
-      'Successfully imported @count posts',
-      array('@count' => $total_imported)
+      'Successfully imported @post_count posts in @topic_count topics (skipped @duplicates posts already imported)',
+      array(
+        '@post_count' => $posts_imported,
+        '@topic_count' => $topic_count,
+        '@duplicates' => $duplicates,
+      )
     );
     watchdog('boincimport',
-      'Successfully imported @count posts.',
-      array('@count' => $total_imported), WATCHDOG_INFO
+      'Successfully imported @post_count posts in @topic_count topics (skipped @duplicates posts already imported).',
+      array(
+        '@post_count' => $posts_imported,
+        '@topic_count' => $topic_count,
+        '@duplicates' => $duplicates,
+      ), WATCHDOG_INFO
     ); 
     // Set the post import successful flag in the variable table
     variable_set('boincimport_import_post_successful', '1');
