@@ -851,9 +851,21 @@ function boincimport_teams_op($boincteam, &$context) {
   
   // Save the team node
   node_save($node);
+  $success = ($node->nid) ? TRUE : FALSE;
   
   // Save the team IDs to a BOINC <--> Drupal reference table.
   db_query('INSERT INTO {boincteam} (team_id, nid) VALUES (%d, %d)', $boincteam->id, $node->nid);
+  
+  $message = '';
+  if ($success) {
+    // Store some result for post-processing in the finished callback.
+    $context['results']['success'][] = $boincteam->id;
+    $message = "Successfully imported team {$boincteam->id}";
+  }
+  else {
+    $context['results']['failure'][] = $boincteam->id;
+    $message = "Failed to import team {$boincteam->id}!";
+  }
   
   // Update our progress information.
   $context['sandbox']['progress']++;
