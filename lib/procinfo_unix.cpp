@@ -171,8 +171,6 @@ int PROC_STAT::parse(char* buf) {
 // build table of all processes in system
 //
 int procinfo_setup(PROC_MAP& pm) {
-
-#if HAVE_DIRENT_H
     DIR *dir;
     dirent *piddir;
     FILE* fd;
@@ -259,8 +257,6 @@ int procinfo_setup(PROC_MAP& pm) {
 #endif
     }
     closedir(dir);
-#endif
     find_children(pm);
     return final_retval;
-
 }
