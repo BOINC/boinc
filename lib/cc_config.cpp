@@ -652,7 +652,7 @@ int CC_CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
         "        <save_stats_days>%d</save_stats_days>\n"
         "        <skip_cpu_benchmarks>%d</skip_cpu_benchmarks>\n"
         "        <simple_gui_only>%d</simple_gui_only>\n"
-        "        <start_delay>%d</start_delay>\n"
+        "        <start_delay>%f</start_delay>\n"
         "        <stderr_head>%d</stderr_head>\n"
         "        <suppress_net_info>%d</suppress_net_info>\n"
         "        <unsigned_apps_ok>%d</unsigned_apps_ok>\n"
