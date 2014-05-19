@@ -94,6 +94,9 @@ void SCHED_TRIGGER_ITEM::clear() {
 void FILESET_SCHED_TRIGGER_ITEM::clear() {memset(this, 0, sizeof(*this));}
 void VDA_FILE::clear() {memset(this, 0, sizeof(*this));}
 void VDA_CHUNK_HOST::clear() {memset(this, 0, sizeof(*this));}
+void BADGE::clear() {memset(this, 0, sizeof(*this));}
+void BADGE_USER::clear() {memset(this, 0, sizeof(*this));}
+void BADGE_TEAM::clear() {memset(this, 0, sizeof(*this));}
 
 DB_PLATFORM::DB_PLATFORM(DB_CONN* dc) :
     DB_BASE("platform", dc?dc:&boinc_db){}
@@ -161,6 +164,12 @@ DB_VDA_FILE::DB_VDA_FILE(DB_CONN* dc) :
     DB_BASE("vda_file", dc?dc:&boinc_db){}
 DB_VDA_CHUNK_HOST::DB_VDA_CHUNK_HOST(DB_CONN* dc) :
     DB_BASE("vda_chunk_host", dc?dc:&boinc_db){}
+DB_BADGE::DB_BADGE(DB_CONN* dc) :
+    DB_BASE("badge", dc?dc:&boinc_db){}
+DB_BADGE_USER::DB_BADGE_USER(DB_CONN* dc) :
+    DB_BASE("badge_user", dc?dc:&boinc_db){}
+DB_BADGE_TEAM::DB_BADGE_TEAM(DB_CONN* dc) :
+    DB_BASE("badge_team", dc?dc:&boinc_db){}
 
 int DB_PLATFORM::get_id() {return id;}
 int DB_APP::get_id() {return id;}
@@ -2598,6 +2607,39 @@ void DB_VDA_CHUNK_HOST::db_parse(MYSQL_ROW &r) {
     transfer_wait = (atoi(r[i++]) != 0);
     transfer_request_time = atof(r[i++]);
     transfer_send_time = atof(r[i++]);
+}
+
+void DB_BADGE::db_parse(MYSQL_ROW &r) {
+    int i=0;
+    clear();
+    id = atoi(r[i++]);
+    create_time = atof(r[i++]);
+    type = atoi(r[i++]);
+    strcpy2(name, r[i++]);
+    strcpy2(title, r[i++]);
+    strcpy2(description, r[i++]);
+    strcpy2(image_url, r[i++]);
+    strcpy2(level, r[i++]);
+    strcpy2(tags, r[i++]);
+    strcpy2(sql_rule, r[i++]);
+}
+
+void DB_BADGE_USER::db_parse(MYSQL_ROW &r) {
+    int i=0;
+    clear();
+    badge_id = atoi(r[i++]);
+    user_id = atoi(r[i++]);
+    create_time = atof(r[i++]);
+    reassign_time = atof(r[i++]);
+}
+
+void DB_BADGE_TEAM::db_parse(MYSQL_ROW &r) {
+    int i=0;
+    clear();
+    badge_id = atoi(r[i++]);
+    team_id = atoi(r[i++]);
+    create_time = atof(r[i++]);
+    reassign_time = atof(r[i++]);
 }
 
 const char *BOINC_RCSID_ac374386c8 = "$Id$";

@@ -509,4 +509,23 @@ struct DB_VDA_CHUNK_HOST : public DB_BASE, public VDA_CHUNK_HOST {
     void db_parse(MYSQL_ROW &row);
 };
 
+struct DB_BADGE : public DB_BASE, public BADGE {
+    DB_BADGE(DB_CONN* p=0);
+    int get_id() {return id;};
+    void db_print(char*){};
+    void db_parse(MYSQL_ROW&);
+};
+
+struct DB_BADGE_USER : public DB_BASE, public BADGE_USER {
+    DB_BADGE_USER(DB_CONN* p=0);
+    void db_print(char*){};
+    void db_parse(MYSQL_ROW&);
+};
+
+struct DB_BADGE_TEAM : public DB_BASE, public BADGE_TEAM {
+    DB_BADGE_TEAM(DB_CONN* p=0);
+    void db_print(char*){};
+    void db_parse(MYSQL_ROW&);
+};
+
 #endif
