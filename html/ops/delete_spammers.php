@@ -95,6 +95,17 @@ function delete_auto() {
     }
 }
 
+function delete_banished() {
+    $fps = BoincForumPrefs::enum("banished_until>0");
+    foreach ($fps as $fp) {
+        $user = BoincUser::lookup_id($fp->userid);
+        if (!$user) continue;
+        if ($user->create_time < time() - 120*86400) continue;
+        echo "deleting $fp->userid\n";
+        delete_user($fp->userid);
+    }
+}
+
 for ($i=1; $i<$argc; $i++) {
     if ($argv[$i] == "--list") {
         delete_list($argv[++$i]);
@@ -110,6 +121,10 @@ for ($i=1; $i<$argc; $i++) {
             echo "deleting $i\n";
             delete_user($i);
         }
+    } else if ($argv[$i] == "--banished") {
+        delete_banished();
+    } else {
+        echo "usage: delete_spammers.php [--list file] [--id_range N M] [--auto]\n";
     }
 }
 

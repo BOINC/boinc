@@ -171,6 +171,10 @@ class BoincForumPrefs {
         $db = BoincDb::get();
         return $db->delete_aux('forum_preferences', "userid=$this->userid");
     }
+    static function enum($clause=null) {
+        $db = BoincDb::get();
+        return $db->enum('forum_preferences', 'BoincForumPrefs', $clause);
+    }
 }
 
 class BoincForumLogging {
