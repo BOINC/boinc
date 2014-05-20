@@ -177,7 +177,7 @@ bool send_jobs(int assign_type) {
     DB_ASSIGNMENT asg;
     DB_RESULT result;
     DB_WORKUNIT wu;
-    int retval;
+    int retval, n;
     bool sent_something = false;
     char query[256], buf[256];
 
@@ -216,6 +216,24 @@ bool send_jobs(int assign_type) {
         if (wu.need_validate) continue;
         if (wu.canonical_resultid) continue;
         if (wu.transition_time < time(0)) continue;
+
+        // don't send if an instance is currently in progress
+        //
+        sprintf(buf,
+            "where workunitid=%d and server_state=%d",
+            asg.workunitid,
+            RESULT_SERVER_STATE_IN_PROGRESS
+        );
+        retval = result.count(n, buf);
+        if (retval) {
+            log_messages.printf(MSG_CRITICAL,
+                "result.count() failed: %s\n", boincerror(retval)
+            );
+            continue;
+        }
+        if (n>0) {
+            continue;
+        }
 
         // don't send if we already sent an instance to this host
         //
