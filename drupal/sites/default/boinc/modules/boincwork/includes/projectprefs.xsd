@@ -157,10 +157,6 @@
         <xs:complexType>
             <xs:sequence>
                 <xs:choice minOccurs="1" maxOccurs="unbounded">
-                    <xs:element name="text" type="text" />
-                    <xs:element name="boolean" type="boolean" />
-                    <xs:element name="radio" type="radio" />
-                    <xs:element name="dropdown" type="dropdown" />
                     <xs:element name="apps" type="apps" />
                     <xs:element name="compound" type="compound" />
                 </xs:choice>
