@@ -357,8 +357,10 @@ void CBOINCBaseView::OnListDeselected(wxListEvent& event) {
 }
 
 
-// Work around a bug (feature?) in virtual list control 
-//   which does not send deselection events
+// Work around bugs (features?) in virtual list control:
+//  * It does not send deselection events.
+//  * It (apparently intentionally) does not send selection
+//    events if you add to selection using Shift_Click.
 void CBOINCBaseView::OnCacheHint(wxListEvent& event) {
     static int oldSelectionCount = 0;
     int newSelectionCount = m_pListPane->GetSelectedItemCount();
@@ -367,6 +369,10 @@ void CBOINCBaseView::OnCacheHint(wxListEvent& event) {
         wxListEvent leDeselectedEvent(wxEVT_COMMAND_LIST_ITEM_DESELECTED, m_windowId);
         leDeselectedEvent.SetEventObject(this);
         OnListDeselected(leDeselectedEvent);
+    } else if (newSelectionCount > oldSelectionCount) {
+        wxListEvent leSelectedEvent(wxEVT_COMMAND_LIST_ITEM_SELECTED, m_windowId);
+        leSelectedEvent.SetEventObject(this);
+        OnListSelected(leSelectedEvent);
     }
     oldSelectionCount = newSelectionCount;
     event.Skip();
