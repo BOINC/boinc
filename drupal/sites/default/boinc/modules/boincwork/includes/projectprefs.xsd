@@ -77,6 +77,15 @@
         </xs:sequence>
     </xs:complexType>
 
+    <xs:complexType name="attributes">
+        <xs:choice minOccurs="1" maxOccurs="unbounded">
+            <xs:element name="text" type="text" />
+            <xs:element name="boolean" type="boolean" />
+            <xs:element name="radio" type="radio" />
+            <xs:element name="dropdown" type="dropdown" />
+        </xs:choice>
+    </xs:complexType>
+
     <!-- complex base types -->
 
     <xs:complexType name="component">
@@ -84,7 +93,6 @@
             <xs:element name="title" type="title" minOccurs="1" maxOccurs="1" />
             <xs:element name="description" type="description" minOccurs="0" maxOccurs="1" />
         </xs:sequence>
-        <xs:attribute name="entitytype" type="entitytype" default="element" />
         <xs:attribute name="name" type="xs:string" use="required" />
     </xs:complexType>
 
@@ -141,11 +149,14 @@
     <xs:complexType name="compound">
         <xs:sequence>
             <xs:element name="title" type="title" minOccurs="1" maxOccurs="1" />
-            <xs:choice minOccurs="1" maxOccurs="unbounded">
-                <xs:element name="text" type="text" />
-                <xs:element name="boolean" type="boolean" />
-                <xs:element name="radio" type="radio" />
-                <xs:element name="dropdown" type="dropdown" />
+            <xs:choice minOccurs="1" maxOccurs="1">
+                <xs:choice minOccurs="1" maxOccurs="unbounded">
+                    <xs:element name="text" type="text" />
+                    <xs:element name="boolean" type="boolean" />
+                    <xs:element name="radio" type="radio" />
+                    <xs:element name="dropdown" type="dropdown" />
+                </xs:choice>
+                <xs:element name="attributes" type="attributes" />
             </xs:choice>
         </xs:sequence>
         <xs:attribute name="name" type="xs:string" use="required" />
