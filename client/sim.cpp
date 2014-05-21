@@ -1049,7 +1049,7 @@ static void write_inputs() {
         include_empty_projects?"yes":"no"
     );
     fprintf(f,
-        "REC half-life: %f\n", config.rec_half_life
+        "REC half-life: %f\n", cc_config.rec_half_life
     );
     fprintf(f,
         "Simulation duration: %f\nTime step: %f\n",
@@ -1087,7 +1087,7 @@ void simulate() {
         gstate.global_prefs.cpu_scheduling_period(),
         cpu_sched_rr_only?"yes":"no",
         server_uses_workload?"yes":"no",
-        config.rec_half_life
+        cc_config.rec_half_life
     );
     fprintf(summary_file, "Jobs\n");
     for (int i=0; i<gstate.results.size(); i++) {
@@ -1391,7 +1391,7 @@ void do_client_simulation() {
     FILE* f;
 
     sprintf(buf, "%s%s", infile_prefix, CONFIG_FILE);
-    config.defaults();
+    cc_config.defaults();
     read_config_file(true, buf);
 
     log_flags.init();
@@ -1429,7 +1429,7 @@ void do_client_simulation() {
         }
     }
 
-    config.show();
+    cc_config.show();
     log_flags.show();
 
     sprintf(buf, "%s%s", infile_prefix, GLOBAL_PREFS_FILE_NAME);
@@ -1442,12 +1442,15 @@ void do_client_simulation() {
         SUMMARY_FNAME, LOG_FNAME
     );
 
-    // fill in GPU device nums
+    // fill in GPU device nums and OpenCL flags
     //
     for (int i=0; i<coprocs.n_rsc; i++) {
         COPROC& cp = coprocs.coprocs[i];
         for (int j=0; j<cp.count; j++) {
             cp.device_nums[j] = j;
+            if (cp.have_opencl) {
+                cp.instance_has_opencl[j] = true;
+            }
         }
     }
     process_gpu_exclusions();
@@ -1544,7 +1547,7 @@ int main(int argc, char** argv) {
         } else if (!strcmp(opt, "--include_empty_projects")) {
             include_empty_projects = true;
         } else if (!strcmp(opt, "--rec_half_life")) {
-            config.rec_half_life = atof(argv[i++]);
+            cc_config.rec_half_life = atof(argv[i++]);
         } else {
             usage(argv[0]);
         }

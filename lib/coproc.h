@@ -165,7 +165,7 @@ struct COPROC {
     //
     int device_nums[MAX_COPROC_INSTANCES];
     int device_num;     // temp used in scan process
-    bool have_opencls[MAX_COPROC_INSTANCES];
+    bool instance_has_opencl[MAX_COPROC_INSTANCES];
     cl_device_id opencl_device_ids[MAX_COPROC_INSTANCES];
     int opencl_device_count;
     int opencl_device_indexes[MAX_COPROC_INSTANCES];
@@ -206,7 +206,7 @@ struct COPROC {
         available_ram = 0;
         for (int i=0; i<MAX_COPROC_INSTANCES; i++) {
             device_nums[i] = 0;
-            have_opencls[i] = false;
+            instance_has_opencl[i] = false;
             opencl_device_ids[i] = 0;
 			opencl_device_indexes[i] = 0;
             running_graphics_app[i] = true;

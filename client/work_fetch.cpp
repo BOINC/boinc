@@ -34,9 +34,9 @@
 #include "work_fetch.h"
 
 #if 0
-#define DEBUG(x) x
+#define WF_DEBUG(x) x
 #else
-#define DEBUG(X)
+#define WF_DEBUG(X)
 #endif
 
 using std::vector;
@@ -254,7 +254,7 @@ void RSC_WORK_FETCH::set_request_excluded(PROJECT* p) {
             n++;
         }
     }
-    DEBUG(msg_printf(p, MSG_INFO, "set_request_excluded() %d %d %d", sim_excluded_instances, pwf.non_excluded_instances, n));
+    WF_DEBUG(msg_printf(p, MSG_INFO, "set_request_excluded() %d %d %d", sim_excluded_instances, pwf.non_excluded_instances, n));
     req_instances = n;
     if (p->resource_share == 0 || cc_config.fetch_minimal_work) {
         req_secs = 1;
@@ -467,7 +467,7 @@ bool WORK_FETCH::requested_work() {
 // Decide if we should "piggyback" a work fetch request.
 //
 void WORK_FETCH::piggyback_work_request(PROJECT* p) {
-    DEBUG(msg_printf(p, MSG_INFO, "piggyback_work_request()");)
+    WF_DEBUG(msg_printf(p, MSG_INFO, "piggyback_work_request()");)
     clear_request();
     if (cc_config.fetch_minimal_work && gstate.had_or_requested_work) return;
     if (p->non_cpu_intensive) {
@@ -502,7 +502,7 @@ void WORK_FETCH::piggyback_work_request(PROJECT* p) {
     // If not, and the resource needs topping off, do so
     //
     for (int i=0; i<coprocs.n_rsc; i++) {
-        DEBUG(msg_printf(p, MSG_INFO, "piggyback: resource %s", rsc_name_long(i));)
+        WF_DEBUG(msg_printf(p, MSG_INFO, "piggyback: resource %s", rsc_name_long(i));)
         RSC_WORK_FETCH& rwf = rsc_work_fetch[i];
         if (i && !gpus_usable) {
             rwf.dont_fetch_reason = DONT_FETCH_GPUS_NOT_USABLE;
@@ -510,7 +510,7 @@ void WORK_FETCH::piggyback_work_request(PROJECT* p) {
         }
         rwf.dont_fetch_reason = rwf.cant_fetch(p);
         if (rwf.dont_fetch_reason) {
-            DEBUG(msg_printf(p, MSG_INFO, "piggyback: can't fetch %s", rsc_name_long(i));)
+            WF_DEBUG(msg_printf(p, MSG_INFO, "piggyback: can't fetch %s", rsc_name_long(i));)
             continue;
         }
         bool buffer_low = (rwf.saturated_time < gstate.work_buf_total());
@@ -519,7 +519,7 @@ void WORK_FETCH::piggyback_work_request(PROJECT* p) {
             need_work = true;
         }
         if (!need_work) {
-            DEBUG(msg_printf(p, MSG_INFO, "piggyback: don't need %s", rsc_name_long(i));)
+            WF_DEBUG(msg_printf(p, MSG_INFO, "piggyback: don't need %s", rsc_name_long(i));)
             rwf.dont_fetch_reason = DONT_FETCH_BUFFER_FULL;
             continue;
         }
@@ -530,11 +530,11 @@ void WORK_FETCH::piggyback_work_request(PROJECT* p) {
                 if (p2 == p) break;
                 if (p2->sched_priority == p->sched_priority) continue;
                 if (p2->pwf.cant_fetch_work_reason) {
-                    DEBUG(msg_printf(p, MSG_INFO, "piggyback: %s can't fetch work", p2->project_name);)
+                    WF_DEBUG(msg_printf(p, MSG_INFO, "piggyback: %s can't fetch work", p2->project_name);)
                     continue;
                 }
                 if (!rwf.cant_fetch(p2) && !rwf.backed_off(p2)) {
-                    DEBUG(msg_printf(p, MSG_INFO, "piggyback: better proj %s", p2->project_name);)
+                    WF_DEBUG(msg_printf(p, MSG_INFO, "piggyback: better proj %s", p2->project_name);)
                     break;
                 }
             }
@@ -543,7 +543,7 @@ void WORK_FETCH::piggyback_work_request(PROJECT* p) {
                 continue;
             }
         }
-        DEBUG(msg_printf(p, MSG_INFO, "piggyback: requesting %s", rsc_name_long(i));)
+        WF_DEBUG(msg_printf(p, MSG_INFO, "piggyback: requesting %s", rsc_name_long(i));)
         if (buffer_low) {
             rwf.set_request(p);
         } else {
@@ -579,7 +579,7 @@ static bool higher_priority(PROJECT *p1, PROJECT *p2) {
 //
 bool RSC_WORK_FETCH::backed_off(PROJECT* p) {
     if (project_state(p).backoff_time > gstate.now) {
-        DEBUG(msg_printf(p, MSG_INFO, "skip: backoff");)
+        WF_DEBUG(msg_printf(p, MSG_INFO, "skip: backoff");)
         return true;
     }
     return false;
@@ -594,7 +594,7 @@ int RSC_WORK_FETCH::cant_fetch(PROJECT *p) {
     //
     int reason = dont_fetch(p, rsc_type);
     if (reason) {
-        DEBUG(msg_printf(p, MSG_INFO, "skip: dont_fetch");)
+        WF_DEBUG(msg_printf(p, MSG_INFO, "skip: dont_fetch");)
         return reason;
     }
 
@@ -604,7 +604,7 @@ int RSC_WORK_FETCH::cant_fetch(PROJECT *p) {
     // only fetch work if a device is idle
     //
     if (p->resource_share == 0 && nidle_now == 0) {
-        DEBUG(msg_printf(p, MSG_INFO, "skip: zero share");)
+        WF_DEBUG(msg_printf(p, MSG_INFO, "skip: zero share");)
         return DONT_FETCH_ZERO_SHARE;
     }
 
@@ -628,13 +628,13 @@ int RSC_WORK_FETCH::cant_fetch(PROJECT *p) {
         if (rpwf.n_runnable_jobs >= n_not_excluded
             && rpwf.queue_est > (gstate.work_buf_min() * n_not_excluded)/ninstances
         ) {
-            DEBUG(msg_printf(p, MSG_INFO, "skip: too much work");)
+            WF_DEBUG(msg_printf(p, MSG_INFO, "skip: too much work");)
             return DONT_FETCH_BUFFER_FULL;
         }
     }
 
     if (rpwf.anon_skip) {
-        DEBUG(msg_printf(p, MSG_INFO, "skip: anon");)
+        WF_DEBUG(msg_printf(p, MSG_INFO, "skip: anon");)
         return DONT_FETCH_NO_APPS;
     }
     return 0;
@@ -647,7 +647,7 @@ bool RSC_WORK_FETCH::uses_starved_excluded_instances(PROJECT* p) {
     RSC_PROJECT_WORK_FETCH& rpwf = project_state(p);
     if (!sim_excluded_instances) return false;
     if ((sim_excluded_instances & rpwf.non_excluded_instances) == 0) {
-        DEBUG(msg_printf(p, MSG_INFO, "skip: excl");)
+        WF_DEBUG(msg_printf(p, MSG_INFO, "skip: excl");)
         return false;
     }
     return true;
@@ -722,9 +722,9 @@ PROJECT* WORK_FETCH::choose_project() {
     bool found = false;
     for (unsigned int j=0; j<gstate.projects.size(); j++) {
         p = gstate.projects[j];
-        DEBUG(msg_printf(p, MSG_INFO, "scanning");)
+        WF_DEBUG(msg_printf(p, MSG_INFO, "scanning");)
         if (p->pwf.cant_fetch_work_reason) {
-            DEBUG(msg_printf(p, MSG_INFO, "skip: cfwr %d", p->pwf.cant_fetch_work_reason);)
+            WF_DEBUG(msg_printf(p, MSG_INFO, "skip: cfwr %d", p->pwf.cant_fetch_work_reason);)
             continue;
         }
 
@@ -743,18 +743,18 @@ PROJECT* WORK_FETCH::choose_project() {
                 if (!rwf.found_project) {
                     rwf.found_project = p;
                 }
-                DEBUG(msg_printf(p, MSG_INFO, "can fetch %s", rsc_name_long(i));)
+                WF_DEBUG(msg_printf(p, MSG_INFO, "can fetch %s", rsc_name_long(i));)
             } else {
-                DEBUG(msg_printf(p, MSG_INFO, "can't fetch %s", rsc_name_long(i));)
+                WF_DEBUG(msg_printf(p, MSG_INFO, "can't fetch %s", rsc_name_long(i));)
                 continue;
             }
             if (rwf.saturated_time < gstate.work_buf_min()) {
-                DEBUG(msg_printf(p, MSG_INFO, "%s needs work - buffer low", rsc_name_long(i));)
+                WF_DEBUG(msg_printf(p, MSG_INFO, "%s needs work - buffer low", rsc_name_long(i));)
                 rsc_index = i;
                 break;
             }
             if (rwf.has_exclusions && rwf.uses_starved_excluded_instances(p)) {
-                DEBUG(msg_printf(p, MSG_INFO, "%s needs work - excluded instance starved", rsc_name_long(i));)
+                WF_DEBUG(msg_printf(p, MSG_INFO, "%s needs work - excluded instance starved", rsc_name_long(i));)
                 rsc_index = i;
                 break;
             }
@@ -773,12 +773,12 @@ PROJECT* WORK_FETCH::choose_project() {
                 if (i && !gpus_usable) continue;
                 RSC_WORK_FETCH& rwf = rsc_work_fetch[i];
                 bool buffer_low;
-                DEBUG(msg_printf(p, MSG_INFO, "checking %s", rsc_name_long(i));)
+                WF_DEBUG(msg_printf(p, MSG_INFO, "checking %s", rsc_name_long(i));)
                 if (i == rsc_index) {
                     buffer_low = (rwf.saturated_time < gstate.work_buf_min());
                 } else {
                     if (rwf.found_project && rwf.found_project != p) {
-                        DEBUG(msg_printf(p, MSG_INFO, "%s not high prio proj", rsc_name_long(i));)
+                        WF_DEBUG(msg_printf(p, MSG_INFO, "%s not high prio proj", rsc_name_long(i));)
                         continue;
                     }
                     buffer_low = (rwf.saturated_time < gstate.work_buf_total());
@@ -787,21 +787,21 @@ PROJECT* WORK_FETCH::choose_project() {
                         need_work = true;
                     }
                     if (!need_work) {
-                        DEBUG(msg_printf(p, MSG_INFO, "%s don't need", rsc_name_long(i));)
+                        WF_DEBUG(msg_printf(p, MSG_INFO, "%s don't need", rsc_name_long(i));)
                         continue;
                     }
                     int reason = rwf.cant_fetch(p);
                     if (reason) {
-                        DEBUG(msg_printf(p, MSG_INFO, "%s can't fetch", rsc_name_long(i));)
+                        WF_DEBUG(msg_printf(p, MSG_INFO, "%s can't fetch", rsc_name_long(i));)
                         continue;
                     }
                 }
                 if (buffer_low) {
                     rwf.set_request(p);
-                    DEBUG(msg_printf(p, MSG_INFO, "%s set_request: %f", rsc_name_long(i), rwf.req_secs);)
+                    WF_DEBUG(msg_printf(p, MSG_INFO, "%s set_request: %f", rsc_name_long(i), rwf.req_secs);)
                 } else {
                     rwf.set_request_excluded(p);
-                    DEBUG(msg_printf(p, MSG_INFO, "%s set_request_excluded: %f", rsc_name_long(i), rwf.req_secs);)
+                    WF_DEBUG(msg_printf(p, MSG_INFO, "%s set_request_excluded: %f", rsc_name_long(i), rwf.req_secs);)
                 }
                 if (rwf.req_secs > 0) {
                     any_request = true;

@@ -27,6 +27,13 @@
 
 using std::vector;
 
+#if 0
+#define COPROC_DEBUG(x) x
+#else
+#define COPROC_DEBUG(X)
+#endif
+
+
 ////////// Coprocessor scheduling ////////////////
 //
 // theory of operation:
@@ -73,9 +80,15 @@ using std::vector;
 // - OpenCL availability (relevant if use_all_gpus set)
 //
 static inline bool can_use_gpu(RESULT* rp, COPROC* cp, int i) {
-    if (gpu_excluded(rp->app, *cp, i)) return false;
+    if (gpu_excluded(rp->app, *cp, i)) {
+        COPROC_DEBUG(msg_printf(rp->project, MSG_INFO, "GPU %d is excluded for %s", i, rp->name));
+        return false;
+    }
     if (rp->avp->is_opencl()) {
-        if (!cp->have_opencls[i]) return false;
+        if (!cp->instance_has_opencl[i]) {
+            COPROC_DEBUG(msg_printf(rp->project, MSG_INFO, "GPU %d can't do OpenCL for %s", i, rp->name));
+            return false;
+        }
     }
     return true;
 }

@@ -23,8 +23,10 @@
 // - deadline misses (per-project count, per-result flag)
 //      Deadline misses are not counted for tasks
 //      that are too large to run in RAM right now.
-// - resource shortfalls (per-project and total)
-// - counts of resources idle now
+// - for each resource type (in RSC_WORK_FETCH):
+//    - shortfall
+//    - nidle_now: # of idle instances
+//    - sim_excluded_instances: bitmap of instances idle because of exclusions
 //
 // For coprocessors, we saturate the resource if possible;
 // i.e. with 2 GPUs, we'd let a 1-GPU app and a 2-GPU app run together.
