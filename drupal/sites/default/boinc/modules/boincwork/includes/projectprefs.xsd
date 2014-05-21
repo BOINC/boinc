@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-           targetNamespace="http://boinc.berkeley.edu"
-           xmlns="http://boinc.berkeley.edu"
+           targetNamespace="http://boinc.berkeley.edu/drupal-psp.xsd"
+           xmlns="http://boinc.berkeley.edu/drupal-psp.xsd"
+           xmlns:psp="http://boinc.berkeley.edu/drupal-psp.xsd"
            elementFormDefault="qualified"
            version="0.1">
 
@@ -173,6 +174,10 @@
                 </xs:choice>
             </xs:sequence>
         </xs:complexType>
+        <xs:unique name="unique-preference-tagname-per-document">
+            <xs:selector xpath=".//psp:compound/*"/>
+            <xs:field xpath="@name"/>
+        </xs:unique>
     </xs:element>
 
 </xs:schema>
