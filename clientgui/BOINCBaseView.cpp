@@ -47,6 +47,9 @@ CBOINCBaseView::CBOINCBaseView(wxNotebook* pNotebook) :
     m_bIgnoreUIEvents = false;
     m_bNeedSort = false;
 
+    m_iPreviousSelectionCount = 0;
+    m_lPreviousFirstSelection = -1;
+
     //
     // Setup View
     //
@@ -69,6 +72,9 @@ CBOINCBaseView::CBOINCBaseView(wxNotebook* pNotebook, wxWindowID iTaskWindowID, 
 
     m_bForceUpdateSelection = true;
     m_bIgnoreUIEvents = false;
+
+    m_iPreviousSelectionCount = 0;
+    m_lPreviousFirstSelection = -1;
 
     //
     // Setup View
@@ -368,14 +374,11 @@ void CBOINCBaseView::OnListDeselected(wxListEvent& event) {
 //
 // We currently handle all selections and deselections here.
 void CBOINCBaseView::OnCacheHint(wxListEvent& event) {
-    static int oldSelectionCount = 0;
-    static long previousSelection = -1;
-    
     int newSelectionCount = m_pListPane->GetSelectedItemCount();
     long currentSelection = m_pListPane->GetFirstSelected();
     
-    if ((newSelectionCount != oldSelectionCount) ||
-        (currentSelection != previousSelection)
+    if ((newSelectionCount != m_iPreviousSelectionCount) ||
+        (currentSelection != m_lPreviousFirstSelection)
     ) {
         if (!m_bIgnoreUIEvents) {
             m_bForceUpdateSelection = true;
@@ -383,8 +386,8 @@ void CBOINCBaseView::OnCacheHint(wxListEvent& event) {
         }
     }
 
-    oldSelectionCount = newSelectionCount;
-    previousSelection = currentSelection;
+    m_iPreviousSelectionCount = newSelectionCount;
+    m_lPreviousFirstSelection = currentSelection;
     event.Skip();
 }
 

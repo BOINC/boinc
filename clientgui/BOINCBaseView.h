@@ -190,6 +190,8 @@ protected:
     bool                    m_bIgnoreUIEvents;
     bool                    m_bNeedSort;
     
+    int                     m_iPreviousSelectionCount;
+    long                    m_lPreviousFirstSelection;
     int                     m_iProgressColumn;
 
     wxImageList *           m_SortArrows;
