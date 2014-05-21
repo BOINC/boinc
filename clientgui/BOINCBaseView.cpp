@@ -371,16 +371,12 @@ void CBOINCBaseView::OnCacheHint(wxListEvent& event) {
     static int oldSelectionCount = 0;
     static long previousSelection = -1;
     
-    bool selectionChanged = false;
     int newSelectionCount = m_pListPane->GetSelectedItemCount();
     long currentSelection = m_pListPane->GetFirstSelected();
     
-    if (newSelectionCount != oldSelectionCount) {
-        selectionChanged = true;
-    } else if (currentSelection != previousSelection) {
-            selectionChanged = true;
-    }
-    if (selectionChanged) {
+    if ((newSelectionCount != oldSelectionCount) ||
+        (currentSelection != previousSelection)
+    ) {
         if (!m_bIgnoreUIEvents) {
             m_bForceUpdateSelection = true;
             UpdateSelection();
