@@ -331,6 +331,8 @@ bool CBOINCBaseView::OnRestoreState(wxConfigBase* pConfig) {
 }
 
 
+// We don't currently use this because selecting an item
+// triggers an EVT_LIST_CACHE_HINT; see OnCacheHint() below.
 void CBOINCBaseView::OnListSelected(wxListEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseView::OnListSelected - Function Begin"));
 
@@ -344,6 +346,8 @@ void CBOINCBaseView::OnListSelected(wxListEvent& event) {
 }
 
 
+// We don't currently use this because selecting an item
+// triggers an EVT_LIST_CACHE_HINT; see OnCacheHint() below.
 void CBOINCBaseView::OnListDeselected(wxListEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseView::OnListDeselected - Function Begin"));
 
@@ -361,20 +365,30 @@ void CBOINCBaseView::OnListDeselected(wxListEvent& event) {
 //  * It does not send deselection events.
 //  * It (apparently intentionally) does not send selection
 //    events if you add to selection using Shift_Click.
+//
+// We currently handle all selections and deselections here.
 void CBOINCBaseView::OnCacheHint(wxListEvent& event) {
     static int oldSelectionCount = 0;
+    static long previousSelection = -1;
+    
+    bool selectionChanged = false;
     int newSelectionCount = m_pListPane->GetSelectedItemCount();
-
-    if (newSelectionCount < oldSelectionCount) {
-        wxListEvent leDeselectedEvent(wxEVT_COMMAND_LIST_ITEM_DESELECTED, m_windowId);
-        leDeselectedEvent.SetEventObject(this);
-        OnListDeselected(leDeselectedEvent);
-    } else if (newSelectionCount > oldSelectionCount) {
-        wxListEvent leSelectedEvent(wxEVT_COMMAND_LIST_ITEM_SELECTED, m_windowId);
-        leSelectedEvent.SetEventObject(this);
-        OnListSelected(leSelectedEvent);
+    long currentSelection = m_pListPane->GetFirstSelected();
+    
+    if (newSelectionCount != oldSelectionCount) {
+        selectionChanged = true;
+    } else if (currentSelection != previousSelection) {
+            selectionChanged = true;
     }
+    if (selectionChanged) {
+        if (!m_bIgnoreUIEvents) {
+            m_bForceUpdateSelection = true;
+            UpdateSelection();
+        }
+    }
+
     oldSelectionCount = newSelectionCount;
+    previousSelection = currentSelection;
     event.Skip();
 }
 
