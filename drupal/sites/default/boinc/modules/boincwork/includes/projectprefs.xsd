@@ -157,7 +157,12 @@
                     <xs:element name="radio" type="radio" />
                     <xs:element name="dropdown" type="dropdown" />
                 </xs:choice>
-                <xs:element name="attributes" type="attributes" />
+                <xs:element name="attributes" type="attributes">
+                    <xs:unique name="unique-preference-attributes-per-tag">
+                        <xs:selector xpath=".//*"/>
+                        <xs:field xpath="@name"/>
+                    </xs:unique>
+                </xs:element>
             </xs:choice>
         </xs:sequence>
         <xs:attribute name="name" type="xs:string" use="required" />
