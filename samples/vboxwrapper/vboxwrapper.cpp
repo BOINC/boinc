@@ -59,6 +59,7 @@
 #include <unistd.h>
 #endif
 
+#include "version.h"
 #include "boinc_api.h"
 #include "diagnostics.h"
 #include "filesys.h"
@@ -428,9 +429,11 @@ int main(int argc, char** argv) {
     //
     fprintf(
         stderr,
-        "%s %s: starting\n",
+        "%s vboxwrapper (%d.%d.%d): starting\n",
         vboxwrapper_msg_prefix(buf, sizeof(buf)),
-        argv[0]
+        BOINC_MAJOR_VERSION,
+        BOINC_MINOR_VERSION,
+        VBOXWRAPPER_RELEASE
     );
 
     // Log important information

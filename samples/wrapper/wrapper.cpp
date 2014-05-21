@@ -52,6 +52,7 @@
 #include <unistd.h>
 #endif
 
+#include "version.h"
 #include "boinc_api.h"
 #include "boinc_zip.h"
 #include "diagnostics.h"
@@ -993,8 +994,11 @@ int main(int argc, char** argv) {
 
     boinc_init_options(&options);
     fprintf(stderr,
-        "%s wrapper: starting\n",
-        boinc_msg_prefix(buf, sizeof(buf))
+        "%s wrapper (%d.%d.%d): starting\n",
+        boinc_msg_prefix(buf, sizeof(buf)),
+        BOINC_MAJOR_VERSION,
+        BOINC_MINOR_VERSION,
+        WRAPPER_RELEASE
     );
 
     boinc_get_init_data(aid);

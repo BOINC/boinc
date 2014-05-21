@@ -12,6 +12,12 @@
 /* Release part of BOINC version number */
 #define BOINC_RELEASE 19
 
+/* Release part of wrapper version number */
+#define WRAPPER_RELEASE 26010
+
+/* Release part of vboxwrapper version number */
+#define VBOXWRAPPER_RELEASE 26079
+
 /* String representation of BOINC version number */
 #define BOINC_VERSION_STRING "7.3.19"
 
