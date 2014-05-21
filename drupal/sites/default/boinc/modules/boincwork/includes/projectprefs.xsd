@@ -179,7 +179,7 @@
                 </xs:choice>
             </xs:sequence>
         </xs:complexType>
-        <xs:unique name="unique-preference-tagname-per-document">
+        <xs:unique name="unique-preference-tags-per-venue">
             <xs:selector xpath=".//psp:compound/*"/>
             <xs:field xpath="@name"/>
         </xs:unique>
