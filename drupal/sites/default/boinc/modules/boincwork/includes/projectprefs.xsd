@@ -139,16 +139,18 @@
     </xs:complexType>
 
     <xs:complexType name="compound">
-        <xs:sequence>
-            <xs:element name="title" type="title" minOccurs="1" maxOccurs="1" />
-            <xs:element name="attributes" type="attributes">
-                <xs:unique name="unique-preference-attributes-per-tag">
-                    <xs:selector xpath=".//*"/>
-                    <xs:field xpath="@name"/>
-                </xs:unique>
-            </xs:element>
-        </xs:sequence>
-        <xs:attribute name="name" type="xs:string" use="required" />
+        <xs:complexContent>
+            <xs:extension base="component">
+                <xs:sequence>
+                    <xs:element name="attributes" type="attributes">
+                        <xs:unique name="unique-preference-attributes-per-tag">
+                            <xs:selector xpath=".//*"/>
+                            <xs:field xpath="@name"/>
+                        </xs:unique>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
     </xs:complexType>
 
     <!-- grouping types -->
