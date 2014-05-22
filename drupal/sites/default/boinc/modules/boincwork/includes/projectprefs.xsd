@@ -77,6 +77,10 @@
                 <xs:element name="item" type="item" minOccurs="1" maxOccurs="unbounded" />
             </xs:sequence>
         </xs:complexType>
+        <xs:unique name="unique-items-list-entry">
+            <xs:selector xpath="psp:item"/>
+            <xs:field xpath="."/>
+        </xs:unique>
         <xs:unique name="only-one-item-can-be-selected">
             <xs:selector xpath="psp:item"/>
             <xs:field xpath="@selected"/>
