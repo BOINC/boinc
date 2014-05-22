@@ -78,7 +78,7 @@
             </xs:sequence>
         </xs:complexType>
         <xs:unique name="only-one-item-can-be-selected">
-            <xs:selector xpath=".//*"/>
+            <xs:selector xpath="psp:item"/>
             <xs:field xpath="@selected"/>
         </xs:unique>
     </xs:element>
