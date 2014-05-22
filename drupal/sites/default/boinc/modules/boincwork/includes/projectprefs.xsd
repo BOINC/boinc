@@ -5,7 +5,7 @@
            xmlns="http://boinc.berkeley.edu/drupal-psp.xsd"
            xmlns:psp="http://boinc.berkeley.edu/drupal-psp.xsd"
            elementFormDefault="qualified"
-           version="0.1">
+           version="0.2">
 
     <!-- simple types -->
 
