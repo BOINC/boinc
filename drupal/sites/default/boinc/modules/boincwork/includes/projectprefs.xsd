@@ -83,14 +83,20 @@
         </xs:unique>
     </xs:element>
 
-    <xs:complexType name="attributes">
-        <xs:choice minOccurs="1" maxOccurs="unbounded">
-            <xs:element name="text" type="text" />
-            <xs:element name="boolean" type="boolean" />
-            <xs:element name="radio" type="radio" />
-            <xs:element name="dropdown" type="dropdown" />
-        </xs:choice>
-    </xs:complexType>
+    <xs:element name="attributes">
+        <xs:complexType>
+            <xs:choice minOccurs="1" maxOccurs="unbounded">
+                <xs:element name="text" type="text" />
+                <xs:element name="boolean" type="boolean" />
+                <xs:element name="radio" type="radio" />
+                <xs:element name="dropdown" type="dropdown" />
+            </xs:choice>
+        </xs:complexType>
+        <xs:unique name="unique-preference-attributes-per-tag">
+            <xs:selector xpath=".//*"/>
+            <xs:field xpath="@name"/>
+        </xs:unique>
+    </xs:element>
 
     <!-- complex base types -->
 
@@ -147,12 +153,7 @@
         <xs:complexContent>
             <xs:extension base="component">
                 <xs:sequence>
-                    <xs:element name="attributes" type="attributes">
-                        <xs:unique name="unique-preference-attributes-per-tag">
-                            <xs:selector xpath=".//*"/>
-                            <xs:field xpath="@name"/>
-                        </xs:unique>
-                    </xs:element>
+                    <xs:element ref="attributes" minOccurs="1" maxOccurs="1" />
                 </xs:sequence>
             </xs:extension>
         </xs:complexContent>
