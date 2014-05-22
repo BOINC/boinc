@@ -34,7 +34,6 @@
 
 IMPLEMENT_DYNAMIC_CLASS(CBOINCBaseView, wxPanel)
 
-
 CBOINCBaseView::CBOINCBaseView() {}
 
 CBOINCBaseView::CBOINCBaseView(wxNotebook* pNotebook) :
@@ -337,8 +336,9 @@ bool CBOINCBaseView::OnRestoreState(wxConfigBase* pConfig) {
 }
 
 
-// We don't currently use this because selecting an item
-// triggers an EVT_LIST_CACHE_HINT; see OnCacheHint() below.
+// We don't use this because multiple selection virtual 
+// wxListCtrl does not generate selection events for
+// shift-click; see OnCheckSelectionChanged() below.
 void CBOINCBaseView::OnListSelected(wxListEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseView::OnListSelected - Function Begin"));
 
@@ -352,8 +352,9 @@ void CBOINCBaseView::OnListSelected(wxListEvent& event) {
 }
 
 
-// We don't currently use this because selecting an item
-// triggers an EVT_LIST_CACHE_HINT; see OnCacheHint() below.
+// We don't use this because multiple selection virtual 
+// wxListCtrl does generates deselection events only for
+// control-click; see OnCheckSelectionChanged() below.
 void CBOINCBaseView::OnListDeselected(wxListEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseView::OnListDeselected - Function Begin"));
 
@@ -367,13 +368,14 @@ void CBOINCBaseView::OnListDeselected(wxListEvent& event) {
 }
 
 
-// Work around bugs (features?) in virtual list control:
-//  * It does not send deselection events.
-//  * It (apparently intentionally) does not send selection
-//    events if you add to selection using Shift_Click.
+// Work around features in multiple selection virtual wxListCtrl:
+//  * It does not send deselection events (except ctrl-click).
+//  * It does not send selection events if you add to selection
+//    using Shift_Click.
 //
-// We currently handle all selections and deselections here.
-void CBOINCBaseView::OnCacheHint(wxListEvent& event) {
+// We currently handle all selections and deselections here. This 
+// is called due to an event posted by CBOINCListCtrl::OnMouseUp().
+void CBOINCBaseView::OnCheckSelectionChanged(CCheckSelectionChangedEvent& ) {
     int newSelectionCount = m_pListPane->GetSelectedItemCount();
     long currentSelection = m_pListPane->GetFirstSelected();
     
@@ -388,7 +390,6 @@ void CBOINCBaseView::OnCacheHint(wxListEvent& event) {
 
     m_iPreviousSelectionCount = newSelectionCount;
     m_lPreviousFirstSelection = currentSelection;
-    event.Skip();
 }
 
 

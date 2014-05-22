@@ -96,6 +96,7 @@ private:
     void                    SetupMacAccessibilitySupport();
     void                    RemoveMacAccessibilitySupport();
     void                    OnSize( wxSizeEvent &event );
+    void                    OnMouseClick(wxMouseEvent& event);
 
     void*                   m_fauxHeaderView;
     void*                   m_fauxBodyView;
@@ -117,11 +118,27 @@ public:
     virtual wxEvent *       Clone() const { return new CDrawProgressBarEvent(*this); }
 };
 
+class CCheckSelectionChangedEvent : public wxEvent
+{
+public:
+    CCheckSelectionChangedEvent(wxEventType evtType, CBOINCListCtrl* myCtrl)
+        : wxEvent(-1, evtType)
+        {
+            SetEventObject(myCtrl);
+        }
+
+    virtual wxEvent *       Clone() const { return new CCheckSelectionChangedEvent(*this); }
+};
+
+
 BEGIN_DECLARE_EVENT_TYPES()
 DECLARE_EVENT_TYPE( wxEVT_DRAW_PROGRESSBAR, 12000 )
+DECLARE_EVENT_TYPE( wxEVT_CHECK_SELECTION_CHANGED, 12002 )
 END_DECLARE_EVENT_TYPES()
 
 #define EVT_DRAW_PROGRESSBAR(fn)            DECLARE_EVENT_TABLE_ENTRY(wxEVT_DRAW_PROGRESSBAR, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
+
+#define EVT_CHECK_SELECTION_CHANGED(fn)            DECLARE_EVENT_TABLE_ENTRY(wxEVT_CHECK_SELECTION_CHANGED, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
 
 
 // Define a custom event handler

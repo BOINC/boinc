@@ -68,11 +68,7 @@ IMPLEMENT_DYNAMIC_CLASS(CViewTransfers, CBOINCBaseView)
 BEGIN_EVENT_TABLE (CViewTransfers, CBOINCBaseView)
     EVT_BUTTON(ID_TASK_TRANSFERS_RETRYNOW, CViewTransfers::OnTransfersRetryNow)
     EVT_BUTTON(ID_TASK_TRANSFERS_ABORT, CViewTransfers::OnTransfersAbort)
-// We currently handle EVT_LIST_CACHE_HINT instead of EVT_LIST_ITEM_SELECTED
-// or EVT_LIST_ITEM_DESELECTED.  See CBOINCBaseView::OnCacheHint() for info.
-//    EVT_LIST_ITEM_SELECTED(ID_LIST_TRANSFERSVIEW, CViewTransfers::OnListSelected)
-//    EVT_LIST_ITEM_DESELECTED(ID_LIST_TRANSFERSVIEW, CViewTransfers::OnListDeselected)
-    EVT_LIST_CACHE_HINT(ID_LIST_TRANSFERSVIEW, CViewTransfers::OnCacheHint)
+	EVT_CHECK_SELECTION_CHANGED(CViewTransfers::OnCheckSelectionChanged)
     EVT_LIST_COL_CLICK(ID_LIST_TRANSFERSVIEW, CViewTransfers::OnColClick)
     EVT_LIST_COL_END_DRAG(ID_LIST_TRANSFERSVIEW, CViewTransfers::OnColResize)
 END_EVENT_TABLE ()

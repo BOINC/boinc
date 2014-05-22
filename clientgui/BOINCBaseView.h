@@ -22,11 +22,13 @@
 #pragma interface "BOINCBaseView.cpp"
 #endif
 
+
 #define DEFAULT_TASK_FLAGS             wxTAB_TRAVERSAL | wxADJUST_MINSIZE | wxFULL_REPAINT_ON_RESIZE
 #define DEFAULT_LIST_FLAGS             wxLC_REPORT | wxLC_VIRTUAL | wxLC_HRULES
 
 class CBOINCTaskCtrl;
 class CBOINCListCtrl;
+class CCheckSelectionChangedEvent;
 struct PROJECT;
 
 
@@ -146,7 +148,7 @@ protected:
     virtual void            OnListRender( wxTimerEvent& event );
     virtual void            OnListSelected( wxListEvent& event );
     virtual void            OnListDeselected( wxListEvent& event );
-    virtual void            OnCacheHint(wxListEvent& event);
+    virtual void            OnCheckSelectionChanged(CCheckSelectionChangedEvent& event);
     virtual wxString        OnListGetItemText( long item, long column ) const;
     virtual int             OnListGetItemImage( long item ) const;
 
@@ -201,7 +203,6 @@ protected:
     CBOINCTaskCtrl*         m_pTaskPane;
     CBOINCListCtrl*         m_pListPane;
 };
-
 
 #endif
 
