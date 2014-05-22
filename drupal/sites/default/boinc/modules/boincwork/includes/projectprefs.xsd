@@ -165,12 +165,22 @@
 
     <!-- grouping types -->
 
-    <xs:complexType name="apps">
-        <xs:sequence>
-            <xs:element name="title" type="title" minOccurs="1" maxOccurs="1" />
-            <xs:element name="app" type="app" minOccurs="0" maxOccurs="unbounded" />
-        </xs:sequence>
-    </xs:complexType>
+    <xs:element name="apps">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="title" type="title" minOccurs="1" maxOccurs="1" />
+                <xs:element name="app" type="app" minOccurs="0" maxOccurs="unbounded" />
+            </xs:sequence>
+        </xs:complexType>
+        <xs:unique name="unique-app-ids">
+            <xs:selector xpath="psp:app"/>
+            <xs:field xpath="@id"/>
+        </xs:unique>
+        <xs:unique name="unique-app-names">
+            <xs:selector xpath="psp:app"/>
+            <xs:field xpath="."/>
+        </xs:unique>
+    </xs:element>
 
     <xs:complexType name="group">
         <xs:sequence>
@@ -201,7 +211,7 @@
         <xs:complexType>
             <xs:sequence>
                 <xs:choice minOccurs="1" maxOccurs="unbounded">
-                    <xs:element name="apps" type="apps" />
+                    <xs:element ref="apps" />
                     <xs:element name="group" type="group" />
                 </xs:choice>
             </xs:sequence>
