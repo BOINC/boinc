@@ -96,7 +96,7 @@ private:
     void                    SetupMacAccessibilitySupport();
     void                    RemoveMacAccessibilitySupport();
     void                    OnSize( wxSizeEvent &event );
-    void                    OnMouseClick(wxMouseEvent& event);
+    void                    OnMouseDown(wxMouseEvent& event);
 
     void*                   m_fauxHeaderView;
     void*                   m_fauxBodyView;

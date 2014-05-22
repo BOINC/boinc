@@ -33,15 +33,13 @@ DEFINE_EVENT_TYPE(wxEVT_DRAW_PROGRESSBAR)
 
 BEGIN_EVENT_TABLE(CBOINCListCtrl, LISTCTRL_BASE)
     EVT_DRAW_PROGRESSBAR(CBOINCListCtrl::OnDrawProgressBar)
-    EVT_LEFT_DOWN(CBOINCListCtrl::OnMouseClick)
-    EVT_LEFT_UP(CBOINCListCtrl::OnMouseClick)
 END_EVENT_TABLE()
 
 #else
 
 BEGIN_EVENT_TABLE(CBOINCListCtrl, LISTCTRL_BASE)
 	EVT_SIZE(CBOINCListCtrl::OnSize)
-    EVT_LEFT_DOWN(CBOINCListCtrl::OnMouseClick)
+    EVT_LEFT_DOWN(CBOINCListCtrl::OnMouseDown)
 END_EVENT_TABLE()
 
 #endif
@@ -385,9 +383,6 @@ void MyEvtHandler::OnPaint(wxPaintEvent & event)
     }
 }
 
-#endif
-
-
 // Work around features in multiple selection virtual wxListCtrl:
 //  * It does not send deselection events (except ctrl-click).
 //  * It does not send selection events if you add to selection
@@ -398,15 +393,15 @@ void MyEvtHandler::OnPaint(wxPaintEvent & event)
 // deselection operatiion, then the special event will trigger
 // CBOINCBaseView::OnCheckSelectionChanged() to respond to the
 // selection change, if any.
-
-// On Windows, selection occurs on mouse down but deselection
-// occurs on mouse up, so we must check after both events.
 //
-void CBOINCListCtrl::OnMouseClick(wxMouseEvent& event) {
+void CBOINCListCtrl::OnMouseDown(wxMouseEvent& event) {
     CCheckSelectionChangedEvent newEvent(wxEVT_CHECK_SELECTION_CHANGED, this);
     m_pParentView->GetEventHandler()->AddPendingEvent(newEvent);
     event.Skip();
 }
+
+#endif
+
 
 
 // To reduce flicker, refresh only changed columns (except 

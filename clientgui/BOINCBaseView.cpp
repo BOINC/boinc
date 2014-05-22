@@ -368,14 +368,25 @@ void CBOINCBaseView::OnListDeselected(wxListEvent& event) {
 }
 
 
+void CBOINCBaseView::OnCheckSelectionChanged(CCheckSelectionChangedEvent& ) {
+    CheckSelectionChanged();
+}
+
+
+void CBOINCBaseView::OnCacheHint(wxListEvent& event) {
+    CheckSelectionChanged();
+}
+
+
 // Work around features in multiple selection virtual wxListCtrl:
 //  * It does not send deselection events (except ctrl-click).
 //  * It does not send selection events if you add to selection
 //    using Shift_Click.
 //
-// We currently handle all selections and deselections here. This 
-// is called due to an event posted by CBOINCListCtrl::OnMouseUp().
-void CBOINCBaseView::OnCheckSelectionChanged(CCheckSelectionChangedEvent& ) {
+// We currently handle all selections and deselections here.
+// On the Mac, this is called due to an event posted by CBOINCListCtrl::OnMouseUp().
+// On Windows, it is called due to a EVT_LIST_CACHE_HINT from wxListCtrl.
+void CBOINCBaseView::CheckSelectionChanged() {
     int newSelectionCount = m_pListPane->GetSelectedItemCount();
     long currentSelection = m_pListPane->GetFirstSelected();
     

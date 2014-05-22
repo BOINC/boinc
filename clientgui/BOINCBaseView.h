@@ -148,7 +148,9 @@ protected:
     virtual void            OnListRender( wxTimerEvent& event );
     virtual void            OnListSelected( wxListEvent& event );
     virtual void            OnListDeselected( wxListEvent& event );
+    virtual void            OnCacheHint(wxListEvent& event);
     virtual void            OnCheckSelectionChanged(CCheckSelectionChangedEvent& event);
+    virtual void            CheckSelectionChanged();
     virtual wxString        OnListGetItemText( long item, long column ) const;
     virtual int             OnListGetItemImage( long item ) const;
 
