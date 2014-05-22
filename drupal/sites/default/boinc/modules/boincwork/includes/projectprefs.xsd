@@ -71,12 +71,17 @@
 
     <!-- collection types -->
 
-    <xs:complexType name="items">
-        <xs:sequence>
-            <xs:element name="item" type="item" minOccurs="1" maxOccurs="unbounded" />
-            <!-- TODO ensure only one item's "selected" attribute is set to "true" -->
-        </xs:sequence>
-    </xs:complexType>
+    <xs:element name="items">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="item" type="item" minOccurs="1" maxOccurs="unbounded" />
+            </xs:sequence>
+        </xs:complexType>
+        <xs:unique name="only-one-item-can-be-selected">
+            <xs:selector xpath=".//*"/>
+            <xs:field xpath="@selected"/>
+        </xs:unique>
+    </xs:element>
 
     <xs:complexType name="attributes">
         <xs:choice minOccurs="1" maxOccurs="unbounded">
@@ -122,7 +127,7 @@
         <xs:complexContent>
             <xs:extension base="component">
                 <xs:sequence>
-                    <xs:element name="items" type="items" minOccurs="1" maxOccurs="1" />
+                    <xs:element ref="items" minOccurs="1" maxOccurs="1" />
                 </xs:sequence>
             </xs:extension>
         </xs:complexContent>
@@ -132,7 +137,7 @@
         <xs:complexContent>
             <xs:extension base="component">
                 <xs:sequence>
-                    <xs:element name="items" type="items" minOccurs="1" maxOccurs="1" />
+                    <xs:element ref="items" minOccurs="1" maxOccurs="1" />
                 </xs:sequence>
             </xs:extension>
         </xs:complexContent>
