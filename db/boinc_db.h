@@ -67,6 +67,7 @@ struct TRANSITIONER_ITEM {
     int res_hostid;
     int res_received_time;
     int res_app_version_id;
+    int res_exit_status;
 
     void clear();
     void parse(MYSQL_ROW&);
