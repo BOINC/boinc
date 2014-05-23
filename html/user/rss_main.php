@@ -25,5 +25,5 @@ if (!$forum) {
     exit;
 }
 
-forum_rss($forum->id, 0, 0, 1, 90);
+forum_rss($forum->id, 0, 1, 90);
 ?>
