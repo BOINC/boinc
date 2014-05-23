@@ -1494,6 +1494,7 @@ void TRANSITIONER_ITEM::parse(MYSQL_ROW& r) {
     res_hostid = safe_atoi(r[i++]);
     res_received_time = safe_atoi(r[i++]);
     res_app_version_id = safe_atoi(r[i++]);
+    res_exit_status = safe_atoi(r[i++]);
 }
 
 int DB_TRANSITIONER_ITEM_SET::enumerate(
@@ -1551,7 +1552,8 @@ int DB_TRANSITIONER_ITEM_SET::enumerate(
             "   res.sent_time, "
             "   res.hostid, "
             "   res.received_time, "
-            "   res.app_version_id "
+            "   res.app_version_id, "
+            "   res.exit_status "
             "FROM "
             "   workunit AS wu "
             "       LEFT JOIN result AS res ON wu.id = res.workunitid "
