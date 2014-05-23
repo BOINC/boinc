@@ -57,6 +57,11 @@ static inline void got_good_result(SCHED_RESULT_ITEM& sri) {
     }
 }
 
+// This is called then a job crashed or exceeded limits on a host.
+// Enforce
+// - mechanism that reduces jobs per day to that host
+// - mechanism that categorizes hosts as "reliable"
+//
 static inline void got_bad_result(SCHED_RESULT_ITEM& sri) {
     int gavid = generalized_app_version_id(sri.app_version_id, sri.appid);
     DB_HOST_APP_VERSION* havp = gavid_to_havp(gavid);
@@ -388,9 +393,12 @@ int handle_results() {
             srip->outcome = RESULT_OUTCOME_CLIENT_ERROR;
             srip->validate_state = VALIDATE_STATE_INVALID;
 
-            // adjust quota and reset error rate
+            // adjust quota and reset consecutive valid
+            // (but not if aborted by project)
             //
-            got_bad_result(*srip);
+            if (srip->exit_status != EXIT_ABORTED_BY_PROJECT) {
+                got_bad_result(*srip);
+            }
         }
     } // loop over all incoming results
 
