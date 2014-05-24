@@ -170,23 +170,19 @@ struct PROC_RESOURCES {
     void schedule(RESULT* rp, ACTIVE_TASK* atp, const char* description) {
         if (log_flags.cpu_sched_debug) {
             msg_printf(rp->project, MSG_INFO,
-                "[cpu_sched_debug] scheduling %s (%s) (prio %f)",
+                "[cpu_sched_debug] add to run list: %s (%s) (prio %f)",
                 rp->name, description,
                 rp->project->sched_priority
             );
         }
         if (rp->uses_coprocs()) {
-            // if this job is currently running,
-            // and the resource type has exclusions,
-            // don't reserve instances;
-            // This allows more jobs in the run list
-            // and avoids a starvation case
+            // if the resource type has exclusions, don't reserve instances.
+            // It means that the run list will include all jobs
+            // for that resource type.
+            // Inefficient, but necessary to avoid starvation cases.
             //
             int rt = rp->avp->gpu_usage.rsc_type;
-            bool dont_reserve =
-                rsc_work_fetch[rt].has_exclusions
-                && atp != NULL
-                && atp->is_gpu_task_running();
+            bool dont_reserve = rsc_work_fetch[rt].has_exclusions;
             if (!dont_reserve) {
                 reserve_coprocs(*rp);
             }
