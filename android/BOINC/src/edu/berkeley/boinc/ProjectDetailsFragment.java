@@ -140,6 +140,10 @@ public class ProjectDetailsFragment extends Fragment {
 	
 	@Override
 	public void onPrepareOptionsMenu(Menu menu) {
+		
+		super.onPrepareOptionsMenu(menu);
+		if(project == null) return;
+		
 		// no new tasks, adapt based on status 
 		MenuItem nnt = menu.findItem(R.id.projects_control_nonewtasks);
 		if(project.dont_request_more_work) nnt.setTitle(R.string.projects_control_allownewtasks);
@@ -153,8 +157,6 @@ public class ProjectDetailsFragment extends Fragment {
 		// detach, only show when project not managed
 		MenuItem remove = menu.findItem(R.id.projects_control_remove);
 		if(project.attached_via_acct_mgr) remove.setVisible(false);
-		
-		super.onPrepareOptionsMenu(menu);
 	}
 
 	@Override
