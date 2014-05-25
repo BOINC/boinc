@@ -378,10 +378,9 @@
     <string name="notice_notification_single_header">New notice from</string> <!-- e.g. New notice from SETI@HOME -->
     <string name="notice_notification_multiple_header">new notices</string> <!-- e.g. 3 new notices -->
 
-    <!-- Power To Give compitability -->
-    <string name="ptg_dialog_header">Power To Give detected</string>
-    <string name="ptg_dialog_text">Your device has installed Power To Give. Do you want to launch Power To Give?</string>
-    <string name="ptg_dialog_launch">Launch</string>
-    <string name="ptg_dialog_exit">Exit</string>
+    <!-- multi BOINC compitability -->
+    <string name="nonexcl_dialog_header">Volunteer computing app detected</string>
+    <string name="nonexcl_dialog_text">Another volunteer computing app is running on this device. Only one version can run at a time.</string>
+    <string name="nonexcl_dialog_exit">Exit</string>
 
 </resources>

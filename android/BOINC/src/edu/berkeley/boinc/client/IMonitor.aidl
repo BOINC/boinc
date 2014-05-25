@@ -60,6 +60,7 @@ List<ProjectInfo> getAttachableProjects();  // clientInterface.getAttachableProj
 ProjectInfo getProjectInfo(String url);  // clientInterface.getProjectInfo(String url);
 
 /////// general //////////////////////////////////////////
+boolean boincMutexAcquired();				// implment: call Monitor.boincMutexAcquired();
 void forceRefresh();                        // implement: call Monitor.forceRefresh();
 boolean isStationaryDeviceSuspected();               // implement: call Monitor.getDeviceStatus().isStationaryDevice();
 int getBatteryChargeStatus();           // implement: return getDeviceStatus().getStatus().battery_charge_pct;

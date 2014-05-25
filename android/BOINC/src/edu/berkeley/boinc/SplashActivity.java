@@ -31,7 +31,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
-import android.content.pm.ApplicationInfo;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
@@ -60,6 +59,8 @@ public class SplashActivity extends Activity {
 		    mIsBound = true;
 		    monitor = IMonitor.Stub.asInterface(service);
 		    try {
+		    	// check whether BOINC was able to acquire mutex
+		    	if(!monitor.boincMutexAcquired()) showNotExclusiveDialog();
 		    	// read log level from monitor preferences and adjust accordingly
 				Logging.setLogLevel(monitor.getLogLevel());
 			} catch (RemoteException e) {Log.w(Logging.TAG, "initializing log level failed.");}
@@ -114,21 +115,6 @@ public class SplashActivity extends Activity {
 		
 		//initialize logging with highest verbosity, read actual value when monitor connected.
 		Logging.setLogLevel(5);
-		
-		// check whether PTG is installed, if not, do not start.
-		// this check has to be similar to client.Monitor.onCreate()
-		try {
-			getPackageManager().getPackageInfo("com.htc.ptg", 0);
-			if ("com.android.vending".equals(getPackageManager().getInstallerPackageName("com.htc.ptg")) // check if installed through PlayStore
-	                || (getPackageManager().getPackageInfo("com.htc.ptg", 0).applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == ApplicationInfo.FLAG_SYSTEM) { // check if pre-installed
-		    	if(Logging.ERROR) Log.e(Logging.TAG, "SplashActivity: PTG found, show forward dialog.");
-		    	Intent startPTGIntent = new Intent();
-			    startPTGIntent.setClassName("edu.berkeley.boinc", "edu.berkeley.boinc.ForwardDialog");
-			    startActivity(startPTGIntent);
-			    finish();
-			    return;
-			} else if(Logging.WARNING) Log.w(Logging.TAG,"SplashActivity: com.htc.ptg found, but unknown vendor, start BOINC...");
-		} catch (Exception ex) {} // NOP Package not found exception.
 
 		//bind monitor service
         doBindService();
@@ -180,5 +166,14 @@ public class SplashActivity extends Activity {
 	        unbindService(mConnection);
 	        mIsBound = false;
 	    }
+	}
+	
+	private void showNotExclusiveDialog() {
+		if(Logging.ERROR) Log.e(Logging.TAG, "SplashActivity: another BOINC app found, show dialog.");
+    	Intent notExclusiveDialogIntent = new Intent();
+    	notExclusiveDialogIntent.setClassName("edu.berkeley.boinc", "edu.berkeley.boinc.BoincNotExclusiveDialog");
+	    startActivity(notExclusiveDialogIntent);
+		finish();
+		return;
 	}
 }

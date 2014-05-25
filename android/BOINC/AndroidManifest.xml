@@ -138,7 +138,7 @@
                 <data android:path="edu.berkeley.boinc" android:scheme="package" />
             </intent-filter>
         </receiver>
-        <activity android:name=".ForwardDialog" android:theme="@android:style/Theme.Dialog">
+        <activity android:name=".BoincNotExclusiveDialog" android:theme="@android:style/Theme.Dialog">
         </activity>
     </application>
 
