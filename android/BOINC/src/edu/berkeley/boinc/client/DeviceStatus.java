@@ -190,7 +190,7 @@ public class DeviceStatus {
 				int scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
 				if(level == -1 || scale == -1) throw new Exception("battery level parsing error");
 				int batteryPct = (int) ((level / (float) scale) * 100); // always rounds down
-				if(batteryPct < 1 || batteryPct > 100) throw new Exception("battery level parsing error");
+				if(batteryPct < 0 || batteryPct > 100) throw new Exception("battery level parsing error");
 				if(batteryPct != status.battery_charge_pct) {
 					status.battery_charge_pct = batteryPct;
 					change = true;
