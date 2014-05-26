@@ -1187,6 +1187,17 @@ void process_request(char* code_sign_key) {
 
     log_request();
 
+#if 0
+    // if you need to debug a problem w/ a particular host or user,
+    // edit the following
+    //
+    if (g_reply->user.id == XX || g_reply.host.id == YY) {
+        config.sched_debug_level = 3;
+        config.debug_send = true;
+        ...
+    }
+#endif
+
     // is host blacklisted?
     //
     if (g_reply->host._max_results_day == -1) {

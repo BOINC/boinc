@@ -67,6 +67,7 @@ struct TRANSITIONER_ITEM {
     int res_hostid;
     int res_received_time;
     int res_app_version_id;
+    int res_exit_status;
 
     void clear();
     void parse(MYSQL_ROW&);
@@ -194,6 +195,7 @@ public:
     DB_WORKUNIT(DB_CONN* p=0);
     int get_id();
     void db_print(char*);
+    void db_print_values(char*);
     void db_parse(MYSQL_ROW &row);
     void operator=(WORKUNIT& w) {WORKUNIT::operator=(w);}
 };
@@ -350,6 +352,9 @@ struct SCHED_RESULT_ITEM {
     int file_delete_state;
     double elapsed_time;
     int app_version_id;
+    double peak_working_set_size;
+    double peak_swap_size;
+    double peak_disk_usage;
 
     void clear();
     void parse(MYSQL_ROW& row);
@@ -505,6 +510,25 @@ struct DB_VDA_CHUNK_HOST : public DB_BASE, public VDA_CHUNK_HOST {
     DB_VDA_CHUNK_HOST(DB_CONN* p=0);
     void db_print(char*);
     void db_parse(MYSQL_ROW &row);
+};
+
+struct DB_BADGE : public DB_BASE, public BADGE {
+    DB_BADGE(DB_CONN* p=0);
+    int get_id() {return id;};
+    void db_print(char*){};
+    void db_parse(MYSQL_ROW&);
+};
+
+struct DB_BADGE_USER : public DB_BASE, public BADGE_USER {
+    DB_BADGE_USER(DB_CONN* p=0);
+    void db_print(char*){};
+    void db_parse(MYSQL_ROW&);
+};
+
+struct DB_BADGE_TEAM : public DB_BASE, public BADGE_TEAM {
+    DB_BADGE_TEAM(DB_CONN* p=0);
+    void db_print(char*){};
+    void db_parse(MYSQL_ROW&);
 };
 
 #endif

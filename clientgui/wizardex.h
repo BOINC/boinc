@@ -60,7 +60,7 @@ public:
     virtual wxWizardPageEx *GetPrev() const = 0;
     virtual wxWizardPageEx *GetNext() const = 0;
 
-#if wxUSE_VALIDATOR
+#if wxUSE_VALIDATORS
     /// Override the base functions to allow a validator to be assigned to this page.
     bool TransferDataToWindow()
     {
@@ -77,7 +77,7 @@ public:
         return GetValidator() ? GetValidator()->Validate(this) 
                               : wxPanel::Validate();
     }
-#endif // wxUSE_VALIDATOR
+#endif // wxUSE_VALIDATORS
 
 protected:
     // common part of ctors:

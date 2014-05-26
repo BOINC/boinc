@@ -95,6 +95,7 @@ void CBOINCBaseWizard::ProcessCancelEvent( wxWizardExEvent& event )
 
 void CBOINCBaseWizard::_ProcessCancelEvent( wxWizardExEvent& WXUNUSED(event) )
 {
+    m_bCancelInProgress = true;
 }
 
 /*!

@@ -34,8 +34,10 @@ void wxLogBOINC::DoLogText(const wxString& msg) {
 #ifdef __WXMSW__
     wxString strDebug = msg;
     strDebug += wxT("\r\n");
-    ::OutputDebugString(strDebug.c_str());
+    diagnostics_trace_to_debugger(strDebug.mb_str());
 #endif
+#ifdef __WXDEBUG__
     wxLogStderr::DoLogText(msg);
+#endif
 }
 

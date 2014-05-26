@@ -23,8 +23,10 @@
 // - deadline misses (per-project count, per-result flag)
 //      Deadline misses are not counted for tasks
 //      that are too large to run in RAM right now.
-// - resource shortfalls (per-project and total)
-// - counts of resources idle now
+// - for each resource type (in RSC_WORK_FETCH):
+//    - shortfall
+//    - nidle_now: # of idle instances
+//    - sim_excluded_instances: bitmap of instances idle because of exclusions
 //
 // For coprocessors, we saturate the resource if possible;
 // i.e. with 2 GPUs, we'd let a 1-GPU app and a 2-GPU app run together.
@@ -53,7 +55,7 @@ inline void rsc_string(RESULT* rp, char* buf) {
     if (avp->gpu_usage.rsc_type) {
         sprintf(buf, "%.2f CPU + %.2f %s",
             avp->avg_ncpus, avp->gpu_usage.usage,
-            rsc_name(avp->gpu_usage.rsc_type)
+            rsc_name_long(avp->gpu_usage.rsc_type)
         );
     } else {
         sprintf(buf, "%.2f CPU", avp->avg_ncpus);
@@ -156,7 +158,7 @@ void print_deadline_misses() {
                 msg_printf(p, MSG_INFO,
                     "[rr_sim] Project has %d projected %s deadline misses",
                     p->rsc_pwf[j].deadlines_missed,
-                    rsc_name(j)
+                    rsc_name_long(j)
                 );
             }
         }
@@ -510,7 +512,7 @@ void RR_SIM::simulate() {
                 sim_now+delta_t,
                 sim_now,
                 x,
-                config.rec_half_life,
+                cc_config.rec_half_life,
                 p->pwf.rec_temp,
                 dtemp
             );

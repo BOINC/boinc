@@ -38,7 +38,6 @@
 #include "AccountInfoPage.h"
 #include "CompletionErrorPage.h"
 
-
 ////@begin XPM images
 #include "res/wizprogress01.xpm"
 #include "res/wizprogress02.xpm"
@@ -375,7 +374,7 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSE
             SetNextState(ATTACHPROJECT_ACCOUNTQUERY_EXECUTE);
             break;
         case ATTACHPROJECT_ACCOUNTQUERY_EXECUTE:
-            // Attempt to create the account or reterieve the authenticator.
+            // Attempt to create the account or retrieve the authenticator.
             ai->clear();
             ao->clear();
 
@@ -439,7 +438,7 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSE
                         IncrementProgress(m_pProgressIndicator);
 
                         ::wxMilliSleep(500);
-                        ::wxSafeYield(GetParent());
+                        wxEventLoopBase::GetActive()->YieldFor(wxEVT_CATEGORY_USER_INPUT);
                     }
 
                     if ((!retval) && !ao->error_num) {
@@ -474,7 +473,7 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSE
                         IncrementProgress(m_pProgressIndicator);
 
                         ::wxMilliSleep(500);
-                        ::wxSafeYield(GetParent());
+                        wxEventLoopBase::GetActive()->YieldFor(wxEVT_CATEGORY_USER_INPUT);
                     }
                 }
  
@@ -542,8 +541,14 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSE
                         if (pWA->m_bCredentialsCached) {
                             pDoc->rpc.project_attach_from_file();
                         } else {
+                            std::string master_url;
+                            if (!pWA->project_config.master_url.empty()) {
+                                master_url = pWA->project_config.master_url;
+                            } else {
+                                master_url = (const char*)pWA->m_ProjectInfoPage->GetProjectURL().mb_str();
+                            }
                             pDoc->rpc.project_attach(
-                                ai->url.c_str(),
+                                master_url.c_str(),
                                 ao->authenticator.c_str(),
                                 pWA->project_config.name.c_str()
                             );
@@ -557,7 +562,12 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSE
                     IncrementProgress(m_pProgressIndicator);
 
                     ::wxMilliSleep(500);
+#ifdef __WXMAC__
+                    wxEventLoopBase * const modalLoop = wxEventLoopBase::GetActive();
+                    modalLoop->YieldFor(wxEVT_CATEGORY_USER_INPUT);
+#else
                     ::wxSafeYield(GetParent());
+#endif
                 }
      
                 if (!retval && !reply.error_num) {

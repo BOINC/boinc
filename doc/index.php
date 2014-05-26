@@ -107,6 +107,9 @@ function show_participate() {
             "<a href=\"http://bam.boincstats.com/\">",
             "</a>"
         )."
+        <p>
+        For Android devices, download the BOINC or <a href=http://www.htc.com/www/go/power-to-give-faqs/>HTC Power To Give</a> app from the Google Play Store.
+        <img align=right valign=top height=50 src=images/htc-power-to-give.jpg>
         </td></tr>
     ";
 }

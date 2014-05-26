@@ -25,4 +25,12 @@
          android:title="@string/projects_add"
          android:icon="@drawable/plusw"
          yourapp:showAsAction="ifRoom|withText"></item>
+    <item android:id="@+id/acctmgr_add"
+         android:enabled="true"
+         android:visible="true"
+         android:title="@string/attachproject_list_acctmgr_button"></item>
+    <item android:id="@+id/projects_add_url"
+         android:enabled="true"
+         android:visible="true"
+         android:title="@string/attachproject_list_manual_button"></item>
 </menu>

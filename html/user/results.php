@@ -77,7 +77,7 @@ if ($appid) {
 if ($show_names) {
     $order_clause = "order by name";
 } else {
-    $order_clause = "order by id desc";
+    $order_clause = "order by sent_time desc";
 }
 $query = "$clause2 $order_clause limit $offset,".($results_per_page+1);
 $results = BoincResult::enum($query);

@@ -757,7 +757,7 @@ void version_local()
     struct utsname u;
     char os_name[40];
 # else
-# if defined(__NETBSD__))
+# if defined(__NETBSD__)
     static ZCONST char *netbsd[] = { "_ALPHA", "", "A", "B" };
     char os_name[40];
 # endif /* __NETBSD__ */

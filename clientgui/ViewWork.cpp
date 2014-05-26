@@ -89,10 +89,15 @@ BEGIN_EVENT_TABLE (CViewWork, CBOINCBaseView)
     EVT_BUTTON(ID_TASK_SHOW_PROPERTIES, CViewWork::OnShowItemProperties)
     EVT_BUTTON(ID_TASK_ACTIVE_ONLY, CViewWork::OnActiveTasksOnly)
     EVT_CUSTOM_RANGE(wxEVT_COMMAND_BUTTON_CLICKED, ID_TASK_PROJECT_WEB_PROJDEF_MIN, ID_TASK_PROJECT_WEB_PROJDEF_MAX, CViewWork::OnProjectWebsiteClicked)
-    EVT_LIST_ITEM_SELECTED(ID_LIST_WORKVIEW, CViewWork::OnListSelected)
-    EVT_LIST_ITEM_DESELECTED(ID_LIST_WORKVIEW, CViewWork::OnListDeselected)
-    EVT_LIST_COL_CLICK(ID_LIST_WORKVIEW, CViewWork::OnColClick)
+// We currently handle EVT_LIST_CACHE_HINT on Windows or 
+// EVT_CHECK_SELECTION_CHANGED on Mac instead of EVT_LIST_ITEM_SELECTED
+// or EVT_LIST_ITEM_DESELECTED.  See CBOINCBaseView::OnCacheHint() for info.
+#if USE_NATIVE_LISTCONTROL
     EVT_LIST_CACHE_HINT(ID_LIST_WORKVIEW, CViewWork::OnCacheHint)
+#else
+	EVT_CHECK_SELECTION_CHANGED(CViewWork::OnCheckSelectionChanged)
+#endif
+    EVT_LIST_COL_CLICK(ID_LIST_WORKVIEW, CViewWork::OnColClick)
     EVT_LIST_COL_END_DRAG(ID_LIST_WORKVIEW, CViewWork::OnColResize)
 END_EVENT_TABLE ()
 
@@ -169,7 +174,7 @@ CViewWork::CViewWork()
 
 
 CViewWork::CViewWork(wxNotebook* pNotebook) :
-    CBOINCBaseView(pNotebook, ID_TASK_WORKVIEW, DEFAULT_TASK_FLAGS, ID_LIST_WORKVIEW, DEFAULT_LIST_MULTI_SEL_FLAGS)
+    CBOINCBaseView(pNotebook, ID_TASK_WORKVIEW, DEFAULT_TASK_FLAGS, ID_LIST_WORKVIEW, DEFAULT_LIST_FLAGS)
 {
     CTaskItemGroup* pGroup = NULL;
     CTaskItem*      pItem = NULL;
@@ -857,10 +862,14 @@ void CViewWork::UpdateSelection() {
     pGroup->m_Tasks[BTN_GRAPHICS]->m_pButton->Enable(enableShowGraphics);
     if (enableShowVMConsole) {
         pGroup->m_Tasks[BTN_VMCONSOLE]->m_pButton->Enable();
-        pGroup->m_Tasks[BTN_VMCONSOLE]->m_pButton->Show();
+        if (pGroup->m_Tasks[BTN_VMCONSOLE]->m_pButton->Show()) {
+            m_pTaskPane->FitInside();
+        }
     } else {
         pGroup->m_Tasks[BTN_VMCONSOLE]->m_pButton->Disable();
-        pGroup->m_Tasks[BTN_VMCONSOLE]->m_pButton->Hide();
+        if (pGroup->m_Tasks[BTN_VMCONSOLE]->m_pButton->Hide()) {
+            m_pTaskPane->FitInside();
+        };
     }
     pGroup->m_Tasks[BTN_SUSPEND]->m_pButton->Enable(enableSuspendResume);
     pGroup->m_Tasks[BTN_ABORT]->m_pButton->Enable(enableAbort);

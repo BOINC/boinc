@@ -44,10 +44,26 @@ function req_to_xml($req, $op) {
         <rsc_fpops_est>$job->rsc_fpops_est</rsc_fpops_est>
         <command_line>$job->command_line</command_line>
 ";
+        if ((isset($job->target_team)) && ($job->target_team)) {
+            $x .= "        <target_team>$job->target_team</target_team>
+";
+        } elseif ((isset($job->target_user)) && ($job->target_user)) {
+            $x .= "        <target_user>$job->target_user</target_user>
+";
+        } elseif ((isset($job->target_team)) && ($job->target_team)) {
+            $x .= "        <target_team>$job->target_team</target_team>
+";
+        }
         foreach ($job->input_files as $file) {
             $x .= "        <input_file>\n";
             $x .= "            <mode>$file->mode</mode>\n";
-            $x .= "            <source>$file->source</source>\n";
+            if ($file->mode == "remote") {
+                $x .= "            <url>$file->url</url>\n";
+                $x .= "            <nbytes>$file->nbytes</nbytes>\n";
+                $x .= "            <md5>$file->md5</md5>\n";
+            } else {
+                $x .= "            <source>$file->source</source>\n";
+            }
             $x .= "        </input_file>\n";
         }
         $x .= "    </job>
@@ -277,10 +293,10 @@ if (0) {
     $req->jobs = array();
 
     $job->input_files = array();
-    $f->source = "http://isaac.ssl.berkeley.edu/validate_logic.txt";
     $f->mode = "remote";
+    $f->url = "http://isaac.ssl.berkeley.edu/validate_logic.txt";
     $f->md5 = "eec5a142cea5202c9ab2e4575a8aaaa7";
-    $f->size = 4250;
+    $f->nbytes = 4250;
     $job->input_files[] = $f;
     $f = new StdClass;
     $f->mode = "local";

@@ -1,7 +1,7 @@
 <?php
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2013 University of California
+// Copyright (C) 2014 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -35,6 +35,7 @@ $language_names = array(
     array("he", "עִבְרִית", "Hebrew"),
     array("hr", "Hrvatski", "Croatian"),
     array("hu", "Magyar", "Hungarian"),
+    array("ms", "بهاس ملايو", "Malay"),
     array("it", "Italiano", "Italian"),
     array("ja", "日本語", "Japanese"),
     array("ko", "한국어", "Korean"),

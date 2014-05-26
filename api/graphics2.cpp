@@ -22,6 +22,9 @@
 #define strdup _strdup
 #define snprintf _snprintf
 #endif
+#ifdef _WIN32
+#include <boinc_win.h>
+#endif
 
 #include "util.h"
 #include "app_ipc.h"

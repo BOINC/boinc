@@ -52,19 +52,20 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 // Icon
 //
 
-// Icon with lowest ID value placed first to ensure application icon
-// remains consistent on all systems.
 #if   defined(_GRIDREPUBLIC)
-BOINCGUIAPP                ICON                    "res\\gridrepublic.ico"
+boinc                      ICON                    "res\\gridrepublic.ico"
 #elif defined(_PROGRESSTHRUPROCESSORS)
-BOINCGUIAPP                ICON                    "res\\progress.ico"
+boinc                      ICON                    "res\\progress.ico"
 #elif defined(_CHARITYENGINE)
-BOINCGUIAPP                ICON                    "res\\ce.ico"
+boinc                      ICON                    "res\\ce.ico"
 #elif defined(_WCG)
-BOINCGUIAPP                ICON                    "res\\wcg.ico"
+boinc                      ICON                    "res\\wcg.ico"
 #else
-BOINCGUIAPP                ICON                    "res\\boincguiapp.ico"
+boinc                      ICON                    "res\\boinc.ico"
 #endif
+
+boincdisconnect            ICON                    "res\\boincdisconnect.ico"
+boincsnooze                ICON                    "res\\boincsnooze.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 

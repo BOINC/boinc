@@ -40,7 +40,9 @@ class CSimpleProjectCommandPopupButton : public CTransparentButton
 
 	private:
         void AddMenuItems();
-        void OnProjectCommandsButton(wxMouseEvent& event);
+        void OnProjectCommandsMouseDown(wxMouseEvent& event);
+        void OnProjectCommandsKeyboardNav(wxCommandEvent& event);
+        void ShowProjectCommandsMenu(wxPoint pos);
         void OnProjectUpdate(wxCommandEvent& event);
         void OnProjectSuspendResume(wxCommandEvent& event);
         void OnProjectNoNewWork(wxCommandEvent& event);

@@ -10,13 +10,19 @@
 #define BOINC_MINOR_VERSION 3
 
 /* Release part of BOINC version number */
-#define BOINC_RELEASE 1
+#define BOINC_RELEASE 19
+
+/* Release part of wrapper version number */
+#define WRAPPER_RELEASE 26010
+
+/* Release part of vboxwrapper version number */
+#define VBOXWRAPPER_RELEASE 26079
 
 /* String representation of BOINC version number */
-#define BOINC_VERSION_STRING "7.3.1"
+#define BOINC_VERSION_STRING "7.3.19"
 
 /* Package is a pre-release (Alpha/Beta) package */
-#define BOINC_PRERELEASE 1
+/* #define BOINC_PRERELEASE 1 */
 
 #if (defined(_WIN32) || defined(__APPLE__))
 /* Name of package */
@@ -29,13 +35,13 @@
 #define PACKAGE_NAME "BOINC"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "BOINC 7.3.1"
+#define PACKAGE_STRING "BOINC 7.3.19"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "boinc"
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "7.3.1"
+#define PACKAGE_VERSION "7.3.19"
 
 #endif /* #if (defined(_WIN32) || defined(__APPLE__)) */
 

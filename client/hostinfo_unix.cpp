@@ -1,4 +1,4 @@
-﻿// This file is part of BOINC.
+// This file is part of BOINC.
 // http://boinc.berkeley.edu
 // Copyright (C) 2008 University of California
 //
@@ -1246,37 +1246,14 @@ int HOST_INFO::get_virtualbox_version() {
     char *newlinePtr;
     FILE* fd;
 
-#if LINUX_LIKE_SYSTEM
     safe_strcpy(path, "/usr/bin/VBoxManage");
-#elif defined( __APPLE__)
-    FSRef theFSRef;
-    OSStatus status = noErr;
-
-    // First try to locate the VirtualBox application by Bundle ID and Creator Code
-    status = LSFindApplicationForInfo(
-        'VBOX', CFSTR("org.virtualbox.app.VirtualBox"), NULL, &theFSRef, NULL
-    );
-    if (status == noErr) {
-        status = FSRefMakePath(&theFSRef, (unsigned char *)path, sizeof(path));
-    }
-    // If that failed, try its default location
-    if (status != noErr) {
-        strcpy(path, "/Applications/VirtualBox.app");
-    }
-#endif
 
     if (boinc_file_exists(path)) {
-#if LINUX_LIKE_SYSTEM
         if (access(path, X_OK)) {
             return 0;
         }
         safe_strcpy(cmd, path);
         safe_strcat(cmd, " --version");
-#elif defined( __APPLE__)
-        safe_strcpy(cmd, "defaults read ");
-        safe_strcat(cmd, path);
-        safe_strcat(cmd, "/Contents/Info CFBundleShortVersionString");
-#endif
         fd = popen(cmd, "r");
         if (fd) {
             if (fgets(virtualbox_version, sizeof(virtualbox_version), fd)) {

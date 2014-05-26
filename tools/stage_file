@@ -85,12 +85,15 @@ $dl_md5_path = "$dl_path.md5";
 // compute the file's MD5
 //
 $md5 = md5_file($path);
+$file_size = filesize($path);
 
 // if file is already in download dir, make sure it's the same
 //
 if (file_exists($dl_path)) {
     if (file_exists($dl_md5_path)) {
-        $dl_md5 = trim(file_get_contents($dl_md5_path));
+        $x = file_get_contents($dl_md5_path);
+        $x = explode(" ", $x);
+        $dl_md5 = $x[0];
     } else {
         $dl_md5 = md5_file($dl_path);
     }
@@ -115,7 +118,8 @@ Please use a different file name.
 // make MD5 file if needed
 //
 if (!file_exists($dl_md5_path)) {
-    file_put_contents($dl_md5_path, $md5);
+    $x = $md5." ".$file_size."\n";
+    file_put_contents($dl_md5_path, $x);
 }
 
 // make gzipped version if needed

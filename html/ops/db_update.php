@@ -909,6 +909,30 @@ function update_1_13_2014() {
     );
 }
 
+function update_3_6_2014() {
+    do_query(
+        "alter table host add gpu_active_frac double not null"
+    );
+}
+
+function update_4_2_2014() {
+    do_query(
+        "alter table result 
+            add peak_working_set_size double not null,
+            add peak_swap_size double not null,
+            add peak_disk_usage double not null
+        "
+    );
+}
+
+function update_5_3_2014() {
+    do_query(
+        "alter table app
+            add fraction_done_exact tinyint not null
+        "
+    );
+}
+
 // Updates are done automatically if you use "upgrade".
 //
 // If you need to do updates manually,
@@ -947,6 +971,9 @@ $db_updates = array (
     array(27004, "update_9_17_2013"),
     array(27005, "update_12_22_2013"),
     array(27006, "update_1_13_2014"),
+    array(27007, "update_3_6_2014"),
+    array(27008, "update_4_2_2014"),
+    array(27009, "update_5_3_2014"),
 );
 
 ?>

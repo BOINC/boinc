@@ -35,6 +35,14 @@
 #define AV_AVG_WEIGHT   .001
 #define AV_AVG_LIMIT    10
 
+// variant of DB_APP_VERSION used by the validator
+//
+struct DB_APP_VERSION_VAL : DB_APP_VERSION {
+    std::vector<double>pfc_samples;
+    std::vector<double>credit_samples;
+    std::vector<double>credit_times;
+};
+
 extern double fpops_to_credit(double fpops);
     // credit that should be granted for a given number of
     // floating-point ops
@@ -43,7 +51,7 @@ extern int grant_credit(DB_HOST& host, double start_time, double credit);
 
 extern int update_av_scales(struct SCHED_SHMEM*);
 extern int assign_credit_set(
-    WORKUNIT&, std::vector<RESULT>&, DB_APP&, std::vector<DB_APP_VERSION>&,
+    WORKUNIT&, std::vector<RESULT>&, DB_APP&, std::vector<DB_APP_VERSION_VAL>&,
     std::vector<DB_HOST_APP_VERSION>&,
     double max_granted_credit, double& credit
 );
@@ -53,5 +61,5 @@ extern void got_error(DB_HOST_APP_VERSION&);
 extern int hav_lookup(DB_HOST_APP_VERSION& hav, int hostid, int avid);
 
 extern int write_modified_app_versions(
-    std::vector<DB_APP_VERSION>& app_versions
+    std::vector<DB_APP_VERSION_VAL>& app_versions
 );

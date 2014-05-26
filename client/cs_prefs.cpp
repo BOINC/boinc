@@ -207,7 +207,7 @@ int CLIENT_STATE::check_suspend_processing() {
         return SUSPEND_REASON_BENCHMARKS;
     }
 
-    if (config.start_delay && now < time_stats.client_start_time + config.start_delay) {
+    if (cc_config.start_delay && now < time_stats.client_start_time + cc_config.start_delay) {
         return SUSPEND_REASON_INITIAL_DELAY;
     }
 
@@ -227,9 +227,12 @@ int CLIENT_STATE::check_suspend_processing() {
         ) {
             return SUSPEND_REASON_BATTERIES;
         }
+#ifndef ANDROID
+        // perform this check after SUSPEND_REASON_BATTERY_CHARGING on Android
         if (!global_prefs.run_if_user_active && user_active) {
             return SUSPEND_REASON_USER_ACTIVE;
         }
+#endif
         if (global_prefs.cpu_times.suspended(now)) {
             return SUSPEND_REASON_TIME_OF_DAY;
         }
@@ -251,6 +254,7 @@ int CLIENT_STATE::check_suspend_processing() {
 
 #ifdef ANDROID
     if (now > device_status_time + ANDROID_KEEPALIVE_TIMEOUT) {
+        requested_exit = true;
         return SUSPEND_REASON_NO_GUI_KEEPALIVE;
     }
 
@@ -272,6 +276,16 @@ int CLIENT_STATE::check_suspend_processing() {
         if (cp < global_prefs.battery_charge_min_pct) {
             return SUSPEND_REASON_BATTERY_CHARGING;
         }
+    }
+    
+    // user active.
+    // Do this check after checks that user can not influence on Android.
+    // E.g.
+    // 1. "connect to charger to continue computing"
+    // 2. "charge battery until 90%"
+    // 3. "turn screen off to continue computing"
+    if (!global_prefs.run_if_user_active && user_active) {
+        return SUSPEND_REASON_USER_ACTIVE;
     }
 #endif
 
@@ -397,7 +411,7 @@ void CLIENT_STATE::check_suspend_network() {
 
     // no network traffic if we're allowing unsigned apps
     //
-    if (config.unsigned_apps_ok) {
+    if (cc_config.unsigned_apps_ok) {
         network_suspended = true;
         file_xfers_suspended = true;
         network_suspend_reason = SUSPEND_REASON_USER_REQ;
@@ -422,6 +436,7 @@ void CLIENT_STATE::check_suspend_network() {
 
 #ifdef ANDROID
     if (now > device_status_time + ANDROID_KEEPALIVE_TIMEOUT) {
+        requested_exit = true;
         file_xfers_suspended = true;
         if (!recent_rpc) network_suspended = true;
         network_suspend_reason = SUSPEND_REASON_NO_GUI_KEEPALIVE;
@@ -447,11 +462,15 @@ void CLIENT_STATE::check_suspend_network() {
         }
     }
 
+#ifndef ANDROID
+// allow network transfers while user active, i.e. screen on.
+// otherwise nothing (visible to the user) happens after intial attach
     if (!global_prefs.run_if_user_active && user_active) {
         file_xfers_suspended = true;
         if (!recent_rpc) network_suspended = true;
         network_suspend_reason = SUSPEND_REASON_USER_ACTIVE;
     }
+#endif    
     if (global_prefs.net_times.suspended(now)) {
         file_xfers_suspended = true;
         if (!recent_rpc) network_suspended = true;

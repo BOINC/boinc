@@ -313,8 +313,8 @@ static int ImageListForTaskOldWithNames(
 	QTMAddr					listChunkAddr;
 	QTMAddr					elemSizeAddr;
 	QTMAddr					elemCountAddr;
-	uint32_t				elemCount;
-	uint32_t				elemSize;
+	uint32_t				elemCount = 0;
+	uint32_t				elemSize = 0;
 	size_t					listChunkSize;
 	enum {									// constants related to the array elements
 		kValidOffset        = 12,				// offset to "valid" field

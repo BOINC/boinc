@@ -188,7 +188,7 @@ int ACCT_MGR_OP::do_rpc(
             fclose(fprefs);
         }
     }
-    gstate.host_info.write(mf, !config.suppress_net_info, true);
+    gstate.host_info.write(mf, !cc_config.suppress_net_info, true);
     if (strlen(gstate.acct_mgr_info.opaque)) {
         fprintf(f,
             "   <opaque>\n%s\n"
@@ -278,6 +278,7 @@ int AM_ACCOUNT::parse(XML_PARSER& xp) {
 
         if (xp.parse_str("no_rsc", buf, sizeof(buf))) {
             handle_no_rsc(buf, true);
+            continue;
         }
         if (xp.parse_bool("dont_request_more_work", btemp)) {
             dont_request_more_work.set(btemp);
@@ -454,11 +455,20 @@ void ACCT_MGR_OP::handle_reply(int http_op_retval) {
             error_num = ERR_XML_PARSE;
         }
     } else if (error_num) {
-        msg_printf(&ami, MSG_USER_ALERT,
-            "%s: %s",
-            _("Message from account manager"),
-            boincerror(error_num)
-        );
+        if (error_num == http_op_retval) {
+            // if it was an HTTP error, don't notify the user;
+            // probably the acct mgr server is down
+            //
+            msg_printf(&ami, MSG_INFO,
+                "Account manager RPC failed: %s", boincerror(error_num)
+            );
+        } else {
+            msg_printf(&ami, MSG_USER_ALERT,
+                "%s: %s",
+                _("Message from account manager"),
+                boincerror(error_num)
+            );
+        }
     }
 
     if (error_num) {

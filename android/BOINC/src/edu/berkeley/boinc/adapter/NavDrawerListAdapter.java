@@ -20,9 +20,8 @@ package edu.berkeley.boinc.adapter;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-
+import edu.berkeley.boinc.BOINCActivity;
 import edu.berkeley.boinc.R;
-import edu.berkeley.boinc.client.Monitor;
 import edu.berkeley.boinc.rpc.Project;
 import edu.berkeley.boinc.utils.Logging;
 import android.app.Activity;
@@ -57,7 +56,6 @@ public class NavDrawerListAdapter extends BaseAdapter{
 		navDrawerItems.add(new NavDrawerItem(R.string.menu_help, R.drawable.helpb));
 		navDrawerItems.add(new NavDrawerItem(R.string.menu_about, R.drawable.infob));
 		navDrawerItems.add(new NavDrawerItem(R.string.menu_eventlog, R.drawable.bugb));
-		navDrawerItems.add(new NavDrawerItem(R.string.menu_exit, R.drawable.offb));
 	}
 
 	@Override
@@ -99,6 +97,7 @@ public class NavDrawerListAdapter extends BaseAdapter{
          
         if(navDrawerItems.get(position).isProjectItem) {
         	Bitmap icon = navDrawerItems.get(position).getProjectIcon();
+        	if(icon == null) navDrawerItems.get(position).updateProjectIcon();
         	if(icon != null) imgIcon.setImageBitmap(icon);
         }
         else imgIcon.setImageResource(navDrawerItems.get(position).getIcon());        
@@ -110,10 +109,10 @@ public class NavDrawerListAdapter extends BaseAdapter{
     		Integer counter = 0;
         	switch(navDrawerItems.get(position).id) {
         	case R.string.tab_tasks:
-        		try {counter = Monitor.getClientStatus().getTasks().size();}catch(Exception e) {}
+        		try {counter = BOINCActivity.monitor.getTasks().size();}catch(Exception e) {}
         		break;
         	case R.string.tab_notices: 
-        		try {counter = Monitor.getClientStatus().getRssNotices().size();}catch(Exception e) {}
+        		try {counter = BOINCActivity.monitor.getRssNotices().size();}catch(Exception e) {}
         		break;
         	}
         	txtCount.setText(counter.toString());
@@ -132,6 +131,14 @@ public class NavDrawerListAdapter extends BaseAdapter{
         return convertView;
 	}
 	
+	public Bitmap getProjectIconForMasterUrl(String masterUrl) {
+		Bitmap bm = null;
+		try {
+			bm = BOINCActivity.monitor.getProjectIcon(masterUrl);
+		} catch (Exception e) {}
+		return bm;
+	}
+	
 	/**
 	 * Compares list of projects to items represented in nav bar.
 	 * @param projects
@@ -146,13 +153,12 @@ public class NavDrawerListAdapter extends BaseAdapter{
 		}
 		
 		Integer numberAdded = 0;
-		try {
-			for(Project project: projects) {
-				NavDrawerItem newProjectItem = new NavDrawerItem(project.project_name, Monitor.getClientStatus().getProjectIcon(project.master_url), project.master_url);
-				navDrawerItems.add(3, newProjectItem);
-				numberAdded++;
-			}
-		} catch (Exception e) {}
+		
+		for(Project project: projects) {
+			NavDrawerItem newProjectItem = new NavDrawerItem(project.project_name, getProjectIconForMasterUrl(project.master_url), project.master_url);
+			navDrawerItems.add(3, newProjectItem);
+			numberAdded++;
+		}
 		
 		if(Logging.DEBUG) Log.d(Logging.TAG, "NavDrawerListAdapter.compareAndAddProjects() added: " + numberAdded);
 		this.notifyDataSetChanged();
@@ -245,6 +251,10 @@ public class NavDrawerListAdapter extends BaseAdapter{
 		
 		public Bitmap getProjectIcon() {
 			return this.projectIcon;
+		}
+		
+		public void updateProjectIcon() {
+			this.projectIcon = getProjectIconForMasterUrl(projectMasterUrl);
 		}
 		
 		public void setTitle(String title){

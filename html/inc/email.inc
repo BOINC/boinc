@@ -25,24 +25,12 @@ require_once("../project/project.inc");
 $config = get_config();
 $master_url = parse_config($config, "<master_url>");
 
-// Determine if phpmailer is installed and to be used (defined in project.inc)
-if (isset($USE_PHPMAILER)) {
-    if ($USE_PHPMAILER) {
-        require_once("../inc/phpmailer/class.phpmailer.php");
-    }
-} else {
-    $USE_PHPMAILER = false;
-}
-
 // send an email, using PHPMailer or not.
 //
 function send_email($user, $subject, $body, $body_html=null) {
-    global $USE_PHPMAILER;
-    global $PHPMAILER_HOST;
-    global $PHPMAILER_MAILER;
-
-    if ($USE_PHPMAILER) {
-        $mail = new PHPMailer();
+    if (function_exists("make_php_mailer")) {
+        require_once("../inc/phpmailer/class.phpmailer.php");
+        $mail = make_php_mailer();
         $mail->AddAddress($user->email_addr, $user->name);
         $mail->Subject = $subject;
         if ($body_html) {
@@ -51,10 +39,6 @@ function send_email($user, $subject, $body, $body_html=null) {
         } else {
             $mail->Body = $body;
         }
-        $mail->From = EMAIL_FROM;
-        $mail->FromName = EMAIL_FROM_NAME;
-        $mail->Host = $PHPMAILER_HOST;
-        $mail->Mailer = $PHPMAILER_MAILER;
         if (!$mail->Send()) {
             echo $mail->ErrorInfo;
             return false;

@@ -41,33 +41,17 @@
 #define CANT_FETCH_WORK_DONT_NEED                   10
 #define CANT_FETCH_WORK_TOO_MANY_RUNNABLE           11
 
-inline const char* cant_fetch_work_string(int reason) {
-    switch (reason) {
-    case CANT_FETCH_WORK_NON_CPU_INTENSIVE:
-        return "non CPU intensive";
-    case CANT_FETCH_WORK_SUSPENDED_VIA_GUI:
-        return "suspended via Manager";
-    case CANT_FETCH_WORK_MASTER_URL_FETCH_PENDING:
-        return "master URL fetch pending";
-    case CANT_FETCH_WORK_MIN_RPC_TIME:
-        return "scheduler RPC backoff";
-    case CANT_FETCH_WORK_DONT_REQUEST_MORE_WORK:
-        return "\"no new tasks\" requested via Manager";
-    case CANT_FETCH_WORK_DOWNLOAD_STALLED:
-        return "some download is stalled";
-    case CANT_FETCH_WORK_RESULT_SUSPENDED:
-        return "some task is suspended via Manager";
-    case CANT_FETCH_WORK_TOO_MANY_UPLOADS:
-        return "too many uploads in progress";
-    case CANT_FETCH_WORK_NOT_HIGHEST_PRIORITY:
-        return "project is not highest priority";
-    case CANT_FETCH_WORK_DONT_NEED:
-        return "don't need";
-    case CANT_FETCH_WORK_TOO_MANY_RUNNABLE:
-        return "too many runnable tasks";
-    }
-    return "";
-}
+// in case of DONT_NEED, per-resource reason
+//
+#define DONT_FETCH_GPUS_NOT_USABLE                  1
+#define DONT_FETCH_PREFS                            2
+#define DONT_FETCH_CONFIG                           3
+#define DONT_FETCH_NO_APPS                          4
+#define DONT_FETCH_AMS                              5
+#define DONT_FETCH_BACKOFF                          6
+#define DONT_FETCH_ZERO_SHARE                       7
+#define DONT_FETCH_BUFFER_FULL                      8
+#define DONT_FETCH_NOT_HIGHEST_PRIO                 9
 
 struct PROJECT;
 struct RESULT;
@@ -223,6 +207,7 @@ struct RSC_WORK_FETCH {
     double deadline_missed_instances;
         // instance count for jobs that miss deadline
     BUSY_TIME_ESTIMATOR busy_time_estimator;
+    int dont_fetch_reason;
 #ifdef SIM
     double estimated_delay;
 #endif
@@ -257,7 +242,7 @@ struct RSC_WORK_FETCH {
     void set_request(PROJECT*);
     void set_request_excluded(PROJECT*);
     bool may_have_work(PROJECT*);
-    bool can_fetch(PROJECT*);
+    int cant_fetch(PROJECT*);
     bool backed_off(PROJECT*);
     bool uses_starved_excluded_instances(PROJECT*);
     RSC_WORK_FETCH() {
@@ -289,6 +274,10 @@ struct PROJECT_WORK_FETCH {
     int cant_fetch_work_reason;
     int compute_cant_fetch_work_reason(PROJECT*);
     int n_runnable_jobs;
+    bool request_if_idle_and_uploading;
+        // Set when a job finishes.
+        // If we're uploading but a resource is idle, make a work request.
+        // If this succeeds, clear the flag.
     PROJECT_WORK_FETCH() {
         memset(this, 0, sizeof(*this));
     }
@@ -335,5 +324,6 @@ extern void adjust_rec_sched(RESULT*);
 extern void adjust_rec_work_fetch(RESULT*);
 
 extern double total_peak_flops();
+extern const char* cant_fetch_work_string(PROJECT* p, char* buf);
 
 #endif

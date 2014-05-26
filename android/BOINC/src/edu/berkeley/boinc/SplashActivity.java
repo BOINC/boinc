@@ -18,7 +18,9 @@
  ******************************************************************************/
 package edu.berkeley.boinc;
 
+import edu.berkeley.boinc.attach.SelectionListActivity;
 import edu.berkeley.boinc.client.ClientStatus;
+import edu.berkeley.boinc.client.IMonitor;
 import edu.berkeley.boinc.client.Monitor;
 import edu.berkeley.boinc.utils.Logging;
 import android.app.Activity;
@@ -31,6 +33,7 @@ import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.os.RemoteException;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnLongClickListener;
@@ -48,16 +51,25 @@ public class SplashActivity extends Activity {
 	
 	private Boolean mIsBound = false;
 	private Activity activity = this;
-
+	private static IMonitor monitor = null;
+	
 	private ServiceConnection mConnection = new ServiceConnection() {
 	    public void onServiceConnected(ComponentName className, IBinder service) {
 	        // This is called when the connection with the service has been established
 		    mIsBound = true;
+		    monitor = IMonitor.Stub.asInterface(service);
+		    try {
+		    	// check whether BOINC was able to acquire mutex
+		    	if(!monitor.boincMutexAcquired()) showNotExclusiveDialog();
+		    	// read log level from monitor preferences and adjust accordingly
+				Logging.setLogLevel(monitor.getLogLevel());
+			} catch (RemoteException e) {Log.w(Logging.TAG, "initializing log level failed.");}
 	    }
 
 	    public void onServiceDisconnected(ComponentName className) {
 	    	// This should not happen
 		    mIsBound = false;
+		    monitor = null;
 	    }
 	};
 	
@@ -68,7 +80,7 @@ public class SplashActivity extends Activity {
 
 			if(mIsBound) {
 				try{
-					int setupStatus = Monitor.getClientStatus().setupStatus;
+					int setupStatus = SplashActivity.monitor.getSetupStatus();
 					switch(setupStatus) {
 					case ClientStatus.SETUP_STATUS_AVAILABLE:
 						if(Logging.DEBUG) Log.d(Logging.TAG, "SplashActivity SETUP_STATUS_AVAILABLE"); 
@@ -76,16 +88,13 @@ public class SplashActivity extends Activity {
 						Intent startMain = new Intent(activity,BOINCActivity.class);
 						startActivity(startMain);
 						break;
-					case ClientStatus.SETUP_STATUS_CLOSED:
-						if(Logging.DEBUG) Log.d(Logging.TAG, "SplashActivity SETUP_STATUS_CLOSED"); 
-						// close this activity
-						finish();
-						break;
 					case ClientStatus.SETUP_STATUS_NOPROJECT:
 						if(Logging.DEBUG) Log.d(Logging.TAG, "SplashActivity SETUP_STATUS_NOPROJECT"); 
+						// run benchmarks to speed up project initialization
+						boolean benchmarks = monitor.runBenchmarks();
+						if(Logging.DEBUG) Log.d(Logging.TAG, "SplashActivity: runBenchmarks returned: " + benchmarks);
 						// forward to PROJECTATTACH
-						Intent startAttach = new Intent(activity,AttachProjectListActivity.class);
-						startAttach.putExtra("showUp", false);
+						Intent startAttach = new Intent(activity,SelectionListActivity.class);
 						startActivity(startAttach);
 						break;
 					case ClientStatus.SETUP_STATUS_ERROR:
@@ -104,6 +113,9 @@ public class SplashActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_splash);
 		
+		//initialize logging with highest verbosity, read actual value when monitor connected.
+		Logging.setLogLevel(5);
+
 		//bind monitor service
         doBindService();
         
@@ -154,5 +166,14 @@ public class SplashActivity extends Activity {
 	        unbindService(mConnection);
 	        mIsBound = false;
 	    }
+	}
+	
+	private void showNotExclusiveDialog() {
+		if(Logging.ERROR) Log.e(Logging.TAG, "SplashActivity: another BOINC app found, show dialog.");
+    	Intent notExclusiveDialogIntent = new Intent();
+    	notExclusiveDialogIntent.setClassName("edu.berkeley.boinc", "edu.berkeley.boinc.BoincNotExclusiveDialog");
+	    startActivity(notExclusiveDialogIntent);
+		finish();
+		return;
 	}
 }

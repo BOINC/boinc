@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-02-02 00:00-0800\n"
-"PO-Revision-Date: 2014-01-31 12:08+0000\n"
+"PO-Revision-Date: 2014-03-03 17:12+0000\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fi\n"
@@ -23,7 +23,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCGIT\\boinc\n"
-"X-POOTLE-MTIME: 1391170080.0\n"
+"X-POOTLE-MTIME: 1393866765.0\n"
 
 # 81%
 #: AccountInfoPage.cpp:387
@@ -293,7 +293,7 @@ msgstr ""
 #: AdvancedFrame.cpp:429
 #, c-format
 msgid "&Synchronize with %s"
-msgstr "&Synkronisoi %s kanssa"
+msgstr "&Synkronoi %s kanssa"
 
 #: AdvancedFrame.cpp:433
 #, c-format
@@ -2712,7 +2712,7 @@ msgstr "Hyväksyn käyttöehdot."
 
 #: TermsOfUsePage.cpp:237
 msgid "I do not agree to the terms of use."
-msgstr ""
+msgstr "En hyväksy käyttöehtoja."
 
 #: UnavailablePage.cpp:183
 msgid "Project temporarily unavailable"
@@ -3731,7 +3731,7 @@ msgstr "Lisää projekti"
 
 #: sg_ProjectPanel.cpp:73
 msgid "Synchronize"
-msgstr "Synkronisoi"
+msgstr "Synkronoi"
 
 #: sg_ProjectPanel.cpp:74
 msgid "Work done for this project"
@@ -3739,7 +3739,7 @@ msgstr "Tälle projektille tehty työ"
 
 #: sg_ProjectPanel.cpp:77
 msgid "Synchronize projects with account manager system"
-msgstr "Synkronisoi projektit tilihallitsijajärjestelmän kanssa"
+msgstr "Synkronoi projektit tilihallitsijajärjestelmän kanssa"
 
 #: sg_ProjectPanel.cpp:124
 msgid "Select a project to access with the controls below"
@@ -3798,7 +3798,7 @@ msgstr "Valitse käsiteltävä paketti"
 
 #: sg_TaskPanel.cpp:493
 msgid "From:"
-msgstr ""
+msgstr "Mistä:"
 
 #: sg_TaskPanel.cpp:547
 msgid "This task's progress"

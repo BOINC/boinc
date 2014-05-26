@@ -1,7 +1,7 @@
 <?php
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2014 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -21,6 +21,8 @@ include_once("../inc/util.inc");
 include_once("../inc/team.inc");
 include_once("../inc/team_types.inc");
 include_once("../inc/xml.inc");
+
+if (DISABLE_TEAMS) error_page("Teams are disabled");
 
 check_get_args(array("keywords", "active", "country", "type", "submit", "xml"));
 
@@ -66,6 +68,11 @@ function show_list($list) {
     echo "
         <tr>
         <th>".tra("Team name")."</th>
+    ";
+    if (defined("SHOW_NONVALIDATED_TEAMS")) {
+        echo "<th>Validated?</th>\n";
+    }
+    echo "
         <th>".tra("Description")."</th>
         <th>".tra("Average credit")."</th>
         <th>".tra("Type")."</th>
@@ -78,6 +85,14 @@ function show_list($list) {
         $j = $i++ % 2;
         echo "<tr class=row$j>
             <td><a href=team_display.php?teamid=$team->id>$team->name</a></td>
+        ";
+        if (defined("SHOW_NONVALIDATED_TEAMS")) {
+            $user = BoincUser::lookup_id($team->userid);
+            echo "<td>";
+            echo $user->email_validated?"Yes":"No";
+            echo "</td>\n";
+        }
+        echo "
             <td><span class=note>".sanitize_html($team->description)."</span></td>
             <td>".format_credit($team->expavg_credit)."</td>
             <td>$type</td>

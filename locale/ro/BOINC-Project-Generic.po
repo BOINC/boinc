@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2014-01-10 00:00 PST\n"
-"PO-Revision-Date: 2014-02-03 15:06+0000\n"
+"PO-Revision-Date: 2014-02-24 07:17+0000\n"
 "Last-Translator: Marius <marius.sirbu@outlook.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: ro\n"
@@ -18,7 +18,7 @@ msgstr ""
 "20)) ? 1 : 2);;\n"
 "X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-POOTLE-MTIME: 1391440007.0\n"
+"X-POOTLE-MTIME: 1393226265.0\n"
 
 msgid "LANG_NAME_NATIVE"
 msgstr "Română"
@@ -3135,7 +3135,7 @@ msgstr ""
 
 #: ../user/edit_forum_preferences_form.php:134
 msgid "Highlight special users"
-msgstr ""
+msgstr "Evidenţiază utilizatorii speciali"
 
 #: ../user/edit_forum_preferences_form.php:135
 msgid "Display this many messages per page"
@@ -3492,7 +3492,7 @@ msgstr ""
 
 #: ../user/ffmail_form.php:33
 msgid "Tell your friends about %1"
-msgstr ""
+msgstr "Spune prietenilor tăi despre %1"
 
 #: ../user/ffmail_form.php:37
 msgid "Help us by telling your friends, family and coworkers about %1"
@@ -3515,11 +3515,11 @@ msgstr "Adresa dumneavoastră de email:"
 
 #: ../user/ffmail_form.php:48
 msgid "Friend's name:"
-msgstr ""
+msgstr "Numele prietenului:"
 
 #: ../user/ffmail_form.php:48
 msgid "Friend's email address:"
-msgstr ""
+msgstr "Adresa de email a prietenului:"
 
 #: ../user/ffmail_form.php:56
 msgid "Additional message (optional)"
@@ -3635,7 +3635,7 @@ msgstr "Adaugă semnătura mea la acest răspuns"
 
 #: ../user/forum_forum.php:41
 msgid "Not visible to you"
-msgstr ""
+msgstr "Nu este vizibil pentru dumneavoastră"
 
 #: ../user/forum_forum.php:80
 msgid "Team message board for %1"
@@ -3679,7 +3679,7 @@ msgstr ""
 
 #: ../user/forum_forum.php:184
 msgid "unread/locked"
-msgstr ""
+msgstr "necitit/blocat"
 
 # 81%
 #: ../user/forum_forum.php:186
@@ -3738,7 +3738,7 @@ msgstr "Întrebări"
 
 #: ../user/forum_index.php:53 ../user/team_forum.php:68
 msgid "Discussion among members of %1"
-msgstr ""
+msgstr "Discuţie între membrii %1"
 
 #: ../user/forum_index.php:69
 msgid "%1 Message boards"
@@ -3764,7 +3764,7 @@ msgstr ""
 
 #: ../user/forum_moderate_post.php:57 ../user/forum_moderate_thread.php:54
 msgid "Commercial spam"
-msgstr ""
+msgstr "Spam comercial"
 
 #: ../user/forum_moderate_post.php:58
 msgid "Doublepost"
@@ -3969,7 +3969,7 @@ msgstr "Mesaj:"
 
 #: ../user/forum_reply.php:140
 msgid "reply to %1Message ID%2:"
-msgstr ""
+msgstr "răspunde la %1ID Mesaj%2:"
 
 #: ../user/forum_reply.php:166
 msgid "Post reply"

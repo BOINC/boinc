@@ -491,9 +491,8 @@ int get_exit_status(int pid) {
     return status;
 }
 bool process_exists(int pid) {
-    int p = waitpid(pid, 0, WNOHANG);
-    if (p == pid) return false;     // process has exited
-    if (p == -1) return false;      // PID doesn't exist
+    int retval = kill(pid, 0);
+    if (retval == -1 && errno == ESRCH) return false;
     return true;
 }
 #endif
@@ -504,9 +503,7 @@ static int get_client_mutex(const char*) {
     
     // Global mutex on Win2k and later
     //
-    if (IsWindows2000Compatible()) {
-        strcpy(buf, "Global\\");
-    }
+    strcpy(buf, "Global\\");
     strcat(buf, RUN_MUTEX);
 
     HANDLE h = CreateMutexA(NULL, true, buf);
@@ -544,7 +541,6 @@ int wait_client_mutex(const char* dir, double timeout) {
 bool boinc_is_finite(double x) {
 #if defined (HPUX_SOURCE)
     return _Isfinite(x);
-    return false;
 #else
     return finite(x) != 0;
 #endif

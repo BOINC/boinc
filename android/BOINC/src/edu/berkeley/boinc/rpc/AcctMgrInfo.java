@@ -19,7 +19,10 @@
 
 package edu.berkeley.boinc.rpc;
 
-public class AcctMgrInfo {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class AcctMgrInfo implements Parcelable {
 	public String acct_mgr_name;
 	public String acct_mgr_url;
 	public boolean have_credentials;
@@ -27,4 +30,45 @@ public class AcctMgrInfo {
 	public String cookie_failure_url;
 	
 	public boolean present;
+	
+	@Override
+	public int describeContents() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeString(acct_mgr_name);
+		dest.writeString(acct_mgr_url);
+		dest.writeString(cookie_failure_url);
+		
+		dest.writeBooleanArray(new boolean[]{
+				have_credentials, 
+				cookie_required, 
+				present});
+		
+	}
+	
+	public AcctMgrInfo() {}
+	
+	private AcctMgrInfo(Parcel in) {
+		acct_mgr_name = in.readString();
+		acct_mgr_url = in.readString();
+		cookie_failure_url = in.readString();
+		
+		boolean[] bArray = in.createBooleanArray();
+		have_credentials = bArray[0];
+		cookie_required = bArray[1];
+		present = bArray[2];
+	}
+	
+	public static final Parcelable.Creator<AcctMgrInfo> CREATOR = new Parcelable.Creator<AcctMgrInfo>() {
+		public AcctMgrInfo createFromParcel(Parcel in) {
+		    return new AcctMgrInfo(in);
+		}
+		public AcctMgrInfo[] newArray(int size) {
+		    return null;
+		}
+	};
 }

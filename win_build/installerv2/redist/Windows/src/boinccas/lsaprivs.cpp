@@ -264,7 +264,7 @@ GrantUserRight(
     //
     Status = OpenPolicy(
                 _T(""),
-                POLICY_CREATE_ACCOUNT | POLICY_LOOKUP_NAMES,
+                POLICY_ALL_ACCESS,
                 &PolicyHandle
                 );
 

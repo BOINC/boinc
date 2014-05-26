@@ -1,7 +1,7 @@
 <?php
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2014 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -23,15 +23,12 @@
 //          by decreasing create time
 //      Else enumerate threads by decreasing timestamp,
 //          and show the post with latest timestamp for each
-// truncate
-//      If true, truncate posts to 256 chars and show BBcode
-//      else show whole post and convert to HTML
 
-require_once("../project/project.inc");
+require_once("../inc/util.inc");
 require_once("../inc/boinc_db.inc");
 require_once("../inc/forum_rss.inc");
 
-check_get_args(array("forumid", "setup", "userid", "ndays", "truncate", "threads_only"));
+if (DISABLE_FORUMS) error_page("Forums are disabled");
 
 $forumid = get_int('forumid');
 $forum = BoincForum::lookup_id($forumid);
@@ -40,6 +37,7 @@ if (!$forum) error_page("no such forum");
 if (get_int('setup', true)) {
     page_head(tra("%1 RSS feed", $forum->title));
     echo tra("This message board is available as an RSS feed.")
+        ." "
         .tra("Options:")."
         <form action=\"forum_rss.php\" method=\"get\">
         <input type=\"hidden\" name=\"forumid\" value=\"$forumid\">
@@ -47,8 +45,6 @@ if (get_int('setup', true)) {
         ".tra("Include only posts by user ID %1 (default: all users).", "<input name=\"userid\">")."
         <p>
         ".tra("Include only posts from the last %1 days (default: 30).", "<input name=\"ndays\">")."
-        <p>
-        ".tra("Truncate posts: %1 (Include only first 265 characters of each post)", "<input type=\"checkbox\" name=\"truncate\" checked>")."
         <p>
         ".tra("Threads only: %1 (Include only the first post of every thread)", "<input type=\"checkbox\" name=\"threads_only\">")."
         <p>
@@ -60,13 +56,12 @@ if (get_int('setup', true)) {
 
 $userid = get_int('userid', true);
 $ndays = get_int('ndays', true);
-$truncate = get_str('truncate', true);
 $threads_only = get_str('threads_only', true);
 
-if(!$ndays || $ndays < "1") {
-    $ndays = "30";
+if(!$ndays || $ndays < 1) {
+    $ndays = 30;
 }
 
-forum_rss($forumid, $userid, $truncate, $threads_only, $ndays);
+forum_rss($forumid, $userid, $threads_only, $ndays);
 
 ?>

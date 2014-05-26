@@ -395,6 +395,8 @@ CMainDocument::CMainDocument() : rpc(this) {
     }
 #endif
 
+    strcpy(m_szLanguage, "");
+
     m_bClientStartCheckCompleted = false;
 
     m_ActiveTasksOnly = false;
@@ -557,7 +559,6 @@ int CMainDocument::OnExit() {
 int CMainDocument::OnPoll() {
     CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
     int iRetVal = 0;
-    int otherInstanceID;
     wxString hostName = wxGetApp().GetClientHostNameArg();
     wxString password = wxGetApp().GetClientPasswordArg();
     int portNum = wxGetApp().GetClientRPCPortArg();
@@ -569,8 +570,7 @@ int CMainDocument::OnPoll() {
         m_bClientStartCheckCompleted = true;
 
         if (IsComputerNameLocal(hostName)) {
-            otherInstanceID = wxGetApp().IsAnotherInstanceRunning();
-            if (otherInstanceID) {
+            if (wxGetApp().IsAnotherInstanceRunning()) {
                 if (!pFrame->SelectComputer(hostName, portNum, password, true)) {
                     s_bSkipExitConfirmation = true;
                     wxCommandEvent event;
@@ -936,9 +936,10 @@ void CMainDocument::RunPeriodicRPCs(int frameRefreshRate) {
 	static bool first = true;
 	if (first) {
 		first = false;
+        strcpy(m_szLanguage, wxGetApp().GetISOLanguageCode().mb_str());
 		request.clear();
 		request.which_rpc = RPC_SET_LANGUAGE;
-		request.arg1 = (void*)(const char*)language.mb_str();
+		request.arg1 = (void*)(const char*)&m_szLanguage;
 		request.rpcType = RPC_TYPE_ASYNC_NO_REFRESH;
 		RequestRPC(request);
 	}
@@ -997,6 +998,14 @@ void CMainDocument::RunPeriodicRPCs(int frameRefreshRate) {
             request.arg1 = &m_iNoticeSequenceNumber;
             request.arg2 = &notices;
             request.rpcType = RPC_TYPE_ASYNC_WITH_REFRESH_AFTER;
+            if (!pFrame->IsShown()
+#ifdef __WXMAC__
+                || (!wxGetApp().IsApplicationVisible())
+#endif
+            ) {
+                request.rpcType = RPC_TYPE_ASYNC_NO_REFRESH;
+            }
+
             request.completionTime = &m_dtNoticesTimeStamp;
             request.resultPtr = &m_iGet_notices_rpc_result;
            

@@ -21,12 +21,14 @@ require_once("../inc/xml.inc");
 require_once("../inc/team.inc");
 require_once("../inc/team_types.inc");
 
+if (DISABLE_TEAMS) xml_error(-1, "Teams are disabled");
+
 xml_header();
 $retval = db_init_xml();
 if ($retval) xml_error($retval);
 
 $auth = get_str("account_key");
-$user = lookup_user_auth($auth);
+$user = BoincUser::lookup_auth($auth);
 if (!$user) {
     xml_error(ERR_DB_NOT_FOUND);
 }

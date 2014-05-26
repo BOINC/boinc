@@ -42,12 +42,12 @@ function list_files($user, $err_msg) {
     $dir = sandbox_dir($user);
     $d = opendir($dir);
     if (!$d) error_page("Can't open sandbox directory");
-    page_head("file sandbox for $user->name");
+    page_head("File sandbox for $user->name");
     echo "
         <form action=sandbox.php method=post ENCTYPE=\"multipart/form-data\">
         <input type=hidden name=action value=upload_file>
         Upload a file to your sandbox:
-        <p><input size=80 type=file name=new_file>
+        <p><input size=80 type=file name=\"new_file[]\" multiple=\"multiple\">
         <p> <input type=submit value=Upload>
         </form>
         <hr>
@@ -101,36 +101,40 @@ function list_files($user, $err_msg) {
 }
 
 function upload_file($user) {
-    $tmp_name = $_FILES['new_file']['tmp_name'];
-    if (!is_uploaded_file($tmp_name)) {
-        error_page("$tmp_name is not uploaded file");
-    }
-    $name = $_FILES['new_file']['name'];
-    if (strstr($name, "/")) {
-        error_page("no / allowed");
-    }
-    $md5 = md5_file($tmp_name);
-    $s = stat($tmp_name);
-    $size = $s['size'];
-    list($exist, $elf) = sandbox_lf_exist($user, $md5);
-    if ($exist){
-        $notice = "<strong>Notice:</strong> Invalid Upload<br/>";
-        $notice .= "You are trying to upload file  <strong>$name</strong><br/>";
-        $notice .= "Another file <strong>$elf</strong> with the same content(md5: $md5) already exist!<br/>";
-    } else {
-        // move file to download dir
-        //
-        $phys_path = sandbox_physical_path($user, $md5);
-        rename($tmp_name, $phys_path);
+    $notice = "";
+    $count = count($_FILES['new_file']['tmp_name']);
+    for ($i = 0; $i < $count; $i++) {
+        $tmp_name = $_FILES['new_file']['tmp_name'][$i];
+        if (!is_uploaded_file($tmp_name)) {
+            error_page("$tmp_name is not uploaded file");
+        }
+        $name = $_FILES['new_file']['name'][$i];
+        if (strstr($name, "/")) {
+            error_page("no / allowed");
+        }
+        $md5 = md5_file($tmp_name);
+        $s = stat($tmp_name);
+        $size = $s['size'];
+        list($exist, $elf) = sandbox_lf_exist($user, $md5);
+        if ($exist){
+            $notice .= "<strong>Notice:</strong> Invalid Upload<br/>";
+            $notice .= "You are trying to upload file  <strong>$name</strong><br/>";
+            $notice .= "Another file <strong>$elf</strong> with the same content (md5: $md5) already exists!<br/>";
+        } else {
+            // move file to download dir
+            //
+            $phys_path = sandbox_physical_path($user, $md5);
+            rename($tmp_name, $phys_path);
 
-        // write link file
-        //
-        $dir = sandbox_dir($user);
-        $link_path = "$dir/$name";
-        sandbox_write_link_file($link_path, $size, $md5);
-        $notice = "Successfully uploaded file <strong>$name</strong>!<br/>";
+            // write link file
+            //
+            $dir = sandbox_dir($user);
+            $link_path = "$dir/$name";
+            sandbox_write_link_file($link_path, $size, $md5);
+            $notice .= "Successfully uploaded file <strong>$name</strong>!<br/>";
+        }
     }
-    list_files($user, $notice);    
+    list_files($user, $notice);
 }
 
 function delete_file($user) {

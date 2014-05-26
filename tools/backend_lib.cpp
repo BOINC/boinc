@@ -231,7 +231,37 @@ int create_work(
     int ninfiles,
     SCHED_CONFIG& config_loc,
     const char* command_line,
-    const char* additional_xml
+    const char* additional_xml,
+    char* query_string
+) {
+    vector<INFILE_DESC> infile_specs(ninfiles);
+    for (int i=0; i<ninfiles; i++) {
+        infile_specs[i].is_remote = false;
+        strcpy(infile_specs[i].name, infiles[i]);
+    }
+    return create_work2(
+        wu,
+        _wu_template,
+        result_template_filename,
+        result_template_filepath,
+        infile_specs,
+        config_loc,
+        command_line,
+        additional_xml,
+        query_string
+    );
+}
+
+int create_work2(
+    DB_WORKUNIT& wu,
+    const char* _wu_template,
+    const char* result_template_filename,
+    const char* result_template_filepath,
+    vector<INFILE_DESC> &infiles,
+    SCHED_CONFIG& config_loc,
+    const char* command_line,
+    const char* additional_xml,
+    char* query_string
 ) {
     int retval;
     char _result_template[BLOB_SIZE];
@@ -248,7 +278,7 @@ int create_work(
     safe_strcpy(wu_template, _wu_template);
     wu.create_time = time(0);
     retval = process_input_template(
-        wu, wu_template, infiles, ninfiles, config_loc, command_line, additional_xml
+        wu, wu_template, infiles, config_loc, command_line, additional_xml
     );
     if (retval) {
         fprintf(stderr, "process_input_template(): %s\n", boincerror(retval));
@@ -321,7 +351,9 @@ int create_work(
     } else {
         wu.transition_time = time(0);
     }
-    if (wu.id) {
+    if (query_string) {
+        wu.db_print_values(query_string);
+    } else if (wu.id) {
         retval = wu.update();
         if (retval) {
             fprintf(stderr,

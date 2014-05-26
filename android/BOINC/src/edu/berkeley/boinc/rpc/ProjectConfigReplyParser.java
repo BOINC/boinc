@@ -20,11 +20,8 @@
 package edu.berkeley.boinc.rpc;
 
 import java.util.ArrayList;
-
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
-
-import android.util.Log;
 import android.util.Xml;
 
 public class ProjectConfigReplyParser extends BaseParser {
@@ -108,10 +105,10 @@ public class ProjectConfigReplyParser extends BaseParser {
 						mProjectConfig.minPwdLength = Integer.parseInt(mCurrentElement.toString());
 					}
 					else if (localName.equalsIgnoreCase("user_name")) {
-						mProjectConfig.userName = true;
+						mProjectConfig.usesName = true;
 					}
 					else if (localName.equalsIgnoreCase("uses_username")) {
-						mProjectConfig.userName = true;
+						mProjectConfig.usesName = true;
 					}
 					else if (localName.equalsIgnoreCase("web_stopped")) {
 						mProjectConfig.webStopped = false; //default in case parsing fails

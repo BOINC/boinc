@@ -86,6 +86,7 @@
 #define ID_READPREFERENCES                      6057
 #define ID_EVENTLOG                             6058
 #define ID_LAUNCHNEWINSTANCE                    6059
+#define ID_DIAGNOSTICLOGFLAGS                   6060
 
 // Help Menu
 #define ID_HELPBOINC                            6035  // Locked: Used by manager_links.php
@@ -164,6 +165,7 @@
 #define ID_SGOPTIONS                            6412
 #define ID_SGSKINSELECTOR                       6413
 #define ID_SGPROJECTDESCRIPTION                 6414
+#define ID_SGDIAGNOSTICLOGFLAGS                 6415
 #define ID_SGDEFAULTSKINSELECTOR                6500
 #define ID_SGFIRSTSKINSELECTOR                  6501
 // 6501-6599 Reserved for Skin Selection

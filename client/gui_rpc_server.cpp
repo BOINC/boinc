@@ -137,7 +137,7 @@ void GUI_RPC_CONN_SET::get_password() {
     //
     retval = make_random_string(password);
     if (retval) {
-        if (config.os_random_only) {
+        if (cc_config.os_random_only) {
             msg_printf(
                 NULL, MSG_INTERNAL_ERROR,
                 "OS random string generation failed, exiting"
@@ -238,7 +238,9 @@ int GUI_RPC_CONN_SET::init_unix_domain() {
 #ifdef ANDROID
     // bind socket in abstract address space, i.e. start with 0 byte
     addr.sun_path[0] = '\0';
-    strcpy(&addr.sun_path[1], GUI_RPC_FILE);
+    // using app specific socket name instead of GUI_RPC_FILE defintion
+    // to avoid interference with other BOINC based Android apps.
+    strcpy(&addr.sun_path[1], "edu_berkeley_boinc_client_socket");
     socklen_t len = offsetof(struct sockaddr_un, sun_path) + 1 + strlen(&addr.sun_path[1]);
 #else
     // NOTE: if we ever add Mac OS X support, need to change this
@@ -308,7 +310,7 @@ int GUI_RPC_CONN_SET::init_tcp(bool last_time) {
 #ifdef __APPLE__
     addr.sin_addr.s_addr = htonl(INADDR_ANY);
 #else
-    if (config.allow_remote_gui_rpc || remote_hosts_file_exists) {
+    if (cc_config.allow_remote_gui_rpc || remote_hosts_file_exists) {
         addr.sin_addr.s_addr = htonl(INADDR_ANY);
         if (log_flags.gui_rpc_debug) {
             msg_printf(NULL, MSG_INFO, "[gui_rpc] Remote control allowed");
@@ -466,7 +468,7 @@ void GUI_RPC_CONN_SET::got_select(FDSET_GROUP& fg) {
         //
         if (gstate.gui_rpc_unix_domain) {
             host_allowed = true;
-        } else if (config.allow_remote_gui_rpc) {
+        } else if (cc_config.allow_remote_gui_rpc) {
             host_allowed = true;
         } else if (is_localhost(addr)) {
             host_allowed = true;

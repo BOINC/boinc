@@ -126,6 +126,10 @@ class BoincPost {
         $db = BoincDb::get();
         return $db->delete($this, 'post');
     }
+    static function delete_aux($clause) {
+        $db = BoincDb::get();
+        return $db->delete_aux('post', $clause);
+    }
 }
 
 class BoincForumPrefs {
@@ -166,6 +170,10 @@ class BoincForumPrefs {
     function delete() {
         $db = BoincDb::get();
         return $db->delete_aux('forum_preferences', "userid=$this->userid");
+    }
+    static function enum($clause=null) {
+        $db = BoincDb::get();
+        return $db->enum('forum_preferences', 'BoincForumPrefs', $clause);
     }
 }
 

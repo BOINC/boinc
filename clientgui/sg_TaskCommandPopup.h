@@ -41,7 +41,9 @@ class CSimpleTaskPopupButton : public CTransparentButton
 
 	private:
         void AddMenuItems();
-        void OnTasksCommandButton(wxMouseEvent& event);
+        void OnTaskCommandsMouseDown(wxMouseEvent& event);
+        void OnTaskCommandsKeyboardNav(wxCommandEvent& event);
+        void ShowTaskCommandsMenu(wxPoint pos);
         void OnTaskShowGraphics(wxCommandEvent& event);
         void OnTaskSuspendResume(wxCommandEvent& event);
         void OnTaskAbort(wxCommandEvent& event);

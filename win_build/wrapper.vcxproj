@@ -124,10 +124,11 @@
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>..\..\boinc_depends_win_vs2010\wxwidgets\include;..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
       <AdditionalDependencies>libcmt.lib;libcpmt.lib;kernel32.lib;user32.lib;gdi32.lib;ole32.lib;psapi.lib;oldnames.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>.\Build\$(Platform)\$(Configuration)\wrapper_26009_windows_intelx86.exe</OutputFile>
+      <OutputFile>.\Build\$(Platform)\$(Configuration)\wrapper_26010_windows_intelx86.exe</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
       <DelayLoadDLLs>%(DelayLoadDLLs)</DelayLoadDLLs>
@@ -173,10 +174,11 @@
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>..\..\boinc_depends_win_vs2010\wxwidgets\include;..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
       <AdditionalDependencies>libcmt.lib;libcpmt.lib;kernel32.lib;user32.lib;gdi32.lib;ole32.lib;psapi.lib;oldnames.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>.\Build\$(Platform)\$(Configuration)\wrapper_26009_windows_x86_64.exe</OutputFile>
+      <OutputFile>.\Build\$(Platform)\$(Configuration)\wrapper_26010_windows_x86_64.exe</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
       <DelayLoadDLLs>%(DelayLoadDLLs)</DelayLoadDLLs>
@@ -218,6 +220,7 @@
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>..\..\boinc_depends_win_vs2010\wxwidgets\include;..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
       <AdditionalDependencies>libcmtd.lib;libcpmtd.lib;kernel32.lib;user32.lib;gdi32.lib;ole32.lib;psapi.lib;oldnames.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -263,6 +266,7 @@
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>..\..\boinc_depends_win_vs2010\wxwidgets\include;..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
       <AdditionalDependencies>libcmtd.lib;libcpmtd.lib;kernel32.lib;user32.lib;gdi32.lib;ole32.lib;psapi.lib;oldnames.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -289,6 +293,7 @@
     <ClInclude Include="..\samples\wrapper\regexp_custom.h" />
     <ClInclude Include="..\samples\wrapper\regexp_int.h" />
     <ClInclude Include="..\samples\wrapper\regmagic.h" />
+    <ClInclude Include="..\samples\wrapper\wrapper_win.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="libboincapi_staticcrt.vcxproj">
@@ -303,6 +308,9 @@
       <Project>{b00664bd-71eb-46c1-957e-cd851418d395}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\samples\wrapper\wrapper_win.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

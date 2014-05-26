@@ -119,7 +119,7 @@ public:
     // Global
     //
 private:
-
+    char                        m_szLanguage[256];
     wxDateTime                  m_dtCachedCCStatusTimestamp;
     bool                        m_bClientStartCheckCompleted;
 

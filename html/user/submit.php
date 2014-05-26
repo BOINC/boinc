@@ -203,21 +203,23 @@ function handle_main($user) {
 
     page_head("Job submission and control");
 
-    // show links to per-app job submission pages
-    //
-    echo "<h2>Submit jobs</h2>
-        <ul>
-    ";
-    foreach ($submit_urls as $appname=>$submit_url) {
-        $appname = BoincDb::escape_string($appname);
-        $app = BoincApp::lookup("name='$appname'");
-        if (!$app) error_page("bad submit_url name: $appname");
-        $usa = BoincUserSubmitApp::lookup("user_id=$user->id and app_id=$app->id");
-        if ($usa || $user_submit->submit_all) {
-            echo "<li> <a href=$submit_url> $app->user_friendly_name </a>";
+    if (isset($submit_urls)) {
+        // show links to per-app job submission pages
+        //
+        echo "<h2>Submit jobs</h2>
+            <ul>
+        ";
+        foreach ($submit_urls as $appname=>$submit_url) {
+            $appname = BoincDb::escape_string($appname);
+            $app = BoincApp::lookup("name='$appname'");
+            if (!$app) error_page("bad submit_url name: $appname");
+            $usa = BoincUserSubmitApp::lookup("user_id=$user->id and app_id=$app->id");
+            if ($usa || $user_submit->submit_all) {
+                echo "<li> <a href=$submit_url> $app->user_friendly_name </a>";
+            }
         }
+        echo "</ul>\n";
     }
-    echo "</ul>\n";
 
     // show links to admin pages if relevant
     //
@@ -250,9 +252,12 @@ function handle_main($user) {
                 $app = BoincApp::lookup_id($usa->app_id);
                 echo "<li>$app->user_friendly_name<br>
                     <a href=submit.php?action=admin&app_id=$app->id>Batches</a>
-                    &middot;
-                    <a href=manage_app.php?app_id=$app->id&action=app_version_form>Versions</a>
                 ";
+                if ($usa->manage) {
+                    echo "&middot;
+                        <a href=manage_app.php?app_id=$app->id&action=app_version_form>Versions</a>
+                    ";
+                }
             }
         }
         echo "</ul>\n";
@@ -404,20 +409,19 @@ function handle_query_job($user) {
     table_header("Logical name<br><span class=note>(click to view)</span>",
         "Size (bytes)", "MD5"
     );
-    $fanout = parse_config(get_config(), "<uldl_dir_fanout>");
     foreach ($x->workunit->file_ref as $fr) {
         $pname = (string)$fr->file_name;
         $lname = (string)$fr->open_name;
-        $dir = filename_hash($pname, $fanout);
-        $path = "../../download/$dir/$pname";
-        $md5 = md5_file($path);
-        $s = stat($path);
-        $size = $s['size'];
-        table_row(
-            "<a href=download/$dir/$pname>$lname</a>",
-            $size,
-            $md5
-        );
+        foreach ($x->file_info as $fi) {
+            if ((string)$fi->name == $pname) {
+                table_row(
+                    "<a href=$fi->url>$lname</a>",
+                    $fi->nbytes,
+                    $fi->md5_cksum
+                );
+                break;
+            }
+        }
     }
     end_table();
 
@@ -428,6 +432,8 @@ function handle_query_job($user) {
         "State", "Output files<br><span class=note>click to view the file</span>"
     );
     $results = BoincResult::enum("workunitid=$wuid");
+    $upload_dir = parse_config(get_config(), "<upload_dir>");
+    $fanout = parse_config(get_config(), "<uldl_dir_fanout>");
     foreach($results as $result) {
         echo "<tr>
             <td><a href=result.php?resultid=$result->id>$result->id &middot; $result->name </a></td>
@@ -437,11 +443,9 @@ function handle_query_job($user) {
         $i = 0;
         if ($result->server_state == 5) {
             $names = get_outfile_names($result);
-            $fanout = parse_config(get_config(), "<uldl_dir_fanout>");
             $i = 0;
             foreach ($names as $name) {
                 $url = boinc_get_output_file_url($user, $result, $i++);
-                $upload_dir = parse_config(get_config(), "<upload_dir>");
                 $path = dir_hier_path($name, $upload_dir, $fanout);
                 $s = stat($path);
                 $size = $s['size'];

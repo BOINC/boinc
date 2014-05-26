@@ -1,7 +1,7 @@
 <?php
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2014 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -16,6 +16,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+require_once("../inc/util.inc");
 require_once("../inc/forum.inc");
 require_once("../inc/forum_email.inc");
 
@@ -24,6 +25,10 @@ check_get_args(array("action", "thread", "tnow", "ttok"));
 $logged_in_user = get_logged_in_user();
 check_tokens($logged_in_user->authenticator);
 BoincForumPrefs::lookup($logged_in_user);
+if (DISABLE_FORUMS && !is_admin($logged_in_user)) {
+    error_page("Forums are disabled");
+}
+
 $action = post_str('action', true);
 if (!$action) {
     $action = get_str('action');
@@ -94,6 +99,15 @@ case "title":
     $result = $thread->update("title='$title'");
     $action_name = "renamed from '$thread->title' to '$new_title'";
     break;
+case "delete":
+    delete_thread($thread, $forum);
+    page_head("Thread deleted");
+    echo "Thread successfully deleted.
+        <p>
+        <a href=forum_forum.php?id=$forum->id>Return to forum</a>
+    ";
+    page_tail();
+    exit;
 default:
     error_page("Unknown action");
 }

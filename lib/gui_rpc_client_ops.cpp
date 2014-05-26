@@ -671,6 +671,8 @@ int RESULT::parse(XML_PARSER& xp) {
         if (xp.parse_double("working_set_size_smoothed", working_set_size_smoothed)) continue;
         if (xp.parse_double("fraction_done", fraction_done)) continue;
         if (xp.parse_double("estimated_cpu_time_remaining", estimated_cpu_time_remaining)) continue;
+        if (xp.parse_double("bytes_sent", bytes_sent)) continue;
+        if (xp.parse_double("bytes_received", bytes_received)) continue;
         if (xp.parse_bool("too_large", too_large)) continue;
         if (xp.parse_bool("needs_shmem", needs_shmem)) continue;
         if (xp.parse_bool("edf_scheduled", edf_scheduled)) continue;
@@ -724,6 +726,8 @@ void RESULT::clear() {
     swap_size = 0;
     working_set_size_smoothed = 0;
     estimated_cpu_time_remaining = 0;
+    bytes_sent = 0;
+    bytes_received = 0;
     too_large = false;
     needs_shmem = false;
     edf_scheduled = false;
@@ -2549,7 +2553,7 @@ int RPC_CLIENT::read_cc_config() {
     return rpc.parse_reply();
 }
 
-int RPC_CLIENT::get_cc_config(CONFIG& config, LOG_FLAGS& log_flags) {
+int RPC_CLIENT::get_cc_config(CC_CONFIG& config, LOG_FLAGS& log_flags) {
     int retval;
     SET_LOCALE sl;
     RPC rpc(this);
@@ -2560,7 +2564,7 @@ int RPC_CLIENT::get_cc_config(CONFIG& config, LOG_FLAGS& log_flags) {
     return config.parse(rpc.xp, log_flags);
 }
 
-int RPC_CLIENT::set_cc_config(CONFIG& config, LOG_FLAGS& log_flags) {
+int RPC_CLIENT::set_cc_config(CC_CONFIG& config, LOG_FLAGS& log_flags) {
     SET_LOCALE sl;
     char buf[64000];
     MIOFILE mf;

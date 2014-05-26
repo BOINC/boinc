@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2014-02-01 00:00 PST\n"
-"PO-Revision-Date: 2013-11-07 01:02+0000\n"
+"PO-Revision-Date: 2014-02-03 22:05+0000\n"
 "Last-Translator: Xavier <xavi.mormur@gmail.com>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: ca\n"
@@ -20,7 +20,7 @@ msgstr ""
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-SearchPath-0: doc\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
-"X-POOTLE-MTIME: 1383786161.0\n"
+"X-POOTLE-MTIME: 1391465133.0\n"
 "X-Poedit-KeywordsList: tra\n"
 
 #: docutil.php:21
@@ -41,29 +41,31 @@ msgid ""
 "We recommend that you also install VirtualBox, so your computer can work on "
 "science projects that require it."
 msgstr ""
+"Et recomanem d'instal·lar també VirtualBox, de manera que l'equip pot "
+"treballar en projectes de ciència que ho requereixin."
 
 #: download.php:41
 msgid "Learn more about VirtualBox."
-msgstr ""
+msgstr "Apren més sobre VirtualBox."
 
 #: download.php:51
 msgid "Download BOINC + VirtualBox"
-msgstr ""
+msgstr "Baixa BOINC + Virtualbox"
 
 #: download.php:54 download.php:69
 #, php-format
 msgid "for %s"
-msgstr ""
+msgstr "per %s"
 
 #: download.php:57 download.php:72
 #, php-format
 msgid "BOINC version %s"
-msgstr ""
+msgstr "versió BOINC %s"
 
 #: download.php:59
 #, php-format
 msgid "VirtualBox version %s"
-msgstr ""
+msgstr "versió VirtualBox %s"
 
 # ######################################
 # download.php
@@ -82,12 +84,17 @@ msgid ""
 "projects like SETI@home, Climateprediction.net, Rosetta@home, World "
 "Community Grid, and many others."
 msgstr ""
+"BOINC és un programa que et permet donar el temps d'inactivitat de "
+"l'ordinador per a projectes científics com SETI@home, Climateprediction.net, "
+"Rosetta@home, World Community Grid, i molts d'altres."
 
 #: download.php:125
 msgid ""
 "After installing BOINC on your computer, you can connect it to as many of "
 "these projects as you like."
 msgstr ""
+"Després d'instal·lar BOINC a l'ordinador, pots connectar-lo a tants "
+"projectes com vulguis."
 
 #: download.php:127
 msgid ""
@@ -102,6 +109,8 @@ msgid ""
 "We recommend that you download BOINC from the Google Play Store or Amazon "
 "Appstore, not from here."
 msgstr ""
+"Et recomanem que descarreguis BOINC des de Google Play Store o Amazon "
+"Appstore, no des de aquí."
 
 #: download.php:167
 msgid "System requirements"
@@ -718,11 +727,11 @@ msgstr ""
 
 #: projects.inc:207
 msgid "Physical Science"
-msgstr ""
+msgstr "Ciències Físiques"
 
 #: projects.inc:213
 msgid "Mechanical engineering"
-msgstr ""
+msgstr "Enginyeria mecànica"
 
 #: projects.inc:214
 msgid ""

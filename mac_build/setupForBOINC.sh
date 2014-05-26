@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2008 University of California
+# Copyright (C) 2014 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -31,6 +31,7 @@
 # Updated 12/11/12 for sqlite3.7.14.1 from sqlite-autoconf-3071401
 # Updated 11/30/13 for openssl-1.0.1e
 # Updated 2/7/14 for wxWidgets-3.0.0
+# Updated 2/11/14 for c-ares 1.10.0, curl 7.35.0, openssl 1.0.1f, sqlite 3.8.3
 #
 # Download these seven packages and place them in a common parent 
 # directory with the BOINC source tree.
@@ -64,11 +65,11 @@ SCRIPT_DIR=`pwd`
 
 echo ""
 echo "----------------------------------"
-echo "------- BUILD C-ARES-1.9.1 -------"
+echo "------- BUILD C-ARES-1.10.0 ------"
 echo "----------------------------------"
 echo ""
 
-cd ../../c-ares-1.9.1/
+cd ../../c-ares-1.10.0/
 if [  $? -eq 0 ]; then
     source "${SCRIPT_DIR}/buildc-ares.sh" ${cleanit}
     if [  $? -eq 0 ]; then
@@ -78,13 +79,13 @@ fi
 
 echo ""
 echo "----------------------------------"
-echo "------- BUILD CURL-7.26.0 --------"
+echo "------- BUILD CURL-7.35.0 --------"
 echo "----------------------------------"
 echo ""
 
 cd "${SCRIPT_DIR}"
 
-cd ../../curl-7.26.0/
+cd ../../curl-7.35.0/
 if [  $? -eq 0 ]; then
     source "${SCRIPT_DIR}/buildcurl.sh" ${cleanit}
     if [  $? -eq 0 ]; then
@@ -94,13 +95,13 @@ fi
 
 echo ""
 echo "----------------------------------"
-echo "----- BUILD OPENSSL-1.0.1e -------"
+echo "----- BUILD OPENSSL-1.0.1f -------"
 echo "----------------------------------"
 echo ""
 
 cd "${SCRIPT_DIR}"
 
-cd ../../openssl-1.0.1e/
+cd ../../openssl-1.0.1f/
 if [  $? -eq 0 ]; then
     source "${SCRIPT_DIR}/buildopenssl.sh" ${cleanit}
     if [  $? -eq 0 ]; then
@@ -126,13 +127,13 @@ fi
 
 echo ""
 echo "----------------------------------"
-echo "------ BUILD sqlite-3.7.14.1 ------"
+echo "------- BUILD sqlite-3.8.3 -------"
 echo "----------------------------------"
 echo ""
 
 cd "${SCRIPT_DIR}"
 
-cd ../../sqlite-autoconf-3071401/
+cd ../../sqlite-autoconf-3080300/
 if [  $? -eq 0 ]; then
     source "${SCRIPT_DIR}/buildsqlite3.sh" ${cleanit}
     if [  $? -eq 0 ]; then
@@ -174,11 +175,11 @@ fi
 
 if [ "${caresOK}" = "NO" ]; then
     echo ""
-    echo "----------------------------------"
-    echo "------------ WARNING -------------"
-    echo "------------         -------------"
-    echo "-- COULD NOT BUILD C-ARES-1.9.1 --"
-    echo "----------------------------------"
+    echo "-----------------------------------"
+    echo "------------ WARNING --------------"
+    echo "------------         --------------"
+    echo "-- COULD NOT BUILD C-ARES-1.10.0 --"
+    echo "-----------------------------------"
     echo ""
 fi
 
@@ -187,7 +188,7 @@ if [ "${curlOK}" = "NO" ]; then
     echo "-----------------------------------"
     echo "------------ WARNING --------------"
     echo "------------         --------------"
-    echo "--- COULD NOT BUILD CURL-7.26.0 ---"
+    echo "--- COULD NOT BUILD CURL-7.35.0 ---"
     echo "-----------------------------------"
     echo ""
 fi
@@ -197,7 +198,7 @@ if [ "${opensslOK}" = "NO" ]; then
     echo "----------------------------------"
     echo "------------ WARNING -------------"
     echo "------------         -------------"
-    echo "- COULD NOT BUILD OPENSSL-1.0.1e -"
+    echo "- COULD NOT BUILD OPENSSL-1.0.1f -"
     echo "----------------------------------"
     echo ""
 fi
@@ -214,11 +215,11 @@ fi
 
 if [ "${sqlite3OK}" = "NO" ]; then
     echo ""
-    echo "-----------------------------------"
-    echo "------------ WARNING --------------"
-    echo "------------         --------------"
-    echo "- COULD NOT BUILD sqlite-3.7.14.1 -"
-    echo "-----------------------------------"
+    echo "----------------------------------"
+    echo "------------ WARNING -------------"
+    echo "------------         -------------"
+    echo "-- COULD NOT BUILD sqlite-3.8.3 --"
+    echo "----------------------------------"
     echo ""
 fi
 

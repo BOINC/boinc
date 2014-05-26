@@ -67,9 +67,12 @@ bool do_trickle_scan() {
         }
         retval = handle_trickle(mfh);
         if (!retval) {
-            mfh.handled = true;
-            mfh.update();
+            log_messages.printf(MSG_CRITICAL,
+                "handle_trickle(): %s", boincerror(retval)
+            );
         }
+        mfh.handled = true;
+        mfh.update();
         found = true;
     }
     return found;

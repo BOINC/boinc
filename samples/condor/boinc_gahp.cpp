@@ -447,7 +447,7 @@ void handle_fetch_output(COMMAND& c) {
     if (zipped_output(td)) {
         // the job's output file is a zip archive.  Get it and unzip
         //
-        sprintf(path, "%s/temp.zip", req.dir);
+        sprintf(path, "%s/%s_output.zip", req.dir, req.job_name);
         retval = get_output_file(
             project_url, authenticator, req.job_name, 0, path, error_msg
         );
@@ -455,10 +455,12 @@ void handle_fetch_output(COMMAND& c) {
             sprintf(buf, "get_output_file()\\ returned\\ %d\\ ", retval);
             s = string(buf) + escape_str(error_msg);
         } else {
-            sprintf(buf, "cd %s; unzip temp.zip", req.dir);
+            sprintf(buf, "cd %s; unzip %s_output.zip", req.dir, req.job_name);
             retval = system(buf);
             if (retval) {
                 s = string("unzip\\ failed");
+            } else {
+                unlink(path);
             }
         }
     } else if (req.fetch_all) {
@@ -705,14 +707,17 @@ int handle_command(char* p) {
         exit(0);
     } else if (!strcasecmp(cmd, "RESULTS")) {
         flockfile(stdout);
-        BPRINTF("S %d\n", n_results());
+        int cnt = n_results();
+        BPRINTF("S %d\n", cnt);
         vector<COMMAND*>::iterator i = commands.begin();
-        while (i != commands.end()) {
+        int j = 0;
+        while (i != commands.end() && j < cnt) {
             COMMAND *c2 = *i;
             if (c2->out) {
                 BPRINTF("%d %s\n", c2->id, c2->out);
                 delete c2;
                 i = commands.erase(i);
+                j++;
             } else {
                 i++;
             }

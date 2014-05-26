@@ -20,6 +20,8 @@ require_once("../inc/boinc_db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/profile.inc");
 
+if (DISABLE_PROFILES) error_page("Profiles are disabled");
+
 $user = get_logged_in_user();
 
 $cmd = get_str("cmd", true);

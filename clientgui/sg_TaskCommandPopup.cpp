@@ -27,7 +27,7 @@
 IMPLEMENT_DYNAMIC_CLASS(CSimpleTaskPopupButton, CTransparentButton)
 
 BEGIN_EVENT_TABLE(CSimpleTaskPopupButton, CTransparentButton)
-    EVT_LEFT_DOWN(CSimpleTaskPopupButton::OnTasksCommandButton)
+    EVT_LEFT_DOWN(CSimpleTaskPopupButton::OnTaskCommandsMouseDown)
     EVT_MENU(ID_TASK_WORK_SHOWGRAPHICS, CSimpleTaskPopupButton::OnTaskShowGraphics)
     EVT_MENU(ID_TASK_WORK_SUSPEND, CSimpleTaskPopupButton::OnTaskSuspendResume)
     EVT_MENU(ID_TASK_WORK_ABORT, CSimpleTaskPopupButton::OnTaskAbort)
@@ -46,6 +46,12 @@ CSimpleTaskPopupButton::CSimpleTaskPopupButton(wxWindow* parent, wxWindowID id,
     m_TaskSuspendedViaGUI = false;
     m_TaskCommandPopUpMenu = new wxMenu();
     AddMenuItems();
+    Connect(
+        id, 
+        wxEVT_BUTTON,
+        (wxObjectEventFunction) (wxEventFunction) (wxCommandEventFunction) &CSimpleTaskPopupButton::OnTaskCommandsKeyboardNav
+    );
+
 }
         
 
@@ -81,7 +87,17 @@ void CSimpleTaskPopupButton::AddMenuItems() {
 }
 
 
-void CSimpleTaskPopupButton::OnTasksCommandButton(wxMouseEvent& /*event*/) {
+void CSimpleTaskPopupButton::OnTaskCommandsMouseDown(wxMouseEvent& event) {
+    ShowTaskCommandsMenu(ScreenToClient(wxGetMousePosition()));
+}
+
+
+void CSimpleTaskPopupButton::OnTaskCommandsKeyboardNav(wxCommandEvent& event) {
+    ShowTaskCommandsMenu(wxPoint(GetSize().GetWidth()/2, GetSize().GetHeight()/2));
+}
+
+
+void CSimpleTaskPopupButton::ShowTaskCommandsMenu(wxPoint pos) {
     CMainDocument*      pDoc = wxGetApp().GetDocument();
     bool                enableShowGraphics = true;
     bool                enableAbort = true;
@@ -147,7 +163,7 @@ void CSimpleTaskPopupButton::OnTasksCommandButton(wxMouseEvent& /*event*/) {
     wxToolTip::Enable(false);
 #endif
 
-	PopupMenu(m_TaskCommandPopUpMenu);
+	PopupMenu(m_TaskCommandPopUpMenu, pos.x, pos.y);
 
 
 #if TESTBIGICONPOPUP

@@ -157,6 +157,16 @@ void CBOINCBaseFrame::OnPeriodicRPC(wxTimerEvent& WXUNUSED(event)) {
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
+#ifdef __WXMAC__
+    static bool first = true;
+    if (first) {
+        first = false;
+        wxGetApp().OnFinishInit();
+    }
+    
+    wxGetApp().CheckPartialActivation();
+#endif
+
     if (!bAlreadyRunningLoop && m_pPeriodicRPCTimer->IsRunning()) {
         bAlreadyRunningLoop = true;
 
@@ -316,10 +326,6 @@ void CBOINCBaseFrame::OnClose(wxCloseEvent& event) {
         // Apparently aborting a close event just causes the main window to be displayed
         // again.  Just minimize the window instead.
         Iconize();
-#elif defined(__WXMAC__)
-        // Don't call Hide() or Show(false) under wxCocoa 2.9.5 
-        // because it bounces the Dock icon (as in notification)
-        wxGetApp().ShowApplication(false);
 #else
         Hide();
 #endif
@@ -365,12 +371,6 @@ void CBOINCBaseFrame::OnExit(wxCommandEvent& WXUNUSED(event)) {
 
         // Save state before exiting
         SaveState();
-
-        // Under wxWidgets 2.8.0, the task bar icons must be deleted for app to exit its main loop
-#ifdef __WXMAC__
-        wxGetApp().DeleteMacDockIcon();
-#endif
-        wxGetApp().DeleteTaskBarIcon();
 
         CDlgEventLog*   eventLog = wxGetApp().GetEventLog();
         if (eventLog) {
@@ -760,8 +760,6 @@ bool CBOINCBaseFrame::SaveState() {
     int             iItemCount;
 
 
-    wxASSERT(pConfig);
-
     // An odd case happens every once and awhile where wxWidgets looses
     //   the pointer to the config object, or it is cleaned up before
     //   the window has finished it's cleanup duty.  If we detect a NULL
@@ -887,67 +885,19 @@ bool CBOINCBaseFrame::Show(bool bShow) {
 #endif
     }
 
+#ifdef __WXMAC__
+    retval = (wxGetApp().IsApplicationVisible() != bShow);
+    if (bShow) {
+        retval = wxFrame::Show(bShow);
+    }
+#else
     retval = wxFrame::Show(bShow);
+#endif
     if (bShow) wxFrame::Raise();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::Show - Function End"));
     return retval;
 }
-
-// We don't call Hide() or Show(false) for the main frame
-// under wxCocoa 2.9.5 because it bounces the Dock icon
-// (as in notification.)  We work around this by moving
-// the main window/frame off screen when needed.
-// The position will be restored in one of these methods:
-// CBOINCGUIApp::OnActivateApp(), CSimpleFrame::SaveState()
-// or CAdvancedFrame::SaveWindowDimensions().
-#define OFFSCREEN_DELTA 20000
-
-void CBOINCBaseFrame::SaveFramePosition() {
-#ifdef __WXMAC__
-    wxPoint newPos = GetPosition();
-    if ((newPos.x < OFFSCREEN_DELTA) && (newPos.y < OFFSCREEN_DELTA)) {
-        m_ptFramePos = newPos;
-    }
-#endif
-}
-
-wxPoint CBOINCBaseFrame::GetOnScreenFramePosition() {
-#ifdef __WXMAC__
-    wxPoint pos = m_ptFramePos;
-    wxSize sz = GetSize();
-    
-    if (pos == wxPoint(0, 0)) {
-        pos = GetPosition();
-    }
-    if (pos.x >= OFFSCREEN_DELTA) pos.x -= OFFSCREEN_DELTA;
-    if (pos.y >= OFFSCREEN_DELTA) pos.y -= OFFSCREEN_DELTA;
-    if (!IsWindowOnScreen(pos.x, pos.y, sz.x, sz.y)) {
-        pos.x = pos.y = 30;
-    }
-    return pos;
-#else
-    return GetPosition();
-#endif
-}
-
-void CBOINCBaseFrame::MoveFrameOnScreen() {
-#ifdef __WXMAC__
-    m_ptFramePos = GetOnScreenFramePosition();
-    SetPosition(m_ptFramePos);
-#endif
-}
-
-void CBOINCBaseFrame::MoveFrameOffScreen() {
-#ifdef __WXMAC__
-    wxPoint pos = GetPosition();
-    if ((pos.x < OFFSCREEN_DELTA) && (pos.y < OFFSCREEN_DELTA)) {
-        pos.x += OFFSCREEN_DELTA;
-        SetPosition(pos);
-    }
-#endif
-}
-
 
 int CBOINCBaseFrame::_GetCurrentViewPage() {
     wxASSERT(false);

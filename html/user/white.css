@@ -25,9 +25,6 @@ table.bordered {
 	border-color: #e8e8e8;
     border-width: 2px;
     border-style: solid;
-    -moz-border-radius: 6px;
-    -webkit-border-radius: 6px;
-    -khtml-border-radius: 6px;
     border-radius: 6px;
 }
 

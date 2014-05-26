@@ -1514,18 +1514,58 @@ void VBOX_VM::dumphypervisorlogs(bool include_error_logs) {
         stderr,
         "\n"
         "    VM Guest Log:\n\n"
-        "%s\n",
+        "%s",
         local_guest_log.c_str()
     );
 
     if (vm_exit_code) {
         fprintf(
             stderr,
+            "\n"
             "    VM Exit Code: %d (0x%x)\n\n",
             (unsigned int)vm_exit_code,
             (unsigned int)vm_exit_code
         );
     }
+}
+
+void VBOX_VM::dumphypervisorstatusreports() {
+
+#ifdef _WIN32
+    char buf[256];
+    SIZE_T ulMinimumWorkingSetSize;
+    SIZE_T ulMaximumWorkingSetSize;
+
+    if (
+        GetProcessWorkingSetSize(
+            vboxsvc_pid_handle,
+            &ulMinimumWorkingSetSize,
+            &ulMaximumWorkingSetSize)
+    ) {
+        fprintf(
+            stderr,
+            "%s Status Report (VirtualBox VboxSvc.exe): Minimum WSS: '%dKB', Maximum WSS: '%dKB'\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf)),
+            ulMinimumWorkingSetSize/1024,
+            ulMaximumWorkingSetSize/1024
+        );
+    }
+
+    if (
+        GetProcessWorkingSetSize(
+            vm_pid_handle,
+            &ulMinimumWorkingSetSize,
+            &ulMaximumWorkingSetSize)
+    ) {
+        fprintf(
+            stderr,
+            "%s Status Report (VirtualBox Vboxheadless.exe/VirtualBox.exe): Minimum WSS: '%dKB', Maximum WSS: '%dKB'\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf)),
+            ulMinimumWorkingSetSize/1024,
+            ulMaximumWorkingSetSize/1024
+        );
+    }
+#endif
 }
 
 int VBOX_VM::is_registered() {
@@ -1723,7 +1763,7 @@ bool VBOX_VM::is_virtualbox_version_newer(int maj, int min, int rel) {
 
 bool VBOX_VM::is_virtualbox_error_recoverable(int retval) {
     // See comments for VBOX_VM::vbm_popen about session lock issues.
-    if (VBOX_E_INVALID_OBJECT_STATE == retval) return true;
+    if (VBOX_E_INVALID_OBJECT_STATE == (unsigned int)retval) return true;
     return false;
 }
 
@@ -2291,7 +2331,7 @@ void VBOX_VM::lower_vm_process_priority() {
     char buf[256];
 #ifdef _WIN32
     if (vm_pid_handle) {
-        SetPriorityClass(vm_pid_handle, IDLE_PRIORITY_CLASS);
+        SetPriorityClass(vm_pid_handle, BELOW_NORMAL_PRIORITY_CLASS);
         fprintf(
             stderr,
             "%s Lowering VM Process priority.\n",
@@ -2300,7 +2340,7 @@ void VBOX_VM::lower_vm_process_priority() {
     }
 #else
     if (vm_pid) {
-        setpriority(PRIO_PROCESS, vm_pid, PROCESS_IDLE_PRIORITY);
+        setpriority(PRIO_PROCESS, vm_pid, PROCESS_MEDIUM_PRIORITY);
         fprintf(
             stderr,
             "%s Lowering VM Process priority.\n",
@@ -2323,7 +2363,7 @@ void VBOX_VM::reset_vm_process_priority() {
     }
 #else
     if (vm_pid) {
-        setpriority(PRIO_PROCESS, vm_pid, PROCESS_MEDIUM_PRIORITY);
+        setpriority(PRIO_PROCESS, vm_pid, PROCESS_NORMAL_PRIORITY);
         fprintf(
             stderr,
             "%s Restoring VM Process priority.\n",
@@ -2671,7 +2711,7 @@ int VBOX_VM::vbm_popen(string& command, string& output, const char* item, bool l
             //
             // Error Code: VBOX_E_INVALID_OBJECT_STATE (0x80bb0007) 
             //
-            if (VBOX_E_INVALID_OBJECT_STATE == retval) {
+            if (VBOX_E_INVALID_OBJECT_STATE == (unsigned int)retval) {
                 if (retry_notes.find("Another VirtualBox management") == string::npos) {
                     retry_notes += "Another VirtualBox management application has locked the session for\n";
                     retry_notes += "this VM. BOINC cannot properly monitor this VM\n";
@@ -2692,7 +2732,7 @@ int VBOX_VM::vbm_popen(string& command, string& output, const char* item, bool l
             //
             // Error Code: CO_E_SERVER_EXEC_FAILURE (0x80080005) 
             //
-            if (CO_E_SERVER_EXEC_FAILURE == retval) {
+            if (CO_E_SERVER_EXEC_FAILURE == (unsigned int)retval) {
                 if (retry_notes.find("Unable to communicate with VirtualBox") == string::npos) {
                     retry_notes += "Unable to communicate with VirtualBox.  VirtualBox may need to\n";
                     retry_notes += "be reinstalled.\n\n";
@@ -2704,8 +2744,8 @@ int VBOX_VM::vbm_popen(string& command, string& output, const char* item, bool l
             
             // Retry?
             if (!retry_failures && 
-                (VBOX_E_INVALID_OBJECT_STATE != retval) && 
-                (CO_E_SERVER_EXEC_FAILURE != retval)
+                (VBOX_E_INVALID_OBJECT_STATE != (unsigned int)retval) && 
+                (CO_E_SERVER_EXEC_FAILURE != (unsigned int)retval)
             ) {
                 break;
             }
@@ -2873,19 +2913,12 @@ CLEANUP:
 
         // Determine the real error code by parsing the output
         errcode_start = output.find("(0x");
-        if (errcode_start) {
+        if (errcode_start != string::npos) {
             errcode_start += 1;
             errcode_end = output.find(")", errcode_start);
             errcode = output.substr(errcode_start, errcode_end - errcode_start);
 
             sscanf(errcode.c_str(), "%x", &retval);
-        }
-
-        // Is this a RPC_S_SERVER_UNAVAILABLE returned by vboxsvc?
-        if (!retval) {
-            if (output.find("RPC_S_SERVER_UNAVAILABLE") != string::npos) {
-                retval = RPC_S_SERVER_UNAVAILABLE;
-            }
         }
 
         // If something couldn't be found, just return ERR_FOPEN
@@ -2921,7 +2954,7 @@ CLEANUP:
 
         // Determine the real error code by parsing the output
         errcode_start = output.find("(0x");
-        if (errcode_start) {
+        if (errcode_start != string::npos) {
             errcode_start += 1;
             errcode_end = output.find(")", errcode_start);
             errcode = output.substr(errcode_start, errcode_end - errcode_start);
@@ -2931,6 +2964,11 @@ CLEANUP:
     }
 
 #endif
+
+    // Is this a RPC_S_SERVER_UNAVAILABLE returned by vboxmanage?
+    if (output.find("RPC_S_SERVER_UNAVAILABLE") != string::npos) {
+        retval = RPC_S_SERVER_UNAVAILABLE;
+    }
 
     return retval;
 }

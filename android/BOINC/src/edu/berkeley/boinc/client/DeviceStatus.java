@@ -18,7 +18,6 @@
  ******************************************************************************/
 package edu.berkeley.boinc.client;
 
-import edu.berkeley.boinc.AppPreferences;
 import edu.berkeley.boinc.rpc.DeviceStatusData;
 import edu.berkeley.boinc.utils.*;
 
@@ -39,6 +38,7 @@ public class DeviceStatus {
 	// additional device status
 	private boolean stationaryDeviceMode = false; // true, if operating in stationary device mode
 	private boolean stationaryDeviceSuspected = false; // true, if API returns no battery. offer preference to go into stationary device mode
+	private boolean screenOn = true;
 
 	// android specifics
 	private Context ctx;// context required for reading device status
@@ -61,15 +61,17 @@ public class DeviceStatus {
 	
 	/**
 	 * Updates device status and returns the newly received values
+	 * @param screenOn indicator whether device screen is currently on (checked in Monitor)
 	 * @return DeviceStatusData, wrapper for device status
 	 * @throws Exception if error occurs
 	 */
-	public DeviceStatusData update() throws Exception {
+	public DeviceStatusData update(Boolean screenOn) throws Exception {
 		if(ctx == null) throw new Exception ("DeviceStatus: can not update, Context not set.");
+		this.screenOn = screenOn;
 		
 		Boolean change = determineBatteryStatus();
 		change = change | determineNetworkStatus();
-		change = change | determinePhoneStatus();
+		change = change | determineUserActive();
 		
 		if(change) if(Logging.DEBUG) Log.i(Logging.TAG, "change: " + change +
 													" - stationary device: " + stationaryDeviceMode + 
@@ -102,22 +104,31 @@ public class DeviceStatus {
 	}
 	
 	/**
-	 * Determines phone status, i.e. whether user is in an active call
+	 * Determines whether user is considered active.
+	 * Decision is also based on App preferences. User is considered active, when:
+	 * - telephone is active (call)
+	 * - screen is on AND preference "suspendWhenScreenOn" set AND NOT preference "stationaryDeviceMode" set
 	 * @return true, if change since last run
 	 * @throws Exception if error occurs
 	 */
-	private Boolean determinePhoneStatus() throws Exception {
+	private Boolean determineUserActive() throws Exception {
 		Boolean change = false;
+		Boolean newUserActive = status.user_active;
 		int telStatus = telManager.getCallState();
-		if(telStatus == TelephonyManager.CALL_STATE_IDLE) {
-			// phone is idle
-			if(status.user_active) change = true;
-			status.user_active = false;
+		
+		if(telStatus != TelephonyManager.CALL_STATE_IDLE) {
+			newUserActive = true;
+		} else if(screenOn && appPrefs.getSuspendWhenScreenOn() && !appPrefs.getStationaryDeviceMode()) {
+			newUserActive = true;
 		} else {
-			// phone is busy, either ringing, or offhook
-			if(!status.user_active) change = true;
-			status.user_active = true;
+			newUserActive = false;
 		}
+		
+		if(status.user_active != newUserActive) {
+			change = true;
+			status.user_active = newUserActive;
+		}
+		
 		return change;
 	}
 	
@@ -179,7 +190,7 @@ public class DeviceStatus {
 				int scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
 				if(level == -1 || scale == -1) throw new Exception("battery level parsing error");
 				int batteryPct = (int) ((level / (float) scale) * 100); // always rounds down
-				if(batteryPct < 1 || batteryPct > 100) throw new Exception("battery level parsing error");
+				if(batteryPct < 0 || batteryPct > 100) throw new Exception("battery level parsing error");
 				if(batteryPct != status.battery_charge_pct) {
 					status.battery_charge_pct = batteryPct;
 					change = true;

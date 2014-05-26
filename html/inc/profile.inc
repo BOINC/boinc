@@ -166,7 +166,7 @@ function scale_image(
 //      of said user's profile.
 
 function get_profile_summary($profile) {
-    $user = get_user_from_id($profile->userid);
+    $user = BoincUser::lookup_id($profile->userid);
 
     if (!$user || !$profile) {
         error_page(tra("Database error"));

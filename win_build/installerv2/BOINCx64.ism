@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <?xml-stylesheet type="text/xsl" href="is.xsl" ?>
 <!DOCTYPE msi [
    <!ELEMENT msi   (summary,table*)>
@@ -267,7 +267,6 @@
 		<row><td>NewBinary18</td><td/><td>&lt;ISProductFolder&gt;\Redist\Language Independent\OS Independent\InstallStateMenu.ico</td></row>
 		<row><td>NewBinary19</td><td/><td>&lt;ISProjectFolder&gt;\redist\setup.bmp</td></row>
 		<row><td>NewBinary2</td><td/><td>&lt;ISProductFolder&gt;\Redist\Language Independent\OS Independent\New.ibd</td></row>
-		<row><td>NewBinary20</td><td/><td>&lt;ISProjectFolder&gt;\redist\windows\x64\boinccas95.dll</td></row>
 		<row><td>NewBinary3</td><td/><td>&lt;ISProductFolder&gt;\Redist\Language Independent\OS Independent\Up.ibd</td></row>
 		<row><td>NewBinary4</td><td/><td>&lt;ISProductFolder&gt;\Redist\Language Independent\OS Independent\WarningIcon.ibd</td></row>
 		<row><td>NewBinary5</td><td/><td>&lt;ISProductFolder&gt;\Redist\Language Independent\OS Independent\IsDialogBitmap.ibd</td></row>
@@ -352,7 +351,7 @@
 		<row><td>_BOINCData</td><td>{4E793828-A468-4366-892F-FC2F36EC99D9}</td><td>DATADIR</td><td>272</td><td/><td/><td>145</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>_BOINCDataProjects</td><td>{9C720438-35E8-4377-A105-AF3675664094}</td><td>PROJECTS</td><td>272</td><td/><td/><td>145</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>_BOINCDataSlots</td><td>{C9FE7A6E-2470-4666-949B-4DB2BB936E5F}</td><td>SLOTS</td><td>272</td><td/><td/><td>145</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>_BOINCDepends</td><td>{69AF1C45-9D67-4F33-B97B-5DA096D77908}</td><td>INSTALLDIR</td><td>256</td><td/><td>msvcr80.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>_BOINCDepends</td><td>{69AF1C45-9D67-4F33-B97B-5DA096D77908}</td><td>INSTALLDIR</td><td>256</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>_BOINCManager</td><td>{7EBB5E76-86BA-4EBA-98AA-DD908C215D72}</td><td>INSTALLDIR</td><td>256</td><td/><td>boincmgr.exe</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>_BOINCManagerGlobalization</td><td>{F92B6595-2E79-45F0-BF41-4EDB52645FFC}</td><td>LOCALE</td><td>256</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>_BOINCManagerSkin</td><td>{73A92885-CE76-42CE-916B-1B52DAADD11C}</td><td>DEFAULT</td><td>256</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
@@ -907,7 +906,6 @@
 	<table name="CreateFolder">
 		<col key="yes" def="s72">Directory_</col>
 		<col key="yes" def="s72">Component_</col>
-		<row><td>DATADIR</td><td>_BOINCData</td></row>
 		<row><td>INSTALLDIR</td><td>BOINCServiceConfig</td></row>
 		<row><td>INSTALLDIR</td><td>_BOINC</td></row>
 		<row><td>INSTALLDIR</td><td>_BOINCManagerStartMenu</td></row>
@@ -917,8 +915,6 @@
 		<row><td>INSTALLDIR</td><td>_BOINCTrayStartup</td></row>
 		<row><td>INSTALLDIR</td><td>_ScreensaverEnable9x</td></row>
 		<row><td>INSTALLDIR</td><td>_ScreensaverEnableNT</td></row>
-		<row><td>PROJECTS</td><td>_BOINCDataProjects</td></row>
-		<row><td>SLOTS</td><td>_BOINCDataSlots</td></row>
 	</table>
 
 	<table name="CustomAction">
@@ -928,12 +924,14 @@
 		<col def="S0">Target</col>
 		<col def="I4">ExtendedType</col>
 		<col def="S255">ISComments</col>
-		<row><td>CACleanupOldBinaries</td><td>1</td><td>NewBinary20</td><td>CleanupOldBinaries</td><td/><td/></row>
-		<row><td>CACreateAcctMgrLoginFile</td><td>1</td><td>NewBinary20</td><td>CreateAcctMgrLoginFile</td><td/><td/></row>
+		<row><td>CACleanupOldBinaries</td><td>1</td><td>NewBinary6</td><td>CleanupOldBinaries</td><td/><td/></row>
+		<row><td>CACreateAcctMgrLoginFile</td><td>1</td><td>NewBinary6</td><td>CreateAcctMgrLoginFile</td><td/><td/></row>
 		<row><td>CACreateBOINCAccounts</td><td>1</td><td>NewBinary6</td><td>CreateBOINCAccounts</td><td/><td/></row>
 		<row><td>CACreateBOINCGroups</td><td>1</td><td>NewBinary6</td><td>CreateBOINCGroups</td><td/><td/></row>
 		<row><td>CACreateClientAuthFile</td><td>1</td><td>NewBinary6</td><td>CreateClientAuthFile</td><td/><td/></row>
-		<row><td>CACreateProjectInitFile</td><td>1</td><td>NewBinary20</td><td>CreateProjectInitFile</td><td/><td/></row>
+		<row><td>CACreateProjectInitFile</td><td>1</td><td>NewBinary6</td><td>CreateProjectInitFile</td><td/><td/></row>
+		<row><td>CADeleteBOINCAccounts</td><td>65</td><td>NewBinary6</td><td>DeleteBOINCAccounts</td><td/><td/></row>
+		<row><td>CADeleteBOINCGroups</td><td>1</td><td>NewBinary6</td><td>DeleteBOINCGroups</td><td/><td/></row>
 		<row><td>CADisableProtectedApplicationExecution</td><td>51</td><td>ENABLEPROTECTEDAPPLICATIONEXECUTION3</td><td/><td/><td/></row>
 		<row><td>CADisableUseByAllUsers</td><td>51</td><td>ENABLEUSEBYALLUSERS</td><td/><td/><td/></row>
 		<row><td>CAGetAdministratorsGroupName</td><td>1</td><td>NewBinary6</td><td>GetAdministratorsGroupName</td><td/><td/></row>
@@ -947,15 +945,16 @@
 		<row><td>CAGrantBOINCUsersRights</td><td>1</td><td>NewBinary6</td><td>GrantBOINCUsersRights</td><td/><td/></row>
 		<row><td>CALaunchBOINCManager</td><td>65</td><td>NewBinary6</td><td>LaunchBOINCManager</td><td/><td/></row>
 		<row><td>CALaunchBOINCTray</td><td>65</td><td>NewBinary6</td><td>LaunchBOINCTray</td><td/><td/></row>
-		<row><td>CAMigrateBOINCData</td><td>1</td><td>NewBinary20</td><td>MigrateBOINCData</td><td/><td/></row>
-		<row><td>CAMigrateBOINCDataCleanup</td><td>1</td><td>NewBinary20</td><td>MigrateBOINCDataCleanup</td><td/><td/></row>
-		<row><td>CAMigrateBOINCDataInstall</td><td>3073</td><td>NewBinary20</td><td>MigrateBOINCData</td><td/><td/></row>
-		<row><td>CAMigrateBOINCDataRollback</td><td>1281</td><td>NewBinary20</td><td>MigrateBOINCData</td><td/><td/></row>
-		<row><td>CAMigrateBOINCDataVersion</td><td>1</td><td>NewBinary20</td><td>MigrateBOINCDataVersion</td><td/><td/></row>
-		<row><td>CARestoreExecutionState</td><td>1</td><td>NewBinary20</td><td>RestoreExecutionState</td><td/><td/></row>
-		<row><td>CARestoreSetupState</td><td>1</td><td>NewBinary20</td><td>RestoreSetupState</td><td/><td/></row>
-		<row><td>CASaveExecutionState</td><td>1</td><td>NewBinary20</td><td>SaveExecutionState</td><td/><td/></row>
-		<row><td>CASaveSetupState</td><td>1</td><td>NewBinary20</td><td>SaveSetupState</td><td/><td/></row>
+		<row><td>CARestoreExecutionState</td><td>1</td><td>NewBinary6</td><td>RestoreExecutionState</td><td/><td/></row>
+		<row><td>CARestorePermissionBOINCData</td><td>1</td><td>NewBinary6</td><td>RestorePermissionBOINCData</td><td/><td/></row>
+		<row><td>CARestoreSetupState</td><td>1</td><td>NewBinary6</td><td>RestoreSetupState</td><td/><td/></row>
+		<row><td>CARevokeBOINCAdminsRights</td><td>1</td><td>NewBinary6</td><td>RevokeBOINCAdminsRights</td><td/><td/></row>
+		<row><td>CARevokeBOINCMasterRights</td><td>1</td><td>NewBinary6</td><td>RevokeBOINCMasterRights</td><td/><td/></row>
+		<row><td>CARevokeBOINCProjectRights</td><td>1</td><td>NewBinary6</td><td>RevokeBOINCProjectRights</td><td/><td/></row>
+		<row><td>CARevokeBOINCProjectsRights</td><td>1</td><td>NewBinary6</td><td>RevokeBOINCProjectsRights</td><td/><td/></row>
+		<row><td>CARevokeBOINCUsersRights</td><td>1</td><td>NewBinary6</td><td>RevokeBOINCUsersRights</td><td/><td/></row>
+		<row><td>CASaveExecutionState</td><td>1</td><td>NewBinary6</td><td>SaveExecutionState</td><td/><td/></row>
+		<row><td>CASaveSetupState</td><td>1</td><td>NewBinary6</td><td>SaveSetupState</td><td/><td/></row>
 		<row><td>CASetBOINCDataProjects</td><td>35</td><td>PROJECTS</td><td>[DATADIR]projects</td><td/><td/></row>
 		<row><td>CASetBOINCDataSlots</td><td>35</td><td>SLOTS</td><td>[DATADIR]slots</td><td/><td/></row>
 		<row><td>CASetPermissionBOINC</td><td>1</td><td>NewBinary6</td><td>SetPermissionBOINC</td><td/><td/></row>
@@ -964,12 +963,11 @@
 		<row><td>CASetPermissionBOINCDataSlots</td><td>1</td><td>NewBinary6</td><td>SetPermissionBOINCDataSlots</td><td/><td/></row>
 		<row><td>CAShutdownBOINC</td><td>1</td><td>NewBinary6</td><td>ShutdownBOINC</td><td/><td/></row>
 		<row><td>CAShutdownBOINCManager</td><td>1</td><td>NewBinary6</td><td>ShutdownBOINCManager</td><td/><td/></row>
-		<row><td>CAShutdownBOINCManager95</td><td>1</td><td>NewBinary20</td><td>ShutdownBOINCManager</td><td/><td/></row>
 		<row><td>CAShutdownBOINCScreensaver</td><td>1</td><td>NewBinary6</td><td>ShutdownBOINCScreensaver</td><td/><td/></row>
-		<row><td>CAValidateInstall</td><td>1</td><td>NewBinary20</td><td>ValidateInstall</td><td/><td/></row>
-		<row><td>CAValidateRebootRequest</td><td>1</td><td>NewBinary20</td><td>ValidateRebootRequest</td><td/><td/></row>
-		<row><td>CAValidateSetupType</td><td>1</td><td>NewBinary20</td><td>ValidateSetupType</td><td/><td/></row>
-		<row><td>CAVerifyInstallDirectories</td><td>1</td><td>NewBinary20</td><td>VerifyInstallDirectories</td><td/><td/></row>
+		<row><td>CAValidateInstall</td><td>1</td><td>NewBinary6</td><td>ValidateInstall</td><td/><td/></row>
+		<row><td>CAValidateRebootRequest</td><td>1</td><td>NewBinary6</td><td>ValidateRebootRequest</td><td/><td/></row>
+		<row><td>CAValidateSetupType</td><td>1</td><td>NewBinary6</td><td>ValidateSetupType</td><td/><td/></row>
+		<row><td>CAVerifyInstallDirectories</td><td>1</td><td>NewBinary6</td><td>VerifyInstallDirectories</td><td/><td/></row>
 		<row><td>ISPreventDowngrade</td><td>19</td><td/><td>[IS_PREVENT_DOWNGRADE_EXIT]</td><td/><td/></row>
 		<row><td>ISPrint</td><td>1</td><td>SetAllUsers.dll</td><td>PrintScrollableText</td><td/><td>Prints the contents of a ScrollableText control on a dialog.</td></row>
 		<row><td>ISSelfRegisterCosting</td><td>1</td><td>ISSELFREG.DLL</td><td>ISSelfRegisterCosting</td><td/><td/></row>
@@ -1810,7 +1808,6 @@
 		<row><td>boinc.scr</td><td>_Screensaver</td><td>boinc.scr</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\boinc.scr</td><td>1</td><td/></row>
 		<row><td>boinc_logo_black.jpg</td><td>_BOINCScreensaver</td><td>BOINC_~1.JPG|boinc_logo_black.jpg</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_LOGO_FILES&gt;\boinc_logo_black.jpg</td><td>1</td><td/></row>
 		<row><td>boinccmd.exe</td><td>_BOINCCMD</td><td>boinccmd.exe</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\boinccmd.exe</td><td>1</td><td/></row>
-		<row><td>boincguiapp.ico</td><td>_BOINCManager</td><td>BOINCG~1.ICO|BOINCGUIApp.ico</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_BOINC_FILES&gt;\clientgui\res\BOINCGUIApp.ico</td><td>1</td><td/></row>
 		<row><td>boincmgr.exe</td><td>_BOINCManager</td><td>boincmgr.exe</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\boincmgr.exe</td><td>1</td><td/></row>
 		<row><td>boincscr.exe</td><td>_BOINCScreensaver</td><td>boincscr.exe</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\boincscr.exe</td><td>1</td><td/></row>
 		<row><td>boincsvcctrl.exe</td><td>_BOINCSvcCtrl</td><td>BOINCS~1.EXE|boincsvcctrl.exe</td><td>0</td><td/><td/><td/><td>1</td><td>&lt;PATH_TO_RELEASE_FILES&gt;\boincsvcctrl.exe</td><td>1</td><td/></row>
@@ -2467,7 +2464,7 @@
 		<row><td>WEBx64</td><td>ProductCode</td><td/></row>
 		<row><td>WEBx64</td><td>ProductName</td><td/></row>
 		<row><td>WEBx64</td><td>ProductVersion</td><td/></row>
-		<row><td>WEBx64</td><td>SetupFileName</td><td>boinc_7.2.4_windows_x86_64</td></row>
+		<row><td>WEBx64</td><td>SetupFileName</td><td>boinc_7.3.19_windows_x86_64</td></row>
 		<row><td>WEBx64</td><td>UpgradeCode</td><td/></row>
 	</table>
 
@@ -4018,7 +4015,7 @@ Click Advanced to customize.</td><td>0</td><td/><td>1427879980</td></row>
 		<col def="S255">ISBuildSourcePath</col>
 		<col def="I2">ISIconIndex</col>
 		<row><td>ARPPRODUCTICON.exe</td><td/><td>&lt;ISProjectFolder&gt;\redist\setup.ico</td><td/></row>
-		<row><td>BOINCManagerShortc_A93DE976FB764046A81032A4C7BB0936.exe</td><td/><td>&lt;PATH_TO_BOINC_FILES&gt;\clientgui\res\BOINCGUIApp.ico</td><td>0</td></row>
+		<row><td>BOINCManagerShortc_C26EE48317504401A066FAD831B8521A.exe</td><td/><td>&lt;PATH_TO_BOINC_FILES&gt;\clientgui\res\boinc.ico</td><td>0</td></row>
 		<row><td>NewShortcut1_1F831FAF6288497299C84802D2DCC55C.exe</td><td/><td>&lt;PATH_TO_BOINC_FILES&gt;\clientgui\res\BOINCGUIApp.ico</td><td/></row>
 		<row><td>NewShortcut2_0DD4D63A90D3496F8A8CF0ABD3175580.exe</td><td/><td>&lt;PATH_TO_RELEASE_FILES&gt;\boinctray.exe</td><td>0</td></row>
 	</table>
@@ -4050,40 +4047,43 @@ Click Advanced to customize.</td><td>0</td><td/><td>1427879980</td></row>
 		<col def="I2">Sequence</col>
 		<col def="S255">ISComments</col>
 		<col def="I4">ISAttributes</col>
-		<row><td>AllocateRegistrySpace</td><td>NOT Installed</td><td>1556</td><td>AllocateRegistrySpace</td><td/></row>
+		<row><td>AllocateRegistrySpace</td><td>NOT Installed</td><td>1562</td><td>AllocateRegistrySpace</td><td/></row>
 		<row><td>AppSearch</td><td/><td>400</td><td>AppSearch</td><td/></row>
 		<row><td>BindImage</td><td/><td>4300</td><td>BindImage</td><td/></row>
 		<row><td>CACleanupOldBinaries</td><td>REMOVE &lt;&gt; "ALL"</td><td>796</td><td/><td/></row>
 		<row><td>CACreateAcctMgrLoginFile</td><td>NOT Installed</td><td>6605</td><td/><td/></row>
 		<row><td>CACreateBOINCAccounts</td><td>VersionNT And REMOVE &lt;&gt; "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1546</td><td/><td/></row>
-		<row><td>CACreateBOINCGroups</td><td>VersionNT And REMOVE &lt;&gt; "ALL"</td><td>1549</td><td/><td/></row>
+		<row><td>CACreateBOINCGroups</td><td>VersionNT And REMOVE &lt;&gt; "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1552</td><td/><td/></row>
 		<row><td>CACreateClientAuthFile</td><td>VersionNT And NOT Installed</td><td>6604</td><td/><td/></row>
 		<row><td>CACreateProjectInitFile</td><td>NOT Installed</td><td>6606</td><td/><td/></row>
+		<row><td>CADeleteBOINCAccounts</td><td>VersionNT And REMOVE = "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1551</td><td/><td/></row>
+		<row><td>CADeleteBOINCGroups</td><td>VersionNT And REMOVE = "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1561</td><td/><td/></row>
 		<row><td>CAGetAdministratorsGroupName</td><td>VersionNT And REMOVE &lt;&gt; "ALL"</td><td>1537</td><td/><td/></row>
 		<row><td>CAGetUsersGroupName</td><td>VersionNT And REMOVE &lt;&gt; "ALL"</td><td>1543</td><td/><td/></row>
-		<row><td>CAGrantBOINCAdminsRights</td><td>VersionNT And REMOVE &lt;&gt; "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1550</td><td/><td/></row>
-		<row><td>CAGrantBOINCAdminsVirtualBoxRights</td><td>VersionNT And REMOVE &lt;&gt; "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1551</td><td/><td/></row>
+		<row><td>CAGrantBOINCAdminsRights</td><td>VersionNT And REMOVE &lt;&gt; "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1553</td><td/><td/></row>
+		<row><td>CAGrantBOINCAdminsVirtualBoxRights</td><td>VersionNT And REMOVE &lt;&gt; "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1555</td><td/><td/></row>
 		<row><td>CAGrantBOINCMasterRights</td><td>VersionNT And REMOVE &lt;&gt; "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1547</td><td/><td/></row>
-		<row><td>CAGrantBOINCProjectRights</td><td>VersionNT And REMOVE &lt;&gt; "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1548</td><td/><td/></row>
-		<row><td>CAGrantBOINCProjectsRights</td><td>VersionNT And REMOVE &lt;&gt; "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1553</td><td/><td/></row>
-		<row><td>CAGrantBOINCProjectsVirtualBoxRights</td><td>VersionNT And REMOVE &lt;&gt; "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1554</td><td/><td/></row>
-		<row><td>CAGrantBOINCUsersRights</td><td>VersionNT And REMOVE &lt;&gt; "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1552</td><td/><td/></row>
-		<row><td>CAMigrateBOINCData</td><td/><td>1555</td><td/><td/></row>
-		<row><td>CAMigrateBOINCDataCleanup</td><td>REMOVE &lt;&gt; "ALL"</td><td>6612</td><td/><td/></row>
-		<row><td>CAMigrateBOINCDataInstall</td><td/><td>3950</td><td/><td/></row>
-		<row><td>CAMigrateBOINCDataRollback</td><td/><td>3900</td><td/><td/></row>
-		<row><td>CAMigrateBOINCDataVersion</td><td>REMOVE &lt;&gt; "ALL"</td><td>409</td><td/><td/></row>
+		<row><td>CAGrantBOINCProjectRights</td><td>VersionNT And REMOVE &lt;&gt; "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1549</td><td/><td/></row>
+		<row><td>CAGrantBOINCProjectsRights</td><td>VersionNT And REMOVE &lt;&gt; "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1558</td><td/><td/></row>
+		<row><td>CAGrantBOINCProjectsVirtualBoxRights</td><td>VersionNT And REMOVE &lt;&gt; "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1560</td><td/><td/></row>
+		<row><td>CAGrantBOINCUsersRights</td><td>VersionNT And REMOVE &lt;&gt; "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1556</td><td/><td/></row>
+		<row><td>CARestorePermissionBOINCData</td><td>VersionNT And REMOVE = "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>6612</td><td/><td/></row>
+		<row><td>CARestoreSetupState</td><td>VersionNT And REMOVE = "ALL"</td><td>1001</td><td/><td/></row>
+		<row><td>CARevokeBOINCAdminsRights</td><td>VersionNT And REMOVE = "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1554</td><td/><td/></row>
+		<row><td>CARevokeBOINCMasterRights</td><td>VersionNT And REMOVE = "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1548</td><td/><td/></row>
+		<row><td>CARevokeBOINCProjectRights</td><td>VersionNT And REMOVE = "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1550</td><td/><td/></row>
+		<row><td>CARevokeBOINCProjectsRights</td><td>VersionNT And REMOVE = "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1559</td><td/><td/></row>
+		<row><td>CARevokeBOINCUsersRights</td><td>VersionNT And REMOVE = "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>1557</td><td/><td/></row>
 		<row><td>CASaveExecutionState</td><td/><td>6614</td><td/><td/></row>
 		<row><td>CASaveSetupState</td><td/><td>6613</td><td/><td/></row>
 		<row><td>CASetBOINCDataProjects</td><td/><td>1004</td><td/><td/></row>
 		<row><td>CASetBOINCDataSlots</td><td/><td>1003</td><td/><td/></row>
-		<row><td>CASetPermissionBOINC</td><td>VersionNT And REMOVE &lt;&gt; "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>6607</td><td/><td/></row>
-		<row><td>CASetPermissionBOINCData</td><td>VersionNT And REMOVE &lt;&gt; "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>6609</td><td/><td/></row>
-		<row><td>CASetPermissionBOINCDataProjects</td><td>VersionNT And REMOVE &lt;&gt; "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>6610</td><td/><td/></row>
-		<row><td>CASetPermissionBOINCDataSlots</td><td>VersionNT And REMOVE &lt;&gt; "ALL" AND ENABLEPROTECTEDAPPLICATIONEXECUTION3 = 1</td><td>6611</td><td/><td/></row>
+		<row><td>CASetPermissionBOINC</td><td>VersionNT And REMOVE &lt;&gt; "ALL"</td><td>6607</td><td/><td/></row>
+		<row><td>CASetPermissionBOINCData</td><td>VersionNT And REMOVE &lt;&gt; "ALL"</td><td>6609</td><td/><td/></row>
+		<row><td>CASetPermissionBOINCDataProjects</td><td>VersionNT And REMOVE &lt;&gt; "ALL"</td><td>6610</td><td/><td/></row>
+		<row><td>CASetPermissionBOINCDataSlots</td><td>VersionNT And REMOVE &lt;&gt; "ALL"</td><td>6611</td><td/><td/></row>
 		<row><td>CAShutdownBOINC</td><td>VersionNT</td><td>403</td><td/><td/></row>
 		<row><td>CAShutdownBOINCManager</td><td>VersionNT</td><td>404</td><td/><td/></row>
-		<row><td>CAShutdownBOINCManager95</td><td>Version9X</td><td>405</td><td/><td/></row>
 		<row><td>CAShutdownBOINCScreensaver</td><td>VersionNT</td><td>408</td><td/><td/></row>
 		<row><td>CAValidateInstall</td><td>REMOVE &lt;&gt; "ALL"</td><td>6602</td><td/><td/></row>
 		<row><td>CAValidateRebootRequest</td><td>REMOVE &lt;&gt; "ALL" AND RETURN_REBOOTREQUESTED = "1"</td><td>6603</td><td/><td/></row>
@@ -4277,21 +4277,6 @@ VwBlAGIAAQBXAEUAQgB4ADYANAA=
 		<col key="yes" def="S255">Domain</col>
 		<col key="yes" def="s255">User</col>
 		<col def="I4">Permission</col>
-		<row><td>DATADIR</td><td>CreateFolder</td><td></td><td>SYSTEM</td><td>1880031743</td></row>
-		<row><td>DATADIR</td><td>CreateFolder</td><td></td><td>[BOINC_ADMINS_GROUPNAME]</td><td>1610809855</td></row>
-		<row><td>DATADIR</td><td>CreateFolder</td><td></td><td>[BOINC_PROJECTS_GROUPNAME]</td><td>0</td></row>
-		<row><td>DATADIR</td><td>CreateFolder</td><td></td><td>[BOINC_USERS_GROUPNAME]</td><td>131241</td></row>
-		<row><td>DATADIR</td><td>CreateFolder</td><td></td><td>[GROUPALIAS_ADMINISTRATORS]</td><td>1880031743</td></row>
-		<row><td>PROJECTS</td><td>CreateFolder</td><td></td><td>SYSTEM</td><td>1880031743</td></row>
-		<row><td>PROJECTS</td><td>CreateFolder</td><td></td><td>[BOINC_ADMINS_GROUPNAME]</td><td>1610809855</td></row>
-		<row><td>PROJECTS</td><td>CreateFolder</td><td></td><td>[BOINC_PROJECTS_GROUPNAME]</td><td>1610809855</td></row>
-		<row><td>PROJECTS</td><td>CreateFolder</td><td></td><td>[BOINC_USERS_GROUPNAME]</td><td>131241</td></row>
-		<row><td>PROJECTS</td><td>CreateFolder</td><td></td><td>[GROUPALIAS_ADMINISTRATORS]</td><td>1880031743</td></row>
-		<row><td>SLOTS</td><td>CreateFolder</td><td></td><td>SYSTEM</td><td>1880031743</td></row>
-		<row><td>SLOTS</td><td>CreateFolder</td><td></td><td>[BOINC_ADMINS_GROUPNAME]</td><td>1610809855</td></row>
-		<row><td>SLOTS</td><td>CreateFolder</td><td></td><td>[BOINC_PROJECTS_GROUPNAME]</td><td>1610809855</td></row>
-		<row><td>SLOTS</td><td>CreateFolder</td><td></td><td>[BOINC_USERS_GROUPNAME]</td><td>131241</td></row>
-		<row><td>SLOTS</td><td>CreateFolder</td><td></td><td>[GROUPALIAS_ADMINISTRATORS]</td><td>1880031743</td></row>
 	</table>
 
 	<table name="MIME">
@@ -4574,11 +4559,11 @@ VwBlAGIAAQBXAEUAQgB4ADYANAA=
 		<row><td>PROGMSG_IIS_ROLLBACKAPPPOOLS</td><td>##IDS_PROGMSG_IIS_ROLLBACKAPPPOOLS##</td><td/></row>
 		<row><td>PROGMSG_IIS_ROLLBACKWEBSERVICEEXTENSIONS</td><td>##IDS_PROGMSG_IIS_ROLLBACKWEBSERVICEEXTENSIONS##</td><td/></row>
 		<row><td>PROGRAMFILETOLAUNCHATEND</td><td>[#boincmgr.exe]</td><td/></row>
-		<row><td>ProductCode</td><td>{B71752EB-7921-40D2-B349-5782916C39CB}</td><td/></row>
+		<row><td>ProductCode</td><td>{7A9E897C-0C22-47E5-BE53-B44EF0D29E0D}</td><td/></row>
 		<row><td>ProductID</td><td>none</td><td/></row>
 		<row><td>ProductLanguage</td><td>1033</td><td/></row>
 		<row><td>ProductName</td><td>BOINC</td><td/></row>
-		<row><td>ProductVersion</td><td>7.2.4</td><td/></row>
+		<row><td>ProductVersion</td><td>7.3.19</td><td/></row>
 		<row><td>ProgressType0</td><td>install</td><td/></row>
 		<row><td>ProgressType1</td><td>Installing</td><td/></row>
 		<row><td>ProgressType2</td><td>installed</td><td/></row>
@@ -4748,7 +4733,7 @@ VwBlAGIAAQBXAEUAQgB4ADYANAA=
 		<col def="S255">ISComments</col>
 		<col def="S255">ISShortcutName</col>
 		<col def="I4">ISAttributes</col>
-		<row><td>BOINCManagerShortcut</td><td>newfolder1</td><td>##IDS_FEATURE_BOINC_MANAGER_NAME##</td><td>_BOINCManagerStartMenu</td><td>[INSTALLDIR]boincmgr.exe</td><td/><td>##IDS_FEATURE_BOINC_MANAGER_DESCRIPTION##</td><td/><td>BOINCManagerShortc_A93DE976FB764046A81032A4C7BB0936.exe</td><td>0</td><td>1</td><td>INSTALLDIR</td><td/><td/><td/><td/><td/><td/><td/></row>
+		<row><td>BOINCManagerShortcut</td><td>newfolder1</td><td>##IDS_FEATURE_BOINC_MANAGER_NAME##</td><td>_BOINCManagerStartMenu</td><td>[INSTALLDIR]boincmgr.exe</td><td/><td>##IDS_FEATURE_BOINC_MANAGER_DESCRIPTION##</td><td/><td>BOINCManagerShortc_C26EE48317504401A066FAD831B8521A.exe</td><td>0</td><td>1</td><td>INSTALLDIR</td><td/><td/><td/><td/><td/><td/><td/></row>
 	</table>
 
 	<table name="Signature">

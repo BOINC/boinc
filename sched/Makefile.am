@@ -113,6 +113,7 @@ schedshare_PROGRAMS = \
     sample_assimilator \
     sample_dummy_assimilator \
     sample_bitwise_validator \
+    sample_substr_validator \
     sample_trivial_validator \
     sample_work_generator \
     single_job_assimilator \
@@ -217,6 +218,10 @@ VALIDATOR_SOURCES = \
 sample_bitwise_validator_SOURCES = $(VALIDATOR_SOURCES) \
 	sample_bitwise_validator.cpp 
 sample_bitwise_validator_LDADD = $(SERVERLIBS)
+
+sample_substr_validator_SOURCES = $(VALIDATOR_SOURCES) \
+	sample_substr_validator.cpp
+sample_substr_validator_LDADD = $(SERVERLIBS)
 
 sample_trivial_validator_SOURCES = $(VALIDATOR_SOURCES) \
 	sample_trivial_validator.cpp

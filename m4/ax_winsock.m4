@@ -9,5 +9,5 @@ AC_DEFUN([AX_WINSOCK],[
     ac_cv_header_winsock2_h="no"
     ac_cv_header_winsock_h="no"
   fi
-  AC_CHECK_HEADERS([windows.h winsock2.h winsock.h sys/socket.h])
+  AC_CHECK_HEADERS([winsock2.h winsock.h windows.h sys/socket.h])
 ])

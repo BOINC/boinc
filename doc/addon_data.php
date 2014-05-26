@@ -91,7 +91,7 @@ array(
 array(
     'http://www.bc-team.org/downloads.php',
     'BOINCcalculator',
-    '0.4.9',
+    '0.5.1',
     'Show details of CPDN jobs',
     'http://wiki.bc-team.org/index.php?title=BOINCcalculator',
     'Windows (all)',

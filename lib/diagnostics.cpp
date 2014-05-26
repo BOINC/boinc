@@ -206,24 +206,28 @@ int diagnostics_init(
     int _flags, const char* stdout_prefix, const char* stderr_prefix
 ) {
     // Check to see if we have already been called
+    //
     if (diagnostics_initialized) {
         return ERR_INVALID_PARAM;
     }
     diagnostics_initialized = true;
 
     // Setup initial values
+    //
     flags = _flags;
-    snprintf(stdout_log, sizeof(stdout_log), "%s.txt", stdout_prefix);
-    snprintf(stdout_archive, sizeof(stdout_archive), "%s.old", stdout_prefix);
-    snprintf(stderr_log, sizeof(stderr_log), "%s.txt", stderr_prefix);
-    snprintf(stderr_archive, sizeof(stderr_archive), "%s.old", stderr_prefix);
+    strcpy(stdout_log, "");
+    strcpy(stdout_archive, "");
+    strcpy(stderr_log, "");
+    strcpy(stderr_archive, "");
     strcpy(boinc_dir, "");
     strcpy(boinc_install_dir, "");
     boinc_proxy_enabled = 0;
     strcpy(boinc_proxy, "");
     strcpy(symstore, "");
 
+    
     // Check for invalid parameter combinations
+    //
     if ((flags & BOINC_DIAG_REDIRECTSTDERR) && (flags & BOINC_DIAG_REDIRECTSTDERROVERWRITE)) {
         return ERR_INVALID_PARAM;
     }
@@ -233,7 +237,43 @@ int diagnostics_init(
     }
 
 
+    // Determine where the log files are to be stored
+    //
+    if (flags & BOINC_DIAG_PERUSERLOGFILES) {
+        char user_dir[MAXPATHLEN];
+
+#if   defined(_WIN32)
+        snprintf(user_dir, sizeof(user_dir), "%s", getenv("APPDATA"));
+        strncat(user_dir, "/BOINC", sizeof(user_dir) - strlen(user_dir)-1);
+#elif defined(__APPLE__)
+        snprintf(user_dir, sizeof(user_dir), "%s", getenv("HOME"));
+        strncat(user_dir, "/Library/Application Support/BOINC", sizeof(user_dir) - strlen(user_dir)-1);
+#else
+        snprintf(user_dir, sizeof(user_dir), "%s", getenv("HOME"));
+        strncat(user_dir, "/.BOINC", sizeof(user_dir) - strlen(user_dir)-1);
+#endif
+
+        // Check to see if the directory exists
+        if (!is_dir(user_dir)) {
+            boinc_mkdir(user_dir);
+        }
+
+        snprintf(stdout_log, sizeof(stdout_log), "%s/%s.txt", user_dir, stdout_prefix);
+        snprintf(stdout_archive, sizeof(stdout_archive), "%s/%s.old", user_dir, stdout_prefix);
+        snprintf(stderr_log, sizeof(stderr_log), "%s/%s.txt", user_dir, stderr_prefix);
+        snprintf(stderr_archive, sizeof(stderr_archive), "%s/%s.old", user_dir, stderr_prefix);
+
+    } else {
+
+        snprintf(stdout_log, sizeof(stdout_log), "%s.txt", stdout_prefix);
+        snprintf(stdout_archive, sizeof(stdout_archive), "%s.old", stdout_prefix);
+        snprintf(stderr_log, sizeof(stderr_log), "%s.txt", stderr_prefix);
+        snprintf(stderr_archive, sizeof(stderr_archive), "%s.old", stderr_prefix);
+
+    }
+
     // Archive any old stderr.txt and stdout.txt files, if requested
+    //
     if (flags & BOINC_DIAG_ARCHIVESTDERR) {
         boinc_copy(stderr_log, stderr_archive);
     }
@@ -590,7 +630,7 @@ int diagnostics_cycle_logs() {
 
 // Diagnostics for POSIX Compatible systems.
 //
-#if HAVE_SIGNAL_H
+#if defined(HAVE_SIGNAL_H) && !defined(_WIN32)
 
 // Set a signal handler only if it is not currently ignored
 //
@@ -880,3 +920,10 @@ void diagnostics_set_max_file_sizes(int stdout_size, int stderr_size) {
     if (stderr_size) max_stderr_file_size = stderr_size;
 }
 
+// Dump string to whatever the platform debuggers
+// 
+#ifndef _WIN32
+int diagnostics_trace_to_debugger(const char*) {
+    return 0;
+}
+#endif

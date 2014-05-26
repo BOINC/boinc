@@ -1,7 +1,7 @@
 <?php
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2014 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -22,6 +22,10 @@ require_once("../inc/xml.inc");
 
 xml_header();
 
+if (DISABLE_FORUMS) {
+    xml_error(-1, "Forums are disabled");
+}
+
 $retval = db_init_xml();
 if ($retval) xml_error($retval);
 
@@ -31,7 +35,7 @@ if ($method != "user_posts" && $method != "user_threads") {
 }
 
 $userid = get_int("userid", true);
-$user = lookup_user_id($userid);
+$user = BoincUser::lookup_id($userid);
 if (!$user) {
     xml_error(ERR_DB_NOT_FOUND);
 }

@@ -28,6 +28,12 @@
 
 IMPLEMENT_DYNAMIC_CLASS(CBOINCTaskCtrl, wxScrolledWindow)
 
+#ifdef __WXMSW__
+BEGIN_EVENT_TABLE (CBOINCTaskCtrl, CBOINCBaseView)
+    EVT_CHILD_FOCUS(CBOINCTaskCtrl::OnChildFocus)
+END_EVENT_TABLE ()
+#endif
+
 
 CBOINCTaskCtrl::CBOINCTaskCtrl() {}
 
@@ -260,6 +266,55 @@ bool CBOINCTaskCtrl::OnRestoreState(wxConfigBase* pConfig) {
 
     return true;
 }
+
+
+#ifdef __WXMSW__
+// Work around a problem on Windows where clicking on a button
+// in the web sites Task Item Group sometimes causes the task
+// control panel to scroll that button out of view but does not
+// send the button clicked event.  This is because the task
+// control panel is the parent of the Task Item Group's
+// wxStaticBox, which is the parent of the button; if we have
+// scroll bars the Child Focus Event scrolls the task control
+// panel to make the wxStaticBox fully visible. To prevent this,
+// we intercept the Child Focus Event, scroll only enough to
+// make the button visible if it is not already visible, and 
+// do not call event.Skip.
+void CBOINCTaskCtrl::OnChildFocus(wxChildFocusEvent&) {
+    int stepx, stepy;
+    int startx, starty;
+    int diff = 0;
+
+    wxWindow* theButton = wxWindow::FindFocus();
+    if (!theButton) return;
+    
+    // Get button position relative to Task Control's viewing area
+    wxRect buttonRect(
+		ScreenToClient(theButton->GetScreenPosition()), theButton->GetSize()
+	);
+    
+    const wxRect viewRect(GetClientRect());
+    if (viewRect.Contains(buttonRect)){
+        return; // Already fully visible
+    }
+
+    GetScrollPixelsPerUnit(&stepx, &stepy);
+
+    GetViewStart(&startx, &starty);
+
+    if (buttonRect.GetTop() < 0) {
+        diff = buttonRect.GetTop();
+    } else if (buttonRect.GetBottom() > viewRect.GetHeight()) {
+        diff = buttonRect.GetBottom() - viewRect.GetHeight() + 1;
+        // round up to next scroll step if we can't get exact position,
+        // so that the button is fully visible
+        diff += stepy - 1;
+    }
+
+    starty = (starty * stepy + diff) / stepy;
+    Scroll(startx, starty);
+}
+#endif
 
 
 void CBOINCTaskCtrl::EllipseStringIfNeeded(wxString& s) {

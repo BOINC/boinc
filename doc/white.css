@@ -42,8 +42,7 @@ table.box {
 
 table.bordered {
     border: 2px solid #e8e8e8;
-    -moz-border-radius: 6px;
-    -webkit-border-radius: 6px;
+    border-radius: 6px;
 }
 
 body {
@@ -75,7 +74,7 @@ span.inboxunread {
 
 span.note{
 	font-weight: normal;
-    font-size: 0.9em;
+    font-size: 0.8em;
 }
 span.news_date {
     color: rgb(100,100,100);
@@ -104,25 +103,28 @@ td.indent {
     border-left: 4px solid white;
 }
 
+td.button{
+    background-color: rgb(223, 240, 255);
+    border: 1px solid lightblue;
+    border-radius: 10px;
+}
+
 td.heading{
     background-color: rgb(223, 240, 255);
     border: 1px solid lightblue;
-    -moz-border-radius: 6px;
-    -webkit-border-radius: 6px;
+    border-radius: 6px;
 }
 
 td.heading_left {
     background-color: rgb(223, 240, 255);
     border: 1px solid lightgray;
-    -moz-border-radius: 6px;
-    -webkit-border-radius: 6px;
+    border-radius: 6px;
 }
 
 td.heading_right {
     background-color: rgb(255, 255, 214);
     border: 1px solid goldenrod;
-    -moz-border-radius: 6px;
-    -webkit-border-radius: 6px;
+    border-radius: 6px;
 }
 
 td.fieldname {
@@ -200,15 +202,13 @@ input.btn {
     border-right: none;
     padding: 3px 6px;
     white-space: nowrap;
-    -moz-border-radius: 6px 0px 0px 6px;
-    -webkit-border-radius: 6px 0px 0px 6px;
+    border-radius: 6px 0px 0px 6px;
 }
 
 .rowlineright {
     border: 1px solid lightblue;
     border-left: none;
-    -moz-border-radius: 0px 6px 6px 0px;
-    -webkit-border-radius: 0px 6px 6px 0px;
+    border-radius: 0px 6px 6px 0px;
 }
 
 .dev { color: red; font-weight: bold }

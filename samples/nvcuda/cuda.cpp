@@ -61,6 +61,7 @@ int main(int argc, char** argv) {
     REAL* h_idata;
     MFILE out;
     FILE* state, *infile;
+    double num=0;
     
     generate_random_input_file(MATRIX_SIZE); //call this if you don't want to
                                              //construct the input file manually
@@ -111,7 +112,8 @@ int main(int argc, char** argv) {
             fscanf(state,"%d",&dimension);
             cudaMallocHost((void **)&h_idata,dimension*dimension*sizeof(REAL));
             for (int i=0;i<dimension*dimension;++i) {
-                fscanf(state, "%lf", &h_idata[i]);
+                fscanf(state, "%lf", &num);
+                h_idata[i] = num;
 			}
         }
         fclose(state);

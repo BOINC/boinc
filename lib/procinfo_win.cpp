@@ -36,7 +36,7 @@ static int get_process_information(PVOID* ppBuffer, PULONG pcbBuffer) {
         }
 
         Status = pNTQSI(
-            SystemProcessAndThreadInformation,
+            SystemProcessInformation,
             *ppBuffer,
             *pcbBuffer,
             pcbBuffer

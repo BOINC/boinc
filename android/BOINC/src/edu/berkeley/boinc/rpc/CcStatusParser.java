@@ -21,6 +21,8 @@ package edu.berkeley.boinc.rpc;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
+
+import android.util.Log;
 import android.util.Xml;
 
 public class CcStatusParser extends BaseParser {
@@ -39,6 +41,8 @@ public class CcStatusParser extends BaseParser {
 			return parser.getCcStatus();
 		}
 		catch (SAXException e) {
+			e.printStackTrace();
+			Log.v("Larry", e.getMessage());
 			return null;
 		}
 	}

@@ -442,7 +442,7 @@ void send_work_old() {
 }
 
 
-// try to send a job for the given app
+// try to send a job for the given app; used for non-compute-intensive apps
 //
 int send_job_for_app(APP& app) {
     int retval = 0;
@@ -452,7 +452,9 @@ int send_job_for_app(APP& app) {
     lock_sema();
     for (int i=0; i<ssp->max_wu_results; i++) {
         WU_RESULT& wu_result = ssp->wu_results[i];
-        if (wu_result.state != WR_STATE_PRESENT) continue;
+        if (wu_result.state != WR_STATE_PRESENT && wu_result.state != g_pid) {
+            continue;
+        }
         WORKUNIT wu = wu_result.workunit;
         if (wu.appid != app.id) continue;
         if (!quick_check(wu_result, wu, bavp, &app, retval)) {

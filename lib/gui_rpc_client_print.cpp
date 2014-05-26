@@ -146,9 +146,14 @@ void RESULT::print() {
     printf("   checkpoint CPU time: %f\n", checkpoint_cpu_time);
     printf("   current CPU time: %f\n", current_cpu_time);
     printf("   fraction done: %f\n", fraction_done);
-    printf("   swap size: %f\n", swap_size);
-    printf("   working set size: %f\n", working_set_size_smoothed);
+    printf("   swap size: %.0f MB\n", swap_size/MEGA);
+    printf("   working set size: %.0f MB\n", working_set_size_smoothed/MEGA);
     printf("   estimated CPU time remaining: %f\n", estimated_cpu_time_remaining);
+    if (bytes_sent || bytes_received) {
+        printf("   bytes sent: %.0f received: %.0f\n",
+            bytes_sent, bytes_received
+        );
+    }
 }
 
 void FILE_TRANSFER::print() {
@@ -303,6 +308,13 @@ void PROJECTS::print() {
     for (i=0; i<projects.size(); i++) {
         printf("%d) -----------\n", i+1);
         projects[i]->print();
+    }
+}
+
+void PROJECTS::print_urls() {
+    unsigned int i;
+    for (i=0; i<projects.size(); i++) {
+        printf("%s\n", projects[i]->master_url);
     }
 }
 

@@ -132,7 +132,8 @@ int get_file_path(
 
 int wu_delete_files(WORKUNIT& wu) {
     char* p;
-    char filename[256], pathname[256], buf[BLOB_SIZE];
+    char filename[256], path[MAXPATHLEN], buf[BLOB_SIZE];
+    char path_gz[MAXPATHLEN], path_md5[MAXPATHLEN];
     bool no_delete=false;
     int count_deleted = 0, retval, mthd_retval = 0;
 
@@ -153,7 +154,7 @@ int wu_delete_files(WORKUNIT& wu) {
             if (!no_delete) {
                 retval = get_file_path(
                     filename, download_dir, config.uldl_dir_fanout,
-                    pathname
+                    path
                 );
                 if (retval == ERR_OPENDIR) {
                     log_messages.printf(MSG_CRITICAL,
@@ -170,7 +171,7 @@ int wu_delete_files(WORKUNIT& wu) {
                     log_messages.printf(MSG_NORMAL,
                         "[WU#%u] deleting %s\n", wu.id, filename
                     );
-                    retval = unlink(pathname);
+                    retval = unlink(path);
                     if (retval) {
                         log_messages.printf(MSG_CRITICAL,
                             "[WU#%u] unlink %s failed: %s\n",
@@ -180,17 +181,28 @@ int wu_delete_files(WORKUNIT& wu) {
                     } else {
                         count_deleted++;
                     }
+
+                    // delete the gzipped version of the file
+                    //
+                    sprintf(path_gz, "%s.gz", path);
+                    retval = unlink(path_gz);
+                    if (!retval) {
+                        log_messages.printf(MSG_NORMAL,
+                            "[WU#%u] deleted %s.gz\n", wu.id, filename
+                        );
+                    }
+
                     // delete the cached MD5 file if needed
                     //
                     if (config.cache_md5_info) {
-                        strcat(pathname,".md5");
+                        sprintf(path_md5, "%s.md5", path);
                         log_messages.printf(MSG_NORMAL,
-                            "[WU#%u] deleting %s\n", wu.id, filename
+                            "[WU#%u] deleting %s.md5\n", wu.id, filename
                         );
-                        retval = unlink(pathname);
+                        retval = unlink(path_md5);
                         if (retval) {
                             log_messages.printf(MSG_CRITICAL,
-                                "[WU#%u] unlink %s failed: %s\n",
+                                "[WU#%u] unlink %s.md5 failed: %s\n",
                                 wu.id, filename, boincerror(retval)
                             );
                         }

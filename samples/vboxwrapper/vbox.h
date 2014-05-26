@@ -157,6 +157,7 @@ struct VBOX_VM {
     int cleanupsnapshots(bool delete_active);
     int restoresnapshot();
     void dumphypervisorlogs(bool include_error_logs);
+    void dumphypervisorstatusreports();
 
     int is_registered();
     bool is_system_ready(std::string& message);

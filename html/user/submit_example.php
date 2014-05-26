@@ -33,6 +33,7 @@
 require_once("../inc/submit.inc");
 require_once("../inc/common_defs.inc");
 require_once("../inc/submit_db.inc");
+require_once("../inc/submit_util.inc");
     // needed for access control stuff
 require_once("../inc/util.inc");
 require_once("../project/project.inc");
@@ -54,6 +55,7 @@ $auth = $user->authenticator;
 //
 function handle_main() {
     global $project, $auth;
+    $req = new StdClass;
     $req->project = $project;
     $req->authenticator = $auth;
     list($batches, $errmsg) = boinc_query_batches($req);
@@ -241,14 +243,16 @@ function form_to_request() {
     $param_inc = (double)get_str('param_inc');
     if ($param_inc < 1) error_page("param inc must be >= 1");
 
+    $req = new StdClass;
     $req->project = $project;
     $req->authenticator = $auth;
     $req->app_name = APP_NAME;
     $req->batch_name = get_str('batch_name');
-    $req->jobs = Array();
-
+    $req->jobs = array();
+    
+    $f = new StdClass;
     $f->source = $input_url;
-    $f->mode = "semilocal";
+    $f->mode = 'semilocal';
 
     for ($x=$param_lo; $x<$param_hi; $x += $param_inc) {
         $job = new StdClass;
@@ -290,9 +294,11 @@ function handle_create_action() {
 //
 function handle_query_batch() {
     global $project, $auth;
-    $req->project = $project;
-    $req->authenticator = $auth;
-    $req->batch_id = get_int('batch_id');
+    $req = (object)array(
+        'project' => $project,
+        'authenticator' => $auth,
+        'batch_id' => get_int('batch_id'),
+    );
     list($batch, $errmsg) = boinc_query_batch($req);
     if ($errmsg) error_page(htmlentities($errmsg));
 
@@ -364,9 +370,11 @@ function handle_query_batch() {
 // 
 function handle_query_job() {
     global $project, $auth;
+    $req = new StdClass;
     $req->project = $project;
     $req->authenticator = $auth;
     $req->job_id = get_int('job_id');
+
     list($reply, $errmsg) = boinc_query_job($req);
     if ($errmsg) error_page(htmlentities($errmsg));
 

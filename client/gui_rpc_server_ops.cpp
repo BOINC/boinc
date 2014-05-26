@@ -599,8 +599,7 @@ static void handle_get_screensaver_tasks(GUI_RPC_CONN& grc) {
     );
     for (i=0; i<gstate.active_tasks.active_tasks.size(); i++) {
         atp = gstate.active_tasks.active_tasks[i];
-        if ((atp->task_state() == PROCESS_EXECUTING) || 
-                ((atp->task_state() == PROCESS_SUSPENDED) && (gstate.suspend_reason == SUSPEND_REASON_CPU_THROTTLE))) {
+        if (atp->scheduler_state == CPU_SCHED_SCHEDULED) {
             atp->result->write_gui(grc.mfout);
         }
     }
@@ -679,9 +678,9 @@ static void handle_get_cc_status(GUI_RPC_CONN& grc) {
         gstate.network_run_mode.get_current(),
         gstate.network_run_mode.get_perm(),
         gstate.network_run_mode.delay(),
-        config.disallow_attach?1:0,
-        config.simple_gui_only?1:0,
-        config.max_event_log_lines
+        cc_config.disallow_attach?1:0,
+        cc_config.simple_gui_only?1:0,
+        cc_config.max_event_log_lines
     );
     if (grc.au_mgr_state == AU_MGR_QUIT_REQ) {
         grc.mfout.printf(
@@ -973,7 +972,7 @@ static void handle_get_newer_version(GUI_RPC_CONN& grc) {
         "<newer_version>%s</newer_version>\n"
         "<download_url>%s</download_url>\n",
         gstate.newer_version.c_str(),
-        config.client_download_url.c_str()
+        cc_config.client_download_url.c_str()
     );
 }
 
@@ -1128,7 +1127,7 @@ static void handle_read_global_prefs_override(GUI_RPC_CONN& grc) {
 static void handle_read_cc_config(GUI_RPC_CONN& grc) {
     grc.mfout.printf("<success/>\n");
     read_config_file(false);
-    config.show();
+    cc_config.show();
     log_flags.show();
     gstate.set_ncpus();
     process_gpu_exclusions();
@@ -1160,14 +1159,14 @@ static bool complete_post_request(char* buf) {
 }
 
 static void handle_set_language(GUI_RPC_CONN& grc) {
-	while (!grc.xp.get_tag()) {
+    while (!grc.xp.get_tag()) {
         if (grc.xp.parse_str("language", gstate.language, sizeof(gstate.language))) {
-			gstate.set_client_state_dirty("set_language");
-			grc.mfout.printf("<success/>\n");
-			return;
-		}
-	}
-	grc.mfout.printf("<error>no language found</error>\n");
+            gstate.set_client_state_dirty("set_language");
+            grc.mfout.printf("<success/>\n");
+            return;
+        }
+    }
+    grc.mfout.printf("<error>no language found</error>\n");
 }
 
 static void handle_report_device_status(GUI_RPC_CONN& grc) {
@@ -1418,7 +1417,7 @@ int GUI_RPC_CONN::handle_rpc() {
             "Connection: Keep-Alive\n"
             "Content-Type: text/plain\n\n"
         );
-        send(sock, buf, strlen(buf), 0);
+        send(sock, buf, (int)strlen(buf), 0);
         request_nbytes = 0;
         if (log_flags.gui_rpc_debug) {
             msg_printf(0, MSG_INFO,
@@ -1495,7 +1494,7 @@ int GUI_RPC_CONN::handle_rpc() {
             "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>\n",
             n
         );
-        send(sock, buf, strlen(buf), 0);
+        send(sock, buf, (int)strlen(buf), 0);
     }
     if (p) {
         send(sock, p, n, 0);

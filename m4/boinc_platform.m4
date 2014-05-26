@@ -56,6 +56,13 @@ AC_DEFUN([BOINC_PLATFORM],[
       i386-pc-os2)
         boinc_platform="i686-pc-os2"
         ;;
+      i*86-*-mingw32)
+        boinc_platform="windows_intelx86"
+	;;
+      x86_64-*-mingw32)
+        boinc_platform="windows_x86_64"
+	boinc_alt_platform="windows_intelx86"
+	;;
     esac
   fi
   AC_DEFINE_UNQUOTED([HOSTTYPE],"$boinc_platform",[Platform identification used to identify applications for this BOINC core client])

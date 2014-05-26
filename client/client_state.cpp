@@ -113,7 +113,7 @@ CLIENT_STATE::CLIENT_STATE()
 #else
     core_client_version.prerelease = false;
 #endif
-	strcpy(language, "");
+    strcpy(language, "");
     exit_after_app_start_secs = 0;
     app_started = 0;
     exit_before_upload = false;
@@ -256,8 +256,16 @@ int rsc_index(const char* name) {
     return -1;
 }
 
+// used in XML and COPROC::type
+//
 const char* rsc_name(int i) {
     return coprocs.coprocs[i].type;
+}
+
+// user-friendly version
+//
+const char* rsc_name_long(int i) {
+    return proc_type_name(coproc_type_name_to_num(coprocs.coprocs[i].type));
 }
 
 // alert user if any jobs need more RAM than available
@@ -336,6 +344,9 @@ int CLIENT_STATE::init() {
 
     srand((unsigned int)time(0));
     now = dtime();
+#ifdef ANDROID
+    device_status_time = dtime();
+#endif
     scheduler_op->url_random = drand();
 
     notices.init();
@@ -394,7 +405,7 @@ int CLIENT_STATE::init() {
             coprocs.coprocs[j].type
         );
     }
-    if (!config.no_gpus
+    if (!cc_config.no_gpus
 #ifdef _WIN32
         && !executing_as_daemon
 #endif
@@ -402,7 +413,7 @@ int CLIENT_STATE::init() {
         vector<string> descs;
         vector<string> warnings;
         coprocs.get(
-            config.use_all_gpus, descs, warnings, config.ignore_gpu_instance
+            cc_config.use_all_gpus, descs, warnings, cc_config.ignore_gpu_instance
         );
         for (i=0; i<descs.size(); i++) {
             msg_printf(NULL, MSG_INFO, "%s", descs[i].c_str());
@@ -487,7 +498,7 @@ int CLIENT_STATE::init() {
     // this needs to go after parse_state_file() because
     // GPU exclusions refer to projects
     //
-    config.show();
+    cc_config.show();
 
     // inform the user if there's a newer version of client
     //
@@ -586,7 +597,7 @@ int CLIENT_STATE::init() {
     if (new_client) {
         run_cpu_benchmarks = true;
         all_projects_list_check_time = 0;
-        if (config.dont_contact_ref_site) {
+        if (cc_config.dont_contact_ref_site) {
             if (projects.size() > 0) {
                 projects[0]->master_url_fetch_pending = true;
             }
@@ -594,6 +605,8 @@ int CLIENT_STATE::init() {
             net_status.need_to_contact_reference_site = true;
         }
     }
+
+    check_if_need_benchmarks();
 
     log_show_projects();
 
@@ -686,7 +699,7 @@ int CLIENT_STATE::init() {
     // get list of BOINC projects occasionally,
     // and initialize notice RSS feeds
     //
-    if (!config.no_info_fetch) {
+    if (!cc_config.no_info_fetch) {
         all_projects_list_check();
         notices.init_rss();
     }
@@ -816,7 +829,7 @@ bool CLIENT_STATE::poll_slow_events() {
         last_wakeup_time = now;
     }
 
-    if (should_run_cpu_benchmarks() && !benchmarks_running) {
+    if (run_cpu_benchmarks && can_run_cpu_benchmarks()) {
         run_cpu_benchmarks = false;
         start_cpu_benchmarks();
     }
@@ -990,7 +1003,7 @@ bool CLIENT_STATE::poll_slow_events() {
             //      handle transient and permanent failures
             //      delete the FILE_XFER
 
-        if (!config.no_info_fetch) {
+        if (!cc_config.no_info_fetch) {
             POLL_ACTION(rss_feed_op            , rss_feed_op.poll );
         }
     }
@@ -1173,7 +1186,7 @@ int CLIENT_STATE::link_app_version(PROJECT* p, APP_VERSION* avp) {
 
         // any file associated with an app version must be signed
         //
-        if (!config.unsigned_apps_ok) {
+        if (!cc_config.unsigned_apps_ok) {
             fip->signature_required = true;
         }
 
@@ -1702,7 +1715,7 @@ bool CLIENT_STATE::time_to_exit() {
         );
         return true;
     }
-    if (config.exit_when_idle
+    if (cc_config.exit_when_idle
         && (results.size() == 0)
         && had_or_requested_work
     ) {

@@ -17,11 +17,7 @@
 
 // A sample validator that accepts all results
 
-#include <cstdlib>
-#include "config.h"
-#include "validate_util.h"
-
-using std::vector;
+#include "validate_util2.h"
 
 int init_result(RESULT&, void*&) {
     return 0;

@@ -161,7 +161,7 @@ public class RpcClient {
 	 * Connect to BOINC core client via Unix Domain Socket (abstract, "boinc_socket")
 	 * @return true for success, false for failure
 	 */
-	public boolean open() {
+	public boolean open(String socketAddress) {
 		if (isConnected()) {
 			// Already connected
 			if(edu.berkeley.boinc.utils.Logging.LOGLEVEL <= 4) Log.e(Logging.TAG, "Attempt to connect when already connected");
@@ -170,7 +170,7 @@ public class RpcClient {
 		}
 		try {
 			mSocket = new LocalSocket();
-			mSocket.connect(new LocalSocketAddress("boinc_socket"));
+			mSocket.connect(new LocalSocketAddress(socketAddress));
 			mSocket.setSoTimeout(READ_TIMEOUT);
 			mInput = mSocket.getInputStream();
 			mOutput = new OutputStreamWriter(mSocket.getOutputStream(), "ISO8859_1");
@@ -239,6 +239,7 @@ public class RpcClient {
 		if (!isConnected()) {
 			return false;
 		}
+		if(password.length() == 0) return false;
 		try {
 			// Phase 1: get nonce
 			sendRequest("<auth1/>\n");
@@ -420,6 +421,7 @@ public class RpcClient {
 		}
 		catch (IOException e) {
 			if(Logging.WARNING) Log.w(Logging.TAG, "error in getCcStatus()", e);
+			e.printStackTrace();
 			return null;
 		}
 	}
@@ -499,7 +501,6 @@ public class RpcClient {
 			}
 			sendRequest(request);
 			ArrayList<Message> messages = MessagesParser.parse(receiveReply());
-			if(messages == null) messages = new ArrayList<Message>(); // do not return null
 			return messages;
 		}
 		catch (IOException e) {
@@ -813,7 +814,7 @@ public class RpcClient {
 	public synchronized boolean lookupAccount(AccountIn accountIn) {
 		try {
 			String id;
-			if(accountIn.email_addr == null || accountIn.email_addr.isEmpty()) id = accountIn.user_name;
+			if(accountIn.uses_name) id = accountIn.user_name;
 			else id = accountIn.email_addr;
 			mRequest.setLength(0);
 			mRequest.append("<lookup_account>\n <url>");
@@ -1390,5 +1391,23 @@ public class RpcClient {
 			if(Logging.WARNING) Log.w(Logging.TAG, "error in readCcConfig()", e);
 			return false;
 		}
+	}
+	
+	public synchronized Boolean runBenchmarks() {
+		try {
+			mRequest.setLength(0);
+			mRequest.append("<run_benchmarks/>");
+
+			sendRequest(mRequest.toString());
+			SimpleReplyParser parser = SimpleReplyParser.parse(receiveReply());
+			if (parser == null)
+				return false;
+			mLastErrorMessage = parser.getErrorMessage();
+			return parser.result();
+		} catch (IOException e) {
+			if(Logging.WARNING) Log.w(Logging.TAG, "error in runBenchmark()", e);
+			return false;
+		}
+		
 	}
 }

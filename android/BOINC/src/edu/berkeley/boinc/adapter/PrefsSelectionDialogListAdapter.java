@@ -29,6 +29,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import edu.berkeley.boinc.PrefsFragment.SelectionDialogOption;
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.utils.Logging;
@@ -70,15 +72,20 @@ public class PrefsSelectionDialogListAdapter extends ArrayAdapter<SelectionDialo
 
 		if(v == null) {
 	        LayoutInflater li = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-    		v = li.inflate(R.layout.dialog_list_cbitem, null);
+    		v = li.inflate(R.layout.prefs_layout_listitem_bool, null);
     		CheckBox cb = (CheckBox) v.findViewById(R.id.checkbox);
     		cb.setChecked(listItem.selected);
-    		cb.setOnClickListener(this);
-    		cb.setTag(position);
-    		cb.setText(listItem.name);
+    		cb.setClickable(false);
+    		TextView text = (TextView) v.findViewById(R.id.checkbox_text);
+    		text.setText(listItem.name);
+    		RelativeLayout wrapper = (RelativeLayout) v.findViewById(R.id.checkbox_wrapper);
+    		wrapper.setClickable(true);
+    		wrapper.setOnClickListener(this);
+    		wrapper.setTag(position);
     		if(getItem(position).highlighted) {
-    			v.setBackgroundDrawable(activity.getResources().getDrawable(R.drawable.shape_light_red_background));
-    			cb.setBackgroundColor(activity.getResources().getColor(R.color.light_red));
+    			v.setBackgroundResource(R.drawable.shape_light_red_background_wo_stroke);
+    			//v.setBackgroundDrawable(activity.getResources().getDrawable());
+    			//cb.setBackgroundColor(activity.getResources().getColor(R.color.light_red));
     		}
 		}
 	    return v;
@@ -86,11 +93,12 @@ public class PrefsSelectionDialogListAdapter extends ArrayAdapter<SelectionDialo
 
 	@Override
 	public void onClick(View v) {
-		if(Logging.DEBUG) Log.d(Logging.TAG,"PrefsSelectionDialogListAdapter onClick");
-		CheckBox cb = (CheckBox) v;
-		Integer position = (Integer) cb.getTag();
-		Boolean checked = cb.isChecked();
-		entries.get(position).selected = checked;
-		
+		Log.d(Logging.TAG,"PrefsSelectionDialogListAdapter onClick");
+		RelativeLayout wrapper = (RelativeLayout) v;
+		Integer position = (Integer) v.getTag();
+		CheckBox cb = (CheckBox) wrapper.findViewById(R.id.checkbox);
+		Boolean previousState = cb.isChecked();
+		cb.setChecked(!previousState);
+		entries.get(position).selected = cb.isChecked();
 	}
 }

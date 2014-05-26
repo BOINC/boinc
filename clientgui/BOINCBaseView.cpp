@@ -1,4 +1,4 @@
-﻿// This file is part of BOINC.
+// This file is part of BOINC.
 // http://boinc.berkeley.edu
 // Copyright (C) 2008 University of California
 //
@@ -34,7 +34,6 @@
 
 IMPLEMENT_DYNAMIC_CLASS(CBOINCBaseView, wxPanel)
 
-
 CBOINCBaseView::CBOINCBaseView() {}
 
 CBOINCBaseView::CBOINCBaseView(wxNotebook* pNotebook) :
@@ -47,6 +46,9 @@ CBOINCBaseView::CBOINCBaseView(wxNotebook* pNotebook) :
     m_bIgnoreUIEvents = false;
     m_bNeedSort = false;
 
+    m_iPreviousSelectionCount = 0;
+    m_lPreviousFirstSelection = -1;
+
     //
     // Setup View
     //
@@ -58,11 +60,6 @@ CBOINCBaseView::CBOINCBaseView(wxNotebook* pNotebook) :
     
     SetName(GetViewName());
     SetAutoLayout(TRUE);
-
-#if BASEVIEW_STRIPES    
-    m_pWhiteBackgroundAttr = NULL;
-    m_pGrayBackgroundAttr = NULL;
-#endif
 }
 
 
@@ -74,6 +71,9 @@ CBOINCBaseView::CBOINCBaseView(wxNotebook* pNotebook, wxWindowID iTaskWindowID, 
 
     m_bForceUpdateSelection = true;
     m_bIgnoreUIEvents = false;
+
+    m_iPreviousSelectionCount = 0;
+    m_lPreviousFirstSelection = -1;
 
     //
     // Setup View
@@ -118,20 +118,6 @@ CBOINCBaseView::CBOINCBaseView(wxNotebook* pNotebook, wxWindowID iTaskWindowID, 
     m_SortArrows->Add( wxIcon( sortascending_xpm ) );
     m_SortArrows->Add( wxIcon( sortdescending_xpm ) );
     m_pListPane->SetImageList(m_SortArrows, wxIMAGE_LIST_SMALL);
-
-#if BASEVIEW_STRIPES    
-    m_pWhiteBackgroundAttr = new wxListItemAttr(
-        wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT),
-        wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOW),
-        wxNullFont
-    );
-    m_pGrayBackgroundAttr = new wxListItemAttr(
-        wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT),
-        wxColour(240, 240, 240),
-        wxNullFont
-    );
-#endif
-
 }
 
 
@@ -149,18 +135,6 @@ CBOINCBaseView::~CBOINCBaseView() {
     m_arrSelectedKeys1.Clear();
     m_arrSelectedKeys2.Clear();
     m_iSortedIndexes.Clear();
-
-#if BASEVIEW_STRIPES    
-    if (m_pWhiteBackgroundAttr) {
-        delete m_pWhiteBackgroundAttr;
-        m_pWhiteBackgroundAttr = NULL;
-    }
-
-    if (m_pGrayBackgroundAttr) {
-        delete m_pGrayBackgroundAttr;
-        m_pGrayBackgroundAttr = NULL;
-    }
-#endif
 }
 
 
@@ -262,23 +236,6 @@ int CBOINCBaseView::FireOnListGetItemImage(long item) const {
 }
 
 
-#if BASEVIEW_STRIPES
-wxListItemAttr* CBOINCBaseView::FireOnListGetItemAttr(long item) const {
-    return OnListGetItemAttr(item);
-}
-
-
-wxListItemAttr* CBOINCBaseView::OnListGetItemAttr(long item) const {
-
-    // If we are using some theme where the default background color isn't
-    //   white, then our whole system is boned. Use defaults instead.
-    if (wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOW) != wxColor(wxT("WHITE"))) return NULL;
-
-    return item % 2 ? m_pGrayBackgroundAttr : m_pWhiteBackgroundAttr;
-}
-#endif
-
-
 void CBOINCBaseView::OnListRender(wxTimerEvent& event) {
     if (!m_bProcessingListRenderEvent) {
         m_bProcessingListRenderEvent = true;
@@ -330,24 +287,6 @@ void CBOINCBaseView::OnListRender(wxTimerEvent& event) {
                     m_pListPane->EnsureVisible(iDocCount - 1);
                 }
             }
-
-            if (m_pListPane->m_bIsSingleSelection) {
-                // If no item has been selected yet, select the first item.
-#ifdef __WXMSW__
-                if ((m_pListPane->GetSelectedItemCount() == 0) &&
-                    (m_pListPane->GetItemCount() >= 1)) {
-
-                    long desiredstate = wxLIST_STATE_FOCUSED | wxLIST_STATE_SELECTED;
-                    m_pListPane->SetItemState(0, desiredstate, desiredstate);
-                }
-#else
-                if ((m_pListPane->GetFirstSelected() < 0) &&
-                    (m_pListPane->GetItemCount() >= 1)) {
-                    m_pListPane->SetItemState(0, wxLIST_STATE_FOCUSED | wxLIST_STATE_SELECTED, 
-                                                    wxLIST_STATE_FOCUSED | wxLIST_STATE_SELECTED);
-                }
-#endif
-            }
         }
         
         // Find the previously selected items by their key values and reselect them
@@ -397,6 +336,9 @@ bool CBOINCBaseView::OnRestoreState(wxConfigBase* pConfig) {
 }
 
 
+// We don't use this because multiple selection virtual 
+// wxListCtrl does not generate selection events for
+// shift-click; see OnCheckSelectionChanged() below.
 void CBOINCBaseView::OnListSelected(wxListEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseView::OnListSelected - Function Begin"));
 
@@ -410,6 +352,9 @@ void CBOINCBaseView::OnListSelected(wxListEvent& event) {
 }
 
 
+// We don't use this because multiple selection virtual 
+// wxListCtrl does generates deselection events only for
+// control-click; see OnCheckSelectionChanged() below.
 void CBOINCBaseView::OnListDeselected(wxListEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseView::OnListDeselected - Function Begin"));
 
@@ -423,19 +368,39 @@ void CBOINCBaseView::OnListDeselected(wxListEvent& event) {
 }
 
 
-// Work around a bug (feature?) in virtual list control 
-//   which does not send deselection events
-void CBOINCBaseView::OnCacheHint(wxListEvent& event) {
-    static int oldSelectionCount = 0;
-    int newSelectionCount = m_pListPane->GetSelectedItemCount();
+void CBOINCBaseView::OnCheckSelectionChanged(CCheckSelectionChangedEvent& ) {
+    CheckSelectionChanged();
+}
 
-    if (newSelectionCount < oldSelectionCount) {
-        wxListEvent leDeselectedEvent(wxEVT_COMMAND_LIST_ITEM_DESELECTED, m_windowId);
-        leDeselectedEvent.SetEventObject(this);
-        OnListDeselected(leDeselectedEvent);
+
+void CBOINCBaseView::OnCacheHint(wxListEvent& event) {
+    CheckSelectionChanged();
+}
+
+
+// Work around features in multiple selection virtual wxListCtrl:
+//  * It does not send deselection events (except ctrl-click).
+//  * It does not send selection events if you add to selection
+//    using Shift_Click.
+//
+// We currently handle all selections and deselections here.
+// On the Mac, this is called due to an event posted by CBOINCListCtrl::OnMouseUp().
+// On Windows, it is called due to a EVT_LIST_CACHE_HINT from wxListCtrl.
+void CBOINCBaseView::CheckSelectionChanged() {
+    int newSelectionCount = m_pListPane->GetSelectedItemCount();
+    long currentSelection = m_pListPane->GetFirstSelected();
+    
+    if ((newSelectionCount != m_iPreviousSelectionCount) ||
+        (currentSelection != m_lPreviousFirstSelection)
+    ) {
+        if (!m_bIgnoreUIEvents) {
+            m_bForceUpdateSelection = true;
+            UpdateSelection();
+        }
     }
-    oldSelectionCount = newSelectionCount;
-    event.Skip();
+
+    m_iPreviousSelectionCount = newSelectionCount;
+    m_lPreviousFirstSelection = currentSelection;
 }
 
 
@@ -802,6 +767,7 @@ void CBOINCBaseView::UpdateWebsiteSelection(long lControlGroup, PROJECT* project
             }
         }
 
+        m_pTaskPane->FitInside();
         m_bForceUpdateSelection = false;
     }
 }
@@ -813,6 +779,73 @@ void CBOINCBaseView::RefreshTaskPane() {
         m_pTaskPane->Refresh(true);
     }
 }
+
+
+#ifdef __WXMAC__
+// Fix Keyboard navigation on Mac
+//
+// NOTE: to select an item in wxListCtrl when none
+// has yet been selected, press tab and then space.
+#define SHIFT_MASK (1<<17)
+
+void CBOINCBaseView::OnKeyPressed(wxKeyEvent &event) {
+    wxWindow        next;
+    CTaskItemGroup* pGroup = NULL;
+    CTaskItem*      pItem = NULL;
+    int             i, j;
+    bool            focusOK = false;
+
+    if (m_pTaskPane) {
+        int keyCode = event.GetKeyCode();
+        wxUint32 keyFlags = event.GetRawKeyFlags();
+        
+        if (keyCode == WXK_TAB) {
+            wxWindow* focused = wxWindow::FindFocus();
+            if (!m_pTaskPane->IsDescendant(focused)) {
+                if (keyFlags & SHIFT_MASK) {
+                    for (i=m_TaskGroups.size()-1; i>=0; --i) {
+                        pGroup = m_TaskGroups[i];
+                        for (j=pGroup->m_Tasks.size()-1; j>=0; --j) {
+                            pItem = pGroup->m_Tasks[j];
+                            if (pItem->m_pButton) {
+                                if (pItem->m_pButton->CanAcceptFocus()) {
+                                    focusOK = true;
+                                    break;
+                                }
+                            }
+                        }
+                        if (focusOK) break;
+                    }
+                } else {
+                   for (i=0; i<m_TaskGroups.size(); ++i) {
+                        pGroup = m_TaskGroups[i];
+                        for (j=0; j<pGroup->m_Tasks.size(); ++j) {
+                            pItem = pGroup->m_Tasks[j];
+                            if (pItem->m_pButton) {
+                                if (pItem->m_pButton->CanAcceptFocus()) {
+                                    focusOK = true;
+                                    break;
+                                }
+                            }
+                        }
+                        if (focusOK) break;
+                    }
+                }
+                if (focusOK) {
+                    pItem->m_pButton->SetFocus();
+                    return;
+                }
+            }
+            wxNavigationKeyEvent evt;
+            evt.SetDirection((keyFlags & SHIFT_MASK) == 0);
+            evt.SetFromTab(true);
+            m_pTaskPane->GetEventHandler()->AddPendingEvent(evt);
+            return;
+        }
+    }
+    event.Skip();
+}
+#endif
 
 
 bool CBOINCBaseView::_IsSelectionManagementNeeded() {

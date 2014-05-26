@@ -22,22 +22,13 @@
 #pragma interface "BOINCBaseView.cpp"
 #endif
 
-#define BASEVIEW_STRIPES 1
-#define BASEVIEW_RULES 1
 
 #define DEFAULT_TASK_FLAGS             wxTAB_TRAVERSAL | wxADJUST_MINSIZE | wxFULL_REPAINT_ON_RESIZE
-
-#if BASEVIEW_RULES
-#define DEFAULT_LIST_SINGLE_SEL_FLAGS  wxLC_REPORT | wxLC_VIRTUAL | wxLC_HRULES | wxLC_SINGLE_SEL
-#define DEFAULT_LIST_MULTI_SEL_FLAGS   wxLC_REPORT | wxLC_VIRTUAL | wxLC_HRULES
-#else
-#define DEFAULT_LIST_SINGLE_SEL_FLAGS  wxLC_REPORT | wxLC_VIRTUAL | wxLC_SINGLE_SEL
-#define DEFAULT_LIST_MULTI_SEL_FLAGS   wxLC_REPORT | wxLC_VIRTUAL
-#endif
-
+#define DEFAULT_LIST_FLAGS             wxLC_REPORT | wxLC_VIRTUAL | wxLC_HRULES
 
 class CBOINCTaskCtrl;
 class CBOINCListCtrl;
+class CCheckSelectionChangedEvent;
 struct PROJECT;
 
 
@@ -121,9 +112,6 @@ public:
     void                    FireOnListDeselected( wxListEvent& event );
     wxString                FireOnListGetItemText( long item, long column ) const;
     int                     FireOnListGetItemImage( long item ) const;
-#if BASEVIEW_STRIPES
-    wxListItemAttr*         FireOnListGetItemAttr( long item ) const;
-#endif
 
     int                     GetProgressColumn() { return m_iProgressColumn; }
     virtual double          GetProgressValue(long item);
@@ -139,6 +127,7 @@ public:
 
 #ifdef __WXMAC__
     CBOINCListCtrl*         GetListCtrl() { return m_pListPane; }
+    void                    OnKeyPressed(wxKeyEvent &event);
 #endif    
  
     std::vector<CTaskItemGroup*> m_TaskGroups;
@@ -160,6 +149,8 @@ protected:
     virtual void            OnListSelected( wxListEvent& event );
     virtual void            OnListDeselected( wxListEvent& event );
     virtual void            OnCacheHint(wxListEvent& event);
+    virtual void            OnCheckSelectionChanged(CCheckSelectionChangedEvent& event);
+    virtual void            CheckSelectionChanged();
     virtual wxString        OnListGetItemText( long item, long column ) const;
     virtual int             OnListGetItemImage( long item ) const;
 
@@ -196,13 +187,6 @@ protected:
     static  wxString        HtmlEntityEncode(wxString strRaw);
     static  wxString        HtmlEntityDecode(wxString strRaw);
 
-#if BASEVIEW_STRIPES
-    virtual wxListItemAttr* OnListGetItemAttr( long item ) const;
-
-    wxListItemAttr*         m_pWhiteBackgroundAttr;
-    wxListItemAttr*         m_pGrayBackgroundAttr;
-#endif
-
     bool                    m_bProcessingTaskRenderEvent;
     bool                    m_bProcessingListRenderEvent;
 
@@ -210,6 +194,8 @@ protected:
     bool                    m_bIgnoreUIEvents;
     bool                    m_bNeedSort;
     
+    int                     m_iPreviousSelectionCount;
+    long                    m_lPreviousFirstSelection;
     int                     m_iProgressColumn;
 
     wxImageList *           m_SortArrows;
@@ -219,7 +205,6 @@ protected:
     CBOINCTaskCtrl*         m_pTaskPane;
     CBOINCListCtrl*         m_pListPane;
 };
-
 
 #endif
 

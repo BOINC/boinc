@@ -7,1108 +7,1121 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2013-10-18 00:00-0700\n"
-"PO-Revision-Date: 2013-10-22 15:28-0700\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2014-03-09 15:07+0000\n"
+"Last-Translator: Atis <boinc.at.latvia@gmail.com>\n"
 "Language-Team: lv <LL@li.org>\n"
 "Language: lv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2)\n"
-"X-Generator: Translate Toolkit 1.10.0\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : "
+"2);\n"
+"X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
+"X-POOTLE-MTIME: 1394377641.0\n"
 
 #. app global
 msgctxt "app_name"
 msgid "BOINC"
-msgstr ""
+msgstr "BOINC"
 
 #. generic. used by multiple Activities/tabs
 msgctxt "generic_loading"
 msgid "Loading! Please wait…"
-msgstr ""
+msgstr "Ielādējas! Lūdzu uzgaidiet..."
 
 #. attach project
 #. project list
 msgctxt "attachproject_list_header"
 msgid "Choose a project:"
-msgstr ""
+msgstr "Izvēlieties projektu:"
 
 msgctxt "attachproject_list_manual_button"
 msgid "Add project by URL"
-msgstr ""
+msgstr "Pievienojiet projektu pēc URL"
 
 msgctxt "attachproject_list_manual_dialog_title"
 msgid "Enter project URL:"
-msgstr ""
+msgstr "Ievadiet projekta URL:"
 
 msgctxt "attachproject_list_manual_dialog_button"
 msgid "Add project"
-msgstr ""
+msgstr "Pievienot projektu"
 
 msgctxt "attachproject_list_manual_no_url"
 msgid "Please enter project URL"
-msgstr ""
+msgstr "Lūdzu ievadiet projekta URL"
 
 msgctxt "attachproject_list_acctmgr_button"
 msgid "Add account manager"
-msgstr ""
+msgstr "Pievienot konta menedžeri"
 
 msgctxt "attachproject_list_no_internet"
 msgid "No Internet connection"
-msgstr ""
+msgstr "Nav Internet savienojuma"
 
 #. project login
 msgctxt "attachproject_login_loading"
 msgid "Contacting project server…"
-msgstr ""
+msgstr "Savienojas ar projekta serveri..."
 
 msgctxt "attachproject_login_image_description"
 msgid "Project logo."
-msgstr ""
+msgstr "Projekta logo."
 
 msgctxt "attachproject_login_header_general_area"
 msgid "General area:"
-msgstr ""
+msgstr "Vispārīgā joma:"
 
 msgctxt "attachproject_login_header_specific_area"
 msgid "Specific area:"
-msgstr ""
+msgstr "Konkrētā joma:"
 
 msgctxt "attachproject_login_header_description"
 msgid "Description:"
-msgstr ""
+msgstr "Apraksts:"
 
 msgctxt "attachproject_login_header_home"
 msgid "Home:"
-msgstr ""
+msgstr "Mājvieta:"
 
 msgctxt "attachproject_login_header_url"
 msgid "Website:"
-msgstr ""
+msgstr "Mājas lapa:"
 
 msgctxt "attachproject_login_header_platform"
 msgid "Android:"
-msgstr ""
+msgstr "Android:"
 
 msgctxt "attachproject_login_platform_supported"
 msgid "This project supports Android devices"
-msgstr ""
+msgstr "Šis projekts atbalsta Android ierīces"
 
 msgctxt "attachproject_login_platform_not_supported"
 msgid "This project does not support Android devices"
-msgstr ""
+msgstr "Šis projekts neatbalsta Android ierīces"
 
 msgctxt "attachproject_login_category_terms_of_use"
 msgid "Terms of use for"
-msgstr ""
+msgstr "Lietošanas nosacījumi"
 
 msgctxt "attachproject_login_accept_terms_of_use"
 msgid ""
 "By creating an account with this project, you accept the terms of use as "
 "shown above."
 msgstr ""
+"Veidojot rēķinu šajā projektā, Jūs apņematies ievērot iepriekšminētos "
+"nosacījumus."
 
 msgctxt "attachproject_login_category_login"
 msgid "Sign in with existing account"
-msgstr ""
+msgstr "Pieteikties ar esošu kontu"
 
 msgctxt "attachproject_login_header_id_email"
 msgid "eMail:"
-msgstr ""
+msgstr "e-Pasts:"
 
 msgctxt "attachproject_login_header_id_name"
 msgid "Name:"
-msgstr ""
+msgstr "Vārds:"
 
 msgctxt "attachproject_login_header_pwd"
 msgid "Password:"
-msgstr ""
+msgstr "Parole:"
 
 msgctxt "attachproject_login_category_creation"
 msgid "New to"
-msgstr ""
+msgstr "Vai vēl neesat"
 
 msgctxt "attachproject_login_header_creation_enabled"
 msgid "Register an account to participate:"
-msgstr ""
+msgstr "Lai piedalītos ir jāreģistrē konts:"
 
 msgctxt "attachproject_login_header_creation_client_disabled"
 msgid "Visit project website to create an account:"
-msgstr ""
+msgstr "Apmeklējiet projekta mājas lapu, lai reģistrētu kontu:"
 
 msgctxt "attachproject_login_header_creation_disabled"
 msgid "Project does currently now allow creation of new accounts!"
-msgstr ""
+msgstr "Projekts neļaj veidot jaunus kontus!"
 
 msgctxt "attachproject_login_button_registration"
 msgid "Register"
-msgstr ""
+msgstr "Reģistrēt"
 
 msgctxt "attachproject_login_button_login"
 msgid "Sign in"
-msgstr ""
+msgstr "Pieteikties"
 
 msgctxt "attachproject_login_button_forgotpw"
 msgid "Forgot Password"
-msgstr ""
+msgstr "Aizmirsu paroli"
 
 msgctxt "attachproject_login_error_toast"
 msgid "Contacting project failed!"
-msgstr ""
+msgstr "Savienojums ar projektu neizdevās!"
 
 msgctxt "attachproject_login_attached"
 msgid "Attached"
-msgstr ""
+msgstr "Pievienots"
 
 #. project registration
 msgctxt "attachproject_registration_header"
 msgid "Account registration for"
-msgstr ""
+msgstr "Konta reģistrācija"
 
 msgctxt "attachproject_registration_header_url"
 msgid "Project:"
-msgstr ""
+msgstr "Projekts:"
 
 msgctxt "attachproject_registration_header_email"
 msgid "eMail:"
-msgstr ""
+msgstr "e-Pasts:"
 
 msgctxt "attachproject_registration_header_username"
 msgid "Name:"
-msgstr ""
+msgstr "Vārds:"
 
 msgctxt "attachproject_registration_header_teamname"
 msgid "Team:"
-msgstr ""
+msgstr "Komanda:"
 
 msgctxt "attachproject_registration_header_pwd"
 msgid "Password:"
-msgstr ""
+msgstr "Parole:"
 
 msgctxt "attachproject_registration_header_pwd_confirm"
 msgid "… Retype:"
-msgstr ""
+msgstr "... atkārtojiet:"
 
 msgctxt "attachproject_registration_button"
 msgid "Create"
-msgstr ""
+msgstr "Izveidot"
 
 #. account manager
 msgctxt "attachproject_acctmgr_header"
 msgid "Add account manager"
-msgstr ""
+msgstr "Pievienot konta menedžeri"
 
 msgctxt "attachproject_acctmgr_header_url"
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 msgctxt "attachproject_acctmgr_header_name"
 msgid "User:"
-msgstr ""
+msgstr "Lietotājs:"
 
 msgctxt "attachproject_acctmgr_header_pwd"
 msgid "Password:"
-msgstr ""
+msgstr "Parole:"
 
 msgctxt "attachproject_acctmgr_header_pwd_confirm"
 msgid "… Retype:"
-msgstr ""
+msgstr "... atkārtojiet:"
 
 msgctxt "attachproject_acctmgr_button"
 msgid "Add"
-msgstr ""
+msgstr "Pievienot"
 
 #. error strings
 msgctxt "attachproject_error_wrong_name"
 msgid "User not found"
-msgstr ""
+msgstr "Lietotājs nav atrasts"
 
 msgctxt "attachproject_error_short_pwd"
 msgid "Password too short"
-msgstr ""
+msgstr "Parole ir par īsu"
 
 msgctxt "attachproject_error_no_internet"
 msgid "Connection failure"
-msgstr ""
+msgstr "Savienojuma kļūme"
 
 msgctxt "attachproject_error_pwd_no_match"
 msgid "Passwords do not match"
-msgstr ""
+msgstr "Paroles nesakrīt"
 
 msgctxt "attachproject_error_no_url"
 msgid "Please enter URL"
-msgstr ""
+msgstr "Lūdzu, ievadiet URL"
 
 msgctxt "attachproject_error_no_email"
 msgid "Please enter eMail address"
-msgstr ""
+msgstr "Lūdzu, ievadiet e-pasta adresi"
 
 msgctxt "attachproject_error_no_pwd"
 msgid "Please enter a password"
-msgstr ""
+msgstr "Lūdzu, ievadiet paroli"
 
 msgctxt "attachproject_error_no_name"
 msgid "Please enter user name"
-msgstr ""
+msgstr "Lūdzu, ievadiet lietotājvārdu"
 
 msgctxt "attachproject_error_unknown"
 msgid "failed"
-msgstr ""
+msgstr "neizdevās"
 
 msgctxt "attachproject_error_bad_username"
 msgid "User name refused"
-msgstr ""
+msgstr "Nepieņēma lietotājvārdu"
 
 msgctxt "attachproject_error_email_in_use"
 msgid "eMail is already in use"
-msgstr ""
+msgstr "e-pasta adrese jau ir lietošanā"
 
 msgctxt "attachproject_error_project_down"
 msgid "Project is offline"
-msgstr ""
+msgstr "Projekts ir bezsaistē"
 
 msgctxt "attachproject_error_email_bad_syntax"
 msgid "eMail refused"
-msgstr ""
+msgstr "e-pasta adrese netika pieņemta"
 
 msgctxt "attachproject_error_bad_pwd"
 msgid "Password refused"
-msgstr ""
+msgstr "Parole netika pieņemta"
 
 msgctxt "attachproject_error_creation_disabled"
 msgid "Account creation is disabled on this project"
-msgstr ""
+msgstr "Kontu izveide ir atspējota šajā projektā"
 
 msgctxt "attachproject_error_invalid_url"
 msgid "Invalid URL"
-msgstr ""
+msgstr "Nederīgs URL"
 
 #. working activity
 msgctxt "attachproject_working_back_button"
 msgid "Back"
-msgstr ""
+msgstr "Atgriezties"
 
 msgctxt "attachproject_working_finish_button"
 msgid "Finish"
-msgstr ""
+msgstr "Pabeigt"
 
 msgctxt "attachproject_working_check_desc"
 msgid "Successful"
-msgstr ""
+msgstr "Veiksmīgs"
 
 msgctxt "attachproject_working_failed_desc"
 msgid "Failed"
-msgstr ""
+msgstr "Neizdevās"
 
 msgctxt "attachproject_working_ongoing"
 msgid "…"
-msgstr ""
+msgstr "..."
 
 msgctxt "attachproject_working_finished"
 msgid "."
-msgstr ""
+msgstr "."
 
 msgctxt "attachproject_working_description"
 msgid ":"
-msgstr ""
+msgstr ":"
 
 msgctxt "attachproject_working_connect"
 msgid "Connect"
-msgstr ""
+msgstr "Savienoties"
 
 msgctxt "attachproject_working_verify"
 msgid "Verify account"
-msgstr ""
+msgstr "Pārbaudīt kontu"
 
 msgctxt "attachproject_working_register"
 msgid "Register account"
-msgstr ""
+msgstr "Reģistrēt kontu"
 
 msgctxt "attachproject_working_login"
 msgid "Log in"
-msgstr ""
+msgstr "Pieteikties"
 
 msgctxt "attachproject_working_acctmgr"
 msgid "Add account manager"
-msgstr ""
+msgstr "Pievienot konta menedžeri"
 
 msgctxt "attachproject_working_acctmgr_sync"
 msgid "Synchronize"
-msgstr ""
+msgstr "Sinhronizēt"
 
 #. main activity
 msgctxt "main_noproject_warning"
 msgid "Tab here to choose a project."
-msgstr ""
+msgstr "Pieskarieties šeit, lai izvēlētos projektu."
 
 msgctxt "main_error"
 msgid "Whooops"
-msgstr ""
+msgstr "Ak vai"
 
 msgctxt "main_error_long"
 msgid ""
 "…this should not happen!\n"
 "Click on the icon to try again."
 msgstr ""
+"...šim nevajadzēja notikt!\n"
+"Pieskarieties ikonai, lai mēģinātu vēlreiz."
 
 msgctxt "main_title_icon_desc"
 msgid "BOINC icon"
-msgstr ""
+msgstr "BOINC ikona"
 
 #. tab names
 msgctxt "tab_status"
 msgid "Status"
-msgstr ""
+msgstr "Statuss"
 
 msgctxt "tab_projects"
 msgid "Projects"
-msgstr ""
+msgstr "Projekti"
 
 msgctxt "tab_tasks"
 msgid "Tasks"
-msgstr ""
+msgstr "Uzdevumi"
 
 msgctxt "tab_transfers"
 msgid "Transfers"
-msgstr ""
+msgstr "Pārsūtīšana"
 
 msgctxt "tab_preferences"
 msgid "Preferences"
-msgstr ""
+msgstr "Preferences"
 
 msgctxt "tab_notices"
 msgid "Notices"
-msgstr ""
+msgstr "Paziņojumi"
 
 msgctxt "tab_desc"
 msgid "Navigation"
-msgstr ""
+msgstr "Navigācija"
 
 #. status strings
 msgctxt "status_running"
 msgid "Computing"
-msgstr ""
+msgstr "Skaitļo"
 
 msgctxt "status_running_long"
 msgid "Thank you for participating."
-msgstr ""
+msgstr "Paldies par piedalīšanos."
 
 msgctxt "status_paused"
 msgid "Suspended"
-msgstr ""
+msgstr "Atlikts"
 
 msgctxt "status_idle"
 msgid "Nothing to do"
-msgstr ""
+msgstr "Nav darāmā"
 
 msgctxt "status_idle_long"
 msgid "Waiting for tasks…"
-msgstr ""
+msgstr "Gaida uzdevumus..."
 
 msgctxt "status_computing_disabled"
 msgid "Suspended"
-msgstr ""
+msgstr "Atlikts"
 
 msgctxt "status_computing_disabled_long"
 msgid "Press play to resume network and computation."
-msgstr ""
+msgstr "Nospiest atskaņot, lai atsāktu tīkla sakarus un skaitļošanu."
 
 msgctxt "status_launching"
 msgid "Starting…"
-msgstr ""
+msgstr "Startējas..."
 
 msgctxt "status_noproject"
 msgid "Choose a project to participate in."
-msgstr ""
+msgstr "Izvēlieties projektu, kurā piedalīties."
 
 msgctxt "status_closing"
 msgid "Closing…"
-msgstr ""
+msgstr "Tiek aizvērts..."
 
 msgctxt "status_benchmarking"
 msgid "Benchmarking…"
-msgstr ""
+msgstr "Veiktspējas tests..."
 
 msgctxt "status_image_description"
 msgid "project image"
-msgstr ""
+msgstr "projekta attēls"
 
 #. preferences tab strings
 msgctxt "prefs_loading"
 msgid "Reading preferences…"
-msgstr ""
+msgstr "Lasīt preferences..."
 
 msgctxt "prefs_submit_button"
 msgid "Save"
-msgstr ""
+msgstr "Saglabāt"
 
 msgctxt "prefs_dialog_title"
 msgid "Enter new value:"
-msgstr ""
+msgstr "Ievadiet jaunu vērtību:"
 
 msgctxt "prefs_dialog_title_selection"
 msgid "Select:"
-msgstr ""
+msgstr "Izvēlieties:"
 
 msgctxt "prefs_category_general"
 msgid "General"
-msgstr ""
+msgstr "Vispārīgi"
 
 msgctxt "prefs_category_network"
 msgid "Network"
-msgstr ""
+msgstr "Tīkls"
 
 msgctxt "prefs_category_power"
 msgid "Power"
-msgstr ""
+msgstr "Strāva"
 
 msgctxt "prefs_category_cpu"
 msgid "CPU"
-msgstr ""
+msgstr "CPU"
 
 msgctxt "prefs_category_storage"
 msgid "Storage"
-msgstr ""
+msgstr "Krātuve"
 
 msgctxt "prefs_category_memory"
 msgid "Memory"
-msgstr ""
+msgstr "Atmiņa"
 
 msgctxt "prefs_category_debug"
 msgid "Debug"
-msgstr ""
+msgstr "Atkļūdot"
 
 msgctxt "prefs_show_advanced_header"
 msgid "Show advanced preferences and controls…"
-msgstr ""
+msgstr "Rādīt papildu preferences un kontroles..."
 
 msgctxt "prefs_run_on_battery_header"
 msgid "Compute on Battery"
-msgstr ""
+msgstr "Skaitļot, izmantojot akumulatoru"
 
 msgctxt "battery_charge_min_pct_header"
 msgid "Min. battery level"
-msgstr ""
+msgstr "Min. akumulatora līmenis"
 
 msgctxt "battery_charge_min_pct_description"
 msgid "BOINC suspends computation below defined battery charge level."
 msgstr ""
+"BOINC atliek skaitļošanu, ja akumulatora strāvas līmenis ir zem definētā."
 
 msgctxt "battery_temperature_max_header"
 msgid "Max. battery temperature"
-msgstr ""
+msgstr "Maksimālā akumulatora temperatūra"
 
 msgctxt "battery_temperature_max_description"
 msgid ""
 "BOINC suspends computation above defined battery temperature. It is not "
 "recommended to change this value."
 msgstr ""
+"BOINC aptur skaitļošanu, ja akumulatora temperatūra ir virs definētās. Nav "
+"ieteicams šo vērtību mainīt."
 
 msgctxt "prefs_disk_max_pct_header"
 msgid "Max. used storage space"
-msgstr ""
+msgstr "Maksimālais aizņemamās vietas apjoms"
 
 msgctxt "prefs_disk_max_pct_description"
 msgid "How many percent of your device's storage space is BOINC allowed to use?"
-msgstr ""
+msgstr "Procentuāli cik daudz krātuves vietu ierīcē BOINC var izmantot?  "
 
 msgctxt "prefs_disk_min_free_gb_header"
 msgid "Min. spare storage"
-msgstr ""
+msgstr "Min. rezerves apjoms krātuvei"
 
 msgctxt "prefs_disk_min_free_gb_description"
 msgid "How much of your device's storage space shall stay free?"
-msgstr ""
+msgstr "Cik daudz brīvās vietas ir jāpaliek ierīces krātuvē?"
 
 msgctxt "prefs_network_daily_xfer_limit_mb_header"
 msgid "Daily transfer limit"
-msgstr ""
+msgstr "Pārsūtīšanas dienas limits"
 
 msgctxt "prefs_network_daily_xfer_limit_mb_description"
 msgid "Limits the daily data traffic caused by BOINC."
-msgstr ""
+msgstr "Ierobežo datu pārsūtīšanu, ko rada BOINC."
 
 msgctxt "prefs_network_wifi_only_header"
 msgid "Transfer tasks on WiFi only"
-msgstr ""
+msgstr "Pārsūtīt uzdevumus tikai izmantojot WiFi"
 
 msgctxt "prefs_autostart_header"
 msgid "Autostart"
-msgstr ""
+msgstr "Startēt automātiski"
 
 msgctxt "prefs_show_notification_header"
 msgid "Show notification when suspended"
-msgstr ""
+msgstr "Rādīt paziņojumus, kad ir apturēts"
 
 msgctxt "prefs_cpu_number_cpus_header"
 msgid "Used CPU cores"
-msgstr ""
+msgstr "Izmantotie CPU kodoli"
 
 msgctxt "prefs_cpu_number_cpus_description"
 msgid "Limits the number of CPU cores BOINC uses for computation."
-msgstr ""
+msgstr "Ierobežo CPU kodolu skaitu, ko BOINC lieto skaitļošanai."
 
 msgctxt "prefs_cpu_other_load_suspension_header"
 msgid "Pause at CPU usage above"
-msgstr ""
+msgstr "Pauzēt, ja CPU lieto virs"
 
 msgctxt "prefs_cpu_other_load_suspension_description"
 msgid "Determines when BOINC pauses computation due to other app's CPU usage."
 msgstr ""
+"Nosaka, cik daudz CPU citām lietotnēm ir jāizmanto, lai BOINC apturētu "
+"skaitļošanu."
 
 msgctxt "prefs_cpu_time_max_header"
 msgid "CPU limit"
-msgstr ""
+msgstr "CPU limits"
 
 msgctxt "prefs_cpu_time_max_description"
 msgid "Limits the CPU time BOINC uses for computation."
-msgstr ""
+msgstr "Ierobežo CPU laiku, ko BOINC var izmantot skaitļošanai."
 
 msgctxt "prefs_memory_max_idle_header"
 msgid "RAM limit"
-msgstr ""
+msgstr "Operatīvās atmiņas limits"
 
 msgctxt "prefs_memory_max_idle_description"
 msgid "Limits the amount of RAM tasks are allowed to occupy."
-msgstr ""
+msgstr "Ierobežo cik lietotnes drīkst izmantot operatīvo atmiņu."
 
 msgctxt "prefs_client_log_flags_header"
 msgid "BOINC Client log flags"
-msgstr ""
+msgstr "BOINC klienta žurnālu karodziņi"
 
 msgctxt "prefs_gui_log_level_header"
 msgid "GUI log level"
-msgstr ""
+msgstr "GUI žurnāla ierakstu līmenis "
 
 msgctxt "prefs_gui_log_level_description"
 msgid "Specifies verbosity of GUI log messages."
-msgstr ""
+msgstr "Nosaka cik detalizēti būs GUI žurnāla ziņojumi."
 
 msgctxt "prefs_unit_mb"
 msgid "MB"
-msgstr ""
+msgstr "MB"
 
 msgctxt "prefs_unit_gb"
 msgid "GB"
-msgstr ""
+msgstr "GB"
 
 #, c-format
 msgctxt "prefs_unit_pct"
 msgid "%"
-msgstr ""
+msgstr "%"
 
 msgctxt "prefs_unit_celcius"
 msgid "°C"
-msgstr ""
+msgstr "°C"
 
 #. projects tab strings
 msgctxt "projects_loading"
 msgid "Reading projects…"
-msgstr ""
+msgstr "Nolasa projektus..."
 
 msgctxt "projects_add"
 msgid "Add project"
-msgstr ""
+msgstr "Pievienot projektu"
 
 msgctxt "projects_icon"
 msgid "Project icon"
-msgstr ""
+msgstr "Projekta ikona"
 
 msgctxt "projects_credits_header"
 msgid "Credit:"
-msgstr ""
+msgstr "Kredīts"
 
 msgctxt "projects_credits_host_header"
 msgid "(on this device)"
-msgstr ""
+msgstr "(uz šīs ierīces)"
 
 msgctxt "projects_credits_user_header"
 msgid "(total)"
-msgstr ""
+msgstr "(kopā)"
 
 #. project status strings
 msgctxt "projects_status_suspendedviagui"
 msgid "Suspended by user"
-msgstr ""
+msgstr "Lietotāja atlikts"
 
 msgctxt "projects_status_dontrequestmorework"
 msgid "Won't get new tasks"
-msgstr ""
+msgstr "Neiegūs jaunus uzdevumus"
 
 msgctxt "projects_status_ended"
 msgid "Project ended - OK to remove"
-msgstr ""
+msgstr "Projekts noslēdzies - var noņemt"
 
 msgctxt "projects_status_detachwhendone"
 msgid "Will remove when tasks done"
-msgstr ""
+msgstr "Noņems, kad pabeigs uzdevumus"
 
 msgctxt "projects_status_schedrpcpending"
 msgid "Scheduler request pending"
-msgstr ""
+msgstr "Gaida atbildi uz plānotāja pieprasījumu"
 
 msgctxt "projects_status_schedrpcinprogress"
 msgid "Scheduler request in progress"
-msgstr ""
+msgstr "Notiek plānotāja pieprasījums"
 
 msgctxt "projects_status_trickleuppending"
 msgid "Trickle up message pending"
-msgstr ""
+msgstr "Gaida uz ziņu uzsūkšanos"
 
 msgctxt "projects_status_backoff"
 msgid "Communication scheduled in:"
-msgstr ""
+msgstr "Sazināšanās ieplānota pēc:"
 
 #. project controls
 msgctxt "projects_control_dialog_title"
 msgid "Project commands:"
-msgstr ""
+msgstr "Projekta komandas:"
 
 msgctxt "projects_control_visit_website"
 msgid "Visit website"
-msgstr ""
+msgstr "Apmeklēt mājas lapu"
 
 msgctxt "projects_control_update"
 msgid "Update"
-msgstr ""
+msgstr "Atjaunināt"
 
 msgctxt "projects_control_remove"
 msgid "Remove"
-msgstr ""
+msgstr "Noņemt"
 
 msgctxt "projects_control_suspend"
 msgid "Suspend"
-msgstr ""
+msgstr "Apturēt"
 
 msgctxt "projects_control_resume"
 msgid "Resume"
-msgstr ""
+msgstr "Atsākt"
 
 msgctxt "projects_control_nonewtasks"
 msgid "No new tasks"
-msgstr ""
+msgstr "Nepieprasīt uzdevumus"
 
 msgctxt "projects_control_allownewtasks"
 msgid "Allow new tasks"
-msgstr ""
+msgstr "Atļaut pieprasīt uzdevumus"
 
 msgctxt "projects_control_reset"
 msgid "Reset"
-msgstr ""
+msgstr "Atiestatīt"
 
 msgctxt "projects_control_dialog_title_acctmgr"
 msgid "Account manager commands:"
-msgstr ""
+msgstr "Konta menedžera komandas:"
 
 msgctxt "projects_control_sync_acctmgr"
 msgid "Synchronize"
-msgstr ""
+msgstr "Sinhronizēt"
 
 msgctxt "projects_control_remove_acctmgr"
 msgid "Disable"
-msgstr ""
+msgstr "Atspējot"
 
 #. project confirm dialog
 msgctxt "projects_confirm_detach_title"
 msgid "Remove project?"
-msgstr ""
+msgstr "Noņemt projektu?"
 
 msgctxt "projects_confirm_detach_message"
 msgid "Are you sure you want to remove"
-msgstr ""
+msgstr "Vai esat pārliecināti, ka vēlaties noņemt"
 
 msgctxt "projects_confirm_detach_message2"
 msgid "from BOINC?"
-msgstr ""
+msgstr "no BOINC?"
 
 msgctxt "projects_confirm_detach_confirm"
 msgid "Remove"
-msgstr ""
+msgstr "Noņemt"
 
 msgctxt "projects_confirm_reset_title"
 msgid "Reset project"
-msgstr ""
+msgstr "Atiestatīt projektu"
 
 msgctxt "projects_confirm_reset_message"
 msgid "Are you sure you want to reset"
-msgstr ""
+msgstr "Vai esat pārliecināti, ka vēlaties atiestatīt"
 
 msgctxt "projects_confirm_reset_confirm"
 msgid "Reset"
-msgstr ""
+msgstr "Atiestatīt"
 
 msgctxt "projects_confirm_remove_acctmgr_title"
 msgid "Disable account manager"
-msgstr ""
+msgstr "Atspējot konta menedžeri"
 
 msgctxt "projects_confirm_remove_acctmgr_message"
 msgid "Are you sure you want to stop using"
-msgstr ""
+msgstr "Vai esat pārliecināti, ka vēlaties pārstāt lietot"
 
 msgctxt "projects_confirm_remove_acctmgr_confirm"
 msgid "Disable"
-msgstr ""
+msgstr "Atspējot"
 
 #. tasks tab strings
 msgctxt "tasks_header_name"
 msgid "Task Name:"
-msgstr ""
+msgstr "Uzdevuma nosaukums:"
 
 msgctxt "tasks_header_elapsed_time"
 msgid "Elapsed time:"
-msgstr ""
+msgstr "Pagājušais laiks:"
 
 msgctxt "tasks_header_project_paused"
 msgid "(suspended)"
-msgstr ""
+msgstr "(atlikts)"
 
 msgctxt "tasks_header_deadline"
 msgid "Deadline:"
-msgstr ""
+msgstr "Termiņš:"
 
 msgctxt "tasks_result_new"
 msgid "new"
-msgstr ""
+msgstr "jauns"
 
 msgctxt "tasks_result_files_downloading"
 msgid "waiting for download"
-msgstr ""
+msgstr "gaida lejupielādi"
 
 msgctxt "tasks_result_files_downloaded"
 msgid "download complete"
-msgstr ""
+msgstr "lejupielāde pabeigta"
 
 msgctxt "tasks_result_compute_error"
 msgid "computation error"
-msgstr ""
+msgstr "skaitļošanas kļūda"
 
 msgctxt "tasks_result_files_uploading"
 msgid "uploading"
-msgstr ""
+msgstr "augšupielādē"
 
 msgctxt "tasks_result_files_uploaded"
 msgid "upload complete"
-msgstr ""
+msgstr "augšupielāde pabeigta"
 
 msgctxt "tasks_result_aborted"
 msgid "aborted"
-msgstr ""
+msgstr "pārtraukts"
 
 msgctxt "tasks_result_upload_failed"
 msgid "upload failed"
-msgstr ""
+msgstr "augšupielāde neizdevās"
 
 msgctxt "tasks_active_uninitialized"
 msgid "ready"
-msgstr ""
+msgstr "gatavībā"
 
 msgctxt "tasks_active_executing"
 msgid "running"
-msgstr ""
+msgstr "izpildās"
 
 msgctxt "tasks_active_suspended"
 msgid "suspended"
-msgstr ""
+msgstr "atlikts"
 
 msgctxt "tasks_active_abort_pending"
 msgid "suspending"
-msgstr ""
+msgstr "tiek atlikts"
 
 msgctxt "tasks_active_quit_pending"
 msgid "suspending"
-msgstr ""
+msgstr "tiek atlikts"
 
 msgctxt "tasks_custom_suspended_via_gui"
 msgid "suspended"
-msgstr ""
+msgstr "atlikts"
 
 msgctxt "tasks_custom_project_suspended_via_gui"
 msgid "project suspended"
-msgstr ""
+msgstr "projekts atlikts"
 
 msgctxt "tasks_custom_ready_to_report"
 msgid "ready to report"
-msgstr ""
+msgstr "gatavs ziņošanai"
 
 #. confirmation dialog
 msgctxt "confirm_abort_task_title"
 msgid "Abort task?"
-msgstr ""
+msgstr "Vai pārtraukt uzdevumu? "
 
 msgctxt "confirm_abort_task_message"
 msgid "Abort task:"
-msgstr ""
+msgstr "Pārtraukt uzdevumu:"
 
 msgctxt "confirm_abort_task_confirm"
 msgid "Abort"
-msgstr ""
+msgstr "Pārtraukt"
 
 msgctxt "confirm_cancel"
 msgid "Cancel"
-msgstr ""
+msgstr "Atcelt"
 
 msgctxt "confirm_image_desc"
 msgid "Confirmation dialog"
-msgstr ""
+msgstr "Apstiprināšanas dialogs"
 
 #. transfers tab strings
 msgctxt "trans_loading"
 msgid "Reading transfers…"
-msgstr ""
+msgstr "Gatavo pārsūtīšanu..."
 
 msgctxt "trans_upload"
 msgid "Upload"
-msgstr ""
+msgstr "Augšupielādēt"
 
 msgctxt "trans_download"
 msgid "Download"
-msgstr ""
+msgstr "Lejupielādēt"
 
 msgctxt "trans_retryin"
 msgid "retry in"
-msgstr ""
+msgstr "atkārtot pēc"
 
 msgctxt "trans_failed"
 msgid "failed"
-msgstr ""
+msgstr "neizdevās"
 
 msgctxt "trans_suspended"
 msgid "suspended"
-msgstr ""
+msgstr "atlikts"
 
 msgctxt "trans_active"
 msgid "active"
-msgstr ""
+msgstr "aktīvs"
 
 msgctxt "trans_pending"
 msgid "pending"
-msgstr ""
+msgstr "gaida"
 
 msgctxt "trans_projectbackoff"
 msgid "project backoff"
-msgstr ""
+msgstr "projekts liek uzgaidīt"
 
 msgctxt "trans_header_name"
 msgid "File:"
-msgstr ""
+msgstr "Fails:"
 
 msgctxt "trans_control_retry"
 msgid "Retry transfers"
-msgstr ""
+msgstr "Atkārtot pārsūtīšanas"
 
 msgctxt "confirm_abort_trans_title"
 msgid "Abort transfer?"
-msgstr ""
+msgstr "Vai pārtraukt pārsūtīšanu?"
 
 msgctxt "confirm_abort_trans_message"
 msgid "Abort File:"
-msgstr ""
+msgstr "Pārtraukt failu:"
 
 msgctxt "confirm_abort_trans_confirm"
 msgid "Abort"
-msgstr ""
+msgstr "Pārtraukt"
 
 #. notices tab strings
 msgctxt "notices_loading"
 msgid "Reading notices…"
-msgstr ""
+msgstr "Lasa paziņojumus..."
 
 #. eventlog tab strings
 msgctxt "eventlog_loading"
 msgid "Loading log messages…"
-msgstr ""
+msgstr "Žurnāla ziņu ielāde..."
 
 msgctxt "eventlog_client_header"
 msgid "Client Messages"
-msgstr ""
+msgstr "Klienta ziņas"
 
 msgctxt "eventlog_gui_header"
 msgid "GUI Messages"
-msgstr ""
+msgstr "GUI ziņas"
 
 msgctxt "eventlog_copy_toast"
 msgid "Log copied to clipboard."
-msgstr ""
+msgstr "Žurnāls iekopēts starpliktuvē."
 
 msgctxt "eventlog_email_subject"
 msgid "Event Log for BOINC on Android:"
-msgstr ""
+msgstr "BOINC notikumu žurnāls uz Android:"
 
 #. suspend reasons
 msgctxt "suspend_unknown"
 msgid "Computation suspended."
-msgstr ""
+msgstr "Skaitļošana atlikta."
 
 msgctxt "suspend_batteries"
 msgid "Connect your device to a charger to continue computing."
-msgstr ""
+msgstr "Savienojiet ierīci ar lādētāju, lai turpinātu skaitļot."
 
 msgctxt "suspend_useractive"
 msgid "User is active."
-msgstr ""
+msgstr "Lietotājs ir aktīvs."
 
 msgctxt "suspend_tod"
 msgid "Out of computation time-frame."
-msgstr ""
+msgstr "Ārpus skaitļošanas laika posma."
 
 msgctxt "suspend_bm"
 msgid "BOINC is benchmarking your device…"
-msgstr ""
+msgstr "BOINC veic Jūsu ierīces veiktspējas testu..."
 
 msgctxt "suspend_disksize"
 msgid "Out of disk space."
-msgstr ""
+msgstr "Trūkst vietas diskā."
 
 msgctxt "suspend_cputhrottle"
 msgid "Scheduled CPU throttle."
-msgstr ""
+msgstr "Plānotā CPU drosele."
 
 msgctxt "suspend_noinput"
 msgid "No recent user activity."
-msgstr ""
+msgstr "Nav nesenu lietotāja darbību."
 
 msgctxt "suspend_delay"
 msgid "Initialization delay."
-msgstr ""
+msgstr "Inicializācijas aizture."
 
 msgctxt "suspend_exclusiveapp"
 msgid "An exclusive app is running."
-msgstr ""
+msgstr "Darbojas īpašais lietojums."
 
 msgctxt "suspend_cpu"
 msgid "Your device is busy with other apps."
-msgstr ""
+msgstr "Jūsu ierīce ir aizņemta ar citiem lietojumiem."
 
 msgctxt "suspend_network_quota"
 msgid "BOINC reached network transfer limit."
-msgstr ""
+msgstr "BOINC sasniedza tīkla pārsūtīšanas limitu."
 
 msgctxt "suspend_os"
 msgid "Stopped by Android."
-msgstr ""
+msgstr "Android apturēts."
 
 msgctxt "suspend_wifi"
 msgid "Not connected to WiFi."
-msgstr ""
+msgstr "Nav savienots ar WiFi."
 
 msgctxt "suspend_battery_charging"
 msgid "Battery needs to charge before resuming computation."
-msgstr ""
+msgstr "Akumulators ir jāuzlādē pirms atsāksim skaitļošanu."
 
 msgctxt "suspend_battery_charging_long"
 msgid "Computing will resume when battery charge reaches"
-msgstr ""
+msgstr "Skaitļošana tiks atsākta, kad akumulatora uzlādes līmenis sasniegs"
 
 msgctxt "suspend_battery_charging_current"
 msgid "currently"
-msgstr ""
+msgstr "pašlaik"
 
 msgctxt "suspend_battery_overheating"
 msgid "Waiting for battery to cool down"
-msgstr ""
+msgstr "Gaida kamēr akumulators atdzisīs"
 
 msgctxt "suspend_user_req"
 msgid "Resuming computation…"
-msgstr ""
+msgstr "Atjauno skaitļošanu..."
 
 msgctxt "suspend_network_user_req"
 msgid "manually."
-msgstr ""
+msgstr "manuāli."
 
 #. rpc reasons
 msgctxt "rpcreason_userreq"
 msgid "Requested by user"
-msgstr ""
+msgstr "Lietotāja prieprasīts"
 
 msgctxt "rpcreason_needwork"
 msgid "To fetch work"
-msgstr ""
+msgstr "Lai iegūtu darbu"
 
 msgctxt "rpcreason_resultsdue"
 msgid "To report completed tasks"
-msgstr ""
+msgstr "Lai ziņotu par pabeigtajiem uzdevumiem"
 
 msgctxt "rpcreason_trickleup"
 msgid "To send trickle-up message"
-msgstr ""
+msgstr "Lai nosūtītu uzsūkšanās ziņu"
 
 msgctxt "rpcreason_acctmgrreq"
 msgid "Requested by account manager"
-msgstr ""
+msgstr "Konta menedžera pieprasīts"
 
 msgctxt "rpcreason_init"
 msgid "Project initialization"
-msgstr ""
+msgstr "Projekta inicializācija"
 
 msgctxt "rpcreason_projectreq"
 msgid "Requested by project"
-msgstr ""
+msgstr "Projekta pieprasīts"
 
 msgctxt "rpcreason_unknown"
 msgid "Unknown reason"
-msgstr ""
+msgstr "Nezināms iemesls"
 
 #. menu
 msgctxt "menu_refresh"
 msgid "Refresh"
-msgstr ""
+msgstr "Atsvaidzināt"
 
 msgctxt "menu_emailto"
 msgid "Send as Email"
-msgstr ""
+msgstr "Sūtīt kā e-pastu"
 
 msgctxt "menu_copy"
 msgid "Copy to Clipboard"
-msgstr ""
+msgstr "Kopēt starpliktuvē"
 
 msgctxt "menu_eventlog"
 msgid "Event Log"
-msgstr ""
+msgstr "Notikumu žurnāls"
 
 msgctxt "menu_exit"
 msgid "Exit BOINC"
-msgstr ""
+msgstr "Iziet no BOINC"
 
 msgctxt "menu_run_mode_disable"
 msgid "Suspend"
-msgstr ""
+msgstr "Atlikt"
 
 msgctxt "menu_run_mode_enable"
 msgid "Resume"
-msgstr ""
+msgstr "Atsākt"
 
 msgctxt "menu_about"
 msgid "About"
-msgstr ""
+msgstr "Par"
 
 msgctxt "menu_help"
 msgid "Help"
-msgstr ""
+msgstr "Palīdzība"
 
 #. about dialog
 msgctxt "about_button"
 msgid "Return"
-msgstr ""
+msgstr "Atgriezties"
 
 msgctxt "about_title"
 msgid "About"
-msgstr ""
+msgstr "Par"
 
 msgctxt "about_name"
 msgid "BOINC"
-msgstr ""
+msgstr "BOINC"
 
 msgctxt "about_version"
 msgid "Version"
-msgstr ""
+msgstr "Versija"
 
 msgctxt "about_name_long"
 msgid "Berkeley Open Infrastructure for Network Computing"
-msgstr ""
+msgstr "Berklijas atvērtā infrastruktūra tīklskaitļošanai"
 
 msgctxt "about_copyright"
 msgid ""
 "© 2003–2013 University of California, Berkeley.\n"
 "All Rights Reserved."
 msgstr ""
+"© 2003–2013 Kalifornijas Universitāte Berklijā.\n"
+"Visas tiesības aizsargātas."

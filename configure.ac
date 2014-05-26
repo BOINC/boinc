@@ -6,16 +6,28 @@ dnl not sure exactly what the minimum version is (but 2.13 wont work)
 AC_PREREQ(2.58)
 
 dnl Set the BOINC version here.  You can also use the set-version script.
-AC_INIT(BOINC, 7.3.1)
+AC_INIT(BOINC, 7.3.19)
 AC_CONFIG_MACRO_DIR([m4])
 LIBBOINC_VERSION=`echo ${PACKAGE_VERSION} | sed 's/\./:/g'`
 AC_SUBST([LIBBOINC_VERSION])
+
+WRAPPER_RELEASE=26010
+AC_SUBST([WRAPPER_RELEASE])
+
+VBOXWRAPPER_RELEASE=26079
+AC_SUBST([VBOXWRAPPER_RELEASE])
 
 AC_CANONICAL_TARGET
 
 dnl generate .tar.gz, .tar.bz2, .zip
 dnl AM_INIT_AUTOMAKE(dist-bzip2 dist-zip)
+
+dnl subdir-objects is supposed to become the default soon, but specifying it
+dnl breaks depfile generation.  We'll worry about it when that happens.
+dnl AM_INIT_AUTOMAKE(dist-zip subdir-objects)
+
 AM_INIT_AUTOMAKE(dist-zip)
+
 m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
 
 AC_CONFIG_SRCDIR(lib/shmem.cpp)
@@ -102,12 +114,18 @@ AC_ARG_ENABLE(xss,
     [enable_xss=${enableval}],
     [enable_xss=yes])
 
+AC_ARG_ENABLE(boinczip,
+    AS_HELP_STRING([--enable-boinczip],
+                   [enable building the boinc zip library]),
+    [enable_boinczip=${enableval}],
+    [enable_boinczip=no])
+
 AC_ARG_ENABLE(pkg-libs, 
     AS_HELP_STRING([--enable-pkg-libs],
                    [Builds and installs components that would be present in a
 		   boinc-libs package.  This is a synonym for --disable-server
 		   --disable-client --enable-libraries --disable-static
-		   --disable-install-headers --disable-manager]),
+		   --disable-install-headers --disable-manager --enable-boinczip]),
     [
      enable_libraries=yes
      enable_server=no
@@ -115,6 +133,7 @@ AC_ARG_ENABLE(pkg-libs,
      enable_manager=no
      enable_install_headers=no
      enable_static=no
+	 enable_boinczip=yes
     ],
     [])
 
@@ -123,13 +142,14 @@ AC_ARG_ENABLE(pkg-devel,
                    [Builds and installs components that would be present in a
 		   boinc-devel package.  This is a synonym for --disable-server
 		   --disable-client --enable-libraries --enable-install-headers
-		   --disable-manger]),
+		   --disable-manger --enable-boinczip]),
     [
      enable_libraries=yes
      enable_server=no
      enable_client=no
      enable_manager=no
      enable_install_headers=yes
+	 enable_boinczip=yes
     ],
     [])
 
@@ -145,6 +165,7 @@ AC_ARG_ENABLE(pkg-client,
      enable_client=yes
      enable_manager=no
      enable_install_headers=no
+	 enable_boinczip=no
     ],
     [])
 
@@ -158,6 +179,7 @@ AC_ARG_ENABLE(pkg-manager,
      enable_client=no
      enable_manager=yes
      enable_install_headers=no
+	 enable_boinczip=no
     ],
     [])
 
@@ -309,9 +331,15 @@ dnl GUI
 BOINC_CHECK_CYGWIN
 
 dnl enable objective-C 
+if test x$OBJC = x ; then
+  OBJC="$CC"
+fi
+if test x$OBJCXX = x ; then
+  OBJCXX="$CXX"
+fi
 _AM_DEPENDENCIES([OBJC])
-OBJC="$CC"
 AC_SUBST(OBJC)
+AC_SUBST(OBJCXX)
 OBJCFLAGS="-ObjC"
 AC_SUBST(OBJCFLAGS)
 
@@ -509,8 +537,11 @@ AX_CHECK_GL
 AX_CHECK_GLU
 
 dnl check for glut and prerequesites to the glut-test: libXmu and libXi
+dnl or on windows libGDI32 and libWinMM
 AC_CHECK_LIB([Xmu], [fopen], [have_Xmu="yes"], [have_Xmu="no"])
 AC_CHECK_LIB([Xi], [fopen], [have_Xi="yes"], [have_Xi="no"])
+AC_CHECK_LIB([gdi32], [fopen])
+AC_CHECK_LIB([winmm], [fopen])
 
 AX_CHECK_GLUT
 if test "X${no_x}" != "Xyes" -a "$no_glut" = yes; then
@@ -611,7 +642,76 @@ AC_HEADER_STDC
 AC_HEADER_SYS_WAIT
 AC_HEADER_TIME
 AC_TYPE_SIGNAL
-AC_CHECK_HEADERS(windows.h sys/types.h sys/un.h arpa/inet.h dirent.h grp.h fcntl.h inttypes.h stdint.h memory.h netdb.h netinet/in.h netinet/tcp.h netinet/ether.h net/if.h net/if_arp.h signal.h strings.h sys/auxv.h sys/file.h sys/fcntl.h sys/ipc.h sys/ioctl.h sys/msg.h sys/param.h sys/resource.h sys/select.h sys/sem.h sys/shm.h sys/sockio.h sys/socket.h sys/stat.h sys/statvfs.h sys/statfs.h sys/systeminfo.h sys/time.h sys/types.h sys/utsname.h sys/vmmeter.h sys/wait.h unistd.h utmp.h errno.h procfs.h ieeefp.h setjmp.h)
+AC_CHECK_HEADERS(winsock2.h winsock.h windows.h ws2tcpip.h winternl.h crtdbg.h sys/types.h sys/un.h arpa/inet.h dirent.h grp.h fcntl.h inttypes.h stdint.h memory.h netdb.h netinet/in.h netinet/tcp.h netinet/ether.h net/if.h net/if_arp.h signal.h strings.h sys/auxv.h sys/file.h sys/fcntl.h sys/ipc.h sys/ioctl.h sys/msg.h sys/param.h sys/resource.h sys/select.h sys/sem.h sys/shm.h sys/sockio.h sys/socket.h sys/stat.h sys/statvfs.h sys/statfs.h sys/systeminfo.h sys/time.h sys/types.h sys/utsname.h sys/vmmeter.h sys/wait.h unistd.h utmp.h errno.h procfs.h ieeefp.h setjmp.h float.h)
+
+if test x${ac_cv_header_windows_h} = xyes ; then
+
+AC_CHECK_HEADERS([winhttp.h ntapi.h ddk/ntapi.h dbghelp.h delayimp.h],[], [], [[
+#if HAVE_WINDOWS_H
+# include <windows.h>
+#endif
+]])
+
+AC_CHECK_HEADER(security.h, [
+AC_DEFINE(HAVE_SECURITY_H,1,[Define to 1 if your compiler has the security.h header file])
+AC_DEFINE(SECURITY_WIN32,1,[Define to 1 if your compiler has the security.h header file])
+], [], [[
+#define SECURITY_WIN32 1
+#if HAVE_WINDOWS_H
+# include <windows.h>
+#endif
+]])
+
+AC_CHECK_TYPES([SYSTEM_PROCESSES, CLIENT_ID, VM_COUNTERS, SYSTEM_THREADS, THREAD_STATE, THREAD_WAIT_REASON],[],[],[[
+#if HAVE_WINDOWS_H
+#include <windows.h>
+#endif
+#ifdef HAVE_WINTERNL_H
+#include <winternl.h>
+#elif defined(HAVE_DDK_NTAPI_H)
+#include <ddk/ntapi.h>
+#elif defined(HAVE_NTAPI_H)
+#include <ntapi.h>
+#endif
+]])
+
+fi
+
+AC_CHECK_TYPES([socklen_t],[],[],[[
+#if HAVE_WINDOWS_H
+#include <windows.h>
+#endif
+#ifdef HAVE_SYS_WINSOCK2_H
+#include <winsock2.h>
+#endif
+#ifdef HAVE_WS2TCPIP_H
+#include <ws2tcpip.h>
+#endif
+#ifdef HAVE_WINSOCK_H
+#include <winsock.h>
+#endif
+#ifdef HAVE_WINHTTP_H
+#include <winhttp.h>
+#endif
+#ifdef HAVE_STDINT_H
+#include <stdint.h>
+#endif
+#ifdef HAVE_SYS_TYPES_H
+#include <sys/types.h>
+#endif
+#ifdef HAVE_SYS_SOCKET_H
+#include <sys/socket.h>
+#endif
+#ifdef HAVE_NETINET_IN_H
+#include <netinet/in.h>
+#endif
+#ifdef HAVE_ARPA_INET_H
+#include <arpa/inet.h>
+#endif
+#ifdef HAVE_NET_IF_H
+#include <net/if.h>
+#endif
+]])
 
 AC_CHECK_HEADER(net/if.h, [], [], [[
 #if HAVE_SYS_SOCKET_H
@@ -654,6 +754,7 @@ AC_CHECK_HEADERS(netinet/if_ether.h,[],[],[[
 #include <net/if.h>
 #endif
 ]])
+
 AC_CHECK_TYPES([struct lifconf, struct lifreq, struct ifconf, struct ifreq, struct ether_addr],[],[],[[
 #ifdef HAVE_SYS_TYPES_H
 #include <sys/types.h>
@@ -704,6 +805,55 @@ dnl Checks for library functions.
 AC_PROG_GCC_TRADITIONAL
 AC_FUNC_VPRINTF
 AC_CHECK_FUNCS(ether_ntoa setpriority sched_setscheduler strlcpy strlcat strcasestr strcasecmp sigaction getutent setutent getisax strdup strdupa daemon stat64 putenv setenv unsetenv res_init strtoull)
+
+AC_CHECK_DECLS([_fpreset, fpreset],
+    [],[],[[
+#include <stdio.h>
+#if HAVE_SYS_TYPES_H
+# include <sys/types.h>
+#endif
+#if HAVE_SYS_STAT_H
+# include <sys/stat.h>
+#endif
+#if STDC_HEADERS
+# include <stdlib.h>
+# include <stddef.h>
+#else
+# if HAVE_STDLIB_H
+#  include <stdlib.h>
+# endif
+#endif
+#if HAVE_STRING_H
+# if !STDC_HEADERS && HAVE_MEMORY_H
+#  include <memory.h>
+# endif
+# include <string.h>
+#endif
+#if HAVE_STRINGS_H
+# include <strings.h>
+#endif
+#if HAVE_INTTYPES_H
+# include <inttypes.h>
+#endif
+#if HAVE_STDINT_H
+# include <stdint.h>
+#endif
+#if HAVE_UNISTD_H
+# include <unistd.h>
+#endif
+#ifdef HAVE_WINDOWS_H
+#include <windows.h>
+#endif
+#ifdef HAVE_FLOAT_H
+#include <float.h>
+#endif
+#ifdef HAVE_IEEEFP_H
+#include <ieeefp.h>
+#endif
+#ifdef HAVE_MATH_H
+#include <math.h>
+#endif
+]])
 
 dnl Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST
@@ -776,6 +926,7 @@ fi
 
 AM_CONDITIONAL(OS_LINUX, [echo $host_os | grep '^linux' > /dev/null])
 dnl In case anyone wants to try building the windows code using mingw!
+AM_CONDITIONAL(OS_WIN32, [echo $host_os | egrep '^mingw|^winnt' > /dev/null])
 AM_CONDITIONAL(OS_WIN32_MINGW, [echo $host_os | grep '^mingw' > /dev/null])
 dnl or OS2
 AM_CONDITIONAL(OS_OS2, [echo $host_os | grep '^os2' > /dev/null])
@@ -790,6 +941,7 @@ AM_CONDITIONAL(ENABLE_SERVER, [test "${enable_server}" = yes])
 AM_CONDITIONAL(ENABLE_CLIENT, [test "${enable_client}" = yes])
 AM_CONDITIONAL(ENABLE_MANAGER, [ test "x${ac_cv_have_wxwidgets}" = xyes -a "${enable_manager}" = yes ])
 AM_CONDITIONAL(ENABLE_LIBRARIES, [test "${enable_libraries}" = yes])
+AM_CONDITIONAL(ENABLE_BOINCZIP, [test "${enable_boinczip}" = yes])
 AM_CONDITIONAL(INSTALL_HEADERS, [test "${enable_install_headers}" = yes])
 AM_CONDITIONAL(HAVE_CUDA_LIB, [test "${enable_client}" = yes -a -f ./coprocs/CUDA/posix/${boinc_platform}/libcudart.so])
 
@@ -835,6 +987,10 @@ fi
 fi
 SAH_CHECK_LIB([wsock32],[fopen],[
     AC_DEFINE([HAVE_LIBWSOCK32],[1],[Define to 1 if you have the wsock32 library])
+    CLIENTLIBS="${sah_lib_last} ${CLIENTLIBS}"])
+   echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
+SAH_CHECK_LIB([userenv],[fopen],[
+    AC_DEFINE([HAVE_LIBUSERENV],[1],[Define to 1 if you have the userenv library])
     CLIENTLIBS="${sah_lib_last} ${CLIENTLIBS}"])
    echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
 

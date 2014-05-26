@@ -72,7 +72,7 @@ struct PERF_INFO {
 extern int mylockf(int fd);
 
 extern int count_workunits(int&, const char* query);
-extern int count_unsent_results(int&, int appid);
+extern int count_unsent_results(int&, int appid, int size_class=-1);
 
 // Return a value for host_app_version.app_version_id.
 // if the app version is anonymous platform,
@@ -90,7 +90,7 @@ inline int generalized_app_version_id(int avid, int appid) {
 //
 extern bool is_arg(const char*, const char*);
 
-extern bool app_plan_uses_gpu(const char* plan_class);
+extern int plan_class_to_proc_type(const char* plan_class);
 
 extern int restrict_wu_to_user(WORKUNIT& wu, int userid);
 

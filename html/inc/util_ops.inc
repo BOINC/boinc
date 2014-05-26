@@ -16,19 +16,25 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+error_reporting(E_ALL);
+ini_set('display_errors', true);
+ini_set('display_startup_errors', true);
+
 require_once("../inc/db_ops.inc");
 require_once("../inc/util.inc");
 require_once("../project/project.inc");
 
-// TODO: get rid of the following.  use style sheets
-define("TD", "<td bgcolor=\"#708090\">");
-define("TD2", "<td colspan=\"2\" bgcolor=\"#708090\">");
-define("TD3", "<td colspan=\"3\" bgcolor=\"#708090\">");
-define("TABLE", "<table cellpadding=\"8\" border=\"1\" width=\"100%\">");
-define("TABLE2", "<table width=\"580\">");
-
 function admin_page_head($title) {
-    return page_head($title);
+    echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">";
+    echo "<html><head><title>$title</title>
+        <meta http-equiv=\"content-type\" content=\"text/html;charset=utf-8\" />
+        <link rel=\"stylesheet\" type=\"text/css\" href=main.css>
+        <link rel=\"stylesheet\" type=\"text/css\" href=white.css>
+        </head>
+        <body>
+        <h2>".PROJECT.": $title</h2>
+    ";
+    show_login_info();
 }
 
 function admin_page_tail() {

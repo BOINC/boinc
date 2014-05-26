@@ -68,10 +68,12 @@ IMPLEMENT_DYNAMIC_CLASS(CViewTransfers, CBOINCBaseView)
 BEGIN_EVENT_TABLE (CViewTransfers, CBOINCBaseView)
     EVT_BUTTON(ID_TASK_TRANSFERS_RETRYNOW, CViewTransfers::OnTransfersRetryNow)
     EVT_BUTTON(ID_TASK_TRANSFERS_ABORT, CViewTransfers::OnTransfersAbort)
-    EVT_LIST_ITEM_SELECTED(ID_LIST_TRANSFERSVIEW, CViewTransfers::OnListSelected)
-    EVT_LIST_ITEM_DESELECTED(ID_LIST_TRANSFERSVIEW, CViewTransfers::OnListDeselected)
+#if USE_NATIVE_LISTCONTROL
+    EVT_LIST_CACHE_HINT(ID_LIST_WORKVIEW, CViewTransfers::OnCacheHint)
+#else
+	EVT_CHECK_SELECTION_CHANGED(CViewTransfers::OnCheckSelectionChanged)
+#endif
     EVT_LIST_COL_CLICK(ID_LIST_TRANSFERSVIEW, CViewTransfers::OnColClick)
-    EVT_LIST_CACHE_HINT(ID_LIST_TRANSFERSVIEW, CViewTransfers::OnCacheHint)
     EVT_LIST_COL_END_DRAG(ID_LIST_TRANSFERSVIEW, CViewTransfers::OnColResize)
 END_EVENT_TABLE ()
 
@@ -145,7 +147,7 @@ CViewTransfers::CViewTransfers()
 
 
 CViewTransfers::CViewTransfers(wxNotebook* pNotebook) :
-    CBOINCBaseView(pNotebook, ID_TASK_TRANSFERSVIEW, DEFAULT_TASK_FLAGS, ID_LIST_TRANSFERSVIEW, DEFAULT_LIST_MULTI_SEL_FLAGS)
+    CBOINCBaseView(pNotebook, ID_TASK_TRANSFERSVIEW, DEFAULT_TASK_FLAGS, ID_LIST_TRANSFERSVIEW, DEFAULT_LIST_FLAGS)
 {
 	CTaskItemGroup* pGroup = NULL;
 	CTaskItem*      pItem = NULL;

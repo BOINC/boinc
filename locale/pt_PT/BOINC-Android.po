@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2013-10-18 00:00-0700\n"
-"PO-Revision-Date: 2014-01-03 15:31+0000\n"
+"PO-Revision-Date: 2014-02-28 12:17+0000\n"
 "Last-Translator: Miguel Filipe Paulino de Sousa <Miguel.veig@gmail.com>\n"
 "Language-Team: pt_PT <LL@li.org>\n"
 "Language: pt_PT\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
-"X-POOTLE-MTIME: 1382496175.0\n"
+"X-POOTLE-MTIME: 1393589836.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -25,78 +25,64 @@ msgid "BOINC"
 msgstr "BOINC"
 
 #. generic. used by multiple Activities/tabs
-#, fuzzy
 msgctxt "generic_loading"
 msgid "Loading! Please wait…"
-msgstr "Bezig met laden! Even geduld..."
+msgstr "A carregar! Por favor aguarde..."
 
 #. attach project
 #. project list
-#, fuzzy
 msgctxt "attachproject_list_header"
 msgid "Choose a project:"
-msgstr "Kies een project:"
+msgstr "Escolha um projecto:"
 
-#, fuzzy
 msgctxt "attachproject_list_manual_button"
 msgid "Add project by URL"
-msgstr "Project toevoegen via URL"
+msgstr "Adicionar projecto por URL"
 
-#, fuzzy
 msgctxt "attachproject_list_manual_dialog_title"
 msgid "Enter project URL:"
-msgstr "Projectspecifieke URL invoeren:"
+msgstr "Inserir URL do projecto:"
 
-#, fuzzy
 msgctxt "attachproject_list_manual_dialog_button"
 msgid "Add project"
-msgstr "Project toevoegen"
+msgstr "Adicionar projecto"
 
-#, fuzzy
 msgctxt "attachproject_list_manual_no_url"
 msgid "Please enter project URL"
-msgstr "Projectspecifieke URL invoeren"
+msgstr "Por favor insira o URL do projecto"
 
-#, fuzzy
 msgctxt "attachproject_list_acctmgr_button"
 msgid "Add account manager"
-msgstr "Account manager toevoegen"
+msgstr "Adicionar gestor de conta"
 
-#, fuzzy
 msgctxt "attachproject_list_no_internet"
 msgid "No Internet connection"
-msgstr "Geen internetverbinding"
+msgstr "Sem ligação à Internet"
 
 #. project login
-#, fuzzy
 msgctxt "attachproject_login_loading"
 msgid "Contacting project server…"
-msgstr "Verbinding maken met projectspecifieke server..."
+msgstr "A contactar o servidor do projecto..."
 
-#, fuzzy
 msgctxt "attachproject_login_image_description"
 msgid "Project logo."
-msgstr "Project logo."
+msgstr "Logotipo do projecto."
 
-#, fuzzy
 msgctxt "attachproject_login_header_general_area"
 msgid "General area:"
-msgstr "Vakgebied:"
+msgstr "Área geral:"
 
-#, fuzzy
 msgctxt "attachproject_login_header_specific_area"
 msgid "Specific area:"
-msgstr "Specifiek vakgebied:"
+msgstr "Área específica:"
 
-#, fuzzy
 msgctxt "attachproject_login_header_description"
 msgid "Description:"
-msgstr "Omschrijving:"
+msgstr "Descrição:"
 
-#, fuzzy
 msgctxt "attachproject_login_header_home"
 msgid "Home:"
-msgstr "Start:"
+msgstr "Página Inicial:"
 
 msgctxt "attachproject_login_header_url"
 msgid "Website:"
@@ -114,256 +100,209 @@ msgctxt "attachproject_login_platform_not_supported"
 msgid "This project does not support Android devices"
 msgstr "Este projecto não suporta dispositivos com Android"
 
-#, fuzzy
 msgctxt "attachproject_login_category_terms_of_use"
 msgid "Terms of use for"
-msgstr "Gebruiksvoorwaarden voor"
+msgstr "Termos de utilização para"
 
-#, fuzzy
 msgctxt "attachproject_login_accept_terms_of_use"
 msgid ""
 "By creating an account with this project, you accept the terms of use as "
 "shown above."
 msgstr ""
-"Het aanmaken van een account bij dit project impliceert acceptatie van de "
-"gebruiksvoorwaarden zoals hierboven beschreven."
+"Ao criar uma conta com este projecto, está a aceitar os termos de utilização "
+"descritos em baixo."
 
-#, fuzzy
 msgctxt "attachproject_login_category_login"
 msgid "Sign in with existing account"
-msgstr "Aanmeldgegevens van bestaand account gebruiken"
+msgstr "Entrar com uma conta existente"
 
-#, fuzzy
 msgctxt "attachproject_login_header_id_email"
 msgid "eMail:"
-msgstr "E-mailadres:"
+msgstr "E-mail:"
 
-#, fuzzy
 msgctxt "attachproject_login_header_id_name"
 msgid "Name:"
-msgstr "Naam:"
+msgstr "Nome:"
 
-#, fuzzy
 msgctxt "attachproject_login_header_pwd"
 msgid "Password:"
-msgstr "Wachtwoord:"
+msgstr "Palavra-passe:"
 
-#, fuzzy
 msgctxt "attachproject_login_category_creation"
 msgid "New to"
-msgstr "Nieuw bij"
+msgstr "Novo a"
 
-#, fuzzy
 msgctxt "attachproject_login_header_creation_enabled"
 msgid "Register an account to participate:"
-msgstr "Een account aanmaken voor deelname:"
+msgstr "Registe uma conta para participar:"
 
-#, fuzzy
 msgctxt "attachproject_login_header_creation_client_disabled"
 msgid "Visit project website to create an account:"
-msgstr "Bezoek projectspecifieke website om een account aan te maken:"
+msgstr "Visite o website do projecto para criar uma conta:"
 
-#, fuzzy
 msgctxt "attachproject_login_header_creation_disabled"
 msgid "Project does currently now allow creation of new accounts!"
-msgstr "Het aanmaken van een account is op dit moment niet mogelijk!"
+msgstr "O projecto não permite de momento a criação de novas contas!"
 
-#, fuzzy
 msgctxt "attachproject_login_button_registration"
 msgid "Register"
-msgstr "Aanmaken"
+msgstr "Registar"
 
-#, fuzzy
 msgctxt "attachproject_login_button_login"
 msgid "Sign in"
-msgstr "Aanmelden"
+msgstr "Entrar"
 
 msgctxt "attachproject_login_button_forgotpw"
 msgid "Forgot Password"
 msgstr "Esqueceu a Palavra-passe"
 
-#, fuzzy
 msgctxt "attachproject_login_error_toast"
 msgid "Contacting project failed!"
-msgstr "Verbinding met het project mislukt!"
+msgstr "A comunicação com o projecto falhou!"
 
-#, fuzzy
 msgctxt "attachproject_login_attached"
 msgid "Attached"
-msgstr "Bijgevoegd"
+msgstr "Anexado"
 
 #. project registration
-#, fuzzy
 msgctxt "attachproject_registration_header"
 msgid "Account registration for"
-msgstr "Account-registratie voor"
+msgstr "Registo de conta para"
 
-#, fuzzy
 msgctxt "attachproject_registration_header_url"
 msgid "Project:"
-msgstr "Project:"
+msgstr "Projecto:"
 
-#, fuzzy
 msgctxt "attachproject_registration_header_email"
 msgid "eMail:"
-msgstr "E-mailadres:"
+msgstr "E-mail:"
 
-#, fuzzy
 msgctxt "attachproject_registration_header_username"
 msgid "Name:"
-msgstr "Naam:"
+msgstr "Nome:"
 
-#, fuzzy
 msgctxt "attachproject_registration_header_teamname"
 msgid "Team:"
-msgstr "Team:"
+msgstr "Equipa:"
 
-#, fuzzy
 msgctxt "attachproject_registration_header_pwd"
 msgid "Password:"
-msgstr "Wachtwoord:"
+msgstr "Palavra-passe:"
 
-#, fuzzy
 msgctxt "attachproject_registration_header_pwd_confirm"
 msgid "… Retype:"
-msgstr "... Herhalen:"
+msgstr "... Insira novamente:"
 
-#, fuzzy
 msgctxt "attachproject_registration_button"
 msgid "Create"
-msgstr "Aanmaken"
+msgstr "Criar"
 
 #. account manager
-#, fuzzy
 msgctxt "attachproject_acctmgr_header"
 msgid "Add account manager"
-msgstr "Account manager toevoegen"
+msgstr "Adicionar gestor de conta"
 
 msgctxt "attachproject_acctmgr_header_url"
 msgid "URL"
 msgstr "URL"
 
-#, fuzzy
 msgctxt "attachproject_acctmgr_header_name"
 msgid "User:"
-msgstr "Gebruiker:"
+msgstr "Utilizador:"
 
-#, fuzzy
 msgctxt "attachproject_acctmgr_header_pwd"
 msgid "Password:"
-msgstr "Wachtwoord:"
+msgstr "Palavra-passe:"
 
-#, fuzzy
 msgctxt "attachproject_acctmgr_header_pwd_confirm"
 msgid "… Retype:"
-msgstr "... Herhalen:"
+msgstr "... Insira novamente:"
 
-#, fuzzy
 msgctxt "attachproject_acctmgr_button"
 msgid "Add"
-msgstr "Toevoegen"
+msgstr "Adicionar"
 
 #. error strings
-#, fuzzy
 msgctxt "attachproject_error_wrong_name"
 msgid "User not found"
-msgstr "Gebruiker niet gevonden"
+msgstr "Utilizador não encontrado"
 
-#, fuzzy
 msgctxt "attachproject_error_short_pwd"
 msgid "Password too short"
-msgstr "Het wachtwoord is te kort"
+msgstr "Palavra-passe demasiado curta"
 
-#, fuzzy
 msgctxt "attachproject_error_no_internet"
 msgid "Connection failure"
-msgstr "Verbinding mislukt"
+msgstr "Falha de conecção"
 
-#, fuzzy
 msgctxt "attachproject_error_pwd_no_match"
 msgid "Passwords do not match"
-msgstr "Wachtwoorden zijn niet identiek"
+msgstr "As palavras-passe não coincidem"
 
-#, fuzzy
 msgctxt "attachproject_error_no_url"
 msgid "Please enter URL"
-msgstr "Vul a.u.b. URL in"
+msgstr "Por favor insira o URL"
 
-#, fuzzy
 msgctxt "attachproject_error_no_email"
 msgid "Please enter eMail address"
-msgstr "Voer uw e-mailadres in"
+msgstr "Por favor insira o endereço de e-mail"
 
-#, fuzzy
 msgctxt "attachproject_error_no_pwd"
 msgid "Please enter a password"
-msgstr "Voer een wachtwoord in"
+msgstr "Por favor insira a palavra-passe"
 
-#, fuzzy
 msgctxt "attachproject_error_no_name"
 msgid "Please enter user name"
-msgstr "Voer gebruikersnaam in"
+msgstr "Por favor insira o nome de utilizador"
 
-#, fuzzy
 msgctxt "attachproject_error_unknown"
 msgid "failed"
-msgstr "mislukt"
+msgstr "falhou"
 
-#, fuzzy
 msgctxt "attachproject_error_bad_username"
 msgid "User name refused"
-msgstr "Gebruikersnaam geweigerd"
+msgstr "Nome de utilizador recusado"
 
-#, fuzzy
 msgctxt "attachproject_error_email_in_use"
 msgid "eMail is already in use"
-msgstr "E-mailadres is al in gebruik"
+msgstr "Endereço de e-mail já em uso"
 
-#, fuzzy
 msgctxt "attachproject_error_project_down"
 msgid "Project is offline"
-msgstr "Project is offline"
+msgstr "O projecto está offline"
 
-#, fuzzy
 msgctxt "attachproject_error_email_bad_syntax"
 msgid "eMail refused"
-msgstr "E-mailadres geweigerd"
+msgstr "Endereço de e-mail recusado"
 
-#, fuzzy
 msgctxt "attachproject_error_bad_pwd"
 msgid "Password refused"
-msgstr "Wachtwoord geweigerd"
+msgstr "Palavra-passe recusada"
 
-#, fuzzy
 msgctxt "attachproject_error_creation_disabled"
 msgid "Account creation is disabled on this project"
-msgstr "Aanmaken van een account is voor dit project niet mogelijk"
+msgstr "A criação de contas está desabilitada neste projecto"
 
-#, fuzzy
 msgctxt "attachproject_error_invalid_url"
 msgid "Invalid URL"
-msgstr "Ongeldig URL"
+msgstr "URL inválido"
 
 #. working activity
-#, fuzzy
 msgctxt "attachproject_working_back_button"
 msgid "Back"
-msgstr "Vorige"
+msgstr "Voltar atrás"
 
-#, fuzzy
 msgctxt "attachproject_working_finish_button"
 msgid "Finish"
-msgstr "Voltooien"
+msgstr "Terminar"
 
-#, fuzzy
 msgctxt "attachproject_working_check_desc"
 msgid "Successful"
-msgstr "Geslaagd"
+msgstr "Bem sucedido"
 
-#, fuzzy
 msgctxt "attachproject_working_failed_desc"
 msgid "Failed"
-msgstr "Mislukt"
+msgstr "Falhou"
 
 msgctxt "attachproject_working_ongoing"
 msgid "…"
@@ -377,346 +316,290 @@ msgctxt "attachproject_working_description"
 msgid ":"
 msgstr ":"
 
-#, fuzzy
 msgctxt "attachproject_working_connect"
 msgid "Connect"
-msgstr "Verbinden"
+msgstr "Conectar"
 
-#, fuzzy
 msgctxt "attachproject_working_verify"
 msgid "Verify account"
-msgstr "Account verifiëren"
+msgstr "Verificar conta"
 
-#, fuzzy
 msgctxt "attachproject_working_register"
 msgid "Register account"
-msgstr "Account registreren"
+msgstr "Registar conta"
 
-#, fuzzy
 msgctxt "attachproject_working_login"
 msgid "Log in"
-msgstr "Aanmelden"
+msgstr "Entrar"
 
-#, fuzzy
 msgctxt "attachproject_working_acctmgr"
 msgid "Add account manager"
-msgstr "Account manager toevoegen"
+msgstr "Adicionar gestor de conta"
 
-#, fuzzy
 msgctxt "attachproject_working_acctmgr_sync"
 msgid "Synchronize"
-msgstr "Bijwerken"
+msgstr "Sincronizar"
 
 #. main activity
 msgctxt "main_noproject_warning"
 msgid "Tab here to choose a project."
 msgstr "Carregue aqui para escolher um projecto."
 
-#, fuzzy
 msgctxt "main_error"
 msgid "Whooops"
-msgstr "Oeps"
+msgstr "Oooooops"
 
-#, fuzzy
 msgctxt "main_error_long"
 msgid ""
 "…this should not happen!\n"
 "Click on the icon to try again."
 msgstr ""
-"...dit hoort niet te gebeuren!\n"
-"Klik op het icoontje om het opneuw te proberen."
+"...isto não deveria acontecer!\n"
+"Carregue no ícone para tentar novamente."
 
-#, fuzzy
 msgctxt "main_title_icon_desc"
 msgid "BOINC icon"
-msgstr "BOINC-icoon"
+msgstr "Ícone do BOINC"
 
 #. tab names
-#, fuzzy
 msgctxt "tab_status"
 msgid "Status"
-msgstr "Status"
+msgstr "Estado"
 
-#, fuzzy
 msgctxt "tab_projects"
 msgid "Projects"
-msgstr "Projecten"
+msgstr "Projectos"
 
-#, fuzzy
 msgctxt "tab_tasks"
 msgid "Tasks"
-msgstr "Taken"
+msgstr "Tarefas"
 
-#, fuzzy
 msgctxt "tab_transfers"
 msgid "Transfers"
-msgstr "Overdrachten"
+msgstr "Transferências"
 
-#, fuzzy
 msgctxt "tab_preferences"
 msgid "Preferences"
-msgstr "Voorkeursinstellingen"
+msgstr "Preferências"
 
-#, fuzzy
 msgctxt "tab_notices"
 msgid "Notices"
-msgstr "Berichten"
+msgstr "Notícias"
 
-#, fuzzy
 msgctxt "tab_desc"
 msgid "Navigation"
-msgstr "Navigatie"
+msgstr "Navegação"
 
 #. status strings
-#, fuzzy
 msgctxt "status_running"
 msgid "Computing"
-msgstr "Berekenen"
+msgstr "A computar"
 
 msgctxt "status_running_long"
 msgid "Thank you for participating."
 msgstr "Obrigado por participar."
 
-#, fuzzy
 msgctxt "status_paused"
 msgid "Suspended"
-msgstr "Onderbroken"
+msgstr "Suspenso"
 
-#, fuzzy
 msgctxt "status_idle"
 msgid "Nothing to do"
-msgstr "Niets te doen"
+msgstr "Nada para fazer"
 
-#, fuzzy
 msgctxt "status_idle_long"
 msgid "Waiting for tasks…"
-msgstr "Wachten op taaktoewijzing..."
+msgstr "A aguardar tarefas..."
 
-#, fuzzy
 msgctxt "status_computing_disabled"
 msgid "Suspended"
-msgstr "Onderbroken"
+msgstr "Suspensa"
 
-#, fuzzy
 msgctxt "status_computing_disabled_long"
 msgid "Press play to resume network and computation."
 msgstr ""
-"Klik op afspelen om de netwerkactiviteit en de berekeningen te hervatten."
+"Carregue no botão play para resumir a computação e a actividade de rede."
 
 msgctxt "status_launching"
 msgid "Starting…"
 msgstr "A começar..."
 
-#, fuzzy
 msgctxt "status_noproject"
 msgid "Choose a project to participate in."
-msgstr "Kies een project om aan deel te nemen."
+msgstr "Escolha o projecto em que participar."
 
-#, fuzzy
 msgctxt "status_closing"
 msgid "Closing…"
-msgstr "Bezig met afsluiten…"
+msgstr "A fechar…"
 
-#, fuzzy
 msgctxt "status_benchmarking"
 msgid "Benchmarking…"
-msgstr "Bezig met benchmark..."
+msgstr "A realizar testes de performance..."
 
-#, fuzzy
 msgctxt "status_image_description"
 msgid "project image"
-msgstr "project afbeelding"
+msgstr "imagem do projecto"
 
 #. preferences tab strings
-#, fuzzy
 msgctxt "prefs_loading"
 msgid "Reading preferences…"
-msgstr "Voorkeuren inlezen..."
+msgstr "A ler preferências..."
 
-#, fuzzy
 msgctxt "prefs_submit_button"
 msgid "Save"
-msgstr "Opslaan"
+msgstr "Guardar"
 
-#, fuzzy
 msgctxt "prefs_dialog_title"
 msgid "Enter new value:"
-msgstr "Voer nieuwe waarde in:"
+msgstr "Insira novo valor:"
 
-#, fuzzy
 msgctxt "prefs_dialog_title_selection"
 msgid "Select:"
-msgstr "Selecteer:"
+msgstr "Seleccionar:"
 
-#, fuzzy
 msgctxt "prefs_category_general"
 msgid "General"
-msgstr "Algemeen"
+msgstr "Geral"
 
-#, fuzzy
 msgctxt "prefs_category_network"
 msgid "Network"
-msgstr "Netwerk"
+msgstr "Rede"
 
-#, fuzzy
 msgctxt "prefs_category_power"
 msgid "Power"
-msgstr "Energie"
+msgstr "Energia"
 
-#, fuzzy
 msgctxt "prefs_category_cpu"
 msgid "CPU"
-msgstr "Processor"
+msgstr "CPU"
 
-#, fuzzy
 msgctxt "prefs_category_storage"
 msgid "Storage"
-msgstr "Opslag"
+msgstr "Espaço de Armazenamento"
 
-#, fuzzy
 msgctxt "prefs_category_memory"
 msgid "Memory"
-msgstr "Geheugen"
+msgstr "Memória"
 
-#, fuzzy
 msgctxt "prefs_category_debug"
 msgid "Debug"
-msgstr "Foutoplossing"
+msgstr "Debug"
 
-#, fuzzy
 msgctxt "prefs_show_advanced_header"
 msgid "Show advanced preferences and controls…"
-msgstr "Toon geavanceerde voorkeuren en instellingen..."
+msgstr "Mostrar preferências e controlos avançados..."
 
 msgctxt "prefs_run_on_battery_header"
 msgid "Compute on Battery"
 msgstr "Realizar computação quando estiver só em Bateria"
 
-#, fuzzy
 msgctxt "battery_charge_min_pct_header"
 msgid "Min. battery level"
-msgstr "Min. batterijniveau"
+msgstr "Nível de bateria minímo"
 
-#, fuzzy
 msgctxt "battery_charge_min_pct_description"
 msgid "BOINC suspends computation below defined battery charge level."
 msgstr ""
-"BOINC pauzeert de berekening wanneer de batterijlading onder een gegeven "
-"niveau zakt."
+"O BOINC suspende a computação quando o nivel de bateria for inferior ao "
+"definido."
 
-#, fuzzy
 msgctxt "battery_temperature_max_header"
 msgid "Max. battery temperature"
-msgstr "Max. batterij temperatuur"
+msgstr "Temperatura máxima de bateria"
 
-#, fuzzy
 msgctxt "battery_temperature_max_description"
 msgid ""
 "BOINC suspends computation above defined battery temperature. It is not "
 "recommended to change this value."
 msgstr ""
-"BOINC stopt met bereken boven de aangegeven batterij temperatuur. Het is "
-"niet aanbevolen om deze waarde te wijzigen."
+"O BOINC suspende a computação quando a temperatura da bateria é superior à "
+"definida. Não é recomendado que altere este valor."
 
-#, fuzzy
 msgctxt "prefs_disk_max_pct_header"
 msgid "Max. used storage space"
-msgstr "Max. gebruikte opslagruimte"
+msgstr "Espaço de armazenamento máximo utilizado"
 
-#, fuzzy
 msgctxt "prefs_disk_max_pct_description"
 msgid "How many percent of your device's storage space is BOINC allowed to use?"
-msgstr "Welk percentage opslagruimte mag BOINC gebruiken op dit apparaat?"
+msgstr ""
+"Qual a percentagem de espaço de armazenamento permitida a ser utilizada pelo "
+"BOINC?"
 
-#, fuzzy
 msgctxt "prefs_disk_min_free_gb_header"
 msgid "Min. spare storage"
-msgstr "Min. reserve opslagruimte"
+msgstr "Espaço de armazenamento minímo"
 
-#, fuzzy
 msgctxt "prefs_disk_min_free_gb_description"
 msgid "How much of your device's storage space shall stay free?"
-msgstr "Hoeveel van de opslagruimte moet er minimaal vrij blijven?"
+msgstr "Quanto espaço livre do seu dispositivo deve ficar livre?"
 
-#, fuzzy
 msgctxt "prefs_network_daily_xfer_limit_mb_header"
 msgid "Daily transfer limit"
-msgstr "Dagelijkse overdracht limiet"
+msgstr "Limite de transferências diárias"
 
-#, fuzzy
 msgctxt "prefs_network_daily_xfer_limit_mb_description"
 msgid "Limits the daily data traffic caused by BOINC."
-msgstr "Beperkt het dagelijkse dataverkeer van BOINC."
+msgstr "Limite de tráfego de dados causados pelo BOINC."
 
-#, fuzzy
 msgctxt "prefs_network_wifi_only_header"
 msgid "Transfer tasks on WiFi only"
-msgstr "Taken alleen bijwerken via WiFi"
+msgstr "Transferir tarefas em Wi-Fi apenas"
 
-#, fuzzy
 msgctxt "prefs_autostart_header"
 msgid "Autostart"
-msgstr "Autostart"
+msgstr "Início automático"
 
-#, fuzzy
 msgctxt "prefs_show_notification_header"
 msgid "Show notification when suspended"
-msgstr "Laat bericht zien indien opgeschort"
+msgstr "Mostrar notificações quando suspenso"
 
-#, fuzzy
 msgctxt "prefs_cpu_number_cpus_header"
 msgid "Used CPU cores"
-msgstr "Gebruikte CPU cores"
+msgstr "Número de cores utilizados pelo CPU"
 
-#, fuzzy
 msgctxt "prefs_cpu_number_cpus_description"
 msgid "Limits the number of CPU cores BOINC uses for computation."
-msgstr "Beperkt het aantal gebruikte CPU cores voor BOINC berekeningen."
+msgstr ""
+"Limite de cores usados pelo CPU que são utilizados para a computação no "
+"BOINC."
 
-#, fuzzy
 msgctxt "prefs_cpu_other_load_suspension_header"
 msgid "Pause at CPU usage above"
-msgstr "Pauzeer bij CPU gebruik van meer dan"
+msgstr "Pausar o CPU quando a sua utilização for acima de"
 
-#, fuzzy
 msgctxt "prefs_cpu_other_load_suspension_description"
 msgid "Determines when BOINC pauses computation due to other app's CPU usage."
-msgstr "Bepaalt wanneer BOINC pauzeert bij CPU gebruik door andere apps."
+msgstr ""
+"Determina quando o BOINC pausa a computação, devido ao uso de outras "
+"aplicações em uso pelo CPU."
 
-#, fuzzy
 msgctxt "prefs_cpu_time_max_header"
 msgid "CPU limit"
-msgstr "CPU limiet"
+msgstr "Limite de CPU"
 
-#, fuzzy
 msgctxt "prefs_cpu_time_max_description"
 msgid "Limits the CPU time BOINC uses for computation."
-msgstr "Beperkt de CPU tijd gebruikt door BOINC voor berekeningen."
+msgstr "Limite de tempo de CPU que o BOINC usa para computação."
 
-#, fuzzy
 msgctxt "prefs_memory_max_idle_header"
 msgid "RAM limit"
-msgstr "Geheugen limiet"
+msgstr "Limite de RAM"
 
-#, fuzzy
 msgctxt "prefs_memory_max_idle_description"
 msgid "Limits the amount of RAM tasks are allowed to occupy."
-msgstr "Beperkt de gebruikte hoeveelheid geheugen gebruikt door taken."
+msgstr "Limite de memória RAM que pode ser utilizada pelas tarefas."
 
-#, fuzzy
 msgctxt "prefs_client_log_flags_header"
 msgid "BOINC Client log flags"
-msgstr "BOINC Client log tekens"
+msgstr "Bandeiras de log do cliente BOINC"
 
-#, fuzzy
 msgctxt "prefs_gui_log_level_header"
 msgid "GUI log level"
-msgstr "GUI log level"
+msgstr "Nível dos logs da GUI"
 
-#, fuzzy
 msgctxt "prefs_gui_log_level_description"
 msgid "Specifies verbosity of GUI log messages."
-msgstr "Specificeert uitgebreidheid van GUI log berichten."
+msgstr "Especifica a verbosidade das mensagens de log da GUI"
 
 msgctxt "prefs_unit_mb"
 msgid "MB"
@@ -731,268 +614,218 @@ msgctxt "prefs_unit_pct"
 msgid "%"
 msgstr "%"
 
-#, fuzzy
 msgctxt "prefs_unit_celcius"
 msgid "°C"
 msgstr "°C"
 
 #. projects tab strings
-#, fuzzy
 msgctxt "projects_loading"
 msgid "Reading projects…"
-msgstr "Projecten inlezen..."
+msgstr "A rever projectos..."
 
-#, fuzzy
 msgctxt "projects_add"
 msgid "Add project"
-msgstr "Project toevoegen"
+msgstr "Adicionar projecto"
 
-#, fuzzy
 msgctxt "projects_icon"
 msgid "Project icon"
-msgstr "Project icoon"
+msgstr "Ícone do projecto"
 
 msgctxt "projects_credits_header"
 msgid "Credit:"
 msgstr "Créditos:"
 
-#, fuzzy
 msgctxt "projects_credits_host_header"
 msgid "(on this device)"
-msgstr "(op dit apparaat)"
+msgstr "(neste dispositivo)"
 
-#, fuzzy
 msgctxt "projects_credits_user_header"
 msgid "(total)"
-msgstr "(totaal)"
+msgstr "(total)"
 
 #. project status strings
-#, fuzzy
 msgctxt "projects_status_suspendedviagui"
 msgid "Suspended by user"
-msgstr "Onderbroken door gebruiker"
+msgstr "Suspenso pelo utilizador"
 
-#, fuzzy
 msgctxt "projects_status_dontrequestmorework"
 msgid "Won't get new tasks"
-msgstr "Krijgt geen nieuwe taken"
+msgstr "Não obter novas tarefas"
 
-#, fuzzy
 msgctxt "projects_status_ended"
 msgid "Project ended - OK to remove"
-msgstr "Project beëindigd - OK om te verwijderen "
+msgstr "Projecto terminou - OK para remover "
 
-#, fuzzy
 msgctxt "projects_status_detachwhendone"
 msgid "Will remove when tasks done"
-msgstr "Wordt verwijderd als taken klaar zijn"
+msgstr "Irá remover quando as tarefas terminarem"
 
-#, fuzzy
 msgctxt "projects_status_schedrpcpending"
 msgid "Scheduler request pending"
-msgstr "Bijwerkverzoek in behandeling"
+msgstr "Solicitação de agendamento pendente"
 
-#, fuzzy
 msgctxt "projects_status_schedrpcinprogress"
 msgid "Scheduler request in progress"
-msgstr "Bijwerkverzoek is bezig"
+msgstr "Solicitação de agendamento em progresso"
 
-#, fuzzy
 msgctxt "projects_status_trickleuppending"
 msgid "Trickle up message pending"
-msgstr "Trickle up bericht in behandeling"
+msgstr "Mensagem de aviso pendente"
 
-#, fuzzy
 msgctxt "projects_status_backoff"
 msgid "Communication scheduled in:"
-msgstr "Communicatie gepland over:"
+msgstr "Comunicação agendada em:"
 
 #. project controls
-#, fuzzy
 msgctxt "projects_control_dialog_title"
 msgid "Project commands:"
-msgstr "Project opdrachten:"
+msgstr "Comandos do projecto:"
 
-#, fuzzy
 msgctxt "projects_control_visit_website"
 msgid "Visit website"
-msgstr "Bezoek website"
+msgstr "Visitar o website"
 
-#, fuzzy
 msgctxt "projects_control_update"
 msgid "Update"
-msgstr "Bijwerken"
+msgstr "Actualizar"
 
-#, fuzzy
 msgctxt "projects_control_remove"
 msgid "Remove"
-msgstr "Verwijderen"
+msgstr "Remover"
 
-#, fuzzy
 msgctxt "projects_control_suspend"
 msgid "Suspend"
-msgstr "Pauzeren"
+msgstr "Suspender"
 
-#, fuzzy
 msgctxt "projects_control_resume"
 msgid "Resume"
-msgstr "Hervatten"
+msgstr "Resumir"
 
-#, fuzzy
 msgctxt "projects_control_nonewtasks"
 msgid "No new tasks"
-msgstr "Geen nieuwe taken"
+msgstr "Não obter novas tarefas"
 
-#, fuzzy
 msgctxt "projects_control_allownewtasks"
 msgid "Allow new tasks"
-msgstr "Nieuwe taken toestaan"
+msgstr "Permitir novas tarefas"
 
-#, fuzzy
 msgctxt "projects_control_reset"
 msgid "Reset"
-msgstr "Resetten"
+msgstr "Reset"
 
-#, fuzzy
 msgctxt "projects_control_dialog_title_acctmgr"
 msgid "Account manager commands:"
-msgstr "Accountmanager opdrachten:"
+msgstr "Comandos do gestor de conta:"
 
-#, fuzzy
 msgctxt "projects_control_sync_acctmgr"
 msgid "Synchronize"
-msgstr "Bijwerken"
+msgstr "Sincronizar"
 
-#, fuzzy
 msgctxt "projects_control_remove_acctmgr"
 msgid "Disable"
-msgstr "Uitzetten"
+msgstr "Desabilitar"
 
 #. project confirm dialog
-#, fuzzy
 msgctxt "projects_confirm_detach_title"
 msgid "Remove project?"
-msgstr "Project verwijderen?"
+msgstr "Remover projecto?"
 
-#, fuzzy
 msgctxt "projects_confirm_detach_message"
 msgid "Are you sure you want to remove"
-msgstr "Weet je zeker dat je"
+msgstr "Tem a certeza que quer remover"
 
-#, fuzzy
 msgctxt "projects_confirm_detach_message2"
 msgid "from BOINC?"
-msgstr "uit BOINC wilt verwijderen?"
+msgstr "do BOINC?"
 
-#, fuzzy
 msgctxt "projects_confirm_detach_confirm"
 msgid "Remove"
-msgstr "Verwijderen"
+msgstr "Remover"
 
-#, fuzzy
 msgctxt "projects_confirm_reset_title"
 msgid "Reset project"
-msgstr "Project resetten"
+msgstr "Fazer reset ao projecto"
 
-#, fuzzy
 msgctxt "projects_confirm_reset_message"
 msgid "Are you sure you want to reset"
-msgstr "Weet je zeker dat je"
+msgstr "Tem a certeza que quer fazer o reset"
 
-#, fuzzy
 msgctxt "projects_confirm_reset_confirm"
 msgid "Reset"
-msgstr "Resetten"
+msgstr "Reset"
 
-#, fuzzy
 msgctxt "projects_confirm_remove_acctmgr_title"
 msgid "Disable account manager"
-msgstr "Accountmanager uitzetten"
+msgstr "Desabilitar gestor de conta"
 
-#, fuzzy
 msgctxt "projects_confirm_remove_acctmgr_message"
 msgid "Are you sure you want to stop using"
-msgstr "Weet je zeker dat je wilt stoppen met het gebruik van"
+msgstr "Tem a certeza que quer parar de utilizar"
 
-#, fuzzy
 msgctxt "projects_confirm_remove_acctmgr_confirm"
 msgid "Disable"
-msgstr "Uitzetten"
+msgstr "Desabilitar"
 
 #. tasks tab strings
-#, fuzzy
 msgctxt "tasks_header_name"
 msgid "Task Name:"
-msgstr "Taaknaam:"
+msgstr "Nome da tarefa:"
 
-#, fuzzy
 msgctxt "tasks_header_elapsed_time"
 msgid "Elapsed time:"
-msgstr "Verstreken tijd: "
+msgstr "Tempo decorrido: "
 
-#, fuzzy
 msgctxt "tasks_header_project_paused"
 msgid "(suspended)"
-msgstr "(onderbroken)"
+msgstr "(suspenso)"
 
-#, fuzzy
 msgctxt "tasks_header_deadline"
 msgid "Deadline:"
-msgstr "Deadline:"
+msgstr "Data limite:"
 
-#, fuzzy
 msgctxt "tasks_result_new"
 msgid "new"
-msgstr "nieuw"
+msgstr "novo"
 
-#, fuzzy
 msgctxt "tasks_result_files_downloading"
 msgid "waiting for download"
-msgstr "wacht op downloaden"
+msgstr "à espera da transferência"
 
-#, fuzzy
 msgctxt "tasks_result_files_downloaded"
 msgid "download complete"
-msgstr "downloaden voltooid"
+msgstr "transferência completa"
 
-#, fuzzy
 msgctxt "tasks_result_compute_error"
 msgid "computation error"
-msgstr "verwerkingsfout"
+msgstr "erro de computação"
 
 msgctxt "tasks_result_files_uploading"
 msgid "uploading"
 msgstr "a fazer upload"
 
-#, fuzzy
 msgctxt "tasks_result_files_uploaded"
 msgid "upload complete"
-msgstr "uploaden voltooid"
+msgstr "upload completo"
 
-#, fuzzy
 msgctxt "tasks_result_aborted"
 msgid "aborted"
-msgstr "afgebroken"
+msgstr "abortado"
 
-#, fuzzy
 msgctxt "tasks_result_upload_failed"
 msgid "upload failed"
-msgstr "uploaden mislukt"
+msgstr "upload falhado"
 
-#, fuzzy
 msgctxt "tasks_active_uninitialized"
 msgid "ready"
-msgstr "voltooid"
+msgstr "pronto"
 
-#, fuzzy
 msgctxt "tasks_active_executing"
 msgid "running"
-msgstr "loopt"
+msgstr "em execução"
 
-#, fuzzy
 msgctxt "tasks_active_suspended"
 msgid "suspended"
-msgstr "onderbroken"
+msgstr "suspensas"
 
 msgctxt "tasks_active_abort_pending"
 msgid "suspending"
@@ -1002,370 +835,301 @@ msgctxt "tasks_active_quit_pending"
 msgid "suspending"
 msgstr "a suspender"
 
-#, fuzzy
 msgctxt "tasks_custom_suspended_via_gui"
 msgid "suspended"
-msgstr "onderbroken"
+msgstr "suspensas"
 
-#, fuzzy
 msgctxt "tasks_custom_project_suspended_via_gui"
 msgid "project suspended"
-msgstr "project onderbroken"
+msgstr "projecto suspenso"
 
-#, fuzzy
 msgctxt "tasks_custom_ready_to_report"
 msgid "ready to report"
-msgstr "klaar om te rapporteren"
+msgstr "pronto para reportar"
 
 #. confirmation dialog
-#, fuzzy
 msgctxt "confirm_abort_task_title"
 msgid "Abort task?"
-msgstr "Taak afbreken?"
+msgstr "Cancelar tarefa?"
 
-#, fuzzy
 msgctxt "confirm_abort_task_message"
 msgid "Abort task:"
-msgstr "Taak afbreken:"
+msgstr "Cancelar tarefa:"
 
-#, fuzzy
 msgctxt "confirm_abort_task_confirm"
 msgid "Abort"
-msgstr "Afbreken"
+msgstr "Abortar"
 
-#, fuzzy
 msgctxt "confirm_cancel"
 msgid "Cancel"
-msgstr "Annuleren"
+msgstr "Cancelar"
 
-#, fuzzy
 msgctxt "confirm_image_desc"
 msgid "Confirmation dialog"
-msgstr "Bevestigingsdialoog"
+msgstr "Diálogo de confirmação"
 
 #. transfers tab strings
-#, fuzzy
 msgctxt "trans_loading"
 msgid "Reading transfers…"
-msgstr "Overdracht inlezen..."
+msgstr "A carregar transferências..."
 
 msgctxt "trans_upload"
 msgid "Upload"
 msgstr "Upload"
 
-#, fuzzy
 msgctxt "trans_download"
 msgid "Download"
-msgstr "Download"
+msgstr "Tranferir"
 
-#, fuzzy
 msgctxt "trans_retryin"
 msgid "retry in"
-msgstr "opnieuw over"
+msgstr "tentar novamente em"
 
-#, fuzzy
 msgctxt "trans_failed"
 msgid "failed"
-msgstr "mislukt"
+msgstr "falhado"
 
-#, fuzzy
 msgctxt "trans_suspended"
 msgid "suspended"
-msgstr "onderbroken"
+msgstr "suspenso"
 
-#, fuzzy
 msgctxt "trans_active"
 msgid "active"
-msgstr "actief"
+msgstr "activo"
 
-#, fuzzy
 msgctxt "trans_pending"
 msgid "pending"
-msgstr "in behandeling"
+msgstr "pendente"
 
-#, fuzzy
 msgctxt "trans_projectbackoff"
 msgid "project backoff"
-msgstr "project wachttijd"
+msgstr "projecto backoff"
 
-#, fuzzy
 msgctxt "trans_header_name"
 msgid "File:"
-msgstr "Bestand:"
+msgstr "Ficheiro:"
 
-#, fuzzy
 msgctxt "trans_control_retry"
 msgid "Retry transfers"
-msgstr "Opnieuw verzenden"
+msgstr "Tentar novamente transferências"
 
-#, fuzzy
 msgctxt "confirm_abort_trans_title"
 msgid "Abort transfer?"
-msgstr "Overdracht afbreken?"
+msgstr "Cancelar transferência?"
 
-#, fuzzy
 msgctxt "confirm_abort_trans_message"
 msgid "Abort File:"
-msgstr "Bestand afbreken:"
+msgstr "Cancelar Ficheiro:"
 
-#, fuzzy
 msgctxt "confirm_abort_trans_confirm"
 msgid "Abort"
-msgstr "Afbreken"
+msgstr "Abortar"
 
 #. notices tab strings
-#, fuzzy
 msgctxt "notices_loading"
 msgid "Reading notices…"
-msgstr "Berichten inlezen..."
+msgstr "A ler notícias..."
 
 #. eventlog tab strings
-#, fuzzy
 msgctxt "eventlog_loading"
 msgid "Loading log messages…"
-msgstr "Log berichten laden..."
+msgstr "A carregar mensagens de log..."
 
-#, fuzzy
 msgctxt "eventlog_client_header"
 msgid "Client Messages"
-msgstr "Berichten van Cliënt"
+msgstr "Mensagens do Cliente"
 
-#, fuzzy
 msgctxt "eventlog_gui_header"
 msgid "GUI Messages"
-msgstr "GUI berichten"
+msgstr "Mensagens da GUI "
 
-#, fuzzy
 msgctxt "eventlog_copy_toast"
 msgid "Log copied to clipboard."
-msgstr "Log naar klembord gekopieerd."
+msgstr "Log copiado para a àrea de transferência."
 
-#, fuzzy
 msgctxt "eventlog_email_subject"
 msgid "Event Log for BOINC on Android:"
-msgstr "Logberichten voor BOINC op Android:"
+msgstr "Log de eventos para o BOINC em Android:"
 
 #. suspend reasons
-#, fuzzy
 msgctxt "suspend_unknown"
 msgid "Computation suspended."
-msgstr "Bewerking onderbroken."
+msgstr "Computação suspensa."
 
-#, fuzzy
 msgctxt "suspend_batteries"
 msgid "Connect your device to a charger to continue computing."
-msgstr "Verbind het apparaat met een oplader om verder te gaan."
+msgstr "Ligue o seu dispositivo à carga para continuar a computação."
 
-#, fuzzy
 msgctxt "suspend_useractive"
 msgid "User is active."
-msgstr "Gebruiker is actief."
+msgstr "O utilizador está activo."
 
-#, fuzzy
 msgctxt "suspend_tod"
 msgid "Out of computation time-frame."
-msgstr "Niet binnen berekenings-tijdsbestek."
+msgstr "Computação fora da janela de tempo limite."
 
-#, fuzzy
 msgctxt "suspend_bm"
 msgid "BOINC is benchmarking your device…"
-msgstr "BOINC benchmarkt je apparaat…"
+msgstr "O BOINC está a executar os testes de performance do seu dispositivo…"
 
-#, fuzzy
 msgctxt "suspend_disksize"
 msgid "Out of disk space."
-msgstr "Geen vrije schijfruimte over."
+msgstr "Sem espaço disponível em disco."
 
-#, fuzzy
 msgctxt "suspend_cputhrottle"
 msgid "Scheduled CPU throttle."
-msgstr "Geplande CPU beperking."
+msgstr "Estrangulamento do CPU agendado."
 
-#, fuzzy
 msgctxt "suspend_noinput"
 msgid "No recent user activity."
-msgstr "Geen recente gebruikers activiteit."
+msgstr "Sem actividade recente do utilizador."
 
-#, fuzzy
 msgctxt "suspend_delay"
 msgid "Initialization delay."
-msgstr "Initialiseren vertraagd."
+msgstr "Atraso de inicialização."
 
-#, fuzzy
 msgctxt "suspend_exclusiveapp"
 msgid "An exclusive app is running."
-msgstr "Er wordt een exclusieve app uitgevoerd."
+msgstr "Uma aplicação exclusiva está em execução."
 
-#, fuzzy
 msgctxt "suspend_cpu"
 msgid "Your device is busy with other apps."
-msgstr "Apparaat is bezig met andere apps."
+msgstr "O seu dispositivo está ocupado com outras aplicações."
 
-#, fuzzy
 msgctxt "suspend_network_quota"
 msgid "BOINC reached network transfer limit."
-msgstr "BOINC transfer limiet is bereikt."
+msgstr "O BOINC atingiu o limite de transferências na rede."
 
-#, fuzzy
 msgctxt "suspend_os"
 msgid "Stopped by Android."
-msgstr "Gestopt door Android."
+msgstr "Parado pelo Android."
 
-#, fuzzy
 msgctxt "suspend_wifi"
 msgid "Not connected to WiFi."
-msgstr "Niet verbonden met WiFi."
+msgstr "Não conectado ao Wi-Fi."
 
-#, fuzzy
 msgctxt "suspend_battery_charging"
 msgid "Battery needs to charge before resuming computation."
-msgstr "Batterij moet opgeladen worden om berekeningen te hervatten."
+msgstr "A bateria precisa de carga antes de poder resumir a computação."
 
-#, fuzzy
 msgctxt "suspend_battery_charging_long"
 msgid "Computing will resume when battery charge reaches"
-msgstr "Berekeningen worden hervat op batterij niveau van"
+msgstr "A computação irá resumir quando a carga da bateria atingir"
 
-#, fuzzy
 msgctxt "suspend_battery_charging_current"
 msgid "currently"
-msgstr "huidig"
+msgstr "actualmente"
 
-#, fuzzy
 msgctxt "suspend_battery_overheating"
 msgid "Waiting for battery to cool down"
-msgstr "Wacht op afkoelen batterij"
+msgstr "A aguardar que a bateria arrefeça"
 
-#, fuzzy
 msgctxt "suspend_user_req"
 msgid "Resuming computation…"
-msgstr "Berekeningen hervatten..."
+msgstr "A resumir computação..."
 
-#, fuzzy
 msgctxt "suspend_network_user_req"
 msgid "manually."
-msgstr "handmatig."
+msgstr "manualmente."
 
 #. rpc reasons
-#, fuzzy
 msgctxt "rpcreason_userreq"
 msgid "Requested by user"
-msgstr "Op verzoek van gebruiker"
+msgstr "Solicitado pelo utilizador"
 
-#, fuzzy
 msgctxt "rpcreason_needwork"
 msgid "To fetch work"
-msgstr "Om werk te verkrijgen"
+msgstr "Pesquisar trabalhos"
 
-#, fuzzy
 msgctxt "rpcreason_resultsdue"
 msgid "To report completed tasks"
-msgstr "Om taken te rapporteren"
+msgstr "Reportar tarefas completas"
 
-#, fuzzy
 msgctxt "rpcreason_trickleup"
 msgid "To send trickle-up message"
-msgstr "Om trickle-up berichten te verzenden"
+msgstr "Enviar mensagem de aviso"
 
-#, fuzzy
 msgctxt "rpcreason_acctmgrreq"
 msgid "Requested by account manager"
-msgstr "Op verzoek van accountmanager"
+msgstr "Solicitado pelo gestor de conta"
 
-#, fuzzy
 msgctxt "rpcreason_init"
 msgid "Project initialization"
-msgstr "Project instellen"
+msgstr "Inicialização do projecto"
 
-#, fuzzy
 msgctxt "rpcreason_projectreq"
 msgid "Requested by project"
-msgstr "Op verzoek van project"
+msgstr "Solicitado pelo projecto"
 
-#, fuzzy
 msgctxt "rpcreason_unknown"
 msgid "Unknown reason"
-msgstr "Onbekende reden"
+msgstr "Razão desconhecida"
 
 #. menu
-#, fuzzy
 msgctxt "menu_refresh"
 msgid "Refresh"
-msgstr "Ververs"
+msgstr "Recarregar"
 
-#, fuzzy
 msgctxt "menu_emailto"
 msgid "Send as Email"
-msgstr "Verzend als email"
+msgstr "Enviar como E-mail"
 
-#, fuzzy
 msgctxt "menu_copy"
 msgid "Copy to Clipboard"
-msgstr "Naar klembord kopiëren"
+msgstr "Copiar para Área de Transferência"
 
-#, fuzzy
 msgctxt "menu_eventlog"
 msgid "Event Log"
-msgstr "Gebeurtenis Log"
+msgstr "Log de Eventos"
 
-#, fuzzy
 msgctxt "menu_exit"
 msgid "Exit BOINC"
-msgstr "BOINC afsluiten"
+msgstr "Sair do BOINC"
 
-#, fuzzy
 msgctxt "menu_run_mode_disable"
 msgid "Suspend"
-msgstr "Onderbreek"
+msgstr "Suspender"
 
-#, fuzzy
 msgctxt "menu_run_mode_enable"
 msgid "Resume"
-msgstr "Hervatten"
+msgstr "Resumir"
 
-#, fuzzy
 msgctxt "menu_about"
 msgid "About"
-msgstr "Over"
+msgstr "Acerca"
 
-#, fuzzy
 msgctxt "menu_help"
 msgid "Help"
-msgstr "Help"
+msgstr "Ajuda"
 
 #. about dialog
-#, fuzzy
 msgctxt "about_button"
 msgid "Return"
-msgstr "Terug"
+msgstr "Regressar"
 
-#, fuzzy
 msgctxt "about_title"
 msgid "About"
-msgstr "Over"
+msgstr "Acerca"
 
 msgctxt "about_name"
 msgid "BOINC"
 msgstr "BOINC"
 
-#, fuzzy
 msgctxt "about_version"
 msgid "Version"
-msgstr "Versie"
+msgstr "Versão"
 
-#, fuzzy
 msgctxt "about_name_long"
 msgid "Berkeley Open Infrastructure for Network Computing"
-msgstr "Berkeley Open Infrastructure for Network Computing"
+msgstr "Infraestrutura aberta Berkeley para a Rede de Computação"
 
-#, fuzzy
 msgctxt "about_copyright"
 msgid ""
 "© 2003–2013 University of California, Berkeley.\n"
 "All Rights Reserved."
 msgstr ""
-"© 2003–2013 University of California, Berkeley.\n"
-"All Rights Reserved."
+"© 2003–2013 Universidade de Berkeley, Califórnia.\n"
+"Todos os direitos reservados."
 
 #, fuzzy
 #~ msgctxt "main_noproject_warning"

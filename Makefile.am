@@ -13,6 +13,9 @@ if ENABLE_LIBRARIES
 if ENABLE_SERVER
     API_SUBDIRS += zip
 endif
+if ENABLE_BOINCZIP
+    API_SUBDIRS += zip
+endif
 endif
 
 if ENABLE_SERVER

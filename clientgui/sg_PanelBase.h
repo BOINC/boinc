@@ -44,7 +44,7 @@
 #ifdef __WXMAC__
 #include "MacBitmapComboBox.h"
 #else
-#include "BOINCBitmapComboBox.h"
+#define CBOINCBitmapComboBox wxBitmapComboBox
 #endif
 
 

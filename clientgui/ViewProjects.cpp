@@ -82,10 +82,16 @@ BEGIN_EVENT_TABLE (CViewProjects, CBOINCBaseView)
     EVT_BUTTON(ID_TASK_PROJECT_DETACH, CViewProjects::OnProjectDetach)
     EVT_BUTTON(ID_TASK_PROJECT_SHOW_PROPERTIES, CViewProjects::OnShowItemProperties)
     EVT_CUSTOM_RANGE(wxEVT_COMMAND_BUTTON_CLICKED, ID_TASK_PROJECT_WEB_PROJDEF_MIN, ID_TASK_PROJECT_WEB_PROJDEF_MAX, CViewProjects::OnProjectWebsiteClicked)
-    EVT_LIST_ITEM_SELECTED(ID_LIST_PROJECTSVIEW, CViewProjects::OnListSelected)
-    EVT_LIST_ITEM_DESELECTED(ID_LIST_PROJECTSVIEW, CViewProjects::OnListDeselected)
+// We currently handle EVT_LIST_CACHE_HINT on Windows or 
+// EVT_CHECK_SELECTION_CHANGED on Mac instead of EVT_LIST_ITEM_SELECTED
+// or EVT_LIST_ITEM_DESELECTED.  See CBOINCBaseView::OnCacheHint() for info.
+#if USE_NATIVE_LISTCONTROL
+    EVT_LIST_CACHE_HINT(ID_LIST_WORKVIEW, CViewProjects::OnCacheHint)
+#else
+	EVT_CHECK_SELECTION_CHANGED(CViewProjects::OnCheckSelectionChanged)
+#endif
+	EVT_CHECK_SELECTION_CHANGED(CViewProjects::OnCheckSelectionChanged)
     EVT_LIST_COL_CLICK(ID_LIST_PROJECTSVIEW, CViewProjects::OnColClick)
-    EVT_LIST_CACHE_HINT(ID_LIST_PROJECTSVIEW, CViewProjects::OnCacheHint)
     EVT_LIST_COL_END_DRAG(ID_LIST_PROJECTSVIEW, CViewProjects::OnColResize)
 END_EVENT_TABLE ()
 
@@ -155,7 +161,7 @@ CViewProjects::CViewProjects()
 
 
 CViewProjects::CViewProjects(wxNotebook* pNotebook) :
-    CBOINCBaseView(pNotebook, ID_TASK_PROJECTSVIEW, DEFAULT_TASK_FLAGS, ID_LIST_PROJECTSVIEW, DEFAULT_LIST_MULTI_SEL_FLAGS)
+    CBOINCBaseView(pNotebook, ID_TASK_PROJECTSVIEW, DEFAULT_TASK_FLAGS, ID_LIST_PROJECTSVIEW, DEFAULT_LIST_FLAGS)
 {
     CTaskItemGroup* pGroup = NULL;
     CTaskItem*      pItem = NULL;

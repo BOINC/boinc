@@ -38,9 +38,23 @@ if (defined('TIMEZONE')) {
     date_default_timezone_set('UTC');
 }
 
+if (!defined('DISABLE_PROFILES')) {
+    define('DISABLE_PROFILES', false);
+}
+if (!defined('DISABLE_FORUMS')) {
+    define('DISABLE_FORUMS', false);
+}
+if (!defined('DISABLE_TEAMS')) {
+    define('DISABLE_TEAMS', false);
+}
+
 $caching = false;
     // if set, we're writing to a file rather than to client
 $did_page_head = false;
+
+define('KILO', 1024);
+define('MEGA', 1024*KILO);
+define('GIGA', 1024*MEGA);
 
 // return true if this page is HTTPS
 //
@@ -80,11 +94,6 @@ function clear_cookie($name, $ops=false) {
         $path .= "_ops/";
     }
     setcookie($name, '', time()-3600, $path);
-}
-
-function get_user_from_id($id) {
-    if ($id) return lookup_user_id($id);
-    return NULL;
 }
 
 $g_logged_in_user = null;
@@ -387,8 +396,12 @@ function rowify($string) {
     echo "<tr><td>$string</td></tr>";
 }
 
-function row_array($x) {
-    echo "<tr>";
+function row_array($x, $class=null) {
+    if ($class) {
+        echo "<tr class='$class'>";
+    } else {
+        echo "<tr>";
+    }
     foreach ($x as $h) {
         echo "<td>$h</td>";
     }
@@ -943,6 +956,19 @@ function show_badges($is_user, $item) {
 
 function dtime() {
     return microtime(true);
+}
+
+// If this request is from a BOINC client, return its version as MMmmRR.
+// Otherwise return 0.
+// Format of user agent string is "BOINC client (windows_x86_64 7.3.17)"
+//
+function boinc_client_version(){
+    $x = $_SERVER[HTTP_USER_AGENT];
+    $e =  "/BOINC client [^ ]* (\d+).(\d+).(\d+)\)/";
+    if (preg_match($e, $x, $matches)) {
+        return $matches[1]*10000 + $matches[2]*100 + $matches[3];
+    }
+    return 0;
 }
 
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit

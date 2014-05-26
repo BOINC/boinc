@@ -32,6 +32,7 @@ struct APP_CONFIG {
     int max_concurrent;
     double gpu_gpu_usage;
     double gpu_cpu_usage;
+    bool fraction_done_exact;
 
     int parse(XML_PARSER&, PROJECT*);
 };

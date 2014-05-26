@@ -77,8 +77,6 @@
 using std::vector;
 using std::string;
 
-#include "LoginItemAPI.h"
-
 #include "SetupSecurity.h"
 #include "translate.h"
 
@@ -95,7 +93,6 @@ int DeleteReceipt(void);
 Boolean IsRestartNeeded();
 void CheckUserAndGroupConflicts();
 Boolean SetLoginItemOSAScript(long brandID, Boolean deleteLogInItem, char *userName);
-Boolean SetLoginItemAPI(long brandID, Boolean deleteLogInItem);
 OSErr GetCurrentScreenSaverSelection(char *moduleName, size_t maxLen);
 OSErr SetScreenSaverSelection(char *moduleName, char *modulePath, int type);
 void SetSkinInUserPrefs(char *userName, char *nameOfSkin);
@@ -550,7 +547,8 @@ int DeleteReceipt()
     Initialize();
 
     restartNeeded = IsRestartNeeded();
-//    print_to_log_file("IsRestartNeeded() returned %d\n", (int)restartNeeded);
+    printf("IsRestartNeeded() returned %d\n", (int)restartNeeded);
+    fflush(stdout);
     
     brandID = GetBrandID();
 
@@ -570,9 +568,11 @@ int DeleteReceipt()
            // Launch BOINC Manager when user closes installer or after 15 seconds
             for (i=0; i<15; i++) { // Wait 15 seconds max for installer to quit
                 sleep (1);
-                if (err == noErr)
-                    if (FindProcessPID(NULL, installerPID) == 0)
+                if (err == noErr) {
+                    if (FindProcessPID(NULL, installerPID) == 0) {
                         break;
+                    }
+                }
             }
         }
 
@@ -597,6 +597,9 @@ Boolean IsRestartNeeded() {
     int value;
 
     restartNeededFile = fopen("/tmp/BOINC_restart_flag", "r");
+    if (!restartNeededFile) {
+        restartNeededFile = fopen("/private/tmp/BOINC_restart_flag", "r");
+    }
     if (restartNeededFile) {
         fscanf(restartNeededFile,"%d", &value);
         fclose(restartNeededFile);
@@ -827,7 +830,7 @@ Boolean SetLoginItemOSAScript(long brandID, Boolean deleteLogInItem, char *userN
         fflush(stdout);
 
         for (j=0; j<5; ++j) {
-            sprintf(cmd, "sudo -iu \"%s\" \\\"%s/Contents/MacOS/System Events\\\" &", userName, systemEventsPath);
+            sprintf(cmd, "sudo -u \"%s\" \"%s/Contents/MacOS/System Events\" &", userName, systemEventsPath);
             err = system(cmd);
             if (err) {
                 fprintf(stdout, "[2] Command: %s returned error %d (try %d of 5)\n", cmd, (int) err, j);
@@ -868,10 +871,7 @@ Boolean SetLoginItemOSAScript(long brandID, Boolean deleteLogInItem, char *userN
     
     fprintf(stdout, "Making new login item %s for user %s\n", appName[brandID], userName);
     fflush(stdout);
-    // With wxCocoa 3.0, setting login item with hidden=true seems to prevent BOINC Manager
-    // from fully starting at login until it is brought to the front, so set hidden=false.
-    // The logic inside BOINC Manager keeps it hidden anyway (unless not attached to any projects.)
-    sprintf(cmd, "sudo -u \"%s\" osascript -e 'tell application \"System Events\"' -e 'make new login item at end with properties {path:\"%s\", hidden:false, name:\"%s\"}' -e 'end tell'", userName, appPath[brandID], appName[brandID]);
+    sprintf(cmd, "sudo -u \"%s\" osascript -e 'tell application \"System Events\"' -e 'make new login item at end with properties {path:\"%s\", hidden:true, name:\"%s\"}' -e 'end tell'", userName, appPath[brandID], appName[brandID]);
     err = system(cmd);
     if (err) {
         fprintf(stdout, "[2] Command: %s\n", cmd);
@@ -902,62 +902,6 @@ cleanupSystemEvents:
     sleep(4);
         
     return (err == noErr);
-}
-
-
-Boolean SetLoginItemAPI(long brandID, Boolean deleteLogInItem)
-{
-    Boolean                 Success;
-    int                     NumberOfLoginItems, Counter;
-    char                    *p, *q;
-    char                    s[256];
-    int                     i;
-
-    Success = false;
-    
-    NumberOfLoginItems = GetCountOfLoginItems(kCurrentUser);
-    
-    // Search existing login items in reverse order, deleting any duplicates of ours
-    for (Counter = NumberOfLoginItems ; Counter > 0 ; Counter--)
-    {
-        p = ReturnLoginItemPropertyAtIndex(kCurrentUser, kApplicationNameInfo, Counter-1);
-        q = p;
-        while (*q)
-        {
-            // It is OK to modify the returned string because we "own" it
-            *q = toupper(*q);	// Make it case-insensitive
-            q++;
-        }
-    
-        for (i=0; i<NUMBRANDS; i++) {
-            q = strrchr(appPath[i], '/');
-            if (!q) continue;       // Should never happen
-            strncpy(s, q+1, sizeof(s)-1);
-            q = s;
-            while (*q) {
-                *q = toupper(*q);
-                q++;
-            }
-
-            // if (strcmp(p, "BOINCMANAGER.APP") == 0)
-            // if (strcmp(p, "GRIDREPUBLIC DESKTOP.APP") == 0)
-            // if (strcmp(p, "PROGRESS THRU PROCESSORS DESKTOP.APP") == 0)
-            // if (strcmp(p, "CHARITY ENGINE DESKTOP.APP") == 0)
-            if (strcmp(p, s) == 0) {
-                Success = RemoveLoginItemAtIndex(kCurrentUser, Counter-1);
-            }
-        }
-    }
-
-    if (deleteLogInItem)
-        return false;
-        
-    // With wxCocoa 3.0, setting login item with hidden=true seems to prevent BOINC Manager
-    // from fully starting at login until it is brought to the front, so set hidden=false.
-    // The logic inside BOINC Manager keeps it hidden anyway (unless not attached to any projects.)
-    Success = AddLoginItemWithPropertiesToUser(kCurrentUser, appPath[brandID], kDoNotHideOnLaunch);
-
-    return Success;
 }
 
 
@@ -1057,8 +1001,7 @@ static char * PersistentFGets(char *buf, size_t buflen, FILE *f) {
     char *p = buf;
     size_t len = buflen;
     size_t datalen = 0;
-
-    *buf = '\0';
+    memset(buf, 0, buflen);
     while (datalen < (buflen - 1)) {
         fgets(p, len, f);
         if (feof(f)) break;
@@ -1379,10 +1322,10 @@ OSErr UpdateAllVisibleUsers(long brandID)
             }
             
             saved_uid = geteuid();
-            seteuid(pw->pw_uid);                        // Temporarily set effective uid to this user
             
             if (compareOSVersionTo(10, 6) < 0) {
-                f = popen("defaults -currentHost read com.apple.screensaver moduleName", "r");
+                sprintf(cmd, "sudo -u \"%s\" defaults -currentHost read com.apple.screensaver moduleName", pw->pw_name);
+                f = popen(cmd, "r");
             
                 if (f) {
                     found = false;
@@ -1397,16 +1340,17 @@ OSErr UpdateAllVisibleUsers(long brandID)
                         saverAlreadySetForAll = false;
                     }
                 }
+
             } else {
+                seteuid(pw->pw_uid);                        // Temporarily set effective uid to this user
                 err = GetCurrentScreenSaverSelection(s, sizeof(s) -1);
                 if (err == noErr) {
                     if (!strstr(s, saverName[brandID])) {
                         saverAlreadySetForAll = false;
                     }
                 }
+                seteuid(saved_uid);                         // Set effective uid back to privileged user
             }
-            
-            seteuid(saved_uid);                         // Set effective uid back to privileged user
         }       // End if (isGroupMember)
     }           // End for (userIndex=0; userIndex< human_user_names.size(); ++userIndex)
     
@@ -1555,28 +1499,12 @@ OSErr UpdateAllVisibleUsers(long brandID)
         }
 
         // Set login item for this user
-        if (compareOSVersionTo(10, 7) >= 0) {
-            // LoginItemAPI.c does not set hidden property for login items
-            // under OS 10.7.0, so use AppleScript instead to prevent Lion 
-            // from opening BOINC windows at system startup.  This was 
-            // apparently fixed in OS 10.7.1.
-            // LoginItemAPI.c does not work at all under OS 10.8 Preview 3 
-            // but this version of SetLoginItemOSAScript works for OS 10.7.0 
-            // and later, so we use it for OS 10.7.0 and later.
-            printf("[2] calling SetLoginItemOSAScript for user %s, euid = %d, deleteLoginItem = %d\n", 
-                pw->pw_name, geteuid(), deleteLoginItem);
-            fflush(stdout);
+        printf("[2] calling SetLoginItemOSAScript for user %s, euid = %d, deleteLoginItem = %d\n", 
+            pw->pw_name, geteuid(), deleteLoginItem);
+        fflush(stdout);
 
-            SetLoginItemOSAScript(brandID, deleteLoginItem, pw->pw_name);
-        } else {
-            seteuid(pw->pw_uid);    // Temporarily set effective uid to this user
-            printf("[2] calling SetLoginItemAPI for user %s, euid = %d, deleteLoginItem = %d\n", 
-                    pw->pw_name, geteuid(), deleteLoginItem);
-            fflush(stdout);
-            SetLoginItemAPI(brandID, deleteLoginItem);
-            seteuid(saved_uid);     // Set effective uid back to privileged user
-        }
-        
+        SetLoginItemOSAScript(brandID, deleteLoginItem, pw->pw_name);
+
         if (isBMGroupMember) {
             // For some reason we need to call getpwnam again on OS 10.5
             pw = getpwnam(human_user_name);
@@ -1588,18 +1516,18 @@ OSErr UpdateAllVisibleUsers(long brandID)
             SetSkinInUserPrefs(pw->pw_name, skinName[brandID]);
         
             if (setSaverForAllUsers) {
-                seteuid(pw->pw_uid);    // Temporarily set effective uid to this user
                 if (compareOSVersionTo(10, 6) < 0) {
-                     sprintf(s, "defaults -currentHost write com.apple.screensaver moduleName %s", saverNameEscaped[brandID]);
+                     sprintf(s, "sudo -u \"%s\" defaults -currentHost write com.apple.screensaver moduleName %s", pw->pw_name, saverNameEscaped[brandID]);
                     system (s);
-                    sprintf(s, "defaults -currentHost write com.apple.screensaver modulePath /Library/Screen\\ Savers/%s.saver", 
-                                saverNameEscaped[brandID]);
+                    sprintf(s, "sudo -u \"%s\" defaults -currentHost write com.apple.screensaver modulePath /Library/Screen\\ Savers/%s.saver", 
+                                pw->pw_name, saverNameEscaped[brandID]);
                     system (s);
                 } else {
+                    seteuid(pw->pw_uid);    // Temporarily set effective uid to this user
                     sprintf(s, "/Library/Screen Savers/%s.saver", saverName[brandID]);
                     err = SetScreenSaverSelection(saverName[brandID], s, 0);
+                    seteuid(saved_uid);     // Set effective uid back to privileged user
                 }
-                seteuid(saved_uid);     // Set effective uid back to privileged user
             }
         }
     }   // End for (userIndex=0; userIndex< human_user_names.size(); ++userIndex)
@@ -1858,10 +1786,11 @@ pid_t FindProcessPID(char* name, pid_t thePID)
     
     if (name != NULL)     // Search ny name
         n = strlen(name);
-    
+
     f = popen("ps -a -x -c -o command,pid", "r");
-    if (f == NULL)
+    if (f == NULL) {
         return 0;
+    }
     
     while (PersistentFGets(buf, sizeof(buf), f))
     {

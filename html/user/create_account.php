@@ -18,7 +18,7 @@
 
 // RPC handler for account creation
 
-require_once("../inc/db.inc");
+require_once("../inc/boinc_db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/email.inc");
 require_once("../inc/xml.inc");
@@ -67,7 +67,7 @@ if (strlen($passwd_hash) != 32) {
     xml_error(-1, "password hash length not 32");
 }
 
-$user = lookup_user_email_addr($email_addr);
+$user = BoincUser::lookup_email_addr($email_addr);
 if ($user) {
     if ($user->passwd_hash != $passwd_hash) {
         xml_error(ERR_DB_NOT_UNIQUE);

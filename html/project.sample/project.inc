@@ -29,6 +29,33 @@ define("UOTD_ADMIN_EMAIL", "admin@$master_url");
 // offensive forum posts.
 define("POST_REPORT_EMAILS", "moderator1@$master_url|moderator2@$master_url");
 
+// If you use PHPMailer, uncomment the following
+// and complete the function definition based on your SMTP server
+// (not all fields may be needed)
+//
+if (0) {
+function make_php_mailer() {
+    $mail = new PHPMailer();
+    $mail->IsSMTP();
+    //$mail->Mailer = 'smtp';
+    $mail->SMTPAuth = true;
+    $mail->SMTPSecure = "tls";
+    $mail->Host = "smtp.gmail.com";
+    $mail->Port = 587;
+    $mail->Username = "john.doe@gmail.com";
+    $mail->Password = "xxx";
+        // Google's application-specific password,
+        // if you are using the 2-Step Verification: 16 characters, no spaces.
+        // OR: Put here the regular Gmail password if you are not using the
+        // 2-Step Verification with your Gmail account.
+        // See https://support.google.com/accounts/answer/185833?hl=en";
+    $mail->SetFrom('admin@boincproject.com', 'John Doe');
+    $mail->AddReplyTo("admin@boincproject.com", "John Doe");
+    $mail->From = "admin@boincproject.com";
+    return $mail;
+}
+}
+
 function project_banner($title, $prefix) {
     // Put your project title and logo here
     // If you include any links, prepend URL with $prefix

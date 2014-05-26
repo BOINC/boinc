@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2014-01-10 00:00 PST\n"
-"PO-Revision-Date: 2014-01-19 08:15+0000\n"
+"PO-Revision-Date: 2014-04-05 17:35+0000\n"
 "Last-Translator: Gabor <csega@mailbox.hu>\n"
 "Language-Team: \n"
 "Language: hu\n"
@@ -21,7 +21,7 @@ msgstr ""
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-SearchPath-0: html\\user\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
-"X-POOTLE-MTIME: 1390119345.0\n"
+"X-POOTLE-MTIME: 1396719309.0\n"
 
 # The name of this language in this language
 msgid "LANG_NAME_NATIVE"
@@ -4732,18 +4732,24 @@ msgstr ""
 #: ../user/get_passwd.php:51
 msgid "Find your account file for this project; it will be named <b>%1</b>."
 msgstr ""
+"Keresse meg fiókfile-ját a projekthez az alábbi elnevezéssel: <b>%1</b>."
 
 #: ../user/get_passwd.php:52
 msgid "Open the file in a text editor like Notepad. You'll see something like"
 msgstr ""
+"Szövegszerkesztőben (pl. Jegyzettömb) nyissa meg a fájlt. Valami ilyesmit "
+"fog látni:"
 
 #: ../user/get_passwd.php:62
 msgid "Select and Copy the string between %1 and %2 (%3 in the above example)."
 msgstr ""
+"Jelölje ki és másolja ki a karakterláncot %1 és %2 között (%3 a fenti "
+"példában)."
 
 #: ../user/get_passwd.php:64
 msgid "Paste the string into the field below, and click OK."
 msgstr ""
+"Illessze be a karakterláncot az alábbi mezőbe és kattintson az OK gombra."
 
 #: ../user/get_passwd.php:65
 msgid ""
@@ -4757,7 +4763,7 @@ msgstr ""
 
 #: ../user/gpu_list.php:126 ../user/gpu_list.php:152
 msgid "No GPU tasks reported"
-msgstr ""
+msgstr "GPU feladat nincs jelentve"
 
 #: ../user/gpu_list.php:183
 msgid ""
@@ -5925,6 +5931,8 @@ msgid ""
 "Moderate the team forum, if any (admins get email notification of moderation "
 "events and red X reports)"
 msgstr ""
+"Moderálja a csapatfórumot, ha van (az adminok kapnak email értesítést a "
+"moderálási eseményekről és a piros X jelentésekről)"
 
 #: ../user/team_admins.php:47
 msgid "Team Admins cannot:"

@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2010 University of California
+# Copyright (C) 2014 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -27,7 +27,7 @@
 # Updated 7/9/12 for Xcode 4.3 and later which are not at a fixed address
 # Updated 2/7/14 to also build libboinc_zip.a
 #
-## This script requires OS 10.6 or later
+## This script requires OS 10.8 or later
 #
 ## If you drag-install Xcode 4.3 or later, you must have opened Xcode 
 ## and clicked the Install button on the dialog which appears to 

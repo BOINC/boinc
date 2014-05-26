@@ -687,8 +687,8 @@ void RSC_JOB_LIMIT::print_log(const char* rsc_name) {
 
 void JOB_LIMIT::print_log() {
     if (total.any_limit()) total.print_log("total");
-    if (cpu.any_limit()) cpu.print_log("CPU");
-    if (gpu.any_limit()) gpu.print_log("GPU");
+    if (proc_type_limits[0].any_limit()) proc_type_limits[0].print_log("CPU");
+    if (proc_type_limits[1].any_limit()) proc_type_limits[1].print_log("GPU");
 }
 
 void JOB_LIMITS::print_log() {
