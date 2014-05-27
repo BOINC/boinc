@@ -40,6 +40,7 @@ struct PLAN_CLASS_SPEC {
     char project_prefs_tag[256];
     bool have_project_prefs_regex;
     regex_t project_prefs_regex;
+    bool project_prefs_default_true;
     double avg_ncpus;
     int min_core_client_version;
     int max_core_client_version;

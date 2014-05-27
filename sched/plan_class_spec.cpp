@@ -285,7 +285,7 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
                 project_prefs_tag, p?"true":"false"
             );
         }
-        if (!p || regexec(&(project_prefs_regex), value, 0, NULL, 0)) {
+        if (p ? regexec(&(project_prefs_regex), value, 0, NULL, 0) : !project_prefs_default_true) {
             if (config.debug_version_select) {
                 log_messages.printf(MSG_NORMAL,
                     "[version] plan_class_spec: project prefs setting '%s' value='%s' prevents using plan class.\n",
@@ -729,6 +729,7 @@ int PLAN_CLASS_SPEC::parse(XML_PARSER& xp) {
             have_project_prefs_regex = true;
             continue;
         }
+        if (xp.parse_bool("project_prefs_default_true", project_prefs_default_true)) continue;
         if (xp.parse_double("avg_ncpus", avg_ncpus)) continue;
 
         if (xp.parse_double("cpu_frac", cpu_frac)) continue;
@@ -803,6 +804,7 @@ PLAN_CLASS_SPEC::PLAN_CLASS_SPEC() {
     have_os_regex = false;
     strcpy(project_prefs_tag, "");
     have_project_prefs_regex = false;
+    project_prefs_default_true = false;
     avg_ncpus = 0;
     min_core_client_version = 0;
     max_core_client_version = 0;
