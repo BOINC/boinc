@@ -1,0 +1,3 @@
+#!/bin/sh
+pid=`cat "$1"` &&
+ps ww $pid | grep "^ *\($pid\) " || echo false

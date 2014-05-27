@@ -555,8 +555,21 @@ static int send_results_for_file(
     nsent = 0;
 
     if (!work_needed(true)) {
+        if (config.debug_locality) {
+            log_messages.printf(MSG_NORMAL,
+                "[locality] send_results_for_file(): No work needed\n"
+            );
+        }
         return 0;
+    } else {
+        if (config.debug_locality) {
+            log_messages.printf(MSG_NORMAL,
+                "[locality] send_results_for_file(%s)\n",
+                filename
+            );
+        }
     }
+
 
     // find largest ID of results already sent to this user for this
     // file, if any.  Any result that is sent will have userid field
@@ -905,7 +918,7 @@ static int send_new_file_work_working_set() {
 }
 
 // prototype
-static int send_old_work(int t_min, int t_max);
+static int send_old_work(int t_min, int t_max, bool locality_work_only=false);
 
 // The host doesn't have any files for which work is available.
 // Pick new file to send.  Returns nonzero if no work is available.
@@ -971,10 +984,12 @@ static int send_new_file_work() {
 // also eventually move 'non locality' work through and out of the
 // system?
 //
+// Yes, Bruce, it will. BM
+//
 // This looks for work created in the range t_min < t < t_max.  Use
 // t_min=INT_MIN if you wish to leave off the left constraint.
 //
-static int send_old_work(int t_min, int t_max) {
+static int send_old_work(int t_min, int t_max, bool locality_work_only) {
     char buf[1024], filename[256];
     int retval, extract_retval, nsent;
     SCHED_DB_RESULT result;
@@ -997,14 +1012,24 @@ static int send_old_work(int t_min, int t_max) {
     //
     if (t_min != INT_MIN) {
         sprintf(buf,
+#ifdef EINSTEIN_AT_HOME
+            "INNER JOIN (SELECT id FROM result USE INDEX (res_create_server_state) WHERE server_state=%d and %d<create_time and create_time<%d %s limit 1) AS single USING (id)",
+            RESULT_SERVER_STATE_UNSENT, t_min, t_max, locality_work_only?"and name>binary '%s__' and name<binary '%s__~'":""
+#else
             "INNER JOIN (SELECT id FROM result WHERE server_state=%d and %d<create_time and create_time<%d limit 1) AS single USING (id)",
             RESULT_SERVER_STATE_UNSENT, t_min, t_max
+#endif
         );
     }
     else {
         sprintf(buf,
+#ifdef EINSTEIN_AT_HOME
+            "INNER JOIN (SELECT id FROM result USE INDEX (res_create_server_state) WHERE server_state=%d and create_time<%d %s limit 1) AS single USING (id)",
+            RESULT_SERVER_STATE_UNSENT, t_max, locality_work_only?"and name>binary '%s__' and name<binary '%s__~'":""
+#else
             "INNER JOIN (SELECT id FROM result WHERE server_state=%d and create_time<%d limit 1) AS single USING (id)",
             RESULT_SERVER_STATE_UNSENT, t_max
+#endif
         );
     }
 
@@ -1154,6 +1179,16 @@ void send_work_locality() {
             );
         }
 
+    // send old work if there is any. send this only to hosts which have
+    // high-bandwidth connections, since asking dial-up users to upload
+    // (presumably large) data files is onerous.
+    //
+    if (config.locality_scheduling_send_timeout && g_request->host.n_bwdown>100000) {
+        int until=time(0)-config.locality_scheduling_send_timeout;
+        int retval_sow=send_old_work(INT_MIN, until);
+        if (!work_needed(true)) return;
+    }
+
     // Look for work in order of increasing file name, or randomly?
     //
     if (config.locality_scheduling_sorted_order) {
@@ -1162,16 +1197,6 @@ void send_work_locality() {
     } else {
         if (!nfiles) nfiles = 1;
         j = rand()%nfiles;
-    }
-
-    // send old work if there is any. send this only to hosts which have
-    // high-bandwidth connections, since asking dial-up users to upload
-    // (presumably large) data files is onerous.
-    //
-    if (config.locality_scheduling_send_timeout && g_request->host.n_bwdown>100000) {
-        int until=time(0)-config.locality_scheduling_send_timeout;
-        int retval_sow=send_old_work(INT_MIN, until);
-        if (retval_sow==ERR_NO_APP_VERSION || retval_sow==ERR_INSUFFICIENT_RESOURCE) return;
     }
 
     // send work for existing files
@@ -1203,10 +1228,41 @@ void send_work_locality() {
                 );
             }
 #ifdef EINSTEIN_AT_HOME
-            // For name matching pattern h1_XXXX.XX_S5R4
-            // generate corresponding l1_XXXX.XX_S5R4 and *_S5R7 patterns and delete it also
+            // For name matching patterns h1_
+            // generate corresponding l1_ patterns and delete these also
             //
-            if (strlen(fi.name)==15 && !strncmp("h1_", fi.name, 3)) {
+            if (   /* files like h1_0340.30_S6GC1 */
+                   (   strlen(fi.name) == 16 &&
+                       !strncmp("h1_", fi.name, 3) &&
+                       !strncmp("_S6GC1", fi.name + 10, 6)
+                   ) ||
+                   /* files like h1_0000.00_S6Directed */
+                   (   strlen(fi.name) == 21 &&
+                       !strncmp("h1_", fi.name, 3) &&
+                       !strncmp("_S6Directed", fi.name + 10, 11)
+                   ) ||
+                   /* files like h1_0000.00_S6Direct */
+                   (   strlen(fi.name) == 19 &&
+                       !strncmp("h1_", fi.name, 3) &&
+                       !strncmp("_S6Direct", fi.name + 10, 9)
+                   )
+               ) {
+                FILE_INFO fil;
+                fil=fi;
+                fil.name[0]='l';
+                g_reply->file_deletes.push_back(fil);
+                if (config.debug_locality) {
+                    log_messages.printf(MSG_NORMAL,
+                        "[locality] [HOST#%d]: delete file %s (accompanies %s)\n",
+                        g_reply->host.id, fil.name, fi.name
+                    );
+                }
+            } else if ( /* for files like h1_XXXX.XX_S5R4 */
+                   (   strlen(fi.name) == 15 &&
+                       !strncmp("h1_", fi.name, 3) &&
+                       !strncmp("_S5R4", fi.name + 10, 5)
+                   )
+               ) {
                 FILE_INFO fil4,fil7,fih7;
                 fil4=fi;
                 fil4.name[0]='l';
@@ -1219,8 +1275,8 @@ void send_work_locality() {
                 g_reply->file_deletes.push_back(fih7);
                 if (config.debug_locality) {
                     log_messages.printf(MSG_NORMAL,
-                        "[locality] [HOST#%d]: delete files %s,%s,%s (not needed)\n",
-                        g_reply->host.id, fil4.name,fil7.name,fih7.name
+                        "[locality] [HOST#%d]: delete files %s,%s,%s (accompanies %s)\n",
+                        g_reply->host.id, fil4.name,fil7.name,fih7.name, fi.name
                     );
                 }
             }
