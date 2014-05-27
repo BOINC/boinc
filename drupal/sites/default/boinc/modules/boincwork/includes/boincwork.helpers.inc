@@ -186,6 +186,19 @@ function boincwork_get_preset_prefs($preset = null) {
 function boincwork_get_project_specific_config() {
   $raw_config_data = variable_get('boinc_project_specific_prefs_config', '');
   
+  $xsd = './' . drupal_get_path('module', 'boincwork') . '/includes/projectprefs.xsd';
+  libxml_use_internal_errors(true);
+  
+  $xml = new DomDocument();
+  $xml->loadXML($raw_config_data, LIBXML_NOBLANKS);
+  if (!$xml->schemaValidate($xsd)) {
+    $errors = libxml_get_errors();
+    $lines = explode("\r", $raw_config_data);
+    drupal_set_message("{$errors[0]->message} at line {$errors[0]->line}" .
+      ': <br/>' . htmlentities($lines[$errors[0]->line - 1]), 'error');
+    return NULL;
+  }
+  
   // Convert XML to array for validation
   $xml = load_configuration($raw_config_data);
   

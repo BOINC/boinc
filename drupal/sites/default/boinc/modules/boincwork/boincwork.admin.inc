@@ -30,6 +30,19 @@ function boincwork_admin_prefs_upload_form(&$form_state) {
   * Handle validation of preference upload form.
   */
 function boincwork_admin_prefs_upload_form_validate($form, &$form_state) {
+  
+  $xsd = './' . drupal_get_path('module', 'boincwork') . '/includes/projectprefs.xsd';
+  libxml_use_internal_errors(true);
+  $xml = new DomDocument();
+  $xml->loadXML($form_state['values']['prefs_xml'], LIBXML_NOBLANKS);
+  if (!$xml->schemaValidate($xsd)) {
+    $errors = libxml_get_errors();
+    $lines = explode("\r", $form_state['values']['prefs_xml']);
+    drupal_set_message("{$errors[0]->message} at line {$errors[0]->line}" .
+      ': <br/>' . htmlentities($lines[$errors[0]->line - 1]), 'error');
+    form_set_error('upload', t('XML file failed validation'));
+  }
+  
   // Convert XML to array for validation
   $xml = load_configuration($form_state['values']['prefs_xml']);
   
