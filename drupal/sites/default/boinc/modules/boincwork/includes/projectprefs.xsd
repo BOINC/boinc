@@ -5,7 +5,7 @@
            xmlns="http://boinc.berkeley.edu/drupal-psp.xsd"
            xmlns:psp="http://boinc.berkeley.edu/drupal-psp.xsd"
            elementFormDefault="qualified"
-           version="0.2">
+           version="0.3">
 
     <!-- simple types -->
 
@@ -184,25 +184,14 @@
 
     <xs:complexType name="group">
         <xs:sequence>
-            <xs:element name="title" type="title" minOccurs="0" maxOccurs="1" />
-            <xs:choice minOccurs="1" maxOccurs="1">
-                <!-- The title element is required when the following non-compound elements are grouped -->
-                <xs:choice minOccurs="1" maxOccurs="unbounded">
-                    <xs:element name="text" type="text" />
-                    <xs:element name="boolean" type="boolean" />
-                    <xs:element name="radio" type="radio" />
-                    <xs:element name="dropdown" type="dropdown" />
-                </xs:choice>
-                <!--
-                    * Single Compound elements have to be put into a group as well to allow for tag uniqueness verification
-                    * If a compound element is grouped, the group's "rendered" attribute must be set to "false"
-                      (the GUI doesn't support group nesting and compound elements are rendered like groups)
-                    * The compound element's title is used instead of the group element's title
-                -->
-                <xs:element name="compound" type="compound" />
+            <xs:element name="title" type="title" minOccurs="1" maxOccurs="1" />
+            <xs:choice minOccurs="1" maxOccurs="unbounded">
+                <xs:element name="text" type="text" />
+                <xs:element name="boolean" type="boolean" />
+                <xs:element name="radio" type="radio" />
+                <xs:element name="dropdown" type="dropdown" />
             </xs:choice>
         </xs:sequence>
-        <xs:attribute name="rendered" type="xs:boolean" default="true" />
     </xs:complexType>
 
     <!-- root element -->
@@ -213,11 +202,12 @@
                 <xs:choice minOccurs="1" maxOccurs="unbounded">
                     <xs:element ref="apps" />
                     <xs:element name="group" type="group" />
+                    <xs:element name="compound" type="compound" />
                 </xs:choice>
             </xs:sequence>
         </xs:complexType>
         <xs:unique name="unique-preference-tags-per-venue">
-            <xs:selector xpath=".//psp:group/*"/>
+            <xs:selector xpath=".//psp:group/*|psp:compound"/>
             <xs:field xpath="@name"/>
         </xs:unique>
     </xs:element>
