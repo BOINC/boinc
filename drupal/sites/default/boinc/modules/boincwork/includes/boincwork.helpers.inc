@@ -891,6 +891,27 @@ function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs 
     }
     break;
     
+  case 'group':
+    if (!is_numeric(key($elements))) {
+      $elements = array($elements);
+    }
+    foreach ($elements as $key => $element) {
+      $name = "group_{$key}";
+      $title = is_array($element['title']) ? $element['title']['@value'] : $element['title'];
+      $form[$name] = array(
+          '#title' => t($title),
+          '#type' => 'fieldset',
+          //'#description' => t('Notes about this group of fields'),
+          '#collapsible' => TRUE,
+          '#collapsed' => FALSE
+      );
+      // Recursively populate the compound element
+      foreach ($element as $child_type => $child) {
+        boincwork_generate_prefs_element($form[$name], $child_type, $child, $user_prefs);
+      }
+    }
+    break;
+    
   case 'compound':
     if (!is_numeric(key($elements))) {
       $elements = array($elements);
@@ -906,7 +927,7 @@ function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs 
           '#collapsed' => FALSE
       );
       // Recursively populate the compound element
-      foreach ($element as $child_type => $child) {
+      foreach ($element['attributes'] as $child_type => $child) {
         boincwork_generate_prefs_element($form[$name], $child_type, $child, $user_prefs[$name]);
       }
     }
