@@ -26,6 +26,28 @@
 
 using std::string;
 
+
+// this returns a numerical OS version for Darwin/OSX and Windows,
+// allowing to define a numerical _range_ for these OS versions
+static double os_version_num(HOST h) {
+    if (strstr(h.os_name, "Darwin")) {
+        unsigned int a,b,c;
+        if (sscanf(h.os_version, "%u.%u.%u", &a, &b, &c) == 3) {
+            return 10000.0*a + 100.0*b + c;
+        }
+    } else if (strstr(h.os_name, "Windows")) {
+        unsigned int a,b,c,d;
+        // example: "Enterprise Server Edition, Service Pack 1, (06.01.7601.00)"
+        char*p = strrchr(h.os_version,'(');
+        if (p && (sscanf(p, "(%u.%u.%u.%u)", &a, &b, &c, &d) == 4)) {
+            return 100000000.0*a + 1000000.0*b + 100.0*c +d;
+        }
+    }
+    // could not determine numerical OS version
+    return 0.0;
+}
+
+
 int PLAN_CLASS_SPECS::parse_file(const char* path) {
 #ifndef _USING_FCGI_
     FILE* f = fopen(path, "r");
@@ -168,8 +190,38 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
         }
         return false;
     }
+    if (min_os_version || max_os_version) {
+        double host_os_version_num = os_version_num(sreq.host);
+        if (!host_os_version_num) {
+            if (config.debug_version_select) {
+                log_messages.printf(MSG_NORMAL,
+                    "[version] plan_class_spec: Can't determine numerical OS version '%s'\n",
+                    sreq.host.os_version
+                );
+            }
+            return false;
+        }
+        if (min_os_version && (host_os_version_num < min_os_version)) {
+            if (config.debug_version_select) {
+                log_messages.printf(MSG_NORMAL,
+                    "[version] plan_class_spec: OS version '%s' too low (%.0f / %.0f)\n",
+                    sreq.host.os_version, host_os_version_num, min_os_version
+                );
+            }
+            return false;
+        }
+        if (max_os_version && (host_os_version_num > max_os_version)) {
+            if (config.debug_version_select) {
+                log_messages.printf(MSG_NORMAL,
+                    "[version] plan_class_spec: OS version '%s' too high (%.0f / %.0f)\n",
+                    sreq.host.os_version, host_os_version_num, max_os_version
+                );
+            }
+            return false;
+        }
+    }
 
-    // BOINC versions 
+    // BOINC versions
     //
     if (min_core_client_version && sreq.core_client_version < min_core_client_version) {
         if (config.debug_version_select) {
@@ -720,6 +772,8 @@ int PLAN_CLASS_SPEC::parse(XML_PARSER& xp) {
             have_host_summary_regex = true;
             continue;
         }
+        if (xp.parse_double("min_os_version", min_os_version)) continue;
+        if (xp.parse_double("max_os_version", max_os_version)) continue;
         if (xp.parse_str("project_prefs_tag", project_prefs_tag, sizeof(project_prefs_tag))) continue;
         if (xp.parse_str("project_prefs_regex", buf, sizeof(buf))) {
             if (regcomp(&(project_prefs_regex), buf, REG_EXTENDED|REG_NOSUB) ) {
@@ -802,6 +856,8 @@ PLAN_CLASS_SPEC::PLAN_CLASS_SPEC() {
     max_threads = 1;
     projected_flops_scale = 1;
     have_os_regex = false;
+    min_os_version = 0;
+    max_os_version = 0;
     strcpy(project_prefs_tag, "");
     have_project_prefs_regex = false;
     project_prefs_default_true = false;
