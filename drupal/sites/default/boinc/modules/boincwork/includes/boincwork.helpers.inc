@@ -201,20 +201,7 @@ function boincwork_get_project_specific_config() {
   
   // Convert XML to array for validation
   $xml = load_configuration($raw_config_data);
-  
-  // Validate against schema (as implemented here in PHP...)
-  if (!isset($xml['project_specific_preferences'])) {
-    drupal_set_message(t('prefs_xml::document is malformed',
-        array('@xml_path' => $xml_path)), 'warning');
-  }
-  elseif (!is_array($xml['project_specific_preferences'])) {
-    drupal_set_message(t('prefs_xml::document is empty',
-        array('@xml_path' => $xml_path)), 'warning');
-  }
-  elseif (boincwork_validate_prefs($xml['project_specific_preferences'], 'root')) {
-    return $xml;
-  }
-  return NULL;
+  return $xml;
 }
 
 /**

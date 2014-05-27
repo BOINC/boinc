@@ -42,24 +42,6 @@ function boincwork_admin_prefs_upload_form_validate($form, &$form_state) {
       ': <br/>' . htmlentities($lines[$errors[0]->line - 1]), 'error');
     form_set_error('upload', t('XML file failed validation'));
   }
-  
-  // Convert XML to array for validation
-  $xml = load_configuration($form_state['values']['prefs_xml']);
-  
-  // Validate against schema (as implemented here in PHP...)
-  if (!isset($xml['project_specific_preferences'])) {
-    drupal_set_message(t('prefs_xml::document is malformed',
-        array('@xml_path' => $xml_path)), 'warning');
-    form_set_error('upload', t('XML file failed validation'));
-  }
-  elseif (!is_array($xml['project_specific_preferences'])) {
-    drupal_set_message(t('prefs_xml::document is empty',
-        array('@xml_path' => $xml_path)), 'warning');
-    form_set_error('upload', t('XML file failed validation'));
-  }
-  elseif (!boincwork_validate_prefs($xml['project_specific_preferences'], 'root')) {
-    form_set_error('upload', t('XML file failed validation'));
-  }
 }
 
 /**
