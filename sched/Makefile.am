@@ -142,6 +142,7 @@ noinst_HEADERS = \
     plan_class_spec.h \
     sched_main.h \
     sched_locality.h \
+    sched_nci.h \
     sched_score.h \
     sched_send.h \
     sched_shmem.h \
@@ -167,6 +168,7 @@ cgi_sources = \
     sched_limit.cpp \
     sched_locality.cpp \
     sched_main.cpp \
+    sched_nci.cpp \
     sched_resend.cpp \
     sched_result.cpp \
     sched_score.cpp \

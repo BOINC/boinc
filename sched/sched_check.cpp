@@ -45,14 +45,14 @@ const char* infeasible_string(int code) {
 }
 
 // Return true if the user has set application preferences,
-// and this job is not for a selected app
+// and excluded this app
 //
-bool app_not_selected(WORKUNIT& wu) {
+bool app_not_selected(int appid) {
     unsigned int i;
 
     if (g_wreq->preferred_apps.size() == 0) return false;
     for (i=0; i<g_wreq->preferred_apps.size(); i++) {
-        if (wu.appid == g_wreq->preferred_apps[i].appid) {
+        if (appid == g_wreq->preferred_apps[i].appid) {
             g_wreq->preferred_apps[i].work_available = true;
             return false;
         }

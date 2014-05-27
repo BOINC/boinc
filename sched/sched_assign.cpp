@@ -35,6 +35,7 @@
 #include "error_numbers.h"
 #include "filesys.h"
 
+#include "sched_check.h"
 #include "sched_main.h"
 #include "sched_msgs.h"
 #include "sched_send.h"
@@ -73,7 +74,7 @@ static int send_assigned_job(ASSIGNMENT& asg) {
         return retval;
     }
 
-    if (app_not_selected(wu)) {
+    if (app_not_selected(wu.appid)) {
         log_messages.printf(MSG_CRITICAL,
             "Assigned WU %s is for app not selected by user\n", wu.name
         );

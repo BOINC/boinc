@@ -15,7 +15,9 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// scheduler code related to sending work
+// The "old style" scheduler, where we make multiple scans through
+// the job cache.
+// This will soon be deprecated in favor of score-based scheduling.
 
 #include <cstdlib>
 #include <string>
@@ -145,7 +147,7 @@ static bool quick_check(
         }
     }
 
-    // Find the app and best app_version for this host.
+    // Find the best app_version for this host.
     //
     bavp = get_app_version(wu, true, g_wreq->reliable_only);
     if (!bavp) {
@@ -164,7 +166,7 @@ static bool quick_check(
     if (g_wreq->user_apps_only &&
         (!g_wreq->beta_only || config.distinct_beta_apps)
     ) {
-        if (app_not_selected(wu)) {
+        if (app_not_selected(app->id)) {
             g_wreq->no_allowed_apps_available = true;
             if (config.debug_array_detail) {
                 log_messages.printf(MSG_NORMAL,
@@ -439,105 +441,6 @@ void send_work_old() {
         }
         scan_work_array();
     }
-}
-
-
-// try to send a job for the given app; used for non-compute-intensive apps
-//
-int send_job_for_app(APP& app) {
-    int retval = 0;
-    BEST_APP_VERSION* bavp;
-    SCHED_DB_RESULT result;
-
-    lock_sema();
-    for (int i=0; i<ssp->max_wu_results; i++) {
-        WU_RESULT& wu_result = ssp->wu_results[i];
-        if (wu_result.state != WR_STATE_PRESENT && wu_result.state != g_pid) {
-            continue;
-        }
-        WORKUNIT wu = wu_result.workunit;
-        if (wu.appid != app.id) continue;
-        if (!quick_check(wu_result, wu, bavp, &app, retval)) {
-            // All jobs for a given NCI app are identical.
-            // If we can't send one, we can't send any.
-            //
-            unlock_sema();
-            log_messages.printf(MSG_NORMAL,
-                "quick_check() failed for NCI job\n"
-            );
-            return -1;
-        }
-        wu_result.state = g_pid;
-        unlock_sema();
-        result.id = wu_result.resultid;
-        wu_result.state = WR_STATE_EMPTY;
-        if (result_still_sendable(result, wu)) {
-            if (config.debug_send) {
-                log_messages.printf(MSG_NORMAL,
-                    "Sending non-CPU-intensive job: %s\n", wu.name
-                );
-            }
-            add_result_to_reply(result, wu, bavp, false);
-            return 0;
-        }
-        log_messages.printf(MSG_NORMAL,
-            "NCI job was not still sendable\n"
-        );
-        lock_sema();
-    }
-    log_messages.printf(MSG_NORMAL,
-        "no sendable NCI jobs for %s\n", app.user_friendly_name
-    );
-    unlock_sema();
-    return 1;
-}
-
-// try to send jobs for non-CPU-intensive (NCI) apps
-// for which the host doesn't have a job in progress
-//
-int send_nci() {
-    int retval;
-    vector<APP> nci_apps;
-    char buf[1024];
-
-    // make a vector of NCI apps
-    //
-    for (int i=0; i<ssp->napps; i++) {
-        APP& app = ssp->apps[i];
-        if (!app.non_cpu_intensive) continue;
-        app.have_job = false;
-        nci_apps.push_back(app);
-    }
-
-    // scan through the list of in-progress jobs,
-    // flagging the associated apps as having jobs
-    //
-    for (unsigned int i=0; i<g_request->other_results.size(); i++) {
-        DB_RESULT r;
-        OTHER_RESULT &ores = g_request->other_results[i];
-        sprintf(buf, "where name='%s'", ores.name);
-        retval = r.lookup(buf);
-        if (retval) {
-            log_messages.printf(MSG_NORMAL, "No such result: %s\n", ores.name);
-            continue;
-        }
-        APP* app = ssp->lookup_app(r.appid);
-        app->have_job = true;
-    }
-
-    // For each NCI app w/o a job, try to send one
-    //
-    for (unsigned int i=0; i<nci_apps.size(); i++) {
-        APP& app = nci_apps[i];
-        if (app.have_job) continue;
-        retval = send_job_for_app(app);
-        if (retval) {
-            log_messages.printf(MSG_NORMAL,
-                "failed to send job for NCI app %s\n", app.user_friendly_name
-            );
-        }
-    }
-    return 0;
 }
 
 const char *BOINC_RCSID_d9f764fd14="$Id$";

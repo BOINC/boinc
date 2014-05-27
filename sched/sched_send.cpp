@@ -46,6 +46,7 @@
 #include "sched_locality.h"
 #include "sched_main.h"
 #include "sched_msgs.h"
+#include "sched_nci.h"
 #include "sched_shmem.h"
 #include "sched_score.h"
 #include "sched_timezone.h"
