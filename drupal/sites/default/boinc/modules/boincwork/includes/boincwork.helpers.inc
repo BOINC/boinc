@@ -542,8 +542,9 @@ function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs 
       $elements = array($elements);
     }
     foreach ($elements as $key => $element) {
-      $name = "group_{$key}";
       $title = is_array($element['title']) ? $element['title']['@value'] : $element['title'];
+      $name = str_replace(' ','_',strtolower($title));
+      $name = "group_{$name}";
       $form[$name] = array(
           '#title' => t($title),
           '#type' => 'fieldset',
