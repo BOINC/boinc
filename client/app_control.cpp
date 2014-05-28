@@ -357,7 +357,7 @@ void ACTIVE_TASK::handle_premature_exit(bool& will_restart) {
 // handle a temporary exit
 //
 void ACTIVE_TASK::handle_temporary_exit(
-    bool& will_restart, double backoff, const char* reason
+    bool& will_restart, double backoff, const char* reason, bool is_notice
 ) {
     premature_exit_count++;
     if (premature_exit_count > 100) {
@@ -367,10 +367,16 @@ void ACTIVE_TASK::handle_temporary_exit(
         gstate.report_result_error(*result, "too many boinc_temporary_exit()s");
         result->set_state(RESULT_ABORTED, "handle_temporary_exit");
     } else {
-        if (log_flags.task_debug) {
-            msg_printf(result->project, MSG_INFO,
-                "[task] task called temporary_exit(%f, %s)", backoff, reason
+        if (is_notice) {
+            msg_printf(result->project, MSG_USER_ALERT,
+                "Can't run task: %s", reason
             );
+        } else {
+            if (log_flags.task_debug) {
+                msg_printf(result->project, MSG_INFO,
+                    "[task] task called temporary_exit(%f, %s)", backoff, reason
+                );
+            }
         }
         will_restart = true;
         result->schedule_backoff = gstate.now + backoff;
@@ -442,10 +448,11 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
                 break;
             }
             double x;
+            bool is_notice;
             char buf[256];
             strcpy(buf, "");
-            if (temporary_exit_file_present(x, buf)) {
-                handle_temporary_exit(will_restart, x, buf);
+            if (temporary_exit_file_present(x, buf, is_notice)) {
+                handle_temporary_exit(will_restart, x, buf, is_notice);
             } else {
                 handle_premature_exit(will_restart);
             }
@@ -489,16 +496,9 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
 
             double x;
             char buf[256];
-            if (temporary_exit_file_present(x, buf)) {
-                if (log_flags.task_debug) {
-                    msg_printf(result->project, MSG_INFO,
-                        "[task] task called temporary_exit(%f)", x
-                    );
-                }
-                set_task_state(PROCESS_UNINITIALIZED, "temporary exit");
-                will_restart = true;
-                result->schedule_backoff = gstate.now + x;
-                safe_strcpy(result->schedule_backoff_reason, buf);
+            bool is_notice;
+            if (temporary_exit_file_present(x, buf, is_notice)) {
+                handle_temporary_exit(will_restart, x, buf, is_notice);
             } else {
                 if (log_flags.task_debug) {
                     msg_printf(result->project, MSG_INFO,
@@ -591,8 +591,10 @@ bool ACTIVE_TASK::finish_file_present() {
     return (boinc_file_exists(path) != 0);
 }
 
-bool ACTIVE_TASK::temporary_exit_file_present(double& x, char* buf) {
-    char path[MAXPATHLEN];
+bool ACTIVE_TASK::temporary_exit_file_present(
+    double& x, char* buf, bool& is_notice
+) {
+    char path[MAXPATHLEN], buf2[256];
     sprintf(path, "%s/%s", slot_dir, TEMPORARY_EXIT_FILE);
     FILE* f = fopen(path, "r");
     if (!f) return false;
@@ -607,6 +609,12 @@ bool ACTIVE_TASK::temporary_exit_file_present(double& x, char* buf) {
     (void) fgets(buf, 256, f);     // read the \n
     (void) fgets(buf, 256, f);
     strip_whitespace(buf);
+    is_notice = false;
+    if (fgets(buf2, 256, f)) {
+        if (strstr(buf2, "notice")) {
+            is_notice = true;
+        }
+    }
     fclose(f);
     return true;
 }

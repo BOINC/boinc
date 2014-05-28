@@ -703,7 +703,7 @@ int boinc_finish(int status) {
     return 0;   // never reached
 }
 
-int boinc_temporary_exit(int delay, const char* reason) {
+int boinc_temporary_exit(int delay, const char* reason, bool is_notice) {
     FILE* f = fopen(TEMPORARY_EXIT_FILE, "w");
     if (!f) {
         return ERR_FOPEN;
@@ -711,6 +711,9 @@ int boinc_temporary_exit(int delay, const char* reason) {
     fprintf(f, "%d\n", delay);
     if (reason) {
         fprintf(f, "%s\n", reason);
+        if (is_notice) {
+            fprintf(f, "notice\n");
+        }
     }
     fclose(f);
     boinc_exit(0);

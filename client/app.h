@@ -261,7 +261,7 @@ struct ACTIVE_TASK {
     void handle_exited_app(int stat);
 #endif
     void handle_premature_exit(bool&);
-    void handle_temporary_exit(bool&, double, const char*);
+    void handle_temporary_exit(bool&, double, const char*, bool);
 
     bool check_max_disk_exceeded();
 
@@ -271,7 +271,7 @@ struct ACTIVE_TASK {
     double est_dur();
     int read_stderr_file();
     bool finish_file_present();
-    bool temporary_exit_file_present(double&, char*);
+    bool temporary_exit_file_present(double&, char*, bool&);
     void init_app_init_data(APP_INIT_DATA&);
     int write_app_init_file(APP_INIT_DATA&);
     int move_trickle_file();

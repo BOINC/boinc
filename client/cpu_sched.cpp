@@ -167,7 +167,7 @@ struct PROC_RESOURCES {
 
     // we've decided to add this to the runnable list; update bookkeeping
     //
-    void schedule(RESULT* rp, ACTIVE_TASK* atp, const char* description) {
+    void schedule(RESULT* rp, const char* description) {
         if (log_flags.cpu_sched_debug) {
             msg_printf(rp->project, MSG_INFO,
                 "[cpu_sched_debug] add to run list: %s (%s) (prio %f)",
@@ -816,7 +816,7 @@ void add_coproc_jobs(
         rp->already_selected = true;
         atp = gstate.lookup_active_task_by_result(rp);
         if (!proc_rsc.can_schedule(rp, atp)) continue;
-        proc_rsc.schedule(rp, atp, "coprocessor job, EDF");
+        proc_rsc.schedule(rp, "coprocessor job, EDF");
         rp->project->rsc_pwf[rsc_type].deadlines_missed_copy--;
         rp->edf_scheduled = true;
         run_list.push_back(rp);
@@ -833,7 +833,7 @@ void add_coproc_jobs(
         rp->already_selected = true;
         atp = gstate.lookup_active_task_by_result(rp);
         if (!proc_rsc.can_schedule(rp, atp)) continue;
-        proc_rsc.schedule(rp, atp, "coprocessor job, FIFO");
+        proc_rsc.schedule(rp, "coprocessor job, FIFO");
         run_list.push_back(rp);
     }
 }
@@ -917,7 +917,7 @@ void CLIENT_STATE::make_run_list(vector<RESULT*>& run_list) {
         rp->already_selected = true;
         atp = lookup_active_task_by_result(rp);
         if (!proc_rsc.can_schedule(rp, atp)) continue;
-        proc_rsc.schedule(rp, atp, "CPU job, EDF");
+        proc_rsc.schedule(rp, "CPU job, EDF");
         rp->project->rsc_pwf[0].deadlines_missed_copy--;
         rp->edf_scheduled = true;
         run_list.push_back(rp);
@@ -934,7 +934,7 @@ void CLIENT_STATE::make_run_list(vector<RESULT*>& run_list) {
         if (!rp) break;
         atp = lookup_active_task_by_result(rp);
         if (!proc_rsc.can_schedule(rp, atp)) continue;
-        proc_rsc.schedule(rp, atp, "CPU job, priority order");
+        proc_rsc.schedule(rp, "CPU job, priority order");
         run_list.push_back(rp);
     }
 
