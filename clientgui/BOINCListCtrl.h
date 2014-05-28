@@ -88,6 +88,10 @@ private:
     CBOINCBaseView*         m_pParentView;
     wxArrayInt              m_iRowsNeedingProgressBars;
 
+#if ! USE_LIST_CACHE_HINT
+    void                    OnMouseDown(wxMouseEvent& event);
+#endif
+
 #if USE_NATIVE_LISTCONTROL
 public:
    void                     PostDrawProgressBarEvent();
@@ -107,7 +111,6 @@ private:
     void                    SetupMacAccessibilitySupport();
     void                    RemoveMacAccessibilitySupport();
     void                    OnSize( wxSizeEvent &event );
-    void                    OnMouseDown(wxMouseEvent& event);
 
     void*                   m_fauxHeaderView;
     void*                   m_fauxBodyView;
