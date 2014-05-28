@@ -46,15 +46,6 @@
 #endif
 
 
-#ifndef __APPLE__
-#ifdef _DEBUG
-#define wxDEBUG_LEVEL 1
-#else
-#define wxDEBUG_LEVEL 0
-#endif
-#endif
-
-
 #include <wx/wx.h>
 #include <wx/config.h>          // configuration support
 #include <wx/debug.h>           // diagnostics support
