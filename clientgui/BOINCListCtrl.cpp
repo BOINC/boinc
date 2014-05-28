@@ -28,21 +28,24 @@
 DEFINE_EVENT_TYPE(wxEVT_CHECK_SELECTION_CHANGED)
 
 #if USE_NATIVE_LISTCONTROL
-
 DEFINE_EVENT_TYPE(wxEVT_DRAW_PROGRESSBAR)
-
-BEGIN_EVENT_TABLE(CBOINCListCtrl, LISTCTRL_BASE)
-    EVT_DRAW_PROGRESSBAR(CBOINCListCtrl::OnDrawProgressBar)
-END_EVENT_TABLE()
-
-#else
-
-BEGIN_EVENT_TABLE(CBOINCListCtrl, LISTCTRL_BASE)
-	EVT_SIZE(CBOINCListCtrl::OnSize)
-    EVT_LEFT_DOWN(CBOINCListCtrl::OnMouseDown)
-END_EVENT_TABLE()
-
 #endif
+
+BEGIN_EVENT_TABLE(CBOINCListCtrl, LISTCTRL_BASE)
+
+#if USE_NATIVE_LISTCONTROL
+    EVT_DRAW_PROGRESSBAR(CBOINCListCtrl::OnDrawProgressBar)
+#endif
+
+#ifdef __WXMAC__
+	EVT_SIZE(CBOINCListCtrl::OnSize)    // In MacAccessibility.mm
+#endif
+
+#if ! USE_LIST_CACHE_HINT
+    EVT_LEFT_DOWN(CBOINCListCtrl::OnMouseDown)
+#endif
+END_EVENT_TABLE()
+
 
 BEGIN_EVENT_TABLE(MyEvtHandler, wxEvtHandler)
     EVT_PAINT(MyEvtHandler::OnPaint)
@@ -383,6 +386,11 @@ void MyEvtHandler::OnPaint(wxPaintEvent & event)
     }
 }
 
+#endif
+
+
+#if ! USE_LIST_CACHE_HINT
+
 // Work around features in multiple selection virtual wxListCtrl:
 //  * It does not send deselection events (except ctrl-click).
 //  * It does not send selection events if you add to selection
@@ -401,7 +409,6 @@ void CBOINCListCtrl::OnMouseDown(wxMouseEvent& event) {
 }
 
 #endif
-
 
 
 // To reduce flicker, refresh only changed columns (except 

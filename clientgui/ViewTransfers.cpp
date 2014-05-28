@@ -68,7 +68,7 @@ IMPLEMENT_DYNAMIC_CLASS(CViewTransfers, CBOINCBaseView)
 BEGIN_EVENT_TABLE (CViewTransfers, CBOINCBaseView)
     EVT_BUTTON(ID_TASK_TRANSFERS_RETRYNOW, CViewTransfers::OnTransfersRetryNow)
     EVT_BUTTON(ID_TASK_TRANSFERS_ABORT, CViewTransfers::OnTransfersAbort)
-#if USE_NATIVE_LISTCONTROL
+#if USE_LIST_CACHE_HINT
     EVT_LIST_CACHE_HINT(ID_LIST_WORKVIEW, CViewTransfers::OnCacheHint)
 #else
 	EVT_CHECK_SELECTION_CHANGED(CViewTransfers::OnCheckSelectionChanged)

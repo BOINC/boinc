@@ -28,6 +28,17 @@
 #define USE_NATIVE_LISTCONTROL 0
 #endif
 
+
+// Virtual wxListCtrl does not reliably generate selection and
+// deselection events, so we must check for these differently.
+#ifdef __WXMAC__
+// On Mac, check for selection / deselection on EVT_LEFT_DOWN. 
+#define USE_LIST_CACHE_HINT 0
+#else
+// On Windows, check for selection / deselection on EVT_LIST_CACHE_HINT. 
+#define USE_LIST_CACHE_HINT 1
+#endif
+
 #if USE_NATIVE_LISTCONTROL
 #define LISTCTRL_BASE wxListCtrl
 #include "wx/listctrl.h"
