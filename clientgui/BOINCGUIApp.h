@@ -207,7 +207,7 @@ public:
     //
     void                HideThisApp(void);
 
-#if !wxCHECK_VERSION(3,0,0)
+#if !wxCHECK_VERSION(3,0,1)
 // This should be fixed after wxCocoa 3.0.0:
 // http://trac.wxwidgets.org/ticket/16156
 
