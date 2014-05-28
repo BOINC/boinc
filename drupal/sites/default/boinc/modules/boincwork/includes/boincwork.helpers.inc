@@ -762,6 +762,11 @@ function boincwork_save_prefs($prefs, $type = 'general', $venue = null, $account
           else {
             // If prefs is null, clear out this preference set
             unset($main_prefs['venue'][$key]);
+            if (count($main_prefs['venue']) == 0) {
+              // If that was the only preference set configured, unset the
+              // venue tag altogether
+              unset($main_prefs['venue']);
+            }
           }
           $new_venue = false;
           break;
