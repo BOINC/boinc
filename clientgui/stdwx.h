@@ -46,10 +46,12 @@
 #endif
 
 
+#ifndef __APPLE__
 #ifdef _DEBUG
 #define wxDEBUG_LEVEL 1
 #else
 #define wxDEBUG_LEVEL 0
+#endif
 #endif
 
 
