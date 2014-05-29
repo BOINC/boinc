@@ -1023,14 +1023,20 @@ int main(int argc, char** argv) {
             if (boinc_time_to_checkpoint()) {
                 // Only peform a VM checkpoint every ten minutes or so.
                 //
-                if (elapsed_time >= checkpoint_cpu_time + random_checkpoint_factor + 600.0) {
+                if (current_cpu_time >= checkpoint_cpu_time + random_checkpoint_factor + 600.0) {
                     // Basic interleave factor is only needed once.
                     if (random_checkpoint_factor > 0) {
                         random_checkpoint_factor = 0.0;
                     }
 
-                    if ((elapsed_time - last_status_report_time) >= 6000.0) {
-                        last_status_report_time = elapsed_time;
+                    if ((current_cpu_time - last_status_report_time) >= 6000.0) {
+                        last_status_report_time = current_cpu_time;
+                        fprintf(
+                            stderr,
+                            "%s Status Report: CPU Time: '%f'\n",
+                            vboxwrapper_msg_prefix(buf, sizeof(buf)),
+                            current_cpu_time
+                        );
                         if (vm.job_duration) {
                             fprintf(
                                 stderr,
@@ -1048,29 +1054,25 @@ int main(int argc, char** argv) {
                             );
                         }
                         if (aid.global_prefs.daily_xfer_limit_mb) {
-                            if (vm.job_duration) {
-                                fprintf(
-                                    stderr,
-                                    "%s Status Report: Network Bytes Sent (Total): '%f'\n",
-                                    vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                                    bytes_sent
-                                );
-                            }
-                            if (elapsed_time) {
-                                fprintf(
-                                    stderr,
-                                    "%s Status Report: Network Bytes Received (Total): '%f'\n",
-                                    vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                                    bytes_received
-                                );
-                            }
+                            fprintf(
+                                stderr,
+                                "%s Status Report: Network Bytes Sent (Total): '%f'\n",
+                                vboxwrapper_msg_prefix(buf, sizeof(buf)),
+                                bytes_sent
+                            );
+                            fprintf(
+                                stderr,
+                                "%s Status Report: Network Bytes Received (Total): '%f'\n",
+                                vboxwrapper_msg_prefix(buf, sizeof(buf)),
+                                bytes_received
+                            );
                         }
 
                         vm.dumphypervisorstatusreports();
                     }
 
                     // Checkpoint
-                    retval = vm.createsnapshot(elapsed_time);
+                    retval = vm.createsnapshot(current_cpu_time);
                     if (retval) {
                         // Let BOINC clean-up the environment which should release any file/mutex locks and then attempt
                         // to resume from a previous snapshot.
@@ -1086,7 +1088,7 @@ int main(int argc, char** argv) {
                     } else {
                         // tell BOINC we've successfully created a checkpoint.
                         //
-                        checkpoint_cpu_time = elapsed_time;
+                        checkpoint_cpu_time = current_cpu_time;
                         write_checkpoint(checkpoint_cpu_time, vm);
                         boinc_checkpoint_completed();
                     }
