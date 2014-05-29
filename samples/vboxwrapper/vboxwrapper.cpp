@@ -559,7 +559,7 @@ int main(int argc, char** argv) {
             buf,
             buf
         );
-        boinc_temporary_exit(86400, "Incompatible confgiuration detected.");
+        boinc_temporary_exit(86400, "Incompatible configuration detected.");
     }
 
     // Check against known incompatible versions of VirtualBox.  
