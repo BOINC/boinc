@@ -704,6 +704,14 @@ int RSS_FEED::parse_items(XML_PARSER& xp, int& nitems) {
     return func_ret;
 }
 
+void RSS_FEED::delete_files() {
+    char path[MAXPATHLEN];
+    feed_file_name(path);
+    boinc_delete_file(path);
+    archive_file_name(path);
+    boinc_delete_file(path);
+}
+
 ///////////// RSS_FEED_OP ////////////////
 
 RSS_FEED_OP::RSS_FEED_OP() {
@@ -914,6 +922,7 @@ void RSS_FEEDS::update_feed_list() {
                     rf.url
                 );
             }
+            rf.delete_files();
             iter = feeds.erase(iter);
         }
     }
@@ -927,4 +936,10 @@ void RSS_FEEDS::write_feed_list() {
     fout.init_file(f);
     write_rss_feed_descs(fout, feeds);
     fclose(f);
+}
+
+void delete_project_notice_files(PROJECT* p) {
+    char path[MAXPATHLEN];
+    project_feed_list_file_name(p, path);
+    boinc_delete_file(path);
 }
