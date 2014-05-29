@@ -258,11 +258,6 @@ void CDlgDiagnosticLogFlags::OnOK(wxCommandEvent& event) {
 
 
 void CDlgDiagnosticLogFlags::OnSetDefaults(wxCommandEvent& ) {
-    CMainDocument* pDoc = wxGetApp().GetDocument();
-
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-
     log_flags.init();
     
     m_checkboxSizer->Clear(true);
