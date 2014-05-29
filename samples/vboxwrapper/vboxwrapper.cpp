@@ -1125,6 +1125,13 @@ int main(int argc, char** argv) {
                 boinc_parse_init_data_file();
                 boinc_get_init_data_p(&aid);
                 set_throttles(aid, vm);
+
+                fprintf(
+                    stderr,
+                    "%s Checkpoint Interval is now %d seconds.\n",
+                    vboxwrapper_msg_prefix(buf, sizeof(buf)),
+                    (int)aid.checkpoint_period
+                );
             }
 
             // if the VM has a maximum amount of time it is allowed to run,
