@@ -46,8 +46,18 @@
 // raw floppy drive device
 class FloppyIO;
 
+// represents a VirtualBox Guest Log Timestamp
+class VBOX_TIMESTAMP {
+public:
+    int hours;
+    int minutes;
+    int seconds;
+    int milliseconds;
+};
+
 // represents a VirtualBox VM
-struct VBOX_VM {
+class VBOX_VM {
+public:
     VBOX_VM();
     ~VBOX_VM();
 
@@ -63,6 +73,8 @@ struct VBOX_VM {
 
     // last polled copy of the log file
     std::string vm_log;
+    // last VM guest log entry detected
+    VBOX_TIMESTAMP vm_log_timestamp;
     // unique name for the VM
     std::string vm_master_name;
     // unique description for the VM
@@ -158,6 +170,7 @@ struct VBOX_VM {
     int restoresnapshot();
     void dumphypervisorlogs(bool include_error_logs);
     void dumphypervisorstatusreports();
+    void dumpvmguestlogentries();
 
     int is_registered();
     bool is_system_ready(std::string& message);
