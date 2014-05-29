@@ -378,6 +378,7 @@ int main(int argc, char** argv) {
     double trickle_period = 0;
     double fraction_done = 0;
     double checkpoint_cpu_time = 0;
+    double current_cpu_time = 0;
     double last_status_report_time = 0;
     double last_trickle_report_time = 0;
     double stopwatch_starttime = 0;
@@ -1000,6 +1001,25 @@ int main(int argc, char** argv) {
                }
             }
 
+            // Basic bookkeeping
+            //
+            if ((int)elapsed_time % 10) {
+                current_cpu_time = vm.get_vm_cpu_time();
+            }
+            if (vm.job_duration) {
+                fraction_done = elapsed_time / vm.job_duration;
+            } else if (vm.fraction_done_filename.size() > 0) {
+                read_fraction_done(fraction_done, vm);
+            }
+            if (fraction_done > 1.0) {
+                fraction_done = 1.0;
+            }
+            boinc_report_app_status(
+                current_cpu_time,
+                checkpoint_cpu_time,
+                fraction_done
+            );
+
             if (boinc_time_to_checkpoint()) {
                 // Only peform a VM checkpoint every ten minutes or so.
                 //
@@ -1007,16 +1027,6 @@ int main(int argc, char** argv) {
                     // Basic interleave factor is only needed once.
                     if (random_checkpoint_factor > 0) {
                         random_checkpoint_factor = 0.0;
-                    }
-
-                    // Basic bookkeeping
-                    if (vm.job_duration) {
-                        fraction_done = elapsed_time / vm.job_duration;
-                    } else if (vm.fraction_done_filename.size() > 0) {
-                        read_fraction_done(fraction_done, vm);
-                    }
-                    if (fraction_done > 1.0) {
-                        fraction_done = 1.0;
                     }
 
                     if ((elapsed_time - last_status_report_time) >= 6000.0) {
@@ -1078,11 +1088,6 @@ int main(int argc, char** argv) {
                         //
                         checkpoint_cpu_time = elapsed_time;
                         write_checkpoint(checkpoint_cpu_time, vm);
-                        boinc_report_app_status(
-                            elapsed_time,
-                            checkpoint_cpu_time,
-                            fraction_done
-                        );
                         boinc_checkpoint_completed();
                     }
                 }

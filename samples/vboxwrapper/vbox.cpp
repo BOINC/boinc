@@ -1979,6 +1979,14 @@ int VBOX_VM::get_vm_exit_code(unsigned long& exit_code) {
     return 0;
 }
 
+double VBOX_VM::get_vm_cpu_time() {
+    double x = process_tree_cpu_time(vm_pid);
+    if (x > current_cpu_time) {
+        current_cpu_time = x;
+    }
+    return current_cpu_time;
+}
+
 int VBOX_VM::get_port_forwarding_port() {
     sockaddr_in addr;
     BOINC_SOCKLEN_T addrsize;

@@ -98,6 +98,7 @@ public:
     // maximum amount of wall-clock time this VM is allowed to run before
     // considering itself done.
     double job_duration;
+    double current_cpu_time;
     // name of file where app will write its fraction done
     std::string fraction_done_filename;
     // is the VM suspended?
@@ -193,6 +194,7 @@ public:
     int get_vm_network_bytes_received(double& received);
     int get_vm_process_id();
     int get_vm_exit_code(unsigned long& exit_code);
+    double get_vm_cpu_time();
 
     int get_system_log(std::string& log, bool tail_only = true);
     int get_vm_log(std::string& log, bool tail_only = true);
