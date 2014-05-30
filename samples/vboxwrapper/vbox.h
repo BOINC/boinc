@@ -98,7 +98,10 @@ public:
     // maximum amount of wall-clock time this VM is allowed to run before
     // considering itself done.
     double job_duration;
+    // amount of CPU time consumed by the VM (note: use get_vm_cpu_time())
     double current_cpu_time;
+    // minimum amount of time between checkpoints
+    double minimum_checkpoint_interval;
     // name of file where app will write its fraction done
     std::string fraction_done_filename;
     // is the VM suspended?

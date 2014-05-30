@@ -98,23 +98,6 @@ OSErr QuitAppleEventHandler( const AppleEvent *appleEvt, AppleEvent* reply, UInt
 #endif
 
 
-void BOINCAssertHandler(const wxString &file, int line, const wxString &func, const wxString &cond, const wxString &msg) {
-    wxLogTrace(
-        wxT("Assert"),
-        wxT("ASSERT: %s:%d - %s - %s - %s"),
-        file.IsEmpty() ? wxT("<NULL>") : file.c_str(),
-        line,
-        func.IsEmpty() ? wxT("<NULL>") : func.c_str(),
-        cond.IsEmpty() ? wxT("<NULL>") : cond.c_str(),
-        msg.IsEmpty()  ? wxT("<NULL>") : msg.c_str()
-    );
-
-    if (wxIsDebuggerRunning()) {
-        wxTrap();
-    }
-}
-
-
 DEFINE_EVENT_TYPE(wxEVT_RPC_FINISHED)
 
 IMPLEMENT_APP(CBOINCGUIApp)
@@ -277,15 +260,10 @@ bool CBOINCGUIApp::OnInit() {
 
     diagnostics_init(dwDiagnosticsFlags, "stdoutgui", "stderrgui");
 
-#ifdef _NDEBUG
-    wxSetAssertHandler(BOINCAssertHandler);
-#endif
-
     // Enable Logging and Trace Masks
     m_pLog = new wxLogBOINC();
     wxLog::SetActiveTarget(m_pLog);
 
-    m_pLog->AddTraceMask(wxT("Assert"));
     m_pLog->AddTraceMask(wxT("Function Start/End"));
     m_pLog->AddTraceMask(wxT("Function Status"));
 

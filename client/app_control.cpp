@@ -1098,6 +1098,7 @@ int ACTIVE_TASK_SET::abort_project(PROJECT* project) {
         atp = *task_iter;
         if (atp->result->project == project) {
             client_clean_out_dir(atp->slot_dir, "abort_project()");
+            remove_project_owned_dir(atp->slot_dir);
             task_iter = active_tasks.erase(task_iter);
             delete atp;
         } else {

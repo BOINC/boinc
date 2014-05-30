@@ -2031,10 +2031,11 @@ int CLIENT_STATE::detach_project(PROJECT* project) {
         );
     }
 
-    // remove job log file
+    // remove miscellaneous per-project files
     //
-    job_log_filename(*project, path, sizeof(path));
-    boinc_delete_file(path);
+    //job_log_filename(*project, path, sizeof(path));
+    //boinc_delete_file(path);
+    delete_project_notice_files(project);
 
     rss_feeds.update_feed_list();
 
