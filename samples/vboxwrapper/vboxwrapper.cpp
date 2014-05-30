@@ -720,6 +720,7 @@ int main(int argc, char** argv) {
     // Restore from checkpoint
     //
     read_checkpoint(elapsed_time, current_cpu_time, vm);
+    starting_cpu_time = current_cpu_time;
 
     // Should we even try to start things up?
     //
