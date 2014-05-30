@@ -158,6 +158,7 @@ int parse_job_file(VBOX_VM& vm, vector<string>& copy_to_shared) {
         else if (xp.parse_string("os_name", vm.os_name)) continue;
         else if (xp.parse_string("memory_size_mb", vm.memory_size_mb)) continue;
         else if (xp.parse_double("job_duration", vm.job_duration)) continue;
+        else if (xp.parse_double("minimum_checkpoint_interval", vm.minimum_checkpoint_interval)) continue;
         else if (xp.parse_string("fraction_done_filename", vm.fraction_done_filename)) continue;
         else if (xp.parse_bool("enable_cern_dataformat", vm.enable_cern_dataformat)) continue;
         else if (xp.parse_bool("enable_network", vm.enable_network)) continue;
@@ -178,25 +179,28 @@ int parse_job_file(VBOX_VM& vm, vector<string>& copy_to_shared) {
     return ERR_XML_PARSE;
 }
 
-void write_checkpoint(double cpu, VBOX_VM& vm) {
+void write_checkpoint(double elapsed, double cpu, VBOX_VM& vm) {
     FILE* f = fopen(CHECKPOINT_FILENAME, "w");
     if (!f) return;
-    fprintf(f, "%f %d %d\n", cpu, vm.pf_host_port, vm.rd_host_port);
+    fprintf(f, "%f %f %d %d\n", elapsed, cpu, vm.pf_host_port, vm.rd_host_port);
     fclose(f);
 }
 
-void read_checkpoint(double& cpu, VBOX_VM& vm) {
+void read_checkpoint(double& elapsed, double& cpu, VBOX_VM& vm) {
     double c;
+    double e;
     int pf_host;
     int rd_host;
+    elapsed = 0.0;
     cpu = 0.0;
     vm.pf_host_port = 0;
     vm.rd_host_port = 0;
     FILE* f = fopen(CHECKPOINT_FILENAME, "r");
     if (!f) return;
-    int n = fscanf(f, "%lf %d %d", &c, &pf_host, &rd_host);
+    int n = fscanf(f, "%lf %lf %d %d", &e, &c, &pf_host, &rd_host);
     fclose(f);
-    if (n != 3) return;
+    if (n != 4) return;
+    elapsed = e;
     cpu = c;
     vm.pf_host_port = pf_host;
     vm.rd_host_port = rd_host;
@@ -370,6 +374,7 @@ void set_remote_desktop_info(APP_INIT_DATA& /* aid */, VBOX_VM& vm) {
 
 int main(int argc, char** argv) {
     int retval;
+    int loop_iteraction = 0;
     BOINC_OPTIONS boinc_options;
     VBOX_VM vm;
     APP_INIT_DATA aid;
@@ -377,8 +382,9 @@ int main(int argc, char** argv) {
     double elapsed_time = 0;
     double trickle_period = 0;
     double fraction_done = 0;
-    double checkpoint_cpu_time = 0;
     double current_cpu_time = 0;
+    double starting_cpu_time = 0;
+    double last_checkpoint_time = 0;
     double last_status_report_time = 0;
     double last_trickle_report_time = 0;
     double stopwatch_starttime = 0;
@@ -607,6 +613,18 @@ int main(int argc, char** argv) {
         boinc_finish(retval);
     }
 
+    // Record which mode VirtualBox should be started in.
+    //
+    if (vm.minimum_checkpoint_interval) {
+        fprintf(
+            stderr,
+            "%s Detected: minimum checkpoint interval (%f seconds)\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf)),
+            vm.minimum_checkpoint_interval
+        );
+        vm.headless = false;
+    }
+
     // Validate whatever configuration options we can
     //
     if (vm.enable_shared_directory) {
@@ -701,8 +719,7 @@ int main(int argc, char** argv) {
 
     // Restore from checkpoint
     //
-    read_checkpoint(checkpoint_cpu_time, vm);
-    elapsed_time = checkpoint_cpu_time;
+    read_checkpoint(elapsed_time, current_cpu_time, vm);
 
     // Should we even try to start things up?
     //
@@ -710,7 +727,7 @@ int main(int argc, char** argv) {
         return EXIT_TIME_LIMIT_EXCEEDED;
     }
 
-    retval = vm.run((elapsed_time > 0));
+    retval = vm.run((current_cpu_time > 0));
     if (retval) {
         // All 'failure to start' errors are unrecoverable by default
         bool   unrecoverable_error = true;
@@ -788,7 +805,7 @@ int main(int argc, char** argv) {
             if (!skip_cleanup) {
                 vm.cleanup();
             }
-            write_checkpoint(elapsed_time, vm);
+            write_checkpoint(elapsed_time, current_cpu_time, vm);
 
             if (error_reason.size()) {
                 fprintf(
@@ -811,8 +828,8 @@ int main(int argc, char** argv) {
             //
             if (vm.vm_pid) {
                 retval = boinc_report_app_status_aux(
-                    elapsed_time,
-                    checkpoint_cpu_time,
+                    current_cpu_time,
+                    last_checkpoint_time,
                     fraction_done,
                     vm.vm_pid,
                     bytes_sent,
@@ -849,8 +866,8 @@ int main(int argc, char** argv) {
         buf
     );
     retval = boinc_report_app_status_aux(
-        elapsed_time,
-        checkpoint_cpu_time,
+        current_cpu_time,
+        last_checkpoint_time,
         fraction_done,
         vm.vm_pid,
         bytes_sent,
@@ -897,7 +914,7 @@ int main(int argc, char** argv) {
     set_floppy_image(aid, vm);
     set_port_forwarding_info(aid, vm);
     set_remote_desktop_info(aid, vm);
-    write_checkpoint(elapsed_time, vm);
+    write_checkpoint(elapsed_time, current_cpu_time, vm);
 
     // Force throttling on our first pass through the loop
     boinc_status.reread_init_data_file = true;
@@ -905,6 +922,7 @@ int main(int argc, char** argv) {
     while (1) {
         // Begin stopwatch timer
         stopwatch_starttime = dtime();
+        loop_iteraction += 1;
 
         // Discover the VM's current state
         vm.poll();
@@ -1003,8 +1021,8 @@ int main(int argc, char** argv) {
 
             // Basic bookkeeping
             //
-            if ((int)elapsed_time % 10) {
-                current_cpu_time = vm.get_vm_cpu_time();
+            if (loop_iteraction % 10) {
+                current_cpu_time = starting_cpu_time + vm.get_vm_cpu_time();
             }
             if (vm.job_duration) {
                 fraction_done = elapsed_time / vm.job_duration;
@@ -1016,59 +1034,61 @@ int main(int argc, char** argv) {
             }
             boinc_report_app_status(
                 current_cpu_time,
-                checkpoint_cpu_time,
+                last_checkpoint_time,
                 fraction_done
             );
+
+            // Dump a status report at regular intervals
+            //
+            if ((elapsed_time - last_status_report_time) >= 6000.0) {
+                last_status_report_time = elapsed_time;
+                fprintf(
+                    stderr,
+                    "%s Status Report: CPU Time: '%f'\n",
+                    vboxwrapper_msg_prefix(buf, sizeof(buf)),
+                    current_cpu_time
+                );
+                if (vm.job_duration) {
+                    fprintf(
+                        stderr,
+                        "%s Status Report: Job Duration: '%f'\n",
+                        vboxwrapper_msg_prefix(buf, sizeof(buf)),
+                        vm.job_duration
+                    );
+                }
+                if (elapsed_time) {
+                    fprintf(
+                        stderr,
+                        "%s Status Report: Elapsed Time: '%f'\n",
+                        vboxwrapper_msg_prefix(buf, sizeof(buf)),
+                        elapsed_time
+                    );
+                }
+                if (aid.global_prefs.daily_xfer_limit_mb) {
+                    fprintf(
+                        stderr,
+                        "%s Status Report: Network Bytes Sent (Total): '%f'\n",
+                        vboxwrapper_msg_prefix(buf, sizeof(buf)),
+                        bytes_sent
+                    );
+                    fprintf(
+                        stderr,
+                        "%s Status Report: Network Bytes Received (Total): '%f'\n",
+                        vboxwrapper_msg_prefix(buf, sizeof(buf)),
+                        bytes_received
+                    );
+                }
+
+                vm.dumphypervisorstatusreports();
+            }
 
             if (boinc_time_to_checkpoint()) {
                 // Only peform a VM checkpoint every ten minutes or so.
                 //
-                if (current_cpu_time >= checkpoint_cpu_time + random_checkpoint_factor + 600.0) {
+                if (current_cpu_time >= last_checkpoint_time + vm.minimum_checkpoint_interval + random_checkpoint_factor) {
                     // Basic interleave factor is only needed once.
                     if (random_checkpoint_factor > 0) {
                         random_checkpoint_factor = 0.0;
-                    }
-
-                    if ((current_cpu_time - last_status_report_time) >= 6000.0) {
-                        last_status_report_time = current_cpu_time;
-                        fprintf(
-                            stderr,
-                            "%s Status Report: CPU Time: '%f'\n",
-                            vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                            current_cpu_time
-                        );
-                        if (vm.job_duration) {
-                            fprintf(
-                                stderr,
-                                "%s Status Report: Job Duration: '%f'\n",
-                                vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                                vm.job_duration
-                            );
-                        }
-                        if (elapsed_time) {
-                            fprintf(
-                                stderr,
-                                "%s Status Report: Elapsed Time: '%f'\n",
-                                vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                                elapsed_time
-                            );
-                        }
-                        if (aid.global_prefs.daily_xfer_limit_mb) {
-                            fprintf(
-                                stderr,
-                                "%s Status Report: Network Bytes Sent (Total): '%f'\n",
-                                vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                                bytes_sent
-                            );
-                            fprintf(
-                                stderr,
-                                "%s Status Report: Network Bytes Received (Total): '%f'\n",
-                                vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                                bytes_received
-                            );
-                        }
-
-                        vm.dumphypervisorstatusreports();
                     }
 
                     // Checkpoint
@@ -1088,8 +1108,8 @@ int main(int argc, char** argv) {
                     } else {
                         // tell BOINC we've successfully created a checkpoint.
                         //
-                        checkpoint_cpu_time = current_cpu_time;
-                        write_checkpoint(checkpoint_cpu_time, vm);
+                        last_checkpoint_time = current_cpu_time;
+                        write_checkpoint(elapsed_time, current_cpu_time, vm);
                         boinc_checkpoint_completed();
                     }
                 }
@@ -1097,12 +1117,12 @@ int main(int argc, char** argv) {
 
             if (trickle_period) {
                 if ((elapsed_time - last_trickle_report_time) >= trickle_period) {
+                    last_trickle_report_time = elapsed_time;
                     fprintf(
                         stderr,
                         "%s Status Report: Trickle-Up Event.\n",
                         vboxwrapper_msg_prefix(buf, sizeof(buf))
                     );
-                    last_trickle_report_time = elapsed_time;
                     sprintf(buf,
                         "<cpu_time>%f</cpu_time>", last_trickle_report_time
                     );
@@ -1200,7 +1220,7 @@ int main(int argc, char** argv) {
         if (report_net_usage) {
             retval = boinc_report_app_status_aux(
                 elapsed_time,
-                checkpoint_cpu_time,
+                last_checkpoint_time,
                 fraction_done,
                 vm.vm_pid,
                 bytes_sent,
