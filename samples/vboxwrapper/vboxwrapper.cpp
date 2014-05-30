@@ -1019,7 +1019,7 @@ int main(int argc, char** argv) {
 
             // Basic bookkeeping
             //
-            if (loop_iteraction % 10) {
+            if ((loop_iteraction % 10) == 0) {
                 current_cpu_time = starting_cpu_time + vm.get_vm_cpu_time();
             }
             if (vm.job_duration) {
