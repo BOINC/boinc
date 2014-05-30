@@ -268,10 +268,10 @@ void set_throttles(APP_INIT_DATA& aid, VBOX_VM& vm) {
 }
 
 // If the Floppy device has been specified, initialize its state so that
-// it contains the contents of the init_data.xml file.  In theory this
-// would allow network enabled VMs to know about proxy server configurations
-// either specified by the volunteer or automatically detected by the
-// core client.
+// it contains the contents of the init_data.xml file.
+// In theory this would allow network enabled VMs to know about
+// proxy server configurations either specified by the volunteer
+// or automatically detected by the client.
 //
 // CERN decided they only needed a small subset of the data and changed the
 // data format to 'name=value\n' pairs.  So if we are running under their
