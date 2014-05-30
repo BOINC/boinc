@@ -104,6 +104,7 @@ function sandbox_file_names($user) {
         if ($f == '..') continue;
         $names[] = $f;
     }
+    natsort($names);
     return $names;
 }
 
