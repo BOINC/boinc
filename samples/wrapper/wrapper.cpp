@@ -21,7 +21,7 @@
 // Handles:
 // - suspend/resume/quit/abort
 // - reporting CPU time
-// - loss of heartbeat from core client
+// - loss of heartbeat from client
 // - checkpointing
 //      (at the level of task; or potentially within task)
 //
