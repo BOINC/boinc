@@ -546,7 +546,7 @@ int main(int argc, char** argv) {
 
     // Record which mode VirtualBox should be started in.
     //
-    if (aid.vbox_window) {
+    if (aid.vbox_window || boinc_is_standalone()) {
         fprintf(
             stderr,
             "%s Detected: Headless Mode Disabled\n",
