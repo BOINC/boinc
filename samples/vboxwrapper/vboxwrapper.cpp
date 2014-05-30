@@ -615,15 +615,12 @@ int main(int argc, char** argv) {
 
     // Record which mode VirtualBox should be started in.
     //
-    if (vm.minimum_checkpoint_interval) {
-        fprintf(
-            stderr,
-            "%s Detected: minimum checkpoint interval (%f seconds)\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf)),
-            vm.minimum_checkpoint_interval
-        );
-        vm.headless = false;
-    }
+    fprintf(
+        stderr,
+        "%s Detected: Minimum checkpoint interval (%f seconds)\n",
+        vboxwrapper_msg_prefix(buf, sizeof(buf)),
+        vm.minimum_checkpoint_interval
+    );
 
     // Validate whatever configuration options we can
     //
