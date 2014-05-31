@@ -1041,12 +1041,6 @@ int main(int argc, char** argv) {
             //
             if ((elapsed_time - last_status_report_time) >= 6000.0) {
                 last_status_report_time = elapsed_time;
-                fprintf(
-                    stderr,
-                    "%s Status Report: CPU Time: '%f'\n",
-                    vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                    current_cpu_time
-                );
                 if (vm.job_duration) {
                     fprintf(
                         stderr,
@@ -1063,6 +1057,12 @@ int main(int argc, char** argv) {
                         elapsed_time
                     );
                 }
+                fprintf(
+                    stderr,
+                    "%s Status Report: CPU Time: '%f'\n",
+                    vboxwrapper_msg_prefix(buf, sizeof(buf)),
+                    current_cpu_time
+                );
                 if (aid.global_prefs.daily_xfer_limit_mb) {
                     fprintf(
                         stderr,
@@ -1084,14 +1084,14 @@ int main(int argc, char** argv) {
             if (boinc_time_to_checkpoint()) {
                 // Only peform a VM checkpoint every ten minutes or so.
                 //
-                if (current_cpu_time >= last_checkpoint_time + vm.minimum_checkpoint_interval + random_checkpoint_factor) {
+                if (elapsed_time >= last_checkpoint_time + vm.minimum_checkpoint_interval + random_checkpoint_factor) {
                     // Basic interleave factor is only needed once.
                     if (random_checkpoint_factor > 0) {
                         random_checkpoint_factor = 0.0;
                     }
 
                     // Checkpoint
-                    retval = vm.createsnapshot(current_cpu_time);
+                    retval = vm.createsnapshot(elapsed_time);
                     if (retval) {
                         // Let BOINC clean-up the environment which should release any file/mutex locks and then attempt
                         // to resume from a previous snapshot.
@@ -1107,7 +1107,7 @@ int main(int argc, char** argv) {
                     } else {
                         // tell BOINC we've successfully created a checkpoint.
                         //
-                        last_checkpoint_time = current_cpu_time;
+                        last_checkpoint_time = elapsed_time;
                         write_checkpoint(elapsed_time, current_cpu_time, vm);
                         boinc_checkpoint_completed();
                     }
