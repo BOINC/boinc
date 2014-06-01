@@ -55,9 +55,6 @@ if ($format=="xml"){
 
     show_user_xml($user, $show_hosts);
 } else {
-    db_init();  // need to do this in any case,
-        // since show_user_summary_public() etc. accesses DB
-
     // The page may be presented in many different languages,
     // so here we cache the data instead
     //
