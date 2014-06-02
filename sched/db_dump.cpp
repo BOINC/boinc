@@ -650,7 +650,7 @@ void print_badges(FILE* f) {
             "       <badge>\n"
             "           <id>%d</id>\n"
             "           <name>%s</name>\n"
-            "           <title>%s</name>\n"
+            "           <title>%s</title>\n"
             "           <image_url>%s</image_url>\n"
             "       </badge>\n",
             badge.id,
