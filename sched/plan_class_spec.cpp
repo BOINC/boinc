@@ -771,12 +771,12 @@ PLAN_CLASS_SPEC::PLAN_CLASS_SPEC() {
     max_threads = 1;
     projected_flops_scale = 1;
     have_os_regex = false;
-    have_host_summary_regex = false;
     strcpy(project_prefs_tag, "");
     have_project_prefs_regex = false;
     avg_ncpus = 0;
-    min_core_client_version=0;
-    max_core_client_version=0;
+    min_core_client_version = 0;
+    max_core_client_version = 0;
+    have_host_summary_regex = false;
 
     cpu_frac = .1;
     min_gpu_ram_mb = 0;
@@ -789,6 +789,8 @@ PLAN_CLASS_SPEC::PLAN_CLASS_SPEC() {
 
     need_ati_libs = false;
     need_amd_libs = false;
+    min_cal_target = 0;
+    max_cal_target = 0;
     without_opencl = false;
 
     min_nvidia_compcap = 0;
@@ -798,7 +800,6 @@ PLAN_CLASS_SPEC::PLAN_CLASS_SPEC() {
 
     min_opencl_version = 0;
     max_opencl_version = 0;
-
     min_opencl_driver_revision = 0;
     max_opencl_driver_revision = 0;
 

@@ -300,7 +300,7 @@ int CC_CONFIG::parse_options_client(XML_PARSER& xp) {
                     "Can't parse <coproc> element in cc_config.xml"
                 );
             }
-            retval = coprocs.add(c);
+            retval = config_coprocs.add(c);
             if (retval) {
                 msg_printf_notice(NULL, false, NULL,
                     "Duplicate <coproc> element in cc_config.xml"
