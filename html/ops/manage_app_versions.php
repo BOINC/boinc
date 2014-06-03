@@ -50,7 +50,7 @@ function show_form() {
 
     start_table("");
     table_header(
-        "ID #",
+        "ID #<br><span class=note>click for details</span>",
       "Application",
       "Version",
       "Platform",
@@ -76,7 +76,7 @@ function show_form() {
         echo "<tr class=row$i><form action=manage_app_versions.php method=POST>\n";
         $i = 1-$i;
         echo "<input type=hidden name=id value=$av->id>";
-        echo "  <TD>$f1 $av->id $f2</TD>\n";
+        echo "  <TD>$f1 <a href=db_action.php?table=app_version&id=$av->id>$av->id</a> $f2</TD>\n";
 
         $app = $apps[$av->appid];
         echo "  <TD>$f1 $app->name $f2</TD>\n";
