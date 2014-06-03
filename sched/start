@@ -161,6 +161,9 @@ def get_daemon_output_name(task):
     return os.path.join(log_dir,
         task.__dict__.get('output') or get_task_command_basename(task) + '.log')
 
+def get_daemon_silent_start(task):
+    return task.__dict__.get('silent_start') or 0
+
 def get_daemon_pid_name(task):
     return os.path.join(pid_dir,
         task.__dict__.get('pid_file') or get_task_command_basename(task) + '.pid')
@@ -404,7 +407,7 @@ def run_daemon(task):
         if verbose:
             print >>sys.stderr, "  Daemon already running:",task.cmd
         sys.exit(0)
-    if verbose or verbose_daemon_run:
+    if verbose or ( verbose_daemon_run and not get_daemon_silent_start(task) ):
         print "  Starting daemon:", task.cmd
         sys.stdout.flush()
     redirect(get_daemon_output_name(task))
