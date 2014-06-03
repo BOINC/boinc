@@ -91,6 +91,7 @@ void CLIENT_TIME_STATS::init() {
     session_active_duration = 0;
     session_gpu_active_duration = 0;
     total_start_time = 0;
+    total_duration = 0;
     total_active_duration = 0;
     total_gpu_active_duration = 0;
 
