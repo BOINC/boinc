@@ -109,6 +109,12 @@ int TIME_STATS::parse(XML_PARSER& xp) {
         if (xp.parse_double("gpu_active_frac", gpu_active_frac)) continue;
         if (xp.parse_double("client_start_time", client_start_time)) continue;
         if (xp.parse_double("previous_uptime", previous_uptime)) continue;
+        if (xp.parse_double("session_active_duration", session_active_duration)) continue;
+        if (xp.parse_double("session_gpu_active_duration", session_gpu_active_duration)) continue;
+        if (xp.parse_double("total_start_time", total_start_time)) continue;
+        if (xp.parse_double("total_duration", total_duration)) continue;
+        if (xp.parse_double("total_active_duration", total_active_duration)) continue;
+        if (xp.parse_double("total_gpu_active_duration", total_gpu_active_duration)) continue;
     }
     return ERR_XML_PARSE;
 }

@@ -100,7 +100,8 @@ void PROJECT::print() {
     printf("   suspended via GUI: %s\n", suspended_via_gui?"yes":"no");
     printf("   don't request more work: %s\n", dont_request_more_work?"yes":"no");
     printf("   disk usage: %f\n", disk_usage);
-    printf("   last RPC: %f\n", last_rpc_time);
+    time_t foo = (time_t)last_rpc_time;
+    printf("   last RPC: %s\n", ctime(&foo));
     printf("   project files downloaded: %f\n", project_files_downloaded_time);
     for (i=0; i<gui_urls.size(); i++) {
         gui_urls[i].print();
@@ -224,8 +225,16 @@ void TIME_STATS::print() {
     printf("  cpu_and_network_available_frac: %f\n", cpu_and_network_available_frac);
     printf("  active_frac: %f\n", active_frac);
     printf("  gpu_active_frac: %f\n", gpu_active_frac);
-    printf("  client_start_time: %f\n", client_start_time);
+    time_t foo = (time_t)client_start_time;
+    printf("  client_start_time: %s\n", ctime(&foo));
     printf("  previous_uptime: %f\n", previous_uptime);
+    printf("  session_active_duration: %f\n", session_active_duration);
+    printf("  session_gpu_active_duration: %f\n", session_gpu_active_duration);
+    foo = (time_t)total_start_time;
+    printf("  total_start_time: %s\n", ctime(&foo));
+    printf("  total_duration: %f\n", total_duration);
+    printf("  total_active_duration: %f\n", total_active_duration);
+    printf("  total_gpu_active_duration: %f\n", total_gpu_active_duration);
 }
 
 void CC_STATE::print() {

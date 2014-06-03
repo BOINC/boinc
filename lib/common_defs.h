@@ -214,9 +214,10 @@ enum BATTERY_STATE {
     // result and workunit records can be purged.
 
 struct TIME_STATS {
-// we maintain an exponentially weighted average of these quantities:
     double now;
-        // the client's time of day
+        // the client's current time of day
+
+    // we maintain an exponentially weighted average of these quantities:
     double on_frac;
         // the fraction of total time this host runs the client
     double connected_frac;
@@ -234,9 +235,27 @@ struct TIME_STATS {
         // (as determined by preferences, manual suspend/resume, etc.)
     double gpu_active_frac;
         // same, GPU
+
+    // info for the current session (i.e. run of the client)
+    //
     double client_start_time;
+        // start of current session
     double previous_uptime;
         // duration of previous session
+    double session_active_duration;
+        // time computation enabled
+    double session_gpu_active_duration;
+        // time GPU computation enabled
+
+    // info since the client was first run
+    //
+    double total_start_time;
+    double total_duration;
+        // time BOINC client has run
+    double total_active_duration;
+        // time computation allowed
+    double total_gpu_active_duration;
+        // time GPU computation allowed
 
     void write(MIOFILE&);
     int parse(XML_PARSER&);
