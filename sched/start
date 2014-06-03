@@ -709,10 +709,10 @@ if not command:
 
 config = configxml.ConfigFile(config_filename).read()
 
-# if a <tasks_user> (name) is configured, terminate script if not ran by this user
-if 'tasks_user' in config.config.__dict__:
-    if getpass.getuser() != config.config.tasks_user:
-        raise SystemExit('The script must be run by user "' + config.config.tasks_user + '"')
+# if a <project_user_name> is configured, terminate script if not ran by this user
+if 'project_user_name' in config.config.__dict__:
+    if getpass.getuser() != config.config.project_user_name:
+        raise SystemExit('The script must be run by user "' + config.config.project_user_name + '"')
 
 run_state = configxml.RunStateFile(run_state_filename).read(failopen_ok = True)
 
