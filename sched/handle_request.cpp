@@ -1209,8 +1209,8 @@ void process_request(char* code_sign_key) {
         int pid_with_lock = lock_sched();
         if (pid_with_lock > 0) {
             log_messages.printf(MSG_CRITICAL,
-                "Another scheduler instance [PID=%d] is running for this host\n",
-                pid_with_lock
+                "Another scheduler instance [PID=%d] is running for [HOST#%d]\n",
+                pid_with_lock, g_reply->host.id
             );
         } else if (pid_with_lock) {
             log_messages.printf(MSG_CRITICAL,
