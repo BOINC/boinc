@@ -104,6 +104,8 @@ void PROJECT::init() {
     possibly_backed_off = false;
     nuploading_results = 0;
     too_many_uploading_results = false;
+    njobs_success = 0;
+    njobs_error = 0;
 
 #ifdef SIM
     idle_time = 0;
@@ -310,6 +312,8 @@ int PROJECT::parse_state(XML_PARSER& xp) {
             continue;
         }
         if (xp.parse_double("desired_disk_usage", desired_disk_usage)) continue;
+        if (xp.parse_int("njobs_success", njobs_success)) continue;
+        if (xp.parse_int("njobs_error", njobs_error)) continue;
 #ifdef SIM
         if (xp.match_tag("available")) {
             available.parse(xp, "/available");
@@ -365,13 +369,14 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         "    <next_rpc_time>%f</next_rpc_time>\n"
         "    <rec>%f</rec>\n"
         "    <rec_time>%f</rec_time>\n"
-
         "    <resource_share>%f</resource_share>\n"
         "    <desired_disk_usage>%f</desired_disk_usage>\n"
         "    <duration_correction_factor>%f</duration_correction_factor>\n"
         "    <sched_rpc_pending>%d</sched_rpc_pending>\n"
         "    <send_time_stats_log>%d</send_time_stats_log>\n"
         "    <send_job_log>%d</send_job_log>\n"
+        "    <njobs_success>%d</njobs_success>\n"
+        "    <njobs_error>%d</njobs_error>\n"
         "%s%s%s%s%s%s%s%s%s%s%s%s%s%s",
         master_url,
         project_name,
@@ -404,6 +409,8 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         sched_rpc_pending,
         send_time_stats_log,
         send_job_log,
+        njobs_success,
+        njobs_error,
         anonymous_platform?"    <anonymous_platform/>\n":"",
         master_url_fetch_pending?"    <master_url_fetch_pending/>\n":"",
         trickle_up_pending?"    <trickle_up_pending/>\n":"",
@@ -558,6 +565,8 @@ void PROJECT::copy_state_fields(PROJECT& p) {
     }
     desired_disk_usage = p.desired_disk_usage;
     use_symlinks = p.use_symlinks;
+    njobs_success = p.njobs_success;
+    njobs_error = p.njobs_error;
 }
 
 // Write project statistic to GUI RPC reply

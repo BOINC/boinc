@@ -106,6 +106,8 @@ void PROJECT::print() {
     for (i=0; i<gui_urls.size(); i++) {
         gui_urls[i].print();
     }
+    printf("   jobs succeeded: %d\n", njobs_success);
+    printf("   jobs failed: %d\n", njobs_error);
 }
 
 void APP::print() {
