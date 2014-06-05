@@ -86,7 +86,7 @@ BEGIN_EVENT_TABLE (CViewProjects, CBOINCBaseView)
 // EVT_CHECK_SELECTION_CHANGED on Mac instead of EVT_LIST_ITEM_SELECTED
 // or EVT_LIST_ITEM_DESELECTED.  See CBOINCBaseView::OnCacheHint() for info.
 #if USE_LIST_CACHE_HINT
-    EVT_LIST_CACHE_HINT(ID_LIST_WORKVIEW, CViewProjects::OnCacheHint)
+    EVT_LIST_CACHE_HINT(ID_LIST_PROJECTSVIEW, CViewProjects::OnCacheHint)
 #else
 	EVT_CHECK_SELECTION_CHANGED(CViewProjects::OnCheckSelectionChanged)
 #endif
