@@ -373,7 +373,7 @@ void CBOINCBaseView::OnCheckSelectionChanged(CCheckSelectionChangedEvent& ) {
 }
 
 
-void CBOINCBaseView::OnCacheHint(wxListEvent& event) {
+void CBOINCBaseView::OnCacheHint(wxListEvent& ) {
     CheckSelectionChanged();
 }
 
