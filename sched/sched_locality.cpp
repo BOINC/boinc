@@ -288,6 +288,13 @@ static int possibly_send_result(SCHED_DB_RESULT& result) {
     retval = wu.lookup_id(result.workunitid);
     if (retval) return ERR_DB_NOT_FOUND;
 
+    // This doesn't take into account g_wreq->allow_non_preferred_apps,
+    // however Einstein@Home, which is the only project that currently uses
+    // this locality scheduler, doesn't support the respective project-specific
+    // preference setting
+    //
+    if (app_not_selected(wu)) return ERR_NO_APP_VERSION;
+
     bavp = get_app_version(wu, true, false);
 
     if (!config.locality_scheduler_fraction && !bavp && is_anonymous(g_request->platforms.list[0])) {
@@ -1207,7 +1214,7 @@ void send_work_locality() {
 
         if (!work_needed(true)) break;
         FILE_INFO& fi = g_request->file_infos[k];
-        retval_srff=send_results_for_file(
+        retval_srff = send_results_for_file(
             fi.name, nsent, false
         );
 
