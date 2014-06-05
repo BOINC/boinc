@@ -685,6 +685,11 @@ BEST_APP_VERSION* get_app_version(
             APP_VERSION& av = ssp->app_versions[j];
             if (av.appid != wu.appid) continue;
             if (av.platformid != p->id) continue;
+            if (av.beta) {
+                if (!g_wreq->allow_beta_work) {
+                    continue;
+                }
+            }
 
             if (strlen(av.plan_class)) {
                 if (!app_plan(*g_request, av.plan_class, host_usage)) {

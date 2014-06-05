@@ -76,7 +76,8 @@ class AppVersion(DatabaseObject):
                     'pfc_avg',
                     'pfc_scale',
                     'expavg_credit',
-                    'expavg_time'
+                    'expavg_time',
+                    'beta'
                     ])
 
 class User(DatabaseObject):

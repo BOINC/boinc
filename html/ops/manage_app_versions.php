@@ -25,6 +25,9 @@ function update() {
     $av = BoincAppVersion::lookup_id($id);
     if (!$av) error_page("no such app version");
 
+    $n = post_str("beta", true) ? 1 : 0;
+    $av->update("beta=$n");
+
     $n = post_str("deprecated", true) ? 1 : 0;
     $av->update("deprecated=$n");
 
@@ -51,12 +54,13 @@ function show_form() {
     start_table("");
     table_header(
         "ID #<br><span class=note>click for details</span>",
-      "Application",
+      "Application<br><span class=note>click for details</span>",
       "Version",
       "Platform",
       "Plan Class",
       "minimum<br>client version",
       "maximum<br>client version",
+      "beta?",
       "deprecated?",
       ""
     );
@@ -79,7 +83,7 @@ function show_form() {
         echo "  <TD>$f1 <a href=db_action.php?table=app_version&id=$av->id>$av->id</a> $f2</TD>\n";
 
         $app = $apps[$av->appid];
-        echo "  <TD>$f1 $app->name $f2</TD>\n";
+        echo "  <TD>$f1 <a href=app_details.php?appid=$app->id>$app->name</a> $f2</TD>\n";
 
         echo "  <TD>$f1 $av->version_num $f2</TD>\n";
 
@@ -88,15 +92,20 @@ function show_form() {
 
         echo "  <td>$f1 $av->plan_class $f2</td>\n";
 
-        $v=$av->min_core_version;
+        $v = $av->min_core_version;
         echo "  <TD><input type='text' size='4' name=min_core_version value='$v'></TD>\n";
 
         $v=$av->max_core_version;
         echo "  <TD><input type='text' size='4' name=max_core_version value='$v'></TD>\n";
 
         $v='';
-        if($av->deprecated) $v=' CHECKED ';
+        if ($av->beta) $v=' CHECKED ';
+        echo "  <TD> <input name=beta type='checkbox' $v></TD>\n";
+
+        $v='';
+        if ($av->deprecated) $v=' CHECKED ';
         echo "  <TD> <input name=deprecated type='checkbox' $v></TD>\n";
+
         echo "<td><input name=submit type=submit value=Update>";
 
         echo "</tr></form>"; 

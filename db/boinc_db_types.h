@@ -134,6 +134,7 @@ struct APP_VERSION {
         // relative to that of the most efficient version
     double expavg_credit;
     double expavg_time;
+    bool beta;
 
     // the following used by scheduler, not in DB
     //

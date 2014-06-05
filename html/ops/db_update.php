@@ -933,6 +933,14 @@ function update_5_3_2014() {
     );
 }
 
+function update_6_5_2014() {
+    do_query(
+        "alter table app_version
+            add beta tinyint not null
+        "
+    );
+}
+
 // Updates are done automatically if you use "upgrade".
 //
 // If you need to do updates manually,
@@ -974,6 +982,7 @@ $db_updates = array (
     array(27007, "update_3_6_2014"),
     array(27008, "update_4_2_2014"),
     array(27009, "update_5_3_2014"),
+    array(27010, "update_6_5_2014"),
 );
 
 ?>
