@@ -293,7 +293,7 @@ static int possibly_send_result(SCHED_DB_RESULT& result) {
     // this locality scheduler, doesn't support the respective project-specific
     // preference setting
     //
-    if (app_not_selected(wu)) return ERR_NO_APP_VERSION;
+    if (app_not_selected(wu.appid)) return ERR_NO_APP_VERSION;
 
     bavp = get_app_version(wu, true, false);
 
