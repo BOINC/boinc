@@ -38,6 +38,56 @@ int PLAN_CLASS_SPECS::parse_file(const char* path) {
     return retval;
 }
 
+bool PLAN_CLASS_SPEC::opencl_check(OPENCL_DEVICE_PROP& opencl_prop) {
+    if (min_opencl_version && opencl_prop.opencl_device_version_int 
+        && min_opencl_version > opencl_prop.opencl_device_version_int
+    ) {
+        if (config.debug_version_select) {
+            log_messages.printf(MSG_NORMAL,
+                "[version] OpenCL device version required min: %d, supplied: %d\n",
+                min_opencl_version, opencl_prop.opencl_device_version_int
+            );
+        }
+        return false;
+    }
+
+    if (max_opencl_version && opencl_prop.opencl_device_version_int 
+        && max_opencl_version < opencl_prop.opencl_device_version_int
+    ) {
+        if (config.debug_version_select) {
+            log_messages.printf(MSG_NORMAL,
+                "[version] OpenCL device version required max: %d, supplied: %d\n",
+                max_opencl_version, opencl_prop.opencl_device_version_int
+            );
+        }
+        return false;
+    }
+
+    if (min_opencl_driver_revision && opencl_prop.opencl_device_version_int 
+        && min_opencl_driver_revision > opencl_prop.opencl_driver_revision
+    ) {
+        if (config.debug_version_select) {
+            log_messages.printf(MSG_NORMAL,
+                "[version] OpenCL driver revision required min: %d, supplied: %d\n",
+                min_opencl_driver_revision, opencl_prop.opencl_driver_revision
+            );
+        }
+        return false;
+    }
+
+    if (max_opencl_driver_revision && opencl_prop.opencl_device_version_int 
+        && max_opencl_driver_revision < opencl_prop.opencl_driver_revision
+    ) {
+        if (config.debug_version_select) {
+            log_messages.printf(MSG_NORMAL,
+                "[version] OpenCL driver revision required max: %d, supplied: %d\n",
+                max_opencl_driver_revision, opencl_prop.opencl_driver_revision
+            );
+        }
+        return false;
+    }
+    return true;
+}
 
 bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
     COPROC* cpp = NULL;
@@ -456,63 +506,43 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
     }
 
     if (opencl) {
-        // check for OpenCL at all
-        if (!cpp->have_opencl) {
-            if (config.debug_version_select) {
-                log_messages.printf(MSG_NORMAL,
-                    "[version] GPU doesn't support OpenCL\n"
-                );
+        if (cpp) {
+            if (!cpp->have_opencl) {
+                if (config.debug_version_select) {
+                    log_messages.printf(MSG_NORMAL,
+                        "[version] GPU doesn't support OpenCL\n"
+                    );
+                }
+                return false;
             }
-            return false;
-        }
-
-        // OpenCL device version
-        //
-        if (min_opencl_version && cpp->opencl_prop.opencl_device_version_int 
-            && min_opencl_version > cpp->opencl_prop.opencl_device_version_int) {
-            if (config.debug_version_select) {
-                log_messages.printf(MSG_NORMAL,
-                    "[version] OpenCL device version required min: %d, supplied: %d\n",
-                    min_opencl_version, cpp->opencl_prop.opencl_device_version_int
-                );
+            if (!opencl_check(cpp->opencl_prop)) {
+                return false;
             }
-            return false;
-        }
-
-        if (max_opencl_version && cpp->opencl_prop.opencl_device_version_int 
-            && max_opencl_version < cpp->opencl_prop.opencl_device_version_int) {
-            if (config.debug_version_select) {
-                log_messages.printf(MSG_NORMAL,
-                    "[version] OpenCL device version required max: %d, supplied: %d\n",
-                    max_opencl_version, cpp->opencl_prop.opencl_device_version_int
-                );
+            gpu_ram = cpp->opencl_prop.global_mem_size;
+        } else {
+            // OpenCL CPU app version.
+            // The host may have several OpenCL CPU libraries.
+            // See if any of them works.
+            // TODO: there should be a way of saying which library
+            // the app version requires,
+            // or a way of conveying to the app which one to use.
+            //
+            bool found = false;
+            for (int i=0; i<sreq.host.num_opencl_cpu_platforms; i++) {
+                if (opencl_check(sreq.host.opencl_cpu_prop[i].opencl_prop)) {
+                    found = true;
+                    break;
+                }
             }
-            return false;
-        }
-
-        if (min_opencl_driver_revision && cpp->opencl_prop.opencl_device_version_int 
-            && min_opencl_driver_revision > cpp->opencl_prop.opencl_driver_revision) {
-            if (config.debug_version_select) {
-                log_messages.printf(MSG_NORMAL,
-                    "[version] OpenCL driver revision required min: %d, supplied: %d\n",
-                    min_opencl_driver_revision, cpp->opencl_prop.opencl_driver_revision
-                );
+            if (!found) {
+                if (config.debug_version_select) {
+                    log_messages.printf(MSG_NORMAL,
+                        "[version] CPU doesn't support OpenCL\n"
+                    );
+                }
+                return false;
             }
-            return false;
         }
-
-        if (max_opencl_driver_revision && cpp->opencl_prop.opencl_device_version_int 
-            && max_opencl_driver_revision < cpp->opencl_prop.opencl_driver_revision) {
-            if (config.debug_version_select) {
-                log_messages.printf(MSG_NORMAL,
-                    "[version] OpenCL driver revision required max: %d, supplied: %d\n",
-                    max_opencl_driver_revision, cpp->opencl_prop.opencl_driver_revision
-                );
-            }
-            return false;
-        }
-
-        gpu_ram = cpp->opencl_prop.global_mem_size;
     }
 
     // general GPU

@@ -143,6 +143,9 @@ int wu_delete_files(WORKUNIT& wu) {
 
     p = strtok(buf, "\n");
     strcpy(filename, "");
+
+    // TODO: use the XML parser.  Yuck!
+    //
     while (p) {
         if (parse_str(p, "<name>", filename, sizeof(filename))) {
         } else if (match_tag(p, "<file_info>")) {

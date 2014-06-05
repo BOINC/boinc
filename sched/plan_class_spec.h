@@ -93,6 +93,7 @@ struct PLAN_CLASS_SPEC {
     bool vm_accel_required;
 
     int parse(XML_PARSER&);
+    bool opencl_check(OPENCL_DEVICE_PROP&);
     bool check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu);
     PLAN_CLASS_SPEC();
 };
