@@ -191,6 +191,7 @@ void max_concurrent_init() {
 // It will be restored on next scheduler RPC.
 //
 static void clear_app_config(PROJECT* p) {
+    p->app_configs.clear();
     for (unsigned int i=0; i<gstate.apps.size(); i++) {
         APP* app = gstate.apps[i];
         if (app->project != p) continue;
