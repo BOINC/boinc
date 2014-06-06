@@ -391,6 +391,7 @@ function convert_simplexml($x) {
     $v->needs_network = get_bool($x, "needs_network");
     $v->is_wrapper = get_bool($x, "is_wrapper");
     $v->file_prefix = (string)$x->file_prefix;
+    $v->beta = get_bool($x, "beta");
     return $v;
 }
 
@@ -415,6 +416,7 @@ function process_version($a, $v, $p) {
         $vers->dont_throttle = false;
         $vers->needs_network = false;
         $vers->is_wrapper = false;
+        $vers->beta = false;
         $vers->file_prefix = false;
     }
 
@@ -463,7 +465,8 @@ function process_version($a, $v, $p) {
     $now = time();
     $vnum = parse_version($v);
     $plat = lookup_platform($platform);
-    $query = "set create_time=$now, appid=$app->id, version_num=$vnum, platformid=$plat->id , xml_doc='$xml', plan_class='$plan_class'";
+    $b = $vers->beta?1:0;
+    $query = "set create_time=$now, appid=$app->id, version_num=$vnum, platformid=$plat->id , xml_doc='$xml', plan_class='$plan_class', beta=$b";
 
     $id = BoincAppVersion::insert($query);
     if ($id) {
