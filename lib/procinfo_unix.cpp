@@ -163,8 +163,7 @@ int PROC_STAT::parse(char* buf) {
         return 0;
     }
 
-    // I don't see a good choice of ERR_ for this...
-    //
+    fprintf(stderr, "can't parse /proc/x/stat file: %s\n", buf);
     return 1;
 }
 
