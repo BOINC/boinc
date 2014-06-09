@@ -57,8 +57,7 @@
 using std::vector;
 
 // see:
-// man 5 proc
-// /usr/src/linux/fs/proc/array.C
+// http://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/tree/fs/proc/array.c
 //
 // Interesting note: the command part of /proc/PID/stat is the first
 // 15 characters of the executable filename.
