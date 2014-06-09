@@ -256,6 +256,9 @@ void CDlgItemProperties::renderInfos(PROJECT* project_in) {
     if (project->ended) {
         addProperty(_("Ended"), _("yes"));
     }
+    addProperty(_("Tasks completed"), wxString::Format(wxT("%d"), project->njobs_success));
+    addProperty(_("Tasks failed"), wxString::Format(wxT("%d"), project->njobs_error));
+
     addSection(_("Credit"));
     addProperty(_("User"),
         wxString::Format(
