@@ -112,13 +112,13 @@ struct PROC_STAT {
 
 int PROC_STAT::parse(char* buf) {
     int n = sscanf(buf,
-        "%d (%[^)]) %c %ll %ll %ll %ll %ll "
+        "%d (%[^)]) %c %lld %lld %lld %lld %lld "
         "%llu %llu %llu %llu %llu %llu %llu "
-        "%ll %ll %ll %ll %ll %ll "
+        "%lld %lld %lld %lld %lld %lld "
         "%llu %llu "
-        "%ll "
+        "%lld "
         "%llu %llu %llu %llu %llu %llu %llu %llu %llu %llu %llu %llu %llu "
-        "%ll %ll",
+        "%lld %lld",
         &pid,
         comm,
         &state,
