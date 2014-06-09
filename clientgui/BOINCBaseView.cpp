@@ -384,7 +384,7 @@ void CBOINCBaseView::OnCacheHint(wxListEvent& ) {
 //    using Shift_Click.
 //
 // We currently handle all selections and deselections here.
-// On the Mac, this is called due to an event posted by CBOINCListCtrl::OnMouseUp().
+// On the Mac, this is called due to an event posted by CBOINCListCtrl::OnMouseDown().
 // On Windows, it is called due to a EVT_LIST_CACHE_HINT from wxListCtrl.
 void CBOINCBaseView::CheckSelectionChanged() {
     int newSelectionCount = m_pListPane->GetSelectedItemCount();
@@ -502,6 +502,8 @@ void CBOINCBaseView::OnColClick(wxListEvent& event) {
     wxArrayInt      selections;
     int             i, j, m;
 
+    if (newSortColumn < 0) return;  // Clicked past last column
+    
     item.SetMask(wxLIST_MASK_IMAGE);
     if (newSortColumn == m_iSortColumn) {
         m_bReverseSort = !m_bReverseSort;
