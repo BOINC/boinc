@@ -35,10 +35,10 @@ BEGIN_EVENT_TABLE(CBOINCListCtrl, LISTCTRL_BASE)
 
 #if USE_NATIVE_LISTCONTROL
     EVT_DRAW_PROGRESSBAR(CBOINCListCtrl::OnDrawProgressBar)
-#endif
-
+#else
 #ifdef __WXMAC__
 	EVT_SIZE(CBOINCListCtrl::OnSize)    // In MacAccessibility.mm
+#endif
 #endif
 
 #if ! USE_LIST_CACHE_HINT
