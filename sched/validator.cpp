@@ -324,8 +324,10 @@ int handle_wu(
                     log_messages.printf(MSG_NORMAL, "DB not updated (dry run)\n");
                 } else {
                     log_messages.printf(MSG_NORMAL,
-                        "[HOST#%d AV#%d] [outlier=%d] Updating HAV in db.  pfc.n=%f->%f\n",
-                        havv[0].host_id, havv[0].app_version_id, result.runtime_outlier, hav_orig.pfc.n,havv[0].pfc.n);
+                        "[HOST#%d AV#%d] [outlier=%d] Updating HAV in DB.  pfc.n=%f->%f\n",
+                        havv[0].host_id, havv[0].app_version_id,
+                        result.runtime_outlier, hav_orig.pfc.n, havv[0].pfc.n
+                    );
                     retval=havv[0].update_validator(hav_orig);
                     if (retval) {
                         log_messages.printf(MSG_CRITICAL,
@@ -558,8 +560,10 @@ int handle_wu(
                 } else {
                     if (hav.host_id) {
                         log_messages.printf(MSG_NORMAL,
-                            "[HOST#%d AV#%d] [outlier=%d] Updating HAV in db.  pfc.n=%f->%f\n",
-                            hav.host_id, hav.app_version_id, result.runtime_outlier, hav_orig.pfc.n,hav.pfc.n);
+                            "[HOST#%d AV#%d] [outlier=%d] Updating HAV in DB.  pfc.n=%f->%f\n",
+                            hav.host_id, hav.app_version_id,
+                            result.runtime_outlier, hav_orig.pfc.n, hav.pfc.n
+                        );
                         retval = hav.update_validator(hav_orig);
                         if (retval) {
                             log_messages.printf(MSG_CRITICAL,
