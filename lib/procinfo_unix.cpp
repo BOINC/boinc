@@ -110,6 +110,15 @@ struct PROC_STAT {
     int parse(char*);
 };
 
+// parse a /proc/x/stat file; see
+// http://man7.org/linux/man-pages/man5/proc.5.html
+//
+// Note: the "command" item is the executable filename in parentheses.
+// We're parsing it with (%[^)]).
+// This doesn't work if the filename contains a ).
+// In this we'll return an error and ignore this process.
+// i.e. we assume that BOINC app filenames don't contain ).
+//
 int PROC_STAT::parse(char* buf) {
     int n = sscanf(buf,
         "%d (%[^)]) %c %d %d %d %d %d "
@@ -163,7 +172,7 @@ int PROC_STAT::parse(char* buf) {
         return 0;
     }
 
-    fprintf(stderr, "can't parse /proc/x/stat file: %s\n", buf);
+    //fprintf(stderr, "can't parse /proc/x/stat file: %s\n", buf);
     return 1;
 }
 
@@ -177,10 +186,13 @@ int procinfo_setup(PROC_MAP& pm) {
     char pidpath[MAXPATHLEN];
     char buf[1024];
     int pid = getpid();
-    int retval, final_retval = 0;
+    int retval;
 
     dir = opendir("/proc");
-    if (!dir) return 0;
+    if (!dir) {
+        fprintf(stderr, "procinfo_setup(): can't open /proc\n");
+        return 0;
+    }
 
     while (1) {
         piddir = readdir(dir);
@@ -229,7 +241,9 @@ int procinfo_setup(PROC_MAP& pm) {
         fclose(fd);
 
         if (retval) {
-            final_retval = retval;
+            // ps.parse() returns an error if the executable name contains ).
+            // In that case skip this process.
+            //
             continue;
         }
         PROCINFO p;
@@ -257,5 +271,5 @@ int procinfo_setup(PROC_MAP& pm) {
     }
     closedir(dir);
     find_children(pm);
-    return final_retval;
+    return 0;
 }
