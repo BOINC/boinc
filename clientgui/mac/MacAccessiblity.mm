@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2013 University of California
+// Copyright (C) 2014 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -19,6 +19,7 @@
 
 #include "MacGUI.pch"
 #include <Cocoa/Cocoa.h>
+#include <objc/runtime.h>
 
 #include "BOINCBaseFrame.h"
 #include "MainDocument.h"
@@ -1034,6 +1035,68 @@ static void wxRectToNSRect(wxRect &wxr, NSRect &nsr) {
     return YES;
 }
 
+// wxWidgetCocoaImpl::mouseEvent() discards NSMouseMoved events unless
+// they are for the deepest child in the hierarchy, so the cursor is
+// not adjusted over wxListCtrl header column separators unless hitTest
+// reports the real wxListHeaderWindow as the deepest (topmost) view.
+// But the Accessibility logic doesn work unless hitTest reports our
+// FauxListHeaderView as the deepest (topmost) view.
+// To work around this, we make the real wxListHeaderWindow a subview
+// of our FauxListHeaderView, but FauxListHeaderView reports itself
+// as the deepest view when [NSWindowAccessibility accessibilityHitTest]
+// is somewhere in the caller chain.
+// I wish I could find a more efficient way to do this.
+//
+- (NSView *)hitTest:(NSPoint)aPoint {
+    // [NSThread callStackSymbols] is not available in OS 10.5, so 
+    // BOINC does not fully implement accessibility under OS 10.5.
+    //
+    // Weak linking of objective-C classes and methods is not 
+    // supported before OS 10.6.8 so to be compatible with
+    // OS 10.5 we must test availability at run time.
+    //
+    static BOOL firstTime = true;
+    static BOOL haveMethod = false;
+    if (firstTime) {
+        IMP callStackSyms = class_getMethodImplementation(objc_getClass("NSThread"), @selector(callStackSymbols));
+        haveMethod = (callStackSyms != nil);
+        firstTime = false;
+    }
+    
+    if (!haveMethod) {
+        return [super hitTest:aPoint];
+    }
+
+//    NSArray *theStack = [NSThread callStackSymbols];
+    NSArray *theStack = [ NSThread performSelector:@selector(callStackSymbols) ];
+    
+    int limit = [ theStack count ];
+    int i = 0;
+    do {
+        if (limit < (i+1)) break;
+        NSString *sourceString = [theStack objectAtIndex:i];
+        NSCharacterSet *separatorSet = [NSCharacterSet characterSetWithCharactersInString:@" -[]+?.,"];
+        NSMutableArray *array = [NSMutableArray arrayWithArray:[sourceString componentsSeparatedByCharactersInSet:separatorSet]];
+        [array removeObject:@""];
+
+        if ([array count] >= 5) {
+            NSString *FunctionCaller = [array objectAtIndex:4];
+            if ([ FunctionCaller hasPrefix: @"accessibility"]) {
+               NSRect r = [parent bounds];
+                r.size.height = [self bounds].size.height;
+                if (NSPointInRect(aPoint, r)){
+                    return self;
+                }
+            }
+
+        }
+        ++i;
+    } while (i < 15);
+
+    return [super hitTest:aPoint];
+}
+
+
 - (BOOL)accessibilityIsIgnored {
     return NO;
 }
@@ -1245,6 +1308,8 @@ void CDlgEventLogListCtrl::RemoveMacAccessibilitySupport() {
 
 #pragma mark === CBOINCListCtrl Accessibility Support ===
 
+#if ! USE_NATIVE_LISTCONTROL
+
 void CBOINCListCtrl::SetupMacAccessibilitySupport() {
     NSView *listControlView = GetHandle();
     NSRect r = [ listControlView bounds ];
@@ -1255,7 +1320,14 @@ void CBOINCListCtrl::SetupMacAccessibilitySupport() {
     rh.size.height = ((wxWindow *)m_headerWin)->GetSize().y;
 
     [fauxHeaderView initWithFrame:rh listCtrl:this listFlags:isHeaderFlag parent:listControlView BOINCView:m_pParentView ];
+
+    // See comments in [ FauxListHeaderView hitTest:aPoint ]
+    NSView *realHeaderView = ((wxWindow *)m_headerWin)->GetHandle();
+    [realHeaderView retain];
+    [realHeaderView removeFromSuperview];
     [listControlView addSubview:fauxHeaderView ];
+    [fauxHeaderView addSubview:realHeaderView ];
+    [realHeaderView release];
 
     NSRect rb = r;
     rb.origin.y += ((wxWindow *)m_headerWin)->GetSize().y;
@@ -1298,6 +1370,8 @@ void CBOINCListCtrl::RemoveMacAccessibilitySupport() {
     [(FauxListBodyView *)m_fauxBodyView release];
     m_fauxBodyView = nil;
 }
+
+#endif // ! USE_NATIVE_LISTCONTROL
 
 #pragma mark === CPaintStatistics & wxPieCtrl Accessibility Shared Code ===
 

@@ -57,8 +57,7 @@
 using std::vector;
 
 // see:
-// man 5 proc
-// /usr/src/linux/fs/proc/array.C
+// http://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/tree/fs/proc/array.c
 //
 // Interesting note: the command part of /proc/PID/stat is the first
 // 15 characters of the executable filename.
@@ -70,42 +69,42 @@ struct PROC_STAT {
     int pid;
     char comm[256];
     char state;
-    int ppid;
-    int pgrp;
-    int session;
-    int tty_nr;
-    int tpgid;
-    unsigned long flags;
-    unsigned long minflt;
-    unsigned long cminflt;
-    unsigned long majflt;
-    unsigned long cmajflt;
-    unsigned long utime;
-    unsigned long stime;
-    int cutime;
-    int cstime;
-    int priority;
-    int nice;
-    int zero;
-    int itrealvalue;
-    unsigned long starttime;
-    unsigned long vsize;
-    int rss;
-    unsigned long rlim;
-    unsigned long startcode;
-    unsigned long endcode;
-    unsigned long startstack;
-    unsigned long kstkesp;
-    unsigned long kstkeip;
-    unsigned long signal;
-    unsigned long blocked;
-    unsigned long sigignore;
-    unsigned long sigcatch;
-    unsigned long wchan;
-    unsigned long nswap;
-    unsigned long cnswap;
-    int exit_signal;
-    int processor;
+    long long ppid;
+    long long pgrp;
+    long long session;
+    long long tty_nr;
+    long long tpgid;
+    unsigned long long flags;
+    unsigned long long minflt;
+    unsigned long long cminflt;
+    unsigned long long majflt;
+    unsigned long long cmajflt;
+    unsigned long long utime;
+    unsigned long long stime;
+    long long cutime;
+    long long cstime;
+    long long priority;
+    long long nice;
+    long long zero;
+    long long itrealvalue;
+    unsigned long long starttime;
+    unsigned long long vsize;
+    long long rss;
+    unsigned long long rlim;
+    unsigned long long startcode;
+    unsigned long long endcode;
+    unsigned long long startstack;
+    unsigned long long kstkesp;
+    unsigned long long kstkeip;
+    unsigned long long signal;
+    unsigned long long blocked;
+    unsigned long long sigignore;
+    unsigned long long sigcatch;
+    unsigned long long wchan;
+    unsigned long long nswap;
+    unsigned long long cnswap;
+    long long exit_signal;
+    long long processor;
 
     int parse(char*);
 };
@@ -121,13 +120,13 @@ struct PROC_STAT {
 //
 int PROC_STAT::parse(char* buf) {
     int n = sscanf(buf,
-        "%d (%[^)]) %c %d %d %d %d %d "
-        "%lu %lu %lu %lu %lu %lu %lu "
-        "%d %d %d %d %d %d "
-        "%lu %lu "
-        "%d "
-        "%lu %lu %lu %lu %lu %lu %lu %lu %lu %lu %lu %lu %lu "
-        "%d %d",
+        "%d (%[^)]) %c %lld %lld %lld %lld %lld "
+        "%llu %llu %llu %llu %llu %llu %llu "
+        "%lld %lld %lld %lld %lld %lld "
+        "%llu %llu "
+        "%lld "
+        "%llu %llu %llu %llu %llu %llu %llu %llu %llu %llu %llu %llu %llu "
+        "%lld %lld",
         &pid,
         comm,
         &state,
