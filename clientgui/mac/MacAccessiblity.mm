@@ -1067,6 +1067,12 @@ static void wxRectToNSRect(wxRect &wxr, NSRect &nsr) {
         return [super hitTest:aPoint];
     }
 
+    NSRect r = [parent bounds];
+    r.size.height = [self bounds].size.height;
+    if (!NSPointInRect(aPoint, r)){
+        return [super hitTest:aPoint];  // Point is not within our rect
+    }
+
 //    NSArray *theStack = [NSThread callStackSymbols];
     NSArray *theStack = [ NSThread performSelector:@selector(callStackSymbols) ];
     
@@ -1082,18 +1088,14 @@ static void wxRectToNSRect(wxRect &wxr, NSRect &nsr) {
         if ([array count] >= 5) {
             NSString *FunctionCaller = [array objectAtIndex:4];
             if ([ FunctionCaller hasPrefix: @"accessibility"]) {
-               NSRect r = [parent bounds];
-                r.size.height = [self bounds].size.height;
-                if (NSPointInRect(aPoint, r)){
-                    return self;
-                }
+                return self;
             }
 
         }
         ++i;
     } while (i < 15);
 
-    return [super hitTest:aPoint];
+    return [super hitTest:aPoint];  // Not an accessibility call
 }
 
 
