@@ -98,6 +98,9 @@ function delete_forums() {
         if ($days) {
             if ($user->create_time < time() - $days*86400) continue;
         }
+        if ($user->teamid) {
+            continue;
+        }
         $n = BoincHost::count("userid=$p->userid");
         if ($n) continue;
         delete_user($user);
