@@ -1059,23 +1059,24 @@ static BOOL AccessibilityEnabled = false;
     //
     static BOOL firstTime = true;
     static BOOL haveMethod = false;
-    if (firstTime) {
-        IMP callStackSyms = class_getMethodImplementation(objc_getClass("NSThread"), @selector(callStackSymbols));
-        haveMethod = (callStackSyms != nil);
-        firstTime = false;
-    }
     
-    if (!haveMethod) {
-        return [super hitTest:aPoint];
-    }
-
-    NSRect r = [parent bounds];
-    r.size.height = [self bounds].size.height;
-    if (!NSPointInRect(aPoint, r)){
-        return [super hitTest:aPoint];  // Point is not within our rect
-    }
-
     if (AccessibilityEnabled) {
+        if (firstTime) {
+            IMP callStackSyms = class_getMethodImplementation(objc_getClass("NSThread"), @selector(callStackSymbols));
+            haveMethod = (callStackSyms != nil);
+            firstTime = false;
+        }
+        
+        if (!haveMethod) {
+            return [super hitTest:aPoint];
+        }
+
+        NSRect r = [parent bounds];
+        r.size.height = [self bounds].size.height;
+        if (!NSPointInRect(aPoint, r)){
+            return [super hitTest:aPoint];  // Point is not within our rect
+        }
+
     //    NSArray *theStack = [NSThread callStackSymbols];
         NSArray *theStack = [ NSThread performSelector:@selector(callStackSymbols) ];
         
