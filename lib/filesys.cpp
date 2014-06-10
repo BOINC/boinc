@@ -815,8 +815,6 @@ int get_filesystem_info(double &total_space, double &free_space, char*) {
     uMB = TotalNumberOfBytes.QuadPart / (1024 * 1024);
     total_space = uMB * 1024.0 * 1024.0;
 
-    return 0;
-}
 #else
 int get_filesystem_info(double &total_space, double &free_space, char* path) {
 #ifdef STATFS
