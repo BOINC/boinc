@@ -126,8 +126,12 @@ struct APP_VERSION {
     char plan_class[256];
     AVERAGE pfc;
         // the stats of (claimed PFC)/wu.rsc_fpops_est
-        // If wu.rsc_fpops_est is accurate,
-        // this is the reciprocal of efficiency
+        // What does this mean?
+        // Suppose X is the error in rsc_fpops_est
+        // (i.e. actual FPOPS = X*rsc_fpops_est)
+        // and Y is average efficiency
+        // (actual FLOPS = Y*peak FLOPS)
+        // Then this is X/Y.
     double pfc_scale;
         // PFC scaling factor for this app (or 0 if not enough data)
         // The reciprocal of this version's efficiency, averaged over all jobs,
