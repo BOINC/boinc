@@ -22,8 +22,6 @@
 // delete_spammers.php [--days n] [--test] command
 //
 // commands:
-// --list filename
-//   "filename" contains a list of user IDs, one per line.
 //
 // --profiles
 //   delete accounts that
@@ -35,6 +33,13 @@
 //   delete accounts that
 //   - have no hosts
 //   - have message-board posts
+//   - don't belong to a team
+//
+// --list filename
+//   "filename" contains a list of user IDs, one per line.
+//
+// --id_range N M
+//   delete users with ID N to M inclusive
 //
 // options:
 // --days N
