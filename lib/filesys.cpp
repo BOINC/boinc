@@ -765,10 +765,10 @@ void relative_to_absolute(const char* relname, char* path) {
     }
 }
 
-#if defined(_WIN32) && !(defined(WXDEBUG) || defined(WXNDEBUG))
+#if defined(_WIN32)
 int boinc_allocate_file(const char* path, double size) {
     int retval = 0;
-    HANDLE h = CreateFile(
+    HANDLE h = CreateFileA(
         path,
         GENERIC_WRITE,
         0,
@@ -797,36 +797,26 @@ int boinc_allocate_file(const char* path, double size) {
 #ifdef _WIN32
 int get_filesystem_info(double &total_space, double &free_space, char*) {
     char cwd[MAXPATHLEN];
+    ULARGE_INTEGER TotalNumberOfFreeBytes;
+    ULARGE_INTEGER TotalNumberOfBytes;
+    ULARGE_INTEGER FreeBytesAvailable;
+    signed __int64 uMB;
+
     boinc_getcwd(cwd);
-    FreeFn pGetDiskFreeSpaceEx;
-    pGetDiskFreeSpaceEx = (FreeFn)GetProcAddress(
-        GetModuleHandleA("kernel32.dll"), "GetDiskFreeSpaceExA"
+    GetDiskFreeSpaceExA(
+        cwd,
+        &FreeBytesAvailable,
+        &TotalNumberOfBytes,
+        &TotalNumberOfFreeBytes
     );
-    if (pGetDiskFreeSpaceEx) {
-        ULARGE_INTEGER TotalNumberOfFreeBytes;
-        ULARGE_INTEGER TotalNumberOfBytes;
-        ULARGE_INTEGER FreeBytesAvailable;
-        pGetDiskFreeSpaceEx(
-            cwd, &FreeBytesAvailable, &TotalNumberOfBytes,
-            &TotalNumberOfFreeBytes
-        );
-        signed __int64 uMB;
-        uMB = FreeBytesAvailable.QuadPart / (1024 * 1024);
-        free_space = uMB * 1024.0 * 1024.0;
-        uMB = TotalNumberOfBytes.QuadPart / (1024 * 1024);
-        total_space = uMB * 1024.0 * 1024.0;
-    } else {
-        DWORD dwSectPerClust;
-        DWORD dwBytesPerSect;
-        DWORD dwFreeClusters;
-        DWORD dwTotalClusters;
-        GetDiskFreeSpaceA(
-            cwd, &dwSectPerClust, &dwBytesPerSect, &dwFreeClusters,
-            &dwTotalClusters
-        );
-        free_space = (double)dwFreeClusters * dwSectPerClust * dwBytesPerSect;
-        total_space = (double)dwTotalClusters * dwSectPerClust * dwBytesPerSect;
-    }
+
+    uMB = FreeBytesAvailable.QuadPart / (1024 * 1024);
+    free_space = uMB * 1024.0 * 1024.0;
+    uMB = TotalNumberOfBytes.QuadPart / (1024 * 1024);
+    total_space = uMB * 1024.0 * 1024.0;
+
+    return 0;
+}
 #else
 int get_filesystem_info(double &total_space, double &free_space, char* path) {
 #ifdef STATFS
