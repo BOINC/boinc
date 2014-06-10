@@ -1047,6 +1047,8 @@ static void wxRectToNSRect(wxRect &wxr, NSRect &nsr) {
 // is somewhere in the caller chain.
 // I wish I could find a more efficient way to do this.
 //
+static BOOL AccessibilityEnabled = false;
+
 - (NSView *)hitTest:(NSPoint)aPoint {
     // [NSThread callStackSymbols] is not available in OS 10.5, so 
     // BOINC does not fully implement accessibility under OS 10.5.
@@ -1073,33 +1075,36 @@ static void wxRectToNSRect(wxRect &wxr, NSRect &nsr) {
         return [super hitTest:aPoint];  // Point is not within our rect
     }
 
-//    NSArray *theStack = [NSThread callStackSymbols];
-    NSArray *theStack = [ NSThread performSelector:@selector(callStackSymbols) ];
-    
-    int limit = [ theStack count ];
-    int i = 0;
-    do {
-        if (limit < (i+1)) break;
-        NSString *sourceString = [theStack objectAtIndex:i];
-        NSCharacterSet *separatorSet = [NSCharacterSet characterSetWithCharactersInString:@" -[]+?.,"];
-        NSMutableArray *array = [NSMutableArray arrayWithArray:[sourceString componentsSeparatedByCharactersInSet:separatorSet]];
-        [array removeObject:@""];
+    if (AccessibilityEnabled) {
+    //    NSArray *theStack = [NSThread callStackSymbols];
+        NSArray *theStack = [ NSThread performSelector:@selector(callStackSymbols) ];
+        
+        int limit = [ theStack count ];
+        int i = 0;
+        do {
+            if (limit < (i+1)) break;
+            NSString *sourceString = [theStack objectAtIndex:i];
+            NSCharacterSet *separatorSet = [NSCharacterSet characterSetWithCharactersInString:@" -[]+?.,"];
+            NSMutableArray *array = [NSMutableArray arrayWithArray:[sourceString componentsSeparatedByCharactersInSet:separatorSet]];
+            [array removeObject:@""];
 
-        if ([array count] >= 5) {
-            NSString *FunctionCaller = [array objectAtIndex:4];
-            if ([ FunctionCaller hasPrefix: @"accessibility"]) {
-                return self;
+            if ([array count] >= 5) {
+                NSString *FunctionCaller = [array objectAtIndex:4];
+                if ([ FunctionCaller hasPrefix: @"accessibility"]) {
+                    return self;
+                }
+
             }
-
-        }
-        ++i;
-    } while (i < 15);
-
+            ++i;
+        } while (i < 15);
+    }
+    
     return [super hitTest:aPoint];  // Not an accessibility call
 }
 
 
 - (BOOL)accessibilityIsIgnored {
+    AccessibilityEnabled = true;
     return NO;
 }
 
