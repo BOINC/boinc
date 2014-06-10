@@ -940,6 +940,7 @@ function redirect_to_secure_url($url) {
 }
 
 function show_badges($is_user, $item) {
+    if (DISABLE_BADGES) return;
     if ($is_user) {
         $bus = BoincBadgeUser::enum("user_id=$item->id");
     } else {
