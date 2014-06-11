@@ -119,7 +119,7 @@
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <AdditionalIncludeDirectories>..;..\..\boinc_depends_win_vs2010\wxwidgets\include;..\..\boinc_depends_win_vs2010\wxwidgets\mswin\$(Platform)\$(Configuration)\lib\vc_lib\mswu;..\..\boinc_depends_win_vs2010\sqlite3\include;..\lib;..\api;..\clientgui;..\client\win;../coprocs/OpenCL/include</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_WIN32;_NDEBUG;_WINDOWS;_MT;_UNICODE;UNICODE;wxUSE_GUI=1</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WIN32;NDEBUG;_WINDOWS;_MT;_UNICODE;UNICODE;wxUSE_GUI=1</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <ExceptionHandling>Async</ExceptionHandling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -163,7 +163,7 @@
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <AdditionalIncludeDirectories>..;..\..\boinc_depends_win_vs2010\wxwidgets\include;..\..\boinc_depends_win_vs2010\wxwidgets\mswin\$(Platform)\$(Configuration)\lib\vc_lib\mswu;..\..\boinc_depends_win_vs2010\sqlite3\include;..\lib;..\api;..\clientgui;..\client\win;../coprocs/OpenCL/include</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_WIN32;_NDEBUG;_WINDOWS;_MT;_UNICODE;UNICODE;wxUSE_GUI=1</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_WIN32;NDEBUG;_WINDOWS;_MT;_UNICODE;UNICODE;wxUSE_GUI=1</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <ExceptionHandling>Async</ExceptionHandling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
