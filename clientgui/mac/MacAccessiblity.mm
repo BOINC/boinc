@@ -1272,6 +1272,14 @@ void CDlgEventLogListCtrl::SetupMacAccessibilitySupport() {
     [fauxHeaderView initWithFrame:rh listCtrl:this listFlags:(isHeaderFlag | isEventLogFlag) parent:listControlView BOINCView:nil];
     [listControlView addSubview:fauxHeaderView ];
 
+    // See comments in [ FauxListHeaderView hitTest:aPoint ]
+    NSView *realHeaderView = ((wxWindow *)m_headerWin)->GetHandle();
+    [realHeaderView retain];
+    [realHeaderView removeFromSuperview];
+    [listControlView addSubview:fauxHeaderView ];
+    [fauxHeaderView addSubview:realHeaderView ];
+    [realHeaderView release];
+
     NSRect rb = r;
     rb.origin.y += ((wxWindow *)m_headerWin)->GetSize().y;
     rb.size.height -= ((wxWindow *)m_headerWin)->GetSize().y;
