@@ -25,8 +25,8 @@
 #include "LogBOINC.h"
 
 
-wxLogBOINC::wxLogBOINC() {
-    m_fp = stdout;
+wxLogBOINC::wxLogBOINC() : wxLogStderr(stdout)
+{
 }
 
 void wxLogBOINC::DoLogText(const wxString& msg) {
