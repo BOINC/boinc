@@ -84,7 +84,10 @@ protected:
 	unsigned int m_legendHorBorder;
 	unsigned int m_LegendVerBorder;
 	wxString m_szTitle;
-
+    wxScrollBar* m_scrollBar;
+    int m_Scrollbar_width;
+    int m_firstlabelToDraw;
+    
 	//internal methods
 	void GetPartAngles(wxArrayDouble & angles);	
 	void RecreateCanvas();
@@ -148,7 +151,8 @@ public:
 	void OnSize(wxSizeEvent & event);
 	void OnMouseMove(wxMouseEvent& ev);
 	void OnEraseBackground(wxEraseEvent & /*event*/);
-
+	void OnLegendScroll(wxScrollEvent& event);
+    
 #ifdef __WXMAC__
 private:
     void                    SetupMacAccessibilitySupport();
