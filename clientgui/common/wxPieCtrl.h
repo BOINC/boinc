@@ -95,10 +95,6 @@ protected:
 	void DrawParts(wxRect& pieRect);
         void DrawLegend(int left, int top);
 	void Draw(wxPaintDC & pdc);
-#if (defined(__WXMAC__) && wxCHECK_VERSION(2,8,2))
-        void DrawEllipticArc( wxCoord x, wxCoord y, wxCoord w, wxCoord h,
-                                double sa, double ea );
-#endif
 public:
 	/// An array of wxPiePart objects for storing information about sectors
 	wxPieSeries m_Series;
