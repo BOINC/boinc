@@ -34,9 +34,10 @@ static bool can_send_nci(
 ) {
     bavp = get_app_version(wu, true, false);
     if (!bavp) {
-        if (config.debug_send) {
+        if (config.debug_send_job) {
             log_messages.printf(MSG_NORMAL,
-                "[send] No app version for NCI job; skipping\n"
+                "[send_job] [WU#%u] No app version for NCI job; skipping\n",
+                wu.id
             );
         }
         return false;
@@ -48,9 +49,10 @@ static bool can_send_nci(
         *app, *bavp
     );
     if (retval) {
-        if (config.debug_send) {
+        if (config.debug_send_job) {
             log_messages.printf(MSG_NORMAL,
-                "[send] wu_is_infeasible_fast() failed for NCI job; skipping\n"
+                "[send_job] [WU#%u] wu_is_infeasible_fast() failed for NCI job; skipping\n",
+                wu.id
             );
         }
         return false;
