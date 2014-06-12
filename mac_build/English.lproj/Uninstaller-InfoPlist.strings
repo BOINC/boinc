@@ -1,0 +1,5 @@
+/* Localized versions of Info.plist keys */
+
+CFBundleName = "Uninstall BOINC";
+CFBundleShortVersionString = "Uninstall BOINC version 7.4.0";
+CFBundleGetInfoString = "Uninstall BOINC version 7.4.0, Copyright 2013 University of California.";

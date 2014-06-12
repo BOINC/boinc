@@ -233,19 +233,11 @@ void wxPieCtrl::DrawParts(wxRect& pieRect)
 	if(m_Series.Count() == 1)
 	{
 		m_CanvasDC.SetBrush(wxBrush(m_Series[0].GetColour()));
-#if (defined(__WXMAC__) && wxCHECK_VERSION(2,8,2))
-		DrawEllipticArc(pieRect.GetLeft(),
-											   pieRect.GetTop(),
-											   pieRect.GetRight()-pieRect.GetLeft(),
-											   pieRect.GetBottom()-pieRect.GetTop(),
-											   0,360);
-#else
 		m_CanvasDC.DrawEllipticArc(pieRect.GetLeft(),
 											   pieRect.GetTop(),
 											   pieRect.GetRight()-pieRect.GetLeft(),
 											   pieRect.GetBottom()-pieRect.GetTop(),
 											   0,360);
-#endif
 	}
 	else {
 		GetPartAngles(angles);
@@ -298,19 +290,11 @@ void wxPieCtrl::DrawParts(wxRect& pieRect)
 				t2 = intAngles[i];
 #endif 
 				if(t1 != t2) {
-#if (defined(__WXMAC__) && wxCHECK_VERSION(2,8,2))
-					DrawEllipticArc(pieRect.GetLeft(),
-											   pieRect.GetTop(),
-											   pieRect.GetRight()-pieRect.GetLeft(),
-											   pieRect.GetBottom()-pieRect.GetTop(),
-											   t1,t2);
-#else
 					m_CanvasDC.DrawEllipticArc(pieRect.GetLeft(),
 											   pieRect.GetTop(),
 											   pieRect.GetRight()-pieRect.GetLeft(),
 											   pieRect.GetBottom()-pieRect.GetTop(),
 											   t1,t2);
-#endif
 				}
 			}
 		}
@@ -423,9 +407,6 @@ void wxPieCtrl::Draw(wxPaintDC & pdc)
 		pieRect.SetBottom(pieRect.GetTop() + maxL);
 		pieRect.SetRight(pieRect.GetLeft() + maxL);
 
-#if ! wxCHECK_VERSION(2,8,0)
-		m_CanvasDC.BeginDrawing();
-#endif
 		m_CanvasDC.SetBackground(wxBrush(m_BackColour));
 		m_CanvasDC.Clear();
 		if(m_Series.Count())
@@ -436,57 +417,16 @@ void wxPieCtrl::Draw(wxPaintDC & pdc)
 		else {
 			//no data, draw an black circle
 			m_CanvasDC.SetBrush(*wxBLACK_BRUSH);
-#if (defined(__WXMAC__) && wxCHECK_VERSION(2,8,2))
-			DrawEllipticArc(pieRect.GetLeft(),
-											   pieRect.GetTop(),
-											   pieRect.GetRight()-pieRect.GetLeft(),
-											   pieRect.GetBottom()-pieRect.GetTop(),
-											   0,360);
-#else
 			m_CanvasDC.DrawEllipticArc(pieRect.GetLeft(),
 											   pieRect.GetTop(),
 											   pieRect.GetRight()-pieRect.GetLeft(),
 											   pieRect.GetBottom()-pieRect.GetTop(),
 											   0,360);
-#endif
 		}
-#if ! wxCHECK_VERSION(2,8,0)
-		m_CanvasDC.EndDrawing();		
-#endif
 		m_CanRepaint = false;
 	}
 	pdc.Blit(0,0,bgW,bgH,&m_CanvasDC,0,0);
 }
-
-#if (defined(__WXMAC__) && wxCHECK_VERSION(2,8,2))
-
-// wxGCDC::DoDrawEllipticArc() is broken on wxMac 2.8.2 and 
-// later so we have adapted the correct code (from 2.8.1) here
-static inline double DegToRad(double deg)
-{
-    return (deg * M_PI) / 180.0;
-}
-
-void wxPieCtrl::DrawEllipticArc( wxCoord x, wxCoord y, wxCoord w, wxCoord h,
-                                double sa, double ea )
-{
-    wxGraphicsContext* graphicContext = m_CanvasDC.GetGraphicsContext();
-    wxGraphicsPath path = graphicContext->CreatePath();
-    graphicContext->PushState();
-    graphicContext->Translate(x+w/2,y+h/2);
-    wxDouble factor = ((wxDouble) w) / h;
-    graphicContext->Scale( factor , 1.0);
-    if (sa!=ea)
-        path.MoveToPoint(0,0);
-    // since these angles (ea,sa) are measured counter-clockwise, we invert them to
-    // get clockwise angles
-    path.AddArc( 0, 0, h/2 , DegToRad(-sa) , DegToRad(-ea), sa > ea );
-    if (sa!=ea)
-        path.AddLineToPoint(0,0);
-    graphicContext->DrawPath( path );
-    graphicContext->PopState();
-}
-#endif
 
 void wxPieCtrl::Refresh(bool eraseBackground, const wxRect* rect)
 {
