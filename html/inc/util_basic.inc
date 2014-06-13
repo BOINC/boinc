@@ -21,13 +21,17 @@
 
 $generating_xml = false;
 
+function project_dir() {
+    return dirname(dirname(getcwd()));
+}
+
 function web_stopped() {
-    $d = dirname(dirname(dirname($_SERVER["SCRIPT_FILENAME"])));
+    $d = project_dir();
     return file_exists("$d/stop_web");
 }
 
 function sched_stopped() {
-    $d = dirname(dirname(dirname($_SERVER["SCRIPT_FILENAME"])));
+    $d = project_dir();
     return file_exists("$d/stop_sched");
 }
 
@@ -68,7 +72,7 @@ $g_config = null;
 function get_config() {
     global $g_config;
     if ($g_config == null) {
-        $d = dirname(dirname(dirname($_SERVER["SCRIPT_FILENAME"])));
+        $d = project_dir();
         $g_config = file_get_contents("$d/config.xml");
     }
     return $g_config;
