@@ -242,7 +242,7 @@ void CBOINCListCtrl::DrawProgressBars()
     wxClientDC dc(this);
     m_bProgressBarEventPending = false;
 #else
-    wxClientDC dc(GetMainWin());   // Available only in wxGenericListCtrl
+    wxWindowDC dc(GetMainWin());   // Available only in wxGenericListCtrl
 #endif
 
     if (progressColumn < 0) {
