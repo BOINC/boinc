@@ -185,7 +185,7 @@ void send_work_score_type(int rt) {
     for (int j=0; j<nscan; j++) {
         int i = (j+rnd_off) % ssp->max_wu_results;
         WU_RESULT& wu_result = ssp->wu_results[i];
-        if (wu_result.state != WR_STATE_PRESENT) {
+        if (wu_result.state != WR_STATE_PRESENT  && wu_result.state != g_pid) {
             continue;
         }
         WORKUNIT wu = wu_result.workunit;
@@ -251,7 +251,7 @@ void send_work_score_type(int rt) {
         // array is locked at this point.
         //
         WU_RESULT& wu_result = ssp->wu_results[job.index];
-        if (wu_result.state != WR_STATE_PRESENT) {
+        if (wu_result.state != WR_STATE_PRESENT  && wu_result.state != g_pid) {
             continue;
         }
         if (wu_result.resultid != job.result_id) {
