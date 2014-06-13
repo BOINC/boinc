@@ -22,7 +22,8 @@
 $generating_xml = false;
 
 function project_dir() {
-    return dirname(dirname(getcwd()));
+    //return dirname(dirname(getcwd()));
+    return "../..";
 }
 
 function web_stopped() {
