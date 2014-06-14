@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2013 University of California
+// Copyright (C) 2014 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -151,7 +151,7 @@ int FixInfoPlist_Strings(char* myPath, char* name) {
         fprintf(f, "/* Localized versions of Info.plist keys */\n\n");
         fprintf(f, "CFBundleName = \"%s\";\n", name);
         fprintf(f, "CFBundleShortVersionString = \"%s version %s\";\n", name, BOINC_VERSION_STRING);
-        fprintf(f, "CFBundleGetInfoString = \"%s version %s, Copyright 2013 University of California.\";\n", name, BOINC_VERSION_STRING);
+        fprintf(f, "CFBundleGetInfoString = \"%s version %s, Copyright 2014 University of California.\";\n", name, BOINC_VERSION_STRING);
         fflush(f);
         retval = fclose(f);
     }
