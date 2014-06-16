@@ -47,6 +47,10 @@
 // --test
 //    Show what accounts would be deleted, but don't delete them
 
+error_reporting(E_ALL);
+ini_set('display_errors', true);
+ini_set('display_startup_errors', true);
+
 require_once("../inc/db.inc");
 require_once("../inc/profile.inc");
 require_once("../inc/forum.inc");
@@ -59,7 +63,8 @@ $test = false;
 //
 function delete_user($user) {
     global $test;
-    echo "deleting user $user->id email $user->email_addr name $user->name\n";
+    $age = (time() - $user->create_time) / 86400;
+    echo "----------------\ndeleting user $user->id email $user->email_addr name $user->name age $age days\n";
     if ($test) {
         return;
     }
@@ -75,7 +80,7 @@ function delete_list($fname) {
     while ($s = fgets($f)) {
         $s = trim($s);
         if (!is_numeric($s)) die("bad ID $s\n");
-        $user = BoincUser::lookup_id($s);
+        $user = BoincUser::lookup_id((int)$s);
         if ($user) {
             delete_user($user);
         } else {
@@ -88,6 +93,7 @@ function has_link($x) {
     if (strstr($x, "[url")) return true;
     if (strstr($x, "http://")) return true;
     if (strstr($x, "https://")) return true;
+    if (strstr($x, "www.")) return true;
     return false;
 }
 
@@ -134,7 +140,7 @@ function delete_profiles() {
 
             delete_user($user);
             if ($test) {
-                echo "------------\n$p->userid\n$p->response1\n$p->response2\n";
+                echo "\n$p->userid\n$p->response1\n$p->response2\n";
             }
         }
     }
@@ -175,7 +181,8 @@ for ($i=1; $i<$argc; $i++) {
     } else if ($argv[$i] == "--banished") {
         delete_banished();
     } else {
-        echo "usage: delete_spammers.php [--list file] [--id_range N M] [--auto]\n";
+        echo "usage: delete_spammers.php [--days] [--test] [--list filename] [--profiles] [--forums] [--id_range N M]\n";
+        exit;
     }
 }
 
