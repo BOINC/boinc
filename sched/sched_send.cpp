@@ -1604,8 +1604,6 @@ int update_host_app_versions(vector<SCHED_DB_RESULT>& results, int hostid) {
 void send_work() {
     int retval;
 
-    g_wreq->no_jobs_available = true;
-
     if (all_apps_use_hr && hr_unknown_platform(g_request->host)) {
         log_messages.printf(MSG_NORMAL,
             "Not sending work because unknown HR class\n"

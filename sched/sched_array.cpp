@@ -55,8 +55,6 @@ static bool quick_check(
 ) {
     int retval;
 
-    g_wreq->no_jobs_available = false;
-
     // If we're looking for beta jobs and this isn't one, skip it
     //
     if (g_wreq->beta_only) {

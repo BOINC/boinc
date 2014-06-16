@@ -1127,6 +1127,7 @@ void process_request(char* code_sign_key) {
 
     warn_user_if_core_client_upgrade_scheduled();
 
+    g_wreq->no_jobs_available = false;
     if (requesting_work()) {
         if (config.locality_scheduling || config.locality_scheduler_fraction || config.enable_assignment) {
             have_no_work = false;
