@@ -564,7 +564,7 @@ void process_gpu_exclusions() {
         p = gstate.lookup_project(eg.url.c_str());
         if (!p) {
             msg_printf(0, MSG_USER_ALERT,
-                "Bad URL in GPU exclusion: %s", eg.url.c_str()
+                "cc_config.xml: bad URL in GPU exclusion: %s", eg.url.c_str()
             );
             continue;
         }
@@ -572,7 +572,7 @@ void process_gpu_exclusions() {
             APP* app = gstate.lookup_app(p, eg.appname.c_str());
             if (!app) {
                 msg_printf(p, MSG_USER_ALERT,
-                    "A GPU exclusion in your cc_config.xml file refers to an unknown application '%s'.  Known applications: %s",
+                    "cc_config.xml: a GPU exclusion refers to an unknown application '%s'.  Known applications: %s",
                     eg.appname.c_str(),
                     app_list_string(p).c_str()
                 );
@@ -593,7 +593,7 @@ void process_gpu_exclusions() {
             }
             if (!found) {
                 msg_printf(p, MSG_USER_ALERT,
-                    "Bad type '%s' in GPU exclusion; valid types:%s",
+                    "cc_config.xml: bad type '%s' in GPU exclusion; valid types:%s",
                     eg.type.c_str(), types.c_str()
                 );
                 continue;
