@@ -87,12 +87,12 @@ void CSimpleTaskPopupButton::AddMenuItems() {
 }
 
 
-void CSimpleTaskPopupButton::OnTaskCommandsMouseDown(wxMouseEvent& event) {
+void CSimpleTaskPopupButton::OnTaskCommandsMouseDown(wxMouseEvent&) {
     ShowTaskCommandsMenu(ScreenToClient(wxGetMousePosition()));
 }
 
 
-void CSimpleTaskPopupButton::OnTaskCommandsKeyboardNav(wxCommandEvent& event) {
+void CSimpleTaskPopupButton::OnTaskCommandsKeyboardNav(wxCommandEvent&) {
     ShowTaskCommandsMenu(wxPoint(GetSize().GetWidth()/2, GetSize().GetHeight()/2));
 }
 

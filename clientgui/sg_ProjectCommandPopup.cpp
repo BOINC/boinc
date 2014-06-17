@@ -99,12 +99,12 @@ void CSimpleProjectCommandPopupButton::AddMenuItems() {
 }
 
 
-void CSimpleProjectCommandPopupButton::OnProjectCommandsMouseDown(wxMouseEvent& event) {
+void CSimpleProjectCommandPopupButton::OnProjectCommandsMouseDown(wxMouseEvent&) {
     ShowProjectCommandsMenu(ScreenToClient(wxGetMousePosition()));
 }
 
 
-void CSimpleProjectCommandPopupButton::OnProjectCommandsKeyboardNav(wxCommandEvent& event) {
+void CSimpleProjectCommandPopupButton::OnProjectCommandsKeyboardNav(wxCommandEvent&) {
     ShowProjectCommandsMenu(wxPoint(GetSize().GetWidth()/2, GetSize().GetHeight()/2));
 }
 
