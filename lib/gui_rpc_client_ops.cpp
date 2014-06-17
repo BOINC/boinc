@@ -109,6 +109,12 @@ int TIME_STATS::parse(XML_PARSER& xp) {
         if (xp.parse_double("gpu_active_frac", gpu_active_frac)) continue;
         if (xp.parse_double("client_start_time", client_start_time)) continue;
         if (xp.parse_double("previous_uptime", previous_uptime)) continue;
+        if (xp.parse_double("session_active_duration", session_active_duration)) continue;
+        if (xp.parse_double("session_gpu_active_duration", session_gpu_active_duration)) continue;
+        if (xp.parse_double("total_start_time", total_start_time)) continue;
+        if (xp.parse_double("total_duration", total_duration)) continue;
+        if (xp.parse_double("total_active_duration", total_active_duration)) continue;
+        if (xp.parse_double("total_gpu_active_duration", total_gpu_active_duration)) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -451,6 +457,8 @@ int PROJECT::parse(XML_PARSER& xp) {
         if (xp.parse_double("project_files_downloaded_time", project_files_downloaded_time)) continue;
         if (xp.parse_bool("no_ati_pref", rsc_desc_cpu.no_rsc_pref)) continue;
         if (xp.parse_str("venue", venue, sizeof(venue))) continue;
+        if (xp.parse_int("njobs_success", njobs_success)) continue;
+        if (xp.parse_int("njobs_error", njobs_error)) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -502,6 +510,8 @@ void PROJECT::clear() {
     gui_urls.clear();
     statistics.clear();
     strcpy(venue, "");
+    njobs_success = 0;
+    njobs_error = 0;
 }
 
 APP::APP() {

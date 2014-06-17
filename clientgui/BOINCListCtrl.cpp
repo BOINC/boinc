@@ -35,10 +35,10 @@ BEGIN_EVENT_TABLE(CBOINCListCtrl, LISTCTRL_BASE)
 
 #if USE_NATIVE_LISTCONTROL
     EVT_DRAW_PROGRESSBAR(CBOINCListCtrl::OnDrawProgressBar)
-#endif
-
+#else
 #ifdef __WXMAC__
 	EVT_SIZE(CBOINCListCtrl::OnSize)    // In MacAccessibility.mm
+#endif
 #endif
 
 #if ! USE_LIST_CACHE_HINT
@@ -242,7 +242,7 @@ void CBOINCListCtrl::DrawProgressBars()
     wxClientDC dc(this);
     m_bProgressBarEventPending = false;
 #else
-    wxClientDC dc(GetMainWin());   // Available only in wxGenericListCtrl
+    wxWindowDC dc(GetMainWin());   // Available only in wxGenericListCtrl
 #endif
 
     if (progressColumn < 0) {

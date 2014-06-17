@@ -434,7 +434,9 @@ int main(int argc, char** argv) {
 }
 
 void JOB_DESC::create() {
-    char buf[256];
+    if (assign_flag) {
+        wu.transitioner_flags = assign_multi?TRANSITION_NONE:TRANSITION_NO_NEW_RESULTS;
+    }
     int retval = create_work2(
         wu,
         wu_template,
@@ -462,14 +464,6 @@ void JOB_DESC::create() {
             fprintf(stderr,
                 "assignment.insert() failed: %s\n", boincerror(retval)
             );
-            exit(1);
-        }
-        sprintf(buf, "transitioner_flags=%d",
-            assign_multi?TRANSITION_NONE:TRANSITION_NO_NEW_RESULTS
-        );
-        retval = wu.update_field(buf);
-        if (retval) {
-            fprintf(stderr, "wu.update() failed: %s\n", boincerror(retval));
             exit(1);
         }
     }

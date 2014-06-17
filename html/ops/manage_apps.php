@@ -53,8 +53,8 @@ function do_updates() {
 }
 
 function add_app() {
-    $name = mysql_real_escape_string(post_str('add_name'));
-    $user_friendly_name = mysql_real_escape_string(post_str('add_user_friendly_name'));
+    $name = BoincDb::escape_string(post_str('add_name'));
+    $user_friendly_name = BoincDb::escape_string(post_str('add_user_friendly_name'));
     if (empty($name) || empty($user_friendly_name) ) {
         error_page(
             "To add a new application please supply both a brief name and a longer 'user-friendly' name.</font></p>"

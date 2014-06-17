@@ -346,7 +346,7 @@ int create_work2(
         fprintf(stderr, "target_nresults > max_success_results; can't create job\n");
         return ERR_INVALID_PARAM;
     }
-    if (wu.transitioner_flags & TRANSITION_NONE) {
+    if (wu.transitioner_flags) {
         wu.transition_time = INT_MAX;
     } else {
         wu.transition_time = time(0);

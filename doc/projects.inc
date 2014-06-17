@@ -160,7 +160,7 @@ $biomed = array(
             "http://boinc.umiacs.umd.edu/",
             tra("University of Maryland Center for Bioinformatics and Computational Biology"),
             tra("Life science research"),
-            tra("The Lattice Project supplies computing power to scientists at the University of Maryland studying evolutionary relationships based on DNA sequence data; bacterial, plasmid, and virus protein sequences; and biological diversity in nature reserves. "),
+            tra("The Lattice Project, developed and administered at the University of Maryland, supplies computing power to researchers worldwide who are studying evolutionary relationships using DNA and protein sequence data."),
             "lattice.gif",
             "",
             "Study evolution using genetics"

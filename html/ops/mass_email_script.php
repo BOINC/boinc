@@ -303,7 +303,7 @@ function main() {
     echo 'All done!' . "\n";
 }
 
-if (!$USE_PHPMAILER) {
+if (!function_exists('make_php_mailer')) {
     echo "You must use PHPMailer.\n";
     exit();
 }

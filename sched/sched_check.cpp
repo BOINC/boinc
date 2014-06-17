@@ -71,9 +71,9 @@ static inline int check_memory(WORKUNIT& wu) {
         );
         add_no_work_message(message);
 
-        if (config.debug_send) {
+        if (config.debug_send_job) {
             log_messages.printf(MSG_NORMAL,
-                "[send] [WU#%u %s] needs %0.2fMB RAM; [HOST#%d] has %0.2fMB, %0.2fMB usable\n",
+                "[send_job] [WU#%u %s] needs %0.2fMB RAM; [HOST#%d] has %0.2fMB, %0.2fMB usable\n",
                 wu.id, wu.name, wu.rsc_memory_bound/MEGA,
                 g_reply->host.id, g_wreq->ram/MEGA, g_wreq->usable_ram/MEGA
             );
@@ -208,9 +208,10 @@ static inline int check_deadline(
     // (i.e. everyone gets one result, no matter how slow they are)
     //
     if (get_estimated_delay(bav) == 0 && !hard_app(app)) {
-        if (config.debug_send) {
+        if (config.debug_send_job) {
             log_messages.printf(MSG_NORMAL,
-                "[send] est delay 0, skipping deadline check\n"
+                "[send_job] [WU#%u] est delay 0, skipping deadline check\n",
+                wu.id
             );
         }
         return 0;
@@ -246,18 +247,18 @@ static inline int check_deadline(
         double est_report_delay = get_estimated_delay(bav) + ewd;
         double diff = est_report_delay - wu.delay_bound;
         if (diff > 0) {
-            if (config.debug_send) {
+            if (config.debug_send_job) {
                 log_messages.printf(MSG_NORMAL,
-                    "[send] [WU#%u] deadline miss %d > %d\n",
+                    "[send_job] [WU#%u] deadline miss %d > %d\n",
                     wu.id, (int)est_report_delay, wu.delay_bound
                 );
             }
             g_reply->wreq.speed.set_insufficient(diff);
             return INFEASIBLE_CPU;
         } else {
-            if (config.debug_send) {
+            if (config.debug_send_job) {
                 log_messages.printf(MSG_NORMAL,
-                    "[send] [WU#%u] meets deadline: %.2f + %.2f < %d\n",
+                    "[send_job] [WU#%u] meets deadline: %.2f + %.2f < %d\n",
                     wu.id, get_estimated_delay(bav), ewd, wu.delay_bound
                 );
             }
@@ -302,18 +303,18 @@ int wu_is_infeasible_fast(
     //
     if (app_hr_type(app)) {
         if (hr_unknown_class(g_reply->host, app_hr_type(app))) {
-            if (config.debug_send) {
+            if (config.debug_send_job) {
                 log_messages.printf(MSG_NORMAL,
-                    "[send] [HOST#%d] [WU#%u %s] host is of unknown class in HR type %d\n",
+                    "[send_job] [HOST#%d] [WU#%u %s] host is of unknown class in HR type %d\n",
                     g_reply->host.id, wu.id, wu.name, app_hr_type(app)
                 );
             }
             return INFEASIBLE_HR;
         }
         if (already_sent_to_different_hr_class(wu, app)) {
-            if (config.debug_send) {
+            if (config.debug_send_job) {
                 log_messages.printf(MSG_NORMAL,
-                    "[send] [HOST#%d] [WU#%u %s] failed quick HR check: WU is class %d, host is class %d\n",
+                    "[send_job] [HOST#%d] [WU#%u %s] failed quick HR check: WU is class %d, host is class %d\n",
                     g_reply->host.id, wu.id, wu.name, wu.hr_class, hr_class(g_request->host, app_hr_type(app))
                 );
             }
@@ -326,9 +327,9 @@ int wu_is_infeasible_fast(
     if (app.homogeneous_app_version) {
         int avid = wu.app_version_id;
         if (avid && bav.avp->id != avid) {
-            if (config.debug_send) {
+            if (config.debug_send_job) {
                 log_messages.printf(MSG_NORMAL,
-                    "[send] [HOST#%d] [WU#%u %s] failed homogeneous app version check: %d %d\n",
+                    "[send_job] [HOST#%d] [WU#%u %s] failed homogeneous app version check: %d %d\n",
                     g_reply->host.id, wu.id, wu.name, avid, bav.avp->id
                 );
             }
@@ -403,9 +404,9 @@ int slow_check(
             return 1;
         } else {
             if (n>0) {
-                if (config.debug_send) {
+                if (config.debug_send_job) {
                     log_messages.printf(MSG_NORMAL,
-                        "[send] [USER#%d] already has %d result(s) for [WU#%u]\n",
+                        "[send_job] [USER#%d] already has %d result(s) for [WU#%u]\n",
                         g_reply->user.id, n, wu.id
                     );
                 }
@@ -427,9 +428,9 @@ int slow_check(
             return 1;
         } else {
             if (n>0) {
-                if (config.debug_send) {
+                if (config.debug_send_job) {
                     log_messages.printf(MSG_NORMAL,
-                        "[send] [HOST#%d] already has %d result(s) for [WU#%u]\n",
+                        "[send_job] [HOST#%d] already has %d result(s) for [WU#%u]\n",
                         g_reply->host.id, n, wu.id
                     );
                 }
@@ -464,9 +465,9 @@ int slow_check(
         if (app_hr_type(*app)) {
             wu.hr_class = vals[0];
             if (already_sent_to_different_hr_class(wu, *app)) {
-                if (config.debug_send) {
+                if (config.debug_send_job) {
                     log_messages.printf(MSG_NORMAL,
-                        "[send] [HOST#%d] [WU#%u %s] is assigned to different HR class\n",
+                        "[send_job] [HOST#%d] [WU#%u %s] is assigned to different HR class\n",
                         g_reply->host.id, wu.id, wu.name
                     );
                 }
@@ -482,9 +483,9 @@ int slow_check(
             int wu_avid = vals[1];
             wu.app_version_id = wu_avid;
             if (wu_avid && wu_avid != bavp->avp->id) {
-                if (config.debug_send) {
+                if (config.debug_send_job) {
                     log_messages.printf(MSG_NORMAL,
-                        "[send] [HOST#%d] [WU#%u %s] is assigned to different app version\n",
+                        "[send_job] [HOST#%d] [WU#%u %s] is assigned to different app version\n",
                         g_reply->host.id, wu.id, wu.name
                     );
                 }

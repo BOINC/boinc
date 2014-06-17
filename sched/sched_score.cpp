@@ -67,9 +67,9 @@ bool JOB::get_score(WU_RESULT& wu_result) {
         if (g_wreq->allow_beta_work) {
             score += 1;
         } else {
-            if (config.debug_send) {
+            if (config.debug_send_job) {
                 log_messages.printf(MSG_NORMAL,
-                    "[send] can't send job %d for beta app to non-beta user\n",
+                    "[send_job] can't send job %d for beta app to non-beta user\n",
                     wu_result.workunit.id
                 );
             }
@@ -81,6 +81,12 @@ bool JOB::get_score(WU_RESULT& wu_result) {
         if (g_wreq->allow_non_preferred_apps) {
             score -= 1;
         } else {
+            if (config.debug_send_job) {
+                log_messages.printf(MSG_NORMAL,
+                    "[send_job] app not selected for job %d\n",
+                    wu_result.workunit.id
+                );
+            }
             return false;
         }
     }
@@ -107,9 +113,9 @@ bool JOB::get_score(WU_RESULT& wu_result) {
     if (app->n_size_classes > 1) {
         double effective_speed = bavp->host_usage.projected_flops * available_frac(*bavp);
         int target_size = get_size_class(*app, effective_speed);
-        if (config.debug_send) {
+        if (config.debug_send_job) {
             log_messages.printf(MSG_NORMAL,
-                "[send] size: host %d job %d speed %f\n",
+                "[send_job] size: host %d job %d speed %f\n",
                 target_size, wu_result.workunit.size_class, effective_speed
             );
         }
@@ -121,9 +127,9 @@ bool JOB::get_score(WU_RESULT& wu_result) {
             score -= 1;
         }
     }
-    if (config.debug_send) {
+    if (config.debug_send_job) {
         log_messages.printf(MSG_NORMAL,
-            "[send]: score %f for result %d\n", score, wu_result.resultid
+            "[send_job]: score %f for result %d\n", score, wu_result.resultid
         );
     }
 
@@ -160,9 +166,9 @@ static void restore_others(int rt) {
 void send_work_score_type(int rt) {
     vector<JOB> jobs;
 
-    if (config.debug_send) {
+    if (config.debug_send_scan) {
         log_messages.printf(MSG_NORMAL,
-            "[send] scanning for %s jobs\n", proc_type_name(rt)
+            "[send_scan] scanning for %s jobs\n", proc_type_name(rt)
         );
     }
 
@@ -171,23 +177,56 @@ void send_work_score_type(int rt) {
     int nscan = config.mm_max_slots;
     if (!nscan) nscan = ssp->max_wu_results;
     int rnd_off = rand() % ssp->max_wu_results;
+    if (config.debug_send_scan) {
+        log_messages.printf(MSG_NORMAL,
+            "[send_scan] scanning %d slots starting at %d\n", nscan, rnd_off
+        );
+    }
     for (int j=0; j<nscan; j++) {
         int i = (j+rnd_off) % ssp->max_wu_results;
         WU_RESULT& wu_result = ssp->wu_results[i];
-        if (wu_result.state != WR_STATE_PRESENT) {
+        if (wu_result.state != WR_STATE_PRESENT  && wu_result.state != g_pid) {
             continue;
         }
         WORKUNIT wu = wu_result.workunit;
         JOB job;
         job.app = ssp->lookup_app(wu.appid);
-        if (job.app->non_cpu_intensive) continue;
+        if (job.app->non_cpu_intensive) {
+            if (config.debug_send_job) {
+                log_messages.printf(MSG_NORMAL,
+                    "[send_job] [RESULT#%u] app is non compute intensive\n",
+                    wu_result.resultid
+                );
+            }
+            continue;
+        }
         job.bavp = get_app_version(wu, true, false);
-        if (!job.bavp) continue;
+        if (!job.bavp) {
+            if (config.debug_send_job) {
+                log_messages.printf(MSG_NORMAL,
+                    "[send_job] [RESULT#%u] no app version available\n",
+                    wu_result.resultid
+                );
+            }
+            continue;
+        }
 
         job.index = i;
         job.result_id = wu_result.resultid;
         if (!job.get_score(wu_result)) {
+            if (config.debug_send_job) {
+                log_messages.printf(MSG_NORMAL,
+                    "[send_job] [RESULT#%u] get_score() returned false\n",
+                    wu_result.resultid
+                );
+            }
             continue;
+        }
+        if (config.debug_send_job) {
+            log_messages.printf(MSG_NORMAL,
+                "[send_job] [RESULT#%u] score: %f\n",
+                wu_result.resultid, job.score
+            );
         }
         jobs.push_back(job);
     }
@@ -212,7 +251,7 @@ void send_work_score_type(int rt) {
         // array is locked at this point.
         //
         WU_RESULT& wu_result = ssp->wu_results[job.index];
-        if (wu_result.state != WR_STATE_PRESENT) {
+        if (wu_result.state != WR_STATE_PRESENT  && wu_result.state != g_pid) {
             continue;
         }
         if (wu_result.resultid != job.result_id) {

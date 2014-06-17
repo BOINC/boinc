@@ -22,7 +22,7 @@
 #pragma interface "BOINCListCtrl.cpp"
 #endif
 
-#if defined(__WXMSW__) || defined(__WXGTK__)
+#ifdef __WXMSW__
 #define USE_NATIVE_LISTCONTROL 1
 #else
 #define USE_NATIVE_LISTCONTROL 0
@@ -31,12 +31,15 @@
 
 // Virtual wxListCtrl does not reliably generate selection and
 // deselection events, so we must check for these differently.
-#ifdef __WXMAC__
-// On Mac, check for selection / deselection on EVT_LEFT_DOWN. 
-#define USE_LIST_CACHE_HINT 0
-#else
+// We get more events than we need using EVT_LIST_CACHE_HINT, 
+// so testing on mouse events is more efficient, but it doesn't
+// work on Windows.
+#ifdef __WXMSW__
 // On Windows, check for selection / deselection on EVT_LIST_CACHE_HINT. 
 #define USE_LIST_CACHE_HINT 1
+#else
+// On Mac & Linux, check for selection / deselection on EVT_LEFT_DOWN. 
+#define USE_LIST_CACHE_HINT 0
 #endif
 
 #if USE_NATIVE_LISTCONTROL

@@ -703,10 +703,10 @@ function show_app_version($app_version) {
     row("Version num", $app_version->version_num);
     row("Platform", "<a href=\"db_action.php?table=platform&id=$app_version->platformid\">" . platform_name_by_id($app_version->platformid) . "</a>" );
     row("XML doc", "<pre>".htmlspecialchars($app_version->xml_doc)."</pre>");
-    row("Min_core_version", $app_version->min_core_version);
-    row("Max_core_version", $app_version->max_core_version);
-    //row("Message", $app_version->message);
-    row("Deprecated", $app_version->deprecated);
+    row("min_core_version", $app_version->min_core_version);
+    row("max_core_version", $app_version->max_core_version);
+    row("deprecated", $app_version->deprecated);
+    row("plan_class", $app_version->plan_class);
     end_table();
 }
 

@@ -312,7 +312,7 @@ function do_lapsed() {
     mysql_free_result($result);
 }
 
-if (!$USE_PHPMAILER) {
+if (!function_exists('make_php_mailer')) {
     echo "You must use PHPMailer (http://phpmailer.sourceforge.net)\n";
     exit();
 }

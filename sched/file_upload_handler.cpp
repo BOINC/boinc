@@ -385,7 +385,9 @@ int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
             "Failed to find/create directory for file '%s' in '%s'\n",
             name, config.upload_dir
         );
-        return return_error(ERR_TRANSIENT, "can't open file");
+        return return_error(ERR_TRANSIENT, "can't open file %s: %s",
+            name, boincerror(retval)
+        );
     }
     log_messages.printf(MSG_NORMAL,
         "Starting upload of %s from %s [offset=%.0f, nbytes=%.0f]\n",

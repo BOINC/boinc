@@ -57,8 +57,7 @@
 using std::vector;
 
 // see:
-// man 5 proc
-// /usr/src/linux/fs/proc/array.C
+// http://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/tree/fs/proc/array.c
 //
 // Interesting note: the command part of /proc/PID/stat is the first
 // 15 characters of the executable filename.
@@ -163,8 +162,7 @@ int PROC_STAT::parse(char* buf) {
         return 0;
     }
 
-    // I don't see a good choice of ERR_ for this...
-    //
+    //fprintf(stderr, "can't parse /proc/x/stat file: %s\n", buf);
     return 1;
 }
 
@@ -178,10 +176,13 @@ int procinfo_setup(PROC_MAP& pm) {
     char pidpath[MAXPATHLEN];
     char buf[1024];
     int pid = getpid();
-    int retval, final_retval = 0;
+    int retval;
 
     dir = opendir("/proc");
-    if (!dir) return 0;
+    if (!dir) {
+        fprintf(stderr, "procinfo_setup(): can't open /proc\n");
+        return 0;
+    }
 
     while (1) {
         piddir = readdir(dir);
@@ -230,7 +231,9 @@ int procinfo_setup(PROC_MAP& pm) {
         fclose(fd);
 
         if (retval) {
-            final_retval = retval;
+            // ps.parse() returns an error if the executable name contains ).
+            // In that case skip this process.
+            //
             continue;
         }
         PROCINFO p;
@@ -258,5 +261,5 @@ int procinfo_setup(PROC_MAP& pm) {
     }
     closedir(dir);
     find_children(pm);
-    return final_retval;
+    return 0;
 }

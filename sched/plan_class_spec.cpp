@@ -26,6 +26,28 @@
 
 using std::string;
 
+
+// this returns a numerical OS version for Darwin/OSX and Windows,
+// allowing to define a numerical _range_ for these OS versions
+static double os_version_num(HOST h) {
+    if (strstr(h.os_name, "Darwin")) {
+        unsigned int a,b,c;
+        if (sscanf(h.os_version, "%u.%u.%u", &a, &b, &c) == 3) {
+            return 10000.0*a + 100.0*b + c;
+        }
+    } else if (strstr(h.os_name, "Windows")) {
+        unsigned int a,b,c,d;
+        // example: "Enterprise Server Edition, Service Pack 1, (06.01.7601.00)"
+        char*p = strrchr(h.os_version,'(');
+        if (p && (sscanf(p, "(%u.%u.%u.%u)", &a, &b, &c, &d) == 4)) {
+            return 100000000.0*a + 1000000.0*b + 100.0*c +d;
+        }
+    }
+    // could not determine numerical OS version
+    return 0.0;
+}
+
+
 int PLAN_CLASS_SPECS::parse_file(const char* path) {
 #ifndef _USING_FCGI_
     FILE* f = fopen(path, "r");
@@ -38,6 +60,56 @@ int PLAN_CLASS_SPECS::parse_file(const char* path) {
     return retval;
 }
 
+bool PLAN_CLASS_SPEC::opencl_check(OPENCL_DEVICE_PROP& opencl_prop) {
+    if (min_opencl_version && opencl_prop.opencl_device_version_int 
+        && min_opencl_version > opencl_prop.opencl_device_version_int
+    ) {
+        if (config.debug_version_select) {
+            log_messages.printf(MSG_NORMAL,
+                "[version] OpenCL device version required min: %d, supplied: %d\n",
+                min_opencl_version, opencl_prop.opencl_device_version_int
+            );
+        }
+        return false;
+    }
+
+    if (max_opencl_version && opencl_prop.opencl_device_version_int 
+        && max_opencl_version < opencl_prop.opencl_device_version_int
+    ) {
+        if (config.debug_version_select) {
+            log_messages.printf(MSG_NORMAL,
+                "[version] OpenCL device version required max: %d, supplied: %d\n",
+                max_opencl_version, opencl_prop.opencl_device_version_int
+            );
+        }
+        return false;
+    }
+
+    if (min_opencl_driver_revision && opencl_prop.opencl_device_version_int 
+        && min_opencl_driver_revision > opencl_prop.opencl_driver_revision
+    ) {
+        if (config.debug_version_select) {
+            log_messages.printf(MSG_NORMAL,
+                "[version] OpenCL driver revision required min: %d, supplied: %d\n",
+                min_opencl_driver_revision, opencl_prop.opencl_driver_revision
+            );
+        }
+        return false;
+    }
+
+    if (max_opencl_driver_revision && opencl_prop.opencl_device_version_int 
+        && max_opencl_driver_revision < opencl_prop.opencl_driver_revision
+    ) {
+        if (config.debug_version_select) {
+            log_messages.printf(MSG_NORMAL,
+                "[version] OpenCL driver revision required max: %d, supplied: %d\n",
+                max_opencl_driver_revision, opencl_prop.opencl_driver_revision
+            );
+        }
+        return false;
+    }
+    return true;
+}
 
 bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
     COPROC* cpp = NULL;
@@ -118,8 +190,38 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
         }
         return false;
     }
+    if (min_os_version || max_os_version) {
+        double host_os_version_num = os_version_num(sreq.host);
+        if (!host_os_version_num) {
+            if (config.debug_version_select) {
+                log_messages.printf(MSG_NORMAL,
+                    "[version] plan_class_spec: Can't determine numerical OS version '%s'\n",
+                    sreq.host.os_version
+                );
+            }
+            return false;
+        }
+        if (min_os_version && (host_os_version_num < min_os_version)) {
+            if (config.debug_version_select) {
+                log_messages.printf(MSG_NORMAL,
+                    "[version] plan_class_spec: OS version '%s' too low (%.0f / %.0f)\n",
+                    sreq.host.os_version, host_os_version_num, min_os_version
+                );
+            }
+            return false;
+        }
+        if (max_os_version && (host_os_version_num > max_os_version)) {
+            if (config.debug_version_select) {
+                log_messages.printf(MSG_NORMAL,
+                    "[version] plan_class_spec: OS version '%s' too high (%.0f / %.0f)\n",
+                    sreq.host.os_version, host_os_version_num, max_os_version
+                );
+            }
+            return false;
+        }
+    }
 
-    // BOINC versions 
+    // BOINC versions
     //
     if (min_core_client_version && sreq.core_client_version < min_core_client_version) {
         if (config.debug_version_select) {
@@ -235,7 +337,7 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
                 project_prefs_tag, p?"true":"false"
             );
         }
-        if (!p || regexec(&(project_prefs_regex), value, 0, NULL, 0)) {
+        if (p ? regexec(&(project_prefs_regex), value, 0, NULL, 0) : !project_prefs_default_true) {
             if (config.debug_version_select) {
                 log_messages.printf(MSG_NORMAL,
                     "[version] plan_class_spec: project prefs setting '%s' value='%s' prevents using plan class.\n",
@@ -456,63 +558,43 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
     }
 
     if (opencl) {
-        // check for OpenCL at all
-        if (!cpp->have_opencl) {
-            if (config.debug_version_select) {
-                log_messages.printf(MSG_NORMAL,
-                    "[version] GPU doesn't support OpenCL\n"
-                );
+        if (cpp) {
+            if (!cpp->have_opencl) {
+                if (config.debug_version_select) {
+                    log_messages.printf(MSG_NORMAL,
+                        "[version] GPU doesn't support OpenCL\n"
+                    );
+                }
+                return false;
             }
-            return false;
-        }
-
-        // OpenCL device version
-        //
-        if (min_opencl_version && cpp->opencl_prop.opencl_device_version_int 
-            && min_opencl_version > cpp->opencl_prop.opencl_device_version_int) {
-            if (config.debug_version_select) {
-                log_messages.printf(MSG_NORMAL,
-                    "[version] OpenCL device version required min: %d, supplied: %d\n",
-                    min_opencl_version, cpp->opencl_prop.opencl_device_version_int
-                );
+            if (!opencl_check(cpp->opencl_prop)) {
+                return false;
             }
-            return false;
-        }
-
-        if (max_opencl_version && cpp->opencl_prop.opencl_device_version_int 
-            && max_opencl_version < cpp->opencl_prop.opencl_device_version_int) {
-            if (config.debug_version_select) {
-                log_messages.printf(MSG_NORMAL,
-                    "[version] OpenCL device version required max: %d, supplied: %d\n",
-                    max_opencl_version, cpp->opencl_prop.opencl_device_version_int
-                );
+            gpu_ram = cpp->opencl_prop.global_mem_size;
+        } else {
+            // OpenCL CPU app version.
+            // The host may have several OpenCL CPU libraries.
+            // See if any of them works.
+            // TODO: there should be a way of saying which library
+            // the app version requires,
+            // or a way of conveying to the app which one to use.
+            //
+            bool found = false;
+            for (int i=0; i<sreq.host.num_opencl_cpu_platforms; i++) {
+                if (opencl_check(sreq.host.opencl_cpu_prop[i].opencl_prop)) {
+                    found = true;
+                    break;
+                }
             }
-            return false;
-        }
-
-        if (min_opencl_driver_revision && cpp->opencl_prop.opencl_device_version_int 
-            && min_opencl_driver_revision > cpp->opencl_prop.opencl_driver_revision) {
-            if (config.debug_version_select) {
-                log_messages.printf(MSG_NORMAL,
-                    "[version] OpenCL driver revision required min: %d, supplied: %d\n",
-                    min_opencl_driver_revision, cpp->opencl_prop.opencl_driver_revision
-                );
+            if (!found) {
+                if (config.debug_version_select) {
+                    log_messages.printf(MSG_NORMAL,
+                        "[version] CPU doesn't support OpenCL\n"
+                    );
+                }
+                return false;
             }
-            return false;
         }
-
-        if (max_opencl_driver_revision && cpp->opencl_prop.opencl_device_version_int 
-            && max_opencl_driver_revision < cpp->opencl_prop.opencl_driver_revision) {
-            if (config.debug_version_select) {
-                log_messages.printf(MSG_NORMAL,
-                    "[version] OpenCL driver revision required max: %d, supplied: %d\n",
-                    max_opencl_driver_revision, cpp->opencl_prop.opencl_driver_revision
-                );
-            }
-            return false;
-        }
-
-        gpu_ram = cpp->opencl_prop.global_mem_size;
     }
 
     // general GPU
@@ -690,6 +772,8 @@ int PLAN_CLASS_SPEC::parse(XML_PARSER& xp) {
             have_host_summary_regex = true;
             continue;
         }
+        if (xp.parse_double("min_os_version", min_os_version)) continue;
+        if (xp.parse_double("max_os_version", max_os_version)) continue;
         if (xp.parse_str("project_prefs_tag", project_prefs_tag, sizeof(project_prefs_tag))) continue;
         if (xp.parse_str("project_prefs_regex", buf, sizeof(buf))) {
             if (regcomp(&(project_prefs_regex), buf, REG_EXTENDED|REG_NOSUB) ) {
@@ -699,6 +783,7 @@ int PLAN_CLASS_SPEC::parse(XML_PARSER& xp) {
             have_project_prefs_regex = true;
             continue;
         }
+        if (xp.parse_bool("project_prefs_default_true", project_prefs_default_true)) continue;
         if (xp.parse_double("avg_ncpus", avg_ncpus)) continue;
 
         if (xp.parse_double("cpu_frac", cpu_frac)) continue;
@@ -771,12 +856,15 @@ PLAN_CLASS_SPEC::PLAN_CLASS_SPEC() {
     max_threads = 1;
     projected_flops_scale = 1;
     have_os_regex = false;
-    have_host_summary_regex = false;
+    min_os_version = 0;
+    max_os_version = 0;
     strcpy(project_prefs_tag, "");
     have_project_prefs_regex = false;
+    project_prefs_default_true = false;
     avg_ncpus = 0;
-    min_core_client_version=0;
-    max_core_client_version=0;
+    min_core_client_version = 0;
+    max_core_client_version = 0;
+    have_host_summary_regex = false;
 
     cpu_frac = .1;
     min_gpu_ram_mb = 0;
@@ -789,6 +877,8 @@ PLAN_CLASS_SPEC::PLAN_CLASS_SPEC() {
 
     need_ati_libs = false;
     need_amd_libs = false;
+    min_cal_target = 0;
+    max_cal_target = 0;
     without_opencl = false;
 
     min_nvidia_compcap = 0;
@@ -798,7 +888,6 @@ PLAN_CLASS_SPEC::PLAN_CLASS_SPEC() {
 
     min_opencl_version = 0;
     max_opencl_version = 0;
-
     min_opencl_driver_revision = 0;
     max_opencl_driver_revision = 0;
 

@@ -161,6 +161,9 @@ def get_daemon_output_name(task):
     return os.path.join(log_dir,
         task.__dict__.get('output') or get_task_command_basename(task) + '.log')
 
+def get_daemon_silent_start(task):
+    return task.__dict__.get('silent_start') or 0
+
 def get_daemon_pid_name(task):
     return os.path.join(pid_dir,
         task.__dict__.get('pid_file') or get_task_command_basename(task) + '.pid')
@@ -404,7 +407,7 @@ def run_daemon(task):
         if verbose:
             print >>sys.stderr, "  Daemon already running:",task.cmd
         sys.exit(0)
-    if verbose or verbose_daemon_run:
+    if verbose or ( verbose_daemon_run and not get_daemon_silent_start(task) ):
         print "  Starting daemon:", task.cmd
         sys.stdout.flush()
     redirect(get_daemon_output_name(task))
@@ -706,10 +709,10 @@ if not command:
 
 config = configxml.ConfigFile(config_filename).read()
 
-# if a <tasks_user> (name) is configured, terminate script if not ran by this user
-if 'tasks_user' in config.config.__dict__:
-    if getpass.getuser() != config.config.tasks_user:
-        raise SystemExit('The script must be run by user "' + config.config.tasks_user + '"')
+# if a <project_user_name> is configured, terminate script if not ran by this user
+if 'project_user_name' in config.config.__dict__:
+    if getpass.getuser() != config.config.project_user_name:
+        raise SystemExit('The script must be run by user "' + config.config.project_user_name + '"')
 
 run_state = configxml.RunStateFile(run_state_filename).read(failopen_ok = True)
 

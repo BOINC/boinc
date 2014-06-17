@@ -281,7 +281,8 @@ void DB_APP_VERSION::db_print(char* buf){
         "pfc_avg=%.15e, "
         "pfc_scale=%.15e, "
         "expavg_credit=%.15e, "
-        "expavg_time=%.15e ",
+        "expavg_time=%.15e, "
+        "beta=%d ",
         create_time,
         appid,
         version_num,
@@ -295,7 +296,8 @@ void DB_APP_VERSION::db_print(char* buf){
         pfc.avg,
         pfc_scale,
         expavg_credit,
-        expavg_time
+        expavg_time,
+        beta
     );
 }
 
@@ -317,6 +319,7 @@ void DB_APP_VERSION::db_parse(MYSQL_ROW &r) {
     pfc_scale = atof(r[i++]);
     expavg_credit = atof(r[i++]);
     expavg_time = atof(r[i++]);
+    beta = atoi(r[i++]);
 }
 
 void DB_USER::db_print(char* buf){

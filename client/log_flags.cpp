@@ -300,7 +300,7 @@ int CC_CONFIG::parse_options_client(XML_PARSER& xp) {
                     "Can't parse <coproc> element in cc_config.xml"
                 );
             }
-            retval = coprocs.add(c);
+            retval = config_coprocs.add(c);
             if (retval) {
                 msg_printf_notice(NULL, false, NULL,
                     "Duplicate <coproc> element in cc_config.xml"
@@ -451,7 +451,10 @@ int CC_CONFIG::parse_client(FILE* f) {
             );
             continue;
         }
-        if (xp.match_tag("/cc_config")) return 0;
+        if (xp.match_tag("/cc_config")) {
+            notices.remove_notices(NULL, REMOVE_CONFIG_MSG);
+            return 0;
+        }
         if (xp.match_tag("log_flags")) {
             log_flags.parse(xp);
             continue;

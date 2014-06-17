@@ -76,18 +76,31 @@ int get_connected_state() {
 const float ALPHA = (SECONDS_PER_DAY*10);
 //const float ALPHA = 60;   // for testing
 
+// called before the client state file is parsed
+//
 void CLIENT_TIME_STATS::init() {
-    last_update = 0;
-    first = true;
+    // members of TIME_STATS
+    now = 0;
     on_frac = 1;
     connected_frac = 1;
+    cpu_and_network_available_frac = 1;
     active_frac = 1;
     gpu_active_frac = 1;
-    cpu_and_network_available_frac = 1;
     client_start_time = gstate.now;
     previous_uptime = 0;
+    session_active_duration = 0;
+    session_gpu_active_duration = 0;
+    total_start_time = 0;
+    total_duration = 0;
+    total_active_duration = 0;
+    total_gpu_active_duration = 0;
+
+    // members of CLIENT_TIME_STATS
+    first = true;
     previous_connected_state = CONNECTED_STATE_UNINITIALIZED;
+    last_update = 0;
     inactive_start = 0;
+
     trim_stats_log();
     time_stats_log = NULL;
 }
@@ -157,6 +170,9 @@ void CLIENT_TIME_STATS::update(int suspend_reason, int _gpu_suspend_reason) {
 
     bool is_active = (suspend_reason == 0) || (suspend_reason == SUSPEND_REASON_CPU_THROTTLE);
     bool is_gpu_active = is_active && !_gpu_suspend_reason;
+    if (total_start_time == 0) {
+        total_start_time = gstate.now;
+    }
     if (last_update == 0) {
         // this is the first time this client has executed.
         // Assume that everything is active
@@ -247,12 +263,15 @@ void CLIENT_TIME_STATS::update(int suspend_reason, int _gpu_suspend_reason) {
             }
 
             active_frac *= w2;
+            total_duration += dt;
             if (is_active) {
                 active_frac += w1;
                 if (inactive_start) {
                     inactive_start = 0;
                     log_append("proc_start", gstate.now);
                 }
+                session_active_duration += dt;
+                total_active_duration += dt;
             } else if (inactive_start == 0){
                 inactive_start = gstate.now;
                 log_append("proc_stop", gstate.now);
@@ -261,6 +280,8 @@ void CLIENT_TIME_STATS::update(int suspend_reason, int _gpu_suspend_reason) {
             gpu_active_frac *= w2;
             if (is_gpu_active) {
                 gpu_active_frac += w1;
+                session_gpu_active_duration += dt;
+                total_gpu_active_duration += dt;
             }
 
             //msg_printf(NULL, MSG_INFO, "is_active %d, active_frac %f", is_active, active_frac);
@@ -268,15 +289,20 @@ void CLIENT_TIME_STATS::update(int suspend_reason, int _gpu_suspend_reason) {
         last_update = gstate.now;
         if (log_flags.time_debug) {
             msg_printf(0, MSG_INFO,
-                "[time] dt %f w2 %f on %f; active %f; gpu_active %f; conn %f, cpu_and_net_avail %f",
-                dt, w2, on_frac, active_frac, gpu_active_frac, connected_frac,
+                "[time] dt %f susp_reason %d gpu_susp_reason %d",
+                dt, suspend_reason, _gpu_suspend_reason
+            );
+            msg_printf(0, MSG_INFO,
+                "[time] w2 %f on %f; active %f; gpu_active %f; conn %f, cpu_and_net_avail %f",
+                w2, on_frac, active_frac, gpu_active_frac, connected_frac,
                 cpu_and_network_available_frac
             );
         }
     }
 }
 
-// Write XML based time statistics
+// Write time statistics
+// to_remote means GUI RPC reply; else writing client state file
 //
 int CLIENT_TIME_STATS::write(MIOFILE& out, bool to_remote) {
     out.printf(
@@ -287,22 +313,37 @@ int CLIENT_TIME_STATS::write(MIOFILE& out, bool to_remote) {
         "    <active_frac>%f</active_frac>\n"
         "    <gpu_active_frac>%f</gpu_active_frac>\n"
         "    <client_start_time>%f</client_start_time>\n"
-        "    <previous_uptime>%f</previous_uptime>\n",
+        "    <total_start_time>%f</total_start_time>\n"
+        "    <total_duration>%f</total_duration>\n"
+        "    <total_active_duration>%f</total_active_duration>\n"
+        "    <total_gpu_active_duration>%f</total_gpu_active_duration>\n",
         on_frac,
         connected_frac,
         cpu_and_network_available_frac,
         active_frac,
         gpu_active_frac,
         client_start_time,
-        gstate.now - client_start_time
+        total_start_time,
+        total_duration,
+        total_active_duration,
+        total_gpu_active_duration
     );
     if (to_remote) {
         out.printf(
-            "    <now>%f</now>\n", gstate.now
+            "    <now>%f</now>\n"
+            "    <previous_uptime>%f</previous_uptime>\n"
+            "    <session_active_duration>%f</session_active_duration>\n"
+            "    <session_gpu_active_duration>%f</session_gpu_active_duration>\n",
+            gstate.now,
+            previous_uptime,
+            session_active_duration,
+            session_gpu_active_duration
         );
     } else {
         out.printf(
+            "    <previous_uptime>%f</previous_uptime>\n"
             "    <last_update>%f</last_update>\n",
+            gstate.now - client_start_time,
             last_update
         );
     }
@@ -310,7 +351,7 @@ int CLIENT_TIME_STATS::write(MIOFILE& out, bool to_remote) {
     return 0;
 }
 
-// Parse XML based time statistics, usually from client_state.xml
+// Parse XML based time statistics from client_state.xml
 //
 int CLIENT_TIME_STATS::parse(XML_PARSER& xp) {
     double x;
@@ -394,6 +435,10 @@ int CLIENT_TIME_STATS::parse(XML_PARSER& xp) {
         }
         if (xp.parse_double("client_start_time", x)) continue;
         if (xp.parse_double("previous_uptime", previous_uptime)) continue;
+        if (xp.parse_double("total_start_time", total_start_time)) continue;
+        if (xp.parse_double("total_duration", total_duration)) continue;
+        if (xp.parse_double("total_active_duration", total_active_duration)) continue;
+        if (xp.parse_double("total_gpu_active_duration", total_gpu_active_duration)) continue;
         if (log_flags.unparsed_xml) {
             msg_printf(0, MSG_INFO,
                 "[unparsed_xml] TIME_STATS::parse(): unrecognized: %s\n",

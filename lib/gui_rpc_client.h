@@ -168,6 +168,8 @@ struct PROJECT {
         // when the last successful scheduler RPC finished
     std::vector<DAILY_STATS> statistics; // credit data over the last x days
     char venue[256];
+    int njobs_success;
+    int njobs_error;
 
     // NOTE: if you add any data items above,
     // update parse(), and clear() to include them!!

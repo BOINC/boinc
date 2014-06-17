@@ -47,6 +47,9 @@ if (!defined('DISABLE_FORUMS')) {
 if (!defined('DISABLE_TEAMS')) {
     define('DISABLE_TEAMS', false);
 }
+if (!defined('DISABLE_BADGES')) {
+    define('DISABLE_BADGES', false);
+}
 
 $caching = false;
     // if set, we're writing to a file rather than to client
@@ -940,6 +943,7 @@ function redirect_to_secure_url($url) {
 }
 
 function show_badges($is_user, $item) {
+    if (DISABLE_BADGES) return;
     if ($is_user) {
         $bus = BoincBadgeUser::enum("user_id=$item->id");
     } else {

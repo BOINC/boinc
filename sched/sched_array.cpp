@@ -55,30 +55,28 @@ static bool quick_check(
 ) {
     int retval;
 
-    g_wreq->no_jobs_available = false;
-
     // If we're looking for beta jobs and this isn't one, skip it
     //
     if (g_wreq->beta_only) {
         if (!app->beta) {
-            if (config.debug_array_detail) {
+            if (config.debug_send_job) {
                 log_messages.printf(MSG_NORMAL,
-                    "[array_detail] job is not from beta app; skipping\n"
+                    "[send_job] job is not from beta app; skipping\n"
                 );
             }
             return false;
         }
-        if (config.debug_send) {
+        if (config.debug_send_job) {
             log_messages.printf(MSG_NORMAL,
-                "[send] [HOST#%d] beta work found: [RESULT#%u]\n",
+                "[send_job] [HOST#%d] beta work found: [RESULT#%u]\n",
                 g_reply->host.id, wu_result.resultid
             );
         }
     } else {
         if (app->beta) {
-            if (config.debug_array_detail) {
+            if (config.debug_send_job) {
                 log_messages.printf(MSG_NORMAL,
-                    "[array_detail] job is from beta app; skipping\n"
+                    "[send_job] job is from beta app; skipping\n"
                 );
             }
             return false;
@@ -91,16 +89,16 @@ static bool quick_check(
     //
     if (!app->beta) {
         if (g_wreq->reliable_only && (!wu_result.need_reliable)) {
-            if (config.debug_array_detail) {
+            if (config.debug_send_job) {
                 log_messages.printf(MSG_NORMAL,
-                    "[array_detail] job doesn't need reliable host; skipping\n"
+                    "[send_job] job doesn't need reliable host; skipping\n"
                 );
             }
             return false;
         } else if (!g_wreq->reliable_only && wu_result.need_reliable) {
-            if (config.debug_array_detail) {
+            if (config.debug_send_job) {
                 log_messages.printf(MSG_NORMAL,
-                    "[array_detail] job needs reliable host; skipping\n"
+                    "[send_job] job needs reliable host; skipping\n"
                 );
             }
             return false;
@@ -111,9 +109,9 @@ static bool quick_check(
     // and the result is not infeasible
     //
     if (g_wreq->infeasible_only && (wu_result.infeasible_count==0)) {
-        if (config.debug_array_detail) {
+        if (config.debug_send_job) {
             log_messages.printf(MSG_NORMAL,
-                "[array_detail] job is not infeasible; skipping\n"
+                "[send_job] job is not infeasible; skipping\n"
             );
         }
         return false;
@@ -151,9 +149,9 @@ static bool quick_check(
     //
     bavp = get_app_version(wu, true, g_wreq->reliable_only);
     if (!bavp) {
-        if (config.debug_array_detail) {
+        if (config.debug_send_job) {
             log_messages.printf(MSG_NORMAL,
-                "[array_detail] No app version for job; skipping\n"
+                "[send_job] No app version for job; skipping\n"
             );
         }
         return false;
@@ -168,9 +166,9 @@ static bool quick_check(
     ) {
         if (app_not_selected(app->id)) {
             g_wreq->no_allowed_apps_available = true;
-            if (config.debug_array_detail) {
+            if (config.debug_send_job) {
                 log_messages.printf(MSG_NORMAL,
-                    "[array_detail] [USER#%d] [WU#%u] user doesn't want work for app %s\n",
+                    "[send_job] [USER#%d] [WU#%u] user doesn't want work for app %s\n",
                     g_reply->user.id, wu.id, app->name
                 );
             }
@@ -188,16 +186,16 @@ static bool quick_check(
         *app, *bavp
     );
     if (retval) {
-        if (retval != last_retval && config.debug_send) {
+        if (retval != last_retval && config.debug_send_job) {
             log_messages.printf(MSG_NORMAL,
-                "[send] [HOST#%d] [WU#%u %s] WU is infeasible: %s\n",
+                "[send_job] [HOST#%d] [WU#%u %s] WU is infeasible: %s\n",
                 g_reply->host.id, wu.id, wu.name, infeasible_string(retval)
             );
         }
         last_retval = retval;
-        if (config.debug_array_detail) {
+        if (config.debug_send_job) {
             log_messages.printf(MSG_NORMAL,
-                "[array_detail] is_infeasible_fast() failed; skipping\n"
+                "[send_job] is_infeasible_fast() failed; skipping\n"
             );
         }
         return false;
@@ -242,9 +240,9 @@ static bool scan_work_array() {
 
         WU_RESULT& wu_result = ssp->wu_results[i];
 
-        if (config.debug_array_detail) {
+        if (config.debug_send_job) {
             log_messages.printf(MSG_NORMAL,
-                "[array_detail] scanning slot %d\n", i
+                "[send_job] scanning slot %d\n", i
             );
         }
 
@@ -273,9 +271,9 @@ recheck:
         // This may modify wu.rsc_fpops_est
         //
         if (!quick_check(wu_result, wu, bavp, app, last_retval)) {
-            if (config.debug_array_detail) {
+            if (config.debug_send_job) {
                 log_messages.printf(MSG_NORMAL,
-                    "[array_detail] slot %d failed quick check\n", i
+                    "[send_job] slot %d failed quick check\n", i
                 );
             }
             continue;
@@ -363,18 +361,18 @@ void send_work_old() {
     //
     if (g_wreq->has_reliable_version) {
         g_wreq->reliable_only = true;
-        if (config.debug_array) {
+        if (config.debug_send_scan) {
             log_messages.printf(MSG_NORMAL,
-                "[array] scanning for jobs that need reliable host\n"
+                "[send_scan] scanning for jobs that need reliable host\n"
             );
         }
         if (scan_work_array()) return;
         g_wreq->reliable_only = false;
         g_wreq->best_app_versions.clear();
     } else {
-        if (config.debug_array) {
+        if (config.debug_send_scan) {
             log_messages.printf(MSG_NORMAL,
-                "[array] host has no reliable app versions; skipping scan\n"
+                "[send_scan] host has no reliable app versions; skipping scan\n"
             );
         }
     }
@@ -385,9 +383,9 @@ void send_work_old() {
     //
     if (g_wreq->allow_beta_work) {
         g_wreq->beta_only = true;
-        if (config.debug_array) {
+        if (config.debug_send_scan) {
             log_messages.printf(MSG_NORMAL,
-                "[array] host will accept beta jobs.  Scanning for them.\n"
+                "[send_scan] host will accept beta jobs.  Scanning for them.\n"
             );
         }
         if (scan_work_array()) return;
@@ -397,9 +395,9 @@ void send_work_old() {
     // give next priority to results that were infeasible for some other host
     //
     g_wreq->infeasible_only = true;
-    if (config.debug_array) {
+    if (config.debug_send_scan) {
         log_messages.printf(MSG_NORMAL,
-            "[array] Scanning for jobs that were infeasible for another host.\n"
+            "[send_scan] Scanning for jobs that were infeasible for another host.\n"
         );
     }
     if (scan_work_array()) return;
@@ -409,9 +407,9 @@ void send_work_old() {
     // make a pass accepting only jobs for which the client has a file
     //
     if (ssp->locality_sched_lite) {
-        if (config.debug_array) {
+        if (config.debug_send_scan) {
             log_messages.printf(MSG_NORMAL,
-                "[array] Scanning for locality sched Lite jobs.\n"
+                "[send_scan] Scanning for locality sched Lite jobs.\n"
             );
         }
         g_wreq->locality_sched_lite = true;
@@ -421,9 +419,9 @@ void send_work_old() {
 
     // end of high-priority cases.  Now do general scan.
     //
-    if (config.debug_array) {
+    if (config.debug_send_scan) {
         log_messages.printf(MSG_NORMAL,
-            "[array] Scanning: general case.\n"
+            "[send_scan] Scanning: general case.\n"
         );
     }
     if (scan_work_array()) return;
@@ -434,9 +432,9 @@ void send_work_old() {
     if (!g_wreq->njobs_sent && g_wreq->allow_non_preferred_apps ) {
         g_wreq->user_apps_only = false;
         preferred_app_message_index = g_wreq->no_work_messages.size();
-        if (config.debug_array) {
+        if (config.debug_send_scan) {
             log_messages.printf(MSG_NORMAL,
-                "[array] scanning for jobs from non-preferred applications\n"
+                "[send_scan] scanning for jobs from non-preferred applications\n"
             );
         }
         scan_work_array();

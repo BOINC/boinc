@@ -143,6 +143,9 @@ int wu_delete_files(WORKUNIT& wu) {
 
     p = strtok(buf, "\n");
     strcpy(filename, "");
+
+    // TODO: use the XML parser.  Yuck!
+    //
     while (p) {
         if (parse_str(p, "<name>", filename, sizeof(filename))) {
         } else if (match_tag(p, "<file_info>")) {
@@ -316,6 +319,56 @@ bool do_pass(bool retry_error) {
         sprintf(buf, " and appid = %d ", appid);
         strcat(clause, buf);
     }
+
+    sprintf(buf,
+        "where file_delete_state=%d %s limit %d",
+        retry_error?FILE_DELETE_ERROR:FILE_DELETE_READY,
+        clause, RESULTS_PER_ENUM
+    );
+
+    while (do_output_files) {
+        retval = result.enumerate(buf);
+        if (retval) {
+            if (retval != ERR_DB_NOT_FOUND) {
+                log_messages.printf(MSG_DEBUG, "DB connection lost, exiting\n");
+                exit(0);
+            }
+            break;
+        }
+
+        if (preserve_result_files) {
+            retval = 0;
+        } else {
+            retval = result_delete_files(result);
+        }
+        if (retval) {
+            new_state = FILE_DELETE_ERROR;
+            log_messages.printf(MSG_CRITICAL,
+                "[RESULT#%u] file deletion failed: %s\n", result.id, boincerror(retval)
+            );
+        } else {
+            new_state = FILE_DELETE_DONE;
+        }
+        if (new_state != result.file_delete_state) {
+            sprintf(buf, "file_delete_state=%d", new_state);
+            if (dry_run) {
+                retval = 0;
+            } else {
+                retval = result.update_field(buf);
+            }
+            if (retval) {
+                log_messages.printf(MSG_CRITICAL,
+                    "[RESULT#%u] update failed: %s\n", result.id, boincerror(retval)
+                );
+            } else {
+                log_messages.printf(MSG_DEBUG,
+                    "[RESULT#%u] file_delete_state updated\n", result.id
+                );
+                did_something = true;
+            }
+        }
+    }
+
     if (xml_doc_like) {
         strcat(clause, " and xml_doc like '");
         strcat(clause, xml_doc_like);
@@ -364,55 +417,6 @@ bool do_pass(bool retry_error) {
             } else {
                 log_messages.printf(MSG_DEBUG,
                     "[WU#%u] file_delete_state updated\n", wu.id
-                );
-                did_something = true;
-            }
-        }
-    }
-
-    sprintf(buf,
-        "where file_delete_state=%d %s limit %d",
-        retry_error?FILE_DELETE_ERROR:FILE_DELETE_READY,
-        clause, RESULTS_PER_ENUM
-    );
-
-    while (do_output_files) {
-        retval = result.enumerate(buf);
-        if (retval) {
-            if (retval != ERR_DB_NOT_FOUND) {
-                log_messages.printf(MSG_DEBUG, "DB connection lost, exiting\n");
-                exit(0);
-            }
-            break;
-        }
-
-        if (preserve_result_files) {
-            retval = 0;
-        } else {
-            retval = result_delete_files(result);
-        }
-        if (retval) {
-            new_state = FILE_DELETE_ERROR;
-            log_messages.printf(MSG_CRITICAL,
-                "[RESULT#%u] file deletion failed: %s\n", result.id, boincerror(retval)
-            );
-        } else {
-            new_state = FILE_DELETE_DONE;
-        }
-        if (new_state != result.file_delete_state) {
-            sprintf(buf, "file_delete_state=%d", new_state);
-            if (dry_run) {
-                retval = 0;
-            } else {
-                retval = result.update_field(buf);
-            }
-            if (retval) {
-                log_messages.printf(MSG_CRITICAL,
-                    "[RESULT#%u] update failed: %s\n", result.id, boincerror(retval)
-                );
-            } else {
-                log_messages.printf(MSG_DEBUG,
-                    "[RESULT#%u] file_delete_state updated\n", result.id
                 );
                 did_something = true;
             }

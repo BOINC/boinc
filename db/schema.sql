@@ -75,6 +75,7 @@ create table app_version (
     pfc_scale               double          not null default 0,
     expavg_credit           double          not null default 0,
     expavg_time             double          not null default 0,
+    beta                    tinyint         not null default 0,
     primary key (id)
 ) engine=InnoDB;
 

@@ -472,9 +472,9 @@ double available_frac(BEST_APP_VERSION& bav) {
 double estimate_duration(WORKUNIT& wu, BEST_APP_VERSION& bav) {
     double edu = estimate_duration_unscaled(wu, bav);
     double ed = edu/available_frac(bav);
-    if (config.debug_send) {
+    if (config.debug_send_job) {
         log_messages.printf(MSG_NORMAL,
-            "[send] est. duration for WU %d: unscaled %.2f scaled %.2f\n",
+            "[send_job] est. duration for WU %d: unscaled %.2f scaled %.2f\n",
             wu.id, edu, ed
         );
     }
@@ -1603,8 +1603,6 @@ int update_host_app_versions(vector<SCHED_DB_RESULT>& results, int hostid) {
 
 void send_work() {
     int retval;
-
-    g_wreq->no_jobs_available = true;
 
     if (all_apps_use_hr && hr_unknown_platform(g_request->host)) {
         log_messages.printf(MSG_NORMAL,

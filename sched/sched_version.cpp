@@ -327,7 +327,7 @@ void estimate_flops_anon_platform() {
 //    <estimate_flops_from_hav_pfc> is not set use elapsed time,
 //    otherwise use pfc_avg.
 // 2) if we have statistics for app version elapsed time, use those.
-// 3) else use a conservative estimate (p_fpops*(cpus+gpus))
+// 3) else use a conservative estimate (p_fpops*(cpu usage + gpu usage))
 //    This prevents jobs from aborting with "time limit exceeded"
 //    even if the estimate supplied by the plan class function is way off
 //
@@ -685,6 +685,11 @@ BEST_APP_VERSION* get_app_version(
             APP_VERSION& av = ssp->app_versions[j];
             if (av.appid != wu.appid) continue;
             if (av.platformid != p->id) continue;
+            if (av.beta) {
+                if (!g_wreq->allow_beta_work) {
+                    continue;
+                }
+            }
 
             if (strlen(av.plan_class)) {
                 if (!app_plan(*g_request, av.plan_class, host_usage)) {

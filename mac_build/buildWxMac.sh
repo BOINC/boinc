@@ -30,6 +30,7 @@
 # Patch to fix crash on OS 10.5 or 10.6 when built on OS 10.7+ 2/18/14
 # Enable wxWidgets asserts in Release build 3/6/14
 # Disable all wxWidgets debug support in Release build (revert 3/6/14 change) 5/29/14
+# Fix wxListCtrl flicker when resizing columns in wxCocoa 3.0.0 6/13/14
 #
 ## This script requires OS 10.6 or later
 ##
@@ -116,6 +117,30 @@ else
 fi
 
 echo ""
+
+# Patch wxWidgets-3.0.0/src/generic/listctrl.cpp to eliminate flicker when resizing columns
+if [ ! -f src/generic/listctrl.cpp.orig ]; then
+    cat >> /tmp/listctrl_cpp_diff << ENDOFFILE
+--- src/generic/listctrl.cpp	2013-11-11 05:10:39.000000000 -0800
++++ src/generic/listctrl_patched.cpp	2014-06-13 03:44:28.000000000 -0700
+@@ -3632,7 +3632,7 @@
+ {
+     const int lineHeight = GetLineHeight();
+ 
+-    wxClientDC dc( this );
++    wxWindowDC dc( this );
+     dc.SetFont( GetFont() );
+ 
+     const size_t count = GetItemCount();
+ENDOFFILE
+    patch -bfi /tmp/listctrl_cpp_diff src/generic/listctrl.cpp
+    rm -f /tmp/listctrl_cpp_diff
+else
+    echo "src/generic/listctrl.cpp already patched"
+fi
+
+echo ""
+
 
 
 if [ "$1" = "-clean" ]; then

@@ -299,8 +299,6 @@ int SCHED_CONFIG::parse(FILE* f) {
 
         //////////// SCHEDULER LOG FLAGS /////////
 
-        if (xp.parse_bool("debug_array", debug_array)) continue;
-        if (xp.parse_bool("debug_array_detail", debug_array_detail)) continue;
         if (xp.parse_bool("debug_assignment", debug_assignment)) continue;
         if (xp.parse_bool("debug_client_files", debug_client_files)) continue;
         if (xp.parse_bool("debug_credit", debug_credit)) continue;
@@ -316,6 +314,8 @@ int SCHED_CONFIG::parse(FILE* f) {
         if (xp.parse_bool("debug_request_headers", debug_request_headers)) continue;
         if (xp.parse_bool("debug_resend", debug_resend)) continue;
         if (xp.parse_bool("debug_send", debug_send)) continue;
+        if (xp.parse_bool("debug_send_job", debug_send_job)) continue;
+        if (xp.parse_bool("debug_send_scan", debug_send_scan)) continue;
         if (xp.parse_bool("debug_user_messages", debug_user_messages)) continue;
         if (xp.parse_bool("debug_vda", debug_vda)) continue;
         if (xp.parse_bool("debug_version_select", debug_version_select)) continue;
