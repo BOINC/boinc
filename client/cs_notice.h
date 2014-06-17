@@ -90,6 +90,8 @@ struct NOTICES {
     // msgs from scheduler
 #define REMOVE_NO_WORK_MSG      2
     // msgs about no work due to settings
+#define REMOVE_CONFIG_MSG       3
+    // notices about cc_config.xml
 
 extern NOTICES notices;
 
