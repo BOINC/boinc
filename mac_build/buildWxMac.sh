@@ -121,8 +121,8 @@ echo ""
 # Patch wxWidgets-3.0.0/src/generic/listctrl.cpp to eliminate flicker when resizing columns
 if [ ! -f src/generic/listctrl.cpp.orig ]; then
     cat >> /tmp/listctrl_cpp_diff << ENDOFFILE
---- /Volumes/Cheer/BOINC_GIT/wxWidgets-3.0.0/src/generic/listctrl.cpp	2013-11-11 05:10:39.000000000 -0800
-+++ /Volumes/Cheer/BOINC_GIT/wxWidgets-3.0.0/src/generic/listctrl_patched.cpp	2014-06-13 03:44:28.000000000 -0700
+--- src/generic/listctrl.cpp	2013-11-11 05:10:39.000000000 -0800
++++ src/generic/listctrl_patched.cpp	2014-06-13 03:44:28.000000000 -0700
 @@ -3632,7 +3632,7 @@
  {
      const int lineHeight = GetLineHeight();
