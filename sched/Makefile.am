@@ -12,6 +12,7 @@ libsched_sources = \
     credit.cpp \
     sched_shmem.cpp \
     sched_util.cpp \
+    sched_util_basic.cpp \
     sched_config.cpp \
     sched_limit.cpp \
     sched_msgs.cpp \
@@ -266,8 +267,8 @@ trickle_echo_LDADD = $(SERVERLIBS)
 update_stats_SOURCES = update_stats.cpp
 update_stats_LDADD = $(SERVERLIBS)
 
-file_upload_handler_SOURCES = file_upload_handler.cpp
-file_upload_handler_LDADD = $(SERVERLIBS)
+file_upload_handler_SOURCES = file_upload_handler.cpp sched_msgs.cpp sched_config.cpp sched_util_basic.cpp sched_limit.cpp
+file_upload_handler_LDADD = $(FUHLIBS)
 
 make_work_SOURCES = make_work.cpp
 make_work_LDADD = $(SERVERLIBS)
