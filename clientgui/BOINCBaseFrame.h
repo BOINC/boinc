@@ -69,8 +69,6 @@ public:
     CBOINCDialUpManager* GetDialupManager() { return m_pDialupManager; }
     int                 GetReminderFrequency() { return m_iReminderFrequency; }
     void                SetReminderFrequency(int val) { m_iReminderFrequency = val; }
-    int                 GetSelectedLanguage() { return m_iSelectedLanguage; }
-    void                SetSelectedLanguage(int val) { m_iSelectedLanguage = val; }
 
     void                FireInitialize();
     void                FireRefreshView();
@@ -111,7 +109,6 @@ protected:
     wxTimer*            m_pAlertPollTimer;
     wxTimer*            m_pPeriodicRPCTimer;
 
-    int                 m_iSelectedLanguage;
     int                 m_iReminderFrequency;
     int                 m_iFrameRefreshRate;
 

@@ -158,6 +158,8 @@ public:
 
     wxArrayString&      GetSupportedLanguages()     { return m_astrLanguages; }
     wxString            GetISOLanguageCode()        { return m_strISOLanguageCode; }
+    void                SetISOLanguageCode(wxString strISOLanguageCode)
+                                                    { m_strISOLanguageCode = strISOLanguageCode; }
     
     void                DisplayEventLog(bool bShowWindow = true);
     void                OnEventLogClose();
