@@ -81,7 +81,10 @@ function select_uotd() {
     // If the number of approved profiles dips below a threshold,
     // email the sys admin every time we pick a new one.
     //
-    if ($result && mysql_num_rows($result) < UOTD_THRESHOLD) {
+    if (defined('UOTD_ADMIN_EMAIL')
+        && $result
+        && mysql_num_rows($result) < UOTD_THRESHOLD
+    ) {
         $u = new BoincUser;
         $u->email_addr = UOTD_ADMIN_EMAIL;
         $u->name = "UOTD admin";

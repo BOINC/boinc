@@ -757,7 +757,7 @@ void CDlgAdvPreferences::ShowErrorMessage(wxString& message,wxTextCtrl* errorCtr
 /* checks if ch is a valid character for float values */
 bool CDlgAdvPreferences::IsValidFloatChar(const wxChar& ch) {
     //don't accept the e
-    return wxIsdigit(ch) || ch=='.' || ch==',' || ch=='+' || ch=='-';
+    return wxIsdigit(ch) || ch=='.' || ch==',' || ch=='+';
 }
 
 /* checks if ch is a valid character for time values */
