@@ -12,6 +12,7 @@
 # Project files
 #
 *.vcproj                text eol=crlf
+*.vcxproj               text eol=crlf
 *.sln                   text eol=crlf
 *.ac                    text eol=lf
 *.am                    text eol=lf
@@ -22,3 +23,6 @@
 #
 checkin_notes           text eol=lf
 checkin_notes_2012      text eol=lf
+
+# Random stuff
+*                       text=auto
