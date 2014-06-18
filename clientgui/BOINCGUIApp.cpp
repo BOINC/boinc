@@ -154,7 +154,6 @@ bool CBOINCGUIApp::OnInit() {
 
     // Initialize local variables
     int      iErrorCode = 0;
-    int      iSelectedLanguage = 0;
     bool     bOpenEventLog = false;
     wxString strDesiredSkinName = wxEmptyString;
     wxString strDialogMessage = wxEmptyString;
@@ -212,7 +211,7 @@ bool CBOINCGUIApp::OnInit() {
     m_pConfig->Read(wxT("AutomaticallyShutdownClient"), &m_iShutdownCoreClient, 0L);
     m_pConfig->Read(wxT("DisplayShutdownClientDialog"), &m_iDisplayExitDialog, 1L);
     m_pConfig->Read(wxT("DisableAutoStart"), &m_iBOINCMGRDisableAutoStart, 0L);
-    m_pConfig->Read(wxT("Language"), &iSelectedLanguage, 0L);
+    m_pConfig->Read(wxT("LanguageISO"), &m_strISOLanguageCode, wxT(""));
     m_pConfig->Read(wxT("GUISelection"), &m_iGUISelected, BOINC_SIMPLEGUI);
     m_pConfig->Read(wxT("EventLogOpen"), &bOpenEventLog);
 
@@ -276,9 +275,16 @@ bool CBOINCGUIApp::OnInit() {
     m_pLocale = new wxLocale();
     wxASSERT(m_pLocale);
 
+    //
+    if (m_strISOLanguageCode.IsEmpty()) {
+        m_pLocale->Init(wxLANGUAGE_DEFAULT);
+        m_strISOLanguageCode = m_pLocale->GetCanonicalName();
+    } else {
+        m_pLocale->Init(wxLocale::FindLanguageInfo(m_strISOLanguageCode)->Language);
+    }
+
     // Look for the localization files by absolute and relative locations.
     //   preference given to the absolute location.
-    m_pLocale->Init(iSelectedLanguage);
     if (!m_strBOINCMGRRootDirectory.IsEmpty()) {
         m_pLocale->AddCatalogLookupPathPrefix(
             wxString(m_strBOINCMGRRootDirectory + wxT("locale"))
@@ -290,8 +296,6 @@ bool CBOINCGUIApp::OnInit() {
     m_pLocale->AddCatalog(wxT("BOINC-Web"));
 
     InitSupportedLanguages();
-
-	m_strISOLanguageCode = m_pLocale->GetCanonicalName();
 
     // Note: JAWS for Windows will only speak the context-sensitive
     // help if you use this help provider:
@@ -604,6 +608,7 @@ void CBOINCGUIApp::SaveState() {
     if (m_pSkinManager) {
         m_pConfig->Write(wxT("Skin"), m_pSkinManager->GetSelectedSkin());
     }
+    m_pConfig->Write(wxT("LanguageISO"), m_strISOLanguageCode);
     m_pConfig->Write(wxT("AutomaticallyShutdownClient"), m_iShutdownCoreClient);
     m_pConfig->Write(wxT("DisplayShutdownClientDialog"), m_iDisplayExitDialog);
     m_pConfig->Write(wxT("DisableAutoStart"), m_iBOINCMGRDisableAutoStart);

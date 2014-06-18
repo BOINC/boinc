@@ -584,7 +584,7 @@ bool CDlgOptions::ReadSettings() {
 
     // General Tab
     m_LanguageSelectionCtrl->Append(wxGetApp().GetSupportedLanguages());
-    m_LanguageSelectionCtrl->SetSelection(pFrame->GetSelectedLanguage());
+    m_LanguageSelectionCtrl->SetSelection(wxLocale::FindLanguageInfo(wxGetApp().GetISOLanguageCode())->Language);
 
     m_ReminderFrequencyCtrl->Append(_("always"));
     m_ReminderFrequencyCtrl->Append(_("1 hour"));
@@ -681,7 +681,7 @@ bool CDlgOptions::SaveSettings() {
 
 
     // General Tab
-    if (pFrame->GetSelectedLanguage() != m_LanguageSelectionCtrl->GetSelection()) {
+    if (wxLocale::FindLanguageInfo(wxGetApp().GetISOLanguageCode())->Language != m_LanguageSelectionCtrl->GetSelection()) {
         wxString strDialogTitle;
         wxString strDialogMessage;
 
@@ -707,7 +707,7 @@ bool CDlgOptions::SaveSettings() {
         );
     }
 
-    pFrame->SetSelectedLanguage(m_LanguageSelectionCtrl->GetSelection());
+    wxGetApp().SetISOLanguageCode(wxLocale::GetLanguageInfo(m_LanguageSelectionCtrl->GetSelection())->CanonicalName);
 
     switch(m_ReminderFrequencyCtrl->GetSelection()) {
         case 0:
