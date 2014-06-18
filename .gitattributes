@@ -2,6 +2,9 @@
 # various IDEs.
 #
 
+# Random stuff
+*                       text=auto
+
 # Source files
 #
 *.cpp                   text eol=lf
@@ -24,5 +27,3 @@
 checkin_notes           text eol=lf
 checkin_notes_2012      text eol=lf
 
-# Random stuff
-*                       text=auto
