@@ -875,13 +875,12 @@ function print_prefs_display_project($user, $columns=false) {
 function print_prefs_display_global($user, $columns=false) {
     $global_prefs = prefs_parse_global($user->global_prefs);
 
-    echo "<span class=note>"
-         .tra("These apply to all BOINC projects in which you participate.")
+    echo tra("These apply to all BOINC projects in which you participate.")
          ."<br>"
          .tra("On computers participating in multiple projects, the most recently modified preferences will be used.")
          ."<br>"
          .tra("These preferences do not apply to Android devices.")
-         ."</span><br><br>";
+         ."<br><br>";
     if (isset($global_prefs->mod_time)) {
         echo tra("Preferences last modified:")." ".pretty_time_str($global_prefs->mod_time);
     }
