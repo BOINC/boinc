@@ -73,11 +73,10 @@ $venues = array("home", "school", "work");
 
 $cpu_prefs = array(
     new PREF_BOOL(
-        tra(
-            "Suspend work while computer is on battery power? %1 Matters only for portable computers %2",
-            "<br><span class=note>",
-            "</span>"
-        ),
+        tra("Suspend work while computer is on battery power?")
+            ."<br><span class=note>"
+            .tra("Matters only for portable computers")
+            ."</span>",
         "run_on_batteries",
         false, true
     ),
@@ -87,11 +86,10 @@ $cpu_prefs = array(
         true, true
     ),
     new PREF_BOOL(
-        tra(
-            "Suspend GPU work while computer is in use? %1 Enforced by version 6.6.21+ %2",
-            "<br><span class=note>",
-            "</span>"
-        ),
+        tra("Suspend GPU work while computer is in use?")
+            ."<br><span class=note>"
+            .tra("Enforced by version 6.6.21+")
+            ."</span>",
         "run_gpu_if_user_active",
         false, true
     ),
@@ -101,68 +99,71 @@ $cpu_prefs = array(
         new NUM_SPEC(tra("minutes"), 1, 9999, 3)
     ),
     new PREF_NUM(
-        tra(
-            "Suspend work if no mouse/keyboard activity in last %1 Needed to enter low-power mode on some computers %2",
-            "<br><span class=note>",
-            "</span>"
-        ),
+        tra("Suspend work if no mouse/keyboard activity in last")
+            ."<br><span class=note>"
+            .tra("Needed to enter low-power mode on some computers")
+            ."</span>",
         "suspend_if_no_recent_input",
         new NUM_SPEC(tra("minutes"), 0, 9999, 0)
     ),
     new PREF_NUM(
-        tra(
-            "Suspend work when non-BOINC CPU usage is above %1 0 means no restriction<br>Enforced by version 6.10.30+ %2",
-            "<br><span class=note>",
-            "</span>"
-        ),
+        tra("Suspend work when non-BOINC CPU usage is above")
+            ."<br><span class=note>"
+            .tra("0 means no restriction")
+            ."<br>"
+            .tra("Enforced by version 6.10.30+ %2")
+            ."</span>",
         "suspend_cpu_usage",
         new NUM_SPEC("%", 0, 100, 25)
     ),
     new PREF_HOUR_RANGE(
-        tra("Do work only between the hours of %1 No restriction if equal %2",
-            "<br><span class=note>",
-            "</span>"
-        ),
+        tra("Do work only between the hours of")
+            ."<br><span class=note>"
+            .tra("No restriction if equal")
+            ."</span>",
         "start_hour", "end_hour"
     ),
     new PREF_BOOL(
-        tra(
-            "Leave tasks in memory while suspended? %1 Suspended tasks will consume swap space if 'yes' %2",
-            "<br><span class=note>",
-            "</span>"
-        ),
+        tra("Leave tasks in memory while suspended?")
+            ."<br><span class=note>"
+            .tra("Suspended tasks will consume swap space if 'yes'")
+            ."</span>",
         "leave_apps_in_memory",
         false
     ),
     new PREF_NUM(
-        tra(
-            "Switch between tasks every %1 Recommended: 60 minutes %2",
-            "<br><span class=note>",
-            "</span>"
-        ),
+        tra("Switch between tasks every")
+            ."<br><span class=note>"
+            .tra("Recommended: 60 minutes")
+            ."</span>",
         "cpu_scheduling_period_minutes",
         new NUM_SPEC(tra("minutes"), 1, 9999, 60)
     ),
     new PREF_NUM(
-        tra("On multiprocessors, use at most"),
+        tra("On multiprocessors, use at most")
+            ."<br><span class=note>"
+            .tra("0 means no restriction")
+            ."</span>",
         "max_cpus",
         new NUM_SPEC(tra("processors"), 0, 9999, 0)
     ),
     new PREF_NUM(
-        tra(
-            "On multiprocessors, use at most %1 Enforced by version 6.1+ %2",
-            "<br><span class=note>",
-            "</span>"
-        ),
+        tra("On multiprocessors, use at most")
+            ."<br><span class=note>"
+            .tra("0 means no restriction")
+            ."<br>"
+            .tra("Enforced by version 6.1+")
+            ."</span>",
         "max_ncpus_pct",
         new NUM_SPEC(tra("% of the processors"), 0, 100, 100)
     ),
     new PREF_NUM(
-        tra(
-            "Use at most %1 Can be used to reduce CPU heat %2",
-            "<br><span class=note>",
-            "</span>"
-        ),
+        tra("Use at most")
+            ."<br><span class=note>"
+            .tra("Can be used to reduce CPU heat")
+            ."<br>"
+            .tra("0 means no restriction")
+            ."</span>",
         "cpu_usage_limit",
         new NUM_SPEC(tra("% of CPU time"), 0, 100, 100)
     ),
@@ -172,16 +173,18 @@ $dp = get_disk_space_config();
 
 $disk_prefs = array(
     new PREF_NUM(
-        tra("Disk: use at most"),
+        tra("Disk: use at most")
+            ."<br><span class=note>"
+            .tra("0 means no restriction")
+            ."</span>",
         "disk_max_used_gb",
         new NUM_SPEC(tra("GB"), 0, 9999999, $dp->disk_max_used_gb)
     ),
     new PREF_NUM(
-        tra("Disk: leave free at least %1 Values smaller than %2 are ignored %3",
-            "<br><span class=note>",
-            "0.001",
-            "</span>"
-        ),
+        tra("Disk: leave free at least")
+            ."<br><span class=note>"
+            .tra("Values smaller than 0.001 are ignored")
+            ."</span>",
         "disk_min_free_gb",
         new NUM_SPEC(tra("GB"), 0.001, 9999999, $dp->disk_min_free_gb)
     ),
@@ -214,11 +217,10 @@ $disk_prefs = array(
 
 $net_prefs = array(
     new PREF_NUM(
-        tra(
-            "Maintain enough tasks to keep busy for at least%1(max 10 days).%2",
-            "<br><span class=note>",
-            "</span>"
-        ),
+        tra("Maintain enough tasks to keep busy for at least")
+            ."<br><span class=note>"
+            .tra("(max 10 days)")
+            ."</span>",
         "work_buf_min_days",
         new NUM_SPEC(tra("days"), 0, 10, .1)
     ),
@@ -228,20 +230,18 @@ $net_prefs = array(
         new NUM_SPEC(tra("days"), 0, 10, .5)
     ),
     new PREF_BOOL(
-        tra(
-            "Confirm before connecting to Internet? %1 Matters only if you have a modem, ISDN or VPN connection %2",
-            "<br><span class=note>",
-            "</span>"
-        ),
+        tra("Confirm before connecting to Internet?")
+            ."<br><span class=note>"
+            .tra("Matters only if you have a modem, ISDN or VPN connection")
+            ."</span>",
         "confirm_before_connecting",
         false
     ),
     new PREF_BOOL(
-        tra(
-            "Disconnect when done? %1 Matters only if you have a modem, ISDN or VPN connection %2",
-            "<br><span class=note>",
-            "</span>"
-        ),
+        tra("Disconnect when done?")
+            ."<br><span class=note>"
+            .tra("Matters only if you have a modem, ISDN or VPN connection")
+            ."</span>",
         "hangup_if_dialed",
         false
     ),
@@ -260,22 +260,20 @@ $net_prefs = array(
         "net_start_hour", "net_end_hour"
     ),
     new PREF_NUM2(
-        tra("Transfer at most %1 Enforced by version 6.10.46+ %2",
-            "<br><span class=note>",
-            "</span>"
-        ),
+        tra("Transfer at most")
+            ."<br><span class=note>"
+            .tra("Enforced by version 6.10.46+")
+            ."</span>",
         "daily_xfer_limit_mb",
         "daily_xfer_period_days",
         new NUM_SPEC(tra("Mbytes every"), 0, 9999999, 0),
         new NUM_SPEC(tra("days"), 0, 9999999, 0)
     ),
     new PREF_BOOL(
-        tra(
-            "Skip image file verification? %1 Check this ONLY if your Internet provider modifies image files (UMTS does this, for example). %2 Skipping verification reduces the security of BOINC. %3",
-            "<br><span class=note>",
-            "",
-            "</span>"
-        ),
+        tra("Skip image file verification?")
+            ."<br><span class=note>"
+            .tra("Check this ONLY if your Internet provider modifies image files (UMTS does this, for example).  Skipping verification reduces the security of BOINC.")
+            ."</span>",
         "dont_verify_images",
         false
     ),
@@ -283,11 +281,10 @@ $net_prefs = array(
 
 $project_pref_descs = array(
     new PREF_NUM(
-        $x = tra(
-            "Resource share %1 Determines the proportion of your computer's resources allocated to this project. Example: if you participate in two BOINC projects with resource shares of 100 and 200, the first will get 1/3 of your resources and the second will get 2/3. %2",
-            "<br><span class=note>",
-            "</span>"
-        ),
+        $x = tra("Resource share")
+            ."<br><span class=note>"
+            .tra("Determines the proportion of your computer's resources allocated to this project. Example: if you participate in two BOINC projects with resource shares of 100 and 200, the first will get 1/3 of your resources and the second will get 2/3. %2")
+            ."</span>",
         "resource_share",
         new NUM_SPEC("", 0, 9999999, 100)
     ),
@@ -304,11 +301,10 @@ if (isset($accelerate_gpu_apps_pref) && $accelerate_gpu_apps_pref) {
 //if ($app_types->count > 1) {
     if ($app_types->cpu) {
         $project_pref_descs[] = new PREF_BOOL (
-            tra(
-                "Use CPU %1 Enforced by version 6.10+ %2",
-                "<br><span class=note>",
-                "</span>"
-            ),
+            tra("Use CPU")
+                ."<br><span class=note>"
+                .tra("Enforced by version 6.10+")
+                ."</span>",
             "no_cpu",
             false,
             true
@@ -316,11 +312,10 @@ if (isset($accelerate_gpu_apps_pref) && $accelerate_gpu_apps_pref) {
     }
     if ($app_types->ati) {
         $project_pref_descs[] = new PREF_BOOL (
-            tra(
-                "Use ATI GPU %1 Enforced by version 6.10+ %2",
-                "<br><span class=note>",
-                "</span>"
-            ),
+            tra("Use ATI GPU")
+                ."<br><span class=note>"
+                .tra("Enforced by version 6.10+")
+                ."</span>",
             "no_ati",
             false,
             true
@@ -328,11 +323,10 @@ if (isset($accelerate_gpu_apps_pref) && $accelerate_gpu_apps_pref) {
     }
     if ($app_types->cuda) {
         $project_pref_descs[] = new PREF_BOOL (
-            tra(
-                "Use NVIDIA GPU %1 Enforced by version 6.10+ %2",
-                "<br><span class=note>",
-                "</span>"
-            ),
+            tra("Use NVIDIA GPU")
+                ."<br><span class=note>"
+                .tra("Enforced by version 6.10+")
+                ."</span>",
             "no_cuda",
             false,
             true
@@ -340,11 +334,10 @@ if (isset($accelerate_gpu_apps_pref) && $accelerate_gpu_apps_pref) {
     }
     if ($app_types->intel_gpu) {
         $project_pref_descs[] = new PREF_BOOL (
-            tra(
-                "Use Intel GPU %1 Enforced by version 7.2+ %2",
-                "<br><span class=note>",
-                "</span>"
-            ),
+            tra("Use Intel GPU")
+                ."<br><span class=note>"
+                .tra("Enforced by version 7.2+")
+                ."</span>",
             "no_intel_gpu",
             false,
             true
@@ -354,17 +347,18 @@ if (isset($accelerate_gpu_apps_pref) && $accelerate_gpu_apps_pref) {
 
 if (isset($project_has_beta) && $project_has_beta) {
     $project_pref_descs[] = new PREF_BOOL(
-        tra(
-            "Run test applications? %1 This helps us develop applications, but may cause jobs to fail on your computer %2",
-            "<br><span class=note>",
-            "</span>"
-        ),
+        tra("Run test applications?")
+            ."<br><span class=note>"
+            .tra("This helps us develop applications, but may cause jobs to fail on your computer")
+            ."</span>",
         "allow_beta_work",
         false
     );
 }
 if (defined("EMAIL_FROM")) {
-    $x = "<br><span class=note>".tra("Emails will be sent from %1; make sure your spam filter accepts this address.", EMAIL_FROM)."</span>";
+    $x = "<br><span class=note>"
+        .tra("Emails will be sent from %1; make sure your spam filter accepts this address.", EMAIL_FROM)
+        ."</span>";
 } else {
     $x = "";
 }
