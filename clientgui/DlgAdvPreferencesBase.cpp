@@ -69,7 +69,7 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
     m_btnClear = new wxButton( topControlsStaticBox, ID_BTN_CLEAR, _("Clear"), wxDefaultPosition, wxDefaultSize, 0 );
     m_btnClear->SetToolTip( _("clear all local preferences and close the dialog") );
 
-    topControlsSizer->Add( m_btnClear, 0, wxALIGN_BOTTOM|wxALL, 1 );
+    topControlsSizer->Add( m_btnClear, 0, wxALIGN_BOTTOM|wxALL, 4 );
 
     dialogSizer->Add( topControlsSizer, 0, wxALL|wxEXPAND, 1 );
 
@@ -407,27 +407,6 @@ wxPanel* CDlgAdvPreferencesBase::createNetworkTab(wxNotebook* notebook)
     m_staticText35 = new wxStaticText( networkGeneralStaticBox, ID_DEFAULT, _("KBytes/sec."), wxDefaultPosition, wxDefaultSize, 0 );
     networkGeneralGridSizer->Add( m_staticText35, 0, wxALL, 5 );
 
-    // long-term quota
-
-    m_staticText_daily_xfer1 = new wxStaticText( networkGeneralStaticBox, ID_DEFAULT, _("Transfer at most"), wxDefaultPosition, wxDefaultSize, 0 );
-    networkGeneralGridSizer->Add( m_staticText_daily_xfer1, 0, wxALL, 5 );
-
-    m_txt_daily_xfer_limit_mb = new wxTextCtrl( networkGeneralStaticBox, ID_TXTNETDOWNLOADRATE, wxT(""), wxDefaultPosition, wxSize( 50,-1 ), wxTE_RIGHT );
-    networkGeneralGridSizer->Add( m_txt_daily_xfer_limit_mb, 0, wxALL, 1 );
-
-    m_staticText_daily_xfer2 = new wxStaticText( networkGeneralStaticBox, ID_DEFAULT, _("Mbytes"), wxDefaultPosition, wxDefaultSize, 0 );
-    networkGeneralGridSizer->Add( m_staticText_daily_xfer2, 0, wxALL, 5 );
-
-    m_staticText_daily_xfer3 = new wxStaticText( networkGeneralStaticBox, ID_DEFAULT, _("every"), wxDefaultPosition, wxDefaultSize, 0 );
-    networkGeneralGridSizer->Add( m_staticText_daily_xfer3, 0, wxALIGN_RIGHT|wxALL, 5 );
-
-    m_txt_daily_xfer_period_days = new wxTextCtrl( networkGeneralStaticBox, ID_TXTNETUPLOADRATE, wxT(""), wxDefaultPosition, wxSize( 50,-1 ), wxTE_RIGHT );
-    networkGeneralGridSizer->Add( m_txt_daily_xfer_period_days, 0, wxALL, 1 );
-
-    m_staticText_daily_xfer4 = new wxStaticText( networkGeneralStaticBox, ID_DEFAULT, _("days"), wxDefaultPosition, wxDefaultSize, 0 );
-    networkGeneralGridSizer->Add( m_staticText_daily_xfer4, 0, wxALL, 5 );
-
-
     // buffer sizes
 
     m_staticText30 = new wxStaticText(
@@ -468,6 +447,31 @@ wxPanel* CDlgAdvPreferencesBase::createNetworkTab(wxNotebook* notebook)
 
     m_staticText341 = new wxStaticText( networkGeneralStaticBox, ID_DEFAULT, _("days"), wxDefaultPosition, wxDefaultSize, 0 );
     networkGeneralGridSizer->Add( m_staticText341, 0, wxALL, 5 );
+
+    // long-term quota
+
+    m_staticText_daily_xfer1 = new wxStaticText( networkGeneralStaticBox, ID_DEFAULT, _("Transfer at most"), wxDefaultPosition, wxDefaultSize, 0 );
+    networkGeneralGridSizer->Add( m_staticText_daily_xfer1, 0, wxALL, 5 );
+
+    m_txt_daily_xfer_limit_mb = new wxTextCtrl( networkGeneralStaticBox, ID_TXTNETDOWNLOADRATE, wxT(""), wxDefaultPosition, wxSize( 50,-1 ), wxTE_RIGHT );
+    networkGeneralGridSizer->Add( m_txt_daily_xfer_limit_mb, 0, wxALL, 1 );
+
+    wxBoxSizer* networkTransferLimitSizer = new wxBoxSizer( wxHORIZONTAL );
+
+    // Temporarily concatenate strings in order not to break existing localization tables
+    m_staticText_daily_xfer2 = new wxStaticText( networkGeneralStaticBox, ID_DEFAULT, _("Mbytes")+wxT(" ")+_("every"), wxDefaultPosition, wxDefaultSize, 0 );
+    networkTransferLimitSizer->Add( m_staticText_daily_xfer2, 0, wxALL, 5 );
+
+    m_txt_daily_xfer_period_days = new wxTextCtrl( networkGeneralStaticBox, ID_TXTNETUPLOADRATE, wxT(""), wxDefaultPosition, wxSize( 50,-1 ), wxTE_RIGHT );
+    networkTransferLimitSizer->Add( m_txt_daily_xfer_period_days, 0, wxALL, 1 );
+
+    m_staticText_daily_xfer4 = new wxStaticText( networkGeneralStaticBox, ID_DEFAULT, _("days"), wxDefaultPosition, wxDefaultSize, 0 );
+    networkTransferLimitSizer->Add( m_staticText_daily_xfer4, 0, wxALL, 5 );
+
+    networkGeneralGridSizer->Add( networkTransferLimitSizer, 0, wxALL, 0 );
+    networkGeneralGridSizer->Add( new wxStaticText( networkGeneralStaticBox, ID_DEFAULT, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 ));
+    networkGeneralGridSizer->Add( new wxStaticText( networkGeneralStaticBox, ID_DEFAULT, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 ));
+    networkGeneralGridSizer->Add( new wxStaticText( networkGeneralStaticBox, ID_DEFAULT, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 ));
 
     m_chkNetSkipImageVerification = new wxCheckBox( networkGeneralStaticBox, ID_CHKNETSKIPIMAGEVERIFICATION, _("Skip image file verification"), wxDefaultPosition, wxDefaultSize, 0 );
 
