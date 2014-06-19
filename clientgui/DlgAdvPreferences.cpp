@@ -105,16 +105,29 @@ CDlgAdvPreferences::CDlgAdvPreferences(wxWindow* parent) : CDlgAdvPreferencesBas
 /* destructor */
 CDlgAdvPreferences::~CDlgAdvPreferences() {
     SaveState();
+    delete m_vTimeIntervalValidator;
 }
 
 /* set validators for input filtering purposes only */
 void CDlgAdvPreferences::SetValidators() {
+    m_vTimeIntervalValidator = new wxTextValidator(wxFILTER_INCLUDE_CHAR_LIST);
+    m_vTimeIntervalValidator->SetCharIncludes(wxT("0123456789:-"));
+
     //proc page
     m_txtProcIdleFor->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
     m_txtMaxLoad->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
     m_txtProcSwitchEvery->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
     m_txtProcUseProcessors->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
     m_txtProcUseCPUTime->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
+    
+    m_txtProcMonday->SetValidator(*m_vTimeIntervalValidator);
+    m_txtProcTuesday->SetValidator(*m_vTimeIntervalValidator);
+    m_txtProcWednesday->SetValidator(*m_vTimeIntervalValidator);
+    m_txtProcThursday->SetValidator(*m_vTimeIntervalValidator);
+    m_txtProcFriday->SetValidator(*m_vTimeIntervalValidator);
+    m_txtProcSaturday->SetValidator(*m_vTimeIntervalValidator);
+    m_txtProcSunday->SetValidator(*m_vTimeIntervalValidator);
+
     //net page
     m_txtNetConnectInterval->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
     m_txtNetDownloadRate->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
@@ -122,6 +135,15 @@ void CDlgAdvPreferences::SetValidators() {
     m_txt_daily_xfer_period_days->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
     m_txtNetUploadRate->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
     m_txtNetAdditionalDays->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
+
+    m_txtNetMonday->SetValidator(*m_vTimeIntervalValidator);
+    m_txtNetTuesday->SetValidator(*m_vTimeIntervalValidator);
+    m_txtNetWednesday->SetValidator(*m_vTimeIntervalValidator);
+    m_txtNetThursday->SetValidator(*m_vTimeIntervalValidator);
+    m_txtNetFriday->SetValidator(*m_vTimeIntervalValidator);
+    m_txtNetSaturday->SetValidator(*m_vTimeIntervalValidator);
+    m_txtNetSunday->SetValidator(*m_vTimeIntervalValidator);
+
     //disk and memory page
     m_txtDiskMaxSpace->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
     m_txtDiskLeastFree->SetValidator(wxTextValidator(wxFILTER_NUMERIC));
@@ -201,6 +223,17 @@ wxString CDlgAdvPreferences::DoubleToTimeString(double dt) {
     int minutes = (int)(60.0 * (dt - hour)+.5);
     return wxString::Format(wxT("%02d:%02d"),hour,minutes);
 }
+
+
+// We only display 2 places past the decimal, so restrict the
+// precision of saved values to .01.  This prevents unexpected
+// behavior when, for example, a zero value means no restriction
+// and the value is displayed as 0.00 but is actually 0.001.
+double CDlgAdvPreferences::RoundToHundredths(double td) {
+    int i = (int)((td + .005) * 100.);
+    return ((double)(i) / 100.);
+}
+
 
 /* read preferences from core client and initialize control values */
 void CDlgAdvPreferences::ReadPreferenceSettings() {
@@ -368,12 +401,12 @@ bool CDlgAdvPreferences::SavePreferencesSettings() {
     //
     if(m_txtProcIdleFor->IsEnabled()) {
         m_txtProcIdleFor->GetValue().ToDouble(&td);
-        prefs.idle_time_to_run=td;
+        prefs.idle_time_to_run=RoundToHundredths(td);
         mask.idle_time_to_run=true;
     }
 
     m_txtMaxLoad->GetValue().ToDouble(&td);
-    prefs.suspend_cpu_usage=td;
+    prefs.suspend_cpu_usage=RoundToHundredths(td);
     mask.suspend_cpu_usage=true;
 
     //
@@ -397,37 +430,40 @@ bool CDlgAdvPreferences::SavePreferencesSettings() {
         }
     }
     m_txtProcSwitchEvery->GetValue().ToDouble(&td);
-    prefs.cpu_scheduling_period_minutes=td;
+    prefs.cpu_scheduling_period_minutes=RoundToHundredths(td);
     mask.cpu_scheduling_period_minutes=true;
     //
 
     m_txtProcUseProcessors->GetValue().ToDouble(&td);
+    td = RoundToHundredths(td);
     clamp_pct(td);
     prefs.max_ncpus_pct=td;
     mask.max_ncpus_pct=true;
 
     //
     m_txtProcUseCPUTime->GetValue().ToDouble(&td);
-    prefs.cpu_usage_limit=td;
+    prefs.cpu_usage_limit=RoundToHundredths(td);
     mask.cpu_usage_limit=true;
     
     // network page
     m_txtNetConnectInterval->GetValue().ToDouble(&td);
-    prefs.work_buf_min_days=td;
+    prefs.work_buf_min_days=RoundToHundredths(td);
     mask.work_buf_min_days=true;
     //
     m_txtNetDownloadRate->GetValue().ToDouble(&td);
+    td = RoundToHundredths(td);
     td = td * 1024;
     prefs.max_bytes_sec_down=td;
     mask.max_bytes_sec_down=true;
     //
     m_txtNetUploadRate->GetValue().ToDouble(&td);
+    td = RoundToHundredths(td);
     td = td * 1024;
     prefs.max_bytes_sec_up=td;
     mask.max_bytes_sec_up=true;
 
     m_txt_daily_xfer_limit_mb->GetValue().ToDouble(&td);
-    prefs.daily_xfer_limit_mb=td;
+    prefs.daily_xfer_limit_mb=RoundToHundredths(td);
     mask.daily_xfer_limit_mb=true;
     m_txt_daily_xfer_period_days->GetValue().ToDouble(&td);
     prefs.daily_xfer_period_days=(int)td;
@@ -443,7 +479,7 @@ bool CDlgAdvPreferences::SavePreferencesSettings() {
     mask.hangup_if_dialed=true;
     //
     m_txtNetAdditionalDays->GetValue().ToDouble(&td);
-    prefs.work_buf_additional_days = td;
+    prefs.work_buf_additional_days = RoundToHundredths(td);
     mask.work_buf_additional_days = true;
     //
     prefs.net_times.start_hour=TimeStringToDouble(m_txtNetEveryDayStart->GetValue());
@@ -467,35 +503,39 @@ bool CDlgAdvPreferences::SavePreferencesSettings() {
     }
     //disk usage
     m_txtDiskMaxSpace->GetValue().ToDouble(&td);
-    prefs.disk_max_used_gb=td;
+    prefs.disk_max_used_gb=RoundToHundredths(td);
     mask.disk_max_used_gb=true;
     //
     m_txtDiskLeastFree->GetValue().ToDouble(&td);
-    prefs.disk_min_free_gb=td;
+    prefs.disk_min_free_gb=RoundToHundredths(td);
     mask.disk_min_free_gb=true;
     //
     m_txtDiskMaxOfTotal->GetValue().ToDouble(&td);
+    td = RoundToHundredths(td);
     clamp_pct(td);
     prefs.disk_max_used_pct=td;
     mask.disk_max_used_pct=true;
     //
     m_txtDiskWriteToDisk->GetValue().ToDouble(&td);
-    prefs.disk_interval=td;
+    prefs.disk_interval=RoundToHundredths(td);
     mask.disk_interval=true;
     //
     m_txtDiskMaxSwap->GetValue().ToDouble(&td);
+    td = RoundToHundredths(td);
     clamp_pct(td);
     td = td / 100.0 ;
     prefs.vm_max_used_frac=td;
     mask.vm_max_used_frac=true;
     //Memory
     m_txtMemoryMaxInUse->GetValue().ToDouble(&td);
+    td = RoundToHundredths(td);
     clamp_pct(td);
     td = td / 100.0;
     prefs.ram_max_used_busy_frac=td;
     mask.ram_max_used_busy_frac=true;
     //
     m_txtMemoryMaxOnIdle->GetValue().ToDouble(&td);
+    td = RoundToHundredths(td);
     clamp_pct(td);
     td = td / 100.0;
     prefs.ram_max_used_idle_frac=td;
@@ -729,11 +769,15 @@ bool CDlgAdvPreferences::EnsureTabPageVisible(wxTextCtrl* txtCtrl) {
     int parentid = parent->GetId();
     int index = m_arrTabPageIds.Index(parentid);
     if(index == wxNOT_FOUND) {
-        //some controls are containe din a additional panel, so look at its parent
-        parent = parent->GetParent();
-        wxASSERT(parent);
-        parentid = parent->GetId();
-        index = m_arrTabPageIds.Index(parentid);
+        //some controls are contained in an additional panel,
+        //so look at its parent and grandparent
+        for (int i=0; i<2; ++i) {
+            parent = parent->GetParent();
+            wxASSERT(parent);
+            parentid = parent->GetId();
+            index = m_arrTabPageIds.Index(parentid);
+            if(index != wxNOT_FOUND) break;
+        }
         if(index == wxNOT_FOUND) {
             //this should never happen
             return false;
@@ -757,8 +801,7 @@ void CDlgAdvPreferences::ShowErrorMessage(wxString& message,wxTextCtrl* errorCtr
 /* checks if ch is a valid character for float values */
 bool CDlgAdvPreferences::IsValidFloatChar(const wxChar& ch) {
     //don't accept the e
-    return wxIsdigit(ch) || ch=='.' || ch==',' || ch=='+';
-}
+    return wxIsdigit(ch) || ch=='.' || ch==',' || ch=='+' || ch=='-';}
 
 /* checks if ch is a valid character for time values */
 bool CDlgAdvPreferences::IsValidTimeChar(const wxChar& ch) {
@@ -771,7 +814,7 @@ bool CDlgAdvPreferences::IsValidTimeIntervalChar(const wxChar& ch) {
 }
 
 /* checks if the value contains a valid float */
-bool CDlgAdvPreferences::IsValidFloatValue(const wxString& value) {
+bool CDlgAdvPreferences::IsValidFloatValue(const wxString& value, bool allowNegative) {
     for(unsigned int i=0; i < value.Length();i++) {
         if(!IsValidFloatChar(value[i])) {
             return false;
@@ -781,6 +824,9 @@ bool CDlgAdvPreferences::IsValidFloatValue(const wxString& value) {
     double td;
     if(!value.ToDouble(&td)) {
         return false;
+    }
+    if (!allowNegative) {
+        if (td < 0.0) return false;
     }
     return true;
 }

@@ -42,7 +42,7 @@ class CDlgAdvPreferences : public CDlgAdvPreferencesBase {
 	bool ValidateInput();
 	void SetValidators();
 	bool IsValidFloatChar(const wxChar& ch);
-	bool IsValidFloatValue(const wxString& value);
+	bool IsValidFloatValue(const wxString& value, bool allowNegative=false);
 	bool IsValidTimeChar(const wxChar& ch);
 	bool IsValidTimeValue(const wxString& value);
 	bool IsValidTimeIntervalChar(const wxChar& ch);
@@ -52,6 +52,7 @@ class CDlgAdvPreferences : public CDlgAdvPreferencesBase {
 	bool ConfirmClear();
 	wxString DoubleToTimeString(double dt);
 	double TimeStringToDouble(wxString timeStr);
+    double RoundToHundredths(double td);
 public:
 	CDlgAdvPreferences(wxWindow* parent=NULL);//to act as standard constructor set a default value
 	virtual ~CDlgAdvPreferences();
@@ -74,6 +75,7 @@ private:
 	bool m_bPrefsDataChanged;
 	bool m_bInInit;
 	wxArrayInt m_arrTabPageIds;
+    wxTextValidator* m_vTimeIntervalValidator;
 };
 
 #endif // _DLGADVPREFERENCES_H_
