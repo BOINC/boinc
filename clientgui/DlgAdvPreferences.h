@@ -43,6 +43,7 @@ class CDlgAdvPreferences : public CDlgAdvPreferencesBase {
 	void SetValidators();
 	bool IsValidFloatChar(const wxChar& ch);
 	bool IsValidFloatValue(const wxString& value, bool allowNegative=false);
+    bool IsValidFloatValueBetween(const wxString& value, double minVal, double maxVal);
 	bool IsValidTimeChar(const wxChar& ch);
 	bool IsValidTimeValue(const wxString& value);
 	bool IsValidTimeIntervalChar(const wxChar& ch);
