@@ -727,7 +727,7 @@ int get_cpuid(unsigned int info_type, unsigned int& a, unsigned int& b, unsigned
 
 
     int retval = 1;
-    unsigned int CPUInfo[4] = {0,0,0,0};
+    int CPUInfo[4] = {0,0,0,0};
 #ifdef _MSC_VER
     __try {
 #endif

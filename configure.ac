@@ -676,6 +676,49 @@ if test "${isWIN32}" = "yes" ; then
 fi
 AC_CHECK_HEADERS(sys/types.h sys/un.h arpa/inet.h dirent.h grp.h fcntl.h inttypes.h stdint.h memory.h netdb.h netinet/in.h netinet/tcp.h netinet/ether.h net/if.h net/if_arp.h signal.h strings.h sys/auxv.h sys/file.h sys/fcntl.h sys/ipc.h sys/ioctl.h sys/msg.h sys/param.h sys/resource.h sys/select.h sys/sem.h sys/shm.h sys/sockio.h sys/socket.h sys/stat.h sys/statvfs.h sys/statfs.h sys/systeminfo.h sys/time.h sys/types.h sys/utsname.h sys/vmmeter.h sys/wait.h unistd.h utmp.h errno.h procfs.h ieeefp.h setjmp.h float.h sal.h) 
 
+save_cppflags="${CPPFLAGS}"
+CXXFLAGS="${CXXFLAGS} -msse3"
+CPPFLAGS="${CPPFLAGS} -msse3"
+AC_CHECK_HEADERS([intrin.h x86intrin.h pmmintrin.h xmmintrin.h emmintrin.h])
+CXXFLAGS="${save_cxxflags} -mavx"
+CPPFLAGS="${save_cppflags} -mavx"
+AC_CHECK_HEADERS([immintrin.h avxintrin.h])
+
+AC_CHECK_DECLS([_xgetbv, xgetbv, __xgetbv, cpuid, _cpuid, __cpuid],
+    [],[],[[
+#if HAVE_INTRIN_H
+# include <intrin.h>
+#endif
+#if HAVE_IMMINTRIN_H
+# include <immintrin.h>
+#endif
+#if HAVE_AVXINTRIN_H
+# include <avxintrin.h>
+#endif
+#if HAVE_X86INTRIN_H
+# include <x86intrin.h>
+#endif
+#if HAVE_PMMINTRIN_H
+# include <pmmintrin.h>
+#endif
+#if HAVE_XMMINTRIN_H
+# include <xmmintrin.h>
+#endif
+#if HAVE_EMMINTRIN_H
+# include <emmintrin.h>
+#endif
+]])
+
+AC_MSG_CHECKING(if assembler supports xgetbv)
+AC_COMPILE_IFELSE([AC_LANG_PROGRAM(,[asm ("xgetbv");])],
+  AC_DEFINE([ASM_SUPPORTS_XGETBV],1,[Define to 1 if the xgetbv instruction can be used in inline assember])
+  AC_MSG_RESULT(yes),
+  AC_MSG_RESULT(no)
+)
+
+CXXFLAGS="${save_cxxflags}"
+CPPFLAGS="${save_cppflags}"
+
 if test "${isWIN32}" = "yes" ; then
   AC_CHECK_HEADERS([winhttp.h ntapi.h ddk/ntapi.h dbghelp.h delayimp.h],[], [], [[
   #if HAVE_WINDOWS_H
