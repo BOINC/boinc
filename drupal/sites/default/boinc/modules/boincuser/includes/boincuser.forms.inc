@@ -49,10 +49,10 @@ function boincuser_login_authenticate($form_values) {
   $passwd_hash = md5($passwd.$email_addr);
   
   // Include BOINC user library
-  require_boinc('user');
+  require_boinc('boinc_db');
   
   // Get the BOINC user and check credentials
-  $boinc_user = lookup_user_email_addr($email_addr);
+  $boinc_user = BoincUser::lookup_email_addr($email_addr);
   if (!$boinc_user) return false;
   if ($passwd_hash != $boinc_user->passwd_hash) return false;
   
