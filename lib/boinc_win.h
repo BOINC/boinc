@@ -41,7 +41,6 @@
 #define HAVE_STD_TRANSFORM 1
 #endif 
 
-
 #ifndef HAVE_ALLOCA
 #define HAVE_ALLOCA 1
 #endif 
@@ -66,10 +65,26 @@
 #define HAVE_WINHTTP_H 1
 #define HAVE_WINTERNL_H 1
 #define HAVE_DELAYIMP_H 1
+#define HAVE_INTRIN_H 1
 #define HAVE_FCNTL_H 1
 #define HAVE_CRTDBG_H 1
 #define HAVE_DECL_FPRESET 1
 #define HAVE_DECL__FPRESET 1
+#define HAVE_DECL___CPUID 1
+#define HAVE_MSVCRT 1
+#undef HAVE_STRDUP 
+#define HAVE__STRDUP 1
+#undef NO_PER_THREAD_LOCALE
+#define HAVE_DECL__CONFIGTHREADLOCALE 1
+#define HAVE__CONFIGTHREADLOCALE 1
+#define HAVE_DECL___CPUID 1
+
+#if ( _MSC_FULL_VER >= 160040219 )
+#define HAVE_DECL__XGETBV 1
+#else
+#define HAVE_DECL__XGETBV 0
+#endif
+
 #else
 
 // Under any system that can run configure we need to include config.h first.
@@ -120,6 +135,7 @@
 /* If we're not running under CYGWIN use windows networking */
 #undef USE_WINSOCK
 #define USE_WINSOCK 1
+/* wxWidgets doesn't do winsock 2, so ignore it for now */
 #ifdef HAVE_WINSOCK2_H
 #include <winsock2.h>
 #elif defined(HAVE_WINSOCK_H)

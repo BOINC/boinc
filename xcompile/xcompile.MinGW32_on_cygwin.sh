@@ -8,14 +8,16 @@ case $1 in
               export TARGET_HOST=$1
               ;;
 esac
+echo -n Checking for cross compiling environment ...
 for target_host in ${TARGET_HOST} i686-w64-mingw32 i686-pc-mingw32 x86_64-w64-mingw32 x86_64-pc-mingw32 none ; do
    if test ${target_host} = none ; then
+     echo ${target_host}
      echo Cross compiling environment not found in /usr
      exit 1
    fi
-   echo Checking for cross compiling environment in /usr/${target_host}
    if test -d /usr/${target_host}; then
      export TARGET_HOST=${target_host}
+     echo /usr/${target_host}
      break
    fi
 done
@@ -28,7 +30,7 @@ case $TARGET_HOST in
 esac
 
 build_manager=no
-build_client=no
+build_client=yes
 build_libs=yes
 build_server=no
 
@@ -123,35 +125,75 @@ if test $build_client != no -o $build_manager != no ; then
   fi
 fi
 
-if test $build_manager != no ; then
-  if ! test -f ${XCOMPILE_ROOT}/lib/libwxbase30u.a ; then
-    z7=`which 7z`
-    if test "x${z7}" = x ; then
-       echo you must install 7z in the path in order to install wxwidgets
-       exit 1
+if test $build_client != no ; then
+  thisdir=`pwd`
+  if ! test -f ${XCOMPILE_ROOT}/include/nvapi.h ; then
+    rsync -va ../coprocs/NVIDIA/include/* ${XCOMPILE_ROOT}/include
+  fi
+  nvdir=
+  if ! test -f ${XCOMPILE_ROOT}/lib/libnvapi.a ; then
+    mkdir NVIDIA
+    case $target_host in 
+    	i[56]86-*)  nvdir=../coprocs/NVIDIA/mswin/Win32/Release/lib
+	            ;;
+        x86*|x64*)  nvdir=../coprocs/NVIDIA/mswin/x64/Release/lib
+	            ;;
+    esac
+    if test x$nvdir != x ; then 
+      rsync -va $nvdir/* NVIDIA
+      cd NVIDIA
+      obj=`ar t nvapi.lib | head -1`
+      objdir=`dirname $obj`
+      mkdir -p $objdir
+      ar x nvapi.lib
+      cd $objdir
+      ar cr libnvapi.a *.obj
+      mv *.a ${XCOMPILE_ROOT}/lib
     fi
+  fi
+  cd $thisdir
+  rm -rf NVIDIA
+fi
+
+if test $build_manager != no ; then
+  if ! test -f ${XCOMPILE_ROOT}/lib/libwx_baseu_net-3.0-i686-w64-mingw32.dll.a ; then
     wxver=3.0.0
-    gccver=481
-    filename=wxMSW-${wxver}_gcc${gccver}TDM_Dev.7z
-    mkdir wxdist
-    cd wxdist
-    wget http://sourceforge.net/projects/wxwindows/files/3.0.0/binaries/$filename/download
-    mv download $filename
-    7z x $filename
-    rm $filename
-    rsync lib/gcc${gccver}TDM_dll/*.a ${XCOMPILE_ROOT}/lib
-    rsync lib/gcc${gccver}TDM_dll/*.dll ${XCOMPILE_ROOT}/bin
-    filename=wxWidgets-${wxver}_headers.7z
+    filename=wxWidgets-${wxver}.tar.bz2
     wget http://sourceforge.net/projects/wxwindows/files/3.0.0/$filename/download
     mv download $filename
-    7z x $filename
-    rm $filename
-    rsync -va include/wx ${XCOMPILE_ROOT}/include
-    rsync -va lib/gcc${gccver}TDM_dll/mswu/wx ${XCOMPILE_ROOT}/include
+    tar jxf $filename
+#    rm -f $filename
+    cd wxWidgets-${wxver}
+    enables="--with-msw  --with-libpng --with-libjpeg --with-libtiff --with-opengl --with-zlib  --enable-toolbar --enable-statusbar --enable-statbmp --enable-intl --enable-accessibility --enable-catch_segvs --enable-std_containers --enable-std_iostreams --enable-std_string --enable-std_string_conv_in_wxstring --enable-permissive  --enable-xlocale --enable-config --enable-protocols --enable-ftp --enable-http --enable-fileproto --enable-sockets --enable-ole --enable-dataobj --enable-ipc --enable-baseevtloop --enable-selectloop --enable-any --enable-base64 --enable-dialupman --enable-uxtheme "
+    ./configure -C --host=$TARGET_HOST --build=$BUILD_HOST ${enables} --with-libcurl=${XCOMPILE_ROOT} --with-ssl=${XCOMPILE_ROOT} --with-winsock --prefix=${XCOMPILE_ROOT} 
+    make all
+    make install 
+    /bin/cp lib/*.a ${XCOMPILE_ROOT}/lib
+    /bin/cp lib/*.dll ${XCOMPILE_ROOT}/bin
+    /bin/mv -f ${XCOMPILE_ROOT}/lib/wx*.dll ${XCOMPILE_ROOT}/bin
     cd ..
-    rm -rf wxdist
+    rm -rf wxWidgets-${wxver}
   fi
 fi
+
+if test $build_manager != no ; then
+  if ! test -f ${XCOMPILE_ROOT}/lib/libsqlite3.a ; then
+    sqlite_year=2014
+    sqlite_ver=3080403
+    filename=sqlite-autoconf-${sqlite_ver}.tar.gz
+    wget http://www.sqlite.org/${sqlite_year}/$filename
+    tar zxf $filename
+    cd sqlite-autoconf-${sqlite_ver}
+    ./configure -C --host=$TARGET_HOST --build=$BUILD_HOST --prefix=${XCOMPILE_ROOT} --with-sysroot=${XCOMPILE_ROOT} 
+    make all
+    make install
+    cd ..
+    /bin/rm -f $filename
+    /bin/rm -rf sqlite-autoconf-${sqlite_ver}
+  fi
+fi
+
+  
 
 if test $build_manager != no -o $build_libs != no ; then
   if ! test -f ${XCOMPILE_ROOT}/include/GL/glut.h -a -f ${XCOMPILE_ROOT}/lib/libfreeglut_static.a  ; then
@@ -197,4 +239,4 @@ fi
 
 ../configure -C --host=$TARGET_HOST --build=$BUILD_HOST ${enables} --with-libcurl=${XCOMPILE_ROOT} --with-ssl=${XCOMPILE_ROOT} --with-winsock --prefix=${XCOMPILE_ROOT}
 make -j 4 all
-exit 0
+#exit 0

@@ -52,7 +52,7 @@
 #define CONNECTED_STATE_UNKNOWN         2
 
 #ifndef SIM
-#ifdef _WIN32
+#if defined(_WIN32) && ( !defined(__MINGW32__) || defined(HAVE_LIBSENSAPI) )
 #include <sensapi.h>
 
 int get_connected_state() {

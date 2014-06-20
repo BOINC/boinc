@@ -42,6 +42,13 @@ fi
 AC_SUBST(REV)
 AC_SUBST(RDATE)
 
+dnl Are we compiling for windows
+if echo $host_os | egrep '^mingw|^winnt' > /dev/null ; then
+  isWIN32=yes
+else
+  isWIN32=no
+fi
+
 dnl turn dependency tracking on by default
 if test x${enable_dependency_tracking} != xno ; then
   enable_dependency_tracking=yes
@@ -112,7 +119,13 @@ AC_ARG_ENABLE(xss,
     AS_HELP_STRING([--disable-xss],
                    [disable building the boinc client with the Xss library]),
     [enable_xss=${enableval}],
-    [enable_xss=yes])
+    [
+      if test $isWIN32 != "yes" ; then
+        enable_xss=yes
+      else
+        enable_xss=yes
+      fi
+    ])
 
 AC_ARG_ENABLE(boinczip,
     AS_HELP_STRING([--enable-boinczip],
@@ -479,16 +492,26 @@ SAH_CHECK_LIB([dl], [dlopen],
     [BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${sah_lib_last}"])
 SAH_CHECK_LIB([nsl], [gethostbyname], 
     [BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${sah_lib_last}"])
-#SAH_CHECK_LIB([wsock32], [fopen], 
-#   [BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${sah_lib_last}"])
-#SAH_CHECK_LIB([wsock], [fopen], 
-#   [BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${sah_lib_last}"])
+SAH_CHECK_LIB([freetype], [fopen], 
+    [BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${sah_lib_last}"])
 SAH_CHECK_LIB([socket], [bind], 
     [BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${sah_lib_last}"])
 SAH_CHECK_LIB([z], [gzopen], 
     [BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${sah_lib_last}"])
 SAH_CHECK_LIB([cups], [md5_finish],
     [BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${sah_lib_last}"])
+if test "${isWIN32}" = "yes" ; then
+   SAH_CHECK_LIB([wsock32], [fopen], 
+       [BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${sah_lib_last}"])
+   SAH_CHECK_LIB([wsock], [fopen], 
+       [BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${sah_lib_last}"])
+   SAH_CHECK_LIB([comctl32], [fopen],
+       [BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${sah_lib_last}"])
+   SAH_CHECK_LIB([winmm], [fopen],
+       [BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${sah_lib_last}"])
+   SAH_CHECK_LIB([msimg32], [fopen],
+       [BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${sah_lib_last}"])
+fi
 
 LIBS=${SAVELIBS_AAF}
 
@@ -540,8 +563,10 @@ dnl check for glut and prerequesites to the glut-test: libXmu and libXi
 dnl or on windows libGDI32 and libWinMM
 AC_CHECK_LIB([Xmu], [fopen], [have_Xmu="yes"], [have_Xmu="no"])
 AC_CHECK_LIB([Xi], [fopen], [have_Xi="yes"], [have_Xi="no"])
-AC_CHECK_LIB([gdi32], [fopen])
-AC_CHECK_LIB([winmm], [fopen])
+if test "${isWIN32}" = "yes" ; then
+  AC_CHECK_LIB([gdi32], [fopen])
+  AC_CHECK_LIB([winmm], [fopen])
+fi
 
 AX_CHECK_GLUT
 if test "X${no_x}" != "Xyes" -a "$no_glut" = yes; then
@@ -575,7 +600,7 @@ else
    echo "DEBUG: GLUT_CFLAGS = $GLUT_CFLAGS" >&5
    echo "DEBUG: GLUT_LIBS = $GLUT_LIBS" >&5
 
-   AC_CHECK_HEADERS([gl.h glu.h glut.h glaux.h GL/gl.h GL/glu.h GL/glut.h GL/glaux.h OpenGL/gl.h OpenGL/glu.h OpenGL/glut.h OpenGL/glaux.h GLUT/glut.h MesaGL/gl.h MesaGL/glu.h MesaGL/glut.h MesaGL/glaux.h libnotify/notify.h gtk/gtk.h xlocale.h])
+   AC_CHECK_HEADERS([gl.h glu.h glut.h glaux.h GL/gl.h GL/glu.h GL/glut.h GL/glaux.h OpenGL/gl.h OpenGL/glu.h OpenGL/glut.h OpenGL/glaux.h GLUT/glut.h MesaGL/gl.h MesaGL/glu.h MesaGL/glut.h MesaGL/glaux.h libnotify/notify.h gtk/gtk.h locale.h xlocale.h])
 
    AC_CHECK_LIB([jpeg], [jpeg_start_compress],[have_jpeg=1],[have_jpeg=0])
    AC_CHECK_HEADER([jpeglib.h],[have_jpeg=1],[have_jpeg=0])
@@ -621,8 +646,12 @@ AH_TOP([
 ])
 AH_BOTTOM([
 
-#ifndef HAVE_XLOCALE_H
+#if !HAVE_DECL__CONFIGTHREADLOCALE
 #define NO_PER_THREAD_LOCALE 1
+#undef HAVE__CONFIGTHREADLOCALE
+#else
+#undef NO_PER_THREAD_LOCALE
+#define HAVE__CONFIGTHREADLOCALE 1
 #endif
 
 #ifndef HAVE_RES_INIT
@@ -642,40 +671,95 @@ AC_HEADER_STDC
 AC_HEADER_SYS_WAIT
 AC_HEADER_TIME
 AC_TYPE_SIGNAL
-AC_CHECK_HEADERS(winsock2.h winsock.h windows.h ws2tcpip.h winternl.h crtdbg.h sys/types.h sys/un.h arpa/inet.h dirent.h grp.h fcntl.h inttypes.h stdint.h memory.h netdb.h netinet/in.h netinet/tcp.h netinet/ether.h net/if.h net/if_arp.h signal.h strings.h sys/auxv.h sys/file.h sys/fcntl.h sys/ipc.h sys/ioctl.h sys/msg.h sys/param.h sys/resource.h sys/select.h sys/sem.h sys/shm.h sys/sockio.h sys/socket.h sys/stat.h sys/statvfs.h sys/statfs.h sys/systeminfo.h sys/time.h sys/types.h sys/utsname.h sys/vmmeter.h sys/wait.h unistd.h utmp.h errno.h procfs.h ieeefp.h setjmp.h float.h)
-
-if test x${ac_cv_header_windows_h} = xyes ; then
-
-AC_CHECK_HEADERS([winhttp.h ntapi.h ddk/ntapi.h dbghelp.h delayimp.h],[], [], [[
-#if HAVE_WINDOWS_H
-# include <windows.h>
-#endif
-]])
-
-AC_CHECK_HEADER(security.h, [
-AC_DEFINE(HAVE_SECURITY_H,1,[Define to 1 if your compiler has the security.h header file])
-AC_DEFINE(SECURITY_WIN32,1,[Define to 1 if your compiler has the security.h header file])
-], [], [[
-#define SECURITY_WIN32 1
-#if HAVE_WINDOWS_H
-# include <windows.h>
-#endif
-]])
-
-AC_CHECK_TYPES([SYSTEM_PROCESSES, CLIENT_ID, VM_COUNTERS, SYSTEM_THREADS, THREAD_STATE, THREAD_WAIT_REASON],[],[],[[
-#if HAVE_WINDOWS_H
-#include <windows.h>
-#endif
-#ifdef HAVE_WINTERNL_H
-#include <winternl.h>
-#elif defined(HAVE_DDK_NTAPI_H)
-#include <ddk/ntapi.h>
-#elif defined(HAVE_NTAPI_H)
-#include <ntapi.h>
-#endif
-]])
-
+if test "${isWIN32}" = "yes" ; then
+  AC_CHECK_HEADERS(winsock2.h winsock.h windows.h ws2tcpip.h winternl.h crtdbg.h)
 fi
+AC_CHECK_HEADERS(sys/types.h sys/un.h arpa/inet.h dirent.h grp.h fcntl.h inttypes.h stdint.h memory.h netdb.h netinet/in.h netinet/tcp.h netinet/ether.h net/if.h net/if_arp.h signal.h strings.h sys/auxv.h sys/file.h sys/fcntl.h sys/ipc.h sys/ioctl.h sys/msg.h sys/param.h sys/resource.h sys/select.h sys/sem.h sys/shm.h sys/sockio.h sys/socket.h sys/stat.h sys/statvfs.h sys/statfs.h sys/systeminfo.h sys/time.h sys/types.h sys/utsname.h sys/vmmeter.h sys/wait.h unistd.h utmp.h errno.h procfs.h ieeefp.h setjmp.h float.h sal.h) 
+
+if test "${isWIN32}" = "yes" ; then
+  AC_CHECK_HEADERS([winhttp.h ntapi.h ddk/ntapi.h dbghelp.h delayimp.h],[], [], [[
+  #if HAVE_WINDOWS_H
+  # include <windows.h>
+  #endif
+  ]])
+
+  AC_CHECK_HEADER(security.h, [
+  AC_DEFINE(HAVE_SECURITY_H,1,[Define to 1 if your compiler has the security.h header file])
+  AC_DEFINE(SECURITY_WIN32,1,[Define to 1 if your compiler has the security.h header file])
+  ], [], [[
+  #define SECURITY_WIN32 1
+  #if HAVE_WINDOWS_H
+  # include <windows.h>
+  #endif
+  ]])
+
+  AC_CHECK_TYPES([SYSTEM_PROCESSES, CLIENT_ID, VM_COUNTERS, SYSTEM_THREADS, THREAD_STATE, THREAD_WAIT_REASON],[],[],[[
+  #if HAVE_WINDOWS_H
+  #include <windows.h>
+  #endif
+  #ifdef HAVE_WINTERNL_H
+  #include <winternl.h>
+  #elif defined(HAVE_DDK_NTAPI_H)
+  #include <ddk/ntapi.h>
+  #elif defined(HAVE_NTAPI_H)
+  #include <ntapi.h>
+  #endif
+  ]])
+fi
+
+AC_CHECK_HEADER(nvapi.h, [
+  AC_DEFINE(HAVE_NVAPI_H,1,[Define to 1 if your compiler has the nvapi.h header file])
+  ],[],[[
+  #ifdef HAVE_WINDOWS_H
+  #include <windows.h>
+  #endif
+  #ifdef HAVE_SAL_H
+  #include "sal.h"
+  #endif
+  #ifndef __success
+  #define __success(x)  
+  #endif
+  #ifndef __in
+  #define __in
+  #endif
+  #ifndef __out
+  #define __out
+  #endif
+  #ifndef __in_ecount
+  #define __in_ecount(x)
+  #endif
+  #ifndef __out_ecount
+  #define __out_ecount(x)
+  #endif
+  #ifndef __in_opt
+  #define __in_opt
+  #endif
+  #ifndef __out_opt
+  #define __out_opt
+  #endif
+  #ifndef __inout
+  #define __inout
+  #endif
+  #ifndef __inout_opt
+  #define __inout_opt
+  #endif
+  #ifndef __inout_ecount
+  #define __inout_ecount(x)
+  #endif
+  #ifndef __inout_ecount_full
+  #define __inout_ecount_full(x)
+  #endif
+  #ifndef __inout_ecount_part_opt
+  #define __inout_ecount_part_opt(x,y)
+  #endif 
+  #ifndef __inout_ecount_full_opt
+  #define __inout_ecount_full_opt(x,y)
+  #endif 
+  #ifndef __out_ecount_full_opt
+  #define __out_ecount_full_opt(x)
+  #endif
+]])
+
 
 AC_CHECK_TYPES([socklen_t],[],[],[[
 #if HAVE_WINDOWS_H
@@ -804,9 +888,9 @@ AC_LANG_POP
 dnl Checks for library functions.
 AC_PROG_GCC_TRADITIONAL
 AC_FUNC_VPRINTF
-AC_CHECK_FUNCS(ether_ntoa setpriority sched_setscheduler strlcpy strlcat strcasestr strcasecmp sigaction getutent setutent getisax strdup strdupa daemon stat64 putenv setenv unsetenv res_init strtoull)
+AC_CHECK_FUNCS(ether_ntoa setpriority sched_setscheduler strlcpy strlcat strcasestr strcasecmp sigaction getutent setutent getisax strdup _strdup strdupa _strdupa daemon stat64 putenv setenv unsetenv res_init strtoull localtime localtime_r gmtime gmtime_r) 
 
-AC_CHECK_DECLS([_fpreset, fpreset],
+AC_CHECK_DECLS([_fpreset, fpreset, _configthreadlocale],
     [],[],[[
 #include <stdio.h>
 #if HAVE_SYS_TYPES_H
@@ -852,6 +936,12 @@ AC_CHECK_DECLS([_fpreset, fpreset],
 #endif
 #ifdef HAVE_MATH_H
 #include <math.h>
+#endif
+#ifdef HAVE_LOCALE_H
+#include <locale.h>
+#endif
+#ifdef HAVE_XLOCALE_H
+#include <xlocale.h>
 #endif
 ]])
 
@@ -924,7 +1014,7 @@ if echo $host_os | grep '^darwin' >/dev/null ; then
   fi
 fi
 
-AM_CONDITIONAL(OS_LINUX, [echo $host_os | grep '^linux' > /dev/null])
+AM_CONDITIONAL(OS_LINUX, [echo $host_os | grep '^linux' > /dev/null]) 
 dnl In case anyone wants to try building the windows code using mingw!
 AM_CONDITIONAL(OS_WIN32, [echo $host_os | egrep '^mingw|^winnt' > /dev/null])
 AM_CONDITIONAL(OS_WIN32_MINGW, [echo $host_os | grep '^mingw' > /dev/null])
@@ -985,14 +1075,79 @@ if test x${ac_cv_cxx_compiler_gnu} != xno ; then
    echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
 fi
 fi
-SAH_CHECK_LIB([wsock32],[fopen],[
-    AC_DEFINE([HAVE_LIBWSOCK32],[1],[Define to 1 if you have the wsock32 library])
+SAH_CHECK_LIB([nvapi],[fopen],[
+    AC_DEFINE([HAVE_LIBNVAPI],[1],[Define to 1 if you have the NVIDIA API library])
     CLIENTLIBS="${sah_lib_last} ${CLIENTLIBS}"])
    echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
-SAH_CHECK_LIB([userenv],[fopen],[
-    AC_DEFINE([HAVE_LIBUSERENV],[1],[Define to 1 if you have the userenv library])
-    CLIENTLIBS="${sah_lib_last} ${CLIENTLIBS}"])
-   echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
+if test ${isWIN32} = "yes" ; then
+  SAH_CHECK_LIB([gdi32],[fopen],[
+      AC_DEFINE([HAVE_LIBWGDI32],[1],[Define to 1 if you have the gdi32 library])
+      CLIENTLIBS="${sah_lib_last} ${CLIENTLIBS}"])
+     echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
+     found_msvcrt=no
+  SAH_CHECK_LIB([msvcr110],[fopen],[
+      found_msvcrt=yes 
+      AC_DEFINE([HAVE_LIBMSVCR110],[1],[Define to 1 if you have the msvcr110 library])
+      AC_DEFINE([HAVE_MSVCRT],[1],[Define to 1 if you have a visual c runtime library])
+      CLIENTLIBS="${sah_lib_last} ${CLIENTLIBS}"])
+     echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
+  if test $found_msvcrt = no ; then
+    SAH_CHECK_LIB([msvcr100],[fopen],[
+        found_msvcrt=yes 
+        AC_DEFINE([HAVE_LIBMSVCR100],[1],[Define to 1 if you have the msvcr100 library])
+        AC_DEFINE([HAVE_MSVCRT],[1],[Define to 1 if you have a visual c runtime library])
+        CLIENTLIBS="${sah_lib_last} ${CLIENTLIBS}"])
+    echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
+  fi
+  if test $found_msvcrt = no ; then
+    SAH_CHECK_LIB([msvcr90d],[fopen],[
+        found_msvcrt=yes 
+        AC_DEFINE([HAVE_LIBMSVCR90D],[1],[Define to 1 if you have the msvcr90d library])
+        AC_DEFINE([HAVE_MSVCRT],[1],[Define to 1 if you have a visual c runtime library])
+        CLIENTLIBS="${sah_lib_last} ${CLIENTLIBS}"])
+    echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
+  fi
+  if test $found_msvcrt = no ; then
+    SAH_CHECK_LIB([msvcr90],[fopen],[
+        found_msvcrt=yes 
+        AC_DEFINE([HAVE_LIBMSVCR90],[1],[Define to 1 if you have the msvcr90 library])
+        AC_DEFINE([HAVE_MSVCRT],[1],[Define to 1 if you have a visual c runtime library])
+        CLIENTLIBS="${sah_lib_last} ${CLIENTLIBS}"])
+    echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
+  fi
+  SAH_CHECK_LIB([wininet],[fopen],[
+      AC_DEFINE([HAVE_LIBWININET],[1],[Define to 1 if you have the wininet library])
+      CLIENTLIBS="${sah_lib_last} ${CLIENTLIBS}"])
+     echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
+  SAH_CHECK_LIB([wsock32],[fopen],[
+      AC_DEFINE([HAVE_LIBWSOCK32],[1],[Define to 1 if you have the wsock32 library])
+      CLIENTLIBS="${sah_lib_last} ${CLIENTLIBS}"])
+     echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
+  SAH_CHECK_LIB([userenv],[fopen],[
+      AC_DEFINE([HAVE_LIBUSERENV],[1],[Define to 1 if you have the userenv library])
+      CLIENTLIBS="${sah_lib_last} ${CLIENTLIBS}"])
+     echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
+  SAH_CHECK_LIB([iphlpapi],[fopen],[
+      AC_DEFINE([HAVE_LIBIPHLPAPI],[1],[Define to 1 if you have the iphlpapi library])
+      CLIENTLIBS="${sah_lib_last} ${CLIENTLIBS}"])
+     echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
+  SAH_CHECK_LIB([sensapi],[fopen],[
+      AC_DEFINE([HAVE_LIBSENSAPI],[1],[Define to 1 if you have the sensapi library])
+      CLIENTLIBS="${sah_lib_last} ${CLIENTLIBS}"])
+     echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
+  SAH_CHECK_LIB([wtsapi32],[fopen],[
+      AC_DEFINE([HAVE_LIBWTSAPI32],[1],[Define to 1 if you have the wtsapi32 library])
+      CLIENTLIBS="${sah_lib_last} ${CLIENTLIBS}"])
+     echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
+  SAH_CHECK_LIB([winhttp],[fopen],[
+      AC_DEFINE([HAVE_LIBWINHTTP],[1],[Define to 1 if you have the WinHttp library])
+      CLIENTLIBS="${sah_lib_last} ${CLIENTLIBS}"])
+     echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
+  SAH_CHECK_LIB([secur32],[fopen],[
+      AC_DEFINE([HAVE_LIBSECUR32],[1],[Define to 1 if you have the secur32 library])
+      CLIENTLIBS="${sah_lib_last} ${CLIENTLIBS}"])
+     echo DEBUG: CLIENTLIBS=${CLIENTLIBS} >&5
+fi
 
 svlibs=$LIBS
 if test "${ac_cv_func_res_init}" != "yes" ; then 

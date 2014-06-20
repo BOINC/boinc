@@ -126,16 +126,16 @@ switcher_LDADD = $(LIBBOINC)
 
 ## since we are using libtool we need some magic to get boinc and boinc_client
 ## to both be installed properly.  The next two rules do that...
-all-local: boinc
+all-local: boinc$(EXEEXT)
 
-boinc: boinc_client
-	rm -f boinc .libs/boinc
-	$(LN) boinc_client boinc
-	if test -f .libs/boinc_client ; then $(LN) .libs/boinc_client .libs/boinc ; fi
+boinc$(EXEEXT): boinc_client$(EXEEXT)
+	rm -f boinc$(EXEEXT) .libs/boinc$(EXEEXT)
+	$(LN) boinc_client$(EXEEXT) boinc$(EXEEXT)
+	if test -f .libs/boinc_client$(EXEEXT) ; then $(LN) .libs/boinc_client$(EXEEXT) .libs/boinc$(EXEEXT) ; fi
 
 install-exec-hook:
-	rm -f $(DESTDIR)$(exec_prefix)/bin/boinc
-	$(LN) $(DESTDIR)$(exec_prefix)/bin/boinc_client $(DESTDIR)$(exec_prefix)/bin/boinc
+	rm -f $(DESTDIR)$(exec_prefix)/bin/boinc$(EXEEXT)
+	$(LN) $(DESTDIR)$(exec_prefix)/bin/boinc_client$(EXEEXT) $(DESTDIR)$(exec_prefix)/bin/boinc$(EXEEXT)
 
 ## these source files need to be specified because no rule uses them.
 
