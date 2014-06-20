@@ -100,7 +100,6 @@ WARNING: No ${uprf} libraries for wxWidgets are installed.
    AC_MSG_CHECKING([if wxWidgets uses the GTK+ toolkit])
    gtkver=none
    AM_CONDITIONAL([GUI_GTK], echo $wx_default_config | grep -i ^gtk 2>&1 >/dev/null)
-   gtkver=no
    if echo $wx_default_config | grep -i gtk 2>&1 >/dev/null ; then
      case ${wx_default_config} in 
         gtk3-*)  gtkver=gtk+-3.0
