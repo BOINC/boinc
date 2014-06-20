@@ -20,8 +20,10 @@ require_once('../inc/boinc_db.inc');
 require_once('../inc/email.inc');
 require_once('../inc/profile.inc');
 
-define('UOTD_THRESHOLD', 7);
+if (!defined('UOTD_THRESHOLD')) {
+    define('UOTD_THRESHOLD', 7);
     // email sysadmin if # of UOTD candidates falls below this
+}
 
 function uotd_thumbnail($profile, $user) {
     if ($profile->has_picture) {
