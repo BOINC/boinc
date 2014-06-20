@@ -19,11 +19,17 @@
 // minimal set of util functions;
 // doesn't pull in translation.inc etc.
 
+include_once("../project/project.inc");
+
 $generating_xml = false;
 
 function project_dir() {
-    $d = dirname(__FILE__);
-    return "$d/../..";
+    if(defined("PROJECT_ROOT")) {
+        return PROJECT_ROOT;
+    }
+    else {
+        return dirname(dirname(dirname(__FILE__)));
+    }
 }
 
 function web_stopped() {
