@@ -375,11 +375,6 @@ void CDlgAdvPreferences::ReadPreferenceSettings() {
     this->UpdateControlStates();
 }
 
-void clamp_pct(double& x) {
-    if (x < 0) x = 0;
-    if (x > 100) x = 100;
-}
-
 /* write overridden preferences to disk (global_prefs_override.xml) */
 /* IMPORTANT: Any items added here must be checked in ValidateInput()! */
 bool CDlgAdvPreferences::SavePreferencesSettings() {
@@ -436,7 +431,6 @@ bool CDlgAdvPreferences::SavePreferencesSettings() {
 
     m_txtProcUseProcessors->GetValue().ToDouble(&td);
     td = RoundToHundredths(td);
-    clamp_pct(td);
     prefs.max_ncpus_pct=td;
     mask.max_ncpus_pct=true;
 
@@ -512,7 +506,6 @@ bool CDlgAdvPreferences::SavePreferencesSettings() {
     //
     m_txtDiskMaxOfTotal->GetValue().ToDouble(&td);
     td = RoundToHundredths(td);
-    clamp_pct(td);
     prefs.disk_max_used_pct=td;
     mask.disk_max_used_pct=true;
     //
@@ -522,21 +515,18 @@ bool CDlgAdvPreferences::SavePreferencesSettings() {
     //
     m_txtDiskMaxSwap->GetValue().ToDouble(&td);
     td = RoundToHundredths(td);
-    clamp_pct(td);
     td = td / 100.0 ;
     prefs.vm_max_used_frac=td;
     mask.vm_max_used_frac=true;
     //Memory
     m_txtMemoryMaxInUse->GetValue().ToDouble(&td);
     td = RoundToHundredths(td);
-    clamp_pct(td);
     td = td / 100.0;
     prefs.ram_max_used_busy_frac=td;
     mask.ram_max_used_busy_frac=true;
     //
     m_txtMemoryMaxOnIdle->GetValue().ToDouble(&td);
     td = RoundToHundredths(td);
-    clamp_pct(td);
     td = td / 100.0;
     prefs.ram_max_used_idle_frac=td;
     mask.ram_max_used_idle_frac=true;
@@ -594,7 +584,7 @@ bool CDlgAdvPreferences::ValidateInput() {
         }
     }
     buffer = m_txtMaxLoad->GetValue();
-    if(!IsValidFloatValue(buffer)) {
+    if(!IsValidFloatValueBetween(buffer, 0.0, 100.0)) {
         ShowErrorMessage(invMsgFloat, m_txtMaxLoad);
         return false;
     }
@@ -635,13 +625,13 @@ bool CDlgAdvPreferences::ValidateInput() {
     }
     
     buffer = m_txtProcUseProcessors->GetValue();
-    if(!IsValidFloatValue(buffer)) {
+    if(!IsValidFloatValueBetween(buffer, 0.0, 100.0)) {
         ShowErrorMessage(invMsgFloat, m_txtProcUseProcessors);
         return false;
     }
     
     buffer = m_txtProcUseCPUTime->GetValue();
-    if(!IsValidFloatValue(buffer)) {
+    if(!IsValidFloatValueBetween(buffer, 0.0, 100.0)) {
         ShowErrorMessage(invMsgFloat, m_txtProcUseCPUTime);
         return false;
     }
@@ -672,14 +662,14 @@ bool CDlgAdvPreferences::ValidateInput() {
     }
     
     //limit additional days from 0 to 10
-    double td;
-    if (!m_txtNetConnectInterval->GetValue().ToDouble(&td)) td = -1.;
-    if(td>10.0 || td < 0.0) {
+    buffer = m_txtNetConnectInterval->GetValue();
+    if(!IsValidFloatValueBetween(buffer, 0.0, 10.0)) {
         ShowErrorMessage(invMsgFloat,m_txtNetConnectInterval);
         return false;
     }
-    if (!m_txtNetAdditionalDays->GetValue().ToDouble(&td)) td = -1.;
-    if(td>10.0 || td < 0.0) {
+    
+    buffer = m_txtNetAdditionalDays->GetValue();
+    if(!IsValidFloatValueBetween(buffer, 0.0, 10.0)) {
         ShowErrorMessage(invMsgFloat,m_txtNetAdditionalDays);
         return false;
     }
@@ -730,7 +720,7 @@ bool CDlgAdvPreferences::ValidateInput() {
     }
     
     buffer = m_txtDiskMaxOfTotal->GetValue();
-    if(!IsValidFloatValue(buffer)) {
+    if(!IsValidFloatValueBetween(buffer, 0.0, 100.0)) {
         ShowErrorMessage(invMsgFloat, m_txtDiskMaxOfTotal);
         return false;
     }
@@ -742,19 +732,19 @@ bool CDlgAdvPreferences::ValidateInput() {
     }
     
     buffer = m_txtDiskMaxSwap->GetValue();
-    if(!IsValidFloatValue(buffer)) {
+    if(!IsValidFloatValueBetween(buffer, 0.0, 100.0)) {
         ShowErrorMessage(invMsgFloat, m_txtDiskMaxSwap);
         return false;
     }
     
     buffer = m_txtMemoryMaxInUse->GetValue();
-    if(!IsValidFloatValue(buffer)) {
+    if(!IsValidFloatValueBetween(buffer, 0.0, 100.0)) {
         ShowErrorMessage(invMsgFloat, m_txtMemoryMaxInUse);
         return false;
     }
     
     buffer = m_txtMemoryMaxOnIdle->GetValue();
-    if(!IsValidFloatValue(buffer)) {
+    if(!IsValidFloatValueBetween(buffer, 0.0, 100.0)) {
         ShowErrorMessage(invMsgFloat, m_txtMemoryMaxOnIdle);
         return false;
     }
@@ -789,7 +779,8 @@ bool CDlgAdvPreferences::EnsureTabPageVisible(wxTextCtrl* txtCtrl) {
 
 /* show an error message and set the focus to the control that caused the error */
 void CDlgAdvPreferences::ShowErrorMessage(wxString& message,wxTextCtrl* errorCtrl) {
-    wxASSERT(this->EnsureTabPageVisible(errorCtrl));
+    bool visibleOK = this->EnsureTabPageVisible(errorCtrl);
+    wxASSERT(visibleOK);
     //
     if(message.IsEmpty()){
         message = _("invalid input value detected");
@@ -830,6 +821,22 @@ bool CDlgAdvPreferences::IsValidFloatValue(const wxString& value, bool allowNega
     }
     return true;
 }
+
+bool CDlgAdvPreferences::IsValidFloatValueBetween(const wxString& value, double minVal, double maxVal){
+    for(unsigned int i=0; i < value.Length();i++) {
+        if(!IsValidFloatChar(value[i])) {
+            return false;
+        }
+    }
+    //all chars are valid, now what is with the value as a whole ?
+    double td;
+    if(!value.ToDouble(&td)) {
+        return false;
+    }
+    if ((td < minVal) || (td > maxVal)) return false;
+    return true;
+}
+
 
 /* checks if the value is a valid time */
 bool CDlgAdvPreferences::IsValidTimeValue(const wxString& value) {
