@@ -979,6 +979,8 @@ fi
 dnl ---------- wxWidgets --------------------------------------------------
 if test "${enable_manager}" = yes ; then
   BOINC_OPTIONS_WXWIDGETS([3.0.0])
+else
+  AM_CONDITIONAL([GUI_GTK], false)
 fi
 
 dnl ---------- libNotify --------------------------------------------------
