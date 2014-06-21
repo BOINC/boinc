@@ -30,7 +30,7 @@
 // cmdline options:
 //  --nthreads X: macro-substitute X for $NTHREADS
 //      in worker cmdlines and env values
-//  --device N: macro-substitute N for $NTHREADS
+//  --device N: macro-substitute N for $GPU_DEVICE_NUM
 //      in worker cmdlines and env values
 //
 // Contributor: Andrew J. Younge (ajy4490@umiacs.umd.edu)
