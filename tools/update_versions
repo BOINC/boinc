@@ -24,6 +24,10 @@
 // See http://boinc.berkeley.edu/trac/wiki/AppVersionNew
 
 
+error_reporting(E_ALL);
+ini_set('display_errors', true);
+ini_set('display_startup_errors', true);
+
 require_once("html/inc/boinc_db.inc");
 require_once("html/inc/util_basic.inc");
 

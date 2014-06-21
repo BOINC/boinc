@@ -374,7 +374,7 @@ $astro_phys_chem = array(
         ),
         array(
             "ATLAS@Home",
-            "http://atlasathome.cern.ch/ATLAS/",
+            "http://atlasathome.cern.ch/",
             tra("CERN (European Organization for Nuclear Research)"),
             tra("Physics"),
             tra("ATLAS@Home uses volunteer computing to run simulations for ATLAS, a particle physics experiment at CERN's Large Hadron Collider.  ATLAS searches for new particles and processes using head-on collisions of protons of extraordinary high energy."),
