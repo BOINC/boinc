@@ -373,6 +373,16 @@ $astro_phys_chem = array(
             "Simulate high-energy particle collisions"
         ),
         array(
+            "ATLAS@Home",
+            "http://atlasathome.cern.ch/ATLAS/",
+            tra("CERN (European Organization for Nuclear Research)"),
+            tra("Physics"),
+            tra("ATLAS@Home uses volunteer computing to run simulations for ATLAS, a particle physics experiment at CERN's Large Hadron Collider.  ATLAS searches for new particles and processes using head-on collisions of protons of extraordinary high energy."),
+            "atlas_at_home.jpg",
+            "",
+            "Simulate high-energy particle collisions for CERN"
+        ),
+        array(
             "SETI@home",
             "http://setiathome.berkeley.edu/",
             tra("University of California, Berkeley"),
