@@ -676,6 +676,7 @@ if test "${isWIN32}" = "yes" ; then
 fi
 AC_CHECK_HEADERS(sys/types.h sys/un.h arpa/inet.h dirent.h grp.h fcntl.h inttypes.h stdint.h memory.h netdb.h netinet/in.h netinet/tcp.h netinet/ether.h net/if.h net/if_arp.h signal.h strings.h sys/auxv.h sys/file.h sys/fcntl.h sys/ipc.h sys/ioctl.h sys/msg.h sys/param.h sys/resource.h sys/select.h sys/sem.h sys/shm.h sys/sockio.h sys/socket.h sys/stat.h sys/statvfs.h sys/statfs.h sys/systeminfo.h sys/time.h sys/types.h sys/utsname.h sys/vmmeter.h sys/wait.h unistd.h utmp.h errno.h procfs.h ieeefp.h setjmp.h float.h sal.h) 
 
+save_cxxflags="${CXXFLAGS}"
 save_cppflags="${CPPFLAGS}"
 CXXFLAGS="${CXXFLAGS} -msse3"
 CPPFLAGS="${CPPFLAGS} -msse3"
