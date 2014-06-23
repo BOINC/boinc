@@ -93,10 +93,10 @@ function boincuser_login_register($boinc_user) {
  * New user registration validation handler.
  */
 function boincuser_register_validate($form_values) {            
-  // Include BOINC user library
-  require_boinc('user');
+  // Include BOINC database objects library
+  require_boinc('boinc_db');
   // Check for an existing BOINC user
-  $boinc_user = lookup_user_email_addr($form_values['mail']);
+  $boinc_user = BoincUser::lookup_email_addr($form_values['mail']);
   if ($boinc_user) return false;
   return true;
 }
@@ -329,15 +329,15 @@ function boincuser_pull_subscriptions($account = NULL) {
  * User account update validation handler.
  */
 function boincuser_account_validate($edit, $account) {
-  // Include BOINC user library, load BOINC account data
-  require_boinc('user');
-  $boinc_user = lookup_user_email_addr($account->mail);
+  // Include BOINC database objects library, load BOINC account data
+  require_boinc('boinc_db');
+  $boinc_user = BoincUser::lookup_email_addr($account->mail);
   $changing_email = ($edit['mail'] AND $edit['mail'] != $account->mail) ? true : false;
   $changing_pass = ($edit['pass']['pass1']) ? true : false;
   // 
   if ($changing_email) {
     // E-mail address is set to change; check for an existing BOINC user
-    $boinc_user_already_exists = lookup_user_email_addr($edit['mail']);
+    $boinc_user_already_exists = BoincUser::lookup_email_addr($edit['mail']);
     if ($boinc_user_already_exists) {
       form_set_error('mail', t('A BOINC account already exists for @email.', array('@email' => $edit['mail'])));
     }
@@ -382,8 +382,8 @@ function boincuser_request_pass_validate($form, &$form_state) {
     // First look for an existing Drupal account
     if ($account = user_load_by_mail($edit['name'])) return;
     // Otherwise, check the BOINC db for this email address
-    require_boinc('db');
-    $boinc_user = lookup_user_email_addr($edit['name']);
+    require_boinc('boinc_db');
+    $boinc_user = BoincUser::lookup_email_addr($edit['name']);
     if ($boinc_user) {
       // If the user is in BOINC but not Drupal, bring them over...
       boincuser_register_make_drupal_user($boinc_user);

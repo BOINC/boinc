@@ -297,11 +297,12 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
     
   case 'update':
     if (isset($edit['update_source'])) {
-      $boinc_user = lookup_user_id($account->boincuser_id);
+      require_boinc('boinc_db');
+      $boinc_user = BoincUser::lookup_id($account->boincuser_id);
       switch ($edit['update_source']) {
       case 'user_account':
         // Ensure that BOINC data is altered
-        $boinc_user = lookup_user_id($account->boincuser_id);
+        $boinc_user = BoincUser::lookup_id($account->boincuser_id);
         $changing_email = ($edit['mail'] AND $edit['mail'] != $boinc_user->email_addr) ? true : false;
         $changing_pass = ($edit['pass']) ? true : false;
         if ($changing_email OR $changing_pass) {
@@ -1046,6 +1047,7 @@ function join_page($type = null) {
  * Create a new user account based on supplied parameters.
  */
 function boincuser_create_account() {
+  require_boinc('boinc_db');
   require_boinc('user');
   require_boinc('xml');
   $params = array(
@@ -1073,7 +1075,7 @@ function boincuser_create_account() {
   }
   
   // Process input
-  $boinc_user = lookup_user_email_addr($params['email_addr']);
+  $boinc_user = BoincUser::lookup_email_addr($params['email_addr']);
   if ($boinc_user) {
     // Return authenticator for existing users
     if ($params['passwd_hash'] == $boinc_user->passwd_hash) {
