@@ -19,7 +19,7 @@
 // minimal set of util functions;
 // doesn't pull in translation.inc etc.
 
-include_once("../project/project.inc");
+include_once("../project/project_config.inc");
 
 $generating_xml = false;
 
