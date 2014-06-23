@@ -154,7 +154,6 @@ pkginclude_HEADERS = \
     str_util.h \
     url.h \
     util.h \
-    win_util.h \
     $(mac_headers) \
     $(win_headers)
 endif
