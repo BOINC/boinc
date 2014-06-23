@@ -550,6 +550,8 @@ class Project:
         # copy sample web files to final names
         install(srcdir('html/user/sample_index.php'),
             self.dir('html/user/index.php'))
+        install(srcdir('html/project.sample/project_config.inc'),
+            self.dir('html/project/project_config.inc'))
         install(srcdir('html/project.sample/project.inc'),
             self.dir('html/project/project.inc'))
         install(srcdir('html/project.sample/project_specific_prefs.inc'),
