@@ -1,33 +1,17 @@
 <?php
 
-// This is a sample project file.
+// This is a sample project file, alongside project_config.inc.
 // Modify it to suit your project.
 // Put your version in html/project/project.inc
 // add tra() around visible strings to make them translatable
-// see inc/translation.inc and http://boinc.berkeley.edu/trac/wiki/TranslateProject for Details
+// see inc/translation.inc and http://boinc.berkeley.edu/trac/wiki/TranslateProject for details.
+// Also look at html/project/project_config.inc and modify it to suit your project.
 
+require_once("../project/project_config.inc");
 require_once("../inc/util.inc");
 
 $master_url = parse_config(get_config(), "<master_url>");
-define("PROJECT", "REPLACE WITH PROJECT NAME");
 define("URL_BASE", $master_url);
-define("IMAGE_PATH", "../user_profile/images/");
-define("IMAGE_URL", "user_profile/images/");
-define("PROFILE_PATH", "../user_profile/");
-define("PROFILE_URL", "user_profile/");
-define("LANGUAGE_FILE", "languages.txt");
-define("STYLESHEET", "white.css");
-//define("STYLESHEET2", "xxx.css");
-define("FORUM_QA_MERGED_MODE", false); // Set to true to merge Message boards and Q&A section
-define("COPYRIGHT_HOLDER", "REPLACE WITH COPYRIGHT HOLDER");
-define("SYS_ADMIN_EMAIL", "admin@$master_url");
-define("UOTD_ADMIN_EMAIL", "admin@$master_url");
-    // who gets user of the day pool running low e-mails?
-//define("MEMCACHE_SERVERS", "127.0.0.1:11211");
-
-// Email addresses separated by pipe ( | ) that will receive user reported 
-// offensive forum posts.
-define("POST_REPORT_EMAILS", "moderator1@$master_url|moderator2@$master_url");
 
 // If you use PHPMailer, uncomment the following
 // and complete the function definition based on your SMTP server
