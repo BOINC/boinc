@@ -123,7 +123,7 @@ AC_ARG_ENABLE(xss,
       if test $isWIN32 != "yes" ; then
         enable_xss=yes
       else
-        enable_xss=yes
+        enable_xss=no
       fi
     ])
 
