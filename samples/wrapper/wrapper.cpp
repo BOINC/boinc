@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2014 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// wrapper.C
+// wrapper.cpp
 // wrapper program - lets you use non-BOINC apps with BOINC
 //
 // Handles:
@@ -26,6 +26,13 @@
 //      (at the level of task; or potentially within task)
 //
 // See http://boinc.berkeley.edu/trac/wiki/WrapperApp for details
+//
+// cmdline options:
+//  --nthreads X: macro-substitute X for $NTHREADS
+//      in worker cmdlines and env values
+//  --device N: macro-substitute N for $GPU_DEVICE_NUM
+//      in worker cmdlines and env values
+//
 // Contributor: Andrew J. Younge (ajy4490@umiacs.umd.edu)
 
 #ifndef _WIN32
@@ -90,7 +97,7 @@ struct TASK {
     string application;
     string exec_dir;
         // optional execution directory;
-        // macro-substituted for $PROJECT_DIR and $NTHREADS
+        // macro-substituted
     vector<string> vsetenv;
         // vector of strings for environment variables 
         // macro-substituted

@@ -157,6 +157,8 @@ function delete_banished() {
     }
 }
 
+echo "Starting: ".strftime('%Y-%m-%d %H:%M %Z')."\n";
+
 for ($i=1; $i<$argc; $i++) {
     if ($argv[$i] == "--test") {
         $test = true;
@@ -185,5 +187,6 @@ for ($i=1; $i<$argc; $i++) {
         exit;
     }
 }
+echo "Finished: ".strftime('%Y-%m-%d %H:%M %Z')."\n";
 
 ?>

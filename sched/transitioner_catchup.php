@@ -27,7 +27,7 @@ function catchup() {
         $now = time();
         $wus = BoincWorkunit::enum("transition_time<$now limit 1");
         if (count($wus) == 0) break;
-        echo "There are ".count($wus)." WUs needing transition.\n";
+        echo "Some WUs need transition - running transitioner.\n";
         system("bin/transitioner --one_pass");
     }
     echo "Transitioner is caught up.\n";

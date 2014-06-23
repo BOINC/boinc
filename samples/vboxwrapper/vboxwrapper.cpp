@@ -20,7 +20,7 @@
 //
 // usage: vboxwrapper [options]
 //
-// --trickle X      send a trickle message reporting elapsed time every X secs
+// --trickle X      send a trickle-up message reporting elapsed time every X sec
 //                  (use this for credit granting if your app does its
 //                  own job management, like CernVM).
 // --nthreads N     create a VM with N threads.
@@ -124,7 +124,7 @@ char* vboxwrapper_msg_prefix(char* sbuf, int len) {
 }
 
 
-int parse_job_file(VBOX_VM& vm, vector<string>& copy_to_shared) {
+int parse_job_file(VBOX_VM& vm) {
     MIOFILE mf;
     string str;
     char buf[1024], buf2[256];
@@ -168,7 +168,11 @@ int parse_job_file(VBOX_VM& vm, vector<string>& copy_to_shared) {
         else if (xp.parse_int("pf_guest_port", vm.pf_guest_port)) continue;
         else if (xp.parse_int("pf_host_port", vm.pf_host_port)) continue;
         else if (xp.parse_string("copy_to_shared", str)) {
-            copy_to_shared.push_back(str);
+            vm.copy_to_shared.push_back(str);
+            continue;
+        }
+        else if (xp.parse_string("trickle_trigger_file", str)) {
+            vm.trickle_trigger_files.push_back(str);
             continue;
         }
         fprintf(stderr, "%s parse_job_file(): unexpected tag %s\n",
@@ -372,9 +376,30 @@ void set_remote_desktop_info(APP_INIT_DATA& /* aid */, VBOX_VM& vm) {
     }
 }
 
+// check for trickle trigger files, and send trickles if find them.
+//
+void VBOX_VM::check_trickle_triggers() {
+    char filename[256], path[MAXPATHLEN], buf[256];
+    for (unsigned int i=0; i<trickle_trigger_files.size(); i++) {
+        strcpy(filename, trickle_trigger_files[i].c_str());
+        sprintf(path, "shared/%s", filename);
+        if (!boinc_file_exists(path)) continue;
+        string text;
+        int retval = read_file_string(path, text);
+        if (retval) {
+            fprintf(stderr,
+                "%s can't read trickle trigger file %s\n",
+                vboxwrapper_msg_prefix(buf, sizeof(buf)), filename
+            );
+        }
+        boinc_send_trickle_up(filename, const_cast<char*>(text.c_str()));
+        boinc_delete_file(path);
+    }
+}
+
 int main(int argc, char** argv) {
     int retval;
-    int loop_iteraction = 0;
+    int loop_iteration = 0;
     BOINC_OPTIONS boinc_options;
     VBOX_VM vm;
     APP_INIT_DATA aid;
@@ -400,7 +425,6 @@ int main(int argc, char** argv) {
 	int vm_image = 0;
     unsigned long vm_exit_code = 0;
     string message;
-    vector<string> copy_to_shared;
     char buf[256];
 
 
@@ -602,7 +626,7 @@ int main(int argc, char** argv) {
 
     // Parse Job File
     //
-    retval = parse_job_file(vm, copy_to_shared);
+    retval = parse_job_file(vm);
     if (retval) {
         fprintf(
             stderr,
@@ -647,8 +671,8 @@ int main(int argc, char** argv) {
 
     // Copy files to the shared directory
     //
-    if (vm.enable_shared_directory && copy_to_shared.size()) {
-        for (vector<string>::iterator iter = copy_to_shared.begin(); iter != copy_to_shared.end(); iter++) {
+    if (vm.enable_shared_directory && vm.copy_to_shared.size()) {
+        for (vector<string>::iterator iter = vm.copy_to_shared.begin(); iter != vm.copy_to_shared.end(); iter++) {
             string source = *iter;
             string destination = string("shared/") + *iter;
             if (!boinc_file_exists(destination.c_str())) {
@@ -921,7 +945,7 @@ int main(int argc, char** argv) {
     while (1) {
         // Begin stopwatch timer
         stopwatch_starttime = dtime();
-        loop_iteraction += 1;
+        loop_iteration += 1;
 
         // Discover the VM's current state
         vm.poll();
@@ -1018,11 +1042,13 @@ int main(int argc, char** argv) {
                }
             }
 
-            // Basic bookkeeping
+            // stuff to do every 10 secs (everything else is 1/sec)
             //
-            if ((loop_iteraction % 10) == 0) {
+            if ((loop_iteration % 10) == 0) {
                 current_cpu_time = starting_cpu_time + vm.get_vm_cpu_time();
+                vm.check_trickle_triggers();
             }
+
             if (vm.job_duration) {
                 fraction_done = elapsed_time / vm.job_duration;
             } else if (vm.fraction_done_filename.size() > 0) {
@@ -1037,7 +1063,7 @@ int main(int argc, char** argv) {
                 fraction_done
             );
 
-            // Dump a status report at regular intervals
+            // write status report to stderr at regular intervals
             //
             if ((elapsed_time - last_status_report_time) >= 6000.0) {
                 last_status_report_time = elapsed_time;

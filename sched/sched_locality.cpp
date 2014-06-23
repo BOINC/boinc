@@ -48,6 +48,8 @@
 
 #define VERBOSE_DEBUG
 
+#define EINSTEIN_AT_HOME
+
 // get filename from result name
 //
 
@@ -1193,6 +1195,11 @@ void send_work_locality() {
     if (config.locality_scheduling_send_timeout && g_request->host.n_bwdown>100000) {
         int until=time(0)-config.locality_scheduling_send_timeout;
         int retval_sow=send_old_work(INT_MIN, until);
+        if (retval_sow) {
+            log_messages.printf(MSG_NORMAL,
+                "[locality] send_old_work() returned %d\n", retval_sow
+            );
+        }
         if (!work_needed(true)) return;
     }
 
