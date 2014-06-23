@@ -449,8 +449,8 @@ function boincuser_authloginform_validate($form, &$form_state) {
     // We notify the form API that this field has failed validation.
     form_set_error('authenticator', t('That authenticator is not valid.'));
   } else {
-    require_boinc('db');
-    $boinc_user = lookup_user_auth($authenticator);
+    require_boinc('boinc_db');
+    $boinc_user = BoincUser::lookup_auth($authenticator);
     if (!$boinc_user) form_set_error('authenticator', t('There is no account with that authenticator.'));
   }
 }
@@ -460,8 +460,8 @@ function boincuser_authloginform_validate($form, &$form_state) {
  */
 function boincuser_authloginform_submit($form, &$form_state) {
   global $user;
-  require_boinc('db');
-  $boinc_user = lookup_user_auth($form_state['values']['authenticator']);
+  require_boinc('boinc_db');
+  $boinc_user = BoincUser::lookup_auth($form_state['values']['authenticator']);
   if (!$user = user_load(get_drupal_id($boinc_user->id))) drupal_set_message(t('An unresolved error occurred while logging into this account.'));
   else $form_state['redirect'] = "user/{$user->uid}/edit";
 }
