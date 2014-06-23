@@ -125,7 +125,6 @@ pkginclude_HEADERS = \
     average.h \
     base64.h \
     boinc_fcgi.h \
-    boinc_win.h \
     cal_boinc.h \
     cc_config.h \
     cert_sig.h \
@@ -152,7 +151,6 @@ pkginclude_HEADERS = \
     procinfo.h \
     proxy_info.h \
     stackwalker_imports.h \
-    stackwalker_win.h \
     str_util.h \
     url.h \
     util.h \
