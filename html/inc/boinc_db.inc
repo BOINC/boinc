@@ -219,6 +219,11 @@ class BoincTeam {
         $db = BoincDb::get();
         return $db->lookup('team', 'BoincTeam', $clause);
     }
+    static function lookup_name($name) {
+        $db = BoincDb::get();
+        $name = BoincDb::escape_string($name);
+        return self::lookup("name='$name'");
+    }
     function delete() {
         $db = BoincDb::get();
         return $db->delete($this, 'team');
