@@ -117,7 +117,7 @@ case "finalize_transfer":
     break;
 case "decline":
     $teamid = post_int("teamid");
-    $team = lookup_team($teamid);
+    $team = BoincTeam::lookup_id($teamid);
     require_founder_login($user, $team);
     page_head(tra("Decline founder change request"));
     

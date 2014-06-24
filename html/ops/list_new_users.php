@@ -68,7 +68,7 @@ while ($row = mysql_fetch_object($result)) {
     
     $team_name="";
     if($row->teamid > 0){
-        $team = lookup_team($row->teamid);
+        $team = BoincTeam::lookup_id($row->teamid);
         $team_name = $team->name;
     }
     
