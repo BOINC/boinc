@@ -49,6 +49,10 @@ using std::vector;
 
 //#define DEBUG
 
+#ifdef DEBUG
+#include <stdio.h>
+#endif
+
 static void get_descendants_aux(PROC_MAP& pm, int pid, vector<int>& pids) {
     PROC_MAP::iterator i = pm.find(pid);
     if (i == pm.end()) return;

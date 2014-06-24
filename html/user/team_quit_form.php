@@ -25,7 +25,7 @@ check_get_args(array());
 
 $user = get_logged_in_user(true);
 
-$team = lookup_team($user->teamid);
+$team = BoincTeam::lookup_id($user->teamid);
 if (!$team) {
     error_page(tra("No such team"));
 }

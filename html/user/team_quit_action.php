@@ -26,7 +26,7 @@ check_get_args(array("tnow", "ttok"));
 $user = get_logged_in_user(true);
 check_tokens($user->authenticator);
 $teamid = post_int("id");
-$team = lookup_team($teamid);
+$team = BoincTeam::lookup_id($teamid);
 if ($user->teamid == $team->id) {
     user_quit_team($user);
     Header("Location: home.php");

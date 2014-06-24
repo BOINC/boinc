@@ -301,7 +301,7 @@ BoincForumPrefs::lookup($user);
 
 if (isset($_POST['delete_user'])) {
     delete_user($user);
-    admin_page_head();
+    admin_page_head("User deleted");
     echo "User $user->name ($user->id) deleted";
     admin_page_tail();
 }
