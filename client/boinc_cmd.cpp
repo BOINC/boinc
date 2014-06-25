@@ -250,6 +250,10 @@ int main(int argc, char** argv) {
         PROJECTS ps;
         retval = rpc.get_project_status(ps);
         if (!retval) ps.print();
+    } else if (!strcmp(cmd, "--get_project_urls")) {
+        PROJECTS ps;
+        retval = rpc.get_project_status(ps);
+        if (!retval) ps.print_urls();
     } else if (!strcmp(cmd, "--get_simple_gui_info")) {
         SIMPLE_GUI_INFO info;
         retval = rpc.get_simple_gui_info(info);
@@ -289,10 +293,6 @@ int main(int argc, char** argv) {
             retval = rpc.project_op(project, "detach");
         } else if (!strcmp(op, "update")) {
             retval = rpc.project_op(project, "update");
-        } else if (!strcmp(op, "suspend")) {
-            retval = rpc.project_op(project, "suspend");
-        } else if (!strcmp(op, "resume")) {
-            retval = rpc.project_op(project, "resume");
         } else if (!strcmp(op, "nomorework")) {
             retval = rpc.project_op(project, "nomorework");
         } else if (!strcmp(op, "allowmorework")) {

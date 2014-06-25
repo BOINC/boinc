@@ -34,7 +34,6 @@
 
 IMPLEMENT_DYNAMIC_CLASS(CBOINCBaseView, wxPanel)
 
-
 CBOINCBaseView::CBOINCBaseView() {}
 
 CBOINCBaseView::CBOINCBaseView(wxNotebook* pNotebook) :
@@ -46,6 +45,9 @@ CBOINCBaseView::CBOINCBaseView(wxNotebook* pNotebook) :
     m_bForceUpdateSelection = true;
     m_bIgnoreUIEvents = false;
     m_bNeedSort = false;
+
+    m_iPreviousSelectionCount = 0;
+    m_lPreviousFirstSelection = -1;
 
     //
     // Setup View
@@ -69,6 +71,9 @@ CBOINCBaseView::CBOINCBaseView(wxNotebook* pNotebook, wxWindowID iTaskWindowID, 
 
     m_bForceUpdateSelection = true;
     m_bIgnoreUIEvents = false;
+
+    m_iPreviousSelectionCount = 0;
+    m_lPreviousFirstSelection = -1;
 
     //
     // Setup View
@@ -331,6 +336,9 @@ bool CBOINCBaseView::OnRestoreState(wxConfigBase* pConfig) {
 }
 
 
+// We don't use this because multiple selection virtual 
+// wxListCtrl does not generate selection events for
+// shift-click; see OnCheckSelectionChanged() below.
 void CBOINCBaseView::OnListSelected(wxListEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseView::OnListSelected - Function Begin"));
 
@@ -344,6 +352,9 @@ void CBOINCBaseView::OnListSelected(wxListEvent& event) {
 }
 
 
+// We don't use this because multiple selection virtual 
+// wxListCtrl does generates deselection events only for
+// control-click; see OnCheckSelectionChanged() below.
 void CBOINCBaseView::OnListDeselected(wxListEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseView::OnListDeselected - Function Begin"));
 
@@ -357,19 +368,39 @@ void CBOINCBaseView::OnListDeselected(wxListEvent& event) {
 }
 
 
-// Work around a bug (feature?) in virtual list control 
-//   which does not send deselection events
-void CBOINCBaseView::OnCacheHint(wxListEvent& event) {
-    static int oldSelectionCount = 0;
-    int newSelectionCount = m_pListPane->GetSelectedItemCount();
+void CBOINCBaseView::OnCheckSelectionChanged(CCheckSelectionChangedEvent& ) {
+    CheckSelectionChanged();
+}
 
-    if (newSelectionCount < oldSelectionCount) {
-        wxListEvent leDeselectedEvent(wxEVT_COMMAND_LIST_ITEM_DESELECTED, m_windowId);
-        leDeselectedEvent.SetEventObject(this);
-        OnListDeselected(leDeselectedEvent);
+
+void CBOINCBaseView::OnCacheHint(wxListEvent& ) {
+    CheckSelectionChanged();
+}
+
+
+// Work around features in multiple selection virtual wxListCtrl:
+//  * It does not send deselection events (except ctrl-click).
+//  * It does not send selection events if you add to selection
+//    using Shift_Click.
+//
+// We currently handle all selections and deselections here.
+// On the Mac, this is called due to an event posted by CBOINCListCtrl::OnMouseDown().
+// On Windows, it is called due to a EVT_LIST_CACHE_HINT from wxListCtrl.
+void CBOINCBaseView::CheckSelectionChanged() {
+    int newSelectionCount = m_pListPane->GetSelectedItemCount();
+    long currentSelection = m_pListPane->GetFirstSelected();
+    
+    if ((newSelectionCount != m_iPreviousSelectionCount) ||
+        (currentSelection != m_lPreviousFirstSelection)
+    ) {
+        if (!m_bIgnoreUIEvents) {
+            m_bForceUpdateSelection = true;
+            UpdateSelection();
+        }
     }
-    oldSelectionCount = newSelectionCount;
-    event.Skip();
+
+    m_iPreviousSelectionCount = newSelectionCount;
+    m_lPreviousFirstSelection = currentSelection;
 }
 
 
@@ -471,6 +502,8 @@ void CBOINCBaseView::OnColClick(wxListEvent& event) {
     wxArrayInt      selections;
     int             i, j, m;
 
+    if (newSortColumn < 0) return;  // Clicked past last column
+    
     item.SetMask(wxLIST_MASK_IMAGE);
     if (newSortColumn == m_iSortColumn) {
         m_bReverseSort = !m_bReverseSort;

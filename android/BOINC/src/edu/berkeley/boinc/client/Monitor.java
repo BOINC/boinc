@@ -34,15 +34,11 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
-
-import android.app.NotificationManager;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -51,7 +47,8 @@ import android.os.PowerManager;
 import android.os.RemoteException;
 import android.util.Log;
 import edu.berkeley.boinc.R;
-import edu.berkeley.boinc.SplashActivity;
+import edu.berkeley.boinc.mutex.BoincMutex;
+import edu.berkeley.boinc.rpc.AccountIn;
 import edu.berkeley.boinc.rpc.AccountOut;
 import edu.berkeley.boinc.rpc.AcctMgrRPCReply;
 import edu.berkeley.boinc.rpc.CcState;
@@ -77,13 +74,12 @@ import edu.berkeley.boinc.rpc.AcctMgrInfo;
  */
 public class Monitor extends Service {
 	
+	private static BoincMutex mutex = new BoincMutex(); // holds the BOINC mutex, only compute if acquired
 	private static ClientStatus clientStatus; //holds the status of the client as determined by the Monitor
 	private static AppPreferences appPrefs; //hold the status of the app, controlled by AppPreferences
 	private static DeviceStatus deviceStatus; // holds the status of the device, i.e. status information that can only be obtained trough Java APIs
 	
 	public ClientInterfaceImplementation clientInterface = new ClientInterfaceImplementation(); //provides functions for interaction with client via rpc
-	
-	public static Boolean monitorActive = false;
 	
 	// XML defined variables, populated in onCreate
 	private String fileNameClient; 
@@ -99,13 +95,13 @@ public class Monitor extends Service {
 	
 	private Timer updateTimer = new Timer(true); // schedules frequent client status update
 	private TimerTask statusUpdateTask = new StatusUpdateTimerTask();
-	private boolean updateBroadcastEnabled = true;
+	private boolean updateBroadcastEnabled = false;
 	private Integer screenOffStatusOmitCounter = 0;
 	
 	// screen on/off updated by screenOnOffBroadcastReceiver
 	private boolean screenOn = false;
 	
-	private boolean forceReinstall = false; // for debugging purposes
+	private boolean forceReinstall = false; // for debugging purposes //TODO
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -117,27 +113,6 @@ public class Monitor extends Service {
     public void onCreate() {
 		
 		Log.d(Logging.TAG,"Monitor onCreate()");
-		
-		// check whether PTG is installed, if so, do not start service.
-		// this check has to be similar to SpalshActivity.onCreate()
-		try {
-			getPackageManager().getPackageInfo("com.htc.ptg", 0); 
-			if ("com.android.vending".equals(getPackageManager().getInstallerPackageName("com.htc.ptg")) // check if installed through PlayStore
-	                || (getPackageManager().getPackageInfo("com.htc.ptg", 0).applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == ApplicationInfo.FLAG_SYSTEM) { // check if pre-installed
-				Log.e(Logging.TAG,"Monitor onCreate(): PTG found, do not start.");
-				stopSelf();
-				return;
-			} else Log.w(Logging.TAG,"Monitor.onCreate(): com.htc.ptg found, but unknown vendor, start...");
-		}
-		catch (NameNotFoundException ex) {
-			// catch exception and then skip once Power To Give is not found.
-		} 
-		
-		// register listener for installation of incompatible apps
-		IntentFilter packageAddedIF = new IntentFilter();
-		packageAddedIF.addAction(Intent.ACTION_PACKAGE_ADDED);
-		packageAddedIF.addDataScheme("package");
-		registerReceiver(packageAddedReceiver, packageAddedIF);
 		
 		// populate attributes with XML resource values
 		boincWorkingDir = getString(R.string.client_path); 
@@ -170,11 +145,6 @@ public class Monitor extends Service {
         IntentFilter offFilter = new IntentFilter (Intent.ACTION_SCREEN_OFF); 
         registerReceiver(screenOnOffReceiver, onFilter);
         registerReceiver(screenOnOffReceiver, offFilter);
-		
-        // register and start update task
-        // using .scheduleAtFixedRate() can cause a series of bunched-up runs
-        // when previous executions are delayed (e.g. during clientSetup() )
-        updateTimer.schedule(statusUpdateTask, 0, clientStatusInterval);
 	}
 	
     @Override
@@ -189,13 +159,14 @@ public class Monitor extends Service {
 		clientInterface.close();
 		
     	try {
-    		unregisterReceiver(packageAddedReceiver);
     		// remove screen on/off receiver
     		unregisterReceiver(screenOnOffReceiver);
     	} catch (Exception ex) {}
         
     	updateBroadcastEnabled = false; // prevent broadcast from currently running update task
 		updateTimer.cancel(); // cancel task
+		
+		mutex.release(); // release BOINC mutex
 		
 		 // release locks, if held.
 		try {
@@ -206,8 +177,19 @@ public class Monitor extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {	
-    	//this gets called after startService(intent) (either by BootReceiver or AndroidBOINCActivity, depending on the user's autostart configuration)
+    	//this gets called after startService(intent) (either by BootReceiver or SplashActivity, depending on the user's autostart configuration)
     	if(Logging.ERROR) Log.d(Logging.TAG, "Monitor onStartCommand()");
+		
+		// try to acquire BOINC mutex
+    	// run here in order to recover, if mutex holding app gets closed.
+		if(!updateBroadcastEnabled && mutex.acquire()) {
+			updateBroadcastEnabled = true;
+	        // register and start update task
+	        // using .scheduleAtFixedRate() can cause a series of bunched-up runs
+	        // when previous executions are delayed (e.g. during clientSetup() )
+	        updateTimer.schedule(statusUpdateTask, 0, clientStatusInterval);
+		}
+		if(!mutex.acquired) if(Logging.ERROR) Log.e(Logging.TAG, "Monitor.onStartCommand: mutex acquisition failed, do not start BOINC.");
 
 		// execute action if one is explicitly requested (e.g. from notification)
     	if(intent != null) {
@@ -277,47 +259,20 @@ public class Monitor extends Service {
 // --end-- singleton getter
 	
 // public methods for Activities
-    /**
-     * read BOINC's all_project_list.xml and filters output for device's BOINC platform
-     * stores list of projects in ClienStatus class.
-     * Content does not change during runtime, call only upon start.
-     */
-	public void readAndroidProjectsList() {
-		// try to get current client status from monitor
-		ClientStatus status;
-		try{
-			status  = Monitor.getClientStatus();
-		} catch (Exception e){
-			if(Logging.WARNING) Log.w(Logging.TAG,"Monitor.readAndroidProjectList: Could not load data, clientStatus not initialized.");
-			return;
-		}
-		
-		ArrayList<ProjectInfo> allProjects = clientInterface.getAllProjectsList();
-		ArrayList<ProjectInfo> androidProjects = new ArrayList<ProjectInfo>();
-		
-		if(allProjects == null) return;
-		
-		String platform = getString(getBoincPlatform());
-		if(Logging.DEBUG) Log.d(Logging.TAG, "readAndroidProjectsList for platform: " + platform);
-		
-		//filter projects that do not support Android
-		for (ProjectInfo project: allProjects) {
-			for(String supportedPlatform: project.platforms) {
-				if(supportedPlatform.contains(platform) && !androidProjects.contains(project)) {
-					androidProjects.add(project);
-					break;
-				}
-			}
-		}
-		
-		// set list in ClientStatus
-		status.setSupportedProjects(androidProjects);
+	/**
+	 * Indicates whether service was able to obtain BOINC mutex.
+	 * If not, BOINC has not started and all other calls will fail.
+	 * @return BOINC mutex acquisition successful
+	 */
+	public boolean boincMutexAcquired() {
+		return mutex.acquired;
 	}
-
+	
     /**
      * Force refresh of client status data model, will fire Broadcast upon success.
      */
     public void forceRefresh() {
+    	if(!mutex.acquired) return; // do not try to update if client is not running
     	if(Logging.DEBUG) Log.d(Logging.TAG,"forceRefresh()");
     	try{
     		updateTimer.schedule(new StatusUpdateTimerTask(), 0);
@@ -575,9 +530,6 @@ public class Monitor extends Service {
 				GlobalPreferences clientPrefs = clientInterface.getGlobalPrefsWorkingStruct();
 				if(clientPrefs == null) throw new Exception("client prefs null");
 				status.setPrefs(clientPrefs);
-				
-				// read supported projects
-				readAndroidProjectsList();
 				
 				// set Android model as hostinfo
 				// should output something like "Samsung Galaxy SII - SDK:15 ABI:armeabi-v7a"
@@ -924,40 +876,6 @@ public class Monitor extends Service {
 			}
         } 
 	}; 
-
-	/**
-	 * broadcast receiver to detect added/installed packages. If package not compatible with BOINC
-	 * shutdown service.
-	 */
-	BroadcastReceiver packageAddedReceiver = new BroadcastReceiver() {
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			if (intent.getAction().equals(Intent.ACTION_PACKAGE_ADDED)) {
-	    		if (intent.hasExtra(Intent.EXTRA_UID)) {
-	    			int uid = intent.getIntExtra(Intent.EXTRA_UID, -1);
-	    			if (uid > -1) {
-	    				String[] packages = context.getPackageManager().getPackagesForUid(uid);
-	    				for (String pkg : packages) {
-	    					if (pkg.equals("com.htc.ptg")) {
-	    						if(Logging.ERROR) Log.d(Logging.TAG,"packageAddedReceiver: PTG added, stop Monitor...");
-	    						// cancel notifications
-	    						NotificationManager nm = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
-	    						nm.cancelAll();
-	    						// cancel async task
-	    						statusUpdateTask.cancel();
-	    						// open exit splash activity. implies destruction (and unbound) of all others
-	    						Intent exitSplash = new Intent(getApplicationContext(),SplashActivity.class);
-	    						exitSplash.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-	    						startActivity(exitSplash);
-	    						stopSelf();
-	    						break;
-	    					}
-	    				}
-	    			}
-	    		}
-	    	}
-		}
-	};
 // --end-- broadcast receiver
 	
 // async tasks
@@ -1028,9 +946,8 @@ public class Monitor extends Service {
 		}
 		
 		@Override
-		public AccountOut lookupCredentials(String url, String id, String pwd,
-				boolean usesName) throws RemoteException {
-			return clientInterface.lookupCredentials(url, id, pwd, usesName);
+		public AccountOut lookupCredentials(AccountIn credentials) throws RemoteException {
+			return clientInterface.lookupCredentials(credentials);
 		}
 		
 		@Override
@@ -1087,9 +1004,8 @@ public class Monitor extends Service {
 		}
 		
 		@Override
-		public AccountOut createAccountPolling(String url, String email, String id,
-				String pw, String team) throws RemoteException {
-			return clientInterface.createAccountPolling(url, email, id, pw, team);
+		public AccountOut createAccountPolling(AccountIn information) throws RemoteException {
+			return clientInterface.createAccountPolling(information);
 		}
 		
 		@Override
@@ -1098,9 +1014,9 @@ public class Monitor extends Service {
 		}
 		
 		@Override
-		public boolean attachProject(String url, String id, String pwd)
+		public boolean attachProject(String url, String projectName, String authenticator)
 				throws RemoteException {
-			return clientInterface.attachProject(url, id, pwd);
+			return clientInterface.attachProject(url, projectName, authenticator);
 		}
 		
 		@Override
@@ -1119,8 +1035,8 @@ public class Monitor extends Service {
 		}
 		
 		@Override
-		public List<ProjectInfo> getSupportedProjects() throws RemoteException {
-			return clientStatus.getSupportedProjects();
+		public List<ProjectInfo> getAttachableProjects() throws RemoteException {
+			return clientInterface.getAttachableProjects(getString(getBoincPlatform()));
 		}
 		
 		@Override
@@ -1325,6 +1241,16 @@ public class Monitor extends Service {
 		@Override
 		public boolean runBenchmarks() throws RemoteException {
 			return clientInterface.runBenchmarks();
+		}
+
+		@Override
+		public ProjectInfo getProjectInfo(String url) throws RemoteException {
+			return clientInterface.getProjectInfo(url);
+		}
+
+		@Override
+		public boolean boincMutexAcquired() throws RemoteException {
+			return mutex.acquired;
 		}
 	};
 // --end-- remote service	

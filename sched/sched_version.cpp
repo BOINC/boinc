@@ -327,7 +327,7 @@ void estimate_flops_anon_platform() {
 //    <estimate_flops_from_hav_pfc> is not set use elapsed time,
 //    otherwise use pfc_avg.
 // 2) if we have statistics for app version elapsed time, use those.
-// 3) else use a conservative estimate (p_fpops*(cpus+gpus))
+// 3) else use a conservative estimate (p_fpops*(cpu usage + gpu usage))
 //    This prevents jobs from aborting with "time limit exceeded"
 //    even if the estimate supplied by the plan class function is way off
 //
@@ -533,6 +533,10 @@ BEST_APP_VERSION* get_app_version(
     bool job_needs_64b = (wu.rsc_memory_bound > max_32b_address_space());
 
     if (config.debug_version_select) {
+        log_messages.printf(MSG_NORMAL,
+            "[version] get_app_version(): getting app version for WU#%d (%s) appid:%d\n",
+            wu.id, wu.name, wu.appid
+        );
         if (job_needs_64b) {
             log_messages.printf(MSG_NORMAL,
                 "[version] job needs 64-bit app version: mem bnd %f\n",
@@ -681,6 +685,11 @@ BEST_APP_VERSION* get_app_version(
             APP_VERSION& av = ssp->app_versions[j];
             if (av.appid != wu.appid) continue;
             if (av.platformid != p->id) continue;
+            if (av.beta) {
+                if (!g_wreq->allow_beta_work) {
+                    continue;
+                }
+            }
 
             if (strlen(av.plan_class)) {
                 if (!app_plan(*g_request, av.plan_class, host_usage)) {

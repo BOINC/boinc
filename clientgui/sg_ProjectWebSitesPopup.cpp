@@ -93,12 +93,12 @@ void CSimpleProjectWebSitesPopupButton::RebuildMenu() {
 }
 
 
-void CSimpleProjectWebSitesPopupButton::OnProjectWebSitesMouseDown(wxMouseEvent& event) {
+void CSimpleProjectWebSitesPopupButton::OnProjectWebSitesMouseDown(wxMouseEvent&) {
     ShowProjectWebSitesMenu(ScreenToClient(wxGetMousePosition()));
 }
 
 
-void CSimpleProjectWebSitesPopupButton::OnProjectWebSitesKeyboardNav(wxCommandEvent& event) {
+void CSimpleProjectWebSitesPopupButton::OnProjectWebSitesKeyboardNav(wxCommandEvent&) {
     ShowProjectWebSitesMenu(wxPoint(GetSize().GetWidth()/2, GetSize().GetHeight()/2));
 }
 

@@ -75,7 +75,7 @@ UINT CARevokeBOINCAdminsRights::OnExecution()
     if(
         GetAccountSid(
             NULL,                                    // default lookup logic
-            tstring(L"boinc_admins").c_str(),        // account to obtain SID
+            L"boinc_admins",                         // account to obtain SID
             &pSid                                    // buffer to allocate to contain resultant SID
             )
     ) 

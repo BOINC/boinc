@@ -25,21 +25,27 @@
 #include "Events.h"
 
 
+DEFINE_EVENT_TYPE(wxEVT_CHECK_SELECTION_CHANGED)
+
 #if USE_NATIVE_LISTCONTROL
-
 DEFINE_EVENT_TYPE(wxEVT_DRAW_PROGRESSBAR)
-
-BEGIN_EVENT_TABLE(CBOINCListCtrl, LISTCTRL_BASE)
-    EVT_DRAW_PROGRESSBAR(CBOINCListCtrl::OnDrawProgressBar)
-END_EVENT_TABLE()
-
-#else
-
-BEGIN_EVENT_TABLE(CBOINCListCtrl, LISTCTRL_BASE)
-	EVT_SIZE(CBOINCListCtrl::OnSize)
-END_EVENT_TABLE()
-
 #endif
+
+BEGIN_EVENT_TABLE(CBOINCListCtrl, LISTCTRL_BASE)
+
+#if USE_NATIVE_LISTCONTROL
+    EVT_DRAW_PROGRESSBAR(CBOINCListCtrl::OnDrawProgressBar)
+#else
+#ifdef __WXMAC__
+	EVT_SIZE(CBOINCListCtrl::OnSize)    // In MacAccessibility.mm
+#endif
+#endif
+
+#if ! USE_LIST_CACHE_HINT
+    EVT_LEFT_DOWN(CBOINCListCtrl::OnMouseDown)
+#endif
+END_EVENT_TABLE()
+
 
 BEGIN_EVENT_TABLE(MyEvtHandler, wxEvtHandler)
     EVT_PAINT(MyEvtHandler::OnPaint)
@@ -378,6 +384,28 @@ void MyEvtHandler::OnPaint(wxPaintEvent & event)
     } else {
         event.Skip();
     }
+}
+
+#endif
+
+
+#if ! USE_LIST_CACHE_HINT
+
+// Work around features in multiple selection virtual wxListCtrl:
+//  * It does not send deselection events (except ctrl-click).
+//  * It does not send selection events if you add to selection
+//    using Shift_Click.
+//
+// Post a special event.  This will allow this mouse event to
+// propogate through the chain to complete any selection or
+// deselection operatiion, then the special event will trigger
+// CBOINCBaseView::OnCheckSelectionChanged() to respond to the
+// selection change, if any.
+//
+void CBOINCListCtrl::OnMouseDown(wxMouseEvent& event) {
+    CCheckSelectionChangedEvent newEvent(wxEVT_CHECK_SELECTION_CHANGED, this);
+    m_pParentView->GetEventHandler()->AddPendingEvent(newEvent);
+    event.Skip();
 }
 
 #endif

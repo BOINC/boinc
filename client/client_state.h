@@ -109,7 +109,7 @@ struct CLIENT_STATE {
     DEVICE_STATUS device_status;
     double device_status_time;
 
-	char language[16];				// ISO language code reported by GUI
+    char language[16];                // ISO language code reported by GUI
     VERSION_INFO core_client_version;
     string statefile_platform_name;
     int file_xfer_giveup_period;

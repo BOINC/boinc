@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2012 University of California
+// Copyright (C) 2014 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -184,6 +184,7 @@ struct PROJECT : PROJ_AM {
     std::vector<FILE_REF> user_files;
     std::vector<FILE_REF> project_files;
         // files not specific to apps or work - e.g. icons
+
     int parse_preferences_for_user_files();
     void write_project_files(MIOFILE&);
     void link_project_files();
@@ -293,6 +294,11 @@ struct PROJECT : PROJ_AM {
     //
     APP_CONFIGS app_configs;
 
+    // job counting
+    //
+    int njobs_success;
+    int njobs_error;
+
     PROJECT();
     ~PROJECT(){}
     void init();
@@ -327,12 +333,12 @@ struct PROJECT : PROJ_AM {
             no_rsc_ams[i] = false;
         }
 
-		ams_resource_share = -1;
+        ams_resource_share = -1;
 
-		// parse the account file to get right resource share
-		// in case AMS had set it
-		//
-		parse_account_file();
+        // parse the account file to get right resource share
+        // in case AMS had set it
+        //
+        parse_account_file();
     }
 
 #ifdef SIM

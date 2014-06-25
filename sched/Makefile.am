@@ -12,6 +12,7 @@ libsched_sources = \
     credit.cpp \
     sched_shmem.cpp \
     sched_util.cpp \
+    sched_util_basic.cpp \
     sched_config.cpp \
     sched_limit.cpp \
     sched_msgs.cpp \
@@ -142,6 +143,7 @@ noinst_HEADERS = \
     plan_class_spec.h \
     sched_main.h \
     sched_locality.h \
+    sched_nci.h \
     sched_score.h \
     sched_send.h \
     sched_shmem.h \
@@ -167,6 +169,7 @@ cgi_sources = \
     sched_limit.cpp \
     sched_locality.cpp \
     sched_main.cpp \
+    sched_nci.cpp \
     sched_resend.cpp \
     sched_result.cpp \
     sched_score.cpp \
@@ -264,8 +267,8 @@ trickle_echo_LDADD = $(SERVERLIBS)
 update_stats_SOURCES = update_stats.cpp
 update_stats_LDADD = $(SERVERLIBS)
 
-file_upload_handler_SOURCES = file_upload_handler.cpp
-file_upload_handler_LDADD = $(SERVERLIBS)
+file_upload_handler_SOURCES = file_upload_handler.cpp sched_msgs.cpp sched_config.cpp sched_util_basic.cpp sched_limit.cpp
+file_upload_handler_LDADD = $(FUHLIBS)
 
 make_work_SOURCES = make_work.cpp
 make_work_LDADD = $(SERVERLIBS)

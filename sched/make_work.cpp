@@ -255,8 +255,8 @@ void make_work(vector<string> &wu_names) {
                     "Reached max_wus = %d\n", max_wus
                 );
                 exit(0);
-                total_wus++;
             }
+            total_wus++;
             make_new_wu(wu, wu.xml_doc, start_time);
             new_wu_id = wu.id;
             results_needed -= wu.target_nresults;

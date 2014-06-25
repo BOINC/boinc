@@ -158,6 +158,15 @@ void JOB_DESC::parse_cmdline(int argc, char** argv) {
     }
 }
 
+void check_assign_id(int x) {
+    if (x == 0) {
+        fprintf(stderr,
+            "you must specify a nonzero database ID for assigning jobs to users, teams, or hosts.\n"
+        );
+        exit(1);
+    }
+}
+
 int main(int argc, char** argv) {
     DB_APP app;
     int retval;
@@ -235,23 +244,28 @@ int main(int argc, char** argv) {
             jd.assign_type = ASSIGN_USER;
             jd.assign_multi = true;
             jd.assign_id = atoi(argv[++i]);
+            check_assign_id(jd.assign_id);
         } else if (arg(argv, i, "broadcast_team")) {
             jd.assign_flag = true;
             jd.assign_type = ASSIGN_TEAM;
             jd.assign_multi = true;
             jd.assign_id = atoi(argv[++i]);
+            check_assign_id(jd.assign_id);
         } else if (arg(argv, i, "target_host")) {
             jd.assign_flag = true;
             jd.assign_type = ASSIGN_HOST;
             jd.assign_id = atoi(argv[++i]);
+            check_assign_id(jd.assign_id);
         } else if (arg(argv, i, "target_user")) {
             jd.assign_flag = true;
             jd.assign_type = ASSIGN_USER;
             jd.assign_id = atoi(argv[++i]);
+            check_assign_id(jd.assign_id);
         } else if (arg(argv, i, "target_team")) {
             jd.assign_flag = true;
             jd.assign_type = ASSIGN_TEAM;
             jd.assign_id = atoi(argv[++i]);
+            check_assign_id(jd.assign_id);
         } else if (arg(argv, i, "help")) {
             usage();
             exit(0);
@@ -332,45 +346,75 @@ int main(int argc, char** argv) {
     strcpy(jd.result_template_path, "./");
     strcat(jd.result_template_path, jd.result_template_file);
     if (use_stdin) {
-        string values;
-        DB_WORKUNIT wu;
-        int _argc;
-        char* _argv[100], value_buf[MAX_QUERY_LEN];
-        for (int j=0; ; j++) {
-            char* p = fgets(buf, sizeof(buf), stdin);
-            if (p == NULL) break;
-            JOB_DESC jd2 = jd;
-            strcpy(jd2.wu.name, "");
-            _argc = parse_command_line(buf, _argv);
-            jd2.parse_cmdline(_argc, _argv);
-            if (!strlen(jd2.wu.name)) {
-                sprintf(jd2.wu.name, "%s_%d", jd.wu.name, j);
+        if (jd.assign_flag) {
+            // if we're doing assignment we can't use the bulk-query method;
+            // create the jobs one at a time.
+            //
+            int _argc;
+            char* _argv[100];
+            for (int j=0; ; j++) {
+                char* p = fgets(buf, sizeof(buf), stdin);
+                if (p == NULL) break;
+                JOB_DESC jd2 = jd;
+                strcpy(jd2.wu.name, "");
+                _argc = parse_command_line(buf, _argv);
+                jd2.parse_cmdline(_argc, _argv);
+                if (!strlen(jd2.wu.name)) {
+                    sprintf(jd2.wu.name, "%s_%d", jd.wu.name, j);
+                }
+                jd2.create();
             }
-            retval = create_work2(
-                jd2.wu,
-                jd2.wu_template,
-                jd2.result_template_file,
-                jd2.result_template_path,
-                jd2.infiles,
-                config,
-                jd2.command_line,
-                jd2.additional_xml,
-                value_buf
-            );
-            if (retval) {
-                fprintf(stderr, "create_work() failed: %d\n", retval);
-                exit(1);
+        } else {
+            string values;
+            DB_WORKUNIT wu;
+            int _argc;
+            char* _argv[100], value_buf[MAX_QUERY_LEN];
+            for (int j=0; ; j++) {
+                char* p = fgets(buf, sizeof(buf), stdin);
+                if (p == NULL) break;
+                JOB_DESC jd2 = jd;
+                strcpy(jd2.wu.name, "");
+                _argc = parse_command_line(buf, _argv);
+                jd2.parse_cmdline(_argc, _argv);
+                if (!strlen(jd2.wu.name)) {
+                    sprintf(jd2.wu.name, "%s_%d", jd.wu.name, j);
+                }
+                retval = create_work2(
+                    jd2.wu,
+                    jd2.wu_template,
+                    jd2.result_template_file,
+                    jd2.result_template_path,
+                    jd2.infiles,
+                    config,
+                    jd2.command_line,
+                    jd2.additional_xml,
+                    value_buf
+                );
+                if (retval) {
+                    fprintf(stderr, "create_work() failed: %d\n", retval);
+                    exit(1);
+                }
+                if (values.size()) {
+                    values += ",";
+                    values += value_buf;
+                } else {
+                    values = value_buf;
+                }
+                // MySQL can handles queries at least 1 MB
+                //
+                int n = strlen(value_buf);
+                if (values.size() + 2*n > 1000000) {
+                    retval = wu.insert_batch(values);
+                    if (retval) {
+                        fprintf(stderr,
+                            "wu.insert_batch() failed: %d\n", retval
+                        );
+                        exit(1);
+                    }
+                    values.clear();
+                }
             }
             if (values.size()) {
-                values += ",";
-                values += value_buf;
-            } else {
-                values = value_buf;
-            }
-            // MySQL can handles queries at least 1 MB
-            //
-            int n = strlen(value_buf);
-            if (values.size() + 2*n > 1000000) {
                 retval = wu.insert_batch(values);
                 if (retval) {
                     fprintf(stderr,
@@ -378,16 +422,6 @@ int main(int argc, char** argv) {
                     );
                     exit(1);
                 }
-                values.clear();
-            }
-        }
-        if (values.size()) {
-            retval = wu.insert_batch(values);
-            if (retval) {
-                fprintf(stderr,
-                    "wu.insert_batch() failed: %d\n", retval
-                );
-                exit(1);
             }
         }
     } else {
@@ -400,7 +434,9 @@ int main(int argc, char** argv) {
 }
 
 void JOB_DESC::create() {
-    char buf[256];
+    if (assign_flag) {
+        wu.transitioner_flags = assign_multi?TRANSITION_NONE:TRANSITION_NO_NEW_RESULTS;
+    }
     int retval = create_work2(
         wu,
         wu_template,
@@ -428,14 +464,6 @@ void JOB_DESC::create() {
             fprintf(stderr,
                 "assignment.insert() failed: %s\n", boincerror(retval)
             );
-            exit(1);
-        }
-        sprintf(buf, "transitioner_flags=%d",
-            assign_multi?TRANSITION_NONE:TRANSITION_NO_NEW_RESULTS
-        );
-        retval = wu.update_field(buf);
-        if (retval) {
-            fprintf(stderr, "wu.update() failed: %s\n", boincerror(retval));
             exit(1);
         }
     }

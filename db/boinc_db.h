@@ -67,6 +67,7 @@ struct TRANSITIONER_ITEM {
     int res_hostid;
     int res_received_time;
     int res_app_version_id;
+    int res_exit_status;
 
     void clear();
     void parse(MYSQL_ROW&);
@@ -265,6 +266,8 @@ public:
         int nresult_limit,
         int wu_id_modulus,
         int wu_id_remainder,
+        int wu_id_min,
+        int wu_id_max,
         std::vector<VALIDATOR_ITEM>& items
     );
     int update_result(RESULT&);
@@ -507,6 +510,25 @@ struct DB_VDA_CHUNK_HOST : public DB_BASE, public VDA_CHUNK_HOST {
     DB_VDA_CHUNK_HOST(DB_CONN* p=0);
     void db_print(char*);
     void db_parse(MYSQL_ROW &row);
+};
+
+struct DB_BADGE : public DB_BASE, public BADGE {
+    DB_BADGE(DB_CONN* p=0);
+    int get_id() {return id;};
+    void db_print(char*){};
+    void db_parse(MYSQL_ROW&);
+};
+
+struct DB_BADGE_USER : public DB_BASE, public BADGE_USER {
+    DB_BADGE_USER(DB_CONN* p=0);
+    void db_print(char*){};
+    void db_parse(MYSQL_ROW&);
+};
+
+struct DB_BADGE_TEAM : public DB_BASE, public BADGE_TEAM {
+    DB_BADGE_TEAM(DB_CONN* p=0);
+    void db_print(char*){};
+    void db_parse(MYSQL_ROW&);
 };
 
 #endif

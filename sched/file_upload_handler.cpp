@@ -385,7 +385,9 @@ int handle_file_upload(FILE* in, R_RSA_PUBLIC_KEY& key) {
             "Failed to find/create directory for file '%s' in '%s'\n",
             name, config.upload_dir
         );
-        return return_error(ERR_TRANSIENT, "can't open file");
+        return return_error(ERR_TRANSIENT, "can't open file %s: %s",
+            name, boincerror(retval)
+        );
     }
     log_messages.printf(MSG_NORMAL,
         "Starting upload of %s from %s [offset=%.0f, nbytes=%.0f]\n",
@@ -699,14 +701,14 @@ int main(int argc, char *argv[]) {
     log_messages.pid = getpid();
     log_messages.set_debug_level(config.fuh_debug_level);
 
-#ifndef _USING_FCGI_
     if (boinc_file_exists(config.project_path("stop_upload"))) {
         return_error(ERR_TRANSIENT,
             "File uploads are temporarily disabled."
         );
+#ifndef _USING_FCGI_
         exit(1);
-    }
 #endif
+    }
 
     if (!config.ignore_upload_certificates) {
         retval = get_key(key);

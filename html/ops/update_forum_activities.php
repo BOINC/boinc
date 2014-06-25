@@ -30,12 +30,18 @@ echo date(DATE_RFC822), ": Starting\n";
 $now = time();
 $threads = BoincThread::enum();
 foreach ($threads as $thread) {
+    $is_helpdesk = false;
     $forum = BoincForum::lookup_id($thread->forum);
-    $category = BoincCategory::lookup_id($forum->category);
-    if ($category->is_helpdesk) {
+    if ($forum && $forum->parent_type == 0) {
+        $category = BoincCategory::lookup_id($forum->category);
+        if ($category && $category->is_helpdesk) {
+            $is_helpdesk = true;
+        }
+    }
+    if ($is_helpdesk) {
         $diff = ($now - $thread->create_time)/86400;
         $activity = ($thread->sufferers+1)/$diff;
-        echo "help $diff $activity\n";
+        echo "thread $thread->id helpdesk $diff $activity\n";
     } else {
         $posts = BoincPost::enum("thread=$thread->id");
         $activity = 0;
@@ -45,7 +51,7 @@ foreach ($threads as $thread) {
             $diff /= 7*86400;
             $activity += pow(2, -$diff);
         }
-        echo "forum $activity\n";
+        echo "thread $thread->id forum $activity\n";
     }
     $thread->update("activity=$activity");
     

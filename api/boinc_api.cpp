@@ -137,7 +137,7 @@ static volatile bool have_new_trickle_up = false;
 static volatile bool have_trickle_down = true;
     // on first call, scan slot dir for msgs
 static volatile int heartbeat_giveup_count;
-    // interrupt count value at which to give up on core client
+    // interrupt count value at which to give up on client
 #ifdef _WIN32
 static volatile int nrunning_ticks = 0;
 #endif
@@ -175,7 +175,7 @@ int app_min_checkpoint_period = 0;
     // to the client, and of checkpoint enabling.
 #define HEARTBEAT_GIVEUP_SECS 30
 #define HEARTBEAT_GIVEUP_COUNT ((int)(HEARTBEAT_GIVEUP_SECS/TIMER_PERIOD))
-    // quit if no heartbeat from core in this #interrupts
+    // quit if no heartbeat from client in this #interrupts
 #define LOCKFILE_TIMEOUT_PERIOD 35
     // quit if we cannot aquire slot lock file in this #secs after startup
 
@@ -356,7 +356,7 @@ double boinc_worker_thread_cpu_time() {
     return cpu;
 }
 
-// Communicate to the core client (via shared mem)
+// Communicate to the client (via shared mem)
 // the current CPU time and fraction done.
 // NOTE: various bugs could cause some of these FP numbers to be enormous,
 // possibly overflowing the buffer.
@@ -678,7 +678,7 @@ static void send_trickle_up_msg() {
     }
 }
 
-// NOTE: a non-zero status tells the core client that we're exiting with 
+// NOTE: a non-zero status tells the client that we're exiting with 
 // an "unrecoverable error", which will be reported back to server. 
 // A zero exit-status tells the client we've successfully finished the result.
 //
@@ -703,7 +703,7 @@ int boinc_finish(int status) {
     return 0;   // never reached
 }
 
-int boinc_temporary_exit(int delay, const char* reason) {
+int boinc_temporary_exit(int delay, const char* reason, bool is_notice) {
     FILE* f = fopen(TEMPORARY_EXIT_FILE, "w");
     if (!f) {
         return ERR_FOPEN;
@@ -711,6 +711,9 @@ int boinc_temporary_exit(int delay, const char* reason) {
     fprintf(f, "%d\n", delay);
     if (reason) {
         fprintf(f, "%s\n", reason);
+        if (is_notice) {
+            fprintf(f, "notice\n");
+        }
     }
     fclose(f);
     boinc_exit(0);
@@ -849,6 +852,8 @@ int boinc_parse_init_data_file() {
     return 0;
 }
 
+// used by wrappers
+//
 int boinc_report_app_status_aux(
     double cpu_time,
     double checkpoint_cpu_time,
@@ -1126,7 +1131,7 @@ static void timer_handler() {
     if (!boinc_status.suspended) {
         running_interrupt_count++;
     }
-    // handle messages from the core client
+    // handle messages from the client
     //
     if (app_client_shm) {
         if (options.check_heartbeat) {
@@ -1155,7 +1160,7 @@ static void timer_handler() {
         }
     }
 
-    // see if the core client has died, which means we need to die too
+    // see if the client has died, which means we need to die too
     // (unless we're in a critical section)
     //
     if (in_critical_section==0 && options.check_heartbeat) {

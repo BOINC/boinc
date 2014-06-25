@@ -137,7 +137,7 @@ struct EXCLUDE_GPU {
 // if you add anything, you must add it to
 // defaults(), parse_options(), and write()
 //
-struct CONFIG {
+struct CC_CONFIG {
     bool abort_jobs_on_exit;
     bool allow_multiple_clients;
     bool allow_remote_gui_rpc;
@@ -193,7 +193,7 @@ struct CONFIG {
         // overrides use_certs
     bool vbox_window;
 
-    CONFIG();
+    CC_CONFIG();
     void defaults();
 	int parse(FILE*);
 	int parse(XML_PARSER&, LOG_FLAGS&);

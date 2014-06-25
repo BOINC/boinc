@@ -33,7 +33,7 @@ public class ProjectConfig implements Parcelable{
 	public String webRpcUrlBase = "";
 	public String localRevision = ""; // e.g. 4.3.2 can't be parse as int or float.
 	public Integer minPwdLength = 0;
-	public Boolean userName = false;
+	public Boolean usesName = false;
 	public Boolean webStopped = false;
 	public Boolean schedulerStopped = false;
 	public Boolean accountCreationDisabled = false; 
@@ -43,6 +43,19 @@ public class ProjectConfig implements Parcelable{
 	public String rpcPrefix = "";
 	public ArrayList<PlatformInfo> platforms = new ArrayList<PlatformInfo>();
 	public String termsOfUse;
+	
+	/**
+	 * Returns the URL for HTTPS requests, if available.
+	 * master URL otherwise.
+	 * Use HTTPS URL for account look up and registration
+	 * CAUTION: DO NOT use HTTPS URL for attach!
+	 * @return URL for accoutn look up and registration RPCs
+	 */
+	public String getSecureUrlIfAvailable() {
+		if(webRpcUrlBase != null && !webRpcUrlBase.isEmpty()) return webRpcUrlBase;
+		else return masterUrl;
+	}
+	
 	@Override
 	public int describeContents() {
 		// TODO Auto-generated method stub
@@ -63,7 +76,7 @@ public class ProjectConfig implements Parcelable{
 		dest.writeString(termsOfUse);
 
 		dest.writeBooleanArray(new boolean[]{
-				userName, 
+				usesName, 
 				webStopped, 
 				schedulerStopped, 
 				accountCreationDisabled, 
@@ -87,7 +100,7 @@ public class ProjectConfig implements Parcelable{
 		termsOfUse = in.readString();
 		
 		boolean[] bArray = in.createBooleanArray();
-		userName = bArray[0];
+		usesName = bArray[0];
 		webStopped = bArray[1];
 		schedulerStopped = bArray[2];
 		accountCreationDisabled = bArray[3];

@@ -240,7 +240,7 @@ void CLIENT_STATE::start_cpu_benchmarks() {
         return;
     }
 
-    if (config.skip_cpu_benchmarks) {
+    if (cc_config.skip_cpu_benchmarks) {
         if (log_flags.benchmark_debug) {
             msg_printf(0, MSG_INFO,
                 "[benchmark] start_cpu_benchmarks(): Skipping CPU benchmarks"

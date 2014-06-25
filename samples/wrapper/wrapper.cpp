@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2014 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -15,17 +15,24 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// wrapper.C
+// wrapper.cpp
 // wrapper program - lets you use non-BOINC apps with BOINC
 //
 // Handles:
 // - suspend/resume/quit/abort
 // - reporting CPU time
-// - loss of heartbeat from core client
+// - loss of heartbeat from client
 // - checkpointing
 //      (at the level of task; or potentially within task)
 //
 // See http://boinc.berkeley.edu/trac/wiki/WrapperApp for details
+//
+// cmdline options:
+//  --nthreads X: macro-substitute X for $NTHREADS
+//      in worker cmdlines and env values
+//  --device N: macro-substitute N for $GPU_DEVICE_NUM
+//      in worker cmdlines and env values
+//
 // Contributor: Andrew J. Younge (ajy4490@umiacs.umd.edu)
 
 #ifndef _WIN32
@@ -52,6 +59,7 @@
 #include <unistd.h>
 #endif
 
+#include "version.h"
 #include "boinc_api.h"
 #include "boinc_zip.h"
 #include "diagnostics.h"
@@ -83,12 +91,13 @@ inline void debug_msg(const char* x) {
 using std::vector;
 using std::string;
 int nthreads = 1;
+int gpu_device_num = -1;
 
 struct TASK {
     string application;
     string exec_dir;
         // optional execution directory;
-        // macro-substituted for $PROJECT_DIR and $NTHREADS
+        // macro-substituted
     vector<string> vsetenv;
         // vector of strings for environment variables 
         // macro-substituted
@@ -232,6 +241,7 @@ void str_replace_all(char* buf, const char* s1, const char* s2) {
 // macro-substitute strings from job.xml
 // $PROJECT_DIR -> project directory
 // $NTHREADS --> --nthreads arg if present, else 1
+// $GPU_DEVICE_NUM --> gpu_device_num from init_data.xml, or --device arg
 //
 void macro_substitute(char* buf) {
     const char* pd = strlen(aid.project_dir)?aid.project_dir:".";
@@ -239,6 +249,14 @@ void macro_substitute(char* buf) {
     char nt[256];
     sprintf(nt, "%d", nthreads);
     str_replace_all(buf, "$NTHREADS", nt);
+
+    if (aid.gpu_device_num >= 0) {
+        gpu_device_num = aid.gpu_device_num;
+    }
+    if (gpu_device_num >= 0) {
+        sprintf(nt, "%d", gpu_device_num);
+        str_replace_all(buf, "$GPU_DEVICE_NUM", nt);
+    }
 }
 
 // make a list of files in the slot directory,
@@ -801,12 +819,10 @@ bool TASK::poll(int& status) {
         if (exit_code != STILL_ACTIVE) {
             status = exit_code;
             final_cpu_time = current_cpu_time;
-#ifdef DEBUG
-            fprintf(stderr, "%s process exited; current CPU %f final CPU %f\n",
-                boinc_message_prefix(buf, sizeof(buf)),
-                current_cpu_time, final_cpu_time
+            fprintf(stderr, "%s %s exited; CPU time %f\n",
+                boinc_msg_prefix(buf, sizeof(buf)),
+                application.c_str(), final_cpu_time
             );
-#endif
             return true;
         }
     }
@@ -819,12 +835,10 @@ bool TASK::poll(int& status) {
         getrusage(RUSAGE_CHILDREN, &ru);
         final_cpu_time = (float)ru.ru_utime.tv_sec + ((float)ru.ru_utime.tv_usec)/1e+6;
         final_cpu_time -= start_rusage;
-#ifdef DEBUG
-        fprintf(stderr, "%s process exited; current CPU %f final CPU %f\n",
-            boinc_message_prefix(buf, sizeof(buf)),
-            current_cpu_time, final_cpu_time
+        fprintf(stderr, "%s %s exited; CPU time %f\n",
+            boinc_msg_prefix(buf, sizeof(buf)),
+            application.c_str(), final_cpu_time
         );
-#endif
         if (final_cpu_time < current_cpu_time) {
             final_cpu_time = current_cpu_time;
         }
@@ -962,6 +976,8 @@ int main(int argc, char** argv) {
     for (int j=1; j<argc; j++) {
         if (!strcmp(argv[j], "--nthreads")) {
             nthreads = atoi(argv[++j]);
+        } else if (!strcmp(argv[j], "--device")) {
+            gpu_device_num = atoi(argv[++j]);
         }
     }
 
@@ -997,8 +1013,11 @@ int main(int argc, char** argv) {
 
     boinc_init_options(&options);
     fprintf(stderr,
-        "%s wrapper: starting\n",
-        boinc_msg_prefix(buf, sizeof(buf))
+        "%s wrapper (%d.%d.%d): starting\n",
+        boinc_msg_prefix(buf, sizeof(buf)),
+        BOINC_MAJOR_VERSION,
+        BOINC_MINOR_VERSION,
+        WRAPPER_RELEASE
     );
 
     boinc_get_init_data(aid);

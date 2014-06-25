@@ -102,7 +102,10 @@ case "title":
 case "delete":
     delete_thread($thread, $forum);
     page_head("Thread deleted");
-    echo "Thread successfully deleted.";
+    echo "Thread successfully deleted.
+        <p>
+        <a href=forum_forum.php?id=$forum->id>Return to forum</a>
+    ";
     page_tail();
     exit;
 default:

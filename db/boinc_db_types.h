@@ -82,6 +82,8 @@ struct APP {
         // type of locality scheduling used by this app (see above)
     int n_size_classes;
         // for multi-size apps, number of size classes
+    bool fraction_done_exact;
+        // fraction done reported by app is accurate
 
     int write(FILE*);
     void clear();
@@ -124,14 +126,19 @@ struct APP_VERSION {
     char plan_class[256];
     AVERAGE pfc;
         // the stats of (claimed PFC)/wu.rsc_fpops_est
-        // If wu.rsc_fpops_est is accurate,
-        // this is the reciprocal of efficiency
+        // What does this mean?
+        // Suppose X is the error in rsc_fpops_est
+        // (i.e. actual FPOPS = X*rsc_fpops_est)
+        // and Y is average efficiency
+        // (actual FLOPS = Y*peak FLOPS)
+        // Then this is X/Y.
     double pfc_scale;
         // PFC scaling factor for this app (or 0 if not enough data)
         // The reciprocal of this version's efficiency, averaged over all jobs,
         // relative to that of the most efficient version
     double expavg_credit;
     double expavg_time;
+    bool beta;
 
     // the following used by scheduler, not in DB
     //
@@ -757,6 +764,36 @@ struct VDA_CHUNK_HOST {
         return (transfer_in_progress && !present_on_host);
     }
     void print_status(int level);
+};
+
+struct BADGE {
+    int id;
+    double create_time;
+    int type;
+    char name[256];
+    char title[256];
+    char description[256];
+    char image_url[256];
+    char level[256];
+    char tags[256];
+    char sql_rule[256];
+    void clear();
+};
+
+struct BADGE_USER {
+    int badge_id;
+    int user_id;
+    double create_time;
+    double reassign_time;
+    void clear();
+};
+
+struct BADGE_TEAM {
+    int badge_id;
+    int team_id;
+    double create_time;
+    double reassign_time;
+    void clear();
 };
 
 #endif

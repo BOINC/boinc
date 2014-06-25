@@ -169,14 +169,21 @@ function stage_files(&$jobs, $template) {
     }
 }
 
-function submit_jobs($jobs, $template, $app, $batch_id, $priority) {
+function submit_jobs($jobs, $template, $app, $batch_id, $priority, $result_template_file = null) {
     $x = "";
     foreach($jobs as $job) {
         if ($job->name) {
-            $x .= "--wu_name $job->name";
+            $x .= " --wu_name $job->name";
         }
         if ($job->command_line) {
             $x .= " --command_line \"$job->command_line\"";
+        }
+        if ($job->target_team) {
+            $x .= " --target_team $job->target_team";
+        } elseif ($job->target_user) {
+            $x .= " --target_user $job->target_user";
+        } elseif ($job->target_host) {
+            $x .= " --target_host $job->target_host";
         }
         foreach ($job->input_files as $file) {
             if ($file->mode == "remote") {
@@ -189,6 +196,10 @@ function submit_jobs($jobs, $template, $app, $batch_id, $priority) {
     }
 
     $cmd = "cd ../..; ./bin/create_work --appname $app->name --batch $batch_id --rsc_fpops_est $job->rsc_fpops_est --priority $priority --stdin";
+    if ($result_template_file) {
+        $cmd .= " --result_template $result_template_file";
+    }
+    $cmd .= " --stdin";
     $h = popen($cmd, "w");
     if ($h === false) {
         xml_error(-1, "BOINC server: can't run create_work");
@@ -206,6 +217,9 @@ function xml_get_jobs($r) {
         $job = new StdClass;
         $job->input_files = array();
         $job->command_line = (string)$j->command_line;
+        $job->target_team = (int)$j->target_team;
+        $job->target_user = (int)$j->target_user;
+        $job->target_host = (int)$j->target_host;
         $job->name = (string)$j->name;
         $job->rsc_fpops_est = (double)$j->rsc_fpops_est;
         foreach ($j->input_file as $f) {
@@ -286,8 +300,14 @@ function submit_batch($r) {
         }
         $batch = BoincBatch::lookup_id($batch_id);
     }
+    
+    if ($r->batch->result_template_file) {
+        $result_template_file = $r->batch->result_template_file;
+    } else {
+        $result_template_file = null;
+    }
 
-    submit_jobs($jobs, $template, $app, $batch_id, $let);
+    submit_jobs($jobs, $template, $app, $batch_id, $let, $result_template_file);
 
     // set state to IN_PROGRESS only after creating jobs;
     // otherwise we might flag batch as COMPLETED

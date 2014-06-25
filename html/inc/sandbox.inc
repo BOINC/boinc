@@ -88,14 +88,17 @@ function sandbox_file_name($user, $md5) {
 
 // return the path of the file in the download directory
 //
+if (!function_exists('sandbox_physical_path')) {
 function sandbox_physical_path($user, $md5) {
     global $fanout;
     $f = sandbox_file_name($user, $md5);
     return dir_hier_path($f, parse_config(get_config(), "<download_dir>"), $fanout);
 }
+}
 
 // return list of files in sandbox
 //
+if (!function_exists('sandbox_file_names')) {
 function sandbox_file_names($user) {
     $d = opendir(sandbox_dir($user));
     $names = array();
@@ -104,11 +107,14 @@ function sandbox_file_names($user) {
         if ($f == '..') continue;
         $names[] = $f;
     }
+    natsort($names);
     return $names;
+}
 }
 
 // return a <select> for files in sandbox
 //
+if (!function_exists('sandbox_file_select')) {
 function sandbox_file_select($user, $select_name, $regexp = null, $allow_none = false) {
     if ($regexp === null) {
         $regexp = $select_name;
@@ -125,6 +131,7 @@ function sandbox_file_select($user, $select_name, $regexp = null, $allow_none = 
     }
     $x .= "</select>\n";
     return $x;
+}
 }
 
 //check if a file is still being used by a unfinished batch

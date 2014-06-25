@@ -500,7 +500,7 @@ void CPaintStatistics::DrawLegend(wxDC &dc, PROJECTS* proj, CMainDocument* pDoc,
 	const wxCoord buffer_y1 = 3;
 	const wxCoord buffer_x1 = 3;
 	int count = -1;
-	int project_count = -1;
+//	int project_count = -1;
 	wxCoord w_temp = 0, h_temp = 0, des_temp = 0, lead_temp = 0;
 	wxCoord x0 = 0;
 	wxCoord y0 = 0;
@@ -599,7 +599,7 @@ void CPaintStatistics::DrawLegend(wxDC &dc, PROJECTS* proj, CMainDocument* pDoc,
     m_scrollBar->SetThumbPosition(m_Legend_Shift);
 //	Legend Shift (end)
 //---------------
-	project_count = count;
+//	project_count = count;
 	count = -1;
 
 	m_WorkSpace_X_end -= double(project_name_max_width) + m_Space_for_scrollbar;
@@ -1940,8 +1940,6 @@ BEGIN_EVENT_TABLE (CViewStatistics, CBOINCBaseView)
     EVT_BUTTON(ID_TASK_STATISTICS_NEXTPROJECT, CViewStatistics::OnStatisticsNextProject)
     EVT_BUTTON(ID_TASK_STATISTICS_PREVPROJECT, CViewStatistics::OnStatisticsPrevProject)
     EVT_BUTTON(ID_TASK_STATISTICS_HIDEPROJLIST, CViewStatistics::OnShowHideProjectList)
-    EVT_LIST_ITEM_SELECTED(ID_LIST_STATISTICSVIEW, CViewStatistics::OnListSelected)
-    EVT_LIST_ITEM_DESELECTED(ID_LIST_STATISTICSVIEW, CViewStatistics::OnListDeselected)
 END_EVENT_TABLE ()
 
 CViewStatistics::CViewStatistics()

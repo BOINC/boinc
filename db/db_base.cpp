@@ -359,6 +359,8 @@ int DB_BASE::update_fields_noid(const char* set_clause, const char* where_clause
     return 0;
 }
 
+// Note: AFAIK, if one enumeration is active you can't do another one
+//
 int DB_BASE::enumerate(const char* clause, bool use_use_result) {
     int x;
     char query[MAX_QUERY_LEN];

@@ -418,6 +418,7 @@ int create_shmem(key_t key, int size, gid_t gid, void** pp) {
     }
     if (id < 0) {
         perror("shmget");
+        fprintf(stderr,"shmem size: %d\n", size);
         return ERR_SHMGET;
     }
 

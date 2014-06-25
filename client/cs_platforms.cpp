@@ -295,7 +295,7 @@ void CLIENT_STATE::detect_platforms() {
 
 #endif
 
-    if (config.no_alt_platform) {
+    if (cc_config.no_alt_platform) {
         PLATFORM p = platforms[0];
         platforms.clear();
         platforms.push_back(p);
@@ -303,8 +303,8 @@ void CLIENT_STATE::detect_platforms() {
 
     // add platforms listed in cc_config.xml AFTER the above.
     //
-    for (unsigned int i=0; i<config.alt_platforms.size(); i++) {
-        add_platform(config.alt_platforms[i].c_str());
+    for (unsigned int i=0; i<cc_config.alt_platforms.size(); i++) {
+        add_platform(cc_config.alt_platforms[i].c_str());
     }
 }
 

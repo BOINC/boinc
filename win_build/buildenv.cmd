@@ -93,32 +93,12 @@ SET BUILDPLATFORM=%_ArgBuildPlatform%
 rem ***** Visual Studio Hint Detection *****
 rem
 SET _ArgBuildDevEnvDir=%_ArgBuildDevEnvDir:IDE\=%
-SET _ArgVS80COMNTOOLS=%VS80COMNTOOLS:Tools\=%
-SET _ArgVS90COMNTOOLS=%VS90COMNTOOLS:Tools\=%
 SET _ArgVS100COMNTOOLS=%VS100COMNTOOLS:Tools\=%
 
-IF /I "%_ArgVS80COMNTOOLS%" == "%_ArgBuildDevEnvDir%"  GOTO :DETECTVS2005
-IF /I "%_ArgVS90COMNTOOLS%" == "%_ArgBuildDevEnvDir%"  GOTO :DETECTVS2008
 IF /I "%_ArgVS100COMNTOOLS%" == "%_ArgBuildDevEnvDir%" GOTO :DETECTVS2010
 
 rem ***** Software Detection *****
 rem
-:DETECTVS2005
-IF EXIST "%VS80COMNTOOLS%\vsvars32.bat" (
-    ECHO Software Platform Detected: Visual Studio 2005
-    CALL "%VS80COMNTOOLS%\vsvars32.bat" > NUL: 2> NUL:
-    SET BUILDCOMPILERDETECTED=vs2005
-	GOTO :SOFTDETECTIONCOMPLETE
-)
-
-:DETECTVS2008
-IF EXIST "%VS90COMNTOOLS%\vsvars32.bat" (
-    ECHO Software Platform Detected: Visual Studio 2008
-    CALL "%VS90COMNTOOLS%\vsvars32.bat" > NUL: 2> NUL:
-    SET BUILDCOMPILERDETECTED=vs2008
-	GOTO :SOFTDETECTIONCOMPLETE
-)
-
 :DETECTVS2010
 IF EXIST "%VS100COMNTOOLS%\vsvars32.bat" (
     ECHO Software Platform Detected: Visual Studio 2010
@@ -129,7 +109,7 @@ IF EXIST "%VS100COMNTOOLS%\vsvars32.bat" (
 
 :SOFTDETECTIONCOMPLETE
 IF "%VCINSTALLDIR%"=="" (
-	ECHO Software Platform NOT Detected: Microsoft Visual Studio 2005/2008/2010...
+	ECHO Software Platform NOT Detected: Microsoft Visual Studio 2010...
     EXIT /B 1
 )
 
@@ -173,10 +153,11 @@ IF /I NOT "%PROCESSOR_ARCHITECTURE%"=="%BUILDPLATFORM%" GOTO :BUILDENVCROSS
 rem Building a native binary for the current platform.
 :BUILDENVNATIVE
 
-IF /I NOT "%BUILDPLATFORM%"=="x86" (
-    CALL "%VCINSTALLDIR%\bin\%PROCESSOR_ARCHITECTURE%\vcvars%PROCESSOR_ARCHITECTURE%.bat" > NUL: 2> NUL:
+IF /I "%BUILDPLATFORM%"=="amd64" (
+    CALL "%VCINSTALLDIR%\bin\%PROCESSOR_ARCHITECTURE%\vcvars64.bat" > NUL: 2> NUL:
     IF ERRORLEVEL 1 GOTO :BUILDENVFAILURE
-) ELSE (
+)
+IF /I "%BUILDPLATFORM%"=="x86" (
     CALL "%VCINSTALLDIR%\bin\vcvars32.bat" > NUL: 2> NUL:
     IF ERRORLEVEL 1 GOTO :BUILDENVFAILURE
 )

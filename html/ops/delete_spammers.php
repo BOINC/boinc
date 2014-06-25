@@ -17,27 +17,60 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// script to delete spammer accounts and profiles.
+// script to delete spammer accounts, profiles, and forum posts.
 //
-// delete_spammers.php --list filename
-//   "filename" contains a list of user IDs, one per line.
+// delete_spammers.php [--days n] [--test] command
 //
-// delete_spammers.php --auto
+// commands:
+//
+// --profiles
 //   delete accounts that
+//   - have a profile containing a link.
 //   - have no hosts
 //   - have no message-board posts
-//   - have a profile containing a link.
-// NOTE: use this with caution.  See delete_auto() below.
-// Run it in test mode first.
+//
+// --forums
+//   delete accounts that
+//   - have no hosts
+//   - have message-board posts
+//   - don't belong to a team
+//
+// --list filename
+//   "filename" contains a list of user IDs, one per line.
+//
+// --id_range N M
+//   delete users with ID N to M inclusive
+//
+// options:
+// --days N
+//    Only delete accounts create in last N days
+// --test
+//    Show what accounts would be deleted, but don't delete them
+
+error_reporting(E_ALL);
+ini_set('display_errors', true);
+ini_set('display_startup_errors', true);
 
 require_once("../inc/db.inc");
+require_once("../inc/profile.inc");
+require_once("../inc/forum.inc");
 db_init();
 
-function del($id) {
-    echo "deleting user $id\n";
-    $q = "delete from profile where userid=$id";
-    mysql_query($q);
-    $q = "delete from user where id=$id";
+$days = 0;
+$test = false;
+
+// delete a spammer account, and everything associated with it
+//
+function delete_user($user) {
+    global $test;
+    $age = (time() - $user->create_time) / 86400;
+    echo "----------------\ndeleting user $user->id email $user->email_addr name $user->name age $age days\n";
+    if ($test) {
+        return;
+    }
+    delete_profile($user);
+    forum_delete_user($user);
+    $q = "delete from user where id=$user->id";
     mysql_query($q);
 }
 
@@ -47,7 +80,12 @@ function delete_list($fname) {
     while ($s = fgets($f)) {
         $s = trim($s);
         if (!is_numeric($s)) die("bad ID $s\n");
-        del($s);
+        $user = BoincUser::lookup_id((int)$s);
+        if ($user) {
+            delete_user($user);
+        } else {
+            echo "no user ID $s\n";
+        }
     }
 }
 
@@ -55,10 +93,33 @@ function has_link($x) {
     if (strstr($x, "[url")) return true;
     if (strstr($x, "http://")) return true;
     if (strstr($x, "https://")) return true;
+    if (strstr($x, "www.")) return true;
     return false;
 }
 
-function delete_auto() {
+function delete_forums() {
+    global $days;
+    $prefs = BoincForumPrefs::enum("posts>0");
+    foreach ($prefs as $p) {
+        $user = BoincUser::lookup_id($p->userid);
+        if (!$user) {
+            echo "missing user $p->userid\n";
+            continue;
+        }
+        if ($days) {
+            if ($user->create_time < time() - $days*86400) continue;
+        }
+        if ($user->teamid) {
+            continue;
+        }
+        $n = BoincHost::count("userid=$p->userid");
+        if ($n) continue;
+        delete_user($user);
+    }
+}
+
+function delete_profiles() {
+    global $test, $days;
     $profiles = BoincProfile::enum("");
     foreach ($profiles as $p) {
         if (has_link($p->response1) || has_link($p->response2)) {
@@ -68,33 +129,64 @@ function delete_auto() {
                 continue;
             }
 
-            // uncomment the following to delete only recent accounts
-            //
-            //if ($user->create_time < time() - 60*86400) continue;
+            if ($days) {
+                if ($user->create_time < time() - $days*86400) continue;
+            }
 
             $n = BoincHost::count("userid=$p->userid");
             if ($n) continue;
             $n = BoincPost::count("user=$p->userid");
             if ($n) continue;
 
-            // By default, show profile but don't delete anything
-            // Change 0 to 1 if you want to actually delete
-            //
-            if (0) {
-                del($user->id);
-            } else {
-                echo "------------\n$p->userid\n$p->response1\n$p->response2\n";
+            delete_user($user);
+            if ($test) {
+                echo "\n$p->userid\n$p->response1\n$p->response2\n";
             }
         }
     }
 }
 
-for ($i=1; $i<$argc; $i++) {
-    if ($argv[$i] == "--list") {
-        delete_list($argv[++$i]);
-    } else if ($argv[$i] == "--auto") {
-        delete_auto();
+function delete_banished() {
+    global $days;
+    $fps = BoincForumPrefs::enum("banished_until>0");
+    foreach ($fps as $fp) {
+        $user = BoincUser::lookup_id($fp->userid);
+        if (!$user) continue;
+        if ($user->create_time < time() - $days*86400) continue;
+        delete_user($user);
     }
 }
+
+echo "Starting: ".strftime('%Y-%m-%d %H:%M %Z')."\n";
+
+for ($i=1; $i<$argc; $i++) {
+    if ($argv[$i] == "--test") {
+        $test = true;
+    } else if ($argv[$i] == "--days") {
+        $days = $argv[++$i];
+    } else if ($argv[$i] == "--list") {
+        delete_list($argv[++$i]);
+    } else if ($argv[$i] == "--profiles") {
+        delete_profiles();
+    } else if ($argv[$i] == "--forums") {
+        delete_forums();
+    } else if ($argv[$i] == "--id_range") {
+        $id1 = $argv[++$i];
+        $id2 = $argv[++$i];
+        if (!is_numeric($id1) || !is_numeric($id2)) {
+            die ("bad args\n");
+        }
+        for ($i=$id1; $i <= $id2; $i++) {
+            echo "deleting $i\n";
+            delete_user($i);
+        }
+    } else if ($argv[$i] == "--banished") {
+        delete_banished();
+    } else {
+        echo "usage: delete_spammers.php [--days] [--test] [--list filename] [--profiles] [--forums] [--id_range N M]\n";
+        exit;
+    }
+}
+echo "Finished: ".strftime('%Y-%m-%d %H:%M %Z')."\n";
 
 ?>

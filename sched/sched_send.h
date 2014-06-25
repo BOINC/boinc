@@ -53,7 +53,6 @@ extern int update_wu_on_send(WORKUNIT wu, time_t x, APP&, BEST_APP_VERSION&);
 extern void lock_sema();
 extern void unlock_sema();
 extern const char* find_user_friendly_name(int appid);
-extern bool app_not_selected(WORKUNIT&);
 extern bool work_needed(bool);
 extern void send_work_setup();
 extern int effective_ncpus();

@@ -182,8 +182,6 @@ struct SCHED_CONFIG {
 
     // scheduler log flags
     //
-    bool debug_array;               // debug job-cache scheduling
-    bool debug_array_detail;        // show slot-level info
     bool debug_assignment;
     bool debug_credit;
     bool debug_edf_sim_detail;      // show details of EDF sim
@@ -199,6 +197,11 @@ struct SCHED_CONFIG {
     bool debug_request_headers;
     bool debug_resend;
     bool debug_send;
+        // job dispatch, high-level stuff, e.g. request params and jobs sent
+    bool debug_send_scan;
+        // job dispatch at the level of scans through array
+    bool debug_send_job;
+        // job dispatch: why individual jobs weren't sent (most verbose)
     bool debug_user_messages;
     bool debug_vda;
     bool debug_version_select;

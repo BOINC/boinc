@@ -25,8 +25,8 @@
 #include "LogBOINC.h"
 
 
-wxLogBOINC::wxLogBOINC() {
-    m_fp = stdout;
+wxLogBOINC::wxLogBOINC() : wxLogStderr(stdout)
+{
 }
 
 void wxLogBOINC::DoLogText(const wxString& msg) {
@@ -36,6 +36,8 @@ void wxLogBOINC::DoLogText(const wxString& msg) {
     strDebug += wxT("\r\n");
     diagnostics_trace_to_debugger(strDebug.mb_str());
 #endif
+#ifdef __WXDEBUG__
     wxLogStderr::DoLogText(msg);
+#endif
 }
 

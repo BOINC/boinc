@@ -72,12 +72,9 @@ struct ACTIVE_TASK {
     PROCESS_ID pid;
     PROCINFO procinfo;
 
-    // START OF ITEMS SAVED IN STATE FILE
+    // START OF ITEMS SAVED IN TASK STATE FILE
+    // (in addition to result name and project URL)
 
-    int _task_state;
-        // PROCESS_*; see common_defs.h
-    int slot;
-        // subdirectory of slots/ where this runs
     double checkpoint_cpu_time;
         // CPU at the last checkpoint
         // Note: "CPU time" refers to the sum over all episodes.
@@ -85,15 +82,22 @@ struct ACTIVE_TASK {
         // in episodes before the current one)
     double checkpoint_elapsed_time;
         // elapsed time at last checkpoint
+    double peak_working_set_size;
+    double peak_swap_size;
+    double peak_disk_usage;
+
+    // START OF ITEMS ALSO SAVED IN CLIENT STATE FILE
+
+    int _task_state;
+        // PROCESS_*; see common_defs.h
+    int slot;
+        // subdirectory of slots/ where this runs
     double checkpoint_fraction_done;
         // fraction done at last checkpoint
     double checkpoint_fraction_done_elapsed_time;
         // fraction done elapsed time at last checkpoint
     double current_cpu_time;
         // most recent CPU time reported by app
-    double peak_working_set_size;
-    double peak_swap_size;
-    double peak_disk_usage;
     bool once_ran_edf;
 
     // END OF ITEMS SAVED IN STATE FILE
@@ -113,8 +117,12 @@ struct ACTIVE_TASK {
         // wall time at the last checkpoint
     double elapsed_time;
         // current total elapsed (running) time
+    double bytes_sent_episode;
+        // bytes sent in current episode of job,
+        // as (optionally) reported by boinc_network_usage()
+    double bytes_received_episode;
     double bytes_sent;
-        // reported by the app if it does network I/O
+        // bytes in all episodes
     double bytes_received;
     char slot_dir[256];
         // directory where process runs (relative)
@@ -224,6 +232,12 @@ struct ACTIVE_TASK {
     int abort_task(int exit_status, const char*);
         // can be called whether or not process exists
 
+    // is the GPU task running or suspended (due to CPU throttling)
+    //
+    inline bool is_gpu_task_running() {
+        int s = task_state();
+        return s == PROCESS_EXECUTING || s == PROCESS_SUSPENDED;
+    }
 
     // Implementation stuff related to termination
     //
@@ -247,7 +261,7 @@ struct ACTIVE_TASK {
     void handle_exited_app(int stat);
 #endif
     void handle_premature_exit(bool&);
-    void handle_temporary_exit(bool&, double, const char*);
+    void handle_temporary_exit(bool&, double, const char*, bool);
 
     bool check_max_disk_exceeded();
 
@@ -257,7 +271,7 @@ struct ACTIVE_TASK {
     double est_dur();
     int read_stderr_file();
     bool finish_file_present();
-    bool temporary_exit_file_present(double&, char*);
+    bool temporary_exit_file_present(double&, char*, bool&);
     void init_app_init_data(APP_INIT_DATA&);
     int write_app_init_file(APP_INIT_DATA&);
     int move_trickle_file();

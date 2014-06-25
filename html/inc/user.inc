@@ -268,7 +268,7 @@ function show_community_private($user) {
 
     if (!DISABLE_TEAMS) {
         if ($user->teamid) {
-            $team = lookup_team($user->teamid);
+            $team = BoincTeam::lookup_id($user->teamid);
             $x = "<a href=\"team_display.php?teamid=$team->id\">$team->name</a>
                 &middot; <a href=\"team_quit_form.php\">".tra("Quit team")."</a>";
             if (is_team_admin($user, $team)) {
@@ -351,7 +351,7 @@ function get_community_links_object($user){
     $cache_object = new StdClass;
     $cache_object->post_count = total_posts($user);
     $cache_object->user = $user;
-    $cache_object->team = lookup_team($user->teamid);
+    $cache_object->team = BoincTeam::lookup_id($user->teamid);
     $cache_object->friends = array();
 
     $friends = BoincFriend::enum("user_src=$user->id and reciprocated=1");

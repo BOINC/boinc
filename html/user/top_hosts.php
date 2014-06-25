@@ -84,7 +84,7 @@ top_host_table_start($sort_by);
 $i = 1 + $offset;
 $n = sizeof($data);
 foreach($data as $host) {
-    show_host_row($host, $i, false, true);
+    show_host_row($host, $i, false, true, false);
     $i++;
 }
 echo "</table>\n<p>";

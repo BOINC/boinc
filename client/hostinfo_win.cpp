@@ -23,7 +23,7 @@
 #define snprintf _snprintf
 #endif
 
-#ifndef __CYGWIN__
+#ifdef HAVE_INTRIN_H
 #include <intrin.h>
 #endif
 
@@ -140,17 +140,94 @@
 #define PRODUCT_CLOUD_STORAGE_SERVER                0x0000006E
 #endif
 
+/* HAVE_DECL__XGETBV should be set by autoconf or in boinc_win.h */
+#if !defined(HAVE_DECL__XGETBV) || !HAVE_DECL__XGETBV
+#if HAVE_DECL_XGETBV
+#define _xgetbv(x) xgetbv(x)
+#elif HAVE_DECL___XGETBV
+#define _xgetbv(x) __xgetbv(x)
+#else
+static unsigned long long _xgetbv(unsigned int index){
+      unsigned int A=0, D=0;
+
+#ifdef __GNUC__
+  #ifdef ASM_SUPPORTS_XGETBV  
+      __asm__ __volatile__("xgetbv" : "=a"(A), "=d"(D) : "c"(index));
+  #else
+      __asm__ __volatile__(".byte 0x0f, 0x01, 0xd0": "=a"(A), "=d"(D) : "c"(index));
+  #endif
+#elif defined(_MSC_VER)
+  #ifdef _M_IX86
+      __asm {
+                       mov ecx,index
+                       __emit 00fh
+                       __emit 001h
+                       __emit 0d0h
+                       mov D,edx
+                       mov A,eax
+       }
+  #elif defined(_M_AMD64)
+      // damn Microsoft for not having inline assembler in 64-bit code
+      // so this is in an NASM compiled library
+      return asm_xgetbv(index);
+  #endif
+#endif
+      return ((unsigned long long)D << 32) | A;
+}
+#endif
+#endif
+
+/* HAVE_DECL___CPUID should be set by autoconf or in boinc_win.h */
+#if !defined(HAVE_DECL___CPUID) || !HAVE_DECL___CPUID
+#if HAVE_DECL_CPUID
+#define __cpuid(x,y) cpuid(x,y)
+#elif HAVE_DECL__CPUID
+#define __cpuid(x,y) _cpuid(x,y)
+#else
+static void __cpuid(unsigned int cpuinfo[4], unsigned int type)  {
+#ifdef __GNUC__
+  #ifdef ASM_SUPPORTS_CPUID  
+      __asm__ __volatile__("cpuid" 
+                            : "=a" (cpuinfo[0]), "=b" (cpuinfo[1]), 
+                              "=c" (cpuinfo[2]), "=d" (cpuinfo[3]) 
+                            : "a" (type));
+  #else
+      __asm__ __volatile__(".byte 0x0f, 0xa2" 
+                            : "=a" (cpuinfo[0]), "=b" (cpuinfo[1]), 
+                              "=c" (cpuinfo[2]), "=d" (cpuinfo[3]) 
+                            : "a" (type));
+  #endif
+#elif defined(_MSC_VER)
+  #ifdef _M_IX86
+      __asm {
+                       mov eax,type
+                       __emit 00fh
+                       __emit 0a2h
+                       mov cpuinfo[0],eax
+                       mov cpuinfo[1],ebx
+                       mov cpuinfo[2],ecx
+                       mov cpuinfo[3],edx
+       }
+  #elif defined(_M_AMD64)
+      // damn Microsoft for not having inline assembler in 64-bit code
+      // so this is in an NASM compiled library
+      asm_cpuid(cpuinfo,type);
+  #endif
+#endif
+}
+#endif
+#endif
 
 // Returns the number of seconds difference from UTC
 //
-int get_timezone(int& timezone) {
+int get_timezone(int& tz) {
     TIME_ZONE_INFORMATION tzi;
     memset(&tzi, 0, sizeof(TIME_ZONE_INFORMATION));
     DWORD result = GetTimeZoneInformation(&tzi);
     if (result == TIME_ZONE_ID_DAYLIGHT) {
-        timezone = -(tzi.Bias + tzi.DaylightBias) * 60;
+        tz = -(tzi.Bias + tzi.DaylightBias) * 60;
     } else {
-        timezone = -(tzi.Bias + tzi.StandardBias) * 60;
+        tz = -(tzi.Bias + tzi.StandardBias) * 60;
     }
     return 0;
 }
@@ -648,13 +725,12 @@ int get_os_information(
 //
 int get_cpuid(unsigned int info_type, unsigned int& a, unsigned int& b, unsigned int& c, unsigned int& d) {
 
-#ifdef _MSC_VER
 
-    // Microsoft compiler - use intrinsic
     int retval = 1;
     int CPUInfo[4] = {0,0,0,0};
-
+#ifdef _MSC_VER
     __try {
+#endif
         __cpuid(CPUInfo, info_type);
 
         a = CPUInfo[0];
@@ -663,19 +739,11 @@ int get_cpuid(unsigned int info_type, unsigned int& a, unsigned int& b, unsigned
         d = CPUInfo[3];
 
         retval = 0;
+#ifdef _MSC_VER
     }
     __except (EXCEPTION_EXECUTE_HANDLER) {}
-    return retval;
-
-#elif defined(__GNUC__)
-
-    // GCC compiler
-    __asm__ __volatile__ ("cpuid": "=a" (ax), "=b" (bx), "=c" (cx), "=d" (dx) : "a" (info_type));
-    return 0;
-
-#else
-    return 1;
 #endif
+    return retval;
 }
 
 
@@ -785,7 +853,9 @@ int get_processor_cache(int& cache) {
     return 0;
 }
 
-
+#ifndef _XCR_XFEATURE_ENABLED_MASK
+#define _XCR_XFEATURE_ENABLED_MASK 0
+#endif
 // Returns true if the AVX instruction set is supported with the current
 // combination of OS and CPU.
 // see: http://insufficientlycomplicated.wordpress.com/2011/11/07/detecting-intel-advanced-vector-extensions-avx-in-visual-studio/
@@ -794,9 +864,7 @@ bool is_avx_supported() {
 
     bool supported = false;
  
-    // If Visual Studio 2010 SP1 or later
-#if (_MSC_FULL_VER >= 160040219)
-    // Checking for AVX requires 3 things:
+    // Checking for AVX on Windows requires 3 things:
     // 1) CPUID indicates that the OS uses XSAVE and XRSTORE
     //     instructions (allowing saving YMM registers on context
     //     switch)
@@ -806,11 +874,11 @@ bool is_avx_supported() {
     //
     // Note that XGETBV is only available on 686 or later CPUs, so
     // the instruction needs to be conditionally run.
-    int cpuInfo[4];
-    __cpuid(cpuInfo, 1);
+    unsigned int a,b,c,d;
+    get_cpuid(1, a, b, c, d);
  
-    bool osUsesXSAVE_XRSTORE = cpuInfo[2] & (1 << 27) || false;
-    bool cpuAVXSuport = cpuInfo[2] & (1 << 28) || false;
+    bool osUsesXSAVE_XRSTORE = c & (1 << 27) || false;
+    bool cpuAVXSuport = c & (1 << 28) || false;
  
     if (osUsesXSAVE_XRSTORE && cpuAVXSuport)
     {
@@ -818,7 +886,6 @@ bool is_avx_supported() {
         unsigned long long xcrFeatureMask = _xgetbv(_XCR_XFEATURE_ENABLED_MASK);
         supported = (xcrFeatureMask & 0x6) || false;
     }
-#endif
  
     return supported;
 }

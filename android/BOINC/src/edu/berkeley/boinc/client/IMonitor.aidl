@@ -20,6 +20,7 @@ package edu.berkeley.boinc.client;
 
 import java.util.List;
 import edu.berkeley.boinc.rpc.AccountOut;
+import edu.berkeley.boinc.rpc.AccountIn;
 import edu.berkeley.boinc.rpc.ProjectConfig;
 import edu.berkeley.boinc.rpc.AcctMgrInfo;
 import edu.berkeley.boinc.rpc.Message;
@@ -34,12 +35,12 @@ import edu.berkeley.boinc.rpc.ImageWrapper;
 
 interface IMonitor {
 /////// client interface //////////////////////////////////////////
-boolean attachProject(in String url, in String id, in String pwd); // implement: call clientInterface.attachProject(url, id, pwd);
+boolean attachProject(in String url, in String projectName, in String authenticator); // implement: call clientInterface.attachProject(url, projectName, authenticator);
 boolean checkProjectAttached(in String url);       // implement: call clientInterface.checkProjectAttached(url);
-AccountOut lookupCredentials(in String url, in String id, in String pwd, in boolean usesName);  // implement: call clientInterface.lookupCredentials(url, id, pwd, usesName);
+AccountOut lookupCredentials(in AccountIn credentials);  // implement: call clientInterface.lookupCredentials(credentials);
 boolean projectOp(in int status, String url);             // implement: call clientInterface.projectOp(RpcClient.PROJECT_DETACH,url);
 boolean resultOp(in int op, in String url, in String name);      // implement: call clientInterface.resultOp(int, String, String);
-AccountOut createAccountPolling(in String url, in String email, in String id, in String pw, in String team);  // implement: call clientInterface.createAccountPolling(url, email, userName, pwd, teamName);
+AccountOut createAccountPolling(in AccountIn information);  // implement: call clientInterface.createAccountPolling(information);
 String readAuthToken(in String path);               // implement: call clientInterface.readAuthToken(String);
 ProjectConfig getProjectConfigPolling(in String url);    // implement: call clientInterface.getProjectConfigPolling(url);
 int addAcctMgrErrorNum(in String url, in String userName, in String pwd);  // implement: return clientInterface.addAcctMgr(url, userName, pwd).error_num; check return null!=clientInterface.addAcctMgr(url, userName, pwd)
@@ -55,8 +56,11 @@ boolean setGlobalPreferences(in GlobalPreferences pref);   // implement: call cl
 boolean transferOperation(in List<Transfer> list, in int op);  // implement: call clientInterface.transferOperation(ArrayList<transfer>, int);
 List<Notice> getServerNotices();        // implement: call clientInterface.getServerNotices()
 boolean runBenchmarks();
+List<ProjectInfo> getAttachableProjects();  // clientInterface.getAttachableProjects();
+ProjectInfo getProjectInfo(String url);  // clientInterface.getProjectInfo(String url);
 
 /////// general //////////////////////////////////////////
+boolean boincMutexAcquired();				// implment: call Monitor.boincMutexAcquired();
 void forceRefresh();                        // implement: call Monitor.forceRefresh();
 boolean isStationaryDeviceSuspected();               // implement: call Monitor.getDeviceStatus().isStationaryDevice();
 int getBatteryChargeStatus();           // implement: return getDeviceStatus().getStatus().battery_charge_pct;
@@ -65,7 +69,6 @@ int getBoincPlatform();                        // should be not necessary to be 
 void cancelNoticeNotification();
 
 /////// client status //////////////////////////////////////////
-List<ProjectInfo> getSupportedProjects();  // clientstatus.getSupportedProjects();
 boolean getAcctMgrInfoPresent();  // clientStatus.getAcctMgrInfo().present;
 int getSetupStatus();         // clientStatus.setupStatus;
 int getComputingStatus();     // clientStatus.computingStatus;

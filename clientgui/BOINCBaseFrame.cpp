@@ -75,7 +75,6 @@ CBOINCBaseFrame::CBOINCBaseFrame(wxWindow* parent, const wxWindowID id, const wx
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::CBOINCBaseFrame - Function Begin"));
 
     // Configuration Settings
-    m_iSelectedLanguage = 0;
     m_iReminderFrequency = 0;
     m_strNetworkDialupConnectionName = wxEmptyString;
     m_aSelectedComputerMRU.Clear();
@@ -771,9 +770,7 @@ bool CBOINCBaseFrame::SaveState() {
     //
     pConfig->SetPath(strBaseConfigLocation);
 
-    pConfig->Write(wxT("Language"), m_iSelectedLanguage);
     pConfig->Write(wxT("ReminderFrequencyV3"), m_iReminderFrequency);
-
     pConfig->Write(wxT("NetworkDialupConnectionName"), m_strNetworkDialupConnectionName);
 
 
@@ -828,9 +825,7 @@ bool CBOINCBaseFrame::RestoreState() {
     //
     pConfig->SetPath(strBaseConfigLocation);
 
-    pConfig->Read(wxT("Language"), &m_iSelectedLanguage, 0L);
     pConfig->Read(wxT("ReminderFrequencyV3"), &m_iReminderFrequency, 360L);
-
     pConfig->Read(wxT("NetworkDialupConnectionName"), &m_strNetworkDialupConnectionName, wxEmptyString);
 
 

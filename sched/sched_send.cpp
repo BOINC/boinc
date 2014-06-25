@@ -46,6 +46,7 @@
 #include "sched_locality.h"
 #include "sched_main.h"
 #include "sched_msgs.h"
+#include "sched_nci.h"
 #include "sched_shmem.h"
 #include "sched_score.h"
 #include "sched_timezone.h"
@@ -364,7 +365,7 @@ double max_allowable_disk() {
         // Compute the max allowable additional disk usage based on prefs
         //
         x1 = prefs.disk_max_used_gb*GIGA - host.d_boinc_used_total;
-        x2 = host.d_total*prefs.disk_max_used_pct/100.
+        x2 = host.d_total * prefs.disk_max_used_pct / 100.0
             - host.d_boinc_used_total;
         x3 = host.d_free - prefs.disk_min_free_gb*GIGA;      // may be negative
         x = std::min(x1, std::min(x2, x3));
@@ -394,9 +395,9 @@ double max_allowable_disk() {
         if (config.debug_send) {
             log_messages.printf(MSG_NORMAL,
                 "[send] No disk space available: disk_max_used_gb %.2fGB disk_max_used_pct %.2f disk_min_free_gb %.2fGB\n",
-                prefs.disk_max_used_gb/GIGA,
+                prefs.disk_max_used_gb,
                 prefs.disk_max_used_pct,
-                prefs.disk_min_free_gb/GIGA
+                prefs.disk_min_free_gb
             );
             log_messages.printf(MSG_NORMAL,
                 "[send] No disk space available: host.d_total %.2fGB host.d_free %.2fGB host.d_boinc_used_total %.2fGB\n",
@@ -471,9 +472,9 @@ double available_frac(BEST_APP_VERSION& bav) {
 double estimate_duration(WORKUNIT& wu, BEST_APP_VERSION& bav) {
     double edu = estimate_duration_unscaled(wu, bav);
     double ed = edu/available_frac(bav);
-    if (config.debug_send) {
+    if (config.debug_send_job) {
         log_messages.printf(MSG_NORMAL,
-            "[send] est. duration for WU %d: unscaled %.2f scaled %.2f\n",
+            "[send_job] est. duration for WU %d: unscaled %.2f scaled %.2f\n",
             wu.id, edu, ed
         );
     }
@@ -773,10 +774,34 @@ bool work_needed(bool locality_sched) {
         // if we've failed to send a result because of a transient condition,
         // return false to preserve invariant
         //
-        if (g_wreq->disk.insufficient || g_wreq->speed.insufficient || g_wreq->mem.insufficient || g_wreq->no_allowed_apps_available) {
+        if (g_wreq->disk.insufficient) {
             if (config.debug_send) {
                 log_messages.printf(MSG_NORMAL,
-                    "[send] stopping work search - locality condition\n"
+                    "[send] stopping work search - insufficient disk space\n"
+                );
+            }
+            return false;
+        }
+        if (g_wreq->speed.insufficient) {
+            if (config.debug_send) {
+                log_messages.printf(MSG_NORMAL,
+                    "[send] stopping work search - host too slow\n"
+                );
+            }
+            return false;
+        }
+        if (g_wreq->mem.insufficient) {
+            if (config.debug_send) {
+                log_messages.printf(MSG_NORMAL,
+                    "[send] stopping work search - insufficient memory\n"
+                );
+            }
+            return false;
+        }
+        if (g_wreq->no_allowed_apps_available) {
+            if (config.debug_send) {
+                log_messages.printf(MSG_NORMAL,
+                    "[send] stopping work search - no locality app selected\n"
                 );
             }
             return false;
@@ -966,9 +991,13 @@ int add_result_to_reply(
 
     double est_dur = estimate_duration(wu, *bavp);
     if (config.debug_send) {
+        double max_time = wu.rsc_fpops_bound / bavp->host_usage.projected_flops;
+        char buf1[64],buf2[64];
+        secs_to_hmsf(est_dur, buf1);
+        secs_to_hmsf(max_time, buf2);
         log_messages.printf(MSG_NORMAL,
-            "[send] [HOST#%d] sending [RESULT#%u %s] (est. dur. %.2f seconds)\n",
-            g_reply->host.id, result.id, result.name, est_dur
+            "[send] [HOST#%d] sending [RESULT#%d %s] (est. dur. %.2fs (%s)) (max time %.2fs (%s))\n",
+            g_reply->host.id, result.id, result.name, est_dur, buf1, max_time, buf2
         );
     }
 
@@ -1575,8 +1604,6 @@ int update_host_app_versions(vector<SCHED_DB_RESULT>& results, int hostid) {
 void send_work() {
     int retval;
 
-    g_wreq->no_jobs_available = true;
-
     if (all_apps_use_hr && hr_unknown_platform(g_request->host)) {
         log_messages.printf(MSG_NORMAL,
             "Not sending work because unknown HR class\n"
@@ -1632,18 +1659,51 @@ void send_work() {
                 );
             }
             send_work_locality();
+
+            // save 'insufficient' flags from the first scheduler
+            bool disk_insufficient  = g_wreq->disk.insufficient;
+            bool speed_insufficient = g_wreq->speed.insufficient;
+            bool mem_insufficient   = g_wreq->mem.insufficient;
+            bool no_allowed_apps_available = g_wreq->no_allowed_apps_available;
+
+            // reset 'insufficient' flags for the second scheduler
+            g_wreq->disk.insufficient = false;
+            g_wreq->speed.insufficient = false;
+            g_wreq->mem.insufficient = false;
+            g_wreq->no_allowed_apps_available = false;
+
             if (config.debug_locality) {
                 log_messages.printf(MSG_NORMAL,
                     "[mixed] sending non-locality work second\n"
                 );
             }
             send_work_old();
+
+            // recombine the 'insufficient' flags from the two schedulers
+            g_wreq->disk.insufficient  = g_wreq->disk.insufficient && disk_insufficient;
+            g_wreq->speed.insufficient = g_wreq->speed.insufficient && speed_insufficient;
+            g_wreq->mem.insufficient   = g_wreq->mem.insufficient && mem_insufficient;
+            g_wreq->no_allowed_apps_available = g_wreq->no_allowed_apps_available && no_allowed_apps_available;
+
         } else {
             if (config.debug_locality) {
                 log_messages.printf(MSG_NORMAL,
                     "[mixed] sending non-locality work first\n"
                 );
             }
+
+            // save 'insufficient' flags from the first scheduler
+            bool disk_insufficient  = g_wreq->disk.insufficient;
+            bool speed_insufficient = g_wreq->speed.insufficient;
+            bool mem_insufficient   = g_wreq->mem.insufficient;
+            bool no_allowed_apps_available = g_wreq->no_allowed_apps_available;
+
+            // reset 'insufficient' flags for the second scheduler
+            g_wreq->disk.insufficient = false;
+            g_wreq->speed.insufficient = false;
+            g_wreq->mem.insufficient = false;
+            g_wreq->no_allowed_apps_available = false;
+
             send_work_old();
             if (config.debug_locality) {
                 log_messages.printf(MSG_NORMAL,
@@ -1651,6 +1711,13 @@ void send_work() {
                 );
             }
             send_work_locality();
+
+            // recombine the 'insufficient' flags from the two schedulers
+            g_wreq->disk.insufficient  = g_wreq->disk.insufficient && disk_insufficient;
+            g_wreq->speed.insufficient = g_wreq->speed.insufficient && speed_insufficient;
+            g_wreq->mem.insufficient   = g_wreq->mem.insufficient && mem_insufficient;
+            g_wreq->no_allowed_apps_available = g_wreq->no_allowed_apps_available && no_allowed_apps_available;
+
         }
     } else if (config.locality_scheduling) {
         send_work_locality();

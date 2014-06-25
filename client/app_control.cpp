@@ -357,7 +357,7 @@ void ACTIVE_TASK::handle_premature_exit(bool& will_restart) {
 // handle a temporary exit
 //
 void ACTIVE_TASK::handle_temporary_exit(
-    bool& will_restart, double backoff, const char* reason
+    bool& will_restart, double backoff, const char* reason, bool is_notice
 ) {
     premature_exit_count++;
     if (premature_exit_count > 100) {
@@ -367,10 +367,16 @@ void ACTIVE_TASK::handle_temporary_exit(
         gstate.report_result_error(*result, "too many boinc_temporary_exit()s");
         result->set_state(RESULT_ABORTED, "handle_temporary_exit");
     } else {
-        if (log_flags.task_debug) {
-            msg_printf(result->project, MSG_INFO,
-                "[task] task called temporary_exit(%f, %s)", backoff, reason
+        if (is_notice) {
+            msg_printf(result->project, MSG_USER_ALERT,
+                "Can't run task: %s", reason
             );
+        } else {
+            if (log_flags.task_debug) {
+                msg_printf(result->project, MSG_INFO,
+                    "[task] task called temporary_exit(%f, %s)", backoff, reason
+                );
+            }
         }
         will_restart = true;
         result->schedule_backoff = gstate.now + backoff;
@@ -385,6 +391,8 @@ void ACTIVE_TASK::copy_final_info() {
     result->final_peak_working_set_size = peak_working_set_size;
     result->final_peak_swap_size = peak_swap_size;
     result->final_peak_disk_usage = peak_disk_usage;
+    result->final_bytes_sent = bytes_sent;
+    result->final_bytes_received = bytes_received;
 }
 
 // deal with a process that has exited, for whatever reason:
@@ -440,10 +448,11 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
                 break;
             }
             double x;
+            bool is_notice;
             char buf[256];
             strcpy(buf, "");
-            if (temporary_exit_file_present(x, buf)) {
-                handle_temporary_exit(will_restart, x, buf);
+            if (temporary_exit_file_present(x, buf, is_notice)) {
+                handle_temporary_exit(will_restart, x, buf, is_notice);
             } else {
                 handle_premature_exit(will_restart);
             }
@@ -487,16 +496,9 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
 
             double x;
             char buf[256];
-            if (temporary_exit_file_present(x, buf)) {
-                if (log_flags.task_debug) {
-                    msg_printf(result->project, MSG_INFO,
-                        "[task] task called temporary_exit(%f)", x
-                    );
-                }
-                set_task_state(PROCESS_UNINITIALIZED, "temporary exit");
-                will_restart = true;
-                result->schedule_backoff = gstate.now + x;
-                safe_strcpy(result->schedule_backoff_reason, buf);
+            bool is_notice;
+            if (temporary_exit_file_present(x, buf, is_notice)) {
+                handle_temporary_exit(will_restart, x, buf, is_notice);
             } else {
                 if (log_flags.task_debug) {
                     msg_printf(result->project, MSG_INFO,
@@ -589,8 +591,10 @@ bool ACTIVE_TASK::finish_file_present() {
     return (boinc_file_exists(path) != 0);
 }
 
-bool ACTIVE_TASK::temporary_exit_file_present(double& x, char* buf) {
-    char path[MAXPATHLEN];
+bool ACTIVE_TASK::temporary_exit_file_present(
+    double& x, char* buf, bool& is_notice
+) {
+    char path[MAXPATHLEN], buf2[256];
     sprintf(path, "%s/%s", slot_dir, TEMPORARY_EXIT_FILE);
     FILE* f = fopen(path, "r");
     if (!f) return false;
@@ -605,6 +609,12 @@ bool ACTIVE_TASK::temporary_exit_file_present(double& x, char* buf) {
     (void) fgets(buf, 256, f);     // read the \n
     (void) fgets(buf, 256, f);
     strip_whitespace(buf);
+    is_notice = false;
+    if (fgets(buf2, 256, f)) {
+        if (strstr(buf2, "notice")) {
+            is_notice = true;
+        }
+    }
     fclose(f);
     return true;
 }
@@ -792,10 +802,10 @@ bool ACTIVE_TASK_SET::check_rsc_limits_exceeded() {
     static double last_disk_check_time = 0;
     bool do_disk_check = false;
     bool did_anything = false;
-	char buf[256];
+    char buf[256];
 
     double ram_left = gstate.available_ram();
-	double max_ram = gstate.max_available_ram();
+    double max_ram = gstate.max_available_ram();
 
     // Some slot dirs have lots of files,
     // so only check every min(disk_interval, 300) secs
@@ -809,11 +819,11 @@ bool ACTIVE_TASK_SET::check_rsc_limits_exceeded() {
         atp = active_tasks[i];
         if (atp->task_state() != PROCESS_EXECUTING) continue;
         if (!atp->result->non_cpu_intensive() && (atp->elapsed_time > atp->max_elapsed_time)) {
-			sprintf(buf, "exceeded elapsed time limit %.2f (%.2fG/%.2fG)",
+            sprintf(buf, "exceeded elapsed time limit %.2f (%.2fG/%.2fG)",
                 atp->max_elapsed_time,
                 atp->result->wup->rsc_fpops_bound/1e9,
                 atp->result->avp->flops/1e9
-			);
+            );
             msg_printf(atp->result->project, MSG_INFO,
                 "Aborting task %s: %s", atp->result->name, buf
             );
@@ -828,10 +838,10 @@ bool ACTIVE_TASK_SET::check_rsc_limits_exceeded() {
         // and I don't think we can expect projects to provide
         // accurate bounds.
         //
-		if (atp->procinfo.working_set_size_smoothed > atp->max_mem_usage) {
-			sprintf(buf, "working set size > workunit.rsc_memory_bound: %.2fMB > %.2fMB",
-				atp->procinfo.working_set_size_smoothed/MEGA, atp->max_mem_usage/MEGA
-			);
+        if (atp->procinfo.working_set_size_smoothed > atp->max_mem_usage) {
+            sprintf(buf, "working set size > workunit.rsc_memory_bound: %.2fMB > %.2fMB",
+                atp->procinfo.working_set_size_smoothed/MEGA, atp->max_mem_usage/MEGA
+            );
             msg_printf(atp->result->project, MSG_INFO,
                 "Aborting task %s: %s",
                 atp->result->name, buf
@@ -841,10 +851,10 @@ bool ACTIVE_TASK_SET::check_rsc_limits_exceeded() {
             continue;
         }
 #endif
-		if (atp->procinfo.working_set_size_smoothed > max_ram) {
-			sprintf(buf, "working set size > client RAM limit: %.2fMB > %.2fMB",
-				atp->procinfo.working_set_size_smoothed/MEGA, max_ram/MEGA
-			);
+        if (atp->procinfo.working_set_size_smoothed > max_ram) {
+            sprintf(buf, "working set size > client RAM limit: %.2fMB > %.2fMB",
+                atp->procinfo.working_set_size_smoothed/MEGA, max_ram/MEGA
+            );
             msg_printf(atp->result->project, MSG_INFO,
                 "Aborting task %s: %s",
                 atp->result->name, buf
@@ -854,10 +864,10 @@ bool ACTIVE_TASK_SET::check_rsc_limits_exceeded() {
             continue;
         }
         if (do_disk_check || atp->peak_disk_usage == 0) {
-			if (atp->check_max_disk_exceeded()) {
-				did_anything = true;
-				continue;
-			}
+            if (atp->check_max_disk_exceeded()) {
+                did_anything = true;
+                continue;
+            }
         }
 
         // don't count RAM usage of non-CPU-intensive jobs
@@ -910,7 +920,7 @@ int ACTIVE_TASK::read_stderr_file() {
     int max_len = 63*1024;
     sprintf(path, "%s/%s", slot_dir, STDERR_FILE);
     if (!boinc_file_exists(path)) return 0;
-    if (read_file_malloc(path, buf1, max_len, !config.stderr_head)) {
+    if (read_file_malloc(path, buf1, max_len, !cc_config.stderr_head)) {
         return ERR_MALLOC;
     }
 
@@ -1087,6 +1097,8 @@ int ACTIVE_TASK_SET::abort_project(PROJECT* project) {
     while (task_iter != active_tasks.end()) {
         atp = *task_iter;
         if (atp->result->project == project) {
+            client_clean_out_dir(atp->slot_dir, "abort_project()");
+            remove_project_owned_dir(atp->slot_dir);
             task_iter = active_tasks.erase(task_iter);
             delete atp;
         } else {
@@ -1331,16 +1343,20 @@ bool ACTIVE_TASK::get_app_status_msg() {
     parse_double(msg_buf, "<intops_per_cpu_sec>", result->intops_per_cpu_sec);
     parse_double(msg_buf, "<intops_cumulative>", result->intops_cumulative);
     if (parse_double(msg_buf, "<bytes_sent>", dtemp)) {
-        if (dtemp > bytes_sent) {
-            daily_xfer_history.add(dtemp - bytes_sent, true);
+        if (dtemp > bytes_sent_episode) {
+            double nbytes = dtemp - bytes_sent_episode;
+            daily_xfer_history.add(nbytes, true);
+            bytes_sent += nbytes;
         }
-        bytes_sent = dtemp;
+        bytes_sent_episode = dtemp;
     }
     if (parse_double(msg_buf, "<bytes_received>", dtemp)) {
-        if (dtemp > bytes_received) {
-            daily_xfer_history.add(dtemp - bytes_received, false);
+        if (dtemp > bytes_received_episode) {
+            double nbytes = dtemp - bytes_received_episode;
+            daily_xfer_history.add(nbytes, false);
+            bytes_received += nbytes;
         }
-        bytes_received = dtemp;
+        bytes_received_episode = dtemp;
     }
     parse_int(msg_buf, "<want_network>", want_network);
     if (parse_int(msg_buf, "<other_pid>", other_pid)) {
@@ -1435,17 +1451,17 @@ void ACTIVE_TASK_SET::get_msgs() {
     }
     last_time = gstate.now;
 
-	double et_diff, et_diff_throttle;
-	switch (gstate.suspend_reason) {
-	case 0:
-	case SUSPEND_REASON_CPU_THROTTLE:
-		et_diff = delta_t;
-		et_diff_throttle = delta_t * gstate.global_prefs.cpu_usage_limit/100;
-		break;
-	default:
-		et_diff = et_diff_throttle = 0;
-		break;
-	}
+    double et_diff, et_diff_throttle;
+    switch (gstate.suspend_reason) {
+    case 0:
+    case SUSPEND_REASON_CPU_THROTTLE:
+        et_diff = delta_t;
+        et_diff_throttle = delta_t * gstate.global_prefs.cpu_usage_limit/100;
+        break;
+    default:
+        et_diff = et_diff_throttle = 0;
+        break;
+    }
 
     for (i=0; i<active_tasks.size(); i++) {
         atp = active_tasks[i];
@@ -1485,7 +1501,8 @@ void ACTIVE_TASK_SET::get_msgs() {
     }
 }
 
-// write checkpoint state to a file in the slot dir
+// The job just checkpointed.
+// Write some state items to a file in the slot dir
 // (this avoids rewriting the state file on each checkpoint)
 //
 void ACTIVE_TASK::write_task_state_file() {
@@ -1508,7 +1525,7 @@ void ACTIVE_TASK::write_task_state_file() {
         result->name,
         checkpoint_cpu_time,
         checkpoint_elapsed_time,
-        fraction_done,
+        checkpoint_fraction_done,
         peak_working_set_size,
         peak_swap_size,
         peak_disk_usage
@@ -1517,7 +1534,7 @@ void ACTIVE_TASK::write_task_state_file() {
 }
 
 // called on startup; read the task state file in case it's more recent
-// then the main state file
+// than the main state file
 //
 void ACTIVE_TASK::read_task_state_file() {
     char buf[4096], path[MAXPATHLEN], s[1024];

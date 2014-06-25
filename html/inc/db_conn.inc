@@ -172,6 +172,7 @@ class DbConn {
     }
     function get_int($query, $field) {
         $result = $this->do_query($query);
+        if (!$result) error_page("database error on query $query");
         if (MYSQLI) {
             $x = $result->fetch_object("StdClass");
             $result->free();
@@ -184,6 +185,7 @@ class DbConn {
     }
     function get_double($query, $field) {
         $result = $this->do_query($query);
+        if (!$result) error_page("database error on query $query");
         if (MYSQLI) {
             $x = $result->fetch_object("StdClass");
             $result->free();
@@ -233,6 +235,7 @@ class DbConn {
     }
     function table_exists($table_name) {
         $result = $this->do_query("show tables from DBNAME like '$table_name'");
+        if (!$result) error_page("database error on query $query");
         if (MYSQLI) {
             $t = $result->fetch_array();
             $result->free();

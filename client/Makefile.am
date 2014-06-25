@@ -22,12 +22,15 @@ if OS_DARWIN
    LIBS += -framework IOKit -framework Foundation -framework ScreenSaver -framework Cocoa -framework CoreServices
 endif
 
-bin_PROGRAMS = boinc_client switcher boinccmd
+bin_PROGRAMS = boinc_client boinccmd
+if !OS_WIN32
+bin_PROGRAMS += switcher
+endif
 
 boinccmd_SOURCES = boinc_cmd.cpp
 boinccmd_DEPENDENCIES = $(LIBBOINC)
 boinccmd_CPPFLAGS = $(AM_CPPFLAGS)
-boinccmd_LDFLAGS = $(AM_LDFLAGS) -L../lib
+boinccmd_LDFLAGS = $(AM_LDFLAGS) -L$(top_srcdir)/lib
 boinccmd_LDADD = $(LIBBOINC) $(BOINC_EXTRA_LIBS) $(PTHREAD_LIBS)
 
 boinc_client_SOURCES = \
@@ -37,11 +40,12 @@ boinc_client_SOURCES = \
     app_config.cpp \
     app_control.cpp \
     app_start.cpp \
-	async_file.cpp \
+    async_file.cpp \
     check_state.cpp \
     client_msgs.cpp \
     client_state.cpp \
     client_types.cpp \
+	coproc_sched.cpp \
     cpu_sched.cpp \
     cs_account.cpp \
     cs_apps.cpp \
@@ -55,33 +59,32 @@ boinc_client_SOURCES = \
     cs_scheduler.cpp \
     cs_statefile.cpp \
     cs_trickle.cpp \
-	current_version.cpp \
+    current_version.cpp \
     dhrystone.cpp \
     dhrystone2.cpp \
     file_names.cpp \
     file_xfer.cpp \
-	gpu_amd.cpp \
-	gpu_detect.cpp \
-	gpu_intel.cpp \
-	gpu_nvidia.cpp \
-	gpu_opencl.cpp \
+    gpu_amd.cpp \
+    gpu_detect.cpp \
+    gpu_intel.cpp \
+    gpu_nvidia.cpp \
+    gpu_opencl.cpp \
     gui_http.cpp \
     gui_rpc_server.cpp \
     gui_rpc_server_ops.cpp \
     hostinfo_network.cpp \
-    hostinfo_unix.cpp \
     http_curl.cpp \
     log_flags.cpp \
-	mac_address.cpp \
+    mac_address.cpp \
     main.cpp \
     net_stats.cpp \
     pers_file_xfer.cpp \
-	project.cpp \
-	result.cpp \
+    project.cpp \
+    result.cpp \
     rr_sim.cpp \
     sandbox.cpp \
     scheduler_op.cpp \
-	thread.cpp \
+    thread.cpp \
     time_stats.cpp \
     whetstone.cpp \
     work_fetch.cpp
@@ -89,9 +92,19 @@ boinc_client_SOURCES = \
 boinc_client_DEPENDENCIES = $(LIBBOINC)
 boinc_client_CPPFLAGS = $(AM_CPPFLAGS)
 boinc_client_CXXFLAGS = $(AM_CXXFLAGS) $(SSL_CXXFLAGS)
-boinc_client_LDFLAGS = $(AM_LDFLAGS) $(SSL_LDFLAGS) -L../lib
+boinc_client_LDFLAGS = $(AM_LDFLAGS) $(SSL_LDFLAGS) -L$(top_srcdir)/lib
+if OS_WIN32
+boinc_client_CXXFLAGS += -I$(top_srcdir)/coprocs/NVIDIA/include
+boinc_client_SOURCES += hostinfo_win.cpp \
+                        sysmon_win.cpp \
+			win/boinc_cli.rc \
+			win/res/boinc.ico
+else
 if OS_DARWIN
 boinc_client_LDFLAGS += -Wl,-flat_namespace,-undefined,dynamic_lookup
+else
+boinc_client_SOURCES += hostinfo_unix.cpp
+endif
 endif
 boinc_client_LDADD = $(LIBBOINC) $(LIBBOINC_CRYPT) $(BOINC_EXTRA_LIBS) $(PTHREAD_LIBS)
 
@@ -113,16 +126,16 @@ switcher_LDADD = $(LIBBOINC)
 
 ## since we are using libtool we need some magic to get boinc and boinc_client
 ## to both be installed properly.  The next two rules do that...
-all-local: boinc
+all-local: boinc$(EXEEXT)
 
-boinc: boinc_client
-	rm -f boinc .libs/boinc
-	$(LN) boinc_client boinc
-	if test -f .libs/boinc_client ; then $(LN) .libs/boinc_client .libs/boinc ; fi
+boinc$(EXEEXT): boinc_client$(EXEEXT)
+	rm -f boinc$(EXEEXT) .libs/boinc$(EXEEXT)
+	$(LN) boinc_client$(EXEEXT) boinc$(EXEEXT)
+	if test -f .libs/boinc_client$(EXEEXT) ; then $(LN) .libs/boinc_client$(EXEEXT) .libs/boinc$(EXEEXT) ; fi
 
 install-exec-hook:
-	rm -f $(DESTDIR)$(exec_prefix)/bin/boinc
-	$(LN) $(DESTDIR)$(exec_prefix)/bin/boinc_client $(DESTDIR)$(exec_prefix)/bin/boinc
+	rm -f $(DESTDIR)$(exec_prefix)/bin/boinc$(EXEEXT)
+	$(LN) $(DESTDIR)$(exec_prefix)/bin/boinc_client$(EXEEXT) $(DESTDIR)$(exec_prefix)/bin/boinc$(EXEEXT)
 
 ## these source files need to be specified because no rule uses them.
 

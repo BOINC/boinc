@@ -98,7 +98,7 @@ using std::string;
 
 GPU_REQUIREMENTS gpu_requirements[NPROC_TYPES];
 
-bool wu_is_infeasible_custom(WORKUNIT& wu, APP& app, BEST_APP_VERSION& bav) {
+bool wu_is_infeasible_custom(WORKUNIT& /*wu*/, APP& /*app*/, BEST_APP_VERSION& /*bav*/) {
 #if 0
     // example: if WU name contains "_v1", don't use GPU apps.
     // Note: this is slightly suboptimal.
@@ -992,11 +992,6 @@ bool app_plan(SCHEDULER_REQUEST& sreq, char* plan_class, HOST_USAGE& hu) {
         safe_strcat(buf, "/plan_class_spec.xml");
         int retval = plan_class_specs.parse_file(buf);
         if (retval == ERR_FOPEN) {
-            if (config.debug_version_select) {
-                log_messages.printf(MSG_NORMAL,
-                    "[version] Couldn't open plan class spec file '%s'\n", buf
-                );
-            }
             have_plan_class_spec = false;
         } else if (retval) {
             log_messages.printf(MSG_CRITICAL,

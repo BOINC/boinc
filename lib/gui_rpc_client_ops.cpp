@@ -109,6 +109,12 @@ int TIME_STATS::parse(XML_PARSER& xp) {
         if (xp.parse_double("gpu_active_frac", gpu_active_frac)) continue;
         if (xp.parse_double("client_start_time", client_start_time)) continue;
         if (xp.parse_double("previous_uptime", previous_uptime)) continue;
+        if (xp.parse_double("session_active_duration", session_active_duration)) continue;
+        if (xp.parse_double("session_gpu_active_duration", session_gpu_active_duration)) continue;
+        if (xp.parse_double("total_start_time", total_start_time)) continue;
+        if (xp.parse_double("total_duration", total_duration)) continue;
+        if (xp.parse_double("total_active_duration", total_active_duration)) continue;
+        if (xp.parse_double("total_gpu_active_duration", total_gpu_active_duration)) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -451,6 +457,8 @@ int PROJECT::parse(XML_PARSER& xp) {
         if (xp.parse_double("project_files_downloaded_time", project_files_downloaded_time)) continue;
         if (xp.parse_bool("no_ati_pref", rsc_desc_cpu.no_rsc_pref)) continue;
         if (xp.parse_str("venue", venue, sizeof(venue))) continue;
+        if (xp.parse_int("njobs_success", njobs_success)) continue;
+        if (xp.parse_int("njobs_error", njobs_error)) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -502,6 +510,8 @@ void PROJECT::clear() {
     gui_urls.clear();
     statistics.clear();
     strcpy(venue, "");
+    njobs_success = 0;
+    njobs_error = 0;
 }
 
 APP::APP() {
@@ -671,6 +681,8 @@ int RESULT::parse(XML_PARSER& xp) {
         if (xp.parse_double("working_set_size_smoothed", working_set_size_smoothed)) continue;
         if (xp.parse_double("fraction_done", fraction_done)) continue;
         if (xp.parse_double("estimated_cpu_time_remaining", estimated_cpu_time_remaining)) continue;
+        if (xp.parse_double("bytes_sent", bytes_sent)) continue;
+        if (xp.parse_double("bytes_received", bytes_received)) continue;
         if (xp.parse_bool("too_large", too_large)) continue;
         if (xp.parse_bool("needs_shmem", needs_shmem)) continue;
         if (xp.parse_bool("edf_scheduled", edf_scheduled)) continue;
@@ -724,6 +736,8 @@ void RESULT::clear() {
     swap_size = 0;
     working_set_size_smoothed = 0;
     estimated_cpu_time_remaining = 0;
+    bytes_sent = 0;
+    bytes_received = 0;
     too_large = false;
     needs_shmem = false;
     edf_scheduled = false;
@@ -2549,7 +2563,7 @@ int RPC_CLIENT::read_cc_config() {
     return rpc.parse_reply();
 }
 
-int RPC_CLIENT::get_cc_config(CONFIG& config, LOG_FLAGS& log_flags) {
+int RPC_CLIENT::get_cc_config(CC_CONFIG& config, LOG_FLAGS& log_flags) {
     int retval;
     SET_LOCALE sl;
     RPC rpc(this);
@@ -2560,7 +2574,7 @@ int RPC_CLIENT::get_cc_config(CONFIG& config, LOG_FLAGS& log_flags) {
     return config.parse(rpc.xp, log_flags);
 }
 
-int RPC_CLIENT::set_cc_config(CONFIG& config, LOG_FLAGS& log_flags) {
+int RPC_CLIENT::set_cc_config(CC_CONFIG& config, LOG_FLAGS& log_flags) {
     SET_LOCALE sl;
     char buf[64000];
     MIOFILE mf;

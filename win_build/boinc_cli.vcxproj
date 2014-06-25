@@ -349,6 +349,7 @@
     <ClCompile Include="..\client\app_control.cpp" />
     <ClCompile Include="..\client\app_start.cpp" />
     <ClCompile Include="..\client\async_file.cpp" />
+    <ClCompile Include="..\client\coproc_sched.cpp" />
     <ClCompile Include="..\client\mac_address.cpp" />
     <ClCompile Include="..\client\thread.cpp" />
     <ClCompile Include="..\lib\boinc_win.cpp">
@@ -413,6 +414,7 @@
     <ClInclude Include="..\client\app.h" />
     <ClInclude Include="..\client\app_config.h" />
     <ClInclude Include="..\client\async_file.h" />
+    <ClInclude Include="..\client\coproc_sched.h" />
     <ClInclude Include="..\client\mac_address.h" />
     <ClInclude Include="..\client\thread.h" />
     <ClInclude Include="..\lib\base64.h" />

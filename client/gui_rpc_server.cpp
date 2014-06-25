@@ -137,7 +137,7 @@ void GUI_RPC_CONN_SET::get_password() {
     //
     retval = make_random_string(password);
     if (retval) {
-        if (config.os_random_only) {
+        if (cc_config.os_random_only) {
             msg_printf(
                 NULL, MSG_INTERNAL_ERROR,
                 "OS random string generation failed, exiting"
@@ -310,7 +310,7 @@ int GUI_RPC_CONN_SET::init_tcp(bool last_time) {
 #ifdef __APPLE__
     addr.sin_addr.s_addr = htonl(INADDR_ANY);
 #else
-    if (config.allow_remote_gui_rpc || remote_hosts_file_exists) {
+    if (cc_config.allow_remote_gui_rpc || remote_hosts_file_exists) {
         addr.sin_addr.s_addr = htonl(INADDR_ANY);
         if (log_flags.gui_rpc_debug) {
             msg_printf(NULL, MSG_INFO, "[gui_rpc] Remote control allowed");
@@ -468,7 +468,7 @@ void GUI_RPC_CONN_SET::got_select(FDSET_GROUP& fg) {
         //
         if (gstate.gui_rpc_unix_domain) {
             host_allowed = true;
-        } else if (config.allow_remote_gui_rpc) {
+        } else if (cc_config.allow_remote_gui_rpc) {
             host_allowed = true;
         } else if (is_localhost(addr)) {
             host_allowed = true;

@@ -36,7 +36,7 @@ if ($team_id || $team_ids || ($format == 'xml')) {
 }
 
 if ($team_id) {
-    $team = lookup_team($team_id);
+    $team = BoincTeam::lookup_id($team_id);
     if ($team) {
         show_team_xml($team);
     } else {
@@ -51,7 +51,7 @@ if ($team_ids) {
     $total = 0;
     foreach ($team_id_array as $team_id) {
         if (is_numeric($team_id)) { //make sure only numbers get through
-            $team = lookup_team($team_id);
+            $team = BoincTeam::lookup_id($team_id);
             if ($team) {
                 show_team_xml($team);
                 $total++;

@@ -18,9 +18,12 @@
 /// db_dump: dump database views in XML format
 // see http://boinc.berkeley.edu/trac/wiki/DbDump
 
-// Note: this program is way more configurable than it needs to be.
-// All projects export stats in the same format,
-// as described in the default db_dump_spec.xml that is created for you.
+// Note:
+// 1) this program is way more configurable than it needs to be.
+//    All projects export stats in the same format,
+//    as described in the default db_dump_spec.xml that is created for you.
+// 2) should scrap this and replace it with a 100 line PHP script.
+//    I'll get to this someday.
 
 #include "config.h"
 #include <cstdio>
@@ -70,6 +73,7 @@ const char* tag_name[3] = {"users", "teams", "hosts"};
 
 int nusers, nhosts, nteams;
 double total_credit;
+bool have_badges = false;
 
 struct OUTPUT {
     int recs_per_file;
@@ -462,6 +466,48 @@ void write_user(USER& user, FILE* f, bool /*detail*/) {
     );
 }
 
+void write_badge_user(char* output_dir) {
+    DB_BADGE_USER bu;
+    char path[MAXPATHLEN];
+    ZFILE* f = new ZFILE("badge_users", COMPRESSION_GZIP);
+    sprintf(path, "%s/badge_user", output_dir);
+    f->open(path);
+    while (!bu.enumerate("")) {
+        fprintf(f->f,
+            " <badge_user>\n"
+            "    <user_id>%d</user_id>\n"
+            "    <badge_id>%d</badge_id>\n"
+            "    <create_time>%.0f</create_time>\n"
+            " </badge_user>\n",
+            bu.user_id,
+            bu.badge_id,
+            bu.create_time
+        );
+    }
+    f->close();
+}
+
+void write_badge_team(char* output_dir) {
+    DB_BADGE_TEAM bt;
+    char path[MAXPATHLEN];
+    ZFILE* f = new ZFILE("badge_teams", COMPRESSION_GZIP);
+    sprintf(path, "%s/badge_team", output_dir);
+    f->open(path);
+    while (!bt.enumerate("")) {
+        fprintf(f->f,
+            " <badge_team>\n"
+            "    <team_id>%d</team_id>\n"
+            "    <badge_id>%d</badge_id>\n"
+            "    <create_time>%.0f</create_time>\n"
+            " </badge_team>\n",
+            bt.team_id,
+            bt.badge_id,
+            bt.create_time
+        );
+    }
+    f->close();
+}
+
 void write_team(TEAM& team, FILE* f, bool detail) {
     DB_USER user;
     char buf[256];
@@ -595,6 +641,27 @@ int print_apps(FILE* f) {
     return 0;
 }
 
+void print_badges(FILE* f) {
+    DB_BADGE badge;
+    fprintf(f, "    <badges>\n");
+    while (!badge.enumerate()) {
+        have_badges = true;
+        fprintf(f,
+            "       <badge>\n"
+            "           <id>%d</id>\n"
+            "           <name>%s</name>\n"
+            "           <title>%s</title>\n"
+            "           <image_url>%s</image_url>\n"
+            "       </badge>\n",
+            badge.id,
+            badge.name,
+            badge.title,
+            badge.image_url
+        );
+    }
+    fprintf(f, "    </badges>\n");
+}
+
 int tables_file(char* dir) {
     char buf[256];
 
@@ -610,6 +677,7 @@ int tables_file(char* dir) {
     if (nhosts) fprintf(f.f, "    <nhosts_total>%d</nhosts_total>\n", nhosts);
     if (total_credit) fprintf(f.f, "    <total_credit>%lf</total_credit>\n", total_credit);
     print_apps(f.f);
+    print_badges(f.f);
     f.close();
     return 0;
 }
@@ -747,6 +815,7 @@ void usage(char* name) {
         "    --dump_spec filename          Use the given config file (use ../db_dump_spec.xml)\n"
         "    [-d N | --debug_level]        Set verbosity level (1 to 4)\n"
         "    [--db_host H]                 Use the DB server on host H\n"
+        "    [--retry_period H]            When can't connect to DB, retry after N sec instead of terminating\n"
         "    [-h | --help]                 Show this\n"
         "    [-v | --version]              Show version information\n",
         name
@@ -759,6 +828,7 @@ int main(int argc, char** argv) {
     char* db_host = 0;
     char spec_filename[256], buf[256];
     FILE_LOCK file_lock;
+    int retry_period = 0;
 
     check_stop_daemons();
     setbuf(stderr, 0);
@@ -773,6 +843,13 @@ int main(int argc, char** argv) {
                 exit(1);
             }
             safe_strcpy(spec_filename, argv[i]);
+        } else if (is_arg(argv[i], "retry_period")) {
+            if (!argv[++i]) {
+                log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);
+                usage(argv[0]);
+                exit(1);
+            }
+            retry_period = atoi(argv[i]);
         } else if (is_arg(argv[i], "d") || is_arg(argv[i], "debug_level")) {
             if (!argv[++i]) {
                 log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);
@@ -837,15 +914,25 @@ int main(int argc, char** argv) {
         );
         exit(1);
     }
-    retval = boinc_db.open(
+
+    retval = boinc_mkdir(spec.output_dir);
+    if (retval) {
+        log_messages.printf(MSG_CRITICAL,
+            "boinc_mkdir(%s): %s; %s\n",
+            spec.output_dir, boincerror(retval), boinc_db.error_string()
+        );
+        exit(1);
+    }
+
+    while ((retval = boinc_db.open(
         config.replica_db_name,
         db_host?db_host:config.replica_db_host,
         config.replica_db_user,
         config.replica_db_passwd
-    );
-    if (retval) {
-        log_messages.printf(MSG_CRITICAL, "Can't open DB\n");
-        exit(1);
+    ))) {
+        log_messages.printf(MSG_CRITICAL, "Can't open DB: %d\n", retval);
+        if (retry_period == 0) exit(1);
+	boinc_sleep(retry_period);
     }
     retval = boinc_db.set_isolation_level(READ_UNCOMMITTED);
     if (retval) {
@@ -857,13 +944,18 @@ int main(int argc, char** argv) {
 
     boinc_mkdir(spec.output_dir);
 
+    tables_file(spec.output_dir);
+
     unsigned int j;
     for (j=0; j<spec.enumerations.size(); j++) {
         ENUMERATION& e = spec.enumerations[j];
         e.make_it_happen(spec.output_dir);
     }
 
-    tables_file(spec.output_dir);
+    if (have_badges) {
+        write_badge_user(spec.output_dir);
+        write_badge_team(spec.output_dir);
+    }
 
     sprintf(buf, "cp %s %s/db_dump.xml", spec_filename, spec.output_dir);
     retval = system(buf);

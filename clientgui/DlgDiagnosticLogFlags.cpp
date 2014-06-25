@@ -68,8 +68,8 @@ CDlgDiagnosticLogFlags::CDlgDiagnosticLogFlags(wxWindow* parent) :
 
     // Get cc_config.xml file flags
     log_flags.init();
-    config.defaults();
-    pDoc->rpc.get_cc_config(config, log_flags);
+    m_cc_config.defaults();
+    pDoc->rpc.get_cc_config(m_cc_config, log_flags);
     
     SetSizeHints( wxDefaultSize, wxDefaultSize );
     SetExtraStyle( GetExtraStyle() | wxWS_EX_VALIDATE_RECURSIVELY );
@@ -142,7 +142,7 @@ void CDlgDiagnosticLogFlags::CreateCheckboxes() {
     m_checkbox_list.clear();
     
     mf.init_buf_write(buf, sizeof(buf));
-    config.write(mf, log_flags);
+    m_cc_config.write(mf, log_flags);
     
     mf.init_buf_read(buf);
     XML_PARSER xp(&mf);
@@ -249,7 +249,7 @@ void CDlgDiagnosticLogFlags::OnOK(wxCommandEvent& event) {
     mf.init_buf_read(buf);
     log_flags.parse(xp);
     
-    int retval = pDoc->rpc.set_cc_config(config, log_flags);
+    int retval = pDoc->rpc.set_cc_config(m_cc_config, log_flags);
     if (!retval) {
         pDoc->rpc.read_cc_config();
     }
@@ -258,11 +258,6 @@ void CDlgDiagnosticLogFlags::OnOK(wxCommandEvent& event) {
 
 
 void CDlgDiagnosticLogFlags::OnSetDefaults(wxCommandEvent& ) {
-    CMainDocument* pDoc = wxGetApp().GetDocument();
-
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-
     log_flags.init();
     
     m_checkboxSizer->Clear(true);

@@ -19,6 +19,7 @@
 package edu.berkeley.boinc;
 
 import edu.berkeley.boinc.utils.*;
+import edu.berkeley.boinc.attach.SelectionListActivity;
 import edu.berkeley.boinc.client.ClientStatus;
 import edu.berkeley.boinc.utils.BOINCDefs;
 import android.content.BroadcastReceiver;
@@ -257,7 +258,7 @@ public class StatusFragment extends Fragment{
 	private OnClickListener addProjectOnClickListener = new OnClickListener(){
 		@Override
 		public void onClick(View v) {
-			startActivity(new Intent(getActivity(), AttachProjectListActivity.class));
+			startActivity(new Intent(getActivity(), SelectionListActivity.class));
 		}
 	};
 	

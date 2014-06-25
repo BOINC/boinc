@@ -44,5 +44,6 @@ extern int wu_is_infeasible_fast(
 );
 extern int slow_check(WU_RESULT&, APP*, BEST_APP_VERSION*);
 extern bool result_still_sendable(DB_RESULT& result, WORKUNIT& wu);
+extern bool app_not_selected(int appid);
  
 #endif

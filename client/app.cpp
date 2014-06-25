@@ -113,6 +113,8 @@ ACTIVE_TASK::ACTIVE_TASK() {
     run_interval_start_wall_time = gstate.now;
     checkpoint_wall_time = 0;
     elapsed_time = 0;
+    bytes_sent_episode = 0;
+    bytes_received_episode = 0;
     bytes_sent = 0;
     bytes_received = 0;
     strcpy(slot_dir, "");
@@ -188,7 +190,7 @@ int ACTIVE_TASK::preempt(int preempt_type, int reason) {
                 result->name
             );
         }
-		if (task_state() != PROCESS_EXECUTING) return 0;
+        if (task_state() != PROCESS_EXECUTING) return 0;
         return suspend();
     }
     return 0;
@@ -239,7 +241,7 @@ void ACTIVE_TASK::cleanup_task() {
     }
 #endif
 
-    if (config.exit_after_finish) {
+    if (cc_config.exit_after_finish) {
         gstate.write_state_file();
         exit(0);
     }
@@ -414,14 +416,14 @@ void ACTIVE_TASK_SET::get_memory_usage() {
         }
     }
 
-    for (i=0; i<config.exclusive_apps.size(); i++) {
-        if (app_running(pm, config.exclusive_apps[i].c_str())) {
+    for (i=0; i<cc_config.exclusive_apps.size(); i++) {
+        if (app_running(pm, cc_config.exclusive_apps[i].c_str())) {
             exclusive_app_running = gstate.now;
             break;
         }
     }
-    for (i=0; i<config.exclusive_gpu_apps.size(); i++) {
-        if (app_running(pm, config.exclusive_gpu_apps[i].c_str())) {
+    for (i=0; i<cc_config.exclusive_gpu_apps.size(); i++) {
+        if (app_running(pm, cc_config.exclusive_gpu_apps[i].c_str())) {
             exclusive_gpu_app_running = gstate.now;
             break;
         }
@@ -597,7 +599,9 @@ int ACTIVE_TASK::write(MIOFILE& fout) {
         "    <swap_size>%f</swap_size>\n"
         "    <working_set_size>%f</working_set_size>\n"
         "    <working_set_size_smoothed>%f</working_set_size_smoothed>\n"
-        "    <page_fault_rate>%f</page_fault_rate>\n",
+        "    <page_fault_rate>%f</page_fault_rate>\n"
+        "    <bytes_sent>%f</bytes_sent>\n"
+        "    <bytes_received>%f</bytes_received>\n",
         result->project->master_url,
         result->name,
         task_state(),
@@ -612,7 +616,9 @@ int ACTIVE_TASK::write(MIOFILE& fout) {
         procinfo.swap_size,
         procinfo.working_set_size,
         procinfo.working_set_size_smoothed,
-        procinfo.page_fault_rate
+        procinfo.page_fault_rate,
+        bytes_sent,
+        bytes_received
     );
     fout.printf("</active_task>\n");
     return 0;
@@ -628,7 +634,7 @@ int ACTIVE_TASK::write_gui(MIOFILE& fout) {
     if (fd == 0 && elapsed_time > 0) {
         double est_time = wup->rsc_fpops_est/app_version->flops;
         double x = elapsed_time/est_time;
-		fd = 1 - exp(-x);
+        fd = 1 - exp(-x);
     }
     fout.printf(
         "<active_task>\n"
@@ -645,6 +651,8 @@ int ACTIVE_TASK::write_gui(MIOFILE& fout) {
         "    <working_set_size>%f</working_set_size>\n"
         "    <working_set_size_smoothed>%f</working_set_size_smoothed>\n"
         "    <page_fault_rate>%f</page_fault_rate>\n"
+        "    <bytes_sent>%f</bytes_sent>\n"
+        "    <bytes_received>%f</bytes_received>\n"
         "%s"
         "%s",
         task_state(),
@@ -660,6 +668,8 @@ int ACTIVE_TASK::write_gui(MIOFILE& fout) {
         procinfo.working_set_size,
         procinfo.working_set_size_smoothed,
         procinfo.page_fault_rate,
+        bytes_sent,
+        bytes_received,
         too_large?"   <too_large/>\n":"",
         needs_shmem?"   <needs_shmem/>\n":""
     );
@@ -792,6 +802,8 @@ int ACTIVE_TASK::parse(XML_PARSER& xp) {
         else if (xp.parse_double("working_set_size_smoothed", procinfo.working_set_size_smoothed)) continue;
         else if (xp.parse_double("page_fault_rate", procinfo.page_fault_rate)) continue;
         else if (xp.parse_double("current_cpu_time", x)) continue;
+        else if (xp.parse_double("bytes_sent", bytes_sent)) continue;
+        else if (xp.parse_double("bytes_received", bytes_received)) continue;
         else {
             if (log_flags.unparsed_xml) {
                 msg_printf(project, MSG_INFO,
@@ -1070,7 +1082,7 @@ DWORD WINAPI throttler(LPVOID) {
 #else
 void* throttler(void*) {
 #endif
-    
+
     // Initialize diagnostics framework for this thread
     //
     diagnostics_thread_init();
@@ -1082,7 +1094,7 @@ void* throttler(void*) {
             boinc_sleep(10);
             continue;
         }
-		double on, off, on_frac = gstate.global_prefs.cpu_usage_limit / 100;
+        double on, off, on_frac = gstate.global_prefs.cpu_usage_limit / 100;
 #if 0
 // sub-second CPU throttling
 #define THROTTLE_PERIOD 1.
@@ -1090,13 +1102,13 @@ void* throttler(void*) {
         off = THROTTLE_PERIOD - on;
 #else
 // throttling w/ at least 1 sec between suspend/resume
-		if (on_frac > .5) {
-			off = 1;
-			on = on_frac/(1.-on_frac);
-		} else {
-			on = 1;
-			off = (1.-on_frac)/on_frac;
-		}
+        if (on_frac > .5) {
+            off = 1;
+            on = on_frac/(1.-on_frac);
+        } else {
+            on = 1;
+            off = (1.-on_frac)/on_frac;
+        }
 #endif
 
         gstate.tasks_throttled = true;

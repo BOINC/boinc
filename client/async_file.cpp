@@ -272,7 +272,7 @@ int ASYNC_VERIFY::verify_chunk() {
             md5_append(&md5_state, buf, n);
         }
     } else {
-        n = fread(buf, 1, BUFSIZE, in);
+        n = (int)fread(buf, 1, BUFSIZE, in);
         if (n <= 0) {
             fclose(in);
             finish();

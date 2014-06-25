@@ -207,7 +207,7 @@ int CLIENT_STATE::check_suspend_processing() {
         return SUSPEND_REASON_BENCHMARKS;
     }
 
-    if (config.start_delay && now < time_stats.client_start_time + config.start_delay) {
+    if (cc_config.start_delay && now < time_stats.client_start_time + cc_config.start_delay) {
         return SUSPEND_REASON_INITIAL_DELAY;
     }
 
@@ -228,7 +228,7 @@ int CLIENT_STATE::check_suspend_processing() {
             return SUSPEND_REASON_BATTERIES;
         }
 #ifndef ANDROID
-	// perform this check after SUSPEND_REASON_BATTERY_CHARGING on Android
+        // perform this check after SUSPEND_REASON_BATTERY_CHARGING on Android
         if (!global_prefs.run_if_user_active && user_active) {
             return SUSPEND_REASON_USER_ACTIVE;
         }
@@ -285,7 +285,7 @@ int CLIENT_STATE::check_suspend_processing() {
     // 2. "charge battery until 90%"
     // 3. "turn screen off to continue computing"
     if (!global_prefs.run_if_user_active && user_active) {
-	return SUSPEND_REASON_USER_ACTIVE;
+        return SUSPEND_REASON_USER_ACTIVE;
     }
 #endif
 
@@ -411,7 +411,7 @@ void CLIENT_STATE::check_suspend_network() {
 
     // no network traffic if we're allowing unsigned apps
     //
-    if (config.unsigned_apps_ok) {
+    if (cc_config.unsigned_apps_ok) {
         network_suspended = true;
         file_xfers_suspended = true;
         network_suspend_reason = SUSPEND_REASON_USER_REQ;

@@ -154,6 +154,9 @@ bool CDlgOptions::Create(wxWindow* parent, wxWindowID id, const wxString& captio
  * Control creation for CDlgToolsOptions
  */
 
+// NOTE: On MS Windows with wxWidgets 3.0, controls inside a wxStaticBox 
+// don't refresh properly unless they are children of the wxStaticBox!
+//
 void CDlgOptions::CreateControls() {    
 ////@begin CDlgOptions content construction
     CDlgOptions* itemDialog1 = this;
@@ -223,37 +226,37 @@ void CDlgOptions::CreateControls() {
     wxBoxSizer* itemBoxSizer12 = new wxBoxSizer(wxVERTICAL);
     itemPanel11->SetSizer(itemBoxSizer12);
 
-    wxStaticBox* itemStaticBoxSizer16Static = new wxStaticBox(itemPanel11, wxID_ANY, _("Dial-up and Virtual Private Network settings"));
-    m_DialupStaticBoxCtrl = new wxStaticBoxSizer(itemStaticBoxSizer16Static, wxVERTICAL);
+    wxStaticBox* itemStaticBox16 = new wxStaticBox(itemPanel11, wxID_ANY, _("Dial-up and Virtual Private Network settings"));
+    m_DialupStaticBoxCtrl = new wxStaticBoxSizer(itemStaticBox16, wxVERTICAL);
     itemBoxSizer12->Add(m_DialupStaticBoxCtrl, 0, wxGROW|wxALL, 5);
     wxFlexGridSizer* itemFlexGridSizer17 = new wxFlexGridSizer(2, 0, 0);
     itemFlexGridSizer17->AddGrowableCol(0);
     m_DialupStaticBoxCtrl->Add(itemFlexGridSizer17, 0, wxGROW|wxALL, 5);
     wxString* m_DialupConnectionsCtrlStrings = NULL;
     m_DialupConnectionsCtrl = new wxListBox;
-    m_DialupConnectionsCtrl->Create( itemPanel11, ID_DIALUPCONNECTIONS, wxDefaultPosition, wxSize(166, 185), 0, m_DialupConnectionsCtrlStrings, wxLB_SINGLE|wxLB_NEEDED_SB );
+    m_DialupConnectionsCtrl->Create( itemStaticBox16, ID_DIALUPCONNECTIONS, wxDefaultPosition, wxSize(166, 185), 0, m_DialupConnectionsCtrlStrings, wxLB_SINGLE|wxLB_NEEDED_SB );
     itemFlexGridSizer17->Add(m_DialupConnectionsCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     wxBoxSizer* itemBoxSizer19 = new wxBoxSizer(wxVERTICAL);
     itemFlexGridSizer17->Add(itemBoxSizer19, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
     m_DialupSetDefaultCtrl = new wxButton;
-    m_DialupSetDefaultCtrl->Create( itemPanel11, ID_DIALUPSETDEFAULT, _("&Set Default"), wxDefaultPosition, wxDefaultSize, 0 );
+    m_DialupSetDefaultCtrl->Create( itemStaticBox16, ID_DIALUPSETDEFAULT, _("&Set Default"), wxDefaultPosition, wxDefaultSize, 0 );
     m_DialupSetDefaultCtrl->SetDefault();
     itemBoxSizer19->Add(m_DialupSetDefaultCtrl, 0, wxGROW|wxALL, 5);
 
     m_DialupClearDefaultCtrl = new wxButton;
-    m_DialupClearDefaultCtrl->Create( itemPanel11, ID_DIALUPCLEARDEFAULT, _("&Clear Default"), wxDefaultPosition, wxDefaultSize, 0 );
+    m_DialupClearDefaultCtrl->Create( itemStaticBox16, ID_DIALUPCLEARDEFAULT, _("&Clear Default"), wxDefaultPosition, wxDefaultSize, 0 );
     itemBoxSizer19->Add(m_DialupClearDefaultCtrl, 0, wxGROW|wxALL, 5);
 
     wxFlexGridSizer* itemFlexGridSizer22 = new wxFlexGridSizer(2, 0, 0);
     itemFlexGridSizer22->AddGrowableCol(1);
     m_DialupStaticBoxCtrl->Add(itemFlexGridSizer22, 0, wxGROW|wxALL, 5);
     m_DialupDefaultConnectionTextCtrl = new wxStaticText;
-    m_DialupDefaultConnectionTextCtrl->Create( itemPanel11, ID_DIALUPDEFAULTCONNECTIONTEXT, _("Default Connection:"), wxDefaultPosition, wxDefaultSize, 0 );
+    m_DialupDefaultConnectionTextCtrl->Create( itemStaticBox16, ID_DIALUPDEFAULTCONNECTIONTEXT, _("Default Connection:"), wxDefaultPosition, wxDefaultSize, 0 );
     itemFlexGridSizer22->Add(m_DialupDefaultConnectionTextCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_DialupDefaultConnectionCtrl = new wxStaticText;
-    m_DialupDefaultConnectionCtrl->Create( itemPanel11, ID_DIALUPDEFAULTCONNECTION, wxT(""), wxDefaultPosition, wxDefaultSize, 0 );
+    m_DialupDefaultConnectionCtrl->Create( itemStaticBox16, ID_DIALUPDEFAULTCONNECTION, wxT(""), wxDefaultPosition, wxDefaultSize, 0 );
     itemFlexGridSizer22->Add(m_DialupDefaultConnectionCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     itemNotebook3->AddPage(itemPanel11, _("Connections"));
@@ -269,56 +272,56 @@ void CDlgOptions::CreateControls() {
     m_EnableHTTPProxyCtrl->SetValue(FALSE);
     itemBoxSizer28->Add(m_EnableHTTPProxyCtrl, 0, wxGROW|wxALL, 5);
 
-    wxStaticBox* itemStaticBoxSizer30Static = new wxStaticBox(itemPanel27, wxID_ANY, _("HTTP Proxy Server Configuration"));
-    wxStaticBoxSizer* itemStaticBoxSizer30 = new wxStaticBoxSizer(itemStaticBoxSizer30Static, wxVERTICAL);
+    wxStaticBox* itemStaticBox30 = new wxStaticBox(itemPanel27, wxID_ANY, _("HTTP Proxy Server Configuration"));
+    wxStaticBoxSizer* itemStaticBoxSizer30 = new wxStaticBoxSizer(itemStaticBox30, wxVERTICAL);
     itemBoxSizer28->Add(itemStaticBoxSizer30, 0, wxGROW|wxALL, 5);
     wxGridSizer* itemGridSizer31 = new wxGridSizer(2, 1, 0, 0);
     itemStaticBoxSizer30->Add(itemGridSizer31, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
     wxFlexGridSizer* itemFlexGridSizer32 = new wxFlexGridSizer(2, 0, 0);
     itemGridSizer31->Add(itemFlexGridSizer32, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
     wxStaticText* itemStaticText33 = new wxStaticText;
-    itemStaticText33->Create( itemPanel27, wxID_STATIC, _("Address:"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemStaticText33->Create( itemStaticBox30, wxID_STATIC, _("Address:"), wxDefaultPosition, wxDefaultSize, 0 );
     itemFlexGridSizer32->Add(itemStaticText33, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_HTTPAddressCtrl = new wxTextCtrl;
-    m_HTTPAddressCtrl->Create( itemPanel27, ID_HTTPADDRESSCTRL, wxT(""), wxDefaultPosition, wxSize(150, -1), 0 );
+    m_HTTPAddressCtrl->Create( itemStaticBox30, ID_HTTPADDRESSCTRL, wxT(""), wxDefaultPosition, wxSize(150, -1), 0 );
     itemFlexGridSizer32->Add(m_HTTPAddressCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     wxStaticText* itemStaticText35 = new wxStaticText;
-    itemStaticText35->Create( itemPanel27, wxID_STATIC, _("Port:"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemStaticText35->Create( itemStaticBox30, wxID_STATIC, _("Port:"), wxDefaultPosition, wxDefaultSize, 0 );
     itemFlexGridSizer32->Add(itemStaticText35, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_HTTPPortCtrl = new wxTextCtrl;
-    m_HTTPPortCtrl->Create( itemPanel27, ID_HTTPPORTCTRL, wxT(""), wxDefaultPosition, wxSize(50, -1), 0 );
+    m_HTTPPortCtrl->Create( itemStaticBox30, ID_HTTPPORTCTRL, wxT(""), wxDefaultPosition, wxSize(50, -1), 0 );
     itemFlexGridSizer32->Add(m_HTTPPortCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
 	wxStaticText* itemStaticText62 = new wxStaticText;
-    itemStaticText62->Create( itemPanel27, wxID_STATIC, _("Don't use proxy for:"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemStaticText62->Create( itemStaticBox30, wxID_STATIC, _("Don't use proxy for:"), wxDefaultPosition, wxDefaultSize, 0 );
     itemFlexGridSizer32->Add(itemStaticText62, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
 	m_HTTPNoProxiesCtrl = new wxTextCtrl;
-	m_HTTPNoProxiesCtrl->Create(itemPanel27,ID_HTTPNOPROXYCTRL,wxT(""),wxDefaultPosition,wxSize(150,-1),0);
+	m_HTTPNoProxiesCtrl->Create(itemStaticBox30,ID_HTTPNOPROXYCTRL,wxT(""),wxDefaultPosition,wxSize(150,-1),0);
 	itemFlexGridSizer32->Add(m_HTTPNoProxiesCtrl,0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    wxStaticBox* itemStaticBoxSizer37Static = new wxStaticBox(itemPanel27, wxID_ANY, _("Leave these blank if not needed"));
-    wxStaticBoxSizer* itemStaticBoxSizer37 = new wxStaticBoxSizer(itemStaticBoxSizer37Static, wxVERTICAL);
+    wxStaticBox* itemStaticBox37 = new wxStaticBox(itemStaticBox30, wxID_ANY, _("Leave these blank if not needed"));
+    wxStaticBoxSizer* itemStaticBoxSizer37 = new wxStaticBoxSizer(itemStaticBox37, wxVERTICAL);
     itemStaticBoxSizer30->Add(itemStaticBoxSizer37, 0, wxGROW|wxALL, 5);
     wxFlexGridSizer* itemFlexGridSizer38 = new wxFlexGridSizer(2, 0, 0);
     itemStaticBoxSizer37->Add(itemFlexGridSizer38, 0, wxALIGN_LEFT|wxALL, 5);
     wxStaticText* itemStaticText39 = new wxStaticText;
-    itemStaticText39->Create( itemPanel27, wxID_STATIC, _("User Name:"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemStaticText39->Create( itemStaticBox37, wxID_STATIC, _("User Name:"), wxDefaultPosition, wxDefaultSize, 0 );
     itemFlexGridSizer38->Add(itemStaticText39, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_HTTPUsernameCtrl = new wxTextCtrl;
-    m_HTTPUsernameCtrl->Create( itemPanel27, ID_HTTPUSERNAMECTRL, wxT(""), wxDefaultPosition, wxSize(175, -1), 0 );
+    m_HTTPUsernameCtrl->Create( itemStaticBox37, ID_HTTPUSERNAMECTRL, wxT(""), wxDefaultPosition, wxSize(175, -1), 0 );
     itemFlexGridSizer38->Add(m_HTTPUsernameCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     wxStaticText* itemStaticText41 = new wxStaticText;
-    itemStaticText41->Create( itemPanel27, wxID_STATIC, _("Password:"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemStaticText41->Create( itemStaticBox37, wxID_STATIC, _("Password:"), wxDefaultPosition, wxDefaultSize, 0 );
     itemFlexGridSizer38->Add(itemStaticText41, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_HTTPPasswordCtrl = new wxTextCtrl;
-    m_HTTPPasswordCtrl->Create( itemPanel27, ID_HTTPPASSWORDCTRL, wxT(""), wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD );
+    m_HTTPPasswordCtrl->Create( itemStaticBox37, ID_HTTPPASSWORDCTRL, wxT(""), wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD );
     itemFlexGridSizer38->Add(m_HTTPPasswordCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     itemNotebook3->AddPage(itemPanel27, _("HTTP Proxy"));
@@ -333,56 +336,56 @@ void CDlgOptions::CreateControls() {
     m_EnableSOCKSProxyCtrl->SetValue(FALSE);
     itemBoxSizer44->Add(m_EnableSOCKSProxyCtrl, 0, wxGROW|wxALL, 5);
 
-    wxStaticBox* itemStaticBoxSizer46Static = new wxStaticBox(itemPanel43, wxID_ANY, _("SOCKS Proxy Server Configuration"));
-    wxStaticBoxSizer* itemStaticBoxSizer46 = new wxStaticBoxSizer(itemStaticBoxSizer46Static, wxVERTICAL);
+    wxStaticBox* itemStaticBox46 = new wxStaticBox(itemPanel43, wxID_ANY, _("SOCKS Proxy Server Configuration"));
+    wxStaticBoxSizer* itemStaticBoxSizer46 = new wxStaticBoxSizer(itemStaticBox46, wxVERTICAL);
     itemBoxSizer44->Add(itemStaticBoxSizer46, 0, wxGROW|wxALL, 5);
     wxGridSizer* itemGridSizer47 = new wxGridSizer(2, 1, 0, 0);
     itemStaticBoxSizer46->Add(itemGridSizer47, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
     wxFlexGridSizer* itemFlexGridSizer48 = new wxFlexGridSizer(2, 0, 0);
     itemGridSizer47->Add(itemFlexGridSizer48, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
     wxStaticText* itemStaticText49 = new wxStaticText;
-    itemStaticText49->Create( itemPanel43, wxID_STATIC, _("Address:"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemStaticText49->Create( itemStaticBox46, wxID_STATIC, _("Address:"), wxDefaultPosition, wxDefaultSize, 0 );
     itemFlexGridSizer48->Add(itemStaticText49, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_SOCKSAddressCtrl = new wxTextCtrl;
-    m_SOCKSAddressCtrl->Create( itemPanel43, ID_SOCKSADDRESSCTRL, wxT(""), wxDefaultPosition, wxSize(150, -1), 0 );
+    m_SOCKSAddressCtrl->Create( itemStaticBox46, ID_SOCKSADDRESSCTRL, wxT(""), wxDefaultPosition, wxSize(150, -1), 0 );
     itemFlexGridSizer48->Add(m_SOCKSAddressCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     wxStaticText* itemStaticText51 = new wxStaticText;
-    itemStaticText51->Create( itemPanel43, wxID_STATIC, _("Port:"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemStaticText51->Create( itemStaticBox46, wxID_STATIC, _("Port:"), wxDefaultPosition, wxDefaultSize, 0 );
     itemFlexGridSizer48->Add(itemStaticText51, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_SOCKSPortCtrl = new wxTextCtrl;
-    m_SOCKSPortCtrl->Create( itemPanel43, ID_SOCKSPORTCTRL, wxT(""), wxDefaultPosition, wxSize(50, -1), 0 );
+    m_SOCKSPortCtrl->Create( itemStaticBox46, ID_SOCKSPORTCTRL, wxT(""), wxDefaultPosition, wxSize(50, -1), 0 );
     itemFlexGridSizer48->Add(m_SOCKSPortCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
 	wxStaticText* itemStaticText63 = new wxStaticText;
-    itemStaticText63->Create( itemPanel43, wxID_STATIC, _("Don't use proxy for:"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemStaticText63->Create( itemStaticBox46, wxID_STATIC, _("Don't use proxy for:"), wxDefaultPosition, wxDefaultSize, 0 );
     itemFlexGridSizer48->Add(itemStaticText63, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
 	m_SOCKSNoProxiesCtrl = new wxTextCtrl;
-	m_SOCKSNoProxiesCtrl->Create(itemPanel43,ID_SOCKSNOPROXYCTRL,wxT(""),wxDefaultPosition,wxSize(150,-1),0);
+	m_SOCKSNoProxiesCtrl->Create(itemStaticBox46,ID_SOCKSNOPROXYCTRL,wxT(""),wxDefaultPosition,wxSize(150,-1),0);
 	itemFlexGridSizer48->Add(m_SOCKSNoProxiesCtrl,0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    wxStaticBox* itemStaticBoxSizer53Static = new wxStaticBox(itemPanel43, wxID_ANY, _("Leave these blank if not needed"));
-    wxStaticBoxSizer* itemStaticBoxSizer53 = new wxStaticBoxSizer(itemStaticBoxSizer53Static, wxVERTICAL);
+    wxStaticBox* itemStaticBox53 = new wxStaticBox(itemStaticBox46, wxID_ANY, _("Leave these blank if not needed"));
+    wxStaticBoxSizer* itemStaticBoxSizer53 = new wxStaticBoxSizer(itemStaticBox53, wxVERTICAL);
     itemStaticBoxSizer46->Add(itemStaticBoxSizer53, 0, wxGROW|wxALL, 5);
     wxFlexGridSizer* itemFlexGridSizer54 = new wxFlexGridSizer(2, 0, 0);
     itemStaticBoxSizer53->Add(itemFlexGridSizer54, 0, wxALIGN_LEFT|wxALL, 5);
     wxStaticText* itemStaticText55 = new wxStaticText;
-    itemStaticText55->Create( itemPanel43, wxID_STATIC, _("User Name:"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemStaticText55->Create( itemStaticBox53, wxID_STATIC, _("User Name:"), wxDefaultPosition, wxDefaultSize, 0 );
     itemFlexGridSizer54->Add(itemStaticText55, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_SOCKSUsernameCtrl = new wxTextCtrl;
-    m_SOCKSUsernameCtrl->Create( itemPanel43, ID_SOCKSUSERNAMECTRL, wxT(""), wxDefaultPosition, wxSize(175, -1), 0 );
+    m_SOCKSUsernameCtrl->Create( itemStaticBox53, ID_SOCKSUSERNAMECTRL, wxT(""), wxDefaultPosition, wxSize(175, -1), 0 );
     itemFlexGridSizer54->Add(m_SOCKSUsernameCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     wxStaticText* itemStaticText57 = new wxStaticText;
-    itemStaticText57->Create( itemPanel43, wxID_STATIC, _("Password:"), wxDefaultPosition, wxDefaultSize, 0 );
+    itemStaticText57->Create( itemStaticBox53, wxID_STATIC, _("Password:"), wxDefaultPosition, wxDefaultSize, 0 );
     itemFlexGridSizer54->Add(itemStaticText57, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_SOCKSPasswordCtrl = new wxTextCtrl;
-    m_SOCKSPasswordCtrl->Create( itemPanel43, ID_SOCKSPASSWORDCTRL, wxT(""), wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD );
+    m_SOCKSPasswordCtrl->Create( itemStaticBox53, ID_SOCKSPASSWORDCTRL, wxT(""), wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD );
     itemFlexGridSizer54->Add(m_SOCKSPasswordCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     itemNotebook3->AddPage(itemPanel43, _("SOCKS Proxy"));
@@ -581,7 +584,7 @@ bool CDlgOptions::ReadSettings() {
 
     // General Tab
     m_LanguageSelectionCtrl->Append(wxGetApp().GetSupportedLanguages());
-    m_LanguageSelectionCtrl->SetSelection(pFrame->GetSelectedLanguage());
+    m_LanguageSelectionCtrl->SetSelection(wxLocale::FindLanguageInfo(wxGetApp().GetISOLanguageCode())->Language);
 
     m_ReminderFrequencyCtrl->Append(_("always"));
     m_ReminderFrequencyCtrl->Append(_("1 hour"));
@@ -678,7 +681,7 @@ bool CDlgOptions::SaveSettings() {
 
 
     // General Tab
-    if (pFrame->GetSelectedLanguage() != m_LanguageSelectionCtrl->GetSelection()) {
+    if (wxLocale::FindLanguageInfo(wxGetApp().GetISOLanguageCode())->Language != m_LanguageSelectionCtrl->GetSelection()) {
         wxString strDialogTitle;
         wxString strDialogMessage;
 
@@ -704,7 +707,7 @@ bool CDlgOptions::SaveSettings() {
         );
     }
 
-    pFrame->SetSelectedLanguage(m_LanguageSelectionCtrl->GetSelection());
+    wxGetApp().SetISOLanguageCode(wxLocale::GetLanguageInfo(m_LanguageSelectionCtrl->GetSelection())->CanonicalName);
 
     switch(m_ReminderFrequencyCtrl->GetSelection()) {
         case 0:

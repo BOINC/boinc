@@ -22,10 +22,24 @@
 #pragma interface "BOINCListCtrl.cpp"
 #endif
 
-#if defined(__WXMSW__) || defined(__WXGTK__)
+#ifdef __WXMSW__
 #define USE_NATIVE_LISTCONTROL 1
 #else
 #define USE_NATIVE_LISTCONTROL 0
+#endif
+
+
+// Virtual wxListCtrl does not reliably generate selection and
+// deselection events, so we must check for these differently.
+// We get more events than we need using EVT_LIST_CACHE_HINT, 
+// so testing on mouse events is more efficient, but it doesn't
+// work on Windows.
+#ifdef __WXMSW__
+// On Windows, check for selection / deselection on EVT_LIST_CACHE_HINT. 
+#define USE_LIST_CACHE_HINT 1
+#else
+// On Mac & Linux, check for selection / deselection on EVT_LEFT_DOWN. 
+#define USE_LIST_CACHE_HINT 0
 #endif
 
 #if USE_NATIVE_LISTCONTROL
@@ -77,6 +91,10 @@ private:
     CBOINCBaseView*         m_pParentView;
     wxArrayInt              m_iRowsNeedingProgressBars;
 
+#if ! USE_LIST_CACHE_HINT
+    void                    OnMouseDown(wxMouseEvent& event);
+#endif
+
 #if USE_NATIVE_LISTCONTROL
 public:
    void                     PostDrawProgressBarEvent();
@@ -117,11 +135,27 @@ public:
     virtual wxEvent *       Clone() const { return new CDrawProgressBarEvent(*this); }
 };
 
+class CCheckSelectionChangedEvent : public wxEvent
+{
+public:
+    CCheckSelectionChangedEvent(wxEventType evtType, CBOINCListCtrl* myCtrl)
+        : wxEvent(-1, evtType)
+        {
+            SetEventObject(myCtrl);
+        }
+
+    virtual wxEvent *       Clone() const { return new CCheckSelectionChangedEvent(*this); }
+};
+
+
 BEGIN_DECLARE_EVENT_TYPES()
 DECLARE_EVENT_TYPE( wxEVT_DRAW_PROGRESSBAR, 12000 )
+DECLARE_EVENT_TYPE( wxEVT_CHECK_SELECTION_CHANGED, 12002 )
 END_DECLARE_EVENT_TYPES()
 
 #define EVT_DRAW_PROGRESSBAR(fn)            DECLARE_EVENT_TABLE_ENTRY(wxEVT_DRAW_PROGRESSBAR, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
+
+#define EVT_CHECK_SELECTION_CHANGED(fn)            DECLARE_EVENT_TABLE_ENTRY(wxEVT_CHECK_SELECTION_CHANGED, -1, -1, (wxObjectEventFunction) (wxEventFunction) &fn, NULL),
 
 
 // Define a custom event handler

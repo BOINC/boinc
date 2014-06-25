@@ -96,5 +96,24 @@ WARNING: No ${uprf} libraries for wxWidgets are installed.
        AM_PATH_WXCONFIG($1, wxWin=1, wxWin=0, ${ac_cv_wxwidgets_options})
      fi
    fi
+
+   AC_MSG_CHECKING([if wxWidgets uses the GTK+ toolkit])
+   gtkver=none
+   AM_CONDITIONAL([GUI_GTK], echo $wx_default_config | grep -i ^gtk 2>&1 >/dev/null)
+   if echo $wx_default_config | grep -i gtk 2>&1 >/dev/null ; then
+     case ${wx_default_config} in 
+        gtk3-*)  gtkver=gtk+-3.0
+	         ;;
+        gtk2-*)  gtkver=gtk+-2.0
+	         ;;
+        gtk-*)   gtkver=gtk+
+	         ;;
+      esac 
+      GTK_CFLAGS="`pkg-config --cflags $gtkver`"
+      GTK_LIBS="`pkg-config --libs  $gtkver`"
+   fi             
+   AC_SUBST([GTK_CFLAGS])
+   AC_SUBST([GTK_LIBS])
+   AC_MSG_RESULT([$gtkver])
 ])
      

@@ -61,31 +61,6 @@ function db_init_aux($try_replica=false) {
     return 0;
 }
 
-function lookup_team($id) {
-    return BoincTeam::lookup_id($id);
-}
-
-function lookup_team_founder($id) {
-    return BoincTeam::lookup("userid=$id");
-}
-
-function lookup_team_name($name) {
-    $name = BoincDb::escape_string($name);
-    return BoincTeam::lookup("name='$name'");
-}
-
-function lookup_wu($id) {
-    return BoincWorkunit::lookup_id($id);
-}
-
-function lookup_result($id) {
-    return BoincResult::lookup_id($id);
-}
-
-function lookup_app($id) {
-    return BoincApp::lookup_id($id);
-}
-
 // DEPRECATED: use BoincDb::escape_string where possible
 // 
 // apply this to any user-supplied strings used in queries

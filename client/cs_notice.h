@@ -90,6 +90,10 @@ struct NOTICES {
     // msgs from scheduler
 #define REMOVE_NO_WORK_MSG      2
     // msgs about no work due to settings
+#define REMOVE_CONFIG_MSG       3
+    // notices about cc_config.xml
+#define REMOVE_APP_INFO_MSG     4
+    // notices about project/app_info.xml
 
 extern NOTICES notices;
 
@@ -111,6 +115,7 @@ struct RSS_FEED {
     void feed_file_name(char*);
     void archive_file_name(char*);
     int read_archive_file();
+    void delete_files();
 };
 
 struct RSS_FEED_OP: public GUI_HTTP_OP {
@@ -143,5 +148,7 @@ extern RSS_FEEDS rss_feeds;
 int parse_rss_feed_descs(XML_PARSER&, std::vector<RSS_FEED>&);
 void handle_sr_feeds(std::vector<RSS_FEED>&, struct PROJ_AM*);
     // process the feeds in a scheduler reply
+
+void delete_project_notice_files(PROJECT*);
 
 #endif

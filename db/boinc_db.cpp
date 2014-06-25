@@ -94,6 +94,9 @@ void SCHED_TRIGGER_ITEM::clear() {
 void FILESET_SCHED_TRIGGER_ITEM::clear() {memset(this, 0, sizeof(*this));}
 void VDA_FILE::clear() {memset(this, 0, sizeof(*this));}
 void VDA_CHUNK_HOST::clear() {memset(this, 0, sizeof(*this));}
+void BADGE::clear() {memset(this, 0, sizeof(*this));}
+void BADGE_USER::clear() {memset(this, 0, sizeof(*this));}
+void BADGE_TEAM::clear() {memset(this, 0, sizeof(*this));}
 
 DB_PLATFORM::DB_PLATFORM(DB_CONN* dc) :
     DB_BASE("platform", dc?dc:&boinc_db){}
@@ -161,6 +164,12 @@ DB_VDA_FILE::DB_VDA_FILE(DB_CONN* dc) :
     DB_BASE("vda_file", dc?dc:&boinc_db){}
 DB_VDA_CHUNK_HOST::DB_VDA_CHUNK_HOST(DB_CONN* dc) :
     DB_BASE("vda_chunk_host", dc?dc:&boinc_db){}
+DB_BADGE::DB_BADGE(DB_CONN* dc) :
+    DB_BASE("badge", dc?dc:&boinc_db){}
+DB_BADGE_USER::DB_BADGE_USER(DB_CONN* dc) :
+    DB_BASE("badge_user", dc?dc:&boinc_db){}
+DB_BADGE_TEAM::DB_BADGE_TEAM(DB_CONN* dc) :
+    DB_BASE("badge_team", dc?dc:&boinc_db){}
 
 int DB_PLATFORM::get_id() {return id;}
 int DB_APP::get_id() {return id;}
@@ -214,7 +223,8 @@ void DB_APP::db_print(char* buf){
         "homogeneous_app_version=%d, "
         "non_cpu_intensive=%d, "
         "locality_scheduling=%d, "
-        "n_size_classes=%d ",
+        "n_size_classes=%d, "
+        "fraction_done_exact=%d ",
         create_time,
         name,
         min_version,
@@ -229,7 +239,8 @@ void DB_APP::db_print(char* buf){
         homogeneous_app_version?1:0,
         non_cpu_intensive?1:0,
         locality_scheduling,
-        n_size_classes
+        n_size_classes,
+        fraction_done_exact?1:0
     );
 }
 
@@ -252,6 +263,7 @@ void DB_APP::db_parse(MYSQL_ROW &r) {
     non_cpu_intensive = (atoi(r[i++]) != 0);
     locality_scheduling = atoi(r[i++]);
     n_size_classes = atoi(r[i++]);
+    fraction_done_exact = (atoi(r[i++]) != 0);
 }
 
 void DB_APP_VERSION::db_print(char* buf){
@@ -269,7 +281,8 @@ void DB_APP_VERSION::db_print(char* buf){
         "pfc_avg=%.15e, "
         "pfc_scale=%.15e, "
         "expavg_credit=%.15e, "
-        "expavg_time=%.15e ",
+        "expavg_time=%.15e, "
+        "beta=%d ",
         create_time,
         appid,
         version_num,
@@ -283,7 +296,8 @@ void DB_APP_VERSION::db_print(char* buf){
         pfc.avg,
         pfc_scale,
         expavg_credit,
-        expavg_time
+        expavg_time,
+        beta
     );
 }
 
@@ -305,6 +319,7 @@ void DB_APP_VERSION::db_parse(MYSQL_ROW &r) {
     pfc_scale = atof(r[i++]);
     expavg_credit = atof(r[i++]);
     expavg_time = atof(r[i++]);
+    beta = atoi(r[i++]);
 }
 
 void DB_USER::db_print(char* buf){
@@ -1482,6 +1497,7 @@ void TRANSITIONER_ITEM::parse(MYSQL_ROW& r) {
     res_hostid = safe_atoi(r[i++]);
     res_received_time = safe_atoi(r[i++]);
     res_app_version_id = safe_atoi(r[i++]);
+    res_exit_status = safe_atoi(r[i++]);
 }
 
 int DB_TRANSITIONER_ITEM_SET::enumerate(
@@ -1539,7 +1555,8 @@ int DB_TRANSITIONER_ITEM_SET::enumerate(
             "   res.sent_time, "
             "   res.hostid, "
             "   res.received_time, "
-            "   res.app_version_id "
+            "   res.app_version_id, "
+            "   res.exit_status "
             "FROM "
             "   workunit AS wu "
             "       LEFT JOIN result AS res ON wu.id = res.workunitid "
@@ -1712,6 +1729,7 @@ void VALIDATOR_ITEM::parse(MYSQL_ROW& r) {
 int DB_VALIDATOR_ITEM_SET::enumerate(
     int appid, int nresult_limit,
     int wu_id_modulus, int wu_id_remainder,
+    int wu_id_min, int wu_id_max,
     std::vector<VALIDATOR_ITEM>& items
 ) {
     int retval;
@@ -1727,6 +1745,12 @@ int DB_VALIDATOR_ITEM_SET::enumerate(
             );
         } else {
             strcpy(mod_clause, "");
+        }
+        if (wu_id_min) {
+          sprintf(mod_clause+(strlen(mod_clause)), " and wu.id >= %d", wu_id_min);
+        }
+        if (wu_id_max) {
+          sprintf(mod_clause+(strlen(mod_clause)), " and wu.id <= %d", wu_id_max);
         }
 
         sprintf(query,
@@ -2595,6 +2619,39 @@ void DB_VDA_CHUNK_HOST::db_parse(MYSQL_ROW &r) {
     transfer_wait = (atoi(r[i++]) != 0);
     transfer_request_time = atof(r[i++]);
     transfer_send_time = atof(r[i++]);
+}
+
+void DB_BADGE::db_parse(MYSQL_ROW &r) {
+    int i=0;
+    clear();
+    id = atoi(r[i++]);
+    create_time = atof(r[i++]);
+    type = atoi(r[i++]);
+    strcpy2(name, r[i++]);
+    strcpy2(title, r[i++]);
+    strcpy2(description, r[i++]);
+    strcpy2(image_url, r[i++]);
+    strcpy2(level, r[i++]);
+    strcpy2(tags, r[i++]);
+    strcpy2(sql_rule, r[i++]);
+}
+
+void DB_BADGE_USER::db_parse(MYSQL_ROW &r) {
+    int i=0;
+    clear();
+    badge_id = atoi(r[i++]);
+    user_id = atoi(r[i++]);
+    create_time = atof(r[i++]);
+    reassign_time = atof(r[i++]);
+}
+
+void DB_BADGE_TEAM::db_parse(MYSQL_ROW &r) {
+    int i=0;
+    clear();
+    badge_id = atoi(r[i++]);
+    team_id = atoi(r[i++]);
+    create_time = atof(r[i++]);
+    reassign_time = atof(r[i++]);
 }
 
 const char *BOINC_RCSID_ac374386c8 = "$Id$";

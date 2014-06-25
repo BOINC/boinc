@@ -1,6 +1,9 @@
 ## -*-Makefile -*-
 ## $Id$
 
+# For debugging purposes
+#AM_DEFAULT_VERBOSITY=1
+
 # Note: MYSQL_CFLAGS and MYSQL_LIBS set by configure from mysql_config
 
 # ignore any LIBS set by configure
@@ -60,4 +63,5 @@ $(LIBAPI):
 SERVERLIBS = $(LIBSCHED) $(LIBBOINC_CRYPT) $(LIBBOINC) $(MYSQL_LIBS) $(PTHREAD_LIBS) $(RSA_LIBS) $(SSL_LIBS)
 SERVERLIBS_FCGI = $(LIBSCHED_FCGI) $(LIBBOINC_CRYPT) $(LIBBOINC_FCGI) -lfcgi $(MYSQL_LIBS) $(PTHREAD_LIBS) $(RSA_LIBS) $(SSL_LIBS)
 APPLIBS = $(LIBAPI) $(LIBBOINC)
+FUHLIBS = $(LIBBOINC_CRYPT) $(LIBBOINC) $(RSA_LIBS) $(SSL_LIBS)
 

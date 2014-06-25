@@ -67,7 +67,7 @@ if ($action=='Preview') {
         $e = get_str("e$i", true);
         if ($n && $e) {
             $found = true;
-            $mail = new PHPMailer();
+            $mail = make_php_mailer();
             $mail->AddAddress($e, $n);
             $mail->Subject = $subject;
             if ($html) {
@@ -78,8 +78,6 @@ if ($action=='Preview') {
             }
             $mail->From = $uemail;
             $mail->FromName = $uname;
-            $mail->Host = $PHPMAILER_HOST;
-            $mail->Mailer = $PHPMAILER_MAILER;
             if ($mail->Send()) {
                 echo "<br>".tra("email sent successfully to %1", $e)."\n";
             } else {

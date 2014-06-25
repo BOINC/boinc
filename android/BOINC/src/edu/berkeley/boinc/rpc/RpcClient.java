@@ -814,7 +814,7 @@ public class RpcClient {
 	public synchronized boolean lookupAccount(AccountIn accountIn) {
 		try {
 			String id;
-			if(accountIn.email_addr == null || accountIn.email_addr.isEmpty()) id = accountIn.user_name;
+			if(accountIn.uses_name) id = accountIn.user_name;
 			else id = accountIn.email_addr;
 			mRequest.setLength(0);
 			mRequest.append("<lookup_account>\n <url>");

@@ -81,7 +81,7 @@ size_t strlcat(char *dst, const char *src, size_t size) {
 
 #if !HAVE_STRCASESTR
 // BOINC only uses strcasestr() for short strings,
-// so the following till suffice
+// so the following will suffice
 //
 const char *strcasestr(const char *s1, const char *s2) {
     char needle[1024], haystack[1024], *p=NULL;
@@ -706,7 +706,7 @@ void strip_translation(char* p) {
 }
 
 char* lf_terminate(char* p) {
-    int n = strlen(p);
+    int n = (int)strlen(p);
     if (p[n-1] == '\n') {
         return p;
     }

@@ -109,8 +109,8 @@ function bb2html($text, $export=false) {
     $httpsregex = "(?:\"?)https\:\/\/([^\[\"<\ ]+)(?:\"?)";
     // List of allowable tags
     $bbtags = array (
-        "@\[pre\](.*?)\[/pre\]@eis",
-        "@\[code\](.*?)\[/code\]@eis",
+        "@\[pre\](.*?)\[/pre\]@is",
+        "@\[code\](.*?)\[/code\]@is",
         "@\[b\](.*?)\[/b\]@is",
         "@\[i\](.*?)\[/i\]@is",
         "@\[u\](.*?)\[/u\]@is",
@@ -142,8 +142,8 @@ function bb2html($text, $export=false) {
     // What the above tags are turned in to
     if ($export) {
         $htmltags = array (
-            "'<pre>'.stop_recursion(remove_br('\\1')).'</pre>'",
-            "'<code>'.stop_recursion('\\1').'</code>'",
+            "<pre>\\1</pre>",
+            "<code>\\1</code>",
             "<b>\\1</b>",
             "<i>\\1</i>",
             "<u>\\1</u>",
@@ -170,8 +170,8 @@ function bb2html($text, $export=false) {
         );
     } else {
         $htmltags = array (
-            "'<div class=\"pre\">'.stop_recursion(remove_br('\\1')).'</div>'",
-            "'<div class=\"code\">'.stop_recursion('\\1').'</div>'",
+            "<div class=\"pre\">\\1</div>",
+            "<div class=\"code\">\\1</div>",
             "<b>\\1</b>",
             "<i>\\1</i>",
             "<u>\\1</u>",
@@ -216,15 +216,6 @@ function bb2html($text, $export=false) {
 //
 function remove_br($text){
     return str_replace("<br />", "", $text);
-}
-
-
-// Stops recursion of BBCode by escaping any [ in the given text
-// @param $text The text to stop recursion in
-// @return A text that no longer can cause recursion
-//
-function stop_recursion($text){
-    return str_replace("[", "&#91;", $text);
 }
 
 // Make links open in new windows.

@@ -636,8 +636,8 @@ function show_result($result, $show_outfile_links=false) {
     row2(tra("Client state"), result_client_state_string($result));
     row2(tra("Exit status"), exit_status_string($result->exit_status));
     row2(tra("Computer ID"), host_link($result->hostid));
-    row2(tra("Run time"), number_format($result->elapsed_time, 2)." sec");
-    row2(tra("CPU time"), number_format($result->cpu_time, 2)." sec");
+    row2(tra("Run time"), time_diff($result->elapsed_time));
+    row2(tra("CPU time"), time_diff($result->cpu_time));
     row2(tra("Validate state"), validate_state_str($result));
     row2(tra("Credit"), number_format($result->granted_credit, 2));
     row2(tra("Application version"), app_version_string($result));

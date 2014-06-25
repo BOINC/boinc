@@ -549,14 +549,14 @@ int HTTP_OP::libcurl_exec(
     // setup timeouts
     //
     curl_easy_setopt(curlEasy, CURLOPT_TIMEOUT, 0L);
-    curl_easy_setopt(curlEasy, CURLOPT_LOW_SPEED_LIMIT, config.http_transfer_timeout_bps);
-    curl_easy_setopt(curlEasy, CURLOPT_LOW_SPEED_TIME, config.http_transfer_timeout);
+    curl_easy_setopt(curlEasy, CURLOPT_LOW_SPEED_LIMIT, cc_config.http_transfer_timeout_bps);
+    curl_easy_setopt(curlEasy, CURLOPT_LOW_SPEED_TIME, cc_config.http_transfer_timeout);
     curl_easy_setopt(curlEasy, CURLOPT_CONNECTTIMEOUT, 120L);
 
     // force curl to use HTTP/1.0 if config specifies it
     // (curl uses 1.1 by default)
     //
-    if (config.http_1_0 || (config.force_auth == "ntlm")) {
+    if (cc_config.http_1_0 || (cc_config.force_auth == "ntlm")) {
         curl_easy_setopt(curlEasy, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_0);
     }
     curl_easy_setopt(curlEasy, CURLOPT_MAXREDIRS, 50L);
@@ -572,9 +572,9 @@ int HTTP_OP::libcurl_exec(
     // Per: http://curl.haxx.se/dev/readme-encoding.html
     // NULL disables, empty string accepts all.
     if (out) {
-        if (ends_with(out, ".gzt")) {
+        if (ends_with(out, ".gzt") || ends_with(out, ".gz") || ends_with(out, ".tgz")) {
             curl_easy_setopt(curlEasy, CURLOPT_ENCODING, NULL);
-        } else if (!ends_with(out, ".gz")) {
+        } else {
             curl_easy_setopt(curlEasy, CURLOPT_ENCODING, "");
         }
     } else {
@@ -590,10 +590,10 @@ int HTTP_OP::libcurl_exec(
     //
     pcurlList = curl_slist_append(pcurlList, g_content_type);
 
-	if (strlen(gstate.language)) {
-		sprintf(buf, "Accept-Language: %s", gstate.language);
-		pcurlList = curl_slist_append(pcurlList, buf);
-	}
+    if (strlen(gstate.language)) {
+        sprintf(buf, "Accept-Language: %s", gstate.language);
+        pcurlList = curl_slist_append(pcurlList, buf);
+    }
 
     // set the file offset for resumable downloads
     //
@@ -829,13 +829,13 @@ void HTTP_OP::setup_proxy_session(bool no_proxy) {
         curl_easy_setopt(curlEasy, CURLOPT_PROXY, (char*) pi.http_server_name);
 
         if (pi.use_http_auth) {
-            if (config.force_auth == "basic") {
+            if (cc_config.force_auth == "basic") {
                 curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, CURLAUTH_BASIC);
-            } else if (config.force_auth == "digest") {
+            } else if (cc_config.force_auth == "digest") {
                 curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, CURLAUTH_DIGEST);
-            } else if (config.force_auth == "gss-negotiate") {
+            } else if (cc_config.force_auth == "gss-negotiate") {
                 curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, CURLAUTH_GSSNEGOTIATE);
-            } else if (config.force_auth == "ntlm") {
+            } else if (cc_config.force_auth == "ntlm") {
                 curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, CURLAUTH_NTLM);
             } else {
                 curl_easy_setopt(curlEasy, CURLOPT_PROXYAUTH, CURLAUTH_ANY);

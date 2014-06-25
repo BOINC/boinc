@@ -20,8 +20,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="edu.berkeley.boinc"
     android:installLocation="internalOnly"
-    android:versionCode="68"
-    android:versionName="7.3.15" > <!-- installation on SD card would break boot receiver -->
+    android:versionCode="72"
+    android:versionName="7.5.0" > <!-- installation on SD card would break boot receiver -->
 
 
     <!-- Add Google Play store metadata informing the store we can run on tablets and other large screen devices -->
@@ -56,12 +56,12 @@
         <activity
             android:name="edu.berkeley.boinc.SplashActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait"
             android:label="@string/app_name"
-            android:theme="@android:style/Theme.NoTitleBar"
+            android:theme="@style/Theme.Styled.NoActionBar"
             android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -71,30 +71,44 @@
             android:launchMode="singleTop"
             android:exported="true" >
         </activity>
-        <activity android:name="edu.berkeley.boinc.AttachProjectListActivity" >
+        <activity android:name="edu.berkeley.boinc.attach.AcctMgrFragment" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="edu.berkeley.boinc.BOINCActivity" />
         </activity>
-        <activity android:name="edu.berkeley.boinc.AttachProjectAcctMgrActivity" >
+        <activity
+            android:name="edu.berkeley.boinc.attach.SelectionListActivity"
+            android:theme="@style/Theme.Styled.NoActionBar"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="edu.berkeley.boinc.attach.CredentialInputActivity"
+            android:theme="@style/Theme.Styled.NoActionBar"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
+        <activity
+            android:name="edu.berkeley.boinc.attach.BatchProcessingActivity"
+            android:theme="@style/Theme.Styled.NoActionBar"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="edu.berkeley.boinc.attach.BatchConflictListActivity"
+            android:theme="@style/Theme.Styled.NoActionBar"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="edu.berkeley.boinc.attach.IndividualAttachActivity"
+            android:theme="@style/Theme.Styled.NoActionBar"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity android:name="edu.berkeley.boinc.attach.AttachProjectRegistrationActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="edu.berkeley.boinc.AttachProjectListActivity" />
         </activity>
         <activity
-            android:name="edu.berkeley.boinc.AttachProjectLoginActivity"
-            android:configChanges="orientation" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="edu.berkeley.boinc.AttachProjectListActivity" />
-        </activity>
-        <activity android:name="edu.berkeley.boinc.AttachProjectRegistrationActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="edu.berkeley.boinc.AttachProjectListActivity" />
-        </activity>
-        <activity
-            android:name="edu.berkeley.boinc.AttachProjectWorkingActivity"
+     		android:name="edu.berkeley.boinc.attach.AttachProjectWorkingActivity"
             android:configChanges="orientation"
             android:noHistory="true" />
         <activity android:name="edu.berkeley.boinc.EventLogActivity" >
@@ -104,6 +118,8 @@
         </activity>
 
         <service android:name="edu.berkeley.boinc.client.Monitor" android:process=":remote">
+        </service>
+        <service android:name="edu.berkeley.boinc.attach.ProjectAttachService">
         </service>
 
         <receiver android:name="edu.berkeley.boinc.receiver.BootReceiver" >
@@ -122,7 +138,7 @@
                 <data android:path="edu.berkeley.boinc" android:scheme="package" />
             </intent-filter>
         </receiver>
-        <activity android:name=".ForwardDialog" android:theme="@android:style/Theme.Dialog">
+        <activity android:name=".BoincNotExclusiveDialog" android:theme="@android:style/Theme.Dialog">
         </activity>
     </application>
 

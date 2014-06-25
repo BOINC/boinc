@@ -10,7 +10,7 @@ COMPILEOPENSSL="yes"
 CONFIGURE="yes"
 MAKECLEAN="yes"
 
-OPENSSL="/home/boincadm/src/openssl-1.0.1c" #openSSL sources, requiered by BOINC
+OPENSSL="/home/boincadm/src/openssl-1.0.1h" #openSSL sources, requiered by BOINC
 
 export ANDROIDTC="$HOME/androidarm-tc"
 export TCBINARIES="$ANDROIDTC/bin"

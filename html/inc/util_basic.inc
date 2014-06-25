@@ -21,14 +21,19 @@
 
 $generating_xml = false;
 
-function web_stopped() {
+function project_dir() {
     $d = dirname(__FILE__);
-    return file_exists("$d/../../stop_web");
+    return "$d/../..";
+}
+
+function web_stopped() {
+    $d = project_dir();
+    return file_exists("$d/stop_web");
 }
 
 function sched_stopped() {
-    $d = dirname(__FILE__);
-    return file_exists("$d/../../stop_sched");
+    $d = project_dir();
+    return file_exists("$d/stop_sched");
 }
 
 function show_page($x, $y) {
@@ -68,8 +73,8 @@ $g_config = null;
 function get_config() {
     global $g_config;
     if ($g_config == null) {
-        $d = dirname(__FILE__);
-        $g_config = file_get_contents("$d/../../config.xml");
+        $d = project_dir();
+        $g_config = file_get_contents("$d/config.xml");
     }
     return $g_config;
 }

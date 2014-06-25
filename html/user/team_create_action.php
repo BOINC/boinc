@@ -31,7 +31,7 @@ if (strlen($name) == 0) {
     error_page(tra("You must choose a non-blank team name"));
 }
 
-$new_team = lookup_team_name($name);
+$new_team = BoincTeam::lookup_name($name);
 if ($new_team) {
     error_page(tra("A team named %1 already exists - try another name", htmlentities($name)));
 }

@@ -100,7 +100,7 @@ UINT CARevokeBOINCMasterRights::OnExecution()
         GrantUserRight(pSid, L"SeInteractiveLogonRight", FALSE);
         GrantUserRight(pSid, L"SeServiceLogonRight", FALSE);
         GrantUserRight(pSid, L"SeDenyNetworkLogonRight", FALSE);
-        GrantUserRight(pSid, L"SeDenyInteractiveLogonRight", TRUE);
+        GrantUserRight(pSid, L"SeDenyInteractiveLogonRight", FALSE);
         GrantUserRight(pSid, L"SeDenyBatchLogonRight", FALSE);
         GrantUserRight(pSid, L"SeDenyServiceLogonRight", FALSE);
         GrantUserRight(pSid, L"SeDenyRemoteInteractiveLogonRight", FALSE);

@@ -75,7 +75,7 @@ UINT CARevokeBOINCProjectsRights::OnExecution()
     if(
         GetAccountSid(
             NULL,                                    // default lookup logic
-            tstring(L"boinc_projects").c_str(),      // account to obtain SID
+            L"boinc_projects",                       // account to obtain SID
             &pSid                                    // buffer to allocate to contain resultant SID
             )
     ) 
@@ -98,7 +98,6 @@ UINT CARevokeBOINCProjectsRights::OnExecution()
         GrantUserRight(pSid, L"SeDenyBatchLogonRight", FALSE);
         GrantUserRight(pSid, L"SeDenyServiceLogonRight", FALSE);
         GrantUserRight(pSid, L"SeDenyRemoteInteractiveLogonRight", FALSE);
-
 
         // Privileges
         GrantUserRight(pSid, L"SeTcbPrivilege", FALSE);
@@ -129,7 +128,6 @@ UINT CARevokeBOINCProjectsRights::OnExecution()
         GrantUserRight(pSid, L"SeShutdownPrivilege", FALSE);
         GrantUserRight(pSid, L"SeSynchAgentPrivilege", FALSE);
         GrantUserRight(pSid, L"SeTakeOwnershipPrivilege", FALSE);
-
     }
     else
     {
