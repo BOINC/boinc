@@ -488,6 +488,7 @@ msgid "Show information about the %s"
 msgstr "查看 %s 的信息"
 
 #: AdvancedFrame.cpp:661 sg_BoincSimpleFrame.cpp:224
+#, c-format
 #, c-format, c-format
 msgid "%s &web site"
 msgstr "%s 网站(&W)"
@@ -3680,6 +3681,7 @@ msgid "Project Commands"
 msgstr "项目命令"
 
 #: sg_ProjectPanel.cpp:267
+#, c-format
 #, c-format, c-format
 msgid "Pop up a menu of web sites for project %s"
 msgstr "弹出一个 %s 项目的网站菜单"
