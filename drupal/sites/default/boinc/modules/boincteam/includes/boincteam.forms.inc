@@ -128,15 +128,16 @@ function boincteam_create_form(&$form_state) {
 function boincteam_create_form_validate($form, &$form_state) {
 
   $values = $form_state['values'];
+  $name = $values['name'];
   
-  if (!$values['name']) {
+  if (!$name) {
     form_set_error('name', t('Team name is required.'));
   }
   else {
-    require_boinc('team');
-    if (lookup_team_name($name)) {
+    require_boinc('boinc_db');
+    if (BoincTeam::lookup_name($name)) {
       form_set_error('name', t('A team named "@name" already exists.',
-        array('@name' => $values['name'])));
+        array('@name' => $name)));
     }
   }
   
