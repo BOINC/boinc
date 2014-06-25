@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-17 12:25-0800\n"
+"POT-Creation-Date: 2014-02-02 00:00-0800\n"
 "PO-Revision-Date: 2013-11-20 17:57+0000\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: Russia\n"
@@ -216,348 +216,348 @@ msgstr "Соединение установлено"
 msgid "Disconnected"
 msgstr "Отсутствует соединение"
 
-#: AdvancedFrame.cpp:318 sg_BoincSimpleFrame.cpp:115 sg_BoincSimpleGUI.cpp:103
+#: AdvancedFrame.cpp:322 sg_BoincSimpleFrame.cpp:119
 #, c-format
 msgid "Close the %s window"
 msgstr "Закрыть окно %s"
 
-#: AdvancedFrame.cpp:321 sg_BoincSimpleFrame.cpp:118 sg_BoincSimpleGUI.cpp:106
+#: AdvancedFrame.cpp:325 sg_BoincSimpleFrame.cpp:122
 msgid "&Close Window"
 msgstr "Закрыть окно"
 
-#: AdvancedFrame.cpp:332 AdvancedFrame.cpp:339 AdvancedFrame.cpp:346
+#: AdvancedFrame.cpp:336 AdvancedFrame.cpp:343 AdvancedFrame.cpp:350
 #, c-format
 msgid "Exit %s"
 msgstr "Выйти из %s"
 
-#: AdvancedFrame.cpp:367
+#: AdvancedFrame.cpp:371
 msgid "&Notices\tCtrl+Shift+N"
 msgstr "Уведомления\tCtrl+Shift+N"
 
-#: AdvancedFrame.cpp:368
+#: AdvancedFrame.cpp:372
 msgid "Display notices"
 msgstr "Показать уведомления"
 
-#: AdvancedFrame.cpp:373
+#: AdvancedFrame.cpp:377
 msgid "&Projects\tCtrl+Shift+P"
 msgstr "Проекты\tCtrl+Shift+P"
 
-#: AdvancedFrame.cpp:374
+#: AdvancedFrame.cpp:378
 msgid "Display projects"
 msgstr "Показать проекты"
 
-#: AdvancedFrame.cpp:379
+#: AdvancedFrame.cpp:383
 msgid "&Tasks\tCtrl+Shift+T"
 msgstr "Задания\tCtrl+Shift+T"
 
-#: AdvancedFrame.cpp:380
+#: AdvancedFrame.cpp:384
 msgid "Display tasks"
 msgstr "Показать задания"
 
-#: AdvancedFrame.cpp:385
+#: AdvancedFrame.cpp:389
 msgid "Trans&fers\tCtrl+Shift+X"
 msgstr "Передача\tCtrl+Shift+X"
 
-#: AdvancedFrame.cpp:386
+#: AdvancedFrame.cpp:390
 msgid "Display transfers"
 msgstr "Показать передачу данных"
 
-#: AdvancedFrame.cpp:391
+#: AdvancedFrame.cpp:395
 msgid "&Statistics\tCtrl+Shift+S"
 msgstr "Статистика\tCtrl+Shift+S"
 
-#: AdvancedFrame.cpp:392
+#: AdvancedFrame.cpp:396
 msgid "Display statistics"
 msgstr "Показать статистику"
 
-#: AdvancedFrame.cpp:397
+#: AdvancedFrame.cpp:401
 msgid "&Disk usage\tCtrl+Shift+D"
 msgstr "Диск\tCtrl+Shift+D"
 
-#: AdvancedFrame.cpp:398
+#: AdvancedFrame.cpp:402
 msgid "Display disk usage"
 msgstr "Показать использование диска"
 
-#: AdvancedFrame.cpp:405
+#: AdvancedFrame.cpp:409
 msgid "Simple &View...\tCtrl+Shift+V"
 msgstr "Упрощенный вид...\tCtrl+Shift+V"
 
-#: AdvancedFrame.cpp:406
+#: AdvancedFrame.cpp:410
 msgid "Display the simple graphical interface."
 msgstr "Изменить внешний вид на более простой и понятный."
 
-#: AdvancedFrame.cpp:420
+#: AdvancedFrame.cpp:424
 msgid "&Add project or account manager..."
 msgstr "Добавить проект или менеджер проектов..."
 
-#: AdvancedFrame.cpp:421 sg_ProjectPanel.cpp:76 sg_ProjectsComponent.cpp:106
+#: AdvancedFrame.cpp:425 sg_ProjectPanel.cpp:76
 msgid "Volunteer for any or all of 30+ projects in many areas of science"
 msgstr ""
 "Стать участником в любом или во всех 30+ проектах во многих областях науки"
 
 # обновить данные
-#: AdvancedFrame.cpp:425
+#: AdvancedFrame.cpp:429
 #, c-format
 msgid "&Synchronize with %s"
 msgstr "Синхронизироваться с %s"
 
-#: AdvancedFrame.cpp:429
+#: AdvancedFrame.cpp:433
 #, c-format
 msgid "Get current settings from %s"
 msgstr "Обновить настройки с %s"
 
-#: AdvancedFrame.cpp:439
+#: AdvancedFrame.cpp:443
 msgid "&Add project..."
 msgstr "Добавить проект..."
 
-#: AdvancedFrame.cpp:440
+#: AdvancedFrame.cpp:444
 msgid "Add a project"
 msgstr "Добавить проект"
 
 # ???
-#: AdvancedFrame.cpp:443
+#: AdvancedFrame.cpp:447
 #, c-format
 msgid "S&top using %s..."
 msgstr "Отсоединиться от %s..."
 
-#: AdvancedFrame.cpp:449
+#: AdvancedFrame.cpp:453
 msgid "Remove this computer from account manager control."
 msgstr "Отсоединить этот компьютер от менеджера проектов."
 
-#: AdvancedFrame.cpp:454 sg_BoincSimpleFrame.cpp:174
+#: AdvancedFrame.cpp:458 sg_BoincSimpleFrame.cpp:178
 msgid "&Options..."
 msgstr "Настройки..."
 
-#: AdvancedFrame.cpp:455 sg_BoincSimpleFrame.cpp:175
+#: AdvancedFrame.cpp:459 sg_BoincSimpleFrame.cpp:179
 msgid "Configure display options and proxy settings"
 msgstr "Настройки графического интерфейса программы и прокси серверов"
 
-#: AdvancedFrame.cpp:459 sg_BoincSimpleFrame.cpp:168
+#: AdvancedFrame.cpp:463 sg_BoincSimpleFrame.cpp:172
 msgid "Computing &preferences..."
 msgstr "Настройки клиента..."
 
-#: AdvancedFrame.cpp:460 sg_BoincSimpleFrame.cpp:169
+#: AdvancedFrame.cpp:464 sg_BoincSimpleFrame.cpp:173
 msgid "Configure computing preferences"
 msgstr "Изменить локальные настройки вычислений подключенного клиента"
 
-#: AdvancedFrame.cpp:468
+#: AdvancedFrame.cpp:472
 msgid "&Run always"
 msgstr "Постоянная обработка"
 
-#: AdvancedFrame.cpp:469
+#: AdvancedFrame.cpp:473
 msgid "Allow work regardless of preferences"
 msgstr "Обработка заданий запущена всегда"
 
-#: AdvancedFrame.cpp:473
+#: AdvancedFrame.cpp:477
 msgid "Run based on &preferences"
 msgstr "График работы определяется настройками"
 
-#: AdvancedFrame.cpp:474
+#: AdvancedFrame.cpp:478
 msgid "Allow work according to preferences"
 msgstr "Обработка заданий выполняется в соответствии с настройками"
 
-#: AdvancedFrame.cpp:478
+#: AdvancedFrame.cpp:482
 msgid "&Suspend"
 msgstr "Приостановить обработку"
 
-#: AdvancedFrame.cpp:479
+#: AdvancedFrame.cpp:483
 msgid "Stop work regardless of preferences"
 msgstr "Приостанавливается обработка всех заданий во всех проектах"
 
-#: AdvancedFrame.cpp:504
+#: AdvancedFrame.cpp:508
 msgid "Use GPU always"
 msgstr "Постоянная обработка на ГП"
 
-#: AdvancedFrame.cpp:505
+#: AdvancedFrame.cpp:509
 msgid "Allow GPU work regardless of preferences"
 msgstr "Обработка заданий на ГП запущена всегда"
 
-#: AdvancedFrame.cpp:509
+#: AdvancedFrame.cpp:513
 msgid "Use GPU based on preferences"
 msgstr "График работы ГП определяется настройками"
 
-#: AdvancedFrame.cpp:510
+#: AdvancedFrame.cpp:514
 msgid "Allow GPU work according to preferences"
 msgstr "Обработка на ГП выполняется в соответствии с настройками"
 
-#: AdvancedFrame.cpp:514
+#: AdvancedFrame.cpp:518
 msgid "Suspend GPU"
 msgstr "Приостановить использование ГП"
 
-#: AdvancedFrame.cpp:515
+#: AdvancedFrame.cpp:519
 msgid "Stop GPU work regardless of preferences"
 msgstr "Остановить обработку заданий на ГП независимо от настроек"
 
-#: AdvancedFrame.cpp:539
+#: AdvancedFrame.cpp:543
 msgid "Network activity always available"
 msgstr "Подключен к интернету"
 
-#: AdvancedFrame.cpp:540
+#: AdvancedFrame.cpp:544
 msgid "Allow network activity regardless of preferences"
 msgstr ""
 "Разрешается обмен данными через интернет в любой момент времени, независимо "
 "от настроек"
 
-#: AdvancedFrame.cpp:544
+#: AdvancedFrame.cpp:548
 msgid "Network activity based on preferences"
 msgstr "Доступ в интернет определяется настройками"
 
-#: AdvancedFrame.cpp:545
+#: AdvancedFrame.cpp:549
 msgid "Allow network activity according to preferences"
 msgstr ""
 "Обмен данными через интернет осуществляется в соответствии с настройками"
 
-#: AdvancedFrame.cpp:549
+#: AdvancedFrame.cpp:553
 msgid "Network activity suspended"
 msgstr "Работать автономно"
 
-#: AdvancedFrame.cpp:550
+#: AdvancedFrame.cpp:554
 msgid "Stop BOINC network activity"
 msgstr ""
 "Запрещается обмен данными через интернет между BOINC и серверами проектов"
 
-#: AdvancedFrame.cpp:560
+#: AdvancedFrame.cpp:564
 #, c-format
 msgid "Connect to another computer running %s"
 msgstr "Подключить другой компьютер с %s"
 
-#: AdvancedFrame.cpp:565
+#: AdvancedFrame.cpp:569
 msgid "Select computer..."
 msgstr "Сменить компьютер..."
 
-#: AdvancedFrame.cpp:570
+#: AdvancedFrame.cpp:574
 msgid "Shut down connected client..."
 msgstr "Завершить работу подключенного BOINC клиента..."
 
-#: AdvancedFrame.cpp:571
+#: AdvancedFrame.cpp:575
 msgid "Shut down the currently connected client"
 msgstr "Завершить работу подключенного BOINC-клиента"
 
-#: AdvancedFrame.cpp:575
+#: AdvancedFrame.cpp:579
 msgid "Run CPU &benchmarks"
 msgstr "Запустить тест производительности"
 
-#: AdvancedFrame.cpp:576
+#: AdvancedFrame.cpp:580
 msgid "Runs BOINC CPU benchmarks"
 msgstr "Запустить тест производительности процессора"
 
 # ???
-#: AdvancedFrame.cpp:580
+#: AdvancedFrame.cpp:584
 msgid "Do network communication"
 msgstr "Повторить обмен данными с серверами проектов"
 
 # ???
-#: AdvancedFrame.cpp:581
+#: AdvancedFrame.cpp:585
 msgid "Do all pending network communication"
 msgstr "Повторить все незавершённые обмены данными с серверами проектов"
 
 # 94%
-#: AdvancedFrame.cpp:585
+#: AdvancedFrame.cpp:589
 msgid "Read config files"
 msgstr "Перезагрузить файлы настроек"
 
-#: AdvancedFrame.cpp:586
+#: AdvancedFrame.cpp:590
 msgid "Read configuration info from cc_config.xml and any app_config.xml files"
 msgstr ""
 "Перезагрузить информацию о настройках из cc_config.xml и каких-либо файлов "
 "app_config.xml"
 
-#: AdvancedFrame.cpp:590
+#: AdvancedFrame.cpp:594
 msgid "Read local prefs file"
 msgstr "Перезагрузить локальный файл общих настроек"
 
-#: AdvancedFrame.cpp:591
+#: AdvancedFrame.cpp:595
 msgid "Read preferences from global_prefs_override.xml."
 msgstr "Перезагрузить локальный файл общих настроек global_prefs_override.xml."
 
-#: AdvancedFrame.cpp:596
+#: AdvancedFrame.cpp:600
 #, c-format
 msgid "Launch another instance of %s..."
 msgstr "Запустить другой экземпляр %s..."
 
-#: AdvancedFrame.cpp:600
+#: AdvancedFrame.cpp:604
 #, c-format
 msgid "Launch another %s"
 msgstr "Запустить другой %s"
 
-#: AdvancedFrame.cpp:610
+#: AdvancedFrame.cpp:614
 msgid "Event Log...\tCtrl+Shift+E"
 msgstr "Просмотр событий...\t Ctrl+Shift+E"
 
-#: AdvancedFrame.cpp:611
+#: AdvancedFrame.cpp:615
 msgid "Display diagnostic messages."
 msgstr "Показать диагностические сообщения."
 
-#: AdvancedFrame.cpp:621 sg_BoincSimpleFrame.cpp:184 sg_BoincSimpleGUI.cpp:129
+#: AdvancedFrame.cpp:625 sg_BoincSimpleFrame.cpp:188
 #, c-format
 msgid "%s &help"
 msgstr "Справка %s"
 
-#: AdvancedFrame.cpp:627 sg_BoincSimpleFrame.cpp:190 sg_BoincSimpleGUI.cpp:135
+#: AdvancedFrame.cpp:631 sg_BoincSimpleFrame.cpp:194
 #, c-format
 msgid "Show information about %s"
 msgstr "Показать справку по %s"
 
-#: AdvancedFrame.cpp:639
+#: AdvancedFrame.cpp:643
 #, c-format
 msgid "&%s help"
 msgstr "Справка %s"
 
-#: AdvancedFrame.cpp:645 sg_BoincSimpleFrame.cpp:208 sg_BoincSimpleGUI.cpp:153
+#: AdvancedFrame.cpp:649 sg_BoincSimpleFrame.cpp:212
 #, c-format
 msgid "Show information about the %s"
 msgstr "Показать справку по программе %s"
 
-#: AdvancedFrame.cpp:657 sg_BoincSimpleFrame.cpp:220 sg_BoincSimpleGUI.cpp:165
+#: AdvancedFrame.cpp:661 sg_BoincSimpleFrame.cpp:224
 #, c-format
 msgid "%s &web site"
 msgstr "&Веб-сайт %s"
 
-#: AdvancedFrame.cpp:663 sg_BoincSimpleFrame.cpp:226 sg_BoincSimpleGUI.cpp:171
+#: AdvancedFrame.cpp:667 sg_BoincSimpleFrame.cpp:230
 #, c-format
 msgid "Show information about BOINC and %s"
 msgstr "Показать информацию о BOINC и %s"
 
-#: AdvancedFrame.cpp:675 BOINCTaskBar.cpp:530 sg_BoincSimpleFrame.cpp:238
+#: AdvancedFrame.cpp:679 BOINCTaskBar.cpp:530 sg_BoincSimpleFrame.cpp:242
 #, c-format
 msgid "&About %s..."
 msgstr "О %s..."
 
-#: AdvancedFrame.cpp:681 sg_BoincSimpleFrame.cpp:244
+#: AdvancedFrame.cpp:685 sg_BoincSimpleFrame.cpp:248
 msgid "Licensing and copyright information."
 msgstr "Показать сведения о версии программы и авторских правах."
 
-#: AdvancedFrame.cpp:688 sg_BoincSimpleFrame.cpp:251 sg_BoincSimpleGUI.cpp:194
+#: AdvancedFrame.cpp:692 sg_BoincSimpleFrame.cpp:255
 msgid "&File"
 msgstr "Файл"
 
-#: AdvancedFrame.cpp:692 sg_BoincSimpleFrame.cpp:255 sg_BoincSimpleGUI.cpp:199
+#: AdvancedFrame.cpp:696 sg_BoincSimpleFrame.cpp:259
 msgid "&View"
 msgstr "Вид"
 
-#: AdvancedFrame.cpp:696 sg_BoincSimpleFrame.cpp:259
+#: AdvancedFrame.cpp:700 sg_BoincSimpleFrame.cpp:263
 msgid "&Tools"
 msgstr "Сервис"
 
-#: AdvancedFrame.cpp:700
+#: AdvancedFrame.cpp:704
 msgid "&Activity"
 msgstr "Управление"
 
-#: AdvancedFrame.cpp:704
+#: AdvancedFrame.cpp:708
 msgid "A&dvanced"
 msgstr "Дополнительно"
 
-#: AdvancedFrame.cpp:708 DlgEventLog.cpp:331 sg_BoincSimpleFrame.cpp:263
-#: sg_BoincSimpleGUI.cpp:184 wizardex.cpp:374 wizardex.cpp:381
+#: AdvancedFrame.cpp:712 DlgEventLog.cpp:332 sg_BoincSimpleFrame.cpp:267
+#: wizardex.cpp:374 wizardex.cpp:381
 msgid "&Help"
 msgstr "Справка"
 
-#: AdvancedFrame.cpp:1195
+#: AdvancedFrame.cpp:1199
 #, c-format
 msgid "%s - Stop using %s"
 msgstr "%s - Прекратить использование %s"
 
-#: AdvancedFrame.cpp:1200
+#: AdvancedFrame.cpp:1204
 #, c-format
 msgid ""
 "If you stop using %s,\n"
@@ -572,12 +572,12 @@ msgstr ""
 "\n"
 "Вы действительно хотите прекратить использовать %s?"
 
-#: AdvancedFrame.cpp:1397
+#: AdvancedFrame.cpp:1401
 #, c-format
 msgid "%s - Shut down the current client..."
 msgstr "%s - Завершение работы текущего BOINC клиента..."
 
-#: AdvancedFrame.cpp:1406
+#: AdvancedFrame.cpp:1410
 #, c-format
 msgid ""
 "%s will shut down the current client\n"
@@ -586,27 +586,27 @@ msgstr ""
 "%s остановит подключенного в данный момент клиента,\n"
 "и запросит у Вас для подключения адрес другого компьютера."
 
-#: AdvancedFrame.cpp:1734 DlgAbout.cpp:119
+#: AdvancedFrame.cpp:1745 DlgAbout.cpp:119
 #, c-format
 msgid "%s"
 msgstr "%s"
 
-#: AdvancedFrame.cpp:1743
+#: AdvancedFrame.cpp:1754
 #, c-format
 msgid "%s has successfully added %s"
 msgstr "%s успешно добавил проект %s"
 
-#: AdvancedFrame.cpp:1882
+#: AdvancedFrame.cpp:1893
 #, c-format
 msgid "%s - (%s)"
 msgstr "%s - (%s)"
 
-#: AdvancedFrame.cpp:1886
+#: AdvancedFrame.cpp:1897
 #, c-format
 msgid "Connecting to %s"
 msgstr "Идёт подключение к %s"
 
-#: AdvancedFrame.cpp:1889
+#: AdvancedFrame.cpp:1900
 #, c-format
 msgid "Connected to %s (%s)"
 msgstr "Подключен к %s (%s)"
@@ -644,26 +644,26 @@ msgstr ""
 "\n"
 "Посетите домашнюю страницу проекта для получения инструкций."
 
-#: AsyncRPC.cpp:1026
+#: AsyncRPC.cpp:1031
 msgid "Communicating with BOINC client.  Please wait ..."
 msgstr "Устанавливается связь с BOINC клиентом.  Пожалуйста подождите ..."
 
-#: AsyncRPC.cpp:1029
+#: AsyncRPC.cpp:1034
 #, c-format
 msgid "&Quit %s"
 msgstr "Выйти из %s"
 
-#: AsyncRPC.cpp:1031
+#: AsyncRPC.cpp:1036
 #, c-format
 msgid "E&xit %s"
 msgstr "Выйти из %s"
 
-#: AsyncRPC.cpp:1035
+#: AsyncRPC.cpp:1040
 #, c-format
 msgid "%s - Communication"
 msgstr "%s - Установка связи"
 
-#: AsyncRPC.cpp:1051 DlgAdvPreferencesBase.cpp:107 sg_DlgPreferences.cpp:438
+#: AsyncRPC.cpp:1056 DlgAdvPreferencesBase.cpp:107 sg_DlgPreferences.cpp:433
 msgid "Cancel"
 msgstr "Отмена"
 
@@ -829,7 +829,7 @@ msgstr "%s разорвал подключение к интернету."
 msgid "%s failed to disconnected from the Internet."
 msgstr "%s не удалось разорвать подключение к интернету."
 
-#: BOINCGUIApp.cpp:342
+#: BOINCGUIApp.cpp:339
 #, c-format
 msgid ""
 "You currently are not authorized to manage the client.\n"
@@ -850,7 +850,7 @@ msgstr ""
 " - обратиться к Вашему администратору, чтобы он добавил Вас\n"
 "   в группу пользователей 'boinc_master'."
 
-#: BOINCGUIApp.cpp:348
+#: BOINCGUIApp.cpp:345
 #, c-format
 msgid ""
 "%s ownership or permissions are not set properly; please reinstall %s.\n"
@@ -860,16 +860,16 @@ msgstr ""
 "переустановите ПО %s.\n"
 "(Код ошибки %d"
 
-#: BOINCGUIApp.cpp:354
+#: BOINCGUIApp.cpp:351
 msgid " at "
 msgstr " на "
 
-#: BOINCGUIApp.cpp:357 MainDocument.cpp:2475 MainDocument.cpp:2525
-#: MainDocument.cpp:2545 ViewTransfers.cpp:803
+#: BOINCGUIApp.cpp:354 MainDocument.cpp:2484 MainDocument.cpp:2534
+#: MainDocument.cpp:2554 ViewTransfers.cpp:803
 msgid ")"
 msgstr ")"
 
-#: BOINCGUIApp.cpp:387
+#: BOINCGUIApp.cpp:384
 msgid ""
 "A reboot is required in order for BOINC to run properly.\n"
 "Please reboot your computer and try again."
@@ -877,69 +877,69 @@ msgstr ""
 "Требуется перезагрузка для корректной работы клиента BOINC.\n"
 "Пожалуйста, перезагрузите Ваш компьютер и попытайтесь еще раз."
 
-#: BOINCGUIApp.cpp:388 DlgAbout.cpp:153
+#: BOINCGUIApp.cpp:385 DlgAbout.cpp:153
 msgid "BOINC Manager"
 msgstr "BOINC менеджер"
 
-#: BOINCGUIApp.cpp:571
+#: BOINCGUIApp.cpp:572
 msgid "BOINC Manager was started by the operating system automatically"
 msgstr "BOINC менеджер был автоматически запущен операционной системой"
 
-#: BOINCGUIApp.cpp:573
+#: BOINCGUIApp.cpp:574
 msgid "Startup BOINC so only the system tray icon is visible"
 msgstr "сворачивать BOINC менеджер в значок на панели задач при запуске"
 
-#: BOINCGUIApp.cpp:575
+#: BOINCGUIApp.cpp:576
 msgid "Directory containing the BOINC Client executable"
 msgstr "Каталог, содержащий исполняемый файл клиента BOINC"
 
-#: BOINCGUIApp.cpp:576
+#: BOINCGUIApp.cpp:577
 msgid "BOINC data directory"
 msgstr "Каталог данных BOINC"
 
-#: BOINCGUIApp.cpp:578
+#: BOINCGUIApp.cpp:579
 msgid "Host name or IP address"
 msgstr "Имя или IP-адрес компьютера"
 
-#: BOINCGUIApp.cpp:579
+#: BOINCGUIApp.cpp:580
 msgid "GUI RPC port number"
 msgstr "Номер порта GUI RPC"
 
-#: BOINCGUIApp.cpp:580
+#: BOINCGUIApp.cpp:581
 msgid "Password"
 msgstr "Пароль"
 
-#: BOINCGUIApp.cpp:581
+#: BOINCGUIApp.cpp:582
 msgid "Startup BOINC with these optional arguments"
 msgstr "запускать BOINC клиент с ключами запуска"
 
-#: BOINCGUIApp.cpp:582
+#: BOINCGUIApp.cpp:583
 msgid "disable BOINC security users and permissions"
 msgstr "отключить политику безопасности доступа пользователей к BOINC"
 
 # Это описание ключа запуска BOINC managera. Не переводится.
-#: BOINCGUIApp.cpp:583
+#: BOINCGUIApp.cpp:584
 msgid "set skin debugging mode to enable skin manager error messages"
 msgstr ""
 "включить режим отладки менеджера обложек для вывода сообщений об ошибках"
 
-#: BOINCGUIApp.cpp:584
+#: BOINCGUIApp.cpp:585
 msgid "multiple instances of BOINC Manager allowed"
 msgstr "разрешено несколько экземпляров менеджера BOINC"
 
-#: BOINCGUIApp.cpp:586
+#: BOINCGUIApp.cpp:587
 msgid "Not used: workaround for bug in XCode 4.2"
 msgstr "Не используется: обход ошибки в XCode 4.2"
 
-#: BOINCGUIApp.cpp:804
+#: BOINCGUIApp.cpp:814
 msgid "(Automatic Detection)"
 msgstr "(Автоопределение)"
 
-#: BOINCGUIApp.cpp:805
+#: BOINCGUIApp.cpp:815
 msgid "(Unknown)"
 msgstr "(Неизвестный)"
 
-#: BOINCGUIApp.cpp:806
+#: BOINCGUIApp.cpp:816
 msgid "(User Defined)"
 msgstr "(Пользовательский)"
 
@@ -968,7 +968,7 @@ msgid "E&xit"
 msgstr "Выход"
 
 #: BOINCTaskBar.cpp:612 ViewProjects.cpp:718 ViewWork.cpp:795
-#: sg_BoincSimpleFrame.cpp:754 sg_ProjectCommandPopup.cpp:110
+#: sg_BoincSimpleFrame.cpp:758 sg_ProjectCommandPopup.cpp:110
 #: sg_TaskCommandPopup.cpp:102
 msgid "Resume"
 msgstr "Запустить"
@@ -1142,64 +1142,64 @@ msgstr ""
 "Открытая Инфраструктура для Распределенных Вычислений университета Беркли"
 
 #: DlgAbout.cpp:208 DlgExitMessage.cpp:173 DlgGenericMessage.cpp:120
-#: DlgOptions.cpp:396 DlgSelectComputer.cpp:162
+#: DlgOptions.cpp:396 DlgSelectComputer.cpp:163
 msgid "&OK"
 msgstr "OK"
 
-#: DlgAdvPreferences.cpp:542
-msgid "invalid float"
-msgstr "ошибка ввода числа"
+#: DlgAdvPreferences.cpp:544
+msgid "invalid number"
+msgstr ""
 
-#: DlgAdvPreferences.cpp:543
+#: DlgAdvPreferences.cpp:545
 msgid "invalid time, format is HH:MM"
 msgstr "ошибка ввода, формат времени ЧЧ:ММ"
 
-#: DlgAdvPreferences.cpp:544
+#: DlgAdvPreferences.cpp:546
 msgid "invalid time interval, format is HH:MM-HH:MM"
 msgstr "ошибка при задании интервала, правильный формат ЧЧ:ММ-ЧЧ:ММ"
 
-#: DlgAdvPreferences.cpp:664
+#: DlgAdvPreferences.cpp:751
 msgid "invalid input value detected"
 msgstr "обнаружено некорректное значение"
 
-#: DlgAdvPreferences.cpp:666
+#: DlgAdvPreferences.cpp:753
 msgid "Validation Error"
 msgstr "Ошибка проверки"
 
-#: DlgAdvPreferences.cpp:797 DlgAdvPreferences.cpp:803
-#: DlgAdvPreferences.cpp:809
+#: DlgAdvPreferences.cpp:885 DlgAdvPreferences.cpp:891
+#: DlgAdvPreferences.cpp:897
 msgid "Applications to add"
 msgstr "Добавить приложения"
 
-#: DlgAdvPreferences.cpp:826
+#: DlgAdvPreferences.cpp:914
 #, c-format
 msgid "'%s' is not an executable application."
 msgstr "'%s' не является исполняемым приложением."
 
-#: DlgAdvPreferences.cpp:827 DlgAdvPreferences.cpp:874
-#: DlgAdvPreferences.cpp:898
+#: DlgAdvPreferences.cpp:915 DlgAdvPreferences.cpp:962
+#: DlgAdvPreferences.cpp:986
 msgid "Add Exclusive App"
 msgstr "Добавить привилегированное приложение"
 
-#: DlgAdvPreferences.cpp:839
+#: DlgAdvPreferences.cpp:927
 msgid "Name of application to add?"
 msgstr "Имя добавляемого приложения?"
 
-#: DlgAdvPreferences.cpp:839
+#: DlgAdvPreferences.cpp:927
 msgid "Add exclusive app"
 msgstr "Добавить привилегированное приложение"
 
-#: DlgAdvPreferences.cpp:873
+#: DlgAdvPreferences.cpp:961
 #, c-format
 msgid "Application names must end with '%s'"
 msgstr "Имена приложений должны оканчиваться на '%s'"
 
-#: DlgAdvPreferences.cpp:897
+#: DlgAdvPreferences.cpp:985
 #, c-format
 msgid "'%s' is already in the list."
 msgstr "'%s' уже в списке."
 
-#: DlgAdvPreferences.cpp:989
+#: DlgAdvPreferences.cpp:1077
 msgid ""
 "Do you really want to clear all local preferences?\n"
 "(This will not affect exclusive applications.)"
@@ -1207,12 +1207,12 @@ msgstr ""
 "Вы уверены, что хотите удалить все локальные настройки?\n"
 "(Это не затронет привилегированные приложения.)"
 
-#: DlgAdvPreferences.cpp:990 sg_DlgPreferences.cpp:1035
+#: DlgAdvPreferences.cpp:1078 sg_DlgPreferences.cpp:1030
 msgid "Confirmation"
 msgstr "Подтверждение"
 
 # ???
-#: DlgAdvPreferencesBase.cpp:46 sg_DlgPreferences.cpp:951
+#: DlgAdvPreferencesBase.cpp:46 sg_DlgPreferences.cpp:946
 #, c-format
 msgid "%s - Preferences"
 msgstr "%s - Настройки клиента"
@@ -1228,11 +1228,11 @@ msgstr ""
 "Для возврата к настройкам с сайта проекта нажмите 'Удалить'\n"
 "(не затронет привилегированные приложения)."
 
-#: DlgAdvPreferencesBase.cpp:65 sg_DlgPreferences.cpp:433
+#: DlgAdvPreferencesBase.cpp:65 sg_DlgPreferences.cpp:428
 msgid "Clear"
 msgstr "Удалить"
 
-#: DlgAdvPreferencesBase.cpp:66 sg_DlgPreferences.cpp:434
+#: DlgAdvPreferencesBase.cpp:66
 msgid "clear all local preferences and close the dialog"
 msgstr ""
 "удалить локально хранимые настройки для данного компьютера и закрыть окно"
@@ -1253,7 +1253,7 @@ msgstr "диск и память"
 msgid "exclusive applications"
 msgstr "привилегированные приложения"
 
-#: DlgAdvPreferencesBase.cpp:102 sg_DlgPreferences.cpp:429
+#: DlgAdvPreferencesBase.cpp:102 sg_DlgPreferences.cpp:424
 msgid "OK"
 msgstr "OK"
 
@@ -1267,7 +1267,7 @@ msgstr "закрыть окно без сохранения изменений"
 
 # было 'Вопросы и ответы'-для SETI
 #: DlgAdvPreferencesBase.cpp:112 Localization.cpp:35 Localization.cpp:121
-#: Localization.cpp:139 sg_BoincSimpleFrame.cpp:790 sg_DlgPreferences.cpp:444
+#: Localization.cpp:139 sg_BoincSimpleFrame.cpp:794 sg_DlgPreferences.cpp:439
 msgid "Help"
 msgstr "Помощь"
 
@@ -1327,7 +1327,7 @@ msgstr ""
 "обрабатывать задания"
 
 #: DlgAdvPreferencesBase.cpp:187 DlgAdvPreferencesBase.cpp:336
-#: sg_DlgPreferences.cpp:422
+#: sg_DlgPreferences.cpp:417
 msgid "minutes"
 msgstr "минут"
 
@@ -1344,7 +1344,7 @@ msgstr ""
 msgid "percent (0 means no restriction)"
 msgstr "процентов (0 - нет ограничений)"
 
-#: DlgAdvPreferencesBase.cpp:235 DlgAdvPreferencesBase.cpp:495
+#: DlgAdvPreferencesBase.cpp:235 DlgAdvPreferencesBase.cpp:496
 msgid "Every day between hours of"
 msgstr "Ежедневно с"
 
@@ -1353,8 +1353,8 @@ msgid "start work at this time"
 msgstr "запустить обработку в это время"
 
 # и
-#: DlgAdvPreferencesBase.cpp:243 DlgAdvPreferencesBase.cpp:503
-#: sg_DlgPreferences.cpp:331 sg_DlgPreferences.cpp:353
+#: DlgAdvPreferencesBase.cpp:243 DlgAdvPreferencesBase.cpp:504
+#: sg_DlgPreferences.cpp:326 sg_DlgPreferences.cpp:348
 msgid "and"
 msgstr "до"
 
@@ -1362,43 +1362,43 @@ msgstr "до"
 msgid "stop work at this time"
 msgstr "остановить обработку в это время"
 
-#: DlgAdvPreferencesBase.cpp:251 DlgAdvPreferencesBase.cpp:511
+#: DlgAdvPreferencesBase.cpp:251 DlgAdvPreferencesBase.cpp:512
 msgid "(no restriction if equal)"
 msgstr "(ограничение не действует при равенстве значений)"
 
-#: DlgAdvPreferencesBase.cpp:256 DlgAdvPreferencesBase.cpp:516
+#: DlgAdvPreferencesBase.cpp:256 DlgAdvPreferencesBase.cpp:517
 msgid "Day-of-week override:"
 msgstr "По расписанию:"
 
-#: DlgAdvPreferencesBase.cpp:261 DlgAdvPreferencesBase.cpp:521
+#: DlgAdvPreferencesBase.cpp:261 DlgAdvPreferencesBase.cpp:522
 msgid "check box to specify hours for this day of week"
 msgstr "выберите день недели и укажите временной интервал"
 
-#: DlgAdvPreferencesBase.cpp:267 DlgAdvPreferencesBase.cpp:527
+#: DlgAdvPreferencesBase.cpp:267 DlgAdvPreferencesBase.cpp:528
 msgid "Monday"
 msgstr "Понедельник"
 
-#: DlgAdvPreferencesBase.cpp:274 DlgAdvPreferencesBase.cpp:534
+#: DlgAdvPreferencesBase.cpp:274 DlgAdvPreferencesBase.cpp:535
 msgid "Tuesday"
 msgstr "Вторник"
 
-#: DlgAdvPreferencesBase.cpp:281 DlgAdvPreferencesBase.cpp:541
+#: DlgAdvPreferencesBase.cpp:281 DlgAdvPreferencesBase.cpp:542
 msgid "Wednesday"
 msgstr "Среда"
 
-#: DlgAdvPreferencesBase.cpp:288 DlgAdvPreferencesBase.cpp:548
+#: DlgAdvPreferencesBase.cpp:288 DlgAdvPreferencesBase.cpp:549
 msgid "Thursday"
 msgstr "Четверг"
 
-#: DlgAdvPreferencesBase.cpp:295 DlgAdvPreferencesBase.cpp:555
+#: DlgAdvPreferencesBase.cpp:295 DlgAdvPreferencesBase.cpp:556
 msgid "Friday"
 msgstr "Пятница"
 
-#: DlgAdvPreferencesBase.cpp:302 DlgAdvPreferencesBase.cpp:562
+#: DlgAdvPreferencesBase.cpp:302 DlgAdvPreferencesBase.cpp:563
 msgid "Saturday"
 msgstr "Суббота"
 
-#: DlgAdvPreferencesBase.cpp:309 DlgAdvPreferencesBase.cpp:569
+#: DlgAdvPreferencesBase.cpp:309 DlgAdvPreferencesBase.cpp:570
 msgid "Sunday"
 msgstr "Воскресенье"
 
@@ -1420,9 +1420,9 @@ msgstr "В многопроцессорных системах использо�
 msgid "% of the processors (0 means ignore this setting)"
 msgstr "% процессоров (0 означает игнорирование этого параметра)"
 
-#: DlgAdvPreferencesBase.cpp:349 DlgAdvPreferencesBase.cpp:604
-#: DlgAdvPreferencesBase.cpp:626 DlgAdvPreferencesBase.cpp:647
-#: DlgAdvPreferencesBase.cpp:668 DlgAdvPreferencesBase.cpp:678
+#: DlgAdvPreferencesBase.cpp:349 DlgAdvPreferencesBase.cpp:605
+#: DlgAdvPreferencesBase.cpp:627 DlgAdvPreferencesBase.cpp:648
+#: DlgAdvPreferencesBase.cpp:669 DlgAdvPreferencesBase.cpp:679
 msgid "Use at most"
 msgstr "Использовать не более"
 
@@ -1432,79 +1432,79 @@ msgstr "Использовать не более"
 msgid "% CPU time"
 msgstr "% времени каждого процессора (ЦП)"
 
-#: DlgAdvPreferencesBase.cpp:377
+#: DlgAdvPreferencesBase.cpp:378
 msgid "General options"
 msgstr "Общие параметры"
 
-#: DlgAdvPreferencesBase.cpp:385
+#: DlgAdvPreferencesBase.cpp:386
 msgid "Maximum download rate"
 msgstr "Ограничить скорость загрузки"
 
-#: DlgAdvPreferencesBase.cpp:391 DlgAdvPreferencesBase.cpp:400
+#: DlgAdvPreferencesBase.cpp:392 DlgAdvPreferencesBase.cpp:401
 msgid "KBytes/sec."
 msgstr "кбайт/сек."
 
-#: DlgAdvPreferencesBase.cpp:394
+#: DlgAdvPreferencesBase.cpp:395
 msgid "Maximum upload rate"
 msgstr "Ограничить скорость отправки"
 
-#: DlgAdvPreferencesBase.cpp:405
+#: DlgAdvPreferencesBase.cpp:406
 msgid "Transfer at most"
 msgstr "Передавать не более"
 
-#: DlgAdvPreferencesBase.cpp:411
+#: DlgAdvPreferencesBase.cpp:412
 msgid "Mbytes"
 msgstr "Мбайт"
 
-#: DlgAdvPreferencesBase.cpp:414
+#: DlgAdvPreferencesBase.cpp:415
 msgid "every"
 msgstr "каждые"
 
-#: DlgAdvPreferencesBase.cpp:420 DlgAdvPreferencesBase.cpp:443
-#: DlgAdvPreferencesBase.cpp:462
+#: DlgAdvPreferencesBase.cpp:421 DlgAdvPreferencesBase.cpp:444
+#: DlgAdvPreferencesBase.cpp:463
 msgid "days"
 msgstr "дней"
 
-#: DlgAdvPreferencesBase.cpp:428
+#: DlgAdvPreferencesBase.cpp:429
 msgid "Minimum work buffer"
 msgstr "Минимальный буфер"
 
-#: DlgAdvPreferencesBase.cpp:437
+#: DlgAdvPreferencesBase.cpp:438
 msgid "Try to maintain enough tasks to keep busy for this many days"
 msgstr ""
 "Пытаться поддерживать достаточный объём заданий, чтобы оставаться занятым "
 "работой в течение данного числа дней"
 
-#: DlgAdvPreferencesBase.cpp:449
+#: DlgAdvPreferencesBase.cpp:450
 msgid "Max additional work buffer"
 msgstr "Макс. дополнительный буфер"
 
-#: DlgAdvPreferencesBase.cpp:458
+#: DlgAdvPreferencesBase.cpp:459
 msgid "In addition, maintain enough tasks for up to this many days"
 msgstr ""
 "Кроме того, поддерживать достаточный объём заданий вплоть до этого числа "
 "дней"
 
 # не проверять изображение файла
-#: DlgAdvPreferencesBase.cpp:465
+#: DlgAdvPreferencesBase.cpp:466
 msgid "Skip image file verification"
 msgstr "Не проверять загружаемые файлы"
 
-#: DlgAdvPreferencesBase.cpp:467
+#: DlgAdvPreferencesBase.cpp:468
 msgid "check this if your Internet provider modifies image files"
 msgstr ""
 "выберите данный пункт если ваш интернет провайдер изменяет передаваемые "
 "файлы"
 
-#: DlgAdvPreferencesBase.cpp:475
+#: DlgAdvPreferencesBase.cpp:476
 msgid "Connect options"
 msgstr "Параметры подключения"
 
-#: DlgAdvPreferencesBase.cpp:477
+#: DlgAdvPreferencesBase.cpp:478
 msgid "Confirm before connecting to internet"
 msgstr "Предупреждать перед подключением к интернету"
 
-#: DlgAdvPreferencesBase.cpp:479
+#: DlgAdvPreferencesBase.cpp:480
 msgid ""
 "if checked, a confirmation dialog will be displayed before trying to connect "
 "to the Internet"
@@ -1512,11 +1512,11 @@ msgstr ""
 "перед началом автоматического установления связи с интернетом BOINC спросит "
 "можно ли установить соединение"
 
-#: DlgAdvPreferencesBase.cpp:483
+#: DlgAdvPreferencesBase.cpp:484
 msgid "Disconnect when done"
 msgstr "Разорвать соединение после завершения"
 
-#: DlgAdvPreferencesBase.cpp:485
+#: DlgAdvPreferencesBase.cpp:486
 msgid ""
 "if checked, BOINC hangs up when network usage is done\n"
 "(only relevant for dialup-connection)"
@@ -1525,157 +1525,157 @@ msgstr ""
 "операции\n"
 "(для обладателей dial-up модемов)"
 
-#: DlgAdvPreferencesBase.cpp:491
+#: DlgAdvPreferencesBase.cpp:492
 msgid "Network usage allowed"
 msgstr "Доступ в интернет"
 
-#: DlgAdvPreferencesBase.cpp:499
+#: DlgAdvPreferencesBase.cpp:500
 msgid "network usage start hour"
 msgstr "начиная с данного времени разрешён доступ в интернет"
 
-#: DlgAdvPreferencesBase.cpp:507
+#: DlgAdvPreferencesBase.cpp:508
 msgid "network usage stop hour"
 msgstr "после данного времени доступ в интернет запрещён"
 
-#: DlgAdvPreferencesBase.cpp:597 DlgItemProperties.cpp:226
+#: DlgAdvPreferencesBase.cpp:598 DlgItemProperties.cpp:231
 msgid "Disk usage"
 msgstr "Использование диска"
 
-#: DlgAdvPreferencesBase.cpp:608
+#: DlgAdvPreferencesBase.cpp:609
 msgid "the maximum disk space used by BOINC (in Gigabytes)"
 msgstr ""
 "ограничение на занимаемое BOINC и проектами пространство на диске (в "
 "гигабайтах)"
 
-#: DlgAdvPreferencesBase.cpp:612
+#: DlgAdvPreferencesBase.cpp:613
 msgid "Gigabytes disk space"
 msgstr "Гбайт места на диске"
 
-#: DlgAdvPreferencesBase.cpp:615
+#: DlgAdvPreferencesBase.cpp:616
 msgid "Leave at least"
 msgstr "Оставлять не менее"
 
-#: DlgAdvPreferencesBase.cpp:619
+#: DlgAdvPreferencesBase.cpp:620
 msgid "BOINC leaves at least this amount of disk space free (in Gigabytes)"
 msgstr ""
 "минимальный объём дискового пространства, который должен оставаться "
 "свободным (в гигабайтах)"
 
-#: DlgAdvPreferencesBase.cpp:623
+#: DlgAdvPreferencesBase.cpp:624
 msgid "Gigabytes disk space free"
 msgstr "Гбайт свободного места на диске"
 
-#: DlgAdvPreferencesBase.cpp:630
+#: DlgAdvPreferencesBase.cpp:631
 msgid "BOINC uses at most this percentage of total disk space"
 msgstr ""
 "ограничение на занимаемое BOINC и проектами пространство на диске в "
 "процентах от общего объёма диска"
 
-#: DlgAdvPreferencesBase.cpp:635
+#: DlgAdvPreferencesBase.cpp:636
 #, no-c-format
 msgid "% of total disk space"
 msgstr "% от объёма диска"
 
-#: DlgAdvPreferencesBase.cpp:638
+#: DlgAdvPreferencesBase.cpp:639
 msgid "Tasks checkpoint to disk at most every"
 msgstr "Период сохранения на диск промежуточных результатов заданий"
 
-#: DlgAdvPreferencesBase.cpp:644
+#: DlgAdvPreferencesBase.cpp:645
 msgid "seconds"
 msgstr "секунд"
 
-#: DlgAdvPreferencesBase.cpp:654
+#: DlgAdvPreferencesBase.cpp:655
 #, no-c-format
 msgid "% of page file (swap space)"
 msgstr "% виртуальной памяти (файл подкачки)"
 
-#: DlgAdvPreferencesBase.cpp:661
+#: DlgAdvPreferencesBase.cpp:662
 msgid "Memory usage"
 msgstr "Оперативная память"
 
-#: DlgAdvPreferencesBase.cpp:675
+#: DlgAdvPreferencesBase.cpp:676
 #, no-c-format
 msgid "% when computer is in use"
 msgstr "% когда компьютер используется для работы"
 
-#: DlgAdvPreferencesBase.cpp:685
+#: DlgAdvPreferencesBase.cpp:686
 #, no-c-format
 msgid "% when computer is idle"
 msgstr "% когда компьютер простаивает"
 
 # ?
-#: DlgAdvPreferencesBase.cpp:690
+#: DlgAdvPreferencesBase.cpp:691
 msgid "Leave applications in memory while suspended"
 msgstr "Оставлять неактивные приложения в памяти"
 
-#: DlgAdvPreferencesBase.cpp:692
+#: DlgAdvPreferencesBase.cpp:693
 msgid "if checked, suspended work units are left in memory"
 msgstr "оставлять приложение в памяти на время приостановки обработки задания"
 
-#: DlgAdvPreferencesBase.cpp:712
+#: DlgAdvPreferencesBase.cpp:713
 msgid ""
 "Suspend processor and network usage when these applications are running:"
 msgstr ""
 "Приостановить использование процессора и сети, когда работают данные "
 "приложения:"
 
-#: DlgAdvPreferencesBase.cpp:721
+#: DlgAdvPreferencesBase.cpp:722
 msgid "Add..."
 msgstr "Добавить..."
 
-#: DlgAdvPreferencesBase.cpp:722
+#: DlgAdvPreferencesBase.cpp:723
 msgid "Add an application to this list"
 msgstr "Добавить приложение в список"
 
-#: DlgAdvPreferencesBase.cpp:727 ViewProjects.cpp:202
+#: DlgAdvPreferencesBase.cpp:728 ViewProjects.cpp:202
 #: sg_ProjectCommandPopup.cpp:85
 msgid "Remove"
 msgstr "Удалить"
 
-#: DlgAdvPreferencesBase.cpp:728
+#: DlgAdvPreferencesBase.cpp:729
 msgid "Remove an application from this list"
 msgstr "Удалить приложение из списка"
 
-#: DlgAdvPreferencesBase.cpp:737
+#: DlgAdvPreferencesBase.cpp:738
 msgid "For advanced options, refer to "
 msgstr "Для расширенных настроек, обратитесь к "
 
-#: DlgEventLog.cpp:218
+#: DlgEventLog.cpp:219
 #, c-format
 msgid "%s - Event Log"
 msgstr "%s - Просмотр событий"
 
-#: DlgEventLog.cpp:231 ViewMessages.cpp:117 ViewProjects.cpp:219
-#: ViewStatistics.cpp:435 ViewStatistics.cpp:2007 ViewTransfers.cpp:182
+#: DlgEventLog.cpp:232 ViewMessages.cpp:117 ViewProjects.cpp:219
+#: ViewStatistics.cpp:435 ViewStatistics.cpp:2009 ViewTransfers.cpp:182
 #: ViewWork.cpp:232
 msgid "Project"
 msgstr "Проект"
 
-#: DlgEventLog.cpp:232 ViewMessages.cpp:118
+#: DlgEventLog.cpp:233 ViewMessages.cpp:118
 msgid "Time"
 msgstr "Время"
 
-#: DlgEventLog.cpp:233 ViewMessages.cpp:119
+#: DlgEventLog.cpp:234 ViewMessages.cpp:119
 msgid "Message"
 msgstr "Сообщение"
 
-#: DlgEventLog.cpp:289 DlgEventLog.cpp:353
+#: DlgEventLog.cpp:290 DlgEventLog.cpp:354
 msgid "&Show only this project"
 msgstr "Показать только этот проект"
 
-#: DlgEventLog.cpp:293
+#: DlgEventLog.cpp:294
 msgid "Copy &All"
 msgstr "Копировать все"
 
-#: DlgEventLog.cpp:295 DlgEventLog.cpp:299 ViewMessages.cpp:89
+#: DlgEventLog.cpp:296 DlgEventLog.cpp:300 ViewMessages.cpp:89
 msgid "Copy all the messages to the clipboard."
 msgstr "Копировать все сообщения в буфер обмена."
 
-#: DlgEventLog.cpp:304
+#: DlgEventLog.cpp:305
 msgid "Copy &Selected"
 msgstr "Копировать выделенное"
 
-#: DlgEventLog.cpp:307 DlgEventLog.cpp:315 ViewMessages.cpp:97
+#: DlgEventLog.cpp:308 DlgEventLog.cpp:316 ViewMessages.cpp:97
 msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
 "messages by holding down the shift or command key while clicking on messages."
@@ -1683,7 +1683,7 @@ msgstr ""
 "Копировать выделенные сообщения в буфер обмена. Можно использовать SHIFT и "
 "CTRL для выделения нескольких сообщений."
 
-#: DlgEventLog.cpp:309 DlgEventLog.cpp:317 ViewMessages.cpp:99
+#: DlgEventLog.cpp:310 DlgEventLog.cpp:318 ViewMessages.cpp:99
 msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
 "messages by holding down the shift or control key while clicking on messages."
@@ -1691,25 +1691,24 @@ msgstr ""
 "Копировать выделенные сообщения в буфер обмена. Можно использовать SHIFT и "
 "CTRL для выделения нескольких сообщений."
 
-#: DlgEventLog.cpp:324 DlgItemProperties.cpp:66
+#: DlgEventLog.cpp:325 DlgItemProperties.cpp:67
 msgid "&Close"
 msgstr "Закрыть"
 
-#: DlgEventLog.cpp:333 sg_BoincSimpleFrame.cpp:794 sg_DlgPreferences.cpp:447
-#: sg_ProjectsComponent.cpp:142
+#: DlgEventLog.cpp:334 sg_BoincSimpleFrame.cpp:798 sg_DlgPreferences.cpp:442
 #, c-format
 msgid "Get help with %s"
 msgstr "Получить справку по %s"
 
-#: DlgEventLog.cpp:347
+#: DlgEventLog.cpp:348
 msgid "Show all &messages"
 msgstr "Показать все сообщения"
 
-#: DlgEventLog.cpp:348 DlgEventLog.cpp:350
+#: DlgEventLog.cpp:349 DlgEventLog.cpp:351
 msgid "Show messages for all projects"
 msgstr "Показать все сообщения"
 
-#: DlgEventLog.cpp:354 DlgEventLog.cpp:356
+#: DlgEventLog.cpp:355 DlgEventLog.cpp:357
 msgid "Show only the messages for the selected project"
 msgstr "Показать сообщения только от выбранного проекта."
 
@@ -1763,7 +1762,7 @@ msgid "Remember this decision and do not show this dialog."
 msgstr "Запомнить выбор и больше не показывать данное окно."
 
 #: DlgExitMessage.cpp:178 DlgGenericMessage.cpp:125 DlgOptions.cpp:401
-#: DlgSelectComputer.cpp:167 wizardex.cpp:378
+#: DlgSelectComputer.cpp:168 wizardex.cpp:378
 msgid "&Cancel"
 msgstr "Отмена"
 
@@ -1772,232 +1771,232 @@ msgid "Don't show this dialog again."
 msgstr "Больше не показывать данное окно."
 
 # ???
-#: DlgItemProperties.cpp:163 DlgItemProperties.cpp:166
-#: DlgItemProperties.cpp:169 DlgItemProperties.cpp:172
+#: DlgItemProperties.cpp:168 DlgItemProperties.cpp:171
+#: DlgItemProperties.cpp:174 DlgItemProperties.cpp:177
 msgid "Don't fetch tasks for "
 msgstr "Не запрашивать задания для"
 
-#: DlgItemProperties.cpp:163
+#: DlgItemProperties.cpp:168
 msgid "Project preference"
 msgstr "Настройка проекта"
 
-#: DlgItemProperties.cpp:166
+#: DlgItemProperties.cpp:171
 msgid "Account manager preference"
 msgstr "Настройка менеджера проектов"
 
-#: DlgItemProperties.cpp:169
+#: DlgItemProperties.cpp:174
 msgid "Project has no apps for "
 msgstr "У проекта нет приложений для"
 
-#: DlgItemProperties.cpp:172
+#: DlgItemProperties.cpp:177
 msgid "Client configuration excludes "
 msgstr "Конфигурация клиента исключает"
 
-#: DlgItemProperties.cpp:176
+#: DlgItemProperties.cpp:181
 msgid " work fetch deferred for"
 msgstr " запрос заданий отложен на"
 
-#: DlgItemProperties.cpp:177
+#: DlgItemProperties.cpp:182
 msgid " work fetch deferral interval"
 msgstr "интервал задержки запроса заданий"
 
 # ???? уточнить
-#: DlgItemProperties.cpp:208
+#: DlgItemProperties.cpp:213
 msgid "Properties of project "
 msgstr "Информация о проекте "
 
-#: DlgItemProperties.cpp:212 DlgOptions.cpp:218
+#: DlgItemProperties.cpp:217 DlgOptions.cpp:218
 msgid "General"
 msgstr "Общие"
 
-#: DlgItemProperties.cpp:213
+#: DlgItemProperties.cpp:218
 msgid "Master URL"
 msgstr "Адрес для подключения"
 
-#: DlgItemProperties.cpp:214
+#: DlgItemProperties.cpp:219
 msgid "User name"
 msgstr "Имя участника"
 
-#: DlgItemProperties.cpp:215
+#: DlgItemProperties.cpp:220
 msgid "Team name"
 msgstr "Команда"
 
-#: DlgItemProperties.cpp:216 ViewProjects.cpp:224
+#: DlgItemProperties.cpp:221 ViewProjects.cpp:224
 msgid "Resource share"
 msgstr "Выделено ресурсов"
 
-#: DlgItemProperties.cpp:218
+#: DlgItemProperties.cpp:223
 msgid "Scheduler RPC deferred for"
 msgstr "Запрос к планировщику отложен на"
 
-#: DlgItemProperties.cpp:221
+#: DlgItemProperties.cpp:226
 msgid "File downloads deferred for"
 msgstr "Загрузка файлов отложена на"
 
-#: DlgItemProperties.cpp:224
+#: DlgItemProperties.cpp:229
 msgid "File uploads deferred for"
 msgstr "Отправка файлов отложена на"
 
-#: DlgItemProperties.cpp:227
+#: DlgItemProperties.cpp:232
 msgid "Computer ID"
 msgstr "Идентификатор компьютера"
 
-#: DlgItemProperties.cpp:229
+#: DlgItemProperties.cpp:234
 msgid "Non CPU intensive"
 msgstr "Без использования ЦП"
 
-#: DlgItemProperties.cpp:229 DlgItemProperties.cpp:231
-#: DlgItemProperties.cpp:232 DlgItemProperties.cpp:234
-#: DlgItemProperties.cpp:237 DlgItemProperties.cpp:246
-#: DlgItemProperties.cpp:249 DlgItemProperties.cpp:252
+#: DlgItemProperties.cpp:234 DlgItemProperties.cpp:236
+#: DlgItemProperties.cpp:237 DlgItemProperties.cpp:239
+#: DlgItemProperties.cpp:242 DlgItemProperties.cpp:251
+#: DlgItemProperties.cpp:254 DlgItemProperties.cpp:257
 msgid "yes"
 msgstr "да"
 
-#: DlgItemProperties.cpp:231
+#: DlgItemProperties.cpp:236
 msgid "Suspended via GUI"
 msgstr "Приостановлен вручную"
 
-#: DlgItemProperties.cpp:231 DlgItemProperties.cpp:232
+#: DlgItemProperties.cpp:236 DlgItemProperties.cpp:237
 msgid "no"
 msgstr "нет"
 
-#: DlgItemProperties.cpp:232
+#: DlgItemProperties.cpp:237
 msgid "Don't request more work"
 msgstr "Не запрашивать задания"
 
 # ?
-#: DlgItemProperties.cpp:234
+#: DlgItemProperties.cpp:239
 msgid "Scheduler call in progress"
 msgstr "Сеанс связи с планировщиком"
 
-#: DlgItemProperties.cpp:237
+#: DlgItemProperties.cpp:242
 msgid "Trickle-up pending"
 msgstr "Ожидание промежуточной отправки"
 
 # Общее количество очков набранных на данном хосте
-#: DlgItemProperties.cpp:240 DlgItemProperties.cpp:242
+#: DlgItemProperties.cpp:245 DlgItemProperties.cpp:247
 msgid "Host location"
 msgstr "Размещение компьютера"
 
-#: DlgItemProperties.cpp:242
+#: DlgItemProperties.cpp:247
 msgid "default"
 msgstr "по умолчанию"
 
 # ?
-#: DlgItemProperties.cpp:246
+#: DlgItemProperties.cpp:251
 msgid "Added via account manager"
 msgstr "Добавлен менеджером проектов"
 
 # ?
-#: DlgItemProperties.cpp:249
+#: DlgItemProperties.cpp:254
 msgid "Remove when tasks done"
 msgstr "Будет удалён после завершения заданий"
 
 # что именно завершено ???
-#: DlgItemProperties.cpp:252
+#: DlgItemProperties.cpp:257
 msgid "Ended"
 msgstr "Завершён"
 
-#: DlgItemProperties.cpp:254
+#: DlgItemProperties.cpp:259
 msgid "Credit"
 msgstr "Очки"
 
-#: DlgItemProperties.cpp:255
+#: DlgItemProperties.cpp:260
 msgid "User"
 msgstr "Участник"
 
-#: DlgItemProperties.cpp:262
+#: DlgItemProperties.cpp:267
 msgid "Host"
 msgstr "Компьютер (хост)"
 
-#: DlgItemProperties.cpp:271
+#: DlgItemProperties.cpp:276
 msgid "Scheduling"
 msgstr "Планировщик"
 
-#: DlgItemProperties.cpp:272
+#: DlgItemProperties.cpp:277
 msgid "Scheduling priority"
 msgstr "Приоритет планировщика"
 
-#: DlgItemProperties.cpp:273
+#: DlgItemProperties.cpp:278
 msgid "CPU"
 msgstr "ЦП"
 
-#: DlgItemProperties.cpp:297
+#: DlgItemProperties.cpp:302
 msgid "Duration correction factor"
 msgstr "Поправочный коэффициент продолжительности"
 
-#: DlgItemProperties.cpp:311
+#: DlgItemProperties.cpp:316
 msgid "Properties of task "
 msgstr "Информация о задании "
 
-#: DlgItemProperties.cpp:323 ViewWork.cpp:238
+#: DlgItemProperties.cpp:328 ViewWork.cpp:238
 msgid "Application"
 msgstr "Приложение"
 
-# ??
-#: DlgItemProperties.cpp:324
-msgid "Workunit name"
-msgstr "Имя задания"
+# Имя
+#: DlgItemProperties.cpp:329 ViewWork.cpp:239
+msgid "Name"
+msgstr "Задание"
 
-#: DlgItemProperties.cpp:325
+#: DlgItemProperties.cpp:330
 msgid "State"
 msgstr "Состояние"
 
-#: DlgItemProperties.cpp:328
+#: DlgItemProperties.cpp:333
 msgid "Received"
 msgstr "Получено"
 
-#: DlgItemProperties.cpp:331
+#: DlgItemProperties.cpp:336
 msgid "Report deadline"
 msgstr "Отправить до"
 
 # не уверен
-#: DlgItemProperties.cpp:333
+#: DlgItemProperties.cpp:338
 msgid "Resources"
 msgstr "Выделено ресурсов"
 
-#: DlgItemProperties.cpp:336
+#: DlgItemProperties.cpp:341
 msgid "Estimated computation size"
 msgstr "Предполагаемый объём вычислений"
 
-#: DlgItemProperties.cpp:339
+#: DlgItemProperties.cpp:344
 msgid "CPU time at last checkpoint"
 msgstr "Время ЦП в контрольной точке"
 
-#: DlgItemProperties.cpp:340 DlgItemProperties.cpp:355
+#: DlgItemProperties.cpp:345 DlgItemProperties.cpp:360
 msgid "CPU time"
 msgstr "Время ЦП"
 
-#: DlgItemProperties.cpp:342 DlgItemProperties.cpp:356
+#: DlgItemProperties.cpp:347 DlgItemProperties.cpp:361
 msgid "Elapsed time"
 msgstr "Затрачено времени"
 
-#: DlgItemProperties.cpp:344
+#: DlgItemProperties.cpp:349
 msgid "Estimated time remaining"
 msgstr "Осталось до завершения"
 
-#: DlgItemProperties.cpp:345
+#: DlgItemProperties.cpp:350
 msgid "Fraction done"
 msgstr "Процент выполнения"
 
 # не точно
-#: DlgItemProperties.cpp:346
+#: DlgItemProperties.cpp:351
 msgid "Virtual memory size"
 msgstr "Объём виртуальной памяти"
 
-#: DlgItemProperties.cpp:347
+#: DlgItemProperties.cpp:352
 msgid "Working set size"
 msgstr "Использование памяти"
 
-#: DlgItemProperties.cpp:349
+#: DlgItemProperties.cpp:354
 msgid "Directory"
 msgstr "Каталог"
 
-#: DlgItemProperties.cpp:352
+#: DlgItemProperties.cpp:357
 msgid "Process ID"
 msgstr "ID процесса"
 
-#: DlgItemProperties.cpp:426 ViewWork.cpp:1032 sg_TaskPanel.cpp:810
+#: DlgItemProperties.cpp:427 ViewWork.cpp:1032 sg_TaskPanel.cpp:823
 msgid "Local: "
 msgstr "Локальное: "
 
@@ -2086,7 +2085,7 @@ msgstr "Оставить поля пустыми если не использу�
 msgid "User Name:"
 msgstr "Имя пользователя:"
 
-#: DlgOptions.cpp:317 DlgOptions.cpp:381 DlgSelectComputer.cpp:151
+#: DlgOptions.cpp:317 DlgOptions.cpp:381 DlgSelectComputer.cpp:152
 #: ProxyPage.cpp:346 ProxyPage.cpp:366
 msgid "Password:"
 msgstr "Пароль:"
@@ -2146,12 +2145,12 @@ msgstr ""
 "Язык интерфейса программы %s был изменён.  Для вступления в силу изменений "
 "требуется перезапустить %s."
 
-#: DlgSelectComputer.cpp:90
+#: DlgSelectComputer.cpp:91
 #, c-format
 msgid "%s - Select Computer"
 msgstr "%s - Подключение к компьютеру"
 
-#: DlgSelectComputer.cpp:124
+#: DlgSelectComputer.cpp:125
 #, c-format
 msgid ""
 "Another instance of %s is already running \n"
@@ -2160,7 +2159,7 @@ msgstr ""
 "На этом компьютере уже работает другой экземпляр %s.\n"
 "Пожалуйста выберите клиента для наблюдения."
 
-#: DlgSelectComputer.cpp:142
+#: DlgSelectComputer.cpp:143
 msgid "Host name:"
 msgstr "Имя компьютера в сети или IP:"
 
@@ -2394,23 +2393,23 @@ msgid "Learn about the projects hosted at World Community Grid"
 msgstr "Подробные описания проектов запущенных в рамках WCG"
 
 # ипользуется внутри программы
-#: MainDocument.cpp:586
+#: MainDocument.cpp:583
 msgid "Starting client"
 msgstr "Запуск клиента"
 
-#: MainDocument.cpp:594
+#: MainDocument.cpp:591
 msgid "Connecting to client"
 msgstr "Подключение к клиенту"
 
-#: MainDocument.cpp:1186
+#: MainDocument.cpp:1195
 msgid "Retrieving system state; please wait..."
 msgstr "Обновляется информация о состоянии системы; пожалуйста подождите..."
 
-#: MainDocument.cpp:1807
+#: MainDocument.cpp:1816
 msgid "Missing application"
 msgstr "Отсутствует приложение"
 
-#: MainDocument.cpp:1808
+#: MainDocument.cpp:1817
 msgid ""
 "Please download and install the CoRD application from http://cord."
 "sourceforge.net"
@@ -2418,190 +2417,190 @@ msgstr ""
 "Пожалуйста загрузите и установите приложение CoRD с сайта "
 "http://cord.sourceforge.net"
 
-#: MainDocument.cpp:2423
+#: MainDocument.cpp:2432
 msgid "on batteries"
 msgstr "питание от аккумуляторов"
 
-#: MainDocument.cpp:2424
+#: MainDocument.cpp:2433
 msgid "computer is in use"
 msgstr "компьютер используется для работы"
 
-#: MainDocument.cpp:2425
+#: MainDocument.cpp:2434
 msgid "user request"
 msgstr "запрос пользователя"
 
-#: MainDocument.cpp:2426
+#: MainDocument.cpp:2435
 msgid "time of day"
 msgstr "в зависимости от времени суток"
 
-#: MainDocument.cpp:2427
+#: MainDocument.cpp:2436
 msgid "CPU benchmarks in progress"
 msgstr "запущен тест производительности"
 
-#: MainDocument.cpp:2428
+#: MainDocument.cpp:2437
 msgid "need disk space - check preferences"
 msgstr "необходимо место на диске - проверьте настройки"
 
-#: MainDocument.cpp:2429
+#: MainDocument.cpp:2438
 msgid "computer is not in use"
 msgstr "компьютер не используется для работы"
 
 # ипользуется внутри программы
-#: MainDocument.cpp:2430
+#: MainDocument.cpp:2439
 msgid "starting up"
 msgstr "запуск"
 
-#: MainDocument.cpp:2431
+#: MainDocument.cpp:2440
 msgid "an exclusive app is running"
 msgstr "выполняется эксклюзивное приложение"
 
-#: MainDocument.cpp:2432
+#: MainDocument.cpp:2441
 msgid "CPU is busy"
 msgstr "процессор занят"
 
-#: MainDocument.cpp:2433
+#: MainDocument.cpp:2442
 msgid "network bandwidth limit exceeded"
 msgstr "превышен лимит использования сети"
 
-#: MainDocument.cpp:2434
+#: MainDocument.cpp:2443
 msgid "requested by operating system"
 msgstr "запрошен операционной системой"
 
-#: MainDocument.cpp:2436
+#: MainDocument.cpp:2445
 msgid "unknown reason"
 msgstr "неизвестная причина"
 
-#: MainDocument.cpp:2458
+#: MainDocument.cpp:2467
 msgid "GPU missing, "
 msgstr "Отсутствие ГП, "
 
-#: MainDocument.cpp:2465
+#: MainDocument.cpp:2474
 msgid "New"
 msgstr "Новое"
 
-#: MainDocument.cpp:2469
+#: MainDocument.cpp:2478
 msgid "Download failed"
 msgstr "Ошибка загрузки данных"
 
-#: MainDocument.cpp:2471
+#: MainDocument.cpp:2480
 msgid "Downloading"
 msgstr "Загрузка данных"
 
-#: MainDocument.cpp:2473 MainDocument.cpp:2543
+#: MainDocument.cpp:2482 MainDocument.cpp:2552
 msgid " (suspended - "
 msgstr " (приостановлено - "
 
-#: MainDocument.cpp:2481
+#: MainDocument.cpp:2490
 msgid "Project suspended by user"
 msgstr "Проект приостановлен пользователем"
 
 # длинно
-#: MainDocument.cpp:2483
+#: MainDocument.cpp:2492
 msgid "Task suspended by user"
 msgstr "Обработка задания приостановлена пользователем"
 
-#: MainDocument.cpp:2485
+#: MainDocument.cpp:2494
 msgid "Suspended - "
 msgstr "Приостановлено - "
 
 # 75%
-#: MainDocument.cpp:2491
+#: MainDocument.cpp:2500
 msgid "GPU suspended - "
 msgstr "ГП приостановлен - "
 
-#: MainDocument.cpp:2498
+#: MainDocument.cpp:2507
 msgid "Waiting for memory"
 msgstr "Ожидание освобождения оперативной памяти"
 
 # офигеть можно от такого объяснения
-#: MainDocument.cpp:2500
+#: MainDocument.cpp:2509
 msgid "Waiting for shared memory"
 msgstr "Ожидание освобождения разделяемой оперативной памяти (shared memory)"
 
-#: MainDocument.cpp:2503
+#: MainDocument.cpp:2512
 msgid "Running, high priority"
 msgstr "Работает, обработать в первую очередь"
 
-#: MainDocument.cpp:2505 sg_ImageButton.cpp:88
+#: MainDocument.cpp:2514
 msgid "Running"
 msgstr "Работает"
 
-#: MainDocument.cpp:2508
+#: MainDocument.cpp:2517
 msgid " (non-CPU-intensive)"
 msgstr " (без использования ЦП)"
 
 # Приостановлено с последующим продолжением обработки
-#: MainDocument.cpp:2511
+#: MainDocument.cpp:2520
 msgid "Waiting to run"
 msgstr "Ждёт своей очереди"
 
-#: MainDocument.cpp:2513 MainDocument.cpp:2519
+#: MainDocument.cpp:2522 MainDocument.cpp:2528
 msgid "Ready to start"
 msgstr "Готово к запуску"
 
-#: MainDocument.cpp:2523
+#: MainDocument.cpp:2532
 msgid " (Scheduler wait: "
 msgstr "(Планировщик ожидает:"
 
-#: MainDocument.cpp:2527
+#: MainDocument.cpp:2536
 msgid " (Scheduler wait)"
 msgstr " (Планировщик ожидает)"
 
-#: MainDocument.cpp:2531
+#: MainDocument.cpp:2540
 msgid " (Waiting for network access)"
 msgstr "(Ожидание доступа к сети)"
 
-#: MainDocument.cpp:2535
+#: MainDocument.cpp:2544
 msgid "Computation error"
 msgstr "Ошибка вычислений"
 
-#: MainDocument.cpp:2539
+#: MainDocument.cpp:2548
 msgid "Upload failed"
 msgstr "Ошибка отправки данных"
 
-#: MainDocument.cpp:2541
+#: MainDocument.cpp:2550
 msgid "Uploading"
 msgstr "Отправка данных"
 
-#: MainDocument.cpp:2552
+#: MainDocument.cpp:2561
 msgid "Aborted by user"
 msgstr "Прервано пользователем"
 
 # ???? уточнить
-#: MainDocument.cpp:2555
+#: MainDocument.cpp:2564
 msgid "Aborted by project"
 msgstr "Прервано проектом"
 
-#: MainDocument.cpp:2558
+#: MainDocument.cpp:2567
 msgid "Aborted: not started by deadline"
 msgstr "Прервано: не было запущено до крайнего срока"
 
-#: MainDocument.cpp:2561
+#: MainDocument.cpp:2570
 msgid "Aborted: disk limit exceeded"
 msgstr "Прервано: превышен предел используемого дискового пространства"
 
-#: MainDocument.cpp:2564
+#: MainDocument.cpp:2573
 msgid "Aborted: run time limit exceeded"
 msgstr "Прервано: превышен предел времени выполнения"
 
-#: MainDocument.cpp:2567
+#: MainDocument.cpp:2576
 msgid "Aborted: memory limit exceeded"
 msgstr "Прервано: превышен предел используемой памяти"
 
 # ???
-#: MainDocument.cpp:2570
+#: MainDocument.cpp:2579
 msgid "Aborted"
 msgstr "Прервано"
 
-#: MainDocument.cpp:2575
+#: MainDocument.cpp:2584
 msgid "Acknowledged"
 msgstr "Признано"
 
-#: MainDocument.cpp:2577
+#: MainDocument.cpp:2586
 msgid "Ready to report"
 msgstr "Ожидается подтверждение о приеме данных"
 
-#: MainDocument.cpp:2579
+#: MainDocument.cpp:2588
 #, c-format
 msgid "Error: invalid state '%d'"
 msgstr "Ошибка: недопустимое состояние '%d'"
@@ -2664,57 +2663,57 @@ msgstr ""
 "Проверьте правильность написания адреса\n"
 "электронной почты и пароля и повторите ввод."
 
-#: NoticeListCtrl.cpp:221
+#: NoticeListCtrl.cpp:222
 msgid "more..."
 msgstr "больше..."
 
-#: ProjectInfoPage.cpp:467 ProjectInfoPage.cpp:766 ProjectInfoPage.cpp:770
+#: ProjectInfoPage.cpp:477 ProjectInfoPage.cpp:778 ProjectInfoPage.cpp:782
 msgid "All"
 msgstr "Все"
 
-#: ProjectInfoPage.cpp:602
+#: ProjectInfoPage.cpp:615
 msgid "Choose a project"
 msgstr "Выбор проекта"
 
-#: ProjectInfoPage.cpp:606
+#: ProjectInfoPage.cpp:619
 msgid "To choose a project, click its name or type its URL below."
 msgstr ""
 "Выберите понравившийся проект щёлкнув на его\n"
 "названии, или введите его адрес URL в поле ниже."
 
-#: ProjectInfoPage.cpp:610
+#: ProjectInfoPage.cpp:623
 msgid "Categories:"
 msgstr "Категории:"
 
-#: ProjectInfoPage.cpp:614 sg_ProjectPanel.cpp:89
+#: ProjectInfoPage.cpp:627 sg_ProjectPanel.cpp:89
 msgid "Projects:"
 msgstr "Проекты:"
 
-#: ProjectInfoPage.cpp:618
+#: ProjectInfoPage.cpp:631
 msgid "Project details"
 msgstr "Описание проекта"
 
-#: ProjectInfoPage.cpp:622
+#: ProjectInfoPage.cpp:635
 msgid "Research area:"
 msgstr "Научная область:"
 
-#: ProjectInfoPage.cpp:626
+#: ProjectInfoPage.cpp:639
 msgid "Organization:"
 msgstr "Организация:"
 
-#: ProjectInfoPage.cpp:630
+#: ProjectInfoPage.cpp:643
 msgid "Web site:"
 msgstr "Веб-сайт:"
 
-#: ProjectInfoPage.cpp:634
+#: ProjectInfoPage.cpp:647
 msgid "Supported systems:"
 msgstr "Поддерживаемые платформы:"
 
-#: ProjectInfoPage.cpp:638
+#: ProjectInfoPage.cpp:651
 msgid "Project URL:"
 msgstr "URL-адрес проекта:"
 
-#: ProjectInfoPage.cpp:814
+#: ProjectInfoPage.cpp:826
 msgid ""
 "This project may not have work for your type of computer.  Do you want to "
 "add it anyway?"
@@ -2722,7 +2721,7 @@ msgstr ""
 "Возможно, что данный проект не поддерживает тип вашего компьютера или "
 "операционную систему.  Вы всё равно хотите его добавить?"
 
-#: ProjectInfoPage.cpp:838
+#: ProjectInfoPage.cpp:850
 msgid "You already added this project. Please choose a different project."
 msgstr "Этот проект уже добавлен. Выберите другой проект."
 
@@ -2731,12 +2730,12 @@ msgstr "Этот проект уже добавлен. Выберите друг
 msgid "Communicating with project."
 msgstr "Установка связи с проектом."
 
-#: ProjectProcessingPage.cpp:507
+#: ProjectProcessingPage.cpp:509
 msgid "Required files not found on the server."
 msgstr "Необходимые файлы не найдены на сервере."
 
 # что бы это значило???
-#: ProjectProcessingPage.cpp:510 ProjectProcessingPage.cpp:572
+#: ProjectProcessingPage.cpp:512 ProjectProcessingPage.cpp:574
 msgid "An internal server error has occurred."
 msgstr "Произошла внутренняя ошибка сервера."
 
@@ -2846,8 +2845,8 @@ msgid "I agree to the terms of use."
 msgstr "Я согласен с условиями."
 
 #: TermsOfUsePage.cpp:237
-msgid "I do not agree with the terms of use."
-msgstr "Я не согласен с условиями использования."
+msgid "I do not agree to the terms of use."
+msgstr ""
 
 #: UnavailablePage.cpp:183
 msgid "Project temporarily unavailable"
@@ -2944,7 +2943,7 @@ msgstr "Компьютер (хост) с именем: '%s' не найден."
 msgid "'%s' does not contain a valid path."
 msgstr "Указанный путь: '%s' не существует."
 
-#: ViewMessages.cpp:84 ViewProjects.cpp:170 ViewStatistics.cpp:1976
+#: ViewMessages.cpp:84 ViewProjects.cpp:170 ViewStatistics.cpp:1978
 #: ViewTransfers.cpp:160 ViewWork.cpp:183
 msgid "Commands"
 msgstr "Действия"
@@ -2997,7 +2996,7 @@ msgstr "Получение уведомлений; пожалуйста подо
 msgid "There are no notices at this time."
 msgstr "На данный момент нет уведомлений."
 
-#: ViewNotices.cpp:99 sg_BoincSimpleFrame.cpp:772
+#: ViewNotices.cpp:99 sg_BoincSimpleFrame.cpp:776
 msgid "Notices"
 msgstr "Уведомления"
 
@@ -3015,7 +3014,7 @@ msgstr ""
 "(возможно) закачке новых заданий."
 
 #: ViewProjects.cpp:181 ViewProjects.cpp:722 ViewWork.cpp:208 ViewWork.cpp:801
-#: sg_BoincSimpleFrame.cpp:753 sg_ProjectCommandPopup.cpp:67
+#: sg_BoincSimpleFrame.cpp:757 sg_ProjectCommandPopup.cpp:67
 #: sg_ProjectCommandPopup.cpp:113 sg_TaskCommandPopup.cpp:66
 #: sg_TaskCommandPopup.cpp:106
 msgid "Suspend"
@@ -3128,13 +3127,11 @@ msgid "Removing project..."
 msgstr "Удаление проекта..."
 
 #: ViewProjects.cpp:496 sg_ProjectCommandPopup.cpp:251
-#: sg_StatImageLoader.cpp:192
 #, c-format
 msgid "Are you sure you want to remove project '%s'?"
 msgstr "Вы действительно хотите удалить проект '%s'?"
 
 #: ViewProjects.cpp:502 sg_ProjectCommandPopup.cpp:257
-#: sg_StatImageLoader.cpp:138 sg_StatImageLoader.cpp:198
 msgid "Remove Project"
 msgstr "Удалить проект"
 
@@ -3266,138 +3263,138 @@ msgid "used by other programs: "
 msgstr "занято другими данными: "
 
 # Общее количество очков набранных участником
-#: ViewStatistics.cpp:1203
+#: ViewStatistics.cpp:1205
 msgid "User Total"
 msgstr "Общее количество очков участника"
 
 # Среднее количество очков набираемых участником за день
-#: ViewStatistics.cpp:1204
+#: ViewStatistics.cpp:1206
 msgid "User Average"
 msgstr "Среднее количество очков за день"
 
 # Общее количество очков набранных на данном хосте
-#: ViewStatistics.cpp:1205
+#: ViewStatistics.cpp:1207
 msgid "Host Total"
 msgstr "Общее количество очков для хоста"
 
 # Среднее количество очков набираемых данным хостом за день
-#: ViewStatistics.cpp:1206
+#: ViewStatistics.cpp:1208
 msgid "Host Average"
 msgstr "Среднее количество очков за день для хоста"
 
-#: ViewStatistics.cpp:1353
+#: ViewStatistics.cpp:1355
 #, c-format
 msgid "Last update: %.0f days ago"
 msgstr "Информация обновлялась: %.0f дн. назад"
 
-#: ViewStatistics.cpp:1980
+#: ViewStatistics.cpp:1982
 msgid "Show user total"
 msgstr "Всего очков"
 
-#: ViewStatistics.cpp:1981
+#: ViewStatistics.cpp:1983
 msgid "Show total credit for user"
 msgstr "Показать общее количество очков набранных участником"
 
-#: ViewStatistics.cpp:1987
+#: ViewStatistics.cpp:1989
 msgid "Show user average"
 msgstr "В среднем за день"
 
-#: ViewStatistics.cpp:1988
+#: ViewStatistics.cpp:1990
 msgid "Show average credit for user"
 msgstr "Показать среднее количество очков набираемых участником за день"
 
-#: ViewStatistics.cpp:1994
+#: ViewStatistics.cpp:1996
 msgid "Show host total"
 msgstr "Всего очков для хоста"
 
-#: ViewStatistics.cpp:1995
+#: ViewStatistics.cpp:1997
 msgid "Show total credit for host"
 msgstr "Показать общее количество очков набранных на данном хосте"
 
-#: ViewStatistics.cpp:2001
+#: ViewStatistics.cpp:2003
 msgid "Show host average"
 msgstr "В среднем для хоста"
 
-#: ViewStatistics.cpp:2002
+#: ViewStatistics.cpp:2004
 msgid "Show average credit for host"
 msgstr "Показать среднее количество очков набираемых данным хостом за день"
 
-#: ViewStatistics.cpp:2011
+#: ViewStatistics.cpp:2013
 msgid "< &Previous project"
 msgstr "< Предыдущий"
 
-#: ViewStatistics.cpp:2012
+#: ViewStatistics.cpp:2014
 msgid "Show chart for previous project"
 msgstr "Показать предыдущий проект (вверх)"
 
-#: ViewStatistics.cpp:2017
+#: ViewStatistics.cpp:2019
 msgid "&Next project >"
 msgstr "Следующий >"
 
-#: ViewStatistics.cpp:2018
+#: ViewStatistics.cpp:2020
 msgid "Show chart for next project"
 msgstr "Показать следующий проект (вниз)"
 
-#: ViewStatistics.cpp:2024 ViewStatistics.cpp:2414
+#: ViewStatistics.cpp:2026 ViewStatistics.cpp:2416
 msgid "Hide project list"
 msgstr "Скрыть список проектов"
 
-#: ViewStatistics.cpp:2025 ViewStatistics.cpp:2414
+#: ViewStatistics.cpp:2027 ViewStatistics.cpp:2416
 msgid "Use entire area for graphs"
 msgstr "Использовать всю область для графиков"
 
-#: ViewStatistics.cpp:2030
+#: ViewStatistics.cpp:2032
 msgid "Mode view"
 msgstr "Вид графиков"
 
-#: ViewStatistics.cpp:2034
+#: ViewStatistics.cpp:2036
 msgid "One project"
 msgstr "Один проект"
 
-#: ViewStatistics.cpp:2035
+#: ViewStatistics.cpp:2037
 msgid "Show one chart with selected project"
 msgstr "Показать один выбранный проект"
 
-#: ViewStatistics.cpp:2041
+#: ViewStatistics.cpp:2043
 msgid "All projects (separate)"
 msgstr "Все проекты (по отдельности)"
 
-#: ViewStatistics.cpp:2042
+#: ViewStatistics.cpp:2044
 msgid "Show all projects, one chart per project"
 msgstr "Показать все проекты, каждый проект на отдельном графике"
 
-#: ViewStatistics.cpp:2048
+#: ViewStatistics.cpp:2050
 msgid "All projects (together)"
 msgstr "Все проекты (вместе)"
 
-#: ViewStatistics.cpp:2049
+#: ViewStatistics.cpp:2051
 msgid "Show one chart with all projects"
 msgstr "Показать все проекты на одном графике"
 
-#: ViewStatistics.cpp:2055
+#: ViewStatistics.cpp:2057
 msgid "All projects (sum)"
 msgstr "Все проекты (в сумме)"
 
-#: ViewStatistics.cpp:2056
+#: ViewStatistics.cpp:2058
 msgid "Show one chart with sum of projects"
 msgstr "Показать сумму по проектам на одном графике"
 
-#: ViewStatistics.cpp:2077
+#: ViewStatistics.cpp:2079
 msgid "Statistics"
 msgstr "Статистика"
 
-#: ViewStatistics.cpp:2101 ViewStatistics.cpp:2122 ViewStatistics.cpp:2143
-#: ViewStatistics.cpp:2165 ViewStatistics.cpp:2186 ViewStatistics.cpp:2207
-#: ViewStatistics.cpp:2228 ViewStatistics.cpp:2249 ViewStatistics.cpp:2270
-#: ViewStatistics.cpp:2294
+#: ViewStatistics.cpp:2103 ViewStatistics.cpp:2124 ViewStatistics.cpp:2145
+#: ViewStatistics.cpp:2167 ViewStatistics.cpp:2188 ViewStatistics.cpp:2209
+#: ViewStatistics.cpp:2230 ViewStatistics.cpp:2251 ViewStatistics.cpp:2272
+#: ViewStatistics.cpp:2296
 msgid "Updating charts..."
 msgstr "Обновляется график..."
 
-#: ViewStatistics.cpp:2418
+#: ViewStatistics.cpp:2420
 msgid "Show project list"
 msgstr "Показать список проектов"
 
-#: ViewStatistics.cpp:2418
+#: ViewStatistics.cpp:2420
 msgid "Uses smaller area for graphs"
 msgstr "Использовать меньшую область для графиков"
 
@@ -3521,7 +3518,7 @@ msgstr "Показать активные задания"
 msgid "Show only active tasks."
 msgstr "Показать только активные задания."
 
-#: ViewWork.cpp:194 sg_TaskCommandPopup.cpp:60 sg_ViewTabPage.cpp:424
+#: ViewWork.cpp:194 sg_TaskCommandPopup.cpp:60
 msgid "Show graphics"
 msgstr "Показать графику"
 
@@ -3566,11 +3563,6 @@ msgstr "Осталось (приблизительно)"
 #: ViewWork.cpp:237
 msgid "Deadline"
 msgstr "Отправить до"
-
-# Имя
-#: ViewWork.cpp:239
-msgid "Name"
-msgstr "Задание"
 
 #: ViewWork.cpp:264
 msgid "Tasks"
@@ -3724,106 +3716,42 @@ msgstr "Прервать процесс подключения?"
 msgid "Question"
 msgstr "Вопрос"
 
-#: sg_BoincSimpleFrame.cpp:145 sg_BoincSimpleGUI.cpp:119
+#: sg_BoincSimpleFrame.cpp:149
 msgid "Advanced View...\tCtrl+Shift+A"
 msgstr "Полный вид...\tCtrl+Shift+A"
 
-#: sg_BoincSimpleFrame.cpp:146
+#: sg_BoincSimpleFrame.cpp:150
 msgid "Display the advanced graphical interface."
 msgstr "Изменить внешний вид на более продвинутый."
 
-#: sg_BoincSimpleFrame.cpp:153
+#: sg_BoincSimpleFrame.cpp:157
 msgid "Skin"
 msgstr "Обложка"
 
-#: sg_BoincSimpleFrame.cpp:155
+#: sg_BoincSimpleFrame.cpp:159
 msgid "Select the appearance of the user interface."
 msgstr "Выберите внешний вид пользовательского интерфейса."
 
-#: sg_BoincSimpleFrame.cpp:202 sg_BoincSimpleGUI.cpp:147
+#: sg_BoincSimpleFrame.cpp:206
 #, c-format
 msgid "&%s"
 msgstr "&%s"
 
-#: sg_BoincSimpleFrame.cpp:386
+#: sg_BoincSimpleFrame.cpp:390
 msgid "Default"
 msgstr "По умолчанию"
 
-#: sg_BoincSimpleFrame.cpp:755
+#: sg_BoincSimpleFrame.cpp:759
 msgid "Suspend Computing"
 msgstr "Приостановить вычисления"
 
-#: sg_BoincSimpleFrame.cpp:756
+#: sg_BoincSimpleFrame.cpp:760
 msgid "Resume Computing"
 msgstr "Возобновить вычисления"
 
-#: sg_BoincSimpleFrame.cpp:773
+#: sg_BoincSimpleFrame.cpp:777
 msgid "Open a window to view notices from projects or BOINC"
 msgstr "Открыть окно просмотра уведомлений проектов и BOINC"
-
-#: sg_BoincSimpleGUI.cpp:120
-msgid "Display the advanced (accessible) graphical interface."
-msgstr ""
-"Изменить внешний вид на расширенный (Будут полностью доступны все функции "
-"управления)."
-
-# ?????? это о чём
-#: sg_ClientStateIndicator.cpp:288 sg_TaskPanel.cpp:1210
-msgid "Retrieving current status."
-msgstr "Проверка текущего состояния."
-
-# ?
-#: sg_ClientStateIndicator.cpp:291 sg_TaskPanel.cpp:451
-msgid "You don't have any projects.  Please Add a Project."
-msgstr "BOINC не подключен ни к одному проекту.  Пожалуйста добавьте проект."
-
-#: sg_ClientStateIndicator.cpp:294 sg_TaskPanel.cpp:1216
-msgid "Downloading work from the server."
-msgstr "Загрузка заданий с сервера проекта."
-
-# ноутбук
-#: sg_ClientStateIndicator.cpp:299 sg_TaskPanel.cpp:1221
-msgid "Processing Suspended:  Running On Batteries."
-msgstr "Обработка приостановлена:  работа компьютера от батарей."
-
-#: sg_ClientStateIndicator.cpp:301 sg_TaskPanel.cpp:1223
-msgid "Processing Suspended:  User Active."
-msgstr "Обработка приостановлена:  пользователь работает."
-
-#: sg_ClientStateIndicator.cpp:303 sg_TaskPanel.cpp:1225
-msgid "Processing Suspended:  User paused processing."
-msgstr "Обработка приостановлена:  по инициативе пользователя."
-
-#: sg_ClientStateIndicator.cpp:305 sg_TaskPanel.cpp:1227
-msgid "Processing Suspended:  Time of Day."
-msgstr "Обработка приостановлена:  запрещённое время суток."
-
-#: sg_ClientStateIndicator.cpp:307 sg_TaskPanel.cpp:1229
-msgid "Processing Suspended:  Benchmarks Running."
-msgstr "Обработка приостановлена:  запущен тест производительности."
-
-#: sg_ClientStateIndicator.cpp:309 sg_TaskPanel.cpp:1231
-msgid "Processing Suspended."
-msgstr "Обработка приостановлена."
-
-# Оригинальная фраза не соостветствует смыслу того места где появляется.
-#: sg_ClientStateIndicator.cpp:313 sg_TaskPanel.cpp:1235
-msgid "Waiting to contact project servers."
-msgstr "Подождите пожалуйста."
-
-# ??? для тех кто не заметил, в предыдущей аналогичной фразе есть точка
-#: sg_ClientStateIndicator.cpp:317 sg_ClientStateIndicator.cpp:325
-#: sg_TaskPanel.cpp:1239 sg_TaskPanel.cpp:1248
-msgid "Retrieving current status"
-msgstr "Проверка текущего состояния"
-
-#: sg_ClientStateIndicator.cpp:320 sg_TaskPanel.cpp:1243
-msgid "No work available to process"
-msgstr "Нет заданий для обработки"
-
-#: sg_ClientStateIndicator.cpp:322 sg_TaskPanel.cpp:1245
-msgid "Unable to connect to the core client"
-msgstr "Не удалось подключиться к BOINC клиенту"
 
 #: sg_DlgMessages.cpp:146
 msgid "Close"
@@ -3843,161 +3771,124 @@ msgid "Click OK to set preferences."
 msgstr "Для сохранения настроек нажмите 'OK'."
 
 #: sg_DlgPreferences.cpp:278
-msgid "Click Clear to restore web-based settings."
-msgstr "Для возврата к настройкам с сайта проекта нажмите 'Удалить'."
+msgid ""
+"Click Clear to restore web-based settings for all preferences listed below."
+msgstr ""
 
 #: sg_DlgPreferences.cpp:285
-msgid "For additional settings, select Computing Preferences in "
-msgstr "Для дополнительных параметров выберите Настройки клиента в "
+msgid ""
+"For additional settings, select Computing Preferences in the Advanced View."
+msgstr ""
 
-#: sg_DlgPreferences.cpp:290
-msgid "the Advanced View."
-msgstr "Полном виде."
-
-#: sg_DlgPreferences.cpp:318
+#: sg_DlgPreferences.cpp:313
 msgid "Do work only between:"
 msgstr "Обрабатывать только с"
 
-#: sg_DlgPreferences.cpp:340
+#: sg_DlgPreferences.cpp:335
 msgid "Connect to internet only between:"
 msgstr "Доступ в интернет только с"
 
-#: sg_DlgPreferences.cpp:362 sg_DlgPreferences.cpp:379
+#: sg_DlgPreferences.cpp:357 sg_DlgPreferences.cpp:374
 msgid "Use no more than:"
 msgstr "Использовать не более:"
 
-#: sg_DlgPreferences.cpp:375
+#: sg_DlgPreferences.cpp:370
 msgid "of disk space"
 msgstr "места на диске"
 
-#: sg_DlgPreferences.cpp:392
+#: sg_DlgPreferences.cpp:387
 msgid "of the processor"
 msgstr "процессора"
 
 # ...отопления
-#: sg_DlgPreferences.cpp:396
+#: sg_DlgPreferences.cpp:391
 msgid "Do work while on battery?"
 msgstr "Работать на батареях?"
 
-#: sg_DlgPreferences.cpp:409
+#: sg_DlgPreferences.cpp:404
 msgid "Do work after idle for:"
 msgstr "Запуск обработки при простое:"
 
+#: sg_DlgPreferences.cpp:429
+msgid "Clear all local preferences listed above and close the dialog"
+msgstr ""
+
 # ?
-#: sg_DlgPreferences.cpp:607 sg_DlgPreferences.cpp:610
-#: sg_DlgPreferences.cpp:686 sg_DlgPreferences.cpp:690
-#: sg_DlgPreferences.cpp:702 sg_DlgPreferences.cpp:706
-#: sg_DlgPreferences.cpp:849 sg_DlgPreferences.cpp:860
+#: sg_DlgPreferences.cpp:602 sg_DlgPreferences.cpp:605
+#: sg_DlgPreferences.cpp:681 sg_DlgPreferences.cpp:685
+#: sg_DlgPreferences.cpp:697 sg_DlgPreferences.cpp:701
+#: sg_DlgPreferences.cpp:844 sg_DlgPreferences.cpp:855
 msgid "Anytime"
 msgstr "всегда"
 
-#: sg_DlgPreferences.cpp:643
+#: sg_DlgPreferences.cpp:638
 msgid "100 MB"
 msgstr "100 Мб"
 
-#: sg_DlgPreferences.cpp:644
+#: sg_DlgPreferences.cpp:639
 msgid "200 MB"
 msgstr "200 Мб"
 
-#: sg_DlgPreferences.cpp:645
+#: sg_DlgPreferences.cpp:640
 msgid "500 MB"
 msgstr "500 Мб"
 
-#: sg_DlgPreferences.cpp:646
+#: sg_DlgPreferences.cpp:641
 msgid "1 GB"
 msgstr "1 Гб"
 
-#: sg_DlgPreferences.cpp:647
+#: sg_DlgPreferences.cpp:642
 msgid "2 GB"
 msgstr "2 Гб"
 
-#: sg_DlgPreferences.cpp:648
+#: sg_DlgPreferences.cpp:643
 msgid "5 GB"
 msgstr "5 Гб"
 
-#: sg_DlgPreferences.cpp:649
+#: sg_DlgPreferences.cpp:644
 msgid "10 GB"
 msgstr "10 Гб"
 
-#: sg_DlgPreferences.cpp:650
+#: sg_DlgPreferences.cpp:645
 msgid "20 GB"
 msgstr "20 Гб"
 
-#: sg_DlgPreferences.cpp:651
+#: sg_DlgPreferences.cpp:646
 msgid "50 GB"
 msgstr "50 Гб"
 
-#: sg_DlgPreferences.cpp:652
+#: sg_DlgPreferences.cpp:647
 msgid "100 GB"
 msgstr "100 Гб"
 
-#: sg_DlgPreferences.cpp:722
+#: sg_DlgPreferences.cpp:717
 #, c-format
 msgid "%d MB"
 msgstr "%d МБ"
 
-#: sg_DlgPreferences.cpp:724
+#: sg_DlgPreferences.cpp:719
 #, c-format
 msgid "%4.2f GB"
 msgstr "%4.2f ГБ"
 
-#: sg_DlgPreferences.cpp:765
+#: sg_DlgPreferences.cpp:760
 #, c-format
 msgid "%d%%"
 msgstr "%d%%"
 
-#: sg_DlgPreferences.cpp:801
+#: sg_DlgPreferences.cpp:796
 msgid "0 (Run Always)"
 msgstr "0 (работать всегда)"
 
-#: sg_DlgPreferences.cpp:804
+#: sg_DlgPreferences.cpp:799
 #, c-format
 msgid "%d"
 msgstr "%d"
 
 # ?
-#: sg_DlgPreferences.cpp:1034
+#: sg_DlgPreferences.cpp:1029
 msgid "Do you really want to clear all local preferences?\n"
 msgstr "Вы действительно хотите удалить все локально хранимые настройки?\n"
-
-#: sg_ImageButton.cpp:90
-msgid "Paused: Other work running"
-msgstr "Пауза: обрабатывается другое задание"
-
-# Resume это картинка !!! - зависит от скина
-#: sg_ImageButton.cpp:92
-msgid "Paused: User initiated.  Click 'Resume' to continue"
-msgstr ""
-"Пауза: запрошено пользователем.  Нажмите 'Продолжить' для возобновления "
-"обработки"
-
-#: sg_ImageButton.cpp:94
-msgid "Paused: User active"
-msgstr "Пауза: пользователь работает"
-
-#: sg_ImageButton.cpp:96
-msgid "Paused: Computer on battery"
-msgstr "Пауза: работа компьютера от батарей"
-
-#: sg_ImageButton.cpp:98
-msgid "Paused: Time of Day"
-msgstr "Пауза: запрещённое время суток"
-
-#: sg_ImageButton.cpp:100
-msgid "Paused: Benchmarks running"
-msgstr "Пауза: запущен тест производительности"
-
-#: sg_ImageButton.cpp:102
-msgid "Paused"
-msgstr "Пауза"
-
-#: sg_ImageButton.cpp:104
-msgid "Paused: Application start delayed"
-msgstr "Пауза: запуск приложения отложен"
-
-#: sg_ImageButton.cpp:132
-msgid "Click to show project graphics"
-msgstr "Нажмите чтобы показать окно приложения с графической информацией"
 
 #: sg_ProjectPanel.cpp:72
 msgid "Add Project"
@@ -4011,7 +3902,7 @@ msgstr "Синхронзировать"
 msgid "Work done for this project"
 msgstr "Для этого проекта работа завершена"
 
-#: sg_ProjectPanel.cpp:77 sg_ProjectsComponent.cpp:123
+#: sg_ProjectPanel.cpp:77
 msgid "Synchronize projects with account manager system"
 msgstr ""
 "Синхронизация информации о проектах и настройках между BOINC клиентом и "
@@ -4039,35 +3930,6 @@ msgstr "Показать меню веб-сайтов для проекта %s"
 msgid "Pop up a menu of commands to apply to project %s"
 msgstr "Показать меню команд, применимых к проекту %s"
 
-#: sg_ProjectsComponent.cpp:196 sg_ProjectsComponent.cpp:207
-msgid "Open a window to view messages"
-msgstr "Открыть окно с сообщениями"
-
-#: sg_ProjectsComponent.cpp:225
-msgid "Stop all activity"
-msgstr "Приостановить всю обработку и сетевую активность"
-
-#: sg_ProjectsComponent.cpp:237
-msgid "Resume activity"
-msgstr "Возобновить обработку"
-
-#: sg_ProjectsComponent.cpp:254
-msgid "Open a window to set your preferences"
-msgstr "Открыть окно настроек клиента"
-
-#: sg_ProjectsComponent.cpp:271
-msgid "Switch to the BOINC advanced view"
-msgstr "Изменить внешний вид BOINC менеджера на более подробный"
-
-#: sg_ProjectsComponent.cpp:298
-msgid "My Projects:"
-msgstr "Проекты:"
-
-#: sg_StatImageLoader.cpp:101
-#, c-format
-msgid "%s. Work done by %s: %0.2f"
-msgstr "%s. Участником %s заработано: %0.2f очков"
-
 #: sg_TaskCommandPopup.cpp:67
 msgid "Suspend this task."
 msgstr "Приостановить это задание."
@@ -4085,94 +3947,123 @@ msgstr ""
 "Вы уверены, что хотите прервать обработку этого задания '%s'?\n"
 "(Прогресс: %.1lf%%, Состояние: %s)"
 
-#: sg_TaskPanel.cpp:452
+# ?
+#: sg_TaskPanel.cpp:464
+msgid "You don't have any projects.  Please Add a Project."
+msgstr "BOINC не подключен ни к одному проекту.  Пожалуйста добавьте проект."
+
+#: sg_TaskPanel.cpp:465
 msgid "Not available"
 msgstr "Недоступно"
 
-#: sg_TaskPanel.cpp:463
+#: sg_TaskPanel.cpp:476
 msgid "Tasks:"
 msgstr "Задания:"
 
-#: sg_TaskPanel.cpp:469
+#: sg_TaskPanel.cpp:482
 msgid "Select a task to access"
 msgstr "Выбрать задание для доступа"
 
-#: sg_TaskPanel.cpp:480
+#: sg_TaskPanel.cpp:493
 msgid "From:"
 msgstr "От:"
 
-#: sg_TaskPanel.cpp:534
+#: sg_TaskPanel.cpp:547
 msgid "This task's progress"
 msgstr "Прогресс этого задания"
 
-#: sg_TaskPanel.cpp:552
+#: sg_TaskPanel.cpp:565
 msgid "Task Commands"
 msgstr "Команды задания"
 
-#: sg_TaskPanel.cpp:553
+#: sg_TaskPanel.cpp:566
 msgid "Pop up a menu of commands to apply to this task"
 msgstr "Показать меню команд, применимых к этому заданию"
 
-#: sg_TaskPanel.cpp:688
+#: sg_TaskPanel.cpp:701
 #, c-format
 msgid "Application: %s"
 msgstr "Приложение: %s"
 
-#: sg_TaskPanel.cpp:711
+#: sg_TaskPanel.cpp:724
 #, c-format
 msgid "%.3f%%"
 msgstr "%.3f%%"
 
-#: sg_TaskPanel.cpp:719
+#: sg_TaskPanel.cpp:732
 msgid "Application: Not available"
 msgstr "Приложение: недоступно"
 
-#: sg_TaskPanel.cpp:819
+#: sg_TaskPanel.cpp:832
 msgid "Not Available"
 msgstr "Недоступно"
 
-#: sg_TaskPanel.cpp:834
+#: sg_TaskPanel.cpp:847
 #, c-format
 msgid "Elapsed: %s"
 msgstr "Затрачено: %s"
 
-#: sg_TaskPanel.cpp:848
+#: sg_TaskPanel.cpp:861
 #, c-format
 msgid "Remaining (estimated): %s"
 msgstr "Осталось (приблизительно): %s"
 
-#: sg_TaskPanel.cpp:863
+#: sg_TaskPanel.cpp:876
 #, c-format
 msgid "Status: %s"
 msgstr "Статус: %s"
 
-#: sg_ViewTabPage.cpp:140 sg_ViewTabPage.cpp:280
-#, c-format
-msgid "%.1lf"
-msgstr "%.1lf"
+# ?????? это о чём
+#: sg_TaskPanel.cpp:1223
+msgid "Retrieving current status."
+msgstr "Проверка текущего состояния."
 
-#: sg_ViewTabPage.cpp:409
-#, c-format
-msgid "%d hr %d min %d sec"
-msgstr "%d часов %d минут %d секунд"
+#: sg_TaskPanel.cpp:1229
+msgid "Downloading work from the server."
+msgstr "Загрузка заданий с сервера проекта."
 
-#: sg_ViewTabPage.cpp:423
-msgid "Are you sure you want to display graphics on a remote machine?"
-msgstr ""
-"Вы уверены, что хотите показать графическое окно для приложения на удаленном "
-"компьютере?"
+# ноутбук
+#: sg_TaskPanel.cpp:1234
+msgid "Processing Suspended:  Running On Batteries."
+msgstr "Обработка приостановлена:  работа компьютера от батарей."
 
-#: sg_ViewTabPage.cpp:446
-msgid "Application: "
-msgstr "Приложение: "
+#: sg_TaskPanel.cpp:1236
+msgid "Processing Suspended:  User Active."
+msgstr "Обработка приостановлена:  пользователь работает."
 
-#: sg_ViewTabPage.cpp:449 sg_ViewTabPage.cpp:453
-msgid "Time Remaining: "
-msgstr "Осталось: "
+#: sg_TaskPanel.cpp:1238
+msgid "Processing Suspended:  User paused processing."
+msgstr "Обработка приостановлена:  по инициативе пользователя."
 
-#: sg_ViewTabPage.cpp:452
-msgid "Elapsed Time: "
-msgstr "Затрачено: "
+#: sg_TaskPanel.cpp:1240
+msgid "Processing Suspended:  Time of Day."
+msgstr "Обработка приостановлена:  запрещённое время суток."
+
+#: sg_TaskPanel.cpp:1242
+msgid "Processing Suspended:  Benchmarks Running."
+msgstr "Обработка приостановлена:  запущен тест производительности."
+
+#: sg_TaskPanel.cpp:1244
+msgid "Processing Suspended."
+msgstr "Обработка приостановлена."
+
+# Оригинальная фраза не соостветствует смыслу того места где появляется.
+#: sg_TaskPanel.cpp:1248
+msgid "Waiting to contact project servers."
+msgstr "Подождите пожалуйста."
+
+# ??? для тех кто не заметил, в предыдущей аналогичной фразе есть точка
+#: sg_TaskPanel.cpp:1252 sg_TaskPanel.cpp:1261
+msgid "Retrieving current status"
+msgstr "Проверка текущего состояния"
+
+#: sg_TaskPanel.cpp:1256
+msgid "No work available to process"
+msgstr "Нет заданий для обработки"
+
+#: sg_TaskPanel.cpp:1258
+msgid "Unable to connect to the core client"
+msgstr "Не удалось подключиться к BOINC клиенту"
 
 #: wizardex.cpp:377 wizardex.cpp:553
 msgid "&Next >"
@@ -4211,6 +4102,104 @@ msgstr "Показать все"
 #, c-format
 msgid "Quit %s"
 msgstr "Выйти из %s"
+
+#~ msgid "invalid float"
+#~ msgstr "ошибка ввода числа"
+
+# ??
+#~ msgid "Workunit name"
+#~ msgstr "Имя задания"
+
+#~ msgid "I do not agree with the terms of use."
+#~ msgstr "Я не согласен с условиями использования."
+
+#~ msgid "Display the advanced (accessible) graphical interface."
+#~ msgstr ""
+#~ "Изменить внешний вид на расширенный (Будут полностью доступны все функции "
+#~ "управления)."
+
+#~ msgid "Click Clear to restore web-based settings."
+#~ msgstr "Для возврата к настройкам с сайта проекта нажмите 'Удалить'."
+
+#~ msgid "For additional settings, select Computing Preferences in "
+#~ msgstr "Для дополнительных параметров выберите Настройки клиента в "
+
+#~ msgid "the Advanced View."
+#~ msgstr "Полном виде."
+
+#~ msgid "Paused: Other work running"
+#~ msgstr "Пауза: обрабатывается другое задание"
+
+# Resume это картинка !!! - зависит от скина
+#~ msgid "Paused: User initiated.  Click 'Resume' to continue"
+#~ msgstr ""
+#~ "Пауза: запрошено пользователем.  Нажмите 'Продолжить' для возобновления "
+#~ "обработки"
+
+#~ msgid "Paused: User active"
+#~ msgstr "Пауза: пользователь работает"
+
+#~ msgid "Paused: Computer on battery"
+#~ msgstr "Пауза: работа компьютера от батарей"
+
+#~ msgid "Paused: Time of Day"
+#~ msgstr "Пауза: запрещённое время суток"
+
+#~ msgid "Paused: Benchmarks running"
+#~ msgstr "Пауза: запущен тест производительности"
+
+#~ msgid "Paused"
+#~ msgstr "Пауза"
+
+#~ msgid "Paused: Application start delayed"
+#~ msgstr "Пауза: запуск приложения отложен"
+
+#~ msgid "Click to show project graphics"
+#~ msgstr "Нажмите чтобы показать окно приложения с графической информацией"
+
+#~ msgid "Open a window to view messages"
+#~ msgstr "Открыть окно с сообщениями"
+
+#~ msgid "Stop all activity"
+#~ msgstr "Приостановить всю обработку и сетевую активность"
+
+#~ msgid "Resume activity"
+#~ msgstr "Возобновить обработку"
+
+#~ msgid "Open a window to set your preferences"
+#~ msgstr "Открыть окно настроек клиента"
+
+#~ msgid "Switch to the BOINC advanced view"
+#~ msgstr "Изменить внешний вид BOINC менеджера на более подробный"
+
+#~ msgid "My Projects:"
+#~ msgstr "Проекты:"
+
+#, c-format
+#~ msgid "%s. Work done by %s: %0.2f"
+#~ msgstr "%s. Участником %s заработано: %0.2f очков"
+
+#, c-format
+#~ msgid "%.1lf"
+#~ msgstr "%.1lf"
+
+#, c-format
+#~ msgid "%d hr %d min %d sec"
+#~ msgstr "%d часов %d минут %d секунд"
+
+#~ msgid "Are you sure you want to display graphics on a remote machine?"
+#~ msgstr ""
+#~ "Вы уверены, что хотите показать графическое окно для приложения на удаленном "
+#~ "компьютере?"
+
+#~ msgid "Application: "
+#~ msgstr "Приложение: "
+
+#~ msgid "Time Remaining: "
+#~ msgstr "Осталось: "
+
+#~ msgid "Elapsed Time: "
+#~ msgstr "Затрачено: "
 
 #~ msgid "Account manager website"
 #~ msgstr "Вебсайт менеджера проектов"

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
-"POT-Creation-Date: 2013-11-12 00:00 PST\n"
+"POT-Creation-Date: 2014-02-01 00:00 PST\n"
 "PO-Revision-Date: 2013-12-01 15:08+0000\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -100,8 +100,8 @@ msgid ""
 "We recommend that you download BOINC from the Google Play Store or Amazon "
 "Appstore, not from here."
 msgstr ""
-"Мы рекомендуем Вам скачать BOINC из магазина Google Play или Amazon Appstore,"
-" а не отсюда."
+"Мы рекомендуем Вам скачать BOINC из магазина Google Play или Amazon "
+"Appstore, а не отсюда."
 
 #: download.php:167
 msgid "System requirements"
@@ -466,16 +466,16 @@ msgid "Cognitive science and artifical intelligence"
 msgstr "Когнитивная наука и искусственный интеллект"
 
 # 85%
-#: projects.inc:50 projects.inc:342 projects.inc:386 projects.inc:435
-#: projects.inc:442 projects.inc:489
+#: projects.inc:60 projects.inc:364 projects.inc:408 projects.inc:457
+#: projects.inc:464 projects.inc:511
 msgid "Private"
 msgstr "Частный"
 
-#: projects.inc:51
+#: projects.inc:61
 msgid "Artificial intelligence"
 msgstr "Искусственный интеллект"
 
-#: projects.inc:52
+#: projects.inc:62
 msgid ""
 "Parse and convert semantic nets for use in FreeHAL, an artificial "
 "intelligence that uses semantic networks, stemmers, part of speech "
@@ -488,19 +488,19 @@ msgstr ""
 "несущих основной смысловой нагрузки, для имитации поведения человека во "
 "время разговоров."
 
-#: projects.inc:58
+#: projects.inc:69
 msgid "Biology and Medicine"
 msgstr "Биология и Медицина"
 
-#: projects.inc:71
+#: projects.inc:82
 msgid "University College Dublin"
 msgstr "Университетский Колледж Дублина"
 
-#: projects.inc:72
+#: projects.inc:83
 msgid "Antimalarial drug discovery"
 msgstr "Поиск лекарств против малярии"
 
-#: projects.inc:73
+#: projects.inc:84
 msgid ""
 "The parasite that causes malaria continues to evolve resistance to available "
 "medication. We therefore urgently need to discover new drugs to replace "
@@ -514,15 +514,15 @@ msgstr ""
 "НОВЫЕ белки в паразите. Проект FightMalaria@Home нацелен на открытие таких "
 "новых мишеней."
 
-#: projects.inc:79
+#: projects.inc:90
 msgid "University of Karlsruhe (Germany)"
 msgstr "Университет Карлсруэ (Германия)"
 
-#: projects.inc:80
+#: projects.inc:91
 msgid "Protein structure prediction"
 msgstr "Предсказание структуры белков"
 
-#: projects.inc:81
+#: projects.inc:92
 msgid ""
 "POEM@HOME uses a computational approach to predict the biologically active "
 "structure of proteins, to understand the signal-processing mechanisms when "
@@ -536,15 +536,15 @@ msgstr ""
 "сбоями или объединением белков, и для разработки новых лекарств на основе "
 "трёхмерной структуры биологически важных белков."
 
-#: projects.inc:87
+#: projects.inc:98
 msgid "University of Delaware"
 msgstr "Университет Делавера"
 
-#: projects.inc:88
+#: projects.inc:99
 msgid "Study of protein - ligand interactions"
 msgstr "Исследование белок - лиганд взаимодействия"
 
-#: projects.inc:89
+#: projects.inc:100
 msgid ""
 "Docking@Home has both bioscience and computer science goals. The project "
 "aims to further knowledge of the atomic details of protein-ligand "
@@ -556,15 +556,15 @@ msgstr ""
 "белок-лиганд на атомарном уровне и, в результате, будет искать идеи для "
 "открытия новых лекарственных препаратов."
 
-#: projects.inc:103
+#: projects.inc:114
 msgid "Barcelona Biomedical Research Park (PRBB)"
 msgstr "Барселонский Биомедицинский Парк Исследований (PRBB)"
 
-#: projects.inc:104
+#: projects.inc:115
 msgid "Molecular simulations of proteins"
 msgstr "Молекулярное моделирование белков"
 
-#: projects.inc:105
+#: projects.inc:116
 msgid ""
 "GPUGrid.net opens novel computational scenarios by the first full-atom "
 "molecular dynamics code (CellMD) specially optimized to run on NVIDIA GPUs. "
@@ -578,15 +578,15 @@ msgstr ""
 "новых высот в вычислительной биологии для биомедицинских научных "
 "исследований."
 
-#: projects.inc:111
+#: projects.inc:122
 msgid "Technion, Israel"
 msgstr "Технион, Израиль"
 
-#: projects.inc:112
+#: projects.inc:123
 msgid "Genetic linkage analysis"
 msgstr "Анализ генетических связей"
 
-#: projects.inc:113
+#: projects.inc:124
 msgid ""
 "Superlink@Technion helps geneticists all over the world find disease-"
 "provoking genes causing some types of diabetes, hypertension (high blood "
@@ -596,16 +596,16 @@ msgstr ""
 "болезнь гены, вызывающие некоторые типы диабета, гипертонии (высокое "
 "кровяное давление), рака, шизофрении и многих других."
 
-#: projects.inc:127
+#: projects.inc:138
 msgid ""
 "University of Maryland Center for Bioinformatics and Computational Biology"
 msgstr "Центр биоинформатики и вычислительной биологии университета Мэриленда"
 
-#: projects.inc:128
+#: projects.inc:139
 msgid "Life science research"
 msgstr "Исследования в науке о жизни"
 
-#: projects.inc:129
+#: projects.inc:140
 msgid ""
 "The Lattice Project supplies computing power to scientists at the University "
 "of Maryland studying evolutionary relationships based on DNA sequence data; "
@@ -618,15 +618,15 @@ msgstr ""
 "последовательности белков; а также биологическое разнообразие в "
 "заповедниках."
 
-#: projects.inc:135
+#: projects.inc:146
 msgid "The Swiss Tropical Institute"
 msgstr "Швейцарский Тропический Институт"
 
-#: projects.inc:136
+#: projects.inc:147
 msgid "Epidemiology"
 msgstr "Эпидемиология"
 
-#: projects.inc:137
+#: projects.inc:148
 msgid ""
 "Simulation models of the transmission dynamics and health effects of malaria "
 "are an important tool for malaria control. They can be used to determine "
@@ -645,15 +645,15 @@ msgstr ""
 "разнообразным набором параметров, связанных с биологическими и социальными "
 "факторами, которые влияют на распространение болезни."
 
-#: projects.inc:159
+#: projects.inc:170
 msgid "University of Washington"
 msgstr "Университет Вашингтона"
 
-#: projects.inc:160 projects.inc:168
+#: projects.inc:171 projects.inc:179
 msgid "Biology"
 msgstr "Биология"
 
-#: projects.inc:161
+#: projects.inc:172
 msgid ""
 "Determine the 3-dimensional shapes of proteins in research that may "
 "ultimately lead to finding cures for some major human diseases. By running "
@@ -669,11 +669,11 @@ msgstr ""
 "помощи. Вы также поможете нам при проектировании новых белков для борьбы с "
 "болезнями типа ВИЧ, малярии, рака и Альцгеймера."
 
-#: projects.inc:167
+#: projects.inc:178
 msgid "University of Vienna"
 msgstr "Университет Вены"
 
-#: projects.inc:169
+#: projects.inc:180
 msgid ""
 "Calculate similarities between proteins. SIMAP provides a public database of "
 "the resulting data, which plays a key role in many bioinformatics research "
@@ -683,19 +683,19 @@ msgstr ""
 "данных результатов, которые играют ключевую роль во многих биоинформационных "
 "научно-исследовательских проектах."
 
-#: projects.inc:175
+#: projects.inc:186
 msgid "Earth Sciences"
 msgstr "Наука о Земле"
 
-#: projects.inc:187
+#: projects.inc:198
 msgid "Oxford University"
 msgstr "Оксфордский Университет"
 
-#: projects.inc:188
+#: projects.inc:199
 msgid "Climate study"
 msgstr "Изучение климата"
 
-#: projects.inc:189
+#: projects.inc:200
 msgid ""
 "Investigate the approximations that have to be made in state-of-the-art "
 "climate models. By running the model thousands of times we hope to find out "
@@ -716,16 +716,25 @@ msgstr ""
 "измениться климат в следующем столетии при широком диапазоне различных "
 "сценариев."
 
-# 75%
-#: projects.inc:196
-msgid "Astronomy, Physics, and Chemistry"
-msgstr "Астрономия, Физика, и Химия"
+#: projects.inc:207
+msgid "Physical Science"
+msgstr ""
 
-#: projects.inc:202 projects.inc:241 projects.inc:249
+#: projects.inc:213
+msgid "Mechanical engineering"
+msgstr ""
+
+#: projects.inc:214
+msgid ""
+"Currently we are calculating the optimum design of a structure call the 52 "
+"bar truss"
+msgstr ""
+
+#: projects.inc:224 projects.inc:263 projects.inc:271
 msgid "Astronomy"
 msgstr "Астрономия"
 
-#: projects.inc:203
+#: projects.inc:225
 msgid ""
 "We will combine the spectral coverage of GALEX, Pan-STARRS1, and WISE to "
 "generate a multi-wavelength UV-optical-NIR galaxy atlas for the nearby "
@@ -743,15 +752,15 @@ msgstr ""
 "распределения спектральной энергии (SED), применив для этого распределённые "
 "вычисления."
 
-#: projects.inc:225
+#: projects.inc:247
 msgid "University of Texas at Austin"
 msgstr "Техасский Университет в Остине"
 
-#: projects.inc:226 projects.inc:257
+#: projects.inc:248 projects.inc:279
 msgid "Chemistry"
 msgstr "Химия"
 
-#: projects.inc:227
+#: projects.inc:249
 msgid ""
 "A common problem in theoretical chemistry, condensed matter physics and "
 "materials science is the calculation of the time evolution of an atomic "
@@ -774,11 +783,11 @@ msgstr ""
 "заинтересована в расчётах длительной динамики систем."
 
 # 95%
-#: projects.inc:240
+#: projects.inc:262
 msgid "University of Illinois at Urbana-Champaign"
 msgstr "Университет штата Иллинойс в Urbana-Champаign"
 
-#: projects.inc:242
+#: projects.inc:264
 msgid ""
 "The goal of Cosmology@Home is to search for the model that best describes "
 "our Universe and to find the range of models that agree with the available "
@@ -788,11 +797,11 @@ msgstr ""
 "описывает нашу Вселенную, и найти диапазон моделей, которые соглашаются с "
 "доступными данными астрономической физики элементарных частиц."
 
-#: projects.inc:248
+#: projects.inc:270
 msgid "Rensselaer Polytechnic Institute"
 msgstr "Ренсселеровский политехнический институт"
 
-#: projects.inc:250
+#: projects.inc:272
 msgid ""
 "The goal of Milkyway@Home is to create a highly accurate three dimensional "
 "model of the Milky Way galaxy using data gathered by the Sloan Digital Sky "
@@ -802,11 +811,11 @@ msgstr ""
 "модель галактики Млечный путь используя данные, собранные Слоановским "
 "цифровым обзором неба."
 
-#: projects.inc:256
+#: projects.inc:278
 msgid "Leiden University, The Netherlands"
 msgstr "Лейденский Университет, Нидерланды"
 
-#: projects.inc:258
+#: projects.inc:280
 msgid ""
 "Surface science calculations using Classical Dynamics.  Leiden Classical "
 "allows volunteers, students and other scientist to submit their personal "
@@ -823,15 +832,15 @@ msgstr ""
 "обоснованность закона идеального газа, фактически производя моделирование "
 "посредством сети."
 
-#: projects.inc:272
+#: projects.inc:294
 msgid "Univ. of Wisconsin - Milwaukee, Max Planck Institute"
 msgstr "Университет Висконсина - Милуоки, Институт Макса Планка"
 
-#: projects.inc:273
+#: projects.inc:295
 msgid "Astrophysics"
 msgstr "Астрофизика"
 
-#: projects.inc:274
+#: projects.inc:296
 msgid ""
 "Search for spinning neutron stars (also called pulsars) using data from the "
 "LIGO and GEO gravitational wave detectors, and from the Arecibo radio "
@@ -845,15 +854,15 @@ msgstr ""
 "поддержанный Американским Физическим Обществом (APS) и множеством "
 "международных организаций."
 
-#: projects.inc:288 projects.inc:296
+#: projects.inc:310 projects.inc:318
 msgid "CERN (European Organization for Nuclear Research)"
 msgstr "CERN (Европейская Организация Ядерных Исследований)"
 
-#: projects.inc:289 projects.inc:297
+#: projects.inc:311 projects.inc:319
 msgid "Physics"
 msgstr "Физика"
 
-#: projects.inc:290
+#: projects.inc:312
 msgid ""
 "The Large Hadron Collider (LHC) is a particle accelerator at CERN, the "
 "European Organization for Nuclear Research, the world's largest particle "
@@ -867,7 +876,7 @@ msgstr ""
 "для исследования поведения элементарных частиц. LHC@home выполняет "
 "моделирование для улучшения проекта LHC и его датчиков."
 
-#: projects.inc:298
+#: projects.inc:320
 msgid ""
 "This project uses CERN-developed virtual machine technology for full-fledged "
 "LHC event physics simulation on volunteer computers.  Requires that you "
@@ -877,15 +886,15 @@ msgstr ""
 "для моделирования физики полноценных событий LHC на компьютерах "
 "добровольцев.  Требуется установка VirtualBox на вашем компьютере"
 
-#: projects.inc:304
+#: projects.inc:326
 msgid "University of California, Berkeley"
 msgstr "Университет Калифорнии, Беркли"
 
-#: projects.inc:305
+#: projects.inc:327
 msgid "Astrophysics, astrobiology"
 msgstr "Астрофизика, астробиология"
 
-#: projects.inc:306
+#: projects.inc:328
 msgid ""
 "SETI (Search for Extraterrestrial Intelligence) is a scientific area whose "
 "goal is to detect intelligent life outside Earth. One approach, known as "
@@ -900,15 +909,15 @@ msgstr ""
 "Естественные источники таких сигналов не известны, поэтому их обнаружение "
 "может дать подтверждение о существовании внеземной технологии."
 
-#: projects.inc:320
+#: projects.inc:342
 msgid "Bielefeld University of Applied Sciences"
 msgstr "Университет Прикладных Наук Бельфелда"
 
-#: projects.inc:321
+#: projects.inc:343
 msgid "Chemical engineering and nanotechnology"
 msgstr "Химическая технология и нанотехнология"
 
-#: projects.inc:322
+#: projects.inc:344
 msgid ""
 "The study of molecular magnets and controlled nanoscale magnetism.  These "
 "magnetic molecules may be used to develop tiny magnetic switches, with "
@@ -920,19 +929,19 @@ msgstr ""
 "крошечных магнитных выключателей, с применением в медицине (типа местной "
 "химиотерапии опухолей) и в биотехнологии."
 
-#: projects.inc:329
+#: projects.inc:351
 msgid "Multiple applications"
 msgstr "Различные приложения"
 
-#: projects.inc:334
+#: projects.inc:356
 msgid "Chinese Academy of Sciences"
 msgstr "Китайская Академия Наук"
 
-#: projects.inc:335
+#: projects.inc:357
 msgid "Physics, biochemistry, and others"
 msgstr "Физика, биохимия, и другие"
 
-#: projects.inc:336
+#: projects.inc:358
 msgid ""
 "The objective of CAS@home is to encourage and assist scientists in China to "
 "adopt the technologies of volunteer computing and volunteer thinking for "
@@ -942,11 +951,11 @@ msgstr ""
 "принять технологии добровольных вычислений и добровольных размышлений в их "
 "исследованиях."
 
-#: projects.inc:343
+#: projects.inc:365
 msgid "Mathematics, physics, evolution"
 msgstr "Математика, физика, эволюция"
 
-#: projects.inc:344
+#: projects.inc:366
 msgid ""
 "Yoyo@home is an adapter between BOINC and several existing volunteer "
 "computing projects: ECM, Muon, Evolution@home, and distributed.net"
@@ -954,15 +963,15 @@ msgstr ""
 "Yoyo@home - адаптер между BOINC и несколькими существующими добровольными "
 "распределёнными проектами: ECM, Muon, Evolution@home, и distributed.net"
 
-#: projects.inc:349 projects.inc:505
+#: projects.inc:371 projects.inc:527
 msgid "MTA-SZTAKI Laboratory of Parallel and Distributed Systems (Hungary)"
 msgstr "Лаборатория Параллельных и Распределенных Систем MTA-SZTAKI (Венгрия)"
 
-#: projects.inc:350
+#: projects.inc:372
 msgid "European research projects"
 msgstr "Европейские исследовательские проекты"
 
-#: projects.inc:351
+#: projects.inc:373
 msgid ""
 "The EDGeS@Home Beta project integrates volunteer computing into the service "
 "grid network of Europe by allowing service grids to send workunits to be "
@@ -974,27 +983,27 @@ msgstr ""
 "добровольцами этого проекта. Научные проекты, поддерживаемые данным "
 "проектом, включают в себя математику, физику, биологию и т.д."
 
-#: projects.inc:357
+#: projects.inc:379
 msgid "Spanish universities and research centers"
 msgstr "Испанские университеты и исследовательские центры"
 
-#: projects.inc:358
+#: projects.inc:380
 msgid "Various Spanish research projects"
 msgstr "Различные испанские исследовательские проекты"
 
-#: projects.inc:359
+#: projects.inc:381
 msgid "Research in physics, material science, and biomedicine"
 msgstr "Исследования в физике, материаловедении, и биомедицине"
 
-#: projects.inc:365
+#: projects.inc:387
 msgid "IBM Corporate Citizenship"
 msgstr "Корпоративное Гражданство IBM"
 
-#: projects.inc:366
+#: projects.inc:388
 msgid "Medical, environmental and other humanitarian research"
 msgstr "Медицинские, экологические и другие гуманитарные исследования"
 
-#: projects.inc:367
+#: projects.inc:389
 msgid ""
 "To further critical non-profit research on some of humanity's most pressing "
 "problems by creating the world's largest volunteer computing grid.  Research "
@@ -1007,27 +1016,27 @@ msgstr ""
 "тропические и забытые болезни, солнечную энергию, чистую воду и многое "
 "другое."
 
-#: projects.inc:373
+#: projects.inc:395
 msgid "Mathematics, computing, and games"
 msgstr "Математика, информатика, и игры"
 
-#: projects.inc:379
+#: projects.inc:401
 msgid "Computer Science"
 msgstr "Наука о компьютерах"
 
-#: projects.inc:387
+#: projects.inc:409
 msgid "Mathematics, Physics, Artificial Intelligence"
 msgstr "Математика, Физика, Искусственный Интеллект"
 
-#: projects.inc:388
+#: projects.inc:410
 msgid "Simulation of quantum computing; Goldbach's conjecture."
 msgstr "Моделирование квантовых компьютеров; предположение Гольдбаха."
 
-#: projects.inc:428 projects.inc:436
+#: projects.inc:450 projects.inc:458
 msgid "Cryptography"
 msgstr "Криптография"
 
-#: projects.inc:437
+#: projects.inc:459
 msgid ""
 "Attempt to decode 3 original Enigma messages. The signals were intercepted "
 "in the North Atlantic in 1942 and are believed to be unbroken."
@@ -1036,24 +1045,24 @@ msgstr ""
 "перехвачены в Североатлантическом океане в 1942 году и считалось, что их "
 "невозможно взломать."
 
-#: projects.inc:443 projects.inc:482 projects.inc:490 projects.inc:498
-#: projects.inc:506 projects.inc:546
+#: projects.inc:465 projects.inc:504 projects.inc:512 projects.inc:520
+#: projects.inc:528 projects.inc:568
 msgid "Mathematics"
 msgstr "Математика"
 
-#: projects.inc:444
+#: projects.inc:466
 msgid "Study the Collatz Conjecture, an unsolved conjecture in mathematics"
 msgstr "Исследование Гипотезы Коллатца, неразрешенной гипотезы в математике"
 
-#: projects.inc:449
+#: projects.inc:471
 msgid "California State University Fullerton"
 msgstr "Калифорнийский государственный университет Фуллертон"
 
-#: projects.inc:450
+#: projects.inc:472
 msgid "Factorization of large integers"
 msgstr "Разложение на множители больших целых чисел"
 
-#: projects.inc:451
+#: projects.inc:473
 msgid ""
 "NFS@Home is a research project that uses Internet-connected computers to do "
 "the lattice sieving step in the Number Field Sieve factorization of large "
@@ -1069,7 +1078,7 @@ msgstr ""
 "3 * 5 или 35 = 5 * 7. NFS@Home является продолжением этого опыта, только с "
 "целыми числами, состоящими из сотен цифр."
 
-#: projects.inc:457
+#: projects.inc:479
 msgid ""
 "Vilnius Gediminas Technical University and Kaunas University of Technology "
 "(Lithuania)"
@@ -1077,11 +1086,11 @@ msgstr ""
 "Вильнюсский Технический Университет и Каунасский Университет Технологий "
 "(Литва)"
 
-#: projects.inc:458
+#: projects.inc:480
 msgid "Software testing"
 msgstr "Тестирование программного обеспечения"
 
-#: projects.inc:459
+#: projects.inc:481
 msgid ""
 "The aim of this project is to provide a powerful distributed computing "
 "platform for scientists of Vilnius Gediminas Technical University (VGTU) as "
@@ -1094,11 +1103,11 @@ msgstr ""
 "приложения включают изучение тестирования программного обеспечения, "
 "основанного на методе Монте-Карло."
 
-#: projects.inc:481
+#: projects.inc:503
 msgid "Mathematical Institute of Leiden University / Kennislink"
 msgstr "Математический Институт Лейденского Университета / Кеннислинк"
 
-#: projects.inc:483
+#: projects.inc:505
 msgid ""
 "Search for 'abc-triples': positive integers a,b,c such that a+b=c, a &lt; b "
 "&lt; c, a,b,c have no common divisors and c > rad(abc), where rad(n) is the "
@@ -1116,7 +1125,7 @@ msgstr ""
 "математике в настоящее время. Если она будет доказана, многие другие "
 "открытые проблемы могут быть решены непосредственно через неё."
 
-#: projects.inc:491
+#: projects.inc:513
 msgid ""
 "Primegrid has multiple projects searching for different forms of very large "
 "prime numbers, including searching for the largest known prime number."
@@ -1124,11 +1133,11 @@ msgstr ""
 "Primegrid поддерживает множество проектов, ищущих различные формы очень "
 "больших простых чисел, включая поиск крупнейшего известного простого числа."
 
-#: projects.inc:497
+#: projects.inc:519
 msgid "Hochschule RheinMain University of Applied Sciences"
 msgstr "Университет Прикладных Наук РейнМэйн"
 
-#: projects.inc:499
+#: projects.inc:521
 msgid ""
 "Search for counterexamples to two conjectures related to the identification "
 "of prime numbers"
@@ -1136,7 +1145,7 @@ msgstr ""
 "Поиск контрпримеров к двум теоремам, связанным с идентификацией главных "
 "чисел"
 
-#: projects.inc:507
+#: projects.inc:529
 msgid ""
 "Find all the generalized binary number systems (in which bases are matrices "
 "and digits are vectors) up to dimension 11."
@@ -1152,6 +1161,10 @@ msgstr "Комментарий"
 #, php-format
 msgid "News is available as an %sRSS feed%s"
 msgstr "Новости доступны в формате %sленты RSS%s"
+
+# 75%
+#~ msgid "Astronomy, Physics, and Chemistry"
+#~ msgstr "Астрономия, Физика, и Химия"
 
 #~ msgid "Browser default"
 #~ msgstr "как в браузере"
