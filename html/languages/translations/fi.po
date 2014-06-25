@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2014-01-10 00:00 PST\n"
-"PO-Revision-Date: 2014-02-21 20:27+0000\n"
+"PO-Revision-Date: 2014-06-22 06:09+0000\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fi\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-POOTLE-MTIME: 1393014450.0\n"
+"X-POOTLE-MTIME: 1403417349.0\n"
 
 msgid "LANG_NAME_NATIVE"
 msgstr "English"
@@ -357,9 +357,8 @@ msgid "Posted %1 by %2"
 msgstr "Kirjoitettu %1 jäsen %2"
 
 #: ../inc/forum.inc:747
-#, fuzzy
 msgid "You may not post or rate messages until %1"
-msgstr "Sinulle ei ole yksityisviestejä."
+msgstr "Et voi lähettää tai arvioida viestejä ennen %1"
 
 #: ../inc/forum.inc:758
 msgid ""
