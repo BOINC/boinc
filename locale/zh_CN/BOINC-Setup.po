@@ -23,6 +23,7 @@ msgstr ""
 "X-Poedit-KeywordsList: _\n"
 
 #: Installer.cpp:124
+#, c-format
 #, c-format, c-format
 msgid "Sorry, this version of %s requires system 10.5 or higher."
 msgstr "对不起，%s 要求 10.5 或更高的操作系统版本。"

@@ -18,8 +18,6 @@ msgstr ""
 "X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
 "X-POOTLE-MTIME: 1391481846.0\n"
-"X-Poedit-Language: Chinese\n"
-"X-Poedit-Country: CHINA\n"
 
 #. app global
 msgctxt "app_name"
@@ -107,7 +105,9 @@ msgid "Terms of use for"
 msgstr "使用条款"
 
 msgctxt "attachproject_login_accept_terms_of_use"
-msgid "By creating an account with this project, you accept the terms of use as shown above."
+msgid ""
+"By creating an account with this project, you accept the terms of use as "
+"shown above."
 msgstr "通过创建该项目的账户，即表示你接受了上述使用条款。"
 
 msgctxt "attachproject_login_category_login"
@@ -503,7 +503,9 @@ msgid "Max. battery temperature"
 msgstr "最高电池温度"
 
 msgctxt "battery_temperature_max_description"
-msgid "BOINC suspends computation above defined battery temperature. It is not recommended to change this value."
+msgid ""
+"BOINC suspends computation above defined battery temperature. It is not "
+"recommended to change this value."
 msgstr "BOINC 会在电池温度高于设定值时暂停计算，不建议修改。"
 
 msgctxt "prefs_disk_max_pct_header"
@@ -1115,4 +1117,3 @@ msgid ""
 msgstr ""
 "© 2003–2013 加州大学，伯克利分校。\n"
 "保留所有权利。"
-
