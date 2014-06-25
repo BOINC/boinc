@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2013-10-18 00:00-0700\n"
-"PO-Revision-Date: 2014-02-01 21:47+0000\n"
+"PO-Revision-Date: 2014-06-01 19:12+0000\n"
 "Last-Translator: Xavier <xavi.mormur@gmail.com>\n"
 "Language-Team: ca <LL@li.org>\n"
 "Language: ca\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
-"X-POOTLE-MTIME: 1391291270.0\n"
+"X-POOTLE-MTIME: 1401649969.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -27,7 +27,7 @@ msgstr "BOINC"
 #. generic. used by multiple Activities/tabs
 msgctxt "generic_loading"
 msgid "Loading! Please wait…"
-msgstr "Carregant! Si us plau, espera..."
+msgstr "Carregant! Si us plau, espera…"
 
 #. attach project
 #. project list
@@ -37,7 +37,7 @@ msgstr "Selecciona un projecte:"
 
 msgctxt "attachproject_list_manual_button"
 msgid "Add project by URL"
-msgstr "Afegir projecte mitjançant URL"
+msgstr "Afegeix un projecte mitjançant URL"
 
 msgctxt "attachproject_list_manual_dialog_title"
 msgid "Enter project URL:"
