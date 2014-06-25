@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-13 00:00-0800\n"
+"POT-Creation-Date: 2014-02-02 00:00-0800\n"
 "PO-Revision-Date: 2014-01-17 18:17+0000\n"
 "Last-Translator: Rene <oskamjr@ziggo.nl>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
@@ -533,7 +533,7 @@ msgstr "P&restaties"
 msgid "A&dvanced"
 msgstr "&Geavanceerd"
 
-#: AdvancedFrame.cpp:712 DlgEventLog.cpp:334 sg_BoincSimpleFrame.cpp:267
+#: AdvancedFrame.cpp:712 DlgEventLog.cpp:332 sg_BoincSimpleFrame.cpp:267
 #: wizardex.cpp:374 wizardex.cpp:381
 msgid "&Help"
 msgstr "&Help"
@@ -572,27 +572,27 @@ msgstr ""
 "%s gaat de huidige client afsluiten en je vragen\n"
 "naar een 'host' om een andere verbinding te maken."
 
-#: AdvancedFrame.cpp:1738 DlgAbout.cpp:119
+#: AdvancedFrame.cpp:1745 DlgAbout.cpp:119
 #, c-format
 msgid "%s"
 msgstr "%s"
 
-#: AdvancedFrame.cpp:1747
+#: AdvancedFrame.cpp:1754
 #, c-format
 msgid "%s has successfully added %s"
 msgstr "%s heeft met succes %s toegevoegd"
 
-#: AdvancedFrame.cpp:1886
+#: AdvancedFrame.cpp:1893
 #, c-format
 msgid "%s - (%s)"
 msgstr "%s - (%s)"
 
-#: AdvancedFrame.cpp:1890
+#: AdvancedFrame.cpp:1897
 #, c-format
 msgid "Connecting to %s"
 msgstr "Bezig te verbinden met %s"
 
-#: AdvancedFrame.cpp:1893
+#: AdvancedFrame.cpp:1900
 #, c-format
 msgid "Connected to %s (%s)"
 msgstr "Verbonden met %s (%s)"
@@ -648,7 +648,7 @@ msgstr "%s &Afsluiten"
 msgid "%s - Communication"
 msgstr "%s - Communicatie"
 
-#: AsyncRPC.cpp:1056 DlgAdvPreferencesBase.cpp:107 sg_DlgPreferences.cpp:438
+#: AsyncRPC.cpp:1056 DlgAdvPreferencesBase.cpp:107 sg_DlgPreferences.cpp:433
 msgid "Cancel"
 msgstr "Annuleren"
 
@@ -857,65 +857,65 @@ msgstr ""
 msgid "BOINC Manager"
 msgstr "BOINC Manager"
 
-#: BOINCGUIApp.cpp:568
+#: BOINCGUIApp.cpp:572
 msgid "BOINC Manager was started by the operating system automatically"
 msgstr "BOINC Manager is automatisch opgestart door het besturingssysteem"
 
-#: BOINCGUIApp.cpp:570
+#: BOINCGUIApp.cpp:574
 msgid "Startup BOINC so only the system tray icon is visible"
 msgstr "Start BOINC zodat deze alleen zichtbaar is in het systeemvak"
 
-#: BOINCGUIApp.cpp:572
+#: BOINCGUIApp.cpp:576
 msgid "Directory containing the BOINC Client executable"
 msgstr "Map waar de BOINC client zich bevindt"
 
-#: BOINCGUIApp.cpp:573
+#: BOINCGUIApp.cpp:577
 msgid "BOINC data directory"
 msgstr "BOINC data map"
 
-#: BOINCGUIApp.cpp:575
+#: BOINCGUIApp.cpp:579
 msgid "Host name or IP address"
 msgstr "Computer naam of IP adres"
 
-#: BOINCGUIApp.cpp:576
+#: BOINCGUIApp.cpp:580
 msgid "GUI RPC port number"
 msgstr "GUI RPC poortnummer"
 
-#: BOINCGUIApp.cpp:577
+#: BOINCGUIApp.cpp:581
 msgid "Password"
 msgstr "Wachtwoord"
 
-#: BOINCGUIApp.cpp:578
+#: BOINCGUIApp.cpp:582
 msgid "Startup BOINC with these optional arguments"
 msgstr "Start BOINC op met deze opties"
 
-#: BOINCGUIApp.cpp:579
+#: BOINCGUIApp.cpp:583
 msgid "disable BOINC security users and permissions"
 msgstr "schakel de BOINC toegangs- en gebruikersrechten uit"
 
-#: BOINCGUIApp.cpp:580
+#: BOINCGUIApp.cpp:584
 msgid "set skin debugging mode to enable skin manager error messages"
 msgstr ""
 "schakel de skin-debugger modus in om fout berichten mogelijk te maken van de "
 "skin-manager"
 
-#: BOINCGUIApp.cpp:581
+#: BOINCGUIApp.cpp:585
 msgid "multiple instances of BOINC Manager allowed"
 msgstr "meerdere gelijktijdige sessies van BOINC-Manager mogelijk"
 
-#: BOINCGUIApp.cpp:583
+#: BOINCGUIApp.cpp:587
 msgid "Not used: workaround for bug in XCode 4.2"
 msgstr "Niet gebruikt: vanwege fout in Xcode 4.2"
 
-#: BOINCGUIApp.cpp:801
+#: BOINCGUIApp.cpp:814
 msgid "(Automatic Detection)"
 msgstr "(Automatische Detectie)"
 
-#: BOINCGUIApp.cpp:802
+#: BOINCGUIApp.cpp:815
 msgid "(Unknown)"
 msgstr "(Onbekend)"
 
-#: BOINCGUIApp.cpp:803
+#: BOINCGUIApp.cpp:816
 msgid "(User Defined)"
 msgstr "(Gedefineerd door gebruiker)"
 
@@ -1101,7 +1101,7 @@ msgid "Berkeley Open Infrastructure for Network Computing"
 msgstr "Berkeley Open Infrastructure for Network Computing"
 
 #: DlgAbout.cpp:208 DlgExitMessage.cpp:173 DlgGenericMessage.cpp:120
-#: DlgOptions.cpp:396 DlgSelectComputer.cpp:162
+#: DlgOptions.cpp:396 DlgSelectComputer.cpp:163
 msgid "&OK"
 msgstr "&OK"
 
@@ -1166,11 +1166,11 @@ msgstr ""
 "Weet je zeker dat je de lokale voorkeuren wilt wissen?\n"
 "(Dit heeft geen gevolgen voor de exclusieve programma's)"
 
-#: DlgAdvPreferences.cpp:1078 sg_DlgPreferences.cpp:1035
+#: DlgAdvPreferences.cpp:1078 sg_DlgPreferences.cpp:1030
 msgid "Confirmation"
 msgstr "Bevestiging"
 
-#: DlgAdvPreferencesBase.cpp:46 sg_DlgPreferences.cpp:951
+#: DlgAdvPreferencesBase.cpp:46 sg_DlgPreferences.cpp:946
 #, c-format
 msgid "%s - Preferences"
 msgstr "%s - Voorkeuren"
@@ -1185,11 +1185,11 @@ msgstr ""
 "Klik op 'OK' om ze op te slaan of op 'Wissen' om terug te gaan\n"
 "naar online instellingen (exclusieve programma's blijven intact)."
 
-#: DlgAdvPreferencesBase.cpp:65 sg_DlgPreferences.cpp:433
+#: DlgAdvPreferencesBase.cpp:65 sg_DlgPreferences.cpp:428
 msgid "Clear"
 msgstr "Wissen"
 
-#: DlgAdvPreferencesBase.cpp:66 sg_DlgPreferences.cpp:434
+#: DlgAdvPreferencesBase.cpp:66
 msgid "clear all local preferences and close the dialog"
 msgstr "Wis alle lokale voorkeuren en sluit het venster"
 
@@ -1209,7 +1209,7 @@ msgstr "schijf- en geheugengebruik"
 msgid "exclusive applications"
 msgstr "exclusieve programma's"
 
-#: DlgAdvPreferencesBase.cpp:102 sg_DlgPreferences.cpp:429
+#: DlgAdvPreferencesBase.cpp:102 sg_DlgPreferences.cpp:424
 msgid "OK"
 msgstr "OK"
 
@@ -1222,7 +1222,7 @@ msgid "close the dialog without saving"
 msgstr "sluit het venster zonder op te slaan"
 
 #: DlgAdvPreferencesBase.cpp:112 Localization.cpp:35 Localization.cpp:121
-#: Localization.cpp:139 sg_BoincSimpleFrame.cpp:794 sg_DlgPreferences.cpp:444
+#: Localization.cpp:139 sg_BoincSimpleFrame.cpp:794 sg_DlgPreferences.cpp:439
 msgid "Help"
 msgstr "Help"
 
@@ -1276,7 +1276,7 @@ msgstr ""
 "aantal minuten"
 
 #: DlgAdvPreferencesBase.cpp:187 DlgAdvPreferencesBase.cpp:336
-#: sg_DlgPreferences.cpp:422
+#: sg_DlgPreferences.cpp:417
 msgid "minutes"
 msgstr "minuten"
 
@@ -1301,7 +1301,7 @@ msgid "start work at this time"
 msgstr "start het werk op dit tijdstip"
 
 #: DlgAdvPreferencesBase.cpp:243 DlgAdvPreferencesBase.cpp:504
-#: sg_DlgPreferences.cpp:331 sg_DlgPreferences.cpp:353
+#: sg_DlgPreferences.cpp:326 sg_DlgPreferences.cpp:348
 msgid "and"
 msgstr "en"
 
@@ -1572,42 +1572,42 @@ msgstr "Verwijder een programma van de lijst"
 msgid "For advanced options, refer to "
 msgstr "Voor geavanceerde opties, raadpleeg het "
 
-#: DlgEventLog.cpp:221
+#: DlgEventLog.cpp:219
 #, c-format
 msgid "%s - Event Log"
 msgstr "%s - Gebeurtenissen Logboek"
 
-#: DlgEventLog.cpp:234 ViewMessages.cpp:117 ViewProjects.cpp:219
+#: DlgEventLog.cpp:232 ViewMessages.cpp:117 ViewProjects.cpp:219
 #: ViewStatistics.cpp:435 ViewStatistics.cpp:2009 ViewTransfers.cpp:182
 #: ViewWork.cpp:232
 msgid "Project"
 msgstr "Project"
 
-#: DlgEventLog.cpp:235 ViewMessages.cpp:118
+#: DlgEventLog.cpp:233 ViewMessages.cpp:118
 msgid "Time"
 msgstr "Tijd"
 
-#: DlgEventLog.cpp:236 ViewMessages.cpp:119
+#: DlgEventLog.cpp:234 ViewMessages.cpp:119
 msgid "Message"
 msgstr "Bericht"
 
-#: DlgEventLog.cpp:292 DlgEventLog.cpp:356
+#: DlgEventLog.cpp:290 DlgEventLog.cpp:354
 msgid "&Show only this project"
 msgstr "Alleen dit project laten zien"
 
-#: DlgEventLog.cpp:296
+#: DlgEventLog.cpp:294
 msgid "Copy &All"
 msgstr "&Alles kopiëren"
 
-#: DlgEventLog.cpp:298 DlgEventLog.cpp:302 ViewMessages.cpp:89
+#: DlgEventLog.cpp:296 DlgEventLog.cpp:300 ViewMessages.cpp:89
 msgid "Copy all the messages to the clipboard."
 msgstr "Alle berichten kopiëren naar het klembord."
 
-#: DlgEventLog.cpp:307
+#: DlgEventLog.cpp:305
 msgid "Copy &Selected"
 msgstr "&Selectie kopiëren"
 
-#: DlgEventLog.cpp:310 DlgEventLog.cpp:318 ViewMessages.cpp:97
+#: DlgEventLog.cpp:308 DlgEventLog.cpp:316 ViewMessages.cpp:97
 msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
 "messages by holding down the shift or command key while clicking on messages."
@@ -1616,7 +1616,7 @@ msgstr ""
 "berichten selecteren door met behulp van de Shift of Command toets op de "
 "bestanden te klikken."
 
-#: DlgEventLog.cpp:312 DlgEventLog.cpp:320 ViewMessages.cpp:99
+#: DlgEventLog.cpp:310 DlgEventLog.cpp:318 ViewMessages.cpp:99
 msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
 "messages by holding down the shift or control key while clicking on messages."
@@ -1625,24 +1625,24 @@ msgstr ""
 "berichten selecteren door met behulp van de Shift of Ctrl toets op de "
 "bestanden te klikken."
 
-#: DlgEventLog.cpp:327 DlgItemProperties.cpp:67
+#: DlgEventLog.cpp:325 DlgItemProperties.cpp:67
 msgid "&Close"
 msgstr "Sluiten"
 
-#: DlgEventLog.cpp:336 sg_BoincSimpleFrame.cpp:798 sg_DlgPreferences.cpp:447
+#: DlgEventLog.cpp:334 sg_BoincSimpleFrame.cpp:798 sg_DlgPreferences.cpp:442
 #, c-format
 msgid "Get help with %s"
 msgstr "Hulp krijgen bij %s"
 
-#: DlgEventLog.cpp:350
+#: DlgEventLog.cpp:348
 msgid "Show all &messages"
 msgstr "Toon alle berichten"
 
-#: DlgEventLog.cpp:351 DlgEventLog.cpp:353
+#: DlgEventLog.cpp:349 DlgEventLog.cpp:351
 msgid "Show messages for all projects"
 msgstr "Laat berichten zien van alle projecten"
 
-#: DlgEventLog.cpp:357 DlgEventLog.cpp:359
+#: DlgEventLog.cpp:355 DlgEventLog.cpp:357
 msgid "Show only the messages for the selected project"
 msgstr "Laat alleen berichten zien van het geselecteerde project"
 
@@ -1695,7 +1695,7 @@ msgid "Remember this decision and do not show this dialog."
 msgstr "Onthoud deze keuze en laat dit venster niet meer zien."
 
 #: DlgExitMessage.cpp:178 DlgGenericMessage.cpp:125 DlgOptions.cpp:401
-#: DlgSelectComputer.cpp:167 wizardex.cpp:378
+#: DlgSelectComputer.cpp:168 wizardex.cpp:378
 msgid "&Cancel"
 msgstr "&Annuleren"
 
@@ -1859,8 +1859,8 @@ msgstr "Eigenschappen van taak "
 msgid "Application"
 msgstr "Programma"
 
-#: DlgItemProperties.cpp:329
-msgid "Workunit name"
+#: DlgItemProperties.cpp:329 ViewWork.cpp:239
+msgid "Name"
 msgstr "Bestandsnaam"
 
 #: DlgItemProperties.cpp:330
@@ -1919,7 +1919,7 @@ msgstr "Map"
 msgid "Process ID"
 msgstr "Proces ID"
 
-#: DlgItemProperties.cpp:431 ViewWork.cpp:1032 sg_TaskPanel.cpp:823
+#: DlgItemProperties.cpp:427 ViewWork.cpp:1032 sg_TaskPanel.cpp:823
 msgid "Local: "
 msgstr "Lokaal: "
 
@@ -2007,7 +2007,7 @@ msgstr "Laat dit gedeelte leeg indien niet vereist"
 msgid "User Name:"
 msgstr "Gebruikersnaam:"
 
-#: DlgOptions.cpp:317 DlgOptions.cpp:381 DlgSelectComputer.cpp:151
+#: DlgOptions.cpp:317 DlgOptions.cpp:381 DlgSelectComputer.cpp:152
 #: ProxyPage.cpp:346 ProxyPage.cpp:366
 msgid "Password:"
 msgstr "Wachtwoord:"
@@ -2067,12 +2067,12 @@ msgstr ""
 "De standaard taal van de %s is gewijzigd.  Om dit te activeren dien je de %s "
 "te herstarten."
 
-#: DlgSelectComputer.cpp:90
+#: DlgSelectComputer.cpp:91
 #, c-format
 msgid "%s - Select Computer"
 msgstr "%s - Selecteer computer"
 
-#: DlgSelectComputer.cpp:124
+#: DlgSelectComputer.cpp:125
 #, c-format
 msgid ""
 "Another instance of %s is already running \n"
@@ -2081,7 +2081,7 @@ msgstr ""
 "%s wordt al een keer uitgevoerd op deze \n"
 "computer.  Kies de client die u wilt controleren."
 
-#: DlgSelectComputer.cpp:142
+#: DlgSelectComputer.cpp:143
 msgid "Host name:"
 msgstr "Host naam:"
 
@@ -2531,7 +2531,7 @@ msgstr "Controleer de gebruikersnaam en het wachtwoord en probeer opnieuw."
 msgid "Check the email address and password, and try again."
 msgstr "Controleer het email adres en het wachtwoord en probeer opnieuw."
 
-#: NoticeListCtrl.cpp:221
+#: NoticeListCtrl.cpp:222
 msgid "more..."
 msgstr "meer..."
 
@@ -2595,11 +2595,11 @@ msgstr "Je hebt dit project reeds toegevoegd. Kies a.u.b. een ander project."
 msgid "Communicating with project."
 msgstr "Aan het communiceren met het project."
 
-#: ProjectProcessingPage.cpp:507
+#: ProjectProcessingPage.cpp:509
 msgid "Required files not found on the server."
 msgstr "Benodigde bestanden niet gevonden op de server."
 
-#: ProjectProcessingPage.cpp:510 ProjectProcessingPage.cpp:572
+#: ProjectProcessingPage.cpp:512 ProjectProcessingPage.cpp:574
 msgid "An internal server error has occurred."
 msgstr "Er is een server fout opgetreden."
 
@@ -2708,8 +2708,8 @@ msgid "I agree to the terms of use."
 msgstr "Ik ga akkoord met de voorwaarden."
 
 #: TermsOfUsePage.cpp:237
-msgid "I do not agree with the terms of use."
-msgstr "Ik ga NIET akkoord met de voorwaarden."
+msgid "I do not agree to the terms of use."
+msgstr ""
 
 #: UnavailablePage.cpp:183
 msgid "Project temporarily unavailable"
@@ -3400,10 +3400,6 @@ msgstr "Nog te gaan (geschat)"
 msgid "Deadline"
 msgstr "Rapporteren voor"
 
-#: ViewWork.cpp:239
-msgid "Name"
-msgstr "Bestandsnaam"
-
 #: ViewWork.cpp:264
 msgid "Tasks"
 msgstr "Werk"
@@ -3613,117 +3609,119 @@ msgid "Click OK to set preferences."
 msgstr "Klik op 'OK' om instellingen vast te leggen."
 
 #: sg_DlgPreferences.cpp:278
-msgid "Click Clear to restore web-based settings."
-msgstr "Klik op 'Wissen' om terug te keren naar online instellingen."
+msgid ""
+"Click Clear to restore web-based settings for all preferences listed below."
+msgstr ""
 
 #: sg_DlgPreferences.cpp:285
-msgid "For additional settings, select Computing Preferences in "
-msgstr "Voor aanvullende opties klik je op 'Verwerkings voorkeuren' in "
+msgid ""
+"For additional settings, select Computing Preferences in the Advanced View."
+msgstr ""
 
-#: sg_DlgPreferences.cpp:290
-msgid "the Advanced View."
-msgstr "de Geavanceerde Weergave."
-
-#: sg_DlgPreferences.cpp:318
+#: sg_DlgPreferences.cpp:313
 msgid "Do work only between:"
 msgstr "Werk actief tussen:"
 
-#: sg_DlgPreferences.cpp:340
+#: sg_DlgPreferences.cpp:335
 msgid "Connect to internet only between:"
 msgstr "Internet verbinding tussen:"
 
-#: sg_DlgPreferences.cpp:362 sg_DlgPreferences.cpp:379
+#: sg_DlgPreferences.cpp:357 sg_DlgPreferences.cpp:374
 msgid "Use no more than:"
 msgstr "Gebruik maximaal:"
 
-#: sg_DlgPreferences.cpp:375
+#: sg_DlgPreferences.cpp:370
 msgid "of disk space"
 msgstr "schijfruimte"
 
-#: sg_DlgPreferences.cpp:392
+#: sg_DlgPreferences.cpp:387
 msgid "of the processor"
 msgstr "van processor"
 
-#: sg_DlgPreferences.cpp:396
+#: sg_DlgPreferences.cpp:391
 msgid "Do work while on battery?"
 msgstr "Actief indien op accu?"
 
-#: sg_DlgPreferences.cpp:409
+#: sg_DlgPreferences.cpp:404
 msgid "Do work after idle for:"
 msgstr "Indien inactief starten na:"
 
-#: sg_DlgPreferences.cpp:607 sg_DlgPreferences.cpp:610
-#: sg_DlgPreferences.cpp:686 sg_DlgPreferences.cpp:690
-#: sg_DlgPreferences.cpp:702 sg_DlgPreferences.cpp:706
-#: sg_DlgPreferences.cpp:849 sg_DlgPreferences.cpp:860
+#: sg_DlgPreferences.cpp:429
+msgid "Clear all local preferences listed above and close the dialog"
+msgstr ""
+
+#: sg_DlgPreferences.cpp:602 sg_DlgPreferences.cpp:605
+#: sg_DlgPreferences.cpp:681 sg_DlgPreferences.cpp:685
+#: sg_DlgPreferences.cpp:697 sg_DlgPreferences.cpp:701
+#: sg_DlgPreferences.cpp:844 sg_DlgPreferences.cpp:855
 msgid "Anytime"
 msgstr "Altijd"
 
-#: sg_DlgPreferences.cpp:643
+#: sg_DlgPreferences.cpp:638
 msgid "100 MB"
 msgstr "100 MB"
 
-#: sg_DlgPreferences.cpp:644
+#: sg_DlgPreferences.cpp:639
 msgid "200 MB"
 msgstr "200 MB"
 
-#: sg_DlgPreferences.cpp:645
+#: sg_DlgPreferences.cpp:640
 msgid "500 MB"
 msgstr "500 MB"
 
-#: sg_DlgPreferences.cpp:646
+#: sg_DlgPreferences.cpp:641
 msgid "1 GB"
 msgstr "1 GB"
 
-#: sg_DlgPreferences.cpp:647
+#: sg_DlgPreferences.cpp:642
 msgid "2 GB"
 msgstr "2 GB"
 
-#: sg_DlgPreferences.cpp:648
+#: sg_DlgPreferences.cpp:643
 msgid "5 GB"
 msgstr "5 GB"
 
-#: sg_DlgPreferences.cpp:649
+#: sg_DlgPreferences.cpp:644
 msgid "10 GB"
 msgstr "10 GB"
 
-#: sg_DlgPreferences.cpp:650
+#: sg_DlgPreferences.cpp:645
 msgid "20 GB"
 msgstr "20 GB"
 
-#: sg_DlgPreferences.cpp:651
+#: sg_DlgPreferences.cpp:646
 msgid "50 GB"
 msgstr "50 GB"
 
-#: sg_DlgPreferences.cpp:652
+#: sg_DlgPreferences.cpp:647
 msgid "100 GB"
 msgstr "100 GB"
 
-#: sg_DlgPreferences.cpp:722
+#: sg_DlgPreferences.cpp:717
 #, c-format
 msgid "%d MB"
 msgstr "%d MB"
 
-#: sg_DlgPreferences.cpp:724
+#: sg_DlgPreferences.cpp:719
 #, c-format
 msgid "%4.2f GB"
 msgstr "%4.2f GB"
 
-#: sg_DlgPreferences.cpp:765
+#: sg_DlgPreferences.cpp:760
 #, c-format
 msgid "%d%%"
 msgstr "%d%%"
 
-#: sg_DlgPreferences.cpp:801
+#: sg_DlgPreferences.cpp:796
 msgid "0 (Run Always)"
 msgstr "0 (Altijd actief)"
 
-#: sg_DlgPreferences.cpp:804
+#: sg_DlgPreferences.cpp:799
 #, c-format
 msgid "%d"
 msgstr "%d"
 
-#: sg_DlgPreferences.cpp:1034
+#: sg_DlgPreferences.cpp:1029
 msgid "Do you really want to clear all local preferences?\n"
 msgstr "Weet je zeker dat je de lokale voorkeuren wilt wissen?\n"
 
@@ -3932,6 +3930,21 @@ msgstr "Alles Weergeven"
 #, c-format
 msgid "Quit %s"
 msgstr "%s Sluiten"
+
+#~ msgid "Workunit name"
+#~ msgstr "Bestandsnaam"
+
+#~ msgid "I do not agree with the terms of use."
+#~ msgstr "Ik ga NIET akkoord met de voorwaarden."
+
+#~ msgid "Click Clear to restore web-based settings."
+#~ msgstr "Klik op 'Wissen' om terug te keren naar online instellingen."
+
+#~ msgid "For additional settings, select Computing Preferences in "
+#~ msgstr "Voor aanvullende opties klik je op 'Verwerkings voorkeuren' in "
+
+#~ msgid "the Advanced View."
+#~ msgstr "de Geavanceerde Weergave."
 
 #~ msgid "invalid float"
 #~ msgstr "ongeldige waarde gevonden"

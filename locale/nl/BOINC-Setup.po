@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-17 00:00-0800\n"
+"POT-Creation-Date: 2014-01-26 00:00-0800\n"
 "PO-Revision-Date: 2013-12-18 19:26+0000\n"
 "Last-Translator: Anonymous Pootle User\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -28,11 +28,11 @@ msgstr ""
 msgid "Sorry, this version of %s requires system 10.5 or higher."
 msgstr "Sorry, deze versie van %s vereist systeem 10.5 of hoger."
 
-#: PostInstall.cpp:130 PostInstall.cpp:1136
+#: PostInstall.cpp:130 PostInstall.cpp:1136 uninstall.cpp:1618
 msgid "Yes"
 msgstr "Ja"
 
-#: PostInstall.cpp:131 PostInstall.cpp:1137
+#: PostInstall.cpp:131 PostInstall.cpp:1137 uninstall.cpp:1619
 msgid "No"
 msgstr "Nee"
 
@@ -61,15 +61,15 @@ msgid "Do you want to set %s as the screensaver for all %s users on this Mac?"
 msgstr ""
 "Wil je %s instellen als screensaver voor alle %s gebruikers op deze Mac?"
 
-#: uninstall.cpp:81
+#: uninstall.cpp:82
 msgid "OK"
 msgstr "OK"
 
-#: uninstall.cpp:131
+#: uninstall.cpp:136
 msgid "Permission error after relaunch"
 msgstr "Permissie fout na herstart"
 
-#: uninstall.cpp:136
+#: uninstall.cpp:141
 msgid ""
 "Removal may take several minutes.\n"
 "Please be patient."
@@ -77,7 +77,7 @@ msgstr ""
 "Verwijderen kan enkele minuten duren.\n"
 "Even geduld a.u.b."
 
-#: uninstall.cpp:151
+#: uninstall.cpp:156
 #, c-format
 msgid ""
 "Are you sure you want to completely remove %s from your computer?\n"
@@ -88,21 +88,27 @@ msgstr ""
 "\n"
 "De uitvoerbare bestanden van %s worden verwijderd, niet de data bestanden."
 
-#: uninstall.cpp:158
+#: uninstall.cpp:163
 #, c-format
 msgid "Canceled: %s has not been touched."
 msgstr "Geannuleerd: %s is niet gewijzigd."
 
-#: uninstall.cpp:169
+#: uninstall.cpp:174
 #, c-format
 msgid "An error occurred: error code %d"
 msgstr "Er is een fout opgetreden: code %d"
 
-#: uninstall.cpp:225
+#: uninstall.cpp:230
 msgid "name  of user"
 msgstr "naam  van gebruiker"
 
-#: uninstall.cpp:262
+#: uninstall.cpp:272
+msgid ""
+"Do you also want to remove VirtualBox from your computer?\n"
+"(VirtualBox was installed along with BOINC.)"
+msgstr ""
+
+#: uninstall.cpp:312
 #, c-format
 msgid ""
 "Removal completed.\n"
@@ -122,7 +128,7 @@ msgstr ""
 "voor elke gebruiker, het bestand\n"
 "\"%s\"."
 
-#: uninstall.cpp:790
+#: uninstall.cpp:840
 #, c-format
 msgid ""
 "Enter your administrator password to completely remove %s from you "
@@ -133,11 +139,11 @@ msgstr ""
 "verwijderen.\n"
 "\n"
 
-#: uninstall.cpp:1549
+#: uninstall.cpp:1616
 msgid "Cancel"
 msgstr "Annuleer"
 
-#: uninstall.cpp:1550
+#: uninstall.cpp:1617
 msgid "Continue..."
 msgstr "Ga verder..."
 
