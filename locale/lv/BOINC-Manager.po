@@ -17,17 +17,18 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : "
 "2);\n"
 "X-Generator: Pootle 2.5.0\n"
+"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-SearchPath-1: clientgui/msw\n"
 "X-Poedit-SearchPath-2: clientgui/gtk\n"
 "X-Poedit-SearchPath-3: clientgui/mac\n"
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCGIT\\boinc\n"
-"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-POOTLE-MTIME: 1394399823.0\n"
 
 # 81%
 #: AccountInfoPage.cpp:387
+#, c-format
 #, c-format, c-format
 msgid "Identify your account at %s"
 msgstr "Identificējiet jūsu kontu %s"
@@ -2064,6 +2065,7 @@ msgid "%s - Language Selection"
 msgstr "%s - valodas atlase"
 
 #: DlgOptions.cpp:695
+#, c-format
 #, c-format, c-format
 msgid ""
 "The %s's language has been changed.  In order for this change to take "
@@ -2983,6 +2985,7 @@ msgid "Removing project..."
 msgstr "Noņem projektu..."
 
 #: ViewProjects.cpp:496 sg_ProjectCommandPopup.cpp:251
+#, c-format
 #, c-format, c-format
 msgid "Are you sure you want to remove project '%s'?"
 msgstr "Vai tiešām vēlaties atjaunināt projektu '%s'?"
@@ -3440,6 +3443,7 @@ msgstr ""
 "(Progress: %s, Statuss: %s)"
 
 #: ViewWork.cpp:485
+#, c-format
 #, c-format, c-format
 msgid "Are you sure you want to abort these %d tasks?"
 msgstr "Vai tiešām vēlaties pārtaukt apstrādāt šos %d uzdevums?"
@@ -3607,6 +3611,7 @@ msgstr "Aizvērt"
 
 # 83%
 #: sg_DlgMessages.cpp:389
+#, c-format
 #, c-format, c-format
 msgid "%s - Notices"
 msgstr "%s - Paziņojumi"
@@ -3830,6 +3835,7 @@ msgid "Pop up a menu of commands to apply to this task"
 msgstr "Rādīt uznirstošo izvēlni ar komandām, ko pielietot šim uzdevumam"
 
 #: sg_TaskPanel.cpp:701
+#, c-format
 #, c-format, c-format
 msgid "Application: %s"
 msgstr "Lietojums: %s"
@@ -3854,6 +3860,7 @@ msgstr "Pagājis: %s"
 
 # 84%
 #: sg_TaskPanel.cpp:861
+#, c-format
 #, c-format, c-format
 msgid "Remaining (estimated): %s"
 msgstr "Atlicis (paredzams): %s"
@@ -3946,6 +3953,7 @@ msgstr "Rādīt visu"
 
 # 87%
 #: mac/Mac_GUI.cpp:186
+#, c-format
 #, c-format, c-format
 msgid "Quit %s"
 msgstr "Iziet %s"
