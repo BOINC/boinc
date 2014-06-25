@@ -1,10 +1,7 @@
 # BOINC web translation
 # Copyright (C) 2008 University of California
-#
 # This file is distributed under the same license as BOINC.
-#
 # FileID  : $Id$
-#
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
