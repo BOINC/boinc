@@ -56,6 +56,8 @@ bool s_bSkipExitConfirmation = false;
 
 wxChar* Convert28toISOLangCode[] = 
 {
+    wxT(""),
+    wxT(""),
     wxT("ab"),
     wxT("aa"),
     wxT("af_ZA"),
