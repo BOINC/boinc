@@ -2,12 +2,16 @@
 # various IDEs.
 #
 
+# Random stuff
+*                       text=auto
+
 # Source files
 #
 *.cpp                   text eol=lf
 *.h                     text eol=lf
 *.rc                    text eol=lf
 *.php                   text eol=lf
+*.xpm                   text eol=lf
 
 # Project files
 #
@@ -24,5 +28,14 @@
 checkin_notes           text eol=lf
 checkin_notes_2012      text eol=lf
 
-# Random stuff
-*                       text=auto
+# Misc files
+#
+*.txt                   text eol=lf
+*.xml                   text eol=lf
+*.bat                   text eol=crlf
+*.po                    text eol=lf
+*.log                   text eol=lf
+*.cmd                   text eol=crlf
+*.rtf                   text eol=lf
+*.rul                   text eol=crlf
+*.rules                 text eol=crlf
