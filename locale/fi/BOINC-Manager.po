@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-02-02 00:00-0800\n"
-"PO-Revision-Date: 2014-03-03 17:12+0000\n"
+"PO-Revision-Date: 2014-06-22 06:13+0000\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fi\n"
@@ -23,7 +23,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCGIT\\boinc\n"
-"X-POOTLE-MTIME: 1393866765.0\n"
+"X-POOTLE-MTIME: 1403417630.0\n"
 
 # 81%
 #: AccountInfoPage.cpp:387
@@ -327,7 +327,7 @@ msgstr "Muuta näytön ja proxyn asetuksia"
 
 #: AdvancedFrame.cpp:463 sg_BoincSimpleFrame.cpp:172
 msgid "Computing &preferences..."
-msgstr "Laskenta &asetukset..."
+msgstr "La&skenta-asetukset..."
 
 #: AdvancedFrame.cpp:464 sg_BoincSimpleFrame.cpp:173
 msgid "Configure computing preferences"
@@ -839,7 +839,7 @@ msgstr ""
 
 #: BOINCGUIApp.cpp:351
 msgid " at "
-msgstr ""
+msgstr " paikassa "
 
 #: BOINCGUIApp.cpp:354 MainDocument.cpp:2484 MainDocument.cpp:2534
 #: MainDocument.cpp:2554 ViewTransfers.cpp:803
@@ -1723,7 +1723,7 @@ msgstr "Projektilla ei ole sovelluksia prosessorille "
 
 #: DlgItemProperties.cpp:177
 msgid "Client configuration excludes "
-msgstr ""
+msgstr "Ohjelman asetukset eivät salli prosessoria "
 
 #: DlgItemProperties.cpp:181
 msgid " work fetch deferred for"
@@ -1982,7 +1982,7 @@ msgstr "Yhteydet"
 
 #: DlgOptions.cpp:268
 msgid "Connect via HTTP proxy server"
-msgstr "Yhteys HTTP proxypalvelimen kautta"
+msgstr "Yhdistä HTTP proxypalvelimen kautta"
 
 #: DlgOptions.cpp:272
 msgid "HTTP Proxy Server Configuration"
@@ -2019,7 +2019,7 @@ msgstr "HTTP Proxy"
 
 #: DlgOptions.cpp:332
 msgid "Connect via SOCKS proxy server"
-msgstr "Yhteys SOCKS proxypalvelimen kautta"
+msgstr "Yhdistä SOCKS proxypalvelimen kautta"
 
 #: DlgOptions.cpp:336
 msgid "SOCKS Proxy Server Configuration"
@@ -3096,7 +3096,7 @@ msgstr "vapaana, BOINCin käytettävissä: "
 
 #: ViewResources.cpp:306
 msgid "free, not available to BOINC: "
-msgstr "vapaana, BOINCin käytettävissä: "
+msgstr "vapaana, ei BOINCin käytettävissä: "
 
 #: ViewResources.cpp:316
 msgid "free: "
