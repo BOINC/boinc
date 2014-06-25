@@ -68,6 +68,9 @@ IMPLEMENT_DYNAMIC_CLASS(CViewTransfers, CBOINCBaseView)
 BEGIN_EVENT_TABLE (CViewTransfers, CBOINCBaseView)
     EVT_BUTTON(ID_TASK_TRANSFERS_RETRYNOW, CViewTransfers::OnTransfersRetryNow)
     EVT_BUTTON(ID_TASK_TRANSFERS_ABORT, CViewTransfers::OnTransfersAbort)
+// We currently handle EVT_LIST_CACHE_HINT on Windows or 
+// EVT_CHECK_SELECTION_CHANGED on Mac & Linux instead of EVT_LIST_ITEM_SELECTED
+// or EVT_LIST_ITEM_DESELECTED.  See CBOINCBaseView::OnCacheHint() for info.
 #if USE_LIST_CACHE_HINT
     EVT_LIST_CACHE_HINT(ID_LIST_TRANSFERSVIEW, CViewTransfers::OnCacheHint)
 #else
