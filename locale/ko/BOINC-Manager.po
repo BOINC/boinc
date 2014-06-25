@@ -1,3 +1,8 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC Manager 7.2.x\n"
@@ -12,10 +17,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Poedit 1.6.3\n"
+"X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
-"X-Poedit-SearchPath-0: clientgui\n"
 
 #: AccountInfoPage.cpp:387
 #, c-format
@@ -146,8 +151,7 @@ msgstr "최소한 %d 글자로 된 비밀번호를 입력해 주세요."
 #: AccountInfoPage.cpp:607
 msgid ""
 "The password and confirmation password do not match. Please type them again."
-msgstr ""
-"처음 비밀번호와 재입력한 비밀번호가 일치하지 않습니다. 다시 입력해주세요."
+msgstr "처음 비밀번호와 재입력한 비밀번호가 일치하지 않습니다. 다시 입력해주세요."
 
 #: AccountManagerInfoPage.cpp:272
 msgid "Choose an account manager"
@@ -278,8 +282,7 @@ msgstr "프로젝트 혹은 계정 관리자 추가(&A)..."
 
 #: AdvancedFrame.cpp:425 sg_ProjectPanel.cpp:76
 msgid "Volunteer for any or all of 30+ projects in many areas of science"
-msgstr ""
-"많은 과학 분야의 30개 이상 프로젝트중에서 하나 혹은 전부 참여하는 기여자"
+msgstr "많은 과학 분야의 30개 이상 프로젝트중에서 하나 혹은 전부 참여하는 기여자"
 
 #: AdvancedFrame.cpp:429
 #, c-format
@@ -1469,8 +1472,7 @@ msgstr "최소한"
 
 #: DlgAdvPreferencesBase.cpp:620
 msgid "BOINC leaves at least this amount of disk space free (in Gigabytes)"
-msgstr ""
-"BOINC는 최소한 이 만큼의 디스크 용량을 빈 공간으로 남겨둡니다 (단위 GB)"
+msgstr "BOINC는 최소한 이 만큼의 디스크 용량을 빈 공간으로 남겨둡니다 (단위 GB)"
 
 #: DlgAdvPreferencesBase.cpp:624
 msgid "Gigabytes disk space free"
@@ -1523,8 +1525,7 @@ msgstr "체크되면 일시 정지시 작업 유닛을 메모리에서 비웁니
 #: DlgAdvPreferencesBase.cpp:713
 msgid ""
 "Suspend processor and network usage when these applications are running:"
-msgstr ""
-"이 응용 프로그램이 실행 중인 동안에 프로세서와 네트워크 사용을 일시중지:"
+msgstr "이 응용 프로그램이 실행 중인 동안에 프로세서와 네트워크 사용을 일시중지:"
 
 #: DlgAdvPreferencesBase.cpp:722
 msgid "Add..."
@@ -1587,16 +1588,15 @@ msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
 "messages by holding down the shift or command key while clicking on messages."
 msgstr ""
-"선택한 메세지를 클립보드로 복사합니다. 메세지를 클릭하는 동안 shift 키나 "
-"control 키를 눌러 여러 메세지를 선택할 수 있습니다"
+"선택한 메세지를 클립보드로 복사합니다. 메세지를 클릭하는 동안 shift 키나 control 키를 눌러 여러 메세지를 선택할 수 있습니다"
 
 #: DlgEventLog.cpp:310 DlgEventLog.cpp:318 ViewMessages.cpp:99
 msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
 "messages by holding down the shift or control key while clicking on messages."
 msgstr ""
-"클립보드에 선택한 메시지를 복사합니다. 메시지를 클릭하는 동안 Shift나 "
-"Control 키를 누른 상태에서 여러 메시지를 선택할 수 있습니다."
+"클립보드에 선택한 메시지를 복사합니다. 메시지를 클릭하는 동안 Shift나 Control 키를 누른 상태에서 여러 메시지를 선택할 수 "
+"있습니다."
 
 #: DlgEventLog.cpp:325 DlgItemProperties.cpp:67
 msgid "&Close"
@@ -2035,9 +2035,7 @@ msgstr "%s - 언어 선택"
 msgid ""
 "The %s's language has been changed.  In order for this change to take "
 "effect, you must restart the %s."
-msgstr ""
-"%s 언어가 변경되었습니다.  해당 변경 사항을 적용하기 위해서는 %s을(를) 재시작"
-"해야 됩니다."
+msgstr "%s 언어가 변경되었습니다.  해당 변경 사항을 적용하기 위해서는 %s을(를) 재시작해야 됩니다."
 
 #: DlgSelectComputer.cpp:91
 #, c-format
@@ -2129,8 +2127,7 @@ msgstr "Einstein@Home 화면보호기에 대해서 보다 자세한 정보를 �
 #: Localization.cpp:71
 msgid ""
 "Correspond with admins and other users on the Einstein@Home message boards"
-msgstr ""
-"Einstein@Home 게시판에서 운영자 및 다른 사용자와 이야기를 주고 받으세요"
+msgstr "Einstein@Home 게시판에서 운영자 및 다른 사용자와 이야기를 주고 받으세요"
 
 #: Localization.cpp:73
 msgid "Einstein status"
@@ -2264,8 +2261,7 @@ msgstr "프로그램 누락됨"
 msgid ""
 "Please download and install the CoRD application from http://cord."
 "sourceforge.net"
-msgstr ""
-"http://cord.sourceforge.net에서 CoRD 어플리케이션을 다운로드하고 설치하세요"
+msgstr "http://cord.sourceforge.net에서 CoRD 어플리케이션을 다운로드하고 설치하세요"
 
 #: MainDocument.cpp:2432
 msgid "on batteries"
@@ -2549,9 +2545,7 @@ msgstr "프로젝트 URL:"
 msgid ""
 "This project may not have work for your type of computer.  Do you want to "
 "add it anyway?"
-msgstr ""
-"이 프로젝트는 해당 컴퓨터에서 동작하지 않을 수도 있습니다. 그래도 추가하시겠"
-"습니까?"
+msgstr "이 프로젝트는 해당 컴퓨터에서 동작하지 않을 수도 있습니다. 그래도 추가하시겠습니까?"
 
 #: ProjectInfoPage.cpp:850
 msgid "You already added this project. Please choose a different project."
@@ -2634,8 +2628,7 @@ msgstr ""
 "아니면 모뎀을 연결하고 다시 시도하세요.\n"
 "\n"
 "2) 개인 방화벽 소프트웨어가 BOINC를 막았습니다.\n"
-"개인 방화벽을 설정해서 BOINC가 80번 포트를 사용가능하게 한 후 다시 시도하세"
-"요.\n"
+"개인 방화벽을 설정해서 BOINC가 80번 포트를 사용가능하게 한 후 다시 시도하세요.\n"
 "\n"
 "3) 프록시 서버를 사용하고 계시다면\n"
 "다음을 눌러 BOINC 프록시 설정을 설정해주세요."
@@ -2828,9 +2821,7 @@ msgstr "업데이트"
 msgid ""
 "Report all completed tasks, get latest credit, get latest preferences, and "
 "possibly get more tasks."
-msgstr ""
-"모든 완료된 태스크를 보고하고 마지막 크레딧과 환경 설정을 받아오며 가능하면 "
-"추가 태스크를 받아옵니다."
+msgstr "모든 완료된 태스크를 보고하고 마지막 크레딧과 환경 설정을 받아오며 가능하면 추가 태스크를 받아옵니다."
 
 #: ViewProjects.cpp:181 ViewProjects.cpp:722 ViewWork.cpp:208 ViewWork.cpp:801
 #: sg_BoincSimpleFrame.cpp:757 sg_ProjectCommandPopup.cpp:67
@@ -2862,16 +2853,14 @@ msgid ""
 "Delete all files and tasks associated with this project, and get new tasks.  "
 "You can update the project first to report any completed tasks."
 msgstr ""
-"이 프로젝트와 관련된 모든 태스크와 파일들을 삭제하고 새 태스크를 받아옵니다. "
-"그 전에 먼저 완료된 태스크를 보고하도록 업데이트할 수 있습니다."
+"이 프로젝트와 관련된 모든 태스크와 파일들을 삭제하고 새 태스크를 받아옵니다. 그 전에 먼저 완료된 태스크를 보고하도록 업데이트할 수 "
+"있습니다."
 
 #: ViewProjects.cpp:203 sg_ProjectCommandPopup.cpp:86
 msgid ""
 "Remove this project.  Tasks in progress will be lost (use 'Update' first to "
 "report any completed tasks)."
-msgstr ""
-"이 프로젝트를 제거합니다. 진행 중인 태스크는 소실됩니다. (완료된 태스크를 보"
-"고하려면 '업데이트'를 사용하세요)"
+msgstr "이 프로젝트를 제거합니다. 진행 중인 태스크는 소실됩니다. (완료된 태스크를 보고하려면 '업데이트'를 사용하세요)"
 
 #: ViewProjects.cpp:209 ViewWork.cpp:222 sg_ProjectCommandPopup.cpp:91
 #: sg_TaskCommandPopup.cpp:78
@@ -3476,17 +3465,14 @@ msgid ""
 "\n"
 "Please choose which type of change you would like to make:\n"
 msgstr ""
-"여러분은 새 기여자 컴퓨팅 프로젝트를 추가하거나 아니면 여러분이 공헌할 프로젝"
-"트를\n"
+"여러분은 새 기여자 컴퓨팅 프로젝트를 추가하거나 아니면 여러분이 공헌할 프로젝트를\n"
 "변경할 수 있습니다.\n"
 "\n"
-"이러한 프로젝트들 중 일부는 World Community Grid에서 수행 및 관리되고 있으"
-"며, 그외는\n"
+"이러한 프로젝트들 중 일부는 World Community Grid에서 수행 및 관리되고 있으며, 그외는\n"
 "다른 연구자 혹은 기관에서 수행 및 관리되고 있습니다. BOINC 소프트웨어에서는\n"
 "프로젝트들을 통틀어서 소모되는 연산력을 분할해 줄 수 있습니다.\n"
 "\n"
-"대안으로서 만약 여러분이 BOINC 계정 관리자에 등록되어 있다면, 여러분이 지원"
-"할\n"
+"대안으로서 만약 여러분이 BOINC 계정 관리자에 등록되어 있다면, 여러분이 지원할\n"
 "프로젝트를 선택하는데 있어 이것을 사용할 수 있습니다.\n"
 "\n"
 "여러분이 선호하는 관리 방식을 선택해 주십시오:\n"
@@ -3572,14 +3558,12 @@ msgstr "저장하려면 확인을 누르세요."
 #: sg_DlgPreferences.cpp:278
 msgid ""
 "Click Clear to restore web-based settings for all preferences listed below."
-msgstr ""
-"아래 나열된 모든 환경설정을 웹기반 설정으로 복원하려면 지우기를 누르세요."
+msgstr "아래 나열된 모든 환경설정을 웹기반 설정으로 복원하려면 지우기를 누르세요."
 
 #: sg_DlgPreferences.cpp:285
 msgid ""
 "For additional settings, select Computing Preferences in the Advanced View."
-msgstr ""
-"추가적인 설정은 고급 보기 상태로 변경 후 연산 환경 설정에서 선택하세요."
+msgstr "추가적인 설정은 고급 보기 상태로 변경 후 연산 환경 설정에서 선택하세요."
 
 #: sg_DlgPreferences.cpp:313
 msgid "Do work only between:"
