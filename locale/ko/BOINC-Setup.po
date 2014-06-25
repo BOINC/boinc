@@ -2,7 +2,6 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
 msgid ""
 msgstr ""
 "Project-Id-Version: BOINC 7.2.y\n"
@@ -44,11 +43,9 @@ msgid ""
 "Do you also want non-administrative users to be able to run and control %s "
 "on this Mac?"
 msgstr ""
-"이 컴퓨터에서 관리하도록 허가받은 사용자들은 자동적으로 %s를(를) 실행하고 제"
-"어할 수 있도록 허용될 것입니다.\n"
+"이 컴퓨터에서 관리하도록 허가받은 사용자들은 자동적으로 %s를(를) 실행하고 제어할 수 있도록 허용될 것입니다.\n"
 "\n"
-"이 Mac에서 비관리자 사용자들도 %s를(을) 실행하고 제어할 수 있게 하길 원하십니"
-"까?"
+"이 Mac에서 비관리자 사용자들도 %s를(을) 실행하고 제어할 수 있게 하길 원하십니까?"
 
 #: PostInstall.cpp:1444
 #, c-format
@@ -130,8 +127,7 @@ msgid ""
 "computer.\n"
 "\n"
 msgstr ""
-"여러분 컴퓨터에서 %s를(을) 완전히 제거하려면 관리자 비밀번호를 입력해 주세"
-"요.\n"
+"여러분 컴퓨터에서 %s를(을) 완전히 제거하려면 관리자 비밀번호를 입력해 주세요.\n"
 "\n"
 
 #: uninstall.cpp:1616
