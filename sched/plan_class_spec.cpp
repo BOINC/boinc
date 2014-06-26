@@ -108,6 +108,16 @@ bool PLAN_CLASS_SPEC::opencl_check(OPENCL_DEVICE_PROP& opencl_prop) {
         }
         return false;
     }
+
+    if (double_precision_fp && (opencl_prop.double_fp_config == 0)) {
+        if (config.debug_version_select) {
+            log_messages.printf(MSG_NORMAL,
+                "[version] device (or driver) doesn't support double precision fp math\n"
+            );
+        }
+        return false;
+    }
+
     return true;
 }
 
@@ -812,6 +822,7 @@ int PLAN_CLASS_SPEC::parse(XML_PARSER& xp) {
 
         if (xp.parse_int("min_opencl_driver_revision", min_opencl_driver_revision)) continue;
         if (xp.parse_int("max_opencl_driver_revision", max_opencl_driver_revision)) continue;
+        if (xp.parse_bool("double_precision_fp", double_precision_fp)) continue;
 
         if (xp.parse_int("min_vbox_version", min_vbox_version)) continue;
         if (xp.parse_int("max_vbox_version", max_vbox_version)) continue;
@@ -890,6 +901,7 @@ PLAN_CLASS_SPEC::PLAN_CLASS_SPEC() {
     max_opencl_version = 0;
     min_opencl_driver_revision = 0;
     max_opencl_driver_revision = 0;
+    double_precision_fp = false;
 
     min_vbox_version = 0;
     max_vbox_version = 0;
