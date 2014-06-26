@@ -504,7 +504,7 @@ void NOTICES::remove_notices(PROJECT* p, int which) {
             remove = !strcmp(n.description.c_str(), NO_WORK_MSG);
             break;
         case REMOVE_CONFIG_MSG:
-            remove = (strstr(n.description.c_str(), "cc_config.xml") != NULL);
+            remove = strstr(n.description.c_str(), "cc_config.xml");
             break;
         }
         if (remove) {

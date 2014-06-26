@@ -451,7 +451,10 @@ int CC_CONFIG::parse_client(FILE* f) {
             );
             continue;
         }
-        if (xp.match_tag("/cc_config")) return 0;
+        if (xp.match_tag("/cc_config")) {
+            notices.remove_notices(NULL, REMOVE_CONFIG_MSG);
+            return 0;
+        }
         if (xp.match_tag("log_flags")) {
             log_flags.parse(xp);
             continue;

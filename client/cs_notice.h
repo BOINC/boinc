@@ -92,8 +92,6 @@ struct NOTICES {
     // msgs about no work due to settings
 #define REMOVE_CONFIG_MSG       3
     // notices about cc_config.xml
-#define REMOVE_APP_INFO_MSG     4
-    // notices about project/app_info.xml
 
 extern NOTICES notices;
 
