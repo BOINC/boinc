@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2009 University of California
+// Copyright (C) 2014 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -502,6 +502,12 @@ void NOTICES::remove_notices(PROJECT* p, int which) {
             break;
         case REMOVE_NO_WORK_MSG:
             remove = !strcmp(n.description.c_str(), NO_WORK_MSG);
+            break;
+        case REMOVE_CONFIG_MSG:
+            remove = (strstr(n.description.c_str(), "cc_config.xml") != NULL);
+            break;
+        case REMOVE_APP_INFO_MSG:
+            remove = (strstr(n.description.c_str(), "app_info.xml") != NULL);
             break;
         }
         if (remove) {
