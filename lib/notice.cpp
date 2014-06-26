@@ -22,6 +22,7 @@
 #endif
 
 #include "error_numbers.h"
+#include "str_replace.h"
 
 #include "notice.h"
 
