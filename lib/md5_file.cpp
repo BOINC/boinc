@@ -70,9 +70,11 @@ int md5_file(const char* path, char* output, double& nbytes, bool is_gzip) {
     if (is_gzip) {
         n = (int)fread(buf, 1, 10, f);
         if (n != 10) {
+            fclose(f);
             return ERR_BAD_FORMAT;
         }
         if (buf[0] != 0x1f || buf[1] != 0x8b || buf[2] != 0x08) {
+            fclose(f);
             return ERR_BAD_FORMAT;
         } 
         nbytes = 10;
