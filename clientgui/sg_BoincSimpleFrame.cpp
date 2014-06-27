@@ -127,6 +127,22 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIconBundle* icons, wxPoint position
         strMenuDescription
     );
 
+    strMenuDescription.Printf(
+        _("Exit %s"),
+        pSkinAdvanced->GetApplicationName().c_str()
+    );
+
+    strMenuName.Printf(
+        _("Exit %s"),
+        pSkinAdvanced->GetApplicationName().c_str()
+    );
+
+    menuFile->Append(
+        wxID_EXIT,
+        strMenuName,
+        strMenuDescription
+    );
+
 #ifdef __WXMAC__
     menuFile->Append(
         wxID_PREFERENCES
