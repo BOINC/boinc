@@ -274,7 +274,11 @@ extern format_backtrace_line_t format_backtrace_line;
 
 #define BOINCASSERT(expr)         
 #ifndef IRIX
-#define BOINCTRACE          
+#if defined(__MINGW32__) || defined(__CYGWIN32__)
+#define BOINCTRACE
+#else
+#define BOINCTRACE(...)
+#endif
 #endif
 
 #endif // _DEBUG
