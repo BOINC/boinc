@@ -1643,7 +1643,7 @@ void send_work() {
 
     // send non-CPU-intensive jobs if needed
     //
-    if (ssp->have_nci_app && g_request->work_req_seconds > 0) {
+    if (ssp->have_nci_app) {
         send_nci();
     }
 
