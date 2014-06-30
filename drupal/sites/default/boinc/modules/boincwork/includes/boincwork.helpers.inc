@@ -1111,10 +1111,10 @@ function boincwork_views_host_list_empty_text($context = NULL) {
   
   // Pull the BOINC user ID from the view arguments to get show_hosts 
   // preference for that user
-  require_boinc('db');
+  require_boinc('boinc_db');
   $view = views_get_current_view();
   $account = user_load($view->args[0]);
-  $boincuser = lookup_user_id($account->boincuser_id);
+  $boincuser = BoincUser::lookup_id($account->boincuser_id);
   
   // Determine if hosts are associated at all or just hidden
   $output = '';

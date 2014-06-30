@@ -967,10 +967,10 @@ function boincwork_projectprefs_form_validate($form, &$form_state) {
   * Handle post-validation submission of project preferences form.
   */
 function boincwork_projectprefs_form_submit($form, &$form_state) {
-  require_boinc(array('user', 'prefs'));
+  require_boinc(array('boinc_db', 'prefs'));
   
   global $user;
-  $boinc_user = lookup_user_email_addr($user->mail);
+  $boinc_user = BoincUser::lookup_email_addr($user->mail);
   
   global $site_name, $app_types, $app_array;
   
@@ -1192,10 +1192,10 @@ function communityprefs_form(&$form_state) {
   * Handle post-validation submission of community preferences form.
   */
 function communityprefs_form_submit($form, &$form_state) {
-  require_boinc('db');
+  require_boinc('boinc_db');
   global $user;
   $account = user_load($user->uid);
-  $boinc_user = lookup_user_id($account->boincuser_id);
+  $boinc_user = BoincUser::lookup_id($account->boincuser_id);
   $edit= $form_state['values'];
   // Display name
   if ($edit['boincuser_name'] != $boinc_user->name) {

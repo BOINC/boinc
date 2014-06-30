@@ -389,9 +389,9 @@ function projectprefs_page($action = null, $venue = null) {
       $_SESSION['prefs venue'] = 'generic';
       
       // If the user has removed their default preference set, make it generic
-      require_boinc('user');
+      require_boinc('boinc_db');
       global $user;
-      $boinc_user = lookup_user_email_addr($user->mail);
+      $boinc_user = BoincUser::lookup_email_addr($user->mail);
       if ($boinc_user->venue == $venue) {
         $boinc_user->venue = '';
         venue_update($boinc_user);
