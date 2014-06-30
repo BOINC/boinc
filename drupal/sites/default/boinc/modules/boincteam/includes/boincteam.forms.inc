@@ -380,10 +380,14 @@ function boincteam_edit_form_validate($form, &$form_state) {
     form_set_error('name', t('Team name is required.'));
   }
   else {
-    require_boinc('boinc_db');
-    if (BoincTeam::lookup_name($name)) {
-      form_set_error('name', t('A team named "@name" already exists.',
-        array('@name' => $name)));
+    $team = node_load($form_state['storage']['team_id']);
+    if ($name != $team->title) {
+      // If changing the name ("title" in Drupal terms), check that the new name is available
+      require_boinc('boinc_db');
+      if (BoincTeam::lookup_name($name)) {
+        form_set_error('name', t('A team named "@name" already exists.',
+          array('@name' => $name)));
+      }
     }
   }
   
