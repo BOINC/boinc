@@ -1215,6 +1215,8 @@ function communityprefs_form_submit($form, &$form_state) {
     'comments_per_page' => $edit['comments_per_page'],
     'sort' => $edit['comments_order'],
   ));
+  
+  drupal_set_message(t('Your community preferences have been updated.'));
 }
 
 /**
