@@ -45,7 +45,7 @@ function spam_controls_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'recaptcha_ajax_api';
-  $strongarm->value = 1;
+  $strongarm->value = 0;
   $export['recaptcha_ajax_api'] = $strongarm;
 
   $strongarm = new stdClass;
