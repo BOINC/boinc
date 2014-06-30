@@ -779,7 +779,10 @@ bool CDlgAdvPreferences::EnsureTabPageVisible(wxTextCtrl* txtCtrl) {
 
 /* show an error message and set the focus to the control that caused the error */
 void CDlgAdvPreferences::ShowErrorMessage(wxString& message,wxTextCtrl* errorCtrl) {
-    bool visibleOK = this->EnsureTabPageVisible(errorCtrl);
+#if wxDEBUG_LEVEL   // Prevent compiler warning (unused variable)
+    bool visibleOK =
+#endif
+    this->EnsureTabPageVisible(errorCtrl);
     wxASSERT(visibleOK);
     //
     if(message.IsEmpty()){
