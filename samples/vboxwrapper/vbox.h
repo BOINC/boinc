@@ -185,12 +185,12 @@ public:
     int resume();
     void check_trickle_triggers();
     void check_completion_trigger();
-    int createsnapshot(double elapsed_time);
-    int cleanupsnapshots(bool delete_active);
-    int restoresnapshot();
-    void dumphypervisorlogs(bool include_error_logs);
-    void dumphypervisorstatusreports();
-    void dumpvmguestlogentries();
+    int create_snapshot(double elapsed_time);
+    int cleanup_snapshots(bool delete_active);
+    int restore_snapshot();
+    void dump_hypervisor_logs(bool include_error_logs);
+    void dump_hypervisor_status_reports();
+    void dump_vmguestlog_entries();
 
     int is_registered();
     bool is_system_ready(std::string& message);

@@ -400,7 +400,7 @@ void VBOX_VM::check_completion_trigger() {
         fclose(f);
     }
     cleanup();
-    dumphypervisorlogs(true);
+    dump_hypervisor_logs(true);
     boinc_finish(exit_code);
 }
 
@@ -783,7 +783,7 @@ int main(int argc, char** argv) {
         // All 'failure to start' errors are unrecoverable by default
         bool   unrecoverable_error = true;
         bool   skip_cleanup = false;
-        bool   dump_hypervisor_logs = false;
+        bool   do_dump_hypervisor_logs = false;
         string error_reason;
         const char*  temp_reason = "";
         int    temp_delay = 86400;
@@ -848,7 +848,7 @@ int main(int argc, char** argv) {
             unrecoverable_error = false;
             temp_reason = "VM environment needed to be cleaned up.";
         } else {
-            dump_hypervisor_logs = true;
+            do_dump_hypervisor_logs = true;
         }
 
         if (unrecoverable_error) {
@@ -868,8 +868,8 @@ int main(int argc, char** argv) {
                 );
             }
 
-            if (dump_hypervisor_logs) {
-                vm.dumphypervisorlogs(true);
+            if (do_dump_hypervisor_logs) {
+                vm.dump_hypervisor_logs(true);
             }
 
             boinc_finish(retval);
@@ -986,7 +986,7 @@ int main(int argc, char** argv) {
         if (boinc_status.abort_request) {
             vm.reset_vm_process_priority();
             vm.cleanup();
-            vm.dumphypervisorlogs(true);
+            vm.dump_hypervisor_logs(true);
             boinc_finish(EXIT_ABORTED_BY_CLIENT);
         }
         if (!vm.online) {
@@ -1011,7 +1011,7 @@ int main(int argc, char** argv) {
                         "%s VM Premature Shutdown Detected.\n",
                         vboxwrapper_msg_prefix(buf, sizeof(buf))
                     );
-                    vm.dumphypervisorlogs(true);
+                    vm.dump_hypervisor_logs(true);
                     vm.get_vm_exit_code(vm_exit_code);
                     if (vm_exit_code) {
                         boinc_finish(vm_exit_code);
@@ -1024,7 +1024,7 @@ int main(int argc, char** argv) {
                         "%s Virtual machine exited.\n",
                         vboxwrapper_msg_prefix(buf, sizeof(buf))
                     );
-                    vm.dumphypervisorlogs(false);
+                    vm.dump_hypervisor_logs(false);
                     boinc_finish(0);
                 }
             }
@@ -1038,7 +1038,7 @@ int main(int argc, char** argv) {
                     vboxwrapper_msg_prefix(buf, sizeof(buf))
                 );
                 vm.reset_vm_process_priority();
-                vm.dumphypervisorlogs(true);
+                vm.dump_hypervisor_logs(true);
                 vm.poweroff();
                 boinc_finish(EXIT_OUT_OF_MEMORY);
             }
@@ -1135,7 +1135,7 @@ int main(int argc, char** argv) {
                     );
                 }
 
-                vm.dumphypervisorstatusreports();
+                vm.dump_hypervisor_status_reports();
             }
 
             if (boinc_time_to_checkpoint()) {
@@ -1148,7 +1148,7 @@ int main(int argc, char** argv) {
                     }
 
                     // Checkpoint
-                    retval = vm.createsnapshot(elapsed_time);
+                    retval = vm.create_snapshot(elapsed_time);
                     if (retval) {
                         // Let BOINC clean-up the environment which should release any file/mutex locks and then attempt
                         // to resume from a previous snapshot.
