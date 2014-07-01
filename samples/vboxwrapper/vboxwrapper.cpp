@@ -176,7 +176,7 @@ int parse_job_file(VBOX_VM& vm) {
             continue;
         }
         else if (xp.parse_string("completion_trigger_file", str)) {
-            vm.completion_trigger_files.push_back(str);
+            vm.completion_trigger_file = str;
             continue;
         }
         fprintf(stderr, "%s parse_job_file(): unexpected tag %s\n",
@@ -380,25 +380,28 @@ void set_remote_desktop_info(APP_INIT_DATA& /* aid */, VBOX_VM& vm) {
     }
 }
 
-// check for trickle trigger files, and send trickles if find them.
+// check for completion trigger file
 //
-void VBOX_VM::check_trickle_triggers() {
-    char filename[256], path[MAXPATHLEN], buf[256];
-    for (unsigned int i=0; i<trickle_trigger_files.size(); i++) {
-        strcpy(filename, trickle_trigger_files[i].c_str());
-        sprintf(path, "shared/%s", filename);
-        if (!boinc_file_exists(path)) continue;
-        string text;
-        int retval = read_file_string(path, text);
-        if (retval) {
-            fprintf(stderr,
-                "%s can't read trickle trigger file %s\n",
-                vboxwrapper_msg_prefix(buf, sizeof(buf)), filename
-            );
+void VBOX_VM::check_completion_trigger() {
+    char path[MAXPATHLEN];
+
+    sprintf(path, "shared/%s", completion_trigger_file.c_str());
+    if (!boinc_file_exists(path)) return;
+    int exit_code = 0;
+    FILE* f = fopen(path, "r");
+    if (f) {
+        char buf[1024];
+        if (fgets(buf, 1024, f) != NULL) {
+            exit_code = atoi(buf);
         }
-        boinc_send_trickle_up(filename, const_cast<char*>(text.c_str()));
-        boinc_delete_file(path);
+        while (fgets(buf, 1024, f) != NULL) {
+            fputs(buf, stderr);
+        }
+        fclose(f);
     }
+    cleanup();
+    dumphypervisorlogs(true);
+    boinc_finish(exit_code);
 }
 
 // check for trickle trigger files, and send trickles if find them.
@@ -1072,6 +1075,9 @@ int main(int argc, char** argv) {
             if ((loop_iteration % 10) == 0) {
                 current_cpu_time = starting_cpu_time + vm.get_vm_cpu_time();
                 vm.check_trickle_triggers();
+                if (!vm.completion_trigger_file.empty()) {
+                    vm.check_completion_trigger();
+                }
             }
 
             if (vm.job_duration) {

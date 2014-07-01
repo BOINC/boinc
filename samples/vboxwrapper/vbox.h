@@ -140,8 +140,15 @@ public:
     double minimum_checkpoint_interval;
         // minimum time between checkpoints
     std::vector<std::string> copy_to_shared;
+        // list of files to copy from slot dir to shared/
     std::vector<std::string> trickle_trigger_files;
-    std::vector<std::string> completion_trigger_files;
+        // if find file of this name in shared/, send trickle-up message
+        // with variety = filename, contents = file contents
+    std::string completion_trigger_file;
+        // if find this file in shared/, task is over.
+        // File can optionally contain exit code (first line)
+        // and stderr text (subsequent lines).
+        // Addresses a problem where VM doesn't shut down properly
 
     /////////// END VBOX_JOB.XML ITEMS //////////////
 
@@ -177,6 +184,7 @@ public:
     int pause();
     int resume();
     void check_trickle_triggers();
+    void check_completion_trigger();
     int createsnapshot(double elapsed_time);
     int cleanupsnapshots(bool delete_active);
     int restoresnapshot();
