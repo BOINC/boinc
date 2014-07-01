@@ -391,14 +391,14 @@ wxPanel* CDlgAdvPreferencesBase::createNetworkTab(wxNotebook* notebook)
     // upload/download rates
 
     m_staticText32 = new wxStaticText( networkGeneralStaticBox, ID_DEFAULT, _("Maximum download rate"), wxDefaultPosition, wxDefaultSize, 0 );
-    networkGeneralGridSizer->Add( m_staticText32, 0, wxALL, 5 );
+    networkGeneralGridSizer->Add( m_staticText32, 0, wxALIGN_RIGHT|wxALL, 5 );
 
     m_txtNetDownloadRate = new wxTextCtrl( networkGeneralStaticBox, ID_TXTNETDOWNLOADRATE, wxT(""), wxDefaultPosition, wxSize( 50,-1 ), wxTE_RIGHT );
     networkGeneralGridSizer->Add( m_txtNetDownloadRate, 0, wxALL, 1 );
 
     m_staticText33 = new wxStaticText( networkGeneralStaticBox, ID_DEFAULT, _("KBytes/second (0 means no restriction)"), wxDefaultPosition, wxDefaultSize, 0 );
     networkGeneralGridSizer->Add( m_staticText33, 0, wxALL, 5 );
-
+    
     m_staticText34 = new wxStaticText( networkGeneralStaticBox, ID_DEFAULT, _("Maximum upload rate"), wxDefaultPosition, wxDefaultSize, 0 );
     networkGeneralGridSizer->Add( m_staticText34, 0, wxALIGN_RIGHT|wxALL, 5 );
 
@@ -414,7 +414,7 @@ wxPanel* CDlgAdvPreferencesBase::createNetworkTab(wxNotebook* notebook)
         networkGeneralStaticBox, ID_DEFAULT,
         _("Minimum work buffer"), wxDefaultPosition, wxDefaultSize, 0
     );
-    networkGeneralGridSizer->Add( m_staticText30, 0, wxALL, 5 );
+    networkGeneralGridSizer->Add( m_staticText30, 0, wxALIGN_RIGHT|wxALL, 5 );
 
     m_txtNetConnectInterval = new wxTextCtrl(
         networkGeneralStaticBox, ID_TXTNETCONNECTINTERVAL, wxT(""),
@@ -449,17 +449,15 @@ wxPanel* CDlgAdvPreferencesBase::createNetworkTab(wxNotebook* notebook)
     m_staticText341 = new wxStaticText( networkGeneralStaticBox, ID_DEFAULT, _("days (maximum value: 10)"), wxDefaultPosition, wxDefaultSize, 0 );
     networkGeneralGridSizer->Add( m_staticText341, 0, wxALL, 5 );
 
-    networkGeneralBoxSizer->Add( networkGeneralGridSizer, 0, wxEXPAND, 1 );
-
     // long-term quota
 
-    wxBoxSizer* networkTransferLimitSizer = new wxBoxSizer( wxHORIZONTAL );
-
     m_staticText_daily_xfer1 = new wxStaticText( networkGeneralStaticBox, ID_DEFAULT, _("Transfer at most"), wxDefaultPosition, wxDefaultSize, 0 );
-    networkTransferLimitSizer->Add( m_staticText_daily_xfer1, 0, wxALL, 5 );
+    networkGeneralGridSizer->Add( m_staticText_daily_xfer1, 0, wxALIGN_RIGHT|wxALL, 5 );
 
     m_txt_daily_xfer_limit_mb = new wxTextCtrl( networkGeneralStaticBox, ID_TXTNETDOWNLOADRATE, wxT(""), wxDefaultPosition, wxSize( 50,-1 ), wxTE_RIGHT );
-    networkTransferLimitSizer->Add( m_txt_daily_xfer_limit_mb, 0, wxALL, 1 );
+    networkGeneralGridSizer->Add( m_txt_daily_xfer_limit_mb, 0, wxALL, 1 );
+
+    wxBoxSizer* networkTransferLimitSizer = new wxBoxSizer( wxHORIZONTAL );
 
     m_staticText_daily_xfer2 = new wxStaticText( networkGeneralStaticBox, ID_DEFAULT, _("MBytes every"), wxDefaultPosition, wxDefaultSize, 0 );
     networkTransferLimitSizer->Add( m_staticText_daily_xfer2, 0, wxALL, 5 );
@@ -470,7 +468,10 @@ wxPanel* CDlgAdvPreferencesBase::createNetworkTab(wxNotebook* notebook)
     m_staticText_daily_xfer4 = new wxStaticText( networkGeneralStaticBox, ID_DEFAULT, _("days (0 means no restriction)"), wxDefaultPosition, wxDefaultSize, 0 );
     networkTransferLimitSizer->Add( m_staticText_daily_xfer4, 0, wxALL, 5 );
 
-    networkGeneralBoxSizer->Add( networkTransferLimitSizer, 0, wxALL, 0 );
+    networkGeneralGridSizer->Add( networkTransferLimitSizer, 0, wxALL, 0 );
+
+    networkGeneralBoxSizer->Add( networkGeneralGridSizer, 0, wxEXPAND, 1 );
+
 
     m_chkNetSkipImageVerification = new wxCheckBox( networkGeneralStaticBox, ID_CHKNETSKIPIMAGEVERIFICATION, _("Skip image file verification"), wxDefaultPosition, wxDefaultSize, 0 );
 
