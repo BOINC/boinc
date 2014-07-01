@@ -175,6 +175,10 @@ int parse_job_file(VBOX_VM& vm) {
             vm.trickle_trigger_files.push_back(str);
             continue;
         }
+        else if (xp.parse_string("completion_trigger_file", str)) {
+            vm.completion_trigger_files.push_back(str);
+            continue;
+        }
         fprintf(stderr, "%s parse_job_file(): unexpected tag %s\n",
             vboxwrapper_msg_prefix(buf, sizeof(buf)), xp.parsed_tag
         );
@@ -373,6 +377,27 @@ void set_remote_desktop_info(APP_INIT_DATA& /* aid */, VBOX_VM& vm) {
 
         sprintf(buf, "localhost:%d", vm.rd_host_port);
         boinc_remote_desktop_addr(buf);
+    }
+}
+
+// check for trickle trigger files, and send trickles if find them.
+//
+void VBOX_VM::check_trickle_triggers() {
+    char filename[256], path[MAXPATHLEN], buf[256];
+    for (unsigned int i=0; i<trickle_trigger_files.size(); i++) {
+        strcpy(filename, trickle_trigger_files[i].c_str());
+        sprintf(path, "shared/%s", filename);
+        if (!boinc_file_exists(path)) continue;
+        string text;
+        int retval = read_file_string(path, text);
+        if (retval) {
+            fprintf(stderr,
+                "%s can't read trickle trigger file %s\n",
+                vboxwrapper_msg_prefix(buf, sizeof(buf)), filename
+            );
+        }
+        boinc_send_trickle_up(filename, const_cast<char*>(text.c_str()));
+        boinc_delete_file(path);
     }
 }
 

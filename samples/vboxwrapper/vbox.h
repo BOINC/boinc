@@ -141,6 +141,7 @@ public:
         // minimum time between checkpoints
     std::vector<std::string> copy_to_shared;
     std::vector<std::string> trickle_trigger_files;
+    std::vector<std::string> completion_trigger_files;
 
     /////////// END VBOX_JOB.XML ITEMS //////////////
 
