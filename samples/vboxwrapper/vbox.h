@@ -176,6 +176,7 @@ public:
     int poweroff();
     int pause();
     int resume();
+    void check_trickle_triggers();
     int createsnapshot(double elapsed_time);
     int cleanupsnapshots(bool delete_active);
     int restoresnapshot();
@@ -237,8 +238,6 @@ public:
     void vbm_trace(
         std::string& command, std::string& ouput, int retval
     );
-
-    void check_trickle_triggers();
 };
 
 #endif
