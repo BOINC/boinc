@@ -116,7 +116,6 @@ public class BatchProcessingActivity extends FragmentActivity{
     }
 
 	// triggered by continue button
-	// button only visible if no conflicts occured.
 	public void continueClicked(View v) {
 		boolean conflicts = attachService.unresolvedConflicts();
 		if(Logging.DEBUG) Log.d(Logging.TAG, "BatchProcessingActivity.continueClicked: conflicts? " + conflicts);
@@ -136,6 +135,19 @@ public class BatchProcessingActivity extends FragmentActivity{
 			intent.putExtra("targetFragment", R.string.tab_projects); // make activity display projects fragment
 			startActivity(intent);
 		}
+	}
+
+	// triggered by share button
+	public void shareClicked(View v) {
+		if(Logging.DEBUG) Log.d(Logging.TAG, "BatchProcessingActivity.shareClicked.");
+		Intent intent=new Intent(android.content.Intent.ACTION_SEND);
+		intent.setType("text/plain");
+		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+
+		// Add data to the intent, the receiving app will decide what to do with it.
+		intent.putExtra(Intent.EXTRA_SUBJECT, "BOINC");
+		intent.putExtra(Intent.EXTRA_TEXT, "With BOINC I can let my " + android.os.Build.MANUFACTURER + " help science: https://play.google.com/store/apps/details?id=edu.berkeley.boinc");
+		startActivity(Intent.createChooser(intent, "How do you want to share?"));
 	}
 	
 	// adapts header text and icons when hint selection changes

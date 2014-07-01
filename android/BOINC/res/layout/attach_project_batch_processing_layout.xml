@@ -113,6 +113,19 @@
 	     </LinearLayout>
 	     
         <Button 
+	        android:id="@+id/share_button"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="Tell a friend"
+			android:textColor="@android:color/white"
+			android:textAppearance="?android:attr/textAppearanceMedium"
+	        android:background="@drawable/shape_button_blue"
+	        android:minWidth="150dp"
+			android:padding="5dp"
+			android:layout_margin="10dp"
+			android:onClick="shareClicked"/>
+	     
+        <Button 
 	        android:id="@+id/continue_button"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
