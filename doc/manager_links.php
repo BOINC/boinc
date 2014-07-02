@@ -42,7 +42,9 @@ if ($target == "notice") {
 		header('Location: http://boinc.berkeley.edu/wiki/BOINC_Help');
 	}
 } else if  ($target == "advanced_preferences") {
-    header('Location: http://boinc.berkeley.edu/wiki/Preferences');
+    header('Location: http://boinc.berkeley.edu/wiki/Local_preferences#Advanced_view');
+} else if  ($target == "simple_preferences") {
+    header('Location: http://boinc.berkeley.edu/wiki/Local_preferences#Simple_view');
 } else if (($target == "advanced") && version_compare($version, "5.10.0", ">=") && version_compare($version, "6.12.0", "<")) {
 	if ($controlid == "6024") {
 		header('Location: http://boinc.berkeley.edu');
