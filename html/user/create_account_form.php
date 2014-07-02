@@ -111,7 +111,7 @@ $publickey = parse_config($config, "<recaptcha_public_key>");
 if ($publickey) {
     row2(
         tra("Please enter the words shown in the image"),
-        recaptcha_get_html($publickey, null, true)
+        recaptcha_get_html($publickey, null, is_https())
     );
 }
 
