@@ -2067,6 +2067,7 @@ int VBOX_VM::get_system_log(string& log, bool tail_only) {
     string virtualbox_system_log_dst;
     string::iterator iter;
     int retval = BOINC_SUCCESS;
+    char buf[256];
 
     // Where should we copy temp files to?
     get_slot_directory(slot_directory);
@@ -2079,7 +2080,15 @@ int VBOX_VM::get_system_log(string& log, bool tail_only) {
         // Skip having to deal with various forms of file locks by just making a temp
         // copy of the log file.
         boinc_copy(virtualbox_system_log_src.c_str(), virtualbox_system_log_dst.c_str());
+    } else {
+        fprintf(
+            stderr,
+            "%s ERROR: Stale VirtualBox System Log used.\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf))
+        );
+    }
 
+    if (boinc_file_exists(virtualbox_system_log_dst.c_str())) {
         if (tail_only) {
             // Keep only the last 8k if it is larger than that.
             read_file_string(virtualbox_system_log_dst.c_str(), log, 8192, true);
@@ -2103,6 +2112,11 @@ int VBOX_VM::get_system_log(string& log, bool tail_only) {
             }
         }
     } else {
+        fprintf(
+            stderr,
+            "%s ERROR: Stale VirtualBox System Log Not Found.\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf))
+        );
         retval = ERR_NOT_FOUND;
     }
 
@@ -2115,6 +2129,7 @@ int VBOX_VM::get_vm_log(string& log, bool tail_only) {
     string virtualbox_vm_log_dst;
     string::iterator iter;
     int retval = BOINC_SUCCESS;
+    char buf[256];
 
     // Where should we copy temp files to?
     get_slot_directory(slot_directory);
@@ -2127,7 +2142,15 @@ int VBOX_VM::get_vm_log(string& log, bool tail_only) {
         // Skip having to deal with various forms of file locks by just making a temp
         // copy of the log file.
         boinc_copy(virtualbox_vm_log_src.c_str(), virtualbox_vm_log_dst.c_str());
+    } else {
+        fprintf(
+            stderr,
+            "%s ERROR: Stale VirtualBox VM Log used.\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf))
+        );
+    }
 
+    if (boinc_file_exists(virtualbox_vm_log_dst.c_str())) {
         if (tail_only) {
             // Keep only the last 8k if it is larger than that.
             read_file_string(virtualbox_vm_log_dst.c_str(), log, 8192, true);
@@ -2152,6 +2175,11 @@ int VBOX_VM::get_vm_log(string& log, bool tail_only) {
         }
 
     } else {
+        fprintf(
+            stderr,
+            "%s ERROR: Stale VirtualBox VM Log Not Found.\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf))
+        );
         retval = ERR_NOT_FOUND;
     }
 
