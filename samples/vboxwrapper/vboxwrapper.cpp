@@ -384,9 +384,20 @@ void set_remote_desktop_info(APP_INIT_DATA& /* aid */, VBOX_VM& vm) {
 //
 void VBOX_VM::check_completion_trigger() {
     char path[MAXPATHLEN];
+    static double detect_time = 0;
 
+    if (detect_time) {
+        if (dtime() > detect_time + 60) {
+            cleanup();
+            dump_hypervisor_logs(true);
+            boinc_finish(0);
+        }
+        return;
+    }
     sprintf(path, "shared/%s", completion_trigger_file.c_str());
     if (!boinc_file_exists(path)) return;
+    detect_time = dtime();
+#if 0
     int exit_code = 0;
     FILE* f = fopen(path, "r");
     if (f) {
@@ -402,6 +413,7 @@ void VBOX_VM::check_completion_trigger() {
     cleanup();
     dump_hypervisor_logs(true);
     boinc_finish(exit_code);
+#endif
 }
 
 // check for trickle trigger files, and send trickles if find them.
