@@ -56,6 +56,7 @@ void usage() {
         "   [ --config_dir path ]\n"
         "   [ -d n ]\n"
         "   [ --delay_bound x ]\n"
+        "   [ --hr_class n ]\n"
         "   [ --max_error_results n ]\n"
         "   [ --max_success_results n ]\n"
         "   [ --max_total_results n ]\n"
@@ -217,6 +218,8 @@ int main(int argc, char** argv) {
             jd.wu.rsc_disk_bound = atof(argv[++i]);
         } else if (arg(argv, i, "delay_bound")) {
             jd.wu.delay_bound = atoi(argv[++i]);
+        } else if (arg(argv, i, "hr_class")) {
+            jd.wu.hr_class = atoi(argv[++i]);
         } else if (arg(argv, i, "min_quorum")) {
             jd.wu.min_quorum = atoi(argv[++i]);
         } else if (arg(argv, i, "target_nresults")) {
