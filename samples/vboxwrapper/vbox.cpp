@@ -2651,7 +2651,7 @@ int VBOX_VM::launch_vboxvm() {
 
     if (ulExitCode != STILL_ACTIVE) {
         sanitize_output(output);
-        vboxwrapper_msg_prefix(buf, sizeof(buf)),
+        vboxwrapper_msg_prefix(buf, sizeof(buf));
         fprintf(
             stderr,
             "%s Status Report: Virtualbox.exe/Vboxheadless.exe exited prematurely!.\n"
