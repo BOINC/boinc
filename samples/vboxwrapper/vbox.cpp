@@ -2611,7 +2611,7 @@ int VBOX_VM::launch_vboxvm() {
         &si,
         &pi
     )) {
-        vboxwrapper_msg_prefix(buf, sizeof(buf)),
+        vboxwrapper_msg_prefix(buf, sizeof(buf));
         fprintf(
             stderr,
             "%s Status Report: Launching virtualbox.exe/vboxheadless.exe failed!.\n"
@@ -2621,6 +2621,7 @@ int VBOX_VM::launch_vboxvm() {
             windows_format_error_string(GetLastError(), error_msg, sizeof(error_msg)),
             GetLastError()
         );
+
         goto CLEANUP;
     } 
 
