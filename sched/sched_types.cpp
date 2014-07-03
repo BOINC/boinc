@@ -200,6 +200,7 @@ const char* SCHEDULER_REQUEST::parse(XML_PARSER& xp) {
     strcpy(global_prefs_xml, "");
     strcpy(working_global_prefs_xml, "");
     strcpy(code_sign_key, "");
+    dont_send_work = false;
     memset(&global_prefs, 0, sizeof(global_prefs));
     memset(&host, 0, sizeof(host));
     have_other_results_list = false;
@@ -287,6 +288,7 @@ const char* SCHEDULER_REQUEST::parse(XML_PARSER& xp) {
         if (xp.parse_double("prrs_fraction", prrs_fraction)) continue;
         if (xp.parse_double("estimated_delay", cpu_estimated_delay)) continue;
         if (xp.parse_double("duration_correction_factor", host.duration_correction_factor)) continue;
+        if (xp.parse_bool("dont_send_work", dont_send_work)) continue;
         if (xp.match_tag("global_preferences")) {
             safe_strcpy(global_prefs_xml, "<global_preferences>\n");
             char buf[BLOB_SIZE];

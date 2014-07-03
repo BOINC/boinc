@@ -286,6 +286,7 @@ struct SCHEDULER_REQUEST {
     char global_prefs_xml[BLOB_SIZE];
     char working_global_prefs_xml[BLOB_SIZE];
     char code_sign_key[4096];
+    bool dont_send_work;
 
     std::vector<CLIENT_APP_VERSION> client_app_versions;
 

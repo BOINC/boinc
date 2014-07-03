@@ -1107,6 +1107,7 @@ bool bad_install_type() {
 }
 
 static inline bool requesting_work() {
+    if (g_request->dont_send_work) return false;
     if (g_request->work_req_seconds > 0) return true;
     if (g_request->cpu_req_secs > 0) return true;
     if (g_request->coprocs.nvidia.count && g_request->coprocs.nvidia.req_secs) return true;
