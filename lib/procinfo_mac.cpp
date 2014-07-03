@@ -52,7 +52,8 @@ int procinfo_setup(PROC_MAP& pm) {
     char* lf;
     static long iBrandID = -1;
     int priority;
-    
+    char env1[1024], env2[1024];
+
     if (iBrandID < 0) {
         iBrandID = BOINC_BRAND_ID;
 
@@ -64,6 +65,14 @@ int procinfo_setup(PROC_MAP& pm) {
             fclose(f);
         }
     }
+
+    // Temporarily remove some environment vraiables which cause 'ps' to write
+    // some stuff to stderr on 10.8
+    //
+    safe_strcpy(getenv("DYLD_LIBRARY_PATH"), env1);
+    safe_strcpy(getenv("LD_LIBRARY_PATH"), env2);
+    unsetenv("DYLD_LIBRARY_PATH");
+    unsetenv("LD_LIBRARY_PATH");
 
 #if SHOW_TIMING
     UnsignedWide start, end, elapsed;
@@ -165,5 +174,11 @@ int procinfo_setup(PROC_MAP& pm) {
 #endif
     
     find_children(pm);
+
+    // Put back the environment variables previously removed
+    //
+    setenv("DYLD_LIBRARY_PATH", env1, 1);
+    setenv("LD_LIBRARY_PATH", env2, 1);
+
     return 0;
 }
