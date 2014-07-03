@@ -828,7 +828,9 @@ int handle_global_prefs() {
 
 // if the client has an old code sign public key,
 // send it the new one, with a signature based on the old one.
-// If they don't have a code sign key, send them one
+// If they don't have a code sign key, send them one.
+// Return false if they have a key we recognize
+// (in which case we won't send them work).
 //
 bool send_code_sign_key(char* code_sign_key) {
     char* oldkey, *signature;
@@ -839,12 +841,22 @@ bool send_code_sign_key(char* code_sign_key) {
         if (strcmp(g_request->code_sign_key, code_sign_key)) {
             log_messages.printf(MSG_NORMAL, "received old code sign key\n");
 
-            // look for a signature file
+            // look for a signature file for the key the client has.
+            // these are in pairs of files (N = 0, 1, ...)
+            // old_key_N: contains an old key
+            // signature_N: contains a signature for new key,
+            // based on the old key
+            // A project can have several of these pairs if it wants,
+            // e.g. if it changes keys a lot.
             //
             for (i=0; ; i++) {
                 sprintf(path, "%s/old_key_%d", config.key_dir, i);
                 retval = read_file_malloc(path, oldkey);
                 if (retval) {
+                    // we've scanned all the signature files and
+                    // didn't find one that worked.
+                    // User must reattach.
+                    //
                     g_reply->insert_message(
                        _("Invalid code signing key.  To fix, remove and add this project."),
                        "notice"
@@ -852,21 +864,33 @@ bool send_code_sign_key(char* code_sign_key) {
                     return false;
                 }
                 if (!strcmp(oldkey, g_request->code_sign_key)) {
+                    // We've found the client's key.
+                    // Get the signature for the new key.
+                    //
                     sprintf(path, "%s/signature_%d", config.key_dir, i);
                     retval = read_file_malloc(path, signature);
                     if (retval) {
+                        // project is missing the signature file.
+                        // Tell the user to reattach.
+                        //
                         g_reply->insert_message(
                            _("The project has changed its security key.  Please remove and add this project."),
                            "notice"
                         );
+                        log_messages.printf(MSG_CRITICAL,
+                            "Missing signature file for old key %d\n", i
+                        );
+                        free(oldkey);
+                        return false;
                     } else {
                         safe_strcpy(g_reply->code_sign_key, code_sign_key);
                         safe_strcpy(g_reply->code_sign_key_signature, signature);
                         free(signature);
+                        free(oldkey);
+                        return true;
                     }
                 }
                 free(oldkey);
-                return false;
             }
         }
     } else {
