@@ -495,7 +495,7 @@ bool do_pass() {
     char buf[256];
 
     if (min_age_days) {
-        min_age_seconds = (int) min_age_days*86400;
+        min_age_seconds = (int) (min_age_days*86400);
         if (id_modulus) {
             sprintf(buf,
                 "where file_delete_state=%d and mod_time<current_timestamp() - interval %d second and id %% %d = %d limit %d",
