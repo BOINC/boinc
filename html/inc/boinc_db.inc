@@ -533,6 +533,8 @@ function latest_avs_app_platform($appid, $platformid) {
             if ($av->id == $av2->id) continue;
             if ($av->plan_class == $av2->plan_class && $av->version_num > $av2->version_num) {
                 $av2->deprecated = 1;
+            } else if ($av2->beta) {
+                $av2->deprecated = 1;
             }
         }
     }
