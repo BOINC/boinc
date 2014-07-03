@@ -863,6 +863,7 @@ bool send_code_sign_key(char* code_sign_key) {
                     );
                     return false;
                 }
+                strip_whitespace(oldkey);
                 if (!strcmp(oldkey, g_request->code_sign_key)) {
                     // We've found the client's key.
                     // Get the signature for the new key.
@@ -883,6 +884,9 @@ bool send_code_sign_key(char* code_sign_key) {
                         free(oldkey);
                         return false;
                     } else {
+                        log_messages.printf(MSG_NORMAL,
+                            "sending new code sign key and signature\n"
+                        );
                         safe_strcpy(g_reply->code_sign_key, code_sign_key);
                         safe_strcpy(g_reply->code_sign_key_signature, signature);
                         free(signature);
