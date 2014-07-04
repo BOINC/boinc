@@ -1167,14 +1167,20 @@ void send_gpu_messages() {
     // GPU-only project, client lacks GPU
     //
     bool usable_gpu = false;
+    bool have_gpu_apps = false;
     for (int i=1; i<NPROC_TYPES; i++) {
         COPROC* cp = g_request->coprocs.type_to_coproc(i);
-        if (ssp->have_apps_for_proc_type[i] && cp->count) {
-            usable_gpu = true;
-            break;
+        if (ssp->have_apps_for_proc_type[i]) {
+            have_gpu_apps = true;
+            if (cp->count) {
+                usable_gpu = true;
+            }
         }
     }
-    if (!ssp->have_apps_for_proc_type[PROC_TYPE_CPU] && !usable_gpu) {
+    if (!ssp->have_apps_for_proc_type[PROC_TYPE_CPU]
+        && have_gpu_apps
+        && !usable_gpu
+    ) {
         char buf[256];
         strcpy(buf, "");
         for (int i=1; i<NPROC_TYPES; i++) {
