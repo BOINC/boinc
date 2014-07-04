@@ -76,6 +76,9 @@
 using std::vector;
 using std::string;
 
+double elapsed_time = 0;
+    // job's total elapsed time (over all sessions)
+double trickle_period = 0;
 
 bool is_boinc_client_version_newer(APP_INIT_DATA& aid, int maj, int min, int rel) {
     if (maj < aid.major_version) return true;
@@ -437,6 +440,37 @@ void VBOX_VM::check_trickle_triggers() {
     }
 }
 
+// see if it's time to send trickle-up reporting elapsed time
+//
+void check_trickle_period() {
+    char buf[256];
+    static double last_trickle_report_time = 0;
+
+    if ((elapsed_time - last_trickle_report_time) < trickle_period) {
+        return;
+    }
+    last_trickle_report_time = elapsed_time;
+    fprintf(
+        stderr,
+        "%s Status Report: Trickle-Up Event.\n",
+        vboxwrapper_msg_prefix(buf, sizeof(buf))
+    );
+    sprintf(buf,
+        "<cpu_time>%f</cpu_time>", last_trickle_report_time
+    );
+    int retval = boinc_send_trickle_up(
+        const_cast<char*>("cpu_time"), buf
+    );
+    if (retval) {
+        fprintf(
+            stderr,
+            "%s Sending Trickle-Up Event failed (%d).\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf)),
+            retval
+        );
+    }
+}
+
 int main(int argc, char** argv) {
     int retval;
     int loop_iteration = 0;
@@ -444,14 +478,11 @@ int main(int argc, char** argv) {
     VBOX_VM vm;
     APP_INIT_DATA aid;
     double random_checkpoint_factor = 0;
-    double elapsed_time = 0;
-    double trickle_period = 0;
     double fraction_done = 0;
     double current_cpu_time = 0;
     double starting_cpu_time = 0;
     double last_checkpoint_time = 0;
     double last_status_report_time = 0;
-    double last_trickle_report_time = 0;
     double stopwatch_starttime = 0;
     double stopwatch_endtime = 0;
     double stopwatch_elapsedtime = 0;
@@ -487,9 +518,6 @@ int main(int argc, char** argv) {
     boinc_options.main_program = true;
     boinc_options.check_heartbeat = true;
     boinc_options.handle_process_control = true;
-    if (trickle_period > 0.0) {
-        boinc_options.handle_trickle_ups = true;
-    }
     boinc_init_options(&boinc_options);
 
     // Prepare environment for detecting system conditions
@@ -1183,29 +1211,10 @@ int main(int argc, char** argv) {
                 }
             }
 
+            // send elapsed-time trickle message if needed
+            //
             if (trickle_period) {
-                if ((elapsed_time - last_trickle_report_time) >= trickle_period) {
-                    last_trickle_report_time = elapsed_time;
-                    fprintf(
-                        stderr,
-                        "%s Status Report: Trickle-Up Event.\n",
-                        vboxwrapper_msg_prefix(buf, sizeof(buf))
-                    );
-                    sprintf(buf,
-                        "<cpu_time>%f</cpu_time>", last_trickle_report_time
-                    );
-                    retval = boinc_send_trickle_up(
-                        const_cast<char*>("cpu_time"), buf
-                    );
-                    if (retval) {
-                        fprintf(
-                            stderr,
-                            "%s Sending Trickle-Up Event failed (%d).\n",
-                            vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                            retval
-                        );
-                    }
-                }
+                check_trickle_period();
             }
 
             if (boinc_status.reread_init_data_file) {
