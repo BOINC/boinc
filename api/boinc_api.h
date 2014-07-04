@@ -46,11 +46,6 @@ typedef struct BOINC_OPTIONS {
     int check_heartbeat;
         // check for timeout of heartbeats from the client;
         // action is determined by direct_process_action (see below)
-    int handle_trickle_ups;
-        // periodically check for trickle-up msgs from the app
-        // must set this to use boinc_send_trickle_up()
-    int handle_trickle_downs;
-        // this process is allowed to call boinc_receive_trickle_down()
     int handle_process_control;
         // whether runtime system should read suspend/resume/quit/abort
         // msgs from client.
@@ -162,8 +157,6 @@ extern bool boinc_disable_timer_thread;
 inline void boinc_options_defaults(BOINC_OPTIONS& b) {
     b.main_program = 1;
     b.check_heartbeat = 1;
-    b.handle_trickle_ups = 1;
-    b.handle_trickle_downs = 1;
     b.handle_process_control = 1;
     b.send_status_msgs = 1;
     b.direct_process_action = 1;
