@@ -897,8 +897,6 @@ void show_resource(int rsc_type) {
     fprintf(html_out, "</table></td>");
 }
 
-int nproc_types = 1;
-
 void html_start() {
     char buf[256];
 
@@ -921,13 +919,16 @@ void html_start() {
     fprintf(html_out,
         "<th width=%d>CPU</th>", WIDTH2
     );
-    if (coprocs.have_nvidia()) {
-        fprintf(html_out, "<th width=%d>NVIDIA GPU</th>", WIDTH2);
-        nproc_types++;
-    }
-    if (coprocs.have_ati()) {
-        fprintf(html_out, "<th width=%d>ATI GPU</th>", WIDTH2);
-        nproc_types++;
+    for (int i=1; i<coprocs.n_rsc; i++) {
+        int pt = coproc_type_name_to_num(coprocs.coprocs[i].type);
+        const char* name;
+        if (pt) {
+            name = proc_type_name(pt);
+        } else {
+            name = coprocs.coprocs[i].type;
+        }
+        fprintf(html_out, "<th width=%d>%s</th>\n", WIDTH2, name);
+
     }
     fprintf(html_out, "</tr></table>\n");
 }
@@ -940,7 +941,7 @@ void html_rec() {
         );
         fprintf(html_out,
             "<td width=%d valign=top><font size=-2>%s</font></td></tr></table>\n",
-            nproc_types*WIDTH2,
+            coprocs.n_rsc*WIDTH2,
             html_msg.c_str()
         );
         html_msg = "";
