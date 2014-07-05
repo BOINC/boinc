@@ -29,6 +29,7 @@ bool have_max_concurrent = false;
 
 int APP_CONFIG::parse(XML_PARSER& xp, PROJECT* p) {
     memset(this, 0, sizeof(APP_CONFIG));
+    double x;
 
     while (!xp.get_tag()) {
         if (xp.match_tag("/app")) return 0;
@@ -40,8 +41,26 @@ int APP_CONFIG::parse(XML_PARSER& xp, PROJECT* p) {
         if (xp.match_tag("gpu_versions")) {
             while (!xp.get_tag()) {
                 if (xp.match_tag("/gpu_versions")) break;
-                if (xp.parse_double("gpu_usage", gpu_gpu_usage)) continue;
-                if (xp.parse_double("cpu_usage", gpu_cpu_usage)) continue;
+                if (xp.parse_double("gpu_usage", x)) {
+                    if (x <= 0) {
+                        msg_printf(p, MSG_USER_ALERT,
+                            "gpu_usage must be positive in app_config.xml"
+                        );
+                    } else {
+                        gpu_gpu_usage = x;
+                    }
+                    continue;
+                }
+                if (xp.parse_double("cpu_usage", x)) {
+                    if (x < 0) {
+                        msg_printf(p, MSG_USER_ALERT,
+                            "cpu_usage must be non-negative in app_config.xml"
+                        );
+                    } else {
+                        gpu_cpu_usage = x;
+                    }
+                    continue;
+                }
             }
             continue;
         }
