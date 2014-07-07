@@ -80,6 +80,7 @@ VBOX_VM::VBOX_VM() {
     memory_size_mb.clear();
     image_filename.clear();
     iso_image_filename.clear();
+    cache_disk_filename.clear();
     floppy_image_filename.clear();
     job_duration = 0.0;
     current_cpu_time = 0.0;
@@ -94,6 +95,7 @@ VBOX_VM::VBOX_VM() {
     enable_cern_dataformat = false;
     enable_shared_directory = false;
     enable_floppyio = false;
+    enable_cache_disk = false;
     enable_isocontextualization = false;
     enable_remotedesktop = false;
     register_only = false;
@@ -723,13 +725,34 @@ int VBOX_VM::create_vm() {
         );
         command  = "storageattach \"" + vm_name + "\" ";
         command += "--storagectl \"Hard Disk Controller\" ";
-        command += "--port 0 ";
+        command += "--port 1 ";
         command += "--device 0 ";
         command += "--type dvddrive ";
         command += "--medium \"" + virtual_machine_slot_directory + "/" + iso_image_filename + "\" ";
 
-        retval = vbm_popen(command, output, "storage attach (iso9660 image)");
+        retval = vbm_popen(command, output, "storage attach (ISO 9660 image)");
         if (retval) return retval;
+
+        // Add a virtual cache disk drive to VM
+        //
+        if (enable_cache_disk){
+            fprintf(
+                stderr,
+                "%s Adding virtual cache disk drive to VM. (%s)\n",
+                vboxwrapper_msg_prefix(buf, sizeof(buf)),
+    		    image_filename.c_str()
+            );
+            command  = "storageattach \"" + vm_name + "\" ";
+            command += "--storagectl \"Hard Disk Controller\" ";
+            command += "--port 0 ";
+            command += "--device 0 ";
+            command += "--type hdd ";
+            command += "--setuuid \"\" ";
+            command += "--medium \"" + virtual_machine_slot_directory + "/" + cache_disk_filename + "\" ";
+
+            retval = vbm_popen(command, output, "storage attach (cached disk)");
+            if (retval) return retval;
+        }
     } else {
         // Adding virtual hard drive to VM
         //
@@ -1004,7 +1027,21 @@ int VBOX_VM::deregister_vm(bool delete_media) {
         if (delete_media) {
             command += "--delete ";
         }
-        vbm_popen(command, output, "remove virtual ido9660 disk", false, false);
+        vbm_popen(command, output, "remove virtual ISO 9660 disk", false, false);
+
+        if (enable_cache_disk) {
+            fprintf(
+                stderr,
+                "%s Removing virtual cache disk from VirtualBox.\n",
+                vboxwrapper_msg_prefix(buf, sizeof(buf))
+            );
+            command  = "closemedium disk \"" + virtual_machine_slot_directory + "/" + cache_disk_filename + "\" ";
+            if (delete_media) {
+                command += "--delete ";
+            }
+
+            vbm_popen(command, output, "remove virtual cache disk", false, false);
+        }
     } else {
         fprintf(
             stderr,
@@ -1082,7 +1119,15 @@ int VBOX_VM::deregister_stale_vm() {
             command  = "closemedium floppy \"" + virtual_machine_slot_directory + "/" + floppy_image_filename + "\" ";
             vbm_popen(command, output, "remove virtual floppy disk", false, false);
         }
-    }
+        if (enable_isocontextualization) {
+            command  = "closemedium dvd \"" + virtual_machine_slot_directory + "/" + iso_image_filename + "\" ";
+            vbm_popen(command, output, "remove virtual ISO 9660 disk", false);
+
+            if (enable_cache_disk) {
+                command  = "closemedium disk \"" + virtual_machine_slot_directory + "/" + cache_disk_filename + "\" ";
+                vbm_popen(command, output, "remove virtual cache disk", false);
+            }
+        }
     return 0;
 }
 

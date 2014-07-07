@@ -167,6 +167,7 @@ int parse_job_file(VBOX_VM& vm) {
         else if (xp.parse_bool("enable_network", vm.enable_network)) continue;
         else if (xp.parse_bool("enable_shared_directory", vm.enable_shared_directory)) continue;
         else if (xp.parse_bool("enable_floppyio", vm.enable_floppyio)) continue;
+        else if (xp.parse_bool("enable_cache_disk", vm.enable_cache_disk)) continue;
         else if (xp.parse_bool("enable_isocontextualization", vm.enable_isocontextualization)) continue;
         else if (xp.parse_bool("enable_remotedesktop", vm.enable_remotedesktop)) continue;
         else if (xp.parse_int("pf_guest_port", vm.pf_guest_port)) continue;
@@ -775,6 +776,10 @@ int main(int argc, char** argv) {
             );
             vm.floppy_image_filename = buf;
         }
+	if (vm.enable_cache_disk) {
+            sprintf(buf, "%s.%s", CACHE_DISK_FILENAME, CACHE_DISK_FILENAME_EXTENSION);
+            vm.cache_disk_filename = buf;
+        }
 	if (vm.enable_isocontextualization) {
             sprintf(buf, "%s.%s", ISO_IMAGE_FILENAME, ISO_IMAGE_FILENAME_EXTENSION);
             vm.iso_image_filename = buf;
@@ -794,6 +799,10 @@ int main(int argc, char** argv) {
                 FLOPPY_IMAGE_FILENAME_EXTENSION
             );
             vm.floppy_image_filename = buf;
+        }
+        if (vm.enable_cache_disk) {
+            sprintf(buf, "%s_%d.%s", CACHE_DISK_FILENAME, aid.slot, CACHE_DISK_FILENAME_EXTENSION);
+            vm.cache_disk_filename = buf;
         }
         if (vm.enable_isocontextualization) {
             sprintf(buf, "%s_%d.%s", ISO_IMAGE_FILENAME, aid.slot, ISO_IMAGE_FILENAME_EXTENSION);

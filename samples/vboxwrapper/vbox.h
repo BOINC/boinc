@@ -89,6 +89,10 @@ public:
     std::string image_filename;
     // name of the virtual machine iso9660 disk image file
     std::string iso_image_filename;
+    // name of the virtual machine cache disk image file
+    std::string cache_disk_filename;
+    // name of the virtual machine floppy disk image file
+    std::string floppy_image_filename;
     // name of the virtual machine floppy disk image file
     std::string floppy_image_filename;
     // amount of CPU time consumed by the VM (note: use get_vm_cpu_time())
@@ -125,6 +129,8 @@ public:
         // the disk controller model to emulate
     bool enable_isocontextualization;
         // whether to use an iso9660 image to implement VM contextualization (e.g. uCernVM)
+    bool enable_cache_disk;
+        // whether to add an extra cache disk for systems like uCernVM
     bool enable_network;
         // whether to allow network access
     bool enable_shared_directory;

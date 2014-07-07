@@ -26,6 +26,8 @@
 #define IMAGE_FILENAME_EXTENSION "vdi"
 #define FLOPPY_IMAGE_FILENAME "vm_floppy"
 #define FLOPPY_IMAGE_FILENAME_EXTENSION "img"
+#define CACHE_DISK_FILENAME "vm_cache"
+#define CACHE_DISK_FILENAME_EXTENSION "vdi"
 #define ISO_IMAGE_FILENAME "vm_isocontext"
 #define ISO_IMAGE_FILENAME_EXTENSION "iso"
 #define JOB_FILENAME "vbox_job.xml"
