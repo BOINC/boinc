@@ -896,7 +896,6 @@ int VBOX_VM::register_vm() {
     APP_INIT_DATA aid;
     char buf[256];
     int retval;
-    int portcount = 1;
 
     boinc_get_init_data_p(&aid);
     get_slot_directory(virtual_machine_slot_directory);
