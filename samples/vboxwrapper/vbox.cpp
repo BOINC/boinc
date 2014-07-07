@@ -688,17 +688,16 @@ int VBOX_VM::create_vm() {
     command += "--controller \"" + vm_disk_controller_model + "\" ";
     command += "--hostiocache off ";
     if ((vm_disk_controller_type == "sata") || (vm_disk_controller_type == "SATA")) {
-        if (enable_cache_disk) {
-            portcount++;
-        }
         if (enable_isocontextualization) {
             portcount++;
+            if (enable_cache_disk) {
+                portcount++;
+            }
         }
         sprintf(buf, "%d", portcount);
         command += "--sataportcount ";
         command += buf;
     }
-
 
     retval = vbm_popen(command, output, "add storage controller (fixed disk)");
     if (retval) return retval;
@@ -714,9 +713,9 @@ int VBOX_VM::create_vm() {
         if (retval) return retval;
     }
 
-
     if (enable_isocontextualization) {
-        // Add virtual ISO9660 disk drive to VM
+
+        // Add virtual ISO 9660 disk drive to VM
         //
         fprintf(
             stderr,
@@ -754,7 +753,9 @@ int VBOX_VM::create_vm() {
             retval = vbm_popen(command, output, "storage attach (cached disk)");
             if (retval) return retval;
         }
+
     } else {
+
         // Adding virtual hard drive to VM
         //
         fprintf(
@@ -773,6 +774,7 @@ int VBOX_VM::create_vm() {
 
          retval = vbm_popen(command, output, "storage attach (fixed disk)");
         if (retval) return retval;
+
     }
 
 
@@ -804,12 +806,13 @@ int VBOX_VM::create_vm() {
         //
         pFloppy = new FloppyIO(floppy_image_filename.c_str());
         if (!pFloppy->ready()) {
+            vboxwrapper_msg_prefix(buf, sizeof(buf));
             fprintf(
                 stderr,
                 "%s Creating virtual floppy image failed.\n"
                 "%s Error Code '%d' Error Message '%s'\n",
-                vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                vboxwrapper_msg_prefix(buf, sizeof(buf)),
+                buf,
+                buf,
                 pFloppy->error,
                 pFloppy->errorStr.c_str()
             );
@@ -1123,12 +1126,12 @@ int VBOX_VM::deregister_stale_vm() {
         if (enable_isocontextualization) {
             command  = "closemedium dvd \"" + virtual_machine_slot_directory + "/" + iso_image_filename + "\" ";
             vbm_popen(command, output, "remove virtual ISO 9660 disk", false);
-
             if (enable_cache_disk) {
                 command  = "closemedium disk \"" + virtual_machine_slot_directory + "/" + cache_disk_filename + "\" ";
                 vbm_popen(command, output, "remove virtual cache disk", false);
             }
         }
+    }
     return 0;
 }
 

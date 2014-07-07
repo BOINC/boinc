@@ -93,8 +93,6 @@ public:
     std::string cache_disk_filename;
     // name of the virtual machine floppy disk image file
     std::string floppy_image_filename;
-    // name of the virtual machine floppy disk image file
-    std::string floppy_image_filename;
     // amount of CPU time consumed by the VM (note: use get_vm_cpu_time())
     double current_cpu_time;
     // is the VM suspended?
@@ -185,7 +183,7 @@ public:
     int deregister_vm(bool delete_media);
     int deregister_stale_vm();
 
-    int run(bool restore_snapshot);
+    int run(bool do_restore_snapshot);
     void cleanup();
 
     int start();
