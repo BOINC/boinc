@@ -87,6 +87,8 @@ public:
         // size of the memory allocation for the VM, in megabytes
     // name of the virtual machine disk image file
     std::string image_filename;
+    // name of the virtual machine iso9660 disk image file
+    std::string iso_image_filename;
     // name of the virtual machine floppy disk image file
     std::string floppy_image_filename;
     // amount of CPU time consumed by the VM (note: use get_vm_cpu_time())
@@ -121,6 +123,8 @@ public:
         // the type of disk controller to emulate
     std::string vm_disk_controller_model;
         // the disk controller model to emulate
+    bool enable_isocontextualization;
+        // whether to use an iso9660 image to implement VM contextualization (e.g. uCernVM)
     bool enable_network;
         // whether to allow network access
     bool enable_shared_directory;

@@ -79,6 +79,7 @@ VBOX_VM::VBOX_VM() {
     os_name.clear();
     memory_size_mb.clear();
     image_filename.clear();
+    iso_image_filename.clear();
     floppy_image_filename.clear();
     job_duration = 0.0;
     current_cpu_time = 0.0;
@@ -93,6 +94,7 @@ VBOX_VM::VBOX_VM() {
     enable_cern_dataformat = false;
     enable_shared_directory = false;
     enable_floppyio = false;
+    enable_isocontextualization = false;
     enable_remotedesktop = false;
     register_only = false;
     enable_network = false;
@@ -413,6 +415,7 @@ int VBOX_VM::create_vm() {
     bool disable_acceleration = false;
     char buf[256];
     int retval;
+    int portcount = 1;
 
     boinc_get_init_data_p(&aid);
     get_slot_directory(virtual_machine_slot_directory);
@@ -683,8 +686,17 @@ int VBOX_VM::create_vm() {
     command += "--controller \"" + vm_disk_controller_model + "\" ";
     command += "--hostiocache off ";
     if ((vm_disk_controller_type == "sata") || (vm_disk_controller_type == "SATA")) {
-        command += "--sataportcount 1 ";
+        if (enable_cache_disk) {
+            portcount++;
+        }
+        if (enable_isocontextualization) {
+            portcount++;
+        }
+        sprintf(buf, "%d", portcount);
+        command += "--sataportcount ";
+        command += buf;
     }
+
 
     retval = vbm_popen(command, output, "add storage controller (fixed disk)");
     if (retval) return retval;
@@ -700,24 +712,45 @@ int VBOX_VM::create_vm() {
         if (retval) return retval;
     }
 
-    // Adding virtual hard drive to VM
-    //
-    fprintf(
-        stderr,
-        "%s Adding virtual disk drive to VM. (%s)\n",
-        vboxwrapper_msg_prefix(buf, sizeof(buf)),
-		image_filename.c_str()
-    );
-    command  = "storageattach \"" + vm_name + "\" ";
-    command += "--storagectl \"Hard Disk Controller\" ";
-    command += "--port 0 ";
-    command += "--device 0 ";
-    command += "--type hdd ";
-    command += "--setuuid \"\" ";
-    command += "--medium \"" + virtual_machine_slot_directory + "/" + image_filename + "\" ";
 
-    retval = vbm_popen(command, output, "storage attach (fixed disk)");
-    if (retval) return retval;
+    if (enable_isocontextualization) {
+        // Add virtual ISO9660 disk drive to VM
+        //
+        fprintf(
+            stderr,
+            "%s Adding virtual ISO 9660 disk drive to VM.\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf))
+        );
+        command  = "storageattach \"" + vm_name + "\" ";
+        command += "--storagectl \"Hard Disk Controller\" ";
+        command += "--port 0 ";
+        command += "--device 0 ";
+        command += "--type dvddrive ";
+        command += "--medium \"" + virtual_machine_slot_directory + "/" + iso_image_filename + "\" ";
+
+        retval = vbm_popen(command, output, "storage attach (iso9660 image)");
+        if (retval) return retval;
+    } else {
+        // Adding virtual hard drive to VM
+        //
+        fprintf(
+            stderr,
+            "%s Adding virtual disk drive to VM. (%s)\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf)),
+		    image_filename.c_str()
+        );
+        command  = "storageattach \"" + vm_name + "\" ";
+        command += "--storagectl \"Hard Disk Controller\" ";
+        command += "--port 0 ";
+        command += "--device 0 ";
+        command += "--type hdd ";
+        command += "--setuuid \"\" ";
+        command += "--medium \"" + virtual_machine_slot_directory + "/" + image_filename + "\" ";
+
+         retval = vbm_popen(command, output, "storage attach (fixed disk)");
+        if (retval) return retval;
+    }
+
 
     // Add network bandwidth throttle group
     //
@@ -863,6 +896,7 @@ int VBOX_VM::register_vm() {
     APP_INIT_DATA aid;
     char buf[256];
     int retval;
+    int portcount = 1;
 
     boinc_get_init_data_p(&aid);
     get_slot_directory(virtual_machine_slot_directory);
@@ -934,7 +968,7 @@ int VBOX_VM::deregister_vm(bool delete_media) {
         vboxwrapper_msg_prefix(buf, sizeof(buf))
     );
     command  = "storagectl \"" + vm_name + "\" ";
-    command += "--name \"IDE Controller\" ";
+    command += "--name \"Hard Disk Controller\" ";
     command += "--remove ";
 
     vbm_popen(command, output, "deregister storage controller (fixed disk)", false, false);
@@ -961,17 +995,29 @@ int VBOX_VM::deregister_vm(bool delete_media) {
 
     // Lastly delete medium(s) from Virtual Box Media Registry
     //
-    fprintf(
-        stderr,
-        "%s Removing virtual disk drive from VirtualBox.\n",
-        vboxwrapper_msg_prefix(buf, sizeof(buf))
-    );
-    command  = "closemedium disk \"" + virtual_machine_slot_directory + "/" + image_filename + "\" ";
-    if (delete_media) {
-        command += "--delete ";
+    if (enable_isocontextualization) {
+        fprintf(
+            stderr,
+            "%s Removing virtual ISO 9660 disk from VirtualBox.\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf))
+        );
+        command  = "closemedium dvd \"" + virtual_machine_slot_directory + "/" + iso_image_filename + "\" ";
+        if (delete_media) {
+            command += "--delete ";
+        }
+        vbm_popen(command, output, "remove virtual ido9660 disk", false, false);
+    } else {
+        fprintf(
+            stderr,
+            "%s Removing virtual disk drive from VirtualBox.\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf))
+        );
+        command  = "closemedium disk \"" + virtual_machine_slot_directory + "/" + image_filename + "\" ";
+        if (delete_media) {
+            command += "--delete ";
+        }
+        vbm_popen(command, output, "remove virtual disk", false, false);
     }
-
-    vbm_popen(command, output, "remove virtual disk", false, false);
 
     if (enable_floppyio) {
         fprintf(
