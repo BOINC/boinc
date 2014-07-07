@@ -640,6 +640,7 @@ function show_result($result, $show_outfile_links=false) {
     row2(tra("CPU time"), time_diff($result->cpu_time));
     row2(tra("Validate state"), validate_state_str($result));
     row2(tra("Credit"), number_format($result->granted_credit, 2));
+    row2(tra("Device peak FLOPS"), number_format($result->flops_estimate/1e9, 2)." GFLOPS");
     row2(tra("Application version"), app_version_string($result));
     if ($result->peak_working_set_size) {
         $x = number_format($result->peak_working_set_size/MEGA, 2);
