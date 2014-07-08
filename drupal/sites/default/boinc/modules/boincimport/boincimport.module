@@ -1955,10 +1955,14 @@ function boincimport_forum_topics() {
   $batch_size = 100;
   
   // Create batches to process
-  for ($i = 0; $i < $topic_count; $i+=$batch_size) {
+  for ($offset = 0; $offset < $topic_count; $offset+=$batch_size) {
+    $topics_per_batch = $batch_size;
+    if ($offset + $batch_size > $topic_count) {
+      $topics_per_batch = $topic_count - $offset;
+    }
     $operations[] = array(
       'boincimport_topics_op', array(
-        $i, $batch_size, $pre
+        $offset, $topics_per_batch, $pre
       )
     );
   }
@@ -1968,7 +1972,9 @@ function boincimport_forum_topics() {
     'finished' => 'boincimport_topics_finished',
     'title' => t('Importing topics'),
     'init_message' => t('Beginning topic import...'),
-    'progress_message' => t('Processed @current out of @total batches.'),
+    'progress_message' => t('Processed @current out of @total batches (@size topics per batch).', array(
+      '@size' => $batch_size,
+    )),
     'error_message' => t('Topic import has encountered an error.'),
   );
   
@@ -2200,12 +2206,6 @@ function boincimport_forum_posts() {
 
   // Get the BOINC threads and get a count of posts to import
   db_set_active('boinc');
-  $boinc_topic_ids = db_query('
-    SELECT t.id FROM %sthread t
-    JOIN %sforum f ON f.id = t.forum
-    WHERE f.parent_type = 0
-    ORDER BY id', $pre, $pre
-  );
   $topic_count = db_result(db_query("
     SELECT COUNT(DISTINCT t.id) FROM %sthread t
     JOIN %sforum f ON f.id = t.forum
@@ -2239,12 +2239,17 @@ function boincimport_forum_posts() {
   );
   
   $operations = array();
+  $batch_size = 100;
   
   // Create batches to process
-  while ($boinc_topic = db_fetch_object($boinc_topic_ids)) {
+  for ($offset = 0; $offset < $topic_count; $offset+=$batch_size) {
+    $topics_per_batch = $batch_size;
+    if ($offset + $batch_size > $topic_count) {
+      $topics_per_batch = $topic_count - $offset;
+    }
     $operations[] = array(
       'boincimport_posts_op', array(
-        $boinc_topic->id
+        $offset, $topics_per_batch
       )
     );
   }
@@ -2254,7 +2259,9 @@ function boincimport_forum_posts() {
     'finished' => 'boincimport_posts_finished',
     'title' => t('Importing posts'),
     'init_message' => t('Beginning post import...'),
-    'progress_message' => t('Processed posts in @current out of @total topics.'),
+    'progress_message' => t('Processed posts in @current out of @total batches (@size topics per batch).', array(
+      '@size' => $batch_size,
+    )),
     'error_message' => t('Post import has encountered an error.'),
   );
   
@@ -2265,142 +2272,162 @@ function boincimport_forum_posts() {
  * Batch operation for importing posts
  * Create a Drupal comment from the given BOINC post object
  */
-function boincimport_posts_op($boinc_topic_id, &$context) {
+function boincimport_posts_op($offset, $batch_size, &$context) {
+  // Initialize the batch, if needed
+  if (!isset($context['sandbox']['progress'])) {
+    $context['sandbox']['progress'] = 0;
+    $context['sandbox']['max'] = $batch_size;
+  }
   
   $input_format = variable_get('boincimport_input_format', 0);
   $success = FALSE;
   $posts_imported = 0;
   
-  // Get the posts in this topic
+ // Get the topics with posts to import
   db_set_active('boinc');
-  $boinc_posts = db_query('
-    SELECT id, user, thread, timestamp, content, parent_post, hidden
-    FROM %spost WHERE thread = %d ORDER BY timestamp ASC', $pre, $boinc_topic_id);
+  $boinc_topic_ids = db_query('
+    SELECT t.id FROM %sthread t
+    JOIN %sforum f ON f.id = t.forum
+    WHERE f.parent_type = 0
+    ORDER BY t.id
+    LIMIT %d,%d', 
+    $pre, $pre, $offset, $batch_size
+  );
   db_set_active('default');
   
-  $first_post = true;
+  while ($boinc_topic = db_fetch_object($boinc_topic_ids)) {
+  
+    // Get the posts in this topic
+    db_set_active('boinc');
+    $boinc_posts = db_query('
+      SELECT id, user, thread, timestamp, content, parent_post, hidden
+      FROM %spost WHERE thread = %d ORDER BY timestamp ASC', $pre, $boinc_topic->id);
+    db_set_active('default');
+    
+    $first_post = true;
 
-  while ($post = db_fetch_object($boinc_posts)) {
-    
-    // Skip the first post as it has already been imported as a topic
-    if ($first_post) {
-      $first_post = false;
-      continue;
-    }
-    
-    $is_duplicate = db_result(db_query('
-      SELECT COUNT(*) FROM {boincimport_temp_post}
-      WHERE post_id = %d',
-      $post->id
-    ));
-    if ($is_duplicate) {
-      // This post has already been imported
-      $context['results']['duplicate'][] = $post->id;
-      continue;
-    }
-    
-    // Make sure the post is valid
-    if ($post->content) {
+    while ($post = db_fetch_object($boinc_posts)) {
       
-      // Get user, node, and parent IDs for the post and sanitize
-      $uid = boincuser_lookup_uid($post->user);
-      $node = db_fetch_object(db_query('
-        SELECT nr.nid, nr.title
-        FROM {boincimport_temp_topic} btt
-        LEFT JOIN {node_revisions} AS nr ON btt.nid = nr.nid
-        WHERE btt.topic_id = %d',
-        $post->thread
-      ));
-      $nid = $node->nid;
-      $pid = db_result(db_query('
-        SELECT cid
-        FROM {boincimport_temp_post}
+      // Skip the first post as it has already been imported as a topic
+      if ($first_post) {
+        $first_post = false;
+        continue;
+      }
+      
+      $is_duplicate = db_result(db_query('
+        SELECT COUNT(*) FROM {boincimport_temp_post}
         WHERE post_id = %d',
-        $post->parent_post));
-      if (is_null($pid)) $pid = 0;
-      if (!$uid) $uid = 0;
-      
-      $post->content = _boincimport_strip_bbcode($post->content);
-      $post->content = _boincimport_text_sanitize($post->content);
-      
-      $topic_reply = db_result(db_query('
-        SELECT COUNT(*)
-        FROM {comments}
-        WHERE nid = %d',
-        $nid
+        $post->id
       ));
-      $post_reply = $pid;
-      
-      if ($post_reply OR $topic_reply) {
-        // Create a subject for the post from the post content. The body may be in 
-        // any format, so we:
-        //  1) Filter it into HTML
-        //  2) Strip out all HTML tags
-        //  3) Convert entities back to plain-text.
-        // Note: format is checked by check_markup().
-        $subject = truncate_utf8(trim(decode_entities(strip_tags(check_markup($post->content, $input_format)))), 29, TRUE);
-        // Replace "Quote:" with "RE:"
-        $subject = str_replace('Quote:', 'RE: ', $subject);
-        // Fringe cases where the comment body is populated only by HTML tags
-        // will require a default subject...
-        if ($subject === '')
-          $subject = "RE: {$node->title}";
-      } else {
-        // This is the first post in the topic
-        $subject = $node->title;
+      if ($is_duplicate) {
+        // This post has already been imported
+        $context['results']['duplicate'][] = $post->id;
+        continue;
       }
       
-      // Construct the post as a Drupal comment
-      $comment = array(
-        'pid' => $pid,
-        'nid' => $nid,
-        'uid' => $uid,
-        'subject' => $subject,
-        'comment' => $post->content,
-        'timestamp' => $post->timestamp,
-        'status' => $post->hidden,
-        'format' => $input_format
-      );
-      
-      // Save the comment
-      if ($cid = boincimport_forum_comment_save($comment)) {
-        db_query('
-          INSERT INTO {boincimport_temp_post} (post_id, cid)
-          VALUES (%d, %d)',
-          $post->id, $cid
+      // Make sure the post is valid
+      if ($post->content) {
+        
+        // Get user, node, and parent IDs for the post and sanitize
+        $uid = boincuser_lookup_uid($post->user);
+        $node = db_fetch_object(db_query('
+          SELECT nr.nid, nr.title
+          FROM {boincimport_temp_topic} btt
+          LEFT JOIN {node_revisions} AS nr ON btt.nid = nr.nid
+          WHERE btt.topic_id = %d',
+          $post->thread
+        ));
+        $nid = $node->nid;
+        $pid = db_result(db_query('
+          SELECT cid
+          FROM {boincimport_temp_post}
+          WHERE post_id = %d',
+          $post->parent_post));
+        if (is_null($pid)) $pid = 0;
+        if (!$uid) $uid = 0;
+        
+        $post->content = _boincimport_strip_bbcode($post->content);
+        $post->content = _boincimport_text_sanitize($post->content);
+        
+        $topic_reply = db_result(db_query('
+          SELECT COUNT(*)
+          FROM {comments}
+          WHERE nid = %d',
+          $nid
+        ));
+        $post_reply = $pid;
+        
+        if ($post_reply OR $topic_reply) {
+          // Create a subject for the post from the post content. The body may be in 
+          // any format, so we:
+          //  1) Filter it into HTML
+          //  2) Strip out all HTML tags
+          //  3) Convert entities back to plain-text.
+          // Note: format is checked by check_markup().
+          $subject = truncate_utf8(trim(decode_entities(strip_tags(check_markup($post->content, $input_format)))), 29, TRUE);
+          // Replace "Quote:" with "RE:"
+          $subject = str_replace('Quote:', 'RE: ', $subject);
+          // Fringe cases where the comment body is populated only by HTML tags
+          // will require a default subject...
+          if ($subject === '')
+            $subject = "RE: {$node->title}";
+        } else {
+          // This is the first post in the topic
+          $subject = $node->title;
+        }
+        
+        // Construct the post as a Drupal comment
+        $comment = array(
+          'pid' => $pid,
+          'nid' => $nid,
+          'uid' => $uid,
+          'subject' => $subject,
+          'comment' => $post->content,
+          'timestamp' => $post->timestamp,
+          'status' => $post->hidden,
+          'format' => $input_format
         );
-        $success = TRUE;
-        $posts_imported++;
-        $context['results']['posts']['success'][] = $post->id;
-      }
-      else {
-        $context['results']['posts']['failure'][] = $post->id;
+        
+        // Save the comment
+        if ($cid = boincimport_forum_comment_save($comment)) {
+          db_query('
+            INSERT INTO {boincimport_temp_post} (post_id, cid)
+            VALUES (%d, %d)',
+            $post->id, $cid
+          );
+          $success = TRUE;
+          $posts_imported++;
+          $context['results']['posts']['success'][] = $post->id;
+        }
+        else {
+          $context['results']['posts']['failure'][] = $post->id;
+        }
       }
     }
-  }
-  
-  $message = '';
-  if ($success) {
-    // Store some result for post-processing in the finished callback.
-    $context['results']['success'][] = $boinc_topic_id;
-    $message = "Imported {$posts_imported} post(s) for topic {$boinc_topic_id}";
-  }
-  else {
-    $context['results']['failure'][] = $boinc_topic_id;
-    $message = "No posts to import for topic {$boinc_topic_id}";
-  }
-  
-  // Update our progress information.
-  $context['sandbox']['progress']++;
-  $context['sandbox']['current_topic'] = $boinc_topic_id;
-  $context['message'] = $message;
+    
+    $message = '';
+    if ($success) {
+      // Store some result for post-processing in the finished callback.
+      $context['results']['success'][] = $boinc_topic->id;
+      $message = "Imported {$posts_imported} post(s) for topic {$boinc_topic->id}";
+    }
+    else {
+      $context['results']['failure'][] = $boinc_topic->id;
+      $message = "No posts to import for topic {$boinc_topic->id}";
+    }
+    
+    // Update our progress information.
+    $context['sandbox']['progress']++;
+    $context['sandbox']['current_topic'] = $boinc_topic->id;
+    $context['message'] = $message;
 
-  // Update the progress for the batch engine
-  if ($context['sandbox']['progress'] >= $context['sandbox']['max']) {
-    $context['finished'] = 1;
-  }
-  else {
-    $context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['max'];
+    // Update the progress for the batch engine
+    if ($context['sandbox']['progress'] >= $context['sandbox']['max']) {
+      $context['finished'] = 1;
+    }
+    else {
+      $context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['max'];
+    }
   }
 }
 
