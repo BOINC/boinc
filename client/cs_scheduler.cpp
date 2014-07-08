@@ -682,7 +682,7 @@ int CLIENT_STATE::handle_scheduler_reply(
     if (sr.project_is_down) {
         if (sr.request_delay) {
             double x = now + sr.request_delay;
-            project->set_min_rpc_time(x, "project is down");
+            project->set_min_rpc_time(x, "project requested delay");
         }
         return ERR_PROJECT_DOWN;
     }
