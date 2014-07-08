@@ -1910,6 +1910,8 @@ function boincimport_forum_topics() {
       'boincimport', 'Topic import has already run successfully',
       array(), WATCHDOG_WARNING
     );
+    // Release the lock on the import process
+    variable_del('boincimport_process_locked');
     return;
   }
 
@@ -1920,18 +1922,16 @@ function boincimport_forum_topics() {
   
   $pre = variable_get('boincimport_table_prefix', '');
 
-  // Get all non-team topics to import
+  // Get the count of non-team topics to import
   db_set_active('boinc');
-  $boinc_topics = db_query('
-    SELECT DISTINCT t.id
+  $topic_count = db_result(db_query('
+    SELECT COUNT(DISTINCT t.id)
     FROM %sthread t
     JOIN %sforum f ON f.id = t.forum
     JOIN %spost p ON p.thread = t.id
-    WHERE f.parent_type = 0
-    ORDER BY id',
+    WHERE f.parent_type = 0',
     $pre, $pre, $pre
-  );
-  $topic_count = mysql_num_rows($boinc_topics);
+  ));
   db_set_active('default');
 
   if (!$topic_count) {
@@ -1952,12 +1952,13 @@ function boincimport_forum_topics() {
   );
   
   $operations = array();
+  $batch_size = 100;
   
   // Create batches to process
-  while ($boinc_topic = db_fetch_object($boinc_topics)) {
+  for ($i = 0; $i < $topic_count; $i+=$batch_size) {
     $operations[] = array(
       'boincimport_topics_op', array(
-        $boinc_topic->id, $pre
+        $i, $batch_size, $pre
       )
     );
   }
@@ -1967,7 +1968,7 @@ function boincimport_forum_topics() {
     'finished' => 'boincimport_topics_finished',
     'title' => t('Importing topics'),
     'init_message' => t('Beginning topic import...'),
-    'progress_message' => t('Processed @current out of @total topics.'),
+    'progress_message' => t('Processed @current out of @total batches.'),
     'error_message' => t('Topic import has encountered an error.'),
   );
   
@@ -1978,135 +1979,151 @@ function boincimport_forum_topics() {
  * Batch operation for importing topics
  * Create a Drupal node from the given BOINC topic object
  */
-function boincimport_topics_op($topic_id, $pre = '', &$context) {
+function boincimport_topics_op($offset, $batch_size, $pre = '', &$context) {
+  // Initialize the batch, if needed
+  if (!isset($context['sandbox']['progress'])) {
+    $context['sandbox']['progress'] = 0;
+    $context['sandbox']['max'] = $batch_size;
+  }
   
   $input_format = variable_get('boincimport_input_format', 0);
   $news_forum_id = variable_get('boincimport_news_forum_id', 0);
   
+  // Get the topic to import
   db_set_active('boinc');
-  $topic = db_fetch_object(db_query('
-    SELECT t.id, t.title, t.owner, t.forum, t.locked, t.hidden,
-      t.sticky, t.timestamp, t.create_time
+  $topics = db_query('
+    SELECT DISTINCT t.id, t.title, t.owner, t.forum, t.locked, t.hidden,
+        t.sticky, t.timestamp, t.create_time
     FROM %sthread t
-    WHERE t.id = %d',
-    $pre, $topic_id
-  ));
-
-  // Get the content of the post that started the topic
-  $post = db_fetch_object(db_query('
-    SELECT id, content
-    FROM %spost
-    WHERE thread = %d
-    ORDER BY timestamp ASC
-    LIMIT 1',
-    $pre, $topic->id
-  ));
+    JOIN %sforum f ON f.id = t.forum
+    JOIN %spost p ON p.thread = t.id
+    WHERE f.parent_type = 0
+    ORDER BY t.id ASC
+    LIMIT %d,%d',
+    $pre, $pre, $pre, $offset, $batch_size
+  );
   db_set_active('default');
+  
+  while ($topic = db_fetch_object($topics)) {
     
-  $duplicate = db_result(db_query('
-    SELECT COUNT(*) FROM {boincimport_temp_topic}
-    WHERE topic_id = %d',
-    $topic->id
-  ));
-  
-  if ($duplicate OR !$post) {
-    $success = FALSE;
-  }
-  
-  else {
-    // Get the user and term IDs along with other data to define the topic
-    $uid = boincuser_lookup_uid($topic->owner);
-    $tid = db_result(db_query('
-      SELECT tid FROM {boincimport_temp_forum}
-      WHERE forum_id = %d',
-      $topic->forum
+    db_set_active('boinc');
+
+    // Get the content of the post that started the topic
+    $post = db_fetch_object(db_query('
+      SELECT id, content
+      FROM %spost
+      WHERE thread = %d
+      ORDER BY timestamp ASC
+      LIMIT 1',
+      $pre, $topic->id
     ));
-    if (!$topic->owner) {
-      $uid = 0;
+    db_set_active('default');
+      
+    $duplicate = db_result(db_query('
+      SELECT COUNT(*) FROM {boincimport_temp_topic}
+      WHERE topic_id = %d',
+      $topic->id
+    ));
+    
+    if ($duplicate OR !$post) {
+      $success = FALSE;
     }
     
-    $node_type = 'forum';
-    $promote = 0;
-    $comment = ($topic->locked) ? 1 : 2;
-    
-    $post->content = _boincimport_strip_bbcode($post->content);
-    $post->content = _boincimport_text_sanitize($post->content);
-    $teaser = node_teaser($post->content);
-    
-    if ($topic->timestamp < $topic->create_time) {
-      $topic->timestamp = $topic->create_time;
-    }
-    
-    // If dealing with a News topic, be sure it is imported as such
-    if ($news_forum_id AND $topic->forum == $news_forum_id) {
-      $node_type = 'news';
-      $promote = 1;
-    }
+    else {
+      // Get the user and term IDs along with other data to define the topic
+      $uid = boincuser_lookup_uid($topic->owner);
+      $tid = db_result(db_query('
+        SELECT tid FROM {boincimport_temp_forum}
+        WHERE forum_id = %d',
+        $topic->forum
+      ));
+      if (!$topic->owner) {
+        $uid = 0;
+      }
+      
+      $node_type = 'forum';
+      $promote = 0;
+      $comment = ($topic->locked) ? 1 : 2;
+      
+      $post->content = _boincimport_strip_bbcode($post->content);
+      $post->content = _boincimport_text_sanitize($post->content);
+      $teaser = node_teaser($post->content);
+      
+      if ($topic->timestamp < $topic->create_time) {
+        $topic->timestamp = $topic->create_time;
+      }
+      
+      // If dealing with a News topic, be sure it is imported as such
+      if ($news_forum_id AND $topic->forum == $news_forum_id) {
+        $node_type = 'news';
+        $promote = 1;
+      }
 
-    // Construct the thread as a forum topic node
-    $node = array(
-      'type' => $node_type,
-      'title' => $topic->title,
-      'uid' => $uid,
-      'status' => ($topic->hidden) ? 0 : 1,  // published or not
-      'promote' => $promote,
-      'created' => $topic->create_time,
-      'changed' => $topic->timestamp,
-      'comment' => $comment,
-      'moderate' => 0,
-      'body' => $post->content,
-      'sticky' => $topic->sticky,
-      'format' => $input_format,
-      'teaser' => $teaser,
-    );
-    $node['title'] = check_plain($node['title']);
-    $node['tid'] = $tid;
+      // Construct the thread as a forum topic node
+      $node = array(
+        'type' => $node_type,
+        'title' => $topic->title,
+        'uid' => $uid,
+        'status' => ($topic->hidden) ? 0 : 1,  // published or not
+        'promote' => $promote,
+        'created' => $topic->create_time,
+        'changed' => $topic->timestamp,
+        'comment' => $comment,
+        'moderate' => 0,
+        'body' => $post->content,
+        'sticky' => $topic->sticky,
+        'format' => $input_format,
+        'teaser' => $teaser,
+      );
+      $node['title'] = check_plain($node['title']);
+      $node['tid'] = $tid;
+      
+      // Save the topic node
+      $node = (object) $node; // node_save requires an object form
+      node_save($node);
+      taxonomy_node_save($node, array($tid));
+      $success = ($node->nid) ? TRUE : FALSE;
+    }
     
-    // Save the topic node
-    $node = (object) $node; // node_save requires an object form
-    node_save($node);
-    taxonomy_node_save($node, array($tid));
-    $success = ($node->nid) ? TRUE : FALSE;
-  }
-  
-  // See if the import worked
-  $message = '';
-  if ($success) {
-    db_query('
-      INSERT INTO {boincimport_temp_topic} (topic_id, post_id, nid)
-      VALUES (%d, %d, %d)', $topic->id, $post->id, $node->nid
-    );
-    // Hack to keep the topics in correct order
-    db_query('UPDATE {node_comment_statistics} SET last_comment_timestamp = %d WHERE nid = %d', $node->created, $node->nid);
+    // See if the import worked
+    $message = '';
+    if ($success) {
+      db_query('
+        INSERT INTO {boincimport_temp_topic} (topic_id, post_id, nid)
+        VALUES (%d, %d, %d)', $topic->id, $post->id, $node->nid
+      );
+      // Hack to keep the topics in correct order
+      db_query('UPDATE {node_comment_statistics} SET last_comment_timestamp = %d WHERE nid = %d', $node->created, $node->nid);
+      
+      // Store some result for post-processing in the finished callback.
+      $context['results']['success'][] = $topic->id;
+      $message = "Successfully imported topic {$topic->id}";
+    }
+    elseif ($duplicate) {
+      $context['results']['duplicate'][] = $topic->id;
+      $message = "Topic {$topic->id} was already imported";
+    }
+    elseif (!$post) {
+      $context['results']['empty'][] = $topic->id;
+      $message = "Skipping topic {$topic->id} as empty";
+    }
+    else {
+      $context['results']['failure'][] = $topic->id;
+      $message = "Failed to import topic {$topic->id}!";
+    }
     
-    // Store some result for post-processing in the finished callback.
-    $context['results']['success'][] = $topic->id;
-    $message = "Successfully imported topic {$topic->id}";
-  }
-  elseif ($duplicate) {
-    $context['results']['duplicate'][] = $topic->id;
-    $message = "Topic {$topic->id} was already imported";
-  }
-  elseif (!$post) {
-    $context['results']['empty'][] = $topic->id;
-    $message = "Skipping topic {$topic->id} as empty";
-  }
-  else {
-    $context['results']['failure'][] = $topic->id;
-    $message = "Failed to import topic {$topic->id}!";
-  }
-  
-  // Update our progress information.
-  $context['sandbox']['progress']++;
-  $context['sandbox']['current_topic'] = $topic->id;
-  $context['message'] = $message;
+    // Update our progress information.
+    $context['sandbox']['progress']++;
+    $context['sandbox']['current_topic'] = $topic->id;
+    $context['message'] = $message;
 
-  // Update the progress for the batch engine
-  if ($context['sandbox']['progress'] >= $context['sandbox']['max']) {
-    $context['finished'] = 1;
-  }
-  else {
-    $context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['max'];
+    // Update the progress for the batch engine
+    if ($context['sandbox']['progress'] >= $context['sandbox']['max']) {
+      $context['finished'] = 1;
+    }
+    else {
+      $context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['max'];
+    }
   }
 }
 
