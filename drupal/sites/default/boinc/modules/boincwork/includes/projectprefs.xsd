@@ -9,13 +9,6 @@
 
     <!-- simple types -->
 
-    <xs:simpleType name="entitytype">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="element" />
-            <xs:enumeration value="attribute" />
-        </xs:restriction>
-    </xs:simpleType>
-
     <xs:simpleType name="lang">
         <xs:restriction base="xs:string">
             <xs:enumeration value="en_US" />
