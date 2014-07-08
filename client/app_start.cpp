@@ -733,7 +733,7 @@ int ACTIVE_TASK::start(bool test) {
             } else {
                 windows_format_error_string(GetLastError(), error_msg, sizeof(error_msg));
                 msg_printf(wup->project, MSG_INTERNAL_ERROR,
-                    "Process creation failed: %s", error_msg
+                    "Process creation failed: %s - error code %d (0x%x)", error_msg, GetLastError(), GetLastError()
                 );
             }
 
@@ -765,7 +765,7 @@ int ACTIVE_TASK::start(bool test) {
             } else {
                 windows_format_error_string(GetLastError(), error_msg, sizeof(error_msg));
                 msg_printf(wup->project, MSG_INTERNAL_ERROR,
-                    "Process creation failed: %s", error_msg
+                    "Process creation failed: %s - error code %d (0x%x)", error_msg, GetLastError(), GetLastError()
                 );
             }
         }
