@@ -228,7 +228,7 @@ int SCHED_CONFIG::parse(FILE* f) {
             }
             continue;
         }
-        if (xp.parse_bool("matchmaker", matchmaker)) continue;
+        if (xp.parse_bool("sched_old", sched_old)) continue;
         if (xp.parse_int("max_ncpus", max_ncpus)) continue;
         if (xp.parse_int("max_wus_in_progress", itemp)) {
             max_jobs_in_progress.project_limits.proc_type_limits[PROC_TYPE_CPU].base_limit = itemp;
@@ -264,8 +264,6 @@ int SCHED_CONFIG::parse(FILE* f) {
         }
         if (xp.parse_int("min_core_client_upgrade_deadline", min_core_client_upgrade_deadline)) continue;
         if (xp.parse_int("min_sendwork_interval", min_sendwork_interval)) continue;
-        if (xp.parse_int("mm_min_slots", mm_min_slots)) continue;
-        if (xp.parse_int("mm_max_slots", mm_max_slots)) continue;
         if (xp.parse_double("next_rpc_delay", next_rpc_delay)) continue;
         if (xp.parse_bool("no_amd_k6", no_amd_k6)) {
             if (no_amd_k6) {

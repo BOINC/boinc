@@ -37,10 +37,6 @@
 // app_plan_uses_gpu():
 //      Which plan classes use GPUs
 //
-// JOB::get_score():
-//      Determine the value of sending a particular job to host;
-//      (used only by "matchmaker" scheduling)
-//
 // WARNING: if you modify this file, you must prevent it from
 // being overwritten the next time you update BOINC source code.
 // You can either:

@@ -557,7 +557,7 @@ int main(int argc, char** argv) {
 #endif
         if (!fout) {
             log_messages.printf(MSG_CRITICAL,
-                "can't write client  file\n"
+                "can't write client log file %s\n", log_path
             );
             exit(1);
         }

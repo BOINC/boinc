@@ -1240,7 +1240,7 @@ static void send_user_messages() {
     // If work was sent from apps the user did not select, explain.
     // NOTE: this will have to be done differently with matchmaker scheduling
     //
-    if (!config.locality_scheduling && !config.locality_scheduler_fraction && !config.matchmaker) {
+    if (!config.locality_scheduling && !config.locality_scheduler_fraction && config.sched_old) {
         if (g_wreq->njobs_sent && !g_wreq->user_apps_only) {
             g_reply->insert_message(
                 "No tasks are available for the applications you have selected",
@@ -1479,8 +1479,8 @@ void send_work_setup() {
     }
     if (config.debug_send) {
         log_messages.printf(MSG_NORMAL,
-            "[send] %s matchmaker scheduling; %s EDF sim\n",
-            config.matchmaker?"Using":"Not using",
+            "[send] %s old scheduling; %s EDF sim\n",
+            config.sched_old?"Using":"Not using",
             config.workload_sim?"Using":"Not using"
         );
         log_messages.printf(MSG_NORMAL,
@@ -1727,10 +1727,10 @@ void send_work() {
         }
     } else if (config.locality_scheduling) {
         send_work_locality();
-    } else if (config.matchmaker) {
-        send_work_score();
-    } else {
+    } else if (config.sched_old) {
         send_work_old();
+    } else {
+        send_work_score();
     }
 
 done:

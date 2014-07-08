@@ -122,7 +122,7 @@ struct SCHED_CONFIG {
     int locality_scheduling_send_timeout;
     vector<regex_t> *locality_scheduling_workunit_file;
     vector<regex_t> *locality_scheduling_sticky_file;
-    bool matchmaker;
+    bool sched_old;
     int max_download_urls_per_file;
     int max_ncpus;
     JOB_LIMITS max_jobs_in_progress;
@@ -136,8 +136,6 @@ struct SCHED_CONFIG {
     int min_core_client_version_announced;
     int min_core_client_upgrade_deadline;
     int min_sendwork_interval;
-    int mm_min_slots;
-    int mm_max_slots;
     double next_rpc_delay;
     bool no_amd_k6;
         // don't allow AMD K6 CPUs
