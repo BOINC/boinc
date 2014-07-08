@@ -206,7 +206,7 @@ int PROJECT::parse_account_file_venue() {
     FILE* in = boinc_fopen(path, "r");
     if (!in) return ERR_FOPEN;
 
-    //msg_printf(this, MSG_INFO, "parsing project prefs, looking for venue %s", host_venue);
+	//msg_printf(this, MSG_INFO, "parsing project prefs, looking for venue %s", host_venue);
     MIOFILE mf;
     XML_PARSER xp(&mf);
     mf.init_file(in);
@@ -217,7 +217,7 @@ int PROJECT::parse_account_file_venue() {
         } else if (xp.match_tag("venue")) {
             parse_attr(attr_buf, "name", venue, sizeof(venue));
             if (!strcmp(venue, host_venue)) {
-                //msg_printf(this, MSG_INFO, "found venue %s", host_venue);
+				//msg_printf(this, MSG_INFO, "found venue %s", host_venue);
                 using_venue_specific_prefs = true;
                 in_right_venue = true;
 
