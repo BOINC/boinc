@@ -4467,7 +4467,7 @@ function work_and_host_stats_views_default_views() {
       'empty' => '',
       'hide_empty' => 0,
       'empty_zero' => 0,
-      'hide_alter_empty' => 1,
+      'hide_alter_empty' => 0,
       'exclude' => 0,
       'id' => 'plan_class',
       'table' => 'app_version',
