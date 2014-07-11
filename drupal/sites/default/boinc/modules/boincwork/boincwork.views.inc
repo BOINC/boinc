@@ -597,6 +597,58 @@ function boincwork_views_data() {
   );
   
   // ------------------------------------------------------------------------------------------------
+  // Definition for platform table
+  // ------------------------------------------------------------------------------------------------
+  
+  $data['platform']['table']['group'] = t('BOINC');
+  $data['platform']['table']['base'] = array(
+      'field' => 'id',
+      'title' => t('BOINC platform'),
+      'help' => t('Operating system platforms'),
+      'database' => 'boinc'
+  );
+  
+  // Primary keys allowed as arguments
+
+  $data['platform']['id'] = array(
+    'title' => t('Platform ID'),
+    'help' => t('The ID number of the platform.'),
+    'field' => array(
+      'handler' => 'views_handler_field_numeric',
+      'click sortable' => TRUE
+    ),
+    'argument' => array(
+      'handler' => 'views_handler_argument',
+      'name field' => 'title',
+      'numeric' => TRUE,
+      'validate type' => 'id'
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_numeric'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_numeric'
+    )
+  );
+  
+  // Descriptions of app fields (alphabetized)
+  
+  $data['platform']['name'] = array(
+    'title' => t('Name'),
+    'help' => t('The name of the platform.'),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_string'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_string'
+    )
+  );
+  
+  // ------------------------------------------------------------------------------------------------
   // Definition for result (task) table
   // ------------------------------------------------------------------------------------------------
   
@@ -1264,6 +1316,313 @@ function boincwork_views_data() {
     )
   );
   
+  // ------------------------------------------------------------------------------------------------
+  // Definition for app_version table
+  // ------------------------------------------------------------------------------------------------
+  
+  $data['app_version']['table']['group'] = t('BOINC');
+  $data['app_version']['table']['base'] = array(
+      'field' => 'id',
+      'title' => t('BOINC app version'),
+      'help' => t('Versions of research applications run by BOINC'),
+      'database' => 'boinc'
+  );
+  
+  // Primary keys allowed as arguments
+
+  $data['app_version']['id'] = array(
+    'title' => t('Application version ID'),
+    'help' => t('The ID number of this application version.'),
+    'field' => array(
+      'handler' => 'views_handler_field_numeric',
+      'click sortable' => TRUE
+    ),
+    'argument' => array(
+      'handler' => 'views_handler_argument',
+      'name field' => 'title',
+      'numeric' => TRUE,
+      'validate type' => 'id'
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_numeric'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_numeric'
+    )
+  );
+  
+  // Foreign key fields
+  
+  $data['app_version']['appid'] = array(
+    'title' => t('App ID'),
+    'help' => t('The app ID associated with this app version.'),
+    // Because this is a foreign key to the {app} table. This allows us to
+    // have, when the view is configured with this relationship, all the fields
+    // for the related node available.
+    'argument' => array(
+      'handler' => 'views_handler_argument_numeric',
+      'name field' => 'title',
+      'numeric' => TRUE,
+      'validate type' => 'id'
+    ),
+    'relationship' => array(
+      'base' => 'app',
+      'field' => 'id',
+      'handler' => 'views_handler_relationship',
+      'label' => t('App ID')
+    ),
+    'field' => array(
+      'handler' => 'views_handler_field_numeric',
+      'click sortable' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_numeric'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_numeric'
+    )
+  );
+  
+  $data['app_version']['platformid'] = array(
+    'title' => t('Platform ID'),
+    'help' => t('The platform ID associated with this app version.'),
+    // Because this is a foreign key to the {platform} table. This allows us to
+    // have, when the view is configured with this relationship, all the fields
+    // for the related node available.
+    'argument' => array(
+      'handler' => 'views_handler_argument_numeric',
+      'name field' => 'title',
+      'numeric' => TRUE,
+      'validate type' => 'id'
+    ),
+    'relationship' => array(
+      'base' => 'platform',
+      'field' => 'id',
+      'handler' => 'views_handler_relationship',
+      'label' => t('Platform ID')
+    ),
+    'field' => array(
+      'handler' => 'views_handler_field_numeric',
+      'click sortable' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_numeric'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_numeric'
+    )
+  );
+  
+  // Descriptions of app fields (alphabetized)
+  
+  $data['app_version']['plan_class'] = array(
+    'title' => t('Plan class'),
+    'help' => t('App version plan class.'),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_string'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_string'
+    )
+  );
+  $data['app_version']['version_num'] = array(
+    'title' => t('Version number'),
+    'help' => t('The application version number.'),
+    'field' => array(
+      'handler' => 'views_handler_field_boincwork_app_version_number',
+      'click sortable' => TRUE,
+      'float' => TRUE,
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_numeric'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_numeric'
+    )
+  );
+  
+  // ------------------------------------------------------------------------------------------------
+  // Definition for host_app_version table
+  // ------------------------------------------------------------------------------------------------
+  
+  $data['host_app_version']['table']['group'] = t('BOINC');
+  
+  // This table references the {host} table.
+  // This join creates an 'implicit' relationship to the host table, so that when
+  // "Host" is the base table, the fields are automatically available.
+  
+  // Index this array by the table name to which this table refers.
+  // 'left_field' is the primary key in the referenced table.
+  // 'field' is the foreign key in this table.
+  
+  $data['host_app_version']['table']['join'] = array(
+    'host' => array(
+      'left_field' => 'id',
+      'field' => 'host_id',
+    )
+  );
+  
+  // Primary keys allowed as arguments
+
+  $data['host_app_version']['host_id'] = array(
+    'title' => t('Host ID'),
+    'help' => t('The host ID connected to this app version data.'),
+    'field' => array(
+      'handler' => 'views_handler_field_numeric',
+      'click sortable' => TRUE
+    ),
+    'argument' => array(
+      'handler' => 'views_handler_argument',
+      'name field' => 'title',
+      'numeric' => TRUE,
+      'validate type' => 'id'
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_numeric'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_numeric'
+    )
+  );
+  
+  // Foreign key fields
+  
+  $data['host_app_version']['app_version_id'] = array(
+    'title' => t('App version ID'),
+    'help' => t('The app version ID connected to this host data.'),
+    // Because this is a foreign key to the {host} table. This allows us to
+    // have, when the view is configured with this relationship, all the fields
+    // for the related node available.
+    'argument' => array(
+      'handler' => 'views_handler_argument_numeric',
+      'name field' => 'title',
+      'numeric' => TRUE,
+      'validate type' => 'id'
+    ),
+    'relationship' => array(
+      'base' => 'app_version',
+      'field' => 'id',
+      'handler' => 'views_handler_relationship',
+      'label' => t('App version')
+    ),
+    'field' => array(
+      'handler' => 'views_handler_field_numeric',
+      'click sortable' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_numeric'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_numeric'
+    )
+  );
+  
+  // Descriptions of host_app_version fields (alphabetized)
+  
+  $data['host_app_version']['consecutive_valid'] = array(
+    'title' => t('Consecutive valid tasks'),
+    'help' => t('The number of consecutive valid tasks for this app and by this host.'),
+    'field' => array(
+      'handler' => 'views_handler_field_numeric',
+      'click sortable' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_numeric'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_numeric'
+    )
+  );
+  $data['host_app_version']['et_avg'] = array(
+    'title' => t('et_avg'),
+    'help' => t('The "et_avg" for this app and by this host.'),
+    'field' => array(
+      'handler' => 'views_handler_field_boincwork_host_app_et_avg',
+      'click sortable' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_numeric'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_numeric'
+    )
+  );
+  $data['host_app_version']['et_n'] = array(
+    'title' => t('Number of tasks completed'),
+    'help' => t('The tasks completed for this app and by this host.'),
+    'field' => array(
+      'handler' => 'views_handler_field_numeric',
+      'click sortable' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_numeric'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_numeric'
+    )
+  );
+  $data['host_app_version']['max_jobs_per_day'] = array(
+    'title' => t('Max tasks per day'),
+    'help' => t('The maximum tasks per day for this app and by this host.'),
+    'field' => array(
+      'handler' => 'views_handler_field_numeric',
+      'click sortable' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_numeric'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_numeric'
+    )
+  );
+  $data['host_app_version']['n_jobs_today'] = array(
+    'title' => t('Number of tasks today'),
+    'help' => t('The number of tasks today for this app and by this host.'),
+    'field' => array(
+      'handler' => 'views_handler_field_numeric',
+      'click sortable' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_numeric'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_numeric'
+    )
+  );
+  $data['host_app_version']['turnaround_avg'] = array(
+    'title' => t('Average task turnaround time'),
+    'help' => t('The average turnaround time per task for this app and by this host.'),
+    'field' => array(
+      'handler' => 'views_handler_field_boincwork_host_app_turnaround_avg',
+      'click sortable' => TRUE,
+      'float' => TRUE,
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_numeric'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_numeric'
+    )
+  );
+  $data['host_app_version']['user_friendly_name'] = array(
+    'title' => t('Name'),
+    'help' => t('The user friendly name of the application.'),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_string'
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort_string'
+    )
+  );
+  
   return $data;
 }
 
@@ -1276,16 +1635,23 @@ function boincwork_views_data() {
 
 function boincwork_views_handlers() {
   
-  // The custom handler for boincuser_id is in the boincuser module, so
-  // the path is set to that module directory.
   return array(
     'info' => array(
-      'path' => drupal_get_path('module', 'boincuser') . '/views',
+      'path' => drupal_get_path('module', 'boincwork') . '/views',
     ),
     'handlers' => array(
       'views_handler_argument_boincuser_id' => array(
         'parent' => 'views_handler_argument_numeric'
-      )
+      ),
+      'views_handler_field_boincwork_app_version_number' => array(
+        'parent' => 'views_handler_field_numeric'
+      ),
+      'views_handler_field_boincwork_host_app_et_avg' => array(
+        'parent' => 'views_handler_field_numeric'
+      ),
+      'views_handler_field_boincwork_host_app_turnaround_avg' => array(
+        'parent' => 'views_handler_field_numeric'
+      ),
     )
   );
 }
