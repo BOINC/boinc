@@ -22,6 +22,8 @@
     
     tallest = (minHeight) ? minHeight : 0;
     primaryExclude = 0;
+    primaryPadding = 0;
+    secondaryPadding = 0;
     secondaryHeight = 0;
     secondaryExclude = 0;
     secondaryCount = 0;

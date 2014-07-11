@@ -22,7 +22,7 @@
 </thead>
 <tbody>
   <?php foreach ($rows as $row): ?>
-    <tr class="link <?php print ($row['rpc_time'] < $inactive_threshold) ? 'inactive"' : ''; ?>" dest="<?php print $base_path; ?>host/<?php print $row['id']; ?>">
+    <tr class="link <?php print ($row['rpc_time'] < $inactive_threshold) ? 'inactive' : ''; ?>" dest="<?php print $base_path; ?>host/<?php print $row['id']; ?>">
       <td><?php print $row['domain_name']; ?>
       <td class="numeric"><?php print $row['expavg_credit']; ?>
       <td class="numeric"><?php print $row['total_credit']; ?>
