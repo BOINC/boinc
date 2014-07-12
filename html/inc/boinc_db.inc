@@ -473,7 +473,7 @@ class BoincPrivateMessage {
         $db = BoincDb::get();
         return $db->delete($this, 'private_messages');
     }
-    function delete_aux($clause) {
+    static function delete_aux($clause) {
         $db = BoincDb::get();
         return $db->delete_aux('private_messages', $clause);
     }

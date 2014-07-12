@@ -665,6 +665,7 @@ int ACTIVE_TASK::start(bool test) {
     char slotdirpath[MAXPATHLEN];
     char error_msg[1024];
     char error_msg2[1024];
+    DWORD last_error;
 
     memset(&process_info, 0, sizeof(process_info));
     memset(&startup_info, 0, sizeof(startup_info));
@@ -704,6 +705,7 @@ int ACTIVE_TASK::start(bool test) {
     }
 
     for (i=0; i<5; i++) {
+        last_error = 0;
         if (sandbox_account_service_token != NULL) {
 
             if (!CreateEnvironmentBlock(&environment_block, sandbox_account_service_token, FALSE)) {
@@ -731,9 +733,11 @@ int ACTIVE_TASK::start(bool test) {
                 success = true;
                 break;
             } else {
-                windows_format_error_string(GetLastError(), error_msg, sizeof(error_msg));
+                last_error = GetLastError();
+                windows_format_error_string(last_error, error_msg, sizeof(error_msg));
                 msg_printf(wup->project, MSG_INTERNAL_ERROR,
-                    "Process creation failed: %s - error code %d (0x%x)", error_msg, GetLastError(), GetLastError()
+                    "Process creation failed: %s - error code %d (0x%x)",
+                    error_msg, last_error, last_error
                 );
             }
 
@@ -763,9 +767,11 @@ int ACTIVE_TASK::start(bool test) {
                 success = true;
                 break;
             } else {
-                windows_format_error_string(GetLastError(), error_msg, sizeof(error_msg));
+                last_error = GetLastError();
+                windows_format_error_string(last_error, error_msg, sizeof(error_msg));
                 msg_printf(wup->project, MSG_INTERNAL_ERROR,
-                    "Process creation failed: %s - error code %d (0x%x)", error_msg, GetLastError(), GetLastError()
+                    "Process creation failed: %s - error code %d (0x%x)",
+                    error_msg, last_error, last_error
                 );
             }
         }
@@ -774,6 +780,16 @@ int ACTIVE_TASK::start(bool test) {
 
     if (!success) {
         sprintf(buf, "CreateProcess() failed - %s", error_msg);
+
+        if (last_error == ERROR_NOT_ENOUGH_MEMORY) {
+            // if CreateProcess() failed because system is low on memory,
+            // treat this like a temporary exit;
+            // retry in 10 min, and give up after 100 times
+            //
+            bool will_restart;
+            handle_temporary_exit(will_restart, 600, "not enough memory", false);
+            if (will_restart) return 0;
+        }
         retval = ERR_EXEC;
         goto error;
     }
