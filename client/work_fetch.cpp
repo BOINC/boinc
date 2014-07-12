@@ -1054,13 +1054,25 @@ void CLIENT_STATE::compute_nuploading_results() {
 double ACTIVE_TASK::est_dur() {
     if (fraction_done >= 1) return elapsed_time;
     double wu_est = result->estimated_runtime();
-    if (wu_est < elapsed_time) wu_est = elapsed_time;
-    if (fraction_done <= 0) return wu_est;
+    if (fraction_done <= 0) {
+        if (elapsed_time > 0) {
+            // if app is running but hasn't reported fraction done,
+            // use the fraction-done guesstimate from ACTIVE_TASK::write_gui()
+            //
+            double fd = 1 - exp(-elapsed_time/wu_est);
+            return elapsed_time/fd;
+        } else {
+            return wu_est;
+        }
+    }
+    bool exceeded_wu_est = (elapsed_time > wu_est);
+    if (exceeded_wu_est) wu_est = elapsed_time;
     double frac_est = fraction_done_elapsed_time / fraction_done;
 
     // if app says fraction done is accurate, just use it
+    // also use it if static estimate has already been exceeded
     //
-    if (result->app->fraction_done_exact) return frac_est;
+    if (result->app->fraction_done_exact || exceeded_wu_est) return frac_est;
 
     // weighting of dynamic estimate is the fraction done
     // i.e. when fraction done is 0.5, weighting is 50/50
