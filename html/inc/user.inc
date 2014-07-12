@@ -180,7 +180,7 @@ function notify_description($notify) {
     case NOTIFY_SUBSCRIBED_POST:
         return subscribed_post_web_line($notify);
     }
-    return tra("Unknown notification type: %1", $notify->type);
+    return null;
 }
 
 function weak_auth($user) {
@@ -260,7 +260,12 @@ function show_community_private($user) {
     if (count($notifies)) {
         $x = "";
         foreach ($notifies as $notify) {
-            $x .= "&bull; ".notify_description($notify)."<br>";
+            $y = notify_description($notify);
+            if ($y) {
+                $x .= "&bull; $y<br>";
+            } else {
+                $notify->delete();
+            }
         }
         $x .= "<a href=\"".notify_rss_url($user)."\"><img vspace=\"4\" border=\"0\" src=\"img/rss_icon.gif\" alt=\"RSS\" /></a>";
         row2(tra("Notifications"), $x);

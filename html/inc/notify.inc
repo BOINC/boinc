@@ -41,6 +41,10 @@ function show_notify_rss_item($notify) {
         subscribe_rss($notify, $title, $msg, $url);
         break;
     }
+    if (!$msg) {
+        $notify->delete();
+        return;
+    }
 
     $news_date=gmdate('D, d M Y H:i:s',$notify->create_time) . ' GMT';
     echo "<item>

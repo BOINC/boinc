@@ -118,12 +118,14 @@ Do not reply to this message.
 function pm_email_line($notify) {
     $pm = BoincPrivateMessage::lookup_id($notify->opaque);
     $from_user = BoincUser::lookup_id($pm->senderid);
+    if (!$pm || !$from_user) return null;
     return "$from_user->name ".tra("sent you a private message; subject:")." '$pm->subject'";
 }
 
 function pm_web_line($notify) {
     $pm = BoincPrivateMessage::lookup_id($notify->opaque);
     $from_user = BoincUser::lookup_id($pm->senderid);
+    if (!$pm || !$from_user) return null;
     return "<a href=pm.php>".tra("Private message%1 from %2, subject:" , "</a>", $from_user->name )." $pm->subject";
 }
 
@@ -195,6 +197,10 @@ function pm_email_remind($user) {
 function pm_rss($notify, &$title, &$msg, &$url) {
     $pm = BoincPrivateMessage::lookup_id($notify->opaque);
     $from_user = BoincUser::lookup_id($pm->senderid);
+    if (!$pm || !$from_user) {
+        $msg = null;
+        return;
+    }
     $title = tra("Private message");
     $msg = "You have received a <a href=".URL_BASE."pm.php>private message</a>.";
     $url = URL_BASE."pm.php";
