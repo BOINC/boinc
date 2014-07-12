@@ -1230,11 +1230,7 @@ int VBOX_VM::start() {
 
         get_vm_process_id();
 
-#ifdef _WIN32
-        if (vm_pid && vm_pid_handle) break;
-#else
         if (vm_pid) break;
-#endif
 
         if (timeout > 45) {
             retval = ERR_TIMEOUT;
@@ -2022,10 +2018,8 @@ int VBOX_VM::get_vm_process_id() {
     string pid;
     size_t pid_start;
     size_t pid_end;
-    int retval;
 
-    retval = get_vm_log(output, false);
-    if (retval) return retval;
+    get_vm_log(output, false);
 
     // Output should look like this:
     // VirtualBox 4.1.0 r73009 win.amd64 (Jul 19 2011 13:05:53) release log
@@ -2177,7 +2171,7 @@ int VBOX_VM::get_system_log(string& log, bool tail_only) {
     } else {
         fprintf(
             stderr,
-            "%s ERROR: Stale VirtualBox System Log used.\n",
+            "%s WARNING: Stale VirtualBox System Log used.\n",
             vboxwrapper_msg_prefix(buf, sizeof(buf))
         );
     }
@@ -2208,7 +2202,7 @@ int VBOX_VM::get_system_log(string& log, bool tail_only) {
     } else {
         fprintf(
             stderr,
-            "%s ERROR: Stale VirtualBox System Log Not Found.\n",
+            "%s WARNING: Stale VirtualBox System Log Not Found.\n",
             vboxwrapper_msg_prefix(buf, sizeof(buf))
         );
         retval = ERR_NOT_FOUND;
@@ -2239,7 +2233,7 @@ int VBOX_VM::get_vm_log(string& log, bool tail_only) {
     } else {
         fprintf(
             stderr,
-            "%s ERROR: Stale VirtualBox VM Log used.\n",
+            "%s WARNING: Stale VirtualBox VM Log used.\n",
             vboxwrapper_msg_prefix(buf, sizeof(buf))
         );
     }
@@ -2271,7 +2265,7 @@ int VBOX_VM::get_vm_log(string& log, bool tail_only) {
     } else {
         fprintf(
             stderr,
-            "%s ERROR: Stale VirtualBox VM Log Not Found.\n",
+            "%s WARNING: Stale VirtualBox VM Log Not Found.\n",
             vboxwrapper_msg_prefix(buf, sizeof(buf))
         );
         retval = ERR_NOT_FOUND;
