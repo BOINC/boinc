@@ -17,6 +17,9 @@ $bbcode_html = '
               <input type="button" class="button" accesskey="u" name="addbbcode4" value=" u " style="text-decoration: underline; width: 30px" onClick="bbstyle(4)" title="'.tra("Underline text: [u]text[/u]  (alt+u)").'" />
               </span></td>
             <td><span class="genmed">
+              <input type="button" class="button" accesskey="k" name="addbbcode20" value=" k " style="text-decoration: line-through; width: 30px" onClick="bbstyle(20)" title="'.tra("Strikethrough text: [s]text[/s]  (alt+k)").'" />
+              </span></td>
+            <td><span class="genmed">
               <input type="button" class="button" accesskey="q" name="addbbcode6" value="Quote" style="width: 50px" onClick="bbstyle(6)" title="'.tra("Quote text: [quote]text[/quote]  (alt+q)").'" />
               </span></td>
             <td><span class="genmed">
