@@ -29,7 +29,7 @@
 
     <!-- attach project -->
     <!-- selection list -->
-    <string name="attachproject_list_desc">Select scientific projects you want to contribute in:</string>
+    <string name="attachproject_list_desc">Select scientific projects you want to contribute to:</string>
     <string name="attachproject_list_header">Choose a project</string>
     <string name="attachproject_list_manual_button">Add project by URL</string>
     <string name="attachproject_list_manual_dialog_title">Enter project URL:</string>
