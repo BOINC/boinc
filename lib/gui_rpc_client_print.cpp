@@ -108,6 +108,7 @@ void PROJECT::print() {
     }
     printf("   jobs succeeded: %d\n", njobs_success);
     printf("   jobs failed: %d\n", njobs_error);
+    printf("   cross-project ID: %s\n", cross_project_id);
 }
 
 void APP::print() {

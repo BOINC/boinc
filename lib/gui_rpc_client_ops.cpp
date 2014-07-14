@@ -459,6 +459,7 @@ int PROJECT::parse(XML_PARSER& xp) {
         if (xp.parse_str("venue", venue, sizeof(venue))) continue;
         if (xp.parse_int("njobs_success", njobs_success)) continue;
         if (xp.parse_int("njobs_error", njobs_error)) continue;
+        if (xp.parse_str("cross_project_id", cross_project_id, sizeof(cross_project_id))) continue;
     }
     return ERR_XML_PARSE;
 }
