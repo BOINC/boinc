@@ -178,6 +178,10 @@ struct SCHED_CONFIG {
         // Use host_app_version peak flop count rather than elapsed time 
         // to calculate projected_flops when choosing version.
 
+    // time intervals
+    double maintenance_delay;
+        // if stop_sched is set, tell clients to delay this much
+
     // scheduler log flags
     //
     bool debug_assignment;

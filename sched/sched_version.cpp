@@ -321,7 +321,9 @@ void estimate_flops_anon_platform() {
     }
 }
 
-// compute HOST_USAGE::projected_flops as best we can:
+// compute HOST_USAGE::projected_flops, which is used to estimate job runtime:
+//   est. runtime = wu.rsc_fpops_est / projected_flops
+// so project_flops must reflect systematic errors in rsc_fpops_est
 // 
 // 1) if we have statistics for (host, app version) and
 //    <estimate_flops_from_hav_pfc> is not set use elapsed time,

@@ -521,7 +521,10 @@ int main(int argc, char** argv) {
     }
 
     if (!debug_log && check_stop_sched()) {
-        send_message("Project is temporarily shut down for maintenance", 3600);
+        send_message(
+            "Project is temporarily shut down for maintenance",
+            config.maintenance_delay
+        );
         goto done;
     }
 
