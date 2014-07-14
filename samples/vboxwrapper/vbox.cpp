@@ -2059,12 +2059,14 @@ int VBOX_VM::get_vm_process_id() {
 }
 
 int VBOX_VM::get_vm_exit_code(unsigned long& exit_code) {
-#ifndef _WIN32
+#ifdef _WIN32
+    if (vm_pid_handle) {
+        GetExitCodeProcess(vm_pid_handle, &exit_code);
+    }
+#else
     int ec = 0;
     waitpid(vm_pid, &ec, WNOHANG);
     exit_code = ec;
-#else
-    GetExitCodeProcess(vm_pid_handle, &exit_code);
 #endif
     return 0;
 }
