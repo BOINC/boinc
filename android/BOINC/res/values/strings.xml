@@ -382,5 +382,12 @@
     <string name="nonexcl_dialog_header">Volunteer computing app detected</string>
     <string name="nonexcl_dialog_text">Another volunteer computing app is running on this device. Only one version can run at a time.</string>
     <string name="nonexcl_dialog_exit">Exit</string>
+    
+    <!-- social integration -->
+    <string name="social_invite_button">Invite friends</string>
+    <string name="social_invite_intent_title">How do you want to share?</string>
+    <string name="social_invite_content_title">App to help science!</string>
+    <string name="social_invite_content_body">I have hooked up my %1$s to help science, try it out: %2$s</string> <!-- first parameter: device manufacturer, second: URL -->
+    <string name="social_invite_content_url">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
 
 </resources>
