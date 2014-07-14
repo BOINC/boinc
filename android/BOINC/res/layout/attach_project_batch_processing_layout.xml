@@ -116,14 +116,15 @@
 	        android:id="@+id/share_button"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:text="Tell a friend"
+	        android:text="@string/social_invite_button"
 			android:textColor="@android:color/white"
 			android:textAppearance="?android:attr/textAppearanceMedium"
 	        android:background="@drawable/shape_button_blue"
 	        android:minWidth="150dp"
 			android:padding="5dp"
 			android:layout_margin="10dp"
-			android:onClick="shareClicked"/>
+			android:onClick="shareClicked"
+			android:visibility="gone"/>
 	     
         <Button 
 	        android:id="@+id/continue_button"

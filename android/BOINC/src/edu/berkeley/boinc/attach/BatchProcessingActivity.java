@@ -145,9 +145,9 @@ public class BatchProcessingActivity extends FragmentActivity{
 		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
 
 		// Add data to the intent, the receiving app will decide what to do with it.
-		intent.putExtra(Intent.EXTRA_SUBJECT, "BOINC");
-		intent.putExtra(Intent.EXTRA_TEXT, "With BOINC I can let my " + android.os.Build.MANUFACTURER + " help science: https://play.google.com/store/apps/details?id=edu.berkeley.boinc");
-		startActivity(Intent.createChooser(intent, "How do you want to share?"));
+		intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.social_invite_content_title));
+		intent.putExtra(Intent.EXTRA_TEXT, String.format(getString(R.string.social_invite_content_body), android.os.Build.MANUFACTURER, getString(R.string.social_invite_content_url)));
+		startActivity(Intent.createChooser(intent, getString(R.string.social_invite_intent_title)));
 	}
 	
 	// adapts header text and icons when hint selection changes
@@ -252,6 +252,7 @@ public class BatchProcessingActivity extends FragmentActivity{
 		protected void onPostExecute(Void result) {
 			((LinearLayout) findViewById(R.id.attach_status_ongoing_wrapper)).setVisibility(View.GONE);
 			((Button) findViewById(R.id.continue_button)).setVisibility(View.VISIBLE);
+			((Button) findViewById(R.id.share_button)).setVisibility(View.VISIBLE);
 			super.onPostExecute(result);
 		}
 	}
