@@ -170,6 +170,7 @@ struct PROJECT {
     char venue[256];
     int njobs_success;
     int njobs_error;
+    char cross_project_id[64];
 
     // NOTE: if you add any data items above,
     // update parse(), and clear() to include them!!
