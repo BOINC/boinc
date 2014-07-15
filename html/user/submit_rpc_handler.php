@@ -169,7 +169,7 @@ function stage_files(&$jobs, $template) {
     }
 }
 
-function submit_jobs($jobs, $template, $app, $batch_id, $priority, $result_template_file = null) {
+function submit_jobs($jobs, $template, $app, $batch_id, $priority, $result_template_file = null, $workunit_template_file = null) {
     $x = "";
     foreach($jobs as $job) {
         if ($job->name) {
@@ -198,6 +198,9 @@ function submit_jobs($jobs, $template, $app, $batch_id, $priority, $result_templ
     $cmd = "cd ../..; ./bin/create_work --appname $app->name --batch $batch_id --rsc_fpops_est $job->rsc_fpops_est --priority $priority --stdin";
     if ($result_template_file) {
         $cmd .= " --result_template $result_template_file";
+    }
+    if ($workunit_template_file) {
+        $cmd .= " --wu_template $workunit_template_file";
     }
     $cmd .= " --stdin";
     $h = popen($cmd, "w");
@@ -306,8 +309,14 @@ function submit_batch($r) {
     } else {
         $result_template_file = null;
     }
+    
+    if ($r->batch->workunit_template_file) {
+        $workunit_template_file = $r->batch->workunit_template_file;
+    } else {
+        $workunit_template_file = null;
+    }
 
-    submit_jobs($jobs, $template, $app, $batch_id, $let, $result_template_file);
+    submit_jobs($jobs, $template, $app, $batch_id, $let, $result_template_file, $workunit_template_file);
 
     // set state to IN_PROGRESS only after creating jobs;
     // otherwise we might flag batch as COMPLETED

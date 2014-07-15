@@ -42,6 +42,9 @@ function req_to_xml($req, $op) {
     if ($req->result_template_file) {
         $x .= "    <result_template_file>$req->result_template_file</result_template_file>
 ";
+    if ($req->workunit_template_file) {
+        $x .= "    <workunit_template_file>$req->workunit_template_file</workunit_template_file>
+";
     }
     foreach ($req->jobs as $job) {
         $x .= "    <job>
