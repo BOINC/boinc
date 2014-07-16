@@ -77,8 +77,12 @@ function est_elapsed_time($r, $template) {
     return batch_flop_count($r, $template) / project_flops();
 }
 
-function read_input_template($app) {
-    $path = "../../templates/$app->name"."_in";
+function read_input_template($app, $r) {
+    if ((isset($r->batch)) && (isset($r->batch->workunit_template_file)) && ($r->batch->workunit_template_file)) {
+        $path = "../../templates/".$r->batch->workunit_template_file;
+    } else {
+        $path = "../../templates/$app->name"."_in";
+    }
     return simplexml_load_file($path);
 }
 
@@ -97,7 +101,7 @@ function estimate_batch($r) {
     $app = get_app((string)($r->batch->app_name));
     list($user, $user_submit) = authenticate_user($r, $app);
 
-    $template = read_input_template($app);
+    $template = read_input_template($app, $r);
     $e = est_elapsed_time($r, $template);
     echo "<estimate>\n<seconds>$e</seconds>\n</estimate>\n";
 }
@@ -197,10 +201,10 @@ function submit_jobs($jobs, $template, $app, $batch_id, $priority, $result_templ
 
     $cmd = "cd ../..; ./bin/create_work --appname $app->name --batch $batch_id --rsc_fpops_est $job->rsc_fpops_est --priority $priority --stdin";
     if ($result_template_file) {
-        $cmd .= " --result_template $result_template_file";
+        $cmd .= " --result_template templates/$result_template_file";
     }
     if ($workunit_template_file) {
-        $cmd .= " --wu_template $workunit_template_file";
+        $cmd .= " --wu_template templates/$workunit_template_file";
     }
     $cmd .= " --stdin";
     $h = popen($cmd, "w");
@@ -245,7 +249,7 @@ function xml_get_jobs($r) {
 function submit_batch($r) {
     $app = get_app((string)($r->batch->app_name));
     list($user, $user_submit) = authenticate_user($r, $app);
-    $template = read_input_template($app);
+    $template = read_input_template($app, $r);
     $jobs = xml_get_jobs($r);
     validate_batch($jobs, $template);
     stage_files($jobs, $template);
