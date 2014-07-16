@@ -88,11 +88,12 @@
 
 // arguments to proc_type_name() and proc_type_name_xml().
 //
-#define PROC_TYPE_CPU        0
-#define PROC_TYPE_NVIDIA_GPU 1
-#define PROC_TYPE_AMD_GPU    2
-#define PROC_TYPE_INTEL_GPU  3
-#define NPROC_TYPES          4
+#define PROC_TYPE_CPU           0
+#define PROC_TYPE_NVIDIA_GPU    1
+#define PROC_TYPE_AMD_GPU       2
+#define PROC_TYPE_INTEL_GPU     3
+#define PROC_TYPE_OTHER_COPROC  4
+#define NPROC_TYPES             5
 
 extern const char* proc_type_name(int);
     // user-readable name
@@ -104,6 +105,7 @@ extern int coproc_type_name_to_num(const char* name);
 #define GPU_TYPE_NVIDIA proc_type_name_xml(PROC_TYPE_NVIDIA_GPU)
 #define GPU_TYPE_ATI proc_type_name_xml(PROC_TYPE_AMD_GPU)
 #define GPU_TYPE_INTEL proc_type_name_xml(PROC_TYPE_INTEL_GPU)
+#define COPROC_TYPE_OTHER proc_type_name_xml(PROC_TYPE_OTHER_COPROC)
 
 // represents a requirement for a coproc.
 // This is a parsed version of the <coproc> elements in an <app_version>
@@ -184,7 +186,7 @@ struct COPROC {
     OPENCL_DEVICE_PROP opencl_prop;
 
 #ifndef _USING_FCGI_
-    void write_xml(MIOFILE&);
+    void write_xml(MIOFILE&, bool scheduler_rpc=false);
     void write_request(MIOFILE&);
 #endif
     int parse(XML_PARSER&);
