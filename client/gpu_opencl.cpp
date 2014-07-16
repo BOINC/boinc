@@ -537,7 +537,7 @@ void COPROCS::get_opencl(
                     }
                 }
                 
-                if (vendor_index >= MAX_RSC) {
+                if (vendor_index >= MAX_OTHER_OPENCLS) {
                     warnings.push_back("Too many OpenCL device vendors found");
                     continue;   // Discard this coprocessor's info
                 }
