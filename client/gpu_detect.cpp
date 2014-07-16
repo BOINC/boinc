@@ -37,6 +37,7 @@
 #endif
 
 #include "coproc.h"
+#include "gpu_detect.h"
 #include "file_names.h"
 #include "util.h"
 #include "str_replace.h"
@@ -60,7 +61,7 @@ vector<COPROC_INTEL> intel_gpus;
 vector<OPENCL_DEVICE_PROP> ati_opencls;
 vector<OPENCL_DEVICE_PROP> nvidia_opencls;
 vector<OPENCL_DEVICE_PROP> intel_gpu_opencls;
-vector<OPENCL_DEVICE_PROP> other_opencls[MAX_RSC];
+vector<OPENCL_DEVICE_PROP> other_opencls[MAX_OTHER_OPENCLS];
 vector<OPENCL_CPU_PROP> cpu_opencls;
 
 // Number of OpenCL coproc vendors other than AMD, NVIDIA or Intel
@@ -281,7 +282,7 @@ void COPROCS::correlate_gpus(
     ati_opencls.clear();
     nvidia_opencls.clear();
     intel_gpu_opencls.clear();
-    for (j=0; j<MAX_RSC; j++) {
+    for (j=0; j<MAX_OTHER_OPENCLS; j++) {
         other_opencls[j].clear();
     }
     cpu_opencls.clear();
@@ -373,7 +374,7 @@ int COPROCS::read_coproc_info_file(vector<string> &warnings) {
     ati_opencls.clear();
     nvidia_opencls.clear();
     intel_gpu_opencls.clear();
-    for (int j=0; j<MAX_RSC; j++) {
+    for (int j=0; j<MAX_OTHER_OPENCLS; j++) {
         other_opencls[j].clear();
     }
     cpu_opencls.clear();
@@ -482,7 +483,7 @@ int COPROCS::read_coproc_info_file(vector<string> &warnings) {
                     }
                 }
                 
-                if (vendor_index >= MAX_RSC) {
+               if (vendor_index >= MAX_OTHER_OPENCLS) {
                     // Too many OpenCL device vendors found (should never happen here)
                     continue;   // Discard this coprocessor's info
                 }
