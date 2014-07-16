@@ -102,14 +102,23 @@ void PCI_INFO::write(MIOFILE& f) {
     );
 }
 
-void COPROC::write_xml(MIOFILE& f) {
+void COPROC::write_xml(MIOFILE& f, bool scheduler_rpc) {
     f.printf(
         "<coproc>\n"
         "   <type>%s</type>\n"
-        "   <count>%d</count>\n"
-        "</coproc>\n",
+        "   <count>%d</count>\n",
         type, count
     );
+    
+    if (scheduler_rpc) {
+        write_request(f);
+    }
+
+    if (have_opencl) {
+        opencl_prop.write_xml(f, "coproc_opencl");
+    }
+    
+    f.printf("</coproc>\n");
 }
 
 void COPROC::write_request(MIOFILE& f) {
@@ -243,6 +252,15 @@ void COPROCS::write_xml(MIOFILE& mf, bool scheduler_rpc) {
     if (intel_gpu.count) {
         intel_gpu.write_xml(mf, scheduler_rpc);
     }
+    
+    for (int i=1; i<n_rsc; i++) {
+       if (!strcmp("CUDA", coprocs[i].type)) continue;
+       if (!strcmp(GPU_TYPE_NVIDIA, coprocs[i].type)) continue;
+       if (!strcmp(GPU_TYPE_ATI, coprocs[i].type)) continue;
+       if (!strcmp(GPU_TYPE_INTEL, coprocs[i].type)) continue;
+       coprocs[i].write_xml(mf, scheduler_rpc);
+    }
+    
     mf.printf("    </coprocs>\n");
 #endif
 }
@@ -895,6 +913,7 @@ const char* proc_type_name_xml(int pt) {
     case PROC_TYPE_NVIDIA_GPU: return "NVIDIA";
     case PROC_TYPE_AMD_GPU: return "ATI";
     case PROC_TYPE_INTEL_GPU: return "intel_gpu";
+    case PROC_TYPE_OTHER_COPROC: return "OTHER_COPROC";
     }
     return "unknown";
 }
@@ -905,6 +924,7 @@ const char* proc_type_name(int pt) {
     case PROC_TYPE_NVIDIA_GPU: return "NVIDIA GPU";
     case PROC_TYPE_AMD_GPU: return "AMD/ATI GPU";
     case PROC_TYPE_INTEL_GPU: return "Intel GPU";
+    case PROC_TYPE_OTHER_COPROC: return "OTHER COPROC";
     }
     return "unknown";
 }
@@ -914,5 +934,6 @@ int coproc_type_name_to_num(const char* name) {
     if (!strcmp(name, "NVIDIA")) return PROC_TYPE_NVIDIA_GPU;
     if (!strcmp(name, "ATI")) return PROC_TYPE_AMD_GPU;
     if (!strcmp(name, "intel_gpu")) return PROC_TYPE_INTEL_GPU;
+    if (!strcmp(name, "OTHER_COPROC")) return PROC_TYPE_OTHER_COPROC;
     return 0;
 }
