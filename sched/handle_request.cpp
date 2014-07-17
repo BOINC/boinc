@@ -500,11 +500,16 @@ static int modify_host_struct(HOST& host) {
     host.timezone = g_request->host.timezone;
     strncpy(host.domain_name, g_request->host.domain_name, sizeof(host.domain_name));
     char buf[1024], buf2[1024];
-    sprintf(buf, "[BOINC|%d.%d.%d]",
+    sprintf(buf, "[BOINC|%d.%d.%d",
         g_request->core_client_major_version,
         g_request->core_client_minor_version,
         g_request->core_client_release
     );
+    if (strlen(host.client_brand)) {
+        strcat(buf, "|");
+        strcat(buf, host.client_brand);
+    }
+    strcat(buf, "]");
     g_request->coprocs.summary_string(buf2, sizeof(buf2));
     strlcpy(host.serialnum, buf, sizeof(host.serialnum));
     strlcat(host.serialnum, buf2, sizeof(host.serialnum));

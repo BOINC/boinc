@@ -405,6 +405,13 @@ int CLIENT_STATE::init() {
     msg_printf(NULL, MSG_INFO, "Running under account %s", pbuf);
 #endif
 
+    FILE* f = fopen(CLIENT_BRAND_FILENAME, "r");
+    if (f) {
+        fgets(client_brand, sizeof(client_brand), f);
+        msg_printf(NULL, MSG_INFO, "Client brand: %s", client_brand);
+        fclose(f);
+    }
+
     parse_account_files();
     parse_statistics_files();
 
