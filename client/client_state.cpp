@@ -114,6 +114,7 @@ CLIENT_STATE::CLIENT_STATE()
     core_client_version.prerelease = false;
 #endif
     strcpy(language, "");
+    strcpy(client_brand, "");
     exit_after_app_start_secs = 0;
     app_started = 0;
     exit_before_upload = false;
@@ -410,6 +411,7 @@ int CLIENT_STATE::init() {
     FILE* f = fopen(CLIENT_BRAND_FILENAME, "r");
     if (f) {
         fgets(client_brand, sizeof(client_brand), f);
+        strip_whitespace(client_brand);
         msg_printf(NULL, MSG_INFO, "Client brand: %s", client_brand);
         fclose(f);
     }
