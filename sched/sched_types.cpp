@@ -184,6 +184,7 @@ const char* SCHEDULER_REQUEST::parse(XML_PARSER& xp) {
     strcpy(authenticator, "");
     strcpy(platform.name, "");
     strcpy(cross_project_id, "");
+    strcpy(client_brand, "");
     hostid = 0;
     core_client_major_version = 0;
     core_client_minor_version = 0;
@@ -423,6 +424,9 @@ const char* SCHEDULER_REQUEST::parse(XML_PARSER& xp) {
         if (xp.parse_int("sandbox", sandbox)) continue;
         if (xp.parse_int("allow_multiple_clients", allow_multiple_clients)) continue;
         if (xp.parse_string("client_opaque", client_opaque)) continue;
+        if (xp.parse_str("client_brand", client_brand, sizeof(client_brand))) continue;
+
+        // unused or deprecated stuff follows
 
         if (xp.match_tag("active_task_set")) continue;
         if (xp.match_tag("app")) continue;
@@ -1249,7 +1253,6 @@ int HOST::parse(XML_PARSER& xp) {
         if (xp.parse_double("n_bwdown", n_bwdown)) continue;
         if (xp.parse_str("p_features", p_features, sizeof(p_features))) continue;
         if (xp.parse_str("virtualbox_version", virtualbox_version, sizeof(virtualbox_version))) continue;
-        if (xp.parse_str("client_brand", client_brand, sizeof(client_brand))) continue;
         if (xp.parse_bool("p_vm_extensions_disabled", p_vm_extensions_disabled)) continue;
         if (xp.match_tag("opencl_cpu_prop")) {
             int retval = opencl_cpu_prop[num_opencl_cpu_platforms].parse(xp);

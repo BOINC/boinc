@@ -505,9 +505,9 @@ static int modify_host_struct(HOST& host) {
         g_request->core_client_minor_version,
         g_request->core_client_release
     );
-    if (strlen(host.client_brand)) {
+    if (strlen(g_request->client_brand)) {
         strcat(buf, "|");
-        strcat(buf, host.client_brand);
+        strcat(buf, g_request->client_brand);
     }
     strcat(buf, "]");
     g_request->coprocs.summary_string(buf2, sizeof(buf2));
