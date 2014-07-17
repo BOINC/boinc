@@ -110,6 +110,9 @@ struct CLIENT_STATE {
     double device_status_time;
 
     char language[16];                // ISO language code reported by GUI
+    char client_brand[256];
+        // contents of client_brand.txt, e.g. "HTP Power to Give"
+        // reported to scheduler
     VERSION_INFO core_client_version;
     string statefile_platform_name;
     int file_xfer_giveup_period;
@@ -138,11 +141,11 @@ struct CLIENT_STATE {
         // Determine when it is safe to leave the quit_client() handler
         // and to finish cleaning up.
     char detach_project_url[256];
-        // stores URL for -detach_project option
+        // stores URL for --detach_project option
     char reset_project_url[256];
-        // stores URL for -reset_project option
+        // stores URL for --reset_project option
     char update_prefs_url[256];
-        // stores URL for -update_prefs option
+        // stores URL for --update_prefs option
     char main_host_venue[256];
         // venue from project or AMS that gave us general prefs
     char attach_project_url[256];

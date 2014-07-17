@@ -1249,6 +1249,7 @@ int HOST::parse(XML_PARSER& xp) {
         if (xp.parse_double("n_bwdown", n_bwdown)) continue;
         if (xp.parse_str("p_features", p_features, sizeof(p_features))) continue;
         if (xp.parse_str("virtualbox_version", virtualbox_version, sizeof(virtualbox_version))) continue;
+        if (xp.parse_str("client_brand", client_brand, sizeof(client_brand))) continue;
         if (xp.parse_bool("p_vm_extensions_disabled", p_vm_extensions_disabled)) continue;
         if (xp.match_tag("opencl_cpu_prop")) {
             int retval = opencl_cpu_prop[num_opencl_cpu_platforms].parse(xp);
