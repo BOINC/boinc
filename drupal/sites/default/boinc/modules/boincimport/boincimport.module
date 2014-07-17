@@ -13,6 +13,8 @@
 //   Thread -> Content node
 //   Post -> Comment
 
+ini_set('memory_limit', '256M');
+
 /**
  * Implementation of hook_menu()
  */
