@@ -373,7 +373,13 @@ void COPROCS::get_opencl(
 
 // TODO: Eliminate this, or improve it
 #if TEST_OTHER_COPROC_LOGIC
-            safe_strcpy(prop.vendor, "Some Other GPU");
+            if (is_NVIDIA(prop.vendor)) {
+                safe_strcpy(prop.vendor, "FAKE VENDOR X");
+            } else if (is_AMD(prop.vendor)) {
+                safe_strcpy(prop.vendor, "FAKE VENDOR Y");
+            } else {
+                safe_strcpy(prop.vendor, "FAKE VENDOR Z");
+            }
 #endif
 
             prop.is_used = COPROC_UNUSED;
@@ -532,7 +538,9 @@ void COPROCS::get_opencl(
                     if (other_opencls[vendor_index].size() == 0) {
                         continue;       // Should never happen
                     }
-                    if (other_opencls[vendor_index][0].vendor_id == prop.vendor_id) {
+                    // Assumes that OpenCL reports identical vendor name strings
+                    // for all devices from the same vendor on a given host.
+                    if (!strcmp(other_opencls[vendor_index][0].vendor, prop.vendor)) {
                         break;  // This vector contains coproc(s) from same vendor
                     }
                 }

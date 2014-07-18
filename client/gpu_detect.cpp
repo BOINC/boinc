@@ -478,7 +478,9 @@ int COPROCS::read_coproc_info_file(vector<string> &warnings) {
                     if (other_opencls[vendor_index].size() == 0) {
                         continue;       // Should never happen
                     }
-                    if (other_opencls[vendor_index][0].vendor_id == other_opencl.vendor_id) {
+                    // Assumes that OpenCL reports identical vendor name strings
+                    // for all devices from the same vendor on a given host.
+                    if (!strcmp(other_opencls[vendor_index][0].vendor, other_opencl.vendor)) {
                         break;  // This vector contains coproc(s) from same vendor
                     }
                 }
