@@ -329,6 +329,7 @@ int HTTP_OP::init_post(
 // with optional offset,
 // and the output goes to memory (also r1, limited by r1_len)
 // This is used for file upload (both get_file_size and file_upload)
+// and for trickle-ups.
 //
 int HTTP_OP::init_post2(
     PROJECT* p, const char* url, char* r1, int r1_len, const char* in, double offset
