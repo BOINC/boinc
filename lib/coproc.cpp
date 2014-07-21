@@ -59,6 +59,21 @@
 using std::perror;
 #endif
 
+const char* proc_type_names_xml[NPROC_TYPES] = {
+"CPU", "NVIDIA", "ATI", "intel_gpu",
+"DEVICE_TYPE_A", "DEVICE_TYPE_B", "DEVICE_TYPE_C",
+"DEVICE_TYPE_D", "DEVICE_TYPE_E", "DEVICE_TYPE_F",
+"DEVICE_TYPE_G"
+};
+
+const char* proc_type_names[NPROC_TYPES] = {
+"CPU", "NVIDIA GPU", "AMD/ATI GPU", "Intel GPU",
+"Device type A", "Device type B", "Device type C",
+"Device type D", "Device type E", "Device type F",
+"Device type G"
+};
+
+
 int COPROC_REQ::parse(XML_PARSER& xp) {
     strcpy(type, "");
     count = 0;
@@ -102,14 +117,23 @@ void PCI_INFO::write(MIOFILE& f) {
     );
 }
 
-void COPROC::write_xml(MIOFILE& f) {
+void COPROC::write_xml(MIOFILE& f, bool scheduler_rpc) {
     f.printf(
         "<coproc>\n"
         "   <type>%s</type>\n"
-        "   <count>%d</count>\n"
-        "</coproc>\n",
+        "   <count>%d</count>\n",
         type, count
     );
+    
+    if (scheduler_rpc) {
+        write_request(f);
+    }
+
+    if (have_opencl) {
+        opencl_prop.write_xml(f, "coproc_opencl");
+    }
+    
+    f.printf("</coproc>\n");
 }
 
 void COPROC::write_request(MIOFILE& f) {
@@ -243,8 +267,35 @@ void COPROCS::write_xml(MIOFILE& mf, bool scheduler_rpc) {
     if (intel_gpu.count) {
         intel_gpu.write_xml(mf, scheduler_rpc);
     }
+    
+    for (int i=1; i<n_rsc; i++) {
+       if (!strcmp("CUDA", coprocs[i].type)) continue;
+       if (!strcmp(GPU_TYPE_NVIDIA, coprocs[i].type)) continue;
+       if (!strcmp(GPU_TYPE_ATI, coprocs[i].type)) continue;
+       if (!strcmp(GPU_TYPE_INTEL, coprocs[i].type)) continue;
+       coprocs[i].write_xml(mf, scheduler_rpc);
+    }
+    
     mf.printf("    </coprocs>\n");
 #endif
+}
+
+bool COPROCS::have_rsrc(int typeIndex) {
+    for (int i=0; i<n_rsc; i++) {
+        if (!strcmp(coprocs[i].type, proc_type_name_xml(typeIndex))) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool COPROCS::have_rsrc(char* typeName) {
+    for (int i=0; i<n_rsc; i++) {
+        if (!strcmp(coprocs[i].type, typeName)) {
+            return true;
+        }
+    }
+    return false;
 }
 
 void COPROC_NVIDIA::description(char* buf, int buflen) {
@@ -890,29 +941,23 @@ void COPROC_INTEL::fake(double ram, double avail_ram, int n) {
 // coproc_intel_gpu
 //
 const char* proc_type_name_xml(int pt) {
-    switch(pt) {
-    case PROC_TYPE_CPU: return "CPU";
-    case PROC_TYPE_NVIDIA_GPU: return "NVIDIA";
-    case PROC_TYPE_AMD_GPU: return "ATI";
-    case PROC_TYPE_INTEL_GPU: return "intel_gpu";
+    if (pt >= NPROC_TYPES) {
+        return "unknown";
     }
-    return "unknown";
+    return proc_type_names_xml[pt];
 }
 
 const char* proc_type_name(int pt) {
-    switch(pt) {
-    case PROC_TYPE_CPU: return "CPU";
-    case PROC_TYPE_NVIDIA_GPU: return "NVIDIA GPU";
-    case PROC_TYPE_AMD_GPU: return "AMD/ATI GPU";
-    case PROC_TYPE_INTEL_GPU: return "Intel GPU";
+    if (pt >= NPROC_TYPES) {
+        return "unknown";
     }
-    return "unknown";
+    return proc_type_names[pt];
 }
 
 int coproc_type_name_to_num(const char* name) {
-    if (!strcmp(name, "CUDA")) return PROC_TYPE_NVIDIA_GPU;
-    if (!strcmp(name, "NVIDIA")) return PROC_TYPE_NVIDIA_GPU;
-    if (!strcmp(name, "ATI")) return PROC_TYPE_AMD_GPU;
-    if (!strcmp(name, "intel_gpu")) return PROC_TYPE_INTEL_GPU;
+    int i;
+    for (i=1; i<NPROC_TYPES; i++) {
+        if (!strcmp(name, proc_type_names_xml[i])) return i;
+    }
     return 0;
 }

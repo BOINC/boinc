@@ -343,6 +343,11 @@ void ACTIVE_TASK::handle_premature_exit(bool& will_restart) {
     premature_exit_count++;
     if (premature_exit_count > 100) {
         will_restart = false;
+
+        // Cleanup any descendents and proccess designated as other_pids of interest
+        // which may not have been cleaned up
+        kill_task(will_restart);
+
         set_task_state(PROCESS_ABORTED, "handle_premature_exit");
         result->exit_status = ERR_TOO_MANY_EXITS;
         gstate.report_result_error(*result, "too many exit(0)s");
@@ -350,6 +355,11 @@ void ACTIVE_TASK::handle_premature_exit(bool& will_restart) {
     } else {
         will_restart = true;
         limbo_message(*this);
+
+        // Cleanup any descendents and proccess designated as other_pids of interest
+        // which may not have been cleaned up
+        kill_task(will_restart);
+
         set_task_state(PROCESS_UNINITIALIZED, "handle_premature_exit");
     }
 }
@@ -362,6 +372,11 @@ void ACTIVE_TASK::handle_temporary_exit(
     premature_exit_count++;
     if (premature_exit_count > 100) {
         will_restart = false;
+
+        // Cleanup any descendents and proccess designated as other_pids of interest
+        // which may not have been cleaned up
+        kill_task(will_restart);
+
         set_task_state(PROCESS_ABORTED, "handle_temporary_exit");
         result->exit_status = ERR_TOO_MANY_EXITS;
         gstate.report_result_error(*result, "too many boinc_temporary_exit()s");
@@ -381,6 +396,11 @@ void ACTIVE_TASK::handle_temporary_exit(
         will_restart = true;
         result->schedule_backoff = gstate.now + backoff;
         safe_strcpy(result->schedule_backoff_reason, reason);
+
+        // Cleanup any descendents and proccess designated as other_pids of interest
+        // which may not have been cleaned up
+        kill_task(will_restart);
+
         set_task_state(PROCESS_UNINITIALIZED, "handle_temporary_exit");
     }
 }
