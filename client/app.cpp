@@ -343,7 +343,8 @@ void ACTIVE_TASK_SET::get_memory_usage() {
     }
     PROCINFO boinc_total;
     if (log_flags.mem_usage_debug) {
-        memset(&boinc_total, 0, sizeof(boinc_total));
+        boinc_total.clear();
+        boinc_total.working_set_size_smoothed = 0;
     }
     for (i=0; i<active_tasks.size(); i++) {
         ACTIVE_TASK* atp = active_tasks[i];
