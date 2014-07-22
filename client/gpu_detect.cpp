@@ -261,8 +261,8 @@ void COPROCS::correlate_gpus(
     // Create descriptions for other OpenCL GPUs
     //
     for (j=0; j<num_other_opencl_types; j++) {
-        strcpy(coprocs[n_rsc++].type, proc_type_name_xml(PROC_TYPE_A+j));
-        snprintf(buf2, sizeof(buf2), "%s number", proc_type_name(PROC_TYPE_A+j));
+        //strcpy(coprocs[n_rsc++].type, proc_type_name_xml(PROC_TYPE_A+j));
+        //snprintf(buf2, sizeof(buf2), "%s number", proc_type_name(PROC_TYPE_A+j));
         for (i=0; i<other_opencls[j].size(); i++) {
             other_opencls[j][i].description(buf, sizeof(buf), buf2);
             descs.push_back(string(buf));
