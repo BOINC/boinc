@@ -88,23 +88,11 @@
 
 // arguments to proc_type_name() and proc_type_name_xml().
 //
-enum {
-    PROC_TYPE_CPU=0,
-    PROC_TYPE_NVIDIA_GPU,
-    PROC_TYPE_AMD_GPU,
-    PROC_TYPE_INTEL_GPU,
-    PROC_TYPE_A,
-    PROC_TYPE_B,
-    PROC_TYPE_C,
-    PROC_TYPE_D,
-    PROC_TYPE_E,
-    PROC_TYPE_F,
-    PROC_TYPE_G,
-    NPROC_TYPES
-};
-
-extern const char* proc_type_names_xml[NPROC_TYPES];
-extern const char* proc_type_names[NPROC_TYPES];
+#define PROC_TYPE_CPU        0
+#define PROC_TYPE_NVIDIA_GPU 1
+#define PROC_TYPE_AMD_GPU    2
+#define PROC_TYPE_INTEL_GPU  3
+#define NPROC_TYPES          4
 
 extern const char* proc_type_name(int);
     // user-readable name
@@ -116,13 +104,6 @@ extern int coproc_type_name_to_num(const char* name);
 #define GPU_TYPE_NVIDIA proc_type_name_xml(PROC_TYPE_NVIDIA_GPU)
 #define GPU_TYPE_ATI proc_type_name_xml(PROC_TYPE_AMD_GPU)
 #define GPU_TYPE_INTEL proc_type_name_xml(PROC_TYPE_INTEL_GPU)
-#define COPROC_TYPE_A proc_type_name_xml(PROC_TYPE_A)
-#define COPROC_TYPE_B proc_type_name_xml(PROC_TYPE_B)
-#define COPROC_TYPE_C proc_type_name_xml(PROC_TYPE_C)
-#define COPROC_TYPE_D proc_type_name_xml(PROC_TYPE_D)
-#define COPROC_TYPE_E proc_type_name_xml(PROC_TYPE_E)
-#define COPROC_TYPE_F proc_type_name_xml(PROC_TYPE_F)
-#define COPROC_TYPE_G proc_type_name_xml(PROC_TYPE_G)
 
 // represents a requirement for a coproc.
 // This is a parsed version of the <coproc> elements in an <app_version>
