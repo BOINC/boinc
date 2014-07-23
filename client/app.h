@@ -207,7 +207,6 @@ struct ACTIVE_TASK {
     // Termination stuff.
     // Terminology:
     // "kill": forcibly kill the main process and all its descendants.
-    //    (note: on Windows secure mode, we can't kill the descendants)
     // "request exit": send a request-exit message, and enumerate descendants.
     //      If after 15 secs any processes remain, kill them
     //      called from:
@@ -226,9 +225,11 @@ struct ACTIVE_TASK {
     //
     int request_exit();
     int request_abort();
-    int kill_task(bool will_restart);
-        // Kill process and descendants forcibly.
+    int kill_running_task(bool will_restart);
+        // Kill process and subsidiary processes forcibly.
         // Unix: send a SIGKILL signal, Windows: TerminateProcess()
+    int kill_exited_task();
+        // kill subsidiary tasks (the main process has already exited)
     int abort_task(int exit_status, const char*);
         // can be called whether or not process exists
 
@@ -242,6 +243,8 @@ struct ACTIVE_TASK {
     // Implementation stuff related to termination
     //
     std::vector<int> descendants;
+        // PIDs of descendants, computed every 10 sec or so
+        // during resource usage computation.
     bool process_exists();
     bool has_task_exited();
         // return true if this task has exited

@@ -105,7 +105,7 @@ bool ACTIVE_TASK_SET::poll() {
                         atp->result->name
                     );
                 }
-                atp->kill_task(false);
+                atp->kill_running_task(false);
             }
         }
         if (atp->task_state() == PROCESS_QUIT_PENDING) {
@@ -116,7 +116,7 @@ bool ACTIVE_TASK_SET::poll() {
                         atp->result->name
                     );
                 }
-                atp->kill_task(true);
+                atp->kill_running_task(true);
             }
         }
     }
@@ -244,21 +244,13 @@ static inline void kill_processes(vector<int> pids, bool will_restart) {
     }
 }
 
-// Kill the task (and descendants) by OS-specific means.
+// Kill a task whose main process is still running; namely, kill
+// - the task's main process
+// - the descendants of the main process
+// - "other" processes as reported by the app (e.g. VMs)
 //
-int ACTIVE_TASK::kill_task(bool will_restart) {
+int ACTIVE_TASK::kill_running_task(bool will_restart) {
     vector<int>pids;
-#ifdef _WIN32
-    // On Win, in protected mode we won't be able to get
-    // handles for the descendant processes;
-    // all we can do is terminate the main process,
-    // using the handle we got when we created it.
-    //
-    if (g_use_sandbox) {
-        TerminateProcess(process_handle, will_restart?0:EXIT_ABORTED_BY_CLIENT);
-        return 0;
-    }
-#endif
     get_descendants(pid, pids);
     pids.push_back(pid);
     for (unsigned int i=0; i<other_pids.size(); i++) {
@@ -266,6 +258,16 @@ int ACTIVE_TASK::kill_task(bool will_restart) {
     }
     kill_processes(pids, will_restart);
     return 0;
+}
+
+// Clean up the subsidiary processes of a task whose main process has exited,
+// namely:
+// - its descendants (as recently enumerated; it's too late to do that now)
+// - its "other" processes, e.g. VMs
+//
+int ACTIVE_TASK::kill_exited_task() {
+    kill_processes(other_pids, true);
+    kill_processes(descendants, true);
 }
 
 // We have sent a quit request to the process; see if it's exited.
@@ -343,11 +345,7 @@ void ACTIVE_TASK::handle_premature_exit(bool& will_restart) {
     premature_exit_count++;
     if (premature_exit_count > 100) {
         will_restart = false;
-
-        // Cleanup any descendents and proccess designated as other_pids of interest
-        // which may not have been cleaned up
-        kill_task(will_restart);
-
+        kill_exited_task();
         set_task_state(PROCESS_ABORTED, "handle_premature_exit");
         result->exit_status = ERR_TOO_MANY_EXITS;
         gstate.report_result_error(*result, "too many exit(0)s");
@@ -355,11 +353,7 @@ void ACTIVE_TASK::handle_premature_exit(bool& will_restart) {
     } else {
         will_restart = true;
         limbo_message(*this);
-
-        // Cleanup any descendents and proccess designated as other_pids of interest
-        // which may not have been cleaned up
-        kill_task(will_restart);
-
+        kill_exited_task();
         set_task_state(PROCESS_UNINITIALIZED, "handle_premature_exit");
     }
 }
@@ -372,11 +366,7 @@ void ACTIVE_TASK::handle_temporary_exit(
     premature_exit_count++;
     if (premature_exit_count > 100) {
         will_restart = false;
-
-        // Cleanup any descendents and proccess designated as other_pids of interest
-        // which may not have been cleaned up
-        kill_task(will_restart);
-
+        kill_exited_task();
         set_task_state(PROCESS_ABORTED, "handle_temporary_exit");
         result->exit_status = ERR_TOO_MANY_EXITS;
         gstate.report_result_error(*result, "too many boinc_temporary_exit()s");
@@ -396,11 +386,7 @@ void ACTIVE_TASK::handle_temporary_exit(
         will_restart = true;
         result->schedule_backoff = gstate.now + backoff;
         safe_strcpy(result->schedule_backoff_reason, reason);
-
-        // Cleanup any descendents and proccess designated as other_pids of interest
-        // which may not have been cleaned up
-        kill_task(will_restart);
-
+        kill_exited_task();
         set_task_state(PROCESS_UNINITIALIZED, "handle_temporary_exit");
     }
 }
@@ -450,10 +436,10 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
     //
     if (task_state() == PROCESS_ABORT_PENDING) {
         set_task_state(PROCESS_ABORTED, "handle_exited_app");
-        kill_processes(descendants, false);
+        kill_exited_task();
     } else if (task_state() == PROCESS_QUIT_PENDING) {
         set_task_state(PROCESS_UNINITIALIZED, "handle_exited_app");
-        kill_processes(descendants, true);
+        kill_exited_task();
         will_restart = true;
     } else {
 #ifdef _WIN32
@@ -714,7 +700,7 @@ void ACTIVE_TASK_SET::process_control_poll() {
                     "Restarting %s - message timeout", atp->result->name
                 );
             }
-            atp->kill_task(true);
+            atp->kill_running_task(true);
         } else {
             atp->process_control_queue.msg_queue_poll(
                 atp->app_client_shm.shm->process_control_request
@@ -1261,7 +1247,7 @@ void ACTIVE_TASK_SET::kill_tasks(PROJECT* proj) {
         atp = active_tasks[i];
         if (proj && atp->wup->project != proj) continue;
         if (!atp->process_exists()) continue;
-        atp->kill_task(true);
+        atp->kill_running_task(true);
     }
 }
 
