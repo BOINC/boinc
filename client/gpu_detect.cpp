@@ -263,7 +263,7 @@ void COPROCS::correlate_gpus(
     // TODO: Should we implement cc_config ignore vectors for other (future) OpenCL coprocessors?
 
     for (i=0; i<other_opencls.size(); i++) {
-        if (i > max_other_coprocs) {
+        if ((int)i > max_other_coprocs) {
             other_opencls[i].is_used = COPROC_UNUSED;
         }
         other_opencls[i].description(buf, sizeof(buf), other_opencls[i].name);
@@ -292,7 +292,7 @@ void COPROCS::correlate_gpus(
 int COPROCS::add_other_coproc_types() {
     int retval = 0;
     
-    for (int i=0; i<other_opencls.size(); i++) {
+    for (unsigned int i=0; i<other_opencls.size(); i++) {
         if (other_opencls[i].is_used != COPROC_USED) continue;
         if (n_rsc >= MAX_RSC) {
             retval = ERR_BUFFER_OVERFLOW;
