@@ -536,7 +536,7 @@ void COPROCS::get_opencl(
                 // to differentiate among OpenCL devices from the same vendor. It is
                 // used by boinc_get_opencl_ids() to select the correct OpenCL device.
                 int opencl_device_index = 0;
-                for (int coproc_index=0; coproc_index<other_opencls.size(); coproc_index++) {
+                for (unsigned int coproc_index=0; coproc_index<other_opencls.size(); coproc_index++) {
                     if (!strcmp(other_opencls[coproc_index].vendor, prop.vendor)) {
                         opencl_device_index++;  // Another OpenCL device from same vendor
                     }
@@ -565,7 +565,7 @@ void COPROCS::get_opencl(
     if ((nvidia_opencls.size() > 0) || nvidia.have_cuda) max_other_coprocs--;
     if ((ati_opencls.size() > 0) || ati.have_cal) max_other_coprocs--;
     if (intel_gpu_opencls.size() > 0) max_other_coprocs--;
-    if (other_opencls.size() > max_other_coprocs) {
+    if ((int)other_opencls.size() > max_other_coprocs) {
         warnings.push_back("Too many OpenCL device types found");
     }
 
