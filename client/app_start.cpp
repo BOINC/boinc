@@ -253,7 +253,13 @@ void ACTIVE_TASK::init_app_init_data(APP_INIT_DATA& aid) {
     int rt = app_version->gpu_usage.rsc_type;
     if (rt) {
         COPROC& cp = coprocs.coprocs[rt];
-        safe_strcpy(aid.gpu_type, cp.type);
+        if (coproc_type_name_to_num(cp.type) >= 0) {
+            // Standardized vendor name ("NVIDIA", "ATI" or "intel_gpu")
+            safe_strcpy(aid.gpu_type, cp.type);
+        } else {
+            // For other vendors, use vendor name as returned by OpenCL
+            safe_strcpy(aid.gpu_type, cp.opencl_prop.vendor);
+        }
         int k = result->coproc_indices[0];
         if (k<0 || k>=cp.count) {
             msg_printf(0, MSG_INTERNAL_ERROR,

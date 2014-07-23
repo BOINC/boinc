@@ -277,7 +277,9 @@ const char* rsc_name(int i) {
 // user-friendly version
 //
 const char* rsc_name_long(int i) {
-    return proc_type_name(coproc_type_name_to_num(coprocs.coprocs[i].type));
+    int num = coproc_type_name_to_num(coprocs.coprocs[i].type);
+    if (num >= 0) return proc_type_name(num);   // CPU, NVIDIA GPU, AMD GPU or Intel GPU
+    return coprocs.coprocs[i].type;             // Some other type
 }
 
 // alert user if any jobs need more RAM than available
@@ -478,6 +480,8 @@ int CLIENT_STATE::init() {
             coprocs.add(coprocs.intel_gpu);
         }
     }
+    coprocs.add_other_coproc_types();
+    
     host_info.coprocs = coprocs;
     
     if (coprocs.none() ) {

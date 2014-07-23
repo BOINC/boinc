@@ -38,7 +38,7 @@ struct OPENCL_DEVICE_PROP {
     cl_device_id device_id;
     char name[256];                     // Device name
     char vendor[256];                   // Device vendor (NVIDIA, ATI, AMD, etc.)
-    cl_uint vendor_id;                  // OpenCL ID of device vendor
+    cl_uint vendor_id;                  // Vendor's unique ID for this device on this host
     cl_bool available;                  // Is this device available?
     cl_device_fp_config half_fp_config; // Half precision capabilities
     cl_device_fp_config single_fp_config;   // Single precision
@@ -63,7 +63,7 @@ struct OPENCL_DEVICE_PROP {
     double peak_flops;                  // temp used in scan process
     COPROC_USAGE is_used;               // temp used in scan process
     double opencl_available_ram;        // temp used in scan process
-    int opencl_device_index;            // temp used in scan process
+    int opencl_device_index;            // zero-based device number within this COPROC type
 
     void write_xml(MIOFILE&, const char* tag, bool temp_file=false);
     int parse(XML_PARSER&, const char* end_tag);

@@ -241,7 +241,6 @@ int COPROCS::parse(XML_PARSER& xp) {
 
 void COPROCS::write_xml(MIOFILE& mf, bool scheduler_rpc) {
 #ifndef _USING_FCGI_
-//TODO: Write coprocs[0] through coprocs[n_rsc]
     mf.printf("    <coprocs>\n");
     if (nvidia.count) {
         nvidia.write_xml(mf, scheduler_rpc);
@@ -263,24 +262,6 @@ void COPROCS::write_xml(MIOFILE& mf, bool scheduler_rpc) {
     
     mf.printf("    </coprocs>\n");
 #endif
-}
-
-bool COPROCS::have_rsrc(int typeIndex) {
-    for (int i=0; i<n_rsc; i++) {
-        if (!strcmp(coprocs[i].type, proc_type_name_xml(typeIndex))) {
-            return true;
-        }
-    }
-    return false;
-}
-
-bool COPROCS::have_rsrc(char* typeName) {
-    for (int i=0; i<n_rsc; i++) {
-        if (!strcmp(coprocs[i].type, typeName)) {
-            return true;
-        }
-    }
-    return false;
 }
 
 void COPROC_NVIDIA::description(char* buf, int buflen) {
@@ -919,13 +900,12 @@ void COPROC_INTEL::fake(double ram, double avail_ram, int n) {
 // <coproc>
 //    <type>xxx</type>
 //
-// Don't confused this with the element names used for GPUS within <coprocs>,
+// Don't confuse this with the element names used for GPUS within <coprocs>,
 // namely:
 // coproc_cuda
 // coproc_ati
 // coproc_intel_gpu
 //
-
 const char* proc_type_name_xml(int pt) {
     switch(pt) {
     case PROC_TYPE_CPU: return "CPU";
@@ -951,5 +931,5 @@ int coproc_type_name_to_num(const char* name) {
     if (!strcmp(name, "NVIDIA")) return PROC_TYPE_NVIDIA_GPU;
     if (!strcmp(name, "ATI")) return PROC_TYPE_AMD_GPU;
     if (!strcmp(name, "intel_gpu")) return PROC_TYPE_INTEL_GPU;
-    return 0;
+    return -1;      // Some other type
 }

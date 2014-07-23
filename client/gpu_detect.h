@@ -22,18 +22,13 @@
 
 using std::vector;
 
-// NOTE: coprocs[0] is reserved for CPU, leaving MAX_RSC-1
-#define MAX_OTHER_OPENCLS MAX_RSC-1
-
 extern vector<COPROC_ATI> ati_gpus;
 extern vector<COPROC_NVIDIA> nvidia_gpus;
 extern vector<COPROC_INTEL> intel_gpus;
 extern vector<OPENCL_DEVICE_PROP> nvidia_opencls;
 extern vector<OPENCL_DEVICE_PROP> ati_opencls;
 extern vector<OPENCL_DEVICE_PROP> intel_gpu_opencls;
-extern vector<OPENCL_DEVICE_PROP> other_opencls[MAX_OTHER_OPENCLS];
+extern vector<OPENCL_DEVICE_PROP> other_opencls;
 extern vector<OPENCL_CPU_PROP> cpu_opencls;
-
-extern int num_other_opencl_types;
 
 #endif

@@ -61,11 +61,8 @@ vector<COPROC_INTEL> intel_gpus;
 vector<OPENCL_DEVICE_PROP> ati_opencls;
 vector<OPENCL_DEVICE_PROP> nvidia_opencls;
 vector<OPENCL_DEVICE_PROP> intel_gpu_opencls;
-vector<OPENCL_DEVICE_PROP> other_opencls[MAX_OTHER_OPENCLS];
+vector<OPENCL_DEVICE_PROP> other_opencls;
 vector<OPENCL_CPU_PROP> cpu_opencls;
-
-// Number of OpenCL coproc vendors other than AMD, NVIDIA or Intel
-int num_other_opencl_types;
 
 static char* client_path;
     // argv[0] from the command used to run client.
@@ -105,8 +102,6 @@ void COPROCS::get(
 
 
 void COPROCS::detect_gpus(std::vector<std::string> &warnings) {
-    num_other_opencl_types = 0;
-    
 #ifdef _WIN32
     try {
         nvidia.get(warnings);
@@ -170,7 +165,7 @@ void COPROCS::correlate_gpus(
     std::vector<std::string> &descs,
     IGNORE_GPU_INSTANCE &ignore_gpu_instance
 ) {
-    unsigned int i, j;
+    unsigned int i;
     char buf[256], buf2[256];
 
     nvidia.correlate(use_all, ignore_gpu_instance[PROC_TYPE_NVIDIA_GPU]);
@@ -260,13 +255,19 @@ void COPROCS::correlate_gpus(
 
     // Create descriptions for other OpenCL GPUs
     //
-    for (j=0; j<num_other_opencl_types; j++) {
-        //strcpy(coprocs[n_rsc++].type, proc_type_name_xml(PROC_TYPE_A+j));
-        //snprintf(buf2, sizeof(buf2), "%s number", proc_type_name(PROC_TYPE_A+j));
-        for (i=0; i<other_opencls[j].size(); i++) {
-            other_opencls[j][i].description(buf, sizeof(buf), buf2);
-            descs.push_back(string(buf));
+    int max_other_coprocs = MAX_RSC-1;  // coprocs[0] is reserved for CPU
+    if (have_nvidia()) max_other_coprocs--;
+    if (have_ati()) max_other_coprocs--;
+    if (have_intel_gpu()) max_other_coprocs--;
+
+    // TODO: Should we implement cc_config ignore vectors for other (future) OpenCL coprocessors?
+
+    for (i=0; i<other_opencls.size(); i++) {
+        if (i > max_other_coprocs) {
+            other_opencls[i].is_used = COPROC_UNUSED;
         }
+        other_opencls[i].description(buf, sizeof(buf), other_opencls[i].name);
+        descs.push_back(string(buf));
     }
     
     // Create descriptions for OpenCL CPUs
@@ -282,10 +283,44 @@ void COPROCS::correlate_gpus(
     ati_opencls.clear();
     nvidia_opencls.clear();
     intel_gpu_opencls.clear();
-    for (j=0; j<MAX_OTHER_OPENCLS; j++) {
-        other_opencls[j].clear();
-    }
     cpu_opencls.clear();
+}
+
+// This is called from CLIENT_STATE::init() after adding NVIDIA, ATI and Intel GPUs
+// If we don't care about the order of GPUs in COPROCS::coprocs[], 
+// this code could be included at the end of COPROCS::correlate_gpus().
+int COPROCS::add_other_coproc_types() {
+    int retval = 0;
+    
+    for (int i=0; i<other_opencls.size(); i++) {
+        if (other_opencls[i].is_used != COPROC_USED) continue;
+        if (n_rsc >= MAX_RSC) {
+            retval = ERR_BUFFER_OVERFLOW;
+            break;
+        }
+        
+        COPROC c;
+        // For other device types other than NVIDIA, ATI or Intel GPU coprocessor.
+        // we put each instance into a separate other_opencls element, so count=1.
+        c.count = 1;
+        c.opencl_device_count = 1;
+        c.opencl_prop = other_opencls[i];
+        c.available_ram = c.opencl_prop.global_mem_size;
+        c.device_num = c.opencl_prop.device_num;
+        c.peak_flops = c.opencl_prop.peak_flops;
+        c.have_opencl = true;
+        c.opencl_device_indexes[0] = c.opencl_prop.opencl_device_index;
+        c.opencl_device_ids[0] = c.opencl_prop.device_id;
+        c.instance_has_opencl[0] = true;
+        safe_strcpy(c.type, other_opencls[i].name);
+
+        // Don't call COPROCS::add() because duplicate type is legal here
+        coprocs[n_rsc++] = c;
+        
+    }
+    
+    other_opencls.clear();
+    return retval;
 }
 
 // Some dual-GPU laptops (e.g., Macbook Pro) don't 
@@ -305,7 +340,7 @@ void COPROCS::set_path_to_client(char *path) {
 
 int COPROCS::write_coproc_info_file(vector<string> &warnings) {
     MIOFILE mf;
-    unsigned int i, j, temp;
+    unsigned int i, temp;
     FILE* f;
     
     f = boinc_fopen(COPROC_INFO_FILENAME, "wb");
@@ -336,10 +371,8 @@ int COPROCS::write_coproc_info_file(vector<string> &warnings) {
     for (i=0; i<intel_gpu_opencls.size(); ++i) {
         intel_gpu_opencls[i].write_xml(mf, "intel_gpu_opencl", true);
     }
-    for (j=0; j<num_other_opencl_types; j++) {
-        for (i=0; i<other_opencls[j].size(); i++) {
-            other_opencls[j][i].write_xml(mf, "other_opencl", true);
-        }
+    for (i=0; i<other_opencls.size(); i++) {
+        other_opencls[i].write_xml(mf, "other_opencl", true);
     }
     for (i=0; i<cpu_opencls.size(); i++) {
         cpu_opencls[i].write_xml(mf);
@@ -374,11 +407,8 @@ int COPROCS::read_coproc_info_file(vector<string> &warnings) {
     ati_opencls.clear();
     nvidia_opencls.clear();
     intel_gpu_opencls.clear();
-    for (int j=0; j<MAX_OTHER_OPENCLS; j++) {
-        other_opencls[j].clear();
-    }
+    other_opencls.clear();
     cpu_opencls.clear();
-    num_other_opencl_types = 0;
 
     f = boinc_fopen(COPROC_INFO_FILENAME, "r");
     if (!f) return ERR_FOPEN;
@@ -470,31 +500,8 @@ int COPROCS::read_coproc_info_file(vector<string> &warnings) {
             if (retval) {
                 memset(&other_opencl, 0, sizeof(other_opencl));
             } else {
-                other_opencl.is_used = COPROC_IGNORED;
-                
-                int vendor_index;
-                // Put all coprocessors from same vendor in same other_opencls vector
-                for (vendor_index=0; vendor_index<num_other_opencl_types; vendor_index++) {
-                    if (other_opencls[vendor_index].size() == 0) {
-                        continue;       // Should never happen
-                    }
-                    // Assumes that OpenCL reports identical vendor name strings
-                    // for all devices from the same vendor on a given host.
-                    if (!strcmp(other_opencls[vendor_index][0].vendor, other_opencl.vendor)) {
-                        break;  // This vector contains coproc(s) from same vendor
-                    }
-                }
-                
-               if (vendor_index >= MAX_OTHER_OPENCLS) {
-                    // Too many OpenCL device vendors found (should never happen here)
-                    continue;   // Discard this coprocessor's info
-                }
-
-                if (vendor_index >= num_other_opencl_types) {
-                    num_other_opencl_types = vendor_index + 1;
-                }
-                
-                other_opencls[vendor_index].push_back(other_opencl);
+                other_opencl.is_used = COPROC_USED;
+                other_opencls.push_back(other_opencl);
             }
             continue;
         }
