@@ -95,6 +95,7 @@ int set_to_project_group(const char* path) {
 int switcher_exec(const char *util_filename, const char* cmdline) {
     char* argv[100];
     char util_path[MAXPATHLEN];
+    int stat;
 
     sprintf(util_path, "%s/%s", SWITCHER_DIR, util_filename);
     argv[0] = const_cast<char*>(util_filename);
@@ -111,7 +112,12 @@ int switcher_exec(const char *util_filename, const char* cmdline) {
         return ERR_EXEC;
     }
     // Wait for command to complete, like system() does.
-    waitpid(pid, 0, 0); 
+    waitpid(pid, &stat, 0);
+    
+    if (WIFEXITED(stat)) {
+        return WEXITSTATUS(stat);
+    }
+
     return 0;
 }
 
