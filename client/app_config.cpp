@@ -100,6 +100,7 @@ int APP_VERSION_CONFIG::parse(XML_PARSER& xp, PROJECT* p) {
 }
 
 int APP_CONFIGS::parse(XML_PARSER& xp, PROJECT* p) {
+    int n;
     app_configs.clear();
     if (!xp.parse_start("app_config")) return ERR_XML_PARSE;
     while (!xp.get_tag()) {
@@ -118,6 +119,10 @@ int APP_CONFIGS::parse(XML_PARSER& xp, PROJECT* p) {
             if (!retval) {
                 app_version_configs.push_back(avc);
             }
+            continue;
+        }
+        if (xp.parse_int("project_max_concurrent", n)) {
+            if (n >= 0) project_max_concurrent = n;
             continue;
         }
         if (log_flags.unparsed_xml) {
@@ -201,6 +206,9 @@ void APP_CONFIGS::config_app_versions(PROJECT* p, bool show_warnings) {
 void max_concurrent_init() {
     for (unsigned int i=0; i<gstate.apps.size(); i++) {
         gstate.apps[i]->n_concurrent = 0;
+    }
+    for (unsigned int i=0; i<gstate.projects.size(); i++) {
+        gstate.projects[i]->n_concurrent = 0;
     }
 }
 
