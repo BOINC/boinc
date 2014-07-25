@@ -106,6 +106,7 @@ void PROJECT::init() {
     too_many_uploading_results = false;
     njobs_success = 0;
     njobs_error = 0;
+    app_configs.clear();
 
 #ifdef SIM
     idle_time = 0;

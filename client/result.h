@@ -191,13 +191,23 @@ struct RESULT {
 
 inline bool max_concurrent_exceeded(RESULT* rp) {
     APP* app = rp->app;
-    if (!app->max_concurrent) return false;
-    return (app->n_concurrent >= app->max_concurrent);
-
+    if (app->max_concurrent) {
+        if (app->n_concurrent >= app->max_concurrent) {
+            return true;
+        }
+    }
+    PROJECT* p = rp->project;
+    if (p->app_configs.project_max_concurrent) {
+        if (p->n_concurrent >= p->app_configs.project_max_concurrent) {
+            return true;
+        }
+    }
+    return false;
 }
 
 inline void max_concurrent_inc(RESULT* rp) {
     rp->app->n_concurrent++;
+    rp->project->n_concurrent++;
 }
 
 // a completed result, for which the RESULT record no longer exists.
