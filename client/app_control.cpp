@@ -263,6 +263,7 @@ int ACTIVE_TASK::kill_running_task(bool will_restart) {
 // Clean up the subsidiary processes of a task whose main process has exited,
 // namely:
 // - its descendants (as recently enumerated; it's too late to do that now)
+//   This list kill be populated only in the quit and abort cases.
 // - its "other" processes, e.g. VMs
 //
 int ACTIVE_TASK::kill_exited_task() {
