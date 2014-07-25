@@ -568,7 +568,7 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
 
     // custom GPU type
     //
-    } else {
+    } else if (strlen(gpu_type)) {
         cpp = sreq.coprocs.lookup_type(gpu_type);
         if (!cpp) {
             if (config.debug_version_select) {

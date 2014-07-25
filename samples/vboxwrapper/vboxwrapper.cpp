@@ -436,8 +436,22 @@ void VBOX_VM::check_trickle_triggers() {
                 "%s can't read trickle trigger file %s\n",
                 vboxwrapper_msg_prefix(buf, sizeof(buf)), filename
             );
+        } else {
+            retval = boinc_send_trickle_up(
+                filename, const_cast<char*>(text.c_str())
+            );
+            if (retval) {
+                fprintf(stderr,
+                    "%s boinc_send_trickle_up() failed: %s\n",
+                    vboxwrapper_msg_prefix(buf, sizeof(buf)), boincerror(retval)
+                );
+            } else {
+                fprintf(stderr,
+                    "%s sent trickle-up of variety %s\n",
+                    vboxwrapper_msg_prefix(buf, sizeof(buf)), filename
+                );
+            }
         }
-        boinc_send_trickle_up(filename, const_cast<char*>(text.c_str()));
         boinc_delete_file(path);
     }
 }
