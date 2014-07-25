@@ -224,7 +224,7 @@ static void kill_app_process(int pid, bool) {
     if (retval && log_flags.task_debug) {
         msg_printf(0, MSG_INFO,
             "[task] kill_via_switcher() failed: %s",
-            boincerror(retval)
+            (retval==-1) ? strerror(errno) : boincerror(retval)
         );
     }
 #endif
@@ -232,7 +232,7 @@ static void kill_app_process(int pid, bool) {
     if (retval && log_flags.task_debug) {
         msg_printf(0, MSG_INFO,
             "[task] kill() failed: %s",
-            boincerror(retval)
+            (retval==-1) ? strerror(errno) : boincerror(retval)
         );
     }
 }
@@ -269,6 +269,7 @@ int ACTIVE_TASK::kill_running_task(bool will_restart) {
 int ACTIVE_TASK::kill_exited_task() {
     kill_processes(other_pids, true);
     kill_processes(descendants, true);
+    return 0;
 }
 
 // We have sent a quit request to the process; see if it's exited.
