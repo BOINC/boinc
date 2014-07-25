@@ -94,7 +94,7 @@ inline int scaled_max_jobs_per_day(DB_HOST_APP_VERSION& hav, HOST_USAGE& hu) {
             n *= g_reply->host.p_ncpus;
         }
     } else {
-        COPROC* cp = g_request->coprocs.type_to_coproc(hu.proc_type);
+        COPROC* cp = g_request->coprocs.proc_type_to_coproc(hu.proc_type);
         if (cp->count) {
             n *= cp->count;
         }

@@ -73,6 +73,9 @@ struct HOST_USAGE {
     double peak_flops;
         // stored in result.flops_estimate, and used for credit calculations
     char cmdline[256];
+    char custom_coproc_type[256];
+        // if we're using a custom GPU type, it's name
+        // TODO: get rid of PROC_TYPE_*, and this
 
     HOST_USAGE() {
         proc_type = PROC_TYPE_CPU;
@@ -83,6 +86,7 @@ struct HOST_USAGE {
         projected_flops = 0;
         peak_flops = 0;
         strcpy(cmdline, "");
+        strcpy(custom_coproc_type, "");
     }
     void sequential_app(double flops) {
         proc_type = PROC_TYPE_CPU;

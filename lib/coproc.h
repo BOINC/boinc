@@ -474,11 +474,19 @@ struct COPROCS {
         coprocs[n_rsc++] = c;
         return 0;
     }
-    COPROC* type_to_coproc(int t) {
+    COPROC* proc_type_to_coproc(int t) {
         switch(t) {
         case PROC_TYPE_NVIDIA_GPU: return &nvidia;
         case PROC_TYPE_AMD_GPU: return &ati;
         case PROC_TYPE_INTEL_GPU: return &intel_gpu;
+        }
+        return NULL;
+    }
+    COPROC* lookup_type(const char* t) {
+        for (int i=1; i<n_rsc; i++) {
+            if (!strcmp(t, coprocs[i].type)) {
+                return &coprocs[i];
+            }
         }
         return NULL;
     }

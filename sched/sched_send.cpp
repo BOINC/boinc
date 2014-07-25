@@ -151,7 +151,7 @@ void WORK_REQ_BASE::get_job_limits() {
     for (i=1; i<g_request->coprocs.n_rsc; i++) {
         COPROC& cp = g_request->coprocs.coprocs[i];
         int proc_type = coproc_type_name_to_num(cp.type);
-        if (!proc_type) continue;
+        if (proc_type < 0) continue;
         n = cp.count;
         if (n > MAX_GPUS) n = MAX_GPUS;
         ninstances[proc_type] = n;
@@ -546,7 +546,7 @@ static inline void update_estimated_delay(BEST_APP_VERSION& bav, double dt) {
     if (pt == PROC_TYPE_CPU) {
         g_request->cpu_estimated_delay += dt*bav.host_usage.avg_ncpus/g_request->host.p_ncpus;
     } else {
-        COPROC* cp = g_request->coprocs.type_to_coproc(pt);
+        COPROC* cp = g_request->coprocs.proc_type_to_coproc(pt);
         cp->estimated_delay += dt*bav.host_usage.gpu_usage/cp->count;
     }
 }
@@ -1169,7 +1169,7 @@ void send_gpu_messages() {
     bool usable_gpu = false;
     bool have_gpu_apps = false;
     for (int i=1; i<NPROC_TYPES; i++) {
-        COPROC* cp = g_request->coprocs.type_to_coproc(i);
+        COPROC* cp = g_request->coprocs.proc_type_to_coproc(i);
         if (ssp->have_apps_for_proc_type[i]) {
             have_gpu_apps = true;
             if (cp->count) {
@@ -1429,7 +1429,7 @@ void send_work_setup() {
     // do sanity checking on GPU scheduling parameters
     //
     for (i=1; i<NPROC_TYPES; i++) {
-        COPROC* cp = g_request->coprocs.type_to_coproc(i);
+        COPROC* cp = g_request->coprocs.proc_type_to_coproc(i);
         if (cp->count) {
             g_wreq->req_secs[i] = clamp_req_sec(cp->req_secs);
             g_wreq->req_instances[i] = cp->req_instances;
@@ -1490,7 +1490,7 @@ void send_work_setup() {
             g_request->cpu_estimated_delay
         );
         for (i=1; i<NPROC_TYPES; i++) {
-            COPROC* cp = g_request->coprocs.type_to_coproc(i);
+            COPROC* cp = g_request->coprocs.proc_type_to_coproc(i);
             if (cp->count) {
                 log_messages.printf(MSG_NORMAL,
                     "[send] %s: req %.2f sec, %.2f instances; est delay %.2f\n",

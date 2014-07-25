@@ -140,7 +140,7 @@ static inline double get_estimated_delay(BEST_APP_VERSION& bav) {
     if (pt == PROC_TYPE_CPU) {
         return g_request->cpu_estimated_delay;
     }
-    COPROC* cp = g_request->coprocs.type_to_coproc(pt);
+    COPROC* cp = g_request->coprocs.proc_type_to_coproc(pt);
     return cp->estimated_delay;
 }
 

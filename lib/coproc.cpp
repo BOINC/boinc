@@ -235,6 +235,15 @@ int COPROCS::parse(XML_PARSER& xp) {
             }
             continue;
         }
+        if (xp.match_tag("coproc")) {
+            COPROC cp;
+            retval = cp.parse(xp);
+            if (!retval) {
+                coprocs[n_rsc++] = cp;
+            } else {
+                fprintf(stderr, "failed to parse <coproc>: %d\n", retval);
+            }
+        }
     }
     return ERR_XML_PARSE;
 }
