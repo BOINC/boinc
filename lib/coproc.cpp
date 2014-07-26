@@ -132,6 +132,8 @@ void COPROC::write_request(MIOFILE& f) {
     );
 }
 
+#endif
+
 int COPROC::parse(XML_PARSER& xp) {
     char buf[256];
     strcpy(type, "");
@@ -160,8 +162,6 @@ int COPROC::parse(XML_PARSER& xp) {
     }
     return ERR_XML_PARSE;
 }
-
-#endif
 
 void COPROCS::summary_string(char* buf, int len) {
     char buf2[1024];
