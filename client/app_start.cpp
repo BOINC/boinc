@@ -439,9 +439,7 @@ int ACTIVE_TASK::setup_file(
     }
     if (retval) return retval;
 #endif
-#ifdef SANDBOX
-    return set_to_project_group(link_path);
-#endif
+    if (g_use_sandbox) set_to_project_group(link_path);
     return 0;
 }
 
@@ -906,9 +904,7 @@ int ACTIVE_TASK::start(bool test) {
                     int fd = open(buf, O_RDWR | O_CREAT, 0660);
                     if (fd >= 0) {
                         close (fd);
-#ifdef SANDBOX
-                        set_to_project_group(buf);
-#endif
+                        if (g_use_sandbox) set_to_project_group(buf);
                     }
                 }
             }

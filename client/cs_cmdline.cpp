@@ -68,9 +68,7 @@ static void print_options(char* prog) {
         "    --gui_rpc_port <port>          port for GUI RPCs\n"
         "    --gui_rpc_unix_domain          use Unix domain for GUI RPCs\n"
         "    --help                         show options\n"
-#ifdef SANDBOX
         "    --insecure                     disable app sandboxing (Unix)\n"
-#endif
 #ifdef __APPLE__
         "    --launched_by_manager          client was launched by Manager\n"
 #endif
@@ -183,9 +181,7 @@ void CLIENT_STATE::parse_cmdline(int argc, char** argv) {
             print_options(argv[0]);
             exit(0);
         } else if (ARG(insecure)) {
-#ifdef SANDBOX
             g_use_sandbox = false;
-#endif
         } else if (ARG(launched_by_manager)) {
             launched_by_manager = true;
         } else if (ARG(master_fetch_interval)) {
