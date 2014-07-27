@@ -211,10 +211,14 @@ int ACTIVE_TASK::request_abort() {
 
 #ifdef _WIN32
 static void kill_app_process(int pid, bool will_restart) {
-    HANDLE h = OpenProcess(READ_CONTROL | PROCESS_TERMINATE, false, pid);
-    if (h == NULL) return;
-    TerminateProcess(h, will_restart?0:EXIT_ABORTED_BY_CLIENT);
-    CloseHandle(h);
+    int retval = 0;
+    retval = kill_program(pid, will_restart?0:EXIT_ABORTED_BY_CLIENT);
+    if (retval && log_flags.task_debug) {
+        msg_printf(0, MSG_INFO,
+            "[task] kill_app_process() failed: %s",
+            boincerror(retval)
+        );
+    }
 }
 #else
 static void kill_app_process(int pid, bool) {

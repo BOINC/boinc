@@ -461,6 +461,23 @@ int run_program(
 #endif
 
 #ifdef _WIN32
+int kill_program(int pid, int exit_code) {
+    int retval = -1;
+
+    HANDLE h = OpenProcess(PROCESS_TERMINATE, false, pid);
+    if (h == NULL && GetLastError() == ERROR_ACCESS_DENIED) return ERR_OPEN;
+    if (h == NULL && GetLastError() == ERROR_INVALID_PARAMETER) return ERR_INVALID_PARAM;
+    if (h == NULL && GetLastError() == ERROR_FILE_NOT_FOUND) return ERR_NOT_FOUND;
+    if (h == NULL) return ERR_IO;
+    if (TerminateProcess(h, exit_code)) {
+        retval = 0;
+    } else {
+        retval = 1;
+    }
+    CloseHandle(h);
+
+    return retval;
+}
 void kill_program(HANDLE pid) {
     TerminateProcess(pid, 0);
 }
