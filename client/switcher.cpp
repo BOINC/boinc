@@ -132,10 +132,8 @@ int main(int /*argc*/, char** argv) {
 
     retval = execv(argv[1], argv+2);
     if (retval == -1) {
-        retval = errno;
-
         // If we got here execv failed
-        fprintf(stderr, "Process creation (%s) failed: %s (errno = %d)\n", argv[1], strerror(retval), retval);
+        fprintf(stderr, "Process creation (%s) failed: %s (errno = %d)\n", argv[1], strerror(errno), retval);
     }
 
     return retval;
