@@ -219,21 +219,22 @@ static void kill_app_process(int pid, bool will_restart) {
 #else
 static void kill_app_process(int pid, bool) {
     int retval = 0;
-#ifdef SANDBOX
-    retval = kill_via_switcher(pid);
-    if (retval && log_flags.task_debug) {
-        msg_printf(0, MSG_INFO,
-            "[task] kill_via_switcher() failed: %s",
-            (retval==-1) ? strerror(errno) : boincerror(retval)
-        );
-    }
-#endif
-    retval = kill(pid, SIGKILL);
-    if (retval && log_flags.task_debug) {
-        msg_printf(0, MSG_INFO,
-            "[task] kill() failed: %s",
-            (retval==-1) ? strerror(errno) : boincerror(retval)
-        );
+    if (g_use_sandbox) {
+        retval = kill_via_switcher(pid);
+        if (retval && log_flags.task_debug) {
+            msg_printf(0, MSG_INFO,
+                "[task] kill_via_switcher() failed: %s",
+                (retval) ? strerror(errno) : boincerror(retval)
+            );
+        }
+    } else {
+        retval = kill(pid, SIGKILL);
+        if (retval && log_flags.task_debug) {
+            msg_printf(0, MSG_INFO,
+                "[task] kill() failed: %s",
+                (retval==-1) ? strerror(errno) : boincerror(retval)
+            );
+        }
     }
 }
 #endif
