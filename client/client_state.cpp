@@ -677,9 +677,7 @@ int CLIENT_STATE::init() {
         if (retval) return retval;
     }
 
-#ifdef SANDBOX
-    get_project_gid();
-#endif
+    if (g_use_sandbox) get_project_gid();
 #ifdef _WIN32
     get_sandbox_account_service_token();
     if (sandbox_account_service_token != NULL) g_use_sandbox = true;
