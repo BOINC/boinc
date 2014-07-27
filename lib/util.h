@@ -91,6 +91,7 @@ extern int run_program(
 );
 
 extern void kill_program(HANDLE);
+extern int kill_program(int, int);
 extern int get_exit_status(HANDLE);
 extern bool process_exists(HANDLE);
 
