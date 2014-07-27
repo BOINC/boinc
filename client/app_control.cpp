@@ -216,7 +216,7 @@ static void kill_app_process(int pid, bool will_restart) {
     if (retval && log_flags.task_debug) {
         msg_printf(0, MSG_INFO,
             "[task] kill_app_process() failed: %s",
-            boincerror(retval)
+            strerror(retval)
         );
     }
 }
