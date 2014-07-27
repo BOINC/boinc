@@ -23,8 +23,10 @@
 #include "config.h"
 #include <sys/types.h>
 #include <sys/wait.h>
-#include <grp.h>
 #include <errno.h>
+#include <fcntl.h> 
+#include <unistd.h>
+#include <grp.h>
 #endif
 
 #include "error_numbers.h"
@@ -52,11 +54,27 @@ bool g_use_sandbox = false;
 int switcher_exec(const char *util_filename, const char* cmdline) {
     char* argv[100];
     char util_path[MAXPATHLEN];
+    char buffer[1024];
+    int fds_out[2], fds_err[2];
     int stat;
+    int retval;
+    std::string output_out, output_err;
 
     sprintf(util_path, "%s/%s", SWITCHER_DIR, util_filename);
     argv[0] = const_cast<char*>(util_filename);
     parse_command_line(const_cast<char*>(cmdline), argv+1);
+
+    // Create the output pipes
+    if (pipe(fds_out) == -1) {
+        perror("pipe() for fds_out failed in switcher_exec");
+        return ERR_PIPE;
+    }
+
+    if (pipe(fds_err) == -1) {
+        perror("pipe() for fds_err failed in switcher_exec");
+        return ERR_PIPE;
+    }
+
     int pid = fork();
     if (pid == -1) {
         perror("fork() failed in switcher_exec");
@@ -64,15 +82,74 @@ int switcher_exec(const char *util_filename, const char* cmdline) {
     }
     if (pid == 0) {
         // This is the new (forked) process
+
+        // Setup pipe redirects
+        while ((dup2(fds_out[1], STDOUT_FILENO) == -1) && (errno == EINTR)) {}
+        while ((dup2(fds_err[1], STDERR_FILENO) == -1) && (errno == EINTR)) {}
+        close(fds_out[1]);
+        close(fds_out[0]);
+        close(fds_err[1]);
+        close(fds_err[0]);
+
         execv(util_path, argv);
         fprintf(stderr, "execv failed in switcher_exec(%s, %s): %s", util_path, cmdline, strerror(errno));
+
         return ERR_EXEC;
     }
     // Wait for command to complete, like system() does.
     waitpid(pid, &stat, 0);
-    
+
+    // Capture stdout output
+    while (1) {
+        ssize_t count = read(fds_out[0], buffer, sizeof(buffer));
+        if (count == -1) {
+            if (errno == EINTR) {
+                continue;
+            } else {
+                break;
+            }
+        } else if (count == 0) {
+            break;
+        } else {
+            output_out = buffer;
+        }
+    }
+
+    // Capture stderr output
+    while (1) {
+        ssize_t count = read(fds_err[0], buffer, sizeof(buffer));
+        if (count == -1) {
+            if (errno == EINTR) {
+                continue;
+            } else {
+                break;
+            }
+        } else if (count == 0) {
+            break;
+        } else {
+            output_err = buffer;
+        }
+    }
+
+    // Close pipe descriptors
+    close(fds_out[1]);
+    close(fds_out[0]);
+    close(fds_err[1]);
+    close(fds_err[0]);
+
     if (WIFEXITED(stat)) {
-        return WEXITSTATUS(stat);
+        retval = WEXITSTATUS(stat);
+        if (retval) {
+            if (log_flags.task_debug) {
+                msg_printf(0, MSG_INTERNAL_ERROR, "[task_debug] failure in switcher_exec");
+                msg_printf(0, MSG_INTERNAL_ERROR, "[task_debug]    command: %s", util_path);
+                msg_printf(0, MSG_INTERNAL_ERROR, "[task_debug]  arguments: %s", cmdline);
+                msg_printf(0, MSG_INTERNAL_ERROR, "[task_debug]  exit code: %s (%d)", strerror(retval), retval);
+                msg_printf(0, MSG_INTERNAL_ERROR, "[task_debug]     stdout: %s", output_out.c_str());
+                msg_printf(0, MSG_INTERNAL_ERROR, "[task_debug]     stderr: %s", output_err.c_str());
+            }
+        }
+        return retval;
     }
 
     return 0;
