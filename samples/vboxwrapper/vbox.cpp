@@ -1299,7 +1299,23 @@ int VBOX_VM::stop() {
                 "%s VM did not stop when requested.\n",
                 vboxwrapper_msg_prefix(buf, sizeof(buf))
             );
-            retval = ERR_EXEC;
+
+            // Attempt to terminate the VM
+            if (!kill_program(vm_pid, 0)) {
+                fprintf(
+                    stderr,
+                    "%s VM was NOT successfully terminated.\n",
+                    vboxwrapper_msg_prefix(buf, sizeof(buf))
+                );
+                retval = ERR_EXEC;
+            } else {
+                fprintf(
+                    stderr,
+                    "%s VM was successfully terminated.\n",
+                    vboxwrapper_msg_prefix(buf, sizeof(buf))
+                );
+                retval = BOINC_SUCCESS;
+            }
         }
     }
 
@@ -1348,7 +1364,23 @@ int VBOX_VM::poweroff() {
                 "%s VM did not power off when requested.\n",
                 vboxwrapper_msg_prefix(buf, sizeof(buf))
             );
-            retval = ERR_EXEC;
+
+            // Attempt to terminate the VM
+            if (!kill_program(vm_pid, 0)) {
+                fprintf(
+                    stderr,
+                    "%s VM was NOT successfully terminated.\n",
+                    vboxwrapper_msg_prefix(buf, sizeof(buf))
+                );
+                retval = ERR_EXEC;
+            } else {
+                fprintf(
+                    stderr,
+                    "%s VM was successfully terminated.\n",
+                    vboxwrapper_msg_prefix(buf, sizeof(buf))
+                );
+                retval = BOINC_SUCCESS;
+            }
         }
     }
 
