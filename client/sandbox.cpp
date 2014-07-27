@@ -42,49 +42,6 @@
 bool g_use_sandbox = false;
 
 #ifndef _WIN32
-#ifndef _DEBUG
-static int lookup_group(const char* name, gid_t& gid) {
-    struct group* gp = getgrnam(name);
-    if (!gp) return ERR_GETGRNAM;
-    gid = gp->gr_gid;
-    return 0;
-}
-#endif
-
-int kill_via_switcher(int pid) {
-    char cmd[1024];
-    
-    if (!g_use_sandbox) return 0;
-
-    // if project application is running as user boinc_project and 
-    // client is running as user boinc_master,
-    // we cannot send a signal directly, so use switcher.
-    //
-    sprintf(cmd, "/bin/kill kill -s KILL %d", pid);
-    return switcher_exec(SWITCHER_FILE_NAME, cmd);
-}
-
-int get_project_gid() {
-    if (g_use_sandbox) {
-#ifdef _DEBUG
-        gstate.boinc_project_gid = getegid();
-#else
-        return lookup_group(BOINC_PROJECT_GROUP_NAME, gstate.boinc_project_gid);
-#endif  // _DEBUG
-    } else {
-        gstate.boinc_project_gid = 0;
-    }
-    return 0;
-}
-
-int set_to_project_group(const char* path) {
-    if (g_use_sandbox) {
-        if (switcher_exec(SETPROJECTGRP_FILE_NAME, path)) {
-            return ERR_CHOWN;
-        }
-    }
-    return 0;
-}
 
 // POSIX requires that shells run from an application will use the 
 // real UID and GID if different from the effective UID and GID.  
@@ -121,6 +78,28 @@ int switcher_exec(const char *util_filename, const char* cmdline) {
     return 0;
 }
 
+int kill_via_switcher(int pid) {
+    char cmd[1024];
+    
+    if (!g_use_sandbox) return 0;
+
+    // if project application is running as user boinc_project and 
+    // client is running as user boinc_master,
+    // we cannot send a signal directly, so use switcher.
+    //
+    sprintf(cmd, "/bin/kill kill -s KILL %d", pid);
+    return switcher_exec(SWITCHER_FILE_NAME, cmd);
+}
+
+#ifndef _DEBUG
+static int lookup_group(const char* name, gid_t& gid) {
+    struct group* gp = getgrnam(name);
+    if (!gp) return ERR_GETGRNAM;
+    gid = gp->gr_gid;
+    return 0;
+}
+#endif
+
 int remove_project_owned_file_or_dir(const char* path) {
     char cmd[1024];
 
@@ -135,6 +114,35 @@ int remove_project_owned_file_or_dir(const char* path) {
     return ERR_UNLINK;
 }
 
+int get_project_gid() {
+    if (g_use_sandbox) {
+#ifdef _DEBUG
+        gstate.boinc_project_gid = getegid();
+#else
+        return lookup_group(BOINC_PROJECT_GROUP_NAME, gstate.boinc_project_gid);
+#endif  // _DEBUG
+    } else {
+        gstate.boinc_project_gid = 0;
+    }
+    return 0;
+}
+
+int set_to_project_group(const char* path) {
+    if (g_use_sandbox) {
+        if (switcher_exec(SETPROJECTGRP_FILE_NAME, path)) {
+            return ERR_CHOWN;
+        }
+    }
+    return 0;
+}
+
+#else
+int get_project_gid() {
+    return 0;
+}
+int set_to_project_group(const char* path) {
+    return 0;
+}
 #endif // ! _WIN32
 
 static int delete_project_owned_file_aux(const char* path) {
