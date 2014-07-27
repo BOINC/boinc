@@ -111,7 +111,7 @@ int switcher_exec(const char *util_filename, const char* cmdline) {
         } else if (count == 0) {
             break;
         } else {
-            output_out = buffer;
+            output_out += buffer;
         }
     }
 
@@ -127,7 +127,7 @@ int switcher_exec(const char *util_filename, const char* cmdline) {
         } else if (count == 0) {
             break;
         } else {
-            output_err = buffer;
+            output_err += buffer;
         }
     }
 
