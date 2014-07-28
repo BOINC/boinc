@@ -227,8 +227,8 @@ static void kill_app_process(int pid, bool) {
         retval = kill_via_switcher(pid);
         if (retval && log_flags.task_debug) {
             msg_printf(0, MSG_INFO,
-                "[task] kill_via_switcher() failed: %s",
-                (retval) ? strerror(errno) : boincerror(retval)
+                "[task] kill_via_switcher() failed: %s (%d)",
+                (retval>=0) ? strerror(errno) : boincerror(retval), retval
             );
         }
     } else {
@@ -236,7 +236,7 @@ static void kill_app_process(int pid, bool) {
         if (retval && log_flags.task_debug) {
             msg_printf(0, MSG_INFO,
                 "[task] kill() failed: %s",
-                (retval==-1) ? strerror(errno) : boincerror(retval)
+                strerror(errno)
             );
         }
     }
@@ -268,6 +268,7 @@ int ACTIVE_TASK::kill_running_task(bool will_restart) {
 // Clean up the subsidiary processes of a task whose main process has exited,
 // namely:
 // - its descendants (as recently enumerated; it's too late to do that now)
+//   This list kill be populated only in the quit and abort cases.
 // - its "other" processes, e.g. VMs
 //
 int ACTIVE_TASK::kill_exited_task() {
