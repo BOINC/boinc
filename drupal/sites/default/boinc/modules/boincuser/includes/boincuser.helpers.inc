@@ -157,11 +157,11 @@ function boinc_get_path($type = 'root') {
     if (!in_array($_GET['q'], $page_blacklist)) {
       watchdog('boincuser', 'The BOINC environment is not configured. Please
           !configure_it', array('!configure_it' => l(t('configure it now'),
-            'admin/boinc/environment')), WATCHDOG_ERROR);
+            'admin/boinc/environment')), WATCHDOG_WARNING);
       if (user_access('administer site configuration')) {
         drupal_set_message(t('The BOINC environment is not configured. Please
           !configure_it', array('!configure_it' => l(t('configure it now'),
-            'admin/boinc/environment'))), 'error', FALSE);
+            'admin/boinc/environment'))), 'warning', FALSE);
       }
       else {
         drupal_set_message(t('There is a problem with the site. Please contact
