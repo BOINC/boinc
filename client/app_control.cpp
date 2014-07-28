@@ -236,7 +236,7 @@ static void kill_app_process(int pid, bool) {
         if (retval && log_flags.task_debug) {
             msg_printf(0, MSG_INFO,
                 "[task] kill() failed: %s",
-                (retval==-1) ? strerror(errno) : boincerror(retval)
+                strerror(errno)
             );
         }
     }
