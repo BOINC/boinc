@@ -363,11 +363,11 @@ $astro_phys_chem = array(
             "Improve the design of the Large Hadron Collider"
         ),
         array(
-            "LHC@home Test4Theory",
-            "http://lhcathome2.cern.ch/test4theory/",
+            "vLHCathome",
+            "http://lhcathome2.cern.ch/vLHCathome/",
             tra("CERN (European Organization for Nuclear Research)"),
             tra("Physics"),
-            tra("This project uses CERN-developed virtual machine technology for full-fledged LHC event physics simulation on volunteer computers.  Requires that you install VirtualBox on your computer"),
+            tra("This project uses CERN-developed virtual machine technology for LHC event physics simulation on volunteer computers.  Requires that you install VirtualBox on your computer"),
             "t4t.png",
             "",
             "Simulate high-energy particle collisions"
