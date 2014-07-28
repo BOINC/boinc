@@ -54,6 +54,7 @@ bool g_use_sandbox = false;
 int switcher_exec(const char *util_filename, const char* cmdline) {
     char* argv[100];
     char util_path[MAXPATHLEN];
+    char command [1024];
     char buffer[1024];
     int fds_out[2], fds_err[2];
     int stat;
@@ -62,6 +63,8 @@ int switcher_exec(const char *util_filename, const char* cmdline) {
 
     sprintf(util_path, "%s/%s", SWITCHER_DIR, util_filename);
     argv[0] = const_cast<char*>(util_filename);
+    // Make a copy of cmdline because parse_command_line modifies it
+    safe_strcpy(command, cmdline);
     parse_command_line(const_cast<char*>(cmdline), argv+1);
 
     // Create the output pipes
@@ -69,7 +72,7 @@ int switcher_exec(const char *util_filename, const char* cmdline) {
         perror("pipe() for fds_out failed in switcher_exec");
         return ERR_PIPE;
     }
-
+    
     if (pipe(fds_err) == -1) {
         perror("pipe() for fds_err failed in switcher_exec");
         return ERR_PIPE;
@@ -86,9 +89,8 @@ int switcher_exec(const char *util_filename, const char* cmdline) {
         // Setup pipe redirects
         while ((dup2(fds_out[1], STDOUT_FILENO) == -1) && (errno == EINTR)) {}
         while ((dup2(fds_err[1], STDERR_FILENO) == -1) && (errno == EINTR)) {}
-        close(fds_out[1]);
+        // Child only needs one-way (write) pipes so close read pipes
         close(fds_out[0]);
-        close(fds_err[1]);
         close(fds_err[0]);
 
         execv(util_path, argv);
@@ -96,9 +98,10 @@ int switcher_exec(const char *util_filename, const char* cmdline) {
 
         return ERR_EXEC;
     }
-    // Wait for command to complete, like system() does.
-    waitpid(pid, &stat, 0);
-
+    // Parent only needs one-way (read) pipes so close write pipes
+    close(fds_out[1]);
+    close(fds_err[1]);
+    
     // Capture stdout output
     while (1) {
         ssize_t count = read(fds_out[0], buffer, sizeof(buffer));
@@ -111,6 +114,7 @@ int switcher_exec(const char *util_filename, const char* cmdline) {
         } else if (count == 0) {
             break;
         } else {
+            buffer[count] = '\0';
             output_out += buffer;
         }
     }
@@ -127,23 +131,26 @@ int switcher_exec(const char *util_filename, const char* cmdline) {
         } else if (count == 0) {
             break;
         } else {
+            buffer[count] = '\0';
             output_err += buffer;
         }
     }
 
+    // Wait for command to complete, like system() does.
+    waitpid(pid, &stat, 0);
+
     // Close pipe descriptors
-    close(fds_out[1]);
     close(fds_out[0]);
-    close(fds_err[1]);
     close(fds_err[0]);
 
     if (WIFEXITED(stat)) {
         retval = WEXITSTATUS(stat);
+
         if (retval) {
             if (log_flags.task_debug) {
                 msg_printf(0, MSG_INTERNAL_ERROR, "[task_debug] failure in switcher_exec");
-                msg_printf(0, MSG_INTERNAL_ERROR, "[task_debug]    command: %s", util_path);
-                msg_printf(0, MSG_INTERNAL_ERROR, "[task_debug]  arguments: %s", cmdline);
+                msg_printf(0, MSG_INTERNAL_ERROR, "[task_debug]   switcher: %s", util_path);
+                msg_printf(0, MSG_INTERNAL_ERROR, "[task_debug]    command: %s", command);
                 msg_printf(0, MSG_INTERNAL_ERROR, "[task_debug]  exit code: %s (%d)", strerror(retval), retval);
                 msg_printf(0, MSG_INTERNAL_ERROR, "[task_debug]     stdout: %s", output_out.c_str());
                 msg_printf(0, MSG_INTERNAL_ERROR, "[task_debug]     stderr: %s", output_err.c_str());
@@ -194,6 +201,8 @@ int remove_project_owned_file_or_dir(const char* path) {
 int get_project_gid() {
     if (g_use_sandbox) {
 #ifdef _DEBUG
+        // GDB can't attach to applications which are running as a different user   
+        //  or group, so fix up data with current user and group during debugging
         gstate.boinc_project_gid = getegid();
 #else
         return lookup_group(BOINC_PROJECT_GROUP_NAME, gstate.boinc_project_gid);
