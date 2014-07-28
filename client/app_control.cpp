@@ -227,8 +227,8 @@ static void kill_app_process(int pid, bool) {
         retval = kill_via_switcher(pid);
         if (retval && log_flags.task_debug) {
             msg_printf(0, MSG_INFO,
-                "[task] kill_via_switcher() failed: %s",
-                (retval) ? strerror(errno) : boincerror(retval)
+                "[task] kill_via_switcher() failed: %s (%d)",
+                (retval>=0) ? strerror(errno) : boincerror(retval), retval
             );
         }
     } else {
