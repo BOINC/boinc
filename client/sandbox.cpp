@@ -96,7 +96,7 @@ int switcher_exec(const char *util_filename, const char* cmdline) {
         execv(util_path, argv);
         fprintf(stderr, "execv failed in switcher_exec(%s, %s): %s", util_path, cmdline, strerror(errno));
 
-        return ERR_EXEC;
+        _exit(EXIT_FAILURE);
     }
     // Parent only needs one-way (read) pipes so close write pipes
     close(fds_out[1]);
