@@ -520,7 +520,7 @@ echo \'<div class="item-count-wrapper"><div class="item-count">\' . $account->po
     $pane->configuration = array(
       'admin_title' => 'BOINC overview',
       'title' => 'What is Einstein@Home?',
-      'body' => '<div class="boinc-overview balance-height">
+      'body' => '<div class="boinc-overview balance-height-front">
   <div>Einstein@Home is a program that uses your computer\'s idle time to run a screensaver to search for gravitational waves from spinning neutron stars (also called pulsars) using data from the LIGO gravitational wave detector. <a href="about">Learn more.</a></div>
   <div><a class="join button" href="join">Join now</a></div>
 </div>
@@ -577,7 +577,7 @@ echo \'<div class="item-count-wrapper"><div class="item-count">\' . $account->po
     $pane->configuration = array(
       'admin_title' => 'BOINC user home',
       'title' => 'Welcome back!',
-      'body' => '<div class="boinc-overview balance-height">
+      'body' => '<div class="boinc-overview balance-height-front">
   <div>Einstein@Home is a program that uses your computer\'s idle time to run a screensaver to search for gravitational waves from spinning neutron stars (also called pulsars) using data from the LIGO gravitational wave detector. <a href="about">Learn more.</a></div>
   <div><a class="join button" href="dashboard">View account</a></div>
 </div>
@@ -628,7 +628,7 @@ echo \'<div class="item-count-wrapper"><div class="item-count">\' . $account->po
     );
     $pane->css = array(
       'css_id' => '',
-      'css_class' => 'panel-secondary container shadow balance-height no-resize',
+      'css_class' => 'panel-secondary container shadow balance-height-front no-resize',
     );
     $pane->extras = array();
     $pane->position = 0;
@@ -663,7 +663,7 @@ echo \'<div class="item-count-wrapper"><div class="item-count">\' . $account->po
     );
     $pane->css = array(
       'css_id' => '',
-      'css_class' => 'panel-secondary container shadow balance-height',
+      'css_class' => 'panel-secondary container shadow balance-height-front',
     );
     $pane->extras = array();
     $pane->position = 1;
