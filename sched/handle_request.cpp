@@ -920,7 +920,7 @@ void warn_user_if_core_client_upgrade_scheduled() {
         int remaining = config.min_core_client_upgrade_deadline-time(0);
         remaining /= 3600;
 
-        if (0 < remaining) {
+        if (remaining > 0) {
 
             char msg[512];
             int days  = remaining / 24;
@@ -1205,7 +1205,7 @@ void process_request(char* code_sign_key) {
 
     retval = open_database();
     if (retval) {
-        send_error_message("Server can't open database", 3600);
+        send_error_message("Server can't open database", config.maintenance_delay);
         g_reply->project_is_down = true;
         goto leave;
     }

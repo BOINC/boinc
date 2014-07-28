@@ -304,7 +304,7 @@ void attach_to_feeder_shmem() {
             getuid(), geteuid(), getgid(), getegid()
         );
         send_message(
-            "Server error: feeder not running", 3600
+            "Server error: feeder not running", config.maintenance_delay
         );
         exit(0);
     } else {
@@ -314,7 +314,7 @@ void attach_to_feeder_shmem() {
             log_messages.printf(MSG_CRITICAL,
                 "shmem has wrong struct sizes - recompile\n"
             );
-            send_message("Server error: recompile needed", 3600);
+            send_message("Server error: recompile needed", config.maintenance_delay);
             exit(0);
         }
 
@@ -330,7 +330,7 @@ void attach_to_feeder_shmem() {
                 "feeder doesn't seem to be running\n"
             );
             send_message(
-                "Server error: feeder not running", 3600
+                "Server error: feeder not running", config.maintenance_delay
             );
             exit(0);
         }
@@ -429,7 +429,7 @@ int main(int argc, char** argv) {
         if (!freopen(path, "a", stderr)) {
             fprintf(stderr, "Can't redirect stderr\n");
             sprintf(buf, "Server can't open log file (%s)", path);
-            send_message(buf, 3600);
+            send_message(buf, config.maintenance_delay);
             exit(1);
         }
 #else
@@ -440,7 +440,7 @@ int main(int argc, char** argv) {
             char buf[256];
             fprintf(stderr, "Can't redirect FCGI log messages\n");
             sprintf(buf, "Server can't open log file for FCGI (%s)", path);
-            send_message(buf, 3600);
+            send_message(buf, config.maintenance_delay);
             exit(1);
         }
 #endif
@@ -486,7 +486,7 @@ int main(int argc, char** argv) {
         log_messages.printf(MSG_CRITICAL,
             "Can't parse config.xml: %s\n", boincerror(retval)
         );
-        send_message("Server can't parse configuration file", 3600);
+        send_message("Server can't parse configuration file", config.maintenance_delay);
         exit(0);
     }
 
@@ -503,7 +503,7 @@ int main(int argc, char** argv) {
         log_messages.printf(MSG_CRITICAL,
             "Can't read code sign key file (%s)\n", path
         );
-        send_message("Server can't find key file", 3600);
+        send_message("Server can't find key file", config.maintenance_delay);
         exit(0);
     }
     strip_whitespace(code_sign_key);
@@ -532,7 +532,7 @@ int main(int argc, char** argv) {
         attach_to_feeder_shmem();
     }
     if (!ssp) {
-        send_message("Server error: can't attach shared memory", 3600);
+        send_message("Server error: can't attach shared memory", config.maintenance_delay);
         goto done;
     }
 
