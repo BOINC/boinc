@@ -101,7 +101,6 @@ extern int run_program(
     const char* dir, const char* file, int argc, char *const argv[], double, int&
 );
 extern void kill_program(int);
-extern int kill_program(int, int);
 extern int get_exit_status(int);
 extern bool process_exists(int);
 #endif

@@ -482,14 +482,6 @@ void kill_program(HANDLE pid) {
     TerminateProcess(pid, 0);
 }
 #else
-int kill_program(int pid, int exit_code) {
-    int retval;
-    retval = kill(pid, SIGKILL);
-    if (-1 == retval) {
-        retval = errno;
-    }
-    return retval;
-}
 void kill_program(int pid) {
     kill(pid, SIGKILL);
 }
