@@ -128,10 +128,11 @@
 #define ERR_NOT_UNIQUE       -160
     // state files had redundant entries
 #define ERR_NOT_FOUND        -161
-    // inconsistent client state
+    // catch-all lookup error
 #define ERR_NO_EXIT_STATUS   -162
     // exit_status not found in scheduler request 
 #define ERR_FILE_MISSING    -163
+#define ERR_KILL            -164
 #define ERR_SEMGET          -165
 #define ERR_SEMCTL          -166
 #define ERR_SEMOP           -167

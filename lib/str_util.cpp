@@ -467,6 +467,7 @@ const char* boincerror(int which_error) {
         case ERR_NOT_FOUND: return "not found";
         case ERR_NO_EXIT_STATUS: return "no exit status in scheduler request";
         case ERR_FILE_MISSING: return "file missing";
+        case ERR_KILL: return "kill() or TerminateProcess() failed";
         case ERR_SEMGET: return "semget() failed";
         case ERR_SEMCTL: return "semctl() failed";
         case ERR_SEMOP: return "semop() failed";

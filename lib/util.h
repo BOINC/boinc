@@ -90,8 +90,8 @@ extern int run_program(
     HANDLE&             // process handle
 );
 
-extern void kill_program(HANDLE);
-extern int kill_program(int, int);
+extern int kill_program(HANDLE);
+extern int kill_program(int, int exit_code=0);
 extern int get_exit_status(HANDLE);
 extern bool process_exists(HANDLE);
 
@@ -100,7 +100,7 @@ extern bool process_exists(HANDLE);
 extern int run_program(
     const char* dir, const char* file, int argc, char *const argv[], double, int&
 );
-extern void kill_program(int);
+extern int kill_program(int);
 extern int get_exit_status(int);
 extern bool process_exists(int);
 #endif
