@@ -40,8 +40,6 @@ $download_url = parse_element($config, "<download_url>");
 if (!$download_url) die("<download_url> not found in config.xml\n");
 $download_dir = parse_element($config, "<download_dir>");
 if (!$download_dir) die("<download_dir> not found in config.xml\n");
-$fanout = parse_element($config, "<uldl_dir_fanout>");
-if (!$fanout) die("<uldl_dir_fanout> not found in config.xml\n");
 $key_dir = parse_element($config, "<key_dir>");
 if (!$key_dir) die("<key_dir> not found in config.xml\n");
 
