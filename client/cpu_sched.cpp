@@ -1554,17 +1554,6 @@ double CLIENT_STATE::nearly_runnable_resource_share() {
     return x;
 }
 
-bool ACTIVE_TASK::process_exists() {
-    switch (task_state()) {
-    case PROCESS_EXECUTING:
-    case PROCESS_SUSPENDED:
-    case PROCESS_ABORT_PENDING:
-    case PROCESS_QUIT_PENDING:
-        return true;
-    }
-    return false;
-}
-
 // if there's not an active task for the result, make one
 //
 ACTIVE_TASK* CLIENT_STATE::get_task(RESULT* rp) {
