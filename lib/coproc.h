@@ -57,6 +57,15 @@
 //  that are incapable of handling them, and it involves no server changes.
 //  Its drawback is that, on systems with multiple and differing GPUs,
 //  it may not use some GPUs that actually could be used.
+//
+//  Modified (as of 23 July 14) to allow coprocessors (OpenCL GPUs and OpenCL
+//  accelerators) from vendors other than original 3: NVIDIA, AMD and Intel.  
+//  For these original 3 GPU vendors, we still use the above approach, and the
+//  COPROC::type field contains a standardized vendor name "NVIDIA", "ATI" or
+//  "intel_gpu".  But for other, "new" vendors, we treat each device as a
+//  separate resource, creating an entry for each instance in the
+//  COPROCS::coprocs[] array and copying the device name COPROC::opencl_prop.name 
+//  into the COPROC::type field (instead of the vendor name.)
 
 #ifndef _COPROC_
 #define _COPROC_
@@ -418,6 +427,7 @@ struct COPROCS {
     void set_path_to_client(char *path);
     int write_coproc_info_file(std::vector<std::string> &warnings);
     int read_coproc_info_file(std::vector<std::string> &warnings);
+    int add_other_coproc_types();
     
 #ifdef __APPLE__
     void opencl_get_ati_mem_size_from_opengl(std::vector<std::string> &warnings);
@@ -473,8 +483,6 @@ struct COPROCS {
     inline bool have_intel_gpu() {
         return (intel_gpu.count > 0);
     }
-    bool have_rsrc(int typeIndex);
-    bool have_rsrc(char* typeName);
     int add(COPROC& c) {
         if (n_rsc >= MAX_RSC) return ERR_BUFFER_OVERFLOW;
         for (int i=1; i<n_rsc; i++) {
