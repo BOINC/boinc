@@ -2475,7 +2475,7 @@ function boincimport_posts_op($offset, $batch_size, &$context) {
 function boincimport_posts_finished($success, $results, $operations) {
   if ($success) {
     // Let's count our successes
-    $posts_imported = count($results['success']['posts']);
+    $posts_imported = count($results['posts']['success']);
     $topic_count = count($results['success']);
     $duplicates = count($results['duplicate']);
     $message = t(
