@@ -688,8 +688,6 @@ function boincimport_teams() {
       array(), WATCHDOG_INFO
     ); 
   }
-  
-  require_once (drupal_get_path('module', 'pathauto') .'/pathauto.inc');
 
   if (!variable_get('boincimport_import_team_started', 0)) {
     // Could prepare database tables, if new fields are necessary, etc.
@@ -845,17 +843,6 @@ function boincimport_teams_op($boincteam, &$context) {
     'sticky' => 0,
     'format' => $input_format
   );
-  
-  // Use pathauto function to clean up the path
-  if (module_exists('pathauto')) {
-    module_load_include('inc', 'pathauto', 'pathauto');
-    $node['path'] = pathauto_cleanstring($boincteam->name);
-  }
-  else {
-    $context['results']['failure'][] = $boincteam->id;
-    $message = 'Pathauto module is required!';
-    return FALSE;
-  }
   
   $node = (object) $node; // node_save requires an object form
   
