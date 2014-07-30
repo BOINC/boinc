@@ -618,7 +618,7 @@ function boincimport_users_op($boinc_id, &$context) {
     $message = "Failed to import user {$boinc_id}!";
     watchdog('boincimport',
       'Failed to import user @id!',
-      array('@id' => $boinc_id), WATCHDOG_INFO
+      array('@id' => $boinc_id), WATCHDOG_WARNING
     ); 
   }
   
@@ -877,6 +877,10 @@ function boincimport_teams_op($boincteam, &$context) {
   else {
     $context['results']['failure'][] = $boincteam->id;
     $message = "Failed to import team {$boincteam->id}!";
+    watchdog('boincimport',
+      'Failed to import team @id!',
+      array('@id' => $boincteam->id), WATCHDOG_WARNING
+    ); 
   }
   
   // Update our progress information.
@@ -1031,6 +1035,10 @@ function boincimport_friends_op($friendship, &$context) {
   else {
     $context['results']['failure'][] = $uid;
     $message = "Failed to make users {$uid} and {$friend_uid} friends!";
+    watchdog('boincimport',
+      'Failed to make users @id and @friend_id friends!',
+      array('@id' => $uid, '@friend_id' => $friend_uid), WATCHDOG_WARNING
+    ); 
   }
   
   // Update our progress information.
@@ -1197,6 +1205,10 @@ function boincimport_quarrels_op($boinc_user, &$context) {
   else {
     $context['results']['failure'][] = $uid;
     $message = "Failed to import any user filter preferences for user {$uid}!";
+    watchdog('boincimport',
+      'Failed to import any user filter preferences for user @id!',
+      array('@id' => $uid), WATCHDOG_WARNING
+    ); 
   }
   
   // Update our progress information.
@@ -1379,6 +1391,10 @@ function boincimport_private_msgs_op($pm, &$context) {
   else {
     $context['results']['failure'][] = $pm->id;
     $message = "Failed to import private message {$pm->id}!";
+    watchdog('boincimport',
+      'Failed to import private message @id!',
+      array('@id' => $pm->id), WATCHDOG_WARNING
+    ); 
   }
   
   // Update our progress information.
@@ -1701,6 +1717,10 @@ function boincimport_forum_categories_op($category, $forum_vid, $pre, $create_hi
   else {
     $context['results']['categories']['failure'][] = $category->id;
     $message = "Failed to import category {$category->id}!";
+    watchdog('boincimport',
+      'Failed to import category @id!',
+      array('@id' => $category->id), WATCHDOG_WARNING
+    ); 
   }
   
   // Update our progress information.
@@ -2128,6 +2148,10 @@ function boincimport_topics_op($offset, $batch_size, $pre = '', &$context) {
     else {
       $context['results']['failure'][] = $topic->id;
       $message = "Failed to import topic {$topic->id}!";
+      watchdog('boincimport',
+        'Failed to import topic @id!',
+        array('@id' => $topic->id), WATCHDOG_WARNING
+      ); 
     }
     
     // Update our progress information.
@@ -2426,6 +2450,10 @@ function boincimport_posts_op($offset, $batch_size, &$context) {
     else {
       $context['results']['failure'][] = $boinc_topic->id;
       $message = "No posts to import for topic {$boinc_topic->id}";
+      watchdog('boincimport',
+        'No posts to import for topic @id!',
+        array('@id' => $boinc_topic->id), WATCHDOG_WARNING
+      ); 
     }
     
     // Update our progress information.
@@ -2630,6 +2658,10 @@ function boincimport_team_forums_op($boincteam_forum, &$context) {
   else {
     $context['results']['failure'][] = $forum_id;
     $message = "Failed to import team forum {$forum_id}!";
+    watchdog('boincimport',
+      'Failed to import team forum @id!',
+      array('@id' => $forum_id), WATCHDOG_WARNING
+    ); 
   }
   
   // Update our progress information.
@@ -2896,6 +2928,10 @@ function boincimport_team_topics_op($topic, &$context) {
   else {
     $context['results']['failure'][] = $topic->id;
     $message = "Failed to import team topic {$topic->id}!";
+    watchdog('boincimport',
+      'Failed to import team topic @id!',
+      array('@id' => $topic->id), WATCHDOG_WARNING
+    ); 
   }
   
   // Update our progress information.
@@ -3174,7 +3210,11 @@ function boincimport_team_posts_op($post, &$context) {
   }
   else {
     $context['results']['failure'][] = $post->id;
-    $message = "Failed to import post team {$post->id}!";
+    $message = "Failed to import team post {$post->id}!";
+    watchdog('boincimport',
+      'Failed to import team post @id!',
+      array('@id' => $post->id), WATCHDOG_WARNING
+    ); 
   }
   
   // Update our progress information.
@@ -3320,6 +3360,10 @@ function boincimport_subscriptions_op($boincuser_id, &$context) {
   else {
     $context['results']['failure'][] = $boincuser_id;
     $message = "Failed to import subscriptions for user {$boincuser_id}!";
+    watchdog('boincimport',
+      'Failed to import subscriptions for user @id!',
+      array('@id' => $boincuser_id), WATCHDOG_WARNING
+    ); 
   }
   
   // Update our progress information.
