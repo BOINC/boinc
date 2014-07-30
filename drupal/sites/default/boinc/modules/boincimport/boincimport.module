@@ -570,6 +570,10 @@ function boincimport_users() {
       'Skipped @count accounts that were already imported',
       array('@count' => count($duplicates))
     ));
+    watchdog('boincimport',
+      'Skipped @count accounts that were already imported',
+      array('@count' => count($duplicates)), WATCHDOG_INFO
+    ); 
   }
   
   $batch = array(
@@ -612,6 +616,10 @@ function boincimport_users_op($boinc_id, &$context) {
   else {
     $context['results']['failure'][] = $boinc_id;
     $message = "Failed to import user {$boinc_id}!";
+    watchdog('boincimport',
+      'Failed to import user @id!',
+      array('@id' => $boinc_id), WATCHDOG_INFO
+    ); 
   }
   
   // Update our progress information.
@@ -635,13 +643,15 @@ function boincimport_users_finished($success, $results, $operations) {
   if ($success) {
     // Let's count our successes
     $total_imported = count($results['success']);
+    $total_failures = count($results['failure']);
     $message = t(
-      'Successfully imported @count users',
-      array('@count' => $total_imported)
+      'Successfully imported @count users (@fail_count failures)',
+      array('@count' => $total_imported, '@fail_count' => $total_failures)
     );
     watchdog('boincimport',
-      'Successfully imported @count users.',
-      array('@count' => $total_imported), WATCHDOG_INFO
+      'Successfully imported @count users (@fail_count failures).',
+      array('@count' => $total_imported, '@fail_count' => $total_failures),
+      WATCHDOG_INFO
     ); 
     // Set the user import successful flag in the variable table
     variable_set('boincimport_import_user_successful', '1');
