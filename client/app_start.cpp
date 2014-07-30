@@ -163,7 +163,7 @@ int ACTIVE_TASK::get_shmem_seg_name() {
     char init_data_path[MAXPATHLEN];
 #ifndef __EMX__
     // shmem_seg_name is not used with mmap() shared memory
-    if (app_version->api_major_version() >= 6) {
+    if (app_version->api_version_at_least(6, 0)) {
         shmem_seg_name = -1;
         return 0;
     }
@@ -512,7 +512,7 @@ int ACTIVE_TASK::start(bool test) {
     unsigned int i;
     FILE_REF fref;
     FILE_INFO* fip;
-    int retval, rt;
+    int retval;
     APP_INIT_DATA aid;
 #ifdef _WIN32
     bool success = false;
@@ -693,9 +693,11 @@ int ACTIVE_TASK::start(bool test) {
     sprintf(cmdline, "%s %s %s",
         exec_path, wup->command_line.c_str(), app_version->cmdline
     );
-    rt = app_version->gpu_usage.rsc_type;
-    if (rt) {
-        coproc_cmdline(rt, result, app_version->gpu_usage.usage, cmdline);
+    if (!app_version->api_version_at_least(7, 5)) {
+        rt = app_version->gpu_usage.rsc_type;
+        if (rt) {
+            coproc_cmdline(rt, result, app_version->gpu_usage.usage, cmdline);
+        }
     }
 
     relative_to_absolute(slot_dir, slotdirpath);
@@ -884,9 +886,11 @@ int ACTIVE_TASK::start(bool test) {
         wup->command_line.c_str(), app_version->cmdline
     );
 
-    rt = app_version->gpu_usage.rsc_type;
-    if (rt) {
-        coproc_cmdline(rt, result, app_version->gpu_usage.usage, cmdline);
+    if (!app_version->api_version_at_least(7, 5)) {
+        int rt = app_version->gpu_usage.rsc_type;
+        if (rt) {
+            coproc_cmdline(rt, result, app_version->gpu_usage.usage, cmdline);
+        }
     }
 
     // Set up client/app shared memory seg if needed
@@ -895,7 +899,7 @@ int ACTIVE_TASK::start(bool test) {
 #ifdef ANDROID
         if (true) {
 #else
-        if (app_version->api_major_version() >= 6) {
+        if (app_version->api_version_at_least(6, 0)) {
 #endif
             // Use mmap() shared memory
             sprintf(buf, "%s/%s", slot_dir, MMAPPED_FILE_NAME);

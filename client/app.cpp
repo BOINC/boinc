@@ -218,7 +218,7 @@ void ACTIVE_TASK::cleanup_task() {
 
     if (app_client_shm.shm) {
 #ifndef __EMX__
-        if (app_version->api_major_version() >= 6) {
+        if (app_version->api_version_at_least(6, 0)) {
             retval = detach_shmem_mmap(app_client_shm.shm, sizeof(SHARED_MEM));
         } else
 #endif
