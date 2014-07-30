@@ -1488,9 +1488,7 @@ function boincimport_forum_categories() {
       'Forums'
     ));
   }
-  drupal_set_message(t('Forum vid: %forum_vid', array('%forum_vid' => $forum_vid)));
-  watchdog('boincimport', 'Forum vid is set to: %forum_vid', array('%forum_vid' => $forum_vid), WATCHDOG_INFO); 
-
+  
   // Get both categories and forums from BOINC
   db_set_active('boinc');
   $boinc_forum_categories = db_query('
