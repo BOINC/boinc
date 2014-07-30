@@ -512,7 +512,7 @@ int ACTIVE_TASK::start(bool test) {
     unsigned int i;
     FILE_REF fref;
     FILE_INFO* fip;
-    int retval;
+    int retval, rt;
     APP_INIT_DATA aid;
 #ifdef _WIN32
     bool success = false;
