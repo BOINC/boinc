@@ -227,8 +227,8 @@ function boincuser_user($op, &$edit, &$account, $category = NULL) {
             'background' => $edit['field_background'][0]['value'],
             'opinions' => $edit['field_opinions'][0]['value']
           );
-          // With BOINC validation passed, make sure name is unique
-          $edit['name'] = find_unique_name($edit['boincuser_name']);
+          // With BOINC validation passed, set Drupal name based on email
+          $edit['name'] = preg_replace('/[^a-zA-Z0-9_\.-]/', '_', $edit['mail']);
         }
         break;
         
