@@ -670,7 +670,6 @@ int ACTIVE_TASK::start(bool test) {
     char error_msg[1024];
     char error_msg2[1024];
     DWORD last_error;
-    int rt;
     
     memset(&process_info, 0, sizeof(process_info));
     memset(&startup_info, 0, sizeof(startup_info));
@@ -695,7 +694,7 @@ int ACTIVE_TASK::start(bool test) {
         exec_path, wup->command_line.c_str(), app_version->cmdline
     );
     if (!app_version->api_version_at_least(7, 5)) {
-        rt = app_version->gpu_usage.rsc_type;
+        int rt = app_version->gpu_usage.rsc_type;
         if (rt) {
             coproc_cmdline(rt, result, app_version->gpu_usage.usage, cmdline);
         }
