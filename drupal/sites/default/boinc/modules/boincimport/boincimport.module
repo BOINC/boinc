@@ -1442,9 +1442,9 @@ function boincimport_forum_categories() {
   
   // Check whether forums have been successfully imported already
   if (variable_get('boincimport_import_forum_category_successful', 0)) {
-    drupal_set_message(t('Note: forum category import has already run successfully'));
+    drupal_set_message(t('Note: forum container import has already run successfully'));
     watchdog(
-      'boincimport', 'Note: forum category import has already run successfully',
+      'boincimport', 'Note: forum container import has already run successfully',
       array(), WATCHDOG_INFO
     ); 
   }
@@ -1497,14 +1497,14 @@ function boincimport_forum_categories() {
 
   if (!$forum_category_count) {
     drupal_set_message(
-      t('There were no forum categories found: Aborting script'), 'warning'
+      t('There were no forum containers found: Aborting script'), 'warning'
     );
     watchdog('boincimport',
-      'There were no forum categories found: Aborting script', array(), WATCHDOG_WARNING
+      'There were no forum containers found: Aborting script', array(), WATCHDOG_WARNING
     );
     // Release the lock on the import process
     variable_del('boincimport_process_locked');
-    return t('There were no forum categories found: Aborting script.');
+    return t('There were no forum containers found: Aborting script.');
   }
   if (!$forum_count) {
     drupal_set_message(
@@ -1602,8 +1602,8 @@ function boincimport_forum_categories() {
   if ($categories_skipped) {
     $skipped_message[] = format_plural(
       $categories_skipped,
-      '1 category',
-      '@count categories'
+      '1 container',
+      '@count containers'
     );
   }
   if ($forums_skipped) {
@@ -1697,13 +1697,13 @@ function boincimport_forum_categories_op($category, $forum_vid, $pre, $create_hi
   if ($success) {
     // Store some result for post-processing in the finished callback.
     $context['results']['categories']['success'][] = $category->id;
-    $message = "Successfully imported category {$category->id}";
+    $message = "Successfully imported container {$category->id}";
   }
   else {
     $context['results']['categories']['failure'][] = $category->id;
-    $message = "Failed to import category {$category->id}!";
+    $message = "Failed to import container {$category->id}!";
     watchdog('boincimport',
-      'Failed to import category @id!',
+      'Failed to import container @id!',
       array('@id' => $category->id), WATCHDOG_WARNING
     ); 
   }
@@ -1875,8 +1875,8 @@ function boincimport_forums_finished($success, $results, $operations) {
     if ($categories_imported) {
       $success_message[] = format_plural(
         $categories_imported,
-        '1 category',
-        '@count categories'
+        '1 container',
+        '@count containers'
       );
     }
     if ($forums_imported) {
