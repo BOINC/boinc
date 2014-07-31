@@ -460,9 +460,9 @@ function process_version($a, $v, $p) {
         "    <app_name>".$app->name."</app_name>\n".
         "    <version_num>".parse_version($v)."</version_num>\n"
     ;
-    if (strlen($v->api_version)) {
+    if (strlen($vers->api_version)) {
         $xml .=
-            "    <api_version>$api_version</api_version>\n"
+            "    <api_version>$vers->api_version</api_version>\n"
         ;
     }
     foreach ($fds as $fd) {
