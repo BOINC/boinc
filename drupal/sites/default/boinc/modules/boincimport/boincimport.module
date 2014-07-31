@@ -2424,6 +2424,9 @@ function boincimport_posts_op($offset, $batch_size, &$context) {
           $context['results']['posts']['failure'][] = $post->id;
         }
       }
+      else {
+        $context['results']['posts']['empty'][] = $post->id;
+      }
     }
     
     $message = '';
@@ -2465,12 +2468,14 @@ function boincimport_posts_finished($success, $results, $operations) {
     $posts_imported = count($results['posts']['success']);
     $topic_count = count($results['success']);
     $duplicates = count($results['duplicate']);
+    $empty_posts = count($results['posts']['empty']);
     $message = t(
-      'Successfully imported @post_count posts in @topic_count topics (skipped @duplicates posts already imported)',
+      'Successfully imported @post_count posts in @topic_count topics (skipped @duplicates posts already imported and @empty_posts with no content)',
       array(
         '@post_count' => $posts_imported,
         '@topic_count' => $topic_count,
         '@duplicates' => $duplicates,
+        '@empty_posts' => $empty_posts,
       )
     );
     watchdog('boincimport',
