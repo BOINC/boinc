@@ -512,7 +512,7 @@ int ACTIVE_TASK::start(bool test) {
     unsigned int i;
     FILE_REF fref;
     FILE_INFO* fip;
-    int retval, rt;
+    int retval;
     APP_INIT_DATA aid;
 #ifdef _WIN32
     bool success = false;
@@ -670,7 +670,8 @@ int ACTIVE_TASK::start(bool test) {
     char error_msg[1024];
     char error_msg2[1024];
     DWORD last_error;
-
+    int rt;
+    
     memset(&process_info, 0, sizeof(process_info));
     memset(&startup_info, 0, sizeof(startup_info));
     startup_info.cb = sizeof(startup_info);
