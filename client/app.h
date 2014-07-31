@@ -228,8 +228,9 @@ struct ACTIVE_TASK {
     int kill_running_task(bool will_restart);
         // Kill process and subsidiary processes forcibly.
         // Unix: send a SIGKILL signal, Windows: TerminateProcess()
-    int kill_exited_task();
-        // kill subsidiary tasks (the main process has already exited)
+    int kill_subsidiary_processes();
+        // kill subsidiary processes of a job
+        // whose main process has already exited
     int abort_task(int exit_status, const char*);
         // can be called whether or not process exists
 
