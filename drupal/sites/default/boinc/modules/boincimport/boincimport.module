@@ -3408,25 +3408,32 @@ function boincimport_subscriptions_finished($success, $results, $operations) {
  */
 function boincimport_replace_urls() {
   
-  $pre = variable_get('boincimport_table_prefix', '');
+  // Check whether URLs have already been fixed
+  if (variable_get('boincimport_replace_url_successful', 0)) {
+    drupal_set_message(t('URLs have already been updated'), 'warning');
+    watchdog(
+      'boincimport', 'URLs have already been updated',
+      array(), WATCHDOG_WARNING
+    );
+  }
 
-  // Since topics have just been imported, there should be only one vid for
-  // each nid, so we can update node_revisions by nid
-  // Get nodes to process
-  $nodes = db_query('
-    SELECT btt.nid, nr.body, nr.teaser
+  if (!variable_get('boincimport_replace_url_started', 0)) {
+    // Could prepare database tables, if new fields are necessary, etc.
+    variable_set('boincimport_replace_url_started', 1);
+  }
+  
+  // Get the count of nodes and comments to process for URL updates
+  $node_count = db_result(db_query('
+    SELECT COUNT(DISTINCT btt.nid)
     FROM {boincimport_temp_topic} AS btt
     LEFT JOIN {node_revisions} AS nr ON btt.nid = nr.nid'
-  );
-  $node_count = mysql_num_rows($nodes);
+  ));
   
-  // Get comments to process
-  $comments = db_query('
-    SELECT c.cid, c.comment
+  $comment_count = db_result(db_query('
+    SELECT COUNT(c.cid)
     FROM {boincimport_temp_post} AS p
     LEFT JOIN {comments} AS c ON p.cid = c.cid'
-  );
-  $comment_count = mysql_num_rows($comments);
+  ));
   
   if (!$node_count AND !$comment_count) {
     drupal_set_message(
@@ -3447,19 +3454,28 @@ function boincimport_replace_urls() {
   );
   
   $operations = array();
+  $batch_size = 100;
   
   // Create batches to process
-  while ($node = db_fetch_object($nodes)) {
+  for ($offset = 0; $offset < $node_count; $offset+=$batch_size) {
+    $nodes_per_batch = $batch_size;
+    if ($offset + $batch_size > $node_count) {
+      $nodes_per_batch = $node_count - $offset;
+    }
     $operations[] = array(
       'boincimport_replace_urls_node_op', array(
-        $node
+        $offset, $nodes_per_batch
       )
     );
   }
-  while ($comment = db_fetch_object($comments)) {
+  for ($offset = 0; $offset < $comment_count; $offset+=$batch_size) {
+    $comments_per_batch = $batch_size;
+    if ($offset + $batch_size > $comment_count) {
+      $comments_per_batch = $comment_count - $offset;
+    }
     $operations[] = array(
       'boincimport_replace_urls_comment_op', array(
-        $comment
+        $offset, $comments_per_batch
       )
     );
   }
@@ -3469,7 +3485,9 @@ function boincimport_replace_urls() {
     'finished' => 'boincimport_replace_urls_finished',
     'title' => t('Updating URLs...'),
     'init_message' => t('Beginning URL update...'),
-    'progress_message' => t('Updated URLs in @current out of @total nodes and comments.'),
+    'progress_message' => t('Processed URLs in @current out of @total batches (@size nodes / comments per batch).', array(
+      '@size' => $batch_size,
+    )),
     'error_message' => t('URL update has encountered an error.'),
   );
   
@@ -3480,47 +3498,67 @@ function boincimport_replace_urls() {
  * Batch operation for updating URLs in nodes
  * Find URLs for the old system and update them with Drupal paths
  */
-function boincimport_replace_urls_node_op($node, &$context) {
+function boincimport_replace_urls_node_op($offset, $batch_size, &$context) {
+  // Initialize the batch, if needed
+  if (!isset($context['sandbox']['progress'])) {
+    $context['sandbox']['progress'] = 0;
+    $context['sandbox']['max'] = $batch_size;
+  }
   
   $input_format = variable_get('boincimport_input_format', 0);
-  $updated = FALSE;
-  
-  // Update URLs in node contents
-  $original_body = $node->body;
-  $original_teaser = $node->teaser;
-  $node->body = _boincimport_replace_links($node->body);
-  $node->teaser = _boincimport_replace_links($node->teaser);
-  if ($node->body != $original_body OR $node->teaser != $original_teaser) {
-    $updated = db_query("
-      UPDATE {node_revisions}
-      SET body= '%s', teaser = '%s'
-      WHERE nid = %d",
-      $node->body, $node->teaser, $node->nid
-    );
-  }
-  
-  $message = '';
-  $context['results']['success'][] = $node->nid;
-  if ($updated) {
-    // Store some result for post-processing in the finished callback.
-    $context['results']['nodes']['updated'][] = $node->nid;
-    $message = "Successfully updated node {$node->nid}";
-  }
-  else {
-    $message = "No changes made to node {$node->nid}!";
-  }
-  
-  // Update our progress information.
-  $context['sandbox']['progress']++;
-  $context['sandbox']['current_node'] = $node->nid;
-  $context['message'] = $message;
 
-  // Update the progress for the batch engine
-  if ($context['sandbox']['progress'] >= $context['sandbox']['max']) {
-    $context['finished'] = 1;
-  }
-  else {
-    $context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['max'];
+  // Since topics have just been imported, there should be only one vid for
+  // each nid, so we can update node_revisions by nid
+  // Get nodes to process
+  $nodes = db_query('
+    SELECT btt.nid, nr.body, nr.teaser
+    FROM {boincimport_temp_topic} AS btt
+    LEFT JOIN {node_revisions} AS nr ON btt.nid = nr.nid
+    ORDER BY btt.nid
+    LIMIT %d,%d',
+    $offset, $batch_size
+  );
+  
+  while ($node = db_fetch_object($nodes)) {
+    $updated = FALSE;
+    
+    // Update URLs in node contents
+    $original_body = $node->body;
+    $original_teaser = $node->teaser;
+    $node->body = _boincimport_replace_links($node->body);
+    $node->teaser = _boincimport_replace_links($node->teaser);
+    if ($node->body != $original_body OR $node->teaser != $original_teaser) {
+      $updated = db_query("
+        UPDATE {node_revisions}
+        SET body= '%s', teaser = '%s'
+        WHERE nid = %d",
+        $node->body, $node->teaser, $node->nid
+      );
+    }
+    
+    $message = '';
+    $context['results']['success'][] = $node->nid;
+    if ($updated) {
+      // Store some result for post-processing in the finished callback.
+      $context['results']['nodes']['updated'][] = $node->nid;
+      $message = "Successfully updated node {$node->nid}";
+    }
+    else {
+      $message = "No changes made to node {$node->nid}!";
+    }
+    
+    // Update our progress information.
+    $context['sandbox']['progress']++;
+    $context['sandbox']['current_node'] = $node->nid;
+    $context['message'] = $message;
+
+    // Update the progress for the batch engine
+    if ($context['sandbox']['progress'] >= $context['sandbox']['max']) {
+      $context['finished'] = 1;
+    }
+    else {
+      $context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['max'];
+    }
   }
 }
 
@@ -3528,45 +3566,64 @@ function boincimport_replace_urls_node_op($node, &$context) {
  * Batch operation for updating URLs in comments
  * Find URLs for the old system and update them with Drupal paths
  */
-function boincimport_replace_urls_comment_op($comment, &$context) {
+function boincimport_replace_urls_comment_op($offset, $batch_size, &$context) {
+  // Initialize the batch, if needed
+  if (!isset($context['sandbox']['progress'])) {
+    $context['sandbox']['progress'] = 0;
+    $context['sandbox']['max'] = $batch_size;
+  }
   
   $input_format = variable_get('boincimport_input_format', 0);
-  $updated = FALSE;
   
-  // Update URLs in comment contents
-  $original_comment = $comment->comment;
-  $comment->comment = _boincimport_replace_links($comment->comment);
-  if ($comment->comment != $original_comment) {
-    $updated = db_query("
-      UPDATE {comments}
-      SET comment= '%s'
-      WHERE cid = %d",
-      $comment->comment, $comment->cid
-    );
-  }
   
-  $message = '';
-  $context['results']['success'][] = $comment->cid;
-  if ($updated) {
-    // Store some result for post-processing in the finished callback.
-    $context['results']['comments']['updated'][] = $comment->cid;
-    $message = "Successfully updated comment {$comment->cid}";
-  }
-  else {
-    $message = "No changes made to comment {$comment->cid}!";
-  }
+  // Get comments to process
+  $comments = db_query('
+    SELECT c.cid, c.comment
+    FROM {boincimport_temp_post} AS p
+    LEFT JOIN {comments} AS c ON p.cid = c.cid
+    ORDER BY c.cid
+    LIMIT %d,%d',
+    $offset, $batch_size
+  );
   
-  // Update our progress information.
-  $context['sandbox']['progress']++;
-  $context['sandbox']['current_comment'] = $comment->cid;
-  $context['message'] = $message;
+  while ($comment = db_fetch_object($comments)) {
+    $updated = FALSE;
+    
+    // Update URLs in comment contents
+    $original_comment = $comment->comment;
+    $comment->comment = _boincimport_replace_links($comment->comment);
+    if ($comment->comment != $original_comment) {
+      $updated = db_query("
+        UPDATE {comments}
+        SET comment= '%s'
+        WHERE cid = %d",
+        $comment->comment, $comment->cid
+      );
+    }
+    
+    $message = '';
+    $context['results']['success'][] = $comment->cid;
+    if ($updated) {
+      // Store some result for post-processing in the finished callback.
+      $context['results']['comments']['updated'][] = $comment->cid;
+      $message = "Successfully updated comment {$comment->cid}";
+    }
+    else {
+      $message = "No changes made to comment {$comment->cid}!";
+    }
+    
+    // Update our progress information.
+    $context['sandbox']['progress']++;
+    $context['sandbox']['current_comment'] = $comment->cid;
+    $context['message'] = $message;
 
-  // Update the progress for the batch engine
-  if ($context['sandbox']['progress'] >= $context['sandbox']['max']) {
-    $context['finished'] = 1;
-  }
-  else {
-    $context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['max'];
+    // Update the progress for the batch engine
+    if ($context['sandbox']['progress'] >= $context['sandbox']['max']) {
+      $context['finished'] = 1;
+    }
+    else {
+      $context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['max'];
+    }
   }
 }
 
@@ -3587,6 +3644,24 @@ function boincimport_replace_urls_finished($success, $results, $operations) {
         '@comments_updated' => $comments_updated,
       )
     );
+    if ($comments_updated) {
+      watchdog('boincimport',
+        'Updated URLs in these comments: @cid_list',
+        array(
+          '@cid_list' => implode(', ', $results['comments']['updated']),
+        ),
+        WATCHDOG_INFO
+      );
+    }
+    if ($nodes_updated) {
+      watchdog('boincimport',
+        'Updated URLs in these nodes: @nid_list',
+        array(
+          '@nid_list' => implode(', ', $results['nodes']['updated']),
+        ),
+        WATCHDOG_INFO
+      );
+    }
     watchdog('boincimport',
       'Successfully processed @count nodes and comments (@nodes_updated nodes and @comments_updated comments were updated)',
       array(
