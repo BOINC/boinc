@@ -249,29 +249,22 @@ static inline void kill_processes(vector<int> pids, bool will_restart) {
     }
 }
 
-// Kill a task whose main process is still running; namely, kill
-// - the task's main process
-// - the descendants of the main process
-// - "other" processes as reported by the app (e.g. VMs)
+// Kill a task whose main process is still running
+// Just kill the main process; shared mem and subsidiary processes
+// will be cleaned up after it exits, by cleanup_task();
 //
 int ACTIVE_TASK::kill_running_task(bool will_restart) {
-    vector<int>pids;
-    get_descendants(pid, pids);
-    pids.push_back(pid);
-    for (unsigned int i=0; i<other_pids.size(); i++) {
-        pids.push_back(other_pids[i]);
-    }
-    kill_processes(pids, will_restart);
+    kill_app_process(pid, will_restart);
     return 0;
 }
 
 // Clean up the subsidiary processes of a task whose main process has exited,
 // namely:
 // - its descendants (as recently enumerated; it's too late to do that now)
-//   This list kill be populated only in the quit and abort cases.
+//   This list will be populated only in the quit and abort cases.
 // - its "other" processes, e.g. VMs
 //
-int ACTIVE_TASK::kill_exited_task() {
+int ACTIVE_TASK::kill_subsidiary_processes() {
     kill_processes(other_pids, true);
     kill_processes(descendants, true);
     return 0;
@@ -352,7 +345,6 @@ void ACTIVE_TASK::handle_premature_exit(bool& will_restart) {
     premature_exit_count++;
     if (premature_exit_count > 100) {
         will_restart = false;
-        kill_exited_task();
         set_task_state(PROCESS_ABORTED, "handle_premature_exit");
         result->exit_status = ERR_TOO_MANY_EXITS;
         gstate.report_result_error(*result, "too many exit(0)s");
@@ -360,7 +352,6 @@ void ACTIVE_TASK::handle_premature_exit(bool& will_restart) {
     } else {
         will_restart = true;
         limbo_message(*this);
-        kill_exited_task();
         set_task_state(PROCESS_UNINITIALIZED, "handle_premature_exit");
     }
 }
@@ -373,7 +364,6 @@ void ACTIVE_TASK::handle_temporary_exit(
     premature_exit_count++;
     if (premature_exit_count > 100) {
         will_restart = false;
-        kill_exited_task();
         set_task_state(PROCESS_ABORTED, "handle_temporary_exit");
         result->exit_status = ERR_TOO_MANY_EXITS;
         gstate.report_result_error(*result, "too many boinc_temporary_exit()s");
@@ -393,7 +383,6 @@ void ACTIVE_TASK::handle_temporary_exit(
         will_restart = true;
         result->schedule_backoff = gstate.now + backoff;
         safe_strcpy(result->schedule_backoff_reason, reason);
-        kill_exited_task();
         set_task_state(PROCESS_UNINITIALIZED, "handle_temporary_exit");
     }
 }
@@ -443,10 +432,8 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
     //
     if (task_state() == PROCESS_ABORT_PENDING) {
         set_task_state(PROCESS_ABORTED, "handle_exited_app");
-        kill_exited_task();
     } else if (task_state() == PROCESS_QUIT_PENDING) {
         set_task_state(PROCESS_UNINITIALIZED, "handle_exited_app");
-        kill_exited_task();
         will_restart = true;
     } else {
 #ifdef _WIN32
@@ -575,6 +562,8 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
 #endif
     }
 
+    // get rid of shared-mem segment and kill subsidiary processes
+    //
     cleanup_task();
 
     if (gstate.run_test_app) {
@@ -750,6 +739,7 @@ bool ACTIVE_TASK_SET::check_app_exited() {
             // The process doesn't seem to be there.
             // Mark task as aborted so we don't check it again.
             //
+            atp->cleanup_task();
             atp->set_task_state(PROCESS_ABORTED, "check_app_exited");
         }
     }

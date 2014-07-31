@@ -209,7 +209,9 @@ int ACTIVE_TASK::preempt(int preempt_type, int reason) {
 
 #ifndef SIM
 
-// called when a process has exited
+// called when the task's main process has exited.
+// delete the shared memory used to communicate with it,
+// and kill any remaining subsidiary processes.
 //
 void ACTIVE_TASK::cleanup_task() {
 #ifdef _WIN32
@@ -251,6 +253,8 @@ void ACTIVE_TASK::cleanup_task() {
         gstate.retry_shmem_time = 0;
     }
 #endif
+
+    kill_subsidiary_processes();
 
     if (cc_config.exit_after_finish) {
         gstate.write_state_file();
