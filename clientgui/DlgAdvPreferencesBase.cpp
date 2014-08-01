@@ -98,6 +98,7 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
     m_panelControls->SetSizer( notebookSizer );
     m_panelControls->Layout();
     notebookSizer->Fit( m_panelControls );
+
     dialogSizer->Add( m_panelControls, 1, wxALL|wxEXPAND, 1 );
 
     m_panelButtons = new wxPanel( this, ID_DEFAULT, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
@@ -126,8 +127,6 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
 
     dialogSizer->Fit( this );
     this->SetSizer( dialogSizer );
-    this->Layout();
-    Fit();
 }
 
 wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook)
