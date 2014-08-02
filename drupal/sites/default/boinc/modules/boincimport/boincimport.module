@@ -3704,6 +3704,8 @@ function boincimport_replace_urls_finished($success, $results, $operations) {
 function boincimport_process_cleanup() {
   db_set_active('default');
   
+  variable_del('boincimport_base_url_boinc');
+  variable_del('boincimport_base_url_drupal');
   variable_del('boincimport_import_user_successful');
   variable_del('boincimport_import_user_started');
   variable_del('boincimport_import_team_successful');
@@ -3827,88 +3829,181 @@ function _boincimport_text_sanitize($text) {
   return $text;
 }
 
-/**
- * Functions for updating links via preg_replace
- */
-function _boincimport_replace_links_topic($matches) {
-  global $base_path;
-  $topic = db_fetch_object(db_query('SELECT nid FROM {boincimport_temp_topic} WHERE topic_id = %d', $matches[1]));
-  $link = "{$base_path}node/{$topic->nid}";
-  return $link;
-}
-
-/**
- * Replace links that include anchors to specific posts. If the given post is the first
- * in the thread, it is a topic node in Drupal, not a comment.
- */
-function _boincimport_replace_links_post($matches) {
-  global $base_path;
-  $comment = db_fetch_object(db_query('SELECT c.cid, c.nid FROM {boincimport_temp_post} p JOIN {comments} c ON c.cid = p.cid WHERE p.post_id = %d', $matches[4]));
-  if ($comment) $link = "{$base_path}node/{$comment->nid}#comment-{$comment->cid}";
-  else $link = _boincimport_replace_links_topic($matches);
-  return $link;
-}
-
-function _boincimport_replace_links_forum($matches) {
-  global $base_path;
-  $forum = db_fetch_object(db_query('SELECT tid FROM {boincimport_temp_forum} WHERE forum_id = %d', $matches[1]));
-  $link = "{$base_path}forum/{$forum->tid}";
-  return $link;
-}
-
-function _boincimport_replace_links_user($matches) {
-  global $base_path;
-  // If this is an RPC link, ignore it
-  if (preg_match('{format=xml}i', $matches[0])) {
-    return $matches[0];
-  }
-  else {
-    $uid = db_result(db_query('SELECT uid FROM {boincuser} WHERE boinc_id = %d', $matches[1]));
-    $link = "{$base_path}user/{$uid}";
-    return $link;
-  }
-}
-
-function _boincimport_replace_links_workunit($matches) {
-  global $base_path;
-  $link = "{$base_path}workunit/{$matches[1]}";
-  return $link;
-}
-
-function _boincimport_replace_links_result($matches) {
-  global $base_path;
-  $link = "{$base_path}task/{$matches[1]}";
-  return $link;
-}
-
-function _boincimport_replace_links_host_results($matches) {
-  global $base_path;
-  $link = "{$base_path}host/{$matches[1]}/tasks";
-  return $link;
-}
-
-function _boincimport_replace_links_host($matches) {
-  global $base_path;
-  $link = "{$base_path}host/{$matches[1]}";
-  return $link;
-}
-
 
 /**
  * Replace all types of links.
  */
 function _boincimport_replace_links($html) {
-  global $base_path;
+  
+  $transformer = new BoincImportUrlTransformer();
+  
   // Update links to posts, threads, and forums
-  $html = preg_replace_callback('{forum_thread\.php\?id=(\d+)(&\w+=\w*)*?(#(\d+)?)}i', '_boincimport_replace_links_post', $html);
-  $html = preg_replace_callback('{forum_thread\.php\?id=(\d+)}i', '_boincimport_replace_links_topic', $html);
-  $html = preg_replace_callback('{forum_forum\.php\?id=(\d+)}i', '_boincimport_replace_links_forum', $html);
-  $html = preg_replace_callback('{show_user\.php\?userid=(\d+)(&\w+=\w*)*}i', '_boincimport_replace_links_user', $html); 
-  $html = preg_replace_callback('{workunit\.php\?wuid=(\d+)}i', '_boincimport_replace_links_workunit', $html);
-  $html = preg_replace_callback('{result\.php\?resultid=(\d+)}i', '_boincimport_replace_links_result', $html);
-  $html = preg_replace_callback('{results\.php\?hostid=(\d+)}i', '_boincimport_replace_links_host_results', $html);
-  $html = preg_replace_callback('{show_host_detail\.php\?hostid=(\d+)}i', '_boincimport_replace_links_host', $html);
+  $html = preg_replace_callback('{(?:(http|https)://(.*?))?(?:/)?forum_thread\.php\?id=(\d+)(&\w+=\w*)*?(#(\d+)?)}i', array($transformer, 'transformPostLinks'), $html);
+  $html = preg_replace_callback('{(?:(http|https)://(.*?))?(?:/)?forum_thread\.php\?id=(\d+)}i', array($transformer, 'transformTopicLinks'), $html);
+  $html = preg_replace_callback('{(?:(http|https)://(.*?))?(?:/)?forum_forum\.php\?id=(\d+)}i', array($transformer, 'transformForumLinks'), $html);
+  $html = preg_replace_callback('{(?:(http|https)://(.*?))?(?:/)?show_user\.php\?userid=(\d+)((&\w+=\w*)+)?}i', array($transformer, 'transformUserLinks'), $html); 
+  $html = preg_replace_callback('{(?:(http|https)://(.*?))?(?:/)?workunit\.php\?wuid=(\d+)}i', array($transformer, 'transformWorkUnitLinks'), $html);
+  $html = preg_replace_callback('{(?:(http|https)://(.*?))?(?:/)?result\.php\?resultid=(\d+)}i', array($transformer, 'transformResultLinks'), $html);
+  $html = preg_replace_callback('{(?:(http|https)://(.*?))?(?:/)?results\.php\?hostid=(\d+)}i', array($transformer, 'TransformHostResultsLinks'), $html);
+  $html = preg_replace_callback('{(?:(http|https)://(.*?))?(?:/)?show_host_detail\.php\?hostid=(\d+)}i', array($transformer, 'transformHostLinks'), $html);
+  
   // Update any links to the top level index
-  $html = preg_replace('{forum_index.php}i', "{$base_path}forum", $html);
+  $html = preg_replace('{forum_index.php}i', "{$transformer->basePath}community/forum", $html);
+  
   return $html;
+}
+
+/**
+ * Limit redundancy by using this class to do URL transformations
+ */
+class BoincImportUrlTransformer {
+  
+  var $basePath;
+  var $boincDomain;
+  var $drupalDomain;
+  
+  /**
+   * Constructor
+   */
+  function BoincImportUrlTransformer() {
+    global $base_url;
+    global $base_path;
+    $base_url_boinc = variable_get('boincimport_base_url_boinc', '');
+    $base_url_drupal = variable_get('boincimport_base_url_drupal', $base_url);
+    $this->basePath = $base_path;
+    $this->boincDomain = parse_url($base_url_boinc, PHP_URL_HOST);
+    $this->drupalDomain = parse_url($base_url_drupal, PHP_URL_HOST);
+  }
+  
+  /**
+   * Get what the new base URL should be (needed for every transformation)
+   */
+  function getNewBaseUrl($matches) {
+    $http = $matches[1];
+    $domain = trim($matches[2], '/');
+    if ($http) {
+      if ($domain == $this->boincDomain) {
+        // This is a URL for this domain
+        return "{$http}://{$this->drupalDomain}{$this->basePath}";
+      }
+      else {
+        // This is a URL for another domain!
+        return NULL;
+      }
+    }
+    else {
+      // This is a relative URL
+      return $this->basePath;
+    }
+  }
+  
+  /**
+   * Replace links that include anchors to specific posts. If the given post is
+   * the first in the thread, it is a topic node in Drupal, not a comment.
+   */
+  function transformPostLinks($matches) {
+    $link = $matches[0];
+    $newBaseUrl = $this->getNewBaseUrl($matches);
+    if ($newBaseUrl !== NULL) {
+      $id = db_result(db_query('
+        SELECT p.cid
+        FROM {boincimport_temp_post} p
+        WHERE p.post_id = %d',
+        $matches[6]
+      ));
+      if ($id) {
+        $link = "{$newBaseUrl}goto/comment/{$id}";
+      }
+      else {
+        // This post is not in the post import table, so it's probably a topic
+        $link = $this->transformTopicLinks($matches);
+      }
+    }
+    return $link;
+  }
+  
+  function transformTopicLinks($matches) {
+    $link = $matches[0];
+    $newBaseUrl = $this->getNewBaseUrl($matches);
+    if ($newBaseUrl !== NULL) {
+      $id = db_result(db_query('
+        SELECT nid
+        FROM {boincimport_temp_topic}
+        WHERE topic_id = %d',
+        $matches[3]
+      ));
+      $link = "{$newBaseUrl}node/{$id}";
+    }
+    return $link;
+  }
+
+  function transformForumLinks($matches) {
+    $link = $matches[0];
+    $newBaseUrl = $this->getNewBaseUrl($matches);
+    if ($newBaseUrl !== NULL) {
+      $forum = db_fetch_object(db_query('
+        SELECT tid
+        FROM {boincimport_temp_forum}
+        WHERE forum_id = %d',
+        $matches[3]
+      ));
+      $link = "{$newBaseUrl}community/forum/{$forum->tid}";
+    }
+    return $link;
+  }
+
+  function transformUserLinks($matches) {
+    $link = $matches[0];
+    $newBaseUrl = $this->getNewBaseUrl($matches);
+    if ($newBaseUrl !== NULL) {
+      // Make sure this isn't an RPC link (no need to transform those)
+      if (!$matches[5]) {
+      watchdog('DEBUG', 'matches: @m', array('@m' => print_r($matches,true)), WATCHDOG_DEBUG);
+        $uid = boincuser_lookup_uid($matches[3]);
+        $link = "{$newBaseUrl}account/{$uid}";
+      }
+    }
+    return $link;
+  }
+
+  function transformWorkUnitLinks($matches) {
+    $link = $matches[0];
+    $newBaseUrl = $this->getNewBaseUrl($matches);
+    if ($newBaseUrl !== NULL) {
+      $id = $matches[3];
+      $link = "{$newBaseUrl}workunit/{$id}";
+    }
+    return $link;
+  }
+
+  function transformResultLinks($matches) {
+    $link = $matches[0];
+    $newBaseUrl = $this->getNewBaseUrl($matches);
+    if ($newBaseUrl !== NULL) {
+      $id = $matches[3];
+      $link = "{$newBaseUrl}task/{$id}";
+    }
+    return $link;
+  }
+
+  function transformHostResultsLinks($matches) {
+    $link = $matches[0];
+    $newBaseUrl = $this->getNewBaseUrl($matches);
+    if ($newBaseUrl !== NULL) {
+      $id = $matches[3];
+      $link = "{$newBaseUrl}host/{$id}/tasks";
+    }
+    return $link;
+  }
+  
+  function transformHostLinks($matches) {
+    $link = $matches[0];
+    $newBaseUrl = $this->getNewBaseUrl($matches);
+    if ($newBaseUrl !== NULL) {
+      $id = $matches[3];
+      $link = "{$newBaseUrl}host/{$id}";
+    }
+    return $link;
+  }
+
 }
