@@ -840,29 +840,39 @@ int VBOX_VM::create_vm() {
     if (enable_network) {
         set_network_access(true);
 
-        // If the VM wants to open up a port through the VirtualBox virtual
-        // network firewall/nat do that here.
+        // set up port forwarding
         //
         if (pf_guest_port) {
+            PORT_FORWARD pf;
+            pf.guest_port = pf_guest_port;
+            pf.host_port = pf_host_port;
             if (!pf_host_port) {
-                retval = get_port_forwarding_port();
+                retval = boinc_get_port(false, pf.host_port);
                 if (retval) return retval;
+                pf_host_port = pf.host_port;
             }
-
+            port_forwards.push_back(pf);
+        }
+        for (unsigned int i=0; i<port_forwards.size(); i++) {
+            PORT_FORWARD& pf = port_forwards[i];
             fprintf(
                 stderr,
-                "%s Enabling VM firewall rules.\n",
-                vboxwrapper_msg_prefix(buf, sizeof(buf))
+                "%s forwarding host port %d to guest port %d\n",
+                vboxwrapper_msg_prefix(buf, sizeof(buf)),
+                pf.host_port, pf.guest_port
             );
 
             // Add new firewall rule
             //
-            sprintf(buf, "vboxwrapper,tcp,127.0.0.1,%d,,%d", pf_host_port, pf_guest_port);
+            sprintf(buf, "vboxwrapper,tcp,%s,%d,,%d",
+                pf.is_remote?"":"127.0.0.1",
+                pf.host_port, pf.guest_port
+            );
             command  = "modifyvm \"" + vm_name + "\" ";
             command += "--natpf1 \"" + string(buf) + "\" ";
 
             retval = vbm_popen(command, output, "add updated port forwarding rule");
-            if(retval) return retval;
+            if (retval) return retval;
         }
     }
 
@@ -881,7 +891,7 @@ int VBOX_VM::create_vm() {
                 vboxwrapper_msg_prefix(buf, sizeof(buf))
             );
         } else {
-            retval = get_remote_desktop_port();
+            retval = boinc_get_port(false, rd_host_port);
             if (retval) return retval;
 
             sprintf(buf, "%d", rd_host_port);
@@ -2107,78 +2117,6 @@ double VBOX_VM::get_vm_cpu_time() {
         current_cpu_time = x;
     }
     return current_cpu_time;
-}
-
-int VBOX_VM::get_port_forwarding_port() {
-    sockaddr_in addr;
-    BOINC_SOCKLEN_T addrsize;
-    int sock;
-    int retval;
-
-    addrsize = sizeof(sockaddr_in);
-
-    memset(&addr, 0, sizeof(sockaddr_in));
-    addr.sin_family = AF_INET;
-    addr.sin_port = htons(pf_host_port);
-    addr.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
-
-    retval = boinc_socket(sock);
-    if (retval) return retval;
- 
-    retval = bind(sock, (const sockaddr*)&addr, addrsize);
-    if (retval < 0) {
-        boinc_close_socket(sock);
-
-        // Lets see if we can get anything useable at this point
-        memset(&addr, 0, sizeof(sockaddr_in));
-        addr.sin_family = AF_INET;
-        addr.sin_port = htons(0);
-        addr.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
-
-        retval = boinc_socket(sock);
-        if (retval) return retval;
-     
-        retval = bind(sock, (const sockaddr*)&addr, addrsize);
-        if (retval < 0) {
-            boinc_close_socket(sock);
-            return ERR_BIND;
-        }
-    }
-
-    getsockname(sock, (sockaddr*)&addr, &addrsize);
-    pf_host_port = ntohs(addr.sin_port);
-
-    boinc_close_socket(sock);
-    return 0;
-}
-
-int VBOX_VM::get_remote_desktop_port() {
-    sockaddr_in addr;
-    BOINC_SOCKLEN_T addrsize;
-    int sock;
-    int retval;
-
-    addrsize = sizeof(sockaddr_in);
-
-    memset(&addr, 0, sizeof(sockaddr_in));
-    addr.sin_family = AF_INET;
-    addr.sin_port = htons(0);
-    addr.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
-
-    retval = boinc_socket(sock);
-    if (retval) return retval;
- 
-    retval = bind(sock, (const sockaddr*)&addr, addrsize);
-    if (retval < 0) {
-        boinc_close_socket(sock);
-        return ERR_BIND;
-    }
-
-    getsockname(sock, (sockaddr*)&addr, &addrsize);
-    rd_host_port = ntohs(addr.sin_port);
-
-    boinc_close_socket(sock);
-    return 0;
 }
 
 int VBOX_VM::get_system_log(string& log, bool tail_only) {

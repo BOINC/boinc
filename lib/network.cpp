@@ -291,3 +291,36 @@ void reset_dns() {
     res_init();
 #endif
 }
+
+// Get an unused port number.
+// Used by vboxwrapper.
+// I'm not sure if is_remote is relevant here - a port is a port, right?
+//
+int boinc_get_port(bool is_remote, int& port) {
+    sockaddr_in addr;
+    BOINC_SOCKLEN_T addrsize;
+    int sock;
+    int retval;
+
+    addrsize = sizeof(sockaddr_in);
+
+    memset(&addr, 0, sizeof(sockaddr_in));
+    addr.sin_family = AF_INET;
+    addr.sin_port = htons(0);
+    addr.sin_addr.s_addr = htonl(is_remote?INADDR_ANY:INADDR_LOOPBACK);
+
+    retval = boinc_socket(sock);
+    if (retval) return retval;
+
+    retval = bind(sock, (const sockaddr*)&addr, addrsize);
+    if (retval < 0) {
+        boinc_close_socket(sock);
+        return ERR_BIND;
+    }
+
+    getsockname(sock, (sockaddr*)&addr, &addrsize);
+    port = ntohs(addr.sin_port);
+
+    boinc_close_socket(sock);
+    return 0;
+}
