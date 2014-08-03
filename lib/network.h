@@ -56,6 +56,7 @@ extern void boinc_close_socket(int sock);
 extern int get_socket_error(int fd);
 extern const char* socket_error_str();
 extern void reset_dns();
+extern int boinc_get_port(bool is_remote, int& port);
 
 #if defined(_WIN32) && !defined(__CYGWIN32__)
 typedef int BOINC_SOCKLEN_T;

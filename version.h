@@ -13,16 +13,16 @@
 #define BOINC_RELEASE 0
 
 /* Release part of wrapper version number */
-#define WRAPPER_RELEASE 26010
+#define WRAPPER_RELEASE 26011
 
 /* Release part of vboxwrapper version number */
-#define VBOXWRAPPER_RELEASE 26094
+#define VBOXWRAPPER_RELEASE 26096
 
 /* String representation of BOINC version number */
 #define BOINC_VERSION_STRING "7.5.0"
 
 /* Package is a pre-release (Alpha/Beta) package */
-/* #define BOINC_PRERELEASE 1 */
+#define BOINC_PRERELEASE 1
 
 #if (defined(_WIN32) || defined(__APPLE__))
 /* Name of package */

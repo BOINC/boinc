@@ -461,12 +461,31 @@ int run_program(
 #endif
 
 #ifdef _WIN32
-void kill_program(HANDLE pid) {
-    TerminateProcess(pid, 0);
+int kill_program(int pid, int exit_code) {
+    int retval;
+
+    HANDLE h = OpenProcess(PROCESS_TERMINATE, false, pid);
+    if (h == NULL) return ERR_NOT_FOUND;
+    if (TerminateProcess(h, exit_code)) {
+        retval = 0;
+    } else {
+        retval = ERR_KILL;
+    }
+    CloseHandle(h);
+    return retval;
 }
+
+int kill_program(HANDLE pid) {
+    if (TerminateProcess(pid, 0)) return 0;
+    return ERR_KILL;
+}
+
 #else
-void kill_program(int pid) {
-    kill(pid, SIGKILL);
+int kill_program(int pid) {
+    if (kill(pid, SIGKILL)) {
+        return ERR_KILL;
+    }
+    return 0;
 }
 #endif
 

@@ -47,12 +47,24 @@
 class FloppyIO;
 
 // represents a VirtualBox Guest Log Timestamp
-class VBOX_TIMESTAMP {
-public:
+struct VBOX_TIMESTAMP {
     int hours;
     int minutes;
     int seconds;
     int milliseconds;
+};
+
+struct PORT_FORWARD {
+    int host_port;      // 0 means assign dynamically
+    int guest_port;
+    bool is_remote;
+
+    PORT_FORWARD() {
+        host_port = 0;
+        guest_port = 0;
+        is_remote = false;
+    }
+    int get_host_port();    // assign host port
 };
 
 // represents a VirtualBox VM
@@ -142,9 +154,9 @@ public:
         // considering itself done.
     std::string fraction_done_filename;
         // name of file where app will write its fraction done
-    // the following for optional port forwarding
-    int pf_host_port;
-    int pf_guest_port;
+    int pf_guest_port;      // if nonzero, do port forwarding for Web GUI
+    int pf_host_port;       // AFAIK this isn't needed
+    std::vector<PORT_FORWARD> port_forwards;
     double minimum_checkpoint_interval;
         // minimum time between checkpoints
     std::vector<std::string> copy_to_shared;
@@ -176,6 +188,8 @@ public:
 #endif
 
     int initialize();
+    int parse_port_forward(XML_PARSER&);
+    void set_web_graphics_url();
     void poll(bool log_state = true);
 
     int create_vm();
@@ -215,8 +229,6 @@ public:
 
     int get_install_directory(std::string& dir);
     int get_slot_directory(std::string& dir);
-    int get_port_forwarding_port();
-    int get_remote_desktop_port();
     int get_vm_network_bytes_sent(double& sent);
     int get_vm_network_bytes_received(double& received);
     int get_vm_process_id();

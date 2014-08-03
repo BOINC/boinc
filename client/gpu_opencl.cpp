@@ -17,6 +17,8 @@
 
 // Detection of GPUs using OpenCL
 
+#define TEST_OTHER_COPROC_LOGIC 0
+
 #ifdef _WIN32
 #include "boinc_win.h"
 #ifdef _MSC_VER
@@ -176,7 +178,6 @@ void COPROCS::get_opencl(
 #ifdef __APPLE__
     opencl_lib = dlopen("/System/Library/Frameworks/OpenCL.framework/Versions/Current/OpenCL", RTLD_NOW);
 #else
-//TODO: Is this correct?
     opencl_lib = dlopen("libOpenCL.so", RTLD_NOW);
 #endif
     if (!opencl_lib) {
@@ -289,10 +290,11 @@ void COPROCS::get_opencl(
             cpu_opencls.push_back(c);
         }
 
-        //////////// GPUs //////////////
+        //////////// GPUs and Accelerators //////////////
         
         ciErrNum = (*__clGetDeviceIDs)(
-            platforms[platform_index], (CL_DEVICE_TYPE_GPU),
+            platforms[platform_index],
+            (CL_DEVICE_TYPE_GPU | CL_DEVICE_TYPE_ACCELERATOR),
             MAX_COPROC_INSTANCES, devices, &num_devices
         );
 
@@ -367,6 +369,17 @@ void COPROCS::get_opencl(
             ciErrNum = get_opencl_info(prop, device_index, warnings);
             if (ciErrNum != CL_SUCCESS) continue;
 
+// TODO: Eliminate this, or improve it
+#if TEST_OTHER_COPROC_LOGIC
+            if (is_NVIDIA(prop.vendor)) {
+                safe_strcpy(prop.vendor, "FAKE VENDOR X");
+            } else if (is_AMD(prop.vendor)) {
+                safe_strcpy(prop.vendor, "FAKE VENDOR Y");
+            } else {
+                safe_strcpy(prop.vendor, "FAKE VENDOR Z");
+            }
+#endif
+
             prop.is_used = COPROC_UNUSED;
             prop.get_device_version_int();
 
@@ -432,7 +445,7 @@ void COPROCS::get_opencl(
             }
             
             //////////// AMD / ATI //////////////
-            if (is_AMD(prop.vendor)) {
+            else if (is_AMD(prop.vendor)) {
                 prop.opencl_device_index = device_index;
 
                 if (ati.have_cal) {
@@ -490,8 +503,7 @@ void COPROCS::get_opencl(
             }
 
             //////////// INTEL GPU //////////////
-            //
-            if (is_intel(prop.vendor)) {
+            else if (is_intel(prop.vendor)) {
                 prop.device_num = (int)(intel_gpu_opencls.size());
                 prop.opencl_device_index = device_index;
 
@@ -515,7 +527,46 @@ void COPROCS::get_opencl(
                 //
                 intel_gpus.push_back(c);
             }
+
+            //////////// OTHER GPU OR ACCELERTOR //////////////
+            else {
+                // Put each coprocessor instance into a separate other_opencls element
+
+                // opencl_device_index is passed to project apps via init_data.xml
+                // to differentiate among OpenCL devices from the same vendor. It is
+                // used by boinc_get_opencl_ids() to select the correct OpenCL device.
+                int opencl_device_index = 0;
+                for (unsigned int coproc_index=0; coproc_index<other_opencls.size(); coproc_index++) {
+                    if (!strcmp(other_opencls[coproc_index].vendor, prop.vendor)) {
+                        opencl_device_index++;  // Another OpenCL device from same vendor
+                    }
+                }
+                
+                prop.device_num = 0;    // Each vector entry has only one device
+                prop.opencl_device_index = opencl_device_index;
+                prop.opencl_available_ram = prop.global_mem_size;
+                prop.is_used = COPROC_USED;
+
+                // TODO: Find a better way to calculate / estimate peak_flops for future coprocessors?
+                prop.peak_flops = 0;
+                if (prop.max_compute_units) {
+                    prop.peak_flops = prop.max_compute_units * prop.max_clock_frequency * MEGA;
+                }
+                if (prop.peak_flops <= 0) prop.peak_flops = 45e9;
+
+                other_opencls.push_back(prop);
+            }
         }
+    }
+    
+    int max_other_coprocs = MAX_RSC-1;  // coprocs[0] is reserved for CPU
+    // Neither nvidia.count, ati.count nor intel_gpu.count have been set yet, 
+    // so we can't test have_nvidia(), have_ati() or have_intel_gpu() here.
+    if ((nvidia_opencls.size() > 0) || nvidia.have_cuda) max_other_coprocs--;
+    if ((ati_opencls.size() > 0) || ati.have_cal) max_other_coprocs--;
+    if (intel_gpu_opencls.size() > 0) max_other_coprocs--;
+    if ((int)other_opencls.size() > max_other_coprocs) {
+        warnings.push_back("Too many OpenCL device types found");
     }
 
 
@@ -532,10 +583,12 @@ void COPROCS::get_opencl(
 
     if ((nvidia_opencls.size() == 0) &&
         (ati_opencls.size() == 0) &&
-        (intel_gpu_opencls.size() == 0)
+        (intel_gpu_opencls.size() == 0) &&
+        (cpu_opencls.size() == 0) &&
+        (other_opencls.size() == 0)
     ) {
         warnings.push_back(
-            "OpenCL library present but no OpenCL-capable GPUs found"
+            "OpenCL library present but no OpenCL-capable devices found"
         );
     }
 }
@@ -577,9 +630,7 @@ void COPROCS::correlate_opencl(
         intel_gpu.available_ram = intel_gpu.opencl_prop.global_mem_size;
         safe_strcpy(intel_gpu.name, intel_gpu.opencl_prop.name);
     }
-    
-// TODO: Add code to allow adding other GPU vendors
-}
+ }
 
 cl_int COPROCS::get_opencl_info(
     OPENCL_DEVICE_PROP& prop,
@@ -839,7 +890,7 @@ void COPROC::find_best_opencls(
 ) {
     unsigned int i;
 
-    // identify the most capable ATI or NVIDIA OpenCL GPU
+    // identify the most capable ATI, NVIDIA or Intel OpenCL GPU
     //
     bool first = true;
     for (i=0; i<opencls.size(); i++) {

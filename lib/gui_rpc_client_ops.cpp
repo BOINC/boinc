@@ -513,6 +513,7 @@ void PROJECT::clear() {
     strcpy(venue, "");
     njobs_success = 0;
     njobs_error = 0;
+    strcpy(cross_project_id, "");
 }
 
 APP::APP() {

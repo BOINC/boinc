@@ -89,6 +89,15 @@ bool arg(char** argv, int i, const char* name) {
     return false;
 }
 
+void check_assign_id(int x) {
+    if (x == 0) {
+        fprintf(stderr,
+            "you must specify a nonzero database ID for assigning jobs to users, teams, or hosts.\n"
+        );
+        exit(1);
+    }
+}
+
 struct JOB_DESC {
     DB_WORKUNIT wu;
     char wu_template[BLOB_SIZE];
@@ -146,6 +155,16 @@ void JOB_DESC::parse_cmdline(int argc, char** argv) {
             id.nbytes = atof(argv[++i]);
             strcpy(id.md5, argv[++i]);
             infiles.push_back(id);
+        } else if (arg(argv, i, "target_host")) {
+            assign_flag = true;
+            assign_type = ASSIGN_HOST;
+            assign_id = atoi(argv[++i]);
+            check_assign_id(assign_id);
+        } else if (arg(argv, i, "target_user")) {
+            assign_flag = true;
+            assign_type = ASSIGN_USER;
+            assign_id = atoi(argv[++i]);
+            check_assign_id(assign_id);
         } else {
             if (!strncmp("-", argv[i], 1)) {
                 fprintf(stderr, "create_work: bad stdin argument '%s'\n", argv[i]);
@@ -156,15 +175,6 @@ void JOB_DESC::parse_cmdline(int argc, char** argv) {
             strcpy(id.name, argv[i]);
             infiles.push_back(id);
         }
-    }
-}
-
-void check_assign_id(int x) {
-    if (x == 0) {
-        fprintf(stderr,
-            "you must specify a nonzero database ID for assigning jobs to users, teams, or hosts.\n"
-        );
-        exit(1);
     }
 }
 
@@ -382,6 +392,16 @@ int main(int argc, char** argv) {
                 if (!strlen(jd2.wu.name)) {
                     sprintf(jd2.wu.name, "%s_%d", jd.wu.name, j);
                 }
+                // if the stdin line specified assignment,
+                // create the job individually
+                //
+                if (jd2.assign_flag) {
+                    jd2.create();
+                    continue;
+                }
+                // otherwise accumulate a SQL query so that we can
+                // create jobs en masse
+                //
                 retval = create_work2(
                     jd2.wu,
                     jd2.wu_template,

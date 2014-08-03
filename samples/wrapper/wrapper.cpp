@@ -23,9 +23,9 @@
 //                  in worker cmdlines and env values
 // --nthreads X     macro-substitute X for $NTHREADS
 //                  in worker cmdlines and env values
-// --trickle X      send a trickle-up message reporting elapsed time every X sec
-//                  (use this for credit granting if your app does its
-//                  own job management)
+// --trickle X      send a trickle-up message reporting runtime every X sec
+//                  of runtime (use this for credit granting
+//                  if your app does its own job management)
 //
 // Handles:
 // - suspend/resume/quit/abort

@@ -1358,7 +1358,10 @@ int boinc_send_trickle_up(char* variety, char* p) {
     FILE* f = boinc_fopen(TRICKLE_UP_FILENAME, "wb");
     if (!f) return ERR_FOPEN;
     fprintf(f, "<variety>%s</variety>\n", variety);
-    size_t n = fwrite(p, strlen(p), 1, f);
+    size_t n = 1;
+    if (strlen(p)) {
+        n = fwrite(p, strlen(p), 1, f);
+    }
     fclose(f);
     if (n != 1) return ERR_WRITE;
     have_new_trickle_up = true;

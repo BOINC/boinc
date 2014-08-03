@@ -126,6 +126,40 @@ char* vboxwrapper_msg_prefix(char* sbuf, int len) {
     return sbuf;
 }
 
+int VBOX_VM::parse_port_forward(XML_PARSER& xp) {
+    int host_port=0, guest_port=0, nports=1;
+    bool is_remote;
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/port_forward")) {
+            if (!host_port) {
+                fprintf(stderr, "parse_port_forward: unspecified host port\n");
+                return ERR_XML_PARSE;
+            }
+            if (!guest_port) {
+                fprintf(stderr, "parse_port_forward: unspecified guest port\n");
+                return ERR_XML_PARSE;
+            }
+            PORT_FORWARD pf;
+            pf.host_port = host_port;
+            pf.guest_port = guest_port;
+            pf.is_remote = is_remote;
+            for (int i=0; i<nports; i++) {
+                port_forwards.push_back(pf);
+                pf.host_port++;
+                pf.guest_port++;
+            }
+            return 0;
+        }
+        else if (xp.parse_bool("is_remote", is_remote)) continue;
+        else if (xp.parse_int("host_port", host_port)) continue;
+        else if (xp.parse_int("guest_port", guest_port)) continue;
+        else if (xp.parse_int("nports", nports)) continue;
+        else {
+            fprintf(stderr, "parse_port_forward: unparsed %s\n", xp.parsed_tag);
+        }
+    }
+    return ERR_XML_PARSE;
+}
 
 int parse_job_file(VBOX_VM& vm) {
     MIOFILE mf;
@@ -183,6 +217,9 @@ int parse_job_file(VBOX_VM& vm) {
         else if (xp.parse_string("completion_trigger_file", str)) {
             vm.completion_trigger_file = str;
             continue;
+        }
+        else if (xp.match_tag("port_forward")) {
+            vm.parse_port_forward(xp);
         }
         fprintf(stderr, "%s parse_job_file(): unexpected tag %s\n",
             vboxwrapper_msg_prefix(buf, sizeof(buf)), xp.parsed_tag
@@ -329,33 +366,17 @@ void set_floppy_image(APP_INIT_DATA& aid, VBOX_VM& vm) {
     }
 }
 
-// set port forwarding information if needed
+// if there's a port for web graphics, tell the client about it
 //
-void set_port_forwarding_info(APP_INIT_DATA& /* aid */, VBOX_VM& vm) {
+void VBOX_VM::set_web_graphics_url() {
     char buf[256];
-
-    if (vm.pf_guest_port && vm.pf_host_port) {
-        // Write info to disk
-        //
-        MIOFILE mf;
-        FILE* f = boinc_fopen(PORTFORWARD_FILENAME, "w");
-        mf.init_file(f);
-
-        mf.printf(
-            "<port_forwarding>\n"
-            "  <rule>\n"
-            "    <host_port>%d</host_port>\n"
-            "    <guest_port>%d</guest_port>\n"
-            "  </rule>\n"
-            "</port_forwarding>\n",
-            vm.pf_host_port,
-            vm.pf_guest_port
-        );
-
-        fclose(f);
-
-        sprintf(buf, "http://localhost:%d", vm.pf_host_port);
-        boinc_web_graphics_url(buf);
+    for (unsigned int i=0; i<port_forwards.size(); i++) {
+        PORT_FORWARD& pf = port_forwards[i];
+        if (pf.guest_port == pf_guest_port) {
+            sprintf(buf, "http://localhost:%d", pf.host_port);
+            boinc_web_graphics_url(buf);
+            break;
+        }
     }
 }
 
@@ -436,8 +457,22 @@ void VBOX_VM::check_trickle_triggers() {
                 "%s can't read trickle trigger file %s\n",
                 vboxwrapper_msg_prefix(buf, sizeof(buf)), filename
             );
+        } else {
+            retval = boinc_send_trickle_up(
+                filename, const_cast<char*>(text.c_str())
+            );
+            if (retval) {
+                fprintf(stderr,
+                    "%s boinc_send_trickle_up() failed: %s\n",
+                    vboxwrapper_msg_prefix(buf, sizeof(buf)), boincerror(retval)
+                );
+            } else {
+                fprintf(stderr,
+                    "%s sent trickle-up of variety %s\n",
+                    vboxwrapper_msg_prefix(buf, sizeof(buf)), filename
+                );
+            }
         }
-        boinc_send_trickle_up(filename, const_cast<char*>(text.c_str()));
         boinc_delete_file(path);
     }
 }
@@ -1013,7 +1048,8 @@ int main(int argc, char** argv) {
     }
 
     set_floppy_image(aid, vm);
-    set_port_forwarding_info(aid, vm);
+    //set_port_forwarding_info(aid, vm);
+    vm.set_web_graphics_url();
     set_remote_desktop_info(aid, vm);
     write_checkpoint(elapsed_time, current_cpu_time, vm);
 

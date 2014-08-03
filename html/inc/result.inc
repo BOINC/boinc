@@ -298,25 +298,29 @@ function file_delete_state_str($s) {
 }
 function wu_error_mask_str($s) {
     $x = "";
-    if ($s & 1) {
+    if ($s & WU_ERROR_COULDNT_SEND_RESULT) {
         $x = $x." ".tra("Couldn't send result");
-        $s -= 1;
+        $s -= WU_ERROR_COULDNT_SEND_RESULT;
     }
-    if ($s & 2) {
+    if ($s & WU_ERROR_TOO_MANY_ERROR_RESULTS) {
         $x = $x." ".tra("Too many errors (may have bug)");
-        $s -= 2;
+        $s -= WU_ERROR_TOO_MANY_ERROR_RESULTS;
     }
-    if ($s & 4) {
+    if ($s & WU_ERROR_TOO_MANY_SUCCESS_RESULTS) {
         $x = $x." ".tra("Too many results (may be nondeterministic)");
-        $s -= 4;
+        $s -= WU_ERROR_TOO_MANY_SUCCESS_RESULTS;
     }
-    if ($s & 8) {
+    if ($s & WU_ERROR_TOO_MANY_TOTAL_RESULTS) {
         $x = $x." ".tra("Too many total results");
-        $s -= 8;
+        $s -= WU_ERROR_TOO_MANY_TOTAL_RESULTS;
     }
-    if ($s & 16) {
+    if ($s & WU_ERROR_CANCELLED) {
         $x = $x." ".tra("WU cancelled");
-        $s -= 16;
+        $s -= WU_ERROR_CANCELLED;
+    }
+    if ($s & WU_ERROR_NO_CANONICAL_RESULT) {
+        $x = $x." ".tra("Canonical result is missing");
+        $s -= WU_ERROR_NO_CANONICAL_RESULT;
     }
     if ($s) {
         $x = $x." ".tra("Unrecognized Error: %1", $s);

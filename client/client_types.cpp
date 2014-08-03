@@ -983,11 +983,13 @@ void APP_VERSION::clear_errors() {
     }
 }
 
-int APP_VERSION::api_major_version() {
-    int v, n;
-    n = sscanf(api_version, "%d", &v);
-    if (n != 1) return 0;
-    return v;
+bool APP_VERSION::api_version_at_least(int major, int minor) {
+    int maj, min, n;
+    n = sscanf(api_version, "%d.%d", &maj, &min);
+    if (n != 2) return false;
+    if (maj < major) return false;
+    if (maj > major) return true;
+    return min >= minor;
 }
 
 int FILE_REF::parse(XML_PARSER& xp) {

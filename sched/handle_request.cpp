@@ -500,11 +500,16 @@ static int modify_host_struct(HOST& host) {
     host.timezone = g_request->host.timezone;
     strncpy(host.domain_name, g_request->host.domain_name, sizeof(host.domain_name));
     char buf[1024], buf2[1024];
-    sprintf(buf, "[BOINC|%d.%d.%d]",
+    sprintf(buf, "[BOINC|%d.%d.%d",
         g_request->core_client_major_version,
         g_request->core_client_minor_version,
         g_request->core_client_release
     );
+    if (strlen(g_request->client_brand)) {
+        strcat(buf, "|");
+        strcat(buf, g_request->client_brand);
+    }
+    strcat(buf, "]");
     g_request->coprocs.summary_string(buf2, sizeof(buf2));
     strlcpy(host.serialnum, buf, sizeof(host.serialnum));
     strlcat(host.serialnum, buf2, sizeof(host.serialnum));
@@ -915,7 +920,7 @@ void warn_user_if_core_client_upgrade_scheduled() {
         int remaining = config.min_core_client_upgrade_deadline-time(0);
         remaining /= 3600;
 
-        if (0 < remaining) {
+        if (remaining > 0) {
 
             char msg[512];
             int days  = remaining / 24;
@@ -1200,7 +1205,7 @@ void process_request(char* code_sign_key) {
 
     retval = open_database();
     if (retval) {
-        send_error_message("Server can't open database", 3600);
+        send_error_message("Server can't open database", config.maintenance_delay);
         g_reply->project_is_down = true;
         goto leave;
     }

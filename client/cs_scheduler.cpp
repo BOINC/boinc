@@ -395,6 +395,10 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
         fclose(cof);
     }
 
+    if (strlen(client_brand)) {
+        fprintf(f, "    <client_brand>%s</client_brand>\n", client_brand);
+    }
+
     fprintf(f, "</scheduler_request>\n");
 
     fclose(f);

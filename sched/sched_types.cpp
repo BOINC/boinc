@@ -71,7 +71,7 @@ int CLIENT_APP_VERSION::parse(XML_PARSER& xp) {
 
             double pf = host_usage.avg_ncpus * g_reply->host.p_fpops;
             if (host_usage.proc_type != PROC_TYPE_CPU) {
-                COPROC* cp = g_request->coprocs.type_to_coproc(host_usage.proc_type);
+                COPROC* cp = g_request->coprocs.proc_type_to_coproc(host_usage.proc_type);
                 pf += host_usage.gpu_usage*cp->peak_flops;
             }
             host_usage.peak_flops = pf;
@@ -94,7 +94,7 @@ int CLIENT_APP_VERSION::parse(XML_PARSER& xp) {
             int retval = coproc_req.parse(xp);
             if (!retval) {
                 int rt = coproc_type_name_to_num(coproc_req.type);
-                if (!rt) {
+                if (rt <= 0) {
                     log_messages.printf(MSG_NORMAL,
                         "UNKNOWN COPROC TYPE %s\n", coproc_req.type
                     );
@@ -184,6 +184,7 @@ const char* SCHEDULER_REQUEST::parse(XML_PARSER& xp) {
     strcpy(authenticator, "");
     strcpy(platform.name, "");
     strcpy(cross_project_id, "");
+    strcpy(client_brand, "");
     hostid = 0;
     core_client_major_version = 0;
     core_client_minor_version = 0;
@@ -423,6 +424,9 @@ const char* SCHEDULER_REQUEST::parse(XML_PARSER& xp) {
         if (xp.parse_int("sandbox", sandbox)) continue;
         if (xp.parse_int("allow_multiple_clients", allow_multiple_clients)) continue;
         if (xp.parse_string("client_opaque", client_opaque)) continue;
+        if (xp.parse_str("client_brand", client_brand, sizeof(client_brand))) continue;
+
+        // unused or deprecated stuff follows
 
         if (xp.match_tag("active_task_set")) continue;
         if (xp.match_tag("app")) continue;
@@ -591,6 +595,7 @@ int MSG_FROM_HOST_DESC::parse(XML_PARSER& xp) {
     char buf[256];
 
     msg_text = "";
+    strcpy(variety, "");
     MIOFILE& in = *(xp.f);
     while (in.fgets(buf, sizeof(buf))) {
         if (match_tag(buf, "</msg_from_host>")) return 0;
@@ -621,7 +626,7 @@ static bool have_apps_for_client() {
     for (int i=0; i<NPROC_TYPES; i++) {
         if (ssp->have_apps_for_proc_type[i]) {
             if (!i) return true;
-            COPROC* cp = g_request->coprocs.type_to_coproc(i);
+            COPROC* cp = g_request->coprocs.proc_type_to_coproc(i);
             if (cp->count) return true;
         }
     }
@@ -1087,6 +1092,16 @@ int APP_VERSION::write(FILE* fout) {
             "        <count>%f</count>\n"
             "    </coproc>\n",
             nm,
+            bavp->host_usage.gpu_usage
+        );
+    }
+    if (strlen(bavp->host_usage.custom_coproc_type)) {
+        fprintf(fout,
+            "    <coproc>\n"
+            "        <type>%s</type>\n"
+            "        <count>%f</count>\n"
+            "    </coproc>\n",
+            bavp->host_usage.custom_coproc_type,
             bavp->host_usage.gpu_usage
         );
     }

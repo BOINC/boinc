@@ -37,6 +37,9 @@ function update() {
     $n = post_int("max_core_version");
     $av->update("max_core_version=$n");
 
+    $n = post_str("plan_class");
+    $av->update("plan_class='$n'");
+
     echo "<b>Updated app version $id.  This change will take effect when you restart the project.</b><p>";
 }
 
@@ -57,7 +60,7 @@ function show_form() {
       "Application<br><span class=note>click for details</span>",
       "Version",
       "Platform",
-      "Plan Class",
+      "Plan class",
       "minimum<br>client version",
       "maximum<br>client version",
       "beta?",
@@ -90,7 +93,7 @@ function show_form() {
         $platform = $platforms[$av->platformid];
         echo "  <TD>$f1 $platform->name $f2</TD>\n";
 
-        echo "  <td>$f1 $av->plan_class $f2</td>\n";
+        echo "  <td><input type=text name=plan_class size=12 value='$av->plan_class'></td>\n";
 
         $v = $av->min_core_version;
         echo "  <TD><input type='text' size='4' name=min_core_version value='$v'></TD>\n";

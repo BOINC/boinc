@@ -163,7 +163,7 @@ int ACTIVE_TASK::get_shmem_seg_name() {
     char init_data_path[MAXPATHLEN];
 #ifndef __EMX__
     // shmem_seg_name is not used with mmap() shared memory
-    if (app_version->api_major_version() >= 6) {
+    if (app_version->api_version_at_least(6, 0)) {
         shmem_seg_name = -1;
         return 0;
     }
@@ -253,7 +253,13 @@ void ACTIVE_TASK::init_app_init_data(APP_INIT_DATA& aid) {
     int rt = app_version->gpu_usage.rsc_type;
     if (rt) {
         COPROC& cp = coprocs.coprocs[rt];
-        safe_strcpy(aid.gpu_type, cp.type);
+        if (coproc_type_name_to_num(cp.type) >= 0) {
+            // Standardized vendor name ("NVIDIA", "ATI" or "intel_gpu")
+            safe_strcpy(aid.gpu_type, cp.type);
+        } else {
+            // For other vendors, use vendor name as returned by OpenCL
+            safe_strcpy(aid.gpu_type, cp.opencl_prop.vendor);
+        }
         int k = result->coproc_indices[0];
         if (k<0 || k>=cp.count) {
             msg_printf(0, MSG_INTERNAL_ERROR,
@@ -433,9 +439,7 @@ int ACTIVE_TASK::setup_file(
     }
     if (retval) return retval;
 #endif
-#ifdef SANDBOX
-    return set_to_project_group(link_path);
-#endif
+    if (g_use_sandbox) set_to_project_group(link_path);
     return 0;
 }
 
@@ -508,7 +512,7 @@ int ACTIVE_TASK::start(bool test) {
     unsigned int i;
     FILE_REF fref;
     FILE_INFO* fip;
-    int retval, rt;
+    int retval;
     APP_INIT_DATA aid;
 #ifdef _WIN32
     bool success = false;
@@ -666,7 +670,7 @@ int ACTIVE_TASK::start(bool test) {
     char error_msg[1024];
     char error_msg2[1024];
     DWORD last_error;
-
+    
     memset(&process_info, 0, sizeof(process_info));
     memset(&startup_info, 0, sizeof(startup_info));
     startup_info.cb = sizeof(startup_info);
@@ -689,9 +693,11 @@ int ACTIVE_TASK::start(bool test) {
     sprintf(cmdline, "%s %s %s",
         exec_path, wup->command_line.c_str(), app_version->cmdline
     );
-    rt = app_version->gpu_usage.rsc_type;
-    if (rt) {
-        coproc_cmdline(rt, result, app_version->gpu_usage.usage, cmdline);
+    if (!app_version->api_version_at_least(7, 5)) {
+        int rt = app_version->gpu_usage.rsc_type;
+        if (rt) {
+            coproc_cmdline(rt, result, app_version->gpu_usage.usage, cmdline);
+        }
     }
 
     relative_to_absolute(slot_dir, slotdirpath);
@@ -880,9 +886,11 @@ int ACTIVE_TASK::start(bool test) {
         wup->command_line.c_str(), app_version->cmdline
     );
 
-    rt = app_version->gpu_usage.rsc_type;
-    if (rt) {
-        coproc_cmdline(rt, result, app_version->gpu_usage.usage, cmdline);
+    if (!app_version->api_version_at_least(7, 5)) {
+        int rt = app_version->gpu_usage.rsc_type;
+        if (rt) {
+            coproc_cmdline(rt, result, app_version->gpu_usage.usage, cmdline);
+        }
     }
 
     // Set up client/app shared memory seg if needed
@@ -891,7 +899,7 @@ int ACTIVE_TASK::start(bool test) {
 #ifdef ANDROID
         if (true) {
 #else
-        if (app_version->api_major_version() >= 6) {
+        if (app_version->api_version_at_least(6, 0)) {
 #endif
             // Use mmap() shared memory
             sprintf(buf, "%s/%s", slot_dir, MMAPPED_FILE_NAME);
@@ -900,9 +908,7 @@ int ACTIVE_TASK::start(bool test) {
                     int fd = open(buf, O_RDWR | O_CREAT, 0660);
                     if (fd >= 0) {
                         close (fd);
-#ifdef SANDBOX
-                        set_to_project_group(buf);
-#endif
+                        if (g_use_sandbox) set_to_project_group(buf);
                     }
                 }
             }

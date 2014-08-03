@@ -550,20 +550,38 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
 
     // Intel GPU
     //
-    } else if (strstr(gpu_type, "intel")==gpu_type) {
+    } else if (strstr(gpu_type, "intel") == gpu_type) {
         COPROC& cp = sreq.coprocs.intel_gpu;
         cpp = &cp;
 
         if (!cp.count) {
             if (config.debug_version_select) {
                 log_messages.printf(MSG_NORMAL,
-                    "[version] [version] No Intel GPUs found\n"
+                    "[version] plan_class_spec: No Intel GPUs found\n"
                 );
             }
             return false;
         }
         if (min_gpu_ram_mb) {
             gpu_requirements[PROC_TYPE_INTEL_GPU].update(0, min_gpu_ram_mb * MEGA);
+        }
+
+    // custom GPU type
+    //
+    } else if (strlen(gpu_type)) {
+        cpp = sreq.coprocs.lookup_type(gpu_type);
+        if (!cpp) {
+            if (config.debug_version_select) {
+                log_messages.printf(MSG_NORMAL,
+                    "[version] plan_class_spec: No %s found\n", gpu_type
+                );
+            }
+            return false;
+        }
+        if (config.debug_version_select) {
+            log_messages.printf(MSG_NORMAL,
+                "[version] plan_class_spec: Custom coproc %s found\n", gpu_type
+            );
         }
     }
 
@@ -662,21 +680,29 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
             gpu_usage = gpu_utilization;
         }
 
-        coproc_perf(
-            capped_host_fpops(),
-            gpu_peak_flops_scale * gpu_usage * cpp->peak_flops,
-            cpu_frac,
-            hu.projected_flops,
-            hu.avg_ncpus
-        );
-        if (avg_ncpus) {
-            hu.avg_ncpus = avg_ncpus;
-        }
-        // I believe the first term here is just hu.projected_flops,
-        // but I'm leaving it spelled out to match GPU scheduling 
-        // code in sched_customize.cpp
+        // if we don't know GPU peak flops, treat it like a CPU app
         //
-        hu.peak_flops = gpu_peak_flops_scale*gpu_usage*cpp->peak_flops + hu.avg_ncpus*capped_host_fpops();
+        if (cpp->peak_flops == 0) {
+            strcpy(hu.custom_coproc_type, gpu_type);
+            hu.avg_ncpus = cpu_frac;
+            hu.gpu_usage = gpu_usage;
+        } else {
+            coproc_perf(
+                capped_host_fpops(),
+                gpu_peak_flops_scale * gpu_usage * cpp->peak_flops,
+                cpu_frac,
+                hu.projected_flops,
+                hu.avg_ncpus
+            );
+            if (avg_ncpus) {
+                hu.avg_ncpus = avg_ncpus;
+            }
+            // I believe the first term here is just hu.projected_flops,
+            // but I'm leaving it spelled out to match GPU scheduling 
+            // code in sched_customize.cpp
+            //
+            hu.peak_flops = gpu_peak_flops_scale*gpu_usage*cpp->peak_flops + hu.avg_ncpus*capped_host_fpops();
+        }
 
         if (!strcmp(gpu_type, "amd") || !strcmp(gpu_type, "ati")) {
             hu.proc_type = PROC_TYPE_AMD_GPU;

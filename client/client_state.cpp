@@ -114,6 +114,7 @@ CLIENT_STATE::CLIENT_STATE()
     core_client_version.prerelease = false;
 #endif
     strcpy(language, "");
+    strcpy(client_brand, "");
     exit_after_app_start_secs = 0;
     app_started = 0;
     exit_before_upload = false;
@@ -242,6 +243,17 @@ void CLIENT_STATE::show_host_info() {
             "VirtualBox version: %s",
             host_info.virtualbox_version
         );
+    } else {
+#if defined (_WIN32) && !defined(_WIN64)
+        if (!strcmp(get_primary_platform(), "windows_x86_64")) {
+            msg_printf(NULL, MSG_INFO,
+                "VirtualBox: can't detect because this is a 32-bit client"
+            );
+            msg_printf(NULL, MSG_INFO,
+                "  (to use VirtualBox, install a 64-bit BOINC client)."
+            );
+        }
+#endif
     }
 }
 
@@ -265,7 +277,9 @@ const char* rsc_name(int i) {
 // user-friendly version
 //
 const char* rsc_name_long(int i) {
-    return proc_type_name(coproc_type_name_to_num(coprocs.coprocs[i].type));
+    int num = coproc_type_name_to_num(coprocs.coprocs[i].type);
+    if (num >= 0) return proc_type_name(num);   // CPU, NVIDIA GPU, AMD GPU or Intel GPU
+    return coprocs.coprocs[i].type;             // Some other type
 }
 
 // alert user if any jobs need more RAM than available
@@ -394,6 +408,14 @@ int CLIENT_STATE::init() {
     msg_printf(NULL, MSG_INFO, "Running under account %s", pbuf);
 #endif
 
+    FILE* f = fopen(CLIENT_BRAND_FILENAME, "r");
+    if (f) {
+        fgets(client_brand, sizeof(client_brand), f);
+        strip_whitespace(client_brand);
+        msg_printf(NULL, MSG_INFO, "Client brand: %s", client_brand);
+        fclose(f);
+    }
+
     parse_account_files();
     parse_statistics_files();
 
@@ -458,6 +480,8 @@ int CLIENT_STATE::init() {
             coprocs.add(coprocs.intel_gpu);
         }
     }
+    coprocs.add_other_coproc_types();
+    
     host_info.coprocs = coprocs;
     
     if (coprocs.none() ) {
@@ -659,9 +683,7 @@ int CLIENT_STATE::init() {
         if (retval) return retval;
     }
 
-#ifdef SANDBOX
-    get_project_gid();
-#endif
+    if (g_use_sandbox) get_project_gid();
 #ifdef _WIN32
     get_sandbox_account_service_token();
     if (sandbox_account_service_token != NULL) g_use_sandbox = true;
