@@ -386,8 +386,8 @@
     <!-- social integration -->
     <string name="social_invite_button">Invite friends</string>
     <string name="social_invite_intent_title">How do you want to share?</string>
-    <string name="social_invite_content_title">App to help science!</string>
-    <string name="social_invite_content_body">I have hooked up my %1$s to help science, try it out: %2$s</string> <!-- first parameter: device manufacturer, second: URL -->
+    <string name="social_invite_content_title">I\'m doing science on my smartphone!</string>
+    <string name="social_invite_content_body">I\'m using my %1$s to do computing for science. You can too! Download the app from: %2$s</string> <!-- first parameter: device manufacturer, second: URL -->
     <string name="social_invite_content_url">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
 
 </resources>
