@@ -31,6 +31,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -56,29 +57,55 @@ public class SelectionListAdapter extends ArrayAdapter<ProjectListEntry>{
 		
         v = vi.inflate(R.layout.attach_project_list_layout_listitem, null);
 		TextView name = (TextView) v.findViewById(R.id.name);
-		name.setText(listItem.info.name);
 		TextView description = (TextView) v.findViewById(R.id.description);
-		description.setText(listItem.info.generalArea);
 		TextView summary = (TextView) v.findViewById(R.id.summary);
-		summary.setText(listItem.info.summary);
 		CheckBox cb = (CheckBox) v.findViewById(R.id.cb);
-		cb.setChecked(listItem.checked);
-		cb.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				listItem.checked = !listItem.checked;
-			}
-		});
 		LinearLayout textWrapper = (LinearLayout) v.findViewById(R.id.text_wrapper);
-		textWrapper.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if(Logging.DEBUG) Log.d(Logging.TAG, "SelectionListAdapter: onProjectClick open info for: " + listItem.info.name);
+        
+        if(listItem.am) {
+        	// element is account manager
+    		name.setText(activity.getString(R.string.attachproject_acctmgr_header));
+    		description.setText(activity.getString(R.string.attachproject_acctmgr_list_desc));
+    		cb.setVisibility(View.GONE);
+    		summary.setVisibility(View.GONE);
+    		ImageView button = (ImageView) v.findViewById(R.id.am_button_image);
+    		button.setVisibility(View.VISIBLE);
+    		OnClickListener listener = new OnClickListener() {
+    			@Override
+    			public void onClick(View v) {
+    				if(Logging.DEBUG) Log.d(Logging.TAG, "SelectionListAdapter: account manager clicked.");
+    	    		AcctMgrFragment dialog = new AcctMgrFragment();
+    	    		dialog.setReturnToMainActivity(); // configure, so dialog returns to main activity when finished
+    	    		dialog.show(activity.getSupportFragmentManager(), activity.getString(R.string.attachproject_acctmgr_header));
+    			}
+    		};
+    		v.setOnClickListener(listener);
+    		name.setOnClickListener(listener);
+    		description.setOnClickListener(listener);
+    		button.setOnClickListener(listener);
+        } else {
+        	// element is project option
+    		name.setText(listItem.info.name);
+    		description.setText(listItem.info.generalArea);
+    		summary.setText(listItem.info.summary);
+    		cb.setChecked(listItem.checked);
+    		cb.setOnClickListener(new OnClickListener() {
+    			@Override
+    			public void onClick(View v) {
+    				listItem.checked = !listItem.checked;
+    			}
+    		});
+    		textWrapper.setOnClickListener(new OnClickListener() {
+    			@Override
+    			public void onClick(View v) {
+    				if(Logging.DEBUG) Log.d(Logging.TAG, "SelectionListAdapter: onProjectClick open info for: " + listItem.info.name);
 
-				ProjectInfoFragment dialog = ProjectInfoFragment.newInstance(listItem.info);
-				dialog.show(activity.getSupportFragmentManager(), "ProjectInfoFragment");
-			}
-		});
+    				ProjectInfoFragment dialog = ProjectInfoFragment.newInstance(listItem.info);
+    				dialog.show(activity.getSupportFragmentManager(), "ProjectInfoFragment");
+    			}
+    		});
+        	
+        }
         return v;
     }
 	

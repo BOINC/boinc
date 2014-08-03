@@ -203,6 +203,8 @@ public class SelectionListActivity extends FragmentActivity{
 	        	for(ProjectInfo tmp: result) {
 	        		entries.add(new ProjectListEntry(tmp));
 	        	}
+
+	        	entries.add(new ProjectListEntry()); // add account manager option to bottom of list
 		        SelectionListAdapter listAdapter = new SelectionListAdapter(SelectionListActivity.this,R.id.listview,entries);
 		        lv.setAdapter(listAdapter);
 	         } 
@@ -212,10 +214,18 @@ public class SelectionListActivity extends FragmentActivity{
 	class ProjectListEntry {
 		public ProjectInfo info;
 		public boolean checked;
+		public boolean am; //indicates that element is account manager entry
 		
 		public ProjectListEntry(ProjectInfo info) {
 			this.info = info;
 			this.checked = false;
+		}
+		
+		/**
+		 * Creates Account manager list object
+		 */
+		public ProjectListEntry() {
+			this.am = true;
 		}
 	}
 }

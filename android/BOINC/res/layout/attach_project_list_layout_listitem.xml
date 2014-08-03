@@ -51,5 +51,15 @@
     	android:layout_height="wrap_content"
     	android:layout_alignParentRight="true"
     	android:layout_centerVertical="true"/>
+	
+    <ImageView 
+    	android:id="@+id/am_button_image"
+    	android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:src="@drawable/nextb"
+    	android:layout_centerVertical="true"
+    	android:layout_alignParentRight="true"
+    	android:visibility="gone"
+    	android:contentDescription="@string/attachproject_acctmgr_header"/>
     
 </RelativeLayout>

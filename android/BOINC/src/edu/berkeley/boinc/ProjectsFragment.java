@@ -45,7 +45,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import edu.berkeley.boinc.adapter.ProjectControlsListAdapter;
 import edu.berkeley.boinc.adapter.ProjectsListAdapter;
-import edu.berkeley.boinc.attach.AcctMgrFragment;
 import edu.berkeley.boinc.attach.ManualUrlInputFragment;
 import edu.berkeley.boinc.rpc.Notice;
 import edu.berkeley.boinc.rpc.AcctMgrInfo;
@@ -58,7 +57,6 @@ public class ProjectsFragment extends Fragment {
 	private ListView lv;
 	private ProjectsListAdapter listAdapter;
 	private ArrayList<ProjectsListData> data = new ArrayList<ProjectsListData>();
-	private Boolean acctMgrPresent = false;
 
 	// controls popup dialog
 	Dialog dialogControls;
@@ -117,25 +115,10 @@ public class ProjectsFragment extends Fragment {
 	}
 	
 	@Override
-	public void onPrepareOptionsMenu(Menu menu) {
-		super.onPrepareOptionsMenu(menu);
-
-        // disable "add account manager" button, if account manager already present
-        if(acctMgrPresent) {
-        	MenuItem item = menu.findItem(R.id.acctmgr_add);
-        	item.setVisible(false);
-        }
-	}
-	
-	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 	    if(Logging.VERBOSE) Log.v(Logging.TAG, "AttachProjectListActivity onOptionsItemSelected()");
 
 	    switch (item.getItemId()) {
-	    	case R.id.acctmgr_add:
-	    		AcctMgrFragment dialog = new AcctMgrFragment();
-	    		dialog.show(getFragmentManager(), getActivity().getString(R.string.attachproject_acctmgr_header));
-	    		return true;
 	    	case R.id.projects_add_url:
 	    		ManualUrlInputFragment dialog2 = new ManualUrlInputFragment();
 	    		dialog2.show(getFragmentManager(), getActivity().getString(R.string.attachproject_list_manual_button));
@@ -149,7 +132,6 @@ public class ProjectsFragment extends Fragment {
 		try {
 			// read projects from state saved in ClientStatus
 			ArrayList<Project> statusProjects = (ArrayList<Project>) BOINCActivity.monitor.getProjects();
-			acctMgrPresent = BOINCActivity.monitor.getAcctMgrInfoPresent();
 			AcctMgrInfo statusAcctMgr = BOINCActivity.monitor.getClientAcctMgrInfo();
 			ArrayList<Transfer> statusTransfers = (ArrayList<Transfer>) BOINCActivity.monitor.getTransfers();
 			

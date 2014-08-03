@@ -19,6 +19,7 @@
 
 package edu.berkeley.boinc.attach;
 
+import edu.berkeley.boinc.BOINCActivity;
 import edu.berkeley.boinc.R;
 import edu.berkeley.boinc.utils.*;
 import android.app.Dialog;
@@ -58,6 +59,8 @@ public class AcctMgrFragment extends DialogFragment{
 	private TextView warning;
 	private LinearLayout ongoingWrapper;
 	private Button continueB;
+	
+	private boolean returnToMainActivity = false;
 	
 	private AttachProjectAsyncTask asyncTask;
 
@@ -130,6 +133,10 @@ public class AcctMgrFragment extends DialogFragment{
 		  // request a window without the title
 		  dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
 		  return dialog;
+	}
+	
+	public void setReturnToMainActivity() {
+		returnToMainActivity = true;
 	}
 	
 	private int verifyInput(String url, String name, String pwd) {
@@ -254,7 +261,18 @@ public class AcctMgrFragment extends DialogFragment{
 		protected void onPostExecute(Integer result) {
 			super.onPostExecute(result);
 			if(Logging.DEBUG) Log.d(Logging.TAG, "AcctMgrFragment.AttachProjectAsyncTask onPostExecute, returned: " + result); 
-			if(result == BOINCErrors.ERR_OK) dismiss();
+			if(result == BOINCErrors.ERR_OK) {
+				dismiss();
+				if(returnToMainActivity) {
+					if(Logging.DEBUG) Log.d(Logging.TAG, "AcctMgrFragment.AttachProjectAsyncTask onPostExecute, start main activity"); 
+					Intent intent = new Intent(getActivity(), BOINCActivity.class);
+					// add flags to return to main activity and clearing all others and clear the back stack
+					intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); 
+					intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+					intent.putExtra("targetFragment", R.string.tab_projects); // make activity display projects fragment
+					startActivity(intent);
+				}
+			}
 			else {
 	        	ongoingWrapper.setVisibility(View.GONE);
 	        	continueB.setVisibility(View.VISIBLE);
