@@ -98,6 +98,7 @@
     <string name="attachproject_registration_header_pwd_confirm">&#8230; Retype:</string>
     <string name="attachproject_registration_button">Create</string>
     <!-- account manager -->
+    <string name="attachproject_acctmgr_list_desc">Use BOINC account manager to add and manage multiple projects</string>
     <string name="attachproject_acctmgr_header">Add account manager</string>
     <string name="attachproject_acctmgr_header_url">URL</string>
     <string name="attachproject_acctmgr_header_name">User:</string>
