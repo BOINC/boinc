@@ -124,6 +124,7 @@ function get_gpu_lists() {
     $x->cuda = get_gpu_list("cuda", "nvidia");
     $x->ati = get_gpu_list("ati");
     $x->intel_gpu = get_gpu_list("intel_gpu");
+    $x->time = time();
     return $x;
 }
 
@@ -195,6 +196,7 @@ echo tra("The following lists show the most productive GPU models on different p
 show_vendor("NVIDIA", $data->cuda);
 show_vendor("ATI/AMD", $data->ati);
 show_vendor("Intel", $data->intel_gpu);
+echo "<p>Generated ".time_str($data->time);
 page_tail();
 
 ?>
