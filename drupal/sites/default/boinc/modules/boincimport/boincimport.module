@@ -723,7 +723,7 @@ function boincimport_teams() {
       else {
         if (!$name) continue;
         $team_type = array(
-          'name' => check_plain($name),
+          'name' => strip_tags($name),
           'vid' => $team_vid,
           'description' => '',
           'parent' => 0
@@ -1676,8 +1676,7 @@ function boincimport_forum_categories_op($category, $forum_vid, $pre, $create_hi
     'parent' => $parent_id,
     'weight' => $weight,
   );
-  $forum['name'] = check_plain($forum['name']);
-  $forum['description'] = check_plain($forum['description']);
+  $forum['description'] = strip_tags($forum['description']);
 
   taxonomy_save_term($forum);
   $success = isset($forum['tid']);
@@ -1763,8 +1762,7 @@ function boincimport_forums_op($boincforum, $forum_vid, $pre = '', &$context) {
       'parent' => $parent_id,
       'weight' => $weight,
     );
-    $forum['name'] = check_plain($forum['name']);
-    $forum['description'] = check_plain($forum['description']);
+    $forum['description'] = strip_tags($forum['description']);
 
     taxonomy_save_term($forum); 
     $success = isset($forum['tid']);
@@ -2098,7 +2096,6 @@ function boincimport_topics_op($offset, $batch_size, $pre = '', &$context) {
         'format' => $input_format,
         'teaser' => $teaser,
       );
-      $node['title'] = check_plain($node['title']);
       $node['tid'] = $tid;
       
       // Save the topic node
@@ -2618,8 +2615,8 @@ function boincimport_team_forums_op($boincteam_forum, &$context) {
   // Set term parameters for forums
   $forum_id = $boincteam_forum->id;
   $team_id = boincteam_lookup_nid($boincteam_forum->category);
-  $name = check_plain($boincteam_forum->title);
-  $description = check_plain($boincteam_forum->description);
+  $name = $boincteam_forum->title;
+  $description = strip_tags($boincteam_forum->description);
   
   $success = db_query("
     INSERT INTO {boincteam_forum} SET 
@@ -2885,7 +2882,6 @@ function boincimport_team_topics_op($topic, &$context) {
         'teaser' => $teaser,
         'tfid' => $team_forum_id,
       );
-      $node['title'] = check_plain($node['title']);
       
       // Save the team topic node
       $node = (object) $node; // node_save requires an object form
