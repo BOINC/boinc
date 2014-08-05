@@ -2449,7 +2449,14 @@ function boincimport_posts_op($offset, $batch_size, &$context) {
     else {
       $context['results']['failure'][] = $boinc_topic->id;
       $message = "Imported {$posts_imported} post(s) for topic {$boinc_topic->id} (excluded {$error_posts} errors, {$duplicate_posts} duplicates, and {$empty_posts} empty)";
-      watchdog('boincimport', $message, WATCHDOG_WARNING
+      watchdog('boincimport', 'Imported @posts_imported post(s) for topic @id (excluded @error_posts errors, @duplicate_posts duplicates, and @empty_posts empty)', 
+        array(
+          '@posts_imported' => $posts_imported,
+          '@id' => $boinc_topic->id,
+          '@error_posts' => $error_posts,
+          '@duplicate_posts' => $duplicate_posts,
+          '@empty_posts' => $empty_posts,
+        ), WATCHDOG_WARNING
       ); 
     }
     
@@ -3451,28 +3458,37 @@ function boincimport_replace_urls() {
     LEFT JOIN {comments} AS c ON p.cid = c.cid'
   ));
   
-  if (!$node_count AND !$comment_count) {
+  $pm_count = db_result(db_query('
+    SELECT COUNT(*)
+    FROM {pm_message} pm'
+  ));
+  
+  if (!$node_count AND !$comment_count AND !$pm_count) {
     drupal_set_message(
-      t('There were no nodes or comments found: Aborting script'), 'warning'
+      t('There were no nodes, comments, or private messages found: Aborting script'), 'warning'
     );
     watchdog('boincimport',
-      'There were no nodes or comments found: Aborting script', array(), WATCHDOG_WARNING
+      'There were no nodes,comments, or private messages found: Aborting script', array(), WATCHDOG_WARNING
     );
     // Release the lock on the import process
     variable_del('boincimport_process_locked');
-    return t('There were no nodes or comments found: Aborting script.');
+    return t('There were no nodes, comments, or private messages found: Aborting script.');
   }
   
   watchdog('boincimport',
-    'Found %node_count nodes and %comment_count comments: Updating URLs...',
-    array('%node_count' => $node_count, '%comment_count' => $comment_count),
+    'Found %node_count nodes, %comment_count comments, and %pm_count private messages: Updating URLs...',
+    array(
+      '%node_count' => $node_count,
+      '%comment_count' => $comment_count,
+      '%pm_count' => $pm_count,
+    ),
     WATCHDOG_INFO
   );
   
   $operations = array();
   $batch_size = 100;
   
-  // Create batches to process
+  // Create node batches to process
   for ($offset = 0; $offset < $node_count; $offset+=$batch_size) {
     $nodes_per_batch = $batch_size;
     if ($offset + $batch_size > $node_count) {
@@ -3484,6 +3500,7 @@ function boincimport_replace_urls() {
       )
     );
   }
+  // Add comment batches
   for ($offset = 0; $offset < $comment_count; $offset+=$batch_size) {
     $comments_per_batch = $batch_size;
     if ($offset + $batch_size > $comment_count) {
@@ -3495,13 +3512,25 @@ function boincimport_replace_urls() {
       )
     );
   }
+  // And don't forget to process private messages
+  for ($offset = 0; $offset < $pm_count; $offset+=$batch_size) {
+    $messages_per_batch = $batch_size;
+    if ($offset + $batch_size > $pm_count) {
+      $messages_per_batch = $pm_count - $offset;
+    }
+    $operations[] = array(
+      'boincimport_replace_urls_pm_op', array(
+        $offset, $messages_per_batch
+      )
+    );
+  }
   
   $batch = array(
     'operations' => $operations,
     'finished' => 'boincimport_replace_urls_finished',
     'title' => t('Updating URLs...'),
     'init_message' => t('Beginning URL update...'),
-    'progress_message' => t('Processed URLs in @current out of @total batches (@size nodes / comments per batch).', array(
+    'progress_message' => t('Processed URLs in @current out of @total batches (@size items per batch).', array(
       '@size' => $batch_size,
     )),
     'error_message' => t('URL update has encountered an error.'),
@@ -3591,7 +3620,6 @@ function boincimport_replace_urls_comment_op($offset, $batch_size, &$context) {
   
   $input_format = variable_get('boincimport_input_format', 0);
   
-  
   // Get comments to process
   $comments = db_query('
     SELECT c.cid, c.comment
@@ -3644,6 +3672,69 @@ function boincimport_replace_urls_comment_op($offset, $batch_size, &$context) {
 }
 
 /**
+ * Batch operation for updating URLs in private messages
+ * Find URLs for the old system and update them with Drupal paths
+ */
+function boincimport_replace_urls_pm_op($offset, $batch_size, &$context) {
+  // Initialize the batch, if needed
+  if (!isset($context['sandbox']['progress'])) {
+    $context['sandbox']['progress'] = 0;
+    $context['sandbox']['max'] = $batch_size;
+  }
+  
+  $input_format = variable_get('boincimport_input_format', 0);
+  
+  // Get private messages to process
+  $messages = db_query('
+    SELECT pm.mid, pm.body
+    FROM {pm_message} pm
+    ORDER BY pm.mid
+    LIMIT %d,%d',
+    $offset, $batch_size
+  );
+  
+  while ($pm = db_fetch_object($messages)) {
+    $updated = FALSE;
+    
+    // Update URLs in private message body
+    $original_pm_body = $pm->body;
+    $pm->body = _boincimport_replace_links($pm->body);
+    if ($pm->body != $original_pm_body) {
+      $updated = db_query("
+        UPDATE {pm_message}
+        SET body= '%s'
+        WHERE mid = %d",
+        $pm->body, $pm->mid
+      );
+    }
+    
+    $message = '';
+    $context['results']['success'][] = $pm->mid;
+    if ($updated) {
+      // Store some result for post-processing in the finished callback.
+      $context['results']['pm']['updated'][] = $pm->mid;
+      $message = "Successfully updated private message {$pm->mid}";
+    }
+    else {
+      $message = "No changes made to private message {$pm->mid}!";
+    }
+    
+    // Update our progress information.
+    $context['sandbox']['progress']++;
+    $context['sandbox']['current_pm'] = $pm->mid;
+    $context['message'] = $message;
+
+    // Update the progress for the batch engine
+    if ($context['sandbox']['progress'] >= $context['sandbox']['max']) {
+      $context['finished'] = 1;
+    }
+    else {
+      $context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['max'];
+    }
+  }
+}
+
+/**
  * Batch 'finished' callback
  */
 function boincimport_replace_urls_finished($success, $results, $operations) {
@@ -3652,14 +3743,25 @@ function boincimport_replace_urls_finished($success, $results, $operations) {
     $total_processed = count($results['success']);
     $nodes_updated = count($results['nodes']['updated']);
     $comments_updated = count($results['comments']['updated']);
+    $private_messages_updated = count($results['pm']['updated']);
     $message = t(
-      'Successfully processed @count nodes and comments (@nodes_updated nodes and @comments_updated comments were updated)',
+      'Successfully processed @count nodes, comments, and private messages (@nodes_updated nodes, @comments_updated comments, and @pm_updated private messages were updated)',
       array(
         '@count' => $total_processed,
         '@nodes_updated' => $nodes_updated,
         '@comments_updated' => $comments_updated,
+        '@pm_updated' => $private_messages_updated,
       )
     );
+    if ($private_messages_updated) {
+      watchdog('boincimport',
+        'Updated URLs in these private_messages: @mid_list',
+        array(
+          '@mid_list' => implode(', ', $results['pm']['updated']),
+        ),
+        WATCHDOG_INFO
+      );
+    }
     if ($comments_updated) {
       watchdog('boincimport',
         'Updated URLs in these comments: @cid_list',
@@ -3679,11 +3781,12 @@ function boincimport_replace_urls_finished($success, $results, $operations) {
       );
     }
     watchdog('boincimport',
-      'Successfully processed @count nodes and comments (@nodes_updated nodes and @comments_updated comments were updated)',
+      'Successfully processed @count nodes, comments, and private messages (@nodes_updated nodes, @comments_updated comments, and @pm_updated private messages were updated)',
       array(
         '@count' => $total_processed,
         '@nodes_updated' => $nodes_updated,
         '@comments_updated' => $comments_updated,
+        '@pm_updated' => $private_messages_updated,
       ),
       WATCHDOG_INFO
     );
@@ -3970,7 +4073,9 @@ class BoincImportUrlTransformer {
     if ($newBaseUrl !== NULL) {
       // Make sure this isn't an RPC link (no need to transform those)
       if (!$matches[5]) {
-      watchdog('DEBUG', 'matches: @m', array('@m' => print_r($matches,true)), WATCHDOG_DEBUG);
+        // TODO: This regex doesn't seem to capture the format=xml part of the
+        // URL, making it impossible to distinguish if this is an RPC or not...
+        //watchdog('DEBUG', 'matches: @m', array('@m' => print_r($matches,true)), WATCHDOG_DEBUG);
         $uid = boincuser_lookup_uid($matches[3]);
         $link = "{$newBaseUrl}account/{$uid}";
       }
