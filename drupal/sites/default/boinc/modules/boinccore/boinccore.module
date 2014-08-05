@@ -391,7 +391,7 @@ function boinccore_url_pagination_handler($type, $object_id = NULL) {
           $comments_per_page = $user->comments_per_page;
         }
         else {
-          $node = node_load($comment->nid);
+          $node = node_load($object->nid);
           $comments_per_page = variable_get(
             "comment_default_per_page_{$node->type}", 50
           );
