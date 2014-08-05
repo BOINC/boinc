@@ -2298,7 +2298,6 @@ function boincimport_posts_op($offset, $batch_size, &$context) {
   }
   
   $input_format = variable_get('boincimport_input_format', 0);
-  $success = FALSE;
   $posts_imported = 0;
   
  // Get the topics with posts to import
@@ -2314,7 +2313,7 @@ function boincimport_posts_op($offset, $batch_size, &$context) {
   db_set_active('default');
   
   while ($boinc_topic = db_fetch_object($boinc_topic_ids)) {
-  
+    
     // Get the posts in this topic
     db_set_active('boinc');
     $boinc_posts = db_query('
@@ -2323,6 +2322,10 @@ function boincimport_posts_op($offset, $batch_size, &$context) {
     db_set_active('default');
     
     $first_post = true;
+    $success = FALSE;
+    $empty_posts = 0;
+    $error_posts = 0;
+    $duplicate_posts = 0;
 
     while ($post = db_fetch_object($boinc_posts)) {
       
@@ -2340,6 +2343,7 @@ function boincimport_posts_op($offset, $batch_size, &$context) {
       if ($is_duplicate) {
         // This post has already been imported
         $context['results']['duplicate'][] = $post->id;
+        $duplicate_posts++;
         continue;
       }
       
@@ -2407,22 +2411,29 @@ function boincimport_posts_op($offset, $batch_size, &$context) {
         );
         
         // Save the comment
-        if ($cid = boincimport_forum_comment_save($comment)) {
-          db_query('
+        if (boincimport_forum_comment_save($comment)) {
+          $success = db_query('
             INSERT INTO {boincimport_temp_post} (post_id, cid)
             VALUES (%d, %d)',
-            $post->id, $cid
+            $post->id, $comment['cid']
           );
-          $success = TRUE;
-          $posts_imported++;
-          $context['results']['posts']['success'][] = $post->id;
+          if ($success) {
+            $posts_imported++;
+            $context['results']['posts']['success'][] = $post->id;
+          }
+          else {
+            $context['results']['posts']['failure'][] = $post->id;
+            $error_posts++;
+          }
         }
         else {
           $context['results']['posts']['failure'][] = $post->id;
+          $error_posts++;
         }
       }
       else {
         $context['results']['posts']['empty'][] = $post->id;
+        $empty_posts++;
       }
     }
     
@@ -2434,10 +2445,8 @@ function boincimport_posts_op($offset, $batch_size, &$context) {
     }
     else {
       $context['results']['failure'][] = $boinc_topic->id;
-      $message = "No posts to import for topic {$boinc_topic->id}";
-      watchdog('boincimport',
-        'No posts to import for topic @id!',
-        array('@id' => $boinc_topic->id), WATCHDOG_WARNING
+      $message = "Imported {$posts_imported} post(s) for topic {$boinc_topic->id} (excluded {$error_posts} errors, {$duplicate_posts} duplicates, and {$empty_posts} empty)";
+      watchdog('boincimport', $message, WATCHDOG_WARNING
       ); 
     }
     
@@ -2466,21 +2475,25 @@ function boincimport_posts_finished($success, $results, $operations) {
     $topic_count = count($results['success']);
     $duplicates = count($results['duplicate']);
     $empty_posts = count($results['posts']['empty']);
+    $failed_posts = count($results['posts']['failure']);
     $message = t(
-      'Successfully imported @post_count posts in @topic_count topics (skipped @duplicates posts already imported and @empty_posts with no content)',
+      'Successfully imported @post_count posts in @topic_count topics (skipped @duplicates posts already imported, @empty_posts with no content, and @error_posts with errors during import)',
       array(
         '@post_count' => $posts_imported,
         '@topic_count' => $topic_count,
         '@duplicates' => $duplicates,
         '@empty_posts' => $empty_posts,
+        '@error_posts' => $failed_posts,
       )
     );
     watchdog('boincimport',
-      'Successfully imported @post_count posts in @topic_count topics (skipped @duplicates posts already imported).',
+      'Successfully imported @post_count posts in @topic_count topics (skipped @duplicates posts already imported, @empty_posts with no content, and @error_posts with errors during import).',
       array(
         '@post_count' => $posts_imported,
         '@topic_count' => $topic_count,
         '@duplicates' => $duplicates,
+        '@empty_posts' => $empty_posts,
+        '@error_posts' => $failed_posts,
       ), WATCHDOG_INFO
     ); 
     // Set the post import successful flag in the variable table
@@ -3178,13 +3191,12 @@ function boincimport_team_posts_op($post, &$context) {
     );
     
     // Save the comment
-    if ($cid = boincimport_forum_comment_save($comment)) {
-      db_query('
+    if (boincimport_forum_comment_save($comment)) {
+      $success = db_query('
         INSERT INTO {boincimport_temp_post} (post_id, cid)
         VALUES (%d, %d)',
-        $post->id, $cid
+        $post->id, $comment['cid']
       );
-      $success = TRUE;
     }
   }
   
@@ -3741,7 +3753,7 @@ function boincimport_process_cleanup() {
  * Helper Functions
  */
 
-function boincimport_forum_comment_save($edit) {
+function boincimport_forum_comment_save(&$edit) {
   // Here we are building the thread field.  See the comment in comment_render().
   if ($edit['pid'] == 0) {
     // This is a comment with no parent comment (depth 0): we start by retrieving
@@ -3782,11 +3794,12 @@ function boincimport_forum_comment_save($edit) {
     $edit['name'] = $user->name;
   }
 
-  db_query("INSERT INTO {comments} (nid, pid, uid, subject, comment, format, hostname, timestamp, status, thread, name) VALUES (%d, %d, %d, '%s', '%s', %d, '%s', %d, %d, '%s', '%s')", $edit['nid'], $edit['pid'], $edit['uid'], $edit['subject'], $edit['comment'], $edit['format'], ip_address(), $edit['timestamp'], $edit['status'], $thread, $edit['name']);
-  $edit['cid'] = db_last_insert_id('comments', 'cid');
-  _comment_update_node_statistics($edit['nid']);
-
-  return $edit['cid'];
+  $success = db_query("INSERT INTO {comments} (nid, pid, uid, subject, comment, format, hostname, timestamp, status, thread, name) VALUES (%d, %d, %d, '%s', '%s', %d, '%s', %d, %d, '%s', '%s')", $edit['nid'], $edit['pid'], $edit['uid'], $edit['subject'], $edit['comment'], $edit['format'], ip_address(), $edit['timestamp'], $edit['status'], $thread, $edit['name']);
+  if ($success) {
+    $edit['cid'] = db_last_insert_id('comments', 'cid');
+    _comment_update_node_statistics($edit['nid']);
+  }
+  return $success;
 }
 
 /**
