@@ -1347,6 +1347,9 @@ function boincimport_private_msgs_op($pm, &$context) {
   $uid = boincuser_lookup_uid($pm->userid);
   $sender_uid = boincuser_lookup_uid($pm->senderid);
   
+  $pm->content = _boincimport_strip_bbcode($pm->content);
+  $pm->content = _boincimport_text_sanitize($pm->content);
+  
   // First save the message
   $message_added = db_query("
     INSERT INTO {pm_message} (subject, author, body, format, timestamp)
