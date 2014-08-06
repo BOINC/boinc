@@ -158,8 +158,11 @@ function boincuser_create_drupal_user($boinc_user) {
     return NULL;
   }
   
+  // Make sure name is unique
+  $unique_name = find_unique_name($boinc_user->name);
+  
   $userinfo = array(
-    'name' => preg_replace('/[^a-zA-Z0-9_\.-]/', '_', $boinc_email),
+    'name' => $unique_name,
     'pass' => $boinc_user->passwd_hash,
     'mail' => $boinc_email,
     'signature' => $boinc_user->prefs->signature,
