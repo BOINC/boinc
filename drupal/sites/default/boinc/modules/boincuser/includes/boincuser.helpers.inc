@@ -96,6 +96,10 @@ function boincuser_check_credit_requirements() {
  * Determine the first unique name from a given base
  */
 function find_unique_name($requested_name) {
+  if (!$requested_name) {
+    // If the name is empty, set it
+    $requested_name = 'anonymous';
+  }
   $same_name_tally = 1;
   $cleaned_name = preg_replace('/[^a-zA-Z0-9_ \.-]/s', '_', $requested_name);
   $unique_name = $cleaned_name;
