@@ -17,7 +17,27 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// classes for different kinds of preferences.  See prefs.inc
+// classes for different kinds of global preferences.  See prefs.inc
+// PREF_BOOL: boolean
+// PREF_NUM: a number, possibly constrained to a range
+// PREF_NUM2: a pair of numbers (e.g. transfer limit)
+// PREF_HOUR_RANGE: a range of hours
+
+$venues = array("home", "school", "work");
+
+function check_venue($x) {
+    if ($x == "") return;
+    if ($x == "home") return;
+    if ($x == "work") return;
+    if ($x == "school") return;
+    error_page(tra("bad venue: %1", $x));
+}
+
+function check_subset($x) {
+    if ($x == "global") return;
+    if ($x == "project") return;
+    error_page(tra("bad subset: %1", $x));
+}
 
 abstract class PREF {
     public $desc;
@@ -350,6 +370,106 @@ class PREF_HOUR_RANGE extends PREF {
         $prefs->$tag = 0;
         $prefs->$tag2 = 0;
     }
+}
+
+////////////////////////////////////////////
+//
+// display preference subsets as Columns
+//
+function row_top($x, $ncols=6, $class="heading") {
+    echo "<tr><td class=$class width=35%>$x</td>";
+    echo "<td class=$class width=10%><b>".tra("Default")."</b></td>
+        <td class=$class width=10%><b>".tra("Home")."</b></td>
+        <td class=$class width=10%><b>".tra("School")."</b></td>
+        <td class=$class width=10%><b>".tra("Work")."</b></td>
+    ";
+    echo "<td width=15%><br></td></tr>\n";
+}
+
+//
+// row_defs - Display a value for all 4 venues in one row
+//
+function row_defs($pre, $item, $post, $type, $prefs) {
+    $gen = $prefs->$item;
+    $hom  = (isset($prefs->home) && isset($prefs->home->$item)) ? $prefs->home->$item : "--";
+    $schl = (isset($prefs->school) && isset($prefs->school->$item)) ? $prefs->school->$item : "--";
+    $wrk  = (isset($prefs->work) && isset($prefs->work->$item)) ? $prefs->work->$item : "--";
+
+    echo "<tr><td class=fieldname>$pre</td>";
+    row_field($gen,  $type);
+    row_field($hom,  $type);
+    row_field($schl, $type);
+    row_field($wrk,  $type);
+    echo "<td align=left>$post</td></tr>\n";
+}
+
+//
+// row_field - Display each field value, with selectable display modes
+//
+function row_field($value, $type) {
+    echo "<td class=f_val valign=top>";
+    $type = $value === "--" ? "--" : $type;
+    switch($type) {
+    case "yesno":
+        echo $value ?tra("yes"):tra("no");
+        break;
+    case "noyes":
+        echo $value ?tra("no"):tra("yes");
+        break;
+    case "limit":
+        $x = max_bytes_display_mode($value);
+        $y = "$x " . BYTE_ABBR;
+        echo $x ? "$y" : tra("no limit");
+        break;
+    case "minutes":
+        if ($value) {
+            echo $value;
+        } else {
+            echo '--';
+        }
+        break;
+    default:
+        echo $value;
+        break;
+    }
+    echo "</td>";
+}
+
+//
+// row_links - Display Edit/Add/Remove links for all venues in 1 row
+//
+function row_links($subset, $prefs) {
+    global $g_logged_in_user;
+    $tokens = url_tokens($g_logged_in_user->authenticator);
+    $pre_add  = "<a href=add_venue.php?venue=";
+    $pre_edit  = "<a href=prefs_edit.php?venue=";
+    $pre_remove = "<a href=prefs_remove.php?venue=";
+    $post_add = "&subset=$subset&cols=1$tokens>".tra("Add")."</a>";
+    $post_edit = "&subset=$subset&cols=1$tokens>".tra("Edit")."</a>";
+    $post_remove = "&subset=$subset&cols=1$tokens>".tra("Remove")."</a>";
+    $gen = "<a href=prefs_edit.php?subset=$subset&cols=1$tokens>".tra("Edit")."</a>";
+
+    $hom  = isset($prefs->home) ? $pre_edit."home".$post_edit : $pre_add."home".$post_add;
+    $schl = isset($prefs->school) ? $pre_edit."school".$post_edit : $pre_add."school".$post_add;
+    $wrk  = isset($prefs->work) ? $pre_edit."work".$post_edit : $pre_add."work".$post_add;
+
+    echo "<tr><td class=fieldname> </td>";
+    echo "<td>$gen</td>";
+    echo "<td>$hom</td>";
+    echo "<td>$schl</td>";
+    echo "<td>$wrk</td>";
+    echo "<td><br></td></tr>\n";
+
+    $hom  = isset($prefs->home) ? $pre_remove."home".$post_remove : "<br>";
+    $schl = isset($prefs->school) ? $pre_remove."school".$post_remove : "<br>";
+    $wrk  = isset($prefs->work) ? $pre_remove."work".$post_remove : "<br>";
+
+    echo "<tr><td class=fieldname> </td>";
+    echo "<td> </td>";
+    echo "<td>$hom</td>";
+    echo "<td>$schl</td>";
+    echo "<td>$wrk</td>";
+    echo "<td><br></td></tr>\n";
 }
 
 ?>
