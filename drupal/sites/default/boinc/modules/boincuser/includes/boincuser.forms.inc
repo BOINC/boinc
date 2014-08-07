@@ -259,7 +259,7 @@ function boincuser_create_drupal_profile($account, $boinc_user) {
   $profile_node->promote = 0;
   $profile_node->sticky = 0;
   $profile_node->format = $default_input_format;
-  $profile_node->uid = $account->uid;
+  $profile_node->name = $account->name; // Set to link profile to account uid!
   $profile_node->field_country[]['value'] = $boinc_user->country;
   $profile_node->field_zip[]['value'] = $boinc_user->postal_code;
   $profile_node->field_url[]['value'] = $boinc_user->url;
@@ -269,6 +269,7 @@ function boincuser_create_drupal_profile($account, $boinc_user) {
   $profile_node->field_profile_image[] = $profile_image;
   
   // Save the profile object to the database
+  // This will automatically set the author uid if node->name has been set
   $profile_node = node_submit($profile_node);
   node_save($profile_node);
   
