@@ -472,4 +472,14 @@ function row_links($subset, $prefs) {
     echo "<td><br></td></tr>\n";
 }
 
+// see if we have any beta apps or app versions
+//
+function project_has_beta() {
+    $apps = BoincApp::enum("deprecated=0 and beta>0");
+    if (count($apps)) return true;
+    $avs = BoincAppVersion::enum("deprecated=0 and beta>0");
+    if (count($avs)) return true;
+    return false;
+}
+
 ?>

@@ -115,7 +115,7 @@ if ($app_types->intel_gpu) {
     );
 }
 
-if (isset($project_has_beta) && $project_has_beta) {
+if (project_has_beta()) {
     $project_pref_descs[] = new PREF_BOOL(
         tra("Run test applications?")
             ."<br><span class=note>"
