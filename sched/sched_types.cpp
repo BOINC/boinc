@@ -779,9 +779,15 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq) {
             );
         }
         if (strlen(user.cross_project_id)) {
+            char external_cpid[MD5_LEN];
+            safe_strcpy(buf, user.cross_project_id);
+            safe_strcat(buf, user.email_addr);
+            md5_block((unsigned char*)buf, strlen(buf), external_cpid);
             fprintf(fout,
-                "<cross_project_id>%s</cross_project_id>\n",
-                user.cross_project_id
+                "<cross_project_id>%s</cross_project_id>\n"
+                "<external_cpid>%s</external_cpid>\n",
+                user.cross_project_id,
+                external_cpid
             );
         }
 
