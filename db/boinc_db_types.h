@@ -201,6 +201,9 @@ struct USER {
         // is being verified.
     bool has_profile;
     char cross_project_id[256];
+        // the "internal" cross-project ID;
+        // the "external CPID" that  gets exported to stats sites
+        // is MD5(cpid, email)
     char passwd_hash[256];
     bool email_validated;           // deprecated
     int donated;
