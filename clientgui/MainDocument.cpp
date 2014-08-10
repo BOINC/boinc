@@ -2626,7 +2626,8 @@ static void hsv2rgb(
 void color_cycle(int i, int n, wxColour& color) {
     double h = (double)i/(double)n;
     double r, g, b;
-    double v = .4 + (i % 3)*.1;
+    double v = .6;
+    if (n > 6) v = .5 + (i % 3)*.125;
         // cycle through 3 different brightnesses
     hsv2rgb(h*6, .5, v, r, g, b);
     unsigned char cr = (unsigned char) (r*256);
