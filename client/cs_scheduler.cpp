@@ -227,28 +227,8 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
         total_disk_usage, p->disk_usage, p->disk_share
     );
 
-    // copy request values from RSC_WORK_FETCH to COPROC
-    //
-    int j = rsc_index(GPU_TYPE_NVIDIA);
-    if (j > 0) {
-        coprocs.nvidia.req_secs = rsc_work_fetch[j].req_secs;
-        coprocs.nvidia.req_instances = rsc_work_fetch[j].req_instances;
-        coprocs.nvidia.estimated_delay = rsc_work_fetch[j].req_secs?rsc_work_fetch[j].busy_time_estimator.get_busy_time():0;
-    }
-    j = rsc_index(GPU_TYPE_ATI);
-    if (j > 0) {
-        coprocs.ati.req_secs = rsc_work_fetch[j].req_secs;
-        coprocs.ati.req_instances = rsc_work_fetch[j].req_instances;
-        coprocs.ati.estimated_delay = rsc_work_fetch[j].req_secs?rsc_work_fetch[j].busy_time_estimator.get_busy_time():0;
-    }
-    j = rsc_index(GPU_TYPE_INTEL);
-    if (j > 0) {
-        coprocs.intel_gpu.req_secs = rsc_work_fetch[j].req_secs;
-        coprocs.intel_gpu.req_instances = rsc_work_fetch[j].req_instances;
-        coprocs.intel_gpu.estimated_delay = rsc_work_fetch[j].req_secs?rsc_work_fetch[j].busy_time_estimator.get_busy_time():0;
-    }
-
     if (coprocs.n_rsc > 1) {
+        work_fetch.copy_requests();
         coprocs.write_xml(mf, true);
     }
 
@@ -303,7 +283,7 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
     // send descriptions of app versions
     //
     fprintf(f, "<app_versions>\n");
-    j=0;
+    int j=0;
     for (i=0; i<app_versions.size(); i++) {
         APP_VERSION* avp = app_versions[i];
         if (avp->project != p) continue;

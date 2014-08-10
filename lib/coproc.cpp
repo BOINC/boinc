@@ -242,22 +242,21 @@ int COPROCS::parse(XML_PARSER& xp) {
 void COPROCS::write_xml(MIOFILE& mf, bool scheduler_rpc) {
 #ifndef _USING_FCGI_
     mf.printf("    <coprocs>\n");
-    if (nvidia.count) {
-        nvidia.write_xml(mf, scheduler_rpc);
-    }
-    if (ati.count) {
-        ati.write_xml(mf, scheduler_rpc);
-    }
-    if (intel_gpu.count) {
-        intel_gpu.write_xml(mf, scheduler_rpc);
-    }
     
     for (int i=1; i<n_rsc; i++) {
-       if (!strcmp("CUDA", coprocs[i].type)) continue;
-       if (!strcmp(GPU_TYPE_NVIDIA, coprocs[i].type)) continue;
-       if (!strcmp(GPU_TYPE_ATI, coprocs[i].type)) continue;
-       if (!strcmp(GPU_TYPE_INTEL, coprocs[i].type)) continue;
-       coprocs[i].write_xml(mf, scheduler_rpc);
+        switch (coproc_type_name_to_num(coprocs[i].type)) {
+        case PROC_TYPE_NVIDIA_GPU:
+            nvidia.write_xml(mf, scheduler_rpc);
+            break;
+        case PROC_TYPE_AMD_GPU:
+            ati.write_xml(mf, scheduler_rpc);
+            break;
+        case PROC_TYPE_INTEL_GPU:
+            intel_gpu.write_xml(mf, scheduler_rpc);
+            break;
+        default:
+            coprocs[i].write_xml(mf, scheduler_rpc);
+        }
     }
     
     mf.printf("    </coprocs>\n");

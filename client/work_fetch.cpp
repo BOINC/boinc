@@ -148,6 +148,12 @@ void RSC_PROJECT_WORK_FETCH::resource_backoff(PROJECT* p, const char* name) {
 
 ///////////////  RSC_WORK_FETCH  ///////////////
 
+void RSC_WORK_FETCH::copy_request(COPROC& c) {
+    c.req_secs = req_secs;
+    c.req_instances = req_instances;
+    c.estimated_delay =  req_secs?busy_time_estimator.get_busy_time():0;
+}
+
 RSC_PROJECT_WORK_FETCH& RSC_WORK_FETCH::project_state(PROJECT* p) {
     return p->rsc_pwf[rsc_type];
 }
@@ -422,6 +428,27 @@ void WORK_FETCH::set_all_requests(PROJECT* p) {
     }
 }
 #endif
+
+// copy request fields from RSC_WORK_FETCH to COPROCS
+//
+void WORK_FETCH::copy_requests() {
+    for (int i=0; i<coprocs.n_rsc; i++) {
+        switch (coproc_type_name_to_num(coprocs.coprocs[i].type)) {
+        case PROC_TYPE_NVIDIA_GPU:
+            rsc_work_fetch[i].copy_request(coprocs.nvidia);
+            break;
+        case PROC_TYPE_AMD_GPU:
+            rsc_work_fetch[i].copy_request(coprocs.ati);
+            break;
+        case PROC_TYPE_INTEL_GPU:
+            rsc_work_fetch[i].copy_request(coprocs.intel_gpu);
+            break;
+        default:
+            rsc_work_fetch[i].copy_request(coprocs.coprocs[i]);
+            break;
+        }
+    }
+}
 
 void WORK_FETCH::print_state() {
     msg_printf(0, MSG_INFO, "[work_fetch] ------- start work fetch state -------");
