@@ -36,7 +36,8 @@ enum {  // Command buttons (m_SelectedStatistic)
     show_user_total = 0,
     show_user_average,
     show_host_total,
-    show_host_average
+    show_host_average,
+    n_command_buttons
 };
 
 enum {  // Mode buttons (m_ModeViewStatistic)
@@ -184,17 +185,6 @@ CPaintStatistics::CPaintStatistics(wxWindow* parent, wxWindowID id, const wxPoin
 	m_pen_GraphRACColour = wxColour(0, 160, 0);
 	m_pen_GraphTotalHostColour = wxColour(0, 0, 255);
 	m_pen_GraphRACHostColour = wxColour(0, 0, 0);
-	                            
-	m_pen_GraphColour00 = wxColour(255, 0, 0);
-	m_pen_GraphColour01 = wxColour(0, 160, 0);
-	m_pen_GraphColour02 = wxColour(0, 0, 255);
-	m_pen_GraphColour03 = wxColour(0, 0, 0);
-	m_pen_GraphColour04 = wxColour(255, 0, 255);
-	m_pen_GraphColour05 = wxColour(255, 128, 0);
-	m_pen_GraphColour06 = wxColour(192, 192, 0);
-	m_pen_GraphColour07 = wxColour(0, 192, 192);
-	m_pen_GraphColour08 = wxColour(160, 160, 160);
-	m_pen_GraphColour09 = wxColour(160, 0, 0);
 
 	m_dc_bmp.Create(1, 1);
 	m_full_repaint = true;
@@ -239,20 +229,6 @@ static bool CrossTwoLine(const double X1_1, const double Y1_1, const double X1_2
 	}
 }
 
-void CPaintStatistics::getDrawColour(wxColour &graphColour, int number) {
-	switch (number % 10){
-	case 1:	graphColour = m_pen_GraphColour01;	break;
-	case 2:	graphColour = m_pen_GraphColour02;	break;
-	case 3:	graphColour = m_pen_GraphColour03;	break;
-	case 4:	graphColour = m_pen_GraphColour04;	break;
-	case 5: graphColour = m_pen_GraphColour05;	break;
-	case 6:	graphColour = m_pen_GraphColour06;	break;
-	case 7:	graphColour = m_pen_GraphColour07;	break;
-	case 8:	graphColour = m_pen_GraphColour08;	break;
-	case 9: graphColour = m_pen_GraphColour09;	break;
-	default:graphColour = m_pen_GraphColour00;
-	}
-}
 //----Draw "Point"
 static void myDrawPoint(wxDC &dc,int X, int Y, wxColour graphColour,int numberTypePoint, int PointWidth) {
 	dc.SetPen(wxPen(graphColour , 1 , wxSOLID));
@@ -632,7 +608,7 @@ void CPaintStatistics::DrawLegend(wxDC &dc, PROJECTS* proj, CMainDocument* pDoc,
 		int  typePoint = 0;
 		if (bColour){
 			getTypePoint(typePoint, count);
-			getDrawColour(graphColour, count);
+			color_cycle(count, proj->projects.size(), graphColour);
 		} else if (SelProj == count) {
 				graphColour = m_pen_LegendSelectTextColour;
 			} else {
@@ -1317,7 +1293,7 @@ void CPaintStatistics::DrawAll(wxDC &dc) {
 				DrawAxis(dc, max_val_y, min_val_y,max_val_x, min_val_x, m_pen_AxisColour, max_val_y_all, min_val_y_all);
 			//Draw graph
 				wxColour graphColour=wxColour(0,0,0);
-				getDrawColour(graphColour,m_SelectedStatistic);
+				color_cycle(m_SelectedStatistic, n_command_buttons, graphColour);
 				DrawGraph(dc, i, graphColour, 0, m_SelectedStatistic);
 			//Change row/col
 				if (col == nb_proj_col) {
@@ -1384,7 +1360,7 @@ void CPaintStatistics::DrawAll(wxDC &dc) {
 			DrawAxis(dc, max_val_y, min_val_y, max_val_x, min_val_x, pen_AxisColour1, max_val_y, min_val_y);
 		    // Draw graph
 			wxColour graphColour=wxColour(0,0,0);
-			getDrawColour(graphColour,m_SelectedStatistic);
+			color_cycle(m_SelectedStatistic, n_command_buttons, graphColour);
 			DrawGraph(dc, i, graphColour, 0, m_SelectedStatistic);
 		    // Draw marker
 			DrawMarker(dc);
@@ -1454,7 +1430,7 @@ void CPaintStatistics::DrawAll(wxDC &dc) {
 				wxColour graphColour = wxColour(0,0,0);
 				int  typePoint = 0;
 				getTypePoint(typePoint,count);
-				getDrawColour(graphColour,count);
+				color_cycle(count, proj->projects.size(), graphColour);
 				DrawGraph(dc, i, graphColour, typePoint, m_SelectedStatistic);
 			}
 		}
@@ -1591,7 +1567,7 @@ void CPaintStatistics::DrawAll(wxDC &dc) {
         wxColour graphColour = wxColour(0,0,0);
         int  typePoint = 0;
         getTypePoint(typePoint,count);
-        getDrawColour(graphColour,m_SelectedStatistic);
+        color_cycle(m_SelectedStatistic, n_command_buttons, graphColour);
         DrawGraph2(dc, sumstats, graphColour, typePoint, m_SelectedStatistic);
 //        sumstats.clear();
 	//Draw marker
