@@ -393,7 +393,7 @@ function boinc_preprocess_block(&$vars, $hook) {
 // */ 
 
 function boinc_preprocess_search_result(&$variables) {
-  $type = $variables['result']['type'];
+  $type = strtolower($variables['result']['type']);
   switch ($type) {
   case 'team':
     global $base_url;
