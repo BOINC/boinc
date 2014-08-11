@@ -235,6 +235,53 @@ function show_user_info_private($user) {
     }
 }
 
+function friend_links($user) {
+    if (is_banished($user)) {
+        return "";
+    }
+    $x = "<table height=\"100\" width=\"150\" border=\"0\" cellpadding=\"4\"><tr><td class=\"friend\">";
+    if ($user->has_profile) {
+        $profile = BoincProfile::lookup_fields("has_picture", "userid=$user->id");
+        if ($profile && $profile->has_picture) {
+            $img_url = profile_thumb_url($user->id);
+        } else {
+            $img_url = URL_BASE."img/head_20.png";
+        }
+        $title = tra("View the profile of %1", $user->name);
+        $alt = tra("Profile");
+        $x .= ' <a href="'.URL_BASE.'view_profile.php?userid='.$user->id.'"><img title="'.$title.'" src="'.$img_url.'" alt="'.$alt.'"></a><br>';
+    }
+    $x .= " <a href=\"".URL_BASE."show_user.php?userid=".$user->id."\">".$user->name."</a>";
+    if ($user->donated == 1) {
+        require_once("../project/donations.inc");
+        $x .= DONATION_LINK;
+    }
+    $x .= "</td></tr></table>\n";
+    return $x;
+}
+
+function user_links($user) {
+    BoincForumPrefs::lookup($user);
+    if (is_banished($user)) {
+        return "(banished: ID $user->id)";
+    }
+    $x = "";
+    if ($user->has_profile) {
+        $img_url = URL_BASE."img/head_20.png";
+        $x .= ' <a href="'.URL_BASE.'view_profile.php?userid='.$user->id.'"><img title="View the profile of '.$user->name.'" src="'.$img_url.'" alt="Profile"></a>';
+    }
+    $x .= " <a href=\"".URL_BASE."show_user.php?userid=".$user->id."\">".$user->name."</a>";
+    if ($user->donated == 1) {
+        require_once("../project/donations.inc");
+        $x .= DONATION_LINK;
+    }
+    $x .= badges_string(true, $user, 24);
+    if (function_exists("project_user_links")){
+        $x .= project_user_links($user);
+    }
+    return $x;
+}
+
 function show_community_private($user) {
     row1(tra("Community"));
 

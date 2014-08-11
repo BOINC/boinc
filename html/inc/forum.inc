@@ -19,6 +19,7 @@
 require_once("../inc/forum_db.inc");
 require_once("../inc/pm.inc");
 require_once("../inc/team.inc");
+require_once("../inc/user.inc");
 require_once("../inc/news.inc");
 require_once("../inc/text_transform.inc");
 

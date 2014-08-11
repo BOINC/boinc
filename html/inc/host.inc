@@ -19,6 +19,7 @@
 require_once("../inc/credit.inc");
 require_once("../inc/stats_sites.inc");
 require_once("../inc/boinc_db.inc");
+require_once("../inc/user.inc");
 
 function link_to_results($host) {
     if (!$host) return tra("No host");

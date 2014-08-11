@@ -385,16 +385,6 @@ function row2_plain($x, $y) {
     echo "<tr><td>$x</td><td>$y</td></tr>\n";
 }
 
-function row3($x, $y, $z) {
-    echo "<tr><td width=\"30%\" align=\"right\">$x</td><td>$y</td><td>$z</td></tr>\n";
-}
-
-function row4($xx, $xy, $yx, $yy) {
-    echo "<tr><td width=\"25%\">$xx</td><td width=\"25%\">$xy</td>"
-        . "<td width=\"25%\">$yx</td><td width=\"%25\">$yy</td></tr>
-    ";
-}
-
 function rowify($string) {
     echo "<tr><td>$string</td></tr>";
 }
@@ -512,53 +502,6 @@ function format_credit($x) {
 //
 function format_credit_large($x) {
     return number_format($x, 0);
-}
-
-function friend_links($user) {
-    if (is_banished($user)) {
-        return "";
-    }
-    $x = "<table height=\"100\" width=\"150\" border=\"0\" cellpadding=\"4\"><tr><td class=\"friend\">";
-    if ($user->has_profile) {
-        $profile = BoincProfile::lookup_fields("has_picture", "userid=$user->id");
-        if ($profile && $profile->has_picture) {
-            $img_url = profile_thumb_url($user->id);
-        } else {
-            $img_url = URL_BASE."img/head_20.png";
-        }
-        $title = tra("View the profile of %1", $user->name);
-        $alt = tra("Profile");
-        $x .= ' <a href="'.URL_BASE.'view_profile.php?userid='.$user->id.'"><img title="'.$title.'" src="'.$img_url.'" alt="'.$alt.'"></a><br>';
-    }
-    $x .= " <a href=\"".URL_BASE."show_user.php?userid=".$user->id."\">".$user->name."</a>";
-    if ($user->donated == 1) {
-        require_once("../project/donations.inc");
-        $x .= DONATION_LINK;
-    }
-    $x .= "</td></tr></table>\n";
-    return $x;
-}
-
-function user_links($user) {
-    BoincForumPrefs::lookup($user);
-    if (is_banished($user)) {
-        return "(banished: ID $user->id)";
-    }
-    $x = "";
-    if ($user->has_profile) {
-        $img_url = URL_BASE."img/head_20.png";
-        $x .= ' <a href="'.URL_BASE.'view_profile.php?userid='.$user->id.'"><img title="View the profile of '.$user->name.'" src="'.$img_url.'" alt="Profile"></a>';
-    }
-    $x .= " <a href=\"".URL_BASE."show_user.php?userid=".$user->id."\">".$user->name."</a>";
-    if ($user->donated == 1) {
-        require_once("../project/donations.inc");
-        $x .= DONATION_LINK;
-    }
-    $x .= badges_string(true, $user, 24);
-    if (function_exists("project_user_links")){
-        $x .= project_user_links($user);
-    }
-    return $x;
 }
 
 function host_link($hostid) {
