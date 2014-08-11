@@ -554,6 +554,7 @@ function user_links($user) {
         require_once("../project/donations.inc");
         $x .= DONATION_LINK;
     }
+    $x .= badges_string(true, $user, 24);
     if (function_exists("project_user_links")){
         $x .= project_user_links($user);
     }
@@ -942,20 +943,27 @@ function redirect_to_secure_url($url) {
     }
 }
 
-function show_badges($is_user, $item) {
-    if (DISABLE_BADGES) return;
+function badges_string($is_user, $item, $height) {
+    if (DISABLE_BADGES) return null;
     if ($is_user) {
         $bus = BoincBadgeUser::enum("user_id=$item->id");
     } else {
         $bus = BoincBadgeTeam::enum("team_id=$item->id");
     }
-    if (!$bus) return;
+    if (!$bus) return null;
     $x = "";
     foreach ($bus as $bu) {
         $badge = BoincBadge::lookup_id($bu->badge_id);
-        $x .= "<img title=\"$badge->title\" height=48 src=$badge->image_url> ";
+        $x .= "<img title=\"$badge->title\" valign=top height=$height src=$badge->image_url> ";
     }
-    row2("Badges", $x);
+    return $x;
+}
+
+function show_badges_row($is_user, $item) {
+    $x = badges_string($is_user, $item, 48);
+    if ($x) {
+        row2("Badges", $x);
+    }
 }
 
 function dtime() {

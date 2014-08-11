@@ -67,8 +67,9 @@ function user_table_start($sort_by) {
 }
 
 function show_user_row($user, $i) {
+    $j = $i % 2;
     echo "
-        <tr class=row1>
+        <tr class=row$j>
         <td>$i</td>
         <td>", user_links($user), "</td>
         <td align=right>", format_credit_large($user->expavg_credit), "</td>
@@ -94,7 +95,7 @@ if ($offset % $users_per_page) $offset = 0;
 
 if ($offset < ITEM_LIMIT) {
     $cache_args = "sort_by=$sort_by&offset=$offset";
-    $cacheddata=get_cached_data(TOP_PAGES_TTL,$cache_args);
+    $cacheddata = get_cached_data(TOP_PAGES_TTL,$cache_args);
 
     // Do we have the data in cache?
     //

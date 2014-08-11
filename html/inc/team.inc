@@ -104,7 +104,7 @@ function display_team_page($team, $user) {
     if (!no_computing()) {
         row2(tra('Total credit'), format_credit_large($team->total_credit));
         row2(tra('Recent average credit'), format_credit_large($team->expavg_credit));
-        show_badges(false, $team);
+        show_badges_row(false, $team);
 
         $x = "";
         shuffle($team_name_sites);
@@ -383,9 +383,11 @@ function team_table_start($sort_by, $type_url) {
 function show_team_row($team, $i) {
     $team_expavg_credit = format_credit_large($team->expavg_credit);
     $team_total_credit = format_credit_large($team->total_credit);
-    echo"<tr class=row1>
+    $j = $i % 2;
+    $b = badges_string(false, $team, 24);
+    echo"<tr class=row$j>
         <td>$i</td>
-        <td><a href=team_display.php?teamid=$team->id>$team->name</a></td>
+        <td><a href=team_display.php?teamid=$team->id>$team->name</a> $b</td>
         <td align=right>".$team->nusers."</td>
         <td align=right>$team_expavg_credit</td>
         <td align=right>$team_total_credit</td>

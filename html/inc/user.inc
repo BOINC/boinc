@@ -238,7 +238,7 @@ function show_user_info_private($user) {
 function show_community_private($user) {
     row1(tra("Community"));
 
-    show_badges(true, $user);
+    show_badges_row(true, $user);
     if (!DISABLE_PROFILES) {
         if ($user->has_profile) {
             $x = "<a href=\"view_profile.php?userid=$user->id\">".tra("View")."</a> &middot; <a href=\"delete_profile.php\">".tra("Delete")."</a>";

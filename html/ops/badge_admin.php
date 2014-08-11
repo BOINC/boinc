@@ -25,13 +25,13 @@ function show_form() {
     table_header(
         "ID",
         "name",
-        "type<br><span class=note>0=user<br>1=team</span>",
         "title",
-        "description",
         "image URL",
-        "level",
-        "tags",
-        "SQL rule",
+        "type<br><span class=note>0=user<br>1=team<br>optional</span>",
+        "description<br><span class=note>optional</span>",
+        "level<br><span class=note>optional</span>",
+        "tags<br><span class=note>optional</span>",
+        "SQL rule<br><span class=note>optional</span>",
         "", ""
     );
 
@@ -46,9 +46,7 @@ function show_form() {
         $nt = BoincBadgeTeam::count("badge_id=$badge->id");
         $x = "<br><span class=note>Assigned to $nu users<br>Assigned to $nt teams</span>";
         echo "<td><input name=\"name\" value=\"$badge->name\">$x</td>\n";
-        echo "<td><input name=\"type\" size=4 value=\"$badge->type\"></td>\n";
         echo "<td><input name=\"title\" value=\"$badge->title\"></td>\n";
-        echo "<td><input name=\"description\" value=\"$badge->description\"></td>\n";
         $x = "";
         if ($badge->image_url) {
             if (strstr($badge->image_url, "http") == $badge->image_url) {
@@ -59,6 +57,8 @@ function show_form() {
             $x = " <img align=right height=64 src=\"$y\">";
         }
         echo "<td><input name=\"image_url\" value=\"$badge->image_url\">$x</td>\n";
+        echo "<td><input name=\"type\" size=4 value=\"$badge->type\"></td>\n";
+        echo "<td><input name=\"description\" value=\"$badge->description\"></td>\n";
         echo "<td><input name=\"level\" value=\"$badge->level\"></td>\n";
         echo "<td><input name=\"tags\" value=\"$badge->tags\"></td>\n";
         echo "<td><input name=\"sql_rule\" value=\"$badge->sql_rule\"></td>\n";
@@ -70,10 +70,10 @@ function show_form() {
     echo "<tr><form action=badge_admin.php method=POST>";
     echo "<td><br></td>\n";
     echo "<td><input name=\"name\"></td>\n";
-    echo "<td><input name=\"type\" size=4></td>\n";
     echo "<td><input name=\"title\"></td>\n";
-    echo "<td><input name=\"description\"></td>\n";
     echo "<td><input name=\"image_url\"></td>\n";
+    echo "<td><input name=\"type\" size=4></td>\n";
+    echo "<td><input name=\"description\"></td>\n";
     echo "<td><input name=\"level\"></td>\n";
     echo "<td><input name=\"tags\"></td>\n";
     echo "<td><input name=\"sql_rule\"></td>\n";
@@ -138,6 +138,18 @@ if (post_str('add_badge', true)) {
     delete_badge();
 }
 admin_page_head("Manage badges");
+echo "
+    Manage the set of badges issued by your project.
+    <p>
+    Badges are assigned using a PHP script;
+    see 
+    <a href=http://boinc.berkeley.edu/trac/wiki/BadgeDoc>
+    http://boinc.berkeley.edu/trac/wiki/BadgeDoc
+    </a>
+    <p>
+    Fields marked 'optional' are not used by the default script.
+";
+
 show_form();
 admin_page_tail();
 ?>
