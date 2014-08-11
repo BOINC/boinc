@@ -23,6 +23,8 @@ require_once("../inc/profile.inc");
 
 check_get_args(array("target_userid", "userid", "action"));
 
+text_counter_script();
+
 // see if there's already a request,
 // and whether the notification record is there
 //
@@ -76,7 +78,7 @@ function handle_add($user) {
         <p>" .
         tra("Add an optional message here:") ."
         <br>
-        <textarea name=message cols=64 rows=4></textarea>
+        ".textarea_with_counter("message", 250, "")."
         <p>
         <input type=submit value=\"".tra("OK")."\">
         </form>

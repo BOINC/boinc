@@ -16,6 +16,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// Utility functions for BOINC web pages
+
 require_once("../inc/util_basic.inc");
 require_once("../project/project.inc");
 require_once("../inc/countries.inc");
@@ -924,6 +926,32 @@ function boinc_client_version(){
         return $matches[1]*10000 + $matches[2]*100 + $matches[3];
     }
     return 0;
+}
+
+// output a script for counting chars left in text field
+//
+function text_counter_script() {
+    echo "<script type=\"text/javascript\">
+        function text_counter(field, countfield, maxlimit) {
+            if (field.value.length > maxlimit) {
+                field.value =field.value.substring(0, maxlimit);
+            } else {
+                countfield.value = maxlimit - field.value.length
+            }
+        }
+        </script>
+    ";
+}
+
+// return HTML for a textarea with chars-remaining counter.
+// Call text_counter_script() before using this.
+//
+function textarea_with_counter($name, $maxlen, $text) {
+    $rem_name = $name."_remaining";
+    return "<textarea name=\"$name\" rows=4 cols=50 id=\"$name\" onkeydown=\"text_counter(this.form.$name, this.form.$rem_name, $maxlen);\"
+        onkeyup=\"text_counter(this.form.$name, this.form.$rem_name, $maxlen);\">".$text."</textarea>
+        <br><input name=\"$rem_name\" type=\"text\" id=\"$rem_name\" value=\"".($maxlen-strlen($text))."\" size=\"3\" maxlength=\"3\" readonly> ".tra("characters remaining")
+    ;
 }
 
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
