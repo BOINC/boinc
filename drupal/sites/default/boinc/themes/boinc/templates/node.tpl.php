@@ -90,11 +90,11 @@
         <span class="submitted">
           <?php
             if ($type == 'news') {
-              print t('Submitted on !datetime', array('!datetime' => $date));
+              print t('Submitted on !datetime', array('!datetime' => date('j M Y H:i:s T', $node->created)));
             }
             else {
               print t('Submitted by !username on !datetime',
-                array('!username' => $name, '!datetime' => $date));
+                array('!username' => $name, '!datetime' => date('j M Y H:i:s T', $node->created)));
             }
           ?>
         </span>
