@@ -252,7 +252,7 @@ function boincteam_forum_list($team_id = NULL) {
         $team_forum->tfid
       ));
       $team_forum->num_posts = db_result(db_query("
-        SELECT SUM(ncs.comment_count) + COUNT(ncs.nid)
+        SELECT COALESCE(SUM(ncs.comment_count),0) + COUNT(ncs.nid)
         FROM {boincteam_forum_node} bfn
         JOIN {node_comment_statistics} ncs ON ncs.nid = bfn.nid
         JOIN {node} n ON n.nid = ncs.nid
@@ -269,7 +269,7 @@ function boincteam_forum_list($team_id = NULL) {
         LIMIT 1",
         $team_forum->tfid
       ));
-      $team_forum->last_reply = theme('forum_submitted', $last_post);
+      $team_forum->last_reply = theme('forum_submitted', ($last_post->timestamp) ? $last_post : NULL);
       $team_forums[$team_forum->tfid] = $team_forum;
       $row++;
     }
