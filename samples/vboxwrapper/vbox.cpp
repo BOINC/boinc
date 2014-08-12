@@ -864,7 +864,7 @@ int VBOX_VM::create_vm() {
 
             // Add new firewall rule
             //
-            sprintf(buf, "vboxwrapper,tcp,%s,%d,,%d",
+            sprintf(buf, ",tcp,%s,%d,,%d",
                 pf.is_remote?"":"127.0.0.1",
                 pf.host_port, pf.guest_port
             );
