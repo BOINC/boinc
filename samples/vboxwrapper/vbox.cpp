@@ -436,7 +436,7 @@ int VBOX_VM::create_vm() {
                 vboxwrapper_msg_prefix(buf, sizeof(buf))
             );
             vm_disk_controller_type = "sata";
-            vm_disk_controller_model = "ICH6";
+            vm_disk_controller_model = "AHCI";
         }
     }
 
@@ -509,7 +509,7 @@ int VBOX_VM::create_vm() {
     );
     command  = "modifyvm \"" + vm_name + "\" ";
     command += "--boot1 disk ";
-    command += "--boot2 none ";
+    command += "--boot2 dvd ";
     command += "--boot3 none ";
     command += "--boot4 none ";
 
@@ -691,7 +691,11 @@ int VBOX_VM::create_vm() {
     command += "--controller \"" + vm_disk_controller_model + "\" ";
     command += "--hostiocache off ";
     if ((vm_disk_controller_type == "sata") || (vm_disk_controller_type == "SATA")) {
-        command += "--sataportcount 3";
+        if (is_virtualbox_version_newer(4, 3, 0)) {
+            command += "--portcount 3";
+        } else {
+            command += "--sataportcount 3";
+        }
     }
 
     retval = vbm_popen(command, output, "add storage controller (fixed disk)");
@@ -720,7 +724,7 @@ int VBOX_VM::create_vm() {
         );
         command  = "storageattach \"" + vm_name + "\" ";
         command += "--storagectl \"Hard Disk Controller\" ";
-        command += "--port 1 ";
+        command += "--port 0 ";
         command += "--device 0 ";
         command += "--type dvddrive ";
         command += "--medium \"" + virtual_machine_slot_directory + "/" + iso_image_filename + "\" ";
@@ -756,7 +760,7 @@ int VBOX_VM::create_vm() {
             );
             command  = "storageattach \"" + vm_name + "\" ";
             command += "--storagectl \"Hard Disk Controller\" ";
-            command += "--port 0 ";
+            command += "--port 1 ";
             command += "--device 0 ";
             command += "--type hdd ";
             command += "--setuuid \"\" ";
