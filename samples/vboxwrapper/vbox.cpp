@@ -408,7 +408,6 @@ int VBOX_VM::create_vm() {
     bool disable_acceleration = false;
     char buf[256];
     int retval;
-    int portcount = 1;
 
     boinc_get_init_data_p(&aid);
     get_slot_directory(virtual_machine_slot_directory);
@@ -427,6 +426,19 @@ int VBOX_VM::create_vm() {
         aid.slot
     );
 
+    // Fixup chipset and drive controller information for known configurations
+    //
+    if (enable_isocontextualization) {
+        if ("PIIX4" == vm_disk_controller_model) {
+            fprintf(
+                stderr,
+                "%s Updating drive controller type and model for desired configuration.\n",
+                vboxwrapper_msg_prefix(buf, sizeof(buf))
+            );
+            vm_disk_controller_type = "sata";
+            vm_disk_controller_model = "ICH6";
+        }
+    }
 
     // Create and register the VM
     //
@@ -679,15 +691,7 @@ int VBOX_VM::create_vm() {
     command += "--controller \"" + vm_disk_controller_model + "\" ";
     command += "--hostiocache off ";
     if ((vm_disk_controller_type == "sata") || (vm_disk_controller_type == "SATA")) {
-        if (enable_isocontextualization) {
-            portcount++;
-            if (enable_cache_disk) {
-                portcount++;
-            }
-        }
-        sprintf(buf, "%d", portcount);
-        command += "--sataportcount ";
-        command += buf;
+        command += "--sataportcount 3";
     }
 
     retval = vbm_popen(command, output, "add storage controller (fixed disk)");
@@ -722,6 +726,23 @@ int VBOX_VM::create_vm() {
         command += "--medium \"" + virtual_machine_slot_directory + "/" + iso_image_filename + "\" ";
 
         retval = vbm_popen(command, output, "storage attach (ISO 9660 image)");
+        if (retval) return retval;
+
+        // Add guest additions to the VM
+        //
+        fprintf(
+            stderr,
+            "%s Adding VirtualBox Guest Additions to VM.\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf))
+        );
+        command  = "storageattach \"" + vm_name + "\" ";
+        command += "--storagectl \"Hard Disk Controller\" ";
+        command += "--port 2 ";
+        command += "--device 0 ";
+        command += "--type dvddrive ";
+        command += "--medium \"" + virtualbox_guest_additions + "\" ";
+
+        retval = vbm_popen(command, output, "storage attach (guest additions image)");
         if (retval) return retval;
 
         // Add a virtual cache disk drive to VM
