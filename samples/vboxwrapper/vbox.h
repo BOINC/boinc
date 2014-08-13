@@ -77,6 +77,8 @@ public:
     std::string virtualbox_home_directory;
     // Virtualbox Install Directory
     std::string virtualbox_install_directory;
+    // Virtualbox Guest Additions
+    std::string virtualbox_guest_additions;
     // Virtualbox Version Information
     std::string virtualbox_version;
 
@@ -228,6 +230,8 @@ public:
     bool is_virtualbox_error_recoverable(int retval);
 
     int get_install_directory(std::string& dir);
+    int get_version_information(std::string& version);
+    int get_guest_additions(std::string& dir);
     int get_slot_directory(std::string& dir);
     int get_vm_network_bytes_sent(double& sent);
     int get_vm_network_bytes_received(double& received);

@@ -63,6 +63,7 @@ using std::string;
 VBOX_VM::VBOX_VM() {
     virtualbox_home_directory.clear();
     virtualbox_install_directory.clear();
+    virtualbox_guest_additions.clear();
     virtualbox_version.clear();
     pFloppy = NULL;
     vm_log.clear();
@@ -220,23 +221,13 @@ int VBOX_VM::initialize() {
 #endif
     }
 
-    // Record the VirtualBox version information for later use.
-    command = "--version ";
-    rc = vbm_popen(command, output, "version check");
+    rc = get_version_information(virtualbox_version);
+    if (rc) return rc;
 
-    // Remove \r or \n from the output spew
-    string::iterator iter = output.begin();
-    while (iter != output.end()) {
-        if (*iter == '\r' || *iter == '\n') {
-            iter = output.erase(iter);
-        } else {
-            ++iter;
-        }
-    }
+    rc = get_guest_additions(virtualbox_guest_additions);
+    if (rc) return rc;
 
-    virtualbox_version = output;
-
-    return rc;
+    return 0;
 }
 
 void VBOX_VM::poll(bool log_state) {
@@ -1968,6 +1959,65 @@ int VBOX_VM::get_install_directory(string& install_directory ) {
 #endif
 }
 
+int VBOX_VM::get_version_information(string& version) {
+    string command;
+    string output;
+    int retval;
+
+    // Record the VirtualBox version information for later use.
+    command = "--version ";
+    retval = vbm_popen(command, output, "version check");
+
+    // Remove \r or \n from the output spew
+    string::iterator iter = output.begin();
+    while (iter != output.end()) {
+        if (*iter == '\r' || *iter == '\n') {
+            iter = output.erase(iter);
+        } else {
+            ++iter;
+        }
+    }
+
+    version = output;
+    return retval;
+}
+
+int VBOX_VM::get_guest_additions(string& guest_additions) {
+    string command;
+    string output;
+    size_t ga_start;
+    size_t ga_end;
+    int retval;
+
+    // Get the location of where the guest additions are
+    command = "list systemproperties";
+    retval = vbm_popen(command, output, "guest additions");
+
+    // Output should look like this:
+    // API version:                     4_3
+    // Minimum guest RAM size:          4 Megabytes
+    // Maximum guest RAM size:          2097152 Megabytes
+    // Minimum video RAM size:          1 Megabytes
+    // Maximum video RAM size:          256 Megabytes
+    // ...
+    // Default Guest Additions ISO:     C:\Program Files\Oracle\VirtualBox/VBoxGuestAdditions.iso
+    //
+
+    ga_start = output.find("Default Guest Additions ISO:");
+    if (ga_start == string::npos) {
+        return ERR_NOT_FOUND;
+    }
+    ga_start += strlen("Default Guest Additions ISO:");
+    ga_end = output.find("\n", ga_start);
+    guest_additions = output.substr(ga_start, ga_end - ga_start);
+    strip_whitespace(guest_additions);
+    if (guest_additions.size() <= 0) {
+        return ERR_NOT_FOUND;
+    }
+
+    return retval;
+}
+
 // Returns the current directory in which the executable resides.
 //
 int VBOX_VM::get_slot_directory(string& dir) {
@@ -2078,9 +2128,10 @@ int VBOX_VM::get_vm_process_id() {
     if (pid_start == string::npos) {
         return ERR_NOT_FOUND;
     }
-    pid_start += 12;
+    pid_start += strlen("Process ID: ");
     pid_end = output.find("\n", pid_start);
     pid = output.substr(pid_start, pid_end - pid_start);
+    strip_whitespace(pid);
     if (pid.size() <= 0) {
         return ERR_NOT_FOUND;
     }
