@@ -73,61 +73,56 @@ public:
     VBOX_VM();
     ~VBOX_VM();
 
-    // Virtualbox Home Directory
     std::string virtualbox_home_directory;
-    // Virtualbox Install Directory
     std::string virtualbox_install_directory;
-    // Virtualbox Guest Additions
     std::string virtualbox_guest_additions;
-    // Virtualbox Version Information
     std::string virtualbox_version;
 
-    // Floppy IO abstraction
     FloppyIO* pFloppy;
 
-    // last polled copy of the log file
     std::string vm_log;
-    // last VM guest log entry detected
+        // last polled copy of the log file
     VBOX_TIMESTAMP vm_log_timestamp;
-    // unique name for the VM
+        // last VM guest log entry detected
     std::string vm_master_name;
-    // unique description for the VM
+        // unique name for the VM
     std::string vm_master_description;
-    // unique name for the VM or UUID of a stale VM if deregistering a stale VM
+        // unique description for the VM
     std::string vm_name;
-    // required CPU core count
+        // unique name for the VM or UUID of a stale VM if deregistering it
     std::string vm_cpu_count;
+        // required CPU core count
     std::string memory_size_mb;
         // size of the memory allocation for the VM, in megabytes
-    // name of the virtual machine disk image file
     std::string image_filename;
-    // name of the virtual machine iso9660 disk image file
+        // name of the virtual machine disk image file
     std::string iso_image_filename;
-    // name of the virtual machine cache disk image file
+        // name of the virtual machine iso9660 disk image file
     std::string cache_disk_filename;
-    // name of the virtual machine floppy disk image file
+        // name of the virtual machine cache disk image file
     std::string floppy_image_filename;
-    // amount of CPU time consumed by the VM (note: use get_vm_cpu_time())
+        // name of the virtual machine floppy disk image file
     double current_cpu_time;
-    // is the VM suspended?
+        // amount of CPU time consumed by the VM (note: use get_vm_cpu_time())
     bool suspended;
-    // is network access temporarily suspended?
+        // is the VM suspended?
     bool network_suspended;
-    // is VM even online?
+        // is network access temporarily suspended?
     bool online;
-    // Is VM saving/restoring from checkpoint?
+        // is VM even online?
     bool saving;
+        // Is VM saving from checkpoint?
     bool restoring;
-    // Has the VM crashed?
+        // Is VM restoring from checkpoint?
     bool crashed;
-    // whether to use CERN specific data structures
+        // Has the VM crashed?
     bool enable_cern_dataformat;
-    // whether we were instructed to only register the VM.
-    // useful for debugging VMs.
+        // whether to use CERN specific data structures
     bool register_only;
-    // the following for optional remote desktop
+        // whether we were instructed to only register the VM.
+        // useful for debugging VMs.
     int rd_host_port;
-        // dynamically assigned
+        // for optional remote desktop; dynamically assigned
     bool headless;
 
     /////////// THE FOLLOWING SPECIFIED IN VBOX_JOB.XML //////////////

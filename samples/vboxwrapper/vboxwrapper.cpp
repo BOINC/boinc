@@ -829,12 +829,10 @@ int main(int argc, char** argv) {
         }
     }
     if (vm.enable_cache_disk) {
-        sprintf(buf, "%s.%s", CACHE_DISK_FILENAME, CACHE_DISK_FILENAME_EXTENSION);
-        vm.cache_disk_filename = buf;
+        vm.cache_disk_filename = CACHE_DISK_FILENAME;
     }
     if (vm.enable_isocontextualization) {
-        sprintf(buf, "%s.%s", ISO_IMAGE_FILENAME, ISO_IMAGE_FILENAME_EXTENSION);
-        vm.iso_image_filename = buf;
+        vm.iso_image_filename = ISO_IMAGE_FILENAME;
     }
     if (aid.ncpus > 1.0 || ncpus > 1.0) {
         if (ncpus) {
