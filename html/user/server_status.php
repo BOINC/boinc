@@ -58,6 +58,10 @@ check_get_args(array("xml"));
 
 $xml = get_int("xml", true);
 
+if (!defined('STATUS_PAGE_TTL')) {
+    define('STATUS_PAGE_TTL', 3600);
+}
+
 // daemon status outputs: 1 (running) 0 (not running) or -1 (disabled)
 //
 function daemon_status($host, $pidname, $progname, $disabled) {
@@ -130,51 +134,51 @@ function show_counts($key, $xmlkey, $value) {
 }
 
 function get_mysql_count($table, $query) {
-    $count = unserialize(get_cached_data(3600, "get_mysql_count".$table.$query));
+    $count = unserialize(get_cached_data(STATUS_PAGE_TTL, "get_mysql_count".$table.$query));
     if ($count == false) {
-        $count = BoincDB::get()->count($table,$query);
-        set_cached_data(3600, serialize($count), "get_mysql_count".$table.$query);
+        $count = BoincDB::get()->count($table, $query);
+        set_cached_data(STATUS_PAGE_TTL, serialize($count), "get_mysql_count".$table.$query);
     }
     return $count;
 }
 
-function get_mysql_sum($table, $field) {
-    $value = unserialize(get_cached_data(3600, "get_mysql_sum".$table.$field));
+function get_mysql_sum($table, $field, $clause="") {
+    $value = unserialize(get_cached_data(STATUS_PAGE_TTL, "get_mysql_sum".$table.$field.$clause));
     if ($value == false) {
-        $value = BoincDB::get()->sum($table, $field);
-        set_cached_data(3600, serialize($value), "get_mysql_sum".$table.$field);
+        $value = BoincDB::get()->sum($table, $field, $clause);
+        set_cached_data(STATUS_PAGE_TTL, serialize($value), "get_mysql_sum".$table.$field.$clause);
     }
     return $value;
 }
 
 function get_cached_apps() {
-    $apps = unserialize(get_cached_data(3600, "get_cached_apps"));
+    $apps = unserialize(get_cached_data(STATUS_PAGE_TTL, "get_cached_apps"));
     if ($apps == false) {
         $apps = BoincApp::enum("deprecated=0");
-        set_cached_data(3600, serialize($apps), "get_cached_apps");
+        set_cached_data(STATUS_PAGE_TTL, serialize($apps), "get_cached_apps");
     }
     return $apps;
 }
 
 function get_runtime_info($appid) {
-    $info = unserialize(get_cached_data(3600, "get_runtime_info".$appid));
+    $info = unserialize(get_cached_data(STATUS_PAGE_TTL, "get_runtime_info".$appid));
     if ($info == false) {
         $info = BoincDB::get()->lookup_fields("result", "stdClass",
             "ceil(avg(elapsed_time)/3600*100)/100 as avg,
             ceil(min(elapsed_time)/3600*100)/100 as min,
             ceil(max(elapsed_time)/3600*100)/100 as max,
             count(distinct userid) as users",
-            "appid = $appid 
-            AND validate_state=1 
-            AND received_time > (unix_timestamp()-(3600*24)) 
+            "appid = $appid
+            AND validate_state=1
+            AND received_time > (unix_timestamp()-(3600*24))
             "
         );
         if (!$info){
-            // No recent jobs sound
+            // No recent jobs found
             $info = new stdClass;
             $info->avg = $info->min = $info->max = $info->users = 0;
         }
-        set_cached_data(3600, serialize($info), "get_runtime_info".$appid);
+        set_cached_data(STATUS_PAGE_TTL, serialize($info), "get_runtime_info".$appid);
     }
     return $info;
 }
@@ -215,10 +219,20 @@ $version = null;
 if (file_exists("../../local.revision")) {
     $version = trim(file_get_contents("../../local.revision"));
 }
-$now = time();
+
+// we cache the current time to show via XML or on the page itself
+// assuming that every cached element on this page is generated at the same time!
+// To reset this, set STATUS_PAGE_TTL to 0 in project/cache_parameters.inc open
+// this page in a browser and then set it back to 3600
+//
+$last_update = unserialize(get_cached_data(STATUS_PAGE_TTL, "server_status_last_update"));
+if ($last_update == false) {
+    $last_update = time();
+    set_cached_data(STATUS_PAGE_TTL, serialize($last_update), "server_status_last_update");
+}
 
 $xmlstring = "<server_status>
-  <update_time>$now</update_time>
+  <update_time>$last_update</update_time>
 ";
 if ($version) {
     $xmlstring .= "<software_version>$version</software_version>\n";
@@ -232,7 +246,7 @@ if ($xml) {
     if ($version) {
         echo tra("Server software version: %1", $version) . " / ";
     }
-    echo time_str(time()), "
+    echo time_str($last_update), "
         <table width=100%>
         <tr>
         <td width=40% valign=top>
@@ -241,7 +255,6 @@ if ($xml) {
         <tr><th>".tra("Program")."</th><th>".tra("Host")."</th><th>".tra("Status")."</th></tr>
     ";
 }
-;
 // Are the data-driven web sites running? Check for existence of stop_web.
 // If it is there, set $web_running to -1 for "disabled",
 // otherwise it will be already set to 1 for "enabled."
@@ -353,7 +366,7 @@ if ($retval) {
         get_mysql_count("result", "file_delete_state=1")
     );
 
-    $gap = unserialize(get_cached_data(3600, "transitioner_backlog"));
+    $gap = unserialize(get_cached_data(STATUS_PAGE_TTL, "transitioner_backlog"));
     if ($gap === false) {
         $min = BoincDB::get()->lookup_fields("workunit", "stdClass", "MIN(transition_time) as min", "TRUE");
         //$gap = BoincDB::get()->min("workunit", "transition_time"); $gap = time()-$gap/3600;
@@ -361,7 +374,7 @@ if ($retval) {
         if (($gap < 0) || ($min->min == 0)) {
             $gap = 0;
         }
-        set_cached_data(3600, serialize($gap), "transitioner_backlog");
+        set_cached_data(STATUS_PAGE_TTL, serialize($gap), "transitioner_backlog");
     }
     show_counts(
         tra("Transitioner backlog (hours)"),
