@@ -308,6 +308,9 @@ int handle_wu(
                 if (!no_credit) {
                     result.granted_credit = canonical_result.granted_credit;
                     grant_credit(host, result.sent_time, result.granted_credit);
+                    if (config.credit_by_app) {
+                        grant_credit_by_app(result, result.granted_credit);
+                    }
                 }
                 break;
             case VALIDATE_STATE_INVALID:
@@ -534,6 +537,9 @@ int handle_wu(
                             result.id, result.name, result.granted_credit,
                             result.hostid
                         );
+                        if (config.credit_by_app) {
+                            grant_credit_by_app(result, credit);
+                        }
                     }
                     break;
                 case VALIDATE_STATE_INVALID:

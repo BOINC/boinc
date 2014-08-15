@@ -63,3 +63,5 @@ extern int hav_lookup(DB_HOST_APP_VERSION& hav, int hostid, int avid);
 extern int write_modified_app_versions(
     std::vector<DB_APP_VERSION_VAL>& app_versions
 );
+
+extern int grant_credit_by_app(RESULT& result, double credit);

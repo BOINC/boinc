@@ -541,6 +541,16 @@ $math = array(
             "Study hash functions"
         ),
         array(
+            "Moo! Wrapper",
+            "http://moowrap.net/",
+            "Private",
+            tra("Cryptography and combinatorics"),
+            "Run applications from distributed.net",
+            "",
+            "",
+            "Run applications from distributed.net"
+        ),
+        array(
             "Enigma@Home",
             "http://www.enigmaathome.net/",
             tra("Private"),

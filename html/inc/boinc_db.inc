@@ -646,5 +646,18 @@ class BoincBadgeTeam {
     }
 }
 
+class BoincCreditUser {
+    static function lookup($clause) {
+        $db = BoincDb::get();
+        return $db->lookup('credit_user', 'BoincCreditUser', $clause);
+    }
+}
+
+class BoincCreditTeam {
+    static function lookup($clause) {
+        $db = BoincDb::get();
+        return $db->lookup('credit_team', 'BoincCreditTeam', $clause);
+    }
+}
 
 ?>

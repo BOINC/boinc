@@ -39,10 +39,6 @@
 // Various functions are defined below for converting between these forms,
 // and also to/from HTML form elements
 
-error_reporting(E_ALL);
-ini_set('display_errors', true);
-ini_set('display_startup_errors', true);
-
 include_once("../inc/prefs_util.inc");
 
 $cpu_prefs = array(

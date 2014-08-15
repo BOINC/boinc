@@ -97,6 +97,8 @@ void VDA_CHUNK_HOST::clear() {memset(this, 0, sizeof(*this));}
 void BADGE::clear() {memset(this, 0, sizeof(*this));}
 void BADGE_USER::clear() {memset(this, 0, sizeof(*this));}
 void BADGE_TEAM::clear() {memset(this, 0, sizeof(*this));}
+void CREDIT_USER::clear() {memset(this, 0, sizeof(*this));}
+void CREDIT_TEAM::clear() {memset(this, 0, sizeof(*this));}
 
 DB_PLATFORM::DB_PLATFORM(DB_CONN* dc) :
     DB_BASE("platform", dc?dc:&boinc_db){}
@@ -170,6 +172,10 @@ DB_BADGE_USER::DB_BADGE_USER(DB_CONN* dc) :
     DB_BASE("badge_user", dc?dc:&boinc_db){}
 DB_BADGE_TEAM::DB_BADGE_TEAM(DB_CONN* dc) :
     DB_BASE("badge_team", dc?dc:&boinc_db){}
+DB_CREDIT_USER::DB_CREDIT_USER(DB_CONN* dc) :
+    DB_BASE("credit_user", dc?dc:&boinc_db){}
+DB_CREDIT_TEAM::DB_CREDIT_TEAM(DB_CONN* dc) :
+    DB_BASE("credit_team", dc?dc:&boinc_db){}
 
 int DB_PLATFORM::get_id() {return id;}
 int DB_APP::get_id() {return id;}
@@ -2652,6 +2658,68 @@ void DB_BADGE_TEAM::db_parse(MYSQL_ROW &r) {
     team_id = atoi(r[i++]);
     create_time = atof(r[i++]);
     reassign_time = atof(r[i++]);
+}
+
+void DB_CREDIT_USER::db_print(char* buf) {
+    sprintf(buf,
+        "userid=%d, "
+        "appid=%d, "
+        "njobs=%d, "
+        "total=%.15e, "
+        "expavg=%.15e, "
+        "expavg_time=%.15e, "
+        "credit_type=%d ",
+        userid,
+        appid,
+        njobs,
+        total,
+        expavg,
+        expavg_time,
+        credit_type
+    );
+}
+
+void DB_CREDIT_USER::db_parse(MYSQL_ROW &r) {
+    int i=0;
+    clear();
+    userid = atoi(r[i++]);
+    appid = atoi(r[i++]);
+    njobs = atoi(r[i++]);
+    total = atof(r[i++]);
+    expavg = atof(r[i++]);
+    expavg_time = atof(r[i++]);
+    credit_type = atoi(r[i++]);
+}
+
+void DB_CREDIT_TEAM::db_print(char* buf) {
+    sprintf(buf,
+        "teamid=%d, "
+        "appid=%d, "
+        "njobs=%d, "
+        "total=%.15e, "
+        "expavg=%.15e, "
+        "expavg_time=%.15e, "
+        "credit_type=%d ",
+        teamid,
+        appid,
+        njobs,
+        total,
+        expavg,
+        expavg_time,
+        credit_type
+    );
+}
+
+void DB_CREDIT_TEAM::db_parse(MYSQL_ROW &r) {
+    int i=0;
+    clear();
+    teamid = atoi(r[i++]);
+    appid = atoi(r[i++]);
+    njobs = atoi(r[i++]);
+    total = atof(r[i++]);
+    expavg = atof(r[i++]);
+    expavg_time = atof(r[i++]);
+    credit_type = atoi(r[i++]);
 }
 
 const char *BOINC_RCSID_ac374386c8 = "$Id$";

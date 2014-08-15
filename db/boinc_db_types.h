@@ -799,4 +799,27 @@ struct BADGE_TEAM {
     void clear();
 };
 
+struct CREDIT_USER {
+    int userid;
+    int appid;
+        // need not be an app ID
+    int njobs;
+    double total;
+    double expavg;
+    double expavg_time;
+    int credit_type;
+    void clear();
+};
+
+struct CREDIT_TEAM {
+    int teamid;
+    int appid;
+    int njobs;
+    double total;
+    double expavg;
+    double expavg_time;
+    int credit_type;
+    void clear();
+};
+
 #endif

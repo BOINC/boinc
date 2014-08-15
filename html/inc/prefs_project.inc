@@ -42,10 +42,6 @@
 // In addition there are some fields of the user table
 // (send_email and show_hosts) that are treated as project preferences
 
-error_reporting(E_ALL);
-ini_set('display_errors', true);
-ini_set('display_startup_errors', true);
-
 include_once("../inc/prefs_util.inc");
 include_once("../project/project_specific_prefs.inc");
 

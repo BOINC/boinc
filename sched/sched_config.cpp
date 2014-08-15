@@ -296,6 +296,7 @@ int SCHED_CONFIG::parse(FILE* f) {
         if (xp.parse_bool("prefer_primary_platform", prefer_primary_platform)) continue;
         if (xp.parse_double("version_select_random_factor", version_select_random_factor)) continue;
         if (xp.parse_double("maintenance_delay", maintenance_delay)) continue;
+        if (xp.parse_bool("credit_by_app", credit_by_app)) continue;
 
         //////////// SCHEDULER LOG FLAGS /////////
 

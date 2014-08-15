@@ -177,6 +177,8 @@ struct SCHED_CONFIG {
     bool estimate_flops_from_hav_pfc;
         // Use host_app_version peak flop count rather than elapsed time 
         // to calculate projected_flops when choosing version.
+    bool credit_by_app;
+        // store per-app credit info in credit_user and credit_team
 
     // time intervals
     double maintenance_delay;

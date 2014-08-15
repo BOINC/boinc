@@ -104,6 +104,9 @@ function display_team_page($team, $user) {
     if (!no_computing()) {
         row2(tra('Total credit'), format_credit_large($team->total_credit));
         row2(tra('Recent average credit'), format_credit_large($team->expavg_credit));
+        if (function_exists('project_team_credit')) {
+            project_team_credit($team);
+        }
         show_badges_row(false, $team);
 
         $x = "";

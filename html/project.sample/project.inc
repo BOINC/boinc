@@ -134,8 +134,62 @@ function project_user_page_private($user){
     // shown in the private account page
 }
 
+
+// show project-specific credit on user/team pages
+//
+function show_app_credit_user($user, $app_name, $appids) {
+    $t = 0;
+    $a = 0;
+    $n = 0;
+    foreach ($appids as $appid) {
+        $cu = BoincCreditUser::lookup(
+            "userid=$user->id and appid=$appid and credit_type=0"
+        );
+        if ($cu) {
+            $t += $cu->total;
+            $a += $cu->expavg;
+            $n += $cu->njobs;
+        }
+    }
+    row2("$app_name credit",
+        format_credit_large($t)." total, ".
+        format_credit($a)." average".
+        " ($n tasks)"
+    );
+}
+function show_app_credit_team($team, $app_name, $appids) {
+    $t = 0;
+    $a = 0;
+    $n = 0;
+    foreach ($appids as $appid) {
+        $ct = BoincCreditTeam::lookup(
+            "teamid=$team->id and appid=$appid and credit_type=0"
+        );
+        if ($ct) {
+            $t += $ct->total;
+            $a += $ct->expavg;
+            $n += $ct->njobs;
+        }
+    }
+    row2("$app_name credit",
+        format_credit_large($t)." total, ".
+        format_credit($a)." average".
+        " ($n tasks)"
+    );
+}
+
 function project_user_credit($user){
-    // shown in the the private account page, credit area
+if (0) {
+    show_app_credit_user($user, "Remote Test", array(16));
+    show_app_credit_user($user, "Uppercase", array(1, 25));
+}
+}
+
+function project_team_credit($team) {
+if (0) {
+    show_app_credit_team($team, "Remote Test", array(16));
+    show_app_credit_team($team, "Uppercase", array(1, 25));
+}
 }
 
 function project_forum_post_rules() {

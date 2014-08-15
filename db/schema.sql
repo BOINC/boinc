@@ -731,3 +731,25 @@ create table badge_team (
     create_time             double          not null,
     reassign_time           double          not null
 );
+
+create table credit_user (
+    userid                  integer         not null,
+    appid                   integer         not null,
+    njobs                   integer         not null,
+    total                   double          not null,
+    expavg                  double          not null,
+    expavg_time             double          not null,
+    credit_type             integer         not null,
+    primary key (userid, appid, credit_type)
+) engine=InnoDB;
+
+create table credit_team (
+    teamid                  integer         not null,
+    appid                   integer         not null,
+    njobs                   integer         not null,
+    total                   double          not null,
+    expavg                  double          not null,
+    expavg_time             double          not null,
+    credit_type             integer         not null,
+    primary key (teamid, appid, credit_type)
+) engine=InnoDB;
