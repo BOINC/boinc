@@ -137,7 +137,9 @@ function total_posts($user) {
 function show_credit($user) {
     row2(tra("Total credit"), format_credit_large($user->total_credit));
     row2(tra("Recent average credit"), format_credit($user->expavg_credit));
-    project_user_credit($user);
+    if (function_exists("project_user_credit")) {
+        project_user_credit($user);
+    }
 }
 
 require_once("../inc/stats_sites.inc");

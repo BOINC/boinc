@@ -134,6 +134,7 @@ function project_user_page_private($user){
     // shown in the private account page
 }
 
+if (0) {
 
 // show project-specific credit on user/team pages
 //
@@ -178,19 +179,26 @@ function show_app_credit_team($team, $app_name, $appids) {
     );
 }
 
+$sub_projects = array(
+    array("name" => "Remote Test", "appids" => array(16)),
+    array("name" => "Uppercase", "appids" => array(1, 25)),
+);
+
 function project_user_credit($user){
-if (0) {
-    show_app_credit_user($user, "Remote Test", array(16));
-    show_app_credit_user($user, "Uppercase", array(1, 25));
-}
+    global $sub_projects;
+    foreach ($sub_projects as $sp) {
+        show_app_credit_user($user, $sp["name"], $sp["appids"]);
+    }
 }
 
 function project_team_credit($team) {
-if (0) {
-    show_app_credit_team($team, "Remote Test", array(16));
-    show_app_credit_team($team, "Uppercase", array(1, 25));
+    global $sub_projects;
+    foreach ($sub_projects as $sp) {
+        show_app_credit_team($team, $sp["name"], $sp["appids"]);
+    }
 }
-}
+
+}   // if(0)
 
 function project_forum_post_rules() {
     // additional forum post rules

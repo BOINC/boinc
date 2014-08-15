@@ -651,12 +651,20 @@ class BoincCreditUser {
         $db = BoincDb::get();
         return $db->lookup('credit_user', 'BoincCreditUser', $clause);
     }
+    static function enum($where_clause) {
+        $db = BoincDb::get();
+        return $db->enum('credit_user', 'BoincCreditUser', $where_clause);
+    }
 }
 
 class BoincCreditTeam {
     static function lookup($clause) {
         $db = BoincDb::get();
         return $db->lookup('credit_team', 'BoincCreditTeam', $clause);
+    }
+    static function enum($where_clause) {
+        $db = BoincDb::get();
+        return $db->enum('credit_team', 'BoincCreditTeam', $where_clause);
     }
 }
 
