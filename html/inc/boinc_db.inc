@@ -655,6 +655,10 @@ class BoincCreditUser {
         $db = BoincDb::get();
         return $db->enum('credit_user', 'BoincCreditUser', $where_clause);
     }
+    static function sum($field, $clause) {
+        $db = BoincDb::get();
+        return $db->sum('credit_user', $field, $clause);
+    }
 }
 
 class BoincCreditTeam {
@@ -665,6 +669,10 @@ class BoincCreditTeam {
     static function enum($where_clause) {
         $db = BoincDb::get();
         return $db->enum('credit_team', 'BoincCreditTeam', $where_clause);
+    }
+    static function sum($field, $clause) {
+        $db = BoincDb::get();
+        return $db->sum('credit_team', $field, $clause);
     }
 }
 
