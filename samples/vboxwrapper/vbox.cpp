@@ -436,7 +436,7 @@ int VBOX_VM::create_vm() {
                 vboxwrapper_msg_prefix(buf, sizeof(buf))
             );
             vm_disk_controller_type = "sata";
-            vm_disk_controller_model = "AHCI";
+            vm_disk_controller_model = "IntelAHCI";
         }
     }
 
@@ -688,15 +688,7 @@ int VBOX_VM::create_vm() {
     command  = "storagectl \"" + vm_name + "\" ";
     command += "--name \"Hard Disk Controller\" ";
     command += "--add \"" + vm_disk_controller_type + "\" ";
-    if (is_virtualbox_version_newer(4, 3, 0)) {
-        command += "--controller \"" + vm_disk_controller_model + "\" ";
-    } else {
-        if ((vm_disk_controller_type == "sata") || (vm_disk_controller_type == "SATA")) {
-            command += "--controller \"IntelAHCI\" ";
-        } else {
-            command += "--controller \"" + vm_disk_controller_model + "\" ";
-        }
-    }
+    command += "--controller \"" + vm_disk_controller_model + "\" ";
     command += "--hostiocache off ";
     if ((vm_disk_controller_type == "sata") || (vm_disk_controller_type == "SATA")) {
         if (is_virtualbox_version_newer(4, 3, 0)) {
