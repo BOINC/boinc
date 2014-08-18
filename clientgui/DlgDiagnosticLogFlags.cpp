@@ -30,8 +30,8 @@
 #include "SkinManager.h"
 
 
-#define DLGDIAGNOSTICS_INITIAL_SIZE 480
-#define DLGDIAGNOSTICS_MIN_SIZE 400
+#define DLGDIAGNOSTICS_INITIAL_SIZE ADJUSTFORDPI(480)
+#define DLGDIAGNOSTICS_MIN_SIZE ADJUSTFORDPI(400)
 
 IMPLEMENT_DYNAMIC_CLASS(CDlgDiagnosticLogFlags, wxDialog)
 
@@ -71,7 +71,7 @@ CDlgDiagnosticLogFlags::CDlgDiagnosticLogFlags(wxWindow* parent) :
     m_cc_config.defaults();
     pDoc->rpc.get_cc_config(m_cc_config, log_flags);
     
-    SetSizeHints( wxDefaultSize, wxDefaultSize );
+    SetSizeHints(DLGDIAGNOSTICS_MIN_SIZE, DLGDIAGNOSTICS_MIN_SIZE);
     SetExtraStyle( GetExtraStyle() | wxWS_EX_VALIDATE_RECURSIVELY );
     
     wxBoxSizer* bSizer1 = new wxBoxSizer( wxVERTICAL );
@@ -115,8 +115,6 @@ CDlgDiagnosticLogFlags::CDlgDiagnosticLogFlags(wxWindow* parent) :
     bSizer1->Add( buttonSizer, 0, wxALIGN_RIGHT | wxALL, 15 );
     
     SetSizer( bSizer1 );
-    
-    SetSizeHints(DLGDIAGNOSTICS_MIN_SIZE, DLGDIAGNOSTICS_MIN_SIZE);
     
     RestoreState();
     Layout();

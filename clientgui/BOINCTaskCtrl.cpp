@@ -22,9 +22,10 @@
 #include "stdwx.h"
 #include "BOINCBaseView.h"
 #include "BOINCTaskCtrl.h"
+#include "MainDocument.h"
 
-#define TASKPANEWIDTH 200
-#define TASKBUTTONWIDTH (TASKPANEWIDTH - 55)
+#define TASKPANEWIDTH ADJUSTFORDPI(200)
+#define TASKBUTTONWIDTH ADJUSTFORDPI(TASKPANEWIDTH - 55)
 
 IMPLEMENT_DYNAMIC_CLASS(CBOINCTaskCtrl, wxScrolledWindow)
 
