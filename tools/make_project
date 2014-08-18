@@ -324,15 +324,14 @@ print >>open(httpd_conf_template_filename,'w'), '''
 
     # Note: projects/*/keys/ should NOT be readable!
 
-    # in the following, "Order" and "Allow" are for Apache 2.2;
-    # "Require" is for Apache 2.4
+    # in the following, the "Order" and "Allow" lines are for Apache 2.2;
+    # replace them with "Require all granted" for Apache 2.4
 
     <Directory "%(proot)s/html">
         Options Indexes FollowSymlinks MultiViews
         AllowOverride AuthConfig
         Order allow,deny
         Allow from all
-        Require all granted
     </Directory>
 
     <Directory "%(proot)s/cgi-bin">
@@ -340,7 +339,6 @@ print >>open(httpd_conf_template_filename,'w'), '''
         AllowOverride AuthConfig
         Order allow,deny
         Allow from all
-        Require all granted
     </Directory>
 ''' %locals()
 
