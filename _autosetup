@@ -135,7 +135,7 @@ check_version()
   ## ---------- now run autoreconf
   cmdline="autoreconf -i";
   ## -- if _autosetup was invoked with -f run autoreconf with -f to force a recreation of all files
-  if [ "x$1" == "x-f" ]; then
+  if [ "$1" == "-f" ]; then
     cmdline="autoreconf -i -f";
   fi
 echo "$cmdline"
