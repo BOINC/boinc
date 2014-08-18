@@ -179,9 +179,15 @@ function show_app_credit_team($team, $app_name, $appids) {
     );
 }
 
+// a list of "sub-projects", used in the display of per-app credit and badges.
+// A subproject is:
+// - a set of 1 or more apps; an app can belong to at most 1 subproject.
+// - a name, shown on the web site
+// - a short name, used in badge names.  Don't use "total".
+//
 $sub_projects = array(
-    array("name" => "Remote Test", "appids" => array(16)),
-    array("name" => "Uppercase", "appids" => array(1, 25)),
+    array("name" => "Remote Test", "short_name" => "RT", "appids" => array(16)),
+    array("name" => "Uppercase", "short_name" => "UC", "appids" => array(1, 25)),
 );
 
 function project_user_credit($user){
