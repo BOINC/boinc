@@ -417,6 +417,13 @@ extern void remove_eols(wxString& strMessage);
 extern void https_to_http(wxString& strMessage);
 extern void color_cycle(int i, int n, wxColour& color);
 
+#ifdef __WXMSW__
+#define ADJUSTFORDPI(x) (int)(x * GetDPIScaling())
+extern float GetDPIScaling();
+#else
+#define ADJUSTFORDPI(x) x
+#endif
+
 #ifdef SANDBOX
 #define BOINC_MASTER_GROUP_NAME "boinc_master"
 #endif

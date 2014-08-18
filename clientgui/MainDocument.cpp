@@ -2635,3 +2635,21 @@ void color_cycle(int i, int n, wxColour& color) {
     unsigned char cb = (unsigned char) (b*256);
     color = wxColour(cr, cg, cb);
 }
+
+#ifdef __WXMSW__
+float GetDPIScaling() {
+	float fScale = 1.0;
+	HMODULE hUser32 = LoadLibrary(_T("user32.dll"));
+	typedef BOOL (*SetProcessDPIAwareFunc)();
+	SetProcessDPIAwareFunc setDPIAware = (SetProcessDPIAwareFunc)GetProcAddress(hUser32, "SetProcessDPIAware");
+	if (setDPIAware) {
+		setDPIAware();
+		HWND hWnd = GetForegroundWindow();
+		HDC hdc = GetDC(hWnd);
+		fScale = GetDeviceCaps(hdc, LOGPIXELSX) / 96.0f;
+		ReleaseDC(hWnd, hdc);
+	}
+	FreeLibrary(hUser32);
+	return fScale;
+}
+#endif
