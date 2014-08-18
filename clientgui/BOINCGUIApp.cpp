@@ -819,6 +819,16 @@ int CBOINCGUIApp::OnExit() {
 void CBOINCGUIApp::OnEndSession(wxCloseEvent& ) {
     s_bSkipExitConfirmation = true;
 
+    // On Windows Vista with UAC turned on, we have to spawn a new process to change the
+    // state of a service.  When Windows is shutting down it'll prevent new processes from
+    // being created.  Sometimes it'll present a crash dialog for the newly spawned application.
+    //
+    // So, we will just let the OS shutdown the service via the service control manager.
+    //
+    if (m_iShutdownCoreClient && m_pDocument->m_pClientManager->IsBOINCConfiguredAsDaemon()) {
+        m_iShutdownCoreClient = false;
+    }
+
     CBOINCBaseFrame* pFrame = wxGetApp().GetFrame();
     wxCommandEvent evt(wxEVT_COMMAND_MENU_SELECTED, wxID_EXIT);
     // The event loop has already been stopped,
