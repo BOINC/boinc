@@ -51,12 +51,12 @@ function export_item($item, $is_user, $f) {
                 "        <workunits>$njobs</workunits>\n".
                 "        <credit>$total</credit>\n".
                 "        <expavg_credit>$average</expavg_credit>\n".
-                "    <subproject>\n"
+                "    </subproject>\n"
             );
         }
     }
 
-    fprintf($f, $is_user?"<user>\n":"<team>\n");
+    fprintf($f, $is_user?"</user>\n":"</team>\n");
 }
 
 function export($is_user, $dir) {
