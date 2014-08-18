@@ -17,6 +17,12 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// export_credit_by_app.php dir
+// write compressed XML versions of the credit_user and credit_team tables in
+// dir/user_work.gz and dir/team_work.gz
+//
+// This is run by db_dump; you can also run it separately
+
 require_once("../inc/util_ops.inc");
 
 function export_item($item, $is_user, $f) {
@@ -53,10 +59,11 @@ function export_item($item, $is_user, $f) {
     fprintf($f, $is_user?"<user>\n":"<team>\n");
 }
 
-function export($is_user) {
+function export($is_user, $dir) {
     $n = 0;
-    $filename = $is_user?"../stats/user_work":"../stats/team_work";
+    $filename = $is_user?"$dir/user_work":"$dir/team_work";
     $f = fopen($filename, "w");
+    if (!$f) die("fopen");
     $is_user?  fprintf($f, "<users>\n"): fprintf($f, "<teams>\n");
     $maxid = $is_user?BoincUser::max("id"):BoincTeam::max("id");
     while ($n <= $maxid) {
@@ -76,6 +83,8 @@ function export($is_user) {
     system("gzip -f $filename");
 }
 
-export(true);
-export(false);
+if ($argc != 2) die("usage");
+$dir = $argv[1];
+export(true, $dir);
+export(false, $dir);
 ?>
