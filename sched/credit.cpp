@@ -135,6 +135,7 @@ int grant_credit_by_app(RESULT& result, double credit) {
         cu.clear();
         cu.userid = result.userid;
         cu.appid = result.appid;
+        cu.expavg_time = dtime();
         retval = cu.insert();
         if (retval) return retval;
     }
@@ -163,6 +164,7 @@ int grant_credit_by_app(RESULT& result, double credit) {
         ct.clear();
         ct.teamid = result.teamid;
         ct.appid = result.appid;
+        ct.expavg_time = dtime();
         retval = ct.insert();
         if (retval) return retval;
     }
