@@ -221,7 +221,8 @@ function boincwork_get_project_specific_config_validation_rules($xml = array()) 
     switch ($type) {
     case 'compound':
       foreach ($elements as $element) {
-        $rules = $rules + boincwork_get_project_specific_config_validation_rules($element);
+        $name = $element['@attributes']['name'];
+        $rules[$name] = boincwork_get_project_specific_config_validation_rules($element['attributes']);
       }
       break;
       
@@ -273,6 +274,13 @@ function boincwork_get_project_specific_config_validation_rules($xml = array()) 
         }
       }
       break;
+      
+    case 'group':
+      foreach ($elements as $element) {
+        $name = $element['@attributes']['name'];
+        $rules += boincwork_get_project_specific_config_validation_rules($element);
+      }
+      break;
     /*
     case 'boolean':
       // Shouldn't need to validate boolean...
@@ -303,7 +311,7 @@ function boincwork_format_project_specific_prefs_data($values, $xml = array()) {
     case 'compound':
       foreach ($elements as $element) {
         $name = $element['@attributes']['name'];
-        $default[$name]['@attributes'] = boincwork_format_project_specific_prefs_data($values, $element['attributes']);
+        $default[$name]['@attributes'] = boincwork_format_project_specific_prefs_data($values[$name], $element['attributes']);
       }
       $defaults += $default;
       break;
@@ -334,7 +342,7 @@ function boincwork_format_project_specific_prefs_data($values, $xml = array()) {
         $defaults['app_id'] = array();
         foreach ($element['app'] as $app) {
           $app_id = $app['@attributes']['id'];
-          if ($values["app_{$app_id}"]) {
+          if ($values['applications']["app_{$app_id}"]) {
             $defaults['app_id'][] = $app_id;
           }
         }
@@ -548,6 +556,7 @@ function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs 
       $form[$name] = array(
           '#title' => t($title),
           '#type' => 'fieldset',
+          '#tree' => FALSE,
           //'#description' => t('Notes about this group of fields'),
           '#collapsible' => TRUE,
           '#collapsed' => FALSE
@@ -809,7 +818,41 @@ function boincwork_save_prefs($prefs, $type = 'general', $venue = null, $account
 
 /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
  * Utility functions
- *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */ 
+ *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
+
+/**
+ * Recursively validate submitted form values against a set of rules
+ */ 
+function boincwork_validate_form($validation_rules, $values, $path = array()) {
+  foreach ($validation_rules as $field => $rules) {
+    $parents = $path;
+    if (is_array($values[$field])) {
+      // Process nested form elements
+      $parents[] = $field;
+      boincwork_validate_form($rules, $values[$field], $parents);
+    }
+    else {
+      if ($parents) {
+        // form_set_error() identifies nested form elements with '][' as a
+        // delimiter between each parent and child element
+        $parents[] = $field;
+        $form_field = implode('][', $parents);
+      }
+      else {
+        $form_field = $field;
+      }
+      if (isset($rules['datatype']) AND !boincwork_validate_datatype($values[$field], $rules['datatype'])) {
+        form_set_error($form_field, t('Invalid data type for @field', array('@field' => $field)));
+      }
+      if (isset($rules['min']) AND $values[$field] < $rules['min']) {
+        form_set_error($form_field, t('Minimum value not met for @field', array('@field' => $field)));
+      }
+      if (isset($rules['max']) AND $values[$field] > $rules['max']) {
+        form_set_error($form_field, t('Maximum value exceeded for @field', array('@field' => $field)));
+      }
+    }
+  }
+}
 
 /**
  * Check that numeric data conforms to specifications

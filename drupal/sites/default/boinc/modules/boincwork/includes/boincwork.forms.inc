@@ -735,6 +735,9 @@ function boincwork_projectprefs_form(&$form_state, $venue) {
   // saved to the database from what is just showing default values
   $form['#established'] = $established;
   
+  // Top level form options
+  $form['#tree'] = TRUE;
+  
   // Hidden elements
   $form['venue'] = array(
     '#type' => 'hidden',
@@ -919,42 +922,37 @@ function boincwork_projectprefs_form_validate($form, &$form_state) {
   
   // Verify all text user input values and notify form API of failures
   $validation_rules = array(
-    'resource_share' => array(
-      'datatype' => 'integer',
-      'min' => 0
-    )
+    'resource' => array(
+      'resource_share' => array(
+        'datatype' => 'integer',
+        'min' => 0
+      ),
+    ),
   );
   
   // Add validation rules for project specific settings
   $validation_rules += boincwork_get_project_specific_config_validation_rules();
   
   // Perform validation
-  foreach ($validation_rules as $field => $rules) {
-    if (isset($rules['datatype']) AND !boincwork_validate_datatype($form_state['values'][$field], $rules['datatype'])) {
-      form_set_error($field, t('Invalid data type for @field', array('@field' => $field)));
-    }
-    if (isset($rules['min']) AND $form_state['values'][$field] < $rules['min']) {
-      form_set_error($field, t('Minimum value not met for @field', array('@field' => $field)));
-    }
-    if (isset($rules['max']) AND $form_state['values'][$field] > $rules['max']) {
-      form_set_error($field, t('Maximum value exceeded for @field', array('@field' => $field)));
-    }
-  }
+  boincwork_validate_form($validation_rules, $form_state['values']);
+  
   // Check for app validation
   if (isset($validation_rules['apps'])) {
     if (isset($validation_rules['apps']['minimum selected'])
         AND $validation_rules['apps']['minimum selected'] > 0) {
       $apps_selected = 0;
       foreach ($validation_rules['apps']['list'] as $app) {
-        if ($form_state['values'][$app]) $apps_selected++;
+        if ($form_state['values']['applications'][$app]) $apps_selected++;
       }
       if ($apps_selected < $validation_rules['apps']['minimum selected']) {
-        form_set_error(reset($validation_rules['apps']['list']), t('At least
-          one application must be selected'));
+        form_set_error(
+          'applications',
+          t('At least one application must be selected')
+        );
       }
       if ($apps_selected == count($validation_rules['apps']['list'])) {
         foreach ($validation_rules['apps']['list'] as $app) {
-          unset($form_state['values'][$app]);
+          unset($form_state['values']['applications'][$app]);
         }
         $form_state['storage']['all apps selected'] = TRUE;
       }
@@ -969,31 +967,32 @@ function boincwork_projectprefs_form_submit($form, &$form_state) {
   require_boinc(array('boinc_db', 'prefs'));
   
   global $user;
-  $boinc_user = BoincUser::lookup_email_addr($user->mail);
-  
   global $site_name, $app_types, $app_array;
   
-  $venue = $form_state['values']['venue'];
+  $boinc_user = BoincUser::lookup_email_addr($user->mail);
+  
+  $edit = $form_state['values'];
+  $venue = $edit['venue'];
   
   // Load preferences from BOINC account
   $prefs = boincwork_load_prefs('project', $venue);
   
   // Resource preferences
-  $prefs['resource_share'] = $form_state['values']['resource_share'];
+  $prefs['resource_share'] = $edit['resource']['resource_share'];
   if ($app_types->count > 1) {
-    if ($app_types->cpu) $prefs['no_cpu'] = ($form_state['values']['no_cpu']) ? 0 : 1;
-    if ($app_types->cuda) $prefs['no_cuda'] = ($form_state['values']['no_cuda']) ? 0 : 1;
-    if ($app_types->ati) $prefs['no_ati'] = ($form_state['values']['no_ati']) ? 0 : 1;
-    if ($app_types->intel_gpu) $prefs['no_intel_gpu'] = ($form_state['values']['no_intel_gpu']) ? 0 : 1;
+    if ($app_types->cpu) $prefs['no_cpu'] = ($edit['resource']['no_cpu']) ? 0 : 1;
+    if ($app_types->cuda) $prefs['no_cuda'] = ($edit['resource']['no_cuda']) ? 0 : 1;
+    if ($app_types->ati) $prefs['no_ati'] = ($edit['resource']['no_ati']) ? 0 : 1;
+    if ($app_types->intel_gpu) $prefs['no_intel_gpu'] = ($edit['resource']['no_intel_gpu']) ? 0 : 1;
   }
   
   // Beta preferences
-  $prefs['allow_beta_work'] = ($form_state['values']['allow_beta_work']) ? 1 : 0;
+  $prefs['allow_beta_work'] = ($edit['beta']['allow_beta_work']) ? 1 : 0;
   
   // Load project specific preferences from XML config
   $xml = boincwork_get_project_specific_config();
   $updated_prefs = array(
-    'project_specific' => boincwork_format_project_specific_prefs_data($form_state['values'])
+    'project_specific' => boincwork_format_project_specific_prefs_data($edit)
   );
   $prefs = $updated_prefs + $prefs;
   
@@ -1012,7 +1011,7 @@ function boincwork_projectprefs_form_submit($form, &$form_state) {
   $result = boincwork_save_prefs($prefs, 'project', $venue);
   
   // Update the user's default preference set
-  if ($form_state['values']['default_venue']) {
+  if ($edit['default_set']['default_venue']) {
     $boinc_user->venue = $venue;
     venue_update($boinc_user);
   }
