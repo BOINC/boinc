@@ -1,0 +1,18 @@
+<?php
+
+/**
+ * @file
+ * Add custom tweaks to the Wysiwyg module
+ */
+
+/**
+ * Implementation of hook_wysiwyg_editor_settings_alter().
+ */
+function wysiwyg_tweaks_wysiwyg_editor_settings_alter(&$settings, $context) {
+  if ($context['profile']->editor == 'tinymce') {
+    $settings['browser_spellcheck'] = TRUE;
+    $settings['gecko_spellcheck'] = TRUE;
+    // Any init setting taking a string, boolean, number, or an array/object
+    // holding those types can be overridden/forced here.
+  }
+}
