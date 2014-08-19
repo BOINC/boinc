@@ -710,6 +710,7 @@ function boincwork_projectprefs_form(&$form_state, $venue) {
     'no_ati' => 0,
     'no_intel_gpu' => 0,
     'default_venue' => $venue_is_default,
+    'allow_beta_work' => $prefs['allow_beta_work'],
   );
   foreach ($default as $name => $value) {
     if (isset($prefs[$name])) {
@@ -802,7 +803,6 @@ function boincwork_projectprefs_form(&$form_state, $venue) {
     }
   }
   
-  /*
   if ($project_has_beta) {
     $form['beta'] = array(
       '#title' => t('Beta settings'),
@@ -816,11 +816,10 @@ function boincwork_projectprefs_form(&$form_state, $venue) {
       '#type' => 'radios',
       '#options' => $form['boolean_options']['#value'],
       '#attributes' => array('class' => 'fancy'),
-      '#default_value' => ($prefs['allow_beta_work']) ? 1 : 0,
+      '#default_value' => ($default['allow_beta_work']) ? 1 : 0,
       '#description' => t('This helps us develop applications, but may cause jobs to fail on your computer')
     );
   }
-  */
   
   // Load project specific preferences from XML config
   $xml = boincwork_get_project_specific_config();
