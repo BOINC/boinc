@@ -964,13 +964,12 @@ function boincwork_projectprefs_form_validate($form, &$form_state) {
   * Handle post-validation submission of project preferences form.
   */
 function boincwork_projectprefs_form_submit($form, &$form_state) {
-  require_boinc(array('boinc_db', 'prefs'));
+  require_boinc(array('prefs'));
   
   global $user;
   global $site_name, $app_types, $app_array;
   
-  $boinc_user = BoincUser::lookup_email_addr($user->mail);
-  
+  $account = user_load($user->uid);
   $edit = $form_state['values'];
   $venue = $edit['venue'];
   
@@ -1012,13 +1011,11 @@ function boincwork_projectprefs_form_submit($form, &$form_state) {
   
   // Update the user's default preference set
   if ($edit['default_set']['default_venue']) {
-    $boinc_user->venue = $venue;
-    venue_update($boinc_user);
+    boincwork_set_default_venue($venue);
   }
-  elseif ($venue == $boinc_user->venue) {
+  elseif ($venue == $account->boincuser_default_pref_set) {
     // User has cleared out the default venue setting
-    $boinc_user->venue = '';
-    venue_update($boinc_user);
+    boincwork_set_default_venue();
   }
   
   if (!$result) {

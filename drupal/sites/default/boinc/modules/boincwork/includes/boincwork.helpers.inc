@@ -821,6 +821,28 @@ function boincwork_save_prefs($prefs, $type = 'general', $venue = null, $account
  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
 
 /**
+ * Set the default preference set for the user
+ */ 
+function boincwork_set_default_venue($venue = '') {
+  
+  global $user;
+  $account = user_load($user->uid);
+  
+  if ($venue == 'generic') {
+    $venue = '';
+  }
+  
+  db_set_active('boinc');
+  db_query("
+    UPDATE user
+    SET venue = '%s'
+    WHERE id = %d",
+    $venue, $account->boincuser_id
+  );
+  db_set_active('default');
+}
+
+/**
  * Recursively validate submitted form values against a set of rules
  */ 
 function boincwork_validate_form($validation_rules, $values, $path = array()) {
