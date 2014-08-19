@@ -101,7 +101,7 @@ VBOX_VM::VBOX_VM() {
     enable_remotedesktop = false;
     register_only = false;
     enable_network = false;
-    bridged_mode = false;
+    enable_network_bridged_mode = false;
     pf_guest_port = 0;
     pf_host_port = 0;
     headless = true;
@@ -519,18 +519,32 @@ int VBOX_VM::create_vm() {
 
     // Tweak the VM's Network Configuration
     //
-    fprintf(
-        stderr,
-        "%s Setting Network Configuration for VM.\n",
-        vboxwrapper_msg_prefix(buf, sizeof(buf))
-    );
-    command  = "modifyvm \"" + vm_name + "\" ";
-    command += "--nic1 nat ";
-    command += "--natdnsproxy1 on ";
-    command += "--cableconnected1 off ";
+    if (enable_network_bridged_mode) {
+        fprintf(
+            stderr,
+            "%s Setting Network Configuration for Bridged Mode.\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf))
+        );
+        command  = "modifyvm \"" + vm_name + "\" ";
+        command += "--nic1 bridged";
+        command += "--cableconnected1 off ";
 
-    retval = vbm_popen(command, output, "modifynetwork");
-    if (retval) return retval;
+        retval = vbm_popen(command, output, "set bridged mode");
+        if (retval) return retval;
+    } else {
+        fprintf(
+            stderr,
+            "%s Setting Network Configuration for NAT.\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf))
+        );
+        command  = "modifyvm \"" + vm_name + "\" ";
+        command += "--nic1 nat ";
+        command += "--natdnsproxy1 on ";
+        command += "--cableconnected1 off ";
+
+        retval = vbm_popen(command, output, "modifynetwork");
+        if (retval) return retval;
+    }
 
     // Tweak the VM's USB Configuration
     //
@@ -2395,14 +2409,6 @@ int VBOX_VM::set_network_access(bool enabled) {
 
         retval = vbm_popen(command, output, "enable network");
         if (retval) return retval;
-
-        if (bridged_mode) {
-            command  = "modifyvm \"" + vm_name + "\" ";
-            command += "--nic1 bridged";
-
-            retval = vbm_popen(command, output, "set bridged mode");
-            if (retval) return retval;
-        }
     } else {
         fprintf(
             stderr,
