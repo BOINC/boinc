@@ -30,8 +30,10 @@
 #include "SkinManager.h"
 
 
-#define DLGDIAGNOSTICS_INITIAL_SIZE ADJUSTFORDPI(480)
-#define DLGDIAGNOSTICS_MIN_SIZE ADJUSTFORDPI(400)
+#define DLGDIAGNOSTICS_INITIAL_WIDTH ADJUSTFORXDPI(480)
+#define DLGDIAGNOSTICS_INITIAL_HEIGHT ADJUSTFORYDPI(480)
+#define DLGDIAGNOSTICS_MIN_WIDTH ADJUSTFORXDPI(400)
+#define DLGDIAGNOSTICS_MIN_HEIGHT ADJUSTFORYDPI(400)
 
 IMPLEMENT_DYNAMIC_CLASS(CDlgDiagnosticLogFlags, wxDialog)
 
@@ -45,7 +47,7 @@ END_EVENT_TABLE()
 /* Constructor */
 CDlgDiagnosticLogFlags::CDlgDiagnosticLogFlags(wxWindow* parent) :
     wxDialog( parent, ID_ANYDIALOG, wxEmptyString, wxDefaultPosition,
-                wxSize( DLGDIAGNOSTICS_INITIAL_SIZE,DLGDIAGNOSTICS_INITIAL_SIZE ),
+                wxSize( DLGDIAGNOSTICS_INITIAL_WIDTH,DLGDIAGNOSTICS_INITIAL_HEIGHT ),
                 wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER
             ) {
 
@@ -71,7 +73,7 @@ CDlgDiagnosticLogFlags::CDlgDiagnosticLogFlags(wxWindow* parent) :
     m_cc_config.defaults();
     pDoc->rpc.get_cc_config(m_cc_config, log_flags);
     
-    SetSizeHints(DLGDIAGNOSTICS_MIN_SIZE, DLGDIAGNOSTICS_MIN_SIZE);
+    SetSizeHints(DLGDIAGNOSTICS_MIN_WIDTH, DLGDIAGNOSTICS_MIN_HEIGHT);
     SetExtraStyle( GetExtraStyle() | wxWS_EX_VALIDATE_RECURSIVELY );
     
     wxBoxSizer* bSizer1 = new wxBoxSizer( wxVERTICAL );
@@ -198,15 +200,15 @@ bool CDlgDiagnosticLogFlags::RestoreState() {
 
     pConfig->SetPath("/DlgDiagnosticLogFlags/");
 
-    pConfig->Read(wxT("Width"), &iWidth, DLGDIAGNOSTICS_INITIAL_SIZE);
-    pConfig->Read(wxT("Height"), &iHeight, DLGDIAGNOSTICS_INITIAL_SIZE);
+    pConfig->Read(wxT("Width"), &iWidth, DLGDIAGNOSTICS_INITIAL_WIDTH);
+    pConfig->Read(wxT("Height"), &iHeight, DLGDIAGNOSTICS_INITIAL_HEIGHT);
 
     // Guard against a rare situation where registry values are zero
-    if ((iWidth < 50) && (iWidth != wxDefaultCoord)) iWidth = DLGDIAGNOSTICS_INITIAL_SIZE;
-    if ((iHeight < 50) && (iHeight != wxDefaultCoord)) iHeight = DLGDIAGNOSTICS_INITIAL_SIZE;
+    if ((iWidth < 50) && (iWidth != wxDefaultCoord)) iWidth = DLGDIAGNOSTICS_INITIAL_WIDTH;
+    if ((iHeight < 50) && (iHeight != wxDefaultCoord)) iHeight = DLGDIAGNOSTICS_INITIAL_HEIGHT;
 
     // Set size to saved values or defaults if no saved values
-    SetSize(std::max(iWidth, DLGDIAGNOSTICS_MIN_SIZE), std::max(iHeight, DLGDIAGNOSTICS_MIN_SIZE));
+    SetSize(std::max(iWidth, DLGDIAGNOSTICS_MIN_WIDTH), std::max(iHeight, DLGDIAGNOSTICS_MIN_HEIGHT));
 
     return true;
 }
