@@ -945,10 +945,19 @@ function boincimport_friends() {
   // Get stuff to import
   db_set_active('boinc');
   $friendships = db_query('
-    SELECT user_src, user_dest, message, create_time
-    FROM %sfriend
-    WHERE reciprocated = 1',
-    $pre
+    SELECT
+      f1.user_src,
+      f1.user_dest,
+      f1.create_time
+    FROM %sfriend f1
+    LEFT JOIN %sfriend f2
+      ON f2.user_src = f1.user_dest 
+      AND f2.user_dest = f1.user_src
+      AND f2.user_src <> f2.user_dest
+    WHERE f1.reciprocated = 1
+      AND (f2.user_src IS NULL OR f1.create_time < f2.create_time)
+    ORDER BY create_time',
+    $pre, $pre
   );
   $friendship_count = mysql_num_rows($friendships);
   db_set_active('default');
@@ -1003,17 +1012,24 @@ function boincimport_friends() {
 function boincimport_friends_op($friendship, &$context) {
   
   $input_format = variable_get('boincimport_input_format', 0);
+  $success = FALSE;
+  $message = '';
   
   // Convert BOINC friends to Drupal friends
   $uid = boincuser_lookup_uid($friendship->user_src);
   $friend_uid = boincuser_lookup_uid($friendship->user_dest);
-  $success = db_query("
-    INSERT IGNORE INTO {flag_friend}
-    SET uid = '%d', friend_uid = '%d', created = '%d'",
-    $uid, $friend_uid, $friendship->create_time
-  );
+  if ($uid AND $friend_uid) {
+    $success = db_query("
+      INSERT IGNORE INTO {flag_friend}
+      SET uid = '%d', friend_uid = '%d', created = '%d'",
+      $uid, $friend_uid, $friendship->create_time
+    );
+  }
+  else {
+    $boinc_id = ($uid) ? $friendship->user_dest : $friendship->user_src;
+    $message = "No Drupal account exists for BOINC user {$boinc_id}!";
+  }
   
-  $message = '';
   if ($success) {
     // Store some result for post-processing in the finished callback.
     $context['results']['success'][] = $uid;
@@ -1021,11 +1037,10 @@ function boincimport_friends_op($friendship, &$context) {
   }
   else {
     $context['results']['failure'][] = $uid;
-    $message = "Failed to make users {$uid} and {$friend_uid} friends!";
-    watchdog('boincimport',
-      'Failed to make users @id and @friend_id friends!',
-      array('@id' => $uid, '@friend_id' => $friend_uid), WATCHDOG_WARNING
-    ); 
+    if (!$message) {
+      $message = "Failed to make users {$uid} and {$friend_uid} friends!";
+    }
+    watchdog('boincimport', $message, array(), WATCHDOG_WARNING);
   }
   
   // Update our progress information.
@@ -1049,14 +1064,15 @@ function boincimport_friends_finished($success, $results, $operations) {
   if ($success) {
     // Let's count our successes
     $total_imported = count($results['success']);
+    $failures = count($results['failure']);
     $message = t(
-      'Successfully imported @count friendships',
-      array('@count' => $total_imported)
+      'Successfully imported @count friendships (@failed failures)',
+      array(
+        '@count' => $total_imported,
+        '@failed' => $failures,
+      )
     );
-    watchdog('boincimport',
-      'Successfully imported @count friendships.',
-      array('@count' => $total_imported), WATCHDOG_INFO
-    ); 
+    watchdog('boincimport', $message, array(), WATCHDOG_INFO); 
     // Set the friend import successful flag in the variable table
     variable_set('boincimport_import_friend_successful', '1');
     $_SESSION['boincimport_stage_selected'] = 'preferences';
