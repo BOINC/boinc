@@ -101,6 +101,7 @@ VBOX_VM::VBOX_VM() {
     enable_remotedesktop = false;
     register_only = false;
     enable_network = false;
+    bridged_mode = false;
     pf_guest_port = 0;
     pf_host_port = 0;
     headless = true;
@@ -2394,6 +2395,14 @@ int VBOX_VM::set_network_access(bool enabled) {
 
         retval = vbm_popen(command, output, "enable network");
         if (retval) return retval;
+
+        if (bridged_mode) {
+            command  = "modifyvm \"" + vm_name + "\" ";
+            command += "--nic1 bridged";
+
+            retval = vbm_popen(command, output, "set bridged mode");
+            if (retval) return retval;
+        }
     } else {
         fprintf(
             stderr,

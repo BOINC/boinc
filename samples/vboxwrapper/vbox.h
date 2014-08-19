@@ -140,6 +140,8 @@ public:
         // whether to add an extra cache disk for systems like uCernVM
     bool enable_network;
         // whether to allow network access
+    bool bridged_mode;
+        // use bridged mode for network
     bool enable_shared_directory;
         // whether to use shared directory infrastructure
     bool enable_floppyio;
