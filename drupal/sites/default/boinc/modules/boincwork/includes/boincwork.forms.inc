@@ -679,7 +679,7 @@ function boincwork_projectprefs_form(&$form_state, $venue) {
   
   // Get availability of special BOINC preferences
   require_boinc(array('prefs'));
-  global $app_array, $app_types, $project_has_beta;
+  global $app_array, $app_types;
   
   // Load any existing preferences from BOINC account
   $prefs = boincwork_load_prefs('project', $venue);
@@ -806,7 +806,7 @@ function boincwork_projectprefs_form(&$form_state, $venue) {
     }
   }
   
-  if ($project_has_beta) {
+  if (variable_get('boinc_prefs_options_beta', FALSE)) {
     $form['beta'] = array(
       '#title' => t('Beta settings'),
       '#type' => 'fieldset',
@@ -986,7 +986,9 @@ function boincwork_projectprefs_form_submit($form, &$form_state) {
   }
   
   // Beta preferences
-  $prefs['allow_beta_work'] = ($edit['beta']['allow_beta_work']) ? 1 : 0;
+  if (variable_get('boinc_prefs_options_beta', FALSE)) {
+    $prefs['allow_beta_work'] = ($edit['beta']['allow_beta_work']) ? 1 : 0;
+  }
   
   // Load project specific preferences from XML config
   $xml = boincwork_get_project_specific_config();
