@@ -7,6 +7,40 @@
  */
 
 /**
+ * Allow configuration of general options for preference pages
+ */
+function boincwork_admin_prefs_options_form(&$form_state) {
+  $form = array(); 
+  $form['beta'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Allow users to opt in to test beta applications'),
+    '#default_value' => variable_get('boinc_prefs_options_beta', 0),
+    '#required' => TRUE
+  );
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Submit')
+  );
+  // Add the official mechanical things and return
+  //drupal_prepare_form('boincwork_admin_prefs_upload_form', $form, $form_state);
+  return $form;
+} 
+
+/**
+  * Handle validation of preference general settings form.
+  */
+function boincwork_admin_prefs_options_form_validate($form, &$form_state) {
+}
+
+/**
+  * Handle submission of preference general settings form.
+  */
+function boincwork_admin_prefs_options_form_submit($form, &$form_state) {
+  variable_set('boinc_prefs_options_beta', $form_state['values']['beta']);
+  drupal_set_message('Preference options have been updated.');
+}
+
+/**
  * 
  */
 function boincwork_admin_prefs_upload_form(&$form_state) {

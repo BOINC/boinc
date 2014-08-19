@@ -65,6 +65,15 @@ function boincwork_menu() {
     'access arguments' => array('access content'),
     'type' => MENU_CALLBACK
   );
+  $items['admin/boinc/prefs/general'] = array(
+    'title' => 'Preferences: General',
+    'description' => 'Set options for BOINC preference set pages',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('boincwork_admin_prefs_options_form'),
+    'access arguments' => array('administer site configuration'),
+    'type' => MENU_NORMAL_ITEM,
+    'file' => 'boincwork.admin.inc'
+  );
   $items['admin/boinc/prefs/presets'] = array(
     'title' => 'Preferences: Presets',
     'description' => 'Set values for BOINC preference set presets.',
