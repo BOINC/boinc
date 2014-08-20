@@ -140,7 +140,7 @@ public:
         // whether to add an extra cache disk for systems like uCernVM
     bool enable_network;
         // whether to allow network access
-    bool enable_network_bridged_mode;
+    bool network_bridged_mode;
         // use bridged mode for network
     bool enable_shared_directory;
         // whether to use shared directory infrastructure

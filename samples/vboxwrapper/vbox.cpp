@@ -101,7 +101,7 @@ VBOX_VM::VBOX_VM() {
     enable_remotedesktop = false;
     register_only = false;
     enable_network = false;
-    enable_network_bridged_mode = false;
+    network_bridged_mode = false;
     pf_guest_port = 0;
     pf_host_port = 0;
     headless = true;
@@ -519,7 +519,7 @@ int VBOX_VM::create_vm() {
 
     // Tweak the VM's Network Configuration
     //
-    if (enable_network_bridged_mode) {
+    if (network_bridged_mode) {
         fprintf(
             stderr,
             "%s Setting Network Configuration for Bridged Mode.\n",
