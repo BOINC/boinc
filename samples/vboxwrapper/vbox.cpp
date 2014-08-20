@@ -526,7 +526,7 @@ int VBOX_VM::create_vm() {
             vboxwrapper_msg_prefix(buf, sizeof(buf))
         );
         command  = "modifyvm \"" + vm_name + "\" ";
-        command += "--nic1 bridged";
+        command += "--nic1 bridged ";
         command += "--cableconnected1 off ";
 
         retval = vbm_popen(command, output, "set bridged mode");
