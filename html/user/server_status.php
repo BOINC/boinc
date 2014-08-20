@@ -317,8 +317,7 @@ if ($xml) {
     ";
 }
 
-$retval = db_init_aux();
-if ($retval) {
+if (BoincDB::get_aux(true) == null) {
     echo tra("The database server is not accessible");
 } else {
     if (!$xml) {
@@ -369,7 +368,6 @@ if ($retval) {
     $gap = unserialize(get_cached_data(STATUS_PAGE_TTL, "transitioner_backlog"));
     if ($gap === false) {
         $min = BoincDB::get()->lookup_fields("workunit", "stdClass", "MIN(transition_time) as min", "TRUE");
-        //$gap = BoincDB::get()->min("workunit", "transition_time"); $gap = time()-$gap/3600;
         $gap = (time() - $min->min)/3600;
         if (($gap < 0) || ($min->min == 0)) {
             $gap = 0;
