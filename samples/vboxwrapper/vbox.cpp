@@ -2112,11 +2112,11 @@ int VBOX_VM::get_default_network_interface(string& iface) {
     // Status:          Up
     // VBoxNetworkName: HostInterfaceNetworking-Intel(R) Ethernet Connection I217-V
 
-    if_start = output.find("VBoxNetworkName:");
+    if_start = output.find("Name:");
     if (if_start == string::npos) {
         return ERR_NOT_FOUND;
     }
-    if_start += strlen("VBoxNetworkName:");
+    if_start += strlen("Name:");
     if_end = output.find("\n", if_start);
     iface = output.substr(if_start, if_end - if_start);
     strip_whitespace(iface);
