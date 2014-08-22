@@ -189,6 +189,13 @@ void CNoticeListCtrl::SetItemCount(int newCount) {
             strDescription.Replace(wxT("\"//"), wxT("\"http://"));
 			strDescription.Replace(wxT("</a>"), wxT("</a> "));
 
+            // Apparently attempting to follow links with other targets specified
+            // fails to fire our event handler.  For now we will just strip out
+            // the special _blank/_new target which is supposed to open a new
+            // browser window anyways.  
+            strDescription.Replace(wxT("target=\"_blank\""), wxT(""));
+            strDescription.Replace(wxT("target=\"_new\""), wxT(""));
+
             dtBuffer.Set((time_t)np->create_time);
             strCreateTime = dtBuffer.Format();
 
