@@ -22,7 +22,6 @@
 // my developing your own stylesheet
 // and customizing the header/footer functions in html/project/project.inc
 
-require_once("../inc/db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/news.inc");
 require_once("../inc/cache.inc");
@@ -182,7 +181,6 @@ if ($stopped) {
         Please try again later</b>.
     ";
 } else {
-    db_init();
     show_nav();
 }
 
