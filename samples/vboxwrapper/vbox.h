@@ -230,6 +230,7 @@ public:
     int get_version_information(std::string& version);
     int get_guest_additions(std::string& dir);
     int get_slot_directory(std::string& dir);
+    int get_default_network_interface(std::string& iface);
     int get_vm_network_bytes_sent(double& sent);
     int get_vm_network_bytes_received(double& received);
     int get_vm_process_id();

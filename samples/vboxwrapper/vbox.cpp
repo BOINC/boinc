@@ -405,6 +405,7 @@ int VBOX_VM::create_vm() {
     string command;
     string output;
     string virtual_machine_slot_directory;
+    string default_interface;
     APP_INIT_DATA aid;
     bool disable_acceleration = false;
     char buf[256];
@@ -530,6 +531,21 @@ int VBOX_VM::create_vm() {
         command += "--cableconnected1 off ";
 
         retval = vbm_popen(command, output, "set bridged mode");
+        if (retval) return retval;
+
+        get_default_network_interface(default_interface);
+        fprintf(
+            stderr,
+            "%s Setting Bridged Interface. (%s)\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf)),
+            default_interface.c_str()
+        );
+        command  = "modifyvm \"" + vm_name + "\" ";
+        command += "--bridgeadapter1 \"";
+        command += default_interface;
+        command += "\" ";
+
+        retval = vbm_popen(command, output, "set bridged interface");
         if (retval) return retval;
     } else {
         fprintf(
@@ -2070,6 +2086,45 @@ int VBOX_VM::get_slot_directory(string& dir) {
         return 1;
     }
     return 0;
+}
+
+int VBOX_VM::get_default_network_interface(string& iface) {
+    string command;
+    string output;
+    size_t if_start;
+    size_t if_end;
+    int retval;
+
+    // Get the location of where the guest additions are
+    command = "list bridgedifs";
+    retval = vbm_popen(command, output, "default interface");
+
+    // Output should look like this:
+    // Name:            Intel(R) Ethernet Connection I217-V
+    // GUID:            4b8796d6-a4ed-4752-8e8e-bf23984fd93c
+    // DHCP:            Enabled
+    // IPAddress:       192.168.1.19
+    // NetworkMask:     255.255.255.0
+    // IPV6Address:     fe80:0000:0000:0000:31c2:0053:4f50:4e64
+    // IPV6NetworkMaskPrefixLength: 64
+    // HardwareAddress: bc:5f:f4:ba:cc:16
+    // MediumType:      Ethernet
+    // Status:          Up
+    // VBoxNetworkName: HostInterfaceNetworking-Intel(R) Ethernet Connection I217-V
+
+    if_start = output.find("VBoxNetworkName:");
+    if (if_start == string::npos) {
+        return ERR_NOT_FOUND;
+    }
+    if_start += strlen("VBoxNetworkName:");
+    if_end = output.find("\n", if_start);
+    iface = output.substr(if_start, if_end - if_start);
+    strip_whitespace(iface);
+    if (iface.size() <= 0) {
+        return ERR_NOT_FOUND;
+    }
+
+    return retval;
 }
 
 int VBOX_VM::get_vm_network_bytes_sent(double& sent) {
