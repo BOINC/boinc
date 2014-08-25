@@ -20,6 +20,7 @@
 
 #include "sg_CustomControls.h" 
 #include "sg_BoincSimpleFrame.h"
+#include "MainDocument.h"
 
 
 ///////////////////////////////////////////////////////////////////////////
@@ -34,7 +35,7 @@
 #define LARGE_FONT 16
 #endif
 
-#define SIDEMARGINS 30
+#define SIDEMARGINS ADJUSTFORXDPI(30)
 
 
 ///////////////////////////////////////////////////////////////////////////////

@@ -125,7 +125,7 @@ void CPanelMessages::CreateControls()
                                     wxPoint(20, 20), wxDefaultSize, 0
                                     );
     m_FetchingNoticesText->SetBackgroundColour(*wxWHITE);
-    itemFlexGridSizer2->Add(m_FetchingNoticesText, 0, wxEXPAND | wxLEFT | wxRIGHT, 5);
+    itemFlexGridSizer2->Add(m_FetchingNoticesText, 0, wxEXPAND | wxLEFT | wxRIGHT, ADJUSTFORXDPI(5));
     
     m_NoNoticesText = new wxStaticText(
                                     this, wxID_ANY, 
@@ -133,24 +133,24 @@ void CPanelMessages::CreateControls()
                                     wxPoint(20, 20), wxDefaultSize, 0
                                     );
     m_NoNoticesText->SetBackgroundColour(*wxWHITE);
-    itemFlexGridSizer2->Add(m_NoNoticesText, 0, wxEXPAND | wxLEFT | wxRIGHT, 5);
+    itemFlexGridSizer2->Add(m_NoNoticesText, 0, wxEXPAND | wxLEFT | wxRIGHT, ADJUSTFORXDPI(5));
 
 
     m_pHtmlListPane = new CNoticeListCtrl(itemDialog1);
 	wxASSERT(m_pHtmlListPane);
 
-    itemFlexGridSizer2->Add(m_pHtmlListPane, 0, wxGROW|wxALL, 5);
+    itemFlexGridSizer2->Add(m_pHtmlListPane, 0, wxGROW|wxALL, ADJUSTFORXDPI(5));
 
     wxBoxSizer* itemBoxSizer4 = new wxBoxSizer(wxHORIZONTAL);
 
     wxButton* itemButton44 = new wxButton(itemDialog1, wxID_OK, _("Close"),  wxDefaultPosition, wxDefaultSize);
 
-    itemBoxSizer4->Add(itemButton44, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    itemBoxSizer4->Add(itemButton44, 0, wxALIGN_CENTER_VERTICAL|wxALL, ADJUSTFORXDPI(5));
     
 #ifdef __WXMAC__            // Don't let Close button overlap window's grow icon
-    itemFlexGridSizer2->Add(itemBoxSizer4, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 12);
+    itemFlexGridSizer2->Add(itemBoxSizer4, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, ADJUSTFORXDPI(12));
 #else
-    itemFlexGridSizer2->Add(itemBoxSizer4, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    itemFlexGridSizer2->Add(itemBoxSizer4, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, ADJUSTFORXDPI(5));
 #endif
 
     itemDialog1->SetSizer(itemFlexGridSizer2);

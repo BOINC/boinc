@@ -828,12 +828,12 @@ CSimpleGUIPanel::CSimpleGUIPanel(wxWindow* parent) :
     m_projPanel = new CSimpleProjectPanel(this);
 
     // Box Sizer
-	mainSizer = new wxBoxSizer(wxVERTICAL);
-	mainSizer->AddSpacer(68);
+    mainSizer = new wxBoxSizer(wxVERTICAL);
+    mainSizer->AddSpacer(ADJUSTFORYDPI(68));
     mainSizer->Add(m_taskPanel, 1, wxLEFT | wxRIGHT | wxEXPAND | wxALIGN_CENTER, SIDEMARGINS);
-	mainSizer->AddSpacer(8);
+    mainSizer->AddSpacer(ADJUSTFORYDPI(8));
     mainSizer->Add(m_projPanel, 0, wxLEFT | wxRIGHT | wxEXPAND | wxALIGN_CENTER, SIDEMARGINS);
-	mainSizer->AddSpacer(8);
+    mainSizer->AddSpacer(ADJUSTFORYDPI(8));
 
 	wxBoxSizer* buttonsSizer;
 	buttonsSizer = new wxBoxSizer( wxHORIZONTAL );
@@ -864,7 +864,7 @@ CSimpleGUIPanel::CSimpleGUIPanel(wxWindow* parent) :
     m_HelpButton->SetToolTip(helpTip);
 
 	mainSizer->Add( buttonsSizer, 0, wxLEFT | wxRIGHT | wxEXPAND, 2 * SIDEMARGINS );
-	mainSizer->AddSpacer(10);
+    mainSizer->AddSpacer(ADJUSTFORYDPI(10));
 
 	SetSizer(mainSizer);
     Layout();
@@ -929,7 +929,21 @@ void CSimpleGUIPanel::SetBackgroundBitmap() {
     dc.SetPen(bgPen);
     dc.DrawRectangle(panelRect);
 #endif
+
     dc.DrawBitmap(*pSkinSimple->GetBackgroundImage()->GetBitmap(), 0, 0, false);
+
+#ifdef __WXMSW__
+    if ((GetXDPIScaling() != 1.0) || (GetYDPIScaling() != 1.0)) {
+        wxImage img = m_bmpBg.ConvertToImage();
+        img.Rescale((int) (img.GetWidth()*GetXDPIScaling()), 
+                    (int) (img.GetHeight()*GetYDPIScaling()), 
+                    wxIMAGE_QUALITY_BILINEAR
+                );
+        wxBitmap *bm = new wxBitmap(img);
+        m_bmpBg = *bm;
+        delete bm;
+    }
+#endif
 
     wxLogTrace(wxT("Function Start/End"), wxT("CSimpleGUIPanel::SetBackgroundBitmap - Function End"));
 }
