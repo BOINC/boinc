@@ -166,10 +166,12 @@ int resolve_hostname(const char* hostname, sockaddr_storage &ip_addr) {
         perror("getaddrinfo");
         return retval;
     }
-    while (1) {
-        memcpy(&ip_addr, res->ai_addr, res->ai_addrlen);
-        if ((ip_addr.sin_addr.s_addr&0xff) != 0x7f) break;
-        res = res->ai_next;
+    struct addrinfo* aip = res;
+    while (aip) {
+        memcpy(&ip_addr, aip->ai_addr, aip->ai_addrlen);
+        sockaddr_in* sin = (sockaddr_in*)&ip_addr;
+        if ((sin->sin_addr.s_addr&0xff) != 0x7f) break;
+        aip = aip->ai_next;
     }
     freeaddrinfo(res);
     return 0;

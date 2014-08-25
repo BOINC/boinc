@@ -2637,8 +2637,13 @@ void color_cycle(int i, int n, wxColour& color) {
 }
 
 #ifdef __WXMSW__
-float GetDPIScaling() {
-	float fScale = 1.0;
+static float XDPIScaleFactor = 0.0;
+static float YDPIScaleFactor = 0.0;
+
+void GetDPIScaling() {
+	XDPIScaleFactor = 1.0;
+	YDPIScaleFactor = 1.0;
+	// SetProcessDPIAware() requires Windows Vista or later
 	HMODULE hUser32 = LoadLibrary(_T("user32.dll"));
 	typedef BOOL (*SetProcessDPIAwareFunc)();
 	SetProcessDPIAwareFunc setDPIAware = (SetProcessDPIAwareFunc)GetProcAddress(hUser32, "SetProcessDPIAware");
@@ -2646,10 +2651,24 @@ float GetDPIScaling() {
 		setDPIAware();
 		HWND hWnd = GetForegroundWindow();
 		HDC hdc = GetDC(hWnd);
-		fScale = GetDeviceCaps(hdc, LOGPIXELSX) / 96.0f;
+		XDPIScaleFactor = GetDeviceCaps(hdc, LOGPIXELSX) / 96.0f;
+		YDPIScaleFactor = GetDeviceCaps(hdc, LOGPIXELSY) / 96.0f;
 		ReleaseDC(hWnd, hdc);
 	}
 	FreeLibrary(hUser32);
-	return fScale;
+}
+
+float GetXDPIScaling() {
+	if (XDPIScaleFactor == 0.0) {
+		GetDPIScaling();
+	}
+	return XDPIScaleFactor;
+}
+
+float GetYDPIScaling() {
+	if (YDPIScaleFactor == 0.0) {
+		GetDPIScaling();
+	}
+	return YDPIScaleFactor;
 }
 #endif

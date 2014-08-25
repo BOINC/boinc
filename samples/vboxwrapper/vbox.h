@@ -116,8 +116,6 @@ public:
         // Is VM restoring from checkpoint?
     bool crashed;
         // Has the VM crashed?
-    bool enable_cern_dataformat;
-        // whether to use CERN specific data structures
     bool register_only;
         // whether we were instructed to only register the VM.
         // useful for debugging VMs.
@@ -134,13 +132,15 @@ public:
         // the type of disk controller to emulate
     std::string vm_disk_controller_model;
         // the disk controller model to emulate
+    bool enable_cern_dataformat;
+        // whether to use CERN specific data structures
     bool enable_isocontextualization;
         // whether to use an iso9660 image to implement VM contextualization (e.g. uCernVM)
     bool enable_cache_disk;
         // whether to add an extra cache disk for systems like uCernVM
     bool enable_network;
         // whether to allow network access
-    bool bridged_mode;
+    bool network_bridged_mode;
         // use bridged mode for network
     bool enable_shared_directory;
         // whether to use shared directory infrastructure
@@ -230,6 +230,7 @@ public:
     int get_version_information(std::string& version);
     int get_guest_additions(std::string& dir);
     int get_slot_directory(std::string& dir);
+    int get_default_network_interface(std::string& iface);
     int get_vm_network_bytes_sent(double& sent);
     int get_vm_network_bytes_received(double& received);
     int get_vm_process_id();

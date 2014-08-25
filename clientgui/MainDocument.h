@@ -418,10 +418,13 @@ extern void https_to_http(wxString& strMessage);
 extern void color_cycle(int i, int n, wxColour& color);
 
 #ifdef __WXMSW__
-#define ADJUSTFORDPI(x) (int)(x * GetDPIScaling())
-extern float GetDPIScaling();
+#define ADJUSTFORXDPI(x) (int)(x * GetXDPIScaling())
+#define ADJUSTFORYDPI(y) (int)(y * GetYDPIScaling())
+extern float GetXDPIScaling();
+extern float GetYDPIScaling();
 #else
-#define ADJUSTFORDPI(x) x
+#define ADJUSTFORXDPI(x) x
+#define ADJUSTFORYDPI(y) y
 #endif
 
 #ifdef SANDBOX

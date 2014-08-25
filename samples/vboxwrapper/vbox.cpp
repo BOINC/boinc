@@ -101,7 +101,7 @@ VBOX_VM::VBOX_VM() {
     enable_remotedesktop = false;
     register_only = false;
     enable_network = false;
-    bridged_mode = false;
+    network_bridged_mode = false;
     pf_guest_port = 0;
     pf_host_port = 0;
     headless = true;
@@ -405,6 +405,7 @@ int VBOX_VM::create_vm() {
     string command;
     string output;
     string virtual_machine_slot_directory;
+    string default_interface;
     APP_INIT_DATA aid;
     bool disable_acceleration = false;
     char buf[256];
@@ -519,18 +520,47 @@ int VBOX_VM::create_vm() {
 
     // Tweak the VM's Network Configuration
     //
-    fprintf(
-        stderr,
-        "%s Setting Network Configuration for VM.\n",
-        vboxwrapper_msg_prefix(buf, sizeof(buf))
-    );
-    command  = "modifyvm \"" + vm_name + "\" ";
-    command += "--nic1 nat ";
-    command += "--natdnsproxy1 on ";
-    command += "--cableconnected1 off ";
+    if (network_bridged_mode) {
+        fprintf(
+            stderr,
+            "%s Setting Network Configuration for Bridged Mode.\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf))
+        );
+        command  = "modifyvm \"" + vm_name + "\" ";
+        command += "--nic1 bridged ";
+        command += "--cableconnected1 off ";
 
-    retval = vbm_popen(command, output, "modifynetwork");
-    if (retval) return retval;
+        retval = vbm_popen(command, output, "set bridged mode");
+        if (retval) return retval;
+
+        get_default_network_interface(default_interface);
+        fprintf(
+            stderr,
+            "%s Setting Bridged Interface. (%s)\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf)),
+            default_interface.c_str()
+        );
+        command  = "modifyvm \"" + vm_name + "\" ";
+        command += "--bridgeadapter1 \"";
+        command += default_interface;
+        command += "\" ";
+
+        retval = vbm_popen(command, output, "set bridged interface");
+        if (retval) return retval;
+    } else {
+        fprintf(
+            stderr,
+            "%s Setting Network Configuration for NAT.\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf))
+        );
+        command  = "modifyvm \"" + vm_name + "\" ";
+        command += "--nic1 nat ";
+        command += "--natdnsproxy1 on ";
+        command += "--cableconnected1 off ";
+
+        retval = vbm_popen(command, output, "modifynetwork");
+        if (retval) return retval;
+    }
 
     // Tweak the VM's USB Configuration
     //
@@ -2058,6 +2088,45 @@ int VBOX_VM::get_slot_directory(string& dir) {
     return 0;
 }
 
+int VBOX_VM::get_default_network_interface(string& iface) {
+    string command;
+    string output;
+    size_t if_start;
+    size_t if_end;
+    int retval;
+
+    // Get the location of where the guest additions are
+    command = "list bridgedifs";
+    retval = vbm_popen(command, output, "default interface");
+
+    // Output should look like this:
+    // Name:            Intel(R) Ethernet Connection I217-V
+    // GUID:            4b8796d6-a4ed-4752-8e8e-bf23984fd93c
+    // DHCP:            Enabled
+    // IPAddress:       192.168.1.19
+    // NetworkMask:     255.255.255.0
+    // IPV6Address:     fe80:0000:0000:0000:31c2:0053:4f50:4e64
+    // IPV6NetworkMaskPrefixLength: 64
+    // HardwareAddress: bc:5f:f4:ba:cc:16
+    // MediumType:      Ethernet
+    // Status:          Up
+    // VBoxNetworkName: HostInterfaceNetworking-Intel(R) Ethernet Connection I217-V
+
+    if_start = output.find("Name:");
+    if (if_start == string::npos) {
+        return ERR_NOT_FOUND;
+    }
+    if_start += strlen("Name:");
+    if_end = output.find("\n", if_start);
+    iface = output.substr(if_start, if_end - if_start);
+    strip_whitespace(iface);
+    if (iface.size() <= 0) {
+        return ERR_NOT_FOUND;
+    }
+
+    return retval;
+}
+
 int VBOX_VM::get_vm_network_bytes_sent(double& sent) {
     string command;
     string output;
@@ -2395,14 +2464,6 @@ int VBOX_VM::set_network_access(bool enabled) {
 
         retval = vbm_popen(command, output, "enable network");
         if (retval) return retval;
-
-        if (bridged_mode) {
-            command  = "modifyvm \"" + vm_name + "\" ";
-            command += "--nic1 bridged";
-
-            retval = vbm_popen(command, output, "set bridged mode");
-            if (retval) return retval;
-        }
     } else {
         fprintf(
             stderr,

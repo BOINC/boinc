@@ -199,7 +199,7 @@ int parse_job_file(VBOX_VM& vm) {
         else if (xp.parse_string("fraction_done_filename", vm.fraction_done_filename)) continue;
         else if (xp.parse_bool("enable_cern_dataformat", vm.enable_cern_dataformat)) continue;
         else if (xp.parse_bool("enable_network", vm.enable_network)) continue;
-        else if (xp.parse_bool("bridged_mode", vm.bridged_mode)) continue;
+        else if (xp.parse_bool("network_bridged_mode", vm.network_bridged_mode)) continue;
         else if (xp.parse_bool("enable_shared_directory", vm.enable_shared_directory)) continue;
         else if (xp.parse_bool("enable_floppyio", vm.enable_floppyio)) continue;
         else if (xp.parse_bool("enable_cache_disk", vm.enable_cache_disk)) continue;
