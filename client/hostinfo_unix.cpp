@@ -153,17 +153,6 @@ mach_port_t gEventHandle = NULL;
 #define _SC_PAGESIZE _SC_PAGE_SIZE
 #endif
 
-#if HAVE_DPMS
-#include <X11/Xlib.h>
-#include <X11/extensions/dpms.h>
-#endif
-
-#if HAVE_XSS
-#include <X11/Xlib.h>
-#include <X11/extensions/scrnsaver.h>
-#endif
-
-
 // The following is intended to be true both on Linux
 // and Debian GNU/kFreeBSD (see trac #521)
 //
