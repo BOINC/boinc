@@ -15,12 +15,6 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// XIdleTime:
-// Copyright (C) 2011 Universidade Federal de Campina Grande
-// Initial version: Magnus Henoch
-// Contributors: Danny Kukawka, Eivind Magnus Hvidevold
-// LGPL Version of xidletime: https://github.com/rodrigods/xidletime
-
 // There is a reason that having a file called "cpp.h" that includes config.h
 // and some of the C++ header files is bad.  That reason is because there are
 // #defines that alter the behiour of the standard C and C++ headers.  In
@@ -1627,7 +1621,6 @@ vector<string> get_tty_list() {
     } while (tty_patterns[i].dir != NULL);
     return tty_list;
 }
-       
 
 inline bool all_tty_idle(time_t t) {
     static vector<string> tty_list;
@@ -1638,7 +1631,67 @@ inline bool all_tty_idle(time_t t) {
     for (i=0; i<tty_list.size(); i++) {
         // ignore errors
         if (!stat(tty_list[i].c_str(), &sbuf)) {
-            // printf("%s %d %d\n",tty_list[i].c_str(),sbuf.st_atime,t);
+            // printf("tty: %s %d %d\n",tty_list[i].c_str(),sbuf.st_atime,t);
+            if (sbuf.st_atime >= t) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+static const struct dir_dev {
+    const char *dir;
+    const char *dev;
+} input_patterns[] = {
+#ifdef unix
+    { "/dev/input","event" },
+    { "/dev/input","mouse" },
+    { "/dev/input/mice","" },
+#endif
+    // add other ifdefs here as necessary.
+    { NULL, NULL },
+};
+
+vector<string> get_input_list() {
+    // Create a list of all terminal devices on the system.
+    char devname[1024];
+    char fullname[1024];
+    int done,i=0;
+    vector<string> input_list;
+    
+    do {
+        DIRREF dev=dir_open(input_patterns[i].dir);
+        if (dev) {
+            do {
+                // get next file
+                done=dir_scan(devname,dev,1024);
+                // does it match our tty pattern? If so, add it to the tty list.
+                if (!done && (strstr(devname,input_patterns[i].dev) == devname)) {
+                    // don't add anything starting with .
+                    if (devname[0] != '.') {
+                        sprintf(fullname,"%s/%s",input_patterns[i].dir,devname);
+                        input_list.push_back(fullname);
+                    }
+                }
+            } while (!done);
+            dir_close(dev);
+        }
+        i++;
+    } while (input_patterns[i].dir != NULL);
+    return input_list;
+}
+
+inline bool all_input_idle(time_t t) {
+    static vector<string> input_list;
+    struct stat sbuf;
+    unsigned int i;
+
+    if (input_list.size()==0) input_list=get_input_list();
+    for (i=0; i<input_list.size(); i++) {
+        // ignore errors
+        if (!stat(input_list[i].c_str(), &sbuf)) {
+            // printf("input: %s %d %d\n",input_list[i].c_str(),sbuf.st_atime,t);
             if (sbuf.st_atime >= t) {
                 return false;
             }
@@ -1865,91 +1918,6 @@ bool interrupts_idle(time_t t) {
     }
     return last_irq < t;
 }
-
-#if HAVE_XSS
-// Ask the X server for user idle time (using XScreenSaver API)
-// Return true if the idle time exceeds idle_threshold.
-//
-bool xss_idle(long idle_threshold) {
-    static XScreenSaverInfo* xssInfo = NULL;
-    static Display* disp = NULL;
-    static bool error = false;
-        // some X call failed - always return not idle
-    
-    if (error) return false;
-
-    long idle_time = 0;
-    
-    if (disp == NULL) {
-        disp = XOpenDisplay(NULL);
-        // XOpenDisplay may return NULL if there is no running X
-        // or DISPLAY points to wrong/invalid display
-        //
-        if (disp == NULL) {
-            error = true;
-            return false;
-        }
-        int event_base_return, error_base_return;
-        xssInfo = XScreenSaverAllocInfo();
-        if (!XScreenSaverQueryExtension(
-            disp, &event_base_return, &error_base_return
-        )){
-            error = true;
-            return false;
-        }
-    }
-
-    XScreenSaverQueryInfo(disp, DefaultRootWindow(disp), xssInfo);
-    idle_time = xssInfo->idle;
-
-#if HAVE_DPMS
-    // XIdleTime Detection
-    // See header for location and copywrites.
-    //
-    int dummy;
-    CARD16 standby, suspend, off;
-    CARD16 state;
-    BOOL onoff;
-
-    if (DPMSQueryExtension(disp, &dummy, &dummy)) {
-        if (DPMSCapable(disp)) {
-            DPMSGetTimeouts(disp, &standby, &suspend, &off);
-            DPMSInfo(disp, &state, &onoff);
-
-            if (onoff) {
-                switch (state) {
-                case DPMSModeStandby:
-                    // this check is a littlebit paranoid, but be sure
-                    if (idle_time < (unsigned) (standby * 1000)) {
-                        idle_time += (standby * 1000);
-                    }
-                    break;
-                case DPMSModeSuspend:
-                    if (idle_time < (unsigned) ((suspend + standby) * 1000)) {
-                        idle_time += ((suspend + standby) * 1000);
-                    }
-                    break;
-                case DPMSModeOff:
-                    if (idle_time < (unsigned) ((off + suspend + standby) * 1000)) {
-                        idle_time += ((off + suspend + standby) * 1000);
-                    }
-                    break;
-                case DPMSModeOn:
-                default:
-                    break;
-                }
-            }
-        } 
-    }
-#endif
-
-    // convert from milliseconds to seconds
-    //
-    idle_time = idle_time / 1000;
-
-    return idle_threshold < idle_time;
-}
-#endif // HAVE_XSS
 #endif // LINUX_LIKE_SYSTEM
 
 bool HOST_INFO::users_idle(bool check_all_logins, double idle_time_to_run) {
@@ -1976,16 +1944,14 @@ bool HOST_INFO::users_idle(bool check_all_logins, double idle_time_to_run) {
     }
 
     // Lets at least check the dev entries which should be correct for
-    // USB mice.  The tty check will catch keyboards if they are entering
-    // data into a tty.
-    if (!device_idle(idle_time, "/dev/input/mice")) return false;
-
-#if HAVE_XSS
-    if (!xss_idle((long)(idle_time_to_run * 60))) {
+    // USB keyboards and mice.  If the linux kernel doc is correct it should
+    // also work for bluetooth input devices as well.
+    //
+    // See: https://www.kernel.org/doc/Documentation/input/input.txt
+    //
+    if (!all_input_idle(idle_time)) {
         return false;
     }
-#endif
-
 #else
     // We should find out which of the following are actually relevant
     // on which systems (if any)
