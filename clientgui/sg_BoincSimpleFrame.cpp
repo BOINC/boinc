@@ -933,7 +933,7 @@ void CSimpleGUIPanel::SetBackgroundBitmap() {
     dc.DrawBitmap(*pSkinSimple->GetBackgroundImage()->GetBitmap(), 0, 0, false);
 
 #ifdef __WXMSW__
-    if ((GetXDPIScaling() != 1.0) || (GetYDPIScaling() != 1.0)) {
+    if ((GetXDPIScaling() > 1.05) || (GetYDPIScaling() > 1.05)) {
         wxImage img = m_bmpBg.ConvertToImage();
         img.Rescale((int) (img.GetWidth()*GetXDPIScaling()), 
                     (int) (img.GetHeight()*GetYDPIScaling()), 
