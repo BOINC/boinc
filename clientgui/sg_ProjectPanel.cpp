@@ -55,8 +55,6 @@ static wxString tempArray[] = {_T("String1"), _T("String2"), _T("String3"), _T("
 static wxBitmap bmArray[3];
 #endif
 
-#define SIDEMARGINS 30
-
 CSimpleProjectPanel::CSimpleProjectPanel() {
 }
 
