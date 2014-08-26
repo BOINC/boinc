@@ -29,6 +29,7 @@
 #include "BOINCGUIApp.h"
 #include "BOINCBaseFrame.h"
 #include "SkinManager.h"
+#include "MainDocument.h"
 #include "version.h"
 
 
@@ -152,13 +153,36 @@ bool CSkinImage::SetDefaults(wxString strComponentName, const char** ppDefaultBi
 bool CSkinImage::Validate() {
     if (!m_bmpBitmap.Ok()) {
         if (!m_strDesiredBitmap.IsEmpty()) {
-            m_bmpBitmap = wxBitmap(wxImage(m_strDesiredBitmap, wxBITMAP_TYPE_ANY));
+            wxImage img = wxImage(m_strDesiredBitmap, wxBITMAP_TYPE_ANY);
+            if (img.IsOk()) {
+#ifdef __WXMSW__
+                if ((GetXDPIScaling() > 1.05) || (GetYDPIScaling() > 1.05)) {
+                    img.Rescale((int) (img.GetWidth()*GetXDPIScaling()), 
+                                (int) (img.GetHeight()*GetYDPIScaling()), 
+                                wxIMAGE_QUALITY_BILINEAR
+                            );
+                }
+#endif
+                m_bmpBitmap = wxBitmap(img);
+            }
         }
         if (!m_bmpBitmap.Ok()) {
             if (show_error_msgs) {
                 fprintf(stderr, "Skin Manager: Failed to load '%s' image. Using default.\n", (const char *)m_strComponentName.mb_str());
             }
             m_bmpBitmap = wxBitmap(m_ppDefaultBitmap);
+#ifdef __WXMSW__
+            if ((GetXDPIScaling() > 1.05) || (GetYDPIScaling() > 1.05)) {
+                wxImage img = m_bmpBitmap.ConvertToImage();
+                img.Rescale((int) (img.GetWidth()*GetXDPIScaling()), 
+                            (int) (img.GetHeight()*GetYDPIScaling()), 
+                            wxIMAGE_QUALITY_BILINEAR
+                        );
+                wxBitmap *bm = new wxBitmap(img);
+                m_bmpBitmap = *bm;
+                delete bm;
+            }
+#endif
             wxASSERT(m_bmpBitmap.Ok());
         }
     }
@@ -480,7 +504,18 @@ int CSkinAdvanced::Parse(MIOFILE& in) {
                     wxString(strBuffer.c_str(), wxConvUTF8)
                 );
                 if (boinc_file_exists(str.c_str())) {
-                    m_bitmapApplicationLogo = wxBitmap(wxImage(str.c_str(), wxBITMAP_TYPE_ANY));
+                    wxImage img = wxImage(str.c_str(), wxBITMAP_TYPE_ANY);
+                    if (img.IsOk()) {
+#ifdef __WXMSW__
+                        if ((GetXDPIScaling() > 1.05) || (GetYDPIScaling() > 1.05)) {
+                            img.Rescale((int) (img.GetWidth()*GetXDPIScaling()), 
+                                        (int) (img.GetHeight()*GetYDPIScaling()), 
+                                        wxIMAGE_QUALITY_BILINEAR
+                                    );
+                        }
+#endif
+                        m_bitmapApplicationLogo = wxBitmap(img);
+                    }
                 }
             }
             continue;
