@@ -121,8 +121,9 @@ CDlgAdvPreferences::CDlgAdvPreferences(wxWindow* parent) : CDlgAdvPreferencesBas
     }
 #endif
 
-    this->Layout();
+    Layout();
     Fit();
+    Centre();
 }
 
 /* destructor */
