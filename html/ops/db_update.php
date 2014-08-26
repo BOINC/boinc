@@ -941,6 +941,35 @@ function update_6_5_2014() {
     );
 }
 
+function update_8_15_2014() {
+    do_query(
+        "create table credit_user (
+            userid                  integer         not null,
+            appid                   integer         not null,
+            njobs                   integer         not null,
+            total                   double          not null,
+            expavg                  double          not null,
+            expavg_time             double          not null,
+            credit_type             integer         not null,
+            primary key (userid, appid, credit_type)
+            ) engine=InnoDB
+        "
+    );
+    do_query(
+        "create table credit_team (
+            teamid                  integer         not null,
+            appid                   integer         not null,
+            njobs                   integer         not null,
+            total                   double          not null,
+            expavg                  double          not null,
+            expavg_time             double          not null,
+            credit_type             integer         not null,
+            primary key (teamid, appid, credit_type)
+            ) engine=InnoDB
+        "
+    );
+}
+
 // Updates are done automatically if you use "upgrade".
 //
 // If you need to do updates manually,
@@ -983,6 +1012,7 @@ $db_updates = array (
     array(27008, "update_4_2_2014"),
     array(27009, "update_5_3_2014"),
     array(27010, "update_6_5_2014"),
+    array(27011, "update_8_15_2014"),
 );
 
 ?>

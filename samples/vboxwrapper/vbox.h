@@ -47,12 +47,24 @@
 class FloppyIO;
 
 // represents a VirtualBox Guest Log Timestamp
-class VBOX_TIMESTAMP {
-public:
+struct VBOX_TIMESTAMP {
     int hours;
     int minutes;
     int seconds;
     int milliseconds;
+};
+
+struct PORT_FORWARD {
+    int host_port;      // 0 means assign dynamically
+    int guest_port;
+    bool is_remote;
+
+    PORT_FORWARD() {
+        host_port = 0;
+        guest_port = 0;
+        is_remote = false;
+    }
+    int get_host_port();    // assign host port
 };
 
 // represents a VirtualBox VM
@@ -61,55 +73,54 @@ public:
     VBOX_VM();
     ~VBOX_VM();
 
-    // Virtualbox Home Directory
     std::string virtualbox_home_directory;
-    // Virtualbox Install Directory
     std::string virtualbox_install_directory;
-    // Virtualbox Version Information
+    std::string virtualbox_guest_additions;
     std::string virtualbox_version;
 
-    // Floppy IO abstraction
     FloppyIO* pFloppy;
 
-    // last polled copy of the log file
     std::string vm_log;
-    // last VM guest log entry detected
+        // last polled copy of the log file
     VBOX_TIMESTAMP vm_log_timestamp;
-    // unique name for the VM
+        // last VM guest log entry detected
     std::string vm_master_name;
-    // unique description for the VM
+        // unique name for the VM
     std::string vm_master_description;
-    // unique name for the VM or UUID of a stale VM if deregistering a stale VM
+        // unique description for the VM
     std::string vm_name;
-    // required CPU core count
+        // unique name for the VM or UUID of a stale VM if deregistering it
     std::string vm_cpu_count;
+        // required CPU core count
     std::string memory_size_mb;
         // size of the memory allocation for the VM, in megabytes
-    // name of the virtual machine disk image file
     std::string image_filename;
-    // name of the virtual machine floppy disk image file
+        // name of the virtual machine disk image file
+    std::string iso_image_filename;
+        // name of the virtual machine iso9660 disk image file
+    std::string cache_disk_filename;
+        // name of the virtual machine cache disk image file
     std::string floppy_image_filename;
-    // amount of CPU time consumed by the VM (note: use get_vm_cpu_time())
+        // name of the virtual machine floppy disk image file
     double current_cpu_time;
-    // is the VM suspended?
+        // amount of CPU time consumed by the VM (note: use get_vm_cpu_time())
     bool suspended;
-    // is network access temporarily suspended?
+        // is the VM suspended?
     bool network_suspended;
-    // is VM even online?
+        // is network access temporarily suspended?
     bool online;
-    // Is VM saving/restoring from checkpoint?
+        // is VM even online?
     bool saving;
+        // Is VM saving from checkpoint?
     bool restoring;
-    // Has the VM crashed?
+        // Is VM restoring from checkpoint?
     bool crashed;
-    // whether to use CERN specific data structures
-    bool enable_cern_dataformat;
-    // whether we were instructed to only register the VM.
-    // useful for debugging VMs.
+        // Has the VM crashed?
     bool register_only;
-    // the following for optional remote desktop
+        // whether we were instructed to only register the VM.
+        // useful for debugging VMs.
     int rd_host_port;
-        // dynamically assigned
+        // for optional remote desktop; dynamically assigned
     bool headless;
 
     /////////// THE FOLLOWING SPECIFIED IN VBOX_JOB.XML //////////////
@@ -121,8 +132,16 @@ public:
         // the type of disk controller to emulate
     std::string vm_disk_controller_model;
         // the disk controller model to emulate
+    bool enable_cern_dataformat;
+        // whether to use CERN specific data structures
+    bool enable_isocontextualization;
+        // whether to use an iso9660 image to implement VM contextualization (e.g. uCernVM)
+    bool enable_cache_disk;
+        // whether to add an extra cache disk for systems like uCernVM
     bool enable_network;
         // whether to allow network access
+    bool network_bridged_mode;
+        // use bridged mode for network
     bool enable_shared_directory;
         // whether to use shared directory infrastructure
     bool enable_floppyio;
@@ -134,13 +153,21 @@ public:
         // considering itself done.
     std::string fraction_done_filename;
         // name of file where app will write its fraction done
-    // the following for optional port forwarding
-    int pf_host_port;
-    int pf_guest_port;
+    int pf_guest_port;      // if nonzero, do port forwarding for Web GUI
+    int pf_host_port;       // AFAIK this isn't needed
+    std::vector<PORT_FORWARD> port_forwards;
     double minimum_checkpoint_interval;
         // minimum time between checkpoints
     std::vector<std::string> copy_to_shared;
+        // list of files to copy from slot dir to shared/
     std::vector<std::string> trickle_trigger_files;
+        // if find file of this name in shared/, send trickle-up message
+        // with variety = filename, contents = file contents
+    std::string completion_trigger_file;
+        // if find this file in shared/, task is over.
+        // File can optionally contain exit code (first line)
+        // and stderr text (subsequent lines).
+        // Addresses a problem where VM doesn't shut down properly
 
     /////////// END VBOX_JOB.XML ITEMS //////////////
 
@@ -160,6 +187,8 @@ public:
 #endif
 
     int initialize();
+    int parse_port_forward(XML_PARSER&);
+    void set_web_graphics_url();
     void poll(bool log_state = true);
 
     int create_vm();
@@ -167,7 +196,7 @@ public:
     int deregister_vm(bool delete_media);
     int deregister_stale_vm();
 
-    int run(bool restore_snapshot);
+    int run(bool do_restore_snapshot);
     void cleanup();
 
     int start();
@@ -175,12 +204,14 @@ public:
     int poweroff();
     int pause();
     int resume();
-    int createsnapshot(double elapsed_time);
-    int cleanupsnapshots(bool delete_active);
-    int restoresnapshot();
-    void dumphypervisorlogs(bool include_error_logs);
-    void dumphypervisorstatusreports();
-    void dumpvmguestlogentries();
+    void check_trickle_triggers();
+    void check_completion_trigger();
+    int create_snapshot(double elapsed_time);
+    int cleanup_snapshots(bool delete_active);
+    int restore_snapshot();
+    void dump_hypervisor_logs(bool include_error_logs);
+    void dump_hypervisor_status_reports();
+    void dump_vmguestlog_entries();
 
     int is_registered();
     bool is_system_ready(std::string& message);
@@ -196,9 +227,10 @@ public:
     bool is_virtualbox_error_recoverable(int retval);
 
     int get_install_directory(std::string& dir);
+    int get_version_information(std::string& version);
+    int get_guest_additions(std::string& dir);
     int get_slot_directory(std::string& dir);
-    int get_port_forwarding_port();
-    int get_remote_desktop_port();
+    int get_default_network_interface(std::string& iface);
     int get_vm_network_bytes_sent(double& sent);
     int get_vm_network_bytes_received(double& received);
     int get_vm_process_id();
@@ -236,8 +268,6 @@ public:
     void vbm_trace(
         std::string& command, std::string& ouput, int retval
     );
-
-    void check_trickle_triggers();
 };
 
 #endif

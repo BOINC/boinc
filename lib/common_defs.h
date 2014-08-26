@@ -213,6 +213,13 @@ enum BATTERY_STATE {
     // input/output files can be deleted,
     // result and workunit records can be purged.
 
+// credit types
+//
+#define CREDIT_TYPE_FLOPS           0
+#define CREDIT_TYPE_STORAGE         1
+#define CREDIT_TYPE_NETWORK         2
+#define CREDIT_TYPE_PROJECT         3
+
 struct TIME_STATS {
     double now;
         // the client's current time of day

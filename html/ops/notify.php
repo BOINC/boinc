@@ -69,31 +69,36 @@ function send_notify_emails() {
     $message = "";
     $i = 1;
     foreach ($notifies as $notify) {
-        if ($userid && $notify->userid != $userid) {
+        if ($userid && $notify->userid != $userid && strlen($message)) {
             send_notify_email($userid, $message);
             $message = "";
+            $found = false;
             $i = 1;
         }
         $userid = $notify->userid;
-        $message .= "$i) ";
+        $x = null;
         switch ($notify->type) {
         case NOTIFY_FRIEND_REQ:
-            $message .= friend_notify_req_email_line($notify);
+            $x = friend_notify_req_email_line($notify);
             break;
         case NOTIFY_FRIEND_ACCEPT:
-            $message .= friend_notify_accept_email_line($notify);
+            $x = friend_notify_accept_email_line($notify);
             break;
         case NOTIFY_PM:
-            $message .= pm_email_line($notify);
+            $x = pm_email_line($notify);
             break;
         case NOTIFY_SUBSCRIBED_POST:
-            $message .= subscribed_post_email_line($notify);
+            $x = subscribed_post_email_line($notify);
             break;
         }
-        $message .= "\n";
-        $i++;
+        if ($x) {
+            $message .= "$i) $x\n";
+            $i++;
+        } else {
+            $notify->delete();
+        }
     }
-    if ($userid) {
+    if ($userid && strlen($message)) {
         send_notify_email($userid, $message);
     }
 }

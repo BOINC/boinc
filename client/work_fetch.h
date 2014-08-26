@@ -240,6 +240,7 @@ struct RSC_WORK_FETCH {
     void print_state(const char*);
     void clear_request();
     void set_request(PROJECT*);
+    void copy_request(COPROC&);
     void set_request_excluded(PROJECT*);
     bool may_have_work(PROJECT*);
     int cant_fetch(PROJECT*);
@@ -311,6 +312,7 @@ struct WORK_FETCH {
     void clear_backoffs(APP_VERSION&);
     void request_string(char*);
     bool requested_work();
+    void copy_requests();
 };
 
 extern RSC_WORK_FETCH rsc_work_fetch[MAX_RSC];

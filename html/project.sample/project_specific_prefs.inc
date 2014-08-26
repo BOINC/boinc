@@ -12,10 +12,16 @@
 
 // Select standard prefs here:
 
-define ('COLOR_PREFS', false);
-define ('GFX_CPU_PREFS', true);
-define ('APP_SELECT_PREFS', true);
-$project_has_beta = false;
+define('COLOR_PREFS', false);
+    // user can select screensaver color scheme
+define('GFX_CPU_PREFS', false);
+    // user can limit % CPU used by screensaver
+    // (lower frame rate if exceeded)
+    // This is probably irrelevant if your screensaver uses OpenGL
+define('APP_SELECT_PREFS', true);
+    // user can choose which apps to run
+define('NON_GRAPHICAL_PREF', false);
+    // user can choose to run faster non-graphical app versions if available
 
 // Project-specific prefs are represented in three ways:
 // - as an XML document (stored in the DB in this form)
@@ -23,7 +29,7 @@ $project_has_beta = false;
 // - as a set of HTTP GET form variables
 
 // This file exports the following functions
-// (called from html/inc/prefs.inc):
+// (called from html/inc/prefs_project.inc):
 //
 // project_specific_prefs_default()
 //      Returns XML for default preferences
@@ -48,6 +54,7 @@ define('COLOR_DESC', tra('Color scheme for graphics'));
 define("MAX_GFX_CPU_PCT_DESC", tra("Maximum CPU % for graphics%10 ... 100%2", "<br><span class=note>", "</span>"));
 define('APP_SELECT_DESC', tra('Run only the selected applications'));
 define('ACCEPT_ANY_DESC', tra('If no work for selected applications is available, accept work from other applications?'));
+define('NON_GRAPHICAL_DESC', tra("Use faster non-graphical applications if available?"));
 
 // stuff related to app filtering.
 // Note: in this implementation, if a user selects all apps,
@@ -62,16 +69,6 @@ if (APP_SELECT_PREFS) {
     }
 } else {
     $app_array = null;
-}
-
-// see if we have any beta apps
-//
-$apps = BoincApp::enum("deprecated=0");
-foreach($apps as $app) {
-    if ($app->beta) {
-        $project_has_beta = true;
-        break;
-    }
 }
 
 function selected_app_text($prefs) {
@@ -137,6 +134,13 @@ function project_specific_prefs_edit($prefs, $error=false) {
         $checked = $prefs->allow_non_preferred_apps?"checked":"";
         row2(ACCEPT_ANY_DESC, "<input type=checkbox name=allow_non_preferred_apps $checked>");
     }
+    if (NON_GRAPHICAL_PREF) {
+        $checked = $prefs->non_graphical?"checked":"";
+        row2(
+            NON_GRAPHICAL_DESC,
+            "<input type=checkbox name=non_graphical $checked>"
+        );
+    }
 }
 
 function project_specific_prefs_parse_form(&$error) {
@@ -174,6 +178,12 @@ function project_specific_prefs_parse_form(&$error) {
         }
     }
 
+    if (NON_GRAPHICAL_PREF) {
+        if (isset($_GET["non_graphical"])) {
+            $x .= "<non_graphical>1</non_graphical>\n";
+        }
+    }
+
     return $x;
 }
 
@@ -194,6 +204,9 @@ function project_specific_prefs_show($prefs, $columns=false) {
             row_defs(APP_SELECT_DESC, "app_id_text", "", "", $prefs);
             row_defs(ACCEPT_ANY_DESC, "allow_non_preferred_apps_text", "", "", $prefs);
         }
+        if (NON_GRAPHICAL_PREF) {
+            row_defs(NON_GRAPHICAL_DESC, "non_graphical", "", "yesno", $prefs);
+        }
     } else {
         if (COLOR_PREFS) {
             row2(COLOR_DESC, $prefs->color_scheme);
@@ -204,6 +217,9 @@ function project_specific_prefs_show($prefs, $columns=false) {
         if (APP_SELECT_PREFS) {
             row2(APP_SELECT_DESC, selected_app_text($prefs));
             row2(ACCEPT_ANY_DESC, $prefs->allow_non_preferred_apps_text);
+        }
+        if (NON_GRAPHICAL_PREF) {
+            row2(NON_GRAPHICAL_DESC, $prefs->non_graphical?tra("yes"):tra("no"));
         }
     }
 }
@@ -226,6 +242,9 @@ function project_specific_prefs_parse($prefs_xml) {
         }
         $prefs->allow_non_preferred_apps = parse_element($prefs_xml, "<allow_non_preferred_apps>");
         $prefs->allow_non_preferred_apps_text = $prefs->allow_non_preferred_apps?"yes":"no";
+    }
+    if (NON_GRAPHICAL_PREF) {
+        $prefs->non_graphical = parse_bool($prefs_xml, "non_graphical");
     }
     return $prefs;
 }

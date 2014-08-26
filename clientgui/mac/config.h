@@ -214,6 +214,9 @@
 /* Define to 1 if you have the `strcasestr' function. */
 #define HAVE_STRCASESTR 1
 
+/* Define to 1 if you have the `strcasecmp' function. */
+#define HAVE_STRCASECMP 1
+
 /* Define to 1 if you have the `strtoull' function. */
 #define HAVE_STRTOULL 1
 

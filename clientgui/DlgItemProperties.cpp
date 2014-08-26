@@ -71,8 +71,6 @@ CDlgItemProperties::CDlgItemProperties(wxWindow* parent) :
     SetSizer( m_bSizer1 );
     Layout();
     
-    Centre( wxBOTH );
-
     m_current_row=0;
 
     int currentTabView = pFrame->GetCurrentViewPage();
@@ -106,59 +104,87 @@ bool CDlgItemProperties::SaveState() {
     pConfig->SetPath(m_strBaseConfigLocation);
     pConfig->Write(wxT("Width"), GetSize().GetWidth());
     pConfig->Write(wxT("Height"), GetSize().GetHeight());
-#ifdef __WXMAC__
     pConfig->Write(wxT("XPos"), GetPosition().x);
     pConfig->Write(wxT("YPos"), GetPosition().y);
-#endif
 
     pConfig->Flush();
     
     return true;
 }
 
-/* restores former dialog size and (on Mac) position */
+/* restores former dialog size and position */
 bool CDlgItemProperties::RestoreState() {
-    wxConfigBase*   pConfig = wxConfigBase::Get(FALSE);
-    int                iWidth, iHeight;
+    wxConfigBase* pConfig = wxConfigBase::Get(FALSE);
+    wxPoint oTempPoint;
+    wxSize  oTempSize;
 
     wxASSERT(pConfig);
     if (!pConfig) return false;
 
     pConfig->SetPath(m_strBaseConfigLocation);
 
-    pConfig->Read(wxT("Width"), &iWidth, wxDefaultCoord);
-    pConfig->Read(wxT("Height"), &iHeight, wxDefaultCoord);
+    pConfig->Read(wxT("YPos"), &oTempPoint.y, wxDefaultCoord);
+    pConfig->Read(wxT("XPos"), &oTempPoint.x, wxDefaultCoord);
+    pConfig->Read(wxT("Width"), &oTempSize.x, wxDefaultCoord);
+    pConfig->Read(wxT("Height"), &oTempSize.y, wxDefaultCoord);
 
     // Guard against a rare situation where registry values are zero
-    if ((iWidth < 50) && (iWidth != wxDefaultCoord)) iWidth = wxDefaultCoord;
-    if ((iHeight < 50) && (iHeight != wxDefaultCoord)) iHeight = wxDefaultCoord;
+    if ((oTempSize.x < 50) && (oTempSize.x != wxDefaultCoord)) oTempSize.x = wxDefaultCoord;
+    if ((oTempSize.y < 50) && (oTempSize.y != wxDefaultCoord)) oTempSize.y = wxDefaultCoord;
 
-#ifndef __WXMAC__
-    // Set size to saved values or defaults if no saved values
-    SetSize(iWidth, iHeight);    
-#else
-    int                iTop, iLeft;
-    
-    pConfig->Read(wxT("YPos"), &iTop, wxDefaultCoord);
-    pConfig->Read(wxT("XPos"), &iLeft, wxDefaultCoord);
-    
     // If either co-ordinate is less then 0 then set it equal to 0 to ensure
     // it displays on the screen.
-    if ((iLeft < 0) && (iLeft != wxDefaultCoord)) iLeft = 30;
-    if ((iTop < 0) && (iTop != wxDefaultCoord)) iTop = 30;
+    if ((oTempPoint.x < 0) && (oTempPoint.x != wxDefaultCoord)) oTempPoint.x = wxDefaultCoord;
+    if ((oTempPoint.y < 0) && (oTempPoint.y != wxDefaultCoord)) oTempPoint.y = wxDefaultCoord;
 
     // Set size and position to saved values or defaults if no saved values
-    SetSize(iLeft, iTop, iWidth, iHeight, wxSIZE_USE_EXISTING);
+    SetSize(oTempPoint.x, oTempPoint.y, oTempSize.x, oTempSize.y, wxSIZE_USE_EXISTING);
 
     // Now make sure window is on screen
-    GetScreenPosition(&iLeft, &iTop);
-    GetSize(&iWidth, &iHeight);
+    oTempPoint = GetScreenPosition();
+    oTempSize = GetSize();
 
-    if (!IsWindowOnScreen(iLeft, iTop, iWidth, iHeight)) {
-        iTop = iLeft = 30;
-        SetSize(iLeft, iTop, iWidth, iHeight, wxSIZE_USE_EXISTING);
-    }
+#ifdef __WXMSW__
+    // Get the current display space for the current window
+	int iDisplay = wxNOT_FOUND;
+	if ( wxGetApp().GetFrame() != NULL )
+        iDisplay = wxDisplay::GetFromWindow(this);
+	if ( iDisplay == wxNOT_FOUND )
+        iDisplay = 0;
+    wxDisplay *display = new wxDisplay(iDisplay);
+    wxRect rDisplay = display->GetClientArea();
+
+	// Check that the saved height and width is not larger than the displayable space.
+	// If it is, then reduce the size.
+    if ( oTempSize.GetWidth() > rDisplay.width ) oTempSize.SetWidth(rDisplay.width);
+    if ( oTempSize.GetHeight() > rDisplay.height ) oTempSize.SetHeight(rDisplay.height);
+
+    // Check if part of the display was going to be off the screen, if so, center the 
+    // display on that axis
+	if ( oTempPoint.x < rDisplay.x ) {
+		oTempPoint.x = rDisplay.x;
+	} else if ( oTempPoint.x + oTempSize.GetWidth() > rDisplay.x + rDisplay.width ) {
+		oTempPoint.x = rDisplay.x + rDisplay.width - oTempSize.GetWidth();
+	}
+
+	if ( oTempPoint.y < rDisplay.y ) {
+		oTempPoint.y = rDisplay.y;
+	} else if ( oTempPoint.y + oTempSize.GetHeight() > rDisplay.y + rDisplay.height ) {
+		oTempPoint.y = rDisplay.y + rDisplay.height - oTempSize.GetHeight();
+	}
+
+    delete display;
 #endif
+#ifdef __WXMAC__
+    // If the user has changed the arrangement of multiple 
+    // displays, make sure the window title bar is still on-screen.
+    if (!IsWindowOnScreen(oTempPoint.x, oTempPoint.y, oTempSize.GetWidth(), oTempSize.GetHeight())) {
+        oTempPoint.y = oTempPoint.x = 30;
+    }
+#endif  // ! __WXMAC__
+
+    // Set size and position to saved values or defaults if no saved values
+    SetSize(oTempPoint.x, oTempPoint.y, oTempSize.x, oTempSize.y, wxSIZE_USE_EXISTING);
 
     return true;
 }

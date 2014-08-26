@@ -201,6 +201,9 @@ struct USER {
         // is being verified.
     bool has_profile;
     char cross_project_id[256];
+        // the "internal" cross-project ID;
+        // the "external CPID" that  gets exported to stats sites
+        // is MD5(cpid, email)
     char passwd_hash[256];
     bool email_validated;           // deprecated
     int donated;
@@ -793,6 +796,29 @@ struct BADGE_TEAM {
     int team_id;
     double create_time;
     double reassign_time;
+    void clear();
+};
+
+struct CREDIT_USER {
+    int userid;
+    int appid;
+        // need not be an app ID
+    int njobs;
+    double total;
+    double expavg;
+    double expavg_time;
+    int credit_type;
+    void clear();
+};
+
+struct CREDIT_TEAM {
+    int teamid;
+    int appid;
+    int njobs;
+    double total;
+    double expavg;
+    double expavg_time;
+    int credit_type;
     void clear();
 };
 

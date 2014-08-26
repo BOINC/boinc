@@ -19,6 +19,7 @@
 require_once("../inc/credit.inc");
 require_once("../inc/stats_sites.inc");
 require_once("../inc/boinc_db.inc");
+require_once("../inc/user.inc");
 
 function link_to_results($host) {
     if (!$host) return tra("No host");
@@ -305,9 +306,14 @@ function gpu_desc($x) {
 function boinc_version($x) {
     $y = strstr($x, 'BOINC');
     if (!$y) return '';
-    $y = substr($y, 6);
     $z = explode("]", $y, 2);
-    return $z[0];
+    $a = explode('|', $z[0]);
+    $v = $a[1];
+    if (array_key_exists(2, $a)) {
+        $brand = $a[2];
+        $v .= " ($brand)";
+    }
+    return $v;
 }
 
 function cpu_desc($host) {

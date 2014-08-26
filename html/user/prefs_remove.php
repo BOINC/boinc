@@ -18,6 +18,7 @@
 
 include_once("../inc/util.inc");
 include_once("../inc/prefs.inc");
+include_once("../inc/prefs_project.inc");
 
 check_get_args(array("subset", "venue", "confirmed", "cols", "tnow", "ttok"));
 

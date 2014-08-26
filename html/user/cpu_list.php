@@ -22,7 +22,7 @@ require_once("../inc/boinc_db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/cache.inc");
 
-define("MIN_CREDIT", 100);
+define("MIN_CREDIT", 10);
 define("MIN_COUNT", 10);
 
 function compare($a, $b) {
@@ -67,7 +67,10 @@ function get_cpu_list() {
     }
 
     uasort($m2, 'compare');
-    return $m2;
+    $x = new StdClass;
+    $x->cpus = $m2;
+    $x->time = time();
+    return $x;
     foreach ($m2 as $x) {
         $g = $x->p_fpops/1e9;
         echo "$x->model: $g gflops $x->mean_ncores cores $x->nhosts hosts \n";
@@ -87,7 +90,7 @@ function show_cpu_list($data) {
     $i = 0;
     $total_nhosts = 0;
     $total_gflops = 0;
-    foreach ($data as $d) {
+    foreach ($data->cpus as $d) {
         row_array(
             array(
                 $d->model, $d->nhosts,
@@ -106,6 +109,7 @@ function show_cpu_list($data) {
         "row$i"
     );
     end_table();
+    echo "Generated ".time_str($data->time);
     page_tail();
 }
 

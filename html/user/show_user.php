@@ -96,7 +96,7 @@ if ($format=="xml"){
     show_other_projects($user, false);
     echo "</td><td valign=top>";
     start_table();
-    show_badges(true, $user);
+    show_badges_row(true, $user);
     if (!DISABLE_PROFILES) {
         show_profile_link($user);
     }

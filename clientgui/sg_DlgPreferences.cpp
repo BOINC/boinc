@@ -263,7 +263,7 @@ void CPanelPreferences::CreateControls()
     itemDialog1->SetSizer(itemBoxSizer2);
 
     wxFlexGridSizer* itemFlexGridSizer3 = new wxFlexGridSizer(1, 0, 0);
-    itemBoxSizer2->Add(itemFlexGridSizer3, 0, wxGROW|wxALL, 5);
+    itemBoxSizer2->Add(itemFlexGridSizer3, 0, wxGROW|wxALL, ADJUSTFORXDPI(5));
 
     CTransparentStaticText* itemStaticText4 = new CTransparentStaticText( itemDialog1, wxID_ANY, _("This dialog controls preferences for this computer only."), wxDefaultPosition, wxDefaultSize, 0 );
     
@@ -280,7 +280,7 @@ void CPanelPreferences::CreateControls()
 //    itemStaticText6->SetFont(wxFont(MEDIUM_FONT, wxSWISS, wxNORMAL, wxBOLD, false, _T("Arial")));
     itemFlexGridSizer3->Add(itemStaticText6, 0, wxALL, 0);
 
-    itemFlexGridSizer3->AddSpacer(10);
+    itemFlexGridSizer3->AddSpacer(ADJUSTFORYDPI(10));
     
     CTransparentStaticText* itemStaticText7 = new CTransparentStaticText( itemDialog1, wxID_ANY, _("For additional settings, select Computing Preferences in the Advanced View."), wxDefaultPosition, wxDefaultSize, 0 );
     
@@ -289,14 +289,14 @@ void CPanelPreferences::CreateControls()
 
     CTransparentStaticLine* itemStaticLine8 = new CTransparentStaticLine( itemDialog1, wxID_ANY, wxDefaultPosition, wxSize(300, 1), wxLI_HORIZONTAL|wxNO_BORDER );
     itemStaticLine8->SetLineColor(pSkinSimple->GetStaticLineColor());
-    itemBoxSizer2->Add(itemStaticLine8, 0, wxALIGN_CENTER_HORIZONTAL|wxLEFT|wxRIGHT, 20);
+    itemBoxSizer2->Add(itemStaticLine8, 0, wxALIGN_CENTER_HORIZONTAL|wxLEFT|wxRIGHT, ADJUSTFORXDPI(20));
 
     wxFlexGridSizer* itemFlexGridSizer9 = new wxFlexGridSizer(1, 1, 0, 0);
     itemFlexGridSizer9->AddGrowableCol(0);
-    itemBoxSizer2->Add(itemFlexGridSizer9, 0, wxGROW|wxALL, 5);
+    itemBoxSizer2->Add(itemFlexGridSizer9, 0, wxGROW|wxALL, ADJUSTFORXDPI(5));
 
     wxBoxSizer* itemBoxSizer11 = new wxBoxSizer(wxVERTICAL);
-    itemBoxSizer2->Add(itemBoxSizer11, 0, wxALIGN_CENTER_HORIZONTAL|wxLEFT, 20);
+    itemBoxSizer2->Add(itemBoxSizer11, 0, wxALIGN_CENTER_HORIZONTAL|wxLEFT, ADJUSTFORXDPI(20));
 
     wxFlexGridSizer* itemFlexGridSizer15 = new wxFlexGridSizer(7, 2, 0, 0);
     itemFlexGridSizer15->AddGrowableRow(0);
@@ -313,7 +313,7 @@ void CPanelPreferences::CreateControls()
     CTransparentStaticText* itemStaticText16 = new CTransparentStaticText( itemDialog1, wxID_ANY, _("Do work only between:"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
     itemStaticText16->SetFont(wxFont(SMALL_FONT, wxSWISS, wxNORMAL, wxNORMAL, false, _T("Arial")));
     itemStaticText16->Wrap(250);
-    itemFlexGridSizer15->Add(itemStaticText16, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 5);
+    itemFlexGridSizer15->Add(itemStaticText16, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, ADJUSTFORXDPI(5));
 
     wxBoxSizer* itemBoxSizer17 = new wxBoxSizer(wxHORIZONTAL);
     itemFlexGridSizer15->Add(itemBoxSizer17, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 0);
@@ -321,21 +321,21 @@ void CPanelPreferences::CreateControls()
     wxString* m_WorkBetweenBeginCtrlStrings = NULL;
     m_WorkBetweenBeginCtrl = new wxComboBox( itemDialog1, ID_WORKBETWEENBEGIN, _T(""), wxDefaultPosition, wxDefaultSize, 0, m_WorkBetweenBeginCtrlStrings, wxCB_READONLY );
     m_WorkBetweenBeginCtrl->Enable(false);
-    itemBoxSizer17->Add(m_WorkBetweenBeginCtrl, 0, wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM, 5);
+    itemBoxSizer17->Add(m_WorkBetweenBeginCtrl, 0, wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM, ADJUSTFORXDPI(5));
 
     CTransparentStaticText* itemStaticText19 = new CTransparentStaticText( itemDialog1, wxID_ANY, _("and"), wxDefaultPosition, wxDefaultSize, 0 );
     itemStaticText19->SetFont(wxFont(SMALL_FONT, wxSWISS, wxNORMAL, wxNORMAL, false, _T("Arial")));
-    itemBoxSizer17->Add(itemStaticText19, 0, wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 5);
+    itemBoxSizer17->Add(itemStaticText19, 0, wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, ADJUSTFORXDPI(5));
 
     wxString* m_WorkBetweenEndCtrlStrings = NULL;
     m_WorkBetweenEndCtrl = new wxComboBox( itemDialog1, ID_WORKBETWEENEND, _T(""), wxDefaultPosition, wxDefaultSize, 0, m_WorkBetweenEndCtrlStrings, wxCB_READONLY );
     m_WorkBetweenEndCtrl->Enable(false);
-    itemBoxSizer17->Add(m_WorkBetweenEndCtrl, 0, wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM, 5);
+    itemBoxSizer17->Add(m_WorkBetweenEndCtrl, 0, wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM, ADJUSTFORXDPI(5));
 
     CTransparentStaticText* itemStaticText21 = new CTransparentStaticText( itemDialog1, wxID_ANY, _("Connect to internet only between:"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
     itemStaticText21->SetFont(wxFont(SMALL_FONT, wxSWISS, wxNORMAL, wxNORMAL, false, _T("Arial")));
     itemStaticText21->Wrap(250);
-    itemFlexGridSizer15->Add(itemStaticText21, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 5);
+    itemFlexGridSizer15->Add(itemStaticText21, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, ADJUSTFORXDPI(5));
 
     wxBoxSizer* itemBoxSizer22 = new wxBoxSizer(wxHORIZONTAL);
     itemFlexGridSizer15->Add(itemBoxSizer22, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 0);
@@ -343,21 +343,21 @@ void CPanelPreferences::CreateControls()
     wxString* m_ConnectBetweenBeginCtrlStrings = NULL;
     m_ConnectBetweenBeginCtrl = new wxComboBox( itemDialog1, ID_CONNECTBETWEENBEGIN, _T(""), wxDefaultPosition, wxDefaultSize, 0, m_ConnectBetweenBeginCtrlStrings, wxCB_READONLY );
     m_ConnectBetweenBeginCtrl->Enable(false);
-    itemBoxSizer22->Add(m_ConnectBetweenBeginCtrl, 0, wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM, 5);
+    itemBoxSizer22->Add(m_ConnectBetweenBeginCtrl, 0, wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM, ADJUSTFORXDPI(5));
 
     CTransparentStaticText* itemStaticText24 = new CTransparentStaticText( itemDialog1, wxID_ANY, _("and"), wxDefaultPosition, wxDefaultSize, 0 );
     itemStaticText24->SetFont(wxFont(SMALL_FONT, wxSWISS, wxNORMAL, wxNORMAL, false, _T("Arial")));
-    itemBoxSizer22->Add(itemStaticText24, 0, wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 5);
+    itemBoxSizer22->Add(itemStaticText24, 0, wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, ADJUSTFORXDPI(5));
 
     wxString* m_ConnectBetweenEndCtrlStrings = NULL;
     m_ConnectBetweenEndCtrl = new wxComboBox( itemDialog1, ID_CONNECTBETWEENEND, _T(""), wxDefaultPosition, wxDefaultSize, 0, m_ConnectBetweenEndCtrlStrings, wxCB_READONLY );
     m_ConnectBetweenEndCtrl->Enable(false);
-    itemBoxSizer22->Add(m_ConnectBetweenEndCtrl, 0, wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM, 5);
+    itemBoxSizer22->Add(m_ConnectBetweenEndCtrl, 0, wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM, ADJUSTFORXDPI(5));
 
     CTransparentStaticText* itemStaticText26 = new CTransparentStaticText( itemDialog1, wxID_ANY, _("Use no more than:"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
     itemStaticText26->SetFont(wxFont(SMALL_FONT, wxSWISS, wxNORMAL, wxNORMAL, false, _T("Arial")));
     itemStaticText26->Wrap(250);
-    itemFlexGridSizer15->Add(itemStaticText26, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 5);
+    itemFlexGridSizer15->Add(itemStaticText26, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, ADJUSTFORXDPI(5));
 
     wxBoxSizer* itemBoxSizer27 = new wxBoxSizer(wxHORIZONTAL);
     itemFlexGridSizer15->Add(itemBoxSizer27, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 0);
@@ -365,16 +365,16 @@ void CPanelPreferences::CreateControls()
     wxString* m_MaxDiskUsageCtrlStrings = NULL;
     m_MaxDiskUsageCtrl = new wxComboBox( itemDialog1, ID_MAXDISKUSAGE, _T(""), wxDefaultPosition, wxSize(-1, -1), 0, m_MaxDiskUsageCtrlStrings, wxCB_READONLY );
     m_MaxDiskUsageCtrl->Enable(false);
-    itemBoxSizer27->Add(m_MaxDiskUsageCtrl, 0, wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM, 5);
+    itemBoxSizer27->Add(m_MaxDiskUsageCtrl, 0, wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM, ADJUSTFORXDPI(5));
 
     CTransparentStaticText* itemStaticText29 = new CTransparentStaticText( itemDialog1, wxID_ANY, _("of disk space"), wxDefaultPosition, wxDefaultSize, 0 );
     itemStaticText29->SetFont(wxFont(SMALL_FONT, wxSWISS, wxNORMAL, wxNORMAL, false, _T("Arial")));
-    itemBoxSizer27->Add(itemStaticText29, 0, wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 5);
+    itemBoxSizer27->Add(itemStaticText29, 0, wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, ADJUSTFORXDPI(5));
 
     CTransparentStaticText* itemStaticText30 = new CTransparentStaticText( itemDialog1, wxID_ANY, _("Use no more than:"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
     itemStaticText30->SetFont(wxFont(SMALL_FONT, wxSWISS, wxNORMAL, wxNORMAL, false, _T("Arial")));
     itemStaticText30->Wrap(250);
-    itemFlexGridSizer15->Add(itemStaticText30, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 5);
+    itemFlexGridSizer15->Add(itemStaticText30, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, ADJUSTFORXDPI(5));
 
     wxBoxSizer* itemBoxSizer31 = new wxBoxSizer(wxHORIZONTAL);
     itemFlexGridSizer15->Add(itemBoxSizer31, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 0);
@@ -382,16 +382,16 @@ void CPanelPreferences::CreateControls()
     wxString* m_MaxCPUUsageCtrlStrings = NULL;
     m_MaxCPUUsageCtrl = new wxComboBox( itemDialog1, ID_MAXCPUUSAGE, _T(""), wxDefaultPosition, wxDefaultSize, 0, m_MaxCPUUsageCtrlStrings, wxCB_READONLY );
     m_MaxCPUUsageCtrl->Enable(false);
-    itemBoxSizer31->Add(m_MaxCPUUsageCtrl, 0, wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM, 5);
+    itemBoxSizer31->Add(m_MaxCPUUsageCtrl, 0, wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM, ADJUSTFORXDPI(5));
 
     CTransparentStaticText* itemStaticText33 = new CTransparentStaticText( itemDialog1, wxID_ANY, _("of the processor"), wxDefaultPosition, wxDefaultSize, 0 );
     itemStaticText33->SetFont(wxFont(SMALL_FONT, wxSWISS, wxNORMAL, wxNORMAL, false, _T("Arial")));
-    itemBoxSizer31->Add(itemStaticText33, 0, wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 5);
+    itemBoxSizer31->Add(itemStaticText33, 0, wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, ADJUSTFORXDPI(5));
 
     CTransparentStaticText* itemStaticText37 = new CTransparentStaticText( itemDialog1, wxID_ANY, _("Do work while on battery?"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
     itemStaticText37->SetFont(wxFont(SMALL_FONT, wxSWISS, wxNORMAL, wxNORMAL, false, _T("Arial")));
     itemStaticText37->Wrap(250);
-    itemFlexGridSizer15->Add(itemStaticText37, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 5);
+    itemFlexGridSizer15->Add(itemStaticText37, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, ADJUSTFORXDPI(5));
 
     wxBoxSizer* itemBoxSizer38 = new wxBoxSizer(wxHORIZONTAL);
     itemFlexGridSizer15->Add(itemBoxSizer38, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 0);
@@ -399,12 +399,12 @@ void CPanelPreferences::CreateControls()
     m_WorkWhileOnBatteryCtrl = new wxCheckBox( itemDialog1, ID_WORKWHILEONBATTERY, _T(""), wxDefaultPosition, wxDefaultSize, wxCHK_2STATE );
     m_WorkWhileOnBatteryCtrl->SetValue(false);
     m_WorkWhileOnBatteryCtrl->Enable(false);
-    itemBoxSizer38->Add(m_WorkWhileOnBatteryCtrl, 0, wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM, 5);
+    itemBoxSizer38->Add(m_WorkWhileOnBatteryCtrl, 0, wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM, ADJUSTFORXDPI(5));
 
     CTransparentStaticText* itemStaticText40 = new CTransparentStaticText( itemDialog1, wxID_ANY, _("Do work after idle for:"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
     itemStaticText40->SetFont(wxFont(SMALL_FONT, wxSWISS, wxNORMAL, wxNORMAL, false, _T("Arial")));
     itemStaticText40->Wrap(250);
-    itemFlexGridSizer15->Add(itemStaticText40, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 5);
+    itemFlexGridSizer15->Add(itemStaticText40, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, ADJUSTFORXDPI(5));
 
     wxBoxSizer* itemBoxSizer41 = new wxBoxSizer(wxHORIZONTAL);
     itemFlexGridSizer15->Add(itemBoxSizer41, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 0);
@@ -412,26 +412,26 @@ void CPanelPreferences::CreateControls()
     wxString* m_WorkWhenIdleCtrlStrings = NULL;
     m_WorkWhenIdleCtrl = new wxComboBox( itemDialog1, ID_WORKWHENIDLE, _T(""), wxDefaultPosition, wxSize(-1, -1), 0, m_WorkWhenIdleCtrlStrings, wxCB_READONLY );
     m_WorkWhenIdleCtrl->Enable(false);
-    itemBoxSizer41->Add(m_WorkWhenIdleCtrl, 0, wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM, 5);
+    itemBoxSizer41->Add(m_WorkWhenIdleCtrl, 0, wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM, ADJUSTFORXDPI(5));
 
     CTransparentStaticText* itemStaticText43 = new CTransparentStaticText( itemDialog1, wxID_ANY, _("minutes"), wxDefaultPosition, wxDefaultSize, 0 );
     itemStaticText43->SetFont(wxFont(SMALL_FONT, wxSWISS, wxNORMAL, wxNORMAL, false, _T("Arial")));
-    itemBoxSizer41->Add(itemStaticText43, 0, wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, 5);
+    itemBoxSizer41->Add(itemStaticText43, 0, wxALIGN_CENTER_VERTICAL|wxALL|wxADJUST_MINSIZE, ADJUSTFORXDPI(5));
 
     wxBoxSizer* itemBoxSizer44 = new wxBoxSizer(wxHORIZONTAL);
-    itemBoxSizer2->Add(itemBoxSizer44, 0, wxALIGN_RIGHT|wxALL, 5);
+    itemBoxSizer2->Add(itemBoxSizer44, 0, wxALIGN_RIGHT|wxALL, ADJUSTFORXDPI(5));
 
     wxButton* itemButton44 = new wxButton( itemDialog1, wxID_OK, _("OK"), wxDefaultPosition, wxDefaultSize, 0 );
 
-    itemBoxSizer44->Add(itemButton44, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    itemBoxSizer44->Add(itemButton44, 0, wxALIGN_CENTER_VERTICAL|wxALL, ADJUSTFORXDPI(5));
 
     m_btnClear = new wxButton( this, ID_SGPREFERENCESCLEAR, _("Clear"), wxDefaultPosition, wxDefaultSize, 0 );
     m_btnClear->SetToolTip( _("Clear all local preferences listed above and close the dialog") );
 
-    itemBoxSizer44->Add(m_btnClear, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    itemBoxSizer44->Add(m_btnClear, 0, wxALIGN_CENTER_VERTICAL|wxALL, ADJUSTFORXDPI(5));
     
     wxButton* itemButton45 = new wxButton( itemDialog1, wxID_CANCEL, _("Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer44->Add(itemButton45, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    itemBoxSizer44->Add(itemButton45, 0, wxALIGN_CENTER_VERTICAL|wxALL, ADJUSTFORXDPI(5));
     
 
 #ifndef __WXMSW__
@@ -445,7 +445,7 @@ void CPanelPreferences::CreateControls()
 #else
     wxContextHelpButton* itemButton46 = new wxContextHelpButton(this);
 #endif
-    itemBoxSizer44->Add(itemButton46, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+    itemBoxSizer44->Add(itemButton46, 0, wxALIGN_CENTER_VERTICAL|wxALL, ADJUSTFORXDPI(5));
 #endif
 
     // Set validators

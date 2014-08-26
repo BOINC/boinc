@@ -32,6 +32,7 @@ $items_per_page = 20;
 
 $user = BoincUser::lookup_id($userid);
 $logged_in_user = get_logged_in_user(false);
+BoincForumPrefs::lookup($logged_in_user);
 
 // Policy for what to show:
 // Team message board posts:
@@ -54,7 +55,6 @@ if ($logged_in_user) {
     if ($user->id == $logged_in_user->id) {
         $show_all = true;
     } else {
-        BoincForumPrefs::lookup($logged_in_user);
         if ($logged_in_user->prefs->privilege(0)) {
             $show_hidden = true;
         }

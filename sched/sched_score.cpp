@@ -174,8 +174,7 @@ void send_work_score_type(int rt) {
 
     clear_others(rt);
 
-    int nscan = config.mm_max_slots;
-    if (!nscan) nscan = ssp->max_wu_results;
+    int nscan = ssp->max_wu_results;
     int rnd_off = rand() % ssp->max_wu_results;
     if (config.debug_send_scan) {
         log_messages.printf(MSG_NORMAL,

@@ -19,6 +19,7 @@
 include_once("../inc/db.inc");
 include_once("../inc/util.inc");
 include_once("../inc/prefs.inc");
+include_once("../inc/prefs_project.inc");
 
 $user = get_logged_in_user();
 

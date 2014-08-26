@@ -56,6 +56,7 @@ void usage() {
         "   [ --config_dir path ]\n"
         "   [ -d n ]\n"
         "   [ --delay_bound x ]\n"
+        "   [ --hr_class n ]\n"
         "   [ --max_error_results n ]\n"
         "   [ --max_success_results n ]\n"
         "   [ --max_total_results n ]\n"
@@ -86,6 +87,15 @@ bool arg(char** argv, int i, const char* name) {
     sprintf(buf, "--%s", name);
     if (!strcmp(argv[i], buf)) return true;
     return false;
+}
+
+void check_assign_id(int x) {
+    if (x == 0) {
+        fprintf(stderr,
+            "you must specify a nonzero database ID for assigning jobs to users, teams, or hosts.\n"
+        );
+        exit(1);
+    }
 }
 
 struct JOB_DESC {
@@ -145,6 +155,16 @@ void JOB_DESC::parse_cmdline(int argc, char** argv) {
             id.nbytes = atof(argv[++i]);
             strcpy(id.md5, argv[++i]);
             infiles.push_back(id);
+        } else if (arg(argv, i, "target_host")) {
+            assign_flag = true;
+            assign_type = ASSIGN_HOST;
+            assign_id = atoi(argv[++i]);
+            check_assign_id(assign_id);
+        } else if (arg(argv, i, "target_user")) {
+            assign_flag = true;
+            assign_type = ASSIGN_USER;
+            assign_id = atoi(argv[++i]);
+            check_assign_id(assign_id);
         } else {
             if (!strncmp("-", argv[i], 1)) {
                 fprintf(stderr, "create_work: bad stdin argument '%s'\n", argv[i]);
@@ -155,15 +175,6 @@ void JOB_DESC::parse_cmdline(int argc, char** argv) {
             strcpy(id.name, argv[i]);
             infiles.push_back(id);
         }
-    }
-}
-
-void check_assign_id(int x) {
-    if (x == 0) {
-        fprintf(stderr,
-            "you must specify a nonzero database ID for assigning jobs to users, teams, or hosts.\n"
-        );
-        exit(1);
     }
 }
 
@@ -217,6 +228,8 @@ int main(int argc, char** argv) {
             jd.wu.rsc_disk_bound = atof(argv[++i]);
         } else if (arg(argv, i, "delay_bound")) {
             jd.wu.delay_bound = atoi(argv[++i]);
+        } else if (arg(argv, i, "hr_class")) {
+            jd.wu.hr_class = atoi(argv[++i]);
         } else if (arg(argv, i, "min_quorum")) {
             jd.wu.min_quorum = atoi(argv[++i]);
         } else if (arg(argv, i, "target_nresults")) {
@@ -379,6 +392,16 @@ int main(int argc, char** argv) {
                 if (!strlen(jd2.wu.name)) {
                     sprintf(jd2.wu.name, "%s_%d", jd.wu.name, j);
                 }
+                // if the stdin line specified assignment,
+                // create the job individually
+                //
+                if (jd2.assign_flag) {
+                    jd2.create();
+                    continue;
+                }
+                // otherwise accumulate a SQL query so that we can
+                // create jobs en masse
+                //
                 retval = create_work2(
                     jd2.wu,
                     jd2.wu_template,

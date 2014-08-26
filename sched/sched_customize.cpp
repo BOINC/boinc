@@ -37,10 +37,6 @@
 // app_plan_uses_gpu():
 //      Which plan classes use GPUs
 //
-// JOB::get_score():
-//      Determine the value of sending a particular job to host;
-//      (used only by "matchmaker" scheduling)
-//
 // WARNING: if you modify this file, you must prevent it from
 // being overwritten the next time you update BOINC source code.
 // You can either:
@@ -98,7 +94,7 @@ using std::string;
 
 GPU_REQUIREMENTS gpu_requirements[NPROC_TYPES];
 
-bool wu_is_infeasible_custom(WORKUNIT& /*wu*/, APP& /*app*/, BEST_APP_VERSION& /*bav*/) {
+bool wu_is_infeasible_custom(WORKUNIT& wu, APP& app, BEST_APP_VERSION& bav) {
 #if 0
     // example: if WU name contains "_v1", don't use GPU apps.
     // Note: this is slightly suboptimal.
@@ -126,7 +122,6 @@ bool wu_is_infeasible_custom(WORKUNIT& /*wu*/, APP& /*app*/, BEST_APP_VERSION& /
     bool infeasible=false;
     static bool send_vlar_to_gpu=false;
     static bool sah_config_checked=false;
-    char buff[256];
 
     // check the projects app config whether to send vlar wus to gpus 
     if (!sah_config_checked) {

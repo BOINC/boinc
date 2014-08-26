@@ -94,7 +94,7 @@ static int result_timed_out(
         log_messages.printf(MSG_NORMAL,
             "result_timed_out(): hav_lookup failed: %s\n", boincerror(retval)
         );
-        return retval;
+        return 0;
     }
     hav.turnaround.update_var(
         (double)wu_item.delay_bound,

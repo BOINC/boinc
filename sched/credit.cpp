@@ -124,6 +124,68 @@ int grant_credit(DB_HOST &host, double start_time, double credit) {
     return 0;
 }
 
+int grant_credit_by_app(RESULT& result, double credit) {
+    DB_CREDIT_USER cu;
+    char clause1[1024], clause2[1024];
+    double now = dtime();
+
+    sprintf(clause1, "where userid=%d and appid=%d", result.userid, result.appid);
+    int retval = cu.lookup(clause1);
+    if (retval) {
+        cu.clear();
+        cu.userid = result.userid;
+        cu.appid = result.appid;
+        cu.expavg_time = dtime();
+        retval = cu.insert();
+        if (retval) return retval;
+    }
+    update_average(
+        now,
+        result.sent_time,
+        credit, CREDIT_HALF_LIFE,
+        cu.expavg, cu.expavg_time
+    );
+    sprintf(clause1,
+        "total=total+%.15e, expavg=%.15e, expavg_time=%.15e, njobs=njobs+1",
+        credit, cu.expavg, cu.expavg_time
+    );
+    sprintf(clause2,
+        "userid=%d and appid=%d", result.userid, result.appid
+    );
+    retval = cu.update_fields_noid(clause1, clause2);
+    if (retval) return retval;
+
+    // team.  keep track of credit for zero (no team) also
+    //
+    DB_CREDIT_TEAM ct;
+    sprintf(clause1, "where teamid=%d and appid=%d", result.teamid, result.appid);
+    retval = ct.lookup(clause1);
+    if (retval) {
+        ct.clear();
+        ct.teamid = result.teamid;
+        ct.appid = result.appid;
+        ct.expavg_time = dtime();
+        retval = ct.insert();
+        if (retval) return retval;
+    }
+    update_average(
+        now,
+        result.sent_time,
+        credit, CREDIT_HALF_LIFE,
+        ct.expavg, ct.expavg_time
+    );
+    sprintf(clause1,
+        "total=total+%.15e, expavg=%.15e, expavg_time=%.15e, njobs=njobs+1",
+        credit, ct.expavg, ct.expavg_time
+    );
+    sprintf(clause2,
+        "teamid=%d and appid=%d", result.teamid, result.appid
+    );
+    retval = ct.update_fields_noid(clause1, clause2);
+    if (retval) return retval;
+    return 0;
+}
+
 ///////////////////// V2 CREDIT STUFF STARTS HERE ///////////////////
 
 // levels of confidence in a credit value

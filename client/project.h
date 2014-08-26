@@ -95,6 +95,9 @@ struct PROJECT : PROJ_AM {
     char team_name[256];
     char email_hash[MD5_LEN];
     char cross_project_id[MD5_LEN];
+        // the "internal" user CPID
+    char external_cpid[MD5_LEN];
+        // the "external" user CPID (as exported to stats sites)
     double cpid_time;
     double user_total_credit;
     double user_expavg_credit;
@@ -229,6 +232,8 @@ struct PROJECT : PROJ_AM {
     bool some_result_suspended();
     bool uploading();
     bool has_results();
+    int n_concurrent;
+        // used to enforce APP_CONFIGS::max_concurrent
 
     struct RESULT *next_runnable_result;
         // the next result to run for this project

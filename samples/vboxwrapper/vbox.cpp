@@ -63,6 +63,7 @@ using std::string;
 VBOX_VM::VBOX_VM() {
     virtualbox_home_directory.clear();
     virtualbox_install_directory.clear();
+    virtualbox_guest_additions.clear();
     virtualbox_version.clear();
     pFloppy = NULL;
     vm_log.clear();
@@ -79,6 +80,8 @@ VBOX_VM::VBOX_VM() {
     os_name.clear();
     memory_size_mb.clear();
     image_filename.clear();
+    iso_image_filename.clear();
+    cache_disk_filename.clear();
     floppy_image_filename.clear();
     job_duration = 0.0;
     current_cpu_time = 0.0;
@@ -93,9 +96,12 @@ VBOX_VM::VBOX_VM() {
     enable_cern_dataformat = false;
     enable_shared_directory = false;
     enable_floppyio = false;
+    enable_cache_disk = false;
+    enable_isocontextualization = false;
     enable_remotedesktop = false;
     register_only = false;
     enable_network = false;
+    network_bridged_mode = false;
     pf_guest_port = 0;
     pf_host_port = 0;
     headless = true;
@@ -216,23 +222,13 @@ int VBOX_VM::initialize() {
 #endif
     }
 
-    // Record the VirtualBox version information for later use.
-    command = "--version ";
-    rc = vbm_popen(command, output, "version check");
+    rc = get_version_information(virtualbox_version);
+    if (rc) return rc;
 
-    // Remove \r or \n from the output spew
-    string::iterator iter = output.begin();
-    while (iter != output.end()) {
-        if (*iter == '\r' || *iter == '\n') {
-            iter = output.erase(iter);
-        } else {
-            ++iter;
-        }
-    }
+    rc = get_guest_additions(virtualbox_guest_additions);
+    if (rc) return rc;
 
-    virtualbox_version = output;
-
-    return rc;
+    return 0;
 }
 
 void VBOX_VM::poll(bool log_state) {
@@ -402,13 +398,14 @@ void VBOX_VM::poll(bool log_state) {
     //
     // Dump any new VM Guest Log entries
     //
-    dumpvmguestlogentries();
+    dump_vmguestlog_entries();
 }
 
 int VBOX_VM::create_vm() {
     string command;
     string output;
     string virtual_machine_slot_directory;
+    string default_interface;
     APP_INIT_DATA aid;
     bool disable_acceleration = false;
     char buf[256];
@@ -431,6 +428,19 @@ int VBOX_VM::create_vm() {
         aid.slot
     );
 
+    // Fixup chipset and drive controller information for known configurations
+    //
+    if (enable_isocontextualization) {
+        if ("PIIX4" == vm_disk_controller_model) {
+            fprintf(
+                stderr,
+                "%s Updating drive controller type and model for desired configuration.\n",
+                vboxwrapper_msg_prefix(buf, sizeof(buf))
+            );
+            vm_disk_controller_type = "sata";
+            vm_disk_controller_model = "IntelAHCI";
+        }
+    }
 
     // Create and register the VM
     //
@@ -501,7 +511,7 @@ int VBOX_VM::create_vm() {
     );
     command  = "modifyvm \"" + vm_name + "\" ";
     command += "--boot1 disk ";
-    command += "--boot2 none ";
+    command += "--boot2 dvd ";
     command += "--boot3 none ";
     command += "--boot4 none ";
 
@@ -510,18 +520,47 @@ int VBOX_VM::create_vm() {
 
     // Tweak the VM's Network Configuration
     //
-    fprintf(
-        stderr,
-        "%s Setting Network Configuration for VM.\n",
-        vboxwrapper_msg_prefix(buf, sizeof(buf))
-    );
-    command  = "modifyvm \"" + vm_name + "\" ";
-    command += "--nic1 nat ";
-    command += "--natdnsproxy1 on ";
-    command += "--cableconnected1 off ";
+    if (network_bridged_mode) {
+        fprintf(
+            stderr,
+            "%s Setting Network Configuration for Bridged Mode.\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf))
+        );
+        command  = "modifyvm \"" + vm_name + "\" ";
+        command += "--nic1 bridged ";
+        command += "--cableconnected1 off ";
 
-    retval = vbm_popen(command, output, "modifynetwork");
-    if (retval) return retval;
+        retval = vbm_popen(command, output, "set bridged mode");
+        if (retval) return retval;
+
+        get_default_network_interface(default_interface);
+        fprintf(
+            stderr,
+            "%s Setting Bridged Interface. (%s)\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf)),
+            default_interface.c_str()
+        );
+        command  = "modifyvm \"" + vm_name + "\" ";
+        command += "--bridgeadapter1 \"";
+        command += default_interface;
+        command += "\" ";
+
+        retval = vbm_popen(command, output, "set bridged interface");
+        if (retval) return retval;
+    } else {
+        fprintf(
+            stderr,
+            "%s Setting Network Configuration for NAT.\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf))
+        );
+        command  = "modifyvm \"" + vm_name + "\" ";
+        command += "--nic1 nat ";
+        command += "--natdnsproxy1 on ";
+        command += "--cableconnected1 off ";
+
+        retval = vbm_popen(command, output, "modifynetwork");
+        if (retval) return retval;
+    }
 
     // Tweak the VM's USB Configuration
     //
@@ -683,7 +722,11 @@ int VBOX_VM::create_vm() {
     command += "--controller \"" + vm_disk_controller_model + "\" ";
     command += "--hostiocache off ";
     if ((vm_disk_controller_type == "sata") || (vm_disk_controller_type == "SATA")) {
-        command += "--sataportcount 1 ";
+        if (is_virtualbox_version_newer(4, 3, 0)) {
+            command += "--portcount 3";
+        } else {
+            command += "--sataportcount 3";
+        }
     }
 
     retval = vbm_popen(command, output, "add storage controller (fixed disk)");
@@ -700,24 +743,87 @@ int VBOX_VM::create_vm() {
         if (retval) return retval;
     }
 
-    // Adding virtual hard drive to VM
-    //
-    fprintf(
-        stderr,
-        "%s Adding virtual disk drive to VM. (%s)\n",
-        vboxwrapper_msg_prefix(buf, sizeof(buf)),
-		image_filename.c_str()
-    );
-    command  = "storageattach \"" + vm_name + "\" ";
-    command += "--storagectl \"Hard Disk Controller\" ";
-    command += "--port 0 ";
-    command += "--device 0 ";
-    command += "--type hdd ";
-    command += "--setuuid \"\" ";
-    command += "--medium \"" + virtual_machine_slot_directory + "/" + image_filename + "\" ";
+    if (enable_isocontextualization) {
 
-    retval = vbm_popen(command, output, "storage attach (fixed disk)");
-    if (retval) return retval;
+        // Add virtual ISO 9660 disk drive to VM
+        //
+        fprintf(
+            stderr,
+            "%s Adding virtual ISO 9660 disk drive to VM. (%s)\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf)),
+            iso_image_filename.c_str()
+        );
+        command  = "storageattach \"" + vm_name + "\" ";
+        command += "--storagectl \"Hard Disk Controller\" ";
+        command += "--port 0 ";
+        command += "--device 0 ";
+        command += "--type dvddrive ";
+        command += "--medium \"" + virtual_machine_slot_directory + "/" + iso_image_filename + "\" ";
+
+        retval = vbm_popen(command, output, "storage attach (ISO 9660 image)");
+        if (retval) return retval;
+
+        // Add guest additions to the VM
+        //
+        fprintf(
+            stderr,
+            "%s Adding VirtualBox Guest Additions to VM.\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf))
+        );
+        command  = "storageattach \"" + vm_name + "\" ";
+        command += "--storagectl \"Hard Disk Controller\" ";
+        command += "--port 2 ";
+        command += "--device 0 ";
+        command += "--type dvddrive ";
+        command += "--medium \"" + virtualbox_guest_additions + "\" ";
+
+        retval = vbm_popen(command, output, "storage attach (guest additions image)");
+        if (retval) return retval;
+
+        // Add a virtual cache disk drive to VM
+        //
+        if (enable_cache_disk){
+            fprintf(
+                stderr,
+                "%s Adding virtual cache disk drive to VM. (%s)\n",
+                vboxwrapper_msg_prefix(buf, sizeof(buf)),
+    		    cache_disk_filename.c_str()
+            );
+            command  = "storageattach \"" + vm_name + "\" ";
+            command += "--storagectl \"Hard Disk Controller\" ";
+            command += "--port 1 ";
+            command += "--device 0 ";
+            command += "--type hdd ";
+            command += "--setuuid \"\" ";
+            command += "--medium \"" + virtual_machine_slot_directory + "/" + cache_disk_filename + "\" ";
+
+            retval = vbm_popen(command, output, "storage attach (cached disk)");
+            if (retval) return retval;
+        }
+
+    } else {
+
+        // Adding virtual hard drive to VM
+        //
+        fprintf(
+            stderr,
+            "%s Adding virtual disk drive to VM. (%s)\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf)),
+		    image_filename.c_str()
+        );
+        command  = "storageattach \"" + vm_name + "\" ";
+        command += "--storagectl \"Hard Disk Controller\" ";
+        command += "--port 0 ";
+        command += "--device 0 ";
+        command += "--type hdd ";
+        command += "--setuuid \"\" ";
+        command += "--medium \"" + virtual_machine_slot_directory + "/" + image_filename + "\" ";
+
+         retval = vbm_popen(command, output, "storage attach (fixed disk)");
+        if (retval) return retval;
+
+    }
+
 
     // Add network bandwidth throttle group
     //
@@ -747,12 +853,13 @@ int VBOX_VM::create_vm() {
         //
         pFloppy = new FloppyIO(floppy_image_filename.c_str());
         if (!pFloppy->ready()) {
+            vboxwrapper_msg_prefix(buf, sizeof(buf));
             fprintf(
                 stderr,
                 "%s Creating virtual floppy image failed.\n"
                 "%s Error Code '%d' Error Message '%s'\n",
-                vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                vboxwrapper_msg_prefix(buf, sizeof(buf)),
+                buf,
+                buf,
                 pFloppy->error,
                 pFloppy->errorStr.c_str()
             );
@@ -780,29 +887,39 @@ int VBOX_VM::create_vm() {
     if (enable_network) {
         set_network_access(true);
 
-        // If the VM wants to open up a port through the VirtualBox virtual
-        // network firewall/nat do that here.
+        // set up port forwarding
         //
         if (pf_guest_port) {
+            PORT_FORWARD pf;
+            pf.guest_port = pf_guest_port;
+            pf.host_port = pf_host_port;
             if (!pf_host_port) {
-                retval = get_port_forwarding_port();
+                retval = boinc_get_port(false, pf.host_port);
                 if (retval) return retval;
+                pf_host_port = pf.host_port;
             }
-
+            port_forwards.push_back(pf);
+        }
+        for (unsigned int i=0; i<port_forwards.size(); i++) {
+            PORT_FORWARD& pf = port_forwards[i];
             fprintf(
                 stderr,
-                "%s Enabling VM firewall rules.\n",
-                vboxwrapper_msg_prefix(buf, sizeof(buf))
+                "%s forwarding host port %d to guest port %d\n",
+                vboxwrapper_msg_prefix(buf, sizeof(buf)),
+                pf.host_port, pf.guest_port
             );
 
             // Add new firewall rule
             //
-            sprintf(buf, "vboxwrapper,tcp,127.0.0.1,%d,,%d", pf_host_port, pf_guest_port);
+            sprintf(buf, ",tcp,%s,%d,,%d",
+                pf.is_remote?"":"127.0.0.1",
+                pf.host_port, pf.guest_port
+            );
             command  = "modifyvm \"" + vm_name + "\" ";
             command += "--natpf1 \"" + string(buf) + "\" ";
 
             retval = vbm_popen(command, output, "add updated port forwarding rule");
-            if(retval) return retval;
+            if (retval) return retval;
         }
     }
 
@@ -821,7 +938,7 @@ int VBOX_VM::create_vm() {
                 vboxwrapper_msg_prefix(buf, sizeof(buf))
             );
         } else {
-            retval = get_remote_desktop_port();
+            retval = boinc_get_port(false, rd_host_port);
             if (retval) return retval;
 
             sprintf(buf, "%d", rd_host_port);
@@ -910,7 +1027,7 @@ int VBOX_VM::deregister_vm(bool delete_media) {
 
     // Cleanup any left-over snapshots
     //
-    cleanupsnapshots(true);
+    cleanup_snapshots(true);
 
     // Delete network bandwidth throttle group
     //
@@ -934,7 +1051,7 @@ int VBOX_VM::deregister_vm(bool delete_media) {
         vboxwrapper_msg_prefix(buf, sizeof(buf))
     );
     command  = "storagectl \"" + vm_name + "\" ";
-    command += "--name \"IDE Controller\" ";
+    command += "--name \"Hard Disk Controller\" ";
     command += "--remove ";
 
     vbm_popen(command, output, "deregister storage controller (fixed disk)", false, false);
@@ -961,17 +1078,43 @@ int VBOX_VM::deregister_vm(bool delete_media) {
 
     // Lastly delete medium(s) from Virtual Box Media Registry
     //
-    fprintf(
-        stderr,
-        "%s Removing virtual disk drive from VirtualBox.\n",
-        vboxwrapper_msg_prefix(buf, sizeof(buf))
-    );
-    command  = "closemedium disk \"" + virtual_machine_slot_directory + "/" + image_filename + "\" ";
-    if (delete_media) {
-        command += "--delete ";
-    }
+    if (enable_isocontextualization) {
+        fprintf(
+            stderr,
+            "%s Removing virtual ISO 9660 disk from VirtualBox.\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf))
+        );
+        command  = "closemedium dvd \"" + virtual_machine_slot_directory + "/" + iso_image_filename + "\" ";
+        if (delete_media) {
+            command += "--delete ";
+        }
+        vbm_popen(command, output, "remove virtual ISO 9660 disk", false, false);
 
-    vbm_popen(command, output, "remove virtual disk", false, false);
+        if (enable_cache_disk) {
+            fprintf(
+                stderr,
+                "%s Removing virtual cache disk from VirtualBox.\n",
+                vboxwrapper_msg_prefix(buf, sizeof(buf))
+            );
+            command  = "closemedium disk \"" + virtual_machine_slot_directory + "/" + cache_disk_filename + "\" ";
+            if (delete_media) {
+                command += "--delete ";
+            }
+
+            vbm_popen(command, output, "remove virtual cache disk", false, false);
+        }
+    } else {
+        fprintf(
+            stderr,
+            "%s Removing virtual disk drive from VirtualBox.\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf))
+        );
+        command  = "closemedium disk \"" + virtual_machine_slot_directory + "/" + image_filename + "\" ";
+        if (delete_media) {
+            command += "--delete ";
+        }
+        vbm_popen(command, output, "remove virtual disk", false, false);
+    }
 
     if (enable_floppyio) {
         fprintf(
@@ -1037,11 +1180,19 @@ int VBOX_VM::deregister_stale_vm() {
             command  = "closemedium floppy \"" + virtual_machine_slot_directory + "/" + floppy_image_filename + "\" ";
             vbm_popen(command, output, "remove virtual floppy disk", false, false);
         }
+        if (enable_isocontextualization) {
+            command  = "closemedium dvd \"" + virtual_machine_slot_directory + "/" + iso_image_filename + "\" ";
+            vbm_popen(command, output, "remove virtual ISO 9660 disk", false);
+            if (enable_cache_disk) {
+                command  = "closemedium disk \"" + virtual_machine_slot_directory + "/" + cache_disk_filename + "\" ";
+                vbm_popen(command, output, "remove virtual cache disk", false);
+            }
+        }
     }
     return 0;
 }
 
-int VBOX_VM::run(bool restore_snapshot) {
+int VBOX_VM::run(bool do_restore_snapshot) {
     int retval;
 
     retval = is_registered();
@@ -1086,8 +1237,8 @@ int VBOX_VM::run(bool restore_snapshot) {
 
     // If our last checkpoint time is greater than 0, restore from the previously
     // saved snapshot
-    if (restore_snapshot) {
-        retval = restoresnapshot();
+    if (do_restore_snapshot) {
+        retval = restore_snapshot();
         if (retval) return retval;
     }
 
@@ -1136,11 +1287,7 @@ int VBOX_VM::start() {
 
         get_vm_process_id();
 
-#ifdef _WIN32
-        if (vm_pid && vm_pid_handle) break;
-#else
         if (vm_pid) break;
-#endif
 
         if (timeout > 45) {
             retval = ERR_TIMEOUT;
@@ -1209,7 +1356,22 @@ int VBOX_VM::stop() {
                 "%s VM did not stop when requested.\n",
                 vboxwrapper_msg_prefix(buf, sizeof(buf))
             );
-            retval = ERR_EXEC;
+
+            // Attempt to terminate the VM
+            retval = kill_program(vm_pid);
+            if (retval) {
+                fprintf(
+                    stderr,
+                    "%s VM was NOT successfully terminated.\n",
+                    vboxwrapper_msg_prefix(buf, sizeof(buf))
+                );
+            } else {
+                fprintf(
+                    stderr,
+                    "%s VM was successfully terminated.\n",
+                    vboxwrapper_msg_prefix(buf, sizeof(buf))
+                );
+            }
         }
     }
 
@@ -1258,7 +1420,22 @@ int VBOX_VM::poweroff() {
                 "%s VM did not power off when requested.\n",
                 vboxwrapper_msg_prefix(buf, sizeof(buf))
             );
-            retval = ERR_EXEC;
+
+            // Attempt to terminate the VM
+            retval = kill_program(vm_pid);
+            if (retval) {
+                fprintf(
+                    stderr,
+                    "%s VM was NOT successfully terminated.\n",
+                    vboxwrapper_msg_prefix(buf, sizeof(buf))
+                );
+            } else {
+                fprintf(
+                    stderr,
+                    "%s VM was successfully terminated.\n",
+                    vboxwrapper_msg_prefix(buf, sizeof(buf))
+                );
+            }
         }
     }
 
@@ -1300,7 +1477,7 @@ int VBOX_VM::resume() {
     return 0;
 }
 
-int VBOX_VM::createsnapshot(double elapsed_time) {
+int VBOX_VM::create_snapshot(double elapsed_time) {
     string command;
     string output;
     char buf[256];
@@ -1332,7 +1509,7 @@ int VBOX_VM::createsnapshot(double elapsed_time) {
     poll(false);
 
     // Delete stale snapshot(s), if one exists
-    retval = cleanupsnapshots(false);
+    retval = cleanup_snapshots(false);
     if (retval) return retval;
 
     fprintf(
@@ -1344,7 +1521,7 @@ int VBOX_VM::createsnapshot(double elapsed_time) {
     return 0;
 }
 
-int VBOX_VM::cleanupsnapshots(bool delete_active) {
+int VBOX_VM::cleanup_snapshots(bool delete_active) {
     string command;
     string output;
     string snapshotlist;
@@ -1425,7 +1602,7 @@ int VBOX_VM::cleanupsnapshots(bool delete_active) {
     return 0;
 }
 
-int VBOX_VM::restoresnapshot() {
+int VBOX_VM::restore_snapshot() {
     string command;
     string output;
     char buf[256];
@@ -1451,7 +1628,7 @@ int VBOX_VM::restoresnapshot() {
     return retval;
 }
 
-void VBOX_VM::dumphypervisorlogs(bool include_error_logs) {
+void VBOX_VM::dump_hypervisor_logs(bool include_error_logs) {
     string local_system_log;
     string local_vm_log;
     string local_trace_log;
@@ -1489,7 +1666,7 @@ void VBOX_VM::dumphypervisorlogs(bool include_error_logs) {
     }
 }
 
-void VBOX_VM::dumphypervisorstatusreports() {
+void VBOX_VM::dump_hypervisor_status_reports() {
 
 #ifdef _WIN32
     char buf[256];
@@ -1542,7 +1719,7 @@ static bool is_timestamp_newer(VBOX_TIMESTAMP& t1, VBOX_TIMESTAMP& t2) {
 
 // Dump any new guest log messages which are generated by applications running within
 // the guest VM.
-void VBOX_VM::dumpvmguestlogentries() {
+void VBOX_VM::dump_vmguestlog_entries() {
     string line;
     size_t eol_pos;
     size_t eol_prev_pos;
@@ -1838,6 +2015,65 @@ int VBOX_VM::get_install_directory(string& install_directory ) {
 #endif
 }
 
+int VBOX_VM::get_version_information(string& version) {
+    string command;
+    string output;
+    int retval;
+
+    // Record the VirtualBox version information for later use.
+    command = "--version ";
+    retval = vbm_popen(command, output, "version check");
+
+    // Remove \r or \n from the output spew
+    string::iterator iter = output.begin();
+    while (iter != output.end()) {
+        if (*iter == '\r' || *iter == '\n') {
+            iter = output.erase(iter);
+        } else {
+            ++iter;
+        }
+    }
+
+    version = output;
+    return retval;
+}
+
+int VBOX_VM::get_guest_additions(string& guest_additions) {
+    string command;
+    string output;
+    size_t ga_start;
+    size_t ga_end;
+    int retval;
+
+    // Get the location of where the guest additions are
+    command = "list systemproperties";
+    retval = vbm_popen(command, output, "guest additions");
+
+    // Output should look like this:
+    // API version:                     4_3
+    // Minimum guest RAM size:          4 Megabytes
+    // Maximum guest RAM size:          2097152 Megabytes
+    // Minimum video RAM size:          1 Megabytes
+    // Maximum video RAM size:          256 Megabytes
+    // ...
+    // Default Guest Additions ISO:     C:\Program Files\Oracle\VirtualBox/VBoxGuestAdditions.iso
+    //
+
+    ga_start = output.find("Default Guest Additions ISO:");
+    if (ga_start == string::npos) {
+        return ERR_NOT_FOUND;
+    }
+    ga_start += strlen("Default Guest Additions ISO:");
+    ga_end = output.find("\n", ga_start);
+    guest_additions = output.substr(ga_start, ga_end - ga_start);
+    strip_whitespace(guest_additions);
+    if (guest_additions.size() <= 0) {
+        return ERR_NOT_FOUND;
+    }
+
+    return retval;
+}
+
 // Returns the current directory in which the executable resides.
 //
 int VBOX_VM::get_slot_directory(string& dir) {
@@ -1850,6 +2086,45 @@ int VBOX_VM::get_slot_directory(string& dir) {
         return 1;
     }
     return 0;
+}
+
+int VBOX_VM::get_default_network_interface(string& iface) {
+    string command;
+    string output;
+    size_t if_start;
+    size_t if_end;
+    int retval;
+
+    // Get the location of where the guest additions are
+    command = "list bridgedifs";
+    retval = vbm_popen(command, output, "default interface");
+
+    // Output should look like this:
+    // Name:            Intel(R) Ethernet Connection I217-V
+    // GUID:            4b8796d6-a4ed-4752-8e8e-bf23984fd93c
+    // DHCP:            Enabled
+    // IPAddress:       192.168.1.19
+    // NetworkMask:     255.255.255.0
+    // IPV6Address:     fe80:0000:0000:0000:31c2:0053:4f50:4e64
+    // IPV6NetworkMaskPrefixLength: 64
+    // HardwareAddress: bc:5f:f4:ba:cc:16
+    // MediumType:      Ethernet
+    // Status:          Up
+    // VBoxNetworkName: HostInterfaceNetworking-Intel(R) Ethernet Connection I217-V
+
+    if_start = output.find("Name:");
+    if (if_start == string::npos) {
+        return ERR_NOT_FOUND;
+    }
+    if_start += strlen("Name:");
+    if_end = output.find("\n", if_start);
+    iface = output.substr(if_start, if_end - if_start);
+    strip_whitespace(iface);
+    if (iface.size() <= 0) {
+        return ERR_NOT_FOUND;
+    }
+
+    return retval;
 }
 
 int VBOX_VM::get_vm_network_bytes_sent(double& sent) {
@@ -1928,10 +2203,8 @@ int VBOX_VM::get_vm_process_id() {
     string pid;
     size_t pid_start;
     size_t pid_end;
-    int retval;
 
-    retval = get_vm_log(output, false);
-    if (retval) return retval;
+    get_vm_log(output, false);
 
     // Output should look like this:
     // VirtualBox 4.1.0 r73009 win.amd64 (Jul 19 2011 13:05:53) release log
@@ -1950,9 +2223,10 @@ int VBOX_VM::get_vm_process_id() {
     if (pid_start == string::npos) {
         return ERR_NOT_FOUND;
     }
-    pid_start += 12;
+    pid_start += strlen("Process ID: ");
     pid_end = output.find("\n", pid_start);
     pid = output.substr(pid_start, pid_end - pid_start);
+    strip_whitespace(pid);
     if (pid.size() <= 0) {
         return ERR_NOT_FOUND;
     }
@@ -1971,12 +2245,14 @@ int VBOX_VM::get_vm_process_id() {
 }
 
 int VBOX_VM::get_vm_exit_code(unsigned long& exit_code) {
-#ifndef _WIN32
+#ifdef _WIN32
+    if (vm_pid_handle) {
+        GetExitCodeProcess(vm_pid_handle, &exit_code);
+    }
+#else
     int ec = 0;
     waitpid(vm_pid, &ec, WNOHANG);
     exit_code = ec;
-#else
-    GetExitCodeProcess(vm_pid_handle, &exit_code);
 #endif
     return 0;
 }
@@ -1989,84 +2265,13 @@ double VBOX_VM::get_vm_cpu_time() {
     return current_cpu_time;
 }
 
-int VBOX_VM::get_port_forwarding_port() {
-    sockaddr_in addr;
-    BOINC_SOCKLEN_T addrsize;
-    int sock;
-    int retval;
-
-    addrsize = sizeof(sockaddr_in);
-
-    memset(&addr, 0, sizeof(sockaddr_in));
-    addr.sin_family = AF_INET;
-    addr.sin_port = htons(pf_host_port);
-    addr.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
-
-    retval = boinc_socket(sock);
-    if (retval) return retval;
- 
-    retval = bind(sock, (const sockaddr*)&addr, addrsize);
-    if (retval < 0) {
-        boinc_close_socket(sock);
-
-        // Lets see if we can get anything useable at this point
-        memset(&addr, 0, sizeof(sockaddr_in));
-        addr.sin_family = AF_INET;
-        addr.sin_port = htons(0);
-        addr.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
-
-        retval = boinc_socket(sock);
-        if (retval) return retval;
-     
-        retval = bind(sock, (const sockaddr*)&addr, addrsize);
-        if (retval < 0) {
-            boinc_close_socket(sock);
-            return ERR_BIND;
-        }
-    }
-
-    getsockname(sock, (sockaddr*)&addr, &addrsize);
-    pf_host_port = ntohs(addr.sin_port);
-
-    boinc_close_socket(sock);
-    return 0;
-}
-
-int VBOX_VM::get_remote_desktop_port() {
-    sockaddr_in addr;
-    BOINC_SOCKLEN_T addrsize;
-    int sock;
-    int retval;
-
-    addrsize = sizeof(sockaddr_in);
-
-    memset(&addr, 0, sizeof(sockaddr_in));
-    addr.sin_family = AF_INET;
-    addr.sin_port = htons(0);
-    addr.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
-
-    retval = boinc_socket(sock);
-    if (retval) return retval;
- 
-    retval = bind(sock, (const sockaddr*)&addr, addrsize);
-    if (retval < 0) {
-        boinc_close_socket(sock);
-        return ERR_BIND;
-    }
-
-    getsockname(sock, (sockaddr*)&addr, &addrsize);
-    rd_host_port = ntohs(addr.sin_port);
-
-    boinc_close_socket(sock);
-    return 0;
-}
-
 int VBOX_VM::get_system_log(string& log, bool tail_only) {
     string slot_directory;
     string virtualbox_system_log_src;
     string virtualbox_system_log_dst;
     string::iterator iter;
     int retval = BOINC_SUCCESS;
+    char buf[256];
 
     // Where should we copy temp files to?
     get_slot_directory(slot_directory);
@@ -2079,7 +2284,15 @@ int VBOX_VM::get_system_log(string& log, bool tail_only) {
         // Skip having to deal with various forms of file locks by just making a temp
         // copy of the log file.
         boinc_copy(virtualbox_system_log_src.c_str(), virtualbox_system_log_dst.c_str());
+    } else {
+        fprintf(
+            stderr,
+            "%s WARNING: Stale VirtualBox System Log used.\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf))
+        );
+    }
 
+    if (boinc_file_exists(virtualbox_system_log_dst.c_str())) {
         if (tail_only) {
             // Keep only the last 8k if it is larger than that.
             read_file_string(virtualbox_system_log_dst.c_str(), log, 8192, true);
@@ -2103,6 +2316,11 @@ int VBOX_VM::get_system_log(string& log, bool tail_only) {
             }
         }
     } else {
+        fprintf(
+            stderr,
+            "%s WARNING: Stale VirtualBox System Log Not Found.\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf))
+        );
         retval = ERR_NOT_FOUND;
     }
 
@@ -2115,6 +2333,7 @@ int VBOX_VM::get_vm_log(string& log, bool tail_only) {
     string virtualbox_vm_log_dst;
     string::iterator iter;
     int retval = BOINC_SUCCESS;
+    char buf[256];
 
     // Where should we copy temp files to?
     get_slot_directory(slot_directory);
@@ -2127,7 +2346,15 @@ int VBOX_VM::get_vm_log(string& log, bool tail_only) {
         // Skip having to deal with various forms of file locks by just making a temp
         // copy of the log file.
         boinc_copy(virtualbox_vm_log_src.c_str(), virtualbox_vm_log_dst.c_str());
+    } else {
+        fprintf(
+            stderr,
+            "%s WARNING: Stale VirtualBox VM Log used.\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf))
+        );
+    }
 
+    if (boinc_file_exists(virtualbox_vm_log_dst.c_str())) {
         if (tail_only) {
             // Keep only the last 8k if it is larger than that.
             read_file_string(virtualbox_vm_log_dst.c_str(), log, 8192, true);
@@ -2152,6 +2379,11 @@ int VBOX_VM::get_vm_log(string& log, bool tail_only) {
         }
 
     } else {
+        fprintf(
+            stderr,
+            "%s WARNING: Stale VirtualBox VM Log Not Found.\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf))
+        );
         retval = ERR_NOT_FOUND;
     }
 
@@ -2583,7 +2815,7 @@ int VBOX_VM::launch_vboxvm() {
         &si,
         &pi
     )) {
-        vboxwrapper_msg_prefix(buf, sizeof(buf)),
+        vboxwrapper_msg_prefix(buf, sizeof(buf));
         fprintf(
             stderr,
             "%s Status Report: Launching virtualbox.exe/vboxheadless.exe failed!.\n"
@@ -2593,6 +2825,7 @@ int VBOX_VM::launch_vboxvm() {
             windows_format_error_string(GetLastError(), error_msg, sizeof(error_msg)),
             GetLastError()
         );
+
         goto CLEANUP;
     } 
 
@@ -2622,7 +2855,7 @@ int VBOX_VM::launch_vboxvm() {
 
     if (ulExitCode != STILL_ACTIVE) {
         sanitize_output(output);
-        vboxwrapper_msg_prefix(buf, sizeof(buf)),
+        vboxwrapper_msg_prefix(buf, sizeof(buf));
         fprintf(
             stderr,
             "%s Status Report: Virtualbox.exe/Vboxheadless.exe exited prematurely!.\n"

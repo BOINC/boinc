@@ -137,7 +137,9 @@ function total_posts($user) {
 function show_credit($user) {
     row2(tra("Total credit"), format_credit_large($user->total_credit));
     row2(tra("Recent average credit"), format_credit($user->expavg_credit));
-    project_user_credit($user);
+    if (function_exists("project_user_credit")) {
+        project_user_credit($user);
+    }
 }
 
 require_once("../inc/stats_sites.inc");
@@ -180,7 +182,7 @@ function notify_description($notify) {
     case NOTIFY_SUBSCRIBED_POST:
         return subscribed_post_web_line($notify);
     }
-    return tra("Unknown notification type: %1", $notify->type);
+    return null;
 }
 
 function weak_auth($user) {
@@ -235,10 +237,57 @@ function show_user_info_private($user) {
     }
 }
 
+function friend_links($user) {
+    if (is_banished($user)) {
+        return "";
+    }
+    $x = "<table height=\"100\" width=\"150\" border=\"0\" cellpadding=\"4\"><tr><td class=\"friend\">";
+    if ($user->has_profile) {
+        $profile = BoincProfile::lookup_fields("has_picture", "userid=$user->id");
+        if ($profile && $profile->has_picture) {
+            $img_url = profile_thumb_url($user->id);
+        } else {
+            $img_url = URL_BASE."img/head_20.png";
+        }
+        $title = tra("View the profile of %1", $user->name);
+        $alt = tra("Profile");
+        $x .= ' <a href="'.URL_BASE.'view_profile.php?userid='.$user->id.'"><img title="'.$title.'" src="'.$img_url.'" alt="'.$alt.'"></a><br>';
+    }
+    $x .= " <a href=\"".URL_BASE."show_user.php?userid=".$user->id."\">".$user->name."</a>";
+    if ($user->donated == 1) {
+        require_once("../project/donations.inc");
+        $x .= DONATION_LINK;
+    }
+    $x .= "</td></tr></table>\n";
+    return $x;
+}
+
+function user_links($user) {
+    BoincForumPrefs::lookup($user);
+    if (is_banished($user)) {
+        return "(banished: ID $user->id)";
+    }
+    $x = "";
+    if ($user->has_profile) {
+        $img_url = URL_BASE."img/head_20.png";
+        $x .= ' <a href="'.URL_BASE.'view_profile.php?userid='.$user->id.'"><img title="View the profile of '.$user->name.'" src="'.$img_url.'" alt="Profile"></a>';
+    }
+    $x .= " <a href=\"".URL_BASE."show_user.php?userid=".$user->id."\">".$user->name."</a>";
+    if ($user->donated == 1) {
+        require_once("../project/donations.inc");
+        $x .= DONATION_LINK;
+    }
+    $x .= badges_string(true, $user, 24);
+    if (function_exists("project_user_links")){
+        $x .= project_user_links($user);
+    }
+    return $x;
+}
+
 function show_community_private($user) {
     row1(tra("Community"));
 
-    show_badges(true, $user);
+    show_badges_row(true, $user);
     if (!DISABLE_PROFILES) {
         if ($user->has_profile) {
             $x = "<a href=\"view_profile.php?userid=$user->id\">".tra("View")."</a> &middot; <a href=\"delete_profile.php\">".tra("Delete")."</a>";
@@ -260,7 +309,12 @@ function show_community_private($user) {
     if (count($notifies)) {
         $x = "";
         foreach ($notifies as $notify) {
-            $x .= "&bull; ".notify_description($notify)."<br>";
+            $y = notify_description($notify);
+            if ($y) {
+                $x .= "&bull; $y<br>";
+            } else {
+                $notify->delete();
+            }
         }
         $x .= "<a href=\"".notify_rss_url($user)."\"><img vspace=\"4\" border=\"0\" src=\"img/rss_icon.gif\" alt=\"RSS\" /></a>";
         row2(tra("Notifications"), $x);

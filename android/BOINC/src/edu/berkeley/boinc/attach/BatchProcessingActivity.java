@@ -116,7 +116,6 @@ public class BatchProcessingActivity extends FragmentActivity{
     }
 
 	// triggered by continue button
-	// button only visible if no conflicts occured.
 	public void continueClicked(View v) {
 		boolean conflicts = attachService.unresolvedConflicts();
 		if(Logging.DEBUG) Log.d(Logging.TAG, "BatchProcessingActivity.continueClicked: conflicts? " + conflicts);
@@ -136,6 +135,19 @@ public class BatchProcessingActivity extends FragmentActivity{
 			intent.putExtra("targetFragment", R.string.tab_projects); // make activity display projects fragment
 			startActivity(intent);
 		}
+	}
+
+	// triggered by share button
+	public void shareClicked(View v) {
+		if(Logging.DEBUG) Log.d(Logging.TAG, "BatchProcessingActivity.shareClicked.");
+		Intent intent=new Intent(android.content.Intent.ACTION_SEND);
+		intent.setType("text/plain");
+		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+
+		// Add data to the intent, the receiving app will decide what to do with it.
+		intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.social_invite_content_title));
+		intent.putExtra(Intent.EXTRA_TEXT, String.format(getString(R.string.social_invite_content_body), android.os.Build.MANUFACTURER, getString(R.string.social_invite_content_url)));
+		startActivity(Intent.createChooser(intent, getString(R.string.social_invite_intent_title)));
 	}
 	
 	// adapts header text and icons when hint selection changes
@@ -240,6 +252,7 @@ public class BatchProcessingActivity extends FragmentActivity{
 		protected void onPostExecute(Void result) {
 			((LinearLayout) findViewById(R.id.attach_status_ongoing_wrapper)).setVisibility(View.GONE);
 			((Button) findViewById(R.id.continue_button)).setVisibility(View.VISIBLE);
+			((Button) findViewById(R.id.share_button)).setVisibility(View.VISIBLE);
 			super.onPostExecute(result);
 		}
 	}

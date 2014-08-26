@@ -76,6 +76,9 @@
 using std::vector;
 using std::string;
 
+double elapsed_time = 0;
+    // job's total elapsed time (over all sessions)
+double trickle_period = 0;
 
 bool is_boinc_client_version_newer(APP_INIT_DATA& aid, int maj, int min, int rel) {
     if (maj < aid.major_version) return true;
@@ -123,6 +126,40 @@ char* vboxwrapper_msg_prefix(char* sbuf, int len) {
     return sbuf;
 }
 
+int VBOX_VM::parse_port_forward(XML_PARSER& xp) {
+    int host_port=0, guest_port=0, nports=1;
+    bool is_remote;
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/port_forward")) {
+            if (!host_port) {
+                fprintf(stderr, "parse_port_forward: unspecified host port\n");
+                return ERR_XML_PARSE;
+            }
+            if (!guest_port) {
+                fprintf(stderr, "parse_port_forward: unspecified guest port\n");
+                return ERR_XML_PARSE;
+            }
+            PORT_FORWARD pf;
+            pf.host_port = host_port;
+            pf.guest_port = guest_port;
+            pf.is_remote = is_remote;
+            for (int i=0; i<nports; i++) {
+                port_forwards.push_back(pf);
+                pf.host_port++;
+                pf.guest_port++;
+            }
+            return 0;
+        }
+        else if (xp.parse_bool("is_remote", is_remote)) continue;
+        else if (xp.parse_int("host_port", host_port)) continue;
+        else if (xp.parse_int("guest_port", guest_port)) continue;
+        else if (xp.parse_int("nports", nports)) continue;
+        else {
+            fprintf(stderr, "parse_port_forward: unparsed %s\n", xp.parsed_tag);
+        }
+    }
+    return ERR_XML_PARSE;
+}
 
 int parse_job_file(VBOX_VM& vm) {
     MIOFILE mf;
@@ -162,8 +199,11 @@ int parse_job_file(VBOX_VM& vm) {
         else if (xp.parse_string("fraction_done_filename", vm.fraction_done_filename)) continue;
         else if (xp.parse_bool("enable_cern_dataformat", vm.enable_cern_dataformat)) continue;
         else if (xp.parse_bool("enable_network", vm.enable_network)) continue;
+        else if (xp.parse_bool("network_bridged_mode", vm.network_bridged_mode)) continue;
         else if (xp.parse_bool("enable_shared_directory", vm.enable_shared_directory)) continue;
         else if (xp.parse_bool("enable_floppyio", vm.enable_floppyio)) continue;
+        else if (xp.parse_bool("enable_cache_disk", vm.enable_cache_disk)) continue;
+        else if (xp.parse_bool("enable_isocontextualization", vm.enable_isocontextualization)) continue;
         else if (xp.parse_bool("enable_remotedesktop", vm.enable_remotedesktop)) continue;
         else if (xp.parse_int("pf_guest_port", vm.pf_guest_port)) continue;
         else if (xp.parse_int("pf_host_port", vm.pf_host_port)) continue;
@@ -174,6 +214,13 @@ int parse_job_file(VBOX_VM& vm) {
         else if (xp.parse_string("trickle_trigger_file", str)) {
             vm.trickle_trigger_files.push_back(str);
             continue;
+        }
+        else if (xp.parse_string("completion_trigger_file", str)) {
+            vm.completion_trigger_file = str;
+            continue;
+        }
+        else if (xp.match_tag("port_forward")) {
+            vm.parse_port_forward(xp);
         }
         fprintf(stderr, "%s parse_job_file(): unexpected tag %s\n",
             vboxwrapper_msg_prefix(buf, sizeof(buf)), xp.parsed_tag
@@ -320,33 +367,17 @@ void set_floppy_image(APP_INIT_DATA& aid, VBOX_VM& vm) {
     }
 }
 
-// set port forwarding information if needed
+// if there's a port for web graphics, tell the client about it
 //
-void set_port_forwarding_info(APP_INIT_DATA& /* aid */, VBOX_VM& vm) {
+void VBOX_VM::set_web_graphics_url() {
     char buf[256];
-
-    if (vm.pf_guest_port && vm.pf_host_port) {
-        // Write info to disk
-        //
-        MIOFILE mf;
-        FILE* f = boinc_fopen(PORTFORWARD_FILENAME, "w");
-        mf.init_file(f);
-
-        mf.printf(
-            "<port_forwarding>\n"
-            "  <rule>\n"
-            "    <host_port>%d</host_port>\n"
-            "    <guest_port>%d</guest_port>\n"
-            "  </rule>\n"
-            "</port_forwarding>\n",
-            vm.pf_host_port,
-            vm.pf_guest_port
-        );
-
-        fclose(f);
-
-        sprintf(buf, "http://localhost:%d", vm.pf_host_port);
-        boinc_web_graphics_url(buf);
+    for (unsigned int i=0; i<port_forwards.size(); i++) {
+        PORT_FORWARD& pf = port_forwards[i];
+        if (pf.guest_port == pf_guest_port) {
+            sprintf(buf, "http://localhost:%d", pf.host_port);
+            boinc_web_graphics_url(buf);
+            break;
+        }
     }
 }
 
@@ -376,6 +407,42 @@ void set_remote_desktop_info(APP_INIT_DATA& /* aid */, VBOX_VM& vm) {
     }
 }
 
+// check for completion trigger file
+//
+void VBOX_VM::check_completion_trigger() {
+    char path[MAXPATHLEN];
+    static double detect_time = 0;
+
+    if (detect_time) {
+        if (dtime() > detect_time + 60) {
+            cleanup();
+            dump_hypervisor_logs(true);
+            boinc_finish(0);
+        }
+        return;
+    }
+    sprintf(path, "shared/%s", completion_trigger_file.c_str());
+    if (!boinc_file_exists(path)) return;
+    detect_time = dtime();
+#if 0
+    int exit_code = 0;
+    FILE* f = fopen(path, "r");
+    if (f) {
+        char buf[1024];
+        if (fgets(buf, 1024, f) != NULL) {
+            exit_code = atoi(buf);
+        }
+        while (fgets(buf, 1024, f) != NULL) {
+            fputs(buf, stderr);
+        }
+        fclose(f);
+    }
+    cleanup();
+    dump_hypervisor_logs(true);
+    boinc_finish(exit_code);
+#endif
+}
+
 // check for trickle trigger files, and send trickles if find them.
 //
 void VBOX_VM::check_trickle_triggers() {
@@ -391,9 +458,54 @@ void VBOX_VM::check_trickle_triggers() {
                 "%s can't read trickle trigger file %s\n",
                 vboxwrapper_msg_prefix(buf, sizeof(buf)), filename
             );
+        } else {
+            retval = boinc_send_trickle_up(
+                filename, const_cast<char*>(text.c_str())
+            );
+            if (retval) {
+                fprintf(stderr,
+                    "%s boinc_send_trickle_up() failed: %s\n",
+                    vboxwrapper_msg_prefix(buf, sizeof(buf)), boincerror(retval)
+                );
+            } else {
+                fprintf(stderr,
+                    "%s sent trickle-up of variety %s\n",
+                    vboxwrapper_msg_prefix(buf, sizeof(buf)), filename
+                );
+            }
         }
-        boinc_send_trickle_up(filename, const_cast<char*>(text.c_str()));
         boinc_delete_file(path);
+    }
+}
+
+// see if it's time to send trickle-up reporting elapsed time
+//
+void check_trickle_period() {
+    char buf[256];
+    static double last_trickle_report_time = 0;
+
+    if ((elapsed_time - last_trickle_report_time) < trickle_period) {
+        return;
+    }
+    last_trickle_report_time = elapsed_time;
+    fprintf(
+        stderr,
+        "%s Status Report: Trickle-Up Event.\n",
+        vboxwrapper_msg_prefix(buf, sizeof(buf))
+    );
+    sprintf(buf,
+        "<cpu_time>%f</cpu_time>", last_trickle_report_time
+    );
+    int retval = boinc_send_trickle_up(
+        const_cast<char*>("cpu_time"), buf
+    );
+    if (retval) {
+        fprintf(
+            stderr,
+            "%s Sending Trickle-Up Event failed (%d).\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf)),
+            retval
+        );
     }
 }
 
@@ -404,14 +516,11 @@ int main(int argc, char** argv) {
     VBOX_VM vm;
     APP_INIT_DATA aid;
     double random_checkpoint_factor = 0;
-    double elapsed_time = 0;
-    double trickle_period = 0;
     double fraction_done = 0;
     double current_cpu_time = 0;
     double starting_cpu_time = 0;
     double last_checkpoint_time = 0;
     double last_status_report_time = 0;
-    double last_trickle_report_time = 0;
     double stopwatch_starttime = 0;
     double stopwatch_endtime = 0;
     double stopwatch_elapsedtime = 0;
@@ -447,9 +556,6 @@ int main(int argc, char** argv) {
     boinc_options.main_program = true;
     boinc_options.check_heartbeat = true;
     boinc_options.handle_process_control = true;
-    if (trickle_period > 0.0) {
-        boinc_options.handle_trickle_ups = true;
-    }
     boinc_init_options(&boinc_options);
 
     // Prepare environment for detecting system conditions
@@ -723,6 +829,12 @@ int main(int argc, char** argv) {
             vm.floppy_image_filename = buf;
         }
     }
+    if (vm.enable_cache_disk) {
+        vm.cache_disk_filename = CACHE_DISK_FILENAME;
+    }
+    if (vm.enable_isocontextualization) {
+        vm.iso_image_filename = ISO_IMAGE_FILENAME;
+    }
     if (aid.ncpus > 1.0 || ncpus > 1.0) {
         if (ncpus) {
             sprintf(buf, "%d", (int)ceil(ncpus));
@@ -755,7 +867,7 @@ int main(int argc, char** argv) {
         // All 'failure to start' errors are unrecoverable by default
         bool   unrecoverable_error = true;
         bool   skip_cleanup = false;
-        bool   dump_hypervisor_logs = false;
+        bool   do_dump_hypervisor_logs = false;
         string error_reason;
         const char*  temp_reason = "";
         int    temp_delay = 86400;
@@ -820,7 +932,7 @@ int main(int argc, char** argv) {
             unrecoverable_error = false;
             temp_reason = "VM environment needed to be cleaned up.";
         } else {
-            dump_hypervisor_logs = true;
+            do_dump_hypervisor_logs = true;
         }
 
         if (unrecoverable_error) {
@@ -840,8 +952,8 @@ int main(int argc, char** argv) {
                 );
             }
 
-            if (dump_hypervisor_logs) {
-                vm.dumphypervisorlogs(true);
+            if (do_dump_hypervisor_logs) {
+                vm.dump_hypervisor_logs(true);
             }
 
             boinc_finish(retval);
@@ -935,7 +1047,8 @@ int main(int argc, char** argv) {
     }
 
     set_floppy_image(aid, vm);
-    set_port_forwarding_info(aid, vm);
+    //set_port_forwarding_info(aid, vm);
+    vm.set_web_graphics_url();
     set_remote_desktop_info(aid, vm);
     write_checkpoint(elapsed_time, current_cpu_time, vm);
 
@@ -958,7 +1071,7 @@ int main(int argc, char** argv) {
         if (boinc_status.abort_request) {
             vm.reset_vm_process_priority();
             vm.cleanup();
-            vm.dumphypervisorlogs(true);
+            vm.dump_hypervisor_logs(true);
             boinc_finish(EXIT_ABORTED_BY_CLIENT);
         }
         if (!vm.online) {
@@ -983,7 +1096,7 @@ int main(int argc, char** argv) {
                         "%s VM Premature Shutdown Detected.\n",
                         vboxwrapper_msg_prefix(buf, sizeof(buf))
                     );
-                    vm.dumphypervisorlogs(true);
+                    vm.dump_hypervisor_logs(true);
                     vm.get_vm_exit_code(vm_exit_code);
                     if (vm_exit_code) {
                         boinc_finish(vm_exit_code);
@@ -996,7 +1109,7 @@ int main(int argc, char** argv) {
                         "%s Virtual machine exited.\n",
                         vboxwrapper_msg_prefix(buf, sizeof(buf))
                     );
-                    vm.dumphypervisorlogs(false);
+                    vm.dump_hypervisor_logs(false);
                     boinc_finish(0);
                 }
             }
@@ -1010,7 +1123,7 @@ int main(int argc, char** argv) {
                     vboxwrapper_msg_prefix(buf, sizeof(buf))
                 );
                 vm.reset_vm_process_priority();
-                vm.dumphypervisorlogs(true);
+                vm.dump_hypervisor_logs(true);
                 vm.poweroff();
                 boinc_finish(EXIT_OUT_OF_MEMORY);
             }
@@ -1047,6 +1160,9 @@ int main(int argc, char** argv) {
             if ((loop_iteration % 10) == 0) {
                 current_cpu_time = starting_cpu_time + vm.get_vm_cpu_time();
                 vm.check_trickle_triggers();
+                if (!vm.completion_trigger_file.empty()) {
+                    vm.check_completion_trigger();
+                }
             }
 
             if (vm.job_duration) {
@@ -1104,7 +1220,7 @@ int main(int argc, char** argv) {
                     );
                 }
 
-                vm.dumphypervisorstatusreports();
+                vm.dump_hypervisor_status_reports();
             }
 
             if (boinc_time_to_checkpoint()) {
@@ -1117,7 +1233,7 @@ int main(int argc, char** argv) {
                     }
 
                     // Checkpoint
-                    retval = vm.createsnapshot(elapsed_time);
+                    retval = vm.create_snapshot(elapsed_time);
                     if (retval) {
                         // Let BOINC clean-up the environment which should release any file/mutex locks and then attempt
                         // to resume from a previous snapshot.
@@ -1140,29 +1256,10 @@ int main(int argc, char** argv) {
                 }
             }
 
+            // send elapsed-time trickle message if needed
+            //
             if (trickle_period) {
-                if ((elapsed_time - last_trickle_report_time) >= trickle_period) {
-                    last_trickle_report_time = elapsed_time;
-                    fprintf(
-                        stderr,
-                        "%s Status Report: Trickle-Up Event.\n",
-                        vboxwrapper_msg_prefix(buf, sizeof(buf))
-                    );
-                    sprintf(buf,
-                        "<cpu_time>%f</cpu_time>", last_trickle_report_time
-                    );
-                    retval = boinc_send_trickle_up(
-                        const_cast<char*>("cpu_time"), buf
-                    );
-                    if (retval) {
-                        fprintf(
-                            stderr,
-                            "%s Sending Trickle-Up Event failed (%d).\n",
-                            vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                            retval
-                        );
-                    }
-                }
+                check_trickle_period();
             }
 
             if (boinc_status.reread_init_data_file) {

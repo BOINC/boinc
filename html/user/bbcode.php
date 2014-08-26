@@ -32,6 +32,7 @@ row1(tra("Examples"));
 row2_plain("[b]".tra("Bold")."[/b]", "<b>".tra("Bold")."</b>");
 row2_plain("[i]".tra("Italic")."[/i]", "<i>".tra("Italic")."</i>");
 row2_plain("[u]".tra("Underline")."[/u]", "<u>".tra("Underline")."</u>");
+row2_plain("[s]".tra("Strikethrough")."[/s]", "<s>".tra("Strikethrough")."</s>");
 row2_plain("[sup]".tra("Superscript")."[/sup]", "X<sup>".tra("Superscript")."</sup>");
 row2_plain("[size=15]".tra("Big text")."[/size]", "<span style=\"font-size: 15px\">".tra("Big text")."</span>");
 row2_plain("[color=red]".tra("Red text")."[/color]", "<font color=\"red\">".tra("Red text")."</font></li>");

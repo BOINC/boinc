@@ -140,6 +140,17 @@ ACTIVE_TASK::ACTIVE_TASK() {
     finish_file_time = 0;
 }
 
+bool ACTIVE_TASK::process_exists() {
+    switch (task_state()) {
+    case PROCESS_EXECUTING:
+    case PROCESS_SUSPENDED:
+    case PROCESS_ABORT_PENDING:
+    case PROCESS_QUIT_PENDING:
+        return true;
+    }
+    return false;
+}
+
 // preempt this task;
 // called from the CLIENT_STATE::enforce_schedule()
 // and ACTIVE_TASK_SET::suspend_all()
@@ -198,7 +209,9 @@ int ACTIVE_TASK::preempt(int preempt_type, int reason) {
 
 #ifndef SIM
 
-// called when a process has exited
+// called when the task's main process has exited.
+// delete the shared memory used to communicate with it,
+// and kill any remaining subsidiary processes.
 //
 void ACTIVE_TASK::cleanup_task() {
 #ifdef _WIN32
@@ -218,7 +231,7 @@ void ACTIVE_TASK::cleanup_task() {
 
     if (app_client_shm.shm) {
 #ifndef __EMX__
-        if (app_version->api_major_version() >= 6) {
+        if (app_version->api_version_at_least(6, 0)) {
             retval = detach_shmem_mmap(app_client_shm.shm, sizeof(SHARED_MEM));
         } else
 #endif
@@ -240,6 +253,8 @@ void ACTIVE_TASK::cleanup_task() {
         gstate.retry_shmem_time = 0;
     }
 #endif
+
+    kill_subsidiary_processes();
 
     if (cc_config.exit_after_finish) {
         gstate.write_state_file();
@@ -343,7 +358,8 @@ void ACTIVE_TASK_SET::get_memory_usage() {
     }
     PROCINFO boinc_total;
     if (log_flags.mem_usage_debug) {
-        memset(&boinc_total, 0, sizeof(boinc_total));
+        boinc_total.clear();
+        boinc_total.working_set_size_smoothed = 0;
     }
     for (i=0; i<active_tasks.size(); i++) {
         ACTIVE_TASK* atp = active_tasks[i];

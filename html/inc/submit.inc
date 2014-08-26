@@ -39,8 +39,12 @@ function req_to_xml($req, $op) {
     <app_name>$req->app_name</app_name>
     <batch_name>$req->batch_name</batch_name>
 ";
-    if ($req->result_template_file) {
+    if ((isset($req->result_template_file)) && ($req->result_template_file)) {
         $x .= "    <result_template_file>$req->result_template_file</result_template_file>
+";
+    }
+    if ((isset($req->workunit_template_file)) && ($req->workunit_template_file)) {
+        $x .= "    <workunit_template_file>$req->workunit_template_file</workunit_template_file>
 ";
     }
     foreach ($req->jobs as $job) {
@@ -162,7 +166,7 @@ function boinc_estimate_batch($req) {
     $name = $reply->getName();
     if ($name == 'estimate') {
         return array((string)$reply->seconds, null);
-    } else if ($name = 'error') {
+    } else if ($name == 'error') {
         return array(null, (string)$reply->message);
     } else {
         return array(null, "Bad reply message");

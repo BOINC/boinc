@@ -415,6 +415,19 @@ extern void localize(wxString& strMessage);
 extern void eol_to_br(wxString& strMessage);
 extern void remove_eols(wxString& strMessage);
 extern void https_to_http(wxString& strMessage);
+extern void color_cycle(int i, int n, wxColour& color);
+
+#ifdef __WXMSW__
+#define ADJUSTFORXDPI(x) (int)(x * GetXDPIScaling())
+#define ADJUSTFORYDPI(y) (int)(y * GetYDPIScaling())
+extern float GetXDPIScaling();
+extern float GetYDPIScaling();
+#else
+#define ADJUSTFORXDPI(x) x
+#define ADJUSTFORYDPI(y) y
+#endif
+
+wxBitmap GetScaledBitmapFromXPMData(const char** XPMData);
 
 #ifdef SANDBOX
 #define BOINC_MASTER_GROUP_NAME "boinc_master"

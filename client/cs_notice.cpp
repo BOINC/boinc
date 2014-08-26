@@ -345,9 +345,12 @@ bool NOTICES::remove_dups(NOTICE& n) {
         ) {
             i = notices.erase(i);
             removed_something = true;
+#if 0
+        // this check prevents news item edits from showing; skip it
         } else if (same_guid(n, n2)) {
             n2.keep = true;
             return false;
+#endif
         } else if (same_text(n, n2)) {
             int min_diff = 0;
 

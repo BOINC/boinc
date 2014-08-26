@@ -109,9 +109,12 @@ int main(int argc, char *argv[])
     // Expand the installer package
     system("rm -dfR /tmp/BOINC.pkg");
     system("rm -dfR /tmp/expanded_BOINC.pkg");
-    sprintf(temp, "pkgutil --expand \"%s\" /tmp/expanded_BOINC.pkg", pkgPath);
-    err = system(temp);
-
+    
+    if (compareOSVersionTo(10, 9) < 0) {
+        sprintf(temp, "pkgutil --expand \"%s\" /tmp/expanded_BOINC.pkg", pkgPath);
+        err = system(temp);
+    }
+    
     if (err == noErr) {
         GetPreferredLanguages();
     }
@@ -200,6 +203,10 @@ Boolean IsRestartNeeded()
     gid_t           boinc_master_gid = 0, boinc_project_gid = 0;
     uid_t           boinc_master_uid = 0, boinc_project_uid = 0;
     char            loginName[256];
+    
+    if (compareOSVersionTo(10, 9) >= 0) {
+        return false;
+    }
     
     grp = getgrnam(boinc_master_group_name);
     if (grp == NULL)

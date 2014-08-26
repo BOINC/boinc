@@ -18,6 +18,7 @@
 
 require_once("../inc/util.inc");
 require_once("../inc/prefs.inc");
+require_once("../inc/prefs_project.inc");
 
 $user = get_logged_in_user();
 check_tokens($user->authenticator);

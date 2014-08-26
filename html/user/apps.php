@@ -44,9 +44,13 @@ foreach ($apps as $app) {
         echo "    <user_friendly_name>$app->user_friendly_name</user_friendly_name>\n";
         echo "    <name>$app->name</name>\n";
         echo "    <id>$app->id</id>\n";
+        if ($app->beta) {
+            echo "        <beta/>\n";
+        }
     } else {
+        $b = $app->beta?" (beta test)":"";
         echo "
-            <tr><th colspan=4>$app->user_friendly_name</th></tr>
+            <tr><th colspan=4>$app->user_friendly_name$b</th></tr>
             <tr>
                 <th>".tra("Platform")."</th>
                 <th>".tra("Version")."</th>
@@ -67,6 +71,9 @@ foreach ($apps as $app) {
                 echo "        <plan_class>$av->plan_class</plan_class>\n";
                 echo "        <date>$create_time_f</date>\n";
                 echo "        <date_unix>$av->create_time</date_unix>\n";
+                if ($av->beta) {
+                    echo "        <beta/>\n";
+                }
                 echo "    </version>\n";
             } else {
                 $version_num_f = sprintf("%0.2f", $av->version_num/100);
@@ -76,9 +83,10 @@ foreach ($apps as $app) {
                 $gf = $av->expavg_credit/200;
                 $total_gf += $gf;
                 $gf = number_format($gf, 0);
+                $b = $av->beta?" (beta test)":"";
                 echo "<tr>
                     <td>$platform->user_friendly_name</td>
-                    <td>$version_num_f</td>
+                    <td>$version_num_f$b</td>
                     <td>$create_time_f</td>
                     <td align=right>$gf GigaFLOPS</td>
                     </tr>

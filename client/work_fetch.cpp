@@ -15,6 +15,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+#include <cmath>
+
 #include "cpp.h"
 
 #ifdef _WIN32
@@ -145,6 +147,12 @@ void RSC_PROJECT_WORK_FETCH::resource_backoff(PROJECT* p, const char* name) {
 }
 
 ///////////////  RSC_WORK_FETCH  ///////////////
+
+void RSC_WORK_FETCH::copy_request(COPROC& c) {
+    c.req_secs = req_secs;
+    c.req_instances = req_instances;
+    c.estimated_delay =  req_secs?busy_time_estimator.get_busy_time():0;
+}
 
 RSC_PROJECT_WORK_FETCH& RSC_WORK_FETCH::project_state(PROJECT* p) {
     return p->rsc_pwf[rsc_type];
@@ -420,6 +428,27 @@ void WORK_FETCH::set_all_requests(PROJECT* p) {
     }
 }
 #endif
+
+// copy request fields from RSC_WORK_FETCH to COPROCS
+//
+void WORK_FETCH::copy_requests() {
+    for (int i=0; i<coprocs.n_rsc; i++) {
+        switch (coproc_type_name_to_num(coprocs.coprocs[i].type)) {
+        case PROC_TYPE_NVIDIA_GPU:
+            rsc_work_fetch[i].copy_request(coprocs.nvidia);
+            break;
+        case PROC_TYPE_AMD_GPU:
+            rsc_work_fetch[i].copy_request(coprocs.ati);
+            break;
+        case PROC_TYPE_INTEL_GPU:
+            rsc_work_fetch[i].copy_request(coprocs.intel_gpu);
+            break;
+        default:
+            rsc_work_fetch[i].copy_request(coprocs.coprocs[i]);
+            break;
+        }
+    }
+}
 
 void WORK_FETCH::print_state() {
     msg_printf(0, MSG_INFO, "[work_fetch] ------- start work fetch state -------");
@@ -1054,13 +1083,25 @@ void CLIENT_STATE::compute_nuploading_results() {
 double ACTIVE_TASK::est_dur() {
     if (fraction_done >= 1) return elapsed_time;
     double wu_est = result->estimated_runtime();
-    if (wu_est < elapsed_time) wu_est = elapsed_time;
-    if (fraction_done <= 0) return wu_est;
+    if (fraction_done <= 0) {
+        if (elapsed_time > 0) {
+            // if app is running but hasn't reported fraction done,
+            // use the fraction-done guesstimate from ACTIVE_TASK::write_gui()
+            //
+            double fd = 1 - exp(-elapsed_time/wu_est);
+            return elapsed_time/fd;
+        } else {
+            return wu_est;
+        }
+    }
+    bool exceeded_wu_est = (elapsed_time > wu_est);
+    if (exceeded_wu_est) wu_est = elapsed_time;
     double frac_est = fraction_done_elapsed_time / fraction_done;
 
     // if app says fraction done is accurate, just use it
+    // also use it if static estimate has already been exceeded
     //
-    if (result->app->fraction_done_exact) return frac_est;
+    if (result->app->fraction_done_exact || exceeded_wu_est) return frac_est;
 
     // weighting of dynamic estimate is the fraction done
     // i.e. when fraction done is 0.5, weighting is 50/50

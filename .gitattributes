@@ -11,19 +11,37 @@
 *.h                     text eol=lf
 *.rc                    text eol=lf
 *.php                   text eol=lf
+*.xpm                   text eol=lf
+*.cu					text eol=lf
+*.cl					text eol=lf
+*.c					    text eol=lf
+*.hpp					text eol=lf
 
 # Project files
 #
 *.vcproj                text eol=crlf
 *.vcxproj               text eol=crlf
 *.sln                   text eol=crlf
+*.rules                 text eol=crlf
+*.bat                   text eol=crlf
+*.cmd                   text eol=crlf
 *.ac                    text eol=lf
 *.am                    text eol=lf
 *.in                    text eol=lf
 *.m4                    text eol=lf
+*Makefile*              text eol=lf
+*.mk                    text eol=lf
 
 # Commit Notes
 #
 checkin_notes           text eol=lf
 checkin_notes_2012      text eol=lf
 
+# Misc files
+#
+*.txt                   text eol=lf
+*.xml                   text eol=lf
+*.po                    text eol=lf
+*.log                   text eol=lf
+*.rtf                   text eol=lf
+*.rul                   text eol=crlf

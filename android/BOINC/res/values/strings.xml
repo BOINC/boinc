@@ -29,7 +29,7 @@
 
     <!-- attach project -->
     <!-- selection list -->
-    <string name="attachproject_list_desc">Select scientific projects you want to contribute in:</string>
+    <string name="attachproject_list_desc">Select scientific projects you want to contribute to:</string>
     <string name="attachproject_list_header">Choose a project</string>
     <string name="attachproject_list_manual_button">Add project by URL</string>
     <string name="attachproject_list_manual_dialog_title">Enter project URL:</string>
@@ -98,6 +98,7 @@
     <string name="attachproject_registration_header_pwd_confirm">&#8230; Retype:</string>
     <string name="attachproject_registration_button">Create</string>
     <!-- account manager -->
+    <string name="attachproject_acctmgr_list_desc">Use BOINC account manager to add and manage multiple projects</string>
     <string name="attachproject_acctmgr_header">Add account manager</string>
     <string name="attachproject_acctmgr_header_url">URL</string>
     <string name="attachproject_acctmgr_header_name">User:</string>
@@ -382,5 +383,12 @@
     <string name="nonexcl_dialog_header">Volunteer computing app detected</string>
     <string name="nonexcl_dialog_text">Another volunteer computing app is running on this device. Only one version can run at a time.</string>
     <string name="nonexcl_dialog_exit">Exit</string>
+    
+    <!-- social integration -->
+    <string name="social_invite_button">Invite friends</string>
+    <string name="social_invite_intent_title">How do you want to share?</string>
+    <string name="social_invite_content_title">I\'m doing science on my smartphone!</string>
+    <string name="social_invite_content_body">I\'m using my %1$s to do computing for science. You can too! Download the app from: %2$s</string> <!-- first parameter: device manufacturer, second: URL -->
+    <string name="social_invite_content_url">https://play.google.com/store/apps/details?id=edu.berkeley.boinc</string>
 
 </resources>

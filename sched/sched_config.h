@@ -122,7 +122,7 @@ struct SCHED_CONFIG {
     int locality_scheduling_send_timeout;
     vector<regex_t> *locality_scheduling_workunit_file;
     vector<regex_t> *locality_scheduling_sticky_file;
-    bool matchmaker;
+    bool sched_old;
     int max_download_urls_per_file;
     int max_ncpus;
     JOB_LIMITS max_jobs_in_progress;
@@ -136,8 +136,6 @@ struct SCHED_CONFIG {
     int min_core_client_version_announced;
     int min_core_client_upgrade_deadline;
     int min_sendwork_interval;
-    int mm_min_slots;
-    int mm_max_slots;
     double next_rpc_delay;
     bool no_amd_k6;
         // don't allow AMD K6 CPUs
@@ -179,6 +177,12 @@ struct SCHED_CONFIG {
     bool estimate_flops_from_hav_pfc;
         // Use host_app_version peak flop count rather than elapsed time 
         // to calculate projected_flops when choosing version.
+    bool credit_by_app;
+        // store per-app credit info in credit_user and credit_team
+
+    // time intervals
+    double maintenance_delay;
+        // if stop_sched is set, tell clients to delay this much
 
     // scheduler log flags
     //

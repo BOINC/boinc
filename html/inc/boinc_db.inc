@@ -473,7 +473,7 @@ class BoincPrivateMessage {
         $db = BoincDb::get();
         return $db->delete($this, 'private_messages');
     }
-    function delete_aux($clause) {
+    static function delete_aux($clause) {
         $db = BoincDb::get();
         return $db->delete_aux('private_messages', $clause);
     }
@@ -532,6 +532,8 @@ function latest_avs_app_platform($appid, $platformid) {
         foreach ($avs as $av2) {
             if ($av->id == $av2->id) continue;
             if ($av->plan_class == $av2->plan_class && $av->version_num > $av2->version_num) {
+                $av2->deprecated = 1;
+            } else if ($av2->beta) {
                 $av2->deprecated = 1;
             }
         }
@@ -644,5 +646,34 @@ class BoincBadgeTeam {
     }
 }
 
+class BoincCreditUser {
+    static function lookup($clause) {
+        $db = BoincDb::get();
+        return $db->lookup('credit_user', 'BoincCreditUser', $clause);
+    }
+    static function enum($where_clause) {
+        $db = BoincDb::get();
+        return $db->enum('credit_user', 'BoincCreditUser', $where_clause);
+    }
+    static function sum($field, $clause) {
+        $db = BoincDb::get();
+        return $db->sum('credit_user', $field, $clause);
+    }
+}
+
+class BoincCreditTeam {
+    static function lookup($clause) {
+        $db = BoincDb::get();
+        return $db->lookup('credit_team', 'BoincCreditTeam', $clause);
+    }
+    static function enum($where_clause) {
+        $db = BoincDb::get();
+        return $db->enum('credit_team', 'BoincCreditTeam', $where_clause);
+    }
+    static function sum($field, $clause) {
+        $db = BoincDb::get();
+        return $db->sum('credit_team', $field, $clause);
+    }
+}
 
 ?>

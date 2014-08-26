@@ -18,7 +18,7 @@
 
 // antique_file deleter
 // removes files from the upload/download hierarchies that are
-// older than any WU
+// older than any WU (except "no_delete" WUs)
 // See usage() below for usage.
 
 // how long to wait until delete antiques, and how often to do it
@@ -237,7 +237,7 @@ static int delete_antiques() {
 
     // t = min (create_time_of_oldest_wu, 31days_ago)
     t = time(0) - 32*86400;
-    if (!wu.enumerate("order by id limit 1") && (t > wu.create_time)) {
+    if (!wu.enumerate("where name not like '%nodelete%' order by id limit 1") && (t > wu.create_time)) {
         t = wu.create_time - 86400;
     }
 

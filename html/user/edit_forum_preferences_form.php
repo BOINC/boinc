@@ -30,18 +30,7 @@ BoincForumPrefs::lookup($user);
 
 page_head(tra("Community preferences"));
 
-// output a script for counting chars left in text field
-//
-echo "<script type=\"text/javascript\">
-    function textCounter(field, countfield, maxlimit) {
-        if (field.value.length > maxlimit) {
-            field.value =field.value.substring(0, maxlimit);
-        } else {
-            countfield.value = maxlimit - field.value.length
-        }
-    }
-    </script>
-";
+text_counter_script();
 
 start_table();
 echo "<form method=\"post\" action=\"edit_forum_preferences_action.php\" enctype=\"multipart/form-data\">";
@@ -100,10 +89,8 @@ row2(
     .tra("Check out %1various free services%2
 <br> providing dynamic 'signature images'
 <br> showing your latest credit info, project news, etc.", "<a href=http://boinc.berkeley.edu/links.php#sigs>", "</a>"),
-    "<textarea name=\"signature\" rows=4 cols=50 id=\"signature\" onkeydown=\"textCounter(this.form.signature, this.form.remLen,$maxlen);\"
-    onkeyup=\"textCounter(this.form.signature, this.form.remLen,250);\">".$signature."</textarea>
-    <br><input name=\"remLen\" type=\"text\" id=\"remLen\" value=\"".($maxlen-strlen($signature))."\" size=\"3\" maxlength=\"3\" readonly> ".tra("characters remaining")."
-    <br><input type=\"checkbox\" name=\"signature_by_default\" ".$signature_by_default."> ".tra("Attach signature by default")
+    textarea_with_counter("signature", 250, $signature)
+    ."<br><input type=\"checkbox\" name=\"signature_by_default\" ".$signature_by_default."> ".tra("Attach signature by default")
 );
 if ($user->prefs->signature!=""){
     row2(tra("Signature preview").

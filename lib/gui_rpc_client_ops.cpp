@@ -459,6 +459,7 @@ int PROJECT::parse(XML_PARSER& xp) {
         if (xp.parse_str("venue", venue, sizeof(venue))) continue;
         if (xp.parse_int("njobs_success", njobs_success)) continue;
         if (xp.parse_int("njobs_error", njobs_error)) continue;
+        if (xp.parse_str("external_cpid", external_cpid, sizeof(external_cpid))) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -512,6 +513,7 @@ void PROJECT::clear() {
     strcpy(venue, "");
     njobs_success = 0;
     njobs_error = 0;
+    strcpy(external_cpid, "");
 }
 
 APP::APP() {

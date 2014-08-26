@@ -60,6 +60,7 @@ void PROJECT::init() {
     strcpy(team_name, "");
     strcpy(email_hash, "");
     strcpy(cross_project_id, "");
+    strcpy(external_cpid, "");
     cpid_time = 0;
     user_total_credit = 0;
     user_expavg_credit = 0;
@@ -106,6 +107,7 @@ void PROJECT::init() {
     too_many_uploading_results = false;
     njobs_success = 0;
     njobs_error = 0;
+    app_configs.clear();
 
 #ifdef SIM
     idle_time = 0;
@@ -190,6 +192,7 @@ int PROJECT::parse_state(XML_PARSER& xp) {
         if (xp.parse_str("host_venue", host_venue, sizeof(host_venue))) continue;
         if (xp.parse_str("email_hash", email_hash, sizeof(email_hash))) continue;
         if (xp.parse_str("cross_project_id", cross_project_id, sizeof(cross_project_id))) continue;
+        if (xp.parse_str("external_cpid", external_cpid, sizeof(external_cpid))) continue;
         if (xp.parse_double("cpid_time", cpid_time)) continue;
         if (xp.parse_double("user_total_credit", user_total_credit)) continue;
         if (xp.parse_double("user_expavg_credit", user_expavg_credit)) continue;
@@ -352,6 +355,7 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         "    <host_venue>%s</host_venue>\n"
         "    <email_hash>%s</email_hash>\n"
         "    <cross_project_id>%s</cross_project_id>\n"
+        "    <external_cpid>%s</external_cpid>\n"
         "    <cpid_time>%f</cpid_time>\n"
         "    <user_total_credit>%f</user_total_credit>\n"
         "    <user_expavg_credit>%f</user_expavg_credit>\n"
@@ -386,6 +390,7 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         host_venue,
         email_hash,
         cross_project_id,
+        external_cpid,
         cpid_time,
         user_total_credit,
         user_expavg_credit,
@@ -521,6 +526,7 @@ void PROJECT::copy_state_fields(PROJECT& p) {
     safe_strcpy(host_venue, p.host_venue);
     safe_strcpy(email_hash, p.email_hash);
     safe_strcpy(cross_project_id, p.cross_project_id);
+    safe_strcpy(external_cpid, p.external_cpid);
     user_total_credit = p.user_total_credit;
     user_expavg_credit = p.user_expavg_credit;
     user_create_time = p.user_create_time;

@@ -19,6 +19,7 @@
 require_once("../inc/forum_db.inc");
 require_once("../inc/pm.inc");
 require_once("../inc/team.inc");
+require_once("../inc/user.inc");
 require_once("../inc/news.inc");
 require_once("../inc/text_transform.inc");
 
@@ -926,6 +927,7 @@ function forum_delete_user($user) {
     }
     $p = BoincForumPrefs::lookup_userid($user->id);
     if ($p) $p->delete();
+    BoincForumLogging::delete_aux("userid=$user->id");
 }
 
 function move_post($post, $old_thread, $old_forum, $new_thread, $new_forum) {

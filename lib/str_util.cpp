@@ -467,6 +467,7 @@ const char* boincerror(int which_error) {
         case ERR_NOT_FOUND: return "not found";
         case ERR_NO_EXIT_STATUS: return "no exit status in scheduler request";
         case ERR_FILE_MISSING: return "file missing";
+        case ERR_KILL: return "kill() or TerminateProcess() failed";
         case ERR_SEMGET: return "semget() failed";
         case ERR_SEMCTL: return "semctl() failed";
         case ERR_SEMOP: return "semop() failed";
@@ -527,6 +528,7 @@ const char* boincerror(int which_error) {
         case ERR_CRYPTO: return "encryption error";
         case ERR_ABORTED_ON_EXIT: return "job was aborted on client exit";
         case ERR_PROC_PARSE: return "a /proc entry was not parsed correctly";
+        case ERR_PIPE: return "pipe() failed";
         case 404: return "HTTP file not found";
         case 407: return "HTTP proxy authentication failure";
         case 416: return "HTTP range request error";

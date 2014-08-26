@@ -16,6 +16,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// mechanism for caching commonly-accessed pages
+
 require_once("../project/cache_parameters.inc");
 
 // If we can't see request headers, don't do caching
@@ -24,8 +26,6 @@ $no_cache = false;
 if (!function_exists("apache_request_headers")) {
     $no_cache = true;
 }
-
-// mechanism for caching commonly-accessed pages
 
 function make_cache_dirs() {
     if (!@filemtime("../cache")) {
@@ -105,18 +105,15 @@ function clean_cache($max_age, $dir) {
 } 
 
 
-// check free disk space every once in a while
+// check cache size every once in a while, purge if too big
+//
 function cache_check_diskspace(){
-    if (!(rand() % CACHE_SIZE_CHECK_FREQ)) {
-        set_time_limit(0);  // this may take a while
-        $max_age = 86400;
-        while ((disk_free_space("../cache") < MIN_FREE_SPACE) ||
-            (disk_usage("../cache") > MAX_CACHE_USAGE)
-        ) {
-            clean_cache($max_age, "../cache");
-            $max_age/=2;
-        }
-    }
+    if ((rand() % CACHE_SIZE_CHECK_FREQ)) return;
+    if (disk_usage("../cache") < MAX_CACHE_USAGE) return;
+    $x = max(TEAM_PAGE_TTL, USER_PAGE_TTL, USER_HOST_TTL,
+        USER_PROFILE_TTL, TOP_PAGES_TTL, INDEX_PAGE_TTL
+    );
+    clean_cache($x, "../cache");
 }
 
 function cache_need_to_regenerate($path, $max_age){

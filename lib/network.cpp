@@ -146,8 +146,12 @@ int resolve_hostname(const char* hostname, sockaddr_storage &ip_addr) {
     if (!hep) {
         return ERR_GETHOSTBYNAME;
     }
-    ip_addr.sin_family = AF_INET;
-    ip_addr.sin_addr.s_addr = *(int*)hep->h_addr_list[0];
+    for (int i=0; ; i++) {
+        if (!hep->h_addr_list[i]) break;
+        ip_addr.sin_family = AF_INET;
+        ip_addr.sin_addr.s_addr = *(int*)hep->h_addr_list[i];
+        if ((ip_addr.sin_addr.s_addr&0xff) != 0x7f) return 0;     // look for non-loopback addr
+    }
     return 0;
 
 #else
@@ -162,7 +166,13 @@ int resolve_hostname(const char* hostname, sockaddr_storage &ip_addr) {
         perror("getaddrinfo");
         return retval;
     }
-    memcpy(&ip_addr, res->ai_addr, res->ai_addrlen);
+    struct addrinfo* aip = res;
+    while (aip) {
+        memcpy(&ip_addr, aip->ai_addr, aip->ai_addrlen);
+        sockaddr_in* sin = (sockaddr_in*)&ip_addr;
+        if ((sin->sin_addr.s_addr&0xff) != 0x7f) break;
+        aip = aip->ai_next;
+    }
     freeaddrinfo(res);
     return 0;
 #endif
@@ -290,4 +300,37 @@ void reset_dns() {
     // Windows doesn't have this, and it crashes Macs
     res_init();
 #endif
+}
+
+// Get an unused port number.
+// Used by vboxwrapper.
+// I'm not sure if is_remote is relevant here - a port is a port, right?
+//
+int boinc_get_port(bool is_remote, int& port) {
+    sockaddr_in addr;
+    BOINC_SOCKLEN_T addrsize;
+    int sock;
+    int retval;
+
+    addrsize = sizeof(sockaddr_in);
+
+    memset(&addr, 0, sizeof(sockaddr_in));
+    addr.sin_family = AF_INET;
+    addr.sin_port = htons(0);
+    addr.sin_addr.s_addr = htonl(is_remote?INADDR_ANY:INADDR_LOOPBACK);
+
+    retval = boinc_socket(sock);
+    if (retval) return retval;
+
+    retval = bind(sock, (const sockaddr*)&addr, addrsize);
+    if (retval < 0) {
+        boinc_close_socket(sock);
+        return ERR_BIND;
+    }
+
+    getsockname(sock, (sockaddr*)&addr, &addrsize);
+    port = ntohs(addr.sin_port);
+
+    boinc_close_socket(sock);
+    return 0;
 }

@@ -134,9 +134,77 @@ function project_user_page_private($user){
     // shown in the private account page
 }
 
-function project_user_credit($user){
-    // shown in the the private account page, credit area
+if (0) {
+
+// show project-specific credit on user/team pages
+//
+function show_app_credit_user($user, $app_name, $appids) {
+    $t = 0;
+    $a = 0;
+    $n = 0;
+    foreach ($appids as $appid) {
+        $cu = BoincCreditUser::lookup(
+            "userid=$user->id and appid=$appid and credit_type=0"
+        );
+        if ($cu) {
+            $t += $cu->total;
+            $a += $cu->expavg;
+            $n += $cu->njobs;
+        }
+    }
+    row2("$app_name credit",
+        format_credit_large($t)." total, ".
+        format_credit($a)." average".
+        " ($n tasks)"
+    );
 }
+function show_app_credit_team($team, $app_name, $appids) {
+    $t = 0;
+    $a = 0;
+    $n = 0;
+    foreach ($appids as $appid) {
+        $ct = BoincCreditTeam::lookup(
+            "teamid=$team->id and appid=$appid and credit_type=0"
+        );
+        if ($ct) {
+            $t += $ct->total;
+            $a += $ct->expavg;
+            $n += $ct->njobs;
+        }
+    }
+    row2("$app_name credit",
+        format_credit_large($t)." total, ".
+        format_credit($a)." average".
+        " ($n tasks)"
+    );
+}
+
+// a list of "sub-projects", used in the display of per-app credit and badges.
+// A subproject is:
+// - a set of 1 or more apps; an app can belong to at most 1 subproject.
+// - a name, shown on the web site
+// - a short name, used in badge names.  Don't use "total".
+//
+$sub_projects = array(
+    array("name" => "Remote Test", "short_name" => "RT", "appids" => array(16)),
+    array("name" => "Uppercase", "short_name" => "UC", "appids" => array(1, 25)),
+);
+
+function project_user_credit($user){
+    global $sub_projects;
+    foreach ($sub_projects as $sp) {
+        show_app_credit_user($user, $sp["name"], $sp["appids"]);
+    }
+}
+
+function project_team_credit($team) {
+    global $sub_projects;
+    foreach ($sub_projects as $sp) {
+        show_app_credit_team($team, $sp["name"], $sp["appids"]);
+    }
+}
+
+}   // if(0)
 
 function project_forum_post_rules() {
     // additional forum post rules

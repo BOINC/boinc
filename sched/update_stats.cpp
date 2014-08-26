@@ -17,7 +17,7 @@
 
 // update_stats:
 // Update average credit for idle users, hosts and teams.
-// These fields are updates as new credit is granted;
+// These fields are updated as new credit is granted;
 // the purpose of this program is to decay credit of entities
 // that are inactive for long periods.
 // Run it about once a day.

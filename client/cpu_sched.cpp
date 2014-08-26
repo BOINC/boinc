@@ -1011,10 +1011,12 @@ static inline bool more_important(RESULT* r0, RESULT* r1) {
     if (unfin0 && !unfin1) return true;
     if (!unfin0 && unfin1) return false;
 
-    // favor jobs that use more CPUs
+    // for CPU jobs, favor jobs that use more CPUs
     //
-    if (r0->avp->avg_ncpus > r1->avp->avg_ncpus) return true;
-    if (r1->avp->avg_ncpus > r0->avp->avg_ncpus) return false;
+    if (!cp0) {
+        if (r0->avp->avg_ncpus > r1->avp->avg_ncpus) return true;
+        if (r1->avp->avg_ncpus > r0->avp->avg_ncpus) return false;
+    }
 
     // favor jobs selected first by schedule_cpus()
     // (e.g., because their project has high sched priority)
@@ -1550,17 +1552,6 @@ double CLIENT_STATE::nearly_runnable_resource_share() {
         }
     }
     return x;
-}
-
-bool ACTIVE_TASK::process_exists() {
-    switch (task_state()) {
-    case PROCESS_EXECUTING:
-    case PROCESS_SUSPENDED:
-    case PROCESS_ABORT_PENDING:
-    case PROCESS_QUIT_PENDING:
-        return true;
-    }
-    return false;
 }
 
 // if there's not an active task for the result, make one

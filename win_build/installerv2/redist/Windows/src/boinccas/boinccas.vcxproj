@@ -207,6 +207,7 @@
   <ItemGroup>
     <ClCompile Include="aclmgmt.cpp" />
     <ClCompile Include="boinccas.cpp" />
+    <ClCompile Include="CAAnnounceUpgrade.cpp" />
     <ClCompile Include="CACCConfigMd5sum.cpp" />
     <ClCompile Include="CACleanupOldBinaries.cpp" />
     <ClCompile Include="CACreateAcctMgrLoginFile.cpp" />
@@ -269,6 +270,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="boinccas.h" />
+    <ClInclude Include="CAAnnounceUpgrade.h" />
     <ClInclude Include="CACCConfigMd5sum.h" />
     <ClInclude Include="CACleanupOldBinaries.h" />
     <ClInclude Include="CACreateAcctMgrLoginFile.h" />

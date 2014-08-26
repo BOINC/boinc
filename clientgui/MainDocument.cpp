@@ -2601,3 +2601,90 @@ wxString result_description(RESULT* result, bool show_resources) {
     return strBuffer;
 }
 
+static void hsv2rgb(
+    double h, double s, double v, double& r, double& g, double& b
+) {
+    double m, n, f;
+    int i = floor(h);
+    f = h - i;
+    if (!(i&1)) f = 1 - f;
+    m = v * (1 - s);
+    n = v * (1 - s*f);
+    switch (i) {
+    case 6:
+    case 0: r = v; g = n; b = m; return;
+    case 1: r = n; g = v; b = m; return;
+    case 2: r = m; g = v; b = n; return;
+    case 3: r = m; g = n; b = v; return;
+    case 4: r = n; g = m; b = v; return;
+    case 5: r = v; g = m; b = n; return;
+    }
+}
+
+// return the ith out of n maximally distinct colors
+//
+void color_cycle(int i, int n, wxColour& color) {
+    double h = (double)i/(double)n;
+    double r, g, b;
+    double v = .6;
+    if (n > 6) v = .5 + (i % 3)*.125;
+        // cycle through 3 different brightnesses
+    hsv2rgb(h*6, .5, v, r, g, b);
+    unsigned char cr = (unsigned char) (r*256);
+    unsigned char cg = (unsigned char) (g*256);
+    unsigned char cb = (unsigned char) (b*256);
+    color = wxColour(cr, cg, cb);
+}
+
+#ifdef __WXMSW__
+static float XDPIScaleFactor = 0.0;
+static float YDPIScaleFactor = 0.0;
+
+void GetDPIScaling() {
+	XDPIScaleFactor = 1.0;
+	YDPIScaleFactor = 1.0;
+	// SetProcessDPIAware() requires Windows Vista or later
+	HMODULE hUser32 = LoadLibrary(_T("user32.dll"));
+	typedef BOOL (*SetProcessDPIAwareFunc)();
+	SetProcessDPIAwareFunc setDPIAware = (SetProcessDPIAwareFunc)GetProcAddress(hUser32, "SetProcessDPIAware");
+	if (setDPIAware) {
+		setDPIAware();
+		HWND hWnd = GetForegroundWindow();
+		HDC hdc = GetDC(hWnd);
+		XDPIScaleFactor = GetDeviceCaps(hdc, LOGPIXELSX) / 96.0f;
+		YDPIScaleFactor = GetDeviceCaps(hdc, LOGPIXELSY) / 96.0f;
+		ReleaseDC(hWnd, hdc);
+	}
+	FreeLibrary(hUser32);
+}
+
+float GetXDPIScaling() {
+	if (XDPIScaleFactor == 0.0) {
+		GetDPIScaling();
+	}
+	return XDPIScaleFactor;
+}
+
+float GetYDPIScaling() {
+	if (YDPIScaleFactor == 0.0) {
+		GetDPIScaling();
+	}
+	return YDPIScaleFactor;
+}
+#endif
+
+// TODO: Choose from multiple size images if provided, else resize the closest one
+wxBitmap GetScaledBitmapFromXPMData(const char** XPMData) {
+#ifdef __WXMSW__
+    if ((GetXDPIScaling() > 1.05) || (GetYDPIScaling() > 1.05)) {
+        wxImage img = wxImage(XPMData);
+        img.Rescale((int) (img.GetWidth()*GetXDPIScaling()), 
+                    (int) (img.GetHeight()*GetYDPIScaling()), 
+                    wxIMAGE_QUALITY_BILINEAR
+                );
+        wxBitmap *bm = new wxBitmap(img);
+        return *bm;
+    }
+#endif
+    return wxBitmap(XPMData);
+}

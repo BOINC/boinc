@@ -101,8 +101,11 @@ int procinfo_setup(PROC_MAP& pm) {
 // This eliminates the need to install our own application which runs setuid 
 // root; this was perceived by some users as a security risk.
 
-
-    fd = popen("ps -axcopid,ppid,rss,vsz,pagein,pri,time,command", "r");
+// Under OS 10.8.x (only) ps writes a spurious warning to stderr if called
+// from a process that has the DYLD_LIBRARY_PATH environment variable set.
+// "env -i command" prevents the command from inheriting the caller's 
+// environment, which avoids the spurious warning.
+    fd = popen("env -i ps -axcopid,ppid,rss,vsz,pagein,pri,time,command", "r");
     if (!fd) return ERR_FOPEN;
 
     // Skip over the header line

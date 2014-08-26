@@ -125,7 +125,8 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
         "    <prrs_fraction>%f</prrs_fraction>\n"
         "    <duration_correction_factor>%f</duration_correction_factor>\n"
         "    <allow_multiple_clients>%d</allow_multiple_clients>\n"
-        "    <sandbox>%d</sandbox>\n",
+        "    <sandbox>%d</sandbox>\n"
+        "    <dont_send_work>%d</dont_send_work>\n",
         p->authenticator,
         p->hostid,
         p->rpc_seqno,
@@ -137,7 +138,8 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
         prrs_fraction,
         p->duration_correction_factor,
         cc_config.allow_multiple_clients?1:0,
-        g_use_sandbox?1:0
+        g_use_sandbox?1:0,
+        p->dont_request_more_work?1:0
     );
     work_fetch.write_request(f, p);
 
@@ -225,28 +227,8 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
         total_disk_usage, p->disk_usage, p->disk_share
     );
 
-    // copy request values from RSC_WORK_FETCH to COPROC
-    //
-    int j = rsc_index(GPU_TYPE_NVIDIA);
-    if (j > 0) {
-        coprocs.nvidia.req_secs = rsc_work_fetch[j].req_secs;
-        coprocs.nvidia.req_instances = rsc_work_fetch[j].req_instances;
-        coprocs.nvidia.estimated_delay = rsc_work_fetch[j].req_secs?rsc_work_fetch[j].busy_time_estimator.get_busy_time():0;
-    }
-    j = rsc_index(GPU_TYPE_ATI);
-    if (j > 0) {
-        coprocs.ati.req_secs = rsc_work_fetch[j].req_secs;
-        coprocs.ati.req_instances = rsc_work_fetch[j].req_instances;
-        coprocs.ati.estimated_delay = rsc_work_fetch[j].req_secs?rsc_work_fetch[j].busy_time_estimator.get_busy_time():0;
-    }
-    j = rsc_index(GPU_TYPE_INTEL);
-    if (j > 0) {
-        coprocs.intel_gpu.req_secs = rsc_work_fetch[j].req_secs;
-        coprocs.intel_gpu.req_instances = rsc_work_fetch[j].req_instances;
-        coprocs.intel_gpu.estimated_delay = rsc_work_fetch[j].req_secs?rsc_work_fetch[j].busy_time_estimator.get_busy_time():0;
-    }
-
     if (coprocs.n_rsc > 1) {
+        work_fetch.copy_requests();
         coprocs.write_xml(mf, true);
     }
 
@@ -301,7 +283,7 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
     // send descriptions of app versions
     //
     fprintf(f, "<app_versions>\n");
-    j=0;
+    int j=0;
     for (i=0; i<app_versions.size(); i++) {
         APP_VERSION* avp = app_versions[i];
         if (avp->project != p) continue;
@@ -391,6 +373,10 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
         copy_stream(cof, f);
         fprintf(f, "\n]]>\n</client_opaque>\n");
         fclose(cof);
+    }
+
+    if (strlen(client_brand)) {
+        fprintf(f, "    <client_brand>%s</client_brand>\n", client_brand);
     }
 
     fprintf(f, "</scheduler_request>\n");
@@ -680,7 +666,7 @@ int CLIENT_STATE::handle_scheduler_reply(
     if (sr.project_is_down) {
         if (sr.request_delay) {
             double x = now + sr.request_delay;
-            project->set_min_rpc_time(x, "project is down");
+            project->set_min_rpc_time(x, "project requested delay");
         }
         return ERR_PROJECT_DOWN;
     }

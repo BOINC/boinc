@@ -16,6 +16,12 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// Utility functions for BOINC web pages
+
+error_reporting(E_ALL);
+ini_set('display_errors', true);
+ini_set('display_startup_errors', true);
+
 require_once("../inc/util_basic.inc");
 require_once("../project/project.inc");
 require_once("../inc/countries.inc");
@@ -385,16 +391,6 @@ function row2_plain($x, $y) {
     echo "<tr><td>$x</td><td>$y</td></tr>\n";
 }
 
-function row3($x, $y, $z) {
-    echo "<tr><td width=\"30%\" align=\"right\">$x</td><td>$y</td><td>$z</td></tr>\n";
-}
-
-function row4($xx, $xy, $yx, $yy) {
-    echo "<tr><td width=\"25%\">$xx</td><td width=\"25%\">$xy</td>"
-        . "<td width=\"25%\">$yx</td><td width=\"%25\">$yy</td></tr>
-    ";
-}
-
 function rowify($string) {
     echo "<tr><td>$string</td></tr>";
 }
@@ -512,52 +508,6 @@ function format_credit($x) {
 //
 function format_credit_large($x) {
     return number_format($x, 0);
-}
-
-function friend_links($user) {
-    if (is_banished($user)) {
-        return "";
-    }
-    $x = "<table height=\"100\" width=\"150\" border=\"0\" cellpadding=\"4\"><tr><td class=\"friend\">";
-    if ($user->has_profile) {
-        $profile = BoincProfile::lookup_fields("has_picture", "userid=$user->id");
-        if ($profile && $profile->has_picture) {
-            $img_url = profile_thumb_url($user->id);
-        } else {
-            $img_url = URL_BASE."img/head_20.png";
-        }
-        $title = tra("View the profile of %1", $user->name);
-        $alt = tra("Profile");
-        $x .= ' <a href="'.URL_BASE.'view_profile.php?userid='.$user->id.'"><img title="'.$title.'" src="'.$img_url.'" alt="'.$alt.'"></a><br>';
-    }
-    $x .= " <a href=\"".URL_BASE."show_user.php?userid=".$user->id."\">".$user->name."</a>";
-    if ($user->donated == 1) {
-        require_once("../project/donations.inc");
-        $x .= DONATION_LINK;
-    }
-    $x .= "</td></tr></table>\n";
-    return $x;
-}
-
-function user_links($user) {
-    BoincForumPrefs::lookup($user);
-    if (is_banished($user)) {
-        return "(banished: ID $user->id)";
-    }
-    $x = "";
-    if ($user->has_profile) {
-        $img_url = URL_BASE."img/head_20.png";
-        $x .= ' <a href="'.URL_BASE.'view_profile.php?userid='.$user->id.'"><img title="View the profile of '.$user->name.'" src="'.$img_url.'" alt="Profile"></a>';
-    }
-    $x .= " <a href=\"".URL_BASE."show_user.php?userid=".$user->id."\">".$user->name."</a>";
-    if ($user->donated == 1) {
-        require_once("../project/donations.inc");
-        $x .= DONATION_LINK;
-    }
-    if (function_exists("project_user_links")){
-        $x .= project_user_links($user);
-    }
-    return $x;
 }
 
 function host_link($hostid) {
@@ -942,20 +892,27 @@ function redirect_to_secure_url($url) {
     }
 }
 
-function show_badges($is_user, $item) {
-    if (DISABLE_BADGES) return;
+function badges_string($is_user, $item, $height) {
+    if (DISABLE_BADGES) return null;
     if ($is_user) {
         $bus = BoincBadgeUser::enum("user_id=$item->id");
     } else {
         $bus = BoincBadgeTeam::enum("team_id=$item->id");
     }
-    if (!$bus) return;
+    if (!$bus) return null;
     $x = "";
     foreach ($bus as $bu) {
         $badge = BoincBadge::lookup_id($bu->badge_id);
-        $x .= "<img title=\"$badge->title\" height=48 src=$badge->image_url> ";
+        $x .= "<img title=\"$badge->title\" valign=top height=$height src=$badge->image_url> ";
     }
-    row2("Badges", $x);
+    return $x;
+}
+
+function show_badges_row($is_user, $item) {
+    $x = badges_string($is_user, $item, 48);
+    if ($x) {
+        row2("Badges", $x);
+    }
 }
 
 function dtime() {
@@ -973,6 +930,32 @@ function boinc_client_version(){
         return $matches[1]*10000 + $matches[2]*100 + $matches[3];
     }
     return 0;
+}
+
+// output a script for counting chars left in text field
+//
+function text_counter_script() {
+    echo "<script type=\"text/javascript\">
+        function text_counter(field, countfield, maxlimit) {
+            if (field.value.length > maxlimit) {
+                field.value =field.value.substring(0, maxlimit);
+            } else {
+                countfield.value = maxlimit - field.value.length
+            }
+        }
+        </script>
+    ";
+}
+
+// return HTML for a textarea with chars-remaining counter.
+// Call text_counter_script() before using this.
+//
+function textarea_with_counter($name, $maxlen, $text) {
+    $rem_name = $name."_remaining";
+    return "<textarea name=\"$name\" rows=4 cols=50 id=\"$name\" onkeydown=\"text_counter(this.form.$name, this.form.$rem_name, $maxlen);\"
+        onkeyup=\"text_counter(this.form.$name, this.form.$rem_name, $maxlen);\">".$text."</textarea>
+        <br><input name=\"$rem_name\" type=\"text\" id=\"$rem_name\" value=\"".($maxlen-strlen($text))."\" size=\"3\" maxlength=\"3\" readonly> ".tra("characters remaining")
+    ;
 }
 
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit

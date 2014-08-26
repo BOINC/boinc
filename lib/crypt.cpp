@@ -213,8 +213,7 @@ int scan_key_hex(FILE* f, KEY* key, int size) {
     key->bits = num_bits;
     len = size - sizeof(key->bits);
     for (i=0; i<len; i++) {
-        fs = fscanf(f, "%2x", &n);
-        if (fs != 1) return ERR_NULL;
+        fscanf(f, "%2x", &n);
         key->data[i] = n;
     }
     fs = fscanf(f, ".");

@@ -99,11 +99,7 @@ if ($temp_sort_style) {
     }
 }
 
-if ($logged_in_user && $logged_in_user->prefs->jump_to_unread){
-    page_head($title, 'jumpToUnread();');
-} else {
-    page_head($title);
-}
+page_head($title, 'jumpToUnread();');
 
 $is_subscribed = $logged_in_user && BoincSubscription::lookup($logged_in_user->id, $thread->id);
 
