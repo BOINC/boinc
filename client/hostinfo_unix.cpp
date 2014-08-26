@@ -1569,7 +1569,7 @@ inline bool device_idle(time_t t, const char *device) {
     return stat(device, &sbuf) || (sbuf.st_atime < t);
 }
 
-static const struct dir_dev {
+static const struct dir_tty_dev {
     const char *dir;
     const char *dev;
 } tty_patterns[] = {
@@ -1629,7 +1629,7 @@ inline bool all_tty_idle(time_t t) {
     return true;
 }
 
-static const struct dir_dev {
+static const struct dir_input_dev {
     const char *dir;
     const char *dev;
 } input_patterns[] = {
