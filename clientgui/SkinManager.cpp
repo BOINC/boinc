@@ -156,6 +156,7 @@ bool CSkinImage::Validate() {
             wxImage img = wxImage(m_strDesiredBitmap, wxBITMAP_TYPE_ANY);
             if (img.IsOk()) {
 #ifdef __WXMSW__
+// TODO: Choose from multiple size images if provided, else resize the closest one
                 if ((GetXDPIScaling() > 1.05) || (GetYDPIScaling() > 1.05)) {
                     img.Rescale((int) (img.GetWidth()*GetXDPIScaling()), 
                                 (int) (img.GetHeight()*GetYDPIScaling()), 
@@ -170,19 +171,7 @@ bool CSkinImage::Validate() {
             if (show_error_msgs) {
                 fprintf(stderr, "Skin Manager: Failed to load '%s' image. Using default.\n", (const char *)m_strComponentName.mb_str());
             }
-            m_bmpBitmap = wxBitmap(m_ppDefaultBitmap);
-#ifdef __WXMSW__
-            if ((GetXDPIScaling() > 1.05) || (GetYDPIScaling() > 1.05)) {
-                wxImage img = m_bmpBitmap.ConvertToImage();
-                img.Rescale((int) (img.GetWidth()*GetXDPIScaling()), 
-                            (int) (img.GetHeight()*GetYDPIScaling()), 
-                            wxIMAGE_QUALITY_BILINEAR
-                        );
-                wxBitmap *bm = new wxBitmap(img);
-                m_bmpBitmap = *bm;
-                delete bm;
-            }
-#endif
+            m_bmpBitmap = GetScaledBitmapFromXPMData(m_ppDefaultBitmap);
             wxASSERT(m_bmpBitmap.Ok());
         }
     }
@@ -507,6 +496,7 @@ int CSkinAdvanced::Parse(MIOFILE& in) {
                     wxImage img = wxImage(str.c_str(), wxBITMAP_TYPE_ANY);
                     if (img.IsOk()) {
 #ifdef __WXMSW__
+// TODO: Choose from multiple size images if provided, else resize the closest one
                         if ((GetXDPIScaling() > 1.05) || (GetYDPIScaling() > 1.05)) {
                             img.Rescale((int) (img.GetWidth()*GetXDPIScaling()), 
                                         (int) (img.GetHeight()*GetYDPIScaling()), 

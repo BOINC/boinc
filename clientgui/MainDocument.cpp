@@ -2672,3 +2672,19 @@ float GetYDPIScaling() {
 	return YDPIScaleFactor;
 }
 #endif
+
+// TODO: Choose from multiple size images if provided, else resize the closest one
+wxBitmap GetScaledBitmapFromXPMData(const char** XPMData) {
+#ifdef __WXMSW__
+    if ((GetXDPIScaling() > 1.05) || (GetYDPIScaling() > 1.05)) {
+        wxImage img = wxImage(XPMData);
+        img.Rescale((int) (img.GetWidth()*GetXDPIScaling()), 
+                    (int) (img.GetHeight()*GetYDPIScaling()), 
+                    wxIMAGE_QUALITY_BILINEAR
+                );
+        wxBitmap *bm = new wxBitmap(img);
+        return *bm;
+    }
+#endif
+    return wxBitmap(XPMData);
+}
