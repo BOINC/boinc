@@ -427,6 +427,8 @@ extern float GetYDPIScaling();
 #define ADJUSTFORYDPI(y) y
 #endif
 
+wxBitmap GetScaledBitmapFromXPMData(const char** XPMData);
+
 #ifdef SANDBOX
 #define BOINC_MASTER_GROUP_NAME "boinc_master"
 #endif
