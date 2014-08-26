@@ -37,7 +37,6 @@
 #include "DlgEventLog.h"
 #include "AdvancedFrame.h"
 #include "DlgDiagnosticLogFlags.h"
-#include <wx/display.h>
 
 #ifdef __WXMAC__
 #include <time.h>
@@ -176,8 +175,10 @@ bool CDlgEventLog::Create( wxWindow* parent, wxWindowID id, const wxString& capt
 #ifdef __WXMSW__
         // Get the current display space for the current window
 		int iDisplay = wxNOT_FOUND;
-		if ( wxGetApp().GetFrame() != NULL ) iDisplay = wxDisplay::GetFromWindow(wxGetApp().GetFrame());
-		if ( iDisplay == wxNOT_FOUND ) iDisplay = 0;
+		if ( wxGetApp().GetFrame() != NULL )
+            iDisplay = wxDisplay::GetFromWindow(wxGetApp().GetFrame());
+		if ( iDisplay == wxNOT_FOUND )
+            iDisplay = 0;
         wxDisplay *display = new wxDisplay(iDisplay);
         wxRect rDisplay = display->GetClientArea();
 
@@ -202,7 +203,6 @@ bool CDlgEventLog::Create( wxWindow* parent, wxWindowID id, const wxString& capt
 
         delete display;
 #endif
-
 #ifdef __WXMAC__
         // If the user has changed the arrangement of multiple 
         // displays, make sure the window title bar is still on-screen.
