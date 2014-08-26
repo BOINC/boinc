@@ -530,11 +530,29 @@ wxBitmap* CSimpleProjectPanel::GetProjectSpecificBitmap(char* project_url) {
 
     // Only update it if project specific is found
     if(boinc_resolve_filename(GetProjectIconLoc(project_url).c_str(), defaultIcnPath, sizeof(defaultIcnPath)) == 0) {
-        wxBitmap* projectBM = new wxBitmap();
+        wxBitmap* projectBM;
         wxString strIconPath = wxString(defaultIcnPath,wxConvUTF8);
         if (wxFile::Exists(strIconPath)) {
-            if ( projectBM->LoadFile(strIconPath, wxBITMAP_TYPE_ANY) ) {
-                return projectBM;
+#ifdef __WXMSW__
+            if ((GetXDPIScaling() > 1.05) || (GetYDPIScaling() > 1.05)) {
+                wxImage img = wxImage(strIconPath, wxBITMAP_TYPE_ANY);
+                if (img.IsOk()) {
+                    img.Rescale((int) (img.GetWidth()*GetXDPIScaling()), 
+                                (int) (img.GetHeight()*GetYDPIScaling()), 
+                                wxIMAGE_QUALITY_BILINEAR
+                            );
+                    projectBM = new wxBitmap(img);
+                    if (projectBM->IsOk()) {
+                        return projectBM;
+                    }
+                }
+            } else 
+#endif
+            {
+                projectBM = new wxBitmap();
+                if ( projectBM->LoadFile(strIconPath, wxBITMAP_TYPE_ANY) ) {
+                    return projectBM;
+                }
             }
         }
     }
