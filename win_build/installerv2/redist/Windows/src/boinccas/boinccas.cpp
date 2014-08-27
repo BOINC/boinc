@@ -126,6 +126,66 @@ UINT BOINCCABase::Execute()
 }
 
 
+static BOOL IsVersionNewer(const tstring v1, const tstring v2) {
+    int v1_maj=0, v1_min=0, v1_rel=0;
+    int v2_maj=0, v2_min=0, v2_rel=0;
+
+    _stscanf(v1.c_str(), _T("%d.%d.%d"), &v1_maj, &v1_min, &v1_rel);
+    _stscanf(v2.c_str(), _T("%d.%d.%d"), &v2_maj, &v2_min, &v2_rel);
+
+    if (v1_maj > v2_maj) return TRUE;
+    if (v1_maj < v2_maj) return FALSE;
+    if (v1_min > v2_min) return TRUE;
+    if (v1_min < v2_min) return FALSE;
+    if (v1_rel > v2_rel) return TRUE;
+    return FALSE;
+}
+
+
+/////////////////////////////////////////////////////////////////////
+// 
+// Function:    SetUpgradeParameters
+//
+// Description: 
+//
+/////////////////////////////////////////////////////////////////////
+UINT BOINCCABase::SetUpgradeParameters()
+{
+    tstring strCurrentProductVersion;
+    UINT    uiReturnValue = 0;
+
+    uiReturnValue = GetProperty( _T("ProductVersion"), strCurrentProductVersion );
+    if ( uiReturnValue ) return uiReturnValue;
+
+    uiReturnValue = SetRegistryValue( _T("UpgradingTo"), strCurrentProductVersion );
+    if ( uiReturnValue ) return uiReturnValue;
+
+    return ERROR_SUCCESS;
+}
+
+/////////////////////////////////////////////////////////////////////
+// 
+// Function:    IsUpgrading
+//
+// Description: 
+//
+/////////////////////////////////////////////////////////////////////
+BOOL BOINCCABase::IsUpgrading()
+{
+    tstring strCurrentProductVersion;
+    tstring strRegistryProductVersion;
+    UINT    uiReturnValue = 0;
+
+    uiReturnValue = GetProperty( _T("ProductVersion"), strCurrentProductVersion );
+    if ( uiReturnValue ) return FALSE;
+
+    uiReturnValue = GetRegistryValue( _T("UpgradingTo"), strRegistryProductVersion );
+    if ( uiReturnValue ) return FALSE;
+
+    return IsVersionNewer(strRegistryProductVersion, strCurrentProductVersion);
+}
+
+
 /////////////////////////////////////////////////////////////////////
 // 
 // Function:    OnInitialize
