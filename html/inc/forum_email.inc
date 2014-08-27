@@ -20,8 +20,6 @@ require_once("../inc/util.inc");
 require_once("../inc/email.inc");
 require_once("../project/project.inc");
 
-define('MASTER_URL', $master_url);
-
 // send an email to admins:
 // - project forums: everyone in POST_REPORT_EMAILS
 // - team message board: team founder and admins
@@ -76,7 +74,7 @@ $explanation
 The content of your post:
 $post->content
 
-For assistance with ".PROJECT." go to ".MASTER_URL;
+For assistance with ".PROJECT." go to ".$master_url;
 
     $success = send_email($user, $subject, $body);
     pm_send($user, $user, $subject, $body, false);
@@ -109,7 +107,7 @@ function send_thread_moderation_email(
 has been $action_name by moderator $moderator->name (ID $moderator->id).
 $explanation
 
-For assistance with ".PROJECT." go to ".MASTER_URL;
+For assistance with ".PROJECT." go to ".$master_url;
 
     $subject = "THREAD $action REPORT: $thread->title";
     $success = mail_report_list($forum, $subject, $body);
@@ -157,7 +155,7 @@ $message
 Contents of the post:
 $post->content
 
-For assistance with ".PROJECT." go to ".MASTER_URL;
+For assistance with ".PROJECT." go to ".$master_url;
 
     $success = mail_report_list($forum, $subject, $body, true);
 

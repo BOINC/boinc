@@ -109,6 +109,9 @@ echo "<p>";
 
 if ($preview == tra("Preview")) {
     $options = new output_options;
+    if (is_admin($logged_in_user)) {
+        $options->htmlitems = false;
+    }
     echo "<h2>".tra("Preview")."</h2>\n";
     echo "<div class=\"pm_preview\">"
         .output_transform($content, $options)
