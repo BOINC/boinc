@@ -75,6 +75,20 @@ UINT CADeleteBOINCAccounts::OnExecution()
     if ( uiReturnValue ) return uiReturnValue;
 
 
+    if (IsUpgrading())
+    {
+        LogMessage(
+            INSTALLMESSAGE_INFO,
+            NULL, 
+            NULL,
+            NULL,
+            NULL,
+            _T("Upgrade detected, no need to delete accounts")
+        );
+        return ERROR_SUCCESS;
+    }
+
+
     // Delete 'boinc_master' account
     //
     nasReturnValue = NetUserDel(
