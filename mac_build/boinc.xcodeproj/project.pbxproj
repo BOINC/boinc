@@ -111,7 +111,7 @@
 		DD3E14F70A774397007E0084 /* hostinfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BB607C5AEEE0043025C /* hostinfo.cpp */; };
 		DD3E14FD0A774397007E0084 /* Mac_GUI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDA9D3BB09189A8C0060E7A7 /* Mac_GUI.cpp */; };
 		DD3E14FE0A774397007E0084 /* MainDocument.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD81C41607C5D13E0098A04D /* MainDocument.cpp */; };
-		DD3E14FF0A774397007E0084 /* md5.c in Sources */ = {isa = PBXBuildFile; fileRef = F5159562029EB02001F5651B /* md5.c */; };
+		DD3E14FF0A774397007E0084 /* md5.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5159562029EB02001F5651B /* md5.cpp */; };
 		DD3E15000A774397007E0084 /* md5_file.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5159564029EB02001F5651B /* md5_file.cpp */; };
 		DD3E15010A774397007E0084 /* mfile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BD207C5B1150043025C /* mfile.cpp */; };
 		DD3E15020A774397007E0084 /* miofile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BD507C5B1150043025C /* miofile.cpp */; };
@@ -151,7 +151,7 @@
 		DD407A5307D2FB7C00163EF5 /* diagnostics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BA207C5AE5A0043025C /* diagnostics.cpp */; };
 		DD407A5507D2FB8400163EF5 /* filesys.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5EAD475031AEFF8018E201A /* filesys.cpp */; };
 		DD407A5807D2FB8D00163EF5 /* hostinfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BB607C5AEEE0043025C /* hostinfo.cpp */; };
-		DD407A5B07D2FBA000163EF5 /* md5.c in Sources */ = {isa = PBXBuildFile; fileRef = F5159562029EB02001F5651B /* md5.c */; };
+		DD407A5B07D2FBA000163EF5 /* md5.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5159562029EB02001F5651B /* md5.cpp */; };
 		DD407A5D07D2FBA300163EF5 /* md5_file.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5159564029EB02001F5651B /* md5_file.cpp */; };
 		DD407A5F07D2FBAE00163EF5 /* mfile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BD207C5B1150043025C /* mfile.cpp */; };
 		DD407A6207D2FBB300163EF5 /* miofile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BD507C5B1150043025C /* miofile.cpp */; };
@@ -295,7 +295,7 @@
 		DD8917A50F3B207E00DE5B1C /* filesys.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5EAD475031AEFF8018E201A /* filesys.cpp */; };
 		DD8917A70F3B208500DE5B1C /* gui_rpc_client.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD81C5CC07C5D7D90098A04D /* gui_rpc_client.cpp */; };
 		DD8917AB0F3B209500DE5B1C /* hostinfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BB607C5AEEE0043025C /* hostinfo.cpp */; };
-		DD8917AE0F3B20B100DE5B1C /* md5.c in Sources */ = {isa = PBXBuildFile; fileRef = F5159562029EB02001F5651B /* md5.c */; };
+		DD8917AE0F3B20B100DE5B1C /* md5.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5159562029EB02001F5651B /* md5.cpp */; };
 		DD8917B00F3B20B500DE5B1C /* md5_file.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5159564029EB02001F5651B /* md5_file.cpp */; };
 		DD8917B80F3B20C600DE5B1C /* mfile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BD207C5B1150043025C /* mfile.cpp */; };
 		DD8917BA0F3B20CC00DE5B1C /* miofile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BD507C5B1150043025C /* miofile.cpp */; };
@@ -429,7 +429,7 @@
 		DDD74DC607CF492C0065AC9D /* diagnostics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BA207C5AE5A0043025C /* diagnostics.cpp */; };
 		DDD74DC707CF492D0065AC9D /* filesys.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5EAD475031AEFF8018E201A /* filesys.cpp */; };
 		DDD74DC807CF492E0065AC9D /* hostinfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BB607C5AEEE0043025C /* hostinfo.cpp */; };
-		DDD74DCB07CF49310065AC9D /* md5.c in Sources */ = {isa = PBXBuildFile; fileRef = F5159562029EB02001F5651B /* md5.c */; };
+		DDD74DCB07CF49310065AC9D /* md5.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5159562029EB02001F5651B /* md5.cpp */; };
 		DDD74DCC07CF49320065AC9D /* md5_file.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5159564029EB02001F5651B /* md5_file.cpp */; };
 		DDD74DCD07CF49330065AC9D /* mfile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BD207C5B1150043025C /* mfile.cpp */; };
 		DDD74DCE07CF49390065AC9D /* miofile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BD507C5B1150043025C /* miofile.cpp */; };
@@ -488,13 +488,13 @@
 		DDFA61860CB3489E0037B88C /* str_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD7BF7D70B8E7A9800A009F7 /* str_util.cpp */; };
 		DDFA61890CB348A90037B88C /* util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5EAD479031AF001018E201A /* util.cpp */; };
 		DDFA618C0CB348C50037B88C /* hostinfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BB607C5AEEE0043025C /* hostinfo.cpp */; };
-		DDFA618F0CB348E80037B88C /* md5.c in Sources */ = {isa = PBXBuildFile; fileRef = F5159562029EB02001F5651B /* md5.c */; };
+		DDFA618F0CB348E80037B88C /* md5.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5159562029EB02001F5651B /* md5.cpp */; };
 		DDFA61900CB348E90037B88C /* md5_file.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5159564029EB02001F5651B /* md5_file.cpp */; };
 		DDFA61920CB349020037B88C /* proxy_info.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BEF07C5B1770043025C /* proxy_info.cpp */; };
 		DDFA61940CB349160037B88C /* prefs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BE407C5B1670043025C /* prefs.cpp */; };
 		DDFD5F0F0818F2EE002B23D4 /* gui_rpc_client.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD81C5CC07C5D7D90098A04D /* gui_rpc_client.cpp */; };
 		DDFD5F270818F329002B23D4 /* filesys.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5EAD475031AEFF8018E201A /* filesys.cpp */; };
-		DDFD5F280818F33C002B23D4 /* md5.c in Sources */ = {isa = PBXBuildFile; fileRef = F5159562029EB02001F5651B /* md5.c */; };
+		DDFD5F280818F33C002B23D4 /* md5.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5159562029EB02001F5651B /* md5.cpp */; };
 		DDFD5F290818F346002B23D4 /* md5_file.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5159564029EB02001F5651B /* md5_file.cpp */; };
 		DDFD5F2A0818F34F002B23D4 /* mfile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BD207C5B1150043025C /* mfile.cpp */; };
 		DDFD5F2B0818F359002B23D4 /* miofile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BD507C5B1150043025C /* miofile.cpp */; };
@@ -1175,7 +1175,7 @@
 		DDFE854A0B60CFD0009B43D9 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = ../../../../../System/Library/Frameworks/AppKit.framework; sourceTree = SOURCE_ROOT; };
 		DDFF2AD30A53D4AE002BC19D /* setprojectgrp */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = setprojectgrp; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDFF2AE80A53D599002BC19D /* setprojectgrp.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = setprojectgrp.cpp; sourceTree = "<group>"; };
-		F5159562029EB02001F5651B /* md5.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = md5.c; path = ../lib/md5.c; sourceTree = SOURCE_ROOT; };
+		F5159562029EB02001F5651B /* md5.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = md5.cpp; path = ../lib/md5.cpp; sourceTree = SOURCE_ROOT; };
 		F5159563029EB02001F5651B /* md5.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = md5.h; path = ../lib/md5.h; sourceTree = SOURCE_ROOT; };
 		F5159564029EB02001F5651B /* md5_file.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = md5_file.cpp; sourceTree = "<group>"; };
 		F5159565029EB02001F5651B /* md5_file.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = md5_file.h; path = ../lib/md5_file.h; sourceTree = SOURCE_ROOT; };
@@ -1806,7 +1806,7 @@
 				DD344BB607C5AEEE0043025C /* hostinfo.cpp */,
 				DD344BB707C5AEEE0043025C /* hostinfo.h */,
 				DDA6BCED0BD4546D008F7921 /* mac */,
-				F5159562029EB02001F5651B /* md5.c */,
+				F5159562029EB02001F5651B /* md5.cpp */,
 				F5159563029EB02001F5651B /* md5.h */,
 				F5159564029EB02001F5651B /* md5_file.cpp */,
 				F5159565029EB02001F5651B /* md5_file.h */,
@@ -2828,7 +2828,7 @@
 				DD3E14F70A774397007E0084 /* hostinfo.cpp in Sources */,
 				DD3E14FD0A774397007E0084 /* Mac_GUI.cpp in Sources */,
 				DD3E14FE0A774397007E0084 /* MainDocument.cpp in Sources */,
-				DD3E14FF0A774397007E0084 /* md5.c in Sources */,
+				DD3E14FF0A774397007E0084 /* md5.cpp in Sources */,
 				DD3E15000A774397007E0084 /* md5_file.cpp in Sources */,
 				DD3E15010A774397007E0084 /* mfile.cpp in Sources */,
 				DD3E15020A774397007E0084 /* miofile.cpp in Sources */,
@@ -2927,7 +2927,7 @@
 				DD52C81208B5D44E008D9AA4 /* gui_rpc_client_ops.cpp in Sources */,
 				DD52C81308B5D44F008D9AA4 /* gui_rpc_client_print.cpp in Sources */,
 				DD407A5807D2FB8D00163EF5 /* hostinfo.cpp in Sources */,
-				DD407A5B07D2FBA000163EF5 /* md5.c in Sources */,
+				DD407A5B07D2FBA000163EF5 /* md5.cpp in Sources */,
 				DD407A5D07D2FBA300163EF5 /* md5_file.cpp in Sources */,
 				DD407ABB07D2FC7D00163EF5 /* mem_usage.cpp in Sources */,
 				DD407A5F07D2FBAE00163EF5 /* mfile.cpp in Sources */,
@@ -3075,7 +3075,7 @@
 				DD8917A50F3B207E00DE5B1C /* filesys.cpp in Sources */,
 				DD8917A70F3B208500DE5B1C /* gui_rpc_client.cpp in Sources */,
 				DD8917AB0F3B209500DE5B1C /* hostinfo.cpp in Sources */,
-				DD8917AE0F3B20B100DE5B1C /* md5.c in Sources */,
+				DD8917AE0F3B20B100DE5B1C /* md5.cpp in Sources */,
 				DD8917B00F3B20B500DE5B1C /* md5_file.cpp in Sources */,
 				DD8917B80F3B20C600DE5B1C /* mfile.cpp in Sources */,
 				DD8917BA0F3B20CC00DE5B1C /* miofile.cpp in Sources */,
@@ -3115,7 +3115,7 @@
 				DD73E3B608A07FC600656EB1 /* gui_rpc_client_ops.cpp in Sources */,
 				DDFD5F270818F329002B23D4 /* filesys.cpp in Sources */,
 				DD73E3A708A07CA600656EB1 /* hostinfo.cpp in Sources */,
-				DDFD5F280818F33C002B23D4 /* md5.c in Sources */,
+				DDFD5F280818F33C002B23D4 /* md5.cpp in Sources */,
 				DDFD5F290818F346002B23D4 /* md5_file.cpp in Sources */,
 				DDFD5F2A0818F34F002B23D4 /* mfile.cpp in Sources */,
 				DDFD5F2B0818F359002B23D4 /* miofile.cpp in Sources */,
@@ -3240,7 +3240,7 @@
 				DD73E36E08A0720500656EB1 /* gui_rpc_server_ops.cpp in Sources */,
 				DDD74DC807CF492E0065AC9D /* hostinfo.cpp in Sources */,
 				DD33C70408B5BEDE00768630 /* http_curl.cpp in Sources */,
-				DDD74DCB07CF49310065AC9D /* md5.c in Sources */,
+				DDD74DCB07CF49310065AC9D /* md5.cpp in Sources */,
 				DDD74DCC07CF49320065AC9D /* md5_file.cpp in Sources */,
 				DDD74DCD07CF49330065AC9D /* mfile.cpp in Sources */,
 				DDD74DCE07CF49390065AC9D /* miofile.cpp in Sources */,
@@ -3315,7 +3315,7 @@
 				DDFA61860CB3489E0037B88C /* str_util.cpp in Sources */,
 				DDFA61890CB348A90037B88C /* util.cpp in Sources */,
 				DDFA618C0CB348C50037B88C /* hostinfo.cpp in Sources */,
-				DDFA618F0CB348E80037B88C /* md5.c in Sources */,
+				DDFA618F0CB348E80037B88C /* md5.cpp in Sources */,
 				DDFA61900CB348E90037B88C /* md5_file.cpp in Sources */,
 				DDFA61920CB349020037B88C /* proxy_info.cpp in Sources */,
 				DDFA61940CB349160037B88C /* prefs.cpp in Sources */,
