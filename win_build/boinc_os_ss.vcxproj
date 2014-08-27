@@ -363,7 +363,7 @@
     <ClCompile Include="..\lib\gui_rpc_client.cpp" />
     <ClCompile Include="..\lib\gui_rpc_client_ops.cpp" />
     <ClCompile Include="..\lib\hostinfo.cpp" />
-    <ClCompile Include="..\lib\md5.c" />
+    <ClCompile Include="..\lib\md5.cpp" />
     <ClCompile Include="..\lib\md5_file.cpp" />
     <ClCompile Include="..\lib\mfile.cpp" />
     <ClCompile Include="..\lib\miofile.cpp" />
