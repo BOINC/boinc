@@ -321,10 +321,7 @@
     <ClCompile Include="..\lib\filesys.cpp" />
     <ClCompile Include="..\lib\hostinfo.cpp" />
     <ClCompile Include="..\lib\idlemon_win.cpp" />
-    <ClCompile Include="..\lib\md5.c">
-      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">CompileAsCpp</CompileAs>
-      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CompileAsCpp</CompileAs>
-    </ClCompile>
+    <ClCompile Include="..\lib\md5.cpp" />
     <ClCompile Include="..\lib\md5_file.cpp" />
     <ClCompile Include="..\lib\mfile.cpp" />
     <ClCompile Include="..\lib\miofile.cpp" />
