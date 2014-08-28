@@ -1008,16 +1008,14 @@ fi
 
 dnl ---------- libNotify --------------------------------------------------
 if test "${enable_manager}" = yes ; then
-  pkg_config_args=libnotify
-  AC_PATH_PROG(PKG_CONFIG, pkg-config, no)
-
-  LIBNOTIFY_CFLAGS=`$PKG_CONFIG libnotify --cflags`
-  LIBNOTIFY_LIBS=`$PKG_CONFIG libnotify --libs`
-
-  AC_SUBST(LIBNOTIFY_CFLAGS)
-  AC_SUBST(LIBNOTIFY_LIBS)
+  PKG_CHECK_MODULES(LIBNOTIFY, [libnotify])
 fi
-
+ 
+dnl ---------- GTK2 -------------------------------------------------------
+if test "${enable_manager}" = yes ; then
+  PKG_CHECK_MODULES(GTK, [gtk+-2.0])
+fi
+ 
 dnl ---------- Sqlite3 ----------------------------------------------------
 if test "${enable_manager}" = yes ; then
   AM_PATH_SQLITE3
@@ -1224,7 +1222,7 @@ AC_ARG_ENABLE(wx-debug,
    ],
   [enable_wx_debug="no"])
 
-CLIENTGUILIBS="${WX_LIBS} ${SQLITE3_LIBS} ${GTK_LIBS}"
+CLIENTGUILIBS="${WX_LIBS} ${SQLITE3_LIBS}"
 
 if test "${enable_client_release}" = "yes" ; then
    if test "x${WX_LIBS_STATIC}" = "x" ; then
