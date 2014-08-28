@@ -115,18 +115,6 @@ AC_ARG_ENABLE(install-headers,
     [enable_install_headers=${enableval}],
     [enable_install_headers=yes])
 
-AC_ARG_ENABLE(xss,
-    AS_HELP_STRING([--disable-xss],
-                   [disable building the boinc client with the Xss library]),
-    [enable_xss=${enableval}],
-    [
-      if test $isWIN32 != "yes" ; then
-        enable_xss=yes
-      else
-        enable_xss=no
-      fi
-    ])
-
 AC_ARG_ENABLE(boinczip,
     AS_HELP_STRING([--enable-boinczip],
                    [enable building the boinc zip library]),
