@@ -111,7 +111,9 @@ function replace_pre($text, $export) {
         return preg_replace_callback(
             "@\[pre\](.*?)\[/pre\]@is",
             function ($matches) {
-                return "<pre>".remove_br(substr($matches[0], 5, -6))."</pre>";
+                $x = remove_br(substr($matches[0], 5, -6));
+                $x = htmlspecialchars($x);
+                return "<pre>$x</pre>";
             },
             $text
         );
@@ -119,7 +121,9 @@ function replace_pre($text, $export) {
         return preg_replace_callback(
             "@\[pre\](.*?)\[/pre\]@is",
             function ($matches) {
-                return "<div class=\"pre\">".remove_br(substr($matches[0], 5, -6))."</div>";
+                $x = remove_br(substr($matches[0], 5, -6));
+                $x = htmlspecialchars($x);
+                return "<div class=\"pre\">$x</div>";
             },
             $text
         );
@@ -242,16 +246,24 @@ function remove_br($text){
 }
 
 // Make links open in new windows.
+//
 function externalize_links($text) {
     // TODO:  Convert this to PCRE
-    $i=0;$linkpos=true;
-    while (true){                                //Find a link
-        $linkpos=strpos($text,"<a ",$i);
+    $i=0;
+    $linkpos=true;
+    $out = "";
+    while (true){
+        //Find a link
+        //
+        $linkpos=strpos($text, "<a ", $i);
         if ($linkpos===false) break;
-        $out.= substr($text,$i,$linkpos-$i)."<a target=\"_new\" ";        //Replace with target='_new'
-        $i=$linkpos+3;
+
+        //Replace with target='_new'
+        //
+        $out .= substr($text, $i, $linkpos-$i)."<a target=\"_new\" ";
+        $i = $linkpos+3;
     }
-    $out.=substr($text,$i);
+    $out .= substr($text, $i);
     return $out;
 }
 
