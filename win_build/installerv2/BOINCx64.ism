@@ -4543,6 +4543,7 @@ VwBlAGIAAQBXAEUAQgB4ADYANAA=
 		<row><td>IS_PROGMSG_XML_UPDATE_FILE</td><td>##IDS_PROGMSG_XML_UPDATE_FILE##</td><td/></row>
 		<row><td>InstallChoice</td><td>AR</td><td/></row>
 		<row><td>LAUNCHPROGRAM</td><td>1</td><td/></row>
+		<row><td>MSIRESTARTMANAGERCONTROL</td><td>Disable</td><td/></row>
 		<row><td>Manufacturer</td><td>##COMPANY_NAME##</td><td/></row>
 		<row><td>MsiHiddenProperties</td><td>BOINC_MASTER_PASSWORD;BOINC_PROJECT_PASSWORD</td><td/></row>
 		<row><td>MsiLogging</td><td>voicewarmup</td><td/></row>
