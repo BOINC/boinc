@@ -181,7 +181,7 @@ if ($is_subscribed) {
     );
 }
 
-//If the logged in user is moderator enable some extra features
+// If the logged in user is moderator enable some extra features
 //
 if (is_moderator($logged_in_user, $forum)) {
     if ($thread->hidden){
@@ -264,6 +264,7 @@ if (is_news_forum($forum) && $logged_in_user && ($logged_in_user->id == $thread-
 }
 
 // Display a box that allows the user to select sorting of the posts
+//
 echo "</td><td align=\"right\">
     <input type=\"hidden\" name=\"id\" value=\"", $thread->id, "\">" .
     tra("Sort");

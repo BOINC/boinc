@@ -161,6 +161,7 @@ function show_forum($forum, $start, $sort_style, $user) {
     $n = 0; $i=0;
     foreach ($threads as $thread) {
         $owner = BoincUser::lookup_id($thread->owner);
+        if (!$owner) continue;
         $unread = thread_is_unread($user, $thread);
 
         //if ($thread->status==1){
