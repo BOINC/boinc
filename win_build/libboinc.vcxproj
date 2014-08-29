@@ -265,7 +265,7 @@
     </ClCompile>
     <ClCompile Include="..\lib\hostinfo.cpp" />
     <ClCompile Include="..\lib\idlemon_win.cpp" />
-    <ClCompile Include="..\lib\md5.c" />
+    <ClCompile Include="..\lib\md5.cpp" />
     <ClCompile Include="..\lib\md5_file.cpp" />
     <ClCompile Include="..\lib\mem_usage.cpp" />
     <ClCompile Include="..\lib\mfile.cpp">

@@ -122,6 +122,7 @@
 #include <wx/snglinst.h>
 #include <wx/bmpcbox.h>
 #include <wx/evtloop.h>
+#include <wx/display.h>
 
 
 #ifdef _WIN32

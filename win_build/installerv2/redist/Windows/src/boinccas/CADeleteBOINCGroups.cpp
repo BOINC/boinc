@@ -64,6 +64,21 @@ UINT CADeleteBOINCGroups::OnExecution()
 {
     NET_API_STATUS   nasReturnValue;
 
+
+    if (IsUpgrading())
+    {
+        LogMessage(
+            INSTALLMESSAGE_INFO,
+            NULL, 
+            NULL,
+            NULL,
+            NULL,
+            _T("Upgrade detected, no need to delete groups")
+        );
+        return ERROR_SUCCESS;
+    }
+
+
     // Delete the 'boinc_admins'
     //
     nasReturnValue = NetLocalGroupDel(

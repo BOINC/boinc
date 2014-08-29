@@ -205,10 +205,6 @@ wrapper.o: $(BOINC_SRC)/samples/wrapper/wrapper.cpp
 %.o: $(BOINC_SRC)/samples/wrapper/%.c
 	$(CC) -c $< -o $@ $(CPPFLAGS) $(CFLAGS)
 
-# C-mode file
-md5.o: $(BOINC_SRC)/lib/md5.c
-	$(CXX) -c $(BOINC_SRC)/lib/md5.c -o md5.o $(CPPFLAGS) $(CXXFLAGS)
-
 # for boinc_zip. Don't change the order!
 zip:
 	mkdir -p $@

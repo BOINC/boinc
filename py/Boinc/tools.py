@@ -35,14 +35,14 @@ def make_uuid():
 def md5_file(path):
     """
     Return a 16-digit MD5 hex digest of a file's contents
-    Read the file in chunks 
+    Read the file in chunks
     """
 
     chunk = 8096
 
     try:
         checksum = md5()
-    except NameError:
+    except TypeError:
         checksum = md5.new()
 
     fp = open(path, 'r')
@@ -78,6 +78,9 @@ def get_output_file_path(filename):
     """
     config = configxml.default_config()
     fanout = long(config.config.uldl_dir_fanout)
-    s = md5.new(filename).hexdigest()[1:8]
+    try:
+        s = md5(filename).hexdigest()[1:8]
+    except TypeError:
+        s = md5.new(filename).hexdigest()[1:8]
     x = long(s, 16)
-    return "%s/%x/%s" % (config.config.upload_dir, x % fanout, filename) 
+    return "%s/%x/%s" % (config.config.upload_dir, x % fanout, filename)

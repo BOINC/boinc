@@ -828,12 +828,12 @@ CSimpleGUIPanel::CSimpleGUIPanel(wxWindow* parent) :
     m_projPanel = new CSimpleProjectPanel(this);
 
     // Box Sizer
-	mainSizer = new wxBoxSizer(wxVERTICAL);
-	mainSizer->AddSpacer(68);
+    mainSizer = new wxBoxSizer(wxVERTICAL);
+    mainSizer->AddSpacer(ADJUSTFORYDPI(68));
     mainSizer->Add(m_taskPanel, 1, wxLEFT | wxRIGHT | wxEXPAND | wxALIGN_CENTER, SIDEMARGINS);
-	mainSizer->AddSpacer(8);
+    mainSizer->AddSpacer(ADJUSTFORYDPI(8));
     mainSizer->Add(m_projPanel, 0, wxLEFT | wxRIGHT | wxEXPAND | wxALIGN_CENTER, SIDEMARGINS);
-	mainSizer->AddSpacer(8);
+    mainSizer->AddSpacer(ADJUSTFORYDPI(8));
 
 	wxBoxSizer* buttonsSizer;
 	buttonsSizer = new wxBoxSizer( wxHORIZONTAL );
@@ -864,7 +864,7 @@ CSimpleGUIPanel::CSimpleGUIPanel(wxWindow* parent) :
     m_HelpButton->SetToolTip(helpTip);
 
 	mainSizer->Add( buttonsSizer, 0, wxLEFT | wxRIGHT | wxEXPAND, 2 * SIDEMARGINS );
-	mainSizer->AddSpacer(10);
+    mainSizer->AddSpacer(ADJUSTFORYDPI(10));
 
 	SetSizer(mainSizer);
     Layout();
