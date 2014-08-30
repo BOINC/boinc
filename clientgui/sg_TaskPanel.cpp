@@ -70,7 +70,7 @@ CScrolledTextBox::~CScrolledTextBox() {
 
 
 void CScrolledTextBox::SetValue(const wxString& s) {
-    int lineHeight, totalLines, totalWidth, usableWidth;
+    int lineHeight, totalLines, totalWidth;
     wxString t = s;
 
     // Delete sizer & its children (CTransparentStaticText objects)
@@ -85,15 +85,15 @@ void CScrolledTextBox::SetValue(const wxString& s) {
     totalWidth = GetSize().GetWidth();
     totalLines = Wrap(t, totalWidth, &lineHeight);
     m_TextSizer->FitInside(this);
-    usableWidth = GetClientSize().GetWidth();
-    if (usableWidth < totalWidth) {
+    bool hasSB = IsScrollbarShown(wxVERTICAL);
+    if (hasSB) {
+        int sbwidth = wxSystemSettings::GetMetric(wxSYS_VSCROLL_X);
         // It has a vertical scroll bar, so wrap again for reduced width
         m_TextSizer->Clear(true);
-        totalLines = Wrap(t, usableWidth - SCROLLBARSPACER, &lineHeight);
+        totalLines = Wrap(t, totalWidth - sbwidth - SCROLLBARSPACER, &lineHeight);
         m_TextSizer->FitInside(this);
+        SetScrollRate(1, lineHeight);
     }
-
-    SetScrollRate(1, lineHeight);
 }
 
         
@@ -375,7 +375,7 @@ numSlides = 0;
 }
 
 
-void CSlideShowPanel::OnPaint(wxPaintEvent& WXUNUSED(event)) 
+void CSlideShowPanel::OnPaint(wxPaintEvent& WXUNUSED(event))
 { 
     wxPaintDC dc(this);
 #if HIDEDEFAULTSLIDE
