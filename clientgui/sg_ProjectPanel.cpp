@@ -153,9 +153,18 @@ CSimpleProjectPanel::CSimpleProjectPanel( wxWindow* parent ) :
     
     bSizer1->AddSpacer(ADJUSTFORYDPI(10));
 
+    // Temporarily insert a dummy entry so sizer can 
+    // get correct height of m_ProjectSelectionCtrl
+    CSkinSimple* pSkinSimple = wxGetApp().GetSkinManager()->GetSimple();
+    wxBitmap* defaultBM = pSkinSimple->GetProjectImage()->GetBitmap();
+    m_ProjectSelectionCtrl->Insert("", *defaultBM, 0, (void*)NULL);
+
     this->SetSizer( bSizer1 );
     this->Layout();
     
+    // Remove the dummy entry
+    m_ProjectSelectionCtrl->Delete(0);
+
     m_TaskAddProjectButton->SetToolTip(wxEmptyString);
     m_TaskAddProjectButton->Disable();
 }
