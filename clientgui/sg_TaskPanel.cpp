@@ -85,14 +85,14 @@ void CScrolledTextBox::SetValue(const wxString& s) {
     totalWidth = GetSize().GetWidth();
     totalLines = Wrap(t, totalWidth, &lineHeight);
     m_TextSizer->FitInside(this);
-    bool hasSB = IsScrollbarShown(wxVERTICAL);
-    if (hasSB) {
+    SetScrollRate(1, lineHeight);
+    int scrollLines = GetScrollLines(wxVERTICAL);   // Returns 0 if no scrollbar
+    if (scrollLines > 0) {
         int sbwidth = wxSystemSettings::GetMetric(wxSYS_VSCROLL_X);
         // It has a vertical scroll bar, so wrap again for reduced width
         m_TextSizer->Clear(true);
         totalLines = Wrap(t, totalWidth - sbwidth - SCROLLBARSPACER, &lineHeight);
         m_TextSizer->FitInside(this);
-        SetScrollRate(1, lineHeight);
     }
 }
 
