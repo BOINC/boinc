@@ -54,7 +54,7 @@ struct APP_CONFIGS {
 
     int parse(XML_PARSER&, PROJECT*);
     int parse_file(FILE*, PROJECT*);
-    void config_app_versions(PROJECT*, bool show_warnings);
+    int config_app_versions(PROJECT*, bool show_warnings);
     void clear() {
         app_configs.clear();
         app_version_configs.clear();
