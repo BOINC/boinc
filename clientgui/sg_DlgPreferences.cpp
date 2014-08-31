@@ -36,6 +36,8 @@
 #include "sg_CustomControls.h"
 #include "sg_DlgPreferences.h"
 
+#define TEST_BACKGROUND_WITH_MAGENTA_FILL 0
+
 using std::string;
 
 #ifdef __WXMAC__
@@ -529,11 +531,16 @@ void CPanelPreferences::OnEraseBackground( wxEraseEvent& event ) {
     w = bmp.GetWidth();
     h = bmp.GetHeight();
 
+#if TEST_BACKGROUND_WITH_MAGENTA_FILL
     // Fill the dialog with a magenta color so people can detect when something
     //   is wrong
     dc.SetBrush(wxBrush(wxColour(255,0,255)));
     dc.SetPen(wxPen(wxColour(255,0,255)));
     dc.DrawRectangle(0, 0, sz.GetWidth(), sz.GetHeight());
+#else
+    wxColour bgColor(*pSkinSimple->GetDialogBackgroundImage()->GetBackgroundColor());
+    SetBackgroundColour(bgColor);
+#endif
 
     // Is the bitmap smaller than the window?
     if ( (w < sz.x) || (h < sz.y) ) {
@@ -955,7 +962,7 @@ bool CDlgPreferences::Create( wxWindow* parent, wxWindowID id, const wxString& c
     SetBackgroundStyle(wxBG_STYLE_CUSTOM);
 
     SetForegroundColour(*wxBLACK);
-#ifdef __WXDEBUG__
+#if TEST_BACKGROUND_WITH_MAGENTA_FILL
     SetBackgroundColour(wxColour(255, 0, 255));
 #endif
 
