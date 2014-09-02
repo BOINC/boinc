@@ -81,6 +81,7 @@ test/version.inc
 *.la
 .libs/
 svn_version.h
+
 # list of executables
 apps/1sec
 apps/concat
@@ -98,6 +99,12 @@ doc/manpages/boincmgr.1
 lib/crypt_prog
 lib/parse_test
 py/lib.*/
+py/build/
+samples/example_app/uc2
+samples/example_app/ucn
+samples/sleeper/sleeper
+samples/worker/worker
+samples/wrapper/wrapper
 sched/adjust_user_priority
 sched/antique_file_deleter
 sched/census
