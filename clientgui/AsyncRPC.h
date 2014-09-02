@@ -236,8 +236,8 @@ public:
             { return RPC_Wait(RPC_GET_FILE_TRANSFERS, (void*)&arg1); }
     int get_simple_gui_info(SIMPLE_GUI_INFO& arg1)
             { return RPC_Wait(RPC_GET_SIMPLE_GUI_INFO1, (void*)&arg1); }
-    int get_simple_gui_info(PROJECTS& arg1, CC_STATE& ccbuf, RESULTS& rbuf)
-            { return RPC_Wait(RPC_GET_SIMPLE_GUI_INFO2, (void*)&arg1, (void*)&ccbuf, (void*)&rbuf); }
+    int get_simple_gui_info(PROJECTS& arg1, CC_STATE& ccbuf, RESULTS& rbuf, bool& activeTasksOnly)
+            { return RPC_Wait(RPC_GET_SIMPLE_GUI_INFO2, (void*)&arg1, (void*)&ccbuf, (void*)&rbuf, (void*)&activeTasksOnly); }
     int get_project_status(PROJECTS& arg1, CC_STATE& arg2)
             { return RPC_Wait(RPC_GET_PROJECT_STATUS1, (void*)&arg1, (void*)&arg2); }
     int get_project_status(PROJECTS& arg1)

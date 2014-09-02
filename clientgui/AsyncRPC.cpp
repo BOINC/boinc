@@ -256,7 +256,7 @@ int RPCThread::ProcessRPCRequest() {
     case RPC_GET_SIMPLE_GUI_INFO2:
         // RPC_GET_SIMPLE_GUI_INFO2 is equivalent to doing both 
         // RPC_GET_PROJECT_STATUS1 and RPC_GET_RESULTS
-        retval = (m_pDoc->rpcClient).get_results(*(RESULTS*)(current_request->arg3));
+        retval = (m_pDoc->rpcClient).get_results(*(RESULTS*)(current_request->arg3), *(bool*)(current_request->arg4));
         if (!retval) {
             retval = (m_pDoc->rpcClient).get_project_status(*(PROJECTS*)(current_request->arg1));
         }

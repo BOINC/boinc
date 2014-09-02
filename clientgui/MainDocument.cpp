@@ -1148,6 +1148,7 @@ void CMainDocument::RunPeriodicRPCs(int frameRefreshRate) {
             request.arg1 = &async_projects_update_buf;
             request.arg2 = &state;
             request.arg3 = &async_results_buf;
+            request.arg4 = &m_ActiveTasksOnly;
             request.exchangeBuf = &results;
             request.rpcType = RPC_TYPE_ASYNC_WITH_REFRESH_AFTER;
             request.completionTime = &m_dtCachedSimpleGUITimestamp;
@@ -2390,7 +2391,7 @@ int CMainDocument::CachedSimpleGUIUpdate(bool bForce) {
     if (m_dtCachedSimpleGUITimestamp.IsEqualTo(wxDateTime((time_t)0))) bForce = true;
     if (bForce) {
         m_dtCachedSimpleGUITimestamp = wxDateTime::Now();
-        m_iGet_simple_gui2_rpc_result = rpc.get_simple_gui_info(async_projects_update_buf, state, results);
+        m_iGet_simple_gui2_rpc_result = rpc.get_simple_gui_info(async_projects_update_buf, state, results, m_ActiveTasksOnly);
     }
 
     if (m_iGet_simple_gui2_rpc_result) {
