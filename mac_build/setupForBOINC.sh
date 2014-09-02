@@ -32,6 +32,7 @@
 # Updated 11/30/13 for openssl-1.0.1e
 # Updated 2/7/14 for wxWidgets-3.0.0
 # Updated 2/11/14 for c-ares 1.10.0, curl 7.35.0, openssl 1.0.1f, sqlite 3.8.3
+# Updated 9/2/14 for openssl 1.0.1h
 #
 # Download these seven packages and place them in a common parent 
 # directory with the BOINC source tree.
@@ -95,13 +96,13 @@ fi
 
 echo ""
 echo "----------------------------------"
-echo "----- BUILD OPENSSL-1.0.1f -------"
+echo "----- BUILD OPENSSL-1.0.1h -------"
 echo "----------------------------------"
 echo ""
 
 cd "${SCRIPT_DIR}"
 
-cd ../../openssl-1.0.1f/
+cd ../../openssl-1.0.1h/
 if [  $? -eq 0 ]; then
     source "${SCRIPT_DIR}/buildopenssl.sh" ${cleanit}
     if [  $? -eq 0 ]; then
@@ -198,7 +199,7 @@ if [ "${opensslOK}" = "NO" ]; then
     echo "----------------------------------"
     echo "------------ WARNING -------------"
     echo "------------         -------------"
-    echo "- COULD NOT BUILD OPENSSL-1.0.1f -"
+    echo "- COULD NOT BUILD OPENSSL-1.0.1h -"
     echo "----------------------------------"
     echo ""
 fi

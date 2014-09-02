@@ -118,12 +118,16 @@ First checked in.
 #include <TargetConditionals.h>
 #include <AvailabilityMacros.h>
 
-#include <assert.h>
+//#include <assert.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <sys/errno.h>
 #include <sys/sysctl.h>
 #include <sys/utsname.h>
+
+#undef assert
+#undef __assert
+#define	assert(e)	((void)0)
 
 // Put Mach includes inside extern "C" guards for the C++ build 
 // because the Mach header files don't always have them.

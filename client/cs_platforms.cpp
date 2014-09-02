@@ -98,24 +98,11 @@ void CLIENT_STATE::detect_platforms() {
 
 #elif defined(__APPLE__)
 
-#if defined(__i386__) || defined(__x86_64__)
-    int response = 0;
-    int retval = 0;
-    size_t len = sizeof(response);
-
-    retval = sysctlbyname("hw.optional.x86_64", &response, &len, NULL, 0);
-    if (!retval) {
-        add_platform("x86_64-apple-darwin");
-    }
-
-    // Supported on both Mac Intel architectures
+#ifdef __x86_64__
+    add_platform("x86_64-apple-darwin");
     add_platform("i686-apple-darwin");
 #else
-    // We no longer request PowerPC applications on Intel Macs
-    // because all projects supporting Macs should have Intel
-    // applications by now, and PowerPC emulation ("Rosetta")
-    // is not always supported in newer versions of OS X.
-    add_platform("powerpc-apple-darwin");
+#error Mac client now requires a 64-bit system
 #endif
 
 #elif defined(__linux__) && ( defined(__i386__) || defined(__x86_64__) )
