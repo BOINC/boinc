@@ -649,10 +649,17 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
     }
     
     // Add account keys, CPID, etc
+    $form['account']['boincuser_id'] = array(
+      '#value' => '
+        <div class="form-item">
+          <label>BOINC User ID</label>
+          <span>' . $account->boincuser_id . '</span>
+        </div>',
+    );
     $form['account']['user_id'] = array(
       '#value' => '
         <div class="form-item">
-          <label>User ID</label>
+          <label>Drupal User ID</label>
           <span>' . $account->uid . '</span>
         </div>',
     );
@@ -708,6 +715,7 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
     // Rearrange form elements
     $form['account']['mail']['#weight'] = 5;
     $form['account']['pass']['#weight'] = 15;
+    $form['account']['boincuser_id']['#weight'] = 45;
     $form['account']['user_id']['#weight'] = 50;
     $form['account']['account_key']['#weight'] = 55;
     $form['account']['weak_account_key']['#weight'] = 60;
