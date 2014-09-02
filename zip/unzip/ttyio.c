@@ -54,6 +54,7 @@
 #  define HAVE_TERMIOS_H
 #endif
 
+#include <unistd.h>     /* defines POSIX_VERSION */
 #ifdef _POSIX_VERSION
 #  ifndef USE_POSIX_TERMIOS
 #    define USE_POSIX_TERMIOS  /* use POSIX style termio (termios) */
