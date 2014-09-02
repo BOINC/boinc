@@ -26,6 +26,7 @@
 # Updated 6/25/12 for curl 7.26.0
 # Updated 7/10/12 for Xcode 4.3 and later which are not at a fixed address
 # Updated 2/11/14 for curl 7.35.0 with c-ares 1.10.0
+# Updated 9/2/14 for bulding curl as 64-bit binary
 #
 ## This script requires OS 10.6 or later
 ## This script requires OS 10.6 or later
@@ -97,15 +98,15 @@ if [  $? -ne 0 ]; then return 1; fi
 
 export PATH=/usr/local/bin:$PATH
 export CC="${GCCPATH}";export CXX="${GPPPATH}"
-export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,i386"
-export CPPFLAGS="-isysroot ${SDKPATH} -arch i386"
-export CFLAGS="-isysroot ${SDKPATH} -arch i386"
+export LDFLAGS="-Wl,-syslibroot,${SDKPATH},-arch,x86_64"
+export CPPFLAGS="-isysroot ${SDKPATH} -arch x86_64"
+export CFLAGS="-isysroot ${SDKPATH} -arch x86_64"
 export SDKROOT="${SDKPATH}"
-export MACOSX_DEPLOYMENT_TARGET=10.4
-export MAC_OS_X_VERSION_MAX_ALLOWED=1040
-export MAC_OS_X_VERSION_MIN_REQUIRED=1040
+export MACOSX_DEPLOYMENT_TARGET=10.5
+export MAC_OS_X_VERSION_MAX_ALLOWED=1050
+export MAC_OS_X_VERSION_MIN_REQUIRED=1050
 
-./configure --enable-shared=NO --enable-ares=/tmp/installed-c-ares --host=i386
+./configure --enable-shared=NO --enable-ares=/tmp/installed-c-ares --host=x86_64
 if [  $? -ne 0 ]; then return 1; fi
 
 if [ "$1" = "-clean" ]; then

@@ -27,6 +27,7 @@
 # Updated 2/12/14 for openssl-1.0.1f
 # Updated 4/14/14 for openssl-1.0.1g
 # Updated 6/6/14 for openssl-1.0.1h
+# Updated 9/2/14 for bulding openssl as 64-bit binary
 #
 ## This script requires OS 10.6 or later
 #
@@ -89,14 +90,14 @@ rm -f libcrypto.a
 if [  $? -ne 0 ]; then return 1; fi
 
 export CC="${GCCPATH}";export CXX="${GPPPATH}"
-export LDFLAGS="-Wl,-sysroot,${SDKPATH},-syslibroot,${SDKPATH},-arch,i386"
-export CPPFLAGS="-isysroot ${SDKPATH} -arch i386 -DMAC_OS_X_VERSION_MAX_ALLOWED=1040 -DMAC_OS_X_VERSION_MIN_REQUIRED=1040"
-export CFLAGS="-isysroot ${SDKPATH} -arch i386 -DMAC_OS_X_VERSION_MAX_ALLOWED=1040 -DMAC_OS_X_VERSION_MIN_REQUIRED=1040"
+export LDFLAGS="-Wl,-sysroot,${SDKPATH},-syslibroot,${SDKPATH},-arch,x86_64"
+export CPPFLAGS="-isysroot ${SDKPATH} -arch x86_64 -DMAC_OS_X_VERSION_MAX_ALLOWED=1050 -DMAC_OS_X_VERSION_MIN_REQUIRED=1050"
+export CFLAGS="-isysroot ${SDKPATH} -arch x86_64 -DMAC_OS_X_VERSION_MAX_ALLOWED=1050 -DMAC_OS_X_VERSION_MIN_REQUIRED=1050"
 export SDKROOT="${SDKPATH}"
-export MACOSX_DEPLOYMENT_TARGET=10.4
+export MACOSX_DEPLOYMENT_TARGET=10.5
 export LIBRARY_PATH="${SDKPATH}/usr/lib"
 
-./config no-shared
+./configure no-shared darwin64-x86_64-cc
 if [  $? -ne 0 ]; then return 1; fi
 
 if [ "$1" = "-clean" ]; then

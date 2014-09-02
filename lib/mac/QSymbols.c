@@ -115,12 +115,16 @@ First checked in.
 
 // Mac OS Interfaces
 
-#include <assert.h>
+//#include <assert.h>
 #include <errno.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+#undef assert
+#undef __assert
+#define	assert(e)	((void)0)
 
 #include <mach-o/nlist.h>
 #include <mach-o/arch.h>
@@ -213,7 +217,7 @@ struct QSymbols {
 };
 typedef struct QSymbols QSymbols;
 
-#if ! defined(NDEBUG)
+#if 0 //! defined(NDEBUG)
 
     static bool QSymIsValid(QSymbolsRef symRef)
         // Returns true if symRef references a valid QSymbols data structure.

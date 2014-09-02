@@ -114,7 +114,7 @@ First checked in.
 
 #include <TargetConditionals.h>
 
-#include <assert.h>
+//#include <assert.h>
 #include <errno.h>
 #include <fcntl.h>
 #include <stdint.h>
@@ -125,6 +125,10 @@ First checked in.
 #include <sys/stat.h>
 #include <sys/mman.h>
 #include <unistd.h>
+
+#undef assert
+#undef __assert
+#define	assert(e)	((void)0)
 
 // Mach-O interfaces
 
@@ -297,7 +301,7 @@ struct QMOImage {
 	void *						refCon;					// storage for type-specific information
 };
 
-#if ! defined(NDEBUG)
+#if 0 //! defined(NDEBUG)
 
     static bool QMOImageIsValidLimited(QMOImageRef qmoImage)
         // A limited form of QMOImageIsValid that's callback while qmoImage is still 

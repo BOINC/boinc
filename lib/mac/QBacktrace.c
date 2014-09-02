@@ -125,7 +125,7 @@ First checked in.
 #include <TargetConditionals.h>
 #include <AvailabilityMacros.h>
 
-#include <assert.h>
+//#include <assert.h>
 #include <errno.h>
 #include <pthread.h>
 #include <stdbool.h>
@@ -135,6 +135,10 @@ First checked in.
 #include <unistd.h>
 
 #include <mach-o/arch.h>
+
+#undef assert
+#undef __assert
+#define	assert(e)	((void)0)
 
 #if defined(__cplusplus)
 	extern "C" {
@@ -385,7 +389,7 @@ struct QBTContext {
 	size_t			        frameCountOut;			// returned by core
 };
 
-#if ! defined(NDEBUG)
+#if 0 //! defined(NDEBUG)
 
     // Because QBTContextIsValid is only referenced by assert macros, and these 
     // are disabled by NDEBUG, we have to conditionalise this code based on 
@@ -2089,7 +2093,7 @@ static const QBTArchInfo kArchitectures[] = {
 
 #pragma mark ***** Public Interface
 
-#if ! defined(NDEBUG)
+#if 0 //! defined(NDEBUG)
 
     static bool FrameArrayNeedsDispose(const QBTFrame *frameArray, size_t frameArrayCount)
         // We want to make sure that we don't leak symbol strings if we fail 

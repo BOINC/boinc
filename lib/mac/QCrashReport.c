@@ -122,11 +122,15 @@ First checked in.
 
 #include <TargetConditionals.h>
 
-#include <assert.h>
+//#include <assert.h>
 #include <errno.h>
 #include <stdbool.h>
 #include <unistd.h>
 #include <stdlib.h>
+
+#undef assert
+#undef __assert
+#define	assert(e)	((void)0)
 
 // Put Mach includes inside extern "C" guards for the C++ build 
 // because the Mach header files don't always have them.
@@ -186,7 +190,7 @@ struct QCrashReport {
 };
 typedef struct QCrashReport QCrashReport;
 
-#if ! defined(NDEBUG)
+#if 0 //! defined(NDEBUG)
 
     static bool QCRIsValid(QCrashReportRef crRef)
         // Returns true if crRef looks like a valid crash report object.
