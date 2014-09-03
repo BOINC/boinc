@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Web Site\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2014-02-01 00:00 PST\n"
-"PO-Revision-Date: 2013-11-24 20:45+0000\n"
+"PO-Revision-Date: 2014-08-11 10:03+0000\n"
 "Last-Translator: Aycan <aycandemirel@hotmail.com>\n"
 "Language-Team: Donanım Haber <bilgi@donanimhaber.com>\n"
 "Language: tr\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-POOTLE-MTIME: 1385325940.0\n"
+"X-POOTLE-MTIME: 1407751406.0\n"
 
 #: docutil.php:21
 msgid "Search"
@@ -697,17 +697,19 @@ msgstr ""
 
 #: projects.inc:207
 msgid "Physical Science"
-msgstr ""
+msgstr "Fiziksel Bilimi"
 
 #: projects.inc:213
 msgid "Mechanical engineering"
-msgstr ""
+msgstr "Makine mühendisliği"
 
 #: projects.inc:214
 msgid ""
 "Currently we are calculating the optimum design of a structure call the 52 "
 "bar truss"
 msgstr ""
+"Şu anda, 52 bar kafese (kirişe) sahip bir yapının optimum tasarımını "
+"araştırıyoruz."
 
 #: projects.inc:224 projects.inc:263 projects.inc:271
 msgid "Astronomy"
