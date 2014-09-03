@@ -305,21 +305,28 @@ int handle_results() {
         srip->peak_swap_size = rp->peak_swap_size;
         srip->peak_disk_usage = rp->peak_disk_usage;
 
-        // Some buggy clients sporadically report very low elapsed time
-        // but actual CPU time.
-        // Try to fix the elapsed time, since it's critical to credit
+        // elapsed time is used to compute credit.
+        // do various sanity checks on it.
+
+        // 1) Some buggy clients report very low elapsed time
+        // but actual CPU time;
+        // if it's a single-thread app, set ET = CPU
         //
         if (srip->elapsed_time < srip->cpu_time) {
             int avid = srip->app_version_id;
             if (avid > 0) {
                 APP_VERSION* avp = ssp->lookup_app_version(avid);
                 if (avp && !avp->is_multithread()) {
+                    log_messages.printf(MSG_NORMAL,
+                        "[HOST#%d] [RESULT#%u] elapsed time %f < CPU %f for seq app; setting to CPU\n",
+                        srip->hostid, srip->id, srip->elapsed_time, srip->cpu_time
+                    );
                     srip->elapsed_time = srip->cpu_time;
                 }
             }
         }
 
-        // check for impossible elapsed time
+        // 2) If it's negative, set to zero
         //
         if (srip->elapsed_time < 0) {
             log_messages.printf(MSG_NORMAL,
@@ -329,6 +336,19 @@ int handle_results() {
             );
             srip->elapsed_time = 0;
         }
+
+        // 3) If it's zero, set to CPU time.
+        //
+        if (srip->elapsed_time == 0 && srip->cpu_time > 0) {
+            srip->elapsed_time = srip->cpu_time;
+            log_messages.printf(MSG_NORMAL,
+                "[HOST#%d] [RESULT#%u] elapsed time is zero; setting to CPU time %f\n",
+                srip->hostid, srip->id, srip->cpu_time
+            );
+        }
+
+        // 4) If it's greater than turnaround time, set to turnaround time
+        //
         double turnaround_time = srip->received_time - srip->sent_time;
         if (turnaround_time < 0) {
             log_messages.printf(MSG_CRITICAL,
@@ -346,7 +366,7 @@ int handle_results() {
             }
         }
 
-        // check for impossible CPU time
+        // Now do sanity check on CPU time
         //
         if (srip->cpu_time > srip->elapsed_time*g_reply->host.p_ncpus) {
             log_messages.printf(MSG_NORMAL,
