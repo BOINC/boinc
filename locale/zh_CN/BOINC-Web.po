@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: 15349\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2014-02-01 00:00 PST\n"
-"PO-Revision-Date: 2014-02-23 06:01+0000\n"
+"PO-Revision-Date: 2014-08-31 01:58+0000\n"
 "Last-Translator: Gang <zenith.yin@gmail.com>\n"
 "Language-Team: Team China <zenith.yin@gmail.com>\n"
 "Language: zh_CN\n"
@@ -20,7 +20,7 @@ msgstr ""
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-SearchPath-0: doc\n"
 "X-Poedit-Basepath: D:\\Work\\boinc_src\\doc\n"
-"X-POOTLE-MTIME: 1393135305.0\n"
+"X-POOTLE-MTIME: 1409450318.0\n"
 "X-Poedit-KeywordsList: tra\n"
 
 #: docutil.php:21
@@ -226,7 +226,7 @@ msgstr "24 小时平均： "
 # 80%
 #: index.php:56
 msgid "PetaFLOPS."
-msgstr "万亿次浮点运算/秒。 "
+msgstr "千万亿次浮点运算/秒。 "
 
 #: index.php:68
 msgid "News"
