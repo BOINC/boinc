@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2014-02-01 00:00 PST\n"
-"PO-Revision-Date: 2013-06-05 20:02+0200\n"
+"PO-Revision-Date: 2014-08-07 14:27+0000\n"
 "Last-Translator: Anonymous Pootle User\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: sl\n"
@@ -16,8 +16,9 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || "
 "n%100==4 ? 2 : 3);\n"
-"X-Generator: Pootle 2.1.6\n"
+"X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
+"X-POOTLE-MTIME: 1407421662.0\n"
 
 #: docutil.php:21
 msgid "Search"
@@ -971,8 +972,9 @@ msgid ""
 msgstr ""
 
 #: ../html/inc/news.inc:40
+#, fuzzy
 msgid "Comment"
-msgstr ""
+msgstr "Pripombe"
 
 #: ../html/inc/news.inc:111
 #, php-format

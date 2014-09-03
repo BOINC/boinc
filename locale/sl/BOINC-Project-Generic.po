@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2014-01-10 00:00 PST\n"
-"PO-Revision-Date: 2013-06-05 20:02+0200\n"
+"PO-Revision-Date: 2014-08-07 14:54+0000\n"
 "Last-Translator: Anonymous Pootle User\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: sl\n"
@@ -16,8 +16,9 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || "
 "n%100==4 ? 2 : 3);\n"
-"X-Generator: Pootle 2.1.6\n"
+"X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
+"X-POOTLE-MTIME: 1407423277.0\n"
 
 msgid "LANG_NAME_NATIVE"
 msgstr "Slovenščina"
@@ -1200,8 +1201,9 @@ msgid "Use NVIDIA GPU %1 Enforced by version 6.10+ %2"
 msgstr "Uporabi NVIDIA grafični procesor %1 Velja za različice od 6.10 dalje %2"
 
 #: ../inc/prefs.inc:344
+#, fuzzy
 msgid "Use Intel GPU %1 Enforced by version 7.2+ %2"
-msgstr ""
+msgstr "Uporabi ATI grafični procesor %1 Velja za različice od 6.10 dalje %2"
 
 #: ../inc/prefs.inc:358
 msgid ""
@@ -1762,8 +1764,9 @@ msgid "State"
 msgstr "Status"
 
 #: ../inc/result.inc:747
+#, fuzzy
 msgid "Task name:"
-msgstr ""
+msgstr "Ime opravila"
 
 #: ../inc/team.inc:40
 msgid "Search criteria (use one or more)"
@@ -2118,8 +2121,9 @@ msgid "Used in community functions"
 msgstr "Uporabljeno v funkcijah skupnosti"
 
 #: ../inc/user.inc:216 ../user/weak_auth.php:25
+#, fuzzy
 msgid "Account keys"
-msgstr ""
+msgstr "Ključ računa"
 
 #: ../inc/user.inc:221
 msgid "Preferences"
@@ -2566,8 +2570,9 @@ msgid "Top GPU models"
 msgstr ""
 
 #: ../user/bs_sample_index.php:70
+#, fuzzy
 msgid "Languages"
-msgstr ""
+msgstr "Jezik"
 
 #: ../user/bs_sample_index.php:149 ../user/info.php:24
 #: ../user/sample_index.php:79
