@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-02-02 00:00-0800\n"
-"PO-Revision-Date: 2013-11-20 17:57+0000\n"
+"PO-Revision-Date: 2014-08-17 17:24+0000\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: Russia\n"
 "Language: ru\n"
@@ -23,7 +23,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCGIT\\boinc\n"
-"X-POOTLE-MTIME: 1384970232.0\n"
+"X-POOTLE-MTIME: 1408296243.0\n"
 
 # 81%
 #: AccountInfoPage.cpp:387
@@ -1148,7 +1148,7 @@ msgstr "OK"
 
 #: DlgAdvPreferences.cpp:544
 msgid "invalid number"
-msgstr ""
+msgstr "неправильный номер"
 
 #: DlgAdvPreferences.cpp:545
 msgid "invalid time, format is HH:MM"
@@ -2846,7 +2846,7 @@ msgstr "Я согласен с условиями."
 
 #: TermsOfUsePage.cpp:237
 msgid "I do not agree to the terms of use."
-msgstr ""
+msgstr "Я не согласен с условиями использования."
 
 #: UnavailablePage.cpp:183
 msgid "Project temporarily unavailable"
@@ -3774,11 +3774,15 @@ msgstr "Для сохранения настроек нажмите 'OK'."
 msgid ""
 "Click Clear to restore web-based settings for all preferences listed below."
 msgstr ""
+"Нажмите кнопку 'Удалить', чтобы восстановить параметры, указанные на "
+"веб-сайте проекта, для всех настроек, перечисленных ниже."
 
 #: sg_DlgPreferences.cpp:285
 msgid ""
 "For additional settings, select Computing Preferences in the Advanced View."
 msgstr ""
+"Для дополнительных параметров выберите 'Настройки клиента' в меню 'Полный "
+"вид'."
 
 #: sg_DlgPreferences.cpp:313
 msgid "Do work only between:"
@@ -3812,6 +3816,8 @@ msgstr "Запуск обработки при простое:"
 #: sg_DlgPreferences.cpp:429
 msgid "Clear all local preferences listed above and close the dialog"
 msgstr ""
+"Удалить локально хранимые настройки для данного компьютера и закрыть "
+"диалоговое окно"
 
 # ?
 #: sg_DlgPreferences.cpp:602 sg_DlgPreferences.cpp:605
