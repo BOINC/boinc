@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2014-02-01 00:00 PST\n"
-"PO-Revision-Date: 2013-12-01 15:08+0000\n"
+"PO-Revision-Date: 2014-08-17 16:46+0000\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: ru\n"
@@ -18,7 +18,7 @@ msgstr ""
 "10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-POOTLE-MTIME: 1385910498.0\n"
+"X-POOTLE-MTIME: 1408293979.0\n"
 
 #: docutil.php:21
 msgid "Search"
@@ -718,17 +718,19 @@ msgstr ""
 
 #: projects.inc:207
 msgid "Physical Science"
-msgstr ""
+msgstr "Физика"
 
 #: projects.inc:213
 msgid "Mechanical engineering"
-msgstr ""
+msgstr "Машиностроение"
 
 #: projects.inc:214
 msgid ""
 "Currently we are calculating the optimum design of a structure call the 52 "
 "bar truss"
 msgstr ""
+"В настоящее время мы рассчитываем оптимальное исполнение структуры под "
+"названием 'ферма из 52 стержней'"
 
 #: projects.inc:224 projects.inc:263 projects.inc:271
 msgid "Astronomy"
