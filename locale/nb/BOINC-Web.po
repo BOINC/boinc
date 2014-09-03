@@ -7,62 +7,66 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2014-02-01 00:00 PST\n"
-"PO-Revision-Date: 2012-09-16 13:49+0200\n"
-"Last-Translator: Kenneth <kenneth@skjold.biz>\n"
+"PO-Revision-Date: 2014-09-03 03:41+0000\n"
+"Last-Translator: Jan <jan@sherdahl.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: nb\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 2.1.6\n"
+"X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
+"X-POOTLE-MTIME: 1409715674.0\n"
 
 #: docutil.php:21
 msgid "Search"
-msgstr ""
+msgstr "Søk"
 
 #: docutil.php:103
 msgid "Return to BOINC main page"
-msgstr ""
+msgstr "Tilbake til BOINC hovedsiden"
 
 #: docutil.php:114
 #, php-format
+#, php-format, php-format
 msgid "This page is %stranslatable%s."
-msgstr ""
+msgstr "Denne siden er %soversettbar%s."
 
 #: download.php:39
 msgid ""
 "We recommend that you also install VirtualBox, so your computer can work on "
 "science projects that require it."
 msgstr ""
+"Vi anbefaler at du også installerer VirtualBox, så din datamaskin kan "
+"arbeide med vitenskapelige prosjekter som er avhengig av denne."
 
 #: download.php:41
 msgid "Learn more about VirtualBox."
-msgstr ""
+msgstr "Lær mer om VirutalBox."
 
 #: download.php:51
 msgid "Download BOINC + VirtualBox"
-msgstr ""
+msgstr "Last ned BOINC + VirtualBox"
 
 #: download.php:54 download.php:69
 #, php-format
 msgid "for %s"
-msgstr ""
+msgstr "for %s"
 
 #: download.php:57 download.php:72
 #, php-format
 msgid "BOINC version %s"
-msgstr ""
+msgstr "BOINC versjon %s"
 
 #: download.php:59
 #, php-format
 msgid "VirtualBox version %s"
-msgstr ""
+msgstr "VirtualBox versjon %s"
 
 #: download.php:67
 msgid "Download BOINC"
-msgstr ""
+msgstr "Last ned BOINC"
 
 #: download.php:123
 msgid ""
@@ -70,61 +74,75 @@ msgid ""
 "projects like SETI@home, Climateprediction.net, Rosetta@home, World "
 "Community Grid, and many others."
 msgstr ""
+"BOINC er et program som lar deg donere inaktiv datamaskintid til "
+"vitenskapelige prosjekter som SETI@home, Climateprediction.net, "
+"Rosetta@home, World Community Grid og mange flere."
 
 #: download.php:125
 msgid ""
 "After installing BOINC on your computer, you can connect it to as many of "
 "these projects as you like."
 msgstr ""
+"Etter å ha installert BOINC på din datamaskin, kan du knytte den opp til så "
+"mange av disse prosjektene du ønsker."
 
 #: download.php:127
 msgid ""
 "You may run this software on a computer only if you own the computer or have "
 "the permission of its owner."
 msgstr ""
+"Du kan kjøre denne programvaren på en datamaskin bare hvis du er eier av den "
+"eller har tillatelse fra dens eier."
 
 #: download.php:132
 msgid ""
 "We recommend that you download BOINC from the Google Play Store or Amazon "
 "Appstore, not from here."
 msgstr ""
+"Vi anbefaler deg å laste ned BOINC fra Google Play Store eller Amazon "
+"Appstore, og ikke fra denne siden."
 
 #: download.php:167
 msgid "System requirements"
-msgstr ""
+msgstr "Systemkrav"
 
 #: download.php:168
 msgid "Release notes"
-msgstr ""
+msgstr "Utgivelsesmerknader"
 
 #: download.php:169 index.php:86
 msgid "Help"
-msgstr ""
+msgstr "Hjelp"
 
 #: download.php:170
 msgid "All versions"
-msgstr ""
+msgstr "Alle versjoner"
 
 #: download.php:171
 msgid "Version history"
-msgstr ""
+msgstr "Versjonslogg"
 
 #: download.php:172
 msgid "GPU computing"
-msgstr ""
+msgstr "GPU beregning"
 
 #: download.php:190
 msgid "BOINC: compute for science"
-msgstr ""
+msgstr "BOINC: beregne for vitenskap"
 
 #: help.php:12
 #, php-format
+#, php-format, php-format
 msgid ""
 "BOINC Online Help lets you talk one-on-one with experienced BOINC users, who "
 "can: %s answer questions about BOINC and volunteer computing; %s walk you "
 "through the process of installing and using BOINC; %s troubleshoot any "
 "problems you might have."
 msgstr ""
+"BOINC online hjelp lar deg snakke med erfarne BOINC brukere som kan: %s "
+"svare på spørsmål angående BOINC og frivillig beregning; %s veilede deg "
+"gjennom installasjonsprosessen og bruk av BOINC; %s feilsøke eventuelle "
+"problemer du måtte ha."
 
 #: help.php:21
 #, php-format
@@ -134,104 +152,132 @@ msgid ""
 "Skype, please %sdownload and install it now%s.  When you're finished, return "
 "to this page."
 msgstr ""
+"BOINC online hjelp er basert på Skype, et telefonsystem via Internet. Skype "
+"er gratis (både programvaren og samtalene).  Hvis du ikke allerede har Skype "
+"installert, vennligst %slast ned og installer det nå%s.  Når du er ferdig, "
+"kom tilbake til denne siden."
 
 #: help.php:28
+#, fuzzy
 msgid ""
 "The best way to get help is by voice, for which you need either built-in "
 "microphone and speakers or an external headset for your computer.  You can "
 "also use Skype's text-based chat system or regular email (if you don't have "
 "Skype) to communicate with Help Volunteers."
 msgstr ""
+"Den beste måten å få hjelp på er via en samtale. Til dette trenger du enten "
+"en innebygd mikrofon og høyttalere, eller et eksternt headset tilkoblet din "
+"datamaskin.  Du kan også benytte Skype sitt tekstbaserte chat system eller "
+"vanlig epost (hvis du ikke har Skype installert) for å kommunisere med våre "
+"frivillige supportmedarbeidere."
 
 #: help.php:31
+#, fuzzy
 msgid ""
 "Volunteers speaking several languages are available. Please select a "
 "language:"
 msgstr ""
+"Våre supportmedarbeidere snakker flere språk og er tilgjengelige. Vennligst "
+"velg et språk:"
 
 #: help.php:47
+#, fuzzy
 msgid "Be a Help Volunteer"
-msgstr ""
+msgstr "Bli frivillig supportmedarbeider"
 
 #: help.php:50
 #, php-format
+#, fuzzy, php-format
 msgid ""
 "If you're an experienced BOINC user, we encourage you to %sbecome a Help "
 "Volunteer%s.  It's a great way to help the cause of scientific research and "
 "volunteer computing - and it's fun!"
 msgstr ""
+"Hvis du er en erfaren BOINC bruker, oppfordrer vi deg til å %sbli en "
+"supportmedarbeider%s.  Det er en fin måte å bidra til vitenskapelig "
+"forskning og frivillig databehandling - og det er morsomt!"
 
 #: help.php:56
 #, php-format
+#, fuzzy, php-format
 msgid ""
 "If you're already a Help Volunteer: to edit your settings, %sclick here%s."
 msgstr ""
+"Hvis du allerede er en frivillig supportmedarbeider: For å endre dine "
+"innstillinger, %sklikk her%s."
 
 #: help_funcs.php:107
+#, fuzzy
 msgid ""
 "BOINC helpers are unpaid volunteers.  Their advice is not endorsed by BOINC "
 "or the University of California."
 msgstr ""
+"BOINC supportmedarbeidere får ikke betalt for sitt frivillige arbeid. Deres "
+"råd bifalles ikke av BOINC eller University of California."
 
 #: help_funcs.php:110
 msgid "%1Never%2 give email address or password information to BOINC helpers."
 msgstr ""
+"Oppgi %1aldri%2 informasjon angående din epostadresse eller ditt passord til "
+"BOINC supportmedarbeidere."
 
 #: index.php:24
 msgid "Computing power"
-msgstr ""
+msgstr "Beregningskraft"
 
 #: index.php:26
 msgid "Top 100 volunteers"
-msgstr ""
+msgstr "Topp 100 frivillige"
 
 #: index.php:27
 msgid "Statistics"
-msgstr ""
+msgstr "Statistikk"
 
 #: index.php:55
 msgid "Active:"
-msgstr ""
+msgstr "Aktiv:"
 
 #: index.php:55
 msgid "volunteers,"
-msgstr ""
+msgstr "frivillige,"
 
 #: index.php:55
 msgid "computers.\n"
 msgstr ""
+"datamaskiner.\n"
+" "
 
 #: index.php:56
 msgid "24-hour average:"
-msgstr ""
+msgstr "24 timers gjennomsnitt:"
 
 #: index.php:56
 msgid "PetaFLOPS."
-msgstr ""
+msgstr "PetaFLOPS."
 
 #: index.php:68
 msgid "News"
-msgstr ""
+msgstr "Nyheter           "
 
 #: index.php:83
 msgid "Volunteer"
-msgstr ""
+msgstr "Frivillig"
 
 #: index.php:85
 msgid "Download"
-msgstr ""
+msgstr "Last ned"
 
 #: index.php:87 index.php:120 index.php:171
 msgid "Documentation"
-msgstr ""
+msgstr "Dokumentasjon"
 
 #: index.php:88
 msgid "Add-ons"
-msgstr ""
+msgstr "Tillegg"
 
 #: index.php:89
 msgid "Links"
-msgstr ""
+msgstr "Lenker     "
 
 #: index.php:94
 msgid ""
@@ -239,45 +285,59 @@ msgid ""
 "diseases, study global warming, discover pulsars, and do many other types of "
 "scientific research.  It's safe, secure, and easy:"
 msgstr ""
+"Bruk inaktiv tid på din datamaskin (Windows, Mac, Linux eller Android) for å "
+"kurere sykdommer, studere global oppvarming, oppdage pulsarer, og hjelp til "
+"med mange andre typer av vitenskapelig forskning.  Det er trygt, sikkert og "
+"enkelt:"
 
 #: index.php:96
 msgid "Choose projects"
-msgstr ""
+msgstr "Velg prosjekter"
 
 #: index.php:97
 msgid "Download BOINC software"
-msgstr ""
+msgstr "Last ned BOINC programvare"
 
 #: index.php:98
 msgid "Enter an email address and password."
-msgstr ""
+msgstr "Tast inn en epostadresse og et passord."
 
 #: index.php:102
 #, php-format
+#, fuzzy, php-format
 msgid ""
 "Or, if you run several projects, try an %saccount manager%s such as %"
 "sGridRepublic%s or %sBAM!%s. "
 msgstr ""
+"Eller hvis du kjører flere prosjekter, prøv en %skontobehandler%s som for "
+"eksempel %sGridRepublic%s eller %sBAM!%s. "
 
 #: index.php:118
+#, fuzzy
 msgid "Compute with BOINC"
-msgstr ""
+msgstr "Beregn med BOINC"
 
 #: index.php:121
 msgid "Software updates"
-msgstr ""
+msgstr "Programvareoppdateringer"
 
 #: index.php:128
+#, fuzzy
 msgid ""
 "%1Scientists%2: use BOINC to create a %3volunteer computing project%4 giving "
 "you the computing power of thousands of CPUs."
 msgstr ""
+"%1Forskere%2: Bruk BOINC for å opprette et %3frivillig beregningsprosjekt%4 "
+"som gir deg datakraften tiltusenvis av prosessorer."
 
 #: index.php:132
+#, fuzzy
 msgid ""
 "%1Universities%2: use BOINC to create a %3Virtual Campus Supercomputing "
 "Center%4."
 msgstr ""
+"%1Universiteter%2: Bruk BOINC til å opprette et %3virtuelt tungregnesenter "
+"på deres universitetsområde%4."
 
 #: index.php:137
 msgid "%1Companies%2: use BOINC for %3desktop Grid computing%4."
@@ -285,23 +345,23 @@ msgstr ""
 
 #: index.php:149
 msgid "The BOINC project"
-msgstr ""
+msgstr "BOINC prosjektet"
 
 #: index.php:155
 msgid "Message boards"
-msgstr ""
+msgstr "Diskusjonsfora"
 
 #: index.php:156
 msgid "Email lists"
-msgstr ""
+msgstr "Epostlister"
 
 #: index.php:157
 msgid "Personnel and contributors"
-msgstr ""
+msgstr "Personal og bidragsytere"
 
 #: index.php:158
 msgid "Events"
-msgstr ""
+msgstr "Hendelser"
 
 #: index.php:159
 msgid "Papers and talks"
@@ -309,31 +369,31 @@ msgstr ""
 
 #: index.php:160
 msgid "Research projects"
-msgstr ""
+msgstr "Forskningsprosjekter"
 
 #: index.php:161
 msgid "Logos and graphics"
-msgstr ""
+msgstr "Logoer og bildemateriale"
 
 #: index.php:162
 msgid "and"
-msgstr ""
+msgstr "og"
 
 #: index.php:166
 msgid "Help wanted"
-msgstr ""
+msgstr "Hjelp ønskes"
 
 #: index.php:168
 msgid "Programming"
-msgstr ""
+msgstr "Programmering"
 
 #: index.php:169
 msgid "Translation"
-msgstr ""
+msgstr "Oversettelse"
 
 #: index.php:170
 msgid "Testing"
-msgstr ""
+msgstr "Tester"
 
 #: index.php:172
 msgid "Publicity"
@@ -341,35 +401,38 @@ msgstr ""
 
 #: index.php:174
 msgid "Software development"
-msgstr ""
+msgstr "Programvareutvikling"
 
 #: index.php:175
 msgid "APIs for add-on software"
-msgstr ""
+msgstr "API'er for tilleggsprogramvare"
 
 #: index.php:217
 #, php-format
+#, fuzzy, php-format
 msgid ""
 "Open-source software for %svolunteer computing%s and %sgrid computing%s."
 msgstr ""
+"Åpen kildekode programvare for %sfrivillig beregning%s og %sdistribuert "
+"beregning%s."
 
 #: index.php:230
 msgid "BOINC is based at The University of California, Berkeley"
-msgstr ""
+msgstr "BOINC holder til ved Universitetet i California, Berkeley"
 
 #: projects.inc:14
+#, fuzzy
 msgid "Distributed sensing"
-msgstr ""
+msgstr "Distribuert sunn fornuft"
 
 # 78%
 #: projects.inc:19
-#, fuzzy
 msgid "Stanford University"
-msgstr "Oxford University"
+msgstr "Stanford University"
 
 #: projects.inc:20
 msgid "Seismology"
-msgstr ""
+msgstr "Seismologi"
 
 #: projects.inc:21
 msgid ""
@@ -379,12 +442,13 @@ msgid ""
 msgstr ""
 
 #: projects.inc:27
+#, fuzzy
 msgid "BOINC Poland Foundation"
-msgstr ""
+msgstr "Den polske BOINC stiftelsen"
 
 #: projects.inc:28
 msgid "Environmental research"
-msgstr ""
+msgstr "Miljøforskning"
 
 #: projects.inc:29
 msgid ""
@@ -401,13 +465,12 @@ msgstr ""
 
 #: projects.inc:37
 msgid "Cognitive science and artifical intelligence"
-msgstr ""
+msgstr "Kognitiv vitenskap og kunstig intelligens"
 
 #: projects.inc:60 projects.inc:364 projects.inc:408 projects.inc:457
 #: projects.inc:464 projects.inc:511
-#, fuzzy
 msgid "Private"
-msgstr "privat"
+msgstr "Privat"
 
 #: projects.inc:61
 msgid "Artificial intelligence"
@@ -524,8 +587,9 @@ msgid ""
 msgstr ""
 
 #: projects.inc:146
+#, fuzzy
 msgid "The Swiss Tropical Institute"
-msgstr ""
+msgstr "Det Sveitsiske tropiske institutt"
 
 #: projects.inc:147
 msgid "Epidemiology"
@@ -551,6 +615,7 @@ msgid "Biology"
 msgstr "Biologi"
 
 #: projects.inc:172
+#, fuzzy
 msgid ""
 "Determine the 3-dimensional shapes of proteins in research that may "
 "ultimately lead to finding cures for some major human diseases. By running "
@@ -559,17 +624,27 @@ msgid ""
 "efforts at designing new proteins to fight diseases such as HIV, Malaria, "
 "Cancer, and Alzheimer's"
 msgstr ""
+"Fastsett den 3-dinemsjonale formen til proteiner i forskningen som til sist "
+"leder til å kurere noen viktige menneskelige sykommer. Ved å kjøre "
+"Rosetta@home vil du hjelpe oss å få fart på og utvide vår forskning på måter "
+"vi ikke kunne forsøkt uten din hjelp. Du vil også hjelpe vår innsats i å "
+"designe nye proteiner for å bekjempe sykdommer som HIV, Malaria, Kref og "
+"Alzheimer"
 
 #: projects.inc:178
 msgid "University of Vienna"
 msgstr "University of Vienna"
 
 #: projects.inc:180
+#, fuzzy
 msgid ""
 "Calculate similarities between proteins. SIMAP provides a public database of "
 "the resulting data, which plays a key role in many bioinformatics research "
 "projects."
 msgstr ""
+"Beregne likheter mellom proteiner. SIMAP sørger for en offentlig database "
+"med resulterende data, som spiller en nøkkelrolle imange "
+"forskningsprosjekter angående bioinformatikk"
 
 #: projects.inc:186
 msgid "Earth Sciences"
@@ -601,7 +676,7 @@ msgstr ""
 
 #: projects.inc:213
 msgid "Mechanical engineering"
-msgstr ""
+msgstr "Mekanisk ingeniørvitenskap"
 
 #: projects.inc:214
 msgid ""
@@ -649,26 +724,33 @@ msgid "University of Illinois at Urbana-Champaign"
 msgstr ""
 
 #: projects.inc:264
+#, fuzzy
 msgid ""
 "The goal of Cosmology@Home is to search for the model that best describes "
 "our Universe and to find the range of models that agree with the available "
 "astronomical particle physics data."
 msgstr ""
+"Målsettingen til Cosmology@Home er å søke etter modellen som best beskriver "
+"vår univers og å finne områder medmodeller som stemmer overens med "
+"tilgjengelige astronomiske partikkelfysikkdata."
 
 #: projects.inc:270
 msgid "Rensselaer Polytechnic Institute"
 msgstr ""
 
 #: projects.inc:272
+#, fuzzy
 msgid ""
 "The goal of Milkyway@Home is to create a highly accurate three dimensional "
 "model of the Milky Way galaxy using data gathered by the Sloan Digital Sky "
 "Survey."
 msgstr ""
+"Målsetting til Milkyway@Home er å lage en nøyaktig tredimensjonal modell av "
+"Melkeveien ved å bruke datasanket av Sloan Digital Sky Survey."
 
 #: projects.inc:278
 msgid "Leiden University, The Netherlands"
-msgstr ""
+msgstr "Universitetet i Leiden, Nederland"
 
 #: projects.inc:280
 msgid ""
@@ -685,8 +767,9 @@ msgid "Univ. of Wisconsin - Milwaukee, Max Planck Institute"
 msgstr ""
 
 #: projects.inc:295
+#, fuzzy
 msgid "Astrophysics"
-msgstr ""
+msgstr "Astrofysikk"
 
 #: projects.inc:296
 msgid ""
@@ -730,6 +813,7 @@ msgid "Astrophysics, astrobiology"
 msgstr ""
 
 #: projects.inc:328
+#, fuzzy
 msgid ""
 "SETI (Search for Extraterrestrial Intelligence) is a scientific area whose "
 "goal is to detect intelligent life outside Earth. One approach, known as "
@@ -737,6 +821,11 @@ msgid ""
 "signals from space. Such signals are not known to occur naturally, so a "
 "detection would provide evidence of extraterrestrial technology."
 msgstr ""
+"SETI (søk etter utenomjordisk intelligens) er et vitenskapelig område hvis "
+"målsetting er å detektere intelligent liv i verdensrommet. En instilling, "
+"kjent som radio SETI, bruker radioteleskop for å lytte etter smal båndbredde "
+"radiosignaler fra verdensrommet. Slike signaler er ikke kjent at oppstår "
+"naturlig, så detektering ville sørge for bevis for utenomjordisk teknologi."
 
 #: projects.inc:342
 msgid "Bielefeld University of Applied Sciences"

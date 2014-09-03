@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: BOINC-prject-generic\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2014-01-10 00:00 PST\n"
-"PO-Revision-Date: 2012-09-16 13:49+0000\n"
-"Last-Translator: Kenneth <kenneth@skjold.biz>\n"
+"PO-Revision-Date: 2014-09-02 03:56+0000\n"
+"Last-Translator: Jan <jan@sherdahl.com>\n"
 "Language-Team: Hjelp andre <kenneth@skjold.biz>\n"
 "Language: nb\n"
 "MIME-Version: 1.0\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-POOTLE-MTIME: 1347803390.0\n"
+"X-POOTLE-MTIME: 1409630204.0\n"
 
 msgid "LANG_NAME_NATIVE"
 msgstr "English"
@@ -27,15 +27,15 @@ msgstr "English"
 
 #: ../inc/bbcode_html.inc:11
 msgid "Bold text: [b]text[/b]  (alt+b)"
-msgstr ""
+msgstr "Uthevet tekst: [b]tekst[/b]  (alt+b)                "
 
 #: ../inc/bbcode_html.inc:14
 msgid "Italic text: [i]text[/i]  (alt+i)"
-msgstr ""
+msgstr "Kursiv tekst: [i]tekst[/i]  (alt+i)                "
 
 #: ../inc/bbcode_html.inc:17
 msgid "Underline text: [u]text[/u]  (alt+u)"
-msgstr ""
+msgstr "Understreket tekst: [u]tekst[/u]  (alt+u)                "
 
 #: ../inc/bbcode_html.inc:20
 msgid "Quote text: [quote]text[/quote]  (alt+q)"
@@ -47,7 +47,7 @@ msgstr ""
 
 #: ../inc/bbcode_html.inc:26
 msgid "List: [list]text[/list] (alt+l)"
-msgstr ""
+msgstr "Liste: [list]tekst[/list] (alt+l)                "
 
 #: ../inc/bbcode_html.inc:29
 msgid "Ordered list: [list=]text[/list]  (alt+o)"
@@ -55,7 +55,7 @@ msgstr ""
 
 #: ../inc/bbcode_html.inc:32
 msgid "Insert image: [img]http://image_url[/img]  (alt+p)"
-msgstr ""
+msgstr "Sett inn bilde: [img]http://image_url[/img]  (alt+p)                "
 
 #: ../inc/bbcode_html.inc:35
 msgid ""
@@ -64,7 +64,7 @@ msgstr ""
 
 #: ../inc/bbcode_html.inc:42
 msgid "Font color"
-msgstr ""
+msgstr "Skriftfarge"
 
 #: ../inc/bbcode_html.inc:43
 msgid ""
@@ -77,11 +77,11 @@ msgstr "Forvalg"
 
 #: ../inc/bbcode_html.inc:45
 msgid "Dark Red"
-msgstr ""
+msgstr "Mørkerød"
 
 #: ../inc/bbcode_html.inc:46
 msgid "Red"
-msgstr ""
+msgstr "Rød"
 
 #: ../inc/bbcode_html.inc:47
 #, fuzzy
@@ -90,31 +90,32 @@ msgstr "Endre"
 
 #: ../inc/bbcode_html.inc:48
 msgid "Brown"
-msgstr ""
+msgstr "Brun"
 
 #: ../inc/bbcode_html.inc:49
 msgid "Yellow"
-msgstr ""
+msgstr "Gul"
 
 #: ../inc/bbcode_html.inc:50
 msgid "Green"
-msgstr ""
+msgstr "Grønn"
 
 #: ../inc/bbcode_html.inc:51
+#, fuzzy
 msgid "Olive"
-msgstr ""
+msgstr "Oliven"
 
 #: ../inc/bbcode_html.inc:52
 msgid "Cyan"
-msgstr ""
+msgstr "Turkis"
 
 #: ../inc/bbcode_html.inc:53
 msgid "Blue"
-msgstr ""
+msgstr "Blå"
 
 #: ../inc/bbcode_html.inc:54
 msgid "Dark Blue"
-msgstr ""
+msgstr "Mørkeblå"
 
 #: ../inc/bbcode_html.inc:55
 msgid "Indigo"
@@ -122,31 +123,32 @@ msgstr ""
 
 #: ../inc/bbcode_html.inc:56
 msgid "Violet"
-msgstr ""
+msgstr "Fiolett"
 
 #: ../inc/bbcode_html.inc:57
 msgid "Font size"
-msgstr ""
+msgstr "Skriftstørrelse"
 
 #: ../inc/bbcode_html.inc:58
 msgid "Font size: [size=x-small]small text[/size]"
-msgstr ""
+msgstr "Skriftstørrelse: [size=x-small]Liten tekst[/size]"
 
 #: ../inc/bbcode_html.inc:60
 msgid "Small"
-msgstr ""
+msgstr "Liten"
 
 #: ../inc/bbcode_html.inc:61
 msgid "Normal"
-msgstr ""
+msgstr "Normal"
 
 #: ../inc/bbcode_html.inc:62
 msgid "Large"
-msgstr ""
+msgstr "Stor"
 
 #: ../inc/bbcode_html.inc:65
+#, fuzzy
 msgid "Close all open bbCode tags"
-msgstr ""
+msgstr "Avslutt alle åpne bbCode tagger"
 
 #: ../inc/bbcode_html.inc:65
 msgid "Close Tags"
@@ -161,20 +163,23 @@ msgid "Newest first"
 msgstr "Nyeste først"
 
 #: ../inc/forum.inc:39
+#, fuzzy
 msgid "Highest rated posts first"
-msgstr ""
+msgstr "Høyest rangerte innlegg først"
 
 #: ../inc/forum.inc:41
 msgid "Newest post first"
 msgstr "Nyeste post først"
 
 #: ../inc/forum.inc:42
+#, fuzzy
 msgid "Most views first"
-msgstr ""
+msgstr "Flest visninger først"
 
 #: ../inc/forum.inc:43
+#, fuzzy
 msgid "Most posts first"
-msgstr ""
+msgstr "Flest innlegg først"
 
 #: ../inc/forum.inc:125
 msgid "Search for words in forum messages"
@@ -211,11 +216,11 @@ msgstr "%1 oppslagstavle"
 
 #: ../inc/forum.inc:245 ../inc/result.inc:695
 msgid "Previous"
-msgstr ""
+msgstr "Forrige"
 
 #: ../inc/forum.inc:283 ../inc/result.inc:704
 msgid "Next"
-msgstr ""
+msgstr "Neste"
 
 #: ../inc/forum.inc:412 ../inc/forum.inc:1175 ../user/forum_forum.php:137
 #: ../user/forum_reply.php:120 ../user/forum_report_post.php:76
@@ -230,47 +235,41 @@ msgid "Message"
 msgstr "Melding"
 
 #: ../inc/forum.inc:580
-#, fuzzy
 msgid "Send&nbsp;message"
-msgstr "Send melding"
+msgstr "Send&nbsp;melding"
 
 #: ../inc/forum.inc:580
-#, fuzzy
 msgid "Send %1 a private message"
-msgstr "Send en privat melding"
+msgstr "Send %1 en privat melding"
 
 #: ../inc/forum.inc:581
 msgid "Joined: %1"
-msgstr ""
+msgstr "Sammenslått: %1"
 
 #: ../inc/forum.inc:590
-#, fuzzy
 msgid "Posts: %1"
-msgstr "Innlegg"
+msgstr "Innlegg: %1"
 
 #: ../inc/forum.inc:596
-#, fuzzy
 msgid "Credit: %1"
-msgstr "Lag"
+msgstr "Poeng: %1"
 
 #: ../inc/forum.inc:597
+#, fuzzy
 msgid "RAC: %1"
-msgstr ""
+msgstr "GAU: %1"
 
 #: ../inc/forum.inc:620
-#, fuzzy
 msgid "You haven't read this message yet"
-msgstr "Du har ingen private meldinger."
+msgstr "Du har ikke lest denne meldingen enda"
 
 #: ../inc/forum.inc:620
-#, fuzzy
 msgid "Unread"
-msgstr "ulest"
+msgstr "Ulest"
 
 #: ../inc/forum.inc:623 ../inc/forum.inc:628 ../inc/forum.inc:727
-#, fuzzy
 msgid "Message %1"
-msgstr "Melding"
+msgstr "Melding %1"
 
 #: ../inc/forum.inc:624 ../inc/user.inc:331 ../user/forum_forum.php:174
 msgid "hidden"
@@ -279,7 +278,7 @@ msgstr "skjult"
 #: ../inc/forum.inc:625
 #, fuzzy
 msgid "Posted: %1"
-msgstr "Innlegg"
+msgstr "Postet: %1"
 
 #: ../inc/forum.inc:628
 msgid " - in response to "
@@ -290,87 +289,91 @@ msgid "Edit"
 msgstr "Rediger"
 
 #: ../inc/forum.inc:631
-#, fuzzy
 msgid "Edit this message"
-msgstr "Redigere din profil"
+msgstr "Rediger denne meldingen"
 
 #: ../inc/forum.inc:637
-#, fuzzy
 msgid "Last modified: %1"
-msgstr "Innstillinger sist endret:"
+msgstr "Sist endret: %1"
 
 #: ../inc/forum.inc:640
 msgid ""
 "This post is not shown because the sender is on your 'ignore' list.  Click %"
 "1here%2 to view this post"
 msgstr ""
+"Dette innlegget vises ikke fordi avsender er på din 'ignoreringsliste'. "
+"Klikk %1her%2 for å vise innlegget"
 
 #: ../inc/forum.inc:668 ../inc/forum.inc:679
 msgid "Report this post as offensive"
-msgstr ""
+msgstr "Rapporter dette innlegget som støtende"
 
 #: ../inc/forum.inc:668 ../inc/forum.inc:679
-#, fuzzy
 msgid "Report as offensive"
-msgstr "Siste innlegg"
+msgstr "Rapporter som støtende"
 
 #: ../inc/forum.inc:672
+#, fuzzy
 msgid "Rating: %1"
-msgstr ""
+msgstr "Rangering: %1"
 
 #: ../inc/forum.inc:672
 msgid "rate: "
-msgstr ""
+msgstr "bedøm: "
 
 # 83%
 #: ../inc/forum.inc:675
 #, fuzzy
 msgid "Click if you like this message"
-msgstr "Kunne ikke lage melding"
+msgstr " Klikk hvis du liker denne meldingen"
 
 #: ../inc/forum.inc:675
+#, fuzzy
 msgid "Rate +"
-msgstr ""
+msgstr "Bedøm +"
 
 #: ../inc/forum.inc:677
 #, fuzzy
 msgid "Click if you don't like this message"
-msgstr "Kunne ikke lage melding"
+msgstr "Klikk hvis du ikke liker denne meldingen"
 
 #: ../inc/forum.inc:677
+#, fuzzy
 msgid "Rate -"
-msgstr ""
+msgstr "Bedøm -"
 
 #: ../inc/forum.inc:685 ../user/pm.php:106 ../user/pm.php:146
 msgid "Reply"
 msgstr "Svar"
 
 #: ../inc/forum.inc:685
+#, fuzzy
 msgid "Post a reply to this message"
-msgstr ""
+msgstr "Svar på denne meldingen"
 
 #: ../inc/forum.inc:687
 #, fuzzy
 msgid "Quote"
-msgstr "Forlat team"
+msgstr "Sitat"
 
 #: ../inc/forum.inc:687
+#, fuzzy
 msgid "Post a reply by quoting this message"
-msgstr ""
+msgstr "Svar på denne meldingen"
 
 #: ../inc/forum.inc:708
+#, fuzzy
 msgid "Hidden by a moderator"
-msgstr ""
+msgstr "Skjult av en moderator"
 
 #: ../inc/forum.inc:729
-#, fuzzy
 msgid "Posted %1 by %2"
-msgstr "Innlegg"
+msgstr "Postet %1 av %2"
 
 #: ../inc/forum.inc:747
 #, fuzzy
 msgid "You may not post or rate messages until %1"
-msgstr "Du har ingen private meldinger."
+msgstr "Du kan ikke legge til eller rangere meldinger før %1"
 
 #: ../inc/forum.inc:758
 msgid ""
@@ -392,30 +395,27 @@ msgstr ""
 
 #: ../inc/forum.inc:780
 msgid "Rules:"
-msgstr ""
+msgstr "Regler:"
 
 #: ../inc/forum.inc:781
-#, fuzzy
 msgid "More info"
-msgstr "Team info"
+msgstr "Mer informasjon"
 
 #: ../inc/forum.inc:1055 ../user/forum_thread.php:189
 msgid "Unhide"
-msgstr ""
+msgstr "Vis"
 
 #: ../inc/forum.inc:1055
-#, fuzzy
 msgid "Unhide this post"
-msgstr "Lås opp denne tråden"
+msgstr "Vis dette innlegget"
 
 #: ../inc/forum.inc:1057 ../user/forum_thread.php:195
 msgid "Hide"
 msgstr "Skjul"
 
 #: ../inc/forum.inc:1057
-#, fuzzy
 msgid "Hide this post"
-msgstr "Skjul"
+msgstr "Skjul dette innlegget"
 
 #: ../inc/forum.inc:1062 ../user/forum_thread.php:228
 msgid "Move"
@@ -423,28 +423,31 @@ msgstr "&Flytt"
 
 #: ../inc/forum.inc:1062
 msgid "Move post to a different thread"
-msgstr ""
+msgstr "Flytt innlegg til en annen tråd"
 
 #: ../inc/forum.inc:1067
-#, fuzzy
 msgid "Banish author"
-msgstr "Ingen slik bruker"
+msgstr "Forvis forfatter"
 
 #: ../inc/forum.inc:1074
+#, fuzzy
 msgid "Vote to banish author"
-msgstr ""
+msgstr "Stem for å forvise forfatter"
 
 #: ../inc/forum.inc:1078
+#, fuzzy
 msgid "Vote not to banish author"
-msgstr ""
+msgstr "Stem for ikke å forvise forfatter"
 
 #: ../inc/forum.inc:1083
+#, fuzzy
 msgid "Start vote to banish author"
-msgstr ""
+msgstr "Start avstemming for å forvise forfatter"
 
 #: ../inc/forum.inc:1116
+#, fuzzy
 msgid "Only team members can post to the team message board"
-msgstr ""
+msgstr "Bare teammedlemmer kan poste innlegg på teamets diskusjonsforum"
 
 #: ../inc/forum.inc:1126
 msgid ""
@@ -465,14 +468,18 @@ msgstr ""
 "systemet"
 
 #: ../inc/forum.inc:1140
+#, fuzzy
 msgid ""
 "This thread is locked. Only forum moderators and administrators are allowed "
 "to post there."
 msgstr ""
+"Denne tråden er stengt. Bare forumets moderatorer og administratorer har "
+"tillatelse til å poste innlegg der."
 
 #: ../inc/forum.inc:1145
+#, fuzzy
 msgid "Can't post to a hidden thread."
-msgstr ""
+msgstr "Kan ikke poste til en skjult tråd."
 
 #: ../inc/forum.inc:1173
 msgid "Thread"
@@ -493,14 +500,12 @@ msgid "Last post"
 msgstr "Siste innlegg"
 
 #: ../inc/forum.inc:1235
-#, fuzzy
 msgid "New posts in the thread %1"
-msgstr "Post til tråd"
+msgstr "Nye innlegg i tråden %1"
 
 #: ../inc/forum.inc:1240
-#, fuzzy
 msgid "New posts in subscribed thread"
-msgstr "Abonnér"
+msgstr "Nye innlegg i tråden du abonnerer på"
 
 #: ../inc/forum.inc:1241
 msgid "There are new posts in the thread '%1'"
@@ -511,9 +516,8 @@ msgid "Mark all threads as read"
 msgstr "Merk alle trådene som lest"
 
 #: ../inc/forum.inc:1252
-#, fuzzy
 msgid "Mark all threads in all message boards as read."
-msgstr "Merk alle trådene i alle meldings-tavler som 'lest'."
+msgstr "Merk alle tråder i alle diskusjonsforum som 'lest'."
 
 #: ../inc/host.inc:24
 msgid "No host"
@@ -538,7 +542,7 @@ msgstr "Skole"
 
 #: ../inc/host.inc:59
 msgid "Mobile"
-msgstr ""
+msgstr "Mobil"
 
 #: ../inc/host.inc:61 ../user/edit_forum_preferences_form.php:172
 #: ../user/edit_forum_preferences_form.php:173
@@ -547,7 +551,7 @@ msgstr "Oppdater"
 
 #: ../inc/host.inc:85
 msgid "Computer information"
-msgstr "Datamaskin informasjon"
+msgstr "Datamaskininformasjon"
 
 #: ../inc/host.inc:89 ../inc/host.inc:94
 msgid "IP address"
@@ -555,11 +559,11 @@ msgstr "IP adresse"
 
 #: ../inc/host.inc:89
 msgid "(same the last %1 times)"
-msgstr ""
+msgstr "(lik de siste %1 ganger)"
 
 #: ../inc/host.inc:91
 msgid "External IP address"
-msgstr ""
+msgstr "Ekstern IP adresse"
 
 #: ../inc/host.inc:94
 msgid "Show IP address"
@@ -567,11 +571,11 @@ msgstr "Vis IP adresse"
 
 #: ../inc/host.inc:96
 msgid "Domain name"
-msgstr "Domene navn"
+msgstr "Domenenavn"
 
 #: ../inc/host.inc:98
 msgid "Product name"
-msgstr ""
+msgstr "Produktnavn"
 
 #: ../inc/host.inc:102
 msgid "Local Standard Time"
@@ -602,12 +606,12 @@ msgstr "Opprettet"
 #: ../user/team_remove_inactive_form.php:41 ../user/top_users.php:54
 #: ../user/top_users.php:59 ../user/user_search.php:140
 msgid "Total credit"
-msgstr "Total kreditt"
+msgstr "Totalt arbeid utført"
 
 #: ../inc/host.inc:114 ../inc/user.inc:125 ../user/team_search.php:70
 #: ../user/user_search.php:139
 msgid "Average credit"
-msgstr "Gjennomsnittlig kreditt"
+msgstr "Gjennomsnittlig arbeid utført"
 
 #: ../inc/host.inc:116
 msgid "Cross project credit"
@@ -615,16 +619,15 @@ msgstr ""
 
 #: ../inc/host.inc:118
 msgid "CPU type"
-msgstr "CPU type"
+msgstr "Prosessortype"
 
 #: ../inc/host.inc:119
 msgid "Number of processors"
 msgstr "Antall prosessorer"
 
 #: ../inc/host.inc:121
-#, fuzzy
 msgid "Coprocessors"
-msgstr "prosessorer"
+msgstr "Støtteprosessorer"
 
 #: ../inc/host.inc:123 ../inc/host.inc:687
 msgid "Operating System"
@@ -652,7 +655,7 @@ msgstr "%1 KB"
 
 #: ../inc/host.inc:140
 msgid "Swap space"
-msgstr ""
+msgstr "Veksleminne"
 
 #: ../inc/host.inc:143
 msgid "Total disk space"
@@ -668,19 +671,19 @@ msgstr "Ledig diskplass"
 
 #: ../inc/host.inc:150
 msgid "Measured floating point speed"
-msgstr ""
+msgstr "Målt flyttallshastighet"
 
 #: ../inc/host.inc:150 ../inc/host.inc:153
 msgid "%1 million ops/sec"
-msgstr ""
+msgstr "%1 millioner operasjoner per sekund"
 
 #: ../inc/host.inc:153
 msgid "Measured integer speed"
-msgstr ""
+msgstr "Målt heltallshastighet"
 
 #: ../inc/host.inc:157 ../inc/host.inc:159
 msgid "Average upload rate"
-msgstr "Gjennomsnittlig opplastingshastighet  "
+msgstr "Gjennomsnittlig opplastingshastighet"
 
 #: ../inc/host.inc:157 ../inc/host.inc:164
 msgid "%1 KB/sec"
@@ -708,7 +711,7 @@ msgstr "%1 dager"
 
 #: ../inc/host.inc:170
 msgid "Application details"
-msgstr "Program detaljer"
+msgstr "Programdetaljer"
 
 #: ../inc/host.inc:171
 msgid "Show"
@@ -719,18 +722,18 @@ msgid "Tasks"
 msgstr "Oppgaver"
 
 #: ../inc/host.inc:185 ../inc/host.inc:206
-#, fuzzy
 msgid "Number of times client has contacted server"
-msgstr "Antall ganger BOINC har kontaktet tjener"
+msgstr "Antall ganger klient har kontaktet tjener"
 
 #: ../inc/host.inc:186
+#, fuzzy
 msgid "Last time contacted server"
-msgstr ""
+msgstr "Server sist kontaktet"
 
 #: ../inc/host.inc:187
 #, php-format
 msgid "% of time BOINC is running"
-msgstr ""
+msgstr "% av tiden BOINC kjører"
 
 #: ../inc/host.inc:189
 #, php-format
@@ -744,7 +747,7 @@ msgstr ""
 
 #: ../inc/host.inc:193
 msgid "Average CPU efficiency"
-msgstr ""
+msgstr "Gjennomsnittlig prosessoreffektivitet"
 
 #: ../inc/host.inc:196
 msgid "Task duration correction factor"
@@ -780,8 +783,9 @@ msgid "Rank"
 msgstr "Plassering"
 
 #: ../inc/host.inc:225 ../inc/host.inc:679
+#, fuzzy
 msgid "Avg. credit"
-msgstr ""
+msgstr "Gj.sn. arbeid"
 
 #: ../inc/host.inc:230 ../inc/team.inc:102 ../inc/team.inc:216
 #: ../inc/team.inc:225 ../inc/team.inc:227 ../inc/team.inc:363
@@ -790,12 +794,12 @@ msgstr ""
 #: ../user/team_remove_inactive_form.php:42 ../user/top_users.php:53
 #: ../user/top_users.php:58
 msgid "Recent average credit"
-msgstr "Nylig gjennomsnitts kreditt"
+msgstr "Gjennomsnitt nylig arbeid utført"
 
 #: ../inc/host.inc:236 ../inc/host.inc:684 ../inc/result.inc:51
 #: ../user/host_app_versions.php:25
 msgid "CPU"
-msgstr "CPU"
+msgstr "Prosessor"
 
 #: ../inc/host.inc:237 ../inc/host.inc:685
 msgid "GPU"
@@ -806,8 +810,9 @@ msgid "Operating system"
 msgstr "Operativsystem"
 
 #: ../inc/host.inc:315
+#, fuzzy
 msgid "(%1 processors)"
-msgstr ""
+msgstr "(%1 prosessorer)"
 
 #: ../inc/host.inc:335
 msgid "Details"
@@ -842,20 +847,23 @@ msgid "Merging host %1 into host %2"
 msgstr "Flett vert %1 inn i vert %2"
 
 #: ../inc/host.inc:618
+#, fuzzy
 msgid "Couldn't update credit of new computer"
-msgstr ""
+msgstr "Kunne ikke oppdatere poengene til ny datamaskin"
 
 #: ../inc/host.inc:622
 msgid "Couldn't update results"
 msgstr "Kunne ikke oppdatere resultater"
 
 #: ../inc/host.inc:627
+#, fuzzy
 msgid "Couldn't retire old computer"
-msgstr ""
+msgstr "Kunne ikke pensjonere gammel datamaskin"
 
 #: ../inc/host.inc:629
+#, fuzzy
 msgid "Retired old computer %1"
-msgstr ""
+msgstr "Pensjonert gammel datamaskin %1"
 
 #: ../inc/host.inc:652 ../inc/host.inc:655
 msgid "Show:"
@@ -886,12 +894,14 @@ msgid "BOINC<br>version"
 msgstr "BOINC<br>versjon"
 
 #: ../inc/host.inc:745 ../user/merge_by_name.php:65
+#, fuzzy
 msgid "Merge computers by name"
-msgstr ""
+msgstr "Slå sammen datamaskiner på navn"
 
 #: ../inc/language_names.inc:61
+#, fuzzy
 msgid "Browser default"
-msgstr ""
+msgstr "Standard utforsker"
 
 #: ../inc/news.inc:40
 msgid "Comment"
@@ -925,9 +935,8 @@ msgid "Preview"
 msgstr "Forhåndsvisning"
 
 #: ../inc/pm.inc:48 ../user/pm.php:131
-#, fuzzy
 msgid "no such message"
-msgstr "Ingen slik bruker"
+msgstr "Ingen slik melding"
 
 #: ../inc/pm.inc:82
 msgid "To"
@@ -946,8 +955,9 @@ msgid "Send message"
 msgstr "Send melding"
 
 #: ../inc/pm.inc:121
+#, fuzzy
 msgid "sent you a private message; subject:"
-msgstr ""
+msgstr "sendte deg en privat melding; emne:"
 
 #: ../inc/pm.inc:127
 msgid "Private message%1 from %2, subject:"
@@ -970,22 +980,27 @@ msgid "unread"
 msgstr "ulest"
 
 #: ../inc/pm.inc:186
+#, fuzzy
 msgid "For email notification, %1edit community prefs%2"
-msgstr ""
+msgstr "For epostvarsel, %1rediger innstillinger for gruppen%2"
 
 #: ../inc/pm.inc:198
 msgid "Private message"
 msgstr "Private meldinger"
 
 #: ../inc/prefs.inc:77
+#, fuzzy
 msgid ""
 "Suspend work while computer is on battery power? %1 Matters only for "
 "portable computers %2"
 msgstr ""
+"Suspender arbeid ved batteridrift? %1 Har betydning kun for bærbare "
+"datamaskiner %2"
 
 #: ../inc/prefs.inc:85
+#, fuzzy
 msgid "Suspend work while computer is in use?"
-msgstr ""
+msgstr "Suspendere arbeid når datamaskinen er i bruk?"
 
 #: ../inc/prefs.inc:91
 msgid ""
@@ -1128,8 +1143,9 @@ msgid "Maximum upload rate:"
 msgstr "Maksimum opplastingshastighet:"
 
 #: ../inc/prefs.inc:259
+#, fuzzy
 msgid "Use network only between the hours of"
-msgstr ""
+msgstr "Bruk nettverk bare mellom klokken"
 
 #: ../inc/prefs.inc:263
 msgid "Transfer at most %1 Enforced by version 6.10.46+ %2"
@@ -1195,20 +1211,21 @@ msgstr ""
 
 #: ../inc/prefs.inc:387
 msgid "Disk and memory usage"
-msgstr "Disk og minne bruk"
+msgstr "Disk- og minnebruk"
 
 #: ../inc/prefs.inc:388
 msgid "Processor usage"
-msgstr "Prosessor bruk"
+msgstr "Prosessorbruk"
 
 #: ../inc/prefs.inc:389
 msgid "Network usage"
-msgstr "Nettverk bruk"
+msgstr "Nettverksbruk"
 
 #: ../inc/prefs.inc:392
+#, fuzzy
 msgid ""
 "These preferences apply to all the BOINC projects in which you participate."
-msgstr ""
+msgstr "Disse innstillingene gjelder for alle BOINC prosjektene du deltar i."
 
 #: ../inc/prefs.inc:395
 msgid ""
@@ -1276,8 +1293,9 @@ msgid "Project specific settings"
 msgstr "Prosjekt spesifikke innstillinger"
 
 #: ../inc/prefs.inc:862 ../inc/prefs.inc:907
+#, fuzzy
 msgid "Primary (default) preferences"
-msgstr ""
+msgstr "Primære (standard) innstillinger"
 
 #: ../inc/prefs.inc:871 ../user/add_venue.php:39 ../user/add_venue.php:63
 #: ../user/prefs_edit.php:40 ../user/prefs_edit.php:64
@@ -1387,7 +1405,7 @@ msgstr "ATI GPU"
 
 #: ../inc/result.inc:57 ../user/host_app_versions.php:28
 msgid "Intel GPU"
-msgstr ""
+msgstr "Intel GPU"
 
 #: ../inc/result.inc:65
 msgid "Not in DB"
@@ -1415,13 +1433,14 @@ msgstr ""
 
 #: ../inc/result.inc:118 ../inc/result.inc:268
 msgid "Valid"
-msgstr ""
+msgstr "Gyldig"
 
 #: ../inc/result.inc:119 ../inc/result.inc:271
 msgid "Invalid"
-msgstr ""
+msgstr "Ugyldig"
 
 #: ../inc/result.inc:120 ../inc/result.inc:209
+#, fuzzy
 msgid "Error"
 msgstr "Feilet"
 
@@ -1431,80 +1450,88 @@ msgstr "Inaktiv"
 
 #: ../inc/result.inc:175 ../inc/result.inc:222 ../user/explain_state.php:37
 msgid "Unsent"
-msgstr "Usent"
+msgstr "Ikke sent"
 
 #: ../inc/result.inc:181
+#, fuzzy
 msgid "Completed, waiting for validation"
-msgstr ""
+msgstr "Ferdig, venter på validering"
 
 #: ../inc/result.inc:182
+#, fuzzy
 msgid "Completed and validated"
-msgstr ""
+msgstr "Ferdig og validert"
 
 #: ../inc/result.inc:183
 msgid "Completed, marked as invalid"
 msgstr ""
 
 #: ../inc/result.inc:184
+#, fuzzy
 msgid "Completed, can't validate"
-msgstr ""
+msgstr "Ferdig, kan ikke validere"
 
 #: ../inc/result.inc:185
 msgid "Completed, validation inconclusive"
 msgstr ""
 
 #: ../inc/result.inc:186
+#, fuzzy
 msgid "Completed, too late to validate"
-msgstr ""
+msgstr "Ferdig, for sent å validere"
 
 #: ../inc/result.inc:188
 msgid "Completed"
-msgstr ""
+msgstr "Ferdig"
 
 #: ../inc/result.inc:189 ../inc/result.inc:233 ../user/explain_state.php:62
 msgid "Couldn't send"
-msgstr ""
+msgstr "Kunne ikke sende"
 
 #: ../inc/result.inc:194 ../inc/result.inc:257
+#, fuzzy
 msgid "Cancelled by server"
-msgstr ""
+msgstr "Avbrutt av server"
 
 #: ../inc/result.inc:199
 msgid "Not started by deadline - canceled"
 msgstr ""
 
 #: ../inc/result.inc:202
+#, fuzzy
 msgid "Error while downloading"
-msgstr ""
+msgstr "Feil under nedlasting"
 
 #: ../inc/result.inc:204
+#, fuzzy
 msgid "Error while computing"
-msgstr ""
+msgstr "Feil oppsto ved beregning"
 
 #: ../inc/result.inc:205
+#, fuzzy
 msgid "Error while uploading"
-msgstr ""
+msgstr "Feil under nedlasting"
 
 #: ../inc/result.inc:206 ../inc/result.inc:259
 msgid "Aborted by user"
 msgstr ""
 
 #: ../inc/result.inc:207 ../inc/result.inc:260
-#, fuzzy
 msgid "Upload failed"
-msgstr "Oppdatering feilet:"
+msgstr "Opplasting feilet"
 
 #: ../inc/result.inc:210
 msgid "Timed out - no response"
 msgstr ""
 
 #: ../inc/result.inc:211 ../inc/result.inc:240 ../user/explain_state.php:71
+#, fuzzy
 msgid "Didn't need"
-msgstr ""
+msgstr "Trengte ikke"
 
 #: ../inc/result.inc:212 ../inc/result.inc:241 ../user/explain_state.php:74
 msgid "Validate error"
-msgstr ""
+msgstr "Valideringsfeil"
 
 #: ../inc/result.inc:213 ../inc/result.inc:242
 msgid "Abandoned"
@@ -1512,16 +1539,16 @@ msgstr ""
 
 #: ../inc/result.inc:224 ../user/explain_state.php:43
 msgid "Over"
-msgstr ""
+msgstr "Over"
 
 #: ../inc/result.inc:232 ../user/explain_state.php:59
+#, fuzzy
 msgid "Success"
-msgstr ""
+msgstr "Lyktes"
 
 #: ../inc/result.inc:236
-#, fuzzy
 msgid "Computation error"
-msgstr "Datamaskiner"
+msgstr "Beregningsfeil"
 
 #: ../inc/result.inc:238
 msgid "Redundant result"
@@ -1529,32 +1556,32 @@ msgstr ""
 
 #: ../inc/result.inc:239 ../user/explain_state.php:68
 msgid "No reply"
-msgstr ""
+msgstr "Ikke svar"
 
 #: ../inc/result.inc:249 ../user/explain_state.php:85
 msgid "New"
-msgstr ""
+msgstr "Ny"
 
 #: ../inc/result.inc:250 ../user/explain_state.php:91
 msgid "Downloading"
-msgstr ""
+msgstr "Laster ned"
 
 #: ../inc/result.inc:251
 msgid "Processing"
-msgstr ""
+msgstr "Prosesserer"
 
 #: ../inc/result.inc:252
+#, fuzzy
 msgid "Compute error"
-msgstr ""
+msgstr "Prosesseringsfeil"
 
 #: ../inc/result.inc:253 ../user/explain_state.php:97
 msgid "Uploading"
-msgstr ""
+msgstr "Laster opp"
 
 #: ../inc/result.inc:254 ../user/explain_state.php:88
-#, fuzzy
 msgid "Done"
-msgstr "Ingen"
+msgstr "Ferdig"
 
 #: ../inc/result.inc:267
 msgid "Initial"
@@ -1562,7 +1589,7 @@ msgstr ""
 
 #: ../inc/result.inc:273
 msgid "Not necessary"
-msgstr ""
+msgstr "Ikke nødvendig"
 
 #: ../inc/result.inc:274
 msgid "Workunit error - check skipped"
@@ -1578,11 +1605,11 @@ msgstr ""
 
 #: ../inc/result.inc:302
 msgid "Couldn't send result"
-msgstr ""
+msgstr "Kunne ikke sende resultat"
 
 #: ../inc/result.inc:306
 msgid "Too many errors (may have bug)"
-msgstr ""
+msgstr "For mange feil (kan ha programvarefeil)"
 
 #: ../inc/result.inc:310
 msgid "Too many results (may be nondeterministic)"
@@ -1602,89 +1629,85 @@ msgstr ""
 
 #: ../inc/result.inc:349
 msgid "Task name"
-msgstr ""
+msgstr "Oppgavenavn"
 
 #: ../inc/result.inc:349 ../inc/result.inc:354 ../inc/result.inc:357
 #: ../inc/result.inc:360
 msgid "click for details"
-msgstr ""
+msgstr "klikk for detaljer"
 
 #: ../inc/result.inc:349
+#, fuzzy
 msgid "Show IDs"
-msgstr ""
+msgstr "Vis IDs"
 
 #: ../inc/result.inc:354
 msgid "Show names"
-msgstr ""
+msgstr "Vis navn"
 
 #: ../inc/result.inc:357
-#, fuzzy
 msgid "Task"
-msgstr "Oppgaver"
+msgstr "Oppgave"
 
 #: ../inc/result.inc:360
 msgid "Work unit"
-msgstr ""
+msgstr "Arbeidsenhet"
 
 #: ../inc/result.inc:369
-#, fuzzy
 msgid "Computer"
-msgstr "Datamaskiner"
+msgstr "Datamaskin"
 
 #: ../inc/result.inc:372 ../inc/result.inc:631
-#, fuzzy
 msgid "Sent"
-msgstr "Avsender"
+msgstr "Sendt"
 
 #: ../inc/result.inc:373
 msgid "Time reported<br />or deadline"
-msgstr ""
+msgstr "Tid rapportert<br /> eller frist"
 
 #: ../inc/result.inc:374
 msgid "explain"
-msgstr ""
+msgstr "forklar"
 
 #: ../inc/result.inc:376 ../user/server_status.php:241
 msgid "Status"
-msgstr ""
+msgstr "Status"
 
 #: ../inc/result.inc:377
 msgid "Run time<br />(sec)"
-msgstr ""
+msgstr "Kjøretid<br />(sek)"
 
 #: ../inc/result.inc:378
 msgid "CPU time<br />(sec)"
-msgstr ""
+msgstr "Prosessortid<br />(sek)"
 
 #: ../inc/result.inc:379 ../inc/result.inc:642
-#, fuzzy
 msgid "Credit"
-msgstr "Lag"
+msgstr "Arbeid utført"
 
 #: ../inc/result.inc:380 ../inc/result.inc:724
-#, fuzzy
 msgid "Application"
-msgstr "Programmer"
+msgstr "Applikasjon"
 
 #: ../inc/result.inc:629
 msgid "Workunit"
-msgstr ""
+msgstr "Arbeidsenhet"
 
 #: ../inc/result.inc:632
 msgid "Received"
-msgstr ""
+msgstr "Mottatt"
 
 #: ../inc/result.inc:633
 msgid "Server state"
-msgstr ""
+msgstr "Tilstand tjener"
 
 #: ../inc/result.inc:634
 msgid "Outcome"
-msgstr ""
+msgstr "Utfall"
 
 #: ../inc/result.inc:635
 msgid "Client state"
-msgstr ""
+msgstr "Tilstand klient"
 
 #: ../inc/result.inc:636
 msgid "Exit status"
@@ -1692,42 +1715,41 @@ msgstr ""
 
 #: ../inc/result.inc:638
 msgid "Report deadline"
-msgstr ""
+msgstr "Rapporter frist"
 
 #: ../inc/result.inc:639
 msgid "Run time"
-msgstr ""
+msgstr "Kjøretid"
 
 #: ../inc/result.inc:640
-#, fuzzy
 msgid "CPU time"
-msgstr "CPU type"
+msgstr "Prosessortid"
 
 #: ../inc/result.inc:641
 msgid "Validate state"
-msgstr ""
+msgstr "Valider tilstand"
 
 #: ../inc/result.inc:643
 #, fuzzy
 msgid "Application version"
-msgstr "Programmer"
+msgstr "Versjon applikasjon"
 
 #: ../inc/result.inc:656
 msgid "Output files"
-msgstr ""
+msgstr "Utdata filer"
 
 #: ../inc/result.inc:659
 msgid "Stderr output"
 msgstr ""
 
 #: ../inc/result.inc:706
-#, fuzzy
 msgid "State"
-msgstr "Dato"
+msgstr "Tilstand"
 
 #: ../inc/result.inc:747
+#, fuzzy
 msgid "Task name:"
-msgstr ""
+msgstr "Oppgavenavn"
 
 #: ../inc/team.inc:40
 msgid "Search criteria (use one or more)"
@@ -1768,6 +1790,7 @@ msgid "Requested by you, and founder response deadline has passed."
 msgstr "Anmodet av deg, og grunnleggers svarfrist er passert."
 
 #: ../inc/team.inc:63
+#, fuzzy
 msgid "Complete foundership transfer"
 msgstr "Fullført grunnlegger overføring"
 
@@ -1822,7 +1845,7 @@ msgstr "Tråder"
 
 #: ../inc/team.inc:136
 msgid "Join this team"
-msgstr "Bli med i dette teamet "
+msgstr "Bli med i dette teamet"
 
 #: ../inc/team.inc:137
 msgid ""
@@ -1879,7 +1902,7 @@ msgstr "Aktive medlemmer"
 
 #: ../inc/team.inc:187
 msgid "Members with credit"
-msgstr "Medlemmer med kreditt"
+msgstr "Medlemmer med arbeid utført"
 
 #: ../inc/team.inc:256
 msgid "Admin"
@@ -1898,10 +1921,12 @@ msgid "Next %1"
 msgstr "Neste %1"
 
 #: ../inc/team.inc:289
+#, fuzzy
 msgid "No such team."
 msgstr "Ingen slikt team."
 
 #: ../inc/team.inc:302
+#, fuzzy
 msgid "This operation requires foundership."
 msgstr "Denne handlingen krever grunnlegger rolle."
 
@@ -1961,11 +1986,11 @@ msgstr "Beskrivelse av teamet"
 
 #: ../inc/team.inc:462
 msgid "Accept new members?"
-msgstr ""
+msgstr "Tillat nye medlemmer?"
 
 #: ../inc/uotd.inc:28
 msgid "User profile"
-msgstr ""
+msgstr "Brukerprofil"
 
 #: ../inc/user.inc:119
 msgid "Projects in which you are participating"
@@ -1989,7 +2014,7 @@ msgstr "Siden"
 
 #: ../inc/user.inc:148
 msgid "Computing and credit"
-msgstr "Databehandling og kreditt"
+msgstr "Databehandling og poeng"
 
 #: ../inc/user.inc:151
 msgid "Computers on this account"
@@ -2011,7 +2036,7 @@ msgstr "Kryss-prosjekt statistikk"
 
 #: ../inc/user.inc:163
 msgid "Account"
-msgstr ""
+msgstr "Konto"
 
 #: ../inc/user.inc:165 ../inc/user.inc:281 ../inc/user.inc:369
 #: ../inc/user.inc:371 ../user/user_search.php:139
@@ -2021,7 +2046,7 @@ msgstr "Team"
 #: ../inc/user.inc:167
 #, fuzzy
 msgid "Cross-project"
-msgstr "Kryss-prosjekt ID"
+msgstr "Kryssprosjekt"
 
 #: ../inc/user.inc:168 ../user/bs_sample_index.php:54
 msgid "Certificate"
@@ -2032,17 +2057,18 @@ msgid "Stats on your cell phone"
 msgstr "Statistikk på din mobiltelefon"
 
 #: ../inc/user.inc:183
+#, fuzzy
 msgid "Unknown notification type: %1"
-msgstr ""
+msgstr "Ukjent varsel type: %1"
 
 #: ../inc/user.inc:198
 msgid "Account information"
-msgstr "Konto informasjon"
+msgstr "Kontoinformasjon"
 
 #: ../inc/user.inc:200 ../user/edit_passwd_form.php:45
 #: ../user/get_passwd.php:40 ../user/team_email_list.php:64
 msgid "Email address"
-msgstr "Epost adresse"
+msgstr "Epostadresse"
 
 #: ../inc/user.inc:203 ../inc/user.inc:322
 msgid "URL"
@@ -2062,7 +2088,7 @@ msgstr "Endre"
 
 #: ../inc/user.inc:209
 msgid "email address"
-msgstr "epost adresse"
+msgstr "epostadresse"
 
 #: ../inc/user.inc:210
 msgid "password"
@@ -2070,20 +2096,20 @@ msgstr "passord"
 
 #: ../inc/user.inc:211
 msgid "other account info"
-msgstr "annen konto informasjon"
+msgstr "annen kontoinformasjon"
 
 #: ../inc/user.inc:213 ../inc/user.inc:315
 msgid "User ID"
 msgstr "Bruker ID"
 
 #: ../inc/user.inc:213
+#, fuzzy
 msgid "Used in community functions"
 msgstr "Brukes i fellesskap funksjoner"
 
 #: ../inc/user.inc:216 ../user/weak_auth.php:25
-#, fuzzy
 msgid "Account keys"
-msgstr "Konto nøkkel"
+msgstr "Kontonøkler"
 
 #: ../inc/user.inc:221
 msgid "Preferences"
@@ -2095,23 +2121,24 @@ msgstr "Når og hvordan BOINC bruker din datamaskin"
 
 #: ../inc/user.inc:225
 msgid "Computing preferences"
-msgstr "Databehandling preferanser"
+msgstr "Beregningsalternativer"
 
 #: ../inc/user.inc:228
 msgid "Message boards and private messages"
 msgstr "Meldingstavle og private meldinger"
 
 #: ../inc/user.inc:229 ../user/edit_forum_preferences_form.php:31
+#, fuzzy
 msgid "Community preferences"
-msgstr "Fellesskap preferanser"
+msgstr "Alternativer for felleskap"
 
 #: ../inc/user.inc:232
 msgid "Preferences for this project"
-msgstr ""
+msgstr "Alternativer for dette prosjektet"
 
 #: ../inc/user.inc:233 ../user/prefs.php:29
 msgid "%1 preferences"
-msgstr "%1 preferanser"
+msgstr "%1 alternativer"
 
 #: ../inc/user.inc:239 ../user/bs_sample_index.php:59
 #: ../user/sample_index.php:125
@@ -2124,7 +2151,7 @@ msgstr "Slett"
 
 #: ../inc/user.inc:245
 msgid "Create"
-msgstr "Lag"
+msgstr "Opprett"
 
 #: ../inc/user.inc:247 ../inc/user.inc:402 ../inc/util.inc:514
 msgid "Profile"
@@ -2189,9 +2216,10 @@ msgstr "Denne personen er en venn"
 
 #: ../inc/user.inc:382 ../user/friend.php:238
 msgid "Cancel friendship"
-msgstr "Kanslere vennskap "
+msgstr "Avbryt vennskap"
 
 #: ../inc/user.inc:385 ../user/friend.php:37
+#, fuzzy
 msgid "Request pending"
 msgstr "Anmodning forestående"
 
@@ -2204,33 +2232,37 @@ msgid "user name cannot have leading or trailing white space"
 msgstr ""
 
 #: ../inc/user.inc:450
+#, fuzzy
 msgid "user name must be nonempty"
-msgstr ""
+msgstr "brukernavn kan ikke være tomt"
 
 #: ../inc/user.inc:454
+#, fuzzy
 msgid "user name may not contain HTML tags"
-msgstr ""
+msgstr "brukernavn kan ikke innehold HTML tagger"
 
 #: ../inc/util.inc:131
 #, fuzzy
 msgid "log out"
-msgstr "Log ut"
+msgstr "logg ut"
 
 #: ../inc/util.inc:133
+#, fuzzy
 msgid "log in"
-msgstr ""
+msgstr "logg inn"
 
 #: ../inc/util.inc:204 ../user/login_form.php:30 ../user/login_form.php:66
 msgid "Log in"
-msgstr ""
+msgstr "Logg inn"
 
 #: ../inc/util.inc:205 ../user/create_account_form.php:40
 msgid "Create an account"
-msgstr "Lag en konto"
+msgstr "Opprett en konto"
 
 #: ../inc/util.inc:206
+#, fuzzy
 msgid "Server status page"
-msgstr ""
+msgstr "Server status side"
 
 #: ../inc/util.inc:248
 msgid ""
@@ -2239,20 +2271,22 @@ msgid ""
 msgstr ""
 
 #: ../inc/util.inc:257
+#, fuzzy
 msgid "Unable to handle request"
-msgstr ""
+msgstr "Ikke mulig å behandle forespørselen"
 
 #: ../inc/util.inc:277
 msgid "hours"
 msgstr ""
 
 #: ../inc/util.inc:280
+#, fuzzy
 msgid "min"
-msgstr ""
+msgstr "min"
 
 #: ../inc/util.inc:283
 msgid "sec"
-msgstr ""
+msgstr "sek"
 
 #: ../inc/util.inc:444
 msgid "Link has timed out. Please click Back, refresh the page, and try again."
@@ -2271,17 +2305,17 @@ msgid "Project down for maintenance"
 msgstr ""
 
 #: ../inc/util.inc:799
-#, fuzzy
 msgid "%1 is temporarily shut down for maintenance.  Please try again later."
-msgstr "Kunne ikke lage team - vennligst prøv igjen senere"
+msgstr "%1 er midlertidig nede for vedlikehold. Vennligst prøv igjen senere."
 
 #: ../inc/util.inc:817
 msgid "Unable to connect to database - please try again later"
-msgstr ""
+msgstr "Kan ikke koble til databasen - vennligst prøv igjen senere"
 
 #: ../inc/util.inc:821
+#, fuzzy
 msgid "Unable to select database - please try again later"
-msgstr ""
+msgstr "Kan ikke koble til databasen - vennligst prøv igjen senere"
 
 #: ../inc/util_ops.inc:109 ../user/get_passwd.php:72
 msgid "Stay logged in on this computer"
@@ -2310,17 +2344,17 @@ msgid "Optional"
 msgstr "Valgfritt"
 
 #: ../user/account_finish_action.php:27
-#, fuzzy
 msgid "You must supply a name for your account"
-msgstr "Du må ha en invitasjons kode for å lage en konto."
+msgstr "Du må oppgi et navn for din konto"
 
 #: ../user/account_finish_action.php:30
+#, fuzzy
 msgid "HTML tags not allowed in name"
-msgstr ""
+msgstr "HTML tagger ikke tillatt på navn"
 
 #: ../user/add_venue.php:81
 msgid "Add %1 preferences for %2"
-msgstr ""
+msgstr "Legg til %1 innstillinger for %2"
 
 #: ../user/apps.php:32 ../user/bs_sample_index.php:55
 #: ../user/sample_index.php:120
@@ -2348,8 +2382,9 @@ msgid "Version"
 msgstr "Versjon"
 
 #: ../user/apps.php:52
+#, fuzzy
 msgid "Installation time"
-msgstr "Installasjons tid"
+msgstr "Installasjonstid"
 
 #: ../user/bbcode.php:23
 msgid "BBCode tags"
@@ -2365,20 +2400,20 @@ msgstr ""
 
 #: ../user/bbcode.php:31
 msgid "Examples"
-msgstr ""
+msgstr "Eksempler"
 
 #: ../user/bbcode.php:32
 msgid "Bold"
-msgstr ""
+msgstr "Uthevet"
 
 #: ../user/bbcode.php:33
 msgid "Italic"
-msgstr ""
+msgstr "Kursiv"
 
 #: ../user/bbcode.php:34
 #, fuzzy
 msgid "Underline"
-msgstr "Avslå"
+msgstr "Understrek"
 
 #: ../user/bbcode.php:35
 #, fuzzy
@@ -2387,20 +2422,21 @@ msgstr "Beskrivelse"
 
 #: ../user/bbcode.php:36
 msgid "Big text"
-msgstr ""
+msgstr "Stor tekst"
 
 #: ../user/bbcode.php:37
 msgid "Red text"
-msgstr ""
+msgstr "Rød tekst"
 
 #: ../user/bbcode.php:38
+#, fuzzy
 msgid "link to website"
-msgstr ""
+msgstr "link til nettsted"
 
 #: ../user/bbcode.php:39
 #, fuzzy
 msgid "Quoted text"
-msgstr "Forlat team"
+msgstr "Sitert tekst"
 
 #: ../user/bbcode.php:39
 msgid "use for quoted blocks of text"
@@ -2420,7 +2456,7 @@ msgstr ""
 
 #: ../user/bbcode.php:42
 msgid "Pre-formatted text"
-msgstr ""
+msgstr "Preformattert tekst"
 
 #: ../user/bbcode.php:42
 msgid "use to display pre-formatted (usually monospaced) text"
@@ -2428,15 +2464,16 @@ msgstr ""
 
 #: ../user/bbcode.php:43
 msgid "Item 1"
-msgstr ""
+msgstr "Element 1"
 
 #: ../user/bbcode.php:43
 msgid "Item2"
-msgstr ""
+msgstr "Element 2"
 
 #: ../user/bbcode.php:43
+#, fuzzy
 msgid "Item 2"
-msgstr ""
+msgstr "Element 2"
 
 #: ../user/bbcode.php:45
 msgid "use to link to Trac ticket on BOINC website"
@@ -2458,11 +2495,11 @@ msgstr ""
 
 #: ../user/bs_sample_index.php:44
 msgid "Participants"
-msgstr ""
+msgstr "Deltakere"
 
 #: ../user/bs_sample_index.php:46
 msgid "Do work"
-msgstr ""
+msgstr "Utfør arbeid"
 
 #: ../user/bs_sample_index.php:47 ../user/bs_sample_index.php:50
 #: ../user/home.php:49 ../project.sample/project.inc:43
@@ -2471,25 +2508,26 @@ msgstr "Din konto"
 
 #: ../user/bs_sample_index.php:47 ../user/bs_sample_index.php:50
 msgid "view stats, modify preferences"
-msgstr ""
+msgstr "vis statistikk, modifiser innstillinger"
 
 #: ../user/bs_sample_index.php:48 ../user/bs_sample_index.php:53
 #: ../user/team.php:25
-#, fuzzy
 msgid "Teams"
 msgstr "Team"
 
 #: ../user/bs_sample_index.php:48 ../user/bs_sample_index.php:53
+#, fuzzy
 msgid "create or join a team"
-msgstr ""
+msgstr "opprett eller bli med i et team"
 
 #: ../user/bs_sample_index.php:51 ../user/sample_index.php:191
 msgid "User of the day"
 msgstr "Dagens Bruker"
 
 #: ../user/bs_sample_index.php:52 ../user/server_status.php:239
+#, fuzzy
 msgid "Server status"
-msgstr ""
+msgstr "Serverstatus"
 
 #: ../user/bs_sample_index.php:60 ../user/profile_menu.php:32
 #: ../user/sample_index.php:127
@@ -2523,19 +2561,17 @@ msgid "Top GPU models"
 msgstr ""
 
 #: ../user/bs_sample_index.php:70
-#, fuzzy
 msgid "Languages"
 msgstr "Språk"
 
 #: ../user/bs_sample_index.php:149 ../user/info.php:24
 #: ../user/sample_index.php:79
 msgid "Read our rules and policies"
-msgstr ""
+msgstr "Les våre regler og retningslinjer"
 
 #: ../user/create_account_action.php:26
-#, fuzzy
 msgid "Can't create account"
-msgstr "Lag konto"
+msgstr "Kan ikke opprette konto"
 
 #: ../user/create_account_action.php:29
 msgid "Click your browser's <b>Back</b> button to try again."
@@ -2554,10 +2590,11 @@ msgid "The invitation code you gave is not valid."
 msgstr "Invitasjons koden du skrev er ikke gyldig."
 
 #: ../user/create_account_action.php:84
-#, fuzzy
 msgid ""
 "Invalid email address: you must enter a valid address of the form name@domain"
-msgstr "Må være en gyldig adresse i denne formen 'name@domene'."
+msgstr ""
+"Ugyldig epostadresse: Du må taste inn en gyldig adresse i dette formatet "
+"name@domene"
 
 #: ../user/create_account_action.php:88
 msgid "There's already an account with that email address."
@@ -2596,17 +2633,18 @@ msgstr ""
 
 #: ../user/create_account_form.php:73
 msgid "Invitation Code"
-msgstr "Invitasjons kode"
+msgstr "Invitasjonskode"
 
 #: ../user/create_account_form.php:73
 msgid "A valid invitation code is required to create an account."
-msgstr "En gyldig invitasjons kode er nødvendig for å lage en konto."
+msgstr "En gyldig invitasjonskode er nødvendig for å opprette en konto."
 
 #: ../user/create_account_form.php:83
 msgid "Email Address"
-msgstr "Epost adresse"
+msgstr "Epostadresse"
 
 #: ../user/create_account_form.php:83
+#, fuzzy
 msgid "Must be a valid address of the form 'name@domain'."
 msgstr "Må være en gyldig adresse i denne formen 'name@domene'."
 
@@ -2628,7 +2666,7 @@ msgstr ""
 
 #: ../user/create_account_form.php:119
 msgid "Create account"
-msgstr "Lag konto"
+msgstr "Opprett konto"
 
 #: ../user/create_profile.php:50
 msgid "Picture"
@@ -2664,7 +2702,7 @@ msgstr ""
 
 #: ../user/create_profile.php:104
 msgid "Submit profile"
-msgstr "Send inn profil"
+msgstr "Registrer profil"
 
 #: ../user/create_profile.php:110
 msgid "Please enter the words shown in the image."
@@ -2672,7 +2710,7 @@ msgstr ""
 
 #: ../user/create_profile.php:115
 msgid "Create/edit profile"
-msgstr "Lag/rediger profil"
+msgstr "Opprett/rediger profil"
 
 #: ../user/create_profile.php:137
 msgid "The format of your uploaded image is not supported."
@@ -2727,7 +2765,7 @@ msgstr ""
 
 #: ../user/create_profile.php:315
 msgid "Create a profile"
-msgstr "Lag en profil"
+msgstr "Opprett en profil"
 
 #: ../user/create_profile.php:343
 msgid ""
@@ -2793,23 +2831,20 @@ msgid "No"
 msgstr "Nei"
 
 #: ../user/delete_account.php:80
-#, fuzzy
 msgid "Do not delete this account"
-msgstr "Datamaskiner på denne kontoen"
+msgstr "Ikke slett denne kontoen"
 
 #: ../user/delete_profile.php:30
-#, fuzzy
 msgid "couldn't delete profile - please try again later"
-msgstr "Kunne ikke lage team - vennligst prøv igjen senere"
+msgstr "kunne ikke slette profil - vennligst prøv igjen senere"
 
 #: ../user/delete_profile.php:33
 msgid "Delete Confirmation"
 msgstr ""
 
 #: ../user/delete_profile.php:35
-#, fuzzy
 msgid "Your profile has been deleted."
-msgstr "Meldingen din har blitt sendt"
+msgstr "Profilen din har blitt slettet."
 
 #: ../user/delete_profile.php:40
 msgid "Profile delete confirmation"
@@ -2833,14 +2868,12 @@ msgid ""
 msgstr ""
 
 #: ../user/delete_profile.php:52
-#, fuzzy
 msgid "Delete my profile"
-msgstr "Lag en profil"
+msgstr "Slett min profil"
 
 #: ../user/delete_profile.php:53
-#, fuzzy
 msgid "Do not delete my profile"
-msgstr "Jeg %1like ikke%2 denne profilen"
+msgstr "Ikke slett min profil"
 
 #: ../user/donated.php:25
 msgid "PayPal - Transaction Completed"
@@ -2869,9 +2902,8 @@ msgid "This project is not accepting donations."
 msgstr ""
 
 #: ../user/donations.php:34
-#, fuzzy
 msgid "%1 donations"
-msgstr "%1 innlegg"
+msgstr "%1 donasjoner"
 
 #: ../user/donations.php:39
 msgid ""
@@ -2896,7 +2928,7 @@ msgstr ""
 
 #: ../user/donations.php:316
 msgid "Amount you would like to donate"
-msgstr ""
+msgstr "Beløp du ønsker å donere"
 
 #: ../user/donations.php:317
 msgid "Estimated value in"
@@ -2917,9 +2949,8 @@ msgid "To assign the donation with your user ID, please log in."
 msgstr ""
 
 #: ../user/donations.php:328
-#, fuzzy
 msgid "Proceed"
-msgstr "Profilen er lagret"
+msgstr "Fortsett"
 
 #: ../user/donations.php:329
 msgid "Donations are accepted through"
@@ -2955,9 +2986,8 @@ msgid "This list is managed centrally at %1the BOINC website%2."
 msgstr ""
 
 #: ../user/edit_email_action.php:31
-#, fuzzy
 msgid "Change email address of account"
-msgstr "epost adresse"
+msgstr "Endre epostadresse for kontoen"
 
 #: ../user/edit_email_action.php:34 ../user/edit_email_action.php:36
 #, fuzzy
@@ -2995,7 +3025,7 @@ msgstr ""
 
 #: ../user/edit_email_form.php:27 ../user/edit_email_form.php:51
 msgid "Change email address"
-msgstr ""
+msgstr "Endre epostadresse"
 
 #: ../user/edit_email_form.php:36
 #, fuzzy
@@ -3013,8 +3043,9 @@ msgid "Must be a valid address of the form 'name@domain'"
 msgstr "Må være en gyldig adresse i denne formen 'name@domene'."
 
 #: ../user/edit_email_form.php:48
+#, fuzzy
 msgid "No password?"
-msgstr ""
+msgstr "Nytt passord"
 
 #: ../user/edit_forum_preferences_action.php:33
 #, fuzzy
@@ -3028,9 +3059,8 @@ msgid ""
 msgstr ""
 
 #: ../user/edit_forum_preferences_action.php:38
-#, fuzzy
 msgid "Reset preferences"
-msgstr "%1 preferanser"
+msgstr "Nullstill innstillinger"
 
 #: ../user/edit_forum_preferences_action.php:88
 msgid "Error: Not the right kind of file, only PNG and JPEG are supported."
@@ -3042,9 +3072,8 @@ msgstr ""
 
 #: ../user/edit_forum_preferences_action.php:132
 #: ../user/edit_forum_preferences_action.php:146
-#, fuzzy
 msgid "No such user: %1"
-msgstr "Ingen slik bruker"
+msgstr "Ingen slik bruker: %1"
 
 #: ../user/edit_forum_preferences_form.php:56
 msgid ""
@@ -3065,9 +3094,8 @@ msgid "In a single daily email"
 msgstr ""
 
 #: ../user/edit_forum_preferences_form.php:75
-#, fuzzy
 msgid "Message-board identity"
-msgstr "Meldingstavle"
+msgstr "Meldingstavle identitet"
 
 #: ../user/edit_forum_preferences_form.php:76
 msgid "Avatar"
@@ -3123,7 +3151,7 @@ msgstr ""
 
 #: ../user/edit_forum_preferences_form.php:108
 msgid "Signature preview"
-msgstr ""
+msgstr "Forhåndsvisning signatur"
 
 #: ../user/edit_forum_preferences_form.php:109
 msgid "This is how your signature will look in the forums"
@@ -3167,14 +3195,12 @@ msgid "How to sort"
 msgstr ""
 
 #: ../user/edit_forum_preferences_form.php:140
-#, fuzzy
 msgid "Threads:"
-msgstr "Tråder"
+msgstr "Tråder:"
 
 #: ../user/edit_forum_preferences_form.php:140
-#, fuzzy
 msgid "Posts:"
-msgstr "Innlegg"
+msgstr "Innlegg:"
 
 #: ../user/edit_forum_preferences_form.php:141
 msgid "Jump to first new post in thread automatically"
@@ -3185,13 +3211,12 @@ msgid "Don't move sticky posts to top"
 msgstr ""
 
 #: ../user/edit_forum_preferences_form.php:148
-#, fuzzy
 msgid "Message filtering"
-msgstr "Meldingstavle"
+msgstr "Meldingsfilter"
 
 #: ../user/edit_forum_preferences_form.php:164
 msgid "Filtered users"
-msgstr ""
+msgstr "Filtrerte brukere"
 
 #: ../user/edit_forum_preferences_form.php:165
 #, fuzzy
@@ -3200,7 +3225,7 @@ msgstr "Meldingstavle og private meldinger"
 
 #: ../user/edit_forum_preferences_form.php:167
 msgid "User ID (For instance: 123456789)"
-msgstr ""
+msgstr "Bruker ID (For eksempel: 123456789)"
 
 #: ../user/edit_forum_preferences_form.php:168 ../user/pm.php:251
 msgid "Add user to filter"
@@ -3214,7 +3239,7 @@ msgstr "%1 preferanser"
 #: ../user/edit_forum_preferences_form.php:175
 #: ../user/edit_forum_preferences_form.php:177
 msgid "Reset"
-msgstr ""
+msgstr "Nullstill"
 
 #: ../user/edit_forum_preferences_form.php:176
 msgid "Or click here to reset preferences to the defaults"
@@ -3237,7 +3262,7 @@ msgstr "Bekreft passord"
 #: ../user/edit_passwd_action.php:63 ../user/edit_passwd_form.php:25
 #: ../user/edit_passwd_form.php:55
 msgid "Change password"
-msgstr ""
+msgstr "Endre passord"
 
 #: ../user/edit_passwd_action.php:67
 #, fuzzy
@@ -3266,8 +3291,9 @@ msgid "your account key"
 msgstr "Svak konto nøkkel"
 
 #: ../user/edit_passwd_form.php:46
+#, fuzzy
 msgid "Current password"
-msgstr ""
+msgstr "Nåværende passord"
 
 #: ../user/edit_passwd_form.php:48
 msgid "<b>OR</b>: Account key"
@@ -3279,11 +3305,11 @@ msgstr ""
 
 #: ../user/edit_passwd_form.php:53
 msgid "New password"
-msgstr ""
+msgstr "Nytt passord"
 
 #: ../user/edit_passwd_form.php:54
 msgid "New password, again"
-msgstr ""
+msgstr "Nytt passord, igjen"
 
 #: ../user/edit_user_info_action.php:31
 msgid "HTML tags are not allowed in your name."
@@ -3317,11 +3343,12 @@ msgstr ""
 
 #: ../user/edit_user_info_form.php:47
 msgid "Update info"
-msgstr ""
+msgstr "Oppdater info"
 
 #: ../user/explain_state.php:27
+#, fuzzy
 msgid "Server states"
-msgstr ""
+msgstr "Tilstand tjener"
 
 #: ../user/explain_state.php:30
 msgid ""
@@ -3343,7 +3370,7 @@ msgstr ""
 #: ../user/explain_state.php:40
 #, fuzzy
 msgid "In Progress"
-msgstr "I prosess"
+msgstr "På fremmarsj"
 
 #: ../user/explain_state.php:41
 msgid "The task has been sent; waiting for completion."
@@ -3356,8 +3383,9 @@ msgid ""
 msgstr ""
 
 #: ../user/explain_state.php:49
+#, fuzzy
 msgid "Outcomes"
-msgstr ""
+msgstr "Utfall"
 
 #: ../user/explain_state.php:52
 msgid ""
@@ -3382,35 +3410,45 @@ msgid ""
 msgstr ""
 
 #: ../user/explain_state.php:65
-#, fuzzy
 msgid "Client error"
-msgstr "Datamaskiner"
+msgstr "Klientfeil"
 
 #: ../user/explain_state.php:66
+#, fuzzy
 msgid "The task was sent to a computer and an error occurred."
-msgstr ""
+msgstr "Oppgaven ble sendt til en datamaskin og en feil oppstod."
 
 #: ../user/explain_state.php:69
+#, fuzzy
 msgid ""
 "The task was sent to a computer and no reply was received within the time "
 "limit."
 msgstr ""
+"Oppgaven ble sendt til en datamaskin og ikke noe svar var mottatt innenfor "
+"tidsfristen."
 
 #: ../user/explain_state.php:72
+#, fuzzy
 msgid ""
 "The task wasn't sent to a computer because enough other tasks were completed "
 "for this workunit."
 msgstr ""
+"Oppgaven ble ikke sendt til en datamaskin fordi nok andre oppgaver var "
+"ferdige for denne arbeidsenheten."
 
 #: ../user/explain_state.php:75
+#, fuzzy
 msgid ""
 "The task was reported but could not be validated, typically because the "
 "output files were lost on the server."
 msgstr ""
+"Oppgaven ble rapportert men kunne ikke bli validert, typisk fordi "
+"utdatafilene forsvant fra tjeneren."
 
 #: ../user/explain_state.php:80
+#, fuzzy
 msgid "Client states"
-msgstr ""
+msgstr "Tilstand klient"
 
 #: ../user/explain_state.php:81
 msgid ""
@@ -3419,28 +3457,33 @@ msgid ""
 msgstr ""
 
 #: ../user/explain_state.php:86
+#, fuzzy
 msgid "The computer has not yet completed the task."
-msgstr ""
+msgstr "Datamaskinen har ikke foreløpig ferdigstilt oppgaven."
 
 #: ../user/explain_state.php:89
+#, fuzzy
 msgid "The computer completed the task successfully."
-msgstr ""
+msgstr "Datamaskinen fullførte oppgaven korrekt."
 
 #: ../user/explain_state.php:92
+#, fuzzy
 msgid "The computer couldn't download the application or input files."
-msgstr ""
+msgstr "Datamaskinen kunne ikke laste ned applikasjonen eller inndatafilene."
 
 #: ../user/explain_state.php:95
 msgid "An error occurred during computation."
-msgstr ""
+msgstr "En feil oppstod under beregning."
 
 #: ../user/explain_state.php:98
+#, fuzzy
 msgid "The computer couldn't upload the output files."
-msgstr ""
+msgstr "Datamaskinen kunne ikke laste opp utdatafilene."
 
 #: ../user/explain_state.php:103
+#, fuzzy
 msgid "Time reported and deadline"
-msgstr ""
+msgstr "Tid rapportert<br /> eller frist"
 
 #: ../user/explain_state.php:106
 msgid ""
@@ -3449,9 +3492,8 @@ msgid ""
 msgstr ""
 
 #: ../user/explain_state.php:110
-#, fuzzy
 msgid "Already reported"
-msgstr "Allerede venner"
+msgstr "Allerede rapportert"
 
 #: ../user/explain_state.php:110
 msgid "The date/time it was reported"
@@ -3462,56 +3504,58 @@ msgid "Not reported yet, deadline in the future"
 msgstr ""
 
 #: ../user/explain_state.php:112
+#, fuzzy
 msgid "Deadline, shown in green."
-msgstr ""
+msgstr "Frist, vist i grønt."
 
 #: ../user/explain_state.php:114
 msgid "Not reported yet, deadline in the past"
 msgstr ""
 
 #: ../user/explain_state.php:115
+#, fuzzy
 msgid "Deadline, shown in red."
-msgstr ""
+msgstr "Frist, vist i rødt."
 
 #: ../user/explain_state.php:120
-#, fuzzy
 msgid "Unknown field"
-msgstr "Ukjent handling"
+msgstr "Ukjent felt"
 
 #: ../user/ffmail_action.php:47
-#, fuzzy
 msgid "Email preview"
-msgstr "Epost adresse"
+msgstr "Forhåndsvisning epost"
 
 #: ../user/ffmail_action.php:48
+#, fuzzy
 msgid "Your email will appear as follows:"
-msgstr ""
+msgstr "Din epostadresse vil bli synlig som følgende:"
 
 #: ../user/ffmail_action.php:57
-#, fuzzy
 msgid "Send email"
-msgstr "Send melding"
+msgstr "Send epost"
 
 #: ../user/ffmail_action.php:59
+#, fuzzy
 msgid "Use your browser's back button to return to message form"
-msgstr ""
+msgstr "Bruk din nettlesers tilbake knapp for å gå tilbake til meldingsskjema"
 
 #: ../user/ffmail_action.php:63
-#, fuzzy
 msgid "Sending emails"
-msgstr "Forestående kreditt"
+msgstr "Sender epost"
 
 #: ../user/ffmail_action.php:84
+#, fuzzy
 msgid "email sent successfully to %1"
-msgstr ""
+msgstr "epost sendt korrekt til %1"
 
 #: ../user/ffmail_action.php:86
 msgid "failed to send email to %1: %2"
 msgstr ""
 
 #: ../user/ffmail_action.php:92
+#, fuzzy
 msgid "Thanks for telling your friends about %1"
-msgstr ""
+msgstr "Takk for at du fortalte din venner om %1"
 
 #: ../user/ffmail_action.php:94
 msgid ""
@@ -3526,12 +3570,14 @@ msgid ""
 msgstr ""
 
 #: ../user/ffmail_form.php:33
+#, fuzzy
 msgid "Tell your friends about %1"
-msgstr ""
+msgstr "Fortell dine venner om %1"
 
 #: ../user/ffmail_form.php:37
+#, fuzzy
 msgid "Help us by telling your friends, family and coworkers about %1"
-msgstr ""
+msgstr "Hjelp oss med å fortelle dine venner, familie og kolleger om %1"
 
 #: ../user/ffmail_form.php:39
 msgid ""
@@ -3542,17 +3588,15 @@ msgstr ""
 
 #: ../user/ffmail_form.php:42
 msgid "Your name:"
-msgstr ""
+msgstr "Ditt navn:"
 
 #: ../user/ffmail_form.php:42
-#, fuzzy
 msgid "Your email address:"
-msgstr "epost adresse"
+msgstr "Din epostadresse:"
 
 #: ../user/ffmail_form.php:48
-#, fuzzy
 msgid "Friend's name:"
-msgstr "Venner"
+msgstr "Venns navn:"
 
 #: ../user/ffmail_form.php:48
 #, fuzzy
@@ -3584,8 +3628,9 @@ msgid "No user with this ID found."
 msgstr "Ingen datamaskin medID %1 funnet"
 
 #: ../user/forum_banishment_vote.php:54 ../user/forum_moderate_post.php:76
+#, fuzzy
 msgid "User is already banished"
-msgstr ""
+msgstr "Bruker er allerede forvist"
 
 #: ../user/forum_banishment_vote.php:59 ../user/forum_moderate_post.php:79
 msgid ""
@@ -3602,13 +3647,13 @@ msgstr ""
 
 #: ../user/forum_banishment_vote.php:62 ../user/forum_moderate_thread.php:50
 msgid "Category"
-msgstr ""
+msgstr "Kategori"
 
 #: ../user/forum_banishment_vote.php:64
 #: ../user/forum_banishment_vote_action.php:57
 #: ../user/forum_moderate_post.php:55 ../user/forum_moderate_thread.php:52
 msgid "Obscene"
-msgstr ""
+msgstr "Uanstendig"
 
 #: ../user/forum_banishment_vote.php:65
 #: ../user/forum_banishment_vote_action.php:59
@@ -3627,13 +3672,12 @@ msgstr "Ingen anmodning"
 #: ../user/forum_banishment_vote_action.php:63
 #: ../user/forum_moderate_post.php:60 ../user/forum_moderate_thread.php:55
 msgid "Other"
-msgstr ""
+msgstr "Annen"
 
 #: ../user/forum_banishment_vote.php:69 ../user/forum_moderate_post.php:53
 #: ../user/forum_moderate_thread.php:85
-#, fuzzy
 msgid "Reason"
-msgstr "Versjon"
+msgstr "Årsak"
 
 #: ../user/forum_banishment_vote.php:69 ../user/forum_moderate_thread.php:85
 msgid "Mailed if nonempty"
@@ -3646,7 +3690,7 @@ msgstr ""
 #: ../user/forum_banishment_vote_action.php:39
 #: ../user/forum_moderate_post_action.php:63
 msgid "You must specify an action..."
-msgstr ""
+msgstr "Du må spesifisere en handling..."
 
 #: ../user/forum_edit.php:41
 msgid ""
@@ -3655,18 +3699,16 @@ msgid ""
 msgstr ""
 
 #: ../user/forum_edit.php:47
-#, fuzzy
 msgid "You are not authorized to edit this post."
-msgstr "Du er nå venn med %1."
+msgstr "Du har ikke autorisasjon til å endre denne posten."
 
 #: ../user/forum_edit.php:86 ../user/forum_search.php:72
 msgid "Forum"
 msgstr ""
 
 #: ../user/forum_edit.php:110
-#, fuzzy
 msgid "Edit your message"
-msgstr "Redigere din profil"
+msgstr "Rediger din melding"
 
 #: ../user/forum_edit.php:115 ../user/forum_edit.php:120
 #: ../user/forum_post.php:109 ../user/forum_post.php:111
@@ -3679,9 +3721,8 @@ msgid "Add my signature to this post"
 msgstr "Legg til min signatur til dette innlegget"
 
 #: ../user/forum_forum.php:41
-#, fuzzy
 msgid "Not visible to you"
-msgstr "Dette forumet er ikke synlig for deg."
+msgstr "Ikke synlig for deg"
 
 #: ../user/forum_forum.php:80
 #, fuzzy
@@ -3689,23 +3730,20 @@ msgid "Team message board for %1"
 msgstr "%1 oppslagstavle"
 
 #: ../user/forum_forum.php:96
-#, fuzzy
 msgid "New thread"
-msgstr "Tråd"
+msgstr "Ny tråd"
 
 #: ../user/forum_forum.php:96
-#, fuzzy
 msgid "Add a new thread to this forum"
-msgstr "Legg til en ny melding til denne tråden"
+msgstr "Legg til en ny tråd i dette forumet"
 
 #: ../user/forum_forum.php:116
 msgid "This message board is available as an %1RSS feed%2"
 msgstr ""
 
 #: ../user/forum_forum.php:174
-#, fuzzy
 msgid "This thread is hidden"
-msgstr "Rediger tråd tittel"
+msgstr "Denne tråden er skjult"
 
 #: ../user/forum_forum.php:178
 msgid "This thread is sticky and locked, and you haven't read it yet"
@@ -3821,9 +3859,8 @@ msgid "Moderate post"
 msgstr "Siste innlegg"
 
 #: ../user/forum_moderate_post.php:52
-#, fuzzy
 msgid "Hide post"
-msgstr "Skjul"
+msgstr "Skjul post"
 
 #: ../user/forum_moderate_post.php:57 ../user/forum_moderate_thread.php:54
 msgid "Commercial spam"
@@ -3834,9 +3871,8 @@ msgid "Doublepost"
 msgstr ""
 
 #: ../user/forum_moderate_post.php:63
-#, fuzzy
 msgid "Move post"
-msgstr "&Flytt"
+msgstr "Flytte post"
 
 #: ../user/forum_moderate_post.php:65
 #, fuzzy
@@ -3862,20 +3898,19 @@ msgstr ""
 
 #: ../user/forum_moderate_post.php:83
 msgid "1 week"
-msgstr ""
+msgstr "1 uke"
 
 #: ../user/forum_moderate_post.php:84
 msgid "2 weeks"
-msgstr ""
+msgstr "2 uker"
 
 #: ../user/forum_moderate_post.php:85
-#, fuzzy
 msgid "1 month"
-msgstr "%1 innlegg"
+msgstr "1 måned"
 
 #: ../user/forum_moderate_post.php:86
 msgid "Forever"
-msgstr ""
+msgstr "For evig"
 
 #: ../user/forum_moderate_post.php:96
 msgid "Optional explanation %1 This is included in email to user.%2"
@@ -3886,7 +3921,7 @@ msgstr ""
 #: ../user/forum_rss.php:55 ../user/friend.php:81 ../user/get_passwd.php:41
 #: ../user/get_passwd.php:75
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 #: ../user/forum_moderate_post_action.php:57
 #, fuzzy
@@ -3910,20 +3945,23 @@ msgid "Banishment"
 msgstr ""
 
 #: ../user/forum_moderate_post_action.php:128
+#, fuzzy
 msgid "User %1 has been banished."
-msgstr ""
+msgstr "Brukeren %1 har blitt forvist."
 
 #: ../user/forum_moderate_post_action.php:131
 msgid "Action failed: possible database problem"
-msgstr ""
+msgstr "Handling feilet: Mulig databaseproblem"
 
 #: ../user/forum_moderate_thread.php:33
+#, fuzzy
 msgid "not authorized"
-msgstr ""
+msgstr "ikke autorisert"
 
 #: ../user/forum_moderate_thread.php:36
+#, fuzzy
 msgid "Moderate thread '%1'"
-msgstr ""
+msgstr "Moderer tråd '%1'"
 
 #: ../user/forum_moderate_thread.php:48
 msgid ""
@@ -3967,8 +4005,9 @@ msgid "Create a new thread"
 msgstr "Lag en ny tråd"
 
 #: ../user/forum_post.php:105
+#, fuzzy
 msgid "Remember to add a title"
-msgstr ""
+msgstr "Husk å legge til en tittel"
 
 #: ../user/forum_post.php:127
 msgid "Show this item as a Notice in the BOINC Manager"
@@ -4162,7 +4201,7 @@ msgstr ""
 
 #: ../user/forum_search.php:35
 msgid "For example: \"screensaver freeze\""
-msgstr ""
+msgstr "For eksempel: \"skjermsparer frys\""
 
 #: ../user/forum_search.php:36
 #, fuzzy
@@ -4175,7 +4214,7 @@ msgstr ""
 
 #: ../user/forum_search.php:39
 msgid "For example: \"43214\""
-msgstr ""
+msgstr "For eksempel: \"43214\""
 
 #: ../user/forum_search.php:41
 #, fuzzy
@@ -4382,7 +4421,7 @@ msgstr "Rediger tittel"
 
 #: ../user/forum_thread.php:235
 msgid "Edit thread title"
-msgstr "Rediger tråd tittel"
+msgstr "Rediger tittel på tråd"
 
 #: ../user/forum_thread.php:245
 msgid "Export as Notice"
@@ -4449,7 +4488,7 @@ msgstr "Legg til en valgfri melding her:"
 
 #: ../user/friend.php:115
 msgid "Friend request sent"
-msgstr "Venne forespørsel sent"
+msgstr "Venneforespørsel sendt"
 
 #: ../user/friend.php:116
 msgid "We have notified %1 of your request."
@@ -4465,7 +4504,7 @@ msgstr ""
 
 #: ../user/friend.php:138
 msgid "Friend request"
-msgstr "Venne forespørsel"
+msgstr "Venneforespørsel"
 
 #: ../user/friend.php:141
 msgid "%1 has requested friendship with you."
@@ -4521,7 +4560,7 @@ msgstr "Du er nå venn med %1."
 
 #: ../user/friend.php:232
 msgid "Cancel friendship?"
-msgstr "Kanslere vennskap?"
+msgstr "Avbryt vennskap?"
 
 #: ../user/friend.php:234
 msgid "Are you sure you want to cancel your friendship with %1?"
@@ -4533,7 +4572,7 @@ msgstr "Forbli venner"
 
 #: ../user/friend.php:249
 msgid "Friendship cancelled"
-msgstr "Vennskap kanselert"
+msgstr "Vennskap avbrutt"
 
 #: ../user/friend.php:250
 msgid "Your friendship with %1 has been cancelled."
@@ -4729,28 +4768,27 @@ msgid "name"
 msgstr "Navn"
 
 #: ../user/host_edit_form.php:70 ../user/workunit.php:41
-#, fuzzy
 msgid "created"
-msgstr "Lag"
+msgstr "opprettet"
 
 #: ../user/host_edit_form.php:70
-#, fuzzy
 msgid "computer ID"
-msgstr "Datamaskiner"
+msgstr "datamaskin id"
 
 #: ../user/host_edit_form.php:77
 #, fuzzy
 msgid "no hostname"
-msgstr "Ingen slikt team."
+msgstr "ingen vertsnavn"
 
 #: ../user/host_edit_form.php:109
 #, fuzzy
 msgid "Merge hosts"
-msgstr "Melding"
+msgstr "Slå sammen vert"
 
 #: ../user/host_update_credit.php:28
+#, fuzzy
 msgid "Updating computer credit"
-msgstr ""
+msgstr "Oppdaterer arbeid utført"
 
 #: ../user/host_venue_action.php:41
 msgid "Host venue updated"
@@ -4774,17 +4812,17 @@ msgstr ""
 #: ../user/host_venue_action.php:50
 #, fuzzy
 msgid "Return to host page"
-msgstr "Retuner til profil."
+msgstr "Returner til"
 
 #: ../user/hosts_user.php:53
 #, fuzzy
 msgid "Computers belonging to %1"
-msgstr "Datamaskiner på denne kontoen"
+msgstr "Datamaskiner hører til %1"
 
 #: ../user/hosts_user.php:55
 #, fuzzy
 msgid "Computers hidden"
-msgstr "Datamaskiner"
+msgstr "Skjulte datamaskiner"
 
 #: ../user/hosts_user.php:56
 msgid ""
@@ -4792,14 +4830,12 @@ msgid ""
 msgstr ""
 
 #: ../user/hosts_user.php:64
-#, fuzzy
 msgid "Your computers"
-msgstr "Topp datamaskiner"
+msgstr "Dine datamaskiner"
 
 #: ../user/html.php:23
-#, fuzzy
 msgid "Allowed HTML tags"
-msgstr "Ikke bruk HTML tags."
+msgstr ""
 
 #: ../user/html.php:25
 msgid "The following HTML tags are allowed in team descriptions:"
@@ -4807,28 +4843,27 @@ msgstr ""
 
 #: ../user/html.php:27
 msgid "bold"
-msgstr ""
+msgstr "fet"
 
 #: ../user/html.php:28
 msgid "italics"
-msgstr ""
+msgstr "kursiv"
 
 #: ../user/html.php:29
 msgid "hyperlink"
-msgstr ""
+msgstr "hyperlink"
 
 #: ../user/html.php:30
 msgid "paragraph"
-msgstr ""
+msgstr "paragraf"
 
 #: ../user/html.php:31
 msgid "break"
 msgstr ""
 
 #: ../user/html.php:32
-#, fuzzy
 msgid "preformatted"
-msgstr "Lag"
+msgstr "preformattert"
 
 #: ../user/html.php:33
 msgid ""
@@ -4970,7 +5005,7 @@ msgstr ""
 
 #: ../user/language_select.php:47
 msgid "Language selection"
-msgstr ""
+msgstr "Språkvalg"
 
 #: ../user/language_select.php:73
 msgid ""
@@ -4985,12 +5020,14 @@ msgid ""
 msgstr ""
 
 #: ../user/language_select.php:83
+#, fuzzy
 msgid "Firefox: Tools/Options/General"
-msgstr ""
+msgstr "Firefox: Verktøy/Alternativer/Generelt"
 
 #: ../user/language_select.php:85
+#, fuzzy
 msgid "Microsoft IE: Tools/Internet Options/Languages"
-msgstr ""
+msgstr "Microsoft IE: Verktøy/Alternativer for Internet/Språk"
 
 #: ../user/language_select.php:89
 msgid ""
@@ -5004,8 +5041,9 @@ msgid "Language name (click to select)"
 msgstr ""
 
 #: ../user/language_select.php:97
+#, fuzzy
 msgid "Use browser language setting"
-msgstr ""
+msgstr "Bruk språkinnstillinger for utforskeren"
 
 #: ../user/language_select.php:113
 msgid ""
@@ -5014,34 +5052,35 @@ msgid ""
 msgstr ""
 
 #: ../user/login_form.php:45
-#, fuzzy
 msgid "Email address:"
-msgstr "Epost adresse"
+msgstr "Epostadresse:"
 
 #: ../user/login_form.php:45
 msgid "forgot email address?"
-msgstr ""
+msgstr "glemt epostadressen?"
 
 #: ../user/login_form.php:48
-#, fuzzy
 msgid "Password:"
-msgstr "Passord"
+msgstr "Passord:"
 
 #: ../user/login_form.php:48
 msgid "forgot password?"
-msgstr ""
+msgstr "glemt passord?"
 
 #: ../user/login_form.php:51
+#, fuzzy
 msgid "Stay logged in"
-msgstr ""
+msgstr "Vær innlogget"
 
 #: ../user/login_form.php:62
+#, fuzzy
 msgid "or %1create an account%2."
-msgstr ""
+msgstr "eller %1 opprett en konto%2."
 
 #: ../user/merge_by_name.php:31
+#, fuzzy
 msgid "Processing %1"
-msgstr ""
+msgstr "Prosesserer %1"
 
 #: ../user/merge_by_name.php:43
 #, fuzzy
@@ -5050,9 +5089,8 @@ msgstr "Flett vert %1 inn i vert %2"
 
 # 86%
 #: ../user/merge_by_name.php:72
-#, fuzzy
 msgid "Return to the list of your computers"
-msgstr "Retuner til profil."
+msgstr "Retuner til listen over dine datamaskiner"
 
 #: ../user/merge_by_name.php:76
 msgid ""
@@ -5121,43 +5159,45 @@ msgid ""
 msgstr ""
 
 #: ../user/pending.php:66
+#, fuzzy
 msgid "Pending credit"
-msgstr "Forestående kreditt"
+msgstr "Arbeid utført som venter"
 
 #: ../user/pending.php:68
 msgid "Result ID"
-msgstr ""
-
-#: ../user/pending.php:68
-msgid "Workunit ID"
-msgstr ""
-
-#: ../user/pending.php:68
-msgid "Host ID"
-msgstr ""
+msgstr "Resultat ID"
 
 #: ../user/pending.php:68
 #, fuzzy
+msgid "Workunit ID"
+msgstr "Arbeidsenhet ID"
+
+#: ../user/pending.php:68
+#, fuzzy
+msgid "Host ID"
+msgstr "Vert ID"
+
+#: ../user/pending.php:68
 msgid "Claimed credit"
-msgstr "Gjennomsnittlig kreditt"
+msgstr ""
 
 #: ../user/pending.php:81
 #, fuzzy
 msgid "Pending credit: %1"
-msgstr "Forestående kreditt"
-
-#: ../user/pm.php:32
-msgid "Block messages from this user"
-msgstr ""
+msgstr "Arbeid utført som venter"
 
 #: ../user/pm.php:32
 #, fuzzy
+msgid "Block messages from this user"
+msgstr "Blokker meldinger fra denne brukeren"
+
+#: ../user/pm.php:32
 msgid "Block user"
-msgstr "Ingen slik bruker"
+msgstr "Blokker bruker"
 
 #: ../user/pm.php:73
 msgid "Your message has been sent."
-msgstr "Meldingen din har blitt sendt"
+msgstr "Meldingen din har blitt sendt."
 
 #: ../user/pm.php:83
 msgid "You have no private messages."
@@ -5168,22 +5208,22 @@ msgid "Sender and date"
 msgstr "Avsender og dato"
 
 #: ../user/pm.php:106
-#, fuzzy
 msgid "Reply to this message"
-msgstr "Retuner til profil."
+msgstr "Svar på denne meldingen"
 
 #: ../user/pm.php:107
-#, fuzzy
 msgid "Delete this message"
-msgstr "Slett valgte meldinger"
+msgstr "Slette denne meldingen"
 
 #: ../user/pm.php:112
+#, fuzzy
 msgid "Select all"
-msgstr ""
+msgstr "Merk alt"
 
 #: ../user/pm.php:114
+#, fuzzy
 msgid "Unselect all"
-msgstr ""
+msgstr "Fjern markering"
 
 #: ../user/pm.php:117
 msgid "Delete selected messages"
@@ -5229,8 +5269,9 @@ msgid "No such user"
 msgstr "Ingen slik bruker"
 
 #: ../user/pm.php:242
+#, fuzzy
 msgid "Really block %1?"
-msgstr ""
+msgstr "Virkelig blokkere %1?"
 
 #: ../user/pm.php:243
 msgid ""
@@ -5289,29 +5330,31 @@ msgid ""
 msgstr ""
 
 #: ../user/prefs_edit.php:65 ../user/prefs_edit.php:93
+#, fuzzy
 msgid "%1 for %2"
-msgstr ""
+msgstr "%1 for %2"
 
 #: ../user/prefs_edit.php:110
+#, fuzzy
 msgid "Back to preferences"
-msgstr ""
+msgstr "Tilbake til innstillinger"
 
 #: ../user/prefs_remove.php:45
+#, fuzzy
 msgid "Confirm delete preferences"
-msgstr ""
+msgstr "Bekreft sletting av innstillinger"
 
 #: ../user/prefs_remove.php:48
 msgid "Are you sure you want to delete your separate %1 preferences for %2?"
 msgstr ""
 
 #: ../user/prefs_remove.php:52
-#, fuzzy
 msgid "Remove preferences"
-msgstr "%1 preferanser"
+msgstr "Fjern innstillinger"
 
 #: ../user/prefs_remove.php:54
 msgid "Cancel"
-msgstr ""
+msgstr "Avbryt"
 
 #: ../user/profile_menu.php:35
 msgid ""
@@ -5370,8 +5413,9 @@ msgid "No profiles matched your query."
 msgstr "Ingen prifiler passet med din spørring"
 
 #: ../user/profile_rate.php:29
+#, fuzzy
 msgid "Invalid vote type:"
-msgstr "Ugyldig stemme type:"
+msgstr "Ugyldig stemmetype:"
 
 #: ../user/profile_rate.php:34
 msgid "Vote Recorded"
@@ -5398,9 +5442,8 @@ msgid "Profiles containing '%1'"
 msgstr ""
 
 #: ../user/profile_search_action.php:40
-#, fuzzy
 msgid "User name"
-msgstr "Bruker ID"
+msgstr "Brukernavn"
 
 #: ../user/profile_search_action.php:41
 msgid "Joined project"
@@ -5409,7 +5452,7 @@ msgstr ""
 #: ../user/profile_search_action.php:44
 #, fuzzy
 msgid "Recent credit"
-msgstr "Nylig gjennomsnitts kreditt"
+msgstr "Nylig arbeid utført"
 
 #: ../user/profile_search_action.php:54
 msgid "No profiles found containing '%1'"
@@ -5417,7 +5460,7 @@ msgstr ""
 
 #: ../user/result.php:35
 msgid "Task %1"
-msgstr ""
+msgstr "Oppgave %1"
 
 #: ../user/results.php:29
 msgid "This feature is turned off temporarily"
@@ -5425,7 +5468,7 @@ msgstr "Denne funksjonen er midlertidig avslått "
 
 #: ../user/results.php:56
 msgid "No computer with ID %1 found"
-msgstr "Ingen datamaskin medID %1 funnet"
+msgstr "Ingen datamaskin med ID %1 funnet"
 
 #: ../user/results.php:63
 msgid "No access"
@@ -5436,36 +5479,38 @@ msgid "Missing user ID or host ID"
 msgstr "Mangler bruker ID eller verts ID"
 
 #: ../user/results.php:107
+#, fuzzy
 msgid "No tasks to display"
-msgstr ""
+msgstr "Ingen oppgaver å vise"
 
 #: ../user/server_status.php:97
 msgid "Running"
-msgstr ""
+msgstr "Kjører"
 
 #: ../user/server_status.php:100
 msgid "Not Running"
-msgstr ""
+msgstr "Kjører ikke"
 
 #: ../user/server_status.php:103
 msgid "Disabled"
-msgstr ""
+msgstr "Deaktivert"
 
 #: ../user/server_status.php:231
 msgid "Project status"
-msgstr ""
+msgstr "Prosjektstatus"
 
 #: ../user/server_status.php:233
+#, fuzzy
 msgid "Server software version: %1"
-msgstr ""
+msgstr "Tjenerprogramvare versjon: %1"
 
 #: ../user/server_status.php:241
 msgid "Program"
-msgstr ""
+msgstr "Program"
 
 #: ../user/server_status.php:241
 msgid "Host"
-msgstr ""
+msgstr "Vert"
 
 #: ../user/server_status.php:252
 msgid "data-driven web pages"
@@ -5473,67 +5518,73 @@ msgstr ""
 
 #: ../user/server_status.php:258
 msgid "upload/download server"
-msgstr ""
+msgstr "last opp/last ned tjener"
 
 #: ../user/server_status.php:261
 msgid "scheduler"
-msgstr ""
+msgstr "planlegger"
 
 #: ../user/server_status.php:294
 msgid "Running:"
-msgstr ""
+msgstr "Kjører:"
 
 #: ../user/server_status.php:295
 msgid "Program is operating normally"
-msgstr ""
+msgstr "Program fungerer normalt"
 
 #: ../user/server_status.php:296
 msgid "Not Running:"
-msgstr ""
+msgstr "Kjører ikke:"
 
 #: ../user/server_status.php:297
+#, fuzzy
 msgid "Program failed or the project is down"
-msgstr ""
+msgstr "Program feilet eller prosjektet er nede"
 
 #: ../user/server_status.php:298
 msgid "Disabled:"
-msgstr ""
+msgstr "Deaktivert:"
 
 #: ../user/server_status.php:299
 msgid "Program is disabled"
-msgstr ""
+msgstr "Program er deaktivert"
 
 #: ../user/server_status.php:303
+#, fuzzy
 msgid "Computing status"
-msgstr ""
+msgstr "Status beregning"
 
 #: ../user/server_status.php:309
 msgid "The database server is not accessible"
-msgstr ""
+msgstr "Databasetjeneren er ikke tilgjengelig"
 
 #: ../user/server_status.php:326
 msgid "Tasks ready to send"
-msgstr ""
+msgstr "Oppgaver klare for sending"
 
 #: ../user/server_status.php:331 ../user/workunit.php:55
 msgid "Tasks in progress"
 msgstr ""
 
 #: ../user/server_status.php:336
+#, fuzzy
 msgid "Workunits waiting for validation"
-msgstr ""
+msgstr "Arbeidsenheter venter på validering"
 
 #: ../user/server_status.php:341
+#, fuzzy
 msgid "Workunits waiting for assimilation"
-msgstr ""
+msgstr "Arbeidsenheter venter på assimilering"
 
 #: ../user/server_status.php:346
+#, fuzzy
 msgid "Workunits waiting for file deletion"
-msgstr ""
+msgstr "Arbeidseneheter venter på sletting av fil"
 
 #: ../user/server_status.php:351
+#, fuzzy
 msgid "Tasks waiting for file deletion"
-msgstr ""
+msgstr "Oppgaver venter på sletting av fil"
 
 #: ../user/server_status.php:367
 msgid "Transitioner backlog (hours)"
@@ -5541,42 +5592,42 @@ msgstr ""
 
 #: ../user/server_status.php:374
 msgid "Users"
-msgstr ""
+msgstr "Brukere"
 
 #: ../user/server_status.php:377 ../user/server_status.php:395
+#, fuzzy
 msgid "with recent credit"
-msgstr ""
+msgstr "med nylig arbeid utført"
 
 #: ../user/server_status.php:382 ../user/server_status.php:400
 msgid "with credit"
-msgstr ""
+msgstr "med arbeid utført"
 
 #: ../user/server_status.php:387 ../user/server_status.php:405
 msgid "registered in past 24 hours"
-msgstr ""
+msgstr "registrert de siste 24 timer"
 
 #: ../user/server_status.php:411
 msgid "current GigaFLOPs"
 msgstr ""
 
 #: ../user/server_status.php:420
+#, fuzzy
 msgid "Tasks by application"
-msgstr ""
+msgstr "Oppgaver per applikasjon"
 
 #: ../user/server_status.php:423 ../user/workunit.php:40
-#, fuzzy
 msgid "application"
-msgstr "Programmer"
+msgstr "applikasjon"
 
 #: ../user/server_status.php:424
-#, fuzzy
 msgid "unsent"
-msgstr "Usent"
+msgstr "Ikke sendt"
 
 #: ../user/server_status.php:425
 #, fuzzy
 msgid "in progress"
-msgstr "I prosess"
+msgstr "i progresjon"
 
 #: ../user/server_status.php:426
 msgid "avg runtime of last 100 results in h (min-max)"
@@ -5584,16 +5635,15 @@ msgstr ""
 
 #: ../user/server_status.php:427
 msgid "users in last 24h"
-msgstr ""
+msgstr "brukere siste 24t"
 
 #: ../user/show_host_detail.php:40
-#, fuzzy
 msgid "Computer %1"
-msgstr "Datamaskiner"
+msgstr "Datamaskin %1"
 
 #: ../user/stats.php:21
 msgid "Statistics and leaderboards"
-msgstr ""
+msgstr "Statistikk og oppslagstavler"
 
 #: ../user/stats.php:28
 msgid "Statistics for %1"
@@ -5639,8 +5689,9 @@ msgid "edit the team's name and description"
 msgstr "Rediger teamet's navn og beskrivelse"
 
 #: ../user/team.php:35
+#, fuzzy
 msgid "add or remove team admins"
-msgstr ""
+msgstr "legg til eller fjern teamadministratorer"
 
 #: ../user/team.php:36
 msgid "remove members from the team"
@@ -5680,8 +5731,9 @@ msgid "Remove Team Admin status from this member"
 msgstr ""
 
 #: ../user/team_admins.php:40 ../user/team_admins.php:51
+#, fuzzy
 msgid "Add or remove Team Admins"
-msgstr ""
+msgstr "Legg til eller fjern teamadministratorer"
 
 #: ../user/team_admins.php:41
 msgid "You can select team members as 'Team Admins'. Team Admins can:"
@@ -5702,16 +5754,18 @@ msgid ""
 msgstr ""
 
 #: ../user/team_admins.php:47
+#, fuzzy
 msgid "Team Admins cannot:"
-msgstr ""
+msgstr "Teamadministratorer kan ikke:"
 
 #: ../user/team_admins.php:49
+#, fuzzy
 msgid "Change the team founder"
-msgstr ""
+msgstr "Endre grunnlegger av team"
 
 #: ../user/team_admins.php:50 ../user/team_manage.php:54
 msgid "Remove members"
-msgstr ""
+msgstr "Fjern medlemmer"
 
 #: ../user/team_admins.php:53
 msgid "If a Team Admin quits the team, they cease to be a Team Admin."
@@ -5740,30 +5794,34 @@ msgid "Add Team Admin"
 msgstr ""
 
 #: ../user/team_admins.php:78
+#, fuzzy
 msgid "Email address of team member:"
-msgstr ""
+msgstr "Epostadressen til teammedlem:"
 
 #: ../user/team_admins.php:90
+#, fuzzy
 msgid "failed to remove admin"
-msgstr ""
+msgstr "fjerning av administrator feilet"
 
 #: ../user/team_admins.php:99
+#, fuzzy
 msgid "User is not member of team"
-msgstr ""
+msgstr "Bruker er ikke medlem av team"
 
 #: ../user/team_admins.php:101
 msgid "%1 is already an admin of %2"
 msgstr ""
 
 #: ../user/team_admins.php:105
+#, fuzzy
 msgid "Couldn't add admin"
-msgstr ""
+msgstr "Kunne ikke legge til administrator"
 
 #: ../user/team_admins.php:111 ../user/team_manage.php:85
 #: ../user/team_quit_form.php:28 ../user/team_remove_inactive_action.php:28
 #, fuzzy
 msgid "No such team"
-msgstr "Ingen slikt team."
+msgstr "Ingen slikt team"
 
 #: ../user/team_change_founder_action.php:30
 #: ../user/team_change_founder_form.php:33 ../user/team_display.php:67
@@ -5771,11 +5829,11 @@ msgstr "Ingen slikt team."
 #: ../user/team_email_list.php:55
 #, fuzzy
 msgid "no such team"
-msgstr "Ingen slikt team."
+msgstr "ingen slikt team"
 
 #: ../user/team_change_founder_action.php:38
 msgid "User is not a member of %1"
-msgstr ""
+msgstr "Bruker er ikke medlem av %1"
 
 #: ../user/team_change_founder_action.php:41
 msgid "Changing founder of %1"
@@ -5803,7 +5861,7 @@ msgstr ""
 
 #: ../user/team_change_founder_form.php:55
 msgid "decline request"
-msgstr ""
+msgstr "avslå forespørsel"
 
 #: ../user/team_change_founder_form.php:58
 msgid ""
@@ -5845,7 +5903,7 @@ msgstr "Et team med det navnet %1 eksisterer allerede - velg et annet navn"
 
 #: ../user/team_create_action.php:54
 msgid "Could not create team - please try later."
-msgstr "Kunne ikke lage team - vennligst prøv igjen senere"
+msgstr "Kunne ikke opprette team - vennligst prøv igjen senere."
 
 #: ../user/team_create_form.php:27 ../user/team_create_form.php:32
 msgid "Create a team"
@@ -5866,44 +5924,47 @@ msgstr ""
 
 #: ../user/team_delta.php:75
 msgid "When"
-msgstr ""
+msgstr "Når"
 
 #: ../user/team_delta.php:76
 msgid "User"
-msgstr ""
+msgstr "Bruker"
 
 #: ../user/team_delta.php:77
+#, fuzzy
 msgid "Action"
-msgstr ""
+msgstr "Handling"
 
 #: ../user/team_delta.php:78
 msgid "Total credit at time of action"
 msgstr ""
 
 #: ../user/team_edit_action.php:53
+#, fuzzy
 msgid "bad country"
-msgstr ""
+msgstr "feil land"
 
 #: ../user/team_edit_action.php:59
+#, fuzzy
 msgid "The name '%1' is being used by another team."
-msgstr ""
+msgstr "Navnet '%1' er allerede i bruk av et annet team."
 
 #: ../user/team_edit_action.php:62
+#, fuzzy
 msgid "Must specify team name"
-msgstr ""
+msgstr "Må spesifisere teamnavn"
 
 #: ../user/team_edit_action.php:90
-#, fuzzy
 msgid "Could not update team - please try again later."
-msgstr "Kunne ikke lage team - vennligst prøv igjen senere"
+msgstr "Kunne ikke oppdatere team - vennligst prøv igjen senere."
 
 #: ../user/team_edit_form.php:33
 msgid "Edit %1"
-msgstr ""
+msgstr "Rediger %1"
 
 #: ../user/team_edit_form.php:34
 msgid "Update team info"
-msgstr ""
+msgstr "Oppdater teaminfo"
 
 #: ../user/team_email_list.php:61
 msgid "%1 Email List"
@@ -5911,15 +5972,16 @@ msgstr ""
 
 #: ../user/team_email_list.php:63
 msgid "Member list of %1"
-msgstr ""
+msgstr "Medlemsliste for %1"
 
 #: ../user/team_email_list.php:78
 msgid "Show as plain text"
-msgstr ""
+msgstr "Vis som ren tekst"
 
 #: ../user/team_forum.php:28 ../user/team_forum.php:39
+#, fuzzy
 msgid "Create Message Board"
-msgstr ""
+msgstr "Opprett meldingstavle"
 
 #: ../user/team_forum.php:29
 msgid "You may create a message board for use by %1."
@@ -5940,15 +6002,17 @@ msgstr ""
 #: ../user/team_forum.php:40
 #, fuzzy
 msgid "Create a message board for %1"
-msgstr "%1 oppslagstavle"
+msgstr "Opprett meldingstavle for %1"
 
 #: ../user/team_forum.php:48
+#, fuzzy
 msgid "Team already has a message board"
-msgstr ""
+msgstr "Team har alerede en meldingstavle"
 
 #: ../user/team_forum.php:59
+#, fuzzy
 msgid "Team Message Board"
-msgstr ""
+msgstr "Meldingstavle for team"
 
 #: ../user/team_forum.php:71
 msgid "Minimum time between posts (seconds)"
@@ -5964,15 +6028,17 @@ msgstr ""
 
 #: ../user/team_forum.php:80
 msgid "Submit"
-msgstr ""
+msgstr "Registrer"
 
 #: ../user/team_forum.php:89
+#, fuzzy
 msgid "Remove your team's message board."
-msgstr ""
+msgstr "Fjern meldingstavlen til ditt team"
 
 #: ../user/team_forum.php:97
+#, fuzzy
 msgid "Really remove message board?"
-msgstr ""
+msgstr "Virkelig fjerne meldingstavlen?"
 
 #: ../user/team_forum.php:98
 msgid ""
@@ -5982,35 +6048,39 @@ msgid ""
 msgstr ""
 
 #: ../user/team_forum.php:100
+#, fuzzy
 msgid "Yes - remove message board"
-msgstr ""
+msgstr "Ja - fjern meldingstavlen"
 
 #: ../user/team_forum.php:121
+#, fuzzy
 msgid "Message board removed"
-msgstr ""
+msgstr "Meldingstavle fjernet"
 
 #: ../user/team_forum.php:124
+#, fuzzy
 msgid ""
 "Your team's message board has been removed. You may now %1create a new one%2."
 msgstr ""
+"Ditt teams meldingstavle har blitt fjernet. Du kan nå %1 opprette en ny%2."
 
 #: ../user/team_forum.php:143
 msgid "Team Message Board Updated"
 msgstr ""
 
 #: ../user/team_forum.php:144
+#, fuzzy
 msgid "Update successful"
-msgstr ""
+msgstr "Oppdatering velykket"
 
 #: ../user/team_forum.php:147
-#, fuzzy
 msgid "Update failed"
-msgstr "Oppdatering feilet:"
+msgstr "Oppdatering feilet"
 
 #: ../user/team_forum.php:154
 #, fuzzy
 msgid "Team has no forum"
-msgstr "Team info"
+msgstr "Team har ikke et forum"
 
 #: ../user/team_founder_transfer_action.php:36
 msgid "You must be a member of a team to access this page."
@@ -6063,7 +6133,7 @@ msgstr ""
 #: ../user/team_founder_transfer_form.php:83
 #, fuzzy
 msgid "Return to team page"
-msgstr "Retuner til profil."
+msgstr "Retuner til teamsiden"
 
 #: ../user/team_founder_transfer_form.php:28
 msgid "You need to be a member of a team to access this page."
@@ -6123,33 +6193,37 @@ msgstr ""
 
 #: ../user/team_join.php:32 ../user/team_join_action.php:32
 #: ../user/team_join_form.php:29
+#, fuzzy
 msgid "The team %1 is not joinable."
-msgstr ""
+msgstr "Teamet %1 kan ikke slås sammen."
 
 #: ../user/team_join.php:35 ../user/team_join_action.php:35
 msgid "Already a member"
-msgstr ""
+msgstr "Allerede medlem"
 
 #: ../user/team_join.php:36 ../user/team_join_action.php:36
 msgid "You are already a member of %1."
-msgstr ""
+msgstr "Du er allerede medlem av %1."
 
 #: ../user/team_join.php:42 ../user/team_join_action.php:43
 #, fuzzy
 msgid "Couldn't join team - please try again later."
-msgstr "Kunne ikke lage team - vennligst prøv igjen senere"
+msgstr "Kunne ikke slå sammen team - vennligst prøv igjen senere."
 
 #: ../user/team_join_action.php:40
+#, fuzzy
 msgid "Joined %1"
-msgstr ""
+msgstr "Sammenslått %1"
 
 #: ../user/team_join_action.php:41
+#, fuzzy
 msgid "You have joined %1."
-msgstr ""
+msgstr "Du har slått sammen %1."
 
 #: ../user/team_join_form.php:32
+#, fuzzy
 msgid "Join %1"
-msgstr ""
+msgstr "Slå sammen %1"
 
 #: ../user/team_join_form.php:33
 msgid "Please note:"
@@ -6169,11 +6243,11 @@ msgstr ""
 
 #: ../user/team_lookup.php:84
 msgid "Search Results"
-msgstr ""
+msgstr "Søkeresultater"
 
 #: ../user/team_lookup.php:86
 msgid "Search results for '%1'"
-msgstr ""
+msgstr "Søkeresultater for '%1'"
 
 #: ../user/team_lookup.php:88
 msgid "You may view these teams' members, statistics, and information."
@@ -6194,8 +6268,9 @@ msgid "Team administration for %1"
 msgstr ""
 
 #: ../user/team_manage.php:29
+#, fuzzy
 msgid "Edit team info"
-msgstr ""
+msgstr "Rediger teaminfo"
 
 #: ../user/team_manage.php:30
 msgid "Change team name, URL, description, type, or country"
@@ -6203,27 +6278,28 @@ msgstr ""
 
 #: ../user/team_manage.php:32
 msgid "Member list:"
-msgstr ""
+msgstr "Medlemsliste:"
 
 #: ../user/team_manage.php:33 ../user/team_manage.php:37
 msgid "HTML"
-msgstr ""
+msgstr "HTML"
 
 #: ../user/team_manage.php:34
 msgid "text"
-msgstr ""
+msgstr "tekst"
 
 #: ../user/team_manage.php:35
 msgid "View member names and email addresses"
-msgstr ""
+msgstr "Vis navn på medlemmer og epostadresser"
 
 #: ../user/team_manage.php:36
 msgid "View change history:"
 msgstr ""
 
 #: ../user/team_manage.php:38
+#, fuzzy
 msgid "XML"
-msgstr ""
+msgstr "XML"
 
 #: ../user/team_manage.php:39
 msgid "See when members joined or quit this team"
@@ -6246,8 +6322,9 @@ msgid "Transfer foundership to another member"
 msgstr ""
 
 #: ../user/team_manage.php:58
+#, fuzzy
 msgid "Add/remove Team Admins"
-msgstr ""
+msgstr "Legg til eller fjern teamadministratorer"
 
 #: ../user/team_manage.php:59
 msgid "Give selected team members Team Admin privileges"
@@ -6255,11 +6332,12 @@ msgstr ""
 
 #: ../user/team_manage.php:61
 msgid "Remove team"
-msgstr ""
+msgstr "Fjern team"
 
 #: ../user/team_manage.php:62
+#, fuzzy
 msgid "Allowed only if team has no members"
-msgstr ""
+msgstr "Kun tillatt hvis teamet ikke har medlemmer"
 
 #: ../user/team_manage.php:64
 msgid "Create or manage a team message board"
@@ -6289,7 +6367,7 @@ msgstr ""
 
 #: ../user/team_manage.php:95
 msgid "Team %1 deleted"
-msgstr ""
+msgstr "Team %1 slettet"
 
 #: ../user/team_members.php:36
 msgid "Limit exceeded:  Can only display the first 1000 members."
@@ -6297,7 +6375,7 @@ msgstr ""
 
 #: ../user/team_members.php:49
 msgid "Members of %1"
-msgstr ""
+msgstr "Medlem av %1"
 
 #: ../user/team_quit_action.php:32
 msgid "Unable to quit team"
@@ -6308,8 +6386,9 @@ msgid "Team doesn't exist, or you don't belong to it."
 msgstr ""
 
 #: ../user/team_quit_form.php:31
+#, fuzzy
 msgid "Quit %1"
-msgstr ""
+msgstr "Forlat %1"
 
 #: ../user/team_quit_form.php:32
 msgid ""
@@ -6329,11 +6408,12 @@ msgstr "Forlat team"
 
 #: ../user/team_remove_inactive_action.php:31
 msgid "Removing users from %1"
-msgstr ""
+msgstr "Fjerner brukere fra %1"
 
 #: ../user/team_remove_inactive_action.php:39
+#, fuzzy
 msgid "%1 is not a member of %2"
-msgstr ""
+msgstr "Bruker er ikke medlem av %1"
 
 #: ../user/team_remove_inactive_action.php:42
 msgid "%1 has been removed"
@@ -6341,16 +6421,15 @@ msgstr ""
 
 #: ../user/team_remove_inactive_form.php:32
 msgid "Remove members from %1"
-msgstr ""
+msgstr "Fjern brukere fra %1"
 
 #: ../user/team_remove_inactive_form.php:39
-#, fuzzy
 msgid "Remove?"
-msgstr "Fjern"
+msgstr "Fjerne?"
 
 #: ../user/team_remove_inactive_form.php:40
 msgid "Name (ID)"
-msgstr ""
+msgstr "Navn (ID)"
 
 #: ../user/team_remove_inactive_form.php:65
 msgid "No members are eligible for removal."
@@ -6358,24 +6437,25 @@ msgstr ""
 
 #: ../user/team_remove_inactive_form.php:68
 msgid "Remove users"
-msgstr ""
+msgstr "Fjern brukere"
 
 #: ../user/team_search.php:68
 msgid "Team name"
-msgstr ""
+msgstr "Teamnavn"
 
 #: ../user/team_search.php:92
 #, fuzzy
 msgid "Team search results"
-msgstr "Forum søkeresultat"
+msgstr "Søkeresultat team"
 
 #: ../user/team_search.php:94
+#, fuzzy
 msgid "No teams were found matching your criteria. Try another search."
-msgstr ""
+msgstr "Ingen team som passer til dine kriterier. Prøv et annet søk."
 
 #: ../user/team_search.php:96
 msgid "Or you can %1create a new team%2."
-msgstr ""
+msgstr "Eller du kan %1opprette et nytt team%2."
 
 #: ../user/team_search.php:100
 msgid ""
@@ -6433,15 +6513,15 @@ msgstr ""
 
 #: ../user/user_search.php:51
 msgid "Filters"
-msgstr ""
+msgstr "Filtre"
 
 #: ../user/user_search.php:52
 msgid "User name starts with"
-msgstr ""
+msgstr "Brukernavn starter med"
 
 #: ../user/user_search.php:53
 msgid "Any"
-msgstr ""
+msgstr "Hvilken som helst"
 
 #: ../user/user_search.php:56
 msgid "With profile?"
@@ -6466,42 +6546,41 @@ msgstr ""
 #: ../user/user_search.php:68
 #, fuzzy
 msgid "Decreasing average credit"
-msgstr "Nylig gjennomsnitts kreditt"
+msgstr "Gjennomsnitt nylig arbeid utført"
 
 #: ../user/user_search.php:69
-#, fuzzy
 msgid "Decreasing total credit"
-msgstr "Nylig gjennomsnitts kreditt"
+msgstr ""
 
 #: ../user/user_search.php:100
 msgid "search string must be at least 3 characters"
-msgstr ""
+msgstr "søkestreng må minst inneholde 3 tegn"
 
 #: ../user/user_search.php:133
 #, fuzzy
 msgid "User search results"
-msgstr "Forum søkeresultat"
+msgstr "Søkeresultat bruker"
 
 #: ../user/user_search.php:140
 msgid "Joined"
 msgstr ""
 
 #: ../user/user_search.php:148
+#, fuzzy
 msgid "No users match your search criteria."
-msgstr ""
+msgstr "Ingen brukere passer til dine søkekriterier"
 
 #: ../user/userw.php:35
 msgid "User not found!"
-msgstr ""
+msgstr "Bruker ikke funnet!"
 
 #: ../user/userw.php:44
 msgid "Account Data<br/>for %1<br/>Time:"
 msgstr ""
 
 #: ../user/userw.php:47
-#, fuzzy
 msgid "Team:"
-msgstr "Team"
+msgstr "Team:"
 
 #: ../user/userw.php:48
 msgid "Team TotCred:"
@@ -6517,7 +6596,7 @@ msgstr ""
 
 #: ../user/validate_email_addr.php:30
 msgid "Validate BOINC email address"
-msgstr ""
+msgstr "Valider BOINC epostadresse"
 
 #: ../user/validate_email_addr.php:31
 msgid ""
@@ -6549,8 +6628,9 @@ msgid "Database update failed - please try again later."
 msgstr ""
 
 #: ../user/validate_email_addr.php:57
+#, fuzzy
 msgid "Validate email address"
-msgstr ""
+msgstr "Valider BOINC epostadresse"
 
 #: ../user/validate_email_addr.php:58
 msgid "The email address of your account has been validated."
@@ -6613,12 +6693,14 @@ msgid ""
 msgstr ""
 
 #: ../user/workunit.php:32
+#, fuzzy
 msgid "can't find workunit"
-msgstr ""
+msgstr "finner ikke arbeidsenhet"
 
 #: ../user/workunit.php:35
+#, fuzzy
 msgid "Workunit %1"
-msgstr ""
+msgstr "Arbeidsenhet %1"
 
 #: ../user/workunit.php:43
 msgid "canonical result"
@@ -6645,12 +6727,13 @@ msgid "max # of error/total/success tasks"
 msgstr ""
 
 #: ../user/workunit.php:64
+#, fuzzy
 msgid "errors"
-msgstr ""
+msgstr "feil"
 
 #: ../user/workunit.php:67
 msgid "validation"
-msgstr ""
+msgstr "validering"
 
 #: ../user/workunit.php:67
 msgid "Pending"
@@ -6669,8 +6752,9 @@ msgid "Generated"
 msgstr ""
 
 #: ../project.sample/project.inc:79
+#, fuzzy
 msgid "Your personal background."
-msgstr ""
+msgstr "Din personlige bakgrunn."
 
 #: ../project.sample/project.inc:83
 msgid ""
@@ -6679,8 +6763,9 @@ msgid ""
 msgstr ""
 
 #: ../project.sample/project.inc:87
+#, fuzzy
 msgid "Your opinions about %1"
-msgstr ""
+msgstr "Din mening om %1"
 
 #: ../project.sample/project.inc:91
 msgid ""
@@ -6700,8 +6785,9 @@ msgid "Maximum CPU % for graphics%10 ... 100%2"
 msgstr ""
 
 #: ../project.sample/project_specific_prefs.inc:49
+#, fuzzy
 msgid "Run only the selected applications"
-msgstr ""
+msgstr "Kjør bare valgte applikasjoner"
 
 #: ../project.sample/project_specific_prefs.inc:50
 msgid ""
@@ -6710,8 +6796,9 @@ msgid ""
 msgstr ""
 
 #: ../project.sample/project_specific_prefs.inc:91
+#, fuzzy
 msgid "(all applications)"
-msgstr ""
+msgstr "(alle applikasjoner)"
 
 #, fuzzy
 #~ msgid "Error:"

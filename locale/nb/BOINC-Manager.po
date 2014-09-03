@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-02-02 00:00-0800\n"
-"PO-Revision-Date: 2012-09-16 13:49+0000\n"
-"Last-Translator: Kenneth <kenneth@skjold.biz>\n"
+"PO-Revision-Date: 2014-09-03 03:24+0000\n"
+"Last-Translator: Jan <jan@sherdahl.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: nb\n"
 "MIME-Version: 1.0\n"
@@ -23,14 +23,14 @@ msgstr ""
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCGIT\\boinc\n"
-"X-POOTLE-MTIME: 1347803390.0\n"
+"X-POOTLE-MTIME: 1409714660.0\n"
 
 # 81%
 #: AccountInfoPage.cpp:387
 #, c-format
-#, fuzzy, c-format
+#, c-format, c-format
 msgid "Identify your account at %s"
-msgstr "Identifiser kontoen din"
+msgstr "Identifiser din konto hos %s"
 
 #: AccountInfoPage.cpp:393
 msgid ""
@@ -102,7 +102,7 @@ msgstr "&Brukernavn:"
 
 #: AccountInfoPage.cpp:508
 msgid "&Email address:"
-msgstr "&E-post adresse:"
+msgstr "&Epostadresse:"
 
 #: AccountInfoPage.cpp:515
 #, c-format
@@ -124,9 +124,8 @@ msgstr ""
 "for å registrere eller hente et glemt passord"
 
 #: AccountInfoPage.cpp:532
-#, fuzzy
 msgid "Account manager web site"
-msgstr "Kontostyring nettside"
+msgstr "Nettside for kontobehandler"
 
 #: AccountInfoPage.cpp:574 WelcomePage.cpp:348
 msgid "Add project"
@@ -142,22 +141,21 @@ msgstr "Bruk kontobehandler"
 
 #: AccountInfoPage.cpp:585
 msgid "Please enter a user name."
-msgstr ""
+msgstr "Vennligst tast inn et brukernavn."
 
 #: AccountInfoPage.cpp:587
-#, fuzzy
 msgid "Please enter an email address."
-msgstr "Vennligst spesifiser en e-post adresse"
+msgstr "Vennligst tast inn en epostadresse."
 
 #: AccountInfoPage.cpp:597
 #, c-format
 msgid "Please enter a password of at least %d characters."
-msgstr ""
+msgstr "Vennligst tast inn et passord som inneholder minimum %d tegn."
 
 #: AccountInfoPage.cpp:607
 msgid ""
 "The password and confirmation password do not match. Please type them again."
-msgstr "Passordene er ikke like. Vennligst skriv dem igjen."
+msgstr "Passordene samsvarer ikke. Vennligst tast inn på nytt."
 
 #: AccountManagerInfoPage.cpp:272
 msgid "Choose an account manager"
@@ -172,22 +170,20 @@ msgstr ""
 "angi nettadressen under."
 
 #: AccountManagerInfoPage.cpp:279
-#, fuzzy
 msgid "Account manager details:"
-msgstr "Kontostyring nettside"
+msgstr "Detaljer for kontobehandler:"
 
 #: AccountManagerInfoPage.cpp:283
-#, fuzzy
 msgid "Account manager &URL:"
-msgstr "&Nettadresse til kontobehandler:"
+msgstr "&URL kontobehandler:"
 
 #: AccountManagerInfoPage.cpp:287
 msgid "Open web page"
-msgstr ""
+msgstr "Åpne nettside"
 
 #: AccountManagerInfoPage.cpp:290
 msgid "Visit this account manager's web site"
-msgstr ""
+msgstr "Besøk nettsiden til denne kontobehandleren"
 
 #: AccountManagerProcessingPage.cpp:187 AccountManagerPropertiesPage.cpp:193
 #, c-format
@@ -208,11 +204,11 @@ msgstr "Det har oppstått en intern tjenerfeil.\n"
 
 #: AdvancedFrame.cpp:95
 msgid "Connected"
-msgstr "Koblet til"
+msgstr "Tilkoblet"
 
 #: AdvancedFrame.cpp:103
 msgid "Disconnected"
-msgstr "Koblet fra"
+msgstr "Frakoblet"
 
 #: AdvancedFrame.cpp:322 sg_BoincSimpleFrame.cpp:119
 #, c-format
@@ -353,7 +349,7 @@ msgstr "Tillat arbeid ifølge innstillinger"
 
 #: AdvancedFrame.cpp:482
 msgid "&Suspend"
-msgstr "&Hvilemodus"
+msgstr "&Suspender"
 
 #: AdvancedFrame.cpp:483
 msgid "Stop work regardless of preferences"
@@ -401,7 +397,7 @@ msgstr "Tillat nettverksaktivitet ifølge innstillinger"
 
 #: AdvancedFrame.cpp:553
 msgid "Network activity suspended"
-msgstr "Nettverksaktivitet satt i hvilemodus"
+msgstr "Nettverksaktivitet suspendert"
 
 #: AdvancedFrame.cpp:554
 msgid "Stop BOINC network activity"
@@ -418,7 +414,7 @@ msgstr "Velg datamaskin..."
 
 #: AdvancedFrame.cpp:574
 msgid "Shut down connected client..."
-msgstr "Slå av tilkoblede klienter..."
+msgstr "Slå av tilkoblet klient..."
 
 #: AdvancedFrame.cpp:575
 msgid "Shut down the currently connected client"
@@ -442,13 +438,12 @@ msgstr "Gjør alle ventende nettverkskommunikasjoner"
 
 # 94%
 #: AdvancedFrame.cpp:589
-#, fuzzy
 msgid "Read config files"
-msgstr "Les konfigurasjonsfil"
+msgstr "Les konfigurasjonsfiler"
 
 #: AdvancedFrame.cpp:590
 msgid "Read configuration info from cc_config.xml and any app_config.xml files"
-msgstr ""
+msgstr "Les konfigurasjonsinformasjon fra cc_config.xml og app_config.xml filer"
 
 #: AdvancedFrame.cpp:594
 msgid "Read local prefs file"
@@ -498,7 +493,7 @@ msgstr "Vis informasjon om %s"
 
 #: AdvancedFrame.cpp:661 sg_BoincSimpleFrame.cpp:224
 #, c-format
-#, c-format, fuzzy
+#, c-format, c-format
 msgid "%s &web site"
 msgstr "%s &nettside"
 
@@ -602,7 +597,7 @@ msgstr "Koblet til %s (%s)"
 
 #: AlreadyExistsPage.cpp:184
 msgid "Username already in use"
-msgstr "Brukernavn er allerede i bruk"
+msgstr "Brukernavn allerede i bruk"
 
 #: AlreadyExistsPage.cpp:187
 msgid ""
@@ -617,7 +612,7 @@ msgstr ""
 
 #: AlreadyExistsPage.cpp:191
 msgid "Email address already in use"
-msgstr "E-postadressen er allerede i bruk"
+msgstr "Epostadressen allerede i bruk"
 
 #: AlreadyExistsPage.cpp:194
 msgid ""
@@ -632,7 +627,7 @@ msgstr ""
 
 #: AsyncRPC.cpp:1031
 msgid "Communicating with BOINC client.  Please wait ..."
-msgstr "Kommuniserer med BOINC klient. Vennligst vent.."
+msgstr "Kommuniserer med BOINC klienten.  Vennligst vent ..."
 
 #: AsyncRPC.cpp:1034
 #, c-format
@@ -681,7 +676,7 @@ msgstr "Autoriseringen kunne ikke koble til klienten som kjører."
 
 #: BOINCBaseFrame.cpp:533
 msgid "The password you have provided is incorrect, please try again."
-msgstr "Passordet er ikke riktig, vennligst prøv igjen."
+msgstr "Passordet du har oppgitt er feil, vennligst prøv igjen."
 
 #: BOINCBaseFrame.cpp:577
 #, c-format
@@ -736,8 +731,9 @@ msgid ""
 "To connect up to your local computer please use 'localhost' as the host name."
 msgstr ""
 "%s er ikke tilkoblet til en %s klient.\n"
-"Bruk 'Avansert/Velg datamaskin...' menyvalg for å koble til en %s klient\n"
-"For å koble til lokaldatamaskin vennligst bruk 'localhost' som vertsnavn."
+"Bruk 'Avansert\\Velg datamaskin...' menyvalg for å koble til en %s klient.\n"
+"For å koble til din lokale datamaskin vennligst bruk 'localhost' som "
+"vertsnavn."
 
 #: BOINCBaseView.cpp:779
 msgid "Project web pages"
@@ -837,7 +833,7 @@ msgstr ""
 
 #: BOINCGUIApp.cpp:351
 msgid " at "
-msgstr "ved "
+msgstr " ved "
 
 #: BOINCGUIApp.cpp:354 MainDocument.cpp:2484 MainDocument.cpp:2534
 #: MainDocument.cpp:2554 ViewTransfers.cpp:803
@@ -895,11 +891,12 @@ msgstr "Deaktiver BOINC sikkerhet brukere og rettigheter"
 #: BOINCGUIApp.cpp:584
 msgid "set skin debugging mode to enable skin manager error messages"
 msgstr ""
-"sett skin feilsøkingsmodus for å aktivere skin behandlerens feilbeskjeder."
+"sett skallmodus for feilsøking for å aktivere feilmeldinger fra "
+"skallbehandleren"
 
 #: BOINCGUIApp.cpp:585
 msgid "multiple instances of BOINC Manager allowed"
-msgstr "Flere eksemplarer av BOINC behandleren er tillatt"
+msgstr "flere forekomster av BOINC behandleren er tillatt"
 
 #: BOINCGUIApp.cpp:587
 msgid "Not used: workaround for bug in XCode 4.2"
@@ -955,23 +952,23 @@ msgstr "Databehandling er slått på"
 
 #: BOINCTaskBar.cpp:717
 msgid "Computing is suspended - "
-msgstr "Databehandling er suspendert -"
+msgstr "Beregning er suspendert - "
 
 #: BOINCTaskBar.cpp:727
 msgid "GPU computing is enabled"
-msgstr "GPU databehandling er slått på"
+msgstr "GPU beregning er aktivert"
 
 #: BOINCTaskBar.cpp:730
 msgid "GPU computing is suspended - "
-msgstr "GPU databehandling er suspendert -"
+msgstr "GPU databehandling er suspendert - "
 
 #: BOINCTaskBar.cpp:739
 msgid "Network is enabled"
-msgstr "Nettverk er slått på"
+msgstr "Nettverk er aktivert"
 
 #: BOINCTaskBar.cpp:742
 msgid "Network is suspended - "
-msgstr "Nettverk er suspendert -"
+msgstr "Nettverk er suspendert - "
 
 #: BOINCTaskBar.cpp:750
 msgid "Reconnecting to client."
@@ -984,29 +981,29 @@ msgstr "Ikke tilkoblet til en klient"
 #: BOINCTaskBar.cpp:805
 #, c-format
 msgid "%s Notices"
-msgstr "%s Meldinger"
+msgstr "%s Varsler"
 
 #: BOINCTaskBar.cpp:811
 msgid "There are new notices - click to view."
-msgstr "Det er nye meldinger - klikk for å se."
+msgstr "Det er nye varsler - klikk for å vise."
 
 #: CompletionErrorPage.cpp:199
 msgid "Failed to add project"
-msgstr "Legg til prosjekt har feilet"
+msgstr "Kunne ikke legge til prosjekt"
 
 #: CompletionErrorPage.cpp:204
 msgid "Failed to update account manager"
-msgstr "Oppdatering av konto manager har feilet"
+msgstr "Kunne ikke oppdatere kontobehandler"
 
 # 84%
 #: CompletionErrorPage.cpp:208
 msgid "Failed to remove account manager"
-msgstr "Fjerning av konto manager har feilet"
+msgstr "Kunne ikke fjerne kontobehandler"
 
 # 84%
 #: CompletionErrorPage.cpp:212
 msgid "Failed to add account manager"
-msgstr "Klarte ikke å legge til konto manager"
+msgstr "Kunne ikke legge til kontobehandler"
 
 #: CompletionErrorPage.cpp:221
 msgid ""
@@ -1014,6 +1011,9 @@ msgid ""
 "\n"
 "Click Finish to close."
 msgstr ""
+"Vennligst prøv igjen senere.\n"
+"\n"
+"Klikk Ferdig for å lukke."
 
 #: CompletionErrorPage.cpp:225 CompletionPage.cpp:222 CompletionPage.cpp:242
 #: CompletionPage.cpp:273
@@ -1030,7 +1030,7 @@ msgstr "Prosjekt lagt til"
 
 #: CompletionPage.cpp:213
 msgid "This project has been successfully added."
-msgstr "Dette prosjektet har suksessfullt blitt lagt til."
+msgstr "Dette prosjektet har blitt lagt til korrekt."
 
 #: CompletionPage.cpp:218
 msgid ""
@@ -1038,7 +1038,7 @@ msgid ""
 "you can set your account name and preferences."
 msgstr ""
 "Når du klikker Ferdig, vil nettleseren din gå til en side der\n"
-"du kan sette inn ditt konto navn og innstillinger."
+"du kan oppgi ditt kontonavn og innstillinger."
 
 #: CompletionPage.cpp:232
 #, c-format
@@ -1051,7 +1051,7 @@ msgstr "Oppdatering ferdig."
 
 #: CompletionPage.cpp:247
 msgid "Now using account manager"
-msgstr "Bruker nå konto manager"
+msgstr "Bruker kontobehandler nå"
 
 #: CompletionPage.cpp:252
 #, c-format
@@ -1065,7 +1065,7 @@ msgstr "Du bruker nå %s for å håndtere kontoer."
 
 #: CompletionPage.cpp:267
 msgid "You are now using this account manager."
-msgstr "Du bruker nå konto manager"
+msgstr "Du bruker nå denne kontobehandleren."
 
 #: DlgAbout.cpp:113 mac/Mac_GUI.cpp:96
 #, c-format
@@ -1086,12 +1086,11 @@ msgstr "Copyright:"
 
 # 98%
 #: DlgAbout.cpp:192
-#, fuzzy
 msgid ""
 "(C) 2003-2013 University of California, Berkeley.\n"
 "All Rights Reserved."
 msgstr ""
-"(C) 2003-2011 University of California, Berkeley.\n"
+"(C) 2003-2013 University of California, Berkeley.\n"
 "All Rights Reserved."
 
 #: DlgAbout.cpp:196
@@ -1105,7 +1104,7 @@ msgstr "&OK"
 
 #: DlgAdvPreferences.cpp:544
 msgid "invalid number"
-msgstr ""
+msgstr "ugyldig nummer"
 
 #: DlgAdvPreferences.cpp:545
 msgid "invalid time, format is HH:MM"
@@ -1121,7 +1120,7 @@ msgstr "ugyldig inndata verdi oppdaget"
 
 #: DlgAdvPreferences.cpp:753
 msgid "Validation Error"
-msgstr "Validerings feil"
+msgstr "Valideringsfeil"
 
 #: DlgAdvPreferences.cpp:885 DlgAdvPreferences.cpp:891
 #: DlgAdvPreferences.cpp:897
@@ -1136,7 +1135,7 @@ msgstr "'%s' er ikke en kjørbar applikasjon."
 #: DlgAdvPreferences.cpp:915 DlgAdvPreferences.cpp:962
 #: DlgAdvPreferences.cpp:986
 msgid "Add Exclusive App"
-msgstr ""
+msgstr "Legg til app med enerett"
 
 #: DlgAdvPreferences.cpp:927
 msgid "Name of application to add?"
@@ -1144,7 +1143,7 @@ msgstr "Navn på program å legge til?"
 
 #: DlgAdvPreferences.cpp:927
 msgid "Add exclusive app"
-msgstr ""
+msgstr "Legg til app med enerett"
 
 #: DlgAdvPreferences.cpp:961
 #, c-format
@@ -1154,13 +1153,15 @@ msgstr "Applikasjon navn må slutte med \"%s\""
 #: DlgAdvPreferences.cpp:985
 #, c-format
 msgid "'%s' is already in the list."
-msgstr ""
+msgstr "'%s' er allerede i listen."
 
 #: DlgAdvPreferences.cpp:1077
 msgid ""
 "Do you really want to clear all local preferences?\n"
 "(This will not affect exclusive applications.)"
 msgstr ""
+"Ønsker du virkelig å fjerne alle lokale instillinger?\n"
+"(Dette vil ikke påvirke ekslusive applikasjoner.)"
 
 #: DlgAdvPreferences.cpp:1078 sg_DlgPreferences.cpp:1030
 msgid "Confirmation"
@@ -1177,6 +1178,11 @@ msgid ""
 "Click OK to set preferences.\n"
 "Click Clear to restore web-based settings (except exclusive apps)."
 msgstr ""
+"Denne dialogboksen kontrollerer utelukkende innstillinger for denne "
+"datamaskinen.\n"
+"Klikk OK for lagre innstillingene.\n"
+"Klikk Fjern for å gjenopprette nettbaserte innstillinger (endrer ikke "
+"programinnstillinger)."
 
 #: DlgAdvPreferencesBase.cpp:65 sg_DlgPreferences.cpp:428
 msgid "Clear"
@@ -1184,11 +1190,11 @@ msgstr "Fjern"
 
 #: DlgAdvPreferencesBase.cpp:66
 msgid "clear all local preferences and close the dialog"
-msgstr ""
+msgstr "fjern alle lokale innstillinger og lukk dialogboksen"
 
 #: DlgAdvPreferencesBase.cpp:81
 msgid "processor usage"
-msgstr "Prosessor bruk"
+msgstr "prosessorbruk"
 
 #: DlgAdvPreferencesBase.cpp:84
 msgid "network usage"
@@ -1200,7 +1206,7 @@ msgstr "disk og minne bruk"
 
 #: DlgAdvPreferencesBase.cpp:90
 msgid "exclusive applications"
-msgstr ""
+msgstr "Applikasjoner med enerett"
 
 #: DlgAdvPreferencesBase.cpp:102 sg_DlgPreferences.cpp:424
 msgid "OK"
@@ -1208,11 +1214,11 @@ msgstr "OK"
 
 #: DlgAdvPreferencesBase.cpp:103
 msgid "save all values and close the dialog"
-msgstr ""
+msgstr "lagre alle verdier og lukk dialogboksen"
 
 #: DlgAdvPreferencesBase.cpp:108
 msgid "close the dialog without saving"
-msgstr "lukk vinduet uten å lagre"
+msgstr "lukk dialogboksen uten å lagre"
 
 #: DlgAdvPreferencesBase.cpp:112 Localization.cpp:35 Localization.cpp:121
 #: Localization.cpp:139 sg_BoincSimpleFrame.cpp:794 sg_DlgPreferences.cpp:439
@@ -1221,11 +1227,11 @@ msgstr "Hjelp"
 
 #: DlgAdvPreferencesBase.cpp:113
 msgid "shows the preferences web page"
-msgstr ""
+msgstr "viser nettsiden for preferanser"
 
 #: DlgAdvPreferencesBase.cpp:135
 msgid "Computing allowed"
-msgstr "Databehandling tillatt"
+msgstr "Beregning tillatt"
 
 #: DlgAdvPreferencesBase.cpp:139
 msgid "While computer is on batteries"
@@ -1235,6 +1241,8 @@ msgstr "Når datamaskinen går på batterier"
 msgid ""
 "check this if you want this computer to do work while it runs on batteries"
 msgstr ""
+"sett kryss om du ønsker at denne datamaskinen skal utføre arbeid når den "
+"kjører på batterier"
 
 #: DlgAdvPreferencesBase.cpp:148
 msgid "While computer is in use"
@@ -1244,6 +1252,8 @@ msgstr "Når datamaskinen er i bruk"
 msgid ""
 "check this if you want this computer to do work even when you're using it"
 msgstr ""
+"sett kryss om du ønsker at denne datamaskinen skal utføre arbeid, selv når "
+"du bruker den"
 
 #: DlgAdvPreferencesBase.cpp:157
 msgid "Use GPU while computer is in use"
@@ -1254,15 +1264,19 @@ msgid ""
 "check this if you want your GPU to do work even when you're using the "
 "computer"
 msgstr ""
+"sett kryss om du ønsker at grafikkprosessoren skal utføre arbeid, selv når "
+"du bruker datamaskinen"
 
 #: DlgAdvPreferencesBase.cpp:172
 msgid "Only after computer has been idle for"
-msgstr ""
+msgstr "Bare etter at datamaskinen har vært inaktiv i"
 
 #: DlgAdvPreferencesBase.cpp:182
 msgid ""
 "do work only after you haven't used the computer for this number of minutes"
 msgstr ""
+"bare utfør arbeid etter at du ikke har brukt datamaskinen i dette antall "
+"minutter"
 
 #: DlgAdvPreferencesBase.cpp:187 DlgAdvPreferencesBase.cpp:336
 #: sg_DlgPreferences.cpp:417
@@ -1271,7 +1285,7 @@ msgstr "minutter"
 
 #: DlgAdvPreferencesBase.cpp:206
 msgid "While processor usage is less than"
-msgstr "Når prosessor bruken er mindre enn"
+msgstr "Når prosessorbruken er mindre enn"
 
 #: DlgAdvPreferencesBase.cpp:216
 msgid "suspend work if processor usage exceeds this level"
@@ -1304,11 +1318,11 @@ msgstr "(ingen begrensning hvis lik)"
 
 #: DlgAdvPreferencesBase.cpp:256 DlgAdvPreferencesBase.cpp:517
 msgid "Day-of-week override:"
-msgstr ""
+msgstr "Overstyr ukedag:"
 
 #: DlgAdvPreferencesBase.cpp:261 DlgAdvPreferencesBase.cpp:522
 msgid "check box to specify hours for this day of week"
-msgstr ""
+msgstr "sett kryss for å spesifisere tidsintervall for denne ukedagen"
 
 #: DlgAdvPreferencesBase.cpp:267 DlgAdvPreferencesBase.cpp:528
 msgid "Monday"
@@ -1348,18 +1362,18 @@ msgstr "Bytt mellom applikasjon hver"
 
 #: DlgAdvPreferencesBase.cpp:339
 msgid "On multiprocessor systems, use at most"
-msgstr ""
+msgstr "På multiprosessorsystemer, bruk maks"
 
 #: DlgAdvPreferencesBase.cpp:346
 #, no-c-format
 msgid "% of the processors (0 means ignore this setting)"
-msgstr ""
+msgstr "% av prosessorene (0 betyr ignorer denne innstillingen)"
 
 #: DlgAdvPreferencesBase.cpp:349 DlgAdvPreferencesBase.cpp:605
 #: DlgAdvPreferencesBase.cpp:627 DlgAdvPreferencesBase.cpp:648
 #: DlgAdvPreferencesBase.cpp:669 DlgAdvPreferencesBase.cpp:679
 msgid "Use at most"
-msgstr ""
+msgstr "Bruk på det meste"
 
 #: DlgAdvPreferencesBase.cpp:356
 #, no-c-format
@@ -1384,7 +1398,7 @@ msgstr "Maksimum opplastingshastighet"
 
 #: DlgAdvPreferencesBase.cpp:406
 msgid "Transfer at most"
-msgstr ""
+msgstr "Overfør på det meste"
 
 #: DlgAdvPreferencesBase.cpp:412
 msgid "Mbytes"
@@ -1401,27 +1415,28 @@ msgstr "dager"
 
 #: DlgAdvPreferencesBase.cpp:429
 msgid "Minimum work buffer"
-msgstr ""
+msgstr "Minimum arbeidsbuffer"
 
 #: DlgAdvPreferencesBase.cpp:438
 msgid "Try to maintain enough tasks to keep busy for this many days"
 msgstr ""
+"Prøv å opprettholde nok oppgaver til å være opptatt i følgende antall dager"
 
 #: DlgAdvPreferencesBase.cpp:450
 msgid "Max additional work buffer"
-msgstr ""
+msgstr "Maks ekstra arbeidsbuffer"
 
 #: DlgAdvPreferencesBase.cpp:459
 msgid "In addition, maintain enough tasks for up to this many days"
-msgstr ""
+msgstr "I tillegg, oppretthold nok oppgaver opp til dette antall dager"
 
 #: DlgAdvPreferencesBase.cpp:466
 msgid "Skip image file verification"
-msgstr ""
+msgstr "Hopp over verifisering av avbildningsfil"
 
 #: DlgAdvPreferencesBase.cpp:468
 msgid "check this if your Internet provider modifies image files"
-msgstr ""
+msgstr "merk denne hvis din Internettleverandør modifiserer avbildingsfilene"
 
 #: DlgAdvPreferencesBase.cpp:476
 msgid "Connect options"
@@ -1429,23 +1444,26 @@ msgstr "Tilkoblings alternativer"
 
 #: DlgAdvPreferencesBase.cpp:478
 msgid "Confirm before connecting to internet"
-msgstr ""
+msgstr "Bekreft før det kobles til Internet"
 
 #: DlgAdvPreferencesBase.cpp:480
 msgid ""
 "if checked, a confirmation dialog will be displayed before trying to connect "
 "to the Internet"
 msgstr ""
+"hvis merket, vil en dialogboks vises før det forsøkes å koble til Internet"
 
 #: DlgAdvPreferencesBase.cpp:484
 msgid "Disconnect when done"
-msgstr ""
+msgstr "Koble fra når ferdig"
 
 #: DlgAdvPreferencesBase.cpp:486
 msgid ""
 "if checked, BOINC hangs up when network usage is done\n"
 "(only relevant for dialup-connection)"
 msgstr ""
+"hvis merket, vil BOINC koble fra når overføring er ferdig\n"
+"(kun relevant for oppringte tilkoblinger)"
 
 #: DlgAdvPreferencesBase.cpp:492
 msgid "Network usage allowed"
@@ -1453,11 +1471,11 @@ msgstr "Nettverksbruk tillatt"
 
 #: DlgAdvPreferencesBase.cpp:500
 msgid "network usage start hour"
-msgstr ""
+msgstr "bruk av nettverk starter klokken"
 
 #: DlgAdvPreferencesBase.cpp:508
 msgid "network usage stop hour"
-msgstr ""
+msgstr "bruk av nettverk stopper klokken"
 
 #: DlgAdvPreferencesBase.cpp:598 DlgItemProperties.cpp:231
 msgid "Disk usage"
@@ -1465,7 +1483,7 @@ msgstr "Disk bruk"
 
 #: DlgAdvPreferencesBase.cpp:609
 msgid "the maximum disk space used by BOINC (in Gigabytes)"
-msgstr ""
+msgstr "maksimal diskplass brukt av BOINC (i Gigabytes)"
 
 #: DlgAdvPreferencesBase.cpp:613
 msgid "Gigabytes disk space"
@@ -1473,11 +1491,11 @@ msgstr "Gigabytes diskplass"
 
 #: DlgAdvPreferencesBase.cpp:616
 msgid "Leave at least"
-msgstr ""
+msgstr "La det minst være"
 
 #: DlgAdvPreferencesBase.cpp:620
 msgid "BOINC leaves at least this amount of disk space free (in Gigabytes)"
-msgstr ""
+msgstr "BOINC lar det minimum være så mye diskplass ledig (i Gigabytes)"
 
 #: DlgAdvPreferencesBase.cpp:624
 msgid "Gigabytes disk space free"
@@ -1485,7 +1503,7 @@ msgstr "Gigabytes diskplass ledig"
 
 #: DlgAdvPreferencesBase.cpp:631
 msgid "BOINC uses at most this percentage of total disk space"
-msgstr ""
+msgstr "BOINC bruker på det meste denne prosentandelen av total diskplass"
 
 #: DlgAdvPreferencesBase.cpp:636
 #, no-c-format
@@ -1494,7 +1512,7 @@ msgstr "% av total diskplass"
 
 #: DlgAdvPreferencesBase.cpp:639
 msgid "Tasks checkpoint to disk at most every"
-msgstr ""
+msgstr "Kontrollpunkt for oppgaver skrives til disk på det meste hver"
 
 #: DlgAdvPreferencesBase.cpp:645
 msgid "seconds"
@@ -1503,7 +1521,7 @@ msgstr "sekunder"
 #: DlgAdvPreferencesBase.cpp:655
 #, no-c-format
 msgid "% of page file (swap space)"
-msgstr ""
+msgstr "% av sidevekslingsfil (veksleområde)"
 
 #: DlgAdvPreferencesBase.cpp:662
 msgid "Memory usage"
@@ -1516,30 +1534,30 @@ msgstr "% når datamaskinen er i bruk"
 
 #: DlgAdvPreferencesBase.cpp:686
 #, no-c-format
-#, fuzzy, no-c-format
+#, no-c-format, no-c-format
 msgid "% when computer is idle"
-msgstr "% når datamaskinen er i bruk"
+msgstr "% når datamaskinen er inaktiv"
 
 #: DlgAdvPreferencesBase.cpp:691
 msgid "Leave applications in memory while suspended"
-msgstr ""
+msgstr "La applikasjonene bli værende i minnet når suspendert"
 
 #: DlgAdvPreferencesBase.cpp:693
 msgid "if checked, suspended work units are left in memory"
-msgstr ""
+msgstr "hvis merket, vil suspenderte arbeidsenheter bli værende i minnet"
 
 #: DlgAdvPreferencesBase.cpp:713
 msgid ""
 "Suspend processor and network usage when these applications are running:"
-msgstr ""
+msgstr "Suspender bruk av prosessor og nettverk når disse programmene kjører:"
 
 #: DlgAdvPreferencesBase.cpp:722
 msgid "Add..."
-msgstr ""
+msgstr "Legg til..."
 
 #: DlgAdvPreferencesBase.cpp:723
 msgid "Add an application to this list"
-msgstr ""
+msgstr "Legg til en applikasjon i denne listen"
 
 #: DlgAdvPreferencesBase.cpp:728 ViewProjects.cpp:202
 #: sg_ProjectCommandPopup.cpp:85
@@ -1548,16 +1566,16 @@ msgstr "Fjern"
 
 #: DlgAdvPreferencesBase.cpp:729
 msgid "Remove an application from this list"
-msgstr ""
+msgstr "Fjern en applikasjon fra denne listen"
 
 #: DlgAdvPreferencesBase.cpp:738
 msgid "For advanced options, refer to "
-msgstr ""
+msgstr "For avanserte alternativer, henvis til"
 
 #: DlgEventLog.cpp:219
 #, c-format
 msgid "%s - Event Log"
-msgstr "%s - Hendelse logg"
+msgstr "%s - Hendelseslogg"
 
 #: DlgEventLog.cpp:232 ViewMessages.cpp:117 ViewProjects.cpp:219
 #: ViewStatistics.cpp:435 ViewStatistics.cpp:2009 ViewTransfers.cpp:182
@@ -1574,36 +1592,36 @@ msgid "Message"
 msgstr "Melding"
 
 #: DlgEventLog.cpp:290 DlgEventLog.cpp:354
-#, fuzzy
 msgid "&Show only this project"
-msgstr "Vis bare dette prosjektet"
+msgstr "&Vis bare dette prosjektet"
 
 #: DlgEventLog.cpp:294
-#, fuzzy
 msgid "Copy &All"
-msgstr "Kopier alt"
+msgstr "Kopier &alt"
 
 #: DlgEventLog.cpp:296 DlgEventLog.cpp:300 ViewMessages.cpp:89
-#, fuzzy
 msgid "Copy all the messages to the clipboard."
-msgstr "Kopier alle meldinger til utklippstavle..."
+msgstr "Kopier alle meldinger til utklippstavlen."
 
 #: DlgEventLog.cpp:305
-#, fuzzy
 msgid "Copy &Selected"
-msgstr "Kopier valgte"
+msgstr "Kopier &valgte"
 
 #: DlgEventLog.cpp:308 DlgEventLog.cpp:316 ViewMessages.cpp:97
 msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
 "messages by holding down the shift or command key while clicking on messages."
 msgstr ""
+"Kopier valgte meldinger til utklippstavlen. Du kan velge flere meldinger ved "
+"å holde Shift eller Command tasten inne mens du klikker på meldingene."
 
 #: DlgEventLog.cpp:310 DlgEventLog.cpp:318 ViewMessages.cpp:99
 msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
 "messages by holding down the shift or control key while clicking on messages."
 msgstr ""
+"Kopier valgte meldinger til utklippstavlen. Du kan velge flere meldinger ved "
+"å trykke Shift eller Control tasten inne mens du klikker på meldingene."
 
 #: DlgEventLog.cpp:325 DlgItemProperties.cpp:67
 msgid "&Close"
@@ -1615,9 +1633,8 @@ msgid "Get help with %s"
 msgstr "Få hjelp med %s"
 
 #: DlgEventLog.cpp:348
-#, fuzzy
 msgid "Show all &messages"
-msgstr "Vis alle meldinger"
+msgstr "Vis alle &meldinger"
 
 #: DlgEventLog.cpp:349 DlgEventLog.cpp:351
 msgid "Show messages for all projects"
@@ -1642,6 +1659,12 @@ msgid ""
 "If you also want to stop running the tasks,\n"
 "choose from the following options:"
 msgstr ""
+"Du har valgt å avslutte %s,\n"
+"som lar det vise og administrere\n"
+"oppgavene som kjører på din arbeidsstasjon.\n"
+"\n"
+"Hvis du også ønsker å stoppe kjøring av oppgavene,\n"
+"velg fra følgende alternativer:"
 
 #: DlgExitMessage.cpp:135
 #, c-format
@@ -1653,15 +1676,21 @@ msgid ""
 "rather than to exit the application; that will allow %s to run its\n"
 "tasks at the times you selected in your preferences."
 msgstr ""
+"Dette vil stenge ned %s og dens oppgaver inntil enten\n"
+"%s eller skjermspareren til %s kjører igjen.\n"
+"\n"
+"I de fleste tilfeller, er det bedre å lukke %s vinduet\n"
+"istedenfor å avslutte applikasjonen; som tillater %s å kjøre dens\n"
+"oppgaver på tidspunktene du har valgt i dine innstillinger."
 
 #: DlgExitMessage.cpp:153
 #, c-format
 msgid "Stop running tasks when exiting the %s"
-msgstr ""
+msgstr "Stopp kjøring av oppgaver ved avsluttning av %s"
 
 #: DlgExitMessage.cpp:165
 msgid "Remember this decision and do not show this dialog."
-msgstr ""
+msgstr "Husk dette valget og ikke vis denne dialogboksen."
 
 #: DlgExitMessage.cpp:178 DlgGenericMessage.cpp:125 DlgOptions.cpp:401
 #: DlgSelectComputer.cpp:168 wizardex.cpp:378
@@ -1670,43 +1699,40 @@ msgstr "&Avbryt"
 
 #: DlgGenericMessage.cpp:112
 msgid "Don't show this dialog again."
-msgstr ""
+msgstr "Ikke vis denne dialogboksen igjen."
 
 #: DlgItemProperties.cpp:168 DlgItemProperties.cpp:171
 #: DlgItemProperties.cpp:174 DlgItemProperties.cpp:177
-#, fuzzy
 msgid "Don't fetch tasks for "
-msgstr "Ikke hent CPU oppgaver"
+msgstr "Ikke hent oppgaver for "
 
 #: DlgItemProperties.cpp:168
 msgid "Project preference"
 msgstr "Prosjekt innstilling "
 
 #: DlgItemProperties.cpp:171
-#, fuzzy
 msgid "Account manager preference"
-msgstr "Kontostyring nettside"
+msgstr "Kontobehandlerinnstilling"
 
 #: DlgItemProperties.cpp:174
-#, fuzzy
 msgid "Project has no apps for "
-msgstr "Prosjektets nettsider"
+msgstr "Prosjektet har ingen apps til "
 
 #: DlgItemProperties.cpp:177
 msgid "Client configuration excludes "
-msgstr ""
+msgstr "Klientkonfigurasjonen ekskluderer "
 
 #: DlgItemProperties.cpp:181
 msgid " work fetch deferred for"
-msgstr ""
+msgstr " arbeidsfangst utsatt for"
 
 #: DlgItemProperties.cpp:182
 msgid " work fetch deferral interval"
-msgstr ""
+msgstr " intervall for utsettelse av arbeidsfangst"
 
 #: DlgItemProperties.cpp:213
 msgid "Properties of project "
-msgstr "Egenskaper for prosjekt"
+msgstr "Egenskaper for prosjekt "
 
 #: DlgItemProperties.cpp:217 DlgOptions.cpp:218
 msgid "General"
@@ -1726,19 +1752,19 @@ msgstr "Team navn"
 
 #: DlgItemProperties.cpp:221 ViewProjects.cpp:224
 msgid "Resource share"
-msgstr ""
+msgstr "Ressursandel"
 
 #: DlgItemProperties.cpp:223
 msgid "Scheduler RPC deferred for"
-msgstr ""
+msgstr "RPC planlegger utsatt for"
 
 #: DlgItemProperties.cpp:226
 msgid "File downloads deferred for"
-msgstr ""
+msgstr "Nedlastning av filer utsatt for"
 
 #: DlgItemProperties.cpp:229
 msgid "File uploads deferred for"
-msgstr ""
+msgstr "Opplasting av filer utsatt for"
 
 #: DlgItemProperties.cpp:232
 msgid "Computer ID"
@@ -1765,19 +1791,19 @@ msgstr "nei"
 
 #: DlgItemProperties.cpp:237
 msgid "Don't request more work"
-msgstr "Ikke anmod om mer arbeid"
+msgstr "Ikke anmod mer arbeid"
 
 #: DlgItemProperties.cpp:239
 msgid "Scheduler call in progress"
-msgstr ""
+msgstr "Samtaleplanlegging pågår"
 
 #: DlgItemProperties.cpp:242
 msgid "Trickle-up pending"
-msgstr ""
+msgstr "Godskriv andel venter"
 
 #: DlgItemProperties.cpp:245 DlgItemProperties.cpp:247
 msgid "Host location"
-msgstr ""
+msgstr "Vertslokasjon"
 
 #: DlgItemProperties.cpp:247
 msgid "default"
@@ -1785,19 +1811,19 @@ msgstr "forvalg"
 
 #: DlgItemProperties.cpp:251
 msgid "Added via account manager"
-msgstr ""
+msgstr "Lagt til via kontobehandler"
 
 #: DlgItemProperties.cpp:254
 msgid "Remove when tasks done"
-msgstr ""
+msgstr "Fjern når oppgavene er utført"
 
 #: DlgItemProperties.cpp:257
 msgid "Ended"
-msgstr ""
+msgstr "Ferdig"
 
 #: DlgItemProperties.cpp:259
 msgid "Credit"
-msgstr ""
+msgstr "Arbeid utført"
 
 #: DlgItemProperties.cpp:260
 msgid "User"
@@ -1809,23 +1835,23 @@ msgstr "Vert"
 
 #: DlgItemProperties.cpp:276
 msgid "Scheduling"
-msgstr ""
+msgstr "Planlegging"
 
 #: DlgItemProperties.cpp:277
 msgid "Scheduling priority"
-msgstr ""
+msgstr "Planleggingsprioritet"
 
 #: DlgItemProperties.cpp:278
 msgid "CPU"
-msgstr ""
+msgstr "Prosessor"
 
 #: DlgItemProperties.cpp:302
 msgid "Duration correction factor"
-msgstr ""
+msgstr "Korrigeringsfaktor varighet"
 
 #: DlgItemProperties.cpp:316
 msgid "Properties of task "
-msgstr "Egenskaper for oppgave"
+msgstr "Egenskaper for oppgave "
 
 #: DlgItemProperties.cpp:328 ViewWork.cpp:238
 msgid "Application"
@@ -1833,7 +1859,7 @@ msgstr "Applikasjon"
 
 #: DlgItemProperties.cpp:329 ViewWork.cpp:239
 msgid "Name"
-msgstr ""
+msgstr "Navn"
 
 #: DlgItemProperties.cpp:330
 msgid "State"
@@ -1845,7 +1871,7 @@ msgstr "Mottatt"
 
 #: DlgItemProperties.cpp:336
 msgid "Report deadline"
-msgstr "Rapporterings frist"
+msgstr "Rapporter frist"
 
 #: DlgItemProperties.cpp:338
 msgid "Resources"
@@ -1853,7 +1879,7 @@ msgstr "Resurser"
 
 #: DlgItemProperties.cpp:341
 msgid "Estimated computation size"
-msgstr ""
+msgstr "Estimert beregningsstørrelse"
 
 #: DlgItemProperties.cpp:344
 msgid "CPU time at last checkpoint"
@@ -1865,15 +1891,15 @@ msgstr "CPU tid"
 
 #: DlgItemProperties.cpp:347 DlgItemProperties.cpp:361
 msgid "Elapsed time"
-msgstr ""
+msgstr "Tid brukt"
 
 #: DlgItemProperties.cpp:349
 msgid "Estimated time remaining"
-msgstr ""
+msgstr "Forventet tid igjen"
 
 #: DlgItemProperties.cpp:350
 msgid "Fraction done"
-msgstr ""
+msgstr "Fraksjon ferdig"
 
 #: DlgItemProperties.cpp:351
 msgid "Virtual memory size"
@@ -1881,7 +1907,7 @@ msgstr "Virtuell minne størrelse"
 
 #: DlgItemProperties.cpp:352
 msgid "Working set size"
-msgstr ""
+msgstr "Arbeidssettstørrelse"
 
 #: DlgItemProperties.cpp:354
 msgid "Directory"
@@ -1893,11 +1919,11 @@ msgstr "Prosess ID"
 
 #: DlgItemProperties.cpp:427 ViewWork.cpp:1032 sg_TaskPanel.cpp:823
 msgid "Local: "
-msgstr "Lokal:"
+msgstr "Lokal: "
 
 #: DlgOptions.cpp:129 DlgOptions.cpp:135
 msgid "Options"
-msgstr ""
+msgstr "Alternativer"
 
 #: DlgOptions.cpp:175
 msgid "Language:"
@@ -1909,31 +1935,31 @@ msgstr "Hvilket språk skal BOINC bruke?"
 
 #: DlgOptions.cpp:186
 msgid "Notice reminder interval:"
-msgstr ""
+msgstr "Varselintervall for påminnelser:"
 
 #: DlgOptions.cpp:193
 msgid "How often should BOINC remind you of new notices?"
-msgstr ""
+msgstr "Hvor ofte skal BOINC gi deg påminnelse om nye varsler?"
 
 #: DlgOptions.cpp:198
 msgid "Run Manager at login?"
-msgstr ""
+msgstr "Kjør kontobehandler ved innlogging?"
 
 #: DlgOptions.cpp:204
 msgid "Run the BOINC Manager when you log on."
-msgstr ""
+msgstr "Kjør BOINC kontobehandler når du logger på."
 
 #: DlgOptions.cpp:209
 msgid "Enable Manager exit dialog?"
-msgstr ""
+msgstr "Aktivere avsluttningsdialogboksen for behandleren?"
 
 #: DlgOptions.cpp:215
 msgid "Display the exit dialog when shutting down the Manager."
-msgstr ""
+msgstr "Vis dialogboks for avsluttning når behandleren stenges ned."
 
 #: DlgOptions.cpp:226
 msgid "Dial-up and Virtual Private Network settings"
-msgstr ""
+msgstr "Innstillinger for oppringte- og virtuelle private nettverk"
 
 #: DlgOptions.cpp:240
 msgid "&Set Default"
@@ -1945,7 +1971,7 @@ msgstr "%Fjern forvalg"
 
 #: DlgOptions.cpp:252
 msgid "Default Connection:"
-msgstr ""
+msgstr "Standard tilkobling:"
 
 #: DlgOptions.cpp:259
 msgid "Connections"
@@ -1969,11 +1995,11 @@ msgstr "Port:"
 
 #: DlgOptions.cpp:296 DlgOptions.cpp:360
 msgid "Don't use proxy for:"
-msgstr "Ikke bruk proxy for:"
+msgstr "Ikke bruk mellomtjener for:"
 
 #: DlgOptions.cpp:303 DlgOptions.cpp:367
 msgid "Leave these blank if not needed"
-msgstr ""
+msgstr "La disse være blanke hvis de ikke behøves."
 
 #: DlgOptions.cpp:309 DlgOptions.cpp:373 ProxyPage.cpp:343 ProxyPage.cpp:363
 msgid "User Name:"
@@ -1986,19 +2012,19 @@ msgstr "Passord:"
 
 #: DlgOptions.cpp:324
 msgid "HTTP Proxy"
-msgstr "HTTP Proxy"
+msgstr "HTTP mellomtjener"
 
 #: DlgOptions.cpp:332
 msgid "Connect via SOCKS proxy server"
-msgstr "Koble til via SOCKS proxy-tjener"
+msgstr "Koble til via SOCKS mellomtjener"
 
 #: DlgOptions.cpp:336
 msgid "SOCKS Proxy Server Configuration"
-msgstr "SOCKS Proxy-tjener konfigurasjon"
+msgstr "SOCKS mellomtjener konfigurasjon"
 
 #: DlgOptions.cpp:388
 msgid "SOCKS Proxy"
-msgstr "SOCKS Proxy"
+msgstr "SOCKS mellomtjener"
 
 #: DlgOptions.cpp:586
 msgid "always"
@@ -2031,13 +2057,13 @@ msgstr "%s - Språkvalg"
 
 #: DlgOptions.cpp:695
 #, c-format
-#, fuzzy, c-format
+#, c-format, c-format
 msgid ""
 "The %s's language has been changed.  In order for this change to take "
 "effect, you must restart the %s."
 msgstr ""
-"Standardspråk for %s er forandret, for at forandringene skal vises må du "
-"starte om %s."
+"Standardspråk for %s er endret.  For å ta i bruk endringene må du starte %s "
+"på nytt."
 
 #: DlgSelectComputer.cpp:91
 #, c-format
@@ -2050,6 +2076,8 @@ msgid ""
 "Another instance of %s is already running \n"
 "on this computer.  Please select a client to monitor."
 msgstr ""
+"En annen forekomst av %s kjører allerede \n"
+"på denne datamaskinen.  Vennligst velg en klient å monitorere."
 
 #: DlgSelectComputer.cpp:143
 msgid "Host name:"
@@ -2057,11 +2085,11 @@ msgstr "Vertsnavn:"
 
 #: Localization.cpp:31 Localization.cpp:69
 msgid "Message boards"
-msgstr ""
+msgstr "Diskusjonsfora"
 
 #: Localization.cpp:33
 msgid "Correspond with other users on the SETI@home message boards"
-msgstr ""
+msgstr "Utveksle meldinger med andre brukere på SETI@home diskusjonsforum"
 
 #: Localization.cpp:37
 msgid "Ask questions and report problems"
@@ -2074,7 +2102,7 @@ msgstr "Din konto"
 
 #: Localization.cpp:41 Localization.cpp:87 Localization.cpp:113
 msgid "View your account information and credit totals"
-msgstr ""
+msgstr "Vis din kontoinformasjon og dine totaler"
 
 #: Localization.cpp:43
 msgid "Your preferences"
@@ -2082,7 +2110,7 @@ msgstr "Dine innstillinger"
 
 #: Localization.cpp:45
 msgid "View and modify your SETI@home account profile and preferences"
-msgstr ""
+msgstr "Vis og endre din SETI@home kontoprofil og innstillinger"
 
 #: Localization.cpp:47 Localization.cpp:89
 msgid "Your results"
@@ -2090,7 +2118,7 @@ msgstr "Dine resultat"
 
 #: Localization.cpp:49 Localization.cpp:91
 msgid "View your last week (or more) of computational results and work"
-msgstr ""
+msgstr "Vis din siste ukes (eller mer) beregningsresultater og arbeid"
 
 #: Localization.cpp:51 Localization.cpp:93
 msgid "Your computers"
@@ -2098,7 +2126,7 @@ msgstr "Dine datamaskiner"
 
 #: Localization.cpp:53
 msgid "View a listing of all the computers on which you are running SETI@Home"
-msgstr ""
+msgstr "Vis liste med alle dine datamaskiner som kjører SETI@Home"
 
 #: Localization.cpp:55 Localization.cpp:97
 msgid "Your team"
@@ -2114,7 +2142,7 @@ msgstr "Vanlige spørsmål"
 
 #: Localization.cpp:63
 msgid "Read the Einstein@Home Frequently Asked Question list"
-msgstr ""
+msgstr "Les Einstein@Home's ofte stilte spørsmålslisten"
 
 #: Localization.cpp:65
 msgid "Screensaver info"
@@ -2122,12 +2150,14 @@ msgstr "Skjermsparer info"
 
 #: Localization.cpp:67
 msgid "Read a detailed description of the Einstein@Home screensaver"
-msgstr ""
+msgstr "Les en detaljert beskrivelse av Einstein@Home's skjermsparer"
 
 #: Localization.cpp:71
 msgid ""
 "Correspond with admins and other users on the Einstein@Home message boards"
 msgstr ""
+"Utveksle meldinger med administratorer og andre brukere på Einstein@Home "
+"diskusjonsforum"
 
 #: Localization.cpp:73
 msgid "Einstein status"
@@ -2135,28 +2165,28 @@ msgstr "Einstein status"
 
 #: Localization.cpp:75
 msgid "Current status of the Einstein@Home server"
-msgstr ""
+msgstr "Nåværende status for Einstein@Home tjeneren"
 
 #: Localization.cpp:77
 msgid "Report problems"
-msgstr "Rapporter problemer "
+msgstr "Rapporter problemer"
 
 #: Localization.cpp:79
 msgid "A link to the Einstein@Home problems and bug reports message board"
-msgstr ""
+msgstr "Link til Einstein@Home diskusjonsforumet for problemer og feilrapporter"
 
 #: Localization.cpp:83
 msgid "View and modify your Einstein@Home account profile and preferences"
-msgstr ""
+msgstr "Vis og modifiser din Einstein@Home kontoprofil og innstillinger"
 
 #: Localization.cpp:85
 msgid "Account summary"
-msgstr "Konto oppsummering"
+msgstr "Konto sammendrag"
 
 #: Localization.cpp:95
 msgid ""
 "View a listing of all the computers on which you are running Einstein@Home"
-msgstr ""
+msgstr "Vis en oversikt over alle dine datamaskiner som kjører Einstein@Home"
 
 #: Localization.cpp:101
 msgid "LIGO project"
@@ -2201,7 +2231,7 @@ msgstr "climateprediction.net Nyheter"
 
 #: Localization.cpp:131
 msgid "View your account information, credits, and trickles"
-msgstr ""
+msgstr "Vis din kontoinformasjon, poeng og andeler"
 
 #: Localization.cpp:135
 msgid "Info about your team"
@@ -2217,7 +2247,7 @@ msgstr "Global statestikk"
 
 #: Localization.cpp:145
 msgid "Summary statistics for World Community Grid"
-msgstr ""
+msgstr "Statistikksammendrag for World Community Grid"
 
 #: Localization.cpp:147
 msgid "My Grid"
@@ -2233,7 +2263,7 @@ msgstr "Enhetsprofiler"
 
 #: Localization.cpp:153
 msgid "Update your device settings"
-msgstr "Oppdater dine enhets innstillinger"
+msgstr "Oppdater din enhets innstillinger"
 
 #: Localization.cpp:155
 msgid "Research"
@@ -2241,7 +2271,7 @@ msgstr "Forskning"
 
 #: Localization.cpp:157
 msgid "Learn about the projects hosted at World Community Grid"
-msgstr ""
+msgstr "Lær om prosjektene driftet av World Community Grid"
 
 #: MainDocument.cpp:583
 msgid "Starting client"
@@ -2256,15 +2286,16 @@ msgid "Retrieving system state; please wait..."
 msgstr "Henter systemstatus; vennligst vent..."
 
 #: MainDocument.cpp:1816
-#, fuzzy
 msgid "Missing application"
-msgstr "Applikasjon"
+msgstr "Applikasjon mangler"
 
 #: MainDocument.cpp:1817
 msgid ""
 "Please download and install the CoRD application from http://cord."
 "sourceforge.net"
 msgstr ""
+"Vennligst last ned og installer CoRD applikasjonen fra "
+"http://cord.sourceforge.net"
 
 #: MainDocument.cpp:2432
 msgid "on batteries"
@@ -2284,7 +2315,7 @@ msgstr "tid på dag"
 
 #: MainDocument.cpp:2436
 msgid "CPU benchmarks in progress"
-msgstr "CPU ytelses test er startet "
+msgstr "CPU ytelsestest er startet"
 
 #: MainDocument.cpp:2437
 msgid "need disk space - check preferences"
@@ -2300,7 +2331,7 @@ msgstr "starter opp"
 
 #: MainDocument.cpp:2440
 msgid "an exclusive app is running"
-msgstr ""
+msgstr "en app med enerett kjører"
 
 #: MainDocument.cpp:2441
 msgid "CPU is busy"
@@ -2308,11 +2339,11 @@ msgstr "CPU er opptatt"
 
 #: MainDocument.cpp:2442
 msgid "network bandwidth limit exceeded"
-msgstr ""
+msgstr "grense for bruk av båndbredde er overskredet"
 
 #: MainDocument.cpp:2443
 msgid "requested by operating system"
-msgstr ""
+msgstr "anmodet av operativsystemet"
 
 #: MainDocument.cpp:2445
 msgid "unknown reason"
@@ -2320,7 +2351,7 @@ msgstr "ukjent grunn"
 
 #: MainDocument.cpp:2467
 msgid "GPU missing, "
-msgstr "GPU mangler."
+msgstr "GPU mangler, "
 
 #: MainDocument.cpp:2474
 msgid "New"
@@ -2352,9 +2383,8 @@ msgstr "Suspendert - "
 
 # 75%
 #: MainDocument.cpp:2500
-#, fuzzy
 msgid "GPU suspended - "
-msgstr " (suspendert - "
+msgstr "GPU suspendert - "
 
 #: MainDocument.cpp:2507
 msgid "Waiting for memory"
@@ -2386,20 +2416,19 @@ msgstr "Klar til å starte"
 
 #: MainDocument.cpp:2532
 msgid " (Scheduler wait: "
-msgstr ""
+msgstr " (Planleggeren venter: "
 
 #: MainDocument.cpp:2536
 msgid " (Scheduler wait)"
-msgstr ""
+msgstr " (Planleggeren venter)"
 
 #: MainDocument.cpp:2540
-#, fuzzy
 msgid " (Waiting for network access)"
-msgstr "Venter på minne"
+msgstr " (Venter på nettverkstilgang)"
 
 #: MainDocument.cpp:2544
 msgid "Computation error"
-msgstr "Databehandling feilet"
+msgstr "Beregningsfeil"
 
 #: MainDocument.cpp:2548
 msgid "Upload failed"
@@ -2423,15 +2452,15 @@ msgstr "Avbrutt: ikke startet innen tidsfristen"
 
 #: MainDocument.cpp:2570
 msgid "Aborted: disk limit exceeded"
-msgstr ""
+msgstr "Avbrutt: Plassbegrensning oversteget"
 
 #: MainDocument.cpp:2573
 msgid "Aborted: run time limit exceeded"
-msgstr ""
+msgstr "Avbrutt: Grense for kjøretid oversteget"
 
 #: MainDocument.cpp:2576
 msgid "Aborted: memory limit exceeded"
-msgstr ""
+msgstr "Avbrutt: Minneterskel overskredet"
 
 #: MainDocument.cpp:2579
 msgid "Aborted"
@@ -2439,7 +2468,7 @@ msgstr "Avbrutt"
 
 #: MainDocument.cpp:2584
 msgid "Acknowledged"
-msgstr ""
+msgstr "Bekreftet"
 
 #: MainDocument.cpp:2586
 msgid "Ready to report"
@@ -2460,7 +2489,7 @@ msgstr "Vennligst koble til Internett og prøv igjen."
 
 #: NotDetectedPage.cpp:181
 msgid "Project not found"
-msgstr "Fant ikke prosjektet"
+msgstr "Prosjekt ikke funnet"
 
 #: NotDetectedPage.cpp:184
 msgid ""
@@ -2474,19 +2503,18 @@ msgstr ""
 
 #: NotDetectedPage.cpp:188
 msgid "Account manager not found"
-msgstr ""
+msgstr "Kontobehandler ikke funnet"
 
 #: NotDetectedPage.cpp:191
-#, fuzzy
 msgid ""
 "The URL you supplied is not that of a BOINC-based account\n"
 "manager.\n"
 "\n"
 "Please check the URL and try again."
 msgstr ""
-"URL'en du skrev inn er ikke et BOINC basert prosjekt.\n"
-"\n"
-"Vennligst sjekk URL'en og prøv igjen."
+"URL'en du tastet inn er ikke den til en BOINC basert konto\n"
+"behandler.\n"
+"Vennligst kontroller URL'en og prøv igjen."
 
 #: NotFoundPage.cpp:181
 msgid "Login Failed."
@@ -2498,7 +2526,7 @@ msgstr "Sjekk brukernavn og passord, og prøv igjen."
 
 #: NotFoundPage.cpp:189
 msgid "Check the email address and password, and try again."
-msgstr "Sjekk e-post adresse og passord, og prøv igjen."
+msgstr "Sjekk epostadressen og passordet, og prøv igjen."
 
 #: NoticeListCtrl.cpp:222
 msgid "more..."
@@ -2506,7 +2534,7 @@ msgstr "mer..."
 
 #: ProjectInfoPage.cpp:477 ProjectInfoPage.cpp:778 ProjectInfoPage.cpp:782
 msgid "All"
-msgstr ""
+msgstr "Alle"
 
 #: ProjectInfoPage.cpp:615
 msgid "Choose a project"
@@ -2518,36 +2546,33 @@ msgstr "For å velge et prosjekt, klikk på navnet eller skriv inn URL nedenfor.
 
 #: ProjectInfoPage.cpp:623
 msgid "Categories:"
-msgstr ""
+msgstr "Kategorier:"
 
 #: ProjectInfoPage.cpp:627 sg_ProjectPanel.cpp:89
-#, fuzzy
 msgid "Projects:"
-msgstr "Prosjekter"
+msgstr "Prosjekter:"
 
 #: ProjectInfoPage.cpp:631
 msgid "Project details"
-msgstr ""
+msgstr "Prosjektdetaljer"
 
 #: ProjectInfoPage.cpp:635
 msgid "Research area:"
-msgstr ""
+msgstr "Forskningsområde:"
 
 #: ProjectInfoPage.cpp:639
 msgid "Organization:"
-msgstr ""
+msgstr "Organisasjon:"
 
 #: ProjectInfoPage.cpp:643
-#, fuzzy
 msgid "Web site:"
-msgstr "Nettsted"
+msgstr "Nettsted:"
 
 #: ProjectInfoPage.cpp:647
 msgid "Supported systems:"
-msgstr ""
+msgstr "Supporterte systemer:"
 
 #: ProjectInfoPage.cpp:651
-#, fuzzy
 msgid "Project URL:"
 msgstr "Prosjekt &URL:"
 
@@ -2556,6 +2581,8 @@ msgid ""
 "This project may not have work for your type of computer.  Do you want to "
 "add it anyway?"
 msgstr ""
+"Dette prosjektet har muligens ikke arbeid for din type arbeidsstasjon.  "
+"Ønsker du å legge til det allikevel?"
 
 #: ProjectInfoPage.cpp:850
 msgid "You already added this project. Please choose a different project."
@@ -2568,11 +2595,11 @@ msgstr "Kommuniserer med prosjektet."
 
 #: ProjectProcessingPage.cpp:509
 msgid "Required files not found on the server."
-msgstr ""
+msgstr "Obligatoriske filer ikke funnet på tjeneren."
 
 #: ProjectProcessingPage.cpp:512 ProjectProcessingPage.cpp:574
 msgid "An internal server error has occurred."
-msgstr "En intern tjener feil har oppstått."
+msgstr "En intern tjenerfeil har oppstått."
 
 #: ProjectPropertiesPage.cpp:334
 msgid ""
@@ -2648,11 +2675,11 @@ msgstr ""
 
 #: ProxyPage.cpp:331
 msgid "Proxy configuration"
-msgstr "Proxy konfigurasjon"
+msgstr "Mellomtjener konfigurasjon"
 
 #: ProxyPage.cpp:334
 msgid "HTTP proxy"
-msgstr "HTTP proxy"
+msgstr "HTTP mellomtjener"
 
 #: ProxyPage.cpp:337 ProxyPage.cpp:357
 msgid "Server:"
@@ -2660,27 +2687,27 @@ msgstr "Tjener:"
 
 #: ProxyPage.cpp:350
 msgid "Autodetect"
-msgstr ""
+msgstr "Oppdag automatisk"
 
 #: ProxyPage.cpp:354
 msgid "SOCKS proxy"
-msgstr "SOCKS proxy"
+msgstr "SOCKS mellomtjener"
 
 #: TermsOfUsePage.cpp:218
 msgid "Terms of Use"
-msgstr ""
+msgstr "Vilkår for Bruk"
 
 #: TermsOfUsePage.cpp:222
 msgid "Please read the following terms of use:"
-msgstr ""
+msgstr "Vennligst les følgende vilkår for bruk:"
 
 #: TermsOfUsePage.cpp:231
 msgid "I agree to the terms of use."
-msgstr ""
+msgstr "Jeg aksepterer vilkårene for bruk."
 
 #: TermsOfUsePage.cpp:237
 msgid "I do not agree to the terms of use."
-msgstr ""
+msgstr "Jeg aksepterer ikke vilkårene for bruk."
 
 #: UnavailablePage.cpp:183
 msgid "Project temporarily unavailable"
@@ -2698,30 +2725,29 @@ msgstr ""
 
 #: UnavailablePage.cpp:190
 msgid "Account manager temporarily unavailable"
-msgstr ""
+msgstr "Kontobehandler midlertidig utilgjengelig"
 
 #: UnavailablePage.cpp:193
-#, fuzzy
 msgid ""
 "The account manager is temporarily unavailable.\n"
 "\n"
 "Please try again later."
 msgstr ""
-"Prosjektet er midlertidig utilgjengelig.\n"
+"Kontobehandler er midlertidig utilgjengelig.\n"
 "\n"
 "Vennligst prøv igjen senere."
 
 #: ValidateAccountKey.cpp:68
 msgid "Please specify an account key to continue."
-msgstr ""
+msgstr "Vennligst oppgi kontonøkkel for å fortsette."
 
 #: ValidateAccountKey.cpp:71
 msgid "Invalid Account Key; please enter a valid Account Key"
-msgstr ""
+msgstr "Ugyldig kontonøkkel; vennligst tast inn en gyldig kontonøkkel"
 
 #: ValidateAccountKey.cpp:82 ValidateEmailAddress.cpp:86
 msgid "Validation conflict"
-msgstr "Validerings konflikt"
+msgstr "Valideringskonflikt"
 
 #: ValidateEmailAddress.cpp:72
 msgid "Please specify an email address"
@@ -2773,7 +2799,7 @@ msgstr "'%s' inneholder ikke en gyldig sti."
 #: ViewMessages.cpp:84 ViewProjects.cpp:170 ViewStatistics.cpp:1978
 #: ViewTransfers.cpp:160 ViewWork.cpp:183
 msgid "Commands"
-msgstr ""
+msgstr "Kommandoer"
 
 #: ViewMessages.cpp:88
 msgid "Copy all messages"
@@ -2813,11 +2839,11 @@ msgstr "Vis alle meldinger"
 
 #: ViewMessages.cpp:495
 msgid "Show messages for all projects."
-msgstr "Vis meldinger fra alle prosjekt."
+msgstr "Vis meldinger fra alle prosjekter."
 
 #: ViewNotices.cpp:58 sg_DlgMessages.cpp:124
 msgid "Fetching notices; please wait..."
-msgstr ""
+msgstr "Henter varsler; vennligst vent..."
 
 #: ViewNotices.cpp:65 sg_DlgMessages.cpp:132
 msgid "There are no notices at this time."
@@ -2825,7 +2851,7 @@ msgstr "Det er ingen meldinger."
 
 #: ViewNotices.cpp:99 sg_BoincSimpleFrame.cpp:776
 msgid "Notices"
-msgstr "Meldinger"
+msgstr "Varsler"
 
 #: ViewProjects.cpp:174 sg_ProjectCommandPopup.cpp:61
 msgid "Update"
@@ -2836,6 +2862,8 @@ msgid ""
 "Report all completed tasks, get latest credit, get latest preferences, and "
 "possibly get more tasks."
 msgstr ""
+"Rapporter alle utførte oppgaver, hent oversikt over arbeid utført, hent "
+"oppdaterte innstillinger, og last ned flere oppgaver hvis tilgjengelig."
 
 #: ViewProjects.cpp:181 ViewProjects.cpp:722 ViewWork.cpp:208 ViewWork.cpp:801
 #: sg_BoincSimpleFrame.cpp:757 sg_ProjectCommandPopup.cpp:67
@@ -2860,19 +2888,24 @@ msgstr "Ikke hent nye oppgaver for dette prosjektet."
 
 #: ViewProjects.cpp:195 sg_ProjectCommandPopup.cpp:79
 msgid "Reset project"
-msgstr ""
+msgstr "Nullstill prosjekt"
 
 #: ViewProjects.cpp:196 sg_ProjectCommandPopup.cpp:80
 msgid ""
 "Delete all files and tasks associated with this project, and get new tasks.  "
 "You can update the project first to report any completed tasks."
 msgstr ""
+"Slett alle filer og oppgaver assosiert med dette prosjektet, og hent nye "
+"oppgaver.   Du kan oppdatere prosjektet først for å rapportere fullførte "
+"oppgaver."
 
 #: ViewProjects.cpp:203 sg_ProjectCommandPopup.cpp:86
 msgid ""
 "Remove this project.  Tasks in progress will be lost (use 'Update' first to "
 "report any completed tasks)."
 msgstr ""
+"Fjern dette prosjektet.  Oppgaver i arbeidskøen vil bli slettet (klikk "
+"'Oppdater' først for å rapportere fullførte oppgaver)."
 
 #: ViewProjects.cpp:209 ViewWork.cpp:222 sg_ProjectCommandPopup.cpp:91
 #: sg_TaskCommandPopup.cpp:78
@@ -2909,9 +2942,8 @@ msgstr "Oppdaterer prosjekt..."
 
 # 85%
 #: ViewProjects.cpp:344
-#, fuzzy
 msgid "Resuming project..."
-msgstr "Suspender prosjekt..."
+msgstr "Gjenopptar prosjekt..."
 
 #: ViewProjects.cpp:348
 msgid "Suspending project..."
@@ -2919,32 +2951,30 @@ msgstr "Suspender prosjekt..."
 
 #: ViewProjects.cpp:385
 msgid "Telling project to allow additional task downloads..."
-msgstr ""
+msgstr "Instruerer prosjektet om å tillate nedlastning av ekstra oppgaver..."
 
 #: ViewProjects.cpp:389
 msgid "Telling project to not fetch any additional tasks..."
-msgstr ""
+msgstr "Ber prosjektet om ikke å hente ekstra oppgaver..."
 
 #: ViewProjects.cpp:425
-#, fuzzy
 msgid "Resetting project..."
-msgstr "Suspender prosjekt..."
+msgstr "Nullstiller prosjektet..."
 
 #: ViewProjects.cpp:438 sg_ProjectCommandPopup.cpp:214
 #, c-format
-#, fuzzy, c-format
+#, c-format, c-format
 msgid "Are you sure you want to reset project '%s'?"
-msgstr "Er du sikker på at du vil fjerne prosjekt '%s'?"
+msgstr "Er du sikker på at du vil nullstille prosjektet '%s'?"
 
 #: ViewProjects.cpp:444 sg_ProjectCommandPopup.cpp:220
 msgid "Reset Project"
-msgstr ""
+msgstr "Nullstill prosjekt"
 
 # 80%
 #: ViewProjects.cpp:483
-#, fuzzy
 msgid "Removing project..."
-msgstr "Suspender prosjekt..."
+msgstr "Fjerner prosjekt..."
 
 #: ViewProjects.cpp:496 sg_ProjectCommandPopup.cpp:251
 #, c-format
@@ -2960,9 +2990,8 @@ msgid "Launching browser..."
 msgstr "Starter nettleser..."
 
 #: ViewProjects.cpp:718 sg_ProjectCommandPopup.cpp:111
-#, fuzzy
 msgid "Resume tasks for this project."
-msgstr "Suspender oppgaver fra dette prosjektet."
+msgstr "Gjenoppta oppgaver for dette prosjektet."
 
 #: ViewProjects.cpp:737 sg_ProjectCommandPopup.cpp:118
 msgid "Allow new tasks"
@@ -2970,42 +2999,40 @@ msgstr "Tillat nye oppgaver"
 
 # 80%
 #: ViewProjects.cpp:737 sg_ProjectCommandPopup.cpp:119
-#, fuzzy
 msgid "Allow fetching new tasks for this project."
-msgstr "Ikke hent nye oppgaver for dette prosjektet."
+msgstr "Tillat henting av nye oppgaver for dette prosjektet."
 
 #: ViewProjects.cpp:741 sg_ProjectCommandPopup.cpp:122
-#, fuzzy
 msgid "Don't fetch new tasks for this project."
 msgstr "Ikke hent nye oppgaver for dette prosjektet."
 
 #: ViewProjects.cpp:1058
 msgid "Requested by user"
-msgstr ""
+msgstr "Anmodet av bruker"
 
 #: ViewProjects.cpp:1059
 msgid "To fetch work"
-msgstr ""
+msgstr "Å hente arbeid"
 
 #: ViewProjects.cpp:1060
 msgid "To report completed tasks"
-msgstr ""
+msgstr "Å rapportere fullførte oppgaver"
 
 #: ViewProjects.cpp:1061
 msgid "To send trickle-up message"
-msgstr ""
+msgstr "Å sende godskriv andelsmelding"
 
 #: ViewProjects.cpp:1062
 msgid "Requested by account manager"
-msgstr ""
+msgstr "Forespurt av kontobehandler"
 
 #: ViewProjects.cpp:1063
 msgid "Project initialization"
-msgstr ""
+msgstr "Initialisering av prosjekt"
 
 #: ViewProjects.cpp:1064
 msgid "Requested by project"
-msgstr ""
+msgstr "Anmodet av prosjektet"
 
 #: ViewProjects.cpp:1065
 msgid "Unknown reason"
@@ -3017,31 +3044,31 @@ msgstr "Suspendert av bruker"
 
 #: ViewProjects.cpp:1082
 msgid "Won't get new tasks"
-msgstr ""
+msgstr "Vil ikke hente nye oppgaver"
 
 #: ViewProjects.cpp:1085
 msgid "Project ended - OK to remove"
-msgstr ""
+msgstr "Prosjekt avsluttet - OK å fjerne"
 
 #: ViewProjects.cpp:1088
 msgid "Will remove when tasks done"
-msgstr ""
+msgstr "Vil fjerne når oppgaver er ferdige"
 
 #: ViewProjects.cpp:1091
 msgid "Scheduler request pending"
-msgstr ""
+msgstr "Forespørsel fra planleggeren venter"
 
 #: ViewProjects.cpp:1097
 msgid "Scheduler request in progress"
-msgstr ""
+msgstr "Forespørsel fra planleggeren pågår"
 
 #: ViewProjects.cpp:1100
 msgid "Trickle up message pending"
-msgstr ""
+msgstr "Godskriv andelsmelding venter"
 
 #: ViewProjects.cpp:1106
 msgid "Communication deferred "
-msgstr ""
+msgstr "Kommunikasjon utsatt "
 
 #: ViewResources.cpp:62
 msgid "Total disk usage"
@@ -3081,19 +3108,19 @@ msgstr "i bruk av ande progrmmer:"
 
 #: ViewStatistics.cpp:1205
 msgid "User Total"
-msgstr "Bruker total"
+msgstr "Total for bruker"
 
 #: ViewStatistics.cpp:1206
 msgid "User Average"
-msgstr "Bruker gjennomsnitt"
+msgstr "Gjennomsnitt for bruker"
 
 #: ViewStatistics.cpp:1207
 msgid "Host Total"
-msgstr "Vert total"
+msgstr "Total for vert"
 
 #: ViewStatistics.cpp:1208
 msgid "Host Average"
-msgstr "Vert gjennomsnitt"
+msgstr "Gjennomsnitt for vert"
 
 #: ViewStatistics.cpp:1355
 #, c-format
@@ -3102,35 +3129,35 @@ msgstr "Siste oppdatering: %.0f dager siden"
 
 #: ViewStatistics.cpp:1982
 msgid "Show user total"
-msgstr "Vis bruker total"
+msgstr "Vis total for bruker"
 
 #: ViewStatistics.cpp:1983
 msgid "Show total credit for user"
-msgstr ""
+msgstr "Vis totalt arbeid utført for bruker"
 
 #: ViewStatistics.cpp:1989
 msgid "Show user average"
-msgstr "Vis bruker gjennomsnitt"
+msgstr "Vis gjennomsnitt for bruker"
 
 #: ViewStatistics.cpp:1990
 msgid "Show average credit for user"
-msgstr ""
+msgstr "Vis gjennomsnittlig arbeid utført for bruker"
 
 #: ViewStatistics.cpp:1996
 msgid "Show host total"
-msgstr "Vis vert total"
+msgstr "Vis total for vert"
 
 #: ViewStatistics.cpp:1997
 msgid "Show total credit for host"
-msgstr ""
+msgstr "Vis totalt arbeid utført for vert"
 
 #: ViewStatistics.cpp:2003
 msgid "Show host average"
-msgstr "Vis vert gjennomsnitt"
+msgstr "Vis gjennomsnitt for vert"
 
 #: ViewStatistics.cpp:2004
 msgid "Show average credit for host"
-msgstr ""
+msgstr "Vis gjennomsnittlig arbeid utført for vert"
 
 #: ViewStatistics.cpp:2013
 msgid "< &Previous project"
@@ -3138,7 +3165,7 @@ msgstr "< &Forrige prosjekt"
 
 #: ViewStatistics.cpp:2014
 msgid "Show chart for previous project"
-msgstr ""
+msgstr "Vis diagram for forrige prosjekt"
 
 #: ViewStatistics.cpp:2019
 msgid "&Next project >"
@@ -3146,19 +3173,19 @@ msgstr "&Neste prosjekt >"
 
 #: ViewStatistics.cpp:2020
 msgid "Show chart for next project"
-msgstr ""
+msgstr "Vis diagram for neste prosjekt"
 
 #: ViewStatistics.cpp:2026 ViewStatistics.cpp:2416
 msgid "Hide project list"
-msgstr "Skjul prosjekt liste"
+msgstr "Skjul prosjektliste"
 
 #: ViewStatistics.cpp:2027 ViewStatistics.cpp:2416
 msgid "Use entire area for graphs"
-msgstr ""
+msgstr "Benytt hele området for grafer"
 
 #: ViewStatistics.cpp:2032
 msgid "Mode view"
-msgstr ""
+msgstr "Modusvisning"
 
 #: ViewStatistics.cpp:2036
 msgid "One project"
@@ -3166,7 +3193,7 @@ msgstr "Et prosjekt"
 
 #: ViewStatistics.cpp:2037
 msgid "Show one chart with selected project"
-msgstr ""
+msgstr "Vis et diagram for valgt prosjekt"
 
 #: ViewStatistics.cpp:2043
 msgid "All projects (separate)"
@@ -3174,7 +3201,7 @@ msgstr "Alle prosjekt (separat)"
 
 #: ViewStatistics.cpp:2044
 msgid "Show all projects, one chart per project"
-msgstr ""
+msgstr "Vis alle prosjekter, et diagram per prosjekt"
 
 #: ViewStatistics.cpp:2050
 msgid "All projects (together)"
@@ -3182,7 +3209,7 @@ msgstr "Alle prosjekt (sammen)"
 
 #: ViewStatistics.cpp:2051
 msgid "Show one chart with all projects"
-msgstr ""
+msgstr "Vis et diagram med alle prosjekter"
 
 #: ViewStatistics.cpp:2057
 msgid "All projects (sum)"
@@ -3190,26 +3217,26 @@ msgstr "Alle prosjekt (sum)"
 
 #: ViewStatistics.cpp:2058
 msgid "Show one chart with sum of projects"
-msgstr ""
+msgstr "Vis et diagram med summen av alle prosjekter"
 
 #: ViewStatistics.cpp:2079
 msgid "Statistics"
-msgstr "Statistikk "
+msgstr "Statistikk"
 
 #: ViewStatistics.cpp:2103 ViewStatistics.cpp:2124 ViewStatistics.cpp:2145
 #: ViewStatistics.cpp:2167 ViewStatistics.cpp:2188 ViewStatistics.cpp:2209
 #: ViewStatistics.cpp:2230 ViewStatistics.cpp:2251 ViewStatistics.cpp:2272
 #: ViewStatistics.cpp:2296
 msgid "Updating charts..."
-msgstr ""
+msgstr "Oppdaterer diagrammer..."
 
 #: ViewStatistics.cpp:2420
 msgid "Show project list"
-msgstr "Vis prosjekt liste"
+msgstr "Vis prosjektliste"
 
 #: ViewStatistics.cpp:2420
 msgid "Uses smaller area for graphs"
-msgstr ""
+msgstr "Bruker mindre område for grafer"
 
 #: ViewTransfers.cpp:164
 msgid "Retry Now"
@@ -3217,7 +3244,7 @@ msgstr "Prøv igjen nå"
 
 #: ViewTransfers.cpp:165
 msgid "Retry the file transfer now"
-msgstr ""
+msgstr "Prøv filoverføring på nytt nå"
 
 #: ViewTransfers.cpp:171
 msgid "Abort Transfer"
@@ -3225,7 +3252,7 @@ msgstr "Avbryt overføring"
 
 #: ViewTransfers.cpp:172
 msgid "Abort this file transfer.  You won't get credit for the task."
-msgstr ""
+msgstr "Avbryt filoverføring. Du vil ikke få poeng for oppgaven."
 
 #: ViewTransfers.cpp:183
 msgid "File"
@@ -3233,7 +3260,7 @@ msgstr "Fil"
 
 #: ViewTransfers.cpp:184 ViewWork.cpp:233
 msgid "Progress"
-msgstr ""
+msgstr "Fremgang"
 
 #: ViewTransfers.cpp:185
 msgid "Size"
@@ -3241,7 +3268,7 @@ msgstr "Størrelse"
 
 #: ViewTransfers.cpp:186
 msgid "Elapsed Time"
-msgstr ""
+msgstr "Tid brukt"
 
 #: ViewTransfers.cpp:187
 msgid "Speed"
@@ -3260,6 +3287,8 @@ msgid ""
 ".\n"
 "You can enable it using the Activity menu."
 msgstr ""
+".\n"
+"Du kan aktivere denne ved å benytte menyen for aktiviteter."
 
 #: ViewTransfers.cpp:285
 msgid "BOINC"
@@ -3280,6 +3309,9 @@ msgid ""
 "NOTE: Aborting a transfer will invalidate a task and you\n"
 "will not receive credit for it."
 msgstr ""
+"Er du sikker på at du vil avbryte denne filoverføringen '%s'?\n"
+"MERK: Å avbryte en overføring vil ugyldiggjøre en oppgave\n"
+"og du vil ikke motta poeng for den."
 
 #: ViewTransfers.cpp:349
 msgid "Abort File Transfer"
@@ -3287,36 +3319,35 @@ msgstr "Avbryt fil overføring"
 
 #: ViewTransfers.cpp:780
 msgid "Upload"
-msgstr ""
+msgstr "Last opp"
 
 #: ViewTransfers.cpp:780
 msgid "Download"
-msgstr ""
+msgstr "Last ned"
 
 #: ViewTransfers.cpp:784
-#, fuzzy
 msgid "retry in "
-msgstr "Prøv igjen om "
+msgstr "prøver igjen om "
 
 #: ViewTransfers.cpp:786
 msgid "failed"
-msgstr ""
+msgstr "mislyktes"
 
 #: ViewTransfers.cpp:789
 msgid "suspended"
-msgstr ""
+msgstr "suspendert"
 
 #: ViewTransfers.cpp:794
 msgid "active"
-msgstr ""
+msgstr "aktiv"
 
 #: ViewTransfers.cpp:796
 msgid "pending"
-msgstr ""
+msgstr "venter"
 
 #: ViewTransfers.cpp:803
 msgid " (project backoff: "
-msgstr ""
+msgstr " (prosjekt holder igjen: "
 
 #: ViewWork.cpp:187 ViewWork.cpp:777
 msgid "Show active tasks"
@@ -3332,20 +3363,19 @@ msgstr "Vis grafikk"
 
 #: ViewWork.cpp:195 sg_TaskCommandPopup.cpp:61
 msgid "Show application graphics in a window."
-msgstr ""
+msgstr "Vis grafikk for applikasjonen i et vindu."
 
 #: ViewWork.cpp:201
-#, fuzzy
 msgid "Show VM Console"
-msgstr "Vis vert total"
+msgstr "Vis VM konsollen"
 
 #: ViewWork.cpp:202
 msgid "Show VM Console in a window."
-msgstr ""
+msgstr "Vis VM konsollen i et vindu."
 
 #: ViewWork.cpp:209
 msgid "Suspend work for this result."
-msgstr ""
+msgstr "Suspender arbeid for dette resultatet."
 
 #: ViewWork.cpp:215 sg_TaskCommandPopup.cpp:72
 msgid "Abort"
@@ -3353,7 +3383,7 @@ msgstr "Avbryt"
 
 #: ViewWork.cpp:216
 msgid "Abandon work on the result. You will get no credit for it."
-msgstr ""
+msgstr "Gi opp arbeid på grunn av resultatet. Du vil ikke få poeng for det."
 
 #: ViewWork.cpp:223 sg_TaskCommandPopup.cpp:79
 msgid "Show task details."
@@ -3361,15 +3391,15 @@ msgstr "Vis oppgave detaljer."
 
 #: ViewWork.cpp:235
 msgid "Elapsed"
-msgstr ""
+msgstr "Tid brukt"
 
 #: ViewWork.cpp:236
 msgid "Remaining (estimated)"
-msgstr ""
+msgstr "Gjenstår (estimert)"
 
 #: ViewWork.cpp:237
 msgid "Deadline"
-msgstr ""
+msgstr "Frist"
 
 #: ViewWork.cpp:264
 msgid "Tasks"
@@ -3377,19 +3407,19 @@ msgstr "Oppgaver"
 
 #: ViewWork.cpp:357
 msgid "Resuming task..."
-msgstr ""
+msgstr "Gjenopptar oppgave..."
 
 #: ViewWork.cpp:360
 msgid "Suspending task..."
-msgstr ""
+msgstr "Suspenderer oppgave..."
 
 #: ViewWork.cpp:389
 msgid "Showing graphics for task..."
-msgstr ""
+msgstr "Viser grafikk for oppgave..."
 
 #: ViewWork.cpp:426
 msgid "Showing VM console for task..."
-msgstr ""
+msgstr "Viser VM konsollen for oppgave..."
 
 #: ViewWork.cpp:479
 #, c-format
@@ -3397,11 +3427,13 @@ msgid ""
 "Are you sure you want to abort this task '%s'?\n"
 "(Progress: %s, Status: %s)"
 msgstr ""
+"Er du sikker på at du ønsker å avbryte denne oppgaven '%s'?\n"
+"(Fremgang: %s, Status: %s)"
 
 #: ViewWork.cpp:485
 #, c-format
 msgid "Are you sure you want to abort these %d tasks?"
-msgstr ""
+msgstr "Er du sikker på at du ønsker å avbryte disse %d oppgavene?"
 
 #: ViewWork.cpp:490 sg_TaskCommandPopup.cpp:256
 msgid "Abort task"
@@ -3409,9 +3441,8 @@ msgstr "Avbryt oppgave"
 
 # 75%
 #: ViewWork.cpp:499
-#, fuzzy
 msgid "Aborting task..."
-msgstr "Avbryter overføring..."
+msgstr "Avbryter oppgave..."
 
 #: ViewWork.cpp:771
 msgid "Show all tasks"
@@ -3423,20 +3454,19 @@ msgstr "Vis alle oppgavene."
 
 #: ViewWork.cpp:796 sg_TaskCommandPopup.cpp:103
 msgid "Resume work for this task."
-msgstr ""
+msgstr "Gjenoppta arbeid for denne oppgaven."
 
 #: ViewWork.cpp:802 sg_TaskCommandPopup.cpp:107
 msgid "Suspend work for this task."
-msgstr ""
+msgstr "Suspender arbeid for denne oppgaven."
 
 #: WelcomePage.cpp:284
-#, fuzzy
 msgid "Add project or account manager"
-msgstr "&Legg til prosjekt eller kontobehandler..."
+msgstr "Legg til prosjekt eller kontobehandler"
 
 #: WelcomePage.cpp:288
 msgid "Add project or use BOINC Account Manager"
-msgstr ""
+msgstr "Legg til prosjekt eller bruk BOINC kontobehandler"
 
 #: WelcomePage.cpp:297
 #, c-format
@@ -3447,6 +3477,11 @@ msgid ""
 "Projects added via this wizard will not be\n"
 "listed on or managed via %s."
 msgstr ""
+"Hvis mulig, legg til prosjekter fra\n"
+"%s nettside.\n"
+"\n"
+"Prosjekter lagt til via denne veilederen vil ikke bli\n"
+"listet i eller administrert via %s."
 
 #: WelcomePage.cpp:313
 msgid ""
@@ -3456,6 +3491,11 @@ msgid ""
 "You can add a project directly,\n"
 "or use an 'Account Manager' web site to select projects."
 msgstr ""
+"Det er mer enn 30 BOINC baserte prosjekter\n"
+"som utfører forskning innenfor mange vitenskapelige områder,\n"
+"og du kan delta i så mange av disse du måtte ønske.\n"
+"Du kan legge til et prosjekt med en gang,\n"
+"eller bruke en 'Kontobehandler' nettside for å velge prosjekter."
 
 #: WelcomePage.cpp:325
 msgid ""
@@ -3475,10 +3515,24 @@ msgid ""
 "\n"
 "Please choose which type of change you would like to make:\n"
 msgstr ""
+"Du have valgt å legge til et nytt frivillig beregningsprosjekt eller endre "
+"hvilke prosjekter\n"
+"du bidrar til.\n"
+"\n"
+"Noen av disse prosjektene kjøres og administreres av World Community Grid, "
+"mens andre\n"
+"kjøres og administreres av andre forskere eller organisasjoner. BOINC "
+"programvaren\n"
+"kan dele din gjenværende prosessorkraft blant hvilken som helst kombinasjon "
+"av prosjekter.\\Alternativt, hvis du har registrert deg hos en BOINC "
+"kontobehandler kan du bruke\n"
+"denne til å velge hvilke prosjekter du vil støtte.\n"
+"\n"
+"Vennligst velg hvilken type av endringer du ønsker å gjøre:\n"
 
 #: WelcomePage.cpp:339
 msgid "Use a BOINC Account Manager"
-msgstr ""
+msgstr "Bruk en BOINC kontobehandler"
 
 #: WelcomePage.cpp:352
 msgid "To continue, click Next."
@@ -3486,15 +3540,15 @@ msgstr "For å fortsette, klikk Neste."
 
 #: WelcomePage.cpp:358
 msgid "Add or change your World Community Grid projects"
-msgstr ""
+msgstr "Legg til eller endre dine World Community Grid prosjekter"
 
 #: WelcomePage.cpp:361
 msgid "Add projects run by other researchers or organizations"
-msgstr ""
+msgstr "Legg til prosjekter som driftes av andre forskere eller organisasjoner"
 
 #: WizardAttach.cpp:634
 msgid "Do you really want to cancel?"
-msgstr ""
+msgstr "Ønsker du virkelig å avbryte?"
 
 #: WizardAttach.cpp:635
 msgid "Question"
@@ -3510,11 +3564,11 @@ msgstr "Vis det grafisk avanserte brukergrensesnittet."
 
 #: sg_BoincSimpleFrame.cpp:157
 msgid "Skin"
-msgstr ""
+msgstr "Skall"
 
 #: sg_BoincSimpleFrame.cpp:159
 msgid "Select the appearance of the user interface."
-msgstr ""
+msgstr "Velg utseende på brukergrensesnittet."
 
 #: sg_BoincSimpleFrame.cpp:206
 #, c-format
@@ -3522,21 +3576,20 @@ msgid "&%s"
 msgstr "&%s"
 
 #: sg_BoincSimpleFrame.cpp:390
-#, fuzzy
 msgid "Default"
-msgstr "forvalg"
+msgstr "Standard"
 
 #: sg_BoincSimpleFrame.cpp:759
 msgid "Suspend Computing"
-msgstr ""
+msgstr "Suspender beregning"
 
 #: sg_BoincSimpleFrame.cpp:760
 msgid "Resume Computing"
-msgstr ""
+msgstr "Gjenoppta beregning"
 
 #: sg_BoincSimpleFrame.cpp:777
 msgid "Open a window to view notices from projects or BOINC"
-msgstr ""
+msgstr "Åpne et vindu for å vise varsler fra prosjekter eller BOINC"
 
 #: sg_DlgMessages.cpp:146
 msgid "Close"
@@ -3544,35 +3597,39 @@ msgstr "Lukk"
 
 #: sg_DlgMessages.cpp:389
 #, c-format
-#, fuzzy, c-format
+#, c-format, c-format
 msgid "%s - Notices"
-msgstr "%s Meldinger"
+msgstr "%s - Varsler"
 
 #: sg_DlgPreferences.cpp:268
 msgid "This dialog controls preferences for this computer only."
 msgstr ""
+"Denne dialogboksen kontrollerer innstillinger kun for denne datamaskinen."
 
 #: sg_DlgPreferences.cpp:273
 msgid "Click OK to set preferences."
-msgstr ""
+msgstr "Klikk OK for å fastsette innstillinger."
 
 #: sg_DlgPreferences.cpp:278
 msgid ""
 "Click Clear to restore web-based settings for all preferences listed below."
 msgstr ""
+"Klikk Fjern for å gjenopprette webbaserte innstillinger for alle preferanser "
+"listet nedenfor."
 
 #: sg_DlgPreferences.cpp:285
 msgid ""
 "For additional settings, select Computing Preferences in the Advanced View."
 msgstr ""
+"For ekstra innstillinger, velg Beregningsinnstillinger i Avansert visning."
 
 #: sg_DlgPreferences.cpp:313
 msgid "Do work only between:"
-msgstr ""
+msgstr "Utfør arbeid bare mellom:"
 
 #: sg_DlgPreferences.cpp:335
 msgid "Connect to internet only between:"
-msgstr ""
+msgstr "Bare koble til Internet mellom:"
 
 #: sg_DlgPreferences.cpp:357 sg_DlgPreferences.cpp:374
 msgid "Use no more than:"
@@ -3588,22 +3645,22 @@ msgstr "av prosessoren"
 
 #: sg_DlgPreferences.cpp:391
 msgid "Do work while on battery?"
-msgstr ""
+msgstr "Utfør arbeid på batteridrift?"
 
 #: sg_DlgPreferences.cpp:404
 msgid "Do work after idle for:"
-msgstr ""
+msgstr "Utfør arbeid etter inaktiv i:"
 
 #: sg_DlgPreferences.cpp:429
 msgid "Clear all local preferences listed above and close the dialog"
-msgstr ""
+msgstr "Fjern alle lokale innstillinger som vist over og lukk dialogboksen"
 
 #: sg_DlgPreferences.cpp:602 sg_DlgPreferences.cpp:605
 #: sg_DlgPreferences.cpp:681 sg_DlgPreferences.cpp:685
 #: sg_DlgPreferences.cpp:697 sg_DlgPreferences.cpp:701
 #: sg_DlgPreferences.cpp:844 sg_DlgPreferences.cpp:855
 msgid "Anytime"
-msgstr ""
+msgstr "Når som helst"
 
 #: sg_DlgPreferences.cpp:638
 msgid "100 MB"
@@ -3670,9 +3727,8 @@ msgid "%d"
 msgstr "%d"
 
 #: sg_DlgPreferences.cpp:1029
-#, fuzzy
 msgid "Do you really want to clear all local preferences?\n"
-msgstr "Vil du virkelig fjerne alle lokale innstillinger ?"
+msgstr "Vil du virkelig fjerne alle lokale innstillinger?\n"
 
 #: sg_ProjectPanel.cpp:72
 msgid "Add Project"
@@ -3684,42 +3740,41 @@ msgstr "Synkroniser"
 
 #: sg_ProjectPanel.cpp:74
 msgid "Work done for this project"
-msgstr ""
+msgstr "Arbeid avsluttet for dette prosjektet"
 
 #: sg_ProjectPanel.cpp:77
 msgid "Synchronize projects with account manager system"
-msgstr ""
+msgstr "Synkroniser prosjekter med kontobehandlersystemet"
 
 #: sg_ProjectPanel.cpp:124
 msgid "Select a project to access with the controls below"
-msgstr ""
+msgstr "Velg et prosjekt å aksessere med kontrolltavlen nedenfor"
 
 #: sg_ProjectPanel.cpp:145
-#, fuzzy
 msgid "Project Web Pages"
 msgstr "Prosjektets nettsider"
 
 #: sg_ProjectPanel.cpp:149
 msgid "Project Commands"
-msgstr ""
+msgstr "Prosjektkommandoer"
 
 #: sg_ProjectPanel.cpp:267
 #, c-format
 msgid "Pop up a menu of web sites for project %s"
-msgstr ""
+msgstr "Vis en meny med nettsider for prosjektet %s"
 
 #: sg_ProjectPanel.cpp:269
 #, c-format
 msgid "Pop up a menu of commands to apply to project %s"
-msgstr ""
+msgstr "Vis meny med kommandoer som skal gjelde for %s prosjektet"
 
 #: sg_TaskCommandPopup.cpp:67
 msgid "Suspend this task."
-msgstr ""
+msgstr "Suspender denne oppgaven."
 
 #: sg_TaskCommandPopup.cpp:73
 msgid "Abandon this task. You will get no credit for it."
-msgstr ""
+msgstr "Gi opp denne oppgaven. Du vil ikke få poeng for den."
 
 #: sg_TaskCommandPopup.cpp:251
 #, c-format
@@ -3727,39 +3782,40 @@ msgid ""
 "Are you sure you want to abort this task '%s'?\n"
 "(Progress: %.1lf%%, Status: %s)"
 msgstr ""
+"Er du sikker på at du vil avbryte denne oppgaven '%s'?\n"
+"(Fremgang: %.1lf%%, Status: %s)"
 
 #: sg_TaskPanel.cpp:464
 msgid "You don't have any projects.  Please Add a Project."
-msgstr "Du har ingen prosjekt. Vennligst legg til et prosjekt."
+msgstr "Du har ingen prosjekt.  Vennligst legg til et prosjekt."
 
 #: sg_TaskPanel.cpp:465
 msgid "Not available"
 msgstr "Ikke tilgjengelig"
 
 #: sg_TaskPanel.cpp:476
-#, fuzzy
 msgid "Tasks:"
-msgstr "Oppgaver"
+msgstr "Oppgaver:"
 
 #: sg_TaskPanel.cpp:482
 msgid "Select a task to access"
-msgstr ""
+msgstr "Velg en oppgave for granskning"
 
 #: sg_TaskPanel.cpp:493
 msgid "From:"
-msgstr ""
+msgstr "Fra:"
 
 #: sg_TaskPanel.cpp:547
 msgid "This task's progress"
-msgstr ""
+msgstr "Denne oppgavens fremgang"
 
 #: sg_TaskPanel.cpp:565
 msgid "Task Commands"
-msgstr ""
+msgstr "Oppgavekommandoer"
 
 #: sg_TaskPanel.cpp:566
 msgid "Pop up a menu of commands to apply to this task"
-msgstr ""
+msgstr "Vis meny med kommandoer som skal gjelde for denne oppgaven"
 
 #: sg_TaskPanel.cpp:701
 #, c-format
@@ -3769,7 +3825,7 @@ msgstr "Applikasjon: %s"
 #: sg_TaskPanel.cpp:724
 #, c-format
 msgid "%.3f%%"
-msgstr ""
+msgstr "%.3f%%"
 
 #: sg_TaskPanel.cpp:732
 msgid "Application: Not available"
@@ -3782,12 +3838,12 @@ msgstr "Ikke tilgjengelig"
 #: sg_TaskPanel.cpp:847
 #, c-format
 msgid "Elapsed: %s"
-msgstr ""
+msgstr "Tid brukt: %s"
 
 #: sg_TaskPanel.cpp:861
 #, c-format
 msgid "Remaining (estimated): %s"
-msgstr ""
+msgstr "Gjenstår (estimert): %s"
 
 #: sg_TaskPanel.cpp:876
 #, c-format
@@ -3796,7 +3852,7 @@ msgstr "Status: %s"
 
 #: sg_TaskPanel.cpp:1223
 msgid "Retrieving current status."
-msgstr ""
+msgstr "Henter gjeldende status."
 
 #: sg_TaskPanel.cpp:1229
 msgid "Downloading work from the server."
@@ -3804,23 +3860,23 @@ msgstr "Laster ned arbeid fra tjeneren."
 
 #: sg_TaskPanel.cpp:1234
 msgid "Processing Suspended:  Running On Batteries."
-msgstr "Prosessering suspendert: Kjører på batterier."
+msgstr "Prosessering suspendert:  Kjører på batterier."
 
 #: sg_TaskPanel.cpp:1236
 msgid "Processing Suspended:  User Active."
-msgstr "Prosessering suspendert:Bruker aktiv."
+msgstr "Prosessering suspendert:  Bruker aktiv."
 
 #: sg_TaskPanel.cpp:1238
 msgid "Processing Suspended:  User paused processing."
-msgstr "Prosessering suspendert: Bruker har satt prosessering på pause."
+msgstr "Prosessering suspendert:  Bruker har pauset prosessering."
 
 #: sg_TaskPanel.cpp:1240
 msgid "Processing Suspended:  Time of Day."
-msgstr "Prosessering suspendert: Tid på dag."
+msgstr "Prosessering suspendert:  Tid på dag."
 
 #: sg_TaskPanel.cpp:1242
 msgid "Processing Suspended:  Benchmarks Running."
-msgstr "Prosessering suspendert: Ytelsestest kjører."
+msgstr "Prosessering suspendert:  Ytelsestest kjører."
 
 #: sg_TaskPanel.cpp:1244
 msgid "Processing Suspended."
@@ -3832,7 +3888,7 @@ msgstr "Venter på kontakt med prosjekt tjener."
 
 #: sg_TaskPanel.cpp:1252 sg_TaskPanel.cpp:1261
 msgid "Retrieving current status"
-msgstr ""
+msgstr "Henter gjeldende status"
 
 #: sg_TaskPanel.cpp:1256
 msgid "No work available to process"
@@ -3840,7 +3896,7 @@ msgstr "Ingen arbeid tilgjengelig for prosessering"
 
 #: sg_TaskPanel.cpp:1258
 msgid "Unable to connect to the core client"
-msgstr ""
+msgstr "Kan ikke koble til kjerneklienten"
 
 #: wizardex.cpp:377 wizardex.cpp:553
 msgid "&Next >"
@@ -3860,7 +3916,7 @@ msgstr "Instillinger..."
 
 #: mac/Mac_GUI.cpp:122
 msgid "Services"
-msgstr ""
+msgstr "Tjenester"
 
 #: mac/Mac_GUI.cpp:144
 #, c-format
