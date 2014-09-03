@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-01-26 00:00-0800\n"
-"PO-Revision-Date: 2013-10-07 20:03+0000\n"
+"PO-Revision-Date: 2014-08-29 15:04+0000\n"
 "Last-Translator: pryds <thomas@pryds.eu>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: da\n"
@@ -15,17 +15,17 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.5.5\n"
+"X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SearchPath-0: mac_installer\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-Basepath: /Volumes/Cheer/BOINC_GIT/boinc_trunk\n"
-"X-POOTLE-MTIME: 1381176195.0\n"
+"X-POOTLE-MTIME: 1409324665.0\n"
 "X-Poedit-KeywordsList: _\n"
 
 #: Installer.cpp:124
 #, c-format
 msgid "Sorry, this version of %s requires system 10.5 or higher."
-msgstr ""
+msgstr "Desværre, denne version af %s kræver system 10.5 eller nyere."
 
 #: PostInstall.cpp:130 PostInstall.cpp:1136 uninstall.cpp:1618
 msgid "Yes"
@@ -105,6 +105,8 @@ msgid ""
 "Do you also want to remove VirtualBox from your computer?\n"
 "(VirtualBox was installed along with BOINC.)"
 msgstr ""
+"Vil du også fjerne VirtualBox fra din computer?\n"
+"(VirtualBox blev installeret sammen med BOINC.)"
 
 #: uninstall.cpp:312
 #, c-format
@@ -142,7 +144,7 @@ msgstr "Annuller"
 
 #: uninstall.cpp:1617
 msgid "Continue..."
-msgstr "Fortsæt..."
+msgstr "Fortsæt …"
 
 #, c-format
 #~ msgid "Sorry, this version of %s requires system 10.4 or higher."

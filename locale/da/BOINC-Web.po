@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: BOINC Web 6.x\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@ssl.berkeley.edu>\n"
 "POT-Creation-Date: 2014-02-01 00:00 PST\n"
-"PO-Revision-Date: 2013-11-07 18:18+0000\n"
-"Last-Translator: pryds <thomas@pryds.eu>\n"
+"PO-Revision-Date: 2014-08-29 14:53+0000\n"
+"Last-Translator: Anonymous Pootle User\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: da\n"
 "MIME-Version: 1.0\n"
@@ -20,7 +20,7 @@ msgstr ""
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-SearchPath-0: doc\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
-"X-POOTLE-MTIME: 1383848313.0\n"
+"X-POOTLE-MTIME: 1409324007.0\n"
 "X-Poedit-KeywordsList: tra\n"
 
 #: docutil.php:21
@@ -47,8 +47,9 @@ msgid "Learn more about VirtualBox."
 msgstr ""
 
 #: download.php:51
+#, fuzzy
 msgid "Download BOINC + VirtualBox"
-msgstr ""
+msgstr "Download BOINC + Virtualbox"
 
 #: download.php:54 download.php:69
 #, php-format
@@ -401,7 +402,7 @@ msgstr "BOINC har base på The University of California, Berkeley"
 
 #: projects.inc:14
 msgid "Distributed sensing"
-msgstr ""
+msgstr "Distribueret føling"
 
 #: projects.inc:19
 msgid "Stanford University"
