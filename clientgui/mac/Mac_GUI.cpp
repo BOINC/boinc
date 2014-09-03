@@ -107,7 +107,7 @@ void MacLocalizeBOINCMenu() {
     originalText.Clear();
     err = GetIndMenuItemWithCommandID(NULL, kHICommandPreferences, 1, &BOINCMenu, &itemIndex);
     if (!err) {
-        originalText = _("Preferences…");
+        originalText = _("Preferences...");
         strlcpy(originalCharStr, originalText.utf8_str(), sizeof(originalCharStr));
         if (originalCharStr[0]) {
             localizedText = CFStringCreateWithCString(NULL, originalCharStr, kCFStringEncodingUTF8);
