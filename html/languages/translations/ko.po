@@ -1,28 +1,26 @@
 # BOINC web translation
 # Copyright (C) 2008 University of California
-#
 # This file is distributed under the same license as BOINC.
-#
 # FileID  : $Id$
-#
 msgid ""
 msgstr ""
 "Project-Id-Version: 2013/12/3\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2014-01-10 00:00 PST\n"
-"PO-Revision-Date: 2013-12-18 14:45+0900\n"
-"Last-Translator: Lee Kangsan <treppolse@gmail.com>\n"
+"PO-Revision-Date: 2014-07-27 06:45+0000\n"
+"Last-Translator: Kangsan Lee <treppolse@gmail.com>\n"
 "Language-Team: SETIKAH@KOREA\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 1.5.7\n"
+"X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
+"X-BOINC-UTF8-Marker: ç®ä½ä¸­æ, æ¥æ¬èª\n"
 "X-Poedit-SearchPath-0: html\\user\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
-"X-BOINC-UTF8-Marker: ç®ä½ä¸­æ, æ¥æ¬èª\n"
+"X-POOTLE-MTIME: 1406443547.0\n"
 
 # The name of this language in this language
 msgid "LANG_NAME_NATIVE"
@@ -5788,7 +5786,7 @@ msgstr "창설자 변경"
 
 #: ../user/team_change_founder_form.php:108
 msgid "There are no users to transfer team to."
-msgstr ""
+msgstr "팀에서 인계받을 사용자를 찾지 못했습니다."
 
 #: ../user/team_create_action.php:29
 msgid "You must choose a non-blank team name"

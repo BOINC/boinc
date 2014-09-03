@@ -7,17 +7,18 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2014-01-10 00:00 PST\n"
-"PO-Revision-Date: 2013-03-16 11:43+0200\n"
-"Last-Translator: Kai <www.carrotsoft@gmail.com>\n"
+"PO-Revision-Date: 2013-10-28 15:20+0000\n"
+"Last-Translator: Anonymous Pootle User\n"
 "Language-Team: \n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Pootle 2.1.6\n"
+"X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-BOINC-UTF8-Marker: 日本語\n"
+"X-POOTLE-MTIME: 1382973625.0\n"
 
 # The name of this language in this language
 msgid "LANG_NAME_NATIVE"
@@ -1208,8 +1209,9 @@ msgid "Use NVIDIA GPU %1 Enforced by version 6.10+ %2"
 msgstr "NVIDIA GPU を計算に使うか %1 Version 6.10以降で有効 %2"
 
 #: ../inc/prefs.inc:344
+#, fuzzy
 msgid "Use Intel GPU %1 Enforced by version 7.2+ %2"
-msgstr ""
+msgstr "ATI GPU を計算に使うか %1 Version 6.10以降で有効 %2"
 
 #: ../inc/prefs.inc:358
 msgid ""
@@ -1759,8 +1761,9 @@ msgid "State"
 msgstr "状態"
 
 #: ../inc/result.inc:747
+#, fuzzy
 msgid "Task name:"
-msgstr ""
+msgstr "タスク名"
 
 #: ../inc/team.inc:40
 msgid "Search criteria (use one or more)"
@@ -2114,8 +2117,9 @@ msgid "Used in community functions"
 msgstr "コミュニティ機能の中で使われる ID です"
 
 #: ../inc/user.inc:216 ../user/weak_auth.php:25
+#, fuzzy
 msgid "Account keys"
-msgstr ""
+msgstr "アカウント・キー"
 
 #: ../inc/user.inc:221
 msgid "Preferences"
@@ -2564,8 +2568,9 @@ msgid "Top GPU models"
 msgstr ""
 
 #: ../user/bs_sample_index.php:70
+#, fuzzy
 msgid "Languages"
-msgstr ""
+msgstr "言語"
 
 # #######################################
 # Rules and Policies page (info.php)

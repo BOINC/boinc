@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2014-01-10 00:00 PST\n"
-"PO-Revision-Date: 2013-11-20 16:46+0000\n"
-"Last-Translator: akuloboy <oleg_kras@rambler.ru>\n"
+"PO-Revision-Date: 2014-08-17 17:09+0000\n"
+"Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
@@ -18,7 +18,7 @@ msgstr ""
 "10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-POOTLE-MTIME: 1384965965.0\n"
+"X-POOTLE-MTIME: 1408295381.0\n"
 
 # The name of this language in this language
 # Имя языка в этом файле
@@ -1216,7 +1216,7 @@ msgstr "Использовать ГП NVIDIA %1 Начиная с версии 6
 
 #: ../inc/prefs.inc:344
 msgid "Use Intel GPU %1 Enforced by version 7.2+ %2"
-msgstr ""
+msgstr "Использовать ГП Intel %1 начиная с версии 7.2+ %2"
 
 #: ../inc/prefs.inc:358
 msgid ""
@@ -3633,6 +3633,8 @@ msgid ""
 "This project hasn't created an email message - please notify its "
 "administrators"
 msgstr ""
+"Этот проект не создал электронное сообщение - пожалуйста, сообщите об этом "
+"администраторам проекта"
 
 #: ../user/ffmail_form.php:33
 msgid "Tell your friends about %1"
@@ -6096,7 +6098,7 @@ msgstr "Поменять основателя"
 
 #: ../user/team_change_founder_form.php:108
 msgid "There are no users to transfer team to."
-msgstr ""
+msgstr "Нет участников, которым можно передать команду."
 
 #: ../user/team_create_action.php:29
 msgid "You must choose a non-blank team name"
