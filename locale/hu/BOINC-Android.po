@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2013-10-18 00:00-0700\n"
-"PO-Revision-Date: 2014-02-22 14:58+0000\n"
+"PO-Revision-Date: 2014-07-12 10:42+0000\n"
 "Last-Translator: Gabor <csega@mailbox.hu>\n"
 "Language-Team: hu <LL@li.org>\n"
 "Language: hu\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n !=1);\n"
 "X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
-"X-POOTLE-MTIME: 1393081112.0\n"
+"X-POOTLE-MTIME: 1405161756.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -139,10 +139,11 @@ msgstr "A részvételhez hozzon létre egy fiókot:"
 msgctxt "attachproject_login_header_creation_client_disabled"
 msgid "Visit project website to create an account:"
 msgstr ""
+"Látogassa meg a projekt weboldalát egy felhasználói fiók létrehozásához:"
 
 msgctxt "attachproject_login_header_creation_disabled"
 msgid "Project does currently now allow creation of new accounts!"
-msgstr ""
+msgstr "A projekt jelenleg engedélyezi az új felhasználói fiókok létrehozását!"
 
 msgctxt "attachproject_login_button_registration"
 msgid "Register"
@@ -156,19 +157,18 @@ msgctxt "attachproject_login_button_forgotpw"
 msgid "Forgot Password"
 msgstr "Elfelejtett jelszó"
 
-#, fuzzy
 msgctxt "attachproject_login_error_toast"
 msgid "Contacting project failed!"
-msgstr "Kapcsolódás a projekt szerverhez..."
+msgstr "A kapcsolódás a projekthez sikertelen!"
 
 msgctxt "attachproject_login_attached"
 msgid "Attached"
-msgstr ""
+msgstr "Csatolva"
 
 #. project registration
 msgctxt "attachproject_registration_header"
 msgid "Account registration for"
-msgstr ""
+msgstr "Felhsználói fiók regsiztrálása"
 
 msgctxt "attachproject_registration_header_url"
 msgid "Project:"
@@ -192,7 +192,7 @@ msgstr "Jelszó:"
 
 msgctxt "attachproject_registration_header_pwd_confirm"
 msgid "… Retype:"
-msgstr ""
+msgstr "...Írja be újra:"
 
 msgctxt "attachproject_registration_button"
 msgid "Create"
@@ -217,7 +217,7 @@ msgstr "Jelszó:"
 
 msgctxt "attachproject_acctmgr_header_pwd_confirm"
 msgid "… Retype:"
-msgstr ""
+msgstr "...Írja be újra:"
 
 msgctxt "attachproject_acctmgr_button"
 msgid "Add"
@@ -226,7 +226,7 @@ msgstr "Hozzáad"
 #. error strings
 msgctxt "attachproject_error_wrong_name"
 msgid "User not found"
-msgstr ""
+msgstr "A felhasználó nem található"
 
 msgctxt "attachproject_error_short_pwd"
 msgid "Password too short"
@@ -242,7 +242,7 @@ msgstr "A jelszavak nem egyeznek"
 
 msgctxt "attachproject_error_no_url"
 msgid "Please enter URL"
-msgstr ""
+msgstr "Kérjük, adja meg az URL címet"
 
 msgctxt "attachproject_error_no_email"
 msgid "Please enter eMail address"
