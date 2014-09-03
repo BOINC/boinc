@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2014-01-10 00:00 PST\n"
-"PO-Revision-Date: 2013-11-07 08:22+0000\n"
+"PO-Revision-Date: 2014-06-27 14:55+0000\n"
 "Last-Translator: Gianfranco <costamagnagianfranco@yahoo.it>\n"
 "Language-Team: \n"
 "Language: it_IT\n"
@@ -20,7 +20,7 @@ msgstr ""
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-SearchPath-0: html\\user\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
-"X-POOTLE-MTIME: 1383812552.0\n"
+"X-POOTLE-MTIME: 1403880903.0\n"
 
 msgid "LANG_NAME_NATIVE"
 msgstr "Italiano"
@@ -1225,7 +1225,7 @@ msgstr "Usa la GPU NVIDIA %1 Si applica dalla versione 6.10+ %2"
 
 #: ../inc/prefs.inc:344
 msgid "Use Intel GPU %1 Enforced by version 7.2+ %2"
-msgstr ""
+msgstr "Usa la GPU Intel %1 Si applica dalla versione 7.2+ %2"
 
 #: ../inc/prefs.inc:358
 msgid ""
@@ -3672,6 +3672,8 @@ msgid ""
 "This project hasn't created an email message - please notify its "
 "administrators"
 msgstr ""
+"Questo progetto non ha creato un messaggio email - per favore notificalo ai "
+"suoi amministratori"
 
 #: ../user/ffmail_form.php:33
 msgid "Tell your friends about %1"
@@ -6149,7 +6151,7 @@ msgstr "Cambia fondatore"
 
 #: ../user/team_change_founder_form.php:108
 msgid "There are no users to transfer team to."
-msgstr ""
+msgstr "Non ci sono utenti su cui trasferire il team."
 
 #: ../user/team_create_action.php:29
 msgid "You must choose a non-blank team name"

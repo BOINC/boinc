@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-02-02 00:00-0800\n"
-"PO-Revision-Date: 2013-11-07 08:16+0000\n"
+"PO-Revision-Date: 2014-06-27 14:52+0000\n"
 "Last-Translator: Gianfranco <costamagnagianfranco@yahoo.it>\n"
 "Language-Team: BOINC.Italy team <contact@boincitaly.org>\n"
 "Language: it_IT\n"
@@ -23,7 +23,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCGIT\\boinc\n"
-"X-POOTLE-MTIME: 1383812210.0\n"
+"X-POOTLE-MTIME: 1403880735.0\n"
 
 # 81%
 #: AccountInfoPage.cpp:387
@@ -125,7 +125,7 @@ msgstr ""
 
 #: AccountInfoPage.cpp:532
 msgid "Account manager web site"
-msgstr ""
+msgstr "Sito web dell'account manager"
 
 #: AccountInfoPage.cpp:574 WelcomePage.cpp:348
 msgid "Add project"
@@ -173,19 +173,19 @@ msgstr ""
 
 #: AccountManagerInfoPage.cpp:279
 msgid "Account manager details:"
-msgstr ""
+msgstr "Sito web dell'account manager:"
 
 #: AccountManagerInfoPage.cpp:283
 msgid "Account manager &URL:"
-msgstr ""
+msgstr "&URL dell'account manager:"
 
 #: AccountManagerInfoPage.cpp:287
 msgid "Open web page"
-msgstr ""
+msgstr "Apri la pagina web"
 
 #: AccountManagerInfoPage.cpp:290
 msgid "Visit this account manager's web site"
-msgstr ""
+msgstr "Visita il sito web del gestore account"
 
 #: AccountManagerProcessingPage.cpp:187 AccountManagerPropertiesPage.cpp:193
 #, c-format
@@ -502,7 +502,7 @@ msgstr "Mostra le informazioni sul %s"
 #: AdvancedFrame.cpp:661 sg_BoincSimpleFrame.cpp:224
 #, c-format
 msgid "%s &web site"
-msgstr ""
+msgstr "sito &web di %s"
 
 #: AdvancedFrame.cpp:667 sg_BoincSimpleFrame.cpp:230
 #, c-format
@@ -1121,7 +1121,7 @@ msgstr "&OK"
 
 #: DlgAdvPreferences.cpp:544
 msgid "invalid number"
-msgstr ""
+msgstr "numero non valido"
 
 #: DlgAdvPreferences.cpp:545
 msgid "invalid time, format is HH:MM"
@@ -2741,7 +2741,7 @@ msgstr "Accetto le condizioni d'uso."
 
 #: TermsOfUsePage.cpp:237
 msgid "I do not agree to the terms of use."
-msgstr ""
+msgstr "Non accetto le condizioni d'uso."
 
 #: UnavailablePage.cpp:183
 msgid "Project temporarily unavailable"
@@ -3651,11 +3651,15 @@ msgstr "Clicca OK per salvare le preferenze."
 msgid ""
 "Click Clear to restore web-based settings for all preferences listed below."
 msgstr ""
+"Clicca \"Cancella\" per ripristinare le impostazioni basate sul web per tutte "
+"le preferenze elencate sotto."
 
 #: sg_DlgPreferences.cpp:285
 msgid ""
 "For additional settings, select Computing Preferences in the Advanced View."
 msgstr ""
+"Per impostazioni aggiuntive, seleziona Preferenze di elaborazione nella "
+"Vista Avanzata."
 
 #: sg_DlgPreferences.cpp:313
 msgid "Do work only between:"
@@ -3687,7 +3691,7 @@ msgstr "Elabora dopo che il PC è inutilizzato da:"
 
 #: sg_DlgPreferences.cpp:429
 msgid "Clear all local preferences listed above and close the dialog"
-msgstr ""
+msgstr "Rimuovi tutte le preferenze locali e chiudi la finestra"
 
 #: sg_DlgPreferences.cpp:602 sg_DlgPreferences.cpp:605
 #: sg_DlgPreferences.cpp:681 sg_DlgPreferences.cpp:685
@@ -3796,7 +3800,7 @@ msgstr "Comandi del Progetto"
 #: sg_ProjectPanel.cpp:267
 #, c-format
 msgid "Pop up a menu of web sites for project %s"
-msgstr ""
+msgstr "Apri una finestra con i siti web per il progetto %s"
 
 #: sg_ProjectPanel.cpp:269
 #, c-format
