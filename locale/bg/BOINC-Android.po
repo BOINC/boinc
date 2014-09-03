@@ -14,9 +14,10 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"X-Generator: Translate Toolkit 1.10.0\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
+"X-POOTLE-MTIME: 1379512450.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -211,11 +212,11 @@ msgstr ""
 
 msgctxt "attachproject_acctmgr_header_pwd"
 msgid "Password:"
-msgstr ""
+msgstr "Парола:"
 
 msgctxt "attachproject_acctmgr_header_pwd_confirm"
 msgid "… Retype:"
-msgstr ""
+msgstr "… Напишете отново:"
 
 msgctxt "attachproject_acctmgr_button"
 msgid "Add"
@@ -340,9 +341,10 @@ msgid "Synchronize"
 msgstr ""
 
 #. main activity
+#, fuzzy
 msgctxt "main_noproject_warning"
 msgid "Tab here to choose a project."
-msgstr ""
+msgstr "Етикирайте тук за да изберете проект."
 
 msgctxt "main_error"
 msgid "Whooops"
