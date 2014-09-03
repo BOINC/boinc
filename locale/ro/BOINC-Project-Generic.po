@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2014-01-10 00:00 PST\n"
-"PO-Revision-Date: 2014-02-24 07:17+0000\n"
+"PO-Revision-Date: 2014-07-21 11:48+0000\n"
 "Last-Translator: Marius <marius.sirbu@outlook.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: ro\n"
@@ -18,7 +18,7 @@ msgstr ""
 "20)) ? 1 : 2);;\n"
 "X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-POOTLE-MTIME: 1393226265.0\n"
+"X-POOTLE-MTIME: 1405943302.0\n"
 
 msgid "LANG_NAME_NATIVE"
 msgstr "Română"
@@ -2449,7 +2449,7 @@ msgstr "Participanţi"
 
 #: ../user/bs_sample_index.php:46
 msgid "Do work"
-msgstr ""
+msgstr "Lucrează"
 
 #: ../user/bs_sample_index.php:47 ../user/bs_sample_index.php:50
 #: ../user/home.php:49 ../project.sample/project.inc:43
@@ -2631,6 +2631,8 @@ msgid ""
 "To replace it, click the \"Browse\" button and select a JPEG or PNG file (%1 "
 "or less)."
 msgstr ""
+"Pentru a înlocui, apăsați butonul \"Răsfoiește\" și selectați un fișier JPEG "
+"sau PNG (%1 sau mai puțin)."
 
 #: ../user/create_profile.php:69
 msgid "To remove it from your profile, check this box:"
@@ -3139,7 +3141,7 @@ msgstr "Evidenţiază utilizatorii speciali"
 
 #: ../user/edit_forum_preferences_form.php:135
 msgid "Display this many messages per page"
-msgstr ""
+msgstr "Afișează atâtea mesaje pe pagină"
 
 #: ../user/edit_forum_preferences_form.php:139
 msgid "How to sort"
@@ -4062,11 +4064,11 @@ msgstr ""
 
 #: ../user/forum_search.php:27
 msgid "Forum search"
-msgstr ""
+msgstr "Căutare în forum"
 
 #: ../user/forum_search.php:31
 msgid "Search query"
-msgstr ""
+msgstr "Expresia căutată"
 
 #: ../user/forum_search.php:32
 msgid "Search for keywords:"
@@ -4274,15 +4276,15 @@ msgstr ""
 
 #: ../user/forum_thread.php:229
 msgid "Move this thread to a different forum"
-msgstr ""
+msgstr "Mută acest fir în alt forum"
 
 #: ../user/forum_thread.php:234
 msgid "Edit title"
-msgstr ""
+msgstr "Modifică titlul"
 
 #: ../user/forum_thread.php:235
 msgid "Edit thread title"
-msgstr ""
+msgstr "Modifică titlul firului"
 
 #: ../user/forum_thread.php:245
 msgid "Export as Notice"
@@ -4290,7 +4292,7 @@ msgstr ""
 
 #: ../user/forum_thread.php:251
 msgid "Don't export"
-msgstr ""
+msgstr "Nu exporta"
 
 #: ../user/forum_thread.php:252
 msgid "Don't export this news item as a Notice"
@@ -4302,11 +4304,11 @@ msgstr "Sortează"
 
 #: ../user/forum_thread_status.php:49
 msgid "Thread status updated"
-msgstr ""
+msgstr "Stare fir actualizată"
 
 #: ../user/forum_thread_status.php:50
 msgid "The status has been updated."
-msgstr ""
+msgstr "Starea a fost actualizată."
 
 #: ../user/forum_user_posts.php:73
 msgid "Posts by %1"
@@ -4318,7 +4320,7 @@ msgstr "Deja prieteni"
 
 #: ../user/friend.php:39
 msgid "You requested friendship with %1 on %2."
-msgstr ""
+msgstr "Ați cerut prietenia lui %1 pe %2."
 
 #: ../user/friend.php:41
 msgid "This request is still pending confirmation."
@@ -4326,7 +4328,7 @@ msgstr "Această cerere încă aşteaptă confirmarea."
 
 #: ../user/friend.php:52
 msgid "%1 is not accepting friendship requests from you"
-msgstr ""
+msgstr "%1 nu acceptă cererile de prietenie de la dumneavoastră"
 
 #: ../user/friend.php:61
 msgid "You can't be friends with yourself"
@@ -4364,7 +4366,7 @@ msgstr ""
 
 #: ../user/friend.php:138
 msgid "Friend request"
-msgstr ""
+msgstr "Cerere prietenie"
 
 #: ../user/friend.php:141
 msgid "%1 has requested friendship with you."
@@ -4372,51 +4374,51 @@ msgstr ""
 
 #: ../user/friend.php:143
 msgid "%1 says: %2"
-msgstr ""
+msgstr "%1 spune: %2"
 
 #: ../user/friend.php:146
 msgid "Accept friendship"
-msgstr ""
+msgstr "Acceptă prietenia"
 
 #: ../user/friend.php:146
 msgid "Click accept if %1 is in fact a friend"
-msgstr ""
+msgstr "Apăsați acceptă dacă %1 este de fapt un prieten"
 
 #: ../user/friend.php:147
 msgid "Decline"
-msgstr ""
+msgstr "Refuză"
 
 #: ../user/friend.php:147
 msgid "Click decline if %1 is not a friend"
-msgstr ""
+msgstr "Apăsați refuză dacă %1 nu este un prieten"
 
 #: ../user/friend.php:186
 msgid "Friendship confirmed"
-msgstr ""
+msgstr "Prietenie confirmată"
 
 #: ../user/friend.php:187
 msgid "Your friendship with %1 has been confirmed."
-msgstr ""
+msgstr "Prietenia dumneavoastră cu %1 a fost confirmată."
 
 #: ../user/friend.php:205
 msgid "Friendship declined"
-msgstr ""
+msgstr "Prietenie refuzată"
 
 #: ../user/friend.php:206
 msgid "You have declined friendship with %1"
-msgstr ""
+msgstr "Ați refuzat prietenia cu %1"
 
 #: ../user/friend.php:221
 msgid "Notification not found"
-msgstr ""
+msgstr "Notificarea nu s-a găsit"
 
 #: ../user/friend.php:223
 msgid "Friend confirmed"
-msgstr ""
+msgstr "Prieten confirmat"
 
 #: ../user/friend.php:224
 msgid "You are now friends with %1."
-msgstr ""
+msgstr "Acum sunteți prieten cu %1."
 
 #: ../user/friend.php:232
 msgid "Cancel friendship?"
@@ -4424,19 +4426,19 @@ msgstr "Anulează prietenie?"
 
 #: ../user/friend.php:234
 msgid "Are you sure you want to cancel your friendship with %1?"
-msgstr ""
+msgstr "Sunteți siguri că doriți să anulați prietenia cu %1?"
 
 #: ../user/friend.php:239
 msgid "Stay friends"
-msgstr ""
+msgstr "Rămâneți prieteni"
 
 #: ../user/friend.php:249
 msgid "Friendship cancelled"
-msgstr ""
+msgstr "Prietenie anulată"
 
 #: ../user/friend.php:250
 msgid "Your friendship with %1 has been cancelled."
-msgstr ""
+msgstr "Prietenia dumneavoastră cu %1 a fost anulată."
 
 #: ../user/get_passwd.php:25
 msgid "Forgot your account info?"
