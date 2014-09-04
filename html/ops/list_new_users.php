@@ -49,8 +49,8 @@ echo "<input type=\"submit\" value=\"Display\">\n";
 echo "</form>\n";
 
 $query="SELECT * FROM user ORDER BY create_time DESC LIMIT $limit";
-$result = mysql_query($query);
-if (mysql_num_rows($result) < 1) {
+$result = _mysql_query($query);
+if (_mysql_num_rows($result) < 1) {
     echo "There are no new users.";
     admin_page_tail();
 }
@@ -58,7 +58,7 @@ if (mysql_num_rows($result) < 1) {
 start_table();
 table_header("ID", "Name", "Email", "Team", "Country", "Joined");
 
-while ($row = mysql_fetch_object($result)) { 
+while ($row = _mysql_fetch_object($result)) { 
     $id = $row->id;
     $name = $row->name;
     $email = $row->email_addr;

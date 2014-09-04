@@ -32,9 +32,9 @@ set_time_limit(0);
 
 function do_query($query) {
     echo "Doing query:\n$query\n";
-    $result = mysql_query($query);
+    $result = _mysql_query($query);
     if (!$result) {
-        echo "Failed:\n".mysql_error()."\n";
+        echo "Failed:\n"._mysql_error()."\n";
     } else {
         echo "Success.\n";
     }
@@ -43,7 +43,7 @@ function do_query($query) {
 function update_4_18_2004() {
     do_query("alter table user add cross_project_id varchar(254) not null");
     $result = do_query("select * from user");
-    while ($user = mysql_fetch_object($result)) {
+    while ($user = _mysql_fetch_object($result)) {
         $x = random_string();
         do_query("update user set cross_project_id='$x' where id=$user->id");
     }

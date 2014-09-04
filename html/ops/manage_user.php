@@ -44,9 +44,9 @@ function delete_user($user){
         user_quit_team($user);
     }
     if ($user->has_profile){
-        mysql_query("DELETE FROM profile WHERE userid = $user->id");
+        _mysql_query("DELETE FROM profile WHERE userid = $user->id");
         delete_user_pictures($user->id);
-        mysql_query("UPDATE user SET has_profile=0 WHERE id=$user->id");
+        _mysql_query("UPDATE user SET has_profile=0 WHERE id=$user->id");
     }
 
     if ($user->total_credit > 0.0){
@@ -57,9 +57,9 @@ function delete_user($user){
     // Don't delete user if they have any outstanding Results
     //
     $q = "SELECT COUNT(*) AS count FROM result WHERE userid=".$user->id;
-    $result = mysql_query($q);
-    $c = mysql_fetch_object($result);
-    mysql_free_result($result);
+    $result = _mysql_query($q);
+    $c = _mysql_fetch_object($result);
+    _mysql_free_result($result);
     if ($c->count) {
         error_page("Cannot delete user: User has $c->count results in the database.");
     }
@@ -67,15 +67,15 @@ function delete_user($user){
     // Don't delete user if they have posted to the forums
     //
     $q = "SELECT COUNT(*) AS count FROM post WHERE user=".$user->id;
-    $result = mysql_query($q);
-    $c = mysql_fetch_object($result);
-    mysql_free_result($result);
+    $result = _mysql_query($q);
+    $c = _mysql_fetch_object($result);
+    _mysql_free_result($result);
     if ($c->count) {
         error_page("Cannot delete user: User has $c->count forum posts.");
     }
 
     $q = "DELETE FROM user WHERE id=".$user->id;
-    $result = mysql_query($q);
+    $result = _mysql_query($q);
 }
 
 // Process special user settings
@@ -93,7 +93,7 @@ function handle_special_user($user) {
         }
     }
     $q = "UPDATE forum_preferences SET special_user=\"$bits\" WHERE userid=$user->id";
-    mysql_query($q);
+    _mysql_query($q);
 }
 
 
@@ -112,7 +112,7 @@ function handle_suspend($user) {
         if (is_numeric($dt)) {
             $t = $dt>0 ? time()+$dt : 0;
             $q = "UPDATE forum_preferences SET banished_until=$t WHERE userid=$user->id";
-            mysql_query($q);
+            _mysql_query($q);
 
             // put a timestamp in wiki to trigger re-validation of credentials
 

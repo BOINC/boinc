@@ -94,12 +94,9 @@ function db_init_cli() {
     print "Database password (if any): ";
     $pass = rtrim(fgets($in, 80));
 
-    $retval = mysql_pconnect($host, $user, $pass);
+    $retval = _mysql_connect($host, $user, $pass, $db_name);
     if (!$retval) {
         die("Can't connect to DB\n");
-    }
-    if (!mysql_select_db($db_name)) {
-        die("Can't select DB\n");
     }
 }
 

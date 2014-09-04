@@ -148,11 +148,11 @@ function read_email_files() {
 
 function last_rpc_time($user) {
     $x = 0;
-    $result = mysql_query("select rpc_time from host where userid=$user->id");
-    while ($host = mysql_fetch_object($result)) {
+    $result = _mysql_query("select rpc_time from host where userid=$user->id");
+    while ($host = _mysql_fetch_object($result)) {
         if ($host->rpc_time > $x) $x = $host->rpc_time;
     }
-    mysql_free_result($result);
+    _mysql_free_result($result);
     return $x;
 }
 
@@ -232,30 +232,30 @@ function handle_user($user) {
 }
 
 function do_batch($startid, $n, $log) {
-    $result = mysql_query(
+    $result = _mysql_query(
         "select * from user where id>$startid order by id limit $n"
     );
-    while ($user = mysql_fetch_object($result)) {
+    while ($user = _mysql_fetch_object($result)) {
         handle_user($user);
         $startid = $user->id;
         fputs($log, $user->id . "\n");
         fflush($log);
     }
-    mysql_free_result($result);
+    _mysql_free_result($result);
     return $startid;
 }
 
 function do_one($thisid, $log) {
-    $result = mysql_query(
+    $result = _mysql_query(
         "select * from user where id=$thisid"
     );
-    $user = mysql_fetch_object($result);
+    $user = _mysql_fetch_object($result);
     if ($user) {
         handle_user($user);
         fputs($log, $user->id . "\n");
         fflush($log);
     }
-    mysql_free_result($result);
+    _mysql_free_result($result);
     return $startid;
 }
 

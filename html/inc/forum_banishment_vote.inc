@@ -27,8 +27,8 @@ db_init();
 
 function current_tally($voteid) {
     $query="select sum(yes) as ayes,count(id)-sum(yes) as nays from banishment_votes where voteid=".$voteid;
-    $result = mysql_query($query);
-    $foobar = mysql_fetch_object($result);
+    $result = _mysql_query($query);
+    $foobar = _mysql_fetch_object($result);
     echo "<b>Current Tally</b>    Ayes: ".$foobar->ayes." Nays: ".$foobar->nays."<p>";
     return true;
 }
@@ -37,13 +37,13 @@ function vote_is_in_progress($userid) {
     // check whether a vote is already ongoing
     $now=time();
     $query="select count(id) as count from banishment_vote where userid=".$userid." and end_time>".$now;
-    $result = mysql_query($query);
+    $result = _mysql_query($query);
     if (!$result) {
         echo "Database error attempting to read banishment_vote table 1.<p>";
         echo "query: $query";
         return -1;
     }
-    $foobar = mysql_fetch_object($result);
+    $foobar = _mysql_fetch_object($result);
     if (!$foobar) {
         echo "Database error attempting to read banishment_vote table 2.<p>";
         return -1;
@@ -61,22 +61,22 @@ function start_vote($config,$logged_in_user,$user,$category,$reason) {
         return 0;
     }
     $query="insert into banishment_vote (userid,modid,start_time,end_time) values (".$user->id.",".$logged_in_user->id.",".$now.",".$fin.")";
-    $result = mysql_query($query);
+    $result = _mysql_query($query);
     if (!$result) {
         echo "Database error attempting to insert to banishment_vote table.<p>";
         return 0;
     }
 
-    $voteid=mysql_insert_id();
+    $voteid=_mysql_insert_id();
     $query="insert into banishment_votes (voteid,modid,time,yes) values (". $voteid .",". $logged_in_user->id .",". $now .",1)";
-    $result = mysql_query($query);
+    $result = _mysql_query($query);
     if (!$result) {
         echo "Database error attempting to insert to banishment_votes table.<p>";
         return 0;
     }
 
     $query="update forum_preferences set banished_until=".$fin." where userid=".$user->id;
-    $result = mysql_query($query);
+    $result = _mysql_query($query);
 
     echo "Banishment vote started.<p><p>";
     current_tally($voteid);
@@ -92,8 +92,8 @@ function vote_yes($config,$logged_in_user,$user) {
     }
     // Find the voteid
     $query="select id as voteid from banishment_vote where userid=".$user->id." and end_time>".$now;
-    $result = mysql_query($query);
-    $foobar = mysql_fetch_object($result);
+    $result = _mysql_query($query);
+    $foobar = _mysql_fetch_object($result);
     if (!$foobar) {
         echo "Database error attempting to read banishment_vote table.<p>";
         return 0;
@@ -101,8 +101,8 @@ function vote_yes($config,$logged_in_user,$user) {
     $voteid=$foobar->voteid;
     // Check whether mod has voted already.
     $query="select count(id) as count from banishment_votes where voteid=".$voteid." and modid=".$logged_in_user->id;
-    $result = mysql_query($query);
-    $foobar = mysql_fetch_object($result);
+    $result = _mysql_query($query);
+    $foobar = _mysql_fetch_object($result);
     if (!$foobar) {
         echo "Database error attempting to read banishment_vote table.<p>";
         return 0;
@@ -114,7 +114,7 @@ function vote_yes($config,$logged_in_user,$user) {
     }
     // insert the vote
     $query="insert into banishment_votes (voteid,modid,time,yes) values (" . $voteid .",". $logged_in_user->id .",". $now .",1)";
-    $result = mysql_query($query);
+    $result = _mysql_query($query);
     if (!$result) {
         echo "Database error attempting to insert to banishment_votes table.<p>";
         return 0;
@@ -133,8 +133,8 @@ function vote_no($config,$logged_in_user,$user) {
     }
     // Find the voteid
     $query="select id as voteid from banishment_vote where userid=".$user->id." and end_time>".$now;
-    $result = mysql_query($query);
-    $foobar = mysql_fetch_object($result);
+    $result = _mysql_query($query);
+    $foobar = _mysql_fetch_object($result);
     if (!$foobar) {
         echo "Database error attempting to read banishment_vote table.<p>";
         return 0;
@@ -142,8 +142,8 @@ function vote_no($config,$logged_in_user,$user) {
     $voteid=$foobar->voteid;
     // Check whether mod has voted already.
     $query="select count(id) as count from banishment_votes where voteid=".$voteid ." and modid=".$logged_in_user->id;
-    $result = mysql_query($query);
-    $foobar = mysql_fetch_object($result);
+    $result = _mysql_query($query);
+    $foobar = _mysql_fetch_object($result);
     if (!$foobar) {
         echo "Database error attempting to read banishment_vote table.<p>";
         return 0;
@@ -155,7 +155,7 @@ function vote_no($config,$logged_in_user,$user) {
     }
     // insert the vote
     $query="insert into banishment_votes (voteid,modid,time,yes) values (" . $voteid .",". $logged_in_user->id .",". $now .",0)";
-    $result = mysql_query($query);
+    $result = _mysql_query($query);
     if (!$result) {
         echo "Database error attempting to insert to banishment_votes table.<p>";
         return 0;

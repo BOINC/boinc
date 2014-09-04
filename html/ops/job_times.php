@@ -155,10 +155,10 @@ function analyze($appid, $app_version_id, $nresults) {
     $clause = $app_version_id?" and app_version_id = $app_version_id ":"";
 
     $query = "select id, server_state, outcome, elapsed_time, flops_estimate from result where server_state=5 and appid=$appid and outcome=1 and validate_state=1 $clause order by id desc limit $nresults";
-    $r = mysql_query($query);
+    $r = _mysql_query($query);
 
     $n = 0;
-    while ($result = mysql_fetch_object($r)) {
+    while ($result = _mysql_fetch_object($r)) {
         handle_result($result);
         $n++;
     }

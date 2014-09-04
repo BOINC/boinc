@@ -25,6 +25,7 @@
 
 if (class_exists("mysqli")) {
     define("MYSQLI", true);
+    $mysqli = null;
 } else {
     define("MYSQLI", false);
 }
@@ -40,6 +41,8 @@ class DbConn {
             } else {
                 $this->db_conn = new mysqli("p:".$host, $user, $passwd);
             }
+            global $mysqli;
+            $mysqli = $this->db_conn;
         } else {
             $this->db_conn = mysql_pconnect($host, $user, $passwd);
         }

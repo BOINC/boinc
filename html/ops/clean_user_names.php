@@ -39,13 +39,13 @@ email: $user->email_addr
         $x = boinc_real_escape_string($x);
         $x = trim($x);
         $query = "update user set name='$x' where id=$user->id";
-        $retval = mysql_query($query);
+        $retval = _mysql_query($query);
         echo $query;
     }
 }
 
-$result = mysql_query("select id, name, email_addr from user");
-while ($user = mysql_fetch_object($result)) {
+$result = _mysql_query("select id, name, email_addr from user");
+while ($user = _mysql_fetch_object($result)) {
     clean_user($user);
 }
 

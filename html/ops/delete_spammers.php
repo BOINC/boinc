@@ -73,7 +73,7 @@ function delete_user($user) {
     BoincPrivateMessage::delete_aux("userid=$user->id or senderid=$user->id");
     BoincNotify::delete_aux("userid=$user->id");
     $q = "delete from user where id=$user->id";
-    mysql_query($q);
+    _mysql_query($q);
 }
 
 function delete_list($fname) {

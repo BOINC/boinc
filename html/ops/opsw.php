@@ -19,11 +19,11 @@
 require_once("../inc/util_ops.inc");
 
 function getSingleQuery($query) {
-    $result = mysql_query($query);
+    $result = _mysql_query($query);
     if (!$result) return;
-    $cnt = mysql_fetch_row($result);
+    $cnt = _mysql_fetch_row($result);
     if (!$cnt) return;
-    mysql_free_result($result);
+    _mysql_free_result($result);
     return $cnt[0];
 }
 

@@ -29,12 +29,12 @@ set_time_limit(0);
 function fix_post($post) {
     $text = html_to_bbcode($post->content);
     if ($text != $post->content) {
-        $query = "update post set content = '".mysql_escape_string($text)."' where id=".$post->id;
+        $query = "update post set content = '"._mysql_escape_string($text)."' where id=".$post->id;
         //echo "$post->content\n\n";
         //echo "$post->thread $query\n\n";
-        $retval = mysql_query($query);
+        $retval = _mysql_query($query);
         if (!$retval) {
-            echo mysql_error();
+            echo _mysql_error();
             exit();
         }
     }
@@ -42,10 +42,10 @@ function fix_post($post) {
 
 function fix_posts() {
     $start_id = 0; //Set this to something else if you like
-    $posts = mysql_query("select * from post where id>$start_id order by id");
-    echo mysql_error();
+    $posts = _mysql_query("select * from post where id>$start_id order by id");
+    echo _mysql_error();
     $i=0;
-    while ($post = mysql_fetch_object($posts)){
+    while ($post = _mysql_fetch_object($posts)){
         $i++; 
         if ($i%100 == 0) {                      //For every 100 posts
             echo $post->id.". "; flush();   // print out where we are
@@ -60,8 +60,8 @@ function fix_posts() {
 
 // use this to patch problem cases; hand-edit
 function fix_fix() {
-    $posts = mysql_query("select * from post where id=99");
-    $post = mysql_fetch_object($posts);
+    $posts = _mysql_query("select * from post where id=99");
+    $post = _mysql_fetch_object($posts);
     fix_post($post);
 }
 

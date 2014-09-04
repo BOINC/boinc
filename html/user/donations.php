@@ -55,7 +55,7 @@ if (function_exists("donations_intro")) {
 
 echo "<script src=\"currency.js\" type=\"text/javascript\"></script>\n";
 
-$query = mysql_query("SELECT * FROM donation_items");
+$query = _mysql_query("SELECT * FROM donation_items");
 
 echo "<form name=\"calcForm\" action=\"donate.php\" method=\"post\">\n";
 start_table();
@@ -63,11 +63,11 @@ start_table();
 // If donation_items table is filled, a list of donation targets is shown
 
 $first_row = true;
-while ($row = mysql_fetch_object($query)) {
+while ($row = _mysql_fetch_object($query)) {
     $col1 = $row->title."<br><span class=\"smalltext\">".$row->description."</span>";
     
-    $query_amount = mysql_query("SELECT SUM(payment_amount-payment_fee) AS amount FROM donation_paypal WHERE processed = 1 AND item_number = '".$row->id."'");
-    $acquired = mysql_fetch_object($query_amount)->amount;
+    $query_amount = _mysql_query("SELECT SUM(payment_amount-payment_fee) AS amount FROM donation_paypal WHERE processed = 1 AND item_number = '".$row->id."'");
+    $acquired = _mysql_fetch_object($query_amount)->amount;
     $required = $row->required;
     
     if ($acquired > $required) {

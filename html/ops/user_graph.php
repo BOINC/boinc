@@ -70,12 +70,12 @@ function show_graph() {
     } else {
         $query = 'select $fields from user';
     }
-    $result = mysql_query($query);
+    $result = _mysql_query($query);
     $yarr = array();
     $now = time();
     $maxind = 0;
     $active_thresh = time() - 30*86400;
-    while ($user = mysql_fetch_object($result)) {
+    while ($user = _mysql_fetch_object($result)) {
         $val = $now - $user->max_rpc_time;
         if (!$active) {
             if ($user->max_rpc_time > $active_thresh) continue;

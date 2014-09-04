@@ -68,7 +68,7 @@ function size_format($size){
 function get_db_info($db_name) 
 {
 	// Carl grabbed this from the mysql.com boards http://dev.mysql.com/doc/refman/5.0/en/show-table-status.html  
-    $result = mysql_query("SHOW TABLE STATUS FROM $db_name");
+    $result = _mysql_query("SHOW TABLE STATUS FROM $db_name");
 
     // SQL output
     // mysql> show table status from [table_name];
@@ -85,7 +85,7 @@ function get_db_info($db_name)
 
 	$i = 0;
 	$db_rec = array();
-	while($myarr = mysql_fetch_assoc($result)) {
+	while($myarr = _mysql_fetch_assoc($result)) {
 
 		// sum grand totals
 		$total  =  $myarr["Data_length"] + $myarr["Index_length"];

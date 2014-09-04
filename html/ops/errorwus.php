@@ -60,7 +60,7 @@ function print_wu($id,$name,$quorum,$errors) {
   echo "</tr>\n";
 }
 
-$dbresult = mysql_query("
+$dbresult = _mysql_query("
   SELECT workunitid, outcome, workunit.name, min_quorum
   FROM result, workunit
   WHERE workunit.id = workunitid AND server_state = 5
@@ -79,7 +79,7 @@ $errors = 0;
 // The current version scans for client errors only.
 // In case you want to include validate errors, add "|| (outcome = 6)" to "(outcome = 3)"
 
-while ($res = mysql_fetch_object($dbresult)) {
+while ($res = _mysql_fetch_object($dbresult)) {
   $id = $res->workunitid;
   if ($id != $previd) {
     if ($errors > $prevquorum + $notification_level) {
@@ -98,7 +98,7 @@ while ($res = mysql_fetch_object($dbresult)) {
     $errors = 0;
   }
 }
-mysql_free_result($dbresult);
+_mysql_free_result($dbresult);
 if ($errors > $prevquorum) {
   print_wu($id,$prevname,$prevquorum,$errors);
   $rescount++;

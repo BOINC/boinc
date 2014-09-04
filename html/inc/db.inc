@@ -25,6 +25,109 @@ require_once('../inc/boinc_db.inc');
 // DEPRECATED; use boinc_db.inc instead.
 // TODO: replace calls to these functions
 
+if (MYSQLI) {
+    function _mysql_connect($host, $user, $pass, $dbname) {
+        global $mysqli;
+        $mysqli = new mysqli($host, $user, $pass, $dbname);
+        return $mysqli;
+    }
+    function _mysql_query($q) {
+        global $mysqli;
+        return mysqli_query($mysqli, $q);
+    }
+    function _mysql_num_rows($r) {
+        return mysqli_num_rows($r);
+    }
+    function _mysql_num_fields($r) {
+        global $mysqli;
+        return mysqli_field_count($mysqli);
+    }
+    function _mysql_fetch_object($r) {
+        return mysqli_fetch_object($r);
+    }
+    function _mysql_fetch_row($r) {
+        return mysqli_fetch_row($r);
+    }
+    function _mysql_fetch_assoc($r) {
+        return mysqli_fetch_assoc($r);
+    }
+    function _mysql_free_result($r) {
+        return mysqli_free_result($r);
+    }
+    function _mysql_insert_id() {
+        global $mysqli;
+        return mysqli_insert_id($mysqli);
+    }
+    function _mysql_field_attrs($r, $i) {
+        $x = mysqli_fetch_field_direct($r, $i);
+        switch ($x->type) {
+            case 1: $x->type = 'tinyint'; break;
+            case 2: $x->type = 'smallint'; break;
+            case 3: $x->type = 'int'; break;
+            case 5: $x->type = 'double'; break;
+            case 7: $x->type = 'timestamp'; break;
+            case 252: $x->type = 'blob'; break;
+            case 253: $x->type = 'varchar'; break;
+            case 254: $x->type = 'char'; break;
+        }
+        return $x;
+    }
+    function _mysql_escape_string($x) {
+        global $mysqli;
+        return mysqli_escape_string($mysqli, $x);
+    }
+    function _mysql_error() {
+        global $mysqli;
+        return mysqli_error($mysqli);
+    }
+} else {
+    function _mysql_connect($host, $user, $pass, $dbname) {
+        $link = mysql_pconnect($host, $user, $pass);
+        if (!$link) return null;
+        if (!mysql_select_db($db_name, $link)) {
+            return null;
+        }
+        return $link;
+    }
+    function _mysql_query($q) {
+        return mysql_query($q);
+    }
+    function _mysql_num_rows($r) {
+        return mysql_num_rows($r);
+    }
+    function _mysql_num_fields($r) {
+        return mysql_num_fields($r);
+    }
+    function _mysql_fetch_object($r) {
+        return mysql_fetch_object($r);
+    }
+    function _mysql_fetch_row($r) {
+        return mysql_fetch_row($r);
+    }
+    function _mysql_fetch_assoc($r) {
+        return mysql_fetch_assoc($r);
+    }
+    function _mysql_free_result($r) {
+        return mysql_free_result($r);
+    }
+    function _mysql_insert_id() {
+        return mysql_insert_id();
+    }
+    function _mysql_field_attrs($r, $i) {
+        $x = new StdClass;
+        $x->name = mysql_field_name($r, $i);
+        $x->type = mysql_field_type($r, $i);
+        $x->length = mysql_field_len($r, $i);
+        return $x;
+    }
+    function _mysql_escape_string($x) {
+        return mysql_escape_string($x);
+    }
+    function _mysql_error() {
+        return mysql_error();
+    }
+}
+
 function db_init_aux($try_replica=false) {
     $config = get_config();
     $user = parse_config($config, "<db_user>");
@@ -49,6 +152,11 @@ function db_init_aux($try_replica=false) {
     if ($host == null) {
         $host = "localhost";
     }
+    if (1) {
+        if (!_mysql_connect($host, $user, $pass, $db_name)) {
+            return 1;
+        }
+    } else {
     $link = mysql_pconnect($host, $user, $pass);
     if (!$link) {
         return 1;
@@ -56,6 +164,7 @@ function db_init_aux($try_replica=false) {
     if (!mysql_select_db($db_name, $link)) {
         echo "selecting $db_name\n";
         return 2;
+    }
     }
 
     return 0;

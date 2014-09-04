@@ -51,18 +51,18 @@ function write_count_file($n,$m) {
 }
 
 function get_working_count_from_db() {
-    $result = mysql_query("select count(*) from result where server_state = 4");
+    $result = _mysql_query("select count(*) from result where server_state = 4");
     if (!$result) return false;
-    $count = mysql_fetch_array($result);
-    mysql_free_result($result);
+    $count = _mysql_fetch_array($result);
+    _mysql_free_result($result);
     return $count[0];
 }
 
 function get_count_from_db() {
-    $result = mysql_query("select count(*) from result");
+    $result = _mysql_query("select count(*) from result");
     if (!$result) return false;
-    $count = mysql_fetch_array($result);
-    mysql_free_result($result);
+    $count = _mysql_fetch_array($result);
+    _mysql_free_result($result);
     return $count[0];
 }
 

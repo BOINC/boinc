@@ -52,14 +52,14 @@ if (function_exists('profile_screen_query')) {
         ." order by recommend desc limit 20"
     ;
 }
-$result = mysql_query($query);
+$result = _mysql_query($query);
 
 $n = 0;
 echo "<form action=profile_screen_action.php>
 ";
 start_table();
 $found = false;
-while ($profile = mysql_fetch_object($result)) {
+while ($profile = _mysql_fetch_object($result)) {
     $found = true;
     echo "<tr><td valign=top>";
     buttons($n);

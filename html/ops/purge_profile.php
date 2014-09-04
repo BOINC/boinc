@@ -40,10 +40,10 @@ $ids = array(
 );
 
 function purge_user($id) {
-    mysql_query("delete from user where id=$id");
-    mysql_query("delete from profile where userid=$id");
-    mysql_query("delete from thread where owner=$id");
-    mysql_query("delete from post where user=$id");
+    _mysql_query("delete from user where id=$id");
+    _mysql_query("delete from profile where userid=$id");
+    _mysql_query("delete from thread where owner=$id");
+    _mysql_query("delete from post where user=$id");
 }
 
 function purge_users($ids) {
@@ -57,8 +57,8 @@ function purge_users($ids) {
 function profile_word($word) {
     $q = "select userid from profile where response1 like '%$word%'";
     echo "$q\n";
-    $r = mysql_query($q);
-    while ($x = mysql_fetch_object($r)) {
+    $r = _mysql_query($q);
+    while ($x = _mysql_fetch_object($r)) {
         purge_user($x->userid);
     }
 }
