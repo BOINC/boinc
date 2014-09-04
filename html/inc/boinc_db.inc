@@ -659,6 +659,10 @@ class BoincCreditUser {
         $db = BoincDb::get();
         return $db->sum('credit_user', $field, $clause);
     }
+    static function update($clause) {
+        $db = BoincDb::get();
+        return $db->update_aux('credit_user', $clause);
+    }
 }
 
 class BoincCreditTeam {
@@ -673,6 +677,10 @@ class BoincCreditTeam {
     static function sum($field, $clause) {
         $db = BoincDb::get();
         return $db->sum('credit_team', $field, $clause);
+    }
+    static function update($clause) {
+        $db = BoincDb::get();
+        return $db->update_aux('credit_team', $clause);
     }
 }
 
