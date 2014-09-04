@@ -360,6 +360,34 @@ function boinc_preprocess_comment(&$vars, $hook) {
 // */
 
 /**
+ *
+ */
+function boinc_preprocess_forum_topic_list(&$variables) {
+  if (!empty($variables['topics'])) {
+    global $user;
+    foreach ($variables['topics'] as $id => $topic) {
+      if ($topic->new_replies) {
+        $cid = db_result(db_query("
+          SELECT c.cid
+          FROM {node} n
+          INNER JOIN {comments} c ON c.nid = n.nid
+          LEFT JOIN {history} h ON n.nid = h.nid AND h.uid = %d
+          WHERE n.nid = %d
+          AND n.status = 1
+          AND c.timestamp > h.timestamp
+          ORDER BY c.timestamp ASC
+          LIMIT 1",
+          $user->uid, $topic->nid
+        ));
+        if ($cid) {
+          $variables['topics'][$id]->new_url = url("goto/comment/{$cid}");
+        }
+      }
+    }
+  }
+}
+
+/**
  * Override or insert variables into the privatemsg view templates.
  *
  * @param $vars
