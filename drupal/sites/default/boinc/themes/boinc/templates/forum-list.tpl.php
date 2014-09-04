@@ -111,6 +111,15 @@
   </tbody>
 </table>
 
+<div class="subscriptions">
+  <ul class="tab-list">
+    <li class="first tab secondary"> 
+      <a href="account/prefs/subscriptions">
+        <?php echo t('Manage subscriptions'); ?></a>
+    </li>
+  </ul>
+</div>
+
 <div class="fine-print">
   <p>Please be responsible in what you write and do not create posts which are
   offensive or insulting. Offensive posts or threads may be deleted by

@@ -194,3 +194,10 @@
 	width: 25px;
 	height: 25px;
 }
+
+/**
+ * Subscriptions
+ */
+.view-subscriptions .views-field-ops {
+  text-align: right;
+}

@@ -746,7 +746,7 @@ table.user-projects {
 /* Forums */
 #forum-0 {
   margin-top: -32px; /* [TODO] Add search box and remove this! */
-  margin-bottom: 64px;
+  margin-bottom: 32px;
 }
 #forum h2.title {
   margin: 14px 3px 16px;
@@ -814,6 +814,9 @@ table.user-projects {
 }
 #forum > ul.links li {
   margin: 1em 0;
+}
+#forum .subscriptions {
+  margin: 32px 5px;
 }
 .forum-topic-navigation {
   padding: 1em 0 0 3em; /* LTR */
