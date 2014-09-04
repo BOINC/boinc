@@ -61,7 +61,7 @@
     <?php
       node_load($topic->id);
       $topic_index++;
-      $row_class = $topic->zebra;
+      $row_class = 'topic ' . $topic->zebra;
       if ($topic_index == 1) {
         $row_class .= ' first';
       }
@@ -74,6 +74,9 @@
       }
       if ($topic_index == $topic_count) {
         $row_class .= ' last';
+      }
+      if ($topic->new) {
+        $row_class .= ' updated';
       }
     ?>
     <tr class="<?php print $row_class;?>">
