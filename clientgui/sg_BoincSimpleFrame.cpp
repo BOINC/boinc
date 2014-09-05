@@ -145,7 +145,8 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIconBundle* icons, wxPoint position
 
 #ifdef __WXMAC__
     menuFile->Append(
-        wxID_PREFERENCES
+        wxID_PREFERENCES,
+        _("Preferences…")
     );
 #endif
 
@@ -294,9 +295,6 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIconBundle* icons, wxPoint position
     SendSizeEvent();
 #endif
 #ifdef __WXMAC__
-    m_pMenubar->MacInstallMenuBar();
-    MacLocalizeBOINCMenu();
-    
     // Mac needs a short delay to ensure that controls are
     // created in proper order to allow keyboard navigation
     m_iFrameRefreshRate = 1;    // 1 millisecond

@@ -61,7 +61,6 @@
 #include "res/connect.xpm"
 #include "res/disconnect.xpm"
 
-
 enum STATUSBARFIELDS {
     STATUS_TEXT,
     STATUS_CONNECTION_STATUS
@@ -355,7 +354,8 @@ bool CAdvancedFrame::CreateMenu() {
 
 #ifdef __WXMAC__
     menuFile->Append(
-        wxID_PREFERENCES
+        wxID_PREFERENCES,
+        _("Preferences…")
     );
 #endif
 
@@ -718,10 +718,6 @@ bool CAdvancedFrame::CreateMenu() {
 #ifdef __WXGTK__
     // Force a redraw of the menu under Ubuntu's new interface
     SendSizeEvent();
-#endif
-#ifdef __WXMAC__
-    m_pMenubar->MacInstallMenuBar();
-    MacLocalizeBOINCMenu();
 #endif
     if (m_pOldMenubar) {
         delete m_pOldMenubar;
