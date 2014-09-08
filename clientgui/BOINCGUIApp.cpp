@@ -412,6 +412,8 @@ bool CBOINCGUIApp::OnInit() {
     wxSystemOptions::SetOption(wxT("msw.staticbox.optimized-paint"), 0);
 #endif
 #ifdef __WXMAC__
+    bool launchedFromLogin = false;
+    
     // In wxMac-2.8.7, default wxListCtrl::RefreshItem() does not work
     // so use traditional generic implementation.
     // This has been fixed in wxMac-2.8.8, but the Mac native implementation:
@@ -645,6 +647,36 @@ bool CBOINCGUIApp::OnInit() {
     }
 #endif
 
+#ifdef __WXMAC__
+    ProcessSerialNumber psn;
+    ProcessInfoRec pInfo;
+    OSStatus err;
+    
+    memset(&pInfo, 0, sizeof(pInfo));
+    pInfo.processInfoLength = sizeof( ProcessInfoRec );
+    err = GetProcessInformation(&m_psnCurrentProcess, &pInfo);
+    if (!err) {
+        psn = pInfo.processLauncher;
+        memset(&pInfo, 0, sizeof(pInfo));
+        pInfo.processInfoLength = sizeof( ProcessInfoRec );
+        err = GetProcessInformation(&psn, &pInfo);
+    }
+    // Don't open main window if we were started automatically at login
+    if (pInfo.processSignature == 'lgnw') {  // Login Window app
+        launchedFromLogin = true;
+        
+        // Prevent a situation where wxSingleInstanceChecker lock file
+        // from last login auto start (with same pid) was not deleted.
+        // This path must match that in DetectDuplicateInstance()
+        wxString lockFilePath = wxString(wxFileName::GetHomeDir() +
+                                            "/Library/Application Support/BOINC/" +
+                                            wxTheApp->GetAppName() +
+                                            '-' + wxGetUserId()
+                                        );
+        boinc_delete_file(lockFilePath.utf8_str());
+    }
+#endif
+
     // Detect if BOINC Manager is already running, if so, bring it into the
     // foreground and then exit.
     if (DetectDuplicateInstance()) {
@@ -693,21 +725,7 @@ bool CBOINCGUIApp::OnInit() {
     IdleTrackerAttach();
     
 #ifdef __WXMAC__
-    ProcessSerialNumber psn;
-    ProcessInfoRec pInfo;
-    OSStatus err;
-    
-    memset(&pInfo, 0, sizeof(pInfo));
-    pInfo.processInfoLength = sizeof( ProcessInfoRec );
-    err = GetProcessInformation(&m_psnCurrentProcess, &pInfo);
-    if (!err) {
-        psn = pInfo.processLauncher;
-        memset(&pInfo, 0, sizeof(pInfo));
-        pInfo.processInfoLength = sizeof( ProcessInfoRec );
-        err = GetProcessInformation(&psn, &pInfo);
-    }
-    // Don't open main window if we were started automatically at login
-    if (pInfo.processSignature == 'lgnw') {  // Login Window app
+    if (launchedFromLogin) {
         m_bGUIVisible = false;
 
         // If the system was just started, we usually get a "Connection
