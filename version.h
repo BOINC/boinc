@@ -19,7 +19,7 @@
 #define VBOXWRAPPER_RELEASE 26089
 
 /* String representation of BOINC version number */
-#define BOINC_VERSION_STRING "7.4.19"
+#define BOINC_VERSION_STRING "7.4.20"
 
 /* Package is a pre-release (Alpha/Beta) package */
 /* #define BOINC_PRERELEASE 1 */
@@ -35,13 +35,13 @@
 #define PACKAGE_NAME "BOINC"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "BOINC 7.4.19"
+#define PACKAGE_STRING "BOINC 7.4.20"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "boinc"
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "7.4.19"
+#define PACKAGE_VERSION "7.4.20"
 
 #endif /* #if (defined(_WIN32) || defined(__APPLE__)) */
 
