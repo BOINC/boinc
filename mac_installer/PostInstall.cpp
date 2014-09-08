@@ -1530,6 +1530,18 @@ OSErr UpdateAllVisibleUsers(long brandID)
                 }
             }
         }
+
+        // Delete the BOINC Manager's wxSingleInstanceChecker lock file, in case
+        // it was not deleted (such as due to a crash.)
+        // Lock file name always has "BOINC Manager" even if the application is
+        // branded, due to SetAppName(wxT("BOINC Manager")) in CBOINCGUIApp::OnInit().
+        // This path must match that in CBOINCGUIApp::DetectDuplicateInstance()
+        sprintf(cmd, "sudo -u \"%s\" rm -f \"/Users/%s/Library/Application Support/BOINC/BOINC Manager-%s\"",
+                            pw->pw_name, pw->pw_name, pw->pw_name);
+        err = system(cmd);
+        printf("[2] %s returned %d\n", cmd, err);
+        fflush(stdout);
+
     }   // End for (userIndex=0; userIndex< human_user_names.size(); ++userIndex)
 
     ResynchSystem();
