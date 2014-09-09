@@ -396,7 +396,7 @@ function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs 
           break;
           
         case 'float':
-          $value = number_format((float) $value, 1);
+          $value = number_format((float) $value, 2);
           break;
         
         default:
