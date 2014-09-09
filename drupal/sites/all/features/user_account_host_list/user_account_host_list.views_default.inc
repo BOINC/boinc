@@ -612,13 +612,16 @@ function user_account_host_list_views_default_views() {
       'empty_zero' => 0,
       'hide_alter_empty' => 1,
       'value' => '<?php
-  echo boincwork_host_last_contact($data->host_rpc_time);
+  echo boincwork_host_last_contact($data->host_rpc_time, $data->id);
 ?>',
       'exclude' => 0,
       'id' => 'phpcode_2',
       'table' => 'customfield',
       'field' => 'phpcode',
       'relationship' => 'none',
+      'override' => array(
+        'button' => 'Override',
+      ),
     ),
   ));
   $handler->override_option('arguments', array(

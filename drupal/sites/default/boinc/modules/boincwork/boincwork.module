@@ -91,6 +91,13 @@ function boincwork_menu() {
     'type' => MENU_NORMAL_ITEM,
     'file' => 'boincwork.admin.inc'
   );
+  $items['host/%/log'] = array(
+    'title' => t('Host log'),
+    'page callback' => 'boincwork_host_log',
+    'page arguments' => array(1),
+    'access callback' => 'user_is_logged_in',
+    'type' => MENU_CALLBACK,
+  );
   $items['user/%/mobile'] = array(
     'title' => t('Mobile stats'),
     'page callback' => 'boincwork_mobile_stats',
@@ -853,6 +860,22 @@ function boincwork_certificates($type = null, $border = null) {
     echo "
     </td><tr></table>
     ";
+  }
+}
+
+/**
+ * Host log menu callback
+ * Called when user accesses the log for a host
+ */
+function boincwork_host_log($host_id = null) {
+  $root_log_dir = variable_get('boinc_host_sched_logs_dir', '');
+  $log = '';
+  if ($root_log_dir AND $host_id) {
+    $subdir = substr($host_id, 0, -3) OR $subdir = 0;
+    $log = implode('/', array($root_log_dir, $subdir, $host_id));
+  }
+  if ($log AND file_exists($log)) {
+    include($log);
   }
 }
 

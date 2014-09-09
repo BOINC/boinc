@@ -3425,7 +3425,7 @@ function work_and_host_stats_views_default_views() {
       'hide_alter_empty' => 1,
       'value' => '<?php
   if (is_current_boinc_user($data->host_userid)) {
-    echo boincwork_host_last_contact($data->host_rpc_time);
+    echo boincwork_host_last_contact($data->host_rpc_time, $data->id);
   }
 ?>',
       'exclude' => 0,

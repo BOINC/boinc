@@ -1230,15 +1230,19 @@ function boincwork_views_task_list_empty_text($context = NULL) {
 /**
   * Determine output for host last contact time
   */
-function boincwork_host_last_contact($timestamp, $context = NULL) {
+function boincwork_host_last_contact($timestamp, $host_id = NULL, $context = NULL) {
   $output = '---';
-  $log_name = 'NO_SUCH_LOG';
+  $root_log_dir = variable_get('boinc_host_sched_logs_dir', '');
+  $log = '';
   if ($timestamp) {
     $output = gmdate('j M Y | G:i:s', $timestamp) . ' UTC';
-    $log_name = gmdate('Y-m-d_H/Y-m-d_H:i', $timestamp);
   }
-  if (file_exists(boinc_get_path() . '/html/sched_logs')) {
-    $output = "<a href=\"/sched_logs/{$log_name}\">{$output}</a>";
+  if ($root_log_dir AND $host_id) {
+    $subdir = substr($host_id, 0, -3) OR $subdir = 0;
+    $log = implode('/', array($root_log_dir, $subdir, $host_id));
+  }
+  if ($log AND file_exists($log)) {
+    $output = l($output, "host/{$host_id}/log");
   }
   return $output;
 }
