@@ -38,7 +38,8 @@ function boincuser_admin_environment(&$form_state) {
     'boinc_config_xml_dir' => variable_get('boinc_config_xml_dir', ''),
     'boinc_html_inc_dir' => variable_get('boinc_html_inc_dir', ''),
     'boinc_project_config_dir' => variable_get('boinc_project_config_dir', ''),
-    'boinc_user_image_dir' => variable_get('boinc_user_image_dir', '')
+    'boinc_user_image_dir' => variable_get('boinc_user_image_dir', ''),
+    'boinc_host_sched_logs_dir' => variable_get('boinc_host_sched_logs_dir', ''),
   );
   //drupal_set_message(print_r($default, true));
   //drupal_set_message(print_r($form_state, true));
@@ -100,6 +101,12 @@ function boincuser_admin_environment(&$form_state) {
     '#default_value' => $default['boinc_user_image_dir'],
     '#description' => t('The filesystem directory that contains user images'),
     '#disabled' => is_dir($default['boinc_user_image_dir'])
+  );
+  $form['overrides']['boinc_host_sched_logs_dir'] = array(
+    '#type' => 'textfield',
+    '#title' => t('BOINC host scheduler log directory (optional)'),
+    '#default_value' => $default['boinc_host_sched_logs_dir'],
+    '#description' => t('The filesystem directory that contains host scheduler logs'),
   );
   return system_settings_form($form);
 }
@@ -164,6 +171,14 @@ function boincuser_admin_environment_validate($form, &$form_state) {
     if (!is_dir($values['boinc_user_image_dir'])) {
       form_set_error('boinc_user_image_dir', t('Profile image directory not found
         at %directory', array('%directory' => $values['boinc_user_image_dir'])
+      ));
+    }
+    if ($values['boinc_host_sched_logs_dir']
+        AND !is_dir($values['boinc_host_sched_logs_dir'])
+      ) {
+      form_set_error('boinc_host_sched_logs_dir', t('Host scheduler log
+        directory not found at %directory',
+        array('%directory' => $values['boinc_host_sched_logs_dir'])
       ));
     }
   }
