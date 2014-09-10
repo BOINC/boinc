@@ -16,7 +16,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// express a time difference in readable form
+// express a time difference in readable form, e.g. "7 days ago".
+// If it's more than 30 days, just show the date
 //
 function time_diff_str($t1, $t2) {
     if (!$t1 || !$t2) return "---";
@@ -26,6 +27,9 @@ function time_diff_str($t1, $t2) {
         $post="";
         $diff=-$diff;
     } else {
+        if ($diff > 86400*30) {
+            return date_str($t1);
+        }
         $pre="";
         $post=" ago";
     }

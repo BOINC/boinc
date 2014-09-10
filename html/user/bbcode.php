@@ -46,8 +46,6 @@ row2_plain("[trac]#1[/trac] or [trac]ticket:1[/trac]",
     tra("use to link to Trac ticket on BOINC website").": <a href=\"http://boinc.berkeley.edu/trac/ticket/1\">#1</a>");
 row2_plain("[trac]wiki:WebForum[/trac]",
     tra("use to link to Trac Wiki on BOINC website").": <a href=\"http://boinc.berkeley.edu/trac/wiki/WebForum\">WebForum</a>");
-row2_plain("[trac]changeset:12345[/trac]",
-    tra("use to link to SVN changeset on BOINC website").": <a href=\"http://boinc.berkeley.edu/trac/changeset/12345\">[12345]</a>");
 end_table();
 
 echo "<p>
