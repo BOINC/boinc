@@ -202,10 +202,9 @@ void CProjectInfoPage::CreateControls()
 #ifdef __WXMAC__
 #define DESCRIPTIONSWIDTH 350
 #else
-#define DESCRIPTIONSWIDTH ADJUSTFORXDPI(200)
+#define DESCRIPTIONSWIDTH ADJUSTFORXDPI(310)
 #endif
 
-    bool bCategoryFound = false;
     wxArrayString aCategories;
     ALL_PROJECTS_LIST pl;
     CMainDocument* pDoc = wxGetApp().GetDocument();
