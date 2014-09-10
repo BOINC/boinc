@@ -111,7 +111,7 @@ struct CLIENT_STATE {
 
     char language[16];                // ISO language code reported by GUI
     char client_brand[256];
-        // contents of client_brand.txt, e.g. "HTP Power to Give"
+        // contents of client_brand.txt, e.g. "HTC Power to Give"
         // reported to scheduler
     VERSION_INFO core_client_version;
     string statefile_platform_name;
