@@ -117,8 +117,8 @@ void CAccountManagerInfoPage::CreateControls()
 #define LISTBOXWIDTH 225
 #define DESCRIPTIONSWIDTH 350
 #else
-#define LISTBOXWIDTH 150
-#define DESCRIPTIONSWIDTH 200
+#define LISTBOXWIDTH ADJUSTFORXDPI(150)
+#define DESCRIPTIONSWIDTH ADJUSTFORXDPI(310)
 #endif
 
     CAccountManagerInfoPage* itemWizardPage23 = this;
