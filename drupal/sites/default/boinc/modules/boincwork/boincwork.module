@@ -875,6 +875,7 @@ function boincwork_host_log($host_id = null) {
     $log = implode('/', array($root_log_dir, $subdir, $host_id));
   }
   if ($log AND file_exists($log)) {
+    header('Content-type: text/plain');
     include($log);
   }
 }
