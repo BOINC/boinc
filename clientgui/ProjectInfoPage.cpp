@@ -139,6 +139,8 @@ CProjectInfoPage::~CProjectInfoPage( )
         delete pEntry;
     }
     m_Projects.clear();
+    
+    delete m_apl;
 }
 
 
@@ -206,7 +208,6 @@ void CProjectInfoPage::CreateControls()
 #endif
 
     wxArrayString aCategories;
-    ALL_PROJECTS_LIST pl;
     CMainDocument* pDoc = wxGetApp().GetDocument();
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
@@ -245,9 +246,10 @@ void CProjectInfoPage::CreateControls()
     // The combo box will be repopulated in  CProjectInfoPage::OnPageChanged(), 
     // so we don't need to worry about duplicate entries here.
     // Get the project list
-    pDoc->rpc.get_all_projects_list(pl);
-    for (int i=0; i<pl.projects.size(); i++) {
-        wxString strGeneralArea = wxGetTranslation(wxString(pl.projects[i]->general_area.c_str(), wxConvUTF8));
+    m_apl = new ALL_PROJECTS_LIST;
+    pDoc->rpc.get_all_projects_list(*m_apl);
+    for (int i=0; i<m_apl->projects.size(); i++) {
+        wxString strGeneralArea = wxGetTranslation(wxString(m_apl->projects[i]->general_area.c_str(), wxConvUTF8));
         aCategories.Add(strGeneralArea);
     }
     m_pProjectCategoriesCtrl = new wxComboBox( itemWizardPage23, ID_CATEGORIES, wxT(""), wxDefaultPosition, wxDefaultSize, aCategories, wxCB_READONLY
@@ -586,7 +588,6 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
 
     CMainDocument*              pDoc = wxGetApp().GetDocument();
     unsigned int                i = 0, j = 0, k = 0;
-    ALL_PROJECTS_LIST           pl;
     wxArrayString               aClientPlatforms;
     wxArrayString               aProjectPlatforms;
     wxArrayString               aCategories;
@@ -665,34 +666,30 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     // Populate the ProjectInfo data structure with the list of projects we want to show and
     // any other activity we need to prep the page.
     if (!m_bProjectListPopulated) {
-
-        // Get the project list
-        pDoc->rpc.get_all_projects_list(pl);
-
         // Convert the supported client platforms into something useful
         for (i=0; i<pDoc->state.platforms.size(); i++) {
             aClientPlatforms.Add(wxString(pDoc->state.platforms[i].c_str(), wxConvUTF8));
         }
 
         // Iterate through the project list and add them to the ProjectInfo data structure
-        for (i=0; i<pl.projects.size(); i++) {
+        for (i=0; i<m_apl->projects.size(); i++) {
             pProjectInfo = new CProjectInfo();
             m_Projects.push_back(pProjectInfo);
 
             wxLogTrace(
                 wxT("Function Status"),
                 wxT("CProjectInfoPage::OnPageChanged - Name: '%s', URL: '%s'"),
-                wxString(pl.projects[i]->name.c_str(), wxConvUTF8).c_str(),
-                wxString(pl.projects[i]->url.c_str(), wxConvUTF8).c_str()
+                wxString(m_apl->projects[i]->name.c_str(), wxConvUTF8).c_str(),
+                wxString(m_apl->projects[i]->url.c_str(), wxConvUTF8).c_str()
             );
 
             // Convert the easy stuff
-            pProjectInfo->m_strURL = wxGetTranslation(wxString(pl.projects[i]->url.c_str(), wxConvUTF8));
-            pProjectInfo->m_strName = wxGetTranslation(wxString(pl.projects[i]->name.c_str(), wxConvUTF8));
-            pProjectInfo->m_strDescription = wxGetTranslation(wxString(pl.projects[i]->description.c_str(), wxConvUTF8));
-            pProjectInfo->m_strGeneralArea = wxGetTranslation(wxString(pl.projects[i]->general_area.c_str(), wxConvUTF8));
-            pProjectInfo->m_strSpecificArea = wxGetTranslation(wxString(pl.projects[i]->specific_area.c_str(), wxConvUTF8));
-            pProjectInfo->m_strOrganization = wxGetTranslation(wxString(pl.projects[i]->home.c_str(), wxConvUTF8));
+            pProjectInfo->m_strURL = wxGetTranslation(wxString(m_apl->projects[i]->url.c_str(), wxConvUTF8));
+            pProjectInfo->m_strName = wxGetTranslation(wxString(m_apl->projects[i]->name.c_str(), wxConvUTF8));
+            pProjectInfo->m_strDescription = wxGetTranslation(wxString(m_apl->projects[i]->description.c_str(), wxConvUTF8));
+            pProjectInfo->m_strGeneralArea = wxGetTranslation(wxString(m_apl->projects[i]->general_area.c_str(), wxConvUTF8));
+            pProjectInfo->m_strSpecificArea = wxGetTranslation(wxString(m_apl->projects[i]->specific_area.c_str(), wxConvUTF8));
+            pProjectInfo->m_strOrganization = wxGetTranslation(wxString(m_apl->projects[i]->home.c_str(), wxConvUTF8));
             
             // Add the category if it isn't already in the category list
             bCategoryFound = false;
@@ -707,8 +704,8 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
 
             // Convert the supported project platforms into something useful
             aProjectPlatforms.Clear();
-            for (j=0; j<pl.projects[i]->platforms.size(); j++) {
-                aProjectPlatforms.Add(wxString(pl.projects[i]->platforms[j].c_str(), wxConvUTF8));
+            for (j=0; j<m_apl->projects[i]->platforms.size(); j++) {
+                aProjectPlatforms.Add(wxString(m_apl->projects[i]->platforms[j].c_str(), wxConvUTF8));
             }
 
             // Can the core client support a platform that this project supports?
