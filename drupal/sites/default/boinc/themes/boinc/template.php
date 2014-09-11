@@ -166,6 +166,24 @@ function boinc_preprocess_node(&$vars, $hook) {
 // */
 
 /**
+ * Preprocessing for forum lists
+ */
+function boinc_preprocess_forums(&$vars, $hook) {
+  // Add a link to mark all forums as read
+  module_load_include('inc', 'forum_tweaks', 'includes/mark-read');
+  forum_tweaks_get_mark_read_link($vars['tid'], $vars['links']);
+  if (!$vars['parents']) {
+    // Remove the "Post new forum topic" link from the top level forum list
+    unset($vars['links']['forum']);
+    // Add a link to manage subscriptions for the user
+    $vars['links']['subscriptions'] = array(
+      'title' => t('Manage subscriptions'),
+      'href' => 'account/prefs/subscriptions',
+    );
+  }
+}
+
+/**
  * Preprocessing for forum type nodes
  */
 function boinc_preprocess_node_forum(&$vars, $hook) {
