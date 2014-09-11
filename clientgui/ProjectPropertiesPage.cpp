@@ -157,7 +157,7 @@ void CProjectPropertiesPage::CreateControls()
 
     wxBitmap itemBitmap41(GetBitmapResource(wxT("res/wizprogress01.xpm")));
     m_pProgressIndicator = new wxStaticBitmap;
-    m_pProgressIndicator->Create( itemWizardPage36, ID_PROGRESSCTRL, itemBitmap41, wxDefaultPosition, wxSize(184, 48), 0 );
+    m_pProgressIndicator->Create( itemWizardPage36, ID_PROGRESSCTRL, itemBitmap41, wxDefaultPosition, wxSize(ADJUSTFORXDPI(184), ADJUSTFORYDPI(48)), 0 );
     itemFlexGridSizer40->Add(m_pProgressIndicator, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     itemFlexGridSizer40->Add(5, 5, 0, wxGROW|wxALL, 5);
@@ -243,65 +243,66 @@ void CProjectPropertiesPage::FinishProgress(wxStaticBitmap* pBitmap) {
  
 wxBitmap CProjectPropertiesPage::GetBitmapResource( const wxString& name )
 {
+// TODO: Choose from multiple size images if provided, else resize the closest one
     // Bitmap retrieval
     if (name == wxT("res/wizprogress01.xpm"))
     {
-        wxBitmap bitmap(wizprogress01_xpm);
+        wxBitmap bitmap(GetScaledBitmapFromXPMData(wizprogress01_xpm));
         return bitmap;
     }
     else if (name == wxT("res/wizprogress02.xpm"))
     {
-        wxBitmap bitmap(wizprogress02_xpm);
+        wxBitmap  bitmap(GetScaledBitmapFromXPMData(wizprogress02_xpm));
         return bitmap;
     }
     else if (name == wxT("res/wizprogress03.xpm"))
     {
-        wxBitmap bitmap(wizprogress03_xpm);
+        wxBitmap  bitmap(GetScaledBitmapFromXPMData(wizprogress03_xpm));
         return bitmap;
     }
     else if (name == wxT("res/wizprogress04.xpm"))
     {
-        wxBitmap bitmap(wizprogress04_xpm);
+        wxBitmap  bitmap(GetScaledBitmapFromXPMData(wizprogress04_xpm));
         return bitmap;
     }
     else if (name == wxT("res/wizprogress05.xpm"))
     {
-        wxBitmap bitmap(wizprogress05_xpm);
+        wxBitmap  bitmap(GetScaledBitmapFromXPMData(wizprogress05_xpm));
         return bitmap;
     }
     else if (name == wxT("res/wizprogress06.xpm"))
     {
-        wxBitmap bitmap(wizprogress06_xpm);
+        wxBitmap  bitmap(GetScaledBitmapFromXPMData(wizprogress06_xpm));
         return bitmap;
     }
     else if (name == wxT("res/wizprogress07.xpm"))
     {
-        wxBitmap bitmap(wizprogress07_xpm);
+        wxBitmap  bitmap(GetScaledBitmapFromXPMData(wizprogress07_xpm));
         return bitmap;
     }
     else if (name == wxT("res/wizprogress08.xpm"))
     {
-        wxBitmap bitmap(wizprogress08_xpm);
+        wxBitmap  bitmap(GetScaledBitmapFromXPMData(wizprogress08_xpm));
         return bitmap;
     }
     else if (name == wxT("res/wizprogress09.xpm"))
     {
-        wxBitmap bitmap(wizprogress09_xpm);
+        wxBitmap  bitmap(GetScaledBitmapFromXPMData(wizprogress09_xpm));
         return bitmap;
     }
     else if (name == wxT("res/wizprogress10.xpm"))
     {
-        wxBitmap bitmap(wizprogress10_xpm);
+        wxBitmap  bitmap(GetScaledBitmapFromXPMData(wizprogress10_xpm));
         return bitmap;
     }
     else if (name == wxT("res/wizprogress11.xpm"))
     {
-        wxBitmap bitmap(wizprogress11_xpm);
+        wxBitmap  bitmap(GetScaledBitmapFromXPMData(wizprogress11_xpm));
         return bitmap;
     }
     else if (name == wxT("res/wizprogress12.xpm"))
     {
-        wxBitmap bitmap(wizprogress12_xpm);
+        wxBitmap  bitmap(GetScaledBitmapFromXPMData(wizprogress12_xpm));
         return bitmap;
     }
     return wxNullBitmap;
