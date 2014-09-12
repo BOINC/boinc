@@ -237,9 +237,9 @@ public:
     int get_vm_exit_code(unsigned long& exit_code);
     double get_vm_cpu_time();
 
-    int get_system_log(std::string& log, bool tail_only = true);
-    int get_vm_log(std::string& log, bool tail_only = true);
-    int get_trace_log(std::string& log, bool tail_only = true);
+    int get_system_log(std::string& log, bool tail_only = true, unsigned int buffer_size = 8192);
+    int get_vm_log(std::string& log, bool tail_only = true, unsigned int buffer_size = 8192);
+    int get_trace_log(std::string& log, bool tail_only = true, unsigned int buffer_size = 8192);
 
     int set_network_access(bool enabled);
     int set_cpu_usage(int percentage);
