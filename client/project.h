@@ -304,6 +304,10 @@ struct PROJECT : PROJ_AM {
     int njobs_success;
     int njobs_error;
 
+    // total elapsed time of this project's jobs (for export to GUI)
+    //
+    double elapsed_time;
+
     PROJECT();
     ~PROJECT(){}
     void init();
