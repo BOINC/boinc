@@ -411,10 +411,12 @@ void extract_completion_file_info(VBOX_VM& vm, unsigned long& exit_code, string&
     char path[MAXPATHLEN];
     char buf[1024];
 
+    exit_code = 0;
+    message = "";
+
     sprintf(path, "shared/%s", vm.completion_trigger_file.c_str());
     FILE* f = fopen(path, "r");
     if (f) {
-        message = "";
         if (fgets(buf, 1024, f) != NULL) {
             exit_code = atoi(buf);
         }
