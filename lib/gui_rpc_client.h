@@ -170,6 +170,7 @@ struct PROJECT {
     char venue[256];
     int njobs_success;
     int njobs_error;
+    double elapsed_time;
     char external_cpid[64];
 
     // NOTE: if you add any data items above,
