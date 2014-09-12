@@ -8201,9 +8201,7 @@ else {
       'hide_alter_empty' => 1,
       'value' => '<?php
   require_boinc(array(\'result\', \'util\'));
-  $result = new stdClass();
-  $result->exit_status = $data->result_exit_status;
-  return exit_status_string($result);
+  return exit_status_string($data->result_exit_status);
 ?>',
       'exclude' => 0,
       'id' => 'phpcode_6',
