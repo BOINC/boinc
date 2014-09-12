@@ -407,40 +407,22 @@ void set_remote_desktop_info(APP_INIT_DATA& /* aid */, VBOX_VM& vm) {
     }
 }
 
-// check for completion trigger file
-//
-void VBOX_VM::check_completion_trigger() {
+void extract_completion_file_info(VBOX_VM& vm, unsigned long& exit_code, string& message) {
     char path[MAXPATHLEN];
-    static double detect_time = 0;
+    char buf[1024];
 
-    if (detect_time) {
-        if (dtime() > detect_time + 60) {
-            cleanup();
-            dump_hypervisor_logs(true);
-            boinc_finish(0);
-        }
-        return;
-    }
-    sprintf(path, "shared/%s", completion_trigger_file.c_str());
-    if (!boinc_file_exists(path)) return;
-    detect_time = dtime();
-#if 0
-    int exit_code = 0;
+    sprintf(path, "shared/%s", vm.completion_trigger_file.c_str());
     FILE* f = fopen(path, "r");
     if (f) {
-        char buf[1024];
+        message = "";
         if (fgets(buf, 1024, f) != NULL) {
             exit_code = atoi(buf);
         }
         while (fgets(buf, 1024, f) != NULL) {
-            fputs(buf, stderr);
+            message += buf;
         }
         fclose(f);
     }
-    cleanup();
-    dump_hypervisor_logs(true);
-    boinc_finish(exit_code);
-#endif
 }
 
 // check for trickle trigger files, and send trickles if find them.
@@ -1074,6 +1056,17 @@ int main(int argc, char** argv) {
             vm.dump_hypervisor_logs(true);
             boinc_finish(EXIT_ABORTED_BY_CLIENT);
         }
+        if (vm.is_logged_completion_file_exists()) {
+            vm.reset_vm_process_priority();
+            vm.cleanup();
+            fprintf(
+                stderr,
+                "%s VM Completion File Detected.\n",
+                vboxwrapper_msg_prefix(buf, sizeof(buf))
+            );
+            extract_completion_file_info(vm, vm_exit_code, message);
+            boinc_finish(vm_exit_code);
+        }
         if (!vm.online) {
             // Is this a type of event we can recover from?
             if (vm.is_logged_failure_host_out_of_memory()) {
@@ -1160,9 +1153,6 @@ int main(int argc, char** argv) {
             if ((loop_iteration % 10) == 0) {
                 current_cpu_time = starting_cpu_time + vm.get_vm_cpu_time();
                 vm.check_trickle_triggers();
-                if (!vm.completion_trigger_file.empty()) {
-                    vm.check_completion_trigger();
-                }
             }
 
             if (vm.job_duration) {

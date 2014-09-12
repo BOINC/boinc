@@ -1941,6 +1941,13 @@ bool VBOX_VM::is_logged_failure_guest_job_out_of_memory() {
     return false;
 }
 
+bool VBOX_VM::is_logged_completion_file_exists() {
+    char path[MAXPATHLEN];
+    sprintf(path, "shared/%s", completion_trigger_file.c_str());
+    if (boinc_file_exists(path)) return true;
+    return false;
+}
+
 bool VBOX_VM::is_virtualbox_version_newer(int maj, int min, int rel) {
     int vbox_major = 0, vbox_minor = 0, vbox_release = 0;
     if (3 == sscanf(virtualbox_version.c_str(), "%d.%d.%d", &vbox_major, &vbox_minor, &vbox_release)) {

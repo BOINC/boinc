@@ -205,7 +205,6 @@ public:
     int pause();
     int resume();
     void check_trickle_triggers();
-    void check_completion_trigger();
     int create_snapshot(double elapsed_time);
     int cleanup_snapshots(bool delete_active);
     int restore_snapshot();
@@ -223,6 +222,7 @@ public:
     bool is_logged_failure_vm_extensions_not_supported();
     bool is_logged_failure_host_out_of_memory();
     bool is_logged_failure_guest_job_out_of_memory();
+    bool is_logged_completion_file_exists();
     bool is_virtualbox_version_newer(int maj, int min, int rel);
     bool is_virtualbox_error_recoverable(int retval);
 
