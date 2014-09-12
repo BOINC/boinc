@@ -139,6 +139,8 @@ CProjectInfoPage::~CProjectInfoPage( )
         delete pEntry;
     }
     m_Projects.clear();
+    
+    delete m_apl;
 }
 
 
@@ -200,12 +202,15 @@ void CProjectInfoPage::CreateControls()
 {    
 ////@begin CProjectInfoPage content construction
 #ifdef __WXMAC__
-#define LISTBOXWIDTH 225
 #define DESCRIPTIONSWIDTH 350
 #else
-#define LISTBOXWIDTH 150
-#define DESCRIPTIONSWIDTH 200
+#define DESCRIPTIONSWIDTH ADJUSTFORXDPI(310)
 #endif
+
+    wxArrayString aCategories;
+    CMainDocument* pDoc = wxGetApp().GetDocument();
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
 
     CProjectInfoPage* itemWizardPage23 = this;
 
@@ -228,9 +233,7 @@ void CProjectInfoPage::CreateControls()
     itemFlexGridSizer4->AddGrowableCol(0);
     itemBoxSizer24->Add(itemFlexGridSizer4, 0, wxGROW|wxALL, 0);
 
-    wxFlexGridSizer* itemFlexGridSizer6 = new wxFlexGridSizer(2, 2, 0, 0);
-    itemFlexGridSizer6->AddGrowableRow(1);
-    itemFlexGridSizer6->AddGrowableCol(1);
+    wxFlexGridSizer* itemFlexGridSizer6 = new wxFlexGridSizer(2, 0, 0);
     itemFlexGridSizer4->Add(itemFlexGridSizer6, 0, wxGROW|wxALL, 0);
 
     wxBoxSizer* itemBoxSizer7 = new wxBoxSizer(wxVERTICAL);
@@ -239,9 +242,18 @@ void CProjectInfoPage::CreateControls()
     m_pProjectCategoriesStaticCtrl = new wxStaticText( itemWizardPage23, wxID_STATIC, wxT(""), wxDefaultPosition, wxDefaultSize, 0 );
     itemBoxSizer7->Add(m_pProjectCategoriesStaticCtrl, 0, wxALIGN_LEFT|wxRIGHT|wxBOTTOM, 5);
 
-    wxArrayString m_pProjectCategoriesCtrlStrings;
-    m_pProjectCategoriesCtrl = new wxComboBox( itemWizardPage23, ID_CATEGORIES, wxT(""), wxDefaultPosition, wxSize(LISTBOXWIDTH, -1), m_pProjectCategoriesCtrlStrings, wxCB_READONLY
-#ifndef __WXMAC__   // wxCB_SORT is not available in wxCocoa 2.9.5
+    // We must populate the combo box before our sizers can calculate its width.
+    // The combo box will be repopulated in  CProjectInfoPage::OnPageChanged(), 
+    // so we don't need to worry about duplicate entries here.
+    // Get the project list
+    m_apl = new ALL_PROJECTS_LIST;
+    pDoc->rpc.get_all_projects_list(*m_apl);
+    for (int i=0; i<m_apl->projects.size(); i++) {
+        wxString strGeneralArea = wxGetTranslation(wxString(m_apl->projects[i]->general_area.c_str(), wxConvUTF8));
+        aCategories.Add(strGeneralArea);
+    }
+    m_pProjectCategoriesCtrl = new wxComboBox( itemWizardPage23, ID_CATEGORIES, wxT(""), wxDefaultPosition, wxDefaultSize, aCategories, wxCB_READONLY
+#ifndef __WXMAC__   // wxCB_SORT is not available in wxCocoa 3.0
     |wxCB_SORT
 #endif
      );
@@ -256,16 +268,16 @@ void CProjectInfoPage::CreateControls()
     itemBoxSizer7->Add(itemFlexGridSizer11, 0, wxGROW|wxALL, 0);
 
     wxArrayString m_pProjectsCtrlStrings;
-    m_pProjectsCtrl = new wxListBox( itemWizardPage23, ID_PROJECTS, wxDefaultPosition, wxSize(LISTBOXWIDTH, 175), m_pProjectsCtrlStrings, wxLB_SINGLE|wxLB_SORT );
+    m_pProjectsCtrl = new wxListBox( itemWizardPage23, ID_PROJECTS, wxDefaultPosition, wxSize(-1, ADJUSTFORYDPI(175)), m_pProjectsCtrlStrings, wxLB_SINGLE|wxLB_SORT );
     itemFlexGridSizer11->Add(m_pProjectsCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT, 0);
 
     m_pProjectDetailsStaticCtrl = new wxStaticBox(itemWizardPage23, wxID_ANY, wxT(""));
     wxStaticBoxSizer* itemStaticBoxSizer13 = new wxStaticBoxSizer(m_pProjectDetailsStaticCtrl, wxVERTICAL);
     itemFlexGridSizer6->Add(itemStaticBoxSizer13, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    m_pProjectDetailsDescriptionCtrl = new wxTextCtrl( itemWizardPage23, ID_PROJECTDESCRIPTION, wxT(""), wxDefaultPosition, wxSize(DESCRIPTIONSWIDTH, 100), wxTE_MULTILINE|wxTE_READONLY );
+//    wxPanel* ProjectDetailsDescriptionPanel = new wxPanel(m_pProjectDetailsStaticCtrl, wxID_ANY, wxDefaultPosition, wxSize(DESCRIPTIONSWIDTH, ADJUSTFORYDPI(100)));
+    m_pProjectDetailsDescriptionCtrl = new wxTextCtrl( itemWizardPage23, ID_PROJECTDESCRIPTION, wxT(""), wxDefaultPosition, wxSize(DESCRIPTIONSWIDTH, ADJUSTFORYDPI(100)), wxTE_MULTILINE|wxTE_READONLY );
     itemStaticBoxSizer13->Add(m_pProjectDetailsDescriptionCtrl, 0, wxGROW|wxLEFT|wxTOP|wxBOTTOM, 5);
-
     wxFlexGridSizer* itemFlexGridSizer16 = new wxFlexGridSizer(2, 0, 0);
     itemFlexGridSizer16->AddGrowableCol(1);
     itemStaticBoxSizer13->Add(itemFlexGridSizer16, 0, wxGROW|wxALL, 0);
@@ -576,7 +588,6 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
 
     CMainDocument*              pDoc = wxGetApp().GetDocument();
     unsigned int                i = 0, j = 0, k = 0;
-    ALL_PROJECTS_LIST           pl;
     wxArrayString               aClientPlatforms;
     wxArrayString               aProjectPlatforms;
     wxArrayString               aCategories;
@@ -655,34 +666,30 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     // Populate the ProjectInfo data structure with the list of projects we want to show and
     // any other activity we need to prep the page.
     if (!m_bProjectListPopulated) {
-
-        // Get the project list
-        pDoc->rpc.get_all_projects_list(pl);
-
         // Convert the supported client platforms into something useful
         for (i=0; i<pDoc->state.platforms.size(); i++) {
             aClientPlatforms.Add(wxString(pDoc->state.platforms[i].c_str(), wxConvUTF8));
         }
 
         // Iterate through the project list and add them to the ProjectInfo data structure
-        for (i=0; i<pl.projects.size(); i++) {
+        for (i=0; i<m_apl->projects.size(); i++) {
             pProjectInfo = new CProjectInfo();
             m_Projects.push_back(pProjectInfo);
 
             wxLogTrace(
                 wxT("Function Status"),
                 wxT("CProjectInfoPage::OnPageChanged - Name: '%s', URL: '%s'"),
-                wxString(pl.projects[i]->name.c_str(), wxConvUTF8).c_str(),
-                wxString(pl.projects[i]->url.c_str(), wxConvUTF8).c_str()
+                wxString(m_apl->projects[i]->name.c_str(), wxConvUTF8).c_str(),
+                wxString(m_apl->projects[i]->url.c_str(), wxConvUTF8).c_str()
             );
 
             // Convert the easy stuff
-            pProjectInfo->m_strURL = wxGetTranslation(wxString(pl.projects[i]->url.c_str(), wxConvUTF8));
-            pProjectInfo->m_strName = wxGetTranslation(wxString(pl.projects[i]->name.c_str(), wxConvUTF8));
-            pProjectInfo->m_strDescription = wxGetTranslation(wxString(pl.projects[i]->description.c_str(), wxConvUTF8));
-            pProjectInfo->m_strGeneralArea = wxGetTranslation(wxString(pl.projects[i]->general_area.c_str(), wxConvUTF8));
-            pProjectInfo->m_strSpecificArea = wxGetTranslation(wxString(pl.projects[i]->specific_area.c_str(), wxConvUTF8));
-            pProjectInfo->m_strOrganization = wxGetTranslation(wxString(pl.projects[i]->home.c_str(), wxConvUTF8));
+            pProjectInfo->m_strURL = wxGetTranslation(wxString(m_apl->projects[i]->url.c_str(), wxConvUTF8));
+            pProjectInfo->m_strName = wxGetTranslation(wxString(m_apl->projects[i]->name.c_str(), wxConvUTF8));
+            pProjectInfo->m_strDescription = wxGetTranslation(wxString(m_apl->projects[i]->description.c_str(), wxConvUTF8));
+            pProjectInfo->m_strGeneralArea = wxGetTranslation(wxString(m_apl->projects[i]->general_area.c_str(), wxConvUTF8));
+            pProjectInfo->m_strSpecificArea = wxGetTranslation(wxString(m_apl->projects[i]->specific_area.c_str(), wxConvUTF8));
+            pProjectInfo->m_strOrganization = wxGetTranslation(wxString(m_apl->projects[i]->home.c_str(), wxConvUTF8));
             
             // Add the category if it isn't already in the category list
             bCategoryFound = false;
@@ -697,8 +704,8 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
 
             // Convert the supported project platforms into something useful
             aProjectPlatforms.Clear();
-            for (j=0; j<pl.projects[i]->platforms.size(); j++) {
-                aProjectPlatforms.Add(wxString(pl.projects[i]->platforms[j].c_str(), wxConvUTF8));
+            for (j=0; j<m_apl->projects[i]->platforms.size(); j++) {
+                aProjectPlatforms.Add(wxString(m_apl->projects[i]->platforms[j].c_str(), wxConvUTF8));
             }
 
             // Can the core client support a platform that this project supports?
