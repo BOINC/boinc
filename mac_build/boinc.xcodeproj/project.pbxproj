@@ -1042,7 +1042,7 @@
 		DD96AFFA0811075100A06F22 /* ScreenSaver-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ScreenSaver-Info.plist"; sourceTree = SOURCE_ROOT; };
 		DD9AB0320EB7D5DE00AF1616 /* rr_sim.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = rr_sim.cpp; sourceTree = "<group>"; };
 		DD9AB0330EB7D5DE00AF1616 /* rr_sim.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = rr_sim.h; sourceTree = "<group>"; };
-		DD9C94A00A5A3A4100AB0D10 /* AdvancedFrame.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = AdvancedFrame.cpp; path = ../clientgui/AdvancedFrame.cpp; sourceTree = SOURCE_ROOT; };
+		DD9C94A00A5A3A4100AB0D10 /* AdvancedFrame.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AdvancedFrame.cpp; path = ../clientgui/AdvancedFrame.cpp; sourceTree = SOURCE_ROOT; };
 		DD9C94A10A5A3A4100AB0D10 /* AdvancedFrame.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AdvancedFrame.h; path = ../clientgui/AdvancedFrame.h; sourceTree = SOURCE_ROOT; };
 		DD9C94A20A5A3A4100AB0D10 /* BOINCBaseFrame.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = BOINCBaseFrame.cpp; path = ../clientgui/BOINCBaseFrame.cpp; sourceTree = SOURCE_ROOT; };
 		DD9C94A30A5A3A4100AB0D10 /* BOINCBaseFrame.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = BOINCBaseFrame.h; path = ../clientgui/BOINCBaseFrame.h; sourceTree = SOURCE_ROOT; };
