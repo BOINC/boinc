@@ -142,7 +142,7 @@ function replace_pre_code($text, $export) {
         return preg_replace_callback(
             "@\[code\](.*?)\[/code\]@is",
             function ($matches) {
-                $x = (substr($matches[0], 6, -7));
+                $x = remove_br(substr($matches[0], 6, -7));
                 $x = htmlspecialchars($x);
                 $x = str_replace("[", "&#91;", $x);
                 return "<div class=\"code\">$x</div>";

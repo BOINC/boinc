@@ -402,7 +402,7 @@ span.inboxunread {
     border-left-width: 3px;
     border-left-style: solid;
     padding-left: 1em;
-    white-space: nowrap;
+    white-space: pre;
     overflow: auto;
 }
 
