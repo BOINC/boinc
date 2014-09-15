@@ -258,10 +258,12 @@ void read_checkpoint(double& elapsed, double& cpu, VBOX_VM& vm) {
 }
 
 void read_fraction_done(double& frac_done, VBOX_VM& vm) {
+    char path[MAXPATHLEN];
     char buf[256];
     double temp, frac = 0;
 
-    FILE* f = fopen(vm.fraction_done_filename.c_str(), "r");
+    sprintf(path, "shared/%s", vm.fraction_done_filename.c_str());
+    FILE* f = fopen(path, "r");
     if (!f) return;
 
     // read the last line of the file
@@ -283,6 +285,26 @@ void read_fraction_done(double& frac_done, VBOX_VM& vm) {
     }
 
     frac_done = frac;
+}
+
+void read_completion_file_info(unsigned long& exit_code, string& message, VBOX_VM& vm) {
+    char path[MAXPATHLEN];
+    char buf[1024];
+
+    exit_code = 0;
+    message = "";
+
+    sprintf(path, "shared/%s", vm.completion_trigger_file.c_str());
+    FILE* f = fopen(path, "r");
+    if (f) {
+        if (fgets(buf, 1024, f) != NULL) {
+            exit_code = atoi(buf);
+        }
+        while (fgets(buf, 1024, f) != NULL) {
+            message += buf;
+        }
+        fclose(f);
+    }
 }
 
 // set CPU and network throttling if needed
@@ -404,26 +426,6 @@ void set_remote_desktop_info(APP_INIT_DATA& /* aid */, VBOX_VM& vm) {
 
         sprintf(buf, "localhost:%d", vm.rd_host_port);
         boinc_remote_desktop_addr(buf);
-    }
-}
-
-void extract_completion_file_info(VBOX_VM& vm, unsigned long& exit_code, string& message) {
-    char path[MAXPATHLEN];
-    char buf[1024];
-
-    exit_code = 0;
-    message = "";
-
-    sprintf(path, "shared/%s", vm.completion_trigger_file.c_str());
-    FILE* f = fopen(path, "r");
-    if (f) {
-        if (fgets(buf, 1024, f) != NULL) {
-            exit_code = atoi(buf);
-        }
-        while (fgets(buf, 1024, f) != NULL) {
-            message += buf;
-        }
-        fclose(f);
     }
 }
 
@@ -1066,7 +1068,7 @@ int main(int argc, char** argv) {
                 "%s VM Completion File Detected.\n",
                 vboxwrapper_msg_prefix(buf, sizeof(buf))
             );
-            extract_completion_file_info(vm, vm_exit_code, message);
+            read_completion_file_info(vm_exit_code, message, vm);
             boinc_finish(vm_exit_code);
         }
         if (!vm.online) {
