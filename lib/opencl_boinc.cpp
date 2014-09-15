@@ -48,7 +48,7 @@ void OPENCL_DEVICE_PROP::write_xml(MIOFILE& f, const char* tag, bool temp_file) 
         "   <%s>\n"
         "      <name>%s</name>\n"
         "      <vendor>%s</vendor>\n"
-        "      <vendor_id>%u</vendor_id>\n"
+        "      <vendor_id>%lu</vendor_id>\n"
         "      <available>%d</available>\n"
         "      <half_fp_config>%llu</half_fp_config>\n"
         "      <single_fp_config>%llu</single_fp_config>\n"
@@ -58,15 +58,15 @@ void OPENCL_DEVICE_PROP::write_xml(MIOFILE& f, const char* tag, bool temp_file) 
         "      <extensions>%s</extensions>\n"
         "      <global_mem_size>%llu</global_mem_size>\n"
         "      <local_mem_size>%llu</local_mem_size>\n"
-        "      <max_clock_frequency>%u</max_clock_frequency>\n"
-        "      <max_compute_units>%u</max_compute_units>\n"
+        "      <max_clock_frequency>%lu</max_clock_frequency>\n"
+        "      <max_compute_units>%lu</max_compute_units>\n"
         "      <opencl_platform_version>%s</opencl_platform_version>\n"
         "      <opencl_device_version>%s</opencl_device_version>\n"
         "      <opencl_driver_version>%s</opencl_driver_version>\n",
         tag,
         name,
         vendor,
-        vendor_id,
+        (long)vendor_id,
         available ? 1 : 0,
         half_fp_config,
         single_fp_config,
@@ -76,8 +76,8 @@ void OPENCL_DEVICE_PROP::write_xml(MIOFILE& f, const char* tag, bool temp_file) 
         extensions,
         global_mem_size,
         local_mem_size,
-        max_clock_frequency,
-        max_compute_units,
+        (long)max_clock_frequency,
+        (long)max_compute_units,
         opencl_platform_version,
         opencl_device_version,
         opencl_driver_version
