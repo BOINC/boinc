@@ -513,6 +513,13 @@ html.js fieldset.collapsible legend a,
   content: ") ";
 }
 
+/* Center emoticons */
+#tinymce img,
+.comment img {
+  margin: -2px 0 0;
+  vertical-align: bottom;
+}
+
 /* Hide rich text areas on submit */
 #edit-comment,
 #edit-content,

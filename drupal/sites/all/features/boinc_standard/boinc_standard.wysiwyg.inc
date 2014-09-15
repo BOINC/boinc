@@ -37,8 +37,12 @@ function boinc_standard_default_wysiwyg() {
         'sup' => 1,
         'sub' => 1,
         'blockquote' => 1,
+        'hr' => 1,
         'removeformat' => 1,
         'charmap' => 1,
+      ),
+      'emotions' => array(
+        'emotions' => 1,
       ),
       'font' => array(
         'formatselect' => 1,

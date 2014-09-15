@@ -301,8 +301,11 @@ img {
  * Horizontal rules
  */
 hr {
-  height: 1px;
-  border: 1px solid #666;
+  background-color: #aaa;
+  border: 0;
+  border-bottom: 1px dashed #777;
+  height: 0;
+  margin-right: 5px;
 }
 
 /*
