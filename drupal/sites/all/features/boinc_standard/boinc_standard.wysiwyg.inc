@@ -12,8 +12,8 @@ function boinc_standard_default_wysiwyg() {
   $wysiwyg->editor = 'tinymce';
   $wysiwyg->settings = array(
     'default' => 1,
-    'user_choose' => 0,
-    'show_toggle' => 0,
+    'user_choose' => 1,
+    'show_toggle' => 1,
     'theme' => 'advanced',
     'language' => 'en',
     'buttons' => array(

@@ -407,13 +407,6 @@ form tbody th {
 
 
 /*
- * Rich text editor
- */
-#tinymce {
-  margin: 16px;
-}
-
-/*
  * Preferences
  */
 .simple-form-controls .description {
@@ -495,8 +488,29 @@ html.js fieldset.collapsible legend a,
   padding-bottom: 20px;
 }
 
+
+/*
+ * Rich text editor
+ */
+#tinymce {
+  font-size: 12px;
+  line-height: 1.4em;
+  margin: 16px;
+}
 .wysiwyg ul.tips {
   display: none;
+}
+.wysiwyg-toggle-wrapper {
+  margin: 5px 0;
+}
+.wysiwyg-toggle-wrapper a {
+  color: #808080;
+}
+.wysiwyg-toggle-wrapper a:before {
+  content: "(";
+}
+.wysiwyg-toggle-wrapper a:after {
+  content: ") ";
 }
 
 /* Hide rich text areas on submit */
@@ -507,6 +521,16 @@ html.js fieldset.collapsible legend a,
 	background-color: #fff;
 	padding: 0;
 	width: 100%;
+}
+
+/* Styling when rich text is disabled */
+#edit-comment.textarea-processed,
+#edit-content.textarea-processed,
+#edit-signature.textarea-processed {
+  color: inherit;
+  font-size: 12px;
+  line-height: 1.4em;
+  padding: 16px;
 }
 
 /* Re-captcha tweaks */
