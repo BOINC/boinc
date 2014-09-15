@@ -1921,9 +1921,9 @@
 				DD33C70308B5BEDE00768630 /* http_curl.h */,
 				F54B8FD602AC0A0C01FB7237 /* log_flags.cpp */,
 				F54B8FD702AC0A0C01FB7237 /* log_flags.h */,
-				DD344BCE07C5B0B80043025C /* main.cpp */,
 				DDDC2053183B560B00CB5845 /* mac_address.cpp */,
 				DDDC2054183B560B00CB5845 /* mac_address.h */,
+				DD344BCE07C5B0B80043025C /* main.cpp */,
 				DD344BCF07C5B0B80043025C /* main.h */,
 				F54B8FDA02AC0A0C01FB7237 /* net_stats.cpp */,
 				F54B8FDB02AC0A0C01FB7237 /* net_stats.h */,
@@ -3559,7 +3559,6 @@
 					"-DNOCLIPBOARD",
 					"-D_THREAD_SAFE",
 					"-D__WXMAC__",
-					"-DSANDBOX",
 					"-D_DEBUG",
 					"-DMAC_OS_X_VERSION_MAX_ALLOWED=1050",
 				);
@@ -4045,6 +4044,12 @@
 				HEADER_SEARCH_PATHS = "../../curl-7.35.0/include";
 				INFOPLIST_PREPROCESSOR_DEFINITIONS = "";
 				LIBRARY_SEARCH_PATHS = "";
+				OTHER_CFLAGS = (
+					"-D_THREAD_SAFE",
+					"-D_DEBUG",
+					"-include",
+					../clientgui/mac/config.h,
+				);
 				OTHER_LDFLAGS = (
 					"-L.",
 					"../../curl-7.35.0/lib/.libs/libcurl.a",
