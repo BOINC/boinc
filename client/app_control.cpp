@@ -587,10 +587,28 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
     gstate.request_work_fetch("application exited");
 }
 
+// structure of a finish file (see boinc_api.cpp)):
+// exit status (int)
+// message
+// "notice" or blank line
+// ... or empty
+//
 bool ACTIVE_TASK::finish_file_present() {
-    char path[MAXPATHLEN];
+    char path[MAXPATHLEN], buf[1024], buf2[256];
     sprintf(path, "%s/%s", slot_dir, BOINC_FINISH_CALLED_FILE);
-    return (boinc_file_exists(path) != 0);
+    FILE* f = fopen(path, "r");
+    if (!f) return false;
+    fgets(buf, sizeof(buf), f);
+    fgets(buf, sizeof(buf), f);
+    fgets(buf2, sizeof(buf2), f);
+    if (strlen(buf)) {
+        msg_printf(result->project,
+            strstr(buf2, "notice")?MSG_USER_ALERT:MSG_INFO,
+            "Message from task: %s", buf
+        );
+    }
+    fclose(f);
+    return true;
 }
 
 bool ACTIVE_TASK::temporary_exit_file_present(

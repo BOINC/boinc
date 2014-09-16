@@ -145,6 +145,9 @@ extern int boinc_report_app_status_aux(
 extern int boinc_temporary_exit(
     int delay, const char* reason=NULL, bool is_notice=false
 );
+extern int boinc_finish_message(
+    int status, const char* message, bool is_notice
+);
 
 /////////// API ENDS HERE
 

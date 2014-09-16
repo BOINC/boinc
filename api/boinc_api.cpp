@@ -682,7 +682,7 @@ static void send_trickle_up_msg() {
 // an "unrecoverable error", which will be reported back to server. 
 // A zero exit-status tells the client we've successfully finished the result.
 //
-int boinc_finish(int status) {
+int boinc_finish_message(int status, const char* msg, bool is_notice) {
     char buf[256];
     fraction_done = 1;
     fprintf(stderr,
@@ -693,14 +693,24 @@ int boinc_finish(int status) {
     boinc_sleep(2.0);   // let the timer thread send final messages
     boinc_disable_timer_thread = true;     // then disable it
 
-    if (options.main_program && status==0) {
+    if (options.main_program) {
         FILE* f = fopen(BOINC_FINISH_CALLED_FILE, "w");
-        if (f) fclose(f);
+        if (f) {
+            fprintf(f, "%d\n", status);
+            if (msg) {
+                fprintf(f, "%s\n%s\n", msg, is_notice?"notice":"");
+            }
+            fclose(f);
+        }
     }
 
     boinc_exit(status);
 
     return 0;   // never reached
+}
+
+int boinc_finish(int status) {
+    return boinc_finish_message(status, NULL, false);
 }
 
 int boinc_temporary_exit(int delay, const char* reason, bool is_notice) {
