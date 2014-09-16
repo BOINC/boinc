@@ -720,7 +720,13 @@ int VBOX_VM::create_vm() {
     command += "--name \"Hard Disk Controller\" ";
     command += "--add \"" + vm_disk_controller_type + "\" ";
     command += "--controller \"" + vm_disk_controller_model + "\" ";
-    command += "--hostiocache off ";
+    if (
+         (vm_disk_controller_type == "sata") || (vm_disk_controller_type == "SATA") ||
+         (vm_disk_controller_type == "scsi") || (vm_disk_controller_type == "SCSI") ||
+         (vm_disk_controller_type == "sas") || (vm_disk_controller_type == "SAS")
+    ) {
+        command += "--hostiocache off ";
+    }
     if ((vm_disk_controller_type == "sata") || (vm_disk_controller_type == "SATA")) {
         if (is_virtualbox_version_newer(4, 3, 0)) {
             command += "--portcount 3";
