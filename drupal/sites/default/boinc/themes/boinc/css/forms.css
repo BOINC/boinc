@@ -513,6 +513,11 @@ html.js fieldset.collapsible legend a,
   content: ") ";
 }
 
+/* Hide useless buttons */
+.mce_convert_linebreaks {
+  visibility: hidden;
+}
+
 /* Center emoticons */
 #tinymce img,
 .comment img {

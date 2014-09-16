@@ -47,9 +47,6 @@ function boinc_standard_default_wysiwyg() {
       'font' => array(
         'formatselect' => 1,
       ),
-      'table' => array(
-        'tablecontrols' => 1,
-      ),
       'media' => array(
         'media' => 1,
       ),
