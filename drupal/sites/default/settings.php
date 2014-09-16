@@ -119,8 +119,9 @@ $db_prefix = '';
  * for you.
  */
 # $base_url = 'http://www.example.com';  // NO trailing slash!
-if (file_exists('baseurl.php')) 
-	include_once('baseurl.php');
+if (stream_resolve_include_path('baseurl.php')) {
+  include_once('baseurl.php');
+}
 
 /**
  * PHP settings:
