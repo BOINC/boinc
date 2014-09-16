@@ -173,3 +173,6 @@ ini_set('upload_max_filesize', '8MB');
 #   'theme_default' => 'minnelli',
 #   'anonymous' => 'Visitor',
 # );
+$conf = array(
+  'maintenance_theme' => 'einstein',
+);
