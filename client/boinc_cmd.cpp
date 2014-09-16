@@ -127,7 +127,7 @@ int main(int argc, char** argv) {
     MESSAGES messages;
     NOTICES notices;
     char passwd_buf[256], hostname_buf[256], *hostname=0;
-    char* passwd = passwd_buf, *p;
+    char* passwd = passwd_buf, *p, *q;
     bool unix_domain = false;
 
 #ifdef _WIN32
@@ -154,11 +154,33 @@ int main(int argc, char** argv) {
     if (!strcmp(argv[i], "--host")) {
         if (++i == argc) usage();
         strlcpy(hostname_buf, argv[i], sizeof(hostname_buf));
-        hostname = hostname_buf;
-        p = strchr(hostname, ':');
+
+        // see if port is specified.
+        // syntax:
+        // [a:b:..]:port for IPv6
+        // a.b.c.d:port for IPv4
+        // hostname:port for domain names
+        //
+        p = strchr(hostname_buf, '[');
         if (p) {
-            port = atoi(p+1);
-            *p=0;
+            q = strchr(p, ']');
+            if (!q) {
+                fprintf(stderr, "invalid IPv6 syntax: %s\n", hostname_buf);
+                exit(1);
+            }
+            hostname = p+1;
+            *q = 0;
+            port = atoi(q+1);
+        } else {
+            hostname = hostname_buf;
+            p = strchr(hostname, ':');
+            if (p) {
+                q = strchr(p+1, ':');
+                if (!q) {
+                    port = atoi(p+1);
+                    *p=0;
+                }
+            }
         }
         i++;
     }

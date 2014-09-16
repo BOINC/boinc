@@ -95,7 +95,7 @@ int RPC_CLIENT::get_ip_addr(const char* host, int port) {
     //printf("trying port %d\n", htons(addr.sin_port));
     int retval;
     if (host) {
-        retval = resolve_hostname(host, addr);
+        retval = resolve_hostname_or_ip_addr(host, addr);
         if (retval) {
             return ERR_GETHOSTBYNAME;
         }
