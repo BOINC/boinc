@@ -1212,6 +1212,9 @@ function boincuser_get_user_profile_image($uid, $avatar = TRUE) {
  * Generate a table of a user's projects
  */
 function boincuser_get_projects_table($account = null) {
+  if ($account AND is_numeric($account)) {
+    $account = user_load($account);
+  }
   $projects = boincuser_get_projects($account);
   if (!$projects) return 'no projects...';
   

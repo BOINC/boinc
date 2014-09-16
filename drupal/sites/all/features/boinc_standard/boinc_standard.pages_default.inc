@@ -433,6 +433,32 @@ echo \'<div class="item-count-wrapper"><div class="item-count">\' . $account->po
     $pane->position = 3;
     $display->content['new-5'] = $pane;
     $display->panels['sidebar_first'][3] = 'new-5';
+    $pane = new stdClass;
+    $pane->pid = 'new-6';
+    $pane->panel = 'sidebar_first';
+    $pane->type = 'custom';
+    $pane->subtype = 'custom';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'admin_title' => 'Project list',
+      'title' => 'Projects',
+      'body' => '<?php echo boincuser_get_projects_table(%user:uid); ?>',
+      'format' => '3',
+      'substitute' => 1,
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array(
+      'css_id' => '',
+      'css_class' => 'panel-secondary container shadow',
+    );
+    $pane->extras = array();
+    $pane->position = 4;
+    $display->content['new-6'] = $pane;
+    $display->panels['sidebar_first'][4] = 'new-6';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
