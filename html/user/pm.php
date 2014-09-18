@@ -103,7 +103,7 @@ function do_inbox($logged_in_user) {
                 $msg->update("opened=1");
             }
             echo "<td valign=top> $checkbox $msg->subject </td>\n";
-            echo "<td valign=top>".user_links($sender);
+            echo "<td valign=top>".user_links($sender, BADGE_HEIGHT_SMALL);
             show_block_link($msg->senderid);
             echo "<br>".time_str($msg->date)."</td>\n";
             echo "<td valign=top>".output_transform($msg->content, $options)."<p>";
@@ -142,7 +142,7 @@ function do_read($logged_in_user) {
 
     start_table();
     echo "<tr><th>".tra("Subject")."</th><td>".$message->subject."</td></tr>";
-    echo "<tr><th>".tra("Sender")."</th><td>".user_links($sender);
+    echo "<tr><th>".tra("Sender")."</th><td>".user_links($sender, BADGE_HEIGHT_SMALL);
     show_block_link($message->senderid);
     echo "</td></tr>";
     echo "<tr><th>".tra("Date")."</th><td>".time_str($message->date)."</td></tr>";

@@ -56,6 +56,15 @@ if (!defined('DISABLE_TEAMS')) {
 if (!defined('DISABLE_BADGES')) {
     define('DISABLE_BADGES', false);
 }
+if (!defined('BADGE_HEIGHT_SMALL')) {
+    define('BADGE_HEIGHT_SMALL', 20);
+}
+if (!defined('BADGE_HEIGHT_MEDIUM')) {
+    define('BADGE_HEIGHT_MEDIUM', 24);
+}
+if (!defined('BADGE_HEIGHT_LARGE')) {
+    define('BADGE_HEIGHT_LARGE', 56);
+}
 
 $caching = false;
     // if set, we're writing to a file rather than to client
@@ -909,7 +918,8 @@ function badges_string($is_user, $item, $height) {
 }
 
 function show_badges_row($is_user, $item) {
-    $x = badges_string($is_user, $item, 48);
+    if (BADGE_HEIGHT_LARGE == 0) return;
+    $x = badges_string($is_user, $item, BADGE_HEIGHT_LARGE);
     if ($x) {
         row2("Badges", $x);
     }

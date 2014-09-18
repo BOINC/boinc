@@ -539,7 +539,6 @@ function show_post(
         }
     }
 
-
     // Print the special user lines, if any
     //
     global $special_user_bitfield;
@@ -567,7 +566,7 @@ function show_post(
         <div class=\"authorcol\">
     ";
 
-    echo user_links($user);
+    echo user_links($user, BADGE_HEIGHT_SMALL);
     echo "<br>";
     if ($user->create_time > time()-ST_NEW_TIME) $fstatus.=ST_NEW."<br>";
     if ($fstatus) echo "<font size=\"-2\">$fstatus</font>";

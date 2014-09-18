@@ -48,7 +48,7 @@ echo "<tr><td>";
     if ($profile) {
         $user = BoincUser::lookup_id($profile->userid);
         echo uotd_thumbnail($profile, $user);
-        echo user_links($user)."<br>";
+        echo user_links($user, BADGE_HEIGHT_MEDIUM)."<br>";
         $resp = output_transform($profile->response1);
         $resp = sanitize_tags($resp);
         echo sub_sentence($resp, ' ', 150, true);

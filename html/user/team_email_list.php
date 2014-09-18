@@ -79,7 +79,7 @@ foreach($users as $user) {
         echo "$user->name $e\n";
     } else {
         $e = $user->send_email?"$user->email_addr":"";
-        table_row(user_links($user), $e, format_credit($user->total_credit), format_credit($user->expavg_credit), $user->country);
+        table_row(user_links($user, BADGE_HEIGHT_MEDIUM), $e, format_credit($user->total_credit), format_credit($user->expavg_credit), $user->country);
     }
 } 
 if (!$plain) {

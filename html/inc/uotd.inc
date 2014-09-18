@@ -38,7 +38,7 @@ function uotd_thumbnail($profile, $user) {
 function show_uotd($profile) {
     $user = BoincUser::lookup_id($profile->userid);
     echo uotd_thumbnail($profile, $user);
-    echo user_links($user, true)."<br>";
+    echo user_links($user, BADGE_HEIGHT_MEDIUM)."<br>";
     $x = output_transform($profile->response1);
     $x = sanitize_tags($x);
     echo sub_sentence($x, ' ', 150, true);
@@ -178,7 +178,7 @@ function generate_uotd_gadget($profile, $user) {
         echo "age: $age";
         if($age <= 86400+3600) { // allow for slop
             $x .= uotd_thumbnail($profile, $user);
-            $x .= user_links($user);
+            $x .= user_links($user, BADGE_HEIGHT_MEDIUM);
             $resp = sanitize_tags(output_transform($profile->response1));
             $x .= "&nbsp;&nbsp;". sub_sentence($resp, ' ', 250, true);
         }
