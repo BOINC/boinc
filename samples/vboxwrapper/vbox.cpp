@@ -825,7 +825,24 @@ int VBOX_VM::create_vm() {
         command += "--setuuid \"\" ";
         command += "--medium \"" + virtual_machine_slot_directory + "/" + image_filename + "\" ";
 
-         retval = vbm_popen(command, output, "storage attach (fixed disk)");
+        retval = vbm_popen(command, output, "storage attach (fixed disk)");
+        if (retval) return retval;
+
+        // Add guest additions to the VM
+        //
+        fprintf(
+            stderr,
+            "%s Adding VirtualBox Guest Additions to VM.\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf))
+        );
+        command  = "storageattach \"" + vm_name + "\" ";
+        command += "--storagectl \"Hard Disk Controller\" ";
+        command += "--port 1 ";
+        command += "--device 0 ";
+        command += "--type dvddrive ";
+        command += "--medium \"" + virtualbox_guest_additions + "\" ";
+
+        retval = vbm_popen(command, output, "storage attach (guest additions image)");
         if (retval) return retval;
 
     }
