@@ -713,6 +713,9 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
         } else if (strstr(gpu_type, "intel")==gpu_type) {
             hu.proc_type = PROC_TYPE_INTEL_GPU;
             hu.gpu_usage = gpu_usage;
+        } else if (!strcmp(gpu_type, "miner_asic")) {
+            hu.proc_type = PROC_TYPE_MINER_ASIC;
+            hu.gpu_usage = gpu_usage;
         } else {
             if (config.debug_version_select) {
                 log_messages.printf(MSG_NORMAL,

@@ -1169,10 +1169,10 @@ void send_gpu_messages() {
     bool usable_gpu = false;
     bool have_gpu_apps = false;
     for (int i=1; i<NPROC_TYPES; i++) {
-        COPROC* cp = g_request->coprocs.proc_type_to_coproc(i);
         if (ssp->have_apps_for_proc_type[i]) {
             have_gpu_apps = true;
-            if (cp->count) {
+            COPROC* cp = g_request->coprocs.proc_type_to_coproc(i);
+            if (cp && cp->count) {
                 usable_gpu = true;
             }
         }
@@ -1430,7 +1430,7 @@ void send_work_setup() {
     //
     for (i=1; i<NPROC_TYPES; i++) {
         COPROC* cp = g_request->coprocs.proc_type_to_coproc(i);
-        if (cp->count) {
+        if (cp && cp->count) {
             g_wreq->req_secs[i] = clamp_req_sec(cp->req_secs);
             g_wreq->req_instances[i] = cp->req_instances;
             if (cp->estimated_delay < 0) {
@@ -1491,7 +1491,7 @@ void send_work_setup() {
         );
         for (i=1; i<NPROC_TYPES; i++) {
             COPROC* cp = g_request->coprocs.proc_type_to_coproc(i);
-            if (cp->count) {
+            if (cp && cp->count) {
                 log_messages.printf(MSG_NORMAL,
                     "[send] %s: req %.2f sec, %.2f instances; est delay %.2f\n",
                     proc_type_name(i),

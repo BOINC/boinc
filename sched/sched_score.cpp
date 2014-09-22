@@ -341,7 +341,7 @@ void send_work_score_type(int rt) {
 }
 
 void send_work_score() {
-    for (int i=0; i<NPROC_TYPES; i++) {
+    for (int i=NPROC_TYPES-1; i>= 0; i--) {
         if (g_wreq->need_proc_type(i)) {
             send_work_score_type(i);
         }

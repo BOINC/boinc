@@ -233,15 +233,14 @@ int SCHED_SHMEM::scan_tables() {
     }
     for (i=0; i<napp_versions; i++) {
         APP_VERSION& av = app_versions[i];
-        if (strstr(av.plan_class, "cuda") || strstr(av.plan_class, "nvidia")) {
-            have_apps_for_proc_type[PROC_TYPE_NVIDIA_GPU] = true;
-        } else if (strstr(av.plan_class, "ati")) {
-            have_apps_for_proc_type[PROC_TYPE_AMD_GPU] = true;
-        } else if (strstr(av.plan_class, "intel_gpu")) {
-            have_apps_for_proc_type[PROC_TYPE_INTEL_GPU] = true;
-        } else {
-            have_apps_for_proc_type[PROC_TYPE_CPU] = true;
-        }
+        int rt = plan_class_to_proc_type(av.plan_class);
+        have_apps_for_proc_type[rt] = true;
+    }
+    for (i=0; i<NPROC_TYPES; i++) {
+        fprintf(stderr, "have apps for %s: %s\n",
+            proc_type_name(i),
+            have_apps_for_proc_type[i]?"yes":"no"
+        );
     }
 
     n = 0;

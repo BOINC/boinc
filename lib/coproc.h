@@ -101,7 +101,8 @@
 #define PROC_TYPE_NVIDIA_GPU 1
 #define PROC_TYPE_AMD_GPU    2
 #define PROC_TYPE_INTEL_GPU  3
-#define NPROC_TYPES          4
+#define PROC_TYPE_MINER_ASIC 4
+#define NPROC_TYPES          5
 
 extern const char* proc_type_name(int);
     // user-readable name
@@ -474,19 +475,20 @@ struct COPROCS {
         coprocs[n_rsc++] = c;
         return 0;
     }
-    COPROC* proc_type_to_coproc(int t) {
-        switch(t) {
-        case PROC_TYPE_NVIDIA_GPU: return &nvidia;
-        case PROC_TYPE_AMD_GPU: return &ati;
-        case PROC_TYPE_INTEL_GPU: return &intel_gpu;
-        }
-        return NULL;
-    }
     COPROC* lookup_type(const char* t) {
         for (int i=1; i<n_rsc; i++) {
             if (!strcmp(t, coprocs[i].type)) {
                 return &coprocs[i];
             }
+        }
+        return NULL;
+    }
+    COPROC* proc_type_to_coproc(int t) {
+        switch(t) {
+        case PROC_TYPE_NVIDIA_GPU: return &nvidia;
+        case PROC_TYPE_AMD_GPU: return &ati;
+        case PROC_TYPE_INTEL_GPU: return &intel_gpu;
+        case PROC_TYPE_MINER_ASIC: return lookup_type("miner_asic");
         }
         return NULL;
     }
