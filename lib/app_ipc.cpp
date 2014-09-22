@@ -281,9 +281,14 @@ void APP_INIT_DATA::clear() {
     fraction_done_start = 0;
     fraction_done_end = 0;
     checkpoint_period = 0;
+    // gpu_type is an empty string for client versions before 6.13.3 without this
+    // field or (on newer clients) if BOINC did not assign an OpenCL GPU to task.
     strcpy(gpu_type, "");
+    // gpu_device_num < 0 for client versions before 6.13.3 without this field
+    // or (on newer clients) if BOINC did not assign an OpenCL GPU to task.
     gpu_device_num = -1;
-    // -1 means an older version without gpu_opencl_dev_index field
+    // gpu_opencl_dev_index < 0 for client versions before 7.0.12 without this
+    // field or (on newer clients) if BOINC did not assign any GPU to task.
     gpu_opencl_dev_index = -1;
     gpu_usage = 0;
     ncpus = 0;
