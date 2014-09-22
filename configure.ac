@@ -1011,11 +1011,6 @@ if test "${enable_manager}" = yes ; then
   PKG_CHECK_MODULES(LIBNOTIFY, [libnotify])
 fi
  
-dnl ---------- GTK3 -------------------------------------------------------
-if test "${enable_manager}" = yes ; then
-  PKG_CHECK_MODULES(GTK, [gtk+-3.0])
-fi
- 
 dnl ---------- Sqlite3 ----------------------------------------------------
 if test "${enable_manager}" = yes ; then
   AM_PATH_SQLITE3
