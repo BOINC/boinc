@@ -43,7 +43,12 @@ function update() {
     echo "<b>Updated app version $id.  This change will take effect when you restart the project.</b><p>";
 }
 
-function show_form() {
+function show_form($all) {
+    if ($all) {
+        echo "<a href=manage_app_versions.php>Don't show deprecated app versions</a>\n";
+    } else {
+        echo "<a href=manage_app_versions.php?all=1>Show deprecated app versions</a>\n";
+    }
     $_platforms = BoincPlatform::enum("");
     foreach ($_platforms as $platform) {
         $platforms[$platform->id] = $platform;
@@ -67,8 +72,9 @@ function show_form() {
       "deprecated?",
       ""
     );
+    $clause = $all?"true":"deprecated = 0";
     $avs = BoincAppVersion::enum(
-        "true order by appid, platformid, plan_class, version_num"
+        "$clause order by appid, platformid, plan_class, version_num"
     );
     $i = 0;
     foreach ($avs as $av) {
@@ -122,6 +128,7 @@ admin_page_head("Manage application versions");
 if (post_str("submit", true)) {
     update();
 }
-show_form();
+$all = get_str("all", true);
+show_form($all);
 admin_page_tail();
 ?>
