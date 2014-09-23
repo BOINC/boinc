@@ -811,6 +811,9 @@ int CLIENT_STATE::handle_scheduler_reply(
         } else {
             fip = new FILE_INFO;
             *fip = sr.file_infos[i];
+            if (fip->sticky_lifetime) {
+                fip->sticky_expire_time = now + fip->sticky_lifetime;
+            }
             retval = link_file_info(project, fip);
             if (retval) {
                 msg_printf(project, MSG_INTERNAL_ERROR,

@@ -1599,6 +1599,10 @@ bool CLIENT_STATE::garbage_collect_always() {
 
     for (fi_iter = file_infos.begin(); fi_iter!=file_infos.end(); fi_iter++) {
         fip = *fi_iter;
+        if (fip->sticky_expire_time && now > fip->sticky_expire_time) {
+            fip->sticky = false;
+            fip->sticky_expire_time = 0;
+        }
         if (!fip->sticky) continue;
         if (fip->status < 0) continue;
         fip->ref_cnt++;

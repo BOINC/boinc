@@ -243,9 +243,10 @@ bool is_arg(const char* x, const char* y) {
     return false;
 }
 
-// the following is used, among other things,
-// to enforce limits on in-progress jobs
-// for GPUs and CPUs (see handle_request.cpp)
+// the following is used:
+// - to enforce limits on in-progress jobs for GPUs and CPUs
+//   (see handle_request.cpp)
+// - to determine what resources the project has apps for (sched_shmem.cpp)
 //
 int plan_class_to_proc_type(const char* plan_class) {
     if (strstr(plan_class, "cuda")) {
@@ -259,6 +260,9 @@ int plan_class_to_proc_type(const char* plan_class) {
     }
     if (strstr(plan_class, "intel_gpu")) {
         return PROC_TYPE_INTEL_GPU;
+    }
+    if (strstr(plan_class, "miner_asic")) {
+        return PROC_TYPE_MINER_ASIC;
     }
     return PROC_TYPE_CPU;
 }

@@ -105,6 +105,12 @@ struct FILE_INFO {
     bool executable;        // change file protections to make executable
     bool uploaded;          // file has been uploaded
     bool sticky;            // don't delete unless instructed to do so
+    double sticky_lifetime;
+        // how long file should stay sticky.
+        // passed from the server;
+        // used by client to calculate sticky_expire_time.
+    double sticky_expire_time;
+        // if nonzero, when sticky status expires
     bool signature_required;    // true iff associated with app version
     bool is_user_file;
     bool is_project_file;

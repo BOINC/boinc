@@ -14,7 +14,7 @@ AC_SUBST([LIBBOINC_VERSION])
 WRAPPER_RELEASE=26011
 AC_SUBST([WRAPPER_RELEASE])
 
-VBOXWRAPPER_RELEASE=26107
+VBOXWRAPPER_RELEASE=26108
 AC_SUBST([VBOXWRAPPER_RELEASE])
 
 AC_CANONICAL_TARGET
@@ -1009,11 +1009,6 @@ fi
 dnl ---------- libNotify --------------------------------------------------
 if test "${enable_manager}" = yes ; then
   PKG_CHECK_MODULES(LIBNOTIFY, [libnotify])
-fi
- 
-dnl ---------- GTK2 -------------------------------------------------------
-if test "${enable_manager}" = yes ; then
-  PKG_CHECK_MODULES(GTK, [gtk+-2.0])
 fi
  
 dnl ---------- Sqlite3 ----------------------------------------------------

@@ -72,7 +72,9 @@ int CLIENT_APP_VERSION::parse(XML_PARSER& xp) {
             double pf = host_usage.avg_ncpus * g_reply->host.p_fpops;
             if (host_usage.proc_type != PROC_TYPE_CPU) {
                 COPROC* cp = g_request->coprocs.proc_type_to_coproc(host_usage.proc_type);
-                pf += host_usage.gpu_usage*cp->peak_flops;
+                if (cp) {
+                    pf += host_usage.gpu_usage*cp->peak_flops;
+                }
             }
             host_usage.peak_flops = pf;
             return 0;
@@ -627,7 +629,7 @@ static bool have_apps_for_client() {
         if (ssp->have_apps_for_proc_type[i]) {
             if (!i) return true;
             COPROC* cp = g_request->coprocs.proc_type_to_coproc(i);
-            if (cp->count) return true;
+            if (cp && cp->count) return true;
         }
     }
     return false;
@@ -942,7 +944,16 @@ int SCHEDULER_REPLY::write(FILE* fout, SCHEDULER_REQUEST& sreq) {
                 ssp->have_apps_for_proc_type[PROC_TYPE_AMD_GPU]?0:1
             );
         }
+
+        // write modern form.
+        //
         for (i=0; i<NPROC_TYPES; i++) {
+            if (i>0) {
+                // skip types that the client doesn't have
+                //
+                COPROC* cp = g_request->coprocs.proc_type_to_coproc(i);
+                if (!cp || !cp->count) continue;
+            }
             if (!ssp->have_apps_for_proc_type[i]) {
                 fprintf(fout,
                     "<no_rsc_apps>%s</no_rsc_apps>\n",

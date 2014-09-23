@@ -297,6 +297,14 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
             }
             return false;
         }
+        if (in_vector(v, exclude_vbox_version)) {
+            if (config.debug_version_select) {
+                log_messages.printf(MSG_NORMAL,
+                    "[version] plan_class_spec: vbox version %d excluded\n", v
+                );
+            }
+            return false;
+        }
 
         if (vm_accel_required) {
             if ((!strstr(sreq.host.p_features, "vmx") && !strstr(sreq.host.p_features, "svm"))
@@ -713,6 +721,9 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
         } else if (strstr(gpu_type, "intel")==gpu_type) {
             hu.proc_type = PROC_TYPE_INTEL_GPU;
             hu.gpu_usage = gpu_usage;
+        } else if (!strcmp(gpu_type, "miner_asic")) {
+            hu.proc_type = PROC_TYPE_MINER_ASIC;
+            hu.gpu_usage = gpu_usage;
         } else {
             if (config.debug_version_select) {
                 log_messages.printf(MSG_NORMAL,
@@ -772,6 +783,7 @@ bool PLAN_CLASS_SPECS::check(
 
 int PLAN_CLASS_SPEC::parse(XML_PARSER& xp) {
     char buf[256];
+    int i;
     while (!xp.get_tag()) {
         if (xp.match_tag("/plan_class")) {
             return 0;
@@ -852,6 +864,10 @@ int PLAN_CLASS_SPEC::parse(XML_PARSER& xp) {
 
         if (xp.parse_int("min_vbox_version", min_vbox_version)) continue;
         if (xp.parse_int("max_vbox_version", max_vbox_version)) continue;
+        if (xp.parse_int("exclude_vbox_version", i)) {
+            exclude_vbox_version.push_back(i);
+            continue;
+        }
         if (xp.parse_bool("vm_accel_required", vm_accel_required)) continue;
     }
     return ERR_XML_PARSE;

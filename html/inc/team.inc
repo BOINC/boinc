@@ -161,7 +161,7 @@ function display_team_page($team, $user) {
         }
     }
     row1(tra('Members'));
-    row2(tra('Founder'), user_links($team->founder));
+    row2(tra('Founder'), user_links($team->founder, BADGE_HEIGHT_MEDIUM));
     if (count($team->admins)) {
         $first = true;
         $x = "";
@@ -171,7 +171,7 @@ function display_team_page($team, $user) {
             } else {
                 $x .= " &middot; ";
             }
-            $x .= user_links($a);
+            $x .= user_links($a, BADGE_HEIGHT_MEDIUM);
         }
         row2(tra('Admins'), $x);
     }
@@ -185,7 +185,7 @@ function display_team_page($team, $user) {
             } else {
                 $x .= " &middot; ";
             }
-            $x .= user_links($a);
+            $x .= user_links($a, BADGE_HEIGHT_MEDIUM);
         }
     }
     row2(tra('New members in last day'), $x);
@@ -256,7 +256,7 @@ function display_team_members($team, $offset, $sort_by) {
     foreach ($users as $user) {
         $user_total_credit = format_credit_large($user->total_credit);
         $user_expavg_credit = format_credit($user->expavg_credit);
-        $x = user_links($user);
+        $x = user_links($user, BADGE_HEIGHT_MEDIUM);
         if ($user->id == $team->userid) {
             $x .= ' ['.tra('Founder').']';
         } else if (is_team_admin_aux($user, $admins)) {
@@ -387,7 +387,7 @@ function show_team_row($team, $i) {
     $team_expavg_credit = format_credit_large($team->expavg_credit);
     $team_total_credit = format_credit_large($team->total_credit);
     $j = $i % 2;
-    $b = badges_string(false, $team, 24);
+    $b = badges_string(false, $team, BADGE_HEIGHT_MEDIUM);
     echo"<tr class=row$j>
         <td>$i</td>
         <td><a href=team_display.php?teamid=$team->id>$team->name</a> $b</td>

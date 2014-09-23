@@ -71,7 +71,7 @@ function show_user_row($user, $i) {
     echo "
         <tr class=row$j>
         <td>$i</td>
-        <td>", user_links($user), "</td>
+        <td>", user_links($user, BADGE_HEIGHT_MEDIUM), "</td>
         <td align=right>", format_credit_large($user->expavg_credit), "</td>
         <td align=right>", format_credit_large($user->total_credit), "</td>
         <td>", $user->country, "</td>

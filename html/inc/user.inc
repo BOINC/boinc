@@ -262,7 +262,10 @@ function friend_links($user) {
     return $x;
 }
 
-function user_links($user) {
+// show user name, with links to profile if present.
+// if $badge_height is > 0, show badges
+//
+function user_links($user, $badge_height=0) {
     BoincForumPrefs::lookup($user);
     if (is_banished($user)) {
         return "(banished: ID $user->id)";
@@ -277,7 +280,9 @@ function user_links($user) {
         require_once("../project/donations.inc");
         $x .= DONATION_LINK;
     }
-    $x .= badges_string(true, $user, 24);
+    if ($badge_height) {
+        $x .= badges_string(true, $user, $badge_height);
+    }
     if (function_exists("project_user_links")){
         $x .= project_user_links($user);
     }

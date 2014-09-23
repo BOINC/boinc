@@ -23,7 +23,7 @@ require_once("../inc/user.inc");
 function show_user($user) {
     echo "
         <tr class=row1>
-        <td>", user_links($user), " (ID $user->id)</td>
+        <td>", user_links($user, BADGE_HEIGHT_MEDIUM), " (ID $user->id)</td>
     ";
     if ($user->teamid) {
         $team = BoincTeam::lookup_id($user->teamid);

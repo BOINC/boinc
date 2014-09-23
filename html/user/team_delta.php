@@ -43,7 +43,7 @@ function show_delta($delta) {
     } else {
         echo "<tr>
            <td>$when</td>
-           <td>",user_links($user)," (ID $user->id)</td>
+           <td>",user_links($user, BADGE_HEIGHT_MEDIUM)," (ID $user->id)</td>
            <td>$what</td>
            <td>$delta->total_credit</td>
            </tr>

@@ -55,7 +55,7 @@ foreach($users as $user) {
     echo "
         <tr>
         <td align=center><input type=checkbox name=remove_$ninactive_users value=$user->id>
-        <td>".user_links($user)." ($user->id)</td>
+        <td>".user_links($user, BADGE_HEIGHT_MEDIUM)." ($user->id)</td>
         <td>$user_total_credit</td>
         <td>$user_expavg_credit</td>
         </tr>

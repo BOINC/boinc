@@ -102,7 +102,7 @@ function show_host($host, $user, $ipprivate) {
     } else {
         $owner = BoincUser::lookup_id($host->userid);
         if ($owner && $owner->show_hosts) {
-            row2(tra("Owner"), user_links($owner));
+            row2(tra("Owner"), user_links($owner, BADGE_HEIGHT_MEDIUM));
         } else {
             row2(tra("Owner"), tra("Anonymous"));
             $anonymous = true;
@@ -359,7 +359,7 @@ function show_host_row($host, $i, $private, $show_owner, $any_product_name) {
             if ($anonymous) {
                 echo "<td>".tra("Anonymous")."</td>\n";
             } else {
-                echo "<td>", user_links($user), "</td>\n";
+                echo "<td>", user_links($user, BADGE_HEIGHT_MEDIUM), "</td>\n";
             }
         }
     }

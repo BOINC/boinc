@@ -234,13 +234,31 @@ void send_work_score_type(int rt) {
 
     bool sema_locked = false;
     for (unsigned int i=0; i<jobs.size(); i++) {
+
+        // check limit on total jobs
+        //
         if (!work_needed(false)) {
             break;
         }
+
+        // check limit on jobs for this processor type
+        //
         if (!g_wreq->need_proc_type(rt)) {
             break;
         }
         JOB& job = jobs[i];
+
+        // check limits on jobs for this (app, processor type)
+        //
+        if (config.max_jobs_in_progress.exceeded(job.app, job.bavp->host_usage.proc_type)) {
+            if (config.debug_quota) {
+                log_messages.printf(MSG_NORMAL,
+                    "[quota] limit for app/proctype exceeded\n"
+                );
+            }
+            continue;
+        }
+
         if (!sema_locked) {
             lock_sema();
             sema_locked = true;
@@ -323,7 +341,7 @@ void send_work_score_type(int rt) {
 }
 
 void send_work_score() {
-    for (int i=0; i<NPROC_TYPES; i++) {
+    for (int i=NPROC_TYPES-1; i>= 0; i--) {
         if (g_wreq->need_proc_type(i)) {
             send_work_score_type(i);
         }

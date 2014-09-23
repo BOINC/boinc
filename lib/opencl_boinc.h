@@ -63,7 +63,7 @@ struct OPENCL_DEVICE_PROP {
     double peak_flops;                  // temp used in scan process
     COPROC_USAGE is_used;               // temp used in scan process
     double opencl_available_ram;        // temp used in scan process
-    int opencl_device_index;            // zero-based device number within this COPROC type
+    int opencl_device_index;            // zero-based device number within this OpenCL platform
 
     void write_xml(MIOFILE&, const char* tag, bool temp_file=false);
     int parse(XML_PARSER&, const char* end_tag);

@@ -217,7 +217,7 @@ function show_forum($forum, $start, $sort_style, $user) {
 
         echo '
             <td class="numbers">'.($thread->replies+1).'</td>
-            <td>'.user_links($owner).'</td>
+            <td>'.user_links($owner, BADGE_HEIGHT_SMALL).'</td>
             <td class="numbers">'.$thread->views.'</td>
             <td class="lastpost">'.time_diff_str($thread->timestamp, time()).'</td>
             </tr>

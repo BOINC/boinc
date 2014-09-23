@@ -208,7 +208,7 @@ bool wxTaskBarIconEx::SetIcon(const wxIcon& icon, const wxString& message)
     gtk_status_icon_set_from_pixbuf(g_pStatusIcon, bitmap.GetPixbuf());
     if (!message.empty())
     {
-        gtk_status_icon_set_tooltip(g_pStatusIcon, message.mb_str());
+        gtk_status_icon_set_tooltip_text(g_pStatusIcon, message.mb_str());
     }
     gtk_status_icon_set_visible(g_pStatusIcon, TRUE);
 
