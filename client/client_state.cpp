@@ -246,11 +246,8 @@ void CLIENT_STATE::show_host_info() {
     } else {
 #if defined (_WIN32) && !defined(_WIN64)
         if (!strcmp(get_primary_platform(), "windows_x86_64")) {
-            msg_printf(NULL, MSG_INFO,
-                "VirtualBox: can't detect because this is a 32-bit client"
-            );
-            msg_printf(NULL, MSG_INFO,
-                "  (to use VirtualBox, install a 64-bit BOINC client)."
+            msg_printf(NULL, MSG_USER_ALERT,
+                "Can't detect VirtualBox because this is a 32-bit version of BOINC; to fix, please install a 64-bit version."
             );
         }
 #endif
