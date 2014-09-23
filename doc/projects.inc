@@ -91,16 +91,16 @@ $biomed = array(
             "",
             "Study and design RNA molecules"
         ),
-        array(
-            "FightMalaria@Home",
-            "http://boinc.ucd.ie/fmah/",
-            tra("University College Dublin"),
-            tra("Antimalarial drug discovery"),
-            tra("The parasite that causes malaria continues to evolve resistance to available medication. We therefore urgently need to discover new drugs to replace existing drugs. Importantly, these new drugs need to target NEW proteins in the parasite. The FightMalaria@Home project is aimed at finding these new targets."),
-            "FMAH_banner3_wt.png",
-            "",
-            "Develop malaria drugs"
-        ),
+//        array(
+//            "FightMalaria@Home",
+//            "http://boinc.ucd.ie/fmah/",
+//            tra("University College Dublin"),
+//            tra("Antimalarial drug discovery"),
+//            tra("The parasite that causes malaria continues to evolve resistance to available medication. We therefore urgently need to discover new drugs to replace existing drugs. Importantly, these new drugs need to target NEW proteins in the parasite. The FightMalaria@Home project is aimed at finding these new targets."),
+//            "FMAH_banner3_wt.png",
+//            "",
+//            "Develop malaria drugs"
+//        ),
         array(
             "POEM@HOME",
             "http://boinc.fzk.de/poem/",
