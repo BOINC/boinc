@@ -188,6 +188,8 @@ FILE_INFO::FILE_INFO() {
     executable = false;
     uploaded = false;
     sticky = false;
+    sticky_lifetime = 0;
+    sticky_expire_time = 0;
     gzip_when_done = false;
     download_gzipped = false;
     signature_required = false;
@@ -279,6 +281,8 @@ int FILE_INFO::set_permissions(const char* path) {
 }
 #endif
 
+// parse a <file_info>, from state file or scheduler RPC reply
+//
 int FILE_INFO::parse(XML_PARSER& xp) {
     char buf2[1024];
     std::string url;
@@ -366,6 +370,10 @@ int FILE_INFO::parse(XML_PARSER& xp) {
         if (xp.parse_bool("executable", executable)) continue;
         if (xp.parse_bool("uploaded", uploaded)) continue;
         if (xp.parse_bool("sticky", sticky)) continue;
+        if (xp.parse_double("sticky_expire_time", sticky_expire_time)) continue;
+            // state file has this
+        if (xp.parse_double("sticky_lifetime", sticky_lifetime)) continue;
+            // scheduler RPC reply has this
         if (xp.parse_bool("gzip_when_done", gzip_when_done)) continue;
         if (xp.parse_bool("download_gzipped", download_gzipped)) continue;
         if (xp.parse_bool("signature_required", signature_required)) continue;
@@ -449,6 +457,11 @@ int FILE_INFO::write(MIOFILE& out, bool to_server) {
         if (signature_required) out.printf("    <signature_required/>\n");
         if (is_user_file) out.printf("    <is_user_file/>\n");
         if (strlen(file_signature)) out.printf("    <file_signature>\n%s\n</file_signature>\n", file_signature);
+    }
+    if (sticky_expire_time) {
+        out.printf("    <sticky_expire_time>%f</sticky_expire_time>\n",
+            sticky_expire_time
+        );
     }
     for (i=0; i<download_urls.urls.size(); i++) {
         xml_escape(download_urls.urls[i].c_str(), buf, sizeof(buf));
@@ -616,6 +629,23 @@ int FILE_INFO::merge_info(FILE_INFO& new_info) {
             );
         }
         return retval;
+    }
+
+    // sticky attributes
+    //
+    if (new_info.sticky) {
+        sticky = true;
+        if (new_info.sticky_lifetime) {
+            double x = gstate.now + new_info.sticky_lifetime;
+            if (x > sticky_expire_time) {
+                sticky_expire_time = x;
+            }
+        } else {
+            sticky_expire_time = 0;
+        }
+    } else {
+        sticky = false;
+        sticky_expire_time = 0;
     }
 
     return 0;
