@@ -265,7 +265,7 @@ void get_reliability_version(HOST_APP_VERSION& hav, double multiplier) {
         if (hav.max_jobs_per_day < config.daily_result_quota) {
             if (config.debug_send) {
                 log_messages.printf(MSG_NORMAL,
-                    "[send] [AV#%d] not reliable; max_jobs_per_day %d>%d\n",
+                    "[send] [AV#%d] not reliable; max_jobs_per_day %d<%d\n",
                     hav.app_version_id,
                     hav.max_jobs_per_day,
                     config.daily_result_quota
