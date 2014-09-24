@@ -566,7 +566,7 @@ function show_post(
         <div class=\"authorcol\">
     ";
 
-    echo user_links($user, BADGE_HEIGHT_SMALL);
+    echo user_links($user, 0);
     echo "<br>";
     if ($user->create_time > time()-ST_NEW_TIME) $fstatus.=ST_NEW."<br>";
     if ($fstatus) echo "<font size=\"-2\">$fstatus</font>";
@@ -608,9 +608,10 @@ function show_post(
         if (defined("COUNTRY_FLAGS")) {
             if (array_key_exists($user->country, $country_to_iso3166_2)) {
                 $code = $country_to_iso3166_2[$user->country];
-                echo "<img class=flag alt=\"$user->country\" title=\"$user->country\" src=flags/$code.png><br>\n";
+                echo "<img class=flag alt=\"$user->country\" title=\"$user->country\" src=flags/$code.png>\n";
             }
         }
+        echo badges_string(true, $user, BADGE_HEIGHT_SMALL);
     }
     echo "</span></div></td>";
 
