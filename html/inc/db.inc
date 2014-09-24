@@ -81,7 +81,7 @@ if (MYSQLI) {
         return mysqli_error($mysqli);
     }
 } else {
-    function _mysql_connect($host, $user, $pass, $dbname) {
+    function _mysql_connect($host, $user, $pass, $db_name) {
         $link = mysql_pconnect($host, $user, $pass);
         if (!$link) return null;
         if (!mysql_select_db($db_name, $link)) {
