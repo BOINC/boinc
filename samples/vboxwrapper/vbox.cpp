@@ -480,10 +480,10 @@ int VBOX_VM::create_vm() {
         stderr,
         "%s Setting Memory Size for VM. (%sMB)\n",
         vboxwrapper_msg_prefix(buf, sizeof(buf)),
-        memory_size_mb.c_str()
+        vm_memory_size_mb.c_str()
     );
     command  = "modifyvm \"" + vm_name + "\" ";
-    command += "--memory " + memory_size_mb + " ";
+    command += "--memory " + vm_memory_size_mb + " ";
 
     retval = vbm_popen(command, output, "modifymem");
     if (retval) return retval;

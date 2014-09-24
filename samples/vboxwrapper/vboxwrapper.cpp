@@ -193,7 +193,7 @@ int parse_job_file(VBOX_VM& vm) {
         else if (xp.parse_string("vm_disk_controller_type", vm.vm_disk_controller_type)) continue;
         else if (xp.parse_string("vm_disk_controller_model", vm.vm_disk_controller_model)) continue;
         else if (xp.parse_string("os_name", vm.os_name)) continue;
-        else if (xp.parse_string("memory_size_mb", vm.memory_size_mb)) continue;
+        else if (xp.parse_double("memory_size_mb", vm.memory_size_mb)) continue;
         else if (xp.parse_double("job_duration", vm.job_duration)) continue;
         else if (xp.parse_double("minimum_checkpoint_interval", vm.minimum_checkpoint_interval)) continue;
         else if (xp.parse_string("fraction_done_filename", vm.fraction_done_filename)) continue;
@@ -514,6 +514,7 @@ int main(int argc, char** argv) {
     double bytes_sent = 0;
     double bytes_received = 0;
     double ncpus = 0;
+    double memory_size_mb = 0;
     double timeout = 0.0;
     bool report_net_usage = false;
     double net_usage_timer = 600;
@@ -527,8 +528,11 @@ int main(int argc, char** argv) {
         if (!strcmp(argv[i], "--trickle")) {
             trickle_period = atof(argv[++i]);
         }
-        if (!strcmp(argv[i], "--nthreads")) {
+        if (!strcmp(argv[i], "--ncpus")) {
             ncpus = atof(argv[++i]);
+        }
+        if (!strcmp(argv[i], "--memory_size_mb")) {
+            memory_size_mb = atof(argv[++i]);
         }
         if (!strcmp(argv[i], "--vmimage")) {
             vm_image = atoi(argv[++i]);
@@ -831,7 +835,14 @@ int main(int argc, char** argv) {
     } else {
         vm.vm_cpu_count = "1";
     }
-
+    if (vm.memory_size_mb > 1.0 || memory_size_mb > 1.0) {
+        if (memory_size_mb) {
+            sprintf(buf, "%d", (int)ceil(memory_size_mb));
+        } else {
+            sprintf(buf, "%d", (int)ceil(vm.memory_size_mb));
+        }
+        vm.vm_memory_size_mb = buf;
+    }
     if (aid.vbox_window && !aid.using_sandbox) {
         vm.headless = false;
     }
