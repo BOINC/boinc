@@ -287,7 +287,7 @@ void read_fraction_done(double& frac_done, VBOX_VM& vm) {
     frac_done = frac;
 }
 
-void read_completion_file_info(unsigned long& exit_code, string& message, VBOX_VM& vm) {
+void read_completion_file_info(unsigned long& exit_code, bool& is_notice, string& message, VBOX_VM& vm) {
     char path[MAXPATHLEN];
     char buf[1024];
 
@@ -299,6 +299,9 @@ void read_completion_file_info(unsigned long& exit_code, string& message, VBOX_V
     if (f) {
         if (fgets(buf, 1024, f) != NULL) {
             exit_code = atoi(buf);
+        }
+        if (fgets(buf, 1024, f) != NULL) {
+            is_notice = atoi(buf);
         }
         while (fgets(buf, 1024, f) != NULL) {
             message += buf;
@@ -520,6 +523,7 @@ int main(int argc, char** argv) {
     double net_usage_timer = 600;
 	int vm_image = 0;
     unsigned long vm_exit_code = 0;
+    bool is_notice = false;
     string message;
     char buf[256];
 
@@ -1079,8 +1083,19 @@ int main(int argc, char** argv) {
                 "%s VM Completion File Detected.\n",
                 vboxwrapper_msg_prefix(buf, sizeof(buf))
             );
-            read_completion_file_info(vm_exit_code, message, vm);
-            boinc_finish(vm_exit_code);
+            read_completion_file_info(vm_exit_code, is_notice, message, vm);
+            if (!is_notice && message.size()) {
+                fprintf(
+                    stderr,
+                    "%s VM Completion Message: %s.\n",
+                    vboxwrapper_msg_prefix(buf, sizeof(buf)),
+                    message.c_str()
+                );
+            } else if (is_notice && message.size()) {
+                boinc_finish_message(vm_exit_code, message.c_str(), is_notice);
+            } else {
+                boinc_finish(vm_exit_code);
+            }
         }
         if (!vm.online) {
             // Is this a type of event we can recover from?
