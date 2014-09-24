@@ -16,20 +16,22 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// Should not be enabled for public code
-//ini_set('display_errors', 'stdout');
-//error_reporting(E_ALL);
-
-/// represents a connection to a database.
-// Intended to be subclassed (e.g., BoincDb, BossaDb)
-
-if (class_exists("mysqli")) {
-    define("MYSQLI", true);
-    $mysqli = null;
-} else {
-    define("MYSQLI", false);
+// use mysqli if available,
+// but let projects not use it if they want
+// (by define('MYSQLI', false) in project.inc)
+//
+if (!defined('MYSQLI')) {
+    if (class_exists("mysqli")) {
+        define("MYSQLI", true);
+        $mysqli = null;
+    } else {
+        define("MYSQLI", false);
+    }
 }
 
+// represents a connection to a database.
+// Intended to be subclassed (e.g., BoincDb, BossaDb)
+//
 class DbConn {
     var $db_conn;
     var $db_name;
