@@ -1084,14 +1084,15 @@ int main(int argc, char** argv) {
                 vboxwrapper_msg_prefix(buf, sizeof(buf))
             );
             read_completion_file_info(vm_exit_code, is_notice, message, vm);
-            if (!is_notice && message.size()) {
+            if (message.size()) {
                 fprintf(
                     stderr,
                     "%s VM Completion Message: %s.\n",
                     vboxwrapper_msg_prefix(buf, sizeof(buf)),
                     message.c_str()
                 );
-            } else if (is_notice && message.size()) {
+            }
+            if (is_notice) {
                 boinc_finish_message(vm_exit_code, message.c_str(), is_notice);
             } else {
                 boinc_finish(vm_exit_code);
