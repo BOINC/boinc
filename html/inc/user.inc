@@ -397,8 +397,7 @@ function show_user_summary_public($user) {
     if ($user->donated == 1) { 
         if (file_exists("../project/donations.inc")) {
             require_once("../project/donations.inc");
-            $x .= DONATION_LINK;
-            row2(tra("Donor"), $x);
+            row2(tra("Donor"), DONATION_LINK);
         }
     }
 }
