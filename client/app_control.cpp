@@ -595,6 +595,8 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
 //
 bool ACTIVE_TASK::finish_file_present() {
     char path[MAXPATHLEN], buf[1024], buf2[256];
+    strcpy(buf, "");
+    strcpy(buf2, "");
     sprintf(path, "%s/%s", slot_dir, BOINC_FINISH_CALLED_FILE);
     FILE* f = fopen(path, "r");
     if (!f) return false;
