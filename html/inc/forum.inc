@@ -985,6 +985,7 @@ function get_forum_threads(
     //}
         
     $sql = 'forum = ' . $forumID ;
+    $stickysql = "";
     if ($sticky){
         $stickysql = "sticky DESC, ";
     }
