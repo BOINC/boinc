@@ -68,7 +68,6 @@ function output_transform($text, $options = NULL) {
         $options = new output_options; // Defaults in the class definition
     }
     if ($options->htmlitems) {
-        //$text = htmlentities($text);
         $text = htmlspecialchars($text);
     }
     if (is_array($options->highlight_terms)) {
