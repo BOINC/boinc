@@ -111,7 +111,7 @@ function replace_pre_code($text, $export) {
             "@\[pre\](.*?)\[/pre\]@is",
             function ($matches) {
                 $x = remove_br(substr($matches[0], 5, -6));
-                $x = htmlspecialchars($x);
+                $x = htmlspecialchars($x, ENT_COMPAT, "UTF-8", false);
                 $x = str_replace("[", "&#91;", $x);
                 return "<pre>$x</pre>";
             },
@@ -121,7 +121,7 @@ function replace_pre_code($text, $export) {
             "@\[code\](.*?)\[/code\]@is",
             function ($matches) {
                 $x = remove_br(substr($matches[0], 6, -7));
-                $x = htmlspecialchars($x);
+                $x = htmlspecialchars($x, ENT_COMPAT, "UTF-8", false);
                 $x = str_replace("[", "&#91;", $x);
                 return "<code>$x</code>";
             },
@@ -132,7 +132,7 @@ function replace_pre_code($text, $export) {
             "@\[pre\](.*?)\[/pre\]@is",
             function ($matches) {
                 $x = remove_br(substr($matches[0], 5, -6));
-                $x = htmlspecialchars($x);
+                $x = htmlspecialchars($x, ENT_COMPAT, "UTF-8", false);
                 $x = str_replace("[", "&#91;", $x);
                 return "<div class=\"pre\">$x</div>";
             },
@@ -142,7 +142,7 @@ function replace_pre_code($text, $export) {
             "@\[code\](.*?)\[/code\]@is",
             function ($matches) {
                 $x = remove_br(substr($matches[0], 6, -7));
-                $x = htmlspecialchars($x);
+                $x = htmlspecialchars($x, ENT_COMPAT, "UTF-8", false);
                 $x = str_replace("[", "&#91;", $x);
                 return "<div class=\"code\">$x</div>";
             },
