@@ -159,6 +159,9 @@ void CC_CONFIG::show() {
     if (no_gpus) {
         msg_printf(NULL, MSG_INFO, "Config: don't use coprocessors");
     }
+    if (dont_use_vbox) {
+        msg_printf(NULL, MSG_INFO, "Config: don't use VirtualBox");
+    }
     if (no_info_fetch) {
         msg_printf(NULL, MSG_INFO, "Config: don't fetch project list or client version info");
     }

@@ -1266,7 +1266,9 @@ int HOST_INFO::get_host_info() {
             "get_filesystem_info() failed: %s", boincerror(retval)
         );
     }
-    get_virtualbox_version();
+    if (!cc_config.dont_use_vbox) {
+        get_virtualbox_version();
+    }
 
 ///////////// p_vendor, p_model, p_features /////////////////
 #if LINUX_LIKE_SYSTEM
