@@ -1248,6 +1248,34 @@ function boincwork_host_last_contact($timestamp, $host_id = NULL, $context = NUL
 }
 
 /**
+ * 
+ */
+function boincwork_host_venue_selector($host_id) {
+  $output = '';
+  if (function_exists('jump_quickly')) {
+    $path = "host/{$host_id}/set-venue";
+    $venues = array(
+      "{$path}/generic" => t('Generic'),
+      "{$path}/home" => t('Home'),
+      "{$path}/work" => t('Work'),
+      "{$path}/school" => t('School')
+    );
+    variable_set('jump_use_js_venues-Array', 1);
+    drupal_add_js(drupal_get_path('module', 'jump') . '/jump.js');
+    drupal_add_js(drupal_get_path('theme', 'boinc') . '/js/prefs.js', 'theme');
+    // Get current venue
+    db_set_active('boinc');
+    $venue = db_result(db_query(
+      "SELECT venue FROM {host} WHERE id = '%d'",
+      $host_id
+    ));
+    db_set_active('default');
+    $output .= jump_quickly($venues, 'venues', 1, "{$path}/{$venue}");
+  }
+  return $output;
+}
+
+/**
   * Determine output for task reported time / deadline
   */
 function boincwork_task_time_reported($received_time = NULL, $deadline = NULL, $context = NULL) {

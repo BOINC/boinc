@@ -201,3 +201,15 @@
 .view-subscriptions .views-field-ops {
   text-align: right;
 }
+
+/**
+ * Hosts
+ */
+.view-boinc-host .jump-quickly div {
+  display: inline-block;
+}
+.view-boinc-host .jump-quickly .container-inline,
+.view-boinc-host .jump-quickly #edit-jump-goto-wrapper {
+  margin: 0;
+  padding: 0;
+}

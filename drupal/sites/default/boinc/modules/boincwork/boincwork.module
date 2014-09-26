@@ -98,6 +98,13 @@ function boincwork_menu() {
     'access callback' => 'user_is_logged_in',
     'type' => MENU_CALLBACK,
   );
+  $items['host/%/set-venue/%'] = array(
+    'title' => t('Set host venue'),
+    'page callback' => 'boincwork_host_set_venue',
+    'page arguments' => array(1,3),
+    'access callback' => 'user_is_logged_in',
+    'type' => MENU_CALLBACK,
+  );
   $items['user/%/mobile'] = array(
     'title' => t('Mobile stats'),
     'page callback' => 'boincwork_mobile_stats',
@@ -878,6 +885,43 @@ function boincwork_host_log($host_id = null) {
     header('Content-type: text/plain');
     include($log);
   }
+}
+
+function boincwork_host_set_venue($host_id = NULL, $venue = NULL) {
+  global $user;
+  $account = user_load($user->uid);
+  db_set_active('boinc');
+  // Verify that this is my host
+  $host_owner = db_result(db_query(
+    "SELECT userid FROM {host} WHERE id = '%d'",
+    $host_id
+  ));
+  if ($host_owner AND $host_owner == $account->boincuser_id) {
+    $updated = db_query(
+      "UPDATE {host} SET venue = '%s' WHERE id = '%d'",
+      $venue, $host_id
+    );
+    if ($updated) {
+      drupal_set_message(
+        t('The location for this host has been updated.')
+        . t('This will take effect next time the host contacts the project.')
+      );
+    }
+    else {
+      drupal_set_message(
+        t('Unable to save changes to this host for some reason!'),
+        'error'
+      );
+    }
+  }
+  else {
+    drupal_set_message(
+      t('You are now allowed to make changes to this host.'),
+      'warning'
+    );
+  }
+  db_set_active('default');
+  drupal_goto("host/{$host_id}");
 }
 
 /**
