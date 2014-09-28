@@ -684,4 +684,18 @@ class BoincCreditTeam {
     }
 }
 
+// DEPRECATED: use BoincDb::escape_string where possible
+// 
+// apply this to any user-supplied strings used in queries
+// 
+function boinc_real_escape_string($x) {
+    if (version_compare(phpversion(),"4.3.0")>=0) {
+        return BoincDb::escape_string($x);
+    } else {
+        $x = str_replace("'", "\'", $x);
+        $x = str_replace("\"", "\\\"", $x);
+        return $x;
+    }
+}
+
 ?>

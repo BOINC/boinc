@@ -22,20 +22,29 @@ page_head(tra('Statistics and leaderboards'));
 
 check_get_args(array());
 
+$credit_by_app = parse_bool(get_config(), "credit_by_app");
+
 start_table();
 echo "
     <tr><td>"
     . tra("Statistics for %1",PROJECT).":
     <ul>
     <li><a href=\"top_users.php\">" . tra("Top participants")."</a>
-    <li><a href=\"top_hosts.php\">" . tra("Top computers")."</a>
 ";
+if ($credit_by_app) {
+    echo "<ul><li><a href=per_app_list.php>Per application</a></ul>\n";
+}
+
 if (!DISABLE_TEAMS) {
     echo "
         <li><a href=\"top_teams.php\">" . tra("Top teams"). "</a>
     ";
+    if ($credit_by_app) {
+        echo "<ul><li><a href=per_app_list.php?is_team=1>Per application</a></ul>\n";
+    }
 }
 echo "
+<li><a href=\"top_hosts.php\">" . tra("Top computers")."</a>
 <li><a href=\"gpu_list.php\">" . tra("GPU models"). "</a>
 <li><a href=\"cpu_list.php\">" . tra("CPU models"). "</a>
 </ul>

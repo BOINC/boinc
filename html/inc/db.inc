@@ -16,14 +16,28 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-require_once('../inc/util.inc');
-require_once('../inc/boinc_db.inc');
+require_once('../project/project.inc');
 
 // database-related functions.
 // Presentation code (HTML) shouldn't be here
 
 // DEPRECATED; use boinc_db.inc instead.
 // TODO: replace calls to these functions
+
+// use mysqli if available,
+// but let projects not use it if they want
+// (by define('NO_MYSQLI', true) in project.inc)
+//
+if (defined('NO_MYSQLI') && NO_MYSQLI) {
+    define("MYSQLI", false);
+} else {
+    if (class_exists("mysqli")) {
+        define("MYSQLI", true);
+        $mysqli = null;
+    } else {
+        define("MYSQLI", false);
+    }
+}
 
 if (MYSQLI) {
     function _mysql_connect($host, $user, $pass, $dbname) {
@@ -168,20 +182,6 @@ function db_init_aux($try_replica=false) {
     }
 
     return 0;
-}
-
-// DEPRECATED: use BoincDb::escape_string where possible
-// 
-// apply this to any user-supplied strings used in queries
-// 
-function boinc_real_escape_string($x) {
-    if (version_compare(phpversion(),"4.3.0")>=0) {
-        return BoincDb::escape_string($x);
-    } else {
-        $x = str_replace("'", "\'", $x);
-        $x = str_replace("\"", "\\\"", $x);
-        return $x;
-    }
 }
 
 // escape a string for MySQL "like"
