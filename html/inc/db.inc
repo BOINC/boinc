@@ -16,7 +16,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-require_once('../project/project.inc');
+require_once("../inc/util_basic.inc");
 
 // database-related functions.
 // Presentation code (HTML) shouldn't be here
@@ -26,9 +26,9 @@ require_once('../project/project.inc');
 
 // use mysqli if available,
 // but let projects not use it if they want
-// (by define('NO_MYSQLI', true) in project.inc)
+// (put <no_mysqli/> in config.xml)
 //
-if (defined('NO_MYSQLI') && NO_MYSQLI) {
+if (parse_bool(get_config(), "no_mysqli")) {
     define("MYSQLI", false);
 } else {
     if (class_exists("mysqli")) {
