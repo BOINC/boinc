@@ -20,7 +20,7 @@ require_once("../project/project.inc");
 
 // use mysqli if available,
 // but let projects not use it if they want
-// (by define('MYSQLI', false) in project.inc)
+// (by define('NO_MYSQLI', true) in project.inc)
 //
 if (defined('NO_MYSQLI') && NO_MYSQLI) {
     define("MYSQLI", false);
