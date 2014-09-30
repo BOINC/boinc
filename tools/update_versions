@@ -28,8 +28,10 @@ error_reporting(E_ALL);
 ini_set('display_errors', true);
 ini_set('display_startup_errors', true);
 
-require_once("html/inc/boinc_db.inc");
-require_once("html/inc/util_basic.inc");
+chdir("html/inc");
+require_once("boinc_db.inc");
+require_once("util_basic.inc");
+chdir ("../..");
 
 $apps = BoincApp::enum("");
 $platforms = BoincPlatform::enum("");

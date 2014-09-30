@@ -383,14 +383,18 @@ function team_table_start($sort_by, $type_url) {
     ";
 }
 
+function team_links($team) {
+    $b = badges_string(false, $team, BADGE_HEIGHT_MEDIUM);
+    return "<a href=team_display.php?teamid=$team->id>$team->name</a> $b";
+}
+
 function show_team_row($team, $i) {
     $team_expavg_credit = format_credit_large($team->expavg_credit);
     $team_total_credit = format_credit_large($team->total_credit);
     $j = $i % 2;
-    $b = badges_string(false, $team, BADGE_HEIGHT_MEDIUM);
     echo"<tr class=row$j>
         <td>$i</td>
-        <td><a href=team_display.php?teamid=$team->id>$team->name</a> $b</td>
+        <td>".team_links($team)."</td>
         <td align=right>".$team->nusers."</td>
         <td align=right>$team_expavg_credit</td>
         <td align=right>$team_total_credit</td>

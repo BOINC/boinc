@@ -16,22 +16,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-require_once("../project/project.inc");
-
-// use mysqli if available,
-// but let projects not use it if they want
-// (by define('MYSQLI', false) in project.inc)
-//
-if (defined('NO_MYSQLI') && NO_MYSQLI) {
-    define("MYSQLI", false);
-} else {
-    if (class_exists("mysqli")) {
-        define("MYSQLI", true);
-        $mysqli = null;
-    } else {
-        define("MYSQLI", false);
-    }
-}
+require_once("../inc/db.inc");
 
 // represents a connection to a database.
 // Intended to be subclassed (e.g., BoincDb, BossaDb)
