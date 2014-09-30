@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2013 University of California
+# Copyright (C) 2014 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -38,14 +38,18 @@
 ## updated 11/1/13 by Charlie Fenton to build installers both with and without VBox
 ## updated 11/18/13 by Charlie Fenton for Xcode 5.0.2
 ## updated 1/22/14 by Charlie Fenton: embed VBox uninstaller in BOINC uninstaller
+## updated 9/30/14 by Charlie Fenton to code sign the BOINC client and Manager
 ##
 ## NOTE: This script requires Mac OS 10.6 or later, and uses XCode developer
 ##   tools.  So you must have installed XCode Developer Tools on the Mac 
-##   before running this script.
+##   before running this script.  You must code sign using OS 10.9 or later
+##   for compatibility with Gatekeeper on OS 10.10 or later.
+##
 ##
 
 ## NOTE: To build the executables under Lion and XCode 4, select from XCode's
 ## menu: "Product/Buildfor/Build for Archiving", NOT "Product/Archive"
+## Under Mavericks and Xcode 5, select "Product/Buildfor/Build for Profiling"
 
 ## To have this script build the combined BOINC+VirtualBox installer:
 ## * Create a directory named "VirtualBox Installer" in the same
@@ -58,8 +62,9 @@
 
 ## Usage:
 ##
-## If you wish to code sign the installer and uninstaller, create a file 
-## ~/BOINCCodeSignIdentity.txt whose first line is the code signing identity
+## If you wish to code sign the client, manager, installer and uninstaller,
+## create a file ~/BOINCCodeSignIdentity.txt whose first line is the code
+## signing identity
 ##
 ## cd to the root directory of the boinc tree, for example:
 ##     cd [path]/boinc
@@ -222,6 +227,27 @@ sudo chown -R root:admin ../BOINC_Installer/Installer\ Scripts/*
 sudo chmod -R u+rw,g+r-w,o+r-w ../BOINC_Installer/Installer\ Resources/*
 sudo chmod -R u+rw,g+r-w,o+r-w ../BOINC_Installer/Installer\ Scripts/*
 
+
+## If you wish to code sign the client, manager, installer and uninstaller,
+## create a file ~/BOINCCodeSignIdentity.txt whose first line is the code
+## signing identity
+##
+## Code signing using a registered Apple Developer ID is necessary for GateKeeper 
+## with default settings to allow running downloaded applications under OS 10.8
+## Although code signing the installer application is sufficient to satisfy
+## GateKeeper, OS X's software firewall can interfere with RPCs between the
+## client and manager.  Signing them may make this less likely to be a problem.
+if [ -e "${HOME}/BOINCCodeSignIdentity.txt" ]; then
+    exec 8<"${HOME}/BOINCCodeSignIdentity.txt"
+    read -u 8 SIGNINGIDENTITY
+
+    # Code Sign the BOINC client if we have a signing identity
+    sudo codesign -f -s "${SIGNINGIDENTITY}" "../BOINC_Installer/Pkg_Root/Applications/BOINCManager.app/Contents/Resources/boinc"
+
+    # Code Sign the BOINC Manager if we have a signing identity
+    sudo codesign -f -s "${SIGNINGIDENTITY}" "../BOINC_Installer/Pkg_Root/Applications/BOINCManager.app"
+fi
+
 sudo rm -dfR ../BOINC_Installer/New_Release_$1_$2_$3/
 
 mkdir -p ../BOINC_Installer/New_Release_$1_$2_$3/
@@ -351,9 +377,6 @@ cp -fpRL $BUILDPATH/SymbolTables/ ../BOINC_Installer/New_Release_$1_$2_$3/boinc_
 ## Code signing using a registered Apple Developer ID is necessary for GateKeeper 
 ## with default settings to allow running downloaded applications under OS 10.8
 if [ -e "${HOME}/BOINCCodeSignIdentity.txt" ]; then
-    exec 8<"${HOME}/BOINCCodeSignIdentity.txt"
-    read -u 8 SIGNINGIDENTITY
-
     # Code Sign the BOINC installer if we have a signing identity
     sudo codesign -f -s "${SIGNINGIDENTITY}" "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC Installer.app"
 
