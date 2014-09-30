@@ -1266,6 +1266,15 @@ int VBOX_VM::run(bool do_restore_snapshot) {
         if (retval) return retval;
     }
 
+    // Has BOINC signaled that we should quit?
+    // Try to prevent starting the VM in an environment where we might be terminated any
+    // second.  This can happen if BOINC has been told to shutdown or the volunteer has 
+    // told BOINC to switch to a different project.
+    //
+    if (boinc_status.no_heartbeat || boinc_status.quit_request) {
+        return VBOXWRAPPER_ERR_RECOVERABLE;
+    }
+
     // Start the VM
     retval = start();
     if (retval) return retval;
