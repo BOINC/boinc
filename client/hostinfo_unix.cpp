@@ -1226,7 +1226,7 @@ bool isDualGPUMacBook() {
 int HOST_INFO::get_virtualbox_version() {
     char path[MAXPATHLEN];
     char cmd [MAXPATHLEN+35];
-    char *newlinePtr;
+    char buf[256];
     FILE* fd;
 
     safe_strcpy(path, "/usr/bin/VBoxManage");
@@ -1239,11 +1239,13 @@ int HOST_INFO::get_virtualbox_version() {
         safe_strcat(cmd, " --version");
         fd = popen(cmd, "r");
         if (fd) {
-            if (fgets(virtualbox_version, sizeof(virtualbox_version), fd)) {
-                newlinePtr = strchr(virtualbox_version, '\n');
-                if (newlinePtr) *newlinePtr = '\0';
-                newlinePtr = strchr(virtualbox_version, '\r');
-                if (newlinePtr) *newlinePtr = '\0';
+            if (fgets(buf, sizeof(buf), fd)) {
+                strip_whitespace(buf);
+                int n, a,b,c;
+                n = sscanf(buf, "%d.%d.%d", &a, &b, &c);
+                if (n == 3) {
+                    strcpy(virtualbox_version, buf);
+                }
             }
             pclose(fd);
         }
