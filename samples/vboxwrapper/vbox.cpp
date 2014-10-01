@@ -2067,17 +2067,19 @@ int VBOX_VM::get_version_information(string& version) {
     command = "--version ";
     retval = vbm_popen(command, output, "version check");
 
-    // Remove \r or \n from the output spew
-    string::iterator iter = output.begin();
-    while (iter != output.end()) {
-        if (*iter == '\r' || *iter == '\n') {
-            iter = output.erase(iter);
-        } else {
-            ++iter;
+    if (!retval) {
+        // Remove \r or \n from the output spew
+        string::iterator iter = output.begin();
+        while (iter != output.end()) {
+            if (*iter == '\r' || *iter == '\n') {
+                iter = output.erase(iter);
+            } else {
+                ++iter;
+            }
         }
+        version = output;
     }
 
-    version = output;
     return retval;
 }
 
