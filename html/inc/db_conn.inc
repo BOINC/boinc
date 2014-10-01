@@ -27,10 +27,17 @@ class DbConn {
 
     function init_conn($user, $passwd, $host, $name) {
         if (MYSQLI) {
-            if (version_compare(PHP_VERSION, '5.3.0') < 0) {
-                $this->db_conn = new mysqli($host, $user, $passwd);
+            $x = explode($host, ":");
+            if (sizeof($x)>1) {
+                $host = $x[0];
+                $port = $x[1];
             } else {
-                $this->db_conn = new mysqli("p:".$host, $user, $passwd);
+                $port = null;
+            }
+            if (version_compare(PHP_VERSION, '5.3.0') < 0) {
+                $this->db_conn = new mysqli($host, $user, $passwd, $name, $port);
+            } else {
+                $this->db_conn = new mysqli("p:".$host, $user, $passwd, $name, $port);
             }
             global $mysqli;
             $mysqli = $this->db_conn;

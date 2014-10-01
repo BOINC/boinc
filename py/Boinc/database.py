@@ -255,8 +255,17 @@ def connect(config = None, nodb = False):
         db = config.db_name
     
     host=config.__dict__.get('db_host','')
+    port=""
+    if ':' in host:
+        host,port=config.__dict__.get('db_host','').split(":")
+
+    if port == '':
+        port = 3306
+    else:
+        port = int(port)
     do_connect(db=db,
                host=host,
+               port=port,
                user=config.__dict__.get('db_user',''),
                passwd=config.__dict__.get('db_passwd', ''))
     return 1
