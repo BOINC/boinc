@@ -76,7 +76,7 @@ table.noborder {
     cellpadding: 5;
 }
 
-.table-bordered {
+.table-bordered, .bordered {
     border-width: 2px;
     border-style: solid;
     -moz-border-radius: 6px;
