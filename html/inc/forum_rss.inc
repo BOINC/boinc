@@ -18,9 +18,7 @@
 
 require_once("../inc/forum_db.inc");
 require_once("../inc/boinc_db.inc");
-require_once("../inc/util.inc");
 require_once("../inc/text_transform.inc");
-require_once("../project/project.inc");
 
 // return true if the given HTML may contain images or video
 //
