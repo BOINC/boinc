@@ -20,7 +20,6 @@
 
 // script to decay exponential average per-app credit
 
-require_once("../inc/boinc_db.inc");
 require_once("../inc/credit.inc");
 require_once("../inc/util.inc");
 

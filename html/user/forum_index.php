@@ -76,7 +76,7 @@ page_head(tra("%1 Message boards", PROJECT));
 
 show_forum_header($user);
 
-if (FORUM_QA_MERGED_MODE === true){
+if (defined('FORUM_QA_MERGED_MODE') && FORUM_QA_MERGED_MODE){
     $categories = BoincCategory::enum("true order by orderID");
 } else {
     echo "<p>"

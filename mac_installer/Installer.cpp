@@ -109,11 +109,11 @@ int main(int argc, char *argv[])
     // Expand the installer package
     system("rm -dfR /tmp/BOINC.pkg");
     system("rm -dfR /tmp/expanded_BOINC.pkg");
-    
-    if (compareOSVersionTo(10, 9) < 0) {
-        sprintf(temp, "pkgutil --expand \"%s\" /tmp/expanded_BOINC.pkg", pkgPath);
-        err = system(temp);
-    }
+    system("rm -f /tmp/BOINC_preferred_languages");
+    system("rm -f /tmp/BOINC_restart_flag");
+
+    sprintf(temp, "pkgutil --expand \"%s\" /tmp/expanded_BOINC.pkg", pkgPath);
+    err = system(temp);
     
     if (err == noErr) {
         GetPreferredLanguages();
@@ -166,6 +166,8 @@ int main(int argc, char *argv[])
             return 0;
         }
     }
+
+    system("rm -fR /tmp/expanded_BOINC.pkg");
 
     sprintf(temp, "open \"%s\" &", pkgPath);
     system(temp);

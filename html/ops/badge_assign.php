@@ -76,7 +76,7 @@ function assign_badges($is_user, $badge_pctiles, $badge_images) {
     $kind = $is_user?"user":"team";
     $badges = get_pct_badges($kind."_pct", $badge_pctiles, $badge_images);
     $pctiles = get_percentiles($is_user, $badge_pctiles);
-    echo "thresholds for $kind badges: $pctiles[0] $pctiles[1] $pctiles[2]\n";
+    //echo "thresholds for $kind badges: $pctiles[0] $pctiles[1] $pctiles[2]\n";
 
     $n = 0;
     $maxid = $is_user?BoincUser::max("id"):BoincTeam::max("id");
@@ -95,7 +95,11 @@ function assign_badges($is_user, $badge_pctiles, $badge_images) {
     }
 }
 
+echo "Starting: ", time_str(time()), "\n";
+
 assign_badges(true, $badge_pctiles, $badge_images);
 assign_badges(false, $badge_pctiles, $badge_images);
+
+echo "Finished: ", time_str(time()), "\n";
 
 ?>

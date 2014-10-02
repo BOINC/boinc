@@ -173,6 +173,7 @@ function start_cache($max_age, $params=""){
 
     if ($max_age) {
         $path = get_path($params);
+        $cache = null;
         if (defined('MEMCACHE_SERVERS')) {
             $cache = BoincMemcache::get()->get($path);
             if ($cache) {
@@ -210,7 +211,7 @@ function start_cache($max_age, $params=""){
             Header("Last-Modified: " . gmdate("D, d M Y H:i:s",$lastmodified) . " GMT");
             Header("Expires: " . gmdate("D, d M Y H:i:s",$lastmodified+$max_age) . " GMT");
             Header("Cache-Control: public, max-age=" . $max_age );
-            if ($cache->content) {
+            if ($cache && $cache->content) {
                 echo $cache->content;
                 exit;
             }
@@ -262,7 +263,8 @@ function set_cached_data($max_age, $data, $params=""){
         $cache = array('content' => $data, 'timestamp' => time());
         BoincMemcache::get()->set($path, $cache, $max_age);
     } else {
-        $fhandle = fopen($path, "w");
+        $fhandle = @fopen($path, "w");
+        if (!$fhandle) return;
         fwrite($fhandle, $data);
         fclose($fhandle);
     }

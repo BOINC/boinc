@@ -78,7 +78,8 @@ VBOX_VM::VBOX_VM() {
     vm_disk_controller_type.clear();
     vm_disk_controller_model.clear();
     os_name.clear();
-    memory_size_mb.clear();
+    vm_memory_size_mb.clear();
+    memory_size_mb = 0.0;
     image_filename.clear();
     iso_image_filename.clear();
     cache_disk_filename.clear();
@@ -480,10 +481,10 @@ int VBOX_VM::create_vm() {
         stderr,
         "%s Setting Memory Size for VM. (%sMB)\n",
         vboxwrapper_msg_prefix(buf, sizeof(buf)),
-        memory_size_mb.c_str()
+        vm_memory_size_mb.c_str()
     );
     command  = "modifyvm \"" + vm_name + "\" ";
-    command += "--memory " + memory_size_mb + " ";
+    command += "--memory " + vm_memory_size_mb + " ";
 
     retval = vbm_popen(command, output, "modifymem");
     if (retval) return retval;
@@ -1263,6 +1264,15 @@ int VBOX_VM::run(bool do_restore_snapshot) {
     if (do_restore_snapshot) {
         retval = restore_snapshot();
         if (retval) return retval;
+    }
+
+    // Has BOINC signaled that we should quit?
+    // Try to prevent starting the VM in an environment where we might be terminated any
+    // second.  This can happen if BOINC has been told to shutdown or the volunteer has 
+    // told BOINC to switch to a different project.
+    //
+    if (boinc_status.no_heartbeat || boinc_status.quit_request) {
+        return VBOXWRAPPER_ERR_RECOVERABLE;
     }
 
     // Start the VM
@@ -2057,17 +2067,19 @@ int VBOX_VM::get_version_information(string& version) {
     command = "--version ";
     retval = vbm_popen(command, output, "version check");
 
-    // Remove \r or \n from the output spew
-    string::iterator iter = output.begin();
-    while (iter != output.end()) {
-        if (*iter == '\r' || *iter == '\n') {
-            iter = output.erase(iter);
-        } else {
-            ++iter;
+    if (!retval) {
+        // Remove \r or \n from the output spew
+        string::iterator iter = output.begin();
+        while (iter != output.end()) {
+            if (*iter == '\r' || *iter == '\n') {
+                iter = output.erase(iter);
+            } else {
+                ++iter;
+            }
         }
+        version = output;
     }
 
-    version = output;
     return retval;
 }
 
