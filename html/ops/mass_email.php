@@ -122,7 +122,7 @@ echo "
       <td><textarea name=\"body\" rows=25 cols=50 id=\"body\"></textarea></td>
     </tr>
         ";
-row2("", "<input type=\"submit\" value=\"OK\">\n");
+row2("", "<input class=\"btn btn-default\" type=\"submit\" value=\"OK\">\n");
 
 end_table();
 echo "</form>\n";

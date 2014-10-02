@@ -72,7 +72,7 @@ function project_footer($show_return, $show_date, $prefix) {
     echo "<br><br>".tra("Copyright")." &copy; ".gmdate("Y ").COPYRIGHT_HOLDER."</center>\n";
     if ($show_date) {
         $t = time_str(time());
-        echo "<span class=\"note\">".tra("Generated")." $t</span>\n";
+        echo "<p class=\"text-muted\">".tra("Generated")." $t</p>\n";
     }
 }
 

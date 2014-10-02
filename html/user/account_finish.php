@@ -38,21 +38,21 @@ echo "
 ";
 start_table();
 row2(
-    tra("Name")."<br><span class=\"description\">".tra("Identifies you on our web site. Use your real name or a nickname.")."</span>",
+    tra("Name")."<br><p class=\"text-info\">".tra("Identifies you on our web site. Use your real name or a nickname.")."</p>",
     "<input name=\"name\" size=\"30\" value=\"$user->name\">"
 );
 row2_init(
-    tra("Country")."<br><span class=\"description\">".tra("Select the country you want to represent, if any.")."</span>",
+    tra("Country")."<br><p class=\"text-info\">".tra("Select the country you want to represent, if any.")."</p>",
     "<select name=\"country\">"
 );
 print_country_select();
 echo "</select></td></tr>\n";
 row2(
-    tra("Postal or ZIP Code")."<br><span class=\"description\">".tra("Optional")."</span>",
+    tra("Postal or ZIP Code")."<br><p class=\"text-info\">".tra("Optional")."</span>",
     "<input name=\"postal_code\" size=\"20\">"
 );
 row2("",
-    "<input type=\"submit\" value=\"OK\">"
+    "<input class=\"btn btn-primary\" type=\"submit\" value=\"OK\">"
 );
 end_table();
 echo "

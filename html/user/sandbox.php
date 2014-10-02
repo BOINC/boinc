@@ -48,7 +48,7 @@ function list_files($user, $err_msg) {
         <input type=hidden name=action value=upload_file>
         Upload a file to your sandbox:
         <p><input size=80 type=file name=\"new_file[]\" multiple=\"multiple\">
-        <p> <input type=submit value=Upload>
+        <p> <input class=\"btn btn-default\" type=submit value=Upload>
         </form>
         <hr>
     ";
@@ -66,7 +66,7 @@ function list_files($user, $err_msg) {
     } else {
         sort($files);
         start_table();
-        table_header("Name<br><span class=note>(click to view)</span>", "Modified", "Size (bytes)", "MD5", "Delete","Download");
+        table_header("Name<br><p class=\"text-muted\">(click to view)</p>", "Modified", "Size (bytes)", "MD5", "Delete","Download");
         foreach ($files as $f) {
             $path = "$dir/$f";
             list($error, $size, $md5) = sandbox_parse_link_file($path);

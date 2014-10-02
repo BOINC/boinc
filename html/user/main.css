@@ -8,12 +8,10 @@ Use classes, not IDs.
 
 We use the following classes:
 
-table.bordered
+.table-bordered
     a table with a border around it
 td.bordered
     bordered table cell (admin pages only)
-td.heading
-    table cell acting as heading
 td.fieldname
 td.fieldvalue
     table cells with name/value pairs
@@ -69,12 +67,16 @@ img {
     border: none;
 }
 
-table {
+.table {
     padding: 4px 6px;
     margin: 2px;
 }
 
-table.bordered {
+table.noborder {
+    cellpadding: 5;
+}
+
+.table-bordered {
     border-width: 2px;
     border-style: solid;
     -moz-border-radius: 6px;
@@ -98,7 +100,7 @@ td.bordered {
     border-style: solid;
 }
 
-td.heading {
+th, td.heading {
     font-weight: bold;
     margin: 4px 0;
     padding: 8px;
@@ -153,9 +155,9 @@ input[type="submit"],
     border-radius: 5px;
 }
 
-    /* IE6 doesn't understand [type=XXXX] so we use class "button" */
+    /* IE6 doesn't understand [type=XXXX] so we use class "btn" */
 
-a.button {
+a.btn {
     line-height: 2.4em;
     padding: 4px 4px;
     margin: 0px 0px;
@@ -173,7 +175,7 @@ a.button {
 input[type="button"]:hover,
 input[type="submit"]:hover,
 input.btn:hover,
-.button:hover ,
+.btn:hover ,
 .forum_toplinks a:hover {
     text-decoration: none;
 }
@@ -267,8 +269,8 @@ td.postfooter {
     border-radius-bottomright: 10px;
 }
 
-td.postheader .button,
-td.postfooter .button {
+td.postheader .btn,
+td.postfooter .btn {
     font-size: 12px;
 }
 
@@ -299,7 +301,7 @@ td.lastpost, td.threadicon {
     font-weight: bold;
 }
 
-.description {
+.text-info, .description {
     font-size: 80%;
     font-weight: normal;
 }
@@ -346,7 +348,7 @@ img.flag {
     margin: 2px 1px;
 }
 
-.authorcol .button {
+.authorcol .btn {
     font-size: 12px;
     margin: 0 4px;
     line-height: 2.6em;
@@ -369,7 +371,7 @@ blockquote.postbody {
     margin: 20px;
 }
 
-span.note {
+p.text-muted, span.note {
     font-weight: normal;
     font-style: italic;
     font-size: 0.8em;
@@ -406,11 +408,15 @@ span.inboxunread {
     overflow: auto;
 }
 
-.smalltext {
+.donationtext {
     font-size: 0.8em;
 }
 
-.error,
+small {
+    font-size: 0.8em;
+}
+
+p.text-danger, .error,
 .notice  {
     font-weight: bold;
     font-size: 1.1em;
@@ -432,4 +438,9 @@ div.pm_preview {
 
 * html body .code {
     white-space: normal;
+}
+
+// this ignores additional bootstrap classes
+div.input-group, div.btn-group, ul.pager, div.pagination {
+    display: inline;
 }

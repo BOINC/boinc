@@ -174,7 +174,7 @@ function show_manage_user_form($user) {
 
 
     row1("<b>User: </b> $user->name <div align='right'>
-            <input name=\"delete_user\" type=\"submit\" value=\"Delete user\">
+            <input class=\"btn btn-danger\" name=\"delete_user\" type=\"submit\" value=\"Delete user\">
             </div>"
     );
 

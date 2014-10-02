@@ -35,7 +35,7 @@ echo "<form method=post action=".secure_url_base()."/edit_email_action.php>\n";
 start_table();
 row1(tra("Change the email address of your account"));
 row2(tra("New email address").
-    "<br><span class=note>".tra("Must be a valid address of the form 'name@domain'")."</span>",
+    "<br><p class=\"text-muted\">".tra("Must be a valid address of the form 'name@domain'")."</p>",
     "<input name=email_addr size=50 type=text value='$email_text'>"
 );
 
@@ -45,10 +45,10 @@ row2(tra("New email address").
 
 row2(
     tra("Password").
-    "<br><a href=".secure_url_base()."/edit_passwd_form.php><span class=note>".tra("No password?")."</span></a>",
+    "<br><a href=".secure_url_base()."/edit_passwd_form.php><p class=\"text-muted\">".tra("No password?")."</p></a>",
     "<input type=password name=passwd>"
 );
-row2("", "<input type=submit value='".tra("Change email address")."'>");
+row2("", "<input class=\"btn btn-default\" type=submit value='".tra("Change email address")."'>");
 end_table();
 echo "</form>\n";
 page_tail();

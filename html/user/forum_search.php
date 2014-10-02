@@ -32,17 +32,17 @@ start_table();
 echo "<form action=\"forum_search_action.php\" method=\"post\">";
 row1(tra("Search query"));
 row2(tra("Search for keywords:")."<br />
-    <span class=\"smalltext\">".tra("Posts that contain all the specified words will be displayed")."</span>",
+    <small>".tra("Posts that contain all the specified words will be displayed")."</small>",
     "<input type=\"text\" style=\"width: 290px\" name=\"search_keywords\" size=\"30\" /><br />
-    <span class=\"smalltext\">".tra("For example: \"screensaver freeze\"")."</span>");
+    <small>".tra("For example: \"screensaver freeze\"")."</small>");
 row2(tra("Search for author ID:")."<br />
-    <span class=\"smalltext\">".tra("Only posts by this author will be displayed")."</span>",
+    <small>".tra("Only posts by this author will be displayed")."</small>",
     "<input type=\"text\" style=\"width: 150px\" name=\"search_author\" size=\"10\" /><br />
-    <span class=\"smalltext\">".tra("For example: \"43214\"")."</span>");
+    <small>".tra("For example: \"43214\"")."</small>");
 
 row1(tra("Search options"));
 row2(tra("Search limits")."<br />
-    <span class=\"smalltext\">".tra("Search at most this many days back in time")."</span>",
+    <small>".tra("Search at most this many days back in time")."</small>",
     "<select name=\"search_max_time\">
     <option value=\"1\">".tra("1 day")."</option>
     <option value=\"3\">".tra("%1 days", "3")."</option>
@@ -72,7 +72,7 @@ foreach ($categories as $category) {
     }
 }
 row2(tra("Forum")."<br />
-    <span class=\"smalltext\">".tra("Only display posts from this forum")."</span>",
+    <small>".tra("Only display posts from this forum")."</small>",
     '<select name="search_forum">'.$forumlist.'</select');
 
 $sortlist = null;
@@ -87,7 +87,7 @@ row2(tra("Sort by"),
     '<select name="search_sort">'.$sortlist.'</select');
 
 row1("&nbsp;");
-row2("","<input type=\"submit\" value=\"".tra("Start the search")."\">");
+row2("","<input class=\"btn btn-default\" type=\"submit\" value=\"".tra("Start the search")."\">");
 echo "</form>";
 end_table();
 

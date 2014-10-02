@@ -64,7 +64,7 @@ function app_version_form($app) {
         <td><br></td>
         <td><br></td>
         <td><br></td>
-        <td><input type=submit value=Update></td>
+        <td><input class=\"btn btn-default\" type=submit value=Update></td>
         </tr>
     ";
     end_table();
@@ -119,7 +119,7 @@ function permissions_form($app) {
         </tr>
         <tr>
         <td><br></td>
-        <td><input type=submit value=OK></td>
+        <td><input class=\"btn btn-default\" type=submit value=OK></td>
         </tr>
     ";
     end_table();
@@ -176,7 +176,7 @@ function batches_form($app) {
         <td><br></td>
         <td><br></td>
         <td><br></td>
-        <td><input type=submit value=OK></td>
+        <td><input class=\"btn btn-default\" type=submit value=OK></td>
         </tr>
     ";
     end_table();

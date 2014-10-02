@@ -134,7 +134,7 @@ function show_form() {
         <input type=checkbox name=show_text>
 
         <p>
-        <input type=submit name=submit value=OK>
+        <input class=\"btn btn-default\" type=submit name=submit value=OK>
         </form>
     ";
 }

@@ -123,8 +123,8 @@ function show_forum_header($user) {
         <input type=\"hidden\" name=\"search_forum\" value=\"-1\">
         <input type=\"hidden\" name=\"search_sort\" value=\"5\">
         <input type=\"text\" name=\"search_keywords\">
-        <input class=\"btn\" title=\"".tra("Search for words in forum messages")."\" type=\"submit\" value=\"".tra("Search forums")."\"><br>
-        <span class=\"smalltext\"><a href=\"forum_search.php\">".tra("Advanced search")."</a></span>
+        <input class=\"btn btn-default\" title=\"".tra("Search for words in forum messages")."\" type=\"submit\" value=\"".tra("Search forums")."\"><br>
+        <small><a href=\"forum_search.php\">".tra("Advanced search")."</a></small>
         </td>
     ";
 

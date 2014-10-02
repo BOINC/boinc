@@ -82,7 +82,7 @@ end_table();
 if ($found) {
     echo "
         <input type=\"hidden\" name=\"n\" value=\"$n\">
-        <input type=\"submit\" value=\"OK\">
+        <input class=\"btn btn-default\" type=\"submit\" value=\"OK\">
     ";
 } else {
     echo "No more profiles to screen.";

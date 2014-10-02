@@ -59,7 +59,7 @@ foreach ($courses as $course) {
         ";
     }
     row2_init("<b>$course->name</b>
-        <br><span class=note>$course->description</span>",
+        <br><p class=\"text-muted\">$course->description</p>",
         $status
     );
     show_refreshes();

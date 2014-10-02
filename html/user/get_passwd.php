@@ -38,7 +38,7 @@ $account_file = "account_$x.xml";
 start_table();
 echo "<form method=post action=mail_passwd.php>\n";
 row2(tra("Email address"),"<input type=\"text\" size=40 name=email_addr>");
-row2("", "<input type=submit value=\"".tra("OK")."\">");
+row2("", "<input class=\"btn btn-default\" type=submit value=\"".tra("OK")."\">");
 echo "</form>";
 end_table();
 
@@ -72,7 +72,7 @@ row2(tra("Log in with authenticator"), "<input type=\"text\" name=authenticator 
 row2(tra("Stay logged in on this computer"),
     "<input type=checkbox name=send_cookie checked>"
 );
-row2("", "<input type=submit value=\"".tra("OK")."\">");
+row2("", "<input class=\"btn btn-default\" type=submit value=\"".tra("OK")."\">");
 echo "</form>";
 
 end_table();

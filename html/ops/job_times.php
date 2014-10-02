@@ -188,7 +188,7 @@ function show_app_select() {
             $app->user_friendly_name
         ";
     }
-    echo "<br><br><input type=submit value=OK>";
+    echo "<br><br><input class=\"btn btn-default\" type=submit value=OK>";
     admin_page_tail();
 }
 
@@ -200,9 +200,9 @@ function show_form($appid) {
     ";
     start_table();
     row2("App version:", version_select($appid));
-    row2("Resolution:<br><span class=note>(if you see only one bar, use a smaller value)</span>", "<input name=quantum value=1e12>");
+    row2("Resolution:<br><p class=\"text-muted\">(if you see only one bar, use a smaller value)</p>", "<input name=quantum value=1e12>");
     row2("Sample size (# of jobs):", "<input name=nresults value=1000>");
-    row2("", "<input type=submit name=submit value=OK>");
+    row2("", "<input class=\"btn btn-default\" type=submit name=submit value=OK>");
     end_table();
     echo "
         </form>

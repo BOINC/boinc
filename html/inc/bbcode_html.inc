@@ -8,34 +8,34 @@ $bbcode_html = '
 <table width="40%" border="0" cellspacing="0" cellpadding="2" class="bbcode_buttons">
           <tr align="center" valign="middle">
             <td><span class="genmed">
-              <input type="button" class="button" accesskey="b" name="addbbcode0" value=" B " style="font-weight:bold; width: 30px" onClick="bbstyle(0)" title="'.tra("Bold text: [b]text[/b]  (alt+b)").'" />
+              <input type="button" class="btn btn-default btn-sm" accesskey="b" name="addbbcode0" value=" B " style="font-weight:bold; width: 30px" onClick="bbstyle(0)" title="'.tra("Bold text: [b]text[/b]  (alt+b)").'" />
               </span></td>
             <td><span class="genmed">
-              <input type="button" class="button" accesskey="i" name="addbbcode2" value=" i " style="font-style:italic; width: 30px" onClick="bbstyle(2)" title="'.tra("Italic text: [i]text[/i]  (alt+i)").'" />
+              <input type="button" class="btn btn-default btn-sm" accesskey="i" name="addbbcode2" value=" i " style="font-style:italic; width: 30px" onClick="bbstyle(2)" title="'.tra("Italic text: [i]text[/i]  (alt+i)").'" />
               </span></td>
             <td><span class="genmed">
-              <input type="button" class="button" accesskey="u" name="addbbcode4" value=" u " style="text-decoration: underline; width: 30px" onClick="bbstyle(4)" title="'.tra("Underline text: [u]text[/u]  (alt+u)").'" />
+              <input type="button" class="btn btn-default btn-sm" accesskey="u" name="addbbcode4" value=" u " style="text-decoration: underline; width: 30px" onClick="bbstyle(4)" title="'.tra("Underline text: [u]text[/u]  (alt+u)").'" />
               </span></td>
             <td><span class="genmed">
-              <input type="button" class="button" accesskey="k" name="addbbcode20" value=" k " style="text-decoration: line-through; width: 30px" onClick="bbstyle(20)" title="'.tra("Strikethrough text: [s]text[/s]  (alt+k)").'" />
+              <input type="button" class="btn btn-default btn-sm" accesskey="k" name="addbbcode20" value=" k " style="text-decoration: line-through; width: 30px" onClick="bbstyle(20)" title="'.tra("Strikethrough text: [s]text[/s]  (alt+k)").'" />
               </span></td>
             <td><span class="genmed">
-              <input type="button" class="button" accesskey="q" name="addbbcode6" value="Quote" style="width: 50px" onClick="bbstyle(6)" title="'.tra("Quote text: [quote]text[/quote]  (alt+q)").'" />
+              <input type="button" class="btn btn-default btn-sm" accesskey="q" name="addbbcode6" value="Quote" style="width: 50px" onClick="bbstyle(6)" title="'.tra("Quote text: [quote]text[/quote]  (alt+q)").'" />
               </span></td>
             <td><span class="genmed">
-              <input type="button" class="button" accesskey="c" name="addbbcode8" value="Code" style="width: 40px" onClick="bbstyle(8)" title="'.tra("Code display: [code]code[/code]  (alt+c)").'" />
+              <input type="button" class="btn btn-default btn-sm" accesskey="c" name="addbbcode8" value="Code" style="width: 40px" onClick="bbstyle(8)" title="'.tra("Code display: [code]code[/code]  (alt+c)").'" />
               </span></td>
             <td><span class="genmed">
-              <input type="button" class="button" accesskey="l" name="addbbcode10" value="List" style="width: 40px" onClick="bbstyle(10)" title="'.tra("List: [list]text[/list] (alt+l)").'" />
+              <input type="button" class="btn btn-default btn-sm" accesskey="l" name="addbbcode10" value="List" style="width: 40px" onClick="bbstyle(10)" title="'.tra("List: [list]text[/list] (alt+l)").'" />
               </span></td>
             <td><span class="genmed">
-              <input type="button" class="button" accesskey="o" name="addbbcode12" value="List=" style="width: 40px" onClick="bbstyle(12)" title="'.tra("Ordered list: [list=]text[/list]  (alt+o)").'" />
+              <input type="button" class="btn btn-default btn-sm" accesskey="o" name="addbbcode12" value="List=" style="width: 40px" onClick="bbstyle(12)" title="'.tra("Ordered list: [list=]text[/list]  (alt+o)").'" />
               </span></td>
             <td><span class="genmed">
-              <input type="button" class="button" accesskey="p" name="addbbcode14" value="Img" style="width: 40px"  onClick="bbstyle(14)" title="'.tra("Insert image: [img]http://image_url[/img]  (alt+p)").'" />
+              <input type="button" class="btn btn-default btn-sm" accesskey="p" name="addbbcode14" value="Img" style="width: 40px"  onClick="bbstyle(14)" title="'.tra("Insert image: [img]http://image_url[/img]  (alt+p)").'" />
               </span></td>
             <td><span class="genmed">
-              <input type="button" class="button" accesskey="w" name="addbbcode16" value="URL" style="text-decoration: underline; width: 40px" onClick="bbstyle(16)" title="'.tra("Insert URL: [url]http://url[/url] or [url=http://url]URL text[/url]  (alt+w)").'" />
+              <input type="button" class="btn btn-default btn-sm" accesskey="w" name="addbbcode16" value="URL" style="text-decoration: underline; width: 40px" onClick="bbstyle(16)" title="'.tra("Insert URL: [url]http://url[/url] or [url=http://url]URL text[/url]  (alt+w)").'" />
               </span></td>
           </tr>
           <tr>

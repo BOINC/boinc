@@ -65,7 +65,7 @@ foreach ($categories as $category) {
         <tr class=\"row$j\">
         <td>
             <a href=\"forum_forum.php?id=$forum->id\">$forum->title</a>
-            <br><span class=\"smalltext\">", $forum->description, "</span>
+            <br><small>", $forum->description, "</small>
         </td>
         <td class=\"numbers\">", $forum->threads, "</td>
         <td class=\"lastpost\">", time_diff_str($forum->timestamp, time()), "</td>

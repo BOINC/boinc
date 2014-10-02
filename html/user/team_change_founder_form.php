@@ -54,7 +54,7 @@ if ($team->ping_user != 0) {
             <form method=\"post\" action=\"team_founder_transfer_action.php\">
             <input type=\"hidden\" name=\"action\" value=\"decline\">
             <input type=\"hidden\" name=\"teamid\" value=\"".$team->id."\">
-            <input type=\"submit\" value=\"".tra("decline request")."\">
+            <input class=\"btn btn-default\" type=\"submit\" value=\"".tra("decline request")."\">
             </form>
             <p>
             ".tra("If you don't decline the request by %1, %2 will have the option of assuming team foundership.<br /><br />
@@ -104,7 +104,7 @@ foreach ($users as $user) {
 if ($navailable_users > 0) {
     echo "<input type=hidden name=navailable_users value=$navailable_users>";
     end_table();
-    echo "<input type=submit value=\"".tra("Change founder")."\">";
+    echo "<input class=\"btn btn-default\" type=submit value=\"".tra("Change founder")."\">";
 } else {
     echo "<tr>
         <td colspan='4'>".tra("There are no users to transfer team to.")."</td>

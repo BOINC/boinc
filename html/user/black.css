@@ -15,7 +15,7 @@ body {
     color: white;
 }
 
-table.bordered {
+.table-bordered {
       border: 1px solid grey;
 }
 
@@ -40,7 +40,7 @@ td.indent {
          border-left: 4px solid black;
 }
 
-td.heading {
+th, td.heading {
            background-color: rgb(90,90,90);
 	       color: white;
 }

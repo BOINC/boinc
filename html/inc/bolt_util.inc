@@ -63,7 +63,7 @@ function request_info($user, $course) {
     start_table();
     row2("Birth year", birth_year_select($user));
     row2("Sex", sex_select($user));
-    row2("", "<input type=submit value=OK>");
+    row2("", "<input class=\"btn btn-default\" type=submit value=OK>");
     end_table();
     echo "</form>\n";
     page_tail();

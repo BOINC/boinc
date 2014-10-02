@@ -333,12 +333,14 @@ function pretty_time_str($x) {
     return time_str($x);
 }
 
-function start_table($extra="width=\"100%\"") {
-    echo "<table class=bordered $extra>";
+// TODO: currently only a few calls use the arguments, styling should only happen through CSS clases so $extra should be dropped in the future
+function start_table($extra="width=\"100%\"", $class="table-bordered") {
+    echo "<table class=\"table $class\" $extra>";
 }
 
-function start_table_noborder($width="100%") {
-    echo "<table cellpadding=5 width=\"$width\">";
+// TODO: currently no call uses the arguments, styling should only happen through CSS clases so $extra could be dropped in the future
+function start_table_noborder($extra="width=\"100%\"", $class="noborder") {
+    echo "<table class=\"table $class\" $extra>";
 }
 
 function end_table() {
@@ -376,7 +378,11 @@ function table_row() {
 }
 
 function row1($x, $ncols=2, $class="heading") {
-    echo "<tr><td class=\"$class\" colspan=\"$ncols\">$x</td></tr>\n";
+    if ($class == "heading") {
+        echo "<tr><th colspan=\"$ncols\">$x</th></tr>\n";
+    } else {
+        echo "<tr><td class=\"$class\" colspan=\"$ncols\">$x</td></tr>\n";
+    }
 }
 
 function row2($x, $y, $show_error=false) {
@@ -541,7 +547,7 @@ function close_output_buffer($filename) {
 }
 
 function html_info() {
-    return "<br><a href=bbcode.php target=new><span class=smalltext>".tra("Use BBCode tags to format your text")."</span></a>\n";
+    return "<br><a href=bbcode.php target=new><small>".tra("Use BBCode tags to format your text")."</small></a>\n";
 }
 
 // strip slashes if magic quotes in effect
@@ -731,11 +737,11 @@ function current_url() {
 // @param desc The title of the destination - typically used as a popup
 // @param class The optional CSS class of the button. Defaults to a standard button
 //
-function show_button($url, $text, $desc=null, $class="button") {
+function show_button($url, $text, $desc=null, $class="btn btn-default") {
     if (!$desc) $desc = $text;
     echo "<a href=\"".$url."\" title=\"$desc\" class=\"".$class."\">".$text."</a>\n";
 }
-function button_text($url, $text, $desc=null, $class="button") {
+function button_text($url, $text, $desc=null, $class="btn btn-default") {
     if (!$desc) $desc = $text;
     return "<a href=\"".$url."\" title=\"$desc\" class=\"".$class."\">".$text."</a>\n";
 }
@@ -747,7 +753,7 @@ function button_text($url, $text, $desc=null, $class="button") {
 // @param desc The title of the destination - typically used as a popup
 // @param class The optional CSS class of the button. Defaults to a standard button
 //
-function show_actionlist_button($url, $text, $desc, $class="button"){
+function show_actionlist_button($url, $text, $desc, $class="btn btn-default"){
     echo "<li>";
     echo show_button($url, $text, $desc, $class);
     echo "</li>";

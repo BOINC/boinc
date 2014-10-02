@@ -85,15 +85,9 @@ td.indent {
     border-left: 4px solid white;
 }
 
-td.heading {
+th, td.heading {
     background-color: #D8D8D8;
     font-weight: bold;
-}
-
-td.heading2 {
-    font-weight: bold;
-    background-color: #eeeeee;
-    border: 1px solid grey;
 }
 
 td.fieldname {
@@ -181,7 +175,7 @@ tr.message {
     font-weight: bold;
 }
 
-.description {
+.text-info, .description {
     font-size: 80%;
     font-weight: normal;
 }
@@ -291,7 +285,7 @@ span.page_title {
     margin: 20px;
 }
 
-span.note{
+p.text-muted, span.note{
     font-weight: normal;
     font-size: 0.9em;
 }
@@ -337,11 +331,11 @@ td.uotd {
     border: 1px solid grey;
 }
 
-.smalltext {
+small {
     font-size: 0.8em;
 }
 
-.error {
+p.text-danger, .error {
     color: #ff0000;
     font-weight: bold;
     font-size: 1.1em;

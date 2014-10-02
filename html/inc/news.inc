@@ -106,12 +106,15 @@ function show_news($start, $count) {
         echo "<a href=".URL_BASE."old_news.php>... more</a>";
     }
     echo "
-        <br><br><p class=\"smalltext\">
+        <br><br><small>
     ";
     printf(tra("News is available as an %sRSS feed%s"),
         "<a href=rss_main.php>",
         " &nbsp; <img src=\"img/rss_icon.gif\" alt=\"RSS\"></a>"
     );
+    echo "
+        </small>
+    ";
 }
 
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit

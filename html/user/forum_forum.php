@@ -105,7 +105,7 @@ echo "</td>
     <input type=\"hidden\" name=\"id\" value=\"$forum->id\">
 ";
 echo select_from_array("sort", $forum_sort_styles, $sort_style);
-echo "<input type=\"submit\" value=\"Sort\">
+echo "<input class=\"btn btn-default\" type=\"submit\" value=\"Sort\">
     </td>
     </tr>
     </table>

@@ -81,12 +81,12 @@ function show_form() {
     start_table();
     table_header(
         "ID",
-        "Name and description<br><span class=note>Click for details</span>",
+        "Name and description<br><p class=\"text-muted\">Click for details</p>",
         "Created",
-        "weight<br><a href=http://boinc.berkeley.edu/trac/wiki/BackendPrograms#feeder><span class=note>details</span></a>",
+        "weight<br><a href=http://boinc.berkeley.edu/trac/wiki/BackendPrograms#feeder><p class=\"text-muted\">details</p></a>",
         "shmem items",
-        "HR type<br><a href=http://boinc.berkeley.edu/trac/wiki/HomogeneousRedundancy><span class=note>details</span></a>",
-        "homogeneous app version?<br><a href=http://boinc.berkeley.edu/trac/wiki/HomogeneousAppVersion><span class=note>details</span></a>",
+        "HR type<br><a href=http://boinc.berkeley.edu/trac/wiki/HomogeneousRedundancy><p class=\"text-muted\">details</p></a>",
+        "homogeneous app version?<br><a href=http://boinc.berkeley.edu/trac/wiki/HomogeneousAppVersion><p class=\"text-muted\">details</p></a>",
         "deprecated?",
         "Non-CPU-intensive?",
         "Beta?",
@@ -163,7 +163,7 @@ function show_form() {
             <input name='fraction_done_exact' type='checkbox' $v></TD>
         ";
 
-        echo "<td><input type=submit name=submit value=Update>";
+        echo "<td><input class=\"btn btn-default\" type=submit name=submit value=Update>";
         echo "</tr></form>";
     }
 

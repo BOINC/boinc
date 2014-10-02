@@ -45,7 +45,7 @@ echo "Clicking on a name opens a user management page <i>in another window or ta
 echo "<form name=\"new_user_limit\" action=\"?\" method=\"GET\">\n";
 echo "<label for=\"limit\">Limit displayed users to</label>\n";
 echo "<input type=\"text\" value=\"".$limit."\" name=\"limit\" id=\"limit\" size=\"5\">";
-echo "<input type=\"submit\" value=\"Display\">\n";
+echo "<input class=\"btn btn-default\" type=\"submit\" value=\"Display\">\n";
 echo "</form>\n";
 
 $query="SELECT * FROM user ORDER BY create_time DESC LIMIT $limit";
@@ -89,7 +89,7 @@ while ($row = _mysql_fetch_object($result)) {
         }
     }
     if (!empty($roles)) {
-        $roles = "<span class=\"smalltext\">[$roles]</span>";
+        $roles = "<small>[$roles]</small>";
     }
     
     // Banished?
