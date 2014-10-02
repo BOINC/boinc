@@ -27,7 +27,7 @@ class DbConn {
 
     function init_conn($user, $passwd, $host, $name) {
         if (MYSQLI) {
-            $x = explode($host, ":");
+            $x = explode(":", $host);
             if (sizeof($x)>1) {
                 $host = $x[0];
                 $port = $x[1];
