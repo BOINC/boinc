@@ -2518,11 +2518,7 @@ wxString result_description(RESULT* result, bool show_resources) {
             } else if (result->needs_shmem) {
                 strBuffer += _("Waiting for shared memory");
             } else if (result->scheduler_state == CPU_SCHED_SCHEDULED) {
-                if (result->edf_scheduled) {
-                    strBuffer += _("Running, high priority");
-                } else {
-                    strBuffer += _("Running");
-                }
+                strBuffer += _("Running");
                 if (project && project->non_cpu_intensive) {
                     strBuffer += _(" (non-CPU-intensive)");
                 }
