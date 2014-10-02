@@ -162,7 +162,7 @@ $team_name_sites = array(
         "BOINCstats.com",
         "hashlc"
     ),
-    array("http://stats.setibzh.fr/team.php?teamcpid=",
+    array("http://statsbzh.boinc-af.org/team.php?teamcpid=",
         "SETIBZH",
         "hashlc"
     ),
