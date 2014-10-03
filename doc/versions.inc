@@ -408,6 +408,18 @@ function is_dev($v) {
     return (strstr($v["status"], "Development") != null);
 }
 
+function latest_version($p) {
+    $dev = false;
+    foreach ($p['versions'] as $i=>$v) {
+        if (!$dev && is_dev($v)) continue;
+        return $v;
+    }
+    foreach ($p['versions'] as $i=>$v) {
+        return $v;
+    }
+}
+
+
 // note: rand() is inclusive
 //switch(rand(0,3)) {
 switch(0) {
