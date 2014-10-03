@@ -42,6 +42,7 @@ BOOL WINAPI InternetGetCookieA( LPCSTR lpszUrl, LPCSTR lpszCookieName, LPSTR lps
 #include <time.h>
 #endif
 
+#include <sqlite3.h>
 #include "error_numbers.h"
 #include "mfile.h"
 #include "miofile.h"
@@ -593,10 +594,6 @@ bool detect_cookie_mozilla_v3(
     int         rc;
     MOZILLA_COOKIE_SQL cookie;
 
-#if defined(__APPLE__)
-    // sqlite3 is not available on Mac OS 10.3.9
-    if (sqlite3_open == NULL) return false;
-#endif
 
     // determine the project hostname using the project url
     parse_hostname_mozilla_compatible(project_url, hostname);
@@ -805,10 +802,6 @@ bool detect_cookie_chrome(
     int         rc;
     CHROME_COOKIE_SQL cookie;
 
-#if defined(__APPLE__)
-    // sqlite3 is not available on Mac OS 10.3.9
-    if (sqlite3_open == NULL) return false;
-#endif
 
     // determine the project hostname using the project url
     parse_hostname_chrome_compatible(project_url, hostname);
@@ -1234,6 +1227,79 @@ bool detect_cookie_ie(std::string& project_url, std::string& name, std::string& 
 }
 
 #endif
+
+
+//
+// walk through the various browsers looking up the
+// various cookies that make up the simple account creation scheme.
+//
+// give preference to the default platform specific browers first before going
+// to the platform independant browsers since most people don't switch from
+// the default.
+// 
+bool detect_simple_account_credentials(
+    std::string& action, std::string& project_name, std::string& project_url, std::string& authenticator, std::string& creation_time
+) {
+    bool retval = false;
+    std::string strCookieServer("boinc.berkeley.edu");
+    std::string strCookieAction("action");
+    std::string strCookieProjectName("project_name");
+    std::string strCookieProjectURL("project_url");
+    std::string strCookieAuthenticator("authenticator");
+    std::string strCookieCreationTime("creation_time");
+
+#ifdef _WIN32
+    if ( detect_cookie_ie(strCookieServer, strCookieAction, action) &&
+         detect_cookie_ie(strCookieServer, strCookieProjectName, project_name) &&
+         detect_cookie_ie(strCookieServer, strCookieProjectURL, project_url) &&
+         detect_cookie_ie(strCookieServer, strCookieCreationTime, creation_time)
+    ){
+        detect_cookie_ie(strCookieServer, strCookieAuthenticator, authenticator);
+        goto END;
+    }
+#endif
+#ifdef __APPLE__
+    if ( detect_cookie_safari(strCookieServer, strCookieAction, action) &&
+         detect_cookie_safari(strCookieServer, strCookieProjectName, project_name) &&
+         detect_cookie_safari(strCookieServer, strCookieProjectURL, project_url) &&
+         detect_cookie_safari(strCookieServer, strCookieCreationTime, creation_time)
+    ){
+        detect_cookie_safari(strCookieServer, strCookieAuthenticator, authenticator);
+        goto END;
+    }
+#endif
+    if ( detect_cookie_chrome(strCookieServer, strCookieAction, action) &&
+         detect_cookie_chrome(strCookieServer, strCookieProjectName, project_name) &&
+         detect_cookie_chrome(strCookieServer, strCookieProjectURL, project_url) &&
+         detect_cookie_chrome(strCookieServer, strCookieCreationTime, creation_time)
+    ){
+        detect_cookie_chrome(strCookieServer, strCookieAuthenticator, authenticator);
+        goto END;
+    }
+    if ( detect_cookie_firefox_3(strCookieServer, strCookieAction, action) &&
+         detect_cookie_firefox_3(strCookieServer, strCookieProjectName, project_name) &&
+         detect_cookie_firefox_3(strCookieServer, strCookieProjectURL, project_url) &&
+         detect_cookie_firefox_3(strCookieServer, strCookieCreationTime, creation_time)
+    ){
+        detect_cookie_firefox_3(strCookieServer, strCookieAuthenticator, authenticator);
+        goto END;
+    }
+    if ( detect_cookie_firefox_2(strCookieServer, strCookieAction, action) &&
+         detect_cookie_firefox_2(strCookieServer, strCookieProjectName, project_name) &&
+         detect_cookie_firefox_2(strCookieServer, strCookieProjectURL, project_url) &&
+         detect_cookie_firefox_2(strCookieServer, strCookieCreationTime, creation_time)
+    ){
+        detect_cookie_firefox_2(strCookieServer, strCookieAuthenticator, authenticator);
+        goto END;
+    }
+
+END:
+    if (!action.empty() && !project_name.empty() && !project_url.empty() && !creation_time.empty()) {
+        retval = true;
+    }
+
+    return retval;
+}
 
 
 //
