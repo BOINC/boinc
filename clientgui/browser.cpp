@@ -1275,7 +1275,7 @@ bool detect_simple_account_credentials(
     std::string& project_institution, std::string& project_description
 ) {
     bool retval = false;
-    std::string strCookieServer("http://boinc.berkeley.edu/");
+    std::string strCookieServer("http://boinc.berkeley.edu");
     std::string strCookieProjectName("attach_project_name");
     std::string strCookieProjectURL("attach_master_url");
     std::string strCookieAuthenticator("attach_auth");
