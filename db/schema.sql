@@ -1,5 +1,5 @@
 /*  If you add/change anything, update
-    boinc_db.C,h
+    boinc_db.cpp,h
     and if needed:
     py/Boinc/
         database.py
@@ -13,8 +13,8 @@
             create_account_action.php (user)
             team_create_action.php (team)
     sched/
-        db_dump.C (host, user, team)
-        db_purge.C (workunit, result)
+        db_dump.cpp (host, user, team)
+        db_purge.cpp (workunit, result)
 */
 /* Fields are documented in boinc_db.h */
 /* Do not replace this with an automatically generated schema */

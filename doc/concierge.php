@@ -25,6 +25,7 @@
 // and possibly the credentials page.
 
 require_once("versions.inc");
+require_once("projects.inc");
 
 function get_str($name) {
     if (isset($_GET[$name])) {
@@ -95,6 +96,23 @@ if (!$url) {
     echo "no file to download";
     exit;
 }
+
+// see if this project is in BOINC's list;
+// if so, use the info there if the project didn't supply it
+//
+$p = lookup_project($master_url);
+if ($p) {
+    setcookie('attach_known', "1");
+    if (!$project_inst) {
+        $project_inst = $p[2];
+    }
+    if (!$project_desc) {
+        $project_desc = $p[4];
+    }
+} else {
+    setcookie('attach_known', "0");
+}
+
 setcookie('attach_master_url', $master_url);
 setcookie('attach_project_name', $project_name);
 setcookie('attach_auth', $auth);

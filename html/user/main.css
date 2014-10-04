@@ -372,7 +372,8 @@ blockquote.postbody {
 }
 
 p.text-muted, span.note {
-    font-weight: normal;
+    margin-top: 0.1em;
+    margin-bottom: 0.1em;
     font-style: italic;
     font-size: 0.8em;
 }
