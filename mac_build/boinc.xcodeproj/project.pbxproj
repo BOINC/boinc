@@ -45,6 +45,7 @@
 		DD00F554176C081500850424 /* MacInstaller.icns in Resources */ = {isa = PBXBuildFile; fileRef = DD531BC50C193D3800742E50 /* MacInstaller.icns */; };
 		DD01B6790C16723C0023A806 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20286C33FDCF999611CA2CEA /* Carbon.framework */; };
 		DD01B7120C16723D0023A806 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD1929D80918A2F100C31BCF /* Security.framework */; };
+		DD08648D19E0BE6D00994039 /* ProjectWelcomePage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD08648B19E0BE6D00994039 /* ProjectWelcomePage.cpp */; };
 		DD0A06F50869A2D2007CD86E /* prefs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD344BE407C5B1670043025C /* prefs.cpp */; };
 		DD0C5A8B0816711400CEC5D7 /* boinc.jpg in Resources */ = {isa = PBXBuildFile; fileRef = DD0C5A8A0816711400CEC5D7 /* boinc.jpg */; };
 		DD11E5B617D1A89700947975 /* MacAccessiblity.mm in Sources */ = {isa = PBXBuildFile; fileRef = DD1907FA17D1A2F100596F03 /* MacAccessiblity.mm */; };
@@ -742,6 +743,8 @@
 		DD0052F710CA6F1D0067570C /* cs_proxy.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = cs_proxy.cpp; path = ../client/cs_proxy.cpp; sourceTree = SOURCE_ROOT; };
 		DD0052F810CA6F1D0067570C /* cs_proxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cs_proxy.h; path = ../client/cs_proxy.h; sourceTree = SOURCE_ROOT; };
 		DD04BE1A0EDD836A006D5603 /* TermsOfUsePage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TermsOfUsePage.h; path = ../clientgui/TermsOfUsePage.h; sourceTree = SOURCE_ROOT; };
+		DD08648B19E0BE6D00994039 /* ProjectWelcomePage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ProjectWelcomePage.cpp; sourceTree = "<group>"; };
+		DD08648C19E0BE6D00994039 /* ProjectWelcomePage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectWelcomePage.h; sourceTree = "<group>"; };
 		DD0C5A8A0816711400CEC5D7 /* boinc.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = boinc.jpg; path = ../clientscr/res/boinc.jpg; sourceTree = SOURCE_ROOT; };
 		DD1277B3081F3D67007B5DE1 /* PostInstall.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PostInstall.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD1277B5081F3D67007B5DE1 /* PostInstall-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PostInstall-Info.plist"; sourceTree = "<group>"; };
@@ -1582,6 +1585,8 @@
 				DD58C44F08F334B500C1DF66 /* ProjectProcessingPage.h */,
 				DD58C45008F334B500C1DF66 /* ProjectPropertiesPage.cpp */,
 				DD58C45108F334B500C1DF66 /* ProjectPropertiesPage.h */,
+				DD08648B19E0BE6D00994039 /* ProjectWelcomePage.cpp */,
+				DD08648C19E0BE6D00994039 /* ProjectWelcomePage.h */,
 				DDB506F80958446900181B75 /* ProxyInfoPage.cpp */,
 				DDB506F90958446900181B75 /* ProxyInfoPage.h */,
 				DD58C45E08F334EA00C1DF66 /* ProxyPage.cpp */,
@@ -2866,6 +2871,7 @@
 				DDFE84E70B60CD66009B43D9 /* DlgAdvPreferencesBase.cpp in Sources */,
 				DD7DD79B0B8BFA4000B11279 /* ViewResources.cpp in Sources */,
 				DD7BF7E60B8E7B6C00A009F7 /* str_util.cpp in Sources */,
+				DD08648D19E0BE6D00994039 /* ProjectWelcomePage.cpp in Sources */,
 				DD4E704C0BCDAC360010A522 /* browser.cpp in Sources */,
 				DDA6BD210BD4551F008F7921 /* mac_backtrace.cpp in Sources */,
 				DDA6BD230BD4551F008F7921 /* QBacktrace.c in Sources */,
