@@ -67,7 +67,7 @@ function url_to_download() {
         }
     } else if (strstr($client_info, 'Linux') && strstr($client_info, 'Android')) {
         // Check for Android before Linux,
-      // since Android contains the Linux kernel and the
+        // since Android contains the Linux kernel and the
         // web browser user agent string list Linux too.
         return get_download_url('androidarm');
     } else if (strstr($client_info, 'Linux')) {

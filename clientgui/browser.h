@@ -24,12 +24,17 @@
 //   cookie.
 //
 
+bool detect_setup_authenticator(std::string& project_url, std::string& authenticator);
+
 bool detect_simple_account_credentials(
-    std::string& action, std::string& project_name, std::string& project_url, std::string& authenticator, std::string& creation_time
+    std::string& project_name, std::string& project_url, std::string& authenticator, 
+    std::string& project_institution, std::string& project_description
 );
 
-bool detect_setup_authenticator(std::string& project_url, std::string& authenticator);
-bool detect_account_manager_credentials(std::string& project_url, std::string& login, std::string& password_hash, std::string& return_url);
+bool detect_account_manager_credentials(
+    std::string& project_url, std::string& login, std::string& password_hash,
+    std::string& return_url
+);
 
 bool is_authenticator_valid(const std::string authenticator);
 
