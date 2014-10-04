@@ -180,6 +180,7 @@ BEGIN_EVENT_TABLE (CAdvancedFrame, CBOINCBaseFrame)
 	EVT_MENU(ID_READCONFIG, CAdvancedFrame::OnReadConfig)
 	EVT_MENU(ID_EVENTLOG, CAdvancedFrame::OnEventLog)
 	EVT_MENU(ID_LAUNCHNEWINSTANCE, CAdvancedFrame::OnLaunchNewInstance)
+	EVT_MENU(ID_TEST1CLICKATTACH, CAdvancedFrame::OnTest1ClickAttach)
     // Help
     EVT_MENU(ID_HELPBOINC, CAdvancedFrame::OnHelpBOINC)
     EVT_MENU(ID_HELPBOINCMANAGER, CAdvancedFrame::OnHelpBOINC)
@@ -614,6 +615,11 @@ bool CAdvancedFrame::CreateMenu() {
 		ID_DIAGNOSTICLOGFLAGS,
         _("Event Log Diagnostic Flags...\tCtrl+Shift+F"),
         _("Enable or disable various diagnostic messages")
+    );
+    menuAdvanced->Append(
+		ID_TEST1CLICKATTACH,
+        _("Test 1 Click Attach"),
+        _("")
     );
 
 
@@ -1539,6 +1545,14 @@ void CAdvancedFrame::OnLaunchNewInstance(wxCommandEvent& WXUNUSED(event)) {
 #endif
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnLaunchNewInstance - Function End"));
+}
+
+
+void CAdvancedFrame::OnTest1ClickAttach(wxCommandEvent& WXUNUSED(event)) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnTest1ClickAttach - Function Begin"));
+
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnTest1ClickAttach - Function End"));
 }
 
 
