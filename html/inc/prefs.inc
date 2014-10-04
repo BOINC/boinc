@@ -44,9 +44,9 @@ include_once("../inc/prefs_util.inc");
 $cpu_prefs = array(
     new PREF_BOOL(
         tra("Suspend work while computer is on battery power?")
-            ."<br><span class=note>"
+            ."<br><p class=\"text-muted\">"
             .tra("Matters only for portable computers")
-            ."</span>",
+            ."</p>",
         "run_on_batteries",
         false, true
     ),
@@ -57,9 +57,9 @@ $cpu_prefs = array(
     ),
     new PREF_BOOL(
         tra("Suspend GPU work while computer is in use?")
-            ."<br><span class=note>"
+            ."<br><p class=\"text-muted\">"
             .tra("Enforced by version 6.6.21+")
-            ."</span>",
+            ."</p>",
         "run_gpu_if_user_active",
         false, true
     ),
@@ -70,70 +70,70 @@ $cpu_prefs = array(
     ),
     new PREF_NUM(
         tra("Suspend work if no mouse/keyboard activity in last")
-            ."<br><span class=note>"
+            ."<br><p class=\"text-muted\">"
             .tra("Needed to enter low-power mode on some computers")
-            ."</span>",
+            ."</p>",
         "suspend_if_no_recent_input",
         new NUM_SPEC(tra("minutes"), 0, 9999, 0)
     ),
     new PREF_NUM(
         tra("Suspend work when non-BOINC CPU usage is above")
-            ."<br><span class=note>"
+            ."<br><p class=\"text-muted\">"
             .tra("0 means no restriction")
             ."<br>"
             .tra("Enforced by version 6.10.30+ %2")
-            ."</span>",
+            ."</p>",
         "suspend_cpu_usage",
         new NUM_SPEC("%", 0, 100, 25)
     ),
     new PREF_HOUR_RANGE(
         tra("Do work only between the hours of")
-            ."<br><span class=note>"
+            ."<br><p class=\"text-muted\">"
             .tra("No restriction if equal")
-            ."</span>",
+            ."</p>",
         "start_hour", "end_hour"
     ),
     new PREF_BOOL(
         tra("Leave tasks in memory while suspended?")
-            ."<br><span class=note>"
+            ."<br><p class=\"text-muted\">"
             .tra("Suspended tasks will consume swap space if 'yes'")
-            ."</span>",
+            ."</p>",
         "leave_apps_in_memory",
         false
     ),
     new PREF_NUM(
         tra("Switch between tasks every")
-            ."<br><span class=note>"
+            ."<br><p class=\"text-muted\">"
             .tra("Recommended: 60 minutes")
-            ."</span>",
+            ."</p>",
         "cpu_scheduling_period_minutes",
         new NUM_SPEC(tra("minutes"), 1, 9999, 60)
     ),
     new PREF_NUM(
         tra("On multiprocessors, use at most")
-            ."<br><span class=note>"
+            ."<br><p class=\"text-muted\">"
             .tra("0 means no restriction")
-            ."</span>",
+            ."</p>",
         "max_cpus",
         new NUM_SPEC(tra("processors"), 0, 9999, 0)
     ),
     new PREF_NUM(
         tra("On multiprocessors, use at most")
-            ."<br><span class=note>"
+            ."<br><p class=\"text-muted\">"
             .tra("0 means no restriction")
             ."<br>"
             .tra("Enforced by version 6.1+")
-            ."</span>",
+            ."</p>",
         "max_ncpus_pct",
         new NUM_SPEC(tra("% of the processors"), 0, 100, 100)
     ),
     new PREF_NUM(
         tra("Use at most")
-            ."<br><span class=note>"
+            ."<br><p class=\"text-muted\">"
             .tra("Can be used to reduce CPU heat")
             ."<br>"
             .tra("0 means no restriction")
-            ."</span>",
+            ."</p>",
         "cpu_usage_limit",
         new NUM_SPEC(tra("% of CPU time"), 0, 100, 100)
     ),
@@ -144,17 +144,17 @@ $dp = get_disk_space_config();
 $disk_prefs = array(
     new PREF_NUM(
         tra("Disk: use at most")
-            ."<br><span class=note>"
+            ."<br><p class=\"text-muted\">"
             .tra("0 means no restriction")
-            ."</span>",
+            ."</p>",
         "disk_max_used_gb",
         new NUM_SPEC(tra("GB"), 0, 9999999, $dp->disk_max_used_gb)
     ),
     new PREF_NUM(
         tra("Disk: leave free at least")
-            ."<br><span class=note>"
+            ."<br><p class=\"text-muted\">"
             .tra("Values smaller than 0.001 are ignored")
-            ."</span>",
+            ."</p>",
         "disk_min_free_gb",
         new NUM_SPEC(tra("GB"), 0.001, 9999999, $dp->disk_min_free_gb)
     ),
@@ -188,9 +188,9 @@ $disk_prefs = array(
 $net_prefs = array(
     new PREF_NUM(
         tra("Maintain enough tasks to keep busy for at least")
-            ."<br><span class=note>"
+            ."<br><p class=\"text-muted\">"
             .tra("(max 10 days)")
-            ."</span>",
+            ."</p>",
         "work_buf_min_days",
         new NUM_SPEC(tra("days"), 0, 10, .1)
     ),
@@ -201,17 +201,17 @@ $net_prefs = array(
     ),
     new PREF_BOOL(
         tra("Confirm before connecting to Internet?")
-            ."<br><span class=note>"
+            ."<br><p class=\"text-muted\">"
             .tra("Matters only if you have a modem, ISDN or VPN connection")
-            ."</span>",
+            ."</p>",
         "confirm_before_connecting",
         false
     ),
     new PREF_BOOL(
         tra("Disconnect when done?")
-            ."<br><span class=note>"
+            ."<br><p class=\"text-muted\">"
             .tra("Matters only if you have a modem, ISDN or VPN connection")
-            ."</span>",
+            ."</p>",
         "hangup_if_dialed",
         false
     ),
@@ -231,9 +231,9 @@ $net_prefs = array(
     ),
     new PREF_NUM2(
         tra("Transfer at most")
-            ."<br><span class=note>"
+            ."<br><p class=\"text-muted\">"
             .tra("Enforced by version 6.10.46+")
-            ."</span>",
+            ."</p>",
         "daily_xfer_limit_mb",
         "daily_xfer_period_days",
         new NUM_SPEC(tra("Mbytes every"), 0, 9999999, 0),
@@ -241,9 +241,9 @@ $net_prefs = array(
     ),
     new PREF_BOOL(
         tra("Skip image file verification?")
-            ."<br><span class=note>"
+            ."<br><p class=\"text-muted\">"
             .tra("Check this ONLY if your Internet provider modifies image files (UMTS does this, for example).  Skipping verification reduces the security of BOINC.")
-            ."</span>",
+            ."</p>",
         "dont_verify_images",
         false
     ),
@@ -556,7 +556,7 @@ function print_prefs_form(
         prefs_form_project_specific($prefs->project_specific, $project_error);
     }
 
-    row2("", "<input type=submit value=\"$submit_value\" name=\"action\">");
+    row2("", "<input class=\"btn btn-primary\" type=submit value=\"$submit_value\" name=\"action\">");
     end_table();
     echo "</form>\n";
 }

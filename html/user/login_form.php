@@ -43,10 +43,10 @@ echo "
     <input type=\"hidden\" name=\"next_url\" value=\"$next_url\">
 ";
 start_table();
-row2(tra("Email address:") . '<br><span class="note"><a href="get_passwd.php">'.tra("forgot email address?")."</a></span>",
+row2(tra("Email address:") . '<br><p class=\"text-muted\"><a href="get_passwd.php">'.tra("forgot email address?")."</a></p>",
     "<input name=email_addr type=\"text\" size=40 tabindex=1>"
 );
-row2(tra("Password:") . '<br><span class="note"><a href="get_passwd.php">' . tra("forgot password?") . "</a></span>",
+row2(tra("Password:") . '<br><p class=\"text-muted\"><a href="get_passwd.php">' . tra("forgot password?") . "</a></p>",
     '<input type="password" name="passwd" size="40" tabindex="2">'
 );
 row2(tra("Stay logged in"),
@@ -64,7 +64,7 @@ if (parse_bool($config, "disable_account_creation")
 }
 
 row2("",
-    "<input type=\"submit\" name=\"mode\" value=\"".tra("Log in")."\" tabindex=\"3\"><br><br>". $create_acct
+    "<input class=\"btn btn-default\" type=\"submit\" name=\"mode\" value=\"".tra("Log in")."\" tabindex=\"3\"><br><br>". $create_acct
 );
 if ($user) {
     row1("Log out");

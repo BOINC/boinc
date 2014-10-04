@@ -17,7 +17,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// script to delete spammer accounts, profiles, and forum posts.
+// script to delete spammer accounts, profiles, forum posts, and/or teams.
 //
 // delete_spammers.php [--days n] [--test] command
 //
@@ -40,6 +40,13 @@
 //
 // --id_range N M
 //   delete users with ID N to M inclusive
+//
+// --teams
+//   delete teams that
+//   - have 0 or 1 members
+//   - have no total credit
+//   - have descriptions containing a link
+//   - are not BOINC-Wide teams
 //
 // options:
 // --days N
@@ -159,6 +166,30 @@ function delete_banished() {
     }
 }
 
+function delete_teams() {
+    global $days, $test;
+    $query = "nusers < 2 and seti_id=0 and total_credit=0";
+    if ($days) {
+        $x = time() - $days*86400;
+        $query .= " and create_time > $x";
+    }
+    $teams = BoincTeam::enum($query);
+    foreach ($teams as $team) {
+        $n = team_count_members($team->id);
+        if ($n > 1) continue;
+        if (!has_link($team->description)) continue;
+        if ($test) {
+            echo "would delete team:\n";
+            echo "   ID: $team->id\n";
+            echo "   name: $team->name\n";
+            echo "   description: $team->description\n";
+        } else {
+            $team->delete();
+            echo "deleted team ID $team->id name $team->name\n";
+        }
+    }
+}
+
 echo "Starting: ".strftime('%Y-%m-%d %H:%M %Z')."\n";
 
 for ($i=1; $i<$argc; $i++) {
@@ -187,6 +218,8 @@ for ($i=1; $i<$argc; $i++) {
         }
     } else if ($argv[$i] == "--banished") {
         delete_banished();
+    } else if ($argv[$i] == "--teams") {
+        delete_teams();
     } else {
         echo "usage: delete_spammers.php [--days] [--test] [--list filename] [--profiles] [--forums] [--id_range N M]\n";
         exit;

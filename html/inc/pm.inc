@@ -72,21 +72,21 @@ function pm_form($replyto, $userid, $error = null) {
     $subject = htmlspecialchars($subject);
     
     if ($error != null) {
-        echo "<div class=\"error\">".$error."</div>\n";
+        echo "<p class=\"text-danger\">".$error."</p>\n";
     }
     
     echo "<form action=\"pm.php\" method=\"post\" name=\"post\" onsubmit=\"return checkForm(this)\">\n";
     echo "<input type=\"hidden\" name=\"action\" value=\"send\">\n";
     echo form_tokens($g_logged_in_user->authenticator);
     start_table();
-    row2(tra("To")."<br /><span class=\"smalltext\">".tra("User IDs or unique usernames, separated with commas")."</span>",
+    row2(tra("To")."<br /><small>".tra("User IDs or unique usernames, separated with commas")."</small>",
         "<input type=\"text\" name=\"to\" value=\"$writeto\" size=\"60\">"
     );
     row2(tra("Subject"), "<input type=\"text\" name=\"subject\" value=\"$subject\" size=\"60\">");
-    row2(tra("Message")."<span class=\"smalltext\">".html_info()."</span>",
-        $bbcode_html."<textarea name=\"content\" rows=\"18\" cols=\"80\">$content</textarea>"
+    row2(tra("Message")."<small>".html_info()."</small>",
+        $bbcode_html."<textarea name=\"content\" class=\"input-block-level\" rows=\"18\" cols=\"80\">$content</textarea>"
     );
-    echo "<tr><td></td><td><input type=\"submit\" name=\"preview\" value=\"".tra("Preview")."\"> <input type=\"submit\" value=\"".tra("Send message")."\"></td></tr>\n";
+    echo "<tr><td></td><td><input class=\"btn btn-default\" type=\"submit\" name=\"preview\" value=\"".tra("Preview")."\"> <input class=\"btn btn-primary\" type=\"submit\" value=\"".tra("Send message")."\"></td></tr>\n";
     end_table();
     
     page_tail();
@@ -183,12 +183,12 @@ function pm_notification($user) {
 
 function pm_email_remind($user) {
     if (!$user->prefs->pm_notification) {
-        return '<br><span class="note">' .
+        return "<br><p class=\"text-muted\">" .
             tra(
                 "For email notification, %1edit community prefs%2",
                 '<a href="edit_forum_preferences_form.php">', '</a>'
             ) .
-            '</span>'
+            "</p>"
         ;
     }
     return "";

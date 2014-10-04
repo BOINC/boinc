@@ -41,7 +41,7 @@ function show_form() {
         <p>
         where <input name=clause size=60>
         <p>
-        <input type=submit value=OK>
+        <input class=\"btn btn-default\" type=submit value=OK>
         </form>
     ";
     admin_page_tail();

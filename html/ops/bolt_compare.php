@@ -128,7 +128,7 @@ function compare_aux($select_name, $xset_name, $snap) {
     echo "
         </td></tr></table>
         <p>
-        <input type=submit value=OK>
+        <input class=\"btn btn-default\" type=submit value=OK>
         </form>
     ";
     admin_page_tail();
@@ -170,7 +170,7 @@ function show_snap_form($top_unit) {
         <input type=hidden name=xset_name value=\"$xset_name\">
         Create a new snapshot using data from the last
         <input name=dur value=7> days.
-        <input type=submit value=OK>
+        <input class=\"btn btn-default\" type=submit value=OK>
         </form>
     ";
     admin_page_tail();
@@ -207,7 +207,7 @@ function show_choice($top_unit) {
     echo "
         <input type=hidden name=action value=snap_form>
         <p>
-        <input type=submit value=OK>
+        <input class=\"btn btn-default\" type=submit value=OK>
     ";
     admin_page_tail();
 }

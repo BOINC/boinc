@@ -122,7 +122,7 @@ function show_other_projects($user, $personal) {
     }
     start_table();
     row_heading_array(array(
-        tra("Project")."<br/><span class=\"note\">".tra("Click for user page")."</span>", tra("Total credit"), tra("Average credit"), tra("Since")
+        tra("Project")."<br/><p class=\"text-muted\">".tra("Click for user page")."</p>", tra("Total credit"), tra("Average credit"), tra("Since")
     ));
     foreach($user->projects as $project) {
         show_project($project);
@@ -160,7 +160,7 @@ function show_user_stats_private($user) {
         $y = sprintf($site[1], $cpid);
         $x .= "<a href=\"$y\">$name</a><br/>\n";
     }
-    $x .= "<br/><span class=\"smalltext\">".tra("Cross-project ID").": $cpid</span>\n";
+    $x .= "<br/><small>".tra("Cross-project ID").": $cpid</small>\n";
     row2(tra("Cross-project statistics"), $x);
     $x = '<a href="cert1.php">'.tra("Account").'</a>';
     if ($user->teamid) {
@@ -212,7 +212,7 @@ function show_user_info_private($user) {
         &middot; <a href=\"".secure_url_base()."/edit_passwd_form.php\">".tra("password")."</a>
         &middot; <a href=\"edit_user_info_form.php?$url_tokens\">".tra("other account info")."</a>"
     );
-    row2(tra("User ID")."<br/><span class=\"note\">".tra("Used in community functions")."</span>", $user->id);
+    row2(tra("User ID")."<br/><p class=\"text-muted\">".tra("Used in community functions")."</p>", $user->id);
     if (!no_computing()) {
         row2(
             tra("Account keys"),
@@ -337,7 +337,7 @@ function show_community_private($user) {
             // if there's a foundership request, notify the founder
             //
             if ($user->id==$team->userid && $team->ping_user >0) {
-                $x .= "<span style=\"color:red;\">".tra("(foundership change request pending)")."</span>";
+                $x .= "<p class=\"text-danger\">".tra("(foundership change request pending)")."</p>";
             }
             row2(tra("Member of team"), $x);
         } else {
@@ -350,7 +350,7 @@ function show_community_private($user) {
                 $x = "<a href=\"team_display.php?teamid=$team->id\">$team->name</a>";
                 $x .= "| <a href=\"team_manage.php?teamid=".$team->id."\">".tra("Administer")."</a>";
                 if ($team->ping_user > 0) {
-                    $x .= "<span style=\"color:red;\">".tra("(foundership change request pending)")."</span>";
+                    $x .= "<p class=\"text-danger\">".tra("(foundership change request pending)")."</span>";
                 }
                 row2(tra("Founder but not member of"), $x);
             }

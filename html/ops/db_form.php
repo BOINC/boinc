@@ -95,7 +95,7 @@ switch($table){
 }
 
 row2("Number of entries to show", "<input name=\"nresults\" value=\"20\">");
-row2("", "<input type=\"submit\" value=\"OK\">\n");
+row2("", "<input class=\"btn btn-default\" type=\"submit\" value=\"OK\">\n");
 end_table();
 echo "</form>\n";
 

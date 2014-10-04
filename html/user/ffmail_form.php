@@ -39,13 +39,13 @@ echo "
 ".tra("Fill in this form with the names and email addresses of people you think might be interested in %1. We'll send them an email in your name, and you can add your own message if you like.", PROJECT)."
 <form method=get action=ffmail_action.php>
 <table cellpadding=4>
-<tr><td class=heading>".tra("Your name:")."</td><td class=heading>".tra("Your email address:")."</td></tr>
+<tr><th>".tra("Your name:")."</th><th>".tra("Your email address:")."</th></tr>
 <tr><td><b>$user->name</b></td><td><b>$user->email_addr</b></td></tr>
 
 <input type=hidden name=uname value=\"$user->name\">
 <input type=hidden name=uemail value=\"$user->email_addr\">
 
-<tr><td class=heading>".tra("Friend's name:")."</td><td class=heading>".tra("Friend's email address:")."</td></tr>
+<tr><th>".tra("Friend's name:")."</th><th>".tra("Friend's email address:")."</th></tr>
 ";
 for ($i=0; $i<5; $i++) {
     echo "
@@ -53,10 +53,10 @@ for ($i=0; $i<5; $i++) {
     ";
 }
 echo "
-<tr><td class=heading colspan=2>".tra("Additional message (optional)")."</td></tr>
+<tr><th colspan=2>".tra("Additional message (optional)")."</th></tr>
 <tr><td colspan=2><textarea name=comment rows=8 cols=50></textarea></td></tr>
-<tr><td align=center><input type=submit name=action value=".tra("Preview")."></td>
-    <td align=center><input type=submit name=action value=".tra("Send")."></td>
+<tr><td align=center><input class=\"btn btn-default\" type=submit name=action value=".tra("Preview")."></td>
+    <td align=center><input class=\"btn btn-primary\" type=submit name=action value=".tra("Send")."></td>
 </tr>
 </table>
 </form>

@@ -116,10 +116,10 @@ $w70x64 = array(
 );
 
 $m74dev = array(
-	"num"=>"7.4.22",
+	"num"=>"7.4.23",
 	"status"=>"Development version (standard GUI)",
-	"file"=>"boinc_7.4.22_macOSX_i686.zip",
-	"date"=>"17 Sept 2014",
+	"file"=>"boinc_7.4.23_macOSX_i686.zip",
+	"date"=>"2 Oct 2014",
 	"type"=>"mac_advanced",
 );
 
@@ -156,10 +156,10 @@ $m66 = array(
 );
 
 $m74cdev = array(
-	"num"=>"7.4.22",
+	"num"=>"7.4.23",
 	"status"=>"Development version (Unix command-line version)",
-	"file"=>"boinc_7.4.22_i686-apple-darwin.zip",
-	"date"=>"17 Sept 2014",
+	"file"=>"boinc_7.4.23_i686-apple-darwin.zip",
+	"date"=>"2 Oct 2014",
 	"type"=>"bare_core",
 );
 
@@ -407,6 +407,18 @@ $platforms = array(
 function is_dev($v) {
     return (strstr($v["status"], "Development") != null);
 }
+
+function latest_version($p) {
+    $dev = false;
+    foreach ($p['versions'] as $i=>$v) {
+        if (!$dev && is_dev($v)) continue;
+        return $v;
+    }
+    foreach ($p['versions'] as $i=>$v) {
+        return $v;
+    }
+}
+
 
 // note: rand() is inclusive
 //switch(rand(0,3)) {

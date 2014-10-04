@@ -51,7 +51,7 @@ function option($name, $val) {
 }
 
 define('COLOR_DESC', tra('Color scheme for graphics'));
-define("MAX_GFX_CPU_PCT_DESC", tra("Maximum CPU % for graphics%10 ... 100%2", "<br><span class=note>", "</span>"));
+define("MAX_GFX_CPU_PCT_DESC", tra("Maximum CPU % for graphics%10 ... 100%2", "<br><p class=\"text-muted\">", "</p>"));
 define('APP_SELECT_DESC', tra('Run only the selected applications'));
 define('ACCEPT_ANY_DESC', tra('If no work for selected applications is available, accept work from other applications?'));
 define('NON_GRAPHICAL_DESC', tra("Use faster non-graphical applications if available?"));

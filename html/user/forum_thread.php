@@ -269,7 +269,7 @@ echo "</td><td align=\"right\">
     <input type=\"hidden\" name=\"id\" value=\"", $thread->id, "\">" .
     tra("Sort");
 echo select_from_array("sort", $thread_sort_styles, $sort_style);
-echo "<input type=\"submit\" value=\"".tra('Sort')."\">
+echo "<input class=\"btn btn-default\" type=\"submit\" value=\"".tra('Sort')."\">
     </td></tr></table></form>
 ";
 

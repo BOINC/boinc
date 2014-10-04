@@ -51,7 +51,7 @@ for ($i=1; $i<=_mysql_num_rows($result); $i++){
         }
         echo "></td>\n";
     }
-    echo "<td><input type=\"submit\" value=\"Update\"></form></td>";
+    echo "<td><input class=\"btn btn-default\" type=\"submit\" value=\"Update\"></form></td>";
     echo "</tr>\n";
 }
 
@@ -62,7 +62,7 @@ for ($j=0;$j<=6;$j++) {
     echo "<td><input type=\"checkbox\" name=\"role".$j."\" value=\"1\"";
     echo "></td>\n";
 }
-echo "<td><input type=\"submit\" value=\"Update\"></form></td>";
+echo "<td><input class=\"btn btn-default\" type=\"submit\" value=\"Update\"></form></td>";
 echo "</tr>\n";
 
 end_table();

@@ -1,7 +1,7 @@
 <?php
 
 // if you change anything here,
-// look at project_list.php in a browser to make sure
+// look at http://boinc.berkeley.edu/project_list.php in a browser to make sure
 // you didn't mess up the XML
 
 require_once("../inc/translation.inc");
@@ -704,5 +704,15 @@ $math = array(
 );
 
 $areas = array($biomed, $astro_phys_chem, $math, $earth, $mixed, $cogsci, $sensing);
+
+function lookup_project($url) {
+    foreach ($areas as $area) {
+        foreach ($area as $p) {
+            if ($p[1] == $url) return $p;
+            if (sizeof($p)>6 && $p[6] == $url) return $p;
+        }
+    }
+    return null;
+}
 
 ?>

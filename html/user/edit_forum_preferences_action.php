@@ -35,7 +35,7 @@ if (post_str("action", true)=="reset_confirm"){
         <p>
         <form action=edit_forum_preferences_action.php method=post>
         <input type=hidden name=action value=reset>
-        <input type=submit value=\"".tra("Reset preferences")."\">
+        <input class=\"btn btn-warning\" type=submit value=\"".tra("Reset preferences")."\">
         </form>
     ";
     page_tail();

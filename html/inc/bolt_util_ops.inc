@@ -125,7 +125,7 @@ function compare_bar($title, $n, $width, $lo, $hi) {
     $a2 = number_format($hi*100);
     return "
         <tr>
-        <td>$title<br><span class=note>($n students)</span></td>
+        <td>$title<br><p class=\"text-muted\">($n students)</p></td>
         <td>
             <table class=bolt_bar width=$width><tr class=bolt_bar>
             <td class=bolt_bar1 width=$x1 bgcolor=lightgray align=right>$a1</td>
@@ -165,7 +165,7 @@ function outcome_graph($x, $width) {
         <table class=bolt_bar><tr>
     ";
     if ($x0) {
-        $s .= "<td class=bolt_bar height=10 width=$x0 bgcolor=#88ff88><span class=note>$t0</span></td>
+        $s .= "<td class=bolt_bar height=10 width=$x0 bgcolor=#88ff88><p class=\"text-muted\">$t0</p></td>
         ";
     }
     if ($x1) {
@@ -188,7 +188,7 @@ function time_graph($t, $w) {
     $t = number_format($t, 1);
     return "<td>
         <table class=bolt_bar><tr>
-            <td class=bolt_bar height=10 width=$x bgcolor=#ffffcc><span class=note>$t sec</span></td>
+            <td class=bolt_bar height=10 width=$x bgcolor=#ffffcc><p class=\"text-muted\">$t sec</p></td>
         </tr></table>
     </td>";
 }
@@ -202,7 +202,7 @@ function score_graph($t, $w) {
         <table class=bolt_bar><tr>
     ";
     if ($x) {
-        $s .= "<td class=bolt_bar height=10 width=$x bgcolor=#ffffcc><span class=note>$t%</span></td>
+        $s .= "<td class=bolt_bar height=10 width=$x bgcolor=#ffffcc><p class=\"text-muted\">$t%</p></td>
         ";
     }
     if ($y) {

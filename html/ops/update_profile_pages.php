@@ -51,7 +51,7 @@ $alphabet = array('A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P
 //   $descriptor is an optional file descriptor to write the table to.
 
 function show_user_table($members, $offset, $numToDisplay, $cols) {
-    echo "<table class=bordered border=1 cellpadding=5>\n";
+    echo "<table class=\"table table-bordered\">\n";
 
     $rows = ceil($numToDisplay / $cols);
     $count = $offset;
@@ -196,7 +196,7 @@ function build_picture_pages($width, $height) {
             Only user profiles with pictures are listed here.";
 
 
-        echo "<table class=bordered border=1 cellpadding=5>\n";
+        echo "<table class=\"table table-bordered\">\n";
 
         for ($row = 0; $row < $height; $row++) {
             echo "<tr>";

@@ -57,7 +57,7 @@ function location_form($host) {
         <option value=work $w>".tra("Work")."
         <option value=school $s>".tra("School")."
         </select>
-        <input type=submit value=".tra("Update").">
+        <input class=\"btn btn-primary\" type=submit value=".tra("Update").">
         </form>
     ";
     return $x;
@@ -342,7 +342,7 @@ function show_host_row($host, $i, $private, $show_owner, $any_product_name) {
     ";
     if (!$anonymous) {
         echo "
-            <br><nobr><span class=note>".tra("Cross-project stats:")."</span></nobr><br>".cross_project_links($host);
+            <br><nobr><p class=\"text-muted\">".tra("Cross-project stats:")."</p></nobr><br>".cross_project_links($host);
     }
     echo "
         </td>
@@ -389,7 +389,7 @@ function show_host_row($host, $i, $private, $show_owner, $any_product_name) {
             <td>%s</td>
             <td>%s</td>
             <td>%s</td>
-            <td>%s<br><span class=note>%s</span></td>
+            <td>%s<br><p class=\"text-muted\">%s</p></td>
             <td>%s</td>
             ",
             format_credit($host->expavg_credit),

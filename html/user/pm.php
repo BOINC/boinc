@@ -119,7 +119,7 @@ function do_inbox($logged_in_user) {
             <a href=\"javascript:set_all(0)\">".tra("Unselect all")."</a>
             </td>
             <td colspan=2>
-            <input type=submit value=\"".tra("Delete selected messages")."\">
+            <input class=\"btn btn-danger\" type=submit value=\"".tra("Delete selected messages")."\">
             </td></tr>
         ";
         end_table();
@@ -253,7 +253,7 @@ function do_block($logged_in_user) {
     echo form_tokens($logged_in_user->authenticator);
     echo "<input type=\"hidden\" name=\"action\" value=\"confirmedblock\">\n";
     echo "<input type=\"hidden\" name=\"id\" value=\"$id\">\n";
-    echo "<input type=\"submit\" value=\"".tra("Add user to filter")."\">\n";
+    echo "<input class=\"btn btn-default\" type=\"submit\" value=\"".tra("Add user to filter")."\">\n";
     echo "<a href=\"pm.php?action=inbox\">".tra("No, cancel")."</a>\n";
     echo "</form>\n";
 }

@@ -54,6 +54,22 @@ struct VBOX_TIMESTAMP {
     int milliseconds;
 };
 
+// represents the state of a intermediate upload
+struct INTERMEDIATE_UPLOAD {
+    std::string file;
+    bool reported;
+    bool ignore;
+
+    INTERMEDIATE_UPLOAD() {
+        clear();
+    }
+    void clear() {
+        file = "";
+        reported = false;
+        ignore = false;
+    }
+};
+
 struct PORT_FORWARD {
     int host_port;      // 0 means assign dynamically
     int guest_port;
@@ -165,6 +181,8 @@ public:
     std::vector<std::string> trickle_trigger_files;
         // if find file of this name in shared/, send trickle-up message
         // with variety = filename, contents = file contents
+    std::vector<INTERMEDIATE_UPLOAD> intermediate_upload_files;
+        // if find file of this name in shared/, send specified file
     std::string completion_trigger_file;
         // if find this file in shared/, task is over.
         // File can optionally contain exit code (first line)
@@ -207,6 +225,7 @@ public:
     int pause();
     int resume();
     void check_trickle_triggers();
+    void check_intermediate_uploads();
     int create_snapshot(double elapsed_time);
     int cleanup_snapshots(bool delete_active);
     int restore_snapshot();

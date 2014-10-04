@@ -79,7 +79,7 @@ function edit_form($user, $team, $forum, $first) {
     row2(tra("Minimum average credit to post"),
         "<input name=post_min_expavg_credit value=$forum->post_min_expavg_credit>"
     );
-    row2("", "<input type=submit value=".tra("Submit").">");
+    row2("", "<input class=\"btn btn-default\" type=submit value=".tra("Submit").">");
     end_table();
     echo "
         </form>

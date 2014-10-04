@@ -114,7 +114,7 @@ function show_submit() {
             .recaptcha_get_html($publickey, null, is_https())
         );
     }
-    table_row("<p><input type=\"submit\" value=\"".tra("Create/edit profile") ."\" name=\"submit\">");
+    table_row("<p><input class=\"btn btn-primary\" type=\"submit\" value=\"".tra("Create/edit profile") ."\" name=\"submit\">");
 }
 
 // Returns an array containing:
@@ -318,7 +318,7 @@ function show_profile_form($profile, $warning=null) {
     }
 
     if ($warning) {
-        echo "<span class=error>$warning</span><p>
+        echo "<p class=\"text-danger\">$warning</p>
         ";
     }
 

@@ -93,7 +93,7 @@ function show_list($list) {
             echo "</td>\n";
         }
         echo "
-            <td><span class=note>".sanitize_html($team->description)."</span></td>
+            <td><p class=\"text-muted\">".sanitize_html($team->description)."</p></td>
             <td>".format_credit($team->expavg_credit)."</td>
             <td>$type</td>
             <td>$team->country</td>

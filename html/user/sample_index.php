@@ -171,7 +171,7 @@ if (!$stopped) {
 }
 
 echo "
-    <table cellpadding=\"8\" cellspacing=\"4\" class=bordered>
+    <table cellpadding=\"8\" cellspacing=\"4\" class=\"table table-bordered\">
     <tr><td rowspan=\"2\" valign=\"top\" width=\"40%\">
 ";
 

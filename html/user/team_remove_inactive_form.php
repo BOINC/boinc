@@ -67,7 +67,7 @@ if ($ninactive_users == 0) {
     echo "<p>".tra("No members are eligible for removal.")."</p>";
 } else {
     echo "<input type=hidden name=ninactive_users value=$ninactive_users>";
-    echo "<input type=submit value=\"".tra("Remove users")."\">";
+    echo "<input class=\"btn btn-warning\" type=submit value=\"".tra("Remove users")."\">";
 }
 echo "</form>";
 page_tail();

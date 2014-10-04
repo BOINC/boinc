@@ -38,7 +38,7 @@ if (function_exists("donations_intro")) {
 } else {
     echo "<div>".tra("This project is accepting donations via
 %1.", "<a href=\"http://www.paypal.com/\">PayPal</a>")."</div>
-        <div class=\"smalltext\">
+        <div class=\"donationtext\">
         ".tra("To donate, fill in the amount you want to donate using the field below.
         PayPal is accepting multiple currencies
         (Canadian Dollars, Euros, Pounds Sterling, U.S. Dollars,
@@ -64,7 +64,7 @@ start_table();
 
 $first_row = true;
 while ($row = _mysql_fetch_object($query)) {
-    $col1 = $row->title."<br><span class=\"smalltext\">".$row->description."</span>";
+    $col1 = $row->title."<br><small>".$row->description."</small>";
     
     $query_amount = _mysql_query("SELECT SUM(payment_amount-payment_fee) AS amount FROM donation_paypal WHERE processed = 1 AND item_number = '".$row->id."'");
     $acquired = _mysql_fetch_object($query_amount)->amount;
@@ -317,15 +317,15 @@ echo row2(tra("Amount you would like to donate"), $amount);
 echo row2(tra("Estimated value in"), $estimated);
 if ($user_id) {
     $tmp_user_name = $user_id." (".$logged_in_user->name.")";
-    echo row2(tra("Anonymous donation")."<br><span class=\"smalltext\">".tra("Select this if you dont want your name and account number displayed in
-donator lists.<br>If not checked, you will be recorded as user ID %1", $tmp_user_name)."</span>",
+    echo row2(tra("Anonymous donation")."<br><small>".tra("Select this if you dont want your name and account number displayed in
+donator lists.<br>If not checked, you will be recorded as user ID %1", $tmp_user_name)."</small>",
         "<input type=\"checkbox\" name=\"anonymous\" id=\"anonymous\" value=\"1\"><label for=\"anonymous\">".tra("Yes")."</label>");
 } else {
-    echo row2(tra("Anonymous donation")."<br><span class=\"smalltext\">".tra("To assign the donation with your user ID, please log in."),
+    echo row2(tra("Anonymous donation")."<br><small>".tra("To assign the donation with your user ID, please log in.")."</small>",
         "<input type=\"checkbox\" name=\"anonymous\" id=\"anonymous\" value=\"1\" checked=\"checked\" disabled=\"disabled\">
         <label for=\"anonymous\">".tra("Yes")."</label>");
 }
-echo row2("", "<input type=\"submit\" value=\"".tra("Proceed")."\">");
+echo row2("", "<input class=\"btn btn-primary\" type=\"submit\" value=\"".tra("Proceed")."\">");
 echo row1(tra("Donations are accepted through")."<br><img src=\"img/paypal_logo.png\" alt=\"PayPal\">");
 end_table();
 echo "</form>\n";

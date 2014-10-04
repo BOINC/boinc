@@ -80,7 +80,7 @@ function handle_add($user) {
         <br>
         ".textarea_with_counter("message", 250, "")."
         <p>
-        <input type=submit value=\"".tra("OK")."\">
+        <input class=\"btn btn-primary\" type=submit value=\"".tra("OK")."\">
         </form>
     ";
     page_tail();

@@ -9,17 +9,6 @@ require_once("../html/inc/translation.inc");
 
 $client_info = $_SERVER['HTTP_USER_AGENT'];
 
-function latest_version($p) {
-    $dev = false;
-    foreach ($p['versions'] as $i=>$v) {
-        if (!$dev && is_dev($v)) continue;
-        return $v;
-    }
-    foreach ($p['versions'] as $i=>$v) {
-        return $v;
-    }
-}
-
 // show a download link as a button or table row
 //
 function download_link($pname, $button=false) {

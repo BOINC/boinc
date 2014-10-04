@@ -61,8 +61,8 @@ function show_form($all) {
 
     start_table("");
     table_header(
-        "ID #<br><span class=note>click for details</span>",
-      "Application<br><span class=note>click for details</span>",
+        "ID #<br><p class=\"text-muted\">click for details</p>",
+      "Application<br><p class=\"text-muted\">click for details</p>",
       "Version",
       "Platform",
       "Plan class",
@@ -115,7 +115,7 @@ function show_form($all) {
         if ($av->deprecated) $v=' CHECKED ';
         echo "  <TD> <input name=deprecated type='checkbox' $v></TD>\n";
 
-        echo "<td><input name=submit type=submit value=Update>";
+        echo "<td><input class=\"btn btn-default\" name=submit type=submit value=Update>";
 
         echo "</tr></form>"; 
     }

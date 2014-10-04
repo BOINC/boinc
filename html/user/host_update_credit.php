@@ -30,7 +30,7 @@ $hostid = get_int("hostid");
 
 $host = BoincHost::lookup_id($hostid);
 if (!$host || $host->userid != $user->id) {
-    error_page(We have no record of that computer");
+    error_page("We have no record of that computer");
 }
 
 host_update_credit($hostid);

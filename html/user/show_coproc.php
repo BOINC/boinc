@@ -49,7 +49,7 @@ function header_row($mode) {
     echo "<tr><th>";
     switch ($mode) {
     case 'host':
-        echo "Computer ID<br><span class=note>click for details</span>";
+        echo "Computer ID<br><p class=\"text-muted\">click for details</p>";
         break;
     case 'user':
         echo "User";

@@ -88,7 +88,7 @@ case 'delete':
     echo "<input type=hidden name=action value=delete>";
     echo "Are you sure you want to delete this thread and all its posts?
         This action cannot be undone.
-        <input type=submit value=Yes>
+        <input class=\"btn btn-warning\" type=submit value=Yes>
     ";
     $get_reason = false;
     break;
@@ -97,13 +97,13 @@ default:
 }
 
 if ($get_reason) {
-    row2(tra("Reason")."<br><span class=note>".tra("Mailed if nonempty")."</span>",
+    row2(tra("Reason")."<br><p class=\"text-muted\">".tra("Mailed if nonempty")."</p>",
         "<textarea rows=10 cols=80 name=\"reason\"></textarea>"
     );
 
     row2(
         "",
-        "<input type=\"submit\" name=\"submit\" value=\"".tra("OK")."\">"
+        "<input class=\"btn btn-default\" type=\"submit\" name=\"submit\" value=\"".tra("OK")."\">"
     );
 }
 

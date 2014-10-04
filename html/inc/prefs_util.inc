@@ -182,7 +182,7 @@ class NUM_SPEC {
             $v /= $this->scale;
             if ($v == 0) $v = "";
         }
-        return "<input size=5 name=$tag value='$v'> $this->suffix ";
+        return "<input type=text size=5 name=$tag value='$v'> $this->suffix ";
     }
     function form_convert($in, &$out, &$error) {
         $error = false;
@@ -377,13 +377,13 @@ class PREF_HOUR_RANGE extends PREF {
 // display preference subsets as Columns
 //
 function row_top($x, $ncols=6, $class="heading") {
-    echo "<tr><td class=$class width=35%>$x</td>";
-    echo "<td class=$class width=10%><b>".tra("Default")."</b></td>
-        <td class=$class width=10%><b>".tra("Home")."</b></td>
-        <td class=$class width=10%><b>".tra("School")."</b></td>
-        <td class=$class width=10%><b>".tra("Work")."</b></td>
+    echo "<tr><th class=$class width=35%>$x</th>";
+    echo "<th class=$class width=10%><b>".tra("Default")."</b></th>
+        <th class=$class width=10%><b>".tra("Home")."</b></th>
+        <th class=$class width=10%><b>".tra("School")."</b></th>
+        <th class=$class width=10%><b>".tra("Work")."</b></th>
     ";
-    echo "<td width=15%><br></td></tr>\n";
+    echo "<th width=15%><br></th></tr>\n";
 }
 
 //

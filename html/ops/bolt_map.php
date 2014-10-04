@@ -86,7 +86,7 @@ function show_snap_form() {
         <input type=hidden name=course_id value=$course_id>
         Create a new snapshot using data from the last
         <input name=dur value=7> days.
-        <input type=submit value=OK>
+        <input class=\"btn btn-default\" type=submit value=OK>
         </form>
     ";
     admin_page_tail();
@@ -408,7 +408,7 @@ function show_map() {
     echo "
         </td></tr></table>
         <p>
-        <input type=submit value=OK>
+        <input class=\"btn btn-default\" type=submit value=OK>
         </form>
     ";
     admin_page_tail();

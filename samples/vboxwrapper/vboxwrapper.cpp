@@ -162,6 +162,7 @@ int VBOX_VM::parse_port_forward(XML_PARSER& xp) {
 }
 
 int parse_job_file(VBOX_VM& vm) {
+    INTERMEDIATE_UPLOAD iu;
     MIOFILE mf;
     string str;
     char buf[1024], buf2[256];
@@ -213,6 +214,12 @@ int parse_job_file(VBOX_VM& vm) {
         }
         else if (xp.parse_string("trickle_trigger_file", str)) {
             vm.trickle_trigger_files.push_back(str);
+            continue;
+        }
+        else if (xp.parse_string("intermediate_upload_file", str)) {
+            iu.clear();
+            iu.file = str;
+            vm.intermediate_upload_files.push_back(iu);
             continue;
         }
         else if (xp.parse_string("completion_trigger_file", str)) {
@@ -464,6 +471,45 @@ void VBOX_VM::check_trickle_triggers() {
             }
         }
         boinc_delete_file(path);
+    }
+}
+
+// check for intermediate upload files, and send them if found.
+//
+void VBOX_VM::check_intermediate_uploads() {
+    int retval;
+    char filename[256], path[MAXPATHLEN], buf[256];
+    for (unsigned int i=0; i<intermediate_upload_files.size(); i++) {
+        strcpy(filename, intermediate_upload_files[i].file.c_str());
+        sprintf(path, "shared/%s", filename);
+        if (!boinc_file_exists(path)) continue;
+        if (!intermediate_upload_files[i].reported && !intermediate_upload_files[i].ignore) {
+            fprintf(stderr,
+                "%s Reporting an intermediate file. (%s)\n",
+                vboxwrapper_msg_prefix(buf, sizeof(buf)),
+                intermediate_upload_files[i].file.c_str()
+            );
+            retval = boinc_upload_file(intermediate_upload_files[i].file);
+            if (retval) {
+                fprintf(stderr,
+                    "%s boinc_upload_file() failed: %s\n",
+                    vboxwrapper_msg_prefix(buf, sizeof(buf)), boincerror(retval)
+                );
+                intermediate_upload_files[i].ignore = true;
+            } else {
+                intermediate_upload_files[i].reported = true;
+            }
+        } else if (intermediate_upload_files[i].reported && !intermediate_upload_files[i].ignore) {
+            retval = boinc_upload_status(intermediate_upload_files[i].file);
+            if (!retval) {
+                fprintf(stderr,
+                    "%s Intermediate file uploaded. (%s)\n",
+                    vboxwrapper_msg_prefix(buf, sizeof(buf)),
+                    intermediate_upload_files[i].file.c_str()
+                );
+                intermediate_upload_files[i].ignore = true;
+            }
+        }
     }
 }
 
@@ -1184,6 +1230,7 @@ int main(int argc, char** argv) {
             if ((loop_iteration % 10) == 0) {
                 current_cpu_time = starting_cpu_time + vm.get_vm_cpu_time();
                 vm.check_trickle_triggers();
+                vm.check_intermediate_uploads();
             }
 
             if (vm.job_duration) {

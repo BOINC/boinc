@@ -35,12 +35,12 @@ hr {
     margin: 8px 2px;
 }
 
-table {
+.table {
     padding: 4px;
     margin: 2px;
 }
 
-table.bordered {
+.table-bordered {
     border: 2px solid #e8e8e8;
     -moz-border-radius: 6px;
     -webkit-border-radius: 6px;
@@ -63,7 +63,7 @@ td.bordered {
 
 td.indent { border-left: 4px solid white; }
 
-td.heading {
+th, td.heading {
     font-weight: bold;
     margin: 4px 0px;
     padding: 8px;
@@ -128,7 +128,7 @@ td.friend {
 
 tr.message { background-color: #e0e0e0; }
 
-input[type="text"], select, textarea, .button {
+input[type="text"], select, textarea, .btn {
     border: 1px solid #d8d8d8;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
@@ -147,7 +147,7 @@ input[type="button"], input[type="submit"], input.btn {
 }
 
 /* IE6 doesn't understand [type=XXXX] so we factor this out into its own */
-.button {
+.btn {
     margin: 2px 0px;
     background: #d4d0c8;
     margin-right: 0.6em;
@@ -159,7 +159,7 @@ input[type="button"], input[type="submit"], input.btn {
     line-height: 2em;
 }
 
-.button:hover {
+.btn:hover {
     background: #edece8;
     text-decoration:none;
 }
@@ -284,7 +284,7 @@ td.lastpost {
     font-weight: bold;
 }
 
-.description {
+.text-info, .description {
     font-size: 80%;
     font-weight: normal;
 }
@@ -334,7 +334,7 @@ span.page_title {
     margin: 20px;
 }
 
-span.note {
+p.text-muted, span.note {
     font-weight: normal;
     font-size: 0.9em;
     font-style: italic;
@@ -370,11 +370,11 @@ span.highlight {
     overflow: auto;
 }
 
-.smalltext {
+small {
     font-size: 0.8em;
 }
 
-.error {
+p.text-danger, .error {
     color: #ff0000;
     font-weight: bold;
     font-size: 1.1em;
