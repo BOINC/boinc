@@ -90,6 +90,11 @@ if (!$master_url || !$project_name) {
     echo "missing arg";
     exit;
 }
+$master_url = urldecode($master_url);
+$project_name = urldecode($project_name);
+if ($auth) $auth = urldecode($auth);
+if ($project_desc) $project_desc = urldecode($project_desc);
+if ($project_inst) $project_inst = urldecode($project_inst);
 
 $url = url_to_download();
 if (!$url) {
@@ -115,11 +120,11 @@ if ($p) {
 
 $expire = time() + 24*86400;
 
-setcookie('attach_master_url', $master_url, $expire);
-setcookie('attach_project_name', $project_name, $expire);
-setcookie('attach_auth', $auth, $expire);
-setcookie('attach_project_desc', $project_desc, $expire);
-setcookie('attach_project_inst', $project_inst, $expire);
+setrawcookie('attach_master_url', rawurlencode($master_url), $expire);
+setrawcookie('attach_project_name', rawurlencode($project_name), $expire);
+setrawcookie('attach_auth', rawurlencode($auth), $expire);
+setrawcookie('attach_project_desc', rawurlencode($project_desc), $expire);
+setrawcookie('attach_project_inst', rawurlencode($project_inst), $expire);
 
 Header("Location: ".$url);
 
