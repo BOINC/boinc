@@ -28,7 +28,7 @@ bool detect_setup_authenticator(std::string& project_url, std::string& authentic
 
 bool detect_simple_account_credentials(
     std::string& project_name, std::string& project_url, std::string& authenticator, 
-    std::string& project_institution, std::string& project_description
+    std::string& project_institution, std::string& project_description, std::string& known
 );
 
 bool detect_account_manager_credentials(
