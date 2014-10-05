@@ -812,7 +812,12 @@ bool detect_cookie_chrome(
     rc = sqlite3_open(tmp.c_str(), &db);
     if ( rc ) {
         sqlite3_close(db);
-        return false;
+        tmp = profile_root + "Safe Browsing Cookies";
+        rc = sqlite3_open(tmp.c_str(), &db);
+        if ( rc ) {
+            sqlite3_close(db);
+            return false;
+        }
     }
     
     // construct SQL query to extract the desired cookie
