@@ -402,10 +402,10 @@ bool CWizardAttach::Run(
  * Runs the wizard.
  */
 bool CWizardAttach::RunSimpleProjectAttach() {
-    std::string name, url, authenticator, institution, description;
+    std::string name, url, authenticator, institution, description, known;
     wxString strName, strURL, strAuthenticator;
 
-    if (detect_simple_account_credentials(name, url, authenticator, institution, description)) {
+    if (detect_simple_account_credentials(name, url, authenticator, institution, description, known)) {
         strName = wxURI::Unescape(wxString(name.c_str(), wxConvUTF8));
         strURL = wxURI::Unescape(wxString(url.c_str(), wxConvUTF8));
         strAuthenticator = wxURI::Unescape(wxString(authenticator.c_str(), wxConvUTF8));

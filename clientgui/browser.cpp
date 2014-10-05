@@ -1277,7 +1277,7 @@ END:
 // 
 bool detect_simple_account_credentials(
     std::string& project_name, std::string& project_url, std::string& authenticator, 
-    std::string& project_institution, std::string& project_description
+    std::string& project_institution, std::string& project_description, std::string& known
 ) {
     bool retval = false;
     std::string strCookieServer("http://boinc.berkeley.edu");
@@ -1286,6 +1286,7 @@ bool detect_simple_account_credentials(
     std::string strCookieAuthenticator("attach_auth");
     std::string strCookieProjectInstitution("attach_project_inst");
     std::string strCookieProjectDescription("attach_project_desc");
+    std::string strCookieKnown("attach_known");
 
 #ifdef _WIN32
     if ( detect_cookie_ie(strCookieServer, strCookieProjectName, project_name) &&
@@ -1294,6 +1295,7 @@ bool detect_simple_account_credentials(
         detect_cookie_ie(strCookieServer, strCookieAuthenticator, authenticator);
         detect_cookie_ie(strCookieServer, strCookieProjectInstitution, project_institution);
         detect_cookie_ie(strCookieServer, strCookieProjectDescription, project_description);
+        detect_cookie_ie(strCookieServer, strCookieKnown, known);
         goto END;
     }
 #endif
@@ -1304,6 +1306,7 @@ bool detect_simple_account_credentials(
         detect_cookie_safari(strCookieServer, strCookieAuthenticator, authenticator);
         detect_cookie_safari(strCookieServer, strCookieProjectInstitution, project_institution);
         detect_cookie_safari(strCookieServer, strCookieProjectDescription, project_description);
+        detect_cookie_safari(strCookieServer, strCookieKnown, known);
         goto END;
     }
 #endif
@@ -1313,6 +1316,7 @@ bool detect_simple_account_credentials(
         detect_cookie_chrome(strCookieServer, strCookieAuthenticator, authenticator);
         detect_cookie_chrome(strCookieServer, strCookieProjectInstitution, project_institution);
         detect_cookie_chrome(strCookieServer, strCookieProjectDescription, project_description);
+        detect_cookie_chrome(strCookieServer, strCookieKnown, known);
         goto END;
     }
     if ( detect_cookie_firefox_3(strCookieServer, strCookieProjectName, project_name) &&
@@ -1321,6 +1325,7 @@ bool detect_simple_account_credentials(
         detect_cookie_firefox_3(strCookieServer, strCookieAuthenticator, authenticator);
         detect_cookie_firefox_3(strCookieServer, strCookieProjectInstitution, project_institution);
         detect_cookie_firefox_3(strCookieServer, strCookieProjectDescription, project_description);
+        detect_cookie_firefox_3(strCookieServer, strCookieKnown, known);
         goto END;
     }
     if ( detect_cookie_firefox_2(strCookieServer, strCookieProjectName, project_name) &&
@@ -1329,6 +1334,7 @@ bool detect_simple_account_credentials(
         detect_cookie_firefox_2(strCookieServer, strCookieAuthenticator, authenticator);
         detect_cookie_firefox_2(strCookieServer, strCookieProjectInstitution, project_institution);
         detect_cookie_firefox_2(strCookieServer, strCookieProjectDescription, project_description);
+        detect_cookie_firefox_2(strCookieServer, strCookieKnown, known);
         goto END;
     }
 
