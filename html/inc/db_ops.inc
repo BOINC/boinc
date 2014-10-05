@@ -22,6 +22,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', true);
 ini_set('display_startup_errors', true);
 
+require_once("../inc/util_basic.inc");
 require_once("../inc/result.inc");
 
 class BoincAssignment {
@@ -444,20 +445,30 @@ SELECT COUNT(id) AS nTotal,
        SUM(case when server_state = '5' and outcome = '3' and client_state = '4' then 1 else 0 end) AS clientstate_uploading,
        SUM(case when server_state = '5' and outcome = '3' and client_state = '5' then 1 else 0 end) AS clientstate_uploaded,
        SUM(case when server_state = '5' and outcome = '3' and client_state = '6' then 1 else 0 end) AS clientstate_aborted
-FROM result WHERE 
+FROM result WHERE true
     ";
 
     if ($query_appid) {
-        $main_query .= "appid=$query_appid and ";
+        $main_query .= " and appid=$query_appid";
     }
     if ($query_wuid) {
-        $main_query .= "workunitid=$query_wuid and ";
+        $main_query .= " and workunitid=$query_wuid";
     }
     if ($query_mod_time) {
-        $main_query .= "mod_time > DATE_SUB( NOW(), INTERVAL $query_mod_time SECOND )+0 and ";
-    }
+        $start = time() - $query_mod_time;
 
-    $main_query .= "1=1";
+        // If file deletion is delayed by X,
+        // subtract X from mod time of  file-deleted results.
+        // Otherwise we'll show lots of irrelevant results
+        //
+        $delay = parse_config(get_config(), "<delete_delay_hours>");
+        if ($delay) {
+            $start2 = $start - $delay*3600;;
+            $main_query .= " and ((file_delete_state>1 and mod_time>FROM_UNIXTIME($start2)) or (mod_time>FROM_UNIXTIME($start)))";
+        } else {
+            $main_query .= " and mod_time > FROM_UNIXTIME($start)";
+        }
+    }
 
     $urlquery = $q->urlquery;
     $result = _mysql_query($main_query);
