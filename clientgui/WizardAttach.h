@@ -319,6 +319,8 @@ public:
     wxString            m_strReturnURL;
     bool                m_bCookieRequired;
     wxString            m_strCookieFailureURL;
+    wxString            project_inst;   // institution
+    wxString            project_desc;   // description
 };
 
 #endif // _WIZ_ATTACH_H_
