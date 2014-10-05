@@ -403,7 +403,7 @@ bool CWizardAttach::Run(
  */
 bool CWizardAttach::RunSimpleProjectAttach() {
     std::string name, url, authenticator, institution, description;
-    wxString strName, strURL, strAuthenticator, strInstitution, strDescription;
+    wxString strName, strURL, strAuthenticator;
 
     if (detect_simple_account_credentials(name, url, authenticator, institution, description)) {
         strName = wxURI::Unescape(wxString(name.c_str(), wxConvUTF8));
@@ -415,6 +415,8 @@ bool CWizardAttach::RunSimpleProjectAttach() {
         if (authenticator.size()) {
             SetProjectAuthenticator(strAuthenticator);
         }
+        project_inst = wxURI::Unescape(wxString(institution.c_str(), wxConvUTF8));
+        project_desc = wxURI::Unescape(wxString(description.c_str(), wxConvUTF8));
     }
 
     return RunWizard(m_ProjectWelcomePage);
