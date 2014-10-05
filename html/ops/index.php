@@ -79,6 +79,10 @@ if ($uotd_candidates >= 0) {
 
 echo "</ul>\n";
 
+if (function_exists('admin_index_extra')) {
+    admin_index_extra();
+}
+
 echo "
     <p>
     <table border=\"0\"><tr valign=\"top\">
