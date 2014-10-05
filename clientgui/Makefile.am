@@ -65,6 +65,7 @@ boincmgr_SOURCES = \
     ProjectInfoPage.cpp \
     ProjectProcessingPage.cpp \
     ProjectPropertiesPage.cpp \
+	ProjectWelcomePage.cpp \
     ProxyInfoPage.cpp \
     ProxyPage.cpp \
     sg_BoincSimpleFrame.cpp \
