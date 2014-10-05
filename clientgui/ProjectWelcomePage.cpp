@@ -78,9 +78,7 @@ CProjectWelcomePage::CProjectWelcomePage( CBOINCBaseWizard* parent )
 bool CProjectWelcomePage::Create( CBOINCBaseWizard* parent )
 {
 ////@begin CProjectWelcomePage member initialisation
-    m_pTitleStaticCtrl = NULL;
-    m_pDescriptionStaticCtrl = NULL;
-    m_pDirectionsStaticCtrl = NULL;
+
 ////@end CProjectWelcomePage member initialisation
 
 	((CWizardAttach*)parent)->IsFirstPass = false;
@@ -107,24 +105,68 @@ void CProjectWelcomePage::CreateControls()
     wxBoxSizer* itemBoxSizer3 = new wxBoxSizer(wxVERTICAL);
     itemWizardPage2->SetSizer(itemBoxSizer3);
 
-    m_pTitleStaticCtrl = new wxStaticText;
-    m_pTitleStaticCtrl->Create( itemWizardPage2, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-    m_pTitleStaticCtrl->SetFont(wxFont(12, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
-    itemBoxSizer3->Add(m_pTitleStaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
+    title_ctrl = new wxStaticText;
+    title_ctrl->Create( itemWizardPage2, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    title_ctrl->SetFont(wxFont(12, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
+    itemBoxSizer3->Add(title_ctrl, 0, wxALIGN_LEFT|wxALL, 5);
 
-    m_pDescriptionStaticCtrl = new wxStaticText;
-    m_pDescriptionStaticCtrl->Create( itemWizardPage2, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer3->Add(m_pDescriptionStaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
+    intro_ctrl = new wxStaticText;
+    intro_ctrl->Create( itemWizardPage2, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer3->Add(intro_ctrl, 0, wxALIGN_LEFT|wxALL, 5);
 
     itemBoxSizer3->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
 
-    wxFlexGridSizer* itemFlexGridSizer62 = new wxFlexGridSizer(0, 1, 0, 0);
-    itemFlexGridSizer62->AddGrowableCol(0);
-    itemBoxSizer3->Add(itemFlexGridSizer62, 0, wxGROW|wxALL, 5);
+    wxFlexGridSizer* grid = new wxFlexGridSizer(5, 2, 0, 0);
+    grid->AddGrowableCol(1);
+    itemBoxSizer3->Add(grid, 0, wxGROW|wxALL, 5);
 
-    m_pDirectionsStaticCtrl = new wxStaticText;
-    m_pDirectionsStaticCtrl->Create( itemWizardPage2, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-    itemBoxSizer3->Add(m_pDirectionsStaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
+    project_name1_ctrl = new wxStaticText;
+    project_name1_ctrl->Create( itemWizardPage2, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    grid->Add(project_name1_ctrl, 0, wxALIGN_LEFT|wxALL, 5);
+
+    project_name2_ctrl = new wxStaticText;
+    project_name2_ctrl->Create( itemWizardPage2, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    grid->Add(project_name2_ctrl, 0, wxALIGN_LEFT|wxALL, 5);
+
+    project_inst1_ctrl = new wxStaticText;
+    project_inst1_ctrl->Create( itemWizardPage2, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    grid->Add(project_inst1_ctrl, 0, wxALIGN_LEFT|wxALL, 5);
+
+    project_inst2_ctrl = new wxStaticText;
+    project_inst2_ctrl->Create( itemWizardPage2, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    grid->Add(project_inst2_ctrl, 0, wxALIGN_LEFT|wxALL, 5);
+
+    project_desc1_ctrl = new wxStaticText;
+    project_desc1_ctrl->Create( itemWizardPage2, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    grid->Add(project_desc1_ctrl, 0, wxALIGN_LEFT|wxALL, 5);
+
+    project_desc2_ctrl = new wxTextCtrl;
+    project_desc2_ctrl->Create( itemWizardPage2, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE|wxTE_READONLY );
+    grid->Add(project_desc2_ctrl, 0, wxALIGN_LEFT|wxALL, 5);
+
+    project_url1_ctrl = new wxStaticText;
+    project_url1_ctrl->Create( itemWizardPage2, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    grid->Add(project_url1_ctrl, 0, wxALIGN_LEFT|wxALL, 5);
+
+    project_url2_ctrl = new wxStaticText;
+    project_url2_ctrl->Create( itemWizardPage2, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    grid->Add(project_url2_ctrl, 0, wxALIGN_LEFT|wxALL, 5);
+
+    user_name1_ctrl = new wxStaticText;
+    user_name1_ctrl->Create( itemWizardPage2, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    grid->Add(user_name1_ctrl, 0, wxALIGN_LEFT|wxALL, 5);
+
+    user_name2_ctrl = new wxStaticText;
+    user_name2_ctrl->Create( itemWizardPage2, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    grid->Add(user_name2_ctrl, 0, wxALIGN_LEFT|wxALL, 5);
+
+    warning_ctrl = new wxTextCtrl;
+    warning_ctrl->Create( itemWizardPage2, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE|wxTE_READONLY );
+    itemBoxSizer3->Add(warning_ctrl, 0, wxALIGN_LEFT|wxALL, 5);
+
+    continue_ctrl = new wxStaticText;
+    continue_ctrl->Create( itemWizardPage2, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer3->Add(continue_ctrl, 0, wxALIGN_LEFT|wxALL, 5);
 
     itemWizardPage2->SetSizer(itemBoxSizer3);
 
@@ -204,19 +246,33 @@ void CProjectWelcomePage::OnPageChanged( wxWizardExEvent& event ) {
 
     CWizardAttach* pWA  = ((CWizardAttach*)GetParent());
 
-    wxASSERT(m_pTitleStaticCtrl);
-    wxASSERT(m_pDescriptionStaticCtrl);
-    wxASSERT(m_pDirectionsStaticCtrl);
+    wxString buf;
+    buf.Printf(_("Welcome to %s."), pWA->GetProjectName().c_str());
+    title_ctrl->SetLabel(buf);
 
-	m_pTitleStaticCtrl->SetLabel(
-        pWA->GetProjectName()
-	);
+    intro_ctrl->SetLabel(_("You have volunteered to compute for this project:"));
+    project_name1_ctrl->SetLabel(_("Name:"));
+    project_name2_ctrl->SetLabel(pWA->GetProjectName());
+    if (!pWA->project_inst.IsEmpty()) {
+        project_inst1_ctrl->SetLabel(_("Home:"));
+        project_inst2_ctrl->SetLabel(pWA->project_inst);
+    }
+    if (!pWA->project_desc.IsEmpty()) {
+        project_desc1_ctrl->SetLabel(_("Description:"));
+        project_desc2_ctrl->SetLabel(pWA->project_desc);
+    }
+    project_url1_ctrl->SetLabel(_("URL:"));
+    project_url2_ctrl->SetLabel(pWA->GetProjectURL());
+    if (!pWA->user_name.IsEmpty()) {
+        user_name1_ctrl->SetLabel(_("User:"));
+        user_name2_ctrl->SetLabel(pWA->user_name);
+    }
 
-    m_pDescriptionStaticCtrl->SetLabel(
-        pWA->GetProjectURL()
-    );
+    if (!pWA->known) {
+        warning_ctrl->SetLabel(_("This project is not registered with BOINC.  Make sure you trust it before continuing."));
 
-    m_pDirectionsStaticCtrl->SetLabel(
+    }
+    continue_ctrl->SetLabel(
         _("To continue, click Next.")
     );
 

@@ -73,9 +73,22 @@ public:
     static bool ShowToolTips();
 
 ////@begin CProjectWelcomePage member variables
-    wxStaticText* m_pTitleStaticCtrl;
-    wxStaticText* m_pDescriptionStaticCtrl;
-    wxStaticText* m_pDirectionsStaticCtrl;
+    wxStaticText* title_ctrl;
+    wxStaticText* intro_ctrl;
+    wxStaticText* project_name1_ctrl;
+    wxStaticText* project_name2_ctrl;
+    wxStaticText* project_inst1_ctrl;
+    wxStaticText* project_inst2_ctrl;
+    wxStaticText* project_desc1_ctrl;
+    wxTextCtrl* project_desc2_ctrl;
+    wxStaticText* project_url1_ctrl;
+    wxStaticText* project_url2_ctrl;
+    wxStaticText* user_name1_ctrl;
+    wxStaticText* user_name2_ctrl;
+
+    wxTextCtrl* warning_ctrl;
+    wxStaticText* continue_ctrl;
+
 ////@end CProjectWelcomePage member variables
 };
 

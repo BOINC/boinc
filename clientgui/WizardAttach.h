@@ -321,6 +321,8 @@ public:
     wxString            m_strCookieFailureURL;
     wxString            project_inst;   // institution
     wxString            project_desc;   // description
+    wxString            user_name;
+    bool                known;
 };
 
 #endif // _WIZ_ATTACH_H_
