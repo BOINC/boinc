@@ -812,7 +812,12 @@ bool detect_cookie_chrome(
     rc = sqlite3_open(tmp.c_str(), &db);
     if ( rc ) {
         sqlite3_close(db);
-        return false;
+        tmp = profile_root + "Safe Browsing Cookies";
+        rc = sqlite3_open(tmp.c_str(), &db);
+        if ( rc ) {
+            sqlite3_close(db);
+            return false;
+        }
     }
     
     // construct SQL query to extract the desired cookie
@@ -916,7 +921,7 @@ bool detect_cookie_ie_supported(std::string& project_url, std::string& name, std
         strCookieName = strCookieFragment.substr(0, uiDelimeterLocation);
         strCookieValue = strCookieFragment.substr(uiDelimeterLocation + 1);
 
-        if (name == strCookieName) {
+        if (0 == strcmp(name.c_str(), strCookieName.c_str())) {
             // Now we found it!  Yea - auto attach!
             value = strCookieValue;
             bReturnValue = true;
@@ -1004,7 +1009,7 @@ bool detect_cookie_ie_supported_uac(std::string& project_url, std::string& name,
         strCookieName = strCookieFragment.substr(0, uiDelimeterLocation);
         strCookieValue = strCookieFragment.substr(uiDelimeterLocation + 1);
 
-        if (name_w == strCookieName) {
+        if (0 == wcscmp(name_w.c_str(), strCookieName.c_str())) {
             // Now we found it!  Yea - auto attach!
             value = W2A(strCookieValue);
             bReturnValue = true;

@@ -113,11 +113,13 @@ if ($p) {
     setcookie('attach_known', "0");
 }
 
-setcookie('attach_master_url', $master_url);
-setcookie('attach_project_name', $project_name);
-setcookie('attach_auth', $auth);
-setcookie('attach_project_desc', $project_desc);
-setcookie('attach_project_inst', $project_inst);
+$expire = time() + 24*86400;
+
+setcookie('attach_master_url', $master_url, $expire);
+setcookie('attach_project_name', $project_name, $expire);
+setcookie('attach_auth', $auth, $expire);
+setcookie('attach_project_desc', $project_desc, $expire);
+setcookie('attach_project_inst', $project_inst, $expire);
 
 Header("Location: ".$url);
 

@@ -221,7 +221,7 @@ for ($i=1; $i<$argc; $i++) {
     } else if ($argv[$i] == "--teams") {
         delete_teams();
     } else {
-        echo "usage: delete_spammers.php [--days] [--test] [--list filename] [--profiles] [--forums] [--id_range N M]\n";
+        echo "usage: delete_spammers.php [--days] [--test] [--list filename] [--profiles] [--forums] [--id_range N M] [--teams]\n";
         exit;
     }
 }
