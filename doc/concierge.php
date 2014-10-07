@@ -83,6 +83,7 @@ function url_to_download() {
 $master_url = get_str("master_url");
 $project_name = get_str("project_name");
 $auth = get_str("auth");
+$user_name = get_str("user_name");
 $project_desc = get_str("project_desc");
 $project_inst = get_str("project_inst");
 
@@ -93,6 +94,7 @@ if (!$master_url || !$project_name) {
 $master_url = urldecode($master_url);
 $project_name = urldecode($project_name);
 if ($auth) $auth = urldecode($auth);
+if ($user_name) $user_name = urldecode($user_name);
 if ($project_desc) $project_desc = urldecode($project_desc);
 if ($project_inst) $project_inst = urldecode($project_inst);
 
@@ -123,6 +125,7 @@ $expire = time() + 24*86400;
 setrawcookie('attach_master_url', rawurlencode($master_url), $expire);
 setrawcookie('attach_project_name', rawurlencode($project_name), $expire);
 setrawcookie('attach_auth', rawurlencode($auth), $expire);
+setrawcookie('attach_user_name', rawurlencode($user_name), $expire);
 setrawcookie('attach_project_desc', rawurlencode($project_desc), $expire);
 setrawcookie('attach_project_inst', rawurlencode($project_inst), $expire);
 
