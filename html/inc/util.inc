@@ -994,6 +994,7 @@ function join_url() {
     }
     if ($user) {
         $x .= "&auth=".urlencode($user->authenticator);
+        $x .= "&user_name=".urlencode($user->name);
     }
     return $x;
 }
