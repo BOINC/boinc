@@ -15,6 +15,9 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// Support for plan classes defined using an XML file.
+// See http://boinc.berkeley.edu/trac/wiki/AppPlanSpec
+
 #include <cmath>
 
 #include "util.h"
@@ -748,6 +751,9 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
                 hu.avg_ncpus = 1;
             }
         }
+        if (nthreads_cmdline) {
+            sprintf(hu.cmdline, "--nthreads %d", (int)hu.avg_ncpus);
+        }
 
         hu.peak_flops = capped_host_fpops() * hu.avg_ncpus;
         hu.projected_flops = capped_host_fpops() * hu.avg_ncpus * projected_flops_scale;
@@ -803,6 +809,7 @@ int PLAN_CLASS_SPEC::parse(XML_PARSER& xp) {
         }
         if (xp.parse_double("min_ncpus", min_ncpus)) continue;
         if (xp.parse_int("max_threads", max_threads)) continue;
+        if (xp.parse_bool("nthreads_cmdline", nthreads_cmdline)) continue;
         if (xp.parse_double("projected_flops_scale", projected_flops_scale)) continue;
         if (xp.parse_str("os_regex", buf, sizeof(buf))) {
             if (regcomp(&(os_regex), buf, REG_EXTENDED|REG_NOSUB) ) {
@@ -907,6 +914,7 @@ PLAN_CLASS_SPEC::PLAN_CLASS_SPEC() {
     is64bit = false;
     min_ncpus = 0;
     max_threads = 1;
+    nthreads_cmdline = false;
     projected_flops_scale = 1;
     have_os_regex = false;
     min_os_version = 0;
