@@ -68,19 +68,19 @@ $test = false;
 
 // delete a spammer account, and everything associated with it
 //
-function delete_user($user) {
+function do_delete_user($user) {
     global $test;
     $age = (time() - $user->create_time) / 86400;
-    echo "----------------\ndeleting user $user->id email $user->email_addr name $user->name age $age days\n";
+    echo "deleting user\n";
+    echo "   ID: $user->id\n";
+    echo "   email: $user->email_addr\n";
+    echo "   name: $user->name\n";
+    echo "   age:$age days\n";
     if ($test) {
+        echo "   (test mode - nothing deleted)\n";
         return;
     }
-    delete_profile($user);
-    forum_delete_user($user);
-    BoincPrivateMessage::delete_aux("userid=$user->id or senderid=$user->id");
-    BoincNotify::delete_aux("userid=$user->id");
-    $q = "delete from user where id=$user->id";
-    _mysql_query($q);
+    delete_user($user);
 }
 
 function delete_list($fname) {
@@ -91,7 +91,7 @@ function delete_list($fname) {
         if (!is_numeric($s)) die("bad ID $s\n");
         $user = BoincUser::lookup_id((int)$s);
         if ($user) {
-            delete_user($user);
+            do_delete_user($user);
         } else {
             echo "no user ID $s\n";
         }
@@ -123,7 +123,7 @@ function delete_forums() {
         }
         $n = BoincHost::count("userid=$p->userid");
         if ($n) continue;
-        delete_user($user);
+        do_delete_user($user);
     }
 }
 
@@ -147,7 +147,7 @@ function delete_profiles() {
             $n = BoincPost::count("user=$p->userid");
             if ($n) continue;
 
-            delete_user($user);
+            do_delete_user($user);
             if ($test) {
                 echo "\n$p->userid\n$p->response1\n$p->response2\n";
             }
@@ -162,7 +162,7 @@ function delete_banished() {
         $user = BoincUser::lookup_id($fp->userid);
         if (!$user) continue;
         if ($user->create_time < time() - $days*86400) continue;
-        delete_user($user);
+        do_delete_user($user);
     }
 }
 
@@ -209,11 +209,14 @@ for ($i=1; $i<$argc; $i++) {
         if (!is_numeric($id1) || !is_numeric($id2)) {
             die ("bad args\n");
         }
+        if ($id2 < $id1) {
+            die("bad args\n");
+        }
         for ($i=$id1; $i <= $id2; $i++) {
             $user = BoincUser::lookup_id($i);
             if ($user) {
                 echo "deleting user $i\n";
-                delete_user($user);
+                do_delete_user($user);
             }
         }
     } else if ($argv[$i] == "--banished") {

@@ -270,6 +270,10 @@ class BoincFriend {
         $db = BoincDb::get();
         return $db->enum('friend', 'BoincFriend', $clause);
     }
+    static function delete_aux($clause) {
+        $db = BoincDb::get();
+        return $db->delete_aux('friend', $clause);
+    }
     static function delete($id1, $id2) {
         $db = BoincDb::get();
         $db->delete_aux('friend', "user_src=$id1 and user_dest=$id2");

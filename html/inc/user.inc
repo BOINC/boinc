@@ -363,6 +363,7 @@ function show_community_private($user) {
     if ($n) {
         foreach($friends as $friend) {
             $fuser = BoincUser::lookup_id($friend->user_dest);
+            if (!$fuser) continue;
             $x .= friend_links($fuser);
         }
         row2(tra("Friends")." ($n)", $x);
@@ -415,6 +416,7 @@ function get_community_links_object($user){
     $friends = BoincFriend::enum("user_src=$user->id and reciprocated=1");
     foreach($friends as $friend) {
         $fuser = BoincUser::lookup_id($friend->user_dest);
+        if (!$fuser) continue;
         $cache_object->friends[] = $fuser;
     }
     return $cache_object;
@@ -550,6 +552,29 @@ function make_user(
     } else {
         return null;
     }
+}
+
+// delete a user and all associated records except
+// result
+// host
+// batch
+// team
+// user_submit
+// user_submit_app
+// credited_job
+// donation_paypal
+// sent_email
+//
+function delete_user($user) {
+    delete_profile($user);
+    forum_delete_user($user);
+        // deletes post, thread, subscription, forum_preferences, forum_logging
+    BoincPrivateMessage::delete_aux("userid=$user->id or senderid=$user->id");
+    BoincNotify::delete_aux("userid=$user->id");
+    BoincCreditUser::delete_user($user);
+    BoincBadgeUser::delete("user_id=$user->id");
+    BoincFriend::delete_aux("user_src=$user->id or user_dest=$user->id");
+    $user->delete();
 }
 
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
