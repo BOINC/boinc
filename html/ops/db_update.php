@@ -969,6 +969,11 @@ function update_8_15_2014() {
         "
     );
 }
+ 
+function update_10_8_2014() {
+    do_query("alter table user_submit add primary key(user_id)");
+    do_query("alter table user_submit_app add primary key(user_id, app_id)");
+}
 
 // Updates are done automatically if you use "upgrade".
 //
@@ -1013,6 +1018,7 @@ $db_updates = array (
     array(27009, "update_5_3_2014"),
     array(27010, "update_6_5_2014"),
     array(27011, "update_8_15_2014"),
+    array(27012, "update_10_8_2014"),
 );
 
 ?>
