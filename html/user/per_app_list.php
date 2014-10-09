@@ -24,6 +24,7 @@
 // is_total: if nonzero, sort by total credit
 
 require_once("../inc/util.inc");
+require_once("../inc/team.inc");
 
 // return a column title (Average or Total),
 // hyperlinked if this is not the current sort column
