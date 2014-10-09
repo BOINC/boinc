@@ -72,6 +72,10 @@ if (MYSQLI) {
         global $mysqli;
         return mysqli_insert_id($mysqli);
     }
+    function _mysql_affected_rows() {
+        global $mysqli;
+        return mysqli_affected_rows($mysqli);
+    }
     function _mysql_field_attrs($r, $i) {
         $x = mysqli_fetch_field_direct($r, $i);
         switch ($x->type) {
@@ -126,6 +130,9 @@ if (MYSQLI) {
     }
     function _mysql_insert_id() {
         return mysql_insert_id();
+    }
+    function _mysql_affected_rows() {
+        return mysql_affected_rows();
     }
     function _mysql_field_attrs($r, $i) {
         $x = new StdClass;
