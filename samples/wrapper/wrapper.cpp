@@ -697,7 +697,7 @@ int TASK::run(int argct, char** argvt) {
         NULL,
         NULL,
         TRUE,        // bInheritHandles
-        CREATE_NO_WINDOW|IDLE_PRIORITY_CLASS,
+        CREATE_NO_WINDOW|no_priority_change?0:IDLE_PRIORITY_CLASS,
         (LPVOID) env_vars,
         exec_dir.empty()?NULL:exec_dir.c_str(),
         &startup_info,
@@ -717,10 +717,6 @@ int TASK::run(int argct, char** argvt) {
     if (env_vars) delete [] env_vars;
     pid_handle = process_info.hProcess;
     pid = process_info.dwProcessId;
-    if (!no_priority_change) {
-        HANDLE thread_handle = process_info.hThread;
-        SetThreadPriority(thread_handle, THREAD_PRIORITY_IDLE);
-    }
 #else
     int retval;
     char* argv[256];
