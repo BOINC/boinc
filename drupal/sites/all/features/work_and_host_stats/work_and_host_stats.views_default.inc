@@ -3697,8 +3697,10 @@ function work_and_host_stats_views_default_views() {
         'text' => '',
         'make_link' => 0,
         'path' => '',
+        'absolute' => 0,
         'link_class' => '',
         'alt' => '',
+        'rel' => '',
         'prefix' => '',
         'suffix' => '',
         'target' => '',
@@ -3713,12 +3715,13 @@ function work_and_host_stats_views_default_views() {
       'empty' => '',
       'hide_empty' => 1,
       'empty_zero' => 0,
+      'hide_alter_empty' => 1,
       'value' => '<?php
   if (is_current_boinc_user($data->host_userid)) {
     echo \'[TO DO]\';
   }
 ?>',
-      'exclude' => 0,
+      'exclude' => 1,
       'id' => 'phpcode_25',
       'table' => 'customfield',
       'field' => 'phpcode',
