@@ -91,10 +91,24 @@ function boincwork_menu() {
     'type' => MENU_NORMAL_ITEM,
     'file' => 'boincwork.admin.inc'
   );
+  $items['host/%/delete'] = array(
+    'title' => t('Delete host'),
+    'page callback' => 'boincwork_host_delete',
+    'page arguments' => array(1),
+    'access callback' => 'user_is_logged_in',
+    'type' => MENU_CALLBACK,
+  );
   $items['host/%/log'] = array(
     'title' => t('Host log'),
     'page callback' => 'boincwork_host_log',
     'page arguments' => array(1),
+    'access callback' => 'user_is_logged_in',
+    'type' => MENU_CALLBACK,
+  );
+  $items['host/%/merge'] = array(
+    'title' => t('Merge computer'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('boincwork_host_merge_form', 1),
     'access callback' => 'user_is_logged_in',
     'type' => MENU_CALLBACK,
   );
@@ -868,6 +882,49 @@ function boincwork_certificates($type = null, $border = null) {
     </td><tr></table>
     ";
   }
+}
+
+/**
+ * Delete host menu callback
+ * Called when user selects to delete a host
+ */
+function boincwork_host_delete($host_id) {
+  // Verify that host has no tasks
+  if (boincwork_host_user_is_owner($host_id)) {
+    if (!boincwork_host_get_task_count($host_id)) {
+      // Delete the host record
+      db_set_active('boinc');
+      $host_deleted = db_query(
+        "DELETE FROM {host} WHERE id = '%d'",
+        $host_id
+      );
+      db_set_active('default');
+      if ($host_deleted) {
+        drupal_set_message(t('Host @id has been removed from your account.',
+          array('@id' => $host_id)));
+        drupal_goto('account/computers');
+      }
+      else {
+        drupal_set_message(t('Host @id could not be deleted. Not sure why...',
+          array('@id' => $host_id)), 'error'
+        );
+      }
+    }
+    else {
+      drupal_set_message(t('Host @id cannot be deleted because it still has
+        tasks associated with it. These tasks should be processed within the
+        next few days, after which the host can be deleted.', 
+        array('@id' => $host_id)), 'warning'
+      );
+    }
+  }
+  else {
+    drupal_set_message(t('You are not the owner of host @id, so you cannot
+      delete it.', 
+      array('@id' => $host_id)), 'error'
+    );
+  }
+  drupal_goto("host/{$host_id}");
 }
 
 /**

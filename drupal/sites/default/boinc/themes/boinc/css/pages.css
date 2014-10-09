@@ -197,6 +197,23 @@ table.sticky-header {
   background-color: #d1d1d1;
 }
 
+table.tableSelect-processed {
+  width: 100%;
+}
+table.tableSelect-processed th {
+  line-height: 21px;
+  padding-bottom: 4px;
+}
+table.tableSelect-processed th.select-all {
+  padding-bottom: 2px;
+}
+table.tableSelect-processed td {
+  line-height: 21px;
+}
+table.selection-list .form-checkboxes {
+  margin: 0;
+}
+
 div.messages /* Important messages (status, warning, and error) for the user. See also the declarations in messages.css. */ {
   margin: 0 0 16px;
 }

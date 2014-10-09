@@ -664,6 +664,299 @@ function boincwork_generalprefs_form_submit($form, &$form_state) {
 
 
 /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
+ * Merge host form handlers and functions
+ *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */ 
+
+/**
+ * Find compatible hosts for merging
+ */
+function boincwork_host_get_compatible_hosts($host_id) {
+  require_boinc('host');
+  global $user;
+  $account = user_load($user->uid);
+  $compatible_hosts = array();
+  $host_count = 0;
+  db_set_active('boinc');
+  $current_host = db_fetch_object(db_query("
+    SELECT id, domain_name, create_time, total_credit, rpc_time, os_name,
+      p_vendor, p_model
+    FROM {host}
+    WHERE userid = '%d' AND id = '%d'",
+    $account->boincuser_id, $host_id
+  ));
+  db_set_active('default');
+  $current_host->task_count = boincwork_host_get_task_count($current_host->id);
+  $current_host->is_new = !$current_host->total_credit AND !$current_host->task_count;
+  // Get the list of all other hosts owned by this user for comparison
+  db_set_active('boinc');
+  $all_other_hosts = db_query("
+    SELECT id, domain_name, create_time, total_credit, rpc_time, os_name,
+      p_vendor, p_model
+    FROM {host}
+    WHERE userid = '%d' AND id <> '%d'",
+    $account->boincuser_id, $host_id
+  );
+  db_set_active('default');
+  // Compare all hosts to see if any are plausible duplicates
+  while ($other_host = db_fetch_object($all_other_hosts)) {
+    // First, disqualify if hosts were active at the same time
+    if (!$current_host->is_new) {
+      $other_host->task_count = boincwork_host_get_task_count($other_host->id);
+      $other_host->is_new = !$other_host->total_credit AND !$other_host->task_count;
+      if (!$other_host->is_new) {
+        // If both hosts being compared are not new, see if times overlap
+        if (!times_disjoint($current_host, $other_host)) {
+          // Hosts were active at the same time; can't be a duplicate
+          continue;
+        }
+      }
+    }
+    // Next, disqualify if hosts have different OS platforms
+    if (!os_compatible($current_host, $other_host)) {
+      // Hosts have different OS platforms; not really a duplicate
+      continue;
+    }
+    // Finally, disqualify if hosts have different CPUs
+    if (!cpus_compatible($current_host, $other_host)) {
+      // CPUs don't match; not a duplicate
+      continue;
+    }
+    // If not disqualified, this host is available for merging
+    $hosts[] = $other_host;
+    $host_count++;
+    if ($host_count == 500) {
+      // This is enough!
+      break;
+    }
+  }
+  return $hosts;
+}
+
+/**
+ * Perform the database updates to merge the old host into the new host
+ */
+function boincwork_host_merge($old_host, $new_host, &$message = NULL) {
+  // Decay the average credit of the two hosts
+  require_boinc('credit');
+  $now = time();
+  update_average($now, 0, 0, $old_host->expavg_credit, $old_host->expavg_time);
+  update_average($now, 0, 0, $new_host->expavg_credit, $new_host->expavg_time);
+  
+  // Update the database:
+  // - add credit from old host to new host
+  // - change results to refer to the new host
+  // - put old host in "zombie" state (userid=0, rpc_seqno=[new_host_id])
+  
+  $total_credit = $old_host->total_credit + $new_host->total_credit;
+  $recent_credit = $old_host->expavg_credit + $new_host->expavg_credit;
+  
+  // Move credit from the old host to the new host
+  db_set_active('boinc');
+  $credit_updated = db_query("
+    UPDATE {host}
+    SET
+      total_credit = '%d',
+      expavg_credit = '%d',
+      expavg_time = '%d'
+    WHERE id = '%d'",
+    $total_credit, $recent_credit, $now, $new_host->id
+  );
+  db_set_active('default');
+  if (!$credit_updated) {
+    if ($message !== NULL) {
+      $message = t('Could not update credit');
+    }
+    return FALSE;
+  }
+  
+  // Move results from the old host to the new host
+  db_set_active('boinc');
+  $results_updated = db_query("
+    UPDATE {result}
+    SET hostid = '%d'
+    WHERE hostid = '%d'",
+    $new_host->id, $old_host->id
+  );
+  db_set_active('default');
+  if (!$results_updated) {
+    if ($message !== NULL) {
+      $message = t('Could not update results');
+    }
+    return FALSE;
+  }
+  
+  // Retire the old host
+  db_set_active('boinc');
+  $old_host_retired = db_query("
+    UPDATE {host}
+    SET
+      total_credit = '0',
+      expavg_credit = '0',
+      userid = '0',
+      rpc_seqno = '%d'
+    WHERE id = '%d'",
+    $new_host->id, $old_host->id
+  );
+  db_set_active('default');
+  if (!$old_host_retired) {
+    if ($message !== NULL) {
+      $message = t('Could not retire old computer');
+    }
+    return FALSE;
+  }
+  
+  return TRUE;
+}
+
+/**
+ * Merge host form
+ */
+function boincwork_host_merge_form(&$form_state, $host_id) {
+
+  if (!boincwork_host_user_is_owner($host_id)) {
+    drupal_goto("host/{$host_id}");
+  }
+  
+  $form = array();
+  $form_state['storage']['current_host_id'] = $host_id;
+  $current_host = boincwork_host_get_info($host_id);
+  
+  // Get hosts that could be merged with this one
+  $hosts = boincwork_host_get_compatible_hosts($host_id);
+  
+  if (!$hosts) {
+    drupal_set_message(t('There are no computers eligible for merging with this
+      one'), 'warning'
+    );
+    drupal_goto("host/{$host_id}");
+  }
+  
+  $form['overview'] = array(
+    '#value' => '<p>' . t('Sometimes BOINC assigns separate identities to the
+      same computer by mistake. You can correct this by merging old identities
+      with the newest one.') . '</p>' .
+      '<p>' . t('Check the computers that are the same as @name
+      (created on @date at @time with computer ID @id)',
+        array(
+          '@name' => $current_host->domain_name,
+          '@date' => date('j M Y', $current_host->create_time),
+          '@time' => date('H:i:s T', $current_host->create_time),
+          '@id' => $current_host->id,
+        )
+      ) . '</p>',
+  );
+  
+  $options = array();
+  foreach ($hosts as $host) {
+    $options[$host->id] = array(
+      $host->domain_name,
+      date('j M Y H:i:s T', $host->create_time),
+      $host->id,
+    );
+  }
+  
+  $form['merge'] = array(
+    '#title' => '',
+    '#type' => 'tableselect',
+    '#header' => array(t('Name'), t('Created'), t('Computer ID')),
+    '#options' => $options,
+  );
+  
+  $form['prefs']['separator_bottom'] = array(
+  //  '#value' => '<div class="separator buttons"></div>'
+  );
+  
+  // Form control
+  $form['prefs']['form control tabs prefix'] = array(
+    '#value' => '<ul class="form-control tab-list">'
+  );
+  $form['prefs']['submit'] = array(
+    '#prefix' => '<li class="first tab">',
+    '#type' => 'submit',
+    '#value' => t('Merge'),
+    '#suffix' => '</li>'
+  );
+  $form['prefs']['form control tabs'] = array(
+    '#value' => '<li class="tab">' . l(t('Cancel'), "host/{$host_id}") . '</li>'
+  );
+  
+  return $form;
+}
+
+/**
+ * Validate the merge host form
+ */
+function boincwork_host_merge_form_validate($form, &$form_state) {
+}
+
+/**
+ * Handle submission of the merge host form
+ */
+function boincwork_host_merge_form_submit($form, &$form_state) {
+  $merged = array();
+  $errors = array();
+  $current_host_id = $form_state['storage']['current_host_id'];
+  $current_host = boincwork_host_get_info($current_host_id);
+  $selected_hosts = array_filter($form_state['values']['merge']);
+  
+  foreach ($selected_hosts as $host_id) {
+    // Attempt to merge each host, noting the results
+    $message = '';
+    $old_host = boincwork_host_get_info($host_id);
+    if (boincwork_host_merge($old_host, $current_host, $message)) {
+      $merged[$old_host->id] = $old_host->id;
+      $current_host = boincwork_host_get_info($current_host_id);
+    }
+    else {
+      $errors[$old_host->id] = $message;
+    }
+  }
+  
+  if ($merged) {
+    // Generate a natural language list of IDs that were merged
+    $oxford_comma = ',';
+    $conjunction = t('and');
+    $list = array_keys($merged);
+    $last = array_pop($list);
+    if ($list) {
+      if (count($merged) == 2) {
+        $oxford_comma = '';
+      }
+      $list = implode(', ', $list) . $oxford_comma . ' ' . $conjunction . ' ' . $last;
+    }
+    else {
+      $list = $last;
+    }
+    drupal_set_message(format_plural(count($merged),
+      'Computer @old_id has been merged successfully into @id.',
+      'Computers @old_ids have been merged successfully into @id.',
+      array(
+        '@old_id' => $list,
+        '@old_ids' => $list,
+        '@id' => $current_host_id
+      )
+    ));
+  }
+  
+  if ($errors) {
+    // Report any hosts that failed to merge
+    foreach ($errors as $id => $error) {
+      drupal_set_message(
+        t('Computer @old_id failed to merge: @message',
+          array(
+            '@old_id' => $id,
+            '@message' => $error,
+          )
+        ),
+        'warning'
+      );
+    }
+  }
+  
+  drupal_goto("host/{$current_host_id}");
+}
+
+/*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
  * Project preferences form handlers and functions
  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */ 
 

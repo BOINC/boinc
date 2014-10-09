@@ -1228,6 +1228,79 @@ function boincwork_views_task_list_empty_text($context = NULL) {
 }
 
 /**
+  * Output links to perform host actions
+  */
+function boincwork_host_action_links($host_id) {
+  $output = '';
+  if (boincwork_host_user_is_owner($host_id)) {
+    // Show merge hosts option
+    $output = '<ul class="tab-list"><li class="first tab">';
+    $output .= l(t('Merge'), "host/{$host_id}/merge");
+    $output .= '</li>';
+    // If host has no tasks, allow the host to be deleted
+    if (!boincwork_host_get_task_count($host_id)) {
+      $output .= '<li class="tab">';
+      $output .= l(t('Delete'), "host/{$host_id}/delete",
+        array(
+          'attributes' => array(
+            'onclick' => 'return confirm(\'' . t('This will delete host @id from your account forever. Are you sure this is OK?',
+              array('@id' => $host_id)) . '\')'
+          )
+        )
+      );
+      $output .= '</li>';
+    }
+    $output .= '</ul>';
+  }
+  return $output;
+}
+
+/**
+ * Get details for a given host
+ */
+function boincwork_host_get_info($host_id) {
+  db_set_active('boinc');
+  $host = db_fetch_object(db_query(
+    "SELECT * FROM {host} WHERE id = '%d'",
+    $host_id
+  ));
+  db_set_active('default');
+  return $host;
+}
+
+/**
+ * Get the number of tasks associated with a given host
+ */
+function boincwork_host_get_task_count($host_id) {
+  db_set_active('boinc');
+  $count = db_result(db_query(
+    "SELECT COUNT(*) FROM {result} WHERE hostid = '%d'",
+    $host_id
+  ));
+  db_set_active('default');
+  return $count;
+}
+
+/**
+ * Check whether a user is the owner of a host
+ */
+function boincwork_host_user_is_owner($host_id, $uid = NULL) {
+  if (!$uid) {
+    global $user;
+    $uid = $user->uid;
+  }
+  $account = user_load($uid);
+  // Get host owner
+  db_set_active('boinc');
+  $owner = db_result(db_query(
+    "SELECT userid FROM {host} WHERE id = '%d'",
+    $host_id
+  ));
+  db_set_active('default');
+  return ($account->boincuser_id === $owner);
+}
+
+/**
   * Determine output for host last contact time
   */
 function boincwork_host_last_contact($timestamp, $host_id = NULL, $context = NULL) {
