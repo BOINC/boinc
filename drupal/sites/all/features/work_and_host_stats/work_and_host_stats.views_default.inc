@@ -3691,7 +3691,7 @@ function work_and_host_stats_views_default_views() {
       'relationship' => 'none',
     ),
     'phpcode_25' => array(
-      'label' => 'Click to',
+      'label' => 'Actions ',
       'alter' => array(
         'alter_text' => 0,
         'text' => '',
@@ -3717,11 +3717,9 @@ function work_and_host_stats_views_default_views() {
       'empty_zero' => 0,
       'hide_alter_empty' => 1,
       'value' => '<?php
-  if (is_current_boinc_user($data->host_userid)) {
-    echo \'[TO DO]\';
-  }
+  echo boincwork_host_action_links($data->id);
 ?>',
-      'exclude' => 1,
+      'exclude' => 0,
       'id' => 'phpcode_25',
       'table' => 'customfield',
       'field' => 'phpcode',
