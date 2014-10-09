@@ -36,7 +36,7 @@ if ($bitset == "0000000") $bitset = '';
 $userid = post_int("userid");
 
 $query = "UPDATE forum_preferences SET special_user='$bitset' WHERE userid='$userid'";
-mysql_query($query);
+_mysql_query($query);
 
 if (mysql_affected_rows() == 1) {
     echo "<center><h2>Success</h2>";
