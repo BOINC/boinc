@@ -124,6 +124,8 @@ struct TASK {
     bool is_daemon;
     bool append_cmdline_args;
     bool multi_process;
+    double time_limit;
+    bool no_priority_change;
 
     // dynamic stuff follows
     double current_cpu_time;
@@ -133,12 +135,10 @@ struct TASK {
     double starting_cpu;
         // how much CPU time was used by tasks before this one
     bool suspended;
-    double time_limit;
     double elapsed_time;
 #ifdef _WIN32
     HANDLE pid_handle;
     DWORD pid;
-    HANDLE thread_handle;
     struct _stat last_stat;     // mod time of checkpoint file
 #else
     int pid;
@@ -381,6 +381,7 @@ int TASK::parse(XML_PARSER& xp) {
     multi_process = false;
     append_cmdline_args = false;
     time_limit = 0;
+    no_priority_change = false;
 
     while (!xp.get_tag()) {
         if (!xp.is_tag) {
@@ -418,6 +419,7 @@ int TASK::parse(XML_PARSER& xp) {
         else if (xp.parse_bool("multi_process", multi_process)) continue;
         else if (xp.parse_bool("append_cmdline_args", append_cmdline_args)) continue;
         else if (xp.parse_double("time_limit", time_limit)) continue;
+        else if (xp.parse_bool("no_priority_change", no_priority_change)) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -715,8 +717,10 @@ int TASK::run(int argct, char** argvt) {
     if (env_vars) delete [] env_vars;
     pid_handle = process_info.hProcess;
     pid = process_info.dwProcessId;
-    thread_handle = process_info.hThread;
-    SetThreadPriority(thread_handle, THREAD_PRIORITY_IDLE);
+    if (!no_priority_change) {
+        HANDLE thread_handle = process_info.hThread;
+        SetThreadPriority(thread_handle, THREAD_PRIORITY_IDLE);
+    }
 #else
     int retval;
     char* argv[256];
@@ -772,7 +776,9 @@ int TASK::run(int argct, char** argvt) {
         argv[0] = app_path;
         strlcpy(arglist, command_line.c_str(), sizeof(arglist));
         parse_command_line(arglist, argv+1);
-        setpriority(PRIO_PROCESS, 0, PROCESS_IDLE_PRIORITY);
+        if (!no_priority_change) {
+            setpriority(PRIO_PROCESS, 0, PROCESS_IDLE_PRIORITY);
+        }
         if (!exec_dir.empty()) {
             retval = chdir(exec_dir.c_str());
             if (!retval) {
