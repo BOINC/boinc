@@ -3228,9 +3228,7 @@ function work_and_host_stats_views_default_views() {
       'empty_zero' => 0,
       'hide_alter_empty' => 0,
       'value' => '<?php
-  if (is_current_boinc_user($data->host_userid)) {
-    echo $data->host_rpc_seqno;
-  }
+  echo $data->host_rpc_seqno;
 ?>',
       'exclude' => 0,
       'id' => 'phpcode_2',
