@@ -198,7 +198,7 @@ struct TASK {
         int bufsize = 0;
         int len = 0;
         for (int j = 0; j < nvars; j++) {
-             bufsize += (1 + vsetenv[j].length());
+             bufsize += (1 + (int)vsetenv[j].length());
         }
         bufsize++; // add a final byte for array null ptr
         *env_vars = new char[bufsize];
@@ -210,7 +210,7 @@ struct TASK {
             it++
         ) {
             strncpy(p, it->c_str(), it->length());
-            len = strlen(p);
+            len = (int)strlen(p);
             p += len + 1; // move pointer ahead
         }
     }
@@ -684,7 +684,7 @@ int TASK::run(int argct, char** argvt) {
 
     // setup environment vars if needed
     //
-    int nvars = vsetenv.size();
+    int nvars = (int)vsetenv.size();
     char* env_vars = NULL;
     if (nvars > 0) {
         set_up_env_vars(&env_vars, nvars);
