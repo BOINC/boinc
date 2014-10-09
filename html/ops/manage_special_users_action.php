@@ -38,7 +38,7 @@ $userid = post_int("userid");
 $query = "UPDATE forum_preferences SET special_user='$bitset' WHERE userid='$userid'";
 _mysql_query($query);
 
-if (mysql_affected_rows() == 1) {
+if (_mysql_affected_rows() == 1) {
     echo "<center><h2>Success</h2>";
 } else {
     echo "<center><h2>Failure</h2>";
