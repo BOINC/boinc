@@ -97,6 +97,10 @@ struct RSC_PROJECT_WORK_FETCH {
         // copy of the above used during schedule_cpus()
     std::deque<RESULT*> pending;
     std::deque<RESULT*>::iterator pending_iter;
+    bool has_deferred_job;
+        // This project has a coproc job of the given type for which
+        // the job is deferred because of a temporary_exit() call.
+        // Don't fetch more jobs of this type; they might have same problem
 
     RSC_PROJECT_WORK_FETCH() {
         backoff_time = 0;
@@ -112,6 +116,7 @@ struct RSC_PROJECT_WORK_FETCH {
         non_excluded_instances = 0;
         deadlines_missed = 0;
         deadlines_missed_copy = 0;
+        has_deferred_job = false;
     }
 
     inline void reset() {
@@ -286,6 +291,7 @@ struct PROJECT_WORK_FETCH {
     }
     void reset(PROJECT*);
     void rr_init(PROJECT*);
+    void print_state(PROJECT*);
 };
 
 // global work fetch state
@@ -327,5 +333,6 @@ extern void adjust_rec_work_fetch(RESULT*);
 
 extern double total_peak_flops();
 extern const char* project_reason_string(PROJECT* p, char* buf);
+extern const char* rsc_project_reason_string(int);
 
 #endif
