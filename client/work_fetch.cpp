@@ -340,94 +340,19 @@ void PROJECT_WORK_FETCH::reset(PROJECT* p) {
 
 ///////////////  WORK_FETCH  ///////////////
 
-// mark the projects from which we can fetch work
-//
-void WORK_FETCH::compute_cant_fetch_work_reason() {
-    for (unsigned int i=0; i<gstate.projects.size(); i++) {
-        PROJECT* p = gstate.projects[i];
-        p->pwf.cant_fetch_work_reason = p->pwf.compute_cant_fetch_work_reason(p);
-    }
-}
-
 void WORK_FETCH::rr_init() {
     for (int i=0; i<coprocs.n_rsc; i++) {
         rsc_work_fetch[i].rr_init();
     }
-    compute_cant_fetch_work_reason();
     for (unsigned int i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
+        p->pwf.cant_fetch_work_reason = p->pwf.compute_cant_fetch_work_reason(p);
         p->pwf.n_runnable_jobs = 0;
         for (int j=0; j<coprocs.n_rsc; j++) {
             p->rsc_pwf[j].rr_init(p, j);
         }
     }
 }
-
-#if 0
-// if the given project is highest-priority among the projects
-// eligible for the resource, set request fields
-//
-void RSC_WORK_FETCH::supplement(PROJECT* pp) {
-    double x = pp->sched_priority;
-    for (unsigned i=0; i<gstate.projects.size(); i++) {
-        PROJECT* p = gstate.projects[i];
-        if (p == pp) continue;
-        if (p->pwf.cant_fetch_work_reason) continue;
-        if (!project_state(p).may_have_work) continue;
-        RSC_PROJECT_WORK_FETCH& rpwf = project_state(p);
-        if (rpwf.anon_skip) continue;
-        if (p->sched_priority > x) {
-            if (log_flags.work_fetch_debug) {
-                msg_printf(pp, MSG_INFO,
-                    "[work_fetch]: not requesting work for %s: %s has higher priority",
-                    rsc_name_long(rsc_type), p->get_project_name()
-                );
-            }
-            return;
-        }
-    }
-    // didn't find a better project; ask for work
-    //
-    set_request(pp);
-}
-
-// we're going to ask the given project for work of the given type.
-// (or -1 if none)
-// Set requests for this type and perhaps other types
-//
-void WORK_FETCH::set_all_requests_hyst(PROJECT* p, int rsc_type) {
-    for (int i=0; i<coprocs.n_rsc; i++) {
-        if (i == rsc_type) {
-            rsc_work_fetch[i].set_request(p);
-        } else {
-            // don't fetch work for a resource if the buffer is above max
-            //
-            if (rsc_work_fetch[i].saturated_time > gstate.work_buf_total()) {
-                continue;
-            }
-            
-            // don't fetch work if backup project and no idle instances
-            //
-            if (p->resource_share==0 && rsc_work_fetch[i].nidle_now==0) {
-                continue;
-            }
-
-            if (i>0 && !gpus_usable) {
-                continue;
-            }
-            rsc_work_fetch[i].supplement(p);
-        }
-    }
-}
-
-void WORK_FETCH::set_all_requests(PROJECT* p) {
-    for (int i=0; i<coprocs.n_rsc; i++) {
-        if (i==0 || gpus_usable) {
-            rsc_work_fetch[i].set_request(p);
-        }
-    }
-}
-#endif
 
 // copy request fields from RSC_WORK_FETCH to COPROCS
 //
@@ -664,7 +589,7 @@ int RSC_WORK_FETCH::cant_fetch(PROJECT *p) {
         }
     }
 
-    if (rpwf.anon_skip) {
+    if (rpwf.anonymous_platform_no_apps) {
         WF_DEBUG(msg_printf(p, MSG_INFO, "skip: anon");)
         return DONT_FETCH_NO_APPS;
     }
@@ -1030,12 +955,12 @@ void WORK_FETCH::init() {
         PROJECT* p = gstate.projects[i];
         if (!p->anonymous_platform) continue;
         for (int k=0; k<coprocs.n_rsc; k++) {
-            p->rsc_pwf[k].anon_skip = true;
+            p->rsc_pwf[k].anonymous_platform_no_apps = true;
         }
         for (j=0; j<gstate.app_versions.size(); j++) {
             APP_VERSION* avp = gstate.app_versions[j];
             if (avp->project != p) continue;
-            p->rsc_pwf[avp->gpu_usage.rsc_type].anon_skip = false;
+            p->rsc_pwf[avp->gpu_usage.rsc_type].anonymous_platform_no_apps = false;
         }
     }
 }
