@@ -89,8 +89,6 @@
 #include "cl_boinc.h"
 #include "opencl_boinc.h"
 
-#define DEFER_ON_GPU_AVAIL_RAM  0
-
 #define MAX_COPROC_INSTANCES 64
 #define MAX_RSC 8
     // max # of processing resources types
@@ -202,10 +200,6 @@ struct COPROC {
 
     bool running_graphics_app[MAX_COPROC_INSTANCES];
         // is this GPU running a graphics app (NVIDIA only)
-#if DEFER_ON_GPU_AVAIL_RAM
-    double available_ram_temp[MAX_COPROC_INSTANCES];
-        // used during job scheduling
-#endif
 
     double last_print_time;
 
