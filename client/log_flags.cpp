@@ -727,3 +727,38 @@ bool gpu_excluded(APP* app, COPROC& cp, int ind) {
     }
     return false;
 }
+
+// if the configuration file disallows the use of a GPU type
+// for a project, set a flag to that effect
+//
+void set_no_rsc_config() {
+    for (unsigned int i=0; i<gstate.projects.size(); i++) {
+        PROJECT& p = *gstate.projects[i];
+        for (int j=1; j<coprocs.n_rsc; j++) {
+            bool allowed[MAX_COPROC_INSTANCES];
+            memset(allowed, 0, sizeof(allowed));
+            COPROC& c = coprocs.coprocs[j];
+            for (int k=0; k<c.count; k++) {
+                allowed[c.device_nums[k]] = true;
+            }
+            for (unsigned int k=0; k<cc_config.exclude_gpus.size(); k++) {
+                EXCLUDE_GPU& e = cc_config.exclude_gpus[k];
+                if (strcmp(e.url.c_str(), p.master_url)) continue;
+                if (!e.type.empty() && strcmp(e.type.c_str(), c.type)) continue;
+                if (!e.appname.empty()) continue;
+                if (e.device_num < 0) {
+                    memset(allowed, 0, sizeof(allowed));
+                    break;
+                }
+                allowed[e.device_num] = false;
+            }
+            p.no_rsc_config[j] = true;
+            for (int k=0; k<c.count; k++) {
+                if (allowed[c.device_nums[k]]) {
+                    p.no_rsc_config[j] = false;
+                    break;
+                }
+            }
+        }
+    }
+}

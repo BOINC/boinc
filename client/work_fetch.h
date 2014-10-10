@@ -52,6 +52,8 @@
 #define DONT_FETCH_ZERO_SHARE                       7
 #define DONT_FETCH_BUFFER_FULL                      8
 #define DONT_FETCH_NOT_HIGHEST_PRIO                 9
+#define DONT_FETCH_BACKED_OFF                       10
+#define DONT_FETCH_DEFER_SCHED                      11
 
 struct PROJECT;
 struct RESULT;
@@ -117,8 +119,8 @@ struct RSC_PROJECT_WORK_FETCH {
         backoff_interval = 0;
     }
 
-    bool may_have_work;
-    bool compute_may_have_work(PROJECT*, int rsc_type);
+    int rsc_project_reason;
+    int compute_rsc_project_reason(PROJECT*, int rsc_type);
     void resource_backoff(PROJECT*, const char*);
     void rr_init(PROJECT*, int rsc_type);
     void clear_backoff() {
@@ -272,8 +274,8 @@ struct PROJECT_WORK_FETCH {
         // temporary copy used during schedule_cpus() and work fetch
     double rec_temp_save;
         // temporary used during RR simulation
-    int cant_fetch_work_reason;
-    int compute_cant_fetch_work_reason(PROJECT*);
+    int project_reason;
+    int compute_project_reason(PROJECT*);
     int n_runnable_jobs;
     bool request_if_idle_and_uploading;
         // Set when a job finishes.
@@ -283,6 +285,7 @@ struct PROJECT_WORK_FETCH {
         memset(this, 0, sizeof(*this));
     }
     void reset(PROJECT*);
+    void rr_init(PROJECT*);
 };
 
 // global work fetch state
@@ -317,14 +320,12 @@ struct WORK_FETCH {
 extern RSC_WORK_FETCH rsc_work_fetch[MAX_RSC];
 extern WORK_FETCH work_fetch;
 
-extern void set_no_rsc_config();
-
 extern void project_priority_init(bool for_work_fetch);
 extern double project_priority(PROJECT*);
 extern void adjust_rec_sched(RESULT*);
 extern void adjust_rec_work_fetch(RESULT*);
 
 extern double total_peak_flops();
-extern const char* cant_fetch_work_string(PROJECT* p, char* buf);
+extern const char* project_reason_string(PROJECT* p, char* buf);
 
 #endif
