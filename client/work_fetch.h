@@ -27,7 +27,7 @@
 #define RSC_TYPE_ANY    -1
 #define RSC_TYPE_CPU    0
 
-// reasons for not fetching work
+// reasons for not fetching work from a project
 //
 #define CANT_FETCH_WORK_NON_CPU_INTENSIVE           1
 #define CANT_FETCH_WORK_SUSPENDED_VIA_GUI           2
@@ -74,7 +74,7 @@ struct RSC_PROJECT_WORK_FETCH {
     }
     double queue_est;
         // an estimate of instance-secs of queued work;
-    bool anon_skip;
+    bool anonymous_platform_no_apps;
         // set if this project is anonymous platform
         // and it has no app version that uses this resource
     double fetchable_share;
@@ -101,7 +101,7 @@ struct RSC_PROJECT_WORK_FETCH {
         backoff_interval = 0;
         secs_this_rec_interval = 0;
         queue_est = 0;
-        anon_skip = false;
+        anonymous_platform_no_apps = false;
         fetchable_share = 0;
         n_runnable_jobs = 0;
         sim_nused = 0;
@@ -305,7 +305,6 @@ struct WORK_FETCH {
     void set_all_requests_hyst(PROJECT*, int rsc_type);
     void print_state();
     void init();
-    void compute_cant_fetch_work_reason();
     void rr_init();
     void clear_request();
     void compute_shares();
