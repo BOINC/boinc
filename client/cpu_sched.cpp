@@ -159,6 +159,7 @@ struct PROC_RESOURCES {
                 return false;
             }
         } else if (rp->avp->avg_ncpus > 1) {
+            if (ncpus_used_mt == 0) return true;
             return (ncpus_used_mt + rp->avp->avg_ncpus <= ncpus);
         } else {
             return (ncpus_used_st < ncpus);
