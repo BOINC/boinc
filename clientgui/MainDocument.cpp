@@ -2535,15 +2535,14 @@ wxString result_description(RESULT* result, bool show_resources) {
         }
         if (result->scheduler_wait) {
             if (strlen(result->scheduler_wait_reason)) {
-                strBuffer += _(" (Scheduler wait: ");
+                strBuffer = _("Postponed: ");
                 strBuffer += wxString(result->scheduler_wait_reason, wxConvUTF8);
-                strBuffer += _(")");
             } else {
-                strBuffer += _(" (Scheduler wait)");
+                strBuffer = _("Postponed");
             }
         }
         if (result->network_wait) {
-            strBuffer += _(" (Waiting for network access)");
+            strBuffer = _("Waiting for network access");
         }
         break;
     case RESULT_COMPUTE_ERROR:
