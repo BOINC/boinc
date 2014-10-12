@@ -697,7 +697,7 @@ int TASK::run(int argct, char** argvt) {
         NULL,
         NULL,
         TRUE,        // bInheritHandles
-        CREATE_NO_WINDOW|no_priority_change?0:IDLE_PRIORITY_CLASS,
+        CREATE_NO_WINDOW|(no_priority_change?0:IDLE_PRIORITY_CLASS),
         (LPVOID) env_vars,
         exec_dir.empty()?NULL:exec_dir.c_str(),
         &startup_info,
