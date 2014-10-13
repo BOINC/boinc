@@ -185,7 +185,7 @@ struct RESULT {
         // textual description of resources used
     double schedule_backoff;
         // don't try to schedule until this time
-        // (because of temporary exit, or lack of GPU RAM)
+        // (because the app called boinc_temporary_exit())
     char schedule_backoff_reason[256];
 };
 

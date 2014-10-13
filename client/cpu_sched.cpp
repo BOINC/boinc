@@ -526,13 +526,6 @@ static RESULT* earliest_deadline_result(int rsc_type) {
     }
     if (!best_result) return NULL;
 
-    if (log_flags.cpu_sched_debug) {
-        msg_printf(best_result->project, MSG_INFO,
-            "[cpu_sched_debug] earliest deadline: %.0f %s",
-            best_result->report_deadline, best_result->name
-        );
-    }
-
     return best_result;
 }
 
@@ -1307,6 +1300,7 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
     bool coproc_quit_pending = false;
     for (i=0; i<active_tasks.active_tasks.size(); i++) {
         atp = active_tasks.active_tasks[i];
+#if 0
         if (log_flags.cpu_sched_debug) {
             msg_printf(atp->result->project, MSG_INFO,
                 "[cpu_sched_debug] %s sched state %d next %d task state %d",
@@ -1314,6 +1308,7 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
                 atp->next_scheduler_state, atp->task_state()
             );
         }
+#endif
         int preempt_type = REMOVE_MAYBE_SCHED;
         switch (atp->next_scheduler_state) {
         case CPU_SCHED_PREEMPTED:
