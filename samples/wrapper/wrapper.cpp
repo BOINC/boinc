@@ -125,7 +125,7 @@ struct TASK {
     bool append_cmdline_args;
     bool multi_process;
     double time_limit;
-    bool no_priority_change;
+    int priority;
 
     // dynamic stuff follows
     double current_cpu_time;
@@ -381,7 +381,7 @@ int TASK::parse(XML_PARSER& xp) {
     multi_process = false;
     append_cmdline_args = false;
     time_limit = 0;
-    no_priority_change = false;
+    priority = PROCESS_PRIORITY_LOWEST;
 
     while (!xp.get_tag()) {
         if (!xp.is_tag) {
@@ -419,7 +419,7 @@ int TASK::parse(XML_PARSER& xp) {
         else if (xp.parse_bool("multi_process", multi_process)) continue;
         else if (xp.parse_bool("append_cmdline_args", append_cmdline_args)) continue;
         else if (xp.parse_double("time_limit", time_limit)) continue;
-        else if (xp.parse_bool("no_priority_change", no_priority_change)) continue;
+        else if (xp.parse_int("priority", priority)) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -697,7 +697,7 @@ int TASK::run(int argct, char** argvt) {
         NULL,
         NULL,
         TRUE,        // bInheritHandles
-        CREATE_NO_WINDOW|(no_priority_change?0:IDLE_PRIORITY_CLASS),
+        CREATE_NO_WINDOW|process_priority_value(priority),
         (LPVOID) env_vars,
         exec_dir.empty()?NULL:exec_dir.c_str(),
         &startup_info,
@@ -772,9 +772,7 @@ int TASK::run(int argct, char** argvt) {
         argv[0] = app_path;
         strlcpy(arglist, command_line.c_str(), sizeof(arglist));
         parse_command_line(arglist, argv+1);
-        if (!no_priority_change) {
-            setpriority(PRIO_PROCESS, 0, PROCESS_IDLE_PRIORITY);
-        }
+        setpriority(PRIO_PROCESS, 0, process_priority_value(priority));
         if (!exec_dir.empty()) {
             retval = chdir(exec_dir.c_str());
             if (!retval) {

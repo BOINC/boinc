@@ -37,4 +37,6 @@ extern void kill_descendants(int child_pid=0);
 extern void suspend_or_resume_descendants(bool resume);
 extern void suspend_or_resume_process(int pid, bool resume);
 
+extern int process_priority_value(int);
+
 #endif
