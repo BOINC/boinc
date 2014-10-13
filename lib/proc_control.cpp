@@ -39,6 +39,7 @@
 #endif
 #endif
 
+#include "common_defs.h"
 #include "procinfo.h"
 #include "str_util.h"
 #include "util.h"
@@ -247,5 +248,29 @@ void suspend_or_resume_process(int pid, bool resume) {
     suspend_or_resume_threads(pids, 0, resume, false);
 #else
     ::kill(pid, resume?SIGCONT:SIGSTOP);
+#endif
+}
+
+// return OS-specific value associated with priority code
+//
+int process_priority_value(int priority) {
+#ifdef _WIN32
+    switch (priority) {
+    case PROCESS_PRIORITY_LOWEST: return IDLE_PRIORITY_CLASS;
+    case PROCESS_PRIORITY_LOW: return BELOW_NORMAL_PRIORITY_CLASS;
+    case PROCESS_PRIORITY_NORMAL: return NORMAL_PRIORITY_CLASS;
+    case PROCESS_PRIORITY_HIGH: return ABOVE_NORMAL_PRIORITY_CLASS;
+    case PROCESS_PRIORITY_HIGHEST: return HIGH_PRIORITY_CLASS;
+    }
+    return 0;
+#else
+    switch (priority) {
+    case PROCESS_PRIORITY_LOWEST: return 19;
+    case PROCESS_PRIORITY_LOW: return 10;
+    case PROCESS_PRIORITY_NORMAL: return 0;
+    case PROCESS_PRIORITY_HIGH: return -10;
+    case PROCESS_PRIORITY_HIGHEST: return -16;
+    }
+    return 0;
 #endif
 }
