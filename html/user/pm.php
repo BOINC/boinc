@@ -279,7 +279,7 @@ function do_delete_selected($logged_in_user) {
     );
     foreach($msgs as $msg) {
         $x = "pm_select_$msg->id";
-        if ($_POST[$x]) {
+        if (post_str($x, true)) {
             $msg = BoincPrivateMessage::lookup_id($msg->id);
             $msg->delete();
         }
