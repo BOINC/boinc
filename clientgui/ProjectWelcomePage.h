@@ -86,7 +86,7 @@ public:
     wxStaticText* user_name1_ctrl;
     wxStaticText* user_name2_ctrl;
 
-    wxTextCtrl* warning_ctrl;
+    wxStaticText* warning_ctrl;
     wxStaticText* continue_ctrl;
 
 ////@end CProjectWelcomePage member variables
