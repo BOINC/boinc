@@ -141,8 +141,8 @@ void CProjectWelcomePage::CreateControls()
     project_desc1_ctrl->Create( itemWizardPage2, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
     grid->Add(project_desc1_ctrl, 0, wxALIGN_LEFT|wxALL, 5);
 
-    project_desc2_ctrl = new wxTextCtrl;
-    project_desc2_ctrl->Create( itemWizardPage2, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE|wxTE_READONLY );
+    project_desc2_ctrl = new wxStaticText;
+    project_desc2_ctrl->Create( itemWizardPage2, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
     grid->Add(project_desc2_ctrl, 0, wxALIGN_LEFT|wxALL|wxEXPAND, 5);
 
     project_url1_ctrl = new wxStaticText;

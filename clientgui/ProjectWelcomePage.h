@@ -80,7 +80,7 @@ public:
     wxStaticText* project_inst1_ctrl;
     wxStaticText* project_inst2_ctrl;
     wxStaticText* project_desc1_ctrl;
-    wxTextCtrl* project_desc2_ctrl;
+    wxStaticText* project_desc2_ctrl;
     wxStaticText* project_url1_ctrl;
     wxStaticText* project_url2_ctrl;
     wxStaticText* user_name1_ctrl;
