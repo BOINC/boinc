@@ -118,7 +118,8 @@ void CProjectWelcomePage::CreateControls()
 
     wxFlexGridSizer* grid = new wxFlexGridSizer(5, 2, 0, 0);
     grid->AddGrowableCol(1);
-    itemBoxSizer3->Add(grid, 0, wxGROW|wxALL, 5);
+    grid->SetFlexibleDirection(wxBOTH);
+    itemBoxSizer3->Add(grid, 0, wxEXPAND|wxALL, 5);
 
     project_name1_ctrl = new wxStaticText;
     project_name1_ctrl->Create( itemWizardPage2, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
@@ -126,7 +127,7 @@ void CProjectWelcomePage::CreateControls()
 
     project_name2_ctrl = new wxStaticText;
     project_name2_ctrl->Create( itemWizardPage2, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-    grid->Add(project_name2_ctrl, 0, wxALIGN_LEFT|wxALL, 5);
+    grid->Add(project_name2_ctrl, 0, wxALIGN_LEFT|wxALL|wxEXPAND, 5);
 
     project_inst1_ctrl = new wxStaticText;
     project_inst1_ctrl->Create( itemWizardPage2, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
@@ -134,7 +135,7 @@ void CProjectWelcomePage::CreateControls()
 
     project_inst2_ctrl = new wxStaticText;
     project_inst2_ctrl->Create( itemWizardPage2, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-    grid->Add(project_inst2_ctrl, 0, wxALIGN_LEFT|wxALL, 5);
+    grid->Add(project_inst2_ctrl, 0, wxALIGN_LEFT|wxALL|wxEXPAND, 5);
 
     project_desc1_ctrl = new wxStaticText;
     project_desc1_ctrl->Create( itemWizardPage2, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
@@ -142,7 +143,7 @@ void CProjectWelcomePage::CreateControls()
 
     project_desc2_ctrl = new wxTextCtrl;
     project_desc2_ctrl->Create( itemWizardPage2, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE|wxTE_READONLY );
-    grid->Add(project_desc2_ctrl, 0, wxALIGN_LEFT|wxALL, 5);
+    grid->Add(project_desc2_ctrl, 0, wxALIGN_LEFT|wxALL|wxEXPAND, 5);
 
     project_url1_ctrl = new wxStaticText;
     project_url1_ctrl->Create( itemWizardPage2, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
@@ -150,7 +151,7 @@ void CProjectWelcomePage::CreateControls()
 
     project_url2_ctrl = new wxStaticText;
     project_url2_ctrl->Create( itemWizardPage2, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-    grid->Add(project_url2_ctrl, 0, wxALIGN_LEFT|wxALL, 5);
+    grid->Add(project_url2_ctrl, 0, wxALIGN_LEFT|wxALL|wxEXPAND, 5);
 
     user_name1_ctrl = new wxStaticText;
     user_name1_ctrl->Create( itemWizardPage2, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
@@ -158,11 +159,11 @@ void CProjectWelcomePage::CreateControls()
 
     user_name2_ctrl = new wxStaticText;
     user_name2_ctrl->Create( itemWizardPage2, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-    grid->Add(user_name2_ctrl, 0, wxALIGN_LEFT|wxALL, 5);
+    grid->Add(user_name2_ctrl, 0, wxALIGN_LEFT|wxALL|wxEXPAND, 5);
 
-    warning_ctrl = new wxTextCtrl;
-    warning_ctrl->Create( itemWizardPage2, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE|wxTE_READONLY );
-    itemBoxSizer3->Add(warning_ctrl, 0, wxALIGN_LEFT|wxALL, 5);
+    warning_ctrl = new wxStaticText;
+    warning_ctrl->Create( itemWizardPage2, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+    itemBoxSizer3->Add(warning_ctrl, 0, wxALIGN_LEFT|wxALL|wxEXPAND, 5);
 
     continue_ctrl = new wxStaticText;
     continue_ctrl->Create( itemWizardPage2, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
@@ -269,14 +270,14 @@ void CProjectWelcomePage::OnPageChanged( wxWizardExEvent& event ) {
     }
 
     if (!pWA->known) {
-        warning_ctrl->SetLabel(_("This project is not registered with BOINC.  Make sure you trust it before continuing."));
+        warning_ctrl->SetLabel(_("WARNING: This project is not registered with BOINC.  Make sure you trust it before continuing."));
 
     }
     continue_ctrl->SetLabel(
         _("To continue, click Next.")
     );
 
-    Fit();
+    Layout();
     wxLogTrace(wxT("Function Start/End"), wxT("CProjectWelcomePage::OnPageChanged - Function End"));
 }
 
