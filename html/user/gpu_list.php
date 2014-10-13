@@ -66,7 +66,11 @@ function get_gpu_list($vendor, $alt_vendor=null) {
         $clause .= " or plan_class like '%$alt_vendor%'";
     }
     $avs = BoincAppVersion::enum($clause);
-    if (count($avs) == 0) return null;
+    if (count($avs) == 0) {
+        $x = new StdClass;
+        $x->total = array();
+        return $x;
+    }
 
     $av_ids = "";
     foreach($avs as $av) {
