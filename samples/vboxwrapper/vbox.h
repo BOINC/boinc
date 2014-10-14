@@ -186,6 +186,13 @@ public:
     std::string completion_trigger_file;
         // if find this file in shared/, task is over.
         // File can optionally contain exit code (first line)
+        // File can optionally contain is_notice bool (second line)
+        // and stderr text (subsequent lines).
+        // Addresses a problem where VM doesn't shut down properly
+    std::string temporary_exit_trigger_file;
+        // if find this file in shared/, task is restarted at a later date.
+        // File can optionally contain restart delay (first line)
+        // File can optionally contain is_notice bool (second line)
         // and stderr text (subsequent lines).
         // Addresses a problem where VM doesn't shut down properly
 
@@ -232,6 +239,7 @@ public:
     void dump_hypervisor_logs(bool include_error_logs);
     void dump_hypervisor_status_reports();
     void dump_vmguestlog_entries();
+    void delete_temporary_exit_trigger_file();
 
     int is_registered();
     bool is_system_ready(std::string& message);
@@ -244,6 +252,7 @@ public:
     bool is_logged_failure_host_out_of_memory();
     bool is_logged_failure_guest_job_out_of_memory();
     bool is_logged_completion_file_exists();
+    bool is_logged_temporary_exit_file_exists();
     bool is_virtualbox_version_newer(int maj, int min, int rel);
     bool is_virtualbox_error_recoverable(int retval);
 

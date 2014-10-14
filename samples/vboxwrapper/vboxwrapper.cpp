@@ -226,6 +226,10 @@ int parse_job_file(VBOX_VM& vm) {
             vm.completion_trigger_file = str;
             continue;
         }
+        else if (xp.parse_string("temporary_exit_trigger_file", str)) {
+            vm.temporary_exit_trigger_file = str;
+            continue;
+        }
         else if (xp.match_tag("port_forward")) {
             vm.parse_port_forward(xp);
         }
@@ -306,6 +310,29 @@ void read_completion_file_info(unsigned long& exit_code, bool& is_notice, string
     if (f) {
         if (fgets(buf, 1024, f) != NULL) {
             exit_code = atoi(buf);
+        }
+        if (fgets(buf, 1024, f) != NULL) {
+            is_notice = atoi(buf);
+        }
+        while (fgets(buf, 1024, f) != NULL) {
+            message += buf;
+        }
+        fclose(f);
+    }
+}
+
+void read_temporary_exit_file_info(int& temp_delay, bool& is_notice, string& message, VBOX_VM& vm) {
+    char path[MAXPATHLEN];
+    char buf[1024];
+
+    temp_delay = 0;
+    message = "";
+
+    sprintf(path, "shared/%s", vm.temporary_exit_trigger_file.c_str());
+    FILE* f = fopen(path, "r");
+    if (f) {
+        if (fgets(buf, 1024, f) != NULL) {
+            temp_delay = atoi(buf);
         }
         if (fgets(buf, 1024, f) != NULL) {
             is_notice = atoi(buf);
@@ -570,6 +597,7 @@ int main(int argc, char** argv) {
 	int vm_image = 0;
     unsigned long vm_exit_code = 0;
     bool is_notice = false;
+    int temp_delay = 86400;
     string message;
     char buf[256];
 
@@ -917,7 +945,6 @@ int main(int argc, char** argv) {
         bool   do_dump_hypervisor_logs = false;
         string error_reason;
         const char*  temp_reason = "";
-        int    temp_delay = 86400;
 
         if (VBOXWRAPPER_ERR_RECOVERABLE == retval) {
             error_reason =
@@ -1142,6 +1169,30 @@ int main(int argc, char** argv) {
                 boinc_finish_message(vm_exit_code, message.c_str(), is_notice);
             } else {
                 boinc_finish(vm_exit_code);
+            }
+        }
+        if (vm.is_logged_temporary_exit_file_exists()) {
+            vm.reset_vm_process_priority();
+            vm.stop();
+            fprintf(
+                stderr,
+                "%s VM Temporary Exit File Detected.\n",
+                vboxwrapper_msg_prefix(buf, sizeof(buf))
+            );
+            read_temporary_exit_file_info(temp_delay, is_notice, message, vm);
+            if (message.size()) {
+                fprintf(
+                    stderr,
+                    "%s VM Temporary Exit Message: %s.\n",
+                    vboxwrapper_msg_prefix(buf, sizeof(buf)),
+                    message.c_str()
+                );
+            }
+            vm.delete_temporary_exit_trigger_file();
+            if (is_notice) {
+                boinc_temporary_exit(temp_delay, message.c_str(), is_notice);
+            } else {
+                boinc_temporary_exit(temp_delay);
             }
         }
         if (!vm.online) {

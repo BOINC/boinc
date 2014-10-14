@@ -1796,6 +1796,12 @@ void VBOX_VM::dump_vmguestlog_entries() {
     }
 }
 
+void VBOX_VM::delete_temporary_exit_trigger_file() {
+    char path[MAXPATHLEN];
+    sprintf(path, "shared/%s", temporary_exit_trigger_file.c_str());
+    boinc_delete_file(path);
+}
+
 int VBOX_VM::is_registered() {
     string command;
     string output;
@@ -1980,6 +1986,13 @@ bool VBOX_VM::is_logged_failure_guest_job_out_of_memory() {
 bool VBOX_VM::is_logged_completion_file_exists() {
     char path[MAXPATHLEN];
     sprintf(path, "shared/%s", completion_trigger_file.c_str());
+    if (boinc_file_exists(path)) return true;
+    return false;
+}
+
+bool VBOX_VM::is_logged_temporary_exit_file_exists() {
+    char path[MAXPATHLEN];
+    sprintf(path, "shared/%s", temporary_exit_trigger_file.c_str());
     if (boinc_file_exists(path)) return true;
     return false;
 }
