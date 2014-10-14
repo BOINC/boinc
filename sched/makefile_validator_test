@@ -1,8 +1,11 @@
-# the compiled file containing result_init() etc
-VALIDATOR_OBJ = sample_bitwise_validator.o
+# makefile for building a validator test program; see
+# http://boinc.berkeley.edu/trac/wiki/ValidationSimple
+
+# the object file containing result_init() etc. - replace with your own
+VALIDATOR_SRC = sample_bitwise_validator.cpp
 
 # where libmysqlclient is
 MYSQL_LIB_DIR = /usr/lib64/mysql
 
-validator_test: validator_test.cpp $(VALIDATOR_OBJ)
-	g++ -g -I.. -I../lib -I../db -o validator_test validator_test.cpp $(VALIDATOR_OBJ) validate_util.o -L . -lsched -L ../lib -lboinc -L $(MYSQL_LIB_DIR) -lmysqlclient
+validator_test: validator_test.cpp $(VALIDATOR_SRC)
+	g++ -g -I.. -I../lib -I../db -o validator_test validator_test.cpp $(VALIDATOR_SRC) validate_util.o -L . -lsched -L ../lib -lboinc -L $(MYSQL_LIB_DIR) -lmysqlclient

@@ -26,8 +26,13 @@
 // and it will compare those two output files
 // (this only works if your functions expect 1 file per result)
 
+#include <stdio.h>
+
 #include "validate_util.h"
 #include "validate_util2.h"
+
+int g_argc;
+char **g_argv;
 
 void usage(char* prog) {
     fprintf(stderr,
@@ -59,27 +64,29 @@ int main(int argc, char** argv) {
         fprintf(stderr, "init_result(r1) returned %d\n", retval);
         exit(1);
     }
+    printf("init_result(r1) succeeded\n");
     retval = init_result(r2, data2);
     if (retval) {
         fprintf(stderr, "init_result(r2) returned %d\n", retval);
         exit(1);
     }
+    printf("init_result(r2) succeeded\n");
     retval = compare_results(r1, data1, r2, data2, match);
     if (retval) {
         fprintf(stderr, "compare_results() returned %d\n", retval);
         exit(1);
     }
+    printf("compare_results returned %s\n", match?"true - result match":"false - results don't match");
     retval = cleanup_result(r1, data1);
     if (retval) {
         fprintf(stderr, "cleanup_result(r1) returned %d\n", retval);
         exit(1);
     }
+    printf("cleanup_result(r1) succeeded\n");
     retval = cleanup_result(r2, data2);
     if (retval) {
         fprintf(stderr, "cleanup_result(r2) returned %d\n", retval);
         exit(1);
     }
-
-    printf("compare_results returned %s\n", match?"true":"false");
-
+    printf("cleanup_result(r2) succeeded\n");
 }

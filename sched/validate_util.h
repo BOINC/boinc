@@ -30,7 +30,9 @@ struct OUTPUT_FILE_INFO {
     std::string name;
     std::string path;
     bool optional;
+        // sample_bitwise_validator: not an error if this file is missing
     bool no_validate;
+        // sample_bitwise_validator: don't compare this file
 
     int parse(XML_PARSER&);
 };
@@ -46,4 +48,7 @@ extern int get_logical_name(
 extern int get_credit_from_wu(WORKUNIT&, std::vector<RESULT>& results, double&);
 
 extern bool standalone;
+    // if set, look for output files in the current directory,
+    // not the upload hierarchy.
+    // used by validator_test.
 #endif
