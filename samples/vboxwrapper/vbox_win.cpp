@@ -1224,7 +1224,7 @@ int VBOX_VM::deregister_stale_vm() {
 }
 
 int VBOX_VM::start() {
-    int retval = 0;
+    int retval = ERR_EXEC;
     HRESULT rc;
     BSTR vm_name;
     BSTR session_type;
@@ -1286,7 +1286,8 @@ int VBOX_VM::start() {
 
             g_pMachine = pMachine;
 
-            // Ww should now own what goes on with the VM.
+            // We should now own what goes on with the VM.
+            //
             g_pMachine->LockMachine(g_pSession, LockType_Write);
 
             rc = g_pMachine->get_SessionPID((ULONG*)&vm_pid);
@@ -1320,6 +1321,7 @@ int VBOX_VM::start() {
                 vboxwrapper_msg_prefix(buf, sizeof(buf)),
                 vm_pid
             );
+            retval = BOINC_SUCCESS;
         } else {
             fprintf(
                 stderr,
@@ -1341,7 +1343,7 @@ CLEANUP:
 }
 
 int VBOX_VM::stop() {
-    int retval = 0;
+    int retval = ERR_EXEC;
     HRESULT rc;
     char buf[256];
     double timeout;
@@ -1458,7 +1460,7 @@ CLEANUP:
 }
 
 int VBOX_VM::poweroff() {
-    int retval = 0;
+    int retval = ERR_EXEC;
     HRESULT rc;
     char buf[256];
     double timeout;
@@ -1580,7 +1582,7 @@ CLEANUP:
 }
 
 int VBOX_VM::pause() {
-    int retval = 0;
+    int retval = ERR_EXEC;
     HRESULT rc;
     char buf[256];
     IConsole* pConsole = NULL;
@@ -1622,6 +1624,10 @@ int VBOX_VM::pause() {
         retval = rc;
         goto CLEANUP;
     }
+    else
+    {
+        retval = BOINC_SUCCESS;
+    }
 
 CLEANUP:
     if (pConsole) {
@@ -1632,7 +1638,7 @@ CLEANUP:
 }
 
 int VBOX_VM::resume() {
-    int retval = 0;
+    int retval = ERR_EXEC;
     HRESULT rc;
     char buf[256];
     IConsole* pConsole = NULL;
@@ -1670,6 +1676,10 @@ int VBOX_VM::resume() {
         virtualbox_dump_error();
         retval = rc;
         goto CLEANUP;
+    }
+    else
+    {
+        retval = BOINC_SUCCESS;
     }
 
 CLEANUP:
