@@ -46,6 +46,57 @@ static ISession* g_pSession = NULL;
 static IMachine* g_pMachine = NULL;
 
 
+const char *MachineStateToName(MachineState State) 
+{ 
+    switch (State) 
+    { 
+        case MachineState_PoweredOff: 
+            return "poweroff"; 
+        case MachineState_Saved: 
+            return "saved"; 
+        case MachineState_Aborted: 
+            return "aborted"; 
+        case MachineState_Teleported: 
+            return "teleported"; 
+        case MachineState_Running: 
+            return "running"; 
+        case MachineState_Paused: 
+            return "paused"; 
+        case MachineState_Stuck: 
+            return "gurumeditation"; 
+        case MachineState_LiveSnapshotting: 
+            return "livesnapshotting"; 
+        case MachineState_Teleporting: 
+            return "teleporting"; 
+        case MachineState_Starting: 
+            return "starting"; 
+        case MachineState_Stopping: 
+            return "stopping"; 
+        case MachineState_Saving: 
+            return "saving"; 
+        case MachineState_Restoring: 
+            return "restoring"; 
+        case MachineState_TeleportingPausedVM: 
+            return "teleportingpausedvm"; 
+        case MachineState_TeleportingIn: 
+            return "teleportingin"; 
+        case MachineState_RestoringSnapshot: 
+            return "restoringsnapshot"; 
+        case MachineState_DeletingSnapshot: 
+            return "deletingsnapshot"; 
+        case MachineState_DeletingSnapshotOnline: 
+            return "deletingsnapshotlive"; 
+        case MachineState_DeletingSnapshotPaused: 
+            return "deletingsnapshotlivepaused"; 
+        case MachineState_SettingUp: 
+            return "settingup"; 
+        default: 
+            break; 
+    } 
+    return "unknown"; 
+} 
+
+
 //
 // Helper function to print MSCOM exception information set on the current
 // thread after a failed MSCOM method call. This function will also print
@@ -87,6 +138,7 @@ void virtualbox_dump_error() {
         pErrorInfo->Release();
     }
 }
+
 
 int VBOX_VM::initialize() {
     int rc = BOINC_SUCCESS;
@@ -198,13 +250,9 @@ int VBOX_VM::initialize() {
 void VBOX_VM::poll(bool log_state) {
     char buf[256];
     APP_INIT_DATA aid;
-    string command;
-    string output;
-    string::iterator iter;
-    string vmstate;
-    static string vmstate_old = "poweroff";
-    size_t vmstate_start;
-    size_t vmstate_end;
+    HRESULT rc;
+    MachineState vmstate;
+    static MachineState vmstate_old = MachineState_PoweredOff;
 
     boinc_get_init_data_p(&aid);
 
@@ -229,117 +277,123 @@ void VBOX_VM::poll(bool log_state) {
     //
     // What state is the VM in?
     //
+    rc = g_pMachine->get_State(&vmstate);
+    if (SUCCEEDED(rc)) {
 
-    command  = "showvminfo \"" + vm_name + "\" ";
-    command += "--machinereadable ";
-
-    if (vbm_popen(command, output, "VM state", false, false, 45, false) == 0) {
-        vmstate_start = output.find("VMState=\"");
-        if (vmstate_start != string::npos) {
-            vmstate_start += 9;
-            vmstate_end = output.find("\"", vmstate_start);
-            vmstate = output.substr(vmstate_start, vmstate_end - vmstate_start);
-
-            // VirtualBox Documentation suggests that that a VM is running when its
-            // machine state is between MachineState_FirstOnline and MachineState_LastOnline
-            // which as of this writing is 5 and 17.
-            //
-            // VboxManage's source shows more than that though:
-            // see: http://www.virtualbox.org/browser/trunk/src/VBox/Frontends/VBoxManage/VBoxManageInfo.cpp
-            //
-            // So for now, go with what VboxManage is reporting.
-            //
-            if (vmstate == "running") {
+        // VirtualBox Documentation suggests that that a VM is running when its
+        // machine state is between MachineState_FirstOnline and MachineState_LastOnline
+        // which as of this writing is 5 and 17.
+        //
+        // VboxManage's source shows more than that though:
+        // see: http://www.virtualbox.org/browser/trunk/src/VBox/Frontends/VBoxManage/VBoxManageInfo.cpp
+        //
+        // So for now, go with what VboxManage is reporting.
+        //
+        switch(vmstate)
+        {
+            case MachineState_Running:
                 online = true;
                 saving = false;
                 restoring = false;
                 suspended = false;
                 crashed = false;
-            } else if (vmstate == "paused") {
+                break;
+            case MachineState_Paused:
                 online = true;
                 saving = false;
                 restoring = false;
                 suspended = true;
                 crashed = false;
-            } else if (vmstate == "starting") {
+                break;
+            case MachineState_Starting:
                 online = true;
                 saving = false;
                 restoring = false;
                 suspended = false;
                 crashed = false;
-            } else if (vmstate == "stopping") {
+                break;
+            case MachineState_Stopping:
                 online = true;
                 saving = false;
                 restoring = false;
                 suspended = false;
                 crashed = false;
-            } else if (vmstate == "saving") {
+                break;
+            case MachineState_Saving:
                 online = true;
                 saving = true;
                 restoring = false;
                 suspended = false;
                 crashed = false;
-            } else if (vmstate == "restoring") {
+                break;
+            case MachineState_Restoring:
                 online = true;
                 saving = false;
                 restoring = true;
                 suspended = false;
                 crashed = false;
-            } else if (vmstate == "livesnapshotting") {
+                break;
+            case MachineState_LiveSnapshotting:
                 online = true;
                 saving = false;
                 restoring = false;
                 suspended = false;
                 crashed = false;
-            } else if (vmstate == "deletingsnapshotlive") {
+                break;
+            case MachineState_DeletingSnapshotOnline:
                 online = true;
                 saving = false;
                 restoring = false;
                 suspended = false;
                 crashed = false;
-            } else if (vmstate == "deletingsnapshotlivepaused") {
+                break;
+            case MachineState_DeletingSnapshotPaused:
                 online = true;
                 saving = false;
                 restoring = false;
                 suspended = false;
                 crashed = false;
-            } else if (vmstate == "aborted") {
+                break;
+            case MachineState_Aborted:
                 online = false;
                 saving = false;
                 restoring = false;
                 suspended = false;
                 crashed = true;
-            } else if (vmstate == "gurumeditation") {
+                break;
+            case MachineState_Stuck:
                 online = false;
                 saving = false;
                 restoring = false;
                 suspended = false;
                 crashed = true;
-            } else {
+                break;
+            default:
                 online = false;
                 saving = false;
                 restoring = false;
                 suspended = false;
                 crashed = false;
-                if (log_state) {
-                    fprintf(
-                        stderr,
-                        "%s VM is no longer is a running state. It is in '%s'.\n",
-                        vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                        vmstate.c_str()
-                    );
-                }
-            }
-            if (log_state && (vmstate_old != vmstate)) {
-                fprintf(
-                    stderr,
-                    "%s VM state change detected. (old = '%s', new = '%s')\n",
-                    vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                    vmstate_old.c_str(),
-                    vmstate.c_str()
-                );
-                vmstate_old = vmstate;
-            }
+                break;
+        }
+
+        if (log_state) {
+            fprintf(
+                stderr,
+                "%s VM is no longer is a running state. It is in '%s'.\n",
+                vboxwrapper_msg_prefix(buf, sizeof(buf)),
+                MachineStateToName(vmstate)
+            );
+        }
+        if (log_state && (vmstate_old != vmstate)) {
+            fprintf(
+                stderr,
+                "%s VM state change detected. (old = '%s', new = '%s')\n",
+                vboxwrapper_msg_prefix(buf, sizeof(buf)),
+                MachineStateToName(vmstate_old),
+                MachineStateToName(vmstate)
+            );
+            vmstate_old = vmstate;
         }
     }
 
@@ -1174,7 +1228,9 @@ int VBOX_VM::start() {
     HRESULT rc;
     BSTR vm_name;
     BSTR session_type;
+    BOOL bCompleted;
     char buf[256];
+    double timeout;
     IMachine* pMachine = NULL;
     IProgress* pProgress = NULL;
 
@@ -1226,9 +1282,38 @@ int VBOX_VM::start() {
         }
 
         pProgress->get_Completed(&bCompleted);
-        if (bCompleted)
-        
-        if (BOINC_SUCCESS == retval) {
+        if (bCompleted) {
+
+            g_pMachine = pMachine;
+
+            // Ww should now own what goes on with the VM.
+            g_pMachine->LockMachine(g_pSession, LockType_Write);
+
+            rc = g_pMachine->get_SessionPID((ULONG*)&vm_pid);
+            if (FAILED(rc)) {
+                fprintf(
+                    stderr,
+                    "%s Error could not get VM PID! rc = 0x%x\n",
+                    boinc_msg_prefix(buf, sizeof(buf)),
+                    rc
+                );
+            }
+
+            vm_pid_handle = OpenProcess(
+                PROCESS_QUERY_INFORMATION | PROCESS_SET_INFORMATION,
+                FALSE,
+                vm_pid
+            );
+
+            // Make sure we are in a running state before proceeding
+            //
+            timeout = dtime() + 300;
+            do {
+                poll(false);
+                if (online) break;
+                boinc_sleep(1.0);
+            } while (timeout >= dtime());
+
             fprintf(
                 stderr,
                 "%s Successfully started VM. (PID = '%d')\n",
@@ -1242,7 +1327,6 @@ int VBOX_VM::start() {
                 vboxwrapper_msg_prefix(buf, sizeof(buf))
             );
         }
-
     }
 
 CLEANUP:
@@ -1251,68 +1335,6 @@ CLEANUP:
     if (pProgress) {
         pProgress->Release();
         pProgress = NULL;
-    }
-
-    if (pMachine) {
-        pMachine->Release();
-        pMachine = NULL;
-    }
-
-    return retval;
-}
-
-int VBOX_VM::start() {
-    char buf[256];
-    int retval;
-
-    fprintf(
-        stderr,
-        "%s Starting VM.\n",
-        vboxwrapper_msg_prefix(buf, sizeof(buf))
-    );
-
-#ifdef NEW_EXECUTION_PATH
-    retval = launch_vboxvm();
-#else
-    string command;
-    string output;
-    int timeout = 0;
-
-    command = "startvm \"" + vm_name + "\"";
-    if (headless) {
-        command += " --type headless";
-    }
-    retval = vbm_popen(command, output, "start VM", true, false, 0);
-
-    // Get the VM pid as soon as possible
-    while (!retval) {
-        boinc_sleep(1.0);
-        timeout += 1;
-
-        get_vm_process_id();
-
-        if (vm_pid) break;
-
-        if (timeout > 45) {
-            retval = ERR_TIMEOUT;
-            break;
-        }
-    }
-#endif
-
-    if (BOINC_SUCCESS == retval) {
-        fprintf(
-            stderr,
-            "%s Successfully started VM. (PID = '%d')\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf)),
-            vm_pid
-        );
-    } else {
-        fprintf(
-            stderr,
-            "%s VM failed to start.\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf))
-        );
     }
 
     return retval;
@@ -1376,10 +1398,6 @@ int VBOX_VM::stop() {
         goto CLEANUP;
     }
 
-    // Wait for up to 5 minutes for the VM to switch states.  A system
-    // under load can take a while.  Since the poll function can wait for up
-    // to 45 seconds to execute a command we need to make this time based instead
-    // of iteration based.
     if (!retval) {
         timeout = dtime() + 300;
         do {
@@ -1428,6 +1446,10 @@ CLEANUP:
     if (pConsole) {
         pConsole->Release();
         pConsole = NULL;
+    }
+    if (g_pMachine) {
+        g_pMachine->Release();
+        g_pMachine = NULL;
     }
     if (g_pSession) {
         g_pSession->UnlockMachine();
@@ -1546,6 +1568,10 @@ CLEANUP:
     if (pConsole) {
         pConsole->Release();
         pConsole = NULL;
+    }
+    if (g_pMachine) {
+        g_pMachine->Release();
+        g_pMachine = NULL;
     }
     if (g_pSession) {
         g_pSession->UnlockMachine();
@@ -2174,48 +2200,6 @@ int VBOX_VM::get_vm_network_bytes_received(double& received) {
 }
 
 int VBOX_VM::get_vm_process_id() {
-    string output;
-    string pid;
-    size_t pid_start;
-    size_t pid_end;
-
-    get_vm_log(output, false);
-
-    // Output should look like this:
-    // VirtualBox 4.1.0 r73009 win.amd64 (Jul 19 2011 13:05:53) release log
-    // 00:00:06.008 Log opened 2011-09-01T23:00:59.829170900Z
-    // 00:00:06.008 OS Product: Windows 7
-    // 00:00:06.009 OS Release: 6.1.7601
-    // 00:00:06.009 OS Service Pack: 1
-    // 00:00:06.015 Host RAM: 4094MB RAM, available: 876MB
-    // 00:00:06.015 Executable: C:\Program Files\Oracle\VirtualBox\VirtualBox.exe
-    // 00:00:06.015 Process ID: 6128
-    // 00:00:06.015 Package type: WINDOWS_64BITS_GENERIC
-    // 00:00:06.015 Installed Extension Packs:
-    // 00:00:06.015   None installed!
-    //
-    pid_start = output.find("Process ID: ");
-    if (pid_start == string::npos) {
-        return ERR_NOT_FOUND;
-    }
-    pid_start += strlen("Process ID: ");
-    pid_end = output.find("\n", pid_start);
-    pid = output.substr(pid_start, pid_end - pid_start);
-    strip_whitespace(pid);
-    if (pid.size() <= 0) {
-        return ERR_NOT_FOUND;
-    }
-
-    vm_pid = atol(pid.c_str());
-
-#ifdef _WIN32
-    vm_pid_handle = OpenProcess(
-        PROCESS_QUERY_INFORMATION | PROCESS_SET_INFORMATION,
-        FALSE,
-        vm_pid
-    );
-#endif
-
     return 0;
 }
 
