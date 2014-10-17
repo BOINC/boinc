@@ -1891,7 +1891,12 @@ int VBOX_VM::is_registered() {
         retval = BOINC_SUCCESS;
     }
 
-    SysFreeString(vm_name);
+    if (vm_name) SysFreeString(vm_name);
+
+    if (pMachine) {
+        pMachine->Release();
+        pMachine = NULL;
+    }
     return retval;
 }
 
@@ -2039,63 +2044,40 @@ int VBOX_VM::get_install_directory(string& install_directory ) {
 }
 
 int VBOX_VM::get_version_information(string& version) {
-    string command;
-    string output;
-    int retval;
+    int retval = ERR_EXEC;
+    HRESULT rc;
+    BSTR tmp;
 
-    // Record the VirtualBox version information for later use.
-    command = "--version ";
-    retval = vbm_popen(command, output, "version check");
-
-    if (!retval) {
-        // Remove \r or \n from the output spew
-        string::iterator iter = output.begin();
-        while (iter != output.end()) {
-            if (*iter == '\r' || *iter == '\n') {
-                iter = output.erase(iter);
-            } else {
-                ++iter;
-            }
-        }
-        version = output;
+    rc = g_pVirtualBox->get_VersionNormalized(&tmp);
+    if (SUCCEEDED(rc)) {
+        version = W2A(tmp);
+        retval = BOINC_SUCCESS;
     }
 
+    if (tmp) SysFreeString(tmp);
     return retval;
 }
 
 int VBOX_VM::get_guest_additions(string& guest_additions) {
-    string command;
-    string output;
-    size_t ga_start;
-    size_t ga_end;
-    int retval;
+    int retval = ERR_EXEC;
+    HRESULT rc;
+    ISystemProperties* properties = NULL;
+    BSTR tmp;
 
-    // Get the location of where the guest additions are
-    command = "list systemproperties";
-    retval = vbm_popen(command, output, "guest additions");
-
-    // Output should look like this:
-    // API version:                     4_3
-    // Minimum guest RAM size:          4 Megabytes
-    // Maximum guest RAM size:          2097152 Megabytes
-    // Minimum video RAM size:          1 Megabytes
-    // Maximum video RAM size:          256 Megabytes
-    // ...
-    // Default Guest Additions ISO:     C:\Program Files\Oracle\VirtualBox/VBoxGuestAdditions.iso
-    //
-
-    ga_start = output.find("Default Guest Additions ISO:");
-    if (ga_start == string::npos) {
-        return ERR_NOT_FOUND;
-    }
-    ga_start += strlen("Default Guest Additions ISO:");
-    ga_end = output.find("\n", ga_start);
-    guest_additions = output.substr(ga_start, ga_end - ga_start);
-    strip_whitespace(guest_additions);
-    if (guest_additions.size() <= 0) {
-        return ERR_NOT_FOUND;
+    rc = g_pVirtualBox->get_SystemProperties(&properties);
+    if (SUCCEEDED(rc)) {
+        rc = properties->get_DefaultAdditionsISO(&tmp);
+        if (SUCCEEDED(rc)) {
+            guest_additions = W2A(tmp);
+            retval = BOINC_SUCCESS;
+        }
     }
 
+    if (tmp) SysFreeString(tmp);
+    if (properties) {
+        properties->Release();
+        properties = NULL;
+    }
     return retval;
 }
 
@@ -2233,10 +2215,10 @@ int VBOX_VM::get_vm_exit_code(unsigned long& exit_code) {
 //   machine is already behind the company firewall.
 //
 int VBOX_VM::set_network_access(bool enabled) {
-    string command;
-    string output;
-    char buf[256];
     int retval;
+    char buf[256];
+    INetworkAdapter* pNetworkAdapter = NULL;
+    HRESULT rc = ERR_EXEC;
 
     network_suspended = !enabled;
 
@@ -2246,24 +2228,49 @@ int VBOX_VM::set_network_access(bool enabled) {
             "%s Enabling network access for VM.\n",
             vboxwrapper_msg_prefix(buf, sizeof(buf))
         );
-        command  = "modifyvm \"" + vm_name + "\" ";
-        command += "--cableconnected1 on ";
 
-        retval = vbm_popen(command, output, "enable network");
-        if (retval) return retval;
+        rc = g_pMachine->GetNetworkAdapter(0, &pNetworkAdapter);
+        if (FAILED(rc)) {
+            fprintf(
+                stderr,
+                "%s Error retrieving virtualized network adapter for VM! rc = 0x%x\n",
+                vboxwrapper_msg_prefix(buf, sizeof(buf)),
+                rc
+            );
+        }
+
+        rc = pNetworkAdapter->put_Enabled(TRUE);
+        if (SUCCEEDED(rc)) {
+            retval = BOINC_SUCCESS;
+        }
     } else {
         fprintf(
             stderr,
             "%s Disabling network access for VM.\n",
             vboxwrapper_msg_prefix(buf, sizeof(buf))
         );
-        command  = "modifyvm \"" + vm_name + "\" ";
-        command += "--cableconnected1 off ";
 
-        retval = vbm_popen(command, output, "disable network");
-        if (retval) return retval;
+        rc = g_pMachine->GetNetworkAdapter(0, &pNetworkAdapter);
+        if (FAILED(rc)) {
+            fprintf(
+                stderr,
+                "%s Error retrieving virtualized network adapter for VM! rc = 0x%x\n",
+                vboxwrapper_msg_prefix(buf, sizeof(buf)),
+                rc
+            );
+        }
+
+        rc = pNetworkAdapter->put_Enabled(FALSE);
+        if (SUCCEEDED(rc)) {
+            retval = BOINC_SUCCESS;
+        }
     }
-    return 0;
+
+    if (pNetworkAdapter) {
+        pNetworkAdapter->Release();
+        pNetworkAdapter = NULL;
+    }
+    return retval;
 }
 
 int VBOX_VM::set_cpu_usage(int percentage) {
@@ -2314,40 +2321,25 @@ int VBOX_VM::set_network_usage(int kilobytes) {
         );
     }
 
-    if (is_virtualbox_version_newer(4, 2, 0)) {
+    // Update bandwidth group limits
+    //
+    if (kilobytes == 0) {
+        command  = "bandwidthctl \"" + vm_name + "\" ";
+        command += "set \"" + vm_name + "_net\" ";
+        command += "--limit 1024G ";
 
-        // Update bandwidth group limits
-        //
-        if (kilobytes == 0) {
-            command  = "bandwidthctl \"" + vm_name + "\" ";
-            command += "set \"" + vm_name + "_net\" ";
-            command += "--limit 1024G ";
-
-            retval = vbm_popen(command, output, "network throttle (set default value)");
-            if (retval) return retval;
-        } else {
-            sprintf(buf, "%d", kilobytes);
-            command  = "bandwidthctl \"" + vm_name + "\" ";
-            command += "set \"" + vm_name + "_net\" ";
-            command += "--limit ";
-            command += buf;
-            command += "K ";
-
-            retval = vbm_popen(command, output, "network throttle (set)");
-            if (retval) return retval;
-        }
-
-    } else {
-
-        sprintf(buf, "%d", kilobytes);
-        command  = "modifyvm \"" + vm_name + "\" ";
-        command += "--nicspeed1 ";
-        command += buf;
-        command += " ";
-
-        retval = vbm_popen(command, output, "network throttle");
+        retval = vbm_popen(command, output, "network throttle (set default value)");
         if (retval) return retval;
+    } else {
+        sprintf(buf, "%d", kilobytes);
+        command  = "bandwidthctl \"" + vm_name + "\" ";
+        command += "set \"" + vm_name + "_net\" ";
+        command += "--limit ";
+        command += buf;
+        command += "K ";
 
+        retval = vbm_popen(command, output, "network throttle (set)");
+        if (retval) return retval;
     }
 
     return 0;
