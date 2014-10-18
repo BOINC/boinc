@@ -43,10 +43,15 @@ echo "
     <input type=\"hidden\" name=\"next_url\" value=\"$next_url\">
 ";
 start_table();
-row2(tra("Email address:") . '<br><p class=\"text-muted\"><a href="get_passwd.php">'.tra("forgot email address?")."</a></p>",
+if (LDAP_HOST) {
+    $x = "Email address or LDAP user name:";
+} else {
+    $x = tra("Email address:");
+}
+row2($x . '<br><p class="text-muted"><a href="get_passwd.php">'.tra("forgot email address?")."</a></p>",
     "<input name=email_addr type=\"text\" size=40 tabindex=1>"
 );
-row2(tra("Password:") . '<br><p class=\"text-muted\"><a href="get_passwd.php">' . tra("forgot password?") . "</a></p>",
+row2(tra("Password:") . '<br><p class="text-muted"><a href="get_passwd.php">' . tra("forgot password?") . "</a></p>",
     '<input type="password" name="passwd" size="40" tabindex="2">'
 );
 row2(tra("Stay logged in"),

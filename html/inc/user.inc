@@ -23,6 +23,7 @@ require_once("../inc/team.inc");
 require_once("../inc/friend.inc");
 require_once("../inc/forum_db.inc");
 require_once("../inc/notify.inc");
+require_once("../inc/ldap.inc");
 
 function parse_project($f) {
     $p = new StdClass;
@@ -193,13 +194,17 @@ function weak_auth($user) {
 // show static user info (private)
 //
 function show_user_info_private($user) {
-    $email_text = $user->email_addr;
-    if (defined("SHOW_NONVALIDATED_EMAIL_ADDR") && !$user->email_validated) {
-        $email_text .= " (<a href=validate_email_addr.php>must be validated</a>)";
-    }
     row1(tra("Account information"));
     row2(tra("Name"), $user->name);
-    row2(tra("Email address"), $email_text);
+    if (LDAP_HOST && is_ldap_email($user->email_addr)) {
+        row2("LDAP ID", ldap_email_to_uid($user->email_addr));
+    } else {
+        $email_text = $user->email_addr;
+        if (defined("SHOW_NONVALIDATED_EMAIL_ADDR") && !$user->email_validated) {
+            $email_text .= " (<a href=validate_email_addr.php>must be validated</a>)";
+        }
+        row2(tra("Email address"), $email_text);
+    }
     if (strlen($user->url)) {
         $x = "<a href=http://$user->url>http://$user->url</a>";
         row2(tra("URL"), $x);
@@ -208,10 +213,19 @@ function show_user_info_private($user) {
     row2(tra("Postal code"), $user->postal_code);
     row2(tra("%1 member since", PROJECT), date_str($user->create_time));
     $url_tokens = url_tokens($user->authenticator);
-    row2(tra("Change"), "<a href=\"edit_email_form.php\">".tra("email address")."</a>
-        &middot; <a href=\"".secure_url_base()."/edit_passwd_form.php\">".tra("password")."</a>
-        &middot; <a href=\"edit_user_info_form.php?$url_tokens\">".tra("other account info")."</a>"
-    );
+    if (LDAP_HOST && is_ldap_email($user->email_addr)) {
+        // LDAP accounts can't change email or password
+        //
+        row2(tra("Change"),
+            "<a href=\"edit_user_info_form.php?$url_tokens\">Account info</a>"
+        );
+    } else {
+        row2(tra("Change"),
+            "<a href=\"edit_email_form.php\">".tra("email address")."</a>
+            &middot; <a href=\"".secure_url_base()."/edit_passwd_form.php\">".tra("password")."</a>
+            &middot; <a href=\"edit_user_info_form.php?$url_tokens\">".tra("other account info")."</a>"
+        );
+    }
     row2(tra("User ID")."<br/><p class=\"text-muted\">".tra("Used in community functions")."</p>", $user->id);
     if (!no_computing()) {
         row2(
@@ -546,6 +560,23 @@ function make_user(
     $postal_code = sanitize_tags(BoincDb::escape_string($postal_code));
 
     $uid = BoincUser::insert("(create_time, email_addr, name, authenticator, country, postal_code, total_credit, expavg_credit, expavg_time, project_prefs, teamid,  send_email, show_hosts, cross_project_id, passwd_hash) values($now, '$email_addr', '$name', '$authenticator', '$country', '$postal_code', 0, 0, unix_timestamp(), '$project_prefs', $teamid, 1, 1, '$cross_project_id', '$passwd_hash')");
+
+    if ($uid) {
+        return BoincUser::lookup_id($uid);
+    } else {
+        return null;
+    }
+}
+
+function make_user_ldap($email_addr, $name) {
+    $email_addr = BoincDb::escape_string($email_addr);
+    $name = sanitize_tags($name);
+    $name = BoincDb::escape_string($name);
+    $authenticator = random_string();
+    $cross_project_id = random_string();
+    $passwd_hash = random_string();
+    $now = time();
+    $uid = BoincUser::insert("(create_time, email_addr, name, authenticator, country, postal_code, total_credit, expavg_credit, expavg_time, project_prefs, teamid,  send_email, show_hosts, cross_project_id, passwd_hash) values($now, '$email_addr', '$name', '$authenticator', '', '', 0, 0, unix_timestamp(), '', 0, 1, 1, '$cross_project_id', '$passwd_hash')");
 
     if ($uid) {
         return BoincUser::lookup_id($uid);

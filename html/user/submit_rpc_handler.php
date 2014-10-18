@@ -173,7 +173,10 @@ function stage_files(&$jobs, $template) {
     }
 }
 
-function submit_jobs($jobs, $template, $app, $batch_id, $priority, $result_template_file = null, $workunit_template_file = null) {
+function submit_jobs(
+    $jobs, $template, $app, $batch_id, $priority,
+    $result_template_file = null, $workunit_template_file = null
+) {
     $x = "";
     foreach($jobs as $job) {
         if ($job->name) {
@@ -320,7 +323,10 @@ function submit_batch($r) {
         $workunit_template_file = null;
     }
 
-    submit_jobs($jobs, $template, $app, $batch_id, $let, $result_template_file, $workunit_template_file);
+    submit_jobs(
+        $jobs, $template, $app, $batch_id, $let,
+        $result_template_file, $workunit_template_file
+    );
 
     // set state to IN_PROGRESS only after creating jobs;
     // otherwise we might flag batch as COMPLETED

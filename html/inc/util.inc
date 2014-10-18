@@ -65,6 +65,9 @@ if (!defined('BADGE_HEIGHT_MEDIUM')) {
 if (!defined('BADGE_HEIGHT_LARGE')) {
     define('BADGE_HEIGHT_LARGE', 56);
 }
+if (!defined('LDAP_SERVER')) {
+    define('LDAP_SERVER', null);
+}
 
 $caching = false;
     // if set, we're writing to a file rather than to client
