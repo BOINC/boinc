@@ -76,12 +76,11 @@ if (LDAP_HOST && $ldap_auth) {
 
     // if the given password hash matches (auth+email), accept it
     //
-    if ($user->passwd_hash == $passwd_hash || $auth_hash == $passwd_hash) {
-        echo "<account_out>\n";
-        echo "<authenticator>$user->authenticator</authenticator>\n";
-        echo "</account_out>\n";
-    } else {
+    if ($user->passwd_hash != $passwd_hash && $auth_hash != $passwd_hash) {
         xml_error(ERR_BAD_PASSWD);
     }
 }
+echo "<account_out>\n";
+echo "<authenticator>$user->authenticator</authenticator>\n";
+echo "</account_out>\n";
 ?>
