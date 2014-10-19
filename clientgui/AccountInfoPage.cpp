@@ -492,9 +492,11 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
             }
         }
 
-        m_pAccountEmailAddressCtrl->SetValidator(
-            CValidateEmailAddress(&m_strAccountEmailAddress)
-        );
+        if (!pc.ldap_auth) {
+            m_pAccountEmailAddressCtrl->SetValidator(
+                CValidateEmailAddress(&m_strAccountEmailAddress)
+            );
+        }
         m_pAccountUsernameCtrl->SetValidator(
             wxTextValidator(wxFILTER_NONE, &m_strAccountUsername)
         );
@@ -504,9 +506,15 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
         m_pAccountUsernameStaticCtrl->Hide();
         m_pAccountUsernameCtrl->Hide();
 
-        m_pAccountEmailAddressStaticCtrl->SetLabel(
-            _("&Email address:")
-        );
+        if (pc.ldap_auth) {
+            m_pAccountEmailAddressStaticCtrl->SetLabel(
+                _("&Email address or LDAP ID:")
+            );
+        } else {
+            m_pAccountEmailAddressStaticCtrl->SetLabel(
+                _("&Email address:")
+            );
+        }
         m_pAccountEmailAddressCtrl->SetValue(m_strAccountEmailAddress);
     }
 

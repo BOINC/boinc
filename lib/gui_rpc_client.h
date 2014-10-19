@@ -559,6 +559,8 @@ struct PROJECT_CONFIG {
         // before allowing attachment to continue.
     std::vector<std::string> platforms;
         // platforms supported by project, or empty
+    bool ldap_auth;
+        // project supports LDAP authentication
 
     PROJECT_CONFIG();
     ~PROJECT_CONFIG();
@@ -572,7 +574,7 @@ struct ACCOUNT_IN {
     std::string url;
         // URL prefix for web RPCs
     std::string email_addr;
-        // the account identifier (email address or user name)
+        // the account identifier (email address, user name, or LDAP uid)
     std::string user_name;
     std::string passwd;
     std::string team_name;
