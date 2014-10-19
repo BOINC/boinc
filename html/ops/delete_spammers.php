@@ -48,9 +48,15 @@
 //   - have descriptions containing a link
 //   - are not BOINC-Wide teams
 //
+// --user_url
+//   delete accounts that
+//   - have a nonempty URL
+//   - have no hosts
+//   - have no message-board posts
+//
 // options:
 // --days N
-//    Only delete accounts create in last N days
+//    Only delete accounts created in last N days
 // --test
 //    Show what accounts would be deleted, but don't delete them
 
@@ -75,6 +81,7 @@ function do_delete_user($user) {
     echo "   ID: $user->id\n";
     echo "   email: $user->email_addr\n";
     echo "   name: $user->name\n";
+    echo "   URL: $user->url\n";
     echo "   age:$age days\n";
     if ($test) {
         echo "   (test mode - nothing deleted)\n";
@@ -155,6 +162,21 @@ function delete_profiles() {
     }
 }
 
+function delete_user_url() {
+    global $test, $days;
+    $users = BoincUser::enum("url <> ''");
+    foreach ($users as $user) {
+        if ($days) {
+            if ($user->create_time < time() - $days*86400) continue;
+        }
+        $n = BoincHost::count("userid=$user->id");
+        if ($n) continue;
+        $n = BoincPost::count("user=$user->id");
+        if ($n) continue;
+        do_delete_user($user);
+    }
+}
+
 function delete_banished() {
     global $days;
     $fps = BoincForumPrefs::enum("banished_until>0");
@@ -223,8 +245,10 @@ for ($i=1; $i<$argc; $i++) {
         delete_banished();
     } else if ($argv[$i] == "--teams") {
         delete_teams();
+    } else if ($argv[$i] == "--user_url") {
+        delete_user_url();
     } else {
-        echo "usage: delete_spammers.php [--days] [--test] [--list filename] [--profiles] [--forums] [--id_range N M] [--teams]\n";
+        echo "usage: delete_spammers.php [--days N] [--test] [--list filename] [--profiles] [--forums] [--id_range N M] [--teams] [--user_url]\n";
         exit;
     }
 }
