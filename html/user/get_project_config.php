@@ -107,6 +107,10 @@ if (file_exists($tou_file)) {
     }
 }
 
+if (LDAP_HOST) {
+    echo "<ldap_auth/>\n";
+}
+
 echo "</project_config>";
 
 ?>

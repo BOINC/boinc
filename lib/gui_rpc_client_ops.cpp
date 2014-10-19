@@ -2303,9 +2303,16 @@ int RPC_CLIENT::lookup_account(ACCOUNT_IN& ai) {
     SET_LOCALE sl;
     char buf[1024];
     RPC rpc(this);
+    string passwd_hash;
 
-    downcase_string(ai.email_addr);
-    string passwd_hash = get_passwd_hash(ai.passwd, ai.email_addr);
+    if (strchr(ai.email_addr.c_str(), '@')) {
+        downcase_string(ai.email_addr);
+        passwd_hash = get_passwd_hash(ai.passwd, ai.email_addr);
+    } else {
+        // LDAP case
+        //
+        passwd_hash = ai.passwd;
+    }
     snprintf(buf, sizeof(buf),
         "<lookup_account>\n"
         "   <url>%s</url>\n"
