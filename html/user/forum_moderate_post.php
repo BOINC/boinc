@@ -16,7 +16,6 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-
 // The form where a moderator decides what he is going to do to a post.
 // Submits information to forum_moderate_post_action.php for actual action
 // to be done.
