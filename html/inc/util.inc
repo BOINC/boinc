@@ -943,7 +943,8 @@ function dtime() {
 // Format of user agent string is "BOINC client (windows_x86_64 7.3.17)"
 //
 function boinc_client_version(){
-    $x = $_SERVER[HTTP_USER_AGENT];
+    if (!array_key_exists('HTTP_USER_AGENT', $_SERVER)) return 0;
+    $x = $_SERVER['HTTP_USER_AGENT'];
     $e =  "/BOINC client [^ ]* (\d+).(\d+).(\d+)\)/";
     if (preg_match($e, $x, $matches)) {
         return $matches[1]*10000 + $matches[2]*100 + $matches[3];
