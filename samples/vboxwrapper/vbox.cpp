@@ -920,19 +920,22 @@ int VBOX_VM::create_vm() {
 
         // set up port forwarding
         //
-        if (pf_guest_port) {
-            PORT_FORWARD pf;
-            pf.guest_port = pf_guest_port;
-            pf.host_port = pf_host_port;
-            if (!pf_host_port) {
-                retval = boinc_get_port(false, pf.host_port);
-                if (retval) return retval;
-                pf_host_port = pf.host_port;
-            }
-            port_forwards.push_back(pf);
-        }
         for (unsigned int i=0; i<port_forwards.size(); i++) {
             PORT_FORWARD& pf = port_forwards[i];
+
+            // Web application support means apache is running within the VM.
+            //   It also means we need to persist the host port number across multiple
+            //   restarts of vboxwrapper.  This code chunk really needs to be moved to
+            //   vboxwrapper.cpp.
+            if (pf.web_application) {
+                if (!pf.host_port) {
+                    retval = boinc_get_port(false, pf.host_port);
+                    if (retval) return retval;
+                    pf_host_port = pf.host_port;
+                    pf_guest_port = pf.guest_port;
+                }
+            }
+
             fprintf(
                 stderr,
                 "%s forwarding host port %d to guest port %d\n",

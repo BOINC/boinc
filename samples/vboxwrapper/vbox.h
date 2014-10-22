@@ -74,13 +74,14 @@ struct PORT_FORWARD {
     int host_port;      // 0 means assign dynamically
     int guest_port;
     bool is_remote;
+    bool web_application;
 
     PORT_FORWARD() {
         host_port = 0;
         guest_port = 0;
         is_remote = false;
+        web_application = false;
     }
-    int get_host_port();    // assign host port
 };
 
 // represents a VirtualBox VM
@@ -214,8 +215,6 @@ public:
 #endif
 
     int initialize();
-    int parse_port_forward(XML_PARSER&);
-    void set_web_graphics_url();
     void poll(bool log_state = true);
 
     int create_vm();
