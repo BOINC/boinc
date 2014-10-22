@@ -117,6 +117,7 @@ schedshare_PROGRAMS = \
     sample_substr_validator \
     sample_trivial_validator \
     sample_work_generator \
+	script_assimilator \
 	script_validator \
     single_job_assimilator \
     size_regulator \
@@ -249,6 +250,10 @@ single_job_assimilator_LDADD = $(SERVERLIBS)
 
 sample_work_generator_SOURCES = sample_work_generator.cpp
 sample_work_generator_LDADD = $(SERVERLIBS)
+
+script_assimilator_SOURCES = $(ASSIMILATOR_SOURCES) \
+	script_assimilator.cpp
+script_assimilator_LDADD = $(SERVERLIBS)
 
 script_validator_SOURCES = $(VALIDATOR_SOURCES) \
 	script_validator.cpp

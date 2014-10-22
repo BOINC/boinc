@@ -67,6 +67,10 @@ void parse_cmdline() {
 }
 
 int init_result(RESULT& result, void*&) {
+    if (first) {
+        parse_cmdline();
+        first = false;
+    }
     if (!strlen(init_script)) return 0;
     vector<string> paths;
     int retval;
@@ -89,6 +93,10 @@ int init_result(RESULT& result, void*&) {
 }
 
 int compare_results(RESULT& r1, void*, RESULT const& r2, void*, bool& match) {
+    if (first) {
+        parse_cmdline();
+        first = false;
+    }
     if (!strlen(compare_script)) {
         match = true;
         return 0;
