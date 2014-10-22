@@ -1958,6 +1958,15 @@ int CLIENT_STATE::reset_project(PROJECT* project, bool detaching) {
         }
         garbage_collect_always();
     }
+#ifdef ANDROID
+    // space is likely to be an issue on Android, so clean out project dir
+    // If we did this on other platforms we'd need to avoid deleting
+    // app_config.xml, but this isn't likely to exist on Android.
+    //
+    if (!project->anonymous_platform) {
+        client_clean_out_dir(project.project_dir(), "reset project");
+    }
+#endif
 
     // force refresh of scheduler URLs
     //
