@@ -34,7 +34,8 @@ class DbConn {
             } else {
                 $port = null;
             }
-            if (version_compare(PHP_VERSION, '5.3.0') < 0) {
+            //if (version_compare(PHP_VERSION, '5.3.0') < 0) {
+            if (1) {        // don't use persistent connections for now
                 $this->db_conn = new mysqli($host, $user, $passwd, $name, $port);
             } else {
                 $this->db_conn = new mysqli("p:".$host, $user, $passwd, $name, $port);
