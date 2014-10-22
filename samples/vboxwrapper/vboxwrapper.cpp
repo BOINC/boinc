@@ -455,6 +455,11 @@ void set_web_graphics_url(VBOX_VM& vm) {
         if (pf.guest_port == vm.pf_guest_port) {
             sprintf(buf, "http://localhost:%d", pf.host_port);
             boinc_web_graphics_url(buf);
+
+            fprintf(stderr, "%s Detected: Web Application Enabled (%s)\n",
+                vboxwrapper_msg_prefix(buf, sizeof(buf)), buf
+            );
+
             break;
         }
     }
