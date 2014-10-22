@@ -15,7 +15,9 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// A validator that runs scripts to check and compare results
+// A validator that runs scripts to check and compare results,
+// so that you can do your validation on Python, Perl, bash, etc.
+//
 // cmdline args:
 // --init_script scriptname
 // --compare_script scriptname
