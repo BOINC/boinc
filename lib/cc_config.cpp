@@ -205,7 +205,6 @@ void CC_CONFIG::defaults() {
     client_new_version_text = "";
     client_version_check_url = "http://boinc.berkeley.edu/download.php?xml=1";
     config_coprocs.clear();
-    data_dir[0] = 0;
     disallow_attach = false;
     dont_check_file_sizes = false;
     dont_contact_ref_site = false;
@@ -334,9 +333,6 @@ int CC_CONFIG::parse_options(XML_PARSER& xp) {
             c.specified_in_config = true;
             if (!strcmp(c.type, "CPU")) continue;
             config_coprocs.add(c);
-            continue;
-        }
-        if (xp.parse_str("data_dir", data_dir, sizeof(data_dir))) {
             continue;
         }
         if (xp.parse_bool("disallow_attach", disallow_attach)) continue;
@@ -539,12 +535,6 @@ int CC_CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
             "</device_nums>\n"
             "        </coproc>\n"
         );
-    }
-    
-    // Older versions of BOINC choke on empty data_dir string 
-    //
-    if (strlen(data_dir)) {
-        out.printf("        <data_dir>%s</data_dir>\n", data_dir);
     }
     
     out.printf(

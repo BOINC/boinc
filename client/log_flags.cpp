@@ -248,7 +248,6 @@ void CC_CONFIG::show() {
 // (It's separate so that we can write messages in it)
 
 int CC_CONFIG::parse_options_client(XML_PARSER& xp) {
-    char path[MAXPATHLEN];
     string s;
     int n, retval;
 
@@ -308,13 +307,6 @@ int CC_CONFIG::parse_options_client(XML_PARSER& xp) {
                 msg_printf_notice(NULL, false, NULL,
                     "Duplicate <coproc> element in cc_config.xml"
                 );
-            }
-            continue;
-        }
-        if (xp.parse_str("data_dir", path, sizeof(path))) {
-            if (chdir(path)) {
-                perror("chdir");
-                exit(1);
             }
             continue;
         }
@@ -525,19 +517,6 @@ int read_config_file(bool init, const char* fname) {
 
     if (init) {
         coprocs = cc_config.config_coprocs;
-        if (strlen(cc_config.data_dir)) {
-#ifdef _WIN32
-            _chdir(cc_config.data_dir);
-#else
-            if (chdir(cc_config.data_dir)) {
-                msg_printf(NULL, MSG_INFO,
-                    "Couldn't change to directory specified in cc_config.xml: %s",
-                    cc_config.data_dir
-                );
-                return ERR_OPENDIR;
-            }
-#endif
-        }
     } else {
         select_proxy_info();        // in case added or removed proxy info
     }
