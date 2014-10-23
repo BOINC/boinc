@@ -1454,6 +1454,7 @@ void do_client_simulation() {
             }
         }
     }
+    set_no_rsc_config();
     process_gpu_exclusions();
 
     get_app_params();
