@@ -146,7 +146,6 @@ struct CC_CONFIG {
     std::string client_new_version_text;
     std::string client_version_check_url;
     COPROCS config_coprocs;
-    char data_dir[256];
     bool disallow_attach;
     bool dont_check_file_sizes;
     bool dont_contact_ref_site;
