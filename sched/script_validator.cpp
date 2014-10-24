@@ -16,22 +16,33 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // A validator that runs scripts to check and compare results,
-// so that you can do your validation on Python, Perl, bash, etc.
+// so that you can do your validation in Python, PHP, Perl, bash, etc.
 //
-// cmdline args:
-// --init_script scriptname
-// --compare_script scriptname
+// cmdline args to this program:
+// --init_script "scriptname arg1 ... argn"
+// --compare_script "scriptname arg1 ... argn"
 //
-// the init script is called as
-// scriptname f1 ... fn
-// where f1 ... fn are the output files of a job (there may be just one)
+// The init script checks the validity of a result,
+// e.g. that the output files have the proper format.
 // It returns zero if the files are valid
 //
-// the compare script is called as
-// scriptname f1 ... fn g1 ... gn
-// where f1 ... fn are the output files of one job,
-// and g1 ... gn are the output files are another job.
-// It returns zero if the files are equivalent.
+// The compare script compares two results.
+// If returns zero if the output files are equivalent.
+//
+// arg1 ... argn represent cmdline args to be passed to the scripts.
+// The options for init_script are:
+//
+// files        list of paths of output files of the result
+// result_id    result ID
+// runtime      task runtime
+//
+// Additional options for compare_script, for the second result:
+// files2       list of paths of output files
+// result_id2   result ID
+// runtime2     task runtime
+//
+// "arg1 ... argn" can be omitted,
+// in which case only the output file paths are passed to the scripts.
 
 #include <sys/param.h>
 
@@ -46,19 +57,25 @@ using std::string;
 using std::vector;
 
 bool first = true;
-char init_script[MAXPATHLEN], compare_script[MAXPATHLEN];
+vector<string> init_script, compare_script;
+    // first element is script path, other elements are args
 
 void parse_cmdline() {
-    strcpy(init_script, "");
-    strcpy(compare_script, "");
     for (int i=1; i<g_argc; i++) {
         if (!strcmp(g_argv[i], "--init_script")) {
-            sprintf(init_script, "../bin/%s", g_argv[++i]);
+            init_script = split(g_argv[++i], ' ');
+            if (init_script.size() == 1) {
+                init_script.push_back(string("files"));
+            }
         } else if (!strcmp(g_argv[i], "--compare_script")) {
-            sprintf(compare_script, "../bin/%s", g_argv[++i]);
+            compare_script = split(g_argv[++i], ' ');
+            if (compare_script.size() == 1) {
+                compare_script.push_back("files");
+                compare_script.push_back("files2");
+            }
         }
     }
-    if (!strlen(init_script) && !strlen(compare_script)) {
+    if (!init_script.size() && !compare_script.size()) {
         log_messages.printf(MSG_CRITICAL,
             "script names missing from command line\n"
         );
@@ -67,11 +84,14 @@ void parse_cmdline() {
 }
 
 int init_result(RESULT& result, void*&) {
+    unsigned int i, j;
+    char buf[256];
+
     if (first) {
         parse_cmdline();
         first = false;
     }
-    if (!strlen(init_script)) return 0;
+    if (!init_script.size()) return 0;
     vector<string> paths;
     int retval;
     retval = get_output_file_paths(result, paths);
@@ -80,10 +100,21 @@ int init_result(RESULT& result, void*&) {
         return retval;
     }
     char cmd[4096];
-    strcpy(cmd, init_script);
-    for (unsigned int i=0; i<paths.size(); i++) {
-        strcat(cmd, " ");
-        strcat(cmd, paths[i].c_str());
+    sprintf(cmd, "../bin/%s", init_script[0].c_str());
+    for (i=1; i<init_script.size(); i++) {
+        string& s = init_script[i];
+        if (s == "files") {
+            for (j=0; j<paths.size(); j++) {
+                strcat(cmd, " ");
+                strcat(cmd, paths[j].c_str());
+            }
+        } else if (s == "runtime") {
+            sprintf(buf, " %f", result.elapsed_time);
+            strcat(cmd, buf);
+        } else if (s == "result_id") {
+            sprintf(buf, " %d", result.id);
+            strcat(cmd, buf);
+        }
     }
     retval = system(cmd);
     if (retval) {
@@ -93,11 +124,14 @@ int init_result(RESULT& result, void*&) {
 }
 
 int compare_results(RESULT& r1, void*, RESULT const& r2, void*, bool& match) {
+    unsigned int i, j;
+    char buf[256];
+
     if (first) {
         parse_cmdline();
         first = false;
     }
-    if (!strlen(compare_script)) {
+    if (!compare_script.size()) {
         match = true;
         return 0;
     }
@@ -114,14 +148,32 @@ int compare_results(RESULT& r1, void*, RESULT const& r2, void*, bool& match) {
         return retval;
     }
     char cmd[4096];
-    strcpy(cmd, compare_script);
-    for (unsigned int i=0; i<paths1.size(); i++) {
-        strcat(cmd, " ");
-        strcat(cmd, paths1[i].c_str());
-    }
-    for (unsigned int i=0; i<paths2.size(); i++) {
-        strcat(cmd, " ");
-        strcat(cmd, paths2[i].c_str());
+    sprintf(cmd, "../bin/%s", compare_script[0].c_str());
+    for (i=1; i<compare_script.size(); i++) {
+        string& s = compare_script[i];
+        if (s == "files") {
+            for (j=0; j<paths1.size(); j++) {
+                strcat(cmd, " ");
+                strcat(cmd, paths1[j].c_str());
+            }
+        } else if (s == "files2") {
+            for (j=0; j<paths2.size(); j++) {
+                strcat(cmd, " ");
+                strcat(cmd, paths2[j].c_str());
+            }
+        } else if (s == "runtime") {
+            sprintf(buf, " %f", r1.elapsed_time);
+            strcat(cmd, buf);
+        } else if (s == "result_id") {
+            sprintf(buf, " %d", r1.id);
+            strcat(cmd, buf);
+        } else if (s == "runtime2") {
+            sprintf(buf, " %f", r2.elapsed_time);
+            strcat(cmd, buf);
+        } else if (s == "result_id2") {
+            sprintf(buf, " %d", r2.id);
+            strcat(cmd, buf);
+        }
     }
     retval = system(cmd);
     if (retval) {

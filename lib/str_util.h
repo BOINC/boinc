@@ -19,6 +19,7 @@
 #define STR_UTIL_H
 
 #include <string>
+#include <vector>
 #include <string.h>
 
 extern void strcpy_overlap(char*, const char*);
@@ -99,4 +100,5 @@ extern const char* batch_state_string(int state);
 
 extern void strip_translation(char* p);
 
+extern std::vector<std::string> split(std::string, char delim);
 #endif
