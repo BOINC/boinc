@@ -167,6 +167,8 @@ public:
         // whether to use floppy io infrastructure
     bool enable_remotedesktop;
         // whether to enable remote desktop functionality
+    bool enable_gbac;
+        // whether to enable GBAC functionality
     double job_duration;
         // maximum amount of wall-clock time this VM is allowed to run before
         // considering itself done.
