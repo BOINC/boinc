@@ -256,8 +256,7 @@ int VBOX_VM::initialize() {
     rc = get_version_information(virtualbox_version);
     if (rc) return rc;
 
-    rc = get_guest_additions(virtualbox_guest_additions);
-    if (rc) return rc;
+    get_guest_additions(virtualbox_guest_additions);
 
     return rc;
 }
