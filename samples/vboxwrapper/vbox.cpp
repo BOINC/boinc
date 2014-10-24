@@ -344,6 +344,13 @@ bool VBOX_BASE::is_logged_completion_file_exists() {
     return false;
 }
 
+bool VBOX_BASE::is_logged_temporary_exit_file_exists() {
+    char path[MAXPATHLEN];
+    sprintf(path, "shared/%s", temporary_exit_trigger_file.c_str());
+    if (boinc_file_exists(path)) return true;
+    return false;
+}
+
 bool VBOX_BASE::is_virtualbox_version_newer(int maj, int min, int rel) {
     int vbox_major = 0, vbox_minor = 0, vbox_release = 0;
     if (3 == sscanf(virtualbox_version.c_str(), "%d.%d.%d", &vbox_major, &vbox_minor, &vbox_release)) {
