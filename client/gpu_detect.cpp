@@ -200,6 +200,14 @@ void COPROCS::correlate_gpus(
                 "CUDA: NVIDIA GPU %d (not used): %s",
                 nvidia_gpus[i].device_num, buf
             );
+
+            if ((nvidia_gpus[i].cuda_version >= 6050) &&
+                            nvidia_gpus[i].prop.major < 2) {
+                msg_printf(NULL, MSG_USER_ALERT, "NVIDIA GPU %d: %s %s",
+                    nvidia_gpus[i].device_num, nvidia_gpus[i].prop.name,
+                    _("cannot be used for CUDA or OpenCL computation with CUDA driver 6.5 or later")
+                );
+            }
             break;
         }
         descs.push_back(string(buf2));
