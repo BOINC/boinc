@@ -441,6 +441,11 @@ void COPROC_NVIDIA::correlate(
     bool first = true;
     for (i=0; i<nvidia_gpus.size(); i++) {
         if (in_vector(nvidia_gpus[i].device_num, ignore_devs)) continue;
+        if ((cuda_version >= 6050) && nvidia_gpus[i].prop.major < 2) {
+            // Can't use GPUs with compute capability < 2 with CUDA drivers >= 6.5.x
+            nvidia_gpus[i].is_used = COPROC_UNUSED;
+            continue;
+        }
         if (first) {
             *this = nvidia_gpus[i];
             first = false;
@@ -460,6 +465,9 @@ void COPROC_NVIDIA::correlate(
             nvidia_gpus[i].is_used = COPROC_UNUSED;
         } else if (this->have_cuda && !nvidia_gpus[i].have_cuda) {
             nvidia_gpus[i].is_used = COPROC_UNUSED;
+        } else if (nvidia_gpus[i].is_used == COPROC_UNUSED) {
+            // Can't use GPUs with compute capability < 2 with CUDA drivers >= 6.5.x
+            continue;
         } else if (use_all || !nvidia_compare(nvidia_gpus[i], *this, true)) {
             device_nums[count] = nvidia_gpus[i].device_num;
             pci_infos[count] = nvidia_gpus[i].pci_info;
