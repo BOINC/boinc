@@ -853,6 +853,8 @@ void COPROC::merge_opencl(
     unsigned int i, j;
 
     for (i=0; i<opencls.size(); i++) {
+        opencls[i].is_used = COPROC_UNUSED;
+        
         if (in_vector(opencls[i].device_num, ignore_dev)) {
             opencls[i].is_used = COPROC_IGNORED;
             continue;
