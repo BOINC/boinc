@@ -436,6 +436,8 @@ void COPROC_NVIDIA::correlate(
 
     if (!nvidia_gpus.size()) return;
     
+    have_cuda = true;   // Needed by COPROCS::correlate_opencl()
+    
     // identify the most capable non-ignored instance
     //
     bool first = true;
