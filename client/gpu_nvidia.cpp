@@ -441,7 +441,7 @@ void COPROC_NVIDIA::correlate(
     bool first = true;
     for (i=0; i<nvidia_gpus.size(); i++) {
         if (in_vector(nvidia_gpus[i].device_num, ignore_devs)) continue;
-        if ((cuda_version >= 6050) && nvidia_gpus[i].prop.major < 2) {
+        if ((nvidia_gpus[i].cuda_version >= 6050) && nvidia_gpus[i].prop.major < 2) {
             // Can't use GPUs with compute capability < 2 with CUDA drivers >= 6.5.x
             nvidia_gpus[i].is_used = COPROC_UNUSED;
             continue;
