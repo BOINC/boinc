@@ -351,6 +351,8 @@ void COPROC_NVIDIA::get(
         return;
     }
 
+    have_cuda = true;
+
     retval = (*__cuDeviceGetCount)(&cuda_ndevs);
     if (retval) {
         sprintf(buf, "cuDeviceGetCount() returned %d", retval);
@@ -414,7 +416,6 @@ void COPROC_NVIDIA::get(
 #else
         cc.display_driver_version = nvidia_driver_version();
 #endif
-        have_cuda = true;
         cc.have_cuda = true;
         cc.cuda_version = cuda_version;
         cc.device_num = j;
@@ -435,8 +436,6 @@ void COPROC_NVIDIA::correlate(
     unsigned int i;
 
     if (!nvidia_gpus.size()) return;
-    
-    have_cuda = true;   // Needed by COPROCS::correlate_opencl()
     
     // identify the most capable non-ignored instance
     //
