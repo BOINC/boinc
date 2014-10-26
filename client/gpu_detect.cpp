@@ -243,6 +243,12 @@ void COPROCS::correlate_gpus(
     // Create descriptions for OpenCL NVIDIA GPUs
     //
     for (i=0; i<nvidia_opencls.size(); i++) {
+        if (nvidia_opencls[i].warn_bad_cuda) {
+            msg_printf(NULL, MSG_USER_ALERT, "NVIDIA GPU %d: %s %s",
+                nvidia_opencls[i].device_num, nvidia_opencls[i].name,
+                _("cannot be used for CUDA or OpenCL computation with CUDA driver 6.5 or later")
+            );
+        }
         nvidia_opencls[i].description(buf, sizeof(buf), proc_type_name(PROC_TYPE_NVIDIA_GPU));
         descs.push_back(string(buf));
     }
@@ -357,6 +363,11 @@ int COPROCS::write_coproc_info_file(vector<string> &warnings) {
     
     mf.printf("    <coprocs>\n");
 
+    if (nvidia.have_cuda) {
+        mf.printf("    <have_cuda>1</have_cuda>\n");
+        mf.printf("    <cuda_version>%d</cuda_version>\n", nvidia.cuda_version);
+    }
+    
     for (i=0; i<ati_gpus.size(); ++i) {
        ati_gpus[i].write_xml(mf, false);
     }
@@ -431,6 +442,11 @@ int COPROCS::read_coproc_info_file(vector<string> &warnings) {
         if (xp.match_tag("/coprocs")) {
             fclose(f);
             return 0;
+        }
+
+        if (xp.parse_bool("have_cuda", nvidia.have_cuda)) continue;
+        if (xp.parse_int("cuda_version", nvidia.cuda_version)) {
+             continue;
         }
 
         if (xp.match_tag("coproc_ati")) {
