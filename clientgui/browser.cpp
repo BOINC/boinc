@@ -1231,79 +1231,6 @@ bool detect_cookie_ie(std::string& project_url, std::string& name, std::string& 
 
 //
 // walk through the various browsers looking up the
-// various cookies that make up the simple account creation scheme.
-//
-// give preference to the default platform specific browers first before going
-// to the platform independant browsers since most people don't switch from
-// the default.
-// 
-bool detect_simple_account_credentials(
-    std::string& action, std::string& project_name, std::string& project_url, std::string& authenticator, std::string& creation_time
-) {
-    bool retval = false;
-    std::string strCookieServer("boinc.berkeley.edu");
-    std::string strCookieAction("action");
-    std::string strCookieProjectName("project_name");
-    std::string strCookieProjectURL("project_url");
-    std::string strCookieAuthenticator("authenticator");
-    std::string strCookieCreationTime("creation_time");
-
-#ifdef _WIN32
-    if ( detect_cookie_ie(strCookieServer, strCookieAction, action) &&
-         detect_cookie_ie(strCookieServer, strCookieProjectName, project_name) &&
-         detect_cookie_ie(strCookieServer, strCookieProjectURL, project_url) &&
-         detect_cookie_ie(strCookieServer, strCookieCreationTime, creation_time)
-    ){
-        detect_cookie_ie(strCookieServer, strCookieAuthenticator, authenticator);
-        goto END;
-    }
-#endif
-#ifdef __APPLE__
-    if ( detect_cookie_safari(strCookieServer, strCookieAction, action) &&
-         detect_cookie_safari(strCookieServer, strCookieProjectName, project_name) &&
-         detect_cookie_safari(strCookieServer, strCookieProjectURL, project_url) &&
-         detect_cookie_safari(strCookieServer, strCookieCreationTime, creation_time)
-    ){
-        detect_cookie_safari(strCookieServer, strCookieAuthenticator, authenticator);
-        goto END;
-    }
-#endif
-    if ( detect_cookie_chrome(strCookieServer, strCookieAction, action) &&
-         detect_cookie_chrome(strCookieServer, strCookieProjectName, project_name) &&
-         detect_cookie_chrome(strCookieServer, strCookieProjectURL, project_url) &&
-         detect_cookie_chrome(strCookieServer, strCookieCreationTime, creation_time)
-    ){
-        detect_cookie_chrome(strCookieServer, strCookieAuthenticator, authenticator);
-        goto END;
-    }
-    if ( detect_cookie_firefox_3(strCookieServer, strCookieAction, action) &&
-         detect_cookie_firefox_3(strCookieServer, strCookieProjectName, project_name) &&
-         detect_cookie_firefox_3(strCookieServer, strCookieProjectURL, project_url) &&
-         detect_cookie_firefox_3(strCookieServer, strCookieCreationTime, creation_time)
-    ){
-        detect_cookie_firefox_3(strCookieServer, strCookieAuthenticator, authenticator);
-        goto END;
-    }
-    if ( detect_cookie_firefox_2(strCookieServer, strCookieAction, action) &&
-         detect_cookie_firefox_2(strCookieServer, strCookieProjectName, project_name) &&
-         detect_cookie_firefox_2(strCookieServer, strCookieProjectURL, project_url) &&
-         detect_cookie_firefox_2(strCookieServer, strCookieCreationTime, creation_time)
-    ){
-        detect_cookie_firefox_2(strCookieServer, strCookieAuthenticator, authenticator);
-        goto END;
-    }
-
-END:
-    if (!action.empty() && !project_name.empty() && !project_url.empty() && !creation_time.empty()) {
-        retval = true;
-    }
-
-    return retval;
-}
-
-
-//
-// walk through the various browsers looking up the
 // project cookies until the projects 'Setup' cookie is found.
 //
 // give preference to the default platform specific browers first before going
@@ -1328,6 +1255,80 @@ bool detect_setup_authenticator(
 
 END:
     if (is_authenticator_valid(authenticator)) {
+        retval = true;
+    }
+
+    return retval;
+}
+
+
+//
+// walk through the various browsers looking up the
+// various cookies that make up the simple account creation scheme.
+//
+// give preference to the default platform specific browers first before going
+// to the platform independant browsers since most people don't switch from
+// the default.
+// 
+bool detect_simple_account_credentials(
+    std::string& project_name, std::string& project_url, std::string& authenticator, 
+    std::string& project_institution, std::string& project_description
+) {
+    bool retval = false;
+    std::string strCookieServer("http://boinc.berkeley.edu/");
+    std::string strCookieProjectName("attach_project_name");
+    std::string strCookieProjectURL("attach_master_url");
+    std::string strCookieAuthenticator("attach_auth");
+    std::string strCookieProjectInstitution("attach_project_inst");
+    std::string strCookieProjectDescription("attach_project_desc");
+
+#ifdef _WIN32
+    if ( detect_cookie_ie(strCookieServer, strCookieProjectName, project_name) &&
+         detect_cookie_ie(strCookieServer, strCookieProjectURL, project_url)
+    ){
+        detect_cookie_ie(strCookieServer, strCookieAuthenticator, authenticator);
+        detect_cookie_ie(strCookieServer, strCookieProjectInstitution, project_institution);
+        detect_cookie_ie(strCookieServer, strCookieProjectDescription, project_description);
+        goto END;
+    }
+#endif
+#ifdef __APPLE__
+    if ( detect_cookie_safari(strCookieServer, strCookieProjectName, project_name) &&
+         detect_cookie_safari(strCookieServer, strCookieProjectURL, project_url)
+    ){
+        detect_cookie_safari(strCookieServer, strCookieAuthenticator, authenticator);
+        detect_cookie_safari(strCookieServer, strCookieProjectInstitution, project_institution);
+        detect_cookie_safari(strCookieServer, strCookieProjectDescription, project_description);
+        goto END;
+    }
+#endif
+    if ( detect_cookie_chrome(strCookieServer, strCookieProjectName, project_name) &&
+         detect_cookie_chrome(strCookieServer, strCookieProjectURL, project_url)
+    ){
+        detect_cookie_chrome(strCookieServer, strCookieAuthenticator, authenticator);
+        detect_cookie_chrome(strCookieServer, strCookieProjectInstitution, project_institution);
+        detect_cookie_chrome(strCookieServer, strCookieProjectDescription, project_description);
+        goto END;
+    }
+    if ( detect_cookie_firefox_3(strCookieServer, strCookieProjectName, project_name) &&
+         detect_cookie_firefox_3(strCookieServer, strCookieProjectURL, project_url)
+    ){
+        detect_cookie_firefox_3(strCookieServer, strCookieAuthenticator, authenticator);
+        detect_cookie_firefox_3(strCookieServer, strCookieProjectInstitution, project_institution);
+        detect_cookie_firefox_3(strCookieServer, strCookieProjectDescription, project_description);
+        goto END;
+    }
+    if ( detect_cookie_firefox_2(strCookieServer, strCookieProjectName, project_name) &&
+         detect_cookie_firefox_2(strCookieServer, strCookieProjectURL, project_url)
+    ){
+        detect_cookie_firefox_2(strCookieServer, strCookieAuthenticator, authenticator);
+        detect_cookie_firefox_2(strCookieServer, strCookieProjectInstitution, project_institution);
+        detect_cookie_firefox_2(strCookieServer, strCookieProjectDescription, project_description);
+        goto END;
+    }
+
+END:
+    if (!project_name.empty() && !project_url.empty()) {
         retval = true;
     }
 
