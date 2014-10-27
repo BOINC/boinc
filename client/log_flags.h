@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2014 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -39,6 +39,6 @@ extern CC_CONFIG cc_config;
 extern int read_config_file(bool init, const char* fname=CONFIG_FILE);
 extern void process_gpu_exclusions();
 extern bool gpu_excluded(APP* app, COPROC& cp, int ind);
-
+extern void set_no_rsc_config();
 
 #endif

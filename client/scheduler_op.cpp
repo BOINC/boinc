@@ -247,9 +247,9 @@ int SCHEDULER_OP::start_rpc(PROJECT* p) {
         if (strlen(buf)) {
             msg_printf(p, MSG_INFO, "Requesting new tasks for %s", buf);
         } else {
-            if (p->pwf.cant_fetch_work_reason) {
+            if (p->pwf.project_reason) {
                 msg_printf(p, MSG_INFO,
-                    "Not requesting tasks: %s", cant_fetch_work_string(p, buf)
+                    "Not requesting tasks: %s", project_reason_string(p, buf)
                 );
             } else {
                 msg_printf(p, MSG_INFO, "Not requesting tasks");
