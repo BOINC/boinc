@@ -112,7 +112,7 @@ int RSC_PROJECT_WORK_FETCH::compute_rsc_project_reason(
     if (p->no_rsc_config[rsc_type]) return DONT_FETCH_CONFIG;
     if (p->no_rsc_apps[rsc_type]) return DONT_FETCH_NO_APPS;
     if (p->no_rsc_ams[rsc_type]) return DONT_FETCH_AMS;
-    if (p->rsc_defer_sched[rsc_type]) return DONT_FETCH_DEFER_SCHED;
+    if (p->rsc_pwf[rsc_type].has_deferred_job) return DONT_FETCH_DEFER_SCHED;
 
     // if project has zero resource share,
     // only fetch work if a device is idle
@@ -289,34 +289,27 @@ void RSC_WORK_FETCH::print_state(const char* name) {
         shortfall, nidle_now, saturated_time,
         busy_time_estimator.get_busy_time()
     );
-    msg_printf(0, MSG_INFO, "[work_fetch] sim used inst %d sim excl inst %d",
-        sim_used_instances, sim_excluded_instances
-    );
+//    msg_printf(0, MSG_INFO, "[work_fetch] sim used inst %d sim excl inst %d",
+//        sim_used_instances, sim_excluded_instances
+//    );
     for (unsigned int i=0; i<gstate.projects.size(); i++) {
         char buf[256];
         PROJECT* p = gstate.projects[i];
         if (p->non_cpu_intensive) continue;
-        RSC_PROJECT_WORK_FETCH& pwf = project_state(p);
-        bool no_rsc_pref = p->no_rsc_pref[rsc_type];
-        bool no_rsc_config = p->no_rsc_config[rsc_type];
-        bool no_rsc_apps = p->no_rsc_apps[rsc_type];
-        bool no_rsc_ams = p->no_rsc_ams[rsc_type];
-        double bt = pwf.backoff_time>gstate.now?pwf.backoff_time-gstate.now:0;
+        RSC_PROJECT_WORK_FETCH& rpwf = project_state(p);
+        double bt = rpwf.backoff_time>gstate.now?rpwf.backoff_time-gstate.now:0;
         if (bt) {
             sprintf(buf, " (resource backoff: %.2f, inc %.2f)",
-                bt, pwf.backoff_interval
+                bt, rpwf.backoff_interval
             );
         } else {
             strcpy(buf, "");
         }
         msg_printf(p, MSG_INFO,
-            "[work_fetch] fetch share %.3f%s%s%s%s%s",
-            pwf.fetchable_share,
-            buf,
-            no_rsc_pref?" (blocked by prefs)":"",
-            no_rsc_apps?" (no apps)":"",
-            no_rsc_ams?" (blocked by account manager)":"",
-            no_rsc_config?" (blocked by configuration file)":""
+            "[work_fetch] share %.3f %s %s",
+            rpwf.fetchable_share,
+            rsc_project_reason_string(rpwf.rsc_project_reason),
+            buf
         );
     }
 }
@@ -355,9 +348,48 @@ void PROJECT_WORK_FETCH::rr_init(PROJECT* p) {
     n_runnable_jobs = 0;
 }
 
+void PROJECT_WORK_FETCH::print_state(PROJECT* p) {
+    char buf[1024], buf2[1024];
+    if (project_reason) {
+        sprintf(buf, "can't request work: %s", project_reason_string(p, buf2));
+    } else {
+        strcpy(buf, "can request work");
+    }
+    if (p->min_rpc_time > gstate.now) {
+        sprintf(buf2, " (%.2f sec)", p->min_rpc_time - gstate.now);
+        strcat(buf, buf2);
+    }
+    msg_printf(p, MSG_INFO, "[work_fetch] REC %.3f prio %.3f %s",
+        rec,
+        p->sched_priority,
+        buf
+    );
+}
+
 ///////////////  WORK_FETCH  ///////////////
 
 void WORK_FETCH::rr_init() {
+    // compute PROJECT::RSC_PROJECT_WORK_FETCH::has_deferred_job
+    //
+    for (unsigned int i=0; i<gstate.projects.size(); i++) {
+        PROJECT* p = gstate.projects[i];
+        for (int j=0; j<coprocs.n_rsc; j++) {
+            p->rsc_pwf[j].has_deferred_job = false;
+        }
+    }
+    for (unsigned int i=0; i<gstate.results.size(); i++) {
+        RESULT* rp = gstate.results[i];
+        if (rp->schedule_backoff) {
+            if (rp->schedule_backoff > gstate.now) {
+                int rt = rp->avp->gpu_usage.rsc_type;
+                rp->project->rsc_pwf[rt].has_deferred_job = true;
+            } else {
+                rp->schedule_backoff = 0;
+                gstate.request_schedule_cpus("schedule backoff finished");
+            }
+        }
+    }
+
     for (int i=0; i<coprocs.n_rsc; i++) {
         rsc_work_fetch[i].rr_init();
     }
@@ -369,7 +401,6 @@ void WORK_FETCH::rr_init() {
         }
     }
 }
-
 // copy request fields from RSC_WORK_FETCH to COPROCS
 //
 void WORK_FETCH::copy_requests() {
@@ -399,21 +430,7 @@ void WORK_FETCH::print_state() {
     msg_printf(0, MSG_INFO, "[work_fetch] --- project states ---");
     for (unsigned int i=0; i<gstate.projects.size(); i++) {
         PROJECT* p = gstate.projects[i];
-        char buf[1024], buf2[1024];
-        if (p->pwf.project_reason) {
-            sprintf(buf, "can't req work: %s", project_reason_string(p, buf2));
-        } else {
-            strcpy(buf, "can req work");
-        }
-        if (p->min_rpc_time > gstate.now) {
-            sprintf(buf2, " (backoff: %.2f sec)", p->min_rpc_time - gstate.now);
-            strcat(buf, buf2);
-        }
-        msg_printf(p, MSG_INFO, "[work_fetch] REC %.3f prio %.6f %s",
-            p->pwf.rec,
-            p->sched_priority,
-            buf
-        );
+        p->pwf.print_state(p);
     }
     for (int i=0; i<coprocs.n_rsc; i++) {
         rsc_work_fetch[i].print_state(rsc_name_long(i));
@@ -615,10 +632,6 @@ void WORK_FETCH::setup() {
 //
 PROJECT* WORK_FETCH::choose_project() {
     PROJECT* p;
-
-    if (log_flags.work_fetch_debug) {
-        msg_printf(0, MSG_INFO, "[work_fetch] entering choose_project()");
-    }
 
     p = non_cpu_intensive_project_needing_work();
     if (p) return p;
@@ -1059,8 +1072,9 @@ void CLIENT_STATE::generate_new_host_cpid() {
     }
 }
 
-inline const char* rsc_project_reason_string(int reason) {
+const char* rsc_project_reason_string(int reason) {
     switch (reason) {
+    case 0: return "";
     case DONT_FETCH_GPUS_NOT_USABLE: return "GPUs not usable";
     case DONT_FETCH_PREFS: return "blocked by project preferences";
     case DONT_FETCH_CONFIG: return "client configuration";
@@ -1070,12 +1084,15 @@ inline const char* rsc_project_reason_string(int reason) {
     case DONT_FETCH_ZERO_SHARE: return "zero resource share";
     case DONT_FETCH_BUFFER_FULL: return "job cache full";
     case DONT_FETCH_NOT_HIGHEST_PRIO: return "not highest priority project";
+    case DONT_FETCH_BACKED_OFF: return "project is backed off";
+    case DONT_FETCH_DEFER_SCHED: return "a job is deferred";
     }
-    return "";
+    return "unknown project reason";
 }
 
 const char* project_reason_string(PROJECT* p, char* buf) {
     switch (p->pwf.project_reason) {
+    case 0: return "";
     case CANT_FETCH_WORK_NON_CPU_INTENSIVE:
         return "non CPU intensive";
     case CANT_FETCH_WORK_SUSPENDED_VIA_GUI:
@@ -1120,5 +1137,5 @@ const char* project_reason_string(PROJECT* p, char* buf) {
         }
         return buf;
     }
-    return "";
+    return "unknown reason";
 }

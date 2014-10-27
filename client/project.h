@@ -71,12 +71,6 @@ struct PROJECT : PROJ_AM {
     //
     bool no_rsc_ams[MAX_RSC];
 
-    // the following set dynamically
-    //
-    bool rsc_defer_sched[MAX_RSC];
-        // This project has a GPU job for which there's insuff. video RAM.
-        // Don't fetch more jobs of this type; they might have same problem
-
     char host_venue[256];
         // logically, this belongs in the client state file
         // rather than the account file.

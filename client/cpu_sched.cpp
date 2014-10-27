@@ -1147,12 +1147,6 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
         );
     }
 
-    for (i=0; i<projects.size(); i++) {
-        for (int j=1; j<coprocs.n_rsc; j++) {
-            projects[i]->rsc_defer_sched[j] = false;
-        }
-    }
-
     // schedule non-CPU-intensive tasks,
     // and look for backed-off GPU jobs
     //
@@ -1173,17 +1167,6 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
             //
             //ram_left -= atp->procinfo.working_set_size_smoothed;
             swap_left -= atp->procinfo.swap_size;
-        }
-        if (rp->schedule_backoff) {
-            if (rp->schedule_backoff > gstate.now) {
-                int r = rp->avp->gpu_usage.rsc_type;
-                if (r) {
-                    rp->project->rsc_defer_sched[r] = true;
-                }
-            } else {
-                rp->schedule_backoff = 0;
-                request_schedule_cpus("schedule backoff finished");
-            }
         }
     }
 

@@ -49,7 +49,6 @@ void PROJECT::init() {
         no_rsc_config[i] = false;
         no_rsc_apps[i] = false;
         no_rsc_ams[i] = false;
-        rsc_defer_sched[i] = false;
     }
     strcpy(host_venue, "");
     using_venue_specific_prefs = false;
