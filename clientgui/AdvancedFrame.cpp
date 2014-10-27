@@ -180,7 +180,6 @@ BEGIN_EVENT_TABLE (CAdvancedFrame, CBOINCBaseFrame)
 	EVT_MENU(ID_READCONFIG, CAdvancedFrame::OnReadConfig)
 	EVT_MENU(ID_EVENTLOG, CAdvancedFrame::OnEventLog)
 	EVT_MENU(ID_LAUNCHNEWINSTANCE, CAdvancedFrame::OnLaunchNewInstance)
-	EVT_MENU(ID_TEST1CLICKATTACH, CAdvancedFrame::OnTest1ClickAttach)
     // Help
     EVT_MENU(ID_HELPBOINC, CAdvancedFrame::OnHelpBOINC)
     EVT_MENU(ID_HELPBOINCMANAGER, CAdvancedFrame::OnHelpBOINC)
@@ -616,12 +615,6 @@ bool CAdvancedFrame::CreateMenu() {
         _("Event Log Diagnostic Flags...\tCtrl+Shift+F"),
         _("Enable or disable various diagnostic messages")
     );
-    menuAdvanced->Append(
-		ID_TEST1CLICKATTACH,
-        _("Test 1 Click Attach"),
-        _("")
-    );
-
 
     // Help menu
     wxMenu *menuHelp = new wxMenu;
