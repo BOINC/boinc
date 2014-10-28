@@ -873,7 +873,7 @@ bool CLIENT_STATE::poll_slow_events() {
 #endif
 
     if (user_active != old_user_active) {
-        request_schedule_cpus("Idle state change");
+        request_schedule_cpus(user_active?"Not idle":"Idle");
     }
 
 #if 0
