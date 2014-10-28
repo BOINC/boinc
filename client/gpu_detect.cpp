@@ -203,6 +203,7 @@ void COPROCS::correlate_gpus(
 
             if ((nvidia_gpus[i].cuda_version >= 6050) &&
                             nvidia_gpus[i].prop.major < 2) {
+                // This will be called only if CUDA recognized and reported the GPU
                 msg_printf(NULL, MSG_USER_ALERT, "NVIDIA GPU %d: %s %s",
                     nvidia_gpus[i].device_num, nvidia_gpus[i].prop.name,
                     _("cannot be used for CUDA or OpenCL computation with CUDA driver 6.5 or later")
@@ -244,6 +245,7 @@ void COPROCS::correlate_gpus(
     //
     for (i=0; i<nvidia_opencls.size(); i++) {
         if (nvidia_opencls[i].warn_bad_cuda) {
+            // This will be called only if CUDA did _not_ recognize and report the GPU
             msg_printf(NULL, MSG_USER_ALERT, "NVIDIA GPU %d: %s %s",
                 nvidia_opencls[i].device_num, nvidia_opencls[i].name,
                 _("cannot be used for CUDA or OpenCL computation with CUDA driver 6.5 or later")
