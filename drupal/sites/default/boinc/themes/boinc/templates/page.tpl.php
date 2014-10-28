@@ -211,7 +211,7 @@
             ?>
             </li>
             <?php if (module_exists('global_search') OR module_exists('global_search_solr')): ?>
-              <li class="last"><a class="search" href="<?php print $base_path; ?>search/site"><span class="tab">Search</span></a></li>
+              <li class="last"><a class="search" href="<?php print $base_path; ?>search/site"><span class="tab"><?php print t('search'); ?></span></a></li>
             <?php endif; ?>
           </ul>
         </div>
