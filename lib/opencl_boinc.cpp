@@ -84,13 +84,11 @@ void OPENCL_DEVICE_PROP::write_xml(MIOFILE& f, const char* tag, bool temp_file) 
     );
     if (temp_file) {
         f.printf(
-            "      <is_used>%d</is_used>\n"
             "      <device_num>%d</device_num>\n"
             "      <peak_flops>%f</peak_flops>\n"
             "      <opencl_available_ram>%f</opencl_available_ram>\n"
             "      <opencl_device_index>%d</opencl_device_index>\n"
             "      <warn_bad_cuda>%d</warn_bad_cuda>\n",
-            is_used,
             device_num,
             peak_flops,
             opencl_available_ram,
@@ -184,10 +182,6 @@ int OPENCL_DEVICE_PROP::parse(XML_PARSER& xp, const char* end_tag) {
         
         // The following are used only in the
         // COPROC_INFO_FILENAME temporary file
-        if (xp.parse_int("is_used", n)) {
-            is_used = (COPROC_USAGE)n;
-            continue;
-        }
         if (xp.parse_int("device_num", n)) {
             device_num = n;
             continue;
