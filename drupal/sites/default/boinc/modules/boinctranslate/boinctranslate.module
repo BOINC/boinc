@@ -1,0 +1,52 @@
+<?php
+// $Id$
+
+/**
+ * @file
+ * Provides common BOINC module functionality.
+ *
+ * In general, any custom feature or function required independently by
+ * multiple BOINC modules should be in this module.
+ */
+
+
+/*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
+ * Includes that provide supporting functions
+ *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
+
+//require_once('includes/boinctranslate.forms.inc');
+//require_once('includes/boinctranslate.helpers.inc');
+require_once('boinctranslate.admin.inc');
+
+
+/*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
+ * Hooks into core modules
+ *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
+ 
+/**
+ * Implementation of hook_menu(); determine the actions that correspond
+ * with defined URL paths
+ */
+function boinctranslate_menu() {
+  $items['admin/boinc/community'] = array(
+    'title' => 'Environment: Translation',
+    'description' => 'Configure URLs for translation files (i.e. integration
+      with BOINC Translation Services).',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('boinctranslate_admin_settings'),
+    'access arguments' => array('administer site configuration'),
+    'type' => MENU_NORMAL_ITEM,
+    'file' => 'boinctranslate.admin.inc'
+  );
+  return $items;
+}
+
+
+/*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
+ * Page callbacks from hook_menu()
+ *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
+
+/**
+ * 
+ */
+

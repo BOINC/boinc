@@ -1,0 +1,28 @@
+<?php
+// $Id$
+
+/**
+ * Implementation of hook_install()
+ */
+function boinctranslate_install() {
+  // Use schema API to create database table
+  //drupal_install_schema('boinctranslate');
+}
+
+/**
+* Implementation of hook_uninstall().
+*/
+function boinctranslate_uninstall() {
+  // Use schema API to delete database table.
+  //drupal_uninstall_schema('boinctranslate');
+  // Delete our module's variable from the variables table.
+  //variable_del('boinctranslate_');
+}
+
+/**
+* Implementation of hook_schema().
+*/ /*
+function boinctranslate_schema() {
+  $schema['boinctranslate'] = array();
+  return $schema;
+}*/
