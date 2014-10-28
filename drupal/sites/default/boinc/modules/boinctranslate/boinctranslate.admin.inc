@@ -25,6 +25,10 @@ function boinctranslate_admin_settings(&$form_state) {
       used for translating strings on this site (enter one URL per line).'),
   );
   
+  $form['import_now'] = array(
+    '#value' => '<p>' . l(t('Run the import now'), 'admin/boinc/translation/import') . '</p>',
+  );
+  
   return system_settings_form($form);
 }
 
@@ -38,7 +42,8 @@ function boinctranslate_admin_settings_validate($form, &$form_state) {
   $urls = explode("\n", $values['boinc_translation_service_files']);
   foreach ($urls as $url) {
     $url = trim($url);
-    if (!url_exists($url)) {
+    $result = drupal_http_request($url, array(), 'GET', NULL, 1, 30);
+    if (!$result OR $result->code == '404' OR !$result->data) {
       form_set_error('boinc_translation_service_files', 
         t('@url is not accessible', array('@url' => $url))
       );
@@ -52,5 +57,4 @@ function boinctranslate_admin_settings_validate($form, &$form_state) {
 function boinctranslate_admin_settings_submit($form, &$form_state) {
   drupal_set_message(t('BOINC translation settings have been updated.'));
 }
-
 
