@@ -98,7 +98,7 @@ foreach ($threads as $t) {
 usort($items, 'notice_cmp');
 
 $client_version = boinc_client_version();
-$no_images = ($client_version < 73000);
+$no_images = $client_version && ($client_version < 70300);
 
 notices_rss_start();
 foreach ($items as $item) {

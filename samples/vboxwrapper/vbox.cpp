@@ -100,6 +100,7 @@ VBOX_VM::VBOX_VM() {
     enable_cache_disk = false;
     enable_isocontextualization = false;
     enable_remotedesktop = false;
+    enable_gbac = false;
     register_only = false;
     enable_network = false;
     network_bridged_mode = false;
@@ -226,8 +227,7 @@ int VBOX_VM::initialize() {
     rc = get_version_information(virtualbox_version);
     if (rc) return rc;
 
-    rc = get_guest_additions(virtualbox_guest_additions);
-    if (rc) return rc;
+    get_guest_additions(virtualbox_guest_additions);
 
     return 0;
 }
@@ -770,22 +770,26 @@ int VBOX_VM::create_vm() {
         retval = vbm_popen(command, output, "storage attach (ISO 9660 image)");
         if (retval) return retval;
 
-        // Add guest additions to the VM
-        //
-        fprintf(
-            stderr,
-            "%s Adding VirtualBox Guest Additions to VM.\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf))
-        );
-        command  = "storageattach \"" + vm_name + "\" ";
-        command += "--storagectl \"Hard Disk Controller\" ";
-        command += "--port 2 ";
-        command += "--device 0 ";
-        command += "--type dvddrive ";
-        command += "--medium \"" + virtualbox_guest_additions + "\" ";
+        if (!virtualbox_guest_additions.empty()) {
 
-        retval = vbm_popen(command, output, "storage attach (guest additions image)");
-        if (retval) return retval;
+            // Add guest additions to the VM
+            //
+            fprintf(
+                stderr,
+                "%s Adding VirtualBox Guest Additions to VM.\n",
+                vboxwrapper_msg_prefix(buf, sizeof(buf))
+            );
+            command  = "storageattach \"" + vm_name + "\" ";
+            command += "--storagectl \"Hard Disk Controller\" ";
+            command += "--port 2 ";
+            command += "--device 0 ";
+            command += "--type dvddrive ";
+            command += "--medium \"" + virtualbox_guest_additions + "\" ";
+
+            retval = vbm_popen(command, output, "storage attach (guest additions image)");
+            if (retval) return retval;
+
+        }
 
         // Add a virtual cache disk drive to VM
         //
@@ -829,22 +833,26 @@ int VBOX_VM::create_vm() {
         retval = vbm_popen(command, output, "storage attach (fixed disk)");
         if (retval) return retval;
 
-        // Add guest additions to the VM
-        //
-        fprintf(
-            stderr,
-            "%s Adding VirtualBox Guest Additions to VM.\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf))
-        );
-        command  = "storageattach \"" + vm_name + "\" ";
-        command += "--storagectl \"Hard Disk Controller\" ";
-        command += "--port 1 ";
-        command += "--device 0 ";
-        command += "--type dvddrive ";
-        command += "--medium \"" + virtualbox_guest_additions + "\" ";
+        if (!virtualbox_guest_additions.empty()) {
 
-        retval = vbm_popen(command, output, "storage attach (guest additions image)");
-        if (retval) return retval;
+            // Add guest additions to the VM
+            //
+            fprintf(
+                stderr,
+                "%s Adding VirtualBox Guest Additions to VM.\n",
+                vboxwrapper_msg_prefix(buf, sizeof(buf))
+            );
+            command  = "storageattach \"" + vm_name + "\" ";
+            command += "--storagectl \"Hard Disk Controller\" ";
+            command += "--port 1 ";
+            command += "--device 0 ";
+            command += "--type dvddrive ";
+            command += "--medium \"" + virtualbox_guest_additions + "\" ";
+
+            retval = vbm_popen(command, output, "storage attach (guest additions image)");
+            if (retval) return retval;
+
+        }
 
     }
 
@@ -913,19 +921,22 @@ int VBOX_VM::create_vm() {
 
         // set up port forwarding
         //
-        if (pf_guest_port) {
-            PORT_FORWARD pf;
-            pf.guest_port = pf_guest_port;
-            pf.host_port = pf_host_port;
-            if (!pf_host_port) {
-                retval = boinc_get_port(false, pf.host_port);
-                if (retval) return retval;
-                pf_host_port = pf.host_port;
-            }
-            port_forwards.push_back(pf);
-        }
         for (unsigned int i=0; i<port_forwards.size(); i++) {
             PORT_FORWARD& pf = port_forwards[i];
+
+            // Web application support means apache is running within the VM.
+            //   It also means we need to persist the host port number across multiple
+            //   restarts of vboxwrapper.  This code chunk really needs to be moved to
+            //   vboxwrapper.cpp.
+            if (pf.web_application) {
+                if (!pf.host_port) {
+                    retval = boinc_get_port(false, pf.host_port);
+                    if (retval) return retval;
+                    pf_host_port = pf.host_port;
+                    pf_guest_port = pf.guest_port;
+                }
+            }
+
             fprintf(
                 stderr,
                 "%s forwarding host port %d to guest port %d\n",

@@ -97,26 +97,28 @@ schedbin_PROGRAMS = \
     delete_file \
     get_file \
     make_work \
-    sched_driver \
     put_file \
+    sched_driver \
     show_shmem \
     wu_check
 
 schedshare_PROGRAMS = \
+    antique_file_deleter \
     census \
     credit_test \
     db_dump \
     db_purge \
     feeder \
     file_deleter \
-    antique_file_deleter \
     message_handler \
     sample_assimilator \
-    sample_dummy_assimilator \
     sample_bitwise_validator \
+    sample_dummy_assimilator \
     sample_substr_validator \
     sample_trivial_validator \
     sample_work_generator \
+	script_assimilator \
+	script_validator \
     single_job_assimilator \
     size_regulator \
     transitioner \
@@ -248,6 +250,14 @@ single_job_assimilator_LDADD = $(SERVERLIBS)
 
 sample_work_generator_SOURCES = sample_work_generator.cpp
 sample_work_generator_LDADD = $(SERVERLIBS)
+
+script_assimilator_SOURCES = $(ASSIMILATOR_SOURCES) \
+	script_assimilator.cpp
+script_assimilator_LDADD = $(SERVERLIBS)
+
+script_validator_SOURCES = $(VALIDATOR_SOURCES) \
+	script_validator.cpp
+script_validator_LDADD = $(SERVERLIBS)
 
 db_dump_SOURCES = db_dump.cpp
 db_dump_LDADD = $(SERVERLIBS)

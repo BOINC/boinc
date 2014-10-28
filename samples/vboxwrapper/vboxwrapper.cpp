@@ -126,36 +126,39 @@ char* vboxwrapper_msg_prefix(char* sbuf, int len) {
     return sbuf;
 }
 
-int VBOX_VM::parse_port_forward(XML_PARSER& xp) {
+int parse_port_forward(XML_PARSER& xp, VBOX_VM& vm) {
     int host_port=0, guest_port=0, nports=1;
-    bool is_remote;
+    bool is_remote = false, web_application = false;
+    char buf[256];
     while (!xp.get_tag()) {
         if (xp.match_tag("/port_forward")) {
-            if (!host_port) {
-                fprintf(stderr, "parse_port_forward: unspecified host port\n");
-                return ERR_XML_PARSE;
-            }
             if (!guest_port) {
-                fprintf(stderr, "parse_port_forward: unspecified guest port\n");
-                return ERR_XML_PARSE;
+                fprintf(stderr, "%s parse_port_forward(): unspecified guest port\n",
+                    vboxwrapper_msg_prefix(buf, sizeof(buf))
+                );
             }
             PORT_FORWARD pf;
             pf.host_port = host_port;
             pf.guest_port = guest_port;
             pf.is_remote = is_remote;
+            pf.web_application = web_application;
             for (int i=0; i<nports; i++) {
-                port_forwards.push_back(pf);
+                vm.port_forwards.push_back(pf);
                 pf.host_port++;
                 pf.guest_port++;
+                pf.web_application = false;
             }
             return 0;
         }
+        else if (xp.parse_bool("web_application", web_application)) continue;
         else if (xp.parse_bool("is_remote", is_remote)) continue;
         else if (xp.parse_int("host_port", host_port)) continue;
         else if (xp.parse_int("guest_port", guest_port)) continue;
         else if (xp.parse_int("nports", nports)) continue;
         else {
-            fprintf(stderr, "parse_port_forward: unparsed %s\n", xp.parsed_tag);
+            fprintf(stderr, "%s parse_port_forward(): unexpected tag %s\n",
+                vboxwrapper_msg_prefix(buf, sizeof(buf)), xp.parsed_tag
+            );
         }
     }
     return ERR_XML_PARSE;
@@ -164,6 +167,7 @@ int VBOX_VM::parse_port_forward(XML_PARSER& xp) {
 int parse_job_file(VBOX_VM& vm) {
     INTERMEDIATE_UPLOAD iu;
     MIOFILE mf;
+    int guest_port=0;
     string str;
     char buf[1024], buf2[256];
 
@@ -206,8 +210,16 @@ int parse_job_file(VBOX_VM& vm) {
         else if (xp.parse_bool("enable_cache_disk", vm.enable_cache_disk)) continue;
         else if (xp.parse_bool("enable_isocontextualization", vm.enable_isocontextualization)) continue;
         else if (xp.parse_bool("enable_remotedesktop", vm.enable_remotedesktop)) continue;
-        else if (xp.parse_int("pf_guest_port", vm.pf_guest_port)) continue;
-        else if (xp.parse_int("pf_host_port", vm.pf_host_port)) continue;
+        else if (xp.parse_bool("enable_gbac", vm.enable_gbac)) continue;
+        else if (xp.parse_int("pf_guest_port", guest_port)) {
+            PORT_FORWARD pf;
+            pf.host_port = 0;
+            pf.guest_port = guest_port;
+            pf.is_remote = false;
+            pf.web_application = true;
+            vm.port_forwards.push_back(pf);
+            continue;
+        }
         else if (xp.parse_string("copy_to_shared", str)) {
             vm.copy_to_shared.push_back(str);
             continue;
@@ -231,11 +243,13 @@ int parse_job_file(VBOX_VM& vm) {
             continue;
         }
         else if (xp.match_tag("port_forward")) {
-            vm.parse_port_forward(xp);
+            parse_port_forward(xp, vm);
         }
-        fprintf(stderr, "%s parse_job_file(): unexpected tag %s\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf)), xp.parsed_tag
-        );
+        else {
+            fprintf(stderr, "%s parse_job_file(): unexpected tag %s\n",
+                vboxwrapper_msg_prefix(buf, sizeof(buf)), xp.parsed_tag
+            );
+        }
     }
     fclose(f);
     return ERR_XML_PARSE;
@@ -428,13 +442,18 @@ void set_floppy_image(APP_INIT_DATA& aid, VBOX_VM& vm) {
 
 // if there's a port for web graphics, tell the client about it
 //
-void VBOX_VM::set_web_graphics_url() {
+void set_web_graphics_url(VBOX_VM& vm) {
     char buf[256];
-    for (unsigned int i=0; i<port_forwards.size(); i++) {
-        PORT_FORWARD& pf = port_forwards[i];
-        if (pf.guest_port == pf_guest_port) {
+    for (unsigned int i=0; i<vm.port_forwards.size(); i++) {
+        PORT_FORWARD& pf = vm.port_forwards[i];
+        if (pf.web_application) {
             sprintf(buf, "http://localhost:%d", pf.host_port);
             boinc_web_graphics_url(buf);
+
+            fprintf(stderr, "%s Detected: Web Application Enabled (%s)\n",
+                vboxwrapper_msg_prefix(buf, sizeof(buf)), buf
+            );
+
             break;
         }
     }
@@ -1121,8 +1140,7 @@ int main(int argc, char** argv) {
     }
 
     set_floppy_image(aid, vm);
-    //set_port_forwarding_info(aid, vm);
-    vm.set_web_graphics_url();
+    set_web_graphics_url(vm);
     set_remote_desktop_info(aid, vm);
     write_checkpoint(elapsed_time, current_cpu_time, vm);
 

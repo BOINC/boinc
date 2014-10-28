@@ -26,6 +26,7 @@
 
 #ifndef _WIN32
 #include "config.h"
+#include <sstream>
 #include <string>
 #include <cmath>
 #include <string.h>
@@ -45,6 +46,8 @@
 #include "str_util.h"
 
 using std::string;
+using std::stringstream;
+using std::vector;
 
 // Use this instead of strncpy().
 // Result will always be null-terminated, and it's faster.
@@ -739,4 +742,14 @@ void parse_serialnum(char* in, char* boinc, char* vbox, char* coprocs) {
         *p = c;
         in = p;
     }
+}
+
+vector<string> split(string s, char delim) {
+    vector<string> result;
+    stringstream ss(s);
+    string item;
+    while (getline(ss, item, delim)) {
+        result.push_back(item);
+    }
+    return result;
 }

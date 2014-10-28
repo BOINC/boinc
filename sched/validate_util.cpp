@@ -61,7 +61,7 @@ int OUTPUT_FILE_INFO::parse(XML_PARSER& xp) {
     return ERR_XML_PARSE;
 }
 
-int get_output_file_info(RESULT& result, OUTPUT_FILE_INFO& fi) {
+int get_output_file_info(RESULT const& result, OUTPUT_FILE_INFO& fi) {
     char path[MAXPATHLEN];
     string name;
     MIOFILE mf;
@@ -87,7 +87,7 @@ int get_output_file_info(RESULT& result, OUTPUT_FILE_INFO& fi) {
     return ERR_XML_PARSE;
 }
 
-int get_output_file_infos(RESULT& result, vector<OUTPUT_FILE_INFO>& fis) {
+int get_output_file_infos(RESULT const& result, vector<OUTPUT_FILE_INFO>& fis) {
     char path[MAXPATHLEN];
     MIOFILE mf;
     string name;
@@ -115,7 +115,7 @@ int get_output_file_infos(RESULT& result, vector<OUTPUT_FILE_INFO>& fis) {
     return 0;
 }
 
-int get_output_file_path(RESULT& result, string& path) {
+int get_output_file_path(RESULT const& result, string& path) {
     OUTPUT_FILE_INFO fi;
     int retval = get_output_file_info(result, fi);
     if (retval) return retval;
@@ -123,7 +123,7 @@ int get_output_file_path(RESULT& result, string& path) {
     return 0;
 }
 
-int get_output_file_paths(RESULT& result, vector<string>& paths) {
+int get_output_file_paths(RESULT const& result, vector<string>& paths) {
     vector<OUTPUT_FILE_INFO> fis;
     int retval = get_output_file_infos(result, fis);
     if (retval) return retval;

@@ -37,10 +37,10 @@ struct OUTPUT_FILE_INFO {
     int parse(XML_PARSER&);
 };
 
-extern int get_output_file_info(RESULT& result, OUTPUT_FILE_INFO&);
-extern int get_output_file_infos(RESULT& result, std::vector<OUTPUT_FILE_INFO>&);
-extern int get_output_file_path(RESULT& result, std::string&);
-extern int get_output_file_paths(RESULT& result, std::vector<std::string>&);
+extern int get_output_file_info(RESULT const& result, OUTPUT_FILE_INFO&);
+extern int get_output_file_infos(RESULT const& result, std::vector<OUTPUT_FILE_INFO>&);
+extern int get_output_file_path(RESULT const& result, std::string&);
+extern int get_output_file_paths(RESULT const& result, std::vector<std::string>&);
 extern int get_logical_name(
     RESULT& result, std::string& path, std::string& name
 );

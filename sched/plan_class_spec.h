@@ -38,6 +38,8 @@ struct PLAN_CLASS_SPEC {
     double projected_flops_scale;
     bool have_os_regex;
     regex_t os_regex;
+    bool have_cpu_vendor_regex;
+    regex_t cpu_vendor_regex;
     double min_os_version;
     double max_os_version;
     char project_prefs_tag[256];

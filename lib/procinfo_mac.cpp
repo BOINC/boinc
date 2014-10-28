@@ -137,6 +137,11 @@ int procinfo_setup(PROC_MAP& pm) {
         p.swap_size = (double)virtual_mem * 1024.;
         p.user_time += 60. * (float)hours;
         p.is_boinc_app = (p.id == pid || strcasestr(p.command, "boinc"));
+        // Ideally, we should count ScreenSaverEngine.app as a BOINC process
+        // only if BOINC is set as the screensaver.  We could set a flag in
+        // the client when the get_screensaver_tasks rpc is called, but that
+        // would not be 100% reliable for several reasons.
+        if (strcasestr(p.command, "screensaverengine")) p.is_boinc_app = true;
         p.is_low_priority = (priority <= 12);
 
         switch (iBrandID) {
