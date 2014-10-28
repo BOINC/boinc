@@ -147,6 +147,7 @@ int LOOKUP_ACCOUNT_OP::do_rpc(ACCOUNT_IN& ai) {
     } else {
         // LDAP case
         //
+        if (!is_https(ai.url.c_str())) return ERR_NEED_HTTPS;
         url += "?ldap_auth=1&ldap_uid=";
         parameter = ai.email_addr;
         escape_url(parameter);

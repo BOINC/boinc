@@ -532,6 +532,7 @@ const char* boincerror(int which_error) {
         case ERR_ABORTED_ON_EXIT: return "job was aborted on client exit";
         case ERR_PROC_PARSE: return "a /proc entry was not parsed correctly";
         case ERR_PIPE: return "pipe() failed";
+        case ERR_NEED_HTTPS: return "HTTPS needed";
         case 404: return "HTTP file not found";
         case 407: return "HTTP proxy authentication failure";
         case 416: return "HTTP range request error";
