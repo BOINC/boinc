@@ -20,8 +20,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="edu.berkeley.boinc"
     android:installLocation="internalOnly"
-    android:versionCode="98"
-    android:versionName="7.4.24" > <!-- installation on SD card would break boot receiver -->
+    android:versionCode="99"
+    android:versionName="7.4.25" > <!-- installation on SD card would break boot receiver -->
 
 
     <!-- Add Google Play store metadata informing the store we can run on tablets and other large screen devices -->
