@@ -203,6 +203,7 @@
 #define ERR_PROC_PARSE      -235
 #define ERR_STATFS          -236
 #define ERR_PIPE            -237
+#define ERR_NEED_HTTPS      -238
 
 // PLEASE: add a text description of your error to 
 // the text description function boincerror() in str_util.cpp.
