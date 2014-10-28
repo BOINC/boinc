@@ -234,6 +234,18 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
         }
     }
 
+    // CPU vendor
+    //
+    if (have_cpu_vendor_regex && regexec(&(cpu_vendor_regex), sreq.host.p_vendor, 0, NULL, 0)) {
+        if (config.debug_version_select) {
+            log_messages.printf(MSG_NORMAL,
+                "[version] plan_class_spec: CPU vendor '%s' didn't match regexp\n",
+                sreq.host.p_vendor
+            );
+        }
+        return false;
+    }
+
     // BOINC versions
     //
     if (min_core_client_version && sreq.core_client_version < min_core_client_version) {
@@ -813,15 +825,23 @@ int PLAN_CLASS_SPEC::parse(XML_PARSER& xp) {
         if (xp.parse_double("projected_flops_scale", projected_flops_scale)) continue;
         if (xp.parse_str("os_regex", buf, sizeof(buf))) {
             if (regcomp(&(os_regex), buf, REG_EXTENDED|REG_NOSUB) ) {
-                log_messages.printf(MSG_CRITICAL, "BAD REGEXP: %s\n", buf);
+                log_messages.printf(MSG_CRITICAL, "BAD OS REGEXP: %s\n", buf);
                 return ERR_XML_PARSE;
             }
             have_os_regex = true;
             continue;
         }
+        if (xp.parse_str("cpu_vendor_regex", buf, sizeof(buf))) {
+            if (regcomp(&(cpu_vendor_regex), buf, REG_EXTENDED|REG_NOSUB) ) {
+                log_messages.printf(MSG_CRITICAL, "BAD CPU VENDOR REGEXP: %s\n", buf);
+                return ERR_XML_PARSE;
+            }
+            have_cpu_vendor_regex = true;
+            continue;
+        }
         if (xp.parse_str("host_summary_regex", buf, sizeof(buf))) {
             if (regcomp(&(host_summary_regex), buf, REG_EXTENDED|REG_NOSUB) ) {
-                log_messages.printf(MSG_CRITICAL, "BAD REGEXP: %s\n", buf);
+                log_messages.printf(MSG_CRITICAL, "BAD HOST SUMMARY REGEXP: %s\n", buf);
                 return ERR_XML_PARSE;
             }
             have_host_summary_regex = true;
@@ -832,7 +852,7 @@ int PLAN_CLASS_SPEC::parse(XML_PARSER& xp) {
         if (xp.parse_str("project_prefs_tag", project_prefs_tag, sizeof(project_prefs_tag))) continue;
         if (xp.parse_str("project_prefs_regex", buf, sizeof(buf))) {
             if (regcomp(&(project_prefs_regex), buf, REG_EXTENDED|REG_NOSUB) ) {
-                log_messages.printf(MSG_CRITICAL, "BAD REGEXP: %s\n", buf);
+                log_messages.printf(MSG_CRITICAL, "BAD PROJECT PREFS REGEXP: %s\n", buf);
                 return ERR_XML_PARSE;
             }
             have_project_prefs_regex = true;
