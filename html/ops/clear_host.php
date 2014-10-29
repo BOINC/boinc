@@ -22,7 +22,7 @@ $hostid = get_int("hostid");
 
 $host = BoincHost::lookup_id($hostid);
 if (!$host) {
-    error_page("no such host\n");
+    admin_error_page("no such host\n");
 }
 
 $host->update("rpc_time=0");

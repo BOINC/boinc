@@ -23,7 +23,7 @@ require_once('../inc/util_ops.inc');
 function update() {
     $id = post_int("id");
     $av = BoincAppVersion::lookup_id($id);
-    if (!$av) error_page("no such app version");
+    if (!$av) admin_error_page("no such app version");
 
     $n = post_str("beta", true) ? 1 : 0;
     $av->update("beta=$n");

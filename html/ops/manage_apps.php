@@ -23,7 +23,7 @@ require_once('../inc/util_ops.inc');
 function do_updates() {
     $id = post_int("id");
     $app = BoincApp::lookup_id($id);
-    if (!$app) error_page("no such app");
+    if (!$app) admin_error_page("no such app");
 
     $n = post_str("deprecated", true)?1:0;
     $app->update("deprecated=$n");
@@ -56,7 +56,7 @@ function add_app() {
     $name = BoincDb::escape_string(post_str('add_name'));
     $user_friendly_name = BoincDb::escape_string(post_str('add_user_friendly_name'));
     if (empty($name) || empty($user_friendly_name) ) {
-        error_page(
+        admin_error_page(
             "To add a new application please supply both a brief name and a longer 'user-friendly' name.</font></p>"
         );
     }
@@ -65,7 +65,7 @@ function add_app() {
         "(name,user_friendly_name,create_time) VALUES ('$name', '$user_friendly_name', $now)"
     );
     if (!$id) {
-        error_page("insert failed");
+        admin_error_page("insert failed");
     }
     echo "Application added.
         <p>

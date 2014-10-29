@@ -38,7 +38,10 @@ function admin_page_head($title) {
 }
 
 function admin_page_tail() {
-    echo "</body></html>\n";
+    echo "
+        <hr><center><a href=index.php>Main page</a></center>n
+        </body></html>
+    ";
 }
 
 // TODO: get rid of all the following
