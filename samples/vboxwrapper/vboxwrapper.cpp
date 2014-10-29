@@ -226,6 +226,7 @@ int parse_job_file(VBOX_VM& vm) {
         else if (xp.parse_bool("enable_cache_disk", vm.enable_cache_disk)) continue;
         else if (xp.parse_bool("enable_isocontextualization", vm.enable_isocontextualization)) continue;
         else if (xp.parse_bool("enable_remotedesktop", vm.enable_remotedesktop)) continue;
+        else if (xp.parse_bool("enable_gbac", vm.enable_gbac)) continue;
         else if (xp.parse_int("pf_guest_port", vm.pf_guest_port)) continue;
         else if (xp.parse_int("pf_host_port", vm.pf_host_port)) continue;
         else if (xp.parse_string("copy_to_shared", str)) {

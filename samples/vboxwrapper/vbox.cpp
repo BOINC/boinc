@@ -99,6 +99,7 @@ VBOX_BASE::VBOX_BASE() {
     enable_cache_disk = false;
     enable_isocontextualization = false;
     enable_remotedesktop = false;
+    enable_gbac = false;
     register_only = false;
     enable_network = false;
     network_bridged_mode = false;
