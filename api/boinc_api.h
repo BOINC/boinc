@@ -56,6 +56,7 @@ typedef struct BOINC_OPTIONS {
         // if heartbeat fail, or get process control msg, take
         // direction action (exit, suspend, resume).
         // Otherwise just set flag in BOINC status
+        // This is true for regular apps, false for wrappers
     int multi_thread;
         // set this if application creates threads in main process
     int multi_process;

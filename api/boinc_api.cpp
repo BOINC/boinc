@@ -1179,18 +1179,19 @@ static void timer_handler() {
     // see if the client has died, which means we need to die too
     // (unless we're in a critical section)
     //
-    if (in_critical_section==0 && options.check_heartbeat) {
+    if (options.check_heartbeat) {
         if (client_dead()) {
             fprintf(stderr, "%s timer handler: client dead, exiting\n",
                 boinc_msg_prefix(buf, sizeof(buf))
             );
-            if (options.direct_process_action) {
+            if (options.direct_process_action && !in_critical_section) {
                 exit_from_timer_thread(0);
             } else {
                 boinc_status.no_heartbeat = true;
             }
         }
     }
+
     // don't bother reporting CPU time etc. if we're suspended
     //
     if (options.send_status_msgs && !boinc_status.suspended) {
@@ -1428,13 +1429,16 @@ void boinc_end_critical_section() {
     // See if we got suspend/quit/abort while in critical section,
     // and handle them here.
     //
-    if (boinc_status.quit_request) {
-        boinc_exit(0);
-    }
-    if (boinc_status.abort_request) {
-        boinc_exit(EXIT_ABORTED_BY_CLIENT);
-    }
     if (options.direct_process_action) {
+        if (boinc_status.no_heartbeat) {
+            boinc_exit(0);
+        }
+        if (boinc_status.quit_request) {
+            boinc_exit(0);
+        }
+        if (boinc_status.abort_request) {
+            boinc_exit(EXIT_ABORTED_BY_CLIENT);
+        }
         acquire_mutex();
         if (suspend_request) {
             suspend_request = false;
