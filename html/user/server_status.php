@@ -43,7 +43,7 @@
 // <sched_host>  hostname of scheduling server (default: same as <host>)
 // <uldl_host>   hostname of upload/download server (default: same as <host>)
 // <uldl_pid>    pid file of upload/download server httpd.conf
-//               (default: /etc/httpd/run/httpd.pid)
+//               (default: /var/run/httpd/httpd.pid)
 // <ssh_exe>     path to ssh (default: /usr/bin/ssh)
 // <ps_exe>      path to ps (which supports "w" flag) (default: /bin/ps)
 
@@ -60,6 +60,18 @@ $xml = get_int("xml", true);
 
 if (!defined('STATUS_PAGE_TTL')) {
     define('STATUS_PAGE_TTL', 3600);
+}
+
+function remote_file_exists($host, $path) {
+    global $project_host;
+    if ($host == $project_host) {
+        return file_exists($path);
+    }
+    $cmd = "/usr/bin/ssh $host 'ls $path' 2>&1";
+    //echo $cmd;
+    exec($cmd, $out, $retval);
+    //echo "retval: $retval";
+    return ($retval == 0);
 }
 
 // daemon status outputs: 1 (running) 0 (not running) or -1 (disabled)
@@ -92,17 +104,22 @@ function daemon_status($host, $pidname, $progname, $disabled) {
     return $running;
 }
 
+// $running: 1 running, 0 not running, -1 disabled
+//
 function show_status($host, $progname, $running) {
     global $xml;
     $xmlstring = "    <daemon>\n      <host>$host</host>\n      <command>$progname</command>\n";
     $htmlstring = "<tr><td>$progname</td><td>$host</td>";
-    if ($running == 1) {
+    switch ($running) {
+    case 1:
         $xmlstring .= "      <status>running</status>\n";
         $htmlstring .= "<td class=\"running\">".tra("Running")."</td>\n";
-    } elseif ($running == 0) {
+        break;
+    case 0:
         $xmlstring .= "      <status>not running</status>\n";
         $htmlstring .= "<td class=\"notrunning\">".tra("Not Running")."</td>\n";
-    } else {
+        break;
+    default:
         $xmlstring .= "      <status>disabled</status>\n";
         $htmlstring .= "<td class=\"disabled\">".tra("Disabled")."</td>\n";
     }
@@ -196,7 +213,7 @@ if ($sched_host == "") {
 }
 $uldl_pid = parse_element($config_vars,"<uldl_pid>");
 if ($uldl_pid == "") {
-    $uldl_pid = "/etc/httpd/run/httpd.pid";
+    $uldl_pid = "/var/run/httpd/httpd.pid";
 }
 $uldl_host = parse_element($config_vars,"<uldl_host>");
 if ($uldl_host == "") {
@@ -266,9 +283,8 @@ show_status($www_host, tra("data-driven web pages"), $web_running);
 
 // Check for httpd.pid file of upload/download server.
 //
-$uldl_running = file_exists($uldl_pid);
-if ($uldl_running == 0) $uldl_running = -1;
-show_status($uldl_host, tra("upload/download server"), $uldl_running);
+$uldl_running = remote_file_exists($uldl_host, $uldl_pid);
+show_status($uldl_host, tra("upload/download server"), $uldl_running?1:0);
 
 $sched_running = !file_exists("../../stop_sched");
 show_status($sched_host, tra("scheduler"), $sched_running);
@@ -417,7 +433,7 @@ if (BoincDB::get_aux(true) == null) {
         "hosts_registered_in_past_24_hours",
         get_mysql_count("host", "create_time > (unix_timestamp() - (24*3600))")
     );
-    // 200 cobblestones = 1 GigaFLOPS
+    // 200 cobblestones = 1 GigaFLOPS-day
     show_counts(
         tra("current GigaFLOPs"),
         "current_floating_point_speed",
@@ -476,8 +492,8 @@ if (BoincDB::get_aux(true) == null) {
     }
 }
 
-$xmlstring = "  </database_file_states>\n</server_status>\n";
 if ($xml) {
+    $xmlstring = "  </database_file_states>\n</server_status>\n";
     echo $xmlstring;
 } else {
     echo "

@@ -395,6 +395,7 @@ sys.path.insert(0, os.path.join('%s', 'py'))
             'file_deleter',
             'get_file',
             'make_work',
+            'pshelper',
             'put_file',
             'pymw_assimilator.py',
             'sample_assimilator',
