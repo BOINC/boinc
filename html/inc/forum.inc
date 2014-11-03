@@ -798,6 +798,19 @@ function notify_subscriber($thread, $user) {
     BoincNotify::replace("userid=$user->id, create_time=$now, type=$type, opaque=$thread->id");
 }
 
+// notify subscribed users, except for the given user
+//
+function notify_subscribers($thread, $user) {
+    $subs = BoincSubscription::enum("threadid=$thread->id");
+    foreach ($subs as $sub) {
+        if ($user && ($user->id == $sub->userid)) continue;
+        $user2 = BoincUser::lookup_id($sub->userid);
+        if ($user2) {
+            notify_subscriber($thread, $user2);
+        }
+    }
+}
+
 // Various functions for adding/hiding/unhiding stuff.
 // These take care of counts and timestamps.
 // Don't do these things directly - use these functions
@@ -810,16 +823,8 @@ function create_post($content, $parent_id, $user, $forum, $thread, $signature) {
     $id = BoincPost::insert("(thread, user, timestamp, content, parent_post, signature) values ($thread->id, $user->id, $now, '$content', $parent_id, $sig)");
     if (!$id) return null;
 
-    // notify subscribed users
-    //
-    $subs = BoincSubscription::enum("threadid=$thread->id");
-    foreach ($subs as $sub) {
-        if ($user->id == $sub->userid) continue;
-        $user2 = BoincUser::lookup_id($sub->userid);
-        if ($user2) {
-            notify_subscriber($thread, $user2);
-        }
-    }
+    notify_subscribers($thread, $user);
+
     $user->prefs->update("posts=posts+1");
     $thread->update("replies=replies+1, timestamp=$now");
     $forum->update("posts=posts+1, timestamp=$now");
@@ -931,6 +936,7 @@ function forum_delete_user($user) {
 }
 
 function move_post($post, $old_thread, $old_forum, $new_thread, $new_forum) {
+    global $g_logged_in_user;
     $post->update("thread=$new_thread->id");
     $old_thread->update("replies=replies-1");
     $new_thread->update("replies=replies+1");
@@ -940,6 +946,7 @@ function move_post($post, $old_thread, $old_forum, $new_thread, $new_forum) {
     update_thread_timestamp($new_thread);
     update_forum_timestamp($old_forum);
     update_forum_timestamp($new_forum);
+    notify_subscribers($new_thread, $g_logged_in_user);
     return true;
 }
 
