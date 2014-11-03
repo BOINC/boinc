@@ -2071,78 +2071,131 @@ int VBOX_VM::get_default_network_interface(string& iface) {
 }
 
 int VBOX_VM::get_vm_network_bytes_sent(double& sent) {
-    string command;
+    int retval = ERR_EXEC;
+    char buf[256];
+    HRESULT rc;
+    CComPtr<IConsole> pConsole;
+    CComPtr<IMachineDebugger> pDebugger;
+    CComBSTR strPattern("/Devices/*/TransmitBytes");
+    CComBSTR strOutput;
     string output;
     string counter_value;
     size_t counter_start;
     size_t counter_end;
-    int retval;
 
-    command  = "debugvm \"" + vm_name + "\" ";
-    command += "statistics --pattern \"/Devices/*/TransmitBytes\" ";
-
-    retval = vbm_popen(command, output, "get bytes sent");
-    if (retval) return retval;
-
-    // Output should look like this:
-    // <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-    // <Statistics>
-    // <Counter c="397229" unit="bytes" name="/Devices/PCNet0/TransmitBytes"/>
-    // <Counter c="256" unit="bytes" name="/Devices/PCNet1/TransmitBytes"/>
-    // </Statistics>
-
-    // add up the counter(s)
-    //
-    sent = 0;
-    counter_start = output.find("c=\"");
-    while (counter_start != string::npos) {
-        counter_start += 3;
-        counter_end = output.find("\"", counter_start);
-        counter_value = output.substr(counter_start, counter_end - counter_start);
-        sent += atof(counter_value.c_str());
-        counter_start = output.find("c=\"", counter_start);
+    // Get console object. 
+    rc = m_pSession->get_Console(&pConsole);
+    if (FAILED(rc)) {
+        fprintf(
+            stderr,
+            "%s Error retrieving console object! rc = 0x%x\n",
+            boinc_msg_prefix(buf, sizeof(buf)),
+            rc
+        );
+        virtualbox_dump_error();
+        retval = rc;
+        goto CLEANUP;
     }
-    return 0;
+
+
+    // Get debugger object
+    rc = pConsole->get_Debugger(&pDebugger);
+    if (SUCCEEDED(rc)) {
+        rc = pDebugger->GetStats(strPattern, false, &strOutput);
+        if (SUCCEEDED(rc)) {
+            output = CW2A(strOutput);
+
+            // Output should look like this:
+            // <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+            // <Statistics>
+            // <Counter c="397229" unit="bytes" name="/Devices/PCNet0/TransmitBytes"/>
+            // <Counter c="256" unit="bytes" name="/Devices/PCNet1/TransmitBytes"/>
+            // </Statistics>
+
+            // add up the counter(s)
+            //
+            sent = 0;
+            counter_start = output.find("c=\"");
+            while (counter_start != string::npos) {
+                counter_start += 3;
+                counter_end = output.find("\"", counter_start);
+                counter_value = output.substr(counter_start, counter_end - counter_start);
+                sent += atof(counter_value.c_str());
+                counter_start = output.find("c=\"", counter_start);
+            }
+
+            retval = BOINC_SUCCESS;
+        }
+    }
+
+CLEANUP:
+    return retval;
 }
 
 int VBOX_VM::get_vm_network_bytes_received(double& received) {
-    string command;
+    int retval = ERR_EXEC;
+    char buf[256];
+    HRESULT rc;
+    CComPtr<IConsole> pConsole;
+    CComPtr<IMachineDebugger> pDebugger;
+    CComBSTR strPattern("/Devices/*/ReceiveBytes");
+    CComBSTR strOutput;
     string output;
     string counter_value;
     size_t counter_start;
     size_t counter_end;
-    int retval;
 
-    command  = "debugvm \"" + vm_name + "\" ";
-    command += "statistics --pattern \"/Devices/*/ReceiveBytes\" ";
-
-    retval = vbm_popen(command, output, "get bytes received");
-    if (retval) return retval;
-
-    // Output should look like this:
-    // <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-    // <Statistics>
-    // <Counter c="9423150" unit="bytes" name="/Devices/PCNet0/ReceiveBytes"/>
-    // <Counter c="256" unit="bytes" name="/Devices/PCNet1/ReceiveBytes"/>
-    // </Statistics>
-
-    // add up the counter(s)
-    //
-    received = 0;
-    counter_start = output.find("c=\"");
-    while (counter_start != string::npos) {
-        counter_start += 3;
-        counter_end = output.find("\"", counter_start);
-        counter_value = output.substr(counter_start, counter_end - counter_start);
-        received += atof(counter_value.c_str());
-        counter_start = output.find("c=\"", counter_start);
+    // Get console object. 
+    rc = m_pSession->get_Console(&pConsole);
+    if (FAILED(rc)) {
+        fprintf(
+            stderr,
+            "%s Error retrieving console object! rc = 0x%x\n",
+            boinc_msg_prefix(buf, sizeof(buf)),
+            rc
+        );
+        virtualbox_dump_error();
+        retval = rc;
+        goto CLEANUP;
     }
 
-    return 0;
+
+    // Get debugger object
+    rc = pConsole->get_Debugger(&pDebugger);
+    if (SUCCEEDED(rc)) {
+        rc = pDebugger->GetStats(strPattern, false, &strOutput);
+        if (SUCCEEDED(rc)) {
+            output = CW2A(strOutput);
+
+            // Output should look like this:
+            // <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+            // <Statistics>
+            // <Counter c="9423150" unit="bytes" name="/Devices/PCNet0/ReceiveBytes"/>
+            // <Counter c="256" unit="bytes" name="/Devices/PCNet1/ReceiveBytes"/>
+            // </Statistics>
+
+            // add up the counter(s)
+            //
+            received = 0;
+            counter_start = output.find("c=\"");
+            while (counter_start != string::npos) {
+                counter_start += 3;
+                counter_end = output.find("\"", counter_start);
+                counter_value = output.substr(counter_start, counter_end - counter_start);
+                received += atof(counter_value.c_str());
+                counter_start = output.find("c=\"", counter_start);
+            }
+
+            retval = BOINC_SUCCESS;
+        }
+    }
+
+CLEANUP:
+    return retval;
 }
 
 int VBOX_VM::get_vm_process_id() {
-    return 0;
+    return vm_pid;
 }
 
 int VBOX_VM::get_vm_exit_code(unsigned long& exit_code) {
