@@ -68,6 +68,10 @@ function boinctranslate_refresh_translations() {
   $urls = explode("\n", $urls);
   foreach ($urls as $url) {
     $url = trim($url);
+    if ($url[0] == '#') {
+      // This is just a comment... carry on
+      continue;
+    }
     $result = drupal_http_request($url, array(), 'GET', NULL, 1, 30);
     if ($result AND $result->code != '404' AND $result->data) {
       // Get the language code from the file and add if not yet supported

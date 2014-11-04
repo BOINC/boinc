@@ -42,6 +42,10 @@ function boinctranslate_admin_settings_validate($form, &$form_state) {
   $urls = explode("\n", $values['boinc_translation_service_files']);
   foreach ($urls as $url) {
     $url = trim($url);
+    if ($url[0] == '#') {
+      // This is just a comment... carry on
+      continue;
+    }
     $result = drupal_http_request($url, array(), 'GET', NULL, 1, 30);
     if (!$result OR $result->code == '404' OR !$result->data) {
       form_set_error('boinc_translation_service_files', 
