@@ -730,6 +730,7 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
     // These are on the Community preferences form (boincwork module)
     unset($form['enable_pm_mail']);
     unset($form['friend_notification']);
+    unset($form['locale']);
     unset($form['signature_settings']);
     unset($form['timezone']);
     unset($form['wysiwyg']);

@@ -1383,7 +1383,7 @@ function communityprefs_form(&$form_state) {
   $form['notifications'] = array(
     '#type' => 'fieldset',
     '#title' => t('Notification settings'),
-    '#weight' => 1,
+    '#weight' => 5,
     '#collapsible' => TRUE,
     '#collapsed' => FALSE
   );
@@ -1406,13 +1406,42 @@ function communityprefs_form(&$form_state) {
     '#options' => array(0 => t('yes'), -1 => t('no')),
     '#attributes' => array('class' => 'fancy'),
     '#default_value' => $default['friend_notification']
-  ); 
+  );
+  
+  // Internationalization options
+  if (module_exists('internationalization')) {
+    $languages = language_list('enabled');
+    $languages = $languages[1];
+    $names = array();
+    foreach ($languages as $langcode => $item) {
+      $name = t($item->name);
+      $names[check_plain($langcode)] = check_plain($name . ($item->native != $name ? ' ('. $item->native .')' : ''));
+    }
+    $form['locale'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('Language settings'),
+      '#weight' => 10,
+      '#collapsible' => TRUE,
+      '#collapsed' => FALSE,
+    );
+
+    // Get language negotiation settings.
+    $mode = variable_get('language_negotiation', LANGUAGE_NEGOTIATION_NONE);
+    $user_preferred_language = user_preferred_language($account);
+    $form['locale']['language'] = array(
+      '#type' => (count($names) <= 5 ? 'radios' : 'select'),
+      '#title' => t('Language'),
+      '#default_value' => check_plain($user_preferred_language->language),
+      '#options' => $names,
+      '#description' => ($mode == LANGUAGE_NEGOTIATION_PATH) ? t("This account's default language for e-mails and preferred language for site presentation.") : t("This account's default language for e-mails."),
+    );
+  }
   
   // Forum options
   $form['forums'] = array(
     '#type' => 'fieldset',
     '#title' => t('Forum settings'),
-    '#weight' => 2,
+    '#weight' => 15,
     '#collapsible' => TRUE,
     '#collapsed' => FALSE
   );
@@ -1497,14 +1526,28 @@ function communityprefs_form_submit($form, &$form_state) {
   // Private message settings
   pm_email_notify_user('submit', $edit, $user);
   // All other settings
-  user_save($user, array(
+  $settings = array(
     'signature' => $edit['signature'],
     'signature_format' => $edit['signature_format'],
     'timezone' => $edit['timezone'],
     'friend_notification' => $edit['friend_notification'],
     'comments_per_page' => $edit['comments_per_page'],
     'sort' => $edit['comments_order'],
-  ));
+  );
+  if (module_exists('internationalization')) {
+    $settings['language'] = $edit['language'];
+    global $language;
+    if ($user->language != $edit['language']) {
+      global $base_url;
+      if ($edit['language'] != language_default('language')) {
+        $form_state['redirect'] = $base_url . '/' . $edit['language'] . '/' . $_GET['q'];
+      }
+      else {
+        $form_state['redirect'] = $base_url . '/' . $_GET['q'];
+      }
+    }
+  }
+  user_save($user, $settings);
   
   drupal_set_message(t('Your community preferences have been updated.'));
 }
