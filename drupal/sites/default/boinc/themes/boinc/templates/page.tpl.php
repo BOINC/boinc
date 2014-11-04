@@ -345,7 +345,10 @@
         </div>
         
         <div id="footer-info">
-          <div id="language">Language</div>
+          <div id="language"
+            style="background: url(<?php print path_to_theme() . '/images/icon-' . $language->language . '.png'; ?>) no-repeat right;">
+              <?php print t('Language'); ?>
+          </div>
           
           <?php if ($footer_message): ?>
             <div id="footer-message"><?php print $footer_message; ?></div>
