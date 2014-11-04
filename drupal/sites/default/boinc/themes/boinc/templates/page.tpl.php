@@ -346,7 +346,7 @@
         
         <div id="footer-info">
           <div id="language"
-            style="background: url(<?php print path_to_theme() . '/images/icon-' . $language->language . '.png'; ?>) no-repeat right;">
+            style="background: url(<?php print base_path() . path_to_theme() . '/images/flags/' . $language->language . '.png'; ?>) no-repeat right;">
               <?php print t('Language'); ?>
           </div>
           
