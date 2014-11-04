@@ -1053,6 +1053,38 @@ function join_page($type = null) {
 }
 
 /**
+  * Home page content for embedding in Panels page
+  */
+function boincuser_home_page() {
+  global $user;
+  $output = '<div class="boinc-overview balance-height-front">';
+  $output .= '  <div>' . t("Einstein@Home is a program that uses your computer's idle time to run a screensaver to search for gravitational waves from spinning neutron stars (also called pulsars) using data from the LIGO gravitational wave detector.") . ' ' . l(t('Learn more'), 'about') . '</div>';
+  if ($user->uid) {
+    $output .= '  <div>' . l(t('View account'), 'dashboard', array('attributes' => array('class' => 'join button'))) . '</div>';
+  }
+  else {
+    $output .= '  <div>' . l(t('Join now'), 'join', array('attributes' => array('class' => 'join button'))) . '</div>';
+  }
+  $output .= '</div>';
+  $output .= '<div class="boinc-overview-details">';
+  $output .= '  <div class="detail-container">';
+  $output .= '    <div class="detail-section">';
+  $output .= '      <div class="about text">' . t('About our screensaver') . '</div>';
+  $output .= '    </div>';
+  $output .= '    <div class="detail-section">';
+  $output .= '      <div class="text">' . t('Over 500,000 volunteers and counting.') . '</div>';
+  $output .= '      <div class="platforms">';
+  $output .= '        <div class="platform windows">' . t('Windows') . '</div>';
+  $output .= '        <div class="platform mac">' .  t('Mac') . '</div>';
+  $output .= '        <div class="platform linux">' . t('Linux') . '</div>';
+  $output .= '      </div>';
+  $output .= '    </div>';
+  $output .= '  </div>';
+  $output .= '</div>';
+  return $output;
+}
+
+/**
  * Page callback for the create account RPC (create_account.php).
  * Create a new user account based on supplied parameters.
  */

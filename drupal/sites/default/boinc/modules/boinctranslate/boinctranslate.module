@@ -48,6 +48,17 @@ function boinctranslate_menu() {
 }
 
 
+/**
+ * Implementation of hook_panels_pane_content_alter()
+ * This workaround makes panel page titles and pane titles translatable
+ */
+function boinctranslate_panels_pane_content_alter($content, $pane, $args, $context) {
+  if ($content->title) {
+    $content->title = t($content->title);
+  }
+  return $content;
+}
+
 /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
  * Page callbacks from hook_menu()
  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */

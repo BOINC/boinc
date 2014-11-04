@@ -546,26 +546,8 @@ echo \'<div class="item-count-wrapper"><div class="item-count">\' . $account->po
     $pane->configuration = array(
       'admin_title' => 'BOINC overview',
       'title' => 'What is Einstein@Home?',
-      'body' => '<div class="boinc-overview balance-height-front">
-  <div>Einstein@Home is a program that uses your computer\'s idle time to run a screensaver to search for gravitational waves from spinning neutron stars (also called pulsars) using data from the LIGO gravitational wave detector. <a href="about">Learn more.</a></div>
-  <div><a class="join button" href="join">Join now</a></div>
-</div>
-<div class="boinc-overview-details">
-  <div class="detail-container">
-    <div class="detail-section">
-      <div class="about text">About Our Screensaver</div>
-    </div>
-    <div class="detail-section">
-      <div class="text">Over 500,000 volunteers and counting.</div>
-      <div class="platforms">
-        <div class="platform windows">Windows</div>
-        <div class="platform mac">Mac</div>
-        <div class="platform linux">Linux</div>
-      </div>
-    </div>
-  </div>
-</div>',
-      'format' => '2',
+      'body' => '<?php print boincuser_home_page(); ?>',
+      'format' => '3',
       'substitute' => TRUE,
     );
     $pane->cache = array();
@@ -603,26 +585,8 @@ echo \'<div class="item-count-wrapper"><div class="item-count">\' . $account->po
     $pane->configuration = array(
       'admin_title' => 'BOINC user home',
       'title' => 'Welcome back!',
-      'body' => '<div class="boinc-overview balance-height-front">
-  <div>Einstein@Home is a program that uses your computer\'s idle time to run a screensaver to search for gravitational waves from spinning neutron stars (also called pulsars) using data from the LIGO gravitational wave detector. <a href="about">Learn more.</a></div>
-  <div><a class="join button" href="dashboard">View account</a></div>
-</div>
-<div class="boinc-overview-details">
-  <div class="detail-container">
-    <div class="detail-section">
-      <div class="about text">About Our Screensaver</div>
-    </div>
-    <div class="detail-section">
-      <div class="text">Over 500,000 volunteers and counting.</div>
-      <div class="platforms">
-        <div class="platform windows">Windows</div>
-        <div class="platform mac">Mac</div>
-        <div class="platform linux">Linux</div>
-      </div>
-    </div>
-  </div>
-</div>',
-      'format' => '2',
+      'body' => '<?php print boincuser_home_page(); ?>',
+      'format' => '3',
       'substitute' => TRUE,
     );
     $pane->cache = array();
