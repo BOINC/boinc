@@ -68,8 +68,8 @@ function boinctranslate_refresh_translations() {
   $urls = explode("\n", $urls);
   foreach ($urls as $url) {
     $url = trim($url);
-    if ($url[0] == '#') {
-      // This is just a comment... carry on
+    if (!$url OR $url[0] == '#') {
+      // Ignore empty lines and comments
       continue;
     }
     $result = drupal_http_request($url, array(), 'GET', NULL, 1, 30);

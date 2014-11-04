@@ -17,16 +17,27 @@ function boinctranslate_admin_settings(&$form_state) {
   );
   
   // Define the form
+  
+  if (trim($default['translation_file_urls'])) {
+    $form['import_now'] = array(
+      '#value' => '<div class="form-item">'
+      . '<label>' . t('Import translations') . ':</label>'
+      . '<p>'
+      . l(t('Run the import now'), 'admin/boinc/translation/import')
+      . '</p>'
+      . '</div>',
+    );
+  }
+  
   $form['boinc_translation_service_files'] = array(
     '#type' => 'textarea',
     '#title' => t('Translation file URLs'),
     '#default_value' => $default['translation_file_urls'],
     '#description' => t('List URLs to translation files (.po) that should be
-      used for translating strings on this site (enter one URL per line).'),
-  );
-  
-  $form['import_now'] = array(
-    '#value' => '<p>' . l(t('Run the import now'), 'admin/boinc/translation/import') . '</p>',
+      used for translating strings on this site (enter one URL per line). Files
+      will be imported in the order they are given, so translations from the
+      files at the top of the list will be overridden by any matching
+      translations that appear in files further down the list.'),
   );
   
   return system_settings_form($form);
@@ -42,8 +53,8 @@ function boinctranslate_admin_settings_validate($form, &$form_state) {
   $urls = explode("\n", $values['boinc_translation_service_files']);
   foreach ($urls as $url) {
     $url = trim($url);
-    if ($url[0] == '#') {
-      // This is just a comment... carry on
+    if (!$url OR $url[0] == '#') {
+      // Ignore empty lines and comments
       continue;
     }
     $result = drupal_http_request($url, array(), 'GET', NULL, 1, 30);
