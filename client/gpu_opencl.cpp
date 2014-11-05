@@ -411,6 +411,7 @@ void COPROCS::get_opencl(
                                 prop.warn_bad_cuda = true;
                                 break;
                             } else {
+                                // Older CUDA drivers should report all NVIDIA GPUs reported by OpenCL
                                 return; // Should never happen
                             }
                         }
