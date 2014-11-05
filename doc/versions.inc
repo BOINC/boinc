@@ -44,12 +44,12 @@ function linux_info() {
 }
 
 $w74dev = array(
-	"num"=>"7.4.26",
+	"num"=>"7.4.27",
 	"status"=>"Development version",
-	"file"=>"boinc_7.4.26_windows_intelx86.exe",
-	"vbox_file"=>"boinc_7.4.26_windows_intelx86_vbox.exe",
+	"file"=>"boinc_7.4.27_windows_intelx86.exe",
+	"vbox_file"=>"boinc_7.4.27_windows_intelx86_vbox.exe",
   "vbox_version"=>"4.3.12",
-	"date"=>"29 Oct 2014",
+	"date"=>"5 Nov 2014",
 	"type"=>"win_new",
 );
 
@@ -88,12 +88,12 @@ $w5816 = array(
 );
 
 $w74x64dev = array(
-	"num"=>"7.4.26",
+	"num"=>"7.4.27",
 	"status"=>"Development version",
-	"file"=>"boinc_7.4.26_windows_x86_64.exe",
-	"vbox_file"=>"boinc_7.4.26_windows_x86_64_vbox.exe",
+	"file"=>"boinc_7.4.27_windows_x86_64.exe",
+	"vbox_file"=>"boinc_7.4.27_windows_x86_64_vbox.exe",
   "vbox_version"=>"4.3.12",
-	"date"=>"29 Oct 2014",
+	"date"=>"5 Nov 2014",
 	"type"=>"win_new",
 );
 
