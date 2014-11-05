@@ -99,11 +99,16 @@ code {
   font-family: "Courier New", "DejaVu Sans Mono", monospace;
 }
 
+pre {
+  white-space: pre-wrap;
+}
+
 code {
   background-color: #f8f8f8;
   border: 1px dashed #aaa;
   display: block;
   padding: 8px;
+  overflow: auto;
 }
 
 /*
