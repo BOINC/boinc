@@ -276,7 +276,7 @@ struct APP {
 };
 
 struct GPU_USAGE {
-    int rsc_type;
+    int rsc_type;   // index into COPROCS array
     double usage;
 };
 

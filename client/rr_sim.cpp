@@ -126,7 +126,7 @@ struct RR_SIM {
 void set_rrsim_flops(RESULT* rp) {
     // For coproc jobs, use app version estimate
     //
-    if (rp->uses_coprocs()) {
+    if (rp->uses_gpu()) {
         rp->rrsim_flops = rp->avp->flops * gstate.overall_gpu_frac();
     } else if (rp->avp->needs_network) {
         rp->rrsim_flops =  rp->avp->flops * gstate.overall_cpu_and_network_frac();
@@ -459,7 +459,7 @@ void RR_SIM::simulate() {
 
                 // update busy time of relevant processor types
                 //
-                double frac = rpbest->uses_coprocs()?gstate.overall_gpu_frac():gstate.overall_cpu_frac();
+                double frac = rpbest->uses_gpu()?gstate.overall_gpu_frac():gstate.overall_cpu_frac();
                 double dur = rpbest->estimated_runtime_remaining() / frac;
                 rsc_work_fetch[0].update_busy_time(dur, rpbest->avp->avg_ncpus);
                 int rt = rpbest->avp->gpu_usage.rsc_type;

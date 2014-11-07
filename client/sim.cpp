@@ -584,7 +584,7 @@ bool ACTIVE_TASK_SET::poll() {
         ACTIVE_TASK* atp = active_tasks[i];
         if (atp->task_state() != PROCESS_EXECUTING) continue;
         RESULT* rp = atp->result;
-        if (rp->uses_coprocs()) {
+        if (rp->uses_gpu()) {
             if (gpu_active) {
                 cpu_usage_gpu += rp->avp->avg_ncpus;
             }
@@ -606,12 +606,12 @@ bool ACTIVE_TASK_SET::poll() {
         ACTIVE_TASK* atp = active_tasks[i];
         if (atp->task_state() != PROCESS_EXECUTING) continue;
         RESULT* rp = atp->result;
-        if (!gpu_active && rp->uses_coprocs()) {
+        if (!gpu_active && rp->uses_gpu()) {
             continue;
         }
         atp->elapsed_time += diff;
         double flops = rp->avp->flops;
-        if (!rp->uses_coprocs()) {
+        if (!rp->uses_gpu()) {
             flops *= cpu_scale;
         }
 
