@@ -151,8 +151,10 @@ struct PROC_RESOURCES {
             }
         }
         if (rp->schedule_backoff > gstate.now) return false;
-        if (rp->uses_coprocs()) {
+        if (rp->uses_gpu()) {
             if (gpu_suspend_reason) return false;
+        }
+        if (rp->uses_coprocs()) {
             if (sufficient_coprocs(*rp)) {
                 return true;
             } else {
@@ -1045,7 +1047,7 @@ void CLIENT_STATE::append_unfinished_time_slice(vector<RESULT*> &run_list) {
         ACTIVE_TASK* atp = active_tasks.active_tasks[i];
         atp->overdue_checkpoint = false;
         if (!atp->result->runnable()) continue;
-        if (atp->result->uses_coprocs() && gpu_suspend_reason) continue;
+        if (atp->result->uses_gpu() && gpu_suspend_reason) continue;
         if (atp->result->non_cpu_intensive()) continue;
         if (atp->scheduler_state != CPU_SCHED_SCHEDULED) continue;
         if (finished_time_slice(atp)) continue;
@@ -1190,7 +1192,7 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
 
         // if we're already using all the CPUs,
         // don't allow additional CPU jobs;
-        // allow GPU jobs if the resulting CPU load is at most ncpus+1
+        // allow coproc jobs if the resulting CPU load is at most ncpus+1
         //
         if (ncpus_used >= ncpus) {
             if (rp->uses_coprocs()) {
@@ -1217,7 +1219,7 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
 
 #if 0
         // Don't overcommit CPUs by > 1 if a MT job is scheduled.
-        // Skip this check for GPU jobs.
+        // Skip this check for coproc jobs.
         //
         if (!rp->uses_coprocs()
             && (scheduled_mt || (rp->avp->avg_ncpus > 1))
@@ -1337,7 +1339,7 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
                 // remove from memory GPU jobs that were suspended by CPU throttling
                 // and are now unscheduled.
                 //
-                if (atp->result->uses_coprocs()) {
+                if (atp->result->uses_gpu()) {
                     atp->preempt(REMOVE_ALWAYS);
                     request_schedule_cpus("removed suspended GPU task");
                     break;

@@ -142,6 +142,7 @@ struct PCI_INFO {
 struct COPROC {
     char type[256];     // must be unique
     int count;          // how many are present
+    bool is_gpu;
     double peak_flops;
     double used;        // how many are in use (used by client)
     bool have_cuda;     // True if this GPU supports CUDA on this computer
@@ -197,6 +198,7 @@ struct COPROC {
         // can't just memcpy() - trashes vtable
         type[0] = 0;
         count = 0;
+        is_gpu = false;
         peak_flops = 0;
         used = 0;
         have_cuda = false;
@@ -284,6 +286,7 @@ struct COPROC_NVIDIA : public COPROC {
 #endif
     COPROC_NVIDIA(): COPROC() {
         clear();
+        is_gpu = true;
     }
     void get(std::vector<std::string>& warnings);
     void correlate(
@@ -321,6 +324,7 @@ struct COPROC_ATI : public COPROC {
 #endif
     COPROC_ATI(): COPROC() {
         clear();
+        is_gpu = true;
     }
     void get(std::vector<std::string>& warnings);
     void correlate(
@@ -345,6 +349,7 @@ struct COPROC_INTEL : public COPROC {
 #endif
     COPROC_INTEL(): COPROC() {
         clear();
+        is_gpu = true;
     }
     void get(std::vector<std::string>& warnings);
     void correlate(
