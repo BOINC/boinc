@@ -54,6 +54,8 @@ require_once("../inc/xml.inc");
 require_once("../inc/cache.inc");
 require_once("../inc/translation.inc");
 
+define('DEBUG', false);
+
 check_get_args(array("xml"));
 
 $xml = get_int("xml", true);
@@ -68,9 +70,11 @@ function remote_file_exists($host, $path) {
         return file_exists($path);
     }
     $cmd = "/usr/bin/ssh $host 'ls $path' 2>&1";
-    //echo $cmd;
     exec($cmd, $out, $retval);
-    //echo "retval: $retval";
+    if (DEBUG) {
+        echo "remote_file_exists: $cmd<br>\n";
+        echo "  retval: $retval<br>\n";
+    }
     return ($retval == 0);
 }
 
@@ -80,25 +84,47 @@ function daemon_status($host, $pidname, $progname, $disabled) {
     global $ssh_exe, $ps_exe, $project_host, $project_dir;
     if ($disabled == 1) return -1;
     $path = "$project_dir/pid_$host/$pidname";
-    if ($host != $project_host) {
+    if ($host != gethostname()) {
         $command = "$ssh_exe $host $project_dir/bin/pshelper $path";
         $foo = exec($command);
+        if (DEBUG) {
+            echo "daemon_status, remote: cmd $command<br>\n";
+            echo "  result: $foo<br>\n";
+        }
         $running = 1;
         if ($foo) {
             if (strstr($foo, "false")) $running = 0;
-        } else $running = 0;
+        } else {
+            $running = 0;
+        }
         return $running;
     }
     $running = 0;
+    if (DEBUG) {
+        echo "daemon_stats, local; path $path<br>\n";
+    }
     if (is_file($path)) {
         $pid = file_get_contents($path);
         if ($pid) {
             $pid = trim($pid);
             $command = "$ps_exe ww $pid";
-            $foo = exec($command);
-            if ($foo) {
-                if (strstr($foo, (string)$pid)) $running = 1;
+            $foo = exec($command, $out, $ret);
+            if (DEBUG) {
+                echo "  cmd $command; ret $ret, output $foo<br>\n";
             }
+            if ($foo) {
+                if (strstr($foo, (string)$pid)) {
+                    $running = 1;
+                }
+            }
+        } else {
+            if (DEBUG) {
+                echo "  file is empty<br>\n";
+            }
+        }
+    } else {
+        if (DEBUG) {
+            echo "  no such file<br>\n";
         }
     }
     return $running;
