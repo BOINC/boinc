@@ -361,30 +361,10 @@ $linuxcompat = array(
     )
 );
 
-$androidarm = array(
-    "name"=>"Android/ARM",
-    "description"=>"Android version 2.3 and later<br>We recommend that, rather than downloading BOINC from here,</br>you get it from the Google Play Store or the Amazon app store (for Kindle Fire)",
+$android = array(
+    "name"=>"Android",
+    "description"=>"Android version 2.3 and later for ARM, MIPS, or x86<br>We recommend that, rather than downloading BOINC from here,</br>you get it from the Google Play Store or the Amazon app store (for Kindle Fire)",
     "dbname" => "arm-android-linux-gnu",
-    "versions"=>array(
-        $a74dev,
-        $a73,
-    )
-);
-
-$androidmips = array(
-    "name"=>"Android/MIPS",
-    "description"=>"Android version 2.3 and later<br>We recommend that, rather than downloading BOINC from here,</br>you get it from the Google Play Store or the Amazon app store (for Kindle Fire)",
-    "dbname" => "mips-android-linux-gnu",
-    "versions"=>array(
-        $a74dev,
-        $a73,
-    )
-);
-
-$androidx86 = array(
-    "name"=>"Android/x86",
-    "description"=>"Android version 2.3 and later<br>We recommend that, rather than downloading BOINC from here,</br>you get it from the Google Play Store or the Amazon app store (for Kindle Fire)",
-    "dbname" => "x86-android-linux-gnu",
     "versions"=>array(
         $a74dev,
         $a73,
@@ -399,9 +379,7 @@ $platforms = array(
     "linuxx64"=>$linuxx64,
     "linux"=>$linux,
     "linuxcompat"=>$linuxcompat,
-    "androidarm"=>$androidarm,
-    "androidmips"=>$androidmips,
-    "androidx86"=>$androidx86,
+    "android"=>$android,
 );
 
 function is_dev($v) {

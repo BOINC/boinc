@@ -80,6 +80,17 @@ function download_link($pname, $button=false) {
             echo "<p>", linux_info();
         }
     } else {
+        if ($vbox_file) {
+            $vbox_url = $url_base.$vbox_file;
+            $vbox_path = "dl/$vbox_file";
+            $vbox_size = number_format(filesize($vbox_path)/1000000, 2);
+            echo "<tr>
+                <td class=rowlineleft>$long_name</td>
+                <td class=rowline> $num (with Virtualbox $vbox_version)</td>
+                <td class=rowlineright><a href=$url>Download</a> ($vbox_size MB)</td>
+                </tr>
+            ";
+        }
         echo "<tr>
             <td class=rowlineleft>$long_name</td>
             <td class=rowline> $num</td>
@@ -149,16 +160,15 @@ function show_download($pname) {
         download_link('linux');
         download_link('linuxx64');
         download_link('linuxcompat');
-        end_table();
+        download_link('android');
+        list_end();
     }
     if ($pname != 'android') {
         echo "
             <p>
             After downloading BOINC you must <b>install</b> it:
-            <ul>
-            <li> Save the file to disk.
-            <li> Double-click on the file icon.
-            </ul>
+            typically this means double-clicking on the file icon
+            when the download is finished.
         ";
     }
     echo "
@@ -204,10 +214,11 @@ if (get_str2('all_platforms')) {
 		show_download('mac');
 	}
 } else if (strstr($client_info, 'Linux') && strstr($client_info, 'Android')) {
-	// Check for Android before Linux,
-  // since Android contains the Linux kernel and the
-	// web browser user agent string list Linux too.
-	show_download('androidarm');
+    // Check for Android before Linux,
+    // since Android contains the Linux kernel and the
+    // web browser user agent string lists Linux too.
+    //
+	show_download('android');
 } else if (strstr($client_info, 'Linux')) {
 	if (strstr($client_info, 'x86_64')) {
 		show_download('linuxx64');

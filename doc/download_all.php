@@ -22,7 +22,11 @@ $version = get_str2("version");
 $type_name = get_str2("type");
 $client_info = $_SERVER['HTTP_USER_AGENT'];
 
-if (!$xml) $dev=1;
+// if not XML, dev defaults to 1
+//
+if (!$xml) {
+    if ($dev === null) $dev=1;
+}
 
 function dl_item($x, $y) {
     echo "<tr><td valign=top  align=right width=\"30%\">$x</td>
