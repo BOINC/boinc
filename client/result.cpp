@@ -532,7 +532,12 @@ bool RESULT::runnable() {
     if (state() != RESULT_FILES_DOWNLOADED) return false;
     if (coproc_missing) return false;
     if (schedule_backoff > gstate.now) return false;
-    if (avp->needs_network && gstate.network_suspended) return false;
+    if (avp->needs_network && gstate.file_xfers_suspended) {
+        // check file_xfers_suspended rather than network_suspended;
+        // the latter remains false for a period after GUI RPCs
+        //
+        return false;
+    }
     return true;
 }
 
