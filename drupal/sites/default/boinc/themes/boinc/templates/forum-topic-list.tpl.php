@@ -39,7 +39,13 @@
     // Get vocabulary name and use that as the title
     $topic = current($topics);
     $taxonomy = taxonomy_get_term($topic->tid);
+    if (module_exists('internationalization')) {
+      $taxonomy = reset(i18ntaxonomy_localize_terms(array($taxonomy)));
+    }
     if ($forum_vocab = taxonomy_vocabulary_load($taxonomy->vid)) {
+      if (module_exists('internationalization')) {
+        $forum_vocab->name = i18ntaxonomy_translate_vocabulary_name($forum_vocab);
+      }
       drupal_set_title($forum_vocab->name);
     }
     // Get the count of topics on this page

@@ -42,6 +42,9 @@ function boincteam_create_form(&$form_state) {
     switch ($vocab->name) {
     case 'Teams':
       $team_types = taxonomy_get_tree($vocab->vid);
+      if (module_exists('internationalization')) {
+        $team_types = i18ntaxonomy_localize_terms($team_types);
+      }
       foreach ($team_types as $team_type) {
         $form['type_options']['#value'][$team_type->tid] = $team_type->name;
       }
@@ -286,6 +289,9 @@ function boincteam_edit_form(&$form_state, $team_id) {
     switch ($vocab->name) {
     case 'Teams':
       $team_types = taxonomy_get_tree($vocab->vid);
+      if (module_exists('internationalization')) {
+        $team_types = i18ntaxonomy_localize_terms($team_types);
+      }
       foreach ($team_types as $team_type) {
         $form['type_options']['#value'][$team_type->tid] = $team_type->name;
       }

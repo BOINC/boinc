@@ -99,7 +99,13 @@
       $forum_node = node_load($sample);
       // Get vocabulary name and taxonomy name for subtitle breadcrumbs
       $taxonomy = taxonomy_get_term($forum_node->tid);
+      if (module_exists('internationalization')) {
+        $taxonomy = reset(i18ntaxonomy_localize_terms(array($taxonomy)));
+      }
       if ($forum_vocab = taxonomy_vocabulary_load($taxonomy->vid)) {
+        if (module_exists('internationalization')) {
+          $forum_vocab->name = i18ntaxonomy_translate_vocabulary_name($forum_vocab);
+        }
         $subtitle[] = l($forum_vocab->name, 'community/forum');
       }
       if ($team_forum) {
