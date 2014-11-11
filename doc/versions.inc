@@ -48,7 +48,7 @@ $w74dev = array(
     "status"=>"Development version",
     "file"=>"boinc_7.4.27_windows_intelx86.exe",
     "vbox_file"=>"boinc_7.4.27_windows_intelx86_vbox.exe",
-  "vbox_version"=>"4.3.12",
+    "vbox_version"=>"4.3.12",
     "date"=>"5 Nov 2014",
     "type"=>"win_new",
 );
@@ -58,7 +58,7 @@ $w72 = array(
     "status"=>"Recommended version",
     "file"=>"boinc_7.2.42_windows_intelx86.exe",
     "vbox_file"=>"boinc_7.2.42_windows_intelx86_vbox.exe",
-  "vbox_version"=>"4.2.16",
+    "vbox_version"=>"4.2.16",
     "date"=>"28 Feb 2014",
     "type"=>"win_new",
 );
@@ -304,7 +304,7 @@ $windowsx64 = array(
 );
 
 $mac = array(
-    "name"=>"Mac OS X (64-bit Intel only)",
+    "name"=>"Mac OS X (64-bit Intel)",
     "description"=>"Version 10.5.0+",
     "dbname" => "x86_64-apple-darwin",
     "versions"=>array(
@@ -313,7 +313,7 @@ $mac = array(
     )
 );
 
-$macppc = array(
+$mac32 = array(
     "name"=>"Mac OS X (32-bit or 64-bit Intel)",
     "description"=>"Version 10.4.0+",
     "dbname" => "powerpc-apple-darwin",
@@ -322,10 +322,18 @@ $macppc = array(
           $m72c,
           $m70,
           $m70c,
-        //$m612_ppc,
-        //$m612c_ppc,
-        //$m66,
-        //$m66c,
+    )
+);
+
+$macppc = array(
+    "name"=>"Mac OS X (Power PC or 32-bit Intel)",
+    "description"=>"Version 10.4.0+",
+    "dbname" => "powerpc-apple-darwin",
+    "versions"=>array(
+        $m612_ppc,
+        $m612c_ppc,
+        $m66,
+        $m66c,
     )
 );
 
@@ -375,6 +383,7 @@ $platforms = array(
     "win"=>$windows,
     "winx64"=>$windowsx64,
     "mac"=>$mac,
+    "mac32"=>$mac32,
     "macppc"=>$macppc,
     "linuxx64"=>$linuxx64,
     "linux"=>$linux,

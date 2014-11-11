@@ -109,15 +109,16 @@ function show_version($pname, $i, $v) {
     $type_text = type_text($type);
     $url = version_url($v['file']);
 
-    $link = "<a href=\"$url\"><b>Download</b></a> ($s MB)";
+    $link = "";
     if (array_key_exists('vbox_file', $v)) {
         $vbox_file = $v['vbox_file'];
         $vbox_version = $v['vbox_version'];
         $vbox_url = version_url($vbox_file);
         $vbox_path = "dl/$vbox_file";
         $vbox_size = number_format(filesize($vbox_path)/1000000, 2);
-        $link .= "<br><a href=\"$vbox_url\"><b>Download BOINC + VirtualBox $vbox_version</b></a> ($vbox_size MB)";
+        $link = "<a href=\"$vbox_url\"><b>Download BOINC + VirtualBox $vbox_version</b></a> ($vbox_size MB)<br>";
     }
+    $link .= "<a href=\"$url\"><b>Download</b></a> ($s MB)";
     echo "<tr>
        <td class=rowlineleft>$num</td>
         <td class=rowline>$status</td>
