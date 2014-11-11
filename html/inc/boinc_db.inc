@@ -106,6 +106,12 @@ class BoincDb extends DbConn {
         $db = self::get();
         return $db->base_error();
     }
+
+    // if your DB connection times out, call this, then call get() again
+    //
+    static function reset_connection() {
+        self::$instance = null;
+    }
 }
 
 class BoincUser {
