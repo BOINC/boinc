@@ -92,6 +92,12 @@ int APP_VERSION_CONFIG::parse(XML_PARSER& xp, PROJECT* p) {
     memset(this, 0, sizeof(APP_VERSION_CONFIG));
 
     while (!xp.get_tag()) {
+        if (!xp.is_tag) {
+            msg_printf_notice(p, false, NULL,
+                "unexpected text '%s' in app_config.xml", xp.parsed_tag
+            );
+            return ERR_XML_PARSE;
+        }
         if (xp.match_tag("/app_version")) return 0;
         if (xp.parse_str("app_name", app_name, 256)) continue;
         if (xp.parse_str("plan_class", plan_class, 256)) continue;
@@ -117,6 +123,12 @@ int APP_CONFIGS::parse(XML_PARSER& xp, PROJECT* p) {
     app_configs.clear();
     if (!xp.parse_start("app_config")) return ERR_XML_PARSE;
     while (!xp.get_tag()) {
+        if (!xp.is_tag) {
+            msg_printf_notice(p, false, NULL,
+                "unexpected text '%s' in app_config.xml", xp.parsed_tag
+            );
+            return ERR_XML_PARSE;
+        }
         if (xp.match_tag("/app_config")) return 0;
         if (xp.match_tag("app")) {
             APP_CONFIG ac;

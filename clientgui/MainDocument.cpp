@@ -2503,15 +2503,9 @@ wxString result_description(RESULT* result, bool show_resources) {
         } else if (status.task_suspend_reason && !throttled) {
             strBuffer += _("Suspended - ");
             strBuffer += suspend_reason_wxstring(status.task_suspend_reason);
-            if (strlen(result->resources) && show_resources) {
-                strBuffer += wxString(wxT(" (")) + wxString(result->resources, wxConvUTF8) + wxString(wxT(")"));
-            }
         } else if (status.gpu_suspend_reason && uses_gpu(result)) {
             strBuffer += _("GPU suspended - ");
             strBuffer += suspend_reason_wxstring(status.gpu_suspend_reason);
-            if (strlen(result->resources) && show_resources) {
-                strBuffer += wxString(wxT(" (")) + wxString(result->resources, wxConvUTF8) + wxString(wxT(")"));
-            }
         } else if (result->active_task) {
             if (result->too_large) {
                 strBuffer += _("Waiting for memory");
@@ -2526,9 +2520,6 @@ wxString result_description(RESULT* result, bool show_resources) {
                 strBuffer += _("Waiting to run");
             } else if (result->scheduler_state == CPU_SCHED_UNINITIALIZED) {
                 strBuffer += _("Ready to start");
-            }
-            if (strlen(result->resources)>1 && show_resources) {
-                strBuffer += wxString(wxT(" (")) + wxString(result->resources, wxConvUTF8) + wxString(wxT(")"));
             }
         } else {
             strBuffer += _("Ready to start");
@@ -2593,6 +2584,9 @@ wxString result_description(RESULT* result, bool show_resources) {
             strBuffer.Format(_("Error: invalid state '%d'"), result->state);
         }
         break;
+    }
+    if (strlen(result->resources)>1 && show_resources) {
+        strBuffer += wxString(wxT(" (")) + wxString(result->resources, wxConvUTF8) + wxString(wxT(")"));
     }
     return strBuffer;
 }
