@@ -479,7 +479,6 @@ ul.links li a {
   font-size: 11px;
 }
 #server-status li a {
-  text-transform: none;
 }
 #server-status-highlights {
   display: inline;
