@@ -43,9 +43,9 @@ function linux_info() {
     instead.  ";
 }
 
-$w74dev = array(
+$w74 = array(
     "num"=>"7.4.27",
-    "status"=>"Development version",
+    "status"=>"Recommended version",
     "file"=>"boinc_7.4.27_windows_intelx86.exe",
     "vbox_file"=>"boinc_7.4.27_windows_intelx86_vbox.exe",
     "vbox_version"=>"4.3.12",
@@ -55,19 +55,11 @@ $w74dev = array(
 
 $w72 = array(
     "num"=>"7.2.42",
-    "status"=>"Recommended version",
+    "status"=>"Older version",
     "file"=>"boinc_7.2.42_windows_intelx86.exe",
     "vbox_file"=>"boinc_7.2.42_windows_intelx86_vbox.exe",
     "vbox_version"=>"4.2.16",
     "date"=>"28 Feb 2014",
-    "type"=>"win_new",
-);
-
-$w70 = array(
-    "num"=>"7.0.64",
-    "status"=>"Older version",
-    "file"=>"boinc_7.0.64_windows_intelx86.exe",
-    "date"=>"17 Apr 2013",
     "type"=>"win_new",
 );
 
@@ -87,37 +79,29 @@ $w5816 = array(
     "type"=>"win_new",
 );
 
-$w74x64dev = array(
+$w74x64 = array(
     "num"=>"7.4.27",
-    "status"=>"Development version",
+    "status"=>"Recommended version",
     "file"=>"boinc_7.4.27_windows_x86_64.exe",
     "vbox_file"=>"boinc_7.4.27_windows_x86_64_vbox.exe",
-  "vbox_version"=>"4.3.12",
+    "vbox_version"=>"4.3.12",
     "date"=>"5 Nov 2014",
     "type"=>"win_new",
 );
 
 $w72x64 = array(
     "num"=>"7.2.42",
-    "status"=>"Recommended version",
+    "status"=>"Older version",
     "file"=>"boinc_7.2.42_windows_x86_64.exe",
     "vbox_file"=>"boinc_7.2.42_windows_x86_64_vbox.exe",
-  "vbox_version"=>"4.2.16",
+    "vbox_version"=>"4.2.16",
     "date"=>"28 Feb 2014",
     "type"=>"win_new",
 );
 
-$w70x64 = array(
-    "num"=>"7.0.64",
-    "status"=>"Older version",
-    "file"=>"boinc_7.0.64_windows_x86_64.exe",
-    "date"=>"17 Apr 2013",
-    "type"=>"win_new",
-);
-
-$m74dev = array(
+$m74 = array(
     "num"=>"7.4.26",
-    "status"=>"Development version (standard GUI)",
+    "status"=>"Recommended version (standard GUI)",
     "file"=>"boinc_7.4.26_macOSX_i686.zip",
     "date"=>"29 Oct 2014",
     "type"=>"mac_advanced",
@@ -125,17 +109,9 @@ $m74dev = array(
 
 $m72 = array(
     "num"=>"7.2.42",
-    "status"=>"Recommended version (standard GUI)",
+    "status"=>"Older version (standard GUI)",
     "file"=>"boinc_7.2.42_macOSX_i686.zip",
     "date"=>"28 Feb 2014",
-    "type"=>"mac_advanced",
-);
-
-$m70 = array(
-    "num"=>"7.0.65",
-    "status"=>"Older version (standard GUI)",
-    "file"=>"boinc_7.0.65_macOSX_i686.zip",
-    "date"=>"17 Apr 2013",
     "type"=>"mac_advanced",
 );
 
@@ -155,9 +131,9 @@ $m66 = array(
     "type"=>"mac_advanced",
 );
 
-$m74cdev = array(
+$m74c = array(
     "num"=>"7.4.26",
-    "status"=>"Development version (Unix command-line version)",
+    "status"=>"Recommended version (Unix command-line version)",
     "file"=>"boinc_7.4.26_i686-apple-darwin.zip",
     "date"=>"29 Oct 2014",
     "type"=>"bare_core",
@@ -165,17 +141,9 @@ $m74cdev = array(
 
 $m72c = array(
     "num"=>"7.2.42",
-    "status"=>"Recommended version (Unix command-line version)",
+    "status"=>"Older version (Unix command-line version)",
     "file"=>"boinc_7.2.42_i686-apple-darwin.zip",
     "date"=>"28 Feb 2014",
-    "type"=>"bare_core",
-);
-
-$m70c = array(
-    "num"=>"7.0.65",
-    "status"=>"Older version (Unix command-line version)",
-    "file"=>"boinc_7.0.65_i686-apple-darwin.zip",
-    "date"=>"17 Apr 2013",
     "type"=>"bare_core",
 );
 
@@ -284,9 +252,8 @@ $windows = array(
     "description"=>"XP/Vista/7/8/8.1",
     "dbname" => "windows_intelx86",
     "versions"=>array(
-          $w74dev,
+          $w74,
           $w72,
-          $w70,
           $w66,
           $w5816,
     )
@@ -297,9 +264,8 @@ $windowsx64 = array(
     "description"=>"XP/Vista/7/8/8.1",
     "dbname" => "windows_x86_64",
     "versions"=>array(
-          $w74x64dev,
+          $w74x64,
           $w72x64,
-          $w70x64,
     )
 );
 
@@ -308,8 +274,8 @@ $mac = array(
     "description"=>"Version 10.5.0+",
     "dbname" => "x86_64-apple-darwin",
     "versions"=>array(
-          $m74dev,
-          $m74cdev,
+          $m74,
+          $m74c,
     )
 );
 
@@ -365,7 +331,6 @@ $linuxcompat = array(
     "dbname" => "i686-pc-linux-gnu",
     "versions"=>array(
         $l612,
-        //$l66,
     )
 );
 
