@@ -971,6 +971,7 @@ bool CLIENT_STATE::poll_slow_events() {
             } else {
                 msg_printf(NULL, MSG_INFO, "Resuming file transfers");
             }
+            request_schedule_cpus("network resumed");
         }
 
         // if we're emerging from a bandwidth quota suspension,
