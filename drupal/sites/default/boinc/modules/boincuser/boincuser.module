@@ -1249,7 +1249,7 @@ function boincuser_get_projects_table($account = null) {
     $account = user_load($account);
   }
   $projects = boincuser_get_projects($account);
-  if (!$projects) return 'no projects...';
+  if (!$projects) return t('no projects...');
   
   $output = '';
   $output .= '<table class="user-projects">' . "\n";
