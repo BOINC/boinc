@@ -15,9 +15,9 @@
 <table>
 <thead>
   <tr>
-    <th>Name</th>
-    <th class="numeric">Avg credit</th>
-    <th class="numeric">Total credit</th>
+    <th><?php print t('Name'); ?></th>
+    <th class="numeric"><?php print t('Avg credit'); ?></th>
+    <th class="numeric"><?php print t('Total credit'); ?></th>
   </tr>
 </thead>
 <tbody>
