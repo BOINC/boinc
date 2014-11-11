@@ -222,6 +222,18 @@ form ul.tab-list {
 
 
 /*
+ * Login form
+ */
+span.password-strength,
+span.password-confirm {
+  color: #707070;
+}
+#user-register span.password-strength,
+#user-register span.password-confirm {
+  margin-left: 7px;
+}
+
+/*
  * Search form and results
  */
 .section-find .box{

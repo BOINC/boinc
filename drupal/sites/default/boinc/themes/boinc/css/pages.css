@@ -238,6 +238,10 @@ tr.error /* High priority messages. See also the .error declaration below. */ {
   /* color: #e09010; */ /* Drupal core uses a #e09010 background */
 }
 
+.ok {
+  color: #008000;
+}
+
 div.tabs /* See also the tabs.css file. */ {
 }
 
