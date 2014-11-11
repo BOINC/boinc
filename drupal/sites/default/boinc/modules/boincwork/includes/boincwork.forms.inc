@@ -1336,6 +1336,19 @@ function communityprefs_form(&$form_state) {
   $account = user_load($user->uid);
   $form = array();
   
+  // Pull in some elements from the profile form
+  $profile_form_state = array();
+  $profile = new stdClass();
+  $profile->type = 'profile';
+  $profile->language = NULL;
+  if ($profile_nid = content_profile_profile_exists($profile, $account->uid)) {
+    $profile_node = node_load($profile_nid);
+    $form_state['storage']['profile_node'] = $profile_node;
+    module_load_include('inc', 'node', 'node.pages');    
+    $profile_form = drupal_retrieve_form('profile_node_form', $profile_form_state, $profile_node);
+    drupal_prepare_form('profile_node_form', $profile_form, $profile_form_state);
+  }
+  
   // Standard option sets
   $form['boolean_options'] = array(
     '#type' => 'value',
@@ -1437,6 +1450,22 @@ function communityprefs_form(&$form_state) {
     );
   }
   
+  // Avatar (pulled from profile_node_form):
+  $form['field_image'] = array(
+    '#value' => '<div class="form-item">'
+      . '<label class="placeholder">'
+      . t('This is not available until your profile is set up.')
+      . '</label>'
+      . l(t('Create a profile'), 'account/profile/edit', array('attributes' => array('class' => 'form-link')))
+      . '</div>',
+  );
+  if ($profile_form_state) {
+    $form['field_image'] = $profile_form_state['storage']['avatar']; //$profile_form['field_image'];
+  }
+  $form['field_image']['#weight'] = 14;
+  $form['field_image']['#prefix'] = '<fieldset class="collapsible"><legend><a href="#">' . t('Avatar settings') . '</a></legend>';
+  $form['field_image']['#suffix'] = '</fieldset>';
+  
   // Forum options
   $form['forums'] = array(
     '#type' => 'fieldset',
@@ -1460,7 +1489,7 @@ function communityprefs_form(&$form_state) {
     '#title' => t('Sort comments in discussions'),
     '#options' => array(1 => t('Newest post first'), 2 => t('Oldest post first')),
     '#default_value' => $default['comments_order']
-  ); 
+  );
   // Signature (pulled from user_edit_form):
   if (variable_get('user_signatures', 0) && module_exists('comment')) {
     $form['forums']['signature'] = array(
@@ -1516,6 +1545,8 @@ function communityprefs_form_submit($form, &$form_state) {
   $account = user_load($user->uid);
   $boinc_user = BoincUser::lookup_id($account->boincuser_id);
   $edit= $form_state['values'];
+  $profile_node = $form_state['storage']['profile_node'];
+  
   // Display name
   if ($edit['boincuser_name'] != $boinc_user->name) {
     $boincuser_name = $edit['boincuser_name'];
@@ -1523,8 +1554,17 @@ function communityprefs_form_submit($form, &$form_state) {
         "name='{$boincuser_name}'"
     );
   }
+  
   // Private message settings
   pm_email_notify_user('submit', $edit, $user);
+  
+  // Avatar settings
+  if (!$edit['field_image']) $edit['field_image'] = array();
+  $profile_node->field_image = $edit['field_image'];
+  node_save($profile_node);
+  // Flush this from the node cache or changes won't show up immediately!
+  $profile_node = node_load($profile_node->nid, NULL, TRUE);
+  
   // All other settings
   $settings = array(
     'signature' => $edit['signature'],

@@ -500,6 +500,20 @@ html.js fieldset.collapsible legend a,
   padding-bottom: 20px;
 }
 
+#communityprefs-form .form-link {
+  line-height: 24px;
+}
+#communityprefs-form .filefield-element {
+  margin-bottom: 16px;
+}
+#communityprefs-form .filefield-upload {
+  margin-bottom: 10px;
+}
+#communityprefs-form label.placeholder {
+  color: #707070;
+  font-size: 12px;
+}
+
 
 /*
  * Rich text editor

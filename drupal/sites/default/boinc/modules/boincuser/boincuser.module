@@ -795,6 +795,10 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
       '#weight' => 1010,
     );
     
+    // Move these to community prefs form
+    $form_state['storage']['avatar'] = $form['field_image'];
+    unset($form['field_image']);
+    
     // Preview is ugly, unset until it works
     unset($form['buttons']['preview']);
     
