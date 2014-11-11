@@ -109,7 +109,7 @@ $m74 = array(
 
 $m72 = array(
     "num"=>"7.2.42",
-    "status"=>"Older version (standard GUI)",
+    "status"=>"Recommended version (standard GUI)",
     "file"=>"boinc_7.2.42_macOSX_i686.zip",
     "date"=>"28 Feb 2014",
     "type"=>"mac_advanced",
@@ -141,7 +141,7 @@ $m74c = array(
 
 $m72c = array(
     "num"=>"7.2.42",
-    "status"=>"Older version (Unix command-line version)",
+    "status"=>"Recommended version (Unix command-line version)",
     "file"=>"boinc_7.2.42_i686-apple-darwin.zip",
     "date"=>"28 Feb 2014",
     "type"=>"bare_core",
