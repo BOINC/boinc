@@ -1450,7 +1450,24 @@ function communityprefs_form(&$form_state) {
     );
   }
   
-  // Avatar (pulled from profile_node_form):
+  // Avatar options
+  $form['gravatar'] = array(
+    '#type' => 'item',
+    '#value' => t('If you have a <a href="@gravatar-check">valid gravatar</a> associated with your e-mail address, it will be used for your user picture.', array('@gravatar-check' => 'http://en.gravatar.com/site/check/' . $account->mail)),
+    '#description' => t('Your Gravatar will not be shown if you upload a user picture.'),
+  );
+  if (user_access('disable own gravatar', $account)) {
+    $form['gravatar'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('If you have a <a href="@gravatar-check">valid Gravatar</a> associated with your e-mail address, use it for your user picture.', array('@gravatar-check' => 'http://en.gravatar.com/site/check/' . $account->mail)),
+      '#description' => t('Gravatar will not be shown if an avatar is uploaded.'),
+      '#default_value' => isset($account->gravatar) ? $account->gravatar : 0,
+      '#disabled' => !empty($account->picture),
+    );
+  }
+  $form['gravatar']['#weight'] = 15;
+  $form['gravatar']['#prefix'] = '<fieldset class="collapsible"><legend><a href="#">' . t('Avatar settings') . '</a></legend>';
+  // Upload an avatar (pulled from profile_node_form):
   $form['field_image'] = array(
     '#value' => '<div class="form-item">'
       . '<label class="placeholder">'
@@ -1462,15 +1479,15 @@ function communityprefs_form(&$form_state) {
   if ($profile_form_state) {
     $form['field_image'] = $profile_form_state['storage']['avatar']; //$profile_form['field_image'];
   }
-  $form['field_image']['#weight'] = 14;
-  $form['field_image']['#prefix'] = '<fieldset class="collapsible"><legend><a href="#">' . t('Avatar settings') . '</a></legend>';
+  $form['field_image'][0]['#title'] = t('Upload an avatar');
+  $form['field_image']['#weight'] = 20;
   $form['field_image']['#suffix'] = '</fieldset>';
   
   // Forum options
   $form['forums'] = array(
     '#type' => 'fieldset',
     '#title' => t('Forum settings'),
-    '#weight' => 15,
+    '#weight' => 25,
     '#collapsible' => TRUE,
     '#collapsed' => FALSE
   );
@@ -1573,6 +1590,7 @@ function communityprefs_form_submit($form, &$form_state) {
     'friend_notification' => $edit['friend_notification'],
     'comments_per_page' => $edit['comments_per_page'],
     'sort' => $edit['comments_order'],
+    'gravatar' => $edit['gravatar'],
   );
   if (module_exists('internationalization')) {
     $settings['language'] = $edit['language'];

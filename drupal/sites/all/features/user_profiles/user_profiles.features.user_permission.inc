@@ -15,6 +15,14 @@ function user_profiles_user_default_permissions() {
     ),
   );
 
+  // Exported permission: administer gravatar
+  $permissions['administer gravatar'] = array(
+    'name' => 'administer gravatar',
+    'roles' => array(
+      '0' => 'administrator',
+    ),
+  );
+
   // Exported permission: create profile content
   $permissions['create profile content'] = array(
     'name' => 'create profile content',
@@ -41,6 +49,14 @@ function user_profiles_user_default_permissions() {
     ),
   );
 
+  // Exported permission: disable own gravatar
+  $permissions['disable own gravatar'] = array(
+    'name' => 'disable own gravatar',
+    'roles' => array(
+      '0' => 'community member',
+    ),
+  );
+
   // Exported permission: edit any profile content
   $permissions['edit any profile content'] = array(
     'name' => 'edit any profile content',
@@ -56,6 +72,14 @@ function user_profiles_user_default_permissions() {
       '0' => 'administrator',
       '1' => 'authenticated user',
       '2' => 'community member',
+    ),
+  );
+
+  // Exported permission: use gravatar
+  $permissions['use gravatar'] = array(
+    'name' => 'use gravatar',
+    'roles' => array(
+      '0' => 'community member',
     ),
   );
 

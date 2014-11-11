@@ -105,9 +105,14 @@ function boinccore_form_alter(&$form, $form_state, $form_id) {
   case 'comment_form':
     $user_image = boincuser_get_user_profile_image($user->uid);
     $user_info = '<div class="user">';
-    if ($user_image['image']['filepath']) {
+    if ($user_image) {
       $user_info .= '  <div class="picture">';
-      $user_info .= theme('imagefield_image', $user_image['image'], $user_image['alt'], $user_image['alt'], array(), false);
+      if (is_array($user_image) AND $user_image['image']['filepath']) {
+        $user_info .= theme('imagefield_image', $user_image['image'], $user_image['alt'], $user_image['alt'], array(), false);
+      }
+      elseif (is_string($user_image)) {
+        $user_info .= '<img src="' . $user_image . '"/>';
+      }
       $user_info .= '  </div>';
     }
     $user_info .= '  <div class="name">' . theme('username', $account) . '</div>';

@@ -82,15 +82,20 @@
     <?php
       $account = user_load(array('uid' => $comment->uid));
       $user_image = boincuser_get_user_profile_image($comment->uid);
-      if ($user_image['image']['filepath']) {
+      if ($user_image) {
         print '<div class="picture">';
-        //print theme('imagecache', 'thumbnail', $user_image['image']['filepath'], $user_image['alt'], $user_image['alt']);
-        print theme('imagefield_image', $user_image['image'], $user_image['alt'], $user_image['alt'], array(), false);
+        if (is_array($user_image) AND $user_image['image']['filepath']) {
+          //print theme('imagecache', 'thumbnail', $user_image['image']['filepath'], $user_image['alt'], $user_image['alt']);
+          print theme('imagefield_image', $user_image['image'], $user_image['alt'], $user_image['alt'], array(), false);
+        }
+        elseif (is_string($user_image)) {
+          print '<img src="' . $user_image . '"/>';
+        }
         print '</div>';
-        // Generate ignore user link
-        $ignore_link = ignore_user_link('comment', $comment);
-        //echo '<pre>' . print_r($links, TRUE) . '</pre>';
       }
+      // Generate ignore user link
+      $ignore_link = ignore_user_link('comment', $comment);
+      //echo '<pre>' . print_r($links, TRUE) . '</pre>';
     ?>
     <div class="name"><?php print $author; ?></div>
     <?php if ($account->uid): ?>

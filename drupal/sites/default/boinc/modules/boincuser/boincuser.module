@@ -1225,7 +1225,7 @@ function boincuser_get_weak_auth($boinc_id = null) {
  * Drupal User so must be inserted into comments, etc. (not so by default)
  */
 function boincuser_get_user_profile_image($uid, $avatar = TRUE) {
-  // Show the avatar by default, but allow override to show profile-only image
+  // Though the function name implies otherwise, get the avatar by default
   $image_field = ($avatar) ? 'field_image_fid' : 'field_profile_image_fid';
   $image_fid = db_result(db_query("
     SELECT ctp.%s
@@ -1236,6 +1236,21 @@ function boincuser_get_user_profile_image($uid, $avatar = TRUE) {
   $user_image['image'] = field_file_load($image_fid);
   if (!$user_image['image']['filepath']) {
     // Load the default image if one does not exist
+    $account = user_load($uid);
+    if ($avatar AND module_exists('gravatar') AND user_access('use gravatar', $account) AND $account->gravatar) {
+      // Use a Gravatar rather than the system default image
+      $options = array(
+        'size' => 100,
+        'rating' => 'G',
+      );
+      // Get the Gravatar URL and see if the image exists
+      $url = gravatar_get_gravatar($account->mail, $options);
+      $headers = @get_headers($url);
+      if (preg_match("|200|", $headers[0])) {
+        return $url;
+      }
+    }
+    // Get default image if nothing else works
     $content_node_widget_settings = db_result(db_query("SELECT widget_settings FROM {content_node_field_instance} WHERE field_name = '%s'", ($avatar ? 'field_image' : 'field_profile_image')));
     $content_node_widget_settings = unserialize($content_node_widget_settings);
     $user_image['image'] = $content_node_widget_settings['default_image'];
