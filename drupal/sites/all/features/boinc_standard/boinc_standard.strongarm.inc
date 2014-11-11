@@ -362,7 +362,7 @@ function boinc_standard_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'site_footer';
-  $strongarm->value = 'Copyright &copy; 2012 Einstein@Home. All rights reserved.';
+  $strongarm->value = '';
   $export['site_footer'] = $strongarm;
 
   $strongarm = new stdClass;
@@ -376,7 +376,7 @@ function boinc_standard_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'site_offline';
-  $strongarm->value = 0;
+  $strongarm->value = '0';
   $export['site_offline'] = $strongarm;
 
   $strongarm = new stdClass;

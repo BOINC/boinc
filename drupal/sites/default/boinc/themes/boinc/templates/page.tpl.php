@@ -350,9 +350,7 @@
               <?php print t('Language'); ?>
           </div>
           
-          <?php if ($footer_message): ?>
-            <div id="footer-message"><?php print $footer_message; ?></div>
-          <?php endif; ?>
+          <div id="footer-message"><?php print t('Copyright &copy; 2012 Einstein@Home. All rights reserved.'); ?></div>
 
           <?php print $footer; ?>
         </div>
