@@ -93,11 +93,9 @@ void show_message(
     case MSG_SCHEDULER_ALERT:
         char buf[1024];
         if (is_html) {
-            xml_escape(message, buf, 1024);
+            strcpy(buf, message);
         } else {
-            char buf2[1024];
-            xml_escape(message, buf2, 1024);
-            xml_escape(buf2, buf, 1024);
+            xml_escape(message, buf, 1024);
         }
         NOTICE n;
         n.description = buf;
