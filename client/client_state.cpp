@@ -419,9 +419,9 @@ int CLIENT_STATE::init() {
     // check for GPUs.
     //
     for (int j=1; j<coprocs.n_rsc; j++) {
-        msg_printf(NULL, MSG_INFO, "GPU specified in cc_config.xml: %d %s",
-            coprocs.coprocs[j].count,
-            coprocs.coprocs[j].type
+        msg_printf(NULL, MSG_INFO, "Coprocessor specified in cc_config.xml: type %s count %d",
+            coprocs.coprocs[j].type,
+            coprocs.coprocs[j].count
         );
     }
     if (!cc_config.no_gpus
