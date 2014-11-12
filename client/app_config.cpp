@@ -120,7 +120,7 @@ int APP_VERSION_CONFIG::parse(XML_PARSER& xp, PROJECT* p) {
 
 int APP_CONFIGS::parse(XML_PARSER& xp, PROJECT* p) {
     int n;
-    app_configs.clear();
+    clear();
     if (!xp.parse_start("app_config")) return ERR_XML_PARSE;
     while (!xp.get_tag()) {
         if (!xp.is_tag) {
