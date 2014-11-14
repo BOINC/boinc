@@ -2395,61 +2395,8 @@ int VBOX_VM::is_registered() {
     return retval;
 }
 
-// Attempt to detect any condition that would prevent VirtualBox from running a VM properly, like:
-// 1. The DCOM service not being started on Windows
-// 2. Vboxmanage not being able to communicate with vboxsvc for some reason
-// 3. VirtualBox driver not loaded for the current Linux kernel.
-//
-// Luckly both of the above conditions can be detected by attempting to detect the host information
-// via vboxmanage and it is cross platform.
-//
 bool VBOX_VM::is_system_ready(std::string& message) {
-    string command;
-    string output;
-    char buf[256];
-    int retval;
-    bool rc = false;
-
-    command  = "list hostinfo ";
-    retval = vbm_popen(command, output, "host info");
-    if (BOINC_SUCCESS == retval) {
-        rc = true;
-    }
-
-    if (output.size() == 0) {
-        fprintf(
-            stderr,
-            "%s WARNING: Communication with VM Hypervisor failed. (Possibly Out of Memory).\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf))
-        );
-        message = "Communication with VM Hypervisor failed. (Possibly Out of Memory).";
-        rc = false;
-    }
-
-    if (output.find("Processor count:") == string::npos) {
-        fprintf(
-            stderr,
-            "%s WARNING: Communication with VM Hypervisor failed.\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf))
-        );
-        message = "Communication with VM Hypervisor failed.";
-        rc = false;
-    }
-
-    if (output.find("WARNING: The vboxdrv kernel module is not loaded.") != string::npos) {
-        vboxwrapper_msg_prefix(buf, sizeof(buf));
-        fprintf(
-            stderr,
-            "%s WARNING: The vboxdrv kernel module is not loaded.\n"
-            "%s WARNING: Please update/recompile VirtualBox kernel drivers.\n",
-            buf,
-            buf
-        );
-        message = "Please update/recompile VirtualBox kernel drivers.";
-        rc = false;
-    }
-
-    return rc;
+    return true;
 }
 
 bool VBOX_VM::is_hdd_registered() {
@@ -2804,72 +2751,52 @@ int VBOX_VM::set_network_access(bool enabled) {
 }
 
 int VBOX_VM::set_cpu_usage(int percentage) {
-    string command;
-    string output;
     char buf[256];
-    int retval;
-
-    // the arg to controlvm is percentage
-    //
     fprintf(
         stderr,
         "%s Setting CPU throttle for VM. (%d%%)\n",
         vboxwrapper_msg_prefix(buf, sizeof(buf)),
         percentage
     );
-    sprintf(buf, "%d", percentage);
-    command  = "controlvm \"" + vm_name + "\" ";
-    command += "cpuexecutioncap ";
-    command += buf;
-    command += " ";
-
-    retval = vbm_popen(command, output, "CPU throttle");
-    if (retval) return retval;
+    m_pMachine->put_CPUExecutionCap(percentage);
     return 0;
 }
 
 int VBOX_VM::set_network_usage(int kilobytes) {
-    string command;
-    string output;
+    CComPtr<IBandwidthControl> pBandwidthControl;
+    CComPtr<IBandwidthGroup> pBandwidthGroup;
+    HRESULT rc;
     char buf[256];
-    int retval;
 
-    // the argument to modifyvm is in KB
-    //
-    if (kilobytes == 0) {
-        fprintf(
-            stderr,
-            "%s Setting network throttle for VM. (1024GB)\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf))
-        );
-    } else {
-        fprintf(
-            stderr,
-            "%s Setting network throttle for VM. (%dKB)\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf)),
-            kilobytes
-        );
-    }
-
-    // Update bandwidth group limits
-    //
-    if (kilobytes == 0) {
-        command  = "bandwidthctl \"" + vm_name + "\" ";
-        command += "set \"" + vm_name + "_net\" ";
-        command += "--limit 1024G ";
-
-        retval = vbm_popen(command, output, "network throttle (set default value)");
-        if (retval) return retval;
-    } else {
-        sprintf(buf, "%d", kilobytes);
-        command  = "bandwidthctl \"" + vm_name + "\" ";
-        command += "set \"" + vm_name + "_net\" ";
-        command += "--limit ";
-        command += buf;
-        command += "K ";
-
-        retval = vbm_popen(command, output, "network throttle (set)");
-        if (retval) return retval;
+    rc = m_pMachine->get_BandwidthControl(&pBandwidthControl);
+    if (SUCCEEDED(rc)) {
+        rc = pBandwidthControl->GetBandwidthGroup(CComBSTR(string(vm_name + "_net").c_str()), &pBandwidthGroup);
+        if (SUCCEEDED(rc)) {
+            if (kilobytes == 0) {
+                fprintf(
+                    stderr,
+                    "%s Setting network throttle for VM. (1024GB)\n",
+                    vboxwrapper_msg_prefix(buf, sizeof(buf))
+                );
+                rc = pBandwidthGroup->put_MaxBytesPerSec((LONG64)1024*1024*1024*1024);
+            } else {
+                fprintf(
+                    stderr,
+                    "%s Setting network throttle for VM. (%dKB)\n",
+                    vboxwrapper_msg_prefix(buf, sizeof(buf)),
+                    kilobytes
+                );
+                rc = pBandwidthGroup->put_MaxBytesPerSec((LONG64)kilobytes*1024);
+            }
+            if (FAILED(rc)) {
+                fprintf(
+                    stderr,
+                    "%s Error setting network throttle for the virtual machine! rc = 0x%x\n",
+                    vboxwrapper_msg_prefix(buf, sizeof(buf)),
+                    rc
+                );
+            }
+        }
     }
 
     return 0;
