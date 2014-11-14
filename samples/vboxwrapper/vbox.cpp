@@ -77,7 +77,6 @@ VBOX_BASE::VBOX_BASE() {
     vm_disk_controller_type.clear();
     vm_disk_controller_model.clear();
     os_name.clear();
-    vm_memory_size_mb.clear();
     memory_size_mb = 0.0;
     image_filename.clear();
     iso_image_filename.clear();

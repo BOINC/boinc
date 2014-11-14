@@ -330,10 +330,10 @@ void read_completion_file_info(unsigned long& exit_code, bool& is_notice, string
     FILE* f = fopen(path, "r");
     if (f) {
         if (fgets(buf, 1024, f) != NULL) {
-            exit_code = atoi(buf);
+            exit_code = atoi(buf) != 0;
         }
         if (fgets(buf, 1024, f) != NULL) {
-            is_notice = atoi(buf);
+            is_notice = atoi(buf) != 0;
         }
         while (fgets(buf, 1024, f) != NULL) {
             message += buf;
@@ -356,7 +356,7 @@ void read_temporary_exit_file_info(int& temp_delay, bool& is_notice, string& mes
             temp_delay = atoi(buf);
         }
         if (fgets(buf, 1024, f) != NULL) {
-            is_notice = atoi(buf);
+            is_notice = atoi(buf) != 0;
         }
         while (fgets(buf, 1024, f) != NULL) {
             message += buf;
@@ -945,7 +945,6 @@ int main(int argc, char** argv) {
         } else {
             sprintf(buf, "%d", (int)ceil(vm.memory_size_mb));
         }
-        vm.vm_memory_size_mb = buf;
     }
     if (aid.vbox_window && !aid.using_sandbox) {
         vm.headless = false;

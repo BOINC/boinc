@@ -107,8 +107,6 @@ public:
         // unique name for the VM or UUID of a stale VM if deregistering it
     std::string vm_cpu_count;
         // required CPU core count
-    std::string vm_memory_size_mb;
-        // required size of the memory allocation for the VM, in megabytes
     std::string image_filename;
         // name of the virtual machine disk image file
     std::string iso_image_filename;
