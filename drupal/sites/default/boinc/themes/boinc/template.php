@@ -187,6 +187,7 @@ function boinc_preprocess_forums(&$vars, $hook) {
  * Preprocessing for forum type nodes
  */
 function boinc_preprocess_node_forum(&$vars, $hook) {
+  global $user;
   //drupal_set_message('<pre>' . print_r(get_defined_vars(),TRUE) . '</pre>'); // print what variables are available
   //drupal_set_message('<pre>' . print_r($vars['node']->links, TRUE . '</pre>')); // print what links are available
   
@@ -273,6 +274,9 @@ function boinc_preprocess_node_forum(&$vars, $hook) {
   
   // Add signature
   $vars['signature'] = $account->signature;
+  
+  // Show signatures based on user preference
+  $vars['show_signatures'] = ($user->hide_signatures) ? FALSE : TRUE;
 }
 
 /**
@@ -285,6 +289,7 @@ function boinc_preprocess_node_forum(&$vars, $hook) {
  */
 ///* -- Delete this line if you want to use this function
 function boinc_preprocess_comment(&$vars, $hook) {
+  global $user;
   //$vars['sample_variable'] = t('Lorem ipsum.');
   //drupal_set_message('debug: <pre>' . print_r($vars,true) . '</pre>');
   $links = array();
@@ -379,6 +384,9 @@ function boinc_preprocess_comment(&$vars, $hook) {
     }
     ksort($links);
     $vars['links'] = theme_links($links);
+    
+    // Show signatures based on user preference
+    $vars['show_signatures'] = ($user->hide_signatures) ? FALSE : TRUE;
   }
 }
 // */

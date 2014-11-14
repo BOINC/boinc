@@ -175,7 +175,7 @@
       
       <div class="content">
         <?php print $content; ?>
-        <?php if ($signature): ?>
+        <?php if ($signature AND $show_signatures): ?>
           <div class="user-signature clearfix">
             <?php print $signature; ?>
           </div>

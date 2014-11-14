@@ -1522,6 +1522,15 @@ function communityprefs_form(&$form_state) {
       $edit['signature_format'] = FILTER_FORMAT_DEFAULT;
     }
     $form['forums']['signature_format'] = filter_form($account->signature_format, NULL, array('signature_format'));
+    // Optionally hide signatures from comments
+    $form['forums']['hide_signatures'] = array(
+      '#type' => 'radios',
+      '#title' => t('Hide signatures in forums'),
+      '#description' => ' ',
+      '#options' => $form['boolean_options']['#value'],
+      '#attributes' => array('class' => 'fancy'),
+      '#default_value' => isset($account->hide_signatures) ? $account->hide_signatures : 0,
+    );
   }
   
   $form['separator_bottom'] = array(
@@ -1589,6 +1598,7 @@ function communityprefs_form_submit($form, &$form_state) {
     'timezone' => $edit['timezone'],
     'friend_notification' => $edit['friend_notification'],
     'comments_per_page' => $edit['comments_per_page'],
+    'hide_signatures' => $edit['hide_signatures'],
     'sort' => $edit['comments_order'],
     'gravatar' => $edit['gravatar'],
   );
