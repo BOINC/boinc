@@ -271,7 +271,8 @@ div.node-type-forum.not-first-page {
   padding: 0;
 }
 
-.comment .user-signature /* The user's signature */ {
+.comment .user-signature, /* The user's signature */
+.node-type-forum .user-signature {
   color: #808080;
 }
 

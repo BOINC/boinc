@@ -190,6 +190,9 @@ function boinc_preprocess_node_forum(&$vars, $hook) {
   //drupal_set_message('<pre>' . print_r(get_defined_vars(),TRUE) . '</pre>'); // print what variables are available
   //drupal_set_message('<pre>' . print_r($vars['node']->links, TRUE . '</pre>')); // print what links are available
   
+  // Get the author of the node
+  $account = user_load($vars['uid']);
+  
   // Detach subscribe link from the Links list
   $vars['subscribe_link'] = $vars['node']->links['flag-subscriptions']['title'];
   unset($vars['node']->links['flag-subscriptions']);
@@ -267,6 +270,9 @@ function boinc_preprocess_node_forum(&$vars, $hook) {
   }
   $vars['links'] = theme_links($vars['node']->links, array('class' => 'links inline'));
   $vars['moderator_links'] = theme_links($vars['moderator_links']);
+  
+  // Add signature
+  $vars['signature'] = $account->signature;
 }
 
 /**
