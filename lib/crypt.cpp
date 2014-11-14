@@ -52,6 +52,7 @@
 #include "cert_sig.h"
 #include "filesys.h"
 #include "error_numbers.h"
+#include "util.h"
 
 #include "crypt.h"
 
@@ -161,7 +162,10 @@ static int sscan_hex_data(const char* p, DATA_BLOCK& x) {
         n = sscanf(p, "%2x", &m);
         if (n <= 0) break;
         if (nleft<=0) {
-            fprintf(stderr, "sscan_hex_data: buffer overflow\n");
+            fprintf(stderr,
+                "%s: sscan_hex_data: buffer overflow\n",
+                time_to_string(dtime())
+            );
             return ERR_BAD_HEX_FORMAT;
         }
         x.data[x.len++] = m;
@@ -348,7 +352,8 @@ int check_file_signature(
     retval = decrypt_public(key, signature, clear_signature);
     if (retval) {
         fprintf(stderr,
-            "check_file_signature: decrypt_public error %d\n", retval
+            "%s: check_file_signature: decrypt_public error %d\n",
+            time_to_string(dtime()), retval
         );
         return retval;
     }
@@ -369,7 +374,9 @@ int check_file_signature2(
 
     retval = sscan_key_hex(key_text, (KEY*)&key, sizeof(key));
     if (retval) {
-        fprintf(stderr, "check_file_signature2: sscan_key_hex failed\n");
+        fprintf(stderr, "%s: check_file_signature2: sscan_key_hex failed\n",
+            time_to_string(dtime())
+        );
         return retval;
     }
     signature.data = signature_buf;
@@ -427,13 +434,16 @@ int read_key_file(const char* keyfile, R_RSA_PRIVATE_KEY& key) {
     FCGI_FILE* fkey = FCGI::fopen(keyfile, "r");
 #endif
     if (!fkey) {
-        fprintf(stderr, "can't open key file (%s)\n", keyfile);
+        fprintf(stderr,
+            "%s: can't open key file (%s)\n",
+            time_to_string(dtime()), keyfile
+        );
         return ERR_FOPEN;
     }
     retval = scan_key_hex(fkey, (KEY*)&key, sizeof(key));
     fclose(fkey);
     if (retval) {
-        fprintf(stderr, "can't parse key\n");
+        fprintf(stderr, "%s: can't parse key\n", time_to_string(dtime()));
         return retval;
     }
     return 0;
@@ -543,7 +553,10 @@ int check_validity_of_cert(
     X509_STORE_free(store);
     
     if (retval != 1) {
-        fprintf(stderr,"ERROR: Cannot verify certificate ('%s')\n", cFile);
+        fprintf(stderr,
+            "%s: ERROR: Cannot verify certificate ('%s')\n",
+            time_to_string(dtime()), cFile
+        );
         return 0;
     }        
     pubKey = X509_get_pubkey(cert);
@@ -572,7 +585,10 @@ int check_validity_of_cert(
 	    BN_CTX_free(c);
     }
     if (pubKey->type == EVP_PKEY_DSA) {
-        fprintf(stderr, "ERROR: DSA keys are not supported.\n");
+        fprintf(stderr,
+            "%s: ERROR: DSA keys are not supported.\n",
+            time_to_string(dtime())
+        );
         return 0;
     }
     EVP_PKEY_free(pubKey);

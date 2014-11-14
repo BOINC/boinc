@@ -39,6 +39,8 @@
 #endif
 
 #include "error_numbers.h"
+#include "str_util.h"
+#include "util.h"
 
 #include "network.h"
 
@@ -163,8 +165,10 @@ int resolve_hostname(const char* hostname, sockaddr_storage &ip_addr) {
     hints.ai_protocol = IPPROTO_TCP;
     int retval = getaddrinfo(hostname, NULL, &hints, &res);
     if (retval) {
-        perror("getaddrinfo");
-        return retval;
+        char buf[256];
+        sprintf(buf, "%s: getaddrinfo", time_to_string(dtime()));
+        perror(buf);
+        return ERR_GETADDRINFO;
     }
     struct addrinfo* aip = res;
     while (aip) {
@@ -215,7 +219,9 @@ int resolve_hostname_or_ip_addr(
 int boinc_socket(int& fd, int protocol) {
     fd = (int)socket(protocol, SOCK_STREAM, 0);
     if (fd < 0) {
-        perror("socket");
+        char buf[256];
+        sprintf(buf, "%s: socket", time_to_string(dtime()));
+        perror("buf");
         return ERR_SOCKET;
     }
 #ifndef _WIN32

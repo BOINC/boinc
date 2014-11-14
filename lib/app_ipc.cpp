@@ -32,6 +32,7 @@
 #include "str_replace.h"
 #include "str_util.h"
 #include "url.h"
+#include "util.h"
 
 #include "app_ipc.h"
 
@@ -306,7 +307,9 @@ int parse_init_data_file(FILE* f, APP_INIT_DATA& ai) {
     XML_PARSER xp(&mf);
 
     if (!xp.parse_start("app_init_data")) {
-        fprintf(stderr, "no start tag in app init data\n");
+        fprintf(stderr, "%s: no start tag in app init data\n",
+            time_to_string(dtime())
+        );
         return ERR_XML_PARSE;
     }
 
@@ -321,7 +324,8 @@ int parse_init_data_file(FILE* f, APP_INIT_DATA& ai) {
     while (!xp.get_tag()) {
         if (!xp.is_tag) {
             fprintf(stderr,
-                "unexpected text in init_data.xml: %s\n", xp.parsed_tag
+                "%s: unexpected text in init_data.xml: %s\n",
+                time_to_string(dtime()), xp.parsed_tag
             );
             continue;
         }
@@ -400,7 +404,9 @@ int parse_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         if (xp.parse_bool("vbox_window", ai.vbox_window)) continue;
         xp.skip_unexpected(false, "parse_init_data_file");
     }
-    fprintf(stderr, "parse_init_data_file: no end tag\n");
+    fprintf(stderr, "%s: parse_init_data_file: no end tag\n",
+        time_to_string(dtime())
+    );
     return ERR_XML_PARSE;
 }
 
