@@ -899,6 +899,13 @@ int CLIENT_STATE::parse_app_info(PROJECT* p, FILE* in) {
                 delete avp;
                 continue;
             }
+            if (cc_config.dont_use_vbox && strstr(avp->plan_class, "vbox")) {
+                msg_printf(p, MSG_INFO,
+                    "skipping vbox app in app_info.xml; vbox disabled in cc_config.xml"
+                );
+                delete avp;
+                continue;
+            }
             if (strlen(avp->platform) == 0) {
                 safe_strcpy(avp->platform, get_primary_platform());
             }
