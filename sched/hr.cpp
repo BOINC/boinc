@@ -23,7 +23,7 @@
 const int nocpu = 1;
 const int Intel = 2;
 const int AMD = 3;
-const int Macintosh = 4;
+const int Macintosh = 4;        // PowerPC
 const int AMDAthlon = 5;
 const int AMDDuron = 6;
 const int AMDSempron = 7;

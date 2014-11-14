@@ -441,6 +441,7 @@ const char* boincerror(int which_error) {
         case ERR_GETRUSAGE: return "getrusage() failed";
         case ERR_BENCHMARK_FAILED: return "benchmark failed";
         case ERR_BAD_HEX_FORMAT: return "hex format key data bad";
+        case ERR_GETADDRINFO: return "getaddrinfo() failed";
         case ERR_DB_NOT_FOUND: return "no database rows found in lookup/enumerate";
         case ERR_DB_NOT_UNIQUE: return "database lookup not unique";
         case ERR_DB_CANT_CONNECT: return "can't connect to database";

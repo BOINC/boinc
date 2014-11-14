@@ -383,7 +383,9 @@ int RPC::parse_reply() {
             return n;
         }
         if (parse_str(buf, "<error>", error_msg, sizeof(error_msg))) {
-            fprintf(stderr, "RPC error: %s\n", error_msg);
+            fprintf(stderr, "%s: GUI RPC error: %s\n",
+                time_to_string(dtime()), error_msg
+            );
             if (strstr(error_msg, "unauthorized")) return ERR_AUTHENTICATOR;
             if (strstr(error_msg, "Missing authenticator")) return ERR_AUTHENTICATOR;
             if (strstr(error_msg, "Missing URL")) return ERR_INVALID_URL;
