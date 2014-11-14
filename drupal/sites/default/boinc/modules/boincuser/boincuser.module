@@ -446,6 +446,10 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
       case FLAG_FRIEND_FLAGGED:
         unset($form['actions']);
         $form['flag_friend_submit']['#value'] = t('Remove friend');
+        // Add in our hack handler to fix the flag_friend module
+        $final_handler = array_pop($form['#submit']);
+        $form['#submit'][] = 'boincuser_fix_unfriend_form_submit';
+        $form['#submit'][] = $final_handler;
         break;
       case FLAG_FRIEND_PENDING:
         unset($form['actions']);

@@ -466,3 +466,14 @@ function boincuser_authloginform_submit($form, &$form_state) {
   if (!$user = user_load(get_drupal_id($boinc_user->id))) drupal_set_message(t('An unresolved error occurred while logging into this account.'));
   else $form_state['redirect'] = "user/{$user->uid}/edit";
 }
+
+
+/**
+ * Hack to fix submission of the flag friend unfriend form
+ */
+function boincuser_fix_unfriend_form_submit($form, &$form_state) {
+  // Leaving action as "unfriend" causes problems
+  if ($form_state['values']['action'] == 'unfriend') {
+    $form_state['values']['action'] = 'unflag';
+  }
+}
