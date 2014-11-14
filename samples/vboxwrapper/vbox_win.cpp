@@ -1375,12 +1375,12 @@ CLEANUP:
 }
 
 int VBOX_VM::register_vm() {
-    string command;
-    string output;
+    int retval = ERR_EXEC;
+    HRESULT rc;
+    char buf[256];
     string virtual_machine_slot_directory;
     APP_INIT_DATA aid;
-    char buf[256];
-    int retval;
+    CComPtr<IMachine> pMachine;
 
     boinc_get_init_data_p(&aid);
     get_slot_directory(virtual_machine_slot_directory);
@@ -1399,15 +1399,36 @@ int VBOX_VM::register_vm() {
         aid.slot
     );
 
+    rc = m_pVirtualBox->OpenMachine(
+        CComBSTR(string(virtual_machine_slot_directory + "/" + vm_name + "/" + vm_name + ".vbox").c_str()),
+        &pMachine
+    );
+    if (FAILED(rc)) {
+        fprintf(
+            stderr,
+            "%s Error opening virtual machine! rc = 0x%x\n",
+            boinc_msg_prefix(buf, sizeof(buf)),
+            rc
+        );
+        virtualbox_dump_error();
+        retval = rc;
+        goto CLEANUP;
+    }
 
-    // Register the VM
-    //
-    command  = "registervm ";
-    command += "\"" + virtual_machine_slot_directory + "/" + vm_name + "/" + vm_name + ".vbox\" ";
-    
-    retval = vbm_popen(command, output, "register");
-    if (retval) return retval;
+    rc = m_pVirtualBox->RegisterMachine(pMachine);
+    if (FAILED(rc)) {
+        fprintf(
+            stderr,
+            "%s Error registering virtual machine! rc = 0x%x\n",
+            boinc_msg_prefix(buf, sizeof(buf)),
+            rc
+        );
+        virtualbox_dump_error();
+        retval = rc;
+        goto CLEANUP;
+    }
 
+CLEANUP:
     return retval;
 }
 
@@ -2555,17 +2576,25 @@ int VBOX_VM::get_default_network_interface(string& iface) {
     CComPtr<IHost> pHost;
     SAFEARRAY* pNICS;
     CComBSTR tmp;
+    CComSafeArray<LPDISPATCH> aNICS;
+    CComPtr<IHostNetworkInterface> pNIC;
 
     rc = m_pVirtualBox->get_Host(&pHost);
     if (SUCCEEDED(rc)) {
         rc = pHost->FindHostNetworkInterfacesOfType(HostNetworkInterfaceType_Bridged, &pNICS);
         if (SUCCEEDED(rc)) {
-            //aNICS.Attach(pNICS);
-            //aNICS[0]->get_Name(tmp);
+            // Automatically clean up array after use
+            aNICS.Attach(pNICS);
 
-            iface = CW2A(tmp);
+            // We only need the 'default' nic, which is usally the first one.
+            pNIC = aNICS[0];
 
-            retval = BOINC_SUCCESS;
+            // Get the name for future use
+            rc = pNIC->get_Name(&tmp);
+            if (SUCCEEDED(rc)) {
+                iface = CW2A(tmp);
+                retval = BOINC_SUCCESS;
+            }
         }
     }
 
