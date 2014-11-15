@@ -1778,12 +1778,12 @@ void VBOX_VM::poll(bool log_state) {
 
 int VBOX_VM::start() {
     int retval = ERR_EXEC;
+    char buf[256];
     HRESULT rc;
     CComBSTR vm_name(vm_master_name.c_str());
     CComBSTR session_type;
     CComPtr<IProgress> pProgress;
     BOOL bCompleted;
-    char buf[256];
     double timeout;
 
 
@@ -1885,8 +1885,8 @@ CLEANUP:
 
 int VBOX_VM::stop() {
     int retval = ERR_EXEC;
-    HRESULT rc;
     char buf[256];
+    HRESULT rc;
     double timeout;
     CComPtr<IConsole> pConsole;
     CComPtr<IProgress> pProgress;
@@ -1987,8 +1987,8 @@ CLEANUP:
 
 int VBOX_VM::poweroff() {
     int retval = ERR_EXEC;
-    HRESULT rc;
     char buf[256];
+    HRESULT rc;
     double timeout;
     CComPtr<IConsole> pConsole;
     CComPtr<IProgress> pProgress;
@@ -2094,8 +2094,8 @@ CLEANUP:
 
 int VBOX_VM::pause() {
     int retval = ERR_EXEC;
-    HRESULT rc;
     char buf[256];
+    HRESULT rc;
     CComPtr<IConsole> pConsole;
 
 
@@ -2146,8 +2146,8 @@ CLEANUP:
 
 int VBOX_VM::resume() {
     int retval = ERR_EXEC;
-    HRESULT rc;
     char buf[256];
+    HRESULT rc;
     CComPtr<IConsole> pConsole;
 
 
@@ -2195,10 +2195,11 @@ CLEANUP:
 
 
 int VBOX_VM::create_snapshot(double elapsed_time) {
-    string command;
-    string output;
+    int retval = ERR_EXEC;
     char buf[256];
-    int retval;
+    HRESULT rc;
+    CComPtr<IConsole> pConsole;
+    CComPtr<IProgress> pProgress;
 
     fprintf(
         stderr,
@@ -2211,15 +2212,47 @@ int VBOX_VM::create_snapshot(double elapsed_time) {
     pause();
 
     // Create new snapshot
-    sprintf(buf, "%d", (int)elapsed_time);
-    command = "snapshot \"" + vm_name + "\" ";
-    command += "take boinc_";
-    command += buf;
-    retval = vbm_popen(command, output, "create new snapshot", true, true, 0);
-    if (retval) return retval;
+    rc = m_pSession->get_Console(&pConsole);
+    if (FAILED(rc)) {
+        fprintf(
+            stderr,
+            "%s Error retrieving console object! rc = 0x%x\n",
+            boinc_msg_prefix(buf, sizeof(buf)),
+            rc
+        );
+        virtualbox_dump_error();
+        retval = rc;
+    } else {
+        sprintf(buf, "%d", (int)elapsed_time);
+        rc = pConsole->TakeSnapshot(CComBSTR(string(string("boinc_") + buf).c_str()), CComBSTR(""), &pProgress);
+        if (FAILED(rc)) {
+            fprintf(
+                stderr,
+                "%s Error taking snapshot! rc = 0x%x\n",
+                boinc_msg_prefix(buf, sizeof(buf)),
+                rc
+            );
+            virtualbox_dump_error();
+            retval = rc;
+        } else {
+            rc = pProgress->WaitForCompletion(-1);
+            if (FAILED(rc)) {
+                fprintf(
+                    stderr,
+                    "%s Error could not wait for snapshot creation completion! rc = 0x%x\n",
+                    boinc_msg_prefix(buf, sizeof(buf)),
+                    rc
+                );
+                virtualbox_dump_error();
+                retval = rc;
+            }
+        }
+    }
 
     // Resume VM
     resume();
+
+    if (ERR_EXEC != retval) goto CLEANUP;
 
     // Set the suspended flag back to false before deleting the stale
     // snapshot
@@ -2227,7 +2260,9 @@ int VBOX_VM::create_snapshot(double elapsed_time) {
 
     // Delete stale snapshot(s), if one exists
     retval = cleanup_snapshots(false);
-    if (retval) return retval;
+    if (retval) {
+        return retval;
+    }
 
     fprintf(
         stderr,
@@ -2235,7 +2270,8 @@ int VBOX_VM::create_snapshot(double elapsed_time) {
         vboxwrapper_msg_prefix(buf, sizeof(buf))
     );
 
-    return 0;
+CLEANUP:
+    return retval;
 }
 
 int VBOX_VM::cleanup_snapshots(bool delete_active) {
@@ -2320,10 +2356,12 @@ int VBOX_VM::cleanup_snapshots(bool delete_active) {
 }
 
 int VBOX_VM::restore_snapshot() {
-    string command;
-    string output;
+    int retval = ERR_EXEC;
     char buf[256];
-    int retval = BOINC_SUCCESS;
+    HRESULT rc;
+    CComPtr<IConsole> pConsole;
+    CComPtr<ISnapshot> pSnapshot;
+    CComPtr<IProgress> pProgress;
 
     fprintf(
         stderr,
@@ -2331,10 +2369,59 @@ int VBOX_VM::restore_snapshot() {
         vboxwrapper_msg_prefix(buf, sizeof(buf))
     );
 
-    command = "snapshot \"" + vm_name + "\" ";
-    command += "restorecurrent ";
-    retval = vbm_popen(command, output, "restore current snapshot", true, false, 0);
-    if (retval) return retval;
+    rc = m_pMachine->get_CurrentSnapshot(&pSnapshot);
+    if (FAILED(rc)) {
+        fprintf(
+            stderr,
+            "%s Error retrieving current snapshot object! rc = 0x%x\n",
+            boinc_msg_prefix(buf, sizeof(buf)),
+            rc
+        );
+        virtualbox_dump_error();
+        retval = rc;
+        goto CLEANUP;
+    }
+
+    rc = m_pSession->get_Console(&pConsole);
+    if (FAILED(rc)) {
+        fprintf(
+            stderr,
+            "%s Error retrieving console object! rc = 0x%x\n",
+            boinc_msg_prefix(buf, sizeof(buf)),
+            rc
+        );
+        virtualbox_dump_error();
+        retval = rc;
+        goto CLEANUP;
+    }
+
+    rc = pConsole->RestoreSnapshot(pSnapshot, &pProgress);
+    if (FAILED(rc)) {
+        fprintf(
+            stderr,
+            "%s Error restoring snapshot! rc = 0x%x\n",
+            boinc_msg_prefix(buf, sizeof(buf)),
+            rc
+        );
+        virtualbox_dump_error();
+        retval = rc;
+        goto CLEANUP;
+    }
+
+    rc = pProgress->WaitForCompletion(-1);
+    if (FAILED(rc)) {
+        fprintf(
+            stderr,
+            "%s Error could not wait for restore completion! rc = 0x%x\n",
+            boinc_msg_prefix(buf, sizeof(buf)),
+            rc
+        );
+        virtualbox_dump_error();
+        retval = rc;
+        goto CLEANUP;
+    }
+
+    retval = BOINC_SUCCESS;
 
     fprintf(
         stderr,
@@ -2342,6 +2429,7 @@ int VBOX_VM::restore_snapshot() {
         vboxwrapper_msg_prefix(buf, sizeof(buf))
     );
 
+CLEANUP:
     return retval;
 }
 
@@ -2384,10 +2472,9 @@ void VBOX_VM::dump_hypervisor_status_reports() {
 int VBOX_VM::is_registered() {
     int retval = ERR_NOT_FOUND;
     HRESULT rc;
-    CComBSTR vm_name(vm_master_name.c_str());
     CComPtr<IMachine> pMachine;
 
-    rc = m_pVirtualBox->FindMachine(vm_name, &pMachine);
+    rc = m_pVirtualBox->FindMachine(CComBSTR(vm_master_name.c_str()), &pMachine);
     if (VBOX_E_OBJECT_NOT_FOUND != rc) {
         retval = BOINC_SUCCESS;
     }
@@ -2400,35 +2487,44 @@ bool VBOX_VM::is_system_ready(std::string& message) {
 }
 
 bool VBOX_VM::is_hdd_registered() {
-    string command;
-    string output;
+    HRESULT rc;
+    SAFEARRAY* pHardDisks;
+    CComSafeArray<LPDISPATCH> aHardDisks;
+    CComPtr<IMedium> pHardDisk;
+    CComBSTR tmp;
     string virtual_machine_root_dir;
+    string hdd_image_location;
 
     get_slot_directory(virtual_machine_root_dir);
+    hdd_image_location = string(virtual_machine_root_dir + "/" + image_filename);
 
-    command = "showhdinfo \"" + virtual_machine_root_dir + "/" + image_filename + "\" ";
-
-    if (vbm_popen(command, output, "hdd registration", false, false) == 0) {
-        if ((output.find("VBOX_E_FILE_ERROR") == string::npos) && 
-            (output.find("VBOX_E_OBJECT_NOT_FOUND") == string::npos) &&
-            (output.find("does not match the value") == string::npos)
-        ) {
-            // Error message not found in text
-            return true;
+    rc = m_pVirtualBox->get_HardDisks(&pHardDisks);
+    if (SUCCEEDED(rc)) {
+        aHardDisks.Attach(pHardDisks);
+        for (int i = 0; i < (int)aHardDisks.GetCount(); i++) {
+            pHardDisk = aHardDisks[i];
+            pHardDisk->get_Location(&tmp);
+            if (0 == stricmp(hdd_image_location.c_str(), CW2A(tmp))) {
+                return true;
+            }
         }
     }
     return false;
 }
 
 bool VBOX_VM::is_extpack_installed() {
-    string command;
-    string output;
+    CComPtr<IExtPackManager> pExtPackManager;
+    CComPtr<IExtPack> pExtPack;
+    BOOL bUsable = FALSE;
+    HRESULT rc;
 
-    command = "list extpacks";
-
-    if (vbm_popen(command, output, "extpack detection", false, false) == 0) {
-        if ((output.find("Oracle VM VirtualBox Extension Pack") != string::npos) && (output.find("VBoxVRDP") != string::npos)) {
-            return true;
+    rc = m_pVirtualBox->get_ExtensionPackManager(&pExtPackManager);
+    if (SUCCEEDED(rc)) {
+        rc = pExtPackManager->IsExtPackUsable(CComBSTR("Oracle VM VirtualBox Extension Pack"), &bUsable);
+        if (SUCCEEDED(rc)) {
+            if (bUsable) {
+                return true;
+            }
         }
     }
     return false;
@@ -2520,11 +2616,11 @@ int VBOX_VM::get_guest_additions(string& guest_additions) {
 int VBOX_VM::get_default_network_interface(string& iface) {
     int retval = ERR_EXEC;
     HRESULT rc;
-    CComPtr<IHost> pHost;
     SAFEARRAY* pNICS;
+    CComPtr<IHost> pHost;
+    CComPtr<IHostNetworkInterface> pNIC;
     CComBSTR tmp;
     CComSafeArray<LPDISPATCH> aNICS;
-    CComPtr<IHostNetworkInterface> pNIC;
 
     rc = m_pVirtualBox->get_Host(&pHost);
     if (SUCCEEDED(rc)) {
