@@ -274,6 +274,8 @@ int VBOX_VM::create_vm() {
     char buf[256];
     APP_INIT_DATA aid;
     CComBSTR vm_machine_uuid;
+    CComPtr<IMachine> pMachine;
+    CComPtr<ISession> pSession;
     CComPtr<IBIOSSettings> pBIOSSettings;
     CComPtr<INetworkAdapter> pNetworkAdapter;
     CComPtr<INATEngine> pNATEngine;
@@ -327,7 +329,7 @@ int VBOX_VM::create_vm() {
         NULL,
         CComBSTR(os_name.c_str()),
         CComBSTR(""),
-        &m_pMachine
+        &pMachine
     );
     if (FAILED(rc)) {
         fprintf(
@@ -348,7 +350,7 @@ int VBOX_VM::create_vm() {
     // Also note that due to current VirtualBox limitations, the machine
     // must be registered *before* we can attach hard disks to it.
     //
-    rc = m_pVirtualBox->RegisterMachine(m_pMachine);
+    rc = m_pVirtualBox->RegisterMachine(pMachine);
     if (FAILED(rc)) {
         fprintf(
             stderr,
@@ -361,7 +363,7 @@ int VBOX_VM::create_vm() {
         goto CLEANUP;
     }
     
-    rc = m_pMachine->LockMachine(m_pSession, LockType_Write);
+    rc = pMachine->LockMachine(pSession, LockType_Write);
     if (FAILED(rc)) {
         fprintf(
             stderr,
@@ -374,7 +376,7 @@ int VBOX_VM::create_vm() {
         goto CLEANUP;
     }
 
-    rc = m_pSession->get_Machine(&m_pMachine);
+    rc = pSession->get_Machine(&pMachine);
     if (FAILED(rc)) {
         fprintf(
             stderr,
@@ -388,7 +390,7 @@ int VBOX_VM::create_vm() {
     }
 
 
-    rc = m_pMachine->get_BIOSSettings(&pBIOSSettings);
+    rc = pMachine->get_BIOSSettings(&pBIOSSettings);
     if (FAILED(rc)) {
         fprintf(
             stderr,
@@ -401,7 +403,7 @@ int VBOX_VM::create_vm() {
         goto CLEANUP;
     }
 
-    rc = m_pMachine->get_BandwidthControl(&pBandwidthControl);
+    rc = pMachine->get_BandwidthControl(&pBandwidthControl);
     if (FAILED(rc)) {
         fprintf(
             stderr,
@@ -414,7 +416,7 @@ int VBOX_VM::create_vm() {
         goto CLEANUP;
     }
 
-    rc = m_pMachine->get_VRDEServer(&pVRDEServer);
+    rc = pMachine->get_VRDEServer(&pVRDEServer);
     if (FAILED(rc)) {
         fprintf(
             stderr,
@@ -427,7 +429,7 @@ int VBOX_VM::create_vm() {
         goto CLEANUP;
     }
 
-    rc = m_pMachine->GetNetworkAdapter(0, &pNetworkAdapter);
+    rc = pMachine->GetNetworkAdapter(0, &pNetworkAdapter);
     if (FAILED(rc)) {
         fprintf(
             stderr,
@@ -453,7 +455,7 @@ int VBOX_VM::create_vm() {
         goto CLEANUP;
     }
 
-    rc = m_pMachine->get_AudioAdapter(&pAudioAdapter);
+    rc = pMachine->get_AudioAdapter(&pAudioAdapter);
     if (FAILED(rc)) {
         fprintf(
             stderr,
@@ -467,7 +469,7 @@ int VBOX_VM::create_vm() {
     }
 
     // Set some properties
-    m_pMachine->put_Description(CComBSTR(vm_master_description.c_str()));
+    pMachine->put_Description(CComBSTR(vm_master_description.c_str()));
 
     // Tweak the VM's Memory Size
     //
@@ -477,7 +479,7 @@ int VBOX_VM::create_vm() {
         vboxwrapper_msg_prefix(buf, sizeof(buf)),
         (int)memory_size_mb
     );
-    rc = m_pMachine->put_MemorySize((int)(memory_size_mb*1024));
+    rc = pMachine->put_MemorySize((int)(memory_size_mb*1024));
     if (FAILED(rc)) {
         fprintf(
             stderr,
@@ -498,7 +500,7 @@ int VBOX_VM::create_vm() {
         vboxwrapper_msg_prefix(buf, sizeof(buf)),
         vm_cpu_count.c_str()
     );
-    rc = m_pMachine->put_CPUCount((int)atoi(vm_cpu_count.c_str()));
+    rc = pMachine->put_CPUCount((int)atoi(vm_cpu_count.c_str()));
     if (FAILED(rc)) {
         fprintf(
             stderr,
@@ -551,7 +553,7 @@ int VBOX_VM::create_vm() {
         "%s Setting Boot Options for VM.\n",
         vboxwrapper_msg_prefix(buf, sizeof(buf))
     );
-    rc = m_pMachine->SetBootOrder(1, DeviceType_HardDisk);
+    rc = pMachine->SetBootOrder(1, DeviceType_HardDisk);
     if (FAILED(rc)) {
         fprintf(
             stderr,
@@ -564,7 +566,7 @@ int VBOX_VM::create_vm() {
         goto CLEANUP;
     }
     
-    rc = m_pMachine->SetBootOrder(2, DeviceType_DVD);
+    rc = pMachine->SetBootOrder(2, DeviceType_DVD);
     if (FAILED(rc)) {
         fprintf(
             stderr,
@@ -577,8 +579,8 @@ int VBOX_VM::create_vm() {
         goto CLEANUP;
     }
 
-    m_pMachine->SetBootOrder(3, DeviceType_Null);
-    m_pMachine->SetBootOrder(4, DeviceType_Null);
+    pMachine->SetBootOrder(3, DeviceType_Null);
+    pMachine->SetBootOrder(4, DeviceType_Null);
 
     // Tweak the VM's Network Configuration
     //
@@ -681,9 +683,9 @@ int VBOX_VM::create_vm() {
         "%s Disabling USB Support for VM.\n",
         vboxwrapper_msg_prefix(buf, sizeof(buf))
     );
-    rc = m_pMachine->GetUSBControllerCountByType(USBControllerType_OHCI, &lOHCICtrls);
+    rc = pMachine->GetUSBControllerCountByType(USBControllerType_OHCI, &lOHCICtrls);
     if (SUCCEEDED(rc) && lOHCICtrls) {
-        rc = m_pMachine->RemoveUSBController(CComBSTR("OHCI"));
+        pMachine->RemoveUSBController(CComBSTR("OHCI"));
     }
 
     // Tweak the VM's COM Port Support
@@ -693,11 +695,11 @@ int VBOX_VM::create_vm() {
         "%s Disabling COM Port Support for VM.\n",
         vboxwrapper_msg_prefix(buf, sizeof(buf))
     );
-    rc = m_pMachine->GetSerialPort(0, &pSerialPort);
+    rc = pMachine->GetSerialPort(0, &pSerialPort);
     if (SUCCEEDED(rc)) {
         pSerialPort->put_Enabled(FALSE);
     }
-    rc = m_pMachine->GetSerialPort(1, &pSerialPort);
+    rc = pMachine->GetSerialPort(1, &pSerialPort);
     if (SUCCEEDED(rc)) {
         pSerialPort->put_Enabled(FALSE);
     }
@@ -709,11 +711,11 @@ int VBOX_VM::create_vm() {
         "%s Disabling LPT Port Support for VM.\n",
         vboxwrapper_msg_prefix(buf, sizeof(buf))
     );
-    rc = m_pMachine->GetParallelPort(0, &pParallelPort);
+    rc = pMachine->GetParallelPort(0, &pParallelPort);
     if (SUCCEEDED(rc)) {
         pParallelPort->put_Enabled(FALSE);
     }
-    rc = m_pMachine->GetParallelPort(1, &pParallelPort);
+    rc = pMachine->GetParallelPort(1, &pParallelPort);
     if (SUCCEEDED(rc)) {
         pParallelPort->put_Enabled(FALSE);
     }
@@ -734,7 +736,7 @@ int VBOX_VM::create_vm() {
         "%s Disabling Clipboard Support for VM.\n",
         vboxwrapper_msg_prefix(buf, sizeof(buf))
     );
-    m_pMachine->put_ClipboardMode(ClipboardMode_Disabled);
+    pMachine->put_ClipboardMode(ClipboardMode_Disabled);
 
     // Tweak the VM's Drag & Drop Support
     //
@@ -743,7 +745,7 @@ int VBOX_VM::create_vm() {
         "%s Disabling Drag and Drop Support for VM.\n",
         vboxwrapper_msg_prefix(buf, sizeof(buf))
     );
-    m_pMachine->put_DragAndDropMode(DragAndDropMode_Disabled);
+    pMachine->put_DragAndDropMode(DragAndDropMode_Disabled);
 
     // Check to see if the processor supports hardware acceleration for virtualization
     // If it doesn't, disable the use of it in VirtualBox. Multi-core jobs require hardware
@@ -799,7 +801,7 @@ int VBOX_VM::create_vm() {
                 "%s Disabling hardware acceleration support for virtualization.\n",
                 vboxwrapper_msg_prefix(buf, sizeof(buf))
             );
-            rc = m_pMachine->SetHWVirtExProperty(HWVirtExPropertyType_Enabled, FALSE);
+            rc = pMachine->SetHWVirtExProperty(HWVirtExPropertyType_Enabled, FALSE);
             if (FAILED(rc)) {
                 fprintf(
                     stderr,
@@ -832,10 +834,8 @@ int VBOX_VM::create_vm() {
         "%s Adding storage controller(s) to VM.\n",
         vboxwrapper_msg_prefix(buf, sizeof(buf))
     );
-    pDiskController;
-    pFloppyController;
     if (0 == stricmp(vm_disk_controller_type.c_str(), "ide")) {
-        rc = m_pMachine->AddStorageController(CComBSTR("Hard Disk Controller"), StorageBus_IDE, &pDiskController);
+        rc = pMachine->AddStorageController(CComBSTR("Hard Disk Controller"), StorageBus_IDE, &pDiskController);
         if (FAILED(rc)) {
             fprintf(
                 stderr,
@@ -849,7 +849,7 @@ int VBOX_VM::create_vm() {
         }
     }
     if (0 == stricmp(vm_disk_controller_type.c_str(), "sata")) {
-        rc = m_pMachine->AddStorageController(CComBSTR("Hard Disk Controller"), StorageBus_SATA, &pDiskController);
+        rc = pMachine->AddStorageController(CComBSTR("Hard Disk Controller"), StorageBus_SATA, &pDiskController);
         if (FAILED(rc)) {
             fprintf(
                 stderr,
@@ -865,7 +865,7 @@ int VBOX_VM::create_vm() {
         pDiskController->put_PortCount(3);
     }
     if (0 == stricmp(vm_disk_controller_type.c_str(), "sas")) {
-        rc = m_pMachine->AddStorageController(CComBSTR("Hard Disk Controller"), StorageBus_SAS, &pDiskController);
+        rc = pMachine->AddStorageController(CComBSTR("Hard Disk Controller"), StorageBus_SAS, &pDiskController);
         if (FAILED(rc)) {
             fprintf(
                 stderr,
@@ -880,7 +880,7 @@ int VBOX_VM::create_vm() {
         pDiskController->put_UseHostIOCache(FALSE);
     }
     if (0 == stricmp(vm_disk_controller_type.c_str(), "scsi")) {
-        rc = m_pMachine->AddStorageController(CComBSTR("Hard Disk Controller"), StorageBus_SCSI, &pDiskController);
+        rc = pMachine->AddStorageController(CComBSTR("Hard Disk Controller"), StorageBus_SCSI, &pDiskController);
         if (FAILED(rc)) {
             fprintf(
                 stderr,
@@ -916,7 +916,7 @@ int VBOX_VM::create_vm() {
     // Add storage controller for a floppy device if desired
     //
     if (enable_floppyio) {
-        rc = m_pMachine->AddStorageController(CComBSTR("Floppy Controller"), StorageBus_Floppy, &pFloppyController);
+        rc = pMachine->AddStorageController(CComBSTR("Floppy Controller"), StorageBus_Floppy, &pFloppyController);
         if (FAILED(rc)) {
             fprintf(
                 stderr,
@@ -960,7 +960,7 @@ int VBOX_VM::create_vm() {
             goto CLEANUP;
         }
 
-        rc = m_pMachine->AttachDevice(
+        rc = pMachine->AttachDevice(
             CComBSTR("Hard Disk Controller"),
             0,
             0,
@@ -1006,7 +1006,7 @@ int VBOX_VM::create_vm() {
             goto CLEANUP;
         }
 
-        rc = m_pMachine->AttachDevice(
+        rc = pMachine->AttachDevice(
             CComBSTR("Hard Disk Controller"),
             2,
             0,
@@ -1054,7 +1054,7 @@ int VBOX_VM::create_vm() {
                 goto CLEANUP;
             }
 
-            rc = m_pMachine->AttachDevice(
+            rc = pMachine->AttachDevice(
                 CComBSTR("Hard Disk Controller"),
                 1,
                 0,
@@ -1104,7 +1104,7 @@ int VBOX_VM::create_vm() {
             goto CLEANUP;
         }
 
-        rc = m_pMachine->AttachDevice(
+        rc = pMachine->AttachDevice(
             CComBSTR("Hard Disk Controller"),
             0,
             0,
@@ -1150,7 +1150,7 @@ int VBOX_VM::create_vm() {
             goto CLEANUP;
         }
 
-        rc = m_pMachine->AttachDevice(
+        rc = pMachine->AttachDevice(
             CComBSTR("Hard Disk Controller"),
             1,
             0,
@@ -1219,8 +1219,8 @@ int VBOX_VM::create_vm() {
             goto CLEANUP;
         }
 
-        rc = m_pMachine->AttachDevice(
-            CComBSTR("Hard Disk Controller"),
+        rc = pMachine->AttachDevice(
+            CComBSTR("Floppy Controller"),
             0,
             0,
             DeviceType_Floppy,
@@ -1351,7 +1351,7 @@ int VBOX_VM::create_vm() {
             "%s Enabling shared directory for VM.\n",
             vboxwrapper_msg_prefix(buf, sizeof(buf))
         );
-        rc = m_pMachine->CreateSharedFolder(
+        rc = pMachine->CreateSharedFolder(
             CComBSTR("shared"),
             CComBSTR(string(virtual_machine_slot_directory + "/shared").c_str()),
             TRUE,
@@ -1368,6 +1368,19 @@ int VBOX_VM::create_vm() {
             retval = rc;
             goto CLEANUP;
         }
+    }
+
+    rc = pMachine->SaveSettings();
+    if (FAILED(rc)) {
+        fprintf(
+            stderr,
+            "%s Error could not save settings for virtual machine! rc = 0x%x\n",
+            boinc_msg_prefix(buf, sizeof(buf)),
+            rc
+        );
+        virtualbox_dump_error();
+        retval = rc;
+        goto CLEANUP;
     }
 
 CLEANUP:
@@ -1433,10 +1446,13 @@ CLEANUP:
 }
 
 int VBOX_VM::deregister_vm(bool delete_media) {
-    string command;
-    string output;
-    string virtual_machine_slot_directory;
+    int retval = ERR_EXEC;
+    HRESULT rc;
     char buf[256];
+    CComPtr<IBandwidthControl> pBandwidthControl;
+    CComPtr<IProgress> pProgress;
+    SAFEARRAY* pHardDisks;
+    string virtual_machine_slot_directory;
 
     get_slot_directory(virtual_machine_slot_directory);
 
@@ -1453,16 +1469,14 @@ int VBOX_VM::deregister_vm(bool delete_media) {
 
     // Delete network bandwidth throttle group
     //
-    if (is_virtualbox_version_newer(4, 2, 0)) {
-        fprintf(
-            stderr,
-            "%s Removing network bandwidth throttle group from VM.\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf))
-        );
-        command  = "bandwidthctl \"" + vm_name + "\" ";
-        command += "remove \"" + vm_name + "_net\" ";
-
-        vbm_popen(command, output, "network throttle group (remove)", false, false);
+    fprintf(
+        stderr,
+        "%s Removing network bandwidth throttle group from VM.\n",
+        vboxwrapper_msg_prefix(buf, sizeof(buf))
+    );
+    rc = m_pMachine->get_BandwidthControl(&pBandwidthControl);
+    if (SUCCEEDED(rc)) {
+        pBandwidthControl->DeleteBandwidthGroup(CComBSTR(string(vm_name + "_net").c_str()));
     }
 
     // Delete its storage controller(s)
@@ -1472,18 +1486,10 @@ int VBOX_VM::deregister_vm(bool delete_media) {
         "%s Removing storage controller(s) from VM.\n",
         vboxwrapper_msg_prefix(buf, sizeof(buf))
     );
-    command  = "storagectl \"" + vm_name + "\" ";
-    command += "--name \"Hard Disk Controller\" ";
-    command += "--remove ";
-
-    vbm_popen(command, output, "deregister storage controller (fixed disk)", false, false);
+    m_pMachine->RemoveStorageController(CComBSTR("Hard Disk Controller"));
 
     if (enable_floppyio) {
-        command  = "storagectl \"" + vm_name + "\" ";
-        command += "--name \"Floppy Controller\" ";
-        command += "--remove ";
-
-        vbm_popen(command, output, "deregister storage controller (floppy disk)", false, false);
+        m_pMachine->RemoveStorageController(CComBSTR("Floppy Controller"));
     }
 
     // Next, delete VM
@@ -1493,124 +1499,77 @@ int VBOX_VM::deregister_vm(bool delete_media) {
         "%s Removing VM from VirtualBox.\n",
         vboxwrapper_msg_prefix(buf, sizeof(buf))
     );
-    command  = "unregistervm \"" + vm_name + "\" ";
-    command += "--delete ";
-
-    vbm_popen(command, output, "delete VM", false, false);
-
-    // Lastly delete medium(s) from Virtual Box Media Registry
-    //
-    if (enable_isocontextualization) {
-        fprintf(
-            stderr,
-            "%s Removing virtual ISO 9660 disk from VirtualBox.\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf))
-        );
-        command  = "closemedium dvd \"" + virtual_machine_slot_directory + "/" + iso_image_filename + "\" ";
-        if (delete_media) {
-            command += "--delete ";
-        }
-        vbm_popen(command, output, "remove virtual ISO 9660 disk", false, false);
-
-        if (enable_cache_disk) {
-            fprintf(
-                stderr,
-                "%s Removing virtual cache disk from VirtualBox.\n",
-                vboxwrapper_msg_prefix(buf, sizeof(buf))
-            );
-            command  = "closemedium disk \"" + virtual_machine_slot_directory + "/" + cache_disk_filename + "\" ";
-            if (delete_media) {
-                command += "--delete ";
+    if (!delete_media) {
+        rc = m_pMachine->Unregister(CleanupMode_UnregisterOnly, &pHardDisks);
+        if (SUCCEEDED(rc)) {
+            m_pMachine->DeleteConfig(pHardDisks, &pProgress);
+            if (SUCCEEDED(rc)) {
+                pProgress->WaitForCompletion(-1);
             }
-
-            vbm_popen(command, output, "remove virtual cache disk", false, false);
         }
     } else {
-        fprintf(
-            stderr,
-            "%s Removing virtual disk drive from VirtualBox.\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf))
-        );
-        command  = "closemedium disk \"" + virtual_machine_slot_directory + "/" + image_filename + "\" ";
-        if (delete_media) {
-            command += "--delete ";
+        rc = m_pMachine->Unregister(CleanupMode_DetachAllReturnHardDisksOnly, &pHardDisks);
+        if (SUCCEEDED(rc)) {
+            fprintf(
+                stderr,
+                "%s Removing virtual disk drive(s) from VirtualBox.\n",
+                vboxwrapper_msg_prefix(buf, sizeof(buf))
+            );
+            m_pMachine->DeleteConfig(pHardDisks, &pProgress);
+            if (SUCCEEDED(rc)) {
+                pProgress->WaitForCompletion(-1);
+            }
         }
-        vbm_popen(command, output, "remove virtual disk", false, false);
     }
-
-    if (enable_floppyio) {
-        fprintf(
-            stderr,
-            "%s Removing virtual floppy disk from VirtualBox.\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf))
-        );
-        command  = "closemedium floppy \"" + virtual_machine_slot_directory + "/" + floppy_image_filename + "\" ";
-        if (delete_media) {
-            command += "--delete ";
-        }
-
-        vbm_popen(command, output, "remove virtual floppy disk", false, false);
-    }
-
     return 0;
 }
 
 int VBOX_VM::deregister_stale_vm() {
-    string command;
-    string output;
-    string virtual_machine_slot_directory;
-    size_t uuid_start;
-    size_t uuid_end;
-    int retval;
+    HRESULT rc;
+    SAFEARRAY* pHardDisks;
+    SAFEARRAY* pMachines;
+    CComSafeArray<LPDISPATCH> aHardDisks;
+    CComSafeArray<LPDISPATCH> aMachines;
+    CComPtr<IMedium> pHardDisk;
+    CComPtr<IMachine> pMachine;
+    CComBSTR tmp;
+    string virtual_machine_root_dir;
+    string hdd_image_location;
 
-    get_slot_directory(virtual_machine_slot_directory);
+    get_slot_directory(virtual_machine_root_dir);
+    hdd_image_location = string(virtual_machine_root_dir + "/" + image_filename);
 
-    // We need to determine what the name or uuid is of the previous VM which owns
-    // this virtual disk
-    //
-    command  = "showhdinfo \"" + virtual_machine_slot_directory + "/" + image_filename + "\" ";
+    rc = m_pVirtualBox->get_HardDisks(&pHardDisks);
+    if (SUCCEEDED(rc)) {
+        aHardDisks.Attach(pHardDisks);
+        for (int i = 0; i < (int)aHardDisks.GetCount(); i++) {
+            pHardDisk = aHardDisks[i];
+            pHardDisk->get_Location(&tmp);
 
-    retval = vbm_popen(command, output, "get HDD info");
-    if (retval) return retval;
+            // Did we find that our disk has already been registered in the media registry?
+            //
+            if (0 == stricmp(hdd_image_location.c_str(), CW2A(tmp))) {
 
-    // Output should look a little like this:
-    //   UUID:                 c119acaf-636c-41f6-86c9-38e639a31339
-    //   Accessible:           yes
-    //   Logical size:         10240 MBytes
-    //   Current size on disk: 0 MBytes
-    //   Type:                 normal (base)
-    //   Storage format:       VDI
-    //   Format variant:       dynamic default
-    //   In use by VMs:        test2 (UUID: 000ab2be-1254-4c6a-9fdc-1536a478f601)
-    //   Location:             C:\Users\romw\VirtualBox VMs\test2\test2.vdi
-    //
-    uuid_start = output.find("(UUID: ");
-    if (uuid_start != string::npos) {
-        // We can parse the virtual machine ID from the output
-        uuid_start += 7;
-        uuid_end = output.find(")", uuid_start);
-        vm_name = output.substr(uuid_start, uuid_end - uuid_start);
-
-        // Deregister stale VM by UUID
-        return deregister_vm(false);
-    } else {
-        // Did the user delete the VM in VirtualBox and not the medium?  If so,
-        // just remove the medium.
-        command  = "closemedium disk \"" + virtual_machine_slot_directory + "/" + image_filename + "\" ";
-        vbm_popen(command, output, "remove virtual disk", false, false);
-        if (enable_floppyio) {
-            command  = "closemedium floppy \"" + virtual_machine_slot_directory + "/" + floppy_image_filename + "\" ";
-            vbm_popen(command, output, "remove virtual floppy disk", false, false);
-        }
-        if (enable_isocontextualization) {
-            command  = "closemedium dvd \"" + virtual_machine_slot_directory + "/" + iso_image_filename + "\" ";
-            vbm_popen(command, output, "remove virtual ISO 9660 disk", false);
-            if (enable_cache_disk) {
-                command  = "closemedium disk \"" + virtual_machine_slot_directory + "/" + cache_disk_filename + "\" ";
-                vbm_popen(command, output, "remove virtual cache disk", false);
+                // Disk found
+                //
+                rc = pHardDisk->get_MachineIds(&pMachines);
+                if (SUCCEEDED(rc)) {
+                    aMachines.Attach(pMachines);
+                    // Delete all registered VMs attached to this disk image
+                    //
+                    for (int j = 0; j < (int)aMachines.GetCount(); j++) {
+                        pMachine = aMachines[j];
+                        rc = pMachine->get_Id(&tmp);
+                        if (SUCCEEDED(rc)) {
+                            vm_name = CW2A(tmp);
+                            deregister_vm(false);
+                        }
+                    }
+                }
             }
         }
     }
+
     return 0;
 }
 
@@ -2859,10 +2818,10 @@ int VBOX_VM::set_cpu_usage(int percentage) {
 }
 
 int VBOX_VM::set_network_usage(int kilobytes) {
+    char buf[256];
+    HRESULT rc;
     CComPtr<IBandwidthControl> pBandwidthControl;
     CComPtr<IBandwidthGroup> pBandwidthGroup;
-    HRESULT rc;
-    char buf[256];
 
     rc = m_pMachine->get_BandwidthControl(&pBandwidthControl);
     if (SUCCEEDED(rc)) {
