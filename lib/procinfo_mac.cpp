@@ -51,7 +51,6 @@ int procinfo_setup(PROC_MAP& pm) {
     int c, real_mem, virtual_mem, hours;
     char* lf;
     static long iBrandID = -1;
-    int priority;
     
     if (iBrandID < 0) {
         iBrandID = BOINC_BRAND_ID;
@@ -105,7 +104,7 @@ int procinfo_setup(PROC_MAP& pm) {
 // from a process that has the DYLD_LIBRARY_PATH environment variable set.
 // "env -i command" prevents the command from inheriting the caller's 
 // environment, which avoids the spurious warning.
-    fd = popen("env -i ps -axcopid,ppid,rss,vsz,pagein,pri,time,command", "r");
+    fd = popen("env -i ps -axcopid,ppid,rss,vsz,pagein,time,command", "r");
     if (!fd) return ERR_FOPEN;
 
     // Skip over the header line
@@ -119,13 +118,12 @@ int procinfo_setup(PROC_MAP& pm) {
 
     while (1) {
         p.clear();
-        c = fscanf(fd, "%d%d%d%d%lu%d%d:%lf ",
+        c = fscanf(fd, "%d%d%d%d%lu%d:%lf ",
             &p.id,
             &p.parentid,
             &real_mem, 
             &virtual_mem,
             &p.page_fault_count,
-            &priority,
             &hours,
             &p.user_time
         );
@@ -142,7 +140,12 @@ int procinfo_setup(PROC_MAP& pm) {
         // the client when the get_screensaver_tasks rpc is called, but that
         // would not be 100% reliable for several reasons.
         if (strcasestr(p.command, "screensaverengine")) p.is_boinc_app = true;
-        p.is_low_priority = (priority <= 12);
+
+        // We do not mark Mac processes as low priority because some processes
+        // (e.g., Finder) change priority frequently, which would cause
+        // procinfo_non_boinc() and ACTIVE_TASK_SET::get_memory_usage() to get
+        // incorrect results for the % CPU used.
+        p.is_low_priority = false;
 
         switch (iBrandID) {
         case GRIDREPUBLIC_BRAND_ID:
