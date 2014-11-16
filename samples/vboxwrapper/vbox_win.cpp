@@ -46,6 +46,39 @@
 using std::string;
 
 
+// Helper function to print MSCOM exception information set on the current
+// thread after a failed MSCOM method call. This function will also print
+// extended VirtualBox error info if it is available.
+//
+void virtualbox_dump_error() {
+    HRESULT rc;
+    char buf[256];
+    CComPtr<IErrorInfo> pErrorInfo;
+    CComBSTR strDescription;
+
+    rc = GetErrorInfo(0, &pErrorInfo);
+
+    if (FAILED(rc)) {
+        fprintf(
+            stderr,
+            "%s Error: getting error info! rc = 0x%x\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf)),
+            rc
+        );
+    } else {
+        rc = pErrorInfo->GetDescription(&strDescription);
+        if (SUCCEEDED(rc)) {
+            fprintf(
+                stderr,
+                "%s Error description: %S\n",
+                vboxwrapper_msg_prefix(buf, sizeof(buf)),
+                CW2A(strDescription)
+            );
+        }
+    }
+}
+
+
 const char *MachineStateToName(MachineState State) 
 { 
     switch (State) 
@@ -95,49 +128,6 @@ const char *MachineStateToName(MachineState State)
     } 
     return "unknown"; 
 } 
-
-
-//
-// Helper function to print MSCOM exception information set on the current
-// thread after a failed MSCOM method call. This function will also print
-// extended VirtualBox error info if it is available.
-//
-void virtualbox_dump_error() {
-    HRESULT rc;
-    BSTR strDescription = NULL;
-    char buf[256];
-    IErrorInfo* pErrorInfo;
-
-    rc = GetErrorInfo(0, &pErrorInfo);
-
-    if (FAILED(rc)) {
-        fprintf(
-            stderr,
-            "%s Error: getting error info! rc = 0x%x\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf)),
-            rc
-        );
-    } else {
-        rc = pErrorInfo->GetDescription(&strDescription);
-        if (FAILED(rc) || !strDescription) {
-            fprintf(
-                stderr,
-                "%s Error: getting error description! rc = 0x%x\n",
-                vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                rc
-            );
-        } else {
-            fprintf(
-                stderr,
-                "%s Error description: %S\n",
-                vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                strDescription
-            );
-            SysFreeString(strDescription);
-        }
-        pErrorInfo->Release();
-    }
-}
 
 
 VBOX_VM::VBOX_VM()
