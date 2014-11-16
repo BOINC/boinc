@@ -1495,10 +1495,19 @@ int VBOX_VM::deregister_vm(bool delete_media) {
     int retval = ERR_EXEC;
     HRESULT rc;
     char buf[256];
+    SAFEARRAY* pHardDisks = NULL;
+    SAFEARRAY* pEmptyHardDisks = NULL;
+    SAFEARRAY* pMediumAttachments = NULL;
+    CComSafeArray<LPDISPATCH> aMediumAttachments;
+    CComSafeArray<LPDISPATCH> aHardDisks;
+    CComPtr<ISession> pSession;
+    CComPtr<IMachine> pMachineRO;
     CComPtr<IMachine> pMachine;
     CComPtr<IProgress> pProgress;
     CComPtr<IBandwidthControl> pBandwidthControl;
-    SAFEARRAY* pHardDisks = NULL;
+    DeviceType device_type; 
+    LONG lDevice;
+    LONG lPort;
     string virtual_machine_slot_directory;
 
     get_slot_directory(virtual_machine_slot_directory);
@@ -1509,31 +1518,138 @@ int VBOX_VM::deregister_vm(bool delete_media) {
         vboxwrapper_msg_prefix(buf, sizeof(buf))
     );
 
-    rc = m_pVirtualBox->FindMachine(CComBSTR(vm_name.c_str()), &pMachine);
+    rc = m_pVirtualBox->FindMachine(CComBSTR(vm_name.c_str()), &pMachineRO);
     if (SUCCEEDED(rc)) {
-        // Delete network bandwidth throttle group
-        //
-        fprintf(
-            stderr,
-            "%s Removing network bandwidth throttle group from VM.\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf))
-        );
-        rc = pMachine->get_BandwidthControl(&pBandwidthControl);
-        if (SUCCEEDED(rc)) {
-            pBandwidthControl->DeleteBandwidthGroup(CComBSTR(string(vm_name + "_net").c_str()));
-        }
+        if (delete_media) {
+            rc = pSession.CoCreateInstance(CLSID_Session);
+            if (!SUCCEEDED(rc))
+            {
+                fprintf(
+                    stderr,
+                    "%s Error creating Session instance! rc = 0x%x\n",
+                    vboxwrapper_msg_prefix(buf, sizeof(buf)),
+                    rc
+                );
+            }
 
-        // Delete its storage controller(s)
-        //
-        fprintf(
-            stderr,
-            "%s Removing storage controller(s) from VM.\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf))
-        );
-        pMachine->RemoveStorageController(CComBSTR("Hard Disk Controller"));
+            rc = pMachineRO->LockMachine(pSession, LockType_Write);
+            if (FAILED(rc)) {
+                fprintf(
+                    stderr,
+                    "%s Error locking virtual machine! rc = 0x%x\n",
+                    vboxwrapper_msg_prefix(buf, sizeof(buf)),
+                    rc
+                );
+                virtualbox_dump_error();
+            }
 
-        if (enable_floppyio) {
-            pMachine->RemoveStorageController(CComBSTR("Floppy Controller"));
+            rc = pSession->get_Machine(&pMachine);
+            if (FAILED(rc)) {
+                fprintf(
+                    stderr,
+                    "%s Error retrieving mutable virtual machine object! rc = 0x%x\n",
+                    vboxwrapper_msg_prefix(buf, sizeof(buf)),
+                    rc
+                );
+                virtualbox_dump_error();
+            }
+
+            // Close hard disk and floppy mediums
+            //
+            fprintf(
+                stderr,
+                "%s Removing virtual disk drive(s) from VM.\n",
+                vboxwrapper_msg_prefix(buf, sizeof(buf))
+            );
+            rc = pMachine->get_MediumAttachments(&pMediumAttachments);
+            if (SUCCEEDED(rc)) {
+                aMediumAttachments.Attach(pMediumAttachments);
+                for (int i = 0; i < (int)aMediumAttachments.GetCount(); i++) {
+                    CComPtr<IMediumAttachment> pMediumAttachment((IMediumAttachment*)(LPDISPATCH)aMediumAttachments[i]);
+                    rc = pMediumAttachment->get_Type(&device_type);
+                    if (SUCCEEDED(rc) && ((DeviceType_HardDisk == device_type) || (DeviceType_Floppy == device_type))) {
+                        CComPtr<IMedium> pMedium;
+                        CComBSTR strController;
+
+                        if (DeviceType_HardDisk == device_type) {
+                            strController = "Hard Disk Controller";
+                        } else {
+                            strController = "Floppy Controller";
+                        }
+
+                        pMediumAttachment->get_Device(&lDevice);
+                        pMediumAttachment->get_Port(&lPort);
+                        pMediumAttachment->get_Medium(&pMedium);
+                        rc = pMachine->DetachDevice(strController, lPort, lDevice);
+                        if (FAILED(rc)) {
+                            fprintf(
+                                stderr,
+                                "%s Error detaching device from virtual machine instance! rc = 0x%x\n",
+                                vboxwrapper_msg_prefix(buf, sizeof(buf)),
+                                rc
+                            );
+                            virtualbox_dump_error();
+                        }
+                        rc = pMedium->Close();
+                        if (FAILED(rc)) {
+                            fprintf(
+                                stderr,
+                                "%s Error closing medium for VirtualBox! rc = 0x%x\n",
+                                vboxwrapper_msg_prefix(buf, sizeof(buf)),
+                                rc
+                            );
+                            virtualbox_dump_error();
+                        }
+                    }
+                }
+            }
+
+            // Delete network bandwidth throttle group
+            //
+            fprintf(
+                stderr,
+                "%s Removing network bandwidth throttle group from VM.\n",
+                vboxwrapper_msg_prefix(buf, sizeof(buf))
+            );
+            rc = pMachine->get_BandwidthControl(&pBandwidthControl);
+            if (SUCCEEDED(rc)) {
+                pBandwidthControl->DeleteBandwidthGroup(CComBSTR(string(vm_name + "_net").c_str()));
+            }
+
+            // Delete its storage controller(s)
+            //
+            fprintf(
+                stderr,
+                "%s Removing storage controller(s) from VM.\n",
+                vboxwrapper_msg_prefix(buf, sizeof(buf))
+            );
+            pMachine->RemoveStorageController(CComBSTR("Hard Disk Controller"));
+            if (enable_floppyio) {
+                pMachine->RemoveStorageController(CComBSTR("Floppy Controller"));
+            }
+
+
+            rc = pMachine->SaveSettings();
+            if (FAILED(rc)) {
+                fprintf(
+                    stderr,
+                    "%s Error could not save settings for virtual machine! rc = 0x%x\n",
+                    vboxwrapper_msg_prefix(buf, sizeof(buf)),
+                    rc
+                );
+                virtualbox_dump_error();
+            }
+
+            rc = pSession->UnlockMachine();
+            if (FAILED(rc)) {
+                fprintf(
+                    stderr,
+                    "%s Error could not unlock virtual machine! rc = 0x%x\n",
+                    vboxwrapper_msg_prefix(buf, sizeof(buf)),
+                    rc
+                );
+                virtualbox_dump_error();
+            }
         }
 
         // Next, delete VM
@@ -1543,59 +1659,38 @@ int VBOX_VM::deregister_vm(bool delete_media) {
             "%s Removing VM from VirtualBox.\n",
             vboxwrapper_msg_prefix(buf, sizeof(buf))
         );
-        if (!delete_media) {
-            rc = pMachine->Unregister(CleanupMode_UnregisterOnly, &pHardDisks);
+        rc = pMachineRO->Unregister(CleanupMode_Full, &pHardDisks);
+        if (SUCCEEDED(rc)) {
+
+            // We only want to close(remove from media registry) the hard disks
+            // instead of deleting them
+            //
+            aHardDisks.Attach(pHardDisks);
+            for (int i = 0; i < (int)aHardDisks.GetCount(); i++) {
+                CComPtr<IMedium> pMedium((IMedium*)(LPDISPATCH)aHardDisks[i]);
+                pMedium->Close();
+            }
+
+            pMachineRO->DeleteConfig(pEmptyHardDisks, &pProgress);
             if (SUCCEEDED(rc)) {
-                pMachine->DeleteConfig(pHardDisks, &pProgress);
-                if (SUCCEEDED(rc)) {
-                    pProgress->WaitForCompletion(-1);
-                } else {
-                    fprintf(
-                        stderr,
-                        "%s Error deleting configuration files for virtual machine instance! rc = 0x%x\n",
-                        vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                        rc
-                    );
-                    virtualbox_dump_error();
-                }
+                pProgress->WaitForCompletion(-1);
             } else {
                 fprintf(
                     stderr,
-                    "%s Error unregistering virtual machine instance! rc = 0x%x\n",
+                    "%s Error deleting configuration files for virtual machine instance! rc = 0x%x\n",
                     vboxwrapper_msg_prefix(buf, sizeof(buf)),
                     rc
                 );
                 virtualbox_dump_error();
             }
         } else {
-            rc = pMachine->Unregister(CleanupMode_DetachAllReturnHardDisksOnly, &pHardDisks);
-            if (SUCCEEDED(rc)) {
-                fprintf(
-                    stderr,
-                    "%s Removing virtual disk drive(s) from VirtualBox.\n",
-                    vboxwrapper_msg_prefix(buf, sizeof(buf))
-                );
-                pMachine->DeleteConfig(pHardDisks, &pProgress);
-                if (SUCCEEDED(rc)) {
-                    pProgress->WaitForCompletion(-1);
-                } else {
-                    fprintf(
-                        stderr,
-                        "%s Error deleting configuration files for virtual machine instance! rc = 0x%x\n",
-                        vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                        rc
-                    );
-                    virtualbox_dump_error();
-                }
-            } else {
-                fprintf(
-                    stderr,
-                    "%s Error unregistering virtual machine instance! rc = 0x%x\n",
-                    vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                    rc
-                );
-                virtualbox_dump_error();
-            }
+            fprintf(
+                stderr,
+                "%s Error unregistering virtual machine instance! rc = 0x%x\n",
+                vboxwrapper_msg_prefix(buf, sizeof(buf)),
+                rc
+            );
+            virtualbox_dump_error();
         }
     }
 
@@ -1607,10 +1702,11 @@ int VBOX_VM::deregister_stale_vm() {
     SAFEARRAY* pHardDisks = NULL;
     SAFEARRAY* pMachines = NULL;
     CComSafeArray<LPDISPATCH> aHardDisks;
-    CComSafeArray<LPDISPATCH> aMachines;
+    CComSafeArray<BSTR> aMachines;
     CComPtr<IMedium> pHardDisk;
     CComPtr<IMachine> pMachine;
-    CComBSTR tmp;
+    CComBSTR strLocation;
+    CComBSTR strMachineId;
     string virtual_machine_root_dir;
     string hdd_image_location;
 
@@ -1622,11 +1718,11 @@ int VBOX_VM::deregister_stale_vm() {
         aHardDisks.Attach(pHardDisks);
         for (int i = 0; i < (int)aHardDisks.GetCount(); i++) {
             pHardDisk = aHardDisks[i];
-            pHardDisk->get_Location(&tmp);
+            pHardDisk->get_Location(&strLocation);
 
             // Did we find that our disk has already been registered in the media registry?
             //
-            if (0 == stricmp(hdd_image_location.c_str(), CW2A(tmp))) {
+            if (0 == stricmp(hdd_image_location.c_str(), CW2A(strLocation))) {
 
                 // Disk found
                 //
@@ -1636,12 +1732,9 @@ int VBOX_VM::deregister_stale_vm() {
                     // Delete all registered VMs attached to this disk image
                     //
                     for (int j = 0; j < (int)aMachines.GetCount(); j++) {
-                        pMachine = aMachines[j];
-                        rc = pMachine->get_Id(&tmp);
-                        if (SUCCEEDED(rc)) {
-                            vm_name = CW2A(tmp);
-                            deregister_vm(false);
-                        }
+                        strMachineId = aMachines[j];
+                        vm_name = CW2A(strMachineId);
+                        deregister_vm(false);
                     }
                 }
             }
