@@ -34,11 +34,6 @@
 
 using std::string;
 
-#if defined(_MSC_VER)
-#define getcwd      _getcwd
-#define stricmp     _stricmp
-#endif
-
 #include "diagnostics.h"
 #include "filesys.h"
 #include "parse.h"
@@ -109,8 +104,7 @@ int VBOX_VM::initialize() {
     rc = get_version_information(virtualbox_version);
     if (rc) return rc;
 
-    rc = get_guest_additions(virtualbox_guest_additions);
-    if (rc) return rc;
+    get_guest_additions(virtualbox_guest_additions);
 
     return 0;
 }
@@ -1803,6 +1797,14 @@ int VBOX_VM::get_vm_exit_code(unsigned long& exit_code) {
     waitpid(vm_pid, &ec, WNOHANG);
     exit_code = ec;
     return 0;
+}
+
+double VBOX_VM::get_vm_cpu_time() {
+    double x = process_tree_cpu_time(vm_pid);
+    if (x > current_cpu_time) {
+        current_cpu_time = x;
+    }
+    return current_cpu_time;
 }
 
 // Enable the network adapter if a network connection is required.

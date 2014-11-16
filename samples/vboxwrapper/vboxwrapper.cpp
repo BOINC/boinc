@@ -24,7 +24,7 @@
 //                  (use this for credit granting if your app does its
 //                  own job management, like CernVM).
 // --nthreads N     create a VM with N threads.
-// --vmimage file   Use "file" as the VM image.
+// --vmimage N      Use "vm_image_N" as the VM image.
 //                  This lets you create an app version with several images,
 //                  and the app_plan function can decide which one to use
 //                  for the particular host.
@@ -50,7 +50,6 @@
 #include "win_util.h"
 #include "atlcomcli.h"
 #include "atlstr.h"
-#include "mscom/VirtualBox.h"
 #else
 #include <vector>
 #include <sys/wait.h>
@@ -75,7 +74,6 @@
 #include "procinfo.h"
 #include "vboxwrapper.h"
 #include "vbox.h"
-
 #ifdef _WIN32
 #include "vbox_win.h"
 #else
@@ -319,6 +317,13 @@ void read_fraction_done(double& frac_done, VBOX_VM& vm) {
     frac_done = frac;
 }
 
+bool completion_file_exists(VBOX_VM& vm) {
+    char path[MAXPATHLEN];
+    sprintf(path, "shared/%s", vm.completion_trigger_file.c_str());
+    if (boinc_file_exists(path)) return true;
+    return false;
+}
+
 void read_completion_file_info(unsigned long& exit_code, bool& is_notice, string& message, VBOX_VM& vm) {
     char path[MAXPATHLEN];
     char buf[1024];
@@ -342,6 +347,13 @@ void read_completion_file_info(unsigned long& exit_code, bool& is_notice, string
     }
 }
 
+bool temporary_exit_file_exists(VBOX_VM& vm) {
+    char path[MAXPATHLEN];
+    sprintf(path, "shared/%s", vm.temporary_exit_trigger_file.c_str());
+    if (boinc_file_exists(path)) return true;
+    return false;
+}
+
 void read_temporary_exit_file_info(int& temp_delay, bool& is_notice, string& message, VBOX_VM& vm) {
     char path[MAXPATHLEN];
     char buf[1024];
@@ -363,6 +375,12 @@ void read_temporary_exit_file_info(int& temp_delay, bool& is_notice, string& mes
         }
         fclose(f);
     }
+}
+
+void delete_temporary_exit_trigger_file(VBOX_VM& vm) {
+    char path[MAXPATHLEN];
+    sprintf(path, "shared/%s", vm.temporary_exit_trigger_file.c_str());
+    boinc_delete_file(path);
 }
 
 // set CPU and network throttling if needed
@@ -494,10 +512,10 @@ void set_remote_desktop_info(APP_INIT_DATA& /* aid */, VBOX_VM& vm) {
 
 // check for trickle trigger files, and send trickles if find them.
 //
-void VBOX_VM::check_trickle_triggers() {
+void check_trickle_triggers(VBOX_VM& vm) {
     char filename[256], path[MAXPATHLEN], buf[256];
-    for (unsigned int i=0; i<trickle_trigger_files.size(); i++) {
-        strcpy(filename, trickle_trigger_files[i].c_str());
+    for (unsigned int i=0; i<vm.trickle_trigger_files.size(); i++) {
+        strcpy(filename, vm.trickle_trigger_files[i].c_str());
         sprintf(path, "shared/%s", filename);
         if (!boinc_file_exists(path)) continue;
         string text;
@@ -529,38 +547,38 @@ void VBOX_VM::check_trickle_triggers() {
 
 // check for intermediate upload files, and send them if found.
 //
-void VBOX_VM::check_intermediate_uploads() {
+void check_intermediate_uploads(VBOX_VM& vm) {
     int retval;
     char filename[256], path[MAXPATHLEN], buf[256];
-    for (unsigned int i=0; i<intermediate_upload_files.size(); i++) {
-        strcpy(filename, intermediate_upload_files[i].file.c_str());
+    for (unsigned int i=0; i<vm.intermediate_upload_files.size(); i++) {
+        strcpy(filename, vm.intermediate_upload_files[i].file.c_str());
         sprintf(path, "shared/%s", filename);
         if (!boinc_file_exists(path)) continue;
-        if (!intermediate_upload_files[i].reported && !intermediate_upload_files[i].ignore) {
+        if (!vm.intermediate_upload_files[i].reported && !vm.intermediate_upload_files[i].ignore) {
             fprintf(stderr,
                 "%s Reporting an intermediate file. (%s)\n",
                 vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                intermediate_upload_files[i].file.c_str()
+                vm.intermediate_upload_files[i].file.c_str()
             );
-            retval = boinc_upload_file(intermediate_upload_files[i].file);
+            retval = boinc_upload_file(vm.intermediate_upload_files[i].file);
             if (retval) {
                 fprintf(stderr,
                     "%s boinc_upload_file() failed: %s\n",
                     vboxwrapper_msg_prefix(buf, sizeof(buf)), boincerror(retval)
                 );
-                intermediate_upload_files[i].ignore = true;
+                vm.intermediate_upload_files[i].ignore = true;
             } else {
-                intermediate_upload_files[i].reported = true;
+                vm.intermediate_upload_files[i].reported = true;
             }
-        } else if (intermediate_upload_files[i].reported && !intermediate_upload_files[i].ignore) {
-            retval = boinc_upload_status(intermediate_upload_files[i].file);
+        } else if (vm.intermediate_upload_files[i].reported && !vm.intermediate_upload_files[i].ignore) {
+            retval = boinc_upload_status(vm.intermediate_upload_files[i].file);
             if (!retval) {
                 fprintf(stderr,
                     "%s Intermediate file uploaded. (%s)\n",
                     vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                    intermediate_upload_files[i].file.c_str()
+                    vm.intermediate_upload_files[i].file.c_str()
                 );
-                intermediate_upload_files[i].ignore = true;
+                vm.intermediate_upload_files[i].ignore = true;
             }
         }
     }
@@ -994,6 +1012,13 @@ int main(int argc, char** argv) {
                 "    operation and this job cannot be recovered.\n";
             skip_cleanup = true;
             retval = ERR_EXEC;
+        } else if (retval == (int)VBOX_E_INVALID_OBJECT_STATE) {
+            error_reason =
+                "   NOTE: VM session lock error encountered.\n"
+                "    BOINC will be notified that it needs to clean up the environment.\n"
+                "    This might be a temporary problem and so this job will be rescheduled for another time.\n";
+            unrecoverable_error = false;
+            temp_reason = "VM environment needed to be cleaned up.";
         } else if (vm.is_logged_failure_vm_extensions_disabled()) {
             error_reason =
                 "   NOTE: BOINC has detected that your computer's processor supports hardware acceleration for\n"
@@ -1023,13 +1048,6 @@ int main(int argc, char** argv) {
                 "    This might be a temporary problem and so this job will be rescheduled for another time.\n";
             unrecoverable_error = false;
             temp_reason = "VM Hypervisor was unable to allocate enough memory to start VM.";
-        } else if (vm.is_virtualbox_error_recoverable(retval)) {
-            error_reason =
-                "   NOTE: VM session lock error encountered.\n"
-                "    BOINC will be notified that it needs to clean up the environment.\n"
-                "    This might be a temporary problem and so this job will be rescheduled for another time.\n";
-            unrecoverable_error = false;
-            temp_reason = "VM environment needed to be cleaned up.";
         } else {
             do_dump_hypervisor_logs = true;
         }
@@ -1146,7 +1164,6 @@ int main(int argc, char** argv) {
     }
 
     set_floppy_image(aid, vm);
-    //set_port_forwarding_info(aid, vm);
     set_web_graphics_url(vm);
     set_remote_desktop_info(aid, vm);
     write_checkpoint(elapsed_time, current_cpu_time, vm);
@@ -1173,9 +1190,7 @@ int main(int argc, char** argv) {
             vm.dump_hypervisor_logs(true);
             boinc_finish(EXIT_ABORTED_BY_CLIENT);
         }
-        if (vm.is_logged_completion_file_exists()) {
-            vm.reset_vm_process_priority();
-            vm.cleanup();
+        if (completion_file_exists(vm)) {
             fprintf(
                 stderr,
                 "%s VM Completion File Detected.\n",
@@ -1190,15 +1205,15 @@ int main(int argc, char** argv) {
                     message.c_str()
                 );
             }
+            vm.reset_vm_process_priority();
+            vm.cleanup();
             if (is_notice) {
                 boinc_finish_message(vm_exit_code, message.c_str(), is_notice);
             } else {
                 boinc_finish(vm_exit_code);
             }
         }
-        if (vm.is_logged_temporary_exit_file_exists()) {
-            vm.reset_vm_process_priority();
-            vm.stop();
+        if (temporary_exit_file_exists(vm)) {
             fprintf(
                 stderr,
                 "%s VM Temporary Exit File Detected.\n",
@@ -1213,7 +1228,9 @@ int main(int argc, char** argv) {
                     message.c_str()
                 );
             }
-            vm.delete_temporary_exit_trigger_file();
+            delete_temporary_exit_trigger_file(vm);
+            vm.reset_vm_process_priority();
+            vm.stop();
             if (is_notice) {
                 boinc_temporary_exit(temp_delay, message.c_str(), is_notice);
             } else {
@@ -1277,7 +1294,7 @@ int main(int argc, char** argv) {
         if (boinc_status.suspended) {
             if (!vm.suspended) {
                 retval = vm.pause();
-                if (retval && vm.is_virtualbox_error_recoverable(retval)) {
+                if (retval && (VBOX_E_INVALID_OBJECT_STATE == retval)) {
                     fprintf(
                         stderr,
                         "%s ERROR: VM task failed to pause, rescheduling task for a later time.\n",
@@ -1290,7 +1307,7 @@ int main(int argc, char** argv) {
         } else {
             if (vm.suspended) {
                 retval = vm.resume();
-                if (retval && vm.is_virtualbox_error_recoverable(retval)) {
+                if (retval && (VBOX_E_INVALID_OBJECT_STATE == retval)) {
                     fprintf(
                         stderr,
                         "%s ERROR: VM task failed to resume, rescheduling task for a later time.\n",
@@ -1305,8 +1322,8 @@ int main(int argc, char** argv) {
             //
             if ((loop_iteration % 10) == 0) {
                 current_cpu_time = starting_cpu_time + vm.get_vm_cpu_time();
-                vm.check_trickle_triggers();
-                vm.check_intermediate_uploads();
+                check_trickle_triggers(vm);
+                check_intermediate_uploads(vm);
             }
 
             if (vm.job_duration) {

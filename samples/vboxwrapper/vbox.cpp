@@ -118,6 +118,60 @@ VBOX_BASE::~VBOX_BASE() {
     }
 }
 
+int VBOX_BASE::initialize() {
+    return ERR_EXEC;
+}
+
+int VBOX_BASE::create_vm() {
+    return ERR_EXEC;
+}
+
+int VBOX_BASE::register_vm() {
+    return ERR_EXEC;
+}
+
+int VBOX_BASE::deregister_vm(bool delete_media) {
+    return ERR_EXEC;
+}
+
+int VBOX_BASE::deregister_stale_vm() {
+    return ERR_EXEC;
+}
+
+void VBOX_BASE::poll(bool /*log_state*/) {
+}
+
+int VBOX_BASE::start() {
+    return ERR_EXEC;
+}
+
+int VBOX_BASE::stop() {
+    return ERR_EXEC;
+}
+int VBOX_BASE::poweroff() {
+    return ERR_EXEC;
+}
+
+int VBOX_BASE::pause() {
+    return ERR_EXEC;
+}
+
+int VBOX_BASE::resume() {
+    return ERR_EXEC;
+}
+
+int VBOX_BASE::create_snapshot(double elapsed_time) {
+    return ERR_EXEC;
+}
+
+int VBOX_BASE::cleanup_snapshots(bool delete_active) {
+    return ERR_EXEC;
+}
+
+int VBOX_BASE::restore_snapshot() {
+    return ERR_EXEC;
+}
+
 int VBOX_BASE::run(bool do_restore_snapshot) {
     int retval;
 
@@ -230,6 +284,9 @@ void VBOX_BASE::dump_hypervisor_logs(bool include_error_logs) {
     }
 }
 
+void VBOX_BASE::dump_hypervisor_status_reports() {
+}
+
 // t1 > t2
 static bool is_timestamp_newer(VBOX_TIMESTAMP& t1, VBOX_TIMESTAMP& t2) {
     if (t1.hours > t2.hours) return true;
@@ -288,6 +345,14 @@ void VBOX_BASE::dump_vmguestlog_entries() {
     }
 }
 
+int VBOX_BASE::is_registered() {
+    return ERR_NOT_FOUND;
+}
+
+bool VBOX_BASE::is_system_ready(std::string& message) {
+    return false;
+}
+
 bool VBOX_BASE::is_vm_machine_configuration_available() {
     string virtual_machine_slot_directory;
     string vm_machine_configuration_file;
@@ -300,6 +365,14 @@ bool VBOX_BASE::is_vm_machine_configuration_available() {
     if (boinc_file_exists(vm_machine_configuration_file.c_str())) {
         return true;
     }
+    return false;
+}
+
+bool VBOX_BASE::is_hdd_registered() {
+    return false;
+}
+
+bool VBOX_BASE::is_extpack_installed() {
     return false;
 }
 
@@ -337,20 +410,6 @@ bool VBOX_BASE::is_logged_failure_guest_job_out_of_memory() {
     return false;
 }
 
-bool VBOX_BASE::is_logged_completion_file_exists() {
-    char path[MAXPATHLEN];
-    sprintf(path, "shared/%s", completion_trigger_file.c_str());
-    if (boinc_file_exists(path)) return true;
-    return false;
-}
-
-bool VBOX_BASE::is_logged_temporary_exit_file_exists() {
-    char path[MAXPATHLEN];
-    sprintf(path, "shared/%s", temporary_exit_trigger_file.c_str());
-    if (boinc_file_exists(path)) return true;
-    return false;
-}
-
 bool VBOX_BASE::is_virtualbox_version_newer(int maj, int min, int rel) {
     int vbox_major = 0, vbox_minor = 0, vbox_release = 0;
     if (3 == sscanf(virtualbox_version.c_str(), "%d.%d.%d", &vbox_major, &vbox_minor, &vbox_release)) {
@@ -363,10 +422,16 @@ bool VBOX_BASE::is_virtualbox_version_newer(int maj, int min, int rel) {
     return false;
 }
 
-bool VBOX_BASE::is_virtualbox_error_recoverable(int retval) {
-    // See comments for VBOX_BASE::vbm_popen about session lock issues.
-    if (VBOX_E_INVALID_OBJECT_STATE == (unsigned int)retval) return true;
-    return false;
+int VBOX_BASE::get_install_directory(std::string& dir) {
+    return ERR_EXEC;
+}
+
+int VBOX_BASE::get_version_information(std::string& version) {
+    return ERR_EXEC;
+}
+
+int VBOX_BASE::get_guest_additions(std::string& dir) {
+    return ERR_EXEC;
 }
 
 // Returns the current directory in which the executable resides.
@@ -383,18 +448,28 @@ int VBOX_BASE::get_slot_directory(string& dir) {
     return 0;
 }
 
-void VBOX_BASE::sanitize_output(std::string& output) {
-#ifdef _WIN32
-    // Remove \r from the log spew
-    string::iterator iter = output.begin();
-    while (iter != output.end()) {
-        if (*iter == '\r') {
-            iter = output.erase(iter);
-        } else {
-            ++iter;
-        }
-    }
-#endif
+int VBOX_BASE::get_default_network_interface(std::string& iface) {
+    return ERR_EXEC;
+}
+
+int VBOX_BASE::get_vm_network_bytes_sent(double& sent) {
+    return ERR_EXEC;
+}
+
+int VBOX_BASE::get_vm_network_bytes_received(double& received) {
+    return ERR_EXEC;
+}
+
+int VBOX_BASE::get_vm_process_id() {
+    return 0;
+}
+
+int VBOX_BASE::get_vm_exit_code(unsigned long& exit_code) {
+    return ERR_EXEC;
+}
+
+double VBOX_BASE::get_vm_cpu_time() {
+    return 0.0;
 }
 
 int VBOX_BASE::get_system_log(string& log, bool tail_only, unsigned int buffer_size) {
@@ -565,6 +640,18 @@ int VBOX_BASE::get_trace_log(string& log, bool tail_only, unsigned int buffer_si
     return retval;
 }
 
+int VBOX_BASE::set_network_access(bool enabled) {
+    return ERR_EXEC;
+}
+
+int VBOX_BASE::set_cpu_usage(int percentage) {
+    return ERR_EXEC;
+}
+
+int VBOX_BASE::set_network_usage(int kilobytes) {
+    return ERR_EXEC;
+}
+
 int VBOX_BASE::read_floppy(std::string& data) {
     if (enable_floppyio && pFloppy) {
         data = pFloppy->receive();
@@ -579,4 +666,24 @@ int VBOX_BASE::write_floppy(std::string& data) {
         return 0;
     }
     return 1;
+}
+
+void VBOX_BASE::lower_vm_process_priority() {
+}
+
+void VBOX_BASE::reset_vm_process_priority() {
+}
+
+void VBOX_BASE::sanitize_output(std::string& output) {
+#ifdef _WIN32
+    // Remove \r from the log spew
+    string::iterator iter = output.begin();
+    while (iter != output.end()) {
+        if (*iter == '\r') {
+            iter = output.erase(iter);
+        } else {
+            ++iter;
+        }
+    }
+#endif
 }

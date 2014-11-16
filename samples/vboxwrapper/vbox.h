@@ -21,18 +21,6 @@
 #ifndef _VBOX_H_
 #define _VBOX_H_
 
-// Known VirtualBox/COM error codes
-//
-#ifndef CO_E_SERVER_EXEC_FAILURE
-#define CO_E_SERVER_EXEC_FAILURE        0x80080005
-#endif
-#ifndef RPC_S_SERVER_UNAVAILABLE
-#define RPC_S_SERVER_UNAVAILABLE        0x800706ba
-#endif
-#ifndef VBOX_E_INVALID_OBJECT_STATE
-#define VBOX_E_INVALID_OBJECT_STATE     0x80bb0007
-#endif
-
 // Vboxwrapper errors
 //
 #define VBOXWRAPPER_ERR_RECOVERABLE     -1000
@@ -213,72 +201,53 @@ public:
     virtual int cleanup_snapshots(bool delete_active);
     virtual int restore_snapshot();
 
-    int run(bool do_restore_snapshot);
-    void cleanup();
+    virtual int run(bool do_restore_snapshot);
+    virtual void cleanup();
 
-    void dump_hypervisor_logs(bool include_error_logs);
-    void dump_hypervisor_status_reports();
-    void dump_vmguestlog_entries();
-    void check_trickle_triggers();
-    void check_intermediate_uploads();
-    void delete_temporary_exit_trigger_file();
+    virtual void dump_hypervisor_logs(bool include_error_logs);
+    virtual void dump_hypervisor_status_reports();
+    virtual void dump_vmguestlog_entries();
 
-    int is_registered();
-    bool is_system_ready(std::string& message);
-    bool is_vm_machine_configuration_available();
-    bool is_hdd_registered();
-    bool is_extpack_installed();
-    bool is_logged_failure_vm_extensions_disabled();
-    bool is_logged_failure_vm_extensions_in_use();
-    bool is_logged_failure_vm_extensions_not_supported();
-    bool is_logged_failure_host_out_of_memory();
-    bool is_logged_failure_guest_job_out_of_memory();
-    bool is_logged_completion_file_exists();
-    bool is_logged_temporary_exit_file_exists();
-    bool is_virtualbox_version_newer(int maj, int min, int rel);
-    bool is_virtualbox_error_recoverable(int retval);
+    virtual int is_registered();
+    virtual bool is_system_ready(std::string& message);
+    virtual bool is_vm_machine_configuration_available();
+    virtual bool is_hdd_registered();
+    virtual bool is_extpack_installed();
+    virtual bool is_logged_failure_vm_extensions_disabled();
+    virtual bool is_logged_failure_vm_extensions_in_use();
+    virtual bool is_logged_failure_vm_extensions_not_supported();
+    virtual bool is_logged_failure_host_out_of_memory();
+    virtual bool is_logged_failure_guest_job_out_of_memory();
+    virtual bool is_virtualbox_version_newer(int maj, int min, int rel);
 
-    int get_install_directory(std::string& dir);
-    int get_version_information(std::string& version);
-    int get_guest_additions(std::string& dir);
-    int get_slot_directory(std::string& dir);
-    int get_default_network_interface(std::string& iface);
-    int get_vm_network_bytes_sent(double& sent);
-    int get_vm_network_bytes_received(double& received);
-    int get_vm_process_id();
-    int get_vm_exit_code(unsigned long& exit_code);
-    double get_vm_cpu_time();
+    virtual int get_install_directory(std::string& dir);
+    virtual int get_version_information(std::string& version);
+    virtual int get_guest_additions(std::string& dir);
+    virtual int get_slot_directory(std::string& dir);
+    virtual int get_default_network_interface(std::string& iface);
+    virtual int get_vm_network_bytes_sent(double& sent);
+    virtual int get_vm_network_bytes_received(double& received);
+    virtual int get_vm_process_id();
+    virtual int get_vm_exit_code(unsigned long& exit_code);
+    virtual double get_vm_cpu_time();
 
-    int get_system_log(std::string& log, bool tail_only = true, unsigned int buffer_size = 8192);
-    int get_vm_log(std::string& log, bool tail_only = true, unsigned int buffer_size = 8192);
-    int get_trace_log(std::string& log, bool tail_only = true, unsigned int buffer_size = 8192);
+    virtual int get_system_log(std::string& log, bool tail_only = true, unsigned int buffer_size = 8192);
+    virtual int get_vm_log(std::string& log, bool tail_only = true, unsigned int buffer_size = 8192);
+    virtual int get_trace_log(std::string& log, bool tail_only = true, unsigned int buffer_size = 8192);
 
-    int set_network_access(bool enabled);
-    int set_cpu_usage(int percentage);
-    int set_network_usage(int kilobytes);
+    virtual int set_network_access(bool enabled);
+    virtual int set_cpu_usage(int percentage);
+    virtual int set_network_usage(int kilobytes);
 
-    int read_floppy(std::string& data);
-    int write_floppy(std::string& data);
+    virtual int read_floppy(std::string& data);
+    virtual int write_floppy(std::string& data);
 
-    void lower_vm_process_priority();
-    void reset_vm_process_priority();
+    virtual void lower_vm_process_priority();
+    virtual void reset_vm_process_priority();
 
-    void sanitize_output(std::string& output);
+    virtual void sanitize_output(std::string& output);
 
-#ifndef _WIN32
-    int vbm_popen(
-        std::string& command, std::string& output, const char* item, bool log_error = true, bool retry_failures = true, unsigned int timeout = 45, bool log_trace = true
-    );
-    int vbm_popen_raw(
-        std::string& command, std::string& output, unsigned int timeout
-    );
-    void vbm_replay(
-        std::string& command
-    );
-    void vbm_trace(
-        std::string& command, std::string& ouput, int retval
-    );
-#endif
+
 };
 
 #endif
