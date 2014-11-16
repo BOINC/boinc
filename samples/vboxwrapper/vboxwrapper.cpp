@@ -468,17 +468,16 @@ void set_floppy_image(APP_INIT_DATA& aid, VBOX_VM& vm) {
 // if there's a port for web graphics, tell the client about it
 //
 void set_web_graphics_url(VBOX_VM& vm) {
-    char buf[256];
+    char buf[256], buf2[256];
     for (unsigned int i=0; i<vm.port_forwards.size(); i++) {
         PORT_FORWARD& pf = vm.port_forwards[i];
         if (pf.guest_port == vm.pf_guest_port) {
-            sprintf(buf, "http://localhost:%d", pf.host_port);
-            boinc_web_graphics_url(buf);
-
+            sprintf(buf2, "http://localhost:%d", pf.host_port);
             fprintf(stderr, "%s Detected: Web Application Enabled (%s)\n",
-                vboxwrapper_msg_prefix(buf, sizeof(buf)), buf
+                vboxwrapper_msg_prefix(buf, sizeof(buf)),
+                buf2
             );
-
+            boinc_web_graphics_url(buf2);
             break;
         }
     }

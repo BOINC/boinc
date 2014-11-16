@@ -1122,7 +1122,7 @@ int VBOX_VM::create_vm() {
         );
         CComPtr<IMedium> pDiskImage;
         rc = m_pVirtualBox->OpenMedium(
-            CComBSTR(string(virtual_machine_slot_directory + "\\" + cache_disk_filename).c_str()),
+            CComBSTR(string(virtual_machine_slot_directory + "\\" + image_filename).c_str()),
             DeviceType_HardDisk,
             AccessMode_ReadWrite,
             TRUE,
