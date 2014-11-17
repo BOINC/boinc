@@ -72,8 +72,7 @@ inline bool has_coproc_app(PROJECT* p, int rsc_type) {
 
 ///////////////  RSC_PROJECT_WORK_FETCH  ///////////////
 
-void RSC_PROJECT_WORK_FETCH::rr_init(PROJECT* p, int rsc_type) {
-    rsc_project_reason = compute_rsc_project_reason(p, rsc_type);
+void RSC_PROJECT_WORK_FETCH::rr_init() {
     fetchable_share = 0;
     n_runnable_jobs = 0;
     sim_nused = 0;
@@ -397,7 +396,7 @@ void WORK_FETCH::rr_init() {
         PROJECT* p = gstate.projects[i];
         p->pwf.rr_init(p);
         for (int j=0; j<coprocs.n_rsc; j++) {
-            p->rsc_pwf[j].rr_init(p, j);
+            p->rsc_pwf[j].rr_init();
         }
     }
 }
@@ -588,6 +587,19 @@ void WORK_FETCH::setup() {
     gstate.compute_nuploading_results();
 
     rr_simulation();
+
+    // Compute rsc_project_reason.
+    // Must do this after rr_simulation() because the logic for
+    // zero-resource-share projects uses #idle instances
+    //
+    for (unsigned int i=0; i<gstate.projects.size(); i++) {
+        PROJECT* p = gstate.projects[i];
+        for (int j=0; j<coprocs.n_rsc; j++) {
+            RSC_PROJECT_WORK_FETCH& rpwf = p->rsc_pwf[j];
+            rpwf.rsc_project_reason = rpwf.compute_rsc_project_reason(p, j);
+        }
+    }
+
     compute_shares();
     project_priority_init(true);
     clear_request();
@@ -649,7 +661,7 @@ PROJECT* WORK_FETCH::choose_project() {
         p = gstate.projects[j];
         WF_DEBUG(msg_printf(p, MSG_INFO, "scanning");)
         if (p->pwf.project_reason) {
-            WF_DEBUG(msg_printf(p, MSG_INFO, "skip: cfwr %d", p->pwf.cant_fetch_work_reason);)
+            WF_DEBUG(msg_printf(p, MSG_INFO, "skip: cfwr %d", p->pwf.project_reason);)
             continue;
         }
 
@@ -671,7 +683,7 @@ PROJECT* WORK_FETCH::choose_project() {
                 }
                 WF_DEBUG(msg_printf(p, MSG_INFO, "can fetch %s", rsc_name_long(i));)
             } else {
-                WF_DEBUG(msg_printf(p, MSG_INFO, "can't fetch %s", rsc_name_long(i));)
+                WF_DEBUG(msg_printf(p, MSG_INFO, "can't fetch %s: %s", rsc_name_long(i), rsc_project_reason_string(rpwf.rsc_project_reason));)
                 continue;
             }
             if (rwf.saturated_time < gstate.work_buf_min()) {
