@@ -54,10 +54,10 @@ void virtualbox_dump_error() {
     HRESULT rc;
     char buf[256];
     CComPtr<IErrorInfo> pErrorInfo;
+    CComBSTR strSource;
     CComBSTR strDescription;
 
     rc = GetErrorInfo(0, &pErrorInfo);
-
     if (FAILED(rc)) {
         fprintf(
             stderr,
@@ -66,11 +66,20 @@ void virtualbox_dump_error() {
             rc
         );
     } else {
+        rc = pErrorInfo->GetSource(&strSource);
+        if (SUCCEEDED(rc)) {
+            fprintf(
+                stderr,
+                "%s Error source: %s\n",
+                vboxwrapper_msg_prefix(buf, sizeof(buf)),
+                CW2A(strSource)
+            );
+        }
         rc = pErrorInfo->GetDescription(&strDescription);
         if (SUCCEEDED(rc)) {
             fprintf(
                 stderr,
-                "%s Error description: %S\n",
+                "%s Error description: %s\n",
                 vboxwrapper_msg_prefix(buf, sizeof(buf)),
                 CW2A(strDescription)
             );
@@ -847,7 +856,8 @@ int VBOX_VM::create_vm() {
                 "%s ERROR: Invalid configuration.  VM type requires acceleration but the current configuration cannot support it.\n",
                 vboxwrapper_msg_prefix(buf, sizeof(buf))
             );
-            return ERR_INVALID_PARAM;
+            retval = ERR_INVALID_PARAM;
+            goto CLEANUP;
         }
     }
 
@@ -1217,7 +1227,8 @@ int VBOX_VM::create_vm() {
                 pFloppy->error,
                 pFloppy->errorStr.c_str()
             );
-            return ERR_FWRITE;
+            retval = ERR_FWRITE;
+            goto CLEANUP;
         }
 
         fprintf(
@@ -1353,7 +1364,9 @@ int VBOX_VM::create_vm() {
             );
         } else {
             retval = boinc_get_port(false, rd_host_port);
-            if (retval) return retval;
+            if (retval) {
+                goto CLEANUP;
+            }
 
             sprintf(buf, "%d", rd_host_port);
 
@@ -1392,34 +1405,14 @@ int VBOX_VM::create_vm() {
         }
     }
 
-    rc = pMachine->SaveSettings();
-    if (FAILED(rc)) {
-        fprintf(
-            stderr,
-            "%s Error could not save settings for virtual machine! rc = 0x%x\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf)),
-            rc
-        );
-        virtualbox_dump_error();
-        retval = rc;
-        goto CLEANUP;
-    }
-
-    rc = pSession->UnlockMachine();
-    if (FAILED(rc)) {
-        fprintf(
-            stderr,
-            "%s Error could not unlock virtual machine! rc = 0x%x\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf)),
-            rc
-        );
-        virtualbox_dump_error();
-        retval = rc;
-        goto CLEANUP;
-    }
-
-
 CLEANUP:
+    if (pMachine) {
+        pMachine->SaveSettings();
+    }
+    if (pSession) {
+        pSession->UnlockMachine();
+    }
+
     return retval;
 }
 
