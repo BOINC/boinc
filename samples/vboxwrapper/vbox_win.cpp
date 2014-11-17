@@ -2060,14 +2060,16 @@ int VBOX_VM::stop() {
             virtualbox_dump_error();
         }
 
-        if (!retval) {
-            timeout = dtime() + 300;
-            do {
-                poll(false);
-                if (!online && !saving) break;
-                boinc_sleep(1.0);
-            } while (timeout >= dtime());
-        }
+        // Wait for up to 5 minutes for the VM to switch states.  A system
+        // under load can take a while.  Since the poll function can wait for up
+        // to 45 seconds to execute a command we need to make this time based instead
+        // of iteration based.
+        timeout = dtime() + 300;
+        do {
+            poll(false);
+            if (!online && !saving) break;
+            boinc_sleep(1.0);
+        } while (timeout >= dtime());
 
         if (!online) {
             fprintf(
@@ -2163,14 +2165,12 @@ int VBOX_VM::poweroff() {
         // under load can take a while.  Since the poll function can wait for up
         // to 45 seconds to execute a command we need to make this time based instead
         // of iteration based.
-        if (!retval) {
-            timeout = dtime() + 300;
-            do {
-                poll(false);
-                if (!online && !saving) break;
-                boinc_sleep(1.0);
-            } while (timeout >= dtime());
-        }
+        timeout = dtime() + 300;
+        do {
+            poll(false);
+            if (!online && !saving) break;
+            boinc_sleep(1.0);
+        } while (timeout >= dtime());
 
         if (!online) {
             fprintf(
