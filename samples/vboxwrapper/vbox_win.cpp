@@ -53,9 +53,9 @@ using std::string;
 void virtualbox_dump_error() {
     HRESULT rc;
     char buf[256];
-    CComPtr<IErrorInfo> pErrorInfo;
-    CComBSTR strSource;
-    CComBSTR strDescription;
+    IErrorInfo* pErrorInfo = NULL;
+    BSTR strSource;
+    BSTR strDescription;
 
     rc = GetErrorInfo(0, &pErrorInfo);
     if (FAILED(rc)) {
@@ -67,23 +67,26 @@ void virtualbox_dump_error() {
         );
     } else {
         rc = pErrorInfo->GetSource(&strSource);
-        if (SUCCEEDED(rc)) {
+        if (SUCCEEDED(rc) && strSource) {
             fprintf(
                 stderr,
-                "%s Error source: %s\n",
+                "%s Error source: %S\n",
                 vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                CW2A(strSource)
+                strSource
             );
+            SysFreeString(strSource);
         }
         rc = pErrorInfo->GetDescription(&strDescription);
-        if (SUCCEEDED(rc)) {
+        if (SUCCEEDED(rc) && strDescription) {
             fprintf(
                 stderr,
-                "%s Error description: %s\n",
+                "%s Error description: %S\n",
                 vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                CW2A(strDescription)
+                strDescription
             );
+            SysFreeString(strDescription);
         }
+        pErrorInfo->Release();
     }
 }
 
@@ -1505,8 +1508,7 @@ int VBOX_VM::deregister_vm(bool delete_media) {
     if (SUCCEEDED(rc)) {
         if (delete_media) {
             rc = pSession.CoCreateInstance(CLSID_Session);
-            if (!SUCCEEDED(rc))
-            {
+            if (!SUCCEEDED(rc)) {
                 fprintf(
                     stderr,
                     "%s Error creating Session instance! rc = 0x%x\n",
@@ -2501,77 +2503,119 @@ int VBOX_VM::restore_snapshot() {
     int retval = ERR_EXEC;
     char buf[256];
     HRESULT rc;
+    CComPtr<ISession> pSession;
+    CComPtr<IMachine> pMachineRO;
+    CComPtr<IMachine> pMachine;
     CComPtr<IConsole> pConsole;
     CComPtr<ISnapshot> pSnapshot;
     CComPtr<IProgress> pProgress;
 
-    fprintf(
-        stderr,
-        "%s Restore from previously saved snapshot.\n",
-        vboxwrapper_msg_prefix(buf, sizeof(buf))
-    );
+    rc = m_pVirtualBox->FindMachine(CComBSTR(vm_name.c_str()), &pMachineRO);
+    if (SUCCEEDED(rc)) {
+        rc = pSession.CoCreateInstance(CLSID_Session);
+        if (!SUCCEEDED(rc)) {
+            fprintf(
+                stderr,
+                "%s Error creating Session instance! rc = 0x%x\n",
+                vboxwrapper_msg_prefix(buf, sizeof(buf)),
+                rc
+            );
+            retval = rc;
+            goto CLEANUP;
+        }
 
-    rc = m_pMachine->get_CurrentSnapshot(&pSnapshot);
-    if (FAILED(rc)) {
-        fprintf(
-            stderr,
-            "%s Error retrieving current snapshot object! rc = 0x%x\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf)),
-            rc
-        );
-        virtualbox_dump_error();
-        retval = rc;
-        goto CLEANUP;
+        rc = pMachineRO->LockMachine(pSession, LockType_Write);
+        if (FAILED(rc)) {
+            fprintf(
+                stderr,
+                "%s Error locking virtual machine! rc = 0x%x\n",
+                vboxwrapper_msg_prefix(buf, sizeof(buf)),
+                rc
+            );
+            virtualbox_dump_error();
+            retval = rc;
+            goto CLEANUP;
+        }
+
+        rc = pSession->get_Machine(&pMachine);
+        if (FAILED(rc)) {
+            fprintf(
+                stderr,
+                "%s Error retrieving mutable virtual machine object! rc = 0x%x\n",
+                vboxwrapper_msg_prefix(buf, sizeof(buf)),
+                rc
+            );
+            virtualbox_dump_error();
+            retval = rc;
+            goto CLEANUP;
+        }
+
+        rc = pSession->get_Console(&pConsole);
+        if (FAILED(rc)) {
+            fprintf(
+                stderr,
+                "%s Error retrieving console object! rc = 0x%x\n",
+                vboxwrapper_msg_prefix(buf, sizeof(buf)),
+                rc
+            );
+            virtualbox_dump_error();
+            retval = rc;
+            goto CLEANUP;
+        }
+
+        rc = pMachine->get_CurrentSnapshot(&pSnapshot);
+        if (SUCCEEDED(rc)) {
+
+            fprintf(
+                stderr,
+                "%s Restore from previously saved snapshot.\n",
+                vboxwrapper_msg_prefix(buf, sizeof(buf))
+            );
+
+            rc = pConsole->RestoreSnapshot(pSnapshot, &pProgress);
+            if (FAILED(rc)) {
+                fprintf(
+                    stderr,
+                    "%s Error restoring snapshot! rc = 0x%x\n",
+                    vboxwrapper_msg_prefix(buf, sizeof(buf)),
+                    rc
+                );
+                virtualbox_dump_error();
+                retval = rc;
+                goto CLEANUP;
+            }
+
+            rc = pProgress->WaitForCompletion(-1);
+            if (FAILED(rc)) {
+                fprintf(
+                    stderr,
+                    "%s Error could not wait for restore completion! rc = 0x%x\n",
+                    vboxwrapper_msg_prefix(buf, sizeof(buf)),
+                    rc
+                );
+                virtualbox_dump_error();
+                retval = rc;
+                goto CLEANUP;
+            }
+
+            fprintf(
+                stderr,
+                "%s Restore completed.\n",
+                vboxwrapper_msg_prefix(buf, sizeof(buf))
+            );
+
+        }
+        retval = BOINC_SUCCESS;
     }
-
-    rc = m_pSession->get_Console(&pConsole);
-    if (FAILED(rc)) {
-        fprintf(
-            stderr,
-            "%s Error retrieving console object! rc = 0x%x\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf)),
-            rc
-        );
-        virtualbox_dump_error();
-        retval = rc;
-        goto CLEANUP;
-    }
-
-    rc = pConsole->RestoreSnapshot(pSnapshot, &pProgress);
-    if (FAILED(rc)) {
-        fprintf(
-            stderr,
-            "%s Error restoring snapshot! rc = 0x%x\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf)),
-            rc
-        );
-        virtualbox_dump_error();
-        retval = rc;
-        goto CLEANUP;
-    }
-
-    rc = pProgress->WaitForCompletion(-1);
-    if (FAILED(rc)) {
-        fprintf(
-            stderr,
-            "%s Error could not wait for restore completion! rc = 0x%x\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf)),
-            rc
-        );
-        virtualbox_dump_error();
-        retval = rc;
-        goto CLEANUP;
-    }
-
-    retval = BOINC_SUCCESS;
-
-    fprintf(
-        stderr,
-        "%s Restore completed.\n",
-        vboxwrapper_msg_prefix(buf, sizeof(buf))
-    );
 
 CLEANUP:
+    if (pMachine) {
+        pMachine->SaveSettings();
+    }
+    if (pSession) {
+        pSession->UnlockMachine();
+    }
+
     return retval;
 }
 
