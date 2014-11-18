@@ -502,7 +502,7 @@ void WORK_FETCH::piggyback_work_request(PROJECT* p) {
         case DONT_FETCH_BACKED_OFF:
             break;
         default:
-            WF_DEBUG(msg_printf(p, MSG_INFO, "piggyback: can't fetch %s", rsc_name_long(i));)
+            WF_DEBUG(msg_printf(p, MSG_INFO, "piggyback: can't fetch %s: %s", rsc_name_long(i), rsc_project_reason_string(rpwf.rsc_project_reason));)
             continue;
         }
         bool buffer_low = (rwf.saturated_time < gstate.work_buf_total());
@@ -730,8 +730,14 @@ PROJECT* WORK_FETCH::choose_project() {
                     }
                     RSC_PROJECT_WORK_FETCH& rpwf = rwf.project_state(p);
                     int reason = rpwf.rsc_project_reason;
-                    if (reason) {
-                        WF_DEBUG(msg_printf(p, MSG_INFO, "%s can't fetch", rsc_name_long(i));)
+                    switch (reason) {
+                    case 0:
+                    case DONT_FETCH_BACKED_OFF:
+                        // request even if backed off - no reason not to.
+                        //
+                        break;
+                    default:
+                        WF_DEBUG(msg_printf(p, MSG_INFO, "%s can't fetch: %s", rsc_name_long(i), rsc_project_reason_string(reason));)
                         continue;
                     }
                 }
@@ -1092,7 +1098,6 @@ const char* rsc_project_reason_string(int reason) {
     case DONT_FETCH_CONFIG: return "client configuration";
     case DONT_FETCH_NO_APPS: return "no applications";
     case DONT_FETCH_AMS: return "account manager prefs";
-    case DONT_FETCH_BACKOFF: return "backoff";
     case DONT_FETCH_ZERO_SHARE: return "zero resource share";
     case DONT_FETCH_BUFFER_FULL: return "job cache full";
     case DONT_FETCH_NOT_HIGHEST_PRIO: return "not highest priority project";

@@ -458,7 +458,8 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* p) {
     work_fetch.handle_reply(p, &sr, new_results);
     p->nrpc_failures = 0;
     p->sched_rpc_pending = 0;
-    p->min_rpc_time = now + 900;
+    //p->min_rpc_time = now + 900;
+    p->min_rpc_time = now;
     if (sent_something) {
         request_schedule_cpus("simulate_rpc");
         request_work_fetch("simulate_rpc");
