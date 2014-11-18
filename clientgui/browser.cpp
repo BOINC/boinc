@@ -972,15 +972,15 @@ bool detect_cookie_ie_supported_uac(std::string& project_url, std::string& name,
     }
 
     // Convert name into wide character string
-    name_w = A2W(name);
+    name_w = boinc_ascii_to_wide(name);
 
     // if we don't find the cookie at the exact project dns name, check one higher
     //   (i.e. www.worldcommunitygrid.org becomes worldcommunitygrid.org
     parse_hostname_ie_compatible(project_url, hostname, domainname);
 
     // InternetGetCookie expects them in URL format
-    hostname_w = std::wstring(_T("http://")) + A2W(hostname) + std::wstring(_T("/"));
-    domainname_w = std::wstring(_T("http://")) + A2W(domainname) + std::wstring(_T("/"));
+    hostname_w = std::wstring(_T("http://")) + boinc_ascii_to_wide(hostname) + std::wstring(_T("/"));
+    domainname_w = std::wstring(_T("http://")) + boinc_ascii_to_wide(domainname) + std::wstring(_T("/"));
 
     // First check to see if the desired cookie is assigned to the hostname.
     rc = pIEGPMC(hostname_w.c_str(), NULL, szCookieBuffer, &dwSize, NULL) == TRUE;
@@ -1011,7 +1011,7 @@ bool detect_cookie_ie_supported_uac(std::string& project_url, std::string& name,
 
         if (0 == wcscmp(name_w.c_str(), strCookieName.c_str())) {
             // Now we found it!  Yea - auto attach!
-            value = W2A(strCookieValue);
+            value = boinc_wide_to_ascii(strCookieValue);
             bReturnValue = true;
         }
 
