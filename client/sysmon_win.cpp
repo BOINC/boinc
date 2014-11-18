@@ -295,7 +295,7 @@ static void windows_detect_autoproxy_settings() {
         WINHTTP_AUTO_DETECT_TYPE_DHCP | WINHTTP_AUTO_DETECT_TYPE_DNS_A;
     autoproxy_options.fAutoLogonIfChallenged = TRUE;
 
-    network_test_url = A2W(cc_config.network_test_url).c_str();
+    network_test_url = boinc_ascii_to_wide(cc_config.network_test_url).c_str();
 
     hWinHttp = WinHttpOpen(
         L"BOINC client",
@@ -316,7 +316,7 @@ static void windows_detect_autoproxy_settings() {
         // For the time being check to see if proxy_info.lpszProxy is non-null.
         //
         if (proxy_info.lpszProxy) {
-            std::string proxy(W2A(std::wstring(proxy_info.lpszProxy)));
+            std::string proxy(boinc_wide_to_ascii(std::wstring(proxy_info.lpszProxy)));
             std::string new_proxy;
 
             if (log_flags.proxy_debug) {
