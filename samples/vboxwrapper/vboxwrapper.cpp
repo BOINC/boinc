@@ -73,11 +73,12 @@
 #include "floppyio.h"
 #include "vboxwrapper.h"
 #include "vbox_common.h"
-#include "vbox_vboxmanage.h"
 #ifdef _WIN32
 #include "vbox_mscom42.h"
 #include "vbox_mscom43.h"
 #endif
+#include "vbox_vboxmanage.h"
+
 
 using std::vector;
 using std::string;

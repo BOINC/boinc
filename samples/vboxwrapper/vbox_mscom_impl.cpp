@@ -17,27 +17,6 @@
 
 #ifdef _VIRTUALBOX_IMPORT_FUNCTIONS_
 
-#include "boinc_win.h"
-#include "win_util.h"
-#include "diagnostics.h"
-#include "filesys.h"
-#include "parse.h"
-#include "str_util.h"
-#include "str_replace.h"
-#include "util.h"
-#include "error_numbers.h"
-#include "procinfo.h"
-#include "network.h"
-#include "boinc_api.h"
-#include "floppyio.h"
-#include "vboxwrapper.h"
-
-#if defined(_MSC_VER) || defined(__MINGW32__)
-#define stricmp     _stricmp
-#endif
-
-using std::string;
-
 
 // Helper function to print MSCOM exception information set on the current
 // thread after a failed MSCOM method call. This function will also print
@@ -126,10 +105,17 @@ const char *MachineStateToName(MachineState State)
 
 VBOX_VM::VBOX_VM() {
     VBOX_BASE::VBOX_BASE();
+
+    m_pPrivate = new VBOX_PRIV();
 }
 
 VBOX_VM::~VBOX_VM() {
     VBOX_BASE::~VBOX_BASE();
+
+    if (m_pPrivate) {
+        delete m_pPrivate;
+        m_pPrivate = NULL;
+    }
 }
 
 
@@ -198,7 +184,7 @@ int VBOX_VM::initialize() {
     CoInitialize(NULL);
 
     // Instantiate the VirtualBox root object.
-    rc = m_pVirtualBox.CoCreateInstance(CLSID_VirtualBox);
+    rc = m_pPrivate->m_pVirtualBox.CoCreateInstance(CLSID_VirtualBox);
     if (FAILED(rc))
     {
         fprintf(
@@ -211,7 +197,7 @@ int VBOX_VM::initialize() {
     }
 
     // Create the session object.
-    rc = m_pSession.CoCreateInstance(CLSID_Session);
+    rc = m_pPrivate->m_pSession.CoCreateInstance(CLSID_Session);
     if (FAILED(rc))
     {
         fprintf(
@@ -303,7 +289,7 @@ int VBOX_VM::create_vm() {
 
     // Start the VM creation process
     //
-    rc = m_pVirtualBox->CreateMachine(
+    rc = m_pPrivate->m_pVirtualBox->CreateMachine(
         CComBSTR(string(virtual_machine_slot_directory + "\\" + vm_name + "\\" + vm_name + ".vbox").c_str()),
         CComBSTR(vm_name.c_str()),
         NULL,
@@ -330,7 +316,7 @@ int VBOX_VM::create_vm() {
     // Also note that due to current VirtualBox limitations, the machine
     // must be registered *before* we can attach hard disks to it.
     //
-    rc = m_pVirtualBox->RegisterMachine(pMachineRO);
+    rc = m_pPrivate->m_pVirtualBox->RegisterMachine(pMachineRO);
     if (FAILED(rc)) {
         fprintf(
             stderr,
@@ -954,7 +940,7 @@ int VBOX_VM::create_vm() {
             iso_image_filename.c_str()
         );
         CComPtr<IMedium> pISOImage;
-        rc = m_pVirtualBox->OpenMedium(
+        rc = m_pPrivate->m_pVirtualBox->OpenMedium(
             CComBSTR(string(virtual_machine_slot_directory + "\\" + iso_image_filename).c_str()),
             DeviceType_DVD,
             AccessMode_ReadOnly,
@@ -1000,7 +986,7 @@ int VBOX_VM::create_vm() {
             vboxwrapper_msg_prefix(buf, sizeof(buf))
         );
         CComPtr<IMedium> pGuestAdditionsImage;
-        rc = m_pVirtualBox->OpenMedium(
+        rc = m_pPrivate->m_pVirtualBox->OpenMedium(
             CComBSTR(virtualbox_guest_additions.c_str()),
             DeviceType_DVD,
             AccessMode_ReadOnly,
@@ -1048,7 +1034,7 @@ int VBOX_VM::create_vm() {
     		    cache_disk_filename.c_str()
             );
             CComPtr<IMedium> pCacheImage;
-            rc = m_pVirtualBox->OpenMedium(
+            rc = m_pPrivate->m_pVirtualBox->OpenMedium(
                 CComBSTR(string(virtual_machine_slot_directory + "\\" + cache_disk_filename).c_str()),
                 DeviceType_HardDisk,
                 AccessMode_ReadWrite,
@@ -1098,7 +1084,7 @@ int VBOX_VM::create_vm() {
 		    image_filename.c_str()
         );
         CComPtr<IMedium> pDiskImage;
-        rc = m_pVirtualBox->OpenMedium(
+        rc = m_pPrivate->m_pVirtualBox->OpenMedium(
             CComBSTR(string(virtual_machine_slot_directory + "\\" + image_filename).c_str()),
             DeviceType_HardDisk,
             AccessMode_ReadWrite,
@@ -1144,7 +1130,7 @@ int VBOX_VM::create_vm() {
             vboxwrapper_msg_prefix(buf, sizeof(buf))
         );
         CComPtr<IMedium> pGuestAdditionsImage;
-        rc = m_pVirtualBox->OpenMedium(
+        rc = m_pPrivate->m_pVirtualBox->OpenMedium(
             CComBSTR(virtualbox_guest_additions.c_str()),
             DeviceType_DVD,
             AccessMode_ReadOnly,
@@ -1214,7 +1200,7 @@ int VBOX_VM::create_vm() {
             vboxwrapper_msg_prefix(buf, sizeof(buf))
         );
         CComPtr<IMedium> pFloppyImage;
-        rc = m_pVirtualBox->OpenMedium(
+        rc = m_pPrivate->m_pVirtualBox->OpenMedium(
             CComBSTR(string(virtual_machine_slot_directory + "\\" + floppy_image_filename).c_str()),
             DeviceType_Floppy,
             AccessMode_ReadWrite,
@@ -1418,7 +1404,7 @@ int VBOX_VM::register_vm() {
         aid.slot
     );
 
-    rc = m_pVirtualBox->OpenMachine(
+    rc = m_pPrivate->m_pVirtualBox->OpenMachine(
         CComBSTR(string(virtual_machine_slot_directory + "\\" + vm_name + "\\" + vm_name + ".vbox").c_str()),
         &pMachine
     );
@@ -1434,7 +1420,7 @@ int VBOX_VM::register_vm() {
         goto CLEANUP;
     }
 
-    rc = m_pVirtualBox->RegisterMachine(pMachine);
+    rc = m_pPrivate->m_pVirtualBox->RegisterMachine(pMachine);
     if (FAILED(rc)) {
         fprintf(
             stderr,
@@ -1478,7 +1464,7 @@ int VBOX_VM::deregister_vm(bool delete_media) {
         vboxwrapper_msg_prefix(buf, sizeof(buf))
     );
 
-    rc = m_pVirtualBox->FindMachine(CComBSTR(vm_name.c_str()), &pMachineRO);
+    rc = m_pPrivate->m_pVirtualBox->FindMachine(CComBSTR(vm_name.c_str()), &pMachineRO);
     if (SUCCEEDED(rc)) {
         if (delete_media) {
             rc = pSession.CoCreateInstance(CLSID_Session);
@@ -1688,7 +1674,7 @@ int VBOX_VM::deregister_stale_vm() {
     get_slot_directory(virtual_machine_root_dir);
     hdd_image_location = string(virtual_machine_root_dir + "\\" + image_filename);
 
-    rc = m_pVirtualBox->get_HardDisks(&pHardDisks);
+    rc = m_pPrivate->m_pVirtualBox->get_HardDisks(&pHardDisks);
     if (SUCCEEDED(rc)) {
         aHardDisks.Attach(pHardDisks);
         for (int i = 0; i < (int)aHardDisks.GetCount(); i++) {
@@ -1750,7 +1736,7 @@ void VBOX_VM::poll(bool log_state) {
     //
     // What state is the VM in?
     //
-    rc = m_pVirtualBox->FindMachine(CComBSTR(vm_master_name.c_str()), &pMachine);
+    rc = m_pPrivate->m_pVirtualBox->FindMachine(CComBSTR(vm_master_name.c_str()), &pMachine);
     if (SUCCEEDED(rc) && pMachine) {
         rc = pMachine->get_State(&vmstate);
         if (SUCCEEDED(rc)) {
@@ -1908,11 +1894,11 @@ int VBOX_VM::start() {
         session_type = _T("headless");
     }
 
-    rc = m_pVirtualBox->FindMachine(CComBSTR(vm_master_name.c_str()), &pMachineRO);
+    rc = m_pPrivate->m_pVirtualBox->FindMachine(CComBSTR(vm_master_name.c_str()), &pMachineRO);
     if (SUCCEEDED(rc)) {
 
         // Start a VM session
-        rc = pMachineRO->LaunchVMProcess(m_pSession, session_type, NULL, &pProgress);
+        rc = pMachineRO->LaunchVMProcess(m_pPrivate->m_pSession, session_type, NULL, &pProgress);
         if (FAILED(rc)) {
             fprintf(
                 stderr,
@@ -1944,10 +1930,10 @@ int VBOX_VM::start() {
 
             // We should now own what goes on with the VM.
             //
-            pMachineRO->LockMachine(m_pSession, LockType_Write);
-            m_pSession->get_Machine(&m_pMachine);
+            pMachineRO->LockMachine(m_pPrivate->m_pSession, LockType_Write);
+            m_pPrivate->m_pSession->get_Machine(&m_pPrivate->m_pMachine);
 
-            rc = m_pMachine->get_SessionPID((ULONG*)&vm_pid);
+            rc = m_pPrivate->m_pMachine->get_SessionPID((ULONG*)&vm_pid);
             if (FAILED(rc)) {
                 fprintf(
                     stderr,
@@ -2010,7 +1996,7 @@ int VBOX_VM::stop() {
 
     if (online) {
         // Get console object. 
-        rc = m_pSession->get_Console(&pConsole);
+        rc = m_pPrivate->m_pSession->get_Console(&pConsole);
         if (FAILED(rc)) {
             fprintf(
                 stderr,
@@ -2087,7 +2073,7 @@ int VBOX_VM::stop() {
             }
         }
 
-        m_pSession->UnlockMachine();
+        m_pPrivate->m_pSession->UnlockMachine();
     }
 
     return retval;
@@ -2111,7 +2097,7 @@ int VBOX_VM::poweroff() {
 
     if (online) {
         // Get console object. 
-        rc = m_pSession->get_Console(&pConsole);
+        rc = m_pPrivate->m_pSession->get_Console(&pConsole);
         if (FAILED(rc)) {
             fprintf(
                 stderr,
@@ -2188,7 +2174,7 @@ int VBOX_VM::poweroff() {
             }
         }
 
-        m_pSession->UnlockMachine();
+        m_pPrivate->m_pSession->UnlockMachine();
     }
 
     return retval;
@@ -2209,7 +2195,7 @@ int VBOX_VM::pause() {
 
 
     // Get console object. 
-    rc = m_pSession->get_Console(&pConsole);
+    rc = m_pPrivate->m_pSession->get_Console(&pConsole);
     if (FAILED(rc))
     {
         fprintf(
@@ -2260,7 +2246,7 @@ int VBOX_VM::resume() {
 
 
     // Get console object. 
-    rc = m_pSession->get_Console(&pConsole);
+    rc = m_pPrivate->m_pSession->get_Console(&pConsole);
     if (FAILED(rc)) {
         fprintf(
             stderr,
@@ -2314,7 +2300,7 @@ int VBOX_VM::create_snapshot(double elapsed_time) {
     pause();
 
     // Create new snapshot
-    rc = m_pSession->get_Console(&pConsole);
+    rc = m_pPrivate->m_pSession->get_Console(&pConsole);
     if (FAILED(rc)) {
         fprintf(
             stderr,
@@ -2425,7 +2411,7 @@ int VBOX_VM::cleanup_snapshots(bool delete_active) {
     std::string current_snapshot_id;
     std::vector<std::string> snapshots;
 
-    rc = m_pSession->get_Console(&pConsole);
+    rc = m_pPrivate->m_pSession->get_Console(&pConsole);
     if (FAILED(rc)) {
         fprintf(
             stderr,
@@ -2440,7 +2426,7 @@ int VBOX_VM::cleanup_snapshots(bool delete_active) {
 
     // Get the current snapshot
     //
-    rc = m_pMachine->get_CurrentSnapshot(&pCurrentSnapshot);
+    rc = m_pPrivate->m_pMachine->get_CurrentSnapshot(&pCurrentSnapshot);
     if (SUCCEEDED(rc) && pCurrentSnapshot) {
         rc = pCurrentSnapshot->get_Id(&tmp);
         if (SUCCEEDED(rc)) {
@@ -2450,7 +2436,7 @@ int VBOX_VM::cleanup_snapshots(bool delete_active) {
 
     // Get the root snapshot and traverse the tree
     //
-    rc = m_pMachine->FindSnapshot(CComBSTR(""), &pRootSnapshot);
+    rc = m_pPrivate->m_pMachine->FindSnapshot(CComBSTR(""), &pRootSnapshot);
     if (SUCCEEDED(rc) && pRootSnapshot) {
         TraverseSnapshots(current_snapshot_id, snapshots, pRootSnapshot);
     }
@@ -2500,7 +2486,7 @@ int VBOX_VM::restore_snapshot() {
     CComPtr<ISnapshot> pSnapshot;
     CComPtr<IProgress> pProgress;
 
-    rc = m_pVirtualBox->FindMachine(CComBSTR(vm_name.c_str()), &pMachineRO);
+    rc = m_pPrivate->m_pVirtualBox->FindMachine(CComBSTR(vm_name.c_str()), &pMachineRO);
     if (SUCCEEDED(rc)) {
         rc = pSession.CoCreateInstance(CLSID_Session);
         if (!SUCCEEDED(rc)) {
@@ -2650,7 +2636,7 @@ int VBOX_VM::is_registered() {
     HRESULT rc;
     CComPtr<IMachine> pMachine;
 
-    rc = m_pVirtualBox->FindMachine(CComBSTR(vm_master_name.c_str()), &pMachine);
+    rc = m_pPrivate->m_pVirtualBox->FindMachine(CComBSTR(vm_master_name.c_str()), &pMachine);
     if (VBOX_E_OBJECT_NOT_FOUND != rc) {
         retval = BOINC_SUCCESS;
     }
@@ -2674,7 +2660,7 @@ bool VBOX_VM::is_hdd_registered() {
     get_slot_directory(virtual_machine_root_dir);
     hdd_image_location = string(virtual_machine_root_dir + "\\" + image_filename);
 
-    rc = m_pVirtualBox->get_HardDisks(&pHardDisks);
+    rc = m_pPrivate->m_pVirtualBox->get_HardDisks(&pHardDisks);
     if (SUCCEEDED(rc)) {
         aHardDisks.Attach(pHardDisks);
         for (int i = 0; i < (int)aHardDisks.GetCount(); i++) {
@@ -2694,7 +2680,7 @@ bool VBOX_VM::is_extpack_installed() {
     BOOL bUsable = FALSE;
     HRESULT rc;
 
-    rc = m_pVirtualBox->get_ExtensionPackManager(&pExtPackManager);
+    rc = m_pPrivate->m_pVirtualBox->get_ExtensionPackManager(&pExtPackManager);
     if (SUCCEEDED(rc)) {
         rc = pExtPackManager->IsExtPackUsable(CComBSTR("Oracle VM VirtualBox Extension Pack"), &bUsable);
         if (SUCCEEDED(rc)) {
@@ -2762,7 +2748,7 @@ int VBOX_VM::get_version_information(string& version) {
     HRESULT rc;
     CComBSTR tmp;
 
-    rc = m_pVirtualBox->get_VersionNormalized(&tmp);
+    rc = m_pPrivate->m_pVirtualBox->get_VersionNormalized(&tmp);
     if (SUCCEEDED(rc)) {
         version = CW2A(tmp);
         retval = BOINC_SUCCESS;
@@ -2777,7 +2763,7 @@ int VBOX_VM::get_guest_additions(string& guest_additions) {
     CComPtr<ISystemProperties> properties;
     CComBSTR tmp;
 
-    rc = m_pVirtualBox->get_SystemProperties(&properties);
+    rc = m_pPrivate->m_pVirtualBox->get_SystemProperties(&properties);
     if (SUCCEEDED(rc)) {
         rc = properties->get_DefaultAdditionsISO(&tmp);
         if (SUCCEEDED(rc)) {
@@ -2798,7 +2784,7 @@ int VBOX_VM::get_default_network_interface(string& iface) {
     CComBSTR tmp;
     IHostNetworkInterface* pNIC;
 
-    rc = m_pVirtualBox->get_Host(&pHost);
+    rc = m_pPrivate->m_pVirtualBox->get_Host(&pHost);
     if (SUCCEEDED(rc)) {
         rc = pHost->FindHostNetworkInterfacesOfType(HostNetworkInterfaceType_Bridged, &pNICS);
         if (SUCCEEDED(rc)) {
@@ -2834,7 +2820,7 @@ int VBOX_VM::get_vm_network_bytes_sent(double& sent) {
     size_t counter_end;
 
     // Get console object. 
-    rc = m_pSession->get_Console(&pConsole);
+    rc = m_pPrivate->m_pSession->get_Console(&pConsole);
     if (FAILED(rc)) {
         fprintf(
             stderr,
@@ -2896,7 +2882,7 @@ int VBOX_VM::get_vm_network_bytes_received(double& received) {
     size_t counter_end;
 
     // Get console object. 
-    rc = m_pSession->get_Console(&pConsole);
+    rc = m_pPrivate->m_pSession->get_Console(&pConsole);
     if (FAILED(rc)) {
         fprintf(
             stderr,
@@ -2990,7 +2976,7 @@ int VBOX_VM::set_network_access(bool enabled) {
             vboxwrapper_msg_prefix(buf, sizeof(buf))
         );
 
-        rc = m_pMachine->GetNetworkAdapter(0, &pNetworkAdapter);
+        rc = m_pPrivate->m_pMachine->GetNetworkAdapter(0, &pNetworkAdapter);
         if (FAILED(rc)) {
             fprintf(
                 stderr,
@@ -3011,7 +2997,7 @@ int VBOX_VM::set_network_access(bool enabled) {
             vboxwrapper_msg_prefix(buf, sizeof(buf))
         );
 
-        rc = m_pMachine->GetNetworkAdapter(0, &pNetworkAdapter);
+        rc = m_pPrivate->m_pMachine->GetNetworkAdapter(0, &pNetworkAdapter);
         if (FAILED(rc)) {
             fprintf(
                 stderr,
@@ -3038,7 +3024,7 @@ int VBOX_VM::set_cpu_usage(int percentage) {
         vboxwrapper_msg_prefix(buf, sizeof(buf)),
         percentage
     );
-    m_pMachine->put_CPUExecutionCap(percentage);
+    m_pPrivate->m_pMachine->put_CPUExecutionCap(percentage);
     return 0;
 }
 
@@ -3048,7 +3034,7 @@ int VBOX_VM::set_network_usage(int kilobytes) {
     CComPtr<IBandwidthControl> pBandwidthControl;
     CComPtr<IBandwidthGroup> pBandwidthGroup;
 
-    rc = m_pMachine->get_BandwidthControl(&pBandwidthControl);
+    rc = m_pPrivate->m_pMachine->get_BandwidthControl(&pBandwidthControl);
     if (SUCCEEDED(rc)) {
         rc = pBandwidthControl->GetBandwidthGroup(CComBSTR(string(vm_name + "_net").c_str()), &pBandwidthGroup);
         if (SUCCEEDED(rc)) {

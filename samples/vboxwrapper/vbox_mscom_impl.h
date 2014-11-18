@@ -15,16 +15,14 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "vbox_common.h"
+class VBOX_PRIV;
 
 class VBOX_VM : public VBOX_BASE {
 public:
     VBOX_VM();
     ~VBOX_VM();
 
-    CComPtr<IVirtualBox> m_pVirtualBox;
-    CComPtr<ISession> m_pSession;
-    CComPtr<IMachine> m_pMachine;
+    VBOX_PRIV* m_pPrivate;
 
     int initialize();
     int create_vm();

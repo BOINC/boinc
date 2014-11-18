@@ -18,37 +18,46 @@
 #define _VIRTUALBOX43_
 #define _VIRTUALBOX_IMPORT_FUNCTIONS_
 
+#include "boinc_win.h"
+#include "win_util.h"
+#include "diagnostics.h"
+#include "filesys.h"
+#include "parse.h"
+#include "str_util.h"
+#include "str_replace.h"
+#include "util.h"
+#include "error_numbers.h"
+#include "procinfo.h"
+#include "network.h"
+#include "boinc_api.h"
+#include "floppyio.h"
+#include "vboxwrapper.h"
 #include "vbox_mscom43.h"
 
-using vbox43::ISnapshot;
-using vbox43::MachineState;
-#define MachineState_Null	                vbox43::MachineState_Null
-#define MachineState_PoweredOff	            vbox43::MachineState_PoweredOff	
-#define MachineState_Saved	                vbox43::MachineState_Saved	
-#define MachineState_Teleported	            vbox43::MachineState_Teleported	
-#define MachineState_Aborted	            vbox43::MachineState_Aborted	
-#define MachineState_Running	            vbox43::MachineState_Running	
-#define MachineState_Paused	                vbox43::MachineState_Paused	
-#define MachineState_Stuck	                vbox43::MachineState_Stuck	
-#define MachineState_Teleporting	        vbox43::MachineState_Teleporting	
-#define MachineState_LiveSnapshotting	    vbox43::MachineState_LiveSnapshotting	
-#define MachineState_Starting	            vbox43::MachineState_Starting	
-#define MachineState_Stopping	            vbox43::MachineState_Stopping	
-#define MachineState_Saving	                vbox43::MachineState_Saving	
-#define MachineState_Restoring	            vbox43::MachineState_Restoring	
-#define MachineState_TeleportingPausedVM	vbox43::MachineState_TeleportingPausedVM	
-#define MachineState_TeleportingIn	        vbox43::MachineState_TeleportingIn	
-#define MachineState_FaultTolerantSyncing	vbox43::MachineState_FaultTolerantSyncing	
-#define MachineState_DeletingSnapshotOnline	vbox43::MachineState_DeletingSnapshotOnline	
-#define MachineState_DeletingSnapshotPaused	vbox43::MachineState_DeletingSnapshotPaused	
-#define MachineState_RestoringSnapshot  	vbox43::MachineState_RestoringSnapshot	
-#define MachineState_DeletingSnapshot	    vbox43::MachineState_DeletingSnapshot	
-#define MachineState_SettingUp	            vbox43::MachineState_SettingUp	
-#define MachineState_FirstOnline	        vbox43::MachineState_FirstOnline	
-#define MachineState_LastOnline	            vbox43::MachineState_LastOnline	
-#define MachineState_FirstTransient	        vbox43::MachineState_FirstTransient	
-#define MachineState_LastTransient          vbox43::MachineState_LastTransient
+#include "mscom43/VirtualBox.h"
 
-using vbox43::VBOX_VM;
+#if defined(_MSC_VER) || defined(__MINGW32__)
+#define stricmp     _stricmp
+#endif
+
+using std::string;
+using namespace vbox43;
+
+namespace vbox43 {
+
+#include "mscom43/VirtualBox_i.c"
+
+    class VBOX_PRIV {
+    public:
+        VBOX_PRIV() {};
+        ~VBOX_PRIV() {};
+
+        CComPtr<IVirtualBox> m_pVirtualBox;
+        CComPtr<ISession> m_pSession;
+        CComPtr<IMachine> m_pMachine;
+    };
 
 #include "vbox_mscom_impl.cpp"
+
+}
+

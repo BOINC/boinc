@@ -25,11 +25,10 @@
 #include "atlcoll.h"
 #include "atlstr.h"
 #include "floppyio.h"
+#include "vbox_common.h"
 
 namespace vbox42 {
 
-#include "mscom42/VirtualBox.h"
-#include "mscom42/VirtualBox_i.c"
 #include "vbox_mscom_impl.h"
 
 }
