@@ -48,7 +48,6 @@
 #define DONT_FETCH_CONFIG                           3
 #define DONT_FETCH_NO_APPS                          4
 #define DONT_FETCH_AMS                              5
-#define DONT_FETCH_BACKOFF                          6
 #define DONT_FETCH_ZERO_SHARE                       7
 #define DONT_FETCH_BUFFER_FULL                      8
 #define DONT_FETCH_NOT_HIGHEST_PRIO                 9
