@@ -27,6 +27,7 @@
 # Updated 7/10/12 for Xcode 4.3 and later which are not at a fixed address
 # Updated 2/11/14 for curl 7.35.0 with c-ares 1.10.0
 # Updated 9/2/14 for bulding curl as 64-bit binary
+# Updated 11/17/14 for curl 7.39.0 with c-ares 1.10.0
 #
 ## This script requires OS 10.6 or later
 ## This script requires OS 10.6 or later
@@ -35,8 +36,8 @@
 ## and clicked the Install button on the dialog which appears to 
 ## complete the Xcode installation before running this script.
 #
-## In Terminal, CD to the curl-7.35.0 directory.
-##     cd [path]/curl-7.35.0/
+## In Terminal, CD to the curl-7.39.0 directory.
+##     cd [path]/curl-7.39.0/
 ## then run this script:
 ##     source [path]/buildcurl.sh [ -clean ]
 ##
@@ -45,7 +46,7 @@
 
 if [ "$1" != "-clean" ]; then
     if [ -f lib/.libs/libcurl.a ]; then
-        echo "curl-7.35.0 already built"
+        echo "curl-7.39.0 already built"
         return 0
     fi
 fi
