@@ -56,7 +56,7 @@ using std::string;
 #include "boinc_api.h"
 #include "floppyio.h"
 #include "vboxwrapper.h"
-#include "vbox.h"
+#include "vbox_common.h"
 
 
 VBOX_BASE::VBOX_BASE() {
@@ -105,6 +105,12 @@ VBOX_BASE::VBOX_BASE() {
     pf_guest_port = 0;
     pf_host_port = 0;
     headless = true;
+    vm_pid = 0;
+    vboxsvc_pid = 0;
+#ifdef _WIN32
+    vm_pid_handle = 0;
+    vboxsvc_pid_handle = 0;
+#endif
 
     // Initialize default values
     vm_disk_controller_type = "ide";
@@ -116,6 +122,17 @@ VBOX_BASE::~VBOX_BASE() {
         delete pFloppy;
         pFloppy = NULL;
     }
+
+#ifdef _WIN32
+    if (vm_pid_handle) {
+        CloseHandle(vm_pid_handle);
+        vm_pid_handle = NULL;
+    }
+    if (vboxsvc_pid_handle) {
+        CloseHandle(vboxsvc_pid_handle);
+        vboxsvc_pid_handle = NULL;
+    }
+#endif
 }
 
 int VBOX_BASE::initialize() {

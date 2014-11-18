@@ -48,8 +48,6 @@
 #ifdef _WIN32
 #include "boinc_win.h"
 #include "win_util.h"
-#include "atlcomcli.h"
-#include "atlstr.h"
 #else
 #include <vector>
 #include <sys/wait.h>
@@ -72,12 +70,13 @@
 #include "util.h"
 #include "error_numbers.h"
 #include "procinfo.h"
+#include "floppyio.h"
 #include "vboxwrapper.h"
-#include "vbox.h"
+#include "vbox_common.h"
+#include "vbox_vboxmanage.h"
 #ifdef _WIN32
-#include "vbox_win.h"
-#else
-#include "vbox_unix.h"
+#include "vbox_mscom42.h"
+#include "vbox_mscom43.h"
 #endif
 
 using std::vector;

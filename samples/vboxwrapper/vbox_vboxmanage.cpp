@@ -15,6 +15,10 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+#ifdef _WIN32
+#include "boinc_win.h"
+#include "win_util.h"
+#else
 #include <sys/wait.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -31,8 +35,14 @@
 #include <sstream>
 #include <stdexcept>
 #include <unistd.h>
+#endif
 
 using std::string;
+
+#if defined(_MSC_VER)
+#define getcwd      _getcwd
+#define stricmp     _stricmp
+#endif
 
 #include "diagnostics.h"
 #include "filesys.h"
@@ -46,7 +56,18 @@ using std::string;
 #include "boinc_api.h"
 #include "floppyio.h"
 #include "vboxwrapper.h"
-#include "vbox.h"
+#include "vbox_common.h"
+#include "vbox_vboxmanage.h"
+
+
+VBOX_VM::VBOX_VM() {
+    VBOX_BASE::VBOX_BASE();
+}
+
+VBOX_VM::~VBOX_VM() {
+    VBOX_BASE::~VBOX_BASE();
+}
+
 
 int VBOX_VM::initialize() {
     int rc = 0;
@@ -61,6 +82,25 @@ int VBOX_VM::initialize() {
     boinc_get_init_data_p(&aid);
     get_install_directory(virtualbox_install_directory);
 
+    // Prep the environment so we can execute the vboxmanage application
+    //
+    // TODO: Fix for non-Windows environments if we ever find another platform
+    // where vboxmanage is not already in the search path
+#ifdef _WIN32
+    if (!virtualbox_install_directory.empty())
+    {
+        old_path = getenv("PATH");
+        new_path = virtualbox_install_directory + ";" + old_path;
+
+        if (!SetEnvironmentVariable("PATH", const_cast<char*>(new_path.c_str()))) {
+            fprintf(
+                stderr,
+                "%s Failed to modify the search path.\n",
+                vboxwrapper_msg_prefix(buf, sizeof(buf))
+            );
+        }
+    }
+#endif
 
     // Determine the VirtualBox home directory.  Overwrite as needed.
     //
@@ -69,7 +109,11 @@ int VBOX_VM::initialize() {
     } else {
         // If the override environment variable isn't specified then
         // it is based of the current users HOME directory.
+#ifdef _WIN32
+        virtualbox_home_directory = getenv("USERPROFILE");
+#else
         virtualbox_home_directory = getenv("HOME");
+#endif
         virtualbox_home_directory += "/.VirtualBox";
     }
 
@@ -79,9 +123,11 @@ int VBOX_VM::initialize() {
     //
     // if the HOME environment variable is missing force VirtualBox to use a directory it
     // has a reasonable chance of writing log files too.
+#ifndef _WIN32
     if (NULL == getenv("HOME")) {
         force_sandbox = true;
     }
+#endif
 
     // Set the location in which the VirtualBox Configuration files can be
     // stored for this instance.
@@ -91,6 +137,15 @@ int VBOX_VM::initialize() {
 
         if (!boinc_file_exists(virtualbox_home_directory.c_str())) boinc_mkdir(virtualbox_home_directory.c_str());
 
+#ifdef _WIN32
+        if (!SetEnvironmentVariable("VBOX_USER_HOME", const_cast<char*>(virtualbox_home_directory.c_str()))) {
+            fprintf(
+                stderr,
+                "%s Failed to modify the search path.\n",
+                vboxwrapper_msg_prefix(buf, sizeof(buf))
+            );
+        }
+#else
         // putenv does not copy its input buffer, so we must use setenv
         if (setenv("VBOX_USER_HOME", const_cast<char*>(virtualbox_home_directory.c_str()), 1)) {
             fprintf(
@@ -99,6 +154,7 @@ int VBOX_VM::initialize() {
                 vboxwrapper_msg_prefix(buf, sizeof(buf))
             );
         }
+#endif
     }
 
     rc = get_version_information(virtualbox_version);
@@ -125,6 +181,22 @@ void VBOX_VM::poll(bool log_state) {
     //
     // Is our environment still sane?
     //
+#ifdef _WIN32
+    if (aid.using_sandbox && vboxsvc_pid_handle && !process_exists(vboxsvc_pid_handle)) {
+        fprintf(
+            stderr,
+            "%s Status Report: vboxsvc.exe is no longer running.\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf))
+        );
+    }
+    if (vm_pid_handle && !process_exists(vm_pid_handle)) {
+        fprintf(
+            stderr,
+            "%s Status Report: virtualbox.exe/vboxheadless.exe is no longer running.\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf))
+        );
+    }
+#else
     if (vm_pid && !process_exists(vm_pid)) {
         fprintf(
             stderr,
@@ -132,6 +204,7 @@ void VBOX_VM::poll(bool log_state) {
             vboxwrapper_msg_prefix(buf, sizeof(buf))
         );
     }
+#endif
 
     //
     // What state is the VM in?
@@ -262,6 +335,7 @@ void VBOX_VM::poll(bool log_state) {
     dump_vmguestlog_entries();
 }
 
+
 int VBOX_VM::create_vm() {
     string command;
     string output;
@@ -339,12 +413,13 @@ int VBOX_VM::create_vm() {
     //
     fprintf(
         stderr,
-        "%s Setting Memory Size for VM. (%sMB)\n",
+        "%s Setting Memory Size for VM. (%dMB)\n",
         vboxwrapper_msg_prefix(buf, sizeof(buf)),
-        vm_memory_size_mb.c_str()
+        memory_size_mb
     );
+    sprintf(buf, "%f", memory_size_mb);
     command  = "modifyvm \"" + vm_name + "\" ";
-    command += "--memory " + vm_memory_size_mb + " ";
+    command += "--memory " + string(buf) + " ";
 
     retval = vbm_popen(command, output, "modifymem");
     if (retval) return retval;
@@ -735,7 +810,7 @@ int VBOX_VM::create_vm() {
         //
         // NOTE: This creates the floppy.img file at runtime for use by the VM.
         //
-        pFloppy = new FloppyIO(floppy_image_filename.c_str());
+        pFloppy = new FloppyIONS::FloppyIO(floppy_image_filename.c_str());
         if (!pFloppy->ready()) {
             vboxwrapper_msg_prefix(buf, sizeof(buf));
             fprintf(
@@ -1793,9 +1868,15 @@ int VBOX_VM::get_vm_process_id() {
 }
 
 int VBOX_VM::get_vm_exit_code(unsigned long& exit_code) {
+#ifdef _WIN32
+    if (vm_pid_handle) {
+        GetExitCodeProcess(vm_pid_handle, &exit_code);
+    }
+#else
     int ec = 0;
     waitpid(vm_pid, &ec, WNOHANG);
     exit_code = ec;
+#endif
     return 0;
 }
 
@@ -1942,6 +2023,16 @@ int VBOX_VM::set_network_usage(int kilobytes) {
 
 void VBOX_VM::lower_vm_process_priority() {
     char buf[256];
+#ifdef _WIN32
+    if (vm_pid_handle) {
+        SetPriorityClass(vm_pid_handle, BELOW_NORMAL_PRIORITY_CLASS);
+        fprintf(
+            stderr,
+            "%s Lowering VM Process priority.\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf))
+        );
+    }
+#else
     if (vm_pid) {
         setpriority(PRIO_PROCESS, vm_pid, PROCESS_MEDIUM_PRIORITY);
         fprintf(
@@ -1950,10 +2041,21 @@ void VBOX_VM::lower_vm_process_priority() {
             vboxwrapper_msg_prefix(buf, sizeof(buf))
         );
     }
+#endif
 }
 
 void VBOX_VM::reset_vm_process_priority() {
     char buf[256];
+#ifdef _WIN32
+    if (vm_pid_handle) {
+        SetPriorityClass(vm_pid_handle, NORMAL_PRIORITY_CLASS);
+        fprintf(
+            stderr,
+            "%s Restoring VM Process priority.\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf))
+        );
+    }
+#else
     if (vm_pid) {
         setpriority(PRIO_PROCESS, vm_pid, PROCESS_NORMAL_PRIORITY);
         fprintf(
@@ -1962,6 +2064,7 @@ void VBOX_VM::reset_vm_process_priority() {
             vboxwrapper_msg_prefix(buf, sizeof(buf))
         );
     }
+#endif
 }
 
 // Launch VboxSVC.exe before going any further. if we don't, it'll be launched by
@@ -1969,7 +2072,97 @@ void VBOX_VM::reset_vm_process_priority() {
 // to VBOX_USER_HOME which is required for running in the BOINC account-based
 // sandbox on Windows.
 int VBOX_VM::launch_vboxsvc() {
-    return BOINC_SUCCESS;
+    APP_INIT_DATA aid;
+    PROC_MAP pm;
+    PROCINFO p;
+    string command;
+    int retval = ERR_EXEC;
+
+#ifdef _WIN32
+    char buf[256];
+    STARTUPINFO si;
+    PROCESS_INFORMATION pi;
+    int pidVboxSvc = 0;
+    HANDLE hVboxSvc = NULL;
+
+    memset(&si, 0, sizeof(si));
+    memset(&pi, 0, sizeof(pi));
+
+    boinc_get_init_data_p(&aid);
+
+    if (aid.using_sandbox) {
+
+        if (!vboxsvc_pid_handle || !process_exists(vboxsvc_pid_handle)) {
+
+            if (vboxsvc_pid_handle) CloseHandle(vboxsvc_pid_handle);
+
+            procinfo_setup(pm);
+            for (PROC_MAP::iterator i = pm.begin(); i != pm.end(); ++i) {
+                p = i->second;
+
+                // We are only looking for vboxsvc
+                if (0 != stricmp(p.command, "vboxsvc.exe")) continue;
+
+                // Store process id for later use
+                pidVboxSvc = p.id;
+
+                // Is this the vboxsvc for the current user?
+                // Non-service install it would be the current username
+                // Service install it would be boinc_project
+                hVboxSvc = OpenProcess(PROCESS_QUERY_INFORMATION, FALSE, p.id);
+                if (hVboxSvc) break;
+            }
+            
+            if (pidVboxSvc && hVboxSvc) {
+                
+                fprintf(
+                    stderr,
+                    "%s Status Report: Detected vboxsvc.exe. (PID = '%d')\n",
+                    vboxwrapper_msg_prefix(buf, sizeof(buf)),
+                    pidVboxSvc
+                );
+                vboxsvc_pid = pidVboxSvc;
+                vboxsvc_pid_handle = hVboxSvc;
+                retval = BOINC_SUCCESS;
+
+            } else {
+
+                si.cb = sizeof(STARTUPINFO);
+                si.dwFlags |= STARTF_FORCEOFFFEEDBACK | STARTF_USESHOWWINDOW;
+                si.wShowWindow = SW_HIDE;
+
+                command = "\"VBoxSVC.exe\" --logrotate 1";
+
+                CreateProcess(NULL, (LPTSTR)command.c_str(), NULL, NULL, TRUE, CREATE_NO_WINDOW, NULL, NULL, &si, &pi);
+
+                if (pi.hThread) CloseHandle(pi.hThread);
+                if (pi.hProcess) {
+                    fprintf(
+                        stderr,
+                        "%s Status Report: Launching vboxsvc.exe. (PID = '%d')\n",
+                        vboxwrapper_msg_prefix(buf, sizeof(buf)),
+                        pi.dwProcessId
+                    );
+                    vboxsvc_pid = pi.dwProcessId;
+                    vboxsvc_pid_handle = pi.hProcess;
+                    retval = BOINC_SUCCESS;
+                } else {
+                    fprintf(
+                        stderr,
+                        "%s Status Report: Launching vboxsvc.exe failed!.\n"
+                        "           Error: %s",
+                        vboxwrapper_msg_prefix(buf, sizeof(buf)),
+                        windows_format_error_string(GetLastError(), buf, sizeof(buf))
+                    );
+                }
+
+                vbm_trace(command, std::string(""), retval);
+            }
+        }
+    }
+#endif
+
+    return retval;
 }
 
 // Launch the VM.
@@ -2006,6 +2199,128 @@ int VBOX_VM::launch_vboxvm() {
         }
     }
 
+#ifdef _WIN32
+    char error_msg[256];
+    STARTUPINFO si;
+    PROCESS_INFORMATION pi;
+    SECURITY_ATTRIBUTES sa;
+    SECURITY_DESCRIPTOR sd;
+    HANDLE hReadPipe = NULL, hWritePipe = NULL;
+    void* pBuf = NULL;
+    DWORD dwCount = 0;
+    unsigned long ulExitCode = 0;
+    unsigned long ulExitTimeout = 0;
+
+    memset(&si, 0, sizeof(si));
+    memset(&pi, 0, sizeof(pi));
+    memset(&sa, 0, sizeof(sa));
+    memset(&sd, 0, sizeof(sd));
+
+    InitializeSecurityDescriptor(&sd, SECURITY_DESCRIPTOR_REVISION);
+    SetSecurityDescriptorDacl(&sd, true, NULL, false);
+
+    sa.nLength = sizeof(SECURITY_ATTRIBUTES);
+    sa.bInheritHandle = TRUE;
+    sa.lpSecurityDescriptor = &sd;
+
+    if (!CreatePipe(&hReadPipe, &hWritePipe, &sa, NULL)) {
+        fprintf(
+            stderr,
+            "%s CreatePipe failed! (%d).\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf)),
+            GetLastError()
+        );
+        goto CLEANUP;
+    }
+    SetHandleInformation(hReadPipe, HANDLE_FLAG_INHERIT, 0);
+
+    si.cb = sizeof(STARTUPINFO);
+    si.dwFlags |= STARTF_FORCEOFFFEEDBACK | STARTF_USESHOWWINDOW | STARTF_USESTDHANDLES;
+    si.wShowWindow = SW_HIDE;
+    si.hStdOutput = hWritePipe;
+    si.hStdError = hWritePipe;
+    si.hStdInput = NULL;
+
+    // Execute command
+    if (!CreateProcess(
+        NULL, 
+        cmdline,
+        NULL,
+        NULL,
+        TRUE,
+        CREATE_NO_WINDOW,
+        NULL,
+        NULL,
+        &si,
+        &pi
+    )) {
+        vboxwrapper_msg_prefix(buf, sizeof(buf));
+        fprintf(
+            stderr,
+            "%s Status Report: Launching virtualbox.exe/vboxheadless.exe failed!.\n"
+            "%s         Error: %s (%d)\n",
+            buf,
+            buf,
+            windows_format_error_string(GetLastError(), error_msg, sizeof(error_msg)),
+            GetLastError()
+        );
+
+        goto CLEANUP;
+    } 
+
+    while(1) {
+        GetExitCodeProcess(pi.hProcess, &ulExitCode);
+
+        // Copy stdout/stderr to output buffer, handle in the loop so that we can
+        // copy the pipe as it is populated and prevent the child process from blocking
+        // in case the output is bigger than pipe buffer.
+        PeekNamedPipe(hReadPipe, NULL, NULL, NULL, &dwCount, NULL);
+        if (dwCount) {
+            pBuf = malloc(dwCount+1);
+            memset(pBuf, 0, dwCount+1);
+
+            if (ReadFile(hReadPipe, pBuf, dwCount, &dwCount, NULL)) {
+                output += (char*)pBuf;
+            }
+
+            free(pBuf);
+        }
+
+        if ((ulExitCode != STILL_ACTIVE) || (ulExitTimeout >= 1000)) break;
+
+        Sleep(250);
+        ulExitTimeout += 250;
+    }
+
+    if (ulExitCode != STILL_ACTIVE) {
+        sanitize_output(output);
+        vboxwrapper_msg_prefix(buf, sizeof(buf));
+        fprintf(
+            stderr,
+            "%s Status Report: Virtualbox.exe/Vboxheadless.exe exited prematurely!.\n"
+            "%s        Exit Code: %d\n"
+            "%s        Output:\n"
+            "%s\n",
+            buf,
+            buf,
+            ulExitCode,
+            buf,
+            output.c_str()
+        );
+    }
+
+    if (pi.hProcess && (ulExitCode == STILL_ACTIVE)) {
+        vm_pid = pi.dwProcessId;
+        vm_pid_handle = pi.hProcess;
+        retval = BOINC_SUCCESS;
+    }
+
+CLEANUP:
+    if (pi.hThread) CloseHandle(pi.hThread);
+    if (hReadPipe) CloseHandle(hReadPipe);
+    if (hWritePipe) CloseHandle(hWritePipe);
+
+#else
     int pid = fork();
     if (-1 == pid) {
         output = strerror(errno);
@@ -2025,6 +2340,7 @@ int VBOX_VM::launch_vboxvm() {
         vm_pid = pid;
         retval = BOINC_SUCCESS;
     }
+#endif
 
     string cmd_line = cmdline;
     vbm_trace(cmd_line, output, retval);
@@ -2149,7 +2465,6 @@ int VBOX_VM::vbm_popen(string& command, string& output, const char* item, bool l
 //
 int VBOX_VM::vbm_popen_raw(string& command, string& output, unsigned int timeout) {
     char buf[256];
-    FILE* fp;
     size_t errcode_start;
     size_t errcode_end;
     string errcode;
@@ -2160,6 +2475,141 @@ int VBOX_VM::vbm_popen_raw(string& command, string& output, unsigned int timeout
 
     // Reset output buffer
     output.clear();
+
+#ifdef _WIN32
+
+    STARTUPINFO si;
+    PROCESS_INFORMATION pi;
+    SECURITY_ATTRIBUTES sa;
+    SECURITY_DESCRIPTOR sd;
+    HANDLE hReadPipe = NULL, hWritePipe = NULL;
+    void* pBuf = NULL;
+    DWORD dwCount = 0;
+    unsigned long ulExitCode = 0;
+    unsigned long ulExitTimeout = 0;
+
+    memset(&si, 0, sizeof(si));
+    memset(&pi, 0, sizeof(pi));
+    memset(&sa, 0, sizeof(sa));
+    memset(&sd, 0, sizeof(sd));
+
+    InitializeSecurityDescriptor(&sd, SECURITY_DESCRIPTOR_REVISION);
+    SetSecurityDescriptorDacl(&sd, true, NULL, false);
+
+    sa.nLength = sizeof(SECURITY_ATTRIBUTES);
+    sa.bInheritHandle = TRUE;
+    sa.lpSecurityDescriptor = &sd;
+
+    if (!CreatePipe(&hReadPipe, &hWritePipe, &sa, NULL)) {
+        fprintf(
+            stderr,
+            "%s CreatePipe failed! (%d).\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf)),
+            GetLastError()
+        );
+        goto CLEANUP;
+    }
+    SetHandleInformation(hReadPipe, HANDLE_FLAG_INHERIT, 0);
+
+    si.cb = sizeof(STARTUPINFO);
+    si.dwFlags |= STARTF_FORCEOFFFEEDBACK | STARTF_USESHOWWINDOW | STARTF_USESTDHANDLES;
+    si.wShowWindow = SW_HIDE;
+    si.hStdOutput = hWritePipe;
+    si.hStdError = hWritePipe;
+    si.hStdInput = NULL;
+
+    // Execute command
+    if (!CreateProcess(
+        NULL, 
+        (LPTSTR)command.c_str(),
+        NULL,
+        NULL,
+        TRUE,
+        CREATE_NO_WINDOW,
+        NULL,
+        NULL,
+        &si,
+        &pi
+    )) {
+        fprintf(
+            stderr,
+            "%s CreateProcess failed! (%d).\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf)),
+            GetLastError()
+        );
+        goto CLEANUP;
+    }
+
+    // Wait until process has completed
+    while(1) {
+        if (timeout == 0) {
+            WaitForSingleObject(pi.hProcess, INFINITE);
+        }
+
+        GetExitCodeProcess(pi.hProcess, &ulExitCode);
+
+        // Copy stdout/stderr to output buffer, handle in the loop so that we can
+        // copy the pipe as it is populated and prevent the child process from blocking
+        // in case the output is bigger than pipe buffer.
+        PeekNamedPipe(hReadPipe, NULL, NULL, NULL, &dwCount, NULL);
+        if (dwCount) {
+            pBuf = malloc(dwCount+1);
+            memset(pBuf, 0, dwCount+1);
+
+            if (ReadFile(hReadPipe, pBuf, dwCount, &dwCount, NULL)) {
+                output += (char*)pBuf;
+            }
+
+            free(pBuf);
+        }
+
+        if (ulExitCode != STILL_ACTIVE) break;
+
+        // Timeout?
+        if (ulExitTimeout >= (timeout * 1000)) {
+            if (!TerminateProcess(pi.hProcess, EXIT_FAILURE)) {
+                fprintf(
+                    stderr,
+                    "%s TerminateProcess failed! (%d).\n",
+                    vboxwrapper_msg_prefix(buf, sizeof(buf)),
+                    GetLastError()
+                );
+            }
+            ulExitCode = 0;
+            retval = ERR_TIMEOUT;
+            Sleep(1000);
+        }
+
+        Sleep(250);
+        ulExitTimeout += 250;
+    }
+
+CLEANUP:
+    if (pi.hThread) CloseHandle(pi.hThread);
+    if (pi.hProcess) CloseHandle(pi.hProcess);
+    if (hReadPipe) CloseHandle(hReadPipe);
+    if (hWritePipe) CloseHandle(hWritePipe);
+
+    if ((ulExitCode != 0) || (!pi.hProcess)) {
+
+        // Determine the real error code by parsing the output
+        errcode_start = output.find("(0x");
+        if (errcode_start != string::npos) {
+            errcode_start += 1;
+            errcode_end = output.find(")", errcode_start);
+            errcode = output.substr(errcode_start, errcode_end - errcode_start);
+
+            sscanf(errcode.c_str(), "%x", &retval);
+        }
+
+        // If something couldn't be found, just return ERR_FOPEN
+        if (!retval) retval = ERR_FOPEN;
+
+    }
+
+#else
+
+    FILE* fp;
 
     // redirect stderr to stdout for the child process so we can trap it with popen.
     string modified_command = command + " 2>&1";
@@ -2194,6 +2644,8 @@ int VBOX_VM::vbm_popen_raw(string& command, string& output, unsigned int timeout
         }
     }
 
+#endif
+
     // Is this a RPC_S_SERVER_UNAVAILABLE returned by vboxmanage?
     if (output.find("RPC_S_SERVER_UNAVAILABLE") != string::npos) {
         retval = RPC_S_SERVER_UNAVAILABLE;
@@ -2227,4 +2679,3 @@ void VBOX_VM::vbm_trace(std::string& command, std::string& output, int retval) {
         fclose(f);
     }
 }
-

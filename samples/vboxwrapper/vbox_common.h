@@ -18,8 +18,8 @@
 
 // Provide cross-platform interfaces for making changes to VirtualBox
 
-#ifndef _VBOX_H_
-#define _VBOX_H_
+#ifndef _VBOX_COMMON_H_
+#define _VBOX_COMMON_H_
 
 // Vboxwrapper errors
 //
@@ -29,10 +29,6 @@
 //
 #define REPLAYLOG_FILENAME "vbox_replay.txt"
 #define TRACELOG_FILENAME "vbox_trace.txt"
-
-
-// raw floppy drive device
-class FloppyIO;
 
 // represents a VirtualBox Guest Log Timestamp
 struct VBOX_TIMESTAMP {
@@ -81,7 +77,7 @@ public:
     std::string virtualbox_guest_additions;
     std::string virtualbox_version;
 
-    FloppyIO* pFloppy;
+    FloppyIONS::FloppyIO* pFloppy;
 
     std::string vm_log;
         // last polled copy of the log file
@@ -185,6 +181,20 @@ public:
 
     /////////// END VBOX_JOB.XML ITEMS //////////////
 
+    int vm_pid;
+    int vboxsvc_pid;
+#ifdef _WIN32
+    // the handle to the process for the VM
+    // NOTE: we get a handle to the pid right after we parse it from the
+    //   log files so we can adjust the process priority and retrieve the process
+    //   exit code in case it crashed or was terminated.  Without an outstanding
+    //   handle to the process, the OS is free to reuse the pid for some other
+    //   executable.
+    HANDLE vm_pid_handle;
+
+    // the handle to the vboxsvc process created by us in the sandbox'ed environment
+    HANDLE vboxsvc_pid_handle;
+#endif
 
     virtual int initialize();
     virtual int create_vm();
@@ -246,8 +256,6 @@ public:
     virtual void reset_vm_process_priority();
 
     virtual void sanitize_output(std::string& output);
-
-
 };
 
 #endif

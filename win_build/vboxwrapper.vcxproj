@@ -291,16 +291,22 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\samples\vboxwrapper\floppyio.cpp" />
-    <ClCompile Include="..\samples\vboxwrapper\vbox.cpp" />
     <ClCompile Include="..\samples\vboxwrapper\vboxwrapper.cpp" />
-    <ClCompile Include="..\samples\vboxwrapper\vbox_win.cpp" />
+    <ClCompile Include="..\samples\vboxwrapper\vbox_common.cpp" />
+    <ClCompile Include="..\samples\vboxwrapper\vbox_mscom42.cpp" />
+    <ClCompile Include="..\samples\vboxwrapper\vbox_mscom43.cpp" />
+    <ClCompile Include="..\samples\vboxwrapper\vbox_mscom_impl.cpp" />
+    <ClCompile Include="..\samples\vboxwrapper\vbox_vboxmanage.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\samples\vboxwrapper\floppyio.h" />
-    <ClInclude Include="..\samples\vboxwrapper\vbox.h" />
     <ClInclude Include="..\samples\vboxwrapper\vboxwrapper.h" />
     <ClInclude Include="..\samples\vboxwrapper\vboxwrapper_win.h" />
-    <ClInclude Include="..\samples\vboxwrapper\vbox_win.h" />
+    <ClInclude Include="..\samples\vboxwrapper\vbox_common.h" />
+    <ClInclude Include="..\samples\vboxwrapper\vbox_mscom42.h" />
+    <ClInclude Include="..\samples\vboxwrapper\vbox_mscom43.h" />
+    <ClInclude Include="..\samples\vboxwrapper\vbox_mscom_impl.h" />
+    <ClInclude Include="..\samples\vboxwrapper\vbox_vboxmanage.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="libboincapi_staticcrt.vcxproj">

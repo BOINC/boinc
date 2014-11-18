@@ -15,17 +15,10 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+#ifdef _VIRTUALBOX_IMPORT_FUNCTIONS_
+
 #include "boinc_win.h"
-
-#if defined(_MSC_VER) || defined(__MINGW32__)
-#define stricmp     _stricmp
-#endif
-
 #include "win_util.h"
-#include "atlcomcli.h"
-#include "atlsafe.h"
-#include "atlcoll.h"
-#include "atlstr.h"
 #include "diagnostics.h"
 #include "filesys.h"
 #include "parse.h"
@@ -37,11 +30,11 @@
 #include "network.h"
 #include "boinc_api.h"
 #include "floppyio.h"
-#include "mscom/VirtualBox_i.c"
 #include "vboxwrapper.h"
-#include "vbox.h"
-#include "vbox_win.h"
 
+#if defined(_MSC_VER) || defined(__MINGW32__)
+#define stricmp     _stricmp
+#endif
 
 using std::string;
 
@@ -142,29 +135,12 @@ const char *MachineStateToName(MachineState State)
 } 
 
 
-VBOX_VM::VBOX_VM()
-{
+VBOX_VM::VBOX_VM() {
     VBOX_BASE::VBOX_BASE();
-
-    vm_pid = 0;
-    vm_pid_handle = 0;
-    vboxsvc_pid = 0;
-    vboxsvc_pid_handle = 0;
 }
 
-
-VBOX_VM::~VBOX_VM()
-{
+VBOX_VM::~VBOX_VM() {
     VBOX_BASE::~VBOX_BASE();
-
-    if (vm_pid_handle) {
-        CloseHandle(vm_pid_handle);
-        vm_pid_handle = NULL;
-    }
-    if (vboxsvc_pid_handle) {
-        CloseHandle(vboxsvc_pid_handle);
-        vboxsvc_pid_handle = NULL;
-    }
 }
 
 
@@ -278,6 +254,7 @@ int VBOX_VM::create_vm() {
     CComPtr<IBIOSSettings> pBIOSSettings;
     CComPtr<INetworkAdapter> pNetworkAdapter;
     CComPtr<INATEngine> pNATEngine;
+    CComPtr<IUSBController> pUSBContoller;
     CComPtr<ISerialPort> pSerialPort1;
     CComPtr<ISerialPort> pSerialPort2;
     CComPtr<IParallelPort> pParallelPort1;
@@ -721,10 +698,18 @@ int VBOX_VM::create_vm() {
         "%s Disabling USB Support for VM.\n",
         vboxwrapper_msg_prefix(buf, sizeof(buf))
     );
+#ifdef _VIRTUALBOX43_
     rc = pMachine->GetUSBControllerCountByType(USBControllerType_OHCI, &lOHCICtrls);
     if (SUCCEEDED(rc) && lOHCICtrls) {
         pMachine->RemoveUSBController(CComBSTR("OHCI"));
     }
+#endif
+#ifdef _VIRTUALBOX42_
+    rc = pMachine->get_USBController(&pUSBContoller);
+    if (SUCCEEDED(rc)) {
+        pUSBContoller->put_Enabled(FALSE);
+    }
+#endif
 
     // Tweak the VM's COM Port Support
     //
@@ -1218,7 +1203,7 @@ int VBOX_VM::create_vm() {
         //
         // NOTE: This creates the floppy.img file at runtime for use by the VM.
         //
-        pFloppy = new FloppyIO(floppy_image_filename.c_str());
+        pFloppy = new FloppyIONS::FloppyIO(floppy_image_filename.c_str());
         if (!pFloppy->ready()) {
             vboxwrapper_msg_prefix(buf, sizeof(buf));
             fprintf(
@@ -1656,6 +1641,7 @@ int VBOX_VM::deregister_vm(bool delete_media) {
                 pMedium->Close();
             }
 
+#ifdef _VIRTUALBOX43_
             pMachineRO->DeleteConfig(pEmptyHardDisks, &pProgress);
             if (SUCCEEDED(rc)) {
                 pProgress->WaitForCompletion(-1);
@@ -1668,6 +1654,21 @@ int VBOX_VM::deregister_vm(bool delete_media) {
                 );
                 virtualbox_dump_error();
             }
+#endif
+#ifdef _VIRTUALBOX42_
+            pMachineRO->Delete(pEmptyHardDisks, &pProgress);
+            if (SUCCEEDED(rc)) {
+                pProgress->WaitForCompletion(-1);
+            } else {
+                fprintf(
+                    stderr,
+                    "%s Error deleting configuration files for virtual machine instance! rc = 0x%x\n",
+                    vboxwrapper_msg_prefix(buf, sizeof(buf)),
+                    rc
+                );
+                virtualbox_dump_error();
+            }
+#endif
         } else {
             fprintf(
                 stderr,
@@ -3365,3 +3366,5 @@ CLEANUP:
 
     return retval;
 }
+
+#endif

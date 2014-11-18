@@ -15,11 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-
-#ifndef _VBOX_WIN_H_
-#define _VBOX_WIN_H_
-
-#include "mscom/VirtualBox.h"
+#include "vbox_common.h"
 
 class VBOX_VM : public VBOX_BASE {
 public:
@@ -29,12 +25,6 @@ public:
     CComPtr<IVirtualBox> m_pVirtualBox;
     CComPtr<ISession> m_pSession;
     CComPtr<IMachine> m_pMachine;
-
-    // the pid/handle to the process for the VM/VboxSvc
-    int vm_pid;
-    HANDLE vm_pid_handle;
-    int vboxsvc_pid;
-    HANDLE vboxsvc_pid_handle;
 
     int initialize();
     int create_vm();
@@ -79,5 +69,3 @@ public:
     int launch_vboxvm();
 
 };
-
-#endif

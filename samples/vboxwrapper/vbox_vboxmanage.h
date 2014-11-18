@@ -18,8 +18,8 @@
 
 // Provide cross-platform interfaces for making changes to VirtualBox
 
-#ifndef _VBOX_UNIX_H_
-#define _VBOX_UNIX_H_
+#ifndef _VBOX_VBOXMANAGE_H_
+#define _VBOX_VBOXMANAGE_H_
 
 // Known VirtualBox/COM error codes
 //
@@ -41,6 +41,10 @@ public:
     // the pid to the process for the VM/VboxSvc
     int vm_pid;
     int vboxsvc_pid;
+#ifdef _WIN32
+    HANDLE vm_pid_handle;
+    HANDLE vboxsvc_pid_handle;
+#endif
 
     int initialize();
     int create_vm();
@@ -80,6 +84,9 @@ public:
 
     void lower_vm_process_priority();
     void reset_vm_process_priority();
+
+    int launch_vboxsvc();
+    int launch_vboxvm();
 
     int vbm_popen(
         std::string& command, std::string& output, const char* item, bool log_error = true, bool retry_failures = true, unsigned int timeout = 45, bool log_trace = true
