@@ -47,7 +47,6 @@ void virtualbox_dump_error() {
     HRESULT rc;
     char buf[256];
     IErrorInfo* pErrorInfo = NULL;
-    BSTR strSource;
     BSTR strDescription;
 
     rc = GetErrorInfo(0, &pErrorInfo);
@@ -59,16 +58,6 @@ void virtualbox_dump_error() {
             rc
         );
     } else {
-        rc = pErrorInfo->GetSource(&strSource);
-        if (SUCCEEDED(rc) && strSource) {
-            fprintf(
-                stderr,
-                "%s Error source: %S\n",
-                vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                strSource
-            );
-            SysFreeString(strSource);
-        }
         rc = pErrorInfo->GetDescription(&strDescription);
         if (SUCCEEDED(rc) && strDescription) {
             fprintf(
