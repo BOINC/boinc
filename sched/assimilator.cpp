@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2014 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -15,11 +15,9 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// This is a framework for an assimilator.
-// You need to link this with an (application-specific) function
-// assimilate_handler()
-// in order to make a complete program.
-//
+// Main program for an assimilator.
+// Link this with an application-specific function assimilate_handler()
+// See http://boinc.berkeley.edu/trac/wiki/AssimilateIntro
 
 #include "config.h"
 #include <cstring>
@@ -258,8 +256,8 @@ int main(int argc, char** argv) {
         } else if (is_arg(argv[i], "transcripts_prefix")) {
             transcripts_prefix=argv[++i];
         } else {
-            log_messages.printf(MSG_CRITICAL, "Unrecognized arg: %s\n", argv[i]);
-            usage(argv);
+            // project-specific part might parse extra args
+            //log_messages.printf(MSG_CRITICAL, "Unrecognized arg: %s\n", argv[i]);
         }
     }
 

@@ -3877,7 +3877,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEPLOYMENT_POSTPROCESSING = YES;
-				HEADER_SEARCH_PATHS = "../../curl-7.35.0/include";
+				HEADER_SEARCH_PATHS = "../../curl-7.39.0/include";
 				INFOPLIST_PREPROCESSOR_DEFINITIONS = "";
 				LIBRARY_SEARCH_PATHS = "";
 				"OTHER_CFLAGS[arch=x86_64]" = (
@@ -3889,16 +3889,16 @@
 				);
 				OTHER_LDFLAGS = (
 					"-L.",
-					"../../curl-7.35.0/lib/.libs/libcurl.a",
+					"../../curl-7.39.0/lib/.libs/libcurl.a",
 					"../../c-ares-1.10.0/.libs/libcares.a",
-					"../../openssl-1.0.1h/libcrypto.a",
-					"../../openssl-1.0.1h/libssl.a",
+					"../../openssl-1.0.1j/libcrypto.a",
+					"../../openssl-1.0.1j/libssl.a",
 					"-lldap",
 					"-lz",
 				);
 				PRODUCT_NAME = boinc;
 				STRIP_INSTALLED_PRODUCT = NO;
-				USER_HEADER_SEARCH_PATHS = "../../curl-7.35.0/include";
+				USER_HEADER_SEARCH_PATHS = "../../curl-7.39.0/include";
 			};
 			name = Deployment;
 		};
@@ -4047,7 +4047,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEPLOYMENT_POSTPROCESSING = YES;
-				HEADER_SEARCH_PATHS = "../../curl-7.35.0/include";
+				HEADER_SEARCH_PATHS = "../../curl-7.39.0/include";
 				INFOPLIST_PREPROCESSOR_DEFINITIONS = "";
 				LIBRARY_SEARCH_PATHS = "";
 				OTHER_CFLAGS = (
@@ -4058,16 +4058,16 @@
 				);
 				OTHER_LDFLAGS = (
 					"-L.",
-					"../../curl-7.35.0/lib/.libs/libcurl.a",
+					"../../curl-7.39.0/lib/.libs/libcurl.a",
 					"../../c-ares-1.10.0/.libs/libcares.a",
-					"../../openssl-1.0.1h/libcrypto.a",
-					"../../openssl-1.0.1h/libssl.a",
+					"../../openssl-1.0.1j/libcrypto.a",
+					"../../openssl-1.0.1j/libssl.a",
 					"-lldap",
 					"-lz",
 				);
 				PRODUCT_NAME = boinc;
 				STRIP_INSTALLED_PRODUCT = NO;
-				USER_HEADER_SEARCH_PATHS = "../../curl-7.35.0/include";
+				USER_HEADER_SEARCH_PATHS = "../../curl-7.39.0/include";
 			};
 			name = Development;
 		};

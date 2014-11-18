@@ -413,7 +413,10 @@ int run_program(
     );
     if (!retval) {
         windows_format_error_string(GetLastError(), error_msg, sizeof(error_msg));
-        fprintf(stderr, "CreateProcess failed: '%s'\n", error_msg);
+        fprintf(stderr,
+            "%s: CreateProcess failed: '%s'\n",
+            time_to_string(dtime()), error_msg
+        );
         return -1; // CreateProcess returns 1 if successful, false if it failed.
     }
 

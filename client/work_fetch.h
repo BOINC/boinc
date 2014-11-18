@@ -48,7 +48,6 @@
 #define DONT_FETCH_CONFIG                           3
 #define DONT_FETCH_NO_APPS                          4
 #define DONT_FETCH_AMS                              5
-#define DONT_FETCH_BACKOFF                          6
 #define DONT_FETCH_ZERO_SHARE                       7
 #define DONT_FETCH_BUFFER_FULL                      8
 #define DONT_FETCH_NOT_HIGHEST_PRIO                 9
@@ -127,7 +126,7 @@ struct RSC_PROJECT_WORK_FETCH {
     int rsc_project_reason;
     int compute_rsc_project_reason(PROJECT*, int rsc_type);
     void resource_backoff(PROJECT*, const char*);
-    void rr_init(PROJECT*, int rsc_type);
+    void rr_init();
     void clear_backoff() {
         backoff_time = 0;
         backoff_interval = 0;
