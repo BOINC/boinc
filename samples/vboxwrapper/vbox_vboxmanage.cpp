@@ -359,7 +359,7 @@ int VBOX_VM::create_vm() {
 
     fprintf(
         stderr,
-        "%s Create VM. (%s, slot#%d) \n",
+        "%s Create VM. (%s, slot#%d)\n",
         vboxwrapper_msg_prefix(buf, sizeof(buf)),
         vm_name.c_str(),
         aid.slot
@@ -1159,8 +1159,10 @@ int VBOX_VM::start() {
 
     fprintf(
         stderr,
-        "%s Starting VM.\n",
+        "%s Starting VM. (%s, slot#%d)\n",
         vboxwrapper_msg_prefix(buf, sizeof(buf))
+        vm_name.c_str(),
+        aid.slot
     );
 
     string command;
