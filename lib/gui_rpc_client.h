@@ -578,6 +578,7 @@ struct ACCOUNT_IN {
     std::string user_name;
     std::string passwd;
     std::string team_name;
+    bool ldap_auth;
 
     ACCOUNT_IN();
     ~ACCOUNT_IN();

@@ -2305,23 +2305,25 @@ int RPC_CLIENT::lookup_account(ACCOUNT_IN& ai) {
     RPC rpc(this);
     string passwd_hash;
 
-    if (strchr(ai.email_addr.c_str(), '@')) {
-        downcase_string(ai.email_addr);
-        passwd_hash = get_passwd_hash(ai.passwd, ai.email_addr);
-    } else {
+    if (ai.uses_ldap && !strchr(ai.email_addr.c_str(), '@')) {
         // LDAP case
         //
         passwd_hash = ai.passwd;
+    } else {
+        downcase_string(ai.email_addr);
+        passwd_hash = get_passwd_hash(ai.passwd, ai.email_addr);
     }
     snprintf(buf, sizeof(buf),
         "<lookup_account>\n"
         "   <url>%s</url>\n"
         "   <email_addr>%s</email_addr>\n"
         "   <passwd_hash>%s</passwd_hash>\n"
+        "   <uses_ldap>%d</uses_ldap>\n"
         "</lookup_account>\n",
         ai.url.c_str(),
         ai.email_addr.c_str(),
-        passwd_hash.c_str()
+        passwd_hash.c_str(),
+        ai.uses_ldap?1:0
     );
     buf[sizeof(buf)-1] = 0;
 
