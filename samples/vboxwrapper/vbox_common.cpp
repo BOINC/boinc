@@ -420,6 +420,11 @@ bool VBOX_BASE::is_logged_failure_vm_extensions_not_supported() {
     return false;
 }
 
+bool VBOX_BASE::is_logged_failure_vm_powerup() {
+    if (vm_log.find("Power up failed (vrc=VINF_SUCCESS, rc=E_FAIL (0X80004005))") != string::npos) return true;
+    return false;
+}
+
 bool VBOX_BASE::is_logged_failure_host_out_of_memory() {
     if (vm_log.find("VERR_EM_NO_MEMORY") != string::npos) return true;
     if (vm_log.find("VERR_NO_MEMORY") != string::npos) return true;

@@ -278,6 +278,7 @@ public:
     virtual bool is_logged_failure_vm_extensions_disabled();
     virtual bool is_logged_failure_vm_extensions_in_use();
     virtual bool is_logged_failure_vm_extensions_not_supported();
+    virtual bool is_logged_failure_vm_powerup();
     virtual bool is_logged_failure_host_out_of_memory();
     virtual bool is_logged_failure_guest_job_out_of_memory();
     virtual bool is_virtualbox_version_newer(int maj, int min, int rel);

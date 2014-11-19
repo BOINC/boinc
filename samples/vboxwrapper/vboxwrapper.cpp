@@ -1165,7 +1165,7 @@ int main(int argc, char** argv) {
     pVM->poll(true);
 
     // Did we timeout?
-    if (timeout <= dtime()) {
+    if (!pVM->online && (timeout <= dtime())) {
         vboxwrapper_msg_prefix(buf, sizeof(buf));
         fprintf(
             stderr,
