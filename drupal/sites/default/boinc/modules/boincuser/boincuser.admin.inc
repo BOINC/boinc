@@ -32,6 +32,7 @@ function boincuser_admin_settings() {
   * existing BOINC web interface.
   */
 function boincuser_admin_environment(&$form_state) {
+  global $base_url;
   $form = array();
   $default = array(
     'boinc_root_dir' => variable_get('boinc_root_dir', ''),
@@ -40,6 +41,7 @@ function boincuser_admin_environment(&$form_state) {
     'boinc_project_config_dir' => variable_get('boinc_project_config_dir', ''),
     'boinc_user_image_dir' => variable_get('boinc_user_image_dir', ''),
     'boinc_host_sched_logs_dir' => variable_get('boinc_host_sched_logs_dir', ''),
+    'boinc_server_status_url' => variable_get('boinc_server_status_url', 'server_status.php'),
   );
   //drupal_set_message(print_r($default, true));
   //drupal_set_message(print_r($form_state, true));
@@ -102,11 +104,22 @@ function boincuser_admin_environment(&$form_state) {
     '#description' => t('The filesystem directory that contains user images'),
     '#disabled' => is_dir($default['boinc_user_image_dir'])
   );
-  $form['overrides']['boinc_host_sched_logs_dir'] = array(
+  $form['boinc_host_sched_logs_dir'] = array(
     '#type' => 'textfield',
     '#title' => t('BOINC host scheduler log directory (optional)'),
     '#default_value' => $default['boinc_host_sched_logs_dir'],
     '#description' => t('The filesystem directory that contains host scheduler logs'),
+  );
+  $form['boinc_server_status_url'] = array(
+    '#type' => 'textfield',
+    '#title' => t('BOINC server status URL (optional)'),
+    '#default_value' => $default['boinc_server_status_url'],
+    '#description' => t('An absolute URL or path relative to the site base to the server status page (e.g. %full_url or just %relative_url).',
+      array(
+        '%full_url' => $base_url . '/server_status.php',
+        '%relative_url' => 'server_status.php',
+      )
+    ),
   );
   return system_settings_form($form);
 }

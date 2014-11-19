@@ -110,6 +110,8 @@ function boinc_preprocess(&$vars, $hook) {
 ///* -- Delete this line if you want to use this function
 function boinc_preprocess_page(&$vars, $hook) {
     
+    $vars['server_status_url'] = variable_get('boinc_server_status_url', 'server_status.php');
+    
     // Remove title from search page
     if (arg(0) == 'search') {
       unset($vars['title']);

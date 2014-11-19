@@ -329,7 +329,9 @@
           
           <ul id="server-status" class="tab-list">
             
-            <li class="first tab"><a href="/server_status.html"><?php print t('Server status'); ?></a></li>
+            <li class="first tab">
+              <?php print l(t('Server status'), $server_status_url); ?>
+            </li>
             <!--<li class="first tab">Server status</li>
             <li class="tab">
               <ul id="server-status-highlights">
