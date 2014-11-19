@@ -2689,8 +2689,8 @@ bool VBOX_VM::is_extpack_installed() {
 
 bool VBOX_VM::is_virtualbox_installed() {
     HRESULT rc;
-    IVirtualBoxPtr pVirtualBox;
-    rc = pVirtualBox.CreateInstance(CLSID_VirtualBox);
+    CComPtr<IVirtualBox> pVirtualBox;
+    rc = pVirtualBox.CoCreateInstance(CLSID_VirtualBox);
     if (SUCCEEDED(rc)) {
         return true;
     }
