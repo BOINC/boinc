@@ -1346,6 +1346,7 @@ int PROJECT_CONFIG::parse(XML_PARSER& xp) {
             platforms.push_back(msg);
             continue;
         }
+        if (xp.parse_bool("ldap_auth", ldap_auth)) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -1366,6 +1367,7 @@ void PROJECT_CONFIG::clear() {
     sched_stopped = false;
     web_stopped = false;
     min_client_version = 0;
+    ldap_auth = false;
 }
 
 ACCOUNT_IN::ACCOUNT_IN() {
