@@ -412,6 +412,7 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSE
                     ai->user_name = (const char*)::wxGetUserId().mb_str();
                 }
                 //ai->team_name = (const char*)pWA->GetTeamName().mb_str();
+                ai->ldap_auth = pWA->project_config.ldap_auth;
 
                 if (pWA->m_AccountInfoPage->m_pAccountCreateCtrl->GetValue()) {
 					creating_account = true;
