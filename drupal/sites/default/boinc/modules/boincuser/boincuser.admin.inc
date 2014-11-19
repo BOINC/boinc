@@ -41,7 +41,7 @@ function boincuser_admin_environment(&$form_state) {
     'boinc_project_config_dir' => variable_get('boinc_project_config_dir', ''),
     'boinc_user_image_dir' => variable_get('boinc_user_image_dir', ''),
     'boinc_host_sched_logs_dir' => variable_get('boinc_host_sched_logs_dir', ''),
-    'boinc_server_status_url' => variable_get('boinc_server_status_url', 'server_status.php'),
+    'boinc_server_status_url' => variable_get('boinc_server_status_url', ''),
   );
   //drupal_set_message(print_r($default, true));
   //drupal_set_message(print_r($form_state, true));
