@@ -17,40 +17,6 @@
 
 #ifdef _VIRTUALBOX_IMPORT_FUNCTIONS_
 
-// Helper function to print MSCOM exception information set on the current
-// thread after a failed MSCOM method call. This function will also print
-// extended VirtualBox error info if it is available.
-//
-void virtualbox_dump_error() {
-    HRESULT rc;
-    char buf[256];
-    IErrorInfo* pErrorInfo = NULL;
-    BSTR strDescription;
-
-    rc = GetErrorInfo(0, &pErrorInfo);
-    if (FAILED(rc)) {
-        fprintf(
-            stderr,
-            "%s Error: getting error info! rc = 0x%x\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf)),
-            rc
-        );
-    } else {
-        rc = pErrorInfo->GetDescription(&strDescription);
-        if (SUCCEEDED(rc) && strDescription) {
-            fprintf(
-                stderr,
-                "%s Error description: %S\n",
-                vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                strDescription
-            );
-            SysFreeString(strDescription);
-        }
-        pErrorInfo->Release();
-    }
-}
-
-
 const char *MachineStateToName(MachineState State) 
 { 
     switch (State) 
@@ -100,6 +66,104 @@ const char *MachineStateToName(MachineState State)
     } 
     return "unknown"; 
 } 
+
+
+// Helper function to print MSCOM exception information set on the current
+// thread after a failed MSCOM method call. This function will also print
+// extended VirtualBox error info if it is available.
+//
+void virtualbox_dump_error() {
+    HRESULT rc;
+    char buf[256];
+    IErrorInfo* pErrorInfo = NULL;
+    BSTR strDescription;
+
+    rc = GetErrorInfo(0, &pErrorInfo);
+    if (FAILED(rc)) {
+        fprintf(
+            stderr,
+            "%s Error: getting error info! rc = 0x%x\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf)),
+            rc
+        );
+    } else {
+        rc = pErrorInfo->GetDescription(&strDescription);
+        if (SUCCEEDED(rc) && strDescription) {
+            fprintf(
+                stderr,
+                "%s Error description: %S\n",
+                vboxwrapper_msg_prefix(buf, sizeof(buf)),
+                strDescription
+            );
+            SysFreeString(strDescription);
+        }
+        pErrorInfo->Release();
+    }
+}
+
+
+// We want to recurisively walk the snapshot tree so that we can get the most recent children first.
+// We also want to skip whatever the most current snapshot is.
+//
+void TraverseSnapshots(std::string& current_snapshot_id, std::vector<std::string>& snapshots, ISnapshot* pSnapshot) {
+    HRESULT rc;
+    SAFEARRAY* pSnapshots = NULL;
+    CComSafeArray<LPDISPATCH> aSnapshots;
+    CComBSTR tmp;
+    ULONG lCount;
+    std::string snapshot_id;
+
+    // Check to see if we have any children
+    //
+    rc = pSnapshot->GetChildrenCount(&lCount);
+    if (SUCCEEDED(rc) && lCount) {
+        rc = pSnapshot->get_Children(&pSnapshots);
+        if (SUCCEEDED(rc)) {
+            aSnapshots.Attach(pSnapshots);
+            if (aSnapshots.GetCount() > 0) {
+                for (int i = 0; i < (int)aSnapshots.GetCount(); i++) {
+                    TraverseSnapshots(current_snapshot_id, snapshots, (ISnapshot*)(LPDISPATCH)aSnapshots[i]);
+                }
+            }
+        }
+    }
+
+    // Check to see if we are the most recent snapshot.
+    // if not, add the snapshot id to the list of snapshots to be deleted.
+    //
+    pSnapshot->get_Id(&tmp);
+    if (SUCCEEDED(rc)) {
+        snapshot_id = CW2A(tmp);
+        if (current_snapshot_id == snapshot_id) {
+            return;
+        } else {
+            snapshots.push_back(snapshot_id);
+        }
+    }
+}
+
+
+// We want to recurisively walk the medium tree so that we can get the most recent children first.
+//
+void TraverseMediums(std::vector<CComPtr<IMedium>>& mediums, IMedium* pMedium) {
+    HRESULT rc;
+    SAFEARRAY* pMediums = NULL;
+    CComSafeArray<LPDISPATCH> aMediums;
+
+    // Check to see if we have any children
+    //
+    rc = pMedium->get_Children(&pMediums);
+    if (SUCCEEDED(rc)) {
+        aMediums.Attach(pMediums);
+        if (aMediums.GetCount() > 0) {
+            for (int i = 0; i < (int)aMediums.GetCount(); i++) {
+                TraverseMediums(mediums, (IMedium*)(LPDISPATCH)aMediums[i]);
+            }
+        }
+    }
+
+    mediums.push_back(CComPtr<IMedium>(pMedium));
+}
 
 
 VBOX_VM::VBOX_VM() {
@@ -1450,6 +1514,8 @@ int VBOX_VM::deregister_vm(bool delete_media) {
     LONG lDevice;
     LONG lPort;
     string virtual_machine_slot_directory;
+    std::vector<CComPtr<IMedium>> mediums;
+
 
     get_slot_directory(virtual_machine_slot_directory);
 
@@ -1603,11 +1669,16 @@ int VBOX_VM::deregister_vm(bool delete_media) {
         if (SUCCEEDED(rc)) {
 
             // We only want to close(remove from media registry) the hard disks
-            // instead of deleting them
+            // instead of deleting them, order them by most recent image first
+            // and then walk back to the root.
             //
             aHardDisks.Attach(pHardDisks);
             for (int i = 0; i < (int)aHardDisks.GetCount(); i++) {
                 CComPtr<IMedium> pMedium((IMedium*)(LPDISPATCH)aHardDisks[i]);
+                TraverseMediums(mediums, pMedium);
+            }
+            for (int i = 0; i < (int)mediums.size(); i++) {
+                CComPtr<IMedium> pMedium(mediums[i]);
                 pMedium->Close();
             }
 
@@ -1639,6 +1710,7 @@ int VBOX_VM::deregister_vm(bool delete_media) {
                 virtualbox_dump_error();
             }
 #endif
+
         } else {
             fprintf(
                 stderr,
@@ -2353,46 +2425,6 @@ int VBOX_VM::create_snapshot(double elapsed_time) {
 
 CLEANUP:
     return retval;
-}
-
-// We want to recurisively walk the snapshot tree so that we can delete the most recent children first.
-// We also want to skip whatever the most current snapshot is.
-//
-void TraverseSnapshots(std::string& current_snapshot_id, std::vector<std::string>& snapshots, ISnapshot* pSnapshot) {
-    HRESULT rc;
-    SAFEARRAY* pSnapshots = NULL;
-    CComSafeArray<LPDISPATCH> aSnapshots;
-    CComBSTR tmp;
-    ULONG lCount;
-    std::string snapshot_id;
-
-    // Check to see if we have any children
-    //
-    rc = pSnapshot->GetChildrenCount(&lCount);
-    if (SUCCEEDED(rc) && lCount) {
-        rc = pSnapshot->get_Children(&pSnapshots);
-        if (SUCCEEDED(rc)) {
-            aSnapshots.Attach(pSnapshots);
-            if (aSnapshots.GetCount() > 0) {
-                for (int i = 0; i < (int)aSnapshots.GetCount(); i++) {
-                    TraverseSnapshots(current_snapshot_id, snapshots, (ISnapshot*)(LPDISPATCH)aSnapshots[i]);
-                }
-            }
-        }
-    }
-
-    // Check to see if we are the most recent snapshot.
-    // if not, add the snapshot id to the list of snapshots to be deleted.
-    //
-    pSnapshot->get_Id(&tmp);
-    if (SUCCEEDED(rc)) {
-        snapshot_id = CW2A(tmp);
-        if (current_snapshot_id == snapshot_id) {
-            return;
-        } else {
-            snapshots.push_back(snapshot_id);
-        }
-    }
 }
 
 int VBOX_VM::cleanup_snapshots(bool delete_active) {
