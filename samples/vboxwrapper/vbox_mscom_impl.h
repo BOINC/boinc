@@ -22,8 +22,6 @@ public:
     VBOX_VM();
     ~VBOX_VM();
 
-    VBOX_PRIV* m_pPrivate;
-
     int initialize();
     int create_vm();
     int register_vm();
@@ -45,6 +43,7 @@ public:
     bool is_system_ready(std::string& message);
     bool is_hdd_registered();
     bool is_extpack_installed();
+    static bool is_virtualbox_installed();
 
     int get_install_directory(std::string& dir);
     int get_version_information(std::string& version);
@@ -66,4 +65,5 @@ public:
     int launch_vboxsvc();
     int launch_vboxvm();
 
+    VBOX_PRIV* m_pPrivate;
 };

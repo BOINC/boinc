@@ -60,6 +60,8 @@ using std::string;
 #include "vbox_vboxmanage.h"
 
 
+namespace vboxmanage {
+
 VBOX_VM::VBOX_VM() {
     VBOX_BASE::VBOX_BASE();
 }
@@ -1677,7 +1679,7 @@ int VBOX_VM::get_version_information(string& version) {
                 ++iter;
             }
         }
-        version = output;
+        version = string("VirtualBox VboxManage Interface (Version: ") + output + string(")");
     }
 
     return retval;
@@ -2678,4 +2680,6 @@ void VBOX_VM::vbm_trace(std::string& command, std::string& output, int retval) {
         );
         fclose(f);
     }
+}
+
 }

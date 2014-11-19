@@ -393,6 +393,10 @@ bool VBOX_BASE::is_extpack_installed() {
     return false;
 }
 
+bool VBOX_BASE::is_virtualbox_installed() {
+    return false;
+}
+
 bool VBOX_BASE::is_logged_failure_vm_extensions_disabled() {
     if (vm_log.find("VERR_VMX_MSR_LOCKED_OR_DISABLED") != string::npos) return true;
     if (vm_log.find("VERR_SVM_DISABLED") != string::npos) return true;
@@ -703,4 +707,12 @@ void VBOX_BASE::sanitize_output(std::string& output) {
         }
     }
 #endif
+}
+
+VBOX_VM::VBOX_VM() {
+    VBOX_BASE::VBOX_BASE();
+}
+
+VBOX_VM::~VBOX_VM() {
+    VBOX_BASE::~VBOX_BASE();
 }

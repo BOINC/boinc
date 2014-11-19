@@ -34,30 +34,33 @@
 #include "vboxwrapper.h"
 #include "vbox_mscom43.h"
 
-#include "mscom43/VirtualBox.h"
 
 #if defined(_MSC_VER) || defined(__MINGW32__)
 #define stricmp     _stricmp
 #endif
+
+// #include "mscom43/VirtualBox.h"
+// #include "mscom43/VirtualBox_i.c"
+
+#import "file:vbox43.tlb" rename_namespace("vbox43"), named_guids, raw_interfaces_only
 
 using std::string;
 using namespace vbox43;
 
 namespace vbox43 {
 
-#include "mscom43/VirtualBox_i.c"
-
     class VBOX_PRIV {
     public:
         VBOX_PRIV() {};
         ~VBOX_PRIV() {};
 
-        CComPtr<IVirtualBox> m_pVirtualBox;
-        CComPtr<ISession> m_pSession;
-        CComPtr<IMachine> m_pMachine;
+        IVirtualBoxPtr m_pVirtualBox;
+        ISessionPtr m_pSession;
+        IMachinePtr m_pMachine;
     };
 
 #include "vbox_mscom_impl.cpp"
 
 }
+
 

@@ -17,7 +17,6 @@
 
 #ifdef _VIRTUALBOX_IMPORT_FUNCTIONS_
 
-
 // Helper function to print MSCOM exception information set on the current
 // thread after a failed MSCOM method call. This function will also print
 // extended VirtualBox error info if it is available.
@@ -118,7 +117,6 @@ VBOX_VM::~VBOX_VM() {
     }
 }
 
-
 int VBOX_VM::initialize() {
     int rc = BOINC_SUCCESS;
     string old_path;
@@ -180,11 +178,8 @@ int VBOX_VM::initialize() {
         }
     }
 
-    // Initialize the COM subsystem.
-    CoInitialize(NULL);
-
     // Instantiate the VirtualBox root object.
-    rc = m_pPrivate->m_pVirtualBox.CoCreateInstance(CLSID_VirtualBox);
+    rc = m_pPrivate->m_pVirtualBox.CreateInstance(CLSID_VirtualBox);
     if (FAILED(rc))
     {
         fprintf(
@@ -197,7 +192,7 @@ int VBOX_VM::initialize() {
     }
 
     // Create the session object.
-    rc = m_pPrivate->m_pSession.CoCreateInstance(CLSID_Session);
+    rc = m_pPrivate->m_pSession.CreateInstance(CLSID_Session);
     if (FAILED(rc))
     {
         fprintf(
@@ -1877,7 +1872,7 @@ int VBOX_VM::start() {
     CComBSTR session_type;
     CComPtr<IMachine> pMachineRO;
     CComPtr<IProgress> pProgress;
-    BOOL bCompleted;
+    long bCompleted = 0;
     double timeout;
 
 
@@ -2677,7 +2672,7 @@ bool VBOX_VM::is_hdd_registered() {
 bool VBOX_VM::is_extpack_installed() {
     CComPtr<IExtPackManager> pExtPackManager;
     CComPtr<IExtPack> pExtPack;
-    BOOL bUsable = FALSE;
+    long bUsable = 0;
     HRESULT rc;
 
     rc = m_pPrivate->m_pVirtualBox->get_ExtensionPackManager(&pExtPackManager);
@@ -2688,6 +2683,16 @@ bool VBOX_VM::is_extpack_installed() {
                 return true;
             }
         }
+    }
+    return false;
+}
+
+bool VBOX_VM::is_virtualbox_installed() {
+    HRESULT rc;
+    IVirtualBoxPtr pVirtualBox;
+    rc = pVirtualBox.CreateInstance(CLSID_VirtualBox);
+    if (SUCCEEDED(rc)) {
+        return true;
     }
     return false;
 }
@@ -2750,7 +2755,7 @@ int VBOX_VM::get_version_information(string& version) {
 
     rc = m_pPrivate->m_pVirtualBox->get_VersionNormalized(&tmp);
     if (SUCCEEDED(rc)) {
-        version = CW2A(tmp);
+        version = string("VirtualBox COM Interface (Version: ") + string(CW2A(tmp)) + string(")");
         retval = BOINC_SUCCESS;
     }
 

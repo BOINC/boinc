@@ -21,14 +21,62 @@
 #ifndef _VBOX_COMMON_H_
 #define _VBOX_COMMON_H_
 
+// Known VirtualBox/COM error codes
+//
+#ifndef CO_E_SERVER_EXEC_FAILURE
+#define CO_E_SERVER_EXEC_FAILURE        0x80080005
+#endif
+#ifndef RPC_S_SERVER_UNAVAILABLE
+#define RPC_S_SERVER_UNAVAILABLE        0x800706BA
+#endif
+#ifndef VBOX_E_OBJECT_NOT_FOUND
+#define VBOX_E_OBJECT_NOT_FOUND         0x80BB0001
+#endif
+#ifndef VBOX_E_INVALID_VM_STATE
+#define VBOX_E_INVALID_VM_STATE         0x80BB0002
+#endif
+#ifndef VBOX_E_VM_ERROR
+#define VBOX_E_VM_ERROR                 0x80BB0003
+#endif
+#ifndef VBOX_E_FILE_ERROR
+#define VBOX_E_FILE_ERROR               0x80BB0004
+#endif
+#ifndef VBOX_E_IPRT_ERROR
+#define VBOX_E_IPRT_ERROR               0x80BB0005
+#endif
+#ifndef VBOX_E_PDM_ERROR
+#define VBOX_E_PDM_ERROR                0x80BB0006
+#endif
+#ifndef VBOX_E_INVALID_OBJECT_STATE
+#define VBOX_E_INVALID_OBJECT_STATE     0x80BB0007
+#endif
+#ifndef VBOX_E_HOST_ERROR
+#define VBOX_E_HOST_ERROR               0x80BB0008
+#endif
+#ifndef VBOX_E_NOT_SUPPORTED
+#define VBOX_E_NOT_SUPPORTED            0x80BB0009
+#endif
+#ifndef VBOX_E_XML_ERROR
+#define VBOX_E_XML_ERROR                0x80BB000A
+#endif
+#ifndef VBOX_E_INVALID_SESSION_STATE
+#define VBOX_E_INVALID_SESSION_STATE    0x80BB000B
+#endif
+#ifndef VBOX_E_OBJECT_IN_USE
+#define VBOX_E_OBJECT_IN_USE            0x80BB000B
+#endif
+
+
 // Vboxwrapper errors
 //
 #define VBOXWRAPPER_ERR_RECOVERABLE     -1000
+
 
 // Vboxwrapper diagnostics
 //
 #define REPLAYLOG_FILENAME "vbox_replay.txt"
 #define TRACELOG_FILENAME "vbox_trace.txt"
+
 
 // represents a VirtualBox Guest Log Timestamp
 struct VBOX_TIMESTAMP {
@@ -37,6 +85,7 @@ struct VBOX_TIMESTAMP {
     int seconds;
     int milliseconds;
 };
+
 
 // represents the state of a intermediate upload
 struct INTERMEDIATE_UPLOAD {
@@ -54,6 +103,7 @@ struct INTERMEDIATE_UPLOAD {
     }
 };
 
+
 struct PORT_FORWARD {
     int host_port;      // 0 means assign dynamically
     int guest_port;
@@ -66,6 +116,7 @@ struct PORT_FORWARD {
     }
     int get_host_port();    // assign host port
 };
+
 
 class VBOX_BASE {
 public:
@@ -223,6 +274,7 @@ public:
     virtual bool is_vm_machine_configuration_available();
     virtual bool is_hdd_registered();
     virtual bool is_extpack_installed();
+    static bool is_virtualbox_installed();
     virtual bool is_logged_failure_vm_extensions_disabled();
     virtual bool is_logged_failure_vm_extensions_in_use();
     virtual bool is_logged_failure_vm_extensions_not_supported();
@@ -256,6 +308,11 @@ public:
     virtual void reset_vm_process_priority();
 
     virtual void sanitize_output(std::string& output);
+};
+
+class VBOX_VM : public VBOX_BASE {
+    VBOX_VM();
+    ~VBOX_VM();
 };
 
 #endif

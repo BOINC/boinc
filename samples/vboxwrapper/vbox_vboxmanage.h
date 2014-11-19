@@ -21,85 +21,70 @@
 #ifndef _VBOX_VBOXMANAGE_H_
 #define _VBOX_VBOXMANAGE_H_
 
-// Known VirtualBox/COM error codes
-//
-#ifndef CO_E_SERVER_EXEC_FAILURE
-#define CO_E_SERVER_EXEC_FAILURE        0x80080005
-#endif
-#ifndef RPC_S_SERVER_UNAVAILABLE
-#define RPC_S_SERVER_UNAVAILABLE        0x800706ba
-#endif
-#ifndef VBOX_E_INVALID_OBJECT_STATE
-#define VBOX_E_INVALID_OBJECT_STATE     0x80bb0007
-#endif
+namespace vboxmanage {
 
-class VBOX_VM : public VBOX_BASE {
-public:
-    VBOX_VM();
-    ~VBOX_VM();
+    class VBOX_VM : public VBOX_BASE {
+    public:
+        VBOX_VM();
+        ~VBOX_VM();
 
-    // the pid to the process for the VM/VboxSvc
-    int vm_pid;
-    int vboxsvc_pid;
-#ifdef _WIN32
-    HANDLE vm_pid_handle;
-    HANDLE vboxsvc_pid_handle;
-#endif
+        int initialize();
+        int create_vm();
+        int register_vm();
+        int deregister_vm(bool delete_media);
+        int deregister_stale_vm();
+        void poll(bool log_state = true);
+        int start();
+        int stop();
+        int poweroff();
+        int pause();
+        int resume();
+        int create_snapshot(double elapsed_time);
+        int cleanup_snapshots(bool delete_active);
+        int restore_snapshot();
 
-    int initialize();
-    int create_vm();
-    int register_vm();
-    int deregister_vm(bool delete_media);
-    int deregister_stale_vm();
-    void poll(bool log_state = true);
-    int start();
-    int stop();
-    int poweroff();
-    int pause();
-    int resume();
-    int create_snapshot(double elapsed_time);
-    int cleanup_snapshots(bool delete_active);
-    int restore_snapshot();
+        void dump_hypervisor_status_reports();
 
-    void dump_hypervisor_status_reports();
+        int is_registered();
+        bool is_system_ready(std::string& message);
+        bool is_hdd_registered();
+        bool is_extpack_installed();
+        static bool is_virtualbox_installed();
 
-    int is_registered();
-    bool is_system_ready(std::string& message);
-    bool is_hdd_registered();
-    bool is_extpack_installed();
+        int get_install_directory(std::string& dir);
+        int get_version_information(std::string& version);
+        int get_guest_additions(std::string& dir);
+        int get_default_network_interface(std::string& iface);
+        int get_vm_network_bytes_sent(double& sent);
+        int get_vm_network_bytes_received(double& received);
+        int get_vm_process_id();
+        int get_vm_exit_code(unsigned long& exit_code);
+        double get_vm_cpu_time();
 
-    int get_install_directory(std::string& dir);
-    int get_version_information(std::string& version);
-    int get_guest_additions(std::string& dir);
-    int get_default_network_interface(std::string& iface);
-    int get_vm_network_bytes_sent(double& sent);
-    int get_vm_network_bytes_received(double& received);
-    int get_vm_process_id();
-    int get_vm_exit_code(unsigned long& exit_code);
-    double get_vm_cpu_time();
+        int set_network_access(bool enabled);
+        int set_cpu_usage(int percentage);
+        int set_network_usage(int kilobytes);
 
-    int set_network_access(bool enabled);
-    int set_cpu_usage(int percentage);
-    int set_network_usage(int kilobytes);
+        void lower_vm_process_priority();
+        void reset_vm_process_priority();
 
-    void lower_vm_process_priority();
-    void reset_vm_process_priority();
+        int launch_vboxsvc();
+        int launch_vboxvm();
 
-    int launch_vboxsvc();
-    int launch_vboxvm();
+        int vbm_popen(
+            std::string& command, std::string& output, const char* item, bool log_error = true, bool retry_failures = true, unsigned int timeout = 45, bool log_trace = true
+        );
+        int vbm_popen_raw(
+            std::string& command, std::string& output, unsigned int timeout
+        );
+        void vbm_replay(
+            std::string& command
+        );
+        void vbm_trace(
+            std::string& command, std::string& ouput, int retval
+        );
 
-    int vbm_popen(
-        std::string& command, std::string& output, const char* item, bool log_error = true, bool retry_failures = true, unsigned int timeout = 45, bool log_trace = true
-    );
-    int vbm_popen_raw(
-        std::string& command, std::string& output, unsigned int timeout
-    );
-    void vbm_replay(
-        std::string& command
-    );
-    void vbm_trace(
-        std::string& command, std::string& ouput, int retval
-    );
+    };
 
 };
 
