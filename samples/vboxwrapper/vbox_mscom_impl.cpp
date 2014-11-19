@@ -1944,8 +1944,11 @@ int VBOX_VM::start() {
     CComBSTR session_type;
     CComPtr<IMachine> pMachineRO;
     CComPtr<IProgress> pProgress;
+    APP_INIT_DATA aid;
     long bCompleted = 0;
     double timeout;
+
+    boinc_get_init_data_p(&aid);
 
 
     fprintf(
