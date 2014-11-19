@@ -11,6 +11,6 @@ class views_handler_field_boincwork_app_version_number extends views_handler_fie
   }
 
   function render($values) {
-    return round($values->app_version_host_app_version_version_num / 100, 2);
+    return sprintf("%01.2f", $values->app_version_host_app_version_version_num / 100);
   }
 }
