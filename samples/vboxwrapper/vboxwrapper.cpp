@@ -625,7 +625,8 @@ int main(int argc, char** argv) {
     double fraction_done = 0;
     double current_cpu_time = 0;
     double starting_cpu_time = 0;
-    double last_checkpoint_time = 0;
+    double last_checkpoint_cpu_time = 0;
+    double last_checkpoint_elapsed_time = 0;
     double last_status_report_time = 0;
     double stopwatch_starttime = 0;
     double stopwatch_endtime = 0;
@@ -987,8 +988,9 @@ int main(int argc, char** argv) {
     // Restore from checkpoint
     //
     read_checkpoint(elapsed_time, current_cpu_time, *pVM);
+    last_checkpoint_elapsed_time = elapsed_time;
     starting_cpu_time = current_cpu_time;
-    last_checkpoint_time = current_cpu_time;
+    last_checkpoint_cpu_time = current_cpu_time;
 
     // Should we even try to start things up?
     //
@@ -1097,7 +1099,7 @@ int main(int argc, char** argv) {
             if (pVM->vm_pid) {
                 retval = boinc_report_app_status_aux(
                     current_cpu_time,
-                    last_checkpoint_time,
+                    last_checkpoint_cpu_time,
                     fraction_done,
                     pVM->vm_pid,
                     bytes_sent,
@@ -1135,7 +1137,7 @@ int main(int argc, char** argv) {
     );
     retval = boinc_report_app_status_aux(
         current_cpu_time,
-        last_checkpoint_time,
+        last_checkpoint_cpu_time,
         fraction_done,
         pVM->vm_pid,
         bytes_sent,
@@ -1352,7 +1354,7 @@ int main(int argc, char** argv) {
             }
             boinc_report_app_status(
                 current_cpu_time,
-                last_checkpoint_time,
+                last_checkpoint_cpu_time,
                 fraction_done
             );
 
@@ -1403,7 +1405,7 @@ int main(int argc, char** argv) {
             if (boinc_time_to_checkpoint()) {
                 // Only peform a VM checkpoint every ten minutes or so.
                 //
-                if (elapsed_time >= last_checkpoint_time + pVM->minimum_checkpoint_interval + random_checkpoint_factor) {
+                if (elapsed_time >= last_checkpoint_elapsed_time + pVM->minimum_checkpoint_interval + random_checkpoint_factor) {
                     // Basic interleave factor is only needed once.
                     if (random_checkpoint_factor > 0) {
                         random_checkpoint_factor = 0.0;
@@ -1426,8 +1428,9 @@ int main(int argc, char** argv) {
                     } else {
                         // tell BOINC we've successfully created a checkpoint.
                         //
-                        last_checkpoint_time = elapsed_time;
                         write_checkpoint(elapsed_time, current_cpu_time, *pVM);
+                        last_checkpoint_elapsed_time = elapsed_time;
+                        last_checkpoint_cpu_time = current_cpu_time;
                         boinc_checkpoint_completed();
                     }
                 }
@@ -1519,7 +1522,7 @@ int main(int argc, char** argv) {
         if (report_net_usage) {
             retval = boinc_report_app_status_aux(
                 elapsed_time,
-                last_checkpoint_time,
+                last_checkpoint_cpu_time,
                 fraction_done,
                 pVM->vm_pid,
                 bytes_sent,
