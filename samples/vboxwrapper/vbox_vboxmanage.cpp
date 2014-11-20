@@ -1160,7 +1160,7 @@ int VBOX_VM::start() {
     fprintf(
         stderr,
         "%s Starting VM. (%s, slot#%d)\n",
-        vboxwrapper_msg_prefix(buf, sizeof(buf))
+        vboxwrapper_msg_prefix(buf, sizeof(buf)),
         vm_name.c_str(),
         aid.slot
     );

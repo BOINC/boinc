@@ -1003,7 +1003,7 @@ int VBOX_VM::create_vm() {
             CComBSTR(string(virtual_machine_slot_directory + "\\" + iso_image_filename).c_str()),
             DeviceType_DVD,
             AccessMode_ReadOnly,
-            FALSE,
+            TRUE,
             &pISOImage
         );
         if (FAILED(rc)) {
@@ -1954,7 +1954,7 @@ int VBOX_VM::start() {
     fprintf(
         stderr,
         "%s Starting VM. (%s, slot#%d)\n",
-        vboxwrapper_msg_prefix(buf, sizeof(buf))
+        vboxwrapper_msg_prefix(buf, sizeof(buf)),
         vm_name.c_str(),
         aid.slot
     );
