@@ -656,12 +656,20 @@ public class RpcClient {
 	 * Reports the Android model as host info to the client
 	 * @return true for success, false for failure
 	 */
-	public synchronized boolean setHostInfo(String hostInfo){
+	public synchronized boolean setHostInfo(String hostInfo, String version){
 		mLastErrorMessage = null;
 		mRequest.setLength(0);
-		mRequest.append("<set_host_info>\n <host_info>\n  <product_name>");
+		mRequest.append("<set_host_info>\n");
+		mRequest.append("  <host_info>\n");
+		mRequest.append("    <product_name>");
 		mRequest.append(hostInfo);
-		mRequest.append("</product_name>\n </host_info>\n</set_host_info>\n");
+		mRequest.append("    </product_name>\n");
+		mRequest.append("    <os_name>Android</os_name>");
+		mRequest.append("    <os_version>");
+		mRequest.append(version);
+		mRequest.append("    </os_version>\n");
+		mRequest.append("  </host_info>\n");
+		mRequest.append("</set_host_info>\n");
 		try {
 			sendRequest(mRequest.toString());
 			SimpleReplyParser parser = SimpleReplyParser.parse(receiveReply());
