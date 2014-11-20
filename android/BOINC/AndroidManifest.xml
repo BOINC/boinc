@@ -32,9 +32,8 @@
         android:smallScreens="true"
         android:xlargeScreens="true" />
 
-    <!-- CAUTION: increasing targetSDK to >9 removes menu button on new devices -->
     <uses-sdk
-        android:minSdkVersion="9"
+        android:minSdkVersion="16"
         android:targetSdkVersion="19" />
 
     <!-- Required Permissions -->
@@ -50,8 +49,8 @@
         android:debuggable="true"
         android:icon="@drawable/boinc"
         android:label="@string/app_name"
-        android:theme="@style/Theme.Styled" > <!-- android:largeHeap="true" , possible api level > 10. grants application larger dalvik vm heap. better performance when showing many slideshow pictures. -->
-
+        android:theme="@style/Theme.Styled"
+        android:largeHeap="true">
 
         <activity
             android:name="edu.berkeley.boinc.SplashActivity"
