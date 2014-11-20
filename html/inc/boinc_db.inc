@@ -311,6 +311,7 @@ class BoincResult {
     }
     static function lookup_name($name) {
         $db = BoincDb::get();
+        $name = BoincDb::escape_string($name);
         return $db->lookup('result', 'BoincResult', "name='$name'");
     }
     function delete() {
