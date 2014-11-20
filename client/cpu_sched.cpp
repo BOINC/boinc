@@ -1257,7 +1257,9 @@ bool CLIENT_STATE::enforce_run_list(vector<RESULT*>& run_list) {
 
         if (log_flags.cpu_sched_debug) {
             msg_printf(rp->project, MSG_INFO,
-                "[cpu_sched_debug] scheduling %s", rp->name
+                "[cpu_sched_debug] scheduling %s%s",
+                rp->name,
+                rp->edf_scheduled?" (high priority)":""
             );
         }
 
