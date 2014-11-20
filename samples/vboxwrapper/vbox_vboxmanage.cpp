@@ -1156,6 +1156,13 @@ int VBOX_VM::deregister_stale_vm() {
 int VBOX_VM::start() {
     char buf[256];
     int retval;
+    APP_INIT_DATA aid;
+    string command;
+    string output;
+    int timeout = 0;
+
+    boinc_get_init_data_p(&aid);
+
 
     fprintf(
         stderr,
@@ -1165,9 +1172,6 @@ int VBOX_VM::start() {
         aid.slot
     );
 
-    string command;
-    string output;
-    int timeout = 0;
 
     command = "startvm \"" + vm_name + "\"";
     if (headless) {
