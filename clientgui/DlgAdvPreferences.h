@@ -51,7 +51,6 @@ class CDlgAdvPreferences : public CDlgAdvPreferencesBase {
 	void ShowErrorMessage(wxString& msg,wxTextCtrl* errorCtrl);
 	bool EnsureTabPageVisible(wxTextCtrl* txtCtrl);
 	bool ConfirmClear();
-	wxString DoubleToTimeString(double dt);
 	double TimeStringToDouble(wxString timeStr);
     double RoundToHundredths(double td);
 public:
