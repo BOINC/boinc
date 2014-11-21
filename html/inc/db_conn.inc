@@ -107,6 +107,7 @@ class DbConn {
     }
 
     function lookup_id($id, $table, $classname) {
+        $id = (int)$id;
         return $this->lookup($table, $classname, "id=$id");
     }
 
