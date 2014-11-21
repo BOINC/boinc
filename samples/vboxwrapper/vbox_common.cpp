@@ -203,7 +203,7 @@ int VBOX_BASE::run(bool do_restore_snapshot) {
             retval = register_vm();
             if (retval) return retval;
         } else {
-            if (is_hdd_registered()) {
+            if (is_disk_image_registered()) {
                 // Handle the case where a previous instance of the same projects VM
                 // was already initialized for the current slot directory but aborted
                 // while the task was suspended and unloaded from memory.
@@ -385,7 +385,7 @@ bool VBOX_BASE::is_vm_machine_configuration_available() {
     return false;
 }
 
-bool VBOX_BASE::is_hdd_registered() {
+bool VBOX_BASE::is_disk_image_registered() {
     return false;
 }
 

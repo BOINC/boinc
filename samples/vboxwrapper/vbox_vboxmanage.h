@@ -47,7 +47,7 @@ namespace vboxmanage {
 
         int is_registered();
         bool is_system_ready(std::string& message);
-        bool is_hdd_registered();
+        bool is_disk_image_registered();
         bool is_extpack_installed();
         static bool is_virtualbox_installed();
 

@@ -329,7 +329,9 @@ void VBOX_VM::poll(bool log_state) {
     // Grab a snapshot of the latest log file.  Avoids multiple queries across several
     // functions.
     //
-    get_vm_log(vm_log);
+    if (online) {
+        get_vm_log(vm_log);
+    }
 
     //
     // Dump any new VM Guest Log entries
@@ -1104,11 +1106,7 @@ int VBOX_VM::deregister_stale_vm() {
 
     get_slot_directory(virtual_machine_slot_directory);
 
-    // We need to determine what the name or uuid is of the previous VM which owns
-    // this virtual disk
-    //
     command  = "showhdinfo \"" + virtual_machine_slot_directory + "/" + image_filename + "\" ";
-
     retval = vbm_popen(command, output, "get HDD info");
     if (retval) return retval;
 
@@ -1132,6 +1130,32 @@ int VBOX_VM::deregister_stale_vm() {
 
         // Deregister stale VM by UUID
         return deregister_vm(false);
+    } else if (enable_isocontextualization && enable_isocontextualization) {
+        command  = "showhdinfo \"" + virtual_machine_slot_directory + "/" + cache_disk_filename + "\" ";
+        retval = vbm_popen(command, output, "get HDD info");
+        if (retval) return retval;
+
+        // Output should look a little like this:
+        //   UUID:                 c119acaf-636c-41f6-86c9-38e639a31339
+        //   Accessible:           yes
+        //   Logical size:         10240 MBytes
+        //   Current size on disk: 0 MBytes
+        //   Type:                 normal (base)
+        //   Storage format:       VDI
+        //   Format variant:       dynamic default
+        //   In use by VMs:        test2 (UUID: 000ab2be-1254-4c6a-9fdc-1536a478f601)
+        //   Location:             C:\Users\romw\VirtualBox VMs\test2\test2.vdi
+        //
+        uuid_start = output.find("(UUID: ");
+        if (uuid_start != string::npos) {
+            // We can parse the virtual machine ID from the output
+            uuid_start += 7;
+            uuid_end = output.find(")", uuid_start);
+            vm_name = output.substr(uuid_start, uuid_end - uuid_start);
+
+            // Deregister stale VM by UUID
+            return deregister_vm(false);
+        }
     } else {
         // Did the user delete the VM in VirtualBox and not the medium?  If so,
         // just remove the medium.
@@ -1626,7 +1650,7 @@ bool VBOX_VM::is_system_ready(std::string& message) {
     return rc;
 }
 
-bool VBOX_VM::is_hdd_registered() {
+bool VBOX_VM::is_disk_image_registered() {
     string command;
     string output;
     string virtual_machine_root_dir;
@@ -1634,7 +1658,6 @@ bool VBOX_VM::is_hdd_registered() {
     get_slot_directory(virtual_machine_root_dir);
 
     command = "showhdinfo \"" + virtual_machine_root_dir + "/" + image_filename + "\" ";
-
     if (vbm_popen(command, output, "hdd registration", false, false) == 0) {
         if ((output.find("VBOX_E_FILE_ERROR") == string::npos) && 
             (output.find("VBOX_E_OBJECT_NOT_FOUND") == string::npos) &&
@@ -1644,6 +1667,20 @@ bool VBOX_VM::is_hdd_registered() {
             return true;
         }
     }
+
+    if (enable_isocontextualization && enable_cache_disk) {
+        command = "showhdinfo \"" + virtual_machine_root_dir + "/" + cache_disk_filename + "\" ";
+        if (vbm_popen(command, output, "hdd registration", false, false) == 0) {
+            if ((output.find("VBOX_E_FILE_ERROR") == string::npos) && 
+                (output.find("VBOX_E_OBJECT_NOT_FOUND") == string::npos) &&
+                (output.find("does not match the value") == string::npos)
+            ) {
+                // Error message not found in text
+                return true;
+            }
+        }
+    }
+
     return false;
 }
 
@@ -2030,47 +2067,25 @@ int VBOX_VM::set_network_usage(int kilobytes) {
 }
 
 void VBOX_VM::lower_vm_process_priority() {
-    char buf[256];
 #ifdef _WIN32
     if (vm_pid_handle) {
         SetPriorityClass(vm_pid_handle, BELOW_NORMAL_PRIORITY_CLASS);
-        fprintf(
-            stderr,
-            "%s Lowering VM Process priority.\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf))
-        );
     }
 #else
     if (vm_pid) {
         setpriority(PRIO_PROCESS, vm_pid, PROCESS_MEDIUM_PRIORITY);
-        fprintf(
-            stderr,
-            "%s Lowering VM Process priority.\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf))
-        );
     }
 #endif
 }
 
 void VBOX_VM::reset_vm_process_priority() {
-    char buf[256];
 #ifdef _WIN32
     if (vm_pid_handle) {
         SetPriorityClass(vm_pid_handle, NORMAL_PRIORITY_CLASS);
-        fprintf(
-            stderr,
-            "%s Restoring VM Process priority.\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf))
-        );
     }
 #else
     if (vm_pid) {
         setpriority(PRIO_PROCESS, vm_pid, PROCESS_NORMAL_PRIORITY);
-        fprintf(
-            stderr,
-            "%s Restoring VM Process priority.\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf))
-        );
     }
 #endif
 }

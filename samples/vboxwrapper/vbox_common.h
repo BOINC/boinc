@@ -272,7 +272,7 @@ public:
     virtual int is_registered();
     virtual bool is_system_ready(std::string& message);
     virtual bool is_vm_machine_configuration_available();
-    virtual bool is_hdd_registered();
+    virtual bool is_disk_image_registered();
     virtual bool is_extpack_installed();
     static bool is_virtualbox_installed();
     virtual bool is_logged_failure_vm_extensions_disabled();

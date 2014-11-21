@@ -1506,15 +1506,19 @@ int VBOX_VM::deregister_vm(bool delete_media) {
     CComSafeArray<LPDISPATCH> aMediumAttachments;
     CComSafeArray<LPDISPATCH> aHardDisks;
     CComPtr<ISession> pSession;
+    CComPtr<IConsole> pConsole;
     CComPtr<IMachine> pMachineRO;
     CComPtr<IMachine> pMachine;
     CComPtr<IProgress> pProgress;
     CComPtr<IBandwidthControl> pBandwidthControl;
+    CComPtr<ISnapshot> pRootSnapshot;
+    std::vector<CComPtr<IMedium>> clean_mediums;
+    std::vector<CComPtr<IMedium>> mediums;
+    std::vector<std::string> snapshots;
     DeviceType device_type; 
     LONG lDevice;
     LONG lPort;
     string virtual_machine_slot_directory;
-    std::vector<CComPtr<IMedium>> mediums;
 
 
     get_slot_directory(virtual_machine_slot_directory);
@@ -1549,6 +1553,17 @@ int VBOX_VM::deregister_vm(bool delete_media) {
                 virtualbox_dump_error();
             }
 
+            rc = pSession->get_Console(&pConsole);
+            if (FAILED(rc)) {
+                fprintf(
+                    stderr,
+                    "%s Error retrieving console object! rc = 0x%x\n",
+                    vboxwrapper_msg_prefix(buf, sizeof(buf)),
+                    rc
+                );
+                virtualbox_dump_error();
+            }
+
             rc = pSession->get_Machine(&pMachine);
             if (FAILED(rc)) {
                 fprintf(
@@ -1560,7 +1575,32 @@ int VBOX_VM::deregister_vm(bool delete_media) {
                 virtualbox_dump_error();
             }
 
-            // Close hard disk and floppy mediums
+
+            // Delete snapshots
+            //
+            rc = pMachine->FindSnapshot(CComBSTR(""), &pRootSnapshot);
+            if (SUCCEEDED(rc) && pRootSnapshot) {
+                TraverseSnapshots(string(""), snapshots, pRootSnapshot);
+            }
+            if (snapshots.size()) {
+                for (size_t i = 0; i < snapshots.size(); i++) {
+                    CComPtr<IProgress> pProgress;
+                    rc = pConsole->DeleteSnapshot(CComBSTR(snapshots[i].c_str()), &pProgress);
+                    if (SUCCEEDED(rc)) {
+                        pProgress->WaitForCompletion(-1);
+                    } else {
+                        fprintf(
+                            stderr,
+                            "%s Error deleting snapshot! rc = 0x%x\n",
+                            vboxwrapper_msg_prefix(buf, sizeof(buf)),
+                            rc
+                        );
+                        virtualbox_dump_error();
+                    }
+                }
+            }
+
+            // Close Hard Disk, DVD, and floppy mediums
             //
             fprintf(
                 stderr,
@@ -1573,11 +1613,15 @@ int VBOX_VM::deregister_vm(bool delete_media) {
                 for (int i = 0; i < (int)aMediumAttachments.GetCount(); i++) {
                     CComPtr<IMediumAttachment> pMediumAttachment((IMediumAttachment*)(LPDISPATCH)aMediumAttachments[i]);
                     rc = pMediumAttachment->get_Type(&device_type);
-                    if (SUCCEEDED(rc) && ((DeviceType_HardDisk == device_type) || (DeviceType_Floppy == device_type))) {
+                    if (SUCCEEDED(rc) && 
+                       ((DeviceType_HardDisk == device_type) ||
+                        (DeviceType_DVD == device_type) ||
+                        (DeviceType_Floppy == device_type))
+                    ) {
                         CComPtr<IMedium> pMedium;
                         CComBSTR strController;
 
-                        if (DeviceType_HardDisk == device_type) {
+                        if ((DeviceType_HardDisk == device_type) || (DeviceType_DVD == device_type)) {
                             strController = "Hard Disk Controller";
                         } else {
                             strController = "Floppy Controller";
@@ -1586,21 +1630,14 @@ int VBOX_VM::deregister_vm(bool delete_media) {
                         pMediumAttachment->get_Device(&lDevice);
                         pMediumAttachment->get_Port(&lPort);
                         pMediumAttachment->get_Medium(&pMedium);
+                        
+                        mediums.push_back(CComPtr<IMedium>(pMedium));
+                        
                         rc = pMachine->DetachDevice(strController, lPort, lDevice);
                         if (FAILED(rc)) {
                             fprintf(
                                 stderr,
                                 "%s Error detaching device from virtual machine instance! rc = 0x%x\n",
-                                vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                                rc
-                            );
-                            virtualbox_dump_error();
-                        }
-                        rc = pMedium->Close();
-                        if (FAILED(rc)) {
-                            fprintf(
-                                stderr,
-                                "%s Error closing medium for VirtualBox! rc = 0x%x\n",
                                 vboxwrapper_msg_prefix(buf, sizeof(buf)),
                                 rc
                             );
@@ -1634,7 +1671,8 @@ int VBOX_VM::deregister_vm(bool delete_media) {
                 pMachine->RemoveStorageController(CComBSTR("Floppy Controller"));
             }
 
-
+            // Save the VM Settings so the state is stored
+            //
             rc = pMachine->SaveSettings();
             if (FAILED(rc)) {
                 fprintf(
@@ -1646,6 +1684,14 @@ int VBOX_VM::deregister_vm(bool delete_media) {
                 virtualbox_dump_error();
             }
 
+            // Now it should be safe to close down the mediums we detached.
+            //
+            for (int i = 0; i < (int)mediums.size(); i++) {
+                mediums[i]->Close();
+            }
+
+            // Now free the session lock
+            //
             rc = pSession->UnlockMachine();
             if (FAILED(rc)) {
                 fprintf(
@@ -1728,34 +1774,43 @@ int VBOX_VM::deregister_vm(bool delete_media) {
 int VBOX_VM::deregister_stale_vm() {
     HRESULT rc;
     SAFEARRAY* pHardDisks = NULL;
+    SAFEARRAY* pISOImages = NULL;
+    SAFEARRAY* pCacheDisks = NULL;
     SAFEARRAY* pMachines = NULL;
+    SAFEARRAY* pISOMachines = NULL;
+    SAFEARRAY* pCacheMachines = NULL;
     CComSafeArray<LPDISPATCH> aHardDisks;
+    CComSafeArray<LPDISPATCH> aISOImages;
+    CComSafeArray<LPDISPATCH> aCacheDisks;
     CComSafeArray<BSTR> aMachines;
+    CComSafeArray<BSTR> aISOMachines;
+    CComSafeArray<BSTR> aCacheMachines;
     CComPtr<IMedium> pHardDisk;
+    CComPtr<IMedium> pISOImage;
+    CComPtr<IMedium> pCacheDisk;
     CComPtr<IMachine> pMachine;
     CComBSTR strLocation;
     CComBSTR strMachineId;
     string virtual_machine_root_dir;
     string hdd_image_location;
+    string iso_image_location;
+    string cache_image_location;
 
     get_slot_directory(virtual_machine_root_dir);
-    hdd_image_location = string(virtual_machine_root_dir + "\\" + image_filename);
 
+    hdd_image_location = string(virtual_machine_root_dir + "\\" + image_filename);
     rc = m_pPrivate->m_pVirtualBox->get_HardDisks(&pHardDisks);
     if (SUCCEEDED(rc)) {
         aHardDisks.Attach(pHardDisks);
         for (int i = 0; i < (int)aHardDisks.GetCount(); i++) {
             pHardDisk = aHardDisks[i];
             pHardDisk->get_Location(&strLocation);
-
-            // Did we find that our disk has already been registered in the media registry?
-            //
             if (0 == stricmp(hdd_image_location.c_str(), CW2A(strLocation))) {
 
                 // Disk found
                 //
                 rc = pHardDisk->get_MachineIds(&pMachines);
-                if (SUCCEEDED(rc)) {
+                if (SUCCEEDED(rc) && pMachines) {
                     aMachines.Attach(pMachines);
                     // Delete all registered VMs attached to this disk image
                     //
@@ -1763,6 +1818,76 @@ int VBOX_VM::deregister_stale_vm() {
                         strMachineId = aMachines[j];
                         vm_name = CW2A(strMachineId);
                         deregister_vm(false);
+                    }
+                } else {
+                    // Disk is in the Media Registry but now currently attached
+                    // to a VM.  Close it.
+                    pHardDisk->Close();
+                }
+            }
+        }
+    }
+
+    if (enable_isocontextualization) {
+        iso_image_location = string(virtual_machine_root_dir + "\\" + iso_image_filename);
+        rc = m_pPrivate->m_pVirtualBox->get_DVDImages(&pISOImages);
+        if (SUCCEEDED(rc)) {
+            aISOImages.Attach(pISOImages);
+            for (int i = 0; i < (int)aISOImages.GetCount(); i++) {
+                pISOImage = aISOImages[i];
+                pISOImage->get_Location(&strLocation);
+                if (0 == stricmp(iso_image_location.c_str(), CW2A(strLocation))) {
+
+                    // Image found
+                    //
+                    rc = pISOImage->get_MachineIds(&pISOMachines);
+                    if (SUCCEEDED(rc) && pISOMachines) {
+                        aISOMachines.Attach(pISOMachines);
+
+                        // Delete all registered VMs attached to this disk image
+                        //
+                        for (int j = 0; j < (int)aISOMachines.GetCount(); j++) {
+                            strMachineId = aISOMachines[j];
+                            vm_name = CW2A(strMachineId);
+                            deregister_vm(false);
+                        }
+                    } else {
+                        // Disk is in the Media Registry but now currently attached
+                        // to a VM.  Close it.
+                        pISOImage->Close();
+                    }
+                }
+            }
+        }
+    }
+
+    if (enable_isocontextualization && enable_cache_disk) {
+        cache_image_location = string(virtual_machine_root_dir + "\\" + cache_disk_filename);
+        rc = m_pPrivate->m_pVirtualBox->get_HardDisks(&pCacheDisks);
+        if (SUCCEEDED(rc)) {
+            aCacheDisks.Attach(pCacheDisks);
+            for (int i = 0; i < (int)aCacheDisks.GetCount(); i++) {
+                pCacheDisk = aCacheDisks[i];
+                pCacheDisk->get_Location(&strLocation);
+                if (0 == stricmp(cache_image_location.c_str(), CW2A(strLocation))) {
+
+                    // Disk found
+                    //
+                    rc = pCacheDisk->get_MachineIds(&pCacheMachines);
+                    if (SUCCEEDED(rc) && pCacheMachines) {
+                        aCacheMachines.Attach(pCacheMachines);
+
+                        // Delete all registered VMs attached to this disk image
+                        //
+                        for (int j = 0; j < (int)aCacheMachines.GetCount(); j++) {
+                            strMachineId = aCacheMachines[j];
+                            vm_name = CW2A(strMachineId);
+                            deregister_vm(false);
+                        }
+                    } else {
+                        // Disk is in the Media Registry but now currently attached
+                        // to a VM.  Close it.
+                        pCacheDisk->Close();
                     }
                 }
             }
@@ -1929,7 +2054,9 @@ void VBOX_VM::poll(bool log_state) {
     // Grab a snapshot of the latest log file.  Avoids multiple queries across several
     // functions.
     //
-    get_vm_log(vm_log);
+    if (online) {
+        get_vm_log(vm_log);
+    }
 
     //
     // Dump any new VM Guest Log entries
@@ -2146,6 +2273,7 @@ int VBOX_VM::stop() {
         }
 
         m_pPrivate->m_pSession->UnlockMachine();
+        boinc_sleep(5.0);
     }
 
     return retval;
@@ -2247,6 +2375,7 @@ int VBOX_VM::poweroff() {
         }
 
         m_pPrivate->m_pSession->UnlockMachine();
+        boinc_sleep(5.0);
     }
 
     return retval;
@@ -2456,13 +2585,15 @@ int VBOX_VM::cleanup_snapshots(bool delete_active) {
         goto CLEANUP;
     }
 
-    // Get the current snapshot
+    // Get the current snapshot, if we do not need to delete the active snapshot
     //
-    rc = m_pPrivate->m_pMachine->get_CurrentSnapshot(&pCurrentSnapshot);
-    if (SUCCEEDED(rc) && pCurrentSnapshot) {
-        rc = pCurrentSnapshot->get_Id(&tmp);
-        if (SUCCEEDED(rc)) {
-            current_snapshot_id = CW2A(tmp);
+    if (!delete_active) {
+        rc = m_pPrivate->m_pMachine->get_CurrentSnapshot(&pCurrentSnapshot);
+        if (SUCCEEDED(rc) && pCurrentSnapshot) {
+            rc = pCurrentSnapshot->get_Id(&tmp);
+            if (SUCCEEDED(rc)) {
+                current_snapshot_id = CW2A(tmp);
+            }
         }
     }
 
@@ -2488,16 +2619,16 @@ int VBOX_VM::cleanup_snapshots(bool delete_active) {
             rc = pConsole->DeleteSnapshot(CComBSTR(snapshots[i].c_str()), &pProgress);
             if (SUCCEEDED(rc)) {
                 pProgress->WaitForCompletion(-1);
+            } else {
+                fprintf(
+                    stderr,
+                    "%s Error deleting stale snapshot! rc = 0x%x\n",
+                    vboxwrapper_msg_prefix(buf, sizeof(buf)),
+                    rc
+                );
+                virtualbox_dump_error();
+                retval = rc;
             }
-        }
-    }
-
-    // Delete the current snapshot, if requested.
-    if (delete_active && current_snapshot_id.size()) {
-        CComPtr<IProgress> pProgress;
-        rc = pConsole->DeleteSnapshot(CComBSTR(current_snapshot_id.c_str()), &pProgress);
-        if (SUCCEEDED(rc)) {
-            pProgress->WaitForCompletion(-1);
         }
     }
 
@@ -2680,18 +2811,26 @@ bool VBOX_VM::is_system_ready(std::string& message) {
     return true;
 }
 
-bool VBOX_VM::is_hdd_registered() {
+bool VBOX_VM::is_disk_image_registered() {
     HRESULT rc;
     SAFEARRAY* pHardDisks = NULL;
+    SAFEARRAY* pISOImages = NULL;
+    SAFEARRAY* pCacheDisks = NULL;
     CComSafeArray<LPDISPATCH> aHardDisks;
+    CComSafeArray<LPDISPATCH> aISOImages;
+    CComSafeArray<LPDISPATCH> aCacheDisks;
     CComBSTR tmp;
     IMedium* pHardDisk;
+    IMedium* pISOImage;
+    IMedium* pCacheDisk;
     string virtual_machine_root_dir;
     string hdd_image_location;
+    string iso_image_location;
+    string cache_image_location;
 
     get_slot_directory(virtual_machine_root_dir);
-    hdd_image_location = string(virtual_machine_root_dir + "\\" + image_filename);
 
+    hdd_image_location = string(virtual_machine_root_dir + "\\" + image_filename);
     rc = m_pPrivate->m_pVirtualBox->get_HardDisks(&pHardDisks);
     if (SUCCEEDED(rc)) {
         aHardDisks.Attach(pHardDisks);
@@ -2703,6 +2842,37 @@ bool VBOX_VM::is_hdd_registered() {
             }
         }
     }
+
+    if (enable_isocontextualization) {
+        iso_image_location = string(virtual_machine_root_dir + "\\" + iso_image_filename);
+        rc = m_pPrivate->m_pVirtualBox->get_DVDImages(&pISOImages);
+        if (SUCCEEDED(rc)) {
+            aISOImages.Attach(pISOImages);
+            for (int i = 0; i < (int)aISOImages.GetCount(); i++) {
+                pISOImage = (IMedium*)(LPDISPATCH)aISOImages[i];
+                pISOImage->get_Location(&tmp);
+                if (0 == stricmp(iso_image_location.c_str(), CW2A(tmp))) {
+                    return true;
+                }
+            }
+        }
+    }
+
+    if (enable_isocontextualization && enable_cache_disk) {
+        cache_image_location = string(virtual_machine_root_dir + "\\" + cache_disk_filename);
+        rc = m_pPrivate->m_pVirtualBox->get_HardDisks(&pCacheDisks);
+        if (SUCCEEDED(rc)) {
+            aCacheDisks.Attach(pHardDisks);
+            for (int i = 0; i < (int)aCacheDisks.GetCount(); i++) {
+                pCacheDisk = (IMedium*)(LPDISPATCH)aCacheDisks[i];
+                pCacheDisk->get_Location(&tmp);
+                if (0 == stricmp(cache_image_location.c_str(), CW2A(tmp))) {
+                    return true;
+                }
+            }
+        }
+    }
+
     return false;
 }
 
@@ -3111,26 +3281,14 @@ int VBOX_VM::set_network_usage(int kilobytes) {
 }
 
 void VBOX_VM::lower_vm_process_priority() {
-    char buf[256];
     if (vm_pid_handle) {
         SetPriorityClass(vm_pid_handle, BELOW_NORMAL_PRIORITY_CLASS);
-        fprintf(
-            stderr,
-            "%s Lowering VM Process priority.\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf))
-        );
     }
 }
 
 void VBOX_VM::reset_vm_process_priority() {
-    char buf[256];
     if (vm_pid_handle) {
         SetPriorityClass(vm_pid_handle, NORMAL_PRIORITY_CLASS);
-        fprintf(
-            stderr,
-            "%s Restoring VM Process priority.\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf))
-        );
     }
 }
 
