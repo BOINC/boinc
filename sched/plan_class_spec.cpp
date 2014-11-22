@@ -33,21 +33,28 @@ using std::string;
 // this returns a numerical OS version for Darwin/OSX and Windows,
 // allowing to define a numerical _range_ for these OS versions
 static double os_version_num(HOST h) {
+    unsigned int a, b, c, d;
     if (strstr(h.os_name, "Darwin")) {
-        unsigned int a,b,c;
         if (sscanf(h.os_version, "%u.%u.%u", &a, &b, &c) == 3) {
             return 10000.0*a + 100.0*b + c;
         }
     } else if (strstr(h.os_name, "Windows")) {
-        unsigned int a,b,c,d;
         // example: "Enterprise Server Edition, Service Pack 1, (06.01.7601.00)"
-        char*p = strrchr(h.os_version,'(');
+        //
+        char *p = strrchr(h.os_version,'(');
         if (p && (sscanf(p, "(%u.%u.%u.%u)", &a, &b, &c, &d) == 4)) {
             return 100000000.0*a + 1000000.0*b + 100.0*c +d;
         }
+    } else if (strstr(h.os_name, "Android") || strstr(h.os_name, "Linux")) {
+        // example: 3.0.31-g6fb96c9
+        //
+        if (sscanf(h.os_version, "%u.%u.%u", &a, &b, &c) == 3) {
+            return 10000.*a + 100.*b + c;
+        }
     }
     // could not determine numerical OS version
-    return 0.0;
+    //
+    return 0;
 }
 
 
