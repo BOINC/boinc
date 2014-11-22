@@ -10,7 +10,7 @@ db_init();
 $timestr           = time_str(time(0));
 
 $jobapplication    = post_int( 'application' ); 
-$jobname           = escapeshellcmd( $_POST[ 'name' ] );
+$jobname           = escapeshellarg( $_POST[ 'name' ] );
 $jobinput          = post_str( 'input' );
 $jobfops           = post_int( 'fops' );
 $jobdisk           = post_int( 'disk' );
