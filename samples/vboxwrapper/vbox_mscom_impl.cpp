@@ -1858,23 +1858,21 @@ int VBOX_VM::create_snapshot(double elapsed_time) {
     // Resume VM
     resume();
 
-    if (ERR_EXEC != retval) goto CLEANUP;
-
     // Set the suspended flag back to false before deleting the stale
     // snapshot
     poll(false);
 
     // Delete stale snapshot(s), if one exists
-    retval = cleanup_snapshots(false);
-    if (retval) return retval;
+    cleanup_snapshots(false);
 
-    fprintf(
-        stderr,
-        "%s Checkpoint completed.\n",
-        vboxwrapper_msg_prefix(buf, sizeof(buf))
-    );
+    if (BOINC_SUCCESS == retval) {
+        fprintf(
+            stderr,
+            "%s Checkpoint completed.\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf))
+        );
+    }
 
-CLEANUP:
     return retval;
 }
 
