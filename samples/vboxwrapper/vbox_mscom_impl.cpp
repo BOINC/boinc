@@ -72,33 +72,47 @@ const char *MachineStateToName(MachineState State)
 // thread after a failed MSCOM method call. This function will also print
 // extended VirtualBox error info if it is available.
 //
-void virtualbox_dump_error() {
-    HRESULT rc;
+#define CHECK_ERROR(rc) \
+    retval = virtualbox_check_error(rc, __FUNCTION__, __FILE__, __LINE__)
+
+int virtualbox_check_error(HRESULT rc, char* szFunction, char* szFile, int iLine) {
+    HRESULT local_rc;
     char buf[256];
     IErrorInfo* pErrorInfo = NULL;
     BSTR strDescription;
 
-    rc = GetErrorInfo(0, &pErrorInfo);
     if (FAILED(rc)) {
-        fprintf(
-            stderr,
-            "%s Error: getting error info! rc = 0x%x\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf)),
-            rc
-        );
-    } else {
-        rc = pErrorInfo->GetDescription(&strDescription);
-        if (SUCCEEDED(rc) && strDescription) {
+        local_rc = GetErrorInfo(0, &pErrorInfo);
+        if (FAILED(local_rc)) {
             fprintf(
                 stderr,
-                "%s Error description: %S\n",
+                "%s Error: getting error info! rc = 0x%x\n",
                 vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                strDescription
+                rc
             );
-            SysFreeString(strDescription);
+        } else {
+            fprintf(
+                stderr,
+                "%s Error in %s (%s:%d)\n",
+                vboxwrapper_msg_prefix(buf, sizeof(buf)),
+                szFunction,
+                szFile,
+                iLine
+            );
+            rc = pErrorInfo->GetDescription(&strDescription);
+            if (SUCCEEDED(rc) && strDescription) {
+                fprintf(
+                    stderr,
+                    "%s Error description: %S\n",
+                    vboxwrapper_msg_prefix(buf, sizeof(buf)),
+                    strDescription
+                );
+                SysFreeString(strDescription);
+            }
+            pErrorInfo->Release();
         }
-        pErrorInfo->Release();
     }
+    return rc;
 }
 
 
@@ -244,8 +258,7 @@ int VBOX_VM::initialize() {
 
     // Instantiate the VirtualBox root object.
     rc = m_pPrivate->m_pVirtualBox.CreateInstance(CLSID_VirtualBox);
-    if (FAILED(rc))
-    {
+    if (FAILED(rc)) {
         fprintf(
             stderr,
             "%s Error creating VirtualBox instance! rc = 0x%x\n",
@@ -257,8 +270,7 @@ int VBOX_VM::initialize() {
 
     // Create the session object.
     rc = m_pPrivate->m_pSession.CreateInstance(CLSID_Session);
-    if (FAILED(rc))
-    {
+    if (FAILED(rc)) {
         fprintf(
             stderr,
             "%s Error creating Session instance! rc = 0x%x\n",
@@ -308,16 +320,7 @@ int VBOX_VM::create_vm() {
 
 
     rc = pSession.CoCreateInstance(CLSID_Session);
-    if (!SUCCEEDED(rc))
-    {
-        fprintf(
-            stderr,
-            "%s Error creating Session instance! rc = 0x%x\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf)),
-            rc
-        );
-        return rc;
-    }
+    if (CHECK_ERROR(rc)) goto CLEANUP;
 
 
     // Reset VM name in case it was changed while deregistering a stale VM
@@ -356,17 +359,7 @@ int VBOX_VM::create_vm() {
         CComBSTR(""),
         &pMachineRO
     );
-    if (FAILED(rc)) {
-        fprintf(
-            stderr,
-            "%s Error creating virtual machine instance! rc = 0x%x\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf)),
-            rc
-        );
-        virtualbox_dump_error();
-        retval = rc;
-        goto CLEANUP;
-    }
+    if (CHECK_ERROR(rc)) goto CLEANUP;
 
     // Register the VM. Note that this call also saves the VM config
     // to disk. It is also possible to save the VM settings but not
@@ -376,124 +369,34 @@ int VBOX_VM::create_vm() {
     // must be registered *before* we can attach hard disks to it.
     //
     rc = m_pPrivate->m_pVirtualBox->RegisterMachine(pMachineRO);
-    if (FAILED(rc)) {
-        fprintf(
-            stderr,
-            "%s Error registering virtual machine! rc = 0x%x\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf)),
-            rc
-        );
-        virtualbox_dump_error();
-        retval = rc;
-        goto CLEANUP;
-    }
+    if (CHECK_ERROR(rc)) goto CLEANUP;
     
     rc = pMachineRO->LockMachine(pSession, LockType_Write);
-    if (FAILED(rc)) {
-        fprintf(
-            stderr,
-            "%s Error locking virtual machine! rc = 0x%x\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf)),
-            rc
-        );
-        virtualbox_dump_error();
-        retval = rc;
-        goto CLEANUP;
-    }
+    if (CHECK_ERROR(rc)) goto CLEANUP;
 
     rc = pSession->get_Machine(&pMachine);
-    if (FAILED(rc)) {
-        fprintf(
-            stderr,
-            "%s Error retrieving mutable virtual machine object! rc = 0x%x\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf)),
-            rc
-        );
-        virtualbox_dump_error();
-        retval = rc;
-        goto CLEANUP;
-    }
-
+    if (CHECK_ERROR(rc)) goto CLEANUP;
 
     rc = pMachine->get_BIOSSettings(&pBIOSSettings);
-    if (FAILED(rc)) {
-        fprintf(
-            stderr,
-            "%s Error retrieving the BIOS settings for the virtual machine! rc = 0x%x\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf)),
-            rc
-        );
-        virtualbox_dump_error();
-        retval = rc;
-        goto CLEANUP;
-    }
+    if (CHECK_ERROR(rc)) goto CLEANUP;
 
     rc = pMachine->get_BandwidthControl(&pBandwidthControl);
-    if (FAILED(rc)) {
-        fprintf(
-            stderr,
-            "%s Error retrieving the Bandwidth Control settings for the virtual machine! rc = 0x%x\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf)),
-            rc
-        );
-        virtualbox_dump_error();
-        retval = rc;
-        goto CLEANUP;
-    }
+    if (CHECK_ERROR(rc)) goto CLEANUP;
 
     rc = pMachine->get_VRDEServer(&pVRDEServer);
-    if (FAILED(rc)) {
-        fprintf(
-            stderr,
-            "%s Error retrieving the Remote Desktop settings for the virtual machine! rc = 0x%x\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf)),
-            rc
-        );
-        virtualbox_dump_error();
-        retval = rc;
-        goto CLEANUP;
-    }
+    if (CHECK_ERROR(rc)) goto CLEANUP;
 
     rc = pMachine->GetNetworkAdapter(0, &pNetworkAdapter);
-    if (FAILED(rc)) {
-        fprintf(
-            stderr,
-            "%s Error retrieving the Network Adapter for the virtual machine! rc = 0x%x\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf)),
-            rc
-        );
-        virtualbox_dump_error();
-        retval = rc;
-        goto CLEANUP;
-    }
+    if (CHECK_ERROR(rc)) goto CLEANUP;
 
     rc = pNetworkAdapter->get_NATEngine(&pNATEngine);
-    if (FAILED(rc)) {
-        fprintf(
-            stderr,
-            "%s Error retrieving the NAT Engine for the virtual machine! rc = 0x%x\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf)),
-            rc
-        );
-        virtualbox_dump_error();
-        retval = rc;
-        goto CLEANUP;
-    }
+    if (CHECK_ERROR(rc)) goto CLEANUP;
 
     rc = pMachine->get_AudioAdapter(&pAudioAdapter);
-    if (FAILED(rc)) {
-        fprintf(
-            stderr,
-            "%s Error retrieving the Audio Adapter for the virtual machine! rc = 0x%x\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf)),
-            rc
-        );
-        virtualbox_dump_error();
-        retval = rc;
-        goto CLEANUP;
-    }
+    if (CHECK_ERROR(rc)) goto CLEANUP;
 
     // Set some properties
+    //
     pMachine->put_Description(CComBSTR(vm_master_description.c_str()));
 
     // Tweak the VM's Memory Size
@@ -505,17 +408,7 @@ int VBOX_VM::create_vm() {
         (int)memory_size_mb
     );
     rc = pMachine->put_MemorySize((int)(memory_size_mb));
-    if (FAILED(rc)) {
-        fprintf(
-            stderr,
-            "%s Error memory size for the virtual machine! rc = 0x%x\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf)),
-            rc
-        );
-        virtualbox_dump_error();
-        retval = rc;
-        goto CLEANUP;
-    }
+    if (CHECK_ERROR(rc)) goto CLEANUP;
 
     // Tweak the VM's CPU Count
     //
@@ -526,17 +419,7 @@ int VBOX_VM::create_vm() {
         vm_cpu_count.c_str()
     );
     rc = pMachine->put_CPUCount((int)atoi(vm_cpu_count.c_str()));
-    if (FAILED(rc)) {
-        fprintf(
-            stderr,
-            "%s Error CPU count for the virtual machine! rc = 0x%x\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf)),
-            rc
-        );
-        virtualbox_dump_error();
-        retval = rc;
-        goto CLEANUP;
-    }
+    if (CHECK_ERROR(rc)) goto CLEANUP;
 
     // Tweak the VM's Chipset Options
     //
@@ -546,30 +429,10 @@ int VBOX_VM::create_vm() {
         vboxwrapper_msg_prefix(buf, sizeof(buf))
     );
     rc = pBIOSSettings->put_ACPIEnabled(TRUE);
-    if (FAILED(rc)) {
-        fprintf(
-            stderr,
-            "%s Error setting ACPI enabled for the virtual machine! rc = 0x%x\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf)),
-            rc
-        );
-        virtualbox_dump_error();
-        retval = rc;
-        goto CLEANUP;
-    }
+    if (CHECK_ERROR(rc)) goto CLEANUP;
 
     rc = pBIOSSettings->put_IOAPICEnabled(TRUE);
-    if (FAILED(rc)) {
-        fprintf(
-            stderr,
-            "%s Error setting IOAPIC enabled for the virtual machine! rc = 0x%x\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf)),
-            rc
-        );
-        virtualbox_dump_error();
-        retval = rc;
-        goto CLEANUP;
-    }
+    if (CHECK_ERROR(rc)) goto CLEANUP;
 
     // Tweak the VM's Boot Options
     //
@@ -579,30 +442,10 @@ int VBOX_VM::create_vm() {
         vboxwrapper_msg_prefix(buf, sizeof(buf))
     );
     rc = pMachine->SetBootOrder(1, DeviceType_HardDisk);
-    if (FAILED(rc)) {
-        fprintf(
-            stderr,
-            "%s Error setting hard disk boot order for the virtual machine! rc = 0x%x\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf)),
-            rc
-        );
-        virtualbox_dump_error();
-        retval = rc;
-        goto CLEANUP;
-    }
+    if (CHECK_ERROR(rc)) goto CLEANUP;
     
     rc = pMachine->SetBootOrder(2, DeviceType_DVD);
-    if (FAILED(rc)) {
-        fprintf(
-            stderr,
-            "%s Error setting DVD boot order for the virtual machine! rc = 0x%x\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf)),
-            rc
-        );
-        virtualbox_dump_error();
-        retval = rc;
-        goto CLEANUP;
-    }
+    if (CHECK_ERROR(rc)) goto CLEANUP;
 
     pMachine->SetBootOrder(3, DeviceType_Null);
     pMachine->SetBootOrder(4, DeviceType_Null);
@@ -610,66 +453,31 @@ int VBOX_VM::create_vm() {
     // Tweak the VM's Network Configuration
     //
     if (enable_network) {
-
         fprintf(
             stderr,
             "%s Enabling VM Network Access.\n",
             vboxwrapper_msg_prefix(buf, sizeof(buf))
         );
         rc = pNetworkAdapter->put_Enabled(TRUE);
-        if (FAILED(rc)) {
-            fprintf(
-                stderr,
-                "%s Error enabling network access for the virtual machine! rc = 0x%x\n",
-                vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                rc
-            );
-            virtualbox_dump_error();
-            retval = rc;
-            goto CLEANUP;
-        }
-
+        if (CHECK_ERROR(rc)) goto CLEANUP;
     } else {
-
         fprintf(
             stderr,
             "%s Disabling VM Network Access.\n",
             vboxwrapper_msg_prefix(buf, sizeof(buf))
         );
         rc = pNetworkAdapter->put_Enabled(FALSE);
-        if (FAILED(rc)) {
-            fprintf(
-                stderr,
-                "%s Error disabling network access for the virtual machine! rc = 0x%x\n",
-                vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                rc
-            );
-            virtualbox_dump_error();
-            retval = rc;
-            goto CLEANUP;
-        }
-
+        if (CHECK_ERROR(rc)) goto CLEANUP;
     }
 
     if (network_bridged_mode) {
-
         fprintf(
             stderr,
             "%s Setting Network Configuration for Bridged Mode.\n",
             vboxwrapper_msg_prefix(buf, sizeof(buf))
         );
         rc = pNetworkAdapter->put_AttachmentType(NetworkAttachmentType_Bridged);
-        if (FAILED(rc)) {
-            fprintf(
-                stderr,
-                "%s Error setting network configuration for the virtual machine! rc = 0x%x\n",
-                vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                rc
-            );
-            virtualbox_dump_error();
-            retval = rc;
-            goto CLEANUP;
-        }
+        if (CHECK_ERROR(rc)) goto CLEANUP;
 
         get_default_network_interface(default_interface);
         fprintf(
@@ -679,50 +487,18 @@ int VBOX_VM::create_vm() {
             default_interface.c_str()
         );
         rc = pNetworkAdapter->put_BridgedInterface(CComBSTR(CA2W(default_interface.c_str())));
-        if (FAILED(rc)) {
-            fprintf(
-                stderr,
-                "%s Error setting network configuration (brigded interface) for the virtual machine! rc = 0x%x\n",
-                vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                rc
-            );
-            virtualbox_dump_error();
-            retval = rc;
-            goto CLEANUP;
-        }
-
+        if (CHECK_ERROR(rc)) goto CLEANUP;
     } else {
-
         fprintf(
             stderr,
             "%s Setting Network Configuration for NAT.\n",
             vboxwrapper_msg_prefix(buf, sizeof(buf))
         );
         rc = pNetworkAdapter->put_AttachmentType(NetworkAttachmentType_NAT);
-        if (FAILED(rc)) {
-            fprintf(
-                stderr,
-                "%s Error setting network configuration for the virtual machine! rc = 0x%x\n",
-                vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                rc
-            );
-            virtualbox_dump_error();
-            retval = rc;
-            goto CLEANUP;
-        }
+        if (CHECK_ERROR(rc)) goto CLEANUP;
 
         rc = pNATEngine->put_DNSProxy(TRUE);
-        if (FAILED(rc)) {
-            fprintf(
-                stderr,
-                "%s Error setting network configuration (DNS Proxy) for the virtual machine! rc = 0x%x\n",
-                vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                rc
-            );
-            virtualbox_dump_error();
-            retval = rc;
-            goto CLEANUP;
-        }
+        if (CHECK_ERROR(rc)) goto CLEANUP;
     }
 
     // Tweak the VM's USB Configuration
@@ -859,17 +635,7 @@ int VBOX_VM::create_vm() {
                 vboxwrapper_msg_prefix(buf, sizeof(buf))
             );
             rc = pMachine->SetHWVirtExProperty(HWVirtExPropertyType_Enabled, FALSE);
-            if (FAILED(rc)) {
-                fprintf(
-                    stderr,
-                    "%s Error disabling hardware acceleration support for the virtual machine! rc = 0x%x\n",
-                    vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                    rc
-                );
-                virtualbox_dump_error();
-                retval = rc;
-                goto CLEANUP;
-            }
+            if (CHECK_ERROR(rc)) goto CLEANUP;
         }
     } else if (os_name.find("_64") != std::string::npos) {
         if (disable_acceleration) {
@@ -894,62 +660,25 @@ int VBOX_VM::create_vm() {
     );
     if (0 == stricmp(vm_disk_controller_type.c_str(), "ide")) {
         rc = pMachine->AddStorageController(CComBSTR("Hard Disk Controller"), StorageBus_IDE, &pDiskController);
-        if (FAILED(rc)) {
-            fprintf(
-                stderr,
-                "%s Error adding storage controller (IDE) to the virtual machine! rc = 0x%x\n",
-                vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                rc
-            );
-            virtualbox_dump_error();
-            retval = rc;
-            goto CLEANUP;
-        }
+        if (CHECK_ERROR(rc)) goto CLEANUP;
     }
     if (0 == stricmp(vm_disk_controller_type.c_str(), "sata")) {
         rc = pMachine->AddStorageController(CComBSTR("Hard Disk Controller"), StorageBus_SATA, &pDiskController);
-        if (FAILED(rc)) {
-            fprintf(
-                stderr,
-                "%s Error adding storage controller (SATA) to the virtual machine! rc = 0x%x\n",
-                vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                rc
-            );
-            virtualbox_dump_error();
-            retval = rc;
-            goto CLEANUP;
-        }
+        if (CHECK_ERROR(rc)) goto CLEANUP;
+
         pDiskController->put_UseHostIOCache(FALSE);
         pDiskController->put_PortCount(3);
     }
     if (0 == stricmp(vm_disk_controller_type.c_str(), "sas")) {
         rc = pMachine->AddStorageController(CComBSTR("Hard Disk Controller"), StorageBus_SAS, &pDiskController);
-        if (FAILED(rc)) {
-            fprintf(
-                stderr,
-                "%s Error adding storage controller (SAS) to the virtual machine! rc = 0x%x\n",
-                vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                rc
-            );
-            virtualbox_dump_error();
-            retval = rc;
-            goto CLEANUP;
-        }
+        if (CHECK_ERROR(rc)) goto CLEANUP;
+
         pDiskController->put_UseHostIOCache(FALSE);
     }
     if (0 == stricmp(vm_disk_controller_type.c_str(), "scsi")) {
         rc = pMachine->AddStorageController(CComBSTR("Hard Disk Controller"), StorageBus_SCSI, &pDiskController);
-        if (FAILED(rc)) {
-            fprintf(
-                stderr,
-                "%s Error adding storage controller (SCSI) to the virtual machine! rc = 0x%x\n",
-                vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                rc
-            );
-            virtualbox_dump_error();
-            retval = rc;
-            goto CLEANUP;
-        }
+        if (CHECK_ERROR(rc)) goto CLEANUP;
+
         pDiskController->put_UseHostIOCache(FALSE);
     }
 
@@ -975,21 +704,10 @@ int VBOX_VM::create_vm() {
     //
     if (enable_floppyio) {
         rc = pMachine->AddStorageController(CComBSTR("Floppy Controller"), StorageBus_Floppy, &pFloppyController);
-        if (FAILED(rc)) {
-            fprintf(
-                stderr,
-                "%s Error adding storage controller (Floppy) to the virtual machine! rc = 0x%x\n",
-                vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                rc
-            );
-            virtualbox_dump_error();
-            retval = rc;
-            goto CLEANUP;
-        }
+        if (CHECK_ERROR(rc)) goto CLEANUP;
     }
 
     if (enable_isocontextualization) {
-
         // Add virtual ISO 9660 disk drive to VM
         //
         fprintf(
@@ -1006,17 +724,7 @@ int VBOX_VM::create_vm() {
             TRUE,
             &pISOImage
         );
-        if (FAILED(rc)) {
-            fprintf(
-                stderr,
-                "%s Error adding virtual ISO 9660 disk drive to VirtualBox! rc = 0x%x\n",
-                vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                rc
-            );
-            virtualbox_dump_error();
-            retval = rc;
-            goto CLEANUP;
-        }
+        if (CHECK_ERROR(rc)) goto CLEANUP;
 
         rc = pMachine->AttachDevice(
             CComBSTR("Hard Disk Controller"),
@@ -1025,17 +733,7 @@ int VBOX_VM::create_vm() {
             DeviceType_DVD,
             pISOImage
         );
-        if (FAILED(rc)) {
-            fprintf(
-                stderr,
-                "%s Error adding virtual ISO 9660 disk drive to virtual machine! rc = 0x%x\n",
-                vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                rc
-            );
-            virtualbox_dump_error();
-            retval = rc;
-            goto CLEANUP;
-        }
+        if (CHECK_ERROR(rc)) goto CLEANUP;
 
         // Add guest additions to the VM
         //
@@ -1052,17 +750,7 @@ int VBOX_VM::create_vm() {
             FALSE,
             &pGuestAdditionsImage
         );
-        if (FAILED(rc)) {
-            fprintf(
-                stderr,
-                "%s Error adding VirtualBox Guest Additions to VirtualBox! rc = 0x%x\n",
-                vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                rc
-            );
-            virtualbox_dump_error();
-            retval = rc;
-            goto CLEANUP;
-        }
+        if (CHECK_ERROR(rc)) goto CLEANUP;
 
         rc = pMachine->AttachDevice(
             CComBSTR("Hard Disk Controller"),
@@ -1071,17 +759,7 @@ int VBOX_VM::create_vm() {
             DeviceType_DVD,
             pGuestAdditionsImage
         );
-        if (FAILED(rc)) {
-            fprintf(
-                stderr,
-                "%s Error adding VirtualBox Guest Additions to virtual machine! rc = 0x%x\n",
-                vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                rc
-            );
-            virtualbox_dump_error();
-            retval = rc;
-            goto CLEANUP;
-        }
+        if (CHECK_ERROR(rc)) goto CLEANUP;
 
         // Add a virtual cache disk drive to VM
         //
@@ -1100,17 +778,7 @@ int VBOX_VM::create_vm() {
                 TRUE,
                 &pCacheImage
             );
-            if (FAILED(rc)) {
-                fprintf(
-                    stderr,
-                    "%s Error adding virtual cache disk drive to VirtualBox! rc = 0x%x\n",
-                    vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                    rc
-                );
-                virtualbox_dump_error();
-                retval = rc;
-                goto CLEANUP;
-            }
+            if (CHECK_ERROR(rc)) goto CLEANUP;
 
             rc = pMachine->AttachDevice(
                 CComBSTR("Hard Disk Controller"),
@@ -1119,21 +787,9 @@ int VBOX_VM::create_vm() {
                 DeviceType_HardDisk,
                 pCacheImage
             );
-            if (FAILED(rc)) {
-                fprintf(
-                    stderr,
-                    "%s Error adding virtual cache disk drive to virtual machine! rc = 0x%x\n",
-                    vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                    rc
-                );
-                virtualbox_dump_error();
-                retval = rc;
-                goto CLEANUP;
-            }
+            if (CHECK_ERROR(rc)) goto CLEANUP;
         }
-
     } else {
-
         // Adding virtual hard drive to VM
         //
         fprintf(
@@ -1150,17 +806,7 @@ int VBOX_VM::create_vm() {
             TRUE,
             &pDiskImage
         );
-        if (FAILED(rc)) {
-            fprintf(
-                stderr,
-                "%s Error adding virtual disk drive to VirtualBox! rc = 0x%x\n",
-                vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                rc
-            );
-            virtualbox_dump_error();
-            retval = rc;
-            goto CLEANUP;
-        }
+        if (CHECK_ERROR(rc)) goto CLEANUP;
 
         rc = pMachine->AttachDevice(
             CComBSTR("Hard Disk Controller"),
@@ -1169,17 +815,7 @@ int VBOX_VM::create_vm() {
             DeviceType_HardDisk,
             pDiskImage
         );
-        if (FAILED(rc)) {
-            fprintf(
-                stderr,
-                "%s Error adding virtual disk drive to virtual machine! rc = 0x%x\n",
-                vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                rc
-            );
-            virtualbox_dump_error();
-            retval = rc;
-            goto CLEANUP;
-        }
+        if (CHECK_ERROR(rc)) goto CLEANUP;
 
         // Add guest additions to the VM
         //
@@ -1196,17 +832,7 @@ int VBOX_VM::create_vm() {
             FALSE,
             &pGuestAdditionsImage
         );
-        if (FAILED(rc)) {
-            fprintf(
-                stderr,
-                "%s Error adding VirtualBox Guest Additions to VirtualBox! rc = 0x%x\n",
-                vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                rc
-            );
-            virtualbox_dump_error();
-            retval = rc;
-            goto CLEANUP;
-        }
+        if (CHECK_ERROR(rc)) goto CLEANUP;
 
         rc = pMachine->AttachDevice(
             CComBSTR("Hard Disk Controller"),
@@ -1215,24 +841,12 @@ int VBOX_VM::create_vm() {
             DeviceType_DVD,
             pGuestAdditionsImage
         );
-        if (FAILED(rc)) {
-            fprintf(
-                stderr,
-                "%s Error adding VirtualBox Guest Additions to virtual machine! rc = 0x%x\n",
-                vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                rc
-            );
-            virtualbox_dump_error();
-            retval = rc;
-            goto CLEANUP;
-        }
-
+        if (CHECK_ERROR(rc)) goto CLEANUP;
     }
 
     // Adding virtual floppy disk drive to VM
     //
     if (enable_floppyio) {
-
         // Put in place the FloppyIO abstraction
         //
         // NOTE: This creates the floppy.img file at runtime for use by the VM.
@@ -1266,17 +880,7 @@ int VBOX_VM::create_vm() {
             TRUE,
             &pFloppyImage
         );
-        if (FAILED(rc)) {
-            fprintf(
-                stderr,
-                "%s Error adding virtual floppy disk image to VirtualBox! rc = 0x%x\n",
-                vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                rc
-            );
-            virtualbox_dump_error();
-            retval = rc;
-            goto CLEANUP;
-        }
+        if (CHECK_ERROR(rc)) goto CLEANUP;
 
         rc = pMachine->AttachDevice(
             CComBSTR("Floppy Controller"),
@@ -1285,18 +889,7 @@ int VBOX_VM::create_vm() {
             DeviceType_Floppy,
             pFloppyImage
         );
-        if (FAILED(rc)) {
-            fprintf(
-                stderr,
-                "%s Error adding virtual floppy disk image to virtual machine! rc = 0x%x\n",
-                vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                rc
-            );
-            virtualbox_dump_error();
-            retval = rc;
-            goto CLEANUP;
-        }
-
+        if (CHECK_ERROR(rc)) goto CLEANUP;
     }
 
     // Add network bandwidth throttle group
@@ -1311,17 +904,7 @@ int VBOX_VM::create_vm() {
         BandwidthGroupType_Network,
         (LONG64)1024*1024*1024*1024
     );
-    if (FAILED(rc)) {
-        fprintf(
-            stderr,
-            "%s Error adding network bandwidth group to virtual machine! rc = 0x%x\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf)),
-            rc
-        );
-        virtualbox_dump_error();
-        retval = rc;
-        goto CLEANUP;
-    }
+    if (CHECK_ERROR(rc)) goto CLEANUP;
 
     // Configure port forwarding
     //
@@ -1356,17 +939,7 @@ int VBOX_VM::create_vm() {
                 CComBSTR(""),
                 pf.guest_port
             );
-            if (FAILED(rc)) {
-                fprintf(
-                    stderr,
-                    "%s Error adding port forward to virtual machine! rc = 0x%x\n",
-                    vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                    rc
-                );
-                virtualbox_dump_error();
-                retval = rc;
-                goto CLEANUP;
-            }
+            if (CHECK_ERROR(rc)) goto CLEANUP;
         }
     }
 
@@ -1386,9 +959,7 @@ int VBOX_VM::create_vm() {
             );
         } else {
             retval = boinc_get_port(false, rd_host_port);
-            if (retval) {
-                goto CLEANUP;
-            }
+            if (retval) goto CLEANUP;
 
             sprintf(buf, "%d", rd_host_port);
 
@@ -1414,17 +985,7 @@ int VBOX_VM::create_vm() {
             TRUE,
             TRUE
         );
-        if (FAILED(rc)) {
-            fprintf(
-                stderr,
-                "%s Error could not create shared folder for virtual machine! rc = 0x%x\n",
-                vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                rc
-            );
-            virtualbox_dump_error();
-            retval = rc;
-            goto CLEANUP;
-        }
+        if (CHECK_ERROR(rc)) goto CLEANUP;
     }
 
 CLEANUP:
@@ -1467,30 +1028,10 @@ int VBOX_VM::register_vm() {
         CComBSTR(string(virtual_machine_slot_directory + "\\" + vm_name + "\\" + vm_name + ".vbox").c_str()),
         &pMachine
     );
-    if (FAILED(rc)) {
-        fprintf(
-            stderr,
-            "%s Error opening virtual machine! rc = 0x%x\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf)),
-            rc
-        );
-        virtualbox_dump_error();
-        retval = rc;
-        goto CLEANUP;
-    }
+    if (CHECK_ERROR(rc)) goto CLEANUP;
 
     rc = m_pPrivate->m_pVirtualBox->RegisterMachine(pMachine);
-    if (FAILED(rc)) {
-        fprintf(
-            stderr,
-            "%s Error registering virtual machine! rc = 0x%x\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf)),
-            rc
-        );
-        virtualbox_dump_error();
-        retval = rc;
-        goto CLEANUP;
-    }
+    if (CHECK_ERROR(rc)) goto CLEANUP;
 
 CLEANUP:
     return retval;
@@ -1533,47 +1074,16 @@ int VBOX_VM::deregister_vm(bool delete_media) {
     if (SUCCEEDED(rc)) {
         if (delete_media) {
             rc = pSession.CoCreateInstance(CLSID_Session);
-            if (!SUCCEEDED(rc)) {
-                fprintf(
-                    stderr,
-                    "%s Error creating Session instance! rc = 0x%x\n",
-                    vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                    rc
-                );
-            }
+            CHECK_ERROR(rc);
 
             rc = pMachineRO->LockMachine(pSession, LockType_Write);
-            if (FAILED(rc)) {
-                fprintf(
-                    stderr,
-                    "%s Error locking virtual machine! rc = 0x%x\n",
-                    vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                    rc
-                );
-                virtualbox_dump_error();
-            }
+            CHECK_ERROR(rc);
 
             rc = pSession->get_Console(&pConsole);
-            if (FAILED(rc)) {
-                fprintf(
-                    stderr,
-                    "%s Error retrieving console object! rc = 0x%x\n",
-                    vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                    rc
-                );
-                virtualbox_dump_error();
-            }
+            CHECK_ERROR(rc);
 
             rc = pSession->get_Machine(&pMachine);
-            if (FAILED(rc)) {
-                fprintf(
-                    stderr,
-                    "%s Error retrieving mutable virtual machine object! rc = 0x%x\n",
-                    vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                    rc
-                );
-                virtualbox_dump_error();
-            }
+            CHECK_ERROR(rc);
 
 
             // Delete snapshots
@@ -1589,13 +1099,7 @@ int VBOX_VM::deregister_vm(bool delete_media) {
                     if (SUCCEEDED(rc)) {
                         pProgress->WaitForCompletion(-1);
                     } else {
-                        fprintf(
-                            stderr,
-                            "%s Error deleting snapshot! rc = 0x%x\n",
-                            vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                            rc
-                        );
-                        virtualbox_dump_error();
+                        CHECK_ERROR(rc);
                     }
                 }
             }
@@ -1634,15 +1138,7 @@ int VBOX_VM::deregister_vm(bool delete_media) {
                         mediums.push_back(CComPtr<IMedium>(pMedium));
                         
                         rc = pMachine->DetachDevice(strController, lPort, lDevice);
-                        if (FAILED(rc)) {
-                            fprintf(
-                                stderr,
-                                "%s Error detaching device from virtual machine instance! rc = 0x%x\n",
-                                vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                                rc
-                            );
-                            virtualbox_dump_error();
-                        }
+                        CHECK_ERROR(rc);
                     }
                 }
             }
@@ -1674,15 +1170,7 @@ int VBOX_VM::deregister_vm(bool delete_media) {
             // Save the VM Settings so the state is stored
             //
             rc = pMachine->SaveSettings();
-            if (FAILED(rc)) {
-                fprintf(
-                    stderr,
-                    "%s Error could not save settings for virtual machine! rc = 0x%x\n",
-                    vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                    rc
-                );
-                virtualbox_dump_error();
-            }
+            CHECK_ERROR(rc);
 
             // Now it should be safe to close down the mediums we detached.
             //
@@ -1693,15 +1181,7 @@ int VBOX_VM::deregister_vm(bool delete_media) {
             // Now free the session lock
             //
             rc = pSession->UnlockMachine();
-            if (FAILED(rc)) {
-                fprintf(
-                    stderr,
-                    "%s Error could not unlock virtual machine! rc = 0x%x\n",
-                    vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                    rc
-                );
-                virtualbox_dump_error();
-            }
+            CHECK_ERROR(rc);
         }
 
         // Next, delete VM
@@ -1733,13 +1213,7 @@ int VBOX_VM::deregister_vm(bool delete_media) {
             if (SUCCEEDED(rc)) {
                 pProgress->WaitForCompletion(-1);
             } else {
-                fprintf(
-                    stderr,
-                    "%s Error deleting configuration files for virtual machine instance! rc = 0x%x\n",
-                    vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                    rc
-                );
-                virtualbox_dump_error();
+                CHECK_ERROR(rc);
             }
 #endif
 #ifdef _VIRTUALBOX42_
@@ -1747,24 +1221,12 @@ int VBOX_VM::deregister_vm(bool delete_media) {
             if (SUCCEEDED(rc)) {
                 pProgress->WaitForCompletion(-1);
             } else {
-                fprintf(
-                    stderr,
-                    "%s Error deleting configuration files for virtual machine instance! rc = 0x%x\n",
-                    vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                    rc
-                );
-                virtualbox_dump_error();
+                CHECK_ERROR(rc);
             }
 #endif
 
         } else {
-            fprintf(
-                stderr,
-                "%s Error unregistering virtual machine instance! rc = 0x%x\n",
-                vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                rc
-            );
-            virtualbox_dump_error();
+            CHECK_ERROR(rc);
         }
     }
 
@@ -2098,31 +1560,11 @@ int VBOX_VM::start() {
 
         // Start a VM session
         rc = pMachineRO->LaunchVMProcess(m_pPrivate->m_pSession, session_type, NULL, &pProgress);
-        if (FAILED(rc)) {
-            fprintf(
-                stderr,
-                "%s Error could not launch VM process! rc = 0x%x\n",
-                vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                rc
-            );
-            virtualbox_dump_error();
-            retval = rc;
-            goto CLEANUP;
-        }
+        if (CHECK_ERROR(rc)) goto CLEANUP;
 
         // Wait until VM is running.
         rc = pProgress->WaitForCompletion(-1);
-        if (FAILED(rc)) {
-            fprintf(
-                stderr,
-                "%s Error could not wait for VM start completion! rc = 0x%x\n",
-                vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                rc
-            );
-            virtualbox_dump_error();
-            retval = rc;
-            goto CLEANUP;
-        }
+        if (CHECK_ERROR(rc)) goto CLEANUP;
 
         pProgress->get_Completed(&bCompleted);
         if (bCompleted) {
@@ -2133,14 +1575,7 @@ int VBOX_VM::start() {
             m_pPrivate->m_pSession->get_Machine(&m_pPrivate->m_pMachine);
 
             rc = m_pPrivate->m_pMachine->get_SessionPID((ULONG*)&vm_pid);
-            if (FAILED(rc)) {
-                fprintf(
-                    stderr,
-                    "%s Error could not get VM PID! rc = 0x%x\n",
-                    vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                    rc
-                );
-            }
+            if (CHECK_ERROR(rc)) goto CLEANUP;
 
             vm_pid_handle = OpenProcess(
                 PROCESS_QUERY_INFORMATION | PROCESS_SET_INFORMATION,
@@ -2196,39 +1631,15 @@ int VBOX_VM::stop() {
     if (online) {
         // Get console object. 
         rc = m_pPrivate->m_pSession->get_Console(&pConsole);
-        if (FAILED(rc)) {
-            fprintf(
-                stderr,
-                "%s Error retrieving console object! rc = 0x%x\n",
-                vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                rc
-            );
-            virtualbox_dump_error();
-        }
+        if (CHECK_ERROR(rc)) goto CLEANUP;
 
         // Save the state of the machine.
         rc = pConsole->SaveState(&pProgress);
-        if (FAILED(rc)) {
-            fprintf(
-                stderr,
-                "%s Error could not save the state of the VM! rc = 0x%x\n",
-                vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                rc
-            );
-            virtualbox_dump_error();
-        }
+        if (CHECK_ERROR(rc)) goto CLEANUP;
 
         // Wait until VM is powered down.
         rc = pProgress->WaitForCompletion(-1);
-        if (FAILED(rc)) {
-            fprintf(
-                stderr,
-                "%s Error could not wait for VM save state completion! rc = 0x%x\n",
-                vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                rc
-            );
-            virtualbox_dump_error();
-        }
+        if (CHECK_ERROR(rc)) goto CLEANUP;
 
         // Wait for up to 5 minutes for the VM to switch states.  A system
         // under load can take a while.  Since the poll function can wait for up
@@ -2276,6 +1687,7 @@ int VBOX_VM::stop() {
         boinc_sleep(5.0);
     }
 
+CLEANUP:
     return retval;
 }
 
@@ -2298,39 +1710,15 @@ int VBOX_VM::poweroff() {
     if (online) {
         // Get console object. 
         rc = m_pPrivate->m_pSession->get_Console(&pConsole);
-        if (FAILED(rc)) {
-            fprintf(
-                stderr,
-                "%s Error retrieving console object! rc = 0x%x\n",
-                vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                rc
-            );
-            virtualbox_dump_error();
-        }
+        if (CHECK_ERROR(rc)) goto CLEANUP;
 
         // Power down the VM as quickly as possible.
         rc = pConsole->PowerDown(&pProgress);
-        if (FAILED(rc)) {
-            fprintf(
-                stderr,
-                "%s Error could not save the state of the VM! rc = 0x%x\n",
-                vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                rc
-            );
-            virtualbox_dump_error();
-        }
+        if (CHECK_ERROR(rc)) goto CLEANUP;
 
         // Wait until VM is powered down.
         rc = pProgress->WaitForCompletion(-1);
-        if (FAILED(rc)) {
-            fprintf(
-                stderr,
-                "%s Error could not wait for VM save state completion! rc = 0x%x\n",
-                vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                rc
-            );
-            virtualbox_dump_error();
-        }
+        if (CHECK_ERROR(rc)) goto CLEANUP;
 
         // Wait for up to 5 minutes for the VM to switch states.  A system
         // under load can take a while.  Since the poll function can wait for up
@@ -2378,12 +1766,12 @@ int VBOX_VM::poweroff() {
         boinc_sleep(5.0);
     }
 
+CLEANUP:
     return retval;
 }
 
 int VBOX_VM::pause() {
     int retval = ERR_EXEC;
-    char buf[256];
     HRESULT rc;
     CComPtr<IConsole> pConsole;
 
@@ -2397,37 +1785,13 @@ int VBOX_VM::pause() {
 
     // Get console object. 
     rc = m_pPrivate->m_pSession->get_Console(&pConsole);
-    if (FAILED(rc))
-    {
-        fprintf(
-            stderr,
-            "%s Error retrieving console object! rc = 0x%x\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf)),
-            rc
-        );
-        virtualbox_dump_error();
-        retval = rc;
-        goto CLEANUP;
-    }
+    if (CHECK_ERROR(rc)) goto CLEANUP;
 
     // Pause the machine.
     rc = pConsole->Pause();
-    if (FAILED(rc))
-    {
-        fprintf(
-            stderr,
-            "%s Error could not pause VM! rc = 0x%x\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf)),
-            rc
-        );
-        virtualbox_dump_error();
-        retval = rc;
-        goto CLEANUP;
-    }
-    else
-    {
-        retval = BOINC_SUCCESS;
-    }
+    if (CHECK_ERROR(rc)) goto CLEANUP;
+
+    retval = BOINC_SUCCESS;
 
 CLEANUP:
     return retval;
@@ -2435,7 +1799,6 @@ CLEANUP:
 
 int VBOX_VM::resume() {
     int retval = ERR_EXEC;
-    char buf[256];
     HRESULT rc;
     CComPtr<IConsole> pConsole;
 
@@ -2448,35 +1811,13 @@ int VBOX_VM::resume() {
 
     // Get console object. 
     rc = m_pPrivate->m_pSession->get_Console(&pConsole);
-    if (FAILED(rc)) {
-        fprintf(
-            stderr,
-            "%s Error retrieving console object! rc = 0x%x\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf)),
-            rc
-        );
-        virtualbox_dump_error();
-        retval = rc;
-        goto CLEANUP;
-    }
+    if (CHECK_ERROR(rc)) goto CLEANUP;
 
     // Resume the machine.
     rc = pConsole->Resume();
-    if (FAILED(rc)) {
-        fprintf(
-            stderr,
-            "%s Error could not resume VM! rc = 0x%x\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf)),
-            rc
-        );
-        virtualbox_dump_error();
-        retval = rc;
-        goto CLEANUP;
-    }
-    else
-    {
-        retval = BOINC_SUCCESS;
-    }
+    if (CHECK_ERROR(rc)) goto CLEANUP;
+
+    retval = BOINC_SUCCESS;
 
 CLEANUP:
     return retval;
@@ -2502,38 +1843,14 @@ int VBOX_VM::create_snapshot(double elapsed_time) {
 
     // Create new snapshot
     rc = m_pPrivate->m_pSession->get_Console(&pConsole);
-    if (FAILED(rc)) {
-        fprintf(
-            stderr,
-            "%s Error retrieving console object! rc = 0x%x\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf)),
-            rc
-        );
-        virtualbox_dump_error();
-        retval = rc;
+    if (CHECK_ERROR(rc)) {
     } else {
         sprintf(buf, "%d", (int)elapsed_time);
         rc = pConsole->TakeSnapshot(CComBSTR(string(string("boinc_") + buf).c_str()), CComBSTR(""), &pProgress);
-        if (FAILED(rc)) {
-            fprintf(
-                stderr,
-                "%s Error taking snapshot! rc = 0x%x\n",
-                vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                rc
-            );
-            virtualbox_dump_error();
-            retval = rc;
+        if (CHECK_ERROR(rc)) {
         } else {
             rc = pProgress->WaitForCompletion(-1);
-            if (FAILED(rc)) {
-                fprintf(
-                    stderr,
-                    "%s Error could not wait for snapshot creation completion! rc = 0x%x\n",
-                    vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                    rc
-                );
-                virtualbox_dump_error();
-                retval = rc;
+            if (CHECK_ERROR(rc)) {
             }
         }
     }
@@ -2573,17 +1890,7 @@ int VBOX_VM::cleanup_snapshots(bool delete_active) {
     std::vector<std::string> snapshots;
 
     rc = m_pPrivate->m_pSession->get_Console(&pConsole);
-    if (FAILED(rc)) {
-        fprintf(
-            stderr,
-            "%s Error retrieving console object! rc = 0x%x\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf)),
-            rc
-        );
-        virtualbox_dump_error();
-        retval = rc;
-        goto CLEANUP;
-    }
+    if (CHECK_ERROR(rc)) goto CLEANUP;
 
     // Get the current snapshot, if we do not need to delete the active snapshot
     //
@@ -2620,14 +1927,7 @@ int VBOX_VM::cleanup_snapshots(bool delete_active) {
             if (SUCCEEDED(rc)) {
                 pProgress->WaitForCompletion(-1);
             } else {
-                fprintf(
-                    stderr,
-                    "%s Error deleting stale snapshot! rc = 0x%x\n",
-                    vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                    rc
-                );
-                virtualbox_dump_error();
-                retval = rc;
+                CHECK_ERROR(rc);
             }
         }
     }
@@ -2652,55 +1952,16 @@ int VBOX_VM::restore_snapshot() {
     rc = m_pPrivate->m_pVirtualBox->FindMachine(CComBSTR(vm_name.c_str()), &pMachineRO);
     if (SUCCEEDED(rc)) {
         rc = pSession.CoCreateInstance(CLSID_Session);
-        if (!SUCCEEDED(rc)) {
-            fprintf(
-                stderr,
-                "%s Error creating Session instance! rc = 0x%x\n",
-                vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                rc
-            );
-            retval = rc;
-            goto CLEANUP;
-        }
+        if (CHECK_ERROR(rc)) goto CLEANUP;
 
         rc = pMachineRO->LockMachine(pSession, LockType_Write);
-        if (FAILED(rc)) {
-            fprintf(
-                stderr,
-                "%s Error locking virtual machine! rc = 0x%x\n",
-                vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                rc
-            );
-            virtualbox_dump_error();
-            retval = rc;
-            goto CLEANUP;
-        }
+        if (CHECK_ERROR(rc)) goto CLEANUP;
 
         rc = pSession->get_Machine(&pMachine);
-        if (FAILED(rc)) {
-            fprintf(
-                stderr,
-                "%s Error retrieving mutable virtual machine object! rc = 0x%x\n",
-                vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                rc
-            );
-            virtualbox_dump_error();
-            retval = rc;
-            goto CLEANUP;
-        }
+        if (CHECK_ERROR(rc)) goto CLEANUP;
 
         rc = pSession->get_Console(&pConsole);
-        if (FAILED(rc)) {
-            fprintf(
-                stderr,
-                "%s Error retrieving console object! rc = 0x%x\n",
-                vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                rc
-            );
-            virtualbox_dump_error();
-            retval = rc;
-            goto CLEANUP;
-        }
+        if (CHECK_ERROR(rc)) goto CLEANUP;
 
         rc = pMachine->get_CurrentSnapshot(&pSnapshot);
         if (SUCCEEDED(rc)) {
@@ -2712,38 +1973,18 @@ int VBOX_VM::restore_snapshot() {
             );
 
             rc = pConsole->RestoreSnapshot(pSnapshot, &pProgress);
-            if (FAILED(rc)) {
-                fprintf(
-                    stderr,
-                    "%s Error restoring snapshot! rc = 0x%x\n",
-                    vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                    rc
-                );
-                virtualbox_dump_error();
-                retval = rc;
-                goto CLEANUP;
-            }
+            if (CHECK_ERROR(rc)) goto CLEANUP;
 
             rc = pProgress->WaitForCompletion(-1);
-            if (FAILED(rc)) {
-                fprintf(
-                    stderr,
-                    "%s Error could not wait for restore completion! rc = 0x%x\n",
-                    vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                    rc
-                );
-                virtualbox_dump_error();
-                retval = rc;
-                goto CLEANUP;
-            }
+            if (CHECK_ERROR(rc)) goto CLEANUP;
 
             fprintf(
                 stderr,
                 "%s Restore completed.\n",
                 vboxwrapper_msg_prefix(buf, sizeof(buf))
             );
-
         }
+
         retval = BOINC_SUCCESS;
     }
 
@@ -2950,9 +2191,9 @@ int VBOX_VM::get_install_directory(string& install_directory ) {
     if (hkSetupHive) RegCloseKey(hkSetupHive);
     if (lpszRegistryValue) free(lpszRegistryValue);
     if (install_directory.empty()) {
-        return 1;
+        return ERR_FREAD;
     }
-    return 0;
+    return BOINC_SUCCESS;
 }
 
 int VBOX_VM::get_version_information(string& version) {
@@ -3020,7 +2261,6 @@ int VBOX_VM::get_default_network_interface(string& iface) {
 
 int VBOX_VM::get_vm_network_bytes_sent(double& sent) {
     int retval = ERR_EXEC;
-    char buf[256];
     HRESULT rc;
     CComPtr<IConsole> pConsole;
     CComPtr<IMachineDebugger> pDebugger;
@@ -3033,18 +2273,7 @@ int VBOX_VM::get_vm_network_bytes_sent(double& sent) {
 
     // Get console object. 
     rc = m_pPrivate->m_pSession->get_Console(&pConsole);
-    if (FAILED(rc)) {
-        fprintf(
-            stderr,
-            "%s Error retrieving console object! rc = 0x%x\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf)),
-            rc
-        );
-        virtualbox_dump_error();
-        retval = rc;
-        goto CLEANUP;
-    }
-
+    if (CHECK_ERROR(rc)) goto CLEANUP;
 
     // Get debugger object
     rc = pConsole->get_Debugger(&pDebugger);
@@ -3082,7 +2311,6 @@ CLEANUP:
 
 int VBOX_VM::get_vm_network_bytes_received(double& received) {
     int retval = ERR_EXEC;
-    char buf[256];
     HRESULT rc;
     CComPtr<IConsole> pConsole;
     CComPtr<IMachineDebugger> pDebugger;
@@ -3095,18 +2323,7 @@ int VBOX_VM::get_vm_network_bytes_received(double& received) {
 
     // Get console object. 
     rc = m_pPrivate->m_pSession->get_Console(&pConsole);
-    if (FAILED(rc)) {
-        fprintf(
-            stderr,
-            "%s Error retrieving console object! rc = 0x%x\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf)),
-            rc
-        );
-        virtualbox_dump_error();
-        retval = rc;
-        goto CLEANUP;
-    }
-
+    if (CHECK_ERROR(rc)) goto CLEANUP;
 
     // Get debugger object
     rc = pConsole->get_Debugger(&pDebugger);
@@ -3174,10 +2391,10 @@ double VBOX_VM::get_vm_cpu_time() {
 //   machine is already behind the company firewall.
 //
 int VBOX_VM::set_network_access(bool enabled) {
-    int retval;
+    int retval = ERR_EXEC;
     char buf[256];
+    HRESULT rc;
     CComPtr<INetworkAdapter> pNetworkAdapter;
-    HRESULT rc = ERR_EXEC;
 
     network_suspended = !enabled;
 
@@ -3187,20 +2404,13 @@ int VBOX_VM::set_network_access(bool enabled) {
             "%s Enabling network access for VM.\n",
             vboxwrapper_msg_prefix(buf, sizeof(buf))
         );
-
         rc = m_pPrivate->m_pMachine->GetNetworkAdapter(0, &pNetworkAdapter);
-        if (FAILED(rc)) {
-            fprintf(
-                stderr,
-                "%s Error retrieving virtualized network adapter for VM! rc = 0x%x\n",
-                vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                rc
-            );
-        }
-
-        rc = pNetworkAdapter->put_Enabled(TRUE);
-        if (SUCCEEDED(rc)) {
-            retval = BOINC_SUCCESS;
+        if (CHECK_ERROR(rc)) {
+        } else {
+            rc = pNetworkAdapter->put_Enabled(TRUE);
+            if (SUCCEEDED(rc)) {
+                retval = BOINC_SUCCESS;
+            }
         }
     } else {
         fprintf(
@@ -3208,20 +2418,13 @@ int VBOX_VM::set_network_access(bool enabled) {
             "%s Disabling network access for VM.\n",
             vboxwrapper_msg_prefix(buf, sizeof(buf))
         );
-
         rc = m_pPrivate->m_pMachine->GetNetworkAdapter(0, &pNetworkAdapter);
-        if (FAILED(rc)) {
-            fprintf(
-                stderr,
-                "%s Error retrieving virtualized network adapter for VM! rc = 0x%x\n",
-                vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                rc
-            );
-        }
-
-        rc = pNetworkAdapter->put_Enabled(FALSE);
-        if (SUCCEEDED(rc)) {
-            retval = BOINC_SUCCESS;
+        if (CHECK_ERROR(rc)) {
+        } else {
+            rc = pNetworkAdapter->put_Enabled(FALSE);
+            if (SUCCEEDED(rc)) {
+                retval = BOINC_SUCCESS;
+            }
         }
     }
 
@@ -3237,10 +2440,11 @@ int VBOX_VM::set_cpu_usage(int percentage) {
         percentage
     );
     m_pPrivate->m_pMachine->put_CPUExecutionCap(percentage);
-    return 0;
+    return BOINC_SUCCESS;
 }
 
 int VBOX_VM::set_network_usage(int kilobytes) {
+    int retval = ERR_EXEC;
     char buf[256];
     HRESULT rc;
     CComPtr<IBandwidthControl> pBandwidthControl;
@@ -3266,18 +2470,14 @@ int VBOX_VM::set_network_usage(int kilobytes) {
                 );
                 rc = pBandwidthGroup->put_MaxBytesPerSec((LONG64)kilobytes*1024);
             }
-            if (FAILED(rc)) {
-                fprintf(
-                    stderr,
-                    "%s Error setting network throttle for the virtual machine! rc = 0x%x\n",
-                    vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                    rc
-                );
+            if (CHECK_ERROR(rc)) {
+            } else {
+                retval = BOINC_SUCCESS;
             }
         }
     }
 
-    return 0;
+    return retval;
 }
 
 void VBOX_VM::lower_vm_process_priority() {

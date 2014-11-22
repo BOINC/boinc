@@ -517,12 +517,6 @@ int VBOX_BASE::get_system_log(string& log, bool tail_only, unsigned int buffer_s
         // Skip having to deal with various forms of file locks by just making a temp
         // copy of the log file.
         boinc_copy(virtualbox_system_log_src.c_str(), virtualbox_system_log_dst.c_str());
-    } else {
-        fprintf(
-            stderr,
-            "%s WARNING: Stale VirtualBox System Log used.\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf))
-        );
     }
 
     if (boinc_file_exists(virtualbox_system_log_dst.c_str())) {
@@ -548,13 +542,6 @@ int VBOX_BASE::get_system_log(string& log, bool tail_only, unsigned int buffer_s
                 }
             }
         }
-    } else {
-        fprintf(
-            stderr,
-            "%s WARNING: Stale VirtualBox System Log Not Found.\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf))
-        );
-        retval = ERR_NOT_FOUND;
     }
 
     return retval;
@@ -579,12 +566,6 @@ int VBOX_BASE::get_vm_log(string& log, bool tail_only, unsigned int buffer_size)
         // Skip having to deal with various forms of file locks by just making a temp
         // copy of the log file.
         boinc_copy(virtualbox_vm_log_src.c_str(), virtualbox_vm_log_dst.c_str());
-    } else {
-        fprintf(
-            stderr,
-            "%s WARNING: Stale VirtualBox VM Log used.\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf))
-        );
     }
 
     if (boinc_file_exists(virtualbox_vm_log_dst.c_str())) {
@@ -611,13 +592,6 @@ int VBOX_BASE::get_vm_log(string& log, bool tail_only, unsigned int buffer_size)
             }
         }
 
-    } else {
-        fprintf(
-            stderr,
-            "%s WARNING: Stale VirtualBox VM Log Not Found.\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf))
-        );
-        retval = ERR_NOT_FOUND;
     }
 
     return retval;
