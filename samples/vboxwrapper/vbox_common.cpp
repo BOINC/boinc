@@ -504,7 +504,6 @@ int VBOX_BASE::get_system_log(string& log, bool tail_only, unsigned int buffer_s
     string virtualbox_system_log_dst;
     string::iterator iter;
     int retval = BOINC_SUCCESS;
-    char buf[256];
 
     // Where should we copy temp files to?
     get_slot_directory(slot_directory);
@@ -553,7 +552,6 @@ int VBOX_BASE::get_vm_log(string& log, bool tail_only, unsigned int buffer_size)
     string virtualbox_vm_log_dst;
     string::iterator iter;
     int retval = BOINC_SUCCESS;
-    char buf[256];
 
     // Where should we copy temp files to?
     get_slot_directory(slot_directory);
