@@ -74,21 +74,19 @@ struct PORT_FORWARD {
     int host_port;      // 0 means assign dynamically
     int guest_port;
     bool is_remote;
-    bool web_application;
 
     PORT_FORWARD() {
         host_port = 0;
         guest_port = 0;
         is_remote = false;
-        web_application = false;
     }
+    int get_host_port();    // assign host port
 };
 
-// represents a VirtualBox VM
-class VBOX_VM {
+class VBOX_BASE {
 public:
-    VBOX_VM();
-    ~VBOX_VM();
+    VBOX_BASE();
+    ~VBOX_BASE();
 
     std::string virtualbox_home_directory;
     std::string virtualbox_install_directory;
@@ -167,8 +165,6 @@ public:
         // whether to use floppy io infrastructure
     bool enable_remotedesktop;
         // whether to enable remote desktop functionality
-    bool enable_gbac;
-        // whether to enable GBAC functionality
     double job_duration;
         // maximum amount of wall-clock time this VM is allowed to run before
         // considering itself done.
@@ -189,58 +185,35 @@ public:
     std::string completion_trigger_file;
         // if find this file in shared/, task is over.
         // File can optionally contain exit code (first line)
-        // File can optionally contain is_notice bool (second line)
-        // and stderr text (subsequent lines).
-        // Addresses a problem where VM doesn't shut down properly
-    std::string temporary_exit_trigger_file;
-        // if find this file in shared/, task is restarted at a later date.
-        // File can optionally contain restart delay (first line)
-        // File can optionally contain is_notice bool (second line)
         // and stderr text (subsequent lines).
         // Addresses a problem where VM doesn't shut down properly
 
     /////////// END VBOX_JOB.XML ITEMS //////////////
 
-    int vm_pid;
-    int vboxsvc_pid;
-#ifdef _WIN32
-    // the handle to the process for the VM
-    // NOTE: we get a handle to the pid right after we parse it from the
-    //   log files so we can adjust the process priority and retrieve the process
-    //   exit code in case it crashed or was terminated.  Without an outstanding
-    //   handle to the process, the OS is free to reuse the pid for some other
-    //   executable.
-    HANDLE vm_pid_handle;
 
-    // the handle to the vboxsvc process created by us in the sandbox'ed environment
-    HANDLE vboxsvc_pid_handle;
-#endif
-
-    int initialize();
-    void poll(bool log_state = true);
-
-    int create_vm();
-    int register_vm();
-    int deregister_vm(bool delete_media);
-    int deregister_stale_vm();
+    virtual int initialize();
+    virtual int create_vm();
+    virtual int register_vm();
+    virtual int deregister_vm(bool delete_media);
+    virtual int deregister_stale_vm();
+    virtual void poll(bool log_state = true);
+    virtual int start();
+    virtual int stop();
+    virtual int poweroff();
+    virtual int pause();
+    virtual int resume();
+    virtual int create_snapshot(double elapsed_time);
+    virtual int cleanup_snapshots(bool delete_active);
+    virtual int restore_snapshot();
 
     int run(bool do_restore_snapshot);
     void cleanup();
 
-    int start();
-    int stop();
-    int poweroff();
-    int pause();
-    int resume();
-    void check_trickle_triggers();
-    void check_intermediate_uploads();
-    int create_snapshot(double elapsed_time);
-    int cleanup_snapshots(bool delete_active);
-    int restore_snapshot();
     void dump_hypervisor_logs(bool include_error_logs);
     void dump_hypervisor_status_reports();
     void dump_vmguestlog_entries();
-    void delete_temporary_exit_trigger_file();
+    void check_trickle_triggers();
+    void check_intermediate_uploads();
 
     int is_registered();
     bool is_system_ready(std::string& message);
@@ -253,7 +226,6 @@ public:
     bool is_logged_failure_host_out_of_memory();
     bool is_logged_failure_guest_job_out_of_memory();
     bool is_logged_completion_file_exists();
-    bool is_logged_temporary_exit_file_exists();
     bool is_virtualbox_version_newer(int maj, int min, int rel);
     bool is_virtualbox_error_recoverable(int retval);
 
@@ -281,9 +253,6 @@ public:
 
     void lower_vm_process_priority();
     void reset_vm_process_priority();
-
-    int launch_vboxsvc();
-    int launch_vboxvm();
 
     void sanitize_output(std::string& output);
 

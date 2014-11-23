@@ -48,6 +48,9 @@
 #ifdef _WIN32
 #include "boinc_win.h"
 #include "win_util.h"
+#include "atlcomcli.h"
+#include "atlstr.h"
+#include "mscom/VirtualBox.h"
 #else
 #include <vector>
 #include <sys/wait.h>
@@ -72,6 +75,12 @@
 #include "procinfo.h"
 #include "vboxwrapper.h"
 #include "vbox.h"
+
+#ifdef _WIN32
+#include "vbox_win.h"
+#else
+#include "vbox_unix.h"
+#endif
 
 using std::vector;
 using std::string;
@@ -126,38 +135,46 @@ char* vboxwrapper_msg_prefix(char* sbuf, int len) {
     return sbuf;
 }
 
-int parse_port_forward(XML_PARSER& xp, VBOX_VM& vm) {
+int parse_port_forward(VBOX_VM& vm, XML_PARSER& xp) {
+    char buf2[256];
     int host_port=0, guest_port=0, nports=1;
-    bool is_remote = false, web_application = false;
-    char buf[256];
+    bool is_remote;
     while (!xp.get_tag()) {
         if (xp.match_tag("/port_forward")) {
-            if (!guest_port) {
-                fprintf(stderr, "%s parse_port_forward(): unspecified guest port\n",
-                    vboxwrapper_msg_prefix(buf, sizeof(buf))
+            if (!host_port) {
+                fprintf(stderr,
+                    "%s parse_port_forward(): unspecified host port\n",
+                    vboxwrapper_msg_prefix(buf2, sizeof(buf2))
                 );
+                return ERR_XML_PARSE;
+            }
+            if (!guest_port) {
+                fprintf(stderr,
+                    "%s parse_port_forward(): unspecified guest port\n",
+                    vboxwrapper_msg_prefix(buf2, sizeof(buf2))
+                );
+                return ERR_XML_PARSE;
             }
             PORT_FORWARD pf;
             pf.host_port = host_port;
             pf.guest_port = guest_port;
             pf.is_remote = is_remote;
-            pf.web_application = web_application;
             for (int i=0; i<nports; i++) {
                 vm.port_forwards.push_back(pf);
                 pf.host_port++;
                 pf.guest_port++;
-                pf.web_application = false;
             }
             return 0;
         }
-        else if (xp.parse_bool("web_application", web_application)) continue;
         else if (xp.parse_bool("is_remote", is_remote)) continue;
         else if (xp.parse_int("host_port", host_port)) continue;
         else if (xp.parse_int("guest_port", guest_port)) continue;
         else if (xp.parse_int("nports", nports)) continue;
         else {
-            fprintf(stderr, "%s parse_port_forward(): unexpected tag %s\n",
-                vboxwrapper_msg_prefix(buf, sizeof(buf)), xp.parsed_tag
+            fprintf(stderr,
+                "%s parse_port_forward(): unparsed %s\n",
+                vboxwrapper_msg_prefix(buf2, sizeof(buf2)),
+                xp.parsed_tag
             );
         }
     }
@@ -167,7 +184,6 @@ int parse_port_forward(XML_PARSER& xp, VBOX_VM& vm) {
 int parse_job_file(VBOX_VM& vm) {
     INTERMEDIATE_UPLOAD iu;
     MIOFILE mf;
-    int guest_port=0;
     string str;
     char buf[1024], buf2[256];
 
@@ -210,16 +226,8 @@ int parse_job_file(VBOX_VM& vm) {
         else if (xp.parse_bool("enable_cache_disk", vm.enable_cache_disk)) continue;
         else if (xp.parse_bool("enable_isocontextualization", vm.enable_isocontextualization)) continue;
         else if (xp.parse_bool("enable_remotedesktop", vm.enable_remotedesktop)) continue;
-        else if (xp.parse_bool("enable_gbac", vm.enable_gbac)) continue;
-        else if (xp.parse_int("pf_guest_port", guest_port)) {
-            PORT_FORWARD pf;
-            pf.host_port = 0;
-            pf.guest_port = guest_port;
-            pf.is_remote = false;
-            pf.web_application = true;
-            vm.port_forwards.push_back(pf);
-            continue;
-        }
+        else if (xp.parse_int("pf_guest_port", vm.pf_guest_port)) continue;
+        else if (xp.parse_int("pf_host_port", vm.pf_host_port)) continue;
         else if (xp.parse_string("copy_to_shared", str)) {
             vm.copy_to_shared.push_back(str);
             continue;
@@ -238,18 +246,12 @@ int parse_job_file(VBOX_VM& vm) {
             vm.completion_trigger_file = str;
             continue;
         }
-        else if (xp.parse_string("temporary_exit_trigger_file", str)) {
-            vm.temporary_exit_trigger_file = str;
-            continue;
-        }
         else if (xp.match_tag("port_forward")) {
-            parse_port_forward(xp, vm);
+            parse_port_forward(vm, xp);
         }
-        else {
-            fprintf(stderr, "%s parse_job_file(): unexpected tag %s\n",
-                vboxwrapper_msg_prefix(buf, sizeof(buf)), xp.parsed_tag
-            );
-        }
+        fprintf(stderr, "%s parse_job_file(): unexpected tag %s\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf)), xp.parsed_tag
+        );
     }
     fclose(f);
     return ERR_XML_PARSE;
@@ -324,29 +326,6 @@ void read_completion_file_info(unsigned long& exit_code, bool& is_notice, string
     if (f) {
         if (fgets(buf, 1024, f) != NULL) {
             exit_code = atoi(buf);
-        }
-        if (fgets(buf, 1024, f) != NULL) {
-            is_notice = atoi(buf);
-        }
-        while (fgets(buf, 1024, f) != NULL) {
-            message += buf;
-        }
-        fclose(f);
-    }
-}
-
-void read_temporary_exit_file_info(int& temp_delay, bool& is_notice, string& message, VBOX_VM& vm) {
-    char path[MAXPATHLEN];
-    char buf[1024];
-
-    temp_delay = 0;
-    message = "";
-
-    sprintf(path, "shared/%s", vm.temporary_exit_trigger_file.c_str());
-    FILE* f = fopen(path, "r");
-    if (f) {
-        if (fgets(buf, 1024, f) != NULL) {
-            temp_delay = atoi(buf);
         }
         if (fgets(buf, 1024, f) != NULL) {
             is_notice = atoi(buf);
@@ -446,14 +425,9 @@ void set_web_graphics_url(VBOX_VM& vm) {
     char buf[256];
     for (unsigned int i=0; i<vm.port_forwards.size(); i++) {
         PORT_FORWARD& pf = vm.port_forwards[i];
-        if (pf.web_application) {
+        if (pf.guest_port == vm.pf_guest_port) {
             sprintf(buf, "http://localhost:%d", pf.host_port);
             boinc_web_graphics_url(buf);
-
-            fprintf(stderr, "%s Detected: Web Application Enabled (%s)\n",
-                vboxwrapper_msg_prefix(buf, sizeof(buf)), buf
-            );
-
             break;
         }
     }
@@ -616,7 +590,6 @@ int main(int argc, char** argv) {
 	int vm_image = 0;
     unsigned long vm_exit_code = 0;
     bool is_notice = false;
-    int temp_delay = 86400;
     string message;
     char buf[256];
 
@@ -964,6 +937,7 @@ int main(int argc, char** argv) {
         bool   do_dump_hypervisor_logs = false;
         string error_reason;
         const char*  temp_reason = "";
+        int    temp_delay = 86400;
 
         if (VBOXWRAPPER_ERR_RECOVERABLE == retval) {
             error_reason =
@@ -1140,6 +1114,7 @@ int main(int argc, char** argv) {
     }
 
     set_floppy_image(aid, vm);
+    //set_port_forwarding_info(aid, vm);
     set_web_graphics_url(vm);
     set_remote_desktop_info(aid, vm);
     write_checkpoint(elapsed_time, current_cpu_time, vm);
@@ -1187,30 +1162,6 @@ int main(int argc, char** argv) {
                 boinc_finish_message(vm_exit_code, message.c_str(), is_notice);
             } else {
                 boinc_finish(vm_exit_code);
-            }
-        }
-        if (vm.is_logged_temporary_exit_file_exists()) {
-            vm.reset_vm_process_priority();
-            vm.stop();
-            fprintf(
-                stderr,
-                "%s VM Temporary Exit File Detected.\n",
-                vboxwrapper_msg_prefix(buf, sizeof(buf))
-            );
-            read_temporary_exit_file_info(temp_delay, is_notice, message, vm);
-            if (message.size()) {
-                fprintf(
-                    stderr,
-                    "%s VM Temporary Exit Message: %s.\n",
-                    vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                    message.c_str()
-                );
-            }
-            vm.delete_temporary_exit_trigger_file();
-            if (is_notice) {
-                boinc_temporary_exit(temp_delay, message.c_str(), is_notice);
-            } else {
-                boinc_temporary_exit(temp_delay);
             }
         }
         if (!vm.online) {
