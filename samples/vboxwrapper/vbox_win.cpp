@@ -17,14 +17,9 @@
 
 #include "boinc_win.h"
 #include "win_util.h"
-
-using std::string;
-
-#if defined(_MSC_VER)
-#define getcwd      _getcwd
-#define stricmp     _stricmp
-#endif
-
+#include "atlcomcli.h"
+#include "atlstr.h"
+#include "mscom/VirtualBox.h"
 #include "diagnostics.h"
 #include "filesys.h"
 #include "parse.h"
@@ -35,15 +30,13 @@ using std::string;
 #include "procinfo.h"
 #include "network.h"
 #include "boinc_api.h"
-#include "mscom/VirtualBox.h"
 #include "floppyio.h"
 #include "vboxwrapper.h"
 #include "vbox.h"
+#include "vbox_win.h"
 
 
-static IVirtualBox* g_pVirtualBox = NULL;
-static ISession* g_pSession = NULL;
-static IMachine* g_pMachine = NULL;
+using std::string;
 
 
 const char *MachineStateToName(MachineState State) 
@@ -140,6 +133,36 @@ void virtualbox_dump_error() {
 }
 
 
+VBOX_VM::VBOX_VM()
+{
+    VBOX_BASE::VBOX_BASE();
+
+    m_pVirtualBox;
+    m_pSession;
+    m_pMachine;
+
+    vm_pid = 0;
+    vm_pid_handle = 0;
+    vboxsvc_pid = 0;
+    vboxsvc_pid_handle = 0;
+}
+
+
+VBOX_VM::~VBOX_VM()
+{
+    VBOX_BASE::~VBOX_BASE();
+
+    if (vm_pid_handle) {
+        CloseHandle(vm_pid_handle);
+        vm_pid_handle = NULL;
+    }
+    if (vboxsvc_pid_handle) {
+        CloseHandle(vboxsvc_pid_handle);
+        vboxsvc_pid_handle = NULL;
+    }
+}
+
+
 int VBOX_VM::initialize() {
     int rc = BOINC_SUCCESS;
     string old_path;
@@ -205,11 +228,7 @@ int VBOX_VM::initialize() {
     CoInitialize(NULL);
 
     // Instantiate the VirtualBox root object.
-    rc = CoCreateInstance(CLSID_VirtualBox,       /* the VirtualBox base object */
-                          NULL,                   /* no aggregation */
-                          CLSCTX_LOCAL_SERVER,    /* the object lives in a server process on this machine */
-                          IID_IVirtualBox,        /* IID of the interface */
-                          (void**)&g_pVirtualBox);
+    rc = m_pVirtualBox.CoCreateInstance(CLSID_VirtualBox);
     if (!SUCCEEDED(rc))
     {
         fprintf(
@@ -222,11 +241,7 @@ int VBOX_VM::initialize() {
     }
 
     // Create the session object.
-    rc = CoCreateInstance(CLSID_Session,        /* the Session base object */
-                          NULL,                 /* no aggregation */
-                          CLSCTX_INPROC_SERVER, /* the object lives in the current process on this machine */
-                          IID_ISession,         /* IID of the interface */
-                          (void**)&g_pSession);
+    rc = m_pSession.CoCreateInstance(CLSID_Session);
     if (!SUCCEEDED(rc))
     {
         fprintf(
@@ -245,168 +260,6 @@ int VBOX_VM::initialize() {
     if (rc) return rc;
 
     return rc;
-}
-
-void VBOX_VM::poll(bool log_state) {
-    char buf[256];
-    APP_INIT_DATA aid;
-    HRESULT rc;
-    MachineState vmstate;
-    static MachineState vmstate_old = MachineState_PoweredOff;
-
-    boinc_get_init_data_p(&aid);
-
-    //
-    // Is our environment still sane?
-    //
-    if (aid.using_sandbox && vboxsvc_pid_handle && !process_exists(vboxsvc_pid_handle)) {
-        fprintf(
-            stderr,
-            "%s Status Report: vboxsvc.exe is no longer running.\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf))
-        );
-    }
-    if (vm_pid_handle && !process_exists(vm_pid_handle)) {
-        fprintf(
-            stderr,
-            "%s Status Report: virtualbox.exe/vboxheadless.exe is no longer running.\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf))
-        );
-    }
-
-    //
-    // What state is the VM in?
-    //
-    rc = g_pMachine->get_State(&vmstate);
-    if (SUCCEEDED(rc)) {
-
-        // VirtualBox Documentation suggests that that a VM is running when its
-        // machine state is between MachineState_FirstOnline and MachineState_LastOnline
-        // which as of this writing is 5 and 17.
-        //
-        // VboxManage's source shows more than that though:
-        // see: http://www.virtualbox.org/browser/trunk/src/VBox/Frontends/VBoxManage/VBoxManageInfo.cpp
-        //
-        // So for now, go with what VboxManage is reporting.
-        //
-        switch(vmstate)
-        {
-            case MachineState_Running:
-                online = true;
-                saving = false;
-                restoring = false;
-                suspended = false;
-                crashed = false;
-                break;
-            case MachineState_Paused:
-                online = true;
-                saving = false;
-                restoring = false;
-                suspended = true;
-                crashed = false;
-                break;
-            case MachineState_Starting:
-                online = true;
-                saving = false;
-                restoring = false;
-                suspended = false;
-                crashed = false;
-                break;
-            case MachineState_Stopping:
-                online = true;
-                saving = false;
-                restoring = false;
-                suspended = false;
-                crashed = false;
-                break;
-            case MachineState_Saving:
-                online = true;
-                saving = true;
-                restoring = false;
-                suspended = false;
-                crashed = false;
-                break;
-            case MachineState_Restoring:
-                online = true;
-                saving = false;
-                restoring = true;
-                suspended = false;
-                crashed = false;
-                break;
-            case MachineState_LiveSnapshotting:
-                online = true;
-                saving = false;
-                restoring = false;
-                suspended = false;
-                crashed = false;
-                break;
-            case MachineState_DeletingSnapshotOnline:
-                online = true;
-                saving = false;
-                restoring = false;
-                suspended = false;
-                crashed = false;
-                break;
-            case MachineState_DeletingSnapshotPaused:
-                online = true;
-                saving = false;
-                restoring = false;
-                suspended = false;
-                crashed = false;
-                break;
-            case MachineState_Aborted:
-                online = false;
-                saving = false;
-                restoring = false;
-                suspended = false;
-                crashed = true;
-                break;
-            case MachineState_Stuck:
-                online = false;
-                saving = false;
-                restoring = false;
-                suspended = false;
-                crashed = true;
-                break;
-            default:
-                online = false;
-                saving = false;
-                restoring = false;
-                suspended = false;
-                crashed = false;
-                break;
-        }
-
-        if (log_state) {
-            fprintf(
-                stderr,
-                "%s VM is no longer is a running state. It is in '%s'.\n",
-                vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                MachineStateToName(vmstate)
-            );
-        }
-        if (log_state && (vmstate_old != vmstate)) {
-            fprintf(
-                stderr,
-                "%s VM state change detected. (old = '%s', new = '%s')\n",
-                vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                MachineStateToName(vmstate_old),
-                MachineStateToName(vmstate)
-            );
-            vmstate_old = vmstate;
-        }
-    }
-
-    //
-    // Grab a snapshot of the latest log file.  Avoids multiple queries across several
-    // functions.
-    //
-    get_vm_log(vm_log);
-
-    //
-    // Dump any new VM Guest Log entries
-    //
-    dump_vmguestlog_entries();
 }
 
 int VBOX_VM::create_vm() {
@@ -1223,16 +1076,177 @@ int VBOX_VM::deregister_stale_vm() {
     return 0;
 }
 
+void VBOX_VM::poll(bool log_state) {
+    char buf[256];
+    APP_INIT_DATA aid;
+    HRESULT rc;
+    MachineState vmstate;
+    static MachineState vmstate_old = MachineState_PoweredOff;
+
+    boinc_get_init_data_p(&aid);
+
+    //
+    // Is our environment still sane?
+    //
+    if (aid.using_sandbox && vboxsvc_pid_handle && !process_exists(vboxsvc_pid_handle)) {
+        fprintf(
+            stderr,
+            "%s Status Report: vboxsvc.exe is no longer running.\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf))
+        );
+    }
+    if (vm_pid_handle && !process_exists(vm_pid_handle)) {
+        fprintf(
+            stderr,
+            "%s Status Report: virtualbox.exe/vboxheadless.exe is no longer running.\n",
+            vboxwrapper_msg_prefix(buf, sizeof(buf))
+        );
+    }
+
+    //
+    // What state is the VM in?
+    //
+    rc = m_pMachine->get_State(&vmstate);
+    if (SUCCEEDED(rc)) {
+
+        // VirtualBox Documentation suggests that that a VM is running when its
+        // machine state is between MachineState_FirstOnline and MachineState_LastOnline
+        // which as of this writing is 5 and 17.
+        //
+        // VboxManage's source shows more than that though:
+        // see: http://www.virtualbox.org/browser/trunk/src/VBox/Frontends/VBoxManage/VBoxManageInfo.cpp
+        //
+        // So for now, go with what VboxManage is reporting.
+        //
+        switch(vmstate)
+        {
+            case MachineState_Running:
+                online = true;
+                saving = false;
+                restoring = false;
+                suspended = false;
+                crashed = false;
+                break;
+            case MachineState_Paused:
+                online = true;
+                saving = false;
+                restoring = false;
+                suspended = true;
+                crashed = false;
+                break;
+            case MachineState_Starting:
+                online = true;
+                saving = false;
+                restoring = false;
+                suspended = false;
+                crashed = false;
+                break;
+            case MachineState_Stopping:
+                online = true;
+                saving = false;
+                restoring = false;
+                suspended = false;
+                crashed = false;
+                break;
+            case MachineState_Saving:
+                online = true;
+                saving = true;
+                restoring = false;
+                suspended = false;
+                crashed = false;
+                break;
+            case MachineState_Restoring:
+                online = true;
+                saving = false;
+                restoring = true;
+                suspended = false;
+                crashed = false;
+                break;
+            case MachineState_LiveSnapshotting:
+                online = true;
+                saving = false;
+                restoring = false;
+                suspended = false;
+                crashed = false;
+                break;
+            case MachineState_DeletingSnapshotOnline:
+                online = true;
+                saving = false;
+                restoring = false;
+                suspended = false;
+                crashed = false;
+                break;
+            case MachineState_DeletingSnapshotPaused:
+                online = true;
+                saving = false;
+                restoring = false;
+                suspended = false;
+                crashed = false;
+                break;
+            case MachineState_Aborted:
+                online = false;
+                saving = false;
+                restoring = false;
+                suspended = false;
+                crashed = true;
+                break;
+            case MachineState_Stuck:
+                online = false;
+                saving = false;
+                restoring = false;
+                suspended = false;
+                crashed = true;
+                break;
+            default:
+                online = false;
+                saving = false;
+                restoring = false;
+                suspended = false;
+                crashed = false;
+                break;
+        }
+
+        if (log_state) {
+            fprintf(
+                stderr,
+                "%s VM is no longer is a running state. It is in '%s'.\n",
+                vboxwrapper_msg_prefix(buf, sizeof(buf)),
+                MachineStateToName(vmstate)
+            );
+        }
+        if (log_state && (vmstate_old != vmstate)) {
+            fprintf(
+                stderr,
+                "%s VM state change detected. (old = '%s', new = '%s')\n",
+                vboxwrapper_msg_prefix(buf, sizeof(buf)),
+                MachineStateToName(vmstate_old),
+                MachineStateToName(vmstate)
+            );
+            vmstate_old = vmstate;
+        }
+    }
+
+    //
+    // Grab a snapshot of the latest log file.  Avoids multiple queries across several
+    // functions.
+    //
+    get_vm_log(vm_log);
+
+    //
+    // Dump any new VM Guest Log entries
+    //
+    dump_vmguestlog_entries();
+}
+
 int VBOX_VM::start() {
     int retval = ERR_EXEC;
     HRESULT rc;
-    BSTR vm_name;
-    BSTR session_type;
+    CComBSTR vm_name(vm_master_name.c_str());
+    CComBSTR session_type;
+    CComPtr<IProgress> pProgress;
     BOOL bCompleted;
     char buf[256];
     double timeout;
-    IMachine* pMachine = NULL;
-    IProgress* pProgress = NULL;
 
 
     fprintf(
@@ -1243,18 +1257,16 @@ int VBOX_VM::start() {
 
 
     if (!headless) {
-        session_type = SysAllocString(L"vrdp");
+        session_type = _T("vrdp");
     } else {
-        session_type = SysAllocString(L"headless");
+        session_type = _T("headless");
     }
 
-    vm_name = SysAllocString(A2W(vm_master_name).c_str());
-
-    rc = g_pVirtualBox->FindMachine(vm_name, &pMachine);
+    rc = m_pVirtualBox->FindMachine(vm_name, &m_pMachine);
     if (SUCCEEDED(rc)) {
 
         // Start a VM session
-        rc = pMachine->LaunchVMProcess(g_pSession, session_type, NULL, &pProgress);
+        rc = m_pMachine->LaunchVMProcess(m_pSession, session_type, NULL, &pProgress);
         if (FAILED(rc)) {
             fprintf(
                 stderr,
@@ -1284,13 +1296,11 @@ int VBOX_VM::start() {
         pProgress->get_Completed(&bCompleted);
         if (bCompleted) {
 
-            g_pMachine = pMachine;
-
             // We should now own what goes on with the VM.
             //
-            g_pMachine->LockMachine(g_pSession, LockType_Write);
+            m_pMachine->LockMachine(m_pSession, LockType_Write);
 
-            rc = g_pMachine->get_SessionPID((ULONG*)&vm_pid);
+            rc = m_pMachine->get_SessionPID((ULONG*)&vm_pid);
             if (FAILED(rc)) {
                 fprintf(
                     stderr,
@@ -1332,13 +1342,6 @@ int VBOX_VM::start() {
     }
 
 CLEANUP:
-    if (session_type) SysFreeString(session_type);
-
-    if (pProgress) {
-        pProgress->Release();
-        pProgress = NULL;
-    }
-
     return retval;
 }
 
@@ -1347,8 +1350,8 @@ int VBOX_VM::stop() {
     HRESULT rc;
     char buf[256];
     double timeout;
-    IConsole* pConsole = NULL;
-    IProgress* pProgress = NULL;
+    CComPtr<IConsole> pConsole;
+    CComPtr<IProgress> pProgress;
 
 
     fprintf(
@@ -1359,7 +1362,7 @@ int VBOX_VM::stop() {
 
 
     // Get console object. 
-    rc = g_pSession->get_Console(&pConsole);
+    rc = m_pSession->get_Console(&pConsole);
     if (FAILED(rc)) {
         fprintf(
             stderr,
@@ -1441,21 +1444,6 @@ int VBOX_VM::stop() {
     }
 
 CLEANUP:
-    if (pProgress) {
-        pProgress->Release();
-        pProgress = NULL;
-    }
-    if (pConsole) {
-        pConsole->Release();
-        pConsole = NULL;
-    }
-    if (g_pMachine) {
-        g_pMachine->Release();
-        g_pMachine = NULL;
-    }
-    if (g_pSession) {
-        g_pSession->UnlockMachine();
-    }
     return retval;
 }
 
@@ -1464,8 +1452,8 @@ int VBOX_VM::poweroff() {
     HRESULT rc;
     char buf[256];
     double timeout;
-    IConsole* pConsole = NULL;
-    IProgress* pProgress = NULL;
+    CComPtr<IConsole> pConsole;
+    CComPtr<IProgress> pProgress;
 
 
     fprintf(
@@ -1476,7 +1464,7 @@ int VBOX_VM::poweroff() {
 
     if (online) {
         // Get console object. 
-        rc = g_pSession->get_Console(&pConsole);
+        rc = m_pSession->get_Console(&pConsole);
         if (FAILED(rc)) {
             fprintf(
                 stderr,
@@ -1563,21 +1551,6 @@ int VBOX_VM::poweroff() {
     }
 
 CLEANUP:
-    if (pProgress) {
-        pProgress->Release();
-        pProgress = NULL;
-    }
-    if (pConsole) {
-        pConsole->Release();
-        pConsole = NULL;
-    }
-    if (g_pMachine) {
-        g_pMachine->Release();
-        g_pMachine = NULL;
-    }
-    if (g_pSession) {
-        g_pSession->UnlockMachine();
-    }
     return retval;
 }
 
@@ -1585,7 +1558,7 @@ int VBOX_VM::pause() {
     int retval = ERR_EXEC;
     HRESULT rc;
     char buf[256];
-    IConsole* pConsole = NULL;
+    CComPtr<IConsole> pConsole;
 
 
     // Restore the process priority back to the default process priority
@@ -1596,7 +1569,7 @@ int VBOX_VM::pause() {
 
 
     // Get console object. 
-    rc = g_pSession->get_Console(&pConsole);
+    rc = m_pSession->get_Console(&pConsole);
     if (FAILED(rc))
     {
         fprintf(
@@ -1630,10 +1603,6 @@ int VBOX_VM::pause() {
     }
 
 CLEANUP:
-    if (pConsole) {
-        pConsole->Release();
-        pConsole = NULL;
-    }
     return retval;
 }
 
@@ -1641,7 +1610,7 @@ int VBOX_VM::resume() {
     int retval = ERR_EXEC;
     HRESULT rc;
     char buf[256];
-    IConsole* pConsole = NULL;
+    CComPtr<IConsole> pConsole;
 
 
     // Set the process priority back to the lowest level before resuming
@@ -1651,7 +1620,7 @@ int VBOX_VM::resume() {
 
 
     // Get console object. 
-    rc = g_pSession->get_Console(&pConsole);
+    rc = m_pSession->get_Console(&pConsole);
     if (FAILED(rc)) {
         fprintf(
             stderr,
@@ -1683,10 +1652,6 @@ int VBOX_VM::resume() {
     }
 
 CLEANUP:
-    if (pConsole) {
-        pConsole->Release();
-        pConsole = NULL;
-    }
     return retval;
 }
 
@@ -1881,22 +1846,14 @@ void VBOX_VM::dump_hypervisor_status_reports() {
 int VBOX_VM::is_registered() {
     int retval = ERR_NOT_FOUND;
     HRESULT rc;
-    BSTR vm_name;
-    IMachine* pMachine = NULL;
+    CComBSTR vm_name(vm_master_name.c_str());
+    CComPtr<IMachine> pMachine;
 
-    vm_name = SysAllocString(A2W(vm_master_name).c_str());
-
-    rc = g_pVirtualBox->FindMachine(vm_name, &pMachine);
+    rc = m_pVirtualBox->FindMachine(vm_name, &pMachine);
     if (VBOX_E_OBJECT_NOT_FOUND != rc) {
         retval = BOINC_SUCCESS;
     }
 
-    if (vm_name) SysFreeString(vm_name);
-
-    if (pMachine) {
-        pMachine->Release();
-        pMachine = NULL;
-    }
     return retval;
 }
 
@@ -2046,38 +2003,32 @@ int VBOX_VM::get_install_directory(string& install_directory ) {
 int VBOX_VM::get_version_information(string& version) {
     int retval = ERR_EXEC;
     HRESULT rc;
-    BSTR tmp;
+    CComBSTR tmp;
 
-    rc = g_pVirtualBox->get_VersionNormalized(&tmp);
+    rc = m_pVirtualBox->get_VersionNormalized(&tmp);
     if (SUCCEEDED(rc)) {
-        version = W2A(tmp);
+        version = CW2A(tmp);
         retval = BOINC_SUCCESS;
     }
 
-    if (tmp) SysFreeString(tmp);
     return retval;
 }
 
 int VBOX_VM::get_guest_additions(string& guest_additions) {
     int retval = ERR_EXEC;
     HRESULT rc;
-    ISystemProperties* properties = NULL;
-    BSTR tmp;
+    CComPtr<ISystemProperties> properties;
+    CComBSTR tmp;
 
-    rc = g_pVirtualBox->get_SystemProperties(&properties);
+    rc = m_pVirtualBox->get_SystemProperties(&properties);
     if (SUCCEEDED(rc)) {
         rc = properties->get_DefaultAdditionsISO(&tmp);
         if (SUCCEEDED(rc)) {
-            guest_additions = W2A(tmp);
+            guest_additions = CW2A(tmp);
             retval = BOINC_SUCCESS;
         }
     }
 
-    if (tmp) SysFreeString(tmp);
-    if (properties) {
-        properties->Release();
-        properties = NULL;
-    }
     return retval;
 }
 
@@ -2217,7 +2168,7 @@ int VBOX_VM::get_vm_exit_code(unsigned long& exit_code) {
 int VBOX_VM::set_network_access(bool enabled) {
     int retval;
     char buf[256];
-    INetworkAdapter* pNetworkAdapter = NULL;
+    CComPtr<INetworkAdapter> pNetworkAdapter;
     HRESULT rc = ERR_EXEC;
 
     network_suspended = !enabled;
@@ -2229,7 +2180,7 @@ int VBOX_VM::set_network_access(bool enabled) {
             vboxwrapper_msg_prefix(buf, sizeof(buf))
         );
 
-        rc = g_pMachine->GetNetworkAdapter(0, &pNetworkAdapter);
+        rc = m_pMachine->GetNetworkAdapter(0, &pNetworkAdapter);
         if (FAILED(rc)) {
             fprintf(
                 stderr,
@@ -2250,7 +2201,7 @@ int VBOX_VM::set_network_access(bool enabled) {
             vboxwrapper_msg_prefix(buf, sizeof(buf))
         );
 
-        rc = g_pMachine->GetNetworkAdapter(0, &pNetworkAdapter);
+        rc = m_pMachine->GetNetworkAdapter(0, &pNetworkAdapter);
         if (FAILED(rc)) {
             fprintf(
                 stderr,
@@ -2266,10 +2217,6 @@ int VBOX_VM::set_network_access(bool enabled) {
         }
     }
 
-    if (pNetworkAdapter) {
-        pNetworkAdapter->Release();
-        pNetworkAdapter = NULL;
-    }
     return retval;
 }
 
