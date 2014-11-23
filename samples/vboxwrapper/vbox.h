@@ -287,6 +287,7 @@ public:
 
     void sanitize_output(std::string& output);
 
+#ifndef _WIN32
     int vbm_popen(
         std::string& command, std::string& output, const char* item, bool log_error = true, bool retry_failures = true, unsigned int timeout = 45, bool log_trace = true
     );
@@ -299,6 +300,7 @@ public:
     void vbm_trace(
         std::string& command, std::string& ouput, int retval
     );
+#endif
 };
 
 #endif

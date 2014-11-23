@@ -290,6 +290,7 @@
     <ClCompile Include="..\samples\vboxwrapper\mscom\VirtualBox_i.c" />
     <ClCompile Include="..\samples\vboxwrapper\vbox.cpp" />
     <ClCompile Include="..\samples\vboxwrapper\vboxwrapper.cpp" />
+    <ClCompile Include="..\samples\vboxwrapper\vbox_win.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\samples\vboxwrapper\floppyio.h" />
