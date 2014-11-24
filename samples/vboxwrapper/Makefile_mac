@@ -24,6 +24,7 @@ CXXFLAGS = $(VARIANTFLAGS) \
 OBJ = \
     floppyio.o \
     vbox.o \
+    vbox_unix.o \
     vboxwrapper.o
 
 PROGS = vboxwrapper
@@ -39,5 +40,8 @@ floppyio.o: floppyio.cpp
 vbox.o: vbox.cpp
 	$(CXX) $(CXXFLAGS) -c vbox.cpp
 
-vboxwrapper: vboxwrapper.o vbox.o floppyio.o $(BOINC_BUILD_DIR)/libboinc.a $(BOINC_BUILD_DIR)/libboinc_api.a
-	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o vboxwrapper vboxwrapper.o vbox.o floppyio.o -pthread -lboinc_api -lboinc
+vbox_unix.o: vbox_unix.cpp
+	$(CXX) $(CXXFLAGS) -c vbox_unix.cpp
+
+vboxwrapper: vboxwrapper.o vbox.o vbox_unix.o floppyio.o $(BOINC_BUILD_DIR)/libboinc.a $(BOINC_BUILD_DIR)/libboinc_api.a
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) -o vboxwrapper vboxwrapper.o vbox.o vbox_unix.o floppyio.o -pthread -lboinc_api -lboinc
