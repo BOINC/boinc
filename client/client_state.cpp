@@ -426,8 +426,8 @@ int CLIENT_STATE::init() {
         if (coprocs.coprocs[j].count > MAX_COPROC_INSTANCES) {
             msg_printf(NULL, MSG_USER_ALERT,
                 "%d instances of %s specified in cc_config.xml; max is %d",
-                coprocs.coprocs[j].type,
                 coprocs.coprocs[j].count,
+                coprocs.coprocs[j].type,
                 MAX_COPROC_INSTANCES
             );
             coprocs.coprocs[j].count = MAX_COPROC_INSTANCES;
