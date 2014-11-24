@@ -592,7 +592,9 @@ void process_gpu_exclusions() {
         APP* app = gstate.apps[i];
         for (int k=1; k<coprocs.n_rsc; k++) {
             COPROC& cp = coprocs.coprocs[k];
-            app->non_excluded_instances[k] = (1<<cp.count)-1;  // all 1's
+            for (int h=0; h<cp.count; h++) {
+                app->non_excluded_instances[k] |= ((COPROC_INSTANCE_BITMAP)1)<<h;
+            }
         }
     }
 
@@ -600,18 +602,23 @@ void process_gpu_exclusions() {
         p = gstate.projects[i];
         for (int k=1; k<coprocs.n_rsc; k++) {
             COPROC& cp = coprocs.coprocs[k];
-            int all_instances = (1<<cp.count)-1;  // bitmap of 1 for all inst
+            COPROC_INSTANCE_BITMAP all_instances = 0;
+            // bitmap of 1 for all instances
+            //
+            for (int h=0; h<cp.count; h++) {
+                all_instances |= ((COPROC_INSTANCE_BITMAP)1)<<h;
+            }
             for (j=0; j<cc_config.exclude_gpus.size(); j++) {
                 EXCLUDE_GPU& eg = cc_config.exclude_gpus[j];
                 if (!eg.type.empty() && (eg.type != cp.type)) continue;
                 if (strcmp(eg.url.c_str(), p->master_url)) continue;
-                int mask;
+                COPROC_INSTANCE_BITMAP mask;
                 if (eg.device_num >= 0) {
                     int index = cp.device_num_index(eg.device_num);
                     // exclusion may refer to nonexistent GPU
                     //
                     if (index < 0) continue;
-                    mask = 1<<index;
+                    mask = ((COPROC_INSTANCE_BITMAP)1)<<index;
                 } else {
                     mask = all_instances;
                 }
@@ -652,7 +659,7 @@ void process_gpu_exclusions() {
             //
             p->rsc_pwf[k].ncoprocs_excluded = 0;
             for (int b=0; b<cp.count; b++) {
-                int mask = 1<<b;
+                COPROC_INSTANCE_BITMAP mask = ((COPROC_INSTANCE_BITMAP)1)<<b;
                 for (a=0; a<gstate.apps.size(); a++) {
                     APP* app = gstate.apps[a];
                     if (app->project != p) continue;
