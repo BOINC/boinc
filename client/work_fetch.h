@@ -61,6 +61,9 @@ struct RSC_WORK_FETCH;
 struct SCHEDULER_REPLY;
 struct APP_VERSION;
 
+typedef long long COPROC_INSTANCE_BITMAP;
+    // should be at least MAX_COPROC_INSTANCES (64) bits
+
 // state per (resource, project) pair
 //
 struct RSC_PROJECT_WORK_FETCH {
@@ -88,7 +91,7 @@ struct RSC_PROJECT_WORK_FETCH {
     double nused_total;     // sum of instances over all runnable jobs
     int ncoprocs_excluded;
         // number of excluded instances
-    int non_excluded_instances;
+    COPROC_INSTANCE_BITMAP non_excluded_instances;
         // bitmap of non-excluded instances
         // (i.e. instances this project's jobs can run on)
     int deadlines_missed;
@@ -200,10 +203,10 @@ struct RSC_WORK_FETCH {
         // seconds of idle instances between now and now+work_buf_total()
     double nidle_now;
     double sim_nused;
-    int sim_used_instances;
+    COPROC_INSTANCE_BITMAP sim_used_instances;
         // bitmap of instances used in simulation,
         // taking into account GPU exclusions
-    int sim_excluded_instances;
+    COPROC_INSTANCE_BITMAP sim_excluded_instances;
         // bitmap of instances not used (i.e. starved because of exclusion)
     double total_fetchable_share;
         // total RS of projects from which we could fetch jobs for this device

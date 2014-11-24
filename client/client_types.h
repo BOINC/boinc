@@ -258,7 +258,7 @@ struct APP {
         // Can also specify in client_state.xml (for client emulator)
     int n_concurrent;
         // temp during job scheduling, to enforce max_concurrent
-    int non_excluded_instances[MAX_RSC];
+    COPROC_INSTANCE_BITMAP non_excluded_instances[MAX_RSC];
         // for each resource type, bitmap of the non-excluded instances
 #ifdef SIM
     double latency_bound;
