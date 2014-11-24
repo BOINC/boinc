@@ -533,7 +533,7 @@ void RR_SIM::simulate() {
         rwf.sim_excluded_instances = ~(rwf.sim_used_instances) & mask;
         if (log_flags.rrsim_detail) {
             msg_printf(0, MSG_INFO,
-                "[rrsim_detail] rsc %d: sim_used_inst %d mask %d sim_excluded_instances %d",
+                "[rrsim_detail] rsc %d: sim_used_inst %lld mask %lld sim_excluded_instances %lld",
                 i, rwf.sim_used_instances, mask, rwf.sim_excluded_instances
             );
         }
