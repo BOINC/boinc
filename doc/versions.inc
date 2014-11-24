@@ -228,18 +228,18 @@ $l70ubuntux64 = array(
 );
 
 $a74dev = array(
-    "num"=>"7.4.14",
+    "num"=>"7.4.30",
     "status"=>"Development Version",
-    "file"=>"boinc_7.4.14.apk",
-    "date"=>"11 Aug 2014",
+    "file"=>"boinc_7.4.30.apk",
+    "date"=>"24 Nov 2014",
     "type"=>"apk",
 );
 
-$a73 = array(
-    "num"=>"7.3.7",
+$a74 = array(
+    "num"=>"7.4.14",
     "status"=>"Recommended Version",
-    "file"=>"boinc_7.3.7.apk",
-    "date"=>"3 Mar 2014",
+    "file"=>"boinc_7.4.14.apk",
+    "date"=>"11 Aug 2014",
     "type"=>"apk",
 );
 
@@ -340,7 +340,7 @@ $android = array(
     "dbname" => "arm-android-linux-gnu",
     "versions"=>array(
         $a74dev,
-        $a73,
+        $a74,
     )
 );
 
