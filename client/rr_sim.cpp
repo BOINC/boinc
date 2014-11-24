@@ -64,12 +64,14 @@ inline void rsc_string(RESULT* rp, char* buf) {
 
 // set "nused" bits of the source bitmap in the dest bitmap
 //
-static inline void set_bits(int src, double nused, int& dst) {
+static inline void set_bits(
+    COPROC_INSTANCE_BITMAP src, double nused, COPROC_INSTANCE_BITMAP& dst
+) {
     // if all bits are already set, we're done
     //
     if ((src&dst) == src) return;
-    int bit = 1;
-    for (int i=0; i<32; i++) {
+    COPROC_INSTANCE_BITMAP bit = 1;
+    for (int i=0; i<MAX_COPROC_INSTANCES; i++) {
         if (nused <= 0) break;
         if (bit & src) {
             dst |= bit;
@@ -524,11 +526,14 @@ void RR_SIM::simulate() {
         RSC_WORK_FETCH& rwf = rsc_work_fetch[i];
         if (!rwf.has_exclusions) continue;
         COPROC& cp = coprocs.coprocs[i];
-        int mask = (1<<cp.count)-1;
+        COPROC_INSTANCE_BITMAP mask = 0;
+        for (int j=0; j<cp.count; j++) {
+            mask |= ((COPROC_INSTANCE_BITMAP)1)<<j;
+        }
         rwf.sim_excluded_instances = ~(rwf.sim_used_instances) & mask;
         if (log_flags.rrsim_detail) {
             msg_printf(0, MSG_INFO,
-                "[rrsim_detail] rsc %d: sim_used_inst %d mask %d sim_excluded_instances %d",
+                "[rrsim_detail] rsc %d: sim_used_inst %lld mask %lld sim_excluded_instances %lld",
                 i, rwf.sim_used_instances, mask, rwf.sim_excluded_instances
             );
         }

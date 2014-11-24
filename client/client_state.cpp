@@ -423,6 +423,15 @@ int CLIENT_STATE::init() {
             coprocs.coprocs[j].type,
             coprocs.coprocs[j].count
         );
+        if (coprocs.coprocs[j].count > MAX_COPROC_INSTANCES) {
+            msg_printf(NULL, MSG_USER_ALERT,
+                "%d instances of %s specified in cc_config.xml; max is %d",
+                coprocs.coprocs[j].count,
+                coprocs.coprocs[j].type,
+                MAX_COPROC_INSTANCES
+            );
+            coprocs.coprocs[j].count = MAX_COPROC_INSTANCES;
+        }
     }
     if (!cc_config.no_gpus
 #ifdef _WIN32

@@ -35,6 +35,7 @@ struct APP_CONFIG {
     bool fraction_done_exact;
 
     int parse(XML_PARSER&, PROJECT*);
+    int parse_gpu_versions(XML_PARSER&, PROJECT*);
 };
 
 struct APP_VERSION_CONFIG {
