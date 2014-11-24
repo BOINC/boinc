@@ -27,13 +27,49 @@
 
 bool have_max_concurrent = false;
 
+int APP_CONFIG::parse_gpu_versions(XML_PARSER& xp, PROJECT* p) {
+    double x;
+    while (!xp.get_tag()) {
+        if (xp.match_tag("/gpu_versions")) return 0;
+        else if (xp.parse_double("gpu_usage", x)) {
+            if (x <= 0) {
+                msg_printf(p, MSG_USER_ALERT,
+                    "gpu_usage must be positive in app_config.xml"
+                );
+            } else {
+                gpu_gpu_usage = x;
+            }
+            continue;
+        }
+        else if (xp.parse_double("cpu_usage", x)) {
+            if (x < 0) {
+                msg_printf(p, MSG_USER_ALERT,
+                    "cpu_usage must be non-negative in app_config.xml"
+                );
+            } else {
+                gpu_cpu_usage = x;
+            }
+            continue;
+        }
+        if (log_flags.unparsed_xml) {
+            msg_printf(p, MSG_INFO,
+                "Unparsed line in app_config.xml: %s",
+                xp.parsed_tag
+            );
+        }
+    }
+    msg_printf_notice(p, false, NULL,
+        "missing </gpu_versions> in app_config.xml"
+    );
+    return ERR_XML_PARSE;
+}
+
 // In these parsing functions, if there's an error you must
 // - generate a notice containing the string "app_config.xml"
 // - return an error code
 //
 int APP_CONFIG::parse(XML_PARSER& xp, PROJECT* p) {
     memset(this, 0, sizeof(APP_CONFIG));
-    double x;
 
     while (!xp.get_tag()) {
         if (xp.match_tag("/app")) return 0;
@@ -43,29 +79,8 @@ int APP_CONFIG::parse(XML_PARSER& xp, PROJECT* p) {
             continue;
         }
         if (xp.match_tag("gpu_versions")) {
-            while (!xp.get_tag()) {
-                if (xp.match_tag("/gpu_versions")) break;
-                if (xp.parse_double("gpu_usage", x)) {
-                    if (x <= 0) {
-                        msg_printf(p, MSG_USER_ALERT,
-                            "gpu_usage must be positive in app_config.xml"
-                        );
-                    } else {
-                        gpu_gpu_usage = x;
-                    }
-                    continue;
-                }
-                if (xp.parse_double("cpu_usage", x)) {
-                    if (x < 0) {
-                        msg_printf(p, MSG_USER_ALERT,
-                            "cpu_usage must be non-negative in app_config.xml"
-                        );
-                    } else {
-                        gpu_cpu_usage = x;
-                    }
-                    continue;
-                }
-            }
+            int retval = parse_gpu_versions(xp, p);
+            if (retval) return retval;
             continue;
         }
         if (xp.parse_bool("fraction_done_exact", fraction_done_exact)) {
