@@ -1965,7 +1965,7 @@ int CLIENT_STATE::reset_project(PROJECT* project, bool detaching) {
     // app_config.xml, but this isn't likely to exist on Android.
     //
     if (!project->anonymous_platform) {
-        client_clean_out_dir(project.project_dir(), "reset project");
+        client_clean_out_dir(project->project_dir(), "reset project");
     }
 #endif
 
