@@ -82,6 +82,7 @@ void ACCOUNT_IN::parse(XML_PARSER& xp) {
     passwd_hash = "";
     user_name = "";
     team_name = "";
+    uses_ldap = false;
 
     while (!xp.get_tag()) {
         if (xp.parse_string("url", url)) continue;
@@ -89,6 +90,7 @@ void ACCOUNT_IN::parse(XML_PARSER& xp) {
         if (xp.parse_string("passwd_hash", passwd_hash)) continue;
         if (xp.parse_string("user_name", user_name)) continue;
         if (xp.parse_string("team_name", team_name)) continue;
+        if (xp.parse_bool("uses_ldap", uses_ldap)) continue;
     }
     canonicalize_master_url(url);
 }
@@ -134,17 +136,7 @@ int LOOKUP_ACCOUNT_OP::do_rpc(ACCOUNT_IN& ai) {
     canonicalize_master_url(url);
     url += "lookup_account.php";
 
-    if (strchr(ai.email_addr.c_str(), '@')) {
-        url += "?email_addr=";
-        parameter = ai.email_addr;
-        escape_url(parameter);
-        url += parameter;
-
-        url += "&passwd_hash=";
-        parameter = ai.passwd_hash;
-        escape_url(parameter);
-        url += parameter;
-    } else {
+    if (ai.uses_ldap && !strchr(ai.email_addr.c_str(), '@')) {
         // LDAP case
         //
         if (!is_https(ai.url.c_str())) return ERR_NEED_HTTPS;
@@ -154,6 +146,16 @@ int LOOKUP_ACCOUNT_OP::do_rpc(ACCOUNT_IN& ai) {
         url += parameter;
 
         url += "&passwd=";
+        parameter = ai.passwd_hash;
+        escape_url(parameter);
+        url += parameter;
+    } else {
+        url += "?email_addr=";
+        parameter = ai.email_addr;
+        escape_url(parameter);
+        url += parameter;
+
+        url += "&passwd_hash=";
         parameter = ai.passwd_hash;
         escape_url(parameter);
         url += parameter;
