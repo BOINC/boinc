@@ -49,7 +49,7 @@ namespace vboxmanage {
         bool is_system_ready(std::string& message);
         bool is_disk_image_registered();
         bool is_extpack_installed();
-        static bool is_virtualbox_installed();
+        bool is_virtualbox_installed();
 
         int get_install_directory(std::string& dir);
         int get_version_information(std::string& version);
@@ -67,23 +67,6 @@ namespace vboxmanage {
 
         void lower_vm_process_priority();
         void reset_vm_process_priority();
-
-        int launch_vboxsvc();
-        int launch_vboxvm();
-
-        int vbm_popen(
-            std::string& command, std::string& output, const char* item, bool log_error = true, bool retry_failures = true, unsigned int timeout = 45, bool log_trace = true
-        );
-        int vbm_popen_raw(
-            std::string& command, std::string& output, unsigned int timeout
-        );
-        void vbm_replay(
-            std::string& command
-        );
-        void vbm_trace(
-            std::string& command, std::string& ouput, int retval
-        );
-
     };
 
 };

@@ -39,11 +39,11 @@
 // - a bunch of other stuff; see the wiki page
 //
 // Contributors:
+// Rom Walton
+// David Anderson
 // Andrew J. Younge (ajy4490 AT umiacs DOT umd DOT edu)
 // Jie Wu <jiewu AT cern DOT ch>
 // Daniel Lombraña González <teleyinex AT gmail DOT com>
-// Rom Walton
-// David Anderson
 
 #ifdef _WIN32
 #include "boinc_win.h"
@@ -616,11 +616,11 @@ void check_trickle_period() {
 }
 
 int main(int argc, char** argv) {
-    int retval;
+    int retval = 0;
     int loop_iteration = 0;
     BOINC_OPTIONS boinc_options;
     APP_INIT_DATA aid;
-    VBOX_VM* pVM;
+    VBOX_VM* pVM = NULL;
     double random_checkpoint_factor = 0;
     double fraction_done = 0;
     double current_cpu_time = 0;
@@ -652,6 +652,7 @@ int main(int argc, char** argv) {
     boinc_options.check_heartbeat = true;
     boinc_options.handle_process_control = true;
     boinc_init_options(&boinc_options);
+
 
     // Prepare environment for detecting system conditions
     //
@@ -691,11 +692,30 @@ int main(int argc, char** argv) {
 
 
 #ifdef _WIN32
-    if (vbox42::VBOX_VM::is_virtualbox_installed()) {
-        pVM = (VBOX_VM*) new vbox42::VBOX_VM();
-    } else if (vbox43::VBOX_VM::is_virtualbox_installed()) {
-        pVM = (VBOX_VM*) new vbox43::VBOX_VM();
-    } else {
+    // Determine what version of VirtualBox we are using via the registry. Use a
+    // namespace specific version of the function because VirtualBox has been known
+    // to change the registry location from time to time.
+    //
+    // NOTE: We cannot use COM to automatically detect which interfaces are installed
+    //       on the machine because it will attempt to launch the 'vboxsvc' process
+    //       without out environment variable changes and muck everything up.
+    //
+    string vbox_version;
+    int vbox_major = 0, vbox_minor = 0;
+
+    if (BOINC_SUCCESS != vbox42::VBOX_VM::get_version_information(vbox_version)) {
+        vbox43::VBOX_VM::get_version_information(vbox_version);
+    }
+    if (!vbox_version.empty()) {
+        sscanf(vbox_version.c_str(), "%d.%d", &vbox_major, &vbox_minor);
+        if ((4 == vbox_major) && (2 == vbox_minor)) {
+            pVM = (VBOX_VM*) new vbox42::VBOX_VM();
+        }
+        if ((4 == vbox_major) && (3 == vbox_minor)) {
+            pVM = (VBOX_VM*) new vbox43::VBOX_VM();
+        }
+    }
+    if (!pVM) {
         pVM = (VBOX_VM*) new vboxmanage::VBOX_VM();
     }
 #else

@@ -274,7 +274,6 @@ public:
     virtual bool is_vm_machine_configuration_available();
     virtual bool is_disk_image_registered();
     virtual bool is_extpack_installed();
-    static bool is_virtualbox_installed();
     virtual bool is_logged_failure_vm_extensions_disabled();
     virtual bool is_logged_failure_vm_extensions_in_use();
     virtual bool is_logged_failure_vm_extensions_not_supported();
@@ -283,8 +282,8 @@ public:
     virtual bool is_logged_failure_guest_job_out_of_memory();
     virtual bool is_virtualbox_version_newer(int maj, int min, int rel);
 
-    virtual int get_install_directory(std::string& dir);
-    virtual int get_version_information(std::string& version);
+    static int get_install_directory(std::string& dir);
+    static int get_version_information(std::string& version);
     virtual int get_guest_additions(std::string& dir);
     virtual int get_slot_directory(std::string& dir);
     virtual int get_default_network_interface(std::string& iface);
@@ -308,7 +307,19 @@ public:
     virtual void lower_vm_process_priority();
     virtual void reset_vm_process_priority();
 
-    virtual void sanitize_output(std::string& output);
+    static void sanitize_output(std::string& output);
+
+    virtual int launch_vboxsvc();
+    virtual int launch_vboxvm();
+
+    int vbm_popen(
+        std::string& command, std::string& output, const char* item, bool log_error = true, bool retry_failures = true, unsigned int timeout = 45, bool log_trace = true
+    );
+    int vbm_popen_raw(
+        std::string& command, std::string& output, unsigned int timeout
+    );
+    static void vbm_replay(std::string& command);
+    static void vbm_trace(std::string& command, std::string& ouput, int retval);
 };
 
 class VBOX_VM : public VBOX_BASE {

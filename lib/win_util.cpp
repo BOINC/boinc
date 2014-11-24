@@ -161,7 +161,7 @@ char* windows_format_error_string(
         // include the hex error code as well
         snprintf(pszBuf, iSize, "%S (0x%x)", lpszTemp, dwError);
         if (lpszTemp) {
-            LocalFree((HLOCAL) lpszTemp);
+            LocalFree((HLOCAL)lpszTemp);
         }
     } else {
         strcpy(pszBuf, "(unknown error)");

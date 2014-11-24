@@ -199,8 +199,7 @@ int VBOX_VM::initialize() {
     int rc = BOINC_SUCCESS;
     string old_path;
     string new_path;
-    string command;
-    string output;
+    string version;
     APP_INIT_DATA aid;
     bool force_sandbox = false;
     char buf[256];
@@ -256,6 +255,12 @@ int VBOX_VM::initialize() {
         }
     }
 
+    // Launch vboxsvc manually so that the DCOM subsystem won't be able too.  Our version
+    // will have permission and direction to write its state information to the BOINC
+    // data directory.
+    //
+    launch_vboxsvc();
+
     // Instantiate the VirtualBox root object.
     rc = m_pPrivate->m_pVirtualBox.CreateInstance(CLSID_VirtualBox);
     if (FAILED(rc)) {
@@ -280,9 +285,13 @@ int VBOX_VM::initialize() {
         return rc;
     }
 
-    rc = get_version_information(virtualbox_version);
+    rc = get_version_information(version);
     if (rc) return rc;
 
+    // Fix-up version string
+    virtualbox_version = "VirtualBox COM Interface (Version: " + version + ")";
+
+    // Get the guest addition information
     get_guest_additions(virtualbox_guest_additions);
 
     return rc;
@@ -2133,16 +2142,6 @@ bool VBOX_VM::is_extpack_installed() {
     return false;
 }
 
-bool VBOX_VM::is_virtualbox_installed() {
-    HRESULT rc;
-    CComPtr<IVirtualBox> pVirtualBox;
-    rc = pVirtualBox.CoCreateInstance(CLSID_VirtualBox);
-    if (SUCCEEDED(rc)) {
-        return true;
-    }
-    return false;
-}
-
 int VBOX_VM::get_install_directory(string& install_directory ) {
     LONG    lReturnValue;
     HKEY    hkSetupHive;
@@ -2195,17 +2194,54 @@ int VBOX_VM::get_install_directory(string& install_directory ) {
 }
 
 int VBOX_VM::get_version_information(string& version) {
-    int retval = ERR_EXEC;
-    HRESULT rc;
-    CComBSTR tmp;
+    LONG    lReturnValue;
+    HKEY    hkSetupHive;
+    LPTSTR  lpszRegistryValue = NULL;
+    DWORD   dwSize = 0;
 
-    rc = m_pPrivate->m_pVirtualBox->get_VersionNormalized(&tmp);
-    if (SUCCEEDED(rc)) {
-        version = string("VirtualBox COM Interface (Version: ") + string(CW2A(tmp)) + string(")");
-        retval = BOINC_SUCCESS;
+    // change the current directory to the boinc data directory if it exists
+    lReturnValue = RegOpenKeyEx(
+        HKEY_LOCAL_MACHINE, 
+        _T("SOFTWARE\\Oracle\\VirtualBox"),  
+        0, 
+        KEY_READ,
+        &hkSetupHive
+    );
+    if (lReturnValue == ERROR_SUCCESS) {
+        // How large does our buffer need to be?
+        lReturnValue = RegQueryValueEx(
+            hkSetupHive,
+            _T("VersionExt"),
+            NULL,
+            NULL,
+            NULL,
+            &dwSize
+        );
+        if (lReturnValue != ERROR_FILE_NOT_FOUND) {
+            // Allocate the buffer space.
+            lpszRegistryValue = (LPTSTR) malloc(dwSize);
+            (*lpszRegistryValue) = NULL;
+
+            // Now get the data
+            lReturnValue = RegQueryValueEx( 
+                hkSetupHive,
+                _T("VersionExt"),
+                NULL,
+                NULL,
+                (LPBYTE)lpszRegistryValue,
+                &dwSize
+            );
+
+            version = lpszRegistryValue;
+        }
     }
 
-    return retval;
+    if (hkSetupHive) RegCloseKey(hkSetupHive);
+    if (lpszRegistryValue) free(lpszRegistryValue);
+    if (version.empty()) {
+        return ERR_FREAD;
+    }
+    return BOINC_SUCCESS;
 }
 
 int VBOX_VM::get_guest_additions(string& guest_additions) {
