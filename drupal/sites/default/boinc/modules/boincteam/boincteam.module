@@ -182,7 +182,10 @@ function boincteam_assume_foundership($team_id) {
 function boincteam_delete($team_id) {
   $team = node_load($team_id);
   $boincteam = boincteam_load(boincteam_lookup_id($team_id), TRUE);
-  if ($boincteam->nusers == 0) {
+  if ($boincteam->nusers == 1) {
+    require_boinc('team');
+    $boincuser = boincuser_load();
+    user_quit_team($boincuser);
     $boincteam->delete();
     node_unpublish_action($team);
     $team->uid = 0;
