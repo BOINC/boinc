@@ -183,6 +183,8 @@ protected:
     wxButton* m_btnOK;
     wxButton* m_btnCancel;
     wxButton* m_btnHelp;
+    
+    wxString *web_prefs_url;
 
 public:
     CDlgAdvPreferencesBase( wxWindow* parent, int id = -1, wxString title = wxT(""), wxPoint pos = wxDefaultPosition, wxSize size = wxDefaultSize, int style = wxDEFAULT_DIALOG_STYLE );
@@ -192,6 +194,7 @@ private:
     wxPanel* createNetworkTab(wxNotebook* notebook);
     wxPanel* createDiskAndMemoryTab(wxNotebook* notebook);
     wxSize getTextCtrlSize(wxString maxText);
+    bool doesLocalPrefsFileExist();
 };
 
 #endif //__DlgAdvPreferencesBase__

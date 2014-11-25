@@ -28,6 +28,7 @@
 #include "parse.h"
 #include "LogBOINC.h"
 #include "BOINCGUIApp.h"
+#include "MainDocument.h"
 #include "SkinManager.h"
 
 #include "DlgAdvPreferencesBase.h"
@@ -63,12 +64,60 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
 
     topControlsSizer->Add( m_bmpWarning, 0, wxALIGN_CENTER_VERTICAL|wxALL, 0 );
 
+    wxBoxSizer* legendSizer = new wxBoxSizer( wxVERTICAL );
+
+    bool usingLocalPrefs = doesLocalPrefsFileExist();
+    if (usingLocalPrefs) {
+        legendSizer->Add(
+            new wxStaticText( topControlsStaticBox, ID_DEFAULT,
+                        _("This computer is using local preferences.\n"
+                        "Click \"Use web prefs\" if you want to use web-based preferences from:"
+                        ), wxDefaultPosition, wxDefaultSize, 0 ),
+            0, wxALL, 1
+        );
+    } else {
+        legendSizer->Add(
+            new wxStaticText( topControlsStaticBox, ID_DEFAULT,
+                        _("This computer is using web-based preferences from:"),
+                        wxDefaultPosition, wxDefaultSize, 0 ),
+            0, wxALL, 1
+        );
+    }
+    
+     legendSizer->Add(
+        new wxHyperlinkCtrl(
+            topControlsStaticBox, wxID_ANY, *web_prefs_url, *web_prefs_url,
+            wxDefaultPosition, wxDefaultSize, wxHL_DEFAULT_STYLE
+        ),
+        0, wxLEFT, 5
+    );
+    
+    if (!usingLocalPrefs) {
+        legendSizer->Add(
+            new wxStaticText( topControlsStaticBox, ID_DEFAULT,
+                        _("Click OK if you want to edit preferences locally.\n"
+                        "(Changes to web-based preferences won't affect this computer)."
+                        ), wxDefaultPosition, wxDefaultSize, 0 ),
+            0, wxALL, 1
+        );
+    }
+  
+    topControlsSizer->Add( legendSizer, 1, wxALL, 1 );
+
+#if 0
     wxStaticText* staticText321 = new wxStaticText( topControlsStaticBox, ID_DEFAULT, _("This dialog controls preferences for this computer only.\nClick OK to set preferences.\nClick Clear to restore web-based settings."), wxDefaultPosition, wxDefaultSize, 0 );
     topControlsSizer->Add( staticText321, 1, wxALL, 1 );
 
     m_btnClear = new wxButton( topControlsStaticBox, ID_BTN_CLEAR, _("Clear"), wxDefaultPosition, wxDefaultSize, 0 );
     m_btnClear->SetToolTip( _("clear all local preferences and close the dialog") );
+#endif
 
+    m_btnClear = new wxButton( topControlsStaticBox, ID_BTN_CLEAR, _("Use web prefs"), wxDefaultPosition, wxDefaultSize, 0 );
+    m_btnClear->SetToolTip( _("restore web-based preferences and close the dialog") );
+    if (!usingLocalPrefs) {
+        m_btnClear->Hide();
+    }
+    
     topControlsSizer->Add( m_btnClear, 0, wxALIGN_BOTTOM|wxALL, 4 );
 
     dialogSizer->Add( topControlsSizer, 0, wxALL|wxEXPAND, 1 );
@@ -741,4 +790,32 @@ wxSize CDlgAdvPreferencesBase::getTextCtrlSize(wxString maxText) {
     sz.x = w + margin;
     sz.y = wxDefaultCoord;
     return sz;
+}
+
+bool CDlgAdvPreferencesBase::doesLocalPrefsFileExist() {
+    std::string s;
+    int retval;
+    bool local_prefs_found = false;
+    MIOFILE mf;
+    bool found_venue;
+    GLOBAL_PREFS web_prefs;
+    GLOBAL_PREFS_MASK mask;
+    CMainDocument* pDoc = wxGetApp().GetDocument();
+
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+    retval = pDoc->rpc.get_global_prefs_override(s);
+    local_prefs_found = (retval == BOINC_SUCCESS);
+    
+    s.clear();
+    web_prefs.init();
+    
+    retval = pDoc->rpc.get_global_prefs_file(s);
+    mf.init_buf_read(s.c_str());
+    XML_PARSER xp(&mf);
+    web_prefs.parse(xp, "", found_venue, mask);
+    web_prefs_url = new wxString(web_prefs.source_project);
+    
+    return local_prefs_found;
 }
