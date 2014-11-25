@@ -1123,7 +1123,7 @@ int HOST_INFO::get_virtualbox_version() {
 
 // Gets host information; called on startup and before each sched RPC
 //
-int HOST_INFO::get_host_info() {
+int HOST_INFO::get_host_info(bool init) {
     get_timezone(timezone);
     int retval = get_filesystem_info(d_total, d_free);
     if (retval) {
@@ -1131,7 +1131,12 @@ int HOST_INFO::get_host_info() {
             "get_filesystem_info(): %s", boincerror(retval)
         );
     }
-    get_memory_info(m_nbytes, m_swap);
+
+    get_local_network_info();
+
+    if (!init) return 0;
+
+    ::get_memory_info(m_nbytes, m_swap);
     get_os_information(
         os_name, sizeof(os_name), os_version, sizeof(os_version)
     );
@@ -1143,7 +1148,6 @@ int HOST_INFO::get_host_info() {
         m_cache,
         p_ncpus
     );
-    get_local_network_info();
     if (!strlen(host_cpid)) {
         generate_host_cpid();
     }
