@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2010 University of California
+// Copyright (C) 2014 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -41,23 +41,6 @@
 CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxString title, wxPoint pos, wxSize size, int style ) :
     wxDialog( parent, id, title, pos, size, style )
 {
-    std::string s;
-    MIOFILE mf;
-    bool found_venue;
-    GLOBAL_PREFS_MASK mask;
-    int retval;
-    CMainDocument* pDoc = wxGetApp().GetDocument();
-
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-
-// CAF    m_webPrefs = new GLOBAL_PREFS;
-    retval = pDoc->rpc.get_global_prefs_file(s);
-// CAF    if (retval) return retval;
-    mf.init_buf_read(s.c_str());
-    XML_PARSER xp(&mf);
-    m_webPrefs.parse(xp, "", found_venue, mask);
-
     wxString strCaption = title;
     if (strCaption.IsEmpty()) {
         CSkinAdvanced* pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
@@ -81,12 +64,60 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
 
     topControlsSizer->Add( m_bmpWarning, 0, wxALIGN_CENTER_VERTICAL|wxALL, 0 );
 
-    wxStaticText* staticText321 = new wxStaticText( topControlsStaticBox, ID_DEFAULT, _("This dialog controls preferences for this computer only.\nClick OK to set preferences.\nClick Clear to restore web-based settings (except exclusive apps.)\n[Square brackets contain web-based preference values.]"), wxDefaultPosition, wxDefaultSize, 0 );
+    wxBoxSizer* legendSizer = new wxBoxSizer( wxVERTICAL );
+
+    bool usingLocalPrefs = doesLocalPrefsFileExist();
+    if (usingLocalPrefs) {
+        legendSizer->Add(
+            new wxStaticText( topControlsStaticBox, ID_DEFAULT,
+                        _("This computer is using local preferences.\n"
+                        "Click \"Use web prefs\" if you want to use web-based preferences from:"
+                        ), wxDefaultPosition, wxDefaultSize, 0 ),
+            0, wxALL, 1
+        );
+    } else {
+        legendSizer->Add(
+            new wxStaticText( topControlsStaticBox, ID_DEFAULT,
+                        _("This computer is using web-based preferences from:"),
+                        wxDefaultPosition, wxDefaultSize, 0 ),
+            0, wxALL, 1
+        );
+    }
+    
+     legendSizer->Add(
+        new wxHyperlinkCtrl(
+            topControlsStaticBox, wxID_ANY, *web_prefs_url, *web_prefs_url,
+            wxDefaultPosition, wxDefaultSize, wxHL_DEFAULT_STYLE
+        ),
+        0, wxLEFT, 5
+    );
+    
+    if (!usingLocalPrefs) {
+        legendSizer->Add(
+            new wxStaticText( topControlsStaticBox, ID_DEFAULT,
+                        _("Click OK if you want to edit preferences locally.\n"
+                        "(Changes to web-based preferences won't affect this computer)."
+                        ), wxDefaultPosition, wxDefaultSize, 0 ),
+            0, wxALL, 1
+        );
+    }
+  
+    topControlsSizer->Add( legendSizer, 1, wxALL, 1 );
+
+#if 0
+    wxStaticText* staticText321 = new wxStaticText( topControlsStaticBox, ID_DEFAULT, _("This dialog controls preferences for this computer only.\nClick OK to set preferences.\nClick Clear to restore web-based settings."), wxDefaultPosition, wxDefaultSize, 0 );
     topControlsSizer->Add( staticText321, 1, wxALL, 1 );
 
     m_btnClear = new wxButton( topControlsStaticBox, ID_BTN_CLEAR, _("Clear"), wxDefaultPosition, wxDefaultSize, 0 );
     m_btnClear->SetToolTip( _("clear all local preferences and close the dialog") );
+#endif
 
+    m_btnClear = new wxButton( topControlsStaticBox, ID_BTN_CLEAR, _("Use web prefs"), wxDefaultPosition, wxDefaultSize, 0 );
+    m_btnClear->SetToolTip( _("restore web-based preferences and close the dialog") );
+    if (!usingLocalPrefs) {
+        m_btnClear->Hide();
+    }
+    
     topControlsSizer->Add( m_btnClear, 0, wxALIGN_BOTTOM|wxALL, 4 );
 
     dialogSizer->Add( topControlsSizer, 0, wxALL|wxEXPAND, 1 );
@@ -107,9 +138,6 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
 
     m_panelDiskAndMemory = createDiskAndMemoryTab(m_Notebook);
     m_Notebook->AddPage( m_panelDiskAndMemory, _("disk and memory usage"), false );
-
-    m_panelExlusiveApps = createExclusiveAppsTab(m_Notebook);
-    m_Notebook->AddPage( m_panelExlusiveApps, _("exclusive applications"), false );
     
     notebookSizer->Add( m_Notebook, 1, wxEXPAND | wxALL, 1 );
 
@@ -149,7 +177,6 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
 
 wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook)
 {
-    wxString buffer;
     wxSize textCtrlSize = getTextCtrlSize(wxT("999.99"));
     
     wxPanel* processorTab = new wxPanel( notebook, ID_TABPAGE_PROC, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
@@ -160,7 +187,6 @@ wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook)
     wxStaticBox* computingAllowedStaticBox = new wxStaticBox(processorTab, -1, _("Computing allowed") );
     wxStaticBoxSizer* computingAllowedBoxSizer = new wxStaticBoxSizer(computingAllowedStaticBox, wxVERTICAL);
     
-    wxBoxSizer* procRunOnBatteriesSizer = new wxBoxSizer( wxHORIZONTAL );
     m_chkProcOnBatteries = new wxCheckBox(
         computingAllowedStaticBox, ID_CHKPROCONBATTERIES,
         _("While computer is on batteries"), wxDefaultPosition, wxDefaultSize, 0
@@ -168,18 +194,8 @@ wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook)
     m_chkProcOnBatteries->SetToolTip(
         _("check this if you want this computer to do work while it runs on batteries")
     );
-    procRunOnBatteriesSizer->Add( m_chkProcOnBatteries, 0, 0, 0 );
-    procRunOnBatteriesSizer->Add(
-        new wxStaticText(
-            computingAllowedStaticBox, ID_DEFAULT,
-            webBasedChekboxValue(m_webPrefs.run_on_batteries),
-            wxDefaultPosition, wxDefaultSize, 0
-        ),
-        0, wxLEFT, 5
-    );
-    computingAllowedBoxSizer->Add( procRunOnBatteriesSizer, 0, wxALL, 5 );
+    computingAllowedBoxSizer->Add( m_chkProcOnBatteries, 0, wxALL, 5 );
 
-    wxBoxSizer* procInUseSizer = new wxBoxSizer( wxHORIZONTAL );
     m_chkProcInUse = new wxCheckBox(
         computingAllowedStaticBox, ID_CHKPROCINUSE,
         _("While computer is in use"), wxDefaultPosition, wxDefaultSize, 0
@@ -187,18 +203,8 @@ wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook)
     m_chkProcInUse->SetToolTip(
         _("check this if you want this computer to do work even when you're using it")
     );
-    procInUseSizer->Add( m_chkProcInUse, 0, 0, 0 );
-    procInUseSizer->Add(
-        new wxStaticText(
-            computingAllowedStaticBox, ID_DEFAULT,
-            webBasedChekboxValue(m_webPrefs.run_if_user_active),
-            wxDefaultPosition, wxDefaultSize, 0
-        ),
-        0, wxLEFT, 5
-    );
-    computingAllowedBoxSizer->Add( procInUseSizer, 0, wxALL, 5 );
+    computingAllowedBoxSizer->Add( m_chkProcInUse, 0, wxALL, 5 );
 
-    wxBoxSizer* procGPUInUseSizer = new wxBoxSizer( wxHORIZONTAL );
     m_chkGPUProcInUse = new wxCheckBox(
         computingAllowedStaticBox, ID_CHKGPUPROCINUSE,
         _("Use GPU while computer is in use"), wxDefaultPosition, wxDefaultSize, 0
@@ -206,19 +212,13 @@ wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook)
     m_chkGPUProcInUse->SetToolTip(
         _("check this if you want your GPU to do work even when you're using the computer")
     );
-    procGPUInUseSizer->Add( m_chkGPUProcInUse, 0, 0, 0 );
-    procGPUInUseSizer->Add(
-        new wxStaticText(
-            computingAllowedStaticBox, ID_DEFAULT,
-            webBasedChekboxValue(m_webPrefs.run_gpu_if_user_active),
-            wxDefaultPosition, wxDefaultSize, 0
-        ),
-        0, wxLEFT, 5
-    );
-    computingAllowedBoxSizer->Add( procGPUInUseSizer, 0, wxALL, 5 );
+    computingAllowedBoxSizer->Add( m_chkGPUProcInUse, 0, wxALL, 5 );
 
     // min idle time
-    wxBoxSizer* procIdleSizer = new wxBoxSizer( wxHORIZONTAL );
+    wxFlexGridSizer* procIdleSizer = new wxFlexGridSizer( 2, 4, 0, 0 );
+    procIdleSizer->AddGrowableCol( 3 );
+    procIdleSizer->SetFlexibleDirection( wxHORIZONTAL );
+    procIdleSizer->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
     procIdleSizer->Add(
         new wxStaticText(
             computingAllowedStaticBox, ID_DEFAULT,
@@ -241,19 +241,18 @@ wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook)
         ),
         0, wxALL, 5
     );
-    buffer.Printf(wxT("[%.2f]"), m_webPrefs.idle_time_to_run);
     procIdleSizer->Add(
-        new wxStaticText(
-            computingAllowedStaticBox, ID_DEFAULT, buffer,
-            wxDefaultPosition, wxDefaultSize, wxTE_RIGHT
-        ),
-        0, wxTOP, 5
+        new wxStaticText( computingAllowedStaticBox, ID_DEFAULT, wxT(""), wxDefaultPosition, wxDefaultSize, 0),
+        0, wxALL, 5
     );
 
     computingAllowedBoxSizer->Add( procIdleSizer, 0, wxEXPAND, 5);
 
     // max CPU load
-    wxBoxSizer* maxLoadSizer = new wxBoxSizer( wxHORIZONTAL );
+    wxFlexGridSizer* maxLoadSizer = new wxFlexGridSizer( 2, 4, 0, 0 );
+    maxLoadSizer->AddGrowableCol( 3 );
+    maxLoadSizer->SetFlexibleDirection( wxHORIZONTAL );
+    maxLoadSizer->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
     maxLoadSizer->Add(
         new wxStaticText(
             computingAllowedStaticBox, ID_DEFAULT,
@@ -276,15 +275,12 @@ wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook)
         ),
         0, wxALL, 5
     );
-    buffer.Printf(wxT("[%.2f]"), m_webPrefs.suspend_cpu_usage);
     maxLoadSizer->Add(
-        new wxStaticText(
-            computingAllowedStaticBox, ID_DEFAULT, buffer,
-            wxDefaultPosition, wxDefaultSize, wxTE_RIGHT
-        ),
-        0, wxTOP, 5
+        new wxStaticText( computingAllowedStaticBox, ID_DEFAULT, wxT(""), wxDefaultPosition, wxDefaultSize, 0),
+        0, wxALL, 5
     );
     computingAllowedBoxSizer->Add( maxLoadSizer, 0, wxEXPAND, 5);
+
 
     wxBoxSizer* cpuTimesSizer = new wxBoxSizer( wxHORIZONTAL );
 
@@ -306,45 +302,6 @@ wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook)
 
     wxStaticText* staticText55 = new wxStaticText( computingAllowedStaticBox, ID_DEFAULT, _("(no restriction if equal)"), wxDefaultPosition, wxDefaultSize, wxALIGN_CENTRE );
     cpuTimesSizer->Add( staticText55, 0, wxALL|wxEXPAND, 5 );
-
-    cpuTimesSizer->Add(
-        new wxStaticText(computingAllowedStaticBox, ID_DEFAULT, wxT("["),
-            wxDefaultPosition, wxDefaultSize, 0
-        ),
-        0, wxTOP, 5
-    );
-
-    cpuTimesSizer->Add(
-        new wxStaticText(
-            computingAllowedStaticBox, ID_DEFAULT,
-            DoubleToTimeString(m_webPrefs.cpu_times.start_hour),
-            wxDefaultPosition, wxDefaultSize, wxTE_RIGHT
-        ),
-        0, wxTOP, 5
-    );
-    cpuTimesSizer->Add(
-        new wxStaticText(
-            computingAllowedStaticBox, ID_DEFAULT, wxT(" - "),
-            wxDefaultPosition, wxDefaultSize, 0
-        ),
-        0, wxTOP, 5
-    );
-
-    cpuTimesSizer->Add(
-        new wxStaticText(
-            computingAllowedStaticBox, ID_DEFAULT,
-            DoubleToTimeString(m_webPrefs.cpu_times.end_hour),
-            wxDefaultPosition, wxDefaultSize, wxTE_RIGHT
-        ),
-        0, wxTOP, 5
-    );
-    cpuTimesSizer->Add(
-        new wxStaticText(
-            computingAllowedStaticBox, ID_DEFAULT, wxT("]"),
-            wxDefaultPosition, wxDefaultSize, 0
-        ),
-        0, wxTOP, 5
-    );
 
     computingAllowedBoxSizer->Add( cpuTimesSizer, 0, wxEXPAND, 1 );
 
@@ -429,20 +386,8 @@ wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook)
     m_txtProcSwitchEvery = new wxTextCtrl( miscProcStaticBox, ID_TXTPROCSWITCHEVERY, wxT(""), wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
     miscProcGridSizer->Add( m_txtProcSwitchEvery, 0, wxALL, 1 );
 
-    wxBoxSizer* schedPeriodMinutesSizer = new wxBoxSizer( wxHORIZONTAL );
-
     wxStaticText* staticText19 = new wxStaticText( miscProcStaticBox, ID_DEFAULT, _("minutes"), wxDefaultPosition, wxDefaultSize, 0 );
-    schedPeriodMinutesSizer->Add( staticText19, 0, 0, 0 );
-
-    buffer.Printf(wxT("[%.2f]"), m_webPrefs.cpu_scheduling_period_minutes);
-    schedPeriodMinutesSizer->Add(
-        new wxStaticText(
-            miscProcStaticBox, ID_DEFAULT, buffer,
-            wxDefaultPosition, wxDefaultSize, wxTE_RIGHT
-        ),
-        0, wxLEFT, 5
-    );
-    miscProcGridSizer->Add( schedPeriodMinutesSizer, 0, wxALL, 5 );
+    miscProcGridSizer->Add( staticText19, 0, wxALL, 5 );
 
     wxStaticText* staticText20 = new wxStaticText( miscProcStaticBox, ID_DEFAULT, _("On multiprocessor systems, use at most"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
     miscProcGridSizer->Add( staticText20, 0, wxALL|wxEXPAND, 5 );
@@ -450,21 +395,9 @@ wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook)
     m_txtProcUseProcessors = new wxTextCtrl( miscProcStaticBox, ID_TXTPROCUSEPROCESSORS, wxT(""), wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
     miscProcGridSizer->Add( m_txtProcUseProcessors, 0, wxALL, 1 );
 
-    wxBoxSizer* maxNCPUsSizer = new wxBoxSizer( wxHORIZONTAL );
-
     /*xgettext:no-c-format*/
     wxStaticText* staticText21 = new wxStaticText( miscProcStaticBox, ID_DEFAULT, _("% of the processors (0 means no restriction)"), wxDefaultPosition, wxDefaultSize, 0 );
-    maxNCPUsSizer->Add( staticText21, 0, 0, 0 );
-
-    buffer.Printf(wxT("[%.2f]"), m_webPrefs.max_ncpus_pct);
-    maxNCPUsSizer->Add(
-        new wxStaticText(
-            miscProcStaticBox, ID_DEFAULT, buffer,
-            wxDefaultPosition, wxDefaultSize, wxTE_RIGHT
-        ),
-        0, wxLEFT, 5
-    );
-    miscProcGridSizer->Add( maxNCPUsSizer, 0, wxALL, 5 );
+    miscProcGridSizer->Add( staticText21, 0, wxALL, 5 );
 
     wxStaticText* staticText22 = new wxStaticText( miscProcStaticBox, ID_DEFAULT, _("Use at most"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
     miscProcGridSizer->Add( staticText22, 0, wxALL|wxEXPAND, 5 );
@@ -472,22 +405,9 @@ wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook)
     m_txtProcUseCPUTime = new wxTextCtrl( miscProcStaticBox, ID_TXTPOCUSECPUTIME, wxT(""), wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
     miscProcGridSizer->Add( m_txtProcUseCPUTime, 0, wxALL, 1 );
 
-    wxBoxSizer* CPUUsageLimitSizer = new wxBoxSizer( wxHORIZONTAL );
-
     /*xgettext:no-c-format*/
     wxStaticText* staticText23 = new wxStaticText( miscProcStaticBox, ID_DEFAULT, _("% of CPU time (0 means no restriction)"), wxDefaultPosition, wxDefaultSize, 0 );
-    CPUUsageLimitSizer->Add( staticText23, 0, 0, 0 );
-
-    buffer.Printf(wxT("[%.2f]"), m_webPrefs.cpu_usage_limit);
-    CPUUsageLimitSizer->Add(
-        new wxStaticText(
-            miscProcStaticBox, ID_DEFAULT, buffer,
-            wxDefaultPosition, wxDefaultSize, wxTE_RIGHT
-        ),
-        0, wxLEFT, 5
-    );
-
-    miscProcGridSizer->Add( CPUUsageLimitSizer, 0, wxALL, 5 );
+    miscProcGridSizer->Add( staticText23, 0, wxALL, 5 );
 
     miscProcBoxSizer->Add( miscProcGridSizer, 0, wxEXPAND, 1 );
     miscProcBoxSizer->AddSpacer(1); // Ensure staticText22 is fully visible on Mac
@@ -503,7 +423,6 @@ wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook)
 
 wxPanel* CDlgAdvPreferencesBase::createNetworkTab(wxNotebook* notebook)
 {
-    wxString buffer;
     wxSize textCtrlSize = getTextCtrlSize(wxT("9999.99"));
 
     wxPanel* networkTab = new wxPanel( notebook, ID_TABPAGE_NET, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
@@ -526,42 +445,17 @@ wxPanel* CDlgAdvPreferencesBase::createNetworkTab(wxNotebook* notebook)
     m_txtNetDownloadRate = new wxTextCtrl( networkGeneralStaticBox, ID_TXTNETDOWNLOADRATE, wxT(""), wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
     networkGeneralGridSizer->Add( m_txtNetDownloadRate, 0, wxALL, 1 );
 
-    wxBoxSizer* maxBytesSecDownSizer = new wxBoxSizer( wxHORIZONTAL );
-
     wxStaticText* staticText33 = new wxStaticText( networkGeneralStaticBox, ID_DEFAULT, _("KBytes/second (0 means no restriction)"), wxDefaultPosition, wxDefaultSize, 0 );
-    maxBytesSecDownSizer->Add( staticText33, 0, 0, 0 );
+    networkGeneralGridSizer->Add( staticText33, 0, wxALL, 5 );
 
-    buffer.Printf(wxT("[%.2f]"), m_webPrefs.max_bytes_sec_down);
-    maxBytesSecDownSizer->Add(
-        new wxStaticText(
-            networkGeneralStaticBox, ID_DEFAULT, buffer,
-            wxDefaultPosition, wxDefaultSize, 0
-        ),
-        0, wxLEFT, 5
-    );
-    networkGeneralGridSizer->Add( maxBytesSecDownSizer, 0, wxALL, 5 );
-    
     wxStaticText* staticText34 = new wxStaticText( networkGeneralStaticBox, ID_DEFAULT, _("Maximum upload rate"), wxDefaultPosition, wxDefaultSize, 0 );
     networkGeneralGridSizer->Add( staticText34, 0, wxALIGN_RIGHT|wxALL, 5 );
 
     m_txtNetUploadRate = new wxTextCtrl( networkGeneralStaticBox, ID_TXTNETUPLOADRATE, wxT(""), wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
     networkGeneralGridSizer->Add( m_txtNetUploadRate, 0, wxALL, 1 );
 
-    wxBoxSizer* maxBytesSecUpSizer = new wxBoxSizer( wxHORIZONTAL );
-
     wxStaticText* staticText35 = new wxStaticText( networkGeneralStaticBox, ID_DEFAULT, _("KBytes/second (0 means no restriction)"), wxDefaultPosition, wxDefaultSize, 0 );
-    maxBytesSecUpSizer->Add( staticText35, 0, 0, 0 );
-
-    buffer.Printf(wxT("[%.2f]"), m_webPrefs.max_bytes_sec_up);
-    maxBytesSecUpSizer->Add(
-        new wxStaticText(
-            networkGeneralStaticBox, ID_DEFAULT, buffer,
-            wxDefaultPosition, wxDefaultSize, wxTE_RIGHT
-        ),
-        0, wxLEFT, 5
-    );
-
-    networkGeneralGridSizer->Add( maxBytesSecUpSizer, 0, wxALL, 5 );
+    networkGeneralGridSizer->Add( staticText35, 0, wxALL, 5 );
 
     // buffer sizes
 
@@ -580,23 +474,10 @@ wxPanel* CDlgAdvPreferencesBase::createNetworkTab(wxNotebook* notebook)
 
     networkGeneralGridSizer->Add( m_txtNetConnectInterval, 0, wxALL, 1 );
 
-    wxBoxSizer* workBufMinDaysSizer = new wxBoxSizer( wxHORIZONTAL );
-
     wxStaticText* staticText31 = new wxStaticText(
         networkGeneralStaticBox, ID_DEFAULT, _("days (maximum value: 10)"), wxDefaultPosition, wxDefaultSize, 0
     );
-    workBufMinDaysSizer->Add( staticText31, 0, 0, 0 );
-
-    buffer.Printf(wxT("[%.2f]"), m_webPrefs.work_buf_min_days);
-    workBufMinDaysSizer->Add(
-        new wxStaticText(
-            networkGeneralStaticBox, ID_DEFAULT, buffer,
-            wxDefaultPosition, wxDefaultSize, wxTE_RIGHT
-        ),
-        0, wxLEFT, 5
-    );
-
-    networkGeneralGridSizer->Add( workBufMinDaysSizer, 0, wxALL, 5 );
+    networkGeneralGridSizer->Add( staticText31, 0, wxALL, 5 );
 
     wxStaticText* staticText331 = new wxStaticText(
         networkGeneralStaticBox, ID_DEFAULT,
@@ -617,15 +498,6 @@ wxPanel* CDlgAdvPreferencesBase::createNetworkTab(wxNotebook* notebook)
     wxStaticText* staticText341 = new wxStaticText( networkGeneralStaticBox, ID_DEFAULT, _("days (maximum value: 10)"), wxDefaultPosition, wxDefaultSize, 0 );
     workBufAdditonalDaysSizer->Add( staticText341, 0, 0, 0 );
 
-    buffer.Printf(wxT("[%.2f]"), m_webPrefs.work_buf_additional_days);
-    workBufAdditonalDaysSizer->Add(
-        new wxStaticText(
-            networkGeneralStaticBox, ID_DEFAULT, buffer,
-            wxDefaultPosition, wxDefaultSize, wxTE_RIGHT
-        ),
-        0, wxLEFT, 5
-    );
-
     networkGeneralGridSizer->Add( workBufAdditonalDaysSizer, 0, wxALL, 5 );
 
     // long-term quota
@@ -638,107 +510,42 @@ wxPanel* CDlgAdvPreferencesBase::createNetworkTab(wxNotebook* notebook)
 
     wxBoxSizer* networkTransferLimitSizer = new wxBoxSizer( wxHORIZONTAL );
 
-    wxBoxSizer* dailyXferLimitSizer = new wxBoxSizer( wxHORIZONTAL );
+    wxStaticText* staticText_daily_xfer2 = new wxStaticText( networkGeneralStaticBox, ID_DEFAULT, _("MBytes every"), wxDefaultPosition, wxDefaultSize, 0 );
 
-    wxStaticText* staticText_daily_xfer2 = new wxStaticText( networkGeneralStaticBox, ID_DEFAULT, _("MBytes"), wxDefaultPosition, wxDefaultSize, 0 );
-
-    dailyXferLimitSizer-> Add(staticText_daily_xfer2, 0, 0, 0);
+    networkTransferLimitSizer->Add( staticText_daily_xfer2, 0, wxALL, 5 );
     
-    buffer.Printf(wxT("[%.2f]"), m_webPrefs.daily_xfer_limit_mb);
-    dailyXferLimitSizer->Add(
-        new wxStaticText(
-            networkGeneralStaticBox, ID_DEFAULT, buffer,
-            wxDefaultPosition, wxDefaultSize, wxTE_RIGHT
-        ),
-        0, wxLEFT|wxRIGHT, 3
-    );
-
-    wxStaticText* staticText_daily_xfer3 = new wxStaticText( networkGeneralStaticBox, ID_DEFAULT, _("every"), wxDefaultPosition, wxDefaultSize, 0 );
-
-    dailyXferLimitSizer-> Add(staticText_daily_xfer3, 0, 0, 0);
-
-    networkTransferLimitSizer->Add( dailyXferLimitSizer, 0, wxALL, 5 );
-
     m_txt_daily_xfer_period_days = new wxTextCtrl( networkGeneralStaticBox, ID_TXTNETUPLOADRATE, wxT(""), wxDefaultPosition, getTextCtrlSize(wxT("999.99")), wxTE_RIGHT );
     networkTransferLimitSizer->Add( m_txt_daily_xfer_period_days, 0, wxALL, 1 );
 
     wxStaticText* staticText_daily_xfer4 = new wxStaticText( networkGeneralStaticBox, ID_DEFAULT, _("days (0 means no restriction)"), wxDefaultPosition, wxDefaultSize, 0 );
     networkTransferLimitSizer->Add( staticText_daily_xfer4, 0, wxALL, 5 );
 
-    buffer.Printf(wxT("[%d]"), m_webPrefs.daily_xfer_period_days);
-    networkTransferLimitSizer->Add(
-        new wxStaticText(
-            networkGeneralStaticBox, ID_DEFAULT, buffer,
-            wxDefaultPosition, wxDefaultSize, wxTE_RIGHT
-        ),
-        0, wxTop, 5
-    );
-
     networkGeneralGridSizer->Add( networkTransferLimitSizer, 0, wxALL, 0 );
 
     networkGeneralBoxSizer->Add( networkGeneralGridSizer, 0, wxEXPAND, 1 );
-
-    wxBoxSizer* dontVerifyImagesSizer = new wxBoxSizer( wxHORIZONTAL );
 
     m_chkNetSkipImageVerification = new wxCheckBox( networkGeneralStaticBox, ID_CHKNETSKIPIMAGEVERIFICATION, _("Skip image file verification"), wxDefaultPosition, wxDefaultSize, 0 );
 
     m_chkNetSkipImageVerification->SetToolTip( _("check this if your Internet provider modifies image files") );
 
-    dontVerifyImagesSizer->Add( m_chkNetSkipImageVerification, 0, 0, 0 );
-
-    dontVerifyImagesSizer->Add(
-        new wxStaticText(
-            networkGeneralStaticBox, ID_DEFAULT,
-            webBasedChekboxValue(m_webPrefs.dont_verify_images),
-            wxDefaultPosition, wxDefaultSize, 0
-        ),
-        0, wxLEFT, 5
-    );
-
-    networkGeneralBoxSizer->Add( dontVerifyImagesSizer, 0, wxALL, 5 );
+    networkGeneralBoxSizer->Add( m_chkNetSkipImageVerification, 0, wxALL, 5 );
 
     networkTabSizer->Add( networkGeneralBoxSizer, 0, wxEXPAND, 1 );
 
     wxStaticBox* connectOptionsStaticBox = new wxStaticBox( networkTab, -1, _("Connect options") );
     wxStaticBoxSizer* connectOptionsSizer = new wxStaticBoxSizer( connectOptionsStaticBox, wxVERTICAL );
 
-    wxBoxSizer* confirmBeforeConnectingSizer = new wxBoxSizer( wxHORIZONTAL );
-
     m_chkNetConfirmBeforeConnect = new wxCheckBox( connectOptionsStaticBox, ID_CHKNETCONFIRMBEFORECONNECT, _("Confirm before connecting to internet"), wxDefaultPosition, wxDefaultSize, 0 );
 
     m_chkNetConfirmBeforeConnect->SetToolTip( _("if checked, a confirmation dialog will be displayed before trying to connect to the Internet") );
 
-    confirmBeforeConnectingSizer->Add( m_chkNetConfirmBeforeConnect, 0, 0, 0 );
-
-    confirmBeforeConnectingSizer->Add(
-        new wxStaticText(
-            connectOptionsStaticBox, ID_DEFAULT,
-            webBasedChekboxValue(m_webPrefs.confirm_before_connecting),
-            wxDefaultPosition, wxDefaultSize, 0
-        ),
-        0, wxLEFT, 5
-    );
-
-    connectOptionsSizer->Add( confirmBeforeConnectingSizer, 0, wxALL, 5 );
-
-    wxBoxSizer* hangupIfDialedSizer = new wxBoxSizer( wxHORIZONTAL );
+    connectOptionsSizer->Add( m_chkNetConfirmBeforeConnect, 0, wxALL, 5 );
 
     m_chkNetDisconnectWhenDone = new wxCheckBox( connectOptionsStaticBox, ID_CHKNETDISCONNECTWHENDONE, _("Disconnect when done"), wxDefaultPosition, wxDefaultSize, 0 );
 
     m_chkNetDisconnectWhenDone->SetToolTip( _("if checked, BOINC hangs up when network usage is done\n(only relevant for dialup-connection)") );
 
-    hangupIfDialedSizer->Add( m_chkNetDisconnectWhenDone, 0, 0, 0 );
-
-    hangupIfDialedSizer->Add(
-        new wxStaticText(
-            connectOptionsStaticBox, ID_DEFAULT,
-            webBasedChekboxValue(m_webPrefs.hangup_if_dialed),
-            wxDefaultPosition, wxDefaultSize, 0
-        ),
-        0, wxLEFT, 5
-    );
-
-    connectOptionsSizer->Add( hangupIfDialedSizer, 0, wxALL, 5 );
+    connectOptionsSizer->Add( m_chkNetDisconnectWhenDone, 0, wxALL, 5 );
 
     networkTabSizer->Add( connectOptionsSizer, 0, wxEXPAND, 1 );
 
@@ -765,45 +572,6 @@ wxPanel* CDlgAdvPreferencesBase::createNetworkTab(wxNotebook* notebook)
 
     wxStaticText* staticText54 = new wxStaticText( networkTimesStaticBox, ID_DEFAULT, _("(no restriction if equal)"), wxDefaultPosition, wxDefaultSize, 0 );
     networkTimesSizer->Add( staticText54, 0, wxALL, 5 );
-
-    networkTimesSizer->Add(
-        new wxStaticText(networkTimesStaticBox, ID_DEFAULT, wxT("["),
-            wxDefaultPosition, wxDefaultSize, 0
-        ),
-        0, wxTOP, 5
-    );
-
-    networkTimesSizer->Add(
-        new wxStaticText(
-            networkTimesStaticBox, ID_DEFAULT,
-            DoubleToTimeString(m_webPrefs.net_times.start_hour),
-            wxDefaultPosition, wxDefaultSize, wxTE_RIGHT
-        ),
-        0, wxTOP, 5
-    );
-    networkTimesSizer->Add(
-        new wxStaticText(
-            networkTimesStaticBox, ID_DEFAULT, wxT(" - "),
-            wxDefaultPosition, wxDefaultSize, 0
-        ),
-        0, wxTOP, 5
-    );
-
-    networkTimesSizer->Add(
-        new wxStaticText(
-            networkTimesStaticBox, ID_DEFAULT,
-            DoubleToTimeString(m_webPrefs.net_times.end_hour),
-            wxDefaultPosition, wxDefaultSize, wxTE_RIGHT
-        ),
-        0, wxTOP, 5
-    );
-    networkTimesSizer->Add(
-        new wxStaticText(
-            networkTimesStaticBox, ID_DEFAULT, wxT("]"),
-            wxDefaultPosition, wxDefaultSize, 0
-        ),
-        0, wxTOP, 5
-    );
 
     networkTimesBoxSizer->Add( networkTimesSizer, 0, wxEXPAND, 1 );
 
@@ -883,7 +651,6 @@ wxPanel* CDlgAdvPreferencesBase::createNetworkTab(wxNotebook* notebook)
 
 wxPanel* CDlgAdvPreferencesBase::createDiskAndMemoryTab(wxNotebook* notebook)
 {
-    wxString buffer;
     wxSize textCtrlSize = getTextCtrlSize(wxT("9999.99"));
     
     wxPanel* diskMemoryTab = new wxPanel( notebook, ID_TABPAGE_DISK, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
@@ -910,21 +677,8 @@ wxPanel* CDlgAdvPreferencesBase::createDiskAndMemoryTab(wxNotebook* notebook)
 
     diskUsageGridSizer->Add( m_txtDiskMaxSpace, 0, wxALL, 1 );
 
-    wxBoxSizer* diskMaxUsedGBSizer = new wxBoxSizer( wxHORIZONTAL );
-
     wxStaticText* staticText41 = new wxStaticText( diskFreeSpaceStaticBox, ID_DEFAULT, _("Gigabytes disk space (0 means no restriction)"), wxDefaultPosition, wxDefaultSize, 0 );
-    diskMaxUsedGBSizer->Add( staticText41, 0, 0, 0 );
-
-    buffer.Printf(wxT("[%.2f]"), m_webPrefs.disk_max_used_gb);
-    diskMaxUsedGBSizer->Add(
-        new wxStaticText(
-            diskFreeSpaceStaticBox, ID_DEFAULT, buffer,
-            wxDefaultPosition, wxDefaultSize, 0
-        ),
-        0, wxLEFT, 5
-    );
-
-    diskUsageGridSizer->Add( diskMaxUsedGBSizer, 0, wxALL, 5 );
+    diskUsageGridSizer->Add( staticText41, 0, wxALL, 5 );
 
     wxStaticText* staticText42 = new wxStaticText( diskFreeSpaceStaticBox, ID_DEFAULT, _("Leave at least"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
     diskUsageGridSizer->Add( staticText42, 0, wxALL|wxEXPAND, 5 );
@@ -934,21 +688,8 @@ wxPanel* CDlgAdvPreferencesBase::createDiskAndMemoryTab(wxNotebook* notebook)
 
     diskUsageGridSizer->Add( m_txtDiskLeastFree, 0, wxALL, 1 );
 
-    wxBoxSizer* diskMinFreeGBSizer = new wxBoxSizer( wxHORIZONTAL );
-
     wxStaticText* staticText43 = new wxStaticText( diskFreeSpaceStaticBox, ID_DEFAULT, _("Gigabytes disk space free"), wxDefaultPosition, wxDefaultSize, 0 );
-    diskMinFreeGBSizer->Add( staticText43, 0, 0, 0 );
-
-    buffer.Printf(wxT("[%.2f]"), m_webPrefs.disk_min_free_gb);
-    diskMinFreeGBSizer->Add(
-        new wxStaticText(
-            diskFreeSpaceStaticBox, ID_DEFAULT, buffer,
-            wxDefaultPosition, wxDefaultSize, 0
-        ),
-        0, wxLEFT, 5
-    );
-
-    diskUsageGridSizer->Add( diskMinFreeGBSizer, 0, wxALL, 5 );
+    diskUsageGridSizer->Add( staticText43, 0, wxALL, 5 );
 
     wxStaticText* staticText44 = new wxStaticText( diskFreeSpaceStaticBox, ID_DEFAULT, _("Use at most"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
     diskUsageGridSizer->Add( staticText44, 0, wxALL|wxEXPAND, 5 );
@@ -958,23 +699,10 @@ wxPanel* CDlgAdvPreferencesBase::createDiskAndMemoryTab(wxNotebook* notebook)
 
     diskUsageGridSizer->Add( m_txtDiskMaxOfTotal, 0, wxALL, 1 );
 
-    wxBoxSizer* diskMaxUsedPctSizer = new wxBoxSizer( wxHORIZONTAL );
-
     /*xgettext:no-c-format*/
     wxStaticText* staticText45 = new wxStaticText( diskFreeSpaceStaticBox, ID_DEFAULT, _("% of total disk space"), wxDefaultPosition, wxDefaultSize, 0 );
-    diskMaxUsedPctSizer->Add( staticText45, 0, 0, 0 );
+    diskUsageGridSizer->Add( staticText45, 0, wxALL, 5 );
 
-    buffer.Printf(wxT("[%.2f]"), m_webPrefs.disk_max_used_pct);
-    diskMaxUsedPctSizer->Add(
-        new wxStaticText(
-            diskFreeSpaceStaticBox, ID_DEFAULT, buffer,
-            wxDefaultPosition, wxDefaultSize, 0
-        ),
-        0, wxLEFT, 5
-    );
-
-    diskUsageGridSizer->Add( diskMaxUsedPctSizer, 0, wxALL, 5 );
-    
     diskFreeSpaceBoxSizer->Add(diskUsageGridSizer, 0, wxEXPAND, 1 );
     diskUsageBoxSizer->Add(diskFreeSpaceBoxSizer, 0, wxEXPAND, 1 );
 
@@ -983,28 +711,14 @@ wxPanel* CDlgAdvPreferencesBase::createDiskAndMemoryTab(wxNotebook* notebook)
     swapCheckpointGridSizer->SetFlexibleDirection( wxHORIZONTAL );
     swapCheckpointGridSizer->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 
-
     wxStaticText* staticText46 = new wxStaticText( diskUsageStaticBox, ID_DEFAULT, _("Tasks checkpoint to disk at most every"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
     swapCheckpointGridSizer->Add( staticText46, 0, wxALL|wxEXPAND, 5 );
 
     m_txtDiskWriteToDisk = new wxTextCtrl( diskUsageStaticBox, ID_TXTDISKWRITETODISK, wxT(""), wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
     swapCheckpointGridSizer->Add( m_txtDiskWriteToDisk, 0, wxALL, 1 );
 
-    wxBoxSizer* diskIntervalSizer = new wxBoxSizer( wxHORIZONTAL );
-
     wxStaticText* staticText47 = new wxStaticText( diskUsageStaticBox, ID_DEFAULT, _("seconds"), wxDefaultPosition, wxDefaultSize, 0 );
-    diskIntervalSizer->Add( staticText47, 0, 0, 0 );
-
-    buffer.Printf(wxT("[%.0f]"), m_webPrefs.disk_interval);
-    diskIntervalSizer->Add(
-        new wxStaticText(
-            diskUsageStaticBox, ID_DEFAULT, buffer,
-            wxDefaultPosition, wxDefaultSize, 0
-        ),
-        0, wxLEFT, 5
-    );
-
-    swapCheckpointGridSizer->Add( diskIntervalSizer, 0, wxALL, 5 );
+    swapCheckpointGridSizer->Add( staticText47, 0, wxALL, 5 );
 
     wxStaticText* staticText48 = new wxStaticText( diskUsageStaticBox, ID_DEFAULT, _("Use at most"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
     swapCheckpointGridSizer->Add( staticText48, 0, wxALL|wxEXPAND, 5 );
@@ -1012,22 +726,9 @@ wxPanel* CDlgAdvPreferencesBase::createDiskAndMemoryTab(wxNotebook* notebook)
     m_txtDiskMaxSwap = new wxTextCtrl( diskUsageStaticBox, ID_TXTDISKWRITETODISK, wxT(""), wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
     swapCheckpointGridSizer->Add( m_txtDiskMaxSwap, 0, wxALL, 1 );
 
-    wxBoxSizer* vmMaxUsedFracSizer = new wxBoxSizer( wxHORIZONTAL );
-
     /*xgettext:no-c-format*/
     wxStaticText* staticText49 = new wxStaticText( diskUsageStaticBox, ID_DEFAULT, _("% of page file (swap space)"), wxDefaultPosition, wxDefaultSize, 0 );
-    vmMaxUsedFracSizer->Add( staticText49, 0, 0, 0 );
-
-    buffer.Printf(wxT("[%.2f]"), m_webPrefs.vm_max_used_frac*100.0);
-    vmMaxUsedFracSizer->Add(
-        new wxStaticText(
-            diskUsageStaticBox, ID_DEFAULT, buffer,
-            wxDefaultPosition, wxDefaultSize, 0
-        ),
-        0, wxLEFT, 5
-    );
-
-    swapCheckpointGridSizer->Add( vmMaxUsedFracSizer, 0, wxALL, 5 );
+    swapCheckpointGridSizer->Add( staticText49, 0, wxALL, 5 );
 
     diskUsageBoxSizer->Add( swapCheckpointGridSizer, 0, wxEXPAND, 1 );
 
@@ -1048,23 +749,9 @@ wxPanel* CDlgAdvPreferencesBase::createDiskAndMemoryTab(wxNotebook* notebook)
     m_txtMemoryMaxInUse = new wxTextCtrl( memoryUsageStaticBox, ID_TXTMEMORYMAXINUSE, wxT(""), wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
     memoryUsageGridSizer->Add( m_txtMemoryMaxInUse, 0, wxALL, 1 );
 
-    wxBoxSizer* ramMaxUsedBusySizer = new wxBoxSizer( wxHORIZONTAL );
-
     /*xgettext:no-c-format*/ 
     wxStaticText* staticText51 = new wxStaticText( memoryUsageStaticBox, ID_DEFAULT, _("% when computer is in use"), wxDefaultPosition, wxDefaultSize, 0 );
-    ramMaxUsedBusySizer->Add( staticText51, 0, 0, 0 );
-
-    buffer.Printf(wxT("[%.2f]"), m_webPrefs.ram_max_used_busy_frac*100.0);
-    ramMaxUsedBusySizer->Add(
-        new wxStaticText(
-            memoryUsageStaticBox, ID_DEFAULT, buffer,
-            wxDefaultPosition, wxDefaultSize, 0
-        ),
-        0, wxLEFT, 5
-    );
-
-    memoryUsageGridSizer->Add( ramMaxUsedBusySizer, 0, wxALL, 5 );
-
+    memoryUsageGridSizer->Add( staticText51, 0, wxALL, 5 );
 
     wxStaticText* staticText52 = new wxStaticText( memoryUsageStaticBox, ID_DEFAULT, _("Use at most"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
     memoryUsageGridSizer->Add( staticText52, 0, wxALL|wxEXPAND, 5 );
@@ -1072,43 +759,17 @@ wxPanel* CDlgAdvPreferencesBase::createDiskAndMemoryTab(wxNotebook* notebook)
     m_txtMemoryMaxOnIdle = new wxTextCtrl( memoryUsageStaticBox, ID_TXTMEMORYMAXONIDLE, wxT(""), wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
     memoryUsageGridSizer->Add( m_txtMemoryMaxOnIdle, 0, wxALL, 1 );
 
-    wxBoxSizer* ramMaxUsedIdleSizer = new wxBoxSizer( wxHORIZONTAL );
-
     /*xgettext:no-c-format*/
     wxStaticText* staticText53 = new wxStaticText( memoryUsageStaticBox, ID_DEFAULT, _("% when computer is idle"), wxDefaultPosition, wxDefaultSize, 0 );
-    ramMaxUsedIdleSizer->Add( staticText53, 0, 0, 0 );
-
-    buffer.Printf(wxT("[%.2f]"), m_webPrefs.ram_max_used_idle_frac*100.0);
-    ramMaxUsedIdleSizer->Add(
-        new wxStaticText(
-            memoryUsageStaticBox, ID_DEFAULT, buffer,
-            wxDefaultPosition, wxDefaultSize, 0
-        ),
-        0, wxLEFT, 5
-    );
-
-    memoryUsageGridSizer->Add( ramMaxUsedIdleSizer, 0, wxALL, 5 );
+    memoryUsageGridSizer->Add( staticText53, 0, wxALL, 5 );
 
     memoryUsageBoxSizer->Add( memoryUsageGridSizer, 0, wxEXPAND, 1 );
-
-    wxBoxSizer* leaveAppsInMemorySizer = new wxBoxSizer( wxHORIZONTAL );
 
     m_chkMemoryWhileSuspended = new wxCheckBox( memoryUsageStaticBox, ID_CHKMEMORYWHILESUSPENDED, _("Leave applications in memory while suspended"), wxDefaultPosition, wxDefaultSize, 0 );
 
     m_chkMemoryWhileSuspended->SetToolTip( _("if checked, suspended work units are left in memory") );
 
-    leaveAppsInMemorySizer->Add( m_chkMemoryWhileSuspended, 0, 0, 0 );
-
-    leaveAppsInMemorySizer->Add(
-        new wxStaticText(
-            memoryUsageStaticBox, ID_DEFAULT,
-            webBasedChekboxValue(m_webPrefs.leave_apps_in_memory),
-            wxDefaultPosition, wxDefaultSize, 0
-        ),
-        0, wxLEFT, 5
-    );
-
-    memoryUsageBoxSizer->Add( leaveAppsInMemorySizer, 0, wxALL, 5 );
+    memoryUsageBoxSizer->Add( m_chkMemoryWhileSuspended, 0, wxALL, 5 );
 
     diskAndMemoryBoxSizer->Add( memoryUsageBoxSizer, 0, wxALL|wxEXPAND, 1 );
 
@@ -1117,72 +778,6 @@ wxPanel* CDlgAdvPreferencesBase::createDiskAndMemoryTab(wxNotebook* notebook)
     diskAndMemoryBoxSizer->Fit( diskMemoryTab );
 
     return diskMemoryTab;
-}
-
-wxPanel* CDlgAdvPreferencesBase::createExclusiveAppsTab(wxNotebook* notebook)
-{
-    wxPanel* exclusiveAppsTab = new wxPanel( notebook, ID_TABPAGE_EXCLAPPS, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
-    exclusiveAppsTab->SetExtraStyle( wxWS_EX_VALIDATE_RECURSIVELY );
-
-    wxBoxSizer* exclusiveAppsTabBoxSizer = new wxBoxSizer( wxVERTICAL );
-
-    wxStaticBox* exclusiveAppsListStaticBox = new wxStaticBox( exclusiveAppsTab, -1, _("Suspend processor and network usage when these applications are running:") );
-    wxStaticBoxSizer* exclusiveAppsListBoxSizer = new wxStaticBoxSizer( exclusiveAppsListStaticBox, wxVERTICAL );
-
-    wxBoxSizer* exclusiveAppsBoxSizer = new wxBoxSizer( wxVERTICAL );
-
-    m_exclusiveApsListBox = new wxListBox(exclusiveAppsListStaticBox, ID_LISTBOX_EXCLAPPS, wxDefaultPosition, wxDefaultSize, 0, NULL, wxLB_EXTENDED|wxLB_NEEDED_SB|wxLB_SORT);
-    exclusiveAppsBoxSizer->Add(m_exclusiveApsListBox, 1, wxALL|wxEXPAND, 5);
-
-	wxBoxSizer* exclusiveAppsButtonSizer = new wxBoxSizer( wxHORIZONTAL );
-
-    m_addExclusiveAppButton = new wxButton( exclusiveAppsListStaticBox, ID_ADDEXCLUSIVEAPPBUTTON, _("Add..."), wxDefaultPosition, wxDefaultSize, 0 );
-    m_addExclusiveAppButton->SetToolTip( _("Add an application to this list"));
-	exclusiveAppsButtonSizer->Add( m_addExclusiveAppButton, 0, wxRIGHT, 5 );
-    
-    exclusiveAppsButtonSizer->AddStretchSpacer();
-    
-    m_removeExclusiveAppButton = new wxButton( exclusiveAppsListStaticBox, ID_REMOVEEXCLUSIVEAPPBUTTON, _("Remove"), wxDefaultPosition, wxDefaultSize, 0 );
-    m_removeExclusiveAppButton->SetToolTip( _("Remove an application from this list"));
-	exclusiveAppsButtonSizer->Add( m_removeExclusiveAppButton, 0, wxLEFT, 5 );
-
-    exclusiveAppsBoxSizer->Add(exclusiveAppsButtonSizer, 0, wxEXPAND|wxLEFT|wxRIGHT, 25 );
-
-    wxBoxSizer* moreOptionsLinkSizer = new wxBoxSizer( wxHORIZONTAL );
-
-    moreOptionsLinkSizer->Add(
-        new wxStaticText(
-            exclusiveAppsListStaticBox, ID_DEFAULT, _("For advanced options, refer to "),
-            wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT
-        ),
-        0, wxLEFT, 5
-    );
-
-    moreOptionsLinkSizer->Add(
-        new wxHyperlinkCtrl(
-            exclusiveAppsListStaticBox, ID_DEFAULT, wxT("http://boinc.berkeley.edu/wiki/Client_configuration"),
-            wxT("http://boinc.berkeley.edu/wiki/Client_configuration"), 
-            wxDefaultPosition, wxDefaultSize, wxHL_DEFAULT_STYLE
-        ),
-#ifdef __WXMAC__
-        0, wxLEFT, 5
-#else
-        0, wxLEFT, 3
-#endif
-    );
-
-    exclusiveAppsBoxSizer->Add(moreOptionsLinkSizer, 0, wxALL, 10);
-        
-    exclusiveAppsListBoxSizer->Add(exclusiveAppsBoxSizer, 1, wxEXPAND, 5 );
-    
-    exclusiveAppsTabBoxSizer->Add(exclusiveAppsListBoxSizer, 1, wxEXPAND, 5 );
-    exclusiveAppsTabBoxSizer->AddStretchSpacer();
-
-    exclusiveAppsTab->SetSizer( exclusiveAppsTabBoxSizer );
-    exclusiveAppsTab->Layout();
-    exclusiveAppsTabBoxSizer->Fit( exclusiveAppsTab );
-
-    return exclusiveAppsTab;
 }
 
 wxSize CDlgAdvPreferencesBase::getTextCtrlSize(wxString maxText) {
@@ -1197,17 +792,30 @@ wxSize CDlgAdvPreferencesBase::getTextCtrlSize(wxString maxText) {
     return sz;
 }
 
-// convert a double into a timestring HH:MM
-wxString CDlgAdvPreferencesBase::DoubleToTimeString(double dt) {
-    int hour = (int)dt;
-    int minutes = (int)(60.0 * (dt - hour)+.5);
-    return wxString::Format(wxT("%02d:%02d"),hour,minutes);
-}
+bool CDlgAdvPreferencesBase::doesLocalPrefsFileExist() {
+    std::string s;
+    int retval;
+    bool local_prefs_found = false;
+    MIOFILE mf;
+    bool found_venue;
+    GLOBAL_PREFS web_prefs;
+    GLOBAL_PREFS_MASK mask;
+    CMainDocument* pDoc = wxGetApp().GetDocument();
 
-wxString CDlgAdvPreferencesBase::webBasedChekboxValue(bool val) {
-    wxString s;
+    wxASSERT(pDoc);
+    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
+
+    retval = pDoc->rpc.get_global_prefs_override(s);
+    local_prefs_found = (retval == BOINC_SUCCESS);
     
-    s.Printf("[%s]", val ? _("true") : _("false"));
-    return s;
+    s.clear();
+    web_prefs.init();
+    
+    retval = pDoc->rpc.get_global_prefs_file(s);
+    mf.init_buf_read(s.c_str());
+    XML_PARSER xp(&mf);
+    web_prefs.parse(xp, "", found_venue, mask);
+    web_prefs_url = new wxString(web_prefs.source_project);
+    
+    return local_prefs_found;
 }
-

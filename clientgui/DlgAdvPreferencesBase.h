@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2010 University of California
+// Copyright (C) 2014 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -102,10 +102,6 @@
 #define ID_TXTMAXLOAD 20057
 #define ID_DAILY_XFER_LIMIT_MB  20058
 #define ID_DAILY_XFER_PERIOD_DAYS  20059
-#define ID_TABPAGE_EXCLAPPS 20060
-#define ID_LISTBOX_EXCLAPPS 20061
-#define ID_ADDEXCLUSIVEAPPBUTTON 20062
-#define ID_REMOVEEXCLUSIVEAPPBUTTON 20063
 
 
 /**
@@ -182,20 +178,14 @@ protected:
     wxTextCtrl* m_txtMemoryMaxInUse;
     wxTextCtrl* m_txtMemoryMaxOnIdle;
     wxCheckBox* m_chkMemoryWhileSuspended;
-    wxPanel* m_panelExlusiveApps;
-    wxListBox* m_exclusiveApsListBox;
-    wxButton* m_addExclusiveAppButton;
-    wxButton* m_removeExclusiveAppButton;
-            
+    
     wxPanel* m_panelButtons;
     wxButton* m_btnOK;
     wxButton* m_btnCancel;
     wxButton* m_btnHelp;
-
-    GLOBAL_PREFS m_webPrefs;
-
-	wxString DoubleToTimeString(double dt);
     
+    wxString *web_prefs_url;
+
 public:
     CDlgAdvPreferencesBase( wxWindow* parent, int id = -1, wxString title = wxT(""), wxPoint pos = wxDefaultPosition, wxSize size = wxDefaultSize, int style = wxDEFAULT_DIALOG_STYLE );
 
@@ -203,9 +193,8 @@ private:
     wxPanel* createProcessorTab(wxNotebook* notebook);
     wxPanel* createNetworkTab(wxNotebook* notebook);
     wxPanel* createDiskAndMemoryTab(wxNotebook* notebook);
-    wxPanel* createExclusiveAppsTab(wxNotebook* notebook);
     wxSize getTextCtrlSize(wxString maxText);
-    wxString webBasedChekboxValue(bool val);
+    bool doesLocalPrefsFileExist();
 };
 
 #endif //__DlgAdvPreferencesBase__

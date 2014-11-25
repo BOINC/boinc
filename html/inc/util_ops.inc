@@ -39,7 +39,7 @@ function admin_page_head($title) {
 
 function admin_page_tail() {
     echo "
-        <hr><center><a href=index.php>Main page</a></center>n
+        <hr><center><a href=index.php>Main page</a></center>\n
         </body></html>
     ";
 }
