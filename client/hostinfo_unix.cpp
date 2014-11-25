@@ -15,11 +15,9 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// There is a reason that having a file called "cpp.h" that includes config.h
-// and some of the C++ header files is bad.  That reason is because there are
-// #defines that alter the behiour of the standard C and C++ headers.  In
-// this case we need to use the "small files" environment on some unix
-// systems.  That can't be done if we include "cpp.h"
+// Functions to get host info (CPU, network, disk, mem) on unix-based systems.
+// Lots of this is system-dependent so lots of #ifdefs.
+// Try to keep this well-organized and not nested.
 
 #include "version.h"         // version numbers from autoconf
 
@@ -29,8 +27,10 @@
 #if !defined(_WIN32) || defined(__CYGWIN32__)
 
 // Access to binary files in /proc filesystem doesn't work in the 64bit
-// files environment on some systems.  None of the functions here need
-// 64bit file functions, so we'll undefine _FILE_OFFSET_BITS and _LARGE_FILES.
+// files environment on some systems.
+// None of the functions here need 64bit file functions,
+// so undefine _FILE_OFFSET_BITS and _LARGE_FILES.
+//
 #undef _FILE_OFFSET_BITS
 #undef _LARGE_FILES
 #undef _LARGEFILE_SOURCE
@@ -682,7 +682,7 @@ void use_cpuid(HOST_INFO& host) {
 #endif
 
 #ifdef __APPLE__
-static void get_cpu_info_maxosx(HOST_INFO& host) {
+static void get_cpu_info_mac(HOST_INFO& host) {
     int p_model_size = sizeof(host.p_model);
     size_t len;
 #if defined(__i386__) || defined(__x86_64__)
@@ -1254,30 +1254,16 @@ int HOST_INFO::get_virtualbox_version() {
     return 0;
 }
 
-
-// Rules:
-// - Keep code in the right place
-// - only one level of #if
+// get p_vendor, p_model, p_features
 //
-int HOST_INFO::get_host_info() {
-    int retval = get_filesystem_info(d_total, d_free);
-    if (retval) {
-        msg_printf(0, MSG_INTERNAL_ERROR,
-            "get_filesystem_info() failed: %s", boincerror(retval)
-        );
-    }
-    if (!cc_config.dont_use_vbox) {
-        get_virtualbox_version();
-    }
-
-///////////// p_vendor, p_model, p_features /////////////////
+int HOST_INFO::get_cpu_info() {
 #if LINUX_LIKE_SYSTEM
     parse_cpuinfo_linux(*this);
 #elif defined( __APPLE__)
     int mib[2];
     size_t len;
 
-    get_cpu_info_maxosx(*this);
+    get_cpu_info_mac(*this);
 #elif defined(__EMX__)
     CPU_INFO_t    cpuInfo;
     strlcpy( p_vendor, cpuInfo.vendor.company, sizeof(p_vendor));
@@ -1342,10 +1328,13 @@ int HOST_INFO::get_host_info() {
     use_cpuid(*this);
 #endif
 #endif
+    return 0;
+}
 
-///////////// p_ncpus /////////////////
+// get p_ncpus
+//
+int HOST_INFO::get_cpu_count() {
 
-// sysconf not working on OS2
 #if defined(ANDROID)
     // this should work on most devices
     p_ncpus = sysconf(_SC_NPROCESSORS_CONF);
@@ -1373,6 +1362,7 @@ int HOST_INFO::get_host_info() {
         p_ncpus = cpus_sys_path;
     }
 #elif defined(_SC_NPROCESSORS_ONLN) && !defined(__EMX__) && !defined(__APPLE__)
+    // sysconf not working on OS2
     p_ncpus = sysconf(_SC_NPROCESSORS_ONLN);
 #elif defined(HAVE_SYS_SYSCTL_H) && defined(CTL_HW) && defined(HW_NCPU)
     // Get number of CPUs
@@ -1388,8 +1378,12 @@ int HOST_INFO::get_host_info() {
 #error Need to specify a method to get number of processors
 #endif
 
-///////////// m_nbytes, m_swap /////////////////
+    return 0;
+}
 
+// get m_nbytes, m_swap
+//
+int HOST_INFO::get_memory_info() {
 #ifdef __EMX__
     {
         ULONG ulMem;
@@ -1517,11 +1511,12 @@ int HOST_INFO::get_host_info() {
 //#error Need to specify a method to obtain swap space
 #endif
 
-    get_local_network_info();
+    return 0;
+}
 
-    timezone = get_timezone();
-
-///////////// os_name, os_version /////////////////
+// get os_name, os_version
+//
+int HOST_INFO::get_os_info() {
 
 #if HAVE_SYS_UTSNAME_H
     struct utsname u;
@@ -1558,6 +1553,38 @@ int HOST_INFO::get_host_info() {
 #else
 #error Need to specify a method to obtain OS name/version
 #endif
+    return 0;
+}
+
+// This is called at startup with init=true
+// and before scheduler RPCs, with init=false.
+// In the latter case only get items that could change,
+// like disk usage and network info
+//
+int HOST_INFO::get_host_info(bool init) {
+    int retval = get_filesystem_info(d_total, d_free);
+    if (retval) {
+        msg_printf(0, MSG_INTERNAL_ERROR,
+            "get_filesystem_info() failed: %s", boincerror(retval)
+        );
+    }
+    get_local_network_info();
+
+    if (init) return 0;
+
+    // everything after here is assumed not to change during
+    // a run of the client
+    //
+
+    if (!cc_config.dont_use_vbox) {
+        get_virtualbox_version();
+    }
+
+    get_cpu_info();
+    get_cpu_count();
+    get_memory_info();
+    timezone = get_timezone();
+    get_os_info();
 
     if (!strlen(host_cpid)) {
         generate_host_cpid();
