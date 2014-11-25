@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2014 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -59,11 +59,6 @@ public:
 	virtual ~CDlgAdvPreferences();
 	//generic event handler
 	void OnHandleCommandEvent(wxCommandEvent& ev);
-	//
-    void OnExclusiveAppListEvent(wxCommandEvent& event);
-    //
-	void OnAddExclusiveApp(wxCommandEvent& event);
-	void OnRemoveExclusiveApp(wxCommandEvent& event);
 	void OnOK(wxCommandEvent& event);
 	void OnHelp(wxCommandEvent& event);
 	void OnClear(wxCommandEvent& event);
@@ -72,7 +67,6 @@ private:
     GLOBAL_PREFS_MASK mask;
     LOG_FLAGS log_flags;
     CC_CONFIG config;
-	bool m_bExclusiveAppsDataChanged;
 	bool m_bPrefsDataChanged;
 	bool m_bInInit;
 	wxArrayInt m_arrTabPageIds;

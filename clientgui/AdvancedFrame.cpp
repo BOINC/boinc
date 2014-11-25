@@ -57,6 +57,7 @@
 #include "BOINCBaseWizard.h"
 #include "WizardAttach.h"
 #include "DlgAdvPreferences.h"
+#include "DlgExclusiveApps.h"
 
 #include "res/connect.xpm"
 #include "res/disconnect.xpm"
@@ -171,6 +172,7 @@ BEGIN_EVENT_TABLE (CAdvancedFrame, CBOINCBaseFrame)
     // Advanced
     EVT_MENU(ID_OPTIONS, CAdvancedFrame::OnOptions)
 	EVT_MENU(ID_PREFERENCES, CAdvancedFrame::OnPreferences)
+	EVT_MENU(ID_EXCLUSIVE_APPS, CAdvancedFrame::OnExclusiveApps)
 	EVT_MENU(ID_DIAGNOSTICLOGFLAGS, CAdvancedFrame::OnDiagnosticLogFlags)
     EVT_MENU(ID_SELECTCOMPUTER, CAdvancedFrame::OnSelectComputer)
     EVT_MENU(ID_SHUTDOWNCORECLIENT, CAdvancedFrame::OnClientShutdown)
@@ -459,6 +461,12 @@ bool CAdvancedFrame::CreateMenu() {
 		ID_PREFERENCES, 
         _("Computing &preferences..."),
         _("Configure computing preferences")
+    );
+
+    menuTools->Append(
+		ID_EXCLUSIVE_APPS,
+        _("Exclusive applications..."),
+        _("Configure exclusive applications")
     );
 
     // Activity menu
@@ -1322,6 +1330,16 @@ void CAdvancedFrame::OnPreferences(wxCommandEvent& WXUNUSED(event)) {
 	dlg.ShowModal();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnPreferences - Function End"));
+}
+
+
+void CAdvancedFrame::OnExclusiveApps(wxCommandEvent& WXUNUSED(event)) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnExclusiveApps - Function Begin"));
+
+    CDlgExclusiveApps dlg(this);
+	dlg.ShowModal();
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnExclusiveApps - Function End"));
 }
 
 

@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2010 University of California
+// Copyright (C) 2014 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -63,8 +63,8 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
 
     topControlsSizer->Add( m_bmpWarning, 0, wxALIGN_CENTER_VERTICAL|wxALL, 0 );
 
-    m_staticText321 = new wxStaticText( topControlsStaticBox, ID_DEFAULT, _("This dialog controls preferences for this computer only.\nClick OK to set preferences.\nClick Clear to restore web-based settings (except exclusive apps)."), wxDefaultPosition, wxDefaultSize, 0 );
-    topControlsSizer->Add( m_staticText321, 1, wxALL, 1 );
+    wxStaticText* staticText321 = new wxStaticText( topControlsStaticBox, ID_DEFAULT, _("This dialog controls preferences for this computer only.\nClick OK to set preferences.\nClick Clear to restore web-based settings."), wxDefaultPosition, wxDefaultSize, 0 );
+    topControlsSizer->Add( staticText321, 1, wxALL, 1 );
 
     m_btnClear = new wxButton( topControlsStaticBox, ID_BTN_CLEAR, _("Clear"), wxDefaultPosition, wxDefaultSize, 0 );
     m_btnClear->SetToolTip( _("clear all local preferences and close the dialog") );
@@ -89,9 +89,6 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
 
     m_panelDiskAndMemory = createDiskAndMemoryTab(m_Notebook);
     m_Notebook->AddPage( m_panelDiskAndMemory, _("disk and memory usage"), false );
-
-    m_panelExlusiveApps = createExclusiveAppsTab(m_Notebook);
-    m_Notebook->AddPage( m_panelExlusiveApps, _("exclusive applications"), false );
     
     notebookSizer->Add( m_Notebook, 1, wxEXPAND | wxALL, 1 );
 
@@ -199,6 +196,7 @@ wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook)
         new wxStaticText( computingAllowedStaticBox, ID_DEFAULT, wxT(""), wxDefaultPosition, wxDefaultSize, 0),
         0, wxALL, 5
     );
+
     computingAllowedBoxSizer->Add( procIdleSizer, 0, wxEXPAND, 5);
 
     // max CPU load
@@ -237,29 +235,29 @@ wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook)
 
     wxBoxSizer* cpuTimesSizer = new wxBoxSizer( wxHORIZONTAL );
 
-    m_staticText351 = new wxStaticText( computingAllowedStaticBox, ID_DEFAULT, _("Every day between hours of"), wxDefaultPosition, wxDefaultSize, 0 );
-    cpuTimesSizer->Add( m_staticText351, 0, wxALL, 5 );
+    wxStaticText* staticText351 = new wxStaticText( computingAllowedStaticBox, ID_DEFAULT, _("Every day between hours of"), wxDefaultPosition, wxDefaultSize, 0 );
+    cpuTimesSizer->Add( staticText351, 0, wxALL, 5 );
 
     m_txtProcEveryDayStart = new wxTextCtrl( computingAllowedStaticBox, ID_TXTPROCEVERYDAYSTART, wxT(""), wxDefaultPosition, getTextCtrlSize(wxT("23:59")), wxTE_RIGHT );
     m_txtProcEveryDayStart->SetToolTip( _("start work at this time") );
 
     cpuTimesSizer->Add( m_txtProcEveryDayStart, 0, wxALL, 1 );
 
-    m_staticText25 = new wxStaticText( computingAllowedStaticBox, ID_DEFAULT, _("and"), wxDefaultPosition, wxDefaultSize, wxALIGN_CENTRE );
-    cpuTimesSizer->Add( m_staticText25, 0, wxALL|wxEXPAND, 5 );
+    wxStaticText* staticText25 = new wxStaticText( computingAllowedStaticBox, ID_DEFAULT, _("and"), wxDefaultPosition, wxDefaultSize, wxALIGN_CENTRE );
+    cpuTimesSizer->Add( staticText25, 0, wxALL|wxEXPAND, 5 );
 
     m_txtProcEveryDayStop = new wxTextCtrl( computingAllowedStaticBox, ID_TXTPROCEVERYDAYSTOP, wxT(""), wxDefaultPosition, getTextCtrlSize(wxT("23:59")), wxTE_RIGHT );
     m_txtProcEveryDayStop->SetToolTip( _("stop work at this time") );
 
     cpuTimesSizer->Add( m_txtProcEveryDayStop, 0, wxALL, 1 );
 
-    m_staticText55 = new wxStaticText( computingAllowedStaticBox, ID_DEFAULT, _("(no restriction if equal)"), wxDefaultPosition, wxDefaultSize, wxALIGN_CENTRE );
-    cpuTimesSizer->Add( m_staticText55, 0, wxALL|wxEXPAND, 5 );
+    wxStaticText* staticText55 = new wxStaticText( computingAllowedStaticBox, ID_DEFAULT, _("(no restriction if equal)"), wxDefaultPosition, wxDefaultSize, wxALIGN_CENTRE );
+    cpuTimesSizer->Add( staticText55, 0, wxALL|wxEXPAND, 5 );
 
     computingAllowedBoxSizer->Add( cpuTimesSizer, 0, wxEXPAND, 1 );
 
-    m_staticText36 = new wxStaticText( computingAllowedStaticBox, ID_DEFAULT, _("Day-of-week override:"), wxDefaultPosition, wxDefaultSize, 0 );
-    computingAllowedBoxSizer->Add( m_staticText36, 0, wxALL, 5 );
+    wxStaticText* staticText36 = new wxStaticText( computingAllowedStaticBox, ID_DEFAULT, _("Day-of-week override:"), wxDefaultPosition, wxDefaultSize, 0 );
+    computingAllowedBoxSizer->Add( staticText36, 0, wxALL, 5 );
 
     m_panelProcSpecialTimes = new wxPanel( computingAllowedStaticBox, ID_DEFAULT, wxDefaultPosition, wxDefaultSize, wxSUNKEN_BORDER|wxTAB_TRAVERSAL );
     m_panelProcSpecialTimes->SetExtraStyle( wxWS_EX_VALIDATE_RECURSIVELY );
@@ -333,37 +331,37 @@ wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook)
     miscProcGridSizer->SetFlexibleDirection( wxHORIZONTAL );
     miscProcGridSizer->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 
-    m_staticText18 = new wxStaticText( miscProcStaticBox, ID_DEFAULT, _("Switch between applications every"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
-    miscProcGridSizer->Add( m_staticText18, 0, wxALL|wxEXPAND, 5 );
+    wxStaticText* staticText18 = new wxStaticText( miscProcStaticBox, ID_DEFAULT, _("Switch between applications every"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
+    miscProcGridSizer->Add( staticText18, 0, wxALL|wxEXPAND, 5 );
     
     m_txtProcSwitchEvery = new wxTextCtrl( miscProcStaticBox, ID_TXTPROCSWITCHEVERY, wxT(""), wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
     miscProcGridSizer->Add( m_txtProcSwitchEvery, 0, wxALL, 1 );
 
-    m_staticText19 = new wxStaticText( miscProcStaticBox, ID_DEFAULT, _("minutes"), wxDefaultPosition, wxDefaultSize, 0 );
-    miscProcGridSizer->Add( m_staticText19, 0, wxALL, 5 );
+    wxStaticText* staticText19 = new wxStaticText( miscProcStaticBox, ID_DEFAULT, _("minutes"), wxDefaultPosition, wxDefaultSize, 0 );
+    miscProcGridSizer->Add( staticText19, 0, wxALL, 5 );
 
-    m_staticText20 = new wxStaticText( miscProcStaticBox, ID_DEFAULT, _("On multiprocessor systems, use at most"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
-    miscProcGridSizer->Add( m_staticText20, 0, wxALL|wxEXPAND, 5 );
+    wxStaticText* staticText20 = new wxStaticText( miscProcStaticBox, ID_DEFAULT, _("On multiprocessor systems, use at most"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
+    miscProcGridSizer->Add( staticText20, 0, wxALL|wxEXPAND, 5 );
 
     m_txtProcUseProcessors = new wxTextCtrl( miscProcStaticBox, ID_TXTPROCUSEPROCESSORS, wxT(""), wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
     miscProcGridSizer->Add( m_txtProcUseProcessors, 0, wxALL, 1 );
 
-    /*xgettext:no-c-format*/ 
-    m_staticText21 = new wxStaticText( miscProcStaticBox, ID_DEFAULT, _("% of the processors (0 means no restriction)"), wxDefaultPosition, wxDefaultSize, 0 );
-    miscProcGridSizer->Add( m_staticText21, 0, wxALL, 5 );
+    /*xgettext:no-c-format*/
+    wxStaticText* staticText21 = new wxStaticText( miscProcStaticBox, ID_DEFAULT, _("% of the processors (0 means no restriction)"), wxDefaultPosition, wxDefaultSize, 0 );
+    miscProcGridSizer->Add( staticText21, 0, wxALL, 5 );
 
-    m_staticText22 = new wxStaticText( miscProcStaticBox, ID_DEFAULT, _("Use at most"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
-    miscProcGridSizer->Add( m_staticText22, 0, wxALL|wxEXPAND, 5 );
+    wxStaticText* staticText22 = new wxStaticText( miscProcStaticBox, ID_DEFAULT, _("Use at most"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
+    miscProcGridSizer->Add( staticText22, 0, wxALL|wxEXPAND, 5 );
 
     m_txtProcUseCPUTime = new wxTextCtrl( miscProcStaticBox, ID_TXTPOCUSECPUTIME, wxT(""), wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
     miscProcGridSizer->Add( m_txtProcUseCPUTime, 0, wxALL, 1 );
 
     /*xgettext:no-c-format*/
-    m_staticText23 = new wxStaticText( miscProcStaticBox, ID_DEFAULT, _("% of CPU time (0 means no restriction)"), wxDefaultPosition, wxDefaultSize, 0 );
-    miscProcGridSizer->Add( m_staticText23, 0, wxALL, 5 );
+    wxStaticText* staticText23 = new wxStaticText( miscProcStaticBox, ID_DEFAULT, _("% of CPU time (0 means no restriction)"), wxDefaultPosition, wxDefaultSize, 0 );
+    miscProcGridSizer->Add( staticText23, 0, wxALL, 5 );
 
     miscProcBoxSizer->Add( miscProcGridSizer, 0, wxEXPAND, 1 );
-    miscProcBoxSizer->AddSpacer(1); // Ensure m_staticText22 is fully visible on Mac
+    miscProcBoxSizer->AddSpacer(1); // Ensure staticText22 is fully visible on Mac
 
     processorTabSizer->Add( miscProcBoxSizer, 0, wxEXPAND, 1 );
 
@@ -392,31 +390,31 @@ wxPanel* CDlgAdvPreferencesBase::createNetworkTab(wxNotebook* notebook)
 
     // upload/download rates
 
-    m_staticText32 = new wxStaticText( networkGeneralStaticBox, ID_DEFAULT, _("Maximum download rate"), wxDefaultPosition, wxDefaultSize, 0 );
-    networkGeneralGridSizer->Add( m_staticText32, 0, wxALIGN_RIGHT|wxALL, 5 );
+    wxStaticText* staticText32 = new wxStaticText( networkGeneralStaticBox, ID_DEFAULT, _("Maximum download rate"), wxDefaultPosition, wxDefaultSize, 0 );
+    networkGeneralGridSizer->Add( staticText32, 0, wxALIGN_RIGHT|wxALL, 5 );
 
     m_txtNetDownloadRate = new wxTextCtrl( networkGeneralStaticBox, ID_TXTNETDOWNLOADRATE, wxT(""), wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
     networkGeneralGridSizer->Add( m_txtNetDownloadRate, 0, wxALL, 1 );
 
-    m_staticText33 = new wxStaticText( networkGeneralStaticBox, ID_DEFAULT, _("KBytes/second (0 means no restriction)"), wxDefaultPosition, wxDefaultSize, 0 );
-    networkGeneralGridSizer->Add( m_staticText33, 0, wxALL, 5 );
-    
-    m_staticText34 = new wxStaticText( networkGeneralStaticBox, ID_DEFAULT, _("Maximum upload rate"), wxDefaultPosition, wxDefaultSize, 0 );
-    networkGeneralGridSizer->Add( m_staticText34, 0, wxALIGN_RIGHT|wxALL, 5 );
+    wxStaticText* staticText33 = new wxStaticText( networkGeneralStaticBox, ID_DEFAULT, _("KBytes/second (0 means no restriction)"), wxDefaultPosition, wxDefaultSize, 0 );
+    networkGeneralGridSizer->Add( staticText33, 0, wxALL, 5 );
+
+    wxStaticText* staticText34 = new wxStaticText( networkGeneralStaticBox, ID_DEFAULT, _("Maximum upload rate"), wxDefaultPosition, wxDefaultSize, 0 );
+    networkGeneralGridSizer->Add( staticText34, 0, wxALIGN_RIGHT|wxALL, 5 );
 
     m_txtNetUploadRate = new wxTextCtrl( networkGeneralStaticBox, ID_TXTNETUPLOADRATE, wxT(""), wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
     networkGeneralGridSizer->Add( m_txtNetUploadRate, 0, wxALL, 1 );
 
-    m_staticText35 = new wxStaticText( networkGeneralStaticBox, ID_DEFAULT, _("KBytes/second (0 means no restriction)"), wxDefaultPosition, wxDefaultSize, 0 );
-    networkGeneralGridSizer->Add( m_staticText35, 0, wxALL, 5 );
+    wxStaticText* staticText35 = new wxStaticText( networkGeneralStaticBox, ID_DEFAULT, _("KBytes/second (0 means no restriction)"), wxDefaultPosition, wxDefaultSize, 0 );
+    networkGeneralGridSizer->Add( staticText35, 0, wxALL, 5 );
 
     // buffer sizes
 
-    m_staticText30 = new wxStaticText(
+    wxStaticText* staticText30 = new wxStaticText(
         networkGeneralStaticBox, ID_DEFAULT,
         _("Minimum work buffer"), wxDefaultPosition, wxDefaultSize, 0
     );
-    networkGeneralGridSizer->Add( m_staticText30, 0, wxALIGN_RIGHT|wxALL, 5 );
+    networkGeneralGridSizer->Add( staticText30, 0, wxALIGN_RIGHT|wxALL, 5 );
 
     m_txtNetConnectInterval = new wxTextCtrl(
         networkGeneralStaticBox, ID_TXTNETCONNECTINTERVAL, wxT(""), wxDefaultPosition, textCtrlSize, wxTE_RIGHT
@@ -427,16 +425,16 @@ wxPanel* CDlgAdvPreferencesBase::createNetworkTab(wxNotebook* notebook)
 
     networkGeneralGridSizer->Add( m_txtNetConnectInterval, 0, wxALL, 1 );
 
-    m_staticText31 = new wxStaticText(
+    wxStaticText* staticText31 = new wxStaticText(
         networkGeneralStaticBox, ID_DEFAULT, _("days (maximum value: 10)"), wxDefaultPosition, wxDefaultSize, 0
     );
-    networkGeneralGridSizer->Add( m_staticText31, 0, wxALL, 5 );
+    networkGeneralGridSizer->Add( staticText31, 0, wxALL, 5 );
 
-    m_staticText331 = new wxStaticText(
+    wxStaticText* staticText331 = new wxStaticText(
         networkGeneralStaticBox, ID_DEFAULT,
         _("Max additional work buffer"), wxDefaultPosition, wxDefaultSize, 0
     );
-    networkGeneralGridSizer->Add( m_staticText331, 0, wxALIGN_RIGHT|wxALL, 5 );
+    networkGeneralGridSizer->Add( staticText331, 0, wxALIGN_RIGHT|wxALL, 5 );
 
     m_txtNetAdditionalDays = new wxTextCtrl(
         networkGeneralStaticBox, ID_TXTNETADDITIONALDAYS, wxT(""), wxDefaultPosition, textCtrlSize, wxTE_RIGHT
@@ -446,32 +444,36 @@ wxPanel* CDlgAdvPreferencesBase::createNetworkTab(wxNotebook* notebook)
     );
     networkGeneralGridSizer->Add( m_txtNetAdditionalDays, 0, wxALL, 1 );
 
-    m_staticText341 = new wxStaticText( networkGeneralStaticBox, ID_DEFAULT, _("days (maximum value: 10)"), wxDefaultPosition, wxDefaultSize, 0 );
-    networkGeneralGridSizer->Add( m_staticText341, 0, wxALL, 5 );
+    wxBoxSizer* workBufAdditonalDaysSizer = new wxBoxSizer( wxHORIZONTAL );
+
+    wxStaticText* staticText341 = new wxStaticText( networkGeneralStaticBox, ID_DEFAULT, _("days (maximum value: 10)"), wxDefaultPosition, wxDefaultSize, 0 );
+    workBufAdditonalDaysSizer->Add( staticText341, 0, 0, 0 );
+
+    networkGeneralGridSizer->Add( workBufAdditonalDaysSizer, 0, wxALL, 5 );
 
     // long-term quota
 
-    m_staticText_daily_xfer1 = new wxStaticText( networkGeneralStaticBox, ID_DEFAULT, _("Transfer at most"), wxDefaultPosition, wxDefaultSize, 0 );
-    networkGeneralGridSizer->Add( m_staticText_daily_xfer1, 0, wxALIGN_RIGHT|wxALL, 5 );
+    wxStaticText* staticText_daily_xfer1 = new wxStaticText( networkGeneralStaticBox, ID_DEFAULT, _("Transfer at most"), wxDefaultPosition, wxDefaultSize, 0 );
+    networkGeneralGridSizer->Add( staticText_daily_xfer1, 0, wxALIGN_RIGHT|wxALL, 5 );
 
     m_txt_daily_xfer_limit_mb = new wxTextCtrl( networkGeneralStaticBox, ID_TXTNETDOWNLOADRATE, wxT(""), wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
     networkGeneralGridSizer->Add( m_txt_daily_xfer_limit_mb, 0, wxALL, 1 );
 
     wxBoxSizer* networkTransferLimitSizer = new wxBoxSizer( wxHORIZONTAL );
 
-    m_staticText_daily_xfer2 = new wxStaticText( networkGeneralStaticBox, ID_DEFAULT, _("MBytes every"), wxDefaultPosition, wxDefaultSize, 0 );
-    networkTransferLimitSizer->Add( m_staticText_daily_xfer2, 0, wxALL, 5 );
+    wxStaticText* staticText_daily_xfer2 = new wxStaticText( networkGeneralStaticBox, ID_DEFAULT, _("MBytes every"), wxDefaultPosition, wxDefaultSize, 0 );
 
+    networkTransferLimitSizer->Add( staticText_daily_xfer2, 0, wxALL, 5 );
+    
     m_txt_daily_xfer_period_days = new wxTextCtrl( networkGeneralStaticBox, ID_TXTNETUPLOADRATE, wxT(""), wxDefaultPosition, getTextCtrlSize(wxT("999.99")), wxTE_RIGHT );
     networkTransferLimitSizer->Add( m_txt_daily_xfer_period_days, 0, wxALL, 1 );
 
-    m_staticText_daily_xfer4 = new wxStaticText( networkGeneralStaticBox, ID_DEFAULT, _("days (0 means no restriction)"), wxDefaultPosition, wxDefaultSize, 0 );
-    networkTransferLimitSizer->Add( m_staticText_daily_xfer4, 0, wxALL, 5 );
+    wxStaticText* staticText_daily_xfer4 = new wxStaticText( networkGeneralStaticBox, ID_DEFAULT, _("days (0 means no restriction)"), wxDefaultPosition, wxDefaultSize, 0 );
+    networkTransferLimitSizer->Add( staticText_daily_xfer4, 0, wxALL, 5 );
 
     networkGeneralGridSizer->Add( networkTransferLimitSizer, 0, wxALL, 0 );
 
     networkGeneralBoxSizer->Add( networkGeneralGridSizer, 0, wxEXPAND, 1 );
-
 
     m_chkNetSkipImageVerification = new wxCheckBox( networkGeneralStaticBox, ID_CHKNETSKIPIMAGEVERIFICATION, _("Skip image file verification"), wxDefaultPosition, wxDefaultSize, 0 );
 
@@ -503,29 +505,29 @@ wxPanel* CDlgAdvPreferencesBase::createNetworkTab(wxNotebook* notebook)
 
     wxBoxSizer* networkTimesSizer = new wxBoxSizer( wxHORIZONTAL );
 
-    m_staticText38 = new wxStaticText( networkTimesStaticBox, ID_DEFAULT, _("Every day between hours of"), wxDefaultPosition, wxDefaultSize, 0 );
-    networkTimesSizer->Add( m_staticText38, 0, wxALL, 5 );
+    wxStaticText* staticText38 = new wxStaticText( networkTimesStaticBox, ID_DEFAULT, _("Every day between hours of"), wxDefaultPosition, wxDefaultSize, 0 );
+    networkTimesSizer->Add( staticText38, 0, wxALL, 5 );
 
     m_txtNetEveryDayStart = new wxTextCtrl( networkTimesStaticBox, ID_TXTNETEVERYDAYSTART, wxT(""), wxDefaultPosition, getTextCtrlSize(wxT("23:59")), 0 );
     m_txtNetEveryDayStart->SetToolTip( _("network usage start hour") );
 
     networkTimesSizer->Add( m_txtNetEveryDayStart, 0, wxALL, 1 );
 
-    m_staticText37 = new wxStaticText( networkTimesStaticBox, ID_DEFAULT, _("and"), wxDefaultPosition, wxDefaultSize, 0 );
-    networkTimesSizer->Add( m_staticText37, 0, wxALL, 5 );
+    wxStaticText* staticText37 = new wxStaticText( networkTimesStaticBox, ID_DEFAULT, _("and"), wxDefaultPosition, wxDefaultSize, 0 );
+    networkTimesSizer->Add( staticText37, 0, wxALL, 5 );
 
     m_txtNetEveryDayStop = new wxTextCtrl( networkTimesStaticBox, ID_TXTNETEVERYDAYSTOP, wxT(""), wxDefaultPosition, getTextCtrlSize(wxT("23:59")), 0 );
     m_txtNetEveryDayStop->SetToolTip( _("network usage stop hour") );
 
     networkTimesSizer->Add( m_txtNetEveryDayStop, 0, wxALL, 1 );
 
-    m_staticText54 = new wxStaticText( networkTimesStaticBox, ID_DEFAULT, _("(no restriction if equal)"), wxDefaultPosition, wxDefaultSize, 0 );
-    networkTimesSizer->Add( m_staticText54, 0, wxALL, 5 );
+    wxStaticText* staticText54 = new wxStaticText( networkTimesStaticBox, ID_DEFAULT, _("(no restriction if equal)"), wxDefaultPosition, wxDefaultSize, 0 );
+    networkTimesSizer->Add( staticText54, 0, wxALL, 5 );
 
     networkTimesBoxSizer->Add( networkTimesSizer, 0, wxEXPAND, 1 );
 
-    m_staticText39 = new wxStaticText( networkTimesStaticBox, ID_DEFAULT, _("Day-of-week override:"), wxDefaultPosition, wxDefaultSize, 0 );
-    networkTimesBoxSizer->Add( m_staticText39, 0, wxALL, 5 );
+    wxStaticText* staticText39 = new wxStaticText( networkTimesStaticBox, ID_DEFAULT, _("Day-of-week override:"), wxDefaultPosition, wxDefaultSize, 0 );
+    networkTimesBoxSizer->Add( staticText39, 0, wxALL, 5 );
 
     m_panelNetSpecialTimes = new wxPanel( networkTimesStaticBox, ID_DEFAULT, wxDefaultPosition, wxDefaultSize, wxSUNKEN_BORDER|wxTAB_TRAVERSAL );
     m_panelNetSpecialTimes->SetExtraStyle( wxWS_EX_VALIDATE_RECURSIVELY );
@@ -610,65 +612,76 @@ wxPanel* CDlgAdvPreferencesBase::createDiskAndMemoryTab(wxNotebook* notebook)
     wxStaticBox* diskUsageStaticBox = new wxStaticBox( diskMemoryTab, -1, _("Disk usage") );
     wxStaticBoxSizer* diskUsageBoxSizer = new wxStaticBoxSizer( diskUsageStaticBox, wxVERTICAL );
 
-    wxFlexGridSizer* diskUsageGridSizer = new wxFlexGridSizer( 5, 3, 0, 0 );
+    wxStaticBox* diskFreeSpaceStaticBox = new wxStaticBox( diskUsageStaticBox, -1, _("BOINC will use the most restrictive of these three settings") );
+    wxStaticBoxSizer* diskFreeSpaceBoxSizer = new wxStaticBoxSizer( diskFreeSpaceStaticBox, wxVERTICAL );
+
+    wxFlexGridSizer* diskUsageGridSizer = new wxFlexGridSizer( 3, 3, 0, 0 );
     diskUsageGridSizer->AddGrowableCol( 2 );
     diskUsageGridSizer->SetFlexibleDirection( wxHORIZONTAL );
     diskUsageGridSizer->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 
-    m_staticText40 = new wxStaticText( diskUsageStaticBox, ID_DEFAULT, _("Use at most"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
-    diskUsageGridSizer->Add( m_staticText40, 0, wxALL|wxEXPAND, 5 );
+    wxStaticText* staticText40 = new wxStaticText( diskFreeSpaceStaticBox, ID_DEFAULT, _("Use at most"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
+    diskUsageGridSizer->Add( staticText40, 0, wxALL|wxEXPAND, 5 );
 
-    m_txtDiskMaxSpace = new wxTextCtrl( diskUsageStaticBox, ID_TXTDISKMAXSPACE, wxT(""), wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
+    m_txtDiskMaxSpace = new wxTextCtrl( diskFreeSpaceStaticBox, ID_TXTDISKMAXSPACE, wxT(""), wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
     m_txtDiskMaxSpace->SetToolTip( _("the maximum disk space used by BOINC (in Gigabytes)") );
 
     diskUsageGridSizer->Add( m_txtDiskMaxSpace, 0, wxALL, 1 );
 
-    m_staticText41 = new wxStaticText( diskUsageStaticBox, ID_DEFAULT, _("Gigabytes disk space (0 means no restriction)"), wxDefaultPosition, wxDefaultSize, 0 );
-    diskUsageGridSizer->Add( m_staticText41, 0, wxALL, 5 );
+    wxStaticText* staticText41 = new wxStaticText( diskFreeSpaceStaticBox, ID_DEFAULT, _("Gigabytes disk space (0 means no restriction)"), wxDefaultPosition, wxDefaultSize, 0 );
+    diskUsageGridSizer->Add( staticText41, 0, wxALL, 5 );
 
-    m_staticText42 = new wxStaticText( diskUsageStaticBox, ID_DEFAULT, _("Leave at least"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
-    diskUsageGridSizer->Add( m_staticText42, 0, wxALL|wxEXPAND, 5 );
+    wxStaticText* staticText42 = new wxStaticText( diskFreeSpaceStaticBox, ID_DEFAULT, _("Leave at least"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
+    diskUsageGridSizer->Add( staticText42, 0, wxALL|wxEXPAND, 5 );
 
-    m_txtDiskLeastFree = new wxTextCtrl( diskUsageStaticBox, ID_TXTDISKLEASTFREE, wxT(""), wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
+    m_txtDiskLeastFree = new wxTextCtrl( diskFreeSpaceStaticBox, ID_TXTDISKLEASTFREE, wxT(""), wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
     m_txtDiskLeastFree->SetToolTip( _("BOINC leaves at least this amount of disk space free (in Gigabytes)") );
 
     diskUsageGridSizer->Add( m_txtDiskLeastFree, 0, wxALL, 1 );
 
-    m_staticText43 = new wxStaticText( diskUsageStaticBox, ID_DEFAULT, _("Gigabytes disk space free"), wxDefaultPosition, wxDefaultSize, 0 );
-    diskUsageGridSizer->Add( m_staticText43, 0, wxALL, 5 );
+    wxStaticText* staticText43 = new wxStaticText( diskFreeSpaceStaticBox, ID_DEFAULT, _("Gigabytes disk space free"), wxDefaultPosition, wxDefaultSize, 0 );
+    diskUsageGridSizer->Add( staticText43, 0, wxALL, 5 );
 
-    m_staticText44 = new wxStaticText( diskUsageStaticBox, ID_DEFAULT, _("Use at most"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
-    diskUsageGridSizer->Add( m_staticText44, 0, wxALL|wxEXPAND, 5 );
+    wxStaticText* staticText44 = new wxStaticText( diskFreeSpaceStaticBox, ID_DEFAULT, _("Use at most"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
+    diskUsageGridSizer->Add( staticText44, 0, wxALL|wxEXPAND, 5 );
 
-    m_txtDiskMaxOfTotal = new wxTextCtrl( diskUsageStaticBox, ID_TXTDISKMAXOFTOTAL, wxT(""), wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
+    m_txtDiskMaxOfTotal = new wxTextCtrl( diskFreeSpaceStaticBox, ID_TXTDISKMAXOFTOTAL, wxT(""), wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
     m_txtDiskMaxOfTotal->SetToolTip( _("BOINC uses at most this percentage of total disk space") );
 
     diskUsageGridSizer->Add( m_txtDiskMaxOfTotal, 0, wxALL, 1 );
 
     /*xgettext:no-c-format*/
-    m_staticText45 = new wxStaticText( diskUsageStaticBox, ID_DEFAULT, _("% of total disk space"), wxDefaultPosition, wxDefaultSize, 0 );
-    diskUsageGridSizer->Add( m_staticText45, 0, wxALL, 5 );
+    wxStaticText* staticText45 = new wxStaticText( diskFreeSpaceStaticBox, ID_DEFAULT, _("% of total disk space"), wxDefaultPosition, wxDefaultSize, 0 );
+    diskUsageGridSizer->Add( staticText45, 0, wxALL, 5 );
 
-    m_staticText46 = new wxStaticText( diskUsageStaticBox, ID_DEFAULT, _("Tasks checkpoint to disk at most every"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
-    diskUsageGridSizer->Add( m_staticText46, 0, wxALL|wxEXPAND, 5 );
+    diskFreeSpaceBoxSizer->Add(diskUsageGridSizer, 0, wxEXPAND, 1 );
+    diskUsageBoxSizer->Add(diskFreeSpaceBoxSizer, 0, wxEXPAND, 1 );
+
+    wxFlexGridSizer* swapCheckpointGridSizer = new wxFlexGridSizer( 2, 3, 0, 0 );
+    swapCheckpointGridSizer->AddGrowableCol( 2 );
+    swapCheckpointGridSizer->SetFlexibleDirection( wxHORIZONTAL );
+    swapCheckpointGridSizer->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+
+    wxStaticText* staticText46 = new wxStaticText( diskUsageStaticBox, ID_DEFAULT, _("Tasks checkpoint to disk at most every"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
+    swapCheckpointGridSizer->Add( staticText46, 0, wxALL|wxEXPAND, 5 );
 
     m_txtDiskWriteToDisk = new wxTextCtrl( diskUsageStaticBox, ID_TXTDISKWRITETODISK, wxT(""), wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
-    diskUsageGridSizer->Add( m_txtDiskWriteToDisk, 0, wxALL, 1 );
+    swapCheckpointGridSizer->Add( m_txtDiskWriteToDisk, 0, wxALL, 1 );
 
-    m_staticText47 = new wxStaticText( diskUsageStaticBox, ID_DEFAULT, _("seconds"), wxDefaultPosition, wxDefaultSize, 0 );
-    diskUsageGridSizer->Add( m_staticText47, 0, wxALL, 5 );
+    wxStaticText* staticText47 = new wxStaticText( diskUsageStaticBox, ID_DEFAULT, _("seconds"), wxDefaultPosition, wxDefaultSize, 0 );
+    swapCheckpointGridSizer->Add( staticText47, 0, wxALL, 5 );
 
-    m_staticText48 = new wxStaticText( diskUsageStaticBox, ID_DEFAULT, _("Use at most"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
-    diskUsageGridSizer->Add( m_staticText48, 0, wxALL|wxEXPAND, 5 );
+    wxStaticText* staticText48 = new wxStaticText( diskUsageStaticBox, ID_DEFAULT, _("Use at most"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
+    swapCheckpointGridSizer->Add( staticText48, 0, wxALL|wxEXPAND, 5 );
 
     m_txtDiskMaxSwap = new wxTextCtrl( diskUsageStaticBox, ID_TXTDISKWRITETODISK, wxT(""), wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
-    diskUsageGridSizer->Add( m_txtDiskMaxSwap, 0, wxALL, 1 );
+    swapCheckpointGridSizer->Add( m_txtDiskMaxSwap, 0, wxALL, 1 );
 
     /*xgettext:no-c-format*/
-    m_staticText49 = new wxStaticText( diskUsageStaticBox, ID_DEFAULT, _("% of page file (swap space)"), wxDefaultPosition, wxDefaultSize, 0 );
-    diskUsageGridSizer->Add( m_staticText49, 0, wxALL, 5 );
+    wxStaticText* staticText49 = new wxStaticText( diskUsageStaticBox, ID_DEFAULT, _("% of page file (swap space)"), wxDefaultPosition, wxDefaultSize, 0 );
+    swapCheckpointGridSizer->Add( staticText49, 0, wxALL, 5 );
 
-    diskUsageBoxSizer->Add( diskUsageGridSizer, 0, wxEXPAND, 1 );
+    diskUsageBoxSizer->Add( swapCheckpointGridSizer, 0, wxEXPAND, 1 );
 
     diskAndMemoryBoxSizer->Add( diskUsageBoxSizer, 0, wxEXPAND, 1 );
 
@@ -680,26 +693,26 @@ wxPanel* CDlgAdvPreferencesBase::createDiskAndMemoryTab(wxNotebook* notebook)
     memoryUsageGridSizer->SetFlexibleDirection( wxHORIZONTAL );
     memoryUsageGridSizer->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 
-    m_staticText50 = new wxStaticText( memoryUsageStaticBox, ID_DEFAULT, _("Use at most"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
-    memoryUsageGridSizer->Add( m_staticText50, 0, wxALL|wxEXPAND, 5 );
+    wxStaticText* staticText50 = new wxStaticText( memoryUsageStaticBox, ID_DEFAULT, _("Use at most"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
+    memoryUsageGridSizer->Add( staticText50, 0, wxALL|wxEXPAND, 5 );
 
     textCtrlSize = getTextCtrlSize(wxT("100.00"));
     m_txtMemoryMaxInUse = new wxTextCtrl( memoryUsageStaticBox, ID_TXTMEMORYMAXINUSE, wxT(""), wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
     memoryUsageGridSizer->Add( m_txtMemoryMaxInUse, 0, wxALL, 1 );
 
     /*xgettext:no-c-format*/ 
-    m_staticText51 = new wxStaticText( memoryUsageStaticBox, ID_DEFAULT, _("% when computer is in use"), wxDefaultPosition, wxDefaultSize, 0 );
-    memoryUsageGridSizer->Add( m_staticText51, 0, wxALL, 5 );
+    wxStaticText* staticText51 = new wxStaticText( memoryUsageStaticBox, ID_DEFAULT, _("% when computer is in use"), wxDefaultPosition, wxDefaultSize, 0 );
+    memoryUsageGridSizer->Add( staticText51, 0, wxALL, 5 );
 
-    m_staticText52 = new wxStaticText( memoryUsageStaticBox, ID_DEFAULT, _("Use at most"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
-    memoryUsageGridSizer->Add( m_staticText52, 0, wxALL|wxEXPAND, 5 );
+    wxStaticText* staticText52 = new wxStaticText( memoryUsageStaticBox, ID_DEFAULT, _("Use at most"), wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT );
+    memoryUsageGridSizer->Add( staticText52, 0, wxALL|wxEXPAND, 5 );
 
     m_txtMemoryMaxOnIdle = new wxTextCtrl( memoryUsageStaticBox, ID_TXTMEMORYMAXONIDLE, wxT(""), wxDefaultPosition, textCtrlSize, wxTE_RIGHT );
     memoryUsageGridSizer->Add( m_txtMemoryMaxOnIdle, 0, wxALL, 1 );
 
-    /*xgettext:no-c-format*/ 
-    m_staticText53 = new wxStaticText( memoryUsageStaticBox, ID_DEFAULT, _("% when computer is idle"), wxDefaultPosition, wxDefaultSize, 0 );
-    memoryUsageGridSizer->Add( m_staticText53, 0, wxALL, 5 );
+    /*xgettext:no-c-format*/
+    wxStaticText* staticText53 = new wxStaticText( memoryUsageStaticBox, ID_DEFAULT, _("% when computer is idle"), wxDefaultPosition, wxDefaultSize, 0 );
+    memoryUsageGridSizer->Add( staticText53, 0, wxALL, 5 );
 
     memoryUsageBoxSizer->Add( memoryUsageGridSizer, 0, wxEXPAND, 1 );
 
@@ -718,72 +731,6 @@ wxPanel* CDlgAdvPreferencesBase::createDiskAndMemoryTab(wxNotebook* notebook)
     return diskMemoryTab;
 }
 
-wxPanel* CDlgAdvPreferencesBase::createExclusiveAppsTab(wxNotebook* notebook)
-{
-    wxPanel* exclusiveAppsTab = new wxPanel( notebook, ID_TABPAGE_EXCLAPPS, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
-    exclusiveAppsTab->SetExtraStyle( wxWS_EX_VALIDATE_RECURSIVELY );
-
-    wxBoxSizer* exclusiveAppsTabBoxSizer = new wxBoxSizer( wxVERTICAL );
-
-    wxStaticBox* exclusiveAppsListStaticBox = new wxStaticBox( exclusiveAppsTab, -1, _("Suspend processor and network usage when these applications are running:") );
-    wxStaticBoxSizer* exclusiveAppsListBoxSizer = new wxStaticBoxSizer( exclusiveAppsListStaticBox, wxVERTICAL );
-
-    wxBoxSizer* exclusiveAppsBoxSizer = new wxBoxSizer( wxVERTICAL );
-
-    m_exclusiveApsListBox = new wxListBox(exclusiveAppsListStaticBox, ID_LISTBOX_EXCLAPPS, wxDefaultPosition, wxDefaultSize, 0, NULL, wxLB_EXTENDED|wxLB_NEEDED_SB|wxLB_SORT);
-    exclusiveAppsBoxSizer->Add(m_exclusiveApsListBox, 1, wxALL|wxEXPAND, 5);
-
-	wxBoxSizer* exclusiveAppsButtonSizer = new wxBoxSizer( wxHORIZONTAL );
-
-    m_addExclusiveAppButton = new wxButton( exclusiveAppsListStaticBox, ID_ADDEXCLUSIVEAPPBUTTON, _("Add..."), wxDefaultPosition, wxDefaultSize, 0 );
-    m_addExclusiveAppButton->SetToolTip( _("Add an application to this list"));
-	exclusiveAppsButtonSizer->Add( m_addExclusiveAppButton, 0, wxRIGHT, 5 );
-    
-    exclusiveAppsButtonSizer->AddStretchSpacer();
-    
-    m_removeExclusiveAppButton = new wxButton( exclusiveAppsListStaticBox, ID_REMOVEEXCLUSIVEAPPBUTTON, _("Remove"), wxDefaultPosition, wxDefaultSize, 0 );
-    m_removeExclusiveAppButton->SetToolTip( _("Remove an application from this list"));
-	exclusiveAppsButtonSizer->Add( m_removeExclusiveAppButton, 0, wxLEFT, 5 );
-
-    exclusiveAppsBoxSizer->Add(exclusiveAppsButtonSizer, 0, wxEXPAND|wxLEFT|wxRIGHT, 25 );
-
-    wxBoxSizer* moreOptionsLinkSizer = new wxBoxSizer( wxHORIZONTAL );
-
-    moreOptionsLinkSizer->Add(
-        new wxStaticText(
-            exclusiveAppsListStaticBox, ID_DEFAULT, _("For advanced options, refer to "),
-            wxDefaultPosition, wxDefaultSize, wxALIGN_RIGHT
-        ),
-        0, wxLEFT, 5
-    );
-
-    moreOptionsLinkSizer->Add(
-        new wxHyperlinkCtrl(
-            exclusiveAppsListStaticBox, ID_DEFAULT, wxT("http://boinc.berkeley.edu/wiki/Client_configuration"),
-            wxT("http://boinc.berkeley.edu/wiki/Client_configuration"), 
-            wxDefaultPosition, wxDefaultSize, wxHL_DEFAULT_STYLE
-        ),
-#ifdef __WXMAC__
-        0, wxLEFT, 5
-#else
-        0, wxLEFT, 3
-#endif
-    );
-
-    exclusiveAppsBoxSizer->Add(moreOptionsLinkSizer, 0, wxALL, 10);
-        
-    exclusiveAppsListBoxSizer->Add(exclusiveAppsBoxSizer, 1, wxEXPAND, 5 );
-    
-    exclusiveAppsTabBoxSizer->Add(exclusiveAppsListBoxSizer, 1, wxEXPAND, 5 );
-    exclusiveAppsTabBoxSizer->AddStretchSpacer();
-
-    exclusiveAppsTab->SetSizer( exclusiveAppsTabBoxSizer );
-    exclusiveAppsTab->Layout();
-    exclusiveAppsTabBoxSizer->Fit( exclusiveAppsTab );
-
-    return exclusiveAppsTab;
-}
-
 wxSize CDlgAdvPreferencesBase::getTextCtrlSize(wxString maxText) {
     int w, h, margin;
     wxSize sz;
@@ -795,4 +742,3 @@ wxSize CDlgAdvPreferencesBase::getTextCtrlSize(wxString maxText) {
     sz.y = wxDefaultCoord;
     return sz;
 }
-
