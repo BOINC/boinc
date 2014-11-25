@@ -1210,7 +1210,7 @@ int HOST_INFO::get_host_info(bool init) {
     get_local_network_info();
 
     if (!init) return 0;
-    get_memory_info(m_nbytes, m_swap);
+    ::get_memory_info(m_nbytes, m_swap);
     get_os_information(
         os_name, sizeof(os_name), os_version, sizeof(os_version)
     );
