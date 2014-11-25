@@ -503,7 +503,7 @@ int CLIENT_STATE::init() {
     // this follows parse_state_file() since we need to have read
     // domain_name for Android
     //
-    host_info.get_host_info();
+    host_info.get_host_info(true);
     set_ncpus();
     show_host_info();
 
