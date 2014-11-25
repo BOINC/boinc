@@ -42,8 +42,7 @@
 // <www_host>    hostname of web server (default: same as <host>)
 // <sched_host>  hostname of scheduling server (default: same as <host>)
 // <uldl_host>   hostname of upload/download server (default: same as <host>)
-// <uldl_pid>    pid file of upload/download server httpd.conf
-//               (default: /var/run/httpd/httpd.pid)
+// <uldl_prog>   Name of web server executable (default: httpd)
 // <ssh_exe>     path to ssh (default: /usr/bin/ssh)
 // <ps_exe>      path to ps (which supports "w" flag) (default: /bin/ps)
 
@@ -54,7 +53,7 @@ require_once("../inc/xml.inc");
 require_once("../inc/cache.inc");
 require_once("../inc/translation.inc");
 
-define('DEBUG', false);
+define('DEBUG', true);
 
 check_get_args(array("xml"));
 
@@ -76,6 +75,22 @@ function remote_file_exists($host, $path) {
         echo "  retval: $retval<br>\n";
     }
     return ($retval == 0);
+}
+
+// see if a program is running on a host:
+// do "ps C name" on the host and see if the output contains the prog name
+//
+function remote_process_exists($host, $prog_name) {
+    $cmd = "/usr/bin/ssh $host 'ps -C $prog_name'";
+    $cmd = "ssh localhost 'pwd'";
+    $last_line = exec($cmd, $out, $retval);
+    if (DEBUG) {
+        echo "remote_file_exists() command failed: $cmd<br>\n";
+        echo "  retval: $retval<br>\n";
+        print_r(error_get_last());
+    }
+    echo "<br>last line: $last_line\n";
+    return strstr($last_line, $prog_name)?true:false;
 }
 
 // daemon status outputs: 1 (running) 0 (not running) or -1 (disabled)
@@ -237,9 +252,9 @@ $sched_host = parse_element($config_vars,"<sched_host>");
 if ($sched_host == "") {
     $sched_host = $project_host;
 }
-$uldl_pid = parse_element($config_vars,"<uldl_pid>");
-if ($uldl_pid == "") {
-    $uldl_pid = "/var/run/httpd/httpd.pid";
+$uldl_prog = parse_element($config_vars,"<uldl_prog>");
+if ($uldl_prog == "") {
+    $uldl_prog = "httpd";
 }
 $uldl_host = parse_element($config_vars,"<uldl_host>");
 if ($uldl_host == "") {
@@ -309,7 +324,7 @@ show_status($www_host, tra("data-driven web pages"), $web_running);
 
 // Check for httpd.pid file of upload/download server.
 //
-$uldl_running = remote_file_exists($uldl_host, $uldl_pid);
+$uldl_running = remote_process_exists($uldl_host, $uldl_prog);
 show_status($uldl_host, tra("upload/download server"), $uldl_running?1:0);
 
 $sched_running = !file_exists("../../stop_sched");
