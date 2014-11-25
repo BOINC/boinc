@@ -1570,7 +1570,7 @@ int HOST_INFO::get_host_info(bool init) {
     }
     get_local_network_info();
 
-    if (init) return 0;
+    if (!init) return 0;
 
     // everything after here is assumed not to change during
     // a run of the client
