@@ -116,7 +116,6 @@ int CLIENT_STATE::parse_state_file() {
 int CLIENT_STATE::parse_state_file_aux(const char* fname) {
     PROJECT *project=NULL;
     int retval=0;
-    int failnum;
     string stemp;
 
     FILE* f = fopen(fname, "r");
@@ -224,6 +223,7 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
             // If the file had a failure before,
             // don't start another file transfer
             //
+            int failnum;
             if (fip->had_failure(failnum)) {
                 if (fip->pers_file_xfer) {
                     delete fip->pers_file_xfer;
@@ -402,6 +402,7 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
 #ifdef SIM
             retval = host_info.parse(xp, false);
             coprocs = host_info.coprocs;
+            coprocs.bound_counts();
 #else
             retval = host_info.parse(xp, true);
 #endif

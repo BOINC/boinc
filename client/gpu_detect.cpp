@@ -662,3 +662,24 @@ int COPROCS::launch_child_process_to_detect_gpus() {
 
     return 0;
 }
+
+// print descriptions of coprocs specified in cc_config.xml,
+// and make sure counts are <= 64
+//
+void COPROCS::bound_counts() {
+    for (int j=1; j<n_rsc; j++) {
+        msg_printf(NULL, MSG_INFO, "Coprocessor specified in cc_config.xml: type %s count %d",
+            coprocs[j].type,
+            coprocs[j].count
+        );
+        if (coprocs[j].count > MAX_COPROC_INSTANCES) {
+            msg_printf(NULL, MSG_USER_ALERT,
+                "%d instances of %s specified in cc_config.xml; max is %d",
+                coprocs[j].count,
+                coprocs[j].type,
+                MAX_COPROC_INSTANCES
+            );
+            coprocs[j].count = MAX_COPROC_INSTANCES;
+        }
+    }
+}

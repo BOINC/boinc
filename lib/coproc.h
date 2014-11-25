@@ -474,6 +474,9 @@ struct COPROCS {
         coprocs[n_rsc++] = c;
         return 0;
     }
+    void bound_counts();
+        // make sure instance counts are within legal range
+
     COPROC* lookup_type(const char* t) {
         for (int i=1; i<n_rsc; i++) {
             if (!strcmp(t, coprocs[i].type)) {

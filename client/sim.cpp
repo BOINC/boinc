@@ -342,7 +342,6 @@ double get_estimated_delay(RESULT* rp) {
 bool CLIENT_STATE::simulate_rpc(PROJECT* p) {
     char buf[256], buf2[256];
     vector<IP_RESULT> ip_results;
-    int infeasible_count = 0;
     vector<RESULT*> new_results;
 
     bool avail;
@@ -449,8 +448,8 @@ bool CLIENT_STATE::simulate_rpc(PROJECT* p) {
     }
 
     njobs += new_results.size();
-    msg_printf(0, MSG_INFO, "Got %d tasks", new_results.size());
-    sprintf(buf, "got %d tasks<br>", new_results.size());
+    msg_printf(0, MSG_INFO, "Got %lu tasks", new_results.size());
+    sprintf(buf, "got %lu tasks<br>", new_results.size());
     html_msg += buf;
 
     SCHEDULER_REPLY sr;
@@ -1092,7 +1091,7 @@ void simulate() {
         cc_config.rec_half_life
     );
     fprintf(summary_file, "Jobs\n");
-    for (int i=0; i<gstate.results.size(); i++) {
+    for (unsigned int i=0; i<gstate.results.size(); i++) {
         RESULT* rp = gstate.results[i];
         fprintf(summary_file,
             "   %s time left %s deadline %s\n",
@@ -1330,7 +1329,6 @@ void cull_projects() {
     for (i=0; i<gstate.app_versions.size(); i++) {
         APP_VERSION* avp = gstate.app_versions[i];
         if (avp->app->ignore) continue;
-        int rt = avp->gpu_usage.rsc_type;
     }
     for (i=0; i<gstate.apps.size(); i++) {
         APP* app = gstate.apps[i];
@@ -1527,7 +1525,7 @@ char* next_arg(int argc, char** argv, int& i) {
 }
 
 int main(int argc, char** argv) {
-    int i, retval;
+    int i;
     char buf[256];
 
     sim_results.clear();
