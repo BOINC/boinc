@@ -1260,9 +1260,6 @@ int HOST_INFO::get_cpu_info() {
 #if LINUX_LIKE_SYSTEM
     parse_cpuinfo_linux(*this);
 #elif defined( __APPLE__)
-    int mib[2];
-    size_t len;
-
     get_cpu_info_mac(*this);
 #elif defined(__EMX__)
     CPU_INFO_t    cpuInfo;
@@ -1366,6 +1363,9 @@ int HOST_INFO::get_cpu_count() {
     p_ncpus = sysconf(_SC_NPROCESSORS_ONLN);
 #elif defined(HAVE_SYS_SYSCTL_H) && defined(CTL_HW) && defined(HW_NCPU)
     // Get number of CPUs
+    int mib[2];
+    size_t len;
+
     mib[0] = CTL_HW;
     mib[1] = HW_NCPU;
     len = sizeof(p_ncpus);
