@@ -944,6 +944,7 @@ PLAN_CLASS_SPEC::PLAN_CLASS_SPEC() {
     nthreads_cmdline = false;
     projected_flops_scale = 1;
     have_os_regex = false;
+    have_cpu_vendor_regex = false;
     min_os_version = 0;
     max_os_version = 0;
     strcpy(project_prefs_tag, "");
