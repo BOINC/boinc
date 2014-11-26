@@ -70,15 +70,15 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
     if (usingLocalPrefs) {
         legendSizer->Add(
             new wxStaticText( topControlsStaticBox, ID_DEFAULT,
-                        _("This computer is using local preferences.\n"
-                        "Click \"Use web prefs\" if you want to use web-based preferences from:"
+                        _("Using local preferences.\n"
+                        "Click \"Use web prefs\" to use web-based preferences from"
                         ), wxDefaultPosition, wxDefaultSize, 0 ),
             0, wxALL, 1
         );
     } else {
         legendSizer->Add(
             new wxStaticText( topControlsStaticBox, ID_DEFAULT,
-                        _("This computer is using web-based preferences from:"),
+                        _("Using web-based preferences from"),
                         wxDefaultPosition, wxDefaultSize, 0 ),
             0, wxALL, 1
         );
@@ -95,9 +95,8 @@ CDlgAdvPreferencesBase::CDlgAdvPreferencesBase( wxWindow* parent, int id, wxStri
     if (!usingLocalPrefs) {
         legendSizer->Add(
             new wxStaticText( topControlsStaticBox, ID_DEFAULT,
-                        _("Click OK if you want to edit preferences locally.\n"
-                        "(Changes to web-based preferences won't affect this computer)."
-                        ), wxDefaultPosition, wxDefaultSize, 0 ),
+                 _("Set values and click OK to use local preferences instead."),
+                 wxDefaultPosition, wxDefaultSize, 0 ),
             0, wxALL, 1
         );
     }
@@ -256,7 +255,7 @@ wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook)
     maxLoadSizer->Add(
         new wxStaticText(
             computingAllowedStaticBox, ID_DEFAULT,
-            _("While processor usage is less than"),
+            _("While non-BOINC processor usage is less than"),
             wxDefaultPosition, wxDefaultSize, 0
         ),
         0, wxALL, 5

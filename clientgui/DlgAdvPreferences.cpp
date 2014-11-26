@@ -940,7 +940,7 @@ void CDlgAdvPreferences::OnClear(wxCommandEvent& ev) {
 
 bool CDlgAdvPreferences::ConfirmClear() {
     int res = wxGetApp().SafeMessageBox(_(
-        "Do you really want to discard all local preferences and return to using web-based preferences?"),
+        "Discard local preferences and use web-based preferences?"),
         _("Confirmation"),wxCENTER | wxICON_QUESTION | wxYES_NO | wxNO_DEFAULT,this);
 
     return res==wxYES;
