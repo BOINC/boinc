@@ -50,6 +50,7 @@ boincmgr_SOURCES = \
     DlgDiagnosticLogFlags.cpp \
     DlgEventLog.cpp \
     DlgEventLogListCtrl.cpp \
+    DlgExclusiveApps.cpp \
     DlgExitMessage.cpp \
     DlgGenericMessage.cpp \
     DlgItemProperties.cpp \
