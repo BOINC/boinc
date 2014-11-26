@@ -256,7 +256,7 @@ wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook)
     maxLoadSizer->Add(
         new wxStaticText(
             computingAllowedStaticBox, ID_DEFAULT,
-            _("While processor usage is less than"),
+            _("While non-BOINC processor usage is less than"),
             wxDefaultPosition, wxDefaultSize, 0
         ),
         0, wxALL, 5
