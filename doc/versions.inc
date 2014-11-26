@@ -228,10 +228,10 @@ $l70ubuntux64 = array(
 );
 
 $a74dev = array(
-    "num"=>"7.4.30",
+    "num"=>"7.4.31",
     "status"=>"Development Version",
-    "file"=>"boinc_7.4.30.apk",
-    "date"=>"24 Nov 2014",
+    "file"=>"boinc_7.4.31.apk",
+    "date"=>"26 Nov 2014",
     "type"=>"apk",
 );
 
