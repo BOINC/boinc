@@ -537,7 +537,13 @@ bool CDlgAdvPreferences::SavePreferencesSettings() {
 /* set state of control depending on other control's state */
 void CDlgAdvPreferences::UpdateControlStates() {
     //proc usage page
+    // Disable idle timeout edit text item if we allow both CPU and GPU when idle.
     m_txtProcIdleFor->Enable(!m_chkProcInUse->IsChecked() || !m_chkGPUProcInUse->IsChecked());
+    
+    // If we suspend work when in use, disable and uncheck "Use GPU when in use"
+    m_chkGPUProcInUse->Enable(m_chkProcInUse->IsChecked());
+    if (!m_chkProcInUse->IsChecked()) m_chkGPUProcInUse->SetValue(false);
+    
     m_txtProcMonday->Enable(m_chkProcMonday->IsChecked());
     m_txtProcTuesday->Enable(m_chkProcTuesday->IsChecked());
     m_txtProcWednesday->Enable(m_chkProcWednesday->IsChecked());
