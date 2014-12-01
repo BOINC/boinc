@@ -256,7 +256,7 @@ function end_cache($max_age,$params=""){
 function set_cached_data($max_age, $data, $params=""){
     // for the benefit of hackers
     if (strstr($params, "..")) {
-        return;
+        return "bad params";
     }
     $path = get_path($params);
     if (defined('MEMCACHE_SERVERS')) {
@@ -264,10 +264,13 @@ function set_cached_data($max_age, $data, $params=""){
         BoincMemcache::get()->set($path, $cache, $max_age);
     } else {
         $fhandle = @fopen($path, "w");
-        if (!$fhandle) return;
+        if (!$fhandle) {
+            return "can't open $path";
+        }
         fwrite($fhandle, $data);
         fclose($fhandle);
     }
+    return "";
 }
 
 function clear_cache_entry($phpfile, $params) {

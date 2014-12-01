@@ -1,7 +1,7 @@
 <?php
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2014 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -16,533 +16,355 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// server_status.php
-//   (or server_status.php?xml=1)
-//
-// outputs general information about BOINC server status gathered from
-// config.xml or mysql database queries. If you are running all your
-// services on one machine, and the database isn't so large, this should
-// work right out of the box. Otherwise see configureables below.
-//
-// Daemons in config.xml are checked to see if they are running by ssh'ing
-// into the respective hosts and searching for active pids. Passwordless
-// logins must be in effect if there are multiple hosts involved.
-//
-// The database queries may be very slow. You might consider running these
-// queries elsewhere via cronjob, outputing numbers into a readable file,
-// and then getting the latest values with a `/bin/tail -1 data_file`.
-// See commented example in the code.
-//
-// You can get an xml version of the stats via the web when the url has the
-// optional "?xml=1" tag at the end, i.e
-//   http://yourboincproject.edu/server_status.php?xml=1
-//
-// You should edit the following variables in config.xml to suit your needs:
-//
-// <www_host>    hostname of web server (default: same as <host>)
-// <sched_host>  hostname of scheduling server (default: same as <host>)
-// <uldl_host>   hostname of upload/download server (default: same as <host>)
-// <uldl_prog>   Name of web server executable (default: httpd)
-// <ssh_exe>     path to ssh (default: /usr/bin/ssh)
-// <ps_exe>      path to ps (which supports "w" flag) (default: /bin/ps)
+// Show server status page.
+// Sources of data:
+// - daemons on this host: use "ps" to see if each is running
+//   (this could be made more efficient using a single "ps",
+//   or it could be cached)
+// - daemons on other hosts: get from a cached file generated periodically
+//   by ops/remote_server_status.php
+//   (we can't do this ourselves because apache can't generally ssh)
+// - apps and job counts: get from a cached file that we generate ourselves
 
-///////////////////////////////////////////////////////////////////////////////
-
+require_once("../inc/cache.inc");
 require_once("../inc/util.inc");
 require_once("../inc/xml.inc");
-require_once("../inc/cache.inc");
-require_once("../inc/translation.inc");
-
-define('DEBUG', true);
-
-check_get_args(array("xml"));
-
-$xml = get_int("xml", true);
+require_once("../inc/boinc_db.inc");
 
 if (!defined('STATUS_PAGE_TTL')) {
     define('STATUS_PAGE_TTL', 3600);
 }
 
-function remote_file_exists($host, $path) {
-    global $project_host;
-    if ($host == $project_host) {
-        return file_exists($path);
-    }
-    $cmd = "/usr/bin/ssh $host 'ls $path' 2>&1";
-    exec($cmd, $out, $retval);
-    if (DEBUG) {
-        echo "remote_file_exists: $cmd<br>\n";
-        echo "  retval: $retval<br>\n";
-    }
-    return ($retval == 0);
-}
-
-// see if a program is running on a host:
-// do "ps C name" on the host and see if the output contains the prog name
-//
-function remote_process_exists($host, $prog_name) {
-    $cmd = "/usr/bin/ssh $host 'ps -C $prog_name'";
-    $cmd = "ssh localhost 'pwd'";
-    $last_line = exec($cmd, $out, $retval);
-    if (DEBUG) {
-        echo "remote_file_exists() command failed: $cmd<br>\n";
-        echo "  retval: $retval<br>\n";
-        print_r(error_get_last());
-    }
-    echo "<br>last line: $last_line\n";
-    return strstr($last_line, $prog_name)?true:false;
-}
-
-// daemon status outputs: 1 (running) 0 (not running) or -1 (disabled)
-//
-function daemon_status($host, $pidname, $progname, $disabled) {
-    global $ssh_exe, $ps_exe, $project_host, $project_dir;
-    if ($disabled == 1) return -1;
-    $path = "$project_dir/pid_$host/$pidname";
-    if ($host != gethostname()) {
-        $command = "$ssh_exe $host $project_dir/bin/pshelper $path";
-        $foo = exec($command);
-        if (DEBUG) {
-            echo "daemon_status, remote: cmd $command<br>\n";
-            echo "  result: $foo<br>\n";
-        }
-        $running = 1;
-        if ($foo) {
-            if (strstr($foo, "false")) $running = 0;
-        } else {
-            $running = 0;
-        }
-        return $running;
-    }
-    $running = 0;
-    if (DEBUG) {
-        echo "daemon_stats, local; path $path<br>\n";
-    }
-    if (is_file($path)) {
-        $pid = file_get_contents($path);
-        if ($pid) {
-            $pid = trim($pid);
-            $command = "$ps_exe ww $pid";
-            $foo = exec($command, $out, $ret);
-            if (DEBUG) {
-                echo "  cmd $command; ret $ret, output $foo<br>\n";
-            }
-            if ($foo) {
-                if (strstr($foo, (string)$pid)) {
-                    $running = 1;
-                }
-            }
-        } else {
-            if (DEBUG) {
-                echo "  file is empty<br>\n";
-            }
-        }
-    } else {
-        if (DEBUG) {
-            echo "  no such file<br>\n";
-        }
-    }
-    return $running;
-}
-
-// $running: 1 running, 0 not running, -1 disabled
-//
-function show_status($host, $progname, $running) {
-    global $xml;
-    $xmlstring = "    <daemon>\n      <host>$host</host>\n      <command>$progname</command>\n";
-    $htmlstring = "<tr><td>$progname</td><td>$host</td>";
-    switch ($running) {
-    case 1:
-        $xmlstring .= "      <status>running</status>\n";
-        $htmlstring .= "<td class=\"running\">".tra("Running")."</td>\n";
-        break;
+$row_parity = 0;
+function daemon_html($d) {
+    global $row_parity;
+    switch ($d->status) {
     case 0:
-        $xmlstring .= "      <status>not running</status>\n";
-        $htmlstring .= "<td class=\"notrunning\">".tra("Not Running")."</td>\n";
+        $s = tra("Not Running");
+        $c = "notrunning";
+        break;
+    case 1:
+        $s = tra("Running");
+        $c = "running";
         break;
     default:
-        $xmlstring .= "      <status>disabled</status>\n";
-        $htmlstring .= "<td class=\"disabled\">".tra("Disabled")."</td>\n";
+        $s = tra("Disabled");
+        $c = "disabled";
+        break;
     }
-    $xmlstring .= "    </daemon>\n";
-    $htmlstring .= "</tr>\n";
-    if ($xml) {
-        echo $xmlstring;
-    } else {
-        echo $htmlstring;
+    echo "<tr class=row$row_parity>
+        <td>$d->cmd</td>
+        <td>$d->host</td>
+        <td class=\"$c\">$s</td>
+    <tr>
+";
+    $row_parity = 1-$row_parity;
+}
+
+function daemon_xml($d) {
+    switch ($d->status) {
+    case 0: $s = "not running"; break;
+    case 1: $s = "running"; break;
+    default: $s = "disabled";
     }
+    echo "  <daemon>
+        <host>$d->host</host>
+        <command>$d->cmd</command>
+        <status>$s</status>
+    </daemon>
+";
+}
+
+function item_xml($name, $val) {
+    if (!$val) $val = 0;
+    echo "   <$name>$val</$name>\n";
+}
+
+function item_html($name, $val) {
+    $name = tra($name);
+    echo "<tr><td align=right>$name</td><td align=right>$val</td></tr>\n";
+}
+
+function show_status_html($x) {
+    page_head(tra("Project status"));
+    $j = $x->jobs;
+    $daemons = $x->daemons;
+    start_table();
+    echo "<tr><td width=40% valign=top>
+         <h2>".tra("Server status")."</h2>
+    ";
+    start_table();
+    table_header(tra("Program"), tra("Host"), tra("Status"));
+    foreach ($daemons->local_daemons as $d) {
+        daemon_html($d);
+    }
+    foreach ($daemons->remote_daemons as $d) {
+        daemon_html($d);
+    }
+    foreach ($daemons->disabled_daemons as $d) {
+        daemon_html($d);
+    }
+    end_table();
+    if ($j->db_revision) {
+        echo tra("Database schema version: "), $j->db_revision;
+    }
+    if ($daemons->cached_time) {
+        echo "<br>Remote daemon status as of ", time_str($daemons->cached_time);
+    }
+    if ($daemons->missing_remote_status) {
+        echo "<br>Status of remote daemons is missing\n";
+    }
+    echo "</td><td>\n";
+    echo "<h2>".tra("Computing status")."</h2>\n";
+    start_table();
+    echo "<tr><td>\n";
+    start_table();
+    table_header(tra("Work"), "#");
+    item_html("Tasks ready to send", $j->results_ready_to_send);
+    item_html("Tasks in progress", $j->results_in_progress);
+    item_html("Workunits waiting for validation", $j->wus_need_validate);
+    item_html("Workunits waiting for assimilation", $j->wus_need_assimilate);
+    item_html("Workunits waiting for file deletion", $j->wus_need_file_delete);
+    item_html("Tasks waiting for file deletion", $j->results_need_file_delete);
+    item_html("Transitioner backlog (hours)", number_format($j->transitioner_backlog, 2));
+    end_table();
+    echo "</td><td>\n";
+    start_table();
+    table_header(tra("Users"), "#");
+    item_html("With credit", $j->users_with_credit);
+    item_html("With recent credit", $j->users_with_recent_credit);
+    item_html("Registered in past 24 hours", $j->users_past_24_hours);
+    table_header(tra("Computers"), "#");
+    item_html("With credit", $j->hosts_with_credit);
+    item_html("With recent credit", $j->hosts_with_recent_credit);
+    item_html("Registered in past 24 hours", $j->hosts_past_24_hours);
+    item_html("Current GigaFLOPS", round($j->flops, 2));
+    end_table();
+    end_table();
+    start_table();
+    echo "<tr><th colspan=5>".tra("Tasks by application")."</th></tr>\n";
+    table_header(
+        tra("Application"), tra("Unsent"), tra("In progress"),
+        tra("Runtime of last 100 tasks in hours: average, min, max"),
+        tra("Users in last 24 hours")
+    );
+    $i = 0;
+    foreach ($j->apps as $app) {
+        $avg = round($app->info->avg, 2);
+        $min = round($app->info->min, 2);
+        $max = round($app->info->max, 2);
+        $x = $max?"$avg ($min - $max)":"---";
+        $u = $app->info->users;
+        echo "<tr class=row$i>
+            <td>$app->user_friendly_name</td>
+            <td>$app->unsent</td>
+            <td>$app->in_progress</td>
+            <td>$x</td>
+            <td>$u</td>
+            </tr>
+        ";
+        $i = 1-$i;
+    }
+    end_table();
+    echo "<p>Task data as of ".time_str($j->cached_time);
+    echo "</td></tr>\n";
+    end_table();
+    page_tail();
+}
+
+function show_status_xml($x) {
+    xml_header();
+    echo "<server_status>\n<daemon_status>\n";
+
+    $daemons = $x->daemons;
+    foreach ($daemons->local_daemons as $d) {
+        daemon_xml($d);
+    }
+    foreach ($daemons->remote_daemons as $d) {
+        daemon_xml($d);
+    }
+    foreach ($daemons->disabled_daemons as $d) {
+        daemon_xml($d);
+    }
+    echo "</daemon_status>\n<database_file_states>\n";
+    $j = $x->jobs;
+    item_xml("results_ready_to_send", $j->results_ready_to_send);
+    item_xml("results_in_progress", $j->results_in_progress);
+    item_xml("workunits_waiting_for_validation", $j->wus_need_validate);
+    item_xml("workunits_waiting_for_assimilation", $j->wus_need_assimilate);
+    item_xml("workunits_waiting_for_deletion", $j->wus_need_file_delete);
+    item_xml("results_waiting_for_deletion", $j->results_need_file_delete);
+    item_xml("transitioner_backlog_hours", $j->transitioner_backlog);
+    item_xml("users_with_recent_credit", $j->users_with_recent_credit);
+    item_xml("users_with_credit", $j->users_with_credit);
+    item_xml("users_registered_in_past_24_hours", $j->users_past_24_hours);
+    item_xml("hosts_with_recent_credit", $j->hosts_with_recent_credit);
+    item_xml("hosts_with_credit", $j->hosts_with_credit);
+    item_xml("hosts_registered_in_past_24_hours", $j->hosts_past_24_hours);
+    item_xml("current_floating_point_speed", $j->flops);
+    echo "<tasks_by_app>\n";
+    foreach ($j->apps as $app) {
+        echo "<app>\n";
+        item_xml("id", $app->id);
+        item_xml("name", $app->name);
+        item_xml("unsent", $app->unsent);
+        item_xml("in_progress", $app->in_progress);
+        item_xml("avg_runtime", $app->info->avg);
+        item_xml("min_runtime", $app->info->min);
+        item_xml("max_runtime", $app->info->max);
+        item_xml("users", $app->info->users);
+        echo "</app>\n";
+    }
+    echo "</tasks_by_app>
+</database_file_states>
+</server_status>
+";
+}
+
+function local_daemon_running($cmd) {
+    $cmd = explode(" ", $cmd);
+    $prog = $cmd[0];
+    $out = exec("ps -C $prog");
+    if (strstr($out, $prog)) return 1;
     return 0;
 }
 
-function show_daemon_status($host, $pidname, $progname, $disabled) {
-    $running = daemon_status($host, $pidname, $progname, $disabled);
-    show_status($host, $progname, $running);
-}
+// returns a data structure of the form
+// local_daemons: array of
+//   cmd, status
+// remote_daemons: array of
+//   cmd, host, status
+// disabled_daemons: array of
+//   cmd, host
+//
+function get_daemon_status() {
+    $c = simplexml_load_file("../../config.xml");
+    if (!$c) {
+        die("can't parse config file\n");
+    }
+    $daemons = $c->daemons;
+    $project_host = (string)$c->config->host;
+    $web_host = gethostname();
+    $have_remote = false;
+    $local_daemons = array();
+    $disabled_daemons = array();
+    foreach ($daemons->daemon as $d) {
+        if ($d->disabled) {
+            $x = new StdClass;
+            $x->cmd = (string)$d->cmd;
+            $x->host = (string)$d->host;
+            if (!$x->host) $x->host = (string)$c->config->host;
+            $x->status = -1;
+            $disabled_daemons[] = $x;
+            continue;
+        }
+        if ($d->host && $d->host != (string)$c->config->host) {
+            $have_remote = true;
+            continue;
+        }
+        $x = new StdClass;
+        $x->cmd = (string)$d->cmd;
+        $x->status = local_daemon_running($x->cmd);
+        $x->host = (string)$c->config->host;
+        $local_daemons[] = $x;
 
-function show_counts($key, $xmlkey, $value) {
-    global $xml;
-    $formattedvalue = number_format($value);
-    $xmlstring = "    <$xmlkey>$value</$xmlkey>\n";
-    if ($xml) {
-        echo $xmlstring;
+    }
+    // the upload/download server is sort of a daemon too
+    //
+    $uldl_host = (string)$c->config->uldl_host;
+    $y = new StdClass;
+    $y->cmd = "Upload/download server";
+    if (!$uldl_host || $uldl_host == $web_host) {
+        $y->host = $web_host;
+        $y->status = 1;
+        $local_daemons[] = $y;
     } else {
-        echo "<tr><td>$key</td><td>$formattedvalue</td></tr>";
+        $have_remote = true;
     }
-    return 0;
+
+    $x = new StdClass;
+    $x->local_daemons = $local_daemons;
+    $x->disabled_daemons = $disabled_daemons;
+    $x->missing_remote_status = false;
+    $x->cached_time = 0;
+    $x->remote_daemons = array();
+    if ($have_remote) {
+        $f = @file_get_contents("../cache/remote_server_status");
+        if ($f) {
+            $x->remote_daemons = unserialize($f);
+            $x->cached_time = filemtime("../cache/remote_server_status");
+        } else {
+            $x->missing_remote_status = true;
+        }
+    }
+    return $x;
 }
 
-function get_mysql_count($table, $query) {
-    $count = unserialize(get_cached_data(STATUS_PAGE_TTL, "get_mysql_count".$table.$query));
-    if ($count == false) {
-        $count = BoincDB::get()->count($table, $query);
-        set_cached_data(STATUS_PAGE_TTL, serialize($count), "get_mysql_count".$table.$query);
+function get_job_status() {
+    $s = unserialize(get_cached_data(STATUS_PAGE_TTL, "job_status"));
+    if ($s) {
+        return $s;
     }
-    return $count;
-}
 
-function get_mysql_sum($table, $field, $clause="") {
-    $value = unserialize(get_cached_data(STATUS_PAGE_TTL, "get_mysql_sum".$table.$field.$clause));
-    if ($value == false) {
-        $value = BoincDB::get()->sum($table, $field, $clause);
-        set_cached_data(STATUS_PAGE_TTL, serialize($value), "get_mysql_sum".$table.$field.$clause);
-    }
-    return $value;
-}
-
-function get_cached_apps() {
-    $apps = unserialize(get_cached_data(STATUS_PAGE_TTL, "get_cached_apps"));
-    if ($apps == false) {
-        $apps = BoincApp::enum("deprecated=0");
-        set_cached_data(STATUS_PAGE_TTL, serialize($apps), "get_cached_apps");
-    }
-    return $apps;
-}
-
-function get_runtime_info($appid) {
-    $info = unserialize(get_cached_data(STATUS_PAGE_TTL, "get_runtime_info".$appid));
-    if ($info == false) {
+    $s = new StdClass;
+    $apps = BoincApp::enum("deprecated=0");
+    foreach ($apps as $app) {
         $info = BoincDB::get()->lookup_fields("result", "stdClass",
             "ceil(avg(elapsed_time)/3600*100)/100 as avg,
             ceil(min(elapsed_time)/3600*100)/100 as min,
             ceil(max(elapsed_time)/3600*100)/100 as max,
             count(distinct userid) as users",
-            "appid = $appid
+            "appid = $app->id
             AND validate_state=1
-            AND received_time > (unix_timestamp()-(3600*24))
+            AND received_time > (unix_timestamp()-86400)
             "
         );
-        if (!$info){
-            // No recent jobs found
-            $info = new stdClass;
-            $info->avg = $info->min = $info->max = $info->users = 0;
-        }
-        set_cached_data(STATUS_PAGE_TTL, serialize($info), "get_runtime_info".$appid);
+        $app->info = $info;
+        $app->unsent = BoincResult::count("appid=$app->id and server_state=2");
+        $app->in_progress = BoincResult::count("appid=$app->id and server_state=4");
     }
-    return $info;
-}
-
-$config_xml = get_config();
-$config_vars = parse_element($config_xml,"<config>");
-$project_host = parse_element($config_vars,"<host>");
-$www_host = parse_element($config_vars,"<www_host>");
-if ($www_host == "") {
-    $www_host = $project_host;
-}
-$sched_host = parse_element($config_vars,"<sched_host>");
-if ($sched_host == "") {
-    $sched_host = $project_host;
-}
-$uldl_prog = parse_element($config_vars,"<uldl_prog>");
-if ($uldl_prog == "") {
-    $uldl_prog = "httpd";
-}
-$uldl_host = parse_element($config_vars,"<uldl_host>");
-if ($uldl_host == "") {
-    $uldl_host = $project_host;
-}
-$project_dir = parse_element($config_vars,"<project_dir>");
-if ($project_dir == "") {
-    $project_dir = "../..";
-}
-$ssh_exe = parse_element($config_vars,"<ssh_exe>");
-if ($ssh_exe == "") {
-    $ssh_exe = "/usr/bin/ssh";
-}
-$ps_exe = parse_element($config_vars,"<ps_exe>");
-if ($ps_exe == "") {
-    $ps_exe = "/bin/ps";
-}
-
-$version = null;
-if (file_exists("../../local.revision")) {
-    $version = trim(file_get_contents("../../local.revision"));
-}
-
-// we cache the current time to show via XML or on the page itself
-// assuming that every cached element on this page is generated at the same time!
-// To reset this, set STATUS_PAGE_TTL to 0 in project/cache_parameters.inc open
-// this page in a browser and then set it back to 3600
-//
-$last_update = unserialize(get_cached_data(STATUS_PAGE_TTL, "server_status_last_update"));
-if ($last_update == false) {
-    $last_update = time();
-    set_cached_data(STATUS_PAGE_TTL, serialize($last_update), "server_status_last_update");
-}
-
-$xmlstring = "<server_status>
-  <update_time>$last_update</update_time>
-";
-if ($version) {
-    $xmlstring .= "<software_version>$version</software_version>\n";
-}
-$xmlstring .= "  <daemon_status>\n";
-if ($xml) {
-    xml_header();
-    echo $xmlstring;
-} else {
-    page_head(tra("Project status"));
-    if ($version) {
-        echo tra("Server software version: %1", $version) . " / ";
+    $s->apps = $apps;
+    $s->results_ready_to_send = BoincResult::count("server_state=2");
+    $s->results_in_progress = BoincResult::count("server_state=4");
+    $s->results_need_file_delete = BoincResult::count("file_delete_state=1");
+    $s->wus_need_validate = BoincWorkunit::count("need_validate=1");
+    $s->wus_need_assimilate = BoincWorkunit::count("assimilate_state=1");
+    $s->wus_need_file_delete = BoincWorkunit::count("file_delete_state=1");
+    $x = BoincDB::get()->lookup_fields("workunit", "stdClass", "MIN(transition_time) as min", "TRUE");
+    $gap = (time() - $x->min)/3600;
+    if (($gap < 0) || ($x->min == 0)) {
+        $gap = 0;
     }
-    echo time_str($last_update), "
-        <table width=100%>
-        <tr>
-        <td width=40% valign=top>
-        <h2>".tra("Server status")."</h2>
-        <table border=0 cellpadding=4>
-        <tr><th>".tra("Program")."</th><th>".tra("Host")."</th><th>".tra("Status")."</th></tr>
-    ";
-}
-// Are the data-driven web sites running? Check for existence of stop_web.
-// If it is there, set $web_running to -1 for "disabled",
-// otherwise it will be already set to 1 for "enabled."
-// Set $www_host to the name of server hosting WWW site.
-//
-$web_running = !file_exists("../../stop_web");
-if ($web_running == 0) $web_running = -1;
-show_status($www_host, tra("data-driven web pages"), $web_running);
+    $s->transitioner_backlog = $gap;
+    $s->users_with_recent_credit = BoincUser::count("expavg_credit>1");
+    $s->users_with_credit = BoincUser::count("total_credit>1");
+    $s->users_past_24_hours = BoincUser::count("create_time > (unix_timestamp() - 86400)");
+    $s->hosts_with_recent_credit = BoincHost::count("expavg_credit>1");
+    $s->hosts_with_credit = BoincHost::count("total_credit>1");
+    $s->hosts_past_24_hours = BoincHost::count("create_time > (unix_timestamp() - 86400)");
+    $s->flops = BoincUser::sum("expavg_credit")/200;
 
-// Check for httpd.pid file of upload/download server.
-//
-$uldl_running = remote_process_exists($uldl_host, $uldl_prog);
-show_status($uldl_host, tra("upload/download server"), $uldl_running?1:0);
-
-$sched_running = !file_exists("../../stop_sched");
-show_status($sched_host, tra("scheduler"), $sched_running);
-
-// parse through config.xml to get all daemons running
-//
-$cursor = 0;
-while ($thisxml = trim(parse_next_element($config_xml,"<daemon>",$cursor))) {
-    $host = parse_element($thisxml,"<host>");
-    if ($host == "") {
-        $host = $project_host;
-    }
-    $cmd = parse_element($thisxml,"<cmd>");
-    list($cmd) = explode(" ", $cmd);
-    $log = parse_element($thisxml,"<output>");
-    if (!$log) {
-        $log = $cmd . ".log";
-    }
-    list($log) = explode(".log", $log);
-    $pid = parse_element($thisxml,"<pid_file>");
-    if (!$pid) {
-        $pid = $cmd . ".pid";
-    }
-    $disabled = parse_element($thisxml,"<disabled>");
-
-    // surrogate for command
-    list($c) = explode(".", $log);
-    show_daemon_status($host, $pid, $c, $disabled);
-}
-
-$xmlstring = "  </daemon_status>\n  <database_file_states>\n";
-if ($xml) {
-    echo $xmlstring;
-} else {
-    echo "
-        <tr><td align=right><b>".tra("Running:")."</b></td>
-        <td colspan=2>".tra("Program is operating normally")."</td></tr>
-        <tr><td align=right><b>".tra("Not Running:")."</b></td>
-        <td colspan=2>".tra("Program failed or the project is down")."</td></tr>
-        <tr><td align=right><b>".tra("Disabled:")."</b></td>
-        <td colspan=2>".tra("Program is disabled")."</td></tr>
-        </table>
-        </td>
-        <td valign=top>
-        <h2>".tra("Computing status")."</h2>
-    ";
-}
-
-if (BoincDB::get_aux(true) == null) {
-    echo tra("The database server is not accessible");
-} else {
-    if (!$xml) {
-        echo "<table border=0 cellpadding=0 cellspacing=0><tr><td>
-            <table border=0 cellpadding=4>
-            <tr><th>".tra("Work")."</th><th>#</th></tr>
-        ";
+    if (file_exists("../../db_revision")) {
+        $s->db_revision = trim(file_get_contents("../../db_revision"));
     }
 
-    // If you are reading these values from a file rather than
-    // making live queries to the database, do something like this:
-    //
-    // $sendfile = "/home/boincadm/server_status_data/count_results_unsent.out";
-    // $n = `/bin/tail -1 $sendfile`;
-    // show_counts("Tasks ready to send","results_ready_to_send",$n);
+    $s->cached_time = time();
+    $e = set_cached_data(STATUS_PAGE_TTL, serialize($s), "job_status");
+    if ($e) echo "set_cached_data(): $e\n";
+    return $s;
+}
 
-    show_counts(
-        tra("Tasks ready to send"),
-        "results_ready_to_send",
-        get_mysql_count("result", "server_state = 2")
-    );
-    show_counts(
-        tra("Tasks in progress"),
-        "results_in_progress",
-        get_mysql_count("result", "server_state = 4")
-    );
-    show_counts(
-        tra("Workunits waiting for validation"),
-        "workunits_waiting_for_validation",
-        get_mysql_count("workunit", "need_validate=1")
-    );
-    show_counts(
-        tra("Workunits waiting for assimilation"),
-        "workunits_waiting_for_assimilation",
-        get_mysql_count("workunit", "assimilate_state=1")
-    );
-    show_counts(
-        tra("Workunits waiting for file deletion"),
-        "workunits_waiting_for_deletion",
-        get_mysql_count("workunit", "file_delete_state=1")
-    );
-    show_counts(
-        tra("Tasks waiting for file deletion"),
-        "results_waiting_for_deletion",
-        get_mysql_count("result", "file_delete_state=1")
-    );
-
-    $gap = unserialize(get_cached_data(STATUS_PAGE_TTL, "transitioner_backlog"));
-    if ($gap === false) {
-        $min = BoincDB::get()->lookup_fields("workunit", "stdClass", "MIN(transition_time) as min", "TRUE");
-        $gap = (time() - $min->min)/3600;
-        if (($gap < 0) || ($min->min == 0)) {
-            $gap = 0;
-        }
-        set_cached_data(STATUS_PAGE_TTL, serialize($gap), "transitioner_backlog");
-    }
-    show_counts(
-        tra("Transitioner backlog (hours)"),
-        "transitioner_backlog_hours",
-        $gap
-    );
-    if (!$xml) {
-        echo "</table></td><td>";
-        echo "<table>";
-        echo "<tr><th>".tra("Users")."</th><th>#</th></tr>";
-    }
-    show_counts(
-        tra("with recent credit"),
-        "users_with_recent_credit",
-        get_mysql_count("user", "expavg_credit>1")
-    );
-    show_counts(
-        tra("with credit"),
-        "users_with_credit",
-        get_mysql_count("user", "total_credit>0")
-    );
-    show_counts(
-        tra("registered in past 24 hours"),
-        "users_registered_in_past_24_hours",
-        get_mysql_count("user", "create_time > (unix_timestamp() - (24*3600))")
-    );
-    if (!$xml) {
-        echo "<tr><th>".tra("Computers")."</th><th>#</th></tr>";
-    }
-    show_counts(
-        tra("with recent credit"),
-        "hosts_with_recent_credit",
-        get_mysql_count("host", "expavg_credit>1")
-    );
-    show_counts(
-        tra("with credit"),
-        "hosts_with_credit",
-        get_mysql_count("host", "total_credit>0")
-    );
-    show_counts(
-        tra("registered in past 24 hours"),
-        "hosts_registered_in_past_24_hours",
-        get_mysql_count("host", "create_time > (unix_timestamp() - (24*3600))")
-    );
-    // 200 cobblestones = 1 GigaFLOPS-day
-    show_counts(
-        tra("current GigaFLOPs"),
-        "current_floating_point_speed",
-        get_mysql_sum("user", "expavg_credit/200")
-    );
-    if (!$xml) {
-        end_table();
-        echo "</td></tr></table>";
-
-        start_table();
-        echo "<tr><th colspan=5>".tra("Tasks by application")."</th></tr>";
-        row_heading_array(
-            array(
-                tra("application"),
-                tra("unsent"),
-                tra("in progress"),
-                tra("avg runtime of last 100 results in h (min-max)"),
-                tra("users in last 24h")
-            )
-        );
-    }
-    $apps = get_cached_apps();
-    if ($xml) {
-        echo "    <tasks_by_app>\n";
-    }
-    foreach($apps as $app) {
-        $info = get_runtime_info($app->id);
-        if ($xml) {
-             echo "      <app>\n";
-             echo "        <id>".$app->id."</id>\n";
-             echo "        <name>".$app->name."</name>\n";
-             echo "        <unsent>".get_mysql_count("result", "server_state = 2 and appid = ".$app->id)."</unsent>\n";
-             echo "        <in_progress>".get_mysql_count("result", "server_state = 4 and appid = ".$app->id)."</in_progress>\n";
-             echo "        <avg_runtime>".round($info->avg, 2)."</avg_runtime>\n";
-             echo "        <min_runtime>".round($info->min, 2)."</min_runtime>\n";
-             echo "        <max_runtime>".round($info->max, 2)."</max_runtime>\n";
-             echo "        <users_24h>".$info->users."</users_24h>\n";
-             echo "      </app>\n";
-        } else {
-            echo "<tr><td>".$app->user_friendly_name."</td>
-                <td>" . number_format(get_mysql_count("result", "server_state = 2 and appid = ".$app->id)) . "</td>
-                <td>" . number_format(get_mysql_count("result", "server_state = 4 and appid = ".$app->id)) . "</td>
-                <td>"
-            ;
-            echo number_format($info->avg,2) . " (" . number_format($info->min,2) . " - " . number_format($info->max,2) . ")";
-            echo "</td>
-                <td>" . number_format($info->users) . "</td>
-                </tr>"
-            ;
-        }
-    }
-    if ($xml) {
-        echo "    </tasks_by_app>\n";
+function main() {
+    $x = new StdClass;
+    $x->daemons = get_daemon_status();
+    $x->jobs = get_job_status();
+    //if (get_int('xml', true)) {
+    if (1) {
+        show_status_xml($x);
     } else {
-        end_table();
+        show_status_html($x);
     }
 }
 
-if ($xml) {
-    $xmlstring = "  </database_file_states>\n</server_status>\n";
-    echo $xmlstring;
-} else {
-    echo "
-        </td>
-        </tr>
-        </table>
-    ";
-    page_tail();
-}
-
+main();
 ?>

@@ -347,6 +347,10 @@ class BoincWorkunit {
         $db = BoincDb::get();
         return $db->update_aux('workunit', $clause);
     }
+    static function count($clause) {
+        $db = BoincDb::get();
+        return $db->count('workunit', $clause);
+    }
 }
 
 class BoincApp {
