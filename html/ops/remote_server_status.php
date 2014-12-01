@@ -42,13 +42,16 @@ require_once("../inc/util.inc");
 // see if a web server is running at the given URL
 //
 function web_server_running($url) {
+    $u = parse_url($url);
+    $url = $u['scheme']."://".$u['host'];
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_NOBODY, true);
     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
     curl_exec($ch);
     $retcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     curl_close($ch);
-    return ((int)$retcode == 200);
+    $retcode = (int)($retcode/100);
+    return ($retcode == 2 || $retcode == 4);
 }
 
 // see if the given daemon is running on the host by checking its PID
