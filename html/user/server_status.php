@@ -358,8 +358,7 @@ function main() {
     $x = new StdClass;
     $x->daemons = get_daemon_status();
     $x->jobs = get_job_status();
-    //if (get_int('xml', true)) {
-    if (1) {
+    if (get_int('xml', true)) {
         show_status_xml($x);
     } else {
         show_status_html($x);
