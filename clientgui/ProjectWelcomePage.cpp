@@ -254,22 +254,22 @@ void CProjectWelcomePage::OnPageChanged( wxWizardExEvent& event ) {
     intro_ctrl->SetLabel(_("You have volunteered to compute for this project:"));
     project_name1_ctrl->SetLabel(_("Name:"));
     project_name2_ctrl->SetLabel(pWA->GetProjectName());
-    if (!pWA->project_inst.IsEmpty()) {
+    if (!pWA->GetProjectInstitution().IsEmpty()) {
         project_inst1_ctrl->SetLabel(_("Home:"));
-        project_inst2_ctrl->SetLabel(pWA->project_inst);
+        project_inst2_ctrl->SetLabel(pWA->GetProjectInstitution());
     }
-    if (!pWA->project_desc.IsEmpty()) {
+    if (!pWA->GetProjectDescription().IsEmpty()) {
         project_desc1_ctrl->SetLabel(_("Description:"));
-        project_desc2_ctrl->SetLabel(pWA->project_desc);
+        project_desc2_ctrl->SetLabel(pWA->GetProjectDescription());
     }
     project_url1_ctrl->SetLabel(_("URL:"));
     project_url2_ctrl->SetLabel(pWA->GetProjectURL());
-    if (!pWA->user_name.IsEmpty()) {
+    if (!pWA->GetProjectUserName().IsEmpty()) {
         user_name1_ctrl->SetLabel(_("User:"));
-        user_name2_ctrl->SetLabel(pWA->user_name);
+        user_name2_ctrl->SetLabel(pWA->GetProjectUserName());
     }
 
-    if (!pWA->known) {
+    if (!pWA->GetProjectKnown()) {
         warning_ctrl->SetLabel(_("WARNING: This project is not registered with BOINC.  Make sure you trust it before continuing."));
 
     }

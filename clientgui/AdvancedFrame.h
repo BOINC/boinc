@@ -81,7 +81,6 @@ public:
     void OnReadConfig( wxCommandEvent& event );
     void OnEventLog( wxCommandEvent& event );
     void OnLaunchNewInstance( wxCommandEvent& event );
-    void OnTest1ClickAttach( wxCommandEvent& event );
 
     void OnHelp( wxHelpEvent& event );
     void OnHelpBOINC( wxCommandEvent& event );

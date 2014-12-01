@@ -401,25 +401,22 @@ bool CWizardAttach::Run(
 /*!
  * Runs the wizard.
  */
-bool CWizardAttach::RunSimpleProjectAttach() {
-    std::string name, url, authenticator, institution, description, _known;
-    wxString strName, strURL, strAuthenticator;
-
-    if (detect_simple_account_credentials(name, url, authenticator, institution, description, _known)) {
-        strName = wxURI::Unescape(wxString(name.c_str(), wxConvUTF8));
-        strURL = wxURI::Unescape(wxString(url.c_str(), wxConvUTF8));
-        strAuthenticator = wxURI::Unescape(wxString(authenticator.c_str(), wxConvUTF8));
-
-        SetProjectName(strName);
-        SetProjectURL(strURL);
-        if (authenticator.size()) {
-            SetProjectAuthenticator(strAuthenticator);
-        }
-        project_inst = wxURI::Unescape(wxString(institution.c_str(), wxConvUTF8));
-        project_desc = wxURI::Unescape(wxString(description.c_str(), wxConvUTF8));
-
-        known = _known.length() > 0;
+bool CWizardAttach::RunSimpleProjectAttach(
+    wxString strName,
+    wxString strURL,
+    wxString strAuthenticator, 
+    wxString strInstitution,
+    wxString strDescription,
+    wxString strKnown
+) {
+    SetProjectName(strName);
+    SetProjectURL(strURL);
+    SetProjectInstitution(strInstitution);
+    SetProjectDescription(strDescription);
+    if (strAuthenticator.size()) {
+        SetProjectAuthenticator(strAuthenticator);
     }
+    SetProjectKnown(strKnown.length() > 0);
 
     return RunWizard(m_ProjectWelcomePage);
 }
