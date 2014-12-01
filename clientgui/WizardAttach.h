@@ -229,7 +229,14 @@ public:
     );
     
     /// Runs the wizard.
-    bool RunSimpleProjectAttach();
+    bool RunSimpleProjectAttach(
+        wxString strProjectName,
+        wxString strProjectURL,
+        wxString strAuthenticator, 
+        wxString strProjectInstitution,
+        wxString strProjectDescription,
+        wxString strKnown
+    );
     
     /// Synchronize to Account Manager
     bool SyncToAccountManager();
@@ -266,8 +273,20 @@ public:
     wxString GetProjectURL() const { return m_strProjectUrl ; }
     void SetProjectURL(wxString value) { m_strProjectUrl = value ; }
 
+    wxString GetProjectUserName() const { return m_strProjectUserName ; }
+    void SetProjectUserName(wxString value) { m_strProjectUserName = value ; }
+
     wxString GetProjectAuthenticator() const { return m_strProjectAuthenticator ; }
     void SetProjectAuthenticator(wxString value) { m_strProjectAuthenticator = value ; }
+
+    wxString GetProjectInstitution() const { return m_strProjectInstitution ; }
+    void SetProjectInstitution(wxString value) { m_strProjectInstitution = value ; }
+
+    wxString GetProjectDescription() const { return m_strProjectDescription ; }
+    void SetProjectDescription(wxString value) { m_strProjectDescription = value ; }
+
+    bool GetProjectKnown() const { return m_bProjectKnown ; }
+    void SetProjectKnown(bool value) { m_bProjectKnown = value ; }
 
     /// Should we show tooltips?
     static bool ShowToolTips();
@@ -319,10 +338,10 @@ public:
     wxString            m_strReturnURL;
     bool                m_bCookieRequired;
     wxString            m_strCookieFailureURL;
-    wxString            project_inst;   // institution
-    wxString            project_desc;   // description
-    wxString            user_name;
-    bool                known;
+    wxString            m_strProjectInstitution;
+    wxString            m_strProjectDescription;
+    wxString            m_strProjectUserName;
+    bool                m_bProjectKnown;
 };
 
 #endif // _WIZ_ATTACH_H_

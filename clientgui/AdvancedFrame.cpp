@@ -53,6 +53,7 @@
 #include "DlgDiagnosticLogFlags.h"
 #include "DlgGenericMessage.h"
 #include "DlgEventLog.h"
+#include "browser.h"
 #include "wizardex.h"
 #include "BOINCBaseWizard.h"
 #include "WizardAttach.h"
@@ -1541,37 +1542,6 @@ void CAdvancedFrame::OnLaunchNewInstance(wxCommandEvent& WXUNUSED(event)) {
 }
 
 
-void CAdvancedFrame::OnTest1ClickAttach(wxCommandEvent& WXUNUSED(event)) {
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnTest1ClickAttach - Function Begin"));
-
-    CMainDocument* pDoc = wxGetApp().GetDocument();
-
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-
-    // Stop all timers so that the wizard is the only thing doing anything
-    StopTimers();
-
-    CWizardAttach* pWizard = new CWizardAttach(this);
-
-    pWizard->RunSimpleProjectAttach();
-
-    if (pWizard)
-        pWizard->Destroy();
-
-    DeleteMenu();
-    CreateMenu();
-    pDoc->ForceCacheUpdate();
-    FireRefreshView();
-    ResetReminderTimers();
-
-    // Restart timers to continue normal operations.
-    StartTimers();
-
-    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnTest1ClickAttach - Function End"));
-}
-
-
 void CAdvancedFrame::OnHelp(wxHelpEvent& event) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnHelpBOINCManager - Function Begin"));
 
@@ -1695,6 +1665,12 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     wxString strTeamName = wxEmptyString;
     wxString strDialogTitle = wxEmptyString;
     wxString strDialogDescription = wxEmptyString;
+    std::string strProjectName;
+    std::string strProjectURL;
+    std::string strProjectAuthenticator;
+    std::string strProjectInstitution;
+    std::string strProjectDescription;
+    std::string strProjectKnown;
     bool bCachedCredentials = false;
     ACCT_MGR_INFO ami;
     PROJECT_INIT_STATUS pis;
@@ -1752,7 +1728,35 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     pDoc->rpc.get_project_init_status(pis);
     pDoc->rpc.acct_mgr_info(ami);
 
-    if (ami.acct_mgr_url.size() && ami.have_credentials) {
+    if (detect_simple_account_credentials(
+            strProjectName, strProjectURL, strProjectAuthenticator, strProjectInstitution, strProjectDescription, strProjectKnown
+        )
+    ){
+        wasShown = IsShown();
+        Show();
+        wasVisible = wxGetApp().IsApplicationVisible();
+        if (!wasVisible) {
+            wxGetApp().ShowApplication(true);
+        }
+        
+        pWizard = new CWizardAttach(this);
+
+        if (pWizard->RunSimpleProjectAttach(
+                wxURI::Unescape(strProjectName),
+                wxURI::Unescape(strProjectURL),
+                wxURI::Unescape(strProjectAuthenticator),
+                wxURI::Unescape(strProjectInstitution),
+                wxURI::Unescape(strProjectDescription),
+                wxURI::Unescape(strProjectKnown)
+            )
+        ) {
+            // If successful, display the projects tab
+            m_pNotebook->SetSelection(ID_ADVTASKSVIEW - ID_ADVVIEWBASE);
+        } else {
+            // If failure, display the notices tab
+            m_pNotebook->SetSelection(ID_ADVNOTICESVIEW - ID_ADVVIEWBASE);
+        }
+    } else if (ami.acct_mgr_url.size() && ami.have_credentials) {
         // Fall through
         //
         // There isn't a need to bring up the attach wizard, the account manager will
