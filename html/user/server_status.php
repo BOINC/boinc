@@ -243,43 +243,68 @@ function get_daemon_status() {
         die("can't parse config file\n");
     }
     $daemons = $c->daemons;
-    $project_host = (string)$c->config->host;
-    $web_host = gethostname();
+    $config = $c->config;
+    $main_host = (string)$config->host;
+    $master_url = (string)$config->master_url;
+    $u = parse_url($master_url);
+    $master_host = $u["host"];
+    if ($config->www_host) {
+        $web_host = (string) $config->www_host;
+    } else {
+        $web_host = $main_host;
+    }
     $have_remote = false;
     $local_daemons = array();
     $disabled_daemons = array();
+
+    // the upload and download servers are sort of daemons too
+    //
+    $url = (string) $config->download_url;
+    $u = parse_url($url);
+    $h = $u["host"];
+    if ($h == $master_host) {
+        $y = new StdClass;
+        $y->cmd = "Download server";
+        $y->host = $h;
+        $y->status = 1;
+        $local_daemons[] = $y;
+    } else {
+        $have_remote = true;
+    }
+    $url = (string) $config->upload_url;
+    $u = parse_url($url);
+    $h = $u["host"];
+    if ($h == $master_host) {
+        $y = new StdClass;
+        $y->cmd = "Upload server";
+        $y->host = $h;
+        $y->status = 1;
+        $local_daemons[] = $y;
+    } else {
+        $have_remote = true;
+    }
+
     foreach ($daemons->daemon as $d) {
-        if ($d->disabled) {
+        if ((int)$d->disabled != 0) {
             $x = new StdClass;
             $x->cmd = (string)$d->cmd;
             $x->host = (string)$d->host;
-            if (!$x->host) $x->host = (string)$c->config->host;
+            if (!$x->host) $x->host = $main_host;
             $x->status = -1;
             $disabled_daemons[] = $x;
             continue;
         }
-        if ($d->host && $d->host != (string)$c->config->host) {
+        $host = $d->host?(string)$d->host:$main_host;
+        if ($host != $web_host) {
             $have_remote = true;
             continue;
         }
         $x = new StdClass;
         $x->cmd = (string)$d->cmd;
         $x->status = local_daemon_running($x->cmd);
-        $x->host = (string)$c->config->host;
+        $x->host = $web_host;
         $local_daemons[] = $x;
 
-    }
-    // the upload/download server is sort of a daemon too
-    //
-    $uldl_host = (string)$c->config->uldl_host;
-    $y = new StdClass;
-    $y->cmd = "Upload/download server";
-    if (!$uldl_host || $uldl_host == $web_host) {
-        $y->host = $web_host;
-        $y->status = 1;
-        $local_daemons[] = $y;
-    } else {
-        $have_remote = true;
     }
 
     $x = new StdClass;
