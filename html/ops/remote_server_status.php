@@ -42,21 +42,33 @@ require_once("../inc/util.inc");
 // see if a web server is running at the given URL
 //
 function web_server_running($url) {
+    $u = parse_url($url);
+    $url = $u['scheme']."://".$u['host'];
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_NOBODY, true);
     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
     curl_exec($ch);
     $retcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     curl_close($ch);
-    return ((int)$retcode == 200);
+    $retcode = (int)($retcode/100);
+    return ($retcode == 2 || $retcode == 4);
 }
 
-// see if the given program is running on the host
+// see if the given daemon is running on the host by checking its PID
 //
-function check_program($host, $program) {
-    $cmd = "ssh $host 'ps -f -C $program'";
+function is_daemon_running($host, $d) {
+    if ($d->pid_file) {
+        $path = "../../pid_$host/".(string)$d->pid_file;
+    } else {
+        $cmd = explode(" ", $d->cmd);
+        $prog = $cmd[0];
+        $path = "../../pid_$host/$prog".".pid";
+    }
+    $pid = trim(@file_get_contents($path));
+    if ($pid === false) return false;
+    $cmd = "ssh $host 'ps $pid'";
     $out = exec($cmd);
-    if (strstr($out, $program)) return true;
+    if (strstr($out, $pid)) return true;
     return false;
 }
 
@@ -101,15 +113,13 @@ function main() {
     }
     $daemons = $c->daemons;
     foreach ($daemons->daemon as $d) {
-        if ($d->disabled) continue;
+        if ((int)$d->disabled != 0) continue;
         $host = $d->host?(string)$d->host:$main_host;
         if ($host != $web_host) {
-            $cmd = explode(" ", $d->cmd);
-            $prog = $cmd[0];
             $y = new StdClass;
             $y->cmd = (string)$d->cmd;
             $y->host = $host;
-            if (check_program($host, $prog)) {
+            if (is_daemon_running($host, $d)) {
                 //echo "$host $d->cmd is running\n";
                 $y->status = 1;
             } else {
