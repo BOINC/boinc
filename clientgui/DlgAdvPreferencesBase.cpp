@@ -221,7 +221,7 @@ wxPanel* CDlgAdvPreferencesBase::createProcessorTab(wxNotebook* notebook)
     procIdleSizer->Add(
         new wxStaticText(
             computingAllowedStaticBox, ID_DEFAULT,
-            _("Only after computer has been idle for"),
+            _("'In use' means mouse/keyboard activity in last"),
             wxDefaultPosition, wxDefaultSize, 0
         ),
         0, wxALL, 5
