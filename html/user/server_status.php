@@ -41,7 +41,7 @@ if (!defined('STATUS_PAGE_TTL')) {
 function command_display($cmd) {
     $x = explode(" -", $cmd);
     $prog = $x[0];
-    $x = strpos($cmd, "--app ");
+    $x = strpos($cmd, "-app ");
     if ($x) {
         $y = substr($cmd, $x);
         $y = explode(" ", $y);
