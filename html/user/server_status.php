@@ -35,6 +35,22 @@ if (!defined('STATUS_PAGE_TTL')) {
     define('STATUS_PAGE_TTL', 3600);
 }
 
+// trim a daemon command for display.
+// For now, remove the cmdline args, but show the app if any
+//
+function command_display($cmd) {
+    $x = explode(" -", $cmd);
+    $prog = $x[0];
+    $x = strpos($cmd, "--app ");
+    if ($x) {
+        $y = substr($cmd, $x);
+        $y = explode(" ", $y);
+        $app = $y[1];
+        $prog .= " ($app)";
+    }
+    return $prog;
+}
+
 $row_parity = 0;
 function daemon_html($d) {
     global $row_parity;
@@ -53,7 +69,7 @@ function daemon_html($d) {
         break;
     }
     echo "<tr class=row$row_parity>
-        <td>$d->cmd</td>
+        <td>".command_display($d->cmd)."</td>
         <td>$d->host</td>
         <td class=\"$c\"><nobr>$s</nobr></td>
     <tr>
@@ -69,7 +85,7 @@ function daemon_xml($d) {
     }
     echo "  <daemon>
         <host>$d->host</host>
-        <command>$d->cmd</command>
+        <command>".command_display($d->cmd)."</command>
         <status>$s</status>
     </daemon>
 ";
