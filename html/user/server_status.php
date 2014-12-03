@@ -55,7 +55,7 @@ function daemon_html($d) {
     echo "<tr class=row$row_parity>
         <td>$d->cmd</td>
         <td>$d->host</td>
-        <td class=\"$c\">$s</td>
+        <td class=\"$c\"><nobr>$s</nobr></td>
     <tr>
 ";
     $row_parity = 1-$row_parity;
@@ -90,7 +90,7 @@ function show_status_html($x) {
     $j = $x->jobs;
     $daemons = $x->daemons;
     start_table();
-    echo "<tr><td width=40% valign=top>
+    echo "<tr><td width=50% valign=top>
          <h2>".tra("Server status")."</h2>
     ";
     start_table();
