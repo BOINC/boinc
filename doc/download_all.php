@@ -179,16 +179,16 @@ if ($pname && $version) {
 
 if ($xml) {
     header('Content-type: text/xml');
-    echo "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>\n
-<versions>\n
+    echo "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>
+<versions>
 ";
-	if (FALSE === strpos($client_info, '6.8.')) {
+    if (FALSE === strpos($client_info, '6.8.')) {
         foreach($platforms as $short_name=>$p) {
             show_platform_xml($short_name, $p, $dev);
         }
     }
     echo "
-</versions>\n
+</versions>
 ";
 } else {
     if ($pname) {

@@ -20,13 +20,16 @@ function download_link($pname, $button=false) {
     $file = $v['file'];
     if (array_key_exists('vbox_file', $v)) {
         $vbox_file = $v['vbox_file'];
+        $vbox_version = $v['vbox_version'];
+        $vbox_url = $url_base.$vbox_file;
+        $vbox_path = "dl/$vbox_file";
+        $vbox_size = number_format(filesize($vbox_path)/1000000, 2);
     } else {
         $vbox_file = null;
     }
     if (strstr($client_info, 'Windows NT 4') || strstr($client_info, 'Windows NT 5')) {
         $vbox_file = null;
     }
-    $vbox_version = $v['vbox_version'];
     $long_name = $p['name'];
     $num = $v['num'];
     $path = "dl/$file";
@@ -42,9 +45,6 @@ function download_link($pname, $button=false) {
             echo "</a>";
 
             echo "<table><tr valign=top><td>\n";
-            $vbox_url = $url_base.$vbox_file;
-            $vbox_path = "dl/$vbox_file";
-            $vbox_size = number_format(filesize($vbox_path)/1000000, 2);
             echo "
                 <table cellpadding=10><tr valign=top><td class=button>
                 <a href=\"$vbox_url\"><font size=4><u>"
@@ -81,13 +81,10 @@ function download_link($pname, $button=false) {
         }
     } else {
         if ($vbox_file) {
-            $vbox_url = $url_base.$vbox_file;
-            $vbox_path = "dl/$vbox_file";
-            $vbox_size = number_format(filesize($vbox_path)/1000000, 2);
             echo "<tr>
                 <td class=rowlineleft>$long_name</td>
                 <td class=rowline> $num (with Virtualbox $vbox_version)</td>
-                <td class=rowlineright><a href=$url>Download</a> ($vbox_size MB)</td>
+                <td class=rowlineright><a href=$vbox_url>Download</a> ($vbox_size MB)</td>
                 </tr>
             ";
         }
@@ -213,7 +210,7 @@ if (get_str2('all_platforms')) {
 	} else {
 		show_download('mac');
 	}
-} else if (strstr($client_info, 'Linux') && strstr($client_info, 'Android')) {
+} else if (strstr($client_info, 'Android')) {
     // Check for Android before Linux,
     // since Android contains the Linux kernel and the
     // web browser user agent string lists Linux too.

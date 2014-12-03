@@ -191,14 +191,6 @@ $l612 = array(
     "type"=>"sea",
 );
 
-$l66 = array(
-    "num"=>"6.6.41",
-    "status"=>"Older version",
-    "file"=>"boinc_compat_6.6.41_i686-pc-linux-gnu.sh",
-    "date"=>"22 Oct 2009",
-    "type"=>"sea",
-    );
-
 $l74ubuntudev = array(
     "num"=>"7.4.22",
     "status"=>"Development version",
@@ -304,12 +296,10 @@ $mac = array(
 $mac32 = array(
     "name"=>"Mac OS X (32-bit or 64-bit Intel)",
     "description"=>"Version 10.4.0+",
-    "dbname" => "powerpc-apple-darwin",
+    "dbname" => "x86_64-apple-darwin",
     "versions"=>array(
           $m72,
           $m72c,
-          $m70,
-          $m70c,
     )
 );
 
