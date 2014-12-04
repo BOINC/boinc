@@ -316,6 +316,25 @@ bool CBOINCBaseView::OnSaveState(wxConfigBase* pConfig) {
         bReturnValue = false;
     }
 
+    // Save Column Order
+#ifdef wxHAS_LISTCTRL_COLUMN_ORDER
+    wxString strColumnOrder;
+    wxString strBuffer;
+    wxArrayInt aOrder(m_pListPane->GetColumnCount());
+
+    aOrder = m_pListPane->GetColumnsOrder();
+
+    strColumnOrder.Printf(wxT("%s"), m_aStdColNameOrder->Item(aOrder[0]));
+    
+    for (int i = 1; i < aOrder.Count(); ++i)
+    {
+        strBuffer.Printf(wxT(";%s"), m_aStdColNameOrder->Item(aOrder[i]));
+        strColumnOrder += strBuffer;
+    }
+
+    pConfig->Write(wxT("ColumnOrder"), strColumnOrder);
+#endif
+
     return bReturnValue;
 }
 
@@ -332,6 +351,16 @@ bool CBOINCBaseView::OnRestoreState(wxConfigBase* pConfig) {
     if (!m_pListPane->OnRestoreState(pConfig)) {
         return false;
     }
+
+    // Restore Column Order
+#ifdef wxHAS_LISTCTRL_COLUMN_ORDER
+    wxString strColumnOrder;
+
+    if (pConfig->Read(wxT("ColumnOrder"), &strColumnOrder)) {
+        SetListColumnOrder(strColumnOrder, ";");
+    }
+#endif
+
     return true;
 }
 
@@ -780,6 +809,46 @@ void CBOINCBaseView::RefreshTaskPane() {
     if (m_pTaskPane) {
         m_pTaskPane->Refresh(true);
     }
+}
+
+
+void CBOINCBaseView::TokenizedStringToArray(wxString tokenized, char * delimiters, wxArrayString* array) {
+    wxString name;
+    
+    array->Clear();
+    wxStringTokenizer tok(tokenized, delimiters);
+    while (tok.HasMoreTokens())
+    {
+        name = tok.GetNextToken();
+        if (name.IsEmpty()) continue;
+        array->Add(name);
+    }
+}
+
+
+void CBOINCBaseView::SetListColumnOrder(wxString tokenized, char * delimiters) {
+#ifdef wxHAS_LISTCTRL_COLUMN_ORDER
+    wxArrayString orderArray;
+    int i, j, stdCount, orderCount;
+    int colCount = m_pListPane->GetColumnCount();
+    wxArrayInt aOrder(colCount);
+    
+    TokenizedStringToArray(tokenized, delimiters, &orderArray);
+    stdCount = m_aStdColNameOrder->GetCount();
+    wxASSERT(stdCount == colCount);
+    
+    orderCount = orderArray.GetCount();
+    wxASSERT(orderCount == colCount);   // Temporary until selective hiding implemented
+    
+    for (i=0; i<orderCount; ++i) {
+        for (j=0; j<stdCount; ++j) {
+            if (orderArray[i].IsSameAs(m_aStdColNameOrder->Item(j))) {
+                aOrder[i] = j;
+            }
+        }
+    }
+    m_pListPane->SetColumnsOrder(aOrder);
+#endif
 }
 
 

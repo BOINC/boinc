@@ -36,6 +36,10 @@
 #include "res/result.xpm"
 
 
+// This string must contain internal (non-localized) column names
+// in standard order separated by a delimiter
+static char* default_column_names = "Project;Progress;Status;Elapsed;Remaining;Deadline;Application;Name";
+
 #define COLUMN_PROJECT              0
 #define COLUMN_PROGRESS             1
 #define COLUMN_STATUS               2
@@ -233,6 +237,9 @@ CViewWork::CViewWork(wxNotebook* pNotebook) :
     // Create Task Pane Items
     m_pTaskPane->UpdateControls();
 
+    m_aStdColNameOrder = new wxArrayString;
+    TokenizedStringToArray(default_column_names, ";", m_aStdColNameOrder);
+    
     // Create List Pane Items
     m_pListPane->InsertColumn(COLUMN_PROJECT, _("Project"), wxLIST_FORMAT_LEFT, 125);
     m_pListPane->InsertColumn(COLUMN_PROGRESS, _("Progress"), wxLIST_FORMAT_RIGHT, 60);
@@ -560,6 +567,25 @@ bool CViewWork::OnSaveState(wxConfigBase* pConfig) {
     pConfig->SetPath(strBaseConfigLocation);
     pConfig->Write(wxT("ActiveTasksOnly"), (pDoc->m_ActiveTasksOnly ? 1 : 0));
 
+    // Save Column Order
+#ifdef wxHAS_LISTCTRL_COLUMN_ORDER
+    wxString strColumnOrder;
+    wxString strBuffer;
+    wxArrayInt aOrder(m_pListPane->GetColumnCount());
+
+    aOrder = m_pListPane->GetColumnsOrder();
+
+    strColumnOrder.Printf(wxT("%s"), m_aStdColNameOrder->Item(aOrder[0]));
+    
+    for (int i = 1; i < aOrder.Count(); ++i)
+    {
+        strBuffer.Printf(wxT(";%s"), m_aStdColNameOrder->Item(aOrder[i]));
+        strColumnOrder += strBuffer;
+    }
+
+    pConfig->Write(wxT("ColumnOrder"), strColumnOrder);
+#endif
+
     return bReturnValue;
 }
 
@@ -586,6 +612,15 @@ bool CViewWork::OnRestoreState(wxConfigBase* pConfig) {
     pConfig->SetPath(strBaseConfigLocation);
     pConfig->Read(wxT("ActiveTasksOnly"), &iTempValue, 0);
     pDoc->m_ActiveTasksOnly = (iTempValue != 0);
+
+    // Restore Column Order
+#ifdef wxHAS_LISTCTRL_COLUMN_ORDER
+    wxString strColumnOrder;
+
+    if (pConfig->Read(wxT("ColumnOrder"), &strColumnOrder)) {
+        SetListColumnOrder(strColumnOrder, ";");
+    }
+#endif
 
     return true;
 }

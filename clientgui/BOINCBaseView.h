@@ -124,6 +124,9 @@ public:
 	void                    ClearSavedSelections();
 	void                    ClearSelections();
     void                    RefreshTaskPane();
+    
+    void                    TokenizedStringToArray(wxString tokenized, char * delimiters, wxArrayString* array);
+    void                    SetListColumnOrder(wxString tokenized, char * delimiters);
 
 #ifdef __WXMAC__
     CBOINCListCtrl*         GetListCtrl() { return m_pListPane; }
@@ -134,7 +137,8 @@ public:
 
     int                     m_iSortColumn;
     bool                    m_bReverseSort;
-
+    wxArrayString*          m_aStdColNameOrder;
+    
 private:
 
 	wxArrayString           m_arrSelectedKeys1;     //array for remembering the current selected rows by primary key column value

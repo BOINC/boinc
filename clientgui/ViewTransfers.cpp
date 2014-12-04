@@ -34,6 +34,10 @@
 #include "res/xfer.xpm"
 
 
+// This string must contain internal (non-localized) column names
+// in standard order separated by a delimiter
+static char* default_column_names = "Project;File;Progress;Size;Elapsed;Speed;Status";
+
 #define COLUMN_PROJECT              0
 #define COLUMN_FILE                 1
 #define COLUMN_PROGRESS             2
@@ -183,6 +187,9 @@ CViewTransfers::CViewTransfers(wxNotebook* pNotebook) :
     // Create Task Pane Items
     m_pTaskPane->UpdateControls();
 
+    m_aStdColNameOrder = new wxArrayString;
+    TokenizedStringToArray(default_column_names, ";", m_aStdColNameOrder);
+    
     // Create List Pane Items
     m_pListPane->InsertColumn(COLUMN_PROJECT, _("Project"), wxLIST_FORMAT_LEFT, 125);
     m_pListPane->InsertColumn(COLUMN_FILE, _("File"), wxLIST_FORMAT_LEFT, 205);
