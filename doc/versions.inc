@@ -127,6 +127,14 @@ $m74 = array(
     "type"=>"mac_advanced",
 );
 
+$m74dev = array(
+	"num"=>"7.4.33",
+	"status"=>"Development version (standard GUI)",
+	"file"=>"boinc_7.4.33_macOSX_i686.zip",
+	"date"=>"2 Dec 2014",
+	"type"=>"mac_advanced",
+);
+
 $m72 = array(
     "num"=>"7.2.42",
     "status"=>"Recommended version (standard GUI)",
@@ -157,6 +165,14 @@ $m74c = array(
     "file"=>"boinc_7.4.26_i686-apple-darwin.zip",
     "date"=>"29 Oct 2014",
     "type"=>"bare_core",
+);
+
+$m74cdev = array(
+	"num"=>"7.4.33",
+	"status"=>"Development version (Unix command-line version)",
+	"file"=>"boinc_7.4.33_i686-apple-darwin.zip",
+	"date"=>"2 Dec 2014",
+	"type"=>"bare_core",
 );
 
 $m72c = array(
@@ -290,6 +306,8 @@ $mac = array(
     "versions"=>array(
           $m74,
           $m74c,
+		  $m74dev,
+          $m74cdev,
     )
 );
 
