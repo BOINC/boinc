@@ -302,6 +302,7 @@ function submit_batch($r) {
         if (!$ret) xml_error(-1, "BOINC server: batch->update() failed");
     } else {
         $batch_name = (string)($r->batch->batch_name);
+        $batch_name = BoincDb::escape_string($batch_name);
         $batch_id = BoincBatch::insert(
             "(user_id, create_time, njobs, name, app_id, logical_end_time, state) values ($user->id, $now, $njobs, '$batch_name', $app->id, $let, ".BATCH_STATE_INIT.")"
         );
