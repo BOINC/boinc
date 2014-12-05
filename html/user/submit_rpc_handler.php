@@ -202,7 +202,7 @@ function submit_jobs(
         $x .= "\n";
     }
 
-    $cmd = "cd ../..; ./bin/create_work --appname $app->name --batch $batch_id --rsc_fpops_est $job->rsc_fpops_est --priority $priority --stdin";
+    $cmd = "cd ../..; ./bin/create_work --appname $app->name --batch $batch_id --rsc_fpops_est $job->rsc_fpops_est --priority $priority";
     if ($result_template_file) {
         $cmd .= " --result_template templates/$result_template_file";
     }
