@@ -125,11 +125,9 @@ public:
 	void                    ClearSelections();
     void                    RefreshTaskPane();
     
-    void                    TokenizedStringToArray(wxString tokenized, char * delimiters, wxArrayString* array);
-    void                    SetListColumnOrder(wxString tokenized, char * delimiters);
-
-#ifdef __WXMAC__
     CBOINCListCtrl*         GetListCtrl() { return m_pListPane; }
+    
+#ifdef __WXMAC__
     void                    OnKeyPressed(wxKeyEvent &event);
 #endif    
  

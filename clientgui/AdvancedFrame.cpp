@@ -37,6 +37,7 @@
 #include "MainDocument.h"
 #include "BOINCBaseFrame.h"
 #include "BOINCBaseView.h"
+#include "BOINCListCtrl.h"
 #include "BOINCTaskBar.h"
 #include "BOINCClientManager.h"
 #include "BOINCDialupManager.h"
@@ -1041,6 +1042,31 @@ void CAdvancedFrame::SaveWindowDimensions() {
     }
     
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::SaveWindowDimensions - Function End"));
+}
+
+
+void CAdvancedFrame::RestoreStandardListColumns() {
+    wxWindow*       pwndNotebookPage = NULL;
+    CBOINCBaseView* pView = NULL;
+    long            iIndex;
+    long            iPageCount;
+
+    // Convert to a zero based index
+    iPageCount = (long)m_pNotebook->GetPageCount() - 1;
+
+    for (iIndex = 0; iIndex <= iPageCount; iIndex++) {   
+
+        pwndNotebookPage = m_pNotebook->GetPage(iIndex);
+        wxASSERT(wxDynamicCast(pwndNotebookPage, CBOINCBaseView));
+
+        pView = wxDynamicCast(pwndNotebookPage, CBOINCBaseView);
+        wxASSERT(pView);
+
+        CBOINCListCtrl* listPane = pView->GetListCtrl();
+        if (listPane) {
+            listPane->SetStandardColumnOrder();
+        }
+    }
 }
 
 

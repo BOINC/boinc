@@ -188,7 +188,7 @@ CViewTransfers::CViewTransfers(wxNotebook* pNotebook) :
     m_pTaskPane->UpdateControls();
 
     m_aStdColNameOrder = new wxArrayString;
-    TokenizedStringToArray(default_column_names, ";", m_aStdColNameOrder);
+    m_pListPane->TokenizedStringToArray(default_column_names, ";", m_aStdColNameOrder);
     
     // Create List Pane Items
     m_pListPane->InsertColumn(COLUMN_PROJECT, _("Project"), wxLIST_FORMAT_LEFT, 125);
