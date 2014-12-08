@@ -474,11 +474,23 @@ struct COPROCS {
         coprocs[n_rsc++] = c;
         return 0;
     }
-    COPROC* type_to_coproc(int t) {
+    void bound_counts();
+        // make sure instance counts are within legal range
+
+    COPROC* lookup_type(const char* t) {
+        for (int i=1; i<n_rsc; i++) {
+            if (!strcmp(t, coprocs[i].type)) {
+                return &coprocs[i];
+            }
+        }
+        return NULL;
+    }
+    COPROC* proc_type_to_coproc(int t) {
         switch(t) {
         case PROC_TYPE_NVIDIA_GPU: return &nvidia;
         case PROC_TYPE_AMD_GPU: return &ati;
         case PROC_TYPE_INTEL_GPU: return &intel_gpu;
+        case PROC_TYPE_MINER_ASIC: return lookup_type("miner_asic");
         }
         return NULL;
     }

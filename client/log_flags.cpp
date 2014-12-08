@@ -301,6 +301,7 @@ int CC_CONFIG::parse_options_client(XML_PARSER& xp) {
                 msg_printf_notice(NULL, false, NULL,
                     "Can't parse <coproc> element in cc_config.xml"
                 );
+                continue;
             }
             retval = config_coprocs.add(c);
             if (retval) {
