@@ -1144,7 +1144,11 @@ int VBOX_VM::deregister_vm(bool delete_media) {
                         pMediumAttachment->get_Port(&lPort);
                         pMediumAttachment->get_Medium(&pMedium);
                         
-                        mediums.push_back(CComPtr<IMedium>(pMedium));
+                        // If the device in question is a DVD/CD-ROM drive, the medium may have been ejected.
+                        // If so, pMedium will be NULL.
+                        if (pMedium) {
+                            mediums.push_back(CComPtr<IMedium>(pMedium));
+                        }
                         
                         rc = pMachine->DetachDevice(strController, lPort, lDevice);
                         CHECK_ERROR(rc);
