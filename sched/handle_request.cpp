@@ -1311,6 +1311,11 @@ void process_request(char* code_sign_key) {
             && !g_request->results_truncated
         ) {
             if (resend_lost_work()) {
+                if (config.debug_send) {
+                    log_messages.printf(MSG_NORMAL,
+                        "[send] Resent lost jobs, don't send more\n"
+                    );
+                }
                 ok_to_send_work = false;
             }
         }
