@@ -855,7 +855,7 @@ bool work_needed(bool locality_sched) {
     if (config.debug_send) {
         char buf[256], buf2[256];
         strcpy(buf, "");
-        for (int i=1; i<NPROC_TYPES; i++) {
+        for (int i=0; i<NPROC_TYPES; i++) {
             sprintf(buf2, " %s (%.2f, %.2f)",
                 proc_type_name(i),
                 g_wreq->req_secs[i],

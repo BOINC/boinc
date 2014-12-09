@@ -257,7 +257,8 @@ $astro_phys_chem = array(
             "http://pogs.theskynet.org/pogs/",
             "The International Centre for Radio Astronomy Research (Perth, Australia)",
             tra("Astronomy"),
-            tra("We will combine the spectral coverage of GALEX, Pan-STARRS1, and WISE to generate a multi-wavelength UV-optical-NIR galaxy atlas for the nearby Universe. We will measure physical parameters (such as stellar mass surface density, star formation rate surface density, attenuation, and first-order star formation history) on a resolved pixel-by-pixel basis using spectral energy distribution (SED) fitting techniques in a distributed computing mode."),
+            tra("TheSkyNet POGS is an astronomy project studying 16 different properties of galaxies, including brightness, mass, amount of dust and how fast stars are forming. We are using your processing power to conduct pixel-by-pixel calculations on multi-wavelength (ultraviolet, optical and near-infrared light) images of galaxies to produce an atlas that will help astronomers to better understand the distant universe."),
+
             "",
             "",
             "Analyze images of space"

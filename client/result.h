@@ -145,7 +145,10 @@ struct RESULT {
         return (avp->gpu_usage.rsc_type != 0);
     }
     inline bool uses_gpu() {
-        return coprocs.coprocs[avp->gpu_usage.rsc_type].is_gpu;
+        int rt = avp->gpu_usage.rsc_type;
+        if (!rt) return false;
+        if (coprocs.coprocs[rt].non_gpu) return false;
+        return true;
     }
     inline int resource_type() {
         return avp->gpu_usage.rsc_type;

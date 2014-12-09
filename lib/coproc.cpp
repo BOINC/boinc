@@ -161,6 +161,7 @@ int COPROC::parse(XML_PARSER& xp) {
             }
             continue;
         }
+        if (xp.parse_bool("non_gpu", non_gpu)) continue;
     }
     return ERR_XML_PARSE;
 }
