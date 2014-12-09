@@ -36,6 +36,10 @@
 #include "res/result.xpm"
 
 
+// This string must contain internal (non-localized) column names
+// in standard order separated by a delimiter
+static char* default_column_names = "Project;Progress;Status;Elapsed;Remaining;Deadline;Application;Name";
+
 #define COLUMN_PROJECT              0
 #define COLUMN_PROGRESS             1
 #define COLUMN_STATUS               2
@@ -233,6 +237,9 @@ CViewWork::CViewWork(wxNotebook* pNotebook) :
     // Create Task Pane Items
     m_pTaskPane->UpdateControls();
 
+    m_aStdColNameOrder = new wxArrayString;
+    m_pListPane->TokenizedStringToArray(default_column_names, ";", m_aStdColNameOrder);
+    
     // Create List Pane Items
     m_pListPane->InsertColumn(COLUMN_PROJECT, _("Project"), wxLIST_FORMAT_LEFT, 125);
     m_pListPane->InsertColumn(COLUMN_PROGRESS, _("Progress"), wxLIST_FORMAT_RIGHT, 60);

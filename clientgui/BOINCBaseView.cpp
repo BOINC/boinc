@@ -315,7 +315,6 @@ bool CBOINCBaseView::OnSaveState(wxConfigBase* pConfig) {
     if (!m_pListPane->OnSaveState(pConfig)) {
         bReturnValue = false;
     }
-
     return bReturnValue;
 }
 

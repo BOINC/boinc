@@ -124,9 +124,10 @@ public:
 	void                    ClearSavedSelections();
 	void                    ClearSelections();
     void                    RefreshTaskPane();
-
-#ifdef __WXMAC__
+    
     CBOINCListCtrl*         GetListCtrl() { return m_pListPane; }
+    
+#ifdef __WXMAC__
     void                    OnKeyPressed(wxKeyEvent &event);
 #endif    
  
@@ -134,7 +135,8 @@ public:
 
     int                     m_iSortColumn;
     bool                    m_bReverseSort;
-
+    wxArrayString*          m_aStdColNameOrder;
+    
 private:
 
 	wxArrayString           m_arrSelectedKeys1;     //array for remembering the current selected rows by primary key column value

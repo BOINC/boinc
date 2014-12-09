@@ -101,6 +101,7 @@ public:
 
     bool RestoreState();
     bool SaveState();
+    void RestoreStandardListColumns();
 
 #ifdef __WXMAC__
     void                OnKeyPressed(wxKeyEvent &event);

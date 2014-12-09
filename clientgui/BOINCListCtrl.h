@@ -74,6 +74,10 @@ public:
     virtual bool            OnSaveState(wxConfigBase* pConfig);
     virtual bool            OnRestoreState(wxConfigBase* pConfig);
 
+    void                    TokenizedStringToArray(wxString tokenized, char * delimiters, wxArrayString* array);
+    void                    SetListColumnOrder(wxString tokenized, char * delimiters);
+    void                    SetStandardColumnOrder();
+
     long                    GetFocusedItem() { return GetNextItem(-1, wxLIST_NEXT_ALL, wxLIST_STATE_FOCUSED); }
     long                    GetFirstSelected() { return GetNextItem(-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED); }
     long                    GetNextSelected(int i) { return GetNextItem(i, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED); }
