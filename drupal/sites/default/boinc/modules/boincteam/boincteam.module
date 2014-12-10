@@ -15,7 +15,7 @@
  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  */
 
 require_once('includes/boincteam.forms.inc');
-//require_once('includes/boincteam.helpers.inc');
+require_once('includes/boincteam.helpers.inc');
 
 
 /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
@@ -121,6 +121,18 @@ function boincteam_views_api() {
  */
 function boincteam_perm() {
   return array('join boincteam', 'create boincteam', 'manage boincteam');
+}
+
+/**
+ * Implementation of hook_cron()
+ */
+function boincteam_cron() {
+  // Sync teams from BOINC DB every day to catch BOINC-wide team updates
+  $last_sync = variable_get('boincteam_last_sync', 0);
+  if ($last_sync < time() - 24*60*60) {
+    boincteam_sync();
+    variable_set('boincteam_last_sync', time());
+  }
 }
 
 /**

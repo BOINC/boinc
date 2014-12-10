@@ -818,42 +818,7 @@ function boincimport_teams() {
  */
 function boincimport_teams_op($boincteam, &$context) {
   
-  $input_format = variable_get('boincimport_input_format', 0);
-  $team_type_map = variable_get('boincimport_team_types', array()); 
-  
-  // Save the team type affiliation
-  $team_type_tid = $team_type_map[$boincteam->type];
-  
-  $boincteam->description = _boincimport_text_sanitize($boincteam->description);
-  $teaser = node_teaser($boincteam->description);
-  
-  // Construct the team as a node
-  $node = array(
-    'type' => 'team',
-    'title' => $boincteam->name,
-    'body' => $boincteam->description,
-    'teaser' => $teaser,
-    'uid' => boincuser_lookup_uid($boincteam->userid),
-    'path' => null,
-    'status' => 1,  // published or not - always publish
-    'promote' => 0,
-    'created' => $boincteam->create_time,
-    'comment' => 0,  // comments disabled
-    'moderate' => 0,
-    'sticky' => 0,
-    'format' => $input_format
-  );
-  
-  $node = (object) $node; // node_save requires an object form
-  
-  $node->taxonomy[] = taxonomy_get_term($team_type_tid);
-  
-  // Save the team node
-  node_save($node);
-  $success = ($node->nid) ? TRUE : FALSE;
-  
-  // Save the team IDs to a BOINC <--> Drupal reference table.
-  db_query('INSERT INTO {boincteam} (team_id, nid) VALUES (%d, %d)', $boincteam->id, $node->nid);
+  $success = boincteam_import($boincteam);
   
   $message = '';
   if ($success) {
