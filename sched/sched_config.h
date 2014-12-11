@@ -67,6 +67,7 @@ struct SCHED_CONFIG {
     bool verify_files_on_app_start;
     int homogeneous_redundancy;
     bool hr_allocate_slots;
+    bool hr_class_static;
     bool ignore_upload_certificates;
     bool dont_generate_upload_certificates;
     int uldl_dir_fanout;        // fanout of ul/dl dirs; 0 if none
