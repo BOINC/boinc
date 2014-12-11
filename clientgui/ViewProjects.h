@@ -57,6 +57,7 @@ public:
 
     ~CViewProjects();
 
+    void                    AppendColumn(int columnID);
     virtual wxString&       GetViewName();
     virtual wxString&       GetViewDisplayName();
     virtual const char**    GetViewIcon();

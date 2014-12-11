@@ -302,6 +302,7 @@
   <ItemGroup>
     <ClCompile Include="..\clientgui\DlgDiagnosticLogFlags.cpp" />
     <ClCompile Include="..\clientgui\DlgExclusiveApps.cpp" />
+    <ClCompile Include="..\clientgui\DlgHiddenColumns.cpp" />
     <ClCompile Include="..\clientgui\ProjectWelcomePage.cpp" />
     <ClCompile Include="..\clientgui\sg_BoincSimpleFrame.cpp" />
     <ClCompile Include="..\clientgui\sg_CustomControls.cpp" />
@@ -410,6 +411,7 @@
   <ItemGroup>
     <ClInclude Include="..\clientgui\DlgDiagnosticLogFlags.h" />
     <ClInclude Include="..\clientgui\DlgExclusiveApps.h" />
+    <ClInclude Include="..\clientgui\DlgHiddenColumns.h" />
     <ClInclude Include="..\clientgui\ProjectWelcomePage.h" />
     <ClInclude Include="..\clientgui\sg_BoincSimpleFrame.h" />
     <ClInclude Include="..\clientgui\sg_CustomControls.h" />

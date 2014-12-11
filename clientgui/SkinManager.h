@@ -22,6 +22,7 @@
 #pragma interface "SkinManager.cpp"
 #endif
 
+#include "miofile.h"
 
 class CSkinItem : public wxObject
 {

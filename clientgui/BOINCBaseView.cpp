@@ -55,8 +55,10 @@ CBOINCBaseView::CBOINCBaseView(wxNotebook* pNotebook) :
     m_pTaskPane = NULL;
     m_pListPane = NULL;
     m_iProgressColumn = -1;
-    m_iSortColumn = -1;
+    m_iSortColumnID = -1;
     m_SortArrows = NULL;
+    
+    m_aStdColNameOrder = NULL;
     
     SetName(GetViewName());
     SetAutoLayout(TRUE);
@@ -111,13 +113,15 @@ CBOINCBaseView::CBOINCBaseView(wxNotebook* pNotebook, wxWindowID iTaskWindowID, 
 #endif
 
     m_iProgressColumn = -1;
-    m_iSortColumn = -1;
+    m_iSortColumnID = -1;
     m_bReverseSort = false;
 
     m_SortArrows = new wxImageList(16, 16, true);
     m_SortArrows->Add( wxIcon( sortascending_xpm ) );
     m_SortArrows->Add( wxIcon( sortdescending_xpm ) );
     m_pListPane->SetImageList(m_SortArrows, wxIMAGE_LIST_SMALL);
+    
+    m_aStdColNameOrder = NULL;
 }
 
 
@@ -135,6 +139,9 @@ CBOINCBaseView::~CBOINCBaseView() {
     m_arrSelectedKeys1.Clear();
     m_arrSelectedKeys2.Clear();
     m_iSortedIndexes.Clear();
+    if (m_aStdColNameOrder) {
+        delete m_aStdColNameOrder;
+    }
 }
 
 
@@ -457,7 +464,7 @@ int CBOINCBaseView::SynchronizeCache() {
 
     iRowTotal = GetDocCount();
     iColumnTotal = m_pListPane->GetColumnCount();
-    
+
     for (iRowIndex = 0; iRowIndex < iRowTotal; iRowIndex++) {
         bNeedRefreshData = false;
 
@@ -469,8 +476,10 @@ int CBOINCBaseView::SynchronizeCache() {
                 // To reduce flicker, refresh only changed columns
                 m_pListPane->RefreshCell(iRowIndex, iColumnIndex);
 #endif
-                if (iColumnIndex == m_iSortColumn) {
-                    m_bNeedSort = true;
+                if (iColumnIndex >= 0) {
+                    if (m_iColumnIndexToColumnID[iColumnIndex] == m_iSortColumnID) {
+                        m_bNeedSort = true;
+                    }
                 }
             }
         }
@@ -497,27 +506,40 @@ bool CBOINCBaseView::SynchronizeCacheItem(wxInt32 WXUNUSED(iRowIndex), wxInt32 W
 
 void CBOINCBaseView::OnColClick(wxListEvent& event) {
     wxListItem      item;
-    int             newSortColumn = event.GetColumn();
-    wxArrayInt      selections;
-    int             i, j, m;
-
-    if (newSortColumn < 0) return;  // Clicked past last column
+    int             newSortColIndex = event.GetColumn();
+    int             oldSortColIndex = -1;
     
-    item.SetMask(wxLIST_MASK_IMAGE);
-    if (newSortColumn == m_iSortColumn) {
-        m_bReverseSort = !m_bReverseSort;
-    } else {
-        // Remove sort arrow from old sort column
-        if (m_iSortColumn >= 0) {
-            item.SetImage(-1);
-            m_pListPane->SetColumn(m_iSortColumn, item);
-        }
-        m_iSortColumn = newSortColumn;
-        m_bReverseSort = false;
+    if (newSortColIndex < 0) return;  // Clicked past last column
+    
+    if (m_iSortColumnID >= 0) {
+        oldSortColIndex = m_iColumnIDToColumnIndex[m_iSortColumnID];
     }
     
+    item.SetMask(wxLIST_MASK_IMAGE);
+    if (newSortColIndex == oldSortColIndex) {
+        m_bReverseSort = !m_bReverseSort;
+        SetSortColumn(newSortColIndex);
+    } else {
+        // Remove sort arrow from old sort column
+
+        if (oldSortColIndex >= 0) {
+            item.SetImage(-1);
+            m_pListPane->SetColumn(oldSortColIndex, item);
+        }
+        m_iSortColumnID = m_iColumnIndexToColumnID[newSortColIndex];
+        m_bReverseSort = false;
+
+        SetSortColumn(newSortColIndex);
+    }
+}
+    
+void CBOINCBaseView::SetSortColumn(int newSortColIndex) {
+    wxListItem      item;
+    int             i, j, m;
+    wxArrayInt      selections;
+
     item.SetImage(m_bReverseSort ? 0 : 1);
-    m_pListPane->SetColumn(newSortColumn, item);
+    m_pListPane->SetColumn(newSortColIndex, item);
     
     Freeze();   // To reduce flicker
     // Remember which cache elements are selected and deselect them
@@ -549,10 +571,13 @@ void CBOINCBaseView::OnColClick(wxListEvent& event) {
 void CBOINCBaseView::InitSort() {
     wxListItem      item;
 
-    if (m_iSortColumn < 0) return;
+    if (m_iSortColumnID < 0) return;
+    int newSortColIndex = m_iColumnIDToColumnIndex[m_iSortColumnID];
+    if (newSortColIndex < 0) return;
+    
     item.SetMask(wxLIST_MASK_IMAGE);
     item.SetImage(m_bReverseSort ? 0 : 1);
-    m_pListPane->SetColumn(m_iSortColumn, item);
+    m_pListPane->SetColumn(newSortColIndex, item);
     Freeze();   // To reduce flicker
     sortData();
     Thaw();
@@ -560,7 +585,8 @@ void CBOINCBaseView::InitSort() {
 
 
 void CBOINCBaseView::sortData() {
-    if (m_iSortColumn < 0) return;
+    if (m_iSortColumnID < 0) return;
+    if (m_iColumnIDToColumnIndex[m_iSortColumnID] < 0) return;
     
     wxArrayInt oldSortedIndexes(m_iSortedIndexes);
     int i, n = (int)m_iSortedIndexes.GetCount();
@@ -876,6 +902,9 @@ double CBOINCBaseView::GetProgressValue(long) {
 
 wxString CBOINCBaseView::GetProgressText( long ) {
     return wxEmptyString;
+}
+
+void CBOINCBaseView::AppendColumn(int){
 }
 
 

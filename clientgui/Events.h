@@ -87,8 +87,9 @@
 #define ID_EVENTLOG                             6058
 #define ID_LAUNCHNEWINSTANCE                    6059
 #define ID_DIAGNOSTICLOGFLAGS                   6060
-#define ID_TEST1CLICKATTACH                     6061
-#define ID_EXCLUSIVE_APPS                       6062
+#define ID_SELECTCOLUMNS                        6061
+#define ID_TEST1CLICKATTACH                     6062
+#define ID_EXCLUSIVE_APPS                       6063
 
 // Help Menu
 #define ID_HELPBOINC                            6035  // Locked: Used by manager_links.php
