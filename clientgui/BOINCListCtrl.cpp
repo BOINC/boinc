@@ -332,6 +332,9 @@ void CBOINCListCtrl::SetListColumnOrder(wxArrayString& orderArray) {
             pView->m_iSortColumnID = pView->m_iColumnIndexToColumnID[0];
             pView->m_bReverseSort = false;
             pView->SetSortColumn(0);
+        } else {
+            // Redraw the sort arrow, etc.
+            pView->SetSortColumn(sortColumnIndex);
         }
     }
     
