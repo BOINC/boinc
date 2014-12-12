@@ -236,6 +236,10 @@ CAdvancedFrame::CAdvancedFrame(wxString title, wxIconBundle* icons, wxPoint posi
 
     RestoreState();
 
+    // For generic wxListCtrl, we must call Layout() for panel containing m_pNotebook
+    // after CBOINCListCtrl::RestoreState() has finished BOINCListCtrl initialization.
+    m_pNotebook->GetParent()->Layout();
+
     m_pRefreshStateTimer = new wxTimer(this, ID_REFRESHSTATETIMER);
     wxASSERT(m_pRefreshStateTimer);
     m_pRefreshStateTimer->Start(300000);            // Send event every 5 minutes

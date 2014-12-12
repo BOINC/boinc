@@ -287,7 +287,6 @@ void CBOINCListCtrl::TokenizedStringToArray(wxString tokenized, char * delimiter
 }
 
 
-// We don't call OnSaveState() from
 // SetListColumnOrder() is called mostly from OnRestoreState(), so we don't
 // call OnSaveState() from here.  CDlgHiddenColumns calls OnSaveState()
 // when we really need to do that.

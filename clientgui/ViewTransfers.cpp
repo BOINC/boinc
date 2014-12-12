@@ -204,17 +204,6 @@ CViewTransfers::CViewTransfers(wxNotebook* pNotebook) :
 
     wxASSERT(m_iStdColWidthOrder.size() == m_aStdColNameOrder->size());
 
-#if !USE_NATIVE_LISTCONTROL
-    // TODO: Why is this needed only for CViewTransfers??
-    m_pListPane->InsertColumn(COLUMN_PROJECT, _("Project"), wxLIST_FORMAT_LEFT, 125);
-    m_pListPane->InsertColumn(COLUMN_FILE, _("File"), wxLIST_FORMAT_LEFT, 205);
-    m_pListPane->InsertColumn(COLUMN_PROGRESS, _("Progress"), wxLIST_FORMAT_CENTRE, 60);
-    m_pListPane->InsertColumn(COLUMN_SIZE, _("Size"), wxLIST_FORMAT_LEFT, 80);
-    m_pListPane->InsertColumn(COLUMN_TIME, _("Elapsed Time"), wxLIST_FORMAT_LEFT, 80);
-    m_pListPane->InsertColumn(COLUMN_SPEED, _("Speed"), wxLIST_FORMAT_LEFT, 80);
-    m_pListPane->InsertColumn(COLUMN_STATUS, _("Status"), wxLIST_FORMAT_LEFT, 150);
-#endif
-
     m_iProgressColumn = COLUMN_PROGRESS;
 
     // Needed by static sort routine;
