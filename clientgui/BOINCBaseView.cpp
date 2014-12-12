@@ -544,6 +544,12 @@ void CBOINCBaseView::OnColClick(wxListEvent& event) {
     m_bIgnoreUIEvents = false;
 
     Thaw();
+    
+    // Write the change to the registry
+    wxConfigBase* pConfig = wxConfigBase::Get(false);
+    pConfig->SetPath(wxT("/") + GetViewName());
+    m_pListPane->OnSaveState(pConfig);
+
 }
 
 
