@@ -299,6 +299,11 @@ void CDlgHiddenColumns::OnOK(wxCommandEvent& event) {
         
         CBOINCListCtrl* listPane = pView->GetListCtrl();
         listPane->SetListColumnOrder(orderArray);
+ 
+        // Write the new column configuration to the registry
+        wxConfigBase* pConfig = wxConfigBase::Get(false);
+        pConfig->SetPath(wxT("/") + pView->GetViewName());
+        listPane->OnSaveState(pConfig);
     }
 
     event.Skip();
@@ -318,6 +323,11 @@ void CDlgHiddenColumns::OnSetDefaults(wxCommandEvent& ) {
     
         listPane->SetListColumnOrder(*(pView->m_aStdColNameOrder));
         listPane->SetStandardColumnOrder();
+
+        // Write the new column configuration to the registry
+        wxConfigBase* pConfig = wxConfigBase::Get(false);
+        pConfig->SetPath(wxT("/") + pView->GetViewName());
+        listPane->OnSaveState(pConfig);
     }
 
     EndModal(0);

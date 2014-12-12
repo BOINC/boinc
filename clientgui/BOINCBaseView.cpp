@@ -531,6 +531,13 @@ void CBOINCBaseView::OnColClick(wxListEvent& event) {
 
         SetSortColumn(newSortColIndex);
     }
+    
+    // Write the change to the registry
+    // Do this here because SetListColumnOrder() can call SetSortColumn()
+    // even when neither m_iSortColumnID nor m_bReverseSort changes
+    wxConfigBase* pConfig = wxConfigBase::Get(false);
+    pConfig->SetPath(wxT("/") + GetViewName());
+    m_pListPane->OnSaveState(pConfig);
 }
     
 void CBOINCBaseView::SetSortColumn(int newSortColIndex) {
