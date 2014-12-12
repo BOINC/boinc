@@ -386,6 +386,7 @@
 		DDC3D55E0D507D1700BE6D23 /* BOINCClientManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDC3D55C0D507D1700BE6D23 /* BOINCClientManager.cpp */; };
 		DDC55A6D136013D000D79903 /* procinfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD2B6C7E13149177005D6F3E /* procinfo.cpp */; };
 		DDC55A70136013F800D79903 /* procinfo_mac.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB6934F0ABFE9C600689FD8 /* procinfo_mac.cpp */; };
+		DDC82FA31A35BB68005FA808 /* DlgHiddenColumns.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDC82FA11A35BB68005FA808 /* DlgHiddenColumns.cpp */; };
 		DDC836E60EDEA5DB001C2EF9 /* TermsOfUsePage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDC836E50EDEA5DB001C2EF9 /* TermsOfUsePage.cpp */; };
 		DDC988FE0F3BD44100EE8D0E /* gui_rpc_client_ops.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD73E34E08A0694000656EB1 /* gui_rpc_client_ops.cpp */; };
 		DDCF84080E1B7C0A005EDC45 /* DlgItemProperties.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDCF84060E1B7C0A005EDC45 /* DlgItemProperties.cpp */; };
@@ -1114,6 +1115,8 @@
 		DDC3D55D0D507D1700BE6D23 /* BOINCClientManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BOINCClientManager.h; path = ../clientgui/BOINCClientManager.h; sourceTree = SOURCE_ROOT; };
 		DDC63EEF0985B89600383FD2 /* DlgGenericMessage.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = DlgGenericMessage.cpp; path = ../clientgui/DlgGenericMessage.cpp; sourceTree = SOURCE_ROOT; };
 		DDC63EF00985B89600383FD2 /* DlgGenericMessage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = DlgGenericMessage.h; path = ../clientgui/DlgGenericMessage.h; sourceTree = SOURCE_ROOT; };
+		DDC82FA11A35BB68005FA808 /* DlgHiddenColumns.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DlgHiddenColumns.cpp; sourceTree = "<group>"; };
+		DDC82FA21A35BB68005FA808 /* DlgHiddenColumns.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DlgHiddenColumns.h; sourceTree = "<group>"; };
 		DDC836E50EDEA5DB001C2EF9 /* TermsOfUsePage.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TermsOfUsePage.cpp; path = ../clientgui/TermsOfUsePage.cpp; sourceTree = SOURCE_ROOT; };
 		DDCA2EBD18C49139007D5F6C /* BOINCGUIApp.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = BOINCGUIApp.mm; path = ../clientgui/mac/BOINCGUIApp.mm; sourceTree = "<group>"; };
 		DDCAD7D30A6C603A0086C7EE /* sg_DlgPreferences.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = sg_DlgPreferences.cpp; path = ../clientgui/sg_DlgPreferences.cpp; sourceTree = SOURCE_ROOT; };
@@ -1565,6 +1568,8 @@
 				DDC63EEF0985B89600383FD2 /* DlgGenericMessage.cpp */,
 				DDC63EF00985B89600383FD2 /* DlgGenericMessage.h */,
 				DDCF84060E1B7C0A005EDC45 /* DlgItemProperties.cpp */,
+				DDC82FA11A35BB68005FA808 /* DlgHiddenColumns.cpp */,
+				DDC82FA21A35BB68005FA808 /* DlgHiddenColumns.h */,
 				DDCF84070E1B7C0A005EDC45 /* DlgItemProperties.h */,
 				DD81C3FF07C5D1020098A04D /* DlgOptions.cpp */,
 				DD81C43907C5D2240098A04D /* DlgOptions.h */,
@@ -2828,6 +2833,7 @@
 				DD3E14ED0A774397007E0084 /* CompletionPage.cpp in Sources */,
 				DD3E14EE0A774397007E0084 /* diagnostics.cpp in Sources */,
 				DD3E14EF0A774397007E0084 /* DlgAbout.cpp in Sources */,
+				DDC82FA31A35BB68005FA808 /* DlgHiddenColumns.cpp in Sources */,
 				DD3E14F00A774397007E0084 /* DlgGenericMessage.cpp in Sources */,
 				DD3E14F10A774397007E0084 /* DlgOptions.cpp in Sources */,
 				DD3E14F20A774397007E0084 /* DlgSelectComputer.cpp in Sources */,

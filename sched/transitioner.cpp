@@ -349,8 +349,10 @@ int handle_wu(
     // also reset app version ID if using HAV
     //
     if (nerrors && !(nsuccess || ninprogress || nno_reply)) {
-        wu_item.hr_class = 0;
-        wu_item.app_version_id = 0;
+        if (!config.hr_class_static) {
+            wu_item.hr_class = 0;
+            wu_item.app_version_id = 0;
+        }
     }
 
     if (nerrors > wu_item.max_error_results) {

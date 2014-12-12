@@ -52,6 +52,7 @@
 #include "DlgAbout.h"
 #include "DlgOptions.h"
 #include "DlgDiagnosticLogFlags.h"
+#include "DlgHiddenColumns.h"
 #include "DlgGenericMessage.h"
 #include "DlgEventLog.h"
 #include "browser.h"
@@ -176,6 +177,7 @@ BEGIN_EVENT_TABLE (CAdvancedFrame, CBOINCBaseFrame)
 	EVT_MENU(ID_PREFERENCES, CAdvancedFrame::OnPreferences)
 	EVT_MENU(ID_EXCLUSIVE_APPS, CAdvancedFrame::OnExclusiveApps)
 	EVT_MENU(ID_DIAGNOSTICLOGFLAGS, CAdvancedFrame::OnDiagnosticLogFlags)
+	EVT_MENU(ID_SELECTCOLUMNS, CAdvancedFrame::OnSelectColumns)
     EVT_MENU(ID_SELECTCOMPUTER, CAdvancedFrame::OnSelectComputer)
     EVT_MENU(ID_SHUTDOWNCORECLIENT, CAdvancedFrame::OnClientShutdown)
     EVT_MENU(ID_RUNBENCHMARKS, CAdvancedFrame::OnRunBenchmarks)
@@ -233,6 +235,10 @@ CAdvancedFrame::CAdvancedFrame(wxString title, wxIconBundle* icons, wxPoint posi
     wxCHECK_RET(CreateStatusbar(), _T("Failed to create status bar."));
 
     RestoreState();
+
+    // For generic wxListCtrl, we must call Layout() for panel containing m_pNotebook
+    // after CBOINCListCtrl::RestoreState() has finished BOINCListCtrl initialization.
+    m_pNotebook->GetParent()->Layout();
 
     m_pRefreshStateTimer = new wxTimer(this, ID_REFRESHSTATETIMER);
     wxASSERT(m_pRefreshStateTimer);
@@ -626,6 +632,11 @@ bool CAdvancedFrame::CreateMenu() {
         _("Enable or disable various diagnostic messages")
     );
     menuAdvanced->Append(
+		ID_SELECTCOLUMNS,
+        _("Select display columns..."),
+        _("Select which columns to display")
+    );
+    menuAdvanced->Append(
 		ID_TEST1CLICKATTACH,
         _("Test 1 Click Attach"),
         _("")
@@ -826,6 +837,11 @@ bool CAdvancedFrame::CreateNotebookPage( CBOINCBaseView* pwndNewNotebookPage) {
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::CreateNotebookPage - Function End"));
     return true;
+}
+
+
+wxNotebook* CAdvancedFrame::GetNotebook() {
+    return m_pNotebook;
 }
 
 
@@ -1376,6 +1392,16 @@ void CAdvancedFrame::OnDiagnosticLogFlags(wxCommandEvent& WXUNUSED(event)) {
 	dlg.ShowModal();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnDiagnosticLogFlags - Function End"));
+}
+
+
+void CAdvancedFrame::OnSelectColumns(wxCommandEvent& WXUNUSED(event)) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnSelectColumns - Function Begin"));
+
+    CDlgHiddenColumns dlg(this);
+	dlg.ShowModal();
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnSelectColumns - Function End"));
 }
 
 

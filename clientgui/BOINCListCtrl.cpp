@@ -25,6 +25,11 @@
 #include "Events.h"
 
 
+#ifndef wxHAS_LISTCTRL_COLUMN_ORDER
+#define GetColumnOrder(x) x
+#define GetColumnIndexFromOrder(x) x
+#endif
+
 DEFINE_EVENT_TYPE(wxEVT_CHECK_SELECTION_CHANGED)
 
 #if USE_NATIVE_LISTCONTROL
@@ -91,9 +96,10 @@ CBOINCListCtrl::~CBOINCListCtrl()
 
 bool CBOINCListCtrl::OnSaveState(wxConfigBase* pConfig) {
     wxString    strBaseConfigLocation = wxEmptyString;
-    wxListItem  liColumnInfo;
     wxInt32     iIndex = 0;
-    wxInt32     iColumnCount = 0;
+    wxInt32     iStdColumnCount = 0;
+    wxInt32     iActualColumnCount = GetColumnCount();
+    int         i, j;
 
     wxASSERT(pConfig);
 
@@ -101,103 +107,92 @@ bool CBOINCListCtrl::OnSaveState(wxConfigBase* pConfig) {
     // Should be in the following form: "/Projects/"
     strBaseConfigLocation = pConfig->GetPath() + wxT("/");
 
-    // Convert to a zero based index
-    iColumnCount = GetColumnCount() - 1;
+    iStdColumnCount = m_pParentView->m_iStdColWidthOrder.size();
 
-    // Which fields are we interested in?
-    liColumnInfo.SetMask(
-        wxLIST_MASK_TEXT |
-        wxLIST_MASK_WIDTH |
-        wxLIST_MASK_FORMAT
-    );
-
-    // Cycle through the columns recording anything interesting
-    for (iIndex = 0; iIndex <= iColumnCount; iIndex++) {
-        GetColumn(iIndex, liColumnInfo);
-
-        pConfig->SetPath(strBaseConfigLocation + liColumnInfo.GetText());
-
-        pConfig->Write(wxT("Width"), liColumnInfo.GetWidth());
-        
-#if (defined(__WXMAC__) &&  wxCHECK_VERSION(2,8,0))
-        pConfig->Write(wxT("Width"), GetColumnWidth(iIndex)); // Work around bug in wxMac-2.8.0 wxListCtrl::SetColumn()
-#endif
+    // Cycle through the columns recording their widths
+    for (iIndex = 0; iIndex < iActualColumnCount; iIndex++) {
+        m_pParentView->m_iStdColWidthOrder[m_pParentView->m_iColumnIndexToColumnID[iIndex]] = GetColumnWidth(iIndex);
+    }
+    
+    for (iIndex = 0; iIndex < iStdColumnCount; iIndex++) {
+        pConfig->SetPath(strBaseConfigLocation + m_pParentView->m_aStdColNameOrder->Item(iIndex));
+        pConfig->Write(wxT("Width"), m_pParentView->m_iStdColWidthOrder[iIndex]);
     }
 
     // Save sorting column and direction
     pConfig->SetPath(strBaseConfigLocation);
-    pConfig->Write(wxT("SortColumn"), m_pParentView->m_iSortColumn);
+    pConfig->Write(wxT("SortColumn"), m_pParentView->m_iSortColumnID);
     pConfig->Write(wxT("ReverseSortOrder"), m_pParentView->m_bReverseSort);
 
     // Save Column Order
-#ifdef wxHAS_LISTCTRL_COLUMN_ORDER
     wxString strColumnOrder;
     wxString strBuffer;
-    wxArrayInt aOrder(GetColumnCount());
+    wxString strHiddenColumns;
+    wxArrayInt aOrder(iActualColumnCount);
     CBOINCBaseView* pView = (CBOINCBaseView*)GetParent();
     wxASSERT(wxDynamicCast(pView, CBOINCBaseView));
 
-
+#ifdef wxHAS_LISTCTRL_COLUMN_ORDER
     aOrder = GetColumnsOrder();
-
-    strColumnOrder.Printf(wxT("%s"), pView->m_aStdColNameOrder->Item(aOrder[0]));
+#else
+    for (i = 0; i < iActualColumnCount; ++i) {
+        aOrder[i] = i;
+    }
+#endif
     
-    for (int i = 1; i < aOrder.Count(); ++i)
+    strColumnOrder.Printf(wxT("%s"), pView->m_aStdColNameOrder->Item(pView->m_iColumnIndexToColumnID[aOrder[0]]));
+    
+    for (i = 1; i < iActualColumnCount; ++i)
     {
-        strBuffer.Printf(wxT(";%s"), pView->m_aStdColNameOrder->Item(aOrder[i]));
+        strBuffer.Printf(wxT(";%s"), pView->m_aStdColNameOrder->Item(pView->m_iColumnIndexToColumnID[aOrder[i]]));
         strColumnOrder += strBuffer;
     }
 
     pConfig->Write(wxT("ColumnOrder"), strColumnOrder);
-#endif
 
+    strHiddenColumns = wxEmptyString;
+    for (i = 0; i < iStdColumnCount; ++i) {
+        bool found = false;
+        for (j = 0; j < iActualColumnCount; ++j) {
+            if (pView->m_iColumnIndexToColumnID[aOrder[j]] == i) {
+                found = true;
+                break;
+            }
+        }
+        if (found) continue;
+        if (!strHiddenColumns.IsEmpty()) {
+            strHiddenColumns += wxT(";");
+        }
+        strHiddenColumns += pView->m_aStdColNameOrder->Item(i);
+    }
+    pConfig->Write(wxT("HiddenColumns"), strHiddenColumns);
+    
     return true;
 }
 
 
 bool CBOINCListCtrl::OnRestoreState(wxConfigBase* pConfig) {
     wxString    strBaseConfigLocation = wxEmptyString;
-    wxListItem  liColumnInfo;
     wxInt32     iIndex = 0;
-    wxInt32     iColumnCount = 0;
+    wxInt32     iStdColumnCount = 0;
     wxInt32     iTempValue = 0;
 
-
     wxASSERT(pConfig);
-
 
     // Retrieve the base location to store configuration information
     // Should be in the following form: "/Projects/"
     strBaseConfigLocation = pConfig->GetPath() + wxT("/");
 
-    // Convert to a zero based index
-    iColumnCount = GetColumnCount() - 1;
+    iStdColumnCount = m_pParentView->m_iStdColWidthOrder.size();
 
-    // Which fields are we interested in?
-    liColumnInfo.SetMask(
-        wxLIST_MASK_TEXT | wxLIST_MASK_WIDTH | wxLIST_MASK_FORMAT
-    );
-
-    // Cycle through the columns recording anything interesting
-    for (iIndex = 0; iIndex <= iColumnCount; iIndex++) {
-        GetColumn(iIndex, liColumnInfo);
-
-        pConfig->SetPath(strBaseConfigLocation + liColumnInfo.GetText());
+    // Cycle through the possible columns updating column widths
+    for (iIndex = 0; iIndex < iStdColumnCount; iIndex++) {
+        pConfig->SetPath(strBaseConfigLocation + m_pParentView->m_aStdColNameOrder->Item(iIndex));
 
         pConfig->Read(wxT("Width"), &iTempValue, -1);
         if (-1 != iTempValue) {
-            liColumnInfo.SetWidth(iTempValue);
-#if (defined(__WXMAC__) &&  wxCHECK_VERSION(2,8,0))
-            SetColumnWidth(iIndex,iTempValue); // Work around bug in wxMac-2.8.0 wxListCtrl::SetColumn()
-#endif
+            m_pParentView->m_iStdColWidthOrder[iIndex] = iTempValue;
         }
-
-        pConfig->Read(wxT("Format"), &iTempValue, -1);
-        if (-1 != iTempValue) {
-            liColumnInfo.SetAlign((wxListColumnFormat)iTempValue);
-        }
-
-        SetColumn(iIndex, liColumnInfo);
     }
 
     // Restore sorting column and direction
@@ -208,18 +203,71 @@ bool CBOINCListCtrl::OnRestoreState(wxConfigBase* pConfig) {
     }
     pConfig->Read(wxT("SortColumn"), &iTempValue,-1);
     if (-1 != iTempValue) {
-            m_pParentView->m_iSortColumn = iTempValue;
-            m_pParentView->InitSort();
+        m_pParentView->m_iSortColumnID = iTempValue;
     }
 
     // Restore Column Order
-#ifdef wxHAS_LISTCTRL_COLUMN_ORDER
     wxString strColumnOrder;
+    wxString strHiddenColumns;
+    CBOINCBaseView* pView = (CBOINCBaseView*)GetParent();
 
     if (pConfig->Read(wxT("ColumnOrder"), &strColumnOrder)) {
-        SetListColumnOrder(strColumnOrder, ";");
+        wxArrayString orderArray;
+        TokenizedStringToArray(strColumnOrder, ";", &orderArray);
+        SetListColumnOrder(orderArray);
+
+        // If the user installed a new vesion of BOINC, new columns may have
+        // been added that didn't exist in the older version. Check for this.
+        bool foundNewColumns = false;
+        
+        if (pConfig->Read(wxT("HiddenColumns"), &strHiddenColumns)) {
+            wxArrayString hiddenArray;
+            TokenizedStringToArray(strHiddenColumns, ";", &hiddenArray);
+            int shownCount = orderArray.size();
+            int hiddenCount = hiddenArray.size();
+            int totalCount = pView->m_aStdColNameOrder->size();
+            for (int i = 0; i < totalCount; ++i) {
+                wxString columnNameToFind = pView->m_aStdColNameOrder->Item(i);
+                bool found = false;
+                for (int j = 0; j < shownCount; ++j) {
+                    if (orderArray[j].IsSameAs(columnNameToFind)) {
+                        found = true;
+                        break;
+                    }
+                }
+                if (found) continue;
+
+                for (int j = 0; j < hiddenCount; ++j) {
+                    if (hiddenArray[j].IsSameAs(columnNameToFind)) {
+                        found = true;
+                        break;
+                    }
+                }
+                if (found) continue;
+                
+                foundNewColumns =  true;
+                orderArray.Add(columnNameToFind);
+            }
+        }
+        if (foundNewColumns) {
+            bool wasInStandardOrder = IsColumnOrderStandard();
+            SetListColumnOrder(orderArray);
+            if (wasInStandardOrder) SetStandardColumnOrder();
+        }
+    } else {
+        // No "ColumnOrder" tag in pConfig
+        // Show all columns in default column order
+        wxASSERT(wxDynamicCast(pView, CBOINCBaseView));
+    
+        SetListColumnOrder(*(pView->m_aStdColNameOrder));
     }
-#endif
+        
+
+
+
+    if (m_pParentView->m_iSortColumnID != -1) {
+        m_pParentView->InitSort();
+    }
 
     return true;
 }
@@ -239,37 +287,84 @@ void CBOINCListCtrl::TokenizedStringToArray(wxString tokenized, char * delimiter
 }
 
 
-void CBOINCListCtrl::SetListColumnOrder(wxString tokenized, char * delimiters) {
-#ifdef wxHAS_LISTCTRL_COLUMN_ORDER
-    wxArrayString orderArray;
-    int i, j, stdCount, orderCount;
+// SetListColumnOrder() is called mostly from OnRestoreState(), so we don't
+// call OnSaveState() from here.  CDlgHiddenColumns calls OnSaveState()
+// when we really need to do that.
+//
+// Unfortunately, we have no way of immediately calling OnSaveState() when
+// the user manually reorders columns because that does not generate a
+// notification from MS Windows so wxWidgets can't generate an event.
+void CBOINCListCtrl::SetListColumnOrder(wxArrayString& orderArray) {
+    int i, stdCount, columnPosition;
     int colCount = GetColumnCount();
-    wxArrayInt aOrder(colCount);
-
+    int shownColCount = orderArray.GetCount();
+    int columnIndex = 0;    // Column number among shown columns before re-ordering
+    int columnID = 0;       // ID of column, e.g. COLUMN_PROJECT, COLUMN_STATUS, etc.
+    int sortColumnIndex = -1;
+    wxArrayInt aOrder(shownColCount);
+    
     CBOINCBaseView* pView = (CBOINCBaseView*)GetParent();
     wxASSERT(wxDynamicCast(pView, CBOINCBaseView));
     
-    TokenizedStringToArray(tokenized, delimiters, &orderArray);
+    pView->m_iColumnIndexToColumnID.Clear();
+    for (i=colCount-1; i>=0; --i) {
+        DeleteColumn(i);
+    }
+    
     stdCount = pView->m_aStdColNameOrder->GetCount();
-    wxASSERT(stdCount == colCount);
+
+    pView->m_iColumnIDToColumnIndex.Clear();
+    for (columnID=0; columnID<stdCount; ++columnID) {
+        pView->m_iColumnIDToColumnIndex.Add(-1);
+    }
     
-    orderCount = orderArray.GetCount();
-    wxASSERT(orderCount == colCount);   // Temporary until selective hiding implemented
-    
-    for (i=0; i<orderCount; ++i) {
-        for (j=0; j<stdCount; ++j) {
-            if (orderArray[i].IsSameAs(pView->m_aStdColNameOrder->Item(j))) {
-                aOrder[i] = j;
+    for (columnID=0; columnID<stdCount; ++columnID) {
+        for (columnPosition=0; columnPosition<shownColCount; ++columnPosition) {
+            if (orderArray[columnPosition].IsSameAs(pView->m_aStdColNameOrder->Item(columnID))) {
+                aOrder[columnPosition] = columnIndex;
+                pView->AppendColumn(columnID);
+                pView->m_iColumnIndexToColumnID.Add(columnID);
+                pView->m_iColumnIDToColumnIndex[columnID] = columnIndex;
+
+                ++columnIndex;
+                break;
             }
         }
     }
+    
+    // If sort column is now hidden, set the new first column as sort column
+    if (pView->m_iSortColumnID >= 0) {
+        sortColumnIndex = pView->m_iColumnIDToColumnIndex[pView->m_iSortColumnID];
+        if (sortColumnIndex < 0) {
+            pView->m_iSortColumnID = pView->m_iColumnIndexToColumnID[0];
+            pView->m_bReverseSort = false;
+            pView->SetSortColumn(0);
+        } else {
+            // Redraw the sort arrow, etc.
+            pView->SetSortColumn(sortColumnIndex);
+        }
+    }
+    
+#ifdef wxHAS_LISTCTRL_COLUMN_ORDER
     SetColumnsOrder(aOrder);
 #endif
 }
 
 
-void CBOINCListCtrl::SetStandardColumnOrder() {
+bool CBOINCListCtrl::IsColumnOrderStandard() {
 #ifdef wxHAS_LISTCTRL_COLUMN_ORDER
+    int i;
+    wxArrayInt aOrder = GetColumnsOrder();
+    int orderCount = aOrder.GetCount();
+    for (i=1; i<orderCount; ++i) {
+        if(aOrder[i] < aOrder[i-1]) return false;
+    }
+#endif
+    return true;
+}
+
+
+void CBOINCListCtrl::SetStandardColumnOrder() {
     int i;
     int colCount = GetColumnCount();
     wxArrayInt aOrder(colCount);
@@ -277,6 +372,7 @@ void CBOINCListCtrl::SetStandardColumnOrder() {
     for (i=0; i<colCount; ++i) {
         aOrder[i] = i;
     }
+#ifdef wxHAS_LISTCTRL_COLUMN_ORDER
     SetColumnsOrder(aOrder);
 #endif
 }
@@ -322,7 +418,11 @@ void CBOINCListCtrl::DrawProgressBars()
     long topItem, numItems, numVisibleItems, row;
     wxRect r, rr;
     int w = 0, x = 0, xx, yy, ww;
-    int progressColumn = m_pParentView->GetProgressColumn();
+    int progressColumn = -1;
+    
+    if (m_pParentView->GetProgressColumn() >= 0) {
+        progressColumn = m_pParentView->m_iColumnIDToColumnIndex[m_pParentView->GetProgressColumn()];
+    }
     
 #if USE_NATIVE_LISTCONTROL
     wxClientDC dc(this);
@@ -352,8 +452,9 @@ void CBOINCListCtrl::DrawProgressBars()
         if (numItems <= (topItem + numVisibleItems)) numVisibleItems = numItems - topItem;
 
         x = 0;
-        for (int i=0; i< progressColumn; i++) {
-            x += GetColumnWidth(i);
+        int progressColumnPosition = GetColumnOrder(progressColumn);
+        for (int i=0; i<progressColumnPosition; i++) {
+            x += GetColumnWidth(GetColumnIndexFromOrder(i));
         }
         w = GetColumnWidth(progressColumn);
         

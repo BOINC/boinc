@@ -53,6 +53,7 @@ boincmgr_SOURCES = \
     DlgExclusiveApps.cpp \
     DlgExitMessage.cpp \
     DlgGenericMessage.cpp \
+    DlgHiddenColumns.cpp \
     DlgItemProperties.cpp \
     DlgOptions.cpp \
     DlgSelectComputer.cpp \

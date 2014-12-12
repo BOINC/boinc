@@ -142,6 +142,7 @@ int SCHED_CONFIG::parse(FILE* f) {
         if (xp.parse_bool("non_cpu_intensive", non_cpu_intensive)) continue;
         if (xp.parse_bool("verify_files_on_app_start", verify_files_on_app_start)) continue;
         if (xp.parse_int("homogeneous_redundancy", homogeneous_redundancy)) continue;
+        if (xp.parse_bool("hr_class_static", hr_class_static)) continue;
         if (xp.parse_bool("hr_allocate_slots", hr_allocate_slots)) continue;
         if (xp.parse_bool("msg_to_host", msg_to_host)) continue;
         if (xp.parse_bool("ignore_upload_certificates", ignore_upload_certificates)) continue;
