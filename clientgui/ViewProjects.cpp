@@ -34,10 +34,7 @@
 
 #include "res/proj.xpm"
 
-// This string must contain internal (non-localized) column names
-// in standard order separated by a delimiter
-static char* default_column_names = "Project;Account;Team;Done;Average;Share;Status";
-
+// Column IDs
 #define COLUMN_PROJECT              0
 #define COLUMN_ACCOUNTNAME          1
 #define COLUMN_TEAMNAME             2
@@ -117,7 +114,7 @@ static bool CompareViewProjectsItems(int iRowIndex1, int iRowIndex2) {
         return 0;
     }
 
-    switch (myCViewProjects->m_iSortColumn) {
+    switch (myCViewProjects->m_iSortColumnID) {
     case COLUMN_PROJECT:
         result = project1->m_strProjectName.CmpNoCase(project2->m_strProjectName);
         break;
@@ -224,16 +221,24 @@ CViewProjects::CViewProjects(wxNotebook* pNotebook) :
     m_pTaskPane->UpdateControls();
 
     m_aStdColNameOrder = new wxArrayString;
-    m_pListPane->TokenizedStringToArray(default_column_names, ";", m_aStdColNameOrder);
-    
-    // Create List Pane Items
-    m_pListPane->InsertColumn(COLUMN_PROJECT, _("Project"), wxLIST_FORMAT_LEFT, 150);
-    m_pListPane->InsertColumn(COLUMN_ACCOUNTNAME, _("Account"), wxLIST_FORMAT_LEFT, 80);
-    m_pListPane->InsertColumn(COLUMN_TEAMNAME, _("Team"), wxLIST_FORMAT_LEFT, 80);
-    m_pListPane->InsertColumn(COLUMN_TOTALCREDIT, _("Work done"), wxLIST_FORMAT_RIGHT, 80);
-    m_pListPane->InsertColumn(COLUMN_AVGCREDIT, _("Avg. work done"), wxLIST_FORMAT_RIGHT, 80);
-    m_pListPane->InsertColumn(COLUMN_RESOURCESHARE, _("Resource share"), wxLIST_FORMAT_CENTRE, 85);
-    m_pListPane->InsertColumn(COLUMN_STATUS, _("Status"), wxLIST_FORMAT_LEFT, 150);
+    m_aStdColNameOrder->Insert(_("Project"), COLUMN_PROJECT);
+    m_aStdColNameOrder->Insert(_("Account"), COLUMN_ACCOUNTNAME);
+    m_aStdColNameOrder->Insert(_("Team"), COLUMN_TEAMNAME);
+    m_aStdColNameOrder->Insert(_("Work done"), COLUMN_TOTALCREDIT);
+    m_aStdColNameOrder->Insert(_("Avg. work done"), COLUMN_AVGCREDIT);
+    m_aStdColNameOrder->Insert(_("Resource share"), COLUMN_RESOURCESHARE);
+    m_aStdColNameOrder->Insert(_("Status"), COLUMN_STATUS);
+
+    m_iStdColWidthOrder.Clear();
+    m_iStdColWidthOrder.Insert(150, COLUMN_PROJECT);
+    m_iStdColWidthOrder.Insert(80, COLUMN_ACCOUNTNAME);
+    m_iStdColWidthOrder.Insert(80, COLUMN_TEAMNAME);
+    m_iStdColWidthOrder.Insert(80, COLUMN_TOTALCREDIT);
+    m_iStdColWidthOrder.Insert(80, COLUMN_AVGCREDIT);
+    m_iStdColWidthOrder.Insert(80, COLUMN_RESOURCESHARE);
+    m_iStdColWidthOrder.Insert(80, COLUMN_STATUS);
+
+    wxASSERT(m_iStdColWidthOrder.size() == m_aStdColNameOrder->size());
 
     m_iProgressColumn = COLUMN_RESOURCESHARE;
  
@@ -248,6 +253,41 @@ CViewProjects::CViewProjects(wxNotebook* pNotebook) :
 CViewProjects::~CViewProjects() {
     EmptyCache();
     EmptyTasks();
+}
+
+
+// Create List Pane Items
+void CViewProjects::AppendColumn(int columnID){
+    switch(columnID) {
+        case COLUMN_PROJECT:
+            m_pListPane->AppendColumn((*m_aStdColNameOrder)[COLUMN_PROJECT],
+                    wxLIST_FORMAT_LEFT, m_iStdColWidthOrder[COLUMN_PROJECT]);
+            break;
+        case COLUMN_ACCOUNTNAME:
+            m_pListPane->AppendColumn((*m_aStdColNameOrder)[COLUMN_ACCOUNTNAME],
+                    wxLIST_FORMAT_LEFT, m_iStdColWidthOrder[COLUMN_ACCOUNTNAME]);
+            break;
+        case COLUMN_TEAMNAME:
+            m_pListPane->AppendColumn((*m_aStdColNameOrder)[COLUMN_TEAMNAME],
+                    wxLIST_FORMAT_LEFT, m_iStdColWidthOrder[COLUMN_TEAMNAME]);
+            break;
+        case COLUMN_TOTALCREDIT:
+            m_pListPane->AppendColumn((*m_aStdColNameOrder)[COLUMN_TOTALCREDIT],
+                    wxLIST_FORMAT_RIGHT, m_iStdColWidthOrder[COLUMN_TOTALCREDIT]);
+            break;
+        case COLUMN_AVGCREDIT:
+            m_pListPane->AppendColumn((*m_aStdColNameOrder)[COLUMN_AVGCREDIT],
+                    wxLIST_FORMAT_RIGHT, m_iStdColWidthOrder[COLUMN_AVGCREDIT]);
+            break;
+        case COLUMN_RESOURCESHARE:
+            m_pListPane->AppendColumn((*m_aStdColNameOrder)[COLUMN_RESOURCESHARE],
+                    wxLIST_FORMAT_CENTRE, m_iStdColWidthOrder[COLUMN_RESOURCESHARE]);
+            break;
+        case COLUMN_STATUS:
+            m_pListPane->AppendColumn((*m_aStdColNameOrder)[COLUMN_STATUS],
+                    wxLIST_FORMAT_LEFT, m_iStdColWidthOrder[COLUMN_STATUS]);
+            break;
+    }
 }
 
 
@@ -597,8 +637,8 @@ wxString CViewProjects::OnListGetItemText(long item, long column) const {
         project = NULL;
     }
 
-    if (project) {
-        switch(column) {
+    if (project && (column >= 0)) {
+        switch(m_iColumnIndexToColumnID[column]) {
             case COLUMN_PROJECT:
                 strBuffer = project->m_strProjectName;
                 break;
@@ -803,9 +843,11 @@ bool CViewProjects::SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnIndex
             return false;
     }
 
+    if (iColumnIndex < 0) return false;
+
     strDocumentText.Empty();
 
-    switch (iColumnIndex) {
+   switch (m_iColumnIndexToColumnID[iColumnIndex]) {
         case COLUMN_PROJECT:
             GetDocProjectName(m_iSortedIndexes[iRowIndex], strDocumentText);
             GetDocProjectURL(m_iSortedIndexes[iRowIndex], strDocumentText2);
