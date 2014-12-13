@@ -44,9 +44,12 @@ th, td.heading {
 	background-color: #d8d8d8;
 }
 
+th.heading2 {
+	background-color: #eee;
+}
+
 td.fieldname {
 	background-color: #eee;
-	color: #333;
 }
 
 td.fieldname_error,
