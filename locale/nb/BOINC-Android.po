@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2013-10-18 00:00-0700\n"
-"PO-Revision-Date: 2014-09-02 04:11+0000\n"
+"PO-Revision-Date: 2014-09-14 05:18+0000\n"
 "Last-Translator: Jan <jan@sherdahl.com>\n"
 "Language-Team: nb <LL@li.org>\n"
 "Language: nb\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
-"X-POOTLE-MTIME: 1409631108.0\n"
+"X-POOTLE-MTIME: 1410671934.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -27,7 +27,7 @@ msgstr "BOINC"
 #. generic. used by multiple Activities/tabs
 msgctxt "generic_loading"
 msgid "Loading! Please wait…"
-msgstr "Laster! Vennligst vent..."
+msgstr "Laster! Vennligst vent…"
 
 #. attach project
 #. project list
@@ -415,7 +415,6 @@ msgctxt "status_computing_disabled"
 msgid "Suspended"
 msgstr "Suspendert"
 
-#, fuzzy
 msgctxt "status_computing_disabled_long"
 msgid "Press play to resume network and computation."
 msgstr "Trykk spill av for å gjenoppta nettverkskommunikasjon og beregning."
