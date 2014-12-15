@@ -6,7 +6,7 @@
 # This is run in the Pootle copy of the source tree (~/pootle/repos/boinctrunk)
 # It's run from pootle/update.sh, which is run from cron every 12 hours.
 #
-projname=boinctrunk
+projname=boinc74
 projdir=/home/boincadm/pootle/repos/$projname
 
 cd $projdir
