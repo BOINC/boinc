@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: OINC Android 7.2\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2013-10-18 00:00-0700\n"
-"PO-Revision-Date: 2014-01-17 20:23+0000\n"
+"PO-Revision-Date: 2014-09-12 08:58+0000\n"
 "Last-Translator: Aycan <aycandemirel@hotmail.com>\n"
 "Language-Team: Türkçe <LL@li.org>\n"
 "Language: tr\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
-"X-POOTLE-MTIME: 1389990222.0\n"
+"X-POOTLE-MTIME: 1410512303.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -471,7 +471,7 @@ msgstr "Güç"
 
 msgctxt "prefs_category_cpu"
 msgid "CPU"
-msgstr "CPU"
+msgstr "İşlemci (CPU)"
 
 msgctxt "prefs_category_storage"
 msgid "Storage"
@@ -479,7 +479,7 @@ msgstr "Depolama"
 
 msgctxt "prefs_category_memory"
 msgid "Memory"
-msgstr "Bellek"
+msgstr "Bellek (RAM)"
 
 msgctxt "prefs_category_debug"
 msgid "Debug"
@@ -553,15 +553,15 @@ msgstr "Durakladığında bildirim görüntüle"
 
 msgctxt "prefs_cpu_number_cpus_header"
 msgid "Used CPU cores"
-msgstr "Kullanılacak CPU çekirdekleri"
+msgstr "Kullanılacak işlemci çekirdekleri"
 
 msgctxt "prefs_cpu_number_cpus_description"
 msgid "Limits the number of CPU cores BOINC uses for computation."
-msgstr "BOINC'in hesaplama için kullanabileceği işlemci (CPU) çekirdeği sayısı."
+msgstr "BOINC'in hesaplama için kullanabileceği işlemci çekirdeği sayısı."
 
 msgctxt "prefs_cpu_other_load_suspension_header"
 msgid "Pause at CPU usage above"
-msgstr "CPU kullanımı fazlaysa duraklat"
+msgstr "İşlemci kullanımı fazlaysa duraklat"
 
 msgctxt "prefs_cpu_other_load_suspension_description"
 msgid "Determines when BOINC pauses computation due to other app's CPU usage."
@@ -571,11 +571,11 @@ msgstr ""
 
 msgctxt "prefs_cpu_time_max_header"
 msgid "CPU limit"
-msgstr "CPU sınırı"
+msgstr "İşlemci sınırı"
 
 msgctxt "prefs_cpu_time_max_description"
 msgid "Limits the CPU time BOINC uses for computation."
-msgstr "BOINC'in hesaplama için kullanabileceği CPU gücü."
+msgstr "BOINC'in hesaplama için kullanabileceği işlemci gücü."
 
 msgctxt "prefs_memory_max_idle_header"
 msgid "RAM limit"
@@ -583,7 +583,7 @@ msgstr "Bellek limiti"
 
 msgctxt "prefs_memory_max_idle_description"
 msgid "Limits the amount of RAM tasks are allowed to occupy."
-msgstr "İşlerin kullanabileceği en fazla bellek (RAM) miktarı."
+msgstr "İşlerin kullanabileceği en fazla bellek miktarı."
 
 msgctxt "prefs_client_log_flags_header"
 msgid "BOINC Client log flags"
@@ -699,11 +699,11 @@ msgstr "Sürdür"
 
 msgctxt "projects_control_nonewtasks"
 msgid "No new tasks"
-msgstr "Yeni işler indirme"
+msgstr "Yeni işleri indirme"
 
 msgctxt "projects_control_allownewtasks"
 msgid "Allow new tasks"
-msgstr "Yeni işler indir"
+msgstr "Yeni işleri indir"
 
 msgctxt "projects_control_reset"
 msgid "Reset"
@@ -974,7 +974,7 @@ msgstr "Depolama alanı yetersiz."
 
 msgctxt "suspend_cputhrottle"
 msgid "Scheduled CPU throttle."
-msgstr "Zamanlanmış CPU sınırlaması."
+msgstr "Zamanlanmış işlemci sınırlaması."
 
 msgctxt "suspend_noinput"
 msgid "No recent user activity."
@@ -1126,7 +1126,7 @@ msgid ""
 msgstr ""
 "Türkçe çeviri: Aycan Demirel\n"
 "\n"
-"© 2003-2013 Kaliforniya Üniversitesi, Berkeley.\n"
+"© 2003-2014 Kaliforniya Üniversitesi, Berkeley.\n"
 "Tüm hakları saklıdır."
 
 #, fuzzy
