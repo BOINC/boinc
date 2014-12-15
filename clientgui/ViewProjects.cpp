@@ -58,7 +58,7 @@
 // For now, show all columns by default
 static int DefaultShownColumns[] = { COLUMN_PROJECT, COLUMN_ACCOUNTNAME, COLUMN_TEAMNAME,
                                 COLUMN_TOTALCREDIT, COLUMN_AVGCREDIT,
-                                COLUMN_RESOURCESHARE/*, COLUMN_STATUS*/};
+                                COLUMN_RESOURCESHARE, COLUMN_STATUS};
 
 // groups that contain buttons
 #define GRP_TASKS    0

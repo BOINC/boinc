@@ -59,9 +59,9 @@
 // all columns.
 //
 // For now, show all columns by default
-static int DefaultShownColumns[] = { COLUMN_PROJECT, COLUMN_PROGRESS, /* COLUMN_STATUS, */
+static int DefaultShownColumns[] = { COLUMN_PROJECT, COLUMN_PROGRESS, COLUMN_STATUS, 
                                 COLUMN_CPUTIME, COLUMN_TOCOMPLETION,
-                                COLUMN_REPORTDEADLINE, COLUMN_APPLICATION,
+                                COLUMN_REPORTDEADLINE, COLUMN_APPLICATION, 
                                 COLUMN_NAME};
 
 // groups that contain buttons

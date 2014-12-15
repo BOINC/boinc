@@ -56,8 +56,8 @@
 // all columns.
 //
 // For now, show all columns by default
-static int DefaultShownColumns[] = { COLUMN_PROJECT, COLUMN_FILE, COLUMN_PROGRESS,
-                                COLUMN_SIZE, /* COLUMN_TIME, */COLUMN_SPEED,
+static int DefaultShownColumns[] = { COLUMN_PROJECT, COLUMN_FILE, COLUMN_PROGRESS, 
+                                COLUMN_SIZE, COLUMN_TIME, COLUMN_SPEED,
                                 COLUMN_STATUS};
 
 // buttons in the "tasks" area
