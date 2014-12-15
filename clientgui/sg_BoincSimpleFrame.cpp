@@ -147,7 +147,7 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIconBundle* icons, wxPoint position
 #ifdef __WXMAC__
     menuFile->Append(
         wxID_PREFERENCES,
-        _("Preferences…")
+        _("Preferences...")
     );
 #endif
 

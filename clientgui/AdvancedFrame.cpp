@@ -356,7 +356,7 @@ bool CAdvancedFrame::CreateMenu() {
 #ifdef __WXMAC__
     menuFile->Append(
         wxID_PREFERENCES,
-        _("Preferences…")
+        _("Preferences...")
     );
 #endif
 
