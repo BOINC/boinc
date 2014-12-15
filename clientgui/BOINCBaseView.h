@@ -141,6 +141,8 @@ public:
     wxArrayInt              m_iStdColWidthOrder;
     wxArrayInt              m_iColumnIndexToColumnID;
     wxArrayInt              m_iColumnIDToColumnIndex;
+    int*                    m_iDefaultShownColumns;
+    int                     m_iNumDefaultShownColumns;
 
     
 private:

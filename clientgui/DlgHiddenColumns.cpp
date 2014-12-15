@@ -322,7 +322,7 @@ void CDlgHiddenColumns::OnSetDefaults(wxCommandEvent& ) {
         CBOINCListCtrl* listPane = pView->GetListCtrl();
     
         listPane->SetListColumnOrder(*(pView->m_aStdColNameOrder));
-        listPane->SetStandardColumnOrder();
+        listPane->SetDefaultColumnDisplay();
 
         // Write the new column configuration to the registry
         wxConfigBase* pConfig = wxConfigBase::Get(false);

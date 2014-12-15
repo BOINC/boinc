@@ -36,6 +36,13 @@
 #include "res/result.xpm"
 
 
+// Column IDs must be equal to the column's default
+// position (left to right, zero-based) when all
+// columns are shown.  However, any column may be
+// hidden, either by default or by the user.
+// (On MS Windows only, the user can also rearrange
+// the columns from the default order.)
+//
 // Column IDs
 #define COLUMN_PROJECT              0
 #define COLUMN_PROGRESS             1
@@ -45,6 +52,17 @@
 #define COLUMN_REPORTDEADLINE       5
 #define COLUMN_APPLICATION          6
 #define COLUMN_NAME                 7
+
+// DefaultShownColumns is an array containing the
+// columnIDs of the columns to be shown by default,
+// in ascending order.  It may or may not include
+// all columns.
+//
+// For now, show all columns by default
+static int DefaultShownColumns[] = { COLUMN_PROJECT, COLUMN_PROGRESS, /* COLUMN_STATUS, */
+                                COLUMN_CPUTIME, COLUMN_TOCOMPLETION,
+                                COLUMN_REPORTDEADLINE, COLUMN_APPLICATION,
+                                COLUMN_NAME};
 
 // groups that contain buttons
 #define GRP_TASKS    0
@@ -234,6 +252,10 @@ CViewWork::CViewWork(wxNotebook* pNotebook) :
     // Create Task Pane Items
     m_pTaskPane->UpdateControls();
 
+    // m_aStdColNameOrder is an array of all column heading labels
+    // (localized) in order of ascending Column ID.
+    // Once initialized, it should not be modified.
+    //
     m_aStdColNameOrder = new wxArrayString;
     m_aStdColNameOrder->Insert(_("Project"), COLUMN_PROJECT);
     m_aStdColNameOrder->Insert(_("Progress"), COLUMN_PROGRESS);
@@ -244,6 +266,12 @@ CViewWork::CViewWork(wxNotebook* pNotebook) :
     m_aStdColNameOrder->Insert(_("Application"), COLUMN_APPLICATION);
     m_aStdColNameOrder->Insert(_("Name"), COLUMN_NAME);
     
+    // m_aStdColNameOrder is an array of the width for each column.
+    // Entries must be in order of ascending Column ID.  We initalize
+    // it here to the default column widths.  It is updated by
+    // CBOINCListCtrl::OnRestoreState() and also when a user resizes
+    // a column bby dragging the divider between two columns.
+    //
     m_iStdColWidthOrder.Clear();
     m_iStdColWidthOrder.Insert(125, COLUMN_PROJECT);
     m_iStdColWidthOrder.Insert(60, COLUMN_PROGRESS);
@@ -256,6 +284,8 @@ CViewWork::CViewWork(wxNotebook* pNotebook) :
 
     wxASSERT(m_iStdColWidthOrder.size() == m_aStdColNameOrder->size());
 
+    m_iDefaultShownColumns = DefaultShownColumns;
+    m_iNumDefaultShownColumns = sizeof(DefaultShownColumns) / sizeof(int);
     m_iProgressColumn = COLUMN_PROGRESS;
 
     // Needed by static sort routine;

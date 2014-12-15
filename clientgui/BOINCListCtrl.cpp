@@ -259,7 +259,7 @@ bool CBOINCListCtrl::OnRestoreState(wxConfigBase* pConfig) {
         // Show all columns in default column order
         wxASSERT(wxDynamicCast(pView, CBOINCBaseView));
     
-        SetListColumnOrder(*(pView->m_aStdColNameOrder));
+        SetDefaultColumnDisplay();
     }
         
 
@@ -375,6 +375,23 @@ void CBOINCListCtrl::SetStandardColumnOrder() {
 #ifdef wxHAS_LISTCTRL_COLUMN_ORDER
     SetColumnsOrder(aOrder);
 #endif
+}
+
+
+void CBOINCListCtrl::SetDefaultColumnDisplay() {
+    int i;
+    wxArrayString orderArray;
+    CBOINCBaseView* pView = (CBOINCBaseView*)GetParent();
+    
+    wxASSERT(wxDynamicCast(pView, CBOINCBaseView));
+
+    orderArray.Clear();
+    for (i=0; i<pView->m_iNumDefaultShownColumns; ++i) {
+        orderArray.Add(pView->m_aStdColNameOrder->Item(pView->m_iDefaultShownColumns[i]));
+    }
+    
+    SetListColumnOrder(orderArray);
+    SetStandardColumnOrder();
 }
 
 

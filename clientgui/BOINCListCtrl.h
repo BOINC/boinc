@@ -78,6 +78,7 @@ public:
     void                    SetListColumnOrder(wxArrayString& orderArray);
     void                    SetStandardColumnOrder();
     bool                    IsColumnOrderStandard();
+    void                    SetDefaultColumnDisplay();
     void                    InsertShownColumns(wxString tokenized, char * delimiters);
 
     long                    GetFocusedItem() { return GetNextItem(-1, wxLIST_NEXT_ALL, wxLIST_STATE_FOCUSED); }

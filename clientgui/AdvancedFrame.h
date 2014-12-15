@@ -103,7 +103,6 @@ public:
 
     bool RestoreState();
     bool SaveState();
-    void RestoreStandardListColumns();
     wxNotebook* GetNotebook();
 
 #ifdef __WXMAC__

@@ -59,6 +59,8 @@ CBOINCBaseView::CBOINCBaseView(wxNotebook* pNotebook) :
     m_SortArrows = NULL;
     
     m_aStdColNameOrder = NULL;
+    m_iDefaultShownColumns = NULL;
+    m_iNumDefaultShownColumns = 0;
     
     SetName(GetViewName());
     SetAutoLayout(TRUE);
@@ -122,6 +124,8 @@ CBOINCBaseView::CBOINCBaseView(wxNotebook* pNotebook, wxWindowID iTaskWindowID, 
     m_pListPane->SetImageList(m_SortArrows, wxIMAGE_LIST_SMALL);
     
     m_aStdColNameOrder = NULL;
+    m_iDefaultShownColumns = NULL;
+    m_iNumDefaultShownColumns = 0;
 }
 
 
