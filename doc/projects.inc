@@ -1,5 +1,9 @@
 <?php
 
+// if you change anything here,
+// look at http://boinc.berkeley.edu/project_list.php in a browser to make sure
+// you didn't mess up the XML
+
 require_once("../inc/translation.inc");
 
 // 0: name
@@ -87,16 +91,16 @@ $biomed = array(
             "",
             "Study and design RNA molecules"
         ),
-        array(
-            "FightMalaria@Home",
-            "http://boinc.ucd.ie/fmah/",
-            tra("University College Dublin"),
-            tra("Antimalarial drug discovery"),
-            tra("The parasite that causes malaria continues to evolve resistance to available medication. We therefore urgently need to discover new drugs to replace existing drugs. Importantly, these new drugs need to target NEW proteins in the parasite. The FightMalaria@Home project is aimed at finding these new targets."),
-            "FMAH_banner3_wt.png",
-            "",
-            "Develop malaria drugs"
-        ),
+//        array(
+//            "FightMalaria@Home",
+//            "http://boinc.ucd.ie/fmah/",
+//            tra("University College Dublin"),
+//            tra("Antimalarial drug discovery"),
+//            tra("The parasite that causes malaria continues to evolve resistance to available medication. We therefore urgently need to discover new drugs to replace existing drugs. Importantly, these new drugs need to target NEW proteins in the parasite. The FightMalaria@Home project is aimed at finding these new targets."),
+//            "FMAH_banner3_wt.png",
+//            "",
+//            "Develop malaria drugs"
+//        ),
         array(
             "POEM@HOME",
             "http://boinc.fzk.de/poem/",
@@ -253,7 +257,8 @@ $astro_phys_chem = array(
             "http://pogs.theskynet.org/pogs/",
             "The International Centre for Radio Astronomy Research (Perth, Australia)",
             tra("Astronomy"),
-            tra("We will combine the spectral coverage of GALEX, Pan-STARRS1, and WISE to generate a multi-wavelength UV-optical-NIR galaxy atlas for the nearby Universe. We will measure physical parameters (such as stellar mass surface density, star formation rate surface density, attenuation, and first-order star formation history) on a resolved pixel-by-pixel basis using spectral energy distribution (SED) fitting techniques in a distributed computing mode."),
+            tra("TheSkyNet POGS is an astronomy project studying 16 different properties of galaxies, including brightness, mass, amount of dust and how fast stars are forming. We are using your processing power to conduct pixel-by-pixel calculations on multi-wavelength (ultraviolet, optical and near-infrared light) images of galaxies to produce an atlas that will help astronomers to better understand the distant universe."),
+
             "",
             "",
             "Analyze images of space"
@@ -700,5 +705,15 @@ $math = array(
 );
 
 $areas = array($biomed, $astro_phys_chem, $math, $earth, $mixed, $cogsci, $sensing);
+
+function lookup_project($url) {
+    foreach ($areas as $area) {
+        foreach ($area as $p) {
+            if ($p[1] == $url) return $p;
+            if (sizeof($p)>6 && $p[6] == $url) return $p;
+        }
+    }
+    return null;
+}
 
 ?>

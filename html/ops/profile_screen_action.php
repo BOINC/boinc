@@ -31,11 +31,11 @@ for ($i=0; $i<$n; $i++) {
     $userid = $_GET[$x];
     switch ($val) {
     case 1:
-        mysql_query("update profile set verification=1 where userid=$userid");
+        _mysql_query("update profile set verification=1 where userid=$userid");
         echo "<br>$userid is accepted";
         break;
     case -1:
-        mysql_query("update profile set verification=-1 where userid=$userid");
+        _mysql_query("update profile set verification=-1 where userid=$userid");
         echo "<br>$userid is rejected";
         break;
     case 0:

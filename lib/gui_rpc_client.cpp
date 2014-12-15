@@ -95,7 +95,7 @@ int RPC_CLIENT::get_ip_addr(const char* host, int port) {
     //printf("trying port %d\n", htons(addr.sin_port));
     int retval;
     if (host) {
-        retval = resolve_hostname(host, addr);
+        retval = resolve_hostname_or_ip_addr(host, addr);
         if (retval) {
             return ERR_GETHOSTBYNAME;
         }
@@ -383,7 +383,9 @@ int RPC::parse_reply() {
             return n;
         }
         if (parse_str(buf, "<error>", error_msg, sizeof(error_msg))) {
-            fprintf(stderr, "RPC error: %s\n", error_msg);
+            fprintf(stderr, "%s: GUI RPC error: %s\n",
+                time_to_string(dtime()), error_msg
+            );
             if (strstr(error_msg, "unauthorized")) return ERR_AUTHENTICATOR;
             if (strstr(error_msg, "Missing authenticator")) return ERR_AUTHENTICATOR;
             if (strstr(error_msg, "Missing URL")) return ERR_INVALID_URL;

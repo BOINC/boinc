@@ -53,7 +53,7 @@ echo "<form action=\"show_log.php\">";
 echo " Regexp: <input name=\"s\" value=\"$s\">";
 echo " Files: <input name=\"f\" value=\"$f\">";
 echo " Lines: <input name=\"l\" value=\"$l\"> (positive for head, negative for tail)";
-echo " <input type=\"submit\" value=\"Grep\"></form>";
+echo " <input class=\"btn btn-default\" type=\"submit\" value=\"Grep\"></form>";
 
 echo 'Hint: Example greps: "RESULT#106876", "26fe99aa_25636_00119.wu_1", "WU#8152", "too many errors", "2003-07-17", "CRITICAL" <br>';
 

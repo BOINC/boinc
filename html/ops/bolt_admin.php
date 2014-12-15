@@ -55,10 +55,10 @@ function add_course_form() {
     ";
     start_table();
     row1("Add course");
-    row2("Course name<span class=note><br>Visible to users</span>", "<input name=course_name>");
-    row2("Internal name<span class=note><br>Not visible to users; used as a directory name, so no spaces or special chars</span>", "<input name=short_name>");
-    row2("Description<span class=note><br>Visible to users</span>", "<textarea name=description cols=60></textarea>");
-    row2("", "<input type=submit name=submit value=\"Add course\">");
+    row2("Course name<br><p class=\"text-muted\">Visible to users</p>", "<input name=course_name>");
+    row2("Internal name<br><p class=\"text-muted\">Not visible to users; used as a directory name, so no spaces or special chars</p>", "<input name=short_name>");
+    row2("Description<br><p class=\"text-muted\">Visible to users</p>", "<textarea name=description cols=60></textarea>");
+    row2("", "<input class=\"btn btn-primary\" type=submit name=submit value=\"Add course\">");
     end_table();
     echo "</form>";
 }
@@ -75,7 +75,7 @@ function user_settings() {
     row2("Show hidden courses?", "<input type=checkbox name=show_all $x>");
     $x = ($flags&BOLT_FLAGS_DEBUG)?"checked":"";
     row2("Show debugging output?", "<input type=checkbox name=debug $x>");
-    row2("", "<input type=submit name=submit value=\"Update settings\">");
+    row2("", "<input class=\"btn btn-primary\" type=submit name=submit value=\"Update settings\">");
     end_table();
     echo "</form>";
 }

@@ -151,7 +151,10 @@ def is_daemon(task):
     return task._name == 'daemon'
 
 def get_task_command_basename(task):
-    return os.path.basename(task.cmd.split()[0])
+    x = task.cmd.split()[0]
+    if x == 'run_in_ops':
+        x = task.cmd.split()[1]
+    return os.path.basename(x)
 
 def get_task_output_name(task):
     return os.path.join(log_dir,

@@ -1,7 +1,7 @@
 <?php
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2014 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -16,23 +16,24 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// validate a user's credentials, and log them in by sending a cookie.
+// This handles several cases:
+//
+// 1) login via web form w/ email addr and password
+// 2) login via web form w/ authenticator
+// 3) login via a URL sent in email (e.g. to reset password)
+
 require_once("../inc/boinc_db.inc");
 require_once("../inc/util.inc");
 require_once("../inc/email.inc");
 require_once("../inc/user.inc");
+require_once("../inc/ldap.inc");
 
 check_get_args(array("id", "t", "h", "key"));
 
-$next_url = post_str("next_url", true);
-$next_url = sanitize_local_url($next_url);
-if (strlen($next_url) == 0) $next_url = "home.php";
-
-// check for email/password case
+// login with email addr / passwd
 //
-$email_addr = strtolower(sanitize_tags(post_str("email_addr", true)));
-$passwd = post_str("passwd", true);
-
-if ($email_addr && $passwd) {
+function login_with_email($email_addr, $passwd, $next_url, $perm) {
     $user = BoincUser::lookup_email_addr($email_addr);
     if (!$user) {
         page_head("No such account");
@@ -43,7 +44,6 @@ if ($email_addr && $passwd) {
         exit;
     }
     if (substr($user->authenticator, 0, 1) == 'x'){
-        //User has been bad so we are going to take away ability to post for awhile.
         error_page("This account has been administratively disabled.");
     }
     $passwd_hash = md5($passwd.$email_addr);
@@ -55,20 +55,12 @@ if ($email_addr && $passwd) {
     }
     $authenticator = $user->authenticator;
     Header("Location: ".URL_BASE."$next_url");
-    $perm = false;
-    if (isset($_POST['stay_logged_in'])) {
-        $perm = $_POST['stay_logged_in'];
-    }
     send_cookie('auth', $authenticator, $perm);
-    exit();
 }
 
-// check for time/id/hash case.
-
-$id = get_int('id', true);
-$t = get_int('t', true);
-$h = get_str('h', true);
-if ($id && $t && $h) {
+// email link case
+//
+function login_via_link($id, $t, $h) {
     $user = BoincUser::lookup_id($id);
     if (!$user) {
         error_page("Invalid user ID.
@@ -93,7 +85,60 @@ if ($id && $t && $h) {
     }
     send_cookie('auth', $user->authenticator, true);
     Header("Location: home.php");
-    exit();
+}
+
+function login_with_auth($authenticator, $next_url, $perm) {
+    $user = BoincUser::lookup_auth($authenticator);
+    if (!$user) {
+        page_head("Login failed");
+        echo "There is no account with that authenticator.
+            Please <a href=get_passwd.php>try again</a>.
+        ";
+        page_tail();
+    } else if (substr($user->authenticator, 0, 1) == 'x'){
+        error_page("This account has been administratively disabled.");
+    } else {
+        Header("Location: $next_url");
+        send_cookie('auth', $authenticator, $perm);
+    }
+}
+
+function login_with_ldap($uid, $passwd, $next_url, $perm) {
+    list ($ldap_user, $error_msg) = ldap_auth($uid, $passwd);
+    if ($error_msg) {
+        error_page($error_msg);
+    }
+    $x = ldap_email_string($uid);
+    $user = BoincUser::lookup_email_addr($x);
+    if (!$user) {
+        // LDAP authentication succeeded but we don't have a user record.
+        // Create one.
+        //
+        $user = make_user_ldap($x, $ldap_user->name);
+    }
+    if (!$user) {
+        error_page("Couldn't create user");
+    }
+    Header("Location: ".URL_BASE."$next_url");
+    send_cookie('auth', $user->authenticator, $perm);
+    return;
+}
+
+$id = get_int('id', true);
+$t = get_int('t', true);
+$h = get_str('h', true);
+if ($id && $t && $h) {
+    login_via_link($id, $t, $h);
+    exit;
+}
+
+$next_url = post_str("next_url", true);
+$next_url = sanitize_local_url($next_url);
+if (strlen($next_url) == 0) $next_url = "home.php";
+
+$perm = false;
+if (isset($_POST['stay_logged_in'])) {
+    $perm = $_POST['stay_logged_in'];
 }
 
 // check for account key case.
@@ -103,24 +148,22 @@ $authenticator = get_str("key", true);
 if (!$authenticator) {
     $authenticator = post_str("authenticator", true);
 }
-if (!$authenticator) {
-    error_page("You must supply an email address and password");
+if ($authenticator) {
+    login_with_auth($authenticator, $next_url, $perm);
+    exit;
 }
 
-if (substr($user->authenticator, 0, 1) == 'x'){
-    //User has been bad so we are going to take away ability to post for awhile.
-    error_page("This account has been administratively disabled.");
+$email_addr = strtolower(sanitize_tags(post_str("email_addr", true)));
+$passwd = post_str("passwd", true);
+if ($email_addr && $passwd) {
+    if (LDAP_HOST && !is_valid_email_addr($email_addr)) {
+        login_with_ldap($email_addr, $passwd, $next_url, $perm);
+    } else {
+        login_with_email($email_addr, $passwd, $next_url, $perm);
+    }
+    exit;
 }
-$user = BoincUser::lookup_auth($authenticator);
-if (!$user) {
-    page_head("Login failed");
-    echo "There is no account with that authenticator.
-        Please <a href=get_passwd.php>try again</a>.
-    ";
-    page_tail();
-} else {
-    Header("Location: $next_url");
-    $perm = $_POST['stay_logged_in'];
-    send_cookie('auth', $authenticator, $perm);
-}
+
+error_page("You must supply an email address and password");
+
 ?>

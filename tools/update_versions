@@ -28,8 +28,10 @@ error_reporting(E_ALL);
 ini_set('display_errors', true);
 ini_set('display_startup_errors', true);
 
-require_once("html/inc/boinc_db.inc");
-require_once("html/inc/util_basic.inc");
+chdir("html/inc");
+require_once("boinc_db.inc");
+require_once("util_basic.inc");
+chdir ("../..");
 
 $apps = BoincApp::enum("");
 $platforms = BoincPlatform::enum("");
@@ -89,6 +91,9 @@ function file_info_xml($fd) {
     if (is_array($fd->url)) {
         foreach ($fd->url as $url) {
             $xml .= "    <url>$url</url>\n";
+            if ($fd->gzip) {
+                $xml .= "    <gzipped_url>$url.gz</gzipped_url>\n";
+            }
         }
     } else {
         $xml .= "    <url>$fd->url</url>\n";
@@ -170,7 +175,9 @@ function stage_file($a, $v, $p, $fd) {
         system("cp $path $dl_path");
     }
     
-    $fd->url = "$download_url/$name";
+    if (!sizeof($fd->url)) {
+        $fd->url = "$download_url/$name";
+    }
     if ($fd->gzip) {
         if (!file_exists("$dl_path.gz")) {
             $tmp = "$dl_path.tmp";
@@ -256,9 +263,7 @@ function process_file($a, $v, $p, $name, $fds) {
         }
     }
 
-    if (!sizeof($fd->url)) {
-        $fd = stage_file($a, $v, $p, $fd);
-    }
+    $fd = stage_file($a, $v, $p, $fd);
 
     if (!isset($fd->executable)) {
         $perms = fileperms($path);

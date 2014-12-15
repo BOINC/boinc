@@ -1128,9 +1128,10 @@ static inline bool requesting_work() {
     if (g_request->dont_send_work) return false;
     if (g_request->work_req_seconds > 0) return true;
     if (g_request->cpu_req_secs > 0) return true;
-    if (g_request->coprocs.nvidia.count && g_request->coprocs.nvidia.req_secs) return true;
-    if (g_request->coprocs.ati.count && g_request->coprocs.ati.req_secs) return true;
-    if (g_request->coprocs.intel_gpu.count && g_request->coprocs.intel_gpu.req_secs) return true;
+    for (int i=1; i<NPROC_TYPES; i++) {
+        COPROC* cp = g_request->coprocs.proc_type_to_coproc(i);
+        if (cp && cp->count && cp->req_secs) return true;
+    }
     if (ssp->have_nci_app) return true;
     return false;
 }
@@ -1350,6 +1351,11 @@ void process_request(char* code_sign_key) {
             && !g_request->results_truncated
         ) {
             if (resend_lost_work()) {
+                if (config.debug_send) {
+                    log_messages.printf(MSG_NORMAL,
+                        "[send] Resent lost jobs, don't send more\n"
+                    );
+                }
                 ok_to_send_work = false;
             }
         }

@@ -48,7 +48,7 @@ if (get_int('setup', true)) {
         <p>
         ".tra("Threads only: %1 (Include only the first post of every thread)", "<input type=\"checkbox\" name=\"threads_only\">")."
         <p>
-        <input type=\"submit\" value=\"".tra("OK")."\">
+        <input class=\"btn btn-default\" type=\"submit\" value=\"".tra("OK")."\">
     ";
     page_tail();
     exit;

@@ -108,6 +108,7 @@ void PROJECT::print() {
     }
     printf("   jobs succeeded: %d\n", njobs_success);
     printf("   jobs failed: %d\n", njobs_error);
+    printf("   elapsed time: %f\n", elapsed_time);
     printf("   cross-project ID: %s\n", external_cpid);
 }
 

@@ -509,10 +509,12 @@ wxMenu *CTaskBarIcon::BuildContextMenu() {
     wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
 
     // Prevent recursive entry of CMainDocument::RequestRPC() 
-     if (!pDoc->WaitingForRPC()) {
-        // Account managers have a different menu arrangement
-        pDoc->rpc.acct_mgr_info(ami);
-        is_acct_mgr_detected = ami.acct_mgr_url.size() ? true : false;
+    if (!pDoc->WaitingForRPC()) {
+        if (pDoc->IsConnected()) {
+            // Account managers have a different menu arrangement
+            pDoc->rpc.acct_mgr_info(ami);
+            is_acct_mgr_detected = ami.acct_mgr_url.size() ? true : false;
+        }
     }
     
     if (is_acct_mgr_detected) {

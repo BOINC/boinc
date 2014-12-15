@@ -45,7 +45,7 @@ function get_gpu_model($x, $vendor) {
 function add_model($model, $r, $wu, &$models) {
     if (array_key_exists($model, $models)) {
         $models[$model]->count++;
-        $models[$model]->time += $r->elapsed_time;
+        $models[$model]->time += $r->elapsed_time/$wu->rsc_fpops_est;
     } else {
         $x = new StdClass;
         $x->count = 1;
@@ -66,13 +66,25 @@ function get_gpu_list($vendor, $alt_vendor=null) {
         $clause .= " or plan_class like '%$alt_vendor%'";
     }
     $avs = BoincAppVersion::enum($clause);
-    if (count($avs) == 0) return null;
+    if (count($avs) == 0) {
+        $x = new StdClass;
+        $x->total = array();
+        return $x;
+    }
 
     $av_ids = "";
     foreach($avs as $av) {
         $av_ids .= "$av->id, ";
     }
-    $av_ids .= "0";
+    if ($vendor == "cuda") {
+        $av_ids .= "-3";
+    } else if ($vendor == "ati") {
+        $av_ids .= "-4";
+    } else if ($vendor == "intel_gpu") {
+        $av_ids .= "-5";
+    } else {
+        $av_ids .= "0";
+    }
 
     $t = time() - 30*86400;
     //echo "start enum $vendor $av_ids\n";
@@ -192,7 +204,7 @@ if ($d) {
 }
 
 page_head(tra("Top GPU models"));
-echo tra("The following lists show the most productive GPU models on different platforms.  Relative speeds are shown in parentheses.");
+echo tra("The following lists show the most productive GPU models on different platforms.  Relative speeds, measured by average elapsed time of tasks, are shown in parentheses.");
 show_vendor("NVIDIA", $data->cuda);
 show_vendor("ATI/AMD", $data->ati);
 show_vendor("Intel", $data->intel_gpu);

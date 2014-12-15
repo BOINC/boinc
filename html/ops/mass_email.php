@@ -82,8 +82,8 @@ if ($receiver > 0) {
     // FOR DEBUGGING
     //$query .= " LIMIT 10";
 
-    $result = mysql_query($query);
-    while ($user = mysql_fetch_object($result)) {
+    $result = _mysql_query($query);
+    while ($user = _mysql_fetch_object($result)) {
     	// TODO: might want to also replace TOTAL_CREDIT, RAC, and similar.
         $body_to_send = str_replace("USERNAME", $user->name, $body);
         $body_to_send .= "\n\nTo opt out of future emails from ".PROJECT.", please edit your project preferences at ".URL_BASE."prefs.php?subset=project\n";
@@ -122,7 +122,7 @@ echo "
       <td><textarea name=\"body\" rows=25 cols=50 id=\"body\"></textarea></td>
     </tr>
         ";
-row2("", "<input type=\"submit\" value=\"OK\">\n");
+row2("", "<input class=\"btn btn-default\" type=\"submit\" value=\"OK\">\n");
 
 end_table();
 echo "</form>\n";

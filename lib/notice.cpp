@@ -49,10 +49,7 @@ int NOTICE::parse(XML_PARSER& xp) {
         }
         if (xp.parse_int("seqno", seqno)) continue;
         if (xp.parse_str("title", title, sizeof(title))) continue;
-        if (xp.parse_string("description", description)) {
-            xml_unescape(description);   // 2nd pass
-            continue;
-        }
+        if (xp.parse_string("description", description)) continue;
         if (xp.parse_double("create_time", create_time)) continue;
         if (xp.parse_double("arrival_time", arrival_time)) continue;
         if (xp.parse_bool("is_private", is_private)) continue;

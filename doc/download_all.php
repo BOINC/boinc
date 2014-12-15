@@ -22,7 +22,11 @@ $version = get_str2("version");
 $type_name = get_str2("type");
 $client_info = $_SERVER['HTTP_USER_AGENT'];
 
-if (!$xml) $dev=1;
+// if not XML, dev defaults to 1
+//
+if (!$xml) {
+    if ($dev === null) $dev=1;
+}
 
 function dl_item($x, $y) {
     echo "<tr><td valign=top  align=right width=\"30%\">$x</td>
@@ -105,15 +109,16 @@ function show_version($pname, $i, $v) {
     $type_text = type_text($type);
     $url = version_url($v['file']);
 
-    $link = "<a href=\"$url\"><b>Download</b></a> ($s MB)";
+    $link = "";
     if (array_key_exists('vbox_file', $v)) {
         $vbox_file = $v['vbox_file'];
         $vbox_version = $v['vbox_version'];
         $vbox_url = version_url($vbox_file);
         $vbox_path = "dl/$vbox_file";
         $vbox_size = number_format(filesize($vbox_path)/1000000, 2);
-        $link .= "<br><a href=\"$vbox_url\"><b>Download BOINC + VirtualBox $vbox_version</b></a> ($vbox_size MB)";
+        $link = "<a href=\"$vbox_url\"><b>Download BOINC + VirtualBox $vbox_version</b></a> ($vbox_size MB)<br>";
     }
+    $link .= "<a href=\"$url\"><b>Download</b></a> ($s MB)";
     echo "<tr>
        <td class=rowlineleft>$num</td>
         <td class=rowline>$status</td>
@@ -174,16 +179,16 @@ if ($pname && $version) {
 
 if ($xml) {
     header('Content-type: text/xml');
-    echo "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>\n
-<versions>\n
+    echo "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" ?>
+<versions>
 ";
-	if (FALSE === strpos($client_info, '6.8.')) {
+    if (FALSE === strpos($client_info, '6.8.')) {
         foreach($platforms as $short_name=>$p) {
             show_platform_xml($short_name, $p, $dev);
         }
     }
     echo "
-</versions>\n
+</versions>
 ";
 } else {
     if ($pname) {

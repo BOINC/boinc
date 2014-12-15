@@ -42,6 +42,7 @@ BOOL WINAPI InternetGetCookieA( LPCSTR lpszUrl, LPCSTR lpszCookieName, LPSTR lps
 #include <time.h>
 #endif
 
+#include <sqlite3.h>
 #include "error_numbers.h"
 #include "mfile.h"
 #include "miofile.h"
@@ -593,10 +594,6 @@ bool detect_cookie_mozilla_v3(
     int         rc;
     MOZILLA_COOKIE_SQL cookie;
 
-#if defined(__APPLE__)
-    // sqlite3 is not available on Mac OS 10.3.9
-    if (sqlite3_open == NULL) return false;
-#endif
 
     // determine the project hostname using the project url
     parse_hostname_mozilla_compatible(project_url, hostname);
@@ -805,10 +802,6 @@ bool detect_cookie_chrome(
     int         rc;
     CHROME_COOKIE_SQL cookie;
 
-#if defined(__APPLE__)
-    // sqlite3 is not available on Mac OS 10.3.9
-    if (sqlite3_open == NULL) return false;
-#endif
 
     // determine the project hostname using the project url
     parse_hostname_chrome_compatible(project_url, hostname);
@@ -819,7 +812,12 @@ bool detect_cookie_chrome(
     rc = sqlite3_open(tmp.c_str(), &db);
     if ( rc ) {
         sqlite3_close(db);
-        return false;
+        tmp = profile_root + "Safe Browsing Cookies";
+        rc = sqlite3_open(tmp.c_str(), &db);
+        if ( rc ) {
+            sqlite3_close(db);
+            return false;
+        }
     }
     
     // construct SQL query to extract the desired cookie
@@ -923,7 +921,7 @@ bool detect_cookie_ie_supported(std::string& project_url, std::string& name, std
         strCookieName = strCookieFragment.substr(0, uiDelimeterLocation);
         strCookieValue = strCookieFragment.substr(uiDelimeterLocation + 1);
 
-        if (name == strCookieName) {
+        if (0 == strcmp(name.c_str(), strCookieName.c_str())) {
             // Now we found it!  Yea - auto attach!
             value = strCookieValue;
             bReturnValue = true;
@@ -974,15 +972,15 @@ bool detect_cookie_ie_supported_uac(std::string& project_url, std::string& name,
     }
 
     // Convert name into wide character string
-    name_w = A2W(name);
+    name_w = boinc_ascii_to_wide(name);
 
     // if we don't find the cookie at the exact project dns name, check one higher
     //   (i.e. www.worldcommunitygrid.org becomes worldcommunitygrid.org
     parse_hostname_ie_compatible(project_url, hostname, domainname);
 
     // InternetGetCookie expects them in URL format
-    hostname_w = std::wstring(_T("http://")) + A2W(hostname) + std::wstring(_T("/"));
-    domainname_w = std::wstring(_T("http://")) + A2W(domainname) + std::wstring(_T("/"));
+    hostname_w = std::wstring(_T("http://")) + boinc_ascii_to_wide(hostname) + std::wstring(_T("/"));
+    domainname_w = std::wstring(_T("http://")) + boinc_ascii_to_wide(domainname) + std::wstring(_T("/"));
 
     // First check to see if the desired cookie is assigned to the hostname.
     rc = pIEGPMC(hostname_w.c_str(), NULL, szCookieBuffer, &dwSize, NULL) == TRUE;
@@ -1011,9 +1009,9 @@ bool detect_cookie_ie_supported_uac(std::string& project_url, std::string& name,
         strCookieName = strCookieFragment.substr(0, uiDelimeterLocation);
         strCookieValue = strCookieFragment.substr(uiDelimeterLocation + 1);
 
-        if (name_w == strCookieName) {
+        if (0 == wcscmp(name_w.c_str(), strCookieName.c_str())) {
             // Now we found it!  Yea - auto attach!
-            value = W2A(strCookieValue);
+            value = boinc_wide_to_ascii(strCookieValue);
             bReturnValue = true;
         }
 
@@ -1262,6 +1260,86 @@ bool detect_setup_authenticator(
 
 END:
     if (is_authenticator_valid(authenticator)) {
+        retval = true;
+    }
+
+    return retval;
+}
+
+
+//
+// walk through the various browsers looking up the
+// various cookies that make up the simple account creation scheme.
+//
+// give preference to the default platform specific browers first before going
+// to the platform independant browsers since most people don't switch from
+// the default.
+// 
+bool detect_simple_account_credentials(
+    std::string& project_name, std::string& project_url, std::string& authenticator, 
+    std::string& project_institution, std::string& project_description, std::string& known
+) {
+    bool retval = false;
+    std::string strCookieServer("http://boinc.berkeley.edu");
+    std::string strCookieProjectName("attach_project_name");
+    std::string strCookieProjectURL("attach_master_url");
+    std::string strCookieAuthenticator("attach_auth");
+    std::string strCookieProjectInstitution("attach_project_inst");
+    std::string strCookieProjectDescription("attach_project_desc");
+    std::string strCookieKnown("attach_known");
+
+#ifdef _WIN32
+    if ( detect_cookie_ie(strCookieServer, strCookieProjectName, project_name) &&
+         detect_cookie_ie(strCookieServer, strCookieProjectURL, project_url)
+    ){
+        detect_cookie_ie(strCookieServer, strCookieAuthenticator, authenticator);
+        detect_cookie_ie(strCookieServer, strCookieProjectInstitution, project_institution);
+        detect_cookie_ie(strCookieServer, strCookieProjectDescription, project_description);
+        detect_cookie_ie(strCookieServer, strCookieKnown, known);
+        goto END;
+    }
+#endif
+#ifdef __APPLE__
+    if ( detect_cookie_safari(strCookieServer, strCookieProjectName, project_name) &&
+         detect_cookie_safari(strCookieServer, strCookieProjectURL, project_url)
+    ){
+        detect_cookie_safari(strCookieServer, strCookieAuthenticator, authenticator);
+        detect_cookie_safari(strCookieServer, strCookieProjectInstitution, project_institution);
+        detect_cookie_safari(strCookieServer, strCookieProjectDescription, project_description);
+        detect_cookie_safari(strCookieServer, strCookieKnown, known);
+        goto END;
+    }
+#endif
+    if ( detect_cookie_chrome(strCookieServer, strCookieProjectName, project_name) &&
+         detect_cookie_chrome(strCookieServer, strCookieProjectURL, project_url)
+    ){
+        detect_cookie_chrome(strCookieServer, strCookieAuthenticator, authenticator);
+        detect_cookie_chrome(strCookieServer, strCookieProjectInstitution, project_institution);
+        detect_cookie_chrome(strCookieServer, strCookieProjectDescription, project_description);
+        detect_cookie_chrome(strCookieServer, strCookieKnown, known);
+        goto END;
+    }
+    if ( detect_cookie_firefox_3(strCookieServer, strCookieProjectName, project_name) &&
+         detect_cookie_firefox_3(strCookieServer, strCookieProjectURL, project_url)
+    ){
+        detect_cookie_firefox_3(strCookieServer, strCookieAuthenticator, authenticator);
+        detect_cookie_firefox_3(strCookieServer, strCookieProjectInstitution, project_institution);
+        detect_cookie_firefox_3(strCookieServer, strCookieProjectDescription, project_description);
+        detect_cookie_firefox_3(strCookieServer, strCookieKnown, known);
+        goto END;
+    }
+    if ( detect_cookie_firefox_2(strCookieServer, strCookieProjectName, project_name) &&
+         detect_cookie_firefox_2(strCookieServer, strCookieProjectURL, project_url)
+    ){
+        detect_cookie_firefox_2(strCookieServer, strCookieAuthenticator, authenticator);
+        detect_cookie_firefox_2(strCookieServer, strCookieProjectInstitution, project_institution);
+        detect_cookie_firefox_2(strCookieServer, strCookieProjectDescription, project_description);
+        detect_cookie_firefox_2(strCookieServer, strCookieKnown, known);
+        goto END;
+    }
+
+END:
+    if (!project_name.empty() && !project_url.empty()) {
         retval = true;
     }
 

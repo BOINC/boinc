@@ -345,14 +345,30 @@ void write_host(HOST& host, FILE* f, bool detail) {
     );
 
     // host.serialnum stores coprocessor description
+    // and client and vbox versions.
     //
-    if (strlen(host.serialnum)) {
-        char serialnum[1024];
-        xml_escape(host.serialnum, serialnum, sizeof(serialnum));
+    char boinc[256], vbox[256], coprocs[256];
+    char buf[1024];
+    parse_serialnum(host.serialnum, boinc, vbox, coprocs);
+    if (strlen(boinc)) {
+        xml_escape(boinc, buf, sizeof(buf));
         fprintf(f,
-            "    <coprocs>%s</coprocs>\n", serialnum
+            "    <boinc_version>%s</boinc_version>\n", buf
         );
     }
+    if (strlen(vbox)) {
+        xml_escape(vbox, buf, sizeof(buf));
+        fprintf(f,
+            "    <vbox_version>%s</vbox_version>\n", buf
+        );
+    }
+    if (strlen(coprocs)) {
+        xml_escape(coprocs, buf, sizeof(buf));
+        fprintf(f,
+            "    <coprocs>%s</coprocs>\n", buf
+        );
+    }
+
     if (detail) {
         fprintf(f,
             "  <create_time>%d</create_time>\n"

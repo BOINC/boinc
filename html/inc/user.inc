@@ -23,6 +23,7 @@ require_once("../inc/team.inc");
 require_once("../inc/friend.inc");
 require_once("../inc/forum_db.inc");
 require_once("../inc/notify.inc");
+require_once("../inc/ldap.inc");
 
 function parse_project($f) {
     $p = new StdClass;
@@ -122,7 +123,7 @@ function show_other_projects($user, $personal) {
     }
     start_table();
     row_heading_array(array(
-        tra("Project")."<br/><span class=\"note\">".tra("Click for user page")."</span>", tra("Total credit"), tra("Average credit"), tra("Since")
+        tra("Project")."<br/><p class=\"text-muted\">".tra("Click for user page")."</p>", tra("Total credit"), tra("Average credit"), tra("Since")
     ));
     foreach($user->projects as $project) {
         show_project($project);
@@ -160,7 +161,7 @@ function show_user_stats_private($user) {
         $y = sprintf($site[1], $cpid);
         $x .= "<a href=\"$y\">$name</a><br/>\n";
     }
-    $x .= "<br/><span class=\"smalltext\">".tra("Cross-project ID").": $cpid</span>\n";
+    $x .= "<br/><small>".tra("Cross-project ID").": $cpid</small>\n";
     row2(tra("Cross-project statistics"), $x);
     $x = '<a href="cert1.php">'.tra("Account").'</a>';
     if ($user->teamid) {
@@ -193,13 +194,17 @@ function weak_auth($user) {
 // show static user info (private)
 //
 function show_user_info_private($user) {
-    $email_text = $user->email_addr;
-    if (defined("SHOW_NONVALIDATED_EMAIL_ADDR") && !$user->email_validated) {
-        $email_text .= " (<a href=validate_email_addr.php>must be validated</a>)";
-    }
     row1(tra("Account information"));
     row2(tra("Name"), $user->name);
-    row2(tra("Email address"), $email_text);
+    if (LDAP_HOST && is_ldap_email($user->email_addr)) {
+        row2("LDAP ID", ldap_email_to_uid($user->email_addr));
+    } else {
+        $email_text = $user->email_addr;
+        if (defined("SHOW_NONVALIDATED_EMAIL_ADDR") && !$user->email_validated) {
+            $email_text .= " (<a href=validate_email_addr.php>must be validated</a>)";
+        }
+        row2(tra("Email address"), $email_text);
+    }
     if (strlen($user->url)) {
         $x = "<a href=http://$user->url>http://$user->url</a>";
         row2(tra("URL"), $x);
@@ -208,11 +213,20 @@ function show_user_info_private($user) {
     row2(tra("Postal code"), $user->postal_code);
     row2(tra("%1 member since", PROJECT), date_str($user->create_time));
     $url_tokens = url_tokens($user->authenticator);
-    row2(tra("Change"), "<a href=\"edit_email_form.php\">".tra("email address")."</a>
-        &middot; <a href=\"".secure_url_base()."/edit_passwd_form.php\">".tra("password")."</a>
-        &middot; <a href=\"edit_user_info_form.php?$url_tokens\">".tra("other account info")."</a>"
-    );
-    row2(tra("User ID")."<br/><span class=\"note\">".tra("Used in community functions")."</span>", $user->id);
+    if (LDAP_HOST && is_ldap_email($user->email_addr)) {
+        // LDAP accounts can't change email or password
+        //
+        row2(tra("Change"),
+            "<a href=\"edit_user_info_form.php?$url_tokens\">Account info</a>"
+        );
+    } else {
+        row2(tra("Change"),
+            "<a href=\"edit_email_form.php\">".tra("email address")."</a>
+            &middot; <a href=\"".secure_url_base()."/edit_passwd_form.php\">".tra("password")."</a>
+            &middot; <a href=\"edit_user_info_form.php?$url_tokens\">".tra("other account info")."</a>"
+        );
+    }
+    row2(tra("User ID")."<br/><p class=\"text-muted\">".tra("Used in community functions")."</p>", $user->id);
     if (!no_computing()) {
         row2(
             tra("Account keys"),
@@ -262,7 +276,10 @@ function friend_links($user) {
     return $x;
 }
 
-function user_links($user) {
+// show user name, with links to profile if present.
+// if $badge_height is > 0, show badges
+//
+function user_links($user, $badge_height=0) {
     BoincForumPrefs::lookup($user);
     if (is_banished($user)) {
         return "(banished: ID $user->id)";
@@ -277,7 +294,9 @@ function user_links($user) {
         require_once("../project/donations.inc");
         $x .= DONATION_LINK;
     }
-    $x .= badges_string(true, $user, 24);
+    if ($badge_height) {
+        $x .= badges_string(true, $user, $badge_height);
+    }
     if (function_exists("project_user_links")){
         $x .= project_user_links($user);
     }
@@ -332,7 +351,7 @@ function show_community_private($user) {
             // if there's a foundership request, notify the founder
             //
             if ($user->id==$team->userid && $team->ping_user >0) {
-                $x .= "<span style=\"color:red;\">".tra("(foundership change request pending)")."</span>";
+                $x .= "<p class=\"text-danger\">".tra("(foundership change request pending)")."</p>";
             }
             row2(tra("Member of team"), $x);
         } else {
@@ -345,7 +364,7 @@ function show_community_private($user) {
                 $x = "<a href=\"team_display.php?teamid=$team->id\">$team->name</a>";
                 $x .= "| <a href=\"team_manage.php?teamid=".$team->id."\">".tra("Administer")."</a>";
                 if ($team->ping_user > 0) {
-                    $x .= "<span style=\"color:red;\">".tra("(foundership change request pending)")."</span>";
+                    $x .= "<p class=\"text-danger\">".tra("(foundership change request pending)")."</span>";
                 }
                 row2(tra("Founder but not member of"), $x);
             }
@@ -358,6 +377,7 @@ function show_community_private($user) {
     if ($n) {
         foreach($friends as $friend) {
             $fuser = BoincUser::lookup_id($friend->user_dest);
+            if (!$fuser) continue;
             $x .= friend_links($fuser);
         }
         row2(tra("Friends")." ($n)", $x);
@@ -392,8 +412,7 @@ function show_user_summary_public($user) {
     if ($user->donated == 1) { 
         if (file_exists("../project/donations.inc")) {
             require_once("../project/donations.inc");
-            $x .= DONATION_LINK;
-            row2(tra("Donor"), $x);
+            row2(tra("Donor"), DONATION_LINK);
         }
     }
 }
@@ -411,6 +430,7 @@ function get_community_links_object($user){
     $friends = BoincFriend::enum("user_src=$user->id and reciprocated=1");
     foreach($friends as $friend) {
         $fuser = BoincUser::lookup_id($friend->user_dest);
+        if (!$fuser) continue;
         $cache_object->friends[] = $fuser;
     }
     return $cache_object;
@@ -546,6 +566,46 @@ function make_user(
     } else {
         return null;
     }
+}
+
+function make_user_ldap($email_addr, $name) {
+    $email_addr = BoincDb::escape_string($email_addr);
+    $name = sanitize_tags($name);
+    $name = BoincDb::escape_string($name);
+    $authenticator = random_string();
+    $cross_project_id = random_string();
+    $passwd_hash = random_string();
+    $now = time();
+    $uid = BoincUser::insert("(create_time, email_addr, name, authenticator, country, postal_code, total_credit, expavg_credit, expavg_time, project_prefs, teamid,  send_email, show_hosts, cross_project_id, passwd_hash) values($now, '$email_addr', '$name', '$authenticator', '', '', 0, 0, unix_timestamp(), '', 0, 1, 1, '$cross_project_id', '$passwd_hash')");
+
+    if ($uid) {
+        return BoincUser::lookup_id($uid);
+    } else {
+        return null;
+    }
+}
+
+// delete a user and all associated records except
+// result
+// host
+// batch
+// team
+// user_submit
+// user_submit_app
+// credited_job
+// donation_paypal
+// sent_email
+//
+function delete_user($user) {
+    delete_profile($user);
+    forum_delete_user($user);
+        // deletes post, thread, subscription, forum_preferences, forum_logging
+    BoincPrivateMessage::delete_aux("userid=$user->id or senderid=$user->id");
+    BoincNotify::delete_aux("userid=$user->id");
+    BoincCreditUser::delete_user($user);
+    BoincBadgeUser::delete("user_id=$user->id");
+    BoincFriend::delete_aux("user_src=$user->id or user_dest=$user->id");
+    $user->delete();
 }
 
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit

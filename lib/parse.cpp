@@ -48,8 +48,9 @@
 #endif
 
 #include "error_numbers.h"
-#include "str_util.h"
 #include "str_replace.h"
+#include "str_util.h"
+#include "util.h"
 
 #include "parse.h"
 
@@ -834,8 +835,8 @@ void XML_PARSER::skip_unexpected(
 
     if (verbose) {
         fprintf(stderr,
-            "Unrecognized XML tag '<%s>' in %s; skipping\n",
-            start_tag, where
+            "%s: Unrecognized XML tag '<%s>' in %s; skipping\n",
+            time_to_string(dtime()), start_tag, where
         );
     }
     if (strchr(start_tag, '/')) return;

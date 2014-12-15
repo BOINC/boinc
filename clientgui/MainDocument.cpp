@@ -2503,26 +2503,16 @@ wxString result_description(RESULT* result, bool show_resources) {
         } else if (status.task_suspend_reason && !throttled) {
             strBuffer += _("Suspended - ");
             strBuffer += suspend_reason_wxstring(status.task_suspend_reason);
-            if (strlen(result->resources) && show_resources) {
-                strBuffer += wxString(wxT(" (")) + wxString(result->resources, wxConvUTF8) + wxString(wxT(")"));
-            }
         } else if (status.gpu_suspend_reason && uses_gpu(result)) {
             strBuffer += _("GPU suspended - ");
             strBuffer += suspend_reason_wxstring(status.gpu_suspend_reason);
-            if (strlen(result->resources) && show_resources) {
-                strBuffer += wxString(wxT(" (")) + wxString(result->resources, wxConvUTF8) + wxString(wxT(")"));
-            }
         } else if (result->active_task) {
             if (result->too_large) {
                 strBuffer += _("Waiting for memory");
             } else if (result->needs_shmem) {
                 strBuffer += _("Waiting for shared memory");
             } else if (result->scheduler_state == CPU_SCHED_SCHEDULED) {
-                if (result->edf_scheduled) {
-                    strBuffer += _("Running, high priority");
-                } else {
-                    strBuffer += _("Running");
-                }
+                strBuffer += _("Running");
                 if (project && project->non_cpu_intensive) {
                     strBuffer += _(" (non-CPU-intensive)");
                 }
@@ -2531,23 +2521,19 @@ wxString result_description(RESULT* result, bool show_resources) {
             } else if (result->scheduler_state == CPU_SCHED_UNINITIALIZED) {
                 strBuffer += _("Ready to start");
             }
-            if (strlen(result->resources)>1 && show_resources) {
-                strBuffer += wxString(wxT(" (")) + wxString(result->resources, wxConvUTF8) + wxString(wxT(")"));
-            }
         } else {
             strBuffer += _("Ready to start");
         }
         if (result->scheduler_wait) {
             if (strlen(result->scheduler_wait_reason)) {
-                strBuffer += _(" (Scheduler wait: ");
+                strBuffer = _("Postponed: ");
                 strBuffer += wxString(result->scheduler_wait_reason, wxConvUTF8);
-                strBuffer += _(")");
             } else {
-                strBuffer += _(" (Scheduler wait)");
+                strBuffer = _("Postponed");
             }
         }
         if (result->network_wait) {
-            strBuffer += _(" (Waiting for network access)");
+            strBuffer = _("Waiting for network access");
         }
         break;
     case RESULT_COMPUTE_ERROR:
@@ -2598,6 +2584,9 @@ wxString result_description(RESULT* result, bool show_resources) {
             strBuffer.Format(_("Error: invalid state '%d'"), result->state);
         }
         break;
+    }
+    if (strlen(result->resources)>1 && show_resources) {
+        strBuffer += wxString(wxT(" (")) + wxString(result->resources, wxConvUTF8) + wxString(wxT(")"));
     }
     return strBuffer;
 }

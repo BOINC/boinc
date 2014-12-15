@@ -50,6 +50,7 @@
 #define ID_PROJECTINFOPAGE 10200
 #define ID_PROJECTPROPERTIESPAGE 10201
 #define ID_PROJECTPROCESSINGPAGE 10202
+#define ID_PROJECTWELCOMEPAGE 10203
 
 // Account Manager Wizard Pages
 #define ID_ACCOUNTMANAGERINFOPAGE 10300
@@ -149,6 +150,7 @@ class CErrUserDisagreesPage;
 class CProjectInfoPage;
 class CProjectPropertiesPage;
 class CProjectProcessingPage;
+class CProjectWelcomePage;
 class CAccountManagerInfoPage;
 class CAccountManagerPropertiesPage;
 class CAccountManagerProcessingPage;
@@ -220,13 +222,23 @@ public:
 
     /// Runs the wizard.
     bool Run(
-        wxString& strName,
-        wxString& strURL,
-        wxString& wxString,
+        wxString strName,
+        wxString strURL,
+        wxString strTeamName,
         bool bCredentialsCached = true
     );
     
-    // Synchronize to Account Manager
+    /// Runs the wizard.
+    bool RunSimpleProjectAttach(
+        wxString strProjectName,
+        wxString strProjectURL,
+        wxString strAuthenticator, 
+        wxString strProjectInstitution,
+        wxString strProjectDescription,
+        wxString strKnown
+    );
+    
+    /// Synchronize to Account Manager
     bool SyncToAccountManager();
 
     /// Retrieves bitmap resources
@@ -234,7 +246,8 @@ public:
 
     /// Retrieves icon resources
     wxIcon GetIconResource( const wxString& name );
-////@end CWizardAttachProject member function declarations
+
+    ////@end CWizardAttachProject member function declarations
 
     /// Overrides
     virtual bool HasNextPage( wxWizardPageEx* page );
@@ -260,8 +273,20 @@ public:
     wxString GetProjectURL() const { return m_strProjectUrl ; }
     void SetProjectURL(wxString value) { m_strProjectUrl = value ; }
 
+    wxString GetProjectUserName() const { return m_strProjectUserName ; }
+    void SetProjectUserName(wxString value) { m_strProjectUserName = value ; }
+
     wxString GetProjectAuthenticator() const { return m_strProjectAuthenticator ; }
     void SetProjectAuthenticator(wxString value) { m_strProjectAuthenticator = value ; }
+
+    wxString GetProjectInstitution() const { return m_strProjectInstitution ; }
+    void SetProjectInstitution(wxString value) { m_strProjectInstitution = value ; }
+
+    wxString GetProjectDescription() const { return m_strProjectDescription ; }
+    void SetProjectDescription(wxString value) { m_strProjectDescription = value ; }
+
+    bool GetProjectKnown() const { return m_bProjectKnown ; }
+    void SetProjectKnown(bool value) { m_bProjectKnown = value ; }
 
     /// Should we show tooltips?
     static bool ShowToolTips();
@@ -271,6 +296,7 @@ public:
     CProjectInfoPage* m_ProjectInfoPage;
     CProjectPropertiesPage* m_ProjectPropertiesPage;
     CProjectProcessingPage* m_ProjectProcessingPage;
+    CProjectWelcomePage* m_ProjectWelcomePage;
     CAccountManagerInfoPage* m_AccountManagerInfoPage;
     CAccountManagerPropertiesPage* m_AccountManagerPropertiesPage;
     CAccountManagerProcessingPage* m_AccountManagerProcessingPage;
@@ -302,7 +328,7 @@ public:
     ACCOUNT_OUT         account_out;
     bool                account_created_successfully;
     bool                attached_to_project_successfully;
-    bool                close_when_completed;
+    bool                m_bCloseWhenCompleted;
     bool                m_bCredentialsCached;
     bool                m_bCredentialsDetected;
     wxString            m_strProjectName;
@@ -312,6 +338,10 @@ public:
     wxString            m_strReturnURL;
     bool                m_bCookieRequired;
     wxString            m_strCookieFailureURL;
+    wxString            m_strProjectInstitution;
+    wxString            m_strProjectDescription;
+    wxString            m_strProjectUserName;
+    bool                m_bProjectKnown;
 };
 
 #endif // _WIZ_ATTACH_H_

@@ -263,12 +263,12 @@ function show_submit_form($user) {
         <input type=hidden name=action value=prepare>
     ";
     start_table();
-    row2("<strong>structure_file</strong><br><span class=note>structure_file*</span>", sandbox_file_select($user, "structure_file"));
-    row2("<strong>lammps_script</strong><br><span class=note>lammps_script*</span>", sandbox_file_select($user, "lammps_script"));
-    row2("<strong>cmdline_file</strong><br><span class=note>cmdline_file*</span><span class=note> ( List of command lines, one per job )</span>", sandbox_file_select($user, "cmdline_file"));
-    row2("<strong>pot.zip</strong><br><span class=note>*.zip</span><span class-note> ( Zipped Potential files )</span>", sandbox_file_select($user, "zip"));
+    row2("<strong>structure_file</strong><br><p class=\"text-muted\">structure_file*</p>", sandbox_file_select($user, "structure_file"));
+    row2("<strong>lammps_script</strong><br><p class=\"text-muted\">lammps_script*</p>", sandbox_file_select($user, "lammps_script"));
+    row2("<strong>cmdline_file</strong><br><p class=\"text-muted\">cmdline_file* (List of command lines, one per job )</p>", sandbox_file_select($user, "cmdline_file"));
+    row2("<strong>pot.zip</strong><br><p class=\"text-muted\">*.zip ( Zipped Potential files )</span>", sandbox_file_select($user, "zip"));
     row2("<strong>Area</strong>", area_select());
-    row2("", "<input type=submit value=Prepare>");
+    row2("", "<input class=\"btn btn-default\" type=submit value=Prepare>");
     end_table();
     echo "</form>
         <p>

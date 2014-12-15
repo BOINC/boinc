@@ -1,7 +1,7 @@
 # makefile for client simulator
 # DO MAKE CLEAN IN CLIENT/ and LIB/ FIRST
 
-CXXFLAGS = -g -DSIM \
+CXXFLAGS = -g -DSIM -Wall \
     -I ../lib \
     -I ..
 

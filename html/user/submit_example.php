@@ -216,10 +216,10 @@ function handle_create_form() {
     row2("Parameter high value (0..60)", "<input name=param_hi value=20>");
     row2("Parameter increment (>= 1)", "<input name=param_inc value=1>");
     row2("",
-        "<input type=submit name=get_estimate value=\"Get completion time estimate\">"
+        "<input class=\"btn btn-default\" type=submit name=get_estimate value=\"Get completion time estimate\">"
     );
     row2("",
-        "<input type=submit name=submit value=Submit>"
+        "<input class=\"btn btn-primary\" type=submit name=submit value=Submit>"
     );
     end_table();
     echo "</form>\n";
@@ -339,9 +339,9 @@ function handle_query_batch() {
     echo "<h2>Jobs</h2>\n";
     start_table();
     table_header(
-        "Job ID<br><span class=note>click for details or to get output files</span>",
+        "Job ID<br><p class=\"text-muted\">click for details or to get output files</p>",
         "status",
-        "Canonical instance<br><span class=note>click to see result page on BOINC server</span>"
+        "Canonical instance<br><p class=\"text-muted\">click to see result page on BOINC server</p>"
     );
     foreach($batch->jobs as $job) {
         $id = (int)$job->id;
@@ -383,7 +383,7 @@ function handle_query_job() {
     echo "<h2>Instances</h2>\n";
     start_table();
     table_header(
-        "Instance ID<br><span class=note>click for result page on BOINC server</span>",
+        "Instance ID<br><p class=\"text-muted\">click for result page on BOINC server</p>",
         "State", "Output files"
     );
     foreach($reply->instances as $inst) {

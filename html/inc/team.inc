@@ -38,7 +38,7 @@ function team_search_form($params) {
     echo '<form name="form" action="team_search.php">';
     start_table();
     row2('<b>'.tra('Search criteria (use one or more)').'</b>', '');
-    row2(tra('Key words').'<br><span class="note">'.tra('Find teams with these words in their names or descriptions').'</span>',
+    row2(tra('Key words').'<br><p class=\"text-muted\">'.tra('Find teams with these words in their names or descriptions').'</p>',
         '<input type="text" name="keywords" value="' . htmlspecialchars($params->keywords) . '">');
     row2_init(tra('Country'), '');
     echo '<select name="country"><option value="" selected>---</option>';
@@ -49,7 +49,7 @@ function team_search_form($params) {
     row2(tra('Type of team'), team_type_select($params->type, true));
     $checked = $params->active?"checked":"";
     row2(tra('Show only active teams'), "<input type=checkbox name=active $checked>");
-    row2("", "<input type=submit name=submit value=\"".tra('Search')."\">");
+    row2("", "<input class=\"btn btn-primary\" type=submit name=submit value=\"".tra('Search')."\">");
     end_table();
     echo '</form>';
 }
@@ -141,7 +141,7 @@ function display_team_page($team, $user) {
                 $tokens = url_tokens($user->authenticator);
                 row2("",
                     '<a href="team_join.php?'.$tokens.'&amp;teamid='.$team->id.'">'.tra('Join this team').'</a>
-                    <br><span class="note">'.tra('Note: if \'OK to email\' is set in your project preferences, joining a team gives its founder access to your email address.').'</span>'
+                    <br><p class=\"text-muted\">'.tra('Note: if \'OK to email\' is set in your project preferences, joining a team gives its founder access to your email address.').'</p>'
                 );
             } else {
                 row2(tra("Not accepting new members"), "");
@@ -161,7 +161,7 @@ function display_team_page($team, $user) {
         }
     }
     row1(tra('Members'));
-    row2(tra('Founder'), user_links($team->founder));
+    row2(tra('Founder'), user_links($team->founder, BADGE_HEIGHT_MEDIUM));
     if (count($team->admins)) {
         $first = true;
         $x = "";
@@ -171,7 +171,7 @@ function display_team_page($team, $user) {
             } else {
                 $x .= " &middot; ";
             }
-            $x .= user_links($a);
+            $x .= user_links($a, BADGE_HEIGHT_MEDIUM);
         }
         row2(tra('Admins'), $x);
     }
@@ -185,7 +185,7 @@ function display_team_page($team, $user) {
             } else {
                 $x .= " &middot; ";
             }
-            $x .= user_links($a);
+            $x .= user_links($a, BADGE_HEIGHT_MEDIUM);
         }
     }
     row2(tra('New members in last day'), $x);
@@ -256,7 +256,7 @@ function display_team_members($team, $offset, $sort_by) {
     foreach ($users as $user) {
         $user_total_credit = format_credit_large($user->total_credit);
         $user_expavg_credit = format_credit($user->expavg_credit);
-        $x = user_links($user);
+        $x = user_links($user, BADGE_HEIGHT_MEDIUM);
         if ($user->id == $team->userid) {
             $x .= ' ['.tra('Founder').']';
         } else if (is_team_admin_aux($user, $admins)) {
@@ -383,14 +383,18 @@ function team_table_start($sort_by, $type_url) {
     ";
 }
 
+function team_links($team) {
+    $b = badges_string(false, $team, BADGE_HEIGHT_MEDIUM);
+    return "<a href=team_display.php?teamid=$team->id>$team->name</a> $b";
+}
+
 function show_team_row($team, $i) {
     $team_expavg_credit = format_credit_large($team->expavg_credit);
     $team_total_credit = format_credit_large($team->total_credit);
     $j = $i % 2;
-    $b = badges_string(false, $team, 24);
     echo"<tr class=row$j>
         <td>$i</td>
-        <td><a href=team_display.php?teamid=$team->id>$team->name</a> $b</td>
+        <td>".team_links($team)."</td>
         <td align=right>".$team->nusers."</td>
         <td align=right>$team_expavg_credit</td>
         <td align=right>$team_total_credit</td>
@@ -428,8 +432,8 @@ function team_edit_form($team, $label, $url) {
     if ($team) {
         echo "<input type=hidden name=teamid value=$team->id>\n";
         if ($team->seti_id) {
-            echo "<p><span class=error>".tra("WARNING: this is a BOINC-wide team. If you make changes here, they will soon be overwritten. Edit the %1BOINC-wide team%2 instead.", "<a href=http://boinc.berkeley.edu/teams/>", "</a>")
-            ."</span><p>";
+            echo "<p class=\"text-danger\">".tra("WARNING: this is a BOINC-wide team. If you make changes here, they will soon be overwritten. Edit the %1BOINC-wide team%2 instead.", "<a href=http://boinc.berkeley.edu/teams/>", "</a>")
+            ."</p>";
         }
     }
     echo '
@@ -439,13 +443,13 @@ function team_edit_form($team, $label, $url) {
     ';
     start_table();
     row2(tra('Team name, text version').'
-        <br><span class="note">'.tra('Don\'t use HTML tags.').'</span>',
+        <br><p class=\"text-muted\">'.tra('Don\'t use HTML tags.').'</p>',
         "<input name=name type=text size=50 value='".($team?$team->name:"")."'>"
     );
     row2(tra('Team name, HTML version').'
-        <br><span class="note">
+        <br><p class=\"text-muted\">
         '.tra('You may use %1limited HTML tags%2.', '<a href="html.php" target="_new">', '</a>').'
-        '.tra('If you don\'t know HTML, leave this box blank.').'</span>',
+        '.tra('If you don\'t know HTML, leave this box blank.').'</p>',
         "<input name=name_html type=text size=50 value=\"".str_replace('"',"'",($team?$team->name_html:""))."\">"
     );
     row2(tra('URL of team web page, if any').':<br><font size=-2>('.tra('without "http://"').')
@@ -453,9 +457,9 @@ function team_edit_form($team, $label, $url) {
         "<input type=text name=url size=60 value='".($team?$team->url:"")."'>"
     );
     row2(tra('Description of team').':
-        <br><span class="note">
+        <br><p class=\"text-muted\">
         '.tra('You may use %1limited HTML tags%2.', '<a href="html.php" target="_new">', '</a>').'
-        </span>',
+        </p>',
         "<textarea name=description cols=60 rows=10>".($team?$team->description:"")."</textarea>"
     );
 
@@ -470,7 +474,7 @@ function team_edit_form($team, $label, $url) {
     $x = ($team && $team->joinable)?"checked":"";
     row2(tra("Accept new members?"), "<input type=checkbox name=joinable $x>");
     row2("",
-        "<input type=submit name=new value='$label'>"
+        "<input class=\"btn btn-primary\" type=submit name=new value='$label'>"
     );
     end_table();
     echo "</form>\n";

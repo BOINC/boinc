@@ -31,7 +31,7 @@ $wuid2 = get_int('wuid2');
 $unsent_only = get_str('unsent_only', true);
 
 if ($wuid1<1 || $wuid2<$wuid1) {
-    error_page(
+    admin_error_page(
         "<h2>Workunit IDs fail to satisfy the conditions:<p> 0 < ID1 <= ID2"
     );
 }

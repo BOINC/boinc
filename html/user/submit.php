@@ -74,7 +74,7 @@ function show_in_progress($batches, $limit, $user, $app) {
                 "# jobs",
                 "Progress",
                 "Submitted",
-                "Logical end time<br><span class=note>Determines priority</span>"
+                "Logical end time<br><p class=\"text-muted\">Determines priority</p>"
             );
         }
         $pct_done = (int)($batch->fraction_done*100);
@@ -352,9 +352,9 @@ function handle_query_batch($user) {
     echo "<h2>Jobs</h2>\n";
     start_table();
     table_header(
-        "Job ID and name<br><span class=note>click for details or to get output files</span>",
+        "Job ID and name<br><p class=\"text-muted\">click for details or to get output files</p>",
         "status",
-        "Canonical instance<br><span class=note>click to see result page on BOINC server</span>",
+        "Canonical instance<br><p class=\"text-muted\">click to see result page on BOINC server</p>",
         "Download Results"
     );
     foreach($wus as $wu) {
@@ -406,7 +406,7 @@ function handle_query_job($user) {
     $x = "<in>".$wu->xml_doc."</in>";
     $x = simplexml_load_string($x);
     start_table();
-    table_header("Logical name<br><span class=note>(click to view)</span>",
+    table_header("Logical name<br><p class=\"text-muted\">(click to view)</p>",
         "Size (bytes)", "MD5"
     );
     foreach ($x->workunit->file_ref as $fr) {
@@ -428,8 +428,8 @@ function handle_query_job($user) {
     echo "<h2>Instances</h2>\n";
     start_table();
     table_header(
-        "Instance ID<br><span class=note>click for result page</span>",
-        "State", "Output files<br><span class=note>click to view the file</span>"
+        "Instance ID<br><p class=\"text-muted\">click for result page</p>",
+        "State", "Output files<br><p class=\"text-muted\">click to view the file</p>"
     );
     $results = BoincResult::enum("workunitid=$wuid");
     $upload_dir = parse_config(get_config(), "<upload_dir>");

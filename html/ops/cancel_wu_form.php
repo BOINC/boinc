@@ -42,14 +42,14 @@ row2("Workunit ID of first job to cancel", "<input size=\"32\" name=\"wuid1\"");
 row2("Workunit ID of last job to cancel", "<input size=\"32\" name=\"wuid2\"");
 row2(
     "Cancel only jobs with no instance in progress
-        <br><span class=note>
+        <br><p class=\"text-muted\">
         You can cancel jobs with instances that are in progress,
         but if you do so, users will not get credit for these instances.
-        </span>
+        </p>
     ",
     "<input type=checkbox name=unsent_only>"
 );
-row2("", "<input type=\"submit\" value=\"Cancel jobs\">");
+row2("", "<input class=\"btn btn-default\" type=\"submit\" value=\"Cancel jobs\">");
 end_table();
 echo "
     </form>

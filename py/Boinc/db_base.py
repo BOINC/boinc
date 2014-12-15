@@ -488,14 +488,15 @@ class DatabaseObject:
     def _set_dirty(self, value=True):
         self.__dict__['_dirty'] = value
 
-def do_connect(db, user, passwd, host='localhost'):
+def do_connect(db, user, passwd, port, host='localhost'):
     """Takes a database name, a username, and password.  Connects to
     SQL server and makes a new Dbconnection."""
     global dbconnection
     if dbconnection:
         raise 'Already connected'
-    dbconnection = MySQLdb.connect(db=db,host=host,user=user,passwd=passwd,
-                                   cursorclass=MySQLdb.cursors.DictCursor)
+    dbconnection = MySQLdb.connect(db=db, host=host, port=port, user=user,
+        passwd=passwd, cursorclass=MySQLdb.cursors.DictCursor)
+
 def close():
     """Closes the connection to the sql survey and deletes the Dbconnection object."""
     global dbconnection

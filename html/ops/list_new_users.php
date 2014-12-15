@@ -45,12 +45,12 @@ echo "Clicking on a name opens a user management page <i>in another window or ta
 echo "<form name=\"new_user_limit\" action=\"?\" method=\"GET\">\n";
 echo "<label for=\"limit\">Limit displayed users to</label>\n";
 echo "<input type=\"text\" value=\"".$limit."\" name=\"limit\" id=\"limit\" size=\"5\">";
-echo "<input type=\"submit\" value=\"Display\">\n";
+echo "<input class=\"btn btn-default\" type=\"submit\" value=\"Display\">\n";
 echo "</form>\n";
 
 $query="SELECT * FROM user ORDER BY create_time DESC LIMIT $limit";
-$result = mysql_query($query);
-if (mysql_num_rows($result) < 1) {
+$result = _mysql_query($query);
+if (_mysql_num_rows($result) < 1) {
     echo "There are no new users.";
     admin_page_tail();
 }
@@ -58,7 +58,7 @@ if (mysql_num_rows($result) < 1) {
 start_table();
 table_header("ID", "Name", "Email", "Team", "Country", "Joined");
 
-while ($row = mysql_fetch_object($result)) { 
+while ($row = _mysql_fetch_object($result)) { 
     $id = $row->id;
     $name = $row->name;
     $email = $row->email_addr;
@@ -89,7 +89,7 @@ while ($row = mysql_fetch_object($result)) {
         }
     }
     if (!empty($roles)) {
-        $roles = "<span class=\"smalltext\">[$roles]</span>";
+        $roles = "<small>[$roles]</small>";
     }
     
     // Banished?

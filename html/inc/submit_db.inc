@@ -27,6 +27,7 @@ class BoincBatch {
     }
     static function lookup_name($name) {
         $db = BoincDb::get();
+        $name = BoincDb::escape_string($name);
         return $db->lookup('batch', 'BoincBatch', "name='$name'");
     }
     static function enum($clause) {

@@ -32,9 +32,9 @@ set_time_limit(0);
 
 function do_query($query) {
     echo "Doing query:\n$query\n";
-    $result = mysql_query($query);
+    $result = _mysql_query($query);
     if (!$result) {
-        echo "Failed:\n".mysql_error()."\n";
+        echo "Failed:\n"._mysql_error()."\n";
     } else {
         echo "Success.\n";
     }
@@ -43,7 +43,7 @@ function do_query($query) {
 function update_4_18_2004() {
     do_query("alter table user add cross_project_id varchar(254) not null");
     $result = do_query("select * from user");
-    while ($user = mysql_fetch_object($result)) {
+    while ($user = _mysql_fetch_object($result)) {
         $x = random_string();
         do_query("update user set cross_project_id='$x' where id=$user->id");
     }
@@ -969,6 +969,11 @@ function update_8_15_2014() {
         "
     );
 }
+ 
+function update_10_8_2014() {
+    do_query("alter table user_submit add primary key(user_id)");
+    do_query("alter table user_submit_app add primary key(user_id, app_id)");
+}
 
 // Updates are done automatically if you use "upgrade".
 //
@@ -1013,6 +1018,7 @@ $db_updates = array (
     array(27009, "update_5_3_2014"),
     array(27010, "update_6_5_2014"),
     array(27011, "update_8_15_2014"),
+    array(27012, "update_10_8_2014"),
 );
 
 ?>

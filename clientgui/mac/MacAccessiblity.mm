@@ -226,7 +226,7 @@ static void wxRectToNSRect(wxRect &wxr, NSRect &nsr) {
         if (isHeader) {
             int numCols = pList->GetColumnCount();
             if ((!isEventLog) && (BOINCView != nil)) {
-               if (col == BOINCView->m_iSortColumn) {
+               if (col == BOINCView->m_iColumnIDToColumnIndex[BOINCView->m_iSortColumnID]) {
                     isCurrentSortCol = YES;
                 }
             }
@@ -327,7 +327,7 @@ static void wxRectToNSRect(wxRect &wxr, NSRect &nsr) {
         return NSAccessibilitySortButtonRole;
         
     } else if ([attribute isEqualToString:NSAccessibilitySortDirectionAttribute]) {
-        if (col == BOINCView->m_iSortColumn) {
+        if (col == BOINCView->m_iColumnIDToColumnIndex[BOINCView->m_iSortColumnID]) {
             return BOINCView->m_bReverseSort ?
                 NSAccessibilityDescendingSortDirectionValue : NSAccessibilityAscendingSortDirectionValue;
         } else {

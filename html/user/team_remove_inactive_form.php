@@ -55,7 +55,7 @@ foreach($users as $user) {
     echo "
         <tr>
         <td align=center><input type=checkbox name=remove_$ninactive_users value=$user->id>
-        <td>".user_links($user)." ($user->id)</td>
+        <td>".user_links($user, BADGE_HEIGHT_MEDIUM)." ($user->id)</td>
         <td>$user_total_credit</td>
         <td>$user_expavg_credit</td>
         </tr>
@@ -67,7 +67,7 @@ if ($ninactive_users == 0) {
     echo "<p>".tra("No members are eligible for removal.")."</p>";
 } else {
     echo "<input type=hidden name=ninactive_users value=$ninactive_users>";
-    echo "<input type=submit value=\"".tra("Remove users")."\">";
+    echo "<input class=\"btn btn-warning\" type=submit value=\"".tra("Remove users")."\">";
 }
 echo "</form>";
 page_tail();

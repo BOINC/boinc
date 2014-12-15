@@ -96,6 +96,13 @@ $master_url
 // and C doesn't contain @ and is at least 2 chars
 //
 function is_valid_email_addr($addr) {
+    if (defined("USE_STOPFORUMSPAM") && USE_STOPFORUMSPAM) {
+        $ip_addr = $_SERVER['REMOTE_ADDR'];
+        $x = @file_get_contents("http://www.stopforumspam.com/api?ip=".$ip_addr."&email=".$addr);
+        if (substr_count($x, '<appears>yes</appears>')) {
+            return false;
+        }
+    }
     $pattern = '/^([^@]+)@([^@\.]+)\.([^@]{2,})$/';
     $match = preg_match($pattern, $addr);
     return (bool) $match;

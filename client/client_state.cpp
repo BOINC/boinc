@@ -246,11 +246,8 @@ void CLIENT_STATE::show_host_info() {
     } else {
 #if defined (_WIN32) && !defined(_WIN64)
         if (!strcmp(get_primary_platform(), "windows_x86_64")) {
-            msg_printf(NULL, MSG_INFO,
-                "VirtualBox: can't detect because this is a 32-bit client"
-            );
-            msg_printf(NULL, MSG_INFO,
-                "  (to use VirtualBox, install a 64-bit BOINC client)."
+            msg_printf(NULL, MSG_USER_ALERT,
+                "Can't detect VirtualBox because this is a 32-bit version of BOINC; to fix, please install a 64-bit version."
             );
         }
 #endif
@@ -421,12 +418,7 @@ int CLIENT_STATE::init() {
 
     // check for GPUs.
     //
-    for (int j=1; j<coprocs.n_rsc; j++) {
-        msg_printf(NULL, MSG_INFO, "GPU specified in cc_config.xml: %d %s",
-            coprocs.coprocs[j].count,
-            coprocs.coprocs[j].type
-        );
-    }
+    coprocs.bound_counts();     // show GPUs described in cc_config.xml
     if (!cc_config.no_gpus
 #ifdef _WIN32
         && !executing_as_daemon
@@ -511,7 +503,7 @@ int CLIENT_STATE::init() {
     // this follows parse_state_file() since we need to have read
     // domain_name for Android
     //
-    host_info.get_host_info();
+    host_info.get_host_info(true);
     set_ncpus();
     show_host_info();
 
@@ -876,7 +868,7 @@ bool CLIENT_STATE::poll_slow_events() {
 #endif
 
     if (user_active != old_user_active) {
-        request_schedule_cpus("Idle state change");
+        request_schedule_cpus(user_active?"Not idle":"Idle");
     }
 
 #if 0
@@ -974,6 +966,7 @@ bool CLIENT_STATE::poll_slow_events() {
             } else {
                 msg_printf(NULL, MSG_INFO, "Resuming file transfers");
             }
+            request_schedule_cpus("network resumed");
         }
 
         // if we're emerging from a bandwidth quota suspension,
@@ -1158,8 +1151,6 @@ int CLIENT_STATE::link_file_info(PROJECT* p, FILE_INFO* fip) {
 
 int CLIENT_STATE::link_app_version(PROJECT* p, APP_VERSION* avp) {
     APP* app;
-    FILE_INFO* fip;
-    unsigned int i;
 
     avp->project = p;
     app = lookup_app(p, avp->app_name);
@@ -1187,9 +1178,9 @@ int CLIENT_STATE::link_app_version(PROJECT* p, APP_VERSION* avp) {
     strcpy(avp->graphics_exec_path, "");
     strcpy(avp->graphics_exec_file, "");
 
-    for (i=0; i<avp->app_files.size(); i++) {
+    for (unsigned int i=0; i<avp->app_files.size(); i++) {
         FILE_REF& file_ref = avp->app_files[i];
-        fip = lookup_file_info(p, file_ref.file_name);
+        FILE_INFO* fip = lookup_file_info(p, file_ref.file_name);
         if (!fip) {
             msg_printf(p, MSG_INTERNAL_ERROR,
                 "State file error: missing application file %s",
@@ -1602,6 +1593,10 @@ bool CLIENT_STATE::garbage_collect_always() {
 
     for (fi_iter = file_infos.begin(); fi_iter!=file_infos.end(); fi_iter++) {
         fip = *fi_iter;
+        if (fip->sticky_expire_time && now > fip->sticky_expire_time) {
+            fip->sticky = false;
+            fip->sticky_expire_time = 0;
+        }
         if (!fip->sticky) continue;
         if (fip->status < 0) continue;
         fip->ref_cnt++;
@@ -1957,6 +1952,15 @@ int CLIENT_STATE::reset_project(PROJECT* project, bool detaching) {
         }
         garbage_collect_always();
     }
+#ifdef ANDROID
+    // space is likely to be an issue on Android, so clean out project dir
+    // If we did this on other platforms we'd need to avoid deleting
+    // app_config.xml, but this isn't likely to exist on Android.
+    //
+    if (!project->anonymous_platform) {
+        client_clean_out_dir(project->project_dir(), "reset project");
+    }
+#endif
 
     // force refresh of scheduler URLs
     //

@@ -18,8 +18,6 @@
 #ifndef _BROWSER_
 #define _BROWSER_
 
-#include <sqlite3.h>
-
 //
 // The BOINC client now supports the ability to lookup a users
 //   authenticator during automatic attachments via a browser
@@ -27,7 +25,17 @@
 //
 
 bool detect_setup_authenticator(std::string& project_url, std::string& authenticator);
-bool detect_account_manager_credentials(std::string& project_url, std::string& login, std::string& password_hash, std::string& return_url);
+
+bool detect_simple_account_credentials(
+    std::string& project_name, std::string& project_url, std::string& authenticator, 
+    std::string& project_institution, std::string& project_description, std::string& known
+);
+
+bool detect_account_manager_credentials(
+    std::string& project_url, std::string& login, std::string& password_hash,
+    std::string& return_url
+);
+
 bool is_authenticator_valid(const std::string authenticator);
 
 // platform specific browsers
@@ -44,20 +52,5 @@ bool detect_cookie_safari(std::string& project_url, std::string& name, std::stri
 bool detect_cookie_firefox_2(std::string& project_url, std::string& name, std::string& value);
 bool detect_cookie_firefox_3(std::string& project_url, std::string& name, std::string& value);
 bool detect_cookie_chrome(std::string& project_url, std::string& name, std::string& value);
-
-#if 0 //defined(__APPLE__)
-#undef sqlite3_free
-#ifdef __cplusplus
-extern "C" {
-#endif
-    // sqlite3 is not available on Mac OS 10.3.9
-    extern int sqlite3_open(const char *filename, sqlite3 **ppDb) __attribute__((weak_import));
-    extern int sqlite3_close(sqlite3 *) __attribute__((weak_import));
-    extern int sqlite3_exec(sqlite3*,  const char *sql, sqlite3_callback, void *, char **errmsg) __attribute__((weak_import));
-    extern void sqlite3_free(void *z) __attribute__((weak_import));
-#ifdef __cplusplus
-}
-#endif
-#endif
 
 #endif

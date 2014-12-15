@@ -350,18 +350,18 @@ function result_table_start($show_wu_link, $show_host_link, $info) {
             $i2 = clone $info;
             $i2->show_names = 0;
             $url = result_page_url($i2);
-            echo "<th>".tra("Task name")."<br><span class=\"smalltext\">".tra("click for details")."<br><a href=$url>".tra("Show IDs")."</a></span></th>\n";
+            echo "<th>".tra("Task name")."<br><small>".tra("click for details")."<br><a href=$url>".tra("Show IDs")."</a></small></th>\n";
         } else {
             $i2 = clone $info;
             $i2->show_names = 1;
             $url = result_page_url($i2);
-            echo "<th>Task<br><span class=\"smalltext\">".tra("click for details")."<br><a href=$url>".tra("Show names")."</a></span></th>\n";
+            echo "<th>Task<br><small>".tra("click for details")."<br><a href=$url>".tra("Show names")."</a></small></th>\n";
         }
     } else {
-        echo "<th>".tra("Task")."<br><span class=\"smalltext\">".tra("click for details")."</span></th>\n";
+        echo "<th>".tra("Task")."<br><small>".tra("click for details")."</small></th>\n";
     }
     if ($show_wu_link) {
-        echo "<th>".tra("Work unit")."<br><span class=\"smalltext\">".tra("click for details")."</span></th>\n";
+        echo "<th>".tra("Work unit")."<br><small>".tra("click for details")."</small></th>\n";
         if (function_exists('project_result_info_heading')) {
             $x = project_result_info_heading();
             if ($x) {
@@ -375,7 +375,7 @@ function result_table_start($show_wu_link, $show_host_link, $info) {
     echo "
         <th>".tra("Sent")."</th>
         <th>".tra("Time reported<br />or deadline")."
-            <br><span class=\"smalltext\"><a href=\"explain_state.php?field=result_time\">".tra("explain")."</a></span>
+            <br><small><a href=\"explain_state.php?field=result_time\">".tra("explain")."</a></small>
         </th>
         <th>".tra("Status")."</th>
         <th>".tra("Run time<br />(sec)")."</th>
@@ -692,9 +692,14 @@ function result_navigation($info, $where_clause) {
 	}
 	$app_count[0] = 0;
 
-	$results = BoincResult::enum_fields("appid, server_state, outcome, validate_state", $where_clause, null);
+	$results = BoincResult::enum_fields(
+        "appid, server_state, outcome, validate_state",
+        $where_clause, null
+    );
 	foreach ($results as $r) {
-		$app_count[$r->appid]++;
+        if (array_key_exists($r->appid, $app_count)) {
+            $app_count[$r->appid]++;
+        }
 		$app_count[0]++;
         if (!$info->appid || ($r->appid == $info->appid)) {
             $state_count[state_num($r)]++;
@@ -761,7 +766,7 @@ function result_navigation($info, $where_clause) {
         }
     }
 
-    $x .= "<form action=result.php>".tra("Task name:")."<input size=40 name=result_name><input type=submit value='OK'></form>";
+    $x .= "<form action=result.php>".tra("Task name:")."<input size=40 name=result_name><input class=\"btn btn-primary\" type=submit value='OK'></form>";
     $x .= "</center><br>";
 	return $x;
 }

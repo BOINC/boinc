@@ -42,216 +42,180 @@
 include_once("../inc/prefs_util.inc");
 
 $cpu_prefs = array(
+    "Usage limits",
+    new PREF_NUM(
+        tra("Use at most"),
+        "max_ncpus_pct",
+        new NUM_SPEC(tra("% of the CPUs"), 1, 100, 100)
+    ),
+    new PREF_NUM(
+        tra("Use at most"),
+        "cpu_usage_limit",
+        new NUM_SPEC(tra("% of CPU time"), 1, 100, 100)
+    ),
+    "When to suspend",
     new PREF_BOOL(
-        tra("Suspend work while computer is on battery power?")
-            ."<br><span class=note>"
-            .tra("Matters only for portable computers")
-            ."</span>",
+        tra("Suspend when computer is on battery"),
         "run_on_batteries",
         false, true
     ),
     new PREF_BOOL(
-        tra("Suspend work while computer is in use?"),
+        tra("Suspend when computer is in use"),
         "run_if_user_active",
         true, true
     ),
     new PREF_BOOL(
-        tra("Suspend GPU work while computer is in use?")
-            ."<br><span class=note>"
-            .tra("Enforced by version 6.6.21+")
-            ."</span>",
+        tra("Suspend GPU computing when computer is in use"),
         "run_gpu_if_user_active",
         false, true
     ),
     new PREF_NUM(
-        tra("'In use' means mouse/keyboard activity in last"),
+        tra("'In use' means mouse/keyboard input in last"),
         "idle_time_to_run",
-        new NUM_SPEC(tra("minutes"), 1, 9999, 3)
+        new NUM_SPEC(tra("minutes"), 1, 9999, 3),
+        true
     ),
-    new PREF_NUM(
-        tra("Suspend work if no mouse/keyboard activity in last")
-            ."<br><span class=note>"
+    new PREF_OPT_NUM(
+        tra("Suspend when no mouse/keyboard input in last")
+            ."<br><p class=\"text-muted\">"
             .tra("Needed to enter low-power mode on some computers")
-            ."</span>",
+            ."</p>",
         "suspend_if_no_recent_input",
-        new NUM_SPEC(tra("minutes"), 0, 9999, 0)
+        new NUM_SPEC(tra("minutes"), 0, 9999, 0, 1, 60)
     ),
-    new PREF_NUM(
-        tra("Suspend work when non-BOINC CPU usage is above")
-            ."<br><span class=note>"
-            .tra("0 means no restriction")
-            ."<br>"
-            .tra("Enforced by version 6.10.30+ %2")
-            ."</span>",
+    new PREF_OPT_NUM(
+        tra("Suspend when non-BOINC CPU usage is above"),
         "suspend_cpu_usage",
         new NUM_SPEC("%", 0, 100, 25)
     ),
     new PREF_HOUR_RANGE(
-        tra("Do work only between the hours of")
-            ."<br><span class=note>"
-            .tra("No restriction if equal")
-            ."</span>",
+        tra("Suspend when the time is not between"),
         "start_hour", "end_hour"
     ),
-    new PREF_BOOL(
-        tra("Leave tasks in memory while suspended?")
-            ."<br><span class=note>"
-            .tra("Suspended tasks will consume swap space if 'yes'")
-            ."</span>",
-        "leave_apps_in_memory",
-        false
+    "Other",
+    new PREF_NUM(
+        tra("Store at least"),
+        "work_buf_min_days",
+        new NUM_SPEC(tra("days of work"), 0, 10, .1)
     ),
     new PREF_NUM(
-        tra("Switch between tasks every")
-            ."<br><span class=note>"
-            .tra("Recommended: 60 minutes")
-            ."</span>",
+        tra("Store up to an additional"),
+        "work_buf_additional_days",
+        new NUM_SPEC(tra("days of work"), 0, 10, .5)
+    ),
+    new PREF_NUM(
+        tra("Switch between tasks about every"),
         "cpu_scheduling_period_minutes",
         new NUM_SPEC(tra("minutes"), 1, 9999, 60)
     ),
     new PREF_NUM(
-        tra("On multiprocessors, use at most")
-            ."<br><span class=note>"
-            .tra("0 means no restriction")
-            ."</span>",
-        "max_cpus",
-        new NUM_SPEC(tra("processors"), 0, 9999, 0)
-    ),
-    new PREF_NUM(
-        tra("On multiprocessors, use at most")
-            ."<br><span class=note>"
-            .tra("0 means no restriction")
-            ."<br>"
-            .tra("Enforced by version 6.1+")
-            ."</span>",
-        "max_ncpus_pct",
-        new NUM_SPEC(tra("% of the processors"), 0, 100, 100)
-    ),
-    new PREF_NUM(
-        tra("Use at most")
-            ."<br><span class=note>"
-            .tra("Can be used to reduce CPU heat")
-            ."<br>"
-            .tra("0 means no restriction")
-            ."</span>",
-        "cpu_usage_limit",
-        new NUM_SPEC(tra("% of CPU time"), 0, 100, 100)
+        tra("Request tasks to checkpoint at most every"),
+        "disk_interval",
+        new NUM_SPEC(tra("seconds"), 0, 9999999, 60)
     ),
 );
 
 $dp = get_disk_space_config();
 
 $disk_prefs = array(
-    new PREF_NUM(
-        tra("Disk: use at most")
-            ."<br><span class=note>"
-            .tra("0 means no restriction")
-            ."</span>",
+    new PREF_OPT_NUM(
+        tra("Use no more than"),
         "disk_max_used_gb",
-        new NUM_SPEC(tra("GB"), 0, 9999999, $dp->disk_max_used_gb)
+        new NUM_SPEC(tra("GB"), 0, 9999999, $dp->disk_max_used_gb, 1, 100)
     ),
-    new PREF_NUM(
-        tra("Disk: leave free at least")
-            ."<br><span class=note>"
-            .tra("Values smaller than 0.001 are ignored")
-            ."</span>",
+    new PREF_OPT_NUM(
+        tra("Leave at least"),
         "disk_min_free_gb",
-        new NUM_SPEC(tra("GB"), 0.001, 9999999, $dp->disk_min_free_gb)
+        new NUM_SPEC(tra("GB free"), 0, 9999999, $dp->disk_min_free_gb, 1, 1)
     ),
-    new PREF_NUM(
-        tra("Disk: use at most"),
+    new PREF_OPT_NUM(
+        tra("Use no more than"),
         "disk_max_used_pct",
         new NUM_SPEC(tra("% of total"), 0, 100, $dp->disk_max_used_pct)
     ),
+);
+
+$mem_prefs = array(
     new PREF_NUM(
-        tra("Tasks checkpoint to disk at most every"),
-        "disk_interval",
-        new NUM_SPEC(tra("seconds"), 0, 9999999, 60)
-    ),
-    new PREF_NUM(
-        tra("Swap space: use at most"),
-        "vm_max_used_pct",
-        new NUM_SPEC(tra("% of total"), 0, 100, 75)
-    ),
-    new PREF_NUM(
-        tra("Memory: when computer is in use, use at most"),
+        tra("When computer is in use, use at most"),
         "ram_max_used_busy_pct",
-        new NUM_SPEC(tra("% of total"), 0, 100, 50)
+        new NUM_SPEC(tra("%"), 1, 100, 50)
     ),
     new PREF_NUM(
-        tra("Memory: when computer is not in use, use at most"),
+        tra("When computer is not in use, use at most"),
         "ram_max_used_idle_pct",
-        new NUM_SPEC(tra("% of total"), 0, 100, 90)
+        new NUM_SPEC(tra("%"), 1, 100, 90)
+    ),
+    new PREF_BOOL(
+        tra("Leave non-GPU tasks in memory while suspended"),
+        "leave_apps_in_memory",
+        false
+    ),
+    new PREF_NUM(
+        tra("Page/swap file: use at most"),
+        "vm_max_used_pct",
+        new NUM_SPEC(tra("%"), 1, 100, 75)
     ),
 );
 
 $net_prefs = array(
-    new PREF_NUM(
-        tra("Maintain enough tasks to keep busy for at least")
-            ."<br><span class=note>"
-            .tra("(max 10 days)")
-            ."</span>",
-        "work_buf_min_days",
-        new NUM_SPEC(tra("days"), 0, 10, .1)
-    ),
-    new PREF_NUM(
-        tra("... and up to an additional"),
-        "work_buf_additional_days",
-        new NUM_SPEC(tra("days"), 0, 10, .5)
-    ),
-    new PREF_BOOL(
-        tra("Confirm before connecting to Internet?")
-            ."<br><span class=note>"
-            .tra("Matters only if you have a modem, ISDN or VPN connection")
-            ."</span>",
-        "confirm_before_connecting",
-        false
-    ),
-    new PREF_BOOL(
-        tra("Disconnect when done?")
-            ."<br><span class=note>"
-            .tra("Matters only if you have a modem, ISDN or VPN connection")
-            ."</span>",
-        "hangup_if_dialed",
-        false
-    ),
-    new PREF_NUM(
-        tra("Maximum download rate:"),
+    "Usage limits",
+    new PREF_OPT_NUM(
+        tra("Limit download rate to"),
         "max_bytes_sec_down",
-        new NUM_SPEC(tra("Kbytes/sec"), 0, 9999999, 0, 1000)
+        new NUM_SPEC(tra("Kbytes/sec"), 0, 9999999, 0, 1000, 100)
     ),
-    new PREF_NUM(
-        tra("Maximum upload rate:"),
+    new PREF_OPT_NUM(
+        tra("Limit upload rate to"),
         "max_bytes_sec_up",
-        new NUM_SPEC(tra("Kbytes/sec"), 0, 9999999, 0, 1000)
-    ),
-    new PREF_HOUR_RANGE(
-        tra("Use network only between the hours of"),
-        "net_start_hour", "net_end_hour"
+        new NUM_SPEC(tra("Kbytes/sec"), 0, 9999999, 0, 1000, 100)
     ),
     new PREF_NUM2(
-        tra("Transfer at most")
-            ."<br><span class=note>"
+        tra("Limit usage to")
+            ."<br><p class=\"text-muted\">"
             .tra("Enforced by version 6.10.46+")
-            ."</span>",
+            ."</p>",
         "daily_xfer_limit_mb",
         "daily_xfer_period_days",
         new NUM_SPEC(tra("Mbytes every"), 0, 9999999, 0),
         new NUM_SPEC(tra("days"), 0, 9999999, 0)
     ),
+    "When to suspend",
+    new PREF_HOUR_RANGE(
+        tra("Transfer files only between the hours of"),
+        "net_start_hour", "net_end_hour"
+    ),
+    "Other",
     new PREF_BOOL(
-        tra("Skip image file verification?")
-            ."<br><span class=note>"
+        tra("Skip data verification for image files")
+            ."<br><p class=\"text-muted\">"
             .tra("Check this ONLY if your Internet provider modifies image files (UMTS does this, for example).  Skipping verification reduces the security of BOINC.")
-            ."</span>",
+            ."</p>",
         "dont_verify_images",
+        false
+    ),
+    new PREF_BOOL(
+        tra("Confirm before connecting to Internet")
+            ."<br><p class=\"text-muted\">"
+            .tra("Matters only if you have a modem, ISDN or VPN connection")
+            ."</p>",
+        "confirm_before_connecting",
+        false
+    ),
+    new PREF_BOOL(
+        tra("Disconnect when done")
+            ."<br><p class=\"text-muted\">"
+            .tra("Matters only if you have a modem, ISDN or VPN connection")
+            ."</p>",
+        "hangup_if_dialed",
         false
     ),
 );
 
-define("DISK_LIMIT_DESC", tra("Disk and memory usage"));
-define("CPU_LIMIT_DESC", tra("Processor usage"));
-define("NETWORK_LIMIT_DESC", tra("Network usage"));
+define("CPU_LIMIT_DESC", tra("Computing"));
+define("DISK_LIMIT_DESC", tra("Disk"));
+define("MEM_LIMIT_DESC", tra("Memory"));
+define("NETWORK_LIMIT_DESC", tra("Network"));
 
 // These texts are used in multiple places in prefs_edit.php and add_venue.php
 define("PREFS_FORM_DESC1", tra("These preferences apply to all the BOINC projects in which you participate.")."<br><br>");
@@ -288,7 +252,7 @@ function get_disk_space_config() {
     // set some defaults if not found
     if (!$dp->disk_max_used_gb) $dp->disk_max_used_gb = 0;  // no limit
     if (!$dp->disk_max_used_pct) $dp->disk_max_used_pct = 90; // 90 percent
-    if (!$dp->disk_min_free_gb) $dp->disk_min_free_gb=.1;   // 100 MB
+    if (!$dp->disk_min_free_gb) $dp->disk_min_free_gb = 1;   // 1 GB
     // set mininimum free space scheduler allows 
     // - depends on which scheduler is running
     $dp->new_sched_flag = 1;
@@ -299,6 +263,10 @@ function get_disk_space_config() {
     }    
        
     return $dp;
+}
+
+function group_header($t) {
+    echo "<tr><th class=heading2 colspan=5>$t</th></tr>\n";
 }
 
 // functions to parse preferences XML into a struct
@@ -327,10 +295,11 @@ function element_end_global($parser, $name) {
     global $venue_name;
     global $cpu_prefs;
     global $disk_prefs;
-    global $disk_prefs;
+    global $mem_prefs;
     global $net_prefs;
 
     foreach ($cpu_prefs as $p) {
+        if (is_string($p)) continue;
         if ($p->xml_parse($parse_result, $name, $text)) {
             return;
         }
@@ -340,7 +309,13 @@ function element_end_global($parser, $name) {
             return;
         }
     }
+    foreach ($mem_prefs as $p) {
+        if ($p->xml_parse($parse_result, $name, $text)) {
+            return;
+        }
+    }
     foreach ($net_prefs as $p) {
+        if (is_string($p)) continue;
         if ($p->xml_parse($parse_result, $name, $text)) {
             return;
         }
@@ -371,16 +346,22 @@ function char_handler($parser, $x) {
 function default_prefs_global() {
     global $cpu_prefs;
     global $disk_prefs;
+    global $mem_prefs;
     global $net_prefs;
 
     $p = new StdClass;
     foreach ($cpu_prefs as $pref) {
+        if (is_string($pref)) continue;
         $pref->set_default($p);
     }
     foreach ($disk_prefs as $pref) {
         $pref->set_default($p);
     }
+    foreach ($mem_prefs as $pref) {
+        $pref->set_default($p);
+    }
     foreach ($net_prefs as $pref) {
+        if (is_string($pref)) continue;
         $pref->set_default($p);
     }
     return $p;
@@ -405,18 +386,31 @@ function prefs_parse_global($prefs_xml) {
 function prefs_show_columns_global($prefs) {
     global $cpu_prefs;
     global $disk_prefs;
+    global $mem_prefs;
     global $net_prefs;
 
     row_top(CPU_LIMIT_DESC);
     foreach ($cpu_prefs as $p) {
+        if (is_string($p)) {
+            group_header($p);
+            continue;
+        }
         $p->show_cols($prefs);
     }
     row_top(DISK_LIMIT_DESC);
     foreach ($disk_prefs as $p) {
         $p->show_cols($prefs);
     }
+    row_top(MEM_LIMIT_DESC);
+    foreach ($mem_prefs as $p) {
+        $p->show_cols($prefs);
+    }
     row_top(NETWORK_LIMIT_DESC);
     foreach ($net_prefs as $p) {
+        if (is_string($p)) {
+            group_header($p);
+            continue;
+        }
         $p->show_cols($prefs);
     }
     row_links("global", $prefs);
@@ -425,18 +419,31 @@ function prefs_show_columns_global($prefs) {
 function prefs_show_global($prefs) {
     global $cpu_prefs;
     global $disk_prefs;
+    global $mem_prefs;
     global $net_prefs;
 
     row1(CPU_LIMIT_DESC);
     foreach ($cpu_prefs as $p) {
+        if (is_string($p)) {
+            group_header($p);
+            continue;
+        }
         $p->show($prefs);
     }
     row1(DISK_LIMIT_DESC);
     foreach ($disk_prefs as $p) {
         $p->show($prefs);
     }
+    row1(MEM_LIMIT_DESC);
+    foreach ($mem_prefs as $p) {
+        $p->show($prefs);
+    }
     row1(NETWORK_LIMIT_DESC);
     foreach ($net_prefs as $p) {
+        if (is_string($p)) {
+            group_header($p);
+            continue;
+        }
         $p->show($prefs);
     }
 }
@@ -556,7 +563,7 @@ function print_prefs_form(
         prefs_form_project_specific($prefs->project_specific, $project_error);
     }
 
-    row2("", "<input type=submit value=\"$submit_value\" name=\"action\">");
+    row2("", "<input class=\"btn btn-primary\" type=submit value=\"$submit_value\" name=\"action\">");
     end_table();
     echo "</form>\n";
 }
@@ -568,18 +575,31 @@ function print_prefs_form(
 function prefs_form_global($user, $prefs, $error=false) {
     global $cpu_prefs;
     global $disk_prefs;
+    global $mem_prefs;
     global $net_prefs;
 
     row1(CPU_LIMIT_DESC);
     foreach ($cpu_prefs as $p) {
+        if (is_string($p)) {
+            group_header($p);
+            continue;
+        }
         $p->show_form_row($prefs, $error);
     }
     row1(DISK_LIMIT_DESC);
     foreach ($disk_prefs as $p) {
         $p->show_form_row($prefs, $error);
     }
+    row1(MEM_LIMIT_DESC);
+    foreach ($mem_prefs as $p) {
+        $p->show_form_row($prefs, $error);
+    }
     row1(NETWORK_LIMIT_DESC);
     foreach ($net_prefs as $p) {
+        if (is_string($p)) {
+            group_header($p);
+            continue;
+        }
         $p->show_form_row($prefs, $error);
     }
 }
@@ -634,16 +654,22 @@ function venue_parse_form(&$user) {
 function prefs_global_parse_form(&$prefs) {
     global $cpu_prefs;
     global $disk_prefs;
+    global $mem_prefs;
     global $net_prefs;
 
     $error = false;
     foreach ($cpu_prefs as $p) {
+        if (is_string($p)) continue;
         $p->parse_form($prefs, $error);
     }
     foreach ($disk_prefs as $p) {
         $p->parse_form($prefs, $error);
     }
+    foreach ($mem_prefs as $p) {
+        $p->parse_form($prefs, $error);
+    }
     foreach ($net_prefs as $p) {
+        if (is_string($p)) continue;
         $p->parse_form($prefs, $error);
     }
     return $error;
@@ -657,6 +683,7 @@ function prefs_global_parse_form(&$prefs) {
 function global_prefs_make_xml($prefs, $primary=true) {
     global $cpu_prefs;
     global $disk_prefs;
+    global $mem_prefs;
     global $net_prefs;
 
     $xml = "";
@@ -667,12 +694,17 @@ function global_prefs_make_xml($prefs, $primary=true) {
     }
 
     foreach ($cpu_prefs as $p) {
+        if (is_string($p)) continue;
         $xml .= $p->xml_string($prefs);
     }
     foreach ($disk_prefs as $p) {
         $xml .= $p->xml_string($prefs);
     }
+    foreach ($mem_prefs as $p) {
+        $xml .= $p->xml_string($prefs);
+    }
     foreach ($net_prefs as $p) {
+        if (is_string($p)) continue;
         $xml .= $p->xml_string($prefs);
     }
 

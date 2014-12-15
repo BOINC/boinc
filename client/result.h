@@ -144,6 +144,12 @@ struct RESULT {
     inline bool uses_coprocs() {
         return (avp->gpu_usage.rsc_type != 0);
     }
+    inline bool uses_gpu() {
+        int rt = avp->gpu_usage.rsc_type;
+        if (!rt) return false;
+        if (coprocs.coprocs[rt].non_gpu) return false;
+        return true;
+    }
     inline int resource_type() {
         return avp->gpu_usage.rsc_type;
     }
@@ -185,7 +191,7 @@ struct RESULT {
         // textual description of resources used
     double schedule_backoff;
         // don't try to schedule until this time
-        // (wait for free GPU RAM)
+        // (because the app called boinc_temporary_exit())
     char schedule_backoff_reason[256];
 };
 

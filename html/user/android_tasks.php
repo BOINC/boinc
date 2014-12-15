@@ -97,7 +97,7 @@ function show_vendors($vendors) {
     page_head("Android task success by vendor");
     start_table();
     table_header(
-        "Vendor<br><span class=note>click for models</span>",
+        "Vendor<br><p class=\"text-muted\">click for models</p>",
         "Success", "Failure", "Success rate"
     );
     $y = array(0,0,0,0,0,0,0,0);

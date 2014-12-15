@@ -27,12 +27,12 @@ set_time_limit(0);
 function fix_forum_preferences($forum_preferences) {
     $text = html_to_bbcode($forum_preferences->signature);
     if ($text != $forum_preferences->signature) {
-        $query = "update forum_preferences set signature = '".mysql_escape_string($text)."' where userid=".$forum_preferences->userid;
+        $query = "update forum_preferences set signature = '"._mysql_escape_string($text)."' where userid=".$forum_preferences->userid;
         //echo "$forum_preferences->signature\n\n";
         //echo "$forum_preferences->thread $query\n\n";
-        $retval = mysql_query($query);
+        $retval = _mysql_query($query);
         if (!$retval) {
-            echo mysql_error();
+            echo _mysql_error();
             exit();
         }
     }
@@ -40,10 +40,10 @@ function fix_forum_preferences($forum_preferences) {
 
 function fix_forum_preferencess() {
     $start_id = 0; //Set this to something else if you like
-    $forum_preferencess = mysql_query("select * from forum_preferences where userid>$start_id order by userid");
-    echo mysql_error();
+    $forum_preferencess = _mysql_query("select * from forum_preferences where userid>$start_id order by userid");
+    echo _mysql_error();
     $i=0;
-    while ($forum_preferences = mysql_fetch_object($forum_preferencess)){
+    while ($forum_preferences = _mysql_fetch_object($forum_preferencess)){
         $i++; 
         if ($i%100 == 0) {                      //For every 100 forum_preferencess
             echo $forum_preferences->userid.". "; flush();   // print out where we are
@@ -58,8 +58,8 @@ function fix_forum_preferencess() {
 
 // use this to patch problem cases; hand-edit
 function fix_fix() {
-    $forum_preferencess = mysql_query("select * from forum_preferences where id=99");
-    $forum_preferences = mysql_fetch_object($forum_preferencess);
+    $forum_preferencess = _mysql_query("select * from forum_preferences where id=99");
+    $forum_preferences = _mysql_fetch_object($forum_preferencess);
     fix_forum_preferences($forum_preferences);
 }
 

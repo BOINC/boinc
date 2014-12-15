@@ -93,7 +93,7 @@ page_head(tra("Post to thread"),'','','', $bbcode_js);
 show_forum_header($logged_in_user);
 
 if ($warning) {
-    echo "<span class=error>$warning</span><p>";
+    echo "<p class=\"text-danger\">$warning</p>";
 }
 
 switch ($forum->parent_type) {
@@ -168,8 +168,8 @@ function show_message_row($thread, $parent_post) {
         $enable_signature="";
     }
     $x2 .= "</textarea><p>
-        <input type=\"submit\" name=\"preview\" value=\"".tra("Preview")."\">
-        <input type=\"submit\" value=\"".tra("Post reply")."\">
+        <input class=\"btn btn-default\" type=\"submit\" name=\"preview\" value=\"".tra("Preview")."\">
+        <input class=\"btn btn-primary\" type=\"submit\" value=\"".tra("Post reply")."\">
         &nbsp;&nbsp;&nbsp;
         <input type=\"checkbox\" name=\"add_signature\" id=\"add_signature\" value=\"add_it\" ".$enable_signature.">
         <label for=\"add_signature\">".tra("Add my signature to this reply")."</label>

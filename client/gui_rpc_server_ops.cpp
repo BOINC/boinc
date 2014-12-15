@@ -374,7 +374,7 @@ static void handle_set_gpu_mode(GUI_RPC_CONN& grc) {
     grc.mfout.printf("<success/>\n");
 }
 
-// used on Android - get product name and MAC addr from GUI,
+// On Android, get product name, OS name, OS version, and MAC addr from GUI,
 //
 static void handle_set_host_info(GUI_RPC_CONN& grc) {
     while (!grc.xp.get_tag()) {
@@ -387,6 +387,23 @@ static void handle_set_host_info(GUI_RPC_CONN& grc) {
             }
             if (strlen(hi.product_name)) {
                 safe_strcpy(gstate.host_info.product_name, hi.product_name);
+            }
+
+            // this will always be "Android"
+            //
+            if (strlen(hi.os_name)) {
+                safe_strcpy(gstate.host_info.os_name, hi.os_name);
+            }
+
+            // We already have the Linux kernel version;
+            // append the Android version.
+            //
+            if (strlen(hi.os_version)) {
+                if (!strstr(gstate.host_info.os_version, "Android")) {
+                    safe_strcat(gstate.host_info.os_version, " (Android ");
+                    safe_strcat(gstate.host_info.os_version, hi.os_version);
+                    safe_strcat(gstate.host_info.os_version, ")");
+                }
             }
             grc.mfout.printf("<success/>\n");
             gstate.set_client_state_dirty("set_host_info RPC");

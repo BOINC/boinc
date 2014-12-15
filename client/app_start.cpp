@@ -669,7 +669,7 @@ int ACTIVE_TASK::start(bool test) {
     char slotdirpath[MAXPATHLEN];
     char error_msg[1024];
     char error_msg2[1024];
-    DWORD last_error;
+    DWORD last_error = 0;
     
     memset(&process_info, 0, sizeof(process_info));
     memset(&startup_info, 0, sizeof(startup_info));

@@ -296,6 +296,15 @@ int get_os_information(
     switch (osvi.dwPlatformId) {
         case VER_PLATFORM_WIN32_NT:
 
+			if ( osvi.dwMajorVersion == 6 && osvi.dwMinorVersion == 4 ) {
+                if( osvi.wProductType == VER_NT_WORKSTATION ) {
+                    strcat(os_name, "Windows 10");
+                } else {
+                    strcat(os_name, "Windows Server 2015");
+                }
+                pGPI( 6, 4, 0, 0, &dwType);
+            }
+
 			if ( osvi.dwMajorVersion == 6 && osvi.dwMinorVersion == 3 ) {
                 if( osvi.wProductType == VER_NT_WORKSTATION ) {
                     strcat(os_name, "Windows 8.1");
@@ -1190,7 +1199,7 @@ int HOST_INFO::get_virtualbox_version() {
 
 // Gets host information; called on startup and before each sched RPC
 //
-int HOST_INFO::get_host_info() {
+int HOST_INFO::get_host_info(bool init) {
     get_timezone(timezone);
     int retval = get_filesystem_info(d_total, d_free);
     if (retval) {
@@ -1198,11 +1207,16 @@ int HOST_INFO::get_host_info() {
             "get_filesystem_info(): %s", boincerror(retval)
         );
     }
-    get_memory_info(m_nbytes, m_swap);
+    get_local_network_info();
+
+    if (!init) return 0;
+    ::get_memory_info(m_nbytes, m_swap);
     get_os_information(
         os_name, sizeof(os_name), os_version, sizeof(os_version)
     );
-    get_virtualbox_version();
+    if (!cc_config.dont_use_vbox) {
+        get_virtualbox_version();
+    }
     get_processor_info(
         p_vendor, sizeof(p_vendor),
         p_model, sizeof(p_model),
@@ -1210,7 +1224,6 @@ int HOST_INFO::get_host_info() {
         m_cache,
         p_ncpus
     );
-    get_local_network_info();
     if (!strlen(host_cpid)) {
         generate_host_cpid();
     }

@@ -371,12 +371,12 @@ void ACTIVE_TASK::handle_temporary_exit(
     } else {
         if (is_notice) {
             msg_printf(result->project, MSG_USER_ALERT,
-                "Can't run task: %s", reason
+                "Task postponed: %s", reason
             );
         } else {
-            if (log_flags.task_debug) {
+            if (log_flags.task) {
                 msg_printf(result->project, MSG_INFO,
-                    "[task] task called temporary_exit(%f, %s)", backoff, reason
+                    "task postponed %f sec: %s", backoff, reason
                 );
             }
         }
@@ -587,10 +587,30 @@ void ACTIVE_TASK::handle_exited_app(int stat) {
     gstate.request_work_fetch("application exited");
 }
 
+// structure of a finish file (see boinc_api.cpp)):
+// exit status (int)
+// message
+// "notice" or blank line
+// ... or empty
+//
 bool ACTIVE_TASK::finish_file_present() {
-    char path[MAXPATHLEN];
+    char path[MAXPATHLEN], buf[1024], buf2[256];
+    strcpy(buf, "");
+    strcpy(buf2, "");
     sprintf(path, "%s/%s", slot_dir, BOINC_FINISH_CALLED_FILE);
-    return (boinc_file_exists(path) != 0);
+    FILE* f = fopen(path, "r");
+    if (!f) return false;
+    fgets(buf, sizeof(buf), f);
+    fgets(buf, sizeof(buf), f);
+    fgets(buf2, sizeof(buf2), f);
+    if (strlen(buf)) {
+        msg_printf(result->project,
+            strstr(buf2, "notice")?MSG_USER_ALERT:MSG_INFO,
+            "Message from task: %s", buf
+        );
+    }
+    fclose(f);
+    return true;
 }
 
 bool ACTIVE_TASK::temporary_exit_file_present(
@@ -1471,7 +1491,9 @@ void ACTIVE_TASK_SET::get_msgs() {
         if (!atp->process_exists()) continue;
         old_time = atp->checkpoint_cpu_time;
         if (atp->scheduler_state == CPU_SCHED_SCHEDULED) {
-            atp->elapsed_time += atp->result->dont_throttle()?et_diff:et_diff_throttle;
+            double x = atp->result->dont_throttle()?et_diff:et_diff_throttle;
+            atp->elapsed_time += x;
+            atp->wup->project->elapsed_time += x;
         }
         if (atp->get_app_status_msg()) {
             if (old_time != atp->checkpoint_cpu_time) {

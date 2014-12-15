@@ -49,7 +49,6 @@ void PROJECT::init() {
         no_rsc_config[i] = false;
         no_rsc_apps[i] = false;
         no_rsc_ams[i] = false;
-        rsc_defer_sched[i] = false;
     }
     strcpy(host_venue, "");
     using_venue_specific_prefs = false;
@@ -107,6 +106,7 @@ void PROJECT::init() {
     too_many_uploading_results = false;
     njobs_success = 0;
     njobs_error = 0;
+    elapsed_time = 0;
     app_configs.clear();
 
 #ifdef SIM
@@ -317,6 +317,7 @@ int PROJECT::parse_state(XML_PARSER& xp) {
         if (xp.parse_double("desired_disk_usage", desired_disk_usage)) continue;
         if (xp.parse_int("njobs_success", njobs_success)) continue;
         if (xp.parse_int("njobs_error", njobs_error)) continue;
+        if (xp.parse_double("elapsed_time", elapsed_time)) continue;
 #ifdef SIM
         if (xp.match_tag("available")) {
             available.parse(xp, "/available");
@@ -381,6 +382,7 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         "    <send_job_log>%d</send_job_log>\n"
         "    <njobs_success>%d</njobs_success>\n"
         "    <njobs_error>%d</njobs_error>\n"
+        "    <elapsed_time>%f</elapsed_time>\n"
         "%s%s%s%s%s%s%s%s%s%s%s%s%s%s",
         master_url,
         project_name,
@@ -416,6 +418,7 @@ int PROJECT::write_state(MIOFILE& out, bool gui_rpc) {
         send_job_log,
         njobs_success,
         njobs_error,
+        elapsed_time,
         anonymous_platform?"    <anonymous_platform/>\n":"",
         master_url_fetch_pending?"    <master_url_fetch_pending/>\n":"",
         trickle_up_pending?"    <trickle_up_pending/>\n":"",
@@ -573,6 +576,7 @@ void PROJECT::copy_state_fields(PROJECT& p) {
     use_symlinks = p.use_symlinks;
     njobs_success = p.njobs_success;
     njobs_error = p.njobs_error;
+    elapsed_time = p.elapsed_time;
 }
 
 // Write project statistic to GUI RPC reply

@@ -41,7 +41,7 @@ $title = "hr_class ".$hr_class." reset at ".$timestr;
 admin_page_head($title);
 
 if ($hr_class != 0) {
-    $result = mysql_query("UPDATE workunit SET hr_class=0 WHERE hr_class=".$hr_class);
+    $result = _mysql_query("UPDATE workunit SET hr_class=0 WHERE hr_class=".$hr_class);
 }
 
 echo $title;

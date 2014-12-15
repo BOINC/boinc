@@ -106,6 +106,12 @@ class BoincDb extends DbConn {
         $db = self::get();
         return $db->base_error();
     }
+
+    // if your DB connection times out, call this, then call get() again
+    //
+    static function reset_connection() {
+        self::$instance = null;
+    }
 }
 
 class BoincUser {
@@ -305,6 +311,7 @@ class BoincResult {
     }
     static function lookup_name($name) {
         $db = BoincDb::get();
+        $name = BoincDb::escape_string($name);
         return $db->lookup('result', 'BoincResult', "name='$name'");
     }
     function delete() {
@@ -339,6 +346,10 @@ class BoincWorkunit {
     static function update_aux($clause) {
         $db = BoincDb::get();
         return $db->update_aux('workunit', $clause);
+    }
+    static function count($clause) {
+        $db = BoincDb::get();
+        return $db->count('workunit', $clause);
     }
 }
 
@@ -659,6 +670,14 @@ class BoincCreditUser {
         $db = BoincDb::get();
         return $db->sum('credit_user', $field, $clause);
     }
+    static function update($clause) {
+        $db = BoincDb::get();
+        return $db->update_aux('credit_user', $clause);
+    }
+    static function delete_user($user) {
+        $db = BoincDb::get();
+        $db->delete_aux('credit_user', "userid=$user->id");
+    }
 }
 
 class BoincCreditTeam {
@@ -673,6 +692,24 @@ class BoincCreditTeam {
     static function sum($field, $clause) {
         $db = BoincDb::get();
         return $db->sum('credit_team', $field, $clause);
+    }
+    static function update($clause) {
+        $db = BoincDb::get();
+        return $db->update_aux('credit_team', $clause);
+    }
+}
+
+// DEPRECATED: use BoincDb::escape_string where possible
+// 
+// apply this to any user-supplied strings used in queries
+// 
+function boinc_real_escape_string($x) {
+    if (version_compare(phpversion(),"4.3.0")>=0) {
+        return BoincDb::escape_string($x);
+    } else {
+        $x = str_replace("'", "\'", $x);
+        $x = str_replace("\"", "\\\"", $x);
+        return $x;
     }
 }
 

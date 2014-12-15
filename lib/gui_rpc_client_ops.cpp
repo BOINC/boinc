@@ -459,6 +459,7 @@ int PROJECT::parse(XML_PARSER& xp) {
         if (xp.parse_str("venue", venue, sizeof(venue))) continue;
         if (xp.parse_int("njobs_success", njobs_success)) continue;
         if (xp.parse_int("njobs_error", njobs_error)) continue;
+        if (xp.parse_double("elapsed_time", elapsed_time)) continue;
         if (xp.parse_str("external_cpid", external_cpid, sizeof(external_cpid))) continue;
     }
     return ERR_XML_PARSE;
@@ -513,6 +514,7 @@ void PROJECT::clear() {
     strcpy(venue, "");
     njobs_success = 0;
     njobs_error = 0;
+    elapsed_time = 0;
     strcpy(external_cpid, "");
 }
 
@@ -1344,6 +1346,7 @@ int PROJECT_CONFIG::parse(XML_PARSER& xp) {
             platforms.push_back(msg);
             continue;
         }
+        if (xp.parse_bool("ldap_auth", ldap_auth)) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -1364,6 +1367,7 @@ void PROJECT_CONFIG::clear() {
     sched_stopped = false;
     web_stopped = false;
     min_client_version = 0;
+    ldap_auth = false;
 }
 
 ACCOUNT_IN::ACCOUNT_IN() {
@@ -2301,18 +2305,27 @@ int RPC_CLIENT::lookup_account(ACCOUNT_IN& ai) {
     SET_LOCALE sl;
     char buf[1024];
     RPC rpc(this);
+    string passwd_hash;
 
-    downcase_string(ai.email_addr);
-    string passwd_hash = get_passwd_hash(ai.passwd, ai.email_addr);
+    if (ai.ldap_auth && !strchr(ai.email_addr.c_str(), '@')) {
+        // LDAP case
+        //
+        passwd_hash = ai.passwd;
+    } else {
+        downcase_string(ai.email_addr);
+        passwd_hash = get_passwd_hash(ai.passwd, ai.email_addr);
+    }
     snprintf(buf, sizeof(buf),
         "<lookup_account>\n"
         "   <url>%s</url>\n"
         "   <email_addr>%s</email_addr>\n"
         "   <passwd_hash>%s</passwd_hash>\n"
+        "   <ldap_auth>%d</ldap_auth>\n"
         "</lookup_account>\n",
         ai.url.c_str(),
         ai.email_addr.c_str(),
-        passwd_hash.c_str()
+        passwd_hash.c_str(),
+        ai.ldap_auth?1:0
     );
     buf[sizeof(buf)-1] = 0;
 

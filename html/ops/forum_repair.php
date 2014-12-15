@@ -32,14 +32,14 @@ function update_thread_timestamps() {
     $threads = BoincThread::enum();
     foreach ($threads as $thread) {
         $q = "select max(timestamp) as foo from post where thread=$thread->id";
-        $r2 = mysql_query($q);
-        $m = mysql_fetch_object($r2);
+        $r2 = _mysql_query($q);
+        $m = _mysql_fetch_object($r2);
         echo "id: $thread->id; min: $m->foo\n";
-        mysql_free_result($r2);
+        _mysql_free_result($r2);
         $n = $m->foo;
         if ($n) {
             $q = "update thread set timestamp=$n where id=$thread->id";
-            mysql_query($q);
+            _mysql_query($q);
         }
     }
 }

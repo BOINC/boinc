@@ -37,6 +37,7 @@
 #include "MainDocument.h"
 #include "BOINCBaseFrame.h"
 #include "BOINCBaseView.h"
+#include "BOINCListCtrl.h"
 #include "BOINCTaskBar.h"
 #include "BOINCClientManager.h"
 #include "BOINCDialupManager.h"
@@ -51,16 +52,18 @@
 #include "DlgAbout.h"
 #include "DlgOptions.h"
 #include "DlgDiagnosticLogFlags.h"
+#include "DlgHiddenColumns.h"
 #include "DlgGenericMessage.h"
 #include "DlgEventLog.h"
+#include "browser.h"
 #include "wizardex.h"
 #include "BOINCBaseWizard.h"
 #include "WizardAttach.h"
 #include "DlgAdvPreferences.h"
+#include "DlgExclusiveApps.h"
 
 #include "res/connect.xpm"
 #include "res/disconnect.xpm"
-
 
 enum STATUSBARFIELDS {
     STATUS_TEXT,
@@ -172,7 +175,9 @@ BEGIN_EVENT_TABLE (CAdvancedFrame, CBOINCBaseFrame)
     // Advanced
     EVT_MENU(ID_OPTIONS, CAdvancedFrame::OnOptions)
 	EVT_MENU(ID_PREFERENCES, CAdvancedFrame::OnPreferences)
+	EVT_MENU(ID_EXCLUSIVE_APPS, CAdvancedFrame::OnExclusiveApps)
 	EVT_MENU(ID_DIAGNOSTICLOGFLAGS, CAdvancedFrame::OnDiagnosticLogFlags)
+	EVT_MENU(ID_SELECTCOLUMNS, CAdvancedFrame::OnSelectColumns)
     EVT_MENU(ID_SELECTCOMPUTER, CAdvancedFrame::OnSelectComputer)
     EVT_MENU(ID_SHUTDOWNCORECLIENT, CAdvancedFrame::OnClientShutdown)
     EVT_MENU(ID_RUNBENCHMARKS, CAdvancedFrame::OnRunBenchmarks)
@@ -230,6 +235,10 @@ CAdvancedFrame::CAdvancedFrame(wxString title, wxIconBundle* icons, wxPoint posi
     wxCHECK_RET(CreateStatusbar(), _T("Failed to create status bar."));
 
     RestoreState();
+
+    // For generic wxListCtrl, we must call Layout() for panel containing m_pNotebook
+    // after CBOINCListCtrl::RestoreState() has finished BOINCListCtrl initialization.
+    m_pNotebook->GetParent()->Layout();
 
     m_pRefreshStateTimer = new wxTimer(this, ID_REFRESHSTATETIMER);
     wxASSERT(m_pRefreshStateTimer);
@@ -355,7 +364,8 @@ bool CAdvancedFrame::CreateMenu() {
 
 #ifdef __WXMAC__
     menuFile->Append(
-        wxID_PREFERENCES
+        wxID_PREFERENCES,
+        _("Preferences…")
     );
 #endif
 
@@ -458,6 +468,12 @@ bool CAdvancedFrame::CreateMenu() {
 		ID_PREFERENCES, 
         _("Computing &preferences..."),
         _("Configure computing preferences")
+    );
+
+    menuTools->Append(
+		ID_EXCLUSIVE_APPS,
+        _("Exclusive applications..."),
+        _("Configure exclusive applications")
     );
 
     // Activity menu
@@ -615,6 +631,16 @@ bool CAdvancedFrame::CreateMenu() {
         _("Event Log Diagnostic Flags...\tCtrl+Shift+F"),
         _("Enable or disable various diagnostic messages")
     );
+    menuAdvanced->Append(
+		ID_SELECTCOLUMNS,
+        _("Select display columns..."),
+        _("Select which columns to display")
+    );
+    menuAdvanced->Append(
+		ID_TEST1CLICKATTACH,
+        _("Test 1 Click Attach"),
+        _("")
+    );
 
 
     // Help menu
@@ -719,10 +745,6 @@ bool CAdvancedFrame::CreateMenu() {
     // Force a redraw of the menu under Ubuntu's new interface
     SendSizeEvent();
 #endif
-#ifdef __WXMAC__
-    m_pMenubar->MacInstallMenuBar();
-    MacLocalizeBOINCMenu();
-#endif
     if (m_pOldMenubar) {
         delete m_pOldMenubar;
     }
@@ -815,6 +837,11 @@ bool CAdvancedFrame::CreateNotebookPage( CBOINCBaseView* pwndNewNotebookPage) {
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::CreateNotebookPage - Function End"));
     return true;
+}
+
+
+wxNotebook* CAdvancedFrame::GetNotebook() {
+    return m_pNotebook;
 }
 
 
@@ -1323,6 +1350,16 @@ void CAdvancedFrame::OnPreferences(wxCommandEvent& WXUNUSED(event)) {
 }
 
 
+void CAdvancedFrame::OnExclusiveApps(wxCommandEvent& WXUNUSED(event)) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnExclusiveApps - Function Begin"));
+
+    CDlgExclusiveApps dlg(this);
+	dlg.ShowModal();
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnExclusiveApps - Function End"));
+}
+
+
 void CAdvancedFrame::OnDiagnosticLogFlags(wxCommandEvent& WXUNUSED(event)) {
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnDiagnosticLogFlags - Function Begin"));
 
@@ -1330,6 +1367,16 @@ void CAdvancedFrame::OnDiagnosticLogFlags(wxCommandEvent& WXUNUSED(event)) {
 	dlg.ShowModal();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnDiagnosticLogFlags - Function End"));
+}
+
+
+void CAdvancedFrame::OnSelectColumns(wxCommandEvent& WXUNUSED(event)) {
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnSelectColumns - Function Begin"));
+
+    CDlgHiddenColumns dlg(this);
+	dlg.ShowModal();
+
+    wxLogTrace(wxT("Function Start/End"), wxT("CAdvancedFrame::OnSelectColumns - Function End"));
 }
 
 
@@ -1669,6 +1716,12 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     wxString strTeamName = wxEmptyString;
     wxString strDialogTitle = wxEmptyString;
     wxString strDialogDescription = wxEmptyString;
+    std::string strProjectName;
+    std::string strProjectURL;
+    std::string strProjectAuthenticator;
+    std::string strProjectInstitution;
+    std::string strProjectDescription;
+    std::string strProjectKnown;
     bool bCachedCredentials = false;
     ACCT_MGR_INFO ami;
     PROJECT_INIT_STATUS pis;
@@ -1726,7 +1779,35 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     pDoc->rpc.get_project_init_status(pis);
     pDoc->rpc.acct_mgr_info(ami);
 
-    if (ami.acct_mgr_url.size() && ami.have_credentials) {
+    if (detect_simple_account_credentials(
+            strProjectName, strProjectURL, strProjectAuthenticator, strProjectInstitution, strProjectDescription, strProjectKnown
+        )
+    ){
+        wasShown = IsShown();
+        Show();
+        wasVisible = wxGetApp().IsApplicationVisible();
+        if (!wasVisible) {
+            wxGetApp().ShowApplication(true);
+        }
+        
+        pWizard = new CWizardAttach(this);
+
+        if (pWizard->RunSimpleProjectAttach(
+                wxURI::Unescape(strProjectName),
+                wxURI::Unescape(strProjectURL),
+                wxURI::Unescape(strProjectAuthenticator),
+                wxURI::Unescape(strProjectInstitution),
+                wxURI::Unescape(strProjectDescription),
+                wxURI::Unescape(strProjectKnown)
+            )
+        ) {
+            // If successful, display the projects tab
+            m_pNotebook->SetSelection(ID_ADVTASKSVIEW - ID_ADVVIEWBASE);
+        } else {
+            // If failure, display the notices tab
+            m_pNotebook->SetSelection(ID_ADVNOTICESVIEW - ID_ADVVIEWBASE);
+        }
+    } else if (ami.acct_mgr_url.size() && ami.have_credentials) {
         // Fall through
         //
         // There isn't a need to bring up the attach wizard, the account manager will

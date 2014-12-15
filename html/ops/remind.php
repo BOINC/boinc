@@ -122,11 +122,11 @@ $lapsed_subject = "$dir/reminder_lapsed_subject";
 //
 function last_rpc_time($user) {
     $x = 0;
-    $result = mysql_query("select rpc_time from host where userid=$user->id");
-    while ($host = mysql_fetch_object($result)) {
+    $result = _mysql_query("select rpc_time from host where userid=$user->id");
+    while ($host = _mysql_fetch_object($result)) {
         if ($host->rpc_time > $x) $x = $host->rpc_time;
     }
-    mysql_free_result($result);
+    _mysql_free_result($result);
     return $x;
 }
 
@@ -226,7 +226,7 @@ function mail_type($user, $type) {
         if ($type == 'lapsed') $ntype = 2;
         if ($type == 'failed') $ntype = 3;
         $query = "insert into sent_email values($user->id, $now, $ntype)";
-        mysql_query($query);
+        _mysql_query($query);
     }
     $globals->count--;
     if ($globals->count == 0) { 
@@ -237,14 +237,14 @@ function mail_type($user, $type) {
 
 function last_reminder_time($user) {
     $query = "select * from sent_email where userid=$user->id";
-    $result = mysql_query($query);
+    $result = _mysql_query($query);
     $t = 0;
-    while ($r = mysql_fetch_object($result)) {
+    while ($r = _mysql_fetch_object($result)) {
         if ($r->email_type !=2 && $r->email_type != 3) continue;
         if ($r->time_sent > $t) $t = $r->time_sent;
 
     }
-    mysql_free_result($result);
+    _mysql_free_result($result);
     return $t;
 }
 
@@ -280,13 +280,13 @@ function do_failed() {
     global $globals;
 
     $max_create_time = time() - $globals->start_interval;
-    $result = mysql_query(
+    $result = _mysql_query(
         "select * from user where send_email<>0 and create_time<$max_create_time and total_credit = 0;"
     );
-    while ($user = mysql_fetch_object($result)) {
+    while ($user = _mysql_fetch_object($result)) {
         handle_user($user, 'failed');
     }
-    mysql_free_result($result);
+    _mysql_free_result($result);
 }
 
 function do_lapsed() {
@@ -296,20 +296,20 @@ function do_lapsed() {
     // the following is an efficient way of getting the list of
     // users for which no host has done an RPC recently
     //
-    $result = mysql_query(
+    $result = _mysql_query(
         "select userid from host group by userid having max(rpc_time)<$max_last_rpc_time;"
     );
-    while ($host = mysql_fetch_object($result)) {
-        $uresult = mysql_query("select * from user where id = $host->userid;");
-        $user = mysql_fetch_object($uresult);
-        mysql_free_result($uresult);
+    while ($host = _mysql_fetch_object($result)) {
+        $uresult = _mysql_query("select * from user where id = $host->userid;");
+        $user = _mysql_fetch_object($uresult);
+        _mysql_free_result($uresult);
         if (!$user) {
             echo "Can't find user $host->userid\n";
             continue;
         }
         handle_user($user, 'lapsed');
     }
-    mysql_free_result($result);
+    _mysql_free_result($result);
 }
 
 if (!function_exists('make_php_mailer')) {

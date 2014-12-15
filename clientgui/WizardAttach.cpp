@@ -39,6 +39,7 @@
 #include "ProjectInfoPage.h"
 #include "ProjectPropertiesPage.h"
 #include "ProjectProcessingPage.h"
+#include "ProjectWelcomePage.h"
 #include "AccountManagerInfoPage.h"
 #include "AccountManagerPropertiesPage.h"
 #include "AccountManagerProcessingPage.h"
@@ -96,6 +97,7 @@ bool CWizardAttach::Create( wxWindow* parent, wxWindowID id, const wxString& /* 
     m_ProjectInfoPage = NULL;
     m_ProjectPropertiesPage = NULL;
     m_ProjectProcessingPage = NULL;
+    m_ProjectWelcomePage = NULL;
     m_AccountManagerInfoPage = NULL;
     m_AccountManagerPropertiesPage = NULL;
     m_AccountManagerProcessingPage = NULL;
@@ -130,7 +132,7 @@ bool CWizardAttach::Create( wxWindow* parent, wxWindowID id, const wxString& /* 
     account_out.clear();
     account_created_successfully = false;
     attached_to_project_successfully = false;
-    close_when_completed = false;
+    m_bCloseWhenCompleted = false;
     m_strProjectName.Empty();
     m_strProjectUrl.Empty();
     m_strProjectAuthenticator.Empty();
@@ -206,6 +208,10 @@ void CWizardAttach::CreateControls()
     m_ProjectProcessingPage->Create( itemWizard1 );
     GetPageAreaSizer()->Add(m_ProjectProcessingPage);
 
+    m_ProjectWelcomePage = new CProjectWelcomePage;
+    m_ProjectWelcomePage->Create( itemWizard1 );
+    GetPageAreaSizer()->Add(m_ProjectWelcomePage);
+
     m_AccountInfoPage = new CAccountInfoPage;
     m_AccountInfoPage->Create( itemWizard1 );
     GetPageAreaSizer()->Add(m_AccountInfoPage);
@@ -273,6 +279,11 @@ void CWizardAttach::CreateControls()
         wxT("Function Status"),
         wxT("CWizardAttach::CreateControls -     m_ProjectProcessingPage = id: '%d', location: '%p', height: '%d', width: '%d'"),
         m_ProjectProcessingPage->GetId(), m_ProjectProcessingPage, m_ProjectProcessingPage->GetBestSize().GetHeight(), m_ProjectProcessingPage->GetBestSize().GetWidth()
+    );
+    wxLogTrace(
+        wxT("Function Status"),
+        wxT("CWizardAttach::CreateControls -     m_ProjectWelcomePage = id: '%d', location: '%p', height: '%d', width: '%d'"),
+        m_ProjectWelcomePage->GetId(), m_ProjectWelcomePage, m_ProjectWelcomePage->GetBestSize().GetHeight(), m_ProjectWelcomePage->GetBestSize().GetWidth()
     );
     wxLogTrace(
         wxT("Function Status"),
@@ -353,8 +364,7 @@ void CWizardAttach::CreateControls()
  * Runs the wizard.
  */
 bool CWizardAttach::Run(
-    wxString& WXUNUSED(strName), wxString& strURL, wxString& strTeamName,
-    bool bCredentialsCached
+    wxString WXUNUSED(strName), wxString strURL, wxString strTeamName, bool bCredentialsCached
 ) {
     m_strTeamName = strTeamName;
 
@@ -373,7 +383,7 @@ bool CWizardAttach::Run(
 
         if (detect_setup_authenticator(url, authenticator)) {
             m_bCredentialsDetected = true;
-            close_when_completed = true;
+            m_bCloseWhenCompleted = true;
             SetProjectAuthenticator(wxString(authenticator.c_str(), wxConvUTF8));
         }
     }
@@ -385,6 +395,30 @@ bool CWizardAttach::Run(
     }
 
     return FALSE;
+}
+
+
+/*!
+ * Runs the wizard.
+ */
+bool CWizardAttach::RunSimpleProjectAttach(
+    wxString strName,
+    wxString strURL,
+    wxString strAuthenticator, 
+    wxString strInstitution,
+    wxString strDescription,
+    wxString strKnown
+) {
+    SetProjectName(strName);
+    SetProjectURL(strURL);
+    SetProjectInstitution(strInstitution);
+    SetProjectDescription(strDescription);
+    if (strAuthenticator.size()) {
+        SetProjectAuthenticator(strAuthenticator);
+    }
+    SetProjectKnown(strKnown.length() > 0);
+
+    return RunWizard(m_ProjectWelcomePage);
 }
 
 
@@ -505,7 +539,7 @@ bool CWizardAttach::HasNextPage( wxWizardPageEx* page )
  
 bool CWizardAttach::HasPrevPage( wxWizardPageEx* page )
 {
-    if ((page == m_WelcomePage) || (page == m_CompletionPage) || (page == m_CompletionErrorPage))
+    if ((page == m_WelcomePage) || (page == m_ProjectWelcomePage) || (page == m_CompletionPage) || (page == m_CompletionErrorPage))
         return false;
     return true;
 }
@@ -567,6 +601,9 @@ wxWizardPageEx* CWizardAttach::_PushPageTransition( wxWizardPageEx* pCurrentPage
  
         if (ID_PROJECTPROCESSINGPAGE == ulPageID)
             pPage = m_ProjectProcessingPage;
+ 
+        if (ID_PROJECTWELCOMEPAGE == ulPageID)
+            pPage = m_ProjectWelcomePage;
  
         if (ID_ACCOUNTMANAGERINFOPAGE == ulPageID)
             pPage = m_AccountManagerInfoPage;
@@ -652,7 +689,8 @@ void CWizardAttach::_ProcessCancelEvent( wxWizardExEvent& event ) {
         bCancelWithoutNextPage |= (page == m_ErrAlreadyExistsPage);
     } else {
         bCancelWithoutNextPage |= (page == m_WelcomePage);
-    }
+        bCancelWithoutNextPage |= (page == m_ProjectWelcomePage);
+   }
 
     if (wxYES != iRetVal) {
         event.Veto();

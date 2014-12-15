@@ -106,7 +106,7 @@ echo "
     <p><a href=javascript:set_all()>Select all</a>
     <p><a href=javascript:clear_all()>Unselect all</a>
     <input type=hidden name=nhosts value=$nhosts>
-    <p><input type=submit value='".tra("Merge hosts")."'>
+    <p><input class=\"btn btn-default\" type=submit value='".tra("Merge hosts")."'>
     </form>
 ";
 

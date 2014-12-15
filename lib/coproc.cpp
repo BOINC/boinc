@@ -149,6 +149,8 @@ int COPROC::parse(XML_PARSER& xp) {
         }
         if (xp.parse_str("type", type, sizeof(type))) continue;
         if (xp.parse_int("count", count)) continue;
+        if (xp.parse_double("req_secs", req_secs)) continue;
+        if (xp.parse_double("req_instances", req_instances)) continue;
         if (xp.parse_double("peak_flops", peak_flops)) continue;
         if (xp.parse_str("device_nums", buf, sizeof(buf))) {
             int i=0;
@@ -159,6 +161,7 @@ int COPROC::parse(XML_PARSER& xp) {
             }
             continue;
         }
+        if (xp.parse_bool("non_gpu", non_gpu)) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -920,6 +923,7 @@ const char* proc_type_name_xml(int pt) {
     case PROC_TYPE_NVIDIA_GPU: return "NVIDIA";
     case PROC_TYPE_AMD_GPU: return "ATI";
     case PROC_TYPE_INTEL_GPU: return "intel_gpu";
+    case PROC_TYPE_MINER_ASIC: return "miner_asic";
     }
     return "unknown";
 }
@@ -930,6 +934,7 @@ const char* proc_type_name(int pt) {
     case PROC_TYPE_NVIDIA_GPU: return "NVIDIA GPU";
     case PROC_TYPE_AMD_GPU: return "AMD/ATI GPU";
     case PROC_TYPE_INTEL_GPU: return "Intel GPU";
+    case PROC_TYPE_MINER_ASIC: return "Miner ASIC";
     }
     return "unknown";
 }
@@ -939,5 +944,6 @@ int coproc_type_name_to_num(const char* name) {
     if (!strcmp(name, "NVIDIA")) return PROC_TYPE_NVIDIA_GPU;
     if (!strcmp(name, "ATI")) return PROC_TYPE_AMD_GPU;
     if (!strcmp(name, "intel_gpu")) return PROC_TYPE_INTEL_GPU;
+    if (!strcmp(name, "miner_asic")) return PROC_TYPE_MINER_ASIC;
     return -1;      // Some other type
 }

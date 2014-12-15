@@ -16,7 +16,6 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-
 // The form where a moderator decides what he is going to do to a post.
 // Submits information to forum_moderate_post_action.php for actual action
 // to be done.
@@ -97,7 +96,7 @@ if (get_str('action')=="hide") {
     echo "<input type=hidden name=action value=delete>";
     row2(
         "Are you sure want to delete this post?  This cannot be undone.",
-        "<input type=\"submit\" name=\"submit\" value=\"".tra("OK")."\">"
+        "<input class=\"btn btn-danger\" type=\"submit\" name=\"submit\" value=\"".tra("OK")."\">"
     );
     $get_reason = false;
 } else {
@@ -105,12 +104,12 @@ if (get_str('action')=="hide") {
 }
 
 if ($get_reason) {
-    row2(tra("Optional explanation %1 This is included in email to user.%2", "<br><span class=note>", "</span>"),
+    row2(tra("Optional explanation %1 This is included in email to user.%2", "<br><p class=\"text-muted\">", "</p>"),
         "<textarea name=\"reason\" rows=\"10\" cols=\"80\"></textarea>"
     );
     row2(
         "",
-        "<input type=\"submit\" name=\"submit\" value=\"".tra("OK")."\">"
+        "<input class=\"btn btn-default\" type=\"submit\" name=\"submit\" value=\"".tra("OK")."\">"
     );
 }
 

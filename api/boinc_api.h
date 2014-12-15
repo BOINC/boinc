@@ -56,6 +56,7 @@ typedef struct BOINC_OPTIONS {
         // if heartbeat fail, or get process control msg, take
         // direction action (exit, suspend, resume).
         // Otherwise just set flag in BOINC status
+        // This is true for regular apps, false for wrappers
     int multi_thread;
         // set this if application creates threads in main process
     int multi_process;
@@ -139,6 +140,9 @@ extern int boinc_report_app_status_aux(
 );
 extern int boinc_temporary_exit(
     int delay, const char* reason=NULL, bool is_notice=false
+);
+extern int boinc_finish_message(
+    int status, const char* message, bool is_notice
 );
 
 /////////// API ENDS HERE

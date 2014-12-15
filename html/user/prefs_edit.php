@@ -93,6 +93,7 @@ if ($action) {
     $title = tra("Edit %1 preferences", subset_name($subset));
     if ($venue) $title = tra("%1 for %2", $title, $venue);
     page_head($title);
+    checkbox_clicked_js();
 
     if ($subset == "global") {
         echo PREFS_FORM_DESC1;

@@ -31,11 +31,11 @@ $passwd = stripslashes(post_str("passwd", true));
 if ($email_addr && $passwd) {
     $user = BoincUser::lookup_email_addr($email_addr);
     if (!$user) {
-        error_page("No account found with email address $email_addr");
+        admin_error_page("No account found with email address $email_addr");
     }
     $passwd_hash = md5($passwd.$email_addr);
     if ($passwd_hash != $user->passwd_hash) {
-        error_page("Login failed");
+        admin_error_page("Login failed");
     }
     $authenticator = $user->authenticator;
     $next_url = $_POST["next_url"];

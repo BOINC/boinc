@@ -19,16 +19,13 @@
 // see: http://boinc.berkeley.edu/trac/wiki/VboxApps
 // Options:
 //
-//
 // Duplicate everything sent to stdin to the console and the VM Guest Log.
 //
 // You can see the VM Guest Log on the host machine by executing:
 // vboxmanage showvminfo <vm_name> --log 0
 //
-// As a matter of course, vboxwrapper dumps the last 16k of the guest log to
-// the stderr log which is uploaded to the project server in case of an error.
-//
-//
+// vboxwrapper dumps the last 16k of the guest log to the stderr log
+// which is uploaded to the project server.
 
 #include <stdio.h>
 #include <sys/io.h>
@@ -36,8 +33,7 @@
 #include <iostream>
 #include <string>
 
-void guestlog(int c)
-{
+void guestlog(int c) {
     asm volatile ("out %%al,%%dx\n" : : "a"(c), "d"(0x504));
 }
 
@@ -45,6 +41,7 @@ int main() {
     std::string buffer;
 
     // root access required
+    //
     if (iopl(3)) {
         if (EPERM == errno) {
             printf("vboxmonitor: this application requires root permissions.\n");
@@ -53,9 +50,9 @@ int main() {
         return 1;
     }
 
-    while (getline(std::cin,buffer)) {
-
+    while (getline(std::cin, buffer)) {
         // Write output to stdout as well as VirtualBox's Guest VM Log
+        //
         for (size_t i = 0; i < buffer.size(); ++i) {
             // Virtualbox
             guestlog((int)buffer[i]);
@@ -64,12 +61,12 @@ int main() {
             putc((int)buffer[i], stdout);
         }
 
-        // Force newlines so that the text looks good on the console and causes
+        // Write newlines so that the text looks good on the console and causes
         // the guest additions to actually log the data
+        //
         guestlog('\n');
         putc('\n', stdout);
 
     }
-    
     return 0;
 }

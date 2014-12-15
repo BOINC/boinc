@@ -200,6 +200,17 @@ void COPROCS::correlate_gpus(
                 "CUDA: NVIDIA GPU %d (not used): %s",
                 nvidia_gpus[i].device_num, buf
             );
+
+#ifdef __APPLE__
+            if ((nvidia_gpus[i].cuda_version >= 6050) &&
+                            nvidia_gpus[i].prop.major < 2) {
+                // This will be called only if CUDA recognized and reported the GPU
+                msg_printf(NULL, MSG_USER_ALERT, "NVIDIA GPU %d: %s %s",
+                    nvidia_gpus[i].device_num, nvidia_gpus[i].prop.name,
+                    _("cannot be used for CUDA or OpenCL computation with CUDA driver 6.5 or later")
+                );
+            }
+#endif
             break;
         }
         descs.push_back(string(buf2));
@@ -235,6 +246,13 @@ void COPROCS::correlate_gpus(
     // Create descriptions for OpenCL NVIDIA GPUs
     //
     for (i=0; i<nvidia_opencls.size(); i++) {
+        if (nvidia_opencls[i].warn_bad_cuda) {
+            // This will be called only if CUDA did _not_ recognize and report the GPU
+            msg_printf(NULL, MSG_USER_ALERT, "NVIDIA GPU %d: %s %s",
+                nvidia_opencls[i].device_num, nvidia_opencls[i].name,
+                _("cannot be used for CUDA or OpenCL computation with CUDA driver 6.5 or later")
+            );
+        }
         nvidia_opencls[i].description(buf, sizeof(buf), proc_type_name(PROC_TYPE_NVIDIA_GPU));
         descs.push_back(string(buf));
     }
@@ -286,9 +304,11 @@ void COPROCS::correlate_gpus(
     cpu_opencls.clear();
 }
 
-// This is called from CLIENT_STATE::init() after adding NVIDIA, ATI and Intel GPUs
+// This is called from CLIENT_STATE::init()
+// after adding NVIDIA, ATI and Intel GPUs
 // If we don't care about the order of GPUs in COPROCS::coprocs[], 
 // this code could be included at the end of COPROCS::correlate_gpus().
+//
 int COPROCS::add_other_coproc_types() {
     int retval = 0;
     
@@ -300,8 +320,10 @@ int COPROCS::add_other_coproc_types() {
         }
         
         COPROC c;
-        // For other device types other than NVIDIA, ATI or Intel GPU coprocessor.
-        // we put each instance into a separate other_opencls element, so count=1.
+        // For device types other than NVIDIA, ATI or Intel GPU.
+        // we put each instance into a separate other_opencls element,
+        // so count=1.
+        //
         c.count = 1;
         c.opencl_device_count = 1;
         c.opencl_prop = other_opencls[i];
@@ -349,6 +371,11 @@ int COPROCS::write_coproc_info_file(vector<string> &warnings) {
     
     mf.printf("    <coprocs>\n");
 
+    if (nvidia.have_cuda) {
+        mf.printf("    <have_cuda>1</have_cuda>\n");
+        mf.printf("    <cuda_version>%d</cuda_version>\n", nvidia.cuda_version);
+    }
+    
     for (i=0; i<ati_gpus.size(); ++i) {
        ati_gpus[i].write_xml(mf, false);
     }
@@ -423,6 +450,11 @@ int COPROCS::read_coproc_info_file(vector<string> &warnings) {
         if (xp.match_tag("/coprocs")) {
             fclose(f);
             return 0;
+        }
+
+        if (xp.parse_bool("have_cuda", nvidia.have_cuda)) continue;
+        if (xp.parse_int("cuda_version", nvidia.cuda_version)) {
+             continue;
         }
 
         if (xp.match_tag("coproc_ati")) {
@@ -629,4 +661,26 @@ int COPROCS::launch_child_process_to_detect_gpus() {
     }
 
     return 0;
+}
+
+// print descriptions of coprocs specified in cc_config.xml,
+// and make sure counts are <= 64
+//
+void COPROCS::bound_counts() {
+    for (int j=1; j<n_rsc; j++) {
+        msg_printf(NULL, MSG_INFO, "Coprocessor specified in cc_config.xml. Type %s (%s); count %d",
+            coprocs[j].type,
+            coprocs[j].non_gpu?" non-GPU":"GPU",
+            coprocs[j].count
+        );
+        if (coprocs[j].count > MAX_COPROC_INSTANCES) {
+            msg_printf(NULL, MSG_USER_ALERT,
+                "%d instances of %s specified in cc_config.xml; max is %d",
+                coprocs[j].count,
+                coprocs[j].type,
+                MAX_COPROC_INSTANCES
+            );
+            coprocs[j].count = MAX_COPROC_INSTANCES;
+        }
+    }
 }

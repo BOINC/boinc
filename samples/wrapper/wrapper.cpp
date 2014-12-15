@@ -124,6 +124,8 @@ struct TASK {
     bool is_daemon;
     bool append_cmdline_args;
     bool multi_process;
+    double time_limit;
+    int priority;
 
     // dynamic stuff follows
     double current_cpu_time;
@@ -133,12 +135,10 @@ struct TASK {
     double starting_cpu;
         // how much CPU time was used by tasks before this one
     bool suspended;
-    double time_limit;
     double elapsed_time;
 #ifdef _WIN32
     HANDLE pid_handle;
     DWORD pid;
-    HANDLE thread_handle;
     struct _stat last_stat;     // mod time of checkpoint file
 #else
     int pid;
@@ -198,7 +198,7 @@ struct TASK {
         int bufsize = 0;
         int len = 0;
         for (int j = 0; j < nvars; j++) {
-             bufsize += (1 + vsetenv[j].length());
+             bufsize += (1 + (int)vsetenv[j].length());
         }
         bufsize++; // add a final byte for array null ptr
         *env_vars = new char[bufsize];
@@ -210,7 +210,7 @@ struct TASK {
             it++
         ) {
             strncpy(p, it->c_str(), it->length());
-            len = strlen(p);
+            len = (int)strlen(p);
             p += len + 1; // move pointer ahead
         }
     }
@@ -381,6 +381,7 @@ int TASK::parse(XML_PARSER& xp) {
     multi_process = false;
     append_cmdline_args = false;
     time_limit = 0;
+    priority = PROCESS_PRIORITY_LOWEST;
 
     while (!xp.get_tag()) {
         if (!xp.is_tag) {
@@ -418,6 +419,7 @@ int TASK::parse(XML_PARSER& xp) {
         else if (xp.parse_bool("multi_process", multi_process)) continue;
         else if (xp.parse_bool("append_cmdline_args", append_cmdline_args)) continue;
         else if (xp.parse_double("time_limit", time_limit)) continue;
+        else if (xp.parse_int("priority", priority)) continue;
     }
     return ERR_XML_PARSE;
 }
@@ -682,7 +684,7 @@ int TASK::run(int argct, char** argvt) {
 
     // setup environment vars if needed
     //
-    int nvars = vsetenv.size();
+    int nvars = (int)vsetenv.size();
     char* env_vars = NULL;
     if (nvars > 0) {
         set_up_env_vars(&env_vars, nvars);
@@ -695,7 +697,7 @@ int TASK::run(int argct, char** argvt) {
         NULL,
         NULL,
         TRUE,        // bInheritHandles
-        CREATE_NO_WINDOW|IDLE_PRIORITY_CLASS,
+        CREATE_NO_WINDOW|process_priority_value(priority),
         (LPVOID) env_vars,
         exec_dir.empty()?NULL:exec_dir.c_str(),
         &startup_info,
@@ -715,8 +717,6 @@ int TASK::run(int argct, char** argvt) {
     if (env_vars) delete [] env_vars;
     pid_handle = process_info.hProcess;
     pid = process_info.dwProcessId;
-    thread_handle = process_info.hThread;
-    SetThreadPriority(thread_handle, THREAD_PRIORITY_IDLE);
 #else
     int retval;
     char* argv[256];
@@ -772,7 +772,7 @@ int TASK::run(int argct, char** argvt) {
         argv[0] = app_path;
         strlcpy(arglist, command_line.c_str(), sizeof(arglist));
         parse_command_line(arglist, argv+1);
-        setpriority(PRIO_PROCESS, 0, PROCESS_IDLE_PRIORITY);
+        setpriority(PRIO_PROCESS, 0, process_priority_value(priority));
         if (!exec_dir.empty()) {
             retval = chdir(exec_dir.c_str());
             if (!retval) {

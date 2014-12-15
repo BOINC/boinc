@@ -87,15 +87,15 @@ function get_data() {
     for ($i=0; $i<=10; $i++) {
         $sum[] = 0;
     }
-    $r1 = mysql_query(
+    $r1 = _mysql_query(
         "select id from workunit where canonical_resultid>0 limit $nwus"
     );
     $n = 0;
-    while ($wu = mysql_fetch_object($r1)) {
+    while ($wu = _mysql_fetch_object($r1)) {
         $results = array();
-        $r2 = mysql_query("select * from result where workunitid=$wu->id");
+        $r2 = _mysql_query("select * from result where workunitid=$wu->id");
         $found_zero = false;
-        while ($result = mysql_fetch_object($r2)) {
+        while ($result = _mysql_fetch_object($r2)) {
             if ($result->granted_credit==0) continue;   // skip invalid
             $host = BoincHost::lookup_id($result->hostid);
             $r = new StdClass;

@@ -28,6 +28,7 @@
 # Updated 4/14/14 for openssl-1.0.1g
 # Updated 6/6/14 for openssl-1.0.1h
 # Updated 9/2/14 for bulding openssl as 64-bit binary
+# Updated 6/6/14 for openssl-1.0.1j
 #
 ## This script requires OS 10.6 or later
 #
@@ -35,8 +36,8 @@
 ## and clicked the Install button on the dialog which appears to 
 ## complete the Xcode installation before running this script.
 #
-## In Terminal, CD to the openssl-1.0.1h directory.
-##     cd [path]/openssl-1.0.1h/
+## In Terminal, CD to the openssl-1.0.1j directory.
+##     cd [path]/openssl-1.0.1j/
 ## then run this script:
 ##     source [path]/buildopenssl.sh [ -clean ]
 ##
@@ -45,7 +46,7 @@
 
 if [ "$1" != "-clean" ]; then
     if [ -f libssl.a ]&& [ -f libcrypto.a ]; then
-        echo "openssl-1.0.1h libraries already built"
+        echo "openssl-1.0.1j libraries already built"
         return 0
     fi
 fi

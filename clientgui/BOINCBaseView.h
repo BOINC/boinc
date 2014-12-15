@@ -114,27 +114,37 @@ public:
     int                     FireOnListGetItemImage( long item ) const;
 
     int                     GetProgressColumn() { return m_iProgressColumn; }
+    void                    SetProgressColumn(int col) { m_iProgressColumn = col; }
     virtual double          GetProgressValue(long item);
     virtual wxString        GetProgressText( long item);
-
-    void                    InitSort();
+    virtual void            AppendColumn(int columnID);
     
+    void                    InitSort();
+    void                    SetSortColumn(int newSortColIndex);
 	void                    SaveSelections();
 	void                    RestoreSelections();
 	void                    ClearSavedSelections();
 	void                    ClearSelections();
     void                    RefreshTaskPane();
-
-#ifdef __WXMAC__
+    
     CBOINCListCtrl*         GetListCtrl() { return m_pListPane; }
+    
+#ifdef __WXMAC__
     void                    OnKeyPressed(wxKeyEvent &event);
 #endif    
  
     std::vector<CTaskItemGroup*> m_TaskGroups;
 
-    int                     m_iSortColumn;
+    int                     m_iSortColumnID;  // ColumnID of sort column
     bool                    m_bReverseSort;
+    wxArrayString*          m_aStdColNameOrder;
+    wxArrayInt              m_iStdColWidthOrder;
+    wxArrayInt              m_iColumnIndexToColumnID;
+    wxArrayInt              m_iColumnIDToColumnIndex;
+    int*                    m_iDefaultShownColumns;
+    int                     m_iNumDefaultShownColumns;
 
+    
 private:
 
 	wxArrayString           m_arrSelectedKeys1;     //array for remembering the current selected rows by primary key column value

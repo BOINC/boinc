@@ -110,7 +110,7 @@ if (!$hostid) {
     echo "<br><form method=\"get\" action=\"problem_host.php\">
     Host ID: 
     <input type=\"text\" size=\"5\" name=\"hostid\">
-    <input type=\"submit\" value=\"Send Email\">
+    <input class=\"btn btn-default\" type=\"submit\" value=\"Send Email\">
     </form>
     ";
 } else {

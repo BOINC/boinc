@@ -22,6 +22,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', true);
 ini_set('display_startup_errors', true);
 
+require_once("../inc/util_basic.inc");
 require_once("../inc/result.inc");
 
 class BoincAssignment {
@@ -64,8 +65,8 @@ function mysqltime_str($x) {
 // Function prints a description of $table 
 //
 function print_describe_table_onecol($table, $which, $columns) {
-    $result=mysql_query("SELECT * from $table LIMIT 1");
-    $fields=mysql_num_fields($result);
+    $result = _mysql_query("SELECT * from $table LIMIT 1");
+    $fields = _mysql_num_fields($result);
 
     $avgnum=(int)($fields/$columns);
     if ($avgnum*$columns<$fields) {
@@ -91,9 +92,10 @@ function print_describe_table_onecol($table, $which, $columns) {
     echo "<tr><th align=\"left\">NAME</th><th align=\"left\">Type</th><th align=\"left\">Bytes</th>\n";
     for ($count=$bot; $count<$top; $count++) {
         if ($count<$fields) {
-            $name= mysql_field_name($result, $count);
-            $type= mysql_field_type($result, $count);
-            $length=mysql_field_len($result, $count);
+            $x = _mysql_field_attrs($result, $count);
+            $name = $x->name;
+            $type = $x->type;
+            $length = $x->length;
         } else {
             $name="<br/> ";
             $type="<br/>";
@@ -280,10 +282,10 @@ class SqlQueryString {
     function count() {
         $count_query = "select count(*) as cnt from $this->table $this->query";
 
-        $result = mysql_query($count_query);
+        $result = _mysql_query($count_query);
         if (!$result) return 0;
-        $res = mysql_fetch_object($result);
-        mysql_free_result($result);
+        $res = _mysql_fetch_object($result);
+        _mysql_free_result($result);
         return $res->cnt;
     }
 
@@ -443,29 +445,39 @@ SELECT COUNT(id) AS nTotal,
        SUM(case when server_state = '5' and outcome = '3' and client_state = '4' then 1 else 0 end) AS clientstate_uploading,
        SUM(case when server_state = '5' and outcome = '3' and client_state = '5' then 1 else 0 end) AS clientstate_uploaded,
        SUM(case when server_state = '5' and outcome = '3' and client_state = '6' then 1 else 0 end) AS clientstate_aborted
-FROM result WHERE 
+FROM result WHERE true
     ";
 
     if ($query_appid) {
-        $main_query .= "appid=$query_appid and ";
+        $main_query .= " and appid=$query_appid";
     }
     if ($query_wuid) {
-        $main_query .= "workunitid=$query_wuid and ";
+        $main_query .= " and workunitid=$query_wuid";
     }
     if ($query_mod_time) {
-        $main_query .= "mod_time > DATE_SUB( NOW(), INTERVAL $query_mod_time SECOND )+0 and ";
+        $start = time() - $query_mod_time;
+
+        // If file deletion is delayed by X,
+        // subtract X from mod time of  file-deleted results.
+        // Otherwise we'll show lots of irrelevant results
+        //
+        $delay = parse_config(get_config(), "<delete_delay_hours>");
+        if ($delay) {
+            $start2 = $start - $delay*3600;;
+            $main_query .= " and ((file_delete_state>1 and mod_time>FROM_UNIXTIME($start2)) or (mod_time>FROM_UNIXTIME($start)))";
+        } else {
+            $main_query .= " and mod_time > FROM_UNIXTIME($start)";
+        }
     }
 
-    $main_query .= "1=1";
-
     $urlquery = $q->urlquery;
-    $result = mysql_query($main_query);
+    $result = _mysql_query($main_query);
 
     // echo "Main query was $main_query<br/>";
 
     if ($result) {
 
-        $res = mysql_fetch_object($result);
+        $res = _mysql_fetch_object($result);
         $ntotal          = $res->nTotal;
 
         $server_state[1] = $res->serverstate_inactive;
@@ -503,7 +515,7 @@ FROM result WHERE
         $file_delete[3]  = $res->filedeletestate_error;
 
         $nfile_deleted   = $res->filedeletestate_ready + $res->filedeletestate_done + $res->filedeletestate_error;
-        mysql_free_result($result);
+        _mysql_free_result($result);
     }
 
 
@@ -950,15 +962,15 @@ function host_user_link($hostid) {
     if (!$hostid) return '---';
 
     $h = "<a href=\"db_action.php?table=host&id=$hostid\">$hostid</a>";
-    $result = mysql_query("select userid from host where id='$hostid' limit 1");
+    $result = _mysql_query("select userid from host where id='$hostid' limit 1");
     if (!$result) return $h;
-    $host = mysql_fetch_object($result);
-    mysql_free_result($result);
+    $host = _mysql_fetch_object($result);
+    _mysql_free_result($result);
     if (!$host->userid) return $h;
-    $result = mysql_query("select id, name from user where id='$host->userid' limit 1");
+    $result = _mysql_query("select id, name from user where id='$host->userid' limit 1");
     if (!$result) return $h;
-    $user = mysql_fetch_object($result);
-    mysql_free_result($result);
+    $user = _mysql_fetch_object($result);
+    _mysql_free_result($result);
     return "$h<br><small>(<a href=\"db_action.php?table=user&id=$user->id\">$user->name</a>)</small>";
 }
 
@@ -1138,31 +1150,31 @@ function show_user($user) {
 function show_user_summary($maxuser) {
     $top_country = array();
     $top_language = array();
-    $stats_res = mysql_query("select max(id) as maxuser,
+    $stats_res = _mysql_query("select max(id) as maxuser,
         SUM(case when has_profile = '1' then 1 else 0 end) as profuser,
         SUM(case when teamid != '0' then 1 else 0 end) as teamuser
         from user"
     );
-    $stats = mysql_fetch_assoc($stats_res);
+    $stats = _mysql_fetch_assoc($stats_res);
     if ($maxuser > $stats['maxuser']) {
         $maxuser = $stats['maxuser'];
     }
-    $user_res = mysql_query("select * from user order by posts desc limit ".$maxuser);
-    $profile_res = mysql_query("select * from profile order by posts desc limit ".$maxuser);
+    $user_res = _mysql_query("select * from user order by posts desc limit ".$maxuser);
+    $profile_res = _mysql_query("select * from profile order by posts desc limit ".$maxuser);
     for ($i=1;$i<=$maxuser;$i++) {
-        $user = mysql_fetch_object($user_res);
+        $user = _mysql_fetch_object($user_res);
         $top10poster[$i] = $user;
         $top_country[$user->country] += 1;
     }
     for ($i=1;$i<=$maxuser;$i++) {
-        $profile = mysql_fetch_object($profile_res);    
+        $profile = _mysql_fetch_object($profile_res);    
         if ($profile->language != '') {
             $top_language[$profile->language] += 1;
         }
     }
-    mysql_free_result($user_res);
-    mysql_free_result($profile_res);
-    mysql_free_result($stats_res);
+    _mysql_free_result($user_res);
+    _mysql_free_result($profile_res);
+    _mysql_free_result($stats_res);
     echo "<table>
           <tr valign=\"top\">
             <td><h2>General</h2></td>
@@ -1231,40 +1243,40 @@ function show_team($team) {
 }
 
 function team_name_by_id($teamid) {
-    $result = mysql_query("select * from team where id = $teamid");
-    $team = mysql_fetch_object($result);
+    $result = _mysql_query("select * from team where id = $teamid");
+    $team = _mysql_fetch_object($result);
     return $team->name;
 }
 
 function user_name_by_id($user_id) {
-    $result = mysql_query("select * from user where id = $user_id");
-    $user = mysql_fetch_object($result);
+    $result = _mysql_query("select * from user where id = $user_id");
+    $user = _mysql_fetch_object($result);
     if (!$user) return "No user";
     return $user->name;
 }
 
 function app_name_by_id($appid) {
-    $result = mysql_query("select * from app where id = $appid");
-    $app = mysql_fetch_object($result);
+    $result = _mysql_query("select * from app where id = $appid");
+    $app = _mysql_fetch_object($result);
     return $app->name;
 }
 
 function wu_name_by_id($workunitid) {
-    $result = mysql_query("select * from workunit where id = $workunitid");
-    $wu = mysql_fetch_object($result);
+    $result = _mysql_query("select * from workunit where id = $workunitid");
+    $wu = _mysql_fetch_object($result);
     if (!$wu) return "Missing workunit";
     return $wu->name;
 }
 
 function platform_name_by_id($platformid) {
-    $result = mysql_query("select * from platform where id = $platformid");
-    $plat = mysql_fetch_object($result);
+    $result = _mysql_query("select * from platform where id = $platformid");
+    $plat = _mysql_fetch_object($result);
     return $plat->name;
 }
 
 function host_name_by_id($hostid) {
-    $result = mysql_query("select * from host where id = $hostid");
-    $host = mysql_fetch_object($result);
+    $result = _mysql_query("select * from host where id = $hostid");
+    $host = _mysql_fetch_object($result);
     if (!$host) return "No host";
     if (!strlen($host->domain_name) && !strlen($host->last_ip_addr)) {
         return "(blank)";

@@ -108,6 +108,7 @@ function main() {
     if (!rename("temp.xml", "/home/boincadm/boinc/doc/boinc_teams.xml")) {
         echo "Rename failed\n";
     }
+    echo "------------ Finished at ".time_str(time())."-------\n";
 }
 
 main();

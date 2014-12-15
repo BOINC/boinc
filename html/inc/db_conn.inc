@@ -16,30 +16,32 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// Should not be enabled for public code
-//ini_set('display_errors', 'stdout');
-//error_reporting(E_ALL);
+require_once("../inc/db.inc");
 
-/// represents a connection to a database.
+// represents a connection to a database.
 // Intended to be subclassed (e.g., BoincDb, BossaDb)
-
-if (class_exists("mysqli")) {
-    define("MYSQLI", true);
-} else {
-    define("MYSQLI", false);
-}
-
+//
 class DbConn {
     var $db_conn;
     var $db_name;
 
     function init_conn($user, $passwd, $host, $name) {
         if (MYSQLI) {
-            if (version_compare(PHP_VERSION, '5.3.0') < 0) {
-                $this->db_conn = new mysqli($host, $user, $passwd);
+            $x = explode(":", $host);
+            if (sizeof($x)>1) {
+                $host = $x[0];
+                $port = $x[1];
             } else {
-                $this->db_conn = new mysqli("p:".$host, $user, $passwd);
+                $port = null;
             }
+            //if (version_compare(PHP_VERSION, '5.3.0') < 0) {
+            if (1) {        // don't use persistent connections for now
+                $this->db_conn = new mysqli($host, $user, $passwd, $name, $port);
+            } else {
+                $this->db_conn = new mysqli("p:".$host, $user, $passwd, $name, $port);
+            }
+            global $mysqli;
+            $mysqli = $this->db_conn;
         } else {
             $this->db_conn = mysql_pconnect($host, $user, $passwd);
         }
@@ -105,6 +107,7 @@ class DbConn {
     }
 
     function lookup_id($id, $table, $classname) {
+        $id = (int)$id;
         return $this->lookup($table, $classname, "id=$id");
     }
 

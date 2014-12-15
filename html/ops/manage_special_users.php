@@ -32,13 +32,13 @@ for ($i=0;$i<=6;$i++) {
 }
 echo "</tr>";
 
-$result = mysql_query(
+$result = _mysql_query(
     "SELECT prefs.userid, prefs.special_user, user.id, user.name 
     FROM forum_preferences as prefs, user 
     WHERE CONVERT(special_user, DECIMAL) > 0 and prefs.userid=user.id"
 );
-for ($i=1; $i<=mysql_num_rows($result); $i++){
-	$foo = mysql_fetch_object($result);
+for ($i=1; $i<=_mysql_num_rows($result); $i++){
+	$foo = _mysql_fetch_object($result);
     echo "<form action=\"manage_special_users_action.php\" method=\"POST\">\n";
     echo "<input type=\"hidden\" name=\"userid\" value=\"$foo->userid\"
         <tr><td>$foo->name ($foo->id)</td>
@@ -51,7 +51,7 @@ for ($i=1; $i<=mysql_num_rows($result); $i++){
         }
         echo "></td>\n";
     }
-    echo "<td><input type=\"submit\" value=\"Update\"></form></td>";
+    echo "<td><input class=\"btn btn-default\" type=\"submit\" value=\"Update\"></form></td>";
     echo "</tr>\n";
 }
 
@@ -62,7 +62,7 @@ for ($j=0;$j<=6;$j++) {
     echo "<td><input type=\"checkbox\" name=\"role".$j."\" value=\"1\"";
     echo "></td>\n";
 }
-echo "<td><input type=\"submit\" value=\"Update\"></form></td>";
+echo "<td><input class=\"btn btn-default\" type=\"submit\" value=\"Update\"></form></td>";
 echo "</tr>\n";
 
 end_table();

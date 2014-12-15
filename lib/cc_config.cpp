@@ -205,10 +205,10 @@ void CC_CONFIG::defaults() {
     client_new_version_text = "";
     client_version_check_url = "http://boinc.berkeley.edu/download.php?xml=1";
     config_coprocs.clear();
-    data_dir[0] = 0;
     disallow_attach = false;
     dont_check_file_sizes = false;
     dont_contact_ref_site = false;
+    dont_use_vbox = false;
     exclude_gpus.clear();
     exclusive_apps.clear();
     exclusive_gpu_apps.clear();
@@ -335,12 +335,10 @@ int CC_CONFIG::parse_options(XML_PARSER& xp) {
             config_coprocs.add(c);
             continue;
         }
-        if (xp.parse_str("data_dir", data_dir, sizeof(data_dir))) {
-            continue;
-        }
         if (xp.parse_bool("disallow_attach", disallow_attach)) continue;
         if (xp.parse_bool("dont_check_file_sizes", dont_check_file_sizes)) continue;
         if (xp.parse_bool("dont_contact_ref_site", dont_contact_ref_site)) continue;
+        if (xp.parse_bool("dont_use_vbox", dont_use_vbox)) continue;
         if (xp.match_tag("exclude_gpu")) {
             EXCLUDE_GPU eg;
             retval = eg.parse(xp);
@@ -539,19 +537,15 @@ int CC_CONFIG::write(MIOFILE& out, LOG_FLAGS& log_flags) {
         );
     }
     
-    // Older versions of BOINC choke on empty data_dir string 
-    //
-    if (strlen(data_dir)) {
-        out.printf("        <data_dir>%s</data_dir>\n", data_dir);
-    }
-    
     out.printf(
         "        <disallow_attach>%d</disallow_attach>\n"
         "        <dont_check_file_sizes>%d</dont_check_file_sizes>\n"
-        "        <dont_contact_ref_site>%d</dont_contact_ref_site>\n",
+        "        <dont_contact_ref_site>%d</dont_contact_ref_site>\n"
+        "        <dont_use_vbox>%d</dont_use_vbox>\n",
         disallow_attach,
         dont_check_file_sizes,
-        dont_contact_ref_site
+        dont_contact_ref_site,
+        dont_use_vbox
     );
     
     for (i=0; i<exclude_gpus.size(); i++) {

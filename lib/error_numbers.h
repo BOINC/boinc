@@ -95,6 +95,7 @@
 #define ERR_BENCHMARK_FAILED -133
 #define ERR_BAD_HEX_FORMAT  -134
     // hex-format key data is bad
+#define ERR_GETADDRINFO     -135
 #define ERR_DB_NOT_FOUND    -136
     // no rows found in lookup() or enumerate()
 #define ERR_DB_NOT_UNIQUE   -137
@@ -204,6 +205,7 @@
 #define ERR_PROC_PARSE      -235
 #define ERR_STATFS          -236
 #define ERR_PIPE            -237
+#define ERR_NEED_HTTPS      -238
 
 // PLEASE: add a text description of your error to 
 // the text description function boincerror() in str_util.cpp.

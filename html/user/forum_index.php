@@ -63,7 +63,7 @@ function show_forum_summary($forum, $i) {
         <tr class=\"row$j\">
         <td>
             <a href=\"forum_forum.php?id=$forum->id\">$t</a>
-            <br><span class=\"smalltext\">$d</span>
+            <br><small>$d</small>
         </td>
         <td class=\"numbers\">$forum->threads</td>
         <td class=\"numbers\">$forum->posts</td>
@@ -76,7 +76,7 @@ page_head(tra("%1 Message boards", PROJECT));
 
 show_forum_header($user);
 
-if (FORUM_QA_MERGED_MODE === true){
+if (defined('FORUM_QA_MERGED_MODE') && FORUM_QA_MERGED_MODE){
     $categories = BoincCategory::enum("true order by orderID");
 } else {
     echo "<p>"

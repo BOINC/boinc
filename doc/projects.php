@@ -130,8 +130,9 @@ function ordered_display($areas, $sort) {
         if (array_key_exists(5, $p) && $p[5]) {
             $img= "<img align=right vspace=4 hspace=4 src=images/$p[5]>";
         }
-        $desc = addslashes($p[4]);
-        $x = "<a href=$p[1] onmouseover=\"popup('$img <b>Sponsor:</b> $p[2]<hr><b>Area:</b> $p[3]<hr><b>Goal:</b> $desc')\">$p[0]</a>";
+        $arg = "$img <b>Sponsor:</b> $p[2]<hr><b>Area:</b> $p[3]<hr><b>Goal:</b> $p[4]";
+        $arg = addslashes($arg);
+        $x = "<a href=$p[1] onmouseover=\"popup('$arg')\">$p[0]</a>";
         $home = $p[2];
         $area = $p['area'];
         $spec_area = $p[3];

@@ -34,9 +34,12 @@ struct PLAN_CLASS_SPEC {
     std::vector<std::string> cpu_features;
     double min_ncpus;
     int max_threads;
+    bool nthreads_cmdline;
     double projected_flops_scale;
     bool have_os_regex;
     regex_t os_regex;
+    bool have_cpu_vendor_regex;
+    regex_t cpu_vendor_regex;
     double min_os_version;
     double max_os_version;
     char project_prefs_tag[256];
@@ -94,6 +97,7 @@ struct PLAN_CLASS_SPEC {
     //
     int min_vbox_version;
     int max_vbox_version;
+    vector<int> exclude_vbox_version;
     bool vm_accel_required;
 
     int parse(XML_PARSER&);

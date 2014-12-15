@@ -62,7 +62,7 @@ foreach($updates as $update) {
     list($rev, $func) = $update;
     echo "performing update $func\n";
     call_user_func($func);
-    $e = mysql_error();
+    $e = _mysql_error();
     if ($e) {
         echo "\nWARNING: database upgrade failed.
 MySQL error message: $e

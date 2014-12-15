@@ -57,14 +57,14 @@ if (!$fp) {
             $item_array = explode("_",$item_number);
             $payment_id = abs($item_array[0]);
             $order_time = abs($item_array[1]);
-            $result = mysql_query("SELECT * FROM donation_paypal WHERE order_time = '$order_time' AND id = '$payment_id' AND processed = '0'");
-            $num_rows = mysql_num_rows($result);
+            $result = _mysql_query("SELECT * FROM donation_paypal WHERE order_time = '$order_time' AND id = '$payment_id' AND processed = '0'");
+            $num_rows = _mysql_num_rows($result);
             if ($num_rows == 1) {
-                $row = mysql_fetch_object($result);
+                $row = _mysql_fetch_object($result);
                 $userid = $row->userid;
-                mysql_query("UPDATE donation_paypal SET processed = '1', payment_time = '".time()."', item_name = '$item_name', payment_status = '$payment_status', payment_amount = '$payment_amount', payment_fee = '$payment_fee', payment_currency = '$payment_currency', txn_id = '$txn_id', receiver_email = '$receiver_email', payer_email = '$payer_email', payer_name = '$payer_name' WHERE id = '$payment_id'");
+                _mysql_query("UPDATE donation_paypal SET processed = '1', payment_time = '".time()."', item_name = '$item_name', payment_status = '$payment_status', payment_amount = '$payment_amount', payment_fee = '$payment_fee', payment_currency = '$payment_currency', txn_id = '$txn_id', receiver_email = '$receiver_email', payer_email = '$payer_email', payer_name = '$payer_name' WHERE id = '$payment_id'");
                 if ($userid > 0) {
-                    mysql_query("UPDATE user SET donated = '1' WHERE id = '$userid'");
+                    _mysql_query("UPDATE user SET donated = '1' WHERE id = '$userid'");
                 }
             }
         }

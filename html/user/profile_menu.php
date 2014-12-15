@@ -48,7 +48,7 @@ echo "<tr><td>";
     if ($profile) {
         $user = BoincUser::lookup_id($profile->userid);
         echo uotd_thumbnail($profile, $user);
-        echo user_links($user)."<br>";
+        echo user_links($user, BADGE_HEIGHT_MEDIUM)."<br>";
         $resp = output_transform($profile->response1);
         $resp = sanitize_tags($resp);
         echo sub_sentence($resp, ' ', 150, true);
@@ -75,7 +75,7 @@ row1(tra("Search profile text"));
 rowify("
     <form action=\"profile_search_action.php\" method=\"GET\">
     <input type=\"text\" name=\"search_string\">
-    <input type=\"submit\" value=\"".tra("Search")."\">
+    <input class=\"btn btn-default\" type=\"submit\" value=\"".tra("Search")."\">
     </form>
 ");
 end_table();

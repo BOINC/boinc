@@ -23,7 +23,7 @@ require_once("../inc/user.inc");
 function show_user($user) {
     echo "
         <tr class=row1>
-        <td>", user_links($user), " (ID $user->id)</td>
+        <td>", user_links($user, BADGE_HEIGHT_MEDIUM), " (ID $user->id)</td>
     ";
     if ($user->teamid) {
         $team = BoincTeam::lookup_id($user->teamid);
@@ -67,7 +67,7 @@ function search_form() {
     row2(tra("Decreasing sign-up time"), "<input type=radio name=search_type value=\"date\" checked>");
     row2(tra("Decreasing average credit"), "<input type=radio name=search_type value=\"rac\">");
     row2(tra("Decreasing total credit"), "<input type=radio name=search_type value=\"total\">");
-    row2("", "<input type=submit name=action value=".tra("Search").">");
+    row2("", "<input class=\"btn btn-default\" type=submit name=action value=".tra("Search").">");
     end_table();
     echo "
         <script>document.f.search_string.focus()</script>

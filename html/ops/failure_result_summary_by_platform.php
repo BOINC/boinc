@@ -57,14 +57,14 @@ order by error_count desc
 ";
 
 $urlquery = $q->urlquery;
-$result = mysql_query($main_query);
+$result = _mysql_query($main_query);
 
 start_table();
 table_header(
     "App version", "Exit Status", "Error Count"
 );
 
-while ($res = mysql_fetch_object($result)) {
+while ($res = _mysql_fetch_object($result)) {
     $exit_status_condition = "exit_status=$res->exit_status";
     table_row(
         app_version_desc($res->app_version_id),
@@ -77,7 +77,7 @@ while ($res = mysql_fetch_object($result)) {
         $res->error_count
     );
 }
-mysql_free_result($result);
+_mysql_free_result($result);
 
 end_table();
 

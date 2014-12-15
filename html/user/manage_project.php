@@ -70,11 +70,11 @@ function handle_list() {
     $us = BoincUserSubmit::enum("");
     start_table();
     table_header(
-        "User<br><span class=note>Click to change permissions or quota</span>",
+        "User<br><p class=\"text-muted\">Click to change permissions or quota</p>",
         "Can submit jobs for",
         "Quota",
-        "Max jobs in progress<br><span class=note>0 means no limit</span>",
-        "Current priority<br><span class=note>Later time = lower priority</span>"
+        "Max jobs in progress<br><p class=\"text-muted\">0 means no limit</p>",
+        "Current priority<br><p class=\"text-muted\">Later time = lower priority</p>"
     );
     foreach ($us as $u) {
         user_row($u);
@@ -127,7 +127,7 @@ function handle_edit_form() {
         Max jobs in progress:
         <input name=max_jobs_in_progress value=$mj>
         <p>
-        <input type=submit value=OK>
+        <input class=\"btn btn-default\" type=submit value=OK>
         </form>
         <p>
         <a href=manage_project.php>Return to project-wide management functions</a>
@@ -171,7 +171,7 @@ function handle_add_form() {
         <input type=hidden name=action value=add_action>
         User ID: <input name=user_id>
         <br>
-        <input type=submit value=OK>
+        <input class=\"btn btn-default\" type=submit value=OK>
         </form>
     ";
     page_tail();

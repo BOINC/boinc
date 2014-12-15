@@ -121,7 +121,7 @@ void chdir_to_data_dir() {
     if (lpszExpandedValue) free(lpszExpandedValue);
 }
 
-std::wstring A2W(const std::string& str) {
+std::wstring boinc_ascii_to_wide(const std::string& str) {
   int length_wide = MultiByteToWideChar(CP_ACP, 0, str.data(), -1, NULL, 0);
   wchar_t *string_wide = static_cast<wchar_t*>(_alloca((length_wide * sizeof(wchar_t)) + sizeof(wchar_t)));
   MultiByteToWideChar(CP_ACP, 0, str.data(), -1, string_wide, length_wide);
@@ -129,7 +129,7 @@ std::wstring A2W(const std::string& str) {
   return result;
 }
 
-std::string W2A(const std::wstring& str) {
+std::string boinc_wide_to_ascii(const std::wstring& str) {
   int length_ansi = WideCharToMultiByte(CP_UTF8, 0, str.data(), -1, NULL, 0, NULL, NULL);
   char* string_ansi = static_cast<char*>(_alloca(length_ansi + sizeof(char)));
   WideCharToMultiByte(CP_UTF8, 0, str.data(), -1, string_ansi, length_ansi, NULL, NULL);
@@ -158,14 +158,10 @@ char* windows_format_error_string(
     );
 
     if (dwRet != 0) {
-        // convert from current character encoding into UTF8
-        std::string encoded_message = W2A(std::wstring(lpszTemp));
-
         // include the hex error code as well
-        snprintf(pszBuf, iSize, "%s (0x%x)", encoded_message.c_str(), dwError);
-
+        snprintf(pszBuf, iSize, "%S (0x%x)", lpszTemp, dwError);
         if (lpszTemp) {
-            LocalFree((HLOCAL) lpszTemp);
+            LocalFree((HLOCAL)lpszTemp);
         }
     } else {
         strcpy(pszBuf, "(unknown error)");

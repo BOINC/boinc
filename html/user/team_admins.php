@@ -29,7 +29,7 @@ function show_admin($user, $admin) {
     $tokens = url_tokens($user->authenticator);
     $date = date_str($admin->create_time);
     echo "<tr>
-        <td>".user_links($admin_user)."</td>
+        <td>".user_links($admin_user, BADGE_HEIGHT_MEDIUM)."</td>
         <td>$date</td>
         <td>
     ";
@@ -78,7 +78,7 @@ function show_admins($user, $teamid) {
     start_table();
     row1(tra("Add Team Admin"));
     row2(tra("Email address of team member:"), "<input name=email_addr>");
-    row2("", "<input type=submit action value=\"".tra("Add")."\">");
+    row2("", "<input class=\"btn btn-default\" type=submit action value=\"".tra("Add")."\">");
     end_table();
     echo "</form>";
 

@@ -38,7 +38,10 @@ function admin_page_head($title) {
 }
 
 function admin_page_tail() {
-    echo "</body></html>\n";
+    echo "
+        <hr><center><a href=index.php>Main page</a></center>\n
+        </body></html>
+    ";
 }
 
 // TODO: get rid of all the following
@@ -94,12 +97,9 @@ function db_init_cli() {
     print "Database password (if any): ";
     $pass = rtrim(fgets($in, 80));
 
-    $retval = mysql_pconnect($host, $user, $pass);
+    $retval = _mysql_connect($host, $user, $pass, $db_name);
     if (!$retval) {
         die("Can't connect to DB\n");
-    }
-    if (!mysql_select_db($db_name)) {
-        die("Can't select DB\n");
     }
 }
 
@@ -113,7 +113,7 @@ function print_login_form_ops($next_url='') {
     row2("Email", "<input name=email_addr size=40>");
     row2("Password", "<input type=password name=passwd size=40>");
     row2(tra("Stay logged in on this computer"), '<input type="checkbox" name="stay_logged_in" checked>');
-    row2("", "<input type=submit value=OK>");
+    row2("", "<input class=\"btn btn-primary\" type=submit value=OK>");
     end_table();
 }
 

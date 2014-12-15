@@ -105,6 +105,12 @@ struct FILE_INFO {
     bool executable;        // change file protections to make executable
     bool uploaded;          // file has been uploaded
     bool sticky;            // don't delete unless instructed to do so
+    double sticky_lifetime;
+        // how long file should stay sticky.
+        // passed from the server;
+        // used by client to calculate sticky_expire_time.
+    double sticky_expire_time;
+        // if nonzero, when sticky status expires
     bool signature_required;    // true iff associated with app version
     bool is_user_file;
     bool is_project_file;
@@ -252,7 +258,7 @@ struct APP {
         // Can also specify in client_state.xml (for client emulator)
     int n_concurrent;
         // temp during job scheduling, to enforce max_concurrent
-    int non_excluded_instances[MAX_RSC];
+    COPROC_INSTANCE_BITMAP non_excluded_instances[MAX_RSC];
         // for each resource type, bitmap of the non-excluded instances
 #ifdef SIM
     double latency_bound;
@@ -270,7 +276,7 @@ struct APP {
 };
 
 struct GPU_USAGE {
-    int rsc_type;
+    int rsc_type;   // index into COPROCS array
     double usage;
 };
 

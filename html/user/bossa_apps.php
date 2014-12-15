@@ -43,7 +43,7 @@ function show_app($app) {
     }
     $est = number_format($app->time_estimate/60., 2);
     $limit = number_format($app->time_limit/60., 2);
-    row2("$app->name<br><span class=note>$app->description<br>Time: $est min. average, $limit min limit</span>", $x);
+    row2("$app->name<br><p class=\"text-muted\">$app->description<br>Time: $est min. average, $limit min limit</p>", $x);
 }
 
 function show_apps() {

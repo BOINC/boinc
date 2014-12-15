@@ -688,7 +688,7 @@ static void send_trickle_up_msg() {
 // an "unrecoverable error", which will be reported back to server. 
 // A zero exit-status tells the client we've successfully finished the result.
 //
-int boinc_finish(int status) {
+int boinc_finish_message(int status, const char* msg, bool is_notice) {
     char buf[256];
     fraction_done = 1;
     fprintf(stderr,
@@ -699,14 +699,24 @@ int boinc_finish(int status) {
     boinc_sleep(2.0);   // let the timer thread send final messages
     boinc_disable_timer_thread = true;     // then disable it
 
-    if (options.main_program && status==0) {
+    if (options.main_program) {
         FILE* f = fopen(BOINC_FINISH_CALLED_FILE, "w");
-        if (f) fclose(f);
+        if (f) {
+            fprintf(f, "%d\n", status);
+            if (msg) {
+                fprintf(f, "%s\n%s\n", msg, is_notice?"notice":"");
+            }
+            fclose(f);
+        }
     }
 
     boinc_exit(status);
 
     return 0;   // never reached
+}
+
+int boinc_finish(int status) {
+    return boinc_finish_message(status, NULL, false);
 }
 
 int boinc_temporary_exit(int delay, const char* reason, bool is_notice) {
@@ -1169,18 +1179,19 @@ static void timer_handler() {
     // see if the client has died, which means we need to die too
     // (unless we're in a critical section)
     //
-    if (in_critical_section==0 && options.check_heartbeat) {
+    if (options.check_heartbeat) {
         if (client_dead()) {
             fprintf(stderr, "%s timer handler: client dead, exiting\n",
                 boinc_msg_prefix(buf, sizeof(buf))
             );
-            if (options.direct_process_action) {
+            if (options.direct_process_action && !in_critical_section) {
                 exit_from_timer_thread(0);
             } else {
                 boinc_status.no_heartbeat = true;
             }
         }
     }
+
     // don't bother reporting CPU time etc. if we're suspended
     //
     if (options.send_status_msgs && !boinc_status.suspended) {
@@ -1418,13 +1429,16 @@ void boinc_end_critical_section() {
     // See if we got suspend/quit/abort while in critical section,
     // and handle them here.
     //
-    if (boinc_status.quit_request) {
-        boinc_exit(0);
-    }
-    if (boinc_status.abort_request) {
-        boinc_exit(EXIT_ABORTED_BY_CLIENT);
-    }
     if (options.direct_process_action) {
+        if (boinc_status.no_heartbeat) {
+            boinc_exit(0);
+        }
+        if (boinc_status.quit_request) {
+            boinc_exit(0);
+        }
+        if (boinc_status.abort_request) {
+            boinc_exit(EXIT_ABORTED_BY_CLIENT);
+        }
         acquire_mutex();
         if (suspend_request) {
             suspend_request = false;

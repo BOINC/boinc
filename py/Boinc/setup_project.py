@@ -395,19 +395,27 @@ sys.path.insert(0, os.path.join('%s', 'py'))
             'file_deleter',
             'get_file',
             'make_work',
+            'pshelper',
             'put_file',
             'pymw_assimilator.py',
             'sample_assimilator',
             'sample_bitwise_validator',
             'sample_dummy_assimilator',
+            'sample_substr_validator',
             'sample_trivial_validator',
             'sample_work_generator',
+            'script_assimilator',
+            'script_validator',
             'show_shmem',
             'single_job_assimilator', 
             'size_regulator', 
             'transitioner',
             'transitioner_catchup.php',
-            'update_stats'
+            'trickle_credit',
+            'trickle_deadline',
+            'trickle_echo',
+            'update_stats',
+            'wu_check'
         ])
     map(lambda (s): install(builddir('vda',s), dir('bin',s)),
         [ 'vda', 'vdad' ])

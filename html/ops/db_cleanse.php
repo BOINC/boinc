@@ -106,7 +106,7 @@ function delete_results() {
         // uncomment the following to actually delete
 
         die("edit script to enable deletion\n");
-        //mysql_query("delete from result where id=$resid");
+        //_mysql_query("delete from result where id=$resid");
     }
 }
 

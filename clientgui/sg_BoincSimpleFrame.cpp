@@ -32,6 +32,7 @@
 #include "MainDocument.h"
 #include "Events.h"
 #include "BOINCBaseFrame.h"
+#include "browser.h"
 #include "wizardex.h"
 #include "BOINCBaseWizard.h"
 #include "WizardAttach.h"
@@ -145,7 +146,8 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIconBundle* icons, wxPoint position
 
 #ifdef __WXMAC__
     menuFile->Append(
-        wxID_PREFERENCES
+        wxID_PREFERENCES,
+        _("Preferences…")
     );
 #endif
 
@@ -294,9 +296,6 @@ CSimpleFrame::CSimpleFrame(wxString title, wxIconBundle* icons, wxPoint position
     SendSizeEvent();
 #endif
 #ifdef __WXMAC__
-    m_pMenubar->MacInstallMenuBar();
-    MacLocalizeBOINCMenu();
-    
     // Mac needs a short delay to ensure that controls are
     // created in proper order to allow keyboard navigation
     m_iFrameRefreshRate = 1;    // 1 millisecond
@@ -680,6 +679,12 @@ void CSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     wxString strName = wxEmptyString;
     wxString strURL = wxEmptyString;
     wxString strTeamName = wxEmptyString;
+    std::string strProjectName;
+    std::string strProjectURL;
+    std::string strProjectAuthenticator;
+    std::string strProjectInstitution;
+    std::string strProjectDescription;
+    std::string strProjectKnown;
     bool bCachedCredentials = false;
     ACCT_MGR_INFO ami;
     PROJECT_INIT_STATUS pis;
@@ -705,7 +710,28 @@ void CSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     pDoc->rpc.get_project_init_status(pis);
     pDoc->rpc.acct_mgr_info(ami);
 
-    if (ami.acct_mgr_url.size() && ami.have_credentials) {
+    if (detect_simple_account_credentials(
+            strProjectName, strProjectURL, strProjectAuthenticator, strProjectInstitution, strProjectDescription, strProjectKnown
+        )
+    ){
+        wasShown = IsShown();
+        Show();
+        wasVisible = wxGetApp().IsApplicationVisible();
+        if (!wasVisible) {
+            wxGetApp().ShowApplication(true);
+        }
+        
+        pWizard = new CWizardAttach(this);
+
+        pWizard->RunSimpleProjectAttach(
+            wxURI::Unescape(strProjectName),
+            wxURI::Unescape(strProjectURL),
+            wxURI::Unescape(strProjectAuthenticator),
+            wxURI::Unescape(strProjectInstitution),
+            wxURI::Unescape(strProjectDescription),
+            wxURI::Unescape(strProjectKnown)
+        );
+    } else if (ami.acct_mgr_url.size() && ami.have_credentials) {
         // Fall through
         //
         // There isn't a need to bring up the attach wizard, the account manager will

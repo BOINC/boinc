@@ -45,7 +45,7 @@ function do_app($app) {
         " and host.id = host_app_version.host_id";
     $result = $db->do_query($query);
     $a = array();
-    while ($x = mysql_fetch_object($result)) {
+    while ($x = _mysql_fetch_object($result)) {
         if (is_gpu($x->plan_class)) {
             $av = $x->on_frac;
             if ($x->gpu_active_frac) {
@@ -58,7 +58,7 @@ function do_app($app) {
         }
         $a[] = (1/$x->et_avg) * $av;
     }
-    mysql_free_result($result);
+    _mysql_free_result($result);
     sort($a);
     $n = count($a);
     $f = fopen("../../size_census_".$app->name, "w");

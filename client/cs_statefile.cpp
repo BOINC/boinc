@@ -116,7 +116,6 @@ int CLIENT_STATE::parse_state_file() {
 int CLIENT_STATE::parse_state_file_aux(const char* fname) {
     PROJECT *project=NULL;
     int retval=0;
-    int failnum;
     string stemp;
 
     FILE* f = fopen(fname, "r");
@@ -224,6 +223,7 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
             // If the file had a failure before,
             // don't start another file transfer
             //
+            int failnum;
             if (fip->had_failure(failnum)) {
                 if (fip->pers_file_xfer) {
                     delete fip->pers_file_xfer;
@@ -402,6 +402,7 @@ int CLIENT_STATE::parse_state_file_aux(const char* fname) {
 #ifdef SIM
             retval = host_info.parse(xp, false);
             coprocs = host_info.coprocs;
+            coprocs.bound_counts();
 #else
             retval = host_info.parse(xp, true);
 #endif
@@ -896,6 +897,13 @@ int CLIENT_STATE::parse_app_info(PROJECT* p, FILE* in) {
         if (xp.match_tag("app_version")) {
             APP_VERSION* avp = new APP_VERSION;
             if (avp->parse(xp)) {
+                delete avp;
+                continue;
+            }
+            if (cc_config.dont_use_vbox && strstr(avp->plan_class, "vbox")) {
+                msg_printf(p, MSG_INFO,
+                    "skipping vbox app in app_info.xml; vbox disabled in cc_config.xml"
+                );
                 delete avp;
                 continue;
             }

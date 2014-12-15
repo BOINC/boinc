@@ -210,7 +210,7 @@ int CLIENT_STATE::make_scheduler_request(PROJECT* p) {
 
     // update hardware info, and write host info
     //
-    host_info.get_host_info();
+    host_info.get_host_info(false);
     set_ncpus();
     host_info.write(mf, !cc_config.suppress_net_info, false);
 
@@ -811,6 +811,9 @@ int CLIENT_STATE::handle_scheduler_reply(
         } else {
             fip = new FILE_INFO;
             *fip = sr.file_infos[i];
+            if (fip->sticky_lifetime) {
+                fip->sticky_expire_time = now + fip->sticky_lifetime;
+            }
             retval = link_file_info(project, fip);
             if (retval) {
                 msg_printf(project, MSG_INTERNAL_ERROR,
@@ -916,10 +919,17 @@ int CLIENT_STATE::handle_scheduler_reply(
         est_rsc_runtime[j] = 0;
     }
     for (i=0; i<sr.results.size(); i++) {
-        if (lookup_result(project, sr.results[i].name)) {
-            msg_printf(project, MSG_INTERNAL_ERROR,
-                "Already have task %s\n", sr.results[i].name
-            );
+        RESULT* rp2 = lookup_result(project, sr.results[i].name);
+        if (rp2) {
+            // see if project wants to change the job's deadline
+            //
+            if (sr.results[i].report_deadline != rp2->report_deadline) {
+                rp2->report_deadline = sr.results[i].report_deadline;
+            } else {
+                msg_printf(project, MSG_INTERNAL_ERROR,
+                    "Already have task %s\n", sr.results[i].name
+                );
+            }
             continue;
         }
         RESULT* rp = new RESULT;

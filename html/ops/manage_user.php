@@ -37,45 +37,29 @@ error_reporting(E_ALL);
 ini_set('display_errors', true);
 ini_set('display_startup_errors', true);
 
-// Delete a user (or at least try to)
+// Delete a user if they have no credit, results, or posts
 //
-function delete_user($user){
-    if (!empty($user->teamid)){
-        user_quit_team($user);
-    }
-    if ($user->has_profile){
-        mysql_query("DELETE FROM profile WHERE userid = $user->id");
-        delete_user_pictures($user->id);
-        mysql_query("UPDATE user SET has_profile=0 WHERE id=$user->id");
-    }
-
+function possibly_delete_user($user){
     if ($user->total_credit > 0.0){
-        error_page("Cannot delete user: User has credit.");
-        return false;
+        admin_error_page("Cannot delete user: User has credit.");
     }  
 
     // Don't delete user if they have any outstanding Results
     //
-    $q = "SELECT COUNT(*) AS count FROM result WHERE userid=".$user->id;
-    $result = mysql_query($q);
-    $c = mysql_fetch_object($result);
-    mysql_free_result($result);
-    if ($c->count) {
-        error_page("Cannot delete user: User has $c->count results in the database.");
+    if (BoincResult::count("userid=$user->id")) {
+        admin_error_page("Cannot delete user: User has count results in the database.");
     }
 
     // Don't delete user if they have posted to the forums
     //
-    $q = "SELECT COUNT(*) AS count FROM post WHERE user=".$user->id;
-    $result = mysql_query($q);
-    $c = mysql_fetch_object($result);
-    mysql_free_result($result);
-    if ($c->count) {
-        error_page("Cannot delete user: User has $c->count forum posts.");
+    if (BoincPost::count("user=$user->id")) {
+        admin_error_page("Cannot delete user: User has forum posts.");
     }
 
-    $q = "DELETE FROM user WHERE id=".$user->id;
-    $result = mysql_query($q);
+    if ($user->teamid){
+        user_quit_team($user);
+    }
+    delete_user($user);
 }
 
 // Process special user settings
@@ -93,7 +77,7 @@ function handle_special_user($user) {
         }
     }
     $q = "UPDATE forum_preferences SET special_user=\"$bits\" WHERE userid=$user->id";
-    mysql_query($q);
+    _mysql_query($q);
 }
 
 
@@ -105,14 +89,14 @@ function handle_suspend($user) {
 
     $reason = $_POST['suspend_reason'];
     if ($dt > 0 && empty($reason)) {
-        error_page("You must supply a reason for a suspension.
+        admin_error_page("You must supply a reason for a suspension.
             <p><a href=manage_user.php?userid=$user->id>Try again</a>"
         );
     } else {
         if (is_numeric($dt)) {
             $t = $dt>0 ? time()+$dt : 0;
             $q = "UPDATE forum_preferences SET banished_until=$t WHERE userid=$user->id";
-            mysql_query($q);
+            _mysql_query($q);
 
             // put a timestamp in wiki to trigger re-validation of credentials
 
@@ -174,7 +158,7 @@ function show_manage_user_form($user) {
 
 
     row1("<b>User: </b> $user->name <div align='right'>
-            <input name=\"delete_user\" type=\"submit\" value=\"Delete user\">
+            <input class=\"btn btn-danger\" name=\"delete_user\" type=\"submit\" value=\"Delete user\">
             </div>"
     );
 
@@ -293,17 +277,22 @@ $id = get_int("userid", true);
 if (!$id) {
     $id = post_int("userid", true);
 }
-if (!$id) error_page("No ID given");
+if (!$id) admin_error_page("No ID given");
 $user = BoincUser::lookup_id($id);
-if (!$user) error_page("No such user: $id");
+if (!$user) admin_error_page("No such user: $id");
 
 BoincForumPrefs::lookup($user);
 
 if (isset($_POST['delete_user'])) {
-    delete_user($user);
+    possibly_delete_user($user);
     admin_page_head("User deleted");
-    echo "User $user->name ($user->id) deleted";
+    echo "
+        User $user->name ($user->id) deleted.
+        <p>
+        <a href=
+    ";
     admin_page_tail();
+    exit;
 }
 
 if (isset($_POST['special_user'])) {

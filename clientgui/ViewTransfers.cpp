@@ -34,6 +34,14 @@
 #include "res/xfer.xpm"
 
 
+// Column IDs must be equal to the column's default
+// position (left to right, zero-based) when all
+// columns are shown.  However, any column may be
+// hidden, either by default or by the user.
+// (On MS Windows only, the user can also rearrange
+// the columns from the default order.)
+//
+// Column IDs
 #define COLUMN_PROJECT              0
 #define COLUMN_FILE                 1
 #define COLUMN_PROGRESS             2
@@ -41,6 +49,16 @@
 #define COLUMN_TIME                 4
 #define COLUMN_SPEED                5
 #define COLUMN_STATUS               6
+
+// DefaultShownColumns is an array containing the
+// columnIDs of the columns to be shown by default,
+// in ascending order.  It may or may not include
+// all columns.
+//
+// For now, show all columns by default
+static int DefaultShownColumns[] = { COLUMN_PROJECT, COLUMN_FILE, COLUMN_PROGRESS, 
+                                COLUMN_SIZE, COLUMN_TIME, COLUMN_SPEED,
+                                COLUMN_STATUS};
 
 // buttons in the "tasks" area
 #define BTN_RETRY       0
@@ -100,7 +118,7 @@ static bool CompareViewTransferItems(int iRowIndex1, int iRowIndex2) {
         return 0;
     }
 
-    switch (MyCViewTransfers->m_iSortColumn) {
+    switch (MyCViewTransfers->m_iSortColumnID) {
     case COLUMN_PROJECT:
         result = transfer1->m_strProjectName.CmpNoCase(transfer2->m_strProjectName);
         break;
@@ -183,14 +201,38 @@ CViewTransfers::CViewTransfers(wxNotebook* pNotebook) :
     // Create Task Pane Items
     m_pTaskPane->UpdateControls();
 
-    // Create List Pane Items
-    m_pListPane->InsertColumn(COLUMN_PROJECT, _("Project"), wxLIST_FORMAT_LEFT, 125);
-    m_pListPane->InsertColumn(COLUMN_FILE, _("File"), wxLIST_FORMAT_LEFT, 205);
-    m_pListPane->InsertColumn(COLUMN_PROGRESS, _("Progress"), wxLIST_FORMAT_CENTRE, 60);
-    m_pListPane->InsertColumn(COLUMN_SIZE, _("Size"), wxLIST_FORMAT_LEFT, 80);
-    m_pListPane->InsertColumn(COLUMN_TIME, _("Elapsed Time"), wxLIST_FORMAT_LEFT, 80);
-    m_pListPane->InsertColumn(COLUMN_SPEED, _("Speed"), wxLIST_FORMAT_LEFT, 80);
-    m_pListPane->InsertColumn(COLUMN_STATUS, _("Status"), wxLIST_FORMAT_LEFT, 150);
+    // m_aStdColNameOrder is an array of all column heading labels
+    // (localized) in order of ascending Column ID.
+    // Once initialized, it should not be modified.
+    //
+    m_aStdColNameOrder = new wxArrayString;
+    m_aStdColNameOrder->Insert(_("Project"), COLUMN_PROJECT);
+    m_aStdColNameOrder->Insert(_("File"), COLUMN_FILE);
+    m_aStdColNameOrder->Insert(_("Progress"), COLUMN_PROGRESS);
+    m_aStdColNameOrder->Insert(_("Size"), COLUMN_SIZE);
+    m_aStdColNameOrder->Insert(_("Elapsed"), COLUMN_TIME);
+    m_aStdColNameOrder->Insert(_("Speed"), COLUMN_SPEED);
+    m_aStdColNameOrder->Insert(_("Status"), COLUMN_STATUS);
+
+    // m_aStdColNameOrder is an array of the width for each column.
+    // Entries must be in order of ascending Column ID.  We initalize
+    // it here to the default column widths.  It is updated by
+    // CBOINCListCtrl::OnRestoreState() and also when a user resizes
+    // a column bby dragging the divider between two columns.
+    //
+    m_iStdColWidthOrder.Clear();
+    m_iStdColWidthOrder.Insert(125, COLUMN_PROJECT);
+    m_iStdColWidthOrder.Insert(205, COLUMN_FILE);
+    m_iStdColWidthOrder.Insert(60, COLUMN_PROGRESS);
+    m_iStdColWidthOrder.Insert(80, COLUMN_SIZE);
+    m_iStdColWidthOrder.Insert(80, COLUMN_TIME);
+    m_iStdColWidthOrder.Insert(80, COLUMN_SPEED);
+    m_iStdColWidthOrder.Insert(150, COLUMN_STATUS);
+
+    m_iDefaultShownColumns = DefaultShownColumns;
+    m_iNumDefaultShownColumns = sizeof(DefaultShownColumns) / sizeof(int);
+
+    wxASSERT(m_iStdColWidthOrder.size() == m_aStdColNameOrder->size());
 
     m_iProgressColumn = COLUMN_PROGRESS;
 
@@ -205,6 +247,41 @@ CViewTransfers::CViewTransfers(wxNotebook* pNotebook) :
 CViewTransfers::~CViewTransfers() {
     EmptyCache();
     EmptyTasks();
+}
+
+
+// Create List Pane Items
+void CViewTransfers::AppendColumn(int columnID){
+    switch(columnID) {
+        case COLUMN_PROJECT:
+            m_pListPane->AppendColumn((*m_aStdColNameOrder)[COLUMN_PROJECT],
+                wxLIST_FORMAT_LEFT, m_iStdColWidthOrder[COLUMN_PROJECT]);
+            break;
+        case COLUMN_FILE:
+            m_pListPane->AppendColumn((*m_aStdColNameOrder)[COLUMN_FILE],
+                wxLIST_FORMAT_LEFT, m_iStdColWidthOrder[COLUMN_FILE]);
+            break;
+        case COLUMN_PROGRESS:
+            m_pListPane->AppendColumn((*m_aStdColNameOrder)[COLUMN_PROGRESS],
+                wxLIST_FORMAT_CENTRE, m_iStdColWidthOrder[COLUMN_PROGRESS]);
+            break;
+        case COLUMN_SIZE:
+            m_pListPane->AppendColumn((*m_aStdColNameOrder)[COLUMN_SIZE],
+                wxLIST_FORMAT_LEFT, m_iStdColWidthOrder[COLUMN_SIZE]);
+            break;
+        case COLUMN_TIME:
+            m_pListPane->AppendColumn((*m_aStdColNameOrder)[COLUMN_TIME],
+                wxLIST_FORMAT_LEFT, m_iStdColWidthOrder[COLUMN_TIME]);
+            break;
+        case COLUMN_SPEED:
+            m_pListPane->AppendColumn((*m_aStdColNameOrder)[COLUMN_SPEED],
+                wxLIST_FORMAT_LEFT, m_iStdColWidthOrder[COLUMN_SPEED]);
+            break;
+        case COLUMN_STATUS:
+            m_pListPane->AppendColumn((*m_aStdColNameOrder)[COLUMN_STATUS],
+                wxLIST_FORMAT_LEFT, m_iStdColWidthOrder[COLUMN_STATUS]);
+            break;
+    }
 }
 
 
@@ -397,8 +474,8 @@ wxString CViewTransfers::OnListGetItemText(long item, long column) const {
         transfer = NULL;
     }
 
-    if (transfer) {
-        switch(column) {
+    if (transfer && (column >= 0)) {
+        switch(m_iColumnIndexToColumnID[column]) {
         case COLUMN_PROJECT:
             strBuffer = transfer->m_strProjectName;
             break;
@@ -504,7 +581,9 @@ bool CViewTransfers::SynchronizeCacheItem(wxInt32 iRowIndex, wxInt32 iColumnInde
         return false;
     }
 
-    switch(iColumnIndex) {
+    if (iColumnIndex < 0) return false;
+
+    switch (m_iColumnIndexToColumnID[iColumnIndex]) {
         case COLUMN_PROJECT:
             GetDocProjectName(m_iSortedIndexes[iRowIndex], strDocumentText);
             GetDocProjectURL(m_iSortedIndexes[iRowIndex], strDocumentText2);

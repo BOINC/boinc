@@ -117,8 +117,8 @@ void CAccountManagerInfoPage::CreateControls()
 #define LISTBOXWIDTH 225
 #define DESCRIPTIONSWIDTH 350
 #else
-#define LISTBOXWIDTH 150
-#define DESCRIPTIONSWIDTH 200
+#define LISTBOXWIDTH ADJUSTFORXDPI(150)
+#define DESCRIPTIONSWIDTH ADJUSTFORXDPI(310)
 #endif
 
     CAccountManagerInfoPage* itemWizardPage23 = this;
@@ -142,7 +142,7 @@ void CAccountManagerInfoPage::CreateControls()
     itemBoxSizer24->Add(itemFlexGridSizer3, 1, wxGROW|wxALL, 5);
 
     wxArrayString m_pProjectsCtrlStrings;
-    m_pProjectListCtrl = new wxListBox( itemWizardPage23, ID_PROJECTS, wxDefaultPosition, wxSize(LISTBOXWIDTH, 175), m_pProjectsCtrlStrings, wxLB_SINGLE|wxLB_SORT );
+    m_pProjectListCtrl = new wxListBox( itemWizardPage23, ID_PROJECTS, wxDefaultPosition, wxSize(LISTBOXWIDTH, ADJUSTFORYDPI(175)), m_pProjectsCtrlStrings, wxLB_SINGLE|wxLB_SORT );
     itemFlexGridSizer3->Add(m_pProjectListCtrl, 0, wxGROW|wxRIGHT, 10);
 
     wxFlexGridSizer* itemFlexGridSizer4 = new wxFlexGridSizer(3, 1, 0, 0);
@@ -153,7 +153,7 @@ void CAccountManagerInfoPage::CreateControls()
     m_pProjectDetailsStaticCtrl->Create( itemWizardPage23, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
     itemFlexGridSizer4->Add(m_pProjectDetailsStaticCtrl, 0, wxBOTTOM, 5);
     
-    m_pProjectDetailsDescriptionCtrl = new wxTextCtrl( itemWizardPage23, ID_PROJECTDESCRIPTION, wxT(""), wxDefaultPosition, wxSize(DESCRIPTIONSWIDTH, 100), wxTE_MULTILINE|wxTE_READONLY );
+    m_pProjectDetailsDescriptionCtrl = new wxTextCtrl( itemWizardPage23, ID_PROJECTDESCRIPTION, wxT(""), wxDefaultPosition, wxSize(DESCRIPTIONSWIDTH, ADJUSTFORYDPI(100)), wxTE_MULTILINE|wxTE_READONLY );
     itemFlexGridSizer4->Add(m_pProjectDetailsDescriptionCtrl, 0, wxGROW);
 
 	m_pOpenWebSiteButton = new wxButton( this, ID_PROJECTWEBPAGECTRL, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );

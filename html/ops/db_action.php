@@ -30,7 +30,7 @@ $last_pos = get_int("last_pos", true);
 $table = get_str("table", true);
 $detail = get_str("detail", true);
 $clauses = get_str("clauses", true);
-if (strstr($clauses, ";")) error_page("bad clause");
+if (strstr($clauses, ";")) admin_error_page("bad clause");
 
 $q = new SqlQueryString();
 $q->process_form_items();
@@ -125,8 +125,8 @@ if ($table == "host") {
         if ($clauses) {
             $query .= " WHERE $clauses";
         }
-        $result = mysql_query($query);
-        $disk_info = mysql_fetch_object($result);
+        $result = _mysql_query($query);
+        $disk_info = _mysql_fetch_object($result);
         $dt = $disk_info->tot_sum/(1024*1024*1024);
         $df = $disk_info->free_sum/(1024*1024*1024);
         $mt = $disk_info->tot_mem/(1024*1024);
@@ -155,7 +155,7 @@ if ($table == "host") {
     }
 }
 
-$result = mysql_query($main_query);
+$result = _mysql_query($main_query);
 if ($result) {
     if ($detail == "low") {
         start_table();
@@ -174,7 +174,7 @@ if ($result) {
             break;
         }
     }
-    while ($res = mysql_fetch_object($result)) {
+    while ($res = _mysql_fetch_object($result)) {
         if ($detail == "low") {
             switch ($table) {
             case "result":
@@ -222,7 +222,7 @@ if ($result) {
     if ($detail == "low" || $table == "profile") {
          end_table();
     }
-    mysql_free_result($result);
+    _mysql_free_result($result);
 } else {
     echo "<h2>No results found</h2>";
 }

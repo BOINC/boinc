@@ -18,14 +18,14 @@
 
 require_once("../inc/util_ops.inc");
 
-db_init();
-$hostid = $_GET["hostid"];
+$hostid = get_int("hostid");
 
-if (!$hostid) {
-    error_page("no host ID\n");
+$host = BoincHost::lookup_id($hostid);
+if (!$host) {
+    admin_error_page("no such host\n");
 }
 
-mysql_query("update host set rpc_time=0 where id='$hostid'");
+$host->update("rpc_time=0");
 echo "Host RPC time cleared for host ID: $hostid\n";
 
 admin_page_tail();

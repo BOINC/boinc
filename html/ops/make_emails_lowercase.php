@@ -56,22 +56,12 @@ admin_page_head("Repair emails and CPID=0");
 echo "<br>
     Script for repairing user database if some email addresses in lower case and/or some CPID=0<br>
     <b>Attention this runs an expensive query on the database</b><br><br>\n";
-$query = "select count(*) from user";
-if (!($result = mysql_query($query))) {
-  echo "No rows found in USER database table";
-  exit();
-}
-
-$users_array = mysql_fetch_array($result);
-mysql_free_result($result);
-$number_of_users=$users_array[0];
-echo "Found $number_of_users users<br/>";
 
 $query = "select id, email_addr,cross_project_id  from user";
-$result = mysql_query($query);
+$result = _mysql_query($query);
 
 // loop over all users
-while ($user = mysql_fetch_object($result)) {
+while ($user = _mysql_fetch_object($result)) {
 
   $id=$user->id;
   $email_addr=$user->email_addr;
@@ -96,7 +86,7 @@ while ($user = mysql_fetch_object($result)) {
       $update_needed = TRUE;
     }
     else {
-      mysql_query($update);
+      _mysql_query($update);
       echo "Doing $update<br/>\n";
     }
   }
@@ -106,7 +96,7 @@ if ($confirm != "yes" && $update_needed) {
 } else {
     echo "No updates needed.";
 }
-mysql_free_result($result);
+_mysql_free_result($result);
 
 admin_page_tail();
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit

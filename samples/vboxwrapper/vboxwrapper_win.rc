@@ -33,6 +33,10 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 // Version
 //
 
+// Helpful macros to convert version to string notation
+#define TOSTR(s) #s
+#define VER_TOSTR(maj,min,rel) TOSTR(maj) "." TOSTR(min) "." TOSTR(rel) "\0"
+
 VS_VERSION_INFO VERSIONINFO
  FILEVERSION BOINC_MAJOR_VERSION,BOINC_MINOR_VERSION,VBOXWRAPPER_RELEASE,0
  PRODUCTVERSION BOINC_MAJOR_VERSION,BOINC_MINOR_VERSION,VBOXWRAPPER_RELEASE,0
@@ -52,12 +56,12 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "Space Sciences Laboratory"
             VALUE "FileDescription", "BOINC VirtualBox Wrapper"
-            VALUE "FileVersion", BOINC_MAJOR_VERSION "." BOINC_MINOR_VERSION "." VBOXWRAPPER_RELEASE "\0"
+            VALUE "FileVersion", VER_TOSTR(BOINC_MAJOR_VERSION, BOINC_MINOR_VERSION, WRAPPER_RELEASE)
             VALUE "InternalName", "vboxwrapper"
             VALUE "LegalCopyright", "© 2011-2014 University of California"
             VALUE "OriginalFilename", "vboxwrapper.exe"
             VALUE "ProductName", "BOINC VirtualBox Wrapper"
-            VALUE "ProductVersion", BOINC_MAJOR_VERSION "." BOINC_MINOR_VERSION "." VBOXWRAPPER_RELEASE "\0"
+            VALUE "ProductVersion", VER_TOSTR(BOINC_MAJOR_VERSION, BOINC_MINOR_VERSION, WRAPPER_RELEASE)
         END
     END
     BLOCK "VarFileInfo"

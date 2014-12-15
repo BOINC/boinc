@@ -27,11 +27,11 @@ function show_form() {
         "name",
         "title",
         "image URL",
-        "type<br><span class=note>0=user<br>1=team<br>optional</span>",
-        "description<br><span class=note>optional</span>",
-        "level<br><span class=note>optional</span>",
-        "tags<br><span class=note>optional</span>",
-        "SQL rule<br><span class=note>optional</span>",
+        "type<br><p class=\"text-muted\">0=user<br>1=team<br>optional</p>",
+        "description<br><p class=\"text-muted\">optional</p>",
+        "level<br><p class=\"text-muted\">optional</p>",
+        "tags<br><p class=\"text-muted\">optional</p>",
+        "SQL rule<br><p class=\"text-muted\">optional</p>",
         "", ""
     );
 
@@ -44,7 +44,7 @@ function show_form() {
         echo "<input type=hidden name=id value=$badge->id>";
         $nu = BoincBadgeUser::count("badge_id=$badge->id");
         $nt = BoincBadgeTeam::count("badge_id=$badge->id");
-        $x = "<br><span class=note>Assigned to $nu users<br>Assigned to $nt teams</span>";
+        $x = "<br><p class=\"text-muted\">Assigned to $nu users<br>Assigned to $nt teams</p>";
         echo "<td><input name=\"name\" value=\"$badge->name\">$x</td>\n";
         echo "<td><input name=\"title\" value=\"$badge->title\"></td>\n";
         $x = "";
@@ -62,8 +62,8 @@ function show_form() {
         echo "<td><input name=\"level\" value=\"$badge->level\"></td>\n";
         echo "<td><input name=\"tags\" value=\"$badge->tags\"></td>\n";
         echo "<td><input name=\"sql_rule\" value=\"$badge->sql_rule\"></td>\n";
-        echo "<td><input type=submit name=\"update\" value=Update>\n";
-        echo "<td><input type=submit name=\"delete\" value=Delete>\n";
+        echo "<td><input class=\"btn btn-default\" type=submit name=\"update\" value=Update>\n";
+        echo "<td><input class=\"btn btn-danger\" type=submit name=\"delete\" value=Delete>\n";
         echo "</form></tr>\n";
     }
     
@@ -77,7 +77,7 @@ function show_form() {
     echo "<td><input name=\"level\"></td>\n";
     echo "<td><input name=\"tags\"></td>\n";
     echo "<td><input name=\"sql_rule\"></td>\n";
-    echo "<td colspan=2><input type=submit name=\"add_badge\" value=\"Create badge\"></td>\n";
+    echo "<td colspan=2><input class=\"btn btn-primary\" type=submit name=\"add_badge\" value=\"Create badge\"></td>\n";
     echo "</form></tr>\n";
 
     end_table();

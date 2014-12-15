@@ -59,9 +59,9 @@ $cpu_string[ 21 ] = "Intel Core2";
 $query = "SELECT COUNT(workunit.id) AS count FROM workunit LEFT JOIN result ON workunit.id=result.workunitid WHERE result.server_state=2 AND workunit.hr_class=";
 
 function get_mysql_count($hr_class) {
-    $result = mysql_query("select count(id) as count from workunit where hr_class=" . $hr_class);
-    $count = mysql_fetch_object($result);
-    mysql_free_result($result);
+    $result = _mysql_query("select count(id) as count from workunit where hr_class=" . $hr_class);
+    $count = _mysql_fetch_object($result);
+    _mysql_free_result($result);
     return $count->count;
 }
 

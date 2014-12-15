@@ -30,7 +30,7 @@ function job_show($job, $inst, $user) {
         <form method=get action=bossa_job_finished.php>
         Click on the center of the ellipse.
         If you don't see one, click here:
-        <input type=submit name=submit value=None>
+        <input class=\"btn btn-default\" type=submit name=submit value=None>
         <br><br>
         <input type=hidden name=bji value=$inst->id>
         <input type=image name=pic src=$path>

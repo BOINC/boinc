@@ -70,17 +70,17 @@ start_table();
 //
 if(defined('INVITE_CODES')) {
      row2(
-         tra("Invitation Code")."<br><span class=\"description\">".tra("A valid invitation code is required to create an account.")."</span>",
+         tra("Invitation Code")."<br><p class=\"text-info\">".tra("A valid invitation code is required to create an account.")."</p>",
          "<input type=\"text\" name=\"invite_code\" size=\"30\" >"
      );
 } 
 
 row2(
-    tra("Name")."<br><span class=\"description\">".tra("Identifies you on our web site. Use your real name or a nickname.")."</span>",
+    tra("Name")."<br><p class=\"text-info\">".tra("Identifies you on our web site. Use your real name or a nickname.")."</p>",
     "<input type=\"text\" name=\"new_name\" size=\"30\">"
 );
 row2(
-    tra("Email Address")."<br><span class=\"description\">".tra("Must be a valid address of the form 'name@domain'.")."</span>",
+    tra("Email Address")."<br><p class=\"text-info\">".tra("Must be a valid address of the form 'name@domain'.")."</p>",
     "<input type=\"text\" name=\"new_email_addr\" size=\"50\">"
 );
 $min_passwd_length = parse_element($config, "<min_passwd_length>");
@@ -90,18 +90,18 @@ if (!$min_passwd_length) {
 
 row2(
     tra("Password")
-    ."<br><span class=\"description\">".tra("Must be at least %1 characters", $min_passwd_length)."</span>",
+    ."<br><p class=\"text-info\">".tra("Must be at least %1 characters", $min_passwd_length)."</p>",
     "<input type=\"password\" name=\"passwd\">"
 );
 row2(tra("Confirm password"), "<input type=\"password\" name=\"passwd2\">");
 row2_init(
-    tra("Country")."<br><span class=\"description\">".tra("Select the country you want to represent, if any.")."</span>",
+    tra("Country")."<br><p class=\"text-info\">".tra("Select the country you want to represent, if any.")."</p>",
     "<select name=\"country\">"
 );
 print_country_select();
 echo "</select></td></tr>\n";
 row2(
-    tra("Postal or ZIP Code")."<br><span class=\"description\">".tra("Optional")."</span>",
+    tra("Postal or ZIP Code")."<br><p class=\"text-info\">".tra("Optional")."</p>",
     "<input type=\"text\" name=\"postal_code\" size=\"20\">"
 );
 
@@ -116,7 +116,7 @@ if ($publickey) {
 }
 
 row2("",
-    "<input type=\"submit\" value=\"".tra("Create account")."\">"
+    "<input class=\"btn btn-primary\" type=\"submit\" value=\"".tra("Create account")."\">"
 );
 end_table();
 echo "

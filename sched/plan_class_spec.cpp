@@ -15,6 +15,9 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// Support for plan classes defined using an XML file.
+// See http://boinc.berkeley.edu/trac/wiki/AppPlanSpec
+
 #include <cmath>
 
 #include "util.h"
@@ -30,21 +33,28 @@ using std::string;
 // this returns a numerical OS version for Darwin/OSX and Windows,
 // allowing to define a numerical _range_ for these OS versions
 static double os_version_num(HOST h) {
+    unsigned int a, b, c, d;
     if (strstr(h.os_name, "Darwin")) {
-        unsigned int a,b,c;
         if (sscanf(h.os_version, "%u.%u.%u", &a, &b, &c) == 3) {
             return 10000.0*a + 100.0*b + c;
         }
     } else if (strstr(h.os_name, "Windows")) {
-        unsigned int a,b,c,d;
         // example: "Enterprise Server Edition, Service Pack 1, (06.01.7601.00)"
-        char*p = strrchr(h.os_version,'(');
+        //
+        char *p = strrchr(h.os_version,'(');
         if (p && (sscanf(p, "(%u.%u.%u.%u)", &a, &b, &c, &d) == 4)) {
             return 100000000.0*a + 1000000.0*b + 100.0*c +d;
         }
+    } else if (strstr(h.os_name, "Android") || strstr(h.os_name, "Linux")) {
+        // example: 3.0.31-g6fb96c9
+        //
+        if (sscanf(h.os_version, "%u.%u.%u", &a, &b, &c) == 3) {
+            return 10000.*a + 100.*b + c;
+        }
     }
     // could not determine numerical OS version
-    return 0.0;
+    //
+    return 0;
 }
 
 
@@ -231,6 +241,18 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
         }
     }
 
+    // CPU vendor
+    //
+    if (have_cpu_vendor_regex && regexec(&(cpu_vendor_regex), sreq.host.p_vendor, 0, NULL, 0)) {
+        if (config.debug_version_select) {
+            log_messages.printf(MSG_NORMAL,
+                "[version] plan_class_spec: CPU vendor '%s' didn't match regexp\n",
+                sreq.host.p_vendor
+            );
+        }
+        return false;
+    }
+
     // BOINC versions
     //
     if (min_core_client_version && sreq.core_client_version < min_core_client_version) {
@@ -293,6 +315,14 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
                 log_messages.printf(MSG_NORMAL,
                     "[version] plan_class_spec: vbox version too high: %d > %d\n",
                     v, max_vbox_version
+                );
+            }
+            return false;
+        }
+        if (in_vector(v, exclude_vbox_version)) {
+            if (config.debug_version_select) {
+                log_messages.printf(MSG_NORMAL,
+                    "[version] plan_class_spec: vbox version %d excluded\n", v
                 );
             }
             return false;
@@ -713,6 +743,9 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
         } else if (strstr(gpu_type, "intel")==gpu_type) {
             hu.proc_type = PROC_TYPE_INTEL_GPU;
             hu.gpu_usage = gpu_usage;
+        } else if (!strcmp(gpu_type, "miner_asic")) {
+            hu.proc_type = PROC_TYPE_MINER_ASIC;
+            hu.gpu_usage = gpu_usage;
         } else {
             if (config.debug_version_select) {
                 log_messages.printf(MSG_NORMAL,
@@ -736,6 +769,9 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
             } else {
                 hu.avg_ncpus = 1;
             }
+        }
+        if (nthreads_cmdline) {
+            sprintf(hu.cmdline, "--nthreads %d", (int)hu.avg_ncpus);
         }
 
         hu.peak_flops = capped_host_fpops() * hu.avg_ncpus;
@@ -772,6 +808,7 @@ bool PLAN_CLASS_SPECS::check(
 
 int PLAN_CLASS_SPEC::parse(XML_PARSER& xp) {
     char buf[256];
+    int i;
     while (!xp.get_tag()) {
         if (xp.match_tag("/plan_class")) {
             return 0;
@@ -791,18 +828,27 @@ int PLAN_CLASS_SPEC::parse(XML_PARSER& xp) {
         }
         if (xp.parse_double("min_ncpus", min_ncpus)) continue;
         if (xp.parse_int("max_threads", max_threads)) continue;
+        if (xp.parse_bool("nthreads_cmdline", nthreads_cmdline)) continue;
         if (xp.parse_double("projected_flops_scale", projected_flops_scale)) continue;
         if (xp.parse_str("os_regex", buf, sizeof(buf))) {
             if (regcomp(&(os_regex), buf, REG_EXTENDED|REG_NOSUB) ) {
-                log_messages.printf(MSG_CRITICAL, "BAD REGEXP: %s\n", buf);
+                log_messages.printf(MSG_CRITICAL, "BAD OS REGEXP: %s\n", buf);
                 return ERR_XML_PARSE;
             }
             have_os_regex = true;
             continue;
         }
+        if (xp.parse_str("cpu_vendor_regex", buf, sizeof(buf))) {
+            if (regcomp(&(cpu_vendor_regex), buf, REG_EXTENDED|REG_NOSUB) ) {
+                log_messages.printf(MSG_CRITICAL, "BAD CPU VENDOR REGEXP: %s\n", buf);
+                return ERR_XML_PARSE;
+            }
+            have_cpu_vendor_regex = true;
+            continue;
+        }
         if (xp.parse_str("host_summary_regex", buf, sizeof(buf))) {
             if (regcomp(&(host_summary_regex), buf, REG_EXTENDED|REG_NOSUB) ) {
-                log_messages.printf(MSG_CRITICAL, "BAD REGEXP: %s\n", buf);
+                log_messages.printf(MSG_CRITICAL, "BAD HOST SUMMARY REGEXP: %s\n", buf);
                 return ERR_XML_PARSE;
             }
             have_host_summary_regex = true;
@@ -813,7 +859,7 @@ int PLAN_CLASS_SPEC::parse(XML_PARSER& xp) {
         if (xp.parse_str("project_prefs_tag", project_prefs_tag, sizeof(project_prefs_tag))) continue;
         if (xp.parse_str("project_prefs_regex", buf, sizeof(buf))) {
             if (regcomp(&(project_prefs_regex), buf, REG_EXTENDED|REG_NOSUB) ) {
-                log_messages.printf(MSG_CRITICAL, "BAD REGEXP: %s\n", buf);
+                log_messages.printf(MSG_CRITICAL, "BAD PROJECT PREFS REGEXP: %s\n", buf);
                 return ERR_XML_PARSE;
             }
             have_project_prefs_regex = true;
@@ -852,6 +898,10 @@ int PLAN_CLASS_SPEC::parse(XML_PARSER& xp) {
 
         if (xp.parse_int("min_vbox_version", min_vbox_version)) continue;
         if (xp.parse_int("max_vbox_version", max_vbox_version)) continue;
+        if (xp.parse_int("exclude_vbox_version", i)) {
+            exclude_vbox_version.push_back(i);
+            continue;
+        }
         if (xp.parse_bool("vm_accel_required", vm_accel_required)) continue;
     }
     return ERR_XML_PARSE;
@@ -891,8 +941,10 @@ PLAN_CLASS_SPEC::PLAN_CLASS_SPEC() {
     is64bit = false;
     min_ncpus = 0;
     max_threads = 1;
+    nthreads_cmdline = false;
     projected_flops_scale = 1;
     have_os_regex = false;
+    have_cpu_vendor_regex = false;
     min_os_version = 0;
     max_os_version = 0;
     strcpy(project_prefs_tag, "");

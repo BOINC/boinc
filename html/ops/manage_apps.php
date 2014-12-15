@@ -23,7 +23,7 @@ require_once('../inc/util_ops.inc');
 function do_updates() {
     $id = post_int("id");
     $app = BoincApp::lookup_id($id);
-    if (!$app) error_page("no such app");
+    if (!$app) admin_error_page("no such app");
 
     $n = post_str("deprecated", true)?1:0;
     $app->update("deprecated=$n");
@@ -56,7 +56,7 @@ function add_app() {
     $name = BoincDb::escape_string(post_str('add_name'));
     $user_friendly_name = BoincDb::escape_string(post_str('add_user_friendly_name'));
     if (empty($name) || empty($user_friendly_name) ) {
-        error_page(
+        admin_error_page(
             "To add a new application please supply both a brief name and a longer 'user-friendly' name.</font></p>"
         );
     }
@@ -65,7 +65,7 @@ function add_app() {
         "(name,user_friendly_name,create_time) VALUES ('$name', '$user_friendly_name', $now)"
     );
     if (!$id) {
-        error_page("insert failed");
+        admin_error_page("insert failed");
     }
     echo "Application added.
         <p>
@@ -81,12 +81,12 @@ function show_form() {
     start_table();
     table_header(
         "ID",
-        "Name and description<br><span class=note>Click for details</span>",
+        "Name and description<br><p class=\"text-muted\">Click for details</p>",
         "Created",
-        "weight<br><a href=http://boinc.berkeley.edu/trac/wiki/BackendPrograms#feeder><span class=note>details</span></a>",
+        "weight<br><a href=http://boinc.berkeley.edu/trac/wiki/BackendPrograms#feeder><p class=\"text-muted\">details</p></a>",
         "shmem items",
-        "HR type<br><a href=http://boinc.berkeley.edu/trac/wiki/HomogeneousRedundancy><span class=note>details</span></a>",
-        "homogeneous app version?<br><a href=http://boinc.berkeley.edu/trac/wiki/HomogeneousAppVersion><span class=note>details</span></a>",
+        "HR type<br><a href=http://boinc.berkeley.edu/trac/wiki/HomogeneousRedundancy><p class=\"text-muted\">details</p></a>",
+        "homogeneous app version?<br><a href=http://boinc.berkeley.edu/trac/wiki/HomogeneousAppVersion><p class=\"text-muted\">details</p></a>",
         "deprecated?",
         "Non-CPU-intensive?",
         "Beta?",
@@ -163,7 +163,7 @@ function show_form() {
             <input name='fraction_done_exact' type='checkbox' $v></TD>
         ";
 
-        echo "<td><input type=submit name=submit value=Update>";
+        echo "<td><input class=\"btn btn-default\" type=submit name=submit value=Update>";
         echo "</tr></form>";
     }
 

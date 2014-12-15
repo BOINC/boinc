@@ -50,9 +50,9 @@ $app_types = get_app_types();
 $project_pref_descs = array(
     new PREF_NUM(
         $x = tra("Resource share")
-            ."<br><span class=note>"
+            ."<br><p class=\"text-muted\">"
             .tra("Determines the proportion of your computer's resources allocated to this project. Example: if you participate in two BOINC projects with resource shares of 100 and 200, the first will get 1/3 of your resources and the second will get 2/3. %2")
-            ."</span>",
+            ."</p>",
         "resource_share",
         new NUM_SPEC("", 0, 9999999, 100)
     ),
@@ -69,9 +69,9 @@ if (!empty($accelerate_gpu_apps_pref)) {
 if ($app_types->cpu) {
     $project_pref_descs[] = new PREF_BOOL (
         tra("Use CPU")
-            ."<br><span class=note>"
+            ."<br><p class=\"text-muted\">"
             .tra("Enforced by version 6.10+")
-            ."</span>",
+            ."</p>",
         "no_cpu",
         false,
         true
@@ -80,9 +80,9 @@ if ($app_types->cpu) {
 if ($app_types->ati) {
     $project_pref_descs[] = new PREF_BOOL (
         tra("Use ATI GPU")
-            ."<br><span class=note>"
+            ."<br><p class=\"text-muted\">"
             .tra("Enforced by version 6.10+")
-            ."</span>",
+            ."</p>",
         "no_ati",
         false,
         true
@@ -91,9 +91,9 @@ if ($app_types->ati) {
 if ($app_types->cuda) {
     $project_pref_descs[] = new PREF_BOOL (
         tra("Use NVIDIA GPU")
-            ."<br><span class=note>"
+            ."<br><p class=\"text-muted\">"
             .tra("Enforced by version 6.10+")
-            ."</span>",
+            ."</p>",
         "no_cuda",
         false,
         true
@@ -102,9 +102,9 @@ if ($app_types->cuda) {
 if ($app_types->intel_gpu) {
     $project_pref_descs[] = new PREF_BOOL (
         tra("Use Intel GPU")
-            ."<br><span class=note>"
+            ."<br><p class=\"text-muted\">"
             .tra("Enforced by version 7.2+")
-            ."</span>",
+            ."</p>",
         "no_intel_gpu",
         false,
         true
@@ -114,17 +114,17 @@ if ($app_types->intel_gpu) {
 if (project_has_beta()) {
     $project_pref_descs[] = new PREF_BOOL(
         tra("Run test applications?")
-            ."<br><span class=note>"
+            ."<br><p class=\"text-muted\">"
             .tra("This helps us develop applications, but may cause jobs to fail on your computer")
-            ."</span>",
+            ."</p>",
         "allow_beta_work",
         false
     );
 }
 if (defined("EMAIL_FROM")) {
-    $x = "<br><span class=note>"
+    $x = "<br><p class=\"text-muted\">"
         .tra("Emails will be sent from %1; make sure your spam filter accepts this address.", EMAIL_FROM)
-        ."</span>";
+        ."</p>";
 } else {
     $x = "";
 }
