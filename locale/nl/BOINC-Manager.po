@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-02-02 00:00-0800\n"
-"PO-Revision-Date: 2014-01-17 18:18+0000\n"
+"PO-Revision-Date: 2014-12-13 21:25+0000\n"
 "Last-Translator: Rene <oskamjr@ziggo.nl>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: nl\n"
@@ -23,7 +23,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCGIT\\boinc\n"
-"X-POOTLE-MTIME: 1389982727.0\n"
+"X-POOTLE-MTIME: 1418505915.0\n"
 
 # 81%
 #: AccountInfoPage.cpp:387
@@ -2708,9 +2708,8 @@ msgid "I agree to the terms of use."
 msgstr "Ik ga akkoord met de voorwaarden."
 
 #: TermsOfUsePage.cpp:237
-#, fuzzy
 msgid "I do not agree to the terms of use."
-msgstr "Ik ga NIET akkoord met de voorwaarden."
+msgstr "Ik ga niet akkoord met de voorwaarden."
 
 #: UnavailablePage.cpp:183
 msgid "Project temporarily unavailable"
@@ -3613,12 +3612,15 @@ msgstr "Klik op 'OK' om instellingen vast te leggen."
 msgid ""
 "Click Clear to restore web-based settings for all preferences listed below."
 msgstr ""
+"Klik 'Wissen' om de online waarden te herstellen voor onderstaande "
+"instellingen."
 
 #: sg_DlgPreferences.cpp:285
-#, fuzzy
 msgid ""
 "For additional settings, select Computing Preferences in the Advanced View."
-msgstr "Voor aanvullende opties klik je op 'Verwerkings voorkeuren' in "
+msgstr ""
+"Voor aanvullende opties, klik op 'Verwerkings voorkeuren' in de geavanceerde "
+"weergave."
 
 #: sg_DlgPreferences.cpp:313
 msgid "Do work only between:"
@@ -3649,9 +3651,8 @@ msgid "Do work after idle for:"
 msgstr "Indien inactief starten na:"
 
 #: sg_DlgPreferences.cpp:429
-#, fuzzy
 msgid "Clear all local preferences listed above and close the dialog"
-msgstr "Wis alle lokale voorkeuren en sluit het venster"
+msgstr "Wis alle boven vermelde lokale voorkeuren en sluit het venster"
 
 #: sg_DlgPreferences.cpp:602 sg_DlgPreferences.cpp:605
 #: sg_DlgPreferences.cpp:681 sg_DlgPreferences.cpp:685
