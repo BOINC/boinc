@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2013-10-18 00:00-0700\n"
-"PO-Revision-Date: 2013-09-22 20:57+0000\n"
+"PO-Revision-Date: 2014-12-15 21:24+0000\n"
 "Last-Translator: Anonymous Pootle User\n"
 "Language-Team: es <LL@li.org>\n"
 "Language: es\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
-"X-POOTLE-MTIME: 1379883430.0\n"
+"X-POOTLE-MTIME: 1418678690.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -94,11 +94,11 @@ msgstr "Android:"
 
 msgctxt "attachproject_login_platform_supported"
 msgid "This project supports Android devices"
-msgstr ""
+msgstr "Este proyecto admite dispositivos Android"
 
 msgctxt "attachproject_login_platform_not_supported"
 msgid "This project does not support Android devices"
-msgstr ""
+msgstr "Este proyecto no admite dispositivos Android"
 
 msgctxt "attachproject_login_category_terms_of_use"
 msgid "Terms of use for"
@@ -146,11 +146,11 @@ msgstr "Das Projekt erlaubt zur Zeit keine neuen Konten!"
 
 msgctxt "attachproject_login_button_registration"
 msgid "Register"
-msgstr ""
+msgstr "Registrarse"
 
 msgctxt "attachproject_login_button_login"
 msgid "Sign in"
-msgstr ""
+msgstr "Entrar"
 
 msgctxt "attachproject_login_button_forgotpw"
 msgid "Forgot Password"
@@ -204,7 +204,7 @@ msgstr "Kontoverwaltung hinzufügen"
 
 msgctxt "attachproject_acctmgr_header_url"
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 msgctxt "attachproject_acctmgr_header_name"
 msgid "User:"
@@ -269,7 +269,7 @@ msgstr "E-Mail-Adresse ist bereits registriert"
 
 msgctxt "attachproject_error_project_down"
 msgid "Project is offline"
-msgstr ""
+msgstr "El proyecto está caído"
 
 msgctxt "attachproject_error_email_bad_syntax"
 msgid "eMail refused"
@@ -310,7 +310,7 @@ msgstr "…"
 
 msgctxt "attachproject_working_finished"
 msgid "."
-msgstr ""
+msgstr "."
 
 msgctxt "attachproject_working_description"
 msgid ":"
@@ -326,7 +326,7 @@ msgstr "Konto überprüfen"
 
 msgctxt "attachproject_working_register"
 msgid "Register account"
-msgstr ""
+msgstr "Crear una cuenta"
 
 msgctxt "attachproject_working_login"
 msgid "Log in"
@@ -343,7 +343,7 @@ msgstr "Synchronisieren"
 #. main activity
 msgctxt "main_noproject_warning"
 msgid "Tab here to choose a project."
-msgstr ""
+msgstr "Pulse aquí para elegir un proyecto."
 
 msgctxt "main_error"
 msgid "Whooops"
@@ -417,7 +417,7 @@ msgstr "angehalten"
 
 msgctxt "status_computing_disabled_long"
 msgid "Press play to resume network and computation."
-msgstr ""
+msgstr "Pulse play para volver a conectarse y computar."
 
 msgctxt "status_launching"
 msgid "Starting…"
@@ -454,7 +454,7 @@ msgstr "Neuen Wert eingeben:"
 
 msgctxt "prefs_dialog_title_selection"
 msgid "Select:"
-msgstr ""
+msgstr "Elija:"
 
 msgctxt "prefs_category_general"
 msgid "General"
@@ -490,7 +490,7 @@ msgstr "Zeige erweiterte Einstellungen und Steuerungen…"
 
 msgctxt "prefs_run_on_battery_header"
 msgid "Compute on Battery"
-msgstr ""
+msgstr "Computar con la batería"
 
 msgctxt "battery_charge_min_pct_header"
 msgid "Min. battery level"
@@ -516,7 +516,7 @@ msgstr ""
 
 msgctxt "prefs_disk_max_pct_header"
 msgid "Max. used storage space"
-msgstr ""
+msgstr "Máximo espacio de almacenamiento usado"
 
 msgctxt "prefs_disk_max_pct_description"
 msgid "How many percent of your device's storage space is BOINC allowed to use?"
@@ -528,7 +528,7 @@ msgstr "min. freizuhaltender Speicher"
 
 msgctxt "prefs_disk_min_free_gb_description"
 msgid "How much of your device's storage space shall stay free?"
-msgstr ""
+msgstr "¿Cuánto espacio de almacenamiento debe quedar libre?"
 
 msgctxt "prefs_network_daily_xfer_limit_mb_header"
 msgid "Daily transfer limit"
@@ -564,16 +564,15 @@ msgstr "Anhalten wenn Prozessornutzung über"
 
 msgctxt "prefs_cpu_other_load_suspension_description"
 msgid "Determines when BOINC pauses computation due to other app's CPU usage."
-msgstr ""
+msgstr "Define cuándo deja de calcular BOINC porque otra aplicación use la CPU."
 
 msgctxt "prefs_cpu_time_max_header"
 msgid "CPU limit"
 msgstr "Prozessorbegrenzung"
 
-#, fuzzy
 msgctxt "prefs_cpu_time_max_description"
 msgid "Limits the CPU time BOINC uses for computation."
-msgstr "Limitiert die Anzahl der Prozessoren welche BOINC nutzen darf."
+msgstr "Limita el tiempo de la CPU que usa BOINC para calcular."
 
 msgctxt "prefs_memory_max_idle_header"
 msgid "RAM limit"
@@ -589,11 +588,11 @@ msgstr "BOINC Client Protokolleinstellungen"
 
 msgctxt "prefs_gui_log_level_header"
 msgid "GUI log level"
-msgstr ""
+msgstr "Nivel de registro de la GUI"
 
 msgctxt "prefs_gui_log_level_description"
 msgid "Specifies verbosity of GUI log messages."
-msgstr ""
+msgstr "Especifica la verbosidad de los mensajes del registro de la GUI."
 
 msgctxt "prefs_unit_mb"
 msgid "MB"
@@ -615,7 +614,7 @@ msgstr "°C"
 #. projects tab strings
 msgctxt "projects_loading"
 msgid "Reading projects…"
-msgstr ""
+msgstr "Leyendo los proyectos..."
 
 msgctxt "projects_add"
 msgid "Add project"
@@ -740,10 +739,9 @@ msgctxt "projects_confirm_reset_title"
 msgid "Reset project"
 msgstr "Projekt zurücksetzen"
 
-#, fuzzy
 msgctxt "projects_confirm_reset_message"
 msgid "Are you sure you want to reset"
-msgstr "Wollen Sie wirklich zurücksetzen"
+msgstr "¿Está seguro de que quiere reiniciar"
 
 msgctxt "projects_confirm_reset_confirm"
 msgid "Reset"
@@ -847,10 +845,9 @@ msgctxt "confirm_abort_task_title"
 msgid "Abort task?"
 msgstr "Aufgabe abbrechen?"
 
-#, fuzzy
 msgctxt "confirm_abort_task_message"
 msgid "Abort task:"
-msgstr "Aufgabe abbrechen?"
+msgstr "Abortar la tarea:"
 
 msgctxt "confirm_abort_task_confirm"
 msgid "Abort"
@@ -899,7 +896,7 @@ msgstr "ausstehend"
 
 msgctxt "trans_projectbackoff"
 msgid "project backoff"
-msgstr ""
+msgstr "marcha atrás del proyecto"
 
 msgctxt "trans_header_name"
 msgid "File:"
@@ -915,7 +912,7 @@ msgstr "Übertragung abbrechen?"
 
 msgctxt "confirm_abort_trans_message"
 msgid "Abort File:"
-msgstr ""
+msgstr "Abortar el archivo:"
 
 msgctxt "confirm_abort_trans_confirm"
 msgid "Abort"
@@ -962,7 +959,7 @@ msgstr "Benutzer ist aktiv."
 
 msgctxt "suspend_tod"
 msgid "Out of computation time-frame."
-msgstr ""
+msgstr "Fuera del plazo de computación."
 
 msgctxt "suspend_bm"
 msgid "BOINC is benchmarking your device…"
@@ -974,7 +971,7 @@ msgstr "Kein Speicherplatz mehr verfügbar."
 
 msgctxt "suspend_cputhrottle"
 msgid "Scheduled CPU throttle."
-msgstr ""
+msgstr "Regulación de la CPU programada."
 
 msgctxt "suspend_noinput"
 msgid "No recent user activity."
