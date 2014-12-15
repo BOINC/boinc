@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-02-02 00:00-0800\n"
-"PO-Revision-Date: 2013-09-20 10:48+0000\n"
-"Last-Translator: Anonymous Pootle User\n"
+"PO-Revision-Date: 2014-04-25 11:11+0000\n"
+"Last-Translator: Rytis Slatkevičius <rytis.s@gmail.com>\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: lt\n"
 "MIME-Version: 1.0\n"
@@ -24,7 +24,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCGIT\\boinc\n"
-"X-POOTLE-MTIME: 1379674127.0\n"
+"X-POOTLE-MTIME: 1398424289.0\n"
 
 # 81%
 #: AccountInfoPage.cpp:387
@@ -118,8 +118,9 @@ msgid ""
 msgstr ""
 
 #: AccountInfoPage.cpp:532
+#, fuzzy
 msgid "Account manager web site"
-msgstr ""
+msgstr "Abonento valdiklio tinklapis"
 
 #: AccountInfoPage.cpp:574 WelcomePage.cpp:348
 msgid "Add project"
@@ -138,8 +139,9 @@ msgid "Please enter a user name."
 msgstr ""
 
 #: AccountInfoPage.cpp:587
+#, fuzzy
 msgid "Please enter an email address."
-msgstr ""
+msgstr "Įveskite elektroninio pašto adresą"
 
 #: AccountInfoPage.cpp:597
 #, c-format
@@ -164,12 +166,14 @@ msgstr ""
 "arba įveskite jo internetinį adresą žemiau."
 
 #: AccountManagerInfoPage.cpp:279
+#, fuzzy
 msgid "Account manager details:"
-msgstr ""
+msgstr "Abonento valdiklio tinklapis"
 
 #: AccountManagerInfoPage.cpp:283
+#, fuzzy
 msgid "Account manager &URL:"
-msgstr ""
+msgstr "Abonemento valdiklio tinklapio adresas:"
 
 #: AccountManagerInfoPage.cpp:287
 msgid "Open web page"
@@ -489,9 +493,9 @@ msgid "Show information about the %s"
 msgstr "Rodyti informaciją apie %s"
 
 #: AdvancedFrame.cpp:661 sg_BoincSimpleFrame.cpp:224
-#, c-format
+#, c-format, fuzzy
 msgid "%s &web site"
-msgstr ""
+msgstr "%s &tinklapis"
 
 #: AdvancedFrame.cpp:667 sg_BoincSimpleFrame.cpp:230
 #, c-format
@@ -3622,8 +3626,9 @@ msgid "Do work after idle for:"
 msgstr ""
 
 #: sg_DlgPreferences.cpp:429
+#, fuzzy
 msgid "Clear all local preferences listed above and close the dialog"
-msgstr ""
+msgstr "išvalyti vietinius nustatymus ir uždaryti šį langą"
 
 #: sg_DlgPreferences.cpp:602 sg_DlgPreferences.cpp:605
 #: sg_DlgPreferences.cpp:681 sg_DlgPreferences.cpp:685
@@ -3641,8 +3646,9 @@ msgid "200 MB"
 msgstr "200 MB"
 
 #: sg_DlgPreferences.cpp:640
+#, fuzzy
 msgid "500 MB"
-msgstr ""
+msgstr "100 MB"
 
 #: sg_DlgPreferences.cpp:641
 msgid "1 GB"
@@ -3669,8 +3675,9 @@ msgid "50 GB"
 msgstr ""
 
 #: sg_DlgPreferences.cpp:647
+#, fuzzy
 msgid "100 GB"
-msgstr ""
+msgstr "100 MB"
 
 #: sg_DlgPreferences.cpp:717
 #, c-format
