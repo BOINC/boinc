@@ -59,7 +59,7 @@ int APP_CONFIG::parse_gpu_versions(XML_PARSER& xp, PROJECT* p) {
         }
     }
     msg_printf_notice(p, false, NULL,
-        "missing </gpu_versions> in app_config.xml"
+        "Missing </gpu_versions> in app_config.xml"
     );
     return ERR_XML_PARSE;
 }
@@ -98,7 +98,7 @@ int APP_CONFIG::parse(XML_PARSER& xp, PROJECT* p) {
         xp.skip_unexpected(log_flags.unparsed_xml, "APP_CONFIG::parse");
     }
     msg_printf_notice(p, false, NULL,
-        "missing </app> in app_config.xml"
+        "Missing </app> in app_config.xml"
     );
     return ERR_XML_PARSE;
 }
@@ -128,7 +128,7 @@ int APP_VERSION_CONFIG::parse(XML_PARSER& xp, PROJECT* p) {
         xp.skip_unexpected(log_flags.unparsed_xml, "APP_VERSION_CONFIG::parse");
     }
     msg_printf_notice(p, false, NULL,
-        "missing </app_version> in app_config.xml"
+        "Missing </app_version> in app_config.xml"
     );
     return ERR_XML_PARSE;
 }
@@ -175,7 +175,7 @@ int APP_CONFIGS::parse(XML_PARSER& xp, PROJECT* p) {
         xp.skip_unexpected(log_flags.unparsed_xml, "APP_CONFIGS::parse");
     }
     msg_printf_notice(p, false, NULL,
-        "missing </app_config> in app_config.xml"
+        "Missing </app_config> in app_config.xml"
     );
     return ERR_XML_PARSE;
 }
