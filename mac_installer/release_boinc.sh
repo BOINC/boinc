@@ -39,6 +39,8 @@
 ## updated 11/18/13 by Charlie Fenton for Xcode 5.0.2
 ## updated 1/22/14 by Charlie Fenton: embed VBox uninstaller in BOINC uninstaller
 ## updated 9/30/14 by Charlie Fenton to code sign the BOINC client and Manager
+## updated 12/16/14 by Charlie Fenton to name folders "x86_64" not "i686"
+## updated 12/16/14 by Charlie Fenton to also code sign the installer package
 ##
 ## NOTE: This script requires Mac OS 10.6 or later, and uses XCode developer
 ##   tools.  So you must have installed XCode Developer Tools on the Mac 
@@ -63,8 +65,11 @@
 ## Usage:
 ##
 ## If you wish to code sign the client, manager, installer and uninstaller,
-## create a file ~/BOINCCodeSignIdentity.txt whose first line is the code
-## signing identity
+## create a file ~/BOINCCodeSignIdentities.txt whose first line is the code
+## signing identity.
+## If you wish to also code sign the installer package, add a second line
+## to ~/BOINCCodeSignIdentities.txt with the installer code signing identity.
+
 ##
 ## cd to the root directory of the boinc tree, for example:
 ##     cd [path]/boinc
@@ -105,7 +110,7 @@ DarwinMajorVersion=`echo $DarwinVersion | sed 's/\([0-9]*\)[.].*/\1/' `;
 
 if [ "$DarwinMajorVersion" -gt 10 ]; then
     # XCode 4.1 on OS 10.7 builds only Intel binaries
-    arch="i686"
+    arch="x86_64"
 
     # XCode 3.x and 4.x use different paths for their build products.
     # Our scripts in XCode's script build phase write those paths to 
@@ -229,23 +234,27 @@ sudo chmod -R u+rw,g+r-w,o+r-w ../BOINC_Installer/Installer\ Scripts/*
 
 
 ## If you wish to code sign the client, manager, installer and uninstaller,
-## create a file ~/BOINCCodeSignIdentity.txt whose first line is the code
-## signing identity
+## create a file ~/BOINCCodeSignIdentities.txt whose first line is the
+## application code signing identity and whose second line is the installer
+## code signing identity.
+## If you wish to also code sign the installer package, add a second line
+## to ~/BOINCCodeSignIdentities.txt with the installer code signing identity.
 ##
 ## Code signing using a registered Apple Developer ID is necessary for GateKeeper 
 ## with default settings to allow running downloaded applications under OS 10.8
 ## Although code signing the installer application is sufficient to satisfy
 ## GateKeeper, OS X's software firewall can interfere with RPCs between the
 ## client and manager.  Signing them may make this less likely to be a problem.
-if [ -e "${HOME}/BOINCCodeSignIdentity.txt" ]; then
-    exec 8<"${HOME}/BOINCCodeSignIdentity.txt"
-    read -u 8 SIGNINGIDENTITY
+if [ -e "${HOME}/BOINCCodeSignIdentities.txt" ]; then
+    exec 8<"${HOME}/BOINCCodeSignIdentities.txt"
+    read APPSIGNINGIDENTITY <&8
+    read INSTALLERSIGNINGIDENTITY <&8
 
     # Code Sign the BOINC client if we have a signing identity
-    sudo codesign -f -s "${SIGNINGIDENTITY}" "../BOINC_Installer/Pkg_Root/Applications/BOINCManager.app/Contents/Resources/boinc"
+    sudo codesign -f -s "${APPSIGNINGIDENTITY}" "../BOINC_Installer/Pkg_Root/Applications/BOINCManager.app/Contents/Resources/boinc"
 
     # Code Sign the BOINC Manager if we have a signing identity
-    sudo codesign -f -s "${SIGNINGIDENTITY}" "../BOINC_Installer/Pkg_Root/Applications/BOINCManager.app"
+    sudo codesign -f -s "${APPSIGNINGIDENTITY}" "../BOINC_Installer/Pkg_Root/Applications/BOINCManager.app"
 fi
 
 sudo rm -dfR ../BOINC_Installer/New_Release_$1_$2_$3/
@@ -311,8 +320,11 @@ cd "../BOINC_Installer/Installer templates"
 
 pkgbuild --quiet --scripts "../Installer Scripts" --ownership recommended --identifier edu.berkeley.boinc --root "../Pkg_Root" --component-plist "./complist.plist" "./BOINC.pkg"
 
-productbuild --quiet --resources "../Installer Resources/" --version "BOINC Manager $1.$2.$3" --distribution "./myDistribution" "../New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC Installer.app/Contents/Resources/BOINC.pkg"
-
+if [ -n "${INSTALLERSIGNINGIDENTITY}" ]; then
+    productbuild --sign "${INSTALLERSIGNINGIDENTITY}" --quiet --resources "../Installer Resources/" --version "BOINC Manager $1.$2.$3" --distribution "./myDistribution" "../New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC Installer.app/Contents/Resources/BOINC.pkg"
+else
+    productbuild --quiet --resources "../Installer Resources/" --version "BOINC Manager $1.$2.$3" --distribution "./myDistribution" "../New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC Installer.app/Contents/Resources/BOINC.pkg"
+fi
 cd "${BOINCPath}"
 
 # Build the BOINC+VirtualBox installer if VirtualBox.pkg exists
@@ -342,8 +354,12 @@ if [ -f "../VirtualBox Installer/${VirtualBoxPackageName}" ]; then
 
     cd "../BOINC_Installer/Installer templates"
 
-    productbuild --quiet --resources "../Installer Resources" --version "BOINC Manager 7.3.0 + VirtualBox 4.2.16" --distribution "./V+BDistribution" "../New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_${arch}_vbox/BOINC Installer.app/Contents/Resources/BOINC.pkg"
-
+    if [ -n "${INSTALLERSIGNINGIDENTITY}" ]; then
+        productbuild --sign "${INSTALLERSIGNINGIDENTITY}" --quiet --resources "../Installer Resources" --version "BOINC Manager 7.3.0 + VirtualBox 4.2.16" --distribution "./V+BDistribution" "../New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_${arch}_vbox/BOINC Installer.app/Contents/Resources/BOINC.pkg"
+    else
+        productbuild --quiet --resources "../Installer Resources" --version "BOINC Manager 7.3.0 + VirtualBox 4.2.16" --distribution "./V+BDistribution" "../New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_${arch}_vbox/BOINC Installer.app/Contents/Resources/BOINC.pkg"
+    fi
+    
     cd "${BOINCPath}"
 fi
 
@@ -372,16 +388,16 @@ sudo chmod -R u+rw-s,g+r-ws,o+r-w ../BOINC_Installer/New_Release_$1_$2_$3/boinc_
 cp -fpRL $BUILDPATH/SymbolTables/ ../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_SymbolTables/
 
 ## If you wish to code sign the installer and uninstaller, create a file 
-## ~/BOINCCodeSignIdentity.txt whose first line is the code signing identity
+## ~/BOINCCodeSignIdentities.txt whose first line is the code signing identity
 ##
 ## Code signing using a registered Apple Developer ID is necessary for GateKeeper 
 ## with default settings to allow running downloaded applications under OS 10.8
-if [ -e "${HOME}/BOINCCodeSignIdentity.txt" ]; then
-    # Code Sign the BOINC installer if we have a signing identity
-    sudo codesign -f -s "${SIGNINGIDENTITY}" "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC Installer.app"
+if [ -n "${APPSIGNINGIDENTITY}" ]; then
+    # Code Sign the BOINC installer application if we have a signing identity
+    sudo codesign -f -s "${APPSIGNINGIDENTITY}" "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/BOINC Installer.app"
 
-    # Code Sign the BOINC uninstaller if we have a signing identity
-    sudo codesign -f -s "${SIGNINGIDENTITY}" "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/extras/Uninstall BOINC.app"
+    # Code Sign the BOINC uninstaller application if we have a signing identity
+    sudo codesign -f -s "${APPSIGNINGIDENTITY}" "../BOINC_Installer/New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_$arch/extras/Uninstall BOINC.app"
 fi
 
 cd ../BOINC_Installer/New_Release_$1_$2_$3
