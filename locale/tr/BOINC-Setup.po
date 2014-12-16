@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-01-26 00:00-0800\n"
-"PO-Revision-Date: 2013-11-24 20:51+0000\n"
+"PO-Revision-Date: 2014-09-05 07:41+0000\n"
 "Last-Translator: Aycan <aycandemirel@hotmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: tr\n"
@@ -19,7 +19,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: mac_installer\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-Basepath: /Volumes/Cheer/BOINC_GIT/boinc_trunk\n"
-"X-POOTLE-MTIME: 1385326295.0\n"
+"X-POOTLE-MTIME: 1409902902.0\n"
 "X-Poedit-KeywordsList: _\n"
 
 #: Installer.cpp:124
@@ -49,25 +49,34 @@ msgid ""
 "Do you also want non-administrative users to be able to run and control %s "
 "on this Mac?"
 msgstr ""
+"Bu bilgisayarı yönetmesine izin verilen kullanıcılar, otomatik olarak %s'i "
+"de çalıştırıp kontrol etme yetkisine sahip olur. \n"
+"\n"
+"Bu Mac'de yönetici olmayan kullanıcıların da %s 'i çalıştırıp kontrol "
+"edebilmesine izin verilsin mi?"
 
 #: PostInstall.cpp:1444
 #, c-format
 msgid "Do you want to set %s as the screensaver for all %s users on this Mac?"
 msgstr ""
+"%s'i bu Mac üzerindeki tüm %s kullanıcıları için ekran koruyucu olarak "
+"ayarlamak istiyor musunuz?"
 
 #: uninstall.cpp:82
 msgid "OK"
-msgstr ""
+msgstr "Tamam"
 
 #: uninstall.cpp:136
 msgid "Permission error after relaunch"
-msgstr ""
+msgstr "Yeniden çalıştırma sonrası izin hatası"
 
 #: uninstall.cpp:141
 msgid ""
 "Removal may take several minutes.\n"
 "Please be patient."
 msgstr ""
+"Kaldırma işlemi birkaç dakika sürebilir.\n"
+"Lütfen sabırlı olun."
 
 #: uninstall.cpp:156
 #, c-format
@@ -76,26 +85,32 @@ msgid ""
 "\n"
 "This will remove the executables but will not touch %s data files."
 msgstr ""
+"%s'i bilgisayarınızdan tamamen kaldırmak istiyor musunuz?\n"
+"\n"
+"Bu işlem çalıştırılabilir dosyaları kaldırır, fakat %s veri dosyalarına "
+"dokunmaz."
 
 #: uninstall.cpp:163
 #, c-format
 msgid "Canceled: %s has not been touched."
-msgstr "Durduruldu: %s etkilenmedi."
+msgstr "İptal edildi: %s'e dokunulmadı."
 
 #: uninstall.cpp:174
 #, c-format
 msgid "An error occurred: error code %d"
-msgstr ""
+msgstr "Bir hata oluştu: Hata kodu %d"
 
 #: uninstall.cpp:230
 msgid "name  of user"
-msgstr ""
+msgstr "kullanıcı ismi "
 
 #: uninstall.cpp:272
 msgid ""
 "Do you also want to remove VirtualBox from your computer?\n"
 "(VirtualBox was installed along with BOINC.)"
 msgstr ""
+"Ayrıca VirtualBox'ı da bilgisayarınızdan kaldırmak istiyor musunuz?\n"
+"(VirtualBox, BOINC'le birlikte kurulmuştu.)"
 
 #: uninstall.cpp:312
 #, c-format
@@ -108,6 +123,13 @@ msgid ""
 "for each user, the file\n"
 "\"%s\"."
 msgstr ""
+"Kaldırma tamamlandı.\n"
+"\n"
+"Aşağıdaki kalan öğeleri Finder kullanarak kaldırmak isteyebilirsiniz: \n"
+"\"%s\" klasörü\n"
+"\n"
+"her kullanıcı için, şu dosya\n"
+"\"%s\"."
 
 #: uninstall.cpp:840
 #, c-format
@@ -116,11 +138,13 @@ msgid ""
 "computer.\n"
 "\n"
 msgstr ""
+"%s'i bilgisayarınızdan tamamen kaldırmak için yönetici parolanızı girin.\n"
+"\n"
 
 #: uninstall.cpp:1616
 msgid "Cancel"
-msgstr ""
+msgstr "İptal"
 
 #: uninstall.cpp:1617
 msgid "Continue..."
-msgstr ""
+msgstr "Devam et..."

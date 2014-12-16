@@ -1,1140 +1,1114 @@
-# Turkish translations for OINC Android.
+# Translations template for PROJECT.
 # Copyright (C) 2013 ORGANIZATION
-# This file is distributed under the same license as the OINC Android
-# project.
+# This file is distributed under the same license as the PROJECT project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: OINC Android 7.2\n"
+"Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2013-10-18 00:00-0700\n"
-"PO-Revision-Date: 2014-09-12 08:58+0000\n"
-"Last-Translator: Aycan <aycandemirel@hotmail.com>\n"
-"Language-Team: Türkçe <LL@li.org>\n"
-"Language: tr\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: sv_SE\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Pootle 2.5.0\n"
+"X-Generator: Translate Toolkit 1.10.0\n"
 "Generated-By: Babel 1.0dev\n"
-"X-POOTLE-MTIME: 1410512303.0\n"
 
 #. app global
 msgctxt "app_name"
 msgid "BOINC"
-msgstr "BOINC"
+msgstr ""
 
 #. generic. used by multiple Activities/tabs
 msgctxt "generic_loading"
 msgid "Loading! Please wait…"
-msgstr "Yükleniyor! Lütfen bekleyin..."
+msgstr ""
 
 #. attach project
 #. project list
 msgctxt "attachproject_list_header"
 msgid "Choose a project:"
-msgstr "Bir proje seçin:"
+msgstr ""
 
 msgctxt "attachproject_list_manual_button"
 msgid "Add project by URL"
-msgstr "Adres ile proje ekle"
+msgstr ""
 
 msgctxt "attachproject_list_manual_dialog_title"
 msgid "Enter project URL:"
-msgstr "Proje adresini girin:"
+msgstr ""
 
 msgctxt "attachproject_list_manual_dialog_button"
 msgid "Add project"
-msgstr "Proje ekle"
+msgstr ""
 
 msgctxt "attachproject_list_manual_no_url"
 msgid "Please enter project URL"
-msgstr "Lütfen proje adresini girin"
+msgstr ""
 
 msgctxt "attachproject_list_acctmgr_button"
 msgid "Add account manager"
-msgstr "Hesap Yöneticisi ekle"
+msgstr ""
 
 msgctxt "attachproject_list_no_internet"
 msgid "No Internet connection"
-msgstr "İnternet bağlantısı yok"
+msgstr ""
 
 #. project login
 msgctxt "attachproject_login_loading"
 msgid "Contacting project server…"
-msgstr "Proje sunucusuna bağlanılıyor..."
+msgstr ""
 
 msgctxt "attachproject_login_image_description"
 msgid "Project logo."
-msgstr "Proje logosu."
+msgstr ""
 
 msgctxt "attachproject_login_header_general_area"
 msgid "General area:"
-msgstr "Genel alan:"
+msgstr ""
 
 msgctxt "attachproject_login_header_specific_area"
 msgid "Specific area:"
-msgstr "Özel alan:"
+msgstr ""
 
 msgctxt "attachproject_login_header_description"
 msgid "Description:"
-msgstr "Tanım:"
+msgstr ""
 
 msgctxt "attachproject_login_header_home"
 msgid "Home:"
-msgstr "Sahibi:"
+msgstr ""
 
 msgctxt "attachproject_login_header_url"
 msgid "Website:"
-msgstr "Site:"
+msgstr ""
 
 msgctxt "attachproject_login_header_platform"
 msgid "Android:"
-msgstr "Android:"
+msgstr ""
 
 msgctxt "attachproject_login_platform_supported"
 msgid "This project supports Android devices"
-msgstr "Bu proje Android cihazlarını destekliyor"
+msgstr ""
 
 msgctxt "attachproject_login_platform_not_supported"
 msgid "This project does not support Android devices"
-msgstr "Bu proje Android cihazlarını desteklemiyor"
+msgstr ""
 
 msgctxt "attachproject_login_category_terms_of_use"
 msgid "Terms of use for"
-msgstr "Kural ve politikalar: "
+msgstr ""
 
 msgctxt "attachproject_login_accept_terms_of_use"
 msgid ""
 "By creating an account with this project, you accept the terms of use as "
 "shown above."
 msgstr ""
-"Bu projede bir hesap oluşturmakla, aşağıdaki kural ve politikaları kabul "
-"etmiş oluyorsunuz."
 
 msgctxt "attachproject_login_category_login"
 msgid "Sign in with existing account"
-msgstr "Mevcut hesap ile oturum aç"
+msgstr ""
 
 msgctxt "attachproject_login_header_id_email"
 msgid "eMail:"
-msgstr "ePosta:"
+msgstr ""
 
 msgctxt "attachproject_login_header_id_name"
 msgid "Name:"
-msgstr "İsim:"
+msgstr ""
 
 msgctxt "attachproject_login_header_pwd"
 msgid "Password:"
-msgstr "Parola:"
+msgstr ""
 
 msgctxt "attachproject_login_category_creation"
 msgid "New to"
-msgstr "Bu projede yeni misiniz:"
+msgstr ""
 
 msgctxt "attachproject_login_header_creation_enabled"
 msgid "Register an account to participate:"
-msgstr "Katılmak için bir hesap oluşturun:"
+msgstr ""
 
 msgctxt "attachproject_login_header_creation_client_disabled"
 msgid "Visit project website to create an account:"
-msgstr "Hesap oluşturmak için proje sitesini ziyaret edin:"
+msgstr ""
 
 msgctxt "attachproject_login_header_creation_disabled"
 msgid "Project does currently now allow creation of new accounts!"
-msgstr "Proje şu anda yeni hesap oluşturulmasına müsaade etmiyor!"
+msgstr ""
 
 msgctxt "attachproject_login_button_registration"
 msgid "Register"
-msgstr "Kayıt ol"
+msgstr ""
 
 msgctxt "attachproject_login_button_login"
 msgid "Sign in"
-msgstr "Giriş yap"
+msgstr ""
 
 msgctxt "attachproject_login_button_forgotpw"
 msgid "Forgot Password"
-msgstr "Parolamı unuttum"
+msgstr ""
 
 msgctxt "attachproject_login_error_toast"
 msgid "Contacting project failed!"
-msgstr "Projeyle bağlantı kurulamadı!"
+msgstr ""
 
 msgctxt "attachproject_login_attached"
 msgid "Attached"
-msgstr "Eklendi"
+msgstr ""
 
 #. project registration
 msgctxt "attachproject_registration_header"
 msgid "Account registration for"
-msgstr "Hesaba kaydolma: "
+msgstr ""
 
 msgctxt "attachproject_registration_header_url"
 msgid "Project:"
-msgstr "Proje:"
+msgstr ""
 
 msgctxt "attachproject_registration_header_email"
 msgid "eMail:"
-msgstr "ePosta:"
+msgstr ""
 
 msgctxt "attachproject_registration_header_username"
 msgid "Name:"
-msgstr "İsim:"
+msgstr ""
 
 msgctxt "attachproject_registration_header_teamname"
 msgid "Team:"
-msgstr "Takım:"
+msgstr ""
 
 msgctxt "attachproject_registration_header_pwd"
 msgid "Password:"
-msgstr "Parola:"
+msgstr ""
 
 msgctxt "attachproject_registration_header_pwd_confirm"
 msgid "… Retype:"
-msgstr "Yeniden yazın:"
+msgstr ""
 
 msgctxt "attachproject_registration_button"
 msgid "Create"
-msgstr "Oluştur"
+msgstr ""
 
 #. account manager
 msgctxt "attachproject_acctmgr_header"
 msgid "Add account manager"
-msgstr "Hesap Yöneticisi ekle"
+msgstr ""
 
 msgctxt "attachproject_acctmgr_header_url"
 msgid "URL"
-msgstr "Adres"
+msgstr ""
 
 msgctxt "attachproject_acctmgr_header_name"
 msgid "User:"
-msgstr "Kullanıcı:"
+msgstr ""
 
 msgctxt "attachproject_acctmgr_header_pwd"
 msgid "Password:"
-msgstr "Parola:"
+msgstr ""
 
 msgctxt "attachproject_acctmgr_header_pwd_confirm"
 msgid "… Retype:"
-msgstr "Yeniden yazın:"
+msgstr ""
 
 msgctxt "attachproject_acctmgr_button"
 msgid "Add"
-msgstr "Ekle"
+msgstr ""
 
 #. error strings
 msgctxt "attachproject_error_wrong_name"
 msgid "User not found"
-msgstr "Kullanıcı bulunamadı"
+msgstr ""
 
 msgctxt "attachproject_error_short_pwd"
 msgid "Password too short"
-msgstr "Parola çok kısa"
+msgstr ""
 
 msgctxt "attachproject_error_no_internet"
 msgid "Connection failure"
-msgstr "Bağlantı başarısız"
+msgstr ""
 
 msgctxt "attachproject_error_pwd_no_match"
 msgid "Passwords do not match"
-msgstr "Yazdığınız parolalar aynı değil"
+msgstr ""
 
 msgctxt "attachproject_error_no_url"
 msgid "Please enter URL"
-msgstr "Lütfen adresi yazın"
+msgstr ""
 
 msgctxt "attachproject_error_no_email"
 msgid "Please enter eMail address"
-msgstr "Lütfen ePosta adresinizi yazın"
+msgstr ""
 
 msgctxt "attachproject_error_no_pwd"
 msgid "Please enter a password"
-msgstr "Lütfen bir parola yazın"
+msgstr ""
 
 msgctxt "attachproject_error_no_name"
 msgid "Please enter user name"
-msgstr "Lütfen kullanıcı adınızı yazın"
+msgstr ""
 
 msgctxt "attachproject_error_unknown"
 msgid "failed"
-msgstr "başarısız"
+msgstr ""
 
 msgctxt "attachproject_error_bad_username"
 msgid "User name refused"
-msgstr "Kullanıcı adı kabul edilmedi"
+msgstr ""
 
 msgctxt "attachproject_error_email_in_use"
 msgid "eMail is already in use"
-msgstr "ePosta zaten kullanımda"
+msgstr ""
 
 msgctxt "attachproject_error_project_down"
 msgid "Project is offline"
-msgstr "Proje çevrimdışı"
+msgstr ""
 
 msgctxt "attachproject_error_email_bad_syntax"
 msgid "eMail refused"
-msgstr "ePosta kabul edilmedi"
+msgstr ""
 
 msgctxt "attachproject_error_bad_pwd"
 msgid "Password refused"
-msgstr "Parola kabul edilmedi"
+msgstr ""
 
 msgctxt "attachproject_error_creation_disabled"
 msgid "Account creation is disabled on this project"
-msgstr "Hesap oluşturma bu projede devre dışı"
+msgstr ""
 
 msgctxt "attachproject_error_invalid_url"
 msgid "Invalid URL"
-msgstr "Geçersiz adres"
+msgstr ""
 
 #. working activity
 msgctxt "attachproject_working_back_button"
 msgid "Back"
-msgstr "Geri"
+msgstr ""
 
 msgctxt "attachproject_working_finish_button"
 msgid "Finish"
-msgstr "Tamamla"
+msgstr ""
 
 msgctxt "attachproject_working_check_desc"
 msgid "Successful"
-msgstr "Başarılı"
+msgstr ""
 
 msgctxt "attachproject_working_failed_desc"
 msgid "Failed"
-msgstr "Başarısız"
+msgstr ""
 
 msgctxt "attachproject_working_ongoing"
 msgid "…"
-msgstr "..."
+msgstr ""
 
 msgctxt "attachproject_working_finished"
 msgid "."
-msgstr "."
+msgstr ""
 
 msgctxt "attachproject_working_description"
 msgid ":"
-msgstr ":"
+msgstr ""
 
 msgctxt "attachproject_working_connect"
 msgid "Connect"
-msgstr "Bağlan"
+msgstr ""
 
 msgctxt "attachproject_working_verify"
 msgid "Verify account"
-msgstr "Hesabı doğrula"
+msgstr ""
 
 msgctxt "attachproject_working_register"
 msgid "Register account"
-msgstr "Hesap oluştur"
+msgstr ""
 
 msgctxt "attachproject_working_login"
 msgid "Log in"
-msgstr "Giriş yap"
+msgstr ""
 
 msgctxt "attachproject_working_acctmgr"
 msgid "Add account manager"
-msgstr "Hesap yöneticisi ekle"
+msgstr ""
 
 msgctxt "attachproject_working_acctmgr_sync"
 msgid "Synchronize"
-msgstr "Eşitle"
+msgstr ""
 
 #. main activity
 msgctxt "main_noproject_warning"
 msgid "Tab here to choose a project."
-msgstr "Proje seçmek için buraya dokunun."
+msgstr ""
 
 msgctxt "main_error"
 msgid "Whooops"
-msgstr "Haydaaa"
+msgstr ""
 
 msgctxt "main_error_long"
 msgid ""
 "…this should not happen!\n"
 "Click on the icon to try again."
 msgstr ""
-"... bu olmamalıydı!\n"
-"Yeniden denemek için simgeye dokunun."
 
 msgctxt "main_title_icon_desc"
 msgid "BOINC icon"
-msgstr "BOINC simgesi"
+msgstr ""
 
 #. tab names
 msgctxt "tab_status"
 msgid "Status"
-msgstr "Durum"
+msgstr ""
 
 msgctxt "tab_projects"
 msgid "Projects"
-msgstr "Projeler"
+msgstr ""
 
 msgctxt "tab_tasks"
 msgid "Tasks"
-msgstr "İşler"
+msgstr ""
 
 msgctxt "tab_transfers"
 msgid "Transfers"
-msgstr "Aktarımlar"
+msgstr ""
 
 msgctxt "tab_preferences"
 msgid "Preferences"
-msgstr "Tercihler"
+msgstr ""
 
 msgctxt "tab_notices"
 msgid "Notices"
-msgstr "Bildirimler"
+msgstr ""
 
 msgctxt "tab_desc"
 msgid "Navigation"
-msgstr "Gezinti"
+msgstr ""
 
 #. status strings
 msgctxt "status_running"
 msgid "Computing"
-msgstr "Çalışıyor"
+msgstr ""
 
 msgctxt "status_running_long"
 msgid "Thank you for participating."
-msgstr "Katıldığınız için teşekkürler."
+msgstr ""
 
 msgctxt "status_paused"
 msgid "Suspended"
-msgstr "Beklemede"
+msgstr ""
 
 msgctxt "status_idle"
 msgid "Nothing to do"
-msgstr "Yapacak bir görev yok"
+msgstr ""
 
 msgctxt "status_idle_long"
 msgid "Waiting for tasks…"
-msgstr "İşler için bekleniyor..."
+msgstr ""
 
 msgctxt "status_computing_disabled"
 msgid "Suspended"
-msgstr "Beklemede"
+msgstr ""
 
 msgctxt "status_computing_disabled_long"
 msgid "Press play to resume network and computation."
-msgstr "Hesaplama ve ağı sürdürmek için oynata dokunun."
+msgstr ""
 
 msgctxt "status_launching"
 msgid "Starting…"
-msgstr "Başlıyor..."
+msgstr ""
 
 msgctxt "status_noproject"
 msgid "Choose a project to participate in."
-msgstr "Katılmak için bir proje seçin."
+msgstr ""
 
 msgctxt "status_closing"
 msgid "Closing…"
-msgstr "Kapanıyor..."
+msgstr ""
 
 msgctxt "status_benchmarking"
 msgid "Benchmarking…"
-msgstr "Test ediliyor..."
+msgstr ""
 
 msgctxt "status_image_description"
 msgid "project image"
-msgstr "proje resmi"
+msgstr ""
 
 #. preferences tab strings
 msgctxt "prefs_loading"
 msgid "Reading preferences…"
-msgstr "Tercihler okunuyor..."
+msgstr ""
 
 msgctxt "prefs_submit_button"
 msgid "Save"
-msgstr "Kaydet"
+msgstr ""
 
 msgctxt "prefs_dialog_title"
 msgid "Enter new value:"
-msgstr "Yeni değeri girin:"
+msgstr ""
 
 msgctxt "prefs_dialog_title_selection"
 msgid "Select:"
-msgstr "Seçin:"
+msgstr ""
 
 msgctxt "prefs_category_general"
 msgid "General"
-msgstr "Genel"
+msgstr ""
 
 msgctxt "prefs_category_network"
 msgid "Network"
-msgstr "Ağ"
+msgstr ""
 
 msgctxt "prefs_category_power"
 msgid "Power"
-msgstr "Güç"
+msgstr ""
 
 msgctxt "prefs_category_cpu"
 msgid "CPU"
-msgstr "İşlemci (CPU)"
+msgstr ""
 
 msgctxt "prefs_category_storage"
 msgid "Storage"
-msgstr "Depolama"
+msgstr ""
 
 msgctxt "prefs_category_memory"
 msgid "Memory"
-msgstr "Bellek (RAM)"
+msgstr ""
 
 msgctxt "prefs_category_debug"
 msgid "Debug"
-msgstr "Hata kaydı"
+msgstr ""
 
 msgctxt "prefs_show_advanced_header"
 msgid "Show advanced preferences and controls…"
-msgstr "Gelişmiş tercihler ve kontrolleri görüntüle..."
+msgstr ""
 
 msgctxt "prefs_run_on_battery_header"
 msgid "Compute on Battery"
-msgstr "Pil gücündeyken hesapla"
+msgstr ""
 
 msgctxt "battery_charge_min_pct_header"
 msgid "Min. battery level"
-msgstr "En az pil seviyesi"
+msgstr ""
 
 msgctxt "battery_charge_min_pct_description"
 msgid "BOINC suspends computation below defined battery charge level."
-msgstr "BOINC, pil seviyesi bu değerin altına düşerse hesaplamayı duraklatır."
+msgstr ""
 
 msgctxt "battery_temperature_max_header"
 msgid "Max. battery temperature"
-msgstr "En çok pil sıcaklığı"
+msgstr ""
 
 msgctxt "battery_temperature_max_description"
 msgid ""
 "BOINC suspends computation above defined battery temperature. It is not "
 "recommended to change this value."
 msgstr ""
-"BOINC, pil sıcaklığı bu değerin üzerine çıkarsa hesaplamayı duraklatır. Bu "
-"değeri değiştirmeniz önerilmez."
 
 msgctxt "prefs_disk_max_pct_header"
 msgid "Max. used storage space"
-msgstr "En çok depolama alanı kullanımı"
+msgstr ""
 
 msgctxt "prefs_disk_max_pct_description"
 msgid "How many percent of your device's storage space is BOINC allowed to use?"
 msgstr ""
-"BOINC, cihazınızın yüzde olarak en fazla ne kadar depolama alanını "
-"kullanabilecek?"
 
 msgctxt "prefs_disk_min_free_gb_header"
 msgid "Min. spare storage"
-msgstr "En az boş depolama alanı"
+msgstr ""
 
 msgctxt "prefs_disk_min_free_gb_description"
 msgid "How much of your device's storage space shall stay free?"
-msgstr "Cihazınızda en az ne kadar depolama alanı boş bırakılacak?"
+msgstr ""
 
 msgctxt "prefs_network_daily_xfer_limit_mb_header"
 msgid "Daily transfer limit"
-msgstr "Günlük aktarım kotası"
+msgstr ""
 
 msgctxt "prefs_network_daily_xfer_limit_mb_description"
 msgid "Limits the daily data traffic caused by BOINC."
-msgstr "BOINC'in günlük internet kullanım kotası."
+msgstr ""
 
 msgctxt "prefs_network_wifi_only_header"
 msgid "Transfer tasks on WiFi only"
-msgstr "İşleri yalnızca WiFi'dayken aktar"
+msgstr ""
 
 msgctxt "prefs_autostart_header"
 msgid "Autostart"
-msgstr "Cihaz açılınca otomatik başla"
+msgstr ""
 
 msgctxt "prefs_show_notification_header"
 msgid "Show notification when suspended"
-msgstr "Durakladığında bildirim görüntüle"
+msgstr ""
 
 msgctxt "prefs_cpu_number_cpus_header"
 msgid "Used CPU cores"
-msgstr "Kullanılacak işlemci çekirdekleri"
+msgstr ""
 
 msgctxt "prefs_cpu_number_cpus_description"
 msgid "Limits the number of CPU cores BOINC uses for computation."
-msgstr "BOINC'in hesaplama için kullanabileceği işlemci çekirdeği sayısı."
+msgstr ""
 
 msgctxt "prefs_cpu_other_load_suspension_header"
 msgid "Pause at CPU usage above"
-msgstr "İşlemci kullanımı fazlaysa duraklat"
+msgstr ""
 
 msgctxt "prefs_cpu_other_load_suspension_description"
 msgid "Determines when BOINC pauses computation due to other app's CPU usage."
 msgstr ""
-"BOINC, diğer uygulamaların işlemci kullanımı bu seviyeyi aşarsa, hesaplamayı "
-"duraklatır."
 
 msgctxt "prefs_cpu_time_max_header"
 msgid "CPU limit"
-msgstr "İşlemci sınırı"
+msgstr ""
 
 msgctxt "prefs_cpu_time_max_description"
 msgid "Limits the CPU time BOINC uses for computation."
-msgstr "BOINC'in hesaplama için kullanabileceği işlemci gücü."
+msgstr ""
 
 msgctxt "prefs_memory_max_idle_header"
 msgid "RAM limit"
-msgstr "Bellek limiti"
+msgstr ""
 
 msgctxt "prefs_memory_max_idle_description"
 msgid "Limits the amount of RAM tasks are allowed to occupy."
-msgstr "İşlerin kullanabileceği en fazla bellek miktarı."
+msgstr ""
 
 msgctxt "prefs_client_log_flags_header"
 msgid "BOINC Client log flags"
-msgstr "BOINC istemci günlüğü bayrakları"
+msgstr ""
 
 msgctxt "prefs_gui_log_level_header"
 msgid "GUI log level"
-msgstr "GUI günlük seviyesi"
+msgstr ""
 
 msgctxt "prefs_gui_log_level_description"
 msgid "Specifies verbosity of GUI log messages."
-msgstr "Grafik arabirimi (GUI) günlüğü mesaj ayrıntı düzeyi."
+msgstr ""
 
 msgctxt "prefs_unit_mb"
 msgid "MB"
-msgstr "MB"
+msgstr ""
 
 msgctxt "prefs_unit_gb"
 msgid "GB"
-msgstr "GB"
+msgstr ""
 
 #, c-format
 msgctxt "prefs_unit_pct"
 msgid "%"
-msgstr "%"
+msgstr ""
 
 msgctxt "prefs_unit_celcius"
 msgid "°C"
-msgstr "°C"
+msgstr ""
 
 #. projects tab strings
 msgctxt "projects_loading"
 msgid "Reading projects…"
-msgstr "Projeler okunuyor..."
+msgstr ""
 
 msgctxt "projects_add"
 msgid "Add project"
-msgstr "Proje ekle"
+msgstr ""
 
 msgctxt "projects_icon"
 msgid "Project icon"
-msgstr "Proje simgesi"
+msgstr ""
 
 msgctxt "projects_credits_header"
 msgid "Credit:"
-msgstr "Kredi:"
+msgstr ""
 
 msgctxt "projects_credits_host_header"
 msgid "(on this device)"
-msgstr "(bu cihazda)"
+msgstr ""
 
 msgctxt "projects_credits_user_header"
 msgid "(total)"
-msgstr "(toplam)"
+msgstr ""
 
 #. project status strings
 msgctxt "projects_status_suspendedviagui"
 msgid "Suspended by user"
-msgstr "Kullanıcı tarafından duraklatıldı"
+msgstr ""
 
 msgctxt "projects_status_dontrequestmorework"
 msgid "Won't get new tasks"
-msgstr "Yeni işler indirilmeyecek"
+msgstr ""
 
 msgctxt "projects_status_ended"
 msgid "Project ended - OK to remove"
-msgstr "Proje sona erdi - Kaldırmak için Tamam'a dokunun"
+msgstr ""
 
 msgctxt "projects_status_detachwhendone"
 msgid "Will remove when tasks done"
-msgstr "İşler tamamlandığında kaldırılacak"
+msgstr ""
 
 msgctxt "projects_status_schedrpcpending"
 msgid "Scheduler request pending"
-msgstr "Zamanlanmış istek kuyrukta"
+msgstr ""
 
 msgctxt "projects_status_schedrpcinprogress"
 msgid "Scheduler request in progress"
-msgstr "Zamanlanmış istek gerçekleştiriliyor"
+msgstr ""
 
 msgctxt "projects_status_trickleuppending"
 msgid "Trickle up message pending"
-msgstr "İş ilerleme mesajı kuyrukta"
+msgstr ""
 
 msgctxt "projects_status_backoff"
 msgid "Communication scheduled in:"
-msgstr "İletişim ertelendi:"
+msgstr ""
 
 #. project controls
 msgctxt "projects_control_dialog_title"
 msgid "Project commands:"
-msgstr "Proje komutları:"
+msgstr ""
 
 msgctxt "projects_control_visit_website"
 msgid "Visit website"
-msgstr "Sitesine git"
+msgstr ""
 
 msgctxt "projects_control_update"
 msgid "Update"
-msgstr "Güncelle"
+msgstr ""
 
 msgctxt "projects_control_remove"
 msgid "Remove"
-msgstr "Kaldır"
+msgstr ""
 
 msgctxt "projects_control_suspend"
 msgid "Suspend"
-msgstr "Duraklat"
+msgstr ""
 
 msgctxt "projects_control_resume"
 msgid "Resume"
-msgstr "Sürdür"
+msgstr ""
 
 msgctxt "projects_control_nonewtasks"
 msgid "No new tasks"
-msgstr "Yeni işleri indirme"
+msgstr ""
 
 msgctxt "projects_control_allownewtasks"
 msgid "Allow new tasks"
-msgstr "Yeni işleri indir"
+msgstr ""
 
 msgctxt "projects_control_reset"
 msgid "Reset"
-msgstr "Sıfırla"
+msgstr ""
 
 msgctxt "projects_control_dialog_title_acctmgr"
 msgid "Account manager commands:"
-msgstr "Hesap Yöneticisi komutları:"
+msgstr ""
 
 msgctxt "projects_control_sync_acctmgr"
 msgid "Synchronize"
-msgstr "Eşitle"
+msgstr ""
 
 msgctxt "projects_control_remove_acctmgr"
 msgid "Disable"
-msgstr "Devredışı bırak"
+msgstr ""
 
 #. project confirm dialog
 msgctxt "projects_confirm_detach_title"
 msgid "Remove project?"
-msgstr "Proje kaldırılsın mı?"
+msgstr ""
 
 msgctxt "projects_confirm_detach_message"
 msgid "Are you sure you want to remove"
-msgstr "Bu proje BOINC'ten kaldırılsın mı:"
+msgstr ""
 
 msgctxt "projects_confirm_detach_message2"
 msgid "from BOINC?"
-msgstr "? "
+msgstr ""
 
 msgctxt "projects_confirm_detach_confirm"
 msgid "Remove"
-msgstr "Kaldır"
+msgstr ""
 
 msgctxt "projects_confirm_reset_title"
 msgid "Reset project"
-msgstr "Projeyi sıfırla"
+msgstr ""
 
 msgctxt "projects_confirm_reset_message"
 msgid "Are you sure you want to reset"
-msgstr "Bu proje sıfırlansın mı:"
+msgstr ""
 
 msgctxt "projects_confirm_reset_confirm"
 msgid "Reset"
-msgstr "Sıfırla"
+msgstr ""
 
 msgctxt "projects_confirm_remove_acctmgr_title"
 msgid "Disable account manager"
-msgstr "Hesap Yöneticisini devredışı bırak"
+msgstr ""
 
 msgctxt "projects_confirm_remove_acctmgr_message"
 msgid "Are you sure you want to stop using"
-msgstr "Bu hesap yöneticisini kullanmayı bırakmak istiyor musunuz:"
+msgstr ""
 
 msgctxt "projects_confirm_remove_acctmgr_confirm"
 msgid "Disable"
-msgstr "Devredışı bırak"
+msgstr ""
 
 #. tasks tab strings
 msgctxt "tasks_header_name"
 msgid "Task Name:"
-msgstr "İş adı:"
+msgstr ""
 
 msgctxt "tasks_header_elapsed_time"
 msgid "Elapsed time:"
-msgstr "Geçen süre:"
+msgstr ""
 
 msgctxt "tasks_header_project_paused"
 msgid "(suspended)"
-msgstr "(beklemede)"
+msgstr ""
 
 msgctxt "tasks_header_deadline"
 msgid "Deadline:"
-msgstr "Son teslim zamanı:"
+msgstr ""
 
 msgctxt "tasks_result_new"
 msgid "new"
-msgstr "yeni"
+msgstr ""
 
 msgctxt "tasks_result_files_downloading"
 msgid "waiting for download"
-msgstr "indirilmeyi bekliyor"
+msgstr ""
 
 msgctxt "tasks_result_files_downloaded"
 msgid "download complete"
-msgstr "indirme tamamlandı"
+msgstr ""
 
 msgctxt "tasks_result_compute_error"
 msgid "computation error"
-msgstr "hesaplama hatası"
+msgstr ""
 
 msgctxt "tasks_result_files_uploading"
 msgid "uploading"
-msgstr "gönderiliyor"
+msgstr ""
 
 msgctxt "tasks_result_files_uploaded"
 msgid "upload complete"
-msgstr "gönderme tamamlandı"
+msgstr ""
 
 msgctxt "tasks_result_aborted"
 msgid "aborted"
-msgstr "iptal edildi"
+msgstr ""
 
 msgctxt "tasks_result_upload_failed"
 msgid "upload failed"
-msgstr "gönderme başarısız"
+msgstr ""
 
 msgctxt "tasks_active_uninitialized"
 msgid "ready"
-msgstr "başlamaya hazır"
+msgstr ""
 
 msgctxt "tasks_active_executing"
 msgid "running"
-msgstr "çalışıyor"
+msgstr ""
 
 msgctxt "tasks_active_suspended"
 msgid "suspended"
-msgstr "durakladı"
+msgstr ""
 
 msgctxt "tasks_active_abort_pending"
 msgid "suspending"
-msgstr "durduruluyor"
+msgstr ""
 
 msgctxt "tasks_active_quit_pending"
 msgid "suspending"
-msgstr "durduruluyor"
+msgstr ""
 
 msgctxt "tasks_custom_suspended_via_gui"
 msgid "suspended"
-msgstr "durakladı"
+msgstr ""
 
 msgctxt "tasks_custom_project_suspended_via_gui"
 msgid "project suspended"
-msgstr "proje duraklatıldı"
+msgstr ""
 
 msgctxt "tasks_custom_ready_to_report"
 msgid "ready to report"
-msgstr "raporlanmaya hazır"
+msgstr ""
 
 #. confirmation dialog
 msgctxt "confirm_abort_task_title"
 msgid "Abort task?"
-msgstr "İş iptal edilsin mi?"
+msgstr ""
 
 msgctxt "confirm_abort_task_message"
 msgid "Abort task:"
-msgstr "Bu iş iptal edilsin mi:"
+msgstr ""
 
 msgctxt "confirm_abort_task_confirm"
 msgid "Abort"
-msgstr "Evet"
+msgstr ""
 
 msgctxt "confirm_cancel"
 msgid "Cancel"
-msgstr "İptal"
+msgstr ""
 
 msgctxt "confirm_image_desc"
 msgid "Confirmation dialog"
-msgstr "Onaylama sorusu"
+msgstr ""
 
 #. transfers tab strings
 msgctxt "trans_loading"
 msgid "Reading transfers…"
-msgstr "Aktarımlar okunuyor..."
+msgstr ""
 
 msgctxt "trans_upload"
 msgid "Upload"
-msgstr "Gönderme"
+msgstr ""
 
 msgctxt "trans_download"
 msgid "Download"
-msgstr "İndirme"
+msgstr ""
 
 msgctxt "trans_retryin"
 msgid "retry in"
-msgstr "yeniden denenecek "
+msgstr ""
 
 msgctxt "trans_failed"
 msgid "failed"
-msgstr "başarısız"
+msgstr ""
 
 msgctxt "trans_suspended"
 msgid "suspended"
-msgstr "durakladı"
+msgstr ""
 
 msgctxt "trans_active"
 msgid "active"
-msgstr "sürüyor"
+msgstr ""
 
 msgctxt "trans_pending"
 msgid "pending"
-msgstr "kuyrukta"
+msgstr ""
 
 msgctxt "trans_projectbackoff"
 msgid "project backoff"
-msgstr "proje ertelendi"
+msgstr ""
 
 msgctxt "trans_header_name"
 msgid "File:"
-msgstr "Dosya:"
+msgstr ""
 
 msgctxt "trans_control_retry"
 msgid "Retry transfers"
-msgstr "Aktarımları yeniden dene"
+msgstr ""
 
 msgctxt "confirm_abort_trans_title"
 msgid "Abort transfer?"
-msgstr "Aktarım iptal edilsin mi?"
+msgstr ""
 
 msgctxt "confirm_abort_trans_message"
 msgid "Abort File:"
-msgstr "Bu dosyanın aktarımı iptal edilsin mi:"
+msgstr ""
 
 msgctxt "confirm_abort_trans_confirm"
 msgid "Abort"
-msgstr "Evet"
+msgstr ""
 
 #. notices tab strings
 msgctxt "notices_loading"
 msgid "Reading notices…"
-msgstr "Bildirimler alınıyor..."
+msgstr ""
 
 #. eventlog tab strings
 msgctxt "eventlog_loading"
 msgid "Loading log messages…"
-msgstr "Günlük mesajları yükleniyor..."
+msgstr ""
 
 msgctxt "eventlog_client_header"
 msgid "Client Messages"
-msgstr "İstemci Mesajları"
+msgstr ""
 
 msgctxt "eventlog_gui_header"
 msgid "GUI Messages"
-msgstr "GUI Mesajları"
+msgstr ""
 
 msgctxt "eventlog_copy_toast"
 msgid "Log copied to clipboard."
-msgstr "Günlük mesajları panoya kopyalandı."
+msgstr ""
 
 msgctxt "eventlog_email_subject"
 msgid "Event Log for BOINC on Android:"
-msgstr "BONIC Android olay günlüğü:"
+msgstr ""
 
 #. suspend reasons
 msgctxt "suspend_unknown"
 msgid "Computation suspended."
-msgstr "Hesaplama durakladı."
+msgstr ""
 
 msgctxt "suspend_batteries"
 msgid "Connect your device to a charger to continue computing."
-msgstr "Hesaplamayı sürdürmek için cihazınızı şarja takın."
+msgstr ""
 
 msgctxt "suspend_useractive"
 msgid "User is active."
-msgstr "Kullanıcı faal."
+msgstr ""
 
 msgctxt "suspend_tod"
 msgid "Out of computation time-frame."
-msgstr "Hesaplama zaman sınırlaması dışında."
+msgstr ""
 
 msgctxt "suspend_bm"
 msgid "BOINC is benchmarking your device…"
-msgstr "BOINC cihazınızı test ediyor..."
+msgstr ""
 
 msgctxt "suspend_disksize"
 msgid "Out of disk space."
-msgstr "Depolama alanı yetersiz."
+msgstr ""
 
 msgctxt "suspend_cputhrottle"
 msgid "Scheduled CPU throttle."
-msgstr "Zamanlanmış işlemci sınırlaması."
+msgstr ""
 
 msgctxt "suspend_noinput"
 msgid "No recent user activity."
-msgstr "Yakın zamanda kullanıcı faaaliyeti yok."
+msgstr ""
 
 msgctxt "suspend_delay"
 msgid "Initialization delay."
-msgstr "Başlatma geciktirmesi."
+msgstr ""
 
 msgctxt "suspend_exclusiveapp"
 msgid "An exclusive app is running."
-msgstr "Ayrıcalıklı bir uygulama çalışıyor."
+msgstr ""
 
 msgctxt "suspend_cpu"
 msgid "Your device is busy with other apps."
-msgstr "Cihazınız diğer uygulamalarla meşgul."
+msgstr ""
 
 msgctxt "suspend_network_quota"
 msgid "BOINC reached network transfer limit."
-msgstr "BOINC, internet kullanım kotasına ulaştı."
+msgstr ""
 
 msgctxt "suspend_os"
 msgid "Stopped by Android."
-msgstr "Android tarafından durduruldu."
+msgstr ""
 
 msgctxt "suspend_wifi"
 msgid "Not connected to WiFi."
-msgstr "WiFi'a bağlı değil."
+msgstr ""
 
 msgctxt "suspend_battery_charging"
 msgid "Battery needs to charge before resuming computation."
-msgstr "Hesaplamaya devam etmeden önce pilin şarj olması lazım."
+msgstr ""
 
 msgctxt "suspend_battery_charging_long"
 msgid "Computing will resume when battery charge reaches"
-msgstr "Hesaplama, pil seviyesi şuna ulaştğında başlayacak:"
+msgstr ""
 
 msgctxt "suspend_battery_charging_current"
 msgid "currently"
-msgstr "şu anda"
+msgstr ""
 
 msgctxt "suspend_battery_overheating"
 msgid "Waiting for battery to cool down"
-msgstr "Pilin soğuması bekleniyor"
+msgstr ""
 
 msgctxt "suspend_user_req"
 msgid "Resuming computation…"
-msgstr "Hesaplama sürdürülüyor..."
+msgstr ""
 
 msgctxt "suspend_network_user_req"
 msgid "manually."
-msgstr "elle."
+msgstr ""
 
 #. rpc reasons
 msgctxt "rpcreason_userreq"
 msgid "Requested by user"
-msgstr "Kullanıcı tarafından istendi"
+msgstr ""
 
 msgctxt "rpcreason_needwork"
 msgid "To fetch work"
-msgstr "İş indirmek için"
+msgstr ""
 
 msgctxt "rpcreason_resultsdue"
 msgid "To report completed tasks"
-msgstr "Tamamlanan işleri raporlamak için"
+msgstr ""
 
 msgctxt "rpcreason_trickleup"
 msgid "To send trickle-up message"
-msgstr "İş ilerleme mesajı gönderimi için"
+msgstr ""
 
 msgctxt "rpcreason_acctmgrreq"
 msgid "Requested by account manager"
-msgstr "Hesap yöneticisi tarafından istendi"
+msgstr ""
 
 msgctxt "rpcreason_init"
 msgid "Project initialization"
-msgstr "Proje başlatılıyor"
+msgstr ""
 
 msgctxt "rpcreason_projectreq"
 msgid "Requested by project"
-msgstr "Proje tarafından istendi"
+msgstr ""
 
 msgctxt "rpcreason_unknown"
 msgid "Unknown reason"
-msgstr "Bilinmeyen sebep"
+msgstr ""
 
 #. menu
 msgctxt "menu_refresh"
 msgid "Refresh"
-msgstr "Yenile"
+msgstr ""
 
 msgctxt "menu_emailto"
 msgid "Send as Email"
-msgstr "ePostayla gönder"
+msgstr ""
 
 msgctxt "menu_copy"
 msgid "Copy to Clipboard"
-msgstr "Panoya kopyala"
+msgstr ""
 
 msgctxt "menu_eventlog"
 msgid "Event Log"
-msgstr "Olay Günlüğü"
+msgstr ""
 
 msgctxt "menu_exit"
 msgid "Exit BOINC"
-msgstr "BOINC'ten Çık"
+msgstr ""
 
 msgctxt "menu_run_mode_disable"
 msgid "Suspend"
-msgstr "Duraklat"
+msgstr ""
 
 msgctxt "menu_run_mode_enable"
 msgid "Resume"
-msgstr "Sürdür"
+msgstr ""
 
 msgctxt "menu_about"
 msgid "About"
-msgstr "Hakkında"
+msgstr ""
 
 msgctxt "menu_help"
 msgid "Help"
-msgstr "Yardım"
+msgstr ""
 
 #. about dialog
 msgctxt "about_button"
 msgid "Return"
-msgstr "Geri dön"
+msgstr ""
 
 msgctxt "about_title"
 msgid "About"
-msgstr "Hakkında"
+msgstr ""
 
 msgctxt "about_name"
 msgid "BOINC"
-msgstr "BOINC"
+msgstr ""
 
 msgctxt "about_version"
 msgid "Version"
-msgstr "Sürüm"
+msgstr ""
 
 msgctxt "about_name_long"
 msgid "Berkeley Open Infrastructure for Network Computing"
-msgstr "Berkeley Open Infrastructure for Network Computing"
+msgstr ""
 
 msgctxt "about_copyright"
 msgid ""
 "© 2003–2013 University of California, Berkeley.\n"
 "All Rights Reserved."
 msgstr ""
-"Türkçe çeviri: Aycan Demirel\n"
-"\n"
-"© 2003-2014 Kaliforniya Üniversitesi, Berkeley.\n"
-"Tüm hakları saklıdır."
-
-#, fuzzy
-#~ msgctxt "main_noproject_warning"
-#~ msgid "Tap here to choose a project."
-#~ msgstr "Proje seçmek için buraya dokunun."
-
-#, fuzzy
-#~ msgctxt "prefs_power_source_usb"
-#~ msgid "USB connection"
-#~ msgstr "İnternet bağlantısı yok"
