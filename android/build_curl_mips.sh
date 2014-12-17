@@ -10,7 +10,7 @@ COMPILECURL="yes"
 CONFIGURE="yes"
 MAKECLEAN="yes"
 
-CURL="/home/boincadm/src/curl-7.28.1" #CURL sources, required by BOINC
+CURL="/home/boincadm/src/curl-7.39.0" #CURL sources, required by BOINC
 
 export ANDROIDTC="$HOME/androidmips-tc"
 export TCBINARIES="$ANDROIDTC/bin"
