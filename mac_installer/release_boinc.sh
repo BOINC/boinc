@@ -41,6 +41,7 @@
 ## updated 9/30/14 by Charlie Fenton to code sign the BOINC client and Manager
 ## updated 12/16/14 by Charlie Fenton to name folders "x86_64" not "i686"
 ## updated 12/16/14 by Charlie Fenton to also code sign the installer package
+## updated 12/17/14 by Charlie Fenton to fix typo in build of BOINC+VBox installer
 ##
 ## NOTE: This script requires Mac OS 10.6 or later, and uses XCode developer
 ##   tools.  So you must have installed XCode Developer Tools on the Mac 
@@ -354,10 +355,11 @@ if [ -f "../VirtualBox Installer/${VirtualBoxPackageName}" ]; then
 
     cd "../BOINC_Installer/Installer templates"
 
+## TODO: Find a way to automatically set the VirtualBox version
     if [ -n "${INSTALLERSIGNINGIDENTITY}" ]; then
-        productbuild --sign "${INSTALLERSIGNINGIDENTITY}" --quiet --resources "../Installer Resources" --version "BOINC Manager 7.3.0 + VirtualBox 4.2.16" --distribution "./V+BDistribution" "../New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_${arch}_vbox/BOINC Installer.app/Contents/Resources/BOINC.pkg"
+        productbuild --sign "${INSTALLERSIGNINGIDENTITY}" --quiet --resources "../Installer Resources" --version "BOINC Manager $1.$2.$3 + VirtualBox 4.3.12" --distribution "./V+BDistribution" "../New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_${arch}_vbox/BOINC Installer.app/Contents/Resources/BOINC.pkg"
     else
-        productbuild --quiet --resources "../Installer Resources" --version "BOINC Manager 7.3.0 + VirtualBox 4.2.16" --distribution "./V+BDistribution" "../New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_${arch}_vbox/BOINC Installer.app/Contents/Resources/BOINC.pkg"
+        productbuild --quiet --resources "../Installer Resources" --version "BOINC Manager $1.$2.$3 + VirtualBox 4.3.12" --distribution "./V+BDistribution" "../New_Release_$1_$2_$3/boinc_$1.$2.$3_macOSX_${arch}_vbox/BOINC Installer.app/Contents/Resources/BOINC.pkg"
     fi
     
     cd "${BOINCPath}"
