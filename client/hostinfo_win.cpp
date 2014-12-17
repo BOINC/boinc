@@ -1214,7 +1214,9 @@ int HOST_INFO::get_host_info(bool init) {
     get_os_information(
         os_name, sizeof(os_name), os_version, sizeof(os_version)
     );
-    get_virtualbox_version();
+    if (!cc_config.dont_use_vbox) {
+        get_virtualbox_version();
+    }
     get_processor_info(
         p_vendor, sizeof(p_vendor),
         p_model, sizeof(p_model),

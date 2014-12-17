@@ -1576,7 +1576,10 @@ int HOST_INFO::get_host_info(bool init) {
     // a run of the client
     //
 
-    get_virtualbox_version();
+    if (!cc_config.dont_use_vbox) {
+        get_virtualbox_version();
+    }
+
     get_cpu_info();
     get_cpu_count();
     get_memory_info();
