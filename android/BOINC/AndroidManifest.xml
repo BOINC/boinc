@@ -20,8 +20,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="edu.berkeley.boinc"
     android:installLocation="internalOnly"
-    android:versionCode="89"
-    android:versionName="7.4.14" > <!-- installation on SD card would break boot receiver -->
+    android:versionCode="110"
+    android:versionName="7.4.37" > <!-- installation on SD card would break boot receiver -->
 
 
     <!-- Add Google Play store metadata informing the store we can run on tablets and other large screen devices -->
@@ -47,7 +47,6 @@
 
     <application
         android:allowBackup="true"
-        android:debuggable="true"
         android:icon="@drawable/boinc"
         android:label="@string/app_name"
         android:theme="@style/Theme.Styled" > <!-- android:largeHeap="true" , possible api level > 10. grants application larger dalvik vm heap. better performance when showing many slideshow pictures. -->
