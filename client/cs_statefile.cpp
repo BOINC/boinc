@@ -568,6 +568,18 @@ void CLIENT_STATE::sort_results() {
     }
 }
 
+static inline bool project_name_compare(PROJECT* p0, PROJECT* p1) {
+    return strcasecmp(p0->project_name, p1->project_name) < 0;
+}
+
+void CLIENT_STATE::sort_projects() {
+    std::sort(
+        projects.begin(),
+        projects.end(),
+        project_name_compare
+    );
+}
+
 #ifndef SIM
 
 // Write the client_state.xml file

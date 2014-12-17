@@ -353,6 +353,7 @@ int CLIENT_STATE::parse_account_files() {
             }
         }
     }
+    sort_projects();
     return 0;
 }
 
@@ -574,6 +575,7 @@ int CLIENT_STATE::add_project(
     retval = make_project_dir(*project);
     if (retval) return retval;
     projects.push_back(project);
+    sort_projects();
     project->sched_rpc_pending = RPC_REASON_INIT;
     set_client_state_dirty("Add project");
     return 0;

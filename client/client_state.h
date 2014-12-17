@@ -77,6 +77,7 @@ using std::vector;
 struct CLIENT_STATE {
     vector<PLATFORM> platforms;
     vector<PROJECT*> projects;
+        // in alphabetical order, to improve display
     vector<APP*> apps;
     vector<FILE_INFO*> file_infos;
     vector<APP_VERSION*> app_versions;
@@ -456,6 +457,7 @@ struct CLIENT_STATE {
     int write_file_transfers_gui(MIOFILE&);
     int write_tasks_gui(MIOFILE&, bool);
     void sort_results();
+    void sort_projects();
 
 // --------------- cs_trickle.cpp:
     int read_trickle_files(PROJECT*, FILE*);
