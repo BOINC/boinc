@@ -88,7 +88,11 @@ public:
 #else
     bool users_idle(bool check_all_logins, double idle_time_to_run);
 #endif
-    int get_host_info();
+    int get_host_info(bool init);
+    int get_cpu_info();
+    int get_cpu_count();
+    int get_memory_info();
+    int get_os_info();
     int get_host_battery_charge();
     int get_host_battery_state();
     int get_local_network_info();

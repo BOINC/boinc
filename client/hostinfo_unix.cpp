@@ -15,17 +15,9 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// XIdleTime:
-// Copyright (C) 2011 Universidade Federal de Campina Grande
-// Initial version: Magnus Henoch
-// Contributors: Danny Kukawka, Eivind Magnus Hvidevold
-// LGPL Version of xidletime: https://github.com/rodrigods/xidletime
-
-// There is a reason that having a file called "cpp.h" that includes config.h
-// and some of the C++ header files is bad.  That reason is because there are
-// #defines that alter the behiour of the standard C and C++ headers.  In
-// this case we need to use the "small files" environment on some unix
-// systems.  That can't be done if we include "cpp.h"
+// Functions to get host info (CPU, network, disk, mem) on unix-based systems.
+// Lots of this is system-dependent so lots of #ifdefs.
+// Try to keep this well-organized and not nested.
 
 #include "version.h"         // version numbers from autoconf
 
@@ -35,8 +27,10 @@
 #if !defined(_WIN32) || defined(__CYGWIN32__)
 
 // Access to binary files in /proc filesystem doesn't work in the 64bit
-// files environment on some systems.  None of the functions here need
-// 64bit file functions, so we'll undefine _FILE_OFFSET_BITS and _LARGE_FILES.
+// files environment on some systems.
+// None of the functions here need 64bit file functions,
+// so undefine _FILE_OFFSET_BITS and _LARGE_FILES.
+//
 #undef _FILE_OFFSET_BITS
 #undef _LARGE_FILES
 #undef _LARGEFILE_SOURCE
@@ -158,17 +152,6 @@ mach_port_t gEventHandle = NULL;
 #if defined(_SC_PAGE_SIZE) && !defined(_SC_PAGESIZE)
 #define _SC_PAGESIZE _SC_PAGE_SIZE
 #endif
-
-#if HAVE_DPMS
-#include <X11/Xlib.h>
-#include <X11/extensions/dpms.h>
-#endif
-
-#if HAVE_XSS
-#include <X11/Xlib.h>
-#include <X11/extensions/scrnsaver.h>
-#endif
-
 
 // The following is intended to be true both on Linux
 // and Debian GNU/kFreeBSD (see trac #521)
@@ -699,7 +682,7 @@ void use_cpuid(HOST_INFO& host) {
 #endif
 
 #ifdef __APPLE__
-static void get_cpu_info_maxosx(HOST_INFO& host) {
+static void get_cpu_info_mac(HOST_INFO& host) {
     int p_model_size = sizeof(host.p_model);
     size_t len;
 #if defined(__i386__) || defined(__x86_64__)
@@ -1243,7 +1226,7 @@ bool isDualGPUMacBook() {
 int HOST_INFO::get_virtualbox_version() {
     char path[MAXPATHLEN];
     char cmd [MAXPATHLEN+35];
-    char *newlinePtr;
+    char buf[256];
     FILE* fd;
 
     safe_strcpy(path, "/usr/bin/VBoxManage");
@@ -1256,11 +1239,13 @@ int HOST_INFO::get_virtualbox_version() {
         safe_strcat(cmd, " --version");
         fd = popen(cmd, "r");
         if (fd) {
-            if (fgets(virtualbox_version, sizeof(virtualbox_version), fd)) {
-                newlinePtr = strchr(virtualbox_version, '\n');
-                if (newlinePtr) *newlinePtr = '\0';
-                newlinePtr = strchr(virtualbox_version, '\r');
-                if (newlinePtr) *newlinePtr = '\0';
+            if (fgets(buf, sizeof(buf), fd)) {
+                strip_whitespace(buf);
+                int n, a,b,c;
+                n = sscanf(buf, "%d.%d.%d", &a, &b, &c);
+                if (n == 3) {
+                    strcpy(virtualbox_version, buf);
+                }
             }
             pclose(fd);
         }
@@ -1269,28 +1254,16 @@ int HOST_INFO::get_virtualbox_version() {
     return 0;
 }
 
-
-// Rules:
-// - Keep code in the right place
-// - only one level of #if
+// get p_vendor, p_model, p_features
 //
-int HOST_INFO::get_host_info() {
-    int retval = get_filesystem_info(d_total, d_free);
-    if (retval) {
-        msg_printf(0, MSG_INTERNAL_ERROR,
-            "get_filesystem_info() failed: %s", boincerror(retval)
-        );
-    }
-    get_virtualbox_version();
-
-///////////// p_vendor, p_model, p_features /////////////////
+int HOST_INFO::get_cpu_info() {
 #if LINUX_LIKE_SYSTEM
     parse_cpuinfo_linux(*this);
 #elif defined( __APPLE__)
     int mib[2];
     size_t len;
 
-    get_cpu_info_maxosx(*this);
+    get_cpu_info_mac(*this);
 #elif defined(__EMX__)
     CPU_INFO_t    cpuInfo;
     strlcpy( p_vendor, cpuInfo.vendor.company, sizeof(p_vendor));
@@ -1355,10 +1328,13 @@ int HOST_INFO::get_host_info() {
     use_cpuid(*this);
 #endif
 #endif
+    return 0;
+}
 
-///////////// p_ncpus /////////////////
+// get p_ncpus
+//
+int HOST_INFO::get_cpu_count() {
 
-// sysconf not working on OS2
 #if defined(ANDROID)
     // this should work on most devices
     p_ncpus = sysconf(_SC_NPROCESSORS_CONF);
@@ -1386,6 +1362,7 @@ int HOST_INFO::get_host_info() {
         p_ncpus = cpus_sys_path;
     }
 #elif defined(_SC_NPROCESSORS_ONLN) && !defined(__EMX__) && !defined(__APPLE__)
+    // sysconf not working on OS2
     p_ncpus = sysconf(_SC_NPROCESSORS_ONLN);
 #elif defined(HAVE_SYS_SYSCTL_H) && defined(CTL_HW) && defined(HW_NCPU)
     // Get number of CPUs
@@ -1401,8 +1378,12 @@ int HOST_INFO::get_host_info() {
 #error Need to specify a method to get number of processors
 #endif
 
-///////////// m_nbytes, m_swap /////////////////
+    return 0;
+}
 
+// get m_nbytes, m_swap
+//
+int HOST_INFO::get_memory_info() {
 #ifdef __EMX__
     {
         ULONG ulMem;
@@ -1530,11 +1511,12 @@ int HOST_INFO::get_host_info() {
 //#error Need to specify a method to obtain swap space
 #endif
 
-    get_local_network_info();
+    return 0;
+}
 
-    timezone = get_timezone();
-
-///////////// os_name, os_version /////////////////
+// get os_name, os_version
+//
+int HOST_INFO::get_os_info() {
 
 #if HAVE_SYS_UTSNAME_H
     struct utsname u;
@@ -1571,6 +1553,38 @@ int HOST_INFO::get_host_info() {
 #else
 #error Need to specify a method to obtain OS name/version
 #endif
+    return 0;
+}
+
+// This is called at startup with init=true
+// and before scheduler RPCs, with init=false.
+// In the latter case only get items that could change,
+// like disk usage and network info
+//
+int HOST_INFO::get_host_info(bool init) {
+    int retval = get_filesystem_info(d_total, d_free);
+    if (retval) {
+        msg_printf(0, MSG_INTERNAL_ERROR,
+            "get_filesystem_info() failed: %s", boincerror(retval)
+        );
+    }
+    get_local_network_info();
+
+    if (init) return 0;
+
+    // everything after here is assumed not to change during
+    // a run of the client
+    //
+
+    if (!cc_config.dont_use_vbox) {
+        get_virtualbox_version();
+    }
+
+    get_cpu_info();
+    get_cpu_count();
+    get_memory_info();
+    timezone = get_timezone();
+    get_os_info();
 
     if (!strlen(host_cpid)) {
         generate_host_cpid();
@@ -1586,7 +1600,7 @@ inline bool device_idle(time_t t, const char *device) {
     return stat(device, &sbuf) || (sbuf.st_atime < t);
 }
 
-static const struct dir_dev {
+static const struct dir_tty_dev {
     const char *dir;
     const char *dev;
 } tty_patterns[] = {
@@ -1627,7 +1641,6 @@ vector<string> get_tty_list() {
     } while (tty_patterns[i].dir != NULL);
     return tty_list;
 }
-       
 
 inline bool all_tty_idle(time_t t) {
     static vector<string> tty_list;
@@ -1638,7 +1651,67 @@ inline bool all_tty_idle(time_t t) {
     for (i=0; i<tty_list.size(); i++) {
         // ignore errors
         if (!stat(tty_list[i].c_str(), &sbuf)) {
-            // printf("%s %d %d\n",tty_list[i].c_str(),sbuf.st_atime,t);
+            // printf("tty: %s %d %d\n",tty_list[i].c_str(),sbuf.st_atime,t);
+            if (sbuf.st_atime >= t) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+static const struct dir_input_dev {
+    const char *dir;
+    const char *dev;
+} input_patterns[] = {
+#ifdef unix
+    { "/dev/input","event" },
+    { "/dev/input","mouse" },
+    { "/dev/input/mice","" },
+#endif
+    // add other ifdefs here as necessary.
+    { NULL, NULL },
+};
+
+vector<string> get_input_list() {
+    // Create a list of all terminal devices on the system.
+    char devname[1024];
+    char fullname[1024];
+    int done,i=0;
+    vector<string> input_list;
+    
+    do {
+        DIRREF dev=dir_open(input_patterns[i].dir);
+        if (dev) {
+            do {
+                // get next file
+                done=dir_scan(devname,dev,1024);
+                // does it match our tty pattern? If so, add it to the tty list.
+                if (!done && (strstr(devname,input_patterns[i].dev) == devname)) {
+                    // don't add anything starting with .
+                    if (devname[0] != '.') {
+                        sprintf(fullname,"%s/%s",input_patterns[i].dir,devname);
+                        input_list.push_back(fullname);
+                    }
+                }
+            } while (!done);
+            dir_close(dev);
+        }
+        i++;
+    } while (input_patterns[i].dir != NULL);
+    return input_list;
+}
+
+inline bool all_input_idle(time_t t) {
+    static vector<string> input_list;
+    struct stat sbuf;
+    unsigned int i;
+
+    if (input_list.size()==0) input_list=get_input_list();
+    for (i=0; i<input_list.size(); i++) {
+        // ignore errors
+        if (!stat(input_list[i].c_str(), &sbuf)) {
+            // printf("input: %s %d %d\n",input_list[i].c_str(),sbuf.st_atime,t);
             if (sbuf.st_atime >= t) {
                 return false;
             }
@@ -1865,91 +1938,6 @@ bool interrupts_idle(time_t t) {
     }
     return last_irq < t;
 }
-
-#if HAVE_XSS
-// Ask the X server for user idle time (using XScreenSaver API)
-// Return true if the idle time exceeds idle_threshold.
-//
-bool xss_idle(long idle_threshold) {
-    static XScreenSaverInfo* xssInfo = NULL;
-    static Display* disp = NULL;
-    static bool error = false;
-        // some X call failed - always return not idle
-    
-    if (error) return false;
-
-    long idle_time = 0;
-    
-    if (disp == NULL) {
-        disp = XOpenDisplay(NULL);
-        // XOpenDisplay may return NULL if there is no running X
-        // or DISPLAY points to wrong/invalid display
-        //
-        if (disp == NULL) {
-            error = true;
-            return false;
-        }
-        int event_base_return, error_base_return;
-        xssInfo = XScreenSaverAllocInfo();
-        if (!XScreenSaverQueryExtension(
-            disp, &event_base_return, &error_base_return
-        )){
-            error = true;
-            return false;
-        }
-    }
-
-    XScreenSaverQueryInfo(disp, DefaultRootWindow(disp), xssInfo);
-    idle_time = xssInfo->idle;
-
-#if HAVE_DPMS
-    // XIdleTime Detection
-    // See header for location and copywrites.
-    //
-    int dummy;
-    CARD16 standby, suspend, off;
-    CARD16 state;
-    BOOL onoff;
-
-    if (DPMSQueryExtension(disp, &dummy, &dummy)) {
-        if (DPMSCapable(disp)) {
-            DPMSGetTimeouts(disp, &standby, &suspend, &off);
-            DPMSInfo(disp, &state, &onoff);
-
-            if (onoff) {
-                switch (state) {
-                case DPMSModeStandby:
-                    // this check is a littlebit paranoid, but be sure
-                    if (idle_time < (unsigned) (standby * 1000)) {
-                        idle_time += (standby * 1000);
-                    }
-                    break;
-                case DPMSModeSuspend:
-                    if (idle_time < (unsigned) ((suspend + standby) * 1000)) {
-                        idle_time += ((suspend + standby) * 1000);
-                    }
-                    break;
-                case DPMSModeOff:
-                    if (idle_time < (unsigned) ((off + suspend + standby) * 1000)) {
-                        idle_time += ((off + suspend + standby) * 1000);
-                    }
-                    break;
-                case DPMSModeOn:
-                default:
-                    break;
-                }
-            }
-        } 
-    }
-#endif
-
-    // convert from milliseconds to seconds
-    //
-    idle_time = idle_time / 1000;
-
-    return idle_threshold < idle_time;
-}
-#endif // HAVE_XSS
 #endif // LINUX_LIKE_SYSTEM
 
 bool HOST_INFO::users_idle(bool check_all_logins, double idle_time_to_run) {
@@ -1976,16 +1964,14 @@ bool HOST_INFO::users_idle(bool check_all_logins, double idle_time_to_run) {
     }
 
     // Lets at least check the dev entries which should be correct for
-    // USB mice.  The tty check will catch keyboards if they are entering
-    // data into a tty.
-    if (!device_idle(idle_time, "/dev/input/mice")) return false;
-
-#if HAVE_XSS
-    if (!xss_idle((long)(idle_time_to_run * 60))) {
+    // USB keyboards and mice.  If the linux kernel doc is correct it should
+    // also work for bluetooth input devices as well.
+    //
+    // See: https://www.kernel.org/doc/Documentation/input/input.txt
+    //
+    if (!all_input_idle(idle_time)) {
         return false;
     }
-#endif
-
 #else
     // We should find out which of the following are actually relevant
     // on which systems (if any)
