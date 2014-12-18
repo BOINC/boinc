@@ -92,7 +92,7 @@ th {
 
 td {
     vertical-align: top;
-    padding: 4px;
+    padding: 2px;
 }
 
 td.bordered {
@@ -106,15 +106,17 @@ th, td.heading {
     padding: 8px;
 }
 
-th.heading2 {
+th.subheading {
+    text-align: left;
     font-weight: normal;
+    font-size: small;
     font-style: italic;
 }
 
 td.fieldname {
     text-align: right;
     padding-right: 10px;
-    font-size: 14px;
+    /* font-size: 14px; */
     margin: 2px 0;
 }
 

@@ -266,7 +266,7 @@ function get_disk_space_config() {
 }
 
 function group_header($t) {
-    echo "<tr><th class=heading2 colspan=5>$t</th></tr>\n";
+    echo "<tr><th class=subheading>$t</th><td colspan=4><br></td></tr>\n";
 }
 
 // functions to parse preferences XML into a struct
