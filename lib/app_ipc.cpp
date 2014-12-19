@@ -187,7 +187,7 @@ int write_init_data_file(FILE* f, APP_INIT_DATA& ai) {
         "<wu_cpu_time>%f</wu_cpu_time>\n"
         "<starting_elapsed_time>%f</starting_elapsed_time>\n"
         "<using_sandbox>%d</using_sandbox>\n"
-        "<vm_extensions_disabled>%d</vm_extensions_disabled>"
+        "<vm_extensions_disabled>%d</vm_extensions_disabled>\n"
         "<user_total_credit>%f</user_total_credit>\n"
         "<user_expavg_credit>%f</user_expavg_credit>\n"
         "<host_total_credit>%f</host_total_credit>\n"
