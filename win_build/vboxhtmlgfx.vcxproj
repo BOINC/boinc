@@ -19,8 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{F243B93C-73CB-44E7-9BDC-847BB95C27CA}</ProjectGuid>
-    <RootNamespace>vboxwrapper</RootNamespace>
+    <ProjectGuid>{EC1470CA-67FE-43D1-9530-E86C6DD8C34B}</ProjectGuid>
+    <RootNamespace>vboxhtmlgfx</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -93,10 +93,10 @@
     <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|x64'">AllRules.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
     <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">vboxwrapper_26151_windows_x86_64</TargetName>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">vboxwrapper_26152_windows_x86_64</TargetName>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">vboxwrapper_26151_windows_intelx86</TargetName>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">vboxwrapper_26152_windows_intelx86</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">vboxhtmlgfx_26151_windows_x86_64</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">vboxhtmlgfx_26152_windows_x86_64</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">vboxhtmlgfx_26151_windows_intelx86</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">vboxhtmlgfx_26152_windows_intelx86</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Midl>
@@ -129,12 +129,12 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <CompileAs>CompileAsCpp</CompileAs>
       <ForcedIncludeFiles>boinc_win.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
-      <DisableSpecificWarnings>4192</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4192; 4049; 4146, 4278</DisableSpecificWarnings>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <Culture>0x0409</Culture>
-      <AdditionalIncludeDirectories>..\..\boinc_depends_win_vs2010\wxwidgets\include;..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
       <AdditionalDependencies>libcmt.lib;libcpmt.lib;atls.lib;comsuppw.lib;libboincvbox_staticcrt.lib;kernel32.lib;user32.lib;gdi32.lib;ole32.lib;wsock32.lib;psapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -181,12 +181,12 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <CompileAs>CompileAsCpp</CompileAs>
       <ForcedIncludeFiles>boinc_win.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
-      <DisableSpecificWarnings>4192</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4192; 4049; 4146; 4278</DisableSpecificWarnings>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <Culture>0x0409</Culture>
-      <AdditionalIncludeDirectories>..\..\boinc_depends_win_vs2010\wxwidgets\include;..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
       <AdditionalDependencies>libcmt.lib;libcpmt.lib;atls.lib;comsuppw.lib;libboincvbox_staticcrt.lib;kernel32.lib;user32.lib;gdi32.lib;ole32.lib;wsock32.lib;psapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -229,12 +229,12 @@
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <CompileAs>CompileAsCpp</CompileAs>
       <ForcedIncludeFiles>%(ForcedIncludeFiles)</ForcedIncludeFiles>
-      <DisableSpecificWarnings>4192</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4192; 4049; 4146, 4278</DisableSpecificWarnings>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <Culture>0x0409</Culture>
-      <AdditionalIncludeDirectories>..\..\boinc_depends_win_vs2010\wxwidgets\include;..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
       <AdditionalDependencies>libcmtd.lib;libcpmtd.lib;atlsd.lib;comsuppwd.lib;libboincvbox_staticcrt.lib;kernel32.lib;user32.lib;gdi32.lib;ole32.lib;psapi.lib;wsock32.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -277,12 +277,12 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <CompileAs>CompileAsCpp</CompileAs>
       <ForcedIncludeFiles>%(ForcedIncludeFiles)</ForcedIncludeFiles>
-      <DisableSpecificWarnings>4192</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4192; 4049; 4146, 4278</DisableSpecificWarnings>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <Culture>0x0409</Culture>
-      <AdditionalIncludeDirectories>..\..\boinc_depends_win_vs2010\wxwidgets\include;..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
       <AdditionalDependencies>libcmtd.lib;libcpmtd.lib;atlsd.lib;comsuppwd.lib;libboincvbox_staticcrt.lib;kernel32.lib;user32.lib;gdi32.lib;ole32.lib;wsock32.lib;psapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -298,25 +298,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\samples\vboxwrapper\floppyio.cpp" />
-    <ClCompile Include="..\samples\vboxwrapper\vboxwrapper.cpp" />
-    <ClCompile Include="..\samples\vboxwrapper\vbox_common.cpp" />
-    <ClCompile Include="..\samples\vboxwrapper\vbox_mscom42.cpp" />
-    <ClCompile Include="..\samples\vboxwrapper\vbox_mscom43.cpp" />
-    <ClCompile Include="..\samples\vboxwrapper\vbox_mscom_impl.cpp" />
-    <ClCompile Include="..\samples\vboxwrapper\vbox_vboxmanage.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\samples\vboxwrapper\floppyio.h" />
-    <ClInclude Include="..\samples\vboxwrapper\vboxwrapper.h" />
-    <ClInclude Include="..\samples\vboxwrapper\vboxwrapper_win.h" />
-    <ClInclude Include="..\samples\vboxwrapper\vbox_common.h" />
-    <ClInclude Include="..\samples\vboxwrapper\vbox_mscom42.h" />
-    <ClInclude Include="..\samples\vboxwrapper\vbox_mscom43.h" />
-    <ClInclude Include="..\samples\vboxwrapper\vbox_mscom_impl.h" />
-    <ClInclude Include="..\samples\vboxwrapper\vbox_vboxmanage.h" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="libboincapi_staticcrt.vcxproj">
       <Project>{07bda8f7-4aaf-4a3b-b96e-ea72a143c5ae}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
@@ -327,7 +308,14 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="..\samples\vboxwrapper\vboxwrapper_win.rc" />
+    <ResourceCompile Include="..\samples\vboxhtmlgfx\vboxhtmlgfx_win.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\samples\vboxhtmlgfx\vboxhtmlgfx.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\samples\vboxhtmlgfx\vboxhtmlgfx.h" />
+    <ClInclude Include="..\samples\vboxhtmlgfx\vboxhtmlgfx_win.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

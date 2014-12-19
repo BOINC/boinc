@@ -15,54 +15,53 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#define _VIRTUALBOX43_
-#define _VIRTUALBOX_IMPORT_FUNCTIONS_
-
+#ifdef _WIN32
 #include "boinc_win.h"
-#include "atlcomcli.h"
-#include "atlsafe.h"
-#include "atlcoll.h"
-#include "atlstr.h"
 #include "win_util.h"
+#else
+#include <vector>
+#include <sys/wait.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <stdio.h>
+#include <cmath>
+#include <string>
+#include <unistd.h>
+#endif
+
+
+#include "version.h"
+#include "boinc_api.h"
 #include "diagnostics.h"
 #include "filesys.h"
+#include "md5_file.h"
 #include "parse.h"
 #include "str_util.h"
 #include "str_replace.h"
 #include "util.h"
 #include "error_numbers.h"
 #include "procinfo.h"
-#include "network.h"
-#include "boinc_api.h"
-#include "floppyio.h"
-#include "vboxlogging.h"
-#include "vboxwrapper.h"
-#include "vbox_mscom43.h"
 
 
-#if defined(_MSC_VER) || defined(__MINGW32__)
-#define stricmp     _stricmp
-#endif
 
-#import "file:vbox43.tlb" rename_namespace("vbox43"), named_guids, raw_interfaces_only
 
-using std::string;
-using namespace vbox43;
+int main(int argc, char** argv) {
 
-namespace vbox43 {
 
-    class VBOX_PRIV {
-    public:
-        VBOX_PRIV() {};
-        ~VBOX_PRIV() {};
-
-        IVirtualBoxPtr m_pVirtualBox;
-        ISessionPtr m_pSession;
-        IMachinePtr m_pMachine;
-    };
-
-#include "vbox_mscom_impl.cpp"
-
+    return 0;
 }
 
 
+#ifdef _WIN32
+
+int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR Args, int WinMode) {
+    LPSTR command_line;
+    char* argv[100];
+    int argc;
+
+    command_line = GetCommandLine();
+    argc = parse_command_line(command_line, argv);
+    return main(argc, argv);
+}
+
+#endif

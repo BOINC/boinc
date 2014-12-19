@@ -56,11 +56,23 @@ using std::string;
 #include "network.h"
 #include "boinc_api.h"
 #include "floppyio.h"
+#include "vboxlogging.h"
 #include "vboxwrapper.h"
 #include "vbox_common.h"
 
 
-VBOX_BASE::VBOX_BASE() {
+bool is_boinc_client_version_newer(APP_INIT_DATA& aid, int maj, int min, int rel) {
+    if (maj < aid.major_version) return true;
+    if (maj > aid.major_version) return false;
+    if (min < aid.minor_version) return true;
+    if (min > aid.minor_version) return false;
+    if (rel < aid.release) return true;
+    return false;
+}
+
+
+VBOX_BASE::VBOX_BASE() : VBOX_JOB() {
+    VBOX_JOB::clear();
     virtualbox_home_directory.clear();
     virtualbox_install_directory.clear();
     virtualbox_guest_additions.clear();
@@ -75,36 +87,18 @@ VBOX_BASE::VBOX_BASE() {
     vm_master_description.clear();
     vm_name.clear();
     vm_cpu_count.clear();
-    vm_disk_controller_type.clear();
-    vm_disk_controller_model.clear();
-    os_name.clear();
-    memory_size_mb = 0.0;
     image_filename.clear();
     iso_image_filename.clear();
     cache_disk_filename.clear();
     floppy_image_filename.clear();
-    job_duration = 0.0;
     current_cpu_time = 0.0;
-    minimum_checkpoint_interval = 600.0;
-    fraction_done_filename.clear();
     suspended = false;
     network_suspended = false;
     online = false;
     saving = false;
     restoring = false;
     crashed = false;
-    enable_cern_dataformat = false;
-    enable_shared_directory = false;
-    enable_floppyio = false;
-    enable_cache_disk = false;
-    enable_isocontextualization = false;
-    enable_remotedesktop = false;
-    enable_gbac = false;
     register_only = false;
-    enable_network = false;
-    network_bridged_mode = false;
-    pf_guest_port = 0;
-    pf_host_port = 0;
     headless = true;
     vm_pid = 0;
     vboxsvc_pid = 0;
@@ -112,10 +106,6 @@ VBOX_BASE::VBOX_BASE() {
     vm_pid_handle = 0;
     vboxsvc_pid_handle = 0;
 #endif
-
-    // Initialize default values
-    vm_disk_controller_type = "ide";
-    vm_disk_controller_model = "PIIX4";
 }
 
 VBOX_BASE::~VBOX_BASE() {
@@ -327,7 +317,6 @@ void VBOX_BASE::dump_vmguestlog_entries() {
     size_t line_pos;
     VBOX_TIMESTAMP current_timestamp;
     string msg;
-    char buf[256];
 
     get_vm_log(local_vm_log, true, 16*1024);
 
@@ -349,12 +338,7 @@ void VBOX_BASE::dump_vmguestlog_entries() {
                 vm_log_timestamp = current_timestamp;
                 msg = line.substr(line_pos, line.size() - line_pos);
 
-                fprintf(
-                    stderr,
-                    "%s %s\n",
-                    vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                    msg.c_str()
-                );
+                vboxlog_msg(msg.c_str());
             }
         }
 
@@ -696,7 +680,6 @@ int VBOX_BASE::launch_vboxsvc() {
 
 #ifdef _WIN32
     char buf[256];
-    char error_msg[256];
     STARTUPINFO si;
     PROCESS_INFORMATION pi;
     int pidVboxSvc = 0;
@@ -731,13 +714,7 @@ int VBOX_BASE::launch_vboxsvc() {
             }
             
             if (pidVboxSvc && hVboxSvc) {
-                
-                fprintf(
-                    stderr,
-                    "%s Status Report: Detected vboxsvc.exe. (PID = '%d')\n",
-                    vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                    pidVboxSvc
-                );
+                vboxlog_msg("Status Report: Detected vboxsvc.exe. (PID = '%d')", pidVboxSvc);
                 vboxsvc_pid = pidVboxSvc;
                 vboxsvc_pid_handle = hVboxSvc;
                 retval = BOINC_SUCCESS;
@@ -765,44 +742,17 @@ int VBOX_BASE::launch_vboxsvc() {
 
                 if (pi.hThread) CloseHandle(pi.hThread);
                 if (pi.hProcess) {
-                    fprintf(
-                        stderr,
-                        "%s Status Report: Launching vboxsvc.exe. (PID = '%d')\n",
-                        vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                        pi.dwProcessId
-                    );
+                    vboxlog_msg("Status Report: Launching vboxsvc.exe. (PID = '%d')", pi.dwProcessId);
                     vboxsvc_pid = pi.dwProcessId;
                     vboxsvc_pid_handle = pi.hProcess;
                     retval = BOINC_SUCCESS;
                 } else {
-                    vboxwrapper_msg_prefix(buf, sizeof(buf));
-                    fprintf(
-                        stderr,
-                        "%s Status Report: Launching vboxsvc.exe failed!.\n"
-                        "%s         Error: %s\n",
-                        buf,
-                        buf,
-                        windows_format_error_string(GetLastError(), error_msg, sizeof(error_msg))
-                    );
+                    vboxlog_msg("Status Report: Launching vboxsvc.exe failed!.");
+                    vboxlog_msg("        Error: %s", windows_format_error_string(GetLastError(), buf, sizeof(buf)));
 #ifdef _DEBUG
-                    fprintf(
-                        stderr,
-                        "%s Vbox Version: '%s'\n",
-                        buf,
-                        virtualbox_version.c_str()
-                    );
-                    fprintf(
-                        stderr,
-                        "%s Vbox Install Directory: '%s'\n",
-                        buf,
-                        virtualbox_install_directory.c_str()
-                    );
-                    fprintf(
-                        stderr,
-                        "%s Vbox Home Directory: '%s'\n",
-                        buf,
-                        virtualbox_home_directory.c_str()
-                    );
+                    vboxlog_msg("Vbox Version: '%s'", virtualbox_version.c_str());
+                    vboxlog_msg("Vbox Install Directory: '%s'", virtualbox_install_directory.c_str());
+                    vboxlog_msg("Vbox Home Directory: '%s'", virtualbox_home_directory.c_str());
 #endif
                 }
 
@@ -850,7 +800,6 @@ int VBOX_BASE::launch_vboxvm() {
     }
 
 #ifdef _WIN32
-    char error_msg[256];
     STARTUPINFO si;
     PROCESS_INFORMATION pi;
     SECURITY_ATTRIBUTES sa;
@@ -874,12 +823,7 @@ int VBOX_BASE::launch_vboxvm() {
     sa.lpSecurityDescriptor = &sd;
 
     if (!CreatePipe(&hReadPipe, &hWritePipe, &sa, NULL)) {
-        fprintf(
-            stderr,
-            "%s CreatePipe failed! (%d).\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf)),
-            GetLastError()
-        );
+        vboxlog_msg("CreatePipe failed! (%d).", GetLastError());
         goto CLEANUP;
     }
     SetHandleInformation(hReadPipe, HANDLE_FLAG_INHERIT, 0);
@@ -904,17 +848,14 @@ int VBOX_BASE::launch_vboxvm() {
         &si,
         &pi
     )) {
-        vboxwrapper_msg_prefix(buf, sizeof(buf));
-        fprintf(
-            stderr,
-            "%s Status Report: Launching virtualbox.exe/vboxheadless.exe failed!.\n"
-            "%s         Error: %s (%d)\n",
-            buf,
-            buf,
-            windows_format_error_string(GetLastError(), error_msg, sizeof(error_msg)),
+        vboxlog_msg(
+            "Status Report: Launching virtualbox.exe/vboxheadless.exe failed!."
+        );
+        vboxlog_msg(
+            "        Error: %s (%d)",
+            windows_format_error_string(GetLastError(), buf, sizeof(buf)),
             GetLastError()
         );
-
         goto CLEANUP;
     } 
 
@@ -944,17 +885,15 @@ int VBOX_BASE::launch_vboxvm() {
 
     if (ulExitCode != STILL_ACTIVE) {
         sanitize_output(output);
-        vboxwrapper_msg_prefix(buf, sizeof(buf));
-        fprintf(
-            stderr,
-            "%s Status Report: Virtualbox.exe/Vboxheadless.exe exited prematurely!.\n"
-            "%s        Exit Code: %d\n"
-            "%s        Output:\n"
-            "%s\n",
-            buf,
-            buf,
-            ulExitCode,
-            buf,
+        vboxlog_msg(
+            "Status Report: Virtualbox.exe/Vboxheadless.exe exited prematurely!."
+        );
+        vboxlog_msg(
+            "    Exit Code: %d",
+            ulExitCode
+        );
+        vboxlog_msg(
+            "       Output: %s",
             output.c_str()
         );
     }
@@ -973,13 +912,13 @@ CLEANUP:
 #else
     int pid = fork();
     if (-1 == pid) {
-        output = strerror(errno);
-        fprintf(
-            stderr,
-            "%s Status Report: Launching virtualbox.exe/vboxheadless.exe failed!.\n"
-            "           Error: %s",
-            vboxwrapper_msg_prefix(buf, sizeof(buf)),
-            output.c_str()
+        vboxlog_msg(
+            "Status Report: Launching virtualbox/vboxheadless failed!."
+        );
+        vboxlog_msg(
+            "        Error: %s (%d)",
+            strerror(errno),
+            errno
         );
         retval = ERR_FORK;
     } else if (0 == pid) {
@@ -1004,7 +943,6 @@ int VBOX_BASE::vbm_popen(string& command, string& output, const char* item, bool
     int retval = 0;
     int retry_count = 0;
     double sleep_interval = 1.0;
-    char buf[256];
     string retry_notes;
 
     // Initialize command line
@@ -1096,11 +1034,8 @@ int VBOX_BASE::vbm_popen(string& command, string& output, const char* item, bool
         if (!retry_notes.empty()) {
             output += "\nNotes:\n\n" + retry_notes;
         }
-
-        fprintf(
-            stderr,
-            "%s Error in %s for VM: %d\nCommand:\n%s\nOutput:\n%s\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf)),
+        vboxlog_msg(
+            "Error in %s for VM: %d\nCommand:\n%s\nOutput:\n%s",
             item,
             retval,
             command.c_str(),
@@ -1114,7 +1049,6 @@ int VBOX_BASE::vbm_popen(string& command, string& output, const char* item, bool
 // Execute the vbox manage application and copy the output to the buffer.
 //
 int VBOX_BASE::vbm_popen_raw(string& command, string& output, unsigned int timeout) {
-    char buf[256];
     size_t errcode_start;
     size_t errcode_end;
     string errcode;
@@ -1148,12 +1082,7 @@ int VBOX_BASE::vbm_popen_raw(string& command, string& output, unsigned int timeo
     sa.lpSecurityDescriptor = &sd;
 
     if (!CreatePipe(&hReadPipe, &hWritePipe, &sa, NULL)) {
-        fprintf(
-            stderr,
-            "%s CreatePipe failed! (%d).\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf)),
-            GetLastError()
-        );
+        vboxlog_msg("CreatePipe failed! (%d).", GetLastError());
         goto CLEANUP;
     }
     SetHandleInformation(hReadPipe, HANDLE_FLAG_INHERIT, 0);
@@ -1178,12 +1107,7 @@ int VBOX_BASE::vbm_popen_raw(string& command, string& output, unsigned int timeo
         &si,
         &pi
     )) {
-        fprintf(
-            stderr,
-            "%s CreateProcess failed! (%d).\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf)),
-            GetLastError()
-        );
+        vboxlog_msg("CreateProcess failed! (%d).", GetLastError());
         goto CLEANUP;
     }
 
@@ -1215,12 +1139,7 @@ int VBOX_BASE::vbm_popen_raw(string& command, string& output, unsigned int timeo
         // Timeout?
         if (ulExitTimeout >= (timeout * 1000)) {
             if (!TerminateProcess(pi.hProcess, EXIT_FAILURE)) {
-                fprintf(
-                    stderr,
-                    "%s TerminateProcess failed! (%d).\n",
-                    vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                    GetLastError()
-                );
+                vboxlog_msg("TerminateProcess failed! (%d).", GetLastError());
             }
             ulExitCode = 0;
             retval = ERR_TIMEOUT;
@@ -1256,6 +1175,7 @@ CLEANUP:
 
 #else
 
+    char buf[256];
     FILE* fp;
 
     // redirect stderr to stdout for the child process so we can trap it with popen.
@@ -1264,12 +1184,7 @@ CLEANUP:
     // Execute command
     fp = popen(modified_command.c_str(), "r");
     if (fp == NULL){
-        fprintf(
-            stderr,
-            "%s vbm_popen popen failed! errno = %d\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf)),
-            errno
-        );
+        vboxlog_msg("vbm_popen popen failed! (%d).", errno);
         retval = ERR_FOPEN;
     } else {
         // Copy output to buffer
@@ -1310,15 +1225,35 @@ void VBOX_BASE::vbm_replay(std::string& command) {
 }
 
 void VBOX_BASE::vbm_trace(std::string& command, std::string& output, int retval) {
+    char buf[256];
+    int pid;
+    struct tm tm;
+    struct tm *tmp = &tm;
+
     vbm_replay(command);
 
-    char buf[256];
+    time_t x = time(0);
+#ifdef _WIN32
+    pid = GetCurrentProcessId();
+    localtime_s(&tm, &x);
+#else
+    pid = getpid();
+    localtime_r(&x, &tm);
+#endif
+
+    strftime(buf, sizeof(buf)-1, "%Y-%m-%d %H:%M:%S", &tm);
+
     FILE* f = fopen(TRACELOG_FILENAME, "a");
     if (f) {
         fprintf(
             f,
-            "%s\nCommand: %s\nExit Code: %d\nOutput:\n%s\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf)),
+            "%s (%d): ",
+            buf,
+            pid
+        );
+        fprintf(
+            f,
+            "\nCommand: %s\nExit Code: %d\nOutput:\n%s\n",
             command.c_str(),
             retval,
             output.c_str()

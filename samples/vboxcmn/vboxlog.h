@@ -15,17 +15,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-
-#ifndef _VBOX_MSCOM43_H_
-#define _VBOX_MSCOM43_H_
-
-#include "floppyio.h"
-#include "vbox_common.h"
-
-namespace vbox43 {
-
-#include "vbox_mscom_impl.h"
-
-}
+#ifndef _VBOXLOG_H_
+#define _VBOXLOG_H_
 
 #endif
