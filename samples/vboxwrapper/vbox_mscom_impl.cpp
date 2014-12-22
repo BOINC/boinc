@@ -502,6 +502,7 @@ int VBOX_VM::create_vm() {
             // lead to a machine that will only return crashed VM reports.
             vboxlog_msg("Legacy fallback configuration detected. Disabling VirtualBox hardware acceleration support.");
             vboxlog_msg("NOTE: Upgrading to BOINC 7.2.16 or better may re-enable hardware acceleration.");
+            disable_acceleration = true;
         }
     }
 
