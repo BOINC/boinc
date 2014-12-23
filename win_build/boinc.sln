@@ -69,6 +69,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test_boinczip_zlib_conflict
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "example_app_dll", "uc2_dll.vcxproj", "{B275C525-5EF4-40BA-A70A-4E01A76A0CDD}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "htmlgfx", "htmlgfx.vcxproj", "{25662612-421F-42F5-B5E1-D69ECBF3F5BB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -571,6 +573,22 @@ Global
 		{B275C525-5EF4-40BA-A70A-4E01A76A0CDD}.Release|Win32.Build.0 = Release|Win32
 		{B275C525-5EF4-40BA-A70A-4E01A76A0CDD}.Release|x64.ActiveCfg = Release|x64
 		{B275C525-5EF4-40BA-A70A-4E01A76A0CDD}.Release|x64.Build.0 = Release|x64
+		{25662612-421F-42F5-B5E1-D69ECBF3F5BB}.Debug|Win32.ActiveCfg = Debug|Win32
+		{25662612-421F-42F5-B5E1-D69ECBF3F5BB}.Debug|Win32.Build.0 = Debug|Win32
+		{25662612-421F-42F5-B5E1-D69ECBF3F5BB}.Debug|x64.ActiveCfg = Debug|x64
+		{25662612-421F-42F5-B5E1-D69ECBF3F5BB}.Debug|x64.Build.0 = Debug|x64
+		{25662612-421F-42F5-B5E1-D69ECBF3F5BB}.EmuDebug|Win32.ActiveCfg = Debug|Win32
+		{25662612-421F-42F5-B5E1-D69ECBF3F5BB}.EmuDebug|Win32.Build.0 = Debug|Win32
+		{25662612-421F-42F5-B5E1-D69ECBF3F5BB}.EmuDebug|x64.ActiveCfg = Debug|x64
+		{25662612-421F-42F5-B5E1-D69ECBF3F5BB}.EmuDebug|x64.Build.0 = Debug|x64
+		{25662612-421F-42F5-B5E1-D69ECBF3F5BB}.EmuRelease|Win32.ActiveCfg = Release|Win32
+		{25662612-421F-42F5-B5E1-D69ECBF3F5BB}.EmuRelease|Win32.Build.0 = Release|Win32
+		{25662612-421F-42F5-B5E1-D69ECBF3F5BB}.EmuRelease|x64.ActiveCfg = Release|x64
+		{25662612-421F-42F5-B5E1-D69ECBF3F5BB}.EmuRelease|x64.Build.0 = Release|x64
+		{25662612-421F-42F5-B5E1-D69ECBF3F5BB}.Release|Win32.ActiveCfg = Release|Win32
+		{25662612-421F-42F5-B5E1-D69ECBF3F5BB}.Release|Win32.Build.0 = Release|Win32
+		{25662612-421F-42F5-B5E1-D69ECBF3F5BB}.Release|x64.ActiveCfg = Release|x64
+		{25662612-421F-42F5-B5E1-D69ECBF3F5BB}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

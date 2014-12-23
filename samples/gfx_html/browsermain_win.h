@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2010-2012 University of California
+// Copyright (C) 2010-2015 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -15,29 +15,29 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _VBOXCHECKPOINT_H_
-#define _VBOXCHECKPOINT_H_
+#ifndef _BROWSERMAIN_WIN_H_
+#define _BROWSERMAIN_WIN_H_
 
 
-#define CHECKPOINT_FILENAME "vbox_checkpoint.xml"
-#define PORTFORWARD_FILENAME "vbox_port_forward.xml"
-#define REMOTEDESKTOP_FILENAME "vbox_remote_desktop.xml"
+class CHTMLBrowserWnd;
 
 
-class VBOX_CHECKPOINT {
+class CBrowserModule : public ATL::CAtlExeModuleT<CBrowserModule>
+{
 public:
-    VBOX_CHECKPOINT();
-    ~VBOX_CHECKPOINT();
 
-    void clear();
-    int parse();
-    int write();
-    int update(double elapsed_time, double cpu_time);
+	CBrowserModule();
 
-    double elapsed_time;
-    double cpu_time;
-    int webapi_port;
-    int remote_desktop_port;
+    static HRESULT InitializeCom() throw();
+    static void UninitializeCom() throw();
+
+	HRESULT PreMessageLoop(int nShowCmd) throw();
+    HRESULT PostMessageLoop() throw();
+    int BOINCParseCommandLine(int argc, char** argv);
+
+    bool m_bFullscreen;
+    CHTMLBrowserWnd* m_pWnd;
 };
+
 
 #endif
