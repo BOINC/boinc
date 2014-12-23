@@ -51,6 +51,8 @@ CWndClassInfo& CHTMLBrowserHost::GetWndClassInfo()
 HWND CHTMLBrowserHost::Create(
     HWND hWndParent, _U_RECT rect, LPCTSTR szWindowName, DWORD dwStyle, DWORD dwExStyle, _U_MENUorID MenuOrID, LPVOID lpCreateParam
 ){
+    HWND hWnd;
+
     ATOM atom = GetWndClassInfo().Register(&m_pfnSuperWindowProc);
     if (!atom)
         return NULL;
@@ -74,7 +76,27 @@ HWND CHTMLBrowserHost::Create(
         szWindowName = GetWndCaption();
     }
 
-    return CWindow::Create((LPCTSTR)atom, hWndParent, rect, szWindowName, dwStyle, dwExStyle, MenuOrID, lpCreateParam);
+    // create window
+    hWnd = CWindow::Create((LPCTSTR)atom, hWndParent, rect, szWindowName, dwStyle, dwExStyle, MenuOrID, lpCreateParam);
+
+    // register external dispatch
+    SetExternalDispatch((IHTMLBrowserHostUI*)this);
+
+    return hWnd;
+}
+
+void CHTMLBrowserHost::FinalRelease()
+{
+    SetExternalDispatch(NULL);
+	ReleaseAll();
+}
+
+
+STDMETHODIMP CHTMLBrowserHost::Log(
+    VARIANT* pvaLog
+){
+    vboxlog_msg("%S", pvaLog->bstrVal);
+    return S_OK;
 }
 
 STDMETHODIMP CHTMLBrowserHost::ShowMessage(
@@ -96,13 +118,15 @@ STDMETHODIMP CHTMLBrowserHost::ShowHelp(
     return S_OK;
 };
 
-STDMETHODIMP CHTMLBrowserHost::QueryStatus(const GUID *pguidCmdGroup, ULONG cCmds, OLECMD prgCmds[], OLECMDTEXT *pCmdText)
-{
+STDMETHODIMP CHTMLBrowserHost::QueryStatus(
+    const GUID *pguidCmdGroup, ULONG cCmds, OLECMD prgCmds[], OLECMDTEXT *pCmdText
+){
     return E_NOTIMPL;
 }
 
-STDMETHODIMP CHTMLBrowserHost::Exec(const GUID* pguidCmdGroup, DWORD nCmdID, DWORD nCmdexecopt, VARIANTARG* pvaIn, VARIANTARG* pvaOut )
-{
+STDMETHODIMP CHTMLBrowserHost::Exec(
+    const GUID* pguidCmdGroup, DWORD nCmdID, DWORD nCmdexecopt, VARIANTARG* pvaIn, VARIANTARG* pvaOut
+){
     HRESULT hr = S_OK;
     if (pguidCmdGroup && IsEqualGUID(*pguidCmdGroup, CGID_DocHostCommandHandler))
     {
@@ -166,5 +190,5 @@ STDMETHODIMP CHTMLBrowserHost::Exec(const GUID* pguidCmdGroup, DWORD nCmdID, DWO
     {
         hr = OLECMDERR_E_UNKNOWNGROUP;
     }
-    return (hr);
+    return hr;
 }

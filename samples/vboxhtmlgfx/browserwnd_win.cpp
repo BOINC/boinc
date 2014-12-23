@@ -75,7 +75,6 @@ LRESULT CHTMLBrowserWnd::OnCreate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL&
         (IUnknown*)(IDispEventImpl<1, CHTMLBrowserWnd, &__uuidof(DWebBrowserEvents2), &LIBID_SHDocVw, 1, 1>*)this
     );
 
-
     // Get an IWebBrowser2 interface on the control and navigate to a page.
     m_pBrowserCtrl = pCtrl;
 
@@ -90,6 +89,7 @@ LRESULT CHTMLBrowserWnd::OnCreate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL&
 LRESULT CHTMLBrowserWnd::OnClose(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
 {
     DestroyWindow();
+    ::PostQuitMessage(0);
 	bHandled = TRUE;
 	return 0;
 }
