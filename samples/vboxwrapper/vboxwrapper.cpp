@@ -398,16 +398,17 @@ int main(int argc, char** argv) {
     char buf[256];
 
 
+    // Initialize diagnostics system
+    //
+    boinc_init_diagnostics(BOINC_DIAG_DEFAULTS);
+
+    // Configure BOINC Runtime System environment
+    //
     memset(&boinc_options, 0, sizeof(boinc_options));
     boinc_options.main_program = true;
     boinc_options.check_heartbeat = true;
     boinc_options.handle_process_control = true;
     boinc_init_options(&boinc_options);
-
-
-    // Prepare environment for detecting system conditions
-    //
-    boinc_get_init_data_p(&aid);
 
     // Log banner
     //
@@ -416,9 +417,7 @@ int main(int argc, char** argv) {
     // Initialize system services
     // 
 #ifdef _WIN32
-    // Initialize the COM subsystem.
     CoInitialize(NULL);
-
 #ifdef USE_WINSOCK
     WSADATA wsdata;
     retval = WSAStartup( MAKEWORD( 1, 1 ), &wsdata);
@@ -429,6 +428,10 @@ int main(int argc, char** argv) {
 #endif
 #endif
 
+    // Prepare environment for detecting system conditions
+    //
+    boinc_parse_init_data_file();
+    boinc_get_init_data(aid);
 
 #ifdef _WIN32
     // Determine what version of VirtualBox we are using via the registry. Use a
@@ -461,7 +464,8 @@ int main(int argc, char** argv) {
     pVM = (VBOX_VM*) new vboxmanage::VBOX_VM();
 #endif
 
-
+    // Parse command line parameters
+    //
     for (int i=1; i<argc; i++) {
         if (!strcmp(argv[i], "--trickle")) {
             trickle_period = atof(argv[++i]);
@@ -1153,6 +1157,8 @@ int main(int argc, char** argv) {
     WSACleanup();
 #endif
 #endif
+
+    return 0;
 }
 
 #ifdef _WIN32

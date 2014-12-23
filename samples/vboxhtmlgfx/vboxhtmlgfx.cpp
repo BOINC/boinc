@@ -33,35 +33,25 @@
 #include "version.h"
 #include "boinc_api.h"
 #include "diagnostics.h"
-#include "filesys.h"
-#include "md5_file.h"
-#include "parse.h"
-#include "str_util.h"
-#include "str_replace.h"
-#include "util.h"
-#include "error_numbers.h"
-#include "procinfo.h"
+#include "vboxlogging.h"
 
 
-
+extern int run(int, char**);
 
 int main(int argc, char** argv) {
+    int retval = 0;
 
+    // Initialize diagnostic system
+    //
+    boinc_init_graphics_diagnostics(BOINC_DIAG_DEFAULTS);
 
-    return 0;
+    // Log banner
+    //
+    vboxlog_msg("vboxhtmlgfx (%d.%d.%d): starting", BOINC_MAJOR_VERSION, BOINC_MINOR_VERSION, VBOXWRAPPER_RELEASE);
+
+    retval = run(argc, argv);
+
+    boinc_finish_diag();
+    return retval;
 }
 
-
-#ifdef _WIN32
-
-int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR Args, int WinMode) {
-    LPSTR command_line;
-    char* argv[100];
-    int argc;
-
-    command_line = GetCommandLine();
-    argc = parse_command_line(command_line, argv);
-    return main(argc, argv);
-}
-
-#endif

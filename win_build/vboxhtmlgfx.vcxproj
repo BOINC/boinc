@@ -129,7 +129,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <CompileAs>CompileAsCpp</CompileAs>
       <ForcedIncludeFiles>boinc_win.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
-      <DisableSpecificWarnings>4192; 4049; 4146, 4278</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4192; 4049; 4146; 4278</DisableSpecificWarnings>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -229,7 +229,7 @@
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <CompileAs>CompileAsCpp</CompileAs>
       <ForcedIncludeFiles>%(ForcedIncludeFiles)</ForcedIncludeFiles>
-      <DisableSpecificWarnings>4192; 4049; 4146, 4278</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4192; 4049; 4146; 4278</DisableSpecificWarnings>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -266,8 +266,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_MT;_CONSOLE;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>boinc_win.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile>$(IntDir)boinc_win.pch</PrecompiledHeaderOutputFile>
       <BrowseInformation>
@@ -277,7 +276,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <CompileAs>CompileAsCpp</CompileAs>
       <ForcedIncludeFiles>%(ForcedIncludeFiles)</ForcedIncludeFiles>
-      <DisableSpecificWarnings>4192; 4049; 4146, 4278</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4192; 4049; 4146; 4278</DisableSpecificWarnings>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -311,9 +310,15 @@
     <ResourceCompile Include="..\samples\vboxhtmlgfx\vboxhtmlgfx_win.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\samples\vboxhtmlgfx\browserctrl_win.cpp" />
+    <ClCompile Include="..\samples\vboxhtmlgfx\browsermain_win.cpp" />
+    <ClCompile Include="..\samples\vboxhtmlgfx\browserwnd_win.cpp" />
     <ClCompile Include="..\samples\vboxhtmlgfx\vboxhtmlgfx.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\samples\vboxhtmlgfx\browserctrl_win.h" />
+    <ClInclude Include="..\samples\vboxhtmlgfx\browsermain_win.h" />
+    <ClInclude Include="..\samples\vboxhtmlgfx\browserwnd_win.h" />
     <ClInclude Include="..\samples\vboxhtmlgfx\vboxhtmlgfx.h" />
     <ClInclude Include="..\samples\vboxhtmlgfx\vboxhtmlgfx_win.h" />
   </ItemGroup>
