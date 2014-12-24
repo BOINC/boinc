@@ -27,6 +27,22 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 // Icon
 //
 
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_ICON                          ICON              "res\\boinc.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// HTML
+//
+default_win.htm                   HTML              "res\\default_win.htm"
+boinc.png                         HTML              "res\\boinc.png"
+virtualbox.png                    HTML              "res\\virtualbox.png"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -58,7 +74,7 @@ BEGIN
             VALUE "FileDescription", "BOINC HTML Graphics"
             VALUE "FileVersion", VER_TOSTR(BOINC_MAJOR_VERSION, BOINC_MINOR_VERSION, WRAPPER_RELEASE)
             VALUE "InternalName", "htmlgfx"
-            VALUE "LegalCopyright", "© 2011-2014 University of California"
+            VALUE "LegalCopyright", "© 2011-2015 University of California"
             VALUE "OriginalFilename", "htmlgfx.exe"
             VALUE "ProductName", "BOINC HTML Graphics"
             VALUE "ProductVersion", VER_TOSTR(BOINC_MAJOR_VERSION, BOINC_MINOR_VERSION, WRAPPER_RELEASE)
@@ -69,11 +85,6 @@ BEGIN
         VALUE "Translation", 0x409, 1200
     END
 END
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Bitmap
-//
 
 /////////////////////////////////////////////////////////////////////////////
 //

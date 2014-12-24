@@ -1,10 +1,9 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by vboxhtmlgfx_win.rc
+// Used by browser_win.rc
 //
 
-#define IDD_BROWSER                     101
-#define IDC_IE                          1000
+#define IDI_ICON                        100
 
 // Next default values for new objects
 // 

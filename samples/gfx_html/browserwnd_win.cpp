@@ -26,6 +26,7 @@
 #include <AtlTypes.h>
 #include <exdisp.h>
 #include <exdispid.h>
+#include <stdlib.h>
 #include <string>
 #include "win_util.h"
 #include "version.h"
@@ -38,22 +39,61 @@
 #include "browserwnd_win.h"
 
 
+#ifdef _MSC_VER
+#define snprintf _snprintf
+#endif
+
+
 CHTMLBrowserWnd::CHTMLBrowserWnd()
 {
     m_pBrowserHost = NULL;
+    m_hIcon = NULL;
+    m_hIconSmall = NULL;
 }
 
 CHTMLBrowserWnd::~CHTMLBrowserWnd()
 {
+    if(m_hIcon)
+    {
+        ::DestroyIcon(m_hIcon);
+        m_hIcon = NULL;
+    }
+
+    if(m_hIconSmall)
+    {
+        ::DestroyIcon(m_hIconSmall);
+        m_hIconSmall = NULL;
+    }
 }
 
 LRESULT CHTMLBrowserWnd::OnCreate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
 {
     HRESULT hr;
 	RECT rcClient;
+    TCHAR szExecutable[MAX_PATH];
     CComPtr<IUnknown> pCtrl;
     CComVariant v;
 
+    // Load Icon Resources
+    m_hIcon = (HICON)::LoadImage(
+        _AtlBaseModule.GetResourceInstance(),
+        MAKEINTRESOURCE(IDI_ICON),
+        IMAGE_ICON,
+        0, 0,
+        LR_DEFAULTSIZE | LR_DEFAULTCOLOR);
+    ATLASSERT(m_hIcon);
+
+    m_hIconSmall = (HICON)::LoadImage(
+        _AtlBaseModule.GetResourceInstance(),
+        MAKEINTRESOURCE(IDI_ICON),
+        IMAGE_ICON,
+        ::GetSystemMetrics(SM_CXSMICON),
+        ::GetSystemMetrics(SM_CYSMICON),
+        LR_DEFAULTCOLOR);
+    ATLASSERT(m_hIconSmall);
+
+    SetIcon(m_hIcon);
+    SetIcon(m_hIconSmall, FALSE);
 
     // Create Control Host
     hr = CComObject<CHTMLBrowserHost>::CreateInstance(&m_pBrowserHost);
@@ -78,7 +118,15 @@ LRESULT CHTMLBrowserWnd::OnCreate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL&
     m_pBrowserCtrl = pCtrl;
 
     if (m_pBrowserCtrl) {
-        m_pBrowserCtrl->Navigate(CComBSTR("http://www.romwnet.org/"), &v, &v, &v, &v);
+        GetModuleFileName(NULL, szExecutable, sizeof(szExecutable));
+
+        // Construct Windows resource reference
+        //
+        m_strDefaultURL += "res://";
+        m_strDefaultURL += szExecutable;
+        m_strDefaultURL += "/default_win.htm";
+
+        m_pBrowserCtrl->Navigate(m_strDefaultURL, &v, &v, &v, &v);
     }
 
     bHandled = TRUE;

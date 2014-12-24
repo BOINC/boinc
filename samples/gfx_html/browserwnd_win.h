@@ -52,8 +52,12 @@ public:
 
     CComObject<CHTMLBrowserHost>* m_pBrowserHost;
     CComQIPtr<IWebBrowser2> m_pBrowserCtrl;
+    CComBSTR m_strDefaultURL;
 
     bool m_bScreensaverMode;
+
+    HICON m_hIcon;
+    HICON m_hIconSmall;
 };
 
 #endif

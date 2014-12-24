@@ -50,8 +50,6 @@ CWndClassInfo& CHTMLBrowserHost::GetWndClassInfo()
 HWND CHTMLBrowserHost::Create(
     HWND hWndParent, _U_RECT rect, LPCTSTR szWindowName, DWORD dwStyle, DWORD dwExStyle, _U_MENUorID MenuOrID, LPVOID lpCreateParam
 ){
-    HWND hWnd;
-
     ATOM atom = GetWndClassInfo().Register(&m_pfnSuperWindowProc);
     if (!atom)
         return NULL;
@@ -76,27 +74,14 @@ HWND CHTMLBrowserHost::Create(
     }
 
     // create window
-    hWnd = CWindow::Create((LPCTSTR)atom, hWndParent, rect, szWindowName, dwStyle, dwExStyle, MenuOrID, lpCreateParam);
-
-    // register external dispatch
-    SetExternalDispatch((IHTMLBrowserHostUI*)this);
-
-    return hWnd;
+    return CWindow::Create((LPCTSTR)atom, hWndParent, rect, szWindowName, dwStyle, dwExStyle, MenuOrID, lpCreateParam);
 }
 
 void CHTMLBrowserHost::FinalRelease()
 {
-    SetExternalDispatch(NULL);
 	ReleaseAll();
 }
 
-
-STDMETHODIMP CHTMLBrowserHost::Log(
-    VARIANT* pvaLog
-){
-    browserlog_msg("%S", pvaLog->bstrVal);
-    return S_OK;
-}
 
 STDMETHODIMP CHTMLBrowserHost::ShowMessage(
     HWND hwnd, LPOLESTR lpstrText, LPOLESTR lpstrCaption, DWORD dwType, LPOLESTR lpstrHelpFile, DWORD dwHelpContext, LRESULT *plResult

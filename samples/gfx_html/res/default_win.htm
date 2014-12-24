@@ -1,0 +1,73 @@
+<html>
+<head>
+<title></title>
+</head>
+<body style="background-color:Black">
+
+<div align="center" id="content" style="position:absolute;">
+    <table>
+        <tr>
+            <td>
+                <img src="boinc.png">
+            </td>
+            <td valign="top" style="width:250px;height:64px">
+                <p style="color:White">Loading...</p>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<script language="JavaScript" type="text/javascript">
+    var interval;
+    var step = 5;
+    var delay = 1000;
+    var height = 0;
+    var Hoffset = 0;
+    var Woffset = 0;
+    var yon = 0;
+    var xon = 0;
+    var xPos = 20;
+    var yPos = document.body.clientHeight;
+
+    interval = setInterval('refresh()', delay);
+    
+    function refresh() {
+        width = document.body.clientWidth;
+        height = document.body.clientHeight;
+        Hoffset = content.offsetHeight;
+        Woffset = content.offsetWidth;
+        content.style.left = xPos + document.body.scrollLeft;
+        content.style.top = yPos + document.body.scrollTop;
+
+        if (yon) {
+            yPos = yPos + step;
+        }
+        else {
+            yPos = yPos - step;
+        }
+        if (yPos < 0) {
+            yon = 1;
+            yPos = 0;
+        }
+        if (yPos >= (height - Hoffset)) {
+            yon = 0;
+            yPos = (height - Hoffset);
+        }
+        if (xon) {
+            xPos = xPos + step;
+        }
+        else {
+            xPos = xPos - step;
+        }
+        if (xPos < 0) {
+            xon = 1;
+            xPos = 0;
+        }
+        if (xPos >= (width - Woffset)) {
+            xon = 0;
+            xPos = (width - Woffset);
+        }
+    }
+</script>
+</body>
+</html>

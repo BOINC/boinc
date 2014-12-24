@@ -19,23 +19,12 @@
 #define _BROWSERCTRL_WIN_H_
 
 /////////////////////////////////////////////////////////////////////////////
-// IBrowserHostUI interface
-
-MIDL_INTERFACE("A7275E6E-DE3D-4107-B34F-C4C28411A6F0")
-IHTMLBrowserHostUI : public IDispatch
-{
-public:
-    virtual HRESULT STDMETHODCALLTYPE Log(VARIANT* pvaLog) = 0;
-};
-
-/////////////////////////////////////////////////////////////////////////////
 // CHTMLBrowserHost class
 
 class ATL_NO_VTABLE CHTMLBrowserHost :
     public CAxHostWindow,
     public IDocHostShowUI,
-    public IOleCommandTarget,
-    public IDispatchImpl<IHTMLBrowserHostUI>
+    public IOleCommandTarget
 {
 public:
     DECLARE_NO_REGISTRY()
@@ -44,7 +33,6 @@ public:
     DECLARE_GET_CONTROLLING_UNKNOWN()
 
     BEGIN_COM_MAP(CHTMLBrowserHost)
-        COM_INTERFACE_ENTRY(IHTMLBrowserHostUI)
         COM_INTERFACE_ENTRY(IDocHostShowUI)
         COM_INTERFACE_ENTRY(IOleCommandTarget)
         COM_INTERFACE_ENTRY_CHAIN(CAxHostWindow)
@@ -56,12 +44,6 @@ public:
 
     HWND Create(HWND hWndParent, _U_RECT rect = NULL, LPCTSTR szWindowName = NULL, DWORD dwStyle = 0, DWORD dwExStyle = 0, _U_MENUorID MenuOrID = 0U, LPVOID lpCreateParam = NULL);
 	void FinalRelease();
-
-
-    // COM Interface - IHTMLBrowserHostUI
-    // Provide a basic set of services to HTML based applications
-    //
-    STDMETHOD(Log)(VARIANT* pvaLog);
 
 
     // COM Interface - IDocHostShowUI
@@ -76,7 +58,6 @@ public:
     //
     STDMETHOD(QueryStatus)(const GUID *pguidCmdGroup, ULONG cCmds, OLECMD prgCmds[], OLECMDTEXT *pCmdText);
     STDMETHOD(Exec)(const GUID* pguidCmdGroup, DWORD nCmdID, DWORD nCmdexecopt, VARIANTARG* pvaIn, VARIANTARG* pvaOut);
-
 };
 
 #endif
