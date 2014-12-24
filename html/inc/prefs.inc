@@ -483,16 +483,13 @@ function prefs_display_venue($prefs, $venue, $subset) {
 function print_prefs_display_global($user, $columns=false) {
     $global_prefs = prefs_parse_global($user->global_prefs);
 
-    echo tra("These apply to all BOINC projects in which you participate.")
-         ."<br>"
-         .tra("On computers participating in multiple projects, the most recently modified preferences will be used.")
-         ."<br>"
-         .tra("These preferences do not apply to Android devices.")
-         ."<br><br>";
-    if (isset($global_prefs->mod_time)) {
-        echo tra("Preferences last modified:")." ".pretty_time_str($global_prefs->mod_time);
-    }
-    echo "<br><br>";
+    echo tra("These settings apply to all computers using this account except")
+        ."<ul><li>"
+        .tra("computers where you have set preferences locally using the BOINC Manager")
+        ."<li>"
+        .tra("Android devices")
+        ."</ul>
+    ";
     $switch_link = " <font size=\"-2\"><a href=prefs.php?subset=global&cols=". (int)!$columns .">".tra("(Switch View)")."</a></font>";
     start_table();
     if ($columns) {
@@ -522,6 +519,9 @@ function print_prefs_display_global($user, $columns=false) {
         prefs_display_venue($global_prefs, "work", "global");
     }
     end_table();
+    if (isset($global_prefs->mod_time)) {
+        echo tra("Preferences last modified:")." ".pretty_time_str($global_prefs->mod_time)."<p>\n";
+    }
 }
 
 // This functions is used in prefs_edit.php to be able to display
