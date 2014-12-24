@@ -32,9 +32,8 @@
 #include "boinc_api.h"
 #include "diagnostics.h"
 #include "filesys.h"
-#include "vboxhtmlgfx_win.h"
-#include "vboxlogging.h"
-#include "vboxcheckpoint.h"
+#include "browser_win.h"
+#include "browserlog.h"
 #include "browserctrl_win.h"
 
 
@@ -51,6 +50,8 @@ CWndClassInfo& CHTMLBrowserHost::GetWndClassInfo()
 HWND CHTMLBrowserHost::Create(
     HWND hWndParent, _U_RECT rect, LPCTSTR szWindowName, DWORD dwStyle, DWORD dwExStyle, _U_MENUorID MenuOrID, LPVOID lpCreateParam
 ){
+    HWND hWnd;
+
     ATOM atom = GetWndClassInfo().Register(&m_pfnSuperWindowProc);
     if (!atom)
         return NULL;
@@ -74,13 +75,33 @@ HWND CHTMLBrowserHost::Create(
         szWindowName = GetWndCaption();
     }
 
-    return CWindow::Create((LPCTSTR)atom, hWndParent, rect, szWindowName, dwStyle, dwExStyle, MenuOrID, lpCreateParam);
+    // create window
+    hWnd = CWindow::Create((LPCTSTR)atom, hWndParent, rect, szWindowName, dwStyle, dwExStyle, MenuOrID, lpCreateParam);
+
+    // register external dispatch
+    SetExternalDispatch((IHTMLBrowserHostUI*)this);
+
+    return hWnd;
+}
+
+void CHTMLBrowserHost::FinalRelease()
+{
+    SetExternalDispatch(NULL);
+	ReleaseAll();
+}
+
+
+STDMETHODIMP CHTMLBrowserHost::Log(
+    VARIANT* pvaLog
+){
+    browserlog_msg("%S", pvaLog->bstrVal);
+    return S_OK;
 }
 
 STDMETHODIMP CHTMLBrowserHost::ShowMessage(
     HWND hwnd, LPOLESTR lpstrText, LPOLESTR lpstrCaption, DWORD dwType, LPOLESTR lpstrHelpFile, DWORD dwHelpContext, LRESULT *plResult
 ){
-    vboxlog_msg(
+    browserlog_msg(
         "Show Message:\n"
         "    Caption: %S\n"
         "    Text: %S\n",
@@ -96,13 +117,15 @@ STDMETHODIMP CHTMLBrowserHost::ShowHelp(
     return S_OK;
 };
 
-STDMETHODIMP CHTMLBrowserHost::QueryStatus(const GUID *pguidCmdGroup, ULONG cCmds, OLECMD prgCmds[], OLECMDTEXT *pCmdText)
-{
+STDMETHODIMP CHTMLBrowserHost::QueryStatus(
+    const GUID *pguidCmdGroup, ULONG cCmds, OLECMD prgCmds[], OLECMDTEXT *pCmdText
+){
     return E_NOTIMPL;
 }
 
-STDMETHODIMP CHTMLBrowserHost::Exec(const GUID* pguidCmdGroup, DWORD nCmdID, DWORD nCmdexecopt, VARIANTARG* pvaIn, VARIANTARG* pvaOut )
-{
+STDMETHODIMP CHTMLBrowserHost::Exec(
+    const GUID* pguidCmdGroup, DWORD nCmdID, DWORD nCmdexecopt, VARIANTARG* pvaIn, VARIANTARG* pvaOut
+){
     HRESULT hr = S_OK;
     if (pguidCmdGroup && IsEqualGUID(*pguidCmdGroup, CGID_DocHostCommandHandler))
     {
@@ -138,7 +161,7 @@ STDMETHODIMP CHTMLBrowserHost::Exec(const GUID* pguidCmdGroup, DWORD nCmdID, DWO
                     SysFreeString(rgwszNames[i]);
                 }
 
-                vboxlog_msg(
+                browserlog_msg(
                     "Show Script Error:\n"
                     "    URL: %S\n"
                     "    Message: %S\n"
@@ -166,5 +189,5 @@ STDMETHODIMP CHTMLBrowserHost::Exec(const GUID* pguidCmdGroup, DWORD nCmdID, DWO
     {
         hr = OLECMDERR_E_UNKNOWNGROUP;
     }
-    return (hr);
+    return hr;
 }

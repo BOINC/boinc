@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2010-2012 University of California
+// Copyright (C) 2010-2015 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -19,7 +19,6 @@
 #include "boinc_win.h"
 #include "win_util.h"
 #else
-#include <vector>
 #include <sys/wait.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -29,29 +28,39 @@
 #include <unistd.h>
 #endif
 
-
-#include "version.h"
-#include "boinc_api.h"
-#include "diagnostics.h"
-#include "vboxlogging.h"
+#include "browserlog.h"
 
 
-extern int run(int, char**);
-
-int main(int argc, char** argv) {
+int browserlog_msg(const char *fmt, ...) {
     int retval = 0;
+    int n = 0;
+    char buf[256];
+    int pid;
+    struct tm tm;
+    struct tm *tmp = &tm;
+    va_list ap;
 
-    // Initialize diagnostic system
-    //
-    boinc_init_graphics_diagnostics(BOINC_DIAG_DEFAULTS);
+    if (fmt == NULL) return 0;
 
-    // Log banner
-    //
-    vboxlog_msg("vboxhtmlgfx (%d.%d.%d): starting", BOINC_MAJOR_VERSION, BOINC_MINOR_VERSION, VBOXWRAPPER_RELEASE);
+    time_t x = time(0);
 
-    retval = run(argc, argv);
+#ifdef _WIN32
+    pid = GetCurrentProcessId();
+    localtime_s(&tm, &x);
+#else
+    pid = getpid();
+    localtime_r(&x, &tm);
+#endif
 
-    boinc_finish_diag();
+    strftime(buf, sizeof(buf)-1, "%Y-%m-%d %H:%M:%S", &tm);
+    fprintf(stderr, "%s (%d): ", buf, pid);
+
+    va_start(ap, fmt);
+    retval = vfprintf(stderr, fmt, ap);
+    va_end(ap);
+
+    fprintf(stderr, "\n");
+
     return retval;
 }
 

@@ -32,9 +32,8 @@
 #include "boinc_api.h"
 #include "diagnostics.h"
 #include "filesys.h"
-#include "vboxhtmlgfx_win.h"
-#include "vboxlogging.h"
-#include "vboxcheckpoint.h"
+#include "browser_win.h"
+#include "browserlog.h"
 #include "browserctrl_win.h"
 #include "browserwnd_win.h"
 #include "browsermain_win.h"
@@ -154,7 +153,7 @@ HRESULT CBrowserModule::PostMessageLoop() throw()
 int CBrowserModule::BOINCParseCommandLine(int argc, char** argv) {
     for (int i=1; i<argc; i++) {
         if (!strcmp(argv[i], "--fullscreen")) {
-            vboxlog_msg("Fullscreen mode requested.");
+            browserlog_msg("Fullscreen mode requested.");
             m_bFullscreen = true;
         }
     }

@@ -15,29 +15,9 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _VBOXCHECKPOINT_H_
-#define _VBOXCHECKPOINT_H_
+#ifndef _BROWSERLOG_H_
+#define _BROWSERLOG_H_
 
-
-#define CHECKPOINT_FILENAME "vbox_checkpoint.xml"
-#define PORTFORWARD_FILENAME "vbox_port_forward.xml"
-#define REMOTEDESKTOP_FILENAME "vbox_remote_desktop.xml"
-
-
-class VBOX_CHECKPOINT {
-public:
-    VBOX_CHECKPOINT();
-    ~VBOX_CHECKPOINT();
-
-    void clear();
-    int parse();
-    int write();
-    int update(double elapsed_time, double cpu_time);
-
-    double elapsed_time;
-    double cpu_time;
-    int webapi_port;
-    int remote_desktop_port;
-};
+extern int browserlog_msg(const char *fmt, ...);
 
 #endif

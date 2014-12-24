@@ -1,6 +1,6 @@
 // Microsoft Visual C++ generated resource script.
 //
-#include "vboxhtmlgfx_win.h"
+#include "browser_win.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
@@ -55,12 +55,12 @@ BEGIN
         BLOCK "040904b0"
         BEGIN
             VALUE "CompanyName", "Space Sciences Laboratory"
-            VALUE "FileDescription", "BOINC VirtualBox Wrapper Graphics"
+            VALUE "FileDescription", "BOINC HTML Graphics"
             VALUE "FileVersion", VER_TOSTR(BOINC_MAJOR_VERSION, BOINC_MINOR_VERSION, WRAPPER_RELEASE)
-            VALUE "InternalName", "vboxhtmlgfx"
+            VALUE "InternalName", "htmlgfx"
             VALUE "LegalCopyright", "© 2011-2014 University of California"
-            VALUE "OriginalFilename", "vboxhtmlgfx.exe"
-            VALUE "ProductName", "BOINC VirtualBox Wrapper Graphics"
+            VALUE "OriginalFilename", "htmlgfx.exe"
+            VALUE "ProductName", "BOINC HTML Graphics"
             VALUE "ProductVersion", VER_TOSTR(BOINC_MAJOR_VERSION, BOINC_MINOR_VERSION, WRAPPER_RELEASE)
         END
     END
@@ -74,22 +74,6 @@ END
 //
 // Bitmap
 //
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Dialog
-//
-
-IDD_BROWSER DIALOGEX 0, 0, 327, 199
-STYLE DS_SETFONT | DS_FIXEDSYS | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_CLIPCHILDREN | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
-EXSTYLE WS_EX_APPWINDOW
-CAPTION "BOINC Application"
-FONT 8, "MS Shell Dlg"
-BEGIN
-    CONTROL         "",IDC_IE,"{8856F961-340A-11D0-A96B-00C04FD705A2}",
-                    WS_GROUP | WS_TABSTOP,0,0,198,106
-END
-
 
 /////////////////////////////////////////////////////////////////////////////
 //

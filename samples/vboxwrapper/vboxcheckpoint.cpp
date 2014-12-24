@@ -110,34 +110,31 @@ int VBOX_CHECKPOINT::write() {
 
     // Write webapi info to disk
     //
-    f = boinc_fopen(PORTFORWARD_FILENAME, "w");
-    mf.init_file(f);
-
-    mf.printf(
-        "<port_forwarding>\n"
-        "  <rule>\n"
-        "    <host_port>%d</host_port>\n"
-        "    <guest_port>80</guest_port>\n"
-        "  </rule>\n"
-        "</port_forwarding>\n",
-        webapi_port
-    );
-
-    fclose(f);
+    if (!boinc_file_exists(WEBAPI_FILENAME)) {
+        f = boinc_fopen(WEBAPI_FILENAME, "w");
+        mf.init_file(f);
+        mf.printf(
+            "<webapi>\n"
+            "  <host_port>%d</host_port>\n"
+            "</webapi>\n",
+            webapi_port
+        );
+        fclose(f);
+    }
 
     // Write remote desktop info to disk
     //
-    f = boinc_fopen(REMOTEDESKTOP_FILENAME, "w");
-    mf.init_file(f);
-
-    mf.printf(
-        "<remote_desktop>\n"
-        "  <host_port>%d</host_port>\n"
-        "</remote_desktop>\n",
-        remote_desktop_port
-    );
-
-    fclose(f);
+    if (!boinc_file_exists(REMOTEDESKTOP_FILENAME)) {
+        f = boinc_fopen(REMOTEDESKTOP_FILENAME, "w");
+        mf.init_file(f);
+        mf.printf(
+            "<remote_desktop>\n"
+            "  <host_port>%d</host_port>\n"
+            "</remote_desktop>\n",
+            remote_desktop_port
+        );
+        fclose(f);
+    }
 
     return 0;
 }
