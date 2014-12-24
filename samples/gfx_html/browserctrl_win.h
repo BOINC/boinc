@@ -19,10 +19,59 @@
 #define _BROWSERCTRL_WIN_H_
 
 /////////////////////////////////////////////////////////////////////////////
+// CHTMLBrowserHostUI class
+
+class ATL_NO_VTABLE CHTMLBrowserHostUI :
+	public IDispatchImpl<IHTMLBrowserHostUI, &IID_IHTMLBrowserHostUI, &LIBID_HTMLGfxLib, 0xFFFF, 0xFFFF>,
+	public CComObjectRootEx<CComSingleThreadModel>
+{
+BEGIN_COM_MAP(CHTMLBrowserHostUI)
+	COM_INTERFACE_ENTRY(IHTMLBrowserHostUI)
+	COM_INTERFACE_ENTRY(IDispatch)
+END_COM_MAP()
+public:
+	DECLARE_PROTECT_FINAL_CONSTRUCT()
+
+	HRESULT FinalConstruct();
+	void FinalRelease();
+
+    STDMETHOD(Log)(BSTR strMessage);
+    STDMETHOD(get_IsScreensaver)(BOOL* pVal);
+    STDMETHOD(put_IsScreensaver)(BOOL newVal);
+    STDMETHOD(get_WorkunitName)(BSTR* pVal);
+    STDMETHOD(put_WorkunitName)(BSTR newVal);
+    STDMETHOD(get_ResultName)(BSTR* pVal);
+    STDMETHOD(put_ResultName)(BSTR newVal);
+    STDMETHOD(get_TeamName)(BSTR* pVal);
+    STDMETHOD(put_TeamName)(BSTR newVal);
+    STDMETHOD(get_UserName)(BSTR* pVal);
+    STDMETHOD(put_UserName)(BSTR newVal);
+    STDMETHOD(get_UserCreditTotal)(DOUBLE* pVal);
+    STDMETHOD(put_UserCreditTotal)(DOUBLE newVal);
+    STDMETHOD(get_UserCreditAverage)(DOUBLE* pVal);
+    STDMETHOD(put_UserCreditAverage)(DOUBLE newVal);
+    STDMETHOD(get_HostCreditTotal)(DOUBLE* pVal);
+    STDMETHOD(put_HostCreditTotal)(DOUBLE newVal);
+    STDMETHOD(get_HostCreditAverage)(DOUBLE* pVal);
+    STDMETHOD(put_HostCreditAverage)(DOUBLE newVal);
+
+    BOOL m_bScreensaver;
+    CComBSTR m_strWorkunitName;
+    CComBSTR m_strResultName;
+    CComBSTR m_strTeamName;
+    CComBSTR m_strUserName;
+    double m_dUserCreditTotal;
+    double m_dUserCreditAverage;
+    double m_dHostCreditTotal;
+    double m_dHostCreditAverage;
+};
+
+/////////////////////////////////////////////////////////////////////////////
 // CHTMLBrowserHost class
 
 class ATL_NO_VTABLE CHTMLBrowserHost :
     public CAxHostWindow,
+	public IDispatchImpl<IHTMLBrowserHost, &IID_IHTMLBrowserHost, &LIBID_HTMLGfxLib, 0xFFFF, 0xFFFF>,
     public IDocHostShowUI,
     public IOleCommandTarget
 {
@@ -33,6 +82,7 @@ public:
     DECLARE_GET_CONTROLLING_UNKNOWN()
 
     BEGIN_COM_MAP(CHTMLBrowserHost)
+	    COM_INTERFACE_ENTRY(IHTMLBrowserHost)
         COM_INTERFACE_ENTRY(IDocHostShowUI)
         COM_INTERFACE_ENTRY(IOleCommandTarget)
         COM_INTERFACE_ENTRY_CHAIN(CAxHostWindow)
@@ -42,8 +92,9 @@ public:
     static CWndClassInfo& GetWndClassInfo();
 
 
-    HWND Create(HWND hWndParent, _U_RECT rect = NULL, LPCTSTR szWindowName = NULL, DWORD dwStyle = 0, DWORD dwExStyle = 0, _U_MENUorID MenuOrID = 0U, LPVOID lpCreateParam = NULL);
+	HRESULT FinalConstruct();
 	void FinalRelease();
+    HWND Create(HWND hWndParent, _U_RECT rect = NULL, LPCTSTR szWindowName = NULL, DWORD dwStyle = 0, DWORD dwExStyle = 0, _U_MENUorID MenuOrID = 0U, LPVOID lpCreateParam = NULL);
 
 
     // COM Interface - IDocHostShowUI

@@ -114,7 +114,7 @@
       <Optimization>MaxSpeed</Optimization>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
-      <AdditionalIncludeDirectories>.;../;../api;../lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;../;$(IntDir);../api;../lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_MT;_CONSOLE;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>false</StringPooling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
@@ -135,7 +135,7 @@
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <Culture>0x0409</Culture>
-      <AdditionalIncludeDirectories>..\..\boinc_depends_win_vs2010\wxwidgets\include;..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(IntDir);..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
       <AdditionalDependencies>libcmt.lib;libcpmt.lib;atls.lib;comsuppw.lib;kernel32.lib;user32.lib;gdi32.lib;ole32.lib;wsock32.lib;psapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -165,7 +165,7 @@
       <Optimization>MaxSpeed</Optimization>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
-      <AdditionalIncludeDirectories>.;../;../api;../lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;../;$(IntDir);../api;../lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_MT;_CONSOLE;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>false</StringPooling>
       <ExceptionHandling>Sync</ExceptionHandling>
@@ -187,7 +187,7 @@
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <Culture>0x0409</Culture>
-      <AdditionalIncludeDirectories>..\..\boinc_depends_win_vs2010\wxwidgets\include;..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(IntDir);..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
       <AdditionalDependencies>libcmt.lib;libcpmt.lib;atls.lib;comsuppw.lib;kernel32.lib;user32.lib;gdi32.lib;ole32.lib;wsock32.lib;psapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -215,7 +215,7 @@
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>.;../;../api;../lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;../;$(IntDir);../api;../lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_MT;_CONSOLE;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -235,7 +235,7 @@
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <Culture>0x0409</Culture>
-      <AdditionalIncludeDirectories>..\..\boinc_depends_win_vs2010\wxwidgets\include;..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(IntDir);..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
       <AdditionalDependencies>libcmtd.lib;libcpmtd.lib;atlsd.lib;comsuppwd.lib;kernel32.lib;user32.lib;gdi32.lib;ole32.lib;psapi.lib;wsock32.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -263,7 +263,7 @@
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>.;../;../api;../lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;../;$(IntDir);../api;../lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_MT;_CONSOLE;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -283,7 +283,7 @@
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <Culture>0x0409</Culture>
-      <AdditionalIncludeDirectories>..\..\boinc_depends_win_vs2010\wxwidgets\include;..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(IntDir);..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
       <AdditionalDependencies>libcmtd.lib;libcpmtd.lib;atlsd.lib;comsuppwd.lib;kernel32.lib;user32.lib;gdi32.lib;ole32.lib;wsock32.lib;psapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -330,6 +330,28 @@
     <None Include="..\samples\gfx_html\res\default_win.htm">
       <DeploymentContent>true</DeploymentContent>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Midl Include="..\samples\gfx_html\browser.idl">
+      <MkTypLibCompatible Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</MkTypLibCompatible>
+      <MkTypLibCompatible Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</MkTypLibCompatible>
+      <MkTypLibCompatible Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</MkTypLibCompatible>
+      <MkTypLibCompatible Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</MkTypLibCompatible>
+      <TypeLibraryName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">browser.tlb</TypeLibraryName>
+      <TypeLibraryName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">browser.tlb</TypeLibraryName>
+      <TypeLibraryName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">browser.tlb</TypeLibraryName>
+      <TypeLibraryName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">browser.tlb</TypeLibraryName>
+      <OutputDirectory Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)</OutputDirectory>
+      <HeaderFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">browser_i.h</HeaderFileName>
+      <DllDataFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </DllDataFileName>
+      <OutputDirectory Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)</OutputDirectory>
+      <OutputDirectory Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)</OutputDirectory>
+      <OutputDirectory Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)</OutputDirectory>
+      <HeaderFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">browser_i.h</HeaderFileName>
+      <HeaderFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">browser_i.h</HeaderFileName>
+      <HeaderFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">browser_i.h</HeaderFileName>
+    </Midl>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -26,11 +26,12 @@
     var Woffset = 0;
     var yon = 0;
     var xon = 0;
-    var xPos = 20;
-    var yPos = document.body.clientHeight;
+    var xPos = 0;
+    var yPos = 0;
 
     interval = setInterval('refresh()', delay);
-    
+    window.external.Log("This is a test...");
+
     function refresh() {
         width = document.body.clientWidth;
         height = document.body.clientHeight;

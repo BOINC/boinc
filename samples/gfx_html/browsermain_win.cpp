@@ -32,6 +32,8 @@
 #include "boinc_api.h"
 #include "diagnostics.h"
 #include "filesys.h"
+#include "browser_i.h"
+#include "browser_i.c"
 #include "browser_win.h"
 #include "browserlog.h"
 #include "browserctrl_win.h"

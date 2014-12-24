@@ -33,15 +33,11 @@
 #include "boinc_api.h"
 #include "diagnostics.h"
 #include "filesys.h"
+#include "browser_i.h"
 #include "browser_win.h"
 #include "browserlog.h"
 #include "browserctrl_win.h"
 #include "browserwnd_win.h"
-
-
-#ifdef _MSC_VER
-#define snprintf _snprintf
-#endif
 
 
 CHTMLBrowserWnd::CHTMLBrowserWnd()
@@ -105,7 +101,7 @@ LRESULT CHTMLBrowserWnd::OnCreate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL&
     ATLASSERT(m_pBrowserHost->m_hWnd != NULL);
 
     // Create Control
-    m_pBrowserHost->CreateControlEx(
+    hr = m_pBrowserHost->CreateControlEx(
         L"Shell.Explorer",
         m_pBrowserHost->m_hWnd,
         NULL,
@@ -113,6 +109,7 @@ LRESULT CHTMLBrowserWnd::OnCreate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL&
         __uuidof(DWebBrowserEvents2),
         (IUnknown*)(IDispEventImpl<1, CHTMLBrowserWnd, &__uuidof(DWebBrowserEvents2), &LIBID_SHDocVw, 1, 1>*)this
     );
+
 
     // Get an IWebBrowser2 interface on the control and navigate to a page.
     m_pBrowserCtrl = pCtrl;
@@ -156,6 +153,5 @@ LRESULT CHTMLBrowserWnd::OnSize(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& b
 
 void CHTMLBrowserWnd::OnNavigateComplete(IDispatch* pDisp, VARIANT* URL)
 {
-    browserlog_msg("URL Change Detected. (%S)", URL->bstrVal);
 }
 

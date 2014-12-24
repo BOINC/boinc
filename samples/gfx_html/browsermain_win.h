@@ -25,6 +25,7 @@ class CHTMLBrowserWnd;
 class CBrowserModule : public ATL::CAtlExeModuleT<CBrowserModule>
 {
 public:
+	DECLARE_LIBID(LIBID_HTMLGfxLib)
 
 	CBrowserModule();
 

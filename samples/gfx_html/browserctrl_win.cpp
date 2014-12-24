@@ -32,9 +32,139 @@
 #include "boinc_api.h"
 #include "diagnostics.h"
 #include "filesys.h"
+#include "browser_i.h"
 #include "browser_win.h"
 #include "browserlog.h"
 #include "browserctrl_win.h"
+
+
+HRESULT CHTMLBrowserHostUI::FinalConstruct()
+{
+    bool m_bScreensaver = false;
+    double m_dUserCreditTotal = 0.0;
+    double m_dUserCreditAverage = 0.0;
+    double m_dHostCreditTotal = 0.0;
+    double m_dHostCreditAverage = 0.0;
+	return S_OK;
+}
+
+void CHTMLBrowserHostUI::FinalRelease()
+{
+}
+
+STDMETHODIMP CHTMLBrowserHostUI::Log(BSTR strMessage)
+{
+    browserlog_msg("%S", strMessage);
+    return S_OK;
+}
+
+STDMETHODIMP CHTMLBrowserHostUI::get_IsScreensaver(BOOL* pVal)
+{
+    *pVal = m_bScreensaver;
+    return S_OK;
+}
+
+STDMETHODIMP CHTMLBrowserHostUI::put_IsScreensaver(BOOL newVal)
+{
+    m_bScreensaver = newVal;
+    return S_OK;
+}
+
+STDMETHODIMP CHTMLBrowserHostUI::get_WorkunitName(BSTR* pVal)
+{
+    *pVal = m_strWorkunitName;
+    return S_OK;
+}
+
+STDMETHODIMP CHTMLBrowserHostUI::put_WorkunitName(BSTR newVal)
+{
+    m_strWorkunitName = newVal;
+    return S_OK;
+}
+
+STDMETHODIMP CHTMLBrowserHostUI::get_ResultName(BSTR* pVal)
+{
+    *pVal = m_strResultName;
+    return S_OK;
+}
+
+STDMETHODIMP CHTMLBrowserHostUI::put_ResultName(BSTR newVal)
+{
+    m_strResultName = newVal;
+    return S_OK;
+}
+
+STDMETHODIMP CHTMLBrowserHostUI::get_TeamName(BSTR* pVal)
+{
+    *pVal = m_strTeamName;
+    return S_OK;
+}
+
+STDMETHODIMP CHTMLBrowserHostUI::put_TeamName(BSTR newVal)
+{
+    m_strTeamName = newVal;
+    return S_OK;
+}
+
+STDMETHODIMP CHTMLBrowserHostUI::get_UserName(BSTR* pVal)
+{
+    *pVal = m_strUserName;
+    return S_OK;
+}
+
+STDMETHODIMP CHTMLBrowserHostUI::put_UserName(BSTR newVal)
+{
+    m_strUserName = newVal;
+    return S_OK;
+}
+
+STDMETHODIMP CHTMLBrowserHostUI::get_UserCreditTotal(DOUBLE* pVal)
+{
+    *pVal = m_dUserCreditTotal;
+    return S_OK;
+}
+
+STDMETHODIMP CHTMLBrowserHostUI::put_UserCreditTotal(DOUBLE newVal)
+{
+    m_dUserCreditTotal = newVal;
+    return S_OK;
+}
+
+STDMETHODIMP CHTMLBrowserHostUI::get_UserCreditAverage(DOUBLE* pVal)
+{
+    *pVal = m_dUserCreditAverage;
+    return S_OK;
+}
+
+STDMETHODIMP CHTMLBrowserHostUI::put_UserCreditAverage(DOUBLE newVal)
+{
+    m_dUserCreditAverage = newVal;
+    return S_OK;
+}
+
+STDMETHODIMP CHTMLBrowserHostUI::get_HostCreditTotal(DOUBLE* pVal)
+{
+    *pVal = m_dHostCreditTotal;
+    return S_OK;
+}
+
+STDMETHODIMP CHTMLBrowserHostUI::put_HostCreditTotal(DOUBLE newVal)
+{
+    m_dHostCreditTotal = newVal;
+    return S_OK;
+}
+
+STDMETHODIMP CHTMLBrowserHostUI::get_HostCreditAverage(DOUBLE* pVal)
+{
+    *pVal = m_dHostCreditAverage;
+    return S_OK;
+}
+
+STDMETHODIMP CHTMLBrowserHostUI::put_HostCreditAverage(DOUBLE newVal)
+{
+    m_dHostCreditAverage = newVal;
+    return S_OK;
+}
 
 
 CWndClassInfo& CHTMLBrowserHost::GetWndClassInfo()
@@ -45,6 +175,27 @@ CWndClassInfo& CHTMLBrowserHost::GetWndClassInfo()
         NULL, NULL, IDC_ARROW, TRUE, 0, _T("")
     };
     return wc;
+}
+
+HRESULT CHTMLBrowserHost::FinalConstruct()
+{
+    HRESULT hr;
+
+    // Create an dispatch interface to extend the HTML Document Object Model
+    //
+    CComObject<CHTMLBrowserHostUI> *pObject = NULL;
+    hr = CComObject<CHTMLBrowserHostUI>::CreateInstance(&pObject);
+    if (SUCCEEDED(hr) && pObject != NULL)
+    {
+    	SetExternalDispatch((IHTMLBrowserHostUI*)pObject);
+    }
+
+	return hr;
+}
+
+void CHTMLBrowserHost::FinalRelease()
+{
+	ReleaseAll();
 }
 
 HWND CHTMLBrowserHost::Create(
@@ -67,19 +218,14 @@ HWND CHTMLBrowserHost::Create(
     dwStyle = GetWndStyle(dwStyle);
     dwExStyle = GetWndExStyle(dwExStyle);
 
-    // set caption
+    // Set Caption
     if (szWindowName == NULL)
     {
         szWindowName = GetWndCaption();
     }
 
-    // create window
+    // Create window
     return CWindow::Create((LPCTSTR)atom, hWndParent, rect, szWindowName, dwStyle, dwExStyle, MenuOrID, lpCreateParam);
-}
-
-void CHTMLBrowserHost::FinalRelease()
-{
-	ReleaseAll();
 }
 
 

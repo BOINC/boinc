@@ -1,0 +1,68 @@
+// browser.idl : IDL source for browser
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (browser.tlb) and marshalling code.
+
+#include "olectl.h"
+import "oaidl.idl";
+import "ocidl.idl";
+
+[
+	object,
+	uuid(D9E4A0D0-60F6-444C-93BC-7F3DF3281305),
+	dual,
+	nonextensible,
+	pointer_default(unique)
+]
+interface IHTMLBrowserHost : IDispatch{
+};
+
+[
+	object, 
+	dual,
+	nonextensible,
+	uuid(5CDAD774-B53F-46C1-A725-E3655CEEDFFB),	
+	pointer_default(unique)
+]
+interface IHTMLBrowserHostUI : IDispatch
+{
+    [id(1)] HRESULT Log([in] BSTR strMessage);
+    [propget, id(2)] HRESULT IsScreensaver([out, retval] BOOL* pVal);
+    [propput, id(2)] HRESULT IsScreensaver([in] BOOL newVal);
+    [propget, id(3)] HRESULT WorkunitName([out, retval] BSTR* pVal);
+    [propput, id(3)] HRESULT WorkunitName([in] BSTR newVal);
+    [propget, id(4)] HRESULT ResultName([out, retval] BSTR* pVal);
+    [propput, id(4)] HRESULT ResultName([in] BSTR newVal);
+    [propget, id(5)] HRESULT TeamName([out, retval] BSTR* pVal);
+    [propput, id(5)] HRESULT TeamName([in] BSTR newVal);
+    [propget, id(6)] HRESULT UserName([out, retval] BSTR* pVal);
+    [propput, id(6)] HRESULT UserName([in] BSTR newVal);
+    [propget, id(7)] HRESULT UserCreditTotal([out, retval] DOUBLE* pVal);
+    [propput, id(7)] HRESULT UserCreditTotal([in] DOUBLE newVal);
+    [propget, id(8)] HRESULT UserCreditAverage([out, retval] DOUBLE* pVal);
+    [propput, id(8)] HRESULT UserCreditAverage([in] DOUBLE newVal);
+    [propget, id(9)] HRESULT HostCreditTotal([out, retval] DOUBLE* pVal);
+    [propput, id(9)] HRESULT HostCreditTotal([in] DOUBLE newVal);
+    [propget, id(10)] HRESULT HostCreditAverage([out, retval] DOUBLE* pVal);
+    [propput, id(10)] HRESULT HostCreditAverage([in] DOUBLE newVal);
+};
+
+[
+	uuid(E734A057-9667-44EB-BC7D-313D535BADD5),
+	version(1.0),
+]
+library HTMLGfxLib
+{
+	importlib("stdole2.tlb");
+	[
+		uuid(34357DF4-7921-4B0E-B681-DA2AE2AEE419),		
+		control
+	]
+	coclass HTMLBrowser
+	{
+		[default] interface IHTMLBrowserHost;
+		interface IHTMLBrowserHostUI;
+	};
+};
+
