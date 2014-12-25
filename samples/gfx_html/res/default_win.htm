@@ -5,13 +5,15 @@
 <body style="background-color:Black">
 
 <div align="center" id="content" style="position:absolute;">
-    <table>
+    <table cellspacing="5px">
         <tr>
             <td>
                 <img src="boinc.png">
             </td>
             <td valign="top" style="width:250px;height:64px">
-                <p style="color:White">Loading...</p>
+                <div id="username_container" style="color:White"></div>
+                <div id="teamname_container" style="color:White"></div>
+                <div id="loading_container" style="color:White">Loading...</div>
             </td>
         </tr>
     </table>
@@ -28,11 +30,17 @@
     var xon = 0;
     var xPos = 0;
     var yPos = 0;
+    var s_username = window.external.UserName;
+    var s_teamname = window.external.TeamName;
 
-    interval = setInterval('refresh()', delay);
-    window.external.Log("This is a test...");
+    window.external.Log("Javascript Detected: User Name = '" + s_username + "'");
+    window.external.Log("Javascript Detected: Team Name = '" + s_teamname + "'");
 
     function refresh() {
+        update_positions();
+    }
+
+    function update_positions() {
         width = document.body.clientWidth;
         height = document.body.clientHeight;
         Hoffset = content.offsetHeight;
@@ -69,6 +77,28 @@
             xPos = (width - Woffset);
         }
     }
+
+    if (s_username.length > 0) {
+        username_container.style.visibility = "visible";
+        username_container.innerHTML = "User: " + s_username;
+    } else {
+        username_container.style.visibility = "hidden";
+    }
+
+    if (s_teamname.length > 0) {
+        teamname_container.style.visibility = "visible";
+        username_container.innerHTML = "Team: " + s_teamname;
+    } else {
+        teamname_container.style.visibility = "hidden";
+    }
+
+    if (username_container.style.visibility == "hidden") {
+        loading_container.style.visibility = "visible";
+    } else {
+        loading_container.style.visibility = "hidden";
+    }
+
+    interval = setInterval('refresh()', delay);
 </script>
 </body>
 </html>

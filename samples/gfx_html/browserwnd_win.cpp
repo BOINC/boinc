@@ -36,6 +36,7 @@
 #include "browser_i.h"
 #include "browser_win.h"
 #include "browserlog.h"
+#include "browserctrlui_win.h"
 #include "browserctrl_win.h"
 #include "browserwnd_win.h"
 
@@ -68,7 +69,7 @@ LRESULT CHTMLBrowserWnd::OnCreate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL&
 	RECT rcClient;
     TCHAR szExecutable[MAX_PATH];
     CComPtr<IUnknown> pCtrl;
-    CComVariant v;
+
 
     // Load Icon Resources
     m_hIcon = (HICON)::LoadImage(
@@ -98,7 +99,7 @@ LRESULT CHTMLBrowserWnd::OnCreate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL&
     // Create Control Window
 	GetClientRect(&rcClient);
     m_pBrowserHost->Create(m_hWnd, rcClient, NULL, WS_CHILD | WS_VISIBLE);
-    ATLASSERT(m_pBrowserHost->m_hWnd != NULL);
+    ATLASSERT(m_pBrowserHost->IsWindow());
 
     // Create Control
     hr = m_pBrowserHost->CreateControlEx(
@@ -110,21 +111,35 @@ LRESULT CHTMLBrowserWnd::OnCreate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL&
         (IUnknown*)(IDispEventImpl<1, CHTMLBrowserWnd, &__uuidof(DWebBrowserEvents2), &LIBID_SHDocVw, 1, 1>*)this
     );
 
-
     // Get an IWebBrowser2 interface on the control and navigate to a page.
     m_pBrowserCtrl = pCtrl;
 
-    if (m_pBrowserCtrl) {
-        GetModuleFileName(NULL, szExecutable, sizeof(szExecutable));
+    // Configure the Embedded URL
+    GetModuleFileName(NULL, szExecutable, sizeof(szExecutable));
+    m_strEmbeddedURL += "res://";
+    m_strEmbeddedURL += szExecutable;
+    m_strEmbeddedURL += "/default_win.htm";
 
-        // Construct Windows resource reference
-        //
-        m_strDefaultURL += "res://";
-        m_strDefaultURL += szExecutable;
-        m_strDefaultURL += "/default_win.htm";
+    // Query for the IHTMLBrowserHostUI interface so we can setup the browser with
+    // information that doesn't change very much.
+    CComQIPtr<IHTMLBrowserHostUI> pHostUI;
+    hr = m_pBrowserHost->GetExternal((IDispatch**)&pHostUI);
 
-        m_pBrowserCtrl->Navigate(m_strDefaultURL, &v, &v, &v, &v);
-    }
+    // Set the static information
+    pHostUI->put_IsScreensaver(m_bScreensaverMode);
+    pHostUI->put_ApplicationName(CComBSTR(aid.app_name));
+    pHostUI->put_ApplicationVersion(aid.app_version);
+    pHostUI->put_WorkunitName(CComBSTR(aid.wu_name));
+    pHostUI->put_ResultName(CComBSTR(aid.result_name));
+    pHostUI->put_UserName(CComBSTR(aid.user_name));
+    pHostUI->put_TeamName(CComBSTR(aid.team_name));
+    pHostUI->put_UserCreditTotal(aid.user_total_credit);
+    pHostUI->put_UserCreditAverage(aid.user_expavg_credit);
+    pHostUI->put_HostCreditTotal(aid.host_total_credit);
+    pHostUI->put_HostCreditAverage(aid.host_expavg_credit);
+
+    // Show something to the user
+    NavigateToStateURL(true);
 
     bHandled = TRUE;
 	return 0;
@@ -138,15 +153,15 @@ LRESULT CHTMLBrowserWnd::OnClose(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& 
 	return 0;
 }
 
-LRESULT CHTMLBrowserWnd::OnTimer(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
+LRESULT CHTMLBrowserWnd::OnSize(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
 {
+    m_pBrowserHost->MoveWindow(0, 0, LOWORD(lParam), HIWORD(lParam));
 	bHandled = TRUE;
 	return 0;
 }
 
-LRESULT CHTMLBrowserWnd::OnSize(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
+LRESULT CHTMLBrowserWnd::OnTimer(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
 {
-    m_pBrowserHost->MoveWindow(0, 0, LOWORD(lParam), HIWORD(lParam));
 	bHandled = TRUE;
 	return 0;
 }
@@ -155,3 +170,33 @@ void CHTMLBrowserWnd::OnNavigateComplete(IDispatch* pDisp, VARIANT* URL)
 {
 }
 
+void CHTMLBrowserWnd::NavigateToStateURL(bool bForce)
+{
+    CComBSTR bstr;
+    CComVariant v;
+    
+    // Start out with the default URL
+    bstr = m_strDefaultURL;
+
+    // See if we need to override the default
+    if        (status.abort_request || status.quit_request || status.no_heartbeat) {
+        bstr = m_strQuitURL;
+    } else if (status.suspended) {
+        bstr = m_strSuspendedURL;
+    } else if (status.network_suspended) {
+        bstr = m_strNetworkSuspendedURL;
+    } else {
+        bstr = m_strRunningURL;
+    }
+
+    // If nothing has been approved to the point, use the embedded HTML page
+    if (bstr.Length() == 0) {
+        bstr = m_strEmbeddedURL;
+    }
+
+    // Navigate to URL
+    if ((m_strCurrentURL != bstr) || bForce) {
+        m_strCurrentURL = bstr;
+        m_pBrowserCtrl->Navigate(bstr, &v, &v, &v, &v);
+    }
+}

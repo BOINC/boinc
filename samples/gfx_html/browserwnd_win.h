@@ -33,8 +33,8 @@ public:
     BEGIN_MSG_MAP(CHTMLBrowserWnd)
 	    MESSAGE_HANDLER(WM_CREATE, OnCreate)
 	    MESSAGE_HANDLER(WM_CLOSE, OnClose)
-	    MESSAGE_HANDLER(WM_TIMER, OnTimer)
 	    MESSAGE_HANDLER(WM_SIZE, OnSize)
+	    MESSAGE_HANDLER(WM_TIMER, OnTimer)
     END_MSG_MAP()
 
     CHTMLBrowserWnd();
@@ -49,15 +49,30 @@ public:
     // HTML Browser Events
     void OnNavigateComplete(IDispatch* pDisp, VARIANT* URL);
 
+    //
+    void NavigateToStateURL(bool bForce);
+
 
     CComObject<CHTMLBrowserHost>* m_pBrowserHost;
     CComQIPtr<IWebBrowser2> m_pBrowserCtrl;
-    CComBSTR m_strDefaultURL;
-
-    bool m_bScreensaverMode;
 
     HICON m_hIcon;
     HICON m_hIconSmall;
+
+    APP_INIT_DATA aid;
+    BOINC_STATUS old_status;
+    BOINC_STATUS status;
+    double m_dCPUTime;
+    double m_dElapsedTime;
+    double m_dFractionDone;
+    bool m_bScreensaverMode;
+    CComBSTR m_strCurrentURL;
+    CComBSTR m_strEmbeddedURL;
+    CComBSTR m_strDefaultURL;
+    CComBSTR m_strRunningURL;
+    CComBSTR m_strSuspendedURL;
+    CComBSTR m_strNetworkSuspendedURL;
+    CComBSTR m_strQuitURL;
 };
 
 #endif

@@ -67,7 +67,6 @@ HRESULT CBrowserModule::PreMessageLoop(int nShowCmd) throw()
     RECT rc = {0, 0, 0, 0};
     DWORD dwExStyle = 0;
     DWORD dwStyle = 0;
-    APP_INIT_DATA aid;
     char szWindowTitle[256];
 
 
@@ -83,23 +82,35 @@ HRESULT CBrowserModule::PreMessageLoop(int nShowCmd) throw()
     // Prepare environment for detecting system conditions
     //
     boinc_parse_init_data_file();
-    boinc_get_init_data(aid);
+
+    // Create Window Container
+    //
+    m_pWnd = new CHTMLBrowserWnd();
+	if (m_pWnd == NULL)
+	{
+		__super::PostMessageLoop();
+		return E_OUTOFMEMORY;
+	}
+
+    // Store a copy of APP_INIT_DATA for future use
+    boinc_get_init_data(m_pWnd->aid);
 
     // Construct the window caption
-    if (aid.app_version) {
+    if (m_pWnd->aid.app_version) {
         snprintf(
             szWindowTitle, sizeof(szWindowTitle),
             "%s version %.2f [workunit: %s]",
-            aid.app_name, aid.app_version/100.0, aid.wu_name
+            m_pWnd->aid.app_name, m_pWnd->aid.app_version/100.0, m_pWnd->aid.wu_name
         );
     } else {
         snprintf(
             szWindowTitle, sizeof(szWindowTitle),
             "%s [workunit: %s]",
-            aid.app_name, aid.wu_name
+            m_pWnd->aid.app_name, m_pWnd->aid.wu_name
         );
     }
 
+    // Determine window size and placement
     if (m_bFullscreen) {
 
         HDC dc = GetDC(NULL);
@@ -126,13 +137,8 @@ HRESULT CBrowserModule::PreMessageLoop(int nShowCmd) throw()
 
     }
 
-    m_pWnd = new CHTMLBrowserWnd();
-	if (m_pWnd == NULL)
-	{
-		__super::PostMessageLoop();
-		return E_OUTOFMEMORY;
-	}
-
+    // Create Window
+    //
 	m_pWnd->Create(GetDesktopWindow(), rc, szWindowTitle, dwStyle, dwExStyle);
 	m_pWnd->ShowWindow(nShowCmd);
 
