@@ -26,6 +26,7 @@
 #include <AtlTypes.h>
 #include <exdisp.h>
 #include <exdispid.h>
+#include <mshtml.h>
 #include <string>
 #include "win_util.h"
 #include "version.h"
@@ -51,12 +52,6 @@ HRESULT CHTMLBrowserHostUI::FinalConstruct()
 
 void CHTMLBrowserHostUI::FinalRelease()
 {
-}
-
-STDMETHODIMP CHTMLBrowserHostUI::Log(BSTR strMessage)
-{
-    browserlog_msg("%S", strMessage);
-    return S_OK;
 }
 
 STDMETHODIMP CHTMLBrowserHostUI::get_IsScreensaver(BOOL* pVal)

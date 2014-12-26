@@ -27,7 +27,6 @@ interface IHTMLBrowserHost : IDispatch{
 ]
 interface IHTMLBrowserHostUI : IDispatch
 {
-    [id(1)] HRESULT Log([in] BSTR strMessage);
     [propget, id(2)] HRESULT IsScreensaver([out, retval] BOOL* pVal);
     [propput, id(2)] HRESULT IsScreensaver([in] BOOL newVal);
     [propget, id(3)] HRESULT ApplicationName([out, retval] BSTR* pVal);

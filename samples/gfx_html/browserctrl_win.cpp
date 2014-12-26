@@ -39,6 +39,15 @@
 #include "browserctrl_win.h"
 
 
+#ifdef __IDeveloperConsoleMessageReceiver_INTERNAL__
+
+// New for IE10
+#define IDM_ADDCONSOLEMESSAGERECEIVER     3800
+#define IDM_REMOVECONSOLEMESSAGERECEIVER  3801
+
+#endif
+
+
 CWndClassInfo& CHTMLBrowserHost::GetWndClassInfo()
 {
     static CWndClassInfo wc =
@@ -51,22 +60,37 @@ CWndClassInfo& CHTMLBrowserHost::GetWndClassInfo()
 
 HRESULT CHTMLBrowserHost::FinalConstruct()
 {
-    HRESULT hr;
-
-    // Create an dispatch interface to extend the HTML Document Object Model
-    //
-    CComObject<CHTMLBrowserHostUI> *pObject = NULL;
-    hr = CComObject<CHTMLBrowserHostUI>::CreateInstance(&pObject);
-    if (SUCCEEDED(hr) && pObject != NULL)
-    {
-    	SetExternalDispatch((IHTMLBrowserHostUI*)pObject);
-    }
-
-	return hr;
+    return S_OK;
 }
 
 void CHTMLBrowserHost::FinalRelease()
 {
+    HRESULT hr;
+
+    // Unregister the developer console message receiver
+    //
+    CComPtr<IUnknown> pBrowser;
+    hr = QueryControl(__uuidof(IWebBrowser2), (void**)&pBrowser);
+    if (SUCCEEDED(hr))
+    {
+        CComPtr<IDispatch> spDocDisp;
+        CComPtr<IWebBrowser2> spWebBrowser;
+        spWebBrowser = pBrowser;
+        hr = spWebBrowser->get_Document(&spDocDisp);
+        if (SUCCEEDED(hr))
+        {
+            CComQIPtr<IOleCommandTarget> spOleCommandTarget(spDocDisp);
+            spOleCommandTarget->Exec(
+                &CGID_MSHTML,
+                IDM_REMOVECONSOLEMESSAGERECEIVER,
+                OLECMDEXECOPT_DODEFAULT,
+                &varConsoleCookie,
+                NULL
+            );
+        }
+    }
+
+    SetExternalDispatch(NULL);
 	ReleaseAll();
 }
 
@@ -100,6 +124,88 @@ HWND CHTMLBrowserHost::Create(
     return CWindow::Create((LPCTSTR)atom, hWndParent, rect, szWindowName, dwStyle, dwExStyle, MenuOrID, lpCreateParam);
 }
 
+STDMETHODIMP CHTMLBrowserHost::CreateControlEx(
+    LPCOLESTR lpszTricsData, HWND hWnd, IStream* pStream, IUnknown** ppUnk, REFIID iidAdvise, IUnknown* punkSink
+){
+    HRESULT hr = CreateControlLicEx(lpszTricsData, hWnd, pStream, ppUnk, iidAdvise, punkSink, NULL);
+    HRESULT hr2;
+
+    if (SUCCEEDED(hr))
+    {
+        CComPtr<IWebBrowser2> spWebBrowser;
+        CComPtr<IUnknown> pBrowser;
+        hr = QueryControl(__uuidof(IWebBrowser2), (void**)&pBrowser);
+        if (SUCCEEDED(hr) && pBrowser != NULL)
+        {
+            CComVariant v;
+            CComVariant url("http://www.romwnet.org/");
+
+            spWebBrowser = pBrowser;
+            spWebBrowser->Navigate2(&url, &v, &v, &v, &v);
+
+            // Register to receive the developer console message receiver events
+            // javascript: 'window.console'
+            //
+            CComPtr<IUnknown> pConsole;
+            hr = QueryInterface(__uuidof(IDeveloperConsoleMessageReceiver), (void**)&pConsole);
+            if (SUCCEEDED(hr))
+            {
+                CComPtr<IDispatch> spDocDisp;
+                CComVariant varListener(pConsole);
+                spWebBrowser = pBrowser;
+                hr = spWebBrowser->get_Document(&spDocDisp);
+                if (SUCCEEDED(hr))
+                {
+                    CComQIPtr<IOleCommandTarget> spOleCommandTarget(spDocDisp);
+                    hr = spOleCommandTarget->Exec(
+                        &CGID_MSHTML,
+                        IDM_ADDCONSOLEMESSAGERECEIVER,
+                        OLECMDEXECOPT_DODEFAULT,
+                        &varListener,
+                        &varConsoleCookie
+                    );
+                }
+            }
+        }
+
+        // Register a custom interface to extend the HTML Document Object Model
+        // javascript: 'window.external'
+        //
+        CComObject<CHTMLBrowserHostUI> *pObject = NULL;
+        hr = CComObject<CHTMLBrowserHostUI>::CreateInstance(&pObject);
+        if (SUCCEEDED(hr) && pObject != NULL)
+        {
+    	    SetExternalDispatch((IHTMLBrowserHostUI*)pObject);
+        }
+    }
+
+	return hr;
+}
+
+
+STDMETHODIMP CHTMLBrowserHost::Write(
+    LPCWSTR source, DEV_CONSOLE_MESSAGE_LEVEL level, int messageId, LPCWSTR messageText
+){
+    return E_NOTIMPL;
+}
+
+STDMETHODIMP CHTMLBrowserHost::WriteWithUrl(
+    LPCWSTR source, DEV_CONSOLE_MESSAGE_LEVEL level, int messageId, LPCWSTR messageText, LPCWSTR fileUrl
+){
+    return E_NOTIMPL;
+}
+
+STDMETHODIMP CHTMLBrowserHost::WriteWithUrlAndLine(
+    LPCWSTR source, DEV_CONSOLE_MESSAGE_LEVEL level, int messageId, LPCWSTR messageText, LPCWSTR fileUrl, ULONG line
+){
+    return E_NOTIMPL;
+}
+
+STDMETHODIMP CHTMLBrowserHost::WriteWithUrlLineAndColumn(
+    LPCWSTR source, DEV_CONSOLE_MESSAGE_LEVEL level, int messageId, LPCWSTR messageText, LPCWSTR fileUrl, ULONG line, ULONG column
+){
+    return E_NOTIMPL;
+}
 
 STDMETHODIMP CHTMLBrowserHost::ShowMessage(
     HWND hwnd, LPOLESTR lpstrText, LPOLESTR lpstrCaption, DWORD dwType, LPOLESTR lpstrHelpFile, DWORD dwHelpContext, LRESULT *plResult

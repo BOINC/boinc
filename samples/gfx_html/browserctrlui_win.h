@@ -22,8 +22,8 @@
 // CHTMLBrowserHostUI class
 
 class ATL_NO_VTABLE CHTMLBrowserHostUI :
-	public IDispatchImpl<IHTMLBrowserHostUI, &IID_IHTMLBrowserHostUI, &LIBID_HTMLGfxLib, 0xFFFF, 0xFFFF>,
-	public CComObjectRootEx<CComSingleThreadModel>
+	public CComObjectRootEx<CComSingleThreadModel>,
+	public IDispatchImpl<IHTMLBrowserHostUI, &IID_IHTMLBrowserHostUI, &LIBID_HTMLGfxLib, 0xFFFF, 0xFFFF>
 {
 BEGIN_COM_MAP(CHTMLBrowserHostUI)
 	COM_INTERFACE_ENTRY(IHTMLBrowserHostUI)
@@ -35,7 +35,6 @@ public:
 	HRESULT FinalConstruct();
 	void FinalRelease();
 
-    STDMETHOD(Log)(BSTR strMessage);
     STDMETHOD(get_IsScreensaver)(BOOL* pVal);
     STDMETHOD(put_IsScreensaver)(BOOL newVal);
     STDMETHOD(get_ApplicationName)(BSTR* pVal);
