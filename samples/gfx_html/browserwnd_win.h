@@ -27,7 +27,6 @@ public:
     DECLARE_NO_REGISTRY();
 
     BEGIN_SINK_MAP(CHTMLBrowserWnd)
-        SINK_ENTRY_EX(1, __uuidof(DWebBrowserEvents2), DISPID_NAVIGATECOMPLETE2, OnNavigateComplete)
         SINK_ENTRY_EX(1, __uuidof(DWebBrowserEvents2), DISPID_NEWPROCESS, OnNewProcess)
         SINK_ENTRY_EX(1, __uuidof(DWebBrowserEvents2), DISPID_NEWWINDOW2, OnNewWindow2)
         SINK_ENTRY_EX(1, __uuidof(DWebBrowserEvents2), DISPID_NEWWINDOW3, OnNewWindow3)
@@ -50,7 +49,6 @@ public:
     LRESULT OnSize(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
 
     // HTML Browser Events
-    STDMETHOD_(void, OnNavigateComplete)(IDispatch* pDisp, VARIANT* URL);
     STDMETHOD_(void, OnNewProcess)(LONG lCauseFlag, IDispatch* pDisp, VARIANT_BOOL* pCancel);
     STDMETHOD_(void, OnNewWindow2)(IDispatch** ppDisp, VARIANT_BOOL* pCancel);
     STDMETHOD_(void, OnNewWindow3)(IDispatch** ppDisp, VARIANT_BOOL* pCancel, DWORD dwFlags, BSTR bstrUrlContext, BSTR bstrUrl);
@@ -67,6 +65,7 @@ public:
 
     APP_INIT_DATA aid;
     BOINC_STATUS status;
+    double m_dUpdateTime;
     double m_dCPUTime;
     double m_dElapsedTime;
     double m_dFractionDone;
@@ -77,7 +76,7 @@ public:
     CComBSTR m_strRunningURL;
     CComBSTR m_strSuspendedURL;
     CComBSTR m_strNetworkSuspendedURL;
-    CComBSTR m_strQuitURL;
+    CComBSTR m_strExitingURL;
 };
 
 #endif

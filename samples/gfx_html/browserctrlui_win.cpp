@@ -41,12 +41,20 @@
 
 HRESULT CHTMLBrowserHostUI::FinalConstruct()
 {
+    m_bAppInitDataUpdated = false;
     m_bScreensaver = false;
+    m_bSuspended = false;
+    m_bNetworkSuspended = false;
+    m_bExiting = false;
     m_lApplicationVersion = 0;
     m_dUserCreditTotal = 0.0;
     m_dUserCreditAverage = 0.0;
     m_dHostCreditTotal = 0.0;
     m_dHostCreditAverage = 0.0;
+    m_dExitCountdown = 0.0;
+    m_dCPUTime = 0.0;
+    m_dElapsedTime = 0.0;
+    m_dFractionDone = 0.0;
 	return S_OK;
 }
 
@@ -54,15 +62,63 @@ void CHTMLBrowserHostUI::FinalRelease()
 {
 }
 
-STDMETHODIMP CHTMLBrowserHostUI::get_IsScreensaver(BOOL* pVal)
+STDMETHODIMP CHTMLBrowserHostUI::IsAppInitDataUpdated(BOOL *pVal)
+{
+    *pVal = m_bAppInitDataUpdated;
+    return S_OK;
+}
+
+STDMETHODIMP CHTMLBrowserHostUI::SetAppInitDataUpdate(BOOL newVal)
+{
+    m_bAppInitDataUpdated = newVal;
+    return S_OK;
+}
+
+STDMETHODIMP CHTMLBrowserHostUI::IsScreensaver(BOOL *pVal)
 {
     *pVal = m_bScreensaver;
     return S_OK;
 }
 
-STDMETHODIMP CHTMLBrowserHostUI::put_IsScreensaver(BOOL newVal)
+STDMETHODIMP CHTMLBrowserHostUI::SetScreensaver(BOOL newVal)
 {
     m_bScreensaver = newVal;
+    return S_OK;
+}
+
+STDMETHODIMP CHTMLBrowserHostUI::IsSuspended(BOOL *pVal)
+{
+    *pVal = m_bSuspended;
+    return S_OK;
+}
+
+STDMETHODIMP CHTMLBrowserHostUI::SetSuspended(BOOL newVal)
+{
+    m_bSuspended = newVal;
+    return S_OK;
+}
+
+STDMETHODIMP CHTMLBrowserHostUI::IsNetworkSuspended(BOOL *pVal)
+{
+    *pVal = m_bNetworkSuspended;
+    return S_OK;
+}
+
+STDMETHODIMP CHTMLBrowserHostUI::SetNetworkSuspended(BOOL newVal)
+{
+    m_bNetworkSuspended = newVal;
+    return S_OK;
+}
+
+STDMETHODIMP CHTMLBrowserHostUI::IsExiting(BOOL *pVal)
+{
+    *pVal = m_bExiting;
+    return S_OK;
+}
+
+STDMETHODIMP CHTMLBrowserHostUI::SetExiting(BOOL newVal)
+{
+    m_bExiting = newVal;
     return S_OK;
 }
 
@@ -183,5 +239,53 @@ STDMETHODIMP CHTMLBrowserHostUI::get_HostCreditAverage(DOUBLE* pVal)
 STDMETHODIMP CHTMLBrowserHostUI::put_HostCreditAverage(DOUBLE newVal)
 {
     m_dHostCreditAverage = newVal;
+    return S_OK;
+}
+
+STDMETHODIMP CHTMLBrowserHostUI::get_ExitCountdown(DOUBLE *pVal)
+{
+    *pVal = m_dExitCountdown;
+    return S_OK;
+}
+
+STDMETHODIMP CHTMLBrowserHostUI::put_ExitCountdown(DOUBLE newVal)
+{
+    m_dExitCountdown = newVal;
+    return S_OK;
+}
+
+STDMETHODIMP CHTMLBrowserHostUI::get_CPUTime(DOUBLE *pVal)
+{
+    *pVal = m_dCPUTime;
+    return S_OK;
+}
+
+STDMETHODIMP CHTMLBrowserHostUI::put_CPUTime(DOUBLE newVal)
+{
+    m_dCPUTime = newVal;
+    return S_OK;
+}
+
+STDMETHODIMP CHTMLBrowserHostUI::get_ElapsedTime(DOUBLE *pVal)
+{
+    *pVal = m_dElapsedTime;
+    return S_OK;
+}
+
+STDMETHODIMP CHTMLBrowserHostUI::put_ElapsedTime(DOUBLE newVal)
+{
+    m_dElapsedTime = newVal;
+    return S_OK;
+}
+
+STDMETHODIMP CHTMLBrowserHostUI::get_FractionDone(DOUBLE *pVal)
+{
+    *pVal = m_dFractionDone;
+    return S_OK;
+}
+
+STDMETHODIMP CHTMLBrowserHostUI::put_FractionDone(DOUBLE newVal)
+{
+    m_dFractionDone = newVal;
     return S_OK;
 }

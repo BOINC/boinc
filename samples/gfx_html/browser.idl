@@ -27,28 +27,44 @@ interface IHTMLBrowserHost : IDispatch{
 ]
 interface IHTMLBrowserHostUI : IDispatch
 {
-    [propget, id(2)] HRESULT IsScreensaver([out, retval] BOOL* pVal);
-    [propput, id(2)] HRESULT IsScreensaver([in] BOOL newVal);
-    [propget, id(3)] HRESULT ApplicationName([out, retval] BSTR* pVal);
-    [propput, id(3)] HRESULT ApplicationName([in] BSTR newVal);
-    [propget, id(4)] HRESULT ApplicationVersion([out, retval] LONG* pVal);
-    [propput, id(4)] HRESULT ApplicationVersion([in] LONG newVal);
-    [propget, id(5)] HRESULT WorkunitName([out, retval] BSTR* pVal);
-    [propput, id(5)] HRESULT WorkunitName([in] BSTR newVal);
-    [propget, id(6)] HRESULT ResultName([out, retval] BSTR* pVal);
-    [propput, id(6)] HRESULT ResultName([in] BSTR newVal);
-    [propget, id(7)] HRESULT TeamName([out, retval] BSTR* pVal);
-    [propput, id(7)] HRESULT TeamName([in] BSTR newVal);
-    [propget, id(8)] HRESULT UserName([out, retval] BSTR* pVal);
-    [propput, id(8)] HRESULT UserName([in] BSTR newVal);
-    [propget, id(9)] HRESULT UserCreditTotal([out, retval] DOUBLE* pVal);
-    [propput, id(9)] HRESULT UserCreditTotal([in] DOUBLE newVal);
-    [propget, id(10)] HRESULT UserCreditAverage([out, retval] DOUBLE* pVal);
-    [propput, id(10)] HRESULT UserCreditAverage([in] DOUBLE newVal);
-    [propget, id(11)] HRESULT HostCreditTotal([out, retval] DOUBLE* pVal);
-    [propput, id(11)] HRESULT HostCreditTotal([in] DOUBLE newVal);
-    [propget, id(12)] HRESULT HostCreditAverage([out, retval] DOUBLE* pVal);
-    [propput, id(12)] HRESULT HostCreditAverage([in] DOUBLE newVal);
+    HRESULT IsAppInitDataUpdated([out, retval] BOOL* pVal);
+    HRESULT SetAppInitDataUpdate([in] BOOL newVal);
+    HRESULT IsScreensaver([out, retval] BOOL* pVal);
+    HRESULT SetScreensaver([in] BOOL newVal);
+    HRESULT IsSuspended([out, retval] BOOL* pVal);
+    HRESULT SetSuspended([in] BOOL newVal);
+    HRESULT IsNetworkSuspended([out, retval] BOOL* pVal);
+    HRESULT SetNetworkSuspended([in] BOOL newVal);
+    HRESULT IsExiting([out, retval] BOOL* pVal);
+    HRESULT SetExiting([in] BOOL newVal);
+    [propget, id(1)] HRESULT ApplicationName([out, retval] BSTR* pVal);
+    [propput, id(1)] HRESULT ApplicationName([in] BSTR newVal);
+    [propget, id(2)] HRESULT ApplicationVersion([out, retval] LONG* pVal);
+    [propput, id(2)] HRESULT ApplicationVersion([in] LONG newVal);
+    [propget, id(3)] HRESULT WorkunitName([out, retval] BSTR* pVal);
+    [propput, id(3)] HRESULT WorkunitName([in] BSTR newVal);
+    [propget, id(4)] HRESULT ResultName([out, retval] BSTR* pVal);
+    [propput, id(4)] HRESULT ResultName([in] BSTR newVal);
+    [propget, id(5)] HRESULT TeamName([out, retval] BSTR* pVal);
+    [propput, id(5)] HRESULT TeamName([in] BSTR newVal);
+    [propget, id(6)] HRESULT UserName([out, retval] BSTR* pVal);
+    [propput, id(6)] HRESULT UserName([in] BSTR newVal);
+    [propget, id(7)] HRESULT UserCreditTotal([out, retval] DOUBLE* pVal);
+    [propput, id(7)] HRESULT UserCreditTotal([in] DOUBLE newVal);
+    [propget, id(8)] HRESULT UserCreditAverage([out, retval] DOUBLE* pVal);
+    [propput, id(8)] HRESULT UserCreditAverage([in] DOUBLE newVal);
+    [propget, id(9)] HRESULT HostCreditTotal([out, retval] DOUBLE* pVal);
+    [propput, id(9)] HRESULT HostCreditTotal([in] DOUBLE newVal);
+    [propget, id(10)] HRESULT HostCreditAverage([out, retval] DOUBLE* pVal);
+    [propput, id(10)] HRESULT HostCreditAverage([in] DOUBLE newVal);
+    [propget, id(11)] HRESULT ExitCountdown([out, retval] DOUBLE* pVal);
+    [propput, id(11)] HRESULT ExitCountdown([in] DOUBLE newVal);
+    [propget, id(12)] HRESULT CPUTime([out, retval] DOUBLE* pVal);
+    [propput, id(12)] HRESULT CPUTime([in] DOUBLE newVal);
+    [propget, id(13)] HRESULT ElapsedTime([out, retval] DOUBLE* pVal);
+    [propput, id(13)] HRESULT ElapsedTime([in] DOUBLE newVal);
+    [propget, id(14)] HRESULT FractionDone([out, retval] DOUBLE* pVal);
+    [propput, id(14)] HRESULT FractionDone([in] DOUBLE newVal);
 };
 
 [

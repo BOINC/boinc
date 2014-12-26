@@ -35,8 +35,16 @@ public:
 	HRESULT FinalConstruct();
 	void FinalRelease();
 
-    STDMETHOD(get_IsScreensaver)(BOOL* pVal);
-    STDMETHOD(put_IsScreensaver)(BOOL newVal);
+    STDMETHOD(IsAppInitDataUpdated)(BOOL *pVal);
+    STDMETHOD(SetAppInitDataUpdate)(BOOL newVal);
+    STDMETHOD(IsScreensaver)(BOOL *pVal);
+    STDMETHOD(SetScreensaver)(BOOL newVal);
+    STDMETHOD(IsSuspended)(BOOL *pVal);
+    STDMETHOD(SetSuspended)(BOOL newVal);
+    STDMETHOD(IsNetworkSuspended)(BOOL *pVal);
+    STDMETHOD(SetNetworkSuspended)(BOOL newVal);
+    STDMETHOD(IsExiting)(BOOL *pVal);
+    STDMETHOD(SetExiting)(BOOL newVal);
     STDMETHOD(get_ApplicationName)(BSTR* pVal);
     STDMETHOD(put_ApplicationName)(BSTR newVal);
     STDMETHOD(get_ApplicationVersion)(LONG* pVal);
@@ -57,8 +65,21 @@ public:
     STDMETHOD(put_HostCreditTotal)(DOUBLE newVal);
     STDMETHOD(get_HostCreditAverage)(DOUBLE* pVal);
     STDMETHOD(put_HostCreditAverage)(DOUBLE newVal);
+    STDMETHOD(get_ExitCountdown)(DOUBLE *pVal);
+    STDMETHOD(put_ExitCountdown)(DOUBLE newVal);
+    STDMETHOD(get_CPUTime)(DOUBLE *pVal);
+    STDMETHOD(put_CPUTime)(DOUBLE newVal);
+    STDMETHOD(get_ElapsedTime)(DOUBLE *pVal);
+    STDMETHOD(put_ElapsedTime)(DOUBLE newVal);
+    STDMETHOD(get_FractionDone)(DOUBLE *pVal);
+    STDMETHOD(put_FractionDone)(DOUBLE newVal);
 
+
+    BOOL m_bAppInitDataUpdated;
     BOOL m_bScreensaver;
+    BOOL m_bSuspended;
+    BOOL m_bNetworkSuspended;
+    BOOL m_bExiting;
     CComBSTR m_strApplicationName;
     LONG m_lApplicationVersion;
     CComBSTR m_strWorkunitName;
@@ -69,6 +90,10 @@ public:
     double m_dUserCreditAverage;
     double m_dHostCreditTotal;
     double m_dHostCreditAverage;
+    double m_dExitCountdown;
+    double m_dCPUTime;
+    double m_dElapsedTime;
+    double m_dFractionDone;
 };
 
 #endif

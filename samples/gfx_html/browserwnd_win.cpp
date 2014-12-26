@@ -28,6 +28,7 @@
 #include <exdispid.h>
 #include <stdlib.h>
 #include <string>
+#include "util.h"
 #include "win_util.h"
 #include "version.h"
 #include "boinc_api.h"
@@ -46,6 +47,19 @@ CHTMLBrowserWnd::CHTMLBrowserWnd()
     m_pBrowserHost = NULL;
     m_hIcon = NULL;
     m_hIconSmall = NULL;
+
+    aid.clear();
+    status.abort_request = 0;
+    status.no_heartbeat = 0;
+    status.quit_request = 0;
+    status.reread_init_data_file = 0;
+    status.suspended = 0;
+    status.network_suspended = 0;
+    m_dUpdateTime = 0.0;
+    m_dCPUTime = 0.0;
+    m_dElapsedTime = 0.0;
+    m_dFractionDone = 0.0;
+    m_bScreensaverMode = false;
 }
 
 CHTMLBrowserWnd::~CHTMLBrowserWnd()
@@ -84,8 +98,8 @@ LRESULT CHTMLBrowserWnd::OnCreate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL&
         _AtlBaseModule.GetResourceInstance(),
         MAKEINTRESOURCE(IDI_ICON),
         IMAGE_ICON,
-        ::GetSystemMetrics(SM_CXSMICON),
-        ::GetSystemMetrics(SM_CYSMICON),
+        GetSystemMetrics(SM_CXSMICON),
+        GetSystemMetrics(SM_CYSMICON),
         LR_DEFAULTCOLOR);
     ATLASSERT(m_hIconSmall);
 
@@ -120,26 +134,14 @@ LRESULT CHTMLBrowserWnd::OnCreate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL&
     m_strEmbeddedURL += szExecutable;
     m_strEmbeddedURL += "/default_win.htm";
 
-    // Query for the IHTMLBrowserHostUI interface so we can setup the browser with
-    // information that doesn't change very much.
-    CComQIPtr<IHTMLBrowserHostUI> pHostUI;
-    hr = m_pBrowserHost->GetExternal((IDispatch**)&pHostUI);
-
-    // Set the static information
-    pHostUI->put_IsScreensaver(m_bScreensaverMode);
-    pHostUI->put_ApplicationName(CComBSTR(aid.app_name));
-    pHostUI->put_ApplicationVersion(aid.app_version);
-    pHostUI->put_WorkunitName(CComBSTR(aid.wu_name));
-    pHostUI->put_ResultName(CComBSTR(aid.result_name));
-    pHostUI->put_UserName(CComBSTR(aid.user_name));
-    pHostUI->put_TeamName(CComBSTR(aid.team_name));
-    pHostUI->put_UserCreditTotal(aid.user_total_credit);
-    pHostUI->put_UserCreditAverage(aid.user_expavg_credit);
-    pHostUI->put_HostCreditTotal(aid.host_total_credit);
-    pHostUI->put_HostCreditAverage(aid.host_expavg_credit);
+    // Stage rereading of all the state files
+    status.reread_init_data_file = true;
 
     // Show something to the user
     NavigateToStateURL(true);
+
+    // Start the timer
+    SetTimer(1, 1000);
 
     bHandled = TRUE;
 	return 0;
@@ -147,8 +149,9 @@ LRESULT CHTMLBrowserWnd::OnCreate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL&
 
 LRESULT CHTMLBrowserWnd::OnClose(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
 {
+    KillTimer(1);
     DestroyWindow();
-    ::PostQuitMessage(0);
+    PostQuitMessage(0);
 	bHandled = TRUE;
 	return 0;
 }
@@ -162,14 +165,69 @@ LRESULT CHTMLBrowserWnd::OnSize(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& b
 
 LRESULT CHTMLBrowserWnd::OnTimer(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
 {
+    int retval;
+    HRESULT hr;
+    BOOL bExitStatus;
+    CComQIPtr<IHTMLBrowserHostUI> pHostUI;
+
+    retval = boinc_parse_graphics_status(
+        &m_dUpdateTime,
+        &m_dCPUTime,
+        &m_dElapsedTime,
+        &m_dFractionDone,
+        &status
+    );
+    if (!retval)
+    {
+        // Query for the IHTMLBrowserHostUI interface so we can setup the browser with
+        // information that doesn't change very much.
+        //
+        hr = m_pBrowserHost->GetExternal((IDispatch**)&pHostUI);
+        if (SUCCEEDED(hr) && pHostUI.p)
+        {
+            bExitStatus = status.abort_request || status.no_heartbeat || status.quit_request;
+
+            pHostUI->SetSuspended(status.suspended);
+            pHostUI->SetNetworkSuspended(status.network_suspended);
+            pHostUI->SetExiting(bExitStatus);
+            if (bExitStatus) pHostUI->put_ExitCountdown(dtime() - m_dUpdateTime);
+            else pHostUI->put_ExitCountdown(0.0);
+            pHostUI->put_CPUTime(m_dCPUTime);
+            pHostUI->put_ElapsedTime(m_dElapsedTime);
+            pHostUI->put_FractionDone(m_dFractionDone);
+
+            if (status.reread_init_data_file)
+            {
+                // Get updated state
+                //
+                boinc_parse_init_data_file();
+                boinc_get_init_data(aid);
+
+                // Inform the HTML Document DOM about the state changes
+                //
+                pHostUI->SetAppInitDataUpdate(TRUE);
+                pHostUI->SetScreensaver(m_bScreensaverMode);
+                pHostUI->put_ApplicationName(CComBSTR(aid.app_name));
+                pHostUI->put_ApplicationVersion(aid.app_version);
+                pHostUI->put_WorkunitName(CComBSTR(aid.wu_name));
+                pHostUI->put_ResultName(CComBSTR(aid.result_name));
+                pHostUI->put_UserName(CComBSTR(aid.user_name));
+                pHostUI->put_TeamName(CComBSTR(aid.team_name));
+                pHostUI->put_UserCreditTotal(aid.user_total_credit);
+                pHostUI->put_UserCreditAverage(aid.user_expavg_credit);
+                pHostUI->put_HostCreditTotal(aid.host_total_credit);
+                pHostUI->put_HostCreditAverage(aid.host_expavg_credit);
+            }
+        }
+    }
+
+    // Switch to the correct URL
+    NavigateToStateURL(false);
+
 	bHandled = TRUE;
 	return 0;
 }
 
-
-STDMETHODIMP_(void) CHTMLBrowserWnd::OnNavigateComplete(IDispatch* pDisp, VARIANT* URL)
-{
-}
 
 STDMETHODIMP_(void) CHTMLBrowserWnd::OnNewProcess(LONG lCauseFlag, IDispatch* pDisp, VARIANT_BOOL* pCancel)
 {
@@ -197,7 +255,7 @@ void CHTMLBrowserWnd::NavigateToStateURL(bool bForce)
 
     // See if we need to override the default
     if        (status.abort_request || status.quit_request || status.no_heartbeat) {
-        bstr = m_strQuitURL;
+        bstr = m_strExitingURL;
     } else if (status.suspended) {
         bstr = m_strSuspendedURL;
     } else if (status.network_suspended) {
