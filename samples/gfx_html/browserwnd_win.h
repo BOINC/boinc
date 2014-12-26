@@ -28,6 +28,9 @@ public:
 
     BEGIN_SINK_MAP(CHTMLBrowserWnd)
         SINK_ENTRY_EX(1, __uuidof(DWebBrowserEvents2), DISPID_NAVIGATECOMPLETE2, OnNavigateComplete)
+        SINK_ENTRY_EX(1, __uuidof(DWebBrowserEvents2), DISPID_NEWPROCESS, OnNewProcess)
+        SINK_ENTRY_EX(1, __uuidof(DWebBrowserEvents2), DISPID_NEWWINDOW2, OnNewWindow2)
+        SINK_ENTRY_EX(1, __uuidof(DWebBrowserEvents2), DISPID_NEWWINDOW3, OnNewWindow3)
     END_SINK_MAP()
 
     BEGIN_MSG_MAP(CHTMLBrowserWnd)
@@ -47,7 +50,10 @@ public:
     LRESULT OnSize(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
 
     // HTML Browser Events
-    void OnNavigateComplete(IDispatch* pDisp, VARIANT* URL);
+    STDMETHOD_(void, OnNavigateComplete)(IDispatch* pDisp, VARIANT* URL);
+    STDMETHOD_(void, OnNewProcess)(LONG lCauseFlag, IDispatch* pDisp, VARIANT_BOOL* pCancel);
+    STDMETHOD_(void, OnNewWindow2)(IDispatch** ppDisp, VARIANT_BOOL* pCancel);
+    STDMETHOD_(void, OnNewWindow3)(IDispatch** ppDisp, VARIANT_BOOL* pCancel, DWORD dwFlags, BSTR bstrUrlContext, BSTR bstrUrl);
 
     //
     void NavigateToStateURL(bool bForce);
@@ -60,7 +66,6 @@ public:
     HICON m_hIconSmall;
 
     APP_INIT_DATA aid;
-    BOINC_STATUS old_status;
     BOINC_STATUS status;
     double m_dCPUTime;
     double m_dElapsedTime;

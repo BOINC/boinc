@@ -166,9 +166,26 @@ LRESULT CHTMLBrowserWnd::OnTimer(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& 
 	return 0;
 }
 
-void CHTMLBrowserWnd::OnNavigateComplete(IDispatch* pDisp, VARIANT* URL)
+
+STDMETHODIMP_(void) CHTMLBrowserWnd::OnNavigateComplete(IDispatch* pDisp, VARIANT* URL)
 {
 }
+
+STDMETHODIMP_(void) CHTMLBrowserWnd::OnNewProcess(LONG lCauseFlag, IDispatch* pDisp, VARIANT_BOOL* pCancel)
+{
+    *pCancel = TRUE;
+}
+
+STDMETHODIMP_(void) CHTMLBrowserWnd::OnNewWindow2(IDispatch** ppDisp, VARIANT_BOOL* pCancel)
+{
+    *pCancel = TRUE;
+}
+
+STDMETHODIMP_(void) CHTMLBrowserWnd::OnNewWindow3(IDispatch** ppDisp, VARIANT_BOOL* pCancel, DWORD dwFlags, BSTR bstrUrlContext, BSTR bstrUrl)
+{
+    *pCancel = TRUE;
+}
+
 
 void CHTMLBrowserWnd::NavigateToStateURL(bool bForce)
 {
