@@ -868,6 +868,9 @@ int main(int argc, char** argv) {
         // Discover the VM's current state
         pVM->poll();
 
+        // Write updates for the graphics application's use 
+        boinc_write_graphics_status(current_cpu_time, elapsed_time, fraction_done);
+
         if (boinc_status.no_heartbeat || boinc_status.quit_request) {
             pVM->reset_vm_process_priority();
             pVM->poweroff();
