@@ -138,7 +138,7 @@ STDMETHODIMP CHTMLBrowserHost::CreateControlEx(
         if (SUCCEEDED(hr) && pBrowser != NULL)
         {
             CComVariant v;
-            CComVariant url("http://www.romwnet.org/");
+            CComVariant url("about:blank");
 
             spWebBrowser = pBrowser;
             spWebBrowser->Navigate2(&url, &v, &v, &v, &v);
