@@ -87,7 +87,12 @@ CDlgDiagnosticLogFlags::CDlgDiagnosticLogFlags(wxWindow* parent) :
 
     m_headingSizer->Add(m_heading, 1, wxLEFT | wxRIGHT, 25);
 
-    wxString helpURL = wxT("http://boinc.berkeley.edu/manager_links.php?target=notice&controlid=log_flags");
+    wxString strURL = pSkinAdvanced->GetOrganizationHelpUrl();
+    wxString helpURL;
+    helpURL.Printf(
+            wxT("%s?target=notice&controlid=log_flags"),
+            strURL.c_str()
+        );
 
      m_headingSizer->Add(
         new wxHyperlinkCtrl(
