@@ -128,7 +128,6 @@ STDMETHODIMP CHTMLBrowserHost::CreateControlEx(
     LPCOLESTR lpszTricsData, HWND hWnd, IStream* pStream, IUnknown** ppUnk, REFIID iidAdvise, IUnknown* punkSink
 ){
     HRESULT hr = CreateControlLicEx(lpszTricsData, hWnd, pStream, ppUnk, iidAdvise, punkSink, NULL);
-    HRESULT hr2;
 
     if (SUCCEEDED(hr))
     {
@@ -183,28 +182,58 @@ STDMETHODIMP CHTMLBrowserHost::CreateControlEx(
 }
 
 
+LPCWSTR MapMessageLevel(DEV_CONSOLE_MESSAGE_LEVEL level)
+{
+    switch(level)
+    {
+    case DCML_WARNING: return L"WARNING";
+    case DCML_ERROR: return L"ERROR";
+    case DCML_INFORMATIONAL:
+    default: return L"INFO";
+    }
+}
+
 STDMETHODIMP CHTMLBrowserHost::Write(
     LPCWSTR source, DEV_CONSOLE_MESSAGE_LEVEL level, int messageId, LPCWSTR messageText
 ){
-    return E_NOTIMPL;
+    browserlog_msg(
+        "Console: (%S) (%S%d) %S",
+        MapMessageLevel(level), source, messageId, messageText
+    );
+    return S_OK;
 }
 
 STDMETHODIMP CHTMLBrowserHost::WriteWithUrl(
     LPCWSTR source, DEV_CONSOLE_MESSAGE_LEVEL level, int messageId, LPCWSTR messageText, LPCWSTR fileUrl
 ){
-    return E_NOTIMPL;
+    browserlog_msg(
+        "Console: (%S) (%S%d) %S\n"
+        "    File: %S",
+        MapMessageLevel(level), source, messageId, messageText, fileUrl
+    );
+    return S_OK;
 }
 
 STDMETHODIMP CHTMLBrowserHost::WriteWithUrlAndLine(
     LPCWSTR source, DEV_CONSOLE_MESSAGE_LEVEL level, int messageId, LPCWSTR messageText, LPCWSTR fileUrl, ULONG line
 ){
-    return E_NOTIMPL;
+    browserlog_msg(
+        "Console: (%S) (%S%d) %S\n"
+        "    File: %S, Line: %d",
+        MapMessageLevel(level), source, messageId, messageText, fileUrl, line
+    );
+    return S_OK;
 }
 
 STDMETHODIMP CHTMLBrowserHost::WriteWithUrlLineAndColumn(
     LPCWSTR source, DEV_CONSOLE_MESSAGE_LEVEL level, int messageId, LPCWSTR messageText, LPCWSTR fileUrl, ULONG line, ULONG column
 ){
-    return E_NOTIMPL;
+    browserlog_msg(
+        "Console: (%S) (%S%d) %S\n"
+        "    File: %S, Line: %d, Column: %d",
+        MapMessageLevel(level), source, messageId, messageText, fileUrl, line, column
+    );
+    return S_OK;
 }
 
 STDMETHODIMP CHTMLBrowserHost::ShowMessage(
