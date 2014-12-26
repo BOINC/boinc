@@ -1142,6 +1142,12 @@ int main(int argc, char** argv) {
                 check_trickle_period();
             }
 
+            boinc_write_graphics_status(
+                task.starting_cpu + cpu_time,
+                checkpoint_cpu_time + task.elapsed_time,
+                frac_done + task.weight/total_weight
+            );
+
             boinc_sleep(POLL_PERIOD);
             if (!task.suspended) {
                 task.elapsed_time += POLL_PERIOD;
