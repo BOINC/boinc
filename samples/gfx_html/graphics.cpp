@@ -32,6 +32,7 @@
 #include "parse.h"
 #include "filesys.h"
 #include "boinc_api.h"
+#include "app_ipc.h"
 #include "browserlog.h"
 #include "graphics.h"
 
@@ -42,8 +43,11 @@
 int parse_graphics(
     std::string& default_url, std::string& running_url, std::string& suspended_url, std::string& network_suspended_url, std::string& exiting_url
 ){
+    std::string path;
     MIOFILE mf;
-    FILE* f = boinc_fopen(GRAPHICS_FILENAME, "r");
+
+    boinc_resolve_filename_s(GRAPHICS_FILENAME, path);
+    FILE* f = boinc_fopen(path.c_str(), "r");
     if (!f) {
         return ERR_FOPEN;
     }
