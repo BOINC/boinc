@@ -163,61 +163,81 @@ LRESULT CHTMLBrowserWnd::OnSize(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& b
 	return 0;
 }
 
+LRESULT CHTMLBrowserWnd::OnInputActivity(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
+{
+    if (m_bScreensaverMode)
+    {
+        PostMessage(WM_CLOSE);
+    }
+    else
+    {
+        // Forward event to the browser control
+        MSG msg = { m_hWnd, uMsg, wParam, lParam, 0, { 0, 0 } };
+        SendMessage(m_pBrowserHost->m_hWnd, WM_FORWARDMSG, 0, (LPARAM)&msg);
+    }
+	bHandled = TRUE;
+	return 0;
+}
+
 LRESULT CHTMLBrowserWnd::OnTimer(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
 {
-    int retval;
-    HRESULT hr;
-    BOOL bExitStatus;
+    HRESULT hr = E_FAIL;
+    BOOL bExitStatus = false;
+    double dExitCountdown = 0.0;
     CComQIPtr<IHTMLBrowserHostUI> pHostUI;
 
-    retval = boinc_parse_graphics_status(
+    boinc_parse_graphics_status(
         &m_dUpdateTime,
         &m_dCPUTime,
         &m_dElapsedTime,
         &m_dFractionDone,
         &status
     );
-    if (!retval)
+
+    // Query for the IHTMLBrowserHostUI interface so we can setup the browser with
+    // information that doesn't change very much.
+    //
+    hr = m_pBrowserHost->GetExternal((IDispatch**)&pHostUI);
+    if (SUCCEEDED(hr) && pHostUI.p)
     {
-        // Query for the IHTMLBrowserHostUI interface so we can setup the browser with
-        // information that doesn't change very much.
-        //
-        hr = m_pBrowserHost->GetExternal((IDispatch**)&pHostUI);
-        if (SUCCEEDED(hr) && pHostUI.p)
+        bExitStatus = status.abort_request || status.no_heartbeat || status.quit_request;
+        if (bExitStatus && ((dtime() - m_dUpdateTime) > 5.0)) dExitCountdown = dtime() - m_dUpdateTime - 5;
+
+        if (dExitCountdown > 5.0)
         {
-            bExitStatus = status.abort_request || status.no_heartbeat || status.quit_request;
+            PostMessage(WM_CLOSE);
+        }
 
-            pHostUI->SetSuspended(status.suspended);
-            pHostUI->SetNetworkSuspended(status.network_suspended);
-            pHostUI->SetExiting(bExitStatus);
-            if (bExitStatus) pHostUI->put_ExitCountdown(dtime() - m_dUpdateTime);
-            else pHostUI->put_ExitCountdown(0.0);
-            pHostUI->put_CPUTime(m_dCPUTime);
-            pHostUI->put_ElapsedTime(m_dElapsedTime);
-            pHostUI->put_FractionDone(m_dFractionDone);
+        pHostUI->SetSuspended(status.suspended);
+        pHostUI->SetNetworkSuspended(status.network_suspended);
+        pHostUI->SetExiting(bExitStatus);
+        if (bExitStatus) pHostUI->put_ExitCountdown(dExitCountdown);
+        else pHostUI->put_ExitCountdown(0.0);
+        pHostUI->put_CPUTime(m_dCPUTime);
+        pHostUI->put_ElapsedTime(m_dElapsedTime);
+        pHostUI->put_FractionDone(m_dFractionDone);
 
-            if (status.reread_init_data_file)
-            {
-                // Get updated state
-                //
-                boinc_parse_init_data_file();
-                boinc_get_init_data(aid);
+        if (status.reread_init_data_file)
+        {
+            // Get updated state
+            //
+            boinc_parse_init_data_file();
+            boinc_get_init_data(aid);
 
-                // Inform the HTML Document DOM about the state changes
-                //
-                pHostUI->SetAppInitDataUpdate(TRUE);
-                pHostUI->SetScreensaver(m_bScreensaverMode);
-                pHostUI->put_ApplicationName(CComBSTR(aid.app_name));
-                pHostUI->put_ApplicationVersion(aid.app_version);
-                pHostUI->put_WorkunitName(CComBSTR(aid.wu_name));
-                pHostUI->put_ResultName(CComBSTR(aid.result_name));
-                pHostUI->put_UserName(CComBSTR(aid.user_name));
-                pHostUI->put_TeamName(CComBSTR(aid.team_name));
-                pHostUI->put_UserCreditTotal(aid.user_total_credit);
-                pHostUI->put_UserCreditAverage(aid.user_expavg_credit);
-                pHostUI->put_HostCreditTotal(aid.host_total_credit);
-                pHostUI->put_HostCreditAverage(aid.host_expavg_credit);
-            }
+            // Inform the HTML Document DOM about the state changes
+            //
+            pHostUI->SetAppInitDataUpdate(TRUE);
+            pHostUI->SetScreensaver(m_bScreensaverMode);
+            pHostUI->put_ApplicationName(CComBSTR(aid.app_name));
+            pHostUI->put_ApplicationVersion(aid.app_version);
+            pHostUI->put_WorkunitName(CComBSTR(aid.wu_name));
+            pHostUI->put_ResultName(CComBSTR(aid.result_name));
+            pHostUI->put_UserName(CComBSTR(aid.user_name));
+            pHostUI->put_TeamName(CComBSTR(aid.team_name));
+            pHostUI->put_UserCreditTotal(aid.user_total_credit);
+            pHostUI->put_UserCreditAverage(aid.user_expavg_credit);
+            pHostUI->put_HostCreditTotal(aid.host_total_credit);
+            pHostUI->put_HostCreditAverage(aid.host_expavg_credit);
         }
     }
 

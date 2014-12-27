@@ -36,6 +36,9 @@ public:
 	    MESSAGE_HANDLER(WM_CREATE, OnCreate)
 	    MESSAGE_HANDLER(WM_CLOSE, OnClose)
 	    MESSAGE_HANDLER(WM_SIZE, OnSize)
+	    MESSAGE_HANDLER(WM_KEYUP, OnInputActivity)
+	    MESSAGE_HANDLER(WM_KEYDOWN, OnInputActivity)
+	    MESSAGE_HANDLER(WM_MOUSEMOVE, OnInputActivity)
 	    MESSAGE_HANDLER(WM_TIMER, OnTimer)
     END_MSG_MAP()
 
@@ -47,6 +50,7 @@ public:
     LRESULT OnClose(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
     LRESULT OnTimer(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
     LRESULT OnSize(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
+    LRESULT OnInputActivity(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled);
 
     // HTML Browser Events
     STDMETHOD_(void, OnNewProcess)(LONG lCauseFlag, IDispatch* pDisp, VARIANT_BOOL* pCancel);
