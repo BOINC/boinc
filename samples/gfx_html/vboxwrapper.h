@@ -15,30 +15,11 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _BROWSERMAIN_WIN_H_
-#define _BROWSERMAIN_WIN_H_
+#ifndef _VBOXWRAPPER_H_
+#define _VBOXWRAPPER_H_
 
-
-class CHTMLBrowserWnd;
-
-
-class CBrowserModule : public ATL::CAtlExeModuleT<CBrowserModule>
-{
-public:
-	DECLARE_LIBID(LIBID_HTMLGfxLib)
-
-	CBrowserModule();
-
-    static HRESULT InitializeCom() throw();
-    static void UninitializeCom() throw();
-
-	HRESULT PreMessageLoop(int nShowCmd) throw();
-    HRESULT PostMessageLoop() throw();
-    int BOINCParseCommandLine(int argc, char** argv);
-
-    bool m_bFullscreen;
-    CHTMLBrowserWnd* m_pWnd;
-};
-
+bool is_vboxwrapper_job();
+int parse_vbox_remote_desktop_port(int& remote_desktop_port);
+int parse_vbox_webapi_port(int& webapi_port);
 
 #endif

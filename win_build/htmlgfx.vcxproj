@@ -315,6 +315,8 @@
     <ClCompile Include="..\samples\gfx_html\browserlog.cpp" />
     <ClCompile Include="..\samples\gfx_html\browsermain_win.cpp" />
     <ClCompile Include="..\samples\gfx_html\browserwnd_win.cpp" />
+    <ClCompile Include="..\samples\gfx_html\graphics.cpp" />
+    <ClCompile Include="..\samples\gfx_html\vboxwrapper.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\samples\gfx_html\browser.h" />
@@ -324,6 +326,8 @@
     <ClInclude Include="..\samples\gfx_html\browsermain_win.h" />
     <ClInclude Include="..\samples\gfx_html\browserwnd_win.h" />
     <ClInclude Include="..\samples\gfx_html\browser_win.h" />
+    <ClInclude Include="..\samples\gfx_html\graphics.h" />
+    <ClInclude Include="..\samples\gfx_html\vboxwrapper.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\samples\gfx_html\browser_win.rc" />

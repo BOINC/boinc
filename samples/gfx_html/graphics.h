@@ -15,30 +15,15 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _BROWSERMAIN_WIN_H_
-#define _BROWSERMAIN_WIN_H_
+#ifndef _GRAPHICS_H_
+#define _GRAPHICS_H_
 
-
-class CHTMLBrowserWnd;
-
-
-class CBrowserModule : public ATL::CAtlExeModuleT<CBrowserModule>
-{
-public:
-	DECLARE_LIBID(LIBID_HTMLGfxLib)
-
-	CBrowserModule();
-
-    static HRESULT InitializeCom() throw();
-    static void UninitializeCom() throw();
-
-	HRESULT PreMessageLoop(int nShowCmd) throw();
-    HRESULT PostMessageLoop() throw();
-    int BOINCParseCommandLine(int argc, char** argv);
-
-    bool m_bFullscreen;
-    CHTMLBrowserWnd* m_pWnd;
-};
-
+int parse_graphics(
+    std::string& default_url,
+    std::string& running_url,
+    std::string& suspended_url,
+    std::string& network_suspended_url,
+    std::string& exiting_url
+);
 
 #endif

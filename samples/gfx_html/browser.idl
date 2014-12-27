@@ -37,6 +37,8 @@ interface IHTMLBrowserHostUI : IDispatch
     HRESULT SetNetworkSuspended([in] BOOL newVal);
     HRESULT IsExiting([out, retval] BOOL* pVal);
     HRESULT SetExiting([in] BOOL newVal);
+    HRESULT IsVboxwrapperJob([out, retval] BOOL* pVal);
+    HRESULT SetVboxwrapperJob([in] BOOL newVal);
     [propget, id(1)] HRESULT ApplicationName([out, retval] BSTR* pVal);
     [propput, id(1)] HRESULT ApplicationName([in] BSTR newVal);
     [propget, id(2)] HRESULT ApplicationVersion([out, retval] LONG* pVal);
@@ -65,6 +67,10 @@ interface IHTMLBrowserHostUI : IDispatch
     [propput, id(13)] HRESULT ElapsedTime([in] DOUBLE newVal);
     [propget, id(14)] HRESULT FractionDone([out, retval] DOUBLE* pVal);
     [propput, id(14)] HRESULT FractionDone([in] DOUBLE newVal);
+    [propget, id(15)] HRESULT RemoteDesktopPort([out, retval] LONG* pVal);
+    [propput, id(15)] HRESULT RemoteDesktopPort([in] LONG newVal);
+    [propget, id(16)] HRESULT WebAPIPort([out, retval] LONG* pVal);
+    [propput, id(16)] HRESULT WebAPIPort([in] LONG newVal);
 };
 
 [

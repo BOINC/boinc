@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2010-2012 University of California
+// Copyright (C) 2014-2015 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -40,6 +40,8 @@
 #include "browserctrlui_win.h"
 #include "browserctrl_win.h"
 #include "browserwnd_win.h"
+#include "graphics.h"
+#include "vboxwrapper.h"
 
 
 CHTMLBrowserWnd::CHTMLBrowserWnd()
@@ -60,6 +62,9 @@ CHTMLBrowserWnd::CHTMLBrowserWnd()
     m_dElapsedTime = 0.0;
     m_dFractionDone = 0.0;
     m_bScreensaverMode = false;
+    m_bVboxwrapperJob = false;
+    m_lRemoteDesktopPort = 0;
+    m_lWebAPIPort = 0;
 }
 
 CHTMLBrowserWnd::~CHTMLBrowserWnd()
@@ -137,9 +142,6 @@ LRESULT CHTMLBrowserWnd::OnCreate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL&
     // Stage rereading of all the state files
     status.reread_init_data_file = true;
 
-    // Show something to the user
-    NavigateToStateURL(true);
-
     // Start the timer
     SetTimer(1, 1000);
 
@@ -181,9 +183,11 @@ LRESULT CHTMLBrowserWnd::OnInputActivity(UINT uMsg, WPARAM wParam, LPARAM lParam
 
 LRESULT CHTMLBrowserWnd::OnTimer(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
 {
+    int retval = ERR_FREAD;
     HRESULT hr = E_FAIL;
     BOOL bExitStatus = false;
     double dExitCountdown = 0.0;
+    int temp = 0;
     CComQIPtr<IHTMLBrowserHostUI> pHostUI;
 
     boinc_parse_graphics_status(
@@ -201,7 +205,14 @@ LRESULT CHTMLBrowserWnd::OnTimer(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& 
     if (SUCCEEDED(hr) && pHostUI.p)
     {
         bExitStatus = status.abort_request || status.no_heartbeat || status.quit_request;
-        if (bExitStatus && ((dtime() - m_dUpdateTime) > 5.0)) dExitCountdown = dtime() - m_dUpdateTime - 5;
+        if (bExitStatus && ((dtime() - m_dUpdateTime) > 5.0))
+        {
+            dExitCountdown = dtime() - m_dUpdateTime - 5;
+        }
+        else
+        {
+            dExitCountdown = 0.0;
+        }
 
         if (dExitCountdown > 5.0)
         {
@@ -211,8 +222,7 @@ LRESULT CHTMLBrowserWnd::OnTimer(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& 
         pHostUI->SetSuspended(status.suspended);
         pHostUI->SetNetworkSuspended(status.network_suspended);
         pHostUI->SetExiting(bExitStatus);
-        if (bExitStatus) pHostUI->put_ExitCountdown(dExitCountdown);
-        else pHostUI->put_ExitCountdown(0.0);
+        pHostUI->put_ExitCountdown(dExitCountdown);
         pHostUI->put_CPUTime(m_dCPUTime);
         pHostUI->put_ElapsedTime(m_dElapsedTime);
         pHostUI->put_FractionDone(m_dFractionDone);
@@ -241,6 +251,39 @@ LRESULT CHTMLBrowserWnd::OnTimer(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& 
             pHostUI->put_UserCreditAverage(aid.user_expavg_credit);
             pHostUI->put_HostCreditTotal(aid.host_total_credit);
             pHostUI->put_HostCreditAverage(aid.host_expavg_credit);
+
+            // Check for vboxwrapper state
+            //
+            m_bVboxwrapperJob = is_vboxwrapper_job();
+            if (m_bVboxwrapperJob)
+            {
+                pHostUI->SetVboxwrapperJob(m_bVboxwrapperJob);
+                if (0 == parse_vbox_remote_desktop_port(temp))
+                {
+                    m_lRemoteDesktopPort = temp;
+                    pHostUI->put_RemoteDesktopPort(m_lRemoteDesktopPort);
+                }
+                if (0 == parse_vbox_webapi_port(temp))
+                {
+                    m_lWebAPIPort = temp;
+                    pHostUI->put_WebAPIPort(m_lWebAPIPort);
+                }
+            }
+
+            //
+            //
+            std::string default_url, running_url, suspended_url, network_suspended_url, exiting_url;
+            if (0 == parse_graphics(default_url, running_url, suspended_url, network_suspended_url, exiting_url))
+            {
+                m_strDefaultURL = default_url.c_str();
+                m_strRunningURL = running_url.c_str();
+                m_strSuspendedURL = suspended_url.c_str();
+                m_strNetworkSuspendedURL = network_suspended_url.c_str();
+                m_strExitingURL = exiting_url.c_str();
+            }
+
+            // Forcefully switch to the required URL.
+            NavigateToStateURL(true);
         }
     }
 
@@ -285,6 +328,13 @@ void CHTMLBrowserWnd::NavigateToStateURL(bool bForce)
         bstr = m_strNetworkSuspendedURL;
     } else {
         bstr = m_strRunningURL;
+    }
+
+    // Are we running a vboxwrapper job?  If so, does it expose a webapi port number?
+    if (m_bVboxwrapperJob && m_lWebAPIPort) {
+        bstr  = "http://localhost:";
+        bstr += m_lWebAPIPort;
+        bstr += "/";
     }
 
     // If nothing has been approved to the point, use the embedded HTML page

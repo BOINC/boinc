@@ -1,6 +1,6 @@
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2010-2012 University of California
+// Copyright (C) 2014-2015 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -16,7 +16,7 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 
-#ifndef _VBOXHTMLGFX_H_
-#define _VBOXHTMLGFX_H_
+#ifndef _HTMLGFX_H_
+#define _HTMLGFX_H_
 
 #endif
