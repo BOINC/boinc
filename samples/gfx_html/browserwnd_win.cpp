@@ -219,8 +219,11 @@ LRESULT CHTMLBrowserWnd::OnTimer(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& 
 
         if (status.reread_init_data_file)
         {
+            status.reread_init_data_file = 0;
+
             // Get updated state
             //
+            if (aid.project_preferences) delete aid.project_preferences;
             boinc_parse_init_data_file();
             boinc_get_init_data(aid);
 
