@@ -77,11 +77,11 @@ public:
     bool m_bVboxwrapperJob;
     CComBSTR m_strCurrentURL;
     CComBSTR m_strEmbeddedURL;
-    CComBSTR m_strDefaultURL;
-    CComBSTR m_strRunningURL;
-    CComBSTR m_strSuspendedURL;
-    CComBSTR m_strNetworkSuspendedURL;
-    CComBSTR m_strExitingURL;
+    std::string m_strDefaultURL;
+    std::string m_strRunningURL;
+    std::string m_strSuspendedURL;
+    std::string m_strNetworkSuspendedURL;
+    std::string m_strExitingURL;
     long m_lRemoteDesktopPort;
     long m_lWebAPIPort;
 };

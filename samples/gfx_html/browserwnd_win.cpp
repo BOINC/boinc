@@ -272,15 +272,9 @@ LRESULT CHTMLBrowserWnd::OnTimer(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& 
 
             //
             //
-            std::string default_url, running_url, suspended_url, network_suspended_url, exiting_url;
-            if (0 == parse_graphics(default_url, running_url, suspended_url, network_suspended_url, exiting_url))
-            {
-                m_strDefaultURL = default_url.c_str();
-                m_strRunningURL = running_url.c_str();
-                m_strSuspendedURL = suspended_url.c_str();
-                m_strNetworkSuspendedURL = network_suspended_url.c_str();
-                m_strExitingURL = exiting_url.c_str();
-            }
+            parse_graphics(
+                m_strDefaultURL, m_strRunningURL, m_strSuspendedURL, m_strNetworkSuspendedURL, m_strExitingURL
+            );
 
             // Forcefully switch to the required URL.
             NavigateToStateURL(true);
@@ -317,17 +311,17 @@ void CHTMLBrowserWnd::NavigateToStateURL(bool bForce)
     CComVariant v;
     
     // Start out with the default URL
-    bstr = m_strDefaultURL;
+    bstr = m_strDefaultURL.c_str();
 
     // See if we need to override the default
     if        (status.abort_request || status.quit_request || status.no_heartbeat) {
-        bstr = m_strExitingURL;
+        bstr = m_strExitingURL.c_str();
     } else if (status.suspended) {
-        bstr = m_strSuspendedURL;
+        bstr = m_strSuspendedURL.c_str();
     } else if (status.network_suspended) {
-        bstr = m_strNetworkSuspendedURL;
+        bstr = m_strNetworkSuspendedURL.c_str();
     } else {
-        bstr = m_strRunningURL;
+        bstr = m_strRunningURL.c_str();
     }
 
     // Are we running a vboxwrapper job?  If so, does it expose a webapi port number?
