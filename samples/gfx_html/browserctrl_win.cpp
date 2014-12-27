@@ -90,7 +90,6 @@ void CHTMLBrowserHost::FinalRelease()
         }
     }
 
-    SetExternalDispatch(NULL);
 	ReleaseAll();
 }
 
@@ -206,11 +205,18 @@ STDMETHODIMP CHTMLBrowserHost::Write(
 STDMETHODIMP CHTMLBrowserHost::WriteWithUrl(
     LPCWSTR source, DEV_CONSOLE_MESSAGE_LEVEL level, int messageId, LPCWSTR messageText, LPCWSTR fileUrl
 ){
-    browserlog_msg(
-        "Console: (%S) (%S%d) %S\n"
-        "    File: %S",
-        MapMessageLevel(level), source, messageId, messageText, fileUrl
-    );
+    if ((CComBSTR("DOM") == CComBSTR(source)) && (7011 == messageId))
+    {
+        // We do not need to worry about forward/backward caching being disabled
+    }
+    else
+    {
+        browserlog_msg(
+            "Console: (%S) (%S%d) %S\n"
+            "    File: %S",
+            MapMessageLevel(level), source, messageId, messageText, fileUrl
+        );
+    }
     return S_OK;
 }
 
@@ -271,48 +277,6 @@ STDMETHODIMP CHTMLBrowserHost::Exec(
         {
             case OLECMDID_SHOWSCRIPTERROR:
             {
-                CComPtr<IHTMLDocument2>     pDoc;
-                CComPtr<IHTMLWindow2>       pWindow;
-                CComPtr<IHTMLEventObj>      pEventObj;
-                CComBSTR                    rgwszNames[5] = 
-                                            { L"errorLine", L"errorCharacter", L"errorCode", L"errorMessage", L"errorUrl" };
-                CComVariant                 rgvaEventInfo[5];
-                DISPID                      rgDispIDs[5];
-                DISPPARAMS                  params;
-
-                params.cArgs = 0;
-                params.cNamedArgs = 0;
-
-                // Get the document that is currently being viewed.
-                hr = pvaIn->punkVal->QueryInterface(IID_IHTMLDocument2, (void **) &pDoc);				
-                // Get document.parentWindow.
-                hr = pDoc->get_parentWindow(&pWindow);
-                // Get the window.event object.
-                hr = pWindow->get_event(&pEventObj);
-                // Get the error info from the window.event object.
-                for (int i = 0; i < 5; i++) 
-                {  
-                    // Get the property's dispID.
-                    hr = pEventObj->GetIDsOfNames(IID_NULL, &rgwszNames[i], 1, LOCALE_SYSTEM_DEFAULT, &rgDispIDs[i]);
-                    // Get the value of the property.
-                    hr = pEventObj->Invoke(rgDispIDs[i], IID_NULL, LOCALE_SYSTEM_DEFAULT, DISPATCH_PROPERTYGET, &params, &rgvaEventInfo[i], NULL, NULL);
-                    SysFreeString(rgwszNames[i]);
-                }
-
-                browserlog_msg(
-                    "Show Script Error:\n"
-                    "    URL: %S\n"
-                    "    Message: %S\n"
-                    "    Error Code: %d\n"
-                    "    Error Line: %d\n"
-                    "    Error Position: %d",
-                    rgvaEventInfo[4].bstrVal,
-                    rgvaEventInfo[3].bstrVal,
-                    rgvaEventInfo[2].uiVal,
-                    rgvaEventInfo[0].uiVal,
-                    rgvaEventInfo[1].uiVal
-                );
-
                 // Stop running scripts on the page.
                 (*pvaOut).vt = VT_BOOL;
                 (*pvaOut).boolVal = VARIANT_FALSE;			

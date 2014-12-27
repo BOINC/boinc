@@ -1,0 +1,37 @@
+
+.progressbar_parent {
+	
+}
+.progressbar_background {
+
+}
+
+.progressbar_wrapper {
+	border: 1px solid #A0A0A0;
+}
+.progressbar_left {
+	border: 1px solid #A0A0A0;
+}
+.progressbar_middle {
+	border: 1px solid #A0A0A0;
+}
+.progressbar_right {
+	border: 1px solid #A0A0A0;
+}
+
+.progressbar_text_horizontal {
+	text-align: center;
+	color: black;
+	font-family: arial;
+	font-size: 12px;
+}
+.progressbar_text_vertical {
+	text-align: center;
+	color: black;
+	font-weight: bold;
+	font-family: arial;
+	font-size: 8px;
+}
+.progressbar_marker {
+	background-image: url('images/marker2.png');
+}
