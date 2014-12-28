@@ -314,18 +314,18 @@ void CHTMLBrowserWnd::NavigateToStateURL(bool bForce)
     bstr = m_strDefaultURL.c_str();
 
     // See if we need to override the default
-    if        (status.abort_request || status.quit_request || status.no_heartbeat) {
+    if        ((status.abort_request || status.quit_request || status.no_heartbeat) && !m_strExitingURL.empty()) {
         bstr = m_strExitingURL.c_str();
-    } else if (status.suspended) {
+    } else if (status.suspended && !m_strSuspendedURL.empty()) {
         bstr = m_strSuspendedURL.c_str();
-    } else if (status.network_suspended) {
+    } else if (status.network_suspended && !m_strNetworkSuspendedURL.empty()) {
         bstr = m_strNetworkSuspendedURL.c_str();
-    } else {
+    } else if (!m_strRunningURL.empty()) {
         bstr = m_strRunningURL.c_str();
     }
 
     // Are we running a vboxwrapper job?  If so, does it expose a webapi port number?
-    if (m_bVboxwrapperJob && m_lWebAPIPort) {
+    if ((m_bVboxwrapperJob && m_lWebAPIPort) && (bstr.Length() > 0)) {
         bstr  = "http://localhost:";
         bstr += m_lWebAPIPort;
         bstr += "/";
