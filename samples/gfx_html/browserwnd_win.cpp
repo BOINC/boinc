@@ -325,7 +325,7 @@ void CHTMLBrowserWnd::NavigateToStateURL(bool bForce)
     }
 
     // Are we running a vboxwrapper job?  If so, does it expose a webapi port number?
-    if ((m_bVboxwrapperJob && m_lWebAPIPort) && (bstr.Length() > 0)) {
+    if ((m_bVboxwrapperJob && m_lWebAPIPort) && (bstr.Length() == 0)) {
         bstr  = "http://localhost:";
         bstr += m_lWebAPIPort;
         bstr += "/";
