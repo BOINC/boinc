@@ -298,9 +298,15 @@ LRESULT CHTMLBrowserWnd::OnTimer(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& 
 
             //
             //
-            parse_graphics(
-                m_strDefaultURL, m_strRunningURL, m_strSuspendedURL, m_strNetworkSuspendedURL, m_strExitingURL
-            );
+            if (0 == parse_graphics(m_strDefaultURL, m_strRunningURL, m_strSuspendedURL, m_strNetworkSuspendedURL, m_strExitingURL))
+            {
+                if (m_strDefaultURL.size()) browserlog_msg("Configured default_url: 's'.", m_strDefaultURL.c_str());
+                if (m_strRunningURL.size()) browserlog_msg("Configured running_url: 's'.", m_strRunningURL.c_str());
+                if (m_strSuspendedURL.size()) browserlog_msg("Configured suspended_url: 's'.", m_strSuspendedURL.c_str());
+                if (m_strNetworkSuspendedURL.size()) browserlog_msg("Configured network_suspended_url: 's'.", m_strNetworkSuspendedURL.c_str());
+                if (m_strExitingURL.size()) browserlog_msg("Configured exiting_url: 's'.", m_strExitingURL.c_str());
+            }
+            
 
             // Forcefully switch to the required URL.
             NavigateToStateURL(true);
