@@ -80,6 +80,12 @@ CHTMLBrowserWnd::~CHTMLBrowserWnd()
         ::DestroyIcon(m_hIconSmall);
         m_hIconSmall = NULL;
     }
+
+    if (aid.project_preferences)
+    {
+        delete aid.project_preferences;
+        aid.project_preferences = NULL;
+    }
 }
 
 LRESULT CHTMLBrowserWnd::OnCreate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
@@ -185,8 +191,8 @@ LRESULT CHTMLBrowserWnd::OnTimer(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& 
 {
     int retval = ERR_FREAD;
     HRESULT hr = E_FAIL;
-    BOOL bExitStatus = false;
-    double dExitCountdown = 0.0;
+    BOOL bExit = false;
+    double dExitTimeout = 0.0;
     int temp = 0;
     CComQIPtr<IHTMLBrowserHostUI> pHostUI;
 
@@ -204,28 +210,28 @@ LRESULT CHTMLBrowserWnd::OnTimer(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& 
     hr = m_pBrowserHost->GetExternal((IDispatch**)&pHostUI);
     if (SUCCEEDED(hr) && pHostUI.p)
     {
-        bExitStatus = status.abort_request || status.no_heartbeat || status.quit_request;
-        if (bExitStatus && ((dtime() - m_dUpdateTime) > 5.0))
+        bExit = status.abort_request || status.no_heartbeat || status.quit_request;
+        if (bExit && ((dtime() - m_dUpdateTime) > 5.0))
         {
-            dExitCountdown = dtime() - m_dUpdateTime - 5;
+            dExitTimeout = dtime() - m_dUpdateTime - 5;
         }
         else
         {
-            dExitCountdown = 0.0;
+            dExitTimeout = 0.0;
         }
 
-        if (dExitCountdown > 5.0)
+        if (dExitTimeout > 5.0)
         {
             PostMessage(WM_CLOSE);
         }
 
-        pHostUI->SetSuspended(status.suspended);
-        pHostUI->SetNetworkSuspended(status.network_suspended);
-        pHostUI->SetExiting(bExitStatus);
-        pHostUI->put_ExitCountdown(dExitCountdown);
-        pHostUI->put_CPUTime(m_dCPUTime);
-        pHostUI->put_ElapsedTime(m_dElapsedTime);
-        pHostUI->put_FractionDone(m_dFractionDone);
+        pHostUI->put_suspended(status.suspended);
+        pHostUI->put_networkSuspended(status.network_suspended);
+        pHostUI->put_exiting(bExit);
+        pHostUI->put_exitTimeout(dExitTimeout);
+        pHostUI->put_cpuTime(m_dCPUTime);
+        pHostUI->put_elapsedTime(m_dElapsedTime);
+        pHostUI->put_fractionDone(m_dFractionDone);
 
         if (status.reread_init_data_file)
         {
@@ -239,34 +245,34 @@ LRESULT CHTMLBrowserWnd::OnTimer(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& 
 
             // Inform the HTML Document DOM about the state changes
             //
-            pHostUI->SetAppInitDataUpdate(TRUE);
-            pHostUI->SetScreensaver(m_bScreensaverMode);
-            pHostUI->put_ApplicationName(CComBSTR(aid.app_name));
-            pHostUI->put_ApplicationVersion(aid.app_version);
-            pHostUI->put_WorkunitName(CComBSTR(aid.wu_name));
-            pHostUI->put_ResultName(CComBSTR(aid.result_name));
-            pHostUI->put_UserName(CComBSTR(aid.user_name));
-            pHostUI->put_TeamName(CComBSTR(aid.team_name));
-            pHostUI->put_UserCreditTotal(aid.user_total_credit);
-            pHostUI->put_UserCreditAverage(aid.user_expavg_credit);
-            pHostUI->put_HostCreditTotal(aid.host_total_credit);
-            pHostUI->put_HostCreditAverage(aid.host_expavg_credit);
+            pHostUI->resetStateUpdate(TRUE);
+            pHostUI->put_scrsaveMode(m_bScreensaverMode);
+            pHostUI->put_appName(CComBSTR(aid.app_name));
+            pHostUI->put_appVersion(aid.app_version);
+            pHostUI->put_wuName(CComBSTR(aid.wu_name));
+            pHostUI->put_resName(CComBSTR(aid.result_name));
+            pHostUI->put_userName(CComBSTR(aid.user_name));
+            pHostUI->put_teamName(CComBSTR(aid.team_name));
+            pHostUI->put_userCreditTotal(aid.user_total_credit);
+            pHostUI->put_userCreditAverage(aid.user_expavg_credit);
+            pHostUI->put_hostCreditTotal(aid.host_total_credit);
+            pHostUI->put_hostCreditAverage(aid.host_expavg_credit);
 
             // Check for vboxwrapper state
             //
             m_bVboxwrapperJob = is_vboxwrapper_job();
             if (m_bVboxwrapperJob)
             {
-                pHostUI->SetVboxwrapperJob(m_bVboxwrapperJob);
+                pHostUI->put_vboxJob(m_bVboxwrapperJob);
                 if (0 == parse_vbox_remote_desktop_port(temp))
                 {
                     m_lRemoteDesktopPort = temp;
-                    pHostUI->put_RemoteDesktopPort(m_lRemoteDesktopPort);
+                    pHostUI->put_rdpPort(m_lRemoteDesktopPort);
                 }
                 if (0 == parse_vbox_webapi_port(temp))
                 {
                     m_lWebAPIPort = temp;
-                    pHostUI->put_WebAPIPort(m_lWebAPIPort);
+                    pHostUI->put_apiPort(m_lWebAPIPort);
                 }
             }
 

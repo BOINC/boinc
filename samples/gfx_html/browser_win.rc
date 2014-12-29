@@ -36,12 +36,8 @@ IDI_ICON                          ICON              "res\\boinc.ico"
 // HTML
 //
 default_win.htm                   HTML              "res\\default_win.htm"
-progressbar.css                   HTML              "res\\progressbar.css"
-progressbar.js                    HTML              "res\\progressbar.js"
-h_bg2.png                         HTML              "res\\h_bg2.png"
-h_fg8.png                         HTML              "res\\h_fg8.png"
+console_win.js                    HTML              "res\\console_win.js"
 boinc.png                         HTML              "res\\boinc.png"
-virtualbox.png                    HTML              "res\\virtualbox.png"
 
 /////////////////////////////////////////////////////////////////////////////
 //

@@ -93,6 +93,10 @@ void CHTMLBrowserHost::FinalRelease()
 	ReleaseAll();
 }
 
+void CHTMLBrowserHost::OnFinalMessage(HWND /*hWnd*/)
+{
+}
+
 HWND CHTMLBrowserHost::Create(
     HWND hWndParent, _U_RECT rect, LPCTSTR szWindowName, DWORD dwStyle, DWORD dwExStyle, _U_MENUorID MenuOrID, LPVOID lpCreateParam
 ){

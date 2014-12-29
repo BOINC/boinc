@@ -333,6 +333,7 @@
     <ResourceCompile Include="..\samples\gfx_html\browser_win.rc" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\samples\gfx_html\res\console_win.js" />
     <None Include="..\samples\gfx_html\res\default_win.htm">
       <DeploymentContent>true</DeploymentContent>
     </None>
