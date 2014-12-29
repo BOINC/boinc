@@ -9,14 +9,19 @@
 <div id="content" style="position:absolute">
     <table>
         <tr>
-            <td>
+            <td style="vertical-align:middle">
                 <img alt="" src="boinc.png" />
             </td>
-            <td style="width:250px">
-                <div id="username_container" style="visibility:hidden;color:White"></div>
-                <div id="teamname_container" style="visibility:hidden;color:White"></div>
-                <div id="workunitname_container" style="visibility:hidden;color:White"></div>
-                <div id="progressbar_container" style="visibility:hidden;color:White"></div>
+            <td style="vertical-align:top; width:250px">
+                <div id="username_container" style="visibility:hidden; color:White"></div>
+                <div id="teamname_container" style="visibility:hidden; color:White"></div>
+                <div id="workunitname_container" style="visibility:hidden; color:White"></div>
+                <div id="progressbar_container" style="visibility:hidden; border: 1px Solid White; width:245px; height:23px">
+                    <div id="progressbar_text" style="z-index:1; position:absolute; color:White; text-align:center; height:100%; width:100%">
+                    </div>
+                    <div id="progressbar" style="z-index:0; position:absolute; height:100%; width:0px; background-color:Blue;">
+                    </div>
+                </div>
                 <div id="message_container" style="text-align:center;color:White">Initializing...</div>
             </td>
         </tr>
@@ -54,12 +59,18 @@
             }
         }
 
-        //var fractiondone = Math.floor(window.external.FractionDone * 100);
-        //var fractiondone = Math.floor(0.75 * 100);
-        //progressbar.value = fractiondone;
-        //progressbar_text.innerHTML = fractiondone + "%";
+        progressbar.style.width = String(Math.floor(parseInt(progressbar_container.style.width, 10) * window.external.fractionDone) + "px");
+        progressbar_text.innerHTML = String(Math.floor(100 * window.external.fractionDone) + " %");
 
-        if (username_container.innerHTML.length == 0) {
+        if (window.external.suspended) {
+            message = "Task is suspended.";
+        } else if (window.external.networkSuspended) {
+            message = "Network is suspended.";
+        } else if (window.external.exiting) {
+            message = "Exiting in " + window.external.exitTimeout + " seconds";
+        }
+
+        if ((username_container.innerHTML.length == 0) || window.external.exiting) {
             username_container.style.visibility = "hidden";
             teamname_container.style.visibility = "hidden";
             workunitname_container.style.visibility = "hidden";
