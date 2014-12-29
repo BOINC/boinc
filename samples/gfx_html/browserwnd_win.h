@@ -67,6 +67,7 @@ public:
     HICON m_hIcon;
     HICON m_hIconSmall;
 
+    bool m_bForceRereadPreferences;
     APP_INIT_DATA aid;
     BOINC_STATUS status;
     double m_dUpdateTime;

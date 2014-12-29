@@ -50,6 +50,7 @@ CHTMLBrowserWnd::CHTMLBrowserWnd()
     m_hIcon = NULL;
     m_hIconSmall = NULL;
 
+    m_bForceRereadPreferences = false;
     aid.clear();
     status.abort_request = 0;
     status.no_heartbeat = 0;
@@ -146,7 +147,7 @@ LRESULT CHTMLBrowserWnd::OnCreate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL&
     m_strEmbeddedURL += "/default_win.htm";
 
     // Stage rereading of all the state files
-    status.reread_init_data_file = true;
+    m_bForceRereadPreferences = true;
 
     // Start the timer
     SetTimer(1, 1000);
@@ -233,9 +234,37 @@ LRESULT CHTMLBrowserWnd::OnTimer(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& 
         pHostUI->put_elapsedTime(m_dElapsedTime);
         pHostUI->put_fractionDone(m_dFractionDone);
 
-        if (status.reread_init_data_file)
+        // Check to see if vboxwrapper has logged and Web API port info or 
+        // Remote Desktop port info
+        //
+        if (m_bVboxwrapperJob)
+        {
+            if (!m_lRemoteDesktopPort)
+            {
+                if (0 == parse_vbox_remote_desktop_port(temp))
+                {
+                    m_lRemoteDesktopPort = temp;
+                    browserlog_msg("Vboxwrapper remote desktop port assignment (%d).", m_lRemoteDesktopPort);
+                    pHostUI->put_rdpPort(m_lRemoteDesktopPort);
+                }
+            }
+            if (!m_lWebAPIPort)
+            {
+                if (0 == parse_vbox_webapi_port(temp))
+                {
+                    m_lWebAPIPort = temp;
+                    browserlog_msg("Vboxwrapper web api port assignment (%d).", m_lWebAPIPort);
+                    pHostUI->put_apiPort(m_lWebAPIPort);
+                }
+            }
+        }
+
+        if (status.reread_init_data_file || m_bForceRereadPreferences)
         {
             status.reread_init_data_file = 0;
+            m_bForceRereadPreferences = false;
+
+            browserlog_msg("Preference change detected.");
 
             // Get updated state
             //
@@ -263,17 +292,8 @@ LRESULT CHTMLBrowserWnd::OnTimer(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& 
             m_bVboxwrapperJob = is_vboxwrapper_job();
             if (m_bVboxwrapperJob)
             {
+                browserlog_msg("Vboxwrapper task detected.");
                 pHostUI->put_vboxJob(m_bVboxwrapperJob);
-                if (0 == parse_vbox_remote_desktop_port(temp))
-                {
-                    m_lRemoteDesktopPort = temp;
-                    pHostUI->put_rdpPort(m_lRemoteDesktopPort);
-                }
-                if (0 == parse_vbox_webapi_port(temp))
-                {
-                    m_lWebAPIPort = temp;
-                    pHostUI->put_apiPort(m_lWebAPIPort);
-                }
             }
 
             //
@@ -315,6 +335,7 @@ void CHTMLBrowserWnd::NavigateToStateURL(bool bForce)
 {
     CComBSTR bstr;
     CComVariant v;
+    char buf[256];
     
     // Start out with the default URL
     bstr = m_strDefaultURL.c_str();
@@ -332,9 +353,8 @@ void CHTMLBrowserWnd::NavigateToStateURL(bool bForce)
 
     // Are we running a vboxwrapper job?  If so, does it expose a webapi port number?
     if ((m_bVboxwrapperJob && m_lWebAPIPort) && (bstr.Length() == 0)) {
-        bstr  = "http://localhost:";
-        bstr += m_lWebAPIPort;
-        bstr += "/";
+        _snprintf(buf, sizeof(buf), "http://localhost:%d/", m_lWebAPIPort);
+        bstr  = buf;
     }
 
     // If nothing has been approved to the point, use the embedded HTML page
@@ -344,6 +364,7 @@ void CHTMLBrowserWnd::NavigateToStateURL(bool bForce)
 
     // Navigate to URL
     if ((m_strCurrentURL != bstr) || bForce) {
+        browserlog_msg("State Change Detected (%S).", bstr.m_str);
         m_strCurrentURL = bstr;
         m_pBrowserCtrl->Navigate(bstr, &v, &v, &v, &v);
     }
