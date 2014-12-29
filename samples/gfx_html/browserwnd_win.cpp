@@ -296,7 +296,7 @@ LRESULT CHTMLBrowserWnd::OnTimer(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& 
                 pHostUI->put_vboxJob(m_bVboxwrapperJob);
             }
 
-            //
+            // Check for project configured state urls
             //
             if (0 == parse_graphics(m_strDefaultURL, m_strRunningURL, m_strSuspendedURL, m_strNetworkSuspendedURL, m_strExitingURL))
             {
