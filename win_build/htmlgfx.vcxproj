@@ -95,9 +95,9 @@
     <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
     <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">htmlgfx_26151_windows_x86_64</TargetName>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">htmlgfx_26152_windows_x86_64</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">htmlgfx_26153_windows_x86_64</TargetName>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">htmlgfx_26151_windows_intelx86</TargetName>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">htmlgfx_26152_windows_intelx86</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">htmlgfx_26153_windows_intelx86</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Midl>
