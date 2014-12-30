@@ -310,16 +310,20 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\samples\gfx_html\browser.cpp" />
+    <ClCompile Include="..\samples\gfx_html\browserctrlsvc_win.cpp" />
     <ClCompile Include="..\samples\gfx_html\browserctrlui_win.cpp" />
     <ClCompile Include="..\samples\gfx_html\browserctrl_win.cpp" />
     <ClCompile Include="..\samples\gfx_html\browserlog.cpp" />
     <ClCompile Include="..\samples\gfx_html\browsermain_win.cpp" />
     <ClCompile Include="..\samples\gfx_html\browserwnd_win.cpp" />
     <ClCompile Include="..\samples\gfx_html\graphics.cpp" />
+    <ClCompile Include="..\samples\gfx_html\mongoose.cpp" />
     <ClCompile Include="..\samples\gfx_html\vboxwrapper.cpp" />
+    <ClCompile Include="..\samples\gfx_html\webserver.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\samples\gfx_html\browser.h" />
+    <ClInclude Include="..\samples\gfx_html\browserctrlsvc_win.h" />
     <ClInclude Include="..\samples\gfx_html\browserctrlui_win.h" />
     <ClInclude Include="..\samples\gfx_html\browserctrl_win.h" />
     <ClInclude Include="..\samples\gfx_html\browserlog.h" />
@@ -327,7 +331,9 @@
     <ClInclude Include="..\samples\gfx_html\browserwnd_win.h" />
     <ClInclude Include="..\samples\gfx_html\browser_win.h" />
     <ClInclude Include="..\samples\gfx_html\graphics.h" />
+    <ClInclude Include="..\samples\gfx_html\mongoose.h" />
     <ClInclude Include="..\samples\gfx_html\vboxwrapper.h" />
+    <ClInclude Include="..\samples\gfx_html\webserver.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\samples\gfx_html\browser_win.rc" />

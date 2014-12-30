@@ -414,12 +414,11 @@ std::string CHTMLBrowserWnd::NormalizeURL(std::string& url)
     {
         // Assume it is a local file
 
-        // Configure a base url using the file protocol pointing to the slot directory
+        // Configure the base url using the http protocol pointing to our locally spun
+        // up web server
         //
-        _getcwd(buf, sizeof(buf));
-        strNormalized =  "file://";
-        strNormalized += buf;
-        strNormalized += "/";
+        _snprintf(buf, sizeof(buf), "http://localhost:%d/", m_iWebServerPort);
+        strNormalized  = buf;
         strNormalized += url;
     }
 

@@ -15,32 +15,10 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _BROWSERMAIN_WIN_H_
-#define _BROWSERMAIN_WIN_H_
+#ifndef _WEBSERVER_H_
+#define _WEBSERVER_H_
 
-class CHTMLBrowserWnd;
-
-class CBrowserModule : public ATL::CAtlExeModuleT<CBrowserModule>
-{
-public:
-	DECLARE_LIBID(LIBID_HTMLGfxLib)
-
-	CBrowserModule();
-
-    static HRESULT InitializeCom() throw();
-    static void UninitializeCom() throw();
-
-	HRESULT PreMessageLoop(int nShowCmd) throw();
-    HRESULT PostMessageLoop() throw();
-
-    int RegisterCommandLine(int argc, char** argv);
-    int RegisterWebControlCompatiblity();
-
-    bool m_bFullscreen;
-    bool m_bDebugging;
-    CHTMLBrowserWnd* m_pWnd;
-};
-
-extern CBrowserModule _AtlModule;
+int webserver_initialize(int port, const char* user, const char* passwd);
+int webserver_destroy();
 
 #endif

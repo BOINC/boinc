@@ -26,12 +26,15 @@
 #include <AtlTypes.h>
 #include <exdisp.h>
 #include <exdispid.h>
+#include <urlmon.h>
 #include <string>
 #include "win_util.h"
 #include "version.h"
 #include "boinc_api.h"
 #include "diagnostics.h"
 #include "filesys.h"
+#include "network.h"
+#include "webserver.h"
 #include "browser_i.h"
 #include "browser_i.c"
 #include "browser_win.h"
@@ -46,31 +49,47 @@
 #endif
 
 
+CBrowserModule _AtlModule;
+
+
 CBrowserModule::CBrowserModule()
 {
     m_pWnd = NULL;
     m_bFullscreen = false;
+    m_bDebugging = false;
 }
 
 HRESULT CBrowserModule::InitializeCom() throw()
 {
-    return ::OleInitialize(NULL);
+    HRESULT rc = OleInitialize(NULL);
+
+    WSADATA wsdata;
+    WSAStartup( MAKEWORD( 1, 1 ), &wsdata);
+
+    return rc;
 }
 
 void CBrowserModule::UninitializeCom() throw()
 {
-    ::OleUninitialize();
+    WSACleanup();
+    OleUninitialize();
 }
 
 HRESULT CBrowserModule::PreMessageLoop(int nShowCmd) throw()
 {
+    HRESULT hr = 0;
     RECT rc = {0, 0, 0, 0};
     DWORD dwExStyle = 0;
     DWORD dwStyle = 0;
     char szWindowTitle[256];
+    char szWindowInfo[256];
+    char szDebuggingInfo[256];
+    int iWebServerPort = 0;
+    std::string strWebServerUsername;
+    std::string strWebServerPassword;
 
 
-	HRESULT hr = __super::PreMessageLoop(nShowCmd);
+	hr = __super::PreMessageLoop(nShowCmd);
 	if (FAILED(hr)) {
         return hr;
 	}
@@ -79,11 +98,19 @@ HRESULT CBrowserModule::PreMessageLoop(int nShowCmd) throw()
     //
     AtlAxWinInit();
 
+    // Prepare environment for web browser control
+    RegisterWebControlCompatiblity();
+
     // Prepare environment for detecting system conditions
     //
     boinc_parse_init_data_file();
 
-    // Create Window Container
+    // Initialize Web Server
+    //
+    boinc_get_port(false, iWebServerPort);
+    webserver_initialize(iWebServerPort, "", "");
+        
+    // Create Window Instance
     //
     m_pWnd = new CHTMLBrowserWnd();
 	if (m_pWnd == NULL)
@@ -93,26 +120,39 @@ HRESULT CBrowserModule::PreMessageLoop(int nShowCmd) throw()
 	}
 
     // Store a copy of APP_INIT_DATA for future use
+    //
     boinc_get_init_data(m_pWnd->aid);
 
+    // Store web server information for future use
+    //
+    m_pWnd->m_iWebServerPort = iWebServerPort;
+
     // Construct the window caption
+    //
     if (m_pWnd->aid.app_version) {
         snprintf(
-            szWindowTitle, sizeof(szWindowTitle),
+            szWindowInfo, sizeof(szWindowInfo),
             "%s version %.2f [workunit: %s]",
             m_pWnd->aid.app_name, m_pWnd->aid.app_version/100.0, m_pWnd->aid.wu_name
         );
     } else {
         snprintf(
-            szWindowTitle, sizeof(szWindowTitle),
+            szWindowInfo, sizeof(szWindowInfo),
             "%s [workunit: %s]",
             m_pWnd->aid.app_name, m_pWnd->aid.wu_name
         );
     }
 
+    if (m_bDebugging) {
+        snprintf(szDebuggingInfo, sizeof(szDebuggingInfo), "[Web Server Port: %d]", iWebServerPort);
+    } else {
+        strcpy(szDebuggingInfo, "");
+    }
+
+    snprintf(szWindowTitle, sizeof(szWindowTitle)-1, "%s %s", szWindowInfo, szDebuggingInfo);
+
     // Determine window size and placement
     if (m_bFullscreen) {
-
         HDC dc = GetDC(NULL);
         rc.left = 0;
         rc.top = 0;
@@ -123,18 +163,15 @@ HRESULT CBrowserModule::PreMessageLoop(int nShowCmd) throw()
         dwStyle = WS_CLIPSIBLINGS|WS_CLIPCHILDREN|WS_POPUP;
         dwExStyle = WS_EX_APPWINDOW|WS_EX_TOPMOST;
         while(ShowCursor(false) >= 0);
-
     } else {
-
         rc.left = 0;
         rc.top = 0;
-        rc.right = 800;
-        rc.bottom = 600;
+        rc.right = 1024;
+        rc.bottom = 768;
 
         dwStyle = WS_CLIPSIBLINGS|WS_CLIPCHILDREN|WS_OVERLAPPEDWINDOW;
         dwExStyle = WS_EX_APPWINDOW|WS_EX_WINDOWEDGE;
         while(ShowCursor(true) < 0);
-
     }
 
     // Create Window
@@ -153,27 +190,69 @@ HRESULT CBrowserModule::PostMessageLoop() throw()
         m_pWnd = NULL;
     }
 
+    webserver_destroy();
     AtlAxWinTerm();
 
     return __super::PostMessageLoop();
 }
 
-int CBrowserModule::BOINCParseCommandLine(int argc, char** argv) {
+int CBrowserModule::RegisterCommandLine(int argc, char** argv)
+{
     for (int i=1; i<argc; i++) {
         if (!strcmp(argv[i], "--fullscreen")) {
             browserlog_msg("Fullscreen mode requested.");
             m_bFullscreen = true;
         }
+        if (!strcmp(argv[i], "--debug")) {
+            browserlog_msg("Debug mode requested.");
+            m_bDebugging = true;
+        }
     }
+#ifdef _DEBUG
+    // Debug Mode is implied
+    browserlog_msg("Debug mode requested.");
+    m_bDebugging = true;
+#endif
+    return 0;
+}
+
+int CBrowserModule::RegisterWebControlCompatiblity()
+{
+    LONG    lReturnValue;
+    HKEY    hKey;
+    TCHAR   szPath[MAX_PATH-1];
+    LPTSTR  lpszFileName = NULL;
+    DWORD   dwSize = 0;
+
+
+    // Isolate the executable name
+    GetModuleFileName(NULL, szPath, (sizeof(szPath)/sizeof(TCHAR)));
+    lpszFileName = _tcsrchr(szPath, '\\');
+    if (lpszFileName)
+        lpszFileName++;
+    else
+        return ERROR_FILE_NOT_FOUND;
+
+    lReturnValue = RegOpenKeyEx(
+        HKEY_CURRENT_USER,
+        _T("SOFTWARE\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_BROWSER_EMULATION"),
+        0,
+        KEY_WRITE,
+        &hKey
+    );
+    if (lReturnValue == ERROR_SUCCESS) {
+        DWORD dwIE11 = 11001;
+        RegSetValueEx(hKey, lpszFileName, 0, REG_DWORD, (const BYTE *)&dwIE11, sizeof(DWORD));
+        RegCloseKey(hKey);
+    }
+
+
     return 0;
 }
 
 
-CBrowserModule _AtlModule;
-
-
 int run(int argc, char** argv) {
-    _AtlModule.BOINCParseCommandLine(argc, argv);
+    _AtlModule.RegisterCommandLine(argc, argv);
     return _AtlModule.WinMain(SW_SHOWDEFAULT);
 }
 

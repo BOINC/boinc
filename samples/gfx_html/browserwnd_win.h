@@ -85,6 +85,7 @@ public:
     std::string m_strExitingURL;
     long m_lRemoteDesktopPort;
     long m_lWebAPIPort;
+    int m_iWebServerPort;
 };
 
 #endif
