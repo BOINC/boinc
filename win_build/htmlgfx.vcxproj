@@ -310,7 +310,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\samples\gfx_html\browser.cpp" />
-    <ClCompile Include="..\samples\gfx_html\browserctrlsvc_win.cpp" />
     <ClCompile Include="..\samples\gfx_html\browserctrlui_win.cpp" />
     <ClCompile Include="..\samples\gfx_html\browserctrl_win.cpp" />
     <ClCompile Include="..\samples\gfx_html\browserlog.cpp" />
@@ -321,7 +320,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\samples\gfx_html\browser.h" />
-    <ClInclude Include="..\samples\gfx_html\browserctrlsvc_win.h" />
     <ClInclude Include="..\samples\gfx_html\browserctrlui_win.h" />
     <ClInclude Include="..\samples\gfx_html\browserctrl_win.h" />
     <ClInclude Include="..\samples\gfx_html\browserlog.h" />
