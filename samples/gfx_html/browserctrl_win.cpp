@@ -26,6 +26,8 @@
 #include <AtlTypes.h>
 #include <exdisp.h>
 #include <exdispid.h>
+#include <mshtml.h>
+#include <urlmon.h>
 #include <string>
 #include "win_util.h"
 #include "version.h"
@@ -36,6 +38,7 @@
 #include "browser_win.h"
 #include "browserlog.h"
 #include "browserctrlui_win.h"
+#include "browserctrlsvc_win.h"
 #include "browserctrl_win.h"
 
 
@@ -169,15 +172,34 @@ STDMETHODIMP CHTMLBrowserHost::CreateControlEx(
                 }
             }
         }
-
+        
         // Register a custom interface to extend the HTML Document Object Model
         // javascript: 'window.external'
         //
-        CComObject<CHTMLBrowserHostUI> *pObject = NULL;
-        hr = CComObject<CHTMLBrowserHostUI>::CreateInstance(&pObject);
-        if (SUCCEEDED(hr) && pObject != NULL)
+        CComObject<CHTMLBrowserHostUI> *pUIObject = NULL;
+        hr = CComObject<CHTMLBrowserHostUI>::CreateInstance(&pUIObject);
+        if (SUCCEEDED(hr) && pUIObject != NULL)
         {
-    	    SetExternalDispatch((IHTMLBrowserHostUI*)pObject);
+    	    SetExternalDispatch((IHTMLBrowserHostUI*)pUIObject);
+        }
+
+        // Register an external com object to handle the service map stuff for
+        // IInternetSecurityManager.  Attempting implement it locally leads
+        // to blowing the stack with recursive calls to QueryService().
+        //
+        CComObject<CHTMLBrowserHostServices> *pServicesObject = NULL;
+        hr = CComObject<CHTMLBrowserHostServices>::CreateInstance(&pServicesObject);
+        if (SUCCEEDED(hr) && pServicesObject != NULL)
+        {
+    	    SetSite((IHTMLBrowserHostSvc*)pServicesObject);
+
+            // Store the Host UI dispatch pointer so the custom Internet Security Manager
+            // can determine the acceptable cross-site query policies.
+            //
+            if (pUIObject)
+            {
+                pServicesObject->m_pHostUI = pUIObject;
+            }
         }
     }
 

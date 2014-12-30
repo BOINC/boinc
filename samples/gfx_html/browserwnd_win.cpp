@@ -193,6 +193,11 @@ LRESULT CHTMLBrowserWnd::OnTimer(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& 
     int retval = ERR_FREAD;
     HRESULT hr = E_FAIL;
     BOOL bExit = false;
+    std::string strDefaultURL;
+    std::string strRunningURL;
+    std::string strSuspendedURL;
+    std::string strNetworkSuspendedURL;
+    std::string strExitingURL;
     double dExitTimeout = 0.0;
     int temp = 0;
     CComQIPtr<IHTMLBrowserHostUI> pHostUI;
@@ -298,13 +303,33 @@ LRESULT CHTMLBrowserWnd::OnTimer(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& 
 
             // Check for project configured state urls
             //
-            if (0 == parse_graphics(m_strDefaultURL, m_strRunningURL, m_strSuspendedURL, m_strNetworkSuspendedURL, m_strExitingURL))
+            if (0 == parse_graphics(strDefaultURL, strRunningURL, strSuspendedURL, strNetworkSuspendedURL, strExitingURL))
             {
-                if (m_strDefaultURL.size()) browserlog_msg("Configured default_url: '%s'.", m_strDefaultURL.c_str());
-                if (m_strRunningURL.size()) browserlog_msg("Configured running_url: '%s'.", m_strRunningURL.c_str());
-                if (m_strSuspendedURL.size()) browserlog_msg("Configured suspended_url: '%s'.", m_strSuspendedURL.c_str());
-                if (m_strNetworkSuspendedURL.size()) browserlog_msg("Configured network_suspended_url: '%s'.", m_strNetworkSuspendedURL.c_str());
-                if (m_strExitingURL.size()) browserlog_msg("Configured exiting_url: '%s'.", m_strExitingURL.c_str());
+                if (strDefaultURL.size())
+                {
+                    m_strDefaultURL = NormalizeURL(strDefaultURL);
+                    browserlog_msg("Configured default_url: '%s'.", m_strDefaultURL.c_str());
+                }
+                if (strRunningURL.size())
+                {
+                    m_strRunningURL = NormalizeURL(strRunningURL);
+                    browserlog_msg("Configured running_url: '%s'.", m_strRunningURL.c_str());
+                }
+                if (strSuspendedURL.size())
+                {
+                    m_strSuspendedURL = NormalizeURL(strSuspendedURL);
+                    browserlog_msg("Configured suspended_url: '%s'.", m_strSuspendedURL.c_str());
+                }
+                if (strNetworkSuspendedURL.size())
+                {
+                    m_strNetworkSuspendedURL = NormalizeURL(strNetworkSuspendedURL);
+                    browserlog_msg("Configured network_suspended_url: '%s'.", m_strNetworkSuspendedURL.c_str());
+                }
+                if (strExitingURL.size())
+                {
+                    m_strExitingURL = NormalizeURL(strExitingURL);
+                    browserlog_msg("Configured exiting_url: '%s'.", m_strExitingURL.c_str());
+                }
             }
             
 
@@ -339,39 +364,64 @@ STDMETHODIMP_(void) CHTMLBrowserWnd::OnNewWindow3(IDispatch** ppDisp, VARIANT_BO
 
 void CHTMLBrowserWnd::NavigateToStateURL(bool bForce)
 {
-    CComBSTR bstr;
     CComVariant v;
+    CComBSTR strTargetUL;
     char buf[256];
     
     // Start out with the default URL
-    bstr = m_strDefaultURL.c_str();
+    strTargetUL = m_strDefaultURL.c_str();
 
     // See if we need to override the default
     if        ((status.abort_request || status.quit_request || status.no_heartbeat) && !m_strExitingURL.empty()) {
-        bstr = m_strExitingURL.c_str();
+        strTargetUL = m_strExitingURL.c_str();
     } else if (status.suspended && !m_strSuspendedURL.empty()) {
-        bstr = m_strSuspendedURL.c_str();
+        strTargetUL = m_strSuspendedURL.c_str();
     } else if (status.network_suspended && !m_strNetworkSuspendedURL.empty()) {
-        bstr = m_strNetworkSuspendedURL.c_str();
+        strTargetUL = m_strNetworkSuspendedURL.c_str();
     } else if (!m_strRunningURL.empty()) {
-        bstr = m_strRunningURL.c_str();
+        strTargetUL = m_strRunningURL.c_str();
     }
 
     // Are we running a vboxwrapper job?  If so, does it expose a webapi port number?
-    if ((m_bVboxwrapperJob && m_lWebAPIPort) && (bstr.Length() == 0)) {
+    if ((m_bVboxwrapperJob && m_lWebAPIPort) && (strTargetUL.Length() == 0)) {
         _snprintf(buf, sizeof(buf), "http://localhost:%d/", m_lWebAPIPort);
-        bstr  = buf;
+        strTargetUL  = buf;
     }
 
     // If nothing has been approved to the point, use the embedded HTML page
-    if (bstr.Length() == 0) {
-        bstr = m_strEmbeddedURL;
+    if (strTargetUL.Length() == 0) {
+        strTargetUL = m_strEmbeddedURL;
     }
 
     // Navigate to URL
-    if ((m_strCurrentURL != bstr) || bForce) {
-        browserlog_msg("State Change Detected (%S).", bstr.m_str);
-        m_strCurrentURL = bstr;
-        m_pBrowserCtrl->Navigate(bstr, &v, &v, &v, &v);
+    if ((m_strCurrentURL != strTargetUL) || bForce) {
+        browserlog_msg("State Change Detected (%S).", strTargetUL.m_str);
+        m_strCurrentURL = strTargetUL;
+        m_pBrowserCtrl->Navigate(strTargetUL, &v, &v, &v, &v);
     }
+}
+
+std::string CHTMLBrowserWnd::NormalizeURL(std::string& url)
+{
+    std::string strNormalized;
+    char buf[256];
+
+    if (starts_with(url, "http://") || starts_with(url, "https://"))
+    {
+        strNormalized = url;
+    }
+    else
+    {
+        // Assume it is a local file
+
+        // Configure a base url using the file protocol pointing to the slot directory
+        //
+        _getcwd(buf, sizeof(buf));
+        strNormalized =  "file://";
+        strNormalized += buf;
+        strNormalized += "/";
+        strNormalized += url;
+    }
+
+    return strNormalized;
 }

@@ -101,9 +101,6 @@ public:
 #endif 	/* __IDeveloperConsoleMessageReceiver_FWD_DEFINED__ */
 
 
-
-
-
 /////////////////////////////////////////////////////////////////////////////
 // CHTMLBrowserHost class
 
@@ -116,9 +113,7 @@ class ATL_NO_VTABLE CHTMLBrowserHost :
 {
 public:
     DECLARE_NO_REGISTRY()
-    DECLARE_PROTECT_FINAL_CONSTRUCT()
     DECLARE_POLY_AGGREGATABLE(CHTMLBrowserHost)
-    DECLARE_GET_CONTROLLING_UNKNOWN()
 
     BEGIN_COM_MAP(CHTMLBrowserHost)
 	    COM_INTERFACE_ENTRY(IHTMLBrowserHost)
@@ -128,14 +123,15 @@ public:
         COM_INTERFACE_ENTRY_CHAIN(CAxHostWindow)
     END_COM_MAP()
 
-
     static CWndClassInfo& GetWndClassInfo();
 
 
 	HRESULT FinalConstruct();
 	void FinalRelease();
 	virtual void OnFinalMessage(HWND hWnd);
+
     HWND Create(HWND hWndParent, _U_RECT rect = NULL, LPCTSTR szWindowName = NULL, DWORD dwStyle = 0, DWORD dwExStyle = 0, _U_MENUorID MenuOrID = 0U, LPVOID lpCreateParam = NULL);
+
     STDMETHOD(CreateControlEx)(LPCOLESTR lpszTricsData, HWND hWnd, IStream* pStream, IUnknown** ppUnk, REFIID iidAdvise, IUnknown* punkSink);
 
 
@@ -147,13 +143,11 @@ public:
     STDMETHOD(WriteWithUrlAndLine)(LPCWSTR source, DEV_CONSOLE_MESSAGE_LEVEL level, int messageId, LPCWSTR messageText, LPCWSTR fileUrl, ULONG line);
     STDMETHOD(WriteWithUrlLineAndColumn)(LPCWSTR source, DEV_CONSOLE_MESSAGE_LEVEL level, int messageId, LPCWSTR messageText, LPCWSTR fileUrl, ULONG line, ULONG column);
 
-
     // COM Interface - IDocHostShowUI
     // http://msdn.microsoft.com/en-us/library/aa770041(v=vs.85).aspx
     //
     STDMETHOD(ShowMessage)(HWND hwnd, LPOLESTR lpstrText, LPOLESTR lpstrCaption, DWORD dwType, LPOLESTR lpstrHelpFile, DWORD dwHelpContext, LRESULT *plResult);
     STDMETHOD(ShowHelp)(HWND hwnd, LPOLESTR pszHelpFile, UINT uCommand, DWORD dwData, POINT ptMouse, IDispatch *pDispatchObjectHit);
-
 
     // COM Interface - IOleCommandTarget
     // http://support.microsoft.com/kb/261003

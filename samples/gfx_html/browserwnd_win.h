@@ -59,7 +59,7 @@ public:
 
     //
     void NavigateToStateURL(bool bForce);
-
+    std::string NormalizeURL(std::string& url);
 
     CComObject<CHTMLBrowserHost>* m_pBrowserHost;
     CComQIPtr<IWebBrowser2> m_pBrowserCtrl;
