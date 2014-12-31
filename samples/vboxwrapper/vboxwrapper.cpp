@@ -679,6 +679,8 @@ int main(int argc, char** argv) {
     checkpoint.parse();
     elapsed_time = checkpoint.elapsed_time;
     current_cpu_time = checkpoint.cpu_time;
+    pVM->pf_host_port = checkpoint.webapi_port;
+    pVM->rd_host_port = checkpoint.remote_desktop_port;
     last_checkpoint_elapsed_time = elapsed_time;
     starting_cpu_time = current_cpu_time;
     last_checkpoint_cpu_time = current_cpu_time;

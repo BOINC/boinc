@@ -99,6 +99,7 @@ VBOX_BASE::VBOX_BASE() : VBOX_JOB() {
     restoring = false;
     crashed = false;
     register_only = false;
+    rd_host_port = 0;
     headless = true;
     vm_pid = 0;
     vboxsvc_pid = 0;
