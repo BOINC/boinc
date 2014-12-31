@@ -53,12 +53,16 @@ static int  webserver_state = WEBSERVER_STATE_UNINIT;
 static char webserver_listeningport[64];
 static char webserver_documentroot[64];
 static char webserver_domain[64];
-static char webserver_username[256];
-static char webserver_password[256];
+static char webserver_secret[256];
+static bool webserver_debugging = false;
 
 
 static int ev_handler(struct mg_connection *conn, enum mg_event ev) {
     std::string uri;
+    const char* secret = NULL;
+    const char* requested_with = NULL;
+    int retval = MG_FALSE;
+
     switch (ev) {
         case MG_REQUEST:
             boinc_resolve_filename_s(conn->uri+1, uri);
@@ -69,7 +73,24 @@ static int ev_handler(struct mg_connection *conn, enum mg_event ev) {
             );
             return MG_MORE;
         case MG_AUTH:
-            return MG_TRUE;
+            retval = MG_FALSE;
+
+            if (!webserver_debugging) {
+                secret = mg_get_header(conn, "Secret");
+                if (secret) {
+                    if (0 == strcmp(secret, webserver_secret)) {
+                        retval = MG_TRUE;
+                    }
+                }
+                requested_with = mg_get_header(conn, "X-Requested-With");
+                if (requested_with) {
+                    retval = MG_TRUE;
+                }
+            } else {
+                retval = MG_TRUE;
+            }
+
+            return retval;
         default:
             return MG_FALSE;
     }
@@ -129,7 +150,7 @@ int start_webserver_thread() {
 }
 
 
-int webserver_initialize(int port, const char* user, const char* passwd) {
+int webserver_initialize(int port, const char* user, const char* passwd, bool debugging) {
     if (port <= 1024) return 1;
 
     snprintf(
@@ -146,17 +167,12 @@ int webserver_initialize(int port, const char* user, const char* passwd) {
     );
 
     snprintf(
-        webserver_username, sizeof(webserver_username)-1,
-        "%s",
-        user
+        webserver_secret, sizeof(webserver_secret)-1,
+        "%s:%s",
+        user, passwd
     );
 
-    snprintf(
-        webserver_password, sizeof(webserver_password)-1,
-        "%s",
-        passwd
-    );
-
+    webserver_debugging = debugging;
     webserver_state = WEBSERVER_STATE_INIT;
     return start_webserver_thread();
 }

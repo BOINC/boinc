@@ -85,8 +85,8 @@ HRESULT CBrowserModule::PreMessageLoop(int nShowCmd) throw()
     char szWindowInfo[256];
     char szDebuggingInfo[256];
     int iWebServerPort = 0;
-    std::string strWebServerUsername;
-    std::string strWebServerPassword;
+    char szWebServerUsername[256];
+    char szWebServerPassword[256];
 
 
 	hr = __super::PreMessageLoop(nShowCmd);
@@ -99,6 +99,7 @@ HRESULT CBrowserModule::PreMessageLoop(int nShowCmd) throw()
     AtlAxWinInit();
 
     // Prepare environment for web browser control
+    //
     RegisterWebControlCompatiblity();
 
     // Prepare environment for detecting system conditions
@@ -107,8 +108,10 @@ HRESULT CBrowserModule::PreMessageLoop(int nShowCmd) throw()
 
     // Initialize Web Server
     //
+    _snprintf(szWebServerUsername, sizeof(szWebServerUsername)-1, "%d", GetCurrentThreadId());
+    _snprintf(szWebServerPassword, sizeof(szWebServerPassword)-1, "%d", GetCurrentThreadId());
     boinc_get_port(false, iWebServerPort);
-    webserver_initialize(iWebServerPort, "", "");
+    webserver_initialize(iWebServerPort, szWebServerUsername, szWebServerPassword, m_bDebugging);
         
     // Create Window Instance
     //
@@ -126,6 +129,8 @@ HRESULT CBrowserModule::PreMessageLoop(int nShowCmd) throw()
     // Store web server information for future use
     //
     m_pWnd->m_iWebServerPort = iWebServerPort;
+    m_pWnd->m_strWebServerUsername = szWebServerUsername;
+    m_pWnd->m_strWebServerPassword = szWebServerPassword;
 
     // Construct the window caption
     //

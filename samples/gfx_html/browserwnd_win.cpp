@@ -308,38 +308,39 @@ LRESULT CHTMLBrowserWnd::OnTimer(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& 
                 if (strDefaultURL.size())
                 {
                     m_strDefaultURL = NormalizeURL(strDefaultURL);
-                    browserlog_msg("Configured default_url: '%s'.", m_strDefaultURL.c_str());
+                    browserlog_msg("Configured default_url: '%s'.", strDefaultURL.c_str());
                 }
                 if (strRunningURL.size())
                 {
                     m_strRunningURL = NormalizeURL(strRunningURL);
-                    browserlog_msg("Configured running_url: '%s'.", m_strRunningURL.c_str());
+                    browserlog_msg("Configured running_url: '%s'.", strRunningURL.c_str());
                 }
                 if (strSuspendedURL.size())
                 {
                     m_strSuspendedURL = NormalizeURL(strSuspendedURL);
-                    browserlog_msg("Configured suspended_url: '%s'.", m_strSuspendedURL.c_str());
+                    browserlog_msg("Configured suspended_url: '%s'.", strSuspendedURL.c_str());
                 }
                 if (strNetworkSuspendedURL.size())
                 {
                     m_strNetworkSuspendedURL = NormalizeURL(strNetworkSuspendedURL);
-                    browserlog_msg("Configured network_suspended_url: '%s'.", m_strNetworkSuspendedURL.c_str());
+                    browserlog_msg("Configured network_suspended_url: '%s'.", strNetworkSuspendedURL.c_str());
                 }
                 if (strExitingURL.size())
                 {
                     m_strExitingURL = NormalizeURL(strExitingURL);
-                    browserlog_msg("Configured exiting_url: '%s'.", m_strExitingURL.c_str());
+                    browserlog_msg("Configured exiting_url: '%s'.", strExitingURL.c_str());
                 }
             }
             
-
-            // Forcefully switch to the required URL.
+            // Forcefully switch to the currect URL
             NavigateToStateURL(true);
         }
+        else
+        {
+            // Switch to the correct URL
+            NavigateToStateURL(false);
+        }
     }
-
-    // Switch to the correct URL
-    NavigateToStateURL(false);
 
 	bHandled = TRUE;
 	return 0;
@@ -364,40 +365,51 @@ STDMETHODIMP_(void) CHTMLBrowserWnd::OnNewWindow3(IDispatch** ppDisp, VARIANT_BO
 
 void CHTMLBrowserWnd::NavigateToStateURL(bool bForce)
 {
-    CComVariant v;
-    CComBSTR strTargetUL;
+    CComVariant vt;
+    CComVariant vtTargetURL;
+    CComVariant vtHeaders;
+    CComBSTR strHeader;
+    CComBSTR strTargetURL;
     char buf[256];
     
     // Start out with the default URL
-    strTargetUL = m_strDefaultURL.c_str();
+    strTargetURL = m_strDefaultURL.c_str();
 
     // See if we need to override the default
     if        ((status.abort_request || status.quit_request || status.no_heartbeat) && !m_strExitingURL.empty()) {
-        strTargetUL = m_strExitingURL.c_str();
+        strTargetURL = m_strExitingURL.c_str();
     } else if (status.suspended && !m_strSuspendedURL.empty()) {
-        strTargetUL = m_strSuspendedURL.c_str();
+        strTargetURL = m_strSuspendedURL.c_str();
     } else if (status.network_suspended && !m_strNetworkSuspendedURL.empty()) {
-        strTargetUL = m_strNetworkSuspendedURL.c_str();
+        strTargetURL = m_strNetworkSuspendedURL.c_str();
     } else if (!m_strRunningURL.empty()) {
-        strTargetUL = m_strRunningURL.c_str();
+        strTargetURL = m_strRunningURL.c_str();
     }
 
     // Are we running a vboxwrapper job?  If so, does it expose a webapi port number?
-    if ((m_bVboxwrapperJob && m_lWebAPIPort) && (strTargetUL.Length() == 0)) {
+    if ((m_bVboxwrapperJob && m_lWebAPIPort) && (strTargetURL.Length() == 0)) {
         _snprintf(buf, sizeof(buf), "http://localhost:%d/", m_lWebAPIPort);
-        strTargetUL  = buf;
+        strTargetURL  = buf;
     }
 
     // If nothing has been approved to the point, use the embedded HTML page
-    if (strTargetUL.Length() == 0) {
-        strTargetUL = m_strEmbeddedURL;
+    if (strTargetURL.Length() == 0) {
+        strTargetURL = m_strEmbeddedURL;
     }
 
     // Navigate to URL
-    if ((m_strCurrentURL != strTargetUL) || bForce) {
-        browserlog_msg("State Change Detected (%S).", strTargetUL.m_str);
-        m_strCurrentURL = strTargetUL;
-        m_pBrowserCtrl->Navigate(strTargetUL, &v, &v, &v, &v);
+    if ((m_strCurrentURL != strTargetURL) || bForce) {
+        browserlog_msg("State Change Detected (%S).", strTargetURL.m_str);
+
+        _snprintf(buf, sizeof(buf), "Secret: %s:%s\r\n", m_strWebServerUsername.c_str(), m_strWebServerPassword.c_str());
+
+        m_strCurrentURL = strTargetURL;
+        strHeader = buf;
+
+        vtTargetURL = strTargetURL;
+        vtHeaders = strHeader;
+
+        m_pBrowserCtrl->Navigate2(&vtTargetURL, &vt, &vt, &vt, &vtHeaders);
     }
 }
 
@@ -415,7 +427,7 @@ std::string CHTMLBrowserWnd::NormalizeURL(std::string& url)
         // Assume it is a local file
 
         // Configure the base url using the http protocol pointing to our locally spun
-        // up web server
+        // up web server, use a username and password if they are provided.
         //
         _snprintf(buf, sizeof(buf), "http://localhost:%d/", m_iWebServerPort);
         strNormalized  = buf;

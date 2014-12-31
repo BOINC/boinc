@@ -221,50 +221,40 @@ LPCWSTR MapMessageLevel(DEV_CONSOLE_MESSAGE_LEVEL level)
 STDMETHODIMP CHTMLBrowserHost::Write(
     LPCWSTR source, DEV_CONSOLE_MESSAGE_LEVEL level, int messageId, LPCWSTR messageText
 ){
-    browserlog_msg(
-        "Console: (%S) (%S%d) %S",
-        MapMessageLevel(level), source, messageId, messageText
-    );
-    return S_OK;
+    return WriteWithUrl(source, level, messageId, messageText, L"");
 }
 
 STDMETHODIMP CHTMLBrowserHost::WriteWithUrl(
     LPCWSTR source, DEV_CONSOLE_MESSAGE_LEVEL level, int messageId, LPCWSTR messageText, LPCWSTR fileUrl
 ){
-    if ((CComBSTR("DOM") == CComBSTR(source)) && (7011 == messageId))
-    {
-        // We do not need to worry about forward/backward caching being disabled
-    }
-    else
-    {
-        browserlog_msg(
-            "Console: (%S) (%S%d) %S\n"
-            "    File: %S",
-            MapMessageLevel(level), source, messageId, messageText, fileUrl
-        );
-    }
-    return S_OK;
+    return WriteWithUrlAndLine(source, level, messageId, messageText, fileUrl, 0);
 }
 
 STDMETHODIMP CHTMLBrowserHost::WriteWithUrlAndLine(
     LPCWSTR source, DEV_CONSOLE_MESSAGE_LEVEL level, int messageId, LPCWSTR messageText, LPCWSTR fileUrl, ULONG line
 ){
-    browserlog_msg(
-        "Console: (%S) (%S%d) %S\n"
-        "    File: %S, Line: %d",
-        MapMessageLevel(level), source, messageId, messageText, fileUrl, line
-    );
-    return S_OK;
+    return WriteWithUrlLineAndColumn(source, level, messageId, messageText, fileUrl, line, 0);
 }
 
 STDMETHODIMP CHTMLBrowserHost::WriteWithUrlLineAndColumn(
     LPCWSTR source, DEV_CONSOLE_MESSAGE_LEVEL level, int messageId, LPCWSTR messageText, LPCWSTR fileUrl, ULONG line, ULONG column
 ){
-    browserlog_msg(
-        "Console: (%S) (%S%d) %S\n"
-        "    File: %S, Line: %d, Column: %d",
-        MapMessageLevel(level), source, messageId, messageText, fileUrl, line, column
-    );
+    if ((CComBSTR("DOM") == CComBSTR(source)) && (7011 == messageId))
+    {
+        // We do not need to worry about forward/backward caching being disabled
+    }
+    else if ((CComBSTR("HTML") == CComBSTR(source)) && (CComBSTR("about:blank") == CComBSTR(fileUrl)))
+    {
+        // We do not need to worry about warnings and errors from a blank page
+    }
+    else
+    {
+        browserlog_msg(
+            "Console: (%S) (%S%d) %S\n"
+            "    File: %S, Line: %d, Column: %d",
+            MapMessageLevel(level), source, messageId, messageText, fileUrl, line, column
+        );
+    }
     return S_OK;
 }
 

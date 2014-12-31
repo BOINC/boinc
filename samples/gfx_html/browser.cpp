@@ -51,7 +51,6 @@ int main(int argc, char** argv) {
 
     retval = run(argc, argv);
 
-    boinc_finish_diag();
     return retval;
 }
 

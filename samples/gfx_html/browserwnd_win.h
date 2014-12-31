@@ -86,6 +86,8 @@ public:
     long m_lRemoteDesktopPort;
     long m_lWebAPIPort;
     int m_iWebServerPort;
+    std::string m_strWebServerUsername;
+    std::string m_strWebServerPassword;
 };
 
 #endif

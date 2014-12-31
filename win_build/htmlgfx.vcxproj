@@ -129,7 +129,7 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <CompileAs>CompileAsCpp</CompileAs>
-      <ForcedIncludeFiles>boinc_win.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ForcedIncludeFiles>%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <DisableSpecificWarnings>4192</DisableSpecificWarnings>
     </ClCompile>
     <ResourceCompile>
@@ -181,7 +181,7 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <CompileAs>CompileAsCpp</CompileAs>
-      <ForcedIncludeFiles>boinc_win.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ForcedIncludeFiles>%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <DisableSpecificWarnings>4192</DisableSpecificWarnings>
     </ClCompile>
     <ResourceCompile>
@@ -317,7 +317,12 @@
     <ClCompile Include="..\samples\gfx_html\browsermain_win.cpp" />
     <ClCompile Include="..\samples\gfx_html\browserwnd_win.cpp" />
     <ClCompile Include="..\samples\gfx_html\graphics.cpp" />
-    <ClCompile Include="..\samples\gfx_html\mongoose.cpp" />
+    <ClCompile Include="..\samples\gfx_html\mongoose.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="..\samples\gfx_html\vboxwrapper.cpp" />
     <ClCompile Include="..\samples\gfx_html\webserver.cpp" />
   </ItemGroup>
