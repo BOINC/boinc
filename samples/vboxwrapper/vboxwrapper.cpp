@@ -263,22 +263,18 @@ void set_floppy_image(APP_INIT_DATA& aid, VBOX_VM& vm) {
 
 // if there's a port for web graphics, tell the client about it
 //
-void set_web_graphics_url(VBOX_VM& vm) {
+void report_web_graphics_url(VBOX_VM& vm) {
     char buf[256];
-    for (unsigned int i=0; i<vm.port_forwards.size(); i++) {
-        VBOX_PORT_FORWARD& pf = vm.port_forwards[i];
-        if (pf.guest_port == vm.pf_guest_port) {
-            sprintf(buf, "http://localhost:%d", pf.host_port);
-            vboxlog_msg("Detected: Web Application Enabled (%s)", buf);
-            boinc_web_graphics_url(buf);
-            break;
-        }
+    if (vm.pf_host_port && !boinc_file_exists("graphics_app")) {
+        sprintf(buf, "http://localhost:%d", vm.pf_host_port);
+        vboxlog_msg("Detected: Web Application Enabled (%s)", buf);
+        boinc_web_graphics_url(buf);
     }
 }
 
 // set remote desktop information if needed
 //
-void set_remote_desktop_info(VBOX_VM& vm) {
+void report_remote_desktop_info(VBOX_VM& vm) {
     char buf[256];
     if (vm.rd_host_port) {
         sprintf(buf, "localhost:%d", vm.rd_host_port);
@@ -853,8 +849,8 @@ int main(int argc, char** argv) {
     }
 
     set_floppy_image(aid, *pVM);
-    set_web_graphics_url(*pVM);
-    set_remote_desktop_info(*pVM);
+    report_web_graphics_url(*pVM);
+    report_remote_desktop_info(*pVM);
     checkpoint.webapi_port = pVM->pf_host_port;
     checkpoint.remote_desktop_port = pVM->rd_host_port;
     checkpoint.update(elapsed_time, current_cpu_time);
