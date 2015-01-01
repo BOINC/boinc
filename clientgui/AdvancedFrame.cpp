@@ -1409,9 +1409,9 @@ void CAdvancedFrame::OnSelectComputer(wxCommandEvent& WXUNUSED(event)) {
                 hostName.erase(iPos); 
             } 
             lRetVal = pDoc->Connect(
-                hostName,
+                hostName.c_str(),
                 portNum,
-                password,
+                password.c_str(),
                 TRUE,
                 FALSE
             );
