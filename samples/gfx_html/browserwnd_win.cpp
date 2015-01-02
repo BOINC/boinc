@@ -40,6 +40,7 @@
 #include "browserctrlui_win.h"
 #include "browserctrl_win.h"
 #include "browserwnd_win.h"
+#include "browsermain_win.h"
 #include "graphics.h"
 #include "vboxwrapper.h"
 
@@ -228,7 +229,10 @@ LRESULT CHTMLBrowserWnd::OnTimer(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& 
 
         if (dExitTimeout > 5.0)
         {
-            PostMessage(WM_CLOSE);
+            if (!_AtlModule.m_bDebugging)
+            {
+                PostMessage(WM_CLOSE);
+            }
         }
 
         pHostUI->put_suspended(status.suspended);
