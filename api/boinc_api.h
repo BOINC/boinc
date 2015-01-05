@@ -115,13 +115,6 @@ extern int boinc_init_parallel();
 extern void boinc_web_graphics_url(char*);
 extern void boinc_remote_desktop_addr(char*);
 
-extern int boinc_write_graphics_status(
-    double cpu_time, double elapsed_time, double fraction_done
-);
-extern int boinc_parse_graphics_status(
-    double* update_time, double* cpu_time, double* elapsed_time, double* fraction_done, BOINC_STATUS* status
-);
-
 #ifdef __APPLE__
 extern int setMacPList(void);
 extern int setMacIcon(char *filename, char *iconData, long iconSize);
