@@ -205,16 +205,16 @@ $biomed = array(
             "",
             "Study diseases such as HIV, malaria, cancer, and Alzheimer's"
         ),
-        array(
-            "SIMAP",
-            "http://boincsimap.org/boincsimap/",
-            tra("University of Vienna"),
-            tra("Biology"),
-            tra("Calculate similarities between proteins. SIMAP provides a public database of the resulting data, which plays a key role in many bioinformatics research projects."),
-            "simaplogo.jpg",
-            "",
-            "Calculate similarities between proteins"
-        ),
+//        array(
+//            "SIMAP",
+//            "http://boincsimap.org/boincsimap/",
+//            tra("University of Vienna"),
+//            tra("Biology"),
+//            tra("Calculate similarities between proteins. SIMAP provides a public database of the resulting data, which plays a key role in many bioinformatics research projects."),
+//            "simaplogo.jpg",
+//            "",
+//            "Calculate similarities between proteins"
+//        ),
     ),
 );
 $earth = array(
