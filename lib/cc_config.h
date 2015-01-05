@@ -149,6 +149,7 @@ struct CC_CONFIG {
     bool disallow_attach;
     bool dont_check_file_sizes;
     bool dont_contact_ref_site;
+    bool dont_suspend_nci;
     bool dont_use_vbox;
     std::vector<EXCLUDE_GPU> exclude_gpus;
     std::vector<std::string> exclusive_apps;

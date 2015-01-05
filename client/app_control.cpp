@@ -1155,6 +1155,10 @@ void ACTIVE_TASK_SET::suspend_all(int reason) {
             continue;
         }
 
+        if (cc_config.dont_suspend_nci && atp->result->non_cpu_intensive()) {
+            continue;
+        }
+
         // handle CPU throttling separately
         //
         if (reason == SUSPEND_REASON_CPU_THROTTLE) {
