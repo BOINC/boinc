@@ -112,12 +112,14 @@ void* boinc_graphics_get_shmem(const char* prog_name) {
 }
 #endif
 
+#define GRAPHICS_STATUS_FILENAME "graphics_status.xml"
+
 int boinc_write_graphics_status(
-    const char* filename, double cpu_time, double elapsed_time,
+    double cpu_time, double elapsed_time,
     double fraction_done
 ){
     MIOFILE mf;
-    FILE* f = boinc_fopen(filename, "w");
+    FILE* f = boinc_fopen(GRAPHICS_STATUS_FILENAME, "w");
     mf.init_file(f);
     mf.printf(
         "<graphics_status>\n"
@@ -129,7 +131,6 @@ int boinc_write_graphics_status(
         "        <no_heartbeat>%d</no_heartbeat>\n"
         "        <suspended>%d</suspended>\n"
         "        <quit_request>%d</quit_request>\n"
-        "        <reread_init_data_file>%d</reread_init_data_file>\n"
         "        <abort_request>%d</abort_request>\n"
         "        <network_suspended>%d</network_suspended>\n"
         "    </boinc_status>\n"
@@ -141,7 +142,6 @@ int boinc_write_graphics_status(
         boinc_status.no_heartbeat,
         boinc_status.suspended,
         boinc_status.quit_request,
-        boinc_status.reread_init_data_file,
         boinc_status.abort_request,
         boinc_status.network_suspended
     );
@@ -150,16 +150,22 @@ int boinc_write_graphics_status(
 }
 
 int boinc_parse_graphics_status(
-    const char* filename, double* update_time, double* cpu_time,
+    double* update_time, double* cpu_time,
     double* elapsed_time, double* fraction_done, BOINC_STATUS* status
 ){
     MIOFILE mf;
-    FILE* f = boinc_fopen(filename, "r");
+    FILE* f = boinc_fopen(GRAPHICS_STATUS_FILENAME, "r");
     if (!f) {
         return ERR_FOPEN;
     }
     mf.init_file(f);
     XML_PARSER xp(&mf);
+
+    update_time = 0;
+    cpu_time = 0;
+    elapsed_time = 0;
+    fraction_done = 0;
+    memset(status, 0, sizeof(BOINC_STATUS));
 
     if (!xp.parse_start("graphics_status")) return ERR_XML_PARSE;
     while (!xp.get_tag()) {
@@ -181,7 +187,6 @@ int boinc_parse_graphics_status(
                 else if (xp.parse_int("no_heartbeat", status->no_heartbeat)) continue;
                 else if (xp.parse_int("suspended", status->suspended)) continue;
                 else if (xp.parse_int("quit_request", status->quit_request)) continue;
-                else if (xp.parse_int("reread_init_data_file", status->reread_init_data_file)) continue;
                 else if (xp.parse_int("abort_request", status->abort_request)) continue;
                 else if (xp.parse_int("network_suspended", status->network_suspended)) continue;
             }
