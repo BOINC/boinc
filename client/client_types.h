@@ -314,6 +314,8 @@ struct APP_VERSION {
     double missing_coproc_usage;
     char missing_coproc_name[256];
     bool dont_throttle;
+        // jobs of this app version are exempt from CPU throttling
+        // Set for coprocessor apps
     bool is_vm_app;
         // currently this set if plan class includes "vbox" (kludge)
     bool is_wrapper;
