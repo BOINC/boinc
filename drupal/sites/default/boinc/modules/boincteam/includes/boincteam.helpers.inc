@@ -19,7 +19,9 @@ function boincteam_sync() {
   db_set_active('boinc');
   $boinc_teams = db_query('
     SELECT id, name, description, userid, create_time, seti_id
-    FROM team'
+    FROM team
+    WHERE mod_time > FROM_UNIXTIME(%d)',
+    variable_get('boincteam_last_sync', 0)
   );
   db_set_active('default');
   
