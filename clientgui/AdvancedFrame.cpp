@@ -1783,29 +1783,31 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
             strProjectName, strProjectURL, strProjectAuthenticator, strProjectInstitution, strProjectDescription, strProjectKnown
         )
     ){
-        wasShown = IsShown();
-        Show();
-        wasVisible = wxGetApp().IsApplicationVisible();
-        if (!wasVisible) {
-            wxGetApp().ShowApplication(true);
-        }
+        if (!pDoc->project((char*)strProjectURL.c_str())) {
+            wasShown = IsShown();
+            Show();
+            wasVisible = wxGetApp().IsApplicationVisible();
+            if (!wasVisible) {
+                wxGetApp().ShowApplication(true);
+            }
         
-        pWizard = new CWizardAttach(this);
+            pWizard = new CWizardAttach(this);
 
-        if (pWizard->RunSimpleProjectAttach(
-                wxURI::Unescape(strProjectName),
-                wxURI::Unescape(strProjectURL),
-                wxURI::Unescape(strProjectAuthenticator),
-                wxURI::Unescape(strProjectInstitution),
-                wxURI::Unescape(strProjectDescription),
-                wxURI::Unescape(strProjectKnown)
-            )
-        ) {
-            // If successful, display the projects tab
-            m_pNotebook->SetSelection(ID_ADVTASKSVIEW - ID_ADVVIEWBASE);
-        } else {
-            // If failure, display the notices tab
-            m_pNotebook->SetSelection(ID_ADVNOTICESVIEW - ID_ADVVIEWBASE);
+            if (pWizard->RunSimpleProjectAttach(
+                    wxURI::Unescape(strProjectName),
+                    wxURI::Unescape(strProjectURL),
+                    wxURI::Unescape(strProjectAuthenticator),
+                    wxURI::Unescape(strProjectInstitution),
+                    wxURI::Unescape(strProjectDescription),
+                    wxURI::Unescape(strProjectKnown)
+                )
+            ) {
+                // If successful, display the projects tab
+                m_pNotebook->SetSelection(ID_ADVTASKSVIEW - ID_ADVVIEWBASE);
+            } else {
+                // If failure, display the notices tab
+                m_pNotebook->SetSelection(ID_ADVNOTICESVIEW - ID_ADVVIEWBASE);
+            }
         }
     } else if (ami.acct_mgr_url.size() && ami.have_credentials) {
         // Fall through

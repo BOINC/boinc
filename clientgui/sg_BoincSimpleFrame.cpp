@@ -714,23 +714,25 @@ void CSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
             strProjectName, strProjectURL, strProjectAuthenticator, strProjectInstitution, strProjectDescription, strProjectKnown
         )
     ){
-        wasShown = IsShown();
-        Show();
-        wasVisible = wxGetApp().IsApplicationVisible();
-        if (!wasVisible) {
-            wxGetApp().ShowApplication(true);
-        }
+        if (!pDoc->project((char*)strProjectURL.c_str())) {
+            wasShown = IsShown();
+            Show();
+            wasVisible = wxGetApp().IsApplicationVisible();
+            if (!wasVisible) {
+                wxGetApp().ShowApplication(true);
+            }
         
-        pWizard = new CWizardAttach(this);
+            pWizard = new CWizardAttach(this);
 
-        pWizard->RunSimpleProjectAttach(
-            wxURI::Unescape(strProjectName),
-            wxURI::Unescape(strProjectURL),
-            wxURI::Unescape(strProjectAuthenticator),
-            wxURI::Unescape(strProjectInstitution),
-            wxURI::Unescape(strProjectDescription),
-            wxURI::Unescape(strProjectKnown)
-        );
+            pWizard->RunSimpleProjectAttach(
+                wxURI::Unescape(strProjectName),
+                wxURI::Unescape(strProjectURL),
+                wxURI::Unescape(strProjectAuthenticator),
+                wxURI::Unescape(strProjectInstitution),
+                wxURI::Unescape(strProjectDescription),
+                wxURI::Unescape(strProjectKnown)
+            );
+        }
     } else if (ami.acct_mgr_url.size() && ami.have_credentials) {
         // Fall through
         //
