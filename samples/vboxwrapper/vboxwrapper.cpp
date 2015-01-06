@@ -61,6 +61,7 @@
 
 #include "version.h"
 #include "boinc_api.h"
+#include "graphics2.h"
 #include "diagnostics.h"
 #include "filesys.h"
 #include "md5_file.h"

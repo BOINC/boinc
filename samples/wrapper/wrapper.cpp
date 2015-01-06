@@ -62,6 +62,7 @@
 
 #include "version.h"
 #include "boinc_api.h"
+#include "graphics2.h"
 #include "boinc_zip.h"
 #include "diagnostics.h"
 #include "error_numbers.h"
