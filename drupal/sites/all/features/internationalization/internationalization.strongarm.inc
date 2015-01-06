@@ -21,7 +21,7 @@ function internationalization_strongarm() {
   $strongarm->name = 'i18ntaxonomy_vocabulary';
   $strongarm->value = array(
     2 => '1',
-    1 => '1',
+    1 => '0',
   );
   $export['i18ntaxonomy_vocabulary'] = $strongarm;
 
