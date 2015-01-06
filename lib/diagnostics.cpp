@@ -610,6 +610,7 @@ int diagnostics_cycle_logs() {
             boinc_copy(stderr_log, stderr_archive);
             stderr_file_size = 0;
             stderr_file = freopen(stderr_log, "w", stderr);
+            setbuf(stderr_file, 0);
             if (NULL == stderr_file) return ERR_FOPEN;
         }
     }
