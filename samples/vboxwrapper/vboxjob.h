@@ -98,6 +98,10 @@ public:
     // whether to enable GBAC functionality
     bool enable_gbac;
 
+    // whether to enable graphics support by way of
+    // http://boinc.berkeley.edu/trac/wiki/GraphicsApi#File
+    bool enable_graphics_support;
+
     // maximum amount of wall-clock time this VM is allowed to run before
     // considering itself done.
     double job_duration;
