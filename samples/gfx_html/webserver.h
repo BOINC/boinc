@@ -18,7 +18,7 @@
 #ifndef _WEBSERVER_H_
 #define _WEBSERVER_H_
 
-int webserver_initialize(int port, const char* user, const char* passwd, bool debugging);
+int webserver_initialize(int port, bool debugging);
 int webserver_destroy();
 
 #endif

@@ -32,6 +32,7 @@
 #include "win_util.h"
 #include "version.h"
 #include "boinc_api.h"
+#include "graphics2.h"
 #include "diagnostics.h"
 #include "filesys.h"
 #include "browser_i.h"
@@ -371,8 +372,6 @@ void CHTMLBrowserWnd::NavigateToStateURL(bool bForce)
 {
     CComVariant vt;
     CComVariant vtTargetURL;
-    CComVariant vtHeaders;
-    CComBSTR strHeader;
     CComBSTR strTargetURL;
     char buf[256];
     
@@ -405,15 +404,10 @@ void CHTMLBrowserWnd::NavigateToStateURL(bool bForce)
     if ((m_strCurrentURL != strTargetURL) || bForce) {
         browserlog_msg("State Change Detected (%S).", strTargetURL.m_str);
 
-        _snprintf(buf, sizeof(buf), "Secret: %s:%s\r\n", m_strWebServerUsername.c_str(), m_strWebServerPassword.c_str());
-
         m_strCurrentURL = strTargetURL;
-        strHeader = buf;
-
         vtTargetURL = strTargetURL;
-        vtHeaders = strHeader;
 
-        m_pBrowserCtrl->Navigate2(&vtTargetURL, &vt, &vt, &vt, &vtHeaders);
+        m_pBrowserCtrl->Navigate2(&vtTargetURL, &vt, &vt, &vt, &vt);
     }
 }
 

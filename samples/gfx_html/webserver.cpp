@@ -53,44 +53,30 @@ static int  webserver_state = WEBSERVER_STATE_UNINIT;
 static char webserver_listeningport[64];
 static char webserver_documentroot[64];
 static char webserver_domain[64];
-static char webserver_secret[256];
 static bool webserver_debugging = false;
 
 
 static int ev_handler(struct mg_connection *conn, enum mg_event ev) {
-    std::string uri;
-    const char* secret = NULL;
-    const char* requested_with = NULL;
-    int retval = MG_FALSE;
-
     switch (ev) {
         case MG_REQUEST:
-            boinc_resolve_filename_s(conn->uri+1, uri);
-            mg_send_file(
-                conn,
-                uri.c_str(),
-                "Access-Control-Allow-Origin: *\r\n"
-            );
-            return MG_MORE;
-        case MG_AUTH:
-            retval = MG_FALSE;
-
-            if (!webserver_debugging) {
-                secret = mg_get_header(conn, "Secret");
-                if (secret) {
-                    if (0 == strcmp(secret, webserver_secret)) {
-                        retval = MG_TRUE;
-                    }
-                }
-                requested_with = mg_get_header(conn, "X-Requested-With");
-                if (requested_with) {
-                    retval = MG_TRUE;
-                }
+            // reserve /api for future use.
+            if (0 == strcmp(conn->uri, "/api")) {
+                return MG_FALSE;
             } else {
-                retval = MG_TRUE;
+                if (boinc_file_exists(conn->uri)) {
+                    std::string uri;
+                    boinc_resolve_filename_s(conn->uri+1, uri);
+                    mg_send_file(
+                        conn,
+                        uri.c_str(),
+                        "Access-Control-Allow-Origin: *\r\n"
+                    );
+                    return MG_MORE;
+                }
             }
-
-            return retval;
+            return MG_FALSE;
+        case MG_AUTH:
+            return MG_TRUE;
         default:
             return MG_FALSE;
     }
@@ -150,7 +136,7 @@ int start_webserver_thread() {
 }
 
 
-int webserver_initialize(int port, const char* user, const char* passwd, bool debugging) {
+int webserver_initialize(int port, bool debugging) {
     if (port <= 1024) return 1;
 
     snprintf(
@@ -164,12 +150,6 @@ int webserver_initialize(int port, const char* user, const char* passwd, bool de
     snprintf(
         webserver_domain, sizeof(webserver_domain)-1,
         "htmlgfx"
-    );
-
-    snprintf(
-        webserver_secret, sizeof(webserver_secret)-1,
-        "%s:%s",
-        user, passwd
     );
 
     webserver_debugging = debugging;
