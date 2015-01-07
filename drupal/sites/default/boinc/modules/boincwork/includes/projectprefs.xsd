@@ -5,17 +5,9 @@
            xmlns="http://boinc.berkeley.edu/drupal-psp.xsd"
            xmlns:psp="http://boinc.berkeley.edu/drupal-psp.xsd"
            elementFormDefault="qualified"
-           version="0.3">
+           version="0.4">
 
     <!-- simple types -->
-
-    <xs:simpleType name="lang">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="en_US" />
-            <xs:enumeration value="de_DE" />
-            <!-- TODO add valid lang values -->
-        </xs:restriction>
-    </xs:simpleType>
 
     <xs:simpleType name="datatype">
         <xs:restriction base="xs:string">
@@ -26,22 +18,6 @@
     </xs:simpleType>
 
     <!-- elementary complex types -->
-
-    <xs:complexType name="title">
-        <xs:simpleContent>
-            <xs:extension base="xs:string">
-                <xs:attribute name="lang" type="lang" default="en_US" />
-            </xs:extension>
-        </xs:simpleContent>
-    </xs:complexType>
-
-    <xs:complexType name="description">
-        <xs:simpleContent>
-            <xs:extension base="xs:string">
-                <xs:attribute name="lang" type="lang" default="en_US" />
-            </xs:extension>
-        </xs:simpleContent>
-    </xs:complexType>
 
     <xs:complexType name="item">
         <xs:simpleContent>
@@ -99,8 +75,8 @@
 
     <xs:complexType name="component">
         <xs:sequence>
-            <xs:element name="title" type="title" minOccurs="1" maxOccurs="1" />
-            <xs:element name="description" type="description" minOccurs="0" maxOccurs="1" />
+            <xs:element name="title" type="xs:string" minOccurs="1" maxOccurs="1" />
+            <xs:element name="description" type="xs:string" minOccurs="0" maxOccurs="1" />
         </xs:sequence>
         <xs:attribute name="name" type="xs:string" use="required" />
     </xs:complexType>
@@ -161,7 +137,7 @@
     <xs:element name="apps">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="title" type="title" minOccurs="1" maxOccurs="1" />
+                <xs:element name="title" type="xs:string" minOccurs="1" maxOccurs="1" />
                 <xs:element name="app" type="app" minOccurs="0" maxOccurs="unbounded" />
             </xs:sequence>
         </xs:complexType>
@@ -177,7 +153,7 @@
 
     <xs:complexType name="group">
         <xs:sequence>
-            <xs:element name="title" type="title" minOccurs="1" maxOccurs="1" />
+            <xs:element name="title" type="xs:string" minOccurs="1" maxOccurs="1" />
             <xs:choice minOccurs="1" maxOccurs="unbounded">
                 <xs:element name="text" type="text" />
                 <xs:element name="boolean" type="boolean" />
