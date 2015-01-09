@@ -26,7 +26,7 @@ function show_form() {
         <form action=brand_stats.php>
         Select brand:
         <p>
-        <input type=radio name=brand value=1 checked>HTP Power to Give
+        <input type=radio name=brand value=1 checked>HTC Power to Give
         <p>
         <input type=submit value=\"Show stats\">
     ";
@@ -41,7 +41,7 @@ function show_stats($brand) {
     default:
         error_page("invalid brand");
     }
-    $hosts = BoincHost::enum("serialnum like '%$x%'");
+    $hosts = BoincHost::enum("os_name='Android' and serialnum like '%$x%'");
     $n = 0;
     $t = 0;
     $a = 0;
