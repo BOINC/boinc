@@ -42,11 +42,14 @@
 //   delete users with ID N to M inclusive
 //
 // --teams
-//   delete teams that
-//   - have 0 or 1 members
-//   - have no total credit
-//   - have descriptions containing a link
-//   - are not BOINC-Wide teams
+//   delete teams (and their owners) where the team
+//   - has 0 or 1 members
+//   - has no total credit
+//   - has description containing a link
+//   - is not a BOINC-Wide team
+//   and the owner
+//   - has no posts
+//   - has no hosts
 //
 // --user_url
 //   delete accounts that
@@ -200,6 +203,13 @@ function delete_teams() {
         $n = team_count_members($team->id);
         if ($n > 1) continue;
         if (!has_link($team->description)) continue;
+        $user = BoincUser::lookup_id($team->userid);
+        if ($user) {
+            $n = BoincPost::count("user=$user->id");
+            if ($n) continue;
+            $n = BoincHost::count("userid=$user->id");
+            if ($n) continue;
+        }
         if ($test) {
             echo "would delete team:\n";
             echo "   ID: $team->id\n";
@@ -208,6 +218,7 @@ function delete_teams() {
         } else {
             $team->delete();
             echo "deleted team ID $team->id name $team->name\n";
+            if ($user) do_delete_user($user);
         }
     }
 }
