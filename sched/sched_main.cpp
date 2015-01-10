@@ -659,8 +659,8 @@ done:
             log_messages.printf(MSG_NORMAL,
                 "FCGI: counter: %d\n", counter
             );
-            log_messages.flush();
         }
+        log_messages.flush();
     }   // do()
     if (counter == MAX_FCGI_COUNT) {
         fprintf(stderr, "FCGI: counter passed MAX_FCGI_COUNT - exiting..\n");
