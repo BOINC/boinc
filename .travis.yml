@@ -19,7 +19,7 @@ env:
 - BOINC_TYPE=libs
 - BOINC_TYPE=server
 - BOINC_TYPE=client
-- BOINC_TYPE=manager
+#- BOINC_TYPE=manager
 
 matrix:
   fast_finish: true
@@ -31,7 +31,7 @@ install:
 - sudo apt-get install make m4 pkg-config dh-autoreconf freeglut3-dev libxmu-dev libxi-dev libjpeg62-dev -qq
 - if [[ "${BOINC_TYPE}" == "server" ]]; then ( sudo apt-get install python libssl-dev python-mysqldb libmysqlclient-dev libfcgi-dev -qq ) fi
 - if [[ "${BOINC_TYPE}" == "client" ]]; then ( sudo apt-get install libssl-dev libcurl4-openssl-dev libxss-dev libnotify-dev libxcb-util0-dev -qq ) fi
-- if [[ "${BOINC_TYPE}" == "manager" ]]; then ( sudo apt-get install libssl-dev libxss-dev libnotify-dev libxcb-util0-dev libsqlite3-dev libwxgtk3.0-dev libwxgtk-webview3.0-dev ) fi
+- if [[ "${BOINC_TYPE}" == "manager" ]]; then ( sudo apt-get install libssl-dev libxss-dev libnotify-dev libxcb-util0-dev libsqlite3-dev ) fi
 
 before_script:
 - ./_autosetup
