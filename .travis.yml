@@ -11,7 +11,6 @@ notifications:
   email:
     recipients:
       - boinc_cvs@ssl.berkeley.edu
-      - rwalton@ssl.berkeley.edu
     on_success: always
     on_failure: always
 
