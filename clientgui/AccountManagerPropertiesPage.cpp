@@ -184,12 +184,12 @@ void CAccountManagerPropertiesPage::OnPageChanged( wxWizardExEvent& /*event*/ )
     wxASSERT(m_pProgressIndicator);
     wxASSERT(pWA);
 
-    if (!pWA->m_strProjectName.IsEmpty()) {
+    if (!pWA->GetProjectName().IsEmpty()) {
         wxString str;
 
         // %s is the project name
         //    i.e. 'BOINC', 'GridRepublic'
-        str.Printf(_("Communicating with %s."), pWA->m_strProjectName.c_str());
+        str.Printf(_("Communicating with %s."), pWA->GetProjectName().c_str());
 
         m_pTitleStaticCtrl->SetLabel(
             str
@@ -276,7 +276,7 @@ void CAccountManagerPropertiesPage::OnStateChange( CAccountManagerPropertiesPage
             ) {
                 if (ERR_RETRY == pc->error_num) {
                     pDoc->rpc.get_project_config(
-                        (const char*)pWA->m_AccountManagerInfoPage->GetProjectURL().mb_str()
+                        (const char*)pWA->GetProjectURL().mb_str()
                     );
                 }
 
@@ -303,7 +303,7 @@ void CAccountManagerPropertiesPage::OnStateChange( CAccountManagerPropertiesPage
                 SetProjectClientAccountCreationDisabled(pc->client_account_creation_disabled);
                 SetTermsOfUseRequired(!pc->terms_of_use.empty());
 
-                pWA->m_strProjectName = wxString(pc->name.c_str(), wxConvUTF8);
+                pWA->SetProjectName(wxString(pc->name.c_str(), wxConvUTF8));
 
             } else {
 
@@ -378,7 +378,7 @@ void CAccountManagerPropertiesPage::OnStateChange( CAccountManagerPropertiesPage
         case ACCTMGRPROP_DETERMINEACCOUNTINFOSTATUS_EXECUTE:
             // Determine if the account settings are already pre-populated.
             //   If so, advance to the Account Manager Processing page.
-            SetCredentialsAlreadyAvailable(pWA->m_bCredentialsCached || pWA->m_bCredentialsDetected);
+            SetCredentialsAlreadyAvailable(pWA->IsCredentialsCached() || pWA->IsCredentialsDetected());
             SetNextState(ACCTMGRPROP_CLEANUP);
             break;
         case ACCTMGRPROP_CLEANUP:

@@ -179,8 +179,6 @@ void CAccountManagerInfoPage::CreateControls()
     m_pProjectUrlCtrl->Create( itemWizardPage23, ID_PROJECTURLCTRL, wxEmptyString, wxDefaultPosition, wxSize(200, -1), 0 );
     itemFlexGridSizer14->Add(m_pProjectUrlCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    // Set validators
-    m_pProjectUrlCtrl->SetValidator( CValidateURL( & m_strProjectURL ) );
     ////@end CAccountManagerInfoPage content construction
 }
 
@@ -257,7 +255,7 @@ void CAccountManagerInfoPage::OnPageChanged( wxWizardExEvent& event ) {
 
     unsigned int      i;
     ALL_PROJECTS_LIST pl;
-    CMainDocument*    pDoc = wxGetApp().GetDocument();
+    CMainDocument* pDoc = wxGetApp().GetDocument();
 
     wxASSERT(m_pTitleStaticCtrl);
     wxASSERT(m_pDescriptionStaticCtrl);
@@ -320,12 +318,10 @@ void CAccountManagerInfoPage::OnPageChanged( wxWizardExEvent& event ) {
         if (m_pProjectListCtrl->GetCount()) {
             m_pProjectListCtrl->SetSelection(0);
             CAcctMgrListItem* pItem = (CAcctMgrListItem*)(m_pProjectListCtrl->GetClientData(0));
-            SetProjectURL(pItem->GetURL());
+
+            m_pProjectUrlCtrl->SetValue(pItem->GetURL());
             m_pProjectDetailsDescriptionCtrl->SetValue(pItem->GetDescription());
         }
-
-        TransferDataToWindow();
-
         m_bAccountManagerListPopulated = true;
     }
 
@@ -341,7 +337,12 @@ void CAccountManagerInfoPage::OnPageChanged( wxWizardExEvent& event ) {
  */
 
 void CAccountManagerInfoPage::OnPageChanging( wxWizardExEvent& event ) {
-    event.Skip();
+    if (event.GetDirection() == false) return;
+
+    CWizardAttach* pWA = ((CWizardAttach*)GetParent());
+
+    // Update authoritative data in CWizardAttach
+    pWA->SetProjectURL(m_pProjectUrlCtrl->GetValue());
 }
 
 /*!
@@ -351,14 +352,13 @@ void CAccountManagerInfoPage::OnPageChanging( wxWizardExEvent& event ) {
 void CAccountManagerInfoPage::OnProjectSelected( wxCommandEvent& /*event*/ ) {
     int sel = m_pProjectListCtrl->GetSelection();
     if (sel == wxNOT_FOUND) {
-        SetProjectURL(wxEmptyString);
+        m_pProjectUrlCtrl->SetValue(wxEmptyString);
         m_pProjectDetailsDescriptionCtrl->SetValue(wxEmptyString);
     } else {
         CAcctMgrListItem* pItem = (CAcctMgrListItem*)(m_pProjectListCtrl->GetClientData(sel));
-        SetProjectURL(pItem->GetURL());
+        m_pProjectUrlCtrl->SetValue(pItem->GetURL());
         m_pProjectDetailsDescriptionCtrl->SetValue(pItem->GetDescription());
     }
-    TransferDataToWindow();
 }
 
 /*!

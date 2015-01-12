@@ -105,9 +105,9 @@ BEGIN_EVENT_TABLE( CProjectInfoPage, wxWizardPageEx )
 ////@begin CProjectInfoPage event table entries
     EVT_COMBOBOX( ID_CATEGORIES, CProjectInfoPage::OnProjectCategorySelected )
     EVT_LISTBOX( ID_PROJECTS, CProjectInfoPage::OnProjectSelected )
-    EVT_WIZARDEX_PAGE_CHANGED( -1, CProjectInfoPage::OnPageChanged )
-    EVT_WIZARDEX_PAGE_CHANGING( -1, CProjectInfoPage::OnPageChanging )
-    EVT_WIZARDEX_CANCEL( -1, CProjectInfoPage::OnCancel )
+    EVT_WIZARDEX_PAGE_CHANGED( wxID_ANY, CProjectInfoPage::OnPageChanged )
+    EVT_WIZARDEX_PAGE_CHANGING( wxID_ANY, CProjectInfoPage::OnPageChanging )
+    EVT_WIZARDEX_CANCEL( wxID_ANY, CProjectInfoPage::OnCancel )
 ////@end CProjectInfoPage event table entries
  
 END_EVENT_TABLE()
@@ -218,15 +218,12 @@ void CProjectInfoPage::CreateControls()
     itemWizardPage23->SetSizer(itemBoxSizer24);
 
     m_pTitleStaticCtrl = new wxStaticText;
-    m_pTitleStaticCtrl->Create( itemWizardPage23, wxID_STATIC, _("Choose a project"),
-                                wxDefaultPosition, wxDefaultSize, 0 );
+    m_pTitleStaticCtrl->Create( itemWizardPage23, wxID_STATIC, _("Choose a project"), wxDefaultPosition, wxDefaultSize, 0 );
     m_pTitleStaticCtrl->SetFont(wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, _T("Verdana")));
     itemBoxSizer24->Add(m_pTitleStaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
 
     m_pDescriptionStaticCtrl = new wxStaticText;
-    m_pDescriptionStaticCtrl->Create( itemWizardPage23, wxID_STATIC,
-                            _("To choose a project, click its name or type its URL below."),
-                            wxDefaultPosition, wxDefaultSize, 0 );
+    m_pDescriptionStaticCtrl->Create( itemWizardPage23, wxID_STATIC, _("To choose a project, click its name or type its URL below."), wxDefaultPosition, wxDefaultSize, 0 );
     itemBoxSizer24->Add(m_pDescriptionStaticCtrl, 0, wxALIGN_LEFT|wxALL, 5);
 
     itemBoxSizer24->Add(5, 5, 0, wxALIGN_LEFT|wxALL, 5);
@@ -242,8 +239,7 @@ void CProjectInfoPage::CreateControls()
     wxBoxSizer* itemBoxSizer7 = new wxBoxSizer(wxVERTICAL);
     itemFlexGridSizer6->Add(itemBoxSizer7, 0, wxALIGN_LEFT|wxALIGN_TOP, 0);
 
-    m_pProjectCategoriesStaticCtrl = new wxStaticText( itemWizardPage23, wxID_STATIC,
-                                        _("Categories:"), wxDefaultPosition, wxDefaultSize, 0 );
+    m_pProjectCategoriesStaticCtrl = new wxStaticText( itemWizardPage23, wxID_STATIC, _("Categories:"), wxDefaultPosition, wxDefaultSize, 0 );
     itemBoxSizer7->Add(m_pProjectCategoriesStaticCtrl, 0, wxALIGN_LEFT|wxRIGHT|wxBOTTOM, 5);
 
     // We must populate the combo box before our sizers can calculate its width.
@@ -260,11 +256,10 @@ void CProjectInfoPage::CreateControls()
 #ifndef __WXMAC__   // wxCB_SORT is not available in wxCocoa 3.0
     |wxCB_SORT
 #endif
-     );
+    );
     itemBoxSizer7->Add(m_pProjectCategoriesCtrl, 0, wxGROW|wxLEFT|wxRIGHT, 5);
 
-    m_pProjectsStaticCtrl = new wxStaticText( itemWizardPage23, wxID_STATIC,
-                                _("Projects:"), wxDefaultPosition, wxDefaultSize, 0 );
+    m_pProjectsStaticCtrl = new wxStaticText( itemWizardPage23, wxID_STATIC, _("Projects:"), wxDefaultPosition, wxDefaultSize, 0 );
     itemBoxSizer7->Add(m_pProjectsStaticCtrl, 0, wxALIGN_LEFT|wxTOP|wxRIGHT|wxBOTTOM, 5);
 
     wxFlexGridSizer* itemFlexGridSizer11 = new wxFlexGridSizer(1, 0, 0);
@@ -280,15 +275,13 @@ void CProjectInfoPage::CreateControls()
     wxStaticBoxSizer* itemStaticBoxSizer13 = new wxStaticBoxSizer(m_pProjectDetailsStaticCtrl, wxVERTICAL);
     itemFlexGridSizer6->Add(itemStaticBoxSizer13, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-//    wxPanel* ProjectDetailsDescriptionPanel = new wxPanel(m_pProjectDetailsStaticCtrl, wxID_ANY, wxDefaultPosition, wxSize(DESCRIPTIONSWIDTH, ADJUSTFORYDPI(100)));
     m_pProjectDetailsDescriptionCtrl = new wxTextCtrl( itemWizardPage23, ID_PROJECTDESCRIPTION, wxT(""), wxDefaultPosition, wxSize(DESCRIPTIONSWIDTH, ADJUSTFORYDPI(100)), wxTE_MULTILINE|wxTE_READONLY );
     itemStaticBoxSizer13->Add(m_pProjectDetailsDescriptionCtrl, 0, wxGROW|wxLEFT|wxTOP|wxBOTTOM, 5);
     wxFlexGridSizer* itemFlexGridSizer16 = new wxFlexGridSizer(2, 0, 0);
     itemFlexGridSizer16->AddGrowableCol(1);
     itemStaticBoxSizer13->Add(itemFlexGridSizer16, 0, wxGROW|wxALL, 0);
 
-    m_pProjectDetailsResearchAreaStaticCtrl = new wxStaticText( itemWizardPage23, wxID_STATIC,
-                                                    _("Research area:"), wxDefaultPosition, wxDefaultSize, 0 );
+    m_pProjectDetailsResearchAreaStaticCtrl = new wxStaticText( itemWizardPage23, wxID_STATIC, _("Research area:"), wxDefaultPosition, wxDefaultSize, 0 );
     itemFlexGridSizer16->Add(m_pProjectDetailsResearchAreaStaticCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxBOTTOM, 2);
 
     m_pProjectDetailsResearchAreaCtrl = new wxStaticText( itemWizardPage23, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
@@ -298,8 +291,7 @@ void CProjectInfoPage::CreateControls()
     itemFlexGridSizer19->AddGrowableCol(1);
     itemStaticBoxSizer13->Add(itemFlexGridSizer19, 0, wxGROW|wxALL, 0);
 
-    m_pProjectDetailsOrganizationStaticCtrl = new wxStaticText( itemWizardPage23, wxID_STATIC,
-                                                    _("Organization:"), wxDefaultPosition, wxDefaultSize, 0 );
+    m_pProjectDetailsOrganizationStaticCtrl = new wxStaticText( itemWizardPage23, wxID_STATIC, _("Organization:"), wxDefaultPosition, wxDefaultSize, 0 );
     itemFlexGridSizer19->Add(m_pProjectDetailsOrganizationStaticCtrl, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxBOTTOM, 2);
 
     m_pProjectDetailsOrganizationCtrl = new wxStaticText( itemWizardPage23, wxID_STATIC, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
@@ -309,8 +301,7 @@ void CProjectInfoPage::CreateControls()
     itemFlexGridSizer20->AddGrowableCol(1);
     itemStaticBoxSizer13->Add(itemFlexGridSizer20, 0, wxGROW|wxALL, 0);
 
-    m_pProjectDetailsURLStaticCtrl = new wxStaticText( itemWizardPage23, wxID_STATIC,
-                                            _("Web site:"), wxDefaultPosition, wxDefaultSize, 0 );
+    m_pProjectDetailsURLStaticCtrl = new wxStaticText( itemWizardPage23, wxID_STATIC, _("Web site:"), wxDefaultPosition, wxDefaultSize, 0 );
     itemFlexGridSizer20->Add(m_pProjectDetailsURLStaticCtrl, 0, wxALIGN_LEFT|wxRIGHT|wxBOTTOM, 2);
 
     m_pProjectDetailsURLCtrl = new wxHyperlinkCtrl( itemWizardPage23, wxID_STATIC, wxT("BOINC"), wxT("http://boinc.berkeley.edu/"), wxDefaultPosition, wxDefaultSize, wxNO_BORDER|wxHL_CONTEXTMENU|wxHL_ALIGN_LEFT);
@@ -321,8 +312,7 @@ void CProjectInfoPage::CreateControls()
     itemFlexGridSizer24->AddGrowableCol(0);
     itemStaticBoxSizer13->Add(itemFlexGridSizer24, 0, wxGROW|wxALL, 0);
 
-    m_pProjectDetailsSupportedPlatformsStaticCtrl = new wxStaticText( itemWizardPage23, wxID_STATIC,
-                                                    _("Supported systems:"), wxDefaultPosition, wxDefaultSize, 0 );
+    m_pProjectDetailsSupportedPlatformsStaticCtrl = new wxStaticText( itemWizardPage23, wxID_STATIC, _("Supported systems:"), wxDefaultPosition, wxDefaultSize, 0 );
     itemFlexGridSizer24->Add(m_pProjectDetailsSupportedPlatformsStaticCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxBOTTOM, 5);
 
     wxBoxSizer* itemBoxSizer26 = new wxBoxSizer(wxHORIZONTAL);
@@ -359,8 +349,7 @@ void CProjectInfoPage::CreateControls()
     itemFlexGridSizer33->AddGrowableCol(1);
     itemFlexGridSizer4->Add(itemFlexGridSizer33, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 0);
 
-    m_pProjectURLStaticCtrl = new wxStaticText( itemWizardPage23, ID_PROJECTURLSTATICCTRL,
-                                    _("Project URL:"), wxDefaultPosition, wxDefaultSize, 0 );
+    m_pProjectURLStaticCtrl = new wxStaticText( itemWizardPage23, ID_PROJECTURLSTATICCTRL, _("Project URL:"), wxDefaultPosition, wxDefaultSize, 0 );
     itemFlexGridSizer33->Add(m_pProjectURLStaticCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
     m_pProjectURLCtrl = new wxTextCtrl( itemWizardPage23, ID_PROJECTURLCTRL, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
@@ -369,7 +358,7 @@ void CProjectInfoPage::CreateControls()
     itemFlexGridSizer33->Add(0, 10, 0);
 
     // Set validators
-    m_pProjectURLCtrl->SetValidator( CValidateURL( & m_strProjectURL ) );
+    m_pProjectURLCtrl->SetValidator(CValidateURL(&m_strProjectURL));
 
     ////@end CProjectInfoPage content construction
 }
@@ -489,21 +478,14 @@ wxIcon CProjectInfoPage::GetIconResource( const wxString& WXUNUSED(name) )
 void CProjectInfoPage::OnProjectCategorySelected( wxCommandEvent& WXUNUSED(event) ) {
     wxLogTrace(wxT("Function Start/End"), wxT("CProjectInfoPage::OnProjectCategorySelected - Function Begin"));
 
-    wxLogTrace(wxT("Function Status"), wxT("CProjectInfoPage::OnProjectCategorySelected - Clearing list box"));
     m_pProjectsCtrl->Clear();
 
     // Populate the list box with the list of project names that belong to eith the specific
     // category or all of them.
-    wxLogTrace(wxT("Function Status"), wxT("CProjectInfoPage::OnProjectCategorySelected - Adding desired projects"));
     for (unsigned int i=0; i<m_Projects.size(); i++) {
         if ((m_pProjectCategoriesCtrl->GetValue() == _("All")) || 
             (m_pProjectCategoriesCtrl->GetValue() == m_Projects[i]->m_strGeneralArea)
         ) {
-            wxLogTrace(
-                wxT("Function Status"), 
-                wxT("CProjectInfoPage::OnProjectCategorySelected - Adding '%s'"),
-                m_Projects[i]->m_strName.c_str()
-            );
             m_pProjectsCtrl->Append(m_Projects[i]->m_strName, m_Projects[i]);
         }
     }
@@ -540,11 +522,10 @@ void CProjectInfoPage::OnProjectSelected( wxCommandEvent& WXUNUSED(event) ) {
         desc.Replace(wxT("</sup>"), wxT(""), true);
         desc.Replace(wxT("&lt;"), wxT("<"), true);
 
-        m_pProjectDetailsDescriptionCtrl->SetValue(desc);
         m_pProjectDetailsURLCtrl->SetLabel(strURL);
         m_pProjectDetailsURLCtrl->SetURL(pProjectInfo->m_strURL);
-        // Set tooltip to full text in case ellipsed
         m_pProjectDetailsURLCtrl->SetToolTip(pProjectInfo->m_strURL);
+        m_pProjectDetailsDescriptionCtrl->SetValue(desc);
 
         m_pProjectDetailsSupportedPlatformWindowsCtrl->Hide();
         m_pProjectDetailsSupportedPlatformMacCtrl->Hide();
@@ -564,22 +545,20 @@ void CProjectInfoPage::OnProjectSelected( wxCommandEvent& WXUNUSED(event) ) {
         if (pProjectInfo->m_bProjectSupportsVirtualBox) m_pProjectDetailsSupportedPlatformVirtualBoxCtrl->Show();
 
         // Populate non-control data for use in other places of the wizard
-        SetProjectURL( pProjectInfo->m_strURL );
-        SetProjectSupported( pProjectInfo->m_bSupportedPlatformFound );
+        m_strProjectURL = pProjectInfo->m_strURL;
+        m_bProjectSupported = pProjectInfo->m_bSupportedPlatformFound;
 
-        TransferDataToWindow();
         Layout();
+        TransferDataToWindow();
 
         wxString strResearchArea = pProjectInfo->m_strSpecificArea;
         EllipseStringIfNeeded(strResearchArea, m_pProjectDetailsResearchAreaCtrl);
-        m_pProjectDetailsResearchAreaCtrl->SetLabel(strResearchArea);
-        // Set tooltip to full text in case ellipsed
-        m_pProjectDetailsResearchAreaCtrl->SetToolTip(pProjectInfo->m_strSpecificArea);
-
         wxString strOrganization = pProjectInfo->m_strOrganization;
         EllipseStringIfNeeded(strOrganization, m_pProjectDetailsOrganizationCtrl);
+
+        m_pProjectDetailsResearchAreaCtrl->SetLabel(strResearchArea);
+        m_pProjectDetailsResearchAreaCtrl->SetToolTip(pProjectInfo->m_strSpecificArea);
         m_pProjectDetailsOrganizationCtrl->SetLabel(strOrganization);
-        // Set tooltip to full text in case ellipsed
         m_pProjectDetailsOrganizationCtrl->SetToolTip(pProjectInfo->m_strOrganization);
 
     }
@@ -604,37 +583,11 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     bool                        bCategoryFound = false;
     CProjectInfo*               pProjectInfo = NULL;
 
-    wxASSERT(pDoc);
-    wxASSERT(wxDynamicCast(pDoc, CMainDocument));
-    wxASSERT(m_pTitleStaticCtrl);
-    wxASSERT(m_pDescriptionStaticCtrl);
-    wxASSERT(m_pProjectCategoriesStaticCtrl);
-    wxASSERT(m_pProjectCategoriesCtrl);
-    wxASSERT(m_pProjectsStaticCtrl);
-    wxASSERT(m_pProjectsCtrl);
-    wxASSERT(m_pProjectDetailsStaticCtrl);
-    wxASSERT(m_pProjectDetailsDescriptionCtrl);
-    wxASSERT(m_pProjectDetailsResearchAreaStaticCtrl);
-    wxASSERT(m_pProjectDetailsResearchAreaCtrl);
-    wxASSERT(m_pProjectDetailsOrganizationStaticCtrl);
-    wxASSERT(m_pProjectDetailsOrganizationStaticCtrl);
-    wxASSERT(m_pProjectDetailsURLStaticCtrl);
-    wxASSERT(m_pProjectDetailsURLCtrl);
-    wxASSERT(m_pProjectDetailsSupportedPlatformsStaticCtrl);
-    wxASSERT(m_pProjectDetailsSupportedPlatformWindowsCtrl);
-    wxASSERT(m_pProjectDetailsSupportedPlatformMacCtrl);
-    wxASSERT(m_pProjectDetailsSupportedPlatformLinuxCtrl);
-    wxASSERT(m_pProjectDetailsSupportedPlatformFreeBSDCtrl);
-    wxASSERT(m_pProjectDetailsSupportedPlatformATICtrl);
-    wxASSERT(m_pProjectDetailsSupportedPlatformNvidiaCtrl);
-    wxASSERT(m_pProjectDetailsSupportedPlatformAndroidCtrl);
-    wxASSERT(m_pProjectDetailsSupportedPlatformVirtualBoxCtrl);
-    wxASSERT(m_pProjectURLStaticCtrl);
-    wxASSERT(m_pProjectURLCtrl);
 
     // Populate the ProjectInfo data structure with the list of projects we want to show and
     // any other activity we need to prep the page.
     if (!m_bProjectListPopulated) {
+
         // Convert the supported client platforms into something useful
         for (i=0; i<pDoc->state.platforms.size(); i++) {
             aClientPlatforms.Add(wxString(pDoc->state.platforms[i].c_str(), wxConvUTF8));
@@ -644,13 +597,6 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
         for (i=0; i<m_apl->projects.size(); i++) {
             pProjectInfo = new CProjectInfo();
             m_Projects.push_back(pProjectInfo);
-
-            wxLogTrace(
-                wxT("Function Status"),
-                wxT("CProjectInfoPage::OnPageChanged - Name: '%s', URL: '%s'"),
-                wxString(m_apl->projects[i]->name.c_str(), wxConvUTF8).c_str(),
-                wxString(m_apl->projects[i]->url.c_str(), wxConvUTF8).c_str()
-            );
 
             // Convert the easy stuff
             pProjectInfo->m_strURL = wxGetTranslation(wxString(m_apl->projects[i]->url.c_str(), wxConvUTF8));
@@ -730,20 +676,6 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
 			if (aProjectPlatforms.size() == 0) {
 				pProjectInfo->m_bSupportedPlatformFound = true;
 			}
-
-            wxLogTrace(
-                wxT("Function Status"),
-                wxT("CProjectInfoPage::OnPageChanged - Windows: '%d', Mac: '%d', Linux: '%d', FreeBSD: '%d', Nvidia: '%d', ATI: '%d', Android: '%d',  VirtualBox: '%d', Platform: '%d'"),
-                pProjectInfo->m_bProjectSupportsWindows,
-                pProjectInfo->m_bProjectSupportsMac,
-                pProjectInfo->m_bProjectSupportsLinux,
-                pProjectInfo->m_bProjectSupportsFreeBSD,
-                pProjectInfo->m_bProjectSupportsCUDA,
-                pProjectInfo->m_bProjectSupportsCAL,
-                pProjectInfo->m_bProjectSupportsAndroid,
-                pProjectInfo->m_bProjectSupportsVirtualBox,
-                pProjectInfo->m_bSupportedPlatformFound
-            );
         }
 
 
@@ -776,12 +708,13 @@ void CProjectInfoPage::OnPageChanged( wxWizardExEvent& event ) {
 
 void CProjectInfoPage::OnPageChanging( wxWizardExEvent& event ) {
     if (event.GetDirection() == false) return;
-    wxLogTrace(wxT("Function Start/End"), wxT("CProjectInfoPage::OnPageChanging - Function Begin"));
 
+    CWizardAttach* pWA = ((CWizardAttach*)GetParent());
     CMainDocument* pDoc = wxGetApp().GetDocument(); 
     CSkinAdvanced* pSkinAdvanced = wxGetApp().GetSkinManager()->GetAdvanced();
     wxString       strTitle;
     int            iAnswer;
+    bool           bAlreadyAttached = false;
 
     wxASSERT(pDoc);
     wxASSERT(wxDynamicCast(pDoc, CMainDocument));
@@ -796,7 +729,7 @@ void CProjectInfoPage::OnPageChanging( wxWizardExEvent& event ) {
 
 
     // Check to see if the project is supported:
-    if ( !GetProjectSupported() ) {
+    if (!m_bProjectSupported) {
 
         iAnswer = wxGetApp().SafeMessageBox(
             _("This project may not have work for your type of computer.  Do you want to add it anyway?"),
@@ -809,34 +742,40 @@ void CProjectInfoPage::OnPageChanging( wxWizardExEvent& event ) {
             event.Veto();
         }
 
-    } else {
+    }
 
-        // Check if we are already attached to that project: 
- 	    for (int i = 0; i < pDoc->GetProjectCount(); ++i) { 
- 	        PROJECT* project = pDoc->project(i);
-            if (project) {
-                std::string project_url = project->master_url;
-                std::string new_project_url = (const char*)m_strProjectURL.mb_str();
+    // Check if we are already attached to that project: 
+ 	for (int i = 0; i < pDoc->GetProjectCount(); ++i) { 
+ 	    PROJECT* project = pDoc->project(i);
+        if (project) {
+            std::string project_url = project->master_url;
+            std::string new_project_url = (const char*)m_strProjectURL.mb_str();
 
-                canonicalize_master_url(project_url);
-                canonicalize_master_url(new_project_url);
+            canonicalize_master_url(project_url);
+            canonicalize_master_url(new_project_url);
                 
-                if (project_url == new_project_url) {
-                    wxGetApp().SafeMessageBox(
-                        _("You already added this project. Please choose a different project."),
-                        strTitle,
-                        wxCENTER | wxOK | wxICON_INFORMATION
-                    );
-
-                    // We are already attached to that project, 
-                    event.Veto();
-                    break;
-                }
-            } 
+            if (project_url == new_project_url) {
+                bAlreadyAttached = true;
+                break;
+            }
         } 
     }
 
-    wxLogTrace(wxT("Function Start/End"), wxT("CProjectInfoPage::OnPageChanging - Function End"));
+    if (bAlreadyAttached) {
+
+        wxGetApp().SafeMessageBox(
+            _("You already added this project. Please choose a different project."),
+            strTitle,
+            wxCENTER | wxOK | wxICON_INFORMATION
+        );
+        event.Veto();
+
+    } else {
+
+        // Update authoritative data in CWizardAttach
+        pWA->SetProjectURL(m_strProjectURL);
+
+    }
 }
 
 
