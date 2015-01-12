@@ -147,8 +147,8 @@ function show_download($pname) {
         list_start();
         list_heading_array(array(
             'Computer type',
-            'Current version ',
-            'Size'
+            'BOINC version ',
+            'Click to download'
         ));
         download_link('win');
         download_link('winx64');
@@ -159,6 +159,7 @@ function show_download($pname) {
         download_link('linuxcompat');
         download_link('android');
         list_end();
+        echo "Linux users: BOINC is available as a package for many Linux distributions.  It is available for Linux/ARM as a package for Debian and Ubuntu for ARM, and Raspbian (for Raspberry Pi).";
     }
     if ($pname != 'android') {
         echo "
