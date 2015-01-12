@@ -41,7 +41,6 @@ bool CTransparentStaticLine::Create(wxWindow* parent, wxWindowID id, const wxPoi
     bool bRetVal = wxPanel::Create(parent, id, pos, size, style|wxTRANSPARENT_WINDOW, name);
 
     SetBackgroundColour(parent->GetBackgroundColour());
-    SetBackgroundStyle(wxBG_STYLE_COLOUR);
     SetForegroundColour(parent->GetForegroundColour());
     SetLineColor(GetForegroundColour());
 
@@ -79,7 +78,6 @@ bool CTransparentStaticText::Create(wxWindow* parent, wxWindowID id, const wxStr
     bool bRetVal = wxStaticText::Create(parent, id, label, pos, size, style|wxTRANSPARENT_WINDOW, name);
 
     SetBackgroundColour(parent->GetBackgroundColour());
-//    SetBackgroundStyle(wxBG_STYLE_COLOUR);
     SetForegroundColour(parent->GetForegroundColour());
 
     return bRetVal;
@@ -153,7 +151,6 @@ bool CTransparentStaticTextAssociate::Create(wxWindow* parent, wxWindowID id, co
     SetFont(GetFont());
 
     SetBackgroundColour(parent->GetBackgroundColour());
-    SetBackgroundStyle(wxBG_STYLE_COLOUR);
     SetForegroundColour(parent->GetForegroundColour());
 
     return bRetVal;
