@@ -161,7 +161,9 @@ function display_team_page($team, $user) {
         }
     }
     row1(tra('Members'));
-    row2(tra('Founder'), user_links($team->founder, BADGE_HEIGHT_MEDIUM));
+    row2(tra('Founder'),
+        $team->founder?user_links($team->founder, BADGE_HEIGHT_MEDIUM):"---"
+    );
     if (count($team->admins)) {
         $first = true;
         $x = "";
