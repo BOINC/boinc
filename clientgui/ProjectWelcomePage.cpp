@@ -269,7 +269,7 @@ void CProjectWelcomePage::OnPageChanged( wxWizardExEvent& event ) {
         user_name2_ctrl->SetLabel(pWA->GetProjectUserName());
     }
 
-    if (!pWA->GetProjectKnown()) {
+    if (!pWA->IsProjectKnown()) {
         warning_ctrl->SetLabel(_("WARNING: This project is not registered with BOINC.  Make sure you trust it before continuing."));
 
     }

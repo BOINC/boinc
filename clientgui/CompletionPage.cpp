@@ -230,7 +230,7 @@ void CCompletionPage::OnPageChanged( wxWizardExEvent& event ) {
             if (pSkinAdvanced->IsBranded()) {
                 strTitle.Printf(
                     _("Update from %s completed."),
-                    pWAP->m_strProjectName.c_str()
+                    pWAP->GetProjectName().c_str()
                 );
             } else {
                 strTitle = _("Update completed.");
@@ -250,7 +250,7 @@ void CCompletionPage::OnPageChanged( wxWizardExEvent& event ) {
                 wxString strWelcome;
                 strWelcome.Printf(
                     _("Welcome to %s!"),
-                    pWAP->m_strProjectName.c_str()
+                    pWAP->GetProjectName().c_str()
                 );
 
                 m_pCompletionWelcome->Show();
@@ -261,7 +261,7 @@ void CCompletionPage::OnPageChanged( wxWizardExEvent& event ) {
             if (pSkinAdvanced->IsBranded()) {
                 strBrandedMessage.Printf(
                     _("You are now using %s to manage accounts."),
-                    pWAP->m_strProjectName.c_str()
+                    pWAP->GetProjectName().c_str()
                 );
             } else {
                 strBrandedMessage = _("You are now using this account manager.");
@@ -285,7 +285,7 @@ void CCompletionPage::OnPageChanged( wxWizardExEvent& event ) {
     
     // Is this supposed to be completely automated?
     // If so, then go ahead and close the wizard down now.
-    if (pWAP->m_bCloseWhenCompleted) {
+    if (pWAP->IsCloseWhenCompleted()) {
         pWAP->SimulateNextButton();
     }
 }

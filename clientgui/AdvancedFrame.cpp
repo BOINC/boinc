@@ -1127,10 +1127,8 @@ void CAdvancedFrame::OnWizardAttach( wxCommandEvent& WXUNUSED(event) ) {
 
         CWizardAttach* pWizard = new CWizardAttach(this);
 
-        wxString strName = wxEmptyString;
         wxString strURL = wxEmptyString;
-        wxString strTeamName = wxEmptyString;
-        pWizard->Run( strName, strURL, strTeamName, false );
+        pWizard->Run(strURL, false);
 
         if (pWizard) {
             pWizard->Destroy();
@@ -1812,8 +1810,8 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
     } else if (ami.acct_mgr_url.size() && ami.have_credentials) {
         // Fall through
         //
-        // There isn't a need to bring up the attach wizard, the account manager will
-        // take care of attaching to projects when it completes the RPCs
+        // There isn't a need to bring up the attach wizard, the client will
+        // take care of attaching to projects when it completes the needed RPCs
         //
     } else if (ami.acct_mgr_url.size() && !ami.have_credentials) {
         wasShown = IsShown();
@@ -1825,6 +1823,7 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
         
         pWizard = new CWizardAttach(this);
         if (pWizard->SyncToAccountManager()) {
+
             // _GRIDREPUBLIC, _PROGRESSTHRUPROCESSORS and _CHARITYENGINE
             // are defined for those branded builds on Windows only
 #if defined(_GRIDREPUBLIC) || defined(_PROGRESSTHRUPROCESSORS) || defined(_CHARITYENGINE) || defined(__WXMAC__)
@@ -1885,12 +1884,10 @@ void CAdvancedFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
         wxGetApp().ShowApplication(true);
         
         pWizard = new CWizardAttach(this);
-        strName = wxString(pis.name.c_str(), wxConvUTF8);
         strURL = wxString(pis.url.c_str(), wxConvUTF8);
-        strTeamName = wxString(pis.team_name.c_str(), wxConvUTF8);
         bCachedCredentials = pis.url.length() && pis.has_account_key;
 
-        if (pWizard->Run(strName, strURL, strTeamName, bCachedCredentials)) {
+        if (pWizard->Run(strURL, bCachedCredentials)) {
             // If successful, display the work tab
             m_pNotebook->SetSelection(ID_ADVTASKSVIEW - ID_ADVVIEWBASE);
         } else {

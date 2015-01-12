@@ -71,18 +71,6 @@ public:
     /// Gets the next page.
     virtual wxWizardPageEx* GetNext() const;
 
-    wxString GetAccountEmailAddress() const { return m_strAccountEmailAddress ; }
-    void SetAccountEmailAddress(wxString value) { m_strAccountEmailAddress = value ; }
-
-    wxString GetAccountPassword() const { return m_strAccountPassword ; }
-    void SetAccountPassword(wxString value) { m_strAccountPassword = value ; }
-
-    wxString GetAccountConfirmPassword() const { return m_strAccountConfirmPassword ; }
-    void SetAccountConfirmPassword(wxString value) { m_strAccountConfirmPassword = value ; }
-
-    wxString GetAccountUsername() const { return m_strAccountUsername ; }
-    void SetAccountUsername(wxString value) { m_strAccountUsername = value ; }
-
     /// Retrieves bitmap resources
     wxBitmap GetBitmapResource( const wxString& name );
 
@@ -112,11 +100,9 @@ public:
     wxStaticText* m_pAccountPasswordRequirmentsStaticCtrl;
     wxStaticText* m_pAccountManagerLinkLabelStaticCtrl;
     wxHyperlinkCtrl* m_pAccountForgotPasswordCtrl;
+////@end CAccountInfoPage member variables
     wxString m_strAccountEmailAddress;
     wxString m_strAccountUsername;
-    wxString m_strAccountPassword;
-    wxString m_strAccountConfirmPassword;
-////@end CAccountInfoPage member variables
 };
 
 #endif // _WIZ_ACCOUNTINFOPAGE_H_
