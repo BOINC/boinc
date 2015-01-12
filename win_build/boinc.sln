@@ -1,5 +1,7 @@
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "boinc", "boinc_cli.vcxproj", "{C04F0FCC-BB5D-4627-8656-6173B28BD69E}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "boinc_os_ss", "boinc_os_ss.vcxproj", "{4A2C5963-6A8D-4CA1-A312-C3D749B2EA81}"
@@ -79,6 +81,10 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "example_app_dll", "uc2_dll.vcxproj", "{B275C525-5EF4-40BA-A70A-4E01A76A0CDD}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "htmlgfx", "htmlgfx.vcxproj", "{25662612-421F-42F5-B5E1-D69ECBF3F5BB}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B00664BD-71EB-46C1-957E-CD851418D395} = {B00664BD-71EB-46C1-957E-CD851418D395}
+		{814EBFD3-3CE6-4933-A580-C1FE3147ACB4} = {814EBFD3-3CE6-4933-A580-C1FE3147ACB4}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -15,17 +15,8 @@ import "ocidl.idl";
 	nonextensible,
 	pointer_default(unique)
 ]
-interface IHTMLBrowserHost : IDispatch{
-};
-
-[
-	object,
-	uuid(D9E4A0D0-60F6-444C-93BC-7F3DF3281416),
-	dual,
-	nonextensible,
-	pointer_default(unique)
-]
-interface IHTMLBrowserHostSvc : IDispatch{
+interface IHTMLBrowserHost : IDispatch
+{
 };
 
 [

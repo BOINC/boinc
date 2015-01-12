@@ -38,7 +38,6 @@
 #include "browser_win.h"
 #include "browserlog.h"
 #include "browserctrlui_win.h"
-#include "browserctrlsvc_win.h"
 #include "browserctrl_win.h"
 
 
@@ -181,25 +180,6 @@ STDMETHODIMP CHTMLBrowserHost::CreateControlEx(
         if (SUCCEEDED(hr) && pUIObject != NULL)
         {
     	    SetExternalDispatch((IHTMLBrowserHostUI*)pUIObject);
-        }
-
-        // Register an external com object to handle the service map stuff for
-        // IInternetSecurityManager.  Attempting implement it locally leads
-        // to blowing the stack with recursive calls to QueryService().
-        //
-        CComObject<CHTMLBrowserHostServices> *pServicesObject = NULL;
-        hr = CComObject<CHTMLBrowserHostServices>::CreateInstance(&pServicesObject);
-        if (SUCCEEDED(hr) && pServicesObject != NULL)
-        {
-    	    SetSite((IHTMLBrowserHostSvc*)pServicesObject);
-
-            // Store the Host UI dispatch pointer so the custom Internet Security Manager
-            // can determine the acceptable cross-site query policies.
-            //
-            if (pUIObject)
-            {
-                pServicesObject->m_pHostUI = pUIObject;
-            }
         }
     }
 

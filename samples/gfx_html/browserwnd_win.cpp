@@ -146,7 +146,7 @@ LRESULT CHTMLBrowserWnd::OnCreate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL&
     GetModuleFileName(NULL, szExecutable, sizeof(szExecutable));
     m_strEmbeddedURL += "res://";
     m_strEmbeddedURL += szExecutable;
-    m_strEmbeddedURL += "/default_win.htm";
+    m_strEmbeddedURL += "/index.html";
 
     // Stage rereading of all the state files
     m_bForceRereadPreferences = true;

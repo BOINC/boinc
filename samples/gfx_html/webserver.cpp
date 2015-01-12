@@ -35,6 +35,7 @@
 #include "app_ipc.h"
 #include "browserlog.h"
 #include "mongoose.h"
+#include "webapi.h"
 #include "webserver.h"
 
 #if defined(_MSC_VER)
@@ -59,20 +60,18 @@ static bool webserver_debugging = false;
 static int ev_handler(struct mg_connection *conn, enum mg_event ev) {
     switch (ev) {
         case MG_REQUEST:
-            // reserve /api for future use.
-            if (0 == strcmp(conn->uri, "/api")) {
-                return MG_FALSE;
-            } else {
-                if (boinc_file_exists(conn->uri)) {
-                    std::string uri;
-                    boinc_resolve_filename_s(conn->uri+1, uri);
-                    mg_send_file(
-                        conn,
-                        uri.c_str(),
-                        "Access-Control-Allow-Origin: *\r\n"
-                    );
-                    return MG_MORE;
-                }
+            if        (!strcmp(conn->uri, "/api/getInitData")) { 
+                handle_get_init_data(conn); 
+                return MG_TRUE; 
+            } else if (!strcmp(conn->uri, "/api/getGraphicsStatus")) {
+                handle_get_graphics_status(conn); 
+                return MG_TRUE; 
+            } else if (!strcmp(conn->uri, "/api/logMessage")) {
+                handle_log_message(conn); 
+                return MG_TRUE; 
+            } else if (boinc_file_exists(conn->uri+1)) {
+                handle_filesystem_request(conn);
+                return MG_MORE;
             }
             return MG_FALSE;
         case MG_AUTH:
