@@ -210,10 +210,10 @@ int ACTIVE_TASK::request_abort() {
 }
 
 #ifdef _WIN32
-static void kill_app_process(int pid, bool will_restart) {
+static void kill_app_process(int pid, bool will_restart, bool show_errors) {
     int retval = 0;
     retval = kill_program(pid, will_restart?0:EXIT_ABORTED_BY_CLIENT);
-    if (retval && log_flags.task_debug) {
+    if (retval && log_flags.task_debug && show_errors) {
         msg_printf(0, MSG_INFO,
             "[task] kill_app_process() failed: %s",
             strerror(retval)
@@ -221,11 +221,11 @@ static void kill_app_process(int pid, bool will_restart) {
     }
 }
 #else
-static void kill_app_process(int pid, bool) {
+static void kill_app_process(int pid, bool, bool show_errors) {
     int retval = 0;
     if (g_use_sandbox) {
         retval = kill_via_switcher(pid);
-        if (retval && log_flags.task_debug) {
+        if (retval && log_flags.task_debug && show_errors) {
             msg_printf(0, MSG_INFO,
                 "[task] kill_via_switcher() failed: %s (%d)",
                 (retval>=0) ? strerror(errno) : boincerror(retval), retval
@@ -233,7 +233,7 @@ static void kill_app_process(int pid, bool) {
         }
     } else {
         retval = kill(pid, SIGKILL);
-        if (retval && log_flags.task_debug) {
+        if (retval && log_flags.task_debug && show_errors) {
             msg_printf(0, MSG_INFO,
                 "[task] kill() failed: %s",
                 strerror(errno)
@@ -243,30 +243,30 @@ static void kill_app_process(int pid, bool) {
 }
 #endif
 
-static inline void kill_processes(vector<int> pids, bool will_restart) {
-    for (unsigned int i=0; i<pids.size(); i++) {
-        kill_app_process(pids[i], will_restart);
-    }
-}
-
 // Kill a task whose main process is still running
 // Just kill the main process; shared mem and subsidiary processes
 // will be cleaned up after it exits, by cleanup_task();
 //
 int ACTIVE_TASK::kill_running_task(bool will_restart) {
-    kill_app_process(pid, will_restart);
+    kill_app_process(pid, will_restart, true);
     return 0;
 }
 
-// Clean up the subsidiary processes of a task whose main process has exited,
+// Kill any remaining subsidiary processes
+// of a task whose main process has exited,
 // namely:
 // - its descendants (as recently enumerated; it's too late to do that now)
 //   This list will be populated only in the quit and abort cases.
 // - its "other" processes, e.g. VMs
 //
 int ACTIVE_TASK::kill_subsidiary_processes() {
-    kill_processes(other_pids, true);
-    kill_processes(descendants, true);
+    unsigned int i;
+    for (i=0; i<other_pids.size(); i++) {
+        kill_app_process(other_pids[i], false, false);
+    }
+    for (i=0; i<descendants.size(); i++) {
+        kill_app_process(descendants[i], false, false);
+    }
     return 0;
 }
 
