@@ -159,7 +159,7 @@ int process_input_files(SUBMIT_REQ& req, string& error_msg) {
         retval = compute_md5(s, lf);
         if (retval) return retval;
         local_files.insert(std::pair<string, LOCAL_FILE>(s, lf));
-        iter++;
+        ++iter;
     }
 
     // ask the server which files it doesn't already have.
@@ -172,7 +172,7 @@ int process_input_files(SUBMIT_REQ& req, string& error_msg) {
         LOCAL_FILE lf = map_iter->second;
         paths.push_back(map_iter->first);
         md5s.push_back(lf.md5);
-        map_iter++;
+        ++map_iter;
     }
     retval = query_files(
         project_url,
@@ -667,7 +667,7 @@ void print_version(bool startup) {
 int n_results() {
     int n = 0;
     vector<COMMAND*>::iterator i;
-    for (i = commands.begin(); i != commands.end(); i++) {
+    for (i = commands.begin(); i != commands.end(); ++i) {
         COMMAND *c2 = *i;
         if (c2->out) {
             n++;
@@ -719,7 +719,7 @@ int handle_command(char* p) {
                 i = commands.erase(i);
                 j++;
             } else {
-                i++;
+                ++i;
             }
         }
         wrote_r = false;

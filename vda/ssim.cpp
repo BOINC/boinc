@@ -415,7 +415,7 @@ void SIM_HOST::handle() {
         printf("%s: host %d failed\n", now_str(), id);
     }
     set<CHUNK_ON_HOST*>::iterator p;
-    for (p = chunks.begin(); p != chunks.end(); p++) {
+    for (p = chunks.begin(); p != chunks.end(); ++p) {
         CHUNK_ON_HOST* c = *p;
         c->chunk->host_failed(c);
         c->remove();
@@ -473,7 +473,7 @@ int CHUNK::start_upload() {
     // since this is only called if chunk is not present on server
     //
     set<VDA_CHUNK_HOST*>::iterator i;
-    for (i=hosts.begin(); i!=hosts.end(); i++) {
+    for (i=hosts.begin(); i!=hosts.end(); ++i) {
         CHUNK_ON_HOST* c = (CHUNK_ON_HOST*)*i;
         if (c->transfer_in_progress) return 0;
     }

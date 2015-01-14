@@ -75,7 +75,7 @@ int setenv(const char *name, const char *value, int overwrite) {
         if (strlen(buf)<(strlen(name)+strlen(value)+1)) {
             // no.  See if we originally allocated this string.
             std::vector<char *>::iterator i=envstrings.begin();
-            for (;i!=envstrings.end();i++) {
+            for (;i!=envstrings.end();++i) {
                 if (*i == buf) break;
             }
             if (i!=envstrings.end()) {

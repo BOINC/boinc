@@ -1125,7 +1125,7 @@ int ACTIVE_TASK_SET::abort_project(PROJECT* project) {
             task_iter = active_tasks.erase(task_iter);
             delete atp;
         } else {
-            task_iter++;
+            ++task_iter;
         }
     }
     return 0;

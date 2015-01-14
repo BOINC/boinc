@@ -299,7 +299,7 @@ void RR_SIM::pick_jobs_to_run(double reltime) {
                 } else {
                     if (rsc_work_fetch[rt].sim_nused >= gstate.ncpus) break;
                 }
-                rsc_pwf.pending_iter++;
+                ++rsc_pwf.pending_iter;
             }
 
             if (rsc_pwf.pending_iter == rsc_pwf.pending.end()) {

@@ -628,7 +628,7 @@ BEST_APP_VERSION* get_app_version(
             }
             return bavp;
         }
-        bavi++;
+        ++bavi;
     }
 
     // here if app was not in memoized array,

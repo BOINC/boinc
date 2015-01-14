@@ -138,7 +138,7 @@ bool is_authenticator_valid(const std::string authenticator) {
         if (!isalpha(*it) && !isdigit(*it)) {
             return false;
         }
-        it++;
+        ++it;
     }
 
     return true;

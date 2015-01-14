@@ -1567,7 +1567,7 @@ RUNNING_GFX_APP* CMainDocument::GetRunningGraphicsApp(
     
     for( gfx_app_iter = m_running_gfx_apps.begin(); 
         gfx_app_iter != m_running_gfx_apps.end(); 
-        gfx_app_iter++
+        ++gfx_app_iter
     ) {
          if ((slot >= 0) && ((*gfx_app_iter).slot != slot)) continue;
 

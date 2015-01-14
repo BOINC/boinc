@@ -281,7 +281,7 @@ void CLIENT_STATE::handle_completed_results(PROJECT* p) {
             delete rp;
             result_iter = results.erase(result_iter);
         } else {
-            result_iter++;
+            ++result_iter;
         }
     }
 }
@@ -1361,7 +1361,7 @@ void cull_projects() {
         if (atp->wup->project->ignore) {
             ati = gstate.active_tasks.active_tasks.erase(ati);
         } else {
-            ati++;
+            ++ati;
         }
     }
     vector<RESULT*>::iterator ri = gstate.results.begin();
@@ -1370,7 +1370,7 @@ void cull_projects() {
         if (rp->project->ignore) {
             ri = gstate.results.erase(ri);
         } else {
-            ri++;
+            ++ri;
         }
     }
 
@@ -1380,7 +1380,7 @@ void cull_projects() {
         if (p->ignore) {
             iter = gstate.projects.erase(iter);
         } else {
-            iter++;
+            ++iter;
         }
     }
 }

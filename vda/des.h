@@ -57,7 +57,7 @@ struct SIMULATOR {
     void remove(EVENT* e) {
         vector<EVENT*>::iterator i;
         //printf("removing %x\n", e);
-        for (i=events.begin(); i!=events.end(); i++) {
+        for (i=events.begin(); i!=events.end(); ++i) {
             if (*i == e) {
                 events.erase(i);
                 make_heap(events.begin(), events.end(), compare);

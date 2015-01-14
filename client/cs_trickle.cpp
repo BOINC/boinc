@@ -277,7 +277,7 @@ void update_trickle_up_urls(PROJECT* p, vector<string> &urls) {
             delete t;
             iter = p->trickle_up_ops.erase(iter);
         } else {
-            iter++;
+            ++iter;
         }
     }
 }

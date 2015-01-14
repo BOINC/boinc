@@ -692,7 +692,7 @@ void PROJECT::link_project_files() {
         }
         fref.file_info = fip;
         fip->is_project_file = true;
-        fref_iter++;
+        ++fref_iter;
     }
 }
 

@@ -446,7 +446,7 @@ bool CLIENT_STATE::create_and_delete_pers_file_xfers() {
             // `delete pfx' should have set pfx->fip->pfx to NULL
             assert (fip == NULL || fip->pers_file_xfer == NULL);
         } else {
-            iter++;
+            ++iter;
         }
     }
 

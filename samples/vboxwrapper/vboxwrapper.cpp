@@ -601,7 +601,7 @@ int main(int argc, char** argv) {
     // Copy files to the shared directory
     //
     if (pVM->enable_shared_directory && pVM->copy_to_shared.size()) {
-        for (vector<string>::iterator iter = pVM->copy_to_shared.begin(); iter != pVM->copy_to_shared.end(); iter++) {
+        for (vector<string>::iterator iter = pVM->copy_to_shared.begin(); iter != pVM->copy_to_shared.end(); ++iter) {
             string source = *iter;
             string destination = string("shared/") + *iter;
             if (!boinc_file_exists(destination.c_str())) {
