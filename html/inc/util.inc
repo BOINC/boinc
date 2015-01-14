@@ -978,29 +978,14 @@ function textarea_with_counter($name, $maxlen, $text) {
     ;
 }
 
-// return the URL for a "join" button that downloads the client
-// with cookies that streamline the registration process
+// convert number MMmmrr to string MM.mm.rr
 //
-function join_url() {
-    $master_url = parse_config(get_config(), "<master_url>");
-    $project_name = parse_config(get_config(), "<long_name>");
-    $project_desc = parse_config(get_config(), "<project_desc>");
-    $project_inst = parse_config(get_config(), "<project_inst>");
-    $user = get_logged_in_user(false);
-    $x =  "http://boinc.berkeley.edu/concierge.php";
-    $x .= "?master_url=".urlencode($master_url);
-    $x .= "&project_name=".urlencode($project_name);
-    if ($project_desc) {
-        $x .= "&project_desc=".urlencode($project_desc);
-    }
-    if ($project_inst) {
-        $x .= "&project_inst=".urlencode($project_inst);
-    }
-    if ($user) {
-        $x .= "&auth=".urlencode($user->authenticator);
-        $x .= "&user_name=".urlencode($user->name);
-    }
-    return $x;
+function version_string($v) {
+    $maj = (int)($v/10000);
+    $v -= $maj*10000;
+    $min = (int)($v/100);
+    $v -= $min*100;
+    return sprintf("%d.%d.%d", $maj, $min, $v);
 }
 
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit

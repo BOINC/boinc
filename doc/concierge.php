@@ -16,13 +16,10 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-// projects can show a "Join" button that redirects here,
-// passing various info about the project.
-// We then send cookies to the user's browser,
-// and download the appropriate client installer.
-// When the manager eventually runs, it looks for the cookies
-// and skips the choose-project page,
-// and possibly the credentials page.
+// This script gets some info about a project and account.
+// It
+// - send cookies to the user's browser containing the project/account info,
+// - optionally starts a download of the appropriate client installer.
 
 require_once("versions.inc");
 require_once("projects.inc");
@@ -34,14 +31,15 @@ function get_str($name) {
     return null;
 }
 
-function get_download_url($pname) {
+function get_download_url($pname, $need_vbox) {
     global $platforms;
     global $url_base;
 
+    $need_vbox = get_str("need_vbox", true);
     $p = $platforms[$pname];
     $v = latest_version($p);
     $file = $v['file'];
-    if (array_key_exists('vbox_file', $v)) {
+    if ($need_vbox && array_key_exists('vbox_file', $v)) {
         $file = $v['vbox_file'];
     }
     $url = $url_base.$file;
@@ -86,6 +84,7 @@ $auth = get_str("auth");
 $user_name = get_str("user_name");
 $project_desc = get_str("project_desc");
 $project_inst = get_str("project_inst");
+$download = get_str("download");
 
 if (!$master_url || !$project_name) {
     echo "missing arg";
@@ -98,10 +97,12 @@ if ($user_name) $user_name = urldecode($user_name);
 if ($project_desc) $project_desc = urldecode($project_desc);
 if ($project_inst) $project_inst = urldecode($project_inst);
 
-$url = url_to_download();
-if (!$url) {
-    echo "no file to download";
-    exit;
+if ($download) {
+    $download_url = url_to_download();
+    if (!$download_url) {
+        echo "no file to download";
+        exit;
+    }
 }
 
 // see if this project is in BOINC's list;
@@ -129,6 +130,8 @@ setrawcookie('attach_user_name', rawurlencode($user_name), $expire);
 setrawcookie('attach_project_desc', rawurlencode($project_desc), $expire);
 setrawcookie('attach_project_inst', rawurlencode($project_inst), $expire);
 
-Header("Location: ".$url);
+if ($download) {
+Header("Location: ".$download_url);
+}
 
 ?>

@@ -16,9 +16,10 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
+// forms for account creation and login
+
 function create_account_form($teamid, $next_url) {
     echo "
-        <p>
         <form action=\"create_account_action.php\" method=\"post\">
         <input type=hidden name=next_url value=\"$next_url\">
     ";
@@ -64,10 +65,12 @@ function create_account_form($teamid, $next_url) {
     );
     print_country_select();
     echo "</select></td></tr>\n";
-    row2(
-        tra("Postal or ZIP Code")."<br><p class=\"text-info\">".tra("Optional")."</p>",
-        "<input type=\"text\" name=\"postal_code\" size=\"20\">"
-    );
+    if (0) {
+        row2(
+            tra("Postal or ZIP Code")."<br><p class=\"text-info\">".tra("Optional")."</p>",
+            "<input type=\"text\" name=\"postal_code\" size=\"20\">"
+        );
+    }
 
     // Check if we're reCaptcha to prevent spam accounts
     //
@@ -106,10 +109,9 @@ function login_form($next_url) {
     row2(tra("Stay logged in"),
         '<input type="checkbox" name="stay_logged_in" checked>'
     );
-    $x = urlencode($next_url);
 
     row2("",
-        "<input class=\"btn btn-default\" type=\"submit\" name=\"mode\" value=\"".tra("Log in")."\" tabindex=\"3\"><br><br>". $create_acct
+        "<input class=\"btn btn-default\" type=\"submit\" name=\"mode\" value=\"".tra("Log in")."\" tabindex=\"3\"><br><br>"
     );
 
     end_table();

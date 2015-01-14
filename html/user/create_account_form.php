@@ -18,6 +18,7 @@
 
 require_once('../inc/boinc_db.inc');
 require_once('../inc/util.inc');
+require_once('../inc/account.inc');
 require_once('../inc/countries.inc');
 require_once('../inc/translation.inc');
 require_once('../inc/recaptchalib.php');
@@ -45,84 +46,21 @@ if (!no_computing()) {
     ";
 }
 
-echo "
-    <p>
-    <form action=\"create_account_action.php\" method=\"post\">
-    <input type=hidden name=next_url value=\"$next_url\">
-";
-
 $teamid = get_int("teamid", true);
 if ($teamid) {
     $team = BoincTeam::lookup_id($teamid);
     $user = BoincUser::lookup_id($team->userid);
     if (!$user) {
-        echo "No such user";
+        error_page("Team $team->name has no founder");
+        $teamid = 0;
     } else {
         echo "<b>".tra("This account will belong to the team %1 and will have the project preferences of its founder.", "<a href=\"team_display.php?teamid=$team->id\">$team->name</a>")."</b><p>";
-        echo "
-            <input type=\"hidden\" name=\"teamid\" value=\"$teamid\">
-        ";
     }
 }
-start_table();
 
-// Using invitation codes to restrict access?
-//
-if(defined('INVITE_CODES')) {
-     row2(
-         tra("Invitation Code")."<br><p class=\"text-info\">".tra("A valid invitation code is required to create an account.")."</p>",
-         "<input type=\"text\" name=\"invite_code\" size=\"30\" >"
-     );
-} 
+create_account_form($teamid, $next_url);
 
-row2(
-    tra("Name")."<br><p class=\"text-info\">".tra("Identifies you on our web site. Use your real name or a nickname.")."</p>",
-    "<input type=\"text\" name=\"new_name\" size=\"30\">"
-);
-row2(
-    tra("Email Address")."<br><p class=\"text-info\">".tra("Must be a valid address of the form 'name@domain'.")."</p>",
-    "<input type=\"text\" name=\"new_email_addr\" size=\"50\">"
-);
-$min_passwd_length = parse_element($config, "<min_passwd_length>");
-if (!$min_passwd_length) {
-    $min_passwd_length = 6;
-}
-
-row2(
-    tra("Password")
-    ."<br><p class=\"text-info\">".tra("Must be at least %1 characters", $min_passwd_length)."</p>",
-    "<input type=\"password\" name=\"passwd\">"
-);
-row2(tra("Confirm password"), "<input type=\"password\" name=\"passwd2\">");
-row2_init(
-    tra("Country")."<br><p class=\"text-info\">".tra("Select the country you want to represent, if any.")."</p>",
-    "<select name=\"country\">"
-);
-print_country_select();
-echo "</select></td></tr>\n";
-row2(
-    tra("Postal or ZIP Code")."<br><p class=\"text-info\">".tra("Optional")."</p>",
-    "<input type=\"text\" name=\"postal_code\" size=\"20\">"
-);
-
-// Check if we're reCaptcha to prevent spam accounts
-//
-$publickey = parse_config($config, "<recaptcha_public_key>");
-if ($publickey) {
-    row2(
-        tra("Please enter the words shown in the image"),
-        recaptcha_get_html($publickey, null, is_https())
-    );
-}
-
-row2("",
-    "<input class=\"btn btn-primary\" type=\"submit\" value=\"".tra("Create account")."\">"
-);
-end_table();
-echo "
-    </form>
-";
+page_tail();
 
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit
-page_tail();
 ?>

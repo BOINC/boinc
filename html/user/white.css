@@ -93,9 +93,9 @@ input[type="button"],
 input[type="submit"],
 .btn,
 a.btn {
-	background: #EDEDED url(img/white_grad.png) repeat-x scroll left top;
+	background: #a0f0a0;
 	color: black;
-	border-color: #ccc;
+	border-color: #60a060;
 }
 
 input[type="button"]:hover,
