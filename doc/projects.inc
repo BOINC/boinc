@@ -535,16 +535,16 @@ $math = array(
 //
 //            "mersenne_logo80.png"
 //        ),
-        array(
-            "DistrRTgen",
-            "http://boinc.freerainbowtables.com/distrrtgen/",
-            "Private",
-            tra("Cryptography"),
-            "To give the world's security experts the best tools available for detecting weak hashes. This can help them to force developers to use more secure methods of password protection.",
-            "freerainbowtables_logo.png",
-            "",
-            "Study hash functions"
-        ),
+//        array(
+//            "DistrRTgen",
+//            "http://boinc.freerainbowtables.com/distrrtgen/",
+//            "Private",
+//            tra("Cryptography"),
+//            "To give the world's security experts the best tools available for detecting weak hashes. This can help them to force developers to use more secure methods of password protection.",
+//            "freerainbowtables_logo.png",
+//            "",
+//            "Study hash functions"
+//        ),
         array(
             "Moo! Wrapper",
             "http://moowrap.net/",
