@@ -161,12 +161,21 @@ END_DECLARE_EVENT_TYPES()
 // Define a custom event handler
 class MyEvtHandler : public wxEvtHandler
 {
+    DECLARE_DYNAMIC_CLASS(MyEvtHandler)
+
 public:
-    MyEvtHandler(CBOINCListCtrl *theListControl) { m_listCtrl = theListControl; }
+    MyEvtHandler();
+    MyEvtHandler(CBOINCListCtrl *theListControl);
     void                    OnPaint(wxPaintEvent & event);
 
 private:
     CBOINCListCtrl *        m_listCtrl;
+    
+#if !USE_NATIVE_LISTCONTROL
+#ifdef __WXGTK__
+    int                     m_view_startX;
+#endif
+#endif
 
     DECLARE_EVENT_TABLE()
 };
