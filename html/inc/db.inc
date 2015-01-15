@@ -42,7 +42,14 @@ if (parse_bool(get_config(), "no_mysqli")) {
 if (MYSQLI) {
     function _mysql_connect($host, $user, $pass, $dbname) {
         global $mysqli;
-        $mysqli = new mysqli($host, $user, $pass, $dbname);
+        $x = explode(":", $host);
+        if (sizeof($x)>1) {
+            $host = $x[0];
+            $port = $x[1];
+        } else {
+            $port = null;
+        }
+        $mysqli = new mysqli($host, $user, $pass, $dbname, $port);
         return $mysqli;
     }
     function _mysql_query($q) {
