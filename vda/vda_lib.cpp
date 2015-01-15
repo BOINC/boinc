@@ -456,7 +456,7 @@ void CHUNK::recovery_plan() {
     if (present_on_server) {
         status = PRESENT;
         cost = 0;
-    } else if (hosts.size() > 0) {
+    } else if (!hosts.empty()) {
         // if file is not present on server, assume that it's present
         // on all hosts (otherwise we wouldn't have downloaded it).
         //
