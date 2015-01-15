@@ -784,7 +784,7 @@ int HTTP_OP_SET::remove(HTTP_OP* p) {
             iter = http_ops.erase(iter);
             return 0;
         }
-        iter++;
+        ++iter;
     }
     return ERR_NOT_FOUND;
 }

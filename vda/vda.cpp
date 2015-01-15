@@ -71,7 +71,7 @@ void CHUNK::print_status(int level) {
         indent(level), present_on_server?"yes":"no"
     );
     set<VDA_CHUNK_HOST*>::iterator i;
-    for (i=hosts.begin(); i!=hosts.end(); i++) {
+    for (i=hosts.begin(); i!=hosts.end(); ++i) {
         VDA_CHUNK_HOST* ch = *i;
         ch->print_status(level);
     }

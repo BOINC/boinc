@@ -209,7 +209,7 @@ struct TASK {
         // copy each env string to a buffer for the process
         for (vector<string>::iterator it = vsetenv.begin();
             it != vsetenv.end() && len < bufsize-1;
-            it++
+            ++it
         ) {
             strncpy(p, it->c_str(), it->length());
             len = (int)strlen(p);

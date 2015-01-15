@@ -496,7 +496,7 @@ int CMainDocument::RequestRPC(ASYNC_RPC_REQUEST& request, bool hasPriority) {
     }
     
     // Check if a duplicate request is already on the queue
-    for (iter=RPC_requests.begin(); iter!=RPC_requests.end(); iter++) {
+    for (iter=RPC_requests.begin(); iter!=RPC_requests.end(); ++iter) {
         if (iter->isSameAs(request)) {
             return 0;
         }

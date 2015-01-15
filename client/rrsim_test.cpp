@@ -298,7 +298,7 @@ bool CLIENT_STATE::rr_simulation() {
             } else {
                 x = rp->project->rrsim_proc_rate*rpbest->rrsim_finish_delay;
                 rp->rrsim_cpu_left -= x;
-                it++;
+                ++it;
             }
         }
 
@@ -310,7 +310,7 @@ bool CLIENT_STATE::rr_simulation() {
             if (rp == rpbest) {
                 it = pbest->active.erase(it);
             } else {
-                it++;
+                ++it;
             }
         }
 

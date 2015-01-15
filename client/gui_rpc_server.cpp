@@ -421,7 +421,7 @@ bool GUI_RPC_CONN_SET::check_allowed_list(sockaddr_storage& peer_ip) {
         if (same_ip_addr(peer_ip, *remote_iter)) {
             return true;
         }
-        remote_iter++;
+        ++remote_iter;
     }
     return false;
 }
@@ -511,7 +511,7 @@ void GUI_RPC_CONN_SET::got_select(FDSET_GROUP& fg) {
             iter = gui_rpcs.erase(iter);
             continue;
         }
-        iter++;
+        ++iter;
     }
 
     // handle RPCs on connections with pending requests
@@ -533,7 +533,7 @@ void GUI_RPC_CONN_SET::got_select(FDSET_GROUP& fg) {
                 continue;
             }
         }
-        iter++;
+        ++iter;
     }
 }
 

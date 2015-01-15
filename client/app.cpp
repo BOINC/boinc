@@ -293,7 +293,7 @@ void ACTIVE_TASK_SET::free_mem() {
 
 bool app_running(PROC_MAP& pm, const char* p) {
     PROC_MAP::iterator i;
-    for (i=pm.begin(); i!=pm.end(); i++) {
+    for (i=pm.begin(); i!=pm.end(); ++i) {
         PROCINFO& pi = i->second;
         //msg_printf(0, MSG_INFO, "running: [%s]", pi.command);
         if (!strcasecmp(pi.command, p)) {

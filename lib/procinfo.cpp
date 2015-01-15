@@ -74,7 +74,7 @@ void procinfo_app(
     PROCINFO& procinfo, vector<int>* other_pids, PROC_MAP& pm, char* graphics_exec_file
 ) {
     PROC_MAP::iterator i;
-    for (i=pm.begin(); i!=pm.end(); i++) {
+    for (i=pm.begin(); i!=pm.end(); ++i) {
         PROCINFO& p = i->second;
         if (p.id == procinfo.id
             || (other_pids && in_vector(p.id, *other_pids))
@@ -98,7 +98,7 @@ void procinfo_app(
 
 void find_children(PROC_MAP& pm) {
     PROC_MAP::iterator i;
-    for (i=pm.begin(); i!=pm.end(); i++) {
+    for (i=pm.begin(); i!=pm.end(); ++i) {
         int parentid = i->second.parentid;
         PROC_MAP::iterator j = pm.find(parentid);
         if (j == pm.end()) continue;    // should never happen
@@ -111,7 +111,7 @@ void find_children(PROC_MAP& pm) {
 void procinfo_non_boinc(PROCINFO& procinfo, PROC_MAP& pm) {
     procinfo.clear();
     PROC_MAP::iterator i;
-    for (i=pm.begin(); i!=pm.end(); i++) {
+    for (i=pm.begin(); i!=pm.end(); ++i) {
         PROCINFO& p = i->second;
 #ifdef _WIN32
         if (p.id == 0) continue;    // idle process

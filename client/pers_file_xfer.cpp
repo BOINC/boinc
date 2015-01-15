@@ -521,7 +521,7 @@ int PERS_FILE_XFER_SET::remove(PERS_FILE_XFER* pfx) {
             iter = pers_file_xfers.erase(iter);
             return 0;
         }
-        iter++;
+        ++iter;
     }
     msg_printf(
         pfx->fip->project, MSG_INTERNAL_ERROR,

@@ -1518,7 +1518,7 @@ bool CLIENT_STATE::garbage_collect_always() {
 #endif
         rp->avp->ref_cnt++;
         rp->wup->ref_cnt++;
-        result_iter++;
+        ++result_iter;
     }
 
     // delete WORKUNITs not referenced by any in-progress result;
@@ -1541,7 +1541,7 @@ bool CLIENT_STATE::garbage_collect_always() {
             for (i=0; i<wup->input_files.size(); i++) {
                 wup->input_files[i].file_info->ref_cnt++;
             }
-            wu_iter++;
+            ++wu_iter;
         }
     }
 
@@ -1571,10 +1571,10 @@ bool CLIENT_STATE::garbage_collect_always() {
                 avp_iter = app_versions.erase(avp_iter);
                 action = true;
             } else {
-                avp_iter++;
+                ++avp_iter;
             }
         } else {
-            avp_iter++;
+            ++avp_iter;
         }
     }
 
@@ -1591,7 +1591,7 @@ bool CLIENT_STATE::garbage_collect_always() {
     // reference-count sticky files not marked for deletion
     //
 
-    for (fi_iter = file_infos.begin(); fi_iter!=file_infos.end(); fi_iter++) {
+    for (fi_iter = file_infos.begin(); fi_iter!=file_infos.end(); ++fi_iter) {
         fip = *fi_iter;
         if (fip->sticky_expire_time && now > fip->sticky_expire_time) {
             fip->sticky = false;
@@ -1614,7 +1614,7 @@ bool CLIENT_STATE::garbage_collect_always() {
             delete pfx;
             pfx_iter = pers_file_xfers->pers_file_xfers.erase(pfx_iter);
         } else {
-            pfx_iter++;
+            ++pfx_iter;
         }
     }
 
@@ -1635,7 +1635,7 @@ bool CLIENT_STATE::garbage_collect_always() {
             fi_iter = file_infos.erase(fi_iter);
             action = true;
         } else {
-            fi_iter++;
+            ++fi_iter;
         }
     }
 
@@ -1714,7 +1714,7 @@ bool CLIENT_STATE::update_results() {
             }
             break;
         }
-        result_iter++;
+        ++result_iter;
     }
     return action;
 }
@@ -1936,7 +1936,7 @@ int CLIENT_STATE::reset_project(PROJECT* project, bool detaching) {
                 avp_iter = app_versions.erase(avp_iter);
                 delete avp;
             } else {
-                avp_iter++;
+                ++avp_iter;
             }
         }
 
@@ -1947,7 +1947,7 @@ int CLIENT_STATE::reset_project(PROJECT* project, bool detaching) {
                 app_iter = apps.erase(app_iter);
                 delete app;
             } else {
-                app_iter++;
+                ++app_iter;
             }
         }
         garbage_collect_always();
@@ -2005,13 +2005,13 @@ int CLIENT_STATE::detach_project(PROJECT* project) {
             fi_iter = file_infos.erase(fi_iter);
             delete fip;
         } else {
-            fi_iter++;
+            ++fi_iter;
         }
     }
 
     // find project and remove it from the vector
     //
-    for (project_iter = projects.begin(); project_iter != projects.end(); project_iter++) {
+    for (project_iter = projects.begin(); project_iter != projects.end(); ++project_iter) {
         p = *project_iter;
         if (p == project) {
             project_iter = projects.erase(project_iter);

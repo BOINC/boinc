@@ -85,7 +85,7 @@ bool CLIENT_STATE::handle_finished_apps() {
             action = true;
             break;
         default:
-            iter++;
+            ++iter;
         }
     }
     return action;
