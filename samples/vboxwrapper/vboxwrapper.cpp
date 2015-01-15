@@ -56,6 +56,7 @@
 #include <stdio.h>
 #include <cmath>
 #include <string>
+#include <sstream>
 #include <unistd.h>
 #endif
 
