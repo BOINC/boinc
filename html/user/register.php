@@ -43,7 +43,7 @@ function reg_form() {
 
 // if user is logged in, go straight to download page
 //
-$user = get_logged_in_user(true);
+$user = get_logged_in_user(false);
 if ($user) {
     header("Location: download.php");
     exit;
