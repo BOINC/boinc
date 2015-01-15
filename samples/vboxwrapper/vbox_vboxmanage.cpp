@@ -64,11 +64,9 @@ using std::string;
 namespace vboxmanage {
 
 VBOX_VM::VBOX_VM() {
-    VBOX_BASE::VBOX_BASE();
 }
 
 VBOX_VM::~VBOX_VM() {
-    VBOX_BASE::~VBOX_BASE();
 }
 
 
