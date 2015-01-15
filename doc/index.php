@@ -169,6 +169,7 @@ function show_other() {
             </ul>
             </td><td valign=top>
             <ul>
+            <li> <a href=trac/wiki/SourceCodeGit>".tra("Source code")."</a>
             <li> ".tra("Help wanted")."
             <ul>
                 <li> <a href=\"trac/wiki/DevProjects\">".tra("Programming")."</a>
