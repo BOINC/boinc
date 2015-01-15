@@ -29,11 +29,26 @@ distclean:
 floppyio.o: floppyio.cpp
 	g++ $(CXXFLAGS) -c floppyio.cpp
 
-vbox.o: vbox.cpp
-	g++ $(CXXFLAGS) -c vbox.cpp
+vbox_common.o: vbox_common.cpp
+	g++ $(CXXFLAGS) -c vbox_common.cpp
 
-vbox_unix.o: vbox_unix.cpp
-	g++ $(CXXFLAGS) -c vbox_unix.cpp
+vbox_vboxmanage.o: vbox_vboxmanage.cpp
+	g++ $(CXXFLAGS) -c vbox_vboxmanage.cpp
 
-vboxwrapper: vboxwrapper.o vbox.o vbox_unix.o floppyio.o libstdc++.a $(BOINC_LIB_DIR)/libboinc.a $(BOINC_API_DIR)/libboinc_api.a
-	g++ $(CXXFLAGS) -o vboxwrapper vboxwrapper.o vbox.o vbox_unix.o floppyio.o libstdc++.a -pthread -lboinc_api -lboinc
+vboxcheckpoint.o: vboxcheckpoint.cpp
+	g++ $(CXXFLAGS) -c vboxcheckpoint.cpp
+
+vboxjob.o: vboxjob.cpp
+	g++ $(CXXFLAGS) -c vboxjob.cpp
+
+vboxlog.o: vboxlog.cpp
+	g++ $(CXXFLAGS) -c vboxlog.cpp
+
+vboxlogging.o: vboxlogging.cpp
+	g++ $(CXXFLAGS) -c vboxlogging.cpp
+
+vboxwrapper.o: vboxwrapper.cpp
+	g++ $(CXXFLAGS) -c vboxwrapper.cpp
+
+vboxwrapper: vboxwrapper.o vbox_common.o vbox_vboxmanage.o vboxcheckpoint.o vboxjob.o vboxlog.o vboxlogging.o floppyio.o libstdc++.a $(BOINC_LIB_DIR)/libboinc.a $(BOINC_API_DIR)/libboinc_api.a
+	g++ $(CXXFLAGS) -o vboxwrapper vboxwrapper.o vbox_common.o vbox_vboxmanage.o vboxcheckpoint.o vboxjob.o vboxlog.o vboxlogging.o floppyio.o libstdc++.a -pthread -lboinc_api -lboinc
