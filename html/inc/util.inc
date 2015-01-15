@@ -980,7 +980,7 @@ function textarea_with_counter($name, $maxlen, $text) {
 
 // convert number MMmmrr to string MM.mm.rr
 //
-function version_string($v) {
+function version_string_maj_min_rel($v) {
     $maj = (int)($v/10000);
     $v -= $maj*10000;
     $min = (int)($v/100);

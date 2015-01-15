@@ -59,11 +59,11 @@ function show_download_page() {
 
     $config = get_config();
     $need_vbox = parse_bool($config, "need_vbox");
-    $mcv = parse_config($config, "<min_core_client_version_announced>");
+    $mcv = parse_config($config, "<min_core_client_version>");
     $dlv = "BOINC";
     $dl = "BOINC";
     if ($mcv) {
-        $dlv .= " version " . version_string($mcv);
+        $dlv .= " version " . version_string_maj_min_rel($mcv). " or later";
     }
 
     $verb = "is";
