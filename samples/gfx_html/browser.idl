@@ -20,66 +20,6 @@ interface IHTMLBrowserHost : IDispatch
 };
 
 [
-	object, 
-	dual,
-	nonextensible,
-	uuid(5CDAD774-B53F-46C1-A725-E3655CEEDFFB),	
-	pointer_default(unique)
-]
-interface IHTMLBrowserHostUI : IDispatch
-{
-    HRESULT log([in] BSTR message);
-    HRESULT debug([in] BSTR message);
-    HRESULT info([in] BSTR message);
-    HRESULT warn([in] BSTR message);
-    HRESULT error([in] BSTR message);
-    HRESULT isStateUpdated([out, retval] BOOL* pVal);
-    HRESULT resetStateUpdate([in] BOOL newVal);
-    [propget, id(1)]  HRESULT appName([out, retval] BSTR* pVal);
-    [propput, id(1)]  HRESULT appName([in] BSTR newVal);
-    [propget, id(2)]  HRESULT appVersion([out, retval] LONG* pVal);
-    [propput, id(2)]  HRESULT appVersion([in] LONG newVal);
-    [propget, id(3)]  HRESULT wuName([out, retval] BSTR* pVal);
-    [propput, id(3)]  HRESULT wuName([in] BSTR newVal);
-    [propget, id(4)]  HRESULT resName([out, retval] BSTR* pVal);
-    [propput, id(4)]  HRESULT resName([in] BSTR newVal);
-    [propget, id(5)]  HRESULT teamName([out, retval] BSTR* pVal);
-    [propput, id(5)]  HRESULT teamName([in] BSTR newVal);
-    [propget, id(6)]  HRESULT userName([out, retval] BSTR* pVal);
-    [propput, id(6)]  HRESULT userName([in] BSTR newVal);
-    [propget, id(7)]  HRESULT userCreditTotal([out, retval] DOUBLE* pVal);
-    [propput, id(7)]  HRESULT userCreditTotal([in] DOUBLE newVal);
-    [propget, id(8)]  HRESULT userCreditAverage([out, retval] DOUBLE* pVal);
-    [propput, id(8)]  HRESULT userCreditAverage([in] DOUBLE newVal);
-    [propget, id(9)]  HRESULT hostCreditTotal([out, retval] DOUBLE* pVal);
-    [propput, id(9)]  HRESULT hostCreditTotal([in] DOUBLE newVal);
-    [propget, id(10)] HRESULT hostCreditAverage([out, retval] DOUBLE* pVal);
-    [propput, id(10)] HRESULT hostCreditAverage([in] DOUBLE newVal);
-    [propget, id(11)] HRESULT scrsaveMode([out, retval] BOOL* pVal);
-    [propput, id(11)] HRESULT scrsaveMode([in] BOOL newVal);
-    [propget, id(12)] HRESULT suspended([out, retval] BOOL* pVal);
-    [propput, id(12)] HRESULT suspended([in] BOOL newVal);
-    [propget, id(13)] HRESULT networkSuspended([out, retval] BOOL* pVal);
-    [propput, id(13)] HRESULT networkSuspended([in] BOOL newVal);
-    [propget, id(14)] HRESULT exiting([out, retval] BOOL* pVal);
-    [propput, id(14)] HRESULT exiting([in] BOOL newVal);
-    [propget, id(15)] HRESULT exitTimeout([out, retval] DOUBLE* pVal);
-    [propput, id(15)] HRESULT exitTimeout([in] DOUBLE newVal);
-    [propget, id(16)] HRESULT cpuTime([out, retval] DOUBLE* pVal);
-    [propput, id(16)] HRESULT cpuTime([in] DOUBLE newVal);
-    [propget, id(17)] HRESULT elapsedTime([out, retval] DOUBLE* pVal);
-    [propput, id(17)] HRESULT elapsedTime([in] DOUBLE newVal);
-    [propget, id(18)] HRESULT fractionDone([out, retval] DOUBLE* pVal);
-    [propput, id(18)] HRESULT fractionDone([in] DOUBLE newVal);
-    [propget, id(19)] HRESULT vboxJob([out, retval] BOOL* pVal);
-    [propput, id(19)] HRESULT vboxJob([in] BOOL newVal);
-    [propget, id(20)] HRESULT rdpPort([out, retval] LONG* pVal);
-    [propput, id(20)] HRESULT rdpPort([in] LONG newVal);
-    [propget, id(21)] HRESULT apiPort([out, retval] LONG* pVal);
-    [propput, id(21)] HRESULT apiPort([in] LONG newVal);
-};
-
-[
 	uuid(E734A057-9667-44EB-BC7D-313D535BADD5),
 	version(1.0),
 ]
@@ -93,7 +33,6 @@ library HTMLGfxLib
 	coclass HTMLBrowser
 	{
 		[default] interface IHTMLBrowserHost;
-		interface IHTMLBrowserHostUI;
 	};
 };
 

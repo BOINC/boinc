@@ -150,7 +150,7 @@ int boinc_write_graphics_status(
 }
 
 int boinc_parse_graphics_status(
-    double* update_time, double* cpu_time,
+    double* updated_time, double* cpu_time,
     double* elapsed_time, double* fraction_done, BOINC_STATUS* status
 ){
     MIOFILE mf;
@@ -161,10 +161,10 @@ int boinc_parse_graphics_status(
     mf.init_file(f);
     XML_PARSER xp(&mf);
 
-    update_time = 0;
-    cpu_time = 0;
-    elapsed_time = 0;
-    fraction_done = 0;
+    *updated_time = 0;
+    *cpu_time = 0;
+    *elapsed_time = 0;
+    *fraction_done = 0;
     memset(status, 0, sizeof(BOINC_STATUS));
 
     if (!xp.parse_start("graphics_status")) return ERR_XML_PARSE;
@@ -191,7 +191,7 @@ int boinc_parse_graphics_status(
                 else if (xp.parse_int("network_suspended", status->network_suspended)) continue;
             }
         }
-        else if (xp.parse_double("update_time", *update_time)) continue;
+        else if (xp.parse_double("updated_time", *updated_time)) continue;
         else if (xp.parse_double("cpu_time", *cpu_time)) continue;
         else if (xp.parse_double("elapsed_time", *elapsed_time)) continue;
         else if (xp.parse_double("fraction_done", *fraction_done)) continue;

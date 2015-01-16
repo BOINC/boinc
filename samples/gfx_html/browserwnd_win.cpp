@@ -28,22 +28,13 @@
 #include <exdispid.h>
 #include <stdlib.h>
 #include <string>
-#include "util.h"
-#include "win_util.h"
-#include "version.h"
-#include "boinc_api.h"
-#include "graphics2.h"
-#include "diagnostics.h"
-#include "filesys.h"
 #include "browser_i.h"
 #include "browser_win.h"
 #include "browserlog.h"
-#include "browserctrlui_win.h"
+#include "webapi.h"
+#include "browsermain_win.h"
 #include "browserctrl_win.h"
 #include "browserwnd_win.h"
-#include "browsermain_win.h"
-#include "graphics.h"
-#include "vboxwrapper.h"
 
 
 CHTMLBrowserWnd::CHTMLBrowserWnd()
@@ -51,23 +42,8 @@ CHTMLBrowserWnd::CHTMLBrowserWnd()
     m_pBrowserHost = NULL;
     m_hIcon = NULL;
     m_hIconSmall = NULL;
-
-    m_bForceRereadPreferences = false;
-    aid.clear();
-    status.abort_request = 0;
-    status.no_heartbeat = 0;
-    status.quit_request = 0;
-    status.reread_init_data_file = 0;
-    status.suspended = 0;
-    status.network_suspended = 0;
-    m_dUpdateTime = 0.0;
-    m_dCPUTime = 0.0;
-    m_dElapsedTime = 0.0;
-    m_dFractionDone = 0.0;
+    m_bInitializing = false;
     m_bScreensaverMode = false;
-    m_bVboxwrapperJob = false;
-    m_lRemoteDesktopPort = 0;
-    m_lWebAPIPort = 0;
 }
 
 CHTMLBrowserWnd::~CHTMLBrowserWnd()
@@ -82,12 +58,6 @@ CHTMLBrowserWnd::~CHTMLBrowserWnd()
     {
         ::DestroyIcon(m_hIconSmall);
         m_hIconSmall = NULL;
-    }
-
-    if (aid.project_preferences)
-    {
-        delete aid.project_preferences;
-        aid.project_preferences = NULL;
     }
 }
 
@@ -148,8 +118,8 @@ LRESULT CHTMLBrowserWnd::OnCreate(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL&
     m_strEmbeddedURL += szExecutable;
     m_strEmbeddedURL += "/index.html";
 
-    // Stage rereading of all the state files
-    m_bForceRereadPreferences = true;
+    //
+    m_bInitializing = true;
 
     // Start the timer
     SetTimer(1, 1000);
@@ -192,159 +162,25 @@ LRESULT CHTMLBrowserWnd::OnInputActivity(UINT uMsg, WPARAM wParam, LPARAM lParam
 
 LRESULT CHTMLBrowserWnd::OnTimer(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
 {
-    int retval = ERR_FREAD;
-    HRESULT hr = E_FAIL;
-    BOOL bExit = false;
-    std::string strDefaultURL;
-    std::string strRunningURL;
-    std::string strSuspendedURL;
-    std::string strNetworkSuspendedURL;
-    std::string strExitingURL;
-    double dExitTimeout = 0.0;
-    int temp = 0;
-    CComQIPtr<IHTMLBrowserHostUI> pHostUI;
-
-    boinc_parse_graphics_status(
-        &m_dUpdateTime,
-        &m_dCPUTime,
-        &m_dElapsedTime,
-        &m_dFractionDone,
-        &status
-    );
-
-    // Query for the IHTMLBrowserHostUI interface so we can setup the browser with
-    // information that doesn't change very much.
-    //
-    hr = m_pBrowserHost->GetExternal((IDispatch**)&pHostUI);
-    if (SUCCEEDED(hr) && pHostUI.p)
+    if (is_exiting() && (get_exit_timeout() > 5.0))
     {
-        bExit = status.abort_request || status.no_heartbeat || status.quit_request;
-        if (bExit && ((dtime() - m_dUpdateTime) > 5.0))
+        if (!_AtlModule.m_bDebugging)
         {
-            dExitTimeout = dtime() - m_dUpdateTime - 5;
+            PostMessage(WM_CLOSE);
         }
-        else
-        {
-            dExitTimeout = 0.0;
-        }
+    }
 
-        if (dExitTimeout > 5.0)
-        {
-            if (!_AtlModule.m_bDebugging)
-            {
-                PostMessage(WM_CLOSE);
-            }
-        }
+    if (m_bInitializing)
+    {
+        m_bInitializing = false;
 
-        pHostUI->put_suspended(status.suspended);
-        pHostUI->put_networkSuspended(status.network_suspended);
-        pHostUI->put_exiting(bExit);
-        pHostUI->put_exitTimeout(dExitTimeout);
-        pHostUI->put_cpuTime(m_dCPUTime);
-        pHostUI->put_elapsedTime(m_dElapsedTime);
-        pHostUI->put_fractionDone(m_dFractionDone);
-
-        // Check to see if vboxwrapper has logged and Web API port info or 
-        // Remote Desktop port info
-        //
-        if (m_bVboxwrapperJob)
-        {
-            if (!m_lRemoteDesktopPort)
-            {
-                if (0 == parse_vbox_remote_desktop_port(temp))
-                {
-                    m_lRemoteDesktopPort = temp;
-                    browserlog_msg("Vboxwrapper remote desktop port assignment (%d).", m_lRemoteDesktopPort);
-                    pHostUI->put_rdpPort(m_lRemoteDesktopPort);
-                }
-            }
-            if (!m_lWebAPIPort)
-            {
-                if (0 == parse_vbox_webapi_port(temp))
-                {
-                    m_lWebAPIPort = temp;
-                    browserlog_msg("Vboxwrapper web api port assignment (%d).", m_lWebAPIPort);
-                    pHostUI->put_apiPort(m_lWebAPIPort);
-                }
-            }
-        }
-
-        if (status.reread_init_data_file || m_bForceRereadPreferences)
-        {
-            status.reread_init_data_file = 0;
-            m_bForceRereadPreferences = false;
-
-            browserlog_msg("Preference change detected.");
-
-            // Get updated state
-            //
-            if (aid.project_preferences) delete aid.project_preferences;
-            boinc_parse_init_data_file();
-            boinc_get_init_data(aid);
-
-            // Inform the HTML Document DOM about the state changes
-            //
-            pHostUI->resetStateUpdate(TRUE);
-            pHostUI->put_scrsaveMode(m_bScreensaverMode);
-            pHostUI->put_appName(CComBSTR(aid.app_name));
-            pHostUI->put_appVersion(aid.app_version);
-            pHostUI->put_wuName(CComBSTR(aid.wu_name));
-            pHostUI->put_resName(CComBSTR(aid.result_name));
-            pHostUI->put_userName(CComBSTR(aid.user_name));
-            pHostUI->put_teamName(CComBSTR(aid.team_name));
-            pHostUI->put_userCreditTotal(aid.user_total_credit);
-            pHostUI->put_userCreditAverage(aid.user_expavg_credit);
-            pHostUI->put_hostCreditTotal(aid.host_total_credit);
-            pHostUI->put_hostCreditAverage(aid.host_expavg_credit);
-
-            // Check for vboxwrapper state
-            //
-            m_bVboxwrapperJob = is_vboxwrapper_job();
-            if (m_bVboxwrapperJob)
-            {
-                browserlog_msg("Vboxwrapper task detected.");
-                pHostUI->put_vboxJob(m_bVboxwrapperJob);
-            }
-
-            // Check for project configured state urls
-            //
-            if (0 == parse_graphics(strDefaultURL, strRunningURL, strSuspendedURL, strNetworkSuspendedURL, strExitingURL))
-            {
-                if (strDefaultURL.size())
-                {
-                    m_strDefaultURL = NormalizeURL(strDefaultURL);
-                    browserlog_msg("Configured default_url: '%s'.", strDefaultURL.c_str());
-                }
-                if (strRunningURL.size())
-                {
-                    m_strRunningURL = NormalizeURL(strRunningURL);
-                    browserlog_msg("Configured running_url: '%s'.", strRunningURL.c_str());
-                }
-                if (strSuspendedURL.size())
-                {
-                    m_strSuspendedURL = NormalizeURL(strSuspendedURL);
-                    browserlog_msg("Configured suspended_url: '%s'.", strSuspendedURL.c_str());
-                }
-                if (strNetworkSuspendedURL.size())
-                {
-                    m_strNetworkSuspendedURL = NormalizeURL(strNetworkSuspendedURL);
-                    browserlog_msg("Configured network_suspended_url: '%s'.", strNetworkSuspendedURL.c_str());
-                }
-                if (strExitingURL.size())
-                {
-                    m_strExitingURL = NormalizeURL(strExitingURL);
-                    browserlog_msg("Configured exiting_url: '%s'.", strExitingURL.c_str());
-                }
-            }
-            
-            // Forcefully switch to the currect URL
-            NavigateToStateURL(true);
-        }
-        else
-        {
-            // Switch to the correct URL
-            NavigateToStateURL(false);
-        }
+        // Forcefully switch to the state URL
+        NavigateToStateURL(true);
+    }
+    else
+    {
+        // Switch to the correct state URL
+        NavigateToStateURL(false);
     }
 
 	bHandled = TRUE;
@@ -370,35 +206,13 @@ STDMETHODIMP_(void) CHTMLBrowserWnd::OnNewWindow3(IDispatch** ppDisp, VARIANT_BO
 
 void CHTMLBrowserWnd::NavigateToStateURL(bool bForce)
 {
+    std::string strDesiredURL;
     CComVariant vt;
     CComVariant vtTargetURL;
     CComBSTR strTargetURL;
-    char buf[256];
     
-    // Start out with the default URL
-    strTargetURL = m_strDefaultURL.c_str();
-
-    // See if we need to override the default
-    if        ((status.abort_request || status.quit_request || status.no_heartbeat) && !m_strExitingURL.empty()) {
-        strTargetURL = m_strExitingURL.c_str();
-    } else if (status.suspended && !m_strSuspendedURL.empty()) {
-        strTargetURL = m_strSuspendedURL.c_str();
-    } else if (status.network_suspended && !m_strNetworkSuspendedURL.empty()) {
-        strTargetURL = m_strNetworkSuspendedURL.c_str();
-    } else if (!m_strRunningURL.empty()) {
-        strTargetURL = m_strRunningURL.c_str();
-    }
-
-    // Are we running a vboxwrapper job?  If so, does it expose a webapi port number?
-    if ((m_bVboxwrapperJob && m_lWebAPIPort) && (strTargetURL.Length() == 0)) {
-        _snprintf(buf, sizeof(buf), "http://localhost:%d/", m_lWebAPIPort);
-        strTargetURL  = buf;
-    }
-
-    // If nothing has been approved to the point, use the embedded HTML page
-    if (strTargetURL.Length() == 0) {
-        strTargetURL = m_strEmbeddedURL;
-    }
+    determine_state_url(strDesiredURL);
+    strTargetURL = strDesiredURL.c_str();
 
     // Navigate to URL
     if ((m_strCurrentURL != strTargetURL) || bForce) {
@@ -409,28 +223,4 @@ void CHTMLBrowserWnd::NavigateToStateURL(bool bForce)
 
         m_pBrowserCtrl->Navigate2(&vtTargetURL, &vt, &vt, &vt, &vt);
     }
-}
-
-std::string CHTMLBrowserWnd::NormalizeURL(std::string& url)
-{
-    std::string strNormalized;
-    char buf[256];
-
-    if (starts_with(url, "http://") || starts_with(url, "https://"))
-    {
-        strNormalized = url;
-    }
-    else
-    {
-        // Assume it is a local file
-
-        // Configure the base url using the http protocol pointing to our locally spun
-        // up web server, use a username and password if they are provided.
-        //
-        _snprintf(buf, sizeof(buf), "http://localhost:%d/", m_iWebServerPort);
-        strNormalized  = buf;
-        strNormalized += url;
-    }
-
-    return strNormalized;
 }

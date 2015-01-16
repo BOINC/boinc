@@ -98,7 +98,7 @@ struct VBOX_TIMESTAMP {
 class VBOX_BASE : public VBOX_JOB {
 public:
     VBOX_BASE();
-    ~VBOX_BASE();
+    virtual ~VBOX_BASE();
 
     std::string virtualbox_home_directory;
     std::string virtualbox_install_directory;
@@ -163,33 +163,33 @@ public:
     HANDLE vboxsvc_pid_handle;
 #endif
 
-    virtual int initialize();
-    virtual int create_vm();
-    virtual int register_vm();
-    virtual int deregister_vm(bool delete_media);
-    virtual int deregister_stale_vm();
-    virtual void poll(bool log_state = true);
-    virtual int start();
-    virtual int stop();
-    virtual int poweroff();
-    virtual int pause();
-    virtual int resume();
-    virtual int create_snapshot(double elapsed_time);
-    virtual int cleanup_snapshots(bool delete_active);
-    virtual int restore_snapshot();
+    virtual int initialize() = 0;
+    virtual int create_vm() = 0;
+    virtual int register_vm() = 0;
+    virtual int deregister_vm(bool delete_media) = 0;
+    virtual int deregister_stale_vm() = 0;
+    virtual void poll(bool log_state = true) = 0;
+    virtual int start() = 0;
+    virtual int stop() = 0;
+    virtual int poweroff() = 0;
+    virtual int pause() = 0;
+    virtual int resume() = 0;
+    virtual int create_snapshot(double elapsed_time) = 0;
+    virtual int cleanup_snapshots(bool delete_active) = 0;
+    virtual int restore_snapshot() = 0;
 
     virtual int run(bool do_restore_snapshot);
     virtual void cleanup();
 
     virtual void dump_hypervisor_logs(bool include_error_logs);
-    virtual void dump_hypervisor_status_reports();
+    virtual void dump_hypervisor_status_reports() = 0;
     virtual void dump_vmguestlog_entries();
 
-    virtual int is_registered();
-    virtual bool is_system_ready(std::string& message);
+    virtual int is_registered() = 0;
+    virtual bool is_system_ready(std::string& message) = 0;
     virtual bool is_vm_machine_configuration_available();
-    virtual bool is_disk_image_registered();
-    virtual bool is_extpack_installed();
+    virtual bool is_disk_image_registered() = 0;
+    virtual bool is_extpack_installed() = 0;
     virtual bool is_logged_failure_vm_extensions_disabled();
     virtual bool is_logged_failure_vm_extensions_in_use();
     virtual bool is_logged_failure_vm_extensions_not_supported();
@@ -200,28 +200,28 @@ public:
 
     static int get_install_directory(std::string& dir);
     static int get_version_information(std::string& version);
-    virtual int get_guest_additions(std::string& dir);
+    virtual int get_guest_additions(std::string& dir) = 0;
     virtual int get_slot_directory(std::string& dir);
-    virtual int get_default_network_interface(std::string& iface);
-    virtual int get_vm_network_bytes_sent(double& sent);
-    virtual int get_vm_network_bytes_received(double& received);
-    virtual int get_vm_process_id();
-    virtual int get_vm_exit_code(unsigned long& exit_code);
-    virtual double get_vm_cpu_time();
+    virtual int get_default_network_interface(std::string& iface) = 0;
+    virtual int get_vm_network_bytes_sent(double& sent) = 0;
+    virtual int get_vm_network_bytes_received(double& received) = 0;
+    virtual int get_vm_process_id() = 0;
+    virtual int get_vm_exit_code(unsigned long& exit_code) = 0;
+    virtual double get_vm_cpu_time() = 0;
 
     virtual int get_system_log(std::string& log, bool tail_only = true, unsigned int buffer_size = 8192);
     virtual int get_vm_log(std::string& log, bool tail_only = true, unsigned int buffer_size = 8192);
     virtual int get_trace_log(std::string& log, bool tail_only = true, unsigned int buffer_size = 8192);
 
-    virtual int set_network_access(bool enabled);
-    virtual int set_cpu_usage(int percentage);
-    virtual int set_network_usage(int kilobytes);
+    virtual int set_network_access(bool enabled) = 0;
+    virtual int set_cpu_usage(int percentage) = 0;
+    virtual int set_network_usage(int kilobytes) = 0;
 
     virtual int read_floppy(std::string& data);
     virtual int write_floppy(std::string& data);
 
-    virtual void lower_vm_process_priority();
-    virtual void reset_vm_process_priority();
+    virtual void lower_vm_process_priority() = 0;
+    virtual void reset_vm_process_priority() = 0;
 
     static void sanitize_output(std::string& output);
 

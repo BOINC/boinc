@@ -161,14 +161,10 @@ void TraverseMediums(std::vector<CComPtr<IMedium>>& mediums, IMedium* pMedium) {
 
 
 VBOX_VM::VBOX_VM() {
-    VBOX_BASE::VBOX_BASE();
-
     m_pPrivate = new VBOX_PRIV();
 }
 
 VBOX_VM::~VBOX_VM() {
-    VBOX_BASE::~VBOX_BASE();
-
     if (m_pPrivate) {
         delete m_pPrivate;
         m_pPrivate = NULL;
