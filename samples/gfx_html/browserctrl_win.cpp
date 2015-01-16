@@ -37,7 +37,6 @@
 #include "browser_i.h"
 #include "browser_win.h"
 #include "browserlog.h"
-#include "browserctrlui_win.h"
 #include "browserctrl_win.h"
 
 
@@ -171,16 +170,6 @@ STDMETHODIMP CHTMLBrowserHost::CreateControlEx(
                 }
             }
         }
-        
-        // Register a custom interface to extend the HTML Document Object Model
-        // javascript: 'window.external'
-        //
-        CComObject<CHTMLBrowserHostUI> *pUIObject = NULL;
-        hr = CComObject<CHTMLBrowserHostUI>::CreateInstance(&pUIObject);
-        if (SUCCEEDED(hr) && pUIObject != NULL)
-        {
-    	    SetExternalDispatch((IHTMLBrowserHostUI*)pUIObject);
-        }
     }
 
 	return hr;
@@ -229,11 +218,21 @@ STDMETHODIMP CHTMLBrowserHost::WriteWithUrlLineAndColumn(
     }
     else
     {
-        browserlog_msg(
-            "Console: (%S) (%S%d) %S\n"
-            "    File: %S, Line: %d, Column: %d",
-            MapMessageLevel(level), source, messageId, messageText, fileUrl, line, column
-        );
+        if (wcslen(fileUrl))
+        {
+            browserlog_msg(
+                "Console: (%S) (%S%d) %S\n"
+                "    File: %S, Line: %d, Column: %d",
+                MapMessageLevel(level), source, messageId, messageText, fileUrl, line, column
+            );
+        }
+        else
+        {
+            browserlog_msg(
+                "Console: (%S) (%S%d) %S",
+                MapMessageLevel(level), source, messageId, messageText
+            );
+        }
     }
     return S_OK;
 }

@@ -18,7 +18,7 @@
 #ifndef _VBOXWRAPPER_H_
 #define _VBOXWRAPPER_H_
 
-bool is_vboxwrapper_job();
+bool is_vbox_job();
 int parse_vbox_remote_desktop_port(int& remote_desktop_port);
 int parse_vbox_webapi_port(int& webapi_port);
 

@@ -18,9 +18,18 @@
 #ifndef _WEBAPI_H_
 #define _WEBAPI_H_
 
-void handle_get_init_data(struct mg_connection *conn);
-void handle_get_graphics_status(struct mg_connection *conn);
-void handle_log_message(struct mg_connection *conn);
-void handle_filesystem_request(struct mg_connection *conn);
+void   set_webserver_port(int port);
+void   set_fullscreen_mode(bool fullscreen);
+
+bool   is_exiting();
+double get_exit_timeout();
+int    determine_state_url(std::string& url);
+
+void   handle_poll_server();
+
+int    handle_get_init_data(struct mg_connection *conn);
+int    handle_get_graphics_status(struct mg_connection *conn);
+int    handle_reset_read_flag(struct mg_connection *conn);
+int    handle_filesystem_request(struct mg_connection *conn);
 
 #endif

@@ -59,7 +59,6 @@ public:
 
     //
     void NavigateToStateURL(bool bForce);
-    std::string NormalizeURL(std::string& url);
 
     CComObject<CHTMLBrowserHost>* m_pBrowserHost;
     CComQIPtr<IWebBrowser2> m_pBrowserCtrl;
@@ -67,25 +66,10 @@ public:
     HICON m_hIcon;
     HICON m_hIconSmall;
 
-    bool m_bForceRereadPreferences;
-    APP_INIT_DATA aid;
-    BOINC_STATUS status;
-    double m_dUpdateTime;
-    double m_dCPUTime;
-    double m_dElapsedTime;
-    double m_dFractionDone;
+    bool m_bInitializing;
     bool m_bScreensaverMode;
-    bool m_bVboxwrapperJob;
     CComBSTR m_strCurrentURL;
     CComBSTR m_strEmbeddedURL;
-    std::string m_strDefaultURL;
-    std::string m_strRunningURL;
-    std::string m_strSuspendedURL;
-    std::string m_strNetworkSuspendedURL;
-    std::string m_strExitingURL;
-    long m_lRemoteDesktopPort;
-    long m_lWebAPIPort;
-    int m_iWebServerPort;
 };
 
 #endif

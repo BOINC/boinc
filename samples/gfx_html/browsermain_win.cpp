@@ -81,6 +81,7 @@ HRESULT CBrowserModule::PreMessageLoop(int nShowCmd) throw()
     RECT rc = {0, 0, 0, 0};
     DWORD dwExStyle = 0;
     DWORD dwStyle = 0;
+    APP_INIT_DATA aid;
     char szWindowTitle[256];
     char szWindowInfo[256];
     char szDebuggingInfo[256];
@@ -103,11 +104,12 @@ HRESULT CBrowserModule::PreMessageLoop(int nShowCmd) throw()
     // Prepare environment for detecting system conditions
     //
     boinc_parse_init_data_file();
+    boinc_get_init_data(aid);
 
     // Initialize Web Server
     //
     boinc_get_port(false, iWebServerPort);
-    webserver_initialize(iWebServerPort, m_bDebugging);
+    webserver_initialize(iWebServerPort, m_bFullscreen, m_bDebugging);
         
     // Create Window Instance
     //
@@ -118,27 +120,19 @@ HRESULT CBrowserModule::PreMessageLoop(int nShowCmd) throw()
 		return E_OUTOFMEMORY;
 	}
 
-    // Store a copy of APP_INIT_DATA for future use
-    //
-    boinc_get_init_data(m_pWnd->aid);
-
-    // Store web server information for future use
-    //
-    m_pWnd->m_iWebServerPort = iWebServerPort;
-
     // Construct the window caption
     //
-    if (m_pWnd->aid.app_version) {
+    if (aid.app_version) {
         snprintf(
             szWindowInfo, sizeof(szWindowInfo),
             "%s version %.2f [workunit: %s]",
-            m_pWnd->aid.app_name, m_pWnd->aid.app_version/100.0, m_pWnd->aid.wu_name
+            aid.app_name, aid.app_version/100.0, aid.wu_name
         );
     } else {
         snprintf(
             szWindowInfo, sizeof(szWindowInfo),
             "%s [workunit: %s]",
-            m_pWnd->aid.app_name, m_pWnd->aid.wu_name
+            aid.app_name, aid.wu_name
         );
     }
 

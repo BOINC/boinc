@@ -300,7 +300,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\samples\gfx_html\browser.cpp" />
-    <ClCompile Include="..\samples\gfx_html\browserctrlui_win.cpp" />
     <ClCompile Include="..\samples\gfx_html\browserctrl_win.cpp" />
     <ClCompile Include="..\samples\gfx_html\browserlog.cpp" />
     <ClCompile Include="..\samples\gfx_html\browsermain_win.cpp" />
@@ -314,11 +313,13 @@
     </ClCompile>
     <ClCompile Include="..\samples\gfx_html\vboxwrapper.cpp" />
     <ClCompile Include="..\samples\gfx_html\webapi.cpp" />
+    <ClCompile Include="..\samples\gfx_html\webboincjs.cpp" />
+    <ClCompile Include="..\samples\gfx_html\webboincpng.cpp" />
+    <ClCompile Include="..\samples\gfx_html\webindexhtml.cpp" />
     <ClCompile Include="..\samples\gfx_html\webserver.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\samples\gfx_html\browser.h" />
-    <ClInclude Include="..\samples\gfx_html\browserctrlui_win.h" />
     <ClInclude Include="..\samples\gfx_html\browserctrl_win.h" />
     <ClInclude Include="..\samples\gfx_html\browserlog.h" />
     <ClInclude Include="..\samples\gfx_html\browsermain_win.h" />
@@ -329,6 +330,7 @@
     <ClInclude Include="..\samples\gfx_html\vboxwrapper.h" />
     <ClInclude Include="..\samples\gfx_html\webapi.h" />
     <ClInclude Include="..\samples\gfx_html\webserver.h" />
+    <ClInclude Include="..\samples\gfx_html\webstatic.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\samples\gfx_html\browser_win.rc" />
@@ -354,11 +356,6 @@
       <HeaderFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">browser_i.h</HeaderFileName>
       <HeaderFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">browser_i.h</HeaderFileName>
     </Midl>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\samples\gfx_html\res\boinc.js" />
-    <None Include="..\samples\gfx_html\res\console.js" />
-    <None Include="..\samples\gfx_html\res\index.html" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -41,7 +41,7 @@
 #define REMOTEDESKTOP_FILENAME "vbox_remote_desktop.xml"
 
 
-bool is_vboxwrapper_job() {
+bool is_vbox_job() {
     return 1 == boinc_file_exists(CHECKPOINT_FILENAME);
 }
 

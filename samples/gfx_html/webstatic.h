@@ -15,10 +15,11 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef _WEBSERVER_H_
-#define _WEBSERVER_H_
+#ifndef _WEBSTATIC_H_
+#define _WEBSTATIC_H_
 
-int webserver_initialize(int port, bool fullscreen, bool debugging);
-int webserver_destroy();
+int handle_static_index_html(struct mg_connection *conn);
+int handle_static_boinc_png(struct mg_connection *conn);
+int handle_static_boinc_js(struct mg_connection *conn);
 
 #endif

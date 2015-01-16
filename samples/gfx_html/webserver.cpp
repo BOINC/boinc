@@ -36,6 +36,7 @@
 #include "browserlog.h"
 #include "mongoose.h"
 #include "webapi.h"
+#include "webstatic.h"
 #include "webserver.h"
 
 #if defined(_MSC_VER)
@@ -49,29 +50,31 @@
 #define WEBSERVER_STATE_POLLING 2
 #define WEBSERVER_STATE_EXITING 3
 
-static struct mg_server* webserver;
-static int  webserver_state = WEBSERVER_STATE_UNINIT;
-static char webserver_listeningport[64];
-static char webserver_documentroot[64];
-static char webserver_domain[64];
-static bool webserver_debugging = false;
+struct mg_server* webserver;
+int  webserver_state = WEBSERVER_STATE_UNINIT;
+char webserver_listening[64];
+char webserver_documentroot[64];
+char webserver_domain[64];
+bool webserver_debugging = false;
 
 
 static int ev_handler(struct mg_connection *conn, enum mg_event ev) {
     switch (ev) {
         case MG_REQUEST:
-            if        (!strcmp(conn->uri, "/api/getInitData")) { 
-                handle_get_init_data(conn); 
-                return MG_TRUE; 
+            if        (!strcmp(conn->uri, "/api/static/index.html")) { 
+                return handle_static_index_html(conn); 
+            } else if (!strcmp(conn->uri, "/api/static/boinc.js")) { 
+                return handle_static_boinc_js(conn); 
+            } else if (!strcmp(conn->uri, "/api/static/boinc.png")) { 
+                return handle_static_boinc_png(conn); 
+            } else if (!strcmp(conn->uri, "/api/getInitData")) { 
+                return handle_get_init_data(conn); 
             } else if (!strcmp(conn->uri, "/api/getGraphicsStatus")) {
-                handle_get_graphics_status(conn); 
-                return MG_TRUE; 
-            } else if (!strcmp(conn->uri, "/api/logMessage")) {
-                handle_log_message(conn); 
-                return MG_TRUE; 
+                return handle_get_graphics_status(conn);
+            } else if (!strcmp(conn->uri, "/api/resetReadFlag")) {
+                return handle_reset_read_flag(conn);
             } else if (boinc_file_exists(conn->uri+1)) {
-                handle_filesystem_request(conn);
-                return MG_MORE;
+                return handle_filesystem_request(conn);
             }
             return MG_FALSE;
         case MG_AUTH:
@@ -88,7 +91,7 @@ static int webserver_handler() {
     switch(webserver_state) {
         case WEBSERVER_STATE_INIT:
             webserver = mg_create_server(NULL, ev_handler);
-            mg_set_option(webserver, "listening_port", webserver_listeningport);
+            mg_set_option(webserver, "listening_port", webserver_listening);
             mg_set_option(webserver, "document_root", webserver_documentroot);
             mg_set_option(webserver, "enable_directory_listing", "no");
             mg_set_option(webserver, "index_files", "");
@@ -96,6 +99,7 @@ static int webserver_handler() {
             webserver_state = WEBSERVER_STATE_POLLING;
             break;
         case WEBSERVER_STATE_POLLING:
+            handle_poll_server();
             mg_poll_server(webserver, 1000);
             break;
         case WEBSERVER_STATE_EXITING:
@@ -135,11 +139,14 @@ int start_webserver_thread() {
 }
 
 
-int webserver_initialize(int port, bool debugging) {
+int webserver_initialize(int port, bool fullscreen, bool debugging) {
     if (port <= 1024) return 1;
 
+    set_webserver_port(port);
+    set_fullscreen_mode(fullscreen);
+
     snprintf(
-        webserver_listeningport, sizeof(webserver_listeningport)-1,
+        webserver_listening, sizeof(webserver_listening)-1,
         "127.0.0.1:%d",
         port
     );
