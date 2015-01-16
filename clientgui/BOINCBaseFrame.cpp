@@ -56,6 +56,7 @@ BEGIN_EVENT_TABLE (CBOINCBaseFrame, wxFrame)
     EVT_FRAME_INITIALIZED(CBOINCBaseFrame::OnInitialized)
     EVT_FRAME_ALERT(CBOINCBaseFrame::OnAlert)
     EVT_FRAME_REFRESH(CBOINCBaseFrame::OnRefreshView)
+    EVT_ACTIVATE(CBOINCBaseFrame::OnActivate)
     EVT_CLOSE(CBOINCBaseFrame::OnClose)
     EVT_MENU(ID_CLOSEWINDOW, CBOINCBaseFrame::OnCloseWindow)
     EVT_MENU(wxID_EXIT, CBOINCBaseFrame::OnExit)
@@ -311,6 +312,13 @@ void CBOINCBaseFrame::OnAlert(CFrameAlertEvent& event) {
     }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::OnAlert - Function End"));
+}
+
+
+void CBOINCBaseFrame::OnActivate(wxActivateEvent& event) {
+    bool isActive = event.GetActive();
+    if (isActive) wxGetApp().SetEventLogWasActive(false);
+    event.Skip();
 }
 
 
@@ -888,7 +896,6 @@ bool CBOINCBaseFrame::Show(bool bShow) {
 #else
     retval = wxFrame::Show(bShow);
 #endif
-    if (bShow) wxFrame::Raise();
 
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCBaseFrame::Show - Function End"));
     return retval;
