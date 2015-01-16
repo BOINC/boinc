@@ -207,12 +207,12 @@ SET SRCSRV_SYMBOLS=%BUILDROOT%\win_build\build\%VSPLATFORM%\%BUILDTYPE%
 SET SRCSRV_SOURCE=%BUILDROOT%
 
 rem Add deployable symbol store environment variables
-SET BUILDSYMBOLSTORE=%BUILDTOOLSROOT%\Developr\%USERNAME%\symstore
+SET BUILDSYMBOLSTORE="%BUILDTOOLSROOT%\Developr\%USERNAME%\symstore"
 
 rem Add _NT_SYMBOL_PATH to the environment
 SET _NT_SYMBOL_PATH=%BUILDSYMBOLSTORE%
-SET _NT_SYMBOL_PATH=%_NT_SYMBOL_PATH%;srv*%BUILDTOOLSROOT%\Developr\%USERNAME%\symbols*http://msdl.microsoft.com/download/symbols
-SET _NT_SYMBOL_PATH=%_NT_SYMBOL_PATH%;srv*%BUILDTOOLSROOT%\Developr\%USERNAME%\symbols*http://boinc.berkeley.edu/symstore/
+SET _NT_SYMBOL_PATH=%_NT_SYMBOL_PATH%;srv*"%BUILDTOOLSROOT%\Developr\%USERNAME%\symbols"*http://msdl.microsoft.com/download/symbols
+SET _NT_SYMBOL_PATH=%_NT_SYMBOL_PATH%;srv*"%BUILDTOOLSROOT%\Developr\%USERNAME%\symbols"*http://boinc.berkeley.edu/symstore/
 
 rem Add standard macros to the environment
 DOSKEY /MACROFILE="%BUILDTOOLSROOT%\developr\generic.mac"
@@ -232,7 +232,7 @@ TITLE BOINC Build Environment for Windows %BUILDVERSIONMAJOR%.%BUILDVERSIONMINOR
 
 rem ***** Customized Developer Environment *****
 rem
-SET BUILDHOMEDIR=%BUILDTOOLSROOT%\Developr\%USERNAME%
+SET BUILDHOMEDIR="%BUILDTOOLSROOT%\Developr\%USERNAME%"
 IF NOT EXIST %BUILDHOMEDIR% MKDIR %BUILDHOMEDIR%
 
 rem Create a default directory layout
