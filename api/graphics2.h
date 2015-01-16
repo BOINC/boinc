@@ -18,6 +18,8 @@
 #ifndef _GRAPHICS2_H_
 #define _GRAPHICS2_H_
 
+struct BOINC_STATUS;
+
 // Functions that must be supplied by the app
 //
 extern void app_graphics_render(int xs, int ys, double time_of_day);
