@@ -314,6 +314,7 @@ int CC_CONFIG::parse_options_client(XML_PARSER& xp) {
         if (xp.parse_bool("disallow_attach", disallow_attach)) continue;
         if (xp.parse_bool("dont_check_file_sizes", dont_check_file_sizes)) continue;
         if (xp.parse_bool("dont_contact_ref_site", dont_contact_ref_site)) continue;
+        if (xp.parse_bool("dont_suspend_nci", dont_suspend_nci)) continue;
         if (xp.parse_bool("dont_use_vbox", dont_use_vbox)) continue;
         if (xp.match_tag("exclude_gpu")) {
             EXCLUDE_GPU eg;

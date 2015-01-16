@@ -437,7 +437,7 @@ bool CWizardAttach::HasPrevPage( wxWizardPageEx* page )
 wxWizardPageEx* CWizardAttach::_PopPageTransition() {
     wxWizardPageEx* pPage = NULL;
     if (GetCurrentPage()) {
-        if (m_PageTransition.size() > 0) {
+        if (!m_PageTransition.empty()) {
             pPage = m_PageTransition.top();
 
             wxLogTrace(wxT("Function Status"), wxT("CWizardAttach::_PopPageTransition -     Popping Page: '%p'"), pPage);
@@ -535,7 +535,7 @@ wxWizardPageEx* CWizardAttach::_PushPageTransition( wxWizardPageEx* pCurrentPage
             pPage = m_ErrProxyPage;
  
         if (pPage) {
-            if (m_PageTransition.size() == 0) {
+            if (m_PageTransition.empty()) {
                 wxLogTrace(wxT("Function Status"), wxT("CWizardAttach::_PushPageTransition -     Pushing Page: '%p'"), pPage);
                 m_PageTransition.push(NULL);
             }

@@ -432,7 +432,7 @@ void app_graphics_render(int xs, int ys, double t) {
                 showing_project = false;
                 project_index++;
             } else {
-                int n = cc_state.results.size();
+                int n = (int)cc_state.results.size();
                 if (n) {
                     job_index += MAX_JOBS_DISPLAY;
                     job_index %= n;
