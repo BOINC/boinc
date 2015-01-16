@@ -74,7 +74,16 @@ class CDlgEventLogListCtrl;
 #define wxFIXED_MINSIZE 0
 #endif
 
-class CDlgEventLog : public wxDialog
+// To work around a Linux bug in wxWidgets 3.0 which prevents
+// bringing the main frame forward on top of a modeless dialog,
+// the Event Log is now a wxFrame on Linux only.
+#ifdef __WXGTK__
+#define DlgEventLogBase wxFrame
+#else
+#define DlgEventLogBase wxDialog
+#endif
+
+class CDlgEventLog : public DlgEventLogBase
 {
     DECLARE_DYNAMIC_CLASS( CDlgEventLog )
     DECLARE_EVENT_TABLE()
@@ -99,6 +108,9 @@ public:
 ////@begin CDlgEventLog event handler declarations
     /// wxEVT_HELP event handler for ID_DLGEVENTLOG
     void OnHelp( wxHelpEvent& event );
+
+    /// wxEVT_Activate event handler for ID_DLGEVENTLOG
+    void OnActivate( wxActivateEvent& event );
 
     /// wxEVT_COMMAND_BUTTON_CLICKED event handler for wxID_OK
     void OnOK( wxCommandEvent& event );

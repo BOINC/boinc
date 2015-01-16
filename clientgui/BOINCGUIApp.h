@@ -79,6 +79,8 @@ protected:
     CMainDocument*      m_pDocument;
     CTaskBarIcon*       m_pTaskBarIcon;
     CDlgEventLog*       m_pEventLog;
+    bool                m_bEventLogWasActive;
+    bool                m_bProcessingActivateAppEvent;
 #ifdef __WXMAC__
     CTaskBarIcon*       m_pMacDockIcon;
 #endif
@@ -161,6 +163,7 @@ public:
     void                SetISOLanguageCode(wxString strISOLanguageCode)
                                                     { m_strISOLanguageCode = strISOLanguageCode; }
     
+    void                SetEventLogWasActive(bool wasActive) { m_bEventLogWasActive = wasActive; }
     void                DisplayEventLog(bool bShowWindow = true);
     void                OnEventLogClose();
 
