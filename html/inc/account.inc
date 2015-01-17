@@ -77,8 +77,8 @@ function create_account_form($teamid, $next_url) {
     $publickey = parse_config(get_config(), "<recaptcha_public_key>");
     if ($publickey) {
         row2(
-            tra("Please enter the words shown in the image"),
-            recaptcha_get_html($publickey, null, is_https())
+            "",
+            recaptcha_get_html($publickey)
         );
     }
 

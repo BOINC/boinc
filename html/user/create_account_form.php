@@ -38,7 +38,7 @@ if (parse_bool($config, "no_web_account_creation")) {
     error_page("This project has disabled Web account creation");
 }
 
-page_head(tra("Create an account"), null, null, null, IE_COMPAT_MODE);
+page_head(tra("Create an account"), null, null, null, recaptcha_get_head_extra());
 
 if (!no_computing()) {
     echo "<p>
