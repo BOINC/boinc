@@ -242,11 +242,6 @@ function page_head(
 }
 }
 
-// the following must be included in header
-// for Recaptcha to work with some IE browsers
-//
-define('IE_COMPAT_MODE', '<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8" >');
-
 function page_tail_aux($show_return, $show_date, $prefix="") {
     project_footer($show_return, $show_date, $prefix);
     echo "</body>
@@ -986,6 +981,29 @@ function version_string_maj_min_rel($v) {
     $min = (int)($v/100);
     $v -= $min*100;
     return sprintf("%d.%d.%d", $maj, $min, $v);
+}
+
+// recaptcha utilities
+
+function recaptcha_get_head_extra() {
+    // are we using recaptcha?
+    $publickey = parse_config(get_config(), "<recaptcha_public_key>");
+    if ($publickey) {
+        // the meta tag must be included
+        // for Recaptcha to work with some IE browsers
+        return '<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8" >
+        <script src="https://www.google.com/recaptcha/api.js" async defer></script>';
+    } else {
+        return null;
+    }
+}
+
+function recaptcha_get_html($publickey) {
+    if ($publickey) {
+        return '<div class="g-recaptcha" data-sitekey="' . $publickey . '"></div>';
+    } else {
+        return '';
+    }
 }
 
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit

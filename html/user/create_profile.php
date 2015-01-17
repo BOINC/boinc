@@ -104,15 +104,10 @@ function show_language_selection($profile) {
 
 function show_submit() {
     row1(tra("Submit profile"));
-    echo "<script>var RecaptchaOptions = { theme : 'white' };</script>";
     $config = get_config();
     $publickey = parse_config($config, "<recaptcha_public_key>");
     if ($publickey) {
-        table_row(
-            tra("Please enter the words shown in the image.")
-            ."<br>\n"
-            .recaptcha_get_html($publickey, null, is_https())
-        );
+        table_row(recaptcha_get_html($publickey));
     }
     table_row("<p><input class=\"btn btn-primary\" type=\"submit\" value=\"".tra("Create/edit profile") ."\" name=\"submit\">");
 }
@@ -205,10 +200,9 @@ function process_create_profile($user, $profile) {
 
     $privatekey = parse_config($config, "<recaptcha_private_key>");
     if ($privatekey) {
-        $resp = recaptcha_check_answer($privatekey, $_SERVER["REMOTE_ADDR"],
-            $_POST["recaptcha_challenge_field"], $_POST["recaptcha_response_field"]
-        );
-        if (!$resp->is_valid) {
+        $recaptcha = new ReCaptcha($privatekey);
+        $resp = $recaptcha->verifyResponse($_SERVER["REMOTE_ADDR"], $_POST["g-recaptcha-response"]);
+        if (!$resp->success) {
             $profile->response1 = $response1;
             $profile->response2 = $response2;
             show_profile_form($profile,
@@ -312,9 +306,9 @@ function process_create_profile($user, $profile) {
 
 function show_profile_form($profile, $warning=null) {
     if ($profile) {
-        page_head(tra("Edit your profile"), null, null, null, IE_COMPAT_MODE);
+        page_head(tra("Edit your profile"), null, null, null, recaptcha_get_head_extra());
     } else {
-        page_head(tra("Create a profile"), null, null, null, IE_COMPAT_MODE);
+        page_head(tra("Create a profile"), null, null, null, recaptcha_get_head_extra());
     }
 
     if ($warning) {
