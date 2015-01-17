@@ -18,7 +18,7 @@
 #ifndef _WEBSERVER_H_
 #define _WEBSERVER_H_
 
-int webserver_initialize(int port, bool fullscreen, bool debugging);
+int webserver_initialize();
 int webserver_destroy();
 
 #endif

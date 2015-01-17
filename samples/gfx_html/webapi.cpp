@@ -35,6 +35,7 @@
 #include "util.h"
 #include "boinc_api.h"
 #include "graphics2.h"
+#include "browser.h"
 #include "browserlog.h"
 #include "mongoose.h"
 #include "vboxwrapper.h"
@@ -44,8 +45,6 @@
 
 
 bool          g_bWebServerInitialized = false;
-int           g_iWebServerPort;
-bool          g_bFullScreenMode;
 bool          g_bExit;
 double        g_dExitTimeout;
 bool          g_bVboxJob;
@@ -64,22 +63,6 @@ std::string   g_strNetworkSuspendedURL;
 std::string   g_strExitingURL;
 
 
-void set_webserver_port(int port) {
-    g_iWebServerPort = port;
-}
-
-void set_fullscreen_mode(bool fullscreen) {
-    g_bFullScreenMode = fullscreen;
-}
-
-bool is_exiting() {
-    return g_bExit;
-}
-
-double get_exit_timeout() {
-    return g_dExitTimeout;
-}
-
 std::string normalize_url(std::string& url) {
     std::string normalized;
     char buf[256];
@@ -88,12 +71,17 @@ std::string normalize_url(std::string& url) {
         normalized = url;
     } else {
         // Assume it is a local file
-        _snprintf(buf, sizeof(buf), "http://localhost:%d/", g_iWebServerPort);
+        _snprintf(buf, sizeof(buf), "http://localhost:%d/", get_htmlgfx_webserver_port());
         normalized  = buf;
         normalized += url;
     }
 
     return normalized;
+}
+
+int determine_exit_state(double& exit_timeout) {
+    exit_timeout = g_dExitTimeout;
+    return g_bExit;
 }
 
 int determine_state_url(std::string& url) {
@@ -122,7 +110,7 @@ int determine_state_url(std::string& url) {
     // If no other URL is selected, use the default HTML page embedded within the
     // executable
     if (url.size() == 0) {
-        _snprintf(buf, sizeof(buf), "http://localhost:%d/api/static/index.html", g_iWebServerPort);
+        _snprintf(buf, sizeof(buf), "http://localhost:%d/api/static/index.html", get_htmlgfx_webserver_port());
         url = buf;
     }
 

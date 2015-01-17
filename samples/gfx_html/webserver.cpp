@@ -33,6 +33,7 @@
 #include "filesys.h"
 #include "boinc_api.h"
 #include "app_ipc.h"
+#include "browser.h"
 #include "browserlog.h"
 #include "mongoose.h"
 #include "webapi.h"
@@ -50,12 +51,12 @@
 #define WEBSERVER_STATE_POLLING 2
 #define WEBSERVER_STATE_EXITING 3
 
+
 struct mg_server* webserver;
 int  webserver_state = WEBSERVER_STATE_UNINIT;
 char webserver_listening[64];
 char webserver_documentroot[64];
 char webserver_domain[64];
-bool webserver_debugging = false;
 
 
 static int ev_handler(struct mg_connection *conn, enum mg_event ev) {
@@ -139,16 +140,11 @@ int start_webserver_thread() {
 }
 
 
-int webserver_initialize(int port, bool fullscreen, bool debugging) {
-    if (port <= 1024) return 1;
-
-    set_webserver_port(port);
-    set_fullscreen_mode(fullscreen);
-
+int webserver_initialize() {
     snprintf(
         webserver_listening, sizeof(webserver_listening)-1,
         "127.0.0.1:%d",
-        port
+        get_htmlgfx_webserver_port()
     );
 
     getcwd(webserver_documentroot, sizeof(webserver_documentroot)-1);
@@ -158,7 +154,6 @@ int webserver_initialize(int port, bool fullscreen, bool debugging) {
         "htmlgfx"
     );
 
-    webserver_debugging = debugging;
     webserver_state = WEBSERVER_STATE_INIT;
     return start_webserver_thread();
 }

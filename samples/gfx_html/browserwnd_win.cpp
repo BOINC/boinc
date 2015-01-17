@@ -28,6 +28,7 @@
 #include <exdispid.h>
 #include <stdlib.h>
 #include <string>
+#include "browser.h"
 #include "browser_i.h"
 #include "browser_win.h"
 #include "browserlog.h"
@@ -162,9 +163,14 @@ LRESULT CHTMLBrowserWnd::OnInputActivity(UINT uMsg, WPARAM wParam, LPARAM lParam
 
 LRESULT CHTMLBrowserWnd::OnTimer(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled)
 {
-    if (is_exiting() && (get_exit_timeout() > 5.0))
+    int bIsExiting = FALSE;
+    double dExitTimeout = 0.0;
+
+    bIsExiting = determine_exit_state(dExitTimeout);
+
+    if (bIsExiting && (dExitTimeout > 5.0))
     {
-        if (!_AtlModule.m_bDebugging)
+        if (!is_htmlgfx_in_debug_mode())
         {
             PostMessage(WM_CLOSE);
         }

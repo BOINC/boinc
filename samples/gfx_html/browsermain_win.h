@@ -27,17 +27,13 @@ public:
 
 	CBrowserModule();
 
+    int RegisterWebControlCompatiblity();
     static HRESULT InitializeCom() throw();
     static void UninitializeCom() throw();
 
 	HRESULT PreMessageLoop(int nShowCmd) throw();
     HRESULT PostMessageLoop() throw();
 
-    int RegisterCommandLine(int argc, char** argv);
-    int RegisterWebControlCompatiblity();
-
-    bool m_bFullscreen;
-    bool m_bDebugging;
     CHTMLBrowserWnd* m_pWnd;
 };
 

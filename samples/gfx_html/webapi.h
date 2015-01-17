@@ -18,11 +18,7 @@
 #ifndef _WEBAPI_H_
 #define _WEBAPI_H_
 
-void   set_webserver_port(int port);
-void   set_fullscreen_mode(bool fullscreen);
-
-bool   is_exiting();
-double get_exit_timeout();
+int    determine_exit_state(double& exit_timeout);
 int    determine_state_url(std::string& url);
 
 void   handle_poll_server();

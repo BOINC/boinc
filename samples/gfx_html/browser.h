@@ -16,7 +16,13 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 
-#ifndef _HTMLGFX_H_
-#define _HTMLGFX_H_
+#ifndef _BROWSER_H_
+#define _BROWSER_H_
+
+int run(int, char**);
+
+bool is_htmlgfx_in_debug_mode();
+bool is_htmlgfx_in_fullscreen_mode();
+int  get_htmlgfx_webserver_port();
 
 #endif
