@@ -76,6 +76,7 @@ int ACCT_MGR_OP::do_rpc(
             gstate.projects[i]->detach_ams();
         }
         ::rss_feeds.update_feed_list();
+        gstate.set_client_state_dirty("detach from AMS");
         return 0;
     }
 
@@ -858,6 +859,13 @@ int ACCT_MGR_INFO::init() {
     if (p) {
         parse_login_file(p);
         fclose(p);
+    } else {
+        // if not using acct mgr, make sure projects not flagged,
+        // otherwise won't be able to detach them.
+        //
+        for (unsigned int i=0; i<gstate.projects.size(); i++) {
+            gstate.projects[i]->attached_via_acct_mgr = false;
+        }
     }
     return 0;
 }
