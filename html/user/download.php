@@ -66,15 +66,15 @@ function show_download_page() {
         $dlv .= " version " . version_string_maj_min_rel($mcv). " or later";
     }
 
-    $verb = "is";
+    $verb = "this is";
     if ($need_vbox) {
         $dl .= " and VirtualBox";
         $dlv .= " and VirtualBox";
-        $verb = "are";
+        $verb = "these are";
     }
     echo "To participate in ".PROJECT.", $dlv must be installed.
         <p>
-        If $dlv $verb already installed, <a href=download.php?action=installed>click here</a>.
+        If $verb already installed, <a href=download.php?action=installed>click here</a>.  Otherwise
         <p>
     ";
     show_button("download.php?action=download", "Download $dl");
@@ -92,13 +92,14 @@ function show_download_page() {
 //
 function show_installed_page($user) {
     $url = concierge_url($user, false);
-    page_head("Add this project");
+    page_head("Add project");
     echo "
         <iframe width=0 height=0 frameborder=0 src=$url></iframe>
-        To add this project:
+        To start running ".PROJECT." on this computer:
         <ul>
-        <li> Open the BOINC Manager
-        <li> Select Add Project
+        <li> Open the BOINC Manager.
+        <li> Select <b>Add Project</b>.
+        <li> You should see a welcome message; click OK.
         </ul>
     ";
     page_tail();
