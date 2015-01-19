@@ -465,9 +465,9 @@ ERROR: could not find (recent enough) development-libs for libcurl.
 fi
 
 dnl ---------- SSL (m4/check_ssl.m4)
-if [["${enable_client}" = yes -o "${enable_server}" = yes]]; then
+if test "x${enable_client}" = xyes || test "x${enable_server}" = xyes]; then
     CHECK_SSL
-    if test "${found_ssl}" = "yes"; then
+    if test "x${found_ssl}" = "xyes"; then
        BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${SSL_LIBS}"
     fi
 fi
