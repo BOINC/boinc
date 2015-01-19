@@ -142,7 +142,12 @@ function boincteam_forum_node_update($node) {
 function boincteam_forum_node_validate($node) {
   switch($node->type) {
   case 'team_forum':
-    
+    $account = user_load($node->uid);
+    $team_id = boincteam_forum_lookup_nid($node->tfid);
+    if (!$account->team OR $account->team != $team_id) {
+      drupal_set_message(t('Failed to add team forum topic.'), 'error');
+      drupal_goto('community/forum');
+    }
     break;
   default:
   }
