@@ -1050,6 +1050,8 @@ AM_CONDITIONAL(ENABLE_CLIENT, [test "${enable_client}" = yes])
 AM_CONDITIONAL(ENABLE_MANAGER, [ test "x${ac_cv_have_wxwidgets}" = xyes -a "${enable_manager}" = yes ])
 AM_CONDITIONAL(ENABLE_LIBRARIES, [test "${enable_libraries}" = yes])
 AM_CONDITIONAL(ENABLE_BOINCZIP, [test "${enable_boinczip}" = yes])
+AM_CONDITIONAL(ENABLE_BOINCCRYPT, [test "${enable_server}" = yes])
+AM_CONDITIONAL(ENABLE_BOINCCRYPT, [test "${enable_client}" = yes])
 AM_CONDITIONAL(INSTALL_HEADERS, [test "${enable_install_headers}" = yes])
 AM_CONDITIONAL(HAVE_CUDA_LIB, [test "${enable_client}" = yes -a -f ./coprocs/CUDA/posix/${boinc_platform}/libcudart.so])
 
