@@ -51,7 +51,8 @@ if (get_str('action')=="start") {
     if (!$user) {
         error_page(tra("No user with this ID found."));
     }
-    $x = $user->banished_until;
+    BoincForumPrefs::lookup($user);
+    $x = $user->prefs->banished_until;
     if ($x>time()) {
         error_page(tra("User is already banished"));
     }
