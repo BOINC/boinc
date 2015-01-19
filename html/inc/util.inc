@@ -218,6 +218,10 @@ function page_head(
     if ($stylesheet2) {
         echo "<link rel=stylesheet type=\"text/css\" href=\"$stylesheet2\">\n";
     }
+    if (defined("SHORTCUT_ICON")) {
+        echo '<link rel="icon" type="image/x-icon", href="'.SHORTCUT_ICON.'"/>
+';
+    }
     echo "
         <link rel=alternate type=\"application/rss+xml\" title=\"$rssname\" href=\"$rsslink\">
         </head>
