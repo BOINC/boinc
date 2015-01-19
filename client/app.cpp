@@ -303,20 +303,27 @@ bool app_running(PROC_MAP& pm, const char* p) {
     return false;
 }
 
-#if 0  // debugging
-void procinfo_show(PROCINFO& pi, PROC_MAP& pm) {
-    unsigned int i;
-    memset(&pi, 0, sizeof(pi));
+#if 1  // debugging
+void procinfo_show(PROC_MAP& pm) {
+    PROCINFO pi;
+    pi.clear();
     PROC_MAP::iterator i;
     for (i=pm.begin(); i!=pm.end(); i++) {
         PROCINFO& p = i->second;
 
+        msg_printf(NULL, MSG_INFO, "%d %s: boinc? %d low_pri %d (u%f k%f)",
+            p.id, p.command, p.is_boinc_app, p.is_low_priority,
+            p.user_time, p.kernel_time
+        );
+#ifdef _WIN32
+        if (p.id == 0) continue;
+#endif
+        if (p.is_boinc_app) continue;
+        if (p.is_low_priority) continue;
         pi.kernel_time += p.kernel_time;
         pi.user_time += p.user_time;
-        msg_printf(NULL, MSG_INFO, "%d %s: boinc %d low %d (%f %f) total (%f %f)",
-            p.id, p.command, p.is_boinc_app, p.is_low_priority, p.kernel_time, p.user_time, pi.kernel_time, pi.user_time
-        );
     }
+    msg_printf(NULL, MSG_INFO, "non-boinc: u%f k%f", pi.user_time, pi.kernel_time);
 }
 #endif
 
@@ -453,9 +460,9 @@ void ACTIVE_TASK_SET::get_memory_usage() {
     // so they're not useful for detecting paging/thrashing.
     //
     PROCINFO pi;
-    //procinfo_show(pi, pm);
     procinfo_non_boinc(pi, pm);
     if (log_flags.mem_usage_debug) {
+        //procinfo_show(pm);
         msg_printf(NULL, MSG_INFO,
             "[mem_usage] All others: WS %.2fMB, swap %.2fMB, user %.3fs, kernel %.3fs",
             pi.working_set_size/MEGA, pi.swap_size/MEGA,
