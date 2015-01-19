@@ -465,9 +465,11 @@ ERROR: could not find (recent enough) development-libs for libcurl.
 fi
 
 dnl ---------- SSL (m4/check_ssl.m4)
-CHECK_SSL
-if test "${found_ssl}" = "yes"; then
-   BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${SSL_LIBS}"
+if [test "${enable_client}" = yes; || test "${enable_server}" = yes;] then
+    CHECK_SSL
+    if test "${found_ssl}" = "yes"; then
+       BOINC_EXTRA_LIBS="${BOINC_EXTRA_LIBS} ${SSL_LIBS}"
+    fi
 fi
 
 dnl save the libs, since SAH_CHECK_LIB() will change them
