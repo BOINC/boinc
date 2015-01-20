@@ -111,7 +111,6 @@
   <string name="prefs_category_memory">記憶體</string>
   <string name="prefs_category_debug">偵錯</string>
   <string name="prefs_show_advanced_header">顯示進階的偏好設定...</string>
-  <string name="prefs_run_on_battery_header">使用電池運算</string>
   <string name="battery_charge_min_pct_header">最低電量</string>
   <string name="battery_charge_min_pct_description">BOINC 在低於設定的電量時即暫停運算。</string>
   <string name="battery_temperature_max_header">最高電池溫度</string>
@@ -124,7 +123,6 @@
   <string name="prefs_network_daily_xfer_limit_mb_description">限制 BOINC 的每日數據流量。</string>
   <string name="prefs_network_wifi_only_header">只用 WiFi 傳輸</string>
   <string name="prefs_autostart_header">自動執行</string>
-  <string name="prefs_show_notification_header">暫停時顯示訊息</string>
   <string name="prefs_cpu_number_cpus_header">使用 CPU 核心</string>
   <string name="prefs_cpu_number_cpus_description">限制 BOINC 運算時使用的核心數。</string>
   <string name="prefs_cpu_other_load_suspension_header">暫停，當CPU使用率高於</string>

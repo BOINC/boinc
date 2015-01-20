@@ -112,7 +112,6 @@
   <string name="prefs_category_memory">Memória</string>
   <string name="prefs_category_debug">Debug</string>
   <string name="prefs_show_advanced_header">Mostrar preferências avançadas e controlos...</string>
-  <string name="prefs_run_on_battery_header">Realizar computação quando estiver só em Bateria</string>
   <string name="battery_charge_min_pct_header">Nível de bateria minímo</string>
   <string name="battery_charge_min_pct_description">O BOINC suspende a computação abaixo do nível de bateria definido.</string>
   <string name="battery_temperature_max_header">Temperatura máxima da bateria</string>
@@ -125,7 +124,6 @@
   <string name="prefs_network_daily_xfer_limit_mb_description">Limita o tráfico diário causado pelo BOINC.</string>
   <string name="prefs_network_wifi_only_header">Transferir tarefas em WiFi apenas</string>
   <string name="prefs_autostart_header">Começo Automático</string>
-  <string name="prefs_show_notification_header">Mostrar notificação quando suspenso</string>
   <string name="prefs_cpu_number_cpus_header">Cores de CPU usados</string>
   <string name="prefs_cpu_number_cpus_description">Limita o número de cores de CPU que o BOINC usa para computação.</string>
   <string name="prefs_cpu_other_load_suspension_header">Pausa no CPU quando a utilização for acima de</string>

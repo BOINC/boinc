@@ -112,7 +112,6 @@
   <string name="prefs_category_memory">Пам`ять</string>
   <string name="prefs_category_debug">Діагностика</string>
   <string name="prefs_show_advanced_header">Показати додаткові налаштування і елементи керування...</string>
-  <string name="prefs_run_on_battery_header">Обчислювати на батареї</string>
   <string name="battery_charge_min_pct_header">Низький заряд батареї</string>
   <string name="battery_charge_min_pct_description">BOINC призупиняє обчислення нижче визначеного рівня заряду акумулятора.</string>
   <string name="battery_temperature_max_header">Макс. температура батареї</string>
@@ -125,7 +124,6 @@
   <string name="prefs_network_daily_xfer_limit_mb_description">Обмеження щоденної передачі даних, що здійснює BOINC.</string>
   <string name="prefs_network_wifi_only_header">Передавати завдання тільки через WiFi</string>
   <string name="prefs_autostart_header">Автозапуск</string>
-  <string name="prefs_show_notification_header">Показати повідомлення коли призупинено</string>
   <string name="prefs_cpu_number_cpus_header">Використано ядер ЦП</string>
   <string name="prefs_cpu_number_cpus_description">Обмежує кількість ядер ЦП, які BOINC використовує для обчислень.</string>
   <string name="prefs_cpu_other_load_suspension_header">Використання ЦП призупинене</string>
