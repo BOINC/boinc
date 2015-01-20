@@ -48,8 +48,8 @@ AcctMgrInfo getAcctMgrInfo();               // implement: call clientInterface.g
 boolean synchronizeAcctMgr(in String url);         // implement: call clientInterface.synchronizeAcctMgr(String);
 boolean setRunMode(in int mode);                // implement: call clientInterface.setRunMode(Integer);
 boolean setNetworkMode(in int mode);            // implement: call clientInterface.setNetworkMode(Integer);
-List<Message> getEventLogMessages(in int seq, in int num);  // implement: call clientInterface.getEventLogMessages(int, Integer);
-List<Message> getMessages(in int seq);        // implement: call clientInterface.getMessages(Integer);
+List<edu.berkeley.boinc.rpc.Message> getEventLogMessages(in int seq, in int num);  // implement: call clientInterface.getEventLogMessages(int, Integer);
+List<edu.berkeley.boinc.rpc.Message> getMessages(in int seq);        // implement: call clientInterface.getMessages(Integer);
 List<Notice> getNotices(in int seq);          // implement: call clientInterface.getNotices(int);
 boolean setCcConfig(in String config);                // implement: call clientInterface.setCcConfig(String);
 boolean setGlobalPreferences(in GlobalPreferences pref);   // implement: call clientInterface.setGlobalPreferences(GlobalPreferences);
