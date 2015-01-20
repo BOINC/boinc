@@ -22,6 +22,14 @@ function spam_controls_user_default_permissions() {
     ),
   );
 
+  // Exported permission: administer spamicide
+  $permissions['administer spamicide'] = array(
+    'name' => 'administer spamicide',
+    'roles' => array(
+      '0' => 'administrator',
+    ),
+  );
+
   // Exported permission: skip CAPTCHA
   $permissions['skip CAPTCHA'] = array(
     'name' => 'skip CAPTCHA',
