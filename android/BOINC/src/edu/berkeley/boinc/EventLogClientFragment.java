@@ -64,7 +64,7 @@ public class EventLogClientFragment extends Fragment {
 	}
 	
 	// appends older messages to data list
-	private void loadPastMsgs(List<Message> tmpA) {
+	private void loadPastMsgs(List<edu.berkeley.boinc.rpc.Message> tmpA) {
 		// Append old messages to the event log
 		try {
 			for(int x = tmpA.size()-1; x >= 0; x--) {
@@ -76,7 +76,7 @@ public class EventLogClientFragment extends Fragment {
 	}
 	
 	// updates data list with most recent messages
-	private void loadRecentMsgs(ArrayList<Message> tmpA) {
+	private void loadRecentMsgs(ArrayList<edu.berkeley.boinc.rpc.Message> tmpA) {
 		// Prepend new messages to the event log
 		try {
 			int y = 0;
@@ -118,7 +118,7 @@ public class EventLogClientFragment extends Fragment {
         }
     }
 	
-	private final class RetrieveRecentClientMsgs extends AsyncTask<Void,Void,ArrayList<Message>> {
+	private final class RetrieveRecentClientMsgs extends AsyncTask<Void,Void,ArrayList<edu.berkeley.boinc.rpc.Message>> {
 		
 		private Integer mostRecentSeqNo = 0;
 
@@ -128,24 +128,24 @@ public class EventLogClientFragment extends Fragment {
 		}
 		
 		@Override
-		protected ArrayList<Message> doInBackground(Void... params) {
+		protected ArrayList<edu.berkeley.boinc.rpc.Message> doInBackground(Void... params) {
 			try {
-				return (ArrayList<Message>) ((EventLogActivity)getActivity()).getMonitorService().getMessages(mostRecentSeqNo);
+				return (ArrayList<edu.berkeley.boinc.rpc.Message>) ((EventLogActivity)getActivity()).getMonitorService().getMessages(mostRecentSeqNo);
 			} catch (RemoteException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-				return new ArrayList<Message>();
+				return new ArrayList<edu.berkeley.boinc.rpc.Message>();
 			} 
 		}
 
 		@Override
-		protected void onPostExecute(ArrayList<Message> result) {
+		protected void onPostExecute(ArrayList<edu.berkeley.boinc.rpc.Message> result) {
 			// back in UI thread
 			loadRecentMsgs(result);
 		}
 	}
 	
-	private final class RetrievePastClientMsgs extends AsyncTask<Void,Void,List<Message>> {
+	private final class RetrievePastClientMsgs extends AsyncTask<Void,Void,List<edu.berkeley.boinc.rpc.Message>> {
 		
 		//private int mostRecentSeqNo = 0; // most recent (highest) seqNo
 		private int pastSeqNo = -1; // oldest (lowest) seqNo currently loaded to GUI
@@ -170,12 +170,12 @@ public class EventLogClientFragment extends Fragment {
 			} catch (RemoteException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-				return new ArrayList<Message>();
+				return new ArrayList<edu.berkeley.boinc.rpc.Message>();
 			} 
 		}
 
 		@Override
-		protected void onPostExecute(List<Message> result) {
+		protected void onPostExecute(List<edu.berkeley.boinc.rpc.Message> result) {
 			// back in UI thread
 			loadPastMsgs(result);
 		}
