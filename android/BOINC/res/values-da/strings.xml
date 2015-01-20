@@ -111,7 +111,6 @@
   <string name="prefs_category_memory">Hukommelse</string>
   <string name="prefs_category_debug">Fejlsøgning</string>
   <string name="prefs_show_advanced_header">Vis avancerede indstillinger…</string>
-  <string name="prefs_run_on_battery_header">Beregn i batteritilstand</string>
   <string name="battery_charge_min_pct_header">Min. batteriniveau</string>
   <string name="battery_charge_min_pct_description">BOINC stopper beregninger under defineret batteriniveau.</string>
   <string name="battery_temperature_max_header">Max. batteritemperatur</string>
@@ -124,7 +123,6 @@
   <string name="prefs_network_daily_xfer_limit_mb_description">Begrænser den daglige datatraffik forårsaget af BOINC.</string>
   <string name="prefs_network_wifi_only_header">Overfør kun opgaver over WiFi</string>
   <string name="prefs_autostart_header">Autostart</string>
-  <string name="prefs_show_notification_header">Vis notifikation under suspendering</string>
   <string name="prefs_cpu_number_cpus_header">Brugte CPU-kerner</string>
   <string name="prefs_cpu_number_cpus_description">Begrænser antallet af CPU-kerner, som BOINC bruger til beregninger.</string>
   <string name="prefs_cpu_other_load_suspension_header">Pause ved CPU-belastning over</string>

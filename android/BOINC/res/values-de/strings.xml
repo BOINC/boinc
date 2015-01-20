@@ -110,7 +110,6 @@
   <string name="prefs_category_memory">Fehlerdiagnose</string>
   <string name="prefs_category_debug">Fehlerdiagnose</string>
   <string name="prefs_show_advanced_header">Zeige erweiterte Einstellungen und Steuerungen…</string>
-  <string name="prefs_run_on_battery_header">Berechnen im Batteriebetrieb</string>
   <string name="battery_charge_min_pct_header">Min. Akku-Ladestand</string>
   <string name="battery_charge_min_pct_description">BOINC hält die Berechnung an, wenn der Akkuladestand unter den gewählten Wert sinkt.</string>
   <string name="battery_temperature_max_header">Max. Akkutemperatur</string>
@@ -123,7 +122,6 @@
   <string name="prefs_network_daily_xfer_limit_mb_description">Begrenzt die Datenmenge welche täglich durch BOINC übertragen wird.</string>
   <string name="prefs_network_wifi_only_header">Übertrage Aufgaben nur per WLAN</string>
   <string name="prefs_autostart_header">Automatisch starten</string>
-  <string name="prefs_show_notification_header">Zeige Nachrichten wenn angehalten</string>
   <string name="prefs_cpu_number_cpus_header">Benutzte Prozessoren</string>
   <string name="prefs_cpu_number_cpus_description">Limitiert die Anzahl der Prozessoren welche BOINC nutzen darf.</string>
   <string name="prefs_cpu_other_load_suspension_header">Anhalten wenn Prozessornutzung über</string>
