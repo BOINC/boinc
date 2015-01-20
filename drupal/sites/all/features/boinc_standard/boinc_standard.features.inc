@@ -198,6 +198,61 @@ function boinc_standard_node_info() {
 function boinc_standard_rules_defaults() {
   return array(
     'rules' => array(
+      'rules_offensive_comment_reported' => array(
+        '#actions' => array(
+          '0' => array(
+            '#info' => array(
+              'eval input' => array(
+                '0' => 'from',
+                '1' => 'message',
+                '2' => 'subject',
+              ),
+              'label' => 'Send a mail to all users of a role',
+              'module' => 'System',
+            ),
+            '#name' => 'rules_action_mail_to_users_of_role',
+            '#settings' => array(
+              '#eval input' => array(
+                'token_rules_input_evaluator' => array(
+                  'from' => array(
+                    '0' => ':global',
+                  ),
+                  'message' => array(
+                    '0' => ':global',
+                    '1' => 'comment',
+                    '2' => 'flagging_user',
+                    '3' => 'node',
+                  ),
+                  'subject' => array(
+                    '0' => ':global',
+                    '1' => 'node',
+                  ),
+                ),
+              ),
+              'message' => '[flagging_user:display-name] has reported the following comment on [node:type] content as being offensive or inappropriate for the [:global:site-name] site:
+
+[:global:site-url]goto/comment/[comment:comment-cid]
+
+Total reports of this comment: [comment:flag-abuse-comment-count]',
+              'recipients' => array(
+                '0' => 1271379760,
+              ),
+              'subject' => 'Report of offensive [node:type] comment at [:global:site-name]',
+            ),
+            '#type' => 'action',
+          ),
+        ),
+        '#active' => 1,
+        '#categories' => array(
+          '0' => 'boinc_standard',
+          '1' => 'moderator notification',
+        ),
+        '#label' => 'Offensive comment reported',
+        '#set' => 'event_flag_flagged_abuse_comment',
+        '#status' => 'default',
+        '#type' => 'rule',
+        '#version' => 6003,
+      ),
       'rules_offensive_content_reported' => array(
         '#type' => 'rule',
         '#set' => 'event_flag_flagged_abuse_node',
