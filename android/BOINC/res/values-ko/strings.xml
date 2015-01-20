@@ -112,7 +112,6 @@
   <string name="prefs_category_memory">메모리</string>
   <string name="prefs_category_debug">디버그</string>
   <string name="prefs_show_advanced_header">고급 환경 설정과 제어판을 보여주기…</string>
-  <string name="prefs_run_on_battery_header">배터리로 가동 중에도 연산</string>
   <string name="battery_charge_min_pct_header">최소 배터리 량</string>
   <string name="battery_charge_min_pct_description">아래 지정된 배터리 충전량이 되면 BOINC는 연산을 일시 정지합니다.</string>
   <string name="battery_temperature_max_header">최고 배터리 온도</string>
@@ -125,7 +124,6 @@
   <string name="prefs_network_daily_xfer_limit_mb_description">하루에 BOINC가 전송할 데이터 제한량</string>
   <string name="prefs_network_wifi_only_header">WiFi에서만 태스크 전송</string>
   <string name="prefs_autostart_header">자동 시작</string>
-  <string name="prefs_show_notification_header">일시 정지시 알림 표시</string>
   <string name="prefs_cpu_number_cpus_header">사용할 CPU 코어 수</string>
   <string name="prefs_cpu_number_cpus_description">BOINC가 연산에 사용할 CPU 코어 수 제한</string>
   <string name="prefs_cpu_other_load_suspension_header">CPU 사용량 제한 도달시 정지</string>
