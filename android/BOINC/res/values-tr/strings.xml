@@ -111,7 +111,6 @@
   <string name="prefs_category_memory">Bellek</string>
   <string name="prefs_category_debug">Hata kaydı</string>
   <string name="prefs_show_advanced_header">Gelişmiş tercihler ve kontrolleri görüntüle...</string>
-  <string name="prefs_run_on_battery_header">Pil gücündeyken hesapla</string>
   <string name="battery_charge_min_pct_header">En az pil seviyesi</string>
   <string name="battery_charge_min_pct_description">BOINC, pil seviyesi bu değerin altına düşerse hesaplamayı duraklatır.</string>
   <string name="battery_temperature_max_header">En çok pil sıcaklığı</string>
@@ -124,7 +123,6 @@
   <string name="prefs_network_daily_xfer_limit_mb_description">BOINC\'in günlük internet kullanım kotası.</string>
   <string name="prefs_network_wifi_only_header">İşleri yalnızca WiFi\'dayken aktar</string>
   <string name="prefs_autostart_header">Cihaz açılınca otomatik başla</string>
-  <string name="prefs_show_notification_header">Durakladığında bildirim görüntüle</string>
   <string name="prefs_cpu_number_cpus_header">Kullanılacak CPU çekirdekleri</string>
   <string name="prefs_cpu_number_cpus_description">BOINC\'in hesaplama için kullanabileceği işlemci (CPU) çekirdeği sayısı.</string>
   <string name="prefs_cpu_other_load_suspension_header">CPU kullanımı fazlaysa duraklat</string>
