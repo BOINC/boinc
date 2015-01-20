@@ -403,12 +403,22 @@ function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs 
         }
       }
       
+      // Translate elements as appropriate
+      if ($title) {
+        i18nstrings_update('project:prefs_xml', $title);
+        $title = i18nstrings('project:prefs_xml', $title);
+      }
+      if ($description) {
+        i18nstrings_update('project:prefs_xml', $description);
+        $description = i18nstrings('project:prefs_xml', $description);
+      }
+      
       $form[$name] = array(
-        '#title' => t($title),
+        '#title' => $title,
         '#type' => 'textfield',
         '#default_value' => $value,
         '#size' => 5,
-        '#description' => t($description) . t(' Default value: @default', array('@default' => $default))
+        '#description' => $description . t(' Default value: @default', array('@default' => $default))
       );
     }
     break;
@@ -441,13 +451,23 @@ function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs 
         }
       }
       
+      // Translate elements as appropriate
+      if ($title) {
+        i18nstrings_update('project:prefs_xml', $title);
+        $title = i18nstrings('project:prefs_xml', $title);
+      }
+      if ($description) {
+        i18nstrings_update('project:prefs_xml', $description);
+        $description = i18nstrings('project:prefs_xml', $description);
+      }
+      
       $form[$name] = array(
-        '#title' => t($title),
+        '#title' => $title,
         '#type' => 'radios',
         '#options' => array(1 => t('yes'), 0 => t('no')),
         '#attributes' => array('class' => 'fancy'),
         '#default_value' => $value,
-        '#description' => t($description)
+        '#description' => $description
       );
     }
     break;
@@ -488,23 +508,40 @@ function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs 
       }
       $value = isset($user_pref[$name]) ? $user_pref[$name] : $default;
       
+      // Translate elements as appropriate
+      if ($title) {
+        i18nstrings_update('project:prefs_xml', $title);
+        $title = i18nstrings('project:prefs_xml', $title);
+      }
+      if ($description) {
+        i18nstrings_update('project:prefs_xml', $description);
+        $description = i18nstrings('project:prefs_xml', $description);
+      }
+      
       $form[$name] = array(
-        '#title' => t($title),
+        '#title' => $title,
         '#type' => ($type == 'radio') ? 'radios' : 'select',
         '#options' => $options,
         '#attributes' => array('class' => 'fancy'),
         '#default_value' => $value,
-        '#description' => t($description) . t(' Default value: @default', array('@default' => t($default)))
+        '#description' => $description . t(' Default value: @default', array('@default' =>$default))
       );
     }
     break;
     
   case 'apps':
     $title = is_array($element['title']) ? $element['title']['@value'] : $element['title'];
+    
+      // Translate elements as appropriate
+      if ($title) {
+        i18nstrings_update('project:prefs_xml', $title);
+        $title = i18nstrings('project:prefs_xml', $title);
+      }
+    
     $form['applications'] = array(
       '#title' => t('Applications'),
       '#type' => 'fieldset',
-      '#description' => t($title),
+      '#description' => $title,
       '#collapsible' => TRUE,
       '#collapsed' => FALSE
     );
@@ -553,8 +590,15 @@ function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs 
       $title = is_array($element['title']) ? $element['title']['@value'] : $element['title'];
       $name = str_replace(' ','_',strtolower($title));
       $name = "group_{$name}";
+      
+      // Translate elements as appropriate
+      if ($title) {
+        i18nstrings_update('project:prefs_xml', $title);
+        $title = i18nstrings('project:prefs_xml', $title);
+      }
+      
       $form[$name] = array(
-          '#title' => t($title),
+          '#title' => $title,
           '#type' => 'fieldset',
           '#tree' => FALSE,
           //'#description' => t('Notes about this group of fields'),
@@ -575,8 +619,15 @@ function boincwork_generate_prefs_element(&$form, $type, $elements, $user_prefs 
     foreach ($elements as $element) {
       $name = $element['@attributes']['name'];
       $title = is_array($element['title']) ? $element['title']['@value'] : $element['title'];
+      
+      // Translate elements as appropriate
+      if ($title) {
+        i18nstrings_update('project:prefs_xml', $title);
+        $title = i18nstrings('project:prefs_xml', $title);
+      }
+      
       $form[$name] = array(
-          '#title' => t($title),
+          '#title' => $title,
           '#type' => 'fieldset',
           //'#description' => t('Notes about this group of fields'),
           '#collapsible' => TRUE,

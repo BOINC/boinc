@@ -145,6 +145,28 @@ function boincwork_views_api() {
   );
 }
 
+/**
+ * Implementation of hook_locale().
+ */
+function boincwork_locale($op = 'groups', $group = NULL) {
+  switch ($op) {
+    case 'groups':
+      return array('project' => t('Project'));
+    case 'info':
+      $info['taxonomy']['refresh callback'] = 'boincwork_locale_refresh';
+      $info['project']['format'] = FALSE;
+      return $info;
+  }
+}
+
+/**
+ * Refresh strings.
+ */
+function boincwork_locale_refresh() {
+  // Could parse prefs XML and run i18nstrings_update() here...?
+  return TRUE; // Meaning it completed with no issues
+}
+
 
 /*  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
  * Page callbacks from hook_menu()
