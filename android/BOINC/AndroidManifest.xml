@@ -20,8 +20,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="edu.berkeley.boinc"
     android:installLocation="internalOnly"
-    android:versionCode="110"
-    android:versionName="7.4.37" > <!-- installation on SD card would break boot receiver -->
+    android:versionCode="111"
+    android:versionName="7.4.39" > <!-- installation on SD card would break boot receiver -->
 
 
     <!-- Add Google Play store metadata informing the store we can run on tablets and other large screen devices -->
@@ -34,8 +34,9 @@
 
     <!-- CAUTION: increasing targetSDK to >9 removes menu button on new devices -->
     <uses-sdk
-        android:minSdkVersion="9"
-        android:targetSdkVersion="19" />
+        android:minSdkVersion="16"
+        android:targetSdkVersion="19"
+        android:maxSdkVersion="19" />
 
     <!-- Required Permissions -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -47,9 +48,10 @@
 
     <application
         android:allowBackup="true"
+        android:largeHeap="true"
         android:icon="@drawable/boinc"
         android:label="@string/app_name"
-        android:theme="@style/Theme.Styled" > <!-- android:largeHeap="true" , possible api level > 10. grants application larger dalvik vm heap. better performance when showing many slideshow pictures. -->
+        android:theme="@style/Theme.Styled" >
 
 
         <activity
