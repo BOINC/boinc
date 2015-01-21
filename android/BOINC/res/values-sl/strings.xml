@@ -35,7 +35,6 @@
   <string name="prefs_loading">Чтение настроек…</string>
   <string name="prefs_dialog_title_selection">Выбрать:</string>
   <string name="prefs_show_advanced_header">Показать дополнительные настройки и элементы управления…</string>
-  <string name="prefs_run_on_battery_header">Выполнять расчёты при работе от батареи</string>
   <string name="battery_charge_min_pct_header">Мин. уровень заряда батареи</string>
   <string name="battery_charge_min_pct_description">BOINC приостановит расчёты, когда заряд батареи будет ниже указанного уровня.</string>
   <string name="battery_temperature_max_header">Макс. температура батареи</string>
@@ -48,7 +47,6 @@
   <string name="prefs_network_daily_xfer_limit_mb_description">Ограничивает ежедневный трафик данных, вызванный BOINC.</string>
   <string name="prefs_network_wifi_only_header">Передавать задания только по WiFi</string>
   <string name="prefs_autostart_header">Автозапуск</string>
-  <string name="prefs_show_notification_header">Показывать уведомление, когда приостановлен</string>
   <string name="prefs_cpu_number_cpus_header">Используемые ядра процессора</string>
   <string name="prefs_cpu_number_cpus_description">Ограничивает количество ядер процессора, которые использует BOINC для расчётов.</string>
   <string name="prefs_cpu_other_load_suspension_header">Пауза при использовании процессора выше</string>
