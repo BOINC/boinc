@@ -400,7 +400,7 @@ span.inboxunread {
 .pre {
     font-family: "Courier New", courier, monospace;
     display: block;
-    white-space: pre;
+#white-space: pre;
     overflow: auto;
 }
 
@@ -411,7 +411,7 @@ span.inboxunread {
     border-left-width: 3px;
     border-left-style: solid;
     padding-left: 1em;
-    white-space: pre;
+#white-space: pre;
     overflow: auto;
 }
 
