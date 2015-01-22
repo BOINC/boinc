@@ -9,5 +9,5 @@
 export ANDROIDTC="$HOME/androidarm-tc"
 
 if [ ! -d $ANDROIDTC/arm-linux-androideabi ]; then
-    $NDKROOT/build/tools/make-standalone-toolchain.sh --platform=android-9 --install-dir=$ANDROIDTC
+    $NDKROOT/build/tools/make-standalone-toolchain.sh --platform=android-9 --arch=arm --install-dir=$ANDROIDTC
 fi
