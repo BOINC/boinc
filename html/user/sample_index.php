@@ -152,6 +152,10 @@ echo "<html>
     <link rel=\"alternate\" type=\"application/rss+xml\" title=\"".$rssname."\" href=\"".$rsslink."\">
 ";
 include 'schedulers.txt';
+    if (defined("SHORTCUT_ICON")) {
+        echo '<link rel="icon" type="image/x-icon", href="'.SHORTCUT_ICON.'"/>'
+;
+    }
 echo "
     </head><body>
     <div class=page_title>".PROJECT."</div>
