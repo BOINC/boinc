@@ -275,6 +275,14 @@ void CBOINCBaseView::OnListRender(wxTimerEvent& event) {
                     wxASSERT(GetDocCount() == GetCacheCount());
 //fprintf(stderr, "CBOINCBaseView::OnListRender(): m_pListPane->RefreshItems(0, %d)\n", iDocCount - 1);
                     m_pListPane->RefreshItems(0, iDocCount - 1);
+#ifdef __WXGTK__
+                    // Work around an apparent bug in wxWidgets 3.0
+                    // which drew blank lines at the top and failed
+                    // to draw the bottom items.  This could happen
+                    // if the list was scrolled near the bottom and
+                    // the user selected "Show active tasks."
+                    m_pListPane->EnsureVisible(iDocCount - 1);
+#endif
                     m_bNeedSort = true;
                 }
             }
@@ -293,7 +301,7 @@ void CBOINCBaseView::OnListRender(wxTimerEvent& event) {
         RestoreSelections();
 
         UpdateSelection();
-        
+
         m_bProcessingListRenderEvent = false;
     }
 
