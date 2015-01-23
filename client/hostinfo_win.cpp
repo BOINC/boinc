@@ -225,7 +225,7 @@ int get_os_information(
                 } else {
                     strcat(os_name, "Windows Server 2015");
                 }
-                pGPI( 6, 4, 0, 0, &dwType);
+                pGPI( 10, 0, 0, 0, &dwType);
             }
 
 			if ( osvi.dwMajorVersion == 6 && osvi.dwMinorVersion == 3 ) {
