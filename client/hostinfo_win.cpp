@@ -219,7 +219,7 @@ int get_os_information(
     switch (osvi.dwPlatformId) {
         case VER_PLATFORM_WIN32_NT:
 
-			if ( osvi.dwMajorVersion == 6 && osvi.dwMinorVersion == 4 ) {
+			if ( osvi.dwMajorVersion == 10 && osvi.dwMinorVersion == 0 ) {
                 if( osvi.wProductType == VER_NT_WORKSTATION ) {
                     strcat(os_name, "Windows 10");
                 } else {
