@@ -422,6 +422,16 @@ $mixed = array(
     tra("Multiple applications"),
     array(
         array(
+            "Citizen Science Grid",
+            "http://volunteer.cs.und.edu/csg/",
+            "University of North Dakota",
+            "Molecular biology, Computer Science",
+            "The Citizen Science Grid is dedicated to supporting a wide range of research and educational projects using volunteer computing and citizen science.",
+            "",
+            "",
+            "Support science from the University of North Dakota"
+        ),
+        array(
             "CAS@home",
             "http://casathome.ihep.ac.cn/",
             tra("Chinese Academy of Sciences"),
@@ -476,16 +486,16 @@ $mixed = array(
 $math = array(
     tra("Mathematics, computing, and games"),
     array(
-        array(
-            "SubsetSum@Home",
-            "http://volunteer.cs.und.edu/subset_sum/",
-            "University of North Dakota, Computer Science Department",
-            tra("Computer Science"),
-            "Research in computational complexity",
-            "",
-            "",
-            "Study the Subset Sum problem"
-        ),
+//        array(
+//            "SubsetSum@Home",
+//            "http://volunteer.cs.und.edu/subset_sum/",
+//            "University of North Dakota, Computer Science Department",
+//            tra("Computer Science"),
+//            "Research in computational complexity",
+//            "",
+//            "",
+//            "Study the Subset Sum problem"
+//        ),
         array(
             "OProject@Home",
             "http://oproject.info/",
@@ -506,16 +516,16 @@ $math = array(
             "",
             "Do research in algebraic number theory"
         ),
-        array(
-            "VolPEx",
-            "http://volpex.cs.uh.edu/VCP/",
-            "University of Houston",
-            "Computer science",
-            "Creating effective parallel computing on multiple volatile nodes. Apply research on REMD Protein Folding.",
-            "",
-            "",
-            "Study parallel computing across multiple computers"
-        ),
+//        array(
+//            "VolPEx",
+//            "http://volpex.cs.uh.edu/VCP/",
+//            "University of Houston",
+//            "Computer science",
+//            "Creating effective parallel computing on multiple volatile nodes. Apply research on REMD Protein Folding.",
+//            "",
+//            "",
+//            "Study parallel computing across multiple computers"
+//        ),
         array(
             "SAT@home",
             "http://sat.isa.ru/pdsat/",
@@ -585,16 +595,16 @@ $math = array(
             "",
             "Study the factorization of large integers"
         ),
-        array(
-            "VTU@home",
-            "http://boinc.vgtu.lt/vtuathome/",
-            tra("Vilnius Gediminas Technical University and Kaunas University of Technology (Lithuania)"),
-            tra("Software testing"),
-            tra("The aim of this project is to provide a powerful distributed computing platform for scientists of Vilnius Gediminas Technical University (VGTU) as well as others Lithuanian academic institutions.  Current applications involve the study of Monte-Carlo based software testing."),
-            "vtuathome-white.gif",
-            "",
-            "Help Lithuanian researchers"
-        ),
+//        array(
+//            "VTU@home",
+//            "http://boinc.vgtu.lt/vtuathome/",
+//            tra("Vilnius Gediminas Technical University and Kaunas University of Technology (Lithuania)"),
+//            tra("Software testing"),
+//            tra("The aim of this project is to provide a powerful distributed computing platform for scientists of Vilnius Gediminas Technical University (VGTU) as well as others Lithuanian academic institutions.  Current applications involve the study of Monte-Carlo based software testing."),
+//            "vtuathome-white.gif",
+//            "",
+//            "Help Lithuanian researchers"
+//        ),
 //        array(
 //            "AQUA@home",
 //            "http://aqua.dwavesys.com/",
@@ -701,6 +711,16 @@ $math = array(
 //            tra("Surveill@Home is a research project that conducts end-to-end fine-grained monitoring of web sites.  The project will deploy thousands of probes, each of which repeatedly performs transactions on web sites.  This approach provides end-user failure and performance statistics."),
 //            "surveill.png"
 //        ),
+        array(
+            "Gerasim@Home",
+            "http://gerasim.boinc.ru/",
+            "Southwest State University (Russia)",
+            "Computer engineering",
+            "Testing and comparison of heuristic methods for getting separations of parallel algorithms working in the CAD system for designing logic control systems",
+            "gerasim.gif",
+            "",
+            "",
+        ),
     ),
 );
 
