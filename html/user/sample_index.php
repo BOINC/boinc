@@ -79,7 +79,7 @@ function show_nav() {
         ";
         if (0) {
             echo "<li>";
-            show_button("register.php", "Join");
+            show_button("register.php", "Join", null, "btn btn-green");
         } else {
             echo "<li> <a href=http://boinc.berkeley.edu/download.php>Download</a> and run BOINC.
                 <li> Choose Add Project
