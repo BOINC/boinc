@@ -144,7 +144,7 @@ function delete_profiles() {
         if (has_link($p->response1) || has_link($p->response2)) {
             $user = BoincUser::lookup_id($p->userid);
             if (!$user) {
-                echo "profile has missing user: %p->userid\n";
+                echo "profile has missing user: $p->userid\n";
                 continue;
             }
 
