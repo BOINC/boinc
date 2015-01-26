@@ -506,7 +506,7 @@ bool do_pass() {
         strcat(buf, buf2);
     }
     if (id_modulus) {
-        sprintf(buf2, "and id %% %d = %d", id_modulus, id_remainder);
+        sprintf(buf2, " and id %% %d = %d", id_modulus, id_remainder);
         strcat(buf, buf2);
     }
     if (strlen(app_name)) {
