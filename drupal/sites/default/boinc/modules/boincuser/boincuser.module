@@ -739,6 +739,9 @@ function boincuser_form_alter(&$form, $form_state, $form_id) {
     unset($form['timezone']);
     unset($form['wysiwyg']);
     
+    // Built-in picture support is not used
+    unset($form['picture']);
+    
     // Internal fields to indicate where these user changes are taking place
     array_unshift($form, array(
       'validation_source' => array(
