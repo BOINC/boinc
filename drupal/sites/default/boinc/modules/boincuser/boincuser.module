@@ -1036,7 +1036,7 @@ function join_page($type = null) {
       Project.') . '</p>';
     $output .= '<p>' . t('If you\'re running a command-line or pre-5.0 version
       of BOINC, !create_an_account first.', array('!create_an_account' => 
-        l(t('create an account'), 'user/register'))) . '</p>';
+        l(t('create an account'), 'user/registration'))) . '</p>';
     break;
   case 'new':
   default:
