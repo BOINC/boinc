@@ -1442,7 +1442,7 @@ function communityprefs_form(&$form_state) {
     $mode = variable_get('language_negotiation', LANGUAGE_NEGOTIATION_NONE);
     $user_preferred_language = user_preferred_language($account);
     $form['locale']['language'] = array(
-      '#type' => (count($names) <= 5 ? 'radios' : 'select'),
+      '#type' => 'select',
       '#title' => t('Language'),
       '#default_value' => check_plain($user_preferred_language->language),
       '#options' => $names,
