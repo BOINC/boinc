@@ -70,9 +70,11 @@ while ($profile = _mysql_fetch_object($result)) {
         <br>RAC: $profile->expavg_credit
         <br>
     ";
-    echo "</td><td><table border=2> ";
+    echo "</td><td>";
+    start_table();
     show_profile($profile, $g_logged_in_user, true);
-    echo "</table></td></tr>\n";
+    end_table();
+    echo "</td></tr><tr><td colspan=2><hr/></td></tr>\n";
     echo "<input type=\"hidden\" name=\"userid$n\" value=\"$profile->userid\">\n";
     $n++;
 }
