@@ -155,9 +155,6 @@
       ?>
     </div>
     <div class="standard-links">
-      <ul class="links">
-        <li class="first"><?php print flag_create_link('abuse_comment', $comment->cid); ?></li>
-      </ul>
       <?php print $links; ?>
     </div>
     <?php if ($moderator_links): ?>

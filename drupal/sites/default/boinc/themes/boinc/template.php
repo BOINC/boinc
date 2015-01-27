@@ -391,6 +391,14 @@ function boinc_preprocess_comment(&$vars, $hook) {
     ksort($links);
     $vars['links'] = theme_links($links);
     
+    if ($user->uid) {
+      $report_comment_link = '' .
+        '<ul class="links">';
+          '<li class="first">' . flag_create_link('abuse_comment', $comment->cid) . '</li>' .
+        '</ul>';
+      $vars['links'] = $report_comment_link . $vars['links'];
+    }
+    
     // Show signatures based on user preference
     $vars['show_signatures'] = ($user->hide_signatures) ? FALSE : TRUE;
   }
