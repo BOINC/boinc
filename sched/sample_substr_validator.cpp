@@ -16,9 +16,11 @@
 // along with BOINC.  If not, see <http://www.gnu.org/licenses/>.
 
 // A sample validator that accepts results whose stderr output
-// contains a given string.
+// contains or doesn't contain a given string.
 // Usage:
-// sample_substr_validator --stderr_string xxx [other options]
+// sample_substr_validator --stderr_string xxx [--reject_if_present]] [other options]
+// --reject_if_present: reject (invalidate) the result if the string is present
+// (default: accept it if the string is present)
 
 #include "sched_msgs.h"
 #include "validate_util2.h"
@@ -26,12 +28,16 @@
 
 bool first = true;
 char* stderr_string;
+bool reject_if_present = false;
 
 void parse_cmdline() {
     for (int i=1; i<g_argc; i++) {
         if (!strcmp(g_argv[i], "--stderr_string")) {
             stderr_string = g_argv[++i];
             return;
+        }
+        if (!strcmp(g_argv[i], "--reject_if_present")) {
+            reject_if_present = true;
         }
     }
     log_messages.printf(MSG_CRITICAL,
@@ -46,9 +52,9 @@ int init_result(RESULT& r, void*&) {
         first = false;
     }
     if (strstr(r.stderr_out, stderr_string)) {
-        return 0;
+        return reject_if_present?-1:0;
     } else {
-        return -1;
+        return reject_if_present?0:-1;
     }
 }
 
