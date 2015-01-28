@@ -28,7 +28,7 @@ function user_profiles_user_default_permissions() {
     'name' => 'create profile content',
     'roles' => array(
       '0' => 'administrator',
-      '1' => 'community member',
+      '1' => 'verified contributor',
     ),
   );
 
@@ -70,8 +70,7 @@ function user_profiles_user_default_permissions() {
     'name' => 'edit own profile content',
     'roles' => array(
       '0' => 'administrator',
-      '1' => 'authenticated user',
-      '2' => 'community member',
+      '1' => 'verified contributor',
     ),
   );
 

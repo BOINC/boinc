@@ -10,7 +10,7 @@ function team_forums_user_default_permissions() {
   $permissions['create team_forum content'] = array(
     'name' => 'create team_forum content',
     'roles' => array(
-      '0' => 'community member',
+      '0' => 'verified contributor',
     ),
   );
 
@@ -42,7 +42,7 @@ function team_forums_user_default_permissions() {
   $permissions['edit own team_forum content'] = array(
     'name' => 'edit own team_forum content',
     'roles' => array(
-      '0' => 'community member',
+      '0' => 'verified contributor',
     ),
   );
 
