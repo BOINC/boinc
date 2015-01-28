@@ -1037,9 +1037,15 @@ function join_page($type = null) {
   case 'boinc':
     $output .= '<p>' . t('If you\'re already running BOINC, select Attach to
       Project.') . '</p>';
-    $output .= '<p>' . t('If you\'re running a command-line or pre-5.0 version
+    /*$output .= '<p>' . t('If you\'re running a command-line or pre-5.0 version
       of BOINC, !create_an_account first.', array('!create_an_account' => 
-        l(t('create an account'), 'user/registration'))) . '</p>';
+        l(t('create an account'), 'user/registration'))) . '</p>';*/
+    $output .= '<p>' . t('If you\'re running a command-line version of BOINC,
+      the BOINC manager software can be run on another system to connect and
+      manage the command-line version.') . '</p>';
+    $output .= '<p>' . t('If you\'re running a pre-5.0 version of BOINC, please
+      upgrade to a more recent version to create an account
+      at this project.') . '</p>';
     break;
   case 'new':
   default:
