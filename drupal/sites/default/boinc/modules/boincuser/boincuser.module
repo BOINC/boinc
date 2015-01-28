@@ -1036,8 +1036,8 @@ function join_page($type = null) {
   $output = '<div class="join">';
   switch ($type) {
   case 'boinc':
-    $output .= '<p>' . t('If you\'re already running BOINC, select Attach to
-      Project.') . '</p>';
+    $output .= '<p>' . t('If you\'re already running BOINC, select <i>Add
+      Project</i>.') . '</p>';
     if ($registration_enabled) {
       $output .= '<p>' . t('If you\'re running a command-line or pre-5.0 version
         of BOINC, !create_an_account first.', array('!create_an_account' => 
@@ -1045,8 +1045,9 @@ function join_page($type = null) {
     }
     else {
       $output .= '<p>' . t('If you\'re running a command-line version of BOINC,
-        the BOINC manager software can be run on another system to connect and
-        manage the command-line version.') . '</p>';
+        first use the BOINC Manager software (elsewhere if necessary) to create an
+        an account at this project, then use that account to connect with the
+        command-line version.') . '</p>';
       $output .= '<p>' . t('If you\'re running a pre-5.0 version of BOINC, please
         upgrade to a more recent version to create an account
         at this project.') . '</p>';
