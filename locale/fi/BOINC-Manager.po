@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-12-15 14:15-0500\n"
-"PO-Revision-Date: 2014-06-22 06:13+0000\n"
+"PO-Revision-Date: 2014-12-16 09:38+0000\n"
 "Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: fi\n"
@@ -19,7 +19,7 @@ msgstr ""
 "X-Poedit-Basepath: C:\\Src\\BOINCGIT\\boinc_7.4\n"
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-POOTLE-MTIME: 1403417630.0\n"
+"X-POOTLE-MTIME: 1418722737.0\n"
 "X-Poedit-SearchPath-1: clientgui/msw\n"
 "X-Poedit-SearchPath-2: clientgui/gtk\n"
 "X-Poedit-SearchPath-3: clientgui/mac\n"
@@ -104,7 +104,7 @@ msgstr "&Käyttäjänimi:"
 
 #: clientgui/AccountInfoPage.cpp:511
 msgid "&Email address or LDAP ID:"
-msgstr ""
+msgstr "&Sähköpostiosoite tai LDAP-tunniste:"
 
 #: clientgui/AccountInfoPage.cpp:515
 msgid "&Email address:"
@@ -236,7 +236,7 @@ msgstr "Lopeta %s"
 
 #: clientgui/AdvancedFrame.cpp:359
 msgid "Preferences..."
-msgstr ""
+msgstr "Asetukset..."
 
 #: clientgui/AdvancedFrame.cpp:368
 msgid "&Notices\tCtrl+Shift+N"
@@ -495,7 +495,7 @@ msgstr ""
 
 #: clientgui/AdvancedFrame.cpp:617
 msgid "Enable or disable various diagnostic messages"
-msgstr ""
+msgstr "Kytke päälle tai poista käytöstä erilaisia diagnostiikkaviestejä"
 
 #: clientgui/AdvancedFrame.cpp:626
 #, c-format
@@ -654,7 +654,7 @@ msgstr ""
 
 #: clientgui/AsyncRPC.cpp:1031
 msgid "Communicating with BOINC client.  Please wait ..."
-msgstr "Ollaan yhteydessä BOINC-ohjelmaan.  Odota..."
+msgstr "Ollaan yhteydessä BOINC-ohjelmaan.  Odota ..."
 
 #: clientgui/AsyncRPC.cpp:1034
 #, c-format
@@ -1108,11 +1108,14 @@ msgstr "wxWidgettien versio:"
 msgid "Copyright:"
 msgstr "Tekijänoikeus:"
 
+# 98%
 #: clientgui/DlgAbout.cpp:192
 msgid ""
 "(C) 2003-2014 University of California, Berkeley.\n"
 "All Rights Reserved."
 msgstr ""
+"(C) 2003-2014 Kalifornian yliopisto, Berkeley.\n"
+"Kaikki oikeudet pidätetään."
 
 #: clientgui/DlgAbout.cpp:196
 msgid "Berkeley Open Infrastructure for Network Computing"
@@ -1196,7 +1199,7 @@ msgstr "Vahvistus"
 #: clientgui/DlgAdvPreferencesBase.cpp:49
 #, c-format
 msgid "%s - Computing preferences"
-msgstr ""
+msgstr "%s - Laskenta-asetukset"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:66
 msgid ""
@@ -1401,7 +1404,7 @@ msgstr "Moniprosessorikoneissa käytä enintään"
 #: clientgui/DlgAdvPreferencesBase.cpp:352
 #, no-c-format
 msgid "% of the processors (0 means no restriction)"
-msgstr ""
+msgstr "% prosessoreista (0 tarkoittaa ei rajoitusta)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:355
 #: clientgui/DlgAdvPreferencesBase.cpp:618
@@ -1415,7 +1418,7 @@ msgstr "Käytä enintään"
 #: clientgui/DlgAdvPreferencesBase.cpp:362
 #, no-c-format
 msgid "% of CPU time (0 means no restriction)"
-msgstr ""
+msgstr "% CPU-ajasta (0 tarkoittaa ei rajoitusta)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:386
 msgid "General options"
@@ -1428,7 +1431,7 @@ msgstr "Suurin latausnopeus"
 #: clientgui/DlgAdvPreferencesBase.cpp:401
 #: clientgui/DlgAdvPreferencesBase.cpp:410
 msgid "KBytes/second (0 means no restriction)"
-msgstr ""
+msgstr "Kt/sekunti (0 tarkoittaa ei rajoitusta)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:404
 msgid "Maximum upload rate"
@@ -1445,7 +1448,7 @@ msgstr "Yritä pitää työpaketteja näin monen päivän edestä"
 #: clientgui/DlgAdvPreferencesBase.cpp:431
 #: clientgui/DlgAdvPreferencesBase.cpp:449
 msgid "days (maximum value: 10)"
-msgstr ""
+msgstr "päivää (suurin arvo: 10)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:437
 msgid "Max additional work buffer"
@@ -1461,11 +1464,11 @@ msgstr "Siirrä enintään"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:462
 msgid "MBytes every"
-msgstr ""
+msgstr "Mtavua joka"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:468
 msgid "days (0 means no restriction)"
-msgstr ""
+msgstr "päivää (0 tarkoittaa ei rajoitusta)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:476
 msgid "Skip image file verification"
@@ -1524,7 +1527,7 @@ msgstr "suurin levytila, jota BOINC käyttää (gigatavuina)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:626
 msgid "Gigabytes disk space (0 means no restriction)"
-msgstr ""
+msgstr "Gigatavua levytilaa (0 tarkoittaa ei rajoitusta)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:629
 msgid "Leave at least"
@@ -1618,19 +1621,19 @@ msgstr ""
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:105
 msgid "Save all values and close the dialog"
-msgstr ""
+msgstr "Tallenna kaikki arvot ja sulje ikkuna"
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:108
 msgid "Defaults"
-msgstr ""
+msgstr "Oletukset"
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:109
 msgid "Restore default settings"
-msgstr ""
+msgstr "Palauta oletusasetukset"
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:113
 msgid "Close the dialog without saving"
-msgstr ""
+msgstr "Sulje ikkuna tallentamatta"
 
 #: clientgui/DlgEventLog.cpp:226
 #, c-format
@@ -1897,11 +1900,11 @@ msgstr "Päättynyt"
 
 #: clientgui/DlgItemProperties.cpp:285
 msgid "Tasks completed"
-msgstr ""
+msgstr "Suoritetut paketit"
 
 #: clientgui/DlgItemProperties.cpp:286
 msgid "Tasks failed"
-msgstr ""
+msgstr "Virheelliset paketit"
 
 #: clientgui/DlgItemProperties.cpp:288
 msgid "Credit"
@@ -2408,7 +2411,7 @@ msgstr "aika päivästä"
 
 #: clientgui/MainDocument.cpp:2446
 msgid "CPU benchmarks in progress"
-msgstr "suorituskykytestit käynnissä"
+msgstr "CPU-suorituskykytestit käynnissä"
 
 #: clientgui/MainDocument.cpp:2447
 msgid "need disk space - check preferences"
@@ -2507,15 +2510,15 @@ msgstr "Valmiina aloitettavaksi"
 
 #: clientgui/MainDocument.cpp:2538
 msgid "Postponed: "
-msgstr ""
+msgstr "Siirretty myöhemmäksi: "
 
 #: clientgui/MainDocument.cpp:2541
 msgid "Postponed"
-msgstr ""
+msgstr "Siirretty myöhemmäksi"
 
 #: clientgui/MainDocument.cpp:2545
 msgid "Waiting for network access"
-msgstr ""
+msgstr "Odottaa verkkoyhteyttä"
 
 #: clientgui/MainDocument.cpp:2549
 msgid "Computation error"
@@ -2706,35 +2709,37 @@ msgstr ""
 #: clientgui/ProjectWelcomePage.cpp:251
 #, c-format
 msgid "Welcome to %s."
-msgstr ""
+msgstr "Tervetuloa %s projektiin."
 
 #: clientgui/ProjectWelcomePage.cpp:254
 msgid "You have volunteered to compute for this project:"
-msgstr ""
+msgstr "Olet tarjoutunut laskemaan tähän projektiin:"
 
 #: clientgui/ProjectWelcomePage.cpp:255
 msgid "Name:"
-msgstr ""
+msgstr "Nimi:"
 
 #: clientgui/ProjectWelcomePage.cpp:258
 msgid "Home:"
-msgstr ""
+msgstr "Kotisivu:"
 
 #: clientgui/ProjectWelcomePage.cpp:262
 msgid "Description:"
-msgstr ""
+msgstr "Kuvaus:"
 
 #: clientgui/ProjectWelcomePage.cpp:265
 msgid "URL:"
-msgstr ""
+msgstr "URL:"
 
 #: clientgui/ProjectWelcomePage.cpp:268
 msgid "User:"
-msgstr ""
+msgstr "Käyttäjä:"
 
 #: clientgui/ProjectWelcomePage.cpp:273
 msgid "WARNING: This project is not registered with BOINC.  Make sure you trust it before continuing."
 msgstr ""
+"VAROITUS: Tämä projekti ei ole rekisteröity BOINCiin.  Varmista, että luotat "
+"siihen ennen kuin jatkat."
 
 #: clientgui/ProjectWelcomePage.cpp:277
 msgid "To continue, click Next."
@@ -3017,7 +3022,7 @@ msgstr "%d"
 #: clientgui/sg_DlgPreferences.cpp:953
 #, c-format
 msgid "%s - Computing Preferences"
-msgstr ""
+msgstr "%s - Laskenta-asetukset"
 
 #: clientgui/sg_DlgPreferences.cpp:1033
 msgid "Do you really want to clear all local preferences?\n"
