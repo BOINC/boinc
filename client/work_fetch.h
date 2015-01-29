@@ -299,6 +299,8 @@ struct PROJECT_WORK_FETCH {
 // global work fetch state
 //
 struct WORK_FETCH {
+    std::vector<PROJECT*> projects_sorted;
+        // projects in decreasing priority order
     void setup();
     PROJECT* choose_project();
         // Find a project to ask for work.

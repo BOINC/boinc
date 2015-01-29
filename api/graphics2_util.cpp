@@ -27,10 +27,13 @@
 #endif
 
 #include <cstring>
+
 #include "shmem.h"
-#include "filesys.h"
 #include "app_ipc.h"
 #include "boinc_api.h"
+#include "filesys.h"
+#include "util.h"
+
 #include "graphics2.h"
 
 #ifdef __EMX__
@@ -108,3 +111,91 @@ void* boinc_graphics_get_shmem(const char* prog_name) {
     return p;
 }
 #endif
+
+#define GRAPHICS_STATUS_FILENAME "graphics_status.xml"
+
+int boinc_write_graphics_status(
+    double cpu_time, double elapsed_time,
+    double fraction_done
+){
+    MIOFILE mf;
+    FILE* f = boinc_fopen(GRAPHICS_STATUS_FILENAME, "w");
+    mf.init_file(f);
+    mf.printf(
+        "<graphics_status>\n"
+        "    <updated_time>%f</updated_time>\n"
+        "    <cpu_time>%f</cpu_time>\n"
+        "    <elapsed_time>%f</elapsed_time>\n"
+        "    <fraction_done>%f</fraction_done>\n"
+        "    <boinc_status>\n"
+        "        <no_heartbeat>%d</no_heartbeat>\n"
+        "        <suspended>%d</suspended>\n"
+        "        <quit_request>%d</quit_request>\n"
+        "        <abort_request>%d</abort_request>\n"
+        "        <network_suspended>%d</network_suspended>\n"
+        "    </boinc_status>\n"
+        "</graphics_status>\n",
+        dtime(),
+        cpu_time,
+        elapsed_time,
+        fraction_done,
+        boinc_status.no_heartbeat,
+        boinc_status.suspended,
+        boinc_status.quit_request,
+        boinc_status.abort_request,
+        boinc_status.network_suspended
+    );
+    fclose(f);
+    return 0;
+}
+
+int boinc_parse_graphics_status(
+    double* updated_time, double* cpu_time,
+    double* elapsed_time, double* fraction_done, BOINC_STATUS* status
+){
+    MIOFILE mf;
+    FILE* f = boinc_fopen(GRAPHICS_STATUS_FILENAME, "r");
+    if (!f) {
+        return ERR_FOPEN;
+    }
+    mf.init_file(f);
+    XML_PARSER xp(&mf);
+
+    *updated_time = 0;
+    *cpu_time = 0;
+    *elapsed_time = 0;
+    *fraction_done = 0;
+    memset(status, 0, sizeof(BOINC_STATUS));
+
+    if (!xp.parse_start("graphics_status")) return ERR_XML_PARSE;
+    while (!xp.get_tag()) {
+        if (!xp.is_tag) {
+            continue;
+        }
+        if (xp.match_tag("/graphics_status")) {
+            fclose(f);
+            return 0;
+        }
+        if (xp.match_tag("boinc_status")) {
+            while (!xp.get_tag()) {
+                if (!xp.is_tag) {
+                    continue;
+                }
+                if (xp.match_tag("/boinc_status")) {
+                    break;
+                }
+                else if (xp.parse_int("no_heartbeat", status->no_heartbeat)) continue;
+                else if (xp.parse_int("suspended", status->suspended)) continue;
+                else if (xp.parse_int("quit_request", status->quit_request)) continue;
+                else if (xp.parse_int("abort_request", status->abort_request)) continue;
+                else if (xp.parse_int("network_suspended", status->network_suspended)) continue;
+            }
+        }
+        else if (xp.parse_double("updated_time", *updated_time)) continue;
+        else if (xp.parse_double("cpu_time", *cpu_time)) continue;
+        else if (xp.parse_double("elapsed_time", *elapsed_time)) continue;
+        else if (xp.parse_double("fraction_done", *fraction_done)) continue;
+    }
+    fclose(f);
+    return ERR_XML_PARSE;
+}

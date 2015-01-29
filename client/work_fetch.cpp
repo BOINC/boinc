@@ -517,8 +517,8 @@ void WORK_FETCH::piggyback_work_request(PROJECT* p) {
         }
         if (check_higher_priority_projects) {
             PROJECT* p2 = NULL;
-            for (unsigned int j=0; j<gstate.projects.size(); j++) {
-                p2 = gstate.projects[j];
+            for (unsigned int j=0; j<projects_sorted.size(); j++) {
+                p2 = projects_sorted[j];
                 if (p2 == p) break;
                 if (p2->sched_priority == p->sched_priority) continue;
                 if (p2->pwf.project_reason) {
@@ -627,9 +627,10 @@ void WORK_FETCH::setup() {
         }
     }
 
+    projects_sorted = gstate.projects;
     std::sort(
-        gstate.projects.begin(),
-        gstate.projects.end(),
+        projects_sorted.begin(),
+        projects_sorted.end(),
         higher_priority
     );
     if (log_flags.work_fetch_debug) {
@@ -657,8 +658,8 @@ PROJECT* WORK_FETCH::choose_project() {
     // scan projects in order of decreasing priority
     //
     bool found = false;
-    for (unsigned int j=0; j<gstate.projects.size(); j++) {
-        p = gstate.projects[j];
+    for (unsigned int j=0; j<projects_sorted.size(); j++) {
+        p = projects_sorted[j];
         WF_DEBUG(msg_printf(p, MSG_INFO, "scanning");)
         if (p->pwf.project_reason) {
             WF_DEBUG(msg_printf(p, MSG_INFO, "skip: cfwr %d", p->pwf.project_reason);)

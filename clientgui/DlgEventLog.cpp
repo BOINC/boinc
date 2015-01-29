@@ -66,14 +66,15 @@ static std::string s_strFilteredProjectName;
  * CDlgEventLog type definition
  */
 
-IMPLEMENT_DYNAMIC_CLASS( CDlgEventLog, wxDialog )
+IMPLEMENT_DYNAMIC_CLASS( CDlgEventLog, DlgEventLogBase )
 
 /*!
  * CDlgEventLog event table definition
  */
 
-BEGIN_EVENT_TABLE( CDlgEventLog, wxDialog )
+BEGIN_EVENT_TABLE( CDlgEventLog, DlgEventLogBase )
 ////@begin CDlgEventLog event table entries
+    EVT_ACTIVATE(CDlgEventLog::OnActivate)
     EVT_HELP(wxID_ANY, CDlgEventLog::OnHelp)
     EVT_BUTTON(wxID_OK, CDlgEventLog::OnOK)
     EVT_BUTTON(ID_COPYAll, CDlgEventLog::OnMessagesCopyAll)
@@ -215,7 +216,7 @@ bool CDlgEventLog::Create( wxWindow* parent, wxWindowID id, const wxString& capt
         oTempSize = size;
     }
 
-    wxDialog::Create( parent, id, caption, oTempPoint, oTempSize, style );
+    DlgEventLogBase::Create( parent, id, caption, oTempPoint, oTempSize, style );
 
     SetSizeHints(DLGEVENTLOG_MIN_WIDTH, DLGEVENTLOG_MIN_HEIGHT);
     SetExtraStyle(GetExtraStyle()|wxWS_EX_BLOCK_EVENTS);
@@ -393,6 +394,16 @@ void CDlgEventLog::SetTextColor() {
     }
 }
 
+
+/*!
+ * wxEVT_ACTIVATE event handler for ID_DLGMESSAGES
+ */
+
+void CDlgEventLog::OnActivate(wxActivateEvent& event) {
+    bool isActive = event.GetActive();
+    if (isActive) wxGetApp().SetEventLogWasActive(true);
+    event.Skip();
+}
 
 /*!
  * wxEVT_HELP event handler for ID_DLGMESSAGES

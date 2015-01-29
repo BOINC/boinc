@@ -143,7 +143,7 @@ void handle_sr_feeds(vector<RSS_FEED>& feeds, PROJ_AM* p) {
     while (iter != p->proj_feeds.end()) {
         RSS_FEED& rf = *iter;
         if (rf.found) {
-            iter++;
+            ++iter;
         } else {
             iter = p->proj_feeds.erase(iter);
             feed_set_changed = true;
@@ -300,7 +300,7 @@ void NOTICES::clear_keep() {
     while (i != notices.end()) {
         NOTICE& n = *i;
         n.keep = false;
-        i++;
+        ++i;
     }
 }
 
@@ -313,7 +313,7 @@ void NOTICES::unkeep(const char* url) {
             i = notices.erase(i);
             removed_something = true;
         } else {
-            i++;
+            ++i;
         }
     }
 #ifndef SIM
@@ -950,7 +950,7 @@ void RSS_FEEDS::update_feed_list() {
     while (iter != feeds.end()) {
         RSS_FEED& rf = *iter;
         if (rf.found) {
-            iter++;
+            ++iter;
         } else {
             // cancel op if active
             //

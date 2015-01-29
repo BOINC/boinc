@@ -21,7 +21,7 @@ hr.news_line {
     border-bottom: 1px solid rgb(200, 200, 200);
 }
 
-.table-bordered {
+.table-bordered, .bordered {
 	border-color: #e8e8e8;
     border-width: 2px;
     border-style: solid;
@@ -44,9 +44,12 @@ th, td.heading {
 	background-color: #d8d8d8;
 }
 
+th.subheading {
+	background-color: #eee;
+}
+
 td.fieldname {
 	background-color: #eee;
-	color: #333;
 }
 
 td.fieldname_error,
@@ -89,8 +92,9 @@ tr.message {
 input[type="button"],
 input[type="submit"],
 .btn,
-a.btn{
-	background: #EDEDED url(img/white_grad.png) repeat-x scroll left top;
+a.btn {
+#background: #d0f8d0;
+    background: #EDEDED url(img/white_grad.png) repeat-x scroll left top;
 	color: black;
 	border-color: #ccc;
 }
@@ -102,6 +106,14 @@ input.btn:hover,
 .forum_toplinks a:hover {
 	border: 1px solid #555;
 	color: #0069A1;
+}
+
+a.btn-green {
+	border: 1px solid #555;
+	color: black;
+    background: #a0f0a0;
+    font-size: 1.2em;
+	border-color: #60a060;
 }
 
 input[type="text"], input[type="password"], select, textarea {

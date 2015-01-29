@@ -56,11 +56,13 @@
 #include <stdio.h>
 #include <cmath>
 #include <string>
+#include <sstream>
 #include <unistd.h>
 #endif
 
 #include "version.h"
 #include "boinc_api.h"
+#include "graphics2.h"
 #include "diagnostics.h"
 #include "filesys.h"
 #include "md5_file.h"
@@ -71,6 +73,8 @@
 #include "error_numbers.h"
 #include "procinfo.h"
 #include "floppyio.h"
+#include "vboxlogging.h"
+#include "vboxcheckpoint.h"
 #include "vboxwrapper.h"
 #include "vbox_common.h"
 #ifdef _WIN32
@@ -83,210 +87,6 @@
 using std::vector;
 using std::string;
 
-
-double elapsed_time = 0;
-    // job's total elapsed time (over all sessions)
-double trickle_period = 0;
-
-bool is_boinc_client_version_newer(APP_INIT_DATA& aid, int maj, int min, int rel) {
-    if (maj < aid.major_version) return true;
-    if (maj > aid.major_version) return false;
-    if (min < aid.minor_version) return true;
-    if (min > aid.minor_version) return false;
-    if (rel < aid.release) return true;
-    return false;
-}
-
-char* vboxwrapper_msg_prefix(char* sbuf, int len) {
-    char buf[256];
-    struct tm tm;
-    struct tm *tmp = &tm;
-    int n;
-
-    time_t x = time(0);
-#ifdef _WIN32
-#ifdef __MINGW32__
-    if ((tmp = localtime(&x)) == NULL)
-#else
-    if (localtime_s(&tm, &x) == EINVAL)
-#endif
-#else
-    if (localtime_r(&x, &tm) == NULL)
-#endif
-    {
-        strcpy(sbuf, "localtime() failed");
-        return sbuf;
-    }
-    if (strftime(buf, sizeof(buf)-1, "%Y-%m-%d %H:%M:%S", tmp) == 0) {
-        strcpy(sbuf, "strftime() failed");
-        return sbuf;
-    }
-#ifdef _WIN32
-    n = _snprintf(sbuf, len, "%s (%d):", buf, GetCurrentProcessId());
-#else
-    n = snprintf(sbuf, len, "%s (%d):", buf, getpid());
-#endif
-    if (n < 0) {
-        strcpy(sbuf, "sprintf() failed");
-        return sbuf;
-    }
-    sbuf[len-1] = 0;    // just in case
-    return sbuf;
-}
-
-int parse_port_forward(VBOX_VM& vm, XML_PARSER& xp) {
-    char buf2[256];
-    int host_port=0, guest_port=0, nports=1;
-    bool is_remote;
-    while (!xp.get_tag()) {
-        if (xp.match_tag("/port_forward")) {
-            if (!host_port) {
-                fprintf(stderr,
-                    "%s parse_port_forward(): unspecified host port\n",
-                    vboxwrapper_msg_prefix(buf2, sizeof(buf2))
-                );
-                return ERR_XML_PARSE;
-            }
-            if (!guest_port) {
-                fprintf(stderr,
-                    "%s parse_port_forward(): unspecified guest port\n",
-                    vboxwrapper_msg_prefix(buf2, sizeof(buf2))
-                );
-                return ERR_XML_PARSE;
-            }
-            PORT_FORWARD pf;
-            pf.host_port = host_port;
-            pf.guest_port = guest_port;
-            pf.is_remote = is_remote;
-            for (int i=0; i<nports; i++) {
-                vm.port_forwards.push_back(pf);
-                pf.host_port++;
-                pf.guest_port++;
-            }
-            return 0;
-        }
-        else if (xp.parse_bool("is_remote", is_remote)) continue;
-        else if (xp.parse_int("host_port", host_port)) continue;
-        else if (xp.parse_int("guest_port", guest_port)) continue;
-        else if (xp.parse_int("nports", nports)) continue;
-        else {
-            fprintf(stderr,
-                "%s parse_port_forward(): unparsed %s\n",
-                vboxwrapper_msg_prefix(buf2, sizeof(buf2)),
-                xp.parsed_tag
-            );
-        }
-    }
-    return ERR_XML_PARSE;
-}
-
-int parse_job_file(VBOX_VM& vm) {
-    INTERMEDIATE_UPLOAD iu;
-    MIOFILE mf;
-    string str;
-    char buf[1024], buf2[256];
-
-    boinc_resolve_filename(JOB_FILENAME, buf, sizeof(buf));
-    FILE* f = boinc_fopen(buf, "r");
-    if (!f) {
-        fprintf(stderr,
-            "%s can't open job file %s\n",
-            vboxwrapper_msg_prefix(buf2, sizeof(buf2)), buf
-        );
-        return ERR_FOPEN;
-    }
-    mf.init_file(f);
-    XML_PARSER xp(&mf);
-
-    if (!xp.parse_start("vbox_job")) return ERR_XML_PARSE;
-    while (!xp.get_tag()) {
-        if (!xp.is_tag) {
-            fprintf(stderr, "%s parse_job_file(): unexpected text %s\n",
-                vboxwrapper_msg_prefix(buf, sizeof(buf)), xp.parsed_tag
-            );
-            continue;
-        }
-        if (xp.match_tag("/vbox_job")) {
-            fclose(f);
-            return 0;
-        }
-        else if (xp.parse_string("vm_disk_controller_type", vm.vm_disk_controller_type)) continue;
-        else if (xp.parse_string("vm_disk_controller_model", vm.vm_disk_controller_model)) continue;
-        else if (xp.parse_string("os_name", vm.os_name)) continue;
-        else if (xp.parse_double("memory_size_mb", vm.memory_size_mb)) continue;
-        else if (xp.parse_double("job_duration", vm.job_duration)) continue;
-        else if (xp.parse_double("minimum_checkpoint_interval", vm.minimum_checkpoint_interval)) continue;
-        else if (xp.parse_string("fraction_done_filename", vm.fraction_done_filename)) continue;
-        else if (xp.parse_bool("enable_cern_dataformat", vm.enable_cern_dataformat)) continue;
-        else if (xp.parse_bool("enable_network", vm.enable_network)) continue;
-        else if (xp.parse_bool("network_bridged_mode", vm.network_bridged_mode)) continue;
-        else if (xp.parse_bool("enable_shared_directory", vm.enable_shared_directory)) continue;
-        else if (xp.parse_bool("enable_floppyio", vm.enable_floppyio)) continue;
-        else if (xp.parse_bool("enable_cache_disk", vm.enable_cache_disk)) continue;
-        else if (xp.parse_bool("enable_isocontextualization", vm.enable_isocontextualization)) continue;
-        else if (xp.parse_bool("enable_remotedesktop", vm.enable_remotedesktop)) continue;
-        else if (xp.parse_bool("enable_gbac", vm.enable_gbac)) continue;
-        else if (xp.parse_int("pf_guest_port", vm.pf_guest_port)) continue;
-        else if (xp.parse_int("pf_host_port", vm.pf_host_port)) continue;
-        else if (xp.parse_string("copy_to_shared", str)) {
-            vm.copy_to_shared.push_back(str);
-            continue;
-        }
-        else if (xp.parse_string("trickle_trigger_file", str)) {
-            vm.trickle_trigger_files.push_back(str);
-            continue;
-        }
-        else if (xp.parse_string("intermediate_upload_file", str)) {
-            iu.clear();
-            iu.file = str;
-            vm.intermediate_upload_files.push_back(iu);
-            continue;
-        }
-        else if (xp.parse_string("completion_trigger_file", str)) {
-            vm.completion_trigger_file = str;
-            continue;
-        }
-        else if (xp.parse_string("temporary_exit_trigger_file", str)) {
-            vm.temporary_exit_trigger_file = str;
-            continue;
-        }
-        else if (xp.match_tag("port_forward")) {
-            parse_port_forward(vm, xp);
-        }
-        fprintf(stderr, "%s parse_job_file(): unexpected tag %s\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf)), xp.parsed_tag
-        );
-    }
-    fclose(f);
-    return ERR_XML_PARSE;
-}
-
-void write_checkpoint(double elapsed, double cpu, VBOX_VM& vm) {
-    FILE* f = fopen(CHECKPOINT_FILENAME, "w");
-    if (!f) return;
-    fprintf(f, "%f %f %d %d\n", elapsed, cpu, vm.pf_host_port, vm.rd_host_port);
-    fclose(f);
-}
-
-void read_checkpoint(double& elapsed, double& cpu, VBOX_VM& vm) {
-    double c;
-    double e;
-    int pf_host;
-    int rd_host;
-    elapsed = 0.0;
-    cpu = 0.0;
-    vm.pf_host_port = 0;
-    vm.rd_host_port = 0;
-    FILE* f = fopen(CHECKPOINT_FILENAME, "r");
-    if (!f) return;
-    int n = fscanf(f, "%lf %lf %d %d", &e, &c, &pf_host, &rd_host);
-    fclose(f);
-    if (n != 4) return;
-    elapsed = e;
-    cpu = c;
-    vm.pf_host_port = pf_host;
-    vm.rd_host_port = rd_host;
-}
 
 void read_fraction_done(double& frac_done, VBOX_VM& vm) {
     char path[MAXPATHLEN];
@@ -437,10 +237,7 @@ void set_floppy_image(APP_INIT_DATA& aid, VBOX_VM& vm) {
         if (!vm.enable_cern_dataformat) {
             retval = read_file_string(INIT_DATA_FILE, scratch);
             if (retval) {
-                fprintf(stderr,
-                    "%s can't write init_data.xml to floppy abstration device\n",
-                    vboxwrapper_msg_prefix(buf, sizeof(buf))
-                );
+                vboxlog_msg("WARNING: Cannot write init_data.xml to floppy abstration device");
             }
         } else {
             // Per: https://github.com/stig/json-framework/issues/48
@@ -468,44 +265,22 @@ void set_floppy_image(APP_INIT_DATA& aid, VBOX_VM& vm) {
 
 // if there's a port for web graphics, tell the client about it
 //
-void set_web_graphics_url(VBOX_VM& vm) {
-    char buf[256], buf2[256];
-    for (unsigned int i=0; i<vm.port_forwards.size(); i++) {
-        PORT_FORWARD& pf = vm.port_forwards[i];
-        if (pf.guest_port == vm.pf_guest_port) {
-            sprintf(buf2, "http://localhost:%d", pf.host_port);
-            fprintf(stderr, "%s Detected: Web Application Enabled (%s)\n",
-                vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                buf2
-            );
-            boinc_web_graphics_url(buf2);
-            break;
-        }
+void report_web_graphics_url(VBOX_VM& vm) {
+    char buf[256];
+    if (vm.pf_host_port && !boinc_file_exists("graphics_app")) {
+        sprintf(buf, "http://localhost:%d", vm.pf_host_port);
+        vboxlog_msg("Detected: Web Application Enabled (%s)", buf);
+        boinc_web_graphics_url(buf);
     }
 }
 
 // set remote desktop information if needed
 //
-void set_remote_desktop_info(APP_INIT_DATA& /* aid */, VBOX_VM& vm) {
+void report_remote_desktop_info(VBOX_VM& vm) {
     char buf[256];
-
     if (vm.rd_host_port) {
-        // Write info to disk
-        //
-        MIOFILE mf;
-        FILE* f = boinc_fopen(REMOTEDESKTOP_FILENAME, "w");
-        mf.init_file(f);
-
-        mf.printf(
-            "<remote_desktop>\n"
-            "  <host_port>%d</host_port>\n"
-            "</remote_desktop>\n",
-            vm.rd_host_port
-        );
-
-        fclose(f);
-
         sprintf(buf, "localhost:%d", vm.rd_host_port);
+        vboxlog_msg("Detected: Remote Desktop Enabled (%s)", buf);
         boinc_remote_desktop_addr(buf);
     }
 }
@@ -513,32 +288,23 @@ void set_remote_desktop_info(APP_INIT_DATA& /* aid */, VBOX_VM& vm) {
 // check for trickle trigger files, and send trickles if find them.
 //
 void check_trickle_triggers(VBOX_VM& vm) {
-    char filename[256], path[MAXPATHLEN], buf[256];
+    int retval;
+    char filename[256], path[MAXPATHLEN];
+    std::string text;
     for (unsigned int i=0; i<vm.trickle_trigger_files.size(); i++) {
         strcpy(filename, vm.trickle_trigger_files[i].c_str());
         sprintf(path, "shared/%s", filename);
         if (!boinc_file_exists(path)) continue;
-        string text;
-        int retval = read_file_string(path, text);
+        vboxlog_msg("Reporting a trickle. (%s)", filename);
+        retval = read_file_string(path, text);
         if (retval) {
-            fprintf(stderr,
-                "%s can't read trickle trigger file %s\n",
-                vboxwrapper_msg_prefix(buf, sizeof(buf)), filename
-            );
+            vboxlog_msg("ERROR: can't read trickle trigger file %s", filename);
         } else {
             retval = boinc_send_trickle_up(
                 filename, const_cast<char*>(text.c_str())
             );
             if (retval) {
-                fprintf(stderr,
-                    "%s boinc_send_trickle_up() failed: %s\n",
-                    vboxwrapper_msg_prefix(buf, sizeof(buf)), boincerror(retval)
-                );
-            } else {
-                fprintf(stderr,
-                    "%s sent trickle-up of variety %s\n",
-                    vboxwrapper_msg_prefix(buf, sizeof(buf)), filename
-                );
+                vboxlog_msg("boinc_send_trickle_up() failed: %s (%d)", boincerror(retval), retval);
             }
         }
         boinc_delete_file(path);
@@ -549,23 +315,16 @@ void check_trickle_triggers(VBOX_VM& vm) {
 //
 void check_intermediate_uploads(VBOX_VM& vm) {
     int retval;
-    char filename[256], path[MAXPATHLEN], buf[256];
+    char filename[256], path[MAXPATHLEN];
     for (unsigned int i=0; i<vm.intermediate_upload_files.size(); i++) {
         strcpy(filename, vm.intermediate_upload_files[i].file.c_str());
         sprintf(path, "shared/%s", filename);
         if (!boinc_file_exists(path)) continue;
         if (!vm.intermediate_upload_files[i].reported && !vm.intermediate_upload_files[i].ignore) {
-            fprintf(stderr,
-                "%s Reporting an intermediate file. (%s)\n",
-                vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                vm.intermediate_upload_files[i].file.c_str()
-            );
+            vboxlog_msg("Reporting an intermediate file. (%s)", vm.intermediate_upload_files[i].file.c_str());
             retval = boinc_upload_file(vm.intermediate_upload_files[i].file);
             if (retval) {
-                fprintf(stderr,
-                    "%s boinc_upload_file() failed: %s\n",
-                    vboxwrapper_msg_prefix(buf, sizeof(buf)), boincerror(retval)
-                );
+                vboxlog_msg("boinc_upload_file() failed: %s", boincerror(retval));
                 vm.intermediate_upload_files[i].ignore = true;
             } else {
                 vm.intermediate_upload_files[i].reported = true;
@@ -573,11 +332,7 @@ void check_intermediate_uploads(VBOX_VM& vm) {
         } else if (vm.intermediate_upload_files[i].reported && !vm.intermediate_upload_files[i].ignore) {
             retval = boinc_upload_status(vm.intermediate_upload_files[i].file);
             if (!retval) {
-                fprintf(stderr,
-                    "%s Intermediate file uploaded. (%s)\n",
-                    vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                    vm.intermediate_upload_files[i].file.c_str()
-                );
+                vboxlog_msg("Intermediate file uploaded. (%s)", vm.intermediate_upload_files[i].file.c_str());
                 vm.intermediate_upload_files[i].ignore = true;
             }
         }
@@ -586,7 +341,7 @@ void check_intermediate_uploads(VBOX_VM& vm) {
 
 // see if it's time to send trickle-up reporting elapsed time
 //
-void check_trickle_period() {
+void check_trickle_period(double& elapsed_time, double& trickle_period) {
     char buf[256];
     static double last_trickle_report_time = 0;
 
@@ -594,11 +349,7 @@ void check_trickle_period() {
         return;
     }
     last_trickle_report_time = elapsed_time;
-    fprintf(
-        stderr,
-        "%s Status Report: Trickle-Up Event.\n",
-        vboxwrapper_msg_prefix(buf, sizeof(buf))
-    );
+    vboxlog_msg("Status Report: Trickle-Up Event.");
     sprintf(buf,
         "<cpu_time>%f</cpu_time>", last_trickle_report_time
     );
@@ -606,12 +357,7 @@ void check_trickle_period() {
         const_cast<char*>("cpu_time"), buf
     );
     if (retval) {
-        fprintf(
-            stderr,
-            "%s Sending Trickle-Up Event failed (%d).\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf)),
-            retval
-        );
+        vboxlog_msg("Sending Trickle-Up Event failed (%d).", retval);
     }
 }
 
@@ -621,8 +367,11 @@ int main(int argc, char** argv) {
     BOINC_OPTIONS boinc_options;
     APP_INIT_DATA aid;
     VBOX_VM* pVM = NULL;
+    VBOX_CHECKPOINT checkpoint;
     double random_checkpoint_factor = 0;
+    double elapsed_time = 0;
     double fraction_done = 0;
+    double trickle_period = 0;
     double current_cpu_time = 0;
     double starting_cpu_time = 0;
     double last_checkpoint_cpu_time = 0;
@@ -647,49 +396,40 @@ int main(int argc, char** argv) {
     char buf[256];
 
 
+    // Initialize diagnostics system
+    //
+    boinc_init_diagnostics(BOINC_DIAG_DEFAULTS);
+
+    // Configure BOINC Runtime System environment
+    //
     memset(&boinc_options, 0, sizeof(boinc_options));
     boinc_options.main_program = true;
     boinc_options.check_heartbeat = true;
     boinc_options.handle_process_control = true;
     boinc_init_options(&boinc_options);
 
-
-    // Prepare environment for detecting system conditions
-    //
-    boinc_get_init_data_p(&aid);
-
     // Log banner
     //
-    fprintf(
-        stderr,
-        "%s vboxwrapper (%d.%d.%d): starting\n",
-        vboxwrapper_msg_prefix(buf, sizeof(buf)),
-        BOINC_MAJOR_VERSION,
-        BOINC_MINOR_VERSION,
-        VBOXWRAPPER_RELEASE
-    );
+    vboxlog_msg("vboxwrapper (%d.%d.%d): starting", BOINC_MAJOR_VERSION, BOINC_MINOR_VERSION, VBOXWRAPPER_RELEASE);
 
     // Initialize system services
     // 
 #ifdef _WIN32
-    // Initialize the COM subsystem.
     CoInitialize(NULL);
-
 #ifdef USE_WINSOCK
     WSADATA wsdata;
     retval = WSAStartup( MAKEWORD( 1, 1 ), &wsdata);
     if (retval) {
-        fprintf(
-            stderr,
-            "%s can't initialize winsock: %d\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf)),
-            retval
-        );
+        vboxlog_msg("ERROR: Cannot initialize winsock: %d", retval);
         boinc_finish(retval);
     }
 #endif
 #endif
 
+    // Prepare environment for detecting system conditions
+    //
+    boinc_parse_init_data_file();
+    boinc_get_init_data(aid);
 
 #ifdef _WIN32
     // Determine what version of VirtualBox we are using via the registry. Use a
@@ -722,7 +462,8 @@ int main(int argc, char** argv) {
     pVM = (VBOX_VM*) new vboxmanage::VBOX_VM();
 #endif
 
-
+    // Parse command line parameters
+    //
     for (int i=1; i<argc; i++) {
         if (!strcmp(argv[i], "--trickle")) {
             trickle_period = atof(argv[++i]);
@@ -750,32 +491,19 @@ int main(int argc, char** argv) {
         srand((int)(vm_image_stat.st_mtime * time(NULL)));
     }
     random_checkpoint_factor = (double)(((int)(drand() * 100000.0)) % 600);
-    fprintf(
-        stderr,
-        "%s Feature: Checkpoint interval offset (%d seconds)\n",
-        vboxwrapper_msg_prefix(buf, sizeof(buf)),
-        (int)random_checkpoint_factor
-    );
+    vboxlog_msg("Feature: Checkpoint interval offset (%d seconds)", (int)random_checkpoint_factor);
 
     // Display trickle value if specified
     //
     if (trickle_period > 0.0) {
-        fprintf(
-            stderr,
-            "%s Feature: Enabling trickle-ups (Interval: %f)\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf)), trickle_period
-        );
+        vboxlog_msg("Feature: Enabling trickle-ups (Interval: %f)", trickle_period);
     }
 
     // Check for architecture incompatibilities
     // 
 #if defined(_WIN32) && defined(_M_IX86)
     if (strstr(aid.host_info.os_version, "x64")) {
-        fprintf(
-            stderr,
-            "%s 64-bit version of BOINC is required, please upgrade. Rescheduling execution for a later date.\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf))
-        );
+        vboxlog_msg("64-bit version of BOINC is required, please upgrade. Rescheduling execution for a later date.");
         boinc_temporary_exit(86400, "Architecture incompatibility detected.");
     }
 #endif
@@ -784,67 +512,40 @@ int main(int argc, char** argv) {
     //
     retval = pVM->initialize();
     if (retval) {
-        fprintf(
-            stderr,
-            "%s Could not detect VM Hypervisor. Rescheduling execution for a later date.\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf))
-        );
+        vboxlog_msg("Could not detect VM Hypervisor. Rescheduling execution for a later date.");
         boinc_temporary_exit(86400, "Detection of VM Hypervisor failed.");
     }
 
     // Record what version of VirtualBox was used.
     // 
     if (!pVM->virtualbox_version.empty()) {
-        fprintf(
-            stderr,
-            "%s Detected: %s\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf)),
-            pVM->virtualbox_version.c_str()
-        );
+        vboxlog_msg("Detected: %s", pVM->virtualbox_version.c_str());
     }
 
     // Record if anonymous platform was used.
     // 
     if (boinc_file_exists((std::string(aid.project_dir) + std::string("/app_info.xml")).c_str())) {
-        fprintf(
-            stderr,
-            "%s Detected: Anonymous Platform Enabled\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf))
-        );
+        vboxlog_msg("Detected: Anonymous Platform Enabled");
     }
 
     // Record if the sandboxed configuration is going to be used.
     //
     if (aid.using_sandbox) {
-        fprintf(
-            stderr,
-            "%s Detected: Sandbox Configuration Enabled\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf))
-        );
+        vboxlog_msg("Detected: Sandbox Configuration Enabled");
     }
 
     // Record which mode VirtualBox should be started in.
     //
     if (aid.vbox_window || boinc_is_standalone()) {
-        fprintf(
-            stderr,
-            "%s Detected: Headless Mode Disabled\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf))
-        );
+        vboxlog_msg("Detected: Headless Mode Disabled");
         pVM->headless = false;
     }
 
     // Check for invalid confgiurations.
     //
     if (aid.using_sandbox && aid.vbox_window) {
-        vboxwrapper_msg_prefix(buf, sizeof(buf));
-        fprintf(
-            stderr,
-            "%s Invalid configuration detected.\n"
-            "%s NOTE: BOINC cannot be installed as a service and run VirtualBox in headfull mode at the same time.\n",
-            buf,
-            buf
-        );
+        vboxlog_msg("Invalid configuration detected.");
+        vboxlog_msg("NOTE: BOINC cannot be installed as a service and run VirtualBox in headfull mode at the same time.");
         boinc_temporary_exit(86400, "Incompatible configuration detected.");
     }
 
@@ -855,11 +556,7 @@ int main(int argc, char** argv) {
     if ((pVM->virtualbox_version.find("4.2.6") != std::string::npos) || 
         (pVM->virtualbox_version.find("4.2.18") != std::string::npos) || 
         (pVM->virtualbox_version.find("4.3.0") != std::string::npos) ) {
-        fprintf(
-            stderr,
-            "%s Incompatible version of VirtualBox detected. Please upgrade to a later version.\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf))
-        );
+        vboxlog_msg("Incompatible version of VirtualBox detected. Please upgrade to a later version.");
         boinc_temporary_exit(86400,
             "Incompatible version of VirtualBox detected; please upgrade.",
             true
@@ -871,55 +568,33 @@ int main(int argc, char** argv) {
     // reboot and the system needs a little bit of time.
     //
     if (!pVM->is_system_ready(message)) {
-        fprintf(
-            stderr,
-            "%s Could not communicate with VM Hypervisor. Rescheduling execution for a later date.\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf))
-        );
+        vboxlog_msg("Could not communicate with VM Hypervisor. Rescheduling execution for a later date.");
         boinc_temporary_exit(86400, message.c_str());
     }
 
     // Parse Job File
     //
-    retval = parse_job_file(*pVM);
+    retval = pVM->parse();
     if (retval) {
-        fprintf(
-            stderr,
-            "%s can't parse job file: %d\n",
-            vboxwrapper_msg_prefix(buf, sizeof(buf)),
-            retval
-        );
+        vboxlog_msg("ERROR: Cannot parse job file: %d", retval);
         boinc_finish(retval);
     }
 
-    // Record which mode VirtualBox should be started in.
+    // Record what the minimum checkpoint interval is.
     //
-    fprintf(
-        stderr,
-        "%s Detected: Minimum checkpoint interval (%f seconds)\n",
-        vboxwrapper_msg_prefix(buf, sizeof(buf)),
-        pVM->minimum_checkpoint_interval
-    );
+    vboxlog_msg("Detected: Minimum checkpoint interval (%f seconds)", pVM->minimum_checkpoint_interval);
 
     // Validate whatever configuration options we can
     //
     if (pVM->enable_shared_directory) {
         if (boinc_file_exists("shared")) {
             if (!is_dir("shared")) {
-                fprintf(
-                    stderr,
-                    "%s 'shared' exists but is not a directory.\n",
-                    vboxwrapper_msg_prefix(buf, sizeof(buf))
-                );
+                vboxlog_msg("ERROR: 'shared' exists but is not a directory.");
             }
         } else {
             retval = boinc_mkdir("shared");
             if (retval) {
-                fprintf(stderr,
-                    "%s couldn't created shared directory: %s.\n",
-                    vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                    boincerror(retval)
-                );
+                vboxlog_msg("ERROR: couldn't created shared directory: %s.", boincerror(retval));
             }
         }
     }
@@ -927,22 +602,14 @@ int main(int argc, char** argv) {
     // Copy files to the shared directory
     //
     if (pVM->enable_shared_directory && pVM->copy_to_shared.size()) {
-        for (vector<string>::iterator iter = pVM->copy_to_shared.begin(); iter != pVM->copy_to_shared.end(); iter++) {
+        for (vector<string>::iterator iter = pVM->copy_to_shared.begin(); iter != pVM->copy_to_shared.end(); ++iter) {
             string source = *iter;
             string destination = string("shared/") + *iter;
             if (!boinc_file_exists(destination.c_str())) {
                 if (!boinc_copy(source.c_str(), destination.c_str())) {
-                    fprintf(stderr,
-                        "%s successfully copied '%s' to the shared directory.\n",
-                        vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                        source.c_str()
-                    );
+                    vboxlog_msg("Successfully copied '%s' to the shared directory.", source.c_str());
                 } else {
-                    fprintf(stderr,
-                        "%s failed to copy '%s' to the shared directory.\n",
-                        vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                        source.c_str()
-                    );
+                    vboxlog_msg("Failed to copy '%s' to the shared directory.", source.c_str());
                 }
             }
         }
@@ -1007,7 +674,11 @@ int main(int argc, char** argv) {
 
     // Restore from checkpoint
     //
-    read_checkpoint(elapsed_time, current_cpu_time, *pVM);
+    checkpoint.parse();
+    elapsed_time = checkpoint.elapsed_time;
+    current_cpu_time = checkpoint.cpu_time;
+    pVM->pf_host_port = checkpoint.webapi_port;
+    pVM->rd_host_port = checkpoint.remote_desktop_port;
     last_checkpoint_elapsed_time = elapsed_time;
     starting_cpu_time = current_cpu_time;
     last_checkpoint_cpu_time = current_cpu_time;
@@ -1095,16 +766,11 @@ int main(int argc, char** argv) {
             if (!skip_cleanup) {
                 pVM->cleanup();
             }
-            write_checkpoint(elapsed_time, current_cpu_time, *pVM);
+
+            checkpoint.update(elapsed_time, current_cpu_time);
 
             if (error_reason.size()) {
-                fprintf(
-                    stderr,
-                    "%s\n"
-                    "%s",
-                    vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                    error_reason.c_str()
-                );
+                vboxlog_msg("\n%s", error_reason.c_str());
             }
 
             if (do_dump_hypervisor_logs) {
@@ -1132,13 +798,7 @@ int main(int argc, char** argv) {
             boinc_sleep(5.0);
 
             if (error_reason.size()) {
-                fprintf(
-                    stderr,
-                    "%s\n"
-                    "%s",
-                    vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                    error_reason.c_str()
-                );
+                vboxlog_msg("\n%s", error_reason.c_str());
             }
 
             // Exit and let BOINC clean up the rest.
@@ -1149,12 +809,7 @@ int main(int argc, char** argv) {
 
     // Report the VM pid to BOINC so BOINC can deal with it when needed.
     //
-    vboxwrapper_msg_prefix(buf, sizeof(buf));
-    fprintf(
-        stderr,
-        "%s Reporting VM Process ID to BOINC.\n",
-        buf
-    );
+    vboxlog_msg("Reporting VM Process ID to BOINC.");
     retval = boinc_report_app_status_aux(
         current_cpu_time,
         last_checkpoint_cpu_time,
@@ -1186,14 +841,8 @@ int main(int argc, char** argv) {
 
     // Did we timeout?
     if (!pVM->online && (timeout <= dtime())) {
-        vboxwrapper_msg_prefix(buf, sizeof(buf));
-        fprintf(
-            stderr,
-            "%s NOTE: VM failed to enter an online state within the timeout period.\n"
-            "%s   This might be a temporary problem and so this job will be rescheduled for another time.\n",
-            buf,
-            buf
-        );
+        vboxlog_msg("NOTE: VM failed to enter an online state within the timeout period.");
+        vboxlog_msg("  This might be a temporary problem and so this job will be rescheduled for another time.");
         pVM->reset_vm_process_priority();
         pVM->poweroff();
         boinc_temporary_exit(86400,
@@ -1202,9 +851,11 @@ int main(int argc, char** argv) {
     }
 
     set_floppy_image(aid, *pVM);
-    set_web_graphics_url(*pVM);
-    set_remote_desktop_info(aid, *pVM);
-    write_checkpoint(elapsed_time, current_cpu_time, *pVM);
+    report_web_graphics_url(*pVM);
+    report_remote_desktop_info(*pVM);
+    checkpoint.webapi_port = pVM->pf_host_port;
+    checkpoint.remote_desktop_port = pVM->rd_host_port;
+    checkpoint.update(elapsed_time, current_cpu_time);
 
     // Force throttling on our first pass through the loop
     boinc_status.reread_init_data_file = true;
@@ -1216,6 +867,11 @@ int main(int argc, char** argv) {
 
         // Discover the VM's current state
         pVM->poll();
+
+        // Write updates for the graphics application's use
+        if (pVM->enable_graphics_support) {
+            boinc_write_graphics_status(current_cpu_time, elapsed_time, fraction_done);
+        }
 
         if (boinc_status.no_heartbeat || boinc_status.quit_request) {
             pVM->reset_vm_process_priority();
@@ -1229,19 +885,10 @@ int main(int argc, char** argv) {
             boinc_finish(EXIT_ABORTED_BY_CLIENT);
         }
         if (completion_file_exists(*pVM)) {
-            fprintf(
-                stderr,
-                "%s VM Completion File Detected.\n",
-                vboxwrapper_msg_prefix(buf, sizeof(buf))
-            );
+            vboxlog_msg("VM Completion File Detected.");
             read_completion_file_info(vm_exit_code, is_notice, message, *pVM);
             if (message.size()) {
-                fprintf(
-                    stderr,
-                    "%s VM Completion Message: %s.\n",
-                    vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                    message.c_str()
-                );
+                vboxlog_msg("VM Completion Message: %s.", message.c_str());
             }
             pVM->reset_vm_process_priority();
             pVM->cleanup();
@@ -1252,19 +899,10 @@ int main(int argc, char** argv) {
             }
         }
         if (temporary_exit_file_exists(*pVM)) {
-            fprintf(
-                stderr,
-                "%s VM Temporary Exit File Detected.\n",
-                vboxwrapper_msg_prefix(buf, sizeof(buf))
-            );
+            vboxlog_msg("VM Temporary Exit File Detected.");
             read_temporary_exit_file_info(temp_delay, is_notice, message, *pVM);
             if (message.size()) {
-                fprintf(
-                    stderr,
-                    "%s VM Temporary Exit Message: %s.\n",
-                    vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                    message.c_str()
-                );
+                vboxlog_msg("VM Temporary Exit Message: %s.", message.c_str());
             }
             delete_temporary_exit_trigger_file(*pVM);
             pVM->reset_vm_process_priority();
@@ -1278,25 +916,15 @@ int main(int argc, char** argv) {
         if (!pVM->online) {
             // Is this a type of event we can recover from?
             if (pVM->is_logged_failure_host_out_of_memory()) {
-                vboxwrapper_msg_prefix(buf, sizeof(buf));
-                fprintf(
-                    stderr,
-                    "%s NOTE: VirtualBox has failed to allocate enough memory to continue.\n"
-                    "%s   This might be a temporary problem and so this job will be rescheduled for another time.\n",
-                    buf,
-                    buf
-                );
+                vboxlog_msg("NOTE: VirtualBox has failed to allocate enough memory to continue.");
+                vboxlog_msg("  This might be a temporary problem and so this job will be rescheduled for another time.");
                 pVM->reset_vm_process_priority();
                 pVM->poweroff();
                 boinc_temporary_exit(86400, "VM Hypervisor was unable to allocate enough memory.");
             } else {
                 pVM->cleanup();
                 if (pVM->crashed || (elapsed_time < pVM->job_duration)) {
-                    fprintf(
-                        stderr,
-                        "%s VM Premature Shutdown Detected.\n",
-                        vboxwrapper_msg_prefix(buf, sizeof(buf))
-                    );
+                    vboxlog_msg("VM Premature Shutdown Detected.");
                     pVM->dump_hypervisor_logs(true);
                     pVM->get_vm_exit_code(vm_exit_code);
                     if (vm_exit_code) {
@@ -1305,11 +933,7 @@ int main(int argc, char** argv) {
                         boinc_finish(EXIT_ABORTED_BY_CLIENT);
                     }
                 } else {
-                    fprintf(
-                        stderr,
-                        "%s Virtual machine exited.\n",
-                        vboxwrapper_msg_prefix(buf, sizeof(buf))
-                    );
+                    vboxlog_msg("Virtual machine exited.");
                     pVM->dump_hypervisor_logs(false);
                     boinc_finish(0);
                 }
@@ -1318,11 +942,7 @@ int main(int argc, char** argv) {
             // Check to see if the guest VM has any log messages that indicate that we need need
             // to take action.
             if (pVM->is_logged_failure_guest_job_out_of_memory()) {
-                fprintf(
-                    stderr,
-                    "%s ERROR: VM reports there is not enough memory to finish the task.\n",
-                    vboxwrapper_msg_prefix(buf, sizeof(buf))
-                );
+                vboxlog_msg("ERROR: VM reports there is not enough memory to finish the task.");
                 pVM->reset_vm_process_priority();
                 pVM->dump_hypervisor_logs(true);
                 pVM->poweroff();
@@ -1333,11 +953,7 @@ int main(int argc, char** argv) {
             if (!pVM->suspended) {
                 retval = pVM->pause();
                 if (retval && (VBOX_E_INVALID_OBJECT_STATE == retval)) {
-                    fprintf(
-                        stderr,
-                        "%s ERROR: VM task failed to pause, rescheduling task for a later time.\n",
-                        vboxwrapper_msg_prefix(buf, sizeof(buf))
-                    );
+                    vboxlog_msg("ERROR: VM task failed to pause, rescheduling task for a later time.");
                     pVM->poweroff();
                     boinc_temporary_exit(86400, "VM job unmanageable, restarting later.");
                }
@@ -1346,11 +962,7 @@ int main(int argc, char** argv) {
             if (pVM->suspended) {
                 retval = pVM->resume();
                 if (retval && (VBOX_E_INVALID_OBJECT_STATE == retval)) {
-                    fprintf(
-                        stderr,
-                        "%s ERROR: VM task failed to resume, rescheduling task for a later time.\n",
-                        vboxwrapper_msg_prefix(buf, sizeof(buf))
-                    );
+                    vboxlog_msg("ERROR: VM task failed to resume, rescheduling task for a later time.");
                     pVM->poweroff();
                     boinc_temporary_exit(86400, "VM job unmanageable, restarting later.");
                }
@@ -1383,40 +995,15 @@ int main(int argc, char** argv) {
             if ((elapsed_time - last_status_report_time) >= 6000.0) {
                 last_status_report_time = elapsed_time;
                 if (pVM->job_duration) {
-                    fprintf(
-                        stderr,
-                        "%s Status Report: Job Duration: '%f'\n",
-                        vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                        pVM->job_duration
-                    );
+                    vboxlog_msg("Status Report: Job Duration: '%f'", pVM->job_duration);
                 }
                 if (elapsed_time) {
-                    fprintf(
-                        stderr,
-                        "%s Status Report: Elapsed Time: '%f'\n",
-                        vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                        elapsed_time
-                    );
+                    vboxlog_msg("Status Report: Elapsed Time: '%f'", elapsed_time);
                 }
-                fprintf(
-                    stderr,
-                    "%s Status Report: CPU Time: '%f'\n",
-                    vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                    current_cpu_time
-                );
+                vboxlog_msg("Status Report: CPU Time: '%f'", current_cpu_time);
                 if (aid.global_prefs.daily_xfer_limit_mb) {
-                    fprintf(
-                        stderr,
-                        "%s Status Report: Network Bytes Sent (Total): '%f'\n",
-                        vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                        bytes_sent
-                    );
-                    fprintf(
-                        stderr,
-                        "%s Status Report: Network Bytes Received (Total): '%f'\n",
-                        vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                        bytes_received
-                    );
+                    vboxlog_msg("Status Report: Network Bytes Sent (Total): '%f'", bytes_sent);
+                    vboxlog_msg("Status Report: Network Bytes Received (Total): '%f'", bytes_received);
                 }
 
                 pVM->dump_hypervisor_status_reports();
@@ -1437,18 +1024,13 @@ int main(int argc, char** argv) {
                         // Let BOINC clean-up the environment which should release any file/mutex locks and then attempt
                         // to resume from a previous snapshot.
                         //
-                        fprintf(
-                            stderr,
-                            "%s ERROR: Checkpoint maintenance failed, rescheduling task for a later time. (%d)\n",
-                            vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                            retval
-                        );
+                        vboxlog_msg("ERROR: Checkpoint maintenance failed, rescheduling task for a later time. (%d)", retval);
                         pVM->poweroff();
                         boinc_temporary_exit(86400, "VM job unmanageable, restarting later.");
                     } else {
                         // tell BOINC we've successfully created a checkpoint.
                         //
-                        write_checkpoint(elapsed_time, current_cpu_time, *pVM);
+                        checkpoint.update(elapsed_time, current_cpu_time);
                         last_checkpoint_elapsed_time = elapsed_time;
                         last_checkpoint_cpu_time = current_cpu_time;
                         boinc_checkpoint_completed();
@@ -1459,28 +1041,19 @@ int main(int argc, char** argv) {
             // send elapsed-time trickle message if needed
             //
             if (trickle_period) {
-                check_trickle_period();
+                check_trickle_period(elapsed_time, trickle_period);
             }
 
             if (boinc_status.reread_init_data_file) {
                 boinc_status.reread_init_data_file = false;
 
-                fprintf(
-                    stderr,
-                    "%s Preference change detected\n",
-                    vboxwrapper_msg_prefix(buf, sizeof(buf))
-                );
+                vboxlog_msg("Preference change detected");
 
                 boinc_parse_init_data_file();
                 boinc_get_init_data_p(&aid);
                 set_throttles(aid, *pVM);
 
-                fprintf(
-                    stderr,
-                    "%s Checkpoint Interval is now %d seconds.\n",
-                    vboxwrapper_msg_prefix(buf, sizeof(buf)),
-                    (int)aid.checkpoint_period
-                );
+                vboxlog_msg("Checkpoint Interval is now %d seconds.", (int)aid.checkpoint_period);
             }
 
             // if the VM has a maximum amount of time it is allowed to run,
@@ -1589,6 +1162,8 @@ int main(int argc, char** argv) {
     WSACleanup();
 #endif
 #endif
+
+    return 0;
 }
 
 #ifdef _WIN32

@@ -268,7 +268,7 @@ void CTermsOfUsePage::OnPageChanging( wxWizardExEvent& event ) {
         // Determine if the account settings are already pre-populated.
         //   If so, advance to the Account Manager Processing page or the
         //   Project Processing page.
-        if ( pWA->m_bCredentialsCached || pWA->m_bCredentialsDetected) {
+        if ( pWA->IsCredentialsCached() || pWA->IsCredentialsDetected()) {
             SetCredentialsAlreadyAvailable(true);
         } else {
             SetCredentialsAlreadyAvailable(false);

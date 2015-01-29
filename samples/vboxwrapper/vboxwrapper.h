@@ -28,12 +28,6 @@
 #define FLOPPY_IMAGE_FILENAME_EXTENSION "img"
 #define CACHE_DISK_FILENAME "vm_cache.vdi"
 #define ISO_IMAGE_FILENAME "vm_isocontext.iso"
-#define JOB_FILENAME "vbox_job.xml"
-#define CHECKPOINT_FILENAME "vbox_checkpoint.txt"
-#define REMOTEDESKTOP_FILENAME "vbox_remote_desktop.xml"
 #define POLL_PERIOD 1.0
-
-extern bool is_boinc_client_version_newer(APP_INIT_DATA& aid, int maj, int min, int rel);
-extern char* vboxwrapper_msg_prefix(char*, int);
 
 #endif

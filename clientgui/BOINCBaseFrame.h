@@ -59,6 +59,7 @@ public:
     void                OnInitialized( CFrameEvent& event );
 
     virtual void        OnAlert( CFrameAlertEvent& event );
+    virtual void        OnActivate( wxActivateEvent& event );
     virtual void        OnClose( wxCloseEvent& event );
     virtual void        OnCloseWindow( wxCommandEvent& event );
     virtual void        OnExit( wxCommandEvent& event );

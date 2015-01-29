@@ -23,6 +23,8 @@
 #include <vector>
 #include <regex.h>
 
+// if you add anything here, initialize if in the constructor
+//
 struct PLAN_CLASS_SPEC {
     char name[256];
     char gpu_type[256];
@@ -41,7 +43,10 @@ struct PLAN_CLASS_SPEC {
     bool have_cpu_vendor_regex;
     regex_t cpu_vendor_regex;
     double min_os_version;
+        // Win versions can be 9 digits; may as well be safe
     double max_os_version;
+    int min_android_version;
+    int max_android_version;
     char project_prefs_tag[256];
     bool have_project_prefs_regex;
     regex_t project_prefs_regex;

@@ -91,16 +91,16 @@ $biomed = array(
             "",
             "Study and design RNA molecules"
         ),
-//        array(
-//            "FightMalaria@Home",
-//            "http://boinc.ucd.ie/fmah/",
-//            tra("University College Dublin"),
-//            tra("Antimalarial drug discovery"),
-//            tra("The parasite that causes malaria continues to evolve resistance to available medication. We therefore urgently need to discover new drugs to replace existing drugs. Importantly, these new drugs need to target NEW proteins in the parasite. The FightMalaria@Home project is aimed at finding these new targets."),
-//            "FMAH_banner3_wt.png",
-//            "",
-//            "Develop malaria drugs"
-//        ),
+        array(
+            "FightNeglectedDiseases@Home",
+            "http://findah.ucd.ie/",
+            tra("University College Dublin"),
+            tra("Antimalarial drug discovery"),
+            tra("The parasite that causes malaria continues to evolve resistance to available medication. We therefore urgently need to discover new drugs, targeting new proteins in the parasite. The FightNeglectedDiseases@Home project is aimed at finding these new targets."),
+            "",
+            "",
+            "Develop malaria drugs"
+        ),
         array(
             "POEM@HOME",
             "http://boinc.fzk.de/poem/",
@@ -205,16 +205,16 @@ $biomed = array(
             "",
             "Study diseases such as HIV, malaria, cancer, and Alzheimer's"
         ),
-        array(
-            "SIMAP",
-            "http://boincsimap.org/boincsimap/",
-            tra("University of Vienna"),
-            tra("Biology"),
-            tra("Calculate similarities between proteins. SIMAP provides a public database of the resulting data, which plays a key role in many bioinformatics research projects."),
-            "simaplogo.jpg",
-            "",
-            "Calculate similarities between proteins"
-        ),
+//        array(
+//            "SIMAP",
+//            "http://boincsimap.org/boincsimap/",
+//            tra("University of Vienna"),
+//            tra("Biology"),
+//            tra("Calculate similarities between proteins. SIMAP provides a public database of the resulting data, which plays a key role in many bioinformatics research projects."),
+//            "simaplogo.jpg",
+//            "",
+//            "Calculate similarities between proteins"
+//        ),
     ),
 );
 $earth = array(
@@ -422,6 +422,16 @@ $mixed = array(
     tra("Multiple applications"),
     array(
         array(
+            "Citizen Science Grid",
+            "http://volunteer.cs.und.edu/csg/",
+            "University of North Dakota",
+            "Molecular biology, Computer Science",
+            "The Citizen Science Grid is dedicated to supporting a wide range of research and educational projects using volunteer computing and citizen science.",
+            "",
+            "",
+            "Support science from the University of North Dakota"
+        ),
+        array(
             "CAS@home",
             "http://casathome.ihep.ac.cn/",
             tra("Chinese Academy of Sciences"),
@@ -476,16 +486,16 @@ $mixed = array(
 $math = array(
     tra("Mathematics, computing, and games"),
     array(
-        array(
-            "SubsetSum@Home",
-            "http://volunteer.cs.und.edu/subset_sum/",
-            "University of North Dakota, Computer Science Department",
-            tra("Computer Science"),
-            "Research in computational complexity",
-            "",
-            "",
-            "Study the Subset Sum problem"
-        ),
+//        array(
+//            "SubsetSum@Home",
+//            "http://volunteer.cs.und.edu/subset_sum/",
+//            "University of North Dakota, Computer Science Department",
+//            tra("Computer Science"),
+//            "Research in computational complexity",
+//            "",
+//            "",
+//            "Study the Subset Sum problem"
+//        ),
         array(
             "OProject@Home",
             "http://oproject.info/",
@@ -506,16 +516,16 @@ $math = array(
             "",
             "Do research in algebraic number theory"
         ),
-        array(
-            "VolPEx",
-            "http://volpex.cs.uh.edu/VCP/",
-            "University of Houston",
-            "Computer science",
-            "Creating effective parallel computing on multiple volatile nodes. Apply research on REMD Protein Folding.",
-            "",
-            "",
-            "Study parallel computing across multiple computers"
-        ),
+//        array(
+//            "VolPEx",
+//            "http://volpex.cs.uh.edu/VCP/",
+//            "University of Houston",
+//            "Computer science",
+//            "Creating effective parallel computing on multiple volatile nodes. Apply research on REMD Protein Folding.",
+//            "",
+//            "",
+//            "Study parallel computing across multiple computers"
+//        ),
         array(
             "SAT@home",
             "http://sat.isa.ru/pdsat/",
@@ -535,16 +545,16 @@ $math = array(
 //
 //            "mersenne_logo80.png"
 //        ),
-        array(
-            "DistrRTgen",
-            "http://boinc.freerainbowtables.com/distrrtgen/",
-            "Private",
-            tra("Cryptography"),
-            "To give the world's security experts the best tools available for detecting weak hashes. This can help them to force developers to use more secure methods of password protection.",
-            "freerainbowtables_logo.png",
-            "",
-            "Study hash functions"
-        ),
+//        array(
+//            "DistrRTgen",
+//            "http://boinc.freerainbowtables.com/distrrtgen/",
+//            "Private",
+//            tra("Cryptography"),
+//            "To give the world's security experts the best tools available for detecting weak hashes. This can help them to force developers to use more secure methods of password protection.",
+//            "freerainbowtables_logo.png",
+//            "",
+//            "Study hash functions"
+//        ),
         array(
             "Moo! Wrapper",
             "http://moowrap.net/",
@@ -585,16 +595,16 @@ $math = array(
             "",
             "Study the factorization of large integers"
         ),
-        array(
-            "VTU@home",
-            "http://boinc.vgtu.lt/vtuathome/",
-            tra("Vilnius Gediminas Technical University and Kaunas University of Technology (Lithuania)"),
-            tra("Software testing"),
-            tra("The aim of this project is to provide a powerful distributed computing platform for scientists of Vilnius Gediminas Technical University (VGTU) as well as others Lithuanian academic institutions.  Current applications involve the study of Monte-Carlo based software testing."),
-            "vtuathome-white.gif",
-            "",
-            "Help Lithuanian researchers"
-        ),
+//        array(
+//            "VTU@home",
+//            "http://boinc.vgtu.lt/vtuathome/",
+//            tra("Vilnius Gediminas Technical University and Kaunas University of Technology (Lithuania)"),
+//            tra("Software testing"),
+//            tra("The aim of this project is to provide a powerful distributed computing platform for scientists of Vilnius Gediminas Technical University (VGTU) as well as others Lithuanian academic institutions.  Current applications involve the study of Monte-Carlo based software testing."),
+//            "vtuathome-white.gif",
+//            "",
+//            "Help Lithuanian researchers"
+//        ),
 //        array(
 //            "AQUA@home",
 //            "http://aqua.dwavesys.com/",
@@ -701,6 +711,16 @@ $math = array(
 //            tra("Surveill@Home is a research project that conducts end-to-end fine-grained monitoring of web sites.  The project will deploy thousands of probes, each of which repeatedly performs transactions on web sites.  This approach provides end-user failure and performance statistics."),
 //            "surveill.png"
 //        ),
+        array(
+            "Gerasim@Home",
+            "http://gerasim.boinc.ru/",
+            "Southwest State University (Russia)",
+            "Computer engineering",
+            "Testing and comparison of heuristic methods for getting separations of parallel algorithms working in the CAD system for designing logic control systems",
+            "gerasim.gif",
+            "",
+            "",
+        ),
     ),
 );
 

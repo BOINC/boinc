@@ -62,7 +62,7 @@ function show_nav() {
         <li> [Link to page describing your research in detail]
         <li> [Link to page listing project personnel, and an email address]
         </ul>
-        <h2 class=headline>Join ".PROJECT."</h2>
+        <h2 class=headline>Participate</h2>
         <ul>
     ";
     if ($no_computing) {
@@ -77,21 +77,13 @@ function show_nav() {
         echo "
             <li><a href=\"info.php\">".tra("Read our rules and policies")."</a>
         ";
-        if (!$disable_acct) {
-            echo "
-                <li> This project uses BOINC.
-                    If you're already running BOINC, select Add Project.
-                    If not, <a target=\"_new\" href=\"http://boinc.berkeley.edu/download.php\">download BOINC</a>.
-                <li> When prompted, enter <br><b>".$master_url."</b>
-            ";
-            if (!$no_web_account_creation) {
-                echo "
-                    <li> If you're running a command-line version of BOINC,
-                        <a href=\"create_account_form.php\">create an account</a> first.
-                ";
-            }
+        if (0) {
+            echo "<li>";
+            show_button("register.php", "Join", null, "btn btn-green");
         } else {
-            echo "<li> This project is not currently accepting new accounts.";
+            echo "<li> <a href=http://boinc.berkeley.edu/download.php>Download</a> and run BOINC.
+                <li> Choose Add Project
+            ";
         }
         echo "
             <li> If you have any problems,
@@ -160,6 +152,10 @@ echo "<html>
     <link rel=\"alternate\" type=\"application/rss+xml\" title=\"".$rssname."\" href=\"".$rsslink."\">
 ";
 include 'schedulers.txt';
+    if (defined("SHORTCUT_ICON")) {
+        echo '<link rel="icon" type="image/x-icon", href="'.SHORTCUT_ICON.'"/>'
+;
+    }
 echo "
     </head><body>
     <div class=page_title>".PROJECT."</div>

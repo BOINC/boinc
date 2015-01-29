@@ -92,7 +92,7 @@ th {
 
 td {
     vertical-align: top;
-    padding: 4px;
+    padding: 2px;
 }
 
 td.bordered {
@@ -106,15 +106,17 @@ th, td.heading {
     padding: 8px;
 }
 
-th.heading2 {
+th.subheading {
+    text-align: left;
     font-weight: normal;
+    font-size: small;
     font-style: italic;
 }
 
 td.fieldname {
     text-align: right;
     padding-right: 10px;
-    font-size: 14px;
+    /* font-size: 14px; */
     margin: 2px 0;
 }
 
@@ -398,7 +400,7 @@ span.inboxunread {
 .pre {
     font-family: "Courier New", courier, monospace;
     display: block;
-    white-space: pre;
+#white-space: pre;
     overflow: auto;
 }
 
@@ -409,7 +411,7 @@ span.inboxunread {
     border-left-width: 3px;
     border-left-style: solid;
     padding-left: 1em;
-    white-space: pre;
+#white-space: pre;
     overflow: auto;
 }
 

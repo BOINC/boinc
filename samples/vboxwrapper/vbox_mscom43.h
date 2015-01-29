@@ -19,11 +19,6 @@
 #ifndef _VBOX_MSCOM43_H_
 #define _VBOX_MSCOM43_H_
 
-#include <windows.h>
-#include "atlcomcli.h"
-#include "atlsafe.h"
-#include "atlcoll.h"
-#include "atlstr.h"
 #include "floppyio.h"
 #include "vbox_common.h"
 

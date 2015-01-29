@@ -197,7 +197,7 @@ bool CBOINCClientManager::IsBOINCCoreRunning() {
     if (retval) return false;     // Should never happen
     
     PROC_MAP::iterator i;
-    for (i=pm.begin(); i!=pm.end(); i++) {
+    for (i=pm.begin(); i!=pm.end(); ++i) {
         PROCINFO& pi = i->second;
         if (!strcmp(pi.command, "boinc")) {
             running = true;
@@ -445,7 +445,7 @@ void CBOINCClientManager::KillClient() {
 	if (retval) return;     // Should never happen
     
     PROC_MAP::iterator i;
-    for (i=pm.begin(); i!=pm.end(); i++) {
+    for (i=pm.begin(); i!=pm.end(); ++i) {
         PROCINFO& procinfo = i->second;
         if (!strcmp(procinfo.command, "boinc")) {
             kill_program(procinfo.id);

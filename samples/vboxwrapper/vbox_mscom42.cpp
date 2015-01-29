@@ -19,6 +19,10 @@
 #define _VIRTUALBOX_IMPORT_FUNCTIONS_
 
 #include "boinc_win.h"
+#include "atlcomcli.h"
+#include "atlsafe.h"
+#include "atlcoll.h"
+#include "atlstr.h"
 #include "win_util.h"
 #include "diagnostics.h"
 #include "filesys.h"
@@ -31,6 +35,7 @@
 #include "network.h"
 #include "boinc_api.h"
 #include "floppyio.h"
+#include "vboxlogging.h"
 #include "vboxwrapper.h"
 #include "vbox_mscom42.h"
 
@@ -38,9 +43,6 @@
 #if defined(_MSC_VER) || defined(__MINGW32__)
 #define stricmp     _stricmp
 #endif
-
-//#include "mscom42/VirtualBox.h"
-//#include "mscom42/VirtualBox_i.c"
 
 #import "file:vbox42.tlb" rename_namespace("vbox42"), named_guids, raw_interfaces_only
 

@@ -654,10 +654,8 @@ void CSimpleFrame::OnProjectsAttachToProject() {
 
         CWizardAttach* pWizard = new CWizardAttach(this);
 
-        wxString strName = wxEmptyString;
         wxString strURL = wxEmptyString;
-        wxString strTeamName = wxEmptyString;
-        pWizard->Run( strName, strURL, strTeamName, false );
+        pWizard->Run(strURL, false);
 
         if (pWizard)
             pWizard->Destroy();
@@ -714,23 +712,25 @@ void CSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
             strProjectName, strProjectURL, strProjectAuthenticator, strProjectInstitution, strProjectDescription, strProjectKnown
         )
     ){
-        wasShown = IsShown();
-        Show();
-        wasVisible = wxGetApp().IsApplicationVisible();
-        if (!wasVisible) {
-            wxGetApp().ShowApplication(true);
-        }
+        if (!pDoc->project((char*)strProjectURL.c_str())) {
+            wasShown = IsShown();
+            Show();
+            wasVisible = wxGetApp().IsApplicationVisible();
+            if (!wasVisible) {
+                wxGetApp().ShowApplication(true);
+            }
         
-        pWizard = new CWizardAttach(this);
+            pWizard = new CWizardAttach(this);
 
-        pWizard->RunSimpleProjectAttach(
-            wxURI::Unescape(strProjectName),
-            wxURI::Unescape(strProjectURL),
-            wxURI::Unescape(strProjectAuthenticator),
-            wxURI::Unescape(strProjectInstitution),
-            wxURI::Unescape(strProjectDescription),
-            wxURI::Unescape(strProjectKnown)
-        );
+            pWizard->RunSimpleProjectAttach(
+                wxURI::Unescape(strProjectName),
+                wxURI::Unescape(strProjectURL),
+                wxURI::Unescape(strProjectAuthenticator),
+                wxURI::Unescape(strProjectInstitution),
+                wxURI::Unescape(strProjectDescription),
+                wxURI::Unescape(strProjectKnown)
+            );
+        }
     } else if (ami.acct_mgr_url.size() && ami.have_credentials) {
         // Fall through
         //
@@ -747,6 +747,7 @@ void CSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
 
         pWizard = new CWizardAttach(this);
         if (pWizard->SyncToAccountManager()) {
+
             // _GRIDREPUBLIC, _PROGRESSTHRUPROCESSORS and _CHARITYENGINE
             // are defined for those branded builds on Windows only
 #if defined(_GRIDREPUBLIC) || defined(_PROGRESSTHRUPROCESSORS) || defined(_CHARITYENGINE) || defined(__WXMAC__)
@@ -779,13 +780,11 @@ void CSimpleFrame::OnConnect(CFrameEvent& WXUNUSED(event)) {
         Show();
         wxGetApp().ShowApplication(true);
 
-        strName = wxString(pis.name.c_str(), wxConvUTF8);
         strURL = wxString(pis.url.c_str(), wxConvUTF8);
-        strTeamName = wxString(pis.team_name.c_str(), wxConvUTF8);
         bCachedCredentials = pis.url.length() && pis.has_account_key;
 
         pWizard = new CWizardAttach(this);
-        pWizard->Run(strName, strURL, strTeamName, bCachedCredentials);
+        pWizard->Run(strURL, bCachedCredentials);
     }
 
  	if (pWizard) {

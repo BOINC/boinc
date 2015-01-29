@@ -1,7 +1,7 @@
 <?php
 // This file is part of BOINC.
 // http://boinc.berkeley.edu
-// Copyright (C) 2008 University of California
+// Copyright (C) 2014 University of California
 //
 // BOINC is free software; you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License
@@ -22,10 +22,9 @@ require_once("../inc/user.inc");
 
 check_get_args(array());
 
-$auth = post_str("auth", true);
+$user = get_logged_in_user();
 $email_addr = strtolower(post_str("email_addr", true));
 
-$old_passwd = post_str("old_passwd", true);
 $passwd = post_str("passwd");
 $passwd2 = post_str("passwd2");
 
@@ -41,33 +40,18 @@ if (!is_ascii($passwd)) {
     error_page(tra("Passwords may only include ASCII characters."));
 }
 
-if (strlen($passwd)<$min_passwd_length) {
+if (strlen($passwd) < $min_passwd_length) {
     error_page(tra("New password is too short: minimum password length is %1 characters.", $min_passwd_length));
 }
-if ($auth) {
-    $user = BoincUser::lookup_auth($auth);
-    if (!$user) {
-        error_page(tra("Invalid account key"));
-    }
-} else {
-    $user = BoincUser::lookup_email_addr($email_addr);
-    if (!$user) {
-        error_page(tra("No account with that email address was found"));
-    }
-    $passwd_hash = md5($old_passwd.$email_addr);
-    if ($user->passwd_hash != $passwd_hash) {
-        error_page(tra("Invalid password"));
-    }
+
+$passwd_hash = md5($passwd.$user->email_addr);
+$result = $user->update("passwd_hash='$passwd_hash'");
+if (!$result) {
+    error_page(tra("We can't update your password due to a database problem. Please try again later."));
 }
 
 page_head(tra("Change password"));
-$passwd_hash = md5($passwd.$user->email_addr);
-$result = $user->update("passwd_hash='$passwd_hash'");
-if ($result) {
-    echo tra("Your password has been changed.");
-} else {
-    echo tra("We can't update your password due to a database problem. Please try again later.");
-}
-
+echo tra("Your password has been changed.");
 page_tail();
+
 ?>

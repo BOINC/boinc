@@ -218,6 +218,10 @@ function page_head(
     if ($stylesheet2) {
         echo "<link rel=stylesheet type=\"text/css\" href=\"$stylesheet2\">\n";
     }
+    if (defined("SHORTCUT_ICON")) {
+        echo '<link rel="icon" type="image/x-icon", href="'.SHORTCUT_ICON.'"/>
+';
+    }
     echo "
         <link rel=alternate type=\"application/rss+xml\" title=\"$rssname\" href=\"$rsslink\">
         </head>
@@ -241,11 +245,6 @@ function page_head(
 
 }
 }
-
-// the following must be included in header
-// for Recaptcha to work with some IE browsers
-//
-define('IE_COMPAT_MODE', '<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8" >');
 
 function page_tail_aux($show_return, $show_date, $prefix="") {
     project_footer($show_return, $show_date, $prefix);
@@ -978,29 +977,37 @@ function textarea_with_counter($name, $maxlen, $text) {
     ;
 }
 
-// return the URL for a "join" button that downloads the client
-// with cookies that streamline the registration process
+// convert number MMmmrr to string MM.mm.rr
 //
-function join_url() {
-    $master_url = parse_config(get_config(), "<master_url>");
-    $project_name = parse_config(get_config(), "<long_name>");
-    $project_desc = parse_config(get_config(), "<project_desc>");
-    $project_inst = parse_config(get_config(), "<project_inst>");
-    $user = get_logged_in_user(false);
-    $x =  "http://boinc.berkeley.edu/concierge.php";
-    $x .= "?master_url=".urlencode($master_url);
-    $x .= "&project_name=".urlencode($project_name);
-    if ($project_desc) {
-        $x .= "&project_desc=".urlencode($project_desc);
+function version_string_maj_min_rel($v) {
+    $maj = (int)($v/10000);
+    $v -= $maj*10000;
+    $min = (int)($v/100);
+    $v -= $min*100;
+    return sprintf("%d.%d.%d", $maj, $min, $v);
+}
+
+// recaptcha utilities
+
+function recaptcha_get_head_extra() {
+    // are we using recaptcha?
+    $publickey = parse_config(get_config(), "<recaptcha_public_key>");
+    if ($publickey) {
+        // the meta tag must be included
+        // for Recaptcha to work with some IE browsers
+        return '<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8" >
+        <script src="https://www.google.com/recaptcha/api.js" async defer></script>';
+    } else {
+        return null;
     }
-    if ($project_inst) {
-        $x .= "&project_inst=".urlencode($project_inst);
+}
+
+function recaptcha_get_html($publickey) {
+    if ($publickey) {
+        return '<div class="g-recaptcha" data-sitekey="' . $publickey . '"></div>';
+    } else {
+        return '';
     }
-    if ($user) {
-        $x .= "&auth=".urlencode($user->authenticator);
-        $x .= "&user_name=".urlencode($user->name);
-    }
-    return $x;
 }
 
 $cvs_version_tracker[]="\$Id$";  //Generated automatically - do not edit

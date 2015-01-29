@@ -442,7 +442,7 @@ int CHUNK::start_upload_from_host(VDA_CHUNK_HOST& ch) {
 int CHUNK::start_upload() {
     VDA_CHUNK_HOST* chp;
     set<VDA_CHUNK_HOST*>::iterator i;
-    for (i=hosts.begin(); i!=hosts.end(); i++) {
+    for (i=hosts.begin(); i!=hosts.end(); ++i) {
         chp = *i;
         if (chp->transfer_in_progress) return 0;
     }
@@ -458,7 +458,7 @@ int CHUNK::upload_all() {
 
     VDA_CHUNK_HOST* chp;
     set<VDA_CHUNK_HOST*>::iterator i;
-    for (i=hosts.begin(); i!=hosts.end(); i++) {
+    for (i=hosts.begin(); i!=hosts.end(); ++i) {
         chp = *i;
         if (chp->transfer_in_progress) continue;
         int retval = start_upload_from_host(*chp);

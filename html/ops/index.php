@@ -108,7 +108,8 @@ echo "
         <li><a href=\"manage_app_versions.php\">Manage application versions</a></li>
         <li> Manage jobs
         <ul>
-            <li><a href=\"cancel_wu_form.php\">Cancel jobs</a>
+            <li><a href=\"cancel_wu_form.php\">Cancel jobs by ID</a>
+            <li><a href=\"cancel_workunits.php\">Cancel jobs by SQL clause</a>
             <li><a href=transition_all.php>Transition jobs</a>
               <p class=\"text-muted\">(this can 'unstick' old jobs)</p>
             <li><a href=\"revalidate.php\">Re-validate jobs</a>

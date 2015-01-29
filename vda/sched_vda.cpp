@@ -327,7 +327,7 @@ static void process_chunk_present_on_client(FILE_INFO& fi, CHUNK_LIST& chunks) {
 //
 static int process_chunks_missing_on_client(CHUNK_LIST& chunks) {
     CHUNK_LIST::iterator it;
-    for (it = chunks.begin(); it != chunks.end(); it++) {
+    for (it = chunks.begin(); it != chunks.end(); ++it) {
         DB_VDA_CHUNK_HOST& ch = it->second;
         if (!ch.present_on_host && ch.transfer_in_progress) continue;
         if (!ch.found) {
@@ -382,7 +382,7 @@ static int enforce_quota(CHUNK_LIST& chunks) {
         vf.lookup_id(ch.vda_file_id);
         x -= vf.chunk_size;
         g_reply->file_deletes.push_back(fi);
-        it++;
+        ++it;
     }
     return 0;
 }
@@ -407,7 +407,7 @@ static int issue_transfer_commands(CHUNK_LIST& chunks) {
     char url[1024], buf[1024];
 
     CHUNK_LIST::iterator it;
-    for (it = chunks.begin(); it != chunks.end(); it++) {
+    for (it = chunks.begin(); it != chunks.end(); ++it) {
         vector<const char*> urls;
         DB_VDA_CHUNK_HOST& ch = it->second;
         if (!ch.transfer_in_progress) continue;

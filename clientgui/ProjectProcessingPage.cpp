@@ -149,14 +149,14 @@ void CProjectProcessingPage::CreateControls()
     itemFlexGridSizer40->AddGrowableCol(2);
     itemBoxSizer37->Add(itemFlexGridSizer40, 0, wxGROW|wxALL, 5);
 
-    itemFlexGridSizer40->Add(5, 5, 0, wxGROW|wxGROW|wxALL, 5);
+    itemFlexGridSizer40->Add(5, 5, 0, wxGROW|wxALL, 5);
 
     wxBitmap itemBitmap41(GetBitmapResource(wxT("res/wizprogress01.xpm")));
     m_pProgressIndicator = new wxStaticBitmap;
     m_pProgressIndicator->Create( itemWizardPage36, ID_PROGRESSCTRL, itemBitmap41, wxDefaultPosition, wxSize(ADJUSTFORXDPI(184), ADJUSTFORYDPI(48)), 0 );
     itemFlexGridSizer40->Add(m_pProgressIndicator, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    itemFlexGridSizer40->Add(5, 5, 0, wxGROW|wxGROW|wxALL, 5);
+    itemFlexGridSizer40->Add(5, 5, 0, wxGROW|wxALL, 5);
 ////@end CProjectProcessingPage content construction
 }
   
@@ -387,14 +387,13 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSE
             } else if (!pWA->project_config.master_url.empty()) {
                 ai->url = pWA->project_config.master_url;
             } else {
-                ai->url = (const char*)pWA->m_ProjectInfoPage->GetProjectURL().mb_str();
+                ai->url = (const char*)pWA->GetProjectURL().mb_str();
             }
 
             if (!pWA->GetProjectAuthenticator().IsEmpty() || 
-                pWA->m_bCredentialsCached || 
-                pWA->m_bCredentialsDetected
+                pWA->IsCredentialsCached() || pWA->IsCredentialsDetected()
             ) {
-                if (!pWA->m_bCredentialsCached || pWA->m_bCredentialsDetected) {
+                if (!pWA->IsCredentialsCached() || pWA->IsCredentialsDetected()) {
                     ao->authenticator = (const char*)pWA->GetProjectAuthenticator().mb_str();
                 }
                 SetProjectCommunicationsSucceeded(true);
@@ -402,11 +401,11 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSE
                 // Setup initial values for both the create and lookup API
 
                 if (pWA->project_config.uses_username) {
-                    ai->email_addr = (const char*)pWA->m_AccountInfoPage->GetAccountUsername().mb_str();
+                    ai->email_addr = (const char*)pWA->GetAccountUsername().mb_str();
                 } else {
-                    ai->email_addr = (const char*)pWA->m_AccountInfoPage->GetAccountEmailAddress().mb_str();
+                    ai->email_addr = (const char*)pWA->GetAccountEmailAddress().mb_str();
                 }
-                ai->passwd = (const char*)pWA->m_AccountInfoPage->GetAccountPassword().mb_str();
+                ai->passwd = (const char*)pWA->GetAccountPassword().mb_str();
                 ai->user_name = (const char*)::wxGetUserName().mb_str();
                 if (ai->user_name.empty()) {
                     ai->user_name = (const char*)::wxGetUserId().mb_str();
@@ -540,14 +539,14 @@ void CProjectProcessingPage::OnStateChange( CProjectProcessingPageEvent& WXUNUSE
                     !CHECK_CLOSINGINPROGRESS()
                 ) {
                     if (ERR_RETRY == reply.error_num) {
-                        if (pWA->m_bCredentialsCached) {
+                        if (pWA->IsCredentialsCached()) {
                             pDoc->rpc.project_attach_from_file();
                         } else {
                             std::string master_url;
                             if (!pWA->project_config.master_url.empty()) {
                                 master_url = pWA->project_config.master_url;
                             } else {
-                                master_url = (const char*)pWA->m_ProjectInfoPage->GetProjectURL().mb_str();
+                                master_url = (const char*)pWA->GetProjectURL().mb_str();
                             }
                             pDoc->rpc.project_attach(
                                 master_url.c_str(),

@@ -224,7 +224,7 @@ private:
 public:
     int                         CachedProjectStatusUpdate(bool bForce = false);
     PROJECT*                    project(unsigned int);
-	PROJECT* project(char* url);
+	PROJECT*                    project(char* url);
     float                       m_fProjectTotalResourceShare;
 
     int                         GetProjectCount();

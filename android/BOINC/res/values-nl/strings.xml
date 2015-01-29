@@ -112,7 +112,6 @@
   <string name="prefs_category_memory">Geheugen</string>
   <string name="prefs_category_debug">Foutoplossing</string>
   <string name="prefs_show_advanced_header">Toon geavanceerde voorkeuren en instellingen...</string>
-  <string name="prefs_run_on_battery_header">Rekenen op Batterij</string>
   <string name="battery_charge_min_pct_header">Min. batterijniveau</string>
   <string name="battery_charge_min_pct_description">BOINC pauzeert de berekening wanneer de batterijlading onder een gegeven niveau zakt.</string>
   <string name="battery_temperature_max_header">Max. batterij temperatuur</string>
@@ -125,7 +124,6 @@
   <string name="prefs_network_daily_xfer_limit_mb_description">Beperkt het dagelijkse dataverkeer van BOINC.</string>
   <string name="prefs_network_wifi_only_header">Taken alleen bijwerken via WiFi</string>
   <string name="prefs_autostart_header">Autostart</string>
-  <string name="prefs_show_notification_header">Laat bericht zien indien opgeschort</string>
   <string name="prefs_cpu_number_cpus_header">Gebruikte CPU cores</string>
   <string name="prefs_cpu_number_cpus_description">Beperkt het aantal gebruikte CPU cores voor BOINC berekeningen.</string>
   <string name="prefs_cpu_other_load_suspension_header">Pauzeer bij CPU gebruik van meer dan</string>

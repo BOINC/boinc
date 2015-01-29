@@ -31,7 +31,8 @@ using std::string;
 
 
 // this returns a numerical OS version for Darwin/OSX and Windows,
-// allowing to define a numerical _range_ for these OS versions
+// letting us define numerical ranges for these OS versions
+//
 static double os_version_num(HOST h) {
     unsigned int a, b, c, d;
     if (strstr(h.os_name, "Darwin")) {
@@ -57,6 +58,15 @@ static double os_version_num(HOST h) {
     return 0;
 }
 
+static int android_version_num(HOST h) {
+    int maj, min, rel;
+    char* p = strstr(h.os_version, "(Android ");
+    if (!p) return 0;
+    p += strlen("(Android ");
+    int n = sscanf(p, "%d.%d.%d", &maj, &min, &rel);
+    if (n != 3) return 0;
+    return maj*10000 + min*100 + rel;
+}
 
 int PLAN_CLASS_SPECS::parse_file(const char* path) {
 #ifndef _USING_FCGI_
@@ -235,6 +245,37 @@ bool PLAN_CLASS_SPEC::check(SCHEDULER_REQUEST& sreq, HOST_USAGE& hu) {
                 log_messages.printf(MSG_NORMAL,
                     "[version] plan_class_spec: OS version '%s' too high (%.0f / %.0f)\n",
                     sreq.host.os_version, host_os_version_num, max_os_version
+                );
+            }
+            return false;
+        }
+    }
+    if (min_android_version || max_android_version) {
+        if (strcasecmp(sreq.host.os_name, "android")) return false;
+        int host_android_version = android_version_num(sreq.host);
+        if (!host_android_version) {
+            if (config.debug_version_select) {
+                log_messages.printf(MSG_NORMAL,
+                    "[version] plan_class_spec: Can't determine numerical Android version '%s'\n",
+                    sreq.host.os_version
+                );
+            }
+            return false;
+        }
+        if (min_android_version && (host_android_version < min_android_version)) {
+            if (config.debug_version_select) {
+                log_messages.printf(MSG_NORMAL,
+                    "[version] plan_class_spec: Android version '%s' too low (%d / %d)\n",
+                    sreq.host.os_version, host_android_version, min_android_version
+                );
+            }
+            return false;
+        }
+        if (max_android_version && (host_android_version > max_android_version)) {
+            if (config.debug_version_select) {
+                log_messages.printf(MSG_NORMAL,
+                    "[version] plan_class_spec: Android version '%s' too high (%d / %d)\n",
+                    sreq.host.os_version, host_android_version, max_android_version
                 );
             }
             return false;
@@ -947,6 +988,8 @@ PLAN_CLASS_SPEC::PLAN_CLASS_SPEC() {
     have_cpu_vendor_regex = false;
     min_os_version = 0;
     max_os_version = 0;
+    min_android_version = 0;
+    max_android_version = 0;
     strcpy(project_prefs_tag, "");
     have_project_prefs_regex = false;
     project_prefs_default_true = false;

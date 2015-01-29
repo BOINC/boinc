@@ -25,18 +25,18 @@
 // your project.inc must define LDAP_HOST and LDAP_BASE_DN
 //
 function ldap_auth($uid, $passwd) {
-    $ad = @ldap_connect("ldap://".LDAP_HOST);
+    $ad = @ldap_connect(LDAP_HOST);
     if (!$ad) {
         return array(null, "Can't connect to LDAP server");
     }
     ldap_set_option($ad, LDAP_OPT_PROTOCOL_VERSION, 3);
     ldap_set_option($ad, LDAP_OPT_REFERRALS, 0);
-    $rn = "uid=$uid,ou=people,".LDAP_BASE_DN;
+    $rn = "uid=$uid,".LDAP_BASE_DN;
     $r = @ldap_bind($ad, $rn, $passwd);
     if (!$r) {
         return array(null, "Invalid credentials");
     }
-    $x = ldap_search($ad, "ou=People,".LDAP_BASE_DN, "uid=$uid");
+    $x = ldap_search($ad, $rn, "(objectclass=*)");
     $x = ldap_get_entries($ad, $x);
 
     $user = new StdClass;

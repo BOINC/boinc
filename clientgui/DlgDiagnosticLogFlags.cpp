@@ -77,7 +77,7 @@ CDlgDiagnosticLogFlags::CDlgDiagnosticLogFlags(wxWindow* parent) :
     SetExtraStyle( GetExtraStyle() | wxWS_EX_VALIDATE_RECURSIVELY );
     
     wxBoxSizer* bSizer1 = new wxBoxSizer( wxVERTICAL );
-    m_headingSizer = new wxGridSizer( 1 );
+    m_headingSizer = new wxFlexGridSizer( 1 );
     
     m_headingText.Printf(
         _("These flags enable various types of diagnostic messages in the Event Log.")
@@ -86,6 +86,21 @@ CDlgDiagnosticLogFlags::CDlgDiagnosticLogFlags(wxWindow* parent) :
     m_heading = new wxStaticText(this, wxID_ANY, m_headingText);
 
     m_headingSizer->Add(m_heading, 1, wxLEFT | wxRIGHT, 25);
+
+    wxString strURL = pSkinAdvanced->GetOrganizationHelpUrl();
+    wxString helpURL;
+    helpURL.Printf(
+            wxT("%s?target=notice&controlid=log_flags"),
+            strURL.c_str()
+        );
+
+     m_headingSizer->Add(
+        new wxHyperlinkCtrl(
+            this, wxID_ANY, _("More info ..."), helpURL,
+            wxDefaultPosition, wxDefaultSize, wxHL_DEFAULT_STYLE
+        ),
+        0, wxLEFT | wxRIGHT, 25
+    );
 
     bSizer1->AddSpacer(7);
     bSizer1->Add( m_headingSizer, 0, wxEXPAND | wxALL, 5 );

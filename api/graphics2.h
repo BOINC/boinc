@@ -18,6 +18,8 @@
 #ifndef _GRAPHICS2_H_
 #define _GRAPHICS2_H_
 
+struct BOINC_STATUS;
+
 // Functions that must be supplied by the app
 //
 extern void app_graphics_render(int xs, int ys, double time_of_day);
@@ -31,10 +33,21 @@ extern void boinc_app_key_release(int, int);
 // Functions that the app can call
 //
 extern void boinc_graphics_loop(int argc, char** argv, const char* title=0);
-extern void* boinc_graphics_make_shmem(const char*, int);
-extern void* boinc_graphics_get_shmem(const char*);
 extern void boinc_set_windows_icon(const char* icon16,const char* icon48);
 extern void boinc_close_window_and_quit(const char*);
+
+// functions for communication between main app and graphics app
+//
+extern void* boinc_graphics_make_shmem(const char*, int);
+extern void* boinc_graphics_get_shmem(const char*);
+extern int boinc_write_graphics_status(
+    double cpu_time, double elapsed_time,
+    double fraction_done
+);
+extern int boinc_parse_graphics_status(
+    double* update_time, double* cpu_time,
+    double* elapsed_time, double* fraction_done, BOINC_STATUS* status
+);
 
 // Implementation stuff
 //

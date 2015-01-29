@@ -1,0 +1,42 @@
+language: cpp
+compiler:
+  - gcc
+  - clang
+
+branches:
+  only:
+    - master
+
+notifications:
+  email:
+    recipients:
+      - boinc_cvs@ssl.berkeley.edu
+    on_success: always
+    on_failure: always
+
+env:
+- BOINC_TYPE=libs
+- BOINC_TYPE=server
+- BOINC_TYPE=client
+#- BOINC_TYPE=manager
+
+matrix:
+  fast_finish: true
+
+before_install:
+- sudo apt-get update -qq
+
+install:
+- sudo apt-get install make m4 pkg-config dh-autoreconf freeglut3-dev libxmu-dev libxi-dev libjpeg62-dev -qq
+- if [[ "${BOINC_TYPE}" == "server" ]]; then ( sudo apt-get install python libssl-dev python-mysqldb libmysqlclient-dev libfcgi-dev -qq ) fi
+- if [[ "${BOINC_TYPE}" == "client" ]]; then ( sudo apt-get install libssl-dev libcurl4-openssl-dev libxss-dev libnotify-dev libxcb-util0-dev -qq ) fi
+- if [[ "${BOINC_TYPE}" == "manager" ]]; then ( sudo apt-get install libssl-dev libxss-dev libnotify-dev libxcb-util0-dev libsqlite3-dev ) fi
+
+before_script:
+- ./_autosetup
+
+script:
+- if [[ "${BOINC_TYPE}" == "libs" ]]; then ( ./configure --disable-server --disable-client --disable-manager && make ) fi
+- if [[ "${BOINC_TYPE}" == "server" ]]; then ( ./configure --disable-client --disable-manager && make ) fi
+- if [[ "${BOINC_TYPE}" == "client" ]]; then ( ./configure --disable-server --disable-manager && make ) fi
+- if [[ "${BOINC_TYPE}" == "manager" ]]; then ( ./configure --disable-server --disable-client && make ) fi

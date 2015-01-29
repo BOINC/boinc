@@ -102,9 +102,6 @@ public:
     /// Gets the next page.
     virtual wxWizardPageEx* GetNext() const;
 
-    wxString GetProjectURL() const { return m_strProjectURL ; }
-    void SetProjectURL(wxString value) { m_strProjectURL = value ; }
-
     /// Retrieves bitmap resources
     wxBitmap GetBitmapResource( const wxString& name );
 
@@ -125,7 +122,6 @@ public:
     wxStaticText* m_pProjectUrlStaticCtrl;
     wxTextCtrl* m_pProjectUrlCtrl;
 ////@end CAccountManagerInfoPage member variables
-    wxString m_strProjectURL;
     bool m_bAccountManagerListPopulated;
 };
 

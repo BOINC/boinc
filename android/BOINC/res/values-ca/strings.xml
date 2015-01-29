@@ -111,7 +111,6 @@
   <string name="prefs_category_memory">Memòria</string>
   <string name="prefs_category_debug">Depura</string>
   <string name="prefs_show_advanced_header">Mostra les preferències i controls avançats...</string>
-  <string name="prefs_run_on_battery_header">Processar amb només Bateria</string>
   <string name="battery_charge_min_pct_header">Nivell mínim de la bateria</string>
   <string name="battery_charge_min_pct_description">BOINC atura la computació si el nivell de càrrega de la bateria per sota del definit.</string>
   <string name="battery_temperature_max_header">Temperatura màxima de la bateria</string>
@@ -124,7 +123,6 @@
   <string name="prefs_network_daily_xfer_limit_mb_description">Limita el tràfic diàri de dades degut a BOINC</string>
   <string name="prefs_network_wifi_only_header">Transferir tasques només amb WiFi</string>
   <string name="prefs_autostart_header">Inici automàtic</string>
-  <string name="prefs_show_notification_header">Mostra una notificació quan estigui suspés</string>
   <string name="prefs_cpu_number_cpus_header">Nuclis de CPU usats</string>
   <string name="prefs_cpu_number_cpus_description">Limita el nombre de nuclis de CPU que BOINC utilitza per la computació.</string>
   <string name="prefs_cpu_other_load_suspension_header">Pausa en l\'ús de la CPU per sobre de</string>

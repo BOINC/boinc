@@ -54,9 +54,9 @@ IMPLEMENT_DYNAMIC_CLASS( CAccountInfoPage, wxWizardPageEx )
 BEGIN_EVENT_TABLE( CAccountInfoPage, wxWizardPageEx )
  
 ////@begin CAccountInfoPage event table entries
-    EVT_WIZARDEX_PAGE_CHANGED( -1, CAccountInfoPage::OnPageChanged )
-    EVT_WIZARDEX_PAGE_CHANGING( -1, CAccountInfoPage::OnPageChanging )
-    EVT_WIZARDEX_CANCEL( -1, CAccountInfoPage::OnCancel )
+    EVT_WIZARDEX_PAGE_CHANGED( wxID_ANY, CAccountInfoPage::OnPageChanged )
+    EVT_WIZARDEX_PAGE_CHANGING( wxID_ANY, CAccountInfoPage::OnPageChanging )
+    EVT_WIZARDEX_CANCEL( wxID_ANY, CAccountInfoPage::OnCancel )
     EVT_RADIOBUTTON( ID_ACCOUNTCREATECTRL, CAccountInfoPage::OnAccountCreateCtrlSelected )
     EVT_RADIOBUTTON( ID_ACCOUNTUSEEXISTINGCTRL, CAccountInfoPage::OnAccountUseExistingCtrlSelected )
 ////@end CAccountInfoPage event table entries
@@ -213,14 +213,6 @@ void CAccountInfoPage::CreateControls()
     m_pAccountForgotPasswordCtrl->Create( itemWizardPage56, ID_ACCOUNTFORGOTPASSWORDCTRL, wxT(" "), wxT(" "), wxDefaultPosition, wxDefaultSize, wxNO_BORDER | wxHL_ALIGN_LEFT | wxHL_CONTEXTMENU );
     itemBoxSizer57->Add(m_pAccountForgotPasswordCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-    // Set validators
-    // m_pAccountEmailAddressCtrl/m_pAccountUsernameCtrl is setup when the OnPageChange event is fired since
-    //   it can be a username or an email address.
-    m_pAccountEmailAddressCtrl->SetValidator( wxTextValidator(wxFILTER_NONE, &m_strAccountEmailAddress) );
-    m_pAccountUsernameCtrl->SetValidator( wxTextValidator(wxFILTER_NONE, &m_strAccountUsername) );
-    m_pAccountPasswordCtrl->SetValidator( wxTextValidator(wxFILTER_NONE, &m_strAccountPassword) );
-    m_pAccountConfirmPasswordCtrl->SetValidator( wxTextValidator(wxFILTER_NONE, &m_strAccountConfirmPassword) );
-    
 #ifdef __WXMAC__
     //Accessibility
     HIViewRef buttonView = (HIViewRef)m_pAccountCreateCtrl->GetHandle();
@@ -306,24 +298,6 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
  
     wxASSERT(pSkinAdvanced);
     wxASSERT(pSkinWizardATAM);
-    wxASSERT(m_pTitleStaticCtrl);
-    wxASSERT(m_pCookieDetectionFailedStaticCtrl);
-    wxASSERT(m_pCookieDetectionFailedCtrl);
-    wxASSERT(m_pAccountQuestionStaticCtrl);
-    wxASSERT(m_pAccountInformationStaticCtrl);
-    wxASSERT(m_pAccountCreateCtrl);
-    wxASSERT(m_pAccountUseExistingCtrl);
-    wxASSERT(m_pAccountEmailAddressStaticCtrl);
-    wxASSERT(m_pAccountEmailAddressCtrl);
-    wxASSERT(m_pAccountUsernameStaticCtrl);
-    wxASSERT(m_pAccountUsernameCtrl);
-    wxASSERT(m_pAccountPasswordStaticCtrl);
-    wxASSERT(m_pAccountPasswordCtrl);
-    wxASSERT(m_pAccountConfirmPasswordStaticCtrl);
-    wxASSERT(m_pAccountConfirmPasswordCtrl);
-    wxASSERT(m_pAccountPasswordRequirmentsStaticCtrl);
-    wxASSERT(m_pAccountManagerLinkLabelStaticCtrl);
-    wxASSERT(m_pAccountForgotPasswordCtrl);
     wxASSERT(wxDynamicCast(pSkinAdvanced, CSkinAdvanced));
     wxASSERT(wxDynamicCast(pSkinWizardATAM, CSkinWizardATAM));
 
@@ -345,7 +319,7 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
     }
 
     if (IS_ACCOUNTMANAGERWIZARD()) {
-        if (!(pWA->m_bCookieRequired && !pWA->m_bCredentialsDetected)) {
+        if (!(pWA->IsCookieRequired() && !pWA->IsCredentialsDetected())) {
             m_pCookieDetectionFailedStaticCtrl->Hide();
             m_pCookieDetectionFailedCtrl->Hide();
         } else {
@@ -362,7 +336,7 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
         m_pAccountConfirmPasswordCtrl->Hide();
         m_pAccountPasswordRequirmentsStaticCtrl->Hide();
 
-        if (pWA->m_bCookieRequired && !pWA->m_bCredentialsDetected) {
+        if (pWA->IsCookieRequired() && !pWA->IsCredentialsDetected()) {
             m_pAccountManagerLinkLabelStaticCtrl->Hide();
             m_pAccountForgotPasswordCtrl->Hide();
         }
@@ -408,7 +382,7 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
             _("&Yes, existing user")
         );
     } else {
-        if (pWA->m_bCookieRequired && !pWA->m_bCredentialsDetected) {
+        if (pWA->IsCookieRequired() && !pWA->IsCredentialsDetected()) {
             m_pCookieDetectionFailedStaticCtrl->SetLabel(
                 _("We were not able to set up your account information\nautomatically.\n\nPlease click on the 'Find login information' link\nbelow to find out what to put in the email address and\npassword fields.")
             );
@@ -416,7 +390,7 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
                 _("Find login information")
             );
             m_pCookieDetectionFailedCtrl->SetURL(
-                pWA->m_strCookieFailureURL
+                pWA->GetCookieFailureURL()
             );
         }
 
@@ -530,7 +504,7 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
             _("Forgot your password?")
         );
         m_pAccountForgotPasswordCtrl->SetURL(
-            wxString(pWA->m_ProjectInfoPage->GetProjectURL() + _T("get_passwd.php"))
+            wxString(pWA->GetProjectURL() + _T("get_passwd.php"))
         );
     } else {
         m_pAccountManagerLinkLabelStaticCtrl->SetLabel(
@@ -540,7 +514,7 @@ void CAccountInfoPage::OnPageChanged( wxWizardExEvent& event ) {
             _("Account manager web site")
         );
         m_pAccountForgotPasswordCtrl->SetURL(
-            wxString(pWA->m_AccountManagerInfoPage->GetProjectURL())
+            wxString(pWA->GetProjectURL())
         );
     }
 
@@ -618,6 +592,7 @@ void CAccountInfoPage::OnPageChanging( wxWizardExEvent& event ) {
         }
  
         if (bDisplayError) {
+
             wxGetApp().SafeMessageBox(
                 strMessage,
                 strTitle,
@@ -625,6 +600,14 @@ void CAccountInfoPage::OnPageChanging( wxWizardExEvent& event ) {
                 this
             );
             event.Veto();
+
+        } else {
+
+            // Update authoritative data in CWizardAttach
+            pWA->SetAccountEmailAddress(m_strAccountEmailAddress);
+            pWA->SetAccountUsername(m_strAccountUsername);
+            pWA->SetAccountPassword(m_pAccountPasswordCtrl->GetValue());
+
         }
     }
 }

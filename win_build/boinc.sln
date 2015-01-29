@@ -21,6 +21,11 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "glut", "glut.vcxproj", "{C4165626-F68F-4F66-A126-3B82DDBB7480}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "wrapper", "wrapper.vcxproj", "{F243B93C-73CB-44E7-9BDC-847BB95A27CA}"
+	ProjectSection(ProjectDependencies) = postProject
+		{753E897D-9ECE-42B1-9F0D-CD566775C77E} = {753E897D-9ECE-42B1-9F0D-CD566775C77E}
+		{B00664BD-71EB-46C1-957E-CD851418D395} = {B00664BD-71EB-46C1-957E-CD851418D395}
+		{814EBFD3-3CE6-4933-A580-C1FE3147ACB4} = {814EBFD3-3CE6-4933-A580-C1FE3147ACB4}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sleeper", "sleeper.vcxproj", "{A9647CEA-644D-4C0A-8733-D916CD344859}"
 EndProject
@@ -54,6 +59,10 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "example_app_multi_thread", "example_app_multi_thread.vcxproj", "{BFE833C6-840F-4F2E-A1FA-A4DE9B9277D6}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "vboxwrapper", "vboxwrapper.vcxproj", "{F243B93C-73CB-44E7-9BDC-847BB95C27CA}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B00664BD-71EB-46C1-957E-CD851418D395} = {B00664BD-71EB-46C1-957E-CD851418D395}
+		{814EBFD3-3CE6-4933-A580-C1FE3147ACB4} = {814EBFD3-3CE6-4933-A580-C1FE3147ACB4}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "wrappture_example", "wrappture_example.vcxproj", "{D9AF7F68-B881-45B1-A41C-B10E61D764EF}"
 EndProject
@@ -68,6 +77,12 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test_boinczip_zlib_conflicts", "test_boinc_zip_zlib_conflicts.vcxproj", "{0DCD2FE4-0604-4307-ABAA-C61F0065D717}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "example_app_dll", "uc2_dll.vcxproj", "{B275C525-5EF4-40BA-A70A-4E01A76A0CDD}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "htmlgfx", "htmlgfx.vcxproj", "{25662612-421F-42F5-B5E1-D69ECBF3F5BB}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B00664BD-71EB-46C1-957E-CD851418D395} = {B00664BD-71EB-46C1-957E-CD851418D395}
+		{814EBFD3-3CE6-4933-A580-C1FE3147ACB4} = {814EBFD3-3CE6-4933-A580-C1FE3147ACB4}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -571,6 +586,22 @@ Global
 		{B275C525-5EF4-40BA-A70A-4E01A76A0CDD}.Release|Win32.Build.0 = Release|Win32
 		{B275C525-5EF4-40BA-A70A-4E01A76A0CDD}.Release|x64.ActiveCfg = Release|x64
 		{B275C525-5EF4-40BA-A70A-4E01A76A0CDD}.Release|x64.Build.0 = Release|x64
+		{25662612-421F-42F5-B5E1-D69ECBF3F5BB}.Debug|Win32.ActiveCfg = Debug|Win32
+		{25662612-421F-42F5-B5E1-D69ECBF3F5BB}.Debug|Win32.Build.0 = Debug|Win32
+		{25662612-421F-42F5-B5E1-D69ECBF3F5BB}.Debug|x64.ActiveCfg = Debug|x64
+		{25662612-421F-42F5-B5E1-D69ECBF3F5BB}.Debug|x64.Build.0 = Debug|x64
+		{25662612-421F-42F5-B5E1-D69ECBF3F5BB}.EmuDebug|Win32.ActiveCfg = Debug|Win32
+		{25662612-421F-42F5-B5E1-D69ECBF3F5BB}.EmuDebug|Win32.Build.0 = Debug|Win32
+		{25662612-421F-42F5-B5E1-D69ECBF3F5BB}.EmuDebug|x64.ActiveCfg = Debug|x64
+		{25662612-421F-42F5-B5E1-D69ECBF3F5BB}.EmuDebug|x64.Build.0 = Debug|x64
+		{25662612-421F-42F5-B5E1-D69ECBF3F5BB}.EmuRelease|Win32.ActiveCfg = Release|Win32
+		{25662612-421F-42F5-B5E1-D69ECBF3F5BB}.EmuRelease|Win32.Build.0 = Release|Win32
+		{25662612-421F-42F5-B5E1-D69ECBF3F5BB}.EmuRelease|x64.ActiveCfg = Release|x64
+		{25662612-421F-42F5-B5E1-D69ECBF3F5BB}.EmuRelease|x64.Build.0 = Release|x64
+		{25662612-421F-42F5-B5E1-D69ECBF3F5BB}.Release|Win32.ActiveCfg = Release|Win32
+		{25662612-421F-42F5-B5E1-D69ECBF3F5BB}.Release|Win32.Build.0 = Release|Win32
+		{25662612-421F-42F5-B5E1-D69ECBF3F5BB}.Release|x64.ActiveCfg = Release|x64
+		{25662612-421F-42F5-B5E1-D69ECBF3F5BB}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

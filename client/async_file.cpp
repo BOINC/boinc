@@ -153,7 +153,7 @@ void remove_async_copy(ASYNC_COPY* acp) {
             async_copies.erase(i);
             break;
         }
-        i++;
+        ++i;
     }
     delete acp;
 }
@@ -291,7 +291,7 @@ void remove_async_verify(ASYNC_VERIFY* avp) {
             async_verifies.erase(i);
             break;
         }
-        i++;
+        ++i;
     }
     delete avp;
 }

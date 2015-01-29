@@ -224,7 +224,7 @@ int FILE_XFER_SET::remove(FILE_XFER* fxp) {
             set_bandwidth_limits(fxp->is_upload);
             return 0;
         }
-        iter++;
+        ++iter;
     }
     msg_printf(fxp->fip->project, MSG_INTERNAL_ERROR,
         "File transfer for %s not found", fxp->fip->name

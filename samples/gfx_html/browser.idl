@@ -1,0 +1,38 @@
+// browser.idl : IDL source for browser
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (browser.tlb) and marshalling code.
+
+#include "olectl.h"
+import "oaidl.idl";
+import "ocidl.idl";
+
+[
+	object,
+	uuid(D9E4A0D0-60F6-444C-93BC-7F3DF3281305),
+	dual,
+	nonextensible,
+	pointer_default(unique)
+]
+interface IHTMLBrowserHost : IDispatch
+{
+};
+
+[
+	uuid(E734A057-9667-44EB-BC7D-313D535BADD5),
+	version(1.0),
+]
+library HTMLGfxLib
+{
+	importlib("stdole2.tlb");
+	[
+		uuid(34357DF4-7921-4B0E-B681-DA2AE2AEE419),		
+		control
+	]
+	coclass HTMLBrowser
+	{
+		[default] interface IHTMLBrowserHost;
+	};
+};
+

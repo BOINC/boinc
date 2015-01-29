@@ -277,7 +277,7 @@ for ($i=0; $i<sizeof($client_languages); $i++) {
 
     // if main language is english, look no further
     //
-    if ($i == 0 && $language == 'en') {
+    if ($i == 0 && ($language == 'en' || $language2 == 'en')) {
         break;
     }
 

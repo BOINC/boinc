@@ -23,6 +23,7 @@
 #include <ctype.h>
 #include <sys/types.h>
 #include <dirent.h>
+#include <unistd.h>
 
 #if SHOW_TIMING
 #include <Carbon/Carbon.h>

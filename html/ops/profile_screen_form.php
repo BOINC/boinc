@@ -57,27 +57,30 @@ $result = _mysql_query($query);
 $n = 0;
 echo "<form action=profile_screen_action.php>
 ";
-start_table();
 $found = false;
 while ($profile = _mysql_fetch_object($result)) {
     $found = true;
-    echo "<tr><td valign=top>";
+    start_table();
+    echo "<tr><td valign=top width=20%>";
     buttons($n);
     echo "
+        <br>
         <br>Name: $profile->name
         <br>recommends: $profile->recommend
         <br>rejects: $profile->reject
-        <br>RAC: $profile->expavg_credit
+        <br>RAC: ".format_credit($profile->expavg_credit)."
         <br>
     ";
-    echo "</td><td><table border=2> ";
+    echo "</td><td>";
+    start_table();
     show_profile($profile, $g_logged_in_user, true);
-    echo "</table></td></tr>\n";
+    end_table();
+    echo "</td></tr><tr><td colspan=2></td></tr>\n";
     echo "<input type=\"hidden\" name=\"userid$n\" value=\"$profile->userid\">\n";
     $n++;
+    end_table();
 }
 
-end_table();
 
 if ($found) {
     echo "

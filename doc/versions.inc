@@ -43,23 +43,13 @@ function linux_info() {
     instead.  ";
 }
 
-$w74dev = array(
+$w74 = array(
     "num"=>"7.4.36",
-    "status"=>"Development version",
+    "status"=>"Recommended version",
     "file"=>"boinc_7.4.36_windows_intelx86.exe",
     "vbox_file"=>"boinc_7.4.36_windows_intelx86_vbox.exe",
     "vbox_version"=>"4.3.12",
     "date"=>"12 Dec 2014",
-    "type"=>"win_new",
-);
-
-$w74 = array(
-    "num"=>"7.4.27",
-    "status"=>"Recommended version",
-    "file"=>"boinc_7.4.27_windows_intelx86.exe",
-    "vbox_file"=>"boinc_7.4.27_windows_intelx86_vbox.exe",
-    "vbox_version"=>"4.3.12",
-    "date"=>"5 Nov 2014",
     "type"=>"win_new",
 );
 
@@ -89,23 +79,13 @@ $w5816 = array(
     "type"=>"win_new",
 );
 
-$w74x64dev = array(
+$w74x64 = array(
     "num"=>"7.4.36",
-    "status"=>"Development version",
+    "status"=>"Recommended version",
     "file"=>"boinc_7.4.36_windows_x86_64.exe",
     "vbox_file"=>"boinc_7.4.36_windows_x86_64_vbox.exe",
     "vbox_version"=>"4.3.12",
     "date"=>"12 Dec 2014",
-    "type"=>"win_new",
-);
-
-$w74x64 = array(
-    "num"=>"7.4.27",
-    "status"=>"Recommended version",
-    "file"=>"boinc_7.4.27_windows_x86_64.exe",
-    "vbox_file"=>"boinc_7.4.27_windows_x86_64_vbox.exe",
-    "vbox_version"=>"4.3.12",
-    "date"=>"5 Nov 2014",
     "type"=>"win_new",
 );
 
@@ -120,16 +100,8 @@ $w72x64 = array(
 );
 
 $m74 = array(
-    "num"=>"7.4.26",
-    "status"=>"Recommended version (standard GUI)",
-    "file"=>"boinc_7.4.26_macOSX_i686.zip",
-    "date"=>"29 Oct 2014",
-    "type"=>"mac_advanced",
-);
-
-$m74dev = array(
 	"num"=>"7.4.36",
-	"status"=>"Development version (standard GUI)",
+	"status"=>"Recommended version (standard GUI)",
 	"file"=>"boinc_7.4.36_macOSX_i686.zip",
 	"date"=>"12 Dec 2014",
 	"type"=>"mac_advanced",
@@ -160,16 +132,8 @@ $m66 = array(
 );
 
 $m74c = array(
-    "num"=>"7.4.26",
-    "status"=>"Recommended version (Unix command-line version)",
-    "file"=>"boinc_7.4.26_i686-apple-darwin.zip",
-    "date"=>"29 Oct 2014",
-    "type"=>"bare_core",
-);
-
-$m74cdev = array(
 	"num"=>"7.4.36",
-	"status"=>"Development version (Unix command-line version)",
+	"status"=>"Recommended version (Unix command-line version)",
 	"file"=>"boinc_7.4.36_i686-apple-darwin.zip",
 	"date"=>"12 Dec 2014",
 	"type"=>"bare_core",
@@ -280,7 +244,6 @@ $windows = array(
     "description"=>"XP/Vista/7/8/8.1",
     "dbname" => "windows_intelx86",
     "versions"=>array(
-          $w74dev,
           $w74,
           $w72,
           $w66,
@@ -293,7 +256,6 @@ $windowsx64 = array(
     "description"=>"XP/Vista/7/8/8.1",
     "dbname" => "windows_x86_64",
     "versions"=>array(
-          $w74x64dev,
           $w74x64,
           $w72x64,
     )
@@ -306,8 +268,6 @@ $mac = array(
     "versions"=>array(
           $m74,
           $m74c,
-		  $m74dev,
-          $m74cdev,
     )
 );
 

@@ -18,15 +18,25 @@
 
 require_once("../inc/db.inc");
 require_once("../inc/util.inc");
+require_once("../inc/account.inc");
 
 check_get_args(array("next_url"));
 
 $next_url = sanitize_local_url(get_str('next_url', true));
+$next_url = urlencode($next_url);
 
-$u = "login_form.php?next_url=".urlencode($next_url);
+$u = "login_form.php?next_url=".$next_url;
 redirect_to_secure_url($u);
 
 $user = get_logged_in_user(false);
+if ($user) {
+    page_head("Log out");
+    row2("You are logged in as $user->name",
+        "<a href=\"logout.php?".url_tokens($user->authenticator)."\">Log out</a>"
+    );
+    page_tail();
+    exit;
+}
 
 page_head(tra("Log in"));
 
@@ -38,48 +48,16 @@ echo '
 ';
 }
 
-echo "
-    <form name=\"f\" method=\"post\" action=\"".secure_url_base()."/login_action.php\">
-    <input type=\"hidden\" name=\"next_url\" value=\"$next_url\">
-";
-start_table();
-if (LDAP_HOST) {
-    $x = "Email address or LDAP user name:";
-} else {
-    $x = tra("Email address:");
-}
-row2($x . '<br><p class="text-muted"><a href="get_passwd.php">'.tra("forgot email address?")."</a></p>",
-    "<input name=email_addr type=\"text\" size=40 tabindex=1>"
-);
-row2(tra("Password:") . '<br><p class="text-muted"><a href="get_passwd.php">' . tra("forgot password?") . "</a></p>",
-    '<input type="password" name="passwd" size="40" tabindex="2">'
-);
-row2(tra("Stay logged in"),
-    '<input type="checkbox" name="stay_logged_in" checked>'
-);
-$x = urlencode($next_url);
+login_form($next_url);
 
 $config = get_config();
-if (parse_bool($config, "disable_account_creation")
-    || parse_bool($config, "no_web_account_creation")
+if (!parse_bool($config, "disable_account_creation")
+    && !parse_bool($config, "no_web_account_creation")
 ) {
-    $create_acct = "";
-} else {
-    $create_acct = tra("or %1create an account%2.", "<a href=\"create_account_form.php?next_url=$x\">","</a>");
+    echo tra("or %1create an account%2.", "<a href=\"create_account_form.php?next_url=$next_url\">","</a>");
 }
 
-row2("",
-    "<input class=\"btn btn-default\" type=\"submit\" name=\"mode\" value=\"".tra("Log in")."\" tabindex=\"3\"><br><br>". $create_acct
-);
-if ($user) {
-    row1("Log out");
-    row2("You are logged in as $user->name",
-        "<a href=\"logout.php?".url_tokens($user->authenticator)."\">Log out</a>"
-    );
-}
-end_table();
 echo "
-    </form>
     <script type=\"text/javascript\">
         document.f.email_addr.focus();
     </script>

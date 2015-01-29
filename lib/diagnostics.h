@@ -255,7 +255,7 @@ extern format_backtrace_line_t format_backtrace_line;
 #define BOINCTRACE          boinc_trace
 #else  // __MINGW32__
 #define BOINCASSERT(expr)   __noop
-#define BOINCTRACE          boinc_trace
+#define BOINCTRACE          __noop
 #endif // __MINGW32__
 
 #endif // _DEBUG

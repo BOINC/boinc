@@ -76,7 +76,6 @@
   <string name="prefs_category_memory">Muisti</string>
   <string name="prefs_category_debug">Virheenjäljitys</string>
   <string name="prefs_show_advanced_header">Näytä lisäasetukset ja ohjaimet…</string>
-  <string name="prefs_run_on_battery_header">Laskenta akkukäytöllä</string>
   <string name="battery_charge_min_pct_header">Pienin varaustaso</string>
   <string name="battery_charge_min_pct_description">BOINC hyllyttää laskennan kun asetettu akun varaustason alaraja saavutetaan.</string>
   <string name="battery_temperature_max_header">Suurin akun lämpötila</string>
@@ -89,7 +88,6 @@
   <string name="prefs_network_daily_xfer_limit_mb_description">Rajoitus BOINCin päivittäiselle tiedonsiirrolle.</string>
   <string name="prefs_network_wifi_only_header">Siirrä tehtävät vain WiFin kautta</string>
   <string name="prefs_autostart_header">Automaattikäynnistys</string>
-  <string name="prefs_show_notification_header">Näytä ilmoitus kun hyllytetty</string>
   <string name="prefs_cpu_number_cpus_header">Käytetyt CPU-ytimet</string>
   <string name="prefs_cpu_number_cpus_description">Rajoittaa CPU-ytimien määrää, jota BOINC käyttää laskentaan.</string>
   <string name="prefs_cpu_other_load_suspension_header">Tauota prosessorikäytön ylittäessä</string>

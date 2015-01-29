@@ -370,6 +370,8 @@ bool CBOINCGUIApp::OnInit() {
     m_pDocument = NULL;
     m_pTaskBarIcon = NULL;
     m_pEventLog = NULL;
+    m_bEventLogWasActive = false;
+    m_bProcessingActivateAppEvent = false;
 #ifdef __WXMAC__
     m_pMacDockIcon = NULL;
 #endif
@@ -1191,26 +1193,38 @@ int CBOINCGUIApp::IdleTrackerDetach() {
 
 
 void CBOINCGUIApp::OnActivateApp(wxActivateEvent& event) {
-#ifdef __WXMAC__
-    // Make sure any modal dialog (such as Attach Wizard) ends up in front.
-    if (IsModalDialogDisplayed()) {
-        event.Skip();
-        return;
-    }
-#endif
+    m_bProcessingActivateAppEvent = true;
 
     if (event.GetActive()) {
-        if (m_pEventLog && !m_pEventLog->IsIconized()) {
-            m_pEventLog->Raise();
-        }
-        if (m_pFrame) {
-            m_pFrame->Raise();
-        }
 #ifdef __WXMAC__
         ShowInterface();
+#else
+#ifdef __WXGTK__
+        // Linux allows the Event Log to be brought forward and made active
+        // even if we have a modal dialog displayed (associated with our
+        // main frame.) This test is needed to allow bringing the modal
+        // dialog forward again by clicking on its title bar.
+        if (!IsModalDialogDisplayed())
+#endif
+        {
+            bool keepEventLogInFront = m_bEventLogWasActive;
+            
+            if (m_pEventLog && !m_pEventLog->IsIconized() && !keepEventLogInFront) {
+                m_pEventLog->Raise();
+            }
+            if (m_pFrame) {
+                m_pFrame->Raise();
+            }
+            if (m_pEventLog && !m_pEventLog->IsIconized() && keepEventLogInFront) {
+                m_pEventLog->Raise();
+            }
+        }
 #endif
     }
+
     event.Skip();
+    
+    m_bProcessingActivateAppEvent = false;
 }
 
 
@@ -1263,8 +1277,11 @@ int CBOINCGUIApp::StartBOINCDefaultScreensaverTest() {
 }
 
 
-// Display the Event Log, it is a modeless dialog not owned by any
-// other UI element.
+// Display the Event Log, it is a modeless dialog not owned by
+// any other UI element.
+// To work around a Linux bug in wxWidgets 3.0 which prevents
+// bringing the main frame forward on top of a modeless dialog,
+// the Event Log is now a wxFrame on Linux only.
 void CBOINCGUIApp::DisplayEventLog(bool bShowWindow) {
     if (m_pEventLog) {
         if (bShowWindow) {
@@ -1422,26 +1439,28 @@ bool CBOINCGUIApp::SetActiveGUI(int iGUISelection, bool bShowWindow) {
     }
 
     // Show the new frame if needed 
-    if (m_pFrame && bShowWindow) {
-        if (m_pEventLog) {
-            m_pEventLog->Show();
-            m_pEventLog->Raise();
+    if (!m_bProcessingActivateAppEvent) {
+        if (m_pFrame && bShowWindow) {
+            if (m_pEventLog && !m_pEventLog->IsIconized()) {
+                m_pEventLog->Show();
+                m_pEventLog->Raise();
+    #ifdef __WXMSW__
+                ::SetForegroundWindow((HWND)m_pEventLog->GetHWND());
+    #endif
+            }
+
+            if (!m_pFrame->IsShown()) {
+                m_pFrame->Show();
+            }
+            if (m_pFrame->IsIconized()) {
+                m_pFrame->Maximize(false);
+            }
+            m_pFrame->Raise();
+
 #ifdef __WXMSW__
-            ::SetForegroundWindow((HWND)m_pEventLog->GetHWND());
+            ::SetForegroundWindow((HWND)m_pFrame->GetHWND());
 #endif
         }
-
-        if (!m_pFrame->IsShown()) {
-            m_pFrame->Show();
-        }
-        if (m_pFrame->IsIconized()) {
-            m_pFrame->Maximize(false);
-        }
-        m_pFrame->Raise();
-
-#ifdef __WXMSW__
-        ::SetForegroundWindow((HWND)m_pFrame->GetHWND());
-#endif
     }
 
     wxLogTrace(wxT("Function Start/End"), wxT("CBOINCGUIApp::SetActiveGUI - Function End"));

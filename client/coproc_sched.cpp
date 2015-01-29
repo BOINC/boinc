@@ -317,7 +317,7 @@ void assign_coprocs(vector<RESULT*>& jobs) {
             usage = avp->gpu_usage.usage;
             cp = &coprocs.coprocs[rt];
         } else {
-            job_iter++;
+            ++job_iter;
             continue;
         }
 
@@ -325,20 +325,20 @@ void assign_coprocs(vector<RESULT*>& jobs) {
         if (atp && atp->is_gpu_task_running()) {
             if (current_assignment_ok(rp, usage, cp)) {
                 confirm_current_assignment(rp, usage, cp);
-                job_iter++;
+                ++job_iter;
             } else {
                 job_iter = jobs.erase(job_iter);
             }
         } else {
             if (usage < 1) {
                 if (get_fractional_assignment(rp, usage, cp)) {
-                    job_iter++;
+                    ++job_iter;
                 } else {
                     job_iter = jobs.erase(job_iter);
                 }
             } else {
                 if (get_integer_assignment(rp, usage, cp)) {
-                    job_iter++;
+                    ++job_iter;
                 } else {
                     job_iter = jobs.erase(job_iter);
                 }

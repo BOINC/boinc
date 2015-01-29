@@ -449,7 +449,7 @@ void COPROCS::get_opencl(
                 }
                 
                 // Build nvidia_opencls vector in device_num order
-                for (it=nvidia_opencls.begin(); it<nvidia_opencls.end(); it++) {
+                for (it=nvidia_opencls.begin(); it != nvidia_opencls.end(); ++it) {
                     if (it->device_num > prop.device_num) break;
                 }
                 nvidia_opencls.insert(it, prop);

@@ -62,6 +62,7 @@
 
 #include "version.h"
 #include "boinc_api.h"
+#include "graphics2.h"
 #include "boinc_zip.h"
 #include "diagnostics.h"
 #include "error_numbers.h"
@@ -97,6 +98,7 @@ int gpu_device_num = -1;
 double runtime = 0;
     // run time this session
 double trickle_period = 0;
+bool enable_graphics_support = false;
 vector<string> unzip_filenames;
 string zip_filename;
 vector<regexp*> zip_patterns;
@@ -207,7 +209,7 @@ struct TASK {
         // copy each env string to a buffer for the process
         for (vector<string>::iterator it = vsetenv.begin();
             it != vsetenv.end() && len < bufsize-1;
-            it++
+            ++it
         ) {
             strncpy(p, it->c_str(), it->length());
             len = (int)strlen(p);
@@ -519,6 +521,7 @@ int parse_job_file() {
             parse_zip_output(xp);
             continue;
         }
+        if (xp.parse_bool("enable_graphics_support", enable_graphics_support)) continue;
         fprintf(stderr,
             "%s unexpected tag in job.xml: %s\n",
             boinc_msg_prefix(buf2, sizeof(buf2)), xp.parsed_tag
@@ -1140,6 +1143,14 @@ int main(int argc, char** argv) {
 
             if (trickle_period) {
                 check_trickle_period();
+            }
+
+            if (enable_graphics_support) {
+                boinc_write_graphics_status(
+                    task.starting_cpu + cpu_time,
+                    checkpoint_cpu_time + task.elapsed_time,
+                    frac_done + task.weight/total_weight
+                );
             }
 
             boinc_sleep(POLL_PERIOD);

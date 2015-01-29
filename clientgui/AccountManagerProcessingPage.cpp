@@ -178,12 +178,12 @@ void CAccountManagerProcessingPage::OnPageChanged( wxWizardExEvent& event )
     wxASSERT(m_pProgressIndicator);
     wxASSERT(pWA);
         
-    if (!pWA->m_strProjectName.IsEmpty()) {
+    if (!pWA->GetProjectName().IsEmpty()) {
         wxString str;
 
         // %s is the project name
         //    i.e. 'BOINC', 'GridRepublic'
-        str.Printf(_("Communicating with %s."), pWA->m_strProjectName.c_str());
+        str.Printf(_("Communicating with %s."), pWA->GetProjectName().c_str());
 
         m_pTitleStaticCtrl->SetLabel(
             str
@@ -259,15 +259,15 @@ void CAccountManagerProcessingPage::OnStateChange( CAccountManagerProcessingPage
             if (!pWA->project_config.master_url.empty()) {
                 url = pWA->project_config.master_url;
             } else {
-                url = (const char*)pWA->m_AccountManagerInfoPage->GetProjectURL().mb_str();
+                url = (const char*)pWA->GetProjectURL().mb_str();
             }
 
             if (pWA->project_config.uses_username) {
-                username = (const char*)pWA->m_AccountInfoPage->GetAccountUsername().mb_str();
+                username = (const char*)pWA->GetAccountUsername().mb_str();
             } else {
-                username = (const char*)pWA->m_AccountInfoPage->GetAccountEmailAddress().mb_str();
+                username = (const char*)pWA->GetAccountEmailAddress().mb_str();
             }
-            password = (const char*)pWA->m_AccountInfoPage->GetAccountPassword().mb_str();
+            password = (const char*)pWA->GetAccountPassword().mb_str();
             
             // Wait until we are done processing the request.
             dtStartExecutionTime = wxDateTime::Now();
@@ -286,7 +286,7 @@ void CAccountManagerProcessingPage::OnStateChange( CAccountManagerProcessingPage
                         url.c_str(),
                         username.c_str(),
                         password.c_str(),
-                        pWA->m_bCredentialsCached
+                        pWA->IsCredentialsCached()
                     );
                 }
             
@@ -313,7 +313,7 @@ void CAccountManagerProcessingPage::OnStateChange( CAccountManagerProcessingPage
                 ) {
                     // For any logon error, make sure we do not attempt to use cached credentials
                     //   on any follow-ups.
-                    pWA->m_bCredentialsCached = false;
+                    pWA->SetCredentialsCached(false);
                     SetProjectAccountNotFound(true);
                 } else {
                     SetProjectAccountNotFound(false);

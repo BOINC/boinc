@@ -90,6 +90,8 @@ int wu_stored_in_file = 0;
     // keep track of how many WU archived in file so far
 int id_modulus=0, id_remainder=0;
     // allow more than one to run - doesn't work if archiving is enabled
+char app_name[256];
+DB_APP app;
 
 bool time_to_quit() {
     if (max_number_workunits_to_purge) {
@@ -492,34 +494,27 @@ bool do_pass() {
 
     bool did_something = false;
     DB_WORKUNIT wu;
-    char buf[256];
+    char buf[256], buf2[256];
 
+    sprintf(buf, "where file_delete_state=%d", FILE_DELETE_DONE);
     if (min_age_days) {
         min_age_seconds = (int) (min_age_days*86400);
-        if (id_modulus) {
-            sprintf(buf,
-                "where file_delete_state=%d and mod_time<current_timestamp() - interval %d second and id %% %d = %d limit %d",
-                FILE_DELETE_DONE, min_age_seconds, id_modulus, id_remainder, DB_QUERY_LIMIT
-            );
-        } else {
-            sprintf(buf,
-                "where file_delete_state=%d and mod_time<current_timestamp() - interval %d second limit %d",
-                FILE_DELETE_DONE, min_age_seconds, DB_QUERY_LIMIT
-            );
-        }
-    } else {
-        if (id_modulus) {
-            sprintf(buf,
-                "where file_delete_state=%d and id %% %d = %d limit %d",
-                FILE_DELETE_DONE, id_modulus, id_remainder, DB_QUERY_LIMIT
-            );
-        } else {
-            sprintf(buf,
-                "where file_delete_state=%d limit %d",
-                FILE_DELETE_DONE, DB_QUERY_LIMIT
-            );
-        }
+        sprintf(buf2,
+            " and mod_time<current_timestamp() - interval %d second",
+            min_age_seconds
+        );
+        strcat(buf, buf2);
     }
+    if (id_modulus) {
+        sprintf(buf2, " and id %% %d = %d", id_modulus, id_remainder);
+        strcat(buf, buf2);
+    }
+    if (strlen(app_name)) {
+        sprintf(buf2, " and appid=%d", app.id);
+        strcat(buf, buf2);
+    }
+    sprintf(buf2, " limit %d", DB_QUERY_LIMIT);
+    strcat(buf, buf2);
 
     int n=0;
     while (1) {
@@ -584,7 +579,6 @@ bool do_pass() {
 
         if (config.enable_assignment) {
             DB_ASSIGNMENT asg;
-            char buf2[256];
             sprintf(buf2, "workunitid=%d", wu.id);
             asg.delete_from_db_multi(buf2);
         }
@@ -660,6 +654,7 @@ int main(int argc, char** argv) {
     int i;
     int sleep_sec = 600;
     check_stop_daemons();
+    char buf[256];
 
     for (i=1; i<argc; i++) {
         if (is_arg(argv[i], "one_pass")) {
@@ -704,7 +699,7 @@ int main(int argc, char** argv) {
             max_wu_per_file = atoi(argv[i]);
         } else if (is_arg(argv[i], "no_archive")) {
             no_archive = true;
-        } else if (is_arg(argv[i], "-sleep")) {
+        } else if (is_arg(argv[i], "sleep")) {
             if(!argv[++i]) {
                 log_messages.printf(MSG_CRITICAL, "%s requires an argument\n\n", argv[--i]);
                 usage(argv[0]);
@@ -735,6 +730,8 @@ int main(int argc, char** argv) {
             }
             id_modulus   = atoi(argv[++i]);
             id_remainder = atoi(argv[++i]);
+        } else if (is_arg(argv[i], "app")) {
+            strcpy(app_name, argv[++i]);
         } else {
             log_messages.printf(MSG_CRITICAL,
                 "unknown command line argument: %s\n\n", argv[i]
@@ -778,6 +775,15 @@ int main(int argc, char** argv) {
     //
     atexit(close_db_exit_handler);
     atexit(close_all_archives);
+
+    if (strlen(app_name)) {
+        sprintf(buf, "where name='%s'", app_name);
+        retval = app.lookup(buf);
+        if (retval) {
+            log_messages.printf(MSG_CRITICAL, "Can't find app %s\n", app_name);
+            exit(1);
+        }
+    }
 
     while (1) {
         if (time_to_quit()) {
