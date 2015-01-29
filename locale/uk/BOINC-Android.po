@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2013-10-18 00:00-0700\n"
-"PO-Revision-Date: 2014-01-03 15:12+0000\n"
+"PO-Revision-Date: 2014-12-20 11:24+0000\n"
 "Last-Translator: Олег <pukish_oleg@ukr.net>\n"
 "Language-Team: uk <LL@li.org>\n"
 "Language: uk\n"
@@ -18,7 +18,7 @@ msgstr ""
 "10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
-"X-POOTLE-MTIME: 1388761922.0\n"
+"X-POOTLE-MTIME: 1419074691.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -50,7 +50,7 @@ msgstr "Додати проект"
 
 msgctxt "attachproject_list_manual_no_url"
 msgid "Please enter project URL"
-msgstr "Додати менеджер проектів"
+msgstr "Будь-ласка, введіть адресу проекту"
 
 msgctxt "attachproject_list_acctmgr_button"
 msgid "Add account manager"
@@ -63,7 +63,7 @@ msgstr "Відсутнє з’єднання з Інтернетом"
 #. project login
 msgctxt "attachproject_login_loading"
 msgid "Contacting project server…"
-msgstr "Встановлення з’єднання із сервером проекту"
+msgstr "Встановлення з’єднання із сервером проекту..."
 
 msgctxt "attachproject_login_image_description"
 msgid "Project logo."
@@ -71,11 +71,11 @@ msgstr "Логотип проекту."
 
 msgctxt "attachproject_login_header_general_area"
 msgid "General area:"
-msgstr "Загальна область:"
+msgstr "Основна область:"
 
 msgctxt "attachproject_login_header_specific_area"
 msgid "Specific area:"
-msgstr "Спеціальна область:"
+msgstr "Спеціалізація:"
 
 msgctxt "attachproject_login_header_description"
 msgid "Description:"
@@ -95,11 +95,11 @@ msgstr "Android:"
 
 msgctxt "attachproject_login_platform_supported"
 msgid "This project supports Android devices"
-msgstr "Цей проект підтримує пристрої, на базі Android"
+msgstr "Цей проект підтримує пристрої на базі Android"
 
 msgctxt "attachproject_login_platform_not_supported"
 msgid "This project does not support Android devices"
-msgstr "Цей проект не підтримує пристрої, на базі Android"
+msgstr "Цей проект не підтримує пристрої на базі Android"
 
 msgctxt "attachproject_login_category_terms_of_use"
 msgid "Terms of use for"
@@ -131,7 +131,7 @@ msgstr "Пароль:"
 
 msgctxt "attachproject_login_category_creation"
 msgid "New to"
-msgstr "Новий"
+msgstr "Вперше в"
 
 msgctxt "attachproject_login_header_creation_enabled"
 msgid "Register an account to participate:"
@@ -143,7 +143,7 @@ msgstr "Відвідати інтернет сторінку проекту дл
 
 msgctxt "attachproject_login_header_creation_disabled"
 msgid "Project does currently now allow creation of new accounts!"
-msgstr "Зараз у проекті можна створювати нові облікові записи!"
+msgstr "Зараз у проекті неможна створювати нові облікові записи!"
 
 msgctxt "attachproject_login_button_registration"
 msgid "Register"
@@ -155,7 +155,7 @@ msgstr "Увійти"
 
 msgctxt "attachproject_login_button_forgotpw"
 msgid "Forgot Password"
-msgstr "Забули пароль?"
+msgstr "Забули пароль"
 
 msgctxt "attachproject_login_error_toast"
 msgid "Contacting project failed!"
@@ -163,7 +163,7 @@ msgstr "Не вдалося з’єднатися з проектом!"
 
 msgctxt "attachproject_login_attached"
 msgid "Attached"
-msgstr "Додано"
+msgstr "Підключений"
 
 #. project registration
 msgctxt "attachproject_registration_header"

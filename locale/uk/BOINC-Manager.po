@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-12-15 14:15-0500\n"
-"PO-Revision-Date: 2014-02-26 13:20+0000\n"
+"PO-Revision-Date: 2014-12-31 10:14+0000\n"
 "Last-Translator: Олег <pukish_oleg@ukr.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: uk\n"
@@ -20,7 +20,7 @@ msgstr ""
 "X-Poedit-Basepath: C:\\Src\\BOINCGIT\\boinc_7.4\n"
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-POOTLE-MTIME: 1393420839.0\n"
+"X-POOTLE-MTIME: 1420020876.0\n"
 "X-Poedit-SearchPath-1: clientgui/msw\n"
 "X-Poedit-SearchPath-2: clientgui/gtk\n"
 "X-Poedit-SearchPath-3: clientgui/mac\n"
@@ -105,11 +105,11 @@ msgstr "&Користувач:"
 
 #: clientgui/AccountInfoPage.cpp:511
 msgid "&Email address or LDAP ID:"
-msgstr ""
+msgstr "&Адреса електронної пошти або LDAP ID:"
 
 #: clientgui/AccountInfoPage.cpp:515
 msgid "&Email address:"
-msgstr "&Адреса електронної пошти:"
+msgstr "&Адреса електронної пошти або LDAP ID:"
 
 #: clientgui/AccountInfoPage.cpp:523
 #, c-format
@@ -238,7 +238,7 @@ msgstr "Вийти з %s"
 
 #: clientgui/AdvancedFrame.cpp:359
 msgid "Preferences..."
-msgstr ""
+msgstr "Налаштування..."
 
 #: clientgui/AdvancedFrame.cpp:368
 msgid "&Notices\tCtrl+Shift+N"
@@ -494,11 +494,11 @@ msgstr "Показати діагностичні повідомлення."
 
 #: clientgui/AdvancedFrame.cpp:616
 msgid "Event Log Diagnostic Flags...\tCtrl+Shift+F"
-msgstr ""
+msgstr "Прапорці налагодження протоколу подій...\tCtrl+Shift+F"
 
 #: clientgui/AdvancedFrame.cpp:617
 msgid "Enable or disable various diagnostic messages"
-msgstr ""
+msgstr "Увімкнути або вимкнути різні діагностичні події"
 
 #: clientgui/AdvancedFrame.cpp:626
 #, c-format
@@ -1116,11 +1116,14 @@ msgstr "Версія wxWidgets:"
 msgid "Copyright:"
 msgstr "Авторське право:"
 
+# 98%
 #: clientgui/DlgAbout.cpp:192
 msgid ""
 "(C) 2003-2014 University of California, Berkeley.\n"
 "All Rights Reserved."
 msgstr ""
+"(C) 2003-2013 Каліфорнійський університет, Берклі.\n"
+"Усі права захищені."
 
 #: clientgui/DlgAbout.cpp:196
 msgid "Berkeley Open Infrastructure for Network Computing"
@@ -1204,7 +1207,7 @@ msgstr "Підтвердження"
 #: clientgui/DlgAdvPreferencesBase.cpp:49
 #, c-format
 msgid "%s - Computing preferences"
-msgstr ""
+msgstr "%s - Налаштування обчислень"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:66
 msgid ""
@@ -1410,7 +1413,7 @@ msgstr "У багатопроцесорних системах використ�
 #: clientgui/DlgAdvPreferencesBase.cpp:352
 #, no-c-format
 msgid "% of the processors (0 means no restriction)"
-msgstr ""
+msgstr "% процесорів (0 означає відсутність обмежень)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:355
 #: clientgui/DlgAdvPreferencesBase.cpp:618
@@ -1424,7 +1427,7 @@ msgstr "Використовувати щонайбільше"
 #: clientgui/DlgAdvPreferencesBase.cpp:362
 #, no-c-format
 msgid "% of CPU time (0 means no restriction)"
-msgstr ""
+msgstr "% часу ЦП (0 означає відсутність обмежень)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:386
 msgid "General options"
@@ -1437,7 +1440,7 @@ msgstr "Максимальна швидкість завантаження"
 #: clientgui/DlgAdvPreferencesBase.cpp:401
 #: clientgui/DlgAdvPreferencesBase.cpp:410
 msgid "KBytes/second (0 means no restriction)"
-msgstr ""
+msgstr "Кбайт/с (0 означає відсутність обмежень)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:404
 msgid "Maximum upload rate"
@@ -1456,7 +1459,7 @@ msgstr ""
 #: clientgui/DlgAdvPreferencesBase.cpp:431
 #: clientgui/DlgAdvPreferencesBase.cpp:449
 msgid "days (maximum value: 10)"
-msgstr ""
+msgstr "днів (максимальне значення: 10)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:437
 msgid "Max additional work buffer"
@@ -1472,11 +1475,11 @@ msgstr "Передавати не більше"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:462
 msgid "MBytes every"
-msgstr ""
+msgstr "Мбайт кожні"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:468
 msgid "days (0 means no restriction)"
-msgstr ""
+msgstr "днів (0 означає відсутність обмежень)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:476
 msgid "Skip image file verification"
@@ -1537,7 +1540,7 @@ msgstr "максимальний дисковий простір для робо
 
 #: clientgui/DlgAdvPreferencesBase.cpp:626
 msgid "Gigabytes disk space (0 means no restriction)"
-msgstr ""
+msgstr "Гігабайт дискового простору (0 означає відсутність обмежень)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:629
 msgid "Leave at least"
@@ -1625,27 +1628,29 @@ msgstr "Для розширених налаштувань, зверніться
 #: clientgui/DlgDiagnosticLogFlags.cpp:65
 #, c-format
 msgid "%s Diagnostic Log Flags"
-msgstr ""
+msgstr "Діагностичні прапорці %s"
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:83
 msgid "These flags enable various types of diagnostic messages in the Event Log."
 msgstr ""
+"Ці прапорці включають різні типи діагностичних повідомлень в Перегляді "
+"подій."
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:105
 msgid "Save all values and close the dialog"
-msgstr ""
+msgstr "Зберегти всі значення і закрити вікно"
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:108
 msgid "Defaults"
-msgstr ""
+msgstr "За замовчуванням"
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:109
 msgid "Restore default settings"
-msgstr ""
+msgstr "Відновити параметри за замовчуванням"
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:113
 msgid "Close the dialog without saving"
-msgstr ""
+msgstr "Закрити діалогове вікно без збереження змін"
 
 #: clientgui/DlgEventLog.cpp:226
 #, c-format
@@ -1910,11 +1915,11 @@ msgstr "Завершений"
 
 #: clientgui/DlgItemProperties.cpp:285
 msgid "Tasks completed"
-msgstr ""
+msgstr "Завдання завершені"
 
 #: clientgui/DlgItemProperties.cpp:286
 msgid "Tasks failed"
-msgstr ""
+msgstr "Завдання з помилками"
 
 #: clientgui/DlgItemProperties.cpp:288
 msgid "Credit"
@@ -2530,15 +2535,15 @@ msgstr "Готово до запуску"
 
 #: clientgui/MainDocument.cpp:2538
 msgid "Postponed: "
-msgstr ""
+msgstr "Відкладено: "
 
 #: clientgui/MainDocument.cpp:2541
 msgid "Postponed"
-msgstr ""
+msgstr "Відкладено"
 
 #: clientgui/MainDocument.cpp:2545
 msgid "Waiting for network access"
-msgstr ""
+msgstr "Очікування доступу до мережі"
 
 #: clientgui/MainDocument.cpp:2549
 msgid "Computation error"
@@ -2728,35 +2733,37 @@ msgstr ""
 #: clientgui/ProjectWelcomePage.cpp:251
 #, c-format
 msgid "Welcome to %s."
-msgstr ""
+msgstr "Ласкаво просимо до %s."
 
 #: clientgui/ProjectWelcomePage.cpp:254
 msgid "You have volunteered to compute for this project:"
-msgstr ""
+msgstr "Ви добровільно приймаєте участь в обчисленнях для данного проекту:"
 
 #: clientgui/ProjectWelcomePage.cpp:255
 msgid "Name:"
-msgstr ""
+msgstr "Назва:"
 
 #: clientgui/ProjectWelcomePage.cpp:258
 msgid "Home:"
-msgstr ""
+msgstr "Домашня:"
 
 #: clientgui/ProjectWelcomePage.cpp:262
 msgid "Description:"
-msgstr ""
+msgstr "Опис:"
 
 #: clientgui/ProjectWelcomePage.cpp:265
 msgid "URL:"
-msgstr ""
+msgstr "Посилання (URL):"
 
 #: clientgui/ProjectWelcomePage.cpp:268
 msgid "User:"
-msgstr ""
+msgstr "Користувач:"
 
 #: clientgui/ProjectWelcomePage.cpp:273
 msgid "WARNING: This project is not registered with BOINC.  Make sure you trust it before continuing."
 msgstr ""
+"УВАГА: Цей проект не зареєстрований в BOINC.  Перед тим як продовжити, "
+"переконайтесь, що Ви довіряєте йому."
 
 #: clientgui/ProjectWelcomePage.cpp:277
 msgid "To continue, click Next."
@@ -3039,7 +3046,7 @@ msgstr "%d"
 #: clientgui/sg_DlgPreferences.cpp:953
 #, c-format
 msgid "%s - Computing Preferences"
-msgstr ""
+msgstr "%s - Налаштування обчислень"
 
 #: clientgui/sg_DlgPreferences.cpp:1033
 msgid "Do you really want to clear all local preferences?\n"
