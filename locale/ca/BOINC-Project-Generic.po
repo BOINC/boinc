@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2014-01-10 00:00 PST\n"
-"PO-Revision-Date: 2014-02-03 21:30+0000\n"
+"PO-Revision-Date: 2014-12-18 08:46+0000\n"
 "Last-Translator: Xavier <xavi.mormur@gmail.com>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: ca\n"
@@ -20,7 +20,7 @@ msgstr ""
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 "X-Poedit-SearchPath-0: html\\user\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
-"X-POOTLE-MTIME: 1391463057.0\n"
+"X-POOTLE-MTIME: 1418892377.0\n"
 
 msgid "LANG_NAME_NATIVE"
 msgstr "Català"
@@ -1826,7 +1826,7 @@ msgstr "Iniciï la petició"
 
 #: ../inc/team.inc:77
 msgid "Deferred"
-msgstr "Posposat"
+msgstr "Ajornat"
 
 #: ../inc/team.inc:87
 msgid "Team info"
