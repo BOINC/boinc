@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2013-10-18 00:00-0700\n"
-"PO-Revision-Date: 2014-02-28 12:17+0000\n"
+"PO-Revision-Date: 2014-12-28 19:31+0000\n"
 "Last-Translator: Miguel Filipe Paulino de Sousa <Miguel.veig@gmail.com>\n"
 "Language-Team: pt_PT <LL@li.org>\n"
 "Language: pt_PT\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
-"X-POOTLE-MTIME: 1393589836.0\n"
+"X-POOTLE-MTIME: 1419795067.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -49,7 +49,7 @@ msgstr "Adicionar projecto"
 
 msgctxt "attachproject_list_manual_no_url"
 msgid "Please enter project URL"
-msgstr "Por favor insira o URL do projecto"
+msgstr "Por favor, insira o URL do projecto"
 
 msgctxt "attachproject_list_acctmgr_button"
 msgid "Add account manager"
@@ -66,7 +66,7 @@ msgstr "A contactar o servidor do projecto..."
 
 msgctxt "attachproject_login_image_description"
 msgid "Project logo."
-msgstr "Logotipo do projecto."
+msgstr "Logótipo do projecto."
 
 msgctxt "attachproject_login_header_general_area"
 msgid "General area:"
@@ -82,7 +82,7 @@ msgstr "Descrição:"
 
 msgctxt "attachproject_login_header_home"
 msgid "Home:"
-msgstr "Página Inicial:"
+msgstr "Início:"
 
 msgctxt "attachproject_login_header_url"
 msgid "Website:"
@@ -114,11 +114,11 @@ msgstr ""
 
 msgctxt "attachproject_login_category_login"
 msgid "Sign in with existing account"
-msgstr "Entrar com uma conta existente"
+msgstr "Iniciar a sessão com uma conta existente"
 
 msgctxt "attachproject_login_header_id_email"
 msgid "eMail:"
-msgstr "E-mail:"
+msgstr "e-Mail:"
 
 msgctxt "attachproject_login_header_id_name"
 msgid "Name:"
@@ -142,7 +142,7 @@ msgstr "Visite o website do projecto para criar uma conta:"
 
 msgctxt "attachproject_login_header_creation_disabled"
 msgid "Project does currently now allow creation of new accounts!"
-msgstr "O projecto não permite de momento a criação de novas contas!"
+msgstr "De momento, o projecto não permite a criação de novas contas!"
 
 msgctxt "attachproject_login_button_registration"
 msgid "Register"
@@ -150,7 +150,7 @@ msgstr "Registar"
 
 msgctxt "attachproject_login_button_login"
 msgid "Sign in"
-msgstr "Entrar"
+msgstr "Iniciar Sessão"
 
 msgctxt "attachproject_login_button_forgotpw"
 msgid "Forgot Password"
@@ -175,7 +175,7 @@ msgstr "Projecto:"
 
 msgctxt "attachproject_registration_header_email"
 msgid "eMail:"
-msgstr "E-mail:"
+msgstr "e-Mail:"
 
 msgctxt "attachproject_registration_header_username"
 msgid "Name:"
@@ -233,7 +233,7 @@ msgstr "Palavra-passe demasiado curta"
 
 msgctxt "attachproject_error_no_internet"
 msgid "Connection failure"
-msgstr "Falha de conecção"
+msgstr "Falha de ligação"
 
 msgctxt "attachproject_error_pwd_no_match"
 msgid "Passwords do not match"
@@ -245,15 +245,15 @@ msgstr "Por favor insira o URL"
 
 msgctxt "attachproject_error_no_email"
 msgid "Please enter eMail address"
-msgstr "Por favor insira o endereço de e-mail"
+msgstr "Por favor, insira o endereço de e-mail"
 
 msgctxt "attachproject_error_no_pwd"
 msgid "Please enter a password"
-msgstr "Por favor insira a palavra-passe"
+msgstr "Por favor, insira a palavra-passe"
 
 msgctxt "attachproject_error_no_name"
 msgid "Please enter user name"
-msgstr "Por favor insira o nome de utilizador"
+msgstr "Por favor, insira o nome de utilizador"
 
 msgctxt "attachproject_error_unknown"
 msgid "failed"
@@ -290,7 +290,7 @@ msgstr "URL inválido"
 #. working activity
 msgctxt "attachproject_working_back_button"
 msgid "Back"
-msgstr "Voltar atrás"
+msgstr "Voltar"
 
 msgctxt "attachproject_working_finish_button"
 msgid "Finish"
@@ -318,7 +318,7 @@ msgstr ":"
 
 msgctxt "attachproject_working_connect"
 msgid "Connect"
-msgstr "Conectar"
+msgstr "Ligar"
 
 msgctxt "attachproject_working_verify"
 msgid "Verify account"
@@ -330,7 +330,7 @@ msgstr "Registar conta"
 
 msgctxt "attachproject_working_login"
 msgid "Log in"
-msgstr "Entrar"
+msgstr "Iniciar sessão"
 
 msgctxt "attachproject_working_acctmgr"
 msgid "Add account manager"
@@ -393,7 +393,7 @@ msgstr "Navegação"
 #. status strings
 msgctxt "status_running"
 msgid "Computing"
-msgstr "A computar"
+msgstr "A realizar computação"
 
 msgctxt "status_running_long"
 msgid "Thank you for participating."
@@ -418,15 +418,15 @@ msgstr "Suspensa"
 msgctxt "status_computing_disabled_long"
 msgid "Press play to resume network and computation."
 msgstr ""
-"Carregue no botão play para resumir a computação e a actividade de rede."
+"Carregue em reproduzir para resumir a computação e a actividade de rede."
 
 msgctxt "status_launching"
 msgid "Starting…"
-msgstr "A começar..."
+msgstr "A iniciar ..."
 
 msgctxt "status_noproject"
 msgid "Choose a project to participate in."
-msgstr "Escolha o projecto em que participar."
+msgstr "Escolha um projecto para participar."
 
 msgctxt "status_closing"
 msgid "Closing…"
@@ -475,7 +475,7 @@ msgstr "CPU"
 
 msgctxt "prefs_category_storage"
 msgid "Storage"
-msgstr "Espaço de Armazenamento"
+msgstr "Armazenamento"
 
 msgctxt "prefs_category_memory"
 msgid "Memory"
@@ -483,7 +483,7 @@ msgstr "Memória"
 
 msgctxt "prefs_category_debug"
 msgid "Debug"
-msgstr "Debug"
+msgstr "Depurar"
 
 msgctxt "prefs_show_advanced_header"
 msgid "Show advanced preferences and controls…"
@@ -491,21 +491,21 @@ msgstr "Mostrar preferências e controlos avançados..."
 
 msgctxt "prefs_run_on_battery_header"
 msgid "Compute on Battery"
-msgstr "Realizar computação quando estiver só em Bateria"
+msgstr "Realizar a computação quando em Bateria"
 
 msgctxt "battery_charge_min_pct_header"
 msgid "Min. battery level"
-msgstr "Nível de bateria minímo"
+msgstr "Nível de bateria mínimo"
 
 msgctxt "battery_charge_min_pct_description"
 msgid "BOINC suspends computation below defined battery charge level."
 msgstr ""
-"O BOINC suspende a computação quando o nivel de bateria for inferior ao "
+"O BOINC suspende a computação quando o nível de bateria for inferior ao "
 "definido."
 
 msgctxt "battery_temperature_max_header"
 msgid "Max. battery temperature"
-msgstr "Temperatura máxima de bateria"
+msgstr "Temperatura máxima da bateria"
 
 msgctxt "battery_temperature_max_description"
 msgid ""
@@ -555,17 +555,17 @@ msgstr "Mostrar notificações quando suspenso"
 
 msgctxt "prefs_cpu_number_cpus_header"
 msgid "Used CPU cores"
-msgstr "Número de cores utilizados pelo CPU"
+msgstr "Núcleos utilizados pelo CPU"
 
 msgctxt "prefs_cpu_number_cpus_description"
 msgid "Limits the number of CPU cores BOINC uses for computation."
 msgstr ""
-"Limite de cores usados pelo CPU que são utilizados para a computação no "
-"BOINC."
+"Limita o número de núcleos usados pelo CPU que o BOINC utiliza para a "
+"computação."
 
 msgctxt "prefs_cpu_other_load_suspension_header"
 msgid "Pause at CPU usage above"
-msgstr "Pausar o CPU quando a sua utilização for acima de"
+msgstr "Pausar quando o CPU está acima da utilização de"
 
 msgctxt "prefs_cpu_other_load_suspension_description"
 msgid "Determines when BOINC pauses computation due to other app's CPU usage."
@@ -587,7 +587,8 @@ msgstr "Limite de RAM"
 
 msgctxt "prefs_memory_max_idle_description"
 msgid "Limits the amount of RAM tasks are allowed to occupy."
-msgstr "Limite de memória RAM que pode ser utilizada pelas tarefas."
+msgstr ""
+"Limita a quantidade da memória RAM que pode ser utilizada pelas tarefas."
 
 msgctxt "prefs_client_log_flags_header"
 msgid "BOINC Client log flags"
@@ -595,7 +596,7 @@ msgstr "Bandeiras de log do cliente BOINC"
 
 msgctxt "prefs_gui_log_level_header"
 msgid "GUI log level"
-msgstr "Nível dos logs da GUI"
+msgstr "Nível do registo da GUI"
 
 msgctxt "prefs_gui_log_level_description"
 msgid "Specifies verbosity of GUI log messages."
@@ -621,7 +622,7 @@ msgstr "°C"
 #. projects tab strings
 msgctxt "projects_loading"
 msgid "Reading projects…"
-msgstr "A rever projectos..."
+msgstr "A ler os projectos..."
 
 msgctxt "projects_add"
 msgid "Add project"
@@ -650,11 +651,11 @@ msgstr "Suspenso pelo utilizador"
 
 msgctxt "projects_status_dontrequestmorework"
 msgid "Won't get new tasks"
-msgstr "Não obter novas tarefas"
+msgstr "Não irá obter novas tarefas"
 
 msgctxt "projects_status_ended"
 msgid "Project ended - OK to remove"
-msgstr "Projecto terminou - OK para remover "
+msgstr "Projecto concluído - OK para remover "
 
 msgctxt "projects_status_detachwhendone"
 msgid "Will remove when tasks done"
@@ -683,7 +684,7 @@ msgstr "Comandos do projecto:"
 
 msgctxt "projects_control_visit_website"
 msgid "Visit website"
-msgstr "Visitar o website"
+msgstr "Visitar o site da web"
 
 msgctxt "projects_control_update"
 msgid "Update"
@@ -703,7 +704,7 @@ msgstr "Resumir"
 
 msgctxt "projects_control_nonewtasks"
 msgid "No new tasks"
-msgstr "Não obter novas tarefas"
+msgstr "Sem novas tarefas"
 
 msgctxt "projects_control_allownewtasks"
 msgid "Allow new tasks"
@@ -711,7 +712,7 @@ msgstr "Permitir novas tarefas"
 
 msgctxt "projects_control_reset"
 msgid "Reset"
-msgstr "Reset"
+msgstr "Reiniciar"
 
 msgctxt "projects_control_dialog_title_acctmgr"
 msgid "Account manager commands:"
