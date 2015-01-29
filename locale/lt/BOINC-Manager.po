@@ -493,6 +493,7 @@ msgid "Show information about the %s"
 msgstr "Rodyti informaciją apie %s"
 
 #: AdvancedFrame.cpp:661 sg_BoincSimpleFrame.cpp:224
+#, c-format
 #, c-format, fuzzy
 msgid "%s &web site"
 msgstr "%s &tinklapis"
