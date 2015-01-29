@@ -385,6 +385,7 @@ function get_job_status() {
     $s->hosts_past_24_hours = BoincHost::count("create_time > (unix_timestamp() - 86400)");
     $s->flops = BoincUser::sum("expavg_credit")/200;
 
+    $s->db_revision = null;
     if (file_exists("../../db_revision")) {
         $s->db_revision = trim(file_get_contents("../../db_revision"));
     }
