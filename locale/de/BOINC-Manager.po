@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.4x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-12-15 14:15-0500\n"
-"PO-Revision-Date: 2014-04-06 14:05+0000\n"
-"Last-Translator: Christian <djangofett@gmx.net>\n"
+"PO-Revision-Date: 2014-12-18 08:57+0000\n"
+"Last-Translator: Christian <christian.beer@posteo.de>\n"
 "Language-Team: BOINC.DE Team <webmaster@boinc.de>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -19,7 +19,7 @@ msgstr ""
 "X-Poedit-Basepath: C:\\Src\\BOINCGIT\\boinc_7.4\n"
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-POOTLE-MTIME: 1396793150.0\n"
+"X-POOTLE-MTIME: 1418893064.0\n"
 "X-Poedit-SearchPath-1: clientgui/msw\n"
 "X-Poedit-SearchPath-2: clientgui/gtk\n"
 "X-Poedit-SearchPath-3: clientgui/mac\n"
@@ -106,7 +106,7 @@ msgstr "Benutzername:"
 
 #: clientgui/AccountInfoPage.cpp:511
 msgid "&Email address or LDAP ID:"
-msgstr ""
+msgstr "E-Mail-Adresse oder LDAP ID:"
 
 #: clientgui/AccountInfoPage.cpp:515
 msgid "&Email address:"
@@ -241,7 +241,7 @@ msgstr "Beende %s"
 
 #: clientgui/AdvancedFrame.cpp:359
 msgid "Preferences..."
-msgstr ""
+msgstr "Einstellungen..."
 
 #: clientgui/AdvancedFrame.cpp:368
 msgid "&Notices\tCtrl+Shift+N"
@@ -501,11 +501,11 @@ msgstr "Zeige Diagnosenachrichten."
 
 #: clientgui/AdvancedFrame.cpp:616
 msgid "Event Log Diagnostic Flags...\tCtrl+Shift+F"
-msgstr ""
+msgstr "Meldungen Diagnose-Einstellungen...\tCtrl+Shift+F"
 
 #: clientgui/AdvancedFrame.cpp:617
 msgid "Enable or disable various diagnostic messages"
-msgstr ""
+msgstr "Aktivieren oder deaktivieren verschiedener Diagnosenachrichten"
 
 #: clientgui/AdvancedFrame.cpp:626
 #, c-format
@@ -1133,11 +1133,14 @@ msgstr "wxWidgets Version:"
 msgid "Copyright:"
 msgstr "Copyright:"
 
+# 98%
 #: clientgui/DlgAbout.cpp:192
 msgid ""
 "(C) 2003-2014 University of California, Berkeley.\n"
 "All Rights Reserved."
 msgstr ""
+"(C) 2003-2014 University of California, Berkeley.\n"
+"Alle Rechte vorbehalten."
 
 #: clientgui/DlgAbout.cpp:196
 msgid "Berkeley Open Infrastructure for Network Computing"
@@ -1221,7 +1224,7 @@ msgstr "Bestätigung"
 #: clientgui/DlgAdvPreferencesBase.cpp:49
 #, c-format
 msgid "%s - Computing preferences"
-msgstr ""
+msgstr "%s - Recheneinstellungen"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:66
 msgid ""
@@ -1427,7 +1430,7 @@ msgstr "Nutze auf Multiprozessorsystemen höchstens"
 #: clientgui/DlgAdvPreferencesBase.cpp:352
 #, no-c-format
 msgid "% of the processors (0 means no restriction)"
-msgstr ""
+msgstr "% der Prozessoren (0 für keine Einschränkung)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:355
 #: clientgui/DlgAdvPreferencesBase.cpp:618
@@ -1441,7 +1444,7 @@ msgstr "Nutze höchstens"
 #: clientgui/DlgAdvPreferencesBase.cpp:362
 #, no-c-format
 msgid "% of CPU time (0 means no restriction)"
-msgstr ""
+msgstr "% der CPU-Zeit (0 für keine Einschränkungen)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:386
 msgid "General options"
@@ -1454,7 +1457,7 @@ msgstr "Maximale Download-Rate"
 #: clientgui/DlgAdvPreferencesBase.cpp:401
 #: clientgui/DlgAdvPreferencesBase.cpp:410
 msgid "KBytes/second (0 means no restriction)"
-msgstr ""
+msgstr "KBytes/Sekunde (0 für keine Einschränkungen)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:404
 msgid "Maximum upload rate"
@@ -1474,7 +1477,7 @@ msgstr ""
 #: clientgui/DlgAdvPreferencesBase.cpp:431
 #: clientgui/DlgAdvPreferencesBase.cpp:449
 msgid "days (maximum value: 10)"
-msgstr ""
+msgstr "Tage (Maximalwert: 10)"
 
 # 80%
 #: clientgui/DlgAdvPreferencesBase.cpp:437
@@ -1492,11 +1495,11 @@ msgstr "Übertrage höchstens"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:462
 msgid "MBytes every"
-msgstr ""
+msgstr "MBytes je"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:468
 msgid "days (0 means no restriction)"
-msgstr ""
+msgstr "Tage (0 für keine Einschränkung)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:476
 msgid "Skip image file verification"
@@ -1558,7 +1561,7 @@ msgstr "der maximal von BOINC benutzte Festplattenplatz (in GByte)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:626
 msgid "Gigabytes disk space (0 means no restriction)"
-msgstr ""
+msgstr "Gigabyte Festplattenplatz (0 für keine Einschränkung)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:629
 msgid "Leave at least"
@@ -1645,27 +1648,29 @@ msgstr "Für weitere Einstellungen, bitte hier schauen "
 #: clientgui/DlgDiagnosticLogFlags.cpp:65
 #, c-format
 msgid "%s Diagnostic Log Flags"
-msgstr ""
+msgstr "%s Diagnose Einstellungen"
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:83
 msgid "These flags enable various types of diagnostic messages in the Event Log."
 msgstr ""
+"Diese Schalter aktivieren verschiedene Arten von Diagnosemeldungen im "
+"Meldungsfenster."
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:105
 msgid "Save all values and close the dialog"
-msgstr ""
+msgstr "Speichert alle Änderungen und schließt den Dialog"
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:108
 msgid "Defaults"
-msgstr ""
+msgstr "Vorgaben"
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:109
 msgid "Restore default settings"
-msgstr ""
+msgstr "Vorgaben wiederherstellen"
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:113
 msgid "Close the dialog without saving"
-msgstr ""
+msgstr "schließt den Dialog ohne die Änderungen zu speichern"
 
 #: clientgui/DlgEventLog.cpp:226
 #, c-format
@@ -1933,11 +1938,11 @@ msgstr "Beendet"
 
 #: clientgui/DlgItemProperties.cpp:285
 msgid "Tasks completed"
-msgstr ""
+msgstr "Aufgaben erledigt"
 
 #: clientgui/DlgItemProperties.cpp:286
 msgid "Tasks failed"
-msgstr ""
+msgstr "Aufgaben fehlgeschlagen"
 
 #: clientgui/DlgItemProperties.cpp:288
 msgid "Credit"
@@ -2554,15 +2559,16 @@ msgstr "Zur Ausführung bereit"
 
 #: clientgui/MainDocument.cpp:2538
 msgid "Postponed: "
-msgstr ""
+msgstr "Zurückgestellt: "
 
 #: clientgui/MainDocument.cpp:2541
 msgid "Postponed"
 msgstr ""
 
 #: clientgui/MainDocument.cpp:2545
+#, fuzzy
 msgid "Waiting for network access"
-msgstr ""
+msgstr "Warte auf Netzwerkzugriff"
 
 #: clientgui/MainDocument.cpp:2549
 msgid "Computation error"
@@ -2755,19 +2761,22 @@ msgstr ""
 #: clientgui/ProjectWelcomePage.cpp:251
 #, c-format
 msgid "Welcome to %s."
-msgstr ""
+msgstr "Willkommen bei %s."
 
 #: clientgui/ProjectWelcomePage.cpp:254
 msgid "You have volunteered to compute for this project:"
 msgstr ""
+"Du möchtest gern deine Rechenleistung für dieses Projekt zur Verfügung "
+"stellen:"
 
 #: clientgui/ProjectWelcomePage.cpp:255
 msgid "Name:"
-msgstr ""
+msgstr "Name:"
 
 #: clientgui/ProjectWelcomePage.cpp:258
+#, fuzzy
 msgid "Home:"
-msgstr ""
+msgstr "Betreiber:"
 
 #: clientgui/ProjectWelcomePage.cpp:262
 msgid "Description:"
@@ -2778,12 +2787,15 @@ msgid "URL:"
 msgstr ""
 
 #: clientgui/ProjectWelcomePage.cpp:268
+#, fuzzy
 msgid "User:"
-msgstr ""
+msgstr "Benutzer"
 
 #: clientgui/ProjectWelcomePage.cpp:273
 msgid "WARNING: This project is not registered with BOINC.  Make sure you trust it before continuing."
 msgstr ""
+"ACHTUNG: Dieses Projekt ist BOINC nicht bekannt. Bitte überprüfe ob du dem "
+"Betreiber vertraust, bevor du fortfährst."
 
 #: clientgui/ProjectWelcomePage.cpp:277
 msgid "To continue, click Next."
@@ -3068,9 +3080,9 @@ msgid "%d"
 msgstr "%d"
 
 #: clientgui/sg_DlgPreferences.cpp:953
-#, c-format
+#, c-format, fuzzy
 msgid "%s - Computing Preferences"
-msgstr ""
+msgstr "%s - Recheneinstellungen"
 
 #: clientgui/sg_DlgPreferences.cpp:1033
 msgid "Do you really want to clear all local preferences?\n"
