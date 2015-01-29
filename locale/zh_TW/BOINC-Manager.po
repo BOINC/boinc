@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-12-15 14:15-0500\n"
-"PO-Revision-Date: 2014-03-04 06:54+0000\n"
+"PO-Revision-Date: 2014-12-21 05:48+0000\n"
 "Last-Translator: 宇謙 <df910105@yahoo.com.tw>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: zh_TW\n"
@@ -19,7 +19,7 @@ msgstr ""
 "X-Poedit-Basepath: C:\\Src\\BOINCGIT\\boinc_7.4\n"
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-POOTLE-MTIME: 1393916083.0\n"
+"X-POOTLE-MTIME: 1419140910.0\n"
 "X-Poedit-SearchPath-1: clientgui/msw\n"
 "X-Poedit-SearchPath-2: clientgui/gtk\n"
 "X-Poedit-SearchPath-3: clientgui/mac\n"
@@ -231,7 +231,7 @@ msgstr "離開 %s"
 
 #: clientgui/AdvancedFrame.cpp:359
 msgid "Preferences..."
-msgstr ""
+msgstr "偏好設定…"
 
 #: clientgui/AdvancedFrame.cpp:368
 msgid "&Notices\tCtrl+Shift+N"
@@ -1090,11 +1090,14 @@ msgstr "wxWidgets 版本："
 msgid "Copyright:"
 msgstr "版權："
 
+# 98%
 #: clientgui/DlgAbout.cpp:192
 msgid ""
 "(C) 2003-2014 University of California, Berkeley.\n"
 "All Rights Reserved."
 msgstr ""
+"(C) 2003-2014 美國加州大學柏克萊分校\n"
+"保留所有權利。"
 
 #: clientgui/DlgAbout.cpp:196
 msgid "Berkeley Open Infrastructure for Network Computing"
@@ -1372,9 +1375,9 @@ msgid "On multiprocessor systems, use at most"
 msgstr "多核心系統中最多只使用"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:352
-#, no-c-format
+#, fuzzy, no-c-format
 msgid "% of the processors (0 means no restriction)"
-msgstr ""
+msgstr "% (0表示忽略此設置)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:355
 #: clientgui/DlgAdvPreferencesBase.cpp:618
@@ -1437,8 +1440,9 @@ msgid "MBytes every"
 msgstr ""
 
 #: clientgui/DlgAdvPreferencesBase.cpp:468
+#, fuzzy
 msgid "days (0 means no restriction)"
-msgstr ""
+msgstr "% (0 代表不限制 )"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:476
 msgid "Skip image file verification"
@@ -1588,19 +1592,21 @@ msgstr ""
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:105
 msgid "Save all values and close the dialog"
-msgstr ""
+msgstr "儲存所有值並關閉視窗"
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:108
+#, fuzzy
 msgid "Defaults"
-msgstr ""
+msgstr "預設"
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:109
 msgid "Restore default settings"
 msgstr ""
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:113
+#, fuzzy
 msgid "Close the dialog without saving"
-msgstr ""
+msgstr "關閉視窗且不儲存"
 
 #: clientgui/DlgEventLog.cpp:226
 #, c-format
@@ -1859,11 +1865,11 @@ msgstr "已結束"
 
 #: clientgui/DlgItemProperties.cpp:285
 msgid "Tasks completed"
-msgstr ""
+msgstr "任務完成"
 
 #: clientgui/DlgItemProperties.cpp:286
 msgid "Tasks failed"
-msgstr ""
+msgstr "任務失敗"
 
 #: clientgui/DlgItemProperties.cpp:288
 msgid "Credit"
@@ -2466,8 +2472,9 @@ msgid "Postponed"
 msgstr ""
 
 #: clientgui/MainDocument.cpp:2545
+#, fuzzy
 msgid "Waiting for network access"
-msgstr ""
+msgstr " (正等待網存取)"
 
 #: clientgui/MainDocument.cpp:2549
 msgid "Computation error"
@@ -2651,7 +2658,7 @@ msgstr ""
 #: clientgui/ProjectWelcomePage.cpp:251
 #, c-format
 msgid "Welcome to %s."
-msgstr ""
+msgstr "歡迎來到%s。"
 
 #: clientgui/ProjectWelcomePage.cpp:254
 msgid "You have volunteered to compute for this project:"
@@ -2659,7 +2666,7 @@ msgstr ""
 
 #: clientgui/ProjectWelcomePage.cpp:255
 msgid "Name:"
-msgstr ""
+msgstr "姓名："
 
 #: clientgui/ProjectWelcomePage.cpp:258
 msgid "Home:"
@@ -2667,15 +2674,15 @@ msgstr ""
 
 #: clientgui/ProjectWelcomePage.cpp:262
 msgid "Description:"
-msgstr ""
+msgstr "描述:"
 
 #: clientgui/ProjectWelcomePage.cpp:265
 msgid "URL:"
-msgstr ""
+msgstr "URL:"
 
 #: clientgui/ProjectWelcomePage.cpp:268
 msgid "User:"
-msgstr ""
+msgstr "使用者:"
 
 #: clientgui/ProjectWelcomePage.cpp:273
 msgid "WARNING: This project is not registered with BOINC.  Make sure you trust it before continuing."
