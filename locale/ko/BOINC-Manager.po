@@ -7,19 +7,20 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 7.2.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-12-15 14:15-0500\n"
-"PO-Revision-Date: 2014-02-07 17:42+0900\n"
-"Last-Translator: Lee Kangsan <treppolse@gmail.com>\n"
+"PO-Revision-Date: 2014-12-18 12:37+0000\n"
+"Last-Translator: Kangsan Lee <treppolse@gmail.com>\n"
 "Language-Team: SETIKAH@KOREA\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 1.6.3\n"
+"X-Generator: Pootle 2.5.0\n"
 "X-Poedit-Basepath: C:\\Src\\BOINCGIT\\boinc_7.4\n"
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
+"X-POOTLE-MTIME: 1418906230.0\n"
 
 #: clientgui/AccountInfoPage.cpp:387
 #, c-format
@@ -99,7 +100,7 @@ msgstr "사용자 이름:"
 
 #: clientgui/AccountInfoPage.cpp:511
 msgid "&Email address or LDAP ID:"
-msgstr ""
+msgstr "이메일주소(&E) 또는 LDAP ID:"
 
 #: clientgui/AccountInfoPage.cpp:515
 msgid "&Email address:"
@@ -231,7 +232,7 @@ msgstr "%s 종료(&E) "
 
 #: clientgui/AdvancedFrame.cpp:359
 msgid "Preferences..."
-msgstr ""
+msgstr "환경 설정..."
 
 #: clientgui/AdvancedFrame.cpp:368
 msgid "&Notices\tCtrl+Shift+N"
@@ -481,11 +482,11 @@ msgstr "진단 메세지를 보여줍니다."
 
 #: clientgui/AdvancedFrame.cpp:616
 msgid "Event Log Diagnostic Flags...\tCtrl+Shift+F"
-msgstr ""
+msgstr "이벤트 기록 진단 플래그...\tCtrl+Shift+F"
 
 #: clientgui/AdvancedFrame.cpp:617
 msgid "Enable or disable various diagnostic messages"
-msgstr ""
+msgstr "다양한 진단 메세지를 활성화 혹은 비활성화시킵니다"
 
 #: clientgui/AdvancedFrame.cpp:626
 #, c-format
@@ -1100,6 +1101,8 @@ msgid ""
 "(C) 2003-2014 University of California, Berkeley.\n"
 "All Rights Reserved."
 msgstr ""
+"(C) 2003-2014 University of California, Berkeley.\n"
+"All Rights Reserved."
 
 #: clientgui/DlgAbout.cpp:196
 msgid "Berkeley Open Infrastructure for Network Computing"
@@ -1183,7 +1186,7 @@ msgstr "확인됨"
 #: clientgui/DlgAdvPreferencesBase.cpp:49
 #, c-format
 msgid "%s - Computing preferences"
-msgstr ""
+msgstr "%s - 연산 환경 설정"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:66
 msgid ""
@@ -1379,7 +1382,7 @@ msgstr "다중 프로세서 시스템일 때 최대 사용량"
 #: clientgui/DlgAdvPreferencesBase.cpp:352
 #, no-c-format
 msgid "% of the processors (0 means no restriction)"
-msgstr ""
+msgstr "프로세서 사용량 %(0일 경우 무제한)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:355
 #: clientgui/DlgAdvPreferencesBase.cpp:618
@@ -1393,7 +1396,7 @@ msgstr "최대 사용량"
 #: clientgui/DlgAdvPreferencesBase.cpp:362
 #, no-c-format
 msgid "% of CPU time (0 means no restriction)"
-msgstr ""
+msgstr "CPU 시간 할당 % (0일 경우 무제한)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:386
 msgid "General options"
@@ -1406,7 +1409,7 @@ msgstr "최대 다운로드 속도"
 #: clientgui/DlgAdvPreferencesBase.cpp:401
 #: clientgui/DlgAdvPreferencesBase.cpp:410
 msgid "KBytes/second (0 means no restriction)"
-msgstr ""
+msgstr "KBytes/초 (0일 경우 무제한)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:404
 msgid "Maximum upload rate"
@@ -1423,7 +1426,7 @@ msgstr "지정한 날짜동안 충분한 작업을 수행하고 유지하도록 
 #: clientgui/DlgAdvPreferencesBase.cpp:431
 #: clientgui/DlgAdvPreferencesBase.cpp:449
 msgid "days (maximum value: 10)"
-msgstr ""
+msgstr "일 (최대 값: 10)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:437
 msgid "Max additional work buffer"
@@ -1439,11 +1442,11 @@ msgstr "최대 전송량"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:462
 msgid "MBytes every"
-msgstr ""
+msgstr "MB로 해당 "
 
 #: clientgui/DlgAdvPreferencesBase.cpp:468
 msgid "days (0 means no restriction)"
-msgstr ""
+msgstr "일동안 제한 (0은 제한 없음)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:476
 msgid "Skip image file verification"
@@ -1500,7 +1503,7 @@ msgstr "BOINC가 사용하는 최대 디스크 용량 (단위 GB)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:626
 msgid "Gigabytes disk space (0 means no restriction)"
-msgstr ""
+msgstr "GB 디스크 여유 공간 사용 (0은 제한 없음)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:629
 msgid "Leave at least"
@@ -1585,27 +1588,27 @@ msgstr "고급 옵션은 다음을 따릅니다"
 #: clientgui/DlgDiagnosticLogFlags.cpp:65
 #, c-format
 msgid "%s Diagnostic Log Flags"
-msgstr ""
+msgstr "%s 진단 기록 플래그"
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:83
 msgid "These flags enable various types of diagnostic messages in the Event Log."
-msgstr ""
+msgstr "이런 플래그들은 이벤트 기록에서 다양한 종류의 진단 메세지를 활성화시킵니다."
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:105
 msgid "Save all values and close the dialog"
-msgstr ""
+msgstr "모든 값을 저장하고 창을 닫습니다"
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:108
 msgid "Defaults"
-msgstr ""
+msgstr "기본값"
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:109
 msgid "Restore default settings"
-msgstr ""
+msgstr "기본 설정으로 복원합니다"
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:113
 msgid "Close the dialog without saving"
-msgstr ""
+msgstr "저장하지 않고 창을 닫습니다"
 
 #: clientgui/DlgEventLog.cpp:226
 #, c-format
@@ -1869,11 +1872,11 @@ msgstr "끝남"
 
 #: clientgui/DlgItemProperties.cpp:285
 msgid "Tasks completed"
-msgstr ""
+msgstr "태스크 완료됨"
 
 #: clientgui/DlgItemProperties.cpp:286
 msgid "Tasks failed"
-msgstr ""
+msgstr "태스크 실패"
 
 #: clientgui/DlgItemProperties.cpp:288
 msgid "Credit"
@@ -2469,15 +2472,15 @@ msgstr "시작 대기"
 
 #: clientgui/MainDocument.cpp:2538
 msgid "Postponed: "
-msgstr ""
+msgstr "지연: "
 
 #: clientgui/MainDocument.cpp:2541
 msgid "Postponed"
-msgstr ""
+msgstr "지연됨"
 
 #: clientgui/MainDocument.cpp:2545
 msgid "Waiting for network access"
-msgstr ""
+msgstr "네트워크 액세스 대기중"
 
 #: clientgui/MainDocument.cpp:2549
 msgid "Computation error"
@@ -2663,35 +2666,35 @@ msgstr ""
 #: clientgui/ProjectWelcomePage.cpp:251
 #, c-format
 msgid "Welcome to %s."
-msgstr ""
+msgstr "%s에 오신 것을 환영합니다."
 
 #: clientgui/ProjectWelcomePage.cpp:254
 msgid "You have volunteered to compute for this project:"
-msgstr ""
+msgstr "여러분은 이 프로젝트 수행에 기여하게 됩니다:"
 
 #: clientgui/ProjectWelcomePage.cpp:255
 msgid "Name:"
-msgstr ""
+msgstr "이름:"
 
 #: clientgui/ProjectWelcomePage.cpp:258
 msgid "Home:"
-msgstr ""
+msgstr "홈 페이지:"
 
 #: clientgui/ProjectWelcomePage.cpp:262
 msgid "Description:"
-msgstr ""
+msgstr "설명:"
 
 #: clientgui/ProjectWelcomePage.cpp:265
 msgid "URL:"
-msgstr ""
+msgstr "URL:"
 
 #: clientgui/ProjectWelcomePage.cpp:268
 msgid "User:"
-msgstr ""
+msgstr "사용자:"
 
 #: clientgui/ProjectWelcomePage.cpp:273
 msgid "WARNING: This project is not registered with BOINC.  Make sure you trust it before continuing."
-msgstr ""
+msgstr "경고: 이 프로젝트는 BOINC에 등록되지 않았습니다. 계속하기 전에 신뢰할 수 있는지 확인하세요."
 
 #: clientgui/ProjectWelcomePage.cpp:277
 msgid "To continue, click Next."
@@ -2969,7 +2972,7 @@ msgstr "%d"
 #: clientgui/sg_DlgPreferences.cpp:953
 #, c-format
 msgid "%s - Computing Preferences"
-msgstr ""
+msgstr "%s - 연산 환경 설정"
 
 #: clientgui/sg_DlgPreferences.cpp:1033
 msgid "Do you really want to clear all local preferences?\n"
@@ -4015,7 +4018,7 @@ msgstr "완료"
 
 #: clientgui/common/wxPieCtrl.cpp:64
 msgid "Pie Ctrl"
-msgstr ""
+msgstr "Pie Ctrl"
 
 #: clientgui/mac/Mac_GUI.cpp:35
 msgid "Services"
@@ -4041,11 +4044,11 @@ msgstr "%s 종료"
 
 #: clientgui/DlgAdvPreferences.h:30
 msgid "specify work start and stop hours in format HH:MM-HH:MM"
-msgstr ""
+msgstr "작업 시작 및 중지 시각을 HH:MM-HH:MM 형식으로 지정하세요"
 
 #: clientgui/DlgAdvPreferences.h:31
 msgid "specify network usage start and stop hours in format HH:MM-HH:MM"
-msgstr ""
+msgstr "네트워크 사용 시작 및 중지 시각을 HH:MM-HH:MM 형식으로 지정하세요"
 
 #~ msgid ""
 #~ "(C) 2003-2013 University of California, Berkeley.\n"
