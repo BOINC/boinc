@@ -7,40 +7,40 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-10-15 22:25-0700\n"
-"PO-Revision-Date: 2012-01-05 17:57+0200\n"
-"Last-Translator: Erik <ersi@digitalfractions.net>\n"
+"PO-Revision-Date: 2014-12-25 07:09+0000\n"
+"Last-Translator: morpa <josef.andersson@fripost.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: sv_SE\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 2.1.6\n"
+"X-Generator: Pootle 2.5.0\n"
+"X-POOTLE-MTIME: 1419491367.0\n"
 
 #: acct_mgr.cpp:450 acct_mgr.cpp:459
-#, fuzzy
 msgid "Message from account manager"
-msgstr "Meddelande från servern"
+msgstr "Meddelande från kontohanteraren"
 
 #: client_msgs.cpp:81
 msgid "Message from server"
-msgstr "Meddelande från servern"
+msgstr "Meddelande från server"
 
 #: client_state.cpp:258
 msgid ""
 "Some tasks need more memory than allowed by your preferences.  Please check "
 "the preferences."
 msgstr ""
-"Vissa uppgifter kräver mer minne än du tillåtit i dina inställningar. Var "
-"vänlig kontrollera dina inställningar."
+"En del uppgifter kräver mer minne än dina inställningar tillåter.  "
+"Kontrollera inställningarna."
 
 #: client_state.cpp:520
 msgid "Couldn't write state file; check directory permissions"
-msgstr "Kunde inte skriva tillståndsfil; kontrollera katalogsbehörigheter"
+msgstr "Kunde inte skriva tillståndsfil; kontrollera katalogbehörigheter"
 
 #: cs_cmdline.cpp:303
 msgid "The HTTP_PROXY environment variable must specify an HTTP proxy"
-msgstr "Miljövariabeln HTTP_PROXY måste specifiera en HTTP-proxy"
+msgstr "Miljövariabeln HTTP_PROXY måste specificera en HTTP-proxy"
 
 #: cs_scheduler.cpp:613
 #, c-format
@@ -48,8 +48,8 @@ msgid ""
 "You used the wrong URL for this project.  When convenient, remove this "
 "project, then add %s"
 msgstr ""
-"Du använde en felaktig URL för detta projekt. Vid tillfälle, ta bort "
-"projektet och lägg sedan till %s"
+"Du använde fel URL för detta projekt.  När det känns bekvämt, ta bort detta "
+"projekt och lägg sedan till %s"
 
 #: cs_statefile.cpp:828 ../sched/sched_types.cpp:259
 msgid "Syntax error in app_info.xml"
@@ -57,15 +57,15 @@ msgstr "Syntaxfel i app_info.xml"
 
 #: cs_statefile.cpp:868
 msgid "File referenced in app_info.xml does not exist: "
-msgstr "Fil refererad i app_info.xml saknas: "
+msgstr "Filen som det hänvisas till i app_info.xml finns inte: "
 
 #: current_version.cpp:91
 msgid "A new version of BOINC is available."
-msgstr "En ny version av BOINC finns tillgänglig."
+msgstr "En ny version av BOINC är tillgänglig."
 
 #: current_version.cpp:94 current_version.cpp:102
 msgid "Download"
-msgstr ""
+msgstr "Hämta"
 
 #: log_flags.cpp:269 log_flags.cpp:449
 msgid "Unexpected text in cc_config.xml"
@@ -80,9 +80,8 @@ msgid "Missing start tag in cc_config.xml"
 msgstr "Starttagg i cc_config.xml saknas"
 
 #: log_flags.cpp:465
-#, fuzzy
 msgid "Error in cc_config.xml options"
-msgstr "Okänd tagg i cc_config.xml"
+msgstr "Fel i cc_config.xml-alternativen"
 
 #: log_flags.cpp:483
 msgid "Missing end tag in cc_config.xml"
@@ -91,75 +90,70 @@ msgstr "Sluttagg i cc_config.xml saknas"
 #: ../sched/handle_request.cpp:307
 msgid "Invalid or missing account key.  To fix, remove and add this project."
 msgstr ""
-"Ogiltig eller saknad kontonyckel.  Lös detta genom att ta bort och lägg till "
-"detta projekt på nytt."
+"Ogiltig eller saknad kontonyckel.  För att rätta till, ta bort och lägg till "
+"detta projekt."
 
 #: ../sched/handle_request.cpp:849
 msgid "Invalid code signing key.  To fix, remove and add this project."
 msgstr ""
-"Ogiltig kodsigneringsnyckel. Lös detta genom att ta bort och lägg till detta "
-"projekt på nytt."
+"Ogiltig nyckel för kodsignatur.  För att rätta till, ta bort och lägg till "
+"detta projekt."
 
 #: ../sched/handle_request.cpp:859
 msgid ""
 "The project has changed its security key.  Please remove and add this "
 "project."
 msgstr ""
-"Projektet har ändrat sin säkerhetsnyckel. Vänligen ta bort och lägg till "
-"projektet igen."
+"Projektet har ändrat sin säkerhetsnyckel.  Ta bort och lägg till detta "
+"projekt."
 
 #: ../sched/handle_request.cpp:943
 msgid "This project doesn't support operating system"
-msgstr "Projektet stödjer inte operativsystemet"
+msgstr "Detta projekt stöder inte operativsystemet"
 
 #: ../sched/handle_request.cpp:969
 msgid "This project doesn't support CPU type"
-msgstr "Projektet stödjer inte processortypen"
+msgstr "Detta projekt stöder inte CPU-typen"
 
 #: ../sched/handle_request.cpp:993
 msgid ""
 "Your BOINC client software is too old.  Please install the current version."
-msgstr ""
-"Din BOINC-klient är för gammal. Vänligen installera den senaste versionen."
+msgstr "Din BOINC-klientprogramvara är för gammal.  Installera aktuell version."
 
 #: ../sched/handle_request.cpp:1259
 msgid "This project doesn't support computers of type"
-msgstr "Projektet stödjer inte datortypen"
+msgstr "Detta projekt stöder inte datorer av typen"
 
 #: ../sched/sched_send.cpp:1092
 msgid "Upgrade to the latest driver to process tasks using your computer's GPU"
 msgstr ""
-"Uppgradera grafikdrivrutiner till den senaste versionen för att köra "
-"processer med din dators GPU"
+"Uppgradera till den senaste drivrutinen för att bearbeta uppgifter med din "
+"dators GPU"
 
 #: ../sched/sched_send.cpp:1099
 msgid ""
 "Upgrade to the latest driver to use all of this project's GPU applications"
 msgstr ""
-"Uppgradera grafikdrivrutinerna till den senaste versionen för att använda "
-"projektets alla GPU-kapabla applikationer"
+"Uppgradera till den senaste drivrutinen för att använda alla detta projekts "
+"GPU-program"
 
 #: ../sched/sched_send.cpp:1118
 msgid ""
 "A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to "
 "the current version"
 msgstr ""
-"En nyare version av BOINC behövs för att använda din NVIDIA GPU; vänligen "
-"uppgradera till den senaste versionen"
+"En nyare version av BOINC behövs för att kunna använda din NVIDIA GPU; "
+"Uppgradera till aktuell version"
 
 # 94%
 #: ../sched/sched_send.cpp:1146
-#, c-format
-#, c-format, fuzzy
+#, c-format, c-format
 msgid "An %s GPU is required to run tasks for this project"
-msgstr "Ett ATI GPU behövs för att köra processer för projektet"
+msgstr "En %s-GPU behövs för att köra uppgifter för detta projekt"
 
 #: ../sched/sched_send.cpp:1262
-#, fuzzy
 msgid "No tasks are available for the applications you have selected."
-msgstr ""
-"Inga processer tillgängliga för applikationen du har valt. Vänligen "
-"kontrollera dina projektinställningar på webbsidan."
+msgstr "Inga uppgifter tillgängliga för programmen du har valt."
 
 #: ../sched/sched_send.cpp:1288
 msgid "Your computer type is not supported by this project"
@@ -167,21 +161,24 @@ msgstr "Din datortyp stöds inte av detta projekt"
 
 #: ../sched/sched_send.cpp:1294
 msgid "Newer BOINC version required; please install current version"
-msgstr "En nyare BOINC-version krävs; vänligen installera en aktuell version"
+msgstr "Nyare BOINC-version krävs; vänligen installera aktuell version"
 
 #: ../sched/sched_send.cpp:1305
 #, c-format
 msgid ""
 "Tasks for %s are available, but your preferences are set to not accept them"
 msgstr ""
+"Uppgifter för %s finns tillgänliga, men dina inställningar tillåter dem inte"
 
 #: ../sched/sched_types.cpp:254
 msgid "Unknown app name in app_info.xml"
-msgstr "Okänt applikationsnamn i app_info.xml"
+msgstr ""
+"Uppgifter för %s finns tillgängliga, men dina inställningar tillåter dem "
+"inte"
 
 #: ../sched/sched_version.cpp:214
 msgid "Your app_info.xml file doesn't have a usable version of"
-msgstr "Din app_info.xml fil saknar en användbar version av"
+msgstr "Din app_info.xml-fil har ingen användbar version av"
 
 #~ msgid "Download it."
 #~ msgstr "Ladda ned den."

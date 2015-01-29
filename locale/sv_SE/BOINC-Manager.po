@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-12-15 14:15-0500\n"
-"PO-Revision-Date: 2014-12-15 21:29+0000\n"
-"Last-Translator: Anonymous Pootle User\n"
+"PO-Revision-Date: 2014-12-25 07:11+0000\n"
+"Last-Translator: morpa <josef.andersson@fripost.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: sv_SE\n"
 "MIME-Version: 1.0\n"
@@ -19,12 +19,13 @@ msgstr ""
 "X-Poedit-Basepath: C:\\Src\\BOINCGIT\\boinc_7.4\n"
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-POOTLE-MTIME: 1418678985.0\n"
+"X-POOTLE-MTIME: 1419491504.0\n"
 "X-Poedit-SearchPath-1: clientgui/msw\n"
 "X-Poedit-SearchPath-2: clientgui/gtk\n"
 "X-Poedit-SearchPath-3: clientgui/mac\n"
 "X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
 
+# ermer: Tasks: Uppgifter
 #: clientgui/AccountInfoPage.cpp:387
 #, c-format
 msgid "Identify your account at %s"
@@ -103,7 +104,7 @@ msgstr "&Användarnamn:"
 
 #: clientgui/AccountInfoPage.cpp:511
 msgid "&Email address or LDAP ID:"
-msgstr ""
+msgstr "&E-postadress eller LDAP-ID:"
 
 #: clientgui/AccountInfoPage.cpp:515
 msgid "&Email address:"
@@ -130,7 +131,7 @@ msgstr ""
 
 #: clientgui/AccountInfoPage.cpp:540
 msgid "Account manager web site"
-msgstr ""
+msgstr "Kontohanterarens webbplats"
 
 #: clientgui/AccountInfoPage.cpp:582
 msgid "Add project"
@@ -146,16 +147,16 @@ msgstr "Använd kontohanteraren"
 
 #: clientgui/AccountInfoPage.cpp:593
 msgid "Please enter a user name."
-msgstr ""
+msgstr "Ange ett användarnamn."
 
 #: clientgui/AccountInfoPage.cpp:595
 msgid "Please enter an email address."
-msgstr ""
+msgstr "Ange en e-postadress."
 
 #: clientgui/AccountInfoPage.cpp:605
 #, c-format
 msgid "Please enter a password of at least %d characters."
-msgstr ""
+msgstr "Ange ett lösenord med minst %d tecken."
 
 #: clientgui/AccountInfoPage.cpp:615
 msgid "The password and confirmation password do not match. Please type them again."
@@ -175,19 +176,19 @@ msgstr ""
 
 #: clientgui/AccountManagerInfoPage.cpp:279
 msgid "Account manager details:"
-msgstr ""
+msgstr "Kontohanterarens detaljer:"
 
 #: clientgui/AccountManagerInfoPage.cpp:283
 msgid "Account manager &URL:"
-msgstr ""
+msgstr "&URL för kontohanterare:"
 
 #: clientgui/AccountManagerInfoPage.cpp:287
 msgid "Open web page"
-msgstr ""
+msgstr "Öppna webbsida"
 
 #: clientgui/AccountManagerInfoPage.cpp:290
 msgid "Visit this account manager's web site"
-msgstr ""
+msgstr "Besök denna kontohanterares webbplats"
 
 #: clientgui/AccountManagerProcessingPage.cpp:186
 #: clientgui/AccountManagerPropertiesPage.cpp:192
@@ -235,19 +236,19 @@ msgstr "Avsluta %s"
 
 #: clientgui/AdvancedFrame.cpp:359
 msgid "Preferences..."
-msgstr ""
+msgstr "Inställningar…"
 
 #: clientgui/AdvancedFrame.cpp:368
 msgid "&Notices\tCtrl+Shift+N"
-msgstr "&Notiser\t Ctrl+Shift+N"
+msgstr "&Meddelanden\tCtrl+Skift+N"
 
 #: clientgui/AdvancedFrame.cpp:369
 msgid "Display notices"
-msgstr "Visa notiser"
+msgstr "Visa meddelanden"
 
 #: clientgui/AdvancedFrame.cpp:374
 msgid "&Projects\tCtrl+Shift+P"
-msgstr "&Projekt\t Ctrl+Shift+P"
+msgstr "&Projekt\tCtrl+Skift+P"
 
 #: clientgui/AdvancedFrame.cpp:375
 msgid "Display projects"
@@ -271,7 +272,7 @@ msgstr "Visa överföringar"
 
 #: clientgui/AdvancedFrame.cpp:392
 msgid "&Statistics\tCtrl+Shift+S"
-msgstr "&Statistik\t Ctrl+Shift+S"
+msgstr "&Statistik\tCtrl+Skift+S"
 
 #: clientgui/AdvancedFrame.cpp:393
 msgid "Display statistics"
@@ -279,7 +280,7 @@ msgstr "Visa statistik"
 
 #: clientgui/AdvancedFrame.cpp:398
 msgid "&Disk usage\tCtrl+Shift+D"
-msgstr "&Diskanvändning\tCtrl+Shift+D"
+msgstr "&Diskanvändning\tCtrl+Skift+D"
 
 #: clientgui/AdvancedFrame.cpp:399
 msgid "Display disk usage"
@@ -300,7 +301,7 @@ msgstr "&Lägg till projekt eller kontohanterare…"
 #: clientgui/AdvancedFrame.cpp:422
 msgid "Volunteer for any or all of 30+ projects in many areas of science"
 msgstr ""
-"Bli volontär för något eller alla de 30+ projekten som finns inom flera "
+"Bli volontär för något av, eller alla de 30+ projekten som finns inom flera "
 "vetenskapsområden"
 
 #: clientgui/AdvancedFrame.cpp:426
@@ -488,11 +489,11 @@ msgstr "Visa diagnostiska meddelanden."
 
 #: clientgui/AdvancedFrame.cpp:616
 msgid "Event Log Diagnostic Flags...\tCtrl+Shift+F"
-msgstr ""
+msgstr "Diagnosflaggor för händelselogg...\tCtrl+Skift+F"
 
 #: clientgui/AdvancedFrame.cpp:617
 msgid "Enable or disable various diagnostic messages"
-msgstr ""
+msgstr "Aktivera eller inaktivera olika diagnostiska meddelanden"
 
 #: clientgui/AdvancedFrame.cpp:626
 #, c-format
@@ -517,7 +518,7 @@ msgstr "Visa information om %s"
 #: clientgui/AdvancedFrame.cpp:662
 #, c-format
 msgid "%s &web site"
-msgstr ""
+msgstr "%s-&webbplats"
 
 #: clientgui/AdvancedFrame.cpp:668
 #, c-format
@@ -1035,6 +1036,9 @@ msgid ""
 "\n"
 "Click Finish to close."
 msgstr ""
+"Prova igen senare.\n"
+"\n"
+"Klicka Avsluta för att stänga."
 
 #: clientgui/CompletionErrorPage.cpp:225
 #: clientgui/CompletionPage.cpp:222
@@ -1112,6 +1116,8 @@ msgid ""
 "(C) 2003-2014 University of California, Berkeley.\n"
 "All Rights Reserved."
 msgstr ""
+"(C) 2003-2014 University of California, Berkeley.\n"
+"Alla rättigheter förbehållna."
 
 #: clientgui/DlgAbout.cpp:196
 msgid "Berkeley Open Infrastructure for Network Computing"
@@ -1127,7 +1133,7 @@ msgstr "&OK"
 
 #: clientgui/DlgAdvPreferences.cpp:602
 msgid "invalid number"
-msgstr ""
+msgstr "ogiltigt tal"
 
 #: clientgui/DlgAdvPreferences.cpp:603
 msgid "invalid time, format is HH:MM"
@@ -1195,7 +1201,7 @@ msgstr "Bekräftelse"
 #: clientgui/DlgAdvPreferencesBase.cpp:49
 #, c-format
 msgid "%s - Computing preferences"
-msgstr ""
+msgstr "%s - Beräkningsinställningar"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:66
 msgid ""
@@ -1392,12 +1398,12 @@ msgstr "Växla mellan program var"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:345
 msgid "On multiprocessor systems, use at most"
-msgstr "På multiprocessorsystem, använd högst"
+msgstr "% av processorerna (0 betyder ingen begränsning)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:352
 #, no-c-format
 msgid "% of the processors (0 means no restriction)"
-msgstr ""
+msgstr "% av processorerna (0 betyder ingen begränsning)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:355
 #: clientgui/DlgAdvPreferencesBase.cpp:618
@@ -1411,7 +1417,7 @@ msgstr "Använd som mest"
 #: clientgui/DlgAdvPreferencesBase.cpp:362
 #, no-c-format
 msgid "% of CPU time (0 means no restriction)"
-msgstr ""
+msgstr "% av CPU-tid (0 betyder ingen begränsning)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:386
 msgid "General options"
@@ -1424,7 +1430,7 @@ msgstr "Maximal hämtningshastighet"
 #: clientgui/DlgAdvPreferencesBase.cpp:401
 #: clientgui/DlgAdvPreferencesBase.cpp:410
 msgid "KBytes/second (0 means no restriction)"
-msgstr ""
+msgstr "KByte/sekund (0 betyder ingen begränsning)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:404
 msgid "Maximum upload rate"
@@ -1443,7 +1449,7 @@ msgstr ""
 #: clientgui/DlgAdvPreferencesBase.cpp:431
 #: clientgui/DlgAdvPreferencesBase.cpp:449
 msgid "days (maximum value: 10)"
-msgstr ""
+msgstr "dagar (högsta värde: 10)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:437
 msgid "Max additional work buffer"
@@ -1459,11 +1465,11 @@ msgstr "Överför som mest"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:462
 msgid "MBytes every"
-msgstr ""
+msgstr "MByte var"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:468
 msgid "days (0 means no restriction)"
-msgstr ""
+msgstr "dagar (0 betyder ingen begränsning)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:476
 msgid "Skip image file verification"
@@ -1522,7 +1528,7 @@ msgstr "maximala diskutrymmet använt av BOINC (i Gigabyte)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:626
 msgid "Gigabytes disk space (0 means no restriction)"
-msgstr ""
+msgstr "Gigabyte diskutrymme (0 betyder ingen begränsning)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:629
 msgid "Leave at least"
@@ -1609,27 +1615,29 @@ msgstr "För avancerade alternativ, se "
 #: clientgui/DlgDiagnosticLogFlags.cpp:65
 #, c-format
 msgid "%s Diagnostic Log Flags"
-msgstr ""
+msgstr "%s Diagnostiska loggflaggor"
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:83
 msgid "These flags enable various types of diagnostic messages in the Event Log."
 msgstr ""
+"Dessa flaggor aktiverar olika typer av diagnostiska meddelanden i "
+"händelseloggen."
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:105
 msgid "Save all values and close the dialog"
-msgstr ""
+msgstr "Spara alla värden och stäng dialogen"
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:108
 msgid "Defaults"
-msgstr ""
+msgstr "Standardvärden"
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:109
 msgid "Restore default settings"
-msgstr ""
+msgstr "Återställ standardinställningar"
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:113
 msgid "Close the dialog without saving"
-msgstr ""
+msgstr "Stäng dialogrutan utan att spara"
 
 #: clientgui/DlgEventLog.cpp:226
 #, c-format
@@ -1896,11 +1904,11 @@ msgstr "Avslutad"
 
 #: clientgui/DlgItemProperties.cpp:285
 msgid "Tasks completed"
-msgstr ""
+msgstr "Uppgifter färdiga"
 
 #: clientgui/DlgItemProperties.cpp:286
 msgid "Tasks failed"
-msgstr ""
+msgstr "Uppgifter misslyckades"
 
 #: clientgui/DlgItemProperties.cpp:288
 msgid "Credit"
@@ -1936,7 +1944,7 @@ msgstr "Egenskaper för uppgift "
 
 #: clientgui/DlgItemProperties.cpp:357
 msgid "Application"
-msgstr "Applikation"
+msgstr "Program"
 
 #: clientgui/DlgItemProperties.cpp:358
 msgid "Name"
@@ -2499,15 +2507,15 @@ msgstr "Redo att starta"
 
 #: clientgui/MainDocument.cpp:2538
 msgid "Postponed: "
-msgstr ""
+msgstr "Uppskjuten:"
 
 #: clientgui/MainDocument.cpp:2541
 msgid "Postponed"
-msgstr ""
+msgstr "Uppskjuten"
 
 #: clientgui/MainDocument.cpp:2545
 msgid "Waiting for network access"
-msgstr ""
+msgstr " (Väntar på nätverksåtkomst)"
 
 #: clientgui/MainDocument.cpp:2549
 msgid "Computation error"
@@ -2698,35 +2706,37 @@ msgstr ""
 #: clientgui/ProjectWelcomePage.cpp:251
 #, c-format
 msgid "Welcome to %s."
-msgstr ""
+msgstr "Välkommen till %s."
 
 #: clientgui/ProjectWelcomePage.cpp:254
 msgid "You have volunteered to compute for this project:"
-msgstr ""
+msgstr "Du har anmält dig som volontär till att beräkna för detta projekt:"
 
 #: clientgui/ProjectWelcomePage.cpp:255
 msgid "Name:"
-msgstr ""
+msgstr "Namn:"
 
 #: clientgui/ProjectWelcomePage.cpp:258
 msgid "Home:"
-msgstr ""
+msgstr "Hem:"
 
 #: clientgui/ProjectWelcomePage.cpp:262
 msgid "Description:"
-msgstr ""
+msgstr "Beskrivning:"
 
 #: clientgui/ProjectWelcomePage.cpp:265
 msgid "URL:"
-msgstr ""
+msgstr "URL:"
 
 #: clientgui/ProjectWelcomePage.cpp:268
 msgid "User:"
-msgstr ""
+msgstr "Användare:"
 
 #: clientgui/ProjectWelcomePage.cpp:273
 msgid "WARNING: This project is not registered with BOINC.  Make sure you trust it before continuing."
 msgstr ""
+"VARNING: Detta projekt är inte registrerat med BOINC.   Var säker. på. att "
+"du litar på det innan du fortsätter."
 
 #: clientgui/ProjectWelcomePage.cpp:277
 msgid "To continue, click Next."
@@ -2892,10 +2902,13 @@ msgstr "Klicka OK för att ange inställningar."
 #: clientgui/sg_DlgPreferences.cpp:280
 msgid "Click Clear to restore web-based settings for all preferences listed below."
 msgstr ""
+"Klicka Rensa för att återställa webbaserade inställningar för de som listas "
+"nedanför:"
 
 #: clientgui/sg_DlgPreferences.cpp:287
 msgid "For additional settings, select Computing Preferences in the Advanced View."
 msgstr ""
+"För ytterligare inställningar, välj Beräkningsinställningar i  Avancerad vy."
 
 #: clientgui/sg_DlgPreferences.cpp:315
 msgid "Do work only between:"
@@ -2928,7 +2941,7 @@ msgstr "Utför jobb efter inaktiv i:"
 
 #: clientgui/sg_DlgPreferences.cpp:431
 msgid "Clear all local preferences listed above and close the dialog"
-msgstr ""
+msgstr "Rensa alla lokala inställningar och stäng dialogen"
 
 #: clientgui/sg_DlgPreferences.cpp:609
 #: clientgui/sg_DlgPreferences.cpp:612
@@ -3008,7 +3021,7 @@ msgstr "%d"
 #: clientgui/sg_DlgPreferences.cpp:953
 #, c-format
 msgid "%s - Computing Preferences"
-msgstr ""
+msgstr "%s - Beräkningsinställningar"
 
 #: clientgui/sg_DlgPreferences.cpp:1033
 msgid "Do you really want to clear all local preferences?\n"
@@ -3151,7 +3164,7 @@ msgstr "Projektkommandon"
 #: clientgui/sg_ProjectPanel.cpp:276
 #, c-format
 msgid "Pop up a menu of web sites for project %s"
-msgstr ""
+msgstr "Visa en meny av webbplatser för projekt %s"
 
 #: clientgui/sg_ProjectPanel.cpp:278
 #, c-format
@@ -3331,7 +3344,7 @@ msgstr "Jag godkänner användarvillkoren."
 
 #: clientgui/TermsOfUsePage.cpp:237
 msgid "I do not agree to the terms of use."
-msgstr ""
+msgstr "Jag godkänner ej användarvillkoren."
 
 #: clientgui/UnavailablePage.cpp:183
 msgid "Project temporarily unavailable"
@@ -3444,7 +3457,7 @@ msgstr "Kopiera utvalda meddelanden"
 #: clientgui/ViewMessages.cpp:106
 #: clientgui/ViewMessages.cpp:502
 msgid "Show only this project"
-msgstr "Visa endast det här projektet"
+msgstr "Visa endast detta projekt"
 
 #: clientgui/ViewMessages.cpp:107
 #: clientgui/ViewMessages.cpp:503
@@ -4054,7 +4067,7 @@ msgstr "Fråga"
 #: clientgui/wizardex.cpp:377
 #: clientgui/wizardex.cpp:553
 msgid "&Next >"
-msgstr "&Nästa>"
+msgstr "&Nästa >"
 
 #: clientgui/wizardex.cpp:383
 msgid "< &Back"
