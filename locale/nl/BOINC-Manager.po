@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-12-15 14:15-0500\n"
-"PO-Revision-Date: 2014-01-17 18:18+0000\n"
+"PO-Revision-Date: 2014-12-21 13:44+0000\n"
 "Last-Translator: Rene <oskamjr@ziggo.nl>\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: nl\n"
@@ -19,7 +19,7 @@ msgstr ""
 "X-Poedit-Basepath: C:\\Src\\BOINCGIT\\boinc_7.4\n"
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-POOTLE-MTIME: 1389982727.0\n"
+"X-POOTLE-MTIME: 1419169470.0\n"
 "X-Poedit-SearchPath-1: clientgui/msw\n"
 "X-Poedit-SearchPath-2: clientgui/gtk\n"
 "X-Poedit-SearchPath-3: clientgui/mac\n"
@@ -104,7 +104,7 @@ msgstr "Gebr&uikersnaam:"
 
 #: clientgui/AccountInfoPage.cpp:511
 msgid "&Email address or LDAP ID:"
-msgstr ""
+msgstr "&E-mail adres of LDAP ID:"
 
 #: clientgui/AccountInfoPage.cpp:515
 msgid "&Email address:"
@@ -238,7 +238,7 @@ msgstr "%s afsluiten"
 
 #: clientgui/AdvancedFrame.cpp:359
 msgid "Preferences..."
-msgstr ""
+msgstr "Voorkeuren…"
 
 #: clientgui/AdvancedFrame.cpp:368
 msgid "&Notices\tCtrl+Shift+N"
@@ -490,11 +490,11 @@ msgstr "Diagnostische berichten van de cliënt weergeven."
 
 #: clientgui/AdvancedFrame.cpp:616
 msgid "Event Log Diagnostic Flags...\tCtrl+Shift+F"
-msgstr ""
+msgstr "Event Log Diagnostische Markeringen...\tCtrl+Shift+F"
 
 #: clientgui/AdvancedFrame.cpp:617
 msgid "Enable or disable various diagnostic messages"
-msgstr ""
+msgstr "Aan- of uitzetten van diagnostische berichten"
 
 #: clientgui/AdvancedFrame.cpp:626
 #, c-format
@@ -1109,11 +1109,14 @@ msgstr "wxWidgets Versie:"
 msgid "Copyright:"
 msgstr "Copyright:"
 
+# 98%
 #: clientgui/DlgAbout.cpp:192
 msgid ""
 "(C) 2003-2014 University of California, Berkeley.\n"
 "All Rights Reserved."
 msgstr ""
+"(C) 2003-2014 University of California, Berkeley.\n"
+"Alle rechten voorbehouden."
 
 #: clientgui/DlgAbout.cpp:196
 msgid "Berkeley Open Infrastructure for Network Computing"
@@ -1197,7 +1200,7 @@ msgstr "Bevestiging"
 #: clientgui/DlgAdvPreferencesBase.cpp:49
 #, c-format
 msgid "%s - Computing preferences"
-msgstr ""
+msgstr "%s - Berekeningsvoorkeuren"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:66
 msgid ""
@@ -1397,7 +1400,7 @@ msgstr "Gebruik maximaal"
 #: clientgui/DlgAdvPreferencesBase.cpp:352
 #, no-c-format
 msgid "% of the processors (0 means no restriction)"
-msgstr ""
+msgstr "% van de processoren (0 betekent geen beperking)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:355
 #: clientgui/DlgAdvPreferencesBase.cpp:618
@@ -1411,7 +1414,7 @@ msgstr "gebruik maximaal"
 #: clientgui/DlgAdvPreferencesBase.cpp:362
 #, no-c-format
 msgid "% of CPU time (0 means no restriction)"
-msgstr ""
+msgstr "% van CPU tijd (0 betekent geen beperkingen)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:386
 msgid "General options"
@@ -1424,7 +1427,7 @@ msgstr "Maximale download waarde"
 #: clientgui/DlgAdvPreferencesBase.cpp:401
 #: clientgui/DlgAdvPreferencesBase.cpp:410
 msgid "KBytes/second (0 means no restriction)"
-msgstr ""
+msgstr "KBytes/seconde (0 betekent geen beperkingen)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:404
 msgid "Maximum upload rate"
@@ -1443,7 +1446,7 @@ msgstr ""
 #: clientgui/DlgAdvPreferencesBase.cpp:431
 #: clientgui/DlgAdvPreferencesBase.cpp:449
 msgid "days (maximum value: 10)"
-msgstr ""
+msgstr "dagen (maximale waarde: 10)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:437
 msgid "Max additional work buffer"
@@ -1459,11 +1462,11 @@ msgstr "Maximale overdacht"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:462
 msgid "MBytes every"
-msgstr ""
+msgstr "MBytes elke"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:468
 msgid "days (0 means no restriction)"
-msgstr ""
+msgstr "dagen (0 betekent geen beperkingen)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:476
 msgid "Skip image file verification"
@@ -1522,7 +1525,7 @@ msgstr "maximaal schijfgebruik door BOINC (in Gigabytes)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:626
 msgid "Gigabytes disk space (0 means no restriction)"
-msgstr ""
+msgstr "Gigabytes schijfruimte (0 betekent geen beperkingen)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:629
 msgid "Leave at least"
@@ -1609,27 +1612,29 @@ msgstr "Voor geavanceerde opties, raadpleeg het "
 #: clientgui/DlgDiagnosticLogFlags.cpp:65
 #, c-format
 msgid "%s Diagnostic Log Flags"
-msgstr ""
+msgstr "%s Diagnostische Logboek Markeringen"
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:83
 msgid "These flags enable various types of diagnostic messages in the Event Log."
 msgstr ""
+"Deze markeringen zetten bepaalde diagnostische berichten aan in het "
+"Gebeurtenissen logboek."
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:105
 msgid "Save all values and close the dialog"
-msgstr ""
+msgstr "Sla alle waarden op en sluit het venster"
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:108
 msgid "Defaults"
-msgstr ""
+msgstr "Standaardwaarden"
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:109
 msgid "Restore default settings"
-msgstr ""
+msgstr "Standaardwaarden herstellen"
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:113
 msgid "Close the dialog without saving"
-msgstr ""
+msgstr "Sluit het venster zonder op te slaan"
 
 #: clientgui/DlgEventLog.cpp:226
 #, c-format
@@ -1896,11 +1901,11 @@ msgstr "Beeindigd"
 
 #: clientgui/DlgItemProperties.cpp:285
 msgid "Tasks completed"
-msgstr ""
+msgstr "Taken voltooid"
 
 #: clientgui/DlgItemProperties.cpp:286
 msgid "Tasks failed"
-msgstr ""
+msgstr "Taken mislukt"
 
 #: clientgui/DlgItemProperties.cpp:288
 msgid "Credit"
@@ -2506,15 +2511,15 @@ msgstr "Staat in de wacht"
 
 #: clientgui/MainDocument.cpp:2538
 msgid "Postponed: "
-msgstr ""
+msgstr "Uitgesteld: "
 
 #: clientgui/MainDocument.cpp:2541
 msgid "Postponed"
-msgstr ""
+msgstr "Uitgesteld"
 
 #: clientgui/MainDocument.cpp:2545
 msgid "Waiting for network access"
-msgstr ""
+msgstr "Wacht op netwerk toegang"
 
 #: clientgui/MainDocument.cpp:2549
 msgid "Computation error"
@@ -2703,35 +2708,37 @@ msgstr ""
 #: clientgui/ProjectWelcomePage.cpp:251
 #, c-format
 msgid "Welcome to %s."
-msgstr ""
+msgstr "Welkom bij %s."
 
 #: clientgui/ProjectWelcomePage.cpp:254
 msgid "You have volunteered to compute for this project:"
-msgstr ""
+msgstr "Je hebt aangegeven berekeningen te willen doen voor dit project:"
 
 #: clientgui/ProjectWelcomePage.cpp:255
 msgid "Name:"
-msgstr ""
+msgstr "Naam:"
 
 #: clientgui/ProjectWelcomePage.cpp:258
 msgid "Home:"
-msgstr ""
+msgstr "Home:"
 
 #: clientgui/ProjectWelcomePage.cpp:262
 msgid "Description:"
-msgstr ""
+msgstr "Omschrijving:"
 
 #: clientgui/ProjectWelcomePage.cpp:265
 msgid "URL:"
-msgstr ""
+msgstr "URL:"
 
 #: clientgui/ProjectWelcomePage.cpp:268
 msgid "User:"
-msgstr ""
+msgstr "Gebruiker:"
 
 #: clientgui/ProjectWelcomePage.cpp:273
 msgid "WARNING: This project is not registered with BOINC.  Make sure you trust it before continuing."
 msgstr ""
+"WAARSCHUWING: Dit project is niet bij BOINC geregistreerd.  Controleer de "
+"betrouwbaarheid voor je verder gaat."
 
 #: clientgui/ProjectWelcomePage.cpp:277
 msgid "To continue, click Next."
@@ -2895,11 +2902,14 @@ msgstr "Klik op 'OK' om instellingen vast te leggen."
 #: clientgui/sg_DlgPreferences.cpp:280
 msgid "Click Clear to restore web-based settings for all preferences listed below."
 msgstr ""
+"Klik op Wissen om de online instellingen te herstellen voor onderstaande "
+"voorkeuren."
 
 #: clientgui/sg_DlgPreferences.cpp:287
-#, fuzzy
 msgid "For additional settings, select Computing Preferences in the Advanced View."
-msgstr "Voor aanvullende opties klik je op 'Verwerkings voorkeuren' in "
+msgstr ""
+"Voor aanvullende opties klik je op 'Verwerkings voorkeuren' in de "
+"geavanceerde weergave."
 
 #: clientgui/sg_DlgPreferences.cpp:315
 msgid "Do work only between:"
@@ -2931,9 +2941,8 @@ msgid "Do work after idle for:"
 msgstr "Indien inactief starten na:"
 
 #: clientgui/sg_DlgPreferences.cpp:431
-#, fuzzy
 msgid "Clear all local preferences listed above and close the dialog"
-msgstr "Wis alle lokale voorkeuren en sluit het venster"
+msgstr "Wis alle bovenstaande lokale voorkeuren en sluit het venster"
 
 #: clientgui/sg_DlgPreferences.cpp:609
 #: clientgui/sg_DlgPreferences.cpp:612
@@ -3013,7 +3022,7 @@ msgstr "%d"
 #: clientgui/sg_DlgPreferences.cpp:953
 #, c-format
 msgid "%s - Computing Preferences"
-msgstr ""
+msgstr "%s - Berekeningsvoorkeuren"
 
 #: clientgui/sg_DlgPreferences.cpp:1033
 msgid "Do you really want to clear all local preferences?\n"
@@ -3333,9 +3342,8 @@ msgid "I agree to the terms of use."
 msgstr "Ik ga akkoord met de voorwaarden."
 
 #: clientgui/TermsOfUsePage.cpp:237
-#, fuzzy
 msgid "I do not agree to the terms of use."
-msgstr "Ik ga NIET akkoord met de voorwaarden."
+msgstr "Ik ga niet akkoord met de voorwaarden."
 
 #: clientgui/UnavailablePage.cpp:183
 msgid "Project temporarily unavailable"

@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2013-10-18 00:00-0700\n"
-"PO-Revision-Date: 2014-01-17 18:16+0000\n"
+"PO-Revision-Date: 2014-12-21 13:57+0000\n"
 "Last-Translator: Rene <oskamjr@ziggo.nl>\n"
 "Language-Team: nl <LL@li.org>\n"
 "Language: nl\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Pootle 2.5.0\n"
 "Generated-By: Babel 1.0dev\n"
-"X-POOTLE-MTIME: 1389982574.0\n"
+"X-POOTLE-MTIME: 1419170236.0\n"
 
 #. app global
 msgctxt "app_name"
@@ -41,7 +41,7 @@ msgstr "Project toevoegen via URL"
 
 msgctxt "attachproject_list_manual_dialog_title"
 msgid "Enter project URL:"
-msgstr "Projectspecifieke URL invoeren:"
+msgstr "Projectspecifiek URL invoeren:"
 
 msgctxt "attachproject_list_manual_dialog_button"
 msgid "Add project"
@@ -49,7 +49,7 @@ msgstr "Project toevoegen"
 
 msgctxt "attachproject_list_manual_no_url"
 msgid "Please enter project URL"
-msgstr "Projectspecifieke URL invoeren"
+msgstr "Vul a.u.b. project URL in"
 
 msgctxt "attachproject_list_acctmgr_button"
 msgid "Add account manager"
@@ -57,12 +57,12 @@ msgstr "Account manager toevoegen"
 
 msgctxt "attachproject_list_no_internet"
 msgid "No Internet connection"
-msgstr "Geen internetverbinding"
+msgstr "Geen Internetverbinding"
 
 #. project login
 msgctxt "attachproject_login_loading"
 msgid "Contacting project server…"
-msgstr "Verbinding maken met projectspecifieke server..."
+msgstr "Verbinding maken met project server..."
 
 msgctxt "attachproject_login_image_description"
 msgid "Project logo."
@@ -82,7 +82,7 @@ msgstr "Omschrijving:"
 
 msgctxt "attachproject_login_header_home"
 msgid "Home:"
-msgstr "Start:"
+msgstr "Home:"
 
 msgctxt "attachproject_login_header_url"
 msgid "Website:"
@@ -229,7 +229,7 @@ msgstr "Gebruiker niet gevonden"
 
 msgctxt "attachproject_error_short_pwd"
 msgid "Password too short"
-msgstr "Het wachtwoord is te kort"
+msgstr "Wachtwoord te kort"
 
 msgctxt "attachproject_error_no_internet"
 msgid "Connection failure"
@@ -237,7 +237,7 @@ msgstr "Verbinding mislukt"
 
 msgctxt "attachproject_error_pwd_no_match"
 msgid "Passwords do not match"
-msgstr "Wachtwoorden zijn niet identiek"
+msgstr "Wachtwoorden komen niet overeen"
 
 msgctxt "attachproject_error_no_url"
 msgid "Please enter URL"
@@ -249,11 +249,11 @@ msgstr "Voer uw e-mailadres in"
 
 msgctxt "attachproject_error_no_pwd"
 msgid "Please enter a password"
-msgstr "Voer een wachtwoord in"
+msgstr "Voer a.u.b. uw wachtwoord in"
 
 msgctxt "attachproject_error_no_name"
 msgid "Please enter user name"
-msgstr "Voer gebruikersnaam in"
+msgstr "Voer a.u.b. uw gebruikersnaam in"
 
 msgctxt "attachproject_error_unknown"
 msgid "failed"
