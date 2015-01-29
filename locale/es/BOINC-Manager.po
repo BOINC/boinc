@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 4.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-12-15 14:15-0500\n"
-"PO-Revision-Date: 2013-09-22 20:57+0000\n"
+"PO-Revision-Date: 2015-01-28 07:19+0000\n"
 "Last-Translator: Anonymous Pootle User\n"
 "Language-Team: BOINC Development Team <rwalton@ssl.berkeley.edu>\n"
 "Language: es\n"
@@ -19,7 +19,7 @@ msgstr ""
 "X-Poedit-Basepath: C:\\Src\\BOINCGIT\\boinc_7.4\n"
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-POOTLE-MTIME: 1379883430.0\n"
+"X-POOTLE-MTIME: 1422429584.0\n"
 "X-Poedit-SearchPath-1: clientgui/msw\n"
 "X-Poedit-SearchPath-2: clientgui/gtk\n"
 "X-Poedit-SearchPath-3: clientgui/mac\n"
@@ -241,8 +241,9 @@ msgid "Exit %s"
 msgstr "Salir de %s"
 
 #: clientgui/AdvancedFrame.cpp:359
+#, fuzzy
 msgid "Preferences..."
-msgstr ""
+msgstr "Preferencias"
 
 #: clientgui/AdvancedFrame.cpp:368
 msgid "&Notices\tCtrl+Shift+N"
@@ -1121,11 +1122,15 @@ msgstr "Versión de wxWidgets"
 msgid "Copyright:"
 msgstr "Copyright:"
 
+# 98%
 #: clientgui/DlgAbout.cpp:192
+#, fuzzy
 msgid ""
 "(C) 2003-2014 University of California, Berkeley.\n"
 "All Rights Reserved."
 msgstr ""
+"(C) 2003-2013 Universidad de California, Berkeley.\n"
+"Reservados Todos los Derechos."
 
 #: clientgui/DlgAbout.cpp:196
 msgid "Berkeley Open Infrastructure for Network Computing"
@@ -1482,8 +1487,9 @@ msgid "MBytes every"
 msgstr ""
 
 #: clientgui/DlgAdvPreferencesBase.cpp:468
+#, fuzzy
 msgid "days (0 means no restriction)"
-msgstr ""
+msgstr "porciento (0 significa sin restricciones)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:476
 msgid "Skip image file verification"
@@ -1638,20 +1644,23 @@ msgid "These flags enable various types of diagnostic messages in the Event Log.
 msgstr ""
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:105
+#, fuzzy
 msgid "Save all values and close the dialog"
-msgstr ""
+msgstr "grabar todos los valores y cerrar la ventana"
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:108
+#, fuzzy
 msgid "Defaults"
-msgstr ""
+msgstr "Predeterminado"
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:109
 msgid "Restore default settings"
 msgstr ""
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:113
+#, fuzzy
 msgid "Close the dialog without saving"
-msgstr ""
+msgstr "cerrar la ventana sin grabar"
 
 #: clientgui/DlgEventLog.cpp:226
 #, c-format
@@ -2539,8 +2548,9 @@ msgid "Postponed"
 msgstr ""
 
 #: clientgui/MainDocument.cpp:2545
+#, fuzzy
 msgid "Waiting for network access"
-msgstr ""
+msgstr " (Esperando acceso a la red)"
 
 #: clientgui/MainDocument.cpp:2549
 msgid "Computation error"
@@ -2728,17 +2738,18 @@ msgstr ""
 "Por favor espere..."
 
 #: clientgui/ProjectWelcomePage.cpp:251
-#, c-format
+#, c-format, fuzzy
 msgid "Welcome to %s."
-msgstr ""
+msgstr "¡Bienvenido a %s!"
 
 #: clientgui/ProjectWelcomePage.cpp:254
 msgid "You have volunteered to compute for this project:"
 msgstr ""
 
 #: clientgui/ProjectWelcomePage.cpp:255
+#, fuzzy
 msgid "Name:"
-msgstr ""
+msgstr "Nombre"
 
 #: clientgui/ProjectWelcomePage.cpp:258
 msgid "Home:"
@@ -2753,8 +2764,9 @@ msgid "URL:"
 msgstr ""
 
 #: clientgui/ProjectWelcomePage.cpp:268
+#, fuzzy
 msgid "User:"
-msgstr ""
+msgstr "Usuario"
 
 #: clientgui/ProjectWelcomePage.cpp:273
 msgid "WARNING: This project is not registered with BOINC.  Make sure you trust it before continuing."
