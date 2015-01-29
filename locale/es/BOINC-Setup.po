@@ -19,8 +19,8 @@ msgstr ""
 "X-Poedit-SearchPath-0: mac_installer\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-Basepath: /Volumes/Cheer/BOINC_GIT/boinc_trunk\n"
-"X-Poedit-KeywordsList: _\n"
 "X-POOTLE-MTIME: 1414693918.0\n"
+"X-Poedit-KeywordsList: _\n"
 
 #: Installer.cpp:124
 #, c-format
