@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: BOINC Manager 6.x\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-12-15 14:15-0500\n"
-"PO-Revision-Date: 2013-08-30 20:59+0000\n"
-"Last-Translator: Lycan <santdel@gmail.com>\n"
+"PO-Revision-Date: 2015-01-10 11:21+0000\n"
+"Last-Translator: Anonymous Pootle User\n"
 "Language-Team: BOINC Development Team <boinc_loc@ssl.berkeley.edu>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
@@ -19,7 +19,7 @@ msgstr ""
 "X-Poedit-Basepath: C:\\Src\\BOINCGIT\\boinc_7.4\n"
 "X-Poedit-SearchPath-0: clientgui\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-POOTLE-MTIME: 1377896370.0\n"
+"X-POOTLE-MTIME: 1420888916.0\n"
 "X-Poedit-SearchPath-1: clientgui/msw\n"
 "X-Poedit-SearchPath-2: clientgui/gtk\n"
 "X-Poedit-SearchPath-3: clientgui/mac\n"
@@ -238,8 +238,9 @@ msgid "Exit %s"
 msgstr "Ukončit %s"
 
 #: clientgui/AdvancedFrame.cpp:359
+#, fuzzy
 msgid "Preferences..."
-msgstr ""
+msgstr "Předvolby"
 
 #: clientgui/AdvancedFrame.cpp:368
 msgid "&Notices\tCtrl+Shift+N"
@@ -1111,11 +1112,16 @@ msgstr "Verze wxWidgets:"
 msgid "Copyright:"
 msgstr "Copyright:"
 
+# 98%
 #: clientgui/DlgAbout.cpp:192
+#, fuzzy
 msgid ""
 "(C) 2003-2014 University of California, Berkeley.\n"
 "All Rights Reserved."
 msgstr ""
+"(C) 2003-2013 Kalifornská Univerzita, Berkeley.\n"
+"Všechna práva vyhrazena.\n"
+"Překlad do češtiny: Spok a Necroman"
 
 #: clientgui/DlgAbout.cpp:196
 msgid "Berkeley Open Infrastructure for Network Computing"
@@ -1470,8 +1476,9 @@ msgid "MBytes every"
 msgstr ""
 
 #: clientgui/DlgAdvPreferencesBase.cpp:468
+#, fuzzy
 msgid "days (0 means no restriction)"
-msgstr ""
+msgstr "procent (0 znamená bez omezení)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:476
 msgid "Skip image file verification"
@@ -1627,20 +1634,23 @@ msgid "These flags enable various types of diagnostic messages in the Event Log.
 msgstr ""
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:105
+#, fuzzy
 msgid "Save all values and close the dialog"
-msgstr ""
+msgstr "uložit všechny hodnoty a zavřít nabídku"
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:108
+#, fuzzy
 msgid "Defaults"
-msgstr ""
+msgstr "Výchozí"
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:109
 msgid "Restore default settings"
 msgstr ""
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:113
+#, fuzzy
 msgid "Close the dialog without saving"
-msgstr ""
+msgstr "zavřít nabídku bez uložení nových hodnot"
 
 #: clientgui/DlgEventLog.cpp:226
 #, c-format
@@ -2523,8 +2533,9 @@ msgid "Postponed"
 msgstr ""
 
 #: clientgui/MainDocument.cpp:2545
+#, fuzzy
 msgid "Waiting for network access"
-msgstr ""
+msgstr "(Čekám na připojení k Internetu)"
 
 #: clientgui/MainDocument.cpp:2549
 msgid "Computation error"
@@ -2711,17 +2722,18 @@ msgstr ""
 "Čekejte prosím..."
 
 #: clientgui/ProjectWelcomePage.cpp:251
-#, c-format
+#, c-format, fuzzy
 msgid "Welcome to %s."
-msgstr ""
+msgstr "Vítejte v %s!"
 
 #: clientgui/ProjectWelcomePage.cpp:254
 msgid "You have volunteered to compute for this project:"
 msgstr ""
 
 #: clientgui/ProjectWelcomePage.cpp:255
+#, fuzzy
 msgid "Name:"
-msgstr ""
+msgstr "Jméno"
 
 #: clientgui/ProjectWelcomePage.cpp:258
 msgid "Home:"
@@ -2736,8 +2748,9 @@ msgid "URL:"
 msgstr ""
 
 #: clientgui/ProjectWelcomePage.cpp:268
+#, fuzzy
 msgid "User:"
-msgstr ""
+msgstr "Uživatel"
 
 #: clientgui/ProjectWelcomePage.cpp:273
 msgid "WARNING: This project is not registered with BOINC.  Make sure you trust it before continuing."
@@ -2909,8 +2922,9 @@ msgid "Click Clear to restore web-based settings for all preferences listed belo
 msgstr ""
 
 #: clientgui/sg_DlgPreferences.cpp:287
+#, fuzzy
 msgid "For additional settings, select Computing Preferences in the Advanced View."
-msgstr ""
+msgstr "Pro pokročilé nastavení klikněte na Výpočetní předvolby v"
 
 #: clientgui/sg_DlgPreferences.cpp:315
 msgid "Do work only between:"
@@ -2942,8 +2956,9 @@ msgid "Do work after idle for:"
 msgstr "Počítat po nečinnosti: "
 
 #: clientgui/sg_DlgPreferences.cpp:431
+#, fuzzy
 msgid "Clear all local preferences listed above and close the dialog"
-msgstr ""
+msgstr "Smazat všechny místní předvolby a zavřít nabídku"
 
 #: clientgui/sg_DlgPreferences.cpp:609
 #: clientgui/sg_DlgPreferences.cpp:612
@@ -3345,8 +3360,9 @@ msgid "I agree to the terms of use."
 msgstr "Souhlasím s podmínkami použití."
 
 #: clientgui/TermsOfUsePage.cpp:237
+#, fuzzy
 msgid "I do not agree to the terms of use."
-msgstr ""
+msgstr "Nesouhlasím s podmínkami použití."
 
 #: clientgui/UnavailablePage.cpp:183
 msgid "Project temporarily unavailable"
