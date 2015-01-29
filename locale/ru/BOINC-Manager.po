@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-12-15 14:15-0500\n"
-"PO-Revision-Date: 2014-08-17 17:24+0000\n"
+"PO-Revision-Date: 2014-12-21 17:01+0000\n"
 "Last-Translator: Nikolay Saharov <saharovna@gmail.com>\n"
 "Language-Team: Russia\n"
 "Language: ru\n"
@@ -23,7 +23,7 @@ msgstr ""
 "X-Poedit-SearchPath-2: clientgui/gtk\n"
 "X-Poedit-SearchPath-3: clientgui/mac\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-POOTLE-MTIME: 1408296243.0\n"
+"X-POOTLE-MTIME: 1419181307.0\n"
 
 # 81%
 #: clientgui/AccountInfoPage.cpp:387
@@ -106,7 +106,7 @@ msgstr "Имя участника:"
 
 #: clientgui/AccountInfoPage.cpp:511
 msgid "&Email address or LDAP ID:"
-msgstr ""
+msgstr "Адрес электронной почты или LDAP ID:"
 
 #: clientgui/AccountInfoPage.cpp:515
 msgid "&Email address:"
@@ -242,7 +242,7 @@ msgstr "Выйти из %s"
 
 #: clientgui/AdvancedFrame.cpp:359
 msgid "Preferences..."
-msgstr ""
+msgstr "Настройки..."
 
 #: clientgui/AdvancedFrame.cpp:368
 msgid "&Notices\tCtrl+Shift+N"
@@ -504,11 +504,11 @@ msgstr "Показать диагностические сообщения."
 
 #: clientgui/AdvancedFrame.cpp:616
 msgid "Event Log Diagnostic Flags...\tCtrl+Shift+F"
-msgstr ""
+msgstr "Флаги отладки протокола событий...\tCtrl+Shift+F"
 
 #: clientgui/AdvancedFrame.cpp:617
 msgid "Enable or disable various diagnostic messages"
-msgstr ""
+msgstr "Включить или отключить различные диагностические сообщения"
 
 #: clientgui/AdvancedFrame.cpp:626
 #, c-format
@@ -1148,11 +1148,14 @@ msgstr "Версия wxWidgets:"
 msgid "Copyright:"
 msgstr "Авторские права:"
 
+# 98%
 #: clientgui/DlgAbout.cpp:192
 msgid ""
 "(C) 2003-2014 University of California, Berkeley.\n"
 "All Rights Reserved."
 msgstr ""
+"(C) 2003-2014 Калифорнийский университет, Беркли.\n"
+"Все права защищены."
 
 #: clientgui/DlgAbout.cpp:196
 msgid "Berkeley Open Infrastructure for Network Computing"
@@ -1238,7 +1241,7 @@ msgstr "Подтверждение"
 #: clientgui/DlgAdvPreferencesBase.cpp:49
 #, c-format
 msgid "%s - Computing preferences"
-msgstr ""
+msgstr "%s - Настройки вычислений"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:66
 msgid ""
@@ -1450,7 +1453,7 @@ msgstr "В многопроцессорных системах использо�
 #: clientgui/DlgAdvPreferencesBase.cpp:352
 #, no-c-format
 msgid "% of the processors (0 means no restriction)"
-msgstr ""
+msgstr "% процессоров (0 - нет ограничений)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:355
 #: clientgui/DlgAdvPreferencesBase.cpp:618
@@ -1464,7 +1467,7 @@ msgstr "Использовать не более"
 #: clientgui/DlgAdvPreferencesBase.cpp:362
 #, no-c-format
 msgid "% of CPU time (0 means no restriction)"
-msgstr ""
+msgstr "% времени ЦП (0 - нет ограничений)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:386
 msgid "General options"
@@ -1477,7 +1480,7 @@ msgstr "Ограничить скорость загрузки"
 #: clientgui/DlgAdvPreferencesBase.cpp:401
 #: clientgui/DlgAdvPreferencesBase.cpp:410
 msgid "KBytes/second (0 means no restriction)"
-msgstr ""
+msgstr "Кбайт/сек (0 - нет ограничений)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:404
 msgid "Maximum upload rate"
@@ -1496,7 +1499,7 @@ msgstr ""
 #: clientgui/DlgAdvPreferencesBase.cpp:431
 #: clientgui/DlgAdvPreferencesBase.cpp:449
 msgid "days (maximum value: 10)"
-msgstr ""
+msgstr "дней (максимальное значение: 10)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:437
 msgid "Max additional work buffer"
@@ -1514,11 +1517,11 @@ msgstr "Передавать не более"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:462
 msgid "MBytes every"
-msgstr ""
+msgstr "Мбайт каждые"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:468
 msgid "days (0 means no restriction)"
-msgstr ""
+msgstr "дней (0 - нет ограничений)"
 
 # не проверять изображение файла
 #: clientgui/DlgAdvPreferencesBase.cpp:476
@@ -1583,7 +1586,7 @@ msgstr ""
 
 #: clientgui/DlgAdvPreferencesBase.cpp:626
 msgid "Gigabytes disk space (0 means no restriction)"
-msgstr ""
+msgstr "Гигабайт дискового пространства (0 - нет ограничений)"
 
 #: clientgui/DlgAdvPreferencesBase.cpp:629
 msgid "Leave at least"
@@ -1675,27 +1678,29 @@ msgstr "Для расширенных настроек, обратитесь к 
 #: clientgui/DlgDiagnosticLogFlags.cpp:65
 #, c-format
 msgid "%s Diagnostic Log Flags"
-msgstr ""
+msgstr "Диагностические флаги %s"
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:83
 msgid "These flags enable various types of diagnostic messages in the Event Log."
 msgstr ""
+"Эти флаги включают различные типы диагностических сообщений в Просмотре "
+"событий."
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:105
 msgid "Save all values and close the dialog"
-msgstr ""
+msgstr "Сохранить все значения и закрыть окно"
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:108
 msgid "Defaults"
-msgstr ""
+msgstr "По умолчанию"
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:109
 msgid "Restore default settings"
-msgstr ""
+msgstr "Восстановить параметры по умолчанию"
 
 #: clientgui/DlgDiagnosticLogFlags.cpp:113
 msgid "Close the dialog without saving"
-msgstr ""
+msgstr "Закрыть окно без сохранения"
 
 #: clientgui/DlgEventLog.cpp:226
 #, c-format
@@ -1968,11 +1973,11 @@ msgstr "Завершён"
 
 #: clientgui/DlgItemProperties.cpp:285
 msgid "Tasks completed"
-msgstr ""
+msgstr "Задания завершены"
 
 #: clientgui/DlgItemProperties.cpp:286
 msgid "Tasks failed"
-msgstr ""
+msgstr "Задания с ошибками"
 
 #: clientgui/DlgItemProperties.cpp:288
 msgid "Credit"
@@ -2626,15 +2631,15 @@ msgstr "Готово к запуску"
 
 #: clientgui/MainDocument.cpp:2538
 msgid "Postponed: "
-msgstr ""
+msgstr "Отложено: "
 
 #: clientgui/MainDocument.cpp:2541
 msgid "Postponed"
-msgstr ""
+msgstr "Отложено"
 
 #: clientgui/MainDocument.cpp:2545
 msgid "Waiting for network access"
-msgstr ""
+msgstr "Ожидание доступа к сети"
 
 #: clientgui/MainDocument.cpp:2549
 msgid "Computation error"
@@ -2834,38 +2839,42 @@ msgstr ""
 "Устанавливается связь с сервером проекта\n"
 "Пожалуйста подождите..."
 
+# Хоть "в" хоть "на" - всё равно как-то криво
 #: clientgui/ProjectWelcomePage.cpp:251
 #, c-format
 msgid "Welcome to %s."
-msgstr ""
+msgstr "Добро пожаловать в %s."
 
 #: clientgui/ProjectWelcomePage.cpp:254
 msgid "You have volunteered to compute for this project:"
-msgstr ""
+msgstr "Вы добровольно участвуете в вычислениях для данного проекта:"
 
+# Имя
 #: clientgui/ProjectWelcomePage.cpp:255
 msgid "Name:"
-msgstr ""
+msgstr "Название:"
 
 #: clientgui/ProjectWelcomePage.cpp:258
 msgid "Home:"
-msgstr ""
+msgstr "Домашняя:"
 
 #: clientgui/ProjectWelcomePage.cpp:262
 msgid "Description:"
-msgstr ""
+msgstr "Описание:"
 
 #: clientgui/ProjectWelcomePage.cpp:265
 msgid "URL:"
-msgstr ""
+msgstr "Ссылка (URL):"
 
 #: clientgui/ProjectWelcomePage.cpp:268
 msgid "User:"
-msgstr ""
+msgstr "Участник:"
 
 #: clientgui/ProjectWelcomePage.cpp:273
 msgid "WARNING: This project is not registered with BOINC.  Make sure you trust it before continuing."
 msgstr ""
+"ВНИМАНИЕ: Этот проект не зарегистрирован в BOINC. Убедитесь, что Вы "
+"доверяете ему, прежде чем продолжить."
 
 #: clientgui/ProjectWelcomePage.cpp:277
 msgid "To continue, click Next."
@@ -3154,7 +3163,7 @@ msgstr "%d"
 #: clientgui/sg_DlgPreferences.cpp:953
 #, c-format
 msgid "%s - Computing Preferences"
-msgstr ""
+msgstr "%s - Настройки вычислений"
 
 # ?
 #: clientgui/sg_DlgPreferences.cpp:1033
