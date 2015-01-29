@@ -39,6 +39,7 @@
 ## updated 11/18/13 by Charlie Fenton for Xcode 5.0.2
 ## updated 1/22/14 by Charlie Fenton: embed VBox uninstaller in BOINC uninstaller
 ## updated 9/30/14 by Charlie Fenton to code sign the BOINC client and Manager
+## updated 12/16/14 by Charlie Fenton to name folders "x86_64" not "i686"
 ##
 ## NOTE: This script requires Mac OS 10.6 or later, and uses XCode developer
 ##   tools.  So you must have installed XCode Developer Tools on the Mac 
@@ -105,7 +106,7 @@ DarwinMajorVersion=`echo $DarwinVersion | sed 's/\([0-9]*\)[.].*/\1/' `;
 
 if [ "$DarwinMajorVersion" -gt 10 ]; then
     # XCode 4.1 on OS 10.7 builds only Intel binaries
-    arch="i686"
+    arch="x86_64"
 
     # XCode 3.x and 4.x use different paths for their build products.
     # Our scripts in XCode's script build phase write those paths to 

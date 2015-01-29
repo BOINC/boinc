@@ -404,7 +404,7 @@ void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& WXUNUSE
             ) {
                 if (ERR_RETRY == pc->error_num) {
                     pDoc->rpc.get_project_config(
-                        (const char*)pWAP->m_ProjectInfoPage->GetProjectURL().mb_str()
+                        (const char*)pWAP->GetProjectURL().mb_str()
                     );
                 }
 
@@ -502,7 +502,7 @@ void CProjectPropertiesPage::OnStateChange( CProjectPropertiesPageEvent& WXUNUSE
         case PROJPROP_DETERMINEACCOUNTINFOSTATUS_EXECUTE:
             // Determine if the account settings are already pre-populated.
             //   If so, advance to the Project Processing page.
-            SetCredentialsAlreadyAvailable(pWAP->m_bCredentialsCached || pWAP->m_bCredentialsDetected);
+            SetCredentialsAlreadyAvailable(pWAP->IsCredentialsCached() || pWAP->IsCredentialsDetected());
 
             SetNextState(PROJPROP_CLEANUP);
             break;

@@ -222,9 +222,7 @@ public:
 
     /// Runs the wizard.
     bool Run(
-        wxString strName,
-        wxString strURL,
-        wxString strTeamName,
+        wxString strProjectURL,
         bool bCredentialsCached = true
     );
     
@@ -285,8 +283,38 @@ public:
     wxString GetProjectDescription() const { return m_strProjectDescription ; }
     void SetProjectDescription(wxString value) { m_strProjectDescription = value ; }
 
-    bool GetProjectKnown() const { return m_bProjectKnown ; }
+    bool IsProjectKnown() const { return m_bProjectKnown ; }
     void SetProjectKnown(bool value) { m_bProjectKnown = value ; }
+
+    wxString GetAccountEmailAddress() const { return m_strAccountEmailAddress ; }
+    void SetAccountEmailAddress(wxString value) { m_strAccountEmailAddress = value ; }
+
+    wxString GetAccountUsername() const { return m_strAccountUsername ; }
+    void SetAccountUsername(wxString value) { m_strAccountUsername = value ; }
+
+    wxString GetAccountPassword() const { return m_strAccountPassword ; }
+    void SetAccountPassword(wxString value) { m_strAccountPassword = value ; }
+
+    wxString GetAccountConfirmPassword() const { return m_strAccountConfirmPassword ; }
+    void SetAccountConfirmPassword(wxString value) { m_strAccountConfirmPassword = value ; }
+
+    wxString GetReturnURL() const { return m_strReturnURL ; }
+    void SetReturnURL(wxString value) { m_strReturnURL = value ; }
+
+    wxString GetCookieFailureURL() const { return m_strCookieFailureURL ; }
+    void SetCookieFailureURL(wxString value) { m_strCookieFailureURL = value ; }
+
+    bool IsCredentialsCached() const { return m_bCredentialsCached ; }
+    void SetCredentialsCached(bool value) { m_bCredentialsCached = value ; }
+
+    bool IsCredentialsDetected() const { return m_bCredentialsDetected ; }
+    void SetCredentialsDetected(bool value) { m_bCredentialsDetected = value ; }
+
+    bool IsCloseWhenCompleted() const { return m_bCloseWhenCompleted ; }
+    void SetCloseWhenCompleted(bool value) { m_bCloseWhenCompleted = value ; }
+
+    bool IsCookieRequired() const { return m_bCookieRequired ; }
+    void SetCookieRequired(bool value) { m_bCookieRequired = value ; }
 
     /// Should we show tooltips?
     static bool ShowToolTips();
@@ -331,17 +359,20 @@ public:
     bool                m_bCloseWhenCompleted;
     bool                m_bCredentialsCached;
     bool                m_bCredentialsDetected;
+    bool                m_bCookieRequired;
     wxString            m_strProjectName;
     wxString            m_strProjectUrl;
     wxString            m_strProjectAuthenticator;
-    wxString            m_strTeamName;
-    wxString            m_strReturnURL;
-    bool                m_bCookieRequired;
-    wxString            m_strCookieFailureURL;
     wxString            m_strProjectInstitution;
     wxString            m_strProjectDescription;
     wxString            m_strProjectUserName;
     bool                m_bProjectKnown;
+    wxString            m_strAccountEmailAddress;
+    wxString            m_strAccountUsername;
+    wxString            m_strAccountPassword;
+    wxString            m_strAccountConfirmPassword;
+    wxString            m_strReturnURL;
+    wxString            m_strCookieFailureURL;
 };
 
 #endif // _WIZ_ATTACH_H_

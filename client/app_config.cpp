@@ -166,12 +166,11 @@ int APP_CONFIGS::parse(XML_PARSER& xp, PROJECT* p) {
             }
             continue;
         }
-        if (log_flags.unparsed_xml) {
-            msg_printf(p, MSG_INFO,
-                "Unparsed line in app_config.xml: %s",
-                xp.parsed_tag
-            );
-        }
+        msg_printf_notice(p, false, NULL,
+            "Unknown tag in app_config.xml: %s",
+            xp.parsed_tag
+        );
+
         xp.skip_unexpected(log_flags.unparsed_xml, "APP_CONFIGS::parse");
     }
     msg_printf(p, MSG_USER_ALERT,
@@ -247,7 +246,8 @@ int APP_CONFIGS::config_app_versions(PROJECT* p, bool show_warnings) {
         }
         if (!found) {
             msg_printf(p, MSG_USER_ALERT,
-                "Entry in app_config.xml for app '%s', plan class '%s' doesn't match any app versions", avc.app_name, avc.plan_class
+                "Entry in app_config.xml for app '%s', plan class '%s' doesn't match any app versions",
+                avc.app_name, avc.plan_class
             );
         }
     }

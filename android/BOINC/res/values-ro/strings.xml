@@ -111,7 +111,6 @@
   <string name="prefs_category_memory">Memorie</string>
   <string name="prefs_category_debug">Depanare</string>
   <string name="prefs_show_advanced_header">Arată preferinţe şi control avansat…</string>
-  <string name="prefs_run_on_battery_header">Calculează pe Baterie</string>
   <string name="battery_charge_min_pct_header">Nivel minim baterie</string>
   <string name="battery_charge_min_pct_description">BOINC suspendă calculele când nivelul bateriei este sub cel definit.</string>
   <string name="battery_temperature_max_header">Temperatură maximă baterie</string>
@@ -124,7 +123,6 @@
   <string name="prefs_network_daily_xfer_limit_mb_description">Limitează traficul zilnic realizat de BOINC.</string>
   <string name="prefs_network_wifi_only_header">Transferă task-uri doar pe WiFi</string>
   <string name="prefs_autostart_header">Pornire automată</string>
-  <string name="prefs_show_notification_header">Arată notificare când este suspendat</string>
   <string name="prefs_cpu_number_cpus_header">Nuclee CPU folosite</string>
   <string name="prefs_cpu_number_cpus_description">Limitează numărul de nuclee CPU folosite de BOINC pentru calcule.</string>
   <string name="prefs_cpu_other_load_suspension_header">Pauză la utilizare CPU peste</string>

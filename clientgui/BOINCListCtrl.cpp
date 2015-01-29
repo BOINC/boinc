@@ -25,6 +25,23 @@
 #include "Events.h"
 
 
+BEGIN_EVENT_TABLE(MyEvtHandler, wxEvtHandler)
+    EVT_PAINT(MyEvtHandler::OnPaint)
+END_EVENT_TABLE()
+
+
+IMPLEMENT_DYNAMIC_CLASS(MyEvtHandler, wxEvtHandler)
+
+MyEvtHandler::MyEvtHandler() {}
+
+MyEvtHandler::MyEvtHandler(CBOINCListCtrl *theListControl) {
+    m_listCtrl = theListControl;
+#ifdef __WXGTK__
+    m_view_startX = 0;
+#endif
+}
+
+
 DEFINE_EVENT_TYPE(wxEVT_CHECK_SELECTION_CHANGED)
 
 #if USE_NATIVE_LISTCONTROL
@@ -44,11 +61,6 @@ BEGIN_EVENT_TABLE(CBOINCListCtrl, LISTCTRL_BASE)
 #if ! USE_LIST_CACHE_HINT
     EVT_LEFT_DOWN(CBOINCListCtrl::OnMouseDown)
 #endif
-END_EVENT_TABLE()
-
-
-BEGIN_EVENT_TABLE(MyEvtHandler, wxEvtHandler)
-    EVT_PAINT(MyEvtHandler::OnPaint)
 END_EVENT_TABLE()
 
 
@@ -381,6 +393,20 @@ void MyEvtHandler::OnPaint(wxPaintEvent & event)
     if (m_listCtrl) {
         m_listCtrl->savedHandler->ProcessEvent(event);
         m_listCtrl->DrawProgressBars();
+#ifdef __WXGTK__
+        // Work around a wxWidgets 3.0 bug in wxGenericListCtrl (Linux
+        // only) which causes headers to be misaligned after horizontal
+        // scrolling due to wxListHeaderWindow::OnPaint() calling
+        // parent->GetViewStart() before the parent window has been
+        // scrolled to the new position.
+        int view_startX;
+        m_listCtrl->GetViewStart( &view_startX, NULL );
+        if (view_startX != m_view_startX) {
+            m_view_startX = view_startX;
+            ((wxWindow *)m_listCtrl->m_headerWin)->Refresh();
+            ((wxWindow *)m_listCtrl->m_headerWin)->Update();
+        }
+#endif
     } else {
         event.Skip();
     }
@@ -416,21 +442,6 @@ void CBOINCListCtrl::OnMouseDown(wxMouseEvent& event) {
 void CBOINCListCtrl::RefreshCell(int row, int col) {
     wxRect r;
     
-#if (defined (__WXMSW__) && wxCHECK_VERSION(2,8,0))
     GetSubItemRect(row, col, r);
-#else
-    int i;
-    
-    GetItemRect(row, r);
-#if ! USE_NATIVE_LISTCONTROL
-    r.y = r.y - GetHeaderHeight() - 1;
-#endif
-    for (i=0; i< col; i++) {
-        r.x += GetColumnWidth(i);
-    }
-    r.width = GetColumnWidth(col);
-#endif
-
     RefreshRect(r);
 }
-
