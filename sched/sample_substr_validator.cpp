@@ -31,19 +31,22 @@ char* stderr_string;
 bool reject_if_present = false;
 
 void parse_cmdline() {
+    bool found = false;
     for (int i=1; i<g_argc; i++) {
         if (!strcmp(g_argv[i], "--stderr_string")) {
             stderr_string = g_argv[++i];
-            return;
+            found = true;
         }
         if (!strcmp(g_argv[i], "--reject_if_present")) {
             reject_if_present = true;
         }
     }
-    log_messages.printf(MSG_CRITICAL,
-        "--stderr_string missing from command line\n"
-    );
-    exit(1);
+    if (!found) {
+        log_messages.printf(MSG_CRITICAL,
+            "--stderr_string missing from command line\n"
+        );
+        exit(1);
+    }
 }
 
 int init_result(RESULT& r, void*&) {
