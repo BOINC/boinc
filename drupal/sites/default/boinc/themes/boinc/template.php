@@ -445,7 +445,6 @@ function boinc_preprocess_forum_topic_list(&$variables) {
 function boinc_preprocess_views_view(&$vars, $hook) {
   switch ($vars['name']) {
   case 'boinc_account_computers': 
-  echo '<pre>'.print_r($vars,1).'</pre>';
     switch ($vars['display_id']) {
     case 'page_1':
     case 'panel_pane_1':
