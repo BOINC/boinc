@@ -507,7 +507,10 @@ return ($account->team == 0);',
   $page->admin_title = 'View team';
   $page->admin_description = '';
   $page->path = 'community/teams/%team_id/!section/!option';
-  $page->access = array();
+  $page->access = array(
+    'type' => 'none',
+    'settings' => NULL,
+  );
   $page->menu = array(
     'type' => 'none',
     'title' => 'Teams',

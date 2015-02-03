@@ -434,6 +434,78 @@ function boinc_preprocess_forum_topic_list(&$variables) {
 }
 
 /**
+ * Override or insert variables into the default view template.
+ *
+ * @param $vars
+ *   An array of variables to pass to the theme template.
+ * @param $hook
+ *   The name of the template being rendered
+ */
+///* -- Delete this line if you want to use this function
+function boinc_preprocess_views_view(&$vars, $hook) {
+  switch ($vars['name']) {
+  case 'boinc_account_computers': 
+  echo '<pre>'.print_r($vars,1).'</pre>';
+    switch ($vars['display_id']) {
+    case 'page_1':
+    case 'panel_pane_1':
+      $vars['empty'] = boincwork_views_host_list_empty_text();
+      break;
+    case 'page_2':
+      $vars['empty'] = boincwork_views_host_list_empty_text('active');
+      break;
+    case 'block_1':
+      $vars['empty'] = boincwork_views_host_list_empty_text('preferences');
+      break;
+    default:
+    }
+    break;
+  case 'boinc_account_tasks_all':
+    $vars['empty'] = boincwork_views_task_list_empty_text();
+    break;
+  case 'boinc_friends':
+    if ($vars['display_id'] == 'block_1') {
+      $vars['header'] = boincuser_views_friends_block_header(); 
+    }
+    break;
+  case 'boinc_host_list':
+    if ($vars['display_id'] == 'page_2') {
+     $vars['empty'] = boincwork_views_host_list_empty_text();
+    }
+    elseif ($vars['display_id'] == 'page_1') {
+      $vars['empty'] = boincwork_views_host_list_empty_text('active');
+    }
+    break;
+  case 'boinc_task':
+    // Load view object (view data is not available in header / footer); execute view query
+    $view = views_get_current_view();
+    $view->execute();
+    $result = reset($view->result);
+    // Display the stderr output in the footer
+    $vars['footer'] = '<h3>' . t('Stderr output') .'</h3>';
+    $vars['footer'] .= '<pre>' . htmlspecialchars($result->result_stderr_out) . '</pre>';
+    break;
+  case 'boinc_teams':
+    if ($vars['display_id'] == 'panel_pane_3') {
+      $team_id = arg(2);
+      $vars['header'] = boincteam_manage_admins_panel_header($team_id);
+    }
+    break;
+  case 'boinc_workunit':
+    ob_start();
+    // Get the workunit ID from the URL
+    $result_id = arg(1);
+    require_boinc(array('util','boinc_db'));
+    $wu = BoincWorkunit::lookup_id($result_id);
+    project_workunit($wu);
+    // Output of project_workunit() gets caught in the buffer
+    $vars['footer'] = ob_get_clean();
+  default:
+  }
+}
+// */
+
+/**
  * Override or insert variables into the privatemsg view templates.
  *
  * @param $vars

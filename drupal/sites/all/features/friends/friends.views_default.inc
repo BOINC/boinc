@@ -901,7 +901,6 @@ function friends_views_default_views() {
       'validate_argument_php' => '',
     ),
   ));
-  $handler->override_option('header', '<?php echo boincuser_views_friends_block_header(); ?>');
   $handler->override_option('header_format', '3');
   $handler->override_option('header_empty', 0);
   $handler->override_option('items_per_page', 6);

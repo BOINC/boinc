@@ -3885,11 +3885,7 @@ echo l(t(\'Remove\'), "community/teams/{$team_id}/edit/admins/remove/{$user_id}"
       'relationship' => 'none',
     ),
   ));
-  $handler->override_option('header', '<?php 
-$team_id = arg(2);
-echo boincteam_manage_admins_panel_header($team_id);
-?>');
-  $handler->override_option('header_format', '3');
+  $handler->override_option('header_format', '1');
   $handler->override_option('header_empty', 1);
   $handler->override_option('empty', 'There are currently no team admins.');
   $handler->override_option('empty_format', '4');

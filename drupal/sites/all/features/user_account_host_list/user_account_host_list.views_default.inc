@@ -702,13 +702,8 @@ function user_account_host_list_views_default_views() {
   $handler->override_option('cache', array(
     'type' => 'none',
   ));
-  $handler->override_option('empty', '<?php
-  
-  // Display text from boincwork module
-  echo boincwork_views_host_list_empty_text();
-  
-?>');
-  $handler->override_option('empty_format', '3');
+  $handler->override_option('empty', ' ');
+  $handler->override_option('empty_format', '1');
   $handler->override_option('items_per_page', 20);
   $handler->override_option('use_pager', '1');
   $handler->override_option('style_plugin', 'table');
@@ -854,12 +849,6 @@ function user_account_host_list_views_default_views() {
       'relationship' => 'none',
     ),
   ));
-  $handler->override_option('empty', '<?php
-  
-  // Display text from boincwork module
-  echo boincwork_views_host_list_empty_text(\'active\');
-  
-?>');
   $handler->override_option('path', 'account/computers/active');
   $handler->override_option('menu', array(
     'type' => 'default tab',
@@ -1474,12 +1463,6 @@ return $venue;',
       'me_validate_user_restrict_roles' => 0,
     ),
   ));
-  $handler->override_option('empty', '<?php
-  
-  // Display text from boincwork module
-  echo boincwork_views_host_list_empty_text(\'preferences\');
-  
-?>');
   $handler->override_option('items_per_page', 9);
   $handler->override_option('use_pager', FALSE);
   $handler->override_option('use_more', 1);

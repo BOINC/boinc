@@ -851,13 +851,7 @@ function work_and_host_stats_views_default_views() {
   $handler->override_option('cache', array(
     'type' => 'none',
   ));
-  $handler->override_option('empty', '<?php
-  
-  // Display text from boincwork module
-  echo boincwork_views_task_list_empty_text();
-  
-?>');
-  $handler->override_option('empty_format', '3');
+  $handler->override_option('empty_format', '1');
   $handler->override_option('items_per_page', 20);
   $handler->override_option('use_pager', '1');
   $handler->override_option('style_plugin', 'table');
@@ -5436,13 +5430,7 @@ Cross-project stats:
   $handler->override_option('cache', array(
     'type' => 'none',
   ));
-  $handler->override_option('empty', '<?php
-  
-  // Display text from boincwork module
-  echo boincwork_views_host_list_empty_text();
-  
-?>');
-  $handler->override_option('empty_format', '3');
+  $handler->override_option('empty_format', '1');
   $handler->override_option('items_per_page', 20);
   $handler->override_option('use_pager', '1');
   $handler->override_option('style_plugin', 'table');
@@ -5577,12 +5565,6 @@ Cross-project stats:
       'relationship' => 'userid',
     ),
   ));
-  $handler->override_option('empty', '<?php
-  
-  // Display text from boincwork module
-  echo boincwork_views_host_list_empty_text(\'active\');
-  
-?>');
   $handler->override_option('path', 'account/%/computers/active');
   $handler->override_option('menu', array(
     'type' => 'default tab',
@@ -8802,17 +8784,7 @@ else {
   $handler->override_option('cache', array(
     'type' => 'none',
   ));
-  $handler->override_option('footer', '<?php
-  // Load view object (view data is not available in header / footer); execute view query
-  $view = views_get_current_view();
-  $view->execute();
-  $result = reset($view->result);
-  
-  // Display the stderr output in the footer
-  echo \'<h3>Stderr output</h3>\';
-  echo \'<pre>\' . htmlspecialchars($result->result_stderr_out) . \'</pre>\';
-?>');
-  $handler->override_option('footer_format', '3');
+  $handler->override_option('footer_format', '1');
   $handler->override_option('footer_empty', 0);
   $handler->override_option('items_per_page', 0);
   $handler = $view->new_display('page', 'Page', 'page_1');
@@ -9633,16 +9605,7 @@ else {
   $handler->override_option('cache', array(
     'type' => 'none',
   ));
-  $handler->override_option('footer', '<?php
-  // Load view object (view data is not available in header / footer); execute view query
-  $view = views_get_current_view();
-  $view->execute();
-  $result = reset($view->result);
-  require_boinc(array(\'util\',\'boinc_db\'));
-  $wu = BoincWorkunit::lookup_id($result->id);
-  project_workunit($wu);
-?>');
-  $handler->override_option('footer_format', '3');
+  $handler->override_option('footer_format', '1');
   $handler->override_option('footer_empty', 0);
   $handler = $view->new_display('page', 'Page', 'page_1');
   $handler->override_option('path', 'workunit');
