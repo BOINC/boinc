@@ -919,7 +919,7 @@ echo l(t(\'Show computers\'), \'account/\' . get_drupal_id($data->id) . \'/compu
   ));
   $handler->override_option('title', 'Statistics');
   $handler->override_option('empty', 'empty...');
-  $handler->override_option('empty_format', '4');
+  $handler->override_option('empty_format', '5');
   $handler->override_option('row_options', array(
     'inline' => array(),
     'separator' => '',

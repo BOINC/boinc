@@ -31,7 +31,7 @@ function boinc_standard_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'format';
-  $strongarm->value = '4';
+  $strongarm->value = '5';
   $export['format'] = $strongarm;
 
   $strongarm = new stdClass;

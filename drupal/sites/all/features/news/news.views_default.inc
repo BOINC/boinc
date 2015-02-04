@@ -102,7 +102,7 @@ function news_views_default_views() {
     'type' => 'none',
   ));
   $handler->override_option('empty', 'No news is good news...');
-  $handler->override_option('empty_format', '1');
+  $handler->override_option('empty_format', '5');
   $handler->override_option('items_per_page', 3);
   $handler->override_option('use_pager', '1');
   $handler->override_option('row_plugin', 'node');

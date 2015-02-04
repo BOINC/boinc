@@ -703,7 +703,7 @@ function user_account_host_list_views_default_views() {
     'type' => 'none',
   ));
   $handler->override_option('empty', ' ');
-  $handler->override_option('empty_format', '1');
+  $handler->override_option('empty_format', '5');
   $handler->override_option('items_per_page', 20);
   $handler->override_option('use_pager', '1');
   $handler->override_option('style_plugin', 'table');

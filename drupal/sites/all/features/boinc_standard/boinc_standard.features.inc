@@ -33,8 +33,8 @@ function boinc_standard_flag_default_flags() {
     'title' => 'Comment Abuse',
     'global' => FALSE,
     'types' => array(
-      '0' => 'news',
-      '1' => 'forum',
+      '0' => 'forum',
+      '1' => 'news',
     ),
     'flag_short' => 'Report',
     'flag_long' => 'Report this content as offensive.',
@@ -67,8 +67,8 @@ function boinc_standard_flag_default_flags() {
     'title' => 'Node Abuse',
     'global' => FALSE,
     'types' => array(
-      '0' => 'profile',
-      '1' => 'forum',
+      '0' => 'forum',
+      '1' => 'profile',
     ),
     'flag_short' => 'Report',
     'flag_long' => 'Report this content as offensive.',
@@ -91,7 +91,7 @@ function boinc_standard_flag_default_flags() {
     'show_on_teaser' => 0,
     'show_on_form' => 0,
     'access_author' => '',
-    'i18n' => 0,
+    'i18n' => '0',
     'module' => 'boinc_standard',
     'locked' => array(
       '0' => 'name',

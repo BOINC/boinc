@@ -438,7 +438,7 @@ function team_forums_views_default_views() {
   ));
   $handler = $view->new_display('panel_pane', 'Topic list', 'panel_pane_1');
   $handler->override_option('empty', 'No topics yet...');
-  $handler->override_option('empty_format', '1');
+  $handler->override_option('empty_format', '5');
   $handler->override_option('use_pager', '1');
   $handler->override_option('style_plugin', 'table');
   $handler->override_option('style_options', array(

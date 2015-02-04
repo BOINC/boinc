@@ -3888,7 +3888,7 @@ echo l(t(\'Remove\'), "community/teams/{$team_id}/edit/admins/remove/{$user_id}"
   $handler->override_option('header_format', '1');
   $handler->override_option('header_empty', 1);
   $handler->override_option('empty', 'There are currently no team admins.');
-  $handler->override_option('empty_format', '4');
+  $handler->override_option('empty_format', '5');
   $handler->override_option('style_plugin', 'table');
   $handler->override_option('style_options', array(
     'grouping' => '',

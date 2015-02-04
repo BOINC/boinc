@@ -96,7 +96,7 @@ function friends_views_default_views() {
     'type' => 'none',
   ));
   $handler->override_option('empty', 'No Friends have been added.');
-  $handler->override_option('empty_format', '1');
+  $handler->override_option('empty_format', '5');
   $handler->override_option('use_pager', '1');
   $handler->override_option('distinct', 1);
   $handler->override_option('style_plugin', 'table');
@@ -483,7 +483,7 @@ function friends_views_default_views() {
   ));
   $handler->override_option('title', 'Friend Requests');
   $handler->override_option('header', 'These are users who would like to be your friend.');
-  $handler->override_option('header_format', '1');
+  $handler->override_option('header_format', '5');
   $handler->override_option('header_empty', 0);
   $handler->override_option('empty', 'No Friend Requests.');
   $handler->override_option('style_options', array(
@@ -712,7 +712,7 @@ function friends_views_default_views() {
   ));
   $handler->override_option('title', 'Awaiting Friend Approvals');
   $handler->override_option('header', 'These are users who you have requested to be friends with.');
-  $handler->override_option('header_format', '1');
+  $handler->override_option('header_format', '5');
   $handler->override_option('header_empty', 1);
   $handler->override_option('empty', 'No Friend Requests.');
   $handler->override_option('path', 'account/%/friends/flagged');

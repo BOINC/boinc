@@ -11,7 +11,7 @@ function internationalization_strongarm() {
   $strongarm->api_version = 1;
   $strongarm->name = 'i18nstrings_allowed_formats';
   $strongarm->value = array(
-    0 => 4,
+    0 => 5,
   );
   $export['i18nstrings_allowed_formats'] = $strongarm;
 
