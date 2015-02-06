@@ -1117,39 +1117,8 @@ function boincwork_projectprefs_form(&$form_state, $venue) {
     );
   }
   
-  // Load project specific preferences from XML config
-  $xml = boincwork_get_project_specific_config();
-  
-  // Respect the order of the top level elements
-  $ordered_array = array();
-  $unordered_array = array();
-  foreach ($xml['project_specific_preferences'] as $type => $element) {
-    if (is_array($element) AND is_numeric(key($element))) {
-      foreach ($element as $ordered_element) {
-        if (isset($ordered_element['@position'])) {
-          $ordered_array[$ordered_element['@position']] = array($type => $ordered_element);
-        }
-        else {
-          $unordered_array[] = array($type => $ordered_element);
-        }
-      }
-    }
-    elseif (isset($element['@position'])) {
-      $ordered_array[$element['@position']] = array($type => $element);
-    }
-    else {
-      $unordered_array[] = array($type => $element);
-    }
-  }
-  ksort($ordered_array);
-  $primed_array = array_merge($ordered_array, $unordered_array);
-  $xml = array('project_specific_preferences' => $primed_array);
-    
-  foreach ($xml['project_specific_preferences'] as $wrapped_element) {
-    $type = key($wrapped_element);
-    $element= reset($wrapped_element);
-    boincwork_generate_prefs_element($form, $type, $element, $prefs['project_specific']);
-  }
+  // Add project specific prefs to the form
+  boincwork_add_project_specific_prefs($form, $prefs);
   
   // Set whether to use this preference set by default for new computers
   $form['default_set'] = array(
@@ -1206,6 +1175,45 @@ function boincwork_projectprefs_form(&$form_state, $venue) {
   );
   
   return $form;
+}
+
+/**
+ * Add project specific preferences to the project preferences form
+ */
+function boincwork_add_project_specific_prefs(&$form, $prefs) {
+  // Load project specific preferences from XML config
+  $xml = boincwork_get_project_specific_config();
+  
+  // Respect the order of the top level elements
+  $ordered_array = array();
+  $unordered_array = array();
+  foreach ($xml['project_specific_preferences'] as $type => $element) {
+    if (is_array($element) AND is_numeric(key($element))) {
+      foreach ($element as $ordered_element) {
+        if (isset($ordered_element['@position'])) {
+          $ordered_array[$ordered_element['@position']] = array($type => $ordered_element);
+        }
+        else {
+          $unordered_array[] = array($type => $ordered_element);
+        }
+      }
+    }
+    elseif (isset($element['@position'])) {
+      $ordered_array[$element['@position']] = array($type => $element);
+    }
+    else {
+      $unordered_array[] = array($type => $element);
+    }
+  }
+  ksort($ordered_array);
+  $primed_array = array_merge($ordered_array, $unordered_array);
+  $xml = array('project_specific_preferences' => $primed_array);
+    
+  foreach ($xml['project_specific_preferences'] as $wrapped_element) {
+    $type = key($wrapped_element);
+    $element= reset($wrapped_element);
+    boincwork_generate_prefs_element($form, $type, $element, $prefs['project_specific']);
+  }
 }
 
 /**
