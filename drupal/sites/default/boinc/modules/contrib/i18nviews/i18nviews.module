@@ -42,10 +42,12 @@ function i18nviews_locale($op = 'groups') {
 function i18nviews_locale_refresh() {
   $views = views_get_all_views();
   foreach ($views as $view) {
-    $fields = _i18nviews_display_fields();
-    if (!empty($view->display) && is_array($view->display)) {
-      foreach (array_keys($view->display) as $display_id) {
-        _i18nviews_localize_array($view->name, $display_id, $view->display[$display_id]->display_options, $fields, TRUE);
+    if (!$view->disabled) {
+      $fields = _i18nviews_display_fields();
+      if (!empty($view->display) && is_array($view->display)) {
+        foreach (array_keys($view->display) as $display_id) {
+          _i18nviews_localize_array($view->name, $display_id, $view->display[$display_id]->display_options, $fields, TRUE);
+        }
       }
     }
   }
