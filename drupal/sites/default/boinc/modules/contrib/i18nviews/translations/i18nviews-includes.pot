@@ -1,0 +1,27 @@
+# $Id: i18nviews-includes.pot,v 1.1 2010/05/17 14:03:58 jareyero Exp $
+#
+# LANGUAGE translation of Drupal (i18nviews-includes)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from file: i18nviews/includes/i18nviews.views.inc: n/a
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2009-06-26 01:08+0200\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: i18nviews/includes/i18nviews.views.inc:6
+msgid "Content negotiation"
+msgstr ""
+
+#: i18nviews/includes/i18nviews.views.inc:7
+msgid "Removes the nodes that are not valid according to the content selection mode"
+msgstr ""
+
