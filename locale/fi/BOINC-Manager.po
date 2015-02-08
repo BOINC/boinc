@@ -1,31 +1,22 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+# Translators:
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: boinc\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-02-02 00:00-0800\n"
-"PO-Revision-Date: 2014-06-22 06:13+0000\n"
-"Last-Translator: Sami Nordlund <sami.nordlund@kolumbus.fi>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: fi\n"
+"PO-Revision-Date: 2015-02-08 19:52+0000\n"
+"Last-Translator: Rom Walton <romw@romwnet.org>\n"
+"Language-Team: Finnish (http://www.transifex.com/projects/p/boinc/language/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: fi\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 2.5.0\n"
-"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
-"X-Poedit-SearchPath-1: clientgui/msw\n"
-"X-Poedit-SearchPath-2: clientgui/gtk\n"
-"X-Poedit-SearchPath-3: clientgui/mac\n"
-"X-Poedit-SearchPath-0: clientgui\n"
-"X-Poedit-SourceCharset: utf-8\n"
-"X-Poedit-Basepath: C:\\Src\\BOINCGIT\\boinc\n"
-"X-POOTLE-MTIME: 1403417630.0\n"
 
-# 81%
 #: AccountInfoPage.cpp:387
 #, c-format
 msgid "Identify your account at %s"
@@ -35,17 +26,13 @@ msgstr "Yksilöi %s -tilisi"
 msgid ""
 "Please enter your account information\n"
 "(to create an account, visit the project's web site)"
-msgstr ""
-"Syötä tilisi tiedot\n"
-"(luodaksesi tilin, käy projektin verkkosivuilla)"
+msgstr "Syötä tilisi tiedot\n(luodaksesi tilin, käy projektin verkkosivuilla)"
 
 #: AccountInfoPage.cpp:397
 msgid ""
 "This project is not currently accepting new accounts.\n"
 "You can add it only if you already have an account."
-msgstr ""
-"Tämä projekti ei tällä hetkellä hyväksy uusia tilejä.\n"
-"Voit liittyä projektiin vain, jos sinulla on jo tili."
+msgstr "Tämä projekti ei tällä hetkellä hyväksy uusia tilejä.\nVoit liittyä projektiin vain, jos sinulla on jo tili."
 
 #: AccountInfoPage.cpp:401
 msgid "Are you already running this project?"
@@ -67,13 +54,7 @@ msgid ""
 "Please click on the 'Find login information' link\n"
 "below to find out what to put in the email address and\n"
 "password fields."
-msgstr ""
-"Tilitietojasi ei voitu asettaa\n"
-"automaattisesti.\n"
-"\n"
-"Napsauta \"Hae kirjautumistiedot\" -linkkiä\n"
-"jotta tiedät, mitä laitat sähköpostiosoite- ja\n"
-"salasanakenttiin."
+msgstr "Tilitietojasi ei voitu asettaa\nautomaattisesti.\n\nNapsauta \"Hae kirjautumistiedot\" -linkkiä\njotta tiedät, mitä laitat sähköpostiosoite- ja\nsalasanakenttiin."
 
 #: AccountInfoPage.cpp:416
 msgid "Find login information"
@@ -118,10 +99,7 @@ msgid ""
 "If you have not yet registered with this account manager,\n"
 "please do so before proceeding.  Click on the link below\n"
 "to register or to retrieve a forgotten password."
-msgstr ""
-"Jos et ole vielä rekisteröitynyt tämän tilihallitsijan käyttäjäksi,\n"
-"tee se ennen kuin jatkat eteenpäin.  Napsauta allaolevaa linkkiä\n"
-"rekisteröityäksesi tai saadaksesi unohtuneen salasanan."
+msgstr "Jos et ole vielä rekisteröitynyt tämän tilihallitsijan käyttäjäksi,\ntee se ennen kuin jatkat eteenpäin.  Napsauta allaolevaa linkkiä\nrekisteröityäksesi tai saadaksesi unohtuneen salasanan."
 
 #: AccountInfoPage.cpp:532
 msgid "Account manager web site"
@@ -165,9 +143,7 @@ msgstr "Valitse tilihallitsija"
 msgid ""
 "To choose an account manager, click its name or \n"
 "type its URL below."
-msgstr ""
-"Valitse tilihallitsija napsauttamalla sen nimeä tai \n"
-"kirjoita sen URL-osoite."
+msgstr "Valitse tilihallitsija napsauttamalla sen nimeä tai \nkirjoita sen URL-osoite."
 
 #: AccountManagerInfoPage.cpp:279
 msgid "Account manager details:"
@@ -286,9 +262,7 @@ msgstr "&Lisää projekti tai tilihallitsija..."
 
 #: AdvancedFrame.cpp:425 sg_ProjectPanel.cpp:76
 msgid "Volunteer for any or all of 30+ projects in many areas of science"
-msgstr ""
-"Osallistu yhteen tai useampaan yli 30:sta projektista tieteen monilla "
-"alueilla"
+msgstr "Osallistu yhteen tai useampaan yli 30:sta projektista tieteen monilla alueilla"
 
 #: AdvancedFrame.cpp:429
 #, c-format
@@ -438,16 +412,14 @@ msgstr "Suorita verkkotoiminnot"
 msgid "Do all pending network communication"
 msgstr "Suorittaa kaikki odottavat verkkoyhteystoiminnot"
 
-# 94%
 #: AdvancedFrame.cpp:589
 msgid "Read config files"
 msgstr "Lue kokoonpanotiedosto"
 
 #: AdvancedFrame.cpp:590
-msgid "Read configuration info from cc_config.xml and any app_config.xml files"
-msgstr ""
-"Lue kokoonpanotiedot cc_config.xml -tiedostosta ja kaikista app_config.xml "
-"-tiedostoista"
+msgid ""
+"Read configuration info from cc_config.xml and any app_config.xml files"
+msgstr "Lue kokoonpanotiedot cc_config.xml -tiedostosta ja kaikista app_config.xml -tiedostoista"
 
 #: AdvancedFrame.cpp:594
 msgid "Read local prefs file"
@@ -552,12 +524,7 @@ msgid ""
 "but you'll have to manage projects manually.\n"
 "\n"
 "Do you want to stop using %s?"
-msgstr ""
-"Jos lopetat %s:n käytön,\n"
-"kaikki nykyiset projektisi säilyvät,\n"
-"mutta sinun on hallittava niitä itse.\n"
-"\n"
-"Haluatko lopettaa %s:n käytön?"
+msgstr "Jos lopetat %s:n käytön,\nkaikki nykyiset projektisi säilyvät,\nmutta sinun on hallittava niitä itse.\n\nHaluatko lopettaa %s:n käytön?"
 
 #: AdvancedFrame.cpp:1401
 #, c-format
@@ -569,9 +536,7 @@ msgstr "%s - Sulje nykyinen ohjelma..."
 msgid ""
 "%s will shut down the current client\n"
 "and prompt you for another host to connect to."
-msgstr ""
-"%s sulkee nykyisen ohjelman ja\n"
-"pyytää toista konetta, johon yhteys otetaan."
+msgstr "%s sulkee nykyisen ohjelman ja\npyytää toista konetta, johon yhteys otetaan."
 
 #: AdvancedFrame.cpp:1745 DlgAbout.cpp:119
 #, c-format
@@ -608,11 +573,7 @@ msgid ""
 "different password than the one you entered.\n"
 "\n"
 "Please visit the project's web site and follow the instructions there."
-msgstr ""
-"Käyttäjänimellä on jo tili ja sen\n"
-"salasana on eri kuin antamasi.\n"
-"\n"
-"Käy projektin nettisivuilla ja seuraa siellä olevia ohjeita."
+msgstr "Käyttäjänimellä on jo tili ja sen\nsalasana on eri kuin antamasi.\n\nKäy projektin nettisivuilla ja seuraa siellä olevia ohjeita."
 
 #: AlreadyExistsPage.cpp:191
 msgid "Email address already in use"
@@ -624,11 +585,7 @@ msgid ""
 "different password than the one you entered.\n"
 "\n"
 "Please visit the project's web site and follow the instructions there."
-msgstr ""
-"Sähköpostiosoitteella on jo tili ja sen\n"
-"salasana on eri kuin antamasi.\n"
-"\n"
-"Käy projektin nettisivuilla ja seuraa siellä olevia ohjeita."
+msgstr "Sähköpostiosoitteella on jo tili ja sen\nsalasana on eri kuin antamasi.\n\nKäy projektin nettisivuilla ja seuraa siellä olevia ohjeita."
 
 #: AsyncRPC.cpp:1031
 msgid "Communicating with BOINC client.  Please wait ..."
@@ -661,20 +618,14 @@ msgstr "%s - Yhteysvirhe"
 #: BOINCBaseFrame.cpp:514
 msgid ""
 "You currently are not authorized to manage the client.\n"
-"Please contact your administrator to add you to the 'boinc_users' local user "
-"group."
-msgstr ""
-"Sinulla ei ole oikeuksia hallinnoida ohjelmaa.\n"
-"Ota yhteys ylläpitäjään, joka lisää sinut paikalliseen \"boinc_users\" "
-"-käyttäjäryhmään."
+"Please contact your administrator to add you to the 'boinc_users' local user group."
+msgstr "Sinulla ei ole oikeuksia hallinnoida ohjelmaa.\nOta yhteys ylläpitäjään, joka lisää sinut paikalliseen \"boinc_users\" -käyttäjäryhmään."
 
 #: BOINCBaseFrame.cpp:523
 msgid ""
 "Authorization failed connecting to running client.\n"
 "Make sure you start this program in the same directory as the client."
-msgstr ""
-"Käyttöoikeusvirhe otettaessa yhteyttä ohjelmaan.\n"
-"Varmista, että molemmat ohjelmat käynnistetään samasta hakemistosta."
+msgstr "Käyttöoikeusvirhe otettaessa yhteyttä ohjelmaan.\nVarmista, että molemmat ohjelmat käynnistetään samasta hakemistosta."
 
 #: BOINCBaseFrame.cpp:525
 msgid "Authorization failed connecting to running client."
@@ -694,9 +645,7 @@ msgstr "%s - Yhteydenotto epäonnistui"
 msgid ""
 "%s is not able to connect to a %s client.\n"
 "Would you like to try to connect again?"
-msgstr ""
-"%s ei saa yhteyttä %s -ohjelmaan.\n"
-"Haluatko yrittää yhteyttä uudelleen?"
+msgstr "%s ei saa yhteyttä %s -ohjelmaan.\nHaluatko yrittää yhteyttä uudelleen?"
 
 #: BOINCBaseFrame.cpp:622
 #, c-format
@@ -707,20 +656,15 @@ msgstr "%s - Daemonin käynnistys epäonnistui"
 #, c-format
 msgid ""
 "%s is not able to start a %s client.\n"
-"Please launch the Control Panel->Administative Tools->Services applet and "
-"start the BOINC service."
-msgstr ""
-"%s ei pysty käynnistämään %s -ohjelmaa.\n"
-"Avaa Ohjauspaneeli->Valvontatyökalut->Palvelut ja käynnistä BOINC-palvelu."
+"Please launch the Control Panel->Administative Tools->Services applet and start the BOINC service."
+msgstr "%s ei pysty käynnistämään %s -ohjelmaa.\nAvaa Ohjauspaneeli->Valvontatyökalut->Palvelut ja käynnistä BOINC-palvelu."
 
 #: BOINCBaseFrame.cpp:638
 #, c-format
 msgid ""
 "%s is not able to start a %s client.\n"
 "Please start the daemon and try again."
-msgstr ""
-"%s ei onnistu käynnistämään %s ohjelmaa.\n"
-"Käynnistä daemoni ja yritä uudelleen."
+msgstr "%s ei onnistu käynnistämään %s ohjelmaa.\nKäynnistä daemoni ja yritä uudelleen."
 
 #: BOINCBaseFrame.cpp:689
 #, c-format
@@ -731,14 +675,9 @@ msgstr "%s - Yhteyden tila"
 #, c-format
 msgid ""
 "%s is not currently connected to a %s client.\n"
-"Please use the 'Advanced\\Select Computer...' menu option to connect up to a "
-"%s client.\n"
+"Please use the 'Advanced\\Select Computer...' menu option to connect up to a %s client.\n"
 "To connect up to your local computer please use 'localhost' as the host name."
-msgstr ""
-"%s ei tällä hetkellä ole yhteydessä %s -ohjelmaan.\n"
-"Valitse valikosta \"Lisäasetukset\\Valitse tietokone...\" ottaaksesi yhteyden %"
-"s -ohjelmaan.\n"
-"Jos otat yhteyttä paikalliseen koneeseen, käytä konenimenä \"localhost\"."
+msgstr "%s ei tällä hetkellä ole yhteydessä %s -ohjelmaan.\nValitse valikosta \"Lisäasetukset\\Valitse tietokone...\" ottaaksesi yhteyden %s -ohjelmaan.\nJos otat yhteyttä paikalliseen koneeseen, käytä konenimenä \"localhost\"."
 
 #: BOINCBaseView.cpp:779
 msgid "Project web pages"
@@ -754,10 +693,7 @@ msgstr "%s - Odottamaton lopetus"
 msgid ""
 "The %s client has exited unexpectedly 3 times within the last %d minutes.\n"
 "Would you like to restart it again?"
-msgstr ""
-"%s -ohjelma on lopettanut toimintansa odottamatta 3 kertaa viimeisen %d "
-"minuutin aikana.\n"
-"Haluatko käynnistää sen uudelleen?"
+msgstr "%s -ohjelma on lopettanut toimintansa odottamatta 3 kertaa viimeisen %d minuutin aikana.\nHaluatko käynnistää sen uudelleen?"
 
 #: BOINCDialupManager.cpp:61
 #, c-format
@@ -769,9 +705,7 @@ msgstr "%s - Verkon tila"
 msgid ""
 "%s needs to connect to the Internet.\n"
 "May it do so now?"
-msgstr ""
-"%s tarvitsee ottaa yhteyden internetiin.\n"
-"Saako se ottaa?"
+msgstr "%s tarvitsee ottaa yhteyden internetiin.\nSaako se ottaa?"
 
 #: BOINCDialupManager.cpp:254
 #, c-format
@@ -793,9 +727,7 @@ msgstr "%s yhteys internetiin epäonnistui."
 msgid ""
 "%s has detected it is now connected to the Internet.\n"
 "Updating all projects and retrying all transfers."
-msgstr ""
-"%s on nyt saanut internetyhteyden.\n"
-"Päivitetään kaikki projektit ja yritetään uudelleen kaikkia siirtoja."
+msgstr "%s on nyt saanut internetyhteyden.\nPäivitetään kaikki projektit ja yritetään uudelleen kaikkia siirtoja."
 
 #: BOINCDialupManager.cpp:417
 #, c-format
@@ -818,24 +750,14 @@ msgid ""
 " or\n"
 "  - contact your administrator to add you to the 'boinc_master'\n"
 "     user group."
-msgstr ""
-"Sinulla ei ole oikeuksia hallinnoida ohjelmaa.\n"
-"\n"
-"Käyttääksesi %s tällä käyttäjällä:\n"
-"  - asenna %s uudelleen ja vastaa \"Kyllä\" kysymykseen\n"
-"     ei-ylläpitäjäkäyttäjistä\n"
-" tai\n"
-"  - ota yhteyttä ylläpitoon joka lisää sinut 'boinc_master-'\n"
-"     käyttäjäryhmään."
+msgstr "Sinulla ei ole oikeuksia hallinnoida ohjelmaa.\n\nKäyttääksesi %s tällä käyttäjällä:\n  - asenna %s uudelleen ja vastaa \"Kyllä\" kysymykseen\n     ei-ylläpitäjäkäyttäjistä\n tai\n  - ota yhteyttä ylläpitoon joka lisää sinut 'boinc_master-'\n     käyttäjäryhmään."
 
 #: BOINCGUIApp.cpp:345
 #, c-format
 msgid ""
 "%s ownership or permissions are not set properly; please reinstall %s.\n"
 "(Error code %d"
-msgstr ""
-"%s -käyttöoikeuksia ei ole asetettu oikein; asenna %s uudelleen.\n"
-"(Virhekoodi %d"
+msgstr "%s -käyttöoikeuksia ei ole asetettu oikein; asenna %s uudelleen.\n(Virhekoodi %d"
 
 #: BOINCGUIApp.cpp:351
 msgid " at "
@@ -850,9 +772,7 @@ msgstr ")"
 msgid ""
 "A reboot is required in order for BOINC to run properly.\n"
 "Please reboot your computer and try again."
-msgstr ""
-"Tarvitaan uudelleenkäynnistys, jotta BOINC voisi toimia kunnolla.\n"
-"Uudelleenkäynnistä tietokoneesi ja yritä uudelleen."
+msgstr "Tarvitaan uudelleenkäynnistys, jotta BOINC voisi toimia kunnolla.\nUudelleenkäynnistä tietokoneesi ja yritä uudelleen."
 
 #: BOINCGUIApp.cpp:385 DlgAbout.cpp:153
 msgid "BOINC Manager"
@@ -1012,10 +932,7 @@ msgid ""
 "Please try again later.\n"
 "\n"
 "Click Finish to close."
-msgstr ""
-"Yritä myöhemmin uudelleen.\n"
-"\n"
-"Napsauta Lopeta sulkeaksesi."
+msgstr "Yritä myöhemmin uudelleen.\n\nNapsauta Lopeta sulkeaksesi."
 
 #: CompletionErrorPage.cpp:225 CompletionPage.cpp:222 CompletionPage.cpp:242
 #: CompletionPage.cpp:273
@@ -1038,9 +955,7 @@ msgstr "Tämä projekti on lisätty onnistuneesti."
 msgid ""
 "When you click Finish, your web browser will go to a page where\n"
 "you can set your account name and preferences."
-msgstr ""
-"Kun napsautat Valmis, selaimesi siirtyy sivulle, jossa\n"
-"voit muuttaa tilisi nimen ja asetuksia."
+msgstr "Kun napsautat Valmis, selaimesi siirtyy sivulle, jossa\nvoit muuttaa tilisi nimen ja asetuksia."
 
 #: CompletionPage.cpp:232
 #, c-format
@@ -1086,14 +1001,11 @@ msgstr "wxWidgettien versio:"
 msgid "Copyright:"
 msgstr "Tekijänoikeus:"
 
-# 98%
 #: DlgAbout.cpp:192
 msgid ""
 "(C) 2003-2013 University of California, Berkeley.\n"
 "All Rights Reserved."
-msgstr ""
-"(C) 2003-2013 Kalifornian yliopisto, Berkeley.\n"
-"Kaikki oikeudet pidätetään."
+msgstr "(C) 2003-2013 Kalifornian yliopisto, Berkeley.\nKaikki oikeudet pidätetään."
 
 #: DlgAbout.cpp:196
 msgid "Berkeley Open Infrastructure for Network Computing"
@@ -1161,9 +1073,7 @@ msgstr "\"%s\" on jo listalla."
 msgid ""
 "Do you really want to clear all local preferences?\n"
 "(This will not affect exclusive applications.)"
-msgstr ""
-"Haluatko tyhjentää kaikki paikalliset asetukset?\n"
-"(Tämä ei vaikuta erityissovelluksiin.)"
+msgstr "Haluatko tyhjentää kaikki paikalliset asetukset?\n(Tämä ei vaikuta erityissovelluksiin.)"
 
 #: DlgAdvPreferences.cpp:1078 sg_DlgPreferences.cpp:1030
 msgid "Confirmation"
@@ -1179,11 +1089,7 @@ msgid ""
 "This dialog controls preferences for this computer only.\n"
 "Click OK to set preferences.\n"
 "Click Clear to restore web-based settings (except exclusive apps)."
-msgstr ""
-"Tässä voit muuttaa vain tämän tietokoneen asetuksia.\n"
-"Napsauta OK muuttaaksesi asetuksia.\n"
-"Napsauta Tyhjennä palauttaaksesi web-pohjaiset asetukset (poislukien "
-"erityissovellukset)."
+msgstr "Tässä voit muuttaa vain tämän tietokoneen asetuksia.\nNapsauta OK muuttaaksesi asetuksia.\nNapsauta Tyhjennä palauttaaksesi web-pohjaiset asetukset (poislukien erityissovellukset)."
 
 #: DlgAdvPreferencesBase.cpp:65 sg_DlgPreferences.cpp:428
 msgid "Clear"
@@ -1241,9 +1147,7 @@ msgstr "Tietokoneen ollessa akkukäytöllä"
 #: DlgAdvPreferencesBase.cpp:142
 msgid ""
 "check this if you want this computer to do work while it runs on batteries"
-msgstr ""
-"valitse tämä, jos haluat tietokoneen suorittavan laskentaa myös silloin, kun "
-"kone on akkukäytöllä"
+msgstr "valitse tämä, jos haluat tietokoneen suorittavan laskentaa myös silloin, kun kone on akkukäytöllä"
 
 #: DlgAdvPreferencesBase.cpp:148
 msgid "While computer is in use"
@@ -1252,9 +1156,7 @@ msgstr "Tietokoneen ollessa käytössä"
 #: DlgAdvPreferencesBase.cpp:151
 msgid ""
 "check this if you want this computer to do work even when you're using it"
-msgstr ""
-"valitse tämä, jos haluat tietokoneen suorittavan laskentaa myös silloin kun "
-"itse käytät sitä"
+msgstr "valitse tämä, jos haluat tietokoneen suorittavan laskentaa myös silloin kun itse käytät sitä"
 
 #: DlgAdvPreferencesBase.cpp:157
 msgid "Use GPU while computer is in use"
@@ -1264,9 +1166,7 @@ msgstr "Käytä näytönohjainta koneen ollessa käytössä"
 msgid ""
 "check this if you want your GPU to do work even when you're using the "
 "computer"
-msgstr ""
-"valitse tämä, jos haluat näytönohjaimen suorittavan laskentaa myös silloin "
-"kun itse käytät konetta"
+msgstr "valitse tämä, jos haluat näytönohjaimen suorittavan laskentaa myös silloin kun itse käytät konetta"
 
 #: DlgAdvPreferencesBase.cpp:172
 msgid "Only after computer has been idle for"
@@ -1275,9 +1175,7 @@ msgstr "Vasta kun tietokone on ollut jouten"
 #: DlgAdvPreferencesBase.cpp:182
 msgid ""
 "do work only after you haven't used the computer for this number of minutes"
-msgstr ""
-"salli työ vasta sen jälkeen kun et ole käyttänyt tietokonetta näin moneen "
-"minuuttiin"
+msgstr "salli työ vasta sen jälkeen kun et ole käyttänyt tietokonetta näin moneen minuuttiin"
 
 #: DlgAdvPreferencesBase.cpp:187 DlgAdvPreferencesBase.cpp:336
 #: sg_DlgPreferences.cpp:417
@@ -1448,11 +1346,9 @@ msgstr "Pyydä vahvistus ennen internet-yhteyden avaamista"
 
 #: DlgAdvPreferencesBase.cpp:480
 msgid ""
-"if checked, a confirmation dialog will be displayed before trying to connect "
-"to the Internet"
-msgstr ""
-"jos valittu, vahvistusikkuna näytetään ennen kuin yritetään yhteyttä "
-"internetiin"
+"if checked, a confirmation dialog will be displayed before trying to connect"
+" to the Internet"
+msgstr "jos valittu, vahvistusikkuna näytetään ennen kuin yritetään yhteyttä internetiin"
 
 #: DlgAdvPreferencesBase.cpp:484
 msgid "Disconnect when done"
@@ -1462,9 +1358,7 @@ msgstr "Katkaise yhteys lopuksi"
 msgid ""
 "if checked, BOINC hangs up when network usage is done\n"
 "(only relevant for dialup-connection)"
-msgstr ""
-"jos valittuna, BOINC katkaisee verkkoyhteyden lopuksi\n"
-"(koskee vain puhelinverkkoyhteyksiä)"
+msgstr "jos valittuna, BOINC katkaisee verkkoyhteyden lopuksi\n(koskee vain puhelinverkkoyhteyksiä)"
 
 #: DlgAdvPreferencesBase.cpp:492
 msgid "Network usage allowed"
@@ -1549,8 +1443,7 @@ msgstr "jos valittuna, hyllytetyt työt jätetään muistiin"
 #: DlgAdvPreferencesBase.cpp:713
 msgid ""
 "Suspend processor and network usage when these applications are running:"
-msgstr ""
-"Hyllytä prosessori- ja verkkokäyttö kun nämä sovellukset ovat käynnissä:"
+msgstr "Hyllytä prosessori- ja verkkokäyttö kun nämä sovellukset ovat käynnissä:"
 
 #: DlgAdvPreferencesBase.cpp:722
 msgid "Add..."
@@ -1611,20 +1504,16 @@ msgstr "Kopioi &valitut"
 #: DlgEventLog.cpp:308 DlgEventLog.cpp:316 ViewMessages.cpp:97
 msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
-"messages by holding down the shift or command key while clicking on messages."
-msgstr ""
-"Kopioi valitut viestit leikepöydälle. Voit valita useampia viestejä "
-"pitämällä shift- tai command-näppäintä pohjassa samalla kun napsautat "
-"viestiä."
+"messages by holding down the shift or command key while clicking on "
+"messages."
+msgstr "Kopioi valitut viestit leikepöydälle. Voit valita useampia viestejä pitämällä shift- tai command-näppäintä pohjassa samalla kun napsautat viestiä."
 
 #: DlgEventLog.cpp:310 DlgEventLog.cpp:318 ViewMessages.cpp:99
 msgid ""
 "Copy the selected messages to the clipboard. You can select multiple "
-"messages by holding down the shift or control key while clicking on messages."
-msgstr ""
-"Kopioi valitut viestit leikepöydälle. Voit valita useampia viestejä "
-"pitämällä shift- tai control-näppäintä pohjassa samalla kun napsautat "
-"viestiä."
+"messages by holding down the shift or control key while clicking on "
+"messages."
+msgstr "Kopioi valitut viestit leikepöydälle. Voit valita useampia viestejä pitämällä shift- tai control-näppäintä pohjassa samalla kun napsautat viestiä."
 
 #: DlgEventLog.cpp:325 DlgItemProperties.cpp:67
 msgid "&Close"
@@ -1661,13 +1550,7 @@ msgid ""
 "\n"
 "If you also want to stop running the tasks,\n"
 "choose from the following options:"
-msgstr ""
-"Haluat lopettaa %s:n,\n"
-"jolla voit katsoa ja hallinnoida\n"
-"käynnissä olevia tehtäviä koneellasi.\n"
-"\n"
-"Jos haluat lopettaa myös tehtävien suorittamisen,\n"
-"niin valitse seuraavista vaihtoehdoista:"
+msgstr "Haluat lopettaa %s:n,\njolla voit katsoa ja hallinnoida\nkäynnissä olevia tehtäviä koneellasi.\n\nJos haluat lopettaa myös tehtävien suorittamisen,\nniin valitse seuraavista vaihtoehdoista:"
 
 #: DlgExitMessage.cpp:135
 #, c-format
@@ -1678,13 +1561,7 @@ msgid ""
 "In most cases, it is better just to close the %s window\n"
 "rather than to exit the application; that will allow %s to run its\n"
 "tasks at the times you selected in your preferences."
-msgstr ""
-"Tämä sammuttaa %s:n ja kaikki sen työpaketit kunnes joko\n"
-"%s -sovellus tai %s -näytönsäästäjä käynnistyy jälleen.\n"
-"\n"
-"Useimmissa tapauksissa on parempi sulkea %s -ikkuna\n"
-"kuin lopettaa sovellus kokonaan; siten %s pysyy käynnissä ja\n"
-"työpakettien suoritus jatkuu asetusten mukaisesti."
+msgstr "Tämä sammuttaa %s:n ja kaikki sen työpaketit kunnes joko\n%s -sovellus tai %s -näytönsäästäjä käynnistyy jälleen.\n\nUseimmissa tapauksissa on parempi sulkea %s -ikkuna\nkuin lopettaa sovellus kokonaan; siten %s pysyy käynnissä ja\ntyöpakettien suoritus jatkuu asetusten mukaisesti."
 
 #: DlgExitMessage.cpp:153
 #, c-format
@@ -2060,13 +1937,10 @@ msgstr "%s - Kielen valinta"
 
 #: DlgOptions.cpp:695
 #, c-format
-#, c-format, c-format
 msgid ""
 "The %s's language has been changed.  In order for this change to take "
 "effect, you must restart the %s."
-msgstr ""
-"%s:n kieli on vaihdettu.  Jotta muutos tulee voimaan, %s pitää käynnistää "
-"uudelleen."
+msgstr "%s:n kieli on vaihdettu.  Jotta muutos tulee voimaan, %s pitää käynnistää uudelleen."
 
 #: DlgSelectComputer.cpp:91
 #, c-format
@@ -2078,9 +1952,7 @@ msgstr "%s - Valitse tietokone"
 msgid ""
 "Another instance of %s is already running \n"
 "on this computer.  Please select a client to monitor."
-msgstr ""
-"Toinen instanssi %s:sta on jo käynnissä \n"
-"tässä koneessa.  Valitse ohjelma seurataksesi."
+msgstr "Toinen instanssi %s:sta on jo käynnissä \ntässä koneessa.  Valitse ohjelma seurataksesi."
 
 #: DlgSelectComputer.cpp:143
 msgid "Host name:"
@@ -2158,9 +2030,7 @@ msgstr "Lue yksityiskohtaiset tiedot Einstein@Homen näytönsäästäjästä"
 #: Localization.cpp:71
 msgid ""
 "Correspond with admins and other users on the Einstein@Home message boards"
-msgstr ""
-"Keskustele ylläpitäjien ja muiden käyttäjien kanssa Einstein@Home "
-"-keskustelupalstoilla"
+msgstr "Keskustele ylläpitäjien ja muiden käyttäjien kanssa Einstein@Home -keskustelupalstoilla"
 
 #: Localization.cpp:73
 msgid "Einstein status"
@@ -2176,9 +2046,7 @@ msgstr "Raportoi ongelmista"
 
 #: Localization.cpp:79
 msgid "A link to the Einstein@Home problems and bug reports message board"
-msgstr ""
-"Linkki Einstein@Homen keskustelupalstalle, jossa raportoidaan ongelmista ja "
-"virheistä"
+msgstr "Linkki Einstein@Homen keskustelupalstalle, jossa raportoidaan ongelmista ja virheistä"
 
 #: Localization.cpp:83
 msgid "View and modify your Einstein@Home account profile and preferences"
@@ -2201,9 +2069,7 @@ msgstr "LIGO projekti"
 msgid ""
 "The home page of the Laser Interferometer Gravitational-wave Observatory "
 "(LIGO) project"
-msgstr ""
-"Laser Interferometer Gravitational-wave Observatory (LIGO) -projektin "
-"kotisivu"
+msgstr "Laser Interferometer Gravitational-wave Observatory (LIGO) -projektin kotisivu"
 
 #: Localization.cpp:105
 msgid "GEO-600 project"
@@ -2296,8 +2162,8 @@ msgstr "Puuttuva sovellus"
 
 #: MainDocument.cpp:1817
 msgid ""
-"Please download and install the CoRD application from http://cord."
-"sourceforge.net"
+"Please download and install the CoRD application from "
+"http://cord.sourceforge.net"
 msgstr "Lataa ja asenna CoRD-sovellus osoitteesta http://cord.sourceforge.net"
 
 #: MainDocument.cpp:2432
@@ -2384,7 +2250,6 @@ msgstr "Tehtävä on käyttäjän hyllyttämä"
 msgid "Suspended - "
 msgstr "Hyllytetty - "
 
-# 75%
 #: MainDocument.cpp:2500
 msgid "GPU suspended - "
 msgstr "GPU hyllytetty - "
@@ -2457,7 +2322,6 @@ msgstr "Hylätty: ei ehditty aloittaa ennen takarajaa"
 msgid "Aborted: disk limit exceeded"
 msgstr "Hylätty: levyraja saavutettu"
 
-# 78%
 #: MainDocument.cpp:2573
 msgid "Aborted: run time limit exceeded"
 msgstr "Hylätty: suoritusajan raja saavutettu"
@@ -2500,10 +2364,7 @@ msgid ""
 "The URL you supplied is not that of a BOINC-based project.\n"
 "\n"
 "Please check the URL and try again."
-msgstr ""
-"Antamasi URL-osoite ei kuulu BOINC-projektille.\n"
-"\n"
-"Tarkista URL-osoite ja yritä uudelleen."
+msgstr "Antamasi URL-osoite ei kuulu BOINC-projektille.\n\nTarkista URL-osoite ja yritä uudelleen."
 
 #: NotDetectedPage.cpp:188
 msgid "Account manager not found"
@@ -2515,11 +2376,7 @@ msgid ""
 "manager.\n"
 "\n"
 "Please check the URL and try again."
-msgstr ""
-"Antamasi URL-osoite ei kuulu BOINCin\n"
-"tilihallitsijalle.\n"
-"\n"
-"Tarkista URL-osoite ja yritä uudelleen."
+msgstr "Antamasi URL-osoite ei kuulu BOINCin\ntilihallitsijalle.\n\nTarkista URL-osoite ja yritä uudelleen."
 
 #: NotFoundPage.cpp:181
 msgid "Login Failed."
@@ -2547,8 +2404,7 @@ msgstr "Valitse projekti"
 
 #: ProjectInfoPage.cpp:619
 msgid "To choose a project, click its name or type its URL below."
-msgstr ""
-"Valitse projekti listasta napsauttamalla nimeä tai kirjoita sen URL-osoite."
+msgstr "Valitse projekti listasta napsauttamalla nimeä tai kirjoita sen URL-osoite."
 
 #: ProjectInfoPage.cpp:623
 msgid "Categories:"
@@ -2586,9 +2442,7 @@ msgstr "Projektin URL-osoite:"
 msgid ""
 "This project may not have work for your type of computer.  Do you want to "
 "add it anyway?"
-msgstr ""
-"Tällä projektilla ei ehkä ole työtä tietokoneesi tyypille.  Lisätäänkö se "
-"kuitenkin?"
+msgstr "Tällä projektilla ei ehkä ole työtä tietokoneesi tyypille.  Lisätäänkö se kuitenkin?"
 
 #: ProjectInfoPage.cpp:850
 msgid "You already added this project. Please choose a different project."
@@ -2610,9 +2464,7 @@ msgstr "Palvelimella on tapahtunut virhe."
 msgid ""
 "Communicating with project\n"
 "Please wait..."
-msgstr ""
-"Ollaan yhteydessä projektiin\n"
-"Odota..."
+msgstr "Ollaan yhteydessä projektiin\nOdota..."
 
 #: ProxyInfoPage.cpp:195
 msgid "Network communication failure"
@@ -2633,20 +2485,7 @@ msgid ""
 "\n"
 "3) You are using a proxy server.\n"
 "Click Next to configure BOINC's proxy settings."
-msgstr ""
-"The World Community Grid - BOINC-ohjelmisto ei onnistunut saamaan\n"
-"yhteyttä internetiin. Yleisimmät syyt ovat:\n"
-"\n"
-"1) Yhteysongelma.  Tarkista verkko- tai modeemiyhteys,\n"
-"napsauta Takaisin ja yritä uudelleen.\n"
-"\n"
-"2) Palomuuri on estänyt World Community Grid - BOINC\n"
-"-ohjelmiston.  Muokkaa palomuurisi asetuksia ja salli\n"
-"BOINCin ja BOINC Managerin ottaa yhteys porttiin 80 ja porttiin 443,\n"
-"napsauta Takaisin ja yritä uudelleen.\n"
-"\n"
-"3) Käytät proxy-palvelinta.\n"
-"Napsauta Seuraava ja muokkaa BOINCin proxy-asetuksia."
+msgstr "The World Community Grid - BOINC-ohjelmisto ei onnistunut saamaan\nyhteyttä internetiin. Yleisimmät syyt ovat:\n\n1) Yhteysongelma.  Tarkista verkko- tai modeemiyhteys,\nnapsauta Takaisin ja yritä uudelleen.\n\n2) Palomuuri on estänyt World Community Grid - BOINC\n-ohjelmiston.  Muokkaa palomuurisi asetuksia ja salli\nBOINCin ja BOINC Managerin ottaa yhteys porttiin 80 ja porttiin 443,\nnapsauta Takaisin ja yritä uudelleen.\n\n3) Käytät proxy-palvelinta.\nNapsauta Seuraava ja muokkaa BOINCin proxy-asetuksia."
 
 #: ProxyInfoPage.cpp:203
 msgid ""
@@ -2663,20 +2502,7 @@ msgid ""
 "\n"
 "3) You are using a proxy server.\n"
 "Click Next to configure BOINC's proxy settings."
-msgstr ""
-"BOINC-ohjelmisto ei onnistunut saamaan\n"
-"yhteyttä internetiin. Yleisimmät syyt ovat:\n"
-"\n"
-"1) Yhteysongelma.  Tarkista verkko- tai modeemiyhteys,\n"
-"napsauta Takaisin ja yritä uudelleen.\n"
-"\n"
-"2) Palomuuri on estänyt BOINC-ohjelmiston.\n"
-"Muokkaa palomuurisi asetuksia ja salli BOINCin\n"
-"ja BOINC Managerin ottaa yhteys porttiin 80,\n"
-"napsauta Takaisin ja yritä uudelleen.\n"
-"\n"
-"3) Käytät proxy-palvelinta.\n"
-"Napsauta Seuraava ja muokkaa BOINCin proxy-asetuksia."
+msgstr "BOINC-ohjelmisto ei onnistunut saamaan\nyhteyttä internetiin. Yleisimmät syyt ovat:\n\n1) Yhteysongelma.  Tarkista verkko- tai modeemiyhteys,\nnapsauta Takaisin ja yritä uudelleen.\n\n2) Palomuuri on estänyt BOINC-ohjelmiston.\nMuokkaa palomuurisi asetuksia ja salli BOINCin\nja BOINC Managerin ottaa yhteys porttiin 80,\nnapsauta Takaisin ja yritä uudelleen.\n\n3) Käytät proxy-palvelinta.\nNapsauta Seuraava ja muokkaa BOINCin proxy-asetuksia."
 
 #: ProxyPage.cpp:331
 msgid "Proxy configuration"
@@ -2723,10 +2549,7 @@ msgid ""
 "The project is temporarily unavailable.\n"
 "\n"
 "Please try again later."
-msgstr ""
-"Projekti on tilapäisesti poissa käytöstä.\n"
-"\n"
-"Yritä myöhemmin uudelleen."
+msgstr "Projekti on tilapäisesti poissa käytöstä.\n\nYritä myöhemmin uudelleen."
 
 #: UnavailablePage.cpp:190
 msgid "Account manager temporarily unavailable"
@@ -2737,10 +2560,7 @@ msgid ""
 "The account manager is temporarily unavailable.\n"
 "\n"
 "Please try again later."
-msgstr ""
-"Tilihallitsija on tilapäisesti poissa käytöstä.\n"
-"\n"
-"Yritä myöhemmin uudelleen."
+msgstr "Tilihallitsija on tilapäisesti poissa käytöstä.\n\nYritä myöhemmin uudelleen."
 
 #: ValidateAccountKey.cpp:68
 msgid "Please specify an account key to continue."
@@ -2771,10 +2591,7 @@ msgid ""
 "Please specify a URL.\n"
 "For example:\n"
 "http://www.example.com/"
-msgstr ""
-"Anna URL-osoite.\n"
-"Esimerkiksi:\n"
-"http://www.esimerkki.fi/"
+msgstr "Anna URL-osoite.\nEsimerkiksi:\nhttp://www.esimerkki.fi/"
 
 #: ValidateURL.cpp:83 ValidateURL.cpp:87 ValidateURL.cpp:91
 #: ValidateURL.cpp:103 ValidateURL.cpp:107 ValidateURL.cpp:110
@@ -2786,10 +2603,7 @@ msgid ""
 "Please specify a valid URL.\n"
 "For example:\n"
 "http://boincproject.example.com"
-msgstr ""
-"Anna kunnollinen URL-osoite.\n"
-"Esimerkiksi:\n"
-"http://boincprojekti.esimerkki.fi"
+msgstr "Anna kunnollinen URL-osoite.\nEsimerkiksi:\nhttp://boincprojekti.esimerkki.fi"
 
 #: ValidateURL.cpp:104 ValidateURL.cpp:108
 #, c-format
@@ -2866,9 +2680,7 @@ msgstr "Päivitä"
 msgid ""
 "Report all completed tasks, get latest credit, get latest preferences, and "
 "possibly get more tasks."
-msgstr ""
-"Raportoi kaikki valmiit työpaketit, hae viimeisimmät pisteet ja asetukset "
-"sekä mahdollisesti lisää paketteja."
+msgstr "Raportoi kaikki valmiit työpaketit, hae viimeisimmät pisteet ja asetukset sekä mahdollisesti lisää paketteja."
 
 #: ViewProjects.cpp:181 ViewProjects.cpp:722 ViewWork.cpp:208 ViewWork.cpp:801
 #: sg_BoincSimpleFrame.cpp:757 sg_ProjectCommandPopup.cpp:67
@@ -2897,19 +2709,15 @@ msgstr "Nollaa projekti"
 
 #: ViewProjects.cpp:196 sg_ProjectCommandPopup.cpp:80
 msgid ""
-"Delete all files and tasks associated with this project, and get new tasks.  "
-"You can update the project first to report any completed tasks."
-msgstr ""
-"Poista kaikki tämän projektit tiedostot ja työpaketit sekä lataa uusia "
-"paketteja.  Voit ensin päivittää projektin raportoidaksesi valmiit paketit."
+"Delete all files and tasks associated with this project, and get new tasks."
+"  You can update the project first to report any completed tasks."
+msgstr "Poista kaikki tämän projektit tiedostot ja työpaketit sekä lataa uusia paketteja.  Voit ensin päivittää projektin raportoidaksesi valmiit paketit."
 
 #: ViewProjects.cpp:203 sg_ProjectCommandPopup.cpp:86
 msgid ""
 "Remove this project.  Tasks in progress will be lost (use 'Update' first to "
 "report any completed tasks)."
-msgstr ""
-"Poista tämä projekti.  Laskennassa olevat paketit menetetään (käytä "
-"Päivitä-nappia ensin raportoidaksesi valmiit paketit)."
+msgstr "Poista tämä projekti.  Laskennassa olevat paketit menetetään (käytä Päivitä-nappia ensin raportoidaksesi valmiit paketit)."
 
 #: ViewProjects.cpp:209 ViewWork.cpp:222 sg_ProjectCommandPopup.cpp:91
 #: sg_TaskCommandPopup.cpp:78
@@ -3286,9 +3094,7 @@ msgstr "Verkon toiminta hyllytetty - "
 msgid ""
 ".\n"
 "You can enable it using the Activity menu."
-msgstr ""
-".\n"
-"Voit sallia sen Toiminta-valikosta."
+msgstr ".\nVoit sallia sen Toiminta-valikosta."
 
 #: ViewTransfers.cpp:285
 msgid "BOINC"
@@ -3308,10 +3114,7 @@ msgid ""
 "Are you sure you want to abort this file transfer '%s'?\n"
 "NOTE: Aborting a transfer will invalidate a task and you\n"
 "will not receive credit for it."
-msgstr ""
-"Haluatko keskeyttää tämän tiedoston siirron: \"%s\"?\n"
-"HUOMAA: Siirron keskeyttäminen ei vahvista pakettia\n"
-"etkä siis saa siitä pisteitä."
+msgstr "Haluatko keskeyttää tämän tiedoston siirron: \"%s\"?\nHUOMAA: Siirron keskeyttäminen ei vahvista pakettia\netkä siis saa siitä pisteitä."
 
 #: ViewTransfers.cpp:349
 msgid "Abort File Transfer"
@@ -3426,9 +3229,7 @@ msgstr "Näytetään VM konsoli tehtävälle..."
 msgid ""
 "Are you sure you want to abort this task '%s'?\n"
 "(Progress: %s, Status: %s)"
-msgstr ""
-"Haluatko varmasti hylätä paketin \"%s\"?\n"
-"(Suoritettu: %s, Tila: %s)"
+msgstr "Haluatko varmasti hylätä paketin \"%s\"?\n(Suoritettu: %s, Tila: %s)"
 
 #: ViewWork.cpp:485
 #, c-format
@@ -3439,7 +3240,6 @@ msgstr "Haluatko varmasti hylätä nämä %d paketit?"
 msgid "Abort task"
 msgstr "Hylkää paketti"
 
-# 75%
 #: ViewWork.cpp:499
 msgid "Aborting task..."
 msgstr "Hylätään pakettia..."
@@ -3476,12 +3276,7 @@ msgid ""
 "\n"
 "Projects added via this wizard will not be\n"
 "listed on or managed via %s."
-msgstr ""
-"Mikäli mahdollista, lisää projekteja\n"
-"%s -nettisivun kautta.\n"
-"\n"
-"Projektit, jotka lisätään tämän avustajan kautta,\n"
-"eivät listaudu eikä niitä hallinoida %s kautta."
+msgstr "Mikäli mahdollista, lisää projekteja\n%s -nettisivun kautta.\n\nProjektit, jotka lisätään tämän avustajan kautta,\neivät listaudu eikä niitä hallinoida %s kautta."
 
 #: WelcomePage.cpp:313
 msgid ""
@@ -3490,42 +3285,22 @@ msgid ""
 "and you can volunteer for as many of them as you like.\n"
 "You can add a project directly,\n"
 "or use an 'Account Manager' web site to select projects."
-msgstr ""
-"Yli 30 BOINC-pohjaista projektia suorittaa\n"
-"tutkimusta monilla tieteen aloilla ja\n"
-"voit osallistua niin moneen kuin haluat.\n"
-"Voit lisätä projektin suoraan\n"
-"tai käyttää Tilihallitsijan nettisivua projektien valintaan."
+msgstr "Yli 30 BOINC-pohjaista projektia suorittaa\ntutkimusta monilla tieteen aloilla ja\nvoit osallistua niin moneen kuin haluat.\nVoit lisätä projektin suoraan\ntai käyttää Tilihallitsijan nettisivua projektien valintaan."
 
 #: WelcomePage.cpp:325
 msgid ""
-"You have chosen to add a new volunteer computing project or change which "
-"projects\n"
+"You have chosen to add a new volunteer computing project or change which projects\n"
 "you contribute to.\n"
 "\n"
-"Some of these projects are run and managed by World Community Grid, while "
-"others\n"
-"are run and managed by other researchers or organizations. The BOINC "
-"software\n"
+"Some of these projects are run and managed by World Community Grid, while others\n"
+"are run and managed by other researchers or organizations. The BOINC software\n"
 "can divide your spare processing power among any combination of projects.\n"
 "\n"
-"Alternatively, if you have registered with a BOINC Account Manager, you can "
-"use\n"
+"Alternatively, if you have registered with a BOINC Account Manager, you can use\n"
 "this to choose which projects to support.\n"
 "\n"
 "Please choose which type of change you would like to make:\n"
-msgstr ""
-"Olet päättänyt lisätä uuden projektin tai muuttaa projekteja\n"
-"joihin osallistut.\n"
-"\n"
-"Osa projekteista on World Community Gridin ylläpitämiä ja osa\n"
-"on muiden tutkijoiden tai organisaatioiden hoitamia. BOINC-ohjelma\n"
-"voi jakaa koneesi laskentatehon eri projekteille.\n"
-"\n"
-"Jos olet rekisteröitynyt BOINC tilihallitsijalla, voit käyttää sitä\n"
-"valitaksesi haluamasi projektit.\n"
-"\n"
-"Minkälaisen muutoksen haluat tehdä:\n"
+msgstr "Olet päättänyt lisätä uuden projektin tai muuttaa projekteja\njoihin osallistut.\n\nOsa projekteista on World Community Gridin ylläpitämiä ja osa\non muiden tutkijoiden tai organisaatioiden hoitamia. BOINC-ohjelma\nvoi jakaa koneesi laskentatehon eri projekteille.\n\nJos olet rekisteröitynyt BOINC tilihallitsijalla, voit käyttää sitä\nvalitaksesi haluamasi projektit.\n\nMinkälaisen muutoksen haluat tehdä:\n"
 
 #: WelcomePage.cpp:339
 msgid "Use a BOINC Account Manager"
@@ -3608,15 +3383,12 @@ msgstr "Napsauta OK muuttaaksesi asetuksia."
 #: sg_DlgPreferences.cpp:278
 msgid ""
 "Click Clear to restore web-based settings for all preferences listed below."
-msgstr ""
-"Napsauta Tyhjennä palauttaaksesi nettipohjaiset asetukset kaikkiin alla "
-"oleviin asetuksiin."
+msgstr "Napsauta Tyhjennä palauttaaksesi nettipohjaiset asetukset kaikkiin alla oleviin asetuksiin."
 
 #: sg_DlgPreferences.cpp:285
 msgid ""
 "For additional settings, select Computing Preferences in the Advanced View."
-msgstr ""
-"Lisää asetuksia valitsemalla Laskenta-asetukset laajennetussa näkymässä."
+msgstr "Lisää asetuksia valitsemalla Laskenta-asetukset laajennetussa näkymässä."
 
 #: sg_DlgPreferences.cpp:313
 msgid "Do work only between:"
@@ -3776,9 +3548,7 @@ msgstr "Hylkää tämä paketti. Et saa siitä pisteitä."
 msgid ""
 "Are you sure you want to abort this task '%s'?\n"
 "(Progress: %.1lf%%, Status: %s)"
-msgstr ""
-"Haluatko varmasti hylätä paketin \"%s\"?\n"
-"(Suoritettu: %.1lf%%, Tila: %s)"
+msgstr "Haluatko varmasti hylätä paketin \"%s\"?\n(Suoritettu: %.1lf%%, Tila: %s)"
 
 #: sg_TaskPanel.cpp:464
 msgid "You don't have any projects.  Please Add a Project."
@@ -3930,566 +3700,3 @@ msgstr "Näytä kaikki"
 #, c-format
 msgid "Quit %s"
 msgstr "Sulje %s"
-
-#~ msgid "I do not agree with the terms of use."
-#~ msgstr "En hyväksy käyttöehtoja."
-
-#~ msgid "Click Clear to restore web-based settings."
-#~ msgstr "Napsauta Tyhjennä palauttaaksesi web-pohjaiset asetukset."
-
-#~ msgid "For additional settings, select Computing Preferences in "
-#~ msgstr "Lisää asetuksia kohdassa Laskenta-asetukset "
-
-#~ msgid "the Advanced View."
-#~ msgstr "laajennetussa näkymässä."
-
-#~ msgid "Workunit name"
-#~ msgstr "Työpaketin nimi"
-
-#~ msgid "invalid float"
-#~ msgstr "virheellinen liukuluku"
-
-#~ msgid "Display the advanced (accessible) graphical interface."
-#~ msgstr "Näytä laajennettu graafinen käyttöliittymä."
-
-#~ msgid "Paused: Other work running"
-#~ msgstr "Tauotettu: Toinen työ käynnissä"
-
-#~ msgid "Paused: User initiated.  Click 'Resume' to continue"
-#~ msgstr "Tauotettu: Käyttäjän toimesta.  Napsauta \"Jatka\""
-
-#~ msgid "Paused: User active"
-#~ msgstr "Tauotettu: Käyttäjä aktiivinen"
-
-#~ msgid "Paused: Computer on battery"
-#~ msgstr "Tauotettu: Tietokone on akkukäytöllä"
-
-#~ msgid "Paused: Time of Day"
-#~ msgstr "Tauotettu: Aika päivästä"
-
-#~ msgid "Paused: Benchmarks running"
-#~ msgstr "Tauotettu: Suorituskykytestit käynnissä"
-
-#~ msgid "Paused"
-#~ msgstr "Tauotettu"
-
-#~ msgid "Paused: Application start delayed"
-#~ msgstr "Tauotettu: Sovelluksen käynnistystä lykätty"
-
-#~ msgid "Click to show project graphics"
-#~ msgstr "Napsauta nähdäksesi projektin grafiikan"
-
-#~ msgid "Open a window to view messages"
-#~ msgstr "Avaa ikkuna katsoaksesi viestejä"
-
-#~ msgid "Stop all activity"
-#~ msgstr "Pysäytä kaikki toiminta"
-
-#~ msgid "Resume activity"
-#~ msgstr "Jatka toimintaa"
-
-#~ msgid "Open a window to set your preferences"
-#~ msgstr "Avaa ikkuna asetuksien muuttamiseksi"
-
-#~ msgid "Switch to the BOINC advanced view"
-#~ msgstr "Vaihda BOINCin laajennettuun näkymään"
-
-#~ msgid "My Projects:"
-#~ msgstr "Projektini:"
-
-#, c-format
-#~ msgid "%s. Work done by %s: %0.2f"
-#~ msgstr "%s. %s:n tekemä työ: %0.2f"
-
-#, c-format
-#~ msgid "%.1lf"
-#~ msgstr "%.1lf"
-
-#, c-format
-#~ msgid "%d hr %d min %d sec"
-#~ msgstr "%d t %d min %d sek"
-
-#~ msgid "Are you sure you want to display graphics on a remote machine?"
-#~ msgstr "Haluatko näyttää etäkoneen grafiikat?"
-
-#~ msgid "Application: "
-#~ msgstr "Sovellus: "
-
-#~ msgid "Time Remaining: "
-#~ msgstr "Aikaa jäljellä: "
-
-#~ msgid "Elapsed Time: "
-#~ msgstr "Kulunut aika: "
-
-#~ msgid "Account manager website"
-#~ msgstr "Tilihallitsijan nettisivu"
-
-#~ msgid "Account Manager &URL:"
-#~ msgstr "Tilihallitsijan &URL:"
-
-#, c-format
-#~ msgid "%s &website"
-#~ msgstr "%s &nettisivu"
-
-#~ msgid "Notice List"
-#~ msgstr "Ilmoituslista"
-
-#, c-format
-#~ msgid "%s; received on %s"
-#~ msgstr "%s; vastaanotettu %s"
-
-#, c-format
-#~ msgid "%s; received from %s; on %s"
-#~ msgstr "%s; vastaanotettu %s; aika %s"
-
-#~ msgid "Click"
-#~ msgstr "Napsauta"
-
-#~ msgid "Project List"
-#~ msgstr "Projektiluettelo"
-
-#~ msgid "Nvidia GPU Supported"
-#~ msgstr "Tukee Nvidian näytönohjainta"
-
-#~ msgid "ATI GPU Supported"
-#~ msgstr "Tukee ATIn näytönohjainta"
-
-#~ msgid "Project Website"
-#~ msgstr "Projektin nettisivu"
-
-#~ msgid "One or more items failed to load from the Internet."
-#~ msgstr "Yhden tai useamman tiedon lataus internetistä epäonnistui."
-
-# 88%
-#~ msgid "Retry now"
-#~ msgstr "Yritä uudelleen nyt"
-
-#~ msgid "10%"
-#~ msgstr "10 %"
-
-#~ msgid "20%"
-#~ msgstr "20 %"
-
-#~ msgid "30%"
-#~ msgstr "30 %"
-
-#~ msgid "40%"
-#~ msgstr "40 %"
-
-#~ msgid "50%"
-#~ msgstr "50 %"
-
-#~ msgid "60%"
-#~ msgstr "60 %"
-
-#~ msgid "70%"
-#~ msgstr "70 %"
-
-#~ msgid "80%"
-#~ msgstr "80 %"
-
-#~ msgid "90%"
-#~ msgstr "90 %"
-
-#~ msgid "100%"
-#~ msgstr "100 %"
-
-#~ msgid "1"
-#~ msgstr "1"
-
-#~ msgid "3"
-#~ msgstr "3"
-
-#~ msgid "5"
-#~ msgstr "5"
-
-#~ msgid "10"
-#~ msgstr "10"
-
-#~ msgid "15"
-#~ msgstr "15"
-
-#~ msgid "30"
-#~ msgstr "30"
-
-#~ msgid "60"
-#~ msgstr "60"
-
-#, c-format
-#~ msgid "Pop up a menu of websites for project %s"
-#~ msgstr "Ponnahdusvalikko projektin %s nettisivuista"
-
-#~ msgid ""
-#~ "for accessibility support, please select advanced from the view menu or type "
-#~ "command shift a"
-#~ msgstr ""
-#~ "paremman tuen saamiseksi valitse laajennettu näkymä näytä-valikosta tai "
-#~ "käytä näppäinyhdistelmää command shift a"
-
-#~ msgid "This panel contains graphs showing user totals for projects"
-#~ msgstr "Tässä paneelissa näkyvät käyttäjän kokonaispisteet projektille"
-
-#~ msgid "list headers"
-#~ msgstr "listan otsikkotiedot"
-
-#~ msgid "list of events"
-#~ msgstr "tapahtumien lista"
-
-#~ msgid "list of events is empty"
-#~ msgstr "tapahtumien lista on tyhjä"
-
-#, c-format
-#~ msgid "list of %s"
-#~ msgstr "%s-lista"
-
-#, c-format
-#~ msgid "list of %s is empty"
-#~ msgstr "%s-lista on tyhjä"
-
-#, c-format
-#~ msgid "; current sort column %d of %d; descending order; "
-#~ msgstr "; nykyinen lajittelusarake %d %d:sta; laskeva järjestys; "
-
-#, c-format
-#~ msgid "; current sort column %d of %d; ascending order; "
-#~ msgstr "; nykyinen lajittelusarake %d %d:sta; nouseva järjestys; "
-
-#, c-format
-#~ msgid "; column %d of %d; "
-#~ msgstr "; sarake %d %d:sta; "
-
-#~ msgid "list is empty"
-#~ msgstr "lista on tyhjä"
-
-#, c-format
-#~ msgid "; row %d; "
-#~ msgstr "; rivi %d; "
-
-#, c-format
-#~ msgid "; selected row %d of %d; "
-#~ msgstr "; valittu rivi %d %d:sta; "
-
-#, c-format
-#~ msgid "; selected row %d ; "
-#~ msgstr "; valittu rivi %d; "
-
-#, c-format
-#~ msgid "; row %d of %d; "
-#~ msgstr "; rivi %d %d:sta; "
-
-#~ msgid "blank"
-#~ msgstr "tyhjä"
-
-#~ msgid "list of projects or account managers"
-#~ msgstr "luettelo projekteista tai tilihallitsijoista"
-
-#, c-format
-#~ msgid "selected row %d of %d; "
-#~ msgstr "valittu rivi %d %d:sta; "
-
-#, c-format
-#~ msgid "row %d of %d; "
-#~ msgstr "rivi %d %d:sta; "
-
-#~ msgid "The minimum username length for this project is 1. Please enter a different username."
-#~ msgstr ""
-#~ "Käyttäjänimen minimipituus tässä projektissa on 1. Anna toinen käyttäjänimi."
-
-#~ msgid "The minimum username length for this account manager is 1. Please enter a different username."
-#~ msgstr ""
-#~ "Käyttäjänimen minimipituus tässä tilihallitsijassa on 1. Anna toinen "
-#~ "käyttäjänimi."
-
-#~ msgid "The minimum email address length for this project is 1. Please enter a different email address."
-#~ msgstr ""
-#~ "Sähköpostiosoitteen minimipituus tässä projektissa on 1. Anna toinen "
-#~ "sähköpostiosoite."
-
-#~ msgid "The minimum email address length for this account manager is 1. Please enter a different email address."
-#~ msgstr ""
-#~ "Sähköpostiosoitteen minimipituus tässä tilihallitsijassa on 1. Anna toinen "
-#~ "sähköpostiosoite."
-
-#, c-format
-#~ msgid "The minimum password length for this project is %d. Please enter a different password."
-#~ msgstr ""
-#~ "Salasanan vähimmäispituus tässä projektissa on %d. Anna toinen salasana."
-
-#, c-format
-#~ msgid "The minimum password length for this account manager is %d. Please enter a different password."
-#~ msgstr ""
-#~ "Salasanan vähimmäispituus tässä tilihallitsijassa on %d. Anna toinen "
-#~ "salasana."
-
-#~ msgid ""
-#~ "An error has occurred;\n"
-#~ "check the Event Log for details.\n"
-#~ "\n"
-#~ "Click Finish to close."
-#~ msgstr ""
-#~ "Tapahtui virhe;\n"
-#~ "katso Tapahtumalokista lisätietoja.\n"
-#~ "\n"
-#~ "Napsauta Lopeta."
-
-#, no-c-format
-#~ msgid "% of the processors"
-#~ msgstr "% prosessoreista"
-
-#, c-format
-#~ msgid "New page inserted. Index = %i"
-#~ msgstr "Uusi sivu lisätty. Index = %i"
-
-#, c-format
-#~ msgid "New page appended. Index = %i"
-#~ msgstr "Uusi sivu liitetty. Index = %i"
-
-#, c-format
-#~ msgid "Old Page Index = %i"
-#~ msgstr "Old Page Index = %i"
-
-#, c-format
-#~ msgid "OnDropTarget: index by HitTest = %i"
-#~ msgstr "OnDropTarget: index by HitTest = %i"
-
-#~ msgid "Pie Ctrl"
-#~ msgstr "Ympyräkaavion hallinta"
-
-#~ msgid "specify work start and stop hours in format HH:MM-HH:MM"
-#~ msgstr "anna laskennan alkamis- ja päättymistunti muodossa HH:MM-HH:MM"
-
-#~ msgid "specify network usage start and stop hours in format HH:MM-HH:MM"
-#~ msgstr ""
-#~ "anna verkkoyhteyden käytön alkamis- ja päättymistunti muodossa HH:MM-HH:MM"
-
-#~ msgid "Identify your account "
-#~ msgstr "Yksilöi tilisi "
-
-#~ msgid "Read config file"
-#~ msgstr "Lue asetustiedosto"
-
-#~ msgid "Read configuration info from cc_config.xml"
-#~ msgstr "Lue asetustiedot cc_config.xml -tiedostosta"
-
-#~ msgid ""
-#~ "(C) 2003-2011 University of California, Berkeley.\n"
-#~ "All Rights Reserved."
-#~ msgstr ""
-#~ "(C) 2003-2011 Kalifornian yliopisto, Berkeley.\n"
-#~ "Kaikki oikeudet pidätetään."
-
-#~ msgid "NVIDIA GPU"
-#~ msgstr "NVIDIA GPU"
-
-#~ msgid "ATI GPU"
-#~ msgstr "ATI GPU"
-
-#~ msgid "Multicore CPU Supported"
-#~ msgstr "Tukee moniydinprosessoreita"
-
-#~ msgid "%s: %.0f"
-#~ msgstr "%s: %.0f"
-
-#~ msgid "Click 'Retry now' to transfer the file now"
-#~ msgstr "Napsauta \"Yritä uudelleen\" siirtääksesi tiedoston heti"
-
-#~ msgid ""
-#~ "Click 'Abort transfer' to delete the file from the transfer queue. This "
-#~ "will prevent you from being granted credit for this result."
-#~ msgstr ""
-#~ "Napsauta \"Keskeytä siirto\" poistaaksesi tiedoston jonosta. Et saa siitä "
-#~ "pisteitä."
-
-#~ msgid "Aborting result..."
-#~ msgstr "Hylätään pakettia..."
-
-#~ msgid ""
-#~ "You have chosen to add a new BOINC project.  Adding a new\n"
-#~ "project means that you will be connecting your computer to a new "
-#~ "organization.\n"
-#~ "If this is what you wanted to do, please click on\n"
-#~ "the 'Next' button below.\n"
-#~ "\n"
-#~ "Some projects like World Community Grid run multiple research "
-#~ "applications.\n"
-#~ "If you want to change which research applications are sent to your "
-#~ "computer\n"
-#~ "to run, visit the project's website and modify your\n"
-#~ "preferences there.\n"
-#~ "\n"
-#~ "To change which research applications are sent to you from\n"
-#~ "World Community Grid then please click on the following button:"
-#~ msgstr ""
-#~ "Olet päättänyt lisätä uuden BOINC-projektin.  Uuden projektin lisääminen\n"
-#~ "tarkoittaa, että tietokoneesi on yhteydessä uuteen organisaatioon.\n"
-#~ "Jos tämä oli tarkoituksesi, napsauta\n"
-#~ "allaolevaa \"Seuraava\" nappia.\n"
-#~ "\n"
-#~ "Jotkin projektit, kuten World Community Grid, käyttävät useita "
-#~ "sovelluksia.\n"
-#~ "Jos haluat vaihtaa koneellesi lähetettäviä sovelluksia,\n"
-#~ "käy projektin nettisivuilla ja muokkaa\n"
-#~ "asetuksia.\n"
-#~ "\n"
-#~ "Vaihtaaksesi niitä sovelluksia, joita koneellesi lähetetään\n"
-#~ "World Community Gridistä, napsauta seuraavaa nappia:"
-
-#~ msgid "Change Research Applications at World Community Grid"
-#~ msgstr "Vaihda World Community Grid -sovelluksia"
-
-#~ msgid "Don't fetch NVIDIA GPU tasks"
-#~ msgstr "Älä lataa NVIDIAn GPU-paketteja"
-
-#~ msgid "NVIDIA GPU work fetch deferred for"
-#~ msgstr "NVIDIAn GPU-pakettien latausta lykätty"
-
-#~ msgid "NVIDIA GPU work fetch deferral interval"
-#~ msgstr "NVIDIAn GPU-pakettien latauksen lykkäysaikaväli"
-
-#~ msgid "Don't fetch ATI GPU tasks"
-#~ msgstr "Älä lataa ATIn GPU-paketteja"
-
-#~ msgid "ATI GPU work fetch deferred for"
-#~ msgstr "ATIn GPU-pakettien latausta lykätty"
-
-#~ msgid "ATI GPU work fetch deferral interval"
-#~ msgstr "ATIn GPU-pakettien latauksen lykkäysaikaväli"
-
-#~ msgid "Remaining"
-#~ msgstr "Jäljellä"
-
-#~ msgid "Web sites"
-#~ msgstr "Nettisivut"
-
-#~ msgid "Connect about every"
-#~ msgstr "Ota yhteys"
-
-#~ msgid ""
-#~ "this computer is connected to the Internet about every X days\n"
-#~ "(0 if it's always connected)"
-#~ msgstr ""
-#~ "tämä kone on yhteydessä internetiin X päivän välein\n"
-#~ "(0 jos yhteys on aina)"
-
-#~ msgid "days (max. 10)"
-#~ msgstr "päivää (enint. 10)"
-
-#~ msgid "%d.%d%%"
-#~ msgstr "%d.%d%%"
-
-#~ msgid "Display and network &options..."
-#~ msgstr "Näytön ja verkon &asetukset..."
-
-#~ msgid ""
-#~ "You have requested to exit the %s,\n"
-#~ "which allows you to view and manage\n"
-#~ "the science applications running on your computer.\n"
-#~ "\n"
-#~ "If you also want to stop running the science applications when you\n"
-#~ "exit the Manager, then choose from the following options:"
-#~ msgstr ""
-#~ "Haluat lopettaa %s:n,\n"
-#~ "jolla voit katsoa ja hallinnoida\n"
-#~ "sovellusten suorittamista koneellasi.\n"
-#~ "\n"
-#~ "Jos haluat lopettaa myös sovellusten suorittamisen\n"
-#~ "lopettaessasi Managerin, niin valitse seuraavista:"
-
-#~ msgid "Stop running science applications when exiting the Manager"
-#~ msgstr "Lopeta sovellusten suorittaminen lopettaessasi Managerin"
-
-#~ msgid "CPU work fetch priority"
-#~ msgstr "CPU-pakettien latausprioriteetti"
-
-#~ msgid "NVIDIA GPU scheduling priority"
-#~ msgstr "NVIDIA GPU aikataulutusprioriteetti"
-
-#~ msgid "NVIDIA GPU work fetch priority"
-#~ msgstr "NVIDIAn GPU-pakettien latausprioriteetti"
-
-#~ msgid "ATI GPU scheduling priority"
-#~ msgstr "ATI GPU aikataulutusprioriteetti"
-
-#~ msgid "ATI GPU work fetch priority"
-#~ msgstr "ATIn GPU-pakettien latausprioriteetti"
-
-#~ msgid "Estimated app speed"
-#~ msgstr "Arvioitu sovellusnopeus"
-
-#~ msgid "Estimated task size"
-#~ msgstr "Arvioitu työpaketin koko"
-
-#~ msgid "Max RAM usage"
-#~ msgstr "Suurin keskusmuistin käyttö"
-
-#~ msgid "%s - Options"
-#~ msgstr "%s - Valinnat"
-
-#~ msgid "Retrieving host information; please wait..."
-#~ msgstr "Noudetaan konetiedot, odota..."
-
-#~ msgid " (waiting for GPU memory)"
-#~ msgstr " (odottaa näytönohjaimen muistia)"
-
-#~ msgid "Manager Settings..."
-#~ msgstr "Managerin asetukset..."
-
-#~ msgid "Pause"
-#~ msgstr "Tauko"
-
-#~ msgid "%s - Messages"
-#~ msgstr "%s - Viestit"
-
-#~ msgid "Skin:"
-#~ msgstr "Ulkoasu:"
-
-#~ msgid "Preferences"
-#~ msgstr "Asetukset"
-
-#~ msgid "I want to customize my preferences for this computer only."
-#~ msgstr "Haluan muokata vain tämän tietokoneen asetuksia."
-
-#~ msgid "Customized Preferences"
-#~ msgstr "Mukautetut asetukset"
-
-#~ msgid "My total work done this Project"
-#~ msgstr "Tälle projektille tekemäni kokonaistyö"
-
-#~ msgid "My Tasks:"
-#~ msgstr "Pakettini:"
-
-#~ msgid "From Project:"
-#~ msgstr "Projektilta:"
-
-#~ msgid "Elapsed Time: %s"
-#~ msgstr "Kulunut aika: %s"
-
-#~ msgid "Time Remaining: %s"
-#~ msgstr "Aikaa jäljellä: %s"
-
-#~ msgid "Upload suspended - "
-#~ msgstr "Lähetys hyllytetty - "
-
-#~ msgid "Download suspended - "
-#~ msgstr "Lataus hyllytetty - "
-
-#~ msgid "Upload pending"
-#~ msgstr "Odottaa lähettämistä"
-
-#~ msgid "Download pending"
-#~ msgstr "Odottaa lataamista"
-
-#~ msgid "New Simple View..."
-#~ msgstr "Uusi yksinkertainen näkymä..."
-
-#~ msgid "Display the new simple graphical interface."
-#~ msgstr "Näytä uusi yksinkertainen graafinen käyttöliittymä."
-
-#~ msgid "Old Simple View..."
-#~ msgstr "Vanha yksinkertainen näkymä..."
-
-#~ msgid "Display the old simple graphical interface."
-#~ msgstr "Näytä vanha yksinkertainen graafinen käyttöliittymä."
-
-#~ msgid "Get help with BOINC"
-#~ msgstr "Hae apua BOINCiin"
