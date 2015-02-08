@@ -1,26 +1,25 @@
 # BOINC web translation
 # Copyright (C) 2008 University of California
+# 
 # This file is distributed under the same license as BOINC.
+# 
 # FileID  : $Id$
+# 
+# Translators:
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: boinc\n"
 "Report-Msgid-Bugs-To: BOINC translation team <boinc_loc@boinc.berkeley.edu>\n"
 "POT-Creation-Date: 2014-01-10 00:00 PST\n"
-"PO-Revision-Date: 2014-01-17 18:18+0000\n"
-"Last-Translator: Rene <oskamjr@ziggo.nl>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: nl\n"
+"PO-Revision-Date: 2015-02-08 23:38+0000\n"
+"Last-Translator: Rom Walton <romw@romwnet.org>\n"
+"Language-Team: Dutch (http://www.transifex.com/projects/p/boinc/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: nl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 2.5.0\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-BOINC-UTF8-Marker: 简体中文, 日本語\n"
-"X-Poedit-SearchPath-0: html\\user\n"
-"X-Poedit-Basepath: C:\\Src\\BOINCSVN\\trunk\\boinc\n"
-"X-POOTLE-MTIME: 1389982727.0\n"
 
 msgid "LANG_NAME_NATIVE"
 msgstr "Nederlands"
@@ -63,9 +62,7 @@ msgstr "Afbeelding invoegen: [img]http://url_van_afbeelding[/img]  (alt+p)"
 #: ../inc/bbcode_html.inc:35
 msgid ""
 "Insert URL: [url]http://url[/url] or [url=http://url]URL text[/url]  (alt+w)"
-msgstr ""
-"URL invoegen: [url]http://url[/url] or [url=http://url]URL tekst[/url]  "
-"(alt+w)"
+msgstr "URL invoegen: [url]http://url[/url] or [url=http://url]URL tekst[/url]  (alt+w)"
 
 #: ../inc/bbcode_html.inc:42
 msgid "Font color"
@@ -74,9 +71,7 @@ msgstr "Teken kleur"
 #: ../inc/bbcode_html.inc:43
 msgid ""
 "Font color: [color=red]text[/color]  Tip: you can also use color=#FF0000"
-msgstr ""
-"Teken kleur: [color=red]tekst[/color]  Tip: color=#FF0000 mag ook worden "
-"gebruikt"
+msgstr "Teken kleur: [color=red]tekst[/color]  Tip: color=#FF0000 mag ook worden gebruikt"
 
 #: ../inc/bbcode_html.inc:44 ../inc/bbcode_html.inc:59 ../inc/prefs.inc:638
 msgid "Default"
@@ -297,11 +292,9 @@ msgstr "Aangepast op: %1"
 
 #: ../inc/forum.inc:640
 msgid ""
-"This post is not shown because the sender is on your 'ignore' list.  Click %"
-"1here%2 to view this post"
-msgstr ""
-"Dit bericht wordt niet getoond, omdat de gebruiker op de 'negeer' lijst "
-"staat.  Klik %1hier%2 om weer te geven"
+"This post is not shown because the sender is on your 'ignore' list.  Click "
+"%1here%2 to view this post"
+msgstr "Dit bericht wordt niet getoond, omdat de gebruiker op de 'negeer' lijst staat.  Klik %1hier%2 om weer te geven"
 
 #: ../inc/forum.inc:668 ../inc/forum.inc:679
 msgid "Report this post as offensive"
@@ -379,23 +372,7 @@ msgid ""
 "        <li> No abusive comments involving race, religion,\n"
 "            nationality, gender, class or sexuality.\n"
 "        "
-msgstr ""
-"\n"
-"        <ul>\n"
-"        <li> Hou berichten 'kind vriendelijk': vermijd woorden die\n"
-"            obsceen zijn, haat-gerelateerd,\n"
-"            seksueel getint of suggestief.\n"
-"        <li> Plaats geen commerciële advertenties.\n"
-"        <li> Plaats geen links naar websites met seksuele inhoud,\n"
-"            gokken of intolerantie naar anderen.\n"
-"        <li> Plaats geen berichten met de intentie om andere mensen te "
-"kwetsen,\n"
-"            te beledigen of om het onderwerp over te nemen.\n"
-"        <li> Plaats geen berichten die kunnen worden evaren als een "
-"persoonlijke aanval.\n"
-"        <li> Gebruik geen tekst gericht tegen ras, religie,\n"
-"            nationaliteit, geslacht, klasse of seksuele geaardheid.\n"
-"        "
+msgstr "\n        <ul>\n        <li> Hou berichten 'kind vriendelijk': vermijd woorden die\n            obsceen zijn, haat-gerelateerd,\n            seksueel getint of suggestief.\n        <li> Plaats geen commerciële advertenties.\n        <li> Plaats geen links naar websites met seksuele inhoud,\n            gokken of intolerantie naar anderen.\n        <li> Plaats geen berichten met de intentie om andere mensen te kwetsen,\n            te beledigen of om het onderwerp over te nemen.\n        <li> Plaats geen berichten die kunnen worden evaren als een persoonlijke aanval.\n        <li> Gebruik geen tekst gericht tegen ras, religie,\n            nationaliteit, geslacht, klasse of seksuele geaardheid.\n        "
 
 #: ../inc/forum.inc:780
 msgid "Rules:"
@@ -453,26 +430,20 @@ msgstr "Alleen team leden mogen berichten plaatsen op dit forum"
 msgid ""
 "In order to create a new thread in %1 you must have a certain amount of "
 "credit. This is to prevent and protect against abuse of the system."
-msgstr ""
-"Om een nieuw onderwerp te plaatsen in %1 is het nodig om een minimaal aantal "
-"punten te hebben. Dit is nodig om misbruik te voorkomen."
+msgstr "Om een nieuw onderwerp te plaatsen in %1 is het nodig om een minimaal aantal punten te hebben. Dit is nodig om misbruik te voorkomen."
 
 #: ../inc/forum.inc:1133
 msgid ""
 "You cannot create any more threads right now. Please wait a while before "
 "trying again. This delay has been enforced to protect against abuse of the "
 "system."
-msgstr ""
-"Op dit moment kan je geen nieuwe onderwerpen plaatsen. Probeer dit later "
-"a.u.b overnieuw. Deze vertraging is ingebouwd om misbruik te voorkomen."
+msgstr "Op dit moment kan je geen nieuwe onderwerpen plaatsen. Probeer dit later a.u.b overnieuw. Deze vertraging is ingebouwd om misbruik te voorkomen."
 
 #: ../inc/forum.inc:1140
 msgid ""
 "This thread is locked. Only forum moderators and administrators are allowed "
 "to post there."
-msgstr ""
-"Dit onderwerp is gesloten. Alleen forum moderators en admins mogen hier "
-"berichten plaatsen."
+msgstr "Dit onderwerp is gesloten. Alleen forum moderators en admins mogen hier berichten plaatsen."
 
 #: ../inc/forum.inc:1145
 msgid "Can't post to a hidden thread."
@@ -734,9 +705,7 @@ msgstr "% van de tijd dat de BOINC cliënt actief is"
 #: ../inc/host.inc:189
 #, php-format
 msgid "While BOINC running, % of time host has an Internet connection"
-msgstr ""
-"% van de tijd dat de computer verbinding heeft met het internet terwijl "
-"BOINC loopt."
+msgstr "% van de tijd dat de computer verbinding heeft met het internet terwijl BOINC loopt."
 
 #: ../inc/host.inc:191
 #, php-format
@@ -961,9 +930,7 @@ msgstr "kon geen bericht aanmaken"
 msgid ""
 "You are not allowed to send privates messages so often. Please wait some "
 "time before sending more messages."
-msgstr ""
-"Het is niet toegestaan om snel achter elkaar veel berichten te versturen. "
-"Wacht a.u.b. even met versturen andere berichten."
+msgstr "Het is niet toegestaan om snel achter elkaar veel berichten te versturen. Wacht a.u.b. even met versturen andere berichten."
 
 #: ../inc/pm.inc:176 ../user/forum_forum.php:186
 msgid "unread"
@@ -981,9 +948,7 @@ msgstr "Privé berichten"
 msgid ""
 "Suspend work while computer is on battery power? %1 Matters only for "
 "portable computers %2"
-msgstr ""
-"Werk onderbreken indien computer op accu werkt? %1(van toepassing bij "
-"laptops e.d.)%2"
+msgstr "Werk onderbreken indien computer op accu werkt? %1(van toepassing bij laptops e.d.)%2"
 
 #: ../inc/prefs.inc:85
 msgid "Suspend work while computer is in use?"
@@ -992,9 +957,7 @@ msgstr "Werk onderbreken indien computer in gebruik is?"
 #: ../inc/prefs.inc:91
 msgid ""
 "Suspend GPU work while computer is in use? %1 Enforced by version 6.6.21+ %2"
-msgstr ""
-"Werk voor GPU onderbreken indien computer in gebruik is? %1 Instelbaar vanaf "
-"versie 6.6.21+ %2"
+msgstr "Werk voor GPU onderbreken indien computer in gebruik is? %1 Instelbaar vanaf versie 6.6.21+ %2"
 
 #: ../inc/prefs.inc:99
 msgid "'In use' means mouse/keyboard activity in last"
@@ -1008,17 +971,13 @@ msgstr "minuten"
 msgid ""
 "Suspend work if no mouse/keyboard activity in last %1 Needed to enter low-"
 "power mode on some computers %2"
-msgstr ""
-"Werk onderbreken indien er geen muis/toetsenbord gebruik is geweest in "
-"laatste %1 Nodig op sommige computers om sluimer-modus te activeren %2"
+msgstr "Werk onderbreken indien er geen muis/toetsenbord gebruik is geweest in laatste %1 Nodig op sommige computers om sluimer-modus te activeren %2"
 
 #: ../inc/prefs.inc:114
 msgid ""
 "Suspend work when non-BOINC CPU usage is above %1 0 means no "
 "restriction<br>Enforced by version 6.10.30+ %2"
-msgstr ""
-"Werk onderbreken indien CPU gebruik hoger is dan %1 0 betekend geen "
-"beperking<br>Instelbaar vanaf versie 6.10.30+ %2"
+msgstr "Werk onderbreken indien CPU gebruik hoger is dan %1 0 betekend geen beperking<br>Instelbaar vanaf versie 6.10.30+ %2"
 
 #: ../inc/prefs.inc:122
 msgid "Do work only between the hours of %1 No restriction if equal %2"
@@ -1028,9 +987,7 @@ msgstr "Alleen werk uitvoeren tussen %1 Geen beperking indien gelijk %2"
 msgid ""
 "Leave tasks in memory while suspended? %1 Suspended tasks will consume swap "
 "space if 'yes' %2"
-msgstr ""
-"Gepauzeerde taken in het geheugen houden? %1 Kan ten kosten gaan van de "
-"hoeveelheid vrij geheugen %2"
+msgstr "Gepauzeerde taken in het geheugen houden? %1 Kan ten kosten gaan van de hoeveelheid vrij geheugen %2"
 
 #: ../inc/prefs.inc:139
 msgid "Switch between tasks every %1 Recommended: 60 minutes %2"
@@ -1046,9 +1003,7 @@ msgstr "processoren"
 
 #: ../inc/prefs.inc:153
 msgid "On multiprocessors, use at most %1 Enforced by version 6.1+ %2"
-msgstr ""
-"Bij meerdere processoren, gebruik maximaal %1 Instelbaar vanaf versie 6.1+ %"
-"2"
+msgstr "Bij meerdere processoren, gebruik maximaal %1 Instelbaar vanaf versie 6.1+ %2"
 
 #: ../inc/prefs.inc:158
 #, php-format
@@ -1074,8 +1029,7 @@ msgstr "GB"
 
 #: ../inc/prefs.inc:180
 msgid "Disk: leave free at least %1 Values smaller than %2 are ignored %3"
-msgstr ""
-"Schijf: laat minstens vrij %1 Waarden kleiner dan %2 worden genegeerd %3"
+msgstr "Schijf: laat minstens vrij %1 Waarden kleiner dan %2 worden genegeerd %3"
 
 #: ../inc/prefs.inc:191 ../inc/prefs.inc:201 ../inc/prefs.inc:206
 #: ../inc/prefs.inc:211
@@ -1120,17 +1074,13 @@ msgstr "... en aangevuld tot maximaal"
 msgid ""
 "Confirm before connecting to Internet? %1 Matters only if you have a modem, "
 "ISDN or VPN connection %2"
-msgstr ""
-"Bevestiging bij het openen van de internet verbinding? %1 Alleen van belang "
-"bij een modem, ISDN of VPN verbinding %2"
+msgstr "Bevestiging bij het openen van de internet verbinding? %1 Alleen van belang bij een modem, ISDN of VPN verbinding %2"
 
 #: ../inc/prefs.inc:241
 msgid ""
 "Disconnect when done? %1 Matters only if you have a modem, ISDN or VPN "
 "connection %2"
-msgstr ""
-"Verbinding verbreken indien gereed? %1 Alleen van belang bij een modem, ISDN "
-"of VPN verbinding %2"
+msgstr "Verbinding verbreken indien gereed? %1 Alleen van belang bij een modem, ISDN of VPN verbinding %2"
 
 #: ../inc/prefs.inc:249
 msgid "Maximum download rate:"
@@ -1159,24 +1109,17 @@ msgstr "Megabyte elke"
 #: ../inc/prefs.inc:274
 msgid ""
 "Skip image file verification? %1 Check this ONLY if your Internet provider "
-"modifies image files (UMTS does this, for example). %2 Skipping verification "
-"reduces the security of BOINC. %3"
-msgstr ""
-"Verificatie van bestand overslaan? %1 Vink dit alleen aan als je provider de "
-"indeling van bestanden aanpast (UMTS doet dit bijvoorbeeld). %2 Verificatie "
-"overslaan verlaagt de veiligheid van BOINC.%3"
+"modifies image files (UMTS does this, for example). %2 Skipping verification"
+" reduces the security of BOINC. %3"
+msgstr "Verificatie van bestand overslaan? %1 Vink dit alleen aan als je provider de indeling van bestanden aanpast (UMTS doet dit bijvoorbeeld). %2 Verificatie overslaan verlaagt de veiligheid van BOINC.%3"
 
 #: ../inc/prefs.inc:287
 msgid ""
 "Resource share %1 Determines the proportion of your computer's resources "
-"allocated to this project. Example: if you participate in two BOINC projects "
-"with resource shares of 100 and 200, the first will get 1/3 of your "
+"allocated to this project. Example: if you participate in two BOINC projects"
+" with resource shares of 100 and 200, the first will get 1/3 of your "
 "resources and the second will get 2/3. %2"
-msgstr ""
-"Gedeelde bronnen %1 Bepaalt de hoeveelheid gedeelde bronnen van computers "
-"verbonden met dit project. Voorbeeld: Als je computer deelneemt aan 2 BOINC "
-"projecten met gedeelde bronnen van 100 en 200, zal het eerste project 1/3 en "
-"het tweede project 2/3 van de beschikbare bronnen krijgen. %2"
+msgstr "Gedeelde bronnen %1 Bepaalt de hoeveelheid gedeelde bronnen van computers verbonden met dit project. Voorbeeld: Als je computer deelneemt aan 2 BOINC projecten met gedeelde bronnen van 100 en 200, zal het eerste project 1/3 en het tweede project 2/3 van de beschikbare bronnen krijgen. %2"
 
 #: ../inc/prefs.inc:298
 msgid "Accelerate GPU tasks by dedicating a CPU to each one?"
@@ -1202,16 +1145,13 @@ msgstr "Gebruik Intel GPU %1 Instelbaar vanaf 7.2+ %2"
 msgid ""
 "Run test applications? %1 This helps us develop applications, but may cause "
 "jobs to fail on your computer %2"
-msgstr ""
-"Test applicaties uitvoeren? %1 Dit helpt ons bij het ontwikkelen van "
-"applicaties, maar kan fouten veroorzaken tijdens het uitvoeren %2"
+msgstr "Test applicaties uitvoeren? %1 Dit helpt ons bij het ontwikkelen van applicaties, maar kan fouten veroorzaken tijdens het uitvoeren %2"
 
 #: ../inc/prefs.inc:367
 msgid ""
-"Emails will be sent from %1; make sure your spam filter accepts this address."
-msgstr ""
-"Er worden door %1 e-mails naar je verzonden; zorg ervoor dat een eventueel "
-"spamfilter ze niet blokkeert."
+"Emails will be sent from %1; make sure your spam filter accepts this "
+"address."
+msgstr "Er worden door %1 e-mails naar je verzonden; zorg ervoor dat een eventueel spamfilter ze niet blokkeert."
 
 #: ../inc/prefs.inc:374
 msgid "Is it OK for %1 and your team (if any) to email you?"
@@ -1236,16 +1176,13 @@ msgstr "Netwerkgebruik"
 #: ../inc/prefs.inc:392
 msgid ""
 "These preferences apply to all the BOINC projects in which you participate."
-msgstr ""
-"Deze voorkeuren hebben betrekking op alle projecten waar je aan deelneemt."
+msgstr "Deze voorkeuren hebben betrekking op alle projecten waar je aan deelneemt."
 
 #: ../inc/prefs.inc:395
 msgid ""
-"%1Unable to update preferences.%2 The values marked in red below were out of "
-"range or not numeric."
-msgstr ""
-"%1Voorkeuren bijwerken niet gelukt.%2 De waarden gemarkeerd in rood zijn "
-"niet correct ingevuld."
+"%1Unable to update preferences.%2 The values marked in red below were out of"
+" range or not numeric."
+msgstr "%1Voorkeuren bijwerken niet gelukt.%2 De waarden gemarkeerd in rood zijn niet correct ingevuld."
 
 #: ../inc/prefs.inc:445
 msgid "bad venue: %1"
@@ -1324,9 +1261,7 @@ msgstr "Dit heeft betrekking op alle projecten waar je aan mee doet."
 msgid ""
 "On computers participating in multiple projects, the most recently modified "
 "preferences will be used."
-msgstr ""
-"Op computers met meerdere projecten, worden de meest recent aangepaste "
-"voorkeuren gebruikt."
+msgstr "Op computers met meerdere projecten, worden de meest recent aangepaste voorkeuren gebruikt."
 
 #: ../inc/prefs.inc:889
 msgid "These preferences do not apply to Android devices."
@@ -1356,17 +1291,13 @@ msgstr "en"
 msgid ""
 "Your profile will be made visible to other people as soon as it has been "
 "approved by the project. This may take up to a few days."
-msgstr ""
-"Je profiel wordt zichtbaar voor anderen, zodra deze is goedgekeurd door het "
-"project. Dit kan mogelijk enkele dagen duren."
+msgstr "Je profiel wordt zichtbaar voor anderen, zodra deze is goedgekeurd door het project. Dit kan mogelijk enkele dagen duren."
 
 #: ../inc/profile.inc:92
 msgid ""
 "Your profile has been marked as unacceptable. It is not visible to other "
 "people. Please change it."
-msgstr ""
-"Je profiel is gemarkeerd als onaanvaardbaar en niet zichtbaar voor anderen. "
-"Pas het a.u.b. aan."
+msgstr "Je profiel is gemarkeerd als onaanvaardbaar en niet zichtbaar voor anderen. Pas het a.u.b. aan."
 
 #: ../inc/profile.inc:172 ../user/friend.php:105 ../user/friend.php:172
 msgid "Database error"
@@ -1376,10 +1307,7 @@ msgstr "Database fout"
 msgid ""
 "To prevent spam, profiles of users with an average credit of less than %1 "
 "are displayed only to logged-in users. We apologize for this inconvenience."
-msgstr ""
-"Om spam te voorkomen, worden profielen met een gemiddeld aantal punten van "
-"minder dan %1 alleen getoond aan ingelogde gebruikers. Onze excuses voor dit "
-"ongemak."
+msgstr "Om spam te voorkomen, worden profielen met een gemiddeld aantal punten van minder dan %1 alleen getoond aan ingelogde gebruikers. Onze excuses voor dit ongemak."
 
 #: ../inc/profile.inc:197
 msgid "User is banished"
@@ -1794,8 +1722,7 @@ msgstr "Zoek"
 
 #: ../inc/team.inc:61
 msgid "Requested by you, and founder response deadline has passed."
-msgstr ""
-"Op eigen verzoek, deadline voor de oprichter om te reageren is verlopen."
+msgstr "Op eigen verzoek, deadline voor de oprichter om te reageren is verlopen."
 
 #: ../inc/team.inc:63
 msgid "Complete foundership transfer"
@@ -1858,10 +1785,7 @@ msgstr "Sluit je aan bij dit team"
 msgid ""
 "Note: if 'OK to email' is set in your project preferences, joining a team "
 "gives its founder access to your email address."
-msgstr ""
-"NB: als je \"email toestaan\" hebt ingevuld bij je project voorkeuren, zal je "
-"email adres bekend worden bij de team oprichter, indien je jezelf bij een "
-"team opgeeft."
+msgstr "NB: als je \"email toestaan\" hebt ingevuld bij je project voorkeuren, zal je email adres bekend worden bij de team oprichter, indien je jezelf bij een team opgeeft."
 
 #: ../inc/team.inc:140
 msgid "Not accepting new members"
@@ -1941,20 +1865,15 @@ msgstr "Deze actie vereist administrator rechten"
 
 #: ../inc/team.inc:422
 msgid ""
-"WARNING: this is a BOINC-wide team. If you make changes here, they will soon "
-"be overwritten. Edit the %1BOINC-wide team%2 instead."
-msgstr ""
-"WAARSCHUWING: dit is een BOINC-wide team. Indien je hier wijzigingen "
-"aanbrengt, worden ze snel overschreven. Pas daarom het %1BOINC-wide team%2 "
-"zelf aan."
+"WARNING: this is a BOINC-wide team. If you make changes here, they will soon"
+" be overwritten. Edit the %1BOINC-wide team%2 instead."
+msgstr "WAARSCHUWING: dit is een BOINC-wide team. Indien je hier wijzigingen aanbrengt, worden ze snel overschreven. Pas daarom het %1BOINC-wide team%2 zelf aan."
 
 #: ../inc/team.inc:428
 msgid ""
 "%1Privacy note%2: if you create a team, your project preferences (resource "
 "share, graphics preferences) will be visible to the public."
-msgstr ""
-"%1Let op%2: Als je een team opricht worden je project voorkeuren (gedeelde "
-"bronnen, grafische voorkeuren) zichtbaar voor iedereen."
+msgstr "%1Let op%2: Als je een team opricht worden je project voorkeuren (gedeelde bronnen, grafische voorkeuren) zichtbaar voor iedereen."
 
 #: ../inc/team.inc:432
 msgid "Team name, text version"
@@ -2266,9 +2185,7 @@ msgstr "Server status"
 msgid ""
 "A database error occurred while handling your request; please try again "
 "later."
-msgstr ""
-"De database genereerde een foutmelding bij de behandeling van uw verzoek, "
-"probeer het later nog eens alstublieft."
+msgstr "De database genereerde een foutmelding bij de behandeling van uw verzoek, probeer het later nog eens alstublieft."
 
 #: ../inc/util.inc:257
 msgid "Unable to handle request"
@@ -2287,9 +2204,9 @@ msgid "sec"
 msgstr "seconden"
 
 #: ../inc/util.inc:444
-msgid "Link has timed out. Please click Back, refresh the page, and try again."
-msgstr ""
-"Wachttijd voor deze link is verlopen. Klik op 'terug' en vernieuw de pagina."
+msgid ""
+"Link has timed out. Please click Back, refresh the page, and try again."
+msgstr "Wachttijd voor deze link is verlopen. Klik op 'terug' en vernieuw de pagina."
 
 #: ../inc/util.inc:513
 msgid "View the profile of %1"
@@ -2305,9 +2222,7 @@ msgstr "Project wegens onderhoud gesloten"
 
 #: ../inc/util.inc:799
 msgid "%1 is temporarily shut down for maintenance.  Please try again later."
-msgstr ""
-"%1 is tijdelijk gesloten wegens onderhoud.  Probeer het later a.u.b. "
-"opnieuw."
+msgstr "%1 is tijdelijk gesloten wegens onderhoud.  Probeer het later a.u.b. opnieuw."
 
 #: ../inc/util.inc:817
 msgid "Unable to connect to database - please try again later"
@@ -2364,11 +2279,7 @@ msgid ""
 "work for one or more of these applications will be assigned to your "
 "computer. The current version of the application will be downloaded to your "
 "computer. This happens automatically; you don't have to do anything."
-msgstr ""
-"%1 heeft op dit moment de volgende applicaties. Als je deelneemt aan %1, is "
-"het mogelijk dat er werk voor één of meerdere van deze applicaties wordt "
-"toegedeeld. De meest recente versie zal worden gebruikt en gedownload. Dit "
-"gebeurd automatisch; hier hoef je zelf niets voor te doen."
+msgstr "%1 heeft op dit moment de volgende applicaties. Als je deelneemt aan %1, is het mogelijk dat er werk voor één of meerdere van deze applicaties wordt toegedeeld. De meest recente versie zal worden gebruikt en gedownload. Dit gebeurd automatisch; hier hoef je zelf niets voor te doen."
 
 #: ../user/apps.php:50
 msgid "Platform"
@@ -2392,12 +2303,7 @@ msgid ""
 "It's similar to HTML, but simpler. The tags start with a [ (where you would\n"
 "have used %1 in HTML) and end with ] (where you would have used %2 in\n"
 "HTML)."
-msgstr ""
-"BBCode tags laten je toe om opmaak mee te geven aan je tekst in je profiel "
-"of op je message-board berichten. \n"
-"Het is vergelijkbaar met HTML maar eenvoudiger. De tags starten met een [ "
-"(waar je een %1 zou gebruiken in HTML) en eindigen met een ] (waar je %2 zou "
-"gebruiken in HTML)."
+msgstr "BBCode tags laten je toe om opmaak mee te geven aan je tekst in je profiel of op je message-board berichten. \nHet is vergelijkbaar met HTML maar eenvoudiger. De tags starten met een [ (waar je een %1 zou gebruiken in HTML) en eindigen met een ] (waar je %2 zou gebruiken in HTML)."
 
 #: ../user/bbcode.php:31
 msgid "Examples"
@@ -2487,10 +2393,7 @@ msgstr "gebruikt om een link te maken naar de SVN changeset op de BOINC website"
 msgid ""
 "If you don't close a tag or don't specify a parameter correctly,\n"
 "the raw tag itself will display instead of the formatted text."
-msgstr ""
-"Indien je een tag niet correct afsluit of een parameter incorrect "
-"specificeert,\n"
-"dan zal de ruwe tag zichzelf tonen in plaats van de geformatteerde tekst."
+msgstr "Indien je een tag niet correct afsluit of een parameter incorrect specificeert,\ndan zal de ruwe tag zichzelf tonen in plaats van de geformatteerde tekst."
 
 #: ../user/bs_sample_index.php:44
 msgid "Participants"
@@ -2588,10 +2491,9 @@ msgstr "De ingevulde uitnodigings code is ongeldig."
 
 #: ../user/create_account_action.php:84
 msgid ""
-"Invalid email address: you must enter a valid address of the form name@domain"
-msgstr ""
-"Ongeldig e-mail adres; gebruik een geldig email adres in de vorm "
-"'naam@domein'"
+"Invalid email address: you must enter a valid address of the form "
+"name@domain"
+msgstr "Ongeldig e-mail adres; gebruik een geldig email adres in de vorm 'naam@domein'"
 
 #: ../user/create_account_action.php:88
 msgid "There's already an account with that email address."
@@ -2607,8 +2509,7 @@ msgstr "Wachtwoord kan enkel ASCII karakters bevatten."
 
 #: ../user/create_account_action.php:106 ../user/edit_passwd_action.php:45
 msgid "New password is too short: minimum password length is %1 characters."
-msgstr ""
-"Het nieuwe wachtwoord is te kort. Minimum wachtwoord lengte is %1 karakters."
+msgstr "Het nieuwe wachtwoord is te kort. Minimum wachtwoord lengte is %1 karakters."
 
 #: ../user/create_account_action.php:127
 msgid "Couldn't create account"
@@ -2618,18 +2519,13 @@ msgstr "Account aanmaken niet gelukt"
 msgid ""
 "NOTE: If you use the BOINC Manager, don't use this form. Just run BOINC, "
 "select Add Project, and enter an email address and password."
-msgstr ""
-"LET OP: gebruik dit formulier niet als je de BOINC Manager gebruikt. Start "
-"BOINC, selecteer 'Project Toevoegen' en vul een e-mail adres en wachtwoord "
-"in."
+msgstr "LET OP: gebruik dit formulier niet als je de BOINC Manager gebruikt. Start BOINC, selecteer 'Project Toevoegen' en vul een e-mail adres en wachtwoord in."
 
 #: ../user/create_account_form.php:61
 msgid ""
 "This account will belong to the team %1 and will have the project "
 "preferences of its founder."
-msgstr ""
-"Dit account zal tot het %1 team behoren en zal de project voorkeuren van de "
-"oprichter hebben."
+msgstr "Dit account zal tot het %1 team behoren en zal de project voorkeuren van de oprichter hebben."
 
 #: ../user/create_account_form.php:73
 msgid "Invitation Code"
@@ -2637,8 +2533,7 @@ msgstr "Uitnodigings Code"
 
 #: ../user/create_account_form.php:73
 msgid "A valid invitation code is required to create an account."
-msgstr ""
-"Er is een geldige uitnodigings code vereist om een account aan te maken."
+msgstr "Er is een geldige uitnodigings code vereist om een account aan te maken."
 
 #: ../user/create_account_form.php:83
 msgid "Email Address"
@@ -2678,11 +2573,9 @@ msgstr "%1 Deze profiel afbeelding wordt links getoond."
 
 #: ../user/create_profile.php:66
 msgid ""
-"To replace it, click the \"Browse\" button and select a JPEG or PNG file (%1 "
-"or less)."
-msgstr ""
-"Om deze te vervangen, klik op \"Bladeren\" en selecteer een JPEG of PNG "
-"afbeelding (%1 of kleiner)."
+"To replace it, click the \"Browse\" button and select a JPEG or PNG file (%1"
+" or less)."
+msgstr "Om deze te vervangen, klik op \"Bladeren\" en selecteer een JPEG of PNG afbeelding (%1 of kleiner)."
 
 #: ../user/create_profile.php:69
 msgid "To remove it from your profile, check this box:"
@@ -2692,10 +2585,7 @@ msgstr "Om de afbeelding te verwijderen, dit vakje aanvinken:"
 msgid ""
 "If you would like include a picture with your profile, click the \"Browse\" "
 "button and select a JPEG or PNG file. Please select images of %1 or less."
-msgstr ""
-"Als je een afbeelding wilt toevoegen aan je profiel, klik dan op \"Bladeren\" "
-"en selecteer een JPEG of PNG afbeelding. Kies a.u.b. afbeeldingen van %1 of "
-"minder."
+msgstr "Als je een afbeelding wilt toevoegen aan je profiel, klik dan op \"Bladeren\" en selecteer een JPEG of PNG afbeelding. Kies a.u.b. afbeeldingen van %1 of minder."
 
 #: ../user/create_profile.php:89
 msgid "Language"
@@ -2725,9 +2615,7 @@ msgstr "De indeling van de geüploade afbeelding wordt niet ondersteund."
 msgid ""
 "Your %1profile%2 lets you share your opinions and background with the %3 "
 "community."
-msgstr ""
-"Je %1profiel%2 geeft je de mogelijkheid om je mening en achtergrond te delen "
-"met de %3 gemeenschap."
+msgstr "Je %1profiel%2 geeft je de mogelijkheid om je mening en achtergrond te delen met de %3 gemeenschap."
 
 #: ../user/create_profile.php:213
 msgid "Your ReCaptcha response was not correct.  Please try again."
@@ -2737,17 +2625,13 @@ msgstr "Je ReCaptcha antwoord was niet correct.  Probeer het a.u.b. opnieuw."
 msgid ""
 "Your first response was flagged as spam by the Akismet anti-spam system.  "
 "Please modify your text and try again."
-msgstr ""
-"Je eerste reactie wordt gezien als spam door het Akismet anti-spam systeem. "
-" Pas a.u.b. je tekst aan en probeer het opnieuw."
+msgstr "Je eerste reactie wordt gezien als spam door het Akismet anti-spam systeem.  Pas a.u.b. je tekst aan en probeer het opnieuw."
 
 #: ../user/create_profile.php:230
 msgid ""
 "Your second response was flagged as spam by the Akismet anti-spam system.  "
 "Please modify your text and try again."
-msgstr ""
-"Je tweede reactie wordt gezien als spam door het Akismet anti-spam systeem. "
-" Pas a.u.b. je tekst aan en probeer het opnieuw."
+msgstr "Je tweede reactie wordt gezien als spam door het Akismet anti-spam systeem.  Pas a.u.b. je tekst aan en probeer het opnieuw."
 
 #: ../user/create_profile.php:246
 msgid "Your profile submission was empty."
@@ -2780,11 +2664,9 @@ msgstr "Een profiel aanmaken"
 
 #: ../user/create_profile.php:343
 msgid ""
-"To prevent spam, an average credit of %1 or greater is required to create or "
-"edit a profile.  We apologize for this inconvenience."
-msgstr ""
-"Om spam te voorkomen, moet je een gemiddeld aantal punten hebben van %1 of "
-"groter om een profiel te maken of aan te passen.  Excuses voor het ongemak."
+"To prevent spam, an average credit of %1 or greater is required to create or"
+" edit a profile.  We apologize for this inconvenience."
+msgstr "Om spam te voorkomen, moet je een gemiddeld aantal punten hebben van %1 of groter om een profiel te maken of aan te passen.  Excuses voor het ongemak."
 
 #: ../user/delete_account.php:57
 msgid "Couldn't delete account"
@@ -2809,20 +2691,13 @@ msgid ""
 "including your profile and message-board posts.\n"
 "No jobs will be issued to any computers attached\n"
 "to this account."
-msgstr ""
-"Het verwijderen van je gebruikersaccount zal al je\n"
-"persoonlijke informatie verwijderen van onze servers,\n"
-"inclusief je profiel en forum berichten.\n"
-"Er zullen geen taken worden toegewezen aan de computers\n"
-"welke gelinkt staan met deze account."
+msgstr "Het verwijderen van je gebruikersaccount zal al je\npersoonlijke informatie verwijderen van onze servers,\ninclusief je profiel en forum berichten.\nEr zullen geen taken worden toegewezen aan de computers\nwelke gelinkt staan met deze account."
 
 #: ../user/delete_account.php:73
 msgid ""
 "This cannot be undone.\n"
 "Once your account has been deleted, you cannot get it back."
-msgstr ""
-"Deze actie kan niet ongedaan gemaakt worden.\n"
-"Wanneer deze account is verwijdert, kan je hem niet meer terug oproepen."
+msgstr "Deze actie kan niet ongedaan gemaakt worden.\nWanneer deze account is verwijdert, kan je hem niet meer terug oproepen."
 
 #: ../user/delete_account.php:76
 msgid "Are you sure you want to delete your account?"
@@ -2851,8 +2726,7 @@ msgstr "Verwijder deze account niet"
 
 #: ../user/delete_profile.php:30
 msgid "couldn't delete profile - please try again later"
-msgstr ""
-"verwijderen van dit profiel is mislukt - probeer het a.u.b. later nog eens"
+msgstr "verwijderen van dit profiel is mislukt - probeer het a.u.b. later nog eens"
 
 #: ../user/delete_profile.php:33
 msgid "Delete Confirmation"
@@ -2875,19 +2749,13 @@ msgid ""
 "Deleted profiles are gone forever and cannot be recovered --\n"
 "you will have to start from scratch\n"
 "if you want another profile in the future."
-msgstr ""
-"Verwijderde profielen zijn permanent verwijderd en kunnen niet meer "
-"opgeroepen worden --\n"
-"Je zal een nieuw profiel moeten aanmaken\n"
-"als je in de toekomst een profiel wenst te gebruiken."
+msgstr "Verwijderde profielen zijn permanent verwijderd en kunnen niet meer opgeroepen worden --\nJe zal een nieuw profiel moeten aanmaken\nals je in de toekomst een profiel wenst te gebruiken."
 
 #: ../user/delete_profile.php:48
 msgid ""
 "If you're sure, click 'Yes'\n"
 "to remove your profile from our database."
-msgstr ""
-"Als je zeker bent, klik dan op 'Ja'\n"
-"om je profiel te verwijderen uit onze database."
+msgstr "Als je zeker bent, klik dan op 'Ja'\nom je profiel te verwijderen uit onze database."
 
 #: ../user/delete_profile.php:52
 msgid "Delete my profile"
@@ -2911,10 +2779,9 @@ msgstr "Je donatie is afgerond."
 
 #: ../user/donated.php:30
 msgid ""
-"Your donation will be added to the progress bar after confirmation by PayPal."
-msgstr ""
-"Uw donatie wordt verwerkt in de voortgangsbalk na de ontvangstbevestiging "
-"van Paypal."
+"Your donation will be added to the progress bar after confirmation by "
+"PayPal."
+msgstr "Uw donatie wordt verwerkt in de voortgangsbalk na de ontvangstbevestiging van Paypal."
 
 #: ../user/donated.php:32
 msgid "You have canceled your donation."
@@ -2932,9 +2799,7 @@ msgstr "%1 donaties"
 msgid ""
 "This project is accepting donations via\n"
 "%1."
-msgstr ""
-"Dit project neemt donaties aan d.m.v.\n"
-"%1."
+msgstr "Dit project neemt donaties aan d.m.v.\n%1."
 
 #: ../user/donations.php:42
 msgid ""
@@ -2949,19 +2814,7 @@ msgid ""
 "        to see the donation amount equivalent in different currencies\n"
 "        (please note that the rates are only estimates\n"
 "         and the actual amount may differ)."
-msgstr ""
-"Voor donaties vult u in het onderstaande veld het gewenste bedrag in.\n"
-"        PayPal accepteert transacties in diverse valuta\n"
-"        (Canadese dollar, euro, Britse pond, Amerikaanse dollar,\n"
-"         Yen, Australische dollar, Nieuw-Zeelandse dollar,\n"
-"        Zwitserse frank, Hong Kong dollar, Singapore dollar, Zweedse kroon,\n"
-"        Deense Kroon, Poolse zloty, Noorse Kroon,\n"
-"        Hongaarse forint, Tsjechische Koruna).\n"
-"        De bijgevoegde valuta converter kunt u gebruiken\n"
-"        om het equivalent van het bedrag te berekenen in diverse valuta.\n"
-"        (Attentie: de conversie is slechts een benadering,\n"
-"         het uiteindelijke bedrag kan afwijken van het oorspronkelijke "
-"bedrag)."
+msgstr "Voor donaties vult u in het onderstaande veld het gewenste bedrag in.\n        PayPal accepteert transacties in diverse valuta\n        (Canadese dollar, euro, Britse pond, Amerikaanse dollar,\n         Yen, Australische dollar, Nieuw-Zeelandse dollar,\n        Zwitserse frank, Hong Kong dollar, Singapore dollar, Zweedse kroon,\n        Deense Kroon, Poolse zloty, Noorse Kroon,\n        Hongaarse forint, Tsjechische Koruna).\n        De bijgevoegde valuta converter kunt u gebruiken\n        om het equivalent van het bedrag te berekenen in diverse valuta.\n        (Attentie: de conversie is slechts een benadering,\n         het uiteindelijke bedrag kan afwijken van het oorspronkelijke bedrag)."
 
 #: ../user/donations.php:316
 msgid "Amount you would like to donate"
@@ -2979,17 +2832,11 @@ msgstr "Anonieme donatie"
 msgid ""
 "Select this if you dont want your name and account number displayed in\n"
 "donator lists.<br>If not checked, you will be recorded as user ID %1"
-msgstr ""
-"U dient dit aan te vinken als u niet wilt dat uw naam en accountnummer "
-"voorkomt op\n"
-"de lijst van donateurs.<br>Indien niet aangevinkt, wordt uw deelnemers-"
-"identiteit als volgt geregistreerd %1"
+msgstr "U dient dit aan te vinken als u niet wilt dat uw naam en accountnummer voorkomt op\nde lijst van donateurs.<br>Indien niet aangevinkt, wordt uw deelnemers-identiteit als volgt geregistreerd %1"
 
 #: ../user/donations.php:324
 msgid "To assign the donation with your user ID, please log in."
-msgstr ""
-"Om de donatie aan u toe te wijzen, dient u zich eerst aan te melden met uw "
-"gebruikersnaam."
+msgstr "Om de donatie aan u toe te wijzen, dient u zich eerst aan te melden met uw gebruikersnaam."
 
 #: ../user/donations.php:328
 msgid "Proceed"
@@ -3010,26 +2857,18 @@ msgstr "Het is mogelijk software te downloaden in verschillende categorieën."
 #: ../user/download_network.php:31
 msgid ""
 "These applications are not endorsed by %1 and you use them at your own risk."
-msgstr ""
-"Deze programma's worden niet ondersteund door %1 en gebruik ervan is op "
-"eigen risico."
+msgstr "Deze programma's worden niet ondersteund door %1 en gebruik ervan is op eigen risico."
 
 #: ../user/download_network.php:33
 msgid ""
 "We do not provide instructions for installing these applications.\n"
-"However, the author may have provided some help on installing or "
-"uninstalling the application. \n"
+"However, the author may have provided some help on installing or uninstalling the application. \n"
 "If this is not enough you should contact the author."
-msgstr ""
-"Wij geven geen installatie instructies voor deze programma's.\n"
-"Het is evengoed mogelijk dat de maker instructies heeft toegevoegd bij het "
-"programma zelf. \n"
-"Als dit niet het geval is raden we aan contact op te nemen met de maker."
+msgstr "Wij geven geen installatie instructies voor deze programma's.\nHet is evengoed mogelijk dat de maker instructies heeft toegevoegd bij het programma zelf. \nAls dit niet het geval is raden we aan contact op te nemen met de maker."
 
 #: ../user/download_network.php:36
 msgid "Instructions for installing and running BOINC are %1here%2."
-msgstr ""
-"Instructies voor het installeren en uitvoeren van BOINC vind je %1hier%2."
+msgstr "Instructies voor het installeren en uitvoeren van BOINC vind je %1hier%2."
 
 #: ../user/download_network.php:38
 msgid "This list is managed centrally at %1the BOINC website%2."
@@ -3097,10 +2936,7 @@ msgstr "Herstellen bevestigen"
 msgid ""
 "This action will erase any changes you have made in your community "
 "preferences. To cancel, click your browser's Back button."
-msgstr ""
-"Deze opdracht maakt alle wijzigingen die u in uw voorkeursinstellingen hebt "
-"aangebracht, ongedaan. Dit kunt u annuleren door In uw browser op de knop "
-"'vorige pagina' te klikken."
+msgstr "Deze opdracht maakt alle wijzigingen die u in uw voorkeursinstellingen hebt aangebracht, ongedaan. Dit kunt u annuleren door In uw browser op de knop 'vorige pagina' te klikken."
 
 #: ../user/edit_forum_preferences_action.php:38
 msgid "Reset preferences"
@@ -3123,10 +2959,7 @@ msgstr "Geen deelnemer met gebruikersnaam: %1 gevonden"
 msgid ""
 "How should we notify you of new private messages, friend requests, posts in "
 "subscribed threads, and other events?"
-msgstr ""
-"Hoe wilt u op hoogte worden gesteld van nieuwe persoonlijke berichten, "
-"verzoeken van vrienden, berichten in persoonlijke nieuwsgroepen en andere "
-"notificaties?"
+msgstr "Hoe wilt u op hoogte worden gesteld van nieuwe persoonlijke berichten, verzoeken van vrienden, berichten in persoonlijke nieuwsgroepen en andere notificaties?"
 
 #: ../user/edit_forum_preferences_form.php:57
 msgid "On my Account page (no email)"
@@ -3185,11 +3018,7 @@ msgid ""
 "Check out %1various free services%2\n"
 "<br> providing dynamic 'signature images'\n"
 "<br> showing your latest credit info, project news, etc."
-msgstr ""
-"Ga eens kijken bij de %1diverse aanbieders%2\n"
-"<br> van gratis dynamische 'onderschrift-afbeeldingen'\n"
-"<br> voor de weergave van uw huidige puntentotaal, de nieuwste projectinfo, "
-"enz."
+msgstr "Ga eens kijken bij de %1diverse aanbieders%2\n<br> van gratis dynamische 'onderschrift-afbeeldingen'\n<br> voor de weergave van uw huidige puntentotaal, de nieuwste projectinfo, enz."
 
 #: ../user/edit_forum_preferences_form.php:104
 msgid "characters remaining"
@@ -3317,9 +3146,7 @@ msgstr "Je wachtwoord is veranderd."
 msgid ""
 "We can't update your password due to a database problem. Please try again "
 "later."
-msgstr ""
-"Vanwege een probleem in de database is het bijwerken mislukt. Probeer het "
-"later a.u.b. opnieuw."
+msgstr "Vanwege een probleem in de database is het bijwerken mislukt. Probeer het later a.u.b. opnieuw."
 
 #: ../user/edit_passwd_form.php:39
 msgid "You can identify yourself using either"
@@ -3394,18 +3221,13 @@ msgid ""
 "A tasks's <b>server state</b> indicates whether the task has been sent to a "
 "computer, and if so whether the computer has finished it. Possible values "
 "are:"
-msgstr ""
-"Een taakspecifieke <b>statusindicator</b> geeft aan of de taak naar een "
-"computer is verstuurd, en de verwerking ervan al dan niet is voltooid. "
-"Geldige waarden zijn:"
+msgstr "Een taakspecifieke <b>statusindicator</b> geeft aan of de taak naar een computer is verstuurd, en de verwerking ervan al dan niet is voltooid. Geldige waarden zijn:"
 
 #: ../user/explain_state.php:35
 msgid ""
 "The task is not ready to send (for example, because its input files are "
 "unavailable)"
-msgstr ""
-"De taak kan nog niet worden verstuurd (bv. omdat de invoerbestanden niet "
-"beschikbaar zijn)"
+msgstr "De taak kan nog niet worden verstuurd (bv. omdat de invoerbestanden niet beschikbaar zijn)"
 
 #: ../user/explain_state.php:38
 msgid "The task is ready to send, but hasn't been sent yet."
@@ -3423,9 +3245,7 @@ msgstr "De taak werd verstuurd; afwachtend op voltooiing."
 msgid ""
 "The task has been sent to a computer and either it has timed out or the "
 "computer has reported its completion."
-msgstr ""
-"De taak is naar een computer verstuurd; ofwel de verwerkingstijd is "
-"overschreden of de verwerking is voltooid."
+msgstr "De taak is naar een computer verstuurd; ofwel de verwerkingstijd is overschreden of de verwerking is voltooid."
 
 #: ../user/explain_state.php:49
 msgid "Outcomes"
@@ -3435,17 +3255,13 @@ msgstr "Uitkomst"
 msgid ""
 "A tasks's <b>outcome</b> is defined if its server state is <b>over</b>. "
 "Possible values are:"
-msgstr ""
-"De <b>uitslag</b> is bekend als de serverstatus de indicatie <b>over "
-"(beëindigd)</b> aangeeft. Geldige waarden zijn:"
+msgstr "De <b>uitslag</b> is bekend als de serverstatus de indicatie <b>over (beëindigd)</b> aangeeft. Geldige waarden zijn:"
 
 #: ../user/explain_state.php:57
 msgid ""
 "The task was sent to a computer, but the computer has not yet completed the "
 "work and reported the outcome."
-msgstr ""
-"De taak is naar een computer verstuurd, maar de verwerking ervan is nog niet "
-"voltooid en de uitslag nog niet bekend."
+msgstr "De taak is naar een computer verstuurd, maar de verwerking ervan is nog niet voltooid en de uitslag nog niet bekend."
 
 #: ../user/explain_state.php:60
 msgid "A computer completed and reported the task successfully."
@@ -3455,9 +3271,7 @@ msgstr "Een computer heeft de taak voltooid en deze succesvol verzonden."
 msgid ""
 "The server wasn't able to send the task to a computer (perhaps because its "
 "resource requirements were too large)"
-msgstr ""
-"De server kon de taak niet naar een computer versturen (mogelijk omdat de "
-"doelcomputer niet over de benodigde capaciteit beschikt)"
+msgstr "De server kon de taak niet naar een computer versturen (mogelijk omdat de doelcomputer niet over de benodigde capaciteit beschikt)"
 
 #: ../user/explain_state.php:65
 msgid "Client error"
@@ -3465,33 +3279,25 @@ msgstr "Client fout"
 
 #: ../user/explain_state.php:66
 msgid "The task was sent to a computer and an error occurred."
-msgstr ""
-"De taak is naar een computer verzonden en er heeft zich een fout voorgedaan."
+msgstr "De taak is naar een computer verzonden en er heeft zich een fout voorgedaan."
 
 #: ../user/explain_state.php:69
 msgid ""
 "The task was sent to a computer and no reply was received within the time "
 "limit."
-msgstr ""
-"De taak werd naar een computer verzonden, maar er werd geen antwoord "
-"ontvangen binnen de gestelde tijdslimiet."
+msgstr "De taak werd naar een computer verzonden, maar er werd geen antwoord ontvangen binnen de gestelde tijdslimiet."
 
 #: ../user/explain_state.php:72
 msgid ""
-"The task wasn't sent to a computer because enough other tasks were completed "
-"for this workunit."
-msgstr ""
-"De taak werd niet naar een computer gestuurd, omdat er genoeg andere taken "
-"werden voltooid voor deze werkeenheid."
+"The task wasn't sent to a computer because enough other tasks were completed"
+" for this workunit."
+msgstr "De taak werd niet naar een computer gestuurd, omdat er genoeg andere taken werden voltooid voor deze werkeenheid."
 
 #: ../user/explain_state.php:75
 msgid ""
 "The task was reported but could not be validated, typically because the "
 "output files were lost on the server."
-msgstr ""
-"De taak werd gerapporteerd maar kon niet gevalideerd worden. Dit gebeurt "
-"meestal doordat de output uitvoerbestanden verloren zijn gegaan op de "
-"server."
+msgstr "De taak werd gerapporteerd maar kon niet gevalideerd worden. Dit gebeurt meestal doordat de output uitvoerbestanden verloren zijn gegaan op de server."
 
 #: ../user/explain_state.php:80
 msgid "Client states"
@@ -3499,11 +3305,9 @@ msgstr "Client status"
 
 #: ../user/explain_state.php:81
 msgid ""
-"A result's <b>client state</b> indicates the stage of processing at which an "
-"error occurred."
-msgstr ""
-"Een clientspecifieke <b>statusindicator</b> geeft de fase aan waarin een "
-"fout in de verwerking optrad."
+"A result's <b>client state</b> indicates the stage of processing at which an"
+" error occurred."
+msgstr "Een clientspecifieke <b>statusindicator</b> geeft de fase aan waarin een fout in de verwerking optrad."
 
 #: ../user/explain_state.php:86
 msgid "The computer has not yet completed the task."
@@ -3533,9 +3337,7 @@ msgstr "Rapportage tijd en deadline"
 msgid ""
 "A task's <b>Time reported or deadline</b> field depends on whether the task "
 "has been reported yet:"
-msgstr ""
-"De verwerkingsstatus in het veld <b>rapportagetijd of tijdslimiet</b> is "
-"afhankelijk van de terugmelding van de taak:"
+msgstr "De verwerkingsstatus in het veld <b>rapportagetijd of tijdslimiet</b> is afhankelijk van de terugmelding van de taak:"
 
 #: ../user/explain_state.php:110
 msgid "Already reported"
@@ -3579,9 +3381,7 @@ msgstr "Verstuur e-mail"
 
 #: ../user/ffmail_action.php:59
 msgid "Use your browser's back button to return to message form"
-msgstr ""
-"Klik in uw browser op de knop 'vorige pagina' om terug te keren naar het "
-"berichtenformulier"
+msgstr "Klik in uw browser op de knop 'vorige pagina' om terug te keren naar het berichtenformulier"
 
 #: ../user/ffmail_action.php:63
 msgid "Sending emails"
@@ -3601,19 +3401,15 @@ msgstr "Bedankt dat u uw vrienden hebt verteld over %1"
 
 #: ../user/ffmail_action.php:94
 msgid ""
-"You forgot to enter your friends' names and/or email addresses; Please %"
-"1return to the form%2 and enter them."
-msgstr ""
-"U hebt geen namen en/of e-mailadressen van uw vrienden ingevuld: ga %1terug "
-"naar het formulier%2 en vul deze in."
+"You forgot to enter your friends' names and/or email addresses; Please "
+"%1return to the form%2 and enter them."
+msgstr "U hebt geen namen en/of e-mailadressen van uw vrienden ingevuld: ga %1terug naar het formulier%2 en vul deze in."
 
 #: ../user/ffmail_form.php:30
 msgid ""
 "This project hasn't created an email message - please notify its "
 "administrators"
-msgstr ""
-"Het project heeft geen e-mail aangemaakt - neem a.u.b. contact op met een "
-"admin"
+msgstr "Het project heeft geen e-mail aangemaakt - neem a.u.b. contact op met een admin"
 
 #: ../user/ffmail_form.php:33
 msgid "Tell your friends about %1"
@@ -3621,19 +3417,14 @@ msgstr "Vertel je vrienden over %1"
 
 #: ../user/ffmail_form.php:37
 msgid "Help us by telling your friends, family and coworkers about %1"
-msgstr ""
-"U helpt ons door uw vrienden, familieleden en collega's te vertellen over %1"
+msgstr "U helpt ons door uw vrienden, familieleden en collega's te vertellen over %1"
 
 #: ../user/ffmail_form.php:39
 msgid ""
 "Fill in this form with the names and email addresses of people you think "
 "might be interested in %1. We'll send them an email in your name, and you "
 "can add your own message if you like."
-msgstr ""
-"Op dit formulier vult u de namen en e-mailadressen in van de mensen die "
-"wellicht geïnteresseerd zijn in %1. Wij sturen hen dan namens u een "
-"e-mailbericht en - indien u dat wenst- kunt u een persoonlijk bericht "
-"bijvoegen."
+msgstr "Op dit formulier vult u de namen en e-mailadressen in van de mensen die wellicht geïnteresseerd zijn in %1. Wij sturen hen dan namens u een e-mailbericht en - indien u dat wenst- kunt u een persoonlijk bericht bijvoegen."
 
 #: ../user/ffmail_form.php:42
 msgid "Your name:"
@@ -3681,18 +3472,13 @@ msgid ""
 "Are you sure you want to banish %1?<br/>This will prevent %1 from posting "
 "for chosen time period.<br/>It should be done only if %1 has consistently "
 "exhibited trollish behavior."
-msgstr ""
-"Wilt u %1 echt uitsluiten?<br/>Het is %1 dan niet toegestaan om gedurende de "
-"geselecteerde periode berichten te plaatsen.<br/>Dit is alleen acceptabel "
-"indien %1 zich herhaaldelijk onbehoorlijk heeft gedragen."
+msgstr "Wilt u %1 echt uitsluiten?<br/>Het is %1 dan niet toegestaan om gedurende de geselecteerde periode berichten te plaatsen.<br/>Dit is alleen acceptabel indien %1 zich herhaaldelijk onbehoorlijk heeft gedragen."
 
 #: ../user/forum_banishment_vote.php:61
 msgid ""
-"Select the reason category, optionally write a longer description of why the "
-"user should be banished."
-msgstr ""
-"Kies een van de redenen, of geef zelf een uitgebreidere motivatie waarom de "
-"deelnemer moet worden uitgesloten."
+"Select the reason category, optionally write a longer description of why the"
+" user should be banished."
+msgstr "Kies een van de redenen, of geef zelf een uitgebreidere motivatie waarom de deelnemer moet worden uitgesloten."
 
 #: ../user/forum_banishment_vote.php:62 ../user/forum_moderate_thread.php:50
 msgid "Category"
@@ -3744,9 +3530,7 @@ msgstr "U dient een actie te specificeren..."
 msgid ""
 "You can no longer edit this post.<br/>Posts can only be edited at most %1 "
 "minutes after they have been created."
-msgstr ""
-"Dit bericht kan niet meer worden bewerkt.<br/>Berichten kunnen nog worden "
-"bewerkt binnen %1 minuten nadat deze zijn aangemaakt."
+msgstr "Dit bericht kan niet meer worden bewerkt.<br/>Berichten kunnen nog worden bewerkt binnen %1 minuten nadat deze zijn aangemaakt."
 
 #: ../user/forum_edit.php:47
 msgid "You are not authorized to edit this post."
@@ -3796,8 +3580,7 @@ msgstr "Dit onderwerp is verborgen"
 
 #: ../user/forum_forum.php:178
 msgid "This thread is sticky and locked, and you haven't read it yet"
-msgstr ""
-"Dit onderwerp is gemarkeerd en vergrendeld en u hebt het nog niet gelezen"
+msgstr "Dit onderwerp is gemarkeerd en vergrendeld en u hebt het nog niet gelezen"
 
 #: ../user/forum_forum.php:178
 msgid "sticky/locked/unread"
@@ -3861,11 +3644,9 @@ msgstr "Vraag en antwoord"
 
 #: ../user/forum_help_desk.php:30
 msgid ""
-"Talk live via Skype with a volunteer, in any of several languages. Go to %"
-"1BOINC Online Help%2."
-msgstr ""
-"Gebruik Skype om in diverse talen een rechtreeks gesprek te voeren met een "
-"vrijwilliger. Klik op %1BOINC Online Help%2."
+"Talk live via Skype with a volunteer, in any of several languages. Go to "
+"%1BOINC Online Help%2."
+msgstr "Gebruik Skype om in diverse talen een rechtreeks gesprek te voeren met een vrijwilliger. Klik op %1BOINC Online Help%2."
 
 #: ../user/forum_help_desk.php:44 ../user/forum_index.php:92
 msgid "Topic"
@@ -3887,9 +3668,7 @@ msgstr "%1 Forum"
 msgid ""
 "If you have a question or problem, please use the %1Questions & Answers%2 "
 "section of the message boards."
-msgstr ""
-"Als je een vraag of probleem hebt, gebruik dan a.u.b. de %1Vraag & Antwoord%"
-"2 sectie van het forum."
+msgstr "Als je een vraag of probleem hebt, gebruik dan a.u.b. de %1Vraag & Antwoord%2 sectie van het forum."
 
 #: ../user/forum_index.php:123
 msgid "Subscribed threads"
@@ -3953,9 +3732,7 @@ msgstr "Altijd"
 
 #: ../user/forum_moderate_post.php:96
 msgid "Optional explanation %1 This is included in email to user.%2"
-msgstr ""
-"Optionele eigen motivatie %1 Deze wordt bijgevoegd in het e-mailbericht aan "
-"de betreffende deelnemer.%2"
+msgstr "Optionele eigen motivatie %1 Deze wordt bijgevoegd in het e-mailbericht aan de betreffende deelnemer.%2"
 
 #: ../user/forum_moderate_post.php:101 ../user/forum_moderate_thread.php:91
 #: ../user/forum_post.php:130 ../user/forum_report_post.php:85
@@ -4004,9 +3781,7 @@ msgstr "Onderwerp '%1' aanpassen"
 msgid ""
 "Select the reason category, or write a longer description of why you're "
 "hiding or locking the thread; then press OK."
-msgstr ""
-"Selecteer een reden categorie, of omschrijf de reden voor verbergen of "
-"sluiten van het onderwerp; klik daarna op OK."
+msgstr "Selecteer een reden categorie, of omschrijf de reden voor verbergen of sluiten van het onderwerp; klik daarna op OK."
 
 #: ../user/forum_moderate_thread.php:72
 msgid "Current forum"
@@ -4024,17 +3799,13 @@ msgstr "Nieuwe titel:"
 msgid ""
 "Only project admins may create a thread here. However, you may reply to "
 "existing threads."
-msgstr ""
-"Uitsluitend projectadministrators mogen hier een onderwerp aanmaken. U kunt "
-"echter wel op een onderwerp reageren."
+msgstr "Uitsluitend projectadministrators mogen hier een onderwerp aanmaken. U kunt echter wel op een onderwerp reageren."
 
 #: ../user/forum_post.php:60
 msgid ""
 "Your message was flagged as spam by the Akismet anti-spam system. Please "
 "modify your text and try again."
-msgstr ""
-"Je reactie wordt gezien als spam door het Akismet anti-spam systeem. Pas "
-"a.u.b. je tekst aan en probeer opnieuw."
+msgstr "Je reactie wordt gezien als spam door het Akismet anti-spam systeem. Pas a.u.b. je tekst aan en probeer opnieuw."
 
 #: ../user/forum_post.php:70
 msgid "Create new thread"
@@ -4054,9 +3825,7 @@ msgstr "Dit item weergeven op het berichten-tabblad van de BOINC Manager"
 
 #: ../user/forum_post.php:127
 msgid "Do so only for items likely to be of interest to all volunteers."
-msgstr ""
-"Dit geldt uitsluitend voor items die voor alle vrijwilligers van belang "
-"kunnen zijn."
+msgstr "Dit geldt uitsluitend voor items die voor alle vrijwilligers van belang kunnen zijn."
 
 #: ../user/forum_rate.php:26
 msgid "Rating offline"
@@ -4068,9 +3837,7 @@ msgstr "Deze optie is tijdelijk uit gezet door het project"
 
 #: ../user/forum_rate.php:58
 msgid "You need more average or total credit to rate a post."
-msgstr ""
-"Uw gemiddelde of huidige puntentotaal is onvoldoende om een bericht te "
-"beoordelen."
+msgstr "Uw gemiddelde of huidige puntentotaal is onvoldoende om een bericht te beoordelen."
 
 #: ../user/forum_rate.php:62
 msgid "You have already rated this post."
@@ -4107,9 +3874,7 @@ msgstr "Probleem Bij Indienen Stem"
 msgid ""
 "Your post has been flagged as spam by the Akismet anti-spam system. Please "
 "modify your text and try again."
-msgstr ""
-"Je reactie wordt gezien als spam door het Akismet anti-spam systeem. Pas "
-"a.u.b. je tekst aan en probeer opnieuw."
+msgstr "Je reactie wordt gezien als spam door het Akismet anti-spam systeem. Pas a.u.b. je tekst aan en probeer opnieuw."
 
 #: ../user/forum_reply.php:88 ../user/forum_thread.php:158
 #: ../user/forum_thread.php:274
@@ -4134,15 +3899,12 @@ msgstr "Onderschrift invoegen bij deze post"
 
 #: ../user/forum_report_post.php:45
 msgid "You need more average or total credit to report a post."
-msgstr ""
-"Uw gemiddelde of huidige puntentotaal is onvoldoende om een bericht te "
-"rapporteren."
+msgstr "Uw gemiddelde of huidige puntentotaal is onvoldoende om een bericht te rapporteren."
 
 #: ../user/forum_report_post.php:65
 msgid "Report Registered"
 msgstr "Rapportage geregistreerd"
 
-# 92%
 #: ../user/forum_report_post.php:66
 msgid "Your report has been recorded. Thanks for your input."
 msgstr "Uw rapportage is geregistreerd. Hartelijk dank voor uw bijdrage."
@@ -4151,9 +3913,7 @@ msgstr "Uw rapportage is geregistreerd. Hartelijk dank voor uw bijdrage."
 msgid ""
 "A moderator will now look at your report and decide what will happen - this "
 "may take a little while, so please be patient"
-msgstr ""
-"Een moderator zal na beoordeling van uw rapportage een beslissing nemen - in "
-"afwachting daarvan vragen wij u enig geduld te hebben"
+msgstr "Een moderator zal na beoordeling van uw rapportage een beslissing nemen - in afwachting daarvan vragen wij u enig geduld te hebben"
 
 #: ../user/forum_report_post.php:71
 msgid "Report a forum post"
@@ -4161,14 +3921,10 @@ msgstr "Bericht rapporteren"
 
 #: ../user/forum_report_post.php:73
 msgid ""
-"Before reporting this post, consider using the +/- rating system instead. If "
-"enough users rate a post negatively it will eventually be hidden.<br />You "
+"Before reporting this post, consider using the +/- rating system instead. If"
+" enough users rate a post negatively it will eventually be hidden.<br />You "
 "can find the rating system at the bottom of the post."
-msgstr ""
-"Voordat u dit bericht definitief rapporteert, hebt u de mogelijkheid om het "
-"te beoordelen via het +/- systeem. Indien voldoende deelnemers het bericht "
-"negatief beoordelen, zal het uiteindelijk worden verborgen.<br />Dit "
-"beoordelingssysteem bevindt zich aan het einde van het bericht."
+msgstr "Voordat u dit bericht definitief rapporteert, hebt u de mogelijkheid om het te beoordelen via het +/- systeem. Indien voldoende deelnemers het bericht negatief beoordelen, zal het uiteindelijk worden verborgen.<br />Dit beoordelingssysteem bevindt zich aan het einde van het bericht."
 
 #: ../user/forum_report_post.php:80
 msgid "Report post"
@@ -4176,13 +3932,9 @@ msgstr "Bericht rapporteren"
 
 #: ../user/forum_report_post.php:81
 msgid ""
-"Why do you find the post offensive: %1Please include enough information so "
-"that a person that\n"
+"Why do you find the post offensive: %1Please include enough information so that a person that\n"
 "has not yet read the thread will quickly be able to identify the issue.%2"
-msgstr ""
-"Geef aan waarom u dit bericht kwetsend vindt: %1U dient het probleem "
-"duidelijk te omschrijven zodat iemand die\n"
-"het bericht nog niet heeft gelezen, snel weet waar het om gaat.%2"
+msgstr "Geef aan waarom u dit bericht kwetsend vindt: %1U dient het probleem duidelijk te omschrijven zodat iemand die\nhet bericht nog niet heeft gelezen, snel weet waar het om gaat.%2"
 
 #: ../user/forum_report_post.php:90
 msgid "Report not registered"
@@ -4190,16 +3942,13 @@ msgstr "Rapportage niet geregistreerd"
 
 #: ../user/forum_report_post.php:91
 msgid "Your report could not be recorded. Please wait a while and try again."
-msgstr ""
-"Uw rapportage kon niet worden geregistreerd. Probeer het later nog eens "
-"alstublieft."
+msgstr "Uw rapportage kon niet worden geregistreerd. Probeer het later nog eens alstublieft."
 
 #: ../user/forum_report_post.php:92
 msgid ""
-"If this is not a temporary error, please report it to the project developers."
-msgstr ""
-"Indien dit geen eenmalige foutmelding is, wordt u verzocht dat bij de "
-"projectontwikkelaars te melden."
+"If this is not a temporary error, please report it to the project "
+"developers."
+msgstr "Indien dit geen eenmalige foutmelding is, wordt u verzocht dat bij de projectontwikkelaars te melden."
 
 #: ../user/forum_rss.php:41
 msgid "%1 RSS feed"
@@ -4215,8 +3964,7 @@ msgstr "Opties:"
 
 #: ../user/forum_rss.php:47
 msgid "Include only posts by user ID %1 (default: all users)."
-msgstr ""
-"Neem alleen berichten van gebruikers ID %1 (standaard: alle gebruikers)."
+msgstr "Neem alleen berichten van gebruikers ID %1 (standaard: alle gebruikers)."
 
 #: ../user/forum_rss.php:49
 msgid "Include only posts from the last %1 days (default: 30)."
@@ -4224,14 +3972,11 @@ msgstr "Neem alleen berichten van de afgelopen %1 dagen (standaard: 30)."
 
 #: ../user/forum_rss.php:51
 msgid "Truncate posts: %1 (Include only first 265 characters of each post)"
-msgstr ""
-"Berichten inkorten: %1 (laat alleen de eerste 265 tekens van elke post zien)"
+msgstr "Berichten inkorten: %1 (laat alleen de eerste 265 tekens van elke post zien)"
 
 #: ../user/forum_rss.php:53
 msgid "Threads only: %1 (Include only the first post of every thread)"
-msgstr ""
-"Alleen discussies: %1 (Inclusief alleen het eerste bericht van elk "
-"onderwerp)"
+msgstr "Alleen discussies: %1 (Inclusief alleen het eerste bericht van elk onderwerp)"
 
 #: ../user/forum_search.php:27
 msgid "Forum search"
@@ -4313,9 +4058,7 @@ msgstr "Treffers overeenkomstig uw zoekopdracht in berichten:"
 msgid ""
 "Sorry, couldn't find anything matching your search query. You can try to "
 "broaden your search by using less words (or less specific words)."
-msgstr ""
-"Helaas geen resultaten gevonden die aan uw zoekopdracht voldoen. U kunt het "
-"aantal treffers vergroten door minder (specifieke) woorden te gebruiken."
+msgstr "Helaas geen resultaten gevonden die aan uw zoekopdracht voldoen. U kunt het aantal treffers vergroten door minder (specifieke) woorden te gebruiken."
 
 #: ../user/forum_search_action.php:219
 msgid "You can also %1try the same search on Google.%2"
@@ -4333,9 +4076,7 @@ msgstr "Aanmelding geslaagd"
 msgid ""
 "You are now subscribed to %1. You will be notified whenever there is a new "
 "post."
-msgstr ""
-"U bent nu aangemeld bij %1. U wordt op de hoogte gesteld van nieuwe "
-"berichten."
+msgstr "U bent nu aangemeld bij %1. U wordt op de hoogte gesteld van nieuwe berichten."
 
 #: ../user/forum_subscribe.php:51
 msgid "Subscription failed"
@@ -4344,9 +4085,7 @@ msgstr "Aanmelding mislukt"
 #: ../user/forum_subscribe.php:52
 msgid ""
 "We are currently unable to subscribe you to %1. Please try again later.."
-msgstr ""
-"Aanmelden bij %1 is op dit moment niet mogelijk. Probeer het later nog "
-"eens..."
+msgstr "Aanmelden bij %1 is op dit moment niet mogelijk. Probeer het later nog eens..."
 
 #: ../user/forum_subscribe.php:61
 msgid "Unsubscription successful"
@@ -4354,11 +4093,9 @@ msgstr "Uitschrijven geslaagd"
 
 #: ../user/forum_subscribe.php:64
 msgid ""
-"You are no longer subscribed to %1. You will no longer receive notifications "
-"for this thread."
-msgstr ""
-"U bent niet meer aangemeld bij %1. U ontvangt geen mededelingen meer over "
-"dit onderwerp."
+"You are no longer subscribed to %1. You will no longer receive notifications"
+" for this thread."
+msgstr "U bent niet meer aangemeld bij %1. U ontvangt geen mededelingen meer over dit onderwerp."
 
 #: ../user/forum_subscribe.php:66
 msgid "Unsubscription failed"
@@ -4367,9 +4104,7 @@ msgstr "Uitschrijven mislukt"
 #: ../user/forum_subscribe.php:67
 msgid ""
 "We are currently unable to unsubscribe you from %1. Please try again later.."
-msgstr ""
-"Uitschrijven bij %1 is op dit moment niet mogelijk. Probeer het later nog "
-"eens..."
+msgstr "Uitschrijven bij %1 is op dit moment niet mogelijk. Probeer het later nog eens..."
 
 #: ../user/forum_subscribe.php:74
 msgid "Unknown subscription action"
@@ -4413,8 +4148,7 @@ msgstr "Abonneren"
 
 #: ../user/forum_thread.php:179
 msgid "Click to get email when there are new posts in this thread"
-msgstr ""
-"Klik hier om een email te ontvangen als er een nieuw bericht is geplaatst"
+msgstr "Klik hier om een email te ontvangen als er een nieuw bericht is geplaatst"
 
 #: ../user/forum_thread.php:190
 msgid "Unhide this thread"
@@ -4522,11 +4256,9 @@ msgstr "Voeg toe als vriend(in)"
 
 #: ../user/friend.php:74
 msgid ""
-"You have asked to add %1 as a friend. We will notify %1 and will ask him/her "
-"to confirm that you are friends."
-msgstr ""
-"Je hebt %1 om een vriendschap gevraagd. We versturen een bericht naar %1 om "
-"je verzoek te bevestigen."
+"You have asked to add %1 as a friend. We will notify %1 and will ask him/her"
+" to confirm that you are friends."
+msgstr "Je hebt %1 om een vriendschap gevraagd. We versturen een bericht naar %1 om je verzoek te bevestigen."
 
 #: ../user/friend.php:77
 msgid "Add an optional message here:"
@@ -4546,9 +4278,7 @@ msgstr "Log a.u.b. in als %1"
 
 #: ../user/friend.php:127
 msgid "You must log in as %1 to view this friend request"
-msgstr ""
-"U dient zich aan te melden als %1 om het verzoek van deze vriend te kunnen "
-"lezen"
+msgstr "U dient zich aan te melden als %1 om het verzoek van deze vriend te kunnen lezen"
 
 #: ../user/friend.php:138
 msgid "Friend request"
@@ -4632,60 +4362,46 @@ msgstr "Account gegevens vergeten?"
 
 #: ../user/get_passwd.php:28
 msgid ""
-"1) If you know your account's email address, and you can receive email there:"
-msgstr ""
-"1) Als u het e-mailadres van uw account weet, en als u daar e-mail kunt "
-"ontvangen:"
+"1) If you know your account's email address, and you can receive email "
+"there:"
+msgstr "1) Als u het e-mailadres van uw account weet, en als u daar e-mail kunt ontvangen:"
 
 #: ../user/get_passwd.php:29
 msgid ""
 "Enter the email address below, and click OK. You will be sent email "
 "instructions for resetting your password."
-msgstr ""
-"Vul dan hieronder het e-mailadres in en klik op OK. Vervolgens ontvangt u "
-"per e-mail de instructies om uw wachtwoord opnieuw in te stellen."
+msgstr "Vul dan hieronder het e-mailadres in en klik op OK. Vervolgens ontvangt u per e-mail de instructies om uw wachtwoord opnieuw in te stellen."
 
 #: ../user/get_passwd.php:46
 msgid ""
 "2) If you forgot your account's email address, or you can't receive email "
 "there:"
-msgstr ""
-"2) Als u het e-mailadres van uw account bent vergeten, of als u daar geen "
-"e-mail kunt ontvangen:"
+msgstr "2) Als u het e-mailadres van uw account bent vergeten, of als u daar geen e-mail kunt ontvangen:"
 
 #: ../user/get_passwd.php:47
 msgid ""
 "If you have run BOINC under this account, you can still access it. Here's "
 "how:"
-msgstr ""
-"Om met deze gegevens toch toegang te krijgen tot uw BOINC-account, gaat u "
-"als volgt te werk:"
+msgstr "Om met deze gegevens toch toegang te krijgen tot uw BOINC-account, gaat u als volgt te werk:"
 
 #: ../user/get_passwd.php:50
 msgid ""
 "Go to the BOINC data directory on your computer (its location is written to "
 "the Event Log at startup)."
-msgstr ""
-"Ga naar de data map van BOINC (de locatie staat beschreven in de opstart "
-"berichten)."
+msgstr "Ga naar de data map van BOINC (de locatie staat beschreven in de opstart berichten)."
 
 #: ../user/get_passwd.php:51
 msgid "Find your account file for this project; it will be named <b>%1</b>."
-msgstr ""
-"Zoek het betreffende projectbestand met uw accountgegevens, genaamd <b>%"
-"1</b>."
+msgstr "Zoek het betreffende projectbestand met uw accountgegevens, genaamd <b>%1</b>."
 
 #: ../user/get_passwd.php:52
 msgid "Open the file in a text editor like Notepad. You'll see something like"
-msgstr ""
-"Open het bestand met een tekstverwerker, bv. met Kladblok. U ziet nu "
-"ongeveer het volgende"
+msgstr "Open het bestand met een tekstverwerker, bv. met Kladblok. U ziet nu ongeveer het volgende"
 
 #: ../user/get_passwd.php:62
-msgid "Select and Copy the string between %1 and %2 (%3 in the above example)."
-msgstr ""
-"Selecteer en kopieer de tekenreeks tussen %1 en %2 (%3 in bovenstaand "
-"voorbeeld)."
+msgid ""
+"Select and Copy the string between %1 and %2 (%3 in the above example)."
+msgstr "Selecteer en kopieer de tekenreeks tussen %1 en %2 (%3 in bovenstaand voorbeeld)."
 
 #: ../user/get_passwd.php:64
 msgid "Paste the string into the field below, and click OK."
@@ -4695,9 +4411,7 @@ msgstr "Plak deze tekenreeks in het onderstaande veld en klik op OK."
 msgid ""
 "You will now be logged in to your account; update the email and password of "
 "your account."
-msgstr ""
-"U wordt nu aangemeld bij uw account; wijzig de betreffende e-mail- en "
-"wachtwoordgegevens."
+msgstr "U wordt nu aangemeld bij uw account; wijzig de betreffende e-mail- en wachtwoordgegevens."
 
 #: ../user/get_passwd.php:71
 msgid "Log in with authenticator"
@@ -4711,9 +4425,7 @@ msgstr "Geen GPU taken gerapporteerd"
 msgid ""
 "The following lists show the most productive GPU models on different "
 "platforms.  Relative speeds are shown in parentheses."
-msgstr ""
-"De volgende lijst toont de meest productieve GPU modellen op verschillende "
-"platforms.  Relatieve snelheid wordt getoond tussen ronde haakjes."
+msgstr "De volgende lijst toont de meest productieve GPU modellen op verschillende platforms.  Relatieve snelheid wordt getoond tussen ronde haakjes."
 
 #: ../user/home.php:42
 msgid "Welcome to %1"
@@ -4780,10 +4492,7 @@ msgid ""
 "You can not delete our record of this computer because our database still "
 "contains work for it. You must wait a few days until the work for this "
 "computer has been deleted from the project database."
-msgstr ""
-"U kunt de betreffende gegevens niet verwijderen omdat onze databank nog werk "
-"bevat voor deze computer. U dient enkele dagen te wachten totdat het werk "
-"voor deze computer uit de projectspecifieke databank is verwijderd."
+msgstr "U kunt de betreffende gegevens niet verwijderen omdat onze databank nog werk bevat voor deze computer. U dient enkele dagen te wachten totdat het werk voor deze computer uit de projectspecifieke databank is verwijderd."
 
 #: ../user/host_delete.php:40
 msgid "Delete record of computer"
@@ -4807,18 +4516,13 @@ msgstr "Computers samenvoegen"
 
 #: ../user/host_edit_form.php:38
 msgid ""
-"Sometimes BOINC assigns separate identities to the same computer by mistake. "
-"You can correct this by merging old identities with the newest one."
-msgstr ""
-"Soms krijgt een computer per ongeluk meer dan één identiteit door BOINC "
-"toegewezen. U kunt dit verhelpen door vorige identiteiten met de laatste "
-"samen te voegen."
+"Sometimes BOINC assigns separate identities to the same computer by mistake."
+" You can correct this by merging old identities with the newest one."
+msgstr "Soms krijgt een computer per ongeluk meer dan één identiteit door BOINC toegewezen. U kunt dit verhelpen door vorige identiteiten met de laatste samen te voegen."
 
 #: ../user/host_edit_form.php:56
 msgid "No hosts are eligible for merging with this one."
-msgstr ""
-"Geen hostcomputers die in aanmerking komen voor samenvoeging met deze "
-"computer."
+msgstr "Geen hostcomputers die in aanmerking komen voor samenvoeging met deze computer."
 
 #: ../user/host_edit_form.php:58 ../user/host_edit_form.php:114
 msgid "Show details"
@@ -4827,9 +4531,7 @@ msgstr "Toon details"
 #: ../user/host_edit_form.php:66
 msgid ""
 "Check the computers that are the same as %1 (created %2, computer ID %3):"
-msgstr ""
-"Controleer de computers die identiek zijn aan %1 (aangemaakt %2, computer ID "
-"%3):"
+msgstr "Controleer de computers die identiek zijn aan %1 (aangemaakt %2, computer ID %3):"
 
 #: ../user/host_edit_form.php:70 ../user/workunit.php:39
 msgid "name"
@@ -4871,9 +4573,7 @@ msgstr "Deze hostcomputer is nu bekend als %1."
 msgid ""
 "This change will take effect the next time the host communicates with this "
 "project."
-msgstr ""
-"Deze wijziging wordt van kracht bij de volgende communicatiesessie van de "
-"hostcomputer met dit project."
+msgstr "Deze wijziging wordt van kracht bij de volgende communicatiesessie van de hostcomputer met dit project."
 
 #: ../user/host_venue_action.php:50
 msgid "Return to host page"
@@ -4930,12 +4630,9 @@ msgstr "opgemaakt"
 
 #: ../user/html.php:33
 msgid ""
-"image; height cannot exceed 450 pixels. Please do not link to images without "
-"permission of the web site where the image is hosted."
-msgstr ""
-"afbeelding; hoogte mag niet meer zijn dan 450 pixels. Voeg alstublieft geen "
-"koppelingen naar afbeeldingen toe zonder toestemming van de website waar de "
-"afbeelding zich bevindt."
+"image; height cannot exceed 450 pixels. Please do not link to images without"
+" permission of the web site where the image is hosted."
+msgstr "afbeelding; hoogte mag niet meer zijn dan 450 pixels. Voeg alstublieft geen koppelingen naar afbeeldingen toe zonder toestemming van de website waar de afbeelding zich bevindt."
 
 #: ../user/html.php:35
 msgid "You can also use ampersand notation for special characters."
@@ -4950,10 +4647,7 @@ msgid ""
 "Run %1 only on computers that you own, or for which you have obtained the "
 "owner's permission. Some companies and schools have policies that prohibit "
 "using their computers for projects such as %1."
-msgstr ""
-"Voer %1 alleen uit op computers die je eigendom zijn, of waar de eigenaar "
-"ervan je toestemming voor heeft gegeven. Sommige scholen en bedrijven hebben "
-"regels opgesteld waarin het gebruik van %1 niet toegestaan is."
+msgstr "Voer %1 alleen uit op computers die je eigendom zijn, of waar de eigenaar ervan je toestemming voor heeft gegeven. Sommige scholen en bedrijven hebben regels opgesteld waarin het gebruik van %1 niet toegestaan is."
 
 #: ../user/info.php:38
 msgid "How %1 will use your computer"
@@ -4964,18 +4658,13 @@ msgid ""
 "When you run %1 on your computer, it will use part of the computer's CPU "
 "power, disk space, and network bandwidth. You can control how much of your "
 "resources are used by %1, and when it uses them."
-msgstr ""
-"Wanneer je %1 gebruikt op je computer zal deze een gedeelte gebruiken van de "
-"processortijd, het geheugen, de harde schijf en de bandbreedte van het "
-"netwerk. Gebruik hiervan is in te stellen met %1."
+msgstr "Wanneer je %1 gebruikt op je computer zal deze een gedeelte gebruiken van de processortijd, het geheugen, de harde schijf en de bandbreedte van het netwerk. Gebruik hiervan is in te stellen met %1."
 
 #: ../user/info.php:40
 msgid ""
 "The work done by your computer contributes to the goals of %1, as described "
 "on its web site. The application programs may change from time to time."
-msgstr ""
-"De uitgevoerde taken worden gebruikt om de doelstellingen te halen van %1, "
-"zoals beschreven op de website. De gebruikte applicatie kan wisselen."
+msgstr "De uitgevoerde taken worden gebruikt om de doelstellingen te halen van %1, zoals beschreven op de website. De gebruikte applicatie kan wisselen."
 
 #: ../user/info.php:42
 msgid "Privacy policy"
@@ -4983,15 +4672,11 @@ msgstr "Privacy beleid"
 
 #: ../user/info.php:43
 msgid ""
-"Your account on %1 is identified by a name that you choose. This name may be "
-"shown on the %1 web site, along with a summary of the work your computer has "
-"done for %1. If you want to be anonymous, choose a name that doesn't reveal "
-"your identity."
-msgstr ""
-"Je account bij %1 wordt bepaald door je gekozen naam. Deze naam kan getoond "
-"worden op de website van %1 samen met een opsomming van je computer(s) en "
-"het gedane werk voor %1. Als je anoniem wilt blijven kies dan een afwijkende "
-"naam voor je account."
+"Your account on %1 is identified by a name that you choose. This name may be"
+" shown on the %1 web site, along with a summary of the work your computer "
+"has done for %1. If you want to be anonymous, choose a name that doesn't "
+"reveal your identity."
+msgstr "Je account bij %1 wordt bepaald door je gekozen naam. Deze naam kan getoond worden op de website van %1 samen met een opsomming van je computer(s) en het gedane werk voor %1. Als je anoniem wilt blijven kies dan een afwijkende naam voor je account."
 
 #: ../user/info.php:44
 msgid ""
@@ -5000,23 +4685,14 @@ msgid ""
 "decide what type of work to assign to your computer. This information will "
 "also be shown on %1's web site. Nothing that reveals your computer's "
 "location (e.g. its domain name or network address) will be shown."
-msgstr ""
-"Wanneer je deelneemt aan %1, wordt er informatie over je computer (type "
-"processor, hoeveelheid geheugen, etc.) opgeslagen door %1 en gebruikt om te "
-"kunnen bepalen welk soort werk er aan je computer wordt verzonden. Deze "
-"informatie wordt ook getoond op de website van %1. Je werkelijke locatie "
-"(b.v. je IP-adres) blijft verborgen."
+msgstr "Wanneer je deelneemt aan %1, wordt er informatie over je computer (type processor, hoeveelheid geheugen, etc.) opgeslagen door %1 en gebruikt om te kunnen bepalen welk soort werk er aan je computer wordt verzonden. Deze informatie wordt ook getoond op de website van %1. Je werkelijke locatie (b.v. je IP-adres) blijft verborgen."
 
 #: ../user/info.php:45
 msgid ""
-"To participate in %1, you must give an address where you receive email. This "
-"address will not be shown on the %1 web site or shared with organizations. %"
-"1 may send you periodic newsletters; however, you can opt out at any time."
-msgstr ""
-"Om aan %1 te kunnen deelnemen, moet je een e-mailadres opgeven waar je email "
-"op kan ontvangen. Dit adres zal niet op de website van %1 worden getoond of "
-"aan derden worden doorgegeven. %1 kan je informatie toezenden, maar dit kan "
-"je ook in je voorkeuren uitzetten."
+"To participate in %1, you must give an address where you receive email. This"
+" address will not be shown on the %1 web site or shared with organizations. "
+"%1 may send you periodic newsletters; however, you can opt out at any time."
+msgstr "Om aan %1 te kunnen deelnemen, moet je een e-mailadres opgeven waar je email op kan ontvangen. Dit adres zal niet op de website van %1 worden getoond of aan derden worden doorgegeven. %1 kan je informatie toezenden, maar dit kan je ook in je voorkeuren uitzetten."
 
 #: ../user/info.php:46
 msgid ""
@@ -5025,24 +4701,15 @@ msgid ""
 "If you receive unwanted private messages from another %1 user, you may add "
 "them to your %2message filter%3.  This will prevent you from seeing any "
 "public or private messages from that user."
-msgstr ""
-"Privé berichten die verzonden zijn op de website van %1 zijn alleen "
-"zichtbaar voor de afzender en ontvanger.  %1 bekijkt en veranderd de inhoud "
-"niet.  Als je een ongewenst bericht ontvangt van een andere %1 gebruiker, is "
-"het mogelijk deze toe te voegen aan een %2berichten filter%3.  Dit "
-"blokkeert zowel privé als forum berichten van deze gebruiker."
+msgstr "Privé berichten die verzonden zijn op de website van %1 zijn alleen zichtbaar voor de afzender en ontvanger.  %1 bekijkt en veranderd de inhoud niet.  Als je een ongewenst bericht ontvangt van een andere %1 gebruiker, is het mogelijk deze toe te voegen aan een %2berichten filter%3.  Dit blokkeert zowel privé als forum berichten van deze gebruiker."
 
 #: ../user/info.php:47
 msgid ""
 "If you use our web site forums you must follow the %2posting guidelines%3.  "
 "Messages posted to the %1 forums are visible to everyone, including non-"
-"members.  By posting to the forums, you are granting irrevocable license for "
-"anyone to view and copy your posts."
-msgstr ""
-"Indien je onze website gebruikt moet je je houden aan de %2richtlijnen voor "
-"berichten%3.  Geplaatste berichten op het forum van %1 zijn zichtbaar voor "
-"leden en niet-leden.  Door hier een bericht te plaatsen geef je iedereen de "
-"volledige rechten om ze te bekijken en te kopiëren."
+"members.  By posting to the forums, you are granting irrevocable license for"
+" anyone to view and copy your posts."
+msgstr "Indien je onze website gebruikt moet je je houden aan de %2richtlijnen voor berichten%3.  Geplaatste berichten op het forum van %1 zijn zichtbaar voor leden en niet-leden.  Door hier een bericht te plaatsen geef je iedereen de volledige rechten om ze te bekijken en te kopiëren."
 
 #: ../user/info.php:48
 msgid "Is it safe to run %1?"
@@ -5052,35 +4719,23 @@ msgstr "Is het veilig om %1 uit te voeren?"
 msgid ""
 "Any time you download a program through the Internet you are taking a "
 "chance: the program might have dangerous errors, or the download server "
-"might have been hacked. %1 has made efforts to minimize these risks. We have "
-"tested our applications carefully. Our servers are behind a firewall and are "
-"configured for high security. To ensure the integrity of program downloads, "
-"all executable files are digitally signed on a secure computer not connected "
-"to the Internet."
-msgstr ""
-"Elke keer als je een programma via het internet download neem je een risico; "
-"het programma kan fatale fouten hebben, of de download server is niet "
-"veilig genoeg. %1 heeft zijn best gedaan om deze risico's tot een minimum te "
-"beperken. Ons programma is uitvoerig getest. Onze servers zijn zo veel als "
-"mogelijk is beveiligd tegen misbruik. Om de integriteit van de programma's "
-"te garanderen zijn ze digitaal ondertekend op een computer die niet met het "
-"internet is verbonden."
+"might have been hacked. %1 has made efforts to minimize these risks. We have"
+" tested our applications carefully. Our servers are behind a firewall and "
+"are configured for high security. To ensure the integrity of program "
+"downloads, all executable files are digitally signed on a secure computer "
+"not connected to the Internet."
+msgstr "Elke keer als je een programma via het internet download neem je een risico; het programma kan fatale fouten hebben, of de download server is niet veilig genoeg. %1 heeft zijn best gedaan om deze risico's tot een minimum te beperken. Ons programma is uitvoerig getest. Onze servers zijn zo veel als mogelijk is beveiligd tegen misbruik. Om de integriteit van de programma's te garanderen zijn ze digitaal ondertekend op een computer die niet met het internet is verbonden."
 
 #: ../user/info.php:50
 msgid ""
 "The applications run by %1 may cause some computers to overheat. If this "
 "happens, stop running %1 or use a %2utility program%3 that limits CPU usage."
-msgstr ""
-"De door %1 gebruikte applicaties kunnen een verhoging opleveren van de "
-"temperatuur van de processor. Als dit aan de orde is, sluit %1 af en gebruik "
-"een %2programma%3 om het gebruik van de processor te regelen."
+msgstr "De door %1 gebruikte applicaties kunnen een verhoging opleveren van de temperatuur van de processor. Als dit aan de orde is, sluit %1 af en gebruik een %2programma%3 om het gebruik van de processor te regelen."
 
 #: ../user/info.php:51
 msgid ""
 "%1 was developed by %2. BOINC was developed at the University of California."
-msgstr ""
-"%1 is ontwikkeld door %2. BOINC is ontwikkeld door de University of "
-"California."
+msgstr "%1 is ontwikkeld door %2. BOINC is ontwikkeld door de University of California."
 
 #: ../user/info.php:53
 msgid "Liability"
@@ -5089,11 +4744,9 @@ msgstr "Aansprakelijkheid"
 #: ../user/info.php:54
 msgid ""
 "%1 and %2 assume no liability for damage to your computer, loss of data, or "
-"any other event or condition that may occur as a result of participating in %"
-"1."
-msgstr ""
-"%1 en %2 aanvaarden geen aansprakelijkheid voor schade aangebracht aan je "
-"computer of welke schade dan ook voortgekomen door deelname aan %1."
+"any other event or condition that may occur as a result of participating in "
+"%1."
+msgstr "%1 en %2 aanvaarden geen aansprakelijkheid voor schade aangebracht aan je computer of welke schade dan ook voortgekomen door deelname aan %1."
 
 #: ../user/info.php:56
 msgid "Other BOINC projects"
@@ -5101,23 +4754,17 @@ msgstr "Andere BOINC projecten"
 
 #: ../user/info.php:57
 msgid ""
-"Other projects use the same platform, BOINC, as %1. You may want to consider "
-"participating in one or more of these projects. By doing so, your computer "
+"Other projects use the same platform, BOINC, as %1. You may want to consider"
+" participating in one or more of these projects. By doing so, your computer "
 "will do useful work even when %1 has no work available for it."
-msgstr ""
-"Andere projecten gebruiken, net als %1, BOINC als platform. Het is het "
-"overwegen waard om andere projecten toe te voegen. Mocht %1 dan geen werk "
-"hebben, blijft je computer bezig met nuttig werk."
+msgstr "Andere projecten gebruiken, net als %1, BOINC als platform. Het is het overwegen waard om andere projecten toe te voegen. Mocht %1 dan geen werk hebben, blijft je computer bezig met nuttig werk."
 
 #: ../user/info.php:58
 msgid ""
 "These other projects are not associated with %1, and we cannot vouch for "
 "their security practices or the nature of their research. Join them at your "
 "own risk."
-msgstr ""
-"Deze projecten zijn niet verbonden met %1, mede daarom kunnen we geen "
-"garanties geven over hun doelstellingen en de mate van veiligheid. Deelname "
-"is daarom op eigen risico."
+msgstr "Deze projecten zijn niet verbonden met %1, mede daarom kunnen we geen garanties geven over hun doelstellingen en de mate van veiligheid. Deelname is daarom op eigen risico."
 
 #: ../user/language_select.php:47
 msgid "Language selection"
@@ -5127,17 +4774,13 @@ msgstr "Taal selectie"
 msgid ""
 "This web site is available in several languages. The currently selected "
 "language is %1."
-msgstr ""
-"Deze website is beschikbaar in verschillende talen. De geselecteerde taal is "
-"nu: %1."
+msgstr "Deze website is beschikbaar in verschillende talen. De geselecteerde taal is nu: %1."
 
 #: ../user/language_select.php:78
 msgid ""
 "Normally the choice of language is determined by your browser's language "
 "setting, which is: %1.  You can change this setting using:"
-msgstr ""
-"Normaal wordt de taal geselecteerd op basis van de taal instellingen van je "
-"browser, nu ingesteld: %1  Als volgt aan te passen bij:"
+msgstr "Normaal wordt de taal geselecteerd op basis van de taal instellingen van je browser, nu ingesteld: %1  Als volgt aan te passen bij:"
 
 #: ../user/language_select.php:83
 msgid "Firefox: Tools/Options/General"
@@ -5152,10 +4795,7 @@ msgid ""
 "Or you can select a language by clicking on one of the links.  This will "
 "send your browser a cookie; make sure your browser accepts cookies from our "
 "domain."
-msgstr ""
-"Ook is het mogelijk een taal te selecteren door op een van de links te "
-"klikken.  Er wordt dan een cookie naar je browser verstuurd indien deze dit "
-"accepteert."
+msgstr "Ook is het mogelijk een taal te selecteren door op een van de links te klikken.  Er wordt dan een cookie naar je browser verstuurd indien deze dit accepteert."
 
 #: ../user/language_select.php:95
 msgid "Language name (click to select)"
@@ -5167,11 +4807,9 @@ msgstr "Gebruik taal instelling van browser"
 
 #: ../user/language_select.php:113
 msgid ""
-"Translations are done by volunteers.  If your native language is not here, %"
-"1you can provide a translation%2."
-msgstr ""
-"Vertalingen worden door vrijwilligers gemaakt.  Indien jouw taal niet "
-"voorkomt kan je %1een nieuwe vertaling aanmaken%2."
+"Translations are done by volunteers.  If your native language is not here, "
+"%1you can provide a translation%2."
+msgstr "Vertalingen worden door vrijwilligers gemaakt.  Indien jouw taal niet voorkomt kan je %1een nieuwe vertaling aanmaken%2."
 
 #: ../user/login_form.php:45
 msgid "Email address:"
@@ -5217,13 +4855,7 @@ msgid ""
 "        having that name with the newest computer having that name.\n"
 "        Incompatible computers will not be merged.\n"
 "        <p>"
-msgstr ""
-"Deze actie voegt computers samen op basis van de domeinnaam.\n"
-"        <p>\n"
-"        Voor elke domeinnaam, worden alle oude computers met dezelfde\n"
-"        naam als de nieuwste computer met deze naam samengevoegd.\n"
-"        Indien een computer hier niet aan voldoet, gebeurd dit niet.\n"
-"        <p>"
+msgstr "Deze actie voegt computers samen op basis van de domeinnaam.\n        <p>\n        Voor elke domeinnaam, worden alle oude computers met dezelfde\n        naam als de nieuwste computer met deze naam samengevoegd.\n        Indien een computer hier niet aan voldoet, gebeurd dit niet.\n        <p>"
 
 #: ../user/merge_by_name.php:82
 msgid "Go ahead and do this"
@@ -5239,11 +4871,7 @@ msgid ""
 "To maximize discussion and flow of information,\n"
 "our message boards are moderated.\n"
 "Message board postings are subject to the following posting rules:\n"
-msgstr ""
-"\n"
-"Om de discussie en berichtenstroom te maximaliseren,\n"
-"wordt ons forum gemodereerd.\n"
-"Berichten zijn onderworpen aan de volgende regels en richtlijnen:\n"
+msgstr "\nOm de discussie en berichtenstroom te maximaliseren,\nwordt ons forum gemodereerd.\nBerichten zijn onderworpen aan de volgende regels en richtlijnen:\n"
 
 #: ../user/moderation.php:30
 msgid ""
@@ -5252,8 +4880,7 @@ msgid ""
 "Moderators may delete posts that violate any of these rules.\n"
 "The authors of deleted posts will be notified via email.\n"
 "Gross offenders may have their ability to post messages temporarily revoked\n"
-"(though to prevent abuse only project administrators have the ability to do "
-"so).\n"
+"(though to prevent abuse only project administrators have the ability to do so).\n"
 "Additional kinds of bad behavior (\"bugging\" posts to trap the\n"
 "IP addresses of other participants, excessive thread creation to spam\n"
 "the forums, etc.), while not listed in the formal rules, may still\n"
@@ -5282,41 +4909,7 @@ msgid ""
 "This moderation policy is set by the %1 project.\n"
 "If you have comments about the policy, email %2.\n"
 "\n"
-msgstr ""
-"\n"
-"<p>\n"
-"Moderators mogen berichten verwijderen die deze regels overtreden.\n"
-"De auteurs van verwijderde berichten worden per e-mail ingelicht.\n"
-"Regelmatige overtreders kunnen tijdelijk het recht om berichten te plaatsen\n"
-"verliezen (deze straf wordt alleen opgelegd door project administrators).\n"
-"Aanvullende vormen van ongepast gedrag (berichten \"coderen\" om\n"
-"IP adressen af te vangen, overmatige aanmaak van onderwerpen om\n"
-"de forums te vervuilen, etc.), kan ook, ondanks niet vermeld in de regels,\n"
-"leiden tot vergelijkbare maatregelen.\n"
-"<p>\n"
-"Indien je van mening bent dat een bericht een bepaalde regel overtreedt,\n"
-"kan je op de rode X bij het bericht klikken en de reden hiervoor invullen;\n"
-"de moderators worden dan van je klacht op de hoogte gesteld.\n"
-"Gebruik deze knop ALLEEN voor overtredingen - NIET voor\n"
-"persoonlijke meningsverschillen.\n"
-"<p>\n"
-"We doen, zoals altijd, ons best om fair te modereren, maar in\n"
-"in een grote gemeenschap van gebruikers, met veel standpunten,\n"
-"is het natuurlijk altijd mogelijk dat gebruikers het niet eens zijn\n"
-"met onze beslissingen.\n"
-"Ondanks dat we het betreuren als dit gebeurd,\n"
-"moet men zich ook realiseren dat het niet mogelijk is om het\n"
-"iedereen naar de zin te maken. We nemen onze beslissingen\n"
-"alleen in het belang van het forum.\n"
-"Plaats a.u.b. geen discussies om deze regels te bespreken. Dit is\n"
-"alles behalve een project voor bestudering van sociale vaardigheden,\n"
-"noch zijn we in staat het perfect eerlijke systeem te maken.\n"
-"Mocht je, dit in acht nemende, denken een terechte klacht te\n"
-"hebben, stuur dan een e-mail naar onderstaand adres.\n"
-"<p>\n"
-"Bovenstaande moderatie regels zijn opgesteld door %1.\n"
-"In het geval van opmerkingen hierover, e-mail naar %2.\n"
-"\n"
+msgstr "\n<p>\nModerators mogen berichten verwijderen die deze regels overtreden.\nDe auteurs van verwijderde berichten worden per e-mail ingelicht.\nRegelmatige overtreders kunnen tijdelijk het recht om berichten te plaatsen\nverliezen (deze straf wordt alleen opgelegd door project administrators).\nAanvullende vormen van ongepast gedrag (berichten \"coderen\" om\nIP adressen af te vangen, overmatige aanmaak van onderwerpen om\nde forums te vervuilen, etc.), kan ook, ondanks niet vermeld in de regels,\nleiden tot vergelijkbare maatregelen.\n<p>\nIndien je van mening bent dat een bericht een bepaalde regel overtreedt,\nkan je op de rode X bij het bericht klikken en de reden hiervoor invullen;\nde moderators worden dan van je klacht op de hoogte gesteld.\nGebruik deze knop ALLEEN voor overtredingen - NIET voor\npersoonlijke meningsverschillen.\n<p>\nWe doen, zoals altijd, ons best om fair te modereren, maar in\nin een grote gemeenschap van gebruikers, met veel standpunten,\nis het natuurlijk altijd mogelijk dat gebruikers het niet eens zijn\nmet onze beslissingen.\nOndanks dat we het betreuren als dit gebeurd,\nmoet men zich ook realiseren dat het niet mogelijk is om het\niedereen naar de zin te maken. We nemen onze beslissingen\nalleen in het belang van het forum.\nPlaats a.u.b. geen discussies om deze regels te bespreken. Dit is\nalles behalve een project voor bestudering van sociale vaardigheden,\nnoch zijn we in staat het perfect eerlijke systeem te maken.\nMocht je, dit in acht nemende, denken een terechte klacht te\nhebben, stuur dan een e-mail naar onderstaand adres.\n<p>\nBovenstaande moderatie regels zijn opgesteld door %1.\nIn het geval van opmerkingen hierover, e-mail naar %2.\n\n"
 
 #: ../user/pending.php:66
 msgid "Pending credit"
@@ -5399,10 +4992,7 @@ msgid ""
 "Your message was flagged as spam\n"
 "                by the Akismet anti-spam system.\n"
 "                Please modify your text and try again."
-msgstr ""
-"Je reactie wordt gezien als spam\n"
-"                door het Akismet anti-spam systeem.\n"
-"                Pas tekst aan en probeer opnieuw."
+msgstr "Je reactie wordt gezien als spam\n                door het Akismet anti-spam systeem.\n                Pas tekst aan en probeer opnieuw."
 
 #: ../user/pm.php:205
 msgid "Could not find user with id %1"
@@ -5432,23 +5022,17 @@ msgstr "Echt %1 blokkeren?"
 msgid ""
 "Are you really sure you want to block user %1 from sending you private "
 "messages?"
-msgstr ""
-"Weet u zeker dat u gebruiker %1 wilt blokkeren om u privé berichten te "
-"sturen?"
+msgstr "Weet u zeker dat u gebruiker %1 wilt blokkeren om u privé berichten te sturen?"
 
 #: ../user/pm.php:244
 msgid "Please note that you can only block a limited amount of users."
-msgstr ""
-"Houdt u er rekening mee dat u slechts een beperkt aantal gebruikers kan "
-"blokkeren."
+msgstr "Houdt u er rekening mee dat u slechts een beperkt aantal gebruikers kan blokkeren."
 
 #: ../user/pm.php:245
 msgid ""
 "Once the user has been blocked you can unblock it using forum preferences "
 "page."
-msgstr ""
-"Zodra de gebruiker is geblokkeerd kunt u hem deblokkering op bij forum "
-"voorkeuren."
+msgstr "Zodra de gebruiker is geblokkeerd kunt u hem deblokkering op bij forum voorkeuren."
 
 #: ../user/pm.php:252
 msgid "No, cancel"
@@ -5479,20 +5063,14 @@ msgid ""
 "Your preferences have been updated, and\n"
 "          will take effect when your computer communicates with %1\n"
 "          or you issue the %2Update%3 command from the BOINC Manager."
-msgstr ""
-"Uw voorkeursinstellingen zijn bijgewerkt, en\n"
-"          worden van kracht zodra uw computer communiceert met %1\n"
-"          of als u de %2Update%3 functie van de BOINC Manager gebruikt."
+msgstr "Uw voorkeursinstellingen zijn bijgewerkt, en\n          worden van kracht zodra uw computer communiceert met %1\n          of als u de %2Update%3 functie van de BOINC Manager gebruikt."
 
 #: ../user/prefs.php:41
 msgid ""
 "Your preferences have been reset to the defaults, and\n"
 "          will take effect when your computer communicates with %1\n"
 "          or you issue the %2Update%3 command from the BOINC Manager."
-msgstr ""
-"Uw voorkeursinstellingen zijn bijgewerkt naar de standaard instellingen en\n"
-"          worden van kracht zodra uw computer communiceert met %1\n"
-"          of als u de %2Update%3 functie van de BOINC Manager gebruikt."
+msgstr "Uw voorkeursinstellingen zijn bijgewerkt naar de standaard instellingen en\n          worden van kracht zodra uw computer communiceert met %1\n          of als u de %2Update%3 functie van de BOINC Manager gebruikt."
 
 #: ../user/prefs_edit.php:65 ../user/prefs_edit.php:93
 msgid "%1 for %2"
@@ -5522,25 +5100,19 @@ msgstr "Annuleer"
 msgid ""
 "%1Profiles%2 let individuals share backgrounds and opinions with the %3 "
 "community."
-msgstr ""
-"%1Profielen%2 geven de mogelijkheid achtergronden en meningen te delen met "
-"de %3 gemeenschap."
+msgstr "%1Profielen%2 geven de mogelijkheid achtergronden en meningen te delen met de %3 gemeenschap."
 
 #: ../user/profile_menu.php:36
 msgid ""
 "Explore the diversity of your fellow volunteers, and contribute your own "
 "views for others to enjoy."
-msgstr ""
-"Doorzoek de diversiteit van je mede vrijwilligers en laat ze meegenieten van "
-"je eigen mening."
+msgstr "Doorzoek de diversiteit van je mede vrijwilligers en laat ze meegenieten van je eigen mening."
 
 #: ../user/profile_menu.php:37
 msgid ""
 "If you haven't already, you can %1create your own user profile%2 for others "
 "to see!"
-msgstr ""
-"Als je dit nog niet hebt gedaan, kan je %1je eigen profiel aanmaken%2, zodat "
-"anderen dit kunnen zien!"
+msgstr "Als je dit nog niet hebt gedaan, kan je %1je eigen profiel aanmaken%2, zodat anderen dit kunnen zien!"
 
 #: ../user/profile_menu.php:42
 msgid "User of the Day"
@@ -5562,9 +5134,7 @@ msgstr "Doerzoek profielen %1op land%2."
 msgid ""
 "Browse profiles %1at random%2, %3at random with pictures%2, or %4at random "
 "without pictures%2."
-msgstr ""
-"Doorzoek profielen; %1willekeurig%2, %3willekeurig met foto%2 of %"
-"4willekeurig zonder foto%2."
+msgstr "Doorzoek profielen; %1willekeurig%2, %3willekeurig met foto%2 of %4willekeurig zonder foto%2."
 
 #: ../user/profile_menu.php:66
 msgid "Alphabetical profile listings:"
@@ -5808,27 +5378,21 @@ msgstr "Statistieken voor %1"
 
 #: ../user/stats.php:37
 msgid ""
-"More detailed statistics for %1 and other BOINC-based projects are available "
-"at several web sites:"
-msgstr ""
-"Meer gedetailleerde statistieken voor %1 en ander op BOINC gebaseerde "
-"projecten zijn op diverse websites beschikbaar:"
+"More detailed statistics for %1 and other BOINC-based projects are available"
+" at several web sites:"
+msgstr "Meer gedetailleerde statistieken voor %1 en ander op BOINC gebaseerde projecten zijn op diverse websites beschikbaar:"
 
 #: ../user/stats.php:40
 msgid ""
-"You can also get your current statistics in the form of a \"signature image"
-"\":"
-msgstr ""
-"Het is ook mogelijk je huidige statistieken te ontvangen in de vorm van een "
-"\"afbeelding voor handtekeningen\":"
+"You can also get your current statistics in the form of a \"signature "
+"image\":"
+msgstr "Het is ook mogelijk je huidige statistieken te ontvangen in de vorm van een \"afbeelding voor handtekeningen\":"
 
 #: ../user/stats.php:43
 msgid ""
 "Additionally you can get your individual statistics summed across all BOINC "
 "projects from several sites; see your %1home page%2."
-msgstr ""
-"Als toevoeging kan je ook je individuele statistieken krijgen van alle BOINC "
-"projecten vanaf diverse sites; zoals op je %1persoonlijke pagina%2."
+msgstr "Als toevoeging kan je ook je individuele statistieken krijgen van alle BOINC projecten vanaf diverse sites; zoals op je %1persoonlijke pagina%2."
 
 #: ../user/team.php:27
 msgid "%1 participants may form %2teams%3."
@@ -5837,9 +5401,7 @@ msgstr "%1 deelnemers mogen %2teams%3 vormen."
 #: ../user/team.php:29
 msgid ""
 "You may belong to only one team. You can join or quit a team at any time."
-msgstr ""
-"Je mag maar aan één team tegelijk deelnemen. Je kan op elk moment jezelf "
-"toevoegen of het team verlaten."
+msgstr "Je mag maar aan één team tegelijk deelnemen. Je kan op elk moment jezelf toevoegen of het team verlaten."
 
 #: ../user/team.php:31
 msgid "Each team has a %1founder%2 who may:"
@@ -5867,9 +5429,7 @@ msgstr "het team kan ontbinden als het geen leden heeft"
 
 #: ../user/team.php:40
 msgid "To join a team, visit its team page and click %1Join this team%2."
-msgstr ""
-"Om je bij een team te voegen, ga je naar de team pagina en klik je op %1Lid "
-"worden van dit team%2."
+msgstr "Om je bij een team te voegen, ga je naar de team pagina en klik je op %1Lid worden van dit team%2."
 
 #: ../user/team.php:41 ../user/team_search.php:180
 msgid "Find a team"
@@ -5890,9 +5450,7 @@ msgstr "Start nieuw team"
 #: ../user/team.php:59
 msgid ""
 "If you cannot find a team that is right for you, you can %1create a team%2."
-msgstr ""
-"Als je geen team vinden kan die voldoet aan jou eisen, kan je ook je eigen %"
-"1team maken%2."
+msgstr "Als je geen team vinden kan die voldoet aan jou eisen, kan je ook je eigen %1team maken%2."
 
 #: ../user/team_admins.php:34
 msgid "Remove Team Admin status from this member"
@@ -5904,9 +5462,7 @@ msgstr "Een teamlid als administrator toevoegen of verwijderen"
 
 #: ../user/team_admins.php:41
 msgid "You can select team members as 'Team Admins'. Team Admins can:"
-msgstr ""
-"Het is mogelijk teamleden te verkiezen als team-administrator. Een team-"
-"administrator mag:"
+msgstr "Het is mogelijk teamleden te verkiezen als team-administrator. Een team-administrator mag:"
 
 #: ../user/team_admins.php:43
 msgid "Edit team information (name, URL, description, country)"
@@ -5918,11 +5474,9 @@ msgstr "Toon voor dit team het verloop van de aan en afmeld gegevens"
 
 #: ../user/team_admins.php:45
 msgid ""
-"Moderate the team forum, if any (admins get email notification of moderation "
-"events and red X reports)"
-msgstr ""
-"Beheer het team forum, indien aanwezig (Admins krijgen een email notificatie "
-"over het beheren van evenementen en het lezen van X rapporten)"
+"Moderate the team forum, if any (admins get email notification of moderation"
+" events and red X reports)"
+msgstr "Beheer het team forum, indien aanwezig (Admins krijgen een email notificatie over het beheren van evenementen en het lezen van X rapporten)"
 
 #: ../user/team_admins.php:47
 msgid "Team Admins cannot:"
@@ -5938,17 +5492,13 @@ msgstr "Leden verwijderen niet toegestaan"
 
 #: ../user/team_admins.php:53
 msgid "If a Team Admin quits the team, they cease to be a Team Admin."
-msgstr ""
-"Als een team administrator het team verlaat, verliest deze de administrator "
-"rechten."
+msgstr "Als een team administrator het team verlaat, verliest deze de administrator rechten."
 
 #: ../user/team_admins.php:54
 msgid ""
 "We recommend that you select only people you know and trust very well as "
 "Team Admins."
-msgstr ""
-"Wij raden aan dat de keuze van een betrouwbare team administrator "
-"weloverwogen wordt genomen."
+msgstr "Wij raden aan dat de keuze van een betrouwbare team administrator weloverwogen wordt genomen."
 
 #: ../user/team_admins.php:59
 msgid "There are currently no Team Admins"
@@ -6018,18 +5568,13 @@ msgstr "Oprichter van %1 wijzigen"
 msgid ""
 "Team member %1 requested this team's foundership on %2, but left the team, "
 "thus canceling the request."
-msgstr ""
-"Team lid %1 heeft het oprichterschap van dit team gevraagd op %2, maar heeft "
-"het team verlaten, hierdoor wordt zijn verzoek geannuleerd."
+msgstr "Team lid %1 heeft het oprichterschap van dit team gevraagd op %2, maar heeft het team verlaten, hierdoor wordt zijn verzoek geannuleerd."
 
 #: ../user/team_change_founder_form.php:49
 msgid ""
 "Team member %1 has requested this team's foundership. This may be because "
 "you left the team or haven't had contact with the team for a long time."
-msgstr ""
-"Team lid %1 heeft het oprichterschap van dit team aangevraagd. Dit kan zijn "
-"omdat u het team heeft verlaten, of lange tijd geen contact hebt gehad met "
-"het team."
+msgstr "Team lid %1 heeft het oprichterschap van dit team aangevraagd. Dit kan zijn omdat u het team heeft verlaten, of lange tijd geen contact hebt gehad met het team."
 
 #: ../user/team_change_founder_form.php:55
 msgid "decline request"
@@ -6037,15 +5582,9 @@ msgstr "verzoek afwijzen"
 
 #: ../user/team_change_founder_form.php:58
 msgid ""
-"If you don't decline the request by %1, %2 will have the option of assuming "
-"team foundership.<br /><br />\n"
-"                  To accept the request, assign foundership to %3 using the "
-"form below."
-msgstr ""
-"Al u het verzoek niet voor %1 afwijst, zal %2 de optie krijgen om het "
-"oprichterschap van het team op te eissen.<br /><br />\n"
-"                  Om het verzoek te accepteren kunt het het oprichterschap "
-"overdragen aan %3 middels het onderstaande formulier."
+"If you don't decline the request by %1, %2 will have the option of assuming team foundership.<br /><br />\n"
+"                  To accept the request, assign foundership to %3 using the form below."
+msgstr "Al u het verzoek niet voor %1 afwijst, zal %2 de optie krijgen om het oprichterschap van het team op te eissen.<br /><br />\n                  Om het verzoek te accepteren kunt het het oprichterschap overdragen aan %3 middels het onderstaande formulier."
 
 #: ../user/team_change_founder_form.php:66
 msgid "No transfer request is pending."
@@ -6055,10 +5594,7 @@ msgstr "Geen overplaatsings verzoeken in behandeling."
 msgid ""
 "To assign foundership of this team to another member, check the box next to "
 "member name and click <strong>Change founder</strong> below."
-msgstr ""
-"Om oprichterschap van dit team over te dragen naar een ander lid, vinkt u "
-"het vakje naast de naam van het lid aan en klikt u hieronder "
-"op<strong>Oprichter wijzigen</strong>."
+msgstr "Om oprichterschap van dit team over te dragen naar een ander lid, vinkt u het vakje naast de naam van het lid aan en klikt u hieronder op<strong>Oprichter wijzigen</strong>."
 
 #: ../user/team_change_founder_form.php:76
 msgid "New founder?"
@@ -6091,9 +5627,7 @@ msgstr "Een team aanmaken"
 #: ../user/team_create_form.php:30
 msgid ""
 "You belong to %1. You must %2quit this team%3 before creating a new one."
-msgstr ""
-"Je bent al lid van %1. Je moet eerst %2dit team verlaten%3 voordat je een "
-"nieuw team kan beginnen."
+msgstr "Je bent al lid van %1. Je moet eerst %2dit team verlaten%3 voordat je een nieuw team kan beginnen."
 
 #: ../user/team_delta.php:65
 msgid "Not founder or admin"
@@ -6216,10 +5750,7 @@ msgid ""
 "Are you sure you want to remove your team's message board? All threads and "
 "posts will be permanently removed. (You may, however, create a new message "
 "board later)."
-msgstr ""
-"Weet u zeker dat u uw team forum wilt verwijderen? Alle discussies en "
-"berichten worden permanent verwijderd. (U kunt later altijd opnieuw een "
-"forum aanmaken)."
+msgstr "Weet u zeker dat u uw team forum wilt verwijderen? Alle discussies en berichten worden permanent verwijderd. (U kunt later altijd opnieuw een forum aanmaken)."
 
 #: ../user/team_forum.php:100
 msgid "Yes - remove message board"
@@ -6231,7 +5762,8 @@ msgstr "Forum verwijderd"
 
 #: ../user/team_forum.php:124
 msgid ""
-"Your team's message board has been removed. You may now %1create a new one%2."
+"Your team's message board has been removed. You may now %1create a new "
+"one%2."
 msgstr "Uw team forum is verwijderd. U kunt nu %1een nieuwe aanmaken%2."
 
 #: ../user/team_forum.php:143
@@ -6260,15 +5792,9 @@ msgstr "Verzoek oprichterschap van %1"
 
 #: ../user/team_founder_transfer_action.php:98
 msgid ""
-"The current founder has been notified of your request by email and private "
-"message.<br /><br />\n"
-"                       If the founder does not respond within 60 days you "
-"will be allowed to become the founder."
-msgstr ""
-"De huidige oprichter is per e-mail en privé bericht op de hoogte gesteld van "
-"je verzoek.<br /><br />\n"
-"                       Als deze oprichter niet binnen 60 dagen reageert word "
-"jij automatisch de nieuwe oprichter."
+"The current founder has been notified of your request by email and private message.<br /><br />\n"
+"                       If the founder does not respond within 60 days you will be allowed to become the founder."
+msgstr "De huidige oprichter is per e-mail en privé bericht op de hoogte gesteld van je verzoek.<br /><br />\n                       Als deze oprichter niet binnen 60 dagen reageert word jij automatisch de nieuwe oprichter."
 
 #: ../user/team_founder_transfer_action.php:102
 #: ../user/team_founder_transfer_action.php:113
@@ -6283,9 +5809,7 @@ msgstr "Heeft het oprichterschap verkregen van %1"
 msgid ""
 "Congratulations, you are now the founder of team %1. Go to %2Your Account "
 "page%3 to find the Team Admin options."
-msgstr ""
-"Gefeliciteerd, u bent nu de nieuwe oprichter van team %1. Ga naar %2Uw "
-"Account pagina%3 om de Team Admin opties te vinden."
+msgstr "Gefeliciteerd, u bent nu de nieuwe oprichter van team %1. Ga naar %2Uw Account pagina%3 om de Team Admin opties te vinden."
 
 #: ../user/team_founder_transfer_action.php:120
 msgid "Decline founder change request"
@@ -6328,9 +5852,7 @@ msgstr "Je hebt een verzoek gedaan om oprichter te worden van %1 op %2."
 msgid ""
 "60 days have elapsed since your request, and the founder has not responded. "
 "You may now assume foundership by clicking here:"
-msgstr ""
-"Er zijn 60 dagen verstreken sinds je verzoek, en de huidige oprichter heeft "
-"niet gereageerd. Jij kunt nu oprichter worden door hier te klikken:"
+msgstr "Er zijn 60 dagen verstreken sinds je verzoek, en de huidige oprichter heeft niet gereageerd. Jij kunt nu oprichter worden door hier te klikken:"
 
 #: ../user/team_founder_transfer_form.php:50
 msgid "Assume foundership"
@@ -6340,25 +5862,13 @@ msgstr "Oprichterschap aannemen"
 msgid ""
 "The founder was notified of your request. If he/she does not respond by %1 "
 "you will be given an option to become founder."
-msgstr ""
-"De oprichter is op de hoogte gesteld van uw verzoek. Als hij/zij niet voor %"
-"1 reageert, kunt u de status van oprichter toegewezen krijgen."
+msgstr "De oprichter is op de hoogte gesteld van uw verzoek. Als hij/zij niet voor %1 reageert, kunt u de status van oprichter toegewezen krijgen."
 
 #: ../user/team_founder_transfer_form.php:60
 msgid ""
-"If the team founder is not active and you want to assume the role of "
-"founder, click the button below. The current founder will be sent an email "
-"detailing your request, and will be able to transfer foundership to you or "
-"to decline your request. If the founder does not respond in 60 days, you "
-"will be allowed to become the founder.<br /><br />\n"
+"If the team founder is not active and you want to assume the role of founder, click the button below. The current founder will be sent an email detailing your request, and will be able to transfer foundership to you or to decline your request. If the founder does not respond in 60 days, you will be allowed to become the founder.<br /><br />\n"
 "                       Are you sure you want to request foundership?"
-msgstr ""
-"Indien de oprichter van het team niet actief deelneemt en u de status van "
-"oprichter wilt overnemen, klikt u op de onderstaande knop. De huidige "
-"oprichter ontvangt uw verzoek tot overname per e-mail en kan dit vervolgens "
-"inwilligen of afwijzen. Als de oprichter niet binnen 60 dagen reageert, "
-"wordt de status van oprichter aan u toegewezen.<br /><br />\n"
-"                       Wilt u een verzoek tot statusovername indienen?"
+msgstr "Indien de oprichter van het team niet actief deelneemt en u de status van oprichter wilt overnemen, klikt u op de onderstaande knop. De huidige oprichter ontvangt uw verzoek tot overname per e-mail en kan dit vervolgens inwilligen of afwijzen. Als de oprichter niet binnen 60 dagen reageert, wordt de status van oprichter aan u toegewezen.<br /><br />\n                       Wilt u een verzoek tot statusovername indienen?"
 
 #: ../user/team_founder_transfer_form.php:65
 msgid "Request foundership"
@@ -6372,10 +5882,7 @@ msgstr "Er is al een verzoek gedaan om oprichter te worden door %1 op %2."
 msgid ""
 "A foundership change was requested during the last 90 days, so new requests "
 "are not allowed. Please try again later."
-msgstr ""
-"Omdat er in de afgelopen 90 dagen al een verzoek tot overname van de "
-"oprichterstatus is ingediend, worden recentere verzoeken niet in behandeling "
-"genomen. Probeer het later nog eens alstublieft."
+msgstr "Omdat er in de afgelopen 90 dagen al een verzoek tot overname van de oprichterstatus is ingediend, worden recentere verzoeken niet in behandeling genomen. Probeer het later nog eens alstublieft."
 
 #: ../user/team_join.php:32 ../user/team_join_action.php:32
 #: ../user/team_join_form.php:29
@@ -6432,22 +5939,17 @@ msgstr "Zoek resultaten voor '%1'"
 
 #: ../user/team_lookup.php:88
 msgid "You may view these teams' members, statistics, and information."
-msgstr ""
-"U hebt toegang tot informatie over de leden en statistieken van dit team."
+msgstr "U hebt toegang tot informatie over de leden en statistieken van dit team."
 
 #: ../user/team_lookup.php:98
 msgid "More than 100 teams match your search. The first 100 are shown."
-msgstr ""
-"Meer dan 100 teams voldoen aan uw zoekopdracht. De eerste 100 worden "
-"getoond."
+msgstr "Meer dan 100 teams voldoen aan uw zoekopdracht. De eerste 100 worden getoond."
 
 #: ../user/team_lookup.php:104
 msgid ""
-"End of results. %1 If you cannot find the team you are looking for, you may %"
-"2create a team%3 yourself."
-msgstr ""
-"Einde van zoekresultaten. %1 Als u het team dat u zoekt niet hebt gevonden, "
-"kunt u %2zelf een team oprichten%3."
+"End of results. %1 If you cannot find the team you are looking for, you may "
+"%2create a team%3 yourself."
+msgstr "Einde van zoekresultaten. %1 Als u het team dat u zoekt niet hebt gevonden, kunt u %2zelf een team oprichten%3."
 
 #: ../user/team_manage.php:26
 msgid "Team administration for %1"
@@ -6495,9 +5997,7 @@ msgstr "Reageer op verzoek tot veranderen oprichter."
 
 #: ../user/team_manage.php:50
 msgid "If you don't respond by %1, %2 may assume foundership of this team."
-msgstr ""
-"Indien je niet voor %1 reageert, kan %2 het oprichterschap van dit team "
-"aannemen."
+msgstr "Indien je niet voor %1 reageert, kan %2 het oprichterschap van dit team aannemen."
 
 #: ../user/team_manage.php:55
 msgid "Remove inactive or unwanted members from this team"
@@ -6529,27 +6029,21 @@ msgstr "Een team forum aanmaken of beheren"
 
 #: ../user/team_manage.php:71
 msgid ""
-"To have this team created on all BOINC projects (current and future) you can "
-"make it into a %1BOINC-wide team%2."
-msgstr ""
-"Om dit team aan te maken bij alle BOINC projecten (huidige en toekomstige), "
-"maak je het team aan als een %1BOINC-wide team%2."
+"To have this team created on all BOINC projects (current and future) you can"
+" make it into a %1BOINC-wide team%2."
+msgstr "Om dit team aan te maken bij alle BOINC projecten (huidige en toekomstige), maak je het team aan als een %1BOINC-wide team%2."
 
 #: ../user/team_manage.php:73
 msgid ""
 "Team admins are encouraged to join and participate in the Google %1boinc-"
 "team-founders%2 group."
-msgstr ""
-"Het wordt Team administrators aangeraden zich aan te sluiten bij, c.q. een "
-"bijdrage te leveren aan de Google %1boinc-team-founders%2 groep."
+msgstr "Het wordt Team administrators aangeraden zich aan te sluiten bij, c.q. een bijdrage te leveren aan de Google %1boinc-team-founders%2 groep."
 
 #: ../user/team_manage.php:75
 msgid ""
-"Other resources for BOINC team admins are available from a third-party site, "
-"%1www.boincteams.com%2."
-msgstr ""
-"Andere opties voor BOINC team admins zijn beschikbaar op de volgende site, %"
-"1www.boincteams.com%2."
+"Other resources for BOINC team admins are available from a third-party site,"
+" %1www.boincteams.com%2."
+msgstr "Andere opties voor BOINC team admins zijn beschikbaar op de volgende site, %1www.boincteams.com%2."
 
 #: ../user/team_manage.php:91
 msgid "Can't delete non-empty team"
@@ -6583,19 +6077,10 @@ msgstr "Verlaat %1"
 msgid ""
 "<strong>Please note before quitting a team:</strong>\n"
 "         <ul>\n"
-"         <li>If you quit a team, you may rejoin later, or join any other "
-"team you desire\n"
-"         <li>Quitting a team does not affect your personal credit statistics "
-"in any way.\n"
+"         <li>If you quit a team, you may rejoin later, or join any other team you desire\n"
+"         <li>Quitting a team does not affect your personal credit statistics in any way.\n"
 "         </ul>"
-msgstr ""
-"<strong>Let op voordat je een team verlaat:</strong>\n"
-"         <ul>\n"
-"         <li>Je mag altijd opnieuw lid worden of lid worden van een ander "
-"team indien je dit wenst.\n"
-"         <li>Een team verlaten heeft op geen enkele wijze gevolgen voor je "
-"persoonlijke punten statistiek.\n"
-"         </ul>"
+msgstr "<strong>Let op voordat je een team verlaat:</strong>\n         <ul>\n         <li>Je mag altijd opnieuw lid worden of lid worden van een ander team indien je dit wenst.\n         <li>Een team verlaten heeft op geen enkele wijze gevolgen voor je persoonlijke punten statistiek.\n         </ul>"
 
 #: ../user/team_quit_form.php:40
 msgid "Quit Team"
@@ -6643,9 +6128,7 @@ msgstr "Team resultaten"
 
 #: ../user/team_search.php:94
 msgid "No teams were found matching your criteria. Try another search."
-msgstr ""
-"Er zijn geen teams gevonden die voldoen aan jouw criteria. Probeer een "
-"andere zoekopdracht."
+msgstr "Er zijn geen teams gevonden die voldoen aan jouw criteria. Probeer een andere zoekopdracht."
 
 #: ../user/team_search.php:96
 msgid "Or you can %1create a new team%2."
@@ -6656,12 +6139,7 @@ msgid ""
 "The following teams match one or more of your search criteria.\n"
 "            To join a team, click its name to go to the team page,\n"
 "               then click %1Join this team%2."
-msgstr ""
-"The following teams match one or more of your search criteria.\n"
-"\n"
-"            To join a team, click its name to go to the team page,\n"
-"\n"
-"               then click %1Join this team%2."
+msgstr "The following teams match one or more of your search criteria.\n\n            To join a team, click its name to go to the team page,\n\n               then click %1Join this team%2."
 
 #: ../user/team_search.php:107
 msgid "Change your search"
@@ -6671,15 +6149,11 @@ msgstr "Verander je zoekopdracht"
 msgid ""
 "You can team up with other people with similar interests, or from the same "
 "country, company, or school."
-msgstr ""
-"U kunt zich aansluiten bij deelnemers met dezelfde interesses, bij "
-"landgenoten, collega's of uw schoolteam."
+msgstr "U kunt zich aansluiten bij deelnemers met dezelfde interesses, bij landgenoten, collega's of uw schoolteam."
 
 #: ../user/team_search.php:183
 msgid "Use this form to find teams that might be right for you."
-msgstr ""
-"Middels dit formulier kunt u wellicht een keuze maken uit de voor u "
-"geschikte teams."
+msgstr "Middels dit formulier kunt u wellicht een keuze maken uit de voor u geschikte teams."
 
 #: ../user/team_search.php:188
 msgid "%1I'm not interested%2 in joining a team right now."
@@ -6802,9 +6276,7 @@ msgstr "Controleer BOINC e-mail adres"
 msgid ""
 "Please visit the following link to validate the email address of your %1 "
 "account:"
-msgstr ""
-"Klik a.u.b. op de volgende link om het e-mail adres van je %1 account te "
-"controleren:"
+msgstr "Klik a.u.b. op de volgende link om het e-mail adres van je %1 account te controleren:"
 
 #: ../user/validate_email_addr.php:34
 msgid "Validate email sent"
@@ -6814,9 +6286,7 @@ msgstr "Controle e-mail verzonden"
 msgid ""
 "An email has been sent to %1. Visit the link it contains to validate your "
 "email address."
-msgstr ""
-"Er is een e-mail verzonden naar %1. Een bevestigings link is hierin "
-"opgenomen."
+msgstr "Er is een e-mail verzonden naar %1. Een bevestigings link is hierin opgenomen."
 
 #: ../user/validate_email_addr.php:44
 msgid "No such user."
@@ -6852,15 +6322,10 @@ msgstr "Account gegevens"
 
 #: ../user/weak_auth.php:52
 msgid ""
-"You can access your account either by using your email address and "
-"password,\n"
+"You can access your account either by using your email address and password,\n"
 "    or by using an assigned 'account key'.\n"
 "    Your account key is:"
-msgstr ""
-"Je kan toegang krijgen tot je account d.m.v. een je e-mail adres en "
-"wachtwoord\n"
-"    of door gebruik te maken van een 'account key'.\n"
-"    Jouw account key is:"
+msgstr "Je kan toegang krijgen tot je account d.m.v. een je e-mail adres en wachtwoord\n    of door gebruik te maken van een 'account key'.\n    Jouw account key is:"
 
 #: ../user/weak_auth.php:57
 msgid "This key can be used to:"
@@ -6876,12 +6341,7 @@ msgid ""
 "       To do so, install BOINC,\n"
 "       create a file named %1 in the BOINC\n"
 "       data directory, and set its contents to:"
-msgstr ""
-"je computer aan je account toe te voegen zonder gebruik van de BOINC "
-"Manager.\n"
-"       Om dit te doen installeer je BOINC,\n"
-"       maak je een bestand met de naam %1 in de\n"
-"       BOINC data map en vul je het volgende in:"
+msgstr "je computer aan je account toe te voegen zonder gebruik van de BOINC Manager.\n       Om dit te doen installeer je BOINC,\n       maak je een bestand met de naam %1 in de\n       BOINC data map en vul je het volgende in:"
 
 #: ../user/weak_auth.php:73
 msgid "Weak account key"
@@ -6890,26 +6350,17 @@ msgstr "Zwakke account key"
 #: ../user/weak_auth.php:74
 msgid ""
 "Your 'weak account key' can be used to attach computers to your account\n"
-"    as described above, but cannot be used to log in to your account or "
-"change it in any way.\n"
+"    as described above, but cannot be used to log in to your account or change it in any way.\n"
 "    If you want to attach untrusted or insecure computers to your account,\n"
 "    do so using your weak account key.\n"
 "    Your weak account key is:"
-msgstr ""
-"Een 'zwakke account key' kan worden gebruikt om computers aan je account\n"
-"    toe te voegen met bovenstaande methode, maar kan niet worden gebruikt om "
-"in te loggen\n"
-"    op je account. Gebruik alleen je zwakke account key om vertrouwde\n"
-"    computers toe te voegen.\n"
-"    Jouw zwakke account key is:"
+msgstr "Een 'zwakke account key' kan worden gebruikt om computers aan je account\n    toe te voegen met bovenstaande methode, maar kan niet worden gebruikt om in te loggen\n    op je account. Gebruik alleen je zwakke account key om vertrouwde\n    computers toe te voegen.\n    Jouw zwakke account key is:"
 
 #: ../user/weak_auth.php:81
 msgid ""
 "If you change your password, your weak account key changes, and your "
 "previous weak account key becomes invalid."
-msgstr ""
-"Zodra je je wachtwoord wijzigt veranderd ook je zwakke account key en wordt "
-"de vorige ongeldig."
+msgstr "Zodra je je wachtwoord wijzigt veranderd ook je zwakke account key en wordt de vorige ongeldig."
 
 #: ../user/workunit.php:32
 msgid "can't find workunit"
@@ -6975,9 +6426,7 @@ msgstr "Je persoonlijke achtergrond."
 msgid ""
 "Tell us about yourself. You could tell us where you're from, your age, "
 "occupation, hobbies, or anything else about yourself."
-msgstr ""
-"Vertel ons over jezelf. Vertel bijvoorbeeld waar je vandaan komt, je "
-"leeftijd, beroep, hobbies of andere zaken over jezelf."
+msgstr "Vertel ons over jezelf. Vertel bijvoorbeeld waar je vandaan komt, je leeftijd, beroep, hobbies of andere zaken over jezelf."
 
 #: ../project.sample/project.inc:87
 msgid "Your opinions about %1"
@@ -6990,12 +6439,7 @@ msgid ""
 "    <li>What are your views about the project?\n"
 "    <li>Any suggestions?\n"
 "    </ol>"
-msgstr ""
-"Vertel ons jouw gedachten over %1<ol>\n"
-"    <li>Waarom draai je %1?\n"
-"    <li>Wat zijn jouw visies op het project?\n"
-"    <li>Heb je suggesties?\n"
-"    </ol>"
+msgstr "Vertel ons jouw gedachten over %1<ol>\n    <li>Waarom draai je %1?\n    <li>Wat zijn jouw visies op het project?\n    <li>Heb je suggesties?\n    </ol>"
 
 #: ../project.sample/project_specific_prefs.inc:47
 msgid "Color scheme for graphics"
@@ -7013,411 +6457,8 @@ msgstr "Alleen geselecteerde applicaties uitvoeren"
 msgid ""
 "If no work for selected applications is available, accept work from other "
 "applications?"
-msgstr ""
-"Andere applicaties accepteren als er geen werk voor de geselecteerde "
-"applicaties is?"
+msgstr "Andere applicaties accepteren als er geen werk voor de geselecteerde applicaties is?"
 
 #: ../project.sample/project_specific_prefs.inc:91
 msgid "(all applications)"
 msgstr "(alle applicaties)"
-
-#~ msgid "Error:"
-#~ msgstr "Fout:"
-
-#~ msgid "Account creation is disabled"
-#~ msgstr "Aanmaken van account gesloten"
-
-#~ msgid ""
-#~ "Sorry, this project has disabled the creation of new accounts.\n"
-#~ "Please try again later."
-#~ msgstr ""
-#~ "Sorry, voor dit project is het momenteel niet mogelijk om een nieuwe account "
-#~ "aan te maken.\n"
-#~ "Probeer het later opnieuw a.u.b."
-
-#~ msgid "Account creation is currently disabled. Please try again later."
-#~ msgstr ""
-#~ "Aanmaken van account is tijdelijk niet mogelijk. Probeer het a.u.b. later "
-#~ "nog eens."
-
-#~ msgid "nvidia GPU"
-#~ msgstr "nvidia GPU"
-
-#~ msgid ""
-#~ "This project hasn\\'t created an email message - please notify its "
-#~ "administrators"
-#~ msgstr ""
-#~ "Dit project heeft geen e-mailbericht gegenereerd. Neem a.u.b. contact op met "
-#~ "de projectadministrators"
-
-#~ msgid "Use Intel GPU %1 Enforced by version 7.0+ %2"
-#~ msgstr "Gebruik Intel GPU %1 Instelbaar vanaf 7.0+ %2"
-
-#~ msgid ""
-#~ "These apply to all BOINC projects in which you participate.<br>\n"
-#~ "             On computers participating in multiple projects, the most "
-#~ "recently modified preferences will be used."
-#~ msgstr ""
-#~ "Dit is van toepassing op alle projecten waar je aan deelneemt.<br>\n"
-#~ "             Op computers met meerdere projecten worden de meest recente "
-#~ "voorkeursinstellingen toegepast."
-
-#~ msgid "Export this news item as a Notice"
-#~ msgstr "Dit nieuws artikel exporteren als mededeling"
-
-#~ msgid ""
-#~ "Go to the BOINC data directory on your computer (on Windows this is usually "
-#~ "<b>C:\\Documents and Settings\\All Users\\Application Data\\BOINC</b> or "
-#~ "<b>C:\\Program Files\\BOINC</b>."
-#~ msgstr ""
-#~ "Ga naar de BOINC-gegevensmap (in Windows is dat doorgaans <b>C:\\Documents "
-#~ "and Settings\\All Users\\Application Data\\BOINC</b> of <b>C:\\Program "
-#~ "Files\\BOINC</b>."
-
-#~ msgid "No such task"
-#~ msgstr "Taak niet gevonden"
-
-#~ msgid ""
-#~ "Computer is connected to the Internet about every %1 Leave blank or 0 if "
-#~ "always connected. %2 BOINC will try to maintain at least this much work (max "
-#~ "10 days). %3"
-#~ msgstr ""
-#~ "Computer is verbonden met het internet elke %1 Laat leeg of vul 0 in indien "
-#~ "altijd verbonden. %2 BOINC haalt minimaal de aangegeven hoeveelheid aan werk "
-#~ "binnen (max 10 dagen). %3"
-
-#~ msgid "Maintain enough work for an additional"
-#~ msgstr "Extra werk binnen halen voor tenminste"
-
-#~ msgid "Update failed: "
-#~ msgstr "Bijwerken mislukt: "
-
-#~ msgid "Provides %1limited access%2 to your account"
-#~ msgstr "Geeft %1beperkte toegang%2 tot je account"
-
-#~ msgid ""
-#~ "Don't use this form. Just run BOINC, select Add Project, and enter an email "
-#~ "address and password."
-#~ msgstr ""
-#~ "Hier geen gegevens invullen. Start BOINC, selecteer 'Project toevoegen' en "
-#~ "vul daar een email adres en wachtwoord in."
-
-#~ msgid "Do not reorder sticky posts"
-#~ msgstr "Volgorde van gemarkeerde berichten niet wijzigen"
-
-#~ msgid "If a thread contains more than this number of posts"
-#~ msgstr "Indien het aantal reacties op een onderwerp groter is dan"
-
-#~ msgid "only display the first one and this many of the last ones"
-#~ msgstr ""
-#~ "alleen de nieuwste en het volgende aantal eerder geplaatste reacties "
-#~ "weergeven"
-
-#~ msgid "Your report has been recorded. Thanks you for your input."
-#~ msgstr "Uw rapportage is geregistreerd. Hartelijk dank voor uw bijdrage."
-
-#~ msgid "Search type"
-#~ msgstr "Zoek type"
-
-#~ msgid "User names starting with"
-#~ msgstr "Gebruikersnamen beginnend met"
-
-#~ msgid ""
-#~ "Your 'weak account key' lets you link a computer to your account without "
-#~ "giving it the ability to log in to your account or to change it in any way."
-#~ msgstr ""
-#~ "Een 'beperkte account key' geeft de mogelijkheid computers toe te voegen aan "
-#~ "dit project, je account aanpassen of hierop inloggen is hiermee niet "
-#~ "mogelijk."
-
-#~ msgid ""
-#~ "This mechanism works only with projects that have upgraded their server "
-#~ "software 7 Dec 2007 or later."
-#~ msgstr ""
-#~ "Deze optie werkt alleen met projecten die een server software versie hebben "
-#~ "van 7 december 2007 of later."
-
-#~ msgid "Your weak account key for this project is:"
-#~ msgstr "Je 'beperkte account key' voor dit project is:"
-
-#~ msgid ""
-#~ "To use your weak account key on a given host, find or create the 'account "
-#~ "file' for this project. This file has a name of the form "
-#~ "<b>account_PROJECT_URL.xml</b>. The account file for %1 is <b>%2</b>."
-#~ msgstr ""
-#~ "Om je 'beperkte account key' te kunnen gebruiken, zoek je naar (of maak je) "
-#~ "een 'account bestand' op de bedoelde computer. Dit bestand heeft de "
-#~ "bestandsopbouw; <b>account_PROJECT_URL.xml</b>. Het bestand voor %1 is <b>%"
-#~ "2</b>."
-
-#~ msgid "Create this file if needed. Set its contents to:"
-#~ msgstr "Maak dit bestand aan indien nodig. Zet de indeling op:"
-
-#~ msgid ""
-#~ "Your weak account key is a function of your password. If you change your "
-#~ "password, your weak account key changes, and your previous weak account key "
-#~ "becomes invalid."
-#~ msgstr ""
-#~ "Je 'beperkte account key' is afhankelijk van je wachtwoord. Indien je je "
-#~ "wachtwoord veranderd, zal ook je 'beperkte account key' aangepast worden en "
-#~ "is de vorige niet meer geldig."
-
-#~ msgid "Account key"
-#~ msgstr "Account key"
-
-#~ msgid "Provides full access to your account"
-#~ msgstr "Geeft volledige toegang tot je account"
-
-#~ msgid "Export"
-#~ msgstr "Exporteren"
-
-#~ msgid "- private message"
-#~ msgstr "- persoonlijk bericht"
-
-#~ msgid "Private message from"
-#~ msgstr "Persoonlijk bericht van"
-
-#~ msgid "Email address verification pending"
-#~ msgstr "Verificatie van e-mail adres in behandeling"
-
-#~ msgid "Logged in as %1."
-#~ msgstr "Ingelogd als %1"
-
-#~ msgid "Log in as someone else."
-#~ msgstr "Ingelogd als iemand anders."
-
-#~ msgid "No thread with id %1. Please check the link and try again."
-#~ msgstr ""
-#~ "Geen onderwerp met id %1. Controleer de link en probeer het opnieuw."
-
-#~ msgid "Request not found"
-#~ msgstr "Verzoek niet gevonden"
-
-#~ msgid "%1 has added you as a friend."
-#~ msgstr "%1 heeft jou als vriend(in) toegevoegd."
-
-#~ msgid "Account data for %1"
-#~ msgstr "Account gegevens voor %1"
-
-#~ msgid "couldn't create message board"
-#~ msgstr "forum aanmaken mislukt"
-
-#~ msgid "message board not found"
-#~ msgstr "forum niet gevonden"
-
-#~ msgid "no such forum"
-#~ msgstr "forum niet gevonden"
-
-#~ msgid "unknown command %1"
-#~ msgstr "onbekende opdracht %1"
-
-#~ msgid "ERROR: %1 does not exist!  Cannot create combo box.<br>"
-#~ msgstr "FOUT: %1 bestaat niet!  Combo box kon niet worden gemaakt.<br>"
-
-#~ msgid ""
-#~ "To protect the project's webpages from spam, we kindly ask you to type in "
-#~ "the two words shown in the image:<br>\n"
-#~ msgstr ""
-#~ "Om de website van dit project tegen spam te beschermen, vragen we je "
-#~ "vriendelijk om de twee getoonde worden in de afbeelding in te typen:<br>\n"
-
-#~ msgid "BOINC client version"
-#~ msgstr "BOINC cliënt versie"
-
-#~ msgid "Client detached"
-#~ msgstr "Client teruggetrokken"
-
-#~ msgid "Maximum daily WU quota per CPU"
-#~ msgstr "Maximum dagelijkse WU quota per CPU"
-
-#~ msgid "%1/day"
-#~ msgstr "%1/dag"
-
-#~ msgid "Anonymous platform - CPU"
-#~ msgstr "Anoniem platform - CPU"
-
-#~ msgid "Anonymous platform - NVIDIA GPU"
-#~ msgstr "Anoniem platform - NVIDIA GPU"
-
-#~ msgid "Anonymous platform - ATI GPU"
-#~ msgstr "Anoniem platform - ATI GPU"
-
-#~ msgid "Task ID"
-#~ msgstr "Taak ID"
-
-#~ msgid "Granted credit"
-#~ msgstr "Toegekende punten"
-
-#~ msgid "Click to"
-#~ msgstr "Klik om"
-
-#~ msgid "(no restriction if equal)"
-#~ msgstr "(geen beperkingen indien gelijk)"
-
-#~ msgid "Leave at least"
-#~ msgstr "Laat minstens"
-
-#~ msgid "% of page file (swap space)"
-#~ msgstr "% vrij van het virtuele geheugen"
-
-#~ msgid "Use ATI GPU if present %1(enforced by 6.10+ clients)%2"
-#~ msgstr "Indien aanwezig gebruik ATI GPU %1(instelbaar vanaf 6.10+)%2"
-
-#~ msgid "KB/s"
-#~ msgstr "KB/s"
-
-#~ msgid "GB disk space"
-#~ msgstr "Gb schijfruimte"
-
-#~ msgid "GB disk space free"
-#~ msgstr "Gb schijfruimte vrij"
-
-#~ msgid "(no restriction)"
-#~ msgstr "(geen beperking)"
-
-#~ msgid "%1 GB disk space"
-#~ msgstr "%1 Gb schijfruimte"
-
-#~ msgid "%1 GB disk space free"
-#~ msgstr "%1 Gb schijfruimte vrij"
-
-#~ msgid ""
-#~ "Resource share %1If you participate in multiple BOINC projects, this is "
-#~ "the proportion of your resources used by %2%3"
-#~ msgstr ""
-#~ "Gedeelde bronnen %1Indien je meedoet aan meerdere BOINC projecten is dit "
-#~ "het gebruikte gedeelte van %2%3"
-
-#~ msgid "Gbytes"
-#~ msgstr "Gbytes"
-
-#~ msgid "Resource share"
-#~ msgstr "Gedeelde bronnen"
-
-#~ msgid "Last %1"
-#~ msgstr "Laatste %1"
-
-# The charset used for the text in this file (please try to use UTF-8 if possible)
-#~ msgid "CHARSET"
-#~ msgstr "UTF-8"
-
-#~ msgid "Language symbol"
-#~ msgstr "Taal symbool"
-
-#~ msgid "Resource share and graphics"
-#~ msgstr "Gedeelde bronnen en grafische weergave"
-
-#~ msgid "fll"
-#~ msgstr "fll"
-
-#~ msgid "Tasks for computer %1"
-#~ msgstr "Taken voor computer %1"
-
-#~ msgid "Provides"
-#~ msgstr "Geeft"
-
-#~ msgid "limited access"
-#~ msgstr "gedeeltelijke toegang"
-
-#~ msgid "to your account"
-#~ msgstr "tot je account"
-
-#~ msgid "Current version"
-#~ msgstr "Huidige versie"
-
-#~ msgid "Mark as unread"
-#~ msgstr "Markeer als 'ongelezen'"
-
-#~ msgid "With selected"
-#~ msgstr "Met het volgende"
-
-#~ msgid ""
-#~ "Are you sure you want to delete the message with subject &quot;%1&quot; "
-#~ "(sent by %2 on %3)?"
-#~ msgstr ""
-#~ "Weet je zeker dat je het bericht met het onderwerp &quot;%1&quot wilt "
-#~ "verwijderen; (verzonden door %2 op %3)?"
-
-#~ msgid "Yes, delete"
-#~ msgstr "Ja, verwijder"
-
-#~ msgid "No such message."
-#~ msgstr "Geen bericht gevonden."
-
-# Apps page (apps.php)
-# ########################################
-#~ msgid "APPS_TITLE"
-#~ msgstr "Applicaties"
-
-# Rules and Policies page (info.php)
-# ########################################
-#~ msgid "RULES_TITLE"
-#~ msgstr "Lees onze regels en beleid"
-
-# Create account form (create_account_form.php)
-# ########################################
-#~ msgid "CREATE_AC_TITLE"
-#~ msgstr "Maak een an account"
-
-#~ msgid "FORUM_TITLE"
-#~ msgstr "$PROJECT Forums"
-
-#~ msgid "FORUM_TITLE_SHORT"
-#~ msgstr "Forums"
-
-# ########################################
-# General stuff (create_account_form.php and others)
-# ########################################
-#~ msgid "OPTIONAL"
-#~ msgstr "Optioneel"
-
-#~ msgid "TOP_PARTICIPANT_TITLE"
-#~ msgstr "Beste deelnemers"
-
-#~ msgid "USER_TABLE_RANK"
-#~ msgstr "Positie"
-
-#~ msgid "USER_TABLE_NAME"
-#~ msgstr "Naam"
-
-#~ msgid "TOTAL_CREDIT"
-#~ msgstr "Punten totaal"
-
-#~ msgid "EXPAVG_CREDIT"
-#~ msgstr "Punten gemiddeld"
-
-#~ msgid "USER_TABLE_COUNTRY"
-#~ msgstr "Land"
-
-#~ msgid "USER_TABLE_PTIME"
-#~ msgstr "Deelnemer sinds"
-
-#~ msgid "TOP_TEAMS_TITLE"
-#~ msgstr "Beste %s teams"
-
-#~ msgid "TEAM_TABLE_MEMBERS"
-#~ msgstr "Leden"
-
-# ########################################
-# Forum
-# ########################################
-#~ msgid "FORUM_POSTS"
-#~ msgstr "Berichten"
-
-# Forum thread
-# ########################################
-#~ msgid "FORUM_THREAD_HIDDEN"
-#~ msgstr "Deze discussie is verborgen voor administratieve doeleinden"
-
-# Forum search features
-# ########################################
-# Apps page (apps.php)
-# ########################################
-# Rules and Policies page (info.php)
-# Create account form (create_account_form.php)
-# General stuff (create_account_form.php and others)
-# Forum
-# Forum thread
-# Forum search features
-#~ msgid "FORUM_SEARCH"
-#~ msgstr "Zoek forums"
