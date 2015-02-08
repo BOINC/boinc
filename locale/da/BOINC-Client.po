@@ -1,22 +1,21 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+# Translators:
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: boinc\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-10-15 22:25-0700\n"
-"PO-Revision-Date: 2013-10-11 20:33+0000\n"
-"Last-Translator: pryds <thomas@pryds.eu>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: da\n"
+"PO-Revision-Date: 2015-02-08 17:43+0000\n"
+"Last-Translator: Rom Walton <romw@romwnet.org>\n"
+"Language-Team: Danish (http://www.transifex.com/projects/p/boinc/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: da\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Pootle 2.5.0\n"
-"X-POOTLE-MTIME: 1381523631.0\n"
 
 #: acct_mgr.cpp:450 acct_mgr.cpp:459
 msgid "Message from account manager"
@@ -30,9 +29,7 @@ msgstr "Besked fra server"
 msgid ""
 "Some tasks need more memory than allowed by your preferences.  Please check "
 "the preferences."
-msgstr ""
-"Nogle opgaver behøver mere hukommelse, end dine indstillinger tillader. Tjek "
-"venligst dine indstillinger."
+msgstr "Nogle opgaver behøver mere hukommelse, end dine indstillinger tillader. Tjek venligst dine indstillinger."
 
 #: client_state.cpp:520
 msgid "Couldn't write state file; check directory permissions"
@@ -47,9 +44,7 @@ msgstr "Miljøvariablen HTTP_PROXY skal specificere en HTTP-proxy"
 msgid ""
 "You used the wrong URL for this project.  When convenient, remove this "
 "project, then add %s"
-msgstr ""
-"Du brugte en forkert URL til dette projekt. Når det er belejligt, fjern "
-"dette projekt og tilføj %s"
+msgstr "Du brugte en forkert URL til dette projekt. Når det er belejligt, fjern dette projekt og tilføj %s"
 
 #: cs_statefile.cpp:828 ../sched/sched_types.cpp:259
 msgid "Syntax error in app_info.xml"
@@ -89,23 +84,17 @@ msgstr "Manglende slutmærke i cc_config.xml"
 
 #: ../sched/handle_request.cpp:307
 msgid "Invalid or missing account key.  To fix, remove and add this project."
-msgstr ""
-"Ugyldig eller manglende kontonøgle. For at rette fejlen, fjern og tilføj "
-"dette projekt."
+msgstr "Ugyldig eller manglende kontonøgle. For at rette fejlen, fjern og tilføj dette projekt."
 
 #: ../sched/handle_request.cpp:849
 msgid "Invalid code signing key.  To fix, remove and add this project."
-msgstr ""
-"Ugyldig underskriftsnøgle for kode. For at rette fejlen, fjern og tilføj "
-"dette projekt."
+msgstr "Ugyldig underskriftsnøgle for kode. For at rette fejlen, fjern og tilføj dette projekt."
 
 #: ../sched/handle_request.cpp:859
 msgid ""
 "The project has changed its security key.  Please remove and add this "
 "project."
-msgstr ""
-"Projektet har ændret sin sikkerhedsnøgle. Fjern og tilføj venligst dette "
-"projekt."
+msgstr "Projektet har ændret sin sikkerhedsnøgle. Fjern og tilføj venligst dette projekt."
 
 #: ../sched/handle_request.cpp:943
 msgid "This project doesn't support operating system"
@@ -118,34 +107,27 @@ msgstr "Dette projekt understøtter ikke CPU-typen"
 #: ../sched/handle_request.cpp:993
 msgid ""
 "Your BOINC client software is too old.  Please install the current version."
-msgstr ""
-"Din BOINC-klientsoftware er for gammel. Installér venligst den aktuelle "
-"version."
+msgstr "Din BOINC-klientsoftware er for gammel. Installér venligst den aktuelle version."
 
 #: ../sched/handle_request.cpp:1259
 msgid "This project doesn't support computers of type"
 msgstr "Dette projekt understøtter ikke computere af typen"
 
 #: ../sched/sched_send.cpp:1092
-msgid "Upgrade to the latest driver to process tasks using your computer's GPU"
-msgstr ""
-"Opgradér til den seneste driver for at behandle opgaver ved hjælp af din "
-"computers GPU"
+msgid ""
+"Upgrade to the latest driver to process tasks using your computer's GPU"
+msgstr "Opgradér til den seneste driver for at behandle opgaver ved hjælp af din computers GPU"
 
 #: ../sched/sched_send.cpp:1099
 msgid ""
 "Upgrade to the latest driver to use all of this project's GPU applications"
-msgstr ""
-"Opgrader til den seneste driver for at benytte alle dettes projekts GPU-"
-"applikationer"
+msgstr "Opgrader til den seneste driver for at benytte alle dettes projekts GPU-applikationer"
 
 #: ../sched/sched_send.cpp:1118
 msgid ""
-"A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to "
-"the current version"
-msgstr ""
-"En nyere version af BOINC er krævet for at kunne benytte din NVIDIA GPU; "
-"opgradér venligst til den aktuelle version"
+"A newer version of BOINC is needed to use your NVIDIA GPU; please upgrade to"
+" the current version"
+msgstr "En nyere version af BOINC er krævet for at kunne benytte din NVIDIA GPU; opgradér venligst til den aktuelle version"
 
 #: ../sched/sched_send.cpp:1146
 #, c-format
@@ -168,9 +150,7 @@ msgstr "Nyere BOINC-version påkrævet; installér venligst den aktuelle version
 #, c-format
 msgid ""
 "Tasks for %s are available, but your preferences are set to not accept them"
-msgstr ""
-"Opgaver for %s er tilgængelige, men dine indstillinger er sat til ikke at "
-"acceptere dem"
+msgstr "Opgaver for %s er tilgængelige, men dine indstillinger er sat til ikke at acceptere dem"
 
 #: ../sched/sched_types.cpp:254
 msgid "Unknown app name in app_info.xml"
